@@ -2266,7 +2266,7 @@ void Player::EndRemoteControl_569530()
         pCar->ClearDriver_4407F0();
     }
 
-    pCar->SetF98To3IfNot4_475C80();
+    pCar->UnlockUnlessPermanent_475C80();
 
     field_2C8_aux_ped->Kill_46F9D0();
     field_2C8_aux_ped = 0;
@@ -2305,7 +2305,7 @@ void Player::StartRemoteControl_569600(Car_BC* pCar)
     field_2C8_aux_ped->SetPlayer_45B560(this, 1);
     field_2C8_aux_ped->UpdatePositionFromCar_45C4B0();
     pCar->AssignDriver_4406E0(field_2C8_aux_ped);
-    pCar->SetF98To1IfNot4_475C10();
+    pCar->LockUnlessPermanent_475C10();
     field_68_camera_mode = 2;
     field_208_aux_game_camera.UpdateFollowPedCamera_436540(field_2C8_aux_ped);
     field_208_aux_game_camera.CommitCameraTarget_41E410();

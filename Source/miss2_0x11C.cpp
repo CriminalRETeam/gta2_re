@@ -459,8 +459,8 @@ void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER* 
                                                                 pCmd->field_1C_car_id);
         if (pPointer->field_8_car != NULL)
         {
-            pPointer->field_8_car->SetF98To4_475C30();
-            pPointer->field_8_car->set_f78_0x10_476270();
+            pPointer->field_8_car->LockPermanently_475C30();
+            pPointer->field_8_car->SetFlag4_476270();
             pPointer->field_8_car->UpdateSpriteNum_4435F0();
         }
     }
@@ -515,7 +515,7 @@ void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER* 
         Car_BC* pCar = pPointer->field_8_car;
         pCar->SetDriverPedType_421560(ped_type::script_created_5);
 
-        pPointer->field_8_car->SetF98To2IfNot4_475C40();
+        pPointer->field_8_car->LockoutThiefUnlessPermanent_475C40();
         pPointer->field_8_car->IncrementCarStats_443D70(car_kind::mission_car_8);
         pPointer->field_8_car->field_50_car_sprite->ResolveCollisionWithCarPedOrObject_5A2A30();
 
@@ -746,7 +746,7 @@ void miss2_0x11C::SCRCMD_THREAD_DECLARE2_5045D0(SCR_THREAD* pThread, s16* pThrea
     if (pParam1->field_8_char && pParam2->field_8_car)
     {
         gScriptManager_6F8060->AddCarThread_5128D0(pParam1->field_8_char->get_id(), pParam2->field_8_car->field_6C_car_id, *pThreadIdx);
-        pParam2->field_8_car->set_f8D_bit1_476360();
+        pParam2->field_8_car->SetField8DBit1_476360();
     }
 }
 
@@ -2446,7 +2446,7 @@ void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
 
                     if (!gPublicTransport_181C_6FF1D4->is_bus_579AA0(pParam2->field_8_car))
                     {
-                        pParam2->field_8_car->SetF98To2IfNot4_475C40();
+                        pParam2->field_8_car->LockoutThiefUnlessPermanent_475C40();
                     }
                 }
             }
@@ -3967,7 +3967,7 @@ void miss2_0x11C::SCRCMD_SET_NO_COLLIDE_50B8B0()
     {
         if (gBasePtr_6F8070->field_2_type == SCRCMD_SET_NO_COLLIDE)
         {
-            pCar->add_f78_bits_421890(2);
+            pCar->AddFlags_421890(car_flag::NoCollide);
         }
         else if (gBasePtr_6F8070->field_2_type == SCRCMD_CLEAR_NO_COLLIDE)
         {
@@ -4825,7 +4825,7 @@ void miss2_0x11C::SCRCMD_CHECK_CAR_DRIVER_50CB70()
             Car_BC* pCar = pPointer->field_8_car;
             car_info* pInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(pCar->field_84_car_info_idx);
 
-            if ((pInfo->info_flags & 2) == 2 || pCar->field_84_car_info_idx == car_model_enum::EDSELFBI)
+            if ((pInfo->info_flags & car_info_flag::emergency) == car_info_flag::emergency || pCar->field_84_car_info_idx == car_model_enum::EDSELFBI)
             {
                 if (pCar->field_A4_bf.bEmergencyLights)
                 {

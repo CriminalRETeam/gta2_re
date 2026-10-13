@@ -80,7 +80,7 @@ void PlayerScoreTracker_36C::Service_591C70()
 
         if (pCar)
         {
-            if (player_ped->not_enter_car_as_passenger_4A5040() && pCar->inline_check_0x20_info_4216C0())
+            if (player_ped->not_enter_car_as_passenger_4A5040() && pCar->HasTaxiLight_4216C0())
             {
                 if (pCar->field_4_passengers_list.field_0_pFirstPed)
                 {

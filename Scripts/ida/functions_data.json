@@ -15497,7 +15497,7 @@
         "v105_address": "0x582340"
     },
     {
-        "name": "Car_14::sub_582360",
+        "name": "Car_14::IsInsideCameraEdge_582360",
         "v96f_address": "0x4b3150",
         "v105_address": "0x582360"
     },
@@ -15538,7 +15538,7 @@
         "v105_address": "0x5838e0"
     },
     {
-        "name": "Car_14::sub_583930",
+        "name": "Car_14::ResolveSpawnDirection_583930",
         "v96f_address": null,
         "v105_address": "0x583930"
     },

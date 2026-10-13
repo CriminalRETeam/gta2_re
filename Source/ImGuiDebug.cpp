@@ -534,7 +534,7 @@ EXPORT void __stdcall NoRefs_sub_5B1170()
     block.field_B_slope_type = 199;
     gMap_0x370_6F6268->AddNewBlock_4E87C0(112, 152, 2, &block);
     gTestCar1_704418 = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(98), Fix16(180), word_70420C, 19, dword_7042A4);
-    gTestCar1_704418->field_98_door_lock = 4;
+    gTestCar1_704418->field_98_door_lock = Car_Door_Lock::locked_permanently_4;
     gTestCar1_704418->IncrementCarStats_443D70(8);
     gTestCar1_704418->field_78_flags |= 0x10;
     gTestCar1_704418->UpdateSpriteNum_4435F0();
@@ -1795,9 +1795,9 @@ void CC ImGuiDebugDraw()
 
                     pNewCar->field_7C_ped_type = ped_type::script_created_5;
                     pNewCar->field_76_last_seen_timer = 0;
-                    if (pNewCar->field_98_door_lock != 4)
+                    if (pNewCar->field_98_door_lock != Car_Door_Lock::locked_permanently_4)
                     {
-                        pNewCar->field_98_door_lock = 2;
+                        pNewCar->field_98_door_lock = Car_Door_Lock::lockout_thief_2;
                     }
 
                     //pNewCar->field_9C = 3;
@@ -1805,7 +1805,7 @@ void CC ImGuiDebugDraw()
                     //pNewCar->field_5C->field_74 = gTrafficCarSpeed_6FF570;
 
                     // prevents player entering when 4
-                    //pNewCar->field_98_door_lock = 3;
+                    //pNewCar->field_98_door_lock = Car_Door_Lock::unlocked_3;
 
                     pNewCar->field_78_flags |= 0x10u;
 

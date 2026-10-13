@@ -3949,7 +3949,7 @@ Round 6 findings (not matched):
   `gBasePtr_6F8070->field_8_index` (as the matched siblings): the original's `mov gBasePtr,%eax ... mov %eax,%esi`
   prologue; (2) no `pCar` local, the car is `pParam2->field_8_car` everywhere after the store (forwarded): pCar gets
   eax and the else branch gets the `mov %eax,%ecx` copy; compare as `gStoredCar_6F7560 != pParam2->field_8_car`;
-  (3) the tail is `if (!is_bus(car)) car->SetF98To2IfNot4_475C40();` (fixes the else branch temps);
+  (3) the tail is `if (!is_bus(car)) car->LockoutThiefUnlessPermanent_475C40();` (fixes the else branch temps);
   (4) despawn checks written with `IsDeactivated_4214D0`/`MarkForDespawn_421470`/`DespawnSoon_421490` like
   `MissionCleanUp_502DC0` (no `four` local; same code). Left (priolog): pParam2 prio 7 vs zero 2, so pParam2 takes
   esi and the constant 4 gets no register (the original: zero esi, 4 edi, pParam2 ebx). Changing `CanAllocateCarOfKindWithSpare_446870(8)`

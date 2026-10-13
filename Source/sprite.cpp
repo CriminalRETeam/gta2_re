@@ -1154,7 +1154,7 @@ void Sprite::Draw_59EFF0()
         car_flags = pCar->field_8_damaged_areas.GetRaw_4A5190();
         if (gLighting_626A09)
         {
-            if (pCar->inline_check_0x40_info_421680())
+            if (pCar->HasBottomLeftRoofLight_421680())
             {
                 pCar->field_8_damaged_areas.SetGlobal0_4BA360(); // sets a global to another
             }

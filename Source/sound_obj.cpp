@@ -1821,7 +1821,7 @@ void sound_obj::Tank_415190(Sound_Params_8* pParams)
 {
 
     Car_BC* pCar = pParams->field_0_pObj->field_8_car_bc_ptr;
-    if (pCar->field_9C_engine_status == car_engine_status::on_3 && (pCar->field_78_flags & car_flag::Flag13))
+    if (pCar->field_9C_engine_status == car_engine_status::on_3 && (pCar->field_78_flags & car_flag::Crushing))
     {
         if (CalculateDistance_419020(Fix16(921600, 0)))
         {
@@ -2303,7 +2303,7 @@ MATCH_FUNC(0x4177D0)
 void sound_obj::HandleCarDamageSound_4177D0(Sound_Params_8* pParams)
 {
     Car_BC* pCar = pParams->field_0_pObj->field_8_car_bc_ptr;
-    if (pCar->Is_engine_status_on_3_4118C0() && pCar->field_74_damage > 16000)
+    if (pCar->IsEngineOn_4118C0() && pCar->field_74_damage > 16000)
     {
         if (CalculateDistance_419020(Fix16(802816, 0)))
         {
@@ -2330,7 +2330,7 @@ MATCH_FUNC(0x4178C0)
 void sound_obj::HandleSirenActivationSound_4178C0(Sound_Params_8* pParams)
 {
     Car_BC* pCar = pParams->field_0_pObj->field_8_car_bc_ptr;
-    if ((pCar->inline_info_flags_bit2() || pCar->is_FBI_car_411920()) && (pCar->field_A4_bf.bEmergencyLights))
+    if ((pCar->HasEmergencyInfoFlag() || pCar->is_FBI_car_411920()) && (pCar->field_A4_bf.bEmergencyLights))
     {
         Car_BC* pCar_ = pParams->field_0_pObj->field_8_car_bc_ptr;
         if (pCar_->field_9C_engine_status == car_engine_status::on_3)

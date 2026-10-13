@@ -21,7 +21,7 @@ enum
     Flameproof = 0x400,
     Jammed = 0x800,
     Flag12 = 0x1000,
-    Flag13 = 0x2000,
+    Crushing = 0x2000, // set by SetCrushFlag_49EFC0
     Flag14 = 0x4000,
     Flag15 = 0x8000,
 };

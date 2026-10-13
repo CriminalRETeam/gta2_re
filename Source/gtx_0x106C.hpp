@@ -73,6 +73,31 @@ struct door_info
     char_type rx, ry;
 };
 
+// car_info::info_flags bits (from how Car_BC uses them)
+namespace car_info_flag
+{
+enum
+{
+    emergency = 0x2, // police/ambulance/FBI style lights, excluded from respray
+    roof_light = 0x4,
+    truck_cab = 0x8, // can pull a trailer
+    trailer = 0x10, // is a trailer (not enterable, has a hitch point)
+    taxi_light = 0x20,
+    bottom_roof_light = 0x40,
+    top_roof_lights = 0x80,
+};
+} // namespace car_info_flag
+
+// car_info::info_flags_2 bits
+namespace car_info_flag2
+{
+enum
+{
+    heavy = 0x1, // crushes cars, different crash sound and sprite number
+    popup_headlights = 0x2,
+};
+} // namespace car_info_flag2
+
 class car_info
 {
   public:
@@ -101,19 +126,19 @@ class car_info
 
     bool is_0x8_41FEA0() const
     {
-        return (this->info_flags & 8) == 8;
+        return (this->info_flags & car_info_flag::truck_cab) == car_info_flag::truck_cab;
     }
 
     // Like is_0x8_41FEA0; going through a car_info method keeps the check a plain branch in
     // Car_BC::CanBeLiftedByCrane_447F00 (a direct `(flags & 0x10) == 0x10` there gives a sete)
     bool is_0x10() const
     {
-        return (this->info_flags & 0x10) == 0x10;
+        return (this->info_flags & car_info_flag::trailer) == car_info_flag::trailer;
     }
 
     bool is_0x1_41FF00() const
     {
-        return (this->info_flags_2 & 1) == 1;
+        return (this->info_flags_2 & car_info_flag2::heavy) == car_info_flag2::heavy;
     }
 };
 

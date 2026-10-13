@@ -259,13 +259,13 @@ void Garage_48::GaragesService_5349D0()
             }
 
         park:
-            field_0_parking_car->set_f78_0x2_44A3E0();
-            field_0_parking_car->set_f78_0x8_4218A0();
+            field_0_parking_car->SetNoCollide_44A3E0();
+            field_0_parking_car->SetFlag3_4218A0();
             if (field_0_parking_car->is_driven_by_player())
             {
                 field_0_parking_car->GetDriverPlayer_421870()->DisableAllControls_569FF0();
             }
-            field_0_parking_car->SetF98To1IfNot4_475C10();
+            field_0_parking_car->LockUnlessPermanent_475C10();
             field_0_parking_car->field_58_physics->StopMoving_4895D0();
 
             car_pos.SetXY_432860(field_0_parking_car->get_x_41E430(), field_0_parking_car->get_y_41E440());
@@ -328,7 +328,7 @@ void Garage_48::GaragesService_5349D0()
                 field_0_parking_car->field_78_flags &= (u16)~car_flag::Flag3;
                 field_10_door->CloseDoors_476A30();
                 field_10_door->ClearF2C_4895F0();
-                field_0_parking_car->SetF98To4_475C30();
+                field_0_parking_car->LockPermanently_475C30();
                 field_0_parking_car->PrepareForExplosion_43C1C0();
                 field_0_parking_car->field_4_passengers_list.KillAndClearAllPeds_4715A0();
                 if (field_0_parking_car->is_driven_by_player())

@@ -1269,7 +1269,7 @@ void Weapon_30::sub_5DFB60(u8 bFlag, Sprite* pSprite, Ang16 target_angle)
                                 {
                                     sub_5DFB60(bFlag + 1, pHit, angle);
                                 }
-                                if (!pHit->field_8_car_bc_ptr->is_f78_0x400_425770())
+                                if (!pHit->field_8_car_bc_ptr->IsFlameproof_425770())
                                 {
                                     pHit->field_8_car_bc_ptr->field_70_exploder_ped_id = field_24_pPed->field_200_id;
                                     pHit->field_8_car_bc_ptr->field_90_death_cause = ped_death_cause::rocket_18;

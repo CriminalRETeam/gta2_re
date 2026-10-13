@@ -390,7 +390,7 @@ void CarPhysics_B0::EnforceTrailerControlLimits_559B50()
     Trailer* pTrailer = this->field_5C_pCar->field_64_pTrailer;
     if (pTrailer)
     {
-        if (pTrailer->get_field_0_49EFB0())
+        if (pTrailer->IsHitchAngleClamped_49EFB0())
         {
             if (this->field_94_is_backward_gas_on)
             {
@@ -1031,7 +1031,7 @@ Fix16 CarPhysics_B0::ComputeSlopeCorrection_55AB50(Fix16* pOutY)
     return result;
 }
 
-// 9.6f 0x4A2240: field_6C_cp3 read directly everywhere, g_ZPos * a2, IsFlagSet_411930(0x2000),
+// 9.6f 0x4A2240: field_6C_cp3 read directly everywhere, g_ZPos * a2, IsFlagSet_411930(car_flag::Crushing),
 // the slope test nested as (slope && frac != 0 && zpos <= cp3 + k), ComputeSlopeCorrection's two outputs.
 MATCH_FUNC(0x55ad90)
 void CarPhysics_B0::UpdateZPhysics_55AD90(Fix16 dt)
@@ -1133,7 +1133,7 @@ void CarPhysics_B0::UpdateZPhysics_55AD90(Fix16 dt)
         }
     }
 
-    if (field_5C_pCar->IsFlagSet_411930(0x2000))
+    if (field_5C_pCar->IsFlagSet_411930(car_flag::Crushing))
     {
         UpdateSpriteFromPhysics_563670();
 
@@ -2199,16 +2199,16 @@ void CarPhysics_B0::StepPhysics_55F330()
 MATCH_FUNC(0x55f360)
 char_type CarPhysics_B0::CheckPendingCollision_55F360()
 {
-    // 9.6f: Car_BC flag helpers 0x414F70 (IsFlagSet_411930(0x2000)) and 0x49EFD0 (clear 0x2000)
+    // 9.6f: Car_BC flag helpers 0x414F70 (IsFlagSet_411930(car_flag::Crushing)) and 0x49EFD0 (clear 0x2000)
     // (inlined, using IsFlagSet_411930 here changes the code)
-    if ((this->field_5C_pCar->field_78_flags & car_flag::Flag13))
+    if ((this->field_5C_pCar->field_78_flags & car_flag::Crushing))
     {
         gCar_6C_677930->field_60 = 1;
         if (gSpriteGrid_1_679208->CheckAndHandleAllCollisionsForSprite_477C30(field_5C_pCar->field_50_car_sprite, 2))
         {
             return 1;
         }
-        this->field_5C_pCar->field_78_flags &= (u16)~car_flag::Flag13;
+        this->field_5C_pCar->field_78_flags &= (u16)~car_flag::Crushing;
     }
     return 0;
 }
@@ -2395,7 +2395,7 @@ Fix16 CarPhysics_B0::ApplyImpactForcesAndDamage_55FA60(Fix16_Point& PointOfForce
     {
         NewImpulse = Impulse;
 
-        if (field_5C_pCar->IsFlagSet_411930(0x800))
+        if (field_5C_pCar->IsFlagSet_411930(car_flag::Jammed))
         {
             if (!field_5C_pCar->is_driven_by_player())
             {
@@ -2409,7 +2409,7 @@ Fix16 CarPhysics_B0::ApplyImpactForcesAndDamage_55FA60(Fix16_Point& PointOfForce
 
         field_5C_pCar->ApplyVisualDamage_43A9F0();
 
-        if (!field_5C_pCar->IsFlagSet_411930(2))
+        if (!field_5C_pCar->IsFlagSet_411930(car_flag::NoCollide))
         {
             ApplyForceWithTrailerRedirect_55F740(&PointOfForce, &NewImpulse);
             AddDamage_49EF50(base_dmg);
@@ -3037,7 +3037,7 @@ MATCH_FUNC(0x561970)
 Fix16 CarPhysics_B0::ComputeEngineTorque_561970()
 {
     Fix16 torque;
-    if (field_5C_pCar->Is_engine_status_on_3_4118C0() && field_98_surface_type != car_surface_type::unknown_surface_7 && field_98_surface_type != car_surface_type::water_surface_8)
+    if (field_5C_pCar->IsEngineOn_4118C0() && field_98_surface_type != car_surface_type::unknown_surface_7 && field_98_surface_type != car_surface_type::water_surface_8)
     {
         if (this->field_8C_state == 2)
         {

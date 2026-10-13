@@ -2139,7 +2139,7 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   `Ang16(a.rValue - b.rValue).Normalized_406C20()` inline, not a by-value helper (`CarAI_78` 44A1F0, 452060).
 - **The last MaxAbsDistance variants were missing 9.6f helper calls, not a different inline.**
   `Weapon_30::sub_5DFB60` takes the plain `Fix16::MaxAbsDistance_42A6B0` at both sites once the car
-  branch calls 9.6f's `Car_BC::is_f78_0x400_425770()` wrapper (one free site after both calls) and
+  branch calls 9.6f's `Car_BC::IsFlameproof_425770()` wrapper (one free site after both calls) and
   passes `atan2_fixed_405320` its differences as temporaries like 9.6f (named `dx`/`dy` locals were 5
   size units too many: the ped site's nested budget was 104 where its y difference needs < 104).
   `Ped::HandleShootingAtCar_46FC90` needed the 9.6f `Weapon_30::SetTargetHit_433810` and

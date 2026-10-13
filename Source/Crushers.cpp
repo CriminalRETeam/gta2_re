@@ -52,7 +52,7 @@ void Crusher_30::CrushCar_488310(Car_BC* pCar)
     {
         field_14_pCarBeingCrushed = pCar;
         field_2C_state = CrusherStates::CrushW_1;
-        pCar->add_f78_bits_421890(2);
+        pCar->AddFlags_421890(car_flag::NoCollide);
     }
 }
 
