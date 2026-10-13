@@ -1415,7 +1415,7 @@ void Object_2C::sub_525100()
         }
         else
         {
-            SetSpriteFrame_5290C0(1u);
+            SetSpriteIdxOffset_5290C0(1u);
         }
     }
 }
@@ -1594,7 +1594,7 @@ void Object_2C::UpdateAninmation_5257D0()
                 field_C_pAny.o8->field_4_timer--;
             }
         }
-        const s16 target_id = this->field_8->field_1E_sprite_palette + this->field_C_pAny.o8->field_7_anim_speed_counter;
+        const s16 target_id = this->field_8->field_1E_base_sprite_idx + this->field_C_pAny.o8->field_7_anim_speed_counter;
 
         field_4->set_id_lazy_4206C0(target_id);
 
@@ -2473,7 +2473,7 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
                                                                this->field_4->field_14_xy.y,
                                                                this->field_4->field_1C_zpos,
                                                                this->field_4->field_0_rotation);
-                            field_4->set_id_lazy_4206C0(this->field_8->field_1E_sprite_palette + this->field_C_pAny.o8->field_7_anim_speed_counter);
+                            field_4->set_id_lazy_4206C0(this->field_8->field_1E_base_sprite_idx + this->field_C_pAny.o8->field_7_anim_speed_counter);
                             break;
                         }
 
@@ -2515,7 +2515,7 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
                                                                this->field_4->field_14_xy.y,
                                                                this->field_4->field_1C_zpos,
                                                                this->field_4->field_0_rotation);
-                            field_4->set_id_lazy_4206C0(this->field_8->field_1E_sprite_palette + this->field_C_pAny.o8->field_7_anim_speed_counter);
+                            field_4->set_id_lazy_4206C0(this->field_8->field_1E_base_sprite_idx + this->field_C_pAny.o8->field_7_anim_speed_counter);
                             this->field_10_obj_3c->field_18_friction = pDefinition->field_14_friction;
                             this->field_10_obj_3c->field_1C_z_accel = kFpZero_6F8E10;
                             this->field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
@@ -2979,9 +2979,9 @@ void Object_2C::RequestRemovalWhenOffScreen_5290B0()
 }
 
 MATCH_FUNC(0x5290C0)
-void Object_2C::SetSpriteFrame_5290C0(u8 frame)
+void Object_2C::SetSpriteIdxOffset_5290C0(u8 offset)
 {
-    s16 new_id = frame + field_8->field_1E_sprite_palette;
+    s16 new_id = offset + field_8->field_1E_base_sprite_idx;
     Sprite* pSprite = field_4;
     if (pSprite->field_22_type_sprite_idx != new_id)
     {

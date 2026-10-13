@@ -12374,7 +12374,7 @@
         "v96f_auto": true
     },
     {
-        "name": "Object_2C::SetSpriteFrame_5290C0",
+        "name": "Object_2C::SetSpriteIdxOffset_5290C0",
         "v96f_address": null,
         "v105_address": "0x5290c0"
     },
@@ -12656,7 +12656,7 @@
         "v96f_auto": true
     },
     {
-        "name": "ObjectDefinition_74::AddSpritePaletteAndSetAnimSpeed_533150",
+        "name": "ObjectDefinition_74::OffsetBaseSpriteIdxAndSetAnimSpeed_533150",
         "v96f_address": "0x4880a0",
         "v105_address": "0x533150",
         "v96f_auto": true

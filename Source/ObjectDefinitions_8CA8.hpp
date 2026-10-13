@@ -74,7 +74,7 @@ class MapObjectOverride_54
     s8 field_30_next_frame_max;
     s32 field_34;
     Fix16 field_38_mass;
-    s32 field_3C;
+    s32 field_3C_draw_layer;
     s8 field_40_sprite_flags;
     s32 field_44_has_sound;
     s8 field_48_has_shadows;
@@ -172,7 +172,7 @@ class CodeObjectTemplate_6C
     Fix16 field_48_width;
     Fix16 field_4C_height;
     Fix16 field_50_depth;
-    s32 field_54;
+    s32 field_54_draw_layer;
     s8 field_58_sprite_flags;
     s8 field_59;
     s32 field_5C;
@@ -236,7 +236,7 @@ class ObjectDefinition_74
     EXPORT void SetDimensions_533060(Fix16 width, Fix16 height, Fix16 depth);
     EXPORT void SetDimensionsFromSprite_533090();
     EXPORT void SetRemap_533110(s16 remap);
-    EXPORT void AddSpritePaletteAndSetAnimSpeed_533150(s16 palette_offset, s16 anim_speed);
+    EXPORT void OffsetBaseSpriteIdxAndSetAnimSpeed_533150(s16 sprite_idx_offset, s16 anim_speed);
     EXPORT Sprite* CreateSpriteFromDefinition_533170();
     EXPORT void ApplyDefinitionToSprite_5331A0(Sprite* pSprite);
     EXPORT ObjectDefinition_74();
@@ -250,11 +250,11 @@ class ObjectDefinition_74
     Fix16 field_14_friction;
     Fix16 field_18_mass;
     s16 field_1C_remap;
-    s16 field_1E_sprite_palette;
+    s16 field_1E_base_sprite_idx;
     char_type field_20_sprite_flags;
     s32 field_24_object_idx;
     s32 field_28_sprite_type;
-    s32 field_2C;
+    s32 field_2C_draw_layer;
     s32 field_30;
     s32 field_34_behavior_type; // One of object_behavior_type
     s32 field_38;
@@ -303,7 +303,7 @@ class ObjectDefinitions_8CA8
     // 9.6f 0x4C6E30
     inline s16 GetObjectPalette_4C6E30(s32 idx)
     {
-        return GetObjectDefinition_534360(idx)->field_1E_sprite_palette;
+        return GetObjectDefinition_534360(idx)->field_1E_base_sprite_idx;
     }
     EXPORT ObjectDefinition_74* CloneDefinition_534370(s32 dst_idx, s32 src_idx);
     EXPORT ObjectDefinition_74* AllocDefinition_5343C0(s32 idx);

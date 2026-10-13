@@ -123,7 +123,7 @@ class Object_2C
     }
 
     // TODO: ordering
-    EXPORT void SetSpriteFrame_5290C0(u8 frame);
+    EXPORT void SetSpriteIdxOffset_5290C0(u8 offset);
     EXPORT Fix16 sub_5290F0();
     EXPORT char sub_525AC0();
     EXPORT void UpdateEffectPool_525B20();
@@ -299,7 +299,7 @@ class Object_2C
 
     void sub_482BE0()
     {
-        field_4->SetDrawLayer_40F7B0(field_8->field_2C);
+        field_4->SetDrawLayer_40F7B0(field_8->field_2C_draw_layer);
     }
 
     // 9.6f 0x482C10, defined in Object_5C.cpp (needs Object_8)

@@ -2862,7 +2862,7 @@ void CC ImGuiDebugDraw()
 
                         if (ImGui::TreeNode("another vars"))
                         {
-                            ImGui::InputInt("field_2C", &phi->field_2C, 1, 1);
+                            ImGui::InputInt("field_2C_draw_layer", &phi->field_2C_draw_layer, 1, 1);
                             ImGui::InputInt("field_30", &phi->field_30, 1, 1);
                             ImGui::InputInt("field_34_behavior_type", &phi->field_34_behavior_type, 1, 1);
                             ImGui::InputInt("field_38", &phi->field_38, 1, 1);
@@ -3544,7 +3544,7 @@ void CC ImGuiDebugDraw()
                     ImGui::Value("field_30", phi_54->field_30_next_frame_max);
                     ImGui::Value("field_34", phi_54->field_34);
                     ImGui::Value("field_38", phi_54->field_38_mass.mValue);
-                    ImGui::Value("field_3C", phi_54->field_3C);
+                    ImGui::Value("field_3C_draw_layer", phi_54->field_3C_draw_layer);
                     ImGui::Value("field_40", phi_54->field_40_sprite_flags);
                     ImGui::Value("field_44", phi_54->field_44_has_sound);
                     ImGui::Value("field_48", phi_54->field_48_has_shadows);

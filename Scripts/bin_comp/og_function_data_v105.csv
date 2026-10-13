@@ -2392,7 +2392,7 @@ Object_2C::ApplyConveyorSpeedFrom_529070,0x529070,0x129070,0x10
 Object_2C::SetDamageOwner_529080,0x529080,0x129080,0x16
 Object_2C::RequestRemoval_5290A0,0x5290a0,0x1290a0,0x5
 Object_2C::RequestRemovalWhenOffScreen_5290B0,0x5290b0,0x1290b0,0x5
-Object_2C::SetSpriteFrame_5290C0,0x5290c0,0x1290c0,0x25
+Object_2C::SetSpriteIdxOffset_5290C0,0x5290c0,0x1290c0,0x25
 Object_2C::sub_5290F0,0x5290f0,0x1290f0,0x81
 Object_2C::Dealloc_5291B0,0x5291b0,0x1291b0,0x11
 Object_2C::PoolGiveAndMarkDone_5291D0,0x5291d0,0x1291d0,0xe
@@ -2447,7 +2447,7 @@ MapObjectOverride_54::sub_532FB0,0x532fb0,0x132fb0,0xa5
 ObjectDefinition_74::SetDimensions_533060,0x533060,0x133060,0x26
 ObjectDefinition_74::SetDimensionsFromSprite_533090,0x533090,0x133090,0x7f
 ObjectDefinition_74::SetRemap_533110,0x533110,0x133110,0x31
-ObjectDefinition_74::AddSpritePaletteAndSetAnimSpeed_533150,0x533150,0x133150,0x13
+ObjectDefinition_74::OffsetBaseSpriteIdxAndSetAnimSpeed_533150,0x533150,0x133150,0x13
 ObjectDefinition_74::CreateSpriteFromDefinition_533170,0x533170,0x133170,0x24
 ObjectDefinition_74::ApplyDefinitionToSprite_5331A0,0x5331a0,0x1331a0,0x80
 ObjectDefinition_74::ctor_533220,0x533220,0x133220,0xa3
