@@ -170,17 +170,17 @@ void Crane_15C::DropHookedCar_47ECC0()
     gCar_BC_Pool_67792C->UpdateNextPrev(pCar);
     pCar->SetF_88_447ea0();
 
-    if (field_150 != 3)
+    if (field_150_hook_job != 3)
     {
-        if (field_144 == 2)
+        if (field_144_crane_mode == 2)
         {
-            if (field_155 == 1)
+            if (field_155_load_phase == 1)
             {
-                field_155 = 2;
+                field_155_load_phase = 2;
             }
             else
             {
-                field_155 = 1;
+                field_155_load_phase = 1;
                 field_28_strct4.AddSprite_5A6CD0(field_74_pSprite_on_hook);
             }
         }
@@ -190,7 +190,7 @@ void Crane_15C::DropHookedCar_47ECC0()
         }
     }
     field_74_pSprite_on_hook = 0;
-    field_150 = 0;
+    field_150_hook_job = 0;
     Crane_15C::sub_47F170();
 }
 
@@ -204,7 +204,7 @@ void Crane_15C::DropHookedCarOnTransporter_47ED60()
     field_64_drop_transporter->DispatchCollisionEvent_5A3100(field_74_pSprite_on_hook, kZero_679E70, kZero_679E70, kAngZero_679FC4);
     field_28_strct4.AddSprite_5A6CD0(field_64_drop_transporter);
     field_74_pSprite_on_hook = 0;
-    field_150 = 0;
+    field_150_hook_job = 0;
     field_64_drop_transporter = 0;
     Crane_15C::sub_47F170();
 }
@@ -225,9 +225,9 @@ void Crane_15C::HookTransporterCargo_47EDF0()
 
     this->field_6C_transporter_cargo = 0;
 
-    if (field_144 == 1 || field_144 == 2 || field_144 == 3)
+    if (field_144_crane_mode == 1 || field_144_crane_mode == 2 || field_144_crane_mode == 3)
     {
-        this->field_150 = 4;
+        this->field_150_hook_job = 4;
         this->field_114_drop_radius = this->field_120_target1_radius;
         this->field_110_drop_angle = this->field_124_target1_angle;
         this->field_118_drop_rot = this->field_128_target1_rot;
@@ -236,7 +236,7 @@ void Crane_15C::HookTransporterCargo_47EDF0()
     }
     else
     {
-        this->field_150 = 2;
+        this->field_150_hook_job = 2;
         this->field_114_drop_radius = kFpTwo_679E78;
 
         this->field_110_drop_angle = WrapAngle_40E790(field_8C_crane_angle + kAngFix16HalfCircle_679EB8);
@@ -278,7 +278,7 @@ void Crane_15C::HookPickupCar_47EF80()
 
     this->field_68_pickup_car = 0;
 
-    if ((this->field_144 == 2 || this->field_144 == 3) && pCar->Is_F9_Eq7_447EB0())
+    if ((this->field_144_crane_mode == 2 || this->field_144_crane_mode == 3) && pCar->Is_F9_Eq7_447EB0())
     {
         this->field_114_drop_radius = this->field_130_target2_radius;
         this->field_110_drop_angle = this->field_134_target2_angle;
@@ -288,9 +288,9 @@ void Crane_15C::HookPickupCar_47EF80()
     }
     else
     {
-        if (this->field_144 != 1 && this->field_144 != 2)
+        if (this->field_144_crane_mode != 1 && this->field_144_crane_mode != 2)
         {
-            this->field_150 = 1;
+            this->field_150_hook_job = 1;
             return;
         }
         this->field_114_drop_radius = this->field_120_target1_radius;
@@ -300,16 +300,16 @@ void Crane_15C::HookPickupCar_47EF80()
         this->field_11C_drop_hook_depth = this->field_12C_target1_hook_depth;
     }
 
-    this->field_150 = 4;
+    this->field_150_hook_job = 4;
 }
 
 // 9.6f 0x447D40
 MATCH_FUNC(0x47f170)
 void Crane_15C::sub_47F170()
 {
-    if (field_150)
+    if (field_150_hook_job)
     {
-        field_150 = 3;
+        field_150_hook_job = 3;
         field_114_drop_radius = field_90_hook_radius;
         field_110_drop_angle = field_8C_crane_angle;
         field_118_drop_rot = field_A0_hook_axial_angle;
@@ -443,7 +443,7 @@ void Crane_15C::UpdateCraneTargets_47F4C0()
         }
     }
 
-    if (field_150 == 2 || field_150 == 3 || field_150 == 4)
+    if (field_150_hook_job == 2 || field_150_hook_job == 3 || field_150_hook_job == 4)
     {
         if (IsDropPositionClear_47E920())
         {
@@ -452,14 +452,14 @@ void Crane_15C::UpdateCraneTargets_47F4C0()
         else
         {
             this->field_14D_is_busy = 0;
-            if (field_150 != 4)
+            if (field_150_hook_job != 4)
             {
                 TryNextDropPosition_47FB40();
             }
         }
     }
 
-    if (field_150 == 2 || field_150 == 3 || field_150 == 4)
+    if (field_150_hook_job == 2 || field_150_hook_job == 3 || field_150_hook_job == 4)
     {
         this->field_B0_hook_radius_target = field_114_drop_radius;
         this->field_AC_crane_angle_target = field_110_drop_angle;
@@ -467,7 +467,7 @@ void Crane_15C::UpdateCraneTargets_47F4C0()
         this->field_0_hooked_sprite_offset_target = this->field_8_drop_offset;
         this->field_B8_hook_depth_target = field_11C_drop_hook_depth;
     }
-    else if (field_150 == 1 && this->field_64_drop_transporter)
+    else if (field_150_hook_job == 1 && this->field_64_drop_transporter)
     {
         this->field_B0_hook_radius_target = field_BC_drop_transporter_radius;
         this->field_0_hooked_sprite_offset_target.reset();
@@ -484,7 +484,7 @@ void Crane_15C::UpdateCraneTargets_47F4C0()
         this->field_14D_is_busy = 1;
         this->field_B8_hook_depth_target = field_10C_transporter_cargo_hook_depth;
     }
-    else if (field_68_pickup_car && (field_64_drop_transporter || field_144 == 1 || field_144 == 2 || field_144 == 3))
+    else if (field_68_pickup_car && (field_64_drop_transporter || field_144_crane_mode == 1 || field_144_crane_mode == 2 || field_144_crane_mode == 3))
     {
         this->field_B0_hook_radius_target = field_D8_pickup_car_radius;
         this->field_AC_crane_angle_target = field_DC_pickup_car_angle;
@@ -536,7 +536,7 @@ void Crane_15C::TargetTransporter_47F7F0(Car_BC* pCar)
     Sprite* pFoundSprite = pCar->field_0_attachments.FirstSpriteOfType_5A6CA0(sprite_types_enum::car_2);
     if (pFoundSprite)
     {
-        if (!field_150)
+        if (!field_150_hook_job)
         {
             if (ComputeHookPolar_47F6C0(pFoundSprite->get_x_y_443580(), &point, &t))
             {
@@ -549,7 +549,7 @@ void Crane_15C::TargetTransporter_47F7F0(Car_BC* pCar)
             }
         }
     }
-    else if (field_6C_transporter_cargo == 0 && (field_150 == 0 || field_150 == 1) && field_144 == 0)
+    else if (field_6C_transporter_cargo == 0 && (field_150_hook_job == 0 || field_150_hook_job == 1) && field_144_crane_mode == 0)
     {
         Sprite* pSprt = pCar->field_50_car_sprite;
         if (ComputeHookPolar_47F6C0(pSprt->get_x_y_443580(), &point, &t))
@@ -574,10 +574,10 @@ void Crane_15C::PickUpCar_47F930(Car_BC* pCar)
         {
             TargetTransporter_47F7F0(pCar);
         }
-        else if (field_64_drop_transporter || (field_144 == 1) || (field_144 == 2 || field_144 == 3) && field_155 == 1 && !pCar->Is_F9_Eq7_447EB0() ||
-                 field_155 == 2 && pCar->Is_F9_Eq7_447EB0())
+        else if (field_64_drop_transporter || (field_144_crane_mode == 1) || (field_144_crane_mode == 2 || field_144_crane_mode == 3) && field_155_load_phase == 1 && !pCar->Is_F9_Eq7_447EB0() ||
+                 field_155_load_phase == 2 && pCar->Is_F9_Eq7_447EB0())
         {
-            if (!field_150 && !pCar->field_54_driver)
+            if (!field_150_hook_job && !pCar->field_54_driver)
             {
                 if (pCar->AreAllDoorsClosed_441A40())
                 {
@@ -588,7 +588,7 @@ void Crane_15C::PickUpCar_47F930(Car_BC* pCar)
                         Sprite* pSprt = pCar->field_50_car_sprite;
                         if (ComputeHookPolar_47F6C0(pSprt->get_x_y(), &a2a, &angTmp))
                         {
-                            if (field_144 != 1 || IsTarget1PositionClear_47EB00())
+                            if (field_144_crane_mode != 1 || IsTarget1PositionClear_47EB00())
                             {
                                 if (field_68_pickup_car == 0 || pSprt == field_68_pickup_car)
                                 {
@@ -673,7 +673,7 @@ void Crane_15C::ReleaseHookedCar_47FD10()
         gScriptManager_6F8060->AddCranePowerupTrigger_511B10(field_140_powerup_cmd);
     }
 
-    switch (field_150)
+    switch (field_150_hook_job)
     {
         case 1:
             DropHookedCarOnTransporter_47ED60();
@@ -708,7 +708,7 @@ void Crane_15C::UpdateCraneTick_47FD50()
         {
             Crane_15C::HookTransporterCargo_47EDF0();
         }
-        else if (field_68_pickup_car && (field_64_drop_transporter || (field_144 == 1) || field_144 == 2 || field_144 == 3))
+        else if (field_68_pickup_car && (field_64_drop_transporter || (field_144_crane_mode == 1) || field_144_crane_mode == 2 || field_144_crane_mode == 3))
         {
             Crane_15C::HookPickupCar_47EF80();
         }
@@ -726,53 +726,53 @@ void Crane_15C::UpdateCraneSprites_47FE10()
     Fix16_Point a4;
     Ang16 a2 = Ang16::Fix16_To_Ang16_40F540(field_8C_crane_angle);
 
-    field_30->RemoveFromCollisionBuckets_527D00();
-    field_34->RemoveFromCollisionBuckets_527D00();
-    field_38->RemoveFromCollisionBuckets_527D00();
-    field_3C->RemoveFromCollisionBuckets_527D00();
-    field_40->RemoveFromCollisionBuckets_527D00();
-    field_44->RemoveFromCollisionBuckets_527D00();
-    field_48->RemoveFromCollisionBuckets_527D00();
-    field_4C->RemoveFromCollisionBuckets_527D00();
-    field_50->RemoveFromCollisionBuckets_527D00();
+    field_30_part_obj_0->RemoveFromCollisionBuckets_527D00();
+    field_34_part_obj_1->RemoveFromCollisionBuckets_527D00();
+    field_38_part_obj_2->RemoveFromCollisionBuckets_527D00();
+    field_3C_part_obj_3->RemoveFromCollisionBuckets_527D00();
+    field_40_part_obj_4->RemoveFromCollisionBuckets_527D00();
+    field_44_part_obj_5->RemoveFromCollisionBuckets_527D00();
+    field_48_part_obj_6->RemoveFromCollisionBuckets_527D00();
+    field_4C_part_obj_7->RemoveFromCollisionBuckets_527D00();
+    field_50_part_obj_8->RemoveFromCollisionBuckets_527D00();
     field_54_hook_obj->RemoveFromCollisionBuckets_527D00();
 
     ComputeHookPos_47E730(a2, kFpHalf_679D34, &a4);
-    field_30->field_4->set_ang_lazy_420690(a2);
-    field_30->field_4->set_xy_lazy_447E20(a4.x, a4.y);
+    field_30_part_obj_0->field_4->set_ang_lazy_420690(a2);
+    field_30_part_obj_0->field_4->set_xy_lazy_447E20(a4.x, a4.y);
 
-    field_40->field_4->set_ang_lazy_420690(a2);
-    field_40->field_4->set_xy_lazy_447E20(a4.x, a4.y);
+    field_40_part_obj_4->field_4->set_ang_lazy_420690(a2);
+    field_40_part_obj_4->field_4->set_xy_lazy_447E20(a4.x, a4.y);
 
     ComputeHookPos_47E730(a2, kFpOneAndHalf_679D30, &a4);
-    field_34->field_4->set_ang_lazy_420690(a2);
-    field_34->field_4->set_xy_lazy_447E20(a4.x, a4.y);
+    field_34_part_obj_1->field_4->set_ang_lazy_420690(a2);
+    field_34_part_obj_1->field_4->set_xy_lazy_447E20(a4.x, a4.y);
 
-    field_44->field_4->set_ang_lazy_420690(a2);
-    field_44->field_4->set_xy_lazy_447E20(a4.x, a4.y);
+    field_44_part_obj_5->field_4->set_ang_lazy_420690(a2);
+    field_44_part_obj_5->field_4->set_xy_lazy_447E20(a4.x, a4.y);
 
     ComputeHookPos_47E730(a2, kFpTwoAndHalf_679D2C, &a4);
-    field_38->field_4->set_ang_lazy_420690(a2);
-    field_38->field_4->set_xy_lazy_447E20(a4.x, a4.y);
+    field_38_part_obj_2->field_4->set_ang_lazy_420690(a2);
+    field_38_part_obj_2->field_4->set_xy_lazy_447E20(a4.x, a4.y);
 
-    field_48->field_4->set_ang_lazy_420690(a2);
-    field_48->field_4->set_xy_lazy_447E20(a4.x, a4.y);
+    field_48_part_obj_6->field_4->set_ang_lazy_420690(a2);
+    field_48_part_obj_6->field_4->set_xy_lazy_447E20(a4.x, a4.y);
 
     ComputeHookPos_47E730(a2, kFpThreeAndHalf_679D28, &a4);
-    field_3C->field_4->set_ang_lazy_420690(a2);
-    field_3C->field_4->set_xy_lazy_447E20(a4.x, a4.y);
+    field_3C_part_obj_3->field_4->set_ang_lazy_420690(a2);
+    field_3C_part_obj_3->field_4->set_xy_lazy_447E20(a4.x, a4.y);
 
-    field_4C->field_4->set_ang_lazy_420690(a2);
-    field_4C->field_4->set_xy_lazy_447E20(a4.x, a4.y);
+    field_4C_part_obj_7->field_4->set_ang_lazy_420690(a2);
+    field_4C_part_obj_7->field_4->set_xy_lazy_447E20(a4.x, a4.y);
 
-    field_50->field_4->set_ang_lazy_420690(a2);
+    field_50_part_obj_8->field_4->set_ang_lazy_420690(a2);
 
     ComputeHookOffset_47E840(a2, &a4);
     field_5C_counterweight_obj->field_4->set_ang_lazy_420690(a2);
     field_5C_counterweight_obj->field_4->set_xy_lazy_447E20(a4.x, a4.y);
 
     ComputeHookPos_47E620(field_90_hook_radius, a2, &a4);
-    field_50->field_4->set_xy_lazy_447E20(a4.x, a4.y);
+    field_50_part_obj_8->field_4->set_xy_lazy_447E20(a4.x, a4.y);
 
     field_54_hook_obj->field_4->set_xyz_lazy_420600(a4.x, a4.y, field_80_ground_z - field_84_hook_depth);
     field_54_hook_obj->field_4->set_ang_lazy_420690(Ang16::Fix16_To_Ang16_40F540(field_A0_hook_axial_angle));
@@ -784,15 +784,15 @@ void Crane_15C::UpdateCraneSprites_47FE10()
         field_74_pSprite_on_hook->set_ang_lazy_420690(Ang16::Fix16_To_Ang16_40F540(field_A0_hook_axial_angle));
     }
 
-    field_30->AssignToBucket_527AE0();
-    field_34->AssignToBucket_527AE0();
-    field_38->AssignToBucket_527AE0();
-    field_3C->AssignToBucket_527AE0();
-    field_40->AssignToBucket_527AE0();
-    field_44->AssignToBucket_527AE0();
-    field_48->AssignToBucket_527AE0();
-    field_4C->AssignToBucket_527AE0();
-    field_50->AssignToBucket_527AE0();
+    field_30_part_obj_0->AssignToBucket_527AE0();
+    field_34_part_obj_1->AssignToBucket_527AE0();
+    field_38_part_obj_2->AssignToBucket_527AE0();
+    field_3C_part_obj_3->AssignToBucket_527AE0();
+    field_40_part_obj_4->AssignToBucket_527AE0();
+    field_44_part_obj_5->AssignToBucket_527AE0();
+    field_48_part_obj_6->AssignToBucket_527AE0();
+    field_4C_part_obj_7->AssignToBucket_527AE0();
+    field_50_part_obj_8->AssignToBucket_527AE0();
     field_54_hook_obj->AssignToBucket_527AE0();
 }
 
@@ -828,20 +828,20 @@ void Crane_15C::Service_480310()
 MATCH_FUNC(0x4803b0)
 void Crane_15C::InitCrane_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4)
 {
-    field_144 = 0;
+    field_144_crane_mode = 0;
     set_field_148_447F60(0);
 
     field_80_ground_z = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(x_pos, y_pos);
     field_2C_rotor_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_rotor_135, x_pos, y_pos, field_80_ground_z, kAngZero_679FC4);
-    field_30 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_unknown_134, x_pos, y_pos, field_80_ground_z, kAngZero_679FC4);
-    field_34 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_unknown_134, x_pos, y_pos, field_80_ground_z, kAngZero_679FC4);
-    field_38 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_unknown_134, x_pos, y_pos, field_80_ground_z, kAngZero_679FC4);
-    field_3C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_unknown_134, x_pos, y_pos, field_80_ground_z, kAngZero_679FC4);
-    field_40 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(252, x_pos, y_pos, field_80_ground_z, kAngZero_679FC4);
-    field_44 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(260, x_pos, y_pos, field_80_ground_z, kAngZero_679FC4);
-    field_48 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(261, x_pos, y_pos, field_80_ground_z, kAngZero_679FC4);
-    field_4C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(262, x_pos, y_pos, field_80_ground_z, kAngZero_679FC4);
-    field_50 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(263, x_pos, y_pos, field_80_ground_z, kAngZero_679FC4);
+    field_30_part_obj_0 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_unknown_134, x_pos, y_pos, field_80_ground_z, kAngZero_679FC4);
+    field_34_part_obj_1 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_unknown_134, x_pos, y_pos, field_80_ground_z, kAngZero_679FC4);
+    field_38_part_obj_2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_unknown_134, x_pos, y_pos, field_80_ground_z, kAngZero_679FC4);
+    field_3C_part_obj_3 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_unknown_134, x_pos, y_pos, field_80_ground_z, kAngZero_679FC4);
+    field_40_part_obj_4 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(252, x_pos, y_pos, field_80_ground_z, kAngZero_679FC4);
+    field_44_part_obj_5 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(260, x_pos, y_pos, field_80_ground_z, kAngZero_679FC4);
+    field_48_part_obj_6 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(261, x_pos, y_pos, field_80_ground_z, kAngZero_679FC4);
+    field_4C_part_obj_7 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(262, x_pos, y_pos, field_80_ground_z, kAngZero_679FC4);
+    field_50_part_obj_8 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(263, x_pos, y_pos, field_80_ground_z, kAngZero_679FC4);
     field_5C_counterweight_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_counterweight_140, x_pos, y_pos, field_80_ground_z, kAngZero_679FC4);
     field_54_hook_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_hook_136, x_pos, y_pos, field_80_ground_z, kAngZero_679FC4);
 
@@ -880,7 +880,7 @@ void Crane_15C::InitCrane_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4)
     field_10C_transporter_cargo_hook_depth = kZero_679E70;
     field_74_pSprite_on_hook = 0;
     field_154_unused = 0;
-    field_150 = 0;
+    field_150_hook_job = 0;
     field_114_drop_radius = kZero_679E70;
     field_110_drop_angle = kZero_679E70;
     field_118_drop_rot = kZero_679E70;
@@ -912,7 +912,7 @@ void Crane_15C::InitCrane_4803B0(Fix16 x_pos, Fix16 y_pos, char_type a4)
     field_20_target2_offset.x = 0;
     field_20_target2_offset.y = 0;
     field_13C_target2_hook_depth = kZero_679E70;
-    field_155 = 1;
+    field_155_load_phase = 1;
     Crane_15C::UpdateCraneSprites_47FE10();
     field_156_is_rotating = 0;
     field_157_is_radius_changing = 0;
@@ -935,14 +935,14 @@ void Crane_15C::CraneTargetPickupCheck_480900(Fix16 xpos, Fix16 ypos, Ang16 ang)
 
     field_128_target1_rot = Ang16::Ang16_to_Fix16(ang);
 
-    if (field_144 == 3)
+    if (field_144_crane_mode == 3)
     {
-        field_144 = 2;
-        field_155 = 1;
+        field_144_crane_mode = 2;
+        field_155_load_phase = 1;
     }
     else
     {
-        field_144 = 1;
+        field_144_crane_mode = 1;
     }
 
     ComputeHookPos_47E620(field_120_target1_radius, Ang16::Fix16_To_Ang16_40F540(field_124_target1_angle), &t);
@@ -961,14 +961,14 @@ void Crane_15C::ComputePickupAlignment_480B60(Fix16 xpos, Fix16 ypos, Ang16 ang)
 
     field_138_target2_rot = Ang16::Ang16_to_Fix16(ang);
 
-    if (field_144 == 1)
+    if (field_144_crane_mode == 1)
     {
-        field_144 = 2;
+        field_144_crane_mode = 2;
     }
     else
     {
-        field_144 = 3;
-        field_155 = 2;
+        field_144_crane_mode = 3;
+        field_155_load_phase = 2;
     }
 
     ComputeHookPos_47E620(field_130_target2_radius, Ang16::Fix16_To_Ang16_40F540(field_134_target2_angle), &t);
