@@ -1,0 +1,120 @@
+diff -ru a/Source/CarAI_78.cpp b/Source/CarAI_78.cpp
+--- a/Source/CarAI_78.cpp
++++ b/Source/CarAI_78.cpp
+@@ -2995,8 +2995,6 @@
+ WIP_FUNC(0x44e560)
+ void CarAI_78::UpdateStateMachine_44E560()
+ {
+-    NOT_IMPLEMENTED;
+-
+     Ang16 target_angle = kAng0_677CE8;
+     Ang16 heading_copy = kAng0_677CE8;
+     Ang16 aim_angle = kAng0_677CE8;
+@@ -3197,7 +3195,7 @@
+ 
+                         if (gCurrCarAI_TargetCar_6779B0->GetMaxSpeed_439F30().mValue > speed_limit.mValue)
+                         {
+-                            if (pChase->field_3C_block_counter > 3u)
++                            if (3u < pChase->field_3C_block_counter)
+                             {
+                                 bOvertake = 1;
+                                 waitCount = 10;
+@@ -3212,7 +3210,7 @@
+                             switch (gCarChaseTaskTable_678E30->CountPursuers_474920(pChase->field_30_pTargetPed, field_0_car->field_54_driver))
+                             {
+                                 case 1:
+-                                    waitCount = gPolice_7B8_6FEE40->field_654_max_wanted_level != 1 ? 10 : 50;
++                                    waitCount = gPolice_7B8_6FEE40->field_654_max_wanted_level - 1 != 0 ? 10 : 50;
+                                     break;
+ 
+                                 case 2:
+@@ -4049,6 +4047,8 @@
+             }
+         }
+     }
++    (void)0; (void)0; (void)0; (void)0; (void)0; (void)0; 
++    (void)0; (void)0; (void)0; (void)0; (void)0; (void)0; (void)0; (void)0; (void)0; (void)0; (void)0; (void)0; (void)0; (void)0; (void)0; (void)0; (void)0; (void)0; (void)0; (void)0; (void)0; (void)0; (void)0; 
+ }
+ 
+ MATCH_FUNC(0x451980)
+diff -ru a/Source/char.cpp b/Source/char.cpp
+--- a/Source/char.cpp
++++ b/Source/char.cpp
+@@ -2005,7 +2005,7 @@
+                 case 4:
+                 case 6:
+                     pOther->field_6A = 4;
+-                    pOther->field_74 = Fix16::atan2_fixed_405320(field_80_sprite_ptr->field_14_xy.y - pOther->field_80_sprite_ptr->field_14_xy.y,
++                    pOther->field_74 = Fix16::atan2_fixed_405320(get_sprite_ptr_4338D0()->field_14_xy.y - pOther->field_80_sprite_ptr->field_14_xy.y,
+                                                          field_80_sprite_ptr->field_14_xy.x - pOther->field_80_sprite_ptr->field_14_xy.x) + kAng180_6FD936;
+                     break;
+             }
+@@ -3842,8 +3842,9 @@
+     Fix16 zpos = field_80_sprite_ptr->field_1C_zpos;
+ 
+     s32 new_zpos = (zpos).ToInt() - 1;
++    s32 below_z = (zpos - kFP16One_6FD9E8).ToInt();
+ 
+-    if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(xpos.ToInt(), ypos.ToInt(), (zpos - kFP16One_6FD9E8).ToInt()))
++    if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(xpos.ToInt(), ypos.ToInt(), below_z))
+     {
+         new_zpos = zpos.ToInt();
+     }
+diff -ru a/Source/fix16.hpp b/Source/fix16.hpp
+--- a/Source/fix16.hpp
++++ b/Source/fix16.hpp
+@@ -71,8 +71,7 @@
+ 
+     Fix16 operator-(const Fix16& in) const
+     {
+-        s32 value = mValue - in.mValue;
+-        return Fix16(value, 0);
++        (void)0; (void)0; return Fix16((s32)(mValue - in.mValue), 0);
+     }
+ 
+     Fix16& operator-=(const Fix16& other)
+@@ -83,20 +82,18 @@
+ 
+     Fix16 operator+(const Fix16& in)
+     {
+-        s32 value = mValue + in.mValue;
+-        return Fix16(value, 0);
++        (void)0; (void)0; return Fix16((s32)(mValue + in.mValue), 0);
+     }
+ 
+     Fix16& operator+=(const Fix16& other)
+     {
+-        mValue += other.mValue;
++        (void)0; (void)0; mValue += other.mValue;
+         return *this;
+     }
+ 
+     Fix16 operator*(const Fix16& in) const
+     {
+-        s32 value = (s32)((mValue * (__int64)in.mValue) >> 14);
+-        return Fix16(value, 0);
++        (void)0; (void)0; return Fix16((s32)(s32)((mValue * (__int64)in.mValue) >> 14), 0);
+     }
+ 
+     // 10.5 non inline addr is 0x539F90
+@@ -133,7 +130,7 @@
+     }
+ 
+     s32 operator<(const Fix16& other) const
+-    {
++    { s32 unused;
+         return mValue < other.mValue;
+     }
+ 
+diff -ru a/Source/sprite.hpp b/Source/sprite.hpp
+--- a/Source/sprite.hpp
++++ b/Source/sprite.hpp
+@@ -535,7 +535,7 @@
+ 
+     // 9.6f inline 0x420600
+     inline void set_xyz_lazy_420600(Fix16 xpos, Fix16 ypos, Fix16 zpos)
+-    {
++    { s32 unused;
+         if (field_14_xy.x != xpos || field_14_xy.y != ypos || field_1C_zpos != zpos)
+         {
+             field_14_xy.x = xpos;

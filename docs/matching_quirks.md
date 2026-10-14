@@ -2994,6 +2994,48 @@ Matched by replacing all five gotos with structure VC6 threads away (206 -> 0, w
   (`mov type,%ecx; mov 1B0,%edx; cmp $2,%ecx; mov 1B4,%ecx; mov 1AC,%eax`); `sx/sy/sz` locals load them up front
   in a different order and register.
 
+### Huge functions: C2 tracks 1024 optimizer entries (`CarAI_78::UpdateStateMachine_44E560`)
+
+C2's global optimizer numbers "entries" per function (C2 `0x1073c33a` on, check `cmp eax,400h` at
+`0x10755778`): one per scope that has locals (inline bodies included), then one per symbol (front-end locals and
+temps, inline parameter bindings including `this`, inline-body locals), then the memory expressions in IL order.
+Only the first 0x400 are tracked; past that, inline parameter temps and block-local variables are no longer
+forward-substituted, so they become live ranges and shift registers from that point of the function on. Only a
+function of thousands of lines gets there. Levers, by cost:
+
+- a named local in an inline body: 2 entries per expansion (`Fix16 operator-` with `s32 value`: ~100 in
+  UpdateStateMachine_44E560), and 5 front-end nodes;
+- a block-scoped local: 2 (marker and symbol); a function-scope one: 1;
+- an unused, uninitialised `s32 x;` in an inline body that has no other local: 1 marker per expansion, no node,
+  no IL (a second one, or one in a body that already has a local, adds nothing);
+- the plain entries are counted over the whole function, so their place doesn't matter, only the total; what
+  moves a memory expression past the cap is its IL order (an `if (!(a && b)) {X} else {Y}` written as
+  `if (a && b) {Y} else {X}` moves X after Y).
+
+`Scripts/usm_44e560/c2cap.py K` builds a C2 with the limit at 0x400 + K: a near miss that matches at some K
+lacks or has extra entries.
+
+### Which operand C2 loads first in a commutative operation
+
+Before code generation C2 sorts the operands of an add/multiply (sort `0x1070A16E`, key `0x10708766`),
+descending, stable, and loads the first one. Keys: a compiler temp (class 3) `(n << 6) & 0xffff`; another symbol
+`((n & 0x7ff) << 5) ^ (n >> 11)`, where n is the symbol number; a memory operand on a CSE temp
+`((cse & 3) << 14) + small`. So the order depends on numbers, not on the source order of the operands:
+
+- front-end locals and temps are numbered in 32-number blocks as they first appear, inline locals continue
+  after the last front-end number: adding or removing a named local shifts every later inline local;
+- CSE numbers count distinct expressions in IL order: writing one of two twin compares differently
+  (`3u < x` vs `x > 3u`, `== 1 ? 50 : 10` vs `!= 1 ? 10 : 50`) adds one, writing both the same way adds none.
+
+### `test reg,reg` vs a zero register on a null test
+
+With a constant-0 live range (several `= 0` stores nearby), `if (p != 0)` on a pointer variable becomes a use
+of it: `xor edx,edx; cmp edx,eax`, and the stores of both branches then share that register. C2's
+predicate `0x107129B0` (pass `0x10711F93`) leaves the 0 as an immediate, giving `test`, only when the compared
+operand is a register value (a call result compared directly, a temp); a variable always becomes a use, however
+the test is written. A call between the test and the stores breaks the link too
+(`PublicTransport_181C::BusesService_579CA0`).
+
 ## TODO: Car_BC field_A4 / field_A6 are both a bitfield and a mask word
 
 `field_A6_turn_flags` and `field_A4_light_flags` are unions of a raw byte and a bit field struct (`CarTurnFlags8`,

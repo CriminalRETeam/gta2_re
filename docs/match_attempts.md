@@ -5659,3 +5659,119 @@ Base for all diagnostics: `pPrev = pBlock` after `sub_4E65A0(x, y, &z, 1, 1)` (t
   two-arm stores stay (frame slot order, see near11 above).
 - `sub_4E6660` with the same angle form stays at 4: its last difference becomes the `pPrev = pBlock` copy's place
   around `sub_4E65A0(x, y, &z, 1, 1)`, and moving it after the call brings back the `push %ebx` pair (48).
+
+## CarAI_78::UpdateStateMachine_44E560 (Oct 13): inline budget pinned down, not matched
+
+The only function in the project whose inline **total** reaches the 35000 cap (simulated totals of every
+function: next is ImGuiDebugDraw at 24061). Everything after the cap point goes out of line, free sites
+included: that is where the original's `ForceNeutralInput_453F50`, `set_xyz_lazy_451950`, `sub_4516F0`
+(`Ang16::operator+`), `PolarToCartesian_451730`, `Add_408660` and `IsLess/IsGreater` calls come from.
+`0x453F50/70/90` and `0x451670..0x451950` are the COMDAT copies this TU emits, so the source calls the
+inlines (`NeutralGear_42AC00`, `Accelerate_421210`, `ForceNeutralInput_42ABC0`, `set_xyz_lazy_420600`,
+`PolarToCartesian_41FC20`), not the named copies.
+
+What the original requires (from the 10.5 asm, `S` = first multiply inline, `m` = both out of line,
+`O` = the whole call out of line): the 30 `PolarToCartesian_41FC20` sites are
+`sssssssss mmmmmmmmmmmmm ssssss m O`, and the cap is crossed between the `dword_677A8C + dword_677B5C`
+`operator+` (inline) and the following `ForceNeutralInput_42ABC0` (out of line) in the second switch's
+`move_left_3` case. The 29th site (`m`) is decided by the ratio, not the cap: the `set_xyz_lazy` after it
+is still inline.
+
+Constraints found with `inlsim.py` (all 3115 matched functions re-simulated per size change):
+`Fix16` `operator+/-/*` and `set_xyz_lazy_420600` sizes admit no change, `Ang16::Ang16` none,
+`Ang16::operator-` -1..0, `operator+` -1..1, `PolarToCartesian_41FC20` 0..+2, `MaxAbsDistance_42A6B0`
+-15..+5. Free (<= 40) callee sizes only matter through the cap, so only this function constrains them.
+
+No source form found yet that gives the profile. With the inline physics helpers inlined before the cap
+written as field writes (as the older source had them; same code), the remaining fit needs about 6 fewer
+free sites (for example the `GetMaxSpeed_439F30() > speed_limit` comparisons and comparisons between the
+22nd and 23rd sites), about +145 caller size and about +120 total before the first site. Ruled out:
+other callee sizes, `Turn*`/`SetGoStraight` as field writes, `GetOppositeFace_42A660` or
+`MultiplyByFix16_401CB0` written out, extra `Fix16` declarations, one or two extra charged sites, a
+forced `Fix16()`, declaration order (no effect on frame slots: 4205 -> 4199 over 1500 orders).
+
+A throwaway scaffold that forces the right decisions (padding, comparisons on `mValue`, forced `Fix16()`)
+scores 4145 (skeleton 4, structure 1811) against 7610 for the plain source: the rest is frame layout
+(0x140 vs 0x13C) and registers. Source changes that held up under the scaffold, kept in the WIP:
+`Ang16::operator-` at the subtraction sites, the 9.6f helpers above, `GetOppositeFace_42A660`,
+`kAng45.MultiplyByFix16_401CB0(...)`, `if (bOvertake == 1) { ... } else { ...; return; }` in both
+`alongside_*` cases (block order), and the `PolarToCartesian` angles passed as temporaries (the original
+gives each one its own slot: 5341 -> 4145). The `radius` sum as a temporary is also what the original
+does (slot 0x84) but costs 8 bytes of frame until the other slots are right.
+
+Later the same day, with exact tools instead of fits:
+
+- **Per-site bounds.** For each `PolarToCartesian_41FC20` site, `s` needs `B0 >= 57 * sites_left + charged`
+  and `m` needs `B0 <` the same (the logged budget is already after the site's own charge). Conflicting
+  bounds localise the source difference: the original has at least 1 fewer site (or +29 charged) between
+  the 8th and 12th sites, and exactly 6 fewer comparison sites in all between the 9th and 29th, one of them
+  a `GetMaxSpeed_439F30() > speed_limit` in `alongside_left_8`. Which comparisons are written on `mValue`
+  doesn't change a single byte, so any such set works.
+- **9.6f via VC7.** Compiling our function with the 9.6f compiler (`Scripts/tu_harness/cl.sh -tc msvc7.0
+  /O2 /Ob0 /G5 /GX`) and diffing against 9.6f proved: a fourth `Ang16` local set to `kAng0` at the top that
+  holds the `ComputeShortestAngleDelta_4056C0` result before `> dword_677A2E` (the VC7 frame then equals
+  9.6f's 0x178), `operator!=` returning `s32`, the inline helpers' bodies, and that `Ang16()` and
+  `__forceinline` calls are visible in 9.6f only when not empty. 10.5 changed the heading block after 9.6f
+  (`word + aim` there, `aim + word` in 9.6f).
+- **Loads.** `Car_BC* pCar = field_0_car;` at the steer probe (9.6f keeps the car in a register across
+  calls) and a `Sprite*` local at the six other `set_xyz_lazy_420600(sprite->x + dx, ...)` calls give the
+  target's car and sprite load counts exactly (100 and 76). `bOvertake` declared at function scope makes
+  `alongside_right_9` identical. `maxCount` is `s16` (`movswl` before the compare).
+- **Caller size.** Writing the 43 implicit tests as `!= 0` / `== 0` gives the same bytes and +106 caller
+  nodes; about 74 are still missing. Dead code (`if (0) { ... }`) also counts, and its inline calls are
+  sites, so it can't be ruled out.
+- **Remaining.** With the budget emulated, the best variant scores 4525 (skeleton 2, 11 instructions more
+  than the target). The rest is global register allocation (`pChase` gets `ebp` in the prologue, the target
+  leaves it on the stack and gives it `ebx` in `alongside_left_8`) and the stack slot order.
+
+## CarAI_78::UpdateStateMachine_44E560 (Oct 14): one compare from a match
+
+Scores (`permuter_score`, 0 = match): master 5707, WIP source with the repo headers 4571, WIP plus
+`Scripts/usm_44e560/experiment.patch` **186** with the stock compiler and **0** with a C2 patched at a single
+compare. The earlier sections' scaffold numbers used other scores and padding, don't compare them.
+
+Toolchain: SP5/SP6 front ends give the same code as ours for all 494 CarAI_78 functions; SP3/RTM break
+matched ones (ManageTrafficCarDirection_448CE0). The C2 is the SP4 8799 of the Rich header. So the source
+differs, not the compiler.
+
+What decides the remaining code, in the order it was found (general rules in `docs/matching_quirks.md`):
+
+- **Optimizer entry cap** (quirks: "Huge functions: C2 tracks 1024 optimizer entries"). Past entry 0x400 the
+  global optimizer stops forward-substituting. The original has exactly 34-35 more entries than our source
+  and no more front-end locals (cluster A below). Supplied by `s32 unused;` in `set_xyz_lazy_420600` and
+  `Fix16::operator<` (1 scope marker per expansion, no node, no IL); `Car_BC` physics helpers as in 9.6f
+  give +34 too but break the inline budget at every helper size (5.1M combinations, best 11 decisions off).
+- **`Fix16` operators.** Their `s32 value` locals cost 2 entries per expansion (~100 in this function), so
+  `operator-/+/*` must have no named local, at the same front-end size (52/52/57; `operator+=` 36).
+  `ApplyBlastDamage_541850` allows only all-local or all-no-local (`LLL`, `LNN`, `NNN`); `NNN` also needs
+  `CanStepForward_54ECB0` (`s32 below_z` local) and `HandlePedCollision_548BD0` (`get_sprite_ptr_4338D0()`
+  at the first `case 6` atan2). What the original had in place of the locals (5 nodes, no entries; an
+  assert macro compiled out?) is open.
+- **Cluster A** (first `PolarToCartesian_41FC20`'s `imul` operands): sine local id must be 0x800-0x82A
+  (quirks: "Which operand C2 loads first"). Needs one function-scope `Sprite* pSprite;` and
+  `CarPhysics_B0* pPhysics;` instead of block locals, and no extra named locals (`s32 pursuers`,
+  `Ang16 angle`: each moves the id block).
+- **Cluster B** (`bOvertake`/`speed_limit` registers): `bOvertake = 0;` at the top of `alongside_right_9`'s
+  `follow_target_ped_4` costs speed_limit 6 priority; `GetMaxSpeed_439F30() > speed_limit` (operator) at the
+  left kill_ped compare and both right compares gives it back, and three later compares written on
+  `.mValue` keep the inline cut.
+- **Cluster E** (`movl $0xD` before the `0x30(%esi)` load): `if (target_dist < kFpTwo_677B98 &&
+  !field_3C_seeking_road) { switch ... } else { ... }` instead of `if (!(...))`: it moves the in_front block
+  after the switch in IL order, past the entry cap.
+- **Cluster C** (steer-probe `Ang16` add): CSE number of `this+0x10` must be 1 mod 4. Only
+  `3u < pChase->field_3C_block_counter` and `max_wanted_level - 1 != 0 ? 10 : 50` (left alongside site)
+  give it without changing code, the second is not a believable spelling; both are in the patch, not in
+  `Source/`.
+- **Caller size**: 58 front-end nodes are still missing (29 `(void)0;` in the patch).
+
+**Last difference (cluster D)**: `if (pOwner != 0)` after `FindDriverInState_4748A0(choose_side_5, ...)` in
+follow_behind. The original has `test %eax,%eax` and a block-local `xor %eax,%eax` for the owner's two zero
+stores; ours shares one zero register (`xor %edx,%edx; cmp %edx,%eax`). C2's predicate 0x107129B0 makes the
+0 a use of the constant-0 live range whenever the compared operand is a variable; it stays an immediate only
+for a register value (a call result compared directly). `c2pred.py P644 644` forces that one compare and
+gives 0, so nothing else differs. Not explained: about 230 spellings (casts, copies, inline wrappers, out
+parameters, conditions with assignments or declarations, loops, `goto`, function-scope reuse, other
+`FindDriverInState` sites sharing the variable), the four front ends, priority, multi-split and the cap all
+leave the compare on the variable. C2 merges every copy of the call value into one symbol (pass at
+10765a0c-10765a2d) before the predicate runs, and no matched function in the project shows the original's
+pattern.
