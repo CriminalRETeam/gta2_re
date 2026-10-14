@@ -94,11 +94,11 @@ gmp_map_zone* __stdcall FindStationZoneByName_577EE0(char_type* pChar, u8 case_v
             break;
     }
 
-    gmp_map_zone* pZone = gMap_0x370_6F6268->first_zone_by_type_4DF1D0(zone_type);
+    gmp_map_zone* pZone = gMap_0x370_6F6268->GetFirstZoneOfType_4DF1D0(zone_type);
     gNameCompareLen_6FF158 = 6;
     while (!CompareNameChars_577E90((char_type*)&pZone->field_6_name, pChar))
     {
-        pZone = gMap_0x370_6F6268->next_zone_4DF770();
+        pZone = gMap_0x370_6F6268->GetNextZone_4DF770();
         if (!pZone)
         {
             return NULL;
@@ -906,8 +906,8 @@ void PublicTransport_181C::SetupTrainAndBusStops_5794B0()
             gTrainStationList_6FEE68.field_194_count = 0;
 
             gmp_map_zone* i;
-            for (i = gMap_0x370_6F6268->first_zone_by_type_4DF1D0(gmp_zone_type_enum::railway_station_platform); i != NULL;
-                 i = gMap_0x370_6F6268->next_zone_4DF770())
+            for (i = gMap_0x370_6F6268->GetFirstZoneOfType_4DF1D0(gmp_zone_type_enum::railway_station_platform); i != NULL;
+                 i = gMap_0x370_6F6268->GetNextZone_4DF770())
             {
                 *(u8*)&gNameCompareLen_6FF158 = 5; //LOBYTE(gNameCompareLen_6FF158) = 5; part of a object???????
                 if (CompareNameChars_577E90(Buffer, i->field_6_name))
@@ -952,7 +952,7 @@ void PublicTransport_181C::SetupTrainAndBusStops_5794B0()
 
     if (!bSkip_buses_67D558)
     {
-        for (gmp_map_zone* pZone = gMap_0x370_6F6268->first_zone_by_type_4DF1D0(gmp_zone_type_enum::bus_stop_pavement); pZone != NULL;)
+        for (gmp_map_zone* pZone = gMap_0x370_6F6268->GetFirstZoneOfType_4DF1D0(gmp_zone_type_enum::bus_stop_pavement); pZone != NULL;)
         {
             TrainStation_34* pBusStop = gPublicTransport_181C_6FF1D4->AllocateTrainStation_5787E0();
             pBusStop->field_0_station_type = 1;
@@ -961,7 +961,7 @@ void PublicTransport_181C::SetupTrainAndBusStops_5794B0()
             pBusStop->field_10_pZone = pZone;
             pBusStop->field_18_pStoppedTrain = 0;
             ++gStationCount_6FF1CC;
-            pZone = gMap_0x370_6F6268->next_zone_4DF770();
+            pZone = gMap_0x370_6F6268->GetNextZone_4DF770();
 
             s32 highest_zpos;
 

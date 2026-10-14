@@ -94,7 +94,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x43B2B0 | `Car_BC::sub_43B2B0` | 0x422360 | ✓ `cool_nash_0x294::get_car_state_403A90`, ✓ `cool_nash_0x294::get_target_to_enter_403B10` | done | GetInternalObjective_403A90, get_target_to_enter_403B10 used (6 unchanged) |
 | 0x43B5A0 | `Car_BC::GetDoorWorldPosition_43B5A0` | 0x422500 | ✓ `sub_41FE70`, ✓ `RotateVector_41FC90` | done | all 9.6f inlines used |
 | 0x43D690 | `Car_BC::EmitExplosion_43D690` | 0x425FD0 | `Object_5C::sub_4852E0` (10.5 0x5299B0), `sub_424220` | checked | 9.6f 0x425FD0 is a different function (NewPhysicsObj + radio tower angle), pairing miss |
-| 0x4413B0 | `Car_BC::UpdateTrainCarriagesOnTrack_4413B0` | 0x429680 | `sub_467110`, ✓ `Car_3C::set_xyz_lazy_420600` (10.5 0x59FA40), ✓ `Car_3C::set_ang_lazy_420690` | matched | 467110 = Map_0x370::sub_4E6660 (called in 10.5) |
+| 0x4413B0 | `Car_BC::UpdateTrainCarriagesOnTrack_4413B0` | 0x429680 | `sub_467110`, ✓ `Car_3C::set_xyz_lazy_420600` (10.5 0x59FA40), ✓ `Car_3C::set_ang_lazy_420690` | matched | 467110 = Map_0x370::AdvanceAlongRailway_4E6660 (called in 10.5) |
 | 0x4418D0 | `Car_BC::HandleUserInput_4418D0` | 0x429810 | `Car_BC::sub_423720`, `Car_BC::sub_4260C0`, ✓ `Car_BC::sub_425780` | commented | 4->2 (bool test of HandleRoofTurretRotation result); sub_425780/411930 flag helper worsens (4->14) so commented; 423720/4260C0 = HandleRoofTurretRotation/HandleSpecialInput (called) |
 | 0x4425D0 | `Car_BC::ManageTVAntenna_4425D0` | 0x424280 | `sub_424220`, `angle::angle_not_equal_41CFF0`, `sub_40F580`, ✓ `sub_40F540` | done | 44->39; Ang16_to_Fix16 temp + zero copy order as in 9.6f; 424220 = GetRadioTowerAngle_442520 |
 | 0x442810 | `Car_BC::sub_442810` | 0x4262E0 | ✓ `sub_40F7B0`, `sub_421D80`, ✓ `IsMaxDamage_40F890`, ✓ `sub_4214B0`, ✓ `sub_4215B0`, ✓ `sub_40FEB0`, `sub_421C40`, `sub_40F600`, `sub_4262B0`, `Car_BC::sub_425DF0`, ✓ `sub_421130`, `sub_420390`, `sub_4207B0`, `sub_40F820`, `sub_40F580` | inlines added | 133->129; new CarPhysics_B0::IsRngBelowDamage_421130; get_theta_40F820 worsens (134) so not used; 421C40/4262B0/425DF0/420390/421D80 = GetHitchPoint_439FB0/AttachTrailer_4427A0/UpdateDamageFlags_43BD40/NormalizeSafe_442AD0/HasSpriteZoom_43A230 |
@@ -164,15 +164,15 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x4C1AB0 | `next_cycle_4C1AB0` | 0x45E0B0 | ✓ `rng::get_cur_rng_41CFE0` | done | all 9.6f inlines used |
 | 0x4C9B60 | `PedGroup::MergeWithOtherGroup_4C9B60` | 0x404EF0 | `sub_403B90` (10.5 0x4CA3E0), `sub_404900`, ✓ `cool_nash_0x294::get_car_state_403A90`, ✓ `cool_nash_0x294::sub_403AE0`, ✓ `sub_403950`, ✓ `cool_nash_0x294::has_car_403B80`, `sub_404450`, ✓ `cool_nash_0x294::sub_403990` | done | diff 35 unchanged; 403B90 = GetPanicking, 404450 = sub_4C9ED0 |
 | 0x4DADA0 | `sub_4DADA0` | 0x462530 | ✓ `sub_461DC0`, `sub_4C93B0` | done | GetTimeLimit_461DC0 x2 (was dword_67ED24); sub_4C93B0 = Hud ClearPager_5D3280 (out of line in 10.5); unchanged (18) |
-| 0x4DF240 | `Map_0x370::GetNearestZoneOfType_4DF240` | 0x469110 | `Map_0x370::sub_462E40`, ✓ `MaxAbsDistance_42A6B0` | checked | sub_462E40 is Map_0x370::get_zone_4DFB30, called out of line in 10.5 |
+| 0x4DF240 | `Map_0x370::GetNearestZoneOfType_4DF240` | 0x469110 | `Map_0x370::sub_462E40`, ✓ `MaxAbsDistance_42A6B0` | checked | sub_462E40 is Map_0x370::GetZone_4DFB30, called out of line in 10.5 |
 | 0x4E11E0 | `Map_0x370::sub_4E11E0` | 0x465FE0 | `sub_4BA5E0`, ✓ `sub_463760`, ✓ `sub_432860`, ✓ `sub_463690` | inlines added | new Fix16_Rect GetMidZ_463760 (const; fixes missing /2) + EdgesCrossSegment_463690; x reset per row bug fixed; SetXY_432860 commented; 131->76 |
 | 0x4E1520 | `Map_0x370::sub_4E1520` | 0x466170 | ✓ `sub_432860`, `sub_4BB9C0`, `sub_4828F0`, `Car_3C::set_xyz_lazy_420600` (10.5 0x59FA40), ✓ `sub_40FEE0` | done | SetXY_432860; 4BB9C0=PointInsideRotatedBounds_5A1490, 4828F0=GetDirectionalObject_5298E0, set_xyz_lazy_420600=451950 all called; unchanged (162) |
-| 0x4E1A30 | `Map_0x370::sub_4E1A30` | 0x466430 | ✓ `sub_4634B0`, ✓ `sub_463480` | checked | sub_463480 is the existing IsWestOrEastGradSlope_4634B0 (address comment added), already used |
+| 0x4E1A30 | `Map_0x370::SpriteHitsBlockFacesInArea_4E1A30` | 0x466430 | ✓ `sub_4634B0`, ✓ `sub_463480` | checked | sub_463480 is the existing IsWestOrEastGradSlope_4634B0 (address comment added), already used |
 | 0x4E1E00 | `Map_0x370::CanSpriteEnterTile_4E1E00` | 0x46A570 | ✓ `sub_466CF0` | done | IsGradientSlopeAt_466CF0; 1042->993 |
-| 0x4E5640 | `Map_0x370::sub_4E5640` | 0x469F90 | ✓ `sub_4637B0`, `sub_40E8D0`, ✓ `Car_3C::set_xyz_lazy_420600` (10.5 0x59FA40), ✓ `Car_3C::set_ang_lazy_420690`, ✓ `PolarToCartesian_41FC20`, ✓ `sub_420420`, ✓ `sub_466CF0`, `sub_4BD670` | checked | sub_40E8D0 = atan2_fixed_405320, sub_4BD670 = 10.5 0x5A2500, both called |
-| 0x4E6190 | `Map_0x370::sub_4E6190` | 0x466D30 | ✓ `sub_466CF0` | done | all 9.6f inlines used |
-| 0x4E7190 | `Map_0x370::sub_4E7190` | 0x467F80 | `sub_463150`, `sub_463210`, `ProcessObjective_4632E0`, ✓ `sub_42A660` | commented | ReverseRoadDirection_42A660 helper 103->301, noted only; 463150/463210/4632E0 pair with called 4E5Dxx |
-| 0x4E8E30 | `Map_0x370::do_process_loaded_zone_data_4E8E30` | 0x464330 | `Map_0x370::sub_462E40` | checked | sub_462E40 is Map_0x370::get_zone_4DFB30, called out of line in 10.5 |
+| 0x4E5640 | `Map_0x370::IsProbePathClear_4E5640` | 0x469F90 | ✓ `sub_4637B0`, `sub_40E8D0`, ✓ `Car_3C::set_xyz_lazy_420600` (10.5 0x59FA40), ✓ `Car_3C::set_ang_lazy_420690`, ✓ `PolarToCartesian_41FC20`, ✓ `sub_420420`, ✓ `sub_466CF0`, `sub_4BD670` | checked | sub_40E8D0 = atan2_fixed_405320, sub_4BD670 = 10.5 0x5A2500, both called |
+| 0x4E6190 | `Map_0x370::ClassifyArrowOnSlope_4E6190` | 0x466D30 | ✓ `sub_466CF0` | done | all 9.6f inlines used |
+| 0x4E7190 | `Map_0x370::AdvanceAlongRailwayChecked_4E7190` | 0x467F80 | `sub_463150`, `sub_463210`, `ProcessObjective_4632E0`, ✓ `sub_42A660` | commented | ReverseRoadDirection_42A660 helper 103->301, noted only; 463150/463210/4632E0 pair with called 4E5Dxx |
+| 0x4E8E30 | `Map_0x370::do_process_loaded_zone_data_4E8E30` | 0x464330 | `Map_0x370::sub_462E40` | checked | sub_462E40 is Map_0x370::GetZone_4DFB30, called out of line in 10.5 |
 | 0x4EAF40 | `MapRenderer::DrawRightSide_4EAF40` | 0x470250 | `sub_46BEA0` (10.5 0x4F3FB0), `Nanobotz::Set_UV_46C0C0` (10.5 0x4F4190), ✓ `TextureCache_15D8::sub_46BB50` | inlines added | GetTexture_46BB50 (198 unchanged); sub_46BEA0 = draw_4F3FB0 and Set_UV_46C0C0 = Set_UV_4F4190 (called) |
 | 0x4ED290 | `MapRenderer::draw_bottom_4ED290` | 0x46D9A0 | ✓ `sub_46BC70`, ✓ `TextureCache_15D8::sub_46BB50` | done | GetTexture_46BB50; unchanged (192) |
 | 0x4F4D60 | `MapRenderer::draw_lid_4F4D60` | 0x470800 | ✓ `Nanobotz::sub_46BD40` (10.5 0x4EAE00), ✓ `Nanobotz::sub_46B5E0`, ✓ `TextureCache_15D8::sub_46BB50` | commented | GetColour_46B5E0 43->105 |
@@ -442,7 +442,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x447710 | `CarAI_78::PlanTurnAtNextJunction_447710` | 0x4300E0 | ✓ `sub_42ACA0`, ✓ `sub_42ACB0`, ✓ `sub_42AC80`, ✓ `sub_42AC20`, ✓ `sub_42AC40`, `sub_42FE60`, ✓ `sub_42AC90`, ✓ `sub_42AC70`, ✓ `sub_42AC30`, ✓ `sub_42AC50`, ✓ `sub_421530` | done | CANDIDATE MATCH (59->0); field_A6 bit helpers added to Car_BC.hpp, also |
 | 0x447CA0 | `CarAI_78::GoToBlock_447CA0` | 0x42ACF0 | `sub_40E0F0` | checked | 40E0F0 (5 bytes) is a Fix16 ctor (operator) |
 | 0x453470 | `CarAI_78::UpdateDriving_453470` | 0x4326E0 | ✓ `sub_421260`, `sub_4211A0`, ✓ `sub_421540`, ✓ `sub_421550`, ✓ `sub_42AC60`, `sub_4221A0`, `sub_4221B0`, ✓ `sub_42AC00` (10.5 0x453F90) | done | SetHandBrakeOff_421260, SetA6Bit5/ClearA6Bit5, new IsAIHalted_42AC60, NeutralGear_42AC00; code unchanged; GetLength_453590 kept (out-of-line in 10.5); 4221A0/4221B0 = DoBreak/DoBrakeAndHandbrake (called) |
-| 0x453A40 | `CarAI_78::sub_453A40` | 0x42FF20 | `sub_467110`, `sub_40F580`, `sub_40E790`, `sub_42FE80` | checked | 467110/40E790/42FE80 = sub_4E6660/... (called); Ang16_to_Fix16 already used |
+| 0x453A40 | `CarAI_78::sub_453A40` | 0x42FF20 | `sub_467110`, `sub_40F580`, `sub_40E790`, `sub_42FE80` | checked | 467110/40E790/42FE80 = AdvanceAlongRailway_4E6660/... (called); Ang16_to_Fix16 already used |
 | 0x4546D0 | `CarInfo_808::LoadModelPhysics_4546D0` | 0x432D10 | ✓ `gtx_0x106C::get_car_info_count_432850`, `sub_402B20` (10.5 0x4A6DB0), `array_constuctor_401CF0` | checked | get_number_of_cars (432850) used; 402B20 = File::sub_4A6DB0 copy; array ctor is compiler-generated |
 | 0x454850 | `CarInfo_808::CalculateAllCarInfo_454850` | 0x432EA0 | ✓ `gtx_0x106C::get_car_info_count_432850`, ✓ `gtx_0x106C::sub_420200`, `sub_432AA0` | checked | get_number_of_cars, does_car_exist used; 432AA0 = CalculateCarInfo_4542A0 (called) |
 | 0x4549C0 | `CarInfo_808::ConvertAllMass_4549C0` | 0x432CD0 | ✓ `gtx_0x106C::get_car_info_count_432850`, `sub_432C60` | checked | get_number_of_cars used; 432C60 = ConvertMass_454680 |
@@ -686,38 +686,38 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x4DB440 | `CompareRemotePlayers_4DB440` | 0x462850 | `GameSession_578::sub_45E4F0` (10.5 0x4C5950) | checked | sub_45E4F0 is GetStyleName_4C5950 (out of line, called) |
 | 0x4DEF00 | `get_zone_str_4DEF00` | 0x462BE0 | `sub_4C22D0` | checked | 9.6f sub_4C22D0 is a char->wchar copy into a global buffer; 10.5 builds a key and calls Find_5B5F90 instead |
 | 0x4DEF40 | `gmp_map_zone::IsZoneVisibleToAnyPlayer_4DEF40` | 0x4690B0 | ✓ `sub_463710` | done | Fix16_Rect::SetFromPosSize_463710 replaces the 4-arg ctor (both emitted out of line, call kept); still matches |
-| 0x4DEFD0 | `Map_0x370::zone_by_name_4DEFD0` | 0x464C70 | `Map_0x370::sub_462E40` | checked | sub_462E40 is Map_0x370::get_zone_4DFB30, called out of line in 10.5 |
-| 0x4DF050 | `Map_0x370::zone_idx_by_name_4DF050` | 0x464D00 | `Map_0x370::sub_462E40` | checked | sub_462E40 is Map_0x370::get_zone_4DFB30, called out of line in 10.5 |
-| 0x4DF0F0 | `Map_0x370::zone_by_type_bounded_4DF0F0` | 0x464DA0 | `Map_0x370::sub_462E40` | checked | sub_462E40 is Map_0x370::get_zone_4DFB30, called out of line in 10.5 |
-| 0x4DF1D0 | `Map_0x370::first_zone_by_type_4DF1D0` | 0x464E70 | `Map_0x370::sub_462E40` | checked | sub_462E40 is Map_0x370::get_zone_4DFB30, called out of line in 10.5 |
-| 0x4DF4D0 | `Map_0x370::zone_by_pos_and_type_4DF4D0` | 0x464FE0 | `Map_0x370::sub_462E40`, ✓ `gmp_map_zone::sub_463020` | done | Overlaps -> gmp_map_zone::ContainsPoint_463020 (sub_462E40 = get_zone_4DFB30 called); still matches |
-| 0x4DF6A0 | `Map_0x370::sub_4DF6A0` | 0x465130 | `Map_0x370::sub_462E40`, ✓ `gmp_map_zone::sub_463020` | done | Overlaps -> gmp_map_zone::ContainsPoint_463020 (sub_462E40 = get_zone_4DFB30 called); still matches |
-| 0x4DF770 | `Map_0x370::next_zone_4DF770` | 0x4651C0 | `Map_0x370::sub_462E40`, ✓ `gmp_map_zone::sub_463020` | done | Overlaps -> gmp_map_zone::ContainsPoint_463020 (sub_462E40 = get_zone_4DFB30 called); still matches |
-| 0x4DF890 | `Map_0x370::GetZoneInfoAt_4DF890` | 0x465250 | `Map_0x370::sub_465090` | checked | sub_465090 is nav_zone_by_pos_4DF5C0, called |
-| 0x4DFE10 | `Map_0x370::get_block_4DFE10` | 0x4653C0 | ✓ `gmp_compressed_map_32::sub_42A830` | done | gmp_compressed_map_32::get_base_42A830; still matches |
+| 0x4DEFD0 | `Map_0x370::FindZoneByName_4DEFD0` | 0x464C70 | `Map_0x370::sub_462E40` | checked | sub_462E40 is Map_0x370::GetZone_4DFB30, called out of line in 10.5 |
+| 0x4DF050 | `Map_0x370::FindZoneIdxByName_4DF050` | 0x464D00 | `Map_0x370::sub_462E40` | checked | sub_462E40 is Map_0x370::GetZone_4DFB30, called out of line in 10.5 |
+| 0x4DF0F0 | `Map_0x370::GetNextZoneOfTypeRoundRobin_4DF0F0` | 0x464DA0 | `Map_0x370::sub_462E40` | checked | sub_462E40 is Map_0x370::GetZone_4DFB30, called out of line in 10.5 |
+| 0x4DF1D0 | `Map_0x370::GetFirstZoneOfType_4DF1D0` | 0x464E70 | `Map_0x370::sub_462E40` | checked | sub_462E40 is Map_0x370::GetZone_4DFB30, called out of line in 10.5 |
+| 0x4DF4D0 | `Map_0x370::GetZoneAtPosOfType_4DF4D0` | 0x464FE0 | `Map_0x370::sub_462E40`, ✓ `gmp_map_zone::sub_463020` | done | Overlaps -> gmp_map_zone::ContainsPoint_463020 (sub_462E40 = GetZone_4DFB30 called); still matches |
+| 0x4DF6A0 | `Map_0x370::sub_4DF6A0` | 0x465130 | `Map_0x370::sub_462E40`, ✓ `gmp_map_zone::sub_463020` | done | Overlaps -> gmp_map_zone::ContainsPoint_463020 (sub_462E40 = GetZone_4DFB30 called); still matches |
+| 0x4DF770 | `Map_0x370::GetNextZone_4DF770` | 0x4651C0 | `Map_0x370::sub_462E40`, ✓ `gmp_map_zone::sub_463020` | done | Overlaps -> gmp_map_zone::ContainsPoint_463020 (sub_462E40 = GetZone_4DFB30 called); still matches |
+| 0x4DF890 | `Map_0x370::GetZoneInfoAt_4DF890` | 0x465250 | `Map_0x370::sub_465090` | checked | sub_465090 is GetNavZoneAtPos_4DF5C0, called |
+| 0x4DFE10 | `Map_0x370::GetBlock_4DFE10` | 0x4653C0 | ✓ `gmp_compressed_map_32::sub_42A830` | done | gmp_compressed_map_32::get_base_42A830; still matches |
 | 0x4DFE60 | `Map_0x370::GetEffectiveBlock_4DFE60` | 0x465410 | ✓ `gmp_compressed_map_32::sub_42A830` | done | gmp_compressed_map_32::get_base_42A830; still matches |
 | 0x4DFEE0 | `Map_0x370::sub_4DFEE0` | 0x465490 | ✓ `gmp_compressed_map_32::sub_42A830` | done | gmp_compressed_map_32::get_base_42A830; still matches |
 | 0x4DFF60 | `Map_0x370::sub_4DFF60` | 0x465510 | ✓ `gtx_0x106C::sub_462FD0` | done | gtx sub_462FD0 x2; still matches |
 | 0x4E0000 | `Map_0x370::sub_4E0000` | 0x4655B0 | ✓ `gtx_0x106C::sub_462FD0` | done | gtx sub_462FD0 x2; still matches |
 | 0x4E00A0 | `Map_0x370::GetBlockSpec_4E00A0` | 0x465650 | ✓ `gtx_0x106C::sub_462FD0` | done | gtx sub_462FD0; still matches |
-| 0x4E4630 | `Map_0x370::sub_4E4630` | 0x466620 | ✓ `sub_42A630` | done | all 9.6f inlines used |
-| 0x4E4820 | `Map_0x370::sub_4E4820` | 0x4667E0 | ✓ `sub_45ADB0`, ✓ `sub_410BF0`, ✓ `sub_45ADA0`, ✓ `sub_45ADC0`, ✓ `sub_45ADD0`, ✓ `sub_4637A0` | matched | Fix16_Rect getters return a copy like 9.6f (0x45ADA0-0x45ADD0), + get_low_z_4637A0; order left,right,top,bottom |
+| 0x4E4630 | `Map_0x370::CheckSlopeTopInSpriteGrid_4E4630` | 0x466620 | ✓ `sub_42A630` | done | all 9.6f inlines used |
+| 0x4E4820 | `Map_0x370::AllBlocksInRectHaveSlopeBits_4E4820` | 0x4667E0 | ✓ `sub_45ADB0`, ✓ `sub_410BF0`, ✓ `sub_45ADA0`, ✓ `sub_45ADC0`, ✓ `sub_45ADD0`, ✓ `sub_4637A0` | matched | Fix16_Rect getters return a copy like 9.6f (0x45ADA0-0x45ADD0), + get_low_z_4637A0; order left,right,top,bottom |
 | 0x4E4AC0 | `Map_0x370::sub_4E4AC0` | 0x4693A0 | ✓ `sub_420420` | done | all 9.6f inlines used |
 | 0x4E4BB0 | `Map_0x370::FindPavementBlockForCoord_4E4BB0` | 0x466910 | ✓ `gmp_compressed_map_32::sub_42A830` | done | gmp_compressed_map_32::get_base_42A830; still matches |
 | 0x4E4C30 | `Map_0x370::FindHighestBlockForCoord_4E4C30` | 0x466990 | ✓ `gmp_compressed_map_32::sub_42A830` | done | gmp_compressed_map_32::get_base_42A830; still matches |
 | 0x4E4CB0 | `Map_0x370::sub_4E4CB0` | 0x466A00 | ✓ `gmp_compressed_map_32::sub_42A830` | done | gmp_compressed_map_32::get_base_42A830; still matches |
 | 0x4E4D40 | `Map_0x370::sub_4E4D40` | 0x469570 | ✓ `sub_42A630`, ✓ `sub_466CF0`, `IsInvisibleOnFoot_466B70` (10.5 0x466B70) | done | IsGradientSlopeAt_466CF0; 466B70=UpdateZFromSlopeAtCoord_4E5BF0 (called); still matches |
-| 0x4E4E50 | `Map_0x370::sub_4E4E50` | 0x4696C0 | `IsInvisibleOnFoot_466B70` (10.5 0x466B70) | checked | IsInvisibleOnFoot_466B70 is UpdateZFromSlopeAtCoord_4E5BF0, already called |
+| 0x4E4E50 | `Map_0x370::FindGroundZAboveCoord_4E4E50` | 0x4696C0 | `IsInvisibleOnFoot_466B70` (10.5 0x466B70) | checked | IsInvisibleOnFoot_466B70 is UpdateZFromSlopeAtCoord_4E5BF0, already called |
 | 0x4E4F40 | `Map_0x370::sub_4E4F40` | 0x4699A0 | ✓ `sub_42A630`, ✓ `sub_466CF0`, `IsInvisibleOnFoot_466B70` (10.5 0x466B70) | done | IsGradientSlopeAt_466CF0; 466B70=UpdateZFromSlopeAtCoord_4E5BF0; still matches |
 | 0x4E5170 | `Map_0x370::sub_4E5170` | 0x469B00 | ✓ `sub_42A630`, `IsInvisibleOnFoot_466B70` (10.5 0x466B70) | checked | IsInvisibleOnFoot_466B70 is UpdateZFromSlopeAtCoord_4E5BF0, already called |
-| 0x4E52A0 | `Map_0x370::sub_4E52A0` | 0x466AF0 | ✓ `gtx_0x106C::sub_462FB0` | done | new gtx IsWaterTile_462FB0; still matches |
+| 0x4E52A0 | `Map_0x370::GetSurfaceTypeBelowCoord_4E52A0` | 0x466AF0 | ✓ `gtx_0x106C::sub_462FB0` | done | new gtx IsWaterTile_462FB0; still matches |
 | 0x4E5300 | `Map_0x370::CheckZCollisionAtCoord_4E5300` | 0x469C20 | `IsInvisibleOnFoot_466B70` (10.5 0x466B70) | checked | IsInvisibleOnFoot_466B70 is UpdateZFromSlopeAtCoord_4E5BF0, already called |
 | 0x4E5B60 | `Map_0x370::FindGroundZForCoord_4E5B60` | 0x46A420 | `IsInvisibleOnFoot_466B70` (10.5 0x466B70) | checked | IsInvisibleOnFoot_466B70 is UpdateZFromSlopeAtCoord_4E5BF0, already called |
 | 0x4E62D0 | `Map_0x370::FindRailwayAtCoord_4E62D0` | 0x463570 | ✓ `gmp_compressed_map_32::sub_42A830` | done | gmp_compressed_map_32::get_base_42A830; still matches |
 | 0x4E6360 | `Map_0x370::FindRailwayBelowZAtCoord_4E6360` | 0x4635F0 | ✓ `gmp_compressed_map_32::sub_42A830` | done | gmp_compressed_map_32::get_base_42A830; still matches |
 | 0x4E6400 | `Map_0x370::sub_4E6400` | 0x466E20 | ✓ `sub_42A630`, ✓ `sub_466CF0`, `IsInvisibleOnFoot_466B70` (10.5 0x466B70) | done | IsGradientSlopeAt_466CF0; still matches |
 | 0x4E6510 | `Map_0x370::GetRailwayZCoordAtXY_4E6510` | 0x466F70 | `IsInvisibleOnFoot_466B70` (10.5 0x466B70) | checked | IsInvisibleOnFoot_466B70 is UpdateZFromSlopeAtCoord_4E5BF0, already called |
-| 0x4E65A0 | `Map_0x370::sub_4E65A0` | 0x467020 | `sub_463530` | checked | sub_463530 is FloorPlusOne_4E62B0, called |
+| 0x4E65A0 | `Map_0x370::SnapZToRailway_4E65A0` | 0x467020 | `sub_463530` | checked | sub_463530 is FloorPlusOne_4E62B0, called |
 | 0x4E7FC0 | `Map_0x370::CheckColumnHasSolidAbove_4E7FC0` | 0x463850 | ✓ `gmp_compressed_map_32::sub_42A830` | done | gmp_compressed_map_32::get_base_42A830; still matches |
 | 0x4E80A0 | `gmp_compressed_map_32::sub_4E80A0` | 0x463940 | ✓ `gmp_compressed_map_32::sub_42A830` | done | get_base_42A830; still matches |
 | 0x4E80E0 | `DmapInfoList::sub_4E80E0` | 0x463990 | ✓ `sub_463080` | done | all 9.6f inlines used |

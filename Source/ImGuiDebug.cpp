@@ -2959,7 +2959,7 @@ void CC ImGuiDebugDraw()
             Fix16 player_ypos;
             Fix16 player_zpos;
             GetPlayerPos(player_xpos, player_ypos, player_zpos);
-            gmp_block_info* pPlayerBlock = gMap_0x370_6F6268->get_block_4DFE10(player_xpos.ToInt(), player_ypos.ToInt(), player_zpos.ToInt() - 1);
+            gmp_block_info* pPlayerBlock = gMap_0x370_6F6268->GetBlock_4DFE10(player_xpos.ToInt(), player_ypos.ToInt(), player_zpos.ToInt() - 1);
             if (pPlayerBlock)
             {
                 s32 value_1 = gMap_0x370_6F6268->GetArrowDirectionFromBlock_4E5FC0(pPlayerBlock, 0);

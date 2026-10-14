@@ -973,7 +973,7 @@ bool PathFinder_2FD4::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* 
 
         if (block_type == 5)
         {
-            if (!gMap_0x370_6F6268->sub_4E5640(kFpOne64th_6FDD50,
+            if (!gMap_0x370_6F6268->IsProbePathClear_4E5640(kFpOne64th_6FDD50,
                                                kFpQuarter_6FDC00,
                                                kFpOne64th_6FDD50,
                                                Fix16(*xpos) + kFpHalf_6FDCA8,
@@ -993,7 +993,7 @@ bool PathFinder_2FD4::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* 
         {
             if (block_type == 1)
             {
-                if ((gMap_0x370_6F6268->get_block_4DFE10(field_25_xpos, field_26_ypos, field_27_zpos - 1)->field_A_arrows & block_arrow::green_mask) != 0)
+                if ((gMap_0x370_6F6268->GetBlock_4DFE10(field_25_xpos, field_26_ypos, field_27_zpos - 1)->field_A_arrows & block_arrow::green_mask) != 0)
                 {
                     field_18_bSearching = 0;
                     *xpos = field_25_xpos;

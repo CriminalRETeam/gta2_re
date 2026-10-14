@@ -762,7 +762,7 @@ bool Object_2C::HandleSpriteGroundAndCollision_5235B0(Sprite* pSprite, Fix16_Poi
     field_10_obj_3c->field_2A_bAirborne = 0;
     if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(pSprite->field_14_xy.x.ToInt(), pSprite->field_14_xy.y.ToInt(), pSprite->field_1C_zpos.ToInt()))
     {
-        temp_z = gMap_0x370_6F6268->sub_4E5050(pSprite->field_14_xy.x, pSprite->field_14_xy.y, pSprite->field_1C_zpos, bOnGround);
+        temp_z = gMap_0x370_6F6268->GetGroundZBelowCoordEx_4E5050(pSprite->field_14_xy.x, pSprite->field_14_xy.y, pSprite->field_1C_zpos, bOnGround);
 
         if (!bOnGround)
         {
@@ -892,7 +892,7 @@ bool Object_2C::HandleSpriteZCollision_5238B0(Sprite* pSprite, Fix16_Point* pPoi
                                                            pSprite->field_14_xy.y.ToInt(),
                                                            pSprite->field_1C_zpos.ToInt()) != AIR)
         {
-            ground_z = gMap_0x370_6F6268->sub_4E5050(pSprite->field_14_xy.x, pSprite->field_14_xy.y, pSprite->field_1C_zpos, bOverGap);
+            ground_z = gMap_0x370_6F6268->GetGroundZBelowCoordEx_4E5050(pSprite->field_14_xy.x, pSprite->field_14_xy.y, pSprite->field_1C_zpos, bOverGap);
             if (!bOverGap)
             {
                 if (ground_z > pSprite->field_1C_zpos)
@@ -3071,7 +3071,7 @@ s32 Object_2C::GetMapBlockSoundSpec_529240()
 {
     s32 result;
     gmp_block_info* pBlockInfo =
-        gMap_0x370_6F6268->get_block_4DFE10(field_4->field_14_xy.x.ToInt(), field_4->field_14_xy.y.ToInt(), field_4->field_1C_zpos.ToInt());
+        gMap_0x370_6F6268->GetBlock_4DFE10(field_4->field_14_xy.x.ToInt(), field_4->field_14_xy.y.ToInt(), field_4->field_1C_zpos.ToInt());
     switch (get_field_26_420FF0())
     {
         case 45u:

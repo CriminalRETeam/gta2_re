@@ -83,7 +83,7 @@ bool Fix16_Rect::RectOverlapsZone_59DF20(u8 zone_type)
         zone_x = field_0_left.ToUInt8();
         while (zone_x <= field_4_right.ToUInt8())
         {
-            if (gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(zone_x, zone_y, zone_type))
+            if (gMap_0x370_6F6268->GetZoneAtPosOfType_4DF4D0(zone_x, zone_y, zone_type))
             {
                 return true;
             }
@@ -112,23 +112,23 @@ bool Fix16_Rect::EveryTileMatchesArrowType_59DFB0(s32 arrow_type)
                 return false;
             }
 
-            gmp_block_info* block_4DFE10 = gMap_0x370_6F6268->get_block_4DFE10(x_pos, y_pos, field_10_low_z.ToInt());
-            if (block_4DFE10)
+            gmp_block_info* pBlockAtPos = gMap_0x370_6F6268->GetBlock_4DFE10(x_pos, y_pos, field_10_low_z.ToInt());
+            if (pBlockAtPos)
             {
                 
                 switch (arrow_type)
                 {
                     case 1:
-                        bMatches = (block_4DFE10->field_A_arrows & block_arrow::green_mask) == block_arrow::green_up_4;  //  green arrow up
+                        bMatches = (pBlockAtPos->field_A_arrows & block_arrow::green_mask) == block_arrow::green_up_4;  //  green arrow up
                         break;
                     case 2:
-                        bMatches = (block_4DFE10->field_A_arrows & block_arrow::green_mask) == block_arrow::green_down_8;  //  green arrow down
+                        bMatches = (pBlockAtPos->field_A_arrows & block_arrow::green_mask) == block_arrow::green_down_8;  //  green arrow down
                         break;
                     case 3:
-                        bMatches = (block_4DFE10->field_A_arrows & block_arrow::green_mask) == block_arrow::green_right_2;  //  green arrow right
+                        bMatches = (pBlockAtPos->field_A_arrows & block_arrow::green_mask) == block_arrow::green_right_2;  //  green arrow right
                         break;
                     case 4:
-                        bMatches = (block_4DFE10->field_A_arrows & block_arrow::green_mask) == block_arrow::green_left_1;  //  green arrow left
+                        bMatches = (pBlockAtPos->field_A_arrows & block_arrow::green_mask) == block_arrow::green_left_1;  //  green arrow left
                         break;
                     default:
                         break;

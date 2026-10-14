@@ -263,9 +263,9 @@ Only the `WIP_FUNC` functions are worth working on: they are real, called game c
 | 0x4DE640 | 1 | `nullsub_201` |
 | 0x4E5630 | 1 | `nullsub_202` |
 | 0x4E5B20 | 1 | `nullsub_203` |
-| 0x4E5D10 | 69 | `sub_4E5D10` |
-| 0x4E5D70 | 126 | `sub_4E5D70` |
-| 0x4E5E00 | 126 | `sub_4E5E00` |
+| 0x4E5D10 | 69 | `MovePosAlongDirection_4E5D10` |
+| 0x4E5D70 | 126 | `GetLateralOffsetInBlock_4E5D70` |
+| 0x4E5E00 | 126 | `GetForwardOffsetInBlock_4E5E00` |
 | 0x4E6280 | 36 | `Fix16_Rect::MakeRect_4E6280` |
 | 0x4E9B80 | 1 | `nullsub_204` |
 | 0x4E9BD0 | 1 | `nullsub_205` |
@@ -749,9 +749,9 @@ Already in `Source/` with a marker, but also dead (kept, listed for reference):
 | 0x4A6BB0 | 44 | `File::IsCdRomDrive_4A6BB0` | 0x4B80F0, 0x4BBCB0, 0x4BBFA0 |
 | 0x4B5270 | 243 | `Frontend::DrawSavedStage_4B5270` | (nothing) |
 | 0x4C9240 | 94 | `PedGroup::KillEntireGroup_4C9240` | (nothing) |
-| 0x4DF3E0 | 239 | `Map_0x370::sub_4DF3E0` | (nothing) |
-| 0x4E0120 | 14 | `Map_0x370::sub_4E0120` | (nothing) |
-| 0x4E4820 | 242 | `Map_0x370::sub_4E4820` | (nothing) |
+| 0x4DF3E0 | 239 | `Map_0x370::GetZoneOfTypeNearestCentre_4DF3E0` | (nothing) |
+| 0x4E0120 | 14 | `Map_0x370::TakeLowerBlockHasArrows_4E0120` | (nothing) |
+| 0x4E4820 | 242 | `Map_0x370::AllBlocksInRectHaveSlopeBits_4E4820` | (nothing) |
 | 0x4E7E90 | 120 | `Map_0x370::FindFirstPavementCoord_4E7E90` | (nothing) |
 | 0x4FF990 | 70 | `Mike_A80::sub_4FF990` | (nothing) |
 | 0x4FF9F0 | 71 | `Mike_A80::sub_4FF9F0` | (nothing) |

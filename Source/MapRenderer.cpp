@@ -1766,7 +1766,7 @@ void MapRenderer::DrawDiagonalWall_4F02D0()
 {
     u8 field_B_slope_type = gpBlock_6F6478->field_B_slope_type;
     gCurrentSlope_6F646C.field_0_gradient_direction = 0;
-    switch (field_B_slope_type & 0xFC)
+    switch (GET_SLOPE_BITS(field_B_slope_type))
     {
         case DIAGONAL_WALL_UP_LEFT:
             MapRenderer::DrawDiagonalWallUpLeft_4EE7D0();
@@ -1790,7 +1790,7 @@ void MapRenderer::DrawTriangularDiagonal_4F0340()
 {
     u8 field_B_slope_type = gpBlock_6F6478->field_B_slope_type;
     gGradientSize_6F6480 = 1;
-    s32 slope_type = field_B_slope_type & 0xFC;
+    s32 slope_type = GET_SLOPE_BITS(field_B_slope_type);
     gGradientLevel_6F647C = 0;
     if (gLidType_6F6274 == 1023)
     {
@@ -3288,7 +3288,7 @@ void MapRenderer::DrawPartialBlocks_4F6580()
 {
     u8 slope_byte = gpBlock_6F6478->field_B_slope_type;
     gCurrentSlope_6F646C.field_0_gradient_direction = NO_GRADIENT_SLOPE_0;
-    switch (slope_byte & 0xFC)
+    switch (GET_SLOPE_BITS(slope_byte))
     {
         case PARTIAL_BLOCK_LEFT: // 53
             DrawPartialBlockLeft_4F5160();
@@ -3437,7 +3437,7 @@ void MapRenderer::RenderBlockAt_4F6880(s32& pXCoord, s32& pYCoord)
 
         if (bShow_hidden_faces_67D5CD)
         {
-            if (!lid_idx && (pBlock->field_B_slope_type & 3) != 0)
+            if (!lid_idx && !IS_AIR_TYPE(pBlock->field_B_slope_type))
             {
                 gLidType_6F6274 = 0x260;
             }
@@ -3461,7 +3461,7 @@ void MapRenderer::RenderBlockAt_4F6880(s32& pXCoord, s32& pYCoord)
         gXCoord_6F63AC = Fix16(pXCoord) - gViewCamera_676978->field_98_cur_pos.field_0_x;
         gYCoord_6F63B8 = Fix16(pYCoord) - gViewCamera_676978->field_98_cur_pos.field_4_y;
 
-        u8 slope = pBlock->field_B_slope_type & 0xFC;
+        u8 slope = GET_SLOPE_BITS(pBlock->field_B_slope_type);
 
         if (slope < DIAGONAL_WALL_UP_LEFT || slope > DIAGONAL_WALL_DOWN_RIGHT)
         {

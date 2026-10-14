@@ -437,11 +437,11 @@ MATCH_FUNC(0x588e60)
 u16 RouteFinder::FindHorzSegmentJunction_588E60(u8 x, u8 y, u8 z, char_type bIsDest, s32 arrow_type)
 {
     JunctionSegment_0x8* pSegment = field_A830_horz_segments;
-    gmp_block_info* block_4DFE10 = gMap_0x370_6F6268->get_block_4DFE10(x, y, z);
+    gmp_block_info* pBlockAtPos = gMap_0x370_6F6268->GetBlock_4DFE10(x, y, z);
 
-    if (block_4DFE10 != NULL)
+    if (pBlockAtPos != NULL)
     {
-        s8 bHasArrow = RouteFinder::HasBlockDesiredArrow_588CA0(block_4DFE10, arrow_type, LEFT_3);
+        s8 bHasArrow = RouteFinder::HasBlockDesiredArrow_588CA0(pBlockAtPos, arrow_type, LEFT_3);
         for (s16 junc_idx = 0; junc_idx < field_CC62_horz_segment_count; pSegment++, junc_idx++)
         {
             if (pSegment->ContainsPoint_40CF20(x, y))
@@ -478,11 +478,11 @@ MATCH_FUNC(0x588f30)
 u16 RouteFinder::FindVertSegmentJunction_588F30(u8 x, u8 y, u8 z, char_type bIsDest, s32 arrow_type)
 {
     JunctionSegment_0x8* pSegment = field_B938_vert_segments;
-    gmp_block_info* block_4DFE10 = gMap_0x370_6F6268->get_block_4DFE10(x, y, z);
+    gmp_block_info* pBlockAtPos = gMap_0x370_6F6268->GetBlock_4DFE10(x, y, z);
 
-    if (block_4DFE10 != NULL)
+    if (pBlockAtPos != NULL)
     {
-        s8 bHasArrow = RouteFinder::HasBlockDesiredArrow_588CA0(block_4DFE10, arrow_type, UP_1);
+        s8 bHasArrow = RouteFinder::HasBlockDesiredArrow_588CA0(pBlockAtPos, arrow_type, UP_1);
         for (s16 junc_idx = 0; junc_idx < field_CC64_vert_segment_count; pSegment++, junc_idx++)
         {
             if (pSegment->ContainsPoint_40CF20(x, y))
@@ -518,7 +518,7 @@ u16 RouteFinder::FindVertSegmentJunction_588F30(u8 x, u8 y, u8 z, char_type bIsD
 MATCH_FUNC(0x589000)
 u16 RouteFinder::FindSegmentJunction_589000(u8 x_coord, u8 y_coord, u8 z_coord, char_type bIsDest, s32 arrow_type)
 {
-    gmp_block_info* pBlock = gMap_0x370_6F6268->get_block_4DFE10(x_coord, y_coord, z_coord);
+    gmp_block_info* pBlock = gMap_0x370_6F6268->GetBlock_4DFE10(x_coord, y_coord, z_coord);
 
     if (pBlock)
     {

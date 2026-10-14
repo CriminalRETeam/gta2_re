@@ -6541,10 +6541,10 @@ void sound_obj::AppendRadioMessageSuffix_4273B0()
 MATCH_FUNC(0x427400)
 u32 sound_obj::GetCopRadioZoneIndex_427400(u8 x, u8 y, gmp_map_zone** ppZone)
 {
-    *ppZone = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(x, y, 15u);
+    *ppZone = gMap_0x370_6F6268->GetZoneAtPosOfType_4DF4D0(x, y, 15u);
     if (!(*ppZone) || (*ppZone)->field_5_name_length != 3)
     {
-        *ppZone = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(x, y, 1u);
+        *ppZone = gMap_0x370_6F6268->GetZoneAtPosOfType_4DF4D0(x, y, 1u);
     }
 
     if (!*ppZone || (*ppZone)->field_5_name_length != 3 || (*ppZone)->field_6_name[0] != 'm')

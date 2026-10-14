@@ -1085,7 +1085,7 @@ void __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a4, Ped*
 
                 if (bOutside)
                 {
-                    if (gMap_0x370_6F6268->sub_4E5640(dword_706CF0,
+                    if (gMap_0x370_6F6268->IsProbePathClear_4E5640(dword_706CF0,
                                                       dword_706CF0,
                                                       dword_706CF0,
                                                       xpos,
@@ -1205,7 +1205,7 @@ void Weapon_30::sub_5DFB60(u8 bFlag, Sprite* pSprite, Ang16 target_angle)
                         diff = angle - target_angle;
                         if (diff < word_706D6C || diff > word_706E28)
                         {
-                            if (gMap_0x370_6F6268->sub_4E5640(dword_706CF0,
+                            if (gMap_0x370_6F6268->IsProbePathClear_4E5640(dword_706CF0,
                                                               dword_706CF0,
                                                               dword_706CF0,
                                                               pSprite->field_14_xy.x,
@@ -1250,7 +1250,7 @@ void Weapon_30::sub_5DFB60(u8 bFlag, Sprite* pSprite, Ang16 target_angle)
                         diff = angle - target_angle;
                         if (diff < word_706D6C || diff > word_706E28)
                         {
-                            if (gMap_0x370_6F6268->sub_4E5640(dword_706CF0,
+                            if (gMap_0x370_6F6268->IsProbePathClear_4E5640(dword_706CF0,
                                                               dword_706CF0,
                                                               dword_706CF0,
                                                               pSprite->field_14_xy.x,

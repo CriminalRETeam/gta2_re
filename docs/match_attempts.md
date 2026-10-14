@@ -347,7 +347,7 @@ before it in ours.
 Tried: `yd` computed first (0.924); a `Sprite*` local for the entry (no change); `xd`/`yd`
 declared before the loop (0.855); `yd` or both passed as temporaries (0.975 / 0.861).
 
-## Map_0x370::sub_4E4820 (WIP)
+## Map_0x370::AllBlocksInRectHaveSlopeBits_4E4820 (WIP)
 
 Returns false if any block in a `Fix16_Rect` (rounded with `Round_To_Int_410BF0`, z from
 `field_10_low_z.ToInt()`) has a slope type (`field_B & 3`) other than `slope_type`. Also
@@ -442,7 +442,7 @@ locals; the damage compare written inline or with `!=`; `!(a | b)` (0.661); the 
 check before the call (0.641); a file-local inline helper returning `a || b`. None
 of them produce the `sete`.
 
-## Map_0x370::sub_4DF3E0 (WIP, was STUB)
+## Map_0x370::GetZoneOfTypeNearestCentre_4DF3E0 (WIP, was STUB)
 
 Returns the zone of `zone_type` whose centre is nearest (max-abs distance) to the block
 `(xpos, ypos)`, starting from `kFp255_6F5B8C` (255.0). Ratio 0.644.
@@ -742,7 +742,7 @@ problem as `Trailer::GetHitchPosition_407BD0` and `Weapon_30::fire_truck_gun_5E0
 Oct 5: 20 lines. The rng/word multiply operands sit in `eax`/`ecx` swapped: the original moves the rng
 result into `ecx` before loading `word_6FD5CC` into `eax`.
 
-## Map_0x370::sub_4E8370 (WIP, was STUB)
+## Map_0x370::CloneColumnWithoutBlock_4E8370 (WIP, was STUB)
 
 Removes block `z` from a map column for `RemoveBlock_4E8940`: either into a new copy of
 the column (original map columns) or in place (columns added at run time), dropping the
@@ -1031,7 +1031,7 @@ Matched (116 -> 0) with two changes:
 
 - 0.146. This is the shocker's chain lightning:
   - It collects the sprites in a box around `a3` (`gSpriteGrid_1_679208->CollectRectCollisions_477F30`). The box is `kFP16Two_706EC0` wide for the first link and `dword_706EBC` after that.
-  - For each ped or car within the angle window (`word_706D6C` / `word_706E28` around `a4`), that has map line of sight (`sub_4E5640`) and isn't already hit (`gWeapon_8_707018` list), it does three things. It draws the arc (`sub_5DE910`), recurses once (`a2 < 1`), and shocks the ped or damages the car. The car damage is `AccumulateDamage_43DA90(300)`, with scoring for the player.
+  - For each ped or car within the angle window (`word_706D6C` / `word_706E28` around `a4`), that has map line of sight (`IsProbePathClear_4E5640`) and isn't already hit (`gWeapon_8_707018` list), it does three things. It draws the arc (`sub_5DE910`), recurses once (`a2 < 1`), and shocks the ped or damages the car. The car damage is `AccumulateDamage_43DA90(300)`, with scoring for the player.
   - At the end it takes one ammo with a 1/2 chance.
 - The ped branch normalises the angle difference out of line (`Normalize_406C20`). The car branch normalises it inline (the `Ang16 operator-` normalising ctor). Written to match.
 - Both branches compute `Max(Abs(back_x), Abs(back_y))` and never use it. In the ped branch the y subtraction is the out-of-line `Fix16::Subtract_436A00`.
@@ -1215,27 +1215,27 @@ Matched (116 -> 0) with two changes:
 - Oct 5: 217 -> 138 lines. Left: which block keeps the merged `SetObjective` tail, and the 0x8000000 mask
   in a register vs an immediate.
 
-### Map_0x370::sub_4E5D10, sub_4E5D70, sub_4E5E00: match
+### Map_0x370::MovePosAlongDirection_4E5D10, GetLateralOffsetInBlock_4E5D70, GetForwardOffsetInBlock_4E5E00: match
 - Small road helpers of the two road followers below: move x or y along a road direction, and
   the distance to the block edge across or along an angle's face. Their bytes came from the
   dump's extra address list. They take `this` but don't use it, so they're members. Their csv
   rows got the `Map_0x370::` prefix.
 
-### Map_0x370::sub_4E6660 (0x4E6660): WIP, one instruction pair off
+### Map_0x370::AdvanceAlongRailway_4E6660 (0x4E6660): WIP, one instruction pair off
 - Moves a point `dist` along the road, following the arrows, and returns the final direction.
 - 0.56 -> 0.99 (registers counted): the "block under or at z" lookup as an inline that writes
   through a `gmp_block_info*&`. Then the frame: the reversed angle as a temporary through
   `Ang16::Normalized_406C20()`, the final z in a block scope, and `bTurned` declared before
   `x`. The early exits jump straight to the shared exit, so they're `goto done` (the
   original's tail code is shared, not duplicated).
-- Left: in the `side == 0.5` branch, `sub_4E65A0(x, y, &z, 1, 1)` pushes `%ebx`, which still
+- Left: in the `side == 0.5` branch, `SnapZToRailway_4E65A0(x, y, &z, 1, 1)` pushes `%ebx`, which still
   holds the 1 loaded at the top, where the original pushes `$1` twice. Literal type (`true`,
   `TRUE`, casts), an inline wrapper, a variable for the first 1 and declaration order made no
   difference. Moving `pPrev = pBlock` before the call fixes the pushes but moves the `mov`.
   The permuter's best results only shuffled jump offsets.
 - Oct 5 (4 lines): a variable 1 or an inline param 1 both fold back into `ebx`.
 - Oct 9 (agent map, still 4): `opdump.py` shows the 1 is a single optimizer CSE value, defined at the
-  first `sub_4E65A0` call and used by every `1` in the function (pushes, `direction = 1`, `bTurned = 1`);
+  first `SnapZToRailway_4E65A0` call and used by every `1` in the function (pushes, `direction = 1`, `bTurned = 1`);
   `!bTurned`, `bTurned + 1` and `to_edge > kFpZero` for the argument fold into it too (48). Its final
   piece is coloured last (`ralog`: prio -8 now, -15 with `pPrev = pBlock` after the call, which then also
   covers the two pushes). With the copy after the call the call and the copy are in one IL block, so the
@@ -1243,15 +1243,15 @@ Matched (116 -> 0) with two changes:
   live through the whole function only spills `pPrev` (pushes stay `%ebx`), and a lone `2` in the
   call is not cached while `2, 2` gets `ebx`: the original must have some *coloured* value in `ebx`
   across those pushes, which nothing in the asm shows. Not found.
-- Oct 10 (agent map7, still 4): `pPrev = pBlock` before the `sub_4E5E00` call or before the `to_edge > 0`
+- Oct 10 (agent map7, still 4): `pPrev = pBlock` before the `GetForwardOffsetInBlock_4E5E00` call or before the `to_edge > 0`
   test spills `pPrev` (64). `pPrev`'s pieces prefer `edi` (ralog score -3/-5) but `edi` is disallowed by
   pBlock's whole-function web, so they take `ebx` either way.
 
-### Map_0x370::sub_4E7190 (0x4E7190): WIP
+### Map_0x370::AdvanceAlongRailwayChecked_4E7190 (0x4E7190): WIP
 - The reverse road follower. When it runs off the road it looks for a turn in the neighbouring
   blocks, via `gMap_0x370_6F6268` rather than `this`, and returns the opposite direction.
-- Current state: "Map_0x370::sub_4E7190 (Oct 13)" below. The notes from here to there are older.
-- Same helpers as sub_4E6660, plus the null-checking lookup. The function runs out of inline
+- Current state: "Map_0x370::AdvanceAlongRailwayChecked_4E7190 (Oct 13)" below. The notes from here to there are older.
+- Same helpers as AdvanceAlongRailway_4E6660, plus the null-checking lookup. The function runs out of inline
   expansions (see matching_quirks.md), so the neighbour z offsets use raw `mValue` arithmetic
   and the arrow check and `dist` update are written out. Left: `dist` and `pPrev` swap `%ebx`
   and `%ebp`, the constant cached in `%ebp` before the first switch, and the neighbour arrow
@@ -1352,7 +1352,7 @@ Each was a few asm lines away from the original. What is left and what was tried
 
 ### Near-miss pass, batch D (2026-10-02)
 
-- `Map_0x370::sub_4E6190` (0x4E6190): no change. only diff: original cross-jumps case 3/4 inner switch tails into case 2/1 (jmp into other case's dec/jne); ours duplicates. Inner case order, default:return 0, casts, if-returns: no effect
+- `Map_0x370::ClassifyArrowOnSlope_4E6190` (0x4E6190): no change. only diff: original cross-jumps case 3/4 inner switch tails into case 2/1 (jmp into other case's dec/jne); ours duplicates. Inner case order, default:return 0, casts, if-returns: no effect
 - `Gang_144::ApplyKillRespectChange_4BEF70` (0x4BEF70): closer 23->21. compare swapped. Left: original moves pGang to ecx and computes respect*reaction before the lea of field_11C[p], then reloads via full address; inline member helper, locals, casts, pointer: no change
 - `Car_BC::IsSpriteShrunk_43DC00` (0x43DC00): closer 28->22. return a != b (Fix16 op in first branch, .mValue in second: matches setne/xor shapes). Left: load order/regs (esi popped early in orig)
 - `Player::AddCarToHistory_5645B0` (0x5645B0): closer 29->23. for(;i<3;p++,i++){ if(!*p){*p=new;return;} } then shift. Left: esi/edi swap of the two history pointers, shift stores through a copied pointer (mov %esi,%eax) in orig; decl orders, pointer alias, struct copy, memcpy: no change
@@ -1404,7 +1404,7 @@ Each was a few asm lines away from the original. What is left and what was tried
 - `AdjustPlaybackRate_41A580`: closer 43->39. fixed-point maths follows the asm now. Left: this/difference register swap throughout
 - `ResolveCollisionWithWorld_522B20`: closer 48->41. bug fix: the collision point is *f18 (was an uninitialised local); Divide_442CB0. Left: EH state numbering
 - `EnumAddress_cb_51E030`: no change. late ebp push
-- `sub_4DF3E0`: no change. by-value abs/max helpers didn't help
+- `GetZoneOfTypeNearestCentre_4DF3E0`: no change. by-value abs/max helpers didn't help
 - `sub_575650`: no change. switch value clobber (add $-3) vs our lea
 - `EnumerateMaps_51BFA0`: no change. one `if (map_count > 0)` around the rest: 15 -> 51, reverted
 
@@ -1450,7 +1450,7 @@ Each was a few asm lines away from the original. What is left and what was tried
 - Matched: `CarPhysics_B0::ComputeCombinedCenterOfMass_559EC0` (`Fix16 m; m = f();`, one return expression)
 - `ComputeScanlineIntersectionX_4F77D0`: 0.533->0.822, same restructure as 4F76A0. `SmoothApproach_4F7540`: 0.233->0.434 (9.6f statement order; left: clamp/delta tails merge differently).
 - `Camera_0xBC::ComputeTargetFacingAngle_4358D0`: no change. Original keeps the rotation in dx and adds kAng180 as a 16-bit add + jns; ours spills the Ang16 and uses lea. Operand order, s16 sum in operator+, rValue ctor, block local, shared helper all tried
-- Fable worker, second list: matched `Sprite::IsTouchingSlopeBlock_5A1EB0` (9.6f inline `Map_0x370::IsGradientSlopeAt_466CF0` for the eight open-coded slope checks) and `BonusTracker_1C0::IsDeathCauseInGroup_432170` (if/else-if chain). No change: `TrainCab_414710` (VC6 threads the failure `je`s to the else epilogue; early return, inverted if, goto all identical), `DrawPlayerStatsHelper_5D61A0` (original calls two Fix16(int) copies, 4369F0 and 4926F0; we link one), `Map_0x370::sub_4E6190` (case 3/4 tails merging into 2/1 unexplained)
+- Fable worker, second list: matched `Sprite::IsTouchingSlopeBlock_5A1EB0` (9.6f inline `Map_0x370::IsGradientSlopeAt_466CF0` for the eight open-coded slope checks) and `BonusTracker_1C0::IsDeathCauseInGroup_432170` (if/else-if chain). No change: `TrainCab_414710` (VC6 threads the failure `je`s to the else epilogue; early return, inverted if, goto all identical), `DrawPlayerStatsHelper_5D61A0` (original calls two Fix16(int) copies, 4369F0 and 4926F0; we link one), `Map_0x370::ClassifyArrowOnSlope_4E6190` (case 3/4 tails merging into 2/1 unexplained)
 - `UpdateSteeringAngle_562560`: 0.496->0.857 with `GetLength_out_of_line_x_squared`. Left: GetTrailerAwareTurnRatio_55A100 called before the division
 - `CanStepForwardWithRegionCheck_54ECB0`: 0.752->0.931 (case order 1,3,2,4 from the jump table, one shared check after the switch; fixed an inverted bit-0 test and `&= ~1u`). Left: shared return blocks in the other order
 - `Bink::OpenSlot2_5133E0`: 0.443->0.838 (BinkOpen failure as the else). Left: `mov $2,%ebx` not hoisted above the `je`
@@ -1497,7 +1497,7 @@ Each was a few asm lines away from the original. What is left and what was tried
 
 - Matched: `Sprite::ShowHorn_59EE40` (Fix16 from `(s32)(x/(f32)(u32)width*640)` like the other Show* functions, not `Fix16(f32)`), `sound_obj::HandleCarEngineSound_4157C0` (gotos removed; separate per-path `Round(...)+25` statements, which VC6 tail-merges into the shared div/mul code like the original)
 - Closer: `Explosion_30::EmitExplosion_18_33_541D60` 306->35 and `EmitExplosion_19_32_542060` 279->20 (else branch first, PolarToCartesian written out with the second multiply as out-of-line `Multiply_408680` because of the inline budget; left: register rotation), `HandleCarTireScrubSound_418720` 261->4 (u8 volume, structured ifs, `field_AC > 0`), `StabilizeVelocityAtSpeed_562910` 0.41->0.96 (9.6f inline `MultiplyByFix16_49E3A0` as `*=` by reference, `RotateVelocity_562C20` on Fix16_Point_POD)
-- Matched: `Char_B4::state_7_551CB0` (both block lookups call `GetBlockTypeAtCoord_420420`/`get_block_4DFE10` in each branch; the seven `z == N` tests compare raw `mValue` to stay inside the inline budget; cases 8 and 9 as separate identical bodies), `PedManager::PedManager` 0x470650 (sprite setup and statics restored, implicit conversions for `set_xyz(0,0,0)`, `__forceinline` on the pool ctors because of the budget), `Hud_PauseScreen_2::DrawPause_5D63B0` (pass a u32 where the original calls the `Fix16(u32)` copy 0x4926F0)
+- Matched: `Char_B4::state_7_551CB0` (both block lookups call `GetBlockTypeAtCoord_420420`/`GetBlock_4DFE10` in each branch; the seven `z == N` tests compare raw `mValue` to stay inside the inline budget; cases 8 and 9 as separate identical bodies), `PedManager::PedManager` 0x470650 (sprite setup and statics restored, implicit conversions for `set_xyz(0,0,0)`, `__forceinline` on the pool ctors because of the budget), `Hud_PauseScreen_2::DrawPause_5D63B0` (pass a u32 where the original calls the `Fix16(u32)` copy 0x4926F0)
 - Closer: `SelectObjectImpactSound_413120` 0.35->0.99 (two switches inside `if (model <= 110)`), `fire_truck_gun_5E0E70` 241->15 (out-of-line rotation helpers, `Add_40AC50`, Fix16_Point locals before the field_24 store), `SpawnSkidSegment_55D200` 0.23->0.84, `Draw_59EFF0` 0.75->0.92, `PoliceCrew_38::State6_ShutDown_574720` 410->119, `army_gun_jeep_5E13E0` 0.43->0.55, `FindBestTargetPed_466BF0` 0.31->0.43, `HandleCarDoorSounds_4182E0` 0.15->0.33, smaller gains in `4410D0`, `561E50`, `561380`, `5D8A10`, `4672E0` (path switch fix)
 - No change: `46EB60` (rewritten without gotos, regalloc left), `5E5A30` (shared EH epilogue)
 - Matched: `Ped::CarThief_AI_45FF60` (case order 0, 35, 31, 36, 1; Kill written out at each site; inline bus model compare; `*(xd > yd ? &xd : &yd)` instead of `Max_44E540`), `Sprite::FindCollisionIntersectionPoint_5A2710` (logic fixes: restore paths use the saved angle, second-half corners from pOther, bOutSideSelf/bOutSideOther were swapped; one named result; `GetBoundingBoxCorner_562450` moved to CarPhysics_B0.cpp)
@@ -1515,7 +1515,7 @@ Each was a few asm lines away from the original. What is left and what was tried
 - Not committed: `MeleeAttackStateMachine_46B670` has a logic bug (the punch-to-death path falls through into `b5`/`Set_F250(18)` after the mugger block where the original returns). A rewrite fixes it but the diff grows 422->440 because one mugger block gets tail-merged
 - No change: `MakeTrafficForCurrCamera_5832C0` (original multiplies with width loaded first into edx; ours ends up 2 bytes short)
 - Systemic: the missing EH state around binary `operator-` (0x40AC80) temporaries was fixed by giving `operator-` an inline body (see matching_quirks.md); `ProcessPedImpact_560B40` still has one around the `Negate_40ACB0` temporary
-- Closer (Fable): `Map_0x370::sub_4E1A30` 366->40 (the hit-test arguments were wrong: x+1/y+1 face coordinates, and a u32 first argument for the Fix16(u32) copy), `Car_BC::SpawnDamageFireEffect_43B870` 0.20->0.82 (logic fixes: both x/y scaled after the switch, case 2 condition, default uses the raw argument), `ProcessGroundCollisionAndSurfaceType_55B970` 0.26->0.47, `Particle_4C::sub_538060` 0.44->0.55 (position/rotation logic fixed)
+- Closer (Fable): `Map_0x370::SpriteHitsBlockFacesInArea_4E1A30` 366->40 (the hit-test arguments were wrong: x+1/y+1 face coordinates, and a u32 first argument for the Fix16(u32) copy), `Car_BC::SpawnDamageFireEffect_43B870` 0.20->0.82 (logic fixes: both x/y scaled after the switch, case 2 condition, default uses the raw argument), `ProcessGroundCollisionAndSurfaceType_55B970` 0.26->0.47, `Particle_4C::sub_538060` 0.44->0.55 (position/rotation logic fixed)
 
 ### Near-miss pass, batches AJ-AN (2026-10-03, partial)
 
@@ -1550,7 +1550,7 @@ Each was a few asm lines away from the original. What is left and what was tried
 - Batch AJ (g1), all closer: 0x53FE40 `EmitImpactParticles` 596->416 (`RotateByAngle_40F6B0_all_out_of_line`, normalizing copy via 0x409300, also got the `Fix16_Point_POD` ctor inlined again), 0x524630 `IntegrateHorizontalMovementAndCollisions` 603->501 (division branch first, `PolarToCartesian` written out), 0x5D7EC0 `DrawFigure` 603->519. Permuter runs on 5D7EC0 only found statement deletions (rejected).
 - 0x5D2AB0 `Hud_Pager_C::DrawPager`: MATCH (Fable). Early return on `timer < 0 && !counter`, then `timer >= 0 && counter` / `timer >= 0` / else instead of the goto (VC6 folds the second timer test on the fall-through edge only), `v10 / 2` signed instead of `>> 1`, x through the Fix16(u32) ctor.
 - Batch AL (g3), closer: 0x442D70 `TrainUpdate` 481->338 (case order 2/1/3/4, `Abs_negate_out_of_line`, out-of-line const `operator+` for high_z in cases 2/1/3 but inline in case 4, u8 car index), 0x416260 `Type_1_6` 455->165 (if/else without gotos, single `return 0`), 0x5283C0 `TickObject` 464->412 (case order from the block layout, `!obj_type` first), 0x5DE4F0 `Weapon_30::sub_5DE4F0` 467->254 (behaviour fix: the first `sub_5DE910` argument is the owner's sprite position, not the target's). 0x45E4A0 `StartCrossingRoad`: no change (about 0.22), permuter 418->408 not applied.
-- 0x579CA0 `PublicTransport_181C::BusesService`: MATCH. Road type neighbour checks take u8 coords; North/East call `get_block_452980` while South/West inline `get_block_42A850`; u16 loop counter; the lead carriage is read again for the first driver check so the driver pointer is reloaded.
+- 0x579CA0 `PublicTransport_181C::BusesService`: MATCH. Road type neighbour checks take u8 coords; North/East call `GetBlockOrNull_452980` while South/West inline `get_block_42A850`; u16 loop counter; the lead carriage is read again for the first driver check so the driver pointer is reloaded.
 - Batch AO (g5): 0x451980 `ReactToNearbyCar` 0.382->0.557 (`MaxAbsDistanceOOL_42A6B0`; the original tests `flag1` twice, so probably two `if (flag1)` blocks), 0x5D8470 `DrawTexture` 0.207->0.672 (one Fix16_Point up front for the EH frame, `| 0x20000` was missing; permuter supplied a store order), 0x5DF270 0.135->0.199 (`Fix16_Rect::ComputeShockPrism` by value, duplicated angle check). No change: 0x465270 (constant registers; permuter gains were noise or a dropped `else`).
 - Batches AP/AQ/AR (stopped early on the usage limit):
   - 0x5E2940 `Weapon_30::car_smg`: 0.287->0.997 (4 diff lines) with `RotateByAngle_40F6B0_out_of_line` for both points. Only the EH entry state is left (original 4, ours 3): an unused `Fix16_Point` up front gives 4 but changes the inline `+` registers (0.925). Matched later (slow pass) with the permuter: an unused 5th `Fix16_Point` for EH state 4, `Ang16` declared first with `tmpx`/`tmpy` at function scope, and an `Ang16` copy temp before the first flamethrower spawn.
@@ -1675,13 +1675,13 @@ single pass) also gave nothing on 418720. Scores are differing lines from `permu
   before `Divide_442CB0`. A visible inline body called out of line keeps the state. 9.6f
   0x40F640 is Fix16_Point negate and 0x4202E0 Fix16_Point divide by Fix16; inlines_96f maps
   0x40F640 to 0x43D5D0, which is wrong (that is ApplyImpactDamage).
-- `Map_0x370::sub_4E6660` (4): `mov %edi,%ebx` (pPrev) before the `sub_4E65A0(x,y,&z,1,1)` call.
+- `Map_0x370::AdvanceAlongRailway_4E6660` (4): `mov %edi,%ebx` (pPrev) before the `SnapZToRailway_4E65A0(x,y,&z,1,1)` call.
   Written after the call, VC6 pushes ebx (constant 1) for the two 1s (48). The a5/a6 types
   (s32/u8/bool/u32) and a block-local pOld don't change it.
 
 - `Map_0x370::RectHitsDiagonalWall_4E11E0` (22): `return 1` gets its own EH epilogue copy. A
   `goto` to a single `return result` gets one too.
-- `Map_0x370::sub_4E6190` (60): the original cross-jumps case 3/4's inner switch tails into
+- `Map_0x370::ClassifyArrowOnSlope_4E6190` (60): the original cross-jumps case 3/4's inner switch tails into
   case 1/2; ours does the reverse. Inner case order has no effect, and outer orders only move
   the layout (4321: 76, 3412: 68, 2143: 62).
 - `ProjectVert_4EB940` (22): `Camera::field_70/74` as u32 had no effect. In the original it is a
@@ -2015,7 +2015,7 @@ No new matches. Scores below are `permuter_score.py` lines.
 
 ## Round 6: "missing callee" audit (callee multisets via COFF relocations)
 - Only `TrafficLight_20::Init_5C1D00` called different functions. In 10.5 the pavement checks also go
-  through `get_block_452980` (new inline `Map_0x370::IsBlockPavementTypeAt_452980`), and the four lights
+  through `GetBlockOrNull_452980` (new inline `Map_0x370::IsBlockPavementTypeAt_452980`), and the four lights
   call the out-of-line `Light_1D4CC::Alloc_5C2B70` and `sub_5C5CD0` (= out-of-line
   `LightIntensityRadius::SetRadius_463F10`, now `SetRadius_5C5CD0`, WIP, our body is 26 bytes like the
   original). New inline `Light_1D4CC::InitOutOfLine_469010`. Callee multiset now equal, 742 -> 738.
@@ -2056,7 +2056,7 @@ Scores are `permuter_score.py --structure` (normal score in brackets).
 - `HasGreenArrowForPathDirection_4E5E90` 44 -> 40 (56 -> 58): no `default:` label, `return a3` after the switch.
   `if (a3) return X; return Y;` merges the wrong calls (40 too), `if (!a3)` 46. Original cross-jumps case 4's
   false call into case 3's true call and case 1's false call into the tail of that block.
-- `sub_4E6190` (48): logic checked against the asm (all four directions correct). No outer default, inner
+- `ClassifyArrowOnSlope_4E6190` (48): logic checked against the asm (all four directions correct). No outer default, inner
   `switch (a5 - 2)` (82), `return 0` vs break: no change; the original jumps case 3/4 into case 2/1's dispatch.
 - `SpriteHitsDiagonalWall_4E1520` (58): the original calls `Fix16::FromInt_4926F0` (out-of-line Fix16(u32))
   + `Add_408660` for the block centre. `static_cast<const Fix16&>(Fix16((u32)x))` and `SetXY_432860` for the
@@ -2140,7 +2140,7 @@ Scores are `sc.sh` lines. No new matches.
 - `Weapon_30::fire_truck_gun_5E0E70` (10): moving the function (and its globals) to the top of the TU, an
   `EXTERN` `word_706DFA`, `Ang16(...).Normalized_406C20()`, `AddNormalized`, `operator+`, no turret local,
   a `Sprite*` local: all 10 or worse. Permuter 800: nothing.
-- `Map_0x370::sub_4E6660` (4): `sub_4E65A0` parameter types s32/char, char/s32, u8/bool, s32/s32 change
+- `Map_0x370::AdvanceAlongRailway_4E6660` (4): `SnapZToRailway_4E65A0` parameter types s32/char, char/s32, u8/bool, s32/s32 change
   nothing; `pPrev = pBlock` after the call caches 1 in `ebx` (48), before `dist +=` / the `get_block`/the
   `SetRoadBlockAt` (82-94).
 - `Particle_4C::UpdateCircularBurst_state_5_539890` (8): cases 4/5 both `set_id; dir.x = 0; dir.y = ...`
@@ -2164,8 +2164,8 @@ Scores are `sc.sh` lines. No new matches.
 - Same operator rewrite (both add operand orders) on other WIPs, all worse, left as they were:
   `CarAI_78::FollowRoadDirection_44A1F0` 122 -> 494/707, `Char_B4::HandleGenericCollision_54A530` 267 -> 349,
   `Char_B4::state_1_5504F0` 310 -> 396, `CarDoorAlignmentSolver_545AF0` 875 -> 879,
-  `Map_0x370::sub_4E7190` 218 -> 655, `Particle_8::EmitWaterSplash_53F060` 458 -> 459;
-  `Map_0x370::sub_4E6660` 4 -> 4.
+  `Map_0x370::AdvanceAlongRailwayChecked_4E7190` 218 -> 655, `Particle_8::EmitWaterSplash_53F060` 458 -> 459;
+  `Map_0x370::AdvanceAlongRailway_4E6660` 4 -> 4.
 
 ### Near-miss pass (CarPhysics open again)
 Scores are `sc.sh` lines.
@@ -2398,7 +2398,7 @@ Scores are `sc.sh` lines (VC6 vs 10.5); `sc7` is `sc7.sh` (VC7 vs 9.6f).
   branch, `!vector.IsNull_420360()` (reads `FIX16_POINT_ZERO`), and `field_24_pPed->field_21C_bf.b22 = true` written
   in both arms of the reload-speed `if` instead of once after it (permuter, 164 compiles). That one store moved the
   constant 1 into `bl`, which was the 141-point register difference. VC6 doesn't merge the two identical stores.
-- `Map_0x370::sub_4E5640` 257 -> 233: `Fix16 distance; distance = GetLength()`, zero stores in source order.
+- `Map_0x370::IsProbePathClear_4E5640` 257 -> 233: `Fix16 distance; distance = GetLength()`, zero stores in source order.
   Left: stack slots (pos_diff and the subtraction temporaries). VC7 prefers the initialised form (263 vs 363).
 - No change: `Char_B4::UpdateAnimState_546360` (`(u8)` ternary forms; `kAng180 + field_40` load order),
   `HandleCarImpact_5538A0` (zero register in `ebx`), `CarAI_78::DetectCarAhead_44D1D0` (north/east tail keeper),
@@ -2787,11 +2787,11 @@ Scores are `quick_score.sh` lines (10.5) / `permuter_score.py --96f` lines (VC7 
 - `CarAI_78::FollowRoadDirection_44A1F0` (122): the two `SetGoStraight` tail copies are at `if (v3 > (v2 + word_677CE2))` (dropped
   in the original, `jmp`) and `if (v3 < (v2 - word_677CE2))` (kept). Flipping either if/else so SetGoStraight is
   the else arm: 176-196.
-- `Map_0x370::sub_4E8370` (104 / 108): the three `height - offset` loop bounds load the offset first in the
+- `Map_0x370::CloneColumnWithoutBlock_4E8370` (104 / 108): the three `height - offset` loop bounds load the offset first in the
   original (and in 9.6f), ours the height; the matched `CloneColumnExtendedToZ_4E8220` has both orders for the
   same expression, so it is allocation context. Casts (u32/u16/int/char), `(u8*)` indexing, `i + offset < height`:
   104-818. `do_drop` is `mov al; test al` in the original, `cmpb $0` in ours.
-- `Map_0x370::sub_4E6190`: the original computes `a5 - 3` in cases 3/4 and jumps *back* into case 2/1's inner
+- `Map_0x370::ClassifyArrowOnSlope_4E6190`: the original computes `a5 - 3` in cases 3/4 and jumps *back* into case 2/1's inner
   switch (`je` past the `dec`), i.e. the earlier copies are kept; VC6 keeps the later ones for every outer
   order we can write. Not retried.
 - `CarAI_78::ScanAheadForObstacles_452060` (32): slot offsets only. The original's frame (0x1C) has the cosine temporary at 0x0 and
@@ -2991,7 +2991,7 @@ Scores are `quick_score.sh` lines (WIP_IMPLEMENTED emptied).
   IntegrateHorizontalMovementAndCollisions_524630` (584), `DMA_Video_LoadDll_5EB970` (1034).
 ### Far-list pass (Oct 6, Fable worker: map_0x370 / Frontend / TrafficLights / PublicTransport / Ped WIPs)
 Scores are `quick_score.sh` lines (10.5) and `--96f` lines (9.6f, VC7). Baseline 3294, one improvement, no new match.
-- `Map_0x370::sub_4E8370` 104 -> 8 (committed). Two source changes, both confirmed with VC7 against 9.6f
+- `Map_0x370::CloneColumnWithoutBlock_4E8370` 104 -> 8 (committed). Two source changes, both confirmed with VC7 against 9.6f
   0x463C30 (108 -> 12), so they are shape, not a VC6 quirk:
   - `new_idx` assigned in both `do_drop` branches (VC6 hoists the load/store/`lea` above the `je`). Assigned
     once before the `if`, the `do_drop` test is a `cmpb $0,0x20(%esp)` scheduled before the `new_idx` store
@@ -3012,12 +3012,12 @@ Scores are `quick_score.sh` lines (10.5) and `--96f` lines (9.6f, VC7). Baseline
     swapped branches or a `bDrop` copy changes that. The permuter (3 runs, 4000 compiles) only "fixed" the top
     by moving E's zero store or the `field_1_offset` copies before the loops (wrong), and its 44 was the
     `const s32&` conversion temporary.
-- `Map_0x370::sub_4E6660` (4): `pPrev = pBlock` after `sub_4E65A0(x, y, &z, 1, 1)` is 48 with every
+- `Map_0x370::AdvanceAlongRailway_4E6660` (4): `pPrev = pBlock` after `SnapZToRailway_4E65A0(x, y, &z, 1, 1)` is 48 with every
   `(s32|bool|u8|char_type)` pair for the two parameters; VC6 keeps the 1 in ebx for both pushes whenever ebx
   is free across the call. Assigned at the top of the else block (64) or after `dist +=` (82).
-- `Map_0x370::sub_4E6190` (60): cases 3/4 as `switch (a5 - 2)` with cases 1/2, `rel = a5 - 2` or `a5 -= 2`
+- `Map_0x370::ClassifyArrowOnSlope_4E6190` (60): cases 3/4 as `switch (a5 - 2)` with cases 1/2, `rel = a5 - 2` or `a5 -= 2`
   before the inner switch: 116 (the cross-jump into case 1/2 still goes the other way).
-- `Map_0x370::sub_4E5640` (233): all 13 locals declared at the top (233 unchanged), then 400 random
+- `Map_0x370::IsProbePathClear_4E5640` (233): all 13 locals declared at the top (233 unchanged), then 400 random
   declaration orders (own shuffler, `decl_shuffle.py` stops at the `Fix16_Point pos_diff(...)` line): not one
   changes the score. `Fix16_Point pos_diff; pos_diff.x = ...` 329. The slot layout (pos_diff 0x10/0x14 in the
   original, 0x18/0x1C ours; `i`, `value_1.ToInt()` and the z temporaries in other dead parameter slots) does
@@ -3038,7 +3038,7 @@ Scores are `quick_score.sh` lines (10.5) and `--96f` lines (9.6f, VC7). Baseline
   `+ Object_5C* pObj`: 1052, `s32` copies of x/y: 800.
 - `Frontend::SetupMenuStringsOptionsElements_4B0220` (254), `PublicTransport_181C::SpawnTrainsFromStations_578860`
   (601, frame 0x68 vs 0x58), `Ped::UpdateMovementTowardsTarget_4672E0` (560), `CarDoorAlignmentSolver_545AF0`
-  (875), `Map_0x370::CanMoveOntoSlopeTile_4E0130` (548), `Map_0x370::sub_4E7190` (218, structure 6; `tmp`
+  (875), `Map_0x370::CanMoveOntoSlopeTile_4E0130` (548), `Map_0x370::AdvanceAlongRailwayChecked_4E7190` (218, structure 6; `tmp`
   declared first/before `last_x`, `last_*` declared then assigned: 218): scored only.
 
 ## MapRenderer / rest pass (Oct 6, worktree agent/rest)
@@ -3271,7 +3271,7 @@ Scores are `quick_score.sh` lines. One new match.
   << 6, 0)` for the first: 86; a `radius` local for the first: 146. `frame_slots.py`: the original's `distance`
   is the hidden-return slot of all three GetLength arms (0x10); ours gives each ternary arm its own temp and
   copies into 0x20, which is the `Fix16 d = inline_with_returns()` shape whose budget breaks the projection.
-- `Map_0x370::sub_4E6660` (4), `SetWindowedMode_5D9510` (14), `sub_4E6190` (60), `PlayerScoreTracker_36C::AwardPedKilledScore_592660`
+- `Map_0x370::AdvanceAlongRailway_4E6660` (4), `SetWindowedMode_5D9510` (14), `ClassifyArrowOnSlope_4E6190` (60), `PlayerScoreTracker_36C::AwardPedKilledScore_592660`
   (77, the occupation/kill-type switch interleaving): reviewed against the notes only. `ErrorLog::ErrorLog` was
   matched by another worker meanwhile.
 
@@ -3340,10 +3340,10 @@ The priority formula is now exact (`Scripts/x87_sched/README.md`). Checked again
 - `sound_obj::ProcessOtherObjects_41F520` (2): not the scheduler. Case 13/14 stores `calc_distance` before
   `max_distance` on purpose; the original's order makes VC6 cross-jump fire's tail into this block (TODO in
   the source).
-- `Map_0x370::sub_4E6660` (4): `mov %edi,%ebx` is a copy inserted by the colour pass when it splits a live
+- `Map_0x370::AdvanceAlongRailway_4E6660` (4): `mov %edi,%ebx` is a copy inserted by the colour pass when it splits a live
   range, placed at the start of the `if (pBlock != pPrev)` block; the original has it after the
-  `sub_4E65A0` call. Source `pPrev = pBlock` copies there are deleted as dead (4). Moving the earlier
-  `pPrev = pBlock` after `sub_4E5D10` moves the other copy instead (16); `SetRoadBlockAt` after the `if`
+  `SnapZToRailway_4E65A0` call. Source `pPrev = pBlock` copies there are deleted as dead (4). Moving the earlier
+  `pPrev = pBlock` after `MovePosAlongDirection_4E5D10` moves the other copy instead (16); `SetRoadBlockAt` after the `if`
   (1668).
 - `PathFinder_2FD4::ComputePath_554AB0` (4): the `[ecx+4]` load is IL-first in our block (pairs at cycle 0); the
   original has it IL-after the `field_1B_direction` store (a may-alias edge holds it). Writing the store
@@ -3355,7 +3355,7 @@ The priority formula is now exact (`Scripts/x87_sched/README.md`). Checked again
 The cross-jump rules are in `Scripts/flowopt/README.md`. Both functions below were checked with the patched C2
 (`--rev`/`--rank`) and `jumps.py`.
 
-- **`Map_0x370::sub_4E6190` (60 -> 2 with a source change, not applied).**
+- **`Map_0x370::ClassifyArrowOnSlope_4E6190` (60 -> 2 with a source change, not applied).**
   - The cause is only the order of the exit's jump list. Reversing it in C2 (`--rev 7:20`) gives an exact match,
     and so does any order with the case 1 returns created last and case 2 after case 3 (outer creation
     orders 3241, 3421, 4321 are all 0).
@@ -3375,7 +3375,7 @@ The cross-jump rules are in `Scripts/flowopt/README.md`. Both functions below we
     shows one `jmp` going to 0x300 instead of 0x32d. So that order is not the whole answer.
   - Joint orders of rocket's and 13/14's last four stores (24): no better than 4. `default` before, between or
     first, and dead statements after the inner switch: 28.
-- **`Map_0x370::sub_4E8370` (8).** The original has the hoisted `new_idx = field_360; pNew = ...` before
+- **`Map_0x370::CloneColumnWithoutBlock_4E8370` (8).** The original has the hoisted `new_idx = field_360; pNew = ...` before
   `mov 0x20(%esp),%al; test`, ours after.
   - The scheduler (`sched.sh`) shows why: both loads are ready at once, and they are tied by an anti-dependency
     on `eax`. Ours has the `do_drop` load first in IL (the optimizer hoists the code common to both arms in
@@ -3425,7 +3425,7 @@ variant): no improvement on any of them.
   `Fix16 speed = pCar->GetCarLinearSpeed_43A240(); speed /= max;` gets the order but reads the stack slot (8);
   `speed = pCar->GetCarLinearSpeed_43A240() /= max;` CSEs `&max` into a register and changes the allocation (120);
   `operator/` forms 114.
-- **`sub_4E6190` (2).** Matched `s16` functions get `xor %ax,%ax` from a direct `return 0;`. Every mix of `return 0`
+- **`ClassifyArrowOnSlope_4E6190` (2).** Matched `s16` functions get `xor %ax,%ax` from a direct `return 0;`. Every mix of `return 0`
   and `r = 0` on the three zero paths (inner defaults, after the case 3/4 inner switches, outer default): 22-90, the
   cross-jumps change.
 
@@ -3545,7 +3545,7 @@ flag test that later disappears still shapes the block order and the exit placem
 
 ## Oct 8, round 2: cross-jump order and the merge cost check
 
-- **`Map_0x370::sub_4E6190` (60 -> 0, MATCH).** `s16 r; bool bFound = false;`, cases 1/2 set `r` and `bFound`,
+- **`Map_0x370::ClassifyArrowOnSlope_4E6190` (60 -> 0, MATCH).** `s16 r; bool bFound = false;`, cases 1/2 set `r` and `bFound`,
   cases 3/4 `return` directly, then `if (bFound) return r; return 0;`. Jump threading on `bFound` runs after
   codegen created the jumps; when cases 1/2 are threaded past the test to the exit, their jumps are re-added at
   the head of the exit's predecessor list, so they count as created last (the `--rev` order). The zero paths all
@@ -3556,7 +3556,7 @@ flag test that later disappears still shapes the block order and the exit placem
   constants: the cross-jump has a cost check (`Scripts/flowopt/README.md`) and the extra tuples moved the fire
   case's `max_distance` store id past 0x80, making fire-into-13/14 cost exactly 20 (rejected), so fire merges
   into 4/12 as in the original.
-- `Map_0x370::sub_4E6660` (4, unchanged): `ebx` holds a constant-1 web from the top in the original; ours extends
+- `Map_0x370::AdvanceAlongRailway_4E6660` (4, unchanged): `ebx` holds a constant-1 web from the top in the original; ours extends
   it to the two `push $1` when `pPrev` is assigned after the call. Folded `bTurned` forms 48.
 - **`sound_obj::HandleCarTireScrubSound_418720` (4 -> 0, MATCH).** `Fix16 speed; Fix16* pSpeed =
   &pCar->GetCarLinearSpeed_43A240(); speed = *pSpeed; speed /= max;`. In the `/=` form VC6 loads the divisor
@@ -3602,8 +3602,8 @@ Smallest, all of them instruction scheduling or register allocation, with nothin
 left to steer:
 
 - `keybrd_0x204::GetLayout_4D6000` 2, `sound_obj::ProcessPoliceRadioWordsPlayback_427220` 2,
-  `MapRenderer::DrawGradientSlopeSouthwards_4F1660` 2, `Map_0x370::sub_4E6660` 2,
-  `Map_0x370::sub_4E8370` 4, `DrawTexture_5D8470` 4, `PathFinder_2FD4::ComputePath_554AB0` 4,
+  `MapRenderer::DrawGradientSlopeSouthwards_4F1660` 2, `Map_0x370::AdvanceAlongRailway_4E6660` 2,
+  `Map_0x370::CloneColumnWithoutBlock_4E8370` 4, `DrawTexture_5D8470` 4, `PathFinder_2FD4::ComputePath_554AB0` 4,
   `MapRenderer::DrawGradientSlopeEastwards_4F33B0` 4.
 
 Negatives worth not repeating:
@@ -3614,7 +3614,7 @@ Negatives worth not repeating:
   | function | diff | best limit |
   |---|---|---|
   | `MapRenderer::DrawGradientSlopeSouthwards_4F1660` | 2 | stock 80 |
-  | `Map_0x370::sub_4E6660` | 3 | stock 80 |
+  | `Map_0x370::AdvanceAlongRailway_4E6660` | 3 | stock 80 |
   | `DrawTexture_5D8470` | 4 | stock 80 |
   | `PathFinder_2FD4::ComputePath_554AB0` | 5 | stock 80 |
   | `MapRenderer::draw_bottom_4ED290` | 55 at every limit | stock 80 |
@@ -3623,7 +3623,7 @@ Negatives worth not repeating:
   (parentheses, `(f32)` casts, `f32` locals) cannot fix them. The leftover instructions are
   priority/colouring decisions inside one window, and the integer-only ones have no no-op node
   lever at all.
-- `Map_0x370::sub_4E8370` (4): hoisting `new_idx`/`pNew` out of the `do_drop` branches gets the
+- `Map_0x370::CloneColumnWithoutBlock_4E8370` (4): hoisting `new_idx`/`pNew` out of the `do_drop` branches gets the
   original's load order but recolours the whole function (4 -> ~200).
 - `DrawPlayerStatsHelper_5D61A0` (7): `s32 width` does give the original's
   `xor %ebx,%ebx; mov 4(%eax),%bl` instead of `movzbw`+`movswl`, but then width lands in `ebp`
@@ -3767,7 +3767,7 @@ Tried, all worse or no change:
   or division (423/506), `Fix16::Add_ref` either order for the y and z sums, `kTileTexSize * z` and a raw
   product (580): no gain. Not a window problem (all limits give the same).
 - `Hud_Arrow_7C::UpdateScreenPos_5D0850` (86): not x87, the frame/CSE issue already described; not retried.
-- `Map_0x370::sub_4E6660` (4): `pPrev = pBlock` after `sub_4E65A0(x, y, &z, 1, 1)` again pushes `%ebx`
+- `Map_0x370::AdvanceAlongRailway_4E6660` (4): `pPrev = pBlock` after `SnapZToRailway_4E65A0(x, y, &z, 1, 1)` again pushes `%ebx`
   for both 1s; no new lever found.
 
 ## Oct 9: thirteen new matches, and what the near misses still need
@@ -3813,7 +3813,7 @@ Near misses, new findings (not matched):
   IL order (`lea` or dword access = 4), so a ctor-built `Ang16 v83(&v86, 0)` is always size 4.
 - `CarAI_78::FollowRoadDirection_44A1F0`: the only real difference is which of two
   `SetGoStraight(); return;` copies in the right_3/east_3 case VC6 keeps.
-- `Map_0x370::sub_4E8370`, `sub_4E6660`, `GetLayout_4D6000`, `ProcessPoliceRadioWordsPlayback_427220`,
+- `Map_0x370::CloneColumnWithoutBlock_4E8370`, `AdvanceAlongRailway_4E6660`, `GetLayout_4D6000`, `ProcessPoliceRadioWordsPlayback_427220`,
   `FreeLowestPriority_543690`: retried, nothing new.
 - `SetGamma_5D9910` and `TextureCache_15D8::ReadTextures_5B92E0` would match only by removing code
   kept on purpose for the standalone exe (see their source comments); left as they are.
@@ -3861,7 +3861,7 @@ property of how the original's expressions nest, not of a local declaration.
 Round 5 findings from the other agents (not matched):
 
 - `PoliceCrew_38::State6_ShutDown_574720`: a plain `i = 0;` between the `byte_6FEB48 = 1` and `gCurrentCrewPed_6FEDDC` stores (with `i` read through the `const u8&` inline) puts `movb $0` exactly where the original has it, but the zero then takes `ebp`. priolog: zero at -41 (plain) / -85 (volatile), w=2, ebp in both. Making the other zero stores volatile doesn't help.
-- `Map_0x370::sub_4E8370` (8 at head): hoisting `new_idx`/`pNew` fixes the head; `column_idx` then goes to prio 9 / `ecx` instead of -7 / `eax`.
+- `Map_0x370::CloneColumnWithoutBlock_4E8370` (8 at head): hoisting `new_idx`/`pNew` fixes the head; `column_idx` then goes to prio 9 / `ecx` instead of -7 / `eax`.
 - `Char_B4::HandlePedCollision_548BD0`: `Ang16 res;` declared at the function top with `res = atan2(...)` at the `kAng180 + atan2` site gives the original's operand order but loads instead of `add (%eax),%cx`.
 - `TagGameHudUpdate_4DADA0`, `FreeLowestPriority_543690`, `GetLayout_4D6000`, `ProcessPoliceRadioWordsPlayback_427220`, `state_8_5520A0`: pointer-param inlines and more spellings tried, no change.
 - `miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180`: the constant 8 shared by `CanAllocateCarOfKindWithSpare_446870(8)` and the tail's `ReassignAllocatedCarType_443EE0(8)` is one live range worth +18 to pParam2 in the tail block. Changing either 8 to 9 (diagnostic only) gives the original's ebx/esi/edi. pCar's ecx comes from its preference for the else-branch `Reassign(8)` `this`. Writing the despawn checks like `MissionCleanUp_502DC0` gives identical code but lowers zero to 2.
@@ -4332,15 +4332,15 @@ Scores are `quick_score.sh` lines (NO_PCH=1, WIP_IMPLEMENTED emptied).
 
 ## Agent map8 (Oct 11): deeper causes on map_0x370 near misses
 
-- `Map_0x370::sub_4E6660` (4, unchanged): 9.6f `sub_467110` is the real counterpart (9 `sub_4E65A0`, 16 `sub_4E5D10`,
+- `Map_0x370::AdvanceAlongRailway_4E6660` (4, unchanged): 9.6f `sub_467110` is the real counterpart (9 `SnapZToRailway_4E65A0`, 16 `MovePosAlongDirection_4E5D10`,
   4 `HasGreenArrow`, 4 `GetArrowDir`, 6 `>=`, 4 `>`, 3 `!=`, 1 `<`) and already has our shape, including
-  `pPrev = pBlock` after `sub_4E65A0(x, y, &z, 1, 1)` and the `pNext` null checks. opdump: all 22 `1`s are one CSE
+  `pPrev = pBlock` after `SnapZToRailway_4E65A0(x, y, &z, 1, 1)` and the `pNext` null checks. opdump: all 22 `1`s are one CSE
   constant temp; priolog shows one coloured piece (ebx, prio -8/-15) referenced only at the top, live through
   everything, and the later uses become immediates in the local pass. With the copy after the call (48): a dead
   duplicate copy before the call, `pOld = pBlock` before + `pPrev = pOld` after (propagated), `bTurned = 0` after the
   first call (52), `pPrev` declared at the top or inside the loop, a shared `Fix16` for `to_centre`/`to_edge`, the
   loop's `to_edge` at function scope: all 48.
-- `Map_0x370::sub_4E8370` (8, unchanged): the hoisted form's wrong allocation comes from an uncoloured range that
+- `Map_0x370::CloneColumnWithoutBlock_4E8370` (8, unchanged): the hoisted form's wrong allocation comes from an uncoloured range that
   can only use `ecx` (priolog ecx score 100 x prio: 14xx hoisted, 6xx with a single `field_360 +=` tail after the
   if/else (292), 2xx with an `s8` first-loop counter): it pushes the `this` reload piece and `column_idx` off
   ecx/eax. When the penalty is <= 3 or gone the whole top matches (column_idx eax, offset ecx, this spilled late,
@@ -4454,7 +4454,7 @@ wrong, so no type, structure, inline or scheduling work applies. Left unchanged.
   line `GetCenteredXPos(... elements_array[7].field_6A_font_type ...)`), which the candidate reads from another
   address. Not chased further.
 
-## Agent near11 (Oct 11): HandleSpriteZCollision_5238B0 (MATCH), sub_4E7190 slots and registers
+## Agent near11 (Oct 11): HandleSpriteZCollision_5238B0 (MATCH), AdvanceAlongRailwayChecked_4E7190 slots and registers
 
 - `Object_2C::HandleSpriteZCollision_5238B0` 146 -> **0 (MATCH)**. The landing code (`field_50 == 1` /
   `== 4` / bounce) is not reached by a `goto LABEL_10` from the non-slope arm: it follows the whole
@@ -4465,7 +4465,7 @@ wrong, so no type, structure, inline or scheduling work applies. Left unchanged.
   through the non-slope `jl` and lays it out after X (ours), and no source position of the code changes that
   (a CFG argument, see `docs/matching_quirks.md`). The flag form also leaves the then-arm with `mov %al,(%ecx)`
   (so it does not cross-jump into X) and lets the two `bAirborne = 1` copies merge into 0x1DB.
-- `Map_0x370::sub_4E7190` 160 -> 92 (full build 3388/3388 with the Object_5C change, map change checked with
+- `Map_0x370::AdvanceAlongRailwayChecked_4E7190` 160 -> 92 (full build 3388/3388 with the Object_5C change, map change checked with
   quick_score only). (1) `pBefore` is `pPrev`, and the else branch writes `pPrev = pBlock` in both arms of
   `if (dist >= kFpOne)`: FlowOpts head-merges the two stores into the one between `cmp` and `jl` that the
   original has, but the frame pass runs first and counts both, so pPrev's slot (shared with the three
@@ -4623,12 +4623,12 @@ Start 50, final **49** (kept), not matched. `NO_PCH=1 quick_score.sh` line.
   field_20 = field_20 + GetPlay` (146/54), `Random(this->field_14)` with `GetPlay(samp)` (278), `disp` at
   function scope (278), the close block unchanged (it already matches apart from the frame shift).
 
-## Agent near13 (Oct 11): sub_4E6660 (4, unchanged), DetectCarAhead_44D1D0 (16, unchanged)
+## Agent near13 (Oct 11): AdvanceAlongRailway_4E6660 (4, unchanged), DetectCarAhead_44D1D0 (16, unchanged)
 
 Goal was to replace the gotos with the structure the original had (threaded flags, trailing ifs). Neither
 function moved; no source change kept. Scores are `NO_PCH=1 quick_score.sh`.
 
-- `Map_0x370::sub_4E6660` (4): the two `goto done` as `dist = 0` (the loop test is then threaded into `jmp exit`
+- `Map_0x370::AdvanceAlongRailway_4E6660` (4): the two `goto done` as `dist = 0` (the loop test is then threaded into `jmp exit`
   but the dead `xor %ebp,%ebp` stays, 55); `if (side == half) {== arm} else {!= arm}` (1342/1354, the layout
   changes). Folded spellings of the == arm's 1s with `pPrev = pBlock` after the call (`!bTurned`, `bTurned + 1`,
   `bTurned == 0`, both args): all fold to the same constant web (48). What the C2 logs say about the 48 (copy
@@ -4673,7 +4673,7 @@ function moved; no source change kept. Scores are `NO_PCH=1 quick_score.sh`.
   0x7C/0x84/0x88 swapped), plus one early `mov 0x80(%esp),%eax` before `push %edi` in the original that
   our code loads after the `jne`. Not reached by declaration order or shadowing tweaks.
 
-## Agent cheap11: Map_0x370::sub_4E7190 (no change kept, score 92 -> 92, not matched)
+## Agent cheap11: Map_0x370::AdvanceAlongRailwayChecked_4E7190 (no change kept, score 92 -> 92, not matched)
 
 - Start 92 (NO_PCH=1 quick_score). Permuter run was refused by the auto-mode classifier (CPU/workload
   reason), so only manual variants were tried. None lowered the score; the source is unchanged.
@@ -4689,7 +4689,7 @@ function moved; no source change kept. Scores are `NO_PCH=1 quick_score.sh`.
   second switch's `up_1` store), ours caches 4. The `bTurned` store is in the slope re-lookup path
   (`call; mov %eax,%esi; movb $1,0x11(%esp); jmp`), not in the to_edge branch. That fits a source shape
   where the slope path skips the `pBlock != pPrev` step, but the else-if form scores worse, so the
-  original's order of the `sub_4E65A0` call relative to the slope lookup is still open.
+  original's order of the `SnapZToRailway_4E65A0` call relative to the slope lookup is still open.
 
 ## Agent near14 (Oct 11): IsThreatToSearchingPed_4661F0 (294 -> 4, MATCH), state_8_5520A0 (12, unchanged)
 
@@ -4936,7 +4936,7 @@ root with `VC6_TOOLS`-free `patch_c2.X` set to a scratch dir, see `Scripts/regal
   copy (`mov %ecx,%ebp; xor %edx,%ebp`), and the and/or form (`(f & 0xFE) | cond` 63, `(u8)cond` 51); C2 orders
   the commutative operands itself (the "rank" also open in `SpawnCarOnRoadNetwork_4458B0`). Not solved.
 
-## Agent near17 (Oct 11): HandleCarDoorSounds_4182E0 (MATCH), sub_4E8370 (8, unchanged)
+## Agent near17 (Oct 11): HandleCarDoorSounds_4182E0 (MATCH), CloneColumnWithoutBlock_4E8370 (8, unchanged)
 
 - `sound_obj::HandleCarDoorSounds_4182E0` 54 -> 0 (MATCH_FUNC, full build 3393/3393). The open-door block is
   the same source form as the close-door block: `field_14_samp_idx = get_samp_idx_for_car_417D70(pCar, 1, b);
@@ -4950,7 +4950,7 @@ root with `VC6_TOOLS`-free `patch_c2.X` set to a scratch dir, see `Scripts/regal
   GetPlay(samp)` 88, `Random(field_14 = get(..)) + GetPlay(field_14)` 4 (only the `field_3C = 0` store is
   scheduled before the get call), `s32 displacement` with the chain 278. `get_samp_idx_for_car_417D70`'s
   `s32` return and the `u32` field / `u32`/`s32` parameters are fine as they are.
-- `Map_0x370::sub_4E8370` (8, no source change kept). New findings, all on the hoisted form (`new_idx`/`pNew`
+- `Map_0x370::CloneColumnWithoutBlock_4E8370` (8, no source change kept). New findings, all on the hoisted form (`new_idx`/`pNew`
   before `if (do_drop)`, 292-323):
   - The exact original allocation (column_idx `eax`, offset `ecx` -> 0x18, this spilled late, `mov
     0x20(%esp),%al; test`) appears when BOTH arms end with their own `field_360 += ...; return new_idx;`
@@ -4973,7 +4973,7 @@ root with `VC6_TOOLS`-free `patch_c2.X` set to a scratch dir, see `Scripts/regal
     join, not from two returns. Open: a form with the join AND two eax-hinted references of `new_idx`.
   - Permuter: 1500 on a5 (new passes) -> 42 (u16) / 72 (per-arm return); 400 on m1 -> nothing better.
 
-## Agent near18 (Oct 11): state_8_5520A0 (12, unchanged), SCRCMD_STORE_CAR_INFO_509180 (80 -> 46), sub_4E7190 (92, permuter only)
+## Agent near18 (Oct 11): state_8_5520A0 (12, unchanged), SCRCMD_STORE_CAR_INFO_509180 (80 -> 46), AdvanceAlongRailwayChecked_4E7190 (92, permuter only)
 
 Scores are `NO_PCH=1 quick_score.sh`. No header edits; only `Source/miss2_0x11C.cpp` changed.
 
@@ -5004,7 +5004,7 @@ Scores are `NO_PCH=1 quick_score.sh`. No header edits; only `Source/miss2_0x11C.
   `u16` CanAlloc parameter (80, constants keyed by value), `u32` gStoredCarId (80), operand order of the id
   compare (80), permuter 1500 with --calling-conventions/--auto-method-aliases (only convention changes and
   dropped stores) and 171 with the structural passes (80).
-- `Map_0x370::sub_4E7190` (92): permuter with switch_dup/tail_return/invert_if/swap_logical/cond_split/goto_exit/
+- `Map_0x370::AdvanceAlongRailwayChecked_4E7190` (92): permuter with switch_dup/tail_return/invert_if/swap_logical/cond_split/goto_exit/
   do_while/noop_node/dead_wrap: no improvement in 1253 compiles. No manual work.
 
 ## Agent cheap18
@@ -5395,7 +5395,7 @@ code as before (objdump compare, only EH `$T` names differ). Three independent f
 - The earlier permuter run (2100 compiles on the 30 base, default passes + `--keep-ties`) found nothing: neither
   the raw subtraction nor the argument-order change is in its pass set.
 
-## Agent near30 (Oct 11): Map_0x370::sub_4E8370 8 -> 0 (MATCH, byte-identical to 10.5.exe)
+## Agent near30 (Oct 11): Map_0x370::CloneColumnWithoutBlock_4E8370 8 -> 0 (MATCH, byte-identical to 10.5.exe)
 
 - **The fix:** the fully hoisted form (`new_idx = field_360_column_words; pNew = ...[new_idx];` before
   `if (do_drop)`, `field_360_column_words += ...` at the end of each arm) with the join written as
@@ -5528,13 +5528,13 @@ the other 30 MATCH_FUNCs of the TU compile to identical code (base vs new obj co
   `ids.sh` (number map per function). All other 247 MATCH_FUNCs in Car_BC.cpp produce identical code.
 
 
-## Agent near37 (Oct 12): Map_0x370::sub_4E7190 92 -> 34 raw / 35 -> 18 masked (not matched, nothing in Source/)
+## Agent near37 (Oct 12): Map_0x370::AdvanceAlongRailwayChecked_4E7190 92 -> 34 raw / 35 -> 18 masked (not matched, nothing in Source/)
 
 NO_PCH private-copy scores (`try.sh`: near27's `msc.py` masked + `permuter_score.py` raw). Variant and function-only
 diff in `/tmp/claude-0/agents/near37/` (`v/final.cpp`, `final.diff`, `notes.md`). Source/map_0x370.cpp left alone
 (near34 owns the file this round).
 - `bTurned = 1` goes at the END of the turn block (after `if (pBlock != pPrev) {...}`), as in 9.6f (0x468a37) and
-  sub_4E6660: the target's `movb $1` is the join target of both `jne`/`je`. On its own that swaps ebx/ebp (142/130).
+  AdvanceAlongRailway_4E6660: the target's `movb $1` is the join target of both `jne`/`je`. On its own that swaps ebx/ebp (142/130).
   priolog with source names (`names.py`: `@T line=` + the function's first line; `blk.py`: per-block N and refs):
   the loop's `to_edge` (only in its block, N=10 x bw 2 x 6 = 120) must colour before the two `last_y.ToInt()` CSE
   temps (k=3, 132 = 108 first lookup - 20 through the KeepDir blocks + 44 second lookup); after them it takes ebx at a
@@ -5558,10 +5558,10 @@ diff in `/tmp/claude-0/agents/near37/` (`v/final.cpp`, `final.diff`, `notes.md`)
   zero and thread the test (136); ternaries give setne code; two-return inlines or copies in both arms add a frame slot.
 - Permuter: 778 compiles on the b2 shape (found the 34), 786 on the 34 shape (nothing).
 
-## Agent near34 (Oct 12): Map_0x370::sub_4E6660 4 raw / 2 masked, unchanged (nothing in Source/)
+## Agent near34 (Oct 12): Map_0x370::AdvanceAlongRailway_4E6660 4 raw / 2 masked, unchanged (nothing in Source/)
 
 `NO_PCH=1` private compiles of a copy of the TU (`/tmp/claude-0/agents/near34/`, `notes.md`, variants in `v/`).
-Base for all diagnostics: `pPrev = pBlock` after `sub_4E65A0(x, y, &z, 1, 1)` (the original's IL position, 48 raw /
+Base for all diagnostics: `pPrev = pBlock` after `SnapZToRailway_4E65A0(x, y, &z, 1, 1)` (the original's IL position, 48 raw /
 4 masked: only the two `push %ebx` differ).
 - New: what stops the constant-1 piece. It grows from the top along CFG edges (je-block -> to_edge block -> then-block)
   and stops at the first block on that path where ebx is held: a diagnostic value live in ebx across the then-block's
@@ -5634,7 +5634,7 @@ Base for all diagnostics: `pPrev = pBlock` after `sub_4E65A0(x, y, &z, 1, 1)` (t
   targets (which `TurnAntiClockwise` + `ret` copy survives); no single exit change or pair of flips fixes them
   without breaking VC6.
 
-## Map_0x370::sub_4E7190 (Oct 13): matched
+## Map_0x370::AdvanceAlongRailwayChecked_4E7190 (Oct 13): matched
 
 - 9.6f 0x467F80 (disassembled from 9.6f.exe, `target_96f.json` has no entry) has the same structure as our source.
   Its turn block takes `pPrev = pBlock` first, which settles the old open question about that store.
@@ -5657,5 +5657,5 @@ Base for all diagnostics: `pPrev = pBlock` after `sub_4E65A0(x, y, &z, 1, 1)` (t
   VC6 threads both paths), ternaries (36 or worse), a file-local inline (budget, and 9.6f has no call there).
 - The single `pPrev = pBlock` before `if (dist >= kFpOne_6F6110)` that 9.6f shows still costs 42 in VC6: the
   two-arm stores stay (frame slot order, see near11 above).
-- `sub_4E6660` with the same angle form stays at 4: its last difference becomes the `pPrev = pBlock` copy's place
-  around `sub_4E65A0(x, y, &z, 1, 1)`, and moving it after the call brings back the `push %ebx` pair (48).
+- `AdvanceAlongRailway_4E6660` with the same angle form stays at 4: its last difference becomes the `pPrev = pBlock` copy's place
+  around `SnapZToRailway_4E65A0(x, y, &z, 1, 1)`, and moving it after the call brings back the `push %ebx` pair (48).

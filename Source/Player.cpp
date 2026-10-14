@@ -1687,7 +1687,7 @@ void Player::RespawnPlayer_5670B0()
         gmp_map_zone* pZone;
         if (IsNetworkGame_434B10())
         {
-            pZone = gMap_0x370_6F6268->zone_by_type_bounded_4DF0F0(0x10u);
+            pZone = gMap_0x370_6F6268->GetNextZoneOfTypeRoundRobin_4DF0F0(0x10u);
         }
         else
         {
@@ -1938,9 +1938,9 @@ void Player::UpdateCurrentZones_568520()
     const Fix16 cam_x_fp = pPed->field_1AC_cam.x;
     const Fix16 cam_y_fp = pPed->field_1AC_cam.y;
     field_38_local_navigation_zone =
-        gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(cam_x_fp.ToInt(), cam_y_fp.ToInt(), Local_Navigation_15);
-    field_3C_navigation_zone = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(cam_x_fp.ToInt(), cam_y_fp.ToInt(), Navigation_1);
-    field_40_arrow_blocker_zone = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(cam_x_fp.ToInt(), cam_y_fp.ToInt(), Arrow_Blocker_5);
+        gMap_0x370_6F6268->GetZoneAtPosOfType_4DF4D0(cam_x_fp.ToInt(), cam_y_fp.ToInt(), Local_Navigation_15);
+    field_3C_navigation_zone = gMap_0x370_6F6268->GetZoneAtPosOfType_4DF4D0(cam_x_fp.ToInt(), cam_y_fp.ToInt(), Navigation_1);
+    field_40_arrow_blocker_zone = gMap_0x370_6F6268->GetZoneAtPosOfType_4DF4D0(cam_x_fp.ToInt(), cam_y_fp.ToInt(), Arrow_Blocker_5);
     field_34_gang_curr_location = gMap_0x370_6F6268->GetGangAtCoords_4DFB50(cam_x_fp, cam_y_fp);
 }
 
@@ -2518,7 +2518,7 @@ void Player::SetScoreTextColour_569C20()
 MATCH_FUNC(0x569CB0)
 void Player::InitializePlayerState_569CB0()
 {
-    if (!gMap_0x370_6F6268->first_zone_by_type_4DF1D0(Restart_16))
+    if (!gMap_0x370_6F6268->GetFirstZoneOfType_4DF1D0(Restart_16))
     {
         FatalError_4A38C0(Gta2Error::NoRestartZone, "C:\\Splitting\\Gta2\\Source\\player.cpp",
                           2905); // No Restart Zone
