@@ -2005,7 +2005,7 @@ void Char_B4::HandlePedCollision_548BD0(Char_B4* pOther)
                 case 4:
                 case 6:
                     pOther->field_6A = 4;
-                    pOther->field_74 = Fix16::atan2_fixed_405320(field_80_sprite_ptr->field_14_xy.y - pOther->field_80_sprite_ptr->field_14_xy.y,
+                    pOther->field_74 = Fix16::atan2_fixed_405320(get_sprite_ptr_4338D0()->field_14_xy.y - pOther->field_80_sprite_ptr->field_14_xy.y,
                                                          field_80_sprite_ptr->field_14_xy.x - pOther->field_80_sprite_ptr->field_14_xy.x) + kAng180_6FD936;
                     break;
             }
@@ -3842,8 +3842,9 @@ bool Char_B4::CanStepForwardWithRegionCheck_54ECB0(s32 direction)
     Fix16 zpos = field_80_sprite_ptr->field_1C_zpos;
 
     s32 new_zpos = (zpos).ToInt() - 1;
+    s32 below_z = (zpos - kFP16One_6FD9E8).ToInt();
 
-    if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(xpos.ToInt(), ypos.ToInt(), (zpos - kFP16One_6FD9E8).ToInt()))
+    if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(xpos.ToInt(), ypos.ToInt(), below_z))
     {
         new_zpos = zpos.ToInt();
     }
