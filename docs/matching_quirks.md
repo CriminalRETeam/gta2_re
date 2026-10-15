@@ -3104,3 +3104,13 @@ field, convert every site, and keep 3401/3401.
   `0x1072fa60` with `[0x107AC0B4]` set); the list matcher does go through `jcc`s with the same target. Two copies
   of a block that contains branches cannot fully merge through the fall-through path, which is why a
   two-copy source form stalls.
+
+## A frame or register gap can be a logic bug (`TrafficLight_20::Init_5C1D00`)
+
+Before treating a 4-byte frame difference or a register swap in a long function as allocation, check every push
+sequence of the side-by-side asm against the source arguments. Here an offset applied to x instead of y left a
+plain `Fix16(y)` that VC6 shared with another shift through a cross-block CSE temp: one extra slot, and the
+x/y/this priorities reordered. Twenty spelling tries could not fix what was a wrong argument. Two related
+rules: `Fix16(v + i)` in a loop is strength-reduced into an induction register initialised after the loop guard
+(an explicit `Fix16 it(v); it += Fix16(1);` initialises it before), and an implicit `Fix16` argument conversion
+keeps the build-in-slot shape where an explicit `Fix16(y)` pushes the shifted value directly.
