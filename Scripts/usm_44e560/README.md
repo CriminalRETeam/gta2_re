@@ -8,17 +8,16 @@ together with the WIP (see `docs/match_attempts.md`, "UpdateStateMachine_44E560 
 python3 Scripts/inline_budget/setup.py              # once: build_vc6/inline_c2
 Scripts/usm_44e560/score.sh                         # stock compiler: 186
 python3 Scripts/usm_44e560/c2cap.py 0               # build_vc6/inline_c2_cap0 (stock 0x400 limit)
-python3 Scripts/usm_44e560/c2pred.py P644 644       # needs keystone-engine
-Scripts/usm_44e560/score.sh build_vc6/inline_c2_P644   # 0: every byte matches
+python3 Scripts/usm_44e560/c2pred.py P659 659       # needs keystone-engine
+Scripts/usm_44e560/score.sh build_vc6/inline_c2_P659   # 0: every byte matches
 ```
 
-- `experiment.patch`: `Fix16` `operator-/+/*` without their named local and `operator+=`, all at their current
-  front-end sizes (the `(void)0;` keep the sizes; they stand for whatever the original had there), the two
-  `char.cpp` rewrites those operators need to keep matching, an unused `s32 unused;` in
-  `Sprite::set_xyz_lazy_420600` and `Fix16::operator<` (+35 optimizer entries), the two cluster-C spellings,
-  and 29 `(void)0;` at the end of the function (the original is 58 front-end nodes bigger).
-  With these headers and `char.cpp`, a full build still verifies all MATCH functions.
+- `experiment.patch`: `NOT_IMPLEMENTED` removed, an unused `s32 unused;` in `Sprite::set_xyz_lazy_420600` and
+  `Fix16::operator<` (+35 optimizer entries, 1 scope marker per expansion, 0 nodes), and the two cluster-C
+  spellings at the left alongside site. The compiled-out asserts in `Source/` (29 in the function, two per
+  `Fix16` operator) are part of the match: each costs 2 front-end nodes in the inline budget and nothing else.
+  With these headers a full build verifies all MATCH functions.
 - `c2cap.py K`: C2 that tracks 0x400 + K entries per function (the global optimizer limit).
-- `c2pred.py NAME LINE`: C2 that leaves the 0 of the compare at IL line `LINE` as an immediate. Line 644 is
-  `if (pOwner != 0)` after `FindDriverInState_4748A0` in follow_behind; that single compare is the whole
-  remaining difference.
+- `c2pred.py NAME LINE`: C2 that leaves the 0 of the compare at IL line `LINE` as an immediate. Line 659 is
+  `if (pOwner != 0)` after `FindDriverInState_4748A0` in follow_behind (relative to the function's first line, in
+  the patched file); that single compare is the whole remaining difference.

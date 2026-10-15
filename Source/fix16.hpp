@@ -3,6 +3,7 @@
 #include "Function.hpp"
 #include <math.h>
 #include <windows.h>
+#include <assert.h>
 
 #ifndef INLINE_MODE
     #define INLINE_MODE __forceinline
@@ -69,10 +70,12 @@ class Fix16
         return *this;
     }
 
+    // The compiled-out asserts and the casts count in VC6's inline size: keep them (Scripts/usm_44e560/README.md)
     Fix16 operator-(const Fix16& in) const
     {
-        s32 value = mValue - in.mValue;
-        return Fix16(value, 0);
+        assert((__int64)mValue - in.mValue <= 0x7FFFFFFF);
+        assert((__int64)mValue - in.mValue >= -0x7FFFFFFF - 1);
+        return Fix16((s32)(mValue - in.mValue), 0);
     }
 
     Fix16& operator-=(const Fix16& other)
@@ -83,20 +86,24 @@ class Fix16
 
     Fix16 operator+(const Fix16& in)
     {
-        s32 value = mValue + in.mValue;
-        return Fix16(value, 0);
+        assert((__int64)mValue + in.mValue <= 0x7FFFFFFF);
+        assert((__int64)mValue + in.mValue >= -0x7FFFFFFF - 1);
+        return Fix16((s32)(mValue + in.mValue), 0);
     }
 
     Fix16& operator+=(const Fix16& other)
     {
+        assert((__int64)mValue + other.mValue <= 0x7FFFFFFF);
+        assert((__int64)mValue + other.mValue >= -0x7FFFFFFF - 1);
         mValue += other.mValue;
         return *this;
     }
 
     Fix16 operator*(const Fix16& in) const
     {
-        s32 value = (s32)((mValue * (__int64)in.mValue) >> 14);
-        return Fix16(value, 0);
+        assert(((mValue * (__int64)in.mValue) >> 14) <= 0x7FFFFFFF);
+        assert(((mValue * (__int64)in.mValue) >> 14) >= -0x7FFFFFFF - 1);
+        return Fix16((s32)(s32)((mValue * (__int64)in.mValue) >> 14), 0);
     }
 
     // 10.5 non inline addr is 0x539F90

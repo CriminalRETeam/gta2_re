@@ -5726,9 +5726,9 @@ Later the same day, with exact tools instead of fits:
 
 ## CarAI_78::UpdateStateMachine_44E560 (Oct 14): one compare from a match
 
-Scores (`permuter_score`, 0 = match): master 5707, WIP source with the repo headers 4571, WIP plus
-`Scripts/usm_44e560/experiment.patch` **186** with the stock compiler and **0** with a C2 patched at a single
-compare. The earlier sections' scaffold numbers used other scores and padding, don't compare them.
+Scores (`permuter_score`, 0 = match): master 5707, WIP source with the repo headers 3823 (4571 before the
+asserts), WIP plus `Scripts/usm_44e560/experiment.patch` **186** with the stock compiler and **0** with a C2
+patched at a single compare. The earlier sections' scaffold numbers used other scores and padding, don't compare them.
 
 Toolchain: SP5/SP6 front ends give the same code as ours for all 494 CarAI_78 functions; SP3/RTM break
 matched ones (ManageTrafficCarDirection_448CE0). The C2 is the SP4 8799 of the Rich header. So the source
@@ -5762,7 +5762,11 @@ What decides the remaining code, in the order it was found (general rules in `do
   `3u < pChase->field_3C_block_counter` and `max_wanted_level - 1 != 0 ? 10 : 50` (left alongside site)
   give it without changing code, the second is not a believable spelling; both are in the patch, not in
   `Source/`.
-- **Caller size**: 58 front-end nodes are still missing (29 `(void)0;` in the patch).
+- **Caller size**: the 58 missing front-end nodes are 29 compiled-out `assert()` statements (`<assert.h>`
+  under `/DNDEBUG` expands to `((void)0)`: 2 nodes, no C2 entry, no code, placement neutral). The Fix16
+  operators carry two asserts each for the same reason (their `s32 value` locals cost +5 nodes; the remaining
+  +1 is a redundant `(s32)` cast). 10.5 and 9.6f have no active assert site at all (`FatalError_4A07C0` codes
+  123/1095 unused in both), so every assert was compiled out in release.
 
 **Last difference (cluster D)**: `if (pOwner != 0)` after `FindDriverInState_4748A0(choose_side_5, ...)` in
 follow_behind. The original has `test %eax,%eax` and a block-local `xor %eax,%eax` for the owner's two zero
@@ -5775,3 +5779,15 @@ parameters, conditions with assignments or declarations, loops, `goto`, function
 leave the compare on the variable. C2 merges every copy of the call value into one symbol (pass at
 10765a0c-10765a2d) before the predicate runs, and no matched function in the project shows the original's
 pattern.
+
+Oct 15 additions on D. (1) The compared operand must be a true IL temp: opdump of all 114 TUs shows no multi-use IL
+temp, nothing reading EAX directly, and no `cmp` on a temp copied into a live range; 19 cast/arithmetic forms,
+`register`, `const`, Yoda order, forceinline helpers with out-param/reference/bool all fold to the symbol before the
+predicate; SP3 and Processor Pack C2 also give `cmp`. (2) Register allocator route: pieces come from a block-region
+walk (0x107429ee after 0x1072366a: a block joins the region of its first predecessor that shares a free register,
+0x10741891 cuts live ranges at region boundaries, a constant piece with fewer than 2 real uses is not coloured).
+Forcing a region boundary between the compare block and the owner block gives 0, but with this block graph the
+join can never fail (free registers are monotone along compare -> side test -> owner stores), whatever code is
+elsewhere. (3) No natural site form changes the graph: single shared tail, bool flag, inline tail, inverted
+branches, `break`, function scope; threading runs before allocation and dupB never duplicates here, so 9.6f's single
+tail is a VC7 cross-jump. D stays open on both routes.
