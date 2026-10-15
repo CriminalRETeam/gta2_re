@@ -3089,6 +3089,19 @@ original used. `field_A4` still has mask sites (`& 0x1C` over three bits, `= 0` 
 field, convert every site, and keep 3401/3401.
 
 
+## Division, CSE and statement placement (`MapRenderer::Draw_4F6A20`)
+
+- **64-bit `Fix16` division: the divisor is loaded first when the numerator is a variable.** In
+  `((__int64)a << 14) / b` VC6 loads and sign-extends `b` first when `a` is a symbol (a global, a parameter,
+  or a local with a second use or a use in another block) and `a` first when it is an expression. A local
+  used only in its own block is forward-substituted, so it behaves as an expression; a second use, or an
+  empty `if` on it or on anything else between the definition and the division, keeps it a variable.
+- **CSE runs before multiply expansion.** `x * 16384` is matched by the CSE pass as a multiply and only
+  becomes `shl $14` later, so it is recomputed where `Fix16(x)` (a shift from the start) would share the
+  earlier shift of the same value. Use it where the original recomputes a shift VC6 would otherwise reuse.
+- **A local used twice in one block is computed where it is declared**, not at its first use: the
+  declaration's position sets where its code is scheduled.
+
 ## Block layout levers (`sound_obj::HandleVocalStreamSwitching_57DF10`)
 
 - **`do { } while (0)` keeps a jump block alive.** In `do { if (a) { if (!b) { X; goto done; } } else if (c) { ...;
