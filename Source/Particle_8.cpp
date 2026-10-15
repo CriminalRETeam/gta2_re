@@ -163,117 +163,112 @@ void Particle_8::SpawnBlood_53E880(Fix16 xpos, Fix16 ypos, Fix16 zpos)
     }
 }
 
-WIP_FUNC(0x53e970)
+MATCH_FUNC(0x53e970)
 void Particle_8::GunMuzzelFlash_53E970(Sprite* pSprite)
 {
-    WIP_IMPLEMENTED;
-    // The original enters with EH state 4 and sets 7 at the top of the car branch, as five points up
-    // front and three in the car branch would. Declared like that (unused extras), the ctors stay inline
-    // but the rest of the function moves further away, so only the used points are declared for now.
-    Fix16_Point vel(Fix16(0), Fix16(0));
+    // pos, offset, point_velocity and corner_3 are unused but give the original's EH states
+    Fix16_Point vel(0, 0);
+    Fix16_Point pos;
     Fix16_Point offset;
-    if (bSkip_particles_67D64D)
+    Fix16_Point ped_offset;
+    Fix16_Point point_velocity;
+    Fix16 dx;
+    Fix16 dy;
+    if (!bSkip_particles_67D64D)
     {
-        return;
-    }
-
-    Particle_4C* pParticle;
-    // The original compares field_30 in memory (cmpl $2,0x30(%esi)); the GetType_416B40 getter loads it first
-    if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car_2)
-    {
-        // 9.6f: the corners rotate by a local copy of the sprite angle (it also sets the inline budget for the
-        // second rotation: first + inline, the negate out of line)
-        Ang16 angle;
-        Fix16_Point corner_1;
-        Fix16_Point corner_2;
-        Car_BC* pCar = pSprite->field_8_car_bc_ptr;
-        pParticle = gParticle_8_6FD5E8->New_53E3C0(vel.x, vel.y, dword_6FD330, 0, 0, 0);
-        if (pParticle)
+        if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car_2)
         {
-            pParticle->field_4_bf.bDriverAttacking = true;
-            pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
-            pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 197);
-            pParticle->field_34_unused = 0;
-            pParticle->field_38_state = 40;
-            // PolarToCartesian_41FC20 (9.6f) with the results unused: the multiplies stay as calls
-            Ang16::sine_40F500(pSprite->field_0_rotation).Multiply_408680(dword_6FD2E8);
-            Ang16::cosine_40F520(pSprite->field_0_rotation).Multiply_408680(dword_6FD2E8);
-            pParticle->field_46_sub_state = 0;
-            pParticle->field_48_timer = 0;
+            Ang16 angle;
+            Fix16_Point corner_1;
+            Fix16_Point corner_2;
+            Fix16_Point corner_3;
+            Car_BC* pCar = pSprite->field_8_car_bc_ptr;
+            Fix16 half_w;
+            Fix16 half_h;
+            Particle_4C* pParticle = gParticle_8_6FD5E8->New_53E3C0(vel.x, vel.y, dword_6FD330, 0, 0, 0);
+            if (pParticle)
+            {
+                pParticle->field_4_bf.bDriverAttacking = true;
+                pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
+                pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 197);
+                pParticle->field_34_unused = 0;
+                pParticle->field_38_state = 40;
+                Ang16::PolarToCartesian_41FC20(pSprite->field_0_rotation, dword_6FD2E8, dx, dy);
+                pParticle->field_46_sub_state = 0;
+                pParticle->field_48_timer = 0;
 
-            // One expression: the original loads the sprite's field_C once for both
-            angle = pSprite->field_0_rotation;
-            // Two statements: the original computes x before y (SetXY's by-ref arguments go right to left)
-            corner_1.x = pCar->GetCarWidth_48A930() / 2 + dword_6FD3C0;
-            corner_1.y = pCar->GetCarHeight_48A950() / 2 + dword_6FD5A8;
-            corner_1.RotateByAngle_40F6B0(angle);
-            corner_1 += pSprite->get_x_y();
+                half_w = pCar->GetCarWidth_48A930() / 2 + dword_6FD3C0;
+                half_h = pCar->GetCarHeight_48A950() / 2 + dword_6FD5A8;
+                corner_1.x = half_w;
+                corner_1.y = half_h;
+                angle = pSprite->field_0_rotation;
+                corner_1.RotateByAngle_40F6B0(angle);
+                corner_1 += pSprite->get_x_y_443580();
 
-            pParticle->field_28_pSprite = pSprite;
-            pParticle->field_30_pNext->set_ang_lazy_420690(pSprite->field_0_rotation);
-            pParticle->field_30_pNext->set_xyz_lazy_420600(corner_1.x, corner_1.y, pSprite->field_1C_zpos);
-            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
-            pParticle->field_30_pNext->field_2C_bf.bNoLighting = true;
+                pParticle->field_28_pSprite = pSprite;
+                pParticle->field_30_pNext->set_ang_lazy_420690(pSprite->field_0_rotation);
+                pParticle->field_30_pNext->set_xyz_lazy_420600(corner_1.x, corner_1.y, pSprite->field_1C_zpos);
+                gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
+                pParticle->field_30_pNext->field_2C_bf.bNoLighting = true;
+            }
+
+            pParticle = gParticle_8_6FD5E8->New_53E3C0(vel.x, vel.y, dword_6FD330, 0, 0, 0);
+            if (pParticle)
+            {
+                pParticle->field_4_bf.bDriverAttacking = true;
+                pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
+                pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 197);
+                pParticle->field_34_unused = 0;
+                pParticle->field_38_state = 41;
+                Ang16::PolarToCartesian_41FC20(pSprite->field_0_rotation, dword_6FD2E8, dx, dy);
+                pParticle->field_46_sub_state = 0;
+                pParticle->field_48_timer = 0;
+
+                angle = pSprite->field_0_rotation;
+                half_w = pCar->GetCarWidth_48A930() / 2 + dword_6FD3C0;
+                half_h = pCar->GetCarHeight_48A950() / 2 + dword_6FD5A8;
+                corner_2.SetXY_432860(-half_w, half_h);
+                corner_2.RotateByAngle_40F6B0(angle);
+                corner_2 += pSprite->get_x_y_443580();
+
+                pParticle->field_30_pNext->set_ang_lazy_420690(pSprite->field_0_rotation);
+                pParticle->field_30_pNext->set_xyz_lazy_420600(corner_2.x, corner_2.y, pSprite->field_1C_zpos);
+                pParticle->field_28_pSprite = pSprite;
+                gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
+                pParticle->field_30_pNext->field_2C_bf.bNoLighting = true;
+            }
         }
-
-        pParticle = gParticle_8_6FD5E8->New_53E3C0(vel.x, vel.y, dword_6FD330, 0, 0, 0);
-        if (!pParticle)
+        else
         {
-            return;
+            Particle_4C* pParticle = gParticle_8_6FD5E8->New_53E3C0(vel.x, vel.y, dword_6FD330, 0, 0, 0);
+            if (pParticle)
+            {
+                pParticle->field_4_bf.bDriverAttacking = true;
+                pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
+                pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 197);
+                pParticle->field_34_unused = 0;
+                pParticle->field_38_state = 40;
+                Ang16::PolarToCartesian_41FC20(pSprite->field_0_rotation, dword_6FD2E8, dx, dy);
+                pParticle->field_46_sub_state = 0;
+                pParticle->field_48_timer = 0;
+                stru_6FD388 = pSprite->field_14_xy.x + dx;
+                stru_6FD38C = pSprite->field_14_xy.y + dy;
+                Fix16 zpos = pSprite->field_1C_zpos;
+
+                Char_B4* pB4 = pSprite->AsCharB4_40FEA0();
+                ped_offset.x = -dword_6FD464;
+                ped_offset.y = dword_6FD468 + dword_6FD2E8;
+                ped_offset.RotateByAngle_40F6B0(pSprite->field_0_rotation);
+                ped_offset = ped_offset + *(Fix16_Point*)&pB4->field_98_velocity_vector;
+
+                pParticle->field_30_pNext->set_ang_lazy_420690(pSprite->field_0_rotation);
+                pParticle->field_30_pNext->set_xyz_lazy_420600(pSprite->field_14_xy.x + ped_offset.x, pSprite->field_14_xy.y + ped_offset.y, zpos);
+                pParticle->field_28_pSprite = pSprite;
+                gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
+                pParticle->field_30_pNext->field_2C_bf.bNoLighting = true;
+            }
         }
-        pParticle->field_4_bf.bDriverAttacking = true;
-        pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
-        pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 197);
-        pParticle->field_34_unused = 0;
-        pParticle->field_38_state = 41;
-        Ang16::sine_40F500(pSprite->field_0_rotation).Multiply_408680(dword_6FD2E8);
-        Ang16::cosine_40F520(pSprite->field_0_rotation).Multiply_408680(dword_6FD2E8);
-        pParticle->field_46_sub_state = 0;
-        pParticle->field_48_timer = 0;
-
-        angle = pSprite->field_0_rotation;
-        corner_2.SetXY_432860(-(pCar->GetCarWidth_48A930() / 2 + dword_6FD3C0), pCar->GetCarHeight_48A950() / 2 + dword_6FD5A8);
-        corner_2.RotateByAngle_40F6B0(angle);
-        corner_2 += pSprite->get_x_y();
-
-        pParticle->field_30_pNext->set_ang_lazy_420690(pSprite->field_0_rotation);
-        pParticle->field_30_pNext->set_xyz_lazy_420600(corner_2.x, corner_2.y, pSprite->field_1C_zpos);
-        pParticle->field_28_pSprite = pSprite;
     }
-    else
-    {
-        pParticle = gParticle_8_6FD5E8->New_53E3C0(vel.x, vel.y, dword_6FD330, 0, 0, 0);
-        if (!pParticle)
-        {
-            return;
-        }
-        pParticle->field_4_bf.bDriverAttacking = true;
-        pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
-        pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 197);
-        pParticle->field_34_unused = 0;
-        pParticle->field_38_state = 40;
-        Fix16 dx;
-        Fix16 dy;
-        Ang16::PolarToCartesian_41FC20(pSprite->field_0_rotation, dword_6FD2E8, dx, dy);
-        pParticle->field_46_sub_state = 0;
-        pParticle->field_48_timer = 0;
-        stru_6FD388 = pSprite->field_14_xy.x + dx;
-        stru_6FD38C = pSprite->field_14_xy.y + dy;
-        Fix16 zpos = pSprite->field_1C_zpos;
-
-        Char_B4* pB4 = pSprite->AsCharB4_40FEA0();
-        offset.x = -dword_6FD464;
-        offset.y = dword_6FD468 + dword_6FD2E8;
-        offset.RotateByAngle_40F6B0(pSprite->field_0_rotation);
-        offset = offset + pB4->field_98_velocity_vector;
-
-        pParticle->field_30_pNext->set_ang_lazy_420690(pSprite->field_0_rotation);
-        pParticle->field_30_pNext->set_xyz_lazy_420600(pSprite->field_14_xy.x + offset.x, pSprite->field_14_xy.y + offset.y, zpos);
-        pParticle->field_28_pSprite = pSprite;
-    }
-    gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
-    // 9.6f: Sprite::SetNoLighting_4337F0 here and above (inlined, using it in both places makes the diff worse)
-    pParticle->field_30_pNext->field_2C_bf.bNoLighting = true;
 }
 
 // Something wrong with the velocities https://decomp.me/scratch/2Kz9I
