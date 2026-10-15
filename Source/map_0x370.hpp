@@ -478,15 +478,12 @@ class Map_0x370
     EXPORT Fix16 GetLateralOffsetInBlock_4E5D70(Fix16 x, Fix16 y, Ang16 angle);
     EXPORT Fix16 GetForwardOffsetInBlock_4E5E00(Fix16 x, Fix16 y, Ang16 angle);
 
-    // The block under (x, y, z), or the one at z when the one under has slope index 63 (0xFC: its slope is in the block above, GMP format)
+    // The block under (x, y, z), or the one at z when the one under has slope index 63 (0xFC: its slope is in the block above, GMP format).
+    // A ternary, not an if (also in GetRoadBlockAtOrNull_4E7190): its else block counts toward the 100+ blocks of AdvanceAlongRailway_4E6660
     inline gmp_block_info* GetRoadBlockAt_4E6660(Fix16& x, Fix16& y, Fix16& z)
     {
         gmp_block_info* pBlock = GetBlock_4DFE10(x.ToInt(), y.ToInt(), (z - kFpOne_6F6110).ToInt());
-        if (IS_SLOPE_IN_BLOCK_ABOVE(pBlock->field_B_slope_type))
-        {
-            pBlock = GetBlock_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
-        }
-        return pBlock;
+        return IS_SLOPE_IN_BLOCK_ABOVE(pBlock->field_B_slope_type) ? GetBlock_4DFE10(x.ToInt(), y.ToInt(), z.ToInt()) : pBlock;
     }
 
     // As GetRoadBlockAt_4E6660, writing straight into pBlock (the original keeps pBlock in a register
@@ -514,11 +511,7 @@ class Map_0x370
     inline gmp_block_info* GetRoadBlockAtOrNull_4E7190(Fix16& x, Fix16& y, Fix16& z)
     {
         gmp_block_info* pBlock = GetBlock_4DFE10(x.ToInt(), y.ToInt(), (z - kFpOne_6F6110).ToInt());
-        if (pBlock && IS_SLOPE_IN_BLOCK_ABOVE(pBlock->field_B_slope_type))
-        {
-            pBlock = GetBlock_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
-        }
-        return pBlock;
+        return (pBlock && IS_SLOPE_IN_BLOCK_ABOVE(pBlock->field_B_slope_type)) ? GetBlock_4DFE10(x.ToInt(), y.ToInt(), z.ToInt()) : pBlock;
     }
 
     // Move up to one block along direction, using up dist
