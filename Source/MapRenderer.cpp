@@ -3524,11 +3524,9 @@ static inline void AddToDrawListByVal(MapRenderer* pThis, s32 x, s32 y)
 }
 
 // https://decomp.me/scratch/VJVUz
-WIP_FUNC(0x4f6a20)
+MATCH_FUNC(0x4f6a20)
 void MapRenderer::Draw_4F6A20()
 {
-    WIP_IMPLEMENTED;
-
     // set ambient level
     if (gLighting_626A09)
     {
@@ -3548,7 +3546,12 @@ void MapRenderer::Draw_4F6A20()
         if (!bSkip_tiles_67D655)
         {
             // compute tile rendering boundaries
-            Fix16 layer_row_width = (gViewCamera_676978->field_98_cur_pos.field_8_z - Fix16(zLayer) + Fix16(8)) / gViewCamera_676978->field_98_cur_pos.field_C_zoom;
+            Fix16 z_distance = gViewCamera_676978->field_98_cur_pos.field_8_z - Fix16(zLayer) + Fix16(8);
+            // Empty (debug) block: it keeps z_distance a variable, so VC6 loads the zoom before shifting z_distance
+            if (bDo_show_camera_67D58A)
+            {
+            }
+            Fix16 layer_row_width = z_distance / gViewCamera_676978->field_98_cur_pos.field_C_zoom;
 
             // narrow the y direction because of assymetric monitor resolution
             Fix16 layer_column_width = layer_row_width * kScreenAspectRatio_6F638C;
@@ -3579,7 +3582,8 @@ void MapRenderer::Draw_4F6A20()
 
             // update global Z coordinate
             gZCoord_6F63E0 = zLayer;
-            gZCoordFp_6F6518 = Fix16(zLayer);
+            // A multiply, not Fix16(zLayer): VC6 must not reuse the shift of the first Fix16(zLayer) here
+            gZCoordFp_6F6518 = Fix16(zLayer * 16384, 0);
 
             Fix16 unk_Z_Factor = gViewCamera_676978->field_98_cur_pos.field_8_z - Fix16(zLayer) + Fix16(8);
             Fix16 unknown_1;
@@ -3593,8 +3597,8 @@ void MapRenderer::Draw_4F6A20()
             }
 
             gInvDepthBottom_6F6318 = unknown_1;
-            s32 top_layer = zLayer + 1;
             gScreenScaleBottom_6F633C = unknown_1 * gViewCamera_676978->field_60_screen_scale.x;
+            s32 top_layer = zLayer + 1;
             gZCoordTop_6F62B0 = top_layer;
 
             Fix16 unknown_2;
