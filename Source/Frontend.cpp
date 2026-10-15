@@ -315,18 +315,15 @@ EXPORT s32 IsFullScreen_5D98D0()
     return gVidSys_7071D0->field_40_full_screen;
 }
 
-// This function matches with the Write_4D9620 call below, but that call (ErrorLog class) crashes the
-// standalone exe on boot. Kept as WIP on purpose (maintainer decision): do not re-enable it to promote.
-WIP_FUNC(0x5D9910)
+MATCH_FUNC(0x5D9910)
 EXPORT s32 __stdcall SetGamma_5D9910(s32 gamma)
 {
     f32 gamma_f = gamma * 0.1;
     if (gVidSys_7071D0)
     {
         s32 result = pVid_SetGamma(gVidSys_7071D0, gamma_f, gamma_f, gamma_f);
-        // TODO: format string at 0x626B34 not checked against the original
-        sprintf(gTmpBuffer_67C598, "SetGamma %d = %d", gamma, result);
-        //gErrorLog_67C530.Write_4D9620(gTmpBuffer_67C598);  // crashing standalone
+        sprintf(gTmpBuffer_67C598, "gammma(%d) : %d", gamma, result);
+        gErrorLog_67C530.Write_4D9620(gTmpBuffer_67C598);
         return result;
     }
     return gamma;
