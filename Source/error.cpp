@@ -128,8 +128,8 @@ void ErrorLog::log_intro_4D95A0()
     Write_4D9620(gTmpBuffer_67C598);
 }
 
-DEFINE_GLOBAL(ErrorLog, gErrorLog_67C530, 0x67C530);
-DEFINE_GLOBAL(ErrorLog, gErrorLog_67CF58, 0x67CF58);
+DEFINE_GLOBAL_INIT(ErrorLog, gErrorLog_67CF58, ErrorLog("test\\error.log", 1), 0x67CF58);
+DEFINE_GLOBAL_INIT(ErrorLog, gErrorLog_67C530, ErrorLog("test\\warning.log", 1), 0x67C530);
 DEFINE_GLOBAL(ErrorLog, gMiss2Log_6F7698, 0x6F7698);
 ErrorLog gFile_67C530; //DEFINE_GLOBAL(ErrorLog, gFile_67C530, 0x67C530);
 
