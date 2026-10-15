@@ -56,6 +56,9 @@ What follows:
   as test padding), `x = y;` +5, `if (x) y = 1;` +12, `Fix16 b;` +11 and one site,
   `Fix16 b = a;` +7, `r = a - r;` +17, a ternary about 6 less than if/return.
 - `__forceinline` is never charged, but its own sites still get only `budget / sites_left`.
+- The 35000 total cap also rejects free sites, and free sizes count toward it. Only
+  `CarAI_78::UpdateStateMachine_44E560` reaches it (see `docs/match_attempts.md`); everywhere else free
+  sizes have no visible effect.
 
 ## Tools
 
