@@ -3036,6 +3036,15 @@ operand is a register value (a call result compared directly, a temp); a variabl
 the test is written. A call between the test and the stores breaks the link too
 (`PublicTransport_181C::BusesService_579CA0`).
 
+### Duplicated early-return blocks shift the round-robin cursor (`Char_B4::state_8_5520A0`)
+
+Identical `if (...) { kill; return; }` blocks are merged after register allocation, so writing three separate checks
+instead of one `||` condition leaves the same bytes but each copy makes its own round-robin picks before the merge.
+Here the reload of `field_7C_pPed->field_184_pObj2C` after the checks is a round-robin temp in the original (not a
+named local), and it only lands on the right register once one more copy has been generated before it. Pointer or
+reference locals, helper inlines and if/else or `goto` layouts do not move the cursor; the separate blocks do.
+Inline parameters used once are evaluated where they are used, not at the call; used twice they become variables.
+
 ## TODO: Car_BC field_A4 / field_A6 are both a bitfield and a mask word
 
 `field_A6_turn_flags` and `field_A4_light_flags` are unions of a raw byte and a bit field struct (`CarTurnFlags8`,
