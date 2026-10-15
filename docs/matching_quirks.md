@@ -2048,7 +2048,7 @@ with VC7 before adding a variant. Still open: the GetLength "x*x out of line, y*
 **Size windows from the matched set.** Re-simulating every matched function with one callee's size
 changed (inlsim model, all TUs) pins most of the common inlines: Fix16 binary `+`/`-` 52, unary `-` 42,
 `Abs` 57 exactly, `operator*` 56..57, `Ang16(const s16&, s32)` 43..44 (`Ped::UpdateFacingAngle_461A60` and
-`Char_B4::ApplyRandomRotationJitter_54C6C0` break at 45), `Ang16::operator+` 52..58, `Normalize` 60..67,
+`Char_B4::ApplyRandomRotationJitter_54C6C0` break at 45), `Ang16::operator+` 52..58, `Normalize` exactly 67 (`ManageTrafficCarDirection_448CE0` rejects it at nested budgets 64 and 66, any size below 67 inlines it there),
 `Fix16_To_Ang16_40F540` 41..51, `RotateByAngle_40F6B0` 138..146, `Fix16_Point()` 41..45, `GetLength_41E260`
 159..162, `SquareRoot` 41..49. So a variant of a Fix16 operator or of the Ang16 normalizing ctor can't be
 fixed by the operator's own size; look at the caller (`inlsim --scan`). The free ones were enough for one
