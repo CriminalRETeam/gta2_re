@@ -3044,6 +3044,20 @@ for `vel.x + dx` the load order follows the declaration order of `dx` against `v
 not. Declaration order also sets the order in which split live ranges are reloaded (`ypos` before `xpos` here).
 The last point of that function was one round-robin pick supplied by the `Fix16(0)` temporary of `SetXY_432860`.
 
+### Live-range splitting changes at 100 blocks (`Map_0x370::AdvanceAlongRailway_4E6660`)
+
+When a live range fails to colour, C2 splits it by the block-region walk (`0x107429ee`) only if the function has
+100 or more blocks at the colour pass (`[0x1079e88c]`, counted by `0x1071BBC7`) and the failed set has 3 or more
+ranges; otherwise each range goes through the per-range carve `0x1074338e`, which cuts elsewhere. A near miss that
+differs only in which piece holds a constant (`push $1` vs `push %ebx`) in a function of about 90 to 99 blocks
+is probably on the wrong side of that threshold. Blocks that leave no code still count: a `do { } while (0)`
+macro body ending an if-body that is followed by code, a ternary-returning inline used as a temporary (its else
+arm keeps its own block until coalescing), a user label next to a compiler label. Unused labels, dead stores and
+flag inlines are removed earlier and do not count. Here the two helpers are `do/while(0)` macros (9.6f has no
+call for them even with `/Ob0`, so the original had macros or open code), which takes the function from 94 to
+102 blocks. Deleting unused inline members from a class header changed another TU's codegen (`Particle_4C`),
+so unused members stay.
+
 ## TODO: Car_BC field_A4 / field_A6 are both a bitfield and a mask word
 
 `field_A6_turn_flags` and `field_A4_light_flags` are unions of a raw byte and a bit field struct (`CarTurnFlags8`,
