@@ -3044,6 +3044,17 @@ for `vel.x + dx` the load order follows the declaration order of `dx` against `v
 not. Declaration order also sets the order in which split live ranges are reloaded (`ypos` before `xpos` here).
 The last point of that function was one round-robin pick supplied by the `Fix16(0)` temporary of `SetXY_432860`.
 
+### Early returns charge a destructor site per live point (`Particle_8::GunMuzzelFlash_53E970`)
+
+With `/GX`, every `return` adds an inline destructor site for each destructible local alive there, and those sites
+share the `sites_left` budget with the real helpers. A function written with early returns can then put its
+operator copies out of line where the original (written as nested `if`s with one exit) keeps them inline, even
+though the merged bytes of the exits would be the same. Here the five tracked `Fix16_Point`s (EH state 4 at entry)
+and the three of the car branch (state 7) only reproduce the original once the early returns are gone; the unused
+sin/cos products are a `PolarToCartesian_41FC20` call whose results are not read, and calling `get_x_y_443580()`
+by name instead of spelling the loads avoids a charged site. Sub-block scalars (`half_w`, `half_h`) declared at
+the car-block level, not inside each section, give the original's registers.
+
 ## TODO: Car_BC field_A4 / field_A6 are both a bitfield and a mask word
 
 `field_A6_turn_flags` and `field_A4_light_flags` are unions of a raw byte and a bit field struct (`CarTurnFlags8`,
