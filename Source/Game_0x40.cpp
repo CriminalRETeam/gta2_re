@@ -304,7 +304,7 @@ void Game_0x40::BootGame_4B8EB0()
         gMike_A80_6F7328->Init_4FF1B0();
     }
     gCarThreadTriggers_214_705F20->Reset_5C8750();
-    gMap_0x370_6F6268->alloc_zones_4DFCA0();
+    gMap_0x370_6F6268->AllocZones_4DFCA0();
     gHud_2B00_706620->Init_5D6BE0();
     gScriptManager_6F8060->Update_512160(); // script
     gGame_0x40_67E008->field_38_local_player->ApplyCheats_56A490();
@@ -315,7 +315,7 @@ void Game_0x40::BootGame_4B8EB0()
     gRouteFinder_6FFDC8->Reset_588C60();
     gHud_2B00_706620->Init_5D6BE0();
     gMap_0x370_6F6268->SpawnMapObjects_4DFB90(); // map objects
-    gMap_0x370_6F6268->update_lights_4DFCD0(); // lights
+    gMap_0x370_6F6268->UpdateLights_4DFCD0(); // lights
     if (!bSkip_traffic_lights_67D4EC)
     {
         gTrafficLights_194_705958->CreateFromMapZones_5C2AC0();

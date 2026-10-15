@@ -304,7 +304,7 @@ and **the first match of any length wins**, not the longest. Then the next jump 
 
 - Which copy survives follows the order the jumps are generated: source order, except that a `dec/je` chain
   switch generates its cases in value order, and inner `break`s threaded through an outer `break` end up just
-  ahead of it. `Map_0x370::sub_4E6190` only differs in this: forcing the reverse order in the patched C2 makes it
+  ahead of it. `Map_0x370::ClassifyArrowOnSlope_4E6190` only differs in this: forcing the reverse order in the patched C2 makes it
   match exactly.
 - A pair merges or not depending on its last statements in **source** order. The scheduler can reorder them
   afterwards, so a store order that looks identical in the binary may not have been at cross-jump time.
@@ -557,7 +557,7 @@ indexed addressing, and hand-written pointers merge into one pointer and a diffe
 
 **A `u8` local copy of a byte field gets its own stack slot.** It is zero-extended through memory.
 `s32 h = p->u8field;` instead gives `mov ebx,ebp; and $0xFF` with the byte in `bl` and no extra slot
-(`Map_0x370::sub_4E8370`, which also got its prologue and frame from this).
+(`Map_0x370::CloneColumnWithoutBlock_4E8370`, which also got its prologue and frame from this).
 
 ## Evaluation order and registers
 
@@ -659,7 +659,7 @@ unrelated statement above it: `const s32& polys_drawn = pGlobals[0];` instead of
 The permuter's `ref_local` pass found it (exhaustive, depth 1).
 
 **A `const T&` local flips which operand of a `u8 - u8` loop bound is loaded first.** In
-`Map_0x370::sub_4E8370` every `pNew->field_0_height - pNew->field_1_offset` loop bound loaded height first
+`Map_0x370::CloneColumnWithoutBlock_4E8370` every `pNew->field_0_height - pNew->field_1_offset` loop bound loaded height first
 (`mov (%edx),%bl; mov 1(%edx),%al; sub %eax,%ebx`) where the original loads offset first into the scratch
 register (`mov 1(%edx),%bl; mov (%edx),%al; sub %ebx,%eax`), with VC6 and VC7 agreeing on both. Casts, swapped
 compares, `i + offset < height` and inline getters change nothing; any `const T&` local in scope does
@@ -1065,7 +1065,7 @@ directly in the first check keeps the original jump target (`Car_BC::CanCarColli
 
 **Block-scoped locals in different switch cases share a stack slot; function-scope ones get their own.** If the original gives each case's temporary a separate slot, move the declarations to the top of the function. Example: `WindowProc_5E4EE0`.
 
-**Pass an inline's result straight into the call when the original does.** `mov (%eax),%edx; push %edx` right after the inline means `Call(..., *sub_4E4E50(&tmp, ...))`, not a local assigned first (`Ped::ExitCarStateMachine_46C250`).
+**Pass an inline's result straight into the call when the original does.** `mov (%eax),%edx; push %edx` right after the inline means `Call(..., *FindGroundZAboveCoord_4E4E50(&tmp, ...))`, not a local assigned first (`Ped::ExitCarStateMachine_46C250`).
 
 **`speed * Ang16::sine_40F500(a)` vs `sine(a) * speed`.** With the by-value temporary on the right, VC6 loads both into registers (`mov table,%ecx; mov speed,%eax; imul %ecx`); the other order or `PolarToCartesian` gives `imull mem` (`Particle_4C::PoolUpdate_53D260`). The inline `Fix16 * Fix16` keeps its `imul` operand order whatever the source order, but indexing `gSin_table_667A80` directly instead of calling `sine_40F500` changes which operand goes in `eax` (`CarAI_78::ScanAheadForObstacles_452060`).
 
@@ -1089,7 +1089,7 @@ directly in the first check keeps the original jump target (`Car_BC::CanCarColli
 
 **Constant registers in big functions** (ebp = 0 from a pointer local initialised to 0, ebx = 2, edi = 0xF) are often all that is left; they come from the original holding a local or constant across a region (`Ped::Threat_Reaction_AI_465270`, `Particle_4C::PoolUpdate_53D260`). No source form found yet.
 
-**Out-of-line helpers can be mixed within one family.** `Is{North,East}BlockRoadType` call `get_block_452980` while `Is{South,West}BlockRoadType` inline `get_block_42A850` (`PublicTransport_181C::BusesService_579CA0`). Check each call target separately.
+**Out-of-line helpers can be mixed within one family.** `Is{North,East}BlockRoadType` call `GetBlockOrNull_452980` while `Is{South,West}BlockRoadType` inline `get_block_42A850` (`PublicTransport_181C::BusesService_579CA0`). Check each call target separately.
 
 **Reading a pointer through a different expression forces a reload.** `field_C_carriages[0]->field_54_driver` instead of a local `pBusCar->field_54_driver` stops VC6 reusing the loaded field (579CA0).
 
@@ -1674,7 +1674,7 @@ touching a shared header.
 
 **A getter that returns a copy is not a reference getter.** The 9.6f `Fix16_Rect` getters
 (0x45ADA0-0x45ADD0) return a `Fix16` by value. Returning `Fix16&` gave different scheduling of
-the four rect reads in `Map_0x370::sub_4E4820`; by value, read in the original order (left,
+the four rect reads in `Map_0x370::AllBlocksInRectHaveSlopeBits_4E4820`; by value, read in the original order (left,
 right, top, bottom), it matched. Check the 9.6f getter's `ret $4` and hidden return pointer.
 Reading the sides through the by-value getters also fixed the argument-copy slots and the inline
 budget of `SpriteShape_4C::DrawCollisionBox_5A4DA0`.
@@ -1800,7 +1800,7 @@ all follow from this rule.
 
 Example: past the limit a call stays a real call, for example `call ??GFix16@@QBE?AV0@ABV0@@Z`
 (`Fix16::operator-`) where the original has `sub %ecx,%eax`. In
-`Map_0x370::sub_4E7190` three `operator-` calls were left out of line until two helper inlines
+`Map_0x370::AdvanceAlongRailwayChecked_4E7190` three `operator-` calls were left out of line until two helper inlines
 were written out by hand (score 825 -> 196). If a big function calls an inline that its
 smaller sibling inlines fine, count the inline helpers you added that the original may not have
 had. Writing a small check out
@@ -1814,8 +1814,8 @@ back; on the outer helper it doesn't (`Firefighter_28::Update_4A81F0`, with a fi
 
 **An inline that writes through a reference keeps the target in a register.**
 `p = GetBlock(x, y, z)` with an inline that returns its own local spilled `pBlock` to the stack
-in `Map_0x370::sub_4E6660`. `SetBlock(pBlock, x, y, z)`, which assigns `pBlock` in both lookups,
-gave the original's `mov %eax,%edi` after each `get_block_4DFE10` and fixed the whole register
+in `Map_0x370::AdvanceAlongRailway_4E6660`. `SetBlock(pBlock, x, y, z)`, which assigns `pBlock` in both lookups,
+gave the original's `mov %eax,%edi` after each `GetBlock_4DFE10` and fixed the whole register
 allocation (0.56 -> 0.99). The opposite holds for a value that must not be constant-propagated:
 `if (d != want) d = 0; if (!d)` folds into one `cmp`, but the original's
 `cmp; je; xor; test; jne` comes from an inline that returns `d`.
@@ -1824,7 +1824,7 @@ allocation (0.56 -> 0.99). The opposite holds for a value that must not be const
 `Fix16 found_z` each got their own stack slot, so the frame was 4-8 bytes too big. The original
 puts both in slots it reuses, including the dead `dist` parameter's slot. A temporary
 (`GetAngleFace_4F78F0(Ang16(...).Normalized_406C20())`, an inline that returns `*this`) and a
-block-scoped `{ Fix16 found_z; ... }` gave the original's frame (`Map_0x370::sub_4E6660`).
+block-scoped `{ Fix16 found_z; ... }` gave the original's frame (`Map_0x370::AdvanceAlongRailway_4E6660`).
 
 **An implicit conversion into a by-value argument calls the constructor out of line.**
 `Call(98, 179)` to a function taking `Fix16` by value builds each argument in its stack slot
@@ -2356,9 +2356,9 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   that operand (computed first) the lower slot; named, it gets the higher one. Matched
   `Explosion_30::EmitBuildingDebris_22_23_24_25_542E30` with a file-local `PolarToCartesian` that calls both multiplies out of line.
 - **`(a - b).mValue >> 14` instead of `(a - b).ToInt()`** saves one inline expansion per site with the same code
-  (`Map_0x370::sub_4E7190`: four of them paid for the `KeepDir` inline that keeps `xor; test` unfolded).
+  (`Map_0x370::AdvanceAlongRailwayChecked_4E7190`: four of them paid for the `KeepDir` inline that keeps `xor; test` unfolded).
 - **`??1Fix16_Point` in an object's relocations can be just the EH unwind funclet** placed after the function,
-  not a call in the body (sub_4E5640). The outlined `Fix16_Point_POD()` that sub_4E5640 had was the nested
+  not a call in the body (IsProbePathClear_4E5640). The outlined `Fix16_Point_POD()` that IsProbePathClear_4E5640 had was the nested
   base ctor of the old derived `Fix16_Point` (480 -> 275 with the standalone class).
 - **The shared EH epilogue** (`TickObject_5283C0`, `HandleCarImpact_5538A0`, `Start_NetworkGame_5E5A30`) and
   the shared `return 0` tail (`Ped::SetObjective2_463830`) are still not reproducible: VC6 copies the tail into
@@ -2596,7 +2596,7 @@ same `mov field,%ecx; push %ecx` as a plain copy. `sound_obj::ProcessActiveQueue
 `AdjustPlaybackRate` rate load after it moves from eax to edx, and so do the registers in the rest of the loop.
 
 **A `xor`/`test` that the direct form threads away: look for a compound condition, not a temp.** In
-`Map_0x370::sub_4E7190` the original keeps `mov %eax,%ebp; cmp $3,%ebp; je J; xor %ebp,%ebp; J: test %ebp,%ebp`.
+`Map_0x370::AdvanceAlongRailwayChecked_4E7190` the original keeps `mov %eax,%ebp; cmp $3,%ebp; je J; xor %ebp,%ebp; J: test %ebp,%ebp`.
 `v = Get(); if (v != 3) v = 0; if (!v)` lets VC6 thread both paths and drop the `xor`/`test`; a temp
 (`d = Get(); if (d != 3) d = 0; v = d;`) keeps them but `d` takes eax (`Scripts/regalloc/README.md`,
 "Preferences": a call result's eax preference is re-added at every priority pass, the copy's register once).
@@ -2914,7 +2914,7 @@ A function that mixes inline normalizes with calls to `Normalize_406C20` usually
 nested `Normalize()` only fits the nested budget (`budget / sites_left`) at the later sites, so the early ones call
 the out-of-line copy (`CarDoorAlignmentSolver_545AF0`: 332 -> 60). Writing the out-of-line ones as
 `Ang16(x).Normalized_406C20()` gets the calls but not the `s16 value` locals or the budget of the others.
-The same code can come out of both spellings and still allocate differently: in `Map_0x370::sub_4E7190`
+The same code can come out of both spellings and still allocate differently: in `Map_0x370::AdvanceAlongRailwayChecked_4E7190`
 (122 -> 38) the operator's locals are two more live ranges in the loop's turn block, which lifts that block's
 `to_edge` (N * bw * savings, 120 -> 144) above two `ToInt` CSE temps (132), so it takes ebp and `dist` gets ebx.
 
@@ -2989,7 +2989,7 @@ Matched by replacing all five gotos with structure VC6 threads away (206 -> 0, w
   default-constructed local keeps the `movw $0` init and loads at the first use. The enregistered copy of the
   atan2 result before `GetRotation()` (`mov (%eax),%si`) is a function-scope `Ang16 a` too (9.6f default-constructs
   three Ang16 at entry: a, rel, range).
-- **Arguments as getters in each arm** (`sub_4E5640(..., pS->get_cam_x(), get_cam_y(), get_cam_z(), ...)` in both
+- **Arguments as getters in each arm** (`IsProbePathClear_4E5640(..., pS->get_cam_x(), get_cam_y(), get_cam_z(), ...)` in both
   calls, as 9.6f): head merging hoists the three loads above the `je` with the type compare in between
   (`mov type,%ecx; mov 1B0,%edx; cmp $2,%ecx; mov 1B4,%ecx; mov 1AC,%eax`); `sx/sy/sz` locals load them up front
   in a different order and register.

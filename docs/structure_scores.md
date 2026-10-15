@@ -17,7 +17,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 0 | 0 | 2 | 0 | 0x4fb330 | `Ambulance_20::UpdateState_4FB330` | Ambulance_110.cpp |
 | 0 | 0 | 20 | - | 0x540320 | `Particle_8::EmitElectricArcParticle` | Particle_8.cpp |
 | 0 | 0 | 34 | - | 0x452060 | `CarAI_78::ScanAheadForObstacles_452060` | CarAI_78.cpp |
-| 0 | 0 | 4 | - | 0x4e6660 | `Map_0x370::sub_4E6660` | map_0x370.cpp |
+| 0 | 0 | 4 | - | 0x4e6660 | `Map_0x370::AdvanceAlongRailway_4E6660` | map_0x370.cpp |
 | 0 | 0 | 4 | 0 | 0x516590 | `TagGame_28::SetNewFugitive_516590` | TagGame_28.cpp |
 | 0 | 0 | 6 | - | 0x414710 | `sound_obj::TrainCab_414710` | sound_obj.cpp |
 | 0 | 2 | 4 | 2 | 0x4b6390 | `menu_option_0x82::SelectPrevHorizontalIdx_4B6390` | Frontend.cpp |
@@ -74,7 +74,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 0 | 38 | 225 | 387 | 0x4482c0 | `CarAI_78::BrakeForBlockedRoadAhead_4482C0` | CarAI_78.cpp |
 | 0 | 38 | 44 | - | 0x4efb20 | `MapRenderer::Draw4SidedDiagonalUpRight_4EFB20` | MapRenderer.cpp |
 | 0 | 38 | 48 | - | 0x4ef1c0 | `MapRenderer::Draw3SidedDiagonalDownLeft_4EF1C0` | MapRenderer.cpp |
-| 0 | 40 | 104 | 46 | 0x4e8370 | `Map_0x370::sub_4E8370` | map_0x370.cpp |
+| 0 | 40 | 104 | 46 | 0x4e8370 | `Map_0x370::CloneColumnWithoutBlock_4E8370` | map_0x370.cpp |
 | 0 | 40 | 172 | 527 | 0x422b70 | `sound_obj::ProcessPed_422B70` | sound_obj.cpp |
 | 0 | 40 | 192 | - | 0x5de4f0 | `Weapon_30::sub_5DE4F0` | Weapon_30.cpp |
 | 0 | 40 | 371 | 187 | 0x53fe40 | `Particle_8::EmitImpactParticles_53FE40` | Particle_8.cpp |
@@ -162,11 +162,11 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 8 | 79 | 428 | 337 | 0x54ddf0 | `Char_B4::state_0_54DDF0` | char.cpp |
 | 8 | 110 | 414 | 73 | 0x45e4a0 | `Ped::StartCrossingRoad_45E4A0` | Ped.cpp |
 | 9 | 58 | 64 | 177 | 0x4e1520 | `Map_0x370::SpriteHitsDiagonalWall_4E1520` | map_0x370.cpp |
-| 9 | 121 | 480 | 66 | 0x4e5640 | `Map_0x370::sub_4E5640` | map_0x370.cpp |
+| 9 | 121 | 480 | 66 | 0x4e5640 | `Map_0x370::IsProbePathClear_4E5640` | map_0x370.cpp |
 | 10 | 33 | 54 | 34 | 0x4dada0 | `TagGameHudUpdate_4DADA0` | winmain.cpp |
 | 10 | 46 | 353 | 221 | 0x4b3170 | `Frontend::ChangeMenuPage_4B3170` | Frontend.cpp |
 | 10 | 118 | 248 | 137 | 0x55b970 | `CarPhysics_B0::ProcessGroundCollisionAndSurfaceType_55B970` | CarPhysics_B0.cpp |
-| 12 | 48 | 60 | 48 | 0x4e6190 | `Map_0x370::sub_4E6190` | map_0x370.cpp |
+| 12 | 48 | 60 | 48 | 0x4e6190 | `Map_0x370::ClassifyArrowOnSlope_4E6190` | map_0x370.cpp |
 | 12 | 99 | 282 | 34 | 0x5283c0 | `Object_2C::TickObject_5283C0` | Object_5C.cpp |
 | 13 | 59 | 138 | 127 | 0x572920 | `PoliceCrew_38::State5_PursueOrChase_572920` | Police_38.cpp |
 | 14 | 138 | 367 | - | 0x538060 | `Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060` | Particle_4C.cpp |

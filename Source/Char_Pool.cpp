@@ -257,7 +257,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
 
             case 4:
             {
-                gmp_map_zone* pMapZone = gMap_0x370_6F6268->zone_by_pos_and_type_4DF4D0(xpos.ToInt(), ypos.ToInt(), 14u);
+                gmp_map_zone* pMapZone = gMap_0x370_6F6268->GetZoneAtPosOfType_4DF4D0(xpos.ToInt(), ypos.ToInt(), 14u);
                 if (pMapZone)
                 {
                     Gang_144* pGang = gGangPool_CA8_67E274->FindGangByName_4BF100(pMapZone->field_6_name);

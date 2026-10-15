@@ -697,7 +697,7 @@ Car_BC* CarManager_6C::SpawnCarAtRoadDirection_444CF0(s32 car_model_type, Fix16 
     u8 z = zpos.ToInt();
     Car_BC* pCar = 0;
 
-    gmp_block_info* pBlock = gMap_0x370_6F6268->get_block_4DFE10(tile_x, tile_y, z - 1);
+    gmp_block_info* pBlock = gMap_0x370_6F6268->GetBlock_4DFE10(tile_x, tile_y, z - 1);
 
     if (gMap_0x370_6F6268->CheckGreenArrowDirection_4E4B40(4, pBlock))
     {
@@ -725,7 +725,7 @@ char Car_BC::SnapCarToGreenArrow_444E40(Fix16 xpos, Fix16 ypos, Fix16 zpos)
     const u8 x_int = xpos.ToInt();
     const u8 y_int = ypos.ToInt();
     const u8 z_int = zpos.ToInt();
-    gmp_block_info* pBlockInfo = gMap_0x370_6F6268->get_block_4DFE10(x_int, y_int, z_int - 1);
+    gmp_block_info* pBlockInfo = gMap_0x370_6F6268->GetBlock_4DFE10(x_int, y_int, z_int - 1);
 
     if (pBlockInfo)
     {
@@ -765,7 +765,7 @@ char Car_BC::TrySnapCarToNearestDrivableRoadAndDriveForward_445EC0(Fix16 xpos, F
         ++zTmpInt;
         if (pBlock)
         {
-            if ((pBlock->field_B_slope_type & 3) == ROAD)
+            if (GET_BLOCK_TYPE(pBlock->field_B_slope_type) == ROAD)
             {
                 if (!gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, direction))
                 {
@@ -805,7 +805,7 @@ char Car_BC::TrySnapCarToNearestDrivableRoadAndDriveForward_445EC0(Fix16 xpos, F
                     {
                         field_50_car_sprite->set_xyz_lazy_420600(xpos, ypos, pos_z);
 
-                        field_50_car_sprite->set_ang_lazy_420690(ReturnAngleFromRoadDirection_4F7940(&direction));
+                        field_50_car_sprite->set_ang_lazy_420690(ReturnAngleFromRoadDirection_4F7940(direction));
 
                         if (field_58_physics)
                         {
@@ -972,7 +972,7 @@ Car_BC* CarManager_6C::SpawnBusAtValidRoadPosition_4453E0(Fix16 x, Fix16 y, s32 
         gmp_block_info* pBlock = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x.ToInt(), y.ToInt(), &found_z);
         if (pBlock)
         {
-            if ((pBlock->field_B_slope_type & 3) == 1 && !gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction))
+            if (GET_BLOCK_TYPE(pBlock->field_B_slope_type) == 1 && !gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction))
             {
                 if (gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction::up_1))
                 {
@@ -1072,7 +1072,7 @@ Car_BC* CarManager_6C::SpawnBusAtValidRoadPosition_4453E0(Fix16 x, Fix16 y, s32 
                     }
                 }
             }
-            if ((pBlock->field_B_slope_type & 3) == 1 && !gGame_0x40_67E008->IsPointOnScreen_4B9A80(x, y))
+            if (GET_BLOCK_TYPE(pBlock->field_B_slope_type) == 1 && !gGame_0x40_67E008->IsPointOnScreen_4B9A80(x, y))
             {
                 Fix16 ground_z = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(x, y);
                 car_info* car_info_5AA3B0 = gGtx_0x106C_703DD4->get_car_info_5AA3B0(car_model);
@@ -1089,7 +1089,7 @@ Car_BC* CarManager_6C::SpawnBusAtValidRoadPosition_4453E0(Fix16 x, Fix16 y, s32 
                 if (!gSpriteGrid_1_679208->CheckRectForCollisions_477F60(&rect, 0, 0, 0) && !rect.CanRectEnterMovementRegion_59DE80() &&
                     !gGame_0x40_67E008->IsRectVisibleToAnyPlayer_4B9B10(&rect))
                 {
-                    return CarManager_6C::SpawnCar_426E10_v2(x, y, ground_z, ReturnAngleFromRoadDirection_4F7940(&road_direction), car_model);
+                    return CarManager_6C::SpawnCar_426E10_v2(x, y, ground_z, ReturnAngleFromRoadDirection_4F7940(road_direction), car_model);
                 }
             }
         }
@@ -1171,7 +1171,7 @@ Car_BC* CarManager_6C::SpawnCarOnRoadNetwork_4458B0(Fix16 xpos, Fix16 ypos, s32 
         gmp_block_info* pBlock = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x.ToInt(), y.ToInt(), &found_z);
         if (pBlock)
         {
-            if (!gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction) && (pBlock->field_B_slope_type & 3) == 1)
+            if (!gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction) && GET_BLOCK_TYPE(pBlock->field_B_slope_type) == 1)
             {
                 if (gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction::up_1))
                 {
@@ -1270,7 +1270,7 @@ Car_BC* CarManager_6C::SpawnCarOnRoadNetwork_4458B0(Fix16 xpos, Fix16 ypos, s32 
                     }
                 }
             }
-            if ((pBlock->field_B_slope_type & 3) == 1 && !gGame_0x40_67E008->IsPointOnScreen_4B9A80(x, y))
+            if (GET_BLOCK_TYPE(pBlock->field_B_slope_type) == 1 && !gGame_0x40_67E008->IsPointOnScreen_4B9A80(x, y))
             {
                 Fix16 ground_z = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(x, y);
                 car_info* pCarInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(car_model_type);
@@ -1288,7 +1288,7 @@ Car_BC* CarManager_6C::SpawnCarOnRoadNetwork_4458B0(Fix16 xpos, Fix16 ypos, s32 
                     !gGame_0x40_67E008->IsRectVisibleToAnyPlayer_4B9B10(&rect))
                 {
                     Car_BC* pCar =
-                        SpawnCar_426E10_v2(x, y, ground_z, ReturnAngleFromRoadDirection_4F7940(&road_direction), car_model_type);
+                        SpawnCar_426E10_v2(x, y, ground_z, ReturnAngleFromRoadDirection_4F7940(road_direction), car_model_type);
                     pCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
                     if (!pCar->field_5C_AI)
                     {
@@ -4822,14 +4822,14 @@ char_type Car_BC::CountConsecutiveArrowBlocks_4410D0(Ang16 ang, s8* pOutCount, F
             break;
     }
 
-    gmp_block_info* pBlock = gMap_0x370_6F6268->get_block_4DFE10(x, y, z);
+    gmp_block_info* pBlock = gMap_0x370_6F6268->GetBlock_4DFE10(x, y, z);
     if (pBlock && ((pBlock->field_A_arrows & mask1) || (pBlock->field_A_arrows & mask2)))
     {
         x += x_add;
         y += y_add;
 
         u8 count = 0;
-        for (pBlock = gMap_0x370_6F6268->get_block_4DFE10(x, y, z); pBlock; pBlock = gMap_0x370_6F6268->get_block_4DFE10(x, y, z))
+        for (pBlock = gMap_0x370_6F6268->GetBlock_4DFE10(x, y, z); pBlock; pBlock = gMap_0x370_6F6268->GetBlock_4DFE10(x, y, z))
         {
             if (!(pBlock->field_A_arrows & mask1) && !(pBlock->field_A_arrows & mask2))
             {
@@ -4847,7 +4847,7 @@ char_type Car_BC::CountConsecutiveArrowBlocks_4410D0(Ang16 ang, s8* pOutCount, F
         x_add = -x_add;
         y_add = -y_add;
 
-        for (pBlock = gMap_0x370_6F6268->get_block_4DFE10(x, y, z); pBlock; pBlock = gMap_0x370_6F6268->get_block_4DFE10(x, y, z))
+        for (pBlock = gMap_0x370_6F6268->GetBlock_4DFE10(x, y, z); pBlock; pBlock = gMap_0x370_6F6268->GetBlock_4DFE10(x, y, z))
         {
             if (!(pBlock->field_A_arrows & mask1) && !(pBlock->field_A_arrows & mask2))
             {
@@ -4916,9 +4916,9 @@ void Car_BC::StartWreckCountdown_441380()
 }
 
 MATCH_FUNC(0x4F7940)
-EXPORT Ang16 __stdcall ReturnAngleFromRoadDirection_4F7940(s32* road_direction)
+EXPORT Ang16 __stdcall ReturnAngleFromRoadDirection_4F7940(s32& road_direction)
 {
-    switch (*road_direction)
+    switch (road_direction)
     {
         case road_direction::up_1:
             return kAng180_6F67EA;
@@ -4966,13 +4966,13 @@ void Car_BC::UpdateTrainCarriagesOnTrack_4413B0(Fix16 xpos, Fix16 ypos, Fix16 zp
         Ang16 carriage_angle;
         if (bUnknown)
         {
-            s32 track_dir_a = gMap_0x370_6F6268->sub_4E7190(&newx, &newy, &newz, k_dword_6777D4);
-            carriage_angle = ReturnAngleFromRoadDirection_4F7940(&track_dir_a);
+            s32 track_dir_a = gMap_0x370_6F6268->AdvanceAlongRailwayChecked_4E7190(&newx, &newy, &newz, k_dword_6777D4);
+            carriage_angle = ReturnAngleFromRoadDirection_4F7940(track_dir_a);
         }
         else
         {
-            s32 track_dir_b = gMap_0x370_6F6268->sub_4E6660(&newx, &newy, &newz, k_dword_6777D4);
-            carriage_angle = ReturnAngleFromRoadDirection_4F7940(&track_dir_b);
+            s32 track_dir_b = gMap_0x370_6F6268->AdvanceAlongRailway_4E6660(&newx, &newy, &newz, k_dword_6777D4);
+            carriage_angle = ReturnAngleFromRoadDirection_4F7940(track_dir_b);
         }
 
         pTrainCarIter->field_50_car_sprite->set_xyz_lazy_420600(newx, newy, newz);
@@ -7524,7 +7524,7 @@ char_type TrafficSpawner_14::SpawnTrafficCar_582480(s32 spawn_type, s32 arrow_di
         if (pBlock)
         {
             u8 slope_type = pBlock->field_B_slope_type;
-            if (!(is_gradient_slope(slope_type) && get_block_type(slope_type) != 0) && get_block_type(slope_type) == 1)
+            if (!(IS_GRADIENT_SLOPE(slope_type) && GET_BLOCK_TYPE(slope_type) != 0) && GET_BLOCK_TYPE(slope_type) == 1)
             {
                 Fix16 nav_x = xpos.GetRoundValue() + kFpHalf_6FF674;
                 Fix16 nav_y = ypos.GetRoundValue() + kFpHalf_6FF674;
@@ -7798,7 +7798,7 @@ char_type TrafficSpawner_14::SpawnTrafficCar_582480(s32 spawn_type, s32 arrow_di
                                 {
                                     Car_BC* pNewCar = gCarManager_6C_677930->SpawnCarAtCorrectZ_WithScale(car_x,
                                                                                                 car_y,
-                                                                                                ReturnAngleFromRoadDirection_4F7940(&arrow_direction),
+                                                                                                ReturnAngleFromRoadDirection_4F7940(arrow_direction),
                                                                                                 car_model,
                                                                                                 kFpOne_6FF778);
                                     if (car_model != car_model_enum::SWATVAN && car_model != car_model_enum::COPCAR &&
@@ -7881,12 +7881,12 @@ char_type TrafficSpawner_14::IsFlatRoadAt_583870(Fix16 xpos, Fix16 ypos)
         }
 
         u8 slope_type = pHighBlock->field_B_slope_type;
-        if (is_gradient_slope(slope_type) && get_block_type(slope_type) != 0)
+        if (IS_GRADIENT_SLOPE(slope_type) && GET_BLOCK_TYPE(slope_type) != 0)
         {
             return 0;
         }
 
-        if (get_block_type(slope_type) == 1)
+        if (GET_BLOCK_TYPE(slope_type) == 1)
         {
             return 1;
         }

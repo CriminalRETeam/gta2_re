@@ -89,7 +89,7 @@ callees through the existing pairs and compares them with the calls of every unp
 | `sound_obj::HandleVocalStreamSwitching_57DF10` | 0x4B25D0 | 12/16 |
 | `Sprite::Draw_59EFF0` | 0x4BE060 | 13/16 |
 | `TrafficLight_20::Init_5C1D00` | 0x4C3C70 | 22/26 |
-| `Map_0x370::sub_4E6660` | 0x467110 | 56/56 |
+| `Map_0x370::AdvanceAlongRailway_4E6660` | 0x467110 | 56/56 |
 | `Particle_4C::PoolUpdate` 0x53D260 | 0x490760 | 25/28 |
 | `Particle_4C::UpdateObjectBeamLink_state_38_538AC0` | 0x48F230 | 12/24 |
 | `Particle_8::EmitElectricArcParticle` 0x540320 | 0x48DDC0 | 9/18 |
@@ -125,7 +125,7 @@ score from 201 to 50.
 - **`MapRenderer::DrawDiagonalDownRightFace_4ECE40`, exhaustive run.** `(s8)right_word >> 13` changes the result from 0–7 to 0 or -1. The random run's candidate (a `u32` temp) was used instead.
 - **`PedGroup::CoordinateGroupCarEntry_4C9F00` and `Ped::IncreaseWantedLevelFromDebugKeys_46EFD0`.** The permuter score went down but the real ratio got worse. Always re-check with the real ratio before committing.
 
-- **`remove_stmt` and `move_stmt` can win by breaking the logic.** On `Map_0x370::sub_4E8370`
+- **`remove_stmt` and `move_stmt` can win by breaking the logic.** On `Map_0x370::CloneColumnWithoutBlock_4E8370`
   `remove_stmt` "improved" the score by deleting `field_0_height--`, and on
   `ProcessOtherObjects_41F520` by deleting `sample_index = 1;`. Read the diff of every candidate
   from these passes, or leave them out (`-p`).

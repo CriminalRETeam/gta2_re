@@ -44,7 +44,7 @@ void DoorData_10::Init_49C340(u8 id, u8 x, u8 y, u8 z, u32 face, u8 bDoFlip)
         tile_word |= 0x2000; // flip
     }
 
-    if (gMap_0x370_6F6268->get_block_4DFE10(this->field_4_x, this->field_5_y, this->field_6_z))
+    if (gMap_0x370_6F6268->GetBlock_4DFE10(this->field_4_x, this->field_5_y, this->field_6_z))
     {
         gMap_0x370_6F6268->ChangeBlock_4E8620(this->field_4_x, this->field_5_y, this->field_6_z, this->field_8_face, tile_word);
         gMap_0x370_6F6268->ChangeBlock_4E8620(this->field_4_x, this->field_5_y, this->field_6_z, GetOppositeFace_4DEEB0(this->field_8_face), pInfo->field_4_internal_tile_idx);
