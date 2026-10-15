@@ -5746,13 +5746,11 @@ void Char_B4::state_7_551CB0()
 }
 
 // https://decomp.me/scratch/x9UcS
-WIP_FUNC(0x5520A0)
+MATCH_FUNC(0x5520A0)
 void Char_B4::state_8_5520A0()
 {
-    WIP_IMPLEMENTED;
     Fix16 nudge_x;
     Fix16 nudge_y;
-    Object_2C* field_184_pObj2C;
     Fix16 ground_z;
 
     Sprite* NearestSpriteOfType_477E60;
@@ -5846,8 +5844,25 @@ void Char_B4::state_8_5520A0()
             case ped_state_2::Unknown_24:
             case ped_state_2::Unknown_25:
             case ped_state_2::Unknown_26:
-                field_184_pObj2C = field_7C_pPed->field_184_pObj2C;
-                if (!field_184_pObj2C || !field_184_pObj2C->field_10_obj_3c || !field_184_pObj2C->field_4)
+                if (!field_7C_pPed->field_184_pObj2C)
+                {
+                    field_7C_pPed->Kill_46F9D0();
+                    Set_F8_ped_state_1_433910(9);
+                    field_C_ped_state_2 = 15;
+                    field_7C_pPed->field_278_ped_state_1 = ped_state_1::dead_9;
+                    field_7C_pPed->field_27C_ped_state_2 = ped_state_2::Unknown_15;
+                    return;
+                }
+                if (!field_7C_pPed->field_184_pObj2C->field_10_obj_3c)
+                {
+                    field_7C_pPed->Kill_46F9D0();
+                    Set_F8_ped_state_1_433910(9);
+                    field_C_ped_state_2 = 15;
+                    field_7C_pPed->field_278_ped_state_1 = ped_state_1::dead_9;
+                    field_7C_pPed->field_27C_ped_state_2 = ped_state_2::Unknown_15;
+                    return;
+                }
+                if (!field_7C_pPed->field_184_pObj2C->field_4)
                 {
                     field_7C_pPed->Kill_46F9D0();
                     Set_F8_ped_state_1_433910(9);
@@ -5857,18 +5872,12 @@ void Char_B4::state_8_5520A0()
                     return;
                 }
                 field_6C_animation_state = 12;
-                field_184_pObj2C = field_7C_pPed->field_184_pObj2C;
-                {
-                    Sprite* pMySprite = field_80_sprite_ptr;
-                    pMySprite->set_xyz_lazy_420600(field_184_pObj2C->field_4->field_14_xy.x,
-                                                   field_184_pObj2C->field_4->field_14_xy.y,
-                                                   field_184_pObj2C->field_4->field_1C_zpos);
-                }
-
+                field_80_sprite_ptr->set_xyz_lazy_420600(field_7C_pPed->field_184_pObj2C->field_4->field_14_xy.x,
+                                                         field_7C_pPed->field_184_pObj2C->field_4->field_14_xy.y,
+                                                         field_7C_pPed->field_184_pObj2C->field_4->field_1C_zpos);
                 if (field_C_ped_state_2 != 24)
                 {
-                    Ang16 rot = field_7C_pPed->field_184_pObj2C->field_4->field_0_rotation;
-                    field_40_rotation = rot;
+                    field_40_rotation = field_7C_pPed->field_184_pObj2C->field_4->field_0_rotation;
                 }
                 if (!field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_34)
                 {
