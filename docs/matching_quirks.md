@@ -3101,3 +3101,19 @@ field, convert every site, and keep 3401/3401.
   earlier shift of the same value. Use it where the original recomputes a shift VC6 would otherwise reuse.
 - **A local used twice in one block is computed where it is declared**, not at its first use: the
   declaration's position sets where its code is scheduled.
+
+## Block layout levers (`sound_obj::HandleVocalStreamSwitching_57DF10`)
+
+- **`do { } while (0)` keeps a jump block alive.** In `do { if (a) { if (!b) { X; goto done; } } else if (c) { ...;
+  goto done; } } while (0); S` the `!b` test's fall-through stays a separate `jmp S`: the early jump threading
+  removes ordinary pure-jump blocks but not this loop test block. After FlowOpts cross-jumps X away this gives
+  `je X'; jmp S`, and dupB moves S's head up behind it. Try it when the original has a `jcc` into a merged tail
+  followed by a moved block while the plain `if` gives `jne S` with the arm falling through. `goto restart`,
+  `for (;;) { break; }` and `while (true)` do not do this.
+- **`goto done` instead of `return` reorders the exit list.** `return`s are inserted at the head of the exit
+  label's jump list in reverse IL order; a `goto` to a final `done:` is a plain jump behind them. Turning a later
+  `return` into `goto done` makes an earlier block's `return` the kept target (P0) of the cross-jumps.
+- **The jmp-vs-fallthrough matcher stops at a conditional jump on the jumper side** (`0x1072fa19`, checked at
+  `0x1072fa60` with `[0x107AC0B4]` set); the list matcher does go through `jcc`s with the same target. Two copies
+  of a block that contains branches cannot fully merge through the fall-through path, which is why a
+  two-copy source form stalls.
