@@ -3036,6 +3036,14 @@ operand is a register value (a call result compared directly, a temp); a variabl
 the test is written. A call between the test and the stores breaks the link too
 (`PublicTransport_181C::BusesService_579CA0`).
 
+### Offset-0 fields sort as the struct itself (`Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0`)
+
+In C2's commutative operand sort (by symbol number, see "Which operand C2 loads first"), a field at offset 0 of a
+local struct uses the struct's own symbol number, while other fields get a late-numbered symbol of their own. So
+for `vel.x + dx` the load order follows the declaration order of `dx` against `vel`, and for `vel.y + dy` it does
+not. Declaration order also sets the order in which split live ranges are reloaded (`ypos` before `xpos` here).
+The last point of that function was one round-robin pick supplied by the `Fix16(0)` temporary of `SetXY_432860`.
+
 ## TODO: Car_BC field_A4 / field_A6 are both a bitfield and a mask word
 
 `field_A6_turn_flags` and `field_A4_light_flags` are unions of a raw byte and a bit field struct (`CarTurnFlags8`,
