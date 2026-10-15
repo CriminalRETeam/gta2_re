@@ -3088,3 +3088,19 @@ identically as bitfield accesses (getters must compare `== 1`) and as masks, so 
 original used. `field_A4` still has mask sites (`& 0x1C` over three bits, `= 0` clears). To decide later: pick one form per
 field, convert every site, and keep 3401/3401.
 
+
+## Block layout levers (`sound_obj::HandleVocalStreamSwitching_57DF10`)
+
+- **`do { } while (0)` keeps a jump block alive.** In `do { if (a) { if (!b) { X; goto done; } } else if (c) { ...;
+  goto done; } } while (0); S` the `!b` test's fall-through stays a separate `jmp S`: the early jump threading
+  removes ordinary pure-jump blocks but not this loop test block. After FlowOpts cross-jumps X away this gives
+  `je X'; jmp S`, and dupB moves S's head up behind it. Try it when the original has a `jcc` into a merged tail
+  followed by a moved block while the plain `if` gives `jne S` with the arm falling through. `goto restart`,
+  `for (;;) { break; }` and `while (true)` do not do this.
+- **`goto done` instead of `return` reorders the exit list.** `return`s are inserted at the head of the exit
+  label's jump list in reverse IL order; a `goto` to a final `done:` is a plain jump behind them. Turning a later
+  `return` into `goto done` makes an earlier block's `return` the kept target (P0) of the cross-jumps.
+- **The jmp-vs-fallthrough matcher stops at a conditional jump on the jumper side** (`0x1072fa19`, checked at
+  `0x1072fa60` with `[0x107AC0B4]` set); the list matcher does go through `jcc`s with the same target. Two copies
+  of a block that contains branches cannot fully merge through the fall-through path, which is why a
+  two-copy source form stalls.
