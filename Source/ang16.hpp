@@ -35,14 +35,14 @@ class Ang16
         return rValue != other.rValue;
     }
 
-    Ang16 operator-=(const Ang16& other)
+    Ang16& operator-=(const Ang16& other)
     {
         rValue -= other.rValue;
         Normalize();
         return *this;
     }
 
-    Ang16 operator+=(const Ang16& other)
+    Ang16& operator+=(const Ang16& other)
     {
         rValue += other.rValue;
         Normalize();
