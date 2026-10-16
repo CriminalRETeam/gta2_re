@@ -160,11 +160,6 @@ struct Network_14
     char field_13_unused;
 };
 
-struct Network_PlayerInputs_0x30
-{
-    Network_InputData_0x8 field_0_inputs[MAX_PLAYERS];
-};
-
 struct PacketHandlerSlot
 {
     void* field_0_param_fn_callback; // fn ptr

@@ -20,21 +20,35 @@ struct SyncCheckData_1F
 };
 #pragma pack(pop)
 
-/*   TODO: unify all packets using unions
+struct NetInputData
+{
+    u32 field_0_Inputs;
+    u32 field_4_rng;
+};
+struct SPacket
+{
+    u8 field_0_subtype;
+    void* field_4_pData;
+};
+struct NetworkBuffer
+{
+    void* field_0;
+    s32 field_4_len;
+};
+
+struct Network_PlayerInputs_0x30
+{
+    NetInputData field_0_inputs[MAX_PLAYERS];
+};
+
+//   TODO: unify all packets using unions
 union ReceivedPacket
 {
-    struct InputData_0x8
-    {
-        u32 field_0_Inputs;
-        u32 field_4_rng;
-    };
-    struct SPacket
-    {
-        u8 field_0_subtype;
-        void* field_4_pData;
-    };
+    NetInputData input_data;
+    SPacket* s_packet;
+    NetworkBuffer* net_buffer;
 };
-*/
+
 
 
 namespace pkt_data_type // first byte of data sent/received
