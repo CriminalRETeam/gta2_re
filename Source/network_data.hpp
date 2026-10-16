@@ -18,7 +18,7 @@ struct SyncCheckData_1F
     u8 field_1D_bFrench;
     u8 field_1E_player_idx;
 };
-#pragma pack(pop)
+
 
 struct NetInputData
 {
@@ -28,7 +28,7 @@ struct NetInputData
 struct SPacket
 {
     u8 field_0_subtype;
-    void* field_4_pData;
+    void* field_1_pData;
 };
 struct NetworkBuffer
 {
@@ -45,10 +45,10 @@ struct Network_PlayerInputs_0x30
 union ReceivedPacket
 {
     NetInputData input_data;
-    SPacket* s_packet;
-    NetworkBuffer* net_buffer;
+    SPacket s_packet;
+    NetworkBuffer net_buffer;
 };
-
+#pragma pack(pop)
 
 
 namespace pkt_data_type // first byte of data sent/received
@@ -94,9 +94,9 @@ namespace std_packet_subtype
 {
 enum
 {
-    GiveUp_1 = 1, // Player is not responding, so disconnect it
+    GiveUp_1 = 1, // Player is not responding/answering, so disconnect it
     PlayerQuit_2 = 2, // Player is exiting the game
-    KickFromConnection_3 = 3,
+    KickFromConnection_3 = 3, // Finish the connection of the receiver
     SyncCheckData_5 = 5, // Checksum data
 };
 } // namespace std_packet_subtype

@@ -1673,7 +1673,7 @@ void NetPlay::Disconnect_520D10()
     }
     else if (field_758_n2.field_4_players_count > 1)
     {
-        SendKeepAlive_521D20();
+        SendPlayerIsQuitting_521D20();
     }
 
     field_5E4_pDPlay3->DestroyPlayer(field_5D8_player_id);
@@ -2299,7 +2299,7 @@ s32 NetPlay::NoRefs_Send_521C80(s32 pSendData)
 }
 
 MATCH_FUNC(0x521d20)
-s32 NetPlay::SendKeepAlive_521D20()
+s32 NetPlay::SendPlayerIsQuitting_521D20()
 {
 
     u32 dataLen;

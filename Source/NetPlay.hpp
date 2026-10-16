@@ -243,7 +243,7 @@ struct NetPlay
     EXPORT void SendToAll_521B20(Network_8* pSendData);
     EXPORT s32 NoRefs_Send_521BE0(Network_8* pSendData, s32 tick_delay);
     EXPORT s32 NoRefs_Send_521C80(s32 pSendData);
-    EXPORT s32 SendKeepAlive_521D20();
+    EXPORT s32 SendPlayerIsQuitting_521D20();
     EXPORT s32 SendGiveUp_521DB0(s32 value);
     EXPORT s32 SendSyncCheckData_521E40(s32 pSendData);
     EXPORT static void static_dtor_5E4DD0();

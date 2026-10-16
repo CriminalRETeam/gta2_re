@@ -1072,6 +1072,7 @@ EXPORT void Net_Receive_Players_Inputs_4DA9F0()
 
     while (waiting_bits)
     {
+        // Leave a window to escape the loop if player is trying to exit the game
         if (gGame_0x40_67E008->UpdateExitTimer_4B8C20())
         {
             return;
@@ -1085,11 +1086,11 @@ EXPORT void Net_Receive_Players_Inputs_4DA9F0()
             {
                 case packet_subtype::StandardPacket_2:
                 {
-                    switch (*(u8*)gpInputBuffer_6F58C0) // std_packet_subtype
+                    switch (gpInputBuffer_6F58C0->s_packet.field_0_subtype) // std_packet_subtype
                     {
                         case std_packet_subtype::GiveUp_1:
-                            waiting_bits &= ~(1 << *(s32*)((u8*)gpInputBuffer_6F58C0 + 1));
-                            gNetDisconnectPlayersBits_6F56B8 |= 1 << *(s32*)((u8*)gpInputBuffer_6F58C0 + 1);
+                            waiting_bits &= ~(1 << (s32)gpInputBuffer_6F58C0->s_packet.field_1_pData);
+                            gNetDisconnectPlayersBits_6F56B8 |= 1 << (s32)gpInputBuffer_6F58C0->s_packet.field_1_pData;
                             break;
                         case std_packet_subtype::PlayerQuit_2:
                             waiting_bits &= ~(1 << player_idx);
@@ -1432,7 +1433,7 @@ EXPORT void __stdcall do_network_and_local_inputs_4DAF30()
         }
         else
         {
-            gNetPlay_7071E8.SendKeepAlive_521D20();
+            gNetPlay_7071E8.SendPlayerIsQuitting_521D20();
         }
 
         if (bRecordStartTime_6F593C)
