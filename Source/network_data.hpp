@@ -73,7 +73,7 @@ namespace packet_type
 enum
 {
     DataPacket_1 = 1,
-    Type2_2 = 2,
+    Acknowledgment_2 = 2,
 };
 } // namespace packet_type
 

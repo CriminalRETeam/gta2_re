@@ -1209,7 +1209,7 @@ void NetPlay::MakeSendData_51F420(Packet_SubType_3* pPacket, s32* pData, u32* pD
             }
             break;
 
-        case packet_type::Type2_2:
+        case packet_type::Acknowledgment_2:
             pBuffer[0] = pkt_data_type::Unknown_4;
             *pDataLen = 1;
             break;
@@ -1934,7 +1934,7 @@ s32 NetPlay::GetMaxPlayers_521350()
 }
 
 MATCH_FUNC(0x521370)
-void NetPlay::Send_521370()
+void NetPlay::SendAcknowledgment_521370()
 {
     u32 pDataLen;
     s32 pData;
@@ -1961,7 +1961,7 @@ bool NetPlay::WaitForPlayersSync_5213E0()
     bool bTimedOut = false;
     MakeInitialSyncData_4DB2E0(gSyncCheckData_6F58E0);
     SendSyncCheckData_521E40((s32)gSyncCheckData_6F58E0);
-    Send_521370();
+    SendAcknowledgment_521370();
 
     // One bit per other player: waiting for their ack and for their sync data
     u32 waitingForAck = 0;
@@ -1979,8 +1979,9 @@ bool NetPlay::WaitForPlayersSync_5213E0()
     {
         if (Receive_51F010(&pData, &dataLen, &recvId, &senderId))
         {
+            // Receive the acks or sync-check data
             u8* pPacket = (u8*)pData;
-            if (pPacket[0] == packet_type::Type2_2)
+            if (pPacket[0] == packet_type::Acknowledgment_2)
             {
                 u32 idx = IndexOf_520E30(senderId, &field_758_n2);
                 if (idx == 0xEEEEEEEE)
