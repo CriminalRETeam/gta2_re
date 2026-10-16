@@ -1070,7 +1070,7 @@ s32 NetPlay::CalcPacketLen_51F210(s32 pPacket, u32 packetLen)
             len = packetLen + 4;
             break;
 
-        case pkt_data_type::KeepAlive_5:
+        case pkt_data_type::PlayerQuit_5:
             pMsg[0] = packet_subtype::StandardPacket_2;
             pMsg[1] = packetLen - 1;
             pBytes[0] = 1;
@@ -1090,7 +1090,7 @@ s32 NetPlay::CalcPacketLen_51F210(s32 pPacket, u32 packetLen)
             len = packetLen + 4;
             break;
 
-        case pkt_data_type::Unknown_7:
+        case pkt_data_type::KickFromConnection_7:
             pMsg[0] = packet_subtype::StandardPacket_2;
             pMsg[1] = packetLen - 1;
             pBytes[0] = 1;
@@ -1144,13 +1144,13 @@ void NetPlay::MakeSendData_51F420(Packet_SubType_3* pPacket, s32* pData, u32* pD
                                 memcpy(pBuffer + 1, pPacket->field_D_data, 5);
                                 *pDataLen = 6;
                                 break;
-                            case std_packet_subtype::KeepAlive_2:
-                                pBuffer[0] = pkt_data_type::KeepAlive_5;
+                            case std_packet_subtype::PlayerQuit_2:
+                                pBuffer[0] = pkt_data_type::PlayerQuit_5;
                                 pBuffer[1] = *(u8*)pPacket->field_D_data; // field_0_std_packet_subtype
                                 *pDataLen = 2;
                                 break;
-                            case std_packet_subtype::Unknown_3:
-                                pBuffer[0] = pkt_data_type::Unknown_7;
+                            case std_packet_subtype::KickFromConnection_3:
+                                pBuffer[0] = pkt_data_type::KickFromConnection_7;
                                 pBuffer[1] = *(u8*)pPacket->field_D_data; // field_0_std_packet_subtype
                                 *pDataLen = 2;
                                 break;
@@ -2309,7 +2309,7 @@ s32 NetPlay::SendKeepAlive_521D20()
 
     memset(&pStru, 0, sizeof(pStru));
     pStru.header.field_0_type = 1;
-    std_pkt_subtype = std_packet_subtype::KeepAlive_2;
+    std_pkt_subtype = std_packet_subtype::PlayerQuit_2;
     pStru.header.field_4_sub_type = packet_subtype::StandardPacket_2;
     pStru.field_9_bLoadData = 1;
     pStru.field_D_data = (void*)&std_pkt_subtype;

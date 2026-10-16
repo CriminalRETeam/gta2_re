@@ -45,9 +45,9 @@ enum
     Ping_2 = 2,
     SyncCheckData_3 = 3,
     Unknown_4 = 4,
-    KeepAlive_5 = 5,
+    PlayerQuit_5 = 5,
     GiveUp_6 = 6,
-    Unknown_7 = 7,
+    KickFromConnection_7 = 7,
     DisableJoining_8 = 8,
     PlayerTickOnly_9 = 9,
 };
@@ -80,10 +80,10 @@ namespace std_packet_subtype
 {
 enum
 {
-    GiveUp_1 = 1,
-    KeepAlive_2 = 2,
-    Unknown_3 = 3,
-    SyncCheckData_5 = 5,
+    GiveUp_1 = 1, // Player is not responding, so disconnect it
+    PlayerQuit_2 = 2, // Player is exiting the game
+    KickFromConnection_3 = 3,
+    SyncCheckData_5 = 5, // Checksum data
 };
 } // namespace std_packet_subtype
 
