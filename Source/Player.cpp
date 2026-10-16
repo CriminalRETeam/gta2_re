@@ -73,10 +73,10 @@ void UnknownDebugClass::DoBrianTest_42D870(u16 action)
     switch (action)
     {
         case 8:
-            gGame_0x40_67E008->ExitGame_4B8BD0(0, 4, 3);
+            gGame_0x40_67E008->ExitGame_4B8BD0(0, GameExitType::AreaCompleted_4, 3);
             break;
         case 11:
-            gGame_0x40_67E008->ExitGameNoBonus_4B8C00(0, 3);
+            gGame_0x40_67E008->ExitGameNoBonus_4B8C00(0, GameExitType::GameOverRIP_3);
             break;
         case 9:
             gScriptManager_6F8060->SaveGame_511E10(gGameSession_67E8E0.GetDebugStr_4C5970());

@@ -63,7 +63,7 @@
 #include "sprite.hpp"
 #include "text_0x14.hpp"
 
-DEFINE_GLOBAL(u8, gNetInUsePlayerBits_6F56B8, 0x6F56B8); // TODO: move
+DEFINE_GLOBAL(u8, gNetDisconnectPlayersBits_6F56B8, 0x6F56B8); // TODO: move
 DEFINE_GLOBAL(u32, gNetworkPlayerIdx_6F56C8, 0x6F56C8); // TODO: move
 DEFINE_GLOBAL(u32, gPlayerQuit_6F5AEC, 0x6F5AEC); // TODO: move
 DEFINE_GLOBAL(u32, gMatchStartTime_6F5A28, 0x6F5A28); // TODO: move
@@ -72,19 +72,19 @@ DEFINE_GLOBAL(u8, bRecordStartTime_6F593C, 0x6F593C); // TODO: move
 DEFINE_GLOBAL(Network_PlayerInputs_0x30, gCurrentNetInputs_6F57D8, 0x6F57D8); // TODO: move
 DEFINE_GLOBAL(Network_8, gInputSendData_6F5B18, 0x6F5B18); // TODO: move
 DEFINE_GLOBAL(Network_PlayerInputs_0x30, gPrevNetInputs_6F5B28, 0x6F5B28); // TODO: move
-DEFINE_GLOBAL(Network_InputData_0x8*, gpInputBuffer_6F58C0, 0x6F58C0); // TODO: move
+DEFINE_GLOBAL(ReceivedPacket*, gpInputBuffer_6F58C0, 0x6F58C0); // TODO: move
 DEFINE_GLOBAL(u32, gCurrentInputsBufferSize_6F58C4, 0x6F58C4); // TODO: move
 DEFINE_GLOBAL_ARRAY(u8, gSyncCheckData_6F58E0, 0x20, 0x6F58E0); // TODO: move
 DEFINE_GLOBAL(u32, gTotalNetworkTime_6F5980, 0x6F5980); // TODO: move
 DEFINE_GLOBAL(s32, gNetTimeLimit_6F573C, 0x6F573C); // TODO: move
 DEFINE_GLOBAL(s32, gHudTimerIdx_6F5860, 0x6F5860); // TODO: move
 EXTERN_GLOBAL(s32, gNetTimeLimitEnabled_6F58A4); // TODO: move
-DEFINE_GLOBAL(s32, dword_6F58A0, 0x6F58A0); // TODO: move
+DEFINE_GLOBAL(s32, gNetTimeSecondsOfCurrMin_6F58A0, 0x6F58A0); // TODO: move
 DEFINE_GLOBAL_ARRAY(u8, byte_6F5AC8, 14, 0x6F5AC8); // TODO: move
 DEFINE_GLOBAL(u32, dword_6F5B00, 0x6F5B00); // TODO: move
 DEFINE_GLOBAL(u32, dword_6F580C, 0x6F580C); // TODO: move
 DEFINE_GLOBAL(u32, dword_6F5AC0, 0x6F5AC0); // TODO: move
-DEFINE_GLOBAL(s32, dword_6F5858, 0x6F5858); // TODO: move
+DEFINE_GLOBAL(s32, gFramesOfCurrSecond_6F5858, 0x6F5858); // TODO: move
 DEFINE_GLOBAL(s32, dword_6F5B74, 0x6F5B74);
 DEFINE_GLOBAL(s32, dword_6F5944, 0x6F5944);
 s32 dword_67ED24;//DEFINE_GLOBAL(s32, dword_67ED24, 0x67ED24); // global crashing standalone
@@ -956,12 +956,12 @@ EXPORT void __stdcall InitializeGame_4DA4D0()
 
         memset(byte_6F5AC8, 0, sizeof(byte_6F5AC8));
         gNetworkPlayerIdx_6F56C8 = gNetPlay_7071E8.GetPlayerIdx_409C40();
-        gpInputBuffer_6F58C0 = &gCurrentNetInputs_6F57D8.field_0_inputs[0];
+        gpInputBuffer_6F58C0 = (ReceivedPacket*)&gCurrentNetInputs_6F57D8.field_0_inputs[0];
         gCurrentInputsBufferSize_6F58C4 = 48;
         dword_6F5B00 = 0;
         bRecordStartTime_6F593C = 1;
         gPlayerQuit_6F5AEC = false;
-        gNetInUsePlayerBits_6F56B8 = 0;
+        gNetDisconnectPlayersBits_6F56B8 = 0;
         gNetworkFrameCounter_6F5868 = 0;
         dword_6F580C = 0;
         gTotalNetworkTime_6F5980 = 0;
@@ -973,8 +973,8 @@ EXPORT void __stdcall InitializeGame_4DA4D0()
         }
         gHudTimerIdx_6F5860 = -1;
         gNetTimeLimitEnabled_6F58A4 = (gNetTimeLimit_6F573C != 0);
-        dword_6F58A0 = 0;
-        dword_6F5858 = 0;
+        gNetTimeSecondsOfCurrMin_6F58A0 = 0;
+        gFramesOfCurrSecond_6F5858 = 0;
         byte_6F59C0 = 0;
     }
     else
@@ -1042,10 +1042,10 @@ u8 gNetPlayerDropped_6F8470[6];//DEFINE_GLOBAL_ARRAY(u8, gNetPlayerDropped_6F847
 
 // Re-sends our inputs of a previous frame to one player.
 MATCH_FUNC(0x4DA9B0)
-EXPORT void __stdcall Net_4DA9B0(Network_InputData_0x8* pInputs, s32 delayed_ticks, u8 player_idx)
+EXPORT void __stdcall NetSendOldInputs_4DA9B0(NetInputData* pInputs, s32 delayed_ticks, u8 player_idx)
 {
     gInputSendData_6F5B18.field_0_data = pInputs;
-    gInputSendData_6F5B18.field_4_len = bDo_sync_check_67D6C1 ? sizeof(Network_InputData_0x8) : sizeof(u32);
+    gInputSendData_6F5B18.field_4_len = bDo_sync_check_67D6C1 ? sizeof(NetInputData) : sizeof(u32);
     gNetPlay_7071E8.SendToPlayer_521630(&gInputSendData_6F5B18, player_idx, delayed_ticks);
 }
 
@@ -1055,9 +1055,11 @@ EXPORT void Net_Receive_Players_Inputs_4DA9F0()
     s32 retries = 0;
     s32 max_retries = bRecordStartTime_6F593C ? 25 : 6;
 
+    // Update previous stored inputs
     memcpy(&gNetInputsHistory2_6F5798, &gNetInputsHistory1_6F56E0, sizeof(gNetInputsHistory2_6F5798));
     memcpy(&gNetInputsHistory1_6F56E0, &gCurrentNetInputs_6F57D8, sizeof(gNetInputsHistory1_6F56E0));
 
+    // Check which players we are waiting for
     u32 waiting_bits = 0;
     for (u32 i = 0; i < GTA2_COUNTOF(gNetPlay_7071E8.field_758_n2.field_10_players); i++)
     {
@@ -1070,13 +1072,16 @@ EXPORT void Net_Receive_Players_Inputs_4DA9F0()
     u32 start_time = timeGetTime();
     gTotalNetworkTime_6F5980 = 0;
 
+    // Do not execute next game tick until we receive all players inputs
     while (waiting_bits)
     {
+        // Leave a window to escape the loop if player is trying to exit the game
         if (gGame_0x40_67E008->UpdateExitTimer_4B8C20())
         {
             return;
         }
 
+        // Wait a packet. If one was received, analyse its data and do something
         s32 player_idx;
         u32 packet_subtype;
         if (gNetPlay_7071E8.ReceiveGameMessage_521890((Network_8*)&gpInputBuffer_6F58C0, &player_idx, &packet_subtype))
@@ -1085,17 +1090,17 @@ EXPORT void Net_Receive_Players_Inputs_4DA9F0()
             {
                 case packet_subtype::StandardPacket_2:
                 {
-                    switch (*(u8*)gpInputBuffer_6F58C0) // std_packet_subtype
+                    switch (gpInputBuffer_6F58C0->s_packet.field_0_subtype) // std_packet_subtype
                     {
                         case std_packet_subtype::GiveUp_1:
-                            waiting_bits &= ~(1 << *(s32*)((u8*)gpInputBuffer_6F58C0 + 1));
-                            gNetInUsePlayerBits_6F56B8 |= 1 << *(s32*)((u8*)gpInputBuffer_6F58C0 + 1);
+                            waiting_bits &= ~(1 << (s32)gpInputBuffer_6F58C0->s_packet.field_1_pData);
+                            gNetDisconnectPlayersBits_6F56B8 |= 1 << (s32)gpInputBuffer_6F58C0->s_packet.field_1_pData;
                             break;
-                        case std_packet_subtype::KeepAlive_2:
+                        case std_packet_subtype::PlayerQuit_2:
                             waiting_bits &= ~(1 << player_idx);
-                            gNetInUsePlayerBits_6F56B8 |= 1 << player_idx;
+                            gNetDisconnectPlayersBits_6F56B8 |= 1 << player_idx;
                             break;
-                        case std_packet_subtype::Unknown_3:
+                        case std_packet_subtype::KickFromConnection_3:
                             waiting_bits = 0;
                             gPlayerQuit_6F5AEC = 1;
                             break;
@@ -1108,6 +1113,8 @@ EXPORT void Net_Receive_Players_Inputs_4DA9F0()
                 case packet_subtype::PlayerInputs_3: // store player input for the latest/current tick
                     memcpy(&gCurrentNetInputs_6F57D8.field_0_inputs[player_idx], gpInputBuffer_6F58C0, gCurrentInputsBufferSize_6F58C4);
                     waiting_bits &= ~(1 << player_idx);
+
+                    // Now check RNG if sync_check is activated. If it doesnt match, then do FatalError
                     if (bDo_sync_check_67D6C1 &&
                         gCurrentNetInputs_6F57D8.field_0_inputs[player_idx].field_4_rng !=
                             gCurrentNetInputs_6F57D8.field_0_inputs[gNetworkPlayerIdx_6F56C8].field_4_rng)
@@ -1127,6 +1134,8 @@ EXPORT void Net_Receive_Players_Inputs_4DA9F0()
 
         gTotalNetworkTime_6F5980 += gNetPlay_7071E8.field_8F4_time_diff;
 
+        // Now manage those players we didn't received packets
+
         if (timeGetTime() - start_time > 1000 && retries >= max_retries && waiting_bits)
         {
             // Give up on the players that didn't answer
@@ -1135,7 +1144,7 @@ EXPORT void Net_Receive_Players_Inputs_4DA9F0()
                 if (waiting_bits & (1 << j))
                 {
                     waiting_bits &= ~(1 << j);
-                    gNetInUsePlayerBits_6F56B8 |= 1 << j;
+                    gNetDisconnectPlayersBits_6F56B8 |= 1 << j;
                     gNetPlay_7071E8.SendGiveUp_521DB0(j);
                     gNetPlayerDropped_6F8470[j] = 1;
                 }
@@ -1143,14 +1152,15 @@ EXPORT void Net_Receive_Players_Inputs_4DA9F0()
         }
         else if (timeGetTime() - start_time > 1000 && waiting_bits)
         {
+            // Send previous inputs in case of lost packets
             start_time = timeGetTime();
             retries++;
             for (u8 k = 0; k < 6; k++)
             {
                 if (waiting_bits & (1 << k))
                 {
-                    Net_4DA9B0(&gNetInputsHistory1_6F56E0.field_0_inputs[gNetworkPlayerIdx_6F56C8], 1, k);
-                    Net_4DA9B0(&gNetInputsHistory2_6F5798.field_0_inputs[gNetworkPlayerIdx_6F56C8], 2, k);
+                    NetSendOldInputs_4DA9B0(&gNetInputsHistory1_6F56E0.field_0_inputs[gNetworkPlayerIdx_6F56C8], 1, k);
+                    NetSendOldInputs_4DA9B0(&gNetInputsHistory2_6F5798.field_0_inputs[gNetworkPlayerIdx_6F56C8], 2, k);
                 }
             }
         }
@@ -1314,26 +1324,28 @@ EXPORT void Net_Set_Local_Player_Inputs_4DAD50()
 }
 
 MATCH_FUNC(0x4DADA0)
-EXPORT void TagGameHudUpdate_4DADA0()
+EXPORT void ManageNetworkTimeAndHudPager_4DADA0()
 {
     if (gNetTimeLimitEnabled_6F58A4)
     {
-        if (++dword_6F5858 >= 30)
+        if (++gFramesOfCurrSecond_6F5858 >= 30) // If a second has passed
         {
-            dword_6F5858 = 0;
-            if (--dword_6F58A0 < 0)
+            gFramesOfCurrSecond_6F5858 = 0;
+            if (--gNetTimeSecondsOfCurrMin_6F58A0 < 0) // If a minute has passed
             {
-                dword_6F58A0 = 59;
-                if (--gNetTimeLimit_6F573C < 0)
+                gNetTimeSecondsOfCurrMin_6F58A0 = 59;
+                if (--gNetTimeLimit_6F573C < 0) // If time is out
                 {
                     gNetTimeLimitEnabled_6F58A4 = 0;
                     gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("g_over"), hud_message_priority::important_3);
-                    gGame_0x40_67E008->ExitGameNoBonus_4B8C00(2, 5);
+                    gGame_0x40_67E008->ExitGameNoBonus_4B8C00(2, GameExitType::MultiplayerExit_5);
                 }
             }
         }
 
-        s32 seconds = dword_6F58A0;
+        // Now do HUD Pager stuff showing the remaining time
+
+        s32 seconds = gNetTimeSecondsOfCurrMin_6F58A0;
         s32 minutes = gNetTimeLimit_6F573C;
         s32 rem = minutes % 5;
         bool bShow = false;
@@ -1394,17 +1406,17 @@ EXPORT void __stdcall do_network_and_local_inputs_4DAF30()
 {
     if (bStartNetworkGame_7081F0)
     {
-        TagGameHudUpdate_4DADA0();
+        ManageNetworkTimeAndHudPager_4DADA0();
         gTagGame_6F8450.ExecuteGamemodeTick_516660();
 
         if (!gGame_0x40_67E008->UpdateExitTimer_4B8C20())
         {
-            if (gNetInUsePlayerBits_6F56B8)
+            if (gNetDisconnectPlayersBits_6F56B8)
             {
                 u32 player_idx = 0;
                 do
                 {
-                    if ((gNetInUsePlayerBits_6F56B8 & 1) != 0)
+                    if ((gNetDisconnectPlayersBits_6F56B8 & 1) != 0)
                     {
                         Player* pPlayer = gGame_0x40_67E008->GetPlayer_4219E0(player_idx);
                         if (pPlayer && pPlayer->GetInUse_461DB0())
@@ -1418,8 +1430,8 @@ EXPORT void __stdcall do_network_and_local_inputs_4DAF30()
                         }
                     }
                     player_idx++;
-                    gNetInUsePlayerBits_6F56B8 >>= 1;
-                } while (gNetInUsePlayerBits_6F56B8);
+                    gNetDisconnectPlayersBits_6F56B8 >>= 1;
+                } while (gNetDisconnectPlayersBits_6F56B8);
             }
 
             gCurrentNetInputs_6F57D8.field_0_inputs[gNetworkPlayerIdx_6F56C8].field_0_Inputs = gInputRecorder_67F8B0.get_input_bits_4CEAC0();
@@ -1430,7 +1442,7 @@ EXPORT void __stdcall do_network_and_local_inputs_4DAF30()
         }
         else
         {
-            gNetPlay_7071E8.SendKeepAlive_521D20();
+            gNetPlay_7071E8.SendPlayerIsQuitting_521D20();
         }
 
         if (bRecordStartTime_6F593C)
@@ -1440,7 +1452,7 @@ EXPORT void __stdcall do_network_and_local_inputs_4DAF30()
         }
         if (gPlayerQuit_6F5AEC)
         {
-            gGame_0x40_67E008->ExitGameNoBonus_4B8C00(0, 2);
+            gGame_0x40_67E008->ExitGameNoBonus_4B8C00(0, GameExitType::PlayerQuit_2);
         }
         else
         {

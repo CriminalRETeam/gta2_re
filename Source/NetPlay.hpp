@@ -160,11 +160,6 @@ struct Network_14
     char field_13_unused;
 };
 
-struct Network_PlayerInputs_0x30
-{
-    Network_InputData_0x8 field_0_inputs[MAX_PLAYERS];
-};
-
 struct PacketHandlerSlot
 {
     void* field_0_param_fn_callback; // fn ptr
@@ -236,7 +231,7 @@ struct NetPlay
     EXPORT s32 IsUserHost_5212E0();
     EXPORT void SetExitGameCallBack_521330(s32 pFunc, Game_0x40* pGame);
     EXPORT s32 GetMaxPlayers_521350();
-    EXPORT void Send_521370();
+    EXPORT void SendAcknowledgment_521370();
     EXPORT bool WaitForPlayersSync_5213E0();
     EXPORT s32 CopyConnection_5215B0(u32 idx, u32* ppConnection, size_t* pLen);
     EXPORT s32 SendToPlayer_521630(Network_8* pSendData, s32 player_idx, char_type delayed_ticks);
@@ -248,7 +243,7 @@ struct NetPlay
     EXPORT void SendToAll_521B20(Network_8* pSendData);
     EXPORT s32 NoRefs_Send_521BE0(Network_8* pSendData, s32 tick_delay);
     EXPORT s32 NoRefs_Send_521C80(s32 pSendData);
-    EXPORT s32 SendKeepAlive_521D20();
+    EXPORT s32 SendPlayerIsQuitting_521D20();
     EXPORT s32 SendGiveUp_521DB0(s32 value);
     EXPORT s32 SendSyncCheckData_521E40(s32 pSendData);
     EXPORT static void static_dtor_5E4DD0();
@@ -296,7 +291,7 @@ struct NetPlay
     s32 field_8E4_pReceivedDataBuffer; // 0x1800 of alloc size
     s32 field_8E8_time;
     s32 field_8EC_unused;
-    char field_8F0_disabled; // Receive_51F010 and ReceiveGameMessage_521890 always returns false if this var is true
+    char field_8F0_receive_disabled; // Receive_51F010 and ReceiveGameMessage_521890 always returns false if this var is true
     char field_8F1_unused;
     char field_8F2_unused;
     char field_8F3_unused;

@@ -18,23 +18,37 @@ struct SyncCheckData_1F
     u8 field_1D_bFrench;
     u8 field_1E_player_idx;
 };
-#pragma pack(pop)
 
-/*   TODO: unify all packets using unions
+
+struct NetInputData
+{
+    u32 field_0_Inputs;
+    u32 field_4_rng;
+};
+struct SPacket
+{
+    u8 field_0_subtype;
+    void* field_1_pData;
+};
+struct NetworkBuffer
+{
+    void* field_0;
+    s32 field_4_len;
+};
+
+struct Network_PlayerInputs_0x30
+{
+    NetInputData field_0_inputs[MAX_PLAYERS];
+};
+
+//   TODO: unify all packets using unions
 union ReceivedPacket
 {
-    struct InputData_0x8
-    {
-        u32 field_0_Inputs;
-        u32 field_4_rng;
-    };
-    struct SPacket
-    {
-        u8 field_0_subtype;
-        void* field_4_pData;
-    };
+    NetInputData input_data;
+    SPacket s_packet;
+    NetworkBuffer net_buffer;
 };
-*/
+#pragma pack(pop)
 
 
 namespace pkt_data_type // first byte of data sent/received
@@ -45,9 +59,9 @@ enum
     Ping_2 = 2,
     SyncCheckData_3 = 3,
     Unknown_4 = 4,
-    KeepAlive_5 = 5,
+    PlayerQuit_5 = 5,
     GiveUp_6 = 6,
-    Unknown_7 = 7,
+    KickFromConnection_7 = 7,
     DisableJoining_8 = 8,
     PlayerTickOnly_9 = 9,
 };
@@ -59,7 +73,7 @@ namespace packet_type
 enum
 {
     DataPacket_1 = 1,
-    Type2_2 = 2,
+    Acknowledgment_2 = 2,
 };
 } // namespace packet_type
 
@@ -80,10 +94,10 @@ namespace std_packet_subtype
 {
 enum
 {
-    GiveUp_1 = 1,
-    KeepAlive_2 = 2,
-    Unknown_3 = 3,
-    SyncCheckData_5 = 5,
+    GiveUp_1 = 1, // Player is not responding/answering, so disconnect it
+    PlayerQuit_2 = 2, // Player is exiting the game
+    KickFromConnection_3 = 3, // Finish the connection of the receiver
+    SyncCheckData_5 = 5, // Checksum data
 };
 } // namespace std_packet_subtype
 

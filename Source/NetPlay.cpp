@@ -46,7 +46,7 @@ NetPlay::NetPlay()
 
     field_4_bModem = 0;
     field_5_modem_num = 0;
-    field_8F0_disabled = 0;
+    field_8F0_receive_disabled = 0;
     field_8F4_time_diff = 0;
     field_5E4_pDPlay3 = 0;
     field_5E0_pDPlayLobby2 = 0;
@@ -918,7 +918,7 @@ char_type NetPlay::Receive_51F010(s32* pOutData, s32* pOutDataLen, unsigned long
 
         // A system message: handle it and read the next message
         OnPacketReceived_51F870((char*)field_8E4_pReceivedDataBuffer, readLen, *recvId, 0);
-        if (field_8F0_disabled)
+        if (field_8F0_receive_disabled)
         {
             goto failed;
         }
@@ -1070,7 +1070,7 @@ s32 NetPlay::CalcPacketLen_51F210(s32 pPacket, u32 packetLen)
             len = packetLen + 4;
             break;
 
-        case pkt_data_type::KeepAlive_5:
+        case pkt_data_type::PlayerQuit_5:
             pMsg[0] = packet_subtype::StandardPacket_2;
             pMsg[1] = packetLen - 1;
             pBytes[0] = 1;
@@ -1090,7 +1090,7 @@ s32 NetPlay::CalcPacketLen_51F210(s32 pPacket, u32 packetLen)
             len = packetLen + 4;
             break;
 
-        case pkt_data_type::Unknown_7:
+        case pkt_data_type::KickFromConnection_7:
             pMsg[0] = packet_subtype::StandardPacket_2;
             pMsg[1] = packetLen - 1;
             pBytes[0] = 1;
@@ -1144,13 +1144,13 @@ void NetPlay::MakeSendData_51F420(Packet_SubType_3* pPacket, s32* pData, u32* pD
                                 memcpy(pBuffer + 1, pPacket->field_D_data, 5);
                                 *pDataLen = 6;
                                 break;
-                            case std_packet_subtype::KeepAlive_2:
-                                pBuffer[0] = pkt_data_type::KeepAlive_5;
+                            case std_packet_subtype::PlayerQuit_2:
+                                pBuffer[0] = pkt_data_type::PlayerQuit_5;
                                 pBuffer[1] = *(u8*)pPacket->field_D_data; // field_0_std_packet_subtype
                                 *pDataLen = 2;
                                 break;
-                            case std_packet_subtype::Unknown_3:
-                                pBuffer[0] = pkt_data_type::Unknown_7;
+                            case std_packet_subtype::KickFromConnection_3:
+                                pBuffer[0] = pkt_data_type::KickFromConnection_7;
                                 pBuffer[1] = *(u8*)pPacket->field_D_data; // field_0_std_packet_subtype
                                 *pDataLen = 2;
                                 break;
@@ -1209,7 +1209,7 @@ void NetPlay::MakeSendData_51F420(Packet_SubType_3* pPacket, s32* pData, u32* pD
             }
             break;
 
-        case packet_type::Type2_2:
+        case packet_type::Acknowledgment_2:
             pBuffer[0] = pkt_data_type::Unknown_4;
             *pDataLen = 1;
             break;
@@ -1329,7 +1329,7 @@ void NetPlay::OnPacketReceived_51F870(void* pPacket, s32 packetLen, s32 recvId, 
                 {
                     s32 value = 0;
                     ProcessIncomingPacket_520230(4, (u32)&value);
-                    field_8F0_disabled = 1;
+                    field_8F0_receive_disabled = 1;
                     break;
                 }
 
@@ -1342,7 +1342,7 @@ void NetPlay::OnPacketReceived_51F870(void* pPacket, s32 packetLen, s32 recvId, 
                         {
                             s32 value = 2;
                             ProcessIncomingPacket_520230(4, (u32)&value);
-                            field_8F0_disabled = 1;
+                            field_8F0_receive_disabled = 1;
                         }
                         else
                         {
@@ -1367,7 +1367,7 @@ void NetPlay::OnPacketReceived_51F870(void* pPacket, s32 packetLen, s32 recvId, 
                             {
                                 s32 value = 2;
                                 ProcessIncomingPacket_520230(4, (u32)&value);
-                                field_8F0_disabled = 1;
+                                field_8F0_receive_disabled = 1;
                             }
                             break;
 
@@ -1376,7 +1376,7 @@ void NetPlay::OnPacketReceived_51F870(void* pPacket, s32 packetLen, s32 recvId, 
                             {
                                 s32 value = 1;
                                 ProcessIncomingPacket_520230(4, (u32)&value);
-                                field_8F0_disabled = 1;
+                                field_8F0_receive_disabled = 1;
                             }
                             break;
                     }
@@ -1673,7 +1673,7 @@ void NetPlay::Disconnect_520D10()
     }
     else if (field_758_n2.field_4_players_count > 1)
     {
-        SendKeepAlive_521D20();
+        SendPlayerIsQuitting_521D20();
     }
 
     field_5E4_pDPlay3->DestroyPlayer(field_5D8_player_id);
@@ -1934,7 +1934,7 @@ s32 NetPlay::GetMaxPlayers_521350()
 }
 
 MATCH_FUNC(0x521370)
-void NetPlay::Send_521370()
+void NetPlay::SendAcknowledgment_521370()
 {
     u32 pDataLen;
     s32 pData;
@@ -1961,7 +1961,7 @@ bool NetPlay::WaitForPlayersSync_5213E0()
     bool bTimedOut = false;
     MakeInitialSyncData_4DB2E0(gSyncCheckData_6F58E0);
     SendSyncCheckData_521E40((s32)gSyncCheckData_6F58E0);
-    Send_521370();
+    SendAcknowledgment_521370();
 
     // One bit per other player: waiting for their ack and for their sync data
     u32 waitingForAck = 0;
@@ -1979,8 +1979,9 @@ bool NetPlay::WaitForPlayersSync_5213E0()
     {
         if (Receive_51F010(&pData, &dataLen, &recvId, &senderId))
         {
+            // Receive the acks or sync-check data
             u8* pPacket = (u8*)pData;
-            if (pPacket[0] == packet_type::Type2_2)
+            if (pPacket[0] == packet_type::Acknowledgment_2)
             {
                 u32 idx = IndexOf_520E30(senderId, &field_758_n2);
                 if (idx == 0xEEEEEEEE)
@@ -2158,7 +2159,7 @@ char_type NetPlay::ReceiveGameMessage_521890(Network_8* pOut, s32* pPlayerIdx, u
 
     while (1)
     {
-        if (bTimedOut || field_8F0_disabled)
+        if (bTimedOut || field_8F0_receive_disabled)
         {
             break;
         }
@@ -2299,7 +2300,7 @@ s32 NetPlay::NoRefs_Send_521C80(s32 pSendData)
 }
 
 MATCH_FUNC(0x521d20)
-s32 NetPlay::SendKeepAlive_521D20()
+s32 NetPlay::SendPlayerIsQuitting_521D20()
 {
 
     u32 dataLen;
@@ -2309,7 +2310,7 @@ s32 NetPlay::SendKeepAlive_521D20()
 
     memset(&pStru, 0, sizeof(pStru));
     pStru.header.field_0_type = 1;
-    std_pkt_subtype = std_packet_subtype::KeepAlive_2;
+    std_pkt_subtype = std_packet_subtype::PlayerQuit_2;
     pStru.header.field_4_sub_type = packet_subtype::StandardPacket_2;
     pStru.field_9_bLoadData = 1;
     pStru.field_D_data = (void*)&std_pkt_subtype;
