@@ -79,12 +79,12 @@ DEFINE_GLOBAL(u32, gTotalNetworkTime_6F5980, 0x6F5980); // TODO: move
 DEFINE_GLOBAL(s32, gNetTimeLimit_6F573C, 0x6F573C); // TODO: move
 DEFINE_GLOBAL(s32, gHudTimerIdx_6F5860, 0x6F5860); // TODO: move
 EXTERN_GLOBAL(s32, gNetTimeLimitEnabled_6F58A4); // TODO: move
-DEFINE_GLOBAL(s32, dword_6F58A0, 0x6F58A0); // TODO: move
+DEFINE_GLOBAL(s32, gNetTimeSecondsOfCurrMin_6F58A0, 0x6F58A0); // TODO: move
 DEFINE_GLOBAL_ARRAY(u8, byte_6F5AC8, 14, 0x6F5AC8); // TODO: move
 DEFINE_GLOBAL(u32, dword_6F5B00, 0x6F5B00); // TODO: move
 DEFINE_GLOBAL(u32, dword_6F580C, 0x6F580C); // TODO: move
 DEFINE_GLOBAL(u32, dword_6F5AC0, 0x6F5AC0); // TODO: move
-DEFINE_GLOBAL(s32, dword_6F5858, 0x6F5858); // TODO: move
+DEFINE_GLOBAL(s32, gFramesOfCurrSecond_6F5858, 0x6F5858); // TODO: move
 DEFINE_GLOBAL(s32, dword_6F5B74, 0x6F5B74);
 DEFINE_GLOBAL(s32, dword_6F5944, 0x6F5944);
 s32 dword_67ED24;//DEFINE_GLOBAL(s32, dword_67ED24, 0x67ED24); // global crashing standalone
@@ -973,8 +973,8 @@ EXPORT void __stdcall InitializeGame_4DA4D0()
         }
         gHudTimerIdx_6F5860 = -1;
         gNetTimeLimitEnabled_6F58A4 = (gNetTimeLimit_6F573C != 0);
-        dword_6F58A0 = 0;
-        dword_6F5858 = 0;
+        gNetTimeSecondsOfCurrMin_6F58A0 = 0;
+        gFramesOfCurrSecond_6F5858 = 0;
         byte_6F59C0 = 0;
     }
     else
@@ -1314,17 +1314,17 @@ EXPORT void Net_Set_Local_Player_Inputs_4DAD50()
 }
 
 MATCH_FUNC(0x4DADA0)
-EXPORT void TagGameHudUpdate_4DADA0()
+EXPORT void ManageNetworkTimeAndHudPager_4DADA0()
 {
     if (gNetTimeLimitEnabled_6F58A4)
     {
-        if (++dword_6F5858 >= 30)
+        if (++gFramesOfCurrSecond_6F5858 >= 30) // If a second has passed
         {
-            dword_6F5858 = 0;
-            if (--dword_6F58A0 < 0)
+            gFramesOfCurrSecond_6F5858 = 0;
+            if (--gNetTimeSecondsOfCurrMin_6F58A0 < 0) // If a minute has passed
             {
-                dword_6F58A0 = 59;
-                if (--gNetTimeLimit_6F573C < 0)
+                gNetTimeSecondsOfCurrMin_6F58A0 = 59;
+                if (--gNetTimeLimit_6F573C < 0) // If time is out
                 {
                     gNetTimeLimitEnabled_6F58A4 = 0;
                     gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("g_over"), hud_message_priority::important_3);
@@ -1333,7 +1333,9 @@ EXPORT void TagGameHudUpdate_4DADA0()
             }
         }
 
-        s32 seconds = dword_6F58A0;
+        // Now do HUD Pager stuff showing the remaining time
+
+        s32 seconds = gNetTimeSecondsOfCurrMin_6F58A0;
         s32 minutes = gNetTimeLimit_6F573C;
         s32 rem = minutes % 5;
         bool bShow = false;
@@ -1394,7 +1396,7 @@ EXPORT void __stdcall do_network_and_local_inputs_4DAF30()
 {
     if (bStartNetworkGame_7081F0)
     {
-        TagGameHudUpdate_4DADA0();
+        ManageNetworkTimeAndHudPager_4DADA0();
         gTagGame_6F8450.ExecuteGamemodeTick_516660();
 
         if (!gGame_0x40_67E008->UpdateExitTimer_4B8C20())

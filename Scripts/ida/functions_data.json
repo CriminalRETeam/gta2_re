@@ -8288,7 +8288,7 @@
         "v96f_auto": true
     },
     {
-        "name": "TagGameHudUpdate_4DADA0",
+        "name": "ManageNetworkTimeAndHudPager_4DADA0",
         "v96f_address": "0x462530",
         "v105_address": "0x4dada0",
         "v96f_auto": true
