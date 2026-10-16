@@ -46,7 +46,7 @@ NetPlay::NetPlay()
 
     field_4_bModem = 0;
     field_5_modem_num = 0;
-    field_8F0_disabled = 0;
+    field_8F0_receive_disabled = 0;
     field_8F4_time_diff = 0;
     field_5E4_pDPlay3 = 0;
     field_5E0_pDPlayLobby2 = 0;
@@ -918,7 +918,7 @@ char_type NetPlay::Receive_51F010(s32* pOutData, s32* pOutDataLen, unsigned long
 
         // A system message: handle it and read the next message
         OnPacketReceived_51F870((char*)field_8E4_pReceivedDataBuffer, readLen, *recvId, 0);
-        if (field_8F0_disabled)
+        if (field_8F0_receive_disabled)
         {
             goto failed;
         }
@@ -1329,7 +1329,7 @@ void NetPlay::OnPacketReceived_51F870(void* pPacket, s32 packetLen, s32 recvId, 
                 {
                     s32 value = 0;
                     ProcessIncomingPacket_520230(4, (u32)&value);
-                    field_8F0_disabled = 1;
+                    field_8F0_receive_disabled = 1;
                     break;
                 }
 
@@ -1342,7 +1342,7 @@ void NetPlay::OnPacketReceived_51F870(void* pPacket, s32 packetLen, s32 recvId, 
                         {
                             s32 value = 2;
                             ProcessIncomingPacket_520230(4, (u32)&value);
-                            field_8F0_disabled = 1;
+                            field_8F0_receive_disabled = 1;
                         }
                         else
                         {
@@ -1367,7 +1367,7 @@ void NetPlay::OnPacketReceived_51F870(void* pPacket, s32 packetLen, s32 recvId, 
                             {
                                 s32 value = 2;
                                 ProcessIncomingPacket_520230(4, (u32)&value);
-                                field_8F0_disabled = 1;
+                                field_8F0_receive_disabled = 1;
                             }
                             break;
 
@@ -1376,7 +1376,7 @@ void NetPlay::OnPacketReceived_51F870(void* pPacket, s32 packetLen, s32 recvId, 
                             {
                                 s32 value = 1;
                                 ProcessIncomingPacket_520230(4, (u32)&value);
-                                field_8F0_disabled = 1;
+                                field_8F0_receive_disabled = 1;
                             }
                             break;
                     }
@@ -2159,7 +2159,7 @@ char_type NetPlay::ReceiveGameMessage_521890(Network_8* pOut, s32* pPlayerIdx, u
 
     while (1)
     {
-        if (bTimedOut || field_8F0_disabled)
+        if (bTimedOut || field_8F0_receive_disabled)
         {
             break;
         }

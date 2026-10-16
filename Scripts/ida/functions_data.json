@@ -8264,7 +8264,7 @@
         "v105_address": "0x4da850"
     },
     {
-        "name": "Net_4DA9B0",
+        "name": "NetSendOldInputs_4DA9B0",
         "v96f_address": "0x461a00",
         "v105_address": "0x4da9b0",
         "v96f_auto": true

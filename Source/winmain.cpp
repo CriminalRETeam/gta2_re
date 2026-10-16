@@ -1042,7 +1042,7 @@ u8 gNetPlayerDropped_6F8470[6];//DEFINE_GLOBAL_ARRAY(u8, gNetPlayerDropped_6F847
 
 // Re-sends our inputs of a previous frame to one player.
 MATCH_FUNC(0x4DA9B0)
-EXPORT void __stdcall Net_4DA9B0(NetInputData* pInputs, s32 delayed_ticks, u8 player_idx)
+EXPORT void __stdcall NetSendOldInputs_4DA9B0(NetInputData* pInputs, s32 delayed_ticks, u8 player_idx)
 {
     gInputSendData_6F5B18.field_0_data = pInputs;
     gInputSendData_6F5B18.field_4_len = bDo_sync_check_67D6C1 ? sizeof(NetInputData) : sizeof(u32);
@@ -1055,9 +1055,11 @@ EXPORT void Net_Receive_Players_Inputs_4DA9F0()
     s32 retries = 0;
     s32 max_retries = bRecordStartTime_6F593C ? 25 : 6;
 
+    // Update previous stored inputs
     memcpy(&gNetInputsHistory2_6F5798, &gNetInputsHistory1_6F56E0, sizeof(gNetInputsHistory2_6F5798));
     memcpy(&gNetInputsHistory1_6F56E0, &gCurrentNetInputs_6F57D8, sizeof(gNetInputsHistory1_6F56E0));
 
+    // Check which players we are waiting for
     u32 waiting_bits = 0;
     for (u32 i = 0; i < GTA2_COUNTOF(gNetPlay_7071E8.field_758_n2.field_10_players); i++)
     {
@@ -1070,6 +1072,7 @@ EXPORT void Net_Receive_Players_Inputs_4DA9F0()
     u32 start_time = timeGetTime();
     gTotalNetworkTime_6F5980 = 0;
 
+    // Do not execute next game tick until we receive all players inputs
     while (waiting_bits)
     {
         // Leave a window to escape the loop if player is trying to exit the game
@@ -1078,6 +1081,7 @@ EXPORT void Net_Receive_Players_Inputs_4DA9F0()
             return;
         }
 
+        // Wait a packet. If one was received, analyse its data and do something
         s32 player_idx;
         u32 packet_subtype;
         if (gNetPlay_7071E8.ReceiveGameMessage_521890((Network_8*)&gpInputBuffer_6F58C0, &player_idx, &packet_subtype))
@@ -1109,6 +1113,8 @@ EXPORT void Net_Receive_Players_Inputs_4DA9F0()
                 case packet_subtype::PlayerInputs_3: // store player input for the latest/current tick
                     memcpy(&gCurrentNetInputs_6F57D8.field_0_inputs[player_idx], gpInputBuffer_6F58C0, gCurrentInputsBufferSize_6F58C4);
                     waiting_bits &= ~(1 << player_idx);
+
+                    // Now check RNG if sync_check is activated. If it doesnt match, then do FatalError
                     if (bDo_sync_check_67D6C1 &&
                         gCurrentNetInputs_6F57D8.field_0_inputs[player_idx].field_4_rng !=
                             gCurrentNetInputs_6F57D8.field_0_inputs[gNetworkPlayerIdx_6F56C8].field_4_rng)
@@ -1128,6 +1134,8 @@ EXPORT void Net_Receive_Players_Inputs_4DA9F0()
 
         gTotalNetworkTime_6F5980 += gNetPlay_7071E8.field_8F4_time_diff;
 
+        // Now manage those players we didn't received packets
+
         if (timeGetTime() - start_time > 1000 && retries >= max_retries && waiting_bits)
         {
             // Give up on the players that didn't answer
@@ -1144,14 +1152,15 @@ EXPORT void Net_Receive_Players_Inputs_4DA9F0()
         }
         else if (timeGetTime() - start_time > 1000 && waiting_bits)
         {
+            // Send previous inputs in case of lost packets
             start_time = timeGetTime();
             retries++;
             for (u8 k = 0; k < 6; k++)
             {
                 if (waiting_bits & (1 << k))
                 {
-                    Net_4DA9B0(&gNetInputsHistory1_6F56E0.field_0_inputs[gNetworkPlayerIdx_6F56C8], 1, k);
-                    Net_4DA9B0(&gNetInputsHistory2_6F5798.field_0_inputs[gNetworkPlayerIdx_6F56C8], 2, k);
+                    NetSendOldInputs_4DA9B0(&gNetInputsHistory1_6F56E0.field_0_inputs[gNetworkPlayerIdx_6F56C8], 1, k);
+                    NetSendOldInputs_4DA9B0(&gNetInputsHistory2_6F5798.field_0_inputs[gNetworkPlayerIdx_6F56C8], 2, k);
                 }
             }
         }
@@ -1329,7 +1338,7 @@ EXPORT void ManageNetworkTimeAndHudPager_4DADA0()
                 {
                     gNetTimeLimitEnabled_6F58A4 = 0;
                     gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("g_over"), hud_message_priority::important_3);
-                    gGame_0x40_67E008->ExitGameNoBonus_4B8C00(2, 5);
+                    gGame_0x40_67E008->ExitGameNoBonus_4B8C00(2, GameExitType::MultiplayerExit_5);
                 }
             }
         }
@@ -1443,7 +1452,7 @@ EXPORT void __stdcall do_network_and_local_inputs_4DAF30()
         }
         if (gPlayerQuit_6F5AEC)
         {
-            gGame_0x40_67E008->ExitGameNoBonus_4B8C00(0, 2);
+            gGame_0x40_67E008->ExitGameNoBonus_4B8C00(0, GameExitType::PlayerQuit_2);
         }
         else
         {

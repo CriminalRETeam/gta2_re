@@ -291,7 +291,7 @@ struct NetPlay
     s32 field_8E4_pReceivedDataBuffer; // 0x1800 of alloc size
     s32 field_8E8_time;
     s32 field_8EC_unused;
-    char field_8F0_disabled; // Receive_51F010 and ReceiveGameMessage_521890 always returns false if this var is true
+    char field_8F0_receive_disabled; // Receive_51F010 and ReceiveGameMessage_521890 always returns false if this var is true
     char field_8F1_unused;
     char field_8F2_unused;
     char field_8F3_unused;
