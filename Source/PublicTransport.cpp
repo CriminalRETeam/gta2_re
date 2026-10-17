@@ -606,7 +606,10 @@ void TrainStation_34::CalculateWagonCount_578820(u8* a2)
     }
 }
 
-WIP_FUNC(0x578860)
+// The wagon spawns pass the "+ half block" coordinate as Fix16::Add_ref of two temporaries (9.6f copies
+// dword_6FEF88 into a temp first): VC6 then builds that argument only after the GetWagonType_577f80 call,
+// keeping the u8 coordinate and the copy across it, as the original does. The member operator+ builds it first.
+MATCH_FUNC(0x578860)
 void PublicTransport_181C::SpawnTrainsFromStations_578860()
 {
     if (bSkip_trains_67D550)
@@ -670,8 +673,8 @@ void PublicTransport_181C::SpawnTrainsFromStations_578860()
                         for (j = 0; j < wagons; j++)
                         {
                             pTrain->field_C_carriages[j + 1] = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(
-                                Fix16(pStation->field_C_stop_point->field_1_x) + dword_6FF088 * Fix16(j + 1),
-                                Fix16(pStation->field_C_stop_point->field_2_y) + dword_6FEF88,
+                                Fix16(pStation->field_C_stop_point->field_1_x) + Fix16(j + 1) * dword_6FF088,
+                                Fix16::Add_ref(Fix16(pStation->field_C_stop_point->field_2_y), Fix16(dword_6FEF88)),
                                 word_6FEFFE,
                                 pStation->GetWagonType_577f80(j),
                                 kFpOne_6FF07C);
@@ -680,7 +683,7 @@ void PublicTransport_181C::SpawnTrainsFromStations_578860()
                                 FatalError_4A38C0(Gta2Error::FailedToCreateCarriage,
                                                   "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp",
                                                   761,
-                                                  (Fix16(pStation->field_C_stop_point->field_1_x) + dword_6FF088 * Fix16(j + 1)).ToInt(),
+                                                  (Fix16(pStation->field_C_stop_point->field_1_x) + Fix16(j + 1) * dword_6FF088).ToInt(),
                                                   (Fix16(pStation->field_C_stop_point->field_2_y) + dword_6FEF88).ToInt(),
                                                   rail_z);
                             }
@@ -697,8 +700,8 @@ void PublicTransport_181C::SpawnTrainsFromStations_578860()
                         for (j = 0; j < wagons; j++)
                         {
                             pTrain->field_C_carriages[j + 1] = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(
-                                Fix16(pStation->field_C_stop_point->field_1_x) + dword_6FEF88,
-                                Fix16(pStation->field_C_stop_point->field_2_y) - dword_6FF080 * Fix16(j + 1),
+                                Fix16::Add_ref(Fix16(pStation->field_C_stop_point->field_1_x), Fix16(dword_6FEF88)),
+                                Fix16(pStation->field_C_stop_point->field_2_y) - Fix16(j + 1) * dword_6FF080,
                                 kAng0_6FF1BC,
                                 pStation->GetWagonType_577f80(j),
                                 kFpOne_6FF07C);
@@ -708,7 +711,7 @@ void PublicTransport_181C::SpawnTrainsFromStations_578860()
                                                   "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp",
                                                   773,
                                                   (Fix16(pStation->field_C_stop_point->field_1_x) + dword_6FEF88).ToInt(),
-                                                  (Fix16(pStation->field_C_stop_point->field_2_y) - dword_6FF080 * Fix16(j + 1)).ToInt(),
+                                                  (Fix16(pStation->field_C_stop_point->field_2_y) - Fix16(j + 1) * dword_6FF080).ToInt(),
                                                   rail_z);
                             }
                         }
@@ -724,8 +727,8 @@ void PublicTransport_181C::SpawnTrainsFromStations_578860()
                         for (j = 0; j < wagons; j++)
                         {
                             pTrain->field_C_carriages[j + 1] = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(
-                                Fix16(pStation->field_C_stop_point->field_1_x) - dword_6FF088 * Fix16(j + 1),
-                                Fix16(pStation->field_C_stop_point->field_2_y) + dword_6FEF88,
+                                Fix16(pStation->field_C_stop_point->field_1_x) - Fix16(j + 1) * dword_6FF088,
+                                Fix16::Add_ref(Fix16(pStation->field_C_stop_point->field_2_y), Fix16(dword_6FEF88)),
                                 word_6FEFFE,
                                 pStation->GetWagonType_577f80(j),
                                 kFpOne_6FF07C);
@@ -734,7 +737,7 @@ void PublicTransport_181C::SpawnTrainsFromStations_578860()
                                 FatalError_4A38C0(Gta2Error::FailedToCreateCarriage,
                                                   "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp",
                                                   785,
-                                                  (Fix16(pStation->field_C_stop_point->field_1_x) - dword_6FF088 * Fix16(j + 1)).ToInt(),
+                                                  (Fix16(pStation->field_C_stop_point->field_1_x) - Fix16(j + 1) * dword_6FF088).ToInt(),
                                                   (Fix16(pStation->field_C_stop_point->field_2_y) + dword_6FEF88).ToInt(),
                                                   rail_z);
                             }
@@ -751,8 +754,8 @@ void PublicTransport_181C::SpawnTrainsFromStations_578860()
                         for (j = 0; j < wagons; j++)
                         {
                             pTrain->field_C_carriages[j + 1] = gCar_6C_677930->SpawnCarAtCorrectZ_Scaled(
-                                Fix16(pStation->field_C_stop_point->field_1_x) + dword_6FEF88,
-                                Fix16(pStation->field_C_stop_point->field_2_y) + dword_6FF080 * Fix16(j + 1),
+                                Fix16::Add_ref(Fix16(pStation->field_C_stop_point->field_1_x), Fix16(dword_6FEF88)),
+                                Fix16(pStation->field_C_stop_point->field_2_y) + Fix16(j + 1) * dword_6FF080,
                                 word_6FEFD6,
                                 pStation->GetWagonType_577f80(j),
                                 kFpOne_6FF07C);
@@ -762,7 +765,7 @@ void PublicTransport_181C::SpawnTrainsFromStations_578860()
                                                   "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp",
                                                   796,
                                                   (Fix16(pStation->field_C_stop_point->field_1_x) + dword_6FEF88).ToInt(),
-                                                  (Fix16(pStation->field_C_stop_point->field_2_y) + dword_6FF080 * Fix16(j + 1)).ToInt(),
+                                                  (Fix16(pStation->field_C_stop_point->field_2_y) + Fix16(j + 1) * dword_6FF080).ToInt(),
                                                   rail_z);
                             }
                         }
