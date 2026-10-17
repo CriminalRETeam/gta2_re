@@ -87,8 +87,8 @@ DEFINE_GLOBAL(u32, dword_6F5AC0, 0x6F5AC0); // TODO: move
 DEFINE_GLOBAL(s32, gFramesOfCurrSecond_6F5858, 0x6F5858); // TODO: move
 DEFINE_GLOBAL(s32, dword_6F5B74, 0x6F5B74);
 DEFINE_GLOBAL(s32, dword_6F5944, 0x6F5944);
-s32 dword_67ED24;//DEFINE_GLOBAL(s32, dword_67ED24, 0x67ED24); // global crashing standalone
 DEFINE_GLOBAL(u8, byte_6F59C0, 0x6F59C0); // TODO: move
+DEFINE_GLOBAL(NetworkGameSettings, gNetworkGameSettings_707098, 0x707098);
 
 static T_gbh_SetBeginSceneCB pBeginSceneCB = NULL;
 
@@ -1038,7 +1038,6 @@ void __stdcall Draw_4DA7B0()
 
 DEFINE_GLOBAL(Network_PlayerInputs_0x30, gNetInputsHistory1_6F56E0, 0x6F56E0);
 DEFINE_GLOBAL(Network_PlayerInputs_0x30, gNetInputsHistory2_6F5798, 0x6F5798);
-u8 gNetPlayerDropped_6F8470[6];//DEFINE_GLOBAL_ARRAY(u8, gNetPlayerDropped_6F8470, 6, 0x6F8470);  // global crashing standalone
 
 // Re-sends our inputs of a previous frame to one player.
 MATCH_FUNC(0x4DA9B0)
@@ -1146,7 +1145,7 @@ EXPORT void Net_Receive_Players_Inputs_4DA9F0()
                     waiting_bits &= ~(1 << j);
                     gNetDisconnectPlayersBits_6F56B8 |= 1 << j;
                     gNetPlay_7071E8.SendGiveUp_521DB0(j);
-                    gNetPlayerDropped_6F8470[j] = 1;
+                    gTagGame_6F8450.field_20_bHasQuit[j] = 1;
                 }
             }
         }
@@ -2545,8 +2544,6 @@ EXPORT void __stdcall Shutdown_4DA740()
         }
     }
 }
-
-NetworkGameSettings gNetworkGameSettings_707098;//DEFINE_GLOBAL(NetworkGameSettings, gNetworkGameSettings_707098, 0x707098);  // global crashing standalone
 
 MATCH_FUNC(0x5E5A30)
 EXPORT char_type __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)

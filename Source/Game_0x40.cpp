@@ -49,6 +49,7 @@
 #include "collide.hpp"
 #include "debug.hpp"
 #include "error.hpp"
+#include "Network_20324.hpp"
 #include "ScriptManager_C1EA8.hpp"
 #include "gbh_graphics.hpp"
 #include "gtx_0x106C.hpp"
@@ -67,6 +68,7 @@
 
 DEFINE_GLOBAL_INIT(Fix16, dword_67DECC, Fix16(5), 0x67DECC);
 DEFINE_GLOBAL_INIT(Fix16, dword_67DFB4, dword_67DECC, 0x67DFB4);
+EXTERN_GLOBAL(NetworkGameSettings, gNetworkGameSettings_707098);
 // Network game speed setting; selects the frame duration in ApplyNetworkGameSettings_4B8E50
 namespace network_game_speed
 {
@@ -78,8 +80,6 @@ enum
 };
 } // namespace network_game_speed
 
-DEFINE_GLOBAL(s32, gNetworkGameSpeed_7071A0, 0x7071A0);
-DEFINE_GLOBAL(s32, gNetworkPolice_7071B0, 0x7071B0);
 DEFINE_GLOBAL(s32, gCachedScreenDimension_706C58, 0x706C58);
 
 // TODO
@@ -203,7 +203,7 @@ void Game_0x40::SetScreenSize_4B8E00(u32 width, u32 height)
 MATCH_FUNC(0x4B8E50)
 void Game_0x40::ApplyNetworkGameSettings_4B8E50()
 {
-    switch (gNetworkGameSpeed_7071A0)
+    switch (gNetworkGameSettings_707098.field_20190_game_speed)
     {
         case network_game_speed::slow_0:
             field_34_network_frame_ms = 50;
@@ -218,7 +218,7 @@ void Game_0x40::ApplyNetworkGameSettings_4B8E50()
             break;
     }
 
-    bSkip_police_67D4F9 = gNetworkPolice_7071B0 == 0;
+    bSkip_police_67D4F9 = gNetworkGameSettings_707098.field_201A0_police_on == 0;
 }
 
 // TODO: move
