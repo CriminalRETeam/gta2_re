@@ -2484,6 +2484,10 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
     u8 lane;
     Ang16 angle;
     Fix16 zpos;
+    Fix16 x_left;
+    Fix16 y_top;
+    Fix16 x_right;
+    Fix16 y_bottom;
 
     if (orientation == 2)
     {
@@ -2586,10 +2590,10 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
             return 0;
         }
 
-        Fix16 x_left = Fix16(x) + dword_6FEBF4;
-        Fix16 y_top = Fix16(y_start);
-        Fix16 x_right = Fix16(x) + dword_6FEBF4;
-        Fix16 y_bottom = Fix16(y_start + width + 1);
+        x_left = Fix16(x) + dword_6FEBF4;
+        y_top = Fix16(y_start);
+        x_right = Fix16(x) + dword_6FEBF4;
+        y_bottom = Fix16(y_start + width + 1);
         zpos = Fix16(z);
         field_A0_rect->SetRect_41E350(x_left - dword_6FEBF4, x_right + dword_6FEBF4, y_top, y_bottom);
         field_A0_rect->SetHiLowZ_41E370(zpos - dword_6FECEC, zpos + dword_6FECEC);
@@ -2900,10 +2904,10 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
             return 0;
         }
 
-        Fix16 x_left = Fix16(x_start);
-        Fix16 y_top = Fix16(y) + dword_6FEBF4;
-        Fix16 x_right = Fix16(x_start + width + 1);
-        Fix16 y_bottom = Fix16(y) + dword_6FEBF4;
+        x_left = Fix16(x_start);
+        y_top = Fix16(y) + dword_6FEBF4;
+        x_right = Fix16(x_start + width + 1);
+        y_bottom = Fix16(y) + dword_6FEBF4;
         zpos = Fix16(z);
         field_A0_rect->SetRect_41E350(x_left, x_right, y_top - dword_6FEBF4, y_bottom + dword_6FEBF4);
         field_A0_rect->SetHiLowZ_41E370(zpos - dword_6FECEC, zpos + dword_6FECEC);
