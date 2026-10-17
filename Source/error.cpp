@@ -54,10 +54,12 @@ void ErrorLog::Open_4D9470(const char_type* path, s32 a3)
 
 // The member ofstream's constructor call and EH frame come from the real ofstream member
 // (error.hpp, VC6 only)
-MATCH_FUNC(0x4D94E0)
+// OBS: keep ErrorLog functions disabled for now.
+// Any changes on it must be tested before pulling a request. Run decomp_main.exe and check that your changes won't make it crash.
+WIP_FUNC(0x4D94E0)
 ErrorLog::ErrorLog(const char* FileName, int a3)
 {
-    Open_4D9470(FileName, a3);
+    //Open_4D9470(FileName, a3);
 }
 
 // This func matches but for some reason it's crashing the patched version
