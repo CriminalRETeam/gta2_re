@@ -2406,7 +2406,7 @@ void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
             {
                 if (pCar != gStoredCar_6F7560 && gStoredCar_6F7560->field_6C_maybe_id != pCar->field_6C_maybe_id)
                 {
-                    if (gStoredCar_6F7560->field_6C_maybe_id == gStoredCarId_6F78B4)
+                    if (gStoredCarId_6F78B4 == gStoredCar_6F7560->field_6C_maybe_id)
                     {
                         if (gCar_6C_677930->CanAllocateOfType_446930(1))
                         {

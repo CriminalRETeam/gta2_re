@@ -3394,3 +3394,21 @@ flag test that later disappears still shapes the block order and the exit placem
   the second merges into it; the other two returns keep the `b11 = true` arm out of T1 (subsets: 38-376).
 - `Ped::FindUsableCarDoor_467090` (74, unchanged): needs the `found` block right after the driver loop, i.e. the
   passenger branch with no edge to `found` at layout time; neither folded flags nor per-site copies give it.
+
+### miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180 (0x509180): WIP 74
+- 102 -> 74: the despawn checks through the `Car_BC` inlines (`sub_4214D0`/`MarkForDespawn_421470`,
+  `SetDespawn3IfNot5_421490`), `pCar != gStoredCar`, `gStoredCarId == gStoredCar->field_6C_maybe_id`, and the
+  else branch storing the id first. That else order is not the original's: its asm stores `gStoredCar` (from
+  `pCar`'s register), then reloads `pParam2->field_8_car` for the id, then calls `Reassign` on the forwarded
+  `gStoredCar`.
+- The original's registers follow from two priority conditions (`Scripts/regalloc`, `priolog`):
+  `pParam2` < the zero constant (2), so zero takes `esi` and `pParam2` `ebx`, and `pCar` < `pChar` (34), so
+  `pCar` reuses `pChar`'s `eax`. With the original's else block, `pParam2` gets +6 from the reload (it is 7)
+  and a named `pCar` is 36-38. Writing the car as `pParam2->field_8_car` everywhere (no `pCar` local) makes it
+  an optimizer temp that does get `eax` (92, or 82 with the door-lock `if` falling through to the final
+  `Next_503620` instead of its own `Next; return`), but `pParam2` stays at 7.
+- Extra live ranges in the despawn blocks lower `pParam2` (it is live and unreferenced there): the permuter's
+  `const u8& cond = CanAllocateOfType_446930(1); if (cond)` gives 60/58, which suggests the original has more
+  live ranges in those blocks. Not applied. A file-local inline helper for the push/uni/despawn sequence,
+  explicit-vs-inline despawn spellings (64 combinations) and the top-of-function spellings changed nothing.
+- Also left: the constant 3 (priority 7) loses `ecx` to the `gStoredCar` reload ranges (12-14).
