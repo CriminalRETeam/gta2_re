@@ -10,6 +10,8 @@
 
 DEFINE_GLOBAL(s32, gbGlobalFileOpen_67D160, 0x67D160);
 DEFINE_GLOBAL(FILE*, ghFile_67CFEC, 0x67CFEC);
+DEFINE_GLOBAL_INIT(u16, gCdCheckFileCount_6252E0, 22, 0x6252E0);
+DEFINE_GLOBAL_ARRAY_INIT(CdCheckFile_84, gCdCheckFiles_6252E8, 22, 0x6252E8, {"GTAudio\\1.wav" COMMA 31971388u} COMMA {"GTAudio\\10.wav" COMMA 15985724u} COMMA {"GTAudio\\101A.wav" COMMA 9838652u} COMMA {"GTAudio\\10a.wav" COMMA 7992892u} COMMA {"GTAudio\\11.wav" COMMA 15985724u} COMMA {"GTAudio\\11a.wav" COMMA 7992892u} COMMA {"GTAudio\\12.wav" COMMA 16932924u} COMMA {"GTAudio\\2.wav" COMMA 15985724u} COMMA {"GTAudio\\3.wav" COMMA 15985724u} COMMA {"GTAudio\\4.wav" COMMA 15985724u} COMMA {"GTAudio\\5.wav" COMMA 15985724u} COMMA {"GTAudio\\5a.wav" COMMA 7992892u} COMMA {"GTAudio\\6.wav" COMMA 15985724u} COMMA {"GTAudio\\6a.wav" COMMA 7992892u} COMMA {"GTAudio\\7.wav" COMMA 16003132u} COMMA {"GTAudio\\7a.wav" COMMA 7992892u} COMMA {"GTAudio\\8.wav" COMMA 15985724u} COMMA {"GTAudio\\8a.wav" COMMA 7992892u} COMMA {"GTAudio\\9.wav" COMMA 15985724u} COMMA {"GTAudio\\9a.wav" COMMA 7992892u} COMMA {"GTAudio\\A.wav" COMMA 23026196u} COMMA {"GTAudio\\D.wav" COMMA 6532888u});
 
 MATCH_FUNC(0x4A6B10)
 s32 __stdcall File::GetFileSize_4A6B10(FILE* Stream)
@@ -49,6 +51,34 @@ bool __stdcall File::IsCdRomDrive_4A6BB0(char_type driveLetter)
         return true;
     }
     return false;
+}
+
+// Copy protection: the file must have the expected size and must not be writable (so it is on the CD)
+MATCH_FUNC(0x4A6BE0)
+void __stdcall File::CheckReadOnlyFile_4A6BE0(const char_type* FileName, s32 expectedSize)
+{
+    FILE* hFile = crt::fopen(FileName, "rb");
+    if (!hFile)
+    {
+        FatalError_4A38C0(Gta2Error::SecurityFail, "C:\\Splitting\\Gta2\\Source\\File.cpp", 104);
+    }
+
+    if (GetFileSize_4A6B10(hFile) != expectedSize)
+    {
+        FatalError_4A38C0(Gta2Error::SecurityFail, "C:\\Splitting\\Gta2\\Source\\File.cpp", 108);
+    }
+
+    s32 closeRet = crt::fclose(hFile);
+    gbGlobalFileOpen_67D160 = 0;
+    if (closeRet)
+    {
+        FatalError_4A38C0(Gta2Error::SecurityFail, "C:\\Splitting\\Gta2\\Source\\File.cpp", 113);
+    }
+
+    if (crt::fopen(FileName, "wb"))
+    {
+        FatalError_4A38C0(Gta2Error::SecurityFail, "C:\\Splitting\\Gta2\\Source\\File.cpp", 117);
+    }
 }
 
 MATCH_FUNC(0x4A6C80)
@@ -97,6 +127,37 @@ size_t __stdcall File::Read_4A6D90(void* Buffer, size_t ElementSize, size_t Elem
 {
     size_t ret = crt::fread(Buffer, ElementSize, ElementCount, Stream);
     return ret;
+}
+
+// Reads the whole file into the caller's buffer, which holds at most *pMaxSize bytes
+MATCH_FUNC(0x4A6DB0)
+size_t __stdcall File::ReadFileToFixedBuffer_4A6DB0(const char_type* FileName, void* pBuffer, size_t* pMaxSize)
+{
+    Error_SetName_4A0770(FileName);
+    FILE* hFile = crt::fopen(FileName, "rb");
+    if (!hFile)
+    {
+        FatalError_4A38C0(Gta2Error::FreeloaderEpisodeUnknown, "C:\\Splitting\\Gta2\\Source\\File.cpp", 192);
+    }
+
+    size_t size = GetFileSize_4A6B10(hFile);
+    if (size > *pMaxSize)
+    {
+        crt::fclose(hFile);
+        FatalError_4A38C0(Gta2Error::FileTooLarge, "C:\\Splitting\\Gta2\\Source\\File.cpp", 198, size - *pMaxSize);
+    }
+
+    if (Read_4A6D90(pBuffer, size, 1u, hFile) != 1)
+    {
+        crt::fclose(hFile);
+        FatalError_4A38C0(Gta2Error::FileReadFailure, "C:\\Splitting\\Gta2\\Source\\File.cpp", 204);
+    }
+
+    if (crt::fclose(hFile))
+    {
+        FatalError_4A38C0(Gta2Error::FileCloseError, "C:\\Splitting\\Gta2\\Source\\File.cpp", 208);
+    }
+    return size;
 }
 
 MATCH_FUNC(0x4A6E80)
@@ -200,9 +261,9 @@ void __stdcall File::Global_Close_4A70C0()
 {
     if (gbGlobalFileOpen_67D160)
     {
-        s32 v0 = crt::fclose(ghFile_67CFEC);
+        s32 close_result = crt::fclose(ghFile_67CFEC);
         gbGlobalFileOpen_67D160 = 0;
-        if (v0)
+        if (close_result)
         {
             FatalError_4A38C0(Gta2Error::FileCloseError, "C:\\Splitting\\Gta2\\Source\\File.cpp", 345);
         }
@@ -234,10 +295,10 @@ void __stdcall File::Global_Seek_4A7140(u32* pOffset)
 }
 
 MATCH_FUNC(0x4A7190)
-void __stdcall File::File_Error_4A7190(s32 Code, s32 a2, s32 a3)
+void __stdcall File::File_Error_4A7190(s32 Code, s32 arg1, s32 arg2)
 {
     Global_Close_UnChecked_4A7110();
-    FatalError_4A38C0(Code, "C:\\Splitting\\Gta2\\Source\\File.cpp", 398, a2, a3);
+    FatalError_4A38C0(Code, "C:\\Splitting\\Gta2\\Source\\File.cpp", 398, arg1, arg2);
 }
 
 MATCH_FUNC(0x4A71C0)

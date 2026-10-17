@@ -3,7 +3,7 @@
 #include "debug.hpp"
 #include "error.hpp"
 #include "Hud.hpp"
-#include "BurgerKing_67F8B0.hpp"
+#include "InputRecorder_67F8B0.hpp"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -22,12 +22,12 @@ void rng::AdvanceCycle_48B900()
 MATCH_FUNC(0x48B920)
 void rng::ShowCycle_48B920()
 {
-    if (gBurgerKing_67F8B0.inlined_check())
+    if (gInputRecorder_67F8B0.inlined_check())
     {
         swprintf(tmpBuff_67BD9C,
                  L"%d / %d",
                  this->field_0_rng,
-                 gBurgerKing_67F8B0.GetLastRecRngIdx_44AA80());
+                 gInputRecorder_67F8B0.GetLastRecRngIdx_44AA80());
 
     }
     else

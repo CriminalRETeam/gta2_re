@@ -14,11 +14,11 @@ class miss2_8;
 class Car_BC;
 class Object_2C;
 class Crane_15C;
-class nostalgic_ellis_0x28;
+class Light_28;
 class Door_38;
 class miss2_0x11C;
 class Hud_Arrow_7C;
-class Sprite_18;
+class AttachedSprite_18;
 
 struct SCR_CMD_HEADER
 {
@@ -31,7 +31,7 @@ struct SCR_CMD_HEADER
 struct SCR_ONEVAR_RECT : SCR_CMD_HEADER
 {
     u16 field_8_varname;
-    u16 field_A_unk;
+    u16 field_A_unused;
     SCR_Rect_f field_C_rect;
 };
 
@@ -47,7 +47,7 @@ struct SCR_PLAYER_PED
 struct SCR_CAR_DATA_DEC : SCR_CMD_HEADER
 {
     u16 field_8_car_idx;
-    u16 field_A_unk;
+    u16 field_A_unused;
     SCR_XYZ_f field_C_pos;
     Ang16 field_18_rot;
     s16 field_1A_remap;
@@ -133,7 +133,7 @@ struct SCR_POINTER : SCR_CMD_HEADER
         Car_BC* field_8_car;
         Object_2C* field_8_obj;
         Crane_15C* field_8_crane;
-        nostalgic_ellis_0x28* field_8_light;
+        Light_28* field_8_light;
         Door_38* field_8_door;
         Crusher_30* field_8_crusher;
         s32 field_8_counter;
@@ -145,7 +145,7 @@ struct SCR_POINTER : SCR_CMD_HEADER
         } words;
         Generator_2C* field_8_generator;
         Hud_Arrow_7C* field_8_arrow;
-        Sprite_18* field_8_sprite;
+        AttachedSprite_18* field_8_sprite;
     };
 };
 
@@ -191,8 +191,8 @@ struct SCR_THREAD : SCR_CMD_HEADER
 struct SCR_CHAR_AREA_ANY : SCR_CMD_HEADER
 {
     miss2_0x11C* field_8_script_thread;
-    s16 field_C;
-    u16 field_E;
+    s16 field_C_unused;
+    u16 field_E_unused;
     Fix16 field_10_x;
     Fix16 field_14_y;
     Fix16 field_18_z;
@@ -246,7 +246,7 @@ struct SCR_EXPLODE_WALL : SCR_CMD_HEADER
 struct SCR_SOUND_DECSET : SCR_CMD_HEADER
 {
     u16 field_8_varname;
-    u16 field_A_unk;
+    u16 field_A_unused;
     SCR_XYZ_f field_C_pos;
     u8 field_18_sound_id;
     u8 field_19_play_type;
@@ -375,10 +375,10 @@ struct SCR_START_BONUS : SCR_CMD_HEADER
     u16 field_10_time_limit;
     s16 field_12_alt_car_model;
     u16 field_14_reward;
-    u16 field_16;
+    u16 field_16_unused;
     u16 field_18_ptr;
     u8 field_1A;
-    u8 field_1B;
+    u8 field_1B_unused;
 };
 
 struct SCR_LOWER_LEVEL : SCR_CMD_HEADER
@@ -390,9 +390,9 @@ struct SCR_LOWER_LEVEL : SCR_CMD_HEADER
 struct SCR_CHAR_INTO_CAR : SCR_CMD_HEADER
 {
     u16 field_8_char_idx;
-    u16 field_A;
+    u16 field_A_unused;
     u8 field_C_remap;
-    u8 field_D;
+    u8 field_D_unused;
     s16 field_E_occupation;
     u16 field_10_car_idx;
 };
@@ -505,7 +505,7 @@ struct SCR_WARP_FROM_CAR : SCR_CMD_HEADER
 
 struct SCR_SET_GROUP_TYPE : SCR_CMD_HEADER
 {
-    u32 field_8_unk;
+    u32 field_8;
     u32 field_C_group_type;
 };
 
@@ -518,7 +518,7 @@ struct SCR_CHECK_CURRENT_WEAPON : SCR_CMD_HEADER
 
 struct SCR_DECLARE_POLICELEVEL : SCR_CMD_HEADER
 {
-    u16 field_8_unk;
+    u16 field_8;
     u16 field_A_wanted_level;
 };
 
@@ -531,14 +531,14 @@ struct SCR_ADD_ONSCREEN_COUNTER : SCR_CMD_HEADER
 struct SCR_SET_KF_WEAPON : SCR_CMD_HEADER
 {
     u16 field_8_ped_idx;
-    u16 field_A_unk;
+    u16 field_A_unused;
     u32 field_C_weapon_idx;
 };
 
 struct SCR_SET_FAV_CAR : SCR_CMD_HEADER
 {
     u16 field_8_ped_idx;
-    u16 field_A_unk;
+    u16 field_A_unused;
     u32 field_C_favourite_car;
 };
 
@@ -578,7 +578,7 @@ struct SCR_CHECK_WEAPONHIT : SCR_CMD_HEADER
 
 struct SCR_FINISH_LEVEL : SCR_CMD_HEADER
 {
-    u16 field_8_unk;
+    u16 field_8;
     s16 field_A_bonus_type;
 };
 
@@ -591,7 +591,7 @@ struct SCR_CHECK_HEADS_GREATER : SCR_CMD_HEADER
 struct SCR_SET_CAR_GRAPHIC : SCR_CMD_HEADER
 {
     u16 field_8_car_idx;
-    u16 field_A_unk;
+    u16 field_A_unused;
     u16 field_C_number;
 };
 
@@ -703,9 +703,9 @@ struct SCR_CREATE_LIGHT : SCR_CMD_HEADER
 struct SCR_ANSWER_PHONE : SCR_CMD_HEADER
 {
     u16 field_8_obj_idx;
-    u16 field_A;
+    u16 field_A_unused;
     u16 field_C_ped_idx;
-    u16 field_E;
+    u16 field_E_unused;
     s16 field_10_timer;
     u8 field_12_answered;
 };
@@ -899,7 +899,7 @@ class miss2_0x11C
     EXPORT void SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER* pPointer);
     EXPORT void SCRCMD_PARKED_CAR_DECSET_503F80(SCR_POINTER* pCmd);
     EXPORT void SCRCMD_CHAR_DECSET_2D_3D_503FB0(SCR_CHAR_DATA_DEC* pCmd, SCR_POINTER* pPointer);
-    EXPORT Ped* SetCharObjective_504110(SCR_CHAR_OBJECTIVE* pCmd, SCR_POINTER* pPointer);
+    EXPORT void SetCharObjective_504110(SCR_CHAR_OBJECTIVE* pCmd, SCR_POINTER* pPointer);
     EXPORT void SCRCMD_MAP_ZONE_SET_504150(SCR_MAP_ZONE_SET* pCmd);
     EXPORT void SCRCMD_ARROW_DEC_5041B0(SCR_TWO_PARAMS* pCmd);
     EXPORT void SCRCMD_CRANE_5041C0(SCR_CRANE_TARGET_DEC* pTargetCmd, SCR_CRANE_BASIC_DEC* pBasicCmd);
@@ -1151,19 +1151,19 @@ class miss2_0x11C
     miss2_0x11C* mpNext;
     u16 field_4_next_cmd;
     char_type field_6;
-    char_type field_7;
+    char_type field_7_unused;
     s32 field_8_cond_result;
     char_type field_C_cmd_initialised;
-    char_type field_D;
+    char_type field_D_unused;
     s16 field_E_phone_timer;
     char_type field_10_stopped;
-    char_type field_11;
+    char_type field_11_unused;
     s16 field_12_exec_flag;
     char_type field_14_str[255];
-    char_type field_113;
+    char_type field_113_unused;
     miss2_8* field_114_gosub_stack;
     char_type field_118_in_level_start;
-    char_type field_119;
+    char_type field_119_unused;
     s16 field_11A_thread_id;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(miss2_0x11C, 0x11C)

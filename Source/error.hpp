@@ -30,6 +30,8 @@ class ErrorLog
     {
     }
 
+    EXPORT ~ErrorLog();
+
     // Note: Has to use the old/classic ofstream, not the one from the std namespace
     // although clang-cl preprocessing, bad build options or something is causing field 0x3C to
     // end up at the wrong offset

@@ -1,6 +1,7 @@
 #include "winmain.hpp"
+#include "hud_message_priority.hpp"
 #include "Bink.hpp"
-#include "BurgerKing_67F8B0.hpp"
+#include "InputRecorder_67F8B0.hpp"
 #include "Char_Pool.hpp"
 #include "Frontend.hpp"
 #include "Function.hpp"
@@ -13,15 +14,16 @@
 #include "error.hpp"
 #include "gbh_graphics.hpp"
 #include "input.hpp"
-#include "jolly_poitras_0x2BC0.hpp"
+#include "PlyDat_2BC0.hpp"
 #include "keybrd_0x204.hpp"
-#include "lucid_hamilton.hpp"
+#include "GameSession_578.hpp"
 #include "crt_stubs.hpp"
 #include "registry.hpp"
 #include "rng.hpp"
 #include "resource.h"
 #include "root_sound.hpp"
-#include "sharp_bose_0x54.hpp"
+#include "network_data.hpp"
+#include "FpsCounter_54.hpp"
 #include <ddraw.h>
 #include <direct.h>
 #include <stdio.h>
@@ -33,60 +35,60 @@
 // for force links
 #include "3rdParty/GTA2Hax/d3ddll/d3ddll.hpp"
 #include "Ambulance_110.hpp"
-#include "BurgerKing_67F8B0.hpp"
+#include "InputRecorder_67F8B0.hpp"
 #include "Camera.hpp"
 #include "Car_BC.hpp"
 #include "Crushers.hpp"
 #include "Firefighters.hpp"
 #include "Fix16_Rect.hpp"
 #include "Generators.hpp"
-#include "Hamburger_500.hpp"
+#include "CarChaseTaskTable_500.hpp"
 #include "Hud.hpp"
 #include "ImGuiDebug.hpp"
 #include "MapRenderer.hpp"
 #include "Mike_A80.hpp"
-#include "Montana.hpp"
+#include "SpriteRenderer_1C.hpp"
 #include "Network_20324.hpp"
 #include "Ped.hpp"
-#include "Phi_8CA8.hpp"
+#include "ObjectDefinitions_8CA8.hpp"
 #include "Player.hpp"
-#include "Rozza_C88.hpp"
+#include "CollisionSoundQueue_C88.hpp"
 #include "CrimeReportQueue_CC.hpp"
 #include "cSampleManager.hpp"
 #include "char.hpp"
 #include "collide.hpp"
 #include "miss2_8.hpp"
-#include "nostalgic_ellis_0x28.hpp"
+#include "Light_28.hpp"
 #include "sound_obj.hpp"
 #include "sprite.hpp"
 #include "text_0x14.hpp"
 
-DEFINE_GLOBAL(u8, gNetInUsePlayerBits_6F56B8, 0x6F56B8); // TODO: move
+DEFINE_GLOBAL(u8, gNetDisconnectPlayersBits_6F56B8, 0x6F56B8); // TODO: move
 DEFINE_GLOBAL(u32, gNetworkPlayerIdx_6F56C8, 0x6F56C8); // TODO: move
 DEFINE_GLOBAL(u32, gPlayerQuit_6F5AEC, 0x6F5AEC); // TODO: move
 DEFINE_GLOBAL(u32, gMatchStartTime_6F5A28, 0x6F5A28); // TODO: move
 DEFINE_GLOBAL(u32, gNetworkFrameCounter_6F5868, 0x6F5868); // TODO: move
 DEFINE_GLOBAL(u8, bRecordStartTime_6F593C, 0x6F593C); // TODO: move
-DEFINE_GLOBAL(Network_Unknown_0x30, gCurrentNetInputs_6F57D8, 0x6F57D8); // TODO: move
+DEFINE_GLOBAL(Network_PlayerInputs_0x30, gCurrentNetInputs_6F57D8, 0x6F57D8); // TODO: move
 DEFINE_GLOBAL(Network_8, gInputSendData_6F5B18, 0x6F5B18); // TODO: move
-DEFINE_GLOBAL(Network_Unknown_0x30, gPrevNetInputs_6F5B28, 0x6F5B28); // TODO: move
-DEFINE_GLOBAL(Network_InputData_0x8*, gpInputBuffer_6F58C0, 0x6F58C0); // TODO: move
+DEFINE_GLOBAL(Network_PlayerInputs_0x30, gPrevNetInputs_6F5B28, 0x6F5B28); // TODO: move
+DEFINE_GLOBAL(ReceivedPacket*, gpInputBuffer_6F58C0, 0x6F58C0); // TODO: move
 DEFINE_GLOBAL(u32, gCurrentInputsBufferSize_6F58C4, 0x6F58C4); // TODO: move
 DEFINE_GLOBAL_ARRAY(u8, gSyncCheckData_6F58E0, 0x20, 0x6F58E0); // TODO: move
 DEFINE_GLOBAL(u32, gTotalNetworkTime_6F5980, 0x6F5980); // TODO: move
 DEFINE_GLOBAL(s32, gNetTimeLimit_6F573C, 0x6F573C); // TODO: move
 DEFINE_GLOBAL(s32, gHudTimerIdx_6F5860, 0x6F5860); // TODO: move
 EXTERN_GLOBAL(s32, gNetTimeLimitEnabled_6F58A4); // TODO: move
-DEFINE_GLOBAL(s32, dword_6F58A0, 0x6F58A0); // TODO: move
+DEFINE_GLOBAL(s32, gNetTimeSecondsOfCurrMin_6F58A0, 0x6F58A0); // TODO: move
 DEFINE_GLOBAL_ARRAY(u8, byte_6F5AC8, 14, 0x6F5AC8); // TODO: move
 DEFINE_GLOBAL(u32, dword_6F5B00, 0x6F5B00); // TODO: move
 DEFINE_GLOBAL(u32, dword_6F580C, 0x6F580C); // TODO: move
 DEFINE_GLOBAL(u32, dword_6F5AC0, 0x6F5AC0); // TODO: move
-DEFINE_GLOBAL(s32, dword_6F5858, 0x6F5858); // TODO: move
+DEFINE_GLOBAL(s32, gFramesOfCurrSecond_6F5858, 0x6F5858); // TODO: move
 DEFINE_GLOBAL(s32, dword_6F5B74, 0x6F5B74);
 DEFINE_GLOBAL(s32, dword_6F5944, 0x6F5944);
-s32 dword_67ED24;//DEFINE_GLOBAL(s32, dword_67ED24, 0x67ED24); // global crashing standalone
 DEFINE_GLOBAL(u8, byte_6F59C0, 0x6F59C0); // TODO: move
+DEFINE_GLOBAL(NetworkGameSettings, gNetworkGameSettings_707098, 0x707098);
 
 static T_gbh_SetBeginSceneCB pBeginSceneCB = NULL;
 
@@ -139,20 +141,20 @@ void LoadBeginSceneCBPtr()
 
 void force_link()
 {
-    Phi_8CA8 phi_8ca8;
+    ObjectDefinitions_8CA8 phi_8ca8;
     phi_8ca8.AllocDefinitionWithSprite_5332D0(0, 0, 0, 0);
 
     Ambulance_20 jaw_20;
-    jaw_20.field_14_count = 1;
+    jaw_20.field_14_patient_count = 1;
 
-    Rozza_C88 rozza;
-    rozza.field_0_pSoundObj = 0;
+    CollisionSoundQueue_C88 collision_sound_queue;
+    collision_sound_queue.field_0_pSoundObj = 0;
 
     GeneratorPool_14AC maccies;
     maccies.sub_4C1CD0();
 
     Sprite car_3c;
-    car_3c.field_20_id = 5;
+    car_3c.field_20_instance_id = 5;
 
     CrusherPool_94 snooky;
     snooky.IsCarBeingCrushed_4887A0(0);
@@ -160,8 +162,8 @@ void force_link()
     Network_20324 network;
     network.cb_FillSessionList_519D30(0, 0);
 
-    nostalgic_ellis_0x28 nostalgic;
-    nostalgic.AddToGrid_4D6D70();
+    Light_28 light;
+    light.AddToGrid_4D6D70();
 
     PedManager PedManager;
     PedManager.DoIanTest_471060(0);
@@ -266,28 +268,28 @@ void force_link()
     miss2.remove_503180();
     miss2.remove_5031E0(0);
 
-    BurgerKing_67F8B0 burgerking;
-    burgerking.StaticShutdown_4CDCD0();
-    burgerking.clear_inputs_4CDCE0();
-    burgerking.set_input_4CDCF0(0);
-    burgerking.clear_input_4CDD10(0);
-    burgerking.should_ignore_input_4CDD80(0);
-    burgerking.should_ignore_input_4CDDF0(0);
-    burgerking.save_replay_record_4CDE20(0);
-    burgerking.SaveReplay_4CDED0();
-    burgerking.modify_inputs_4CDF30(0);
-    burgerking.AppendReplayHeader_4CDF70();
-    burgerking.LoadReplayHeader_4CE380(0);
-    burgerking.VerifyAttractFilesExist_4CE650();
-    burgerking.GetNextAttrReplay_4CE6E0(0);
-    burgerking.input_init_replay_4CE740(0);
-    burgerking.input_init_live_4CE880(0);
-    burgerking.replay_save_4CEA40(0);
-    burgerking.get_input_bits_4CEAC0();
-    burgerking.save_replay_inputs_4CED00(0, 0);
-    burgerking.DisplayInputBits_4CED90();
-    burgerking.RecOrPlayBackState_4CEDF0();
-    burgerking.ShowInput_4CEE10();
+    InputRecorder_67F8B0 input_recorder;
+    input_recorder.StaticShutdown_4CDCD0();
+    input_recorder.clear_inputs_4CDCE0();
+    input_recorder.set_input_4CDCF0(0);
+    input_recorder.clear_input_4CDD10(0);
+    input_recorder.should_ignore_input_4CDD80(0);
+    input_recorder.should_ignore_input_4CDDF0(0);
+    input_recorder.save_replay_record_4CDE20(0);
+    input_recorder.SaveReplay_4CDED0();
+    input_recorder.modify_inputs_4CDF30(0);
+    input_recorder.AppendReplayHeader_4CDF70();
+    input_recorder.LoadReplayHeader_4CE380(0);
+    input_recorder.VerifyAttractFilesExist_4CE650();
+    input_recorder.GetNextAttrReplay_4CE6E0(0);
+    input_recorder.input_init_replay_4CE740(0);
+    input_recorder.input_init_live_4CE880(0);
+    input_recorder.replay_save_4CEA40(0);
+    input_recorder.get_input_bits_4CEAC0();
+    input_recorder.save_replay_inputs_4CED00(0, 0);
+    input_recorder.DisplayInputBits_4CED90();
+    input_recorder.RecOrPlayBackState_4CEDF0();
+    input_recorder.ShowInput_4CEE10();
 
     Hud_2B00 garox;
 
@@ -295,8 +297,8 @@ void force_link()
     u16 zero = 0;
     nano.draw_bottom_4ED290(zero);
 
-    Montana montana;
-    montana.ResetAll_4954F0();
+    SpriteRenderer_1C sprite_renderer;
+    sprite_renderer.ResetAll_4954F0();
 
     Mike_A80 mike;
     mike.DebugDrawProfiling_4FF250();
@@ -309,10 +311,10 @@ void force_link()
 
     FirefighterPool_54 tango_54;
 
-    Hamburger_500 hamburger_500;
-    hamburger_500.FreeEntry_474CC0(0);
+    CarChaseTaskTable_500 car_chase_task_table;
+    car_chase_task_table.FreeEntry_474CC0(0);
 
-    Collide_C collide_C;
+    CollisionCounters_C collide_C;
 
     Fix16_Rect car14_18;
     car14_18.DoSetCurrentRect_59DD60();
@@ -430,9 +432,9 @@ EXPORT void __stdcall Init_FrameRateLightAndUnknown_5D8EB0()
         gLightingDrawFlag_7068F4 = 0;
     }
 
-    if (gSprite_3CC_67AF1C)
+    if (gSpriteMaskCache_67AF1C)
     {
-        gSprite_3CC_67AF1C->InvalidateAllMasks_48F710();
+        gSpriteMaskCache_67AF1C->InvalidateAllMasks_48F710();
     }
 
     bExplodingScoresOff_67D4FB = gRegistry_6FF968.Get_Screen_Setting_5870D0("exploding_on", 1) != 1;
@@ -488,13 +490,13 @@ EXPORT char_type Input_InitMouse_5D7BF0()
 MATCH_FUNC(0x5D93A0)
 EXPORT void __stdcall SetFullScreenMode_5D93A0()
 {
-    bool v0 = 0;
+    bool bModeChanged = 0;
     s32 bcheckModeRet = pVid_CheckMode(gVidSys_7071D0, full_width_706B5C, full_height_706798, 16);
     if (!bcheckModeRet)
     {
         if (full_width_706B5C == 640 ||
             (full_width_706B5C = 640,
-             v0 = 1,
+             bModeChanged = 1,
              full_height_706798 = 480,
              (bcheckModeRet = pVid_CheckMode(gVidSys_7071D0, 640, 480, 16)) == 0))
         {
@@ -527,7 +529,7 @@ EXPORT void __stdcall SetFullScreenMode_5D93A0()
 
     Input_InitMouse_5D7BF0();
 
-    if (v0)
+    if (bModeChanged)
     {
         gRegistry_6FF968.Set_Screen_Setting_587170("full_width", full_width_706B5C);
         gRegistry_6FF968.Set_Screen_Setting_587170("full_height", full_height_706798);
@@ -552,10 +554,10 @@ EXPORT void __stdcall ShowCursor_5D9660()
 }
 
 // todo: move
-WIP_FUNC(0x5D9510)
-EXPORT char_type SetWindowedMode_5D9510()
+// __stdcall, not __cdecl: see GetLayout_4D6000 (the `push 0x316` goes before the rect loads)
+MATCH_FUNC(0x5D9510)
+EXPORT char_type __stdcall SetWindowedMode_5D9510()
 {
-    WIP_IMPLEMENTED;
 
     if (!IsWindowedModeAvailable_5D92C0())
     {
@@ -762,7 +764,7 @@ EXPORT void __stdcall GBH_GraphicsInit_5D97C0()
 MATCH_FUNC(0x5D96C0)
 EXPORT void InitVideo_5D96C0()
 {
-    s32 v1 = 0;
+    s32 ddraw_flags = 0;
     if (DMA_Video_LoadDll_5EB970(gVideoDllName_706654))
     {
         FatalError_4A38C0(Gta2Error::DllLoadError, "C:\\Splitting\\Gta2\\Source\\video.cpp", 1647, gVideoDllName_706654);
@@ -779,16 +781,16 @@ EXPORT void InitVideo_5D96C0()
 
     if (gBufferMode_706B34 == 1)
     {
-        v1 = 64;
+        ddraw_flags = 64;
     }
 
-    gVidSys_7071D0->field_4_flags |= v1;
+    gVidSys_7071D0->field_4_flags |= ddraw_flags;
 
     if (GetHwndDCDeviceCaps_5D9800() == 16) // 16 bpp?
     {
-        bool cVar1 = Vid_FindDevice_5D9290();
+        bool bDeviceFound = Vid_FindDevice_5D9290();
         bWindowedModeAvailable_706C5C = 1;
-        if (!cVar1)
+        if (!bDeviceFound)
         {
             bWindowedModeAvailable_706C5C = 0;
         }
@@ -816,7 +818,7 @@ MATCH_FUNC(0x4DA440)
 EXPORT void __stdcall Init_keybrd_jolly_and_sound_4DA440()
 {
     keybrd_0x204::create_4D5F50();
-    jolly_poitras_0x2BC0::create_56C2C0();
+    PlyDat_2BC0::Create_56C2C0();
 
     if (!bSkip_audio_67D6BE)
     {
@@ -907,7 +909,7 @@ void __stdcall ClearDebugFlags_4DB170()
 MATCH_FUNC(0x4DB070)
 EXPORT void __stdcall ShowPlayerLeftMessage_4DB070(u8 idx)
 {
-    Player* pPlayer = gGame_0x40_67E008->get_player_4219E0(idx);
+    Player* pPlayer = gGame_0x40_67E008->GetPlayer_4219E0(idx);
     pPlayer->Disconnect_568730();
     swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("comms1"), pPlayer->field_83C_player_name);
     gHud_2B00_706620->field_12F0_mp_message.ShowText_5D5730(tmpBuff_67BD9C);
@@ -929,12 +931,12 @@ EXPORT void __stdcall InitializeGame_4DA4D0()
 {
     if (bReplayMode_6F5B71)
     {
-        gBurgerKing_67F8B0.input_init_replay_4CE740(gHInstance_708220);
+        gInputRecorder_67F8B0.input_init_replay_4CE740(gHInstance_708220);
         bReplayMode_6F5B71 = 0;
     }
     else
     {
-        gBurgerKing_67F8B0.input_init_live_4CE880(gHInstance_708220);
+        gInputRecorder_67F8B0.input_init_live_4CE880(gHInstance_708220);
     }
 
     gRoot_sound_66B038.Set3DSound_40F160(gRegistry_6FF968.Get_Sound_Settting_586A70("do_3d_sound"));
@@ -942,7 +944,7 @@ EXPORT void __stdcall InitializeGame_4DA4D0()
 
     if (bStartNetworkGame_7081F0)
     {
-        gYouthful_einstein_6F8450.ctor_516560();
+        gTagGame_6F8450.Init_516560();
 
         ClearDebugFlags_4DB170();
 
@@ -954,25 +956,25 @@ EXPORT void __stdcall InitializeGame_4DA4D0()
 
         memset(byte_6F5AC8, 0, sizeof(byte_6F5AC8));
         gNetworkPlayerIdx_6F56C8 = gNetPlay_7071E8.GetPlayerIdx_409C40();
-        gpInputBuffer_6F58C0 = &gCurrentNetInputs_6F57D8.field_0_inputs[0];
+        gpInputBuffer_6F58C0 = (ReceivedPacket*)&gCurrentNetInputs_6F57D8.field_0_inputs[0];
         gCurrentInputsBufferSize_6F58C4 = 48;
         dword_6F5B00 = 0;
         bRecordStartTime_6F593C = 1;
         gPlayerQuit_6F5AEC = false;
-        gNetInUsePlayerBits_6F56B8 = 0;
+        gNetDisconnectPlayersBits_6F56B8 = 0;
         gNetworkFrameCounter_6F5868 = 0;
         dword_6F580C = 0;
         gTotalNetworkTime_6F5980 = 0;
         dword_6F5AC0 = 0;
-        gNetTimeLimit_6F573C = gLucid_hamilton_67E8E0.GetTimeLimit_461DC0();
+        gNetTimeLimit_6F573C = gGameSession_67E8E0.GetTimeLimit_461DC0();
         if (gNetTimeLimit_6F573C > 60)
         {
             gNetTimeLimit_6F573C = 60;
         }
         gHudTimerIdx_6F5860 = -1;
         gNetTimeLimitEnabled_6F58A4 = (gNetTimeLimit_6F573C != 0);
-        dword_6F58A0 = 0;
-        dword_6F5858 = 0;
+        gNetTimeSecondsOfCurrMin_6F58A0 = 0;
+        gFramesOfCurrSecond_6F5858 = 0;
         byte_6F59C0 = 0;
     }
     else
@@ -1013,14 +1015,14 @@ EXPORT void __stdcall ApplyChangedScreenSettings_5D9690()
 
 // TODO: order
 MATCH_FUNC(0x4DA780)
-EXPORT char ExecuteGame_4DA780()
+EXPORT bool ExecuteGame_4DA780()
 {
-    char v0 = gGame_0x40_67E008->ExecuteGame_4B9640();
-    if (gsharp_bose_0x54_7055D4)
+    bool exit_requested = gGame_0x40_67E008->ExecuteGame_4B9640();
+    if (gFpsCounter_7055D4)
     {
-        gsharp_bose_0x54_7055D4->field_18.AccumulateElapsed_5BEBF0();
+        gFpsCounter_7055D4->field_18_execute_game_timer.AccumulateElapsed_5BEBF0();
     }
-    return v0;
+    return exit_requested;
 }
 
 MATCH_FUNC(0x4DA7B0)
@@ -1034,28 +1036,29 @@ void __stdcall Draw_4DA7B0()
     }
 }
 
-DEFINE_GLOBAL(Network_Unknown_0x30, gNetInputsHistory1_6F56E0, 0x6F56E0);
-DEFINE_GLOBAL(Network_Unknown_0x30, gNetInputsHistory2_6F5798, 0x6F5798);
-u8 gNetPlayerDropped_6F8470[6];//DEFINE_GLOBAL_ARRAY(u8, gNetPlayerDropped_6F8470, 6, 0x6F8470);  // global crashing standalone
+DEFINE_GLOBAL(Network_PlayerInputs_0x30, gNetInputsHistory1_6F56E0, 0x6F56E0);
+DEFINE_GLOBAL(Network_PlayerInputs_0x30, gNetInputsHistory2_6F5798, 0x6F5798);
 
 // Re-sends our inputs of a previous frame to one player.
 MATCH_FUNC(0x4DA9B0)
-EXPORT void __stdcall Net_4DA9B0(Network_InputData_0x8* pInputs, s32 type, u8 player_idx)
+EXPORT void __stdcall NetSendOldInputs_4DA9B0(NetInputData* pInputs, s32 delayed_ticks, u8 player_idx)
 {
-    gInputSendData_6F5B18.field_0 = pInputs;
-    gInputSendData_6F5B18.field_4_len = bDo_sync_check_67D6C1 ? sizeof(Network_InputData_0x8) : sizeof(u32);
-    gNetPlay_7071E8.SendToPlayer_521630(&gInputSendData_6F5B18, player_idx, type);
+    gInputSendData_6F5B18.field_0_data = pInputs;
+    gInputSendData_6F5B18.field_4_len = bDo_sync_check_67D6C1 ? sizeof(NetInputData) : sizeof(u32);
+    gNetPlay_7071E8.SendToPlayer_521630(&gInputSendData_6F5B18, player_idx, delayed_ticks);
 }
 
 MATCH_FUNC(0x4DA9F0)
-EXPORT void Net_4DA9F0()
+EXPORT void Net_Receive_Players_Inputs_4DA9F0()
 {
     s32 retries = 0;
     s32 max_retries = bRecordStartTime_6F593C ? 25 : 6;
 
+    // Update previous stored inputs
     memcpy(&gNetInputsHistory2_6F5798, &gNetInputsHistory1_6F56E0, sizeof(gNetInputsHistory2_6F5798));
     memcpy(&gNetInputsHistory1_6F56E0, &gCurrentNetInputs_6F57D8, sizeof(gNetInputsHistory1_6F56E0));
 
+    // Check which players we are waiting for
     u32 waiting_bits = 0;
     for (u32 i = 0; i < GTA2_COUNTOF(gNetPlay_7071E8.field_758_n2.field_10_players); i++)
     {
@@ -1068,32 +1071,35 @@ EXPORT void Net_4DA9F0()
     u32 start_time = timeGetTime();
     gTotalNetworkTime_6F5980 = 0;
 
+    // Do not execute next game tick until we receive all players inputs
     while (waiting_bits)
     {
+        // Leave a window to escape the loop if player is trying to exit the game
         if (gGame_0x40_67E008->UpdateExitTimer_4B8C20())
         {
             return;
         }
 
+        // Wait a packet. If one was received, analyse its data and do something
         s32 player_idx;
-        u32 type;
-        if (gNetPlay_7071E8.ReceiveGameMessage_521890((Network_8*)&gpInputBuffer_6F58C0, &player_idx, &type))
+        u32 packet_subtype;
+        if (gNetPlay_7071E8.ReceiveGameMessage_521890((Network_8*)&gpInputBuffer_6F58C0, &player_idx, &packet_subtype))
         {
-            switch (type)
+            switch (packet_subtype)
             {
-                case 2:
+                case packet_subtype::StandardPacket_2:
                 {
-                    switch (*(u8*)gpInputBuffer_6F58C0)
+                    switch (gpInputBuffer_6F58C0->s_packet.field_0_subtype) // std_packet_subtype
                     {
-                        case 1:
-                            waiting_bits &= ~(1 << *(s32*)((u8*)gpInputBuffer_6F58C0 + 1));
-                            gNetInUsePlayerBits_6F56B8 |= 1 << *(s32*)((u8*)gpInputBuffer_6F58C0 + 1);
+                        case std_packet_subtype::GiveUp_1:
+                            waiting_bits &= ~(1 << (s32)gpInputBuffer_6F58C0->s_packet.field_1_pData);
+                            gNetDisconnectPlayersBits_6F56B8 |= 1 << (s32)gpInputBuffer_6F58C0->s_packet.field_1_pData;
                             break;
-                        case 2:
+                        case std_packet_subtype::PlayerQuit_2:
                             waiting_bits &= ~(1 << player_idx);
-                            gNetInUsePlayerBits_6F56B8 |= 1 << player_idx;
+                            gNetDisconnectPlayersBits_6F56B8 |= 1 << player_idx;
                             break;
-                        case 3:
+                        case std_packet_subtype::KickFromConnection_3:
                             waiting_bits = 0;
                             gPlayerQuit_6F5AEC = 1;
                             break;
@@ -1103,9 +1109,11 @@ EXPORT void Net_4DA9F0()
                     }
                     break;
                 }
-                case 3:
+                case packet_subtype::PlayerInputs_3: // store player input for the latest/current tick
                     memcpy(&gCurrentNetInputs_6F57D8.field_0_inputs[player_idx], gpInputBuffer_6F58C0, gCurrentInputsBufferSize_6F58C4);
                     waiting_bits &= ~(1 << player_idx);
+
+                    // Now check RNG if sync_check is activated. If it doesnt match, then do FatalError
                     if (bDo_sync_check_67D6C1 &&
                         gCurrentNetInputs_6F57D8.field_0_inputs[player_idx].field_4_rng !=
                             gCurrentNetInputs_6F57D8.field_0_inputs[gNetworkPlayerIdx_6F56C8].field_4_rng)
@@ -1125,6 +1133,8 @@ EXPORT void Net_4DA9F0()
 
         gTotalNetworkTime_6F5980 += gNetPlay_7071E8.field_8F4_time_diff;
 
+        // Now manage those players we didn't received packets
+
         if (timeGetTime() - start_time > 1000 && retries >= max_retries && waiting_bits)
         {
             // Give up on the players that didn't answer
@@ -1133,45 +1143,28 @@ EXPORT void Net_4DA9F0()
                 if (waiting_bits & (1 << j))
                 {
                     waiting_bits &= ~(1 << j);
-                    gNetInUsePlayerBits_6F56B8 |= 1 << j;
-                    gNetPlay_7071E8.Send_521DB0(j);
-                    gNetPlayerDropped_6F8470[j] = 1;
+                    gNetDisconnectPlayersBits_6F56B8 |= 1 << j;
+                    gNetPlay_7071E8.SendGiveUp_521DB0(j);
+                    gTagGame_6F8450.field_20_bHasQuit[j] = 1;
                 }
             }
         }
         else if (timeGetTime() - start_time > 1000 && waiting_bits)
         {
+            // Send previous inputs in case of lost packets
             start_time = timeGetTime();
             retries++;
             for (u8 k = 0; k < 6; k++)
             {
                 if (waiting_bits & (1 << k))
                 {
-                    Net_4DA9B0(&gNetInputsHistory1_6F56E0.field_0_inputs[gNetworkPlayerIdx_6F56C8], 1, k);
-                    Net_4DA9B0(&gNetInputsHistory2_6F5798.field_0_inputs[gNetworkPlayerIdx_6F56C8], 2, k);
+                    NetSendOldInputs_4DA9B0(&gNetInputsHistory1_6F56E0.field_0_inputs[gNetworkPlayerIdx_6F56C8], 1, k);
+                    NetSendOldInputs_4DA9B0(&gNetInputsHistory2_6F5798.field_0_inputs[gNetworkPlayerIdx_6F56C8], 2, k);
                 }
             }
         }
     }
 }
-
-#pragma pack(push, 1)
-// What each player sends at the start of a network game, so everyone can check they run the same
-// game, data files and settings
-struct SyncCheckData_1F
-{
-    u8 field_0_type; // 5
-    u32 field_1_flags; // 1: log random extra, 2: sync check, 4: log random
-    s32 field_5_map_size;
-    s32 field_9;
-    s32 field_D_script_sum;
-    s32 field_11_exe_a;
-    s32 field_15_exe_b;
-    s32 field_19_gci_sum;
-    u8 field_1D_bFrench;
-    u8 field_1E_player_idx;
-};
-#pragma pack(pop)
 
 // Sum of all the bytes of a file
 MATCH_FUNC(0x4DB120)
@@ -1188,16 +1181,16 @@ EXPORT s32 __stdcall FileByteSum_4DB120(FILE* hFile)
 
 // Fills in the sync check data that is compared between players at the start of a network game
 MATCH_FUNC(0x4DB2E0)
-EXPORT void __stdcall sub_4DB2E0(u8* pSyncData)
+EXPORT void __stdcall MakeInitialSyncData_4DB2E0(u8* pSyncData)
 {
     SyncCheckData_1F* pData = (SyncCheckData_1F*)pSyncData;
     struct _stat st;
 
     memset(pData, 0, sizeof(SyncCheckData_1F));
-    pData->field_0_type = 5;
-    if (gCar_6C_677930)
+    pData->field_0_type = std_packet_subtype::SyncCheckData_5;
+    if (gCarManager_6C_677930)
     {
-        gCar_6C_677930->field_69_do_free_shopping = bDo_free_shopping_67D6CD;
+        gCarManager_6C_677930->field_69_do_free_shopping = bDo_free_shopping_67D6CD;
     }
 
     pData->field_1_flags = 0;
@@ -1207,12 +1200,12 @@ EXPORT void __stdcall sub_4DB2E0(u8* pSyncData)
     pData->field_11_exe_a = -1;
     pData->field_15_exe_b = 0;
 
-    if (_stat(gLucid_hamilton_67E8E0.GetMapName_4C5940(), &st) == 0)
+    if (_stat(gGameSession_67E8E0.GetMapName_4C5940(), &st) == 0)
     {
         pData->field_5_map_size = st.st_size;
     }
 
-    FILE* hFile = crt::fopen(gLucid_hamilton_67E8E0.GetScriptName_4C5960(), "rb");
+    FILE* hFile = crt::fopen(gGameSession_67E8E0.GetScriptName_4C5960(), "rb");
     if (hFile)
     {
         pData->field_D_script_sum = FileByteSum_4DB120(hFile);
@@ -1272,12 +1265,12 @@ EXPORT void __stdcall CompareRemotePlayers_4DB440(u8* pLocalSyncData, u8* pRemot
     }
     if (pLocal->field_5_map_size != pRemote->field_5_map_size)
     {
-        sprintf(msg, "Player %s: Level file '%s' is different", name, gLucid_hamilton_67E8E0.GetMapName_4C5940());
+        sprintf(msg, "Player %s: Level file '%s' is different", name, gGameSession_67E8E0.GetMapName_4C5940());
         FatalErrorMsg_4DB410(msg);
     }
     if (pLocal->field_D_script_sum != pRemote->field_D_script_sum)
     {
-        sprintf(msg, "Player %s: Script file '%s' is different", name, gLucid_hamilton_67E8E0.GetScriptName_4C5960());
+        sprintf(msg, "Player %s: Script file '%s' is different", name, gGameSession_67E8E0.GetScriptName_4C5960());
         FatalErrorMsg_4DB410(msg);
     }
     if (pLocal->field_11_exe_a != pRemote->field_11_exe_a || pLocal->field_15_exe_b != pRemote->field_15_exe_b)
@@ -1288,7 +1281,7 @@ EXPORT void __stdcall CompareRemotePlayers_4DB440(u8* pLocalSyncData, u8* pRemot
     if (pLocal->field_19_gci_sum != pRemote->field_19_gci_sum)
     {
         // The original passes the script name too, which the format doesn't use
-        sprintf(msg, "Player %s: Car handling file 'nyc.gci' is different", name, gLucid_hamilton_67E8E0.GetScriptName_4C5960());
+        sprintf(msg, "Player %s: Car handling file 'nyc.gci' is different", name, gGameSession_67E8E0.GetScriptName_4C5960());
         FatalErrorMsg_4DB410(msg);
     }
 }
@@ -1303,12 +1296,12 @@ EXPORT void Net_Send_Our_Inputs_4DACB0()
             // Send the inputs plus an rng value the other players check against
             s16 max = 100;
             gCurrentNetInputs_6F57D8.field_0_inputs[gNetworkPlayerIdx_6F56C8].field_4_rng = gRng_6F6784.get_int_4F7AE0(max);
-            gInputSendData_6F5B18.field_0 = &gCurrentNetInputs_6F57D8.field_0_inputs[gNetworkPlayerIdx_6F56C8];
+            gInputSendData_6F5B18.field_0_data = &gCurrentNetInputs_6F57D8.field_0_inputs[gNetworkPlayerIdx_6F56C8];
             gInputSendData_6F5B18.field_4_len = sizeof(Network_InputData_0x8);
         }
         else
         {
-            gInputSendData_6F5B18.field_0 = &gCurrentNetInputs_6F57D8.field_0_inputs[gNetworkPlayerIdx_6F56C8];
+            gInputSendData_6F5B18.field_0_data = &gCurrentNetInputs_6F57D8.field_0_inputs[gNetworkPlayerIdx_6F56C8];
             gInputSendData_6F5B18.field_4_len = sizeof(u32);
         }
         gNetPlay_7071E8.SendToAll_521B20(&gInputSendData_6F5B18);
@@ -1320,7 +1313,7 @@ EXPORT void Net_Set_Local_Player_Inputs_4DAD50()
 {
     for (u32 player_idx = 0; player_idx < MAX_PLAYERS; player_idx++)
     {
-        Player* pPlayer = gGame_0x40_67E008->get_player_4219E0(player_idx);
+        Player* pPlayer = gGame_0x40_67E008->GetPlayer_4219E0(player_idx);
         if (pPlayer && pPlayer->GetInUse_461DB0())
         {
             pPlayer->SetInputs_565740(gPrevNetInputs_6F5B28.field_0_inputs[player_idx].field_0_Inputs);
@@ -1329,39 +1322,47 @@ EXPORT void Net_Set_Local_Player_Inputs_4DAD50()
     }
 }
 
-WIP_FUNC(0x4DADA0)
-EXPORT void TagGameHudUpdate_4DADA0()
+MATCH_FUNC(0x4DADA0)
+EXPORT void ManageNetworkTimeAndHudPager_4DADA0()
 {
     if (gNetTimeLimitEnabled_6F58A4)
     {
-        if (++dword_6F5858 >= 30)
+        if (++gFramesOfCurrSecond_6F5858 >= 30) // If a second has passed
         {
-            dword_6F5858 = 0;
-            if (--dword_6F58A0 < 0)
+            gFramesOfCurrSecond_6F5858 = 0;
+            if (--gNetTimeSecondsOfCurrMin_6F58A0 < 0) // If a minute has passed
             {
-                dword_6F58A0 = 59;
-                if (--gNetTimeLimit_6F573C < 0)
+                gNetTimeSecondsOfCurrMin_6F58A0 = 59;
+                if (--gNetTimeLimit_6F573C < 0) // If time is out
                 {
                     gNetTimeLimitEnabled_6F58A4 = 0;
-                    gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("g_over"), 3);
-                    gGame_0x40_67E008->ExitGameNoBonus_4B8C00(2, 5);
+                    gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("g_over"), hud_message_priority::important_3);
+                    gGame_0x40_67E008->ExitGameNoBonus_4B8C00(2, GameExitType::MultiplayerExit_5);
                 }
             }
         }
 
-        s32 seconds = dword_6F58A0;
+        // Now do HUD Pager stuff showing the remaining time
+
+        s32 seconds = gNetTimeSecondsOfCurrMin_6F58A0;
         s32 minutes = gNetTimeLimit_6F573C;
         s32 rem = minutes % 5;
         bool bShow = false;
         if (minutes == 0 || (rem == 4 && seconds >= 50) || (rem == 0 && seconds == 0) ||
-            (minutes == gLucid_hamilton_67E8E0.GetTimeLimit_461DC0() && seconds == 0) ||
-            (minutes == gLucid_hamilton_67E8E0.GetTimeLimit_461DC0() - 1 && seconds >= 50))
+            (minutes == gGameSession_67E8E0.GetTimeLimit_461DC0() && seconds == 0) ||
+            (minutes == gGameSession_67E8E0.GetTimeLimit_461DC0() - 1 && seconds >= 50))
         {
-            bShow = true;
+            // bShow is set in both arms (not once before the if): with a single store, VC6 sees bl == 1 at the
+            // blink test and uses "test dl, bl" there instead of "test dl, 1"
             if (!byte_6F59C0)
             {
+                bShow = true;
                 dword_6F5B74 = 59;
                 byte_6F59C0 = 1;
+            }
+            else
+            {
+                bShow = true;
             }
         }
         if (!bShow)
@@ -1404,19 +1405,19 @@ EXPORT void __stdcall do_network_and_local_inputs_4DAF30()
 {
     if (bStartNetworkGame_7081F0)
     {
-        TagGameHudUpdate_4DADA0();
-        gYouthful_einstein_6F8450.ExecuteGamemodeTick_516660();
+        ManageNetworkTimeAndHudPager_4DADA0();
+        gTagGame_6F8450.ExecuteGamemodeTick_516660();
 
         if (!gGame_0x40_67E008->UpdateExitTimer_4B8C20())
         {
-            if (gNetInUsePlayerBits_6F56B8)
+            if (gNetDisconnectPlayersBits_6F56B8)
             {
                 u32 player_idx = 0;
                 do
                 {
-                    if ((gNetInUsePlayerBits_6F56B8 & 1) != 0)
+                    if ((gNetDisconnectPlayersBits_6F56B8 & 1) != 0)
                     {
-                        Player* pPlayer = gGame_0x40_67E008->get_player_4219E0(player_idx);
+                        Player* pPlayer = gGame_0x40_67E008->GetPlayer_4219E0(player_idx);
                         if (pPlayer && pPlayer->GetInUse_461DB0())
                         {
                             gNetPlay_7071E8.DeletePlayerFromGroup_521000(player_idx);
@@ -1428,19 +1429,19 @@ EXPORT void __stdcall do_network_and_local_inputs_4DAF30()
                         }
                     }
                     player_idx++;
-                    gNetInUsePlayerBits_6F56B8 >>= 1;
-                } while (gNetInUsePlayerBits_6F56B8);
+                    gNetDisconnectPlayersBits_6F56B8 >>= 1;
+                } while (gNetDisconnectPlayersBits_6F56B8);
             }
 
-            gCurrentNetInputs_6F57D8.field_0_inputs[gNetworkPlayerIdx_6F56C8].field_0_Inputs = gBurgerKing_67F8B0.get_input_bits_4CEAC0();
+            gCurrentNetInputs_6F57D8.field_0_inputs[gNetworkPlayerIdx_6F56C8].field_0_Inputs = gInputRecorder_67F8B0.get_input_bits_4CEAC0();
             Net_Send_Our_Inputs_4DACB0();
             Draw_4DA7B0();
-            Net_4DA9F0();
+            Net_Receive_Players_Inputs_4DA9F0();
             memcpy(&gPrevNetInputs_6F5B28, &gCurrentNetInputs_6F57D8, sizeof(gPrevNetInputs_6F5B28));
         }
         else
         {
-            gNetPlay_7071E8.SendKeepAlive_521D20();
+            gNetPlay_7071E8.SendPlayerIsQuitting_521D20();
         }
 
         if (bRecordStartTime_6F593C)
@@ -1450,7 +1451,7 @@ EXPORT void __stdcall do_network_and_local_inputs_4DAF30()
         }
         if (gPlayerQuit_6F5AEC)
         {
-            gGame_0x40_67E008->ExitGameNoBonus_4B8C00(0, 2);
+            gGame_0x40_67E008->ExitGameNoBonus_4B8C00(0, GameExitType::PlayerQuit_2);
         }
         else
         {
@@ -1460,26 +1461,26 @@ EXPORT void __stdcall do_network_and_local_inputs_4DAF30()
     }
     else
     {
-        const u32 inputs = gBurgerKing_67F8B0.get_input_bits_4CEAC0();
-        gGame_0x40_67E008->field_38_orf1->SetInputs_565740(inputs);
+        const u32 inputs = gInputRecorder_67F8B0.get_input_bits_4CEAC0();
+        gGame_0x40_67E008->field_38_local_player->SetInputs_565740(inputs);
     }
 }
 
 // todo move to another file for ordering
 MATCH_FUNC(0x4DA850)
-EXPORT u8 RunGameFrame_4DA850()
+EXPORT bool RunGameFrame_4DA850()
 {
-    u8 unk_bl = 0;
-    u8 bContinue = false;
-    u8 a2 = 0;
-    u8 unk_0xc = 0;
+    u8 frame_due = 0;
+    bool exit_requested = false;
+    u8 drew_frame = 0;
+    u8 updated_logic = 0;
     DWORD Time = timeGetTime();
 
     if (bStartNetworkGame_7081F0)
     {
         if (Time >= gMatchStartTime_6F5A28)
         {
-            bContinue = ExecuteGame_4DA780();
+            exit_requested = ExecuteGame_4DA780();
             do_network_and_local_inputs_4DAF30();
             gMatchStartTime_6F5A28 = Time + gGame_0x40_67E008->GetFrameDurationMs_4B8BB0();
         }
@@ -1488,21 +1489,21 @@ EXPORT u8 RunGameFrame_4DA850()
     {
         if (!max_frame_rate_626A08 && !gFramesSinceDraw_6F58D8 || Time >= gMatchStartTime_6F5A28)
         {
-            unk_bl = 1;
-            unk_0xc = 1;
+            frame_due = 1;
+            updated_logic = 1;
         }
         if (gFramesSinceDraw_6F58D8 >= 8u || !min_frame_rate_706C50 && gFramesSinceDraw_6F58D8)
         {
-            unk_bl = 0;
-            unk_0xc = 0;
+            frame_due = 0;
+            updated_logic = 0;
         }
 
         if (bForceGameUpdate_6F5880 || bSkip_draw_67D4EA)
         {
-            unk_0xc = 1;
+            updated_logic = 1;
         }
 
-        if (unk_0xc)
+        if (updated_logic)
         {
             if (!min_frame_rate_706C50)
             {
@@ -1513,10 +1514,10 @@ EXPORT u8 RunGameFrame_4DA850()
                 do_network_and_local_inputs_4DAF30();
                 bInputsPending_6F5760 = 0;
             }
-            bContinue = ExecuteGame_4DA780();
-            s32 v2 = gGame_0x40_67E008->GetFrameDurationMs_4B8BB0();
+            exit_requested = ExecuteGame_4DA780();
+            s32 frame_ms = gGame_0x40_67E008->GetFrameDurationMs_4B8BB0();
             bForceGameUpdate_6F5880 = 0;
-            gMatchStartTime_6F5A28 += v2;
+            gMatchStartTime_6F5A28 += frame_ms;
             ++gFramesSinceDraw_6F58D8;
             bInputsPending_6F5760 = 1;
         }
@@ -1524,7 +1525,7 @@ EXPORT u8 RunGameFrame_4DA850()
         {
             Draw_4DA7B0();
             gFramesSinceDraw_6F58D8 = 0;
-            a2 = 1;
+            drew_frame = 1;
         }
         else if (bInputsPending_6F5760)
         {
@@ -1533,11 +1534,11 @@ EXPORT u8 RunGameFrame_4DA850()
         }
     }
 
-    if (gsharp_bose_0x54_7055D4)
+    if (gFpsCounter_7055D4)
     {
-        gsharp_bose_0x54_7055D4->UpdateFpsCounters_5BECF0(a2, unk_0xc);
+        gFpsCounter_7055D4->UpdateFpsCounters_5BECF0(drew_frame, updated_logic);
     }
-    return bContinue;
+    return exit_requested;
 }
 
 GUID IID_DirectMusic = {1667997456u, 3197u, 4561u, {149u, 178u, 0u, 32u, 175u, 220u, 116u, 33u}};
@@ -1579,7 +1580,7 @@ EXPORT void __stdcall GetDirectXVersion_4C4EC0(u32* pDXVer, u32* osKind)
     LPDIRECTDRAW pDDraw; // [esp+54h] [ebp-114h] BYREF
     LPDIRECTDRAWSURFACE pDSurface; // [esp+58h] [ebp-110h] BYREF
     LPDIRECTDRAW pDraw2; // [esp+5Ch] [ebp-10Ch] BYREF
-    s32 v18; // [esp+60h] [ebp-108h] BYREF
+    s32 pSurface2; // [esp+60h] [ebp-108h] BYREF
     LPDIRECTDRAWSURFACE pDSurface4; // [esp+64h] [ebp-104h] BYREF
     DDSURFACEDESC surfaceDesc; // [esp+68h] [ebp-100h] BYREF
     struct _OSVERSIONINFOA osVersionInfo; // [esp+D4h] [ebp-94h] BYREF
@@ -1587,7 +1588,7 @@ EXPORT void __stdcall GetDirectXVersion_4C4EC0(u32* pDXVer, u32* osKind)
     pDDraw = 0;
     pDraw2 = 0;
     pDSurface = 0;
-    v18 = 0;
+    pSurface2 = 0;
     pDSurface4 = 0;
     osVersionInfo.dwOSVersionInfoSize = sizeof(osVersionInfo);
 
@@ -1713,7 +1714,7 @@ EXPORT void __stdcall GetDirectXVersion_4C4EC0(u32* pDXVer, u32* osKind)
         return;
     }
 
-    if (pDSurface->QueryInterface(IID_IDirectDrawSurface2, (LPVOID*)&v18) < 0)
+    if (pDSurface->QueryInterface(IID_IDirectDrawSurface2, (LPVOID*)&pSurface2) < 0)
     {
         pDDraw->Release();
         FreeLibrary(hDDraw);
@@ -1801,7 +1802,7 @@ EXPORT void __stdcall j_gbh_init_5D7CA0()
 MATCH_FUNC(0x4DA700)
 EXPORT void __stdcall CleanUpInputAndOthers_4DA700()
 {
-    gBurgerKing_67F8B0.Shutdown_4CEA00();
+    gInputRecorder_67F8B0.Shutdown_4CEA00();
     if (gGame_0x40_67E008)
     {
         GTA2_DELETE_AND_NULL(gGame_0x40_67E008);
@@ -1813,7 +1814,7 @@ EXPORT void __stdcall CleanUpInputAndOthers_4DA700()
 MATCH_FUNC(0x4DA390)
 EXPORT s32 __stdcall SkipWhiteSpace_4DA390(char_type* pStr)
 {
-    char* v1 = pStr;
+    char* pCur = pStr;
     s32 result = 0;
     if (pStr == 0)
     {
@@ -1827,31 +1828,31 @@ EXPORT s32 __stdcall SkipWhiteSpace_4DA390(char_type* pStr)
             {
                 while (1)
                 {
-                    char v3 = *v1;
-                    if (v3 != ' ' && v3 != '\n' && v3 != '\r' && v3 != '\t')
+                    char ch = *pCur;
+                    if (ch != ' ' && ch != '\n' && ch != '\r' && ch != '\t')
                     {
                         break;
                     }
-                    if (v3 == 0)
+                    if (ch == 0)
                     {
                         break;
                     }
-                    ++v1;
+                    ++pCur;
                 }
-                char v4 = *v1;
-                if (!*v1)
+                char ch2 = *pCur;
+                if (!*pCur)
                 {
                     break;
                 }
                 ++result;
-                for (; v4 != ' '; v4 = *++v1)
+                for (; ch2 != ' '; ch2 = *++pCur)
                 {
-                    if (v4 == '\n' || v4 == '\r' || v4 == '\t' || v4 == 0)
+                    if (ch2 == '\n' || ch2 == '\r' || ch2 == '\t' || ch2 == 0)
                     {
                         break;
                     }
                 }
-            } while (*v1);
+            } while (*pCur);
         }
     }
     return result;
@@ -1982,9 +1983,9 @@ EXPORT void __stdcall SetStartMode_5D9230(s32 startMode)
 MATCH_FUNC(0x498D10)
 EXPORT void Input_Read_498D10()
 {
-    if (gBurgerKing_1_67B990)
+    if (gInputDevices_67B990)
     {
-        gBurgerKing_1_67B990->read_keyboard_and_gamepad_498CC0();
+        gInputDevices_67B990->read_keyboard_and_gamepad_498CC0();
     }
 }
 
@@ -2052,7 +2053,7 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
 
                 if (gGame_0x40_67E008)
                 {
-                    gGame_0x40_67E008->sub_4B9720();
+                    gGame_0x40_67E008->ReinitAfterVideoModeChange_4B9720();
                 }
 
                 SetSavedGamma_5D98E0();
@@ -2267,7 +2268,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
     }
 
     gDebug_67D52C.Init_4ABBD0();
-    gLucid_hamilton_67E8E0.LoadDebugSettings_4C53D0();
+    gGameSession_67E8E0.LoadDebugSettings_4C53D0();
     bDoFrontEnd_626B68 = bSkip_frontend_67D53B == 0;
 
     WNDCLASSA WndClass;
@@ -2288,12 +2289,15 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
     _getcwd(gWorkingDir_707F64, 256);
 
     ParseCommandLine_4DA320(lpCmdLine);
-    if (!Start_NetworkGame_5E5A30(hInstance))
+    if (!Start_NetworkGame_5E5A30(hInstance)) // start NetUI if multiplayer. Stays here while players don't click "start", "cancel" etc
     {
         ReleaseMutex(gMutex_707078);
         CloseHandle(gMutex_707078);
         return 0;
     }
+
+    // Starting game...
+
     sprintf(gTmpBuffer_67C598, "GTA2");
     gHwnd_707F04 = CreateWindowExA(0, "WinMain", gTmpBuffer_67C598, 0xCF0000u, 0, 0, 100, 100, 0, 0, hInstance, 0);
     if (!gHwnd_707F04)
@@ -2308,8 +2312,8 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
     RECT windowRec;
     GetWindowRect(gHwnd_707F04, &windowRec);
 
-    s32 v8 = window_width_706630 + (windowRec.right - windowRec.left) - (clientRec.right - clientRec.left);
-    s32 v9 = window_height_706B50 + (windowRec.bottom - windowRec.top) - (clientRec.bottom - clientRec.top);
+    s32 window_w = window_width_706630 + (windowRec.right - windowRec.left) - (clientRec.right - clientRec.left);
+    s32 window_h = window_height_706B50 + (windowRec.bottom - windowRec.top) - (clientRec.bottom - clientRec.top);
 
     if (bDo_corner_window_67D4EE)
     {
@@ -2318,11 +2322,11 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
     }
     else
     {
-        gWindowX_706B60 = (int)(GetSystemMetrics(0) - v8) / 2;
-        gWindowY_706B64 = (int)(GetSystemMetrics(1) - v9) / 2;
+        gWindowX_706B60 = (int)(GetSystemMetrics(0) - window_w) / 2;
+        gWindowY_706B64 = (int)(GetSystemMetrics(1) - window_h) / 2;
     }
 
-    if (!SetWindowPos(gHwnd_707F04, 0, gWindowX_706B60, gWindowY_706B64, v8, v9, 0x314u))
+    if (!SetWindowPos(gHwnd_707F04, 0, gWindowX_706B60, gWindowY_706B64, window_w, window_h, 0x314u))
     {
         FatalError_4A38C0(Gta2Error::SetWindowPosFail, "C:\\Splitting\\Gta2\\Source\\winmain.cpp", 661);
     }
@@ -2356,6 +2360,8 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
         gRoot_sound_66B038.Set3DSound_40F160(gRegistry_6FF968.Get_Sound_Settting_586A70("do_3d_sound"));
         gRegistry_6FF968.Clear_Or_Delete_Sound_Setting_586BF0("do_3d_sound", gRoot_sound_66B038.Get3DSound_40F180());
     }
+
+    // Game loop
 
     u8 bQuit = 0; //  %bl
 
@@ -2439,7 +2445,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
                         {
                             if (bStartNetworkGame_7081F0)
                             {
-                                switch (gGame_0x40_67E008->get_main_state_4D09C0())
+                                switch (gGame_0x40_67E008->GetExitType_4D09C0())
                                 {
                                     case 1:
                                         DestroyWindow(gHwnd_707F04);
@@ -2455,36 +2461,36 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
                             }
                             else
                             {
-                                switch (gGame_0x40_67E008->get_main_state_4D09C0())
+                                switch (gGame_0x40_67E008->GetExitType_4D09C0())
                                 {
                                     case GameExitType::CloseGameImmediately_1:
                                         DestroyWindow(gHwnd_707F04);
                                         break;
 
                                     case GameExitType::PlayerQuit_2:
-                                        gLucid_hamilton_67E8E0.StoreCrimeStats_4C5A10(gGame_0x40_67E008->field_38_orf1);
-                                        gJolly_poitras_0x2BC0_6FEAC0->UpdateStageScore_56BB10(gGame_0x40_67E008->field_38_orf1);
-                                        gJolly_poitras_0x2BC0_6FEAC0->sub_56C010();
+                                        gGameSession_67E8E0.StoreCrimeStats_4C5A10(gGame_0x40_67E008->field_38_local_player);
+                                        gPlyDat_6FEAC0->UpdateStageScore_56BB10(gGame_0x40_67E008->field_38_local_player);
+                                        gPlyDat_6FEAC0->UpdateHiScores_56C010();
 
-                                        state = gLucid_hamilton_67E8E0.IsBonusStage_4C59A0() != 0 ? 6 : 11; // 11? prob 1
+                                        state = gGameSession_67E8E0.IsBonusStage_4C59A0() != 0 ? 6 : 11; // 11? prob 1
                                         CleanUpInputAndOthers_4DA700();
                                         bDoFrontEnd_626B68 = 1;
                                         break;
 
                                     case GameExitType::GameOverRIP_3:
-                                        gLucid_hamilton_67E8E0.StoreCrimeStats_4C5A10(gGame_0x40_67E008->field_38_orf1);
-                                        gJolly_poitras_0x2BC0_6FEAC0->UpdateStageScore_56BB10(gGame_0x40_67E008->field_38_orf1);
-                                        gJolly_poitras_0x2BC0_6FEAC0->sub_56C010();
-                                        state = gLucid_hamilton_67E8E0.IsBonusStage_4C59A0() != 0 ? 6 : 2;
+                                        gGameSession_67E8E0.StoreCrimeStats_4C5A10(gGame_0x40_67E008->field_38_local_player);
+                                        gPlyDat_6FEAC0->UpdateStageScore_56BB10(gGame_0x40_67E008->field_38_local_player);
+                                        gPlyDat_6FEAC0->UpdateHiScores_56C010();
+                                        state = gGameSession_67E8E0.IsBonusStage_4C59A0() != 0 ? 6 : 2;
                                         CleanUpInputAndOthers_4DA700();
                                         bDoFrontEnd_626B68 = 1;
                                         break;
 
                                     case GameExitType::AreaCompleted_4:
-                                        gLucid_hamilton_67E8E0.StoreCrimeStats_4C5A10(gGame_0x40_67E008->field_38_orf1);
-                                        gJolly_poitras_0x2BC0_6FEAC0->UpdateStageScore_56BB10(gGame_0x40_67E008->field_38_orf1);
-                                        gJolly_poitras_0x2BC0_6FEAC0->sub_56C010();
-                                        state = gLucid_hamilton_67E8E0.IsBonusStage_4C59A0() != 0 ? 6 : 3;
+                                        gGameSession_67E8E0.StoreCrimeStats_4C5A10(gGame_0x40_67E008->field_38_local_player);
+                                        gPlyDat_6FEAC0->UpdateStageScore_56BB10(gGame_0x40_67E008->field_38_local_player);
+                                        gPlyDat_6FEAC0->UpdateHiScores_56C010();
+                                        state = gGameSession_67E8E0.IsBonusStage_4C59A0() != 0 ? 6 : 3;
                                         CleanUpInputAndOthers_4DA700();
                                         bDoFrontEnd_626B68 = 1;
                                         break;
@@ -2528,7 +2534,7 @@ EXPORT void __stdcall Shutdown_4DA740()
     {
         bDestroyed_6F5B70 = 1;
         keybrd_0x204::destroy_4D5FA0();
-        jolly_poitras_0x2BC0::destroy_56C340();
+        PlyDat_2BC0::Destroy_56C340();
         CleanUpInputAndOthers_4DA700();
         Frontend::destroy_4AD070();
 
@@ -2539,13 +2545,11 @@ EXPORT void __stdcall Shutdown_4DA740()
     }
 }
 
-NetworkGameSettings gNetworkGameSettings_707098;//DEFINE_GLOBAL(NetworkGameSettings, gNetworkGameSettings_707098, 0x707098);  // global crashing standalone
-
 MATCH_FUNC(0x5E5A30)
 EXPORT char_type __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
 {
     char_type bRet = 1;
-    gLucid_hamilton_67E8E0.init_4C5AF0();
+    gGameSession_67E8E0.init_4C5AF0();
     if (bStartNetworkGame_7081F0)
     {
         HKEY hKey;
@@ -2571,7 +2575,7 @@ EXPORT char_type __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
                 return 0;
             }
 
-            Connection_Unknown connection;
+            Network_Buffer_8 connection;
             connection.field_4_len = gRegistry_6FF968.Get_Int_5873E0(hKey, "UseConnection");
             connection.field_0 = operator new(connection.field_4_len);
             if (!gRegistry_6FF968.Get_Binary_587340(hKey, "UseConnection", connection.field_4_len, (LPBYTE)connection.field_0))
@@ -2616,13 +2620,13 @@ EXPORT char_type __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
 
         char_type path[MAX_PATH];
         wsprintfA(path, "data\\%s", networkUi.GetMapName_51CA10());
-        gLucid_hamilton_67E8E0.SetMapName_4C5870(path);
+        gGameSession_67E8E0.SetMapName_4C5870(path);
         wsprintfA(path, "data\\%s", networkUi.GetMapStyName_51CA50());
-        gLucid_hamilton_67E8E0.SetStyleName_4C5890(path);
+        gGameSession_67E8E0.SetStyleName_4C5890(path);
         wsprintfA(path, "data\\%s", networkUi.GetMapScrName_51CA90());
-        gLucid_hamilton_67E8E0.SetScriptName_4C58B0(path);
+        gGameSession_67E8E0.SetScriptName_4C58B0(path);
 
-        gLucid_hamilton_67E8E0.SetMultiplayerParams_4C5B80(gNetworkGameSettings_707098.field_20198_game_type,
+        gGameSession_67E8E0.SetMultiplayerParams_4C5B80(gNetworkGameSettings_707098.field_20198_game_type,
                                                            gNetworkGameSettings_707098.field_20194_frag_limit,
                                                            gNetPlay_7071E8.GetPlayerIdx_409C40(),
                                                            gNetPlay_7071E8.GetMaxPlayers_521350(),

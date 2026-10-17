@@ -58,7 +58,7 @@ EXPORT void Generator_2C::SpawnObject_4C1B10()
         }
         else
         {
-            Object_2C* pObj = gObject_5C_6F8F84->sub_529BC0(field_0_gen_type, field_4_x, field_8_y, field_C_z, field_10_rot);
+            Object_2C* pObj = gObject_5C_6F8F84->NewPhysicsObjUnlessBlocked_529BC0(field_0_gen_type, field_4_x, field_8_y, field_C_z, field_10_rot);
             if (pObj)
             {
                 field_24_obj = pObj;
@@ -68,11 +68,11 @@ EXPORT void Generator_2C::SpawnObject_4C1B10()
                     field_1E_kill_timer--;
                 }
 
-                if (pObj->check_is_shop_421060())
+                if (pObj->IsPickup_421060())
                 {
                     if (field_1C_ammo > 0)
                     {
-                        pObj->field_26_varrok_idx = field_1C_ammo;
+                        pObj->field_26_ped_ref_idx = field_1C_ammo;
                     }
                 }
                 field_24_obj = pObj;
@@ -83,7 +83,7 @@ EXPORT void Generator_2C::SpawnObject_4C1B10()
     }
     else
     {
-        Object_2C* pObj = gObject_5C_6F8F84->sub_529BC0(field_0_gen_type, field_4_x, field_8_y, field_C_z, field_10_rot);
+        Object_2C* pObj = gObject_5C_6F8F84->NewPhysicsObjUnlessBlocked_529BC0(field_0_gen_type, field_4_x, field_8_y, field_C_z, field_10_rot);
         if (pObj)
         {
             if (field_1E_kill_timer < 0xFFFF)
@@ -91,11 +91,11 @@ EXPORT void Generator_2C::SpawnObject_4C1B10()
                 field_1E_kill_timer--;
             }
 
-            if (pObj->check_is_shop_421060())
+            if (pObj->IsPickup_421060())
             {
                 if (field_1C_ammo > 0)
                 {
-                    pObj->field_26_varrok_idx = field_1C_ammo;
+                    pObj->field_26_ped_ref_idx = field_1C_ammo;
                 }
             }
             field_24_obj = pObj;
@@ -113,7 +113,7 @@ EXPORT void Generator_2C::SpawnObject_4C1B10()
 MATCH_FUNC(0x4c1c50)
 void Generator_2C::Service_4C1C50()
 {
-    if (gpRng_67AB34->field_0_rng >= field_18_cycle)
+    if (gpRng_67AB34->get_cur_rng_41CFE0() >= field_18_cycle)
     {
         if (field_1E_kill_timer > 0)
         {
@@ -155,7 +155,7 @@ void GeneratorPool_14AC::sub_4C1CD0()
     if (count > 4)
     {
         Generator_2C* pIter = &field_0_pool[0];
-        for (u8 v2 = 0; v2 < field_14A0_count; v2++)
+        for (u8 i = 0; i < field_14A0_count; i++)
         {
             pIter->field_12_min_delay = pIter->field_12_min_delay >> 2;
             pIter->field_14_max_delay = pIter->field_14_max_delay >> 2;
@@ -165,7 +165,7 @@ void GeneratorPool_14AC::sub_4C1CD0()
     if (bStartNetworkGame_7081F0)
     {
         Generator_2C* pIter_2 = &field_0_pool[0];
-        for (u8 v4 = 0; v4 < field_14A0_count; v4++)
+        for (u8 i = 0; i < field_14A0_count; i++)
         {
             pIter_2->field_18_cycle = 1;
             pIter_2++;

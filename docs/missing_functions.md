@@ -15,6 +15,27 @@ Game functions by size:
 | 65-256 | 49 |
 | > 256 | 18 |
 
+## Don't try to mark these (checked, rejected)
+
+The unmarked list is mostly dead code and library code. Before implementing anything from it,
+check **Excluded: never called** below, and don't redo these:
+
+- **Small out-of-line copies of inline methods (COMDAT).** The `Fix16` constructor copies at
+  0x45C4E0, 0x4AE970, 0x41B480, 0x4369F0, 0x4926F0 and the `ClampToRangeFlexible` copy at
+  0x55EEE0 are copies of code `fix16.hpp` already defines and marks. Marking them again on a
+  holder struct adds nothing, and a declaration added to `fix16.hpp` or `ang16.hpp` changes
+  inlining in every TU that includes it: it broke `MapRenderer::Draw4SidedDiagonalUpLeft_4EF880`
+  and `Draw3SidedDiagonalDownRight_4EF520`. The same goes for the `Ang16` copies at 0x4516F0
+  and 0x525D50.
+- **Empty functions nothing calls**, for example `nullsub_141` (0x48B9A0) and `nullsub_239`
+  (0x53F050). 325 of the unmarked functions are a single `ret`.
+- **CRT and iostream code**, including the out-of-line copies of the empty `Iostream_init`
+  constructor (0x419DF0, 0x531940, 0x5B2750).
+- **Thunks**: 158 import thunks (`jmpl *ADDR`), six static-destructor thunks
+  (`mov $ADDR,%ecx; jmp ADDR`), and the eleven 21-byte atexit guards at 0x558E70..0x5593F0.
+
+Only the `WIP_FUNC` functions are worth working on: they are real, called game code.
+
 ## Game functions without a marker
 
 | Address | Size | Name |
@@ -242,9 +263,9 @@ Game functions by size:
 | 0x4DE640 | 1 | `nullsub_201` |
 | 0x4E5630 | 1 | `nullsub_202` |
 | 0x4E5B20 | 1 | `nullsub_203` |
-| 0x4E5D10 | 69 | `sub_4E5D10` |
-| 0x4E5D70 | 126 | `sub_4E5D70` |
-| 0x4E5E00 | 126 | `sub_4E5E00` |
+| 0x4E5D10 | 69 | `MovePosAlongDirection_4E5D10` |
+| 0x4E5D70 | 126 | `GetLateralOffsetInBlock_4E5D70` |
+| 0x4E5E00 | 126 | `GetForwardOffsetInBlock_4E5E00` |
 | 0x4E6280 | 36 | `Fix16_Rect::MakeRect_4E6280` |
 | 0x4E9B80 | 1 | `nullsub_204` |
 | 0x4E9BD0 | 1 | `nullsub_205` |
@@ -292,13 +313,13 @@ Game functions by size:
 | 0x53F050 | 3 | `nullsub_239` |
 | 0x53FDF0 | 1 | `nullsub_240` |
 | 0x53FE30 | 1 | `nullsub_241` |
-| 0x540A40 | 594 | `Wolfy_30::sub_540A40` |
+| 0x540A40 | 594 | `Explosion_30::sub_540A40` |
 | 0x543450 | 1 | `nullsub_242` |
 | 0x543460 | 1 | `nullsub_243` |
 | 0x543470 | 1 | `nullsub_244` |
 | 0x543480 | 1 | `nullsub_245` |
 | 0x543490 | 1 | `nullsub_246` |
-| 0x543900 | 118 | `Wolfy_7A8::sub_543900` |
+| 0x543900 | 118 | `ExplosionPool_7A8::sub_543900` |
 | 0x543D90 | 1 | `nullsub_247` |
 | 0x543DE0 | 1 | `nullsub_248` |
 | 0x54C6B0 | 1 | `nullsub_249` |
@@ -332,7 +353,7 @@ Game functions by size:
 | 0x56A6C0 | 1 | `nullsub_273` |
 | 0x56B3D0 | 1 | `nullsub_274` |
 | 0x56B420 | 1 | `nullsub_275` |
-| 0x56C170 | 95 | `jolly_poitras_0x2BC0::sub_56C170` |
+| 0x56C170 | 95 | `PlyDat_2BC0::sub_56C170` |
 | 0x56E8B0 | 1 | `nullsub_276` |
 | 0x56E8F0 | 1 | `nullsub_277` |
 | 0x56F2B0 | 1 | `nullsub_278` |
@@ -703,9 +724,9 @@ Without a marker (not to be added):
 | 0x523060 | 830 | `sub_523060` | (nothing) |
 | 0x525D50 | 53 | `sub_525D50` | 0x523060 |
 | 0x529B20 | 155 | `Object_5C::sub_529B20` | (nothing) |
-| 0x540A40 | 594 | `Wolfy_30::sub_540A40` | (nothing) |
-| 0x543900 | 118 | `Wolfy_7A8::sub_543900` | (nothing) |
-| 0x56C170 | 95 | `jolly_poitras_0x2BC0::sub_56C170` | (nothing) |
+| 0x540A40 | 594 | `Explosion_30::sub_540A40` | (nothing) |
+| 0x543900 | 118 | `ExplosionPool_7A8::sub_543900` | (nothing) |
+| 0x56C170 | 95 | `PlyDat_2BC0::sub_56C170` | (nothing) |
 | 0x5875A0 | 64 | `Registry::sub_5875A0` | (nothing) |
 | 0x5875E0 | 59 | `Registry::sub_5875E0` | (nothing) |
 | 0x587620 | 108 | `Registry::sub_587620` | (nothing) |
@@ -719,18 +740,18 @@ Already in `Source/` with a marker, but also dead (kept, listed for reference):
 | Address | Size | Name | Referenced from |
 |---|---|---|---|
 | 0x407BD0 | 266 | `Trailer::sub_407BD0` | (nothing) |
-| 0x43A1F0 | 18 | `Car_BC::is_bus_43A1F0` | (nothing) |
+| 0x43A1F0 | 18 | `Car_BC::IsBus_43A1F0` | (nothing) |
 | 0x43B420 | 285 | `Car_BC::GetDoorWorldPos_43B420` | (nothing) |
-| 0x441600 | 203 | `Car_BC::NoRefs_441600` | (nothing) |
+| 0x441600 | 203 | `Car_BC::GetOrientedHalfExtentsRect_441600` | (nothing) |
 | 0x454A50 | 38 | `CarInfo_808::Reload_454A50` | (nothing) |
-| 0x477BA0 | 40 | `PurpleDoom::DebugLogAll_477BA0` | (nothing) |
-| 0x478950 | 157 | `PurpleDoom::DebugLog_478950` | 0x477BA0 |
+| 0x477BA0 | 40 | `SpriteGrid_400::DebugLogAll_477BA0` | (nothing) |
+| 0x478950 | 157 | `SpriteGrid_400::DebugLog_478950` | 0x477BA0 |
 | 0x4A6BB0 | 44 | `File::IsCdRomDrive_4A6BB0` | 0x4B80F0, 0x4BBCB0, 0x4BBFA0 |
 | 0x4B5270 | 243 | `Frontend::DrawSavedStage_4B5270` | (nothing) |
 | 0x4C9240 | 94 | `PedGroup::KillEntireGroup_4C9240` | (nothing) |
-| 0x4DF3E0 | 239 | `Map_0x370::sub_4DF3E0` | (nothing) |
-| 0x4E0120 | 14 | `Map_0x370::sub_4E0120` | (nothing) |
-| 0x4E4820 | 242 | `Map_0x370::sub_4E4820` | (nothing) |
+| 0x4DF3E0 | 239 | `Map_0x370::GetZoneOfTypeNearestCentre_4DF3E0` | (nothing) |
+| 0x4E0120 | 14 | `Map_0x370::TakeLowerBlockHasArrows_4E0120` | (nothing) |
+| 0x4E4820 | 242 | `Map_0x370::AllBlocksInRectHaveSlopeBits_4E4820` | (nothing) |
 | 0x4E7E90 | 120 | `Map_0x370::FindFirstPavementCoord_4E7E90` | (nothing) |
 | 0x4FF990 | 70 | `Mike_A80::sub_4FF990` | (nothing) |
 | 0x4FF9F0 | 71 | `Mike_A80::sub_4FF9F0` | (nothing) |
@@ -744,7 +765,7 @@ Already in `Source/` with a marker, but also dead (kept, listed for reference):
 | 0x521BE0 | 155 | `NetPlay::NoRefs_Send_521BE0` | (nothing) |
 | 0x521C80 | 151 | `NetPlay::NoRefs_Send_521C80` | (nothing) |
 | 0x5455F0 | 8 | `Char_B4::KillPed_5455F0` | (nothing) |
-| 0x56B680 | 33 | `player_stats_0xA4::GetTotalLatestScore_56B680` | 0x56C170 |
+| 0x56B680 | 33 | `PlySlot_A4::GetTotalLatestScore_56B680` | 0x56C170 |
 | 0x571150 | 235 | `PoliceCrew_38::SpawnFBI_nonused_571150` | (nothing) |
 | 0x5872A0 | 145 | `Registry::Set_Binary_5872A0` | 0x5875E0 |
 | 0x589210 | 158 | `RouteFinder::NoRefs_589210` | (nothing) |

@@ -244,7 +244,7 @@ char_type cSampleManager::SoundInit_58D6C0(s32* a2)
 }
 
 MATCH_FUNC(0x58D720)
-char_type cSampleManager::OpenDigitalDriver_58D720(char_type a2, char_type a3, s32 sampleRate)
+char_type cSampleManager::OpenDigitalDriver_58D720(char_type bFlag, char_type bStereo, s32 sampleRate)
 {
     struct lol
     {
@@ -253,7 +253,7 @@ char_type cSampleManager::OpenDigitalDriver_58D720(char_type a2, char_type a3, s
     };
     lol l;
 
-    if (a2)
+    if (bFlag)
     {
         field_1EB1_bytes_per_sample = 2;
     }
@@ -274,7 +274,7 @@ char_type cSampleManager::OpenDigitalDriver_58D720(char_type a2, char_type a3, s
     AIL_set_preference(1, 37); // DIG_MIXER_CHANNELS
     AIL_set_preference(15, 0); // DIG_USE_WAVEOUT
 
-    if (a3 != 0)
+    if (bStereo != 0)
     {
         AIL_set_preference(33, 1);
     }
@@ -290,7 +290,7 @@ char_type cSampleManager::OpenDigitalDriver_58D720(char_type a2, char_type a3, s
         return 0;
     }
 
-    field_2714_bUnknown = a3;
+    field_2714_bUnknown = bStereo;
 
     AllocSample_58DA80();
 
@@ -521,33 +521,33 @@ s32 cSampleManager::GetRandomDisplacement_58DC10(s32 idx)
 }
 
 MATCH_FUNC(0x58DC30)
-s32 cSampleManager::GetLoopStart_58DC30(s32 a2)
+s32 cSampleManager::GetLoopStart_58DC30(s32 sample_idx)
 {
-    return field_A8_sdt_entries[a2].field_10_loop_start;
+    return field_A8_sdt_entries[sample_idx].field_10_loop_start;
 }
 
 MATCH_FUNC(0x58DC50)
-s32 cSampleManager::GetLoopEnd_58DC50(s32 a2)
+s32 cSampleManager::GetLoopEnd_58DC50(s32 sample_idx)
 {
-    return field_A8_sdt_entries[a2].field_14_loop_end;
+    return field_A8_sdt_entries[sample_idx].field_14_loop_end;
 }
 
 MATCH_FUNC(0x58DC70)
-s32 cSampleManager::GetSampleLength_maybe_58DC70(s32 a2)
+s32 cSampleManager::GetSampleLength_maybe_58DC70(s32 sample_idx)
 {
-    return field_A8_sdt_entries[a2].field_4_sample_length;
+    return field_A8_sdt_entries[sample_idx].field_4_sample_length;
 }
 
 MATCH_FUNC(0x58DC90)
-void cSampleManager::InitialiseChannel_58DC90(s32 channel, s32 a3)
+void cSampleManager::InitialiseChannel_58DC90(s32 channel, s32 sample_idx)
 {
     if (field_58_hSamples[channel])
     {
         if (field_A4_bLoaded)
         {
             AIL_set_sample_address(field_58_hSamples[channel],
-                                   (BYTE*)field_1EAC_pAudioBuffer2 + field_A8_sdt_entries[a3].field_0_offset,
-                                   field_A8_sdt_entries[a3].field_4_sample_length);
+                                   (BYTE*)field_1EAC_pAudioBuffer2 + field_A8_sdt_entries[sample_idx].field_0_offset,
+                                   field_A8_sdt_entries[sample_idx].field_4_sample_length);
         }
     }
 }
@@ -683,30 +683,30 @@ void cSampleManager::SetChannel3DFrequency_58DF00(s32 channel, s32 freq)
 }
 
 MATCH_FUNC(0x58DF20)
-void cSampleManager::SetChannel3DLoopPoints_58DF20(s32 channel, s32 a3, s32 a4)
+void cSampleManager::SetChannel3DLoopPoints_58DF20(s32 channel, s32 loop_start, s32 loop_end)
 {
     if (field_26C4_3d_sample[channel])
     {
-        AIL_set_3D_sample_loop_block(field_26C4_3d_sample[channel], a3, a4);
+        AIL_set_3D_sample_loop_block(field_26C4_3d_sample[channel], loop_start, loop_end);
     }
 }
 
 MATCH_FUNC(0x58DF50)
-void cSampleManager::SetChannel3DLoopCount_58DF50(s32 channel, s32 a3)
+void cSampleManager::SetChannel3DLoopCount_58DF50(s32 channel, s32 loop_count)
 {
     if (field_26C4_3d_sample[channel])
     {
-        AIL_set_3D_sample_loop_count(field_26C4_3d_sample[channel], a3);
+        AIL_set_3D_sample_loop_count(field_26C4_3d_sample[channel], loop_count);
     }
 }
 
 MATCH_FUNC(0x58DF70)
-bool cSampleManager::GetChannel3DUsedFlag_58DF70(s32 a2)
+bool cSampleManager::GetChannel3DUsedFlag_58DF70(s32 channel)
 {
-    if (field_26C4_3d_sample[a2])
+    if (field_26C4_3d_sample[channel])
     {
         // note: combining statements with && changes codegen here
-        return AIL_3D_sample_status(field_26C4_3d_sample[a2]) == SMP_PLAYING;
+        return AIL_3D_sample_status(field_26C4_3d_sample[channel]) == SMP_PLAYING;
     }
     return false;
 }
@@ -730,6 +730,12 @@ void cSampleManager::StopChannel3D_58DFC0(s32 samp_idx)
             AIL_end_3D_sample(field_26C4_3d_sample[samp_idx]);
         }
     }
+}
+
+MATCH_FUNC(0x58E000)
+u8 cSampleManager::Get3DSampleCount_58E000()
+{
+    return field_1EB2_3d_samp_count;
 }
 
 MATCH_FUNC(0x58E010)
@@ -852,20 +858,20 @@ void cSampleManager::StreamSetVolume_58E2F0(u8 vol)
 }
 
 MATCH_FUNC(0x58E320)
-void cSampleManager::OpenStream_58E320(u32 a2)
+void cSampleManager::OpenStream_58E320(u32 stream_idx)
 {
     char_type wavPath[80];
     if (field_55_bMusicLoaded)
     {
-        if (!field_9C_hStreams[0] && a2 < 3)
+        if (!field_9C_hStreams[0] && stream_idx < 3)
         {
             strcpy(wavPath, field_5_str);
-            strcat(wavPath, dma_wav_5FF5D8[a2]);
+            strcat(wavPath, dma_wav_5FF5D8[stream_idx]);
             HSTREAM tmp = AIL_open_stream(field_0_hDriver, wavPath, 0);
             field_9C_hStreams[0] = tmp;
             if (tmp == 0)
             {
-                if (a2 == 1)
+                if (stream_idx == 1)
                 {
                     strcpy(wavPath, field_5_str);
                     strcat(wavPath, dma_wav_5FF5D8[0]);
@@ -1088,14 +1094,14 @@ void cSampleManager::EndSample_58E8A0()
 }
 
 MATCH_FUNC(0x58E8C0)
-void cSampleManager::PlaySampleRange_58E8C0(u32 idx, u32 a3)
+void cSampleManager::PlaySampleRange_58E8C0(u32 idx, u32 end_idx)
 {
-    if (idx < a3 && field_98_hSample && !SampleNotDone_58E880())
+    if (idx < end_idx && field_98_hSample && !SampleNotDone_58E880())
     {
         if (field_A4_bLoaded)
         {
             BYTE* start = (BYTE*)field_1EAC_pAudioBuffer2 + field_A8_sdt_entries[idx].field_0_offset;
-            BYTE* end = (BYTE*)field_1EAC_pAudioBuffer2 + field_A8_sdt_entries[a3].field_0_offset;
+            BYTE* end = (BYTE*)field_1EAC_pAudioBuffer2 + field_A8_sdt_entries[end_idx].field_0_offset;
             AIL_set_sample_address(field_98_hSample, start, end - start);
 
             AIL_set_sample_playback_rate(field_98_hSample, 18050);

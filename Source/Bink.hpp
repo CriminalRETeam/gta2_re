@@ -43,9 +43,9 @@ class Bink
 
     EXPORT static void __stdcall SetActiveSlot_5137A0(char_type slot);
 
-    EXPORT static void __stdcall OpenSlot2_5133E0(const char_type* pFileName, HDIGDRIVER a2);
+    EXPORT static void __stdcall OpenSlot2_5133E0(const char_type* pFileName, HDIGDRIVER hDriver);
 
     EXPORT static void __stdcall SetDDState_5137B0(char_type state);
 
-    EXPORT static void __stdcall OpenSlot1_513560(const char_type* pFileName, HDIGDRIVER a2);
+    EXPORT static void __stdcall OpenSlot1_513560(const char_type* pFileName, HDIGDRIVER hDriver);
 };

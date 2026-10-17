@@ -3,20 +3,22 @@
 #include "Source/gtx_0x106C.hpp"
 #include "Source/registry.hpp"
 #include "Source/file.hpp"
-#include "Source/sharp_bose_0x54.hpp"
-#include "source/lucid_hamilton.hpp"
+#include "Source/FpsCounter_54.hpp"
+#include "source/GameSession_578.hpp"
 #include "Source/winmain.hpp"
 #include "Source/text_0x14.hpp"
 #include "Source/GlobalsRegistry.hpp"
 #include "Source/gbh_graphics.hpp"
-#include "Source/distracted_einstein_0xC.hpp"
-#include "Source/sharp_bose_0x54.hpp"
+#include "Source/ProfilerTimer_C.hpp"
+#include "Source/FpsCounter_54.hpp"
 #include "Source/cSampleManager.hpp"
 #include "Source/map_0x370.hpp"
-#include "Source/frosty_pasteur_0xC1EA8.hpp"
+#include "Source/ScriptManager_C1EA8.hpp"
 #include "Globals.hpp"
 
 #pragma comment(lib, "Winmm.lib")
+
+extern void EnableBoot2MapDebugOptions();
 
 void test_file()
 {
@@ -99,9 +101,9 @@ void test_registry()
     gRegistry_6FF968.Set_Sound_Setting_586AE0("lol", 5);
 }
 
-void test_lucid_hamilton()
+void test_GameSession_578()
 {
-    lucid_hamilton c;
+    GameSession_578 c;
     c.SetPlySlotIdx_4C5920(0);
 }
 
@@ -121,15 +123,15 @@ void test_gbh_graphics()
     GBH_GraphicsLoadDll_5EA680("meh.dll");
 }
 
-void test_distracted_einstein_0xC()
+void test_ProfilerTimer_C()
 {
-    distracted_einstein_0xC t;
+    ProfilerTimer_C t;
     t.AccumulateElapsed_5BEBF0();
 }
 
-void test_sharp_bose_0x54()
+void test_FpsCounter_54()
 {
-    sharp_bose_0x54 t;
+    FpsCounter_54 t;
     t.UpdateFpsCounters_5BECF0(0, 0);
 }
 
@@ -142,12 +144,12 @@ void test_wizardly_margulis()
 void test_Map_0x370()
 {
     Map_0x370 t;
-    t.get_block_452980(0, 0, 0);
+    t.GetBlockOrNull_452980(0, 0, 0);
 }
 
-void test_frosty_pasteur_0xC1EA8()
+void test_ScriptManager_C1EA8()
 {
-    frosty_pasteur_0xC1EA8 t;
+    ScriptManager_C1EA8 t;
     t.Load_512330("lol.scr");
 }
 
@@ -162,16 +164,16 @@ s32 APIENTRY WinMain(HINSTANCE hInstance,
     {
         test_text_0x14();
         test_gbh_graphics();
-        test_distracted_einstein_0xC();
-        test_sharp_bose_0x54();
+        test_ProfilerTimer_C();
+        test_FpsCounter_54();
         test_registry();
         test_file();
         test_gtx_0x106C();
-        test_lucid_hamilton();
+        test_GameSession_578();
         test_winmain();
         test_wizardly_margulis();
         test_Map_0x370();
-        test_frosty_pasteur_0xC1EA8();
+        test_ScriptManager_C1EA8();
 
         force_link();
     }
@@ -185,6 +187,8 @@ s32 APIENTRY WinMain(HINSTANCE hInstance,
     GetGlobalsRegistry()->CheckVars();
 
     LoadBeginSceneCBPtr();
+    EnableBoot2MapDebugOptions();
+
     WinMain_5E53F0(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
 
     return 0;

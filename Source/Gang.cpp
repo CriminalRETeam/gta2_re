@@ -16,7 +16,7 @@ EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
 MATCH_FUNC(0x4BE4E0);
 Gang_144::Gang_144()
 {
-    init_4BED70();
+    Init_4BED70();
 }
 
 MATCH_FUNC(0x4BE4F0);
@@ -56,7 +56,7 @@ Gang_144* GangPool_CA8::NextGang_4BECE0()
 }
 
 MATCH_FUNC(0x4BED30)
-wchar_t* Gang_144::get_name_wide_4BED30()
+wchar_t* Gang_144::GetNameWide_4BED30()
 {
     gGangNameWide_67E030[0] = field_2_name[0];
     gGangNameWide_67E030[1] = field_2_name[1];
@@ -66,13 +66,13 @@ wchar_t* Gang_144::get_name_wide_4BED30()
 }
 
 MATCH_FUNC(0x4BED70);
-void Gang_144::init_4BED70()
+void Gang_144::Init_4BED70()
 {
     field_1_gang_idx = 0;
     field_0_used = 0;
     field_101_remap = 1;
-    field_110_high_respect = 0;
-    field_111 = 0;
+    field_110_has_high_respect = 0;
+    field_111_kill_affects_respect = 0;
     field_104_basic_weapon = 0;
     field_108_angry_weapon = 0;
     field_10C_hate_weapon = 0;
@@ -90,7 +90,7 @@ void Gang_144::init_4BED70()
     {
         field_11C_respect[j] = 0;
     }
-    field_141 = 0;
+    field_141_always_basic_weapon = 0;
 }
 
 MATCH_FUNC(0x4BEDF0)
@@ -124,11 +124,11 @@ void Gang_144::IncrementRespect_4BEE50(u8 player_idx, char_type respect)
 
     if (field_11C_respect[player_idx] >= 80)
     {
-        field_110_high_respect = true;
+        field_110_has_high_respect = true;
     }
     else
     {
-        field_110_high_respect = false;
+        field_110_has_high_respect = false;
     }
 }
 
@@ -143,11 +143,11 @@ void Gang_144::DecrementRespect_4BEEA0(u8 player_idx, char_type respect)
 
     if (field_11C_respect[player_idx] >= 80)
     {
-        field_110_high_respect = true;
+        field_110_has_high_respect = true;
     }
     else
     {
-        field_110_high_respect = false;
+        field_110_has_high_respect = false;
     }
 }
 
@@ -234,16 +234,16 @@ void Gang_144::ChangeRespectAndUpdate_4BF000(u8 player_idx, char_type respect)
 // =====================
 
 MATCH_FUNC(0x4BF090);
-void Gang_144::set_name_4BF090(const char_type* pName, u8 nameLen)
+void Gang_144::SetName_4BF090(const char_type* pName, u8 nameLen)
 {
     strncpy(field_2_name, pName, nameLen);
     field_2_name[nameLen] = 0; // NULL terminate the string
 }
 
 MATCH_FUNC(0x4BF0C0);
-s32 Gang_144::GetGangCurrWeapon_4BF0C0()
+s32 Gang_144::GetCurrentWeapon_4BF0C0()
 {
-    if (bStartNetworkGame_7081F0 || field_141)
+    if (bStartNetworkGame_7081F0 || field_141_always_basic_weapon)
     {
         return field_104_basic_weapon;
     }
@@ -264,7 +264,7 @@ s32 Gang_144::GetGangCurrWeapon_4BF0C0()
 }
 
 MATCH_FUNC(0x4BF100);
-Gang_144* GangPool_CA8::gang_by_name_4BF100(const char* pGangName)
+Gang_144* GangPool_CA8::FindGangByName_4BF100(const char* pGangName)
 {
     for (u8 i = 0; i < 10; i++)
     {
@@ -277,7 +277,7 @@ Gang_144* GangPool_CA8::gang_by_name_4BF100(const char* pGangName)
 }
 
 MATCH_FUNC(0x4BF170);
-Gang_144* GangPool_CA8::next_free_gang_slot_4BF170()
+Gang_144* GangPool_CA8::AllocGang_4BF170()
 {
     for (u8 i = 0; i < GTA2_COUNTOF(field_0_gang_list); i++)
     {
@@ -293,28 +293,28 @@ Gang_144* GangPool_CA8::next_free_gang_slot_4BF170()
 }
 
 MATCH_FUNC(0x4BF1C0);
-Gang_144* GangPool_CA8::GangByIdx_4BF1C0(u8 zone_idx)
+Gang_144* GangPool_CA8::GangByIdx_4BF1C0(u8 gang_idx)
 {
-    return &field_0_gang_list[zone_idx];
+    return &field_0_gang_list[gang_idx];
 }
 
 MATCH_FUNC(0x4BF1E0);
-void GangPool_CA8::alloc_gang_for_map_zone_4BF1E0(gmp_map_zone* pMapZone)
+void GangPool_CA8::AddGangForMapZone_4BF1E0(gmp_map_zone* pMapZone)
 {
-    if (!gang_by_name_4BF100(pMapZone->field_6_name))
+    if (!FindGangByName_4BF100(pMapZone->field_6_name))
     {
-        Gang_144* pFreeZone = next_free_gang_slot_4BF170();
-        pFreeZone->set_name_4BF090(pMapZone->field_6_name, pMapZone->field_5_name_length);
+        Gang_144* pNewGang = AllocGang_4BF170();
+        pNewGang->SetName_4BF090(pMapZone->field_6_name, pMapZone->field_5_name_length);
     }
 }
 
 MATCH_FUNC(0x4BF210);
-s8 GangPool_CA8::get_gang_idx_by_name_4BF210(const char* gangName)
+s8 GangPool_CA8::GetGangIdxByName_4BF210(const char* gangName)
 {
-    Gang_144* pZone = gang_by_name_4BF100(gangName);
-    if (pZone)
+    Gang_144* pGang = FindGangByName_4BF100(gangName);
+    if (pGang)
     {
-        return pZone->field_1_gang_idx;
+        return pGang->field_1_gang_idx;
     }
     else
     {
@@ -325,25 +325,25 @@ s8 GangPool_CA8::get_gang_idx_by_name_4BF210(const char* gangName)
 MATCH_FUNC(0x4BF230);
 void GangPool_CA8::SwapGangSlots_4BF230(Gang_144* pGang, u8 gang_idx)
 {
-    // The original only calls init_4BED70 on this local, no Gang_144 ctor/dtor
-    u8 zone_buf[sizeof(Gang_144)];
-    Gang_144& zone = *(Gang_144*)zone_buf;
-    zone.init_4BED70();
+    // The original only calls Init_4BED70 on this local, no Gang_144 ctor/dtor
+    u8 gang_buf[sizeof(Gang_144)];
+    Gang_144& tmp_gang = *(Gang_144*)gang_buf;
+    tmp_gang.Init_4BED70();
     if (pGang->field_1_gang_idx != gang_idx)
     {
-        Gang_144* pZoneByIdx = GangByIdx_4BF1C0(gang_idx);
-        if (pZoneByIdx->field_0_used)
+        Gang_144* pOtherGang = GangByIdx_4BF1C0(gang_idx);
+        if (pOtherGang->field_0_used)
         {
-            if (pZoneByIdx->field_138_arrow_colour != pGang->field_138_arrow_colour)
+            if (pOtherGang->field_138_arrow_colour != pGang->field_138_arrow_colour)
             {
-                memcpy(&zone, pZoneByIdx, sizeof(zone));
-                memcpy(&gGangPool_CA8_67E274->field_0_gang_list[pZoneByIdx->field_1_gang_idx],
+                memcpy(&tmp_gang, pOtherGang, sizeof(tmp_gang));
+                memcpy(&gGangPool_CA8_67E274->field_0_gang_list[pOtherGang->field_1_gang_idx],
                        pGang,
-                       sizeof(gGangPool_CA8_67E274->field_0_gang_list[pZoneByIdx->field_1_gang_idx]));
+                       sizeof(gGangPool_CA8_67E274->field_0_gang_list[pOtherGang->field_1_gang_idx]));
                 memcpy(&gGangPool_CA8_67E274->field_0_gang_list[pGang->field_1_gang_idx],
-                       &zone,
+                       &tmp_gang,
                        sizeof(gGangPool_CA8_67E274->field_0_gang_list[pGang->field_1_gang_idx]));
-                pGang->field_1_gang_idx = pZoneByIdx->field_1_gang_idx;
+                pGang->field_1_gang_idx = pOtherGang->field_1_gang_idx;
                 gGangPool_CA8_67E274->field_0_gang_list[gang_idx].field_1_gang_idx = gang_idx;
             }
         }

@@ -10,7 +10,7 @@ ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 SRC=$1; ADDR=$2; NEEDLE=$3; QUIET=$4
 case "$(basename "$SRC")" in
     Network_20324.cpp) export EXTRA_CFLAGS="/Gz" ;;
-    sharp_bose_0x54.cpp) export EXTRA_CFLAGS="/GX-" ;;
+    FpsCounter_54.cpp) export EXTRA_CFLAGS="/GX-" ;;
     gbh_graphics.cpp) export EXTRA_CFLAGS="/Od /ZI" ;;
 esac
 export GTA2_RE="$ROOT" WINEDEBUG=-all

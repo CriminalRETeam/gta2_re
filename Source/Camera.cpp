@@ -5,7 +5,7 @@
 #include "Function.hpp"
 #include "Game_0x40.hpp"
 #include "Globals.hpp"
-#include "Hamburger_500.hpp"
+#include "CarChaseTaskTable_500.hpp"
 #include "Ped.hpp"
 #include "Police_7B8.hpp"
 #include "sprite.hpp"
@@ -94,11 +94,11 @@ bool Camera_0xBC::IsSpriteTheCameraSubject_4355D0(Sprite* pSprite)
     Car_BC* pCar = pSprite->AsCar_40FEB0();
     if (pCar)
     {
-        if (field_38_car == pCar)
+        if (field_38_target_car == pCar)
         {
             return true;
         }
-        if (field_34_ped && field_34_ped->get_car_416B60() == pCar)
+        if (field_34_target_ped && field_34_target_ped->get_car_416B60() == pCar)
         {
             return true;
         }
@@ -108,9 +108,9 @@ bool Camera_0xBC::IsSpriteTheCameraSubject_4355D0(Sprite* pSprite)
         Char_B4* pB4 = pSprite->AsCharB4_40FEA0();
         if (pB4)
         {
-            if (field_34_ped)
+            if (field_34_target_ped)
             {
-                if (field_34_ped->field_168_game_object == pB4)
+                if (field_34_target_ped->field_168_game_object == pB4)
                 {
                     return true;
                 }
@@ -121,34 +121,34 @@ bool Camera_0xBC::IsSpriteTheCameraSubject_4355D0(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x435630)
-char_type Camera_0xBC::IsSpriteInView_435630(Sprite* pSprite, s32 bUnknown)
+char_type Camera_0xBC::IsSpriteInView_435630(Sprite* pSprite, s32 wide_view)
 {
-    Fix16 v5;
-    v5 = field_98_cam_pos2.field_8_z - pSprite->field_1C_zpos + dword_676840;
-    v5 = v5 / (field_98_cam_pos2.field_C_zoom * kTwo_676820);
+    Fix16 half_width;
+    half_width = field_98_cur_pos.field_8_z - pSprite->field_1C_zpos + dword_676840;
+    half_width = half_width / (field_98_cur_pos.field_C_zoom * kTwo_676820);
 
-    if (bUnknown == 1)
+    if (wide_view == 1)
     {
-        v5 = (v5 * dword_676684);
+        half_width = (half_width * dword_676684);
     }
 
-    Fix16 v6 = (v5 * dword_6766F4);
+    Fix16 half_height = (half_width * dword_6766F4);
 
     Fix16_Rect rect;
     rect.SetHiLowZ_41E370(pSprite->field_1C_zpos, pSprite->field_1C_zpos);
-    rect.SetRect_41E350(field_98_cam_pos2.field_0_x - v5,
-                        field_98_cam_pos2.field_0_x + v5,
-                        field_98_cam_pos2.field_4_y - v6,
-                        field_98_cam_pos2.field_4_y + v6);
+    rect.SetRect_41E350(field_98_cur_pos.field_0_x - half_width,
+                        field_98_cur_pos.field_0_x + half_width,
+                        field_98_cur_pos.field_4_y - half_height,
+                        field_98_cur_pos.field_4_y + half_height);
 
-    Fix16_Rect* pBox = &pSprite->field_C_sprite_4c_ptr->field_30_boundingBox;
+    Fix16_Rect* pBox = &pSprite->field_C_pCollisionShape->field_30_boundingBox;
     if (rect.field_0_left.IntervalIntersectsRange_438FB0_inline(rect.field_4_right, pBox->field_0_left, pBox->field_4_right) &&
         IntervalIntersectsRange_438FB0(rect.field_8_top, rect.field_C_bottom, pBox->field_8_top, pBox->field_C_bottom) &&
         IntervalIntersectsRange_438FB0(rect.field_10_low_z, rect.field_14_high_z, pBox->field_10_low_z, pBox->field_14_high_z))
     {
-        Sprite_4C* p4C = pSprite->field_C_sprite_4c_ptr;
-        if ((p4C->field_0_width == p4C->field_4_height && p4C->field_0_width <= dword_676694) || pSprite->field_0.rValue == 0 ||
-            pSprite->field_0 == 360 || pSprite->field_0 == 720 || pSprite->field_0 == 1080 || pSprite->IntersectsRectSAT_59FB10(&rect) ||
+        SpriteShape_4C* p4C = pSprite->field_C_pCollisionShape;
+        if ((p4C->field_0_width == p4C->field_4_height && p4C->field_0_width <= dword_676694) || pSprite->field_0_rotation.rValue == 0 ||
+            pSprite->field_0_rotation == 360 || pSprite->field_0_rotation == 720 || pSprite->field_0_rotation == 1080 || pSprite->IntersectsRectSAT_59FB10(&rect) ||
             rect.IntersectsSpriteRenderingRect_59DDF0(pSprite))
         {
             return 1;
@@ -160,57 +160,57 @@ char_type Camera_0xBC::IsSpriteInView_435630(Sprite* pSprite, s32 bUnknown)
 MATCH_FUNC(0x4357B0)
 void Camera_0xBC::SavePrevCamPos_4357B0()
 {
-    field_88_cam_pos1.field_0_x = field_98_cam_pos2.field_0_x;
-    field_88_cam_pos1.field_4_y = field_98_cam_pos2.field_4_y;
-    field_88_cam_pos1.field_8_z = field_98_cam_pos2.field_8_z;
-    field_88_cam_pos1.field_C_zoom = field_98_cam_pos2.field_C_zoom;
+    field_88_prev_pos.field_0_x = field_98_cur_pos.field_0_x;
+    field_88_prev_pos.field_4_y = field_98_cur_pos.field_4_y;
+    field_88_prev_pos.field_8_z = field_98_cur_pos.field_8_z;
+    field_88_prev_pos.field_C_zoom = field_98_cur_pos.field_C_zoom;
 }
 
 MATCH_FUNC(0x4357F0)
 void Camera_0xBC::IncreaseElevation_4357F0()
 {
-    if (field_40_tgt_elevation < kMaxTgtElevation_676894)
+    if (field_40_target_elevation < kMaxTgtElevation_676894)
     {
-        field_40_tgt_elevation += dword_676678;
+        field_40_target_elevation += dword_676678;
     }
 }
 
 MATCH_FUNC(0x435810)
 void Camera_0xBC::DecreaseElevation_435810()
 {
-    if (field_40_tgt_elevation > kZero_676818)
+    if (field_40_target_elevation > kZero_676818)
     {
-        field_40_tgt_elevation -= dword_676678;
+        field_40_target_elevation -= dword_676678;
     }
 }
 
 MATCH_FUNC(0x435830)
 void Camera_0xBC::ReturnToDefaultZoom_435830()
 {
-    field_40_tgt_elevation = kZero_676818;
+    field_40_target_elevation = kZero_676818;
 }
 
 MATCH_FUNC(0x435840)
 void Camera_0xBC::ClampTargetZ_435840()
 {
-    if (field_10_cam_pos_tgt2.field_8_z < kZero_676818)
+    if (field_10_pending_target_pos.field_8_z < kZero_676818)
     {
-        field_10_cam_pos_tgt2.field_8_z = kZero_676818;
+        field_10_pending_target_pos.field_8_z = kZero_676818;
     }
 
-    if (field_10_cam_pos_tgt2.field_8_z > kMaxCamZ_676898)
+    if (field_10_pending_target_pos.field_8_z > kMaxCamZ_676898)
     {
-        field_10_cam_pos_tgt2.field_8_z = kMaxCamZ_676898;
+        field_10_pending_target_pos.field_8_z = kMaxCamZ_676898;
     }
 }
 
 MATCH_FUNC(0x435860)
-void Camera_0xBC::ApplyMovementDeltaFrom_435860(Camera_0xBC* a2)
+void Camera_0xBC::ApplyMovementDeltaFrom_435860(Camera_0xBC* pCamera)
 {
-    field_10_cam_pos_tgt2.field_0_x += a2->field_98_cam_pos2.field_0_x - a2->field_88_cam_pos1.field_0_x;
-    field_10_cam_pos_tgt2.field_4_y += a2->field_98_cam_pos2.field_4_y - a2->field_88_cam_pos1.field_4_y;
-    field_10_cam_pos_tgt2.field_8_z += a2->field_98_cam_pos2.field_8_z - a2->field_88_cam_pos1.field_8_z;
-    field_10_cam_pos_tgt2.field_C_zoom += a2->field_98_cam_pos2.field_C_zoom - a2->field_88_cam_pos1.field_C_zoom;
+    field_10_pending_target_pos.field_0_x += pCamera->field_98_cur_pos.field_0_x - pCamera->field_88_prev_pos.field_0_x;
+    field_10_pending_target_pos.field_4_y += pCamera->field_98_cur_pos.field_4_y - pCamera->field_88_prev_pos.field_4_y;
+    field_10_pending_target_pos.field_8_z += pCamera->field_98_cur_pos.field_8_z - pCamera->field_88_prev_pos.field_8_z;
+    field_10_pending_target_pos.field_C_zoom += pCamera->field_98_cur_pos.field_C_zoom - pCamera->field_88_prev_pos.field_C_zoom;
     ClampTargetZ_435840();
 }
 
@@ -221,12 +221,12 @@ Ang16 Camera_0xBC::ComputeTargetFacingAngle_4358D0()
     Ang16 CarRotation;
     Ang16 PedRotation;
 
-    if (field_34_ped)
+    if (field_34_target_ped)
     {
-        Car_BC* field_16C_car = field_34_ped->get_car_416B60();
+        Car_BC* field_16C_car = field_34_target_ped->get_car_416B60();
         if (field_16C_car)
         {
-            CarRotation = field_16C_car->get_car_rotation_416BB0();
+            CarRotation = field_16C_car->GetCarRotation_416BB0();
             CarPhysics_B0* pCarPhysics = field_16C_car->field_58_physics;
 
             if (pCarPhysics && pCarPhysics->is_backward_gas_on_411810())
@@ -235,9 +235,9 @@ Ang16 Camera_0xBC::ComputeTargetFacingAngle_4358D0()
             }
             return CarRotation;
         }
-        PedRotation = field_34_ped->GetRotation();
-        Char_B4* field_168_game_object = field_34_ped->field_168_game_object;
-        if (field_168_game_object && (field_168_game_object->field_58_flags & 8) != 0)
+        PedRotation = field_34_target_ped->GetRotation();
+        Char_B4* field_168_game_object = field_34_target_ped->field_168_game_object;
+        if (field_168_game_object && field_168_game_object->field_58_flags_bf.bReverseVelocity)
         {
             return PedRotation + kAng180_676772;
         }
@@ -248,10 +248,10 @@ Ang16 Camera_0xBC::ComputeTargetFacingAngle_4358D0()
     }
     else
     {
-        if (field_38_car)
+        if (field_38_target_car)
         {
-            CarRotation = field_38_car->get_car_rotation_416BB0();
-            CarPhysics_B0* pCarPhysics = field_38_car->field_58_physics;
+            CarRotation = field_38_target_car->GetCarRotation_416BB0();
+            CarPhysics_B0* pCarPhysics = field_38_target_car->field_58_physics;
 
             if (pCarPhysics && pCarPhysics->is_backward_gas_on_411810())
             {
@@ -269,13 +269,13 @@ Ang16 Camera_0xBC::ComputeTargetFacingAngle_4358D0()
 MATCH_FUNC(0x435A20)
 Fix16 Camera_0xBC::ReturnOwnerVelocity_435A20()
 {
-    Ped* pPed = field_34_ped;
+    Ped* pPed = field_34_target_ped;
     if (pPed)
     {
         return pPed->GetPedVelocity_45C920();
     }
 
-    Car_BC* pCar = field_38_car;
+    Car_BC* pCar = field_38_target_car;
     if (pCar)
     {
         return pCar->GetCarLinearSpeed_43A240();
@@ -292,7 +292,7 @@ Fix16 Camera_0xBC::ReturnOwnerVelocity_435A20()
 // the copy had not been compiled yet (the same effect as Fix16_Point::operator+ in Weapon_30, see
 // docs/matching_quirks.md).
 MATCH_FUNC(0x436200)
-void Camera_0xBC::ApplyCarVelocityCameraOffset_436200(Car_BC* pCar, Fix16* pX, Fix16* pY, Fix16* pZ)
+void Camera_0xBC::ApplyCarVelocityCameraOffset_436200(Car_BC* pCar, Fix16* pOutX, Fix16* pOutY, Fix16* pOutZ)
 {
     // 9.6f 0x41EBF0: this source matches it exactly when built with VC7 (compile_vc7.sh, permuter_score.py --96f)
     Ang16 angle;
@@ -307,13 +307,13 @@ void Camera_0xBC::ApplyCarVelocityCameraOffset_436200(Car_BC* pCar, Fix16* pX, F
     }
     else
     {
-        vel = pCar->get_linvel_43A450() * dword_67696C;
+        vel = pCar->GetLinearVelocity_43A450() * dword_67696C;
         speed = vel.GetLength_41E260();
     }
 
     if (speed > dword_67674C)
     {
-        *pZ += speed;
+        *pOutZ += speed;
 
         if (!pCar->IsTrainModel_403BA0() && !pCar->IsTank_411900())
         {
@@ -329,7 +329,7 @@ void Camera_0xBC::ApplyCarVelocityCameraOffset_436200(Car_BC* pCar, Fix16* pX, F
                 dist = Fix16(180);
             }
 
-            if (pCar->is_trailer_cab_41E460())
+            if (pCar->IsTrailerCab_41E460())
             {
                 dist *= dword_6768E0;
             }
@@ -348,10 +348,10 @@ void Camera_0xBC::ApplyCarVelocityCameraOffset_436200(Car_BC* pCar, Fix16* pX, F
                 dist *= kOne_67681C - suspicion / 128;
             }
 
-            radius = dist * (Fix16(8) - pCar->field_50_car_sprite->field_1C_zpos + *pZ) / field_60.y;
+            radius = dist * (Fix16(8) - pCar->field_50_car_sprite->field_1C_zpos + *pOutZ) / field_60_screen_scale.y;
             offset.FromPolar_41E210(radius, angle);
-            *pX += offset.x;
-            *pY += offset.y;
+            *pOutX += offset.x;
+            *pOutY += offset.y;
         }
     }
 }
@@ -367,95 +367,95 @@ s32 Camera_0xBC::IsCoordsPosVisible_435A70(Fix16 x, Fix16 y, Fix16 z)
     return 0;
 }
 
-// https://decomp.me/scratch/YoPmg Is field_60 really a Fix16_Point ?
+// https://decomp.me/scratch/YoPmg Is field_60_screen_scale really a Fix16_Point ?
 MATCH_FUNC(0x435B90)
 void Camera_0xBC::UpdateBoundaries_435B90()
 {
-    field_60.x = Fix16(field_68_screen_px_width) * field_98_cam_pos2.field_C_zoom;
-    field_60.y = Fix16(640) * field_98_cam_pos2.field_C_zoom;
+    field_60_screen_scale.x = Fix16(field_68_screen_px_width) * field_98_cur_pos.field_C_zoom;
+    field_60_screen_scale.y = Fix16(640) * field_98_cur_pos.field_C_zoom;
 
-    Fix16 v = (dword_676838 + field_98_cam_pos2.field_8_z) * (kOne_67681C / field_98_cam_pos2.field_C_zoom) * dword_67671C;
+    Fix16 v = (dword_676838 + field_98_cur_pos.field_8_z) * (kOne_67681C / field_98_cur_pos.field_C_zoom) * dword_67671C;
 
-    field_78_boundaries_non_neg.field_0_left = field_98_cam_pos2.field_0_x - v;
-    if (field_78_boundaries_non_neg.field_0_left < kZero_676818)
+    field_78_view_bounds.field_0_left = field_98_cur_pos.field_0_x - v;
+    if (field_78_view_bounds.field_0_left < kZero_676818)
     {
-        field_78_boundaries_non_neg.field_0_left = Fix16(0);
+        field_78_view_bounds.field_0_left = Fix16(0);
     }
-    else if (field_78_boundaries_non_neg.field_0_left > kMaxMapCoord_67668C)
+    else if (field_78_view_bounds.field_0_left > kMaxMapCoord_67668C)
     {
-        field_78_boundaries_non_neg.field_0_left = kMaxMapCoord_67668C;
+        field_78_view_bounds.field_0_left = kMaxMapCoord_67668C;
     }
 
-    field_78_boundaries_non_neg.field_4_right = field_98_cam_pos2.field_0_x + v;
-    if (field_78_boundaries_non_neg.field_4_right < kZero_676818)
+    field_78_view_bounds.field_4_right = field_98_cur_pos.field_0_x + v;
+    if (field_78_view_bounds.field_4_right < kZero_676818)
     {
-        field_78_boundaries_non_neg.field_4_right = Fix16(0);
+        field_78_view_bounds.field_4_right = Fix16(0);
     }
-    else if (field_78_boundaries_non_neg.field_4_right > kMaxMapCoord_67668C)
+    else if (field_78_view_bounds.field_4_right > kMaxMapCoord_67668C)
     {
-        field_78_boundaries_non_neg.field_4_right = kMaxMapCoord_67668C;
+        field_78_view_bounds.field_4_right = kMaxMapCoord_67668C;
     }
 
     v *= dword_6768E0;
 
-    field_78_boundaries_non_neg.field_8_top = field_98_cam_pos2.field_4_y - v;
-    if (field_78_boundaries_non_neg.field_8_top < kZero_676818)
+    field_78_view_bounds.field_8_top = field_98_cur_pos.field_4_y - v;
+    if (field_78_view_bounds.field_8_top < kZero_676818)
     {
-        field_78_boundaries_non_neg.field_8_top = Fix16(0);
+        field_78_view_bounds.field_8_top = Fix16(0);
     }
-    else if (field_78_boundaries_non_neg.field_8_top > kMaxMapCoord_67668C)
+    else if (field_78_view_bounds.field_8_top > kMaxMapCoord_67668C)
     {
-        field_78_boundaries_non_neg.field_8_top = kMaxMapCoord_67668C;
-    }
-
-    field_78_boundaries_non_neg.field_C_bottom = field_98_cam_pos2.field_4_y + v;
-    if (field_78_boundaries_non_neg.field_C_bottom < kZero_676818)
-    {
-        field_78_boundaries_non_neg.field_C_bottom = Fix16(0);
-    }
-    else if (field_78_boundaries_non_neg.field_C_bottom > kMaxMapCoord_67668C)
-    {
-        field_78_boundaries_non_neg.field_C_bottom = kMaxMapCoord_67668C;
+        field_78_view_bounds.field_8_top = kMaxMapCoord_67668C;
     }
 
-    field_20_boundaries.field_0_left = field_78_boundaries_non_neg.field_0_left - dword_67691C;
-    field_20_boundaries.field_4_right = field_78_boundaries_non_neg.field_4_right + dword_67691C;
-    field_20_boundaries.field_8_top = field_78_boundaries_non_neg.field_8_top - dword_67691C;
-    field_20_boundaries.field_C_bottom = field_78_boundaries_non_neg.field_C_bottom + dword_67691C;
+    field_78_view_bounds.field_C_bottom = field_98_cur_pos.field_4_y + v;
+    if (field_78_view_bounds.field_C_bottom < kZero_676818)
+    {
+        field_78_view_bounds.field_C_bottom = Fix16(0);
+    }
+    else if (field_78_view_bounds.field_C_bottom > kMaxMapCoord_67668C)
+    {
+        field_78_view_bounds.field_C_bottom = kMaxMapCoord_67668C;
+    }
+
+    field_20_padded_view_bounds.field_0_left = field_78_view_bounds.field_0_left - dword_67691C;
+    field_20_padded_view_bounds.field_4_right = field_78_view_bounds.field_4_right + dword_67691C;
+    field_20_padded_view_bounds.field_8_top = field_78_view_bounds.field_8_top - dword_67691C;
+    field_20_padded_view_bounds.field_C_bottom = field_78_view_bounds.field_C_bottom + dword_67691C;
 }
 
 MATCH_FUNC(0x435D20)
-void Camera_0xBC::MoveTarget_435D20(char_type a2, char_type a3, char_type a4, char_type a5, char_type a6, char_type a7)
+void Camera_0xBC::MoveTarget_435D20(char_type move_north, char_type move_south, char_type move_west, char_type move_east, char_type zoom_in, char_type zoom_out)
 {
-    ResetPendingCameraTarget();
-    if (a2)
+    ResetPendingTarget();
+    if (move_north)
     {
-        field_10_cam_pos_tgt2.field_4_y -= dword_67671C;
+        field_10_pending_target_pos.field_4_y -= dword_67671C;
     }
 
-    if (a3)
+    if (move_south)
     {
-        field_10_cam_pos_tgt2.field_4_y += dword_67671C;
+        field_10_pending_target_pos.field_4_y += dword_67671C;
     }
 
-    if (a4)
+    if (move_west)
     {
-        field_10_cam_pos_tgt2.field_0_x -= dword_67671C;
+        field_10_pending_target_pos.field_0_x -= dword_67671C;
     }
 
-    if (a5)
+    if (move_east)
     {
-        field_10_cam_pos_tgt2.field_0_x += dword_67671C;
+        field_10_pending_target_pos.field_0_x += dword_67671C;
     }
 
-    if (a6)
+    if (zoom_in)
     {
-        field_10_cam_pos_tgt2.field_8_z += kOne_67681C;
+        field_10_pending_target_pos.field_8_z += kOne_67681C;
     }
 
-    if (a7)
+    if (zoom_out)
     {
-        field_10_cam_pos_tgt2.field_8_z -= kOne_67681C;
+        field_10_pending_target_pos.field_8_z -= kOne_67681C;
     }
     ClampTargetZ_435840();
 }
@@ -463,10 +463,10 @@ void Camera_0xBC::MoveTarget_435D20(char_type a2, char_type a3, char_type a4, ch
 MATCH_FUNC(0x435DD0)
 void Camera_0xBC::ResetCameraSmoothing_435DD0()
 {
-    field_98_cam_pos2.field_0_x = field_0_cam_pos_tgt1.field_0_x;
-    field_98_cam_pos2.field_4_y = field_0_cam_pos_tgt1.field_4_y;
-    field_98_cam_pos2.field_8_z = field_0_cam_pos_tgt1.field_8_z;
-    field_98_cam_pos2.field_C_zoom = field_0_cam_pos_tgt1.field_C_zoom;
+    field_98_cur_pos.field_0_x = field_0_target_pos.field_0_x;
+    field_98_cur_pos.field_4_y = field_0_target_pos.field_4_y;
+    field_98_cur_pos.field_8_z = field_0_target_pos.field_8_z;
+    field_98_cur_pos.field_C_zoom = field_0_target_pos.field_C_zoom;
 
     field_AC_cam_velocity.field_0_x = kZero_676818;
     field_AC_cam_velocity.field_4_y = kZero_676818;
@@ -475,11 +475,11 @@ void Camera_0xBC::ResetCameraSmoothing_435DD0()
 }
 
 MATCH_FUNC(0x435F90)
-void Camera_0xBC::AccumulateSuspicionOnDriver_435F90(Car_BC* a2)
+void Camera_0xBC::AccumulateSuspicionOnDriver_435F90(Car_BC* pCar)
 {
-    if (a2->field_54_driver &&
-        (gPolice_7B8_6FEE40->IsActivelyChased_56F880(a2->field_54_driver) ||
-         gHamburger_500_678E30->HasAnyFollower_474970(a2->field_54_driver)))
+    if (pCar->field_54_driver &&
+        (gPolice_7B8_6FEE40->IsActivelyChased_56F880(pCar->field_54_driver) ||
+         gCarChaseTaskTable_678E30->HasAnyPursuer_474970(pCar->field_54_driver)))
     {
         field_44_suspicion++;
         if (field_44_suspicion > 80u)
@@ -500,47 +500,47 @@ MATCH_FUNC(0x435FF0)
 void Camera_0xBC::Update_435FF0()
 {
     Camera_0xBC::SavePrevCamPos_4357B0();
-    Fix16 v5 = field_98_cam_pos2.field_8_z * dword_676918;
+    Fix16 scale = field_98_cur_pos.field_8_z * dword_676918;
 
-    switch (field_3C_followed_ped_id)
+    switch (field_3C_follow_mode)
     {
-        case 1:
-            SmoothApproach_4F7540(field_0_cam_pos_tgt1.field_0_x,
+        case camera_follow_mode::smooth_1:
+            SmoothApproach_4F7540(field_0_target_pos.field_0_x,
                                   field_AC_cam_velocity.field_0_x,
-                                  field_98_cam_pos2.field_0_x,
+                                  field_98_cur_pos.field_0_x,
                                   dword_676740,
-                                  v5);
-            SmoothApproach_4F7540(field_0_cam_pos_tgt1.field_4_y,
+                                  scale);
+            SmoothApproach_4F7540(field_0_target_pos.field_4_y,
                                   field_AC_cam_velocity.field_4_y,
-                                  field_98_cam_pos2.field_4_y,
+                                  field_98_cur_pos.field_4_y,
                                   dword_676740,
-                                  v5);
-            SmoothApproachClamped_4F75D0(&field_0_cam_pos_tgt1.field_8_z,
+                                  scale);
+            SmoothApproachClamped_4F75D0(&field_0_target_pos.field_8_z,
                                          &field_AC_cam_velocity.field_8_z,
-                                         &field_98_cam_pos2.field_8_z,
+                                         &field_98_cur_pos.field_8_z,
                                          &dword_6767B8,
                                          &dword_676638,
                                          &dword_676834,
                                          &dword_6765FC);
-            SmoothApproach_4F7540(field_0_cam_pos_tgt1.field_C_zoom,
+            SmoothApproach_4F7540(field_0_target_pos.field_C_zoom,
                                   field_AC_cam_velocity.field_C_zoom,
-                                  field_98_cam_pos2.field_C_zoom,
+                                  field_98_cur_pos.field_C_zoom,
                                   dword_6766FC,
                                   dword_6766A4);
             break;
-        case 2:
-            field_98_cam_pos2.field_0_x = field_0_cam_pos_tgt1.field_0_x;
-            field_98_cam_pos2.field_4_y = field_0_cam_pos_tgt1.field_4_y;
-            field_98_cam_pos2.field_8_z = field_0_cam_pos_tgt1.field_8_z;
-            field_98_cam_pos2.field_C_zoom = field_0_cam_pos_tgt1.field_C_zoom;
+        case camera_follow_mode::snap_2:
+            field_98_cur_pos.field_0_x = field_0_target_pos.field_0_x;
+            field_98_cur_pos.field_4_y = field_0_target_pos.field_4_y;
+            field_98_cur_pos.field_8_z = field_0_target_pos.field_8_z;
+            field_98_cur_pos.field_C_zoom = field_0_target_pos.field_C_zoom;
             break;
     }
-    if (field_30_shake != kZero_676818)
+    if (field_30_shake_amount != kZero_676818)
     {
         Camera_0xBC::ApplyShake_436140();
     }
     Camera_0xBC::UpdateBoundaries_435B90();
-    field_0_cam_pos_tgt1 = field_10_cam_pos_tgt2;
+    field_0_target_pos = field_10_pending_target_pos;
 }
 
 MATCH_FUNC(0x436110)
@@ -550,38 +550,38 @@ void Camera_0xBC::RefreshBoundaries_436110()
 }
 
 MATCH_FUNC(0x436120)
-void Camera_0xBC::SetShake_436120(Fix16 a2)
+void Camera_0xBC::SetShake_436120(Fix16 amount)
 {
-    field_30_shake = a2 * dword_6768D8;
+    field_30_shake_amount = amount * dword_6768D8;
 }
 
 MATCH_FUNC(0x436140)
 void Camera_0xBC::ApplyShake_436140()
 {
-    field_98_cam_pos2.field_0_x += field_30_shake;
-    field_98_cam_pos2.field_4_y += field_30_shake;
-    field_98_cam_pos2.field_8_z += field_30_shake;
-    if (field_98_cam_pos2.field_8_z < kZero_676818)
+    field_98_cur_pos.field_0_x += field_30_shake_amount;
+    field_98_cur_pos.field_4_y += field_30_shake_amount;
+    field_98_cur_pos.field_8_z += field_30_shake_amount;
+    if (field_98_cur_pos.field_8_z < kZero_676818)
     {
-        field_98_cam_pos2.field_8_z = kZero_676818;
+        field_98_cur_pos.field_8_z = kZero_676818;
     }
-    field_30_shake = -field_30_shake;
-    field_30_shake = dword_6766F4 * field_30_shake;
+    field_30_shake_amount = -field_30_shake_amount;
+    field_30_shake_amount = dword_6766F4 * field_30_shake_amount;
 }
 
 MATCH_FUNC(0x4361B0)
-void Camera_0xBC::SetScreenSize_4361B0(u32 x_pos, u32 y_pos)
+void Camera_0xBC::SetScreenSize_4361B0(u32 width, u32 height)
 {
-    field_68_screen_px_width = x_pos;
-    field_6C_screen_px_height = y_pos;
+    field_68_screen_px_width = width;
+    field_6C_screen_px_height = height;
 
-    field_70_screen_px_center_x = x_pos / 2;
-    field_74_screen_px_center_y = y_pos / 2;
+    field_70_screen_px_center_x = width / 2;
+    field_74_screen_px_center_y = height / 2;
 
-    field_60.x = Fix16(-1);
-    field_60.y = Fix16(-1);
+    field_60_screen_scale.x = Fix16(-1);
+    field_60_screen_scale.y = Fix16(-1);
 
-    field_A8_ui_scale = Fix16(x_pos) / 640;
+    field_A8_ui_scale = Fix16(width) / 640;
 }
 
 
@@ -589,22 +589,22 @@ MATCH_FUNC(0x4364A0)
 void Camera_0xBC::UpdateFollowCarCamera_4364A0(Car_BC* pCar)
 {
 
-    this->field_34_ped = 0;
-    this->field_38_car = pCar;
+    this->field_34_target_ped = 0;
+    this->field_38_target_car = pCar;
 
     if (pCar)
     {
         Fix16 new_x;
-        new_x = pCar->get_x_41E430();
+        new_x = pCar->GetX_41E430();
         Fix16 new_y;
-        new_y = pCar->get_y_41E440();
+        new_y = pCar->GetY_41E440();
         Fix16 new_z;
-        new_z = Max_41E130(pCar->get_z_41E450() - kTwo_676820, kOne_67681C);
+        new_z = Max_41E130(pCar->GetZ_41E450() - kTwo_676820, kOne_67681C);
         Fix16 zoom = kDefaultZoom_6766D4;
 
         AccumulateSuspicionOnDriver_435F90(pCar);
         ApplyCarVelocityCameraOffset_436200(pCar, &new_x, &new_y, &new_z);
-        SetCamera_41E3D0(new_x, new_y, new_z, zoom);
+        SetPendingTarget_41E3D0(new_x, new_y, new_z, zoom);
     }
 }
 
@@ -614,8 +614,8 @@ void Camera_0xBC::UpdateFollowPedCamera_436540(Ped* pPed)
     Car_BC* pCar_2;
     Fix16 zposToUse;
 
-    field_38_car = NULL;
-    field_34_ped = pPed;
+    field_38_target_car = NULL;
+    field_34_target_ped = pPed;
     if (pPed != NULL)
     {
         Fix16 xpos;
@@ -636,27 +636,27 @@ void Camera_0xBC::UpdateFollowPedCamera_436540(Ped* pPed)
         }
         else
         {
-            xpos = pCar_2->get_x_41E430();
-            ypos = pCar_2->get_y_41E440();
-            zpos = Max_41E130(pCar_2->get_z_41E450() - kTwo_676820, kOne_67681C);
+            xpos = pCar_2->GetX_41E430();
+            ypos = pCar_2->GetY_41E440();
+            zpos = Max_41E130(pCar_2->GetZ_41E450() - kTwo_676820, kOne_67681C);
             zposToUse = zpos;
             Camera_0xBC::AccumulateSuspicionOnDriver_435F90(pCar_2);
             Camera_0xBC::ApplyCarVelocityCameraOffset_436200(pCar_2, &xpos, &ypos, &zposToUse);
         }
         Fix16 zoom = dword_6767B4;
-        if (pPed->GetPedState_403990() != 9)
+        if (pPed->GetPedState_403990() != ped_state_1::dead_9)
         {
             zoom = kDefaultZoom_6766D4;
         }
         Camera_0xBC::ApplyZOffsetToScreenPosition_436860(pPed, xpos, ypos, zposToUse);
-        SetCamera_41E3D0(xpos, ypos, zposToUse, zoom);
+        SetPendingTarget_41E3D0(xpos, ypos, zposToUse, zoom);
     }
 }
 
 MATCH_FUNC(0x436710)
-void Camera_0xBC::HandlePanning_436710(char_type bForwardGasOn, char_type bFootBrakeOn, char_type a4, char_type a5)
+void Camera_0xBC::HandlePanning_436710(char_type forward_gas_on, char_type foot_brake_on, char_type left_on, char_type right_on)
 {
-    if (bForwardGasOn)
+    if (forward_gas_on)
     {
         field_4C_pan_y -= field_50_pan_speed_up;
         if (field_4C_pan_y < -kMaxPanY_6768F0)
@@ -675,7 +675,7 @@ void Camera_0xBC::HandlePanning_436710(char_type bForwardGasOn, char_type bFootB
         field_50_pan_speed_up = kInitialPanSpeed_6766E4;
     }
 
-    if (bFootBrakeOn)
+    if (foot_brake_on)
     {
         field_4C_pan_y += field_54_pan_speed_down;
         if (field_4C_pan_y > kMaxPanY_6768F0)
@@ -694,7 +694,7 @@ void Camera_0xBC::HandlePanning_436710(char_type bForwardGasOn, char_type bFootB
         field_54_pan_speed_down = kInitialPanSpeed_6766E4;
     }
 
-    if (a4)
+    if (left_on)
     {
         field_48_pan_x -= field_58_pan_speed_left;
         if (field_48_pan_x < -kMaxPanX_6768C0)
@@ -713,7 +713,7 @@ void Camera_0xBC::HandlePanning_436710(char_type bForwardGasOn, char_type bFootB
         field_58_pan_speed_left = kInitialPanSpeed_6766E4;
     }
 
-    if (a5)
+    if (right_on)
     {
         field_48_pan_x += field_5C_pan_speed_right;
         if (field_48_pan_x > kMaxPanX_6768C0)
@@ -745,11 +745,11 @@ void Camera_0xBC::ResetPanning_436830()
 }
 
 MATCH_FUNC(0x436860)
-void Camera_0xBC::ApplyZOffsetToScreenPosition_436860(Ped* a2, Fix16& x_pos, Fix16& y_pos, Fix16 z_pos)
+void Camera_0xBC::ApplyZOffsetToScreenPosition_436860(Ped* pPed, Fix16& x_pos, Fix16& y_pos, Fix16 z_pos)
 {
-    Fix16 v5 = (z_pos - a2->get_cam_z() + Fix16(8)) / field_60.y;
-    x_pos += field_48_pan_x * v5;
-    y_pos += field_4C_pan_y * v5;
+    Fix16 depth_scale = (z_pos - pPed->get_cam_z() + Fix16(8)) / field_60_screen_scale.y;
+    x_pos += field_48_pan_x * depth_scale;
+    y_pos += field_4C_pan_y * depth_scale;
 }
 
 MATCH_FUNC(0x4368E0)
@@ -758,17 +758,17 @@ Camera_0xBC::Camera_0xBC()
     field_68_screen_px_width = 0;
     field_6C_screen_px_height = 0;
     ReturnToDefaultZoom_435830();
-    field_98_cam_pos2.field_C_zoom = kDefaultZoom_6766D4;
+    field_98_cur_pos.field_C_zoom = kDefaultZoom_6766D4;
     SetTarget_4397D0(-1, -1, -1, kDefaultZoom_6766D4);
-    CommitCameraTarget_41E410();
-    field_60.x = Fix16(-1);
-    field_60.y = Fix16(-1);
+    CommitPendingTarget_41E410();
+    field_60_screen_scale.x = Fix16(-1);
+    field_60_screen_scale.y = Fix16(-1);
     field_AC_cam_velocity.field_0_x = kZero_676818;
     field_AC_cam_velocity.field_4_y = kZero_676818;
     field_AC_cam_velocity.field_8_z = kZero_676818;
-    field_3C_followed_ped_id = 0;
-    field_30_shake = kZero_676818;
-    field_34_ped = NULL;
+    field_3C_follow_mode = camera_follow_mode::none_0;
+    field_30_shake_amount = kZero_676818;
+    field_34_target_ped = NULL;
     SetScreenSize_4361B0(640, 480);
     field_44_suspicion = 0;
     ResetPanning_436830();
@@ -780,13 +780,13 @@ Camera_0xBC::~Camera_0xBC()
 }
 
 MATCH_FUNC(0x4397D0)
-void Camera_0xBC::SetTarget_4397D0(Fix16 a2, Fix16 a3, Fix16 a4, Fix16 a5)
+void Camera_0xBC::SetTarget_4397D0(Fix16 x, Fix16 y, Fix16 z, Fix16 zoom)
 {
-    field_10_cam_pos_tgt2.field_0_x = a2;
-    field_10_cam_pos_tgt2.field_4_y = a3;
-    a4 += field_40_tgt_elevation;
-    field_10_cam_pos_tgt2.field_8_z = a4;
-    field_10_cam_pos_tgt2.field_C_zoom = a5;
+    field_10_pending_target_pos.field_0_x = x;
+    field_10_pending_target_pos.field_4_y = y;
+    z += field_40_target_elevation;
+    field_10_pending_target_pos.field_8_z = z;
+    field_10_pending_target_pos.field_C_zoom = zoom;
 }
 
 // TODO: move
@@ -908,8 +908,8 @@ EXPORT void __stdcall SmoothApproachClamped_4F75D0(Fix16* target_coord,
 }
 
 MATCH_FUNC(0x58CF10)
-bool Camera_0xBC::IsPointInBoundaries_58CF10(Fix16 a2, Fix16 a3)
+bool Camera_0xBC::IsPointInBoundaries_58CF10(Fix16 x, Fix16 y)
 {
-    return a2 >= field_78_boundaries_non_neg.field_0_left && a2 <= field_78_boundaries_non_neg.field_4_right &&
-        a3 >= field_78_boundaries_non_neg.field_8_top && a3 <= field_78_boundaries_non_neg.field_C_bottom;
+    return x >= field_78_view_bounds.field_0_left && x <= field_78_view_bounds.field_4_right &&
+        y >= field_78_view_bounds.field_8_top && y <= field_78_view_bounds.field_C_bottom;
 }

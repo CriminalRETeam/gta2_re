@@ -138,7 +138,7 @@ Fix16 __stdcall Fix16::SquareRoot_436A70(Fix16& input)
 MATCH_FUNC(0x405320)
 Ang16 __stdcall Fix16::atan2_fixed_405320(Fix16& x, Fix16& y)
 {
-    Ang16 v9;
+    Ang16 table_angle;
     if (y == kFPZero_6691B0)
     {
         if (x >= kFPZero_6691B0)
@@ -163,23 +163,23 @@ Ang16 __stdcall Fix16::atan2_fixed_405320(Fix16& x, Fix16& y)
     }
     else
     {
-        v9 = ArcTanLookup_405500(Fix16::Abs(x / y));
+        table_angle = ArcTanLookup_405500(Fix16::Abs(x / y));
 
         if (x > kFPZero_6691B0)
         {
             if (y > kFPZero_6691B0)
             {
-                return kAng90_667A7C - v9;
+                return kAng90_667A7C - table_angle;
             }
             else
             {
-                if (v9 == kAng90_667A7C)
+                if (table_angle == kAng90_667A7C)
                 {
                     return kAngZero_66A920;
                 }
                 else
                 {
-                    return kAng270_66916C + v9;
+                    return kAng270_66916C + table_angle;
                 }
             }
         }
@@ -187,11 +187,11 @@ Ang16 __stdcall Fix16::atan2_fixed_405320(Fix16& x, Fix16& y)
         {
             if (y > kFPZero_6691B0)
             {
-                return kAng90_667A7C + v9;
+                return kAng90_667A7C + table_angle;
             }
             else
             {
-                return kAng270_66916C - v9;
+                return kAng270_66916C - table_angle;
             }
         }
     }
@@ -412,39 +412,39 @@ EXPORT Ang16 __stdcall ArcTanLookup_405500(const Fix16& targetTan)
 }
 
 MATCH_FUNC(0x5A57E0)
-EXPORT void __stdcall FindMinMax_5A57E0(Fix16& minOut, Fix16& maxOut, const Fix16& v1, const Fix16& v2, const Fix16& v3, const Fix16& v4)
+EXPORT void __stdcall FindMinMax_5A57E0(Fix16& minOut, Fix16& maxOut, const Fix16& a, const Fix16& b, const Fix16& c, const Fix16& d)
 {
-    minOut = v1;
-    maxOut = v1;
+    minOut = a;
+    maxOut = a;
 
-    // v2
-    if (v2 < minOut)
+    // b
+    if (b < minOut)
     {
-        minOut = v2;
+        minOut = b;
     }
-    else if (v2 > maxOut)
+    else if (b > maxOut)
     {
-        maxOut = v2;
-    }
-
-    // v3
-    if (v3 < minOut)
-    {
-        minOut = v3;
-    }
-    else if (v3 > maxOut)
-    {
-        maxOut = v3;
+        maxOut = b;
     }
 
-    // v4
-    if (v4 < minOut)
+    // c
+    if (c < minOut)
     {
-        minOut = v4;
+        minOut = c;
     }
-    else if (v4 > maxOut)
+    else if (c > maxOut)
     {
-        maxOut = v4;
+        maxOut = c;
+    }
+
+    // d
+    if (d < minOut)
+    {
+        minOut = d;
+    }
+    else if (d > maxOut)
+    {
+        maxOut = d;
     }
 }
 

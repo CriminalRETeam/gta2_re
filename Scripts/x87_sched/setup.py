@@ -11,7 +11,7 @@ SPEC (what-if window limits; a window holds at most limit + 1 nodes, stock 80):
     12:70,70,69     the 12th scheduled function (the #12 of `@F #12` in the log), per window; later windows 80
 VC6_TOOLS overrides the compiler location (default 3rdParty/gta2_re_compile_tools).
 """
-import argparse, hashlib, json, os, struct, sys
+import argparse, hashlib, json, os, shutil, struct, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, '..', '..'))
@@ -67,17 +67,40 @@ def make(variant, out_bin, lim=''):
         dst = os.path.join(out_bin, name)
         if name.upper() == 'C2.DLL':
             continue
+        src = os.path.join(BIN, name)
         if os.path.lexists(dst):
-            if os.path.islink(dst) and os.readlink(dst) == os.path.join(BIN, name):
+            if os.path.islink(dst) and os.readlink(dst) == src:
+                continue
+            if not os.path.islink(dst) and os.path.getmtime(dst) == os.path.getmtime(src):
                 continue
             os.remove(dst)
-        os.symlink(os.path.join(BIN, name), dst)
+        try:
+            os.symlink(src, dst)
+        except OSError:
+            # Windows without the symlink privilege (or developer mode).
+            shutil.copy2(src, dst)
+    trim_text_vsize(data)
     dll = os.path.join(out_bin, 'C2.DLL')
     if not (os.path.exists(dll) and open(dll, 'rb').read() == data):
         tmp = dll + '.tmp'
         open(tmp, 'wb').write(data)
         os.replace(tmp, dll)
     return out_bin
+
+
+def trim_text_vsize(data):
+    """Keep .text's VirtualSize within its raw size.
+
+    The hooks live in .text's slack space and the patch grows VirtualSize to cover them, which
+    makes .text overlap the next section's virtual address. Wine maps that image anyway; the
+    Windows loader refuses it, and CL then falls back to spawning C2.DLL as a process and dies
+    with "D2027 : cannot execute c2.dll". The hooks are below the raw end either way.
+    """
+    e = struct.unpack_from('<I', data, 0x3C)[0]
+    sec = e + 24 + struct.unpack_from('<H', data, e + 20)[0]
+    vsize, _va, rawsize, _raw = struct.unpack_from('<IIII', data, sec + 8)
+    if vsize > rawsize:
+        struct.pack_into('<I', data, sec + 8, rawsize)
 
 
 def main():

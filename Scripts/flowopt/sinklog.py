@@ -11,7 +11,7 @@ Generated code is unchanged.
 after that). <id> is the low 16 bits of the block's first instruction, as in ildump's @S lines.
 
     venv/bin/python3 Scripts/flowopt/ildump.py && venv/bin/python3 Scripts/flowopt/sinklog.py
-    X87_C2=sinklog X87_OUT=/tmp/sk Scripts/x87_sched/sched.sh -l Source/Wolfy_3D4.cpp
+    X87_C2=sinklog X87_OUT=/tmp/sk Scripts/x87_sched/sched.sh -l Source/Explosion_30.cpp
     # the @SINK lines of a function come just before its "@S 107659c0" line (the boundary after 0x10706181)
 """
 import os, sys, shutil

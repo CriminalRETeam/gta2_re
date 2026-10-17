@@ -239,13 +239,13 @@ bool Registry::Get_Debug_Setting_586E20(const char_type* lpValueName)
 }
 
 MATCH_FUNC(0x586E90)
-void Registry::Get_Debug_Setting_586E90(const char_type* lpValueName, LPBYTE lpData, s32 a3)
+void Registry::Get_Debug_Setting_586E90(const char_type* lpValueName, LPBYTE lpData, s32 data_size)
 {
     HKEY hKey;
     DWORD cbData;
     if (Open_Debug_Root_586C60(&hKey))
     {
-        cbData = static_cast<u16>(a3);
+        cbData = static_cast<u16>(data_size);
         RegQueryValueExA(hKey, lpValueName, 0, 0, lpData, &cbData);
     }
 
@@ -276,7 +276,7 @@ void Registry::Get_Option_586F00(const char_type* lpValueName, BYTE* pBuffer, s3
 }
 
 MATCH_FUNC(0x586F70)
-s32 Registry::Set_Option_586F70(const char_type* lpValueName, s32 a3)
+s32 Registry::Set_Option_586F70(const char_type* lpValueName, s32 value)
 {
     HKEY hKey;
     DWORD Data;
@@ -287,11 +287,11 @@ s32 Registry::Set_Option_586F70(const char_type* lpValueName, s32 a3)
 
     if (RegQueryValueExA(hKey, lpValueName, 0, 0, reinterpret_cast<BYTE*>(&Data), &cbData) != ERROR_SUCCESS)
     {
-        if (RegSetValueExA(hKey, lpValueName, 0, REG_DWORD, reinterpret_cast<const BYTE*>(&a3), sizeof(DWORD)) != ERROR_SUCCESS)
+        if (RegSetValueExA(hKey, lpValueName, 0, REG_DWORD, reinterpret_cast<const BYTE*>(&value), sizeof(DWORD)) != ERROR_SUCCESS)
         {
             FatalError_4A38C0(Gta2Error::SetRegistryValueFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 622);
         }
-        Data = a3;
+        Data = value;
     }
 
     if (RegCloseKey(hKey) != ERROR_SUCCESS)
@@ -303,7 +303,7 @@ s32 Registry::Set_Option_586F70(const char_type* lpValueName, s32 a3)
 }
 
 MATCH_FUNC(0x587010)
-s32 Registry::Set_Control_Setting_587010(s32 a1, s32 a2)
+s32 Registry::Set_Control_Setting_587010(s32 control_idx, s32 value)
 {
     HKEY hKey;
     DWORD Data;
@@ -311,15 +311,15 @@ s32 Registry::Set_Control_Setting_587010(s32 a1, s32 a2)
 
     DWORD cbData = sizeof(DWORD);
     char_type ValueName[4];
-    sprintf(ValueName, "%d", static_cast<BYTE>(a1));
+    sprintf(ValueName, "%d", static_cast<BYTE>(control_idx));
 
     if (RegQueryValueExA(hKey, ValueName, 0, 0, reinterpret_cast<BYTE*>(&Data), &cbData) != ERROR_SUCCESS)
     {
-        if (RegSetValueExA(hKey, ValueName, 0, REG_DWORD, reinterpret_cast<const BYTE*>(&a2), sizeof(DWORD)) != ERROR_SUCCESS)
+        if (RegSetValueExA(hKey, ValueName, 0, REG_DWORD, reinterpret_cast<const BYTE*>(&value), sizeof(DWORD)) != ERROR_SUCCESS)
         {
             FatalError_4A38C0(Gta2Error::SetRegistryValueFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 667);
         }
-        Data = a2;
+        Data = value;
     }
 
     if (RegCloseKey(hKey) != ERROR_SUCCESS)
@@ -331,7 +331,7 @@ s32 Registry::Set_Control_Setting_587010(s32 a1, s32 a2)
 }
 
 MATCH_FUNC(0x5870D0)
-s32 Registry::Get_Screen_Setting_5870D0(const char_type* lpValueName, s32 a2)
+s32 Registry::Get_Screen_Setting_5870D0(const char_type* lpValueName, s32 default_value)
 {
     HKEY hKey;
     Open_Screen_Root_586DB0(&hKey);
@@ -340,11 +340,11 @@ s32 Registry::Get_Screen_Setting_5870D0(const char_type* lpValueName, s32 a2)
     DWORD cbData = sizeof(DWORD);
     if (RegQueryValueExA(hKey, lpValueName, 0, 0, reinterpret_cast<BYTE*>(&Data), &cbData) != ERROR_SUCCESS)
     {
-        if (RegSetValueExA(hKey, lpValueName, 0, REG_DWORD, reinterpret_cast<const BYTE*>(&a2), sizeof(DWORD)) != ERROR_SUCCESS)
+        if (RegSetValueExA(hKey, lpValueName, 0, REG_DWORD, reinterpret_cast<const BYTE*>(&default_value), sizeof(DWORD)) != ERROR_SUCCESS)
         {
             FatalError_4A38C0(Gta2Error::SetRegistryValueFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 709);
         }
-        Data = a2;
+        Data = default_value;
     }
 
     if (RegCloseKey(hKey) != ERROR_SUCCESS)
@@ -399,15 +399,15 @@ void Registry::null_587290()
 }
 
 MATCH_FUNC(0x5872A0)
-char_type Registry::Set_Binary_5872A0(HKEY hKey, const char_type* a2, BYTE* lpData, u32 Data)
+char_type Registry::Set_Binary_5872A0(HKEY hKey, const char_type* base_name, BYTE* lpData, u32 Data)
 {
     char_type Buffer[260];
     char_type ret = 0;
 
-    sprintf(Buffer, "%ss", a2);
+    sprintf(Buffer, "%ss", base_name);
     if (RegSetValueExA(hKey, Buffer, 0, REG_DWORD, reinterpret_cast<const BYTE*>(&Data), sizeof(DWORD)) == ERROR_SUCCESS)
     {
-        sprintf(Buffer, "%sd", a2);
+        sprintf(Buffer, "%sd", base_name);
         if (RegSetValueExA(hKey, Buffer, 0, REG_BINARY, lpData, Data) == ERROR_SUCCESS)
         {
             ret = 1;
@@ -471,8 +471,58 @@ DWORD Registry::Get_Int_Setting_5874E0(HKEY hKey, const char_type* lpValueName)
     return (DWORD)lpValueName;
 }
 
+MATCH_FUNC(0x5875A0)
+s32 __stdcall Registry::Get_Binary_Value_5875A0(HKEY hKey, const char_type* keyPath, LPBYTE lpData)
+{
+    s32 ret = 0;
+    s32 size = gRegistry_6FF968.Get_Int_5873E0(hKey, keyPath);
+    if (size)
+    {
+        if (gRegistry_6FF968.Get_Binary_587340(hKey, keyPath, size, lpData))
+        {
+            ret = 1;
+        }
+    }
+    return ret;
+}
+
+MATCH_FUNC(0x5875E0)
+s32 __stdcall Registry::Set_WString_Value_5875E0(HKEY hKey, const char_type* keyPath, const wchar_t* pStr)
+{
+    s32 ret = 0;
+    u32 size = 2 * wcslen(pStr) + 2;
+    if (gRegistry_6FF968.Set_Binary_5872A0(hKey, keyPath, (BYTE*)pStr, size))
+    {
+        ret = 1;
+    }
+    return ret;
+}
+
+MATCH_FUNC(0x587620)
+char_type Registry::Network_Setting_Exists_587620(const char_type* lpValueName)
+{
+    HKEY hKey;
+    u32 Data;
+    DWORD cbData;
+    char_type ret = 0;
+    if (CreateNetworkRoot_587420(&hKey))
+    {
+        cbData = sizeof(DWORD);
+        if (RegQueryValueExA(hKey, lpValueName, 0, 0, reinterpret_cast<BYTE*>(&Data), &cbData) == ERROR_SUCCESS)
+        {
+            ret = 1;
+        }
+    }
+
+    if (RegCloseKey(hKey) != ERROR_SUCCESS)
+    {
+        FatalError_4A38C0(Gta2Error::CloseRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 1020);
+    }
+    return ret;
+}
+
 MATCH_FUNC(0x587690)
-s32 Registry::Set_Network_Setting_587690(const char_type* lpValueName, s32 a2)
+s32 Registry::Set_Network_Setting_587690(const char_type* lpValueName, s32 value)
 {
     HKEY hKey;
     CreateNetworkRoot_587420(&hKey);
@@ -481,11 +531,11 @@ s32 Registry::Set_Network_Setting_587690(const char_type* lpValueName, s32 a2)
     DWORD cbData = sizeof(DWORD);
     if (RegQueryValueExA(hKey, lpValueName, 0, 0, reinterpret_cast<BYTE*>(&Data), &cbData) != ERROR_SUCCESS)
     {
-        if (RegSetValueExA(hKey, lpValueName, 0, REG_DWORD, reinterpret_cast<const BYTE*>(&a2), sizeof(DWORD)) != ERROR_SUCCESS)
+        if (RegSetValueExA(hKey, lpValueName, 0, REG_DWORD, reinterpret_cast<const BYTE*>(&value), sizeof(DWORD)) != ERROR_SUCCESS)
         {
             FatalError_4A38C0(Gta2Error::SetRegistryValueFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 1051);
         }
-        Data = a2;
+        Data = value;
     }
 
     if (RegCloseKey(hKey) != ERROR_SUCCESS)

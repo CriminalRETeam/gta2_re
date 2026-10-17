@@ -35,19 +35,19 @@ class PedGroup
     EXPORT void KillEntireGroup_4C9240();
     EXPORT void DisbandGroup_4C92A0();
     EXPORT void DestroyGroup_4C93A0();
-    EXPORT void DisbandGroupDueToAttack_4C94E0(Ped* a2);
-    EXPORT void PromoteMemberToLeader_4C9680(u8 a2);
-    EXPORT void RemovePed_4C9970(Ped* a2);
-    EXPORT void add_ped_leader_4C9B10(Ped* a2);
+    EXPORT void DisbandGroupDueToAttack_4C94E0(Ped* pAttacker);
+    EXPORT void PromoteMemberToLeader_4C9680(u8 idx);
+    EXPORT void RemovePed_4C9970(Ped* pPed);
+    EXPORT void add_ped_leader_4C9B10(Ped* ptr);
     EXPORT void add_ped_to_list_4C9B30(Ped* ptr, u8 idx);
-    EXPORT char_type MergeWithOtherGroup_4C9B60(Ped* a2);
+    EXPORT char_type MergeWithOtherGroup_4C9B60(Ped* pPed);
     EXPORT Ped* sub_4C9ED0();
     EXPORT void CoordinateGroupCarEntry_4C9F00();
     EXPORT u32 sub_4CA3E0();
     EXPORT Ped* FindFarthestMember_4CA3F0(Fix16* pFoundDistance);
     EXPORT void UpdateFormation_4CA4B0();
     EXPORT void UpdateMemberAIState_4CA5E0(u8 idx);
-    EXPORT void UpdateMemberTightFollowState_4CA820(u8 a2);
+    EXPORT void UpdateMemberTightFollowState_4CA820(u8 idx);
     EXPORT bool IsAllMembersInSomeCar_4CAA20();
     EXPORT char_type HasNoActiveMembers_4CAAE0();
     EXPORT char_type AreAllMembersOnFoot_4CAB80();
@@ -72,21 +72,21 @@ class PedGroup
     }
 
     char_type field_0;
-    char_type field_1;
-    char_type field_2; // padding
-    char_type field_3; // padding
+    bool field_1_wait_for_members; // while set, UpdateFormation makes the leader wait (objective 9) for a member who has fallen too far behind
+    char_type field_2_unused; // padding
+    char_type field_3_unused; // padding
     Ped* field_4_ped_list[9];
     s32 field_28;
     Ped* field_2C_ped_leader;
-    s32 field_30;
+    s32 field_30_panicking; // UpdateFormation recomputes it as "the leader or a member is panicking"; merging groups, a leader in state 3/5/10 and the paramedics' revive step also set it. A dword in the original, so not a bool
     u8 field_34_count;
-    char_type field_35;
+    char_type field_35_unused;
     char_type field_36_count;
-    char_type field_37;
+    char_type field_37_unused;
     s32 field_38_group_type;
     s32 field_3C;
     char_type field_40_in_use;
-    char_type field_41;
-    char_type field_42;
-    char_type field_43;
+    char_type field_41_unused;
+    char_type field_42_unused;
+    char_type field_43_unused;
 };

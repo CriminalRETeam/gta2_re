@@ -7,8 +7,8 @@
 #include "fix16.hpp"
 #include "Light_1D4CC.hpp"
 #include "map_0x370.hpp"
-#include "Montana.hpp"
-#include "sharp_pare_0x15D8.hpp"
+#include "SpriteRenderer_1C.hpp"
+#include "TextureCache_15D8.hpp"
 #include "winmain.hpp"
 
 DEFINE_GLOBAL(MapRenderer*, gpMapRenderer_6F66E4, 0x6F66E4);
@@ -134,9 +134,9 @@ struct VertProjector
     inline void ProjectVert_46BC70(Fix16& xpos, Fix16& ypos, Fix16& zpos, Vert* pVert)
     {
         set_vert_xyz_relative_to_cam_4EAD90(xpos, ypos, zpos, pVert);
-        pVert->z = 1.0f / (gViewCamera_676978->field_98_cam_pos2.field_8_z.ToFloat() + (8.0f - zpos.ToFloat()));
-        pVert->x = xpos.ToFloat() * Fix16ToFloat_Paren(gViewCamera_676978->field_60.x) * pVert->z + (u32)gViewCamera_676978->field_70_screen_px_center_x;
-        pVert->y = ypos.ToFloat() * Fix16ToFloat_Paren(gViewCamera_676978->field_60.x) * pVert->z + (u32)gViewCamera_676978->field_74_screen_px_center_y;
+        pVert->z = 1.0f / (gViewCamera_676978->field_98_cur_pos.field_8_z.ToFloat() + (8.0f - zpos.ToFloat()));
+        pVert->x = xpos.ToFloat() * Fix16ToFloat_Paren(gViewCamera_676978->field_60_screen_scale.x) * pVert->z + (u32)gViewCamera_676978->field_70_screen_px_center_x;
+        pVert->y = ypos.ToFloat() * Fix16ToFloat_Paren(gViewCamera_676978->field_60_screen_scale.x) * pVert->z + (u32)gViewCamera_676978->field_74_screen_px_center_y;
     }
 };
 
@@ -175,9 +175,9 @@ struct VertProjector2
     inline void ProjectVert_46BC70(Fix16& xpos, Fix16& ypos, Fix16& zpos, Vert* pVert)
     {
         set_vert_xyz_relative_to_cam_4EAD90(xpos, ypos, zpos, pVert);
-        pVert->z = 1.0f / (gViewCamera_676978->field_98_cam_pos2.field_8_z.ToFloat() + (8.0f - zpos.ToFloat()));
-        pVert->x = Fix16ToF32_Rounded3(xpos) * Fix16ToF32_Rounded2(gViewCamera_676978->field_60.x) * pVert->z + (u32)gViewCamera_676978->field_70_screen_px_center_x;
-        pVert->y = Fix16ToF32_Rounded3(ypos) * Fix16ToF32_Rounded2(gViewCamera_676978->field_60.x) * pVert->z + (u32)gViewCamera_676978->field_74_screen_px_center_y;
+        pVert->z = 1.0f / (gViewCamera_676978->field_98_cur_pos.field_8_z.ToFloat() + (8.0f - zpos.ToFloat()));
+        pVert->x = Fix16ToF32_Rounded3(xpos) * Fix16ToF32_Rounded2(gViewCamera_676978->field_60_screen_scale.x) * pVert->z + (u32)gViewCamera_676978->field_70_screen_px_center_x;
+        pVert->y = Fix16ToF32_Rounded3(ypos) * Fix16ToF32_Rounded2(gViewCamera_676978->field_60_screen_scale.x) * pVert->z + (u32)gViewCamera_676978->field_74_screen_px_center_y;
     }
 };
 
@@ -189,14 +189,38 @@ struct VertProjector3
     inline void ProjectVert_46BC70(Fix16& xpos, Fix16& ypos, Fix16& zpos, Vert* pVert)
     {
         set_vert_xyz_relative_to_cam_4EAD90(xpos, ypos, zpos, pVert);
-        pVert->z = 1.0f / (gViewCamera_676978->field_98_cam_pos2.field_8_z.ToFloat() + (8.0f - zpos.ToFloat()));
-        pVert->x = Fix16ToF32_Rounded2(xpos) * Fix16ToF32_Rounded3(gViewCamera_676978->field_60.x) * pVert->z + (u32)gViewCamera_676978->field_70_screen_px_center_x;
+        pVert->z = 1.0f / (gViewCamera_676978->field_98_cur_pos.field_8_z.ToFloat() + (8.0f - zpos.ToFloat()));
+        pVert->x = Fix16ToF32_Rounded2(xpos) * Fix16ToF32_Rounded3(gViewCamera_676978->field_60_screen_scale.x) * pVert->z + (u32)gViewCamera_676978->field_70_screen_px_center_x;
         // No f32 local for field_60 and a no-op after the product: S 8 -> 4, E 16 -> 8 (docs/match_attempts.md).
-        pVert->y = Fix16ToF32_Rounded2(ypos) * Fix16ToF32_P3(gViewCamera_676978->field_60.x) * (pVert->z) + (u32)gViewCamera_676978->field_74_screen_px_center_y;
+        pVert->y = Fix16ToF32_Rounded2(ypos) * Fix16ToF32_P3(gViewCamera_676978->field_60_screen_scale.x) * (pVert->z) + (u32)gViewCamera_676978->field_74_screen_px_center_y;
     }
 };
 
 static VertProjector3 gVertProjector3;
+
+// Converts through two f32 locals (the stores are x87 no-op nodes).
+static inline f32 Fix16ToF32_Stored(const Fix16& v)
+{
+    f32 f = v.mValue;
+    f32 g = f / 16384.0f;
+    return g;
+}
+
+// As VertProjector3, with field_60 converted first in the y line and both conversions stored to f32
+// locals. Used for the vertex right before one whose z needs an idiv: the extra no-op nodes keep the
+// field_60 fmuls behind that idiv, as in the original.
+struct VertProjector4
+{
+    inline void ProjectVert_46BC70(Fix16& xpos, Fix16& ypos, Fix16& zpos, Vert* pVert)
+    {
+        set_vert_xyz_relative_to_cam_4EAD90(xpos, ypos, zpos, pVert);
+        pVert->z = 1.0f / (gViewCamera_676978->field_98_cur_pos.field_8_z.ToFloat() + (8.0f - zpos.ToFloat()));
+        pVert->x = Fix16ToF32_Rounded2(xpos) * Fix16ToF32_Rounded3(gViewCamera_676978->field_60_screen_scale.x) * (pVert->z) + (u32)gViewCamera_676978->field_70_screen_px_center_x;
+        pVert->y = (Fix16ToF32_Stored(gViewCamera_676978->field_60_screen_scale.x) * Fix16ToF32_Stored(ypos)) * (pVert->z) + (u32)gViewCamera_676978->field_74_screen_px_center_y;
+    }
+};
+
+static VertProjector4 gVertProjector4;
 
 static inline void set_vert_xyz_relative_to_cam_inlined(Fix16 xCoord, Fix16 yCoord, Fix16 z_val, Vert* pVerts)
 {
@@ -206,8 +230,8 @@ static inline void set_vert_xyz_relative_to_cam_inlined(Fix16 xCoord, Fix16 yCoo
 
     // Only ProjectVert_4EB940 inlines this copy. The f32 locals (Fix16ToF32_Rounded) move the index
     // computation's mov behind the z temp store, as in the original (22 -> 4 lines).
-    gTileVerts_6F65A8[next_idx].x = Fix16ToF32_Rounded(xCoord + pCam->field_98_cam_pos2.field_0_x);
-    gTileVerts_6F65A8[next_idx].y = Fix16ToF32_Rounded(yCoord + pCam->field_98_cam_pos2.field_4_y);
+    gTileVerts_6F65A8[next_idx].x = Fix16ToF32_Rounded(xCoord + pCam->field_98_cur_pos.field_0_x);
+    gTileVerts_6F65A8[next_idx].y = Fix16ToF32_Rounded(yCoord + pCam->field_98_cur_pos.field_4_y);
     gTileVerts_6F65A8[next_idx].z = z_val.ToFloat();
 }
 
@@ -352,29 +376,29 @@ void MapRenderer::SetAmbientLevel_4E9D50(s32& target_level, u16& cycles)
 MATCH_FUNC(0x4e9db0)
 void MapRenderer::set_shading_lev_4E9DB0(u8 shading_lev)
 {
-    u8 v6 = 2 * shading_lev / 3;
-    u8 v2 = 255 - 4 * shading_lev;
+    u8 mid_shade = 2 * shading_lev / 3;
+    u8 base_shade = 255 - 4 * shading_lev;
     u8 shading_leva = 5 * (51 - shading_lev);
-    u8 v7 = v2 + 2 * v6;
-    u8 v2_v6 = v6 + v2;
-    u8 lev_v6 = shading_leva - v6;
-    u8 lev_v6_2 = shading_leva - 2 * v6;
+    u8 top_shade = base_shade + 2 * mid_shade;
+    u8 v2_v6 = mid_shade + base_shade;
+    u8 lev_v6 = shading_leva - mid_shade;
+    u8 lev_v6_2 = shading_leva - 2 * mid_shade;
 
-    field_C_colour_t1 = v7;
-    field_D_right_colour = shading_leva - 3 * v6;
-    field_E_colour_t2 = v2;
+    field_C_colour_t1 = top_shade;
+    field_D_right_colour = shading_leva - 3 * mid_shade;
+    field_E_colour_t2 = base_shade;
     field_F_colour_t3 = lev_v6;
-    field_10_diag_up_left_colour = v2;
+    field_10_diag_up_left_colour = base_shade;
     field_11_diag_up_right_colour = lev_v6_2;
     field_12_diag_down_left_colour = v2_v6;
     field_13_diag_down_right_colour = lev_v6;
     field_14_dcolour = v2_v6;
     field_15_slope_south_colour = shading_leva;
     field_16_slope_west_colour = lev_v6_2;
-    field_17_slope_east_colour = v2 + 3 * v6;
+    field_17_slope_east_colour = base_shade + 3 * mid_shade;
     field_18_color = v2_v6;
     field_19_tri_diag_up_right_colour = lev_v6;
-    field_1A_tri_diag_down_left_colour = v7;
+    field_1A_tri_diag_down_left_colour = top_shade;
     field_1B_tri_diag_down_right_colour = shading_leva;
 }
 
@@ -420,7 +444,7 @@ void MapRenderer::draw_4E9EE0(u16& word_side, const bool& bUnk, u8 colour)
         }
         gTileDrawFlags_6F6560 = (word_side >> 5) & 0x80;
         pgbh_DrawTriangle(gTileDrawFlags_6F6560 | gLightingDrawFlag_7068F4,
-                          gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
+                          gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
                           colour);
         ++field_2F00_drawn_tile_count;
@@ -683,7 +707,7 @@ void MapRenderer::DrawLeftSide_4EA390(u16& left_word)
                 gTileDrawFlags_6F6560 = gTileDrawFlags_6F6560 | 0x80;
             }
             pgbh_DrawTile(gTileDrawFlags_6F6560 | gLightingDrawFlag_7068F4,
-                          gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
+                          gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
                           field_C_colour_t1);
             ++field_2F00_drawn_tile_count;
@@ -700,8 +724,8 @@ void __stdcall set_vert_xyz_relative_to_cam_4EAD90(Fix16 xCoord, Fix16 yCoord, F
 
     // Only ProjectVert_4EB940 inlines this copy. The f32 locals (Fix16ToF32_Rounded) move the index
     // computation's mov behind the z temp store, as in the original (22 -> 4 lines).
-    gTileVerts_6F65A8[next_idx].x = Fix16ToF32_Rounded(xCoord + pCam->field_98_cam_pos2.field_0_x);
-    gTileVerts_6F65A8[next_idx].y = Fix16ToF32_Rounded(yCoord + pCam->field_98_cam_pos2.field_4_y);
+    gTileVerts_6F65A8[next_idx].x = Fix16ToF32_Rounded(xCoord + pCam->field_98_cur_pos.field_0_x);
+    gTileVerts_6F65A8[next_idx].y = Fix16ToF32_Rounded(yCoord + pCam->field_98_cur_pos.field_4_y);
     gTileVerts_6F65A8[next_idx].z = z_val.ToFloat();
 }
 
@@ -727,9 +751,12 @@ void MapRenderer::ProjectVertBottom_4EAEA0(Fix16& xCoord, Fix16& yCoord, Vert* p
 }
 
 // https://decomp.me/scratch/mWsfM
-WIP_FUNC(0x4eaf40)
+MATCH_FUNC(0x4eaf40)
 void MapRenderer::DrawRightSide_4EAF40(u16& right_word)
 {
+    // Declared up front and assigned later: VC6 numbers it before gZCoordFp_6F6518, so the z sum for
+    // the out-of-line ProjectVert_4EB940 is `add %esi,%ecx` into the gZ load (like the original), not a `lea`
+    Fix16 unknown_z_4;
     if (!bSkip_right_67D4E4)
     {
         switch (gCurrentSlope_6F646C.field_0_gradient_direction)
@@ -822,7 +849,7 @@ void MapRenderer::DrawRightSide_4EAF40(u16& right_word)
                 }
                 else
                 {
-                    Fix16 unknown_z_4 = Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C - 1) / gGradientSize_6F6480;
+                    unknown_z_4 = Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C - 1) / gGradientSize_6F6480;
                     ProjectVert_4EB940(gXCoord_6F63AC + kZeroOnePoint_6F6484.y, gYCoord_6F63B8, gZCoordFp_6F6518 + unknown_z_4, &gTileVerts_6F65A8[0]);
                     gTileVerts_6F65A8[0].v = 63.999901f - (unknown_z_4 * kTileTexSize_6F6548).ToFloat();
                 }
@@ -867,7 +894,7 @@ void MapRenderer::DrawRightSide_4EAF40(u16& right_word)
                 gTileDrawFlags_6F6560 = gTileDrawFlags_6F6560 | 0x80;
             }
             pgbh_DrawTile(gTileDrawFlags_6F6560 | gLightingDrawFlag_7068F4,
-                          gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
+                          gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
                           field_D_right_colour);
             ++field_2F00_drawn_tile_count;
@@ -882,11 +909,11 @@ void MapRenderer::ProjectVert_4EB940(Fix16& xpos, Fix16& ypos, Fix16& zpos, Vert
     set_vert_xyz_relative_to_cam_inlined(xpos, ypos, zpos, pVert);
 
     // The same conversion forms as VertProjector3::ProjectVert_46BC70 (field_60 is loaded first here too).
-    pVert->z = 1.0f / (gViewCamera_676978->field_98_cam_pos2.field_8_z.ToFloat() + (8.0f - zpos.ToFloat()));
-    pVert->x = Fix16ToF32_Rounded2(xpos) * Fix16ToF32_Rounded3(gViewCamera_676978->field_60.x) * pVert->z + (u32)gViewCamera_676978->field_70_screen_px_center_x;
+    pVert->z = 1.0f / (gViewCamera_676978->field_98_cur_pos.field_8_z.ToFloat() + (8.0f - zpos.ToFloat()));
+    pVert->x = Fix16ToF32_Rounded2(xpos) * Fix16ToF32_Rounded3(gViewCamera_676978->field_60_screen_scale.x) * pVert->z + (u32)gViewCamera_676978->field_70_screen_px_center_x;
     // The y line's parentheses are x87 no-op nodes: the one after the product delays `pop ebx` past
     // `fmuls 8(%ecx)` in the epilogue (see Scripts/x87_sched).
-    pVert->y = (Fix16ToF32_Rounded2(ypos) * Fix16ToF32_Rounded3(gViewCamera_676978->field_60.x)) * (pVert->z) + (u32)gViewCamera_676978->field_74_screen_px_center_y;
+    pVert->y = (Fix16ToF32_Rounded2(ypos) * Fix16ToF32_Rounded3(gViewCamera_676978->field_60_screen_scale.x)) * (pVert->z) + (u32)gViewCamera_676978->field_74_screen_px_center_y;
 }
 
 // https://decomp.me/scratch/a6z18
@@ -1024,7 +1051,7 @@ void MapRenderer::DrawTopSide_4EBA60(u16& top_word)
                 gTileDrawFlags_6F6560 = gTileDrawFlags_6F6560 | 0x80;
             }
             pgbh_DrawTile(gTileDrawFlags_6F6560 | gLightingDrawFlag_7068F4,
-                          gSharp_pare_0x15D8_705064->field_0_textures1[texture_idx],
+                          gTextureCache_15D8_705064->field_0_tile_textures[texture_idx],
                           gTileVerts_6F65A8,
                           field_F_colour_t3);
             ++field_2F00_drawn_tile_count;
@@ -1053,7 +1080,7 @@ void MapRenderer::DrawDiagonalUpLeftFace_4EC450(u16& left_word)
         if (texture_idx)
         {
             pgbh_DrawTile(gTileDrawFlags_6F6560 | gLightingDrawFlag_7068F4,
-                          gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
+                          gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
                           field_10_diag_up_left_colour);
             ++field_2F00_drawn_tile_count;
@@ -1082,7 +1109,7 @@ void MapRenderer::DrawDiagonalUpRightFace_4EC7A0(u16& right_word)
         if (texture_idx)
         {
             pgbh_DrawTile(gTileDrawFlags_6F6560 | gLightingDrawFlag_7068F4,
-                          gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
+                          gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
                           field_11_diag_up_right_colour);
             ++field_2F00_drawn_tile_count;
@@ -1111,7 +1138,7 @@ void MapRenderer::DrawDiagonalDownLeftFace_4ECAF0(u16& left_word)
         if (texture_idx)
         {
             pgbh_DrawTile(gTileDrawFlags_6F6560 | gLightingDrawFlag_7068F4,
-                          gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
+                          gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
                           field_12_diag_down_left_colour);
             ++field_2F00_drawn_tile_count;
@@ -1140,7 +1167,7 @@ void MapRenderer::DrawDiagonalDownRightFace_4ECE40(u16& right_word)
         if (texture_idx)
         {
             pgbh_DrawTile(gTileDrawFlags_6F6560 | gLightingDrawFlag_7068F4,
-                          gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
+                          gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
                           field_13_diag_down_right_colour);
             ++field_2F00_drawn_tile_count;
@@ -1150,9 +1177,12 @@ void MapRenderer::DrawDiagonalDownRightFace_4ECE40(u16& right_word)
 
 // https://decomp.me/scratch/4EDti
 // 9.6f: MapRenderer::sub_46D9A0
-WIP_FUNC(0x4ed290)
+MATCH_FUNC(0x4ed290)
 void MapRenderer::draw_bottom_4ED290(u16& bottom_word)
 {
+    // See DrawRightSide_4EAF40: declared up front for the operand order of the z sum. That raises the
+    // inline budget; `if (texture_idx)` below takes it back so the default case's operator+ stays out of line
+    Fix16 z_unk_4;
     if (!bSkip_bottom_67D4E7)
     {
         switch (gCurrentSlope_6F646C.field_0_gradient_direction)
@@ -1255,7 +1285,7 @@ void MapRenderer::draw_bottom_4ED290(u16& bottom_word)
                 }
                 else
                 {
-                    Fix16 z_unk_4 = Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C - 1) / gGradientSize_6F6480;
+                    z_unk_4 = Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C - 1) / gGradientSize_6F6480;
                     ProjectVert_4EB940(gXCoord_6F63AC, 
                                gYCoord_6F63B8 + kZeroOnePoint_6F6484.y,
                                gZCoordFp_6F6518 + z_unk_4,
@@ -1295,14 +1325,14 @@ void MapRenderer::draw_bottom_4ED290(u16& bottom_word)
         }
 
         u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(bottom_word & 0x3FF);
-        if (texture_idx != 0)
+        if (texture_idx)
         {
             if ((*(((u8*)&bottom_word) + 1) & 0x10) != 0)
             {
                 gTileDrawFlags_6F6560 = gTileDrawFlags_6F6560 | 0x80;
             }
             pgbh_DrawTile(gTileDrawFlags_6F6560 | gLightingDrawFlag_7068F4,
-                                 gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
+                                 gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                                  gTileVerts_6F65A8,
                                  field_E_colour_t2);
             ++field_2F00_drawn_tile_count;
@@ -1369,7 +1399,7 @@ void MapRenderer::draw_lid_4EE130()
             }
             //u8 diffuseColour = GetColour_46B5E0((gLidType_6F6274 >> 10) & 3);
             pgbh_DrawTile(gTileDrawFlags_6F6560 | gLightingDrawFlag_7068F4,
-                          gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
+                          gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
                           GetColour_46B5E0((gLidType_6F6274 >> 10) & 3));
             ++field_2F00_drawn_tile_count;
@@ -1736,7 +1766,7 @@ void MapRenderer::DrawDiagonalWall_4F02D0()
 {
     u8 field_B_slope_type = gpBlock_6F6478->field_B_slope_type;
     gCurrentSlope_6F646C.field_0_gradient_direction = 0;
-    switch (field_B_slope_type & 0xFC)
+    switch (GET_SLOPE_BITS(field_B_slope_type))
     {
         case DIAGONAL_WALL_UP_LEFT:
             MapRenderer::DrawDiagonalWallUpLeft_4EE7D0();
@@ -1760,7 +1790,7 @@ void MapRenderer::DrawTriangularDiagonal_4F0340()
 {
     u8 field_B_slope_type = gpBlock_6F6478->field_B_slope_type;
     gGradientSize_6F6480 = 1;
-    s32 slope_type = field_B_slope_type & 0xFC;
+    s32 slope_type = GET_SLOPE_BITS(field_B_slope_type);
     gGradientLevel_6F647C = 0;
     if (gLidType_6F6274 == 1023)
     {
@@ -1928,7 +1958,7 @@ void MapRenderer::DrawGradientSlopeNorthwards_4F0420()
             colour = MapRenderer::GetColour_4F0BD0(colour_sel);
         }
         pgbh_DrawTile(gTileDrawFlags_6F6560 | gLightingDrawFlag_7068F4,
-                      gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
+                      gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                       gTileVerts_6F65A8,
                       colour);
         ++field_2F00_drawn_tile_count;
@@ -1954,10 +1984,9 @@ char_type MapRenderer::GetColour_4F0BD0(s32 lid_type)
 }
 
 // https://decomp.me/scratch/HfCiT
-WIP_FUNC(0x4f1660)
+MATCH_FUNC(0x4f1660)
 void MapRenderer::DrawGradientSlopeSouthwards_4F1660()
 {
-    WIP_IMPLEMENTED;
     
     if (gBlockLeft_6F62F6)
     {
@@ -2048,7 +2077,7 @@ void MapRenderer::DrawGradientSlopeSouthwards_4F1660()
         }
         else
         {
-            gVertProjector3.ProjectVert_46BC70(gXCoord_6F63AC,
+            gVertProjector4.ProjectVert_46BC70(gXCoord_6F63AC,
                        gYCoord_6F63B8,
                        gZCoordFp_6F6518 + (Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C - 1) / gGradientSize_6F6480),
                        &gTileVerts_6F65A8[0]);
@@ -2075,7 +2104,7 @@ void MapRenderer::DrawGradientSlopeSouthwards_4F1660()
             colour = MapRenderer::GetColour_4F0BD0(colour_sel);
         }
         pgbh_DrawTile(gTileDrawFlags_6F6560 | gLightingDrawFlag_7068F4,
-                      gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
+                      gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                       gTileVerts_6F65A8,
                       colour);
         ++field_2F00_drawn_tile_count;
@@ -2201,7 +2230,7 @@ void MapRenderer::DrawGradientSlopeWestwards_4F22F0()
             colour = MapRenderer::GetColour_4F0BD0(colour_sel);
         }
         pgbh_DrawTile(gTileDrawFlags_6F6560 | gLightingDrawFlag_7068F4,
-                      gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
+                      gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                       gTileVerts_6F65A8,
                       colour);
         ++field_2F00_drawn_tile_count;
@@ -2209,10 +2238,9 @@ void MapRenderer::DrawGradientSlopeWestwards_4F22F0()
 }
 
 // https://decomp.me/scratch/cvW2D
-WIP_FUNC(0x4f33b0)
+MATCH_FUNC(0x4f33b0)
 void MapRenderer::DrawGradientSlopeEastwards_4F33B0()
 {
-    WIP_IMPLEMENTED;
     
     if (gBlockLeft_6F62F6)
     {
@@ -2285,7 +2313,7 @@ void MapRenderer::DrawGradientSlopeEastwards_4F33B0()
         }
         else
         {
-            gVertProjector3.ProjectVert_46BC70(gXCoord_6F63AC,
+            gVertProjector4.ProjectVert_46BC70(gXCoord_6F63AC,
                        gYCoord_6F63B8,
                        gZCoordFp_6F6518 + (Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C - 1) / gGradientSize_6F6480),
                        &gTileVerts_6F65A8[0]);
@@ -2302,7 +2330,7 @@ void MapRenderer::DrawGradientSlopeEastwards_4F33B0()
         }
         else
         {
-            gVertProjector3.ProjectVert_46BC70(gXCoord_6F63AC + kZeroOnePoint_6F6484.y,
+            gVertProjector4.ProjectVert_46BC70(gXCoord_6F63AC + kZeroOnePoint_6F6484.y,
                        gYCoord_6F63B8,
                        gZCoordFp_6F6518 + (Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C) / gGradientSize_6F6480),
                        &gTileVerts_6F65A8[1]);
@@ -2329,7 +2357,7 @@ void MapRenderer::DrawGradientSlopeEastwards_4F33B0()
             colour = MapRenderer::GetColour_4F0BD0(colour_sel);
         }
         pgbh_DrawTile(gTileDrawFlags_6F6560 | gLightingDrawFlag_7068F4,
-                      gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
+                      gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                       gTileVerts_6F65A8,
                       colour);
         ++field_2F00_drawn_tile_count;
@@ -2338,25 +2366,25 @@ void MapRenderer::DrawGradientSlopeEastwards_4F33B0()
 
 // https://decomp.me/scratch/zty5O
 MATCH_FUNC(0x4f3c00)
-void MapRenderer::draw_left_4F3C00(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4)
+void MapRenderer::draw_left_4F3C00(u16& side_word, Fix16& x_off, Fix16& y_off_a, Fix16& y_off_b)
 {
     if (!bSkip_left_67D6BF)
     {
-        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + a2, gYCoord_6F63B8 + a3, &gTileVerts_6F65A8[0]);
-        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + a2, gYCoord_6F63B8 + a3, &gTileVerts_6F65A8[1]);
+        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + x_off, gYCoord_6F63B8 + y_off_a, &gTileVerts_6F65A8[0]);
+        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + x_off, gYCoord_6F63B8 + y_off_a, &gTileVerts_6F65A8[1]);
         if (gTileVerts_6F65A8[0].x > gTileVerts_6F65A8[1].x)
         {
             return;
         }
-        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + a2, gYCoord_6F63B8 + a4, &gTileVerts_6F65A8[3]);
-        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + a2, gYCoord_6F63B8 + a4, &gTileVerts_6F65A8[2]);
+        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + x_off, gYCoord_6F63B8 + y_off_b, &gTileVerts_6F65A8[3]);
+        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + x_off, gYCoord_6F63B8 + y_off_b, &gTileVerts_6F65A8[2]);
 
         draw_4F3FB0(kLeftSideFlags_620F24[side_word >> 13]);
 
-        Set_UV_4F4190(kZeroOnePoint_6F6484.x, a3, 0);
-        Set_UV_4F4190(kZeroOnePoint_6F6484.y, a3, 1);
-        Set_UV_4F4190(kZeroOnePoint_6F6484.y, a4, 2);
-        Set_UV_4F4190(kZeroOnePoint_6F6484.x, a4, 3);
+        Set_UV_4F4190(kZeroOnePoint_6F6484.x, y_off_a, 0);
+        Set_UV_4F4190(kZeroOnePoint_6F6484.y, y_off_a, 1);
+        Set_UV_4F4190(kZeroOnePoint_6F6484.y, y_off_b, 2);
+        Set_UV_4F4190(kZeroOnePoint_6F6484.x, y_off_b, 3);
 
         gTileDrawFlags_6F6560 = 16389;
         u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(side_word & 0x3FF);
@@ -2369,7 +2397,7 @@ void MapRenderer::draw_left_4F3C00(u16& side_word, Fix16& a2, Fix16& a3, Fix16& 
                 gTileDrawFlags_6F6560 = gTileDrawFlags_6F6560 | 0x80;
             }
             pgbh_DrawTile(gTileDrawFlags_6F6560 | gLightingDrawFlag_7068F4,
-                          gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
+                          gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
                           field_C_colour_t1);
             ++field_2F00_drawn_tile_count;
@@ -2445,25 +2473,25 @@ void __stdcall Set_UV_4F4190(Fix16& a1, Fix16& a2, const u32& pVertIdx)
 
 // https://decomp.me/scratch/dGqKl
 MATCH_FUNC(0x4f4250)
-void MapRenderer::draw_right_4F4250(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4)
+void MapRenderer::draw_right_4F4250(u16& side_word, Fix16& x_off, Fix16& y_off_a, Fix16& y_off_b)
 {
     if (!bSkip_right_67D4E4)
     {
-        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + a2, gYCoord_6F63B8 + a3, &gTileVerts_6F65A8[1]);
-        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + a2, gYCoord_6F63B8 + a3, &gTileVerts_6F65A8[0]);
+        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + x_off, gYCoord_6F63B8 + y_off_a, &gTileVerts_6F65A8[1]);
+        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + x_off, gYCoord_6F63B8 + y_off_a, &gTileVerts_6F65A8[0]);
         if (gTileVerts_6F65A8[0].x > gTileVerts_6F65A8[1].x)
         {
             return;
         }
-        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + a2, gYCoord_6F63B8 + a4, &gTileVerts_6F65A8[2]);
-        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + a2, gYCoord_6F63B8 + a4, &gTileVerts_6F65A8[3]);
+        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + x_off, gYCoord_6F63B8 + y_off_b, &gTileVerts_6F65A8[2]);
+        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + x_off, gYCoord_6F63B8 + y_off_b, &gTileVerts_6F65A8[3]);
 
         draw_4F3FB0(kRightSideFlags_620F44[side_word >> 13]);
 
-        Set_UV_4F4190(kZeroOnePoint_6F6484.x, a3, 0);
-        Set_UV_4F4190(kZeroOnePoint_6F6484.y, a3, 1);
-        Set_UV_4F4190(kZeroOnePoint_6F6484.y, a4, 2);
-        Set_UV_4F4190(kZeroOnePoint_6F6484.x, a4, 3);
+        Set_UV_4F4190(kZeroOnePoint_6F6484.x, y_off_a, 0);
+        Set_UV_4F4190(kZeroOnePoint_6F6484.y, y_off_a, 1);
+        Set_UV_4F4190(kZeroOnePoint_6F6484.y, y_off_b, 2);
+        Set_UV_4F4190(kZeroOnePoint_6F6484.x, y_off_b, 3);
 
         gTileDrawFlags_6F6560 = 16389;
         u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(side_word & 0x3FF);
@@ -2476,7 +2504,7 @@ void MapRenderer::draw_right_4F4250(u16& side_word, Fix16& a2, Fix16& a3, Fix16&
                 gTileDrawFlags_6F6560 = gTileDrawFlags_6F6560 | 0x80;
             }
             pgbh_DrawTile(gTileDrawFlags_6F6560 | gLightingDrawFlag_7068F4,
-                          gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
+                          gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
                           field_D_right_colour);
             ++field_2F00_drawn_tile_count;
@@ -2486,25 +2514,25 @@ void MapRenderer::draw_right_4F4250(u16& side_word, Fix16& a2, Fix16& a3, Fix16&
 
 // https://decomp.me/scratch/7xF8P
 MATCH_FUNC(0x4f4600)
-void MapRenderer::draw_top_4F4600(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4)
+void MapRenderer::draw_top_4F4600(u16& side_word, Fix16& x_off_a, Fix16& x_off_b, Fix16& y_off)
 {
     if (!bSkip_top_67D574)
     {
-        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + a2, gYCoord_6F63B8 + a4, &gTileVerts_6F65A8[0]);
-        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + a2, gYCoord_6F63B8 + a4, &gTileVerts_6F65A8[3]);
+        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + x_off_a, gYCoord_6F63B8 + y_off, &gTileVerts_6F65A8[0]);
+        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + x_off_a, gYCoord_6F63B8 + y_off, &gTileVerts_6F65A8[3]);
         if (gTileVerts_6F65A8[0].y > gTileVerts_6F65A8[3].y)
         {
             return;
         }
-        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + a3, gYCoord_6F63B8 + a4, &gTileVerts_6F65A8[1]);
-        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + a3, gYCoord_6F63B8 + a4, &gTileVerts_6F65A8[2]);
+        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + x_off_b, gYCoord_6F63B8 + y_off, &gTileVerts_6F65A8[1]);
+        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + x_off_b, gYCoord_6F63B8 + y_off, &gTileVerts_6F65A8[2]);
 
         draw_4F3FB0(kTopSideFlags_620F64[side_word >> 13]);
 
-        Set_UV_4F4190(a2, kZeroOnePoint_6F6484.x, 0);
-        Set_UV_4F4190(a3, kZeroOnePoint_6F6484.x, 1);
-        Set_UV_4F4190(a3, kZeroOnePoint_6F6484.y, 2);
-        Set_UV_4F4190(a2, kZeroOnePoint_6F6484.y, 3);
+        Set_UV_4F4190(x_off_a, kZeroOnePoint_6F6484.x, 0);
+        Set_UV_4F4190(x_off_b, kZeroOnePoint_6F6484.x, 1);
+        Set_UV_4F4190(x_off_b, kZeroOnePoint_6F6484.y, 2);
+        Set_UV_4F4190(x_off_a, kZeroOnePoint_6F6484.y, 3);
 
         gTileDrawFlags_6F6560 = 16389;
         u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(side_word & 0x3FF);
@@ -2517,7 +2545,7 @@ void MapRenderer::draw_top_4F4600(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a
                 gTileDrawFlags_6F6560 = gTileDrawFlags_6F6560 | 0x80;
             }
             pgbh_DrawTile(gTileDrawFlags_6F6560 | gLightingDrawFlag_7068F4,
-                          gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
+                          gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
                           field_F_colour_t3);
             ++field_2F00_drawn_tile_count;
@@ -2527,25 +2555,25 @@ void MapRenderer::draw_top_4F4600(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a
 
 // https://decomp.me/scratch/QiYzx
 MATCH_FUNC(0x4f49b0)
-void MapRenderer::draw_bottom_4F49B0(u16& side_word, Fix16& a2, Fix16& a3, Fix16& a4)
+void MapRenderer::draw_bottom_4F49B0(u16& side_word, Fix16& x_off_a, Fix16& x_off_b, Fix16& y_off)
 {
     if (!bSkip_bottom_67D4E7)
     {
-        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + a2, gYCoord_6F63B8 + a4, &gTileVerts_6F65A8[3]);
-        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + a2, gYCoord_6F63B8 + a4, &gTileVerts_6F65A8[0]);
+        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + x_off_a, gYCoord_6F63B8 + y_off, &gTileVerts_6F65A8[3]);
+        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + x_off_a, gYCoord_6F63B8 + y_off, &gTileVerts_6F65A8[0]);
         if (gTileVerts_6F65A8[0].y > gTileVerts_6F65A8[3].y)
         {
             return;
         }
-        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + a3, gYCoord_6F63B8 + a4, &gTileVerts_6F65A8[2]);
-        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + a3, gYCoord_6F63B8 + a4, &gTileVerts_6F65A8[1]);
+        gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + x_off_b, gYCoord_6F63B8 + y_off, &gTileVerts_6F65A8[2]);
+        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + x_off_b, gYCoord_6F63B8 + y_off, &gTileVerts_6F65A8[1]);
 
         draw_4F3FB0(kBottomSideFlags_620F84[side_word >> 13]);
 
-        Set_UV_4F4190(a2, kZeroOnePoint_6F6484.x, 0);
-        Set_UV_4F4190(a3, kZeroOnePoint_6F6484.x, 1);
-        Set_UV_4F4190(a3, kZeroOnePoint_6F6484.y, 2);
-        Set_UV_4F4190(a2, kZeroOnePoint_6F6484.y, 3);
+        Set_UV_4F4190(x_off_a, kZeroOnePoint_6F6484.x, 0);
+        Set_UV_4F4190(x_off_b, kZeroOnePoint_6F6484.x, 1);
+        Set_UV_4F4190(x_off_b, kZeroOnePoint_6F6484.y, 2);
+        Set_UV_4F4190(x_off_a, kZeroOnePoint_6F6484.y, 3);
 
         gTileDrawFlags_6F6560 = 16389;
         u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(side_word & 0x3FF);
@@ -2558,7 +2586,7 @@ void MapRenderer::draw_bottom_4F49B0(u16& side_word, Fix16& a2, Fix16& a3, Fix16
                 gTileDrawFlags_6F6560 = gTileDrawFlags_6F6560 | 0x80;
             }
             pgbh_DrawTile(gTileDrawFlags_6F6560 | gLightingDrawFlag_7068F4,
-                          gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
+                          gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
                           field_E_colour_t2);
             ++field_2F00_drawn_tile_count;
@@ -2615,7 +2643,7 @@ void MapRenderer::draw_lid_4F4D60(Fix16& unk1, Fix16& unk2, Fix16& unk3, Fix16& 
                     break;
             }
             pgbh_DrawTile(gTileDrawFlags_6F6560 | gLightingDrawFlag_7068F4,
-                          gSharp_pare_0x15D8_705064->GetTexture_46BB50(texture_idx),
+                          gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
                           diffuse_color);
             ++field_2F00_drawn_tile_count;
@@ -3260,7 +3288,7 @@ void MapRenderer::DrawPartialBlocks_4F6580()
 {
     u8 slope_byte = gpBlock_6F6478->field_B_slope_type;
     gCurrentSlope_6F646C.field_0_gradient_direction = NO_GRADIENT_SLOPE_0;
-    switch (slope_byte & 0xFC)
+    switch (GET_SLOPE_BITS(slope_byte))
     {
         case PARTIAL_BLOCK_LEFT: // 53
             DrawPartialBlockLeft_4F5160();
@@ -3328,20 +3356,20 @@ void MapRenderer::DrawGradientSlope_4F6630()
 MATCH_FUNC(0x4f66c0)
 void MapRenderer::RenderFlatBlock_4F66C0()
 {
-    u16 v6;
+    u16 side_word;
     gCurrentSlope_6F646C.field_0_gradient_direction = 0;
 
     if (gBlockLeft_6F62F6 && gBlockRight_6F63C6)
     {
         if ((gBlockRight_6F63C6 & 0x1000) != 0)
         {
-            v6 = gBlockLeft_6F62F6 | 0x1000;
-            MapRenderer::draw_left_4F3C00(v6, kZeroOnePoint_6F6484.y, kZeroOnePoint_6F6484.x, kZeroOnePoint_6F6484.y);
+            side_word = gBlockLeft_6F62F6 | 0x1000;
+            MapRenderer::draw_left_4F3C00(side_word, kZeroOnePoint_6F6484.y, kZeroOnePoint_6F6484.x, kZeroOnePoint_6F6484.y);
         }
         if ((gBlockLeft_6F62F6 & 0x1000) != 0)
         {
-            v6 = gBlockRight_6F63C6 | 0x1000;
-            MapRenderer::draw_right_4F4250(v6, kZeroOnePoint_6F6484.x, kZeroOnePoint_6F6484.x, kZeroOnePoint_6F6484.y);
+            side_word = gBlockRight_6F63C6 | 0x1000;
+            MapRenderer::draw_right_4F4250(side_word, kZeroOnePoint_6F6484.x, kZeroOnePoint_6F6484.x, kZeroOnePoint_6F6484.y);
         }
     }
 
@@ -3349,13 +3377,13 @@ void MapRenderer::RenderFlatBlock_4F66C0()
     {
         if ((gBlockBottom_6F6468 & 0x1000) != 0)
         {
-            v6 = gBlockTop_6F62F4 | 0x1000;
-            MapRenderer::draw_top_4F4600(v6, kZeroOnePoint_6F6484.x, kZeroOnePoint_6F6484.y, kZeroOnePoint_6F6484.y);
+            side_word = gBlockTop_6F62F4 | 0x1000;
+            MapRenderer::draw_top_4F4600(side_word, kZeroOnePoint_6F6484.x, kZeroOnePoint_6F6484.y, kZeroOnePoint_6F6484.y);
         }
         if ((gBlockTop_6F62F4 & 0x1000) != 0)
         {
-            v6 = gBlockBottom_6F6468 | 0x1000;
-            MapRenderer::draw_bottom_4F49B0(v6, kZeroOnePoint_6F6484.x, kZeroOnePoint_6F6484.y, kZeroOnePoint_6F6484.x);
+            side_word = gBlockBottom_6F6468 | 0x1000;
+            MapRenderer::draw_bottom_4F49B0(side_word, kZeroOnePoint_6F6484.x, kZeroOnePoint_6F6484.y, kZeroOnePoint_6F6484.x);
         }
     }
     if (gBlockLeft_6F62F6) // line 103
@@ -3404,12 +3432,12 @@ void MapRenderer::RenderBlockAt_4F6880(s32& pXCoord, s32& pYCoord)
         gBlockTop_6F62F4 = pBlock->field_4_top;
         gBlockBottom_6F6468 = pBlock->field_6_bottom;
 
-        u16 v8 = pBlock->field_8_lid;
-        gLidType_6F6274 = v8;
+        u16 lid_idx = pBlock->field_8_lid;
+        gLidType_6F6274 = lid_idx;
 
         if (bShow_hidden_faces_67D5CD)
         {
-            if (!v8 && (pBlock->field_B_slope_type & 3) != 0)
+            if (!lid_idx && !IS_AIR_TYPE(pBlock->field_B_slope_type))
             {
                 gLidType_6F6274 = 0x260;
             }
@@ -3430,10 +3458,10 @@ void MapRenderer::RenderBlockAt_4F6880(s32& pXCoord, s32& pYCoord)
                 gBlockBottom_6F6468 = gBlockBottom_6F6468 | 0x260;
             }
         }
-        gXCoord_6F63AC = Fix16(pXCoord) - gViewCamera_676978->field_98_cam_pos2.field_0_x;
-        gYCoord_6F63B8 = Fix16(pYCoord) - gViewCamera_676978->field_98_cam_pos2.field_4_y;
+        gXCoord_6F63AC = Fix16(pXCoord) - gViewCamera_676978->field_98_cur_pos.field_0_x;
+        gYCoord_6F63B8 = Fix16(pYCoord) - gViewCamera_676978->field_98_cur_pos.field_4_y;
 
-        u8 slope = pBlock->field_B_slope_type & 0xFC;
+        u8 slope = GET_SLOPE_BITS(pBlock->field_B_slope_type);
 
         if (slope < DIAGONAL_WALL_UP_LEFT || slope > DIAGONAL_WALL_DOWN_RIGHT)
         {
@@ -3473,12 +3501,32 @@ void MapRenderer::ClearDrawnTileCount_4F6A10()
     field_2F00_drawn_tile_count = 0;
 }
 
+// AddToDrawList_46BB90 with by-value coordinates, for Draw_4F6A20: the original's block loops are
+// fully strength-reduced (both `max - rel` and `min + rel` as induction variables and a count-down
+// counter), which VC6 only does when the expressions are written in the calls themselves (with
+// `xpos_right`/`ypos_upwards` locals it reduces one of the two), and the header's `s32&` parameters
+// can't take those rvalues.
+static inline void AddToDrawListByVal(MapRenderer* pThis, s32 x, s32 y)
+{
+    Nanobotz_8* pPos = &pThis->field_1C_draw_list[pThis->field_2EFC_curr_draw_layer_size];
+    pPos->field_0_x = x;
+    pPos->field_4_y = y;
+
+    Nanobotz_8* pIter = &pThis->field_1C_draw_list[pThis->field_2EFC_curr_draw_layer_size - 1];
+    for (s32 i = pThis->field_2EFC_curr_draw_layer_size - 1; i >= 0; i--, pIter--)
+    {
+        if (pIter->IsEqual_46BB60(pPos))
+        {
+            return;
+        }
+    }
+    ++pThis->field_2EFC_curr_draw_layer_size;
+}
+
 // https://decomp.me/scratch/VJVUz
-WIP_FUNC(0x4f6a20)
+MATCH_FUNC(0x4f6a20)
 void MapRenderer::Draw_4F6A20()
 {
-    WIP_IMPLEMENTED;
-
     // set ambient level
     if (gLighting_626A09)
     {
@@ -3491,21 +3539,27 @@ void MapRenderer::Draw_4F6A20()
     {
         if (zLayer != 0)
         {
-            gMontana_67B580->Draw_495560(zLayer); // draw all sprites at zLayer
+            gSpriteRenderer_67B580->Draw_495560(zLayer); // draw all sprites at zLayer
         }
 
         // render blocks
         if (!bSkip_tiles_67D655)
         {
             // compute tile rendering boundaries
-            Fix16 layer_row_width = (gViewCamera_676978->field_98_cam_pos2.field_8_z + Fix16(8 - zLayer)) / gViewCamera_676978->field_98_cam_pos2.field_C_zoom;
+            Fix16 z_distance = gViewCamera_676978->field_98_cur_pos.field_8_z - Fix16(zLayer) + Fix16(8);
+            // Empty (debug) block: it keeps z_distance a variable, so VC6 loads the zoom before shifting z_distance
+            if (bDo_show_camera_67D58A)
+            {
+            }
+            Fix16 layer_row_width = z_distance / gViewCamera_676978->field_98_cur_pos.field_C_zoom;
 
             // narrow the y direction because of assymetric monitor resolution
             Fix16 layer_column_width = layer_row_width * kScreenAspectRatio_6F638C;
 
             // compute x boundary
-            s32 max_x = (gViewCamera_676978->field_98_cam_pos2.field_0_x + layer_row_width / 2).ToInt();
-            s32 min_x = (gViewCamera_676978->field_98_cam_pos2.field_0_x - layer_row_width / 2).ToInt();
+            Fix16 half_x = layer_row_width / 2;
+            s32 min_x = (gViewCamera_676978->field_98_cur_pos.field_0_x - half_x).ToInt();
+            s32 max_x = (gViewCamera_676978->field_98_cur_pos.field_0_x + half_x).ToInt();
 
             // 10.5: the half-widths grow by one when the range is even, and the loops below start at
             // half-width - 1 (an earlier version here left the increment out and started at half-width).
@@ -3516,8 +3570,9 @@ void MapRenderer::Draw_4F6A20()
             }
 
             // compute y boundary
-            s32 max_y = (gViewCamera_676978->field_98_cam_pos2.field_4_y + layer_column_width / 2).ToInt();
-            s32 min_y = (gViewCamera_676978->field_98_cam_pos2.field_4_y - layer_column_width / 2).ToInt();
+            Fix16 half_y = layer_column_width / 2;
+            s32 min_y = (gViewCamera_676978->field_98_cur_pos.field_4_y - half_y).ToInt();
+            s32 max_y = (gViewCamera_676978->field_98_cur_pos.field_4_y + half_y).ToInt();
 
             s32 y_semi_distance = (max_y - min_y + 1) / 2;
             if ((max_y - min_y) % 2 != 1)
@@ -3527,10 +3582,11 @@ void MapRenderer::Draw_4F6A20()
 
             // update global Z coordinate
             gZCoord_6F63E0 = zLayer;
-            gZCoordFp_6F6518 = Fix16(zLayer);
+            // A multiply, not Fix16(zLayer): VC6 must not reuse the shift of the first Fix16(zLayer) here
+            gZCoordFp_6F6518 = Fix16(zLayer * 16384, 0);
 
+            Fix16 unk_Z_Factor = gViewCamera_676978->field_98_cur_pos.field_8_z - Fix16(zLayer) + Fix16(8);
             Fix16 unknown_1;
-            Fix16 unk_Z_Factor = gViewCamera_676978->field_98_cam_pos2.field_8_z + Fix16(8 - zLayer);
             if (unk_Z_Factor == kZeroOnePoint_6F6484.x)
             {
                 unknown_1 = kZeroOnePoint_6F6484.x;
@@ -3541,11 +3597,12 @@ void MapRenderer::Draw_4F6A20()
             }
 
             gInvDepthBottom_6F6318 = unknown_1;
-            gScreenScaleBottom_6F633C = unknown_1 * gViewCamera_676978->field_60.x;
-            gZCoordTop_6F62B0 = zLayer + 1;
+            gScreenScaleBottom_6F633C = unknown_1 * gViewCamera_676978->field_60_screen_scale.x;
+            s32 top_layer = zLayer + 1;
+            gZCoordTop_6F62B0 = top_layer;
 
             Fix16 unknown_2;
-            Fix16 unk_Z_Factor_2 = gViewCamera_676978->field_98_cam_pos2.field_8_z + Fix16(8 - (zLayer + 1));
+            Fix16 unk_Z_Factor_2 = gViewCamera_676978->field_98_cur_pos.field_8_z - Fix16(top_layer) + Fix16(8);
             if (unk_Z_Factor_2 == kZeroOnePoint_6F6484.x)
             {
                 unknown_2 = kZeroOnePoint_6F6484.x;
@@ -3556,14 +3613,14 @@ void MapRenderer::Draw_4F6A20()
             }
 
             gInvDepthTop_6F656C = unknown_2;
-            gScreenScaleTop_6F628C = unknown_2 * gViewCamera_676978->field_60.x;
+            gScreenScaleTop_6F628C = unknown_2 * gViewCamera_676978->field_60_screen_scale.x;
 
             // if zLayer = 0, reset lights
             if (zLayer == 0 && gLighting_626A09)
             {
                 pgbh_ResetLights();
                 pgbh_SetCamera((f32)min_x, (f32)min_y, (f32)max_x, (f32)max_y);
-                Light::SubmitLightsInArea_4D6E50(min_x, min_y, max_x, max_y);
+                LightGrid::SubmitLightsInArea_4D6E50(min_x, min_y, max_x, max_y);
             }
 
             // Reset the size of draw layer size
@@ -3572,28 +3629,28 @@ void MapRenderer::Draw_4F6A20()
             // Now iter over all blocks at zLayer and set up their rendering order
             // Begin with the blocks at the center of the camera and go away
             // In the end render in reverse order: far blocks to the nearest ones
+            // (the coordinates are written in the calls, see AddToDrawListByVal)
             for (s32 ypos_rel = y_semi_distance - 1; ypos_rel >= 0; ypos_rel--)
             {
-                s32 ypos_downwards = max_y - ypos_rel;
-                s32 ypos_upwards = min_y + ypos_rel;
                 for (s32 xpos_rel = x_semi_distance - 1; xpos_rel >= 0; xpos_rel--)
                 {
-                    s32 xpos_right = max_x - xpos_rel;
-                    s32 xpos_left = min_x + xpos_rel;
-                    AddToDrawList_46BB90(xpos_right, ypos_downwards);
-                    AddToDrawList_46BB90(xpos_left, ypos_downwards);
-                    AddToDrawList_46BB90(xpos_right, ypos_upwards);
-                    AddToDrawList_46BB90(xpos_left, ypos_upwards);
+                    AddToDrawListByVal(this, max_x - xpos_rel, max_y - ypos_rel);
+                    AddToDrawListByVal(this, min_x + xpos_rel, max_y - ypos_rel);
+                    AddToDrawListByVal(this, max_x - xpos_rel, min_y + ypos_rel);
+                    AddToDrawListByVal(this, min_x + xpos_rel, min_y + ypos_rel);
                 }
             }
 
             // Now draw tiles in reverse order
+            s32 j = field_2EFC_curr_draw_layer_size - 1;
             Nanobotz_8* pIter = &field_1C_draw_list[field_2EFC_curr_draw_layer_size - 1];
-            for (s32 j = field_2EFC_curr_draw_layer_size - 1; j >= 0; j--, pIter--)
+            while (j >= 0)
             {
                 MapRenderer::RenderBlockAt_4F6880(pIter->field_0_x, pIter->field_4_y);
+                j--;
+                pIter--;
             }
         }
     }
-    gMontana_67B580->Draw_495560(7);    // draw all sprites on the highest layer
+    gSpriteRenderer_67B580->Draw_495560(7);    // draw all sprites on the highest layer
 }

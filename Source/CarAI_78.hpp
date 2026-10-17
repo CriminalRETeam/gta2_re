@@ -1,6 +1,7 @@
 #pragma once
 
 #include "BitSet32.hpp"
+#include "car_ai_flags.hpp"
 #include "Fix16.hpp"
 #include "Function.hpp"
 #include "Pool.hpp"
@@ -8,7 +9,7 @@
 
 class Car_BC;
 class Sprite;
-class Hamburger_40;
+class CarChaseTask_40;
 struct gmp_block_info;
 
 namespace car_ai_direction
@@ -43,7 +44,7 @@ class CarAI_78
     EXPORT void DoShortcutsUsingJunctions_447970();
     inline void TurnAround_447970();
     EXPORT bool GoToBlock_447CA0(u8 x, u8 y, u8 z, s32 maybe_direction);
-    EXPORT char_type TrySetTargetDirectionFromArrows_447D40(gmp_block_info* a2);
+    EXPORT char_type TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBlock);
     EXPORT bool IsClockwiseTurning_448270();
     EXPORT void BrakeForBlockedRoadAhead_4482C0();
     EXPORT void CheckRoadAhead_448770();
@@ -62,12 +63,12 @@ class CarAI_78
     EXPORT void UpdateDriving_453470();
     EXPORT void ChooseRandomTurn_4537D0();
     EXPORT void ClearSteeringIfTurning_4538B0();
-    EXPORT void RaiseSpeedTo_453990(Fix16 a2);
-    EXPORT void ClearA6Bits2And3_4539B0();
+    EXPORT void RaiseSpeedTo_453990(Fix16 target_speed);
+    EXPORT void ClearTurnReady_4539B0();
     EXPORT void UpdateSpeedTowardTarget_4539D0();
     EXPORT void UpdateTrainMovement_453A40();
     EXPORT void AI_Service_453BB0();
-    EXPORT void SetCar_453BF0(Car_BC* a2);
+    EXPORT void SetCar_453BF0(Car_BC* pCar);
     EXPORT void ReverseOrNeutral_453C00();
     EXPORT void PoolAllocate();
     EXPORT CarAI_78();
@@ -89,12 +90,12 @@ class CarAI_78
     Fix16 field_14_speed;
     Fix16 field_18_target_speed;
     Fix16 field_1C_acceleration;
-    s32 field_20_unused;
+    s32 field_20;
 
     union
     {
         u32 field_24_flags;
-        CompilerBitField32 field_24_bf;
+        CarAIFlags32 field_24_bf;
     };
 
     char_type field_28_junc_idx;
@@ -109,7 +110,7 @@ class CarAI_78
     char_type field_31_pad;
     char_type field_32_pad;
     char_type field_33_pad;
-    s32 field_34;
+    s32 field_34_unused;
     s32 field_38_junction_turn_direction;
     s32 field_3C_seeking_road;
     s32 field_40_prev_target_direction;
@@ -122,7 +123,7 @@ class CarAI_78
     u16 field_58_off_road_timer;
     s16 field_5A_obstacle_timer;
     Fix16 field_5C_unused;
-    Fix16 field_60;
+    Fix16 field_60_unused;
     Fix16 field_64_unused;
     Car_BC* field_68_car_in_collision; // Car collided
     Car_BC* field_6C_yield_to_car;
@@ -133,7 +134,7 @@ class CarAI_78
 class CarAI_78_Pool
 {
   public:
-    //Inlined in Car_6C constructor 9.6f -> 0x420eb0
+    //Inlined in CarManager_6C constructor 9.6f -> 0x420eb0
     CarAI_78_Pool()
     {
     }

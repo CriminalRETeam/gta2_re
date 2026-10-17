@@ -52,10 +52,13 @@ What follows:
   at one site and not at the next.
 - Free sites (getters, empty constructors) *after* a site shrink its share: a getter vs a field
   access, or an extra `Fix16 x;`, can move a cut-off.
-- Caller code raises the budget by 2 per size unit. Some costs: `{}` or `(void)0;` +2 (no code, handy
-  as test padding), `x = y;` +5, `if (x) y = 1;` +12, `Fix16 b;` +11 and one site,
+- Caller code raises the budget by 2 per size unit. Some costs: `{}`, `(void)0;` or a compiled-out
+  `assert(e);` (`<assert.h>` under `/DNDEBUG`, whatever `e` is) +2 (no code, no C2 entry), `x = y;` +5, `if (x) y = 1;` +12, `Fix16 b;` +11 and one site,
   `Fix16 b = a;` +7, `r = a - r;` +17, a ternary about 6 less than if/return.
 - `__forceinline` is never charged, but its own sites still get only `budget / sites_left`.
+- The 35000 total cap also rejects free sites, and free sizes count toward it. Only
+  `CarAI_78::UpdateStateMachine_44E560` reaches it (see `docs/match_attempts.md`); everywhere else free
+  sizes have no visible effect.
 
 ## Tools
 
@@ -65,7 +68,7 @@ submodule's `C2.DLL` and checks its hash first. The patch only adds logging; the
 
 ```bash
 # Decision tree of one function: each site's result, callee size, budget, sites left, nested budget
-Scripts/inline_budget/inl.sh Source/Wolfy_3D4.cpp TimerAfter50Handler      # -a also lists free sites
+Scripts/inline_budget/inl.sh Source/Explosion_30.cpp TimerAfter50Handler      # -a also lists free sites
 
 # What-if, on the log inl.sh just wrote
 L=build_vc6/inline_c2/last.log

@@ -1,9 +1,11 @@
 #include "Crushers.hpp"
+#include "explosion_type.hpp"
+#include "ped_death_cause.hpp"
 #include "car_despawn_status.hpp"
 #include "Camera.hpp"
 #include "Car_BC.hpp"
 #include "Globals.hpp"
-#include "infallible_turing.hpp"
+#include "SoundObject_10.hpp"
 #include "root_sound.hpp"
 #include "Object_5C.hpp"
 #include "debug.hpp"
@@ -46,11 +48,11 @@ Crusher_30::~Crusher_30()
 MATCH_FUNC(0x488310)
 void Crusher_30::CrushCar_488310(Car_BC* pCar)
 {
-    if (field_2C_state == CrusherStates::Idle_0 && !pCar->IsDespawning_4215B0() && !pCar->IsSpriteShrunk_43DC00() && !pCar->Is_F9_Eq7_447EB0())
+    if (field_2C_state == CrusherStates::Idle_0 && !pCar->IsDespawning_4215B0() && !pCar->IsSpriteShrunk_43DC00() && !pCar->IsEngineCrushed_447EB0())
     {
         field_14_pCarBeingCrushed = pCar;
         field_2C_state = CrusherStates::CrushW_1;
-        pCar->add_f78_bits_421890(2);
+        pCar->AddFlags_421890(car_flag::NoCollide);
     }
 }
 
@@ -73,14 +75,14 @@ void Crusher_30::Service_488350()
                     field_2C_state = CrusherStates::UnCrushW_2;
                     if (!bStartNetworkGame_7081F0)
                     {
-                        field_14_pCarBeingCrushed->field_70_exploder_ped_id = gGame_0x40_67E008->field_38_orf1->field_2C4_player_ped->field_200_id;
-                        field_14_pCarBeingCrushed->field_90 = 4;
+                        field_14_pCarBeingCrushed->field_70_exploder_ped_id = gGame_0x40_67E008->field_38_local_player->field_2C4_player_ped->field_200_id;
+                        field_14_pCarBeingCrushed->field_90_death_cause = ped_death_cause::unknown_4;
                         field_14_pCarBeingCrushed->field_94_exploder_timer = 50;
                     }
-                    field_14_pCarBeingCrushed->HandleCarExplosion_43D840(19);
-                    field_14_pCarBeingCrushed->field_0_qq.CleanupSpriteList_5A7080();
+                    field_14_pCarBeingCrushed->HandleCarExplosion_43D840(explosion_type::item_19);
+                    field_14_pCarBeingCrushed->field_0_attachments.CleanupSpriteList_5A7080();
                 }
-                if (field_1C_w - kCrusher_67A810 <= field_14_pCarBeingCrushed->get_car_width() / 2)
+                if (field_1C_w - kCrusher_67A810 <= field_14_pCarBeingCrushed->GetCarWidth_48A930() / 2)
                 {
                     field_14_pCarBeingCrushed->CarShrinkSprite_43DC80(2, 0);
                 }
@@ -103,7 +105,7 @@ void Crusher_30::Service_488350()
                     field_2C_state = CrusherStates::UnCrushH_4;
                 }
 
-                if (field_20_h - kCrusher_67A810 <= (field_14_pCarBeingCrushed->get_car_height() / 2))
+                if (field_20_h - kCrusher_67A810 <= (field_14_pCarBeingCrushed->GetCarHeight_48A950() / 2))
                 {
                     field_14_pCarBeingCrushed->CarShrinkSprite_43DC80(0, 2);
                 }
@@ -154,7 +156,7 @@ void Crusher_30::InitCrusher_4885A0(Fix16 xpos, Fix16 ypos, char_type crusher_id
     field_28_ypos = ypos;
 
     field_10_central_spot = gObject_5C_6F8F84->NewPhysicsObj_5299B0(143, xpos, ypos, zpos, kAngZero_67A820);
-    field_10_central_spot->field_26_varrok_idx = crusher_idx;
+    field_10_central_spot->field_26_ped_ref_idx = crusher_idx;
 
     field_0_piston_top = gObject_5C_6F8F84->NewPhysicsObj_5299B0(142, field_24_xpos, field_28_ypos - kCrusherTargetW_67A7D0, zpos, kAngZero_67A820);
     field_4_piston_right = gObject_5C_6F8F84->NewPhysicsObj_5299B0(142, field_24_xpos + kCrusherTargetW_67A7D0, field_28_ypos, zpos, kAng270_67A660);

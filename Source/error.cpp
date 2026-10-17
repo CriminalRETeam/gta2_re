@@ -54,10 +54,12 @@ void ErrorLog::Open_4D9470(const char_type* path, s32 a3)
 
 // The member ofstream's constructor call and EH frame come from the real ofstream member
 // (error.hpp, VC6 only)
-MATCH_FUNC(0x4D94E0)
+// OBS: keep ErrorLog functions disabled for now.
+// Any changes on it must be tested before pulling a request. Run decomp_main.exe and check that your changes won't make it crash.
+WIP_FUNC(0x4D94E0)
 ErrorLog::ErrorLog(const char* FileName, int a3)
 {
-    Open_4D9470(FileName, a3);
+    //Open_4D9470(FileName, a3);
 }
 
 // This func matches but for some reason it's crashing the patched version
@@ -104,6 +106,17 @@ void* ErrorLog::log_on_line_written_4D9670(TLogLineCallback pCallBack)
     return this;
 }
 
+// Logs the intro line again on the way out, then closes the file
+MATCH_FUNC(0x4A3610)
+ErrorLog::~ErrorLog()
+{
+    log_intro_4D95A0();
+#if !defined(__clang__) && (_MSC_VER <= 1200)
+    field_0_ofstr.close();
+#endif
+    delete field_3C_pLen;
+}
+
 MATCH_FUNC(0x4D95A0)
 void ErrorLog::log_intro_4D95A0()
 {
@@ -117,8 +130,8 @@ void ErrorLog::log_intro_4D95A0()
     Write_4D9620(gTmpBuffer_67C598);
 }
 
-DEFINE_GLOBAL(ErrorLog, gErrorLog_67C530, 0x67C530);
-DEFINE_GLOBAL(ErrorLog, gErrorLog_67CF58, 0x67CF58);
+DEFINE_GLOBAL_INIT(ErrorLog, gErrorLog_67CF58, ErrorLog("test\\error.log", 1), 0x67CF58);
+DEFINE_GLOBAL_INIT(ErrorLog, gErrorLog_67C530, ErrorLog("test\\warning.log", 1), 0x67C530);
 DEFINE_GLOBAL(ErrorLog, gMiss2Log_6F7698, 0x6F7698);
 ErrorLog gFile_67C530; //DEFINE_GLOBAL(ErrorLog, gFile_67C530, 0x67C530);
 
@@ -2377,7 +2390,7 @@ EXPORT void FatalError_4A38C0(s32 Code, const char_type* pSourceFile, s32 lineNo
         exit(Code);
     }
 }
-// Called by diutil.cpp (BurgerKing_67F8B0.cpp) when a DirectInput call fails. The cases are in the original's
+// Called by diutil.cpp (InputRecorder_67F8B0.cpp) when a DirectInput call fails. The cases are in the original's
 // body order. The empty DI_OK case is needed: without it VC6 splits the switch differently (compares instead of
 // the byte-indexed table for 0x8007000E-0x80070057), which shifts the register rotation and so which cases
 // cross-jump into the default's tail.

@@ -85,6 +85,22 @@ source: missing parentheses around float subexpressions, an `(f32)` cast, an `f3
 that the original wrote out (or the reverse when `L > 80`). `nodes.py` counts the no-op nodes, so check
 the count after each change.
 
+## Windows
+
+The scripts run natively under Git Bash, with no wine: `common.sh` sets `WINE` empty and
+`winpath` to `cygpath -w` when `MSYSTEM` is set, and `sched.sh` puts the compiler on `PATH`
+instead of `WINEPATH`. `regsearch.py` runs `sched.sh` through `bash` (`BASH=/path/to/bash.exe`
+if it is not on `PATH`), and needs the python that has `iced_x86`.
+
+Two things `setup.py` handles for Windows: it copies the toolchain files when it may not create
+symlinks, and it trims `.text`'s VirtualSize back to its raw size. The hooks live in `.text`'s
+slack space and the patch grows VirtualSize over the next section's VA; wine maps that image
+anyway, but the Windows loader refuses it and CL then fails with
+`D2027 : cannot execute c2.dll`.
+
+`regsearch.py` needs `Scripts/bin_comp/target_asm.json`. Without the `claude/target-asm`
+branch, `python3 Scripts/bin_comp/gen_target_asm.py` writes it from `10.5.exe`.
+
 ## Workflow
 
 1. The function differs only in integer/x87 interleaving, from some point in a long straight block on.

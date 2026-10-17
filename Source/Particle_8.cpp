@@ -3,9 +3,9 @@
 #include "CarPhysics_B0.hpp"
 #include "Globals.hpp"
 #include "Particle_4C.hpp"
-#include "Phi_8CA8.hpp"
+#include "ObjectDefinitions_8CA8.hpp"
 #include "Pool.hpp"
-#include "PurpleDoom.hpp"
+#include "SpriteGrid_400.hpp"
 #include "debug.hpp"
 #include "enums.hpp"
 #include "error.hpp"
@@ -60,20 +60,20 @@ void Particle_8::ParticlesService_53E320()
 }
 
 MATCH_FUNC(0x53E3C0)
-Particle_4C* Particle_8::New_53E3C0(Fix16 speed_x, Fix16 speed_y, Fix16 a4, Fix16 additional_speed_x, Fix16 additional_speed_y, Fix16 a7)
+Particle_4C* Particle_8::New_53E3C0(Fix16 speed_x, Fix16 speed_y, Fix16 field_10_value, Fix16 additional_speed_x, Fix16 additional_speed_y, Fix16 field_1C_value)
 {
     Particle_4C* pNew4C = 0;
-    if (gParticle_4C_Pool_6FD5E4->has_pStart_48A8F0() && gSprite_Pool_703818->has_free_48A8D0())
+    if (gParticle_4C_Pool_6FD5E4->has_pStart_48A8F0() && gSpritePool_703818->has_free_48A8D0())
     {
         pNew4C = gParticle_4C_Pool_6FD5E4->Allocate();
         pNew4C->field_8_speed_x = speed_x;
         pNew4C->field_C_speed_y = speed_y;
-        pNew4C->field_10 = a4;
+        pNew4C->field_10 = field_10_value;
         pNew4C->field_14_additional_speed_x = additional_speed_x;
         pNew4C->field_18_additional_speed_y = additional_speed_y;
-        pNew4C->field_1C = a7;
+        pNew4C->field_1C = field_1C_value;
         pNew4C->field_0_id = gParticleInstCount_6FD5F4;
-        pNew4C->field_30_pNext = gSprite_Pool_703818->get_new_sprite();
+        pNew4C->field_30_pNext = gSpritePool_703818->get_new_sprite();
         ++gParticleInstCount_6FD5F4;
     }
     return pNew4C;
@@ -84,13 +84,6 @@ static inline Ang16 SubAng16_ool(const Ang16& a, const Ang16& b)
 {
     s16 value = a.rValue - b.rValue;
     return Ang16(&value, 0);
-}
-
-// MultiplyByFix16_401CB0 (9.6f) with the multiply and Normalize out of line. As an inline helper its
-// temporaries get the original's stack slots (written out in place they don't share them).
-static inline Ang16 MulAng16_401CB0(const Ang16& a, const Fix16& f)
-{
-    return Ang16(Fix16(a.rValue) * f).Normalized_406C20();
 }
 
 // RotateByAngle_40F6B0 with the x_old negate as the named out-of-line Negate_4086A0: the rotations and the
@@ -105,11 +98,13 @@ static inline void RotateNegExport_(Fix16_Point& v, const Ang16& angle)
     v.y = (x_old.Negate_4086A0() * sin) + (v.y * cos);
 }
 
-// https://decomp.me/scratch/ohbD0
-WIP_FUNC(0x53E450)
+// 9.6f 0x48C9C0: plain members and operators. The do-while count-down loop (smaller than the for form) and
+// the unary minus on the divides (never inlined: it builds a by-value argument, so it adds two sites) set
+// the inline budget: + out of line and the negate inline in the first rotation, the multiplies out of line
+// in MultiplyByFix16_401CB0, the ctor out of line in Ang16::operator-.
+MATCH_FUNC(0x53E450)
 void Particle_8::EmitBloodBurst_53E450(Fix16 x, Fix16 y, Fix16 z, Ang16 ang)
 {
-    WIP_IMPLEMENTED;
     Ang16 angle;
     Fix16_Point vector(Fix16(0), Fix16(0));
 
@@ -119,32 +114,31 @@ void Particle_8::EmitBloodBurst_53E450(Fix16 x, Fix16 y, Fix16 z, Ang16 ang)
         vector.y = Fix16(gRng_6F6784.get_int_4F7AE0(50) + 25) * dword_6FD548;
         vector.RotateByAngle_40F6B0(ang);
 
-        for (u8 i = 0; i < 6; i++)
+        s32 count = 6;
+        do
         {
             vector.x = Fix16(0);
             vector.y = (Fix16(gRng_6F6784.get_int_4F7AE0(100)) + dword_6FD558) * dword_6FD4EC;
 
-            // 9.6f: angle = word.MultiplyByFix16_401CB0(..); rotate by (angle + ang) - word.MultiplyByFix16_401CB0(Fix16(8)).
-            // One expression: its temporaries don't share slots. The minus calls AssignNormalized_409300.
-            angle = MulAng16_401CB0(word_6FD5CC, Fix16(gRng_6F6784.get_int_4F7AE0(16)));
-            vector.RotateByAngle_40F6B0(SubAng16_ool(angle + ang, Ang16(Fix16(word_6FD5CC.rValue) * Fix16(8), 0)));
+            angle = word_6FD5CC.MultiplyByFix16_401CB0(Fix16(gRng_6F6784.get_int_4F7AE0(16)));
+            vector.RotateByAngle_40F6B0((angle + ang) - word_6FD5CC.MultiplyByFix16_401CB0(Fix16(8)));
 
             Particle_4C* pBloodParticle =
-                gParticle_8_6FD5E8->New_53E3C0(vector.x, vector.y, dword_6FD330, vector.x.DivideInt_53E860(15).Negate_4086A0(), vector.y.DivideInt_53E860(15).Negate_4086A0(), 0);
+                gParticle_8_6FD5E8->New_53E3C0(vector.x, vector.y, dword_6FD330, -vector.x.DivideInt_53E860(15), -vector.y.DivideInt_53E860(15), 0);
 
             if (pBloodParticle)
             {
-                pBloodParticle->field_34 = 1;
+                pBloodParticle->field_34_unused = 1;
                 pBloodParticle->field_38_state = 1;
                 pBloodParticle->field_2C_counter = 15;
                 pBloodParticle->field_2E = 15;
 
-                pBloodParticle->field_30_pNext->SetType_4206F0(8);
-                pBloodParticle->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 16);
+                pBloodParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
+                pBloodParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 16);
                 pBloodParticle->field_30_pNext->set_xyz_lazy_420600(x, y, z);
-                gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pBloodParticle->field_30_pNext);
+                gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pBloodParticle->field_30_pNext);
             }
-        }
+        } while (--count);
     }
 }
 
@@ -155,123 +149,126 @@ void Particle_8::SpawnBlood_53E880(Fix16 xpos, Fix16 ypos, Fix16 zpos)
     Particle_4C* pNew4C = gParticle_8_6FD5E8->New_53E3C0(xpos, ypos, 0, 0, 0, 0);
     if (pNew4C)
     {
-        pNew4C->field_34 = 1;
+        pNew4C->field_34_unused = 1;
         pNew4C->field_38_state = 39;
         pNew4C->field_2C_counter = 800;
         pNew4C->field_46_sub_state = 0;
         pNew4C->field_48_timer = 3;
         pNew4C->field_2E = 800;
-        pNew4C->field_30_pNext->SetType_4206F0(8);
-        pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 191);
+        pNew4C->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
+        pNew4C->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 191);
         pNew4C->field_30_pNext->set_xyz_lazy_420600(xpos, ypos, zpos);
-        pNew4C->field_30_pNext->set_num_40F7B0(2);
-        gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
+        pNew4C->field_30_pNext->SetDrawLayer_40F7B0(2);
+        gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
     }
 }
 
-WIP_FUNC(0x53e970)
-void Particle_8::GunMuzzelFlash_53E970(Sprite* a2)
+MATCH_FUNC(0x53e970)
+void Particle_8::GunMuzzelFlash_53E970(Sprite* pSprite)
 {
-    WIP_IMPLEMENTED;
-    // The original enters with EH state 4 and sets 7 at the top of the car branch, as five points up
-    // front and three in the car branch would. Declared like that (unused extras), the ctors stay inline
-    // but the rest of the function moves further away, so only the used points are declared for now.
-    Fix16_Point vel(Fix16(0), Fix16(0));
+    // pos, offset, point_velocity and corner_3 are unused but give the original's EH states
+    Fix16_Point vel(0, 0);
+    Fix16_Point pos;
     Fix16_Point offset;
-    if (bSkip_particles_67D64D)
+    Fix16_Point ped_offset;
+    Fix16_Point point_velocity;
+    Fix16 dx;
+    Fix16 dy;
+    if (!bSkip_particles_67D64D)
     {
-        return;
-    }
-
-    Particle_4C* pParticle;
-    if (a2->get_type_416B40() == sprite_types_enum::car_2)
-    {
-        Fix16_Point corner_1;
-        Fix16_Point corner_2;
-        Car_BC* pCar = a2->field_8_car_bc_ptr;
-        pParticle = gParticle_8_6FD5E8->New_53E3C0(vel.x, vel.y, dword_6FD330, 0, 0, 0);
-        if (pParticle)
+        if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car_2)
         {
-            pParticle->field_4_flags |= 1;
-            pParticle->field_30_pNext->SetType_4206F0(8);
-            pParticle->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 197);
-            pParticle->field_34 = 0;
-            pParticle->field_38_state = 40;
-            // PolarToCartesian_41FC20 (9.6f) with the results unused: the multiplies stay as calls
-            Ang16::sine_40F500(a2->field_0).Multiply_408680(dword_6FD2E8);
-            Ang16::cosine_40F520(a2->field_0).Multiply_408680(dword_6FD2E8);
-            pParticle->field_46_sub_state = 0;
-            pParticle->field_48_timer = 0;
+            Ang16 angle;
+            Fix16_Point corner_1;
+            Fix16_Point corner_2;
+            Fix16_Point corner_3;
+            Car_BC* pCar = pSprite->field_8_car_bc_ptr;
+            Fix16 half_w;
+            Fix16 half_h;
+            Particle_4C* pParticle = gParticle_8_6FD5E8->New_53E3C0(vel.x, vel.y, dword_6FD330, 0, 0, 0);
+            if (pParticle)
+            {
+                pParticle->field_4_bf.bDriverAttacking = true;
+                pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
+                pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 197);
+                pParticle->field_34_unused = 0;
+                pParticle->field_38_state = 40;
+                Ang16::PolarToCartesian_41FC20(pSprite->field_0_rotation, dword_6FD2E8, dx, dy);
+                pParticle->field_46_sub_state = 0;
+                pParticle->field_48_timer = 0;
 
-            // One expression: the original loads the sprite's field_C once for both
-            corner_1.SetXY_432860(pCar->get_car_width() / 2 + dword_6FD3C0, pCar->get_car_height() / 2 + dword_6FD5A8);
-            corner_1.RotateByAngle_40F6B0(a2->field_0);
-            corner_1 += a2->get_x_y();
+                half_w = pCar->GetCarWidth_48A930() / 2 + dword_6FD3C0;
+                half_h = pCar->GetCarHeight_48A950() / 2 + dword_6FD5A8;
+                corner_1.x = half_w;
+                corner_1.y = half_h;
+                angle = pSprite->field_0_rotation;
+                corner_1.RotateByAngle_40F6B0(angle);
+                corner_1 += pSprite->get_x_y_443580();
 
-            pParticle->field_28_pSprite = a2;
-            pParticle->field_30_pNext->set_ang_lazy_420690(a2->field_0);
-            pParticle->field_30_pNext->set_xyz_lazy_420600(corner_1.x, corner_1.y, a2->field_1C_zpos);
-            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
-            pParticle->field_30_pNext->field_2C_flags |= 4;
+                pParticle->field_28_pSprite = pSprite;
+                pParticle->field_30_pNext->set_ang_lazy_420690(pSprite->field_0_rotation);
+                pParticle->field_30_pNext->set_xyz_lazy_420600(corner_1.x, corner_1.y, pSprite->field_1C_zpos);
+                gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
+                pParticle->field_30_pNext->field_2C_bf.bNoLighting = true;
+            }
+
+            pParticle = gParticle_8_6FD5E8->New_53E3C0(vel.x, vel.y, dword_6FD330, 0, 0, 0);
+            if (pParticle)
+            {
+                pParticle->field_4_bf.bDriverAttacking = true;
+                pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
+                pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 197);
+                pParticle->field_34_unused = 0;
+                pParticle->field_38_state = 41;
+                Ang16::PolarToCartesian_41FC20(pSprite->field_0_rotation, dword_6FD2E8, dx, dy);
+                pParticle->field_46_sub_state = 0;
+                pParticle->field_48_timer = 0;
+
+                angle = pSprite->field_0_rotation;
+                half_w = pCar->GetCarWidth_48A930() / 2 + dword_6FD3C0;
+                half_h = pCar->GetCarHeight_48A950() / 2 + dword_6FD5A8;
+                corner_2.SetXY_432860(-half_w, half_h);
+                corner_2.RotateByAngle_40F6B0(angle);
+                corner_2 += pSprite->get_x_y_443580();
+
+                pParticle->field_30_pNext->set_ang_lazy_420690(pSprite->field_0_rotation);
+                pParticle->field_30_pNext->set_xyz_lazy_420600(corner_2.x, corner_2.y, pSprite->field_1C_zpos);
+                pParticle->field_28_pSprite = pSprite;
+                gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
+                pParticle->field_30_pNext->field_2C_bf.bNoLighting = true;
+            }
         }
-
-        pParticle = gParticle_8_6FD5E8->New_53E3C0(vel.x, vel.y, dword_6FD330, 0, 0, 0);
-        if (!pParticle)
+        else
         {
-            return;
+            Particle_4C* pParticle = gParticle_8_6FD5E8->New_53E3C0(vel.x, vel.y, dword_6FD330, 0, 0, 0);
+            if (pParticle)
+            {
+                pParticle->field_4_bf.bDriverAttacking = true;
+                pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
+                pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 197);
+                pParticle->field_34_unused = 0;
+                pParticle->field_38_state = 40;
+                Ang16::PolarToCartesian_41FC20(pSprite->field_0_rotation, dword_6FD2E8, dx, dy);
+                pParticle->field_46_sub_state = 0;
+                pParticle->field_48_timer = 0;
+                stru_6FD388 = pSprite->field_14_xy.x + dx;
+                stru_6FD38C = pSprite->field_14_xy.y + dy;
+                Fix16 zpos = pSprite->field_1C_zpos;
+
+                Char_B4* pB4 = pSprite->AsCharB4_40FEA0();
+                ped_offset.x = -dword_6FD464;
+                ped_offset.y = dword_6FD468 + dword_6FD2E8;
+                ped_offset.RotateByAngle_40F6B0(pSprite->field_0_rotation);
+                ped_offset = ped_offset + *(Fix16_Point*)&pB4->field_98_velocity_vector;
+
+                pParticle->field_30_pNext->set_ang_lazy_420690(pSprite->field_0_rotation);
+                pParticle->field_30_pNext->set_xyz_lazy_420600(pSprite->field_14_xy.x + ped_offset.x, pSprite->field_14_xy.y + ped_offset.y, zpos);
+                pParticle->field_28_pSprite = pSprite;
+                gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
+                pParticle->field_30_pNext->field_2C_bf.bNoLighting = true;
+            }
         }
-        pParticle->field_4_flags |= 1;
-        pParticle->field_30_pNext->SetType_4206F0(8);
-        pParticle->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 197);
-        pParticle->field_34 = 0;
-        pParticle->field_38_state = 41;
-        Ang16::sine_40F500(a2->field_0).Multiply_408680(dword_6FD2E8);
-        Ang16::cosine_40F520(a2->field_0).Multiply_408680(dword_6FD2E8);
-        pParticle->field_46_sub_state = 0;
-        pParticle->field_48_timer = 0;
-
-        corner_2.SetXY_432860(-(pCar->get_car_width() / 2 + dword_6FD3C0), pCar->get_car_height() / 2 + dword_6FD5A8);
-        corner_2.RotateByAngle_40F6B0(a2->field_0);
-        corner_2 += a2->get_x_y();
-
-        pParticle->field_30_pNext->set_ang_lazy_420690(a2->field_0);
-        pParticle->field_30_pNext->set_xyz_lazy_420600(corner_2.x, corner_2.y, a2->field_1C_zpos);
-        pParticle->field_28_pSprite = a2;
     }
-    else
-    {
-        pParticle = gParticle_8_6FD5E8->New_53E3C0(vel.x, vel.y, dword_6FD330, 0, 0, 0);
-        if (!pParticle)
-        {
-            return;
-        }
-        pParticle->field_4_flags |= 1;
-        pParticle->field_30_pNext->SetType_4206F0(8);
-        pParticle->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 197);
-        pParticle->field_34 = 0;
-        pParticle->field_38_state = 40;
-        Fix16 dx;
-        Fix16 dy;
-        Ang16::PolarToCartesian_41FC20(a2->field_0, dword_6FD2E8, dx, dy);
-        pParticle->field_46_sub_state = 0;
-        pParticle->field_48_timer = 0;
-        stru_6FD388 = a2->field_14_xy.x + dx;
-        stru_6FD38C = a2->field_14_xy.y + dy;
-        Fix16 zpos = a2->field_1C_zpos;
-
-        Char_B4* pB4 = a2->AsCharB4_40FEA0();
-        offset.x = -dword_6FD464;
-        offset.y = dword_6FD468 + dword_6FD2E8;
-        offset.RotateByAngle_40F6B0(a2->field_0);
-        offset = offset + pB4->field_98_velocity_vector;
-
-        pParticle->field_30_pNext->set_ang_lazy_420690(a2->field_0);
-        pParticle->field_30_pNext->set_xyz_lazy_420600(a2->field_14_xy.x + offset.x, a2->field_14_xy.y + offset.y, zpos);
-        pParticle->field_28_pSprite = a2;
-    }
-    gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
-    // 9.6f: Sprite::Set_2C_0x4_Flag_4337F0 here and above (inlined, using it in both places makes the diff worse)
-    pParticle->field_30_pNext->field_2C_flags |= 4;
 }
 
 // Something wrong with the velocities https://decomp.me/scratch/2Kz9I
@@ -316,103 +313,114 @@ void Particle_8::EmitWaterSplash_53F060(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang1
 
             if (pWaterSplashParticle)
             {
-                pWaterSplashParticle->field_34 = 0;
+                pWaterSplashParticle->field_34_unused = 0;
                 pWaterSplashParticle->field_38_state = 35;
                 pWaterSplashParticle->field_2C_counter = 15;
                 pWaterSplashParticle->field_2E = 15;
 
-                pWaterSplashParticle->field_30_pNext->SetType_4206F0(8);
-                pWaterSplashParticle->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 132);
+                pWaterSplashParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
+                pWaterSplashParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 132);
                 pWaterSplashParticle->field_46_sub_state = 0;
                 pWaterSplashParticle->field_48_timer = 6;
                 pWaterSplashParticle->field_30_pNext->set_xyz_lazy_420600(xpos, ypos, zpos);
-                gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pWaterSplashParticle->field_30_pNext);
+                gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pWaterSplashParticle->field_30_pNext);
             }
         }
     }
 }
 
 // https://decomp.me/scratch/3Ars7
-WIP_FUNC(0x53F4C0)
+// 9.6f 0x48D4E0. The original enters with EH state 4 (five points) and sets no state in the car
+// branch: the `offset + get_x_y()` sum is the plain inline operator+ (charged, called out of line,
+// no EH state for the temporaries) in both branches. `Ang16 angle` is at function scope as in 9.6f.
+// The inline budget is tight: the first car rotation must inline exactly one operator* and
+// PolarToCartesian_41FC20 one, which needs the front-end size of the function in a window of
+// about 230 nodes. The implicit int -> Fix16 conversions in the vel constructions, the declared
+// then assigned zpos, the `x = x | n` flag stores and the `!= 0` are code-neutral spellings that
+// put it there (Scripts/inline_budget/inlsim.py --scan); explicit `Fix16(0)` / `|=` forms fall short.
+MATCH_FUNC(0x53F4C0)
 void Particle_8::EmitFlameStreamSegment_53F4C0(Sprite* pSprt)
 {
-    WIP_IMPLEMENTED;
-    Ang16 angle;
-    Fix16_Point vector(Fix16(0), Fix16(0));
-    Fix16_Point vector_2;
-    Fix16 zero;
-    Fix16 unknown;
-    if (!bSkip_particles_67D64D)
     {
-        if (!field_0_fire_hit_obj)
+        Fix16_Point vel(0, 0);
+        Fix16_Point pos;
+        Fix16_Point offset;
+        Fix16_Point ped_offset;
+        // point_velocity only receives the unused result of GetPointVelocity_561350 (9.6f passed it
+        // to set_xyz_lazy instead of pos).
+        Fix16_Point point_velocity;
+        Ang16 angle;
+        if (!bSkip_particles_67D64D)
         {
-            field_0_fire_hit_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::fire_hitting_194, 0, 0, 0, kAngZero_6FD5D4);
-        }
-        vector.x = Fix16(0);
-        vector.y = Fix16(0);
-        Particle_4C* pParticle = gParticle_8_6FD5E8->New_53E3C0(vector.x, vector.y, dword_6FD330, 0, 0, 0);
-        if (pParticle)
-        {
-            pParticle->field_4_flags |= 1;
-            pParticle->field_30_pNext->SetType_4206F0(8);
-            pParticle->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 73);
-            pParticle->field_30_pNext->AllocInternal_59F950(dword_6FD554 * dword_6FD508, dword_6FD554 * dword_6FD508, kFP16Quarter_6FD2EC);
-            pParticle->field_34 = 0;
-            pParticle->field_38_state = 31;
-            Fix16 vec_x;
-            Fix16 vec_y;
-            // Ang16::PolarToCartesian_41FC20 with the second multiply out of line
-            vec_x = Ang16::sine_40F500(pSprt->field_0) * dword_6FD2E8;
-            vec_y = Ang16::cosine_40F520(pSprt->field_0).Multiply_408680(dword_6FD2E8);
-            pParticle->field_2C_counter = 100;
-            pParticle->field_46_sub_state = 0;
-            pParticle->field_48_timer = 0;
-            stru_6FD388 = vec_x + pParticle->field_30_pNext->field_14_xy.x;
-            stru_6FD38C = vec_y + pParticle->field_30_pNext->field_14_xy.y;
-            Fix16 zpos = pSprt->field_1C_zpos;
-            if (pSprt->get_type_416B40() == sprite_types_enum::car_2)
+            if (!field_0_fire_hit_obj)
             {
-                Sprite_18* pSprt18 = pSprt->field_8_car_bc_ptr->field_0_qq.GetSpriteForModel_5A6A50(114);
-                if (pSprt18)
+                field_0_fire_hit_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::fire_hitting_194, 0, 0, 0, kAngZero_6FD5D4);
+            }
+            vel = Fix16_Point(0, 0);
+            Particle_4C* pParticle = gParticle_8_6FD5E8->New_53E3C0(vel.x, vel.y, dword_6FD330, 0, 0, 0);
+            if (pParticle)
+            {
+                pParticle->field_4_flags = pParticle->field_4_flags | 1;
+                pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
+                pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 73);
+                Particle_4C* tmp = pParticle;
+                tmp->field_30_pNext->AllocCollisionShape_59F950(dword_6FD554 * dword_6FD508, dword_6FD554 * dword_6FD508, kFP16Quarter_6FD2EC);
+                pParticle->field_38_state = 31;
+                pParticle->field_34_unused = 0;
+                Fix16 vec_x;
+                Fix16 vec_y;
+                Ang16::PolarToCartesian_41FC20(pSprt->field_0_rotation, dword_6FD2E8, vec_x, vec_y);
+                pParticle->field_2C_counter = 100;
+                pParticle->field_46_sub_state = 0;
+                pParticle->field_48_timer = 0;
+                stru_6FD388 = pSprt->field_14_xy.x + vec_x;
+                stru_6FD38C = pSprt->field_14_xy.y + vec_y;
+                Fix16 zpos;
+                zpos = pSprt->field_1C_zpos;
+                // Both loaded before the type check (one load of field_8, kept for both branches)
+                Car_BC* pCar = pSprt->field_8_car_bc_ptr;
+                Char_B4* pPed = pSprt->field_8_char_b4_ptr;
+                if (pSprt->field_30_sprite_type_enum == sprite_types_enum::car_2)
                 {
-                    angle = pSprt18->field_0->field_0 + kAng180_6FD3EE;
-                    vector.SetXY_432860(Fix16(0), dword_6FD2D4);
-                    vector.RotateByAngle_40F6B0(angle);
-                    zero = Fix16(0);
-                    unknown = kFP16Eighth_6FD2D0;
+                    AttachedSprite_18* pSprt18 = pCar->field_0_attachments.GetSpriteForModel_5A6A50(114);
+                    if (pSprt18)
+                    {
+                        angle = pSprt18->field_0_pSprite->field_0_rotation + kAng180_6FD3EE;
+                        pos.SetXY_432860(Fix16(0), dword_6FD2D4);
+                        pos.RotateByAngle_40F6B0(angle);
+                        offset.SetXY_432860(Fix16(0), kFP16Eighth_6FD2D0);
+                    }
+                    else
+                    {
+                        AttachedSprite_18* pSprt18_2 = pCar->field_0_attachments.GetSpriteForModel_5A6A50(248);
+                        angle = pSprt18_2->field_0_pSprite->field_0_rotation;
+                        pos.SetXY_432860(Fix16(0), dword_6FD48C);
+                        pos.RotateByAngle_40F6B0(angle);
+                        offset.SetXY_432860(Fix16(0), dword_6FD4CC);
+                    }
+                    pParticle->field_30_pNext->set_ang_lazy_420690(angle);
+                    offset.RotateByAngle_40F6B0(pSprt->field_0_rotation);
+                    pos += offset + pSprt->get_x_y_443580();
+                    point_velocity = pSprt->field_8_car_bc_ptr->field_58_physics->GetPointVelocity_561350(&pos); // not used
+                    pParticle->field_30_pNext->set_xyz_lazy_420600(pos.x, pos.y, zpos);
                 }
                 else
                 {
-                    Sprite_18* pSprt18_2 = pSprt->field_8_car_bc_ptr->field_0_qq.GetSpriteForModel_5A6A50(248);
-                    angle = pSprt18_2->field_0->field_0;
-                    vector.SetXY_432860(Fix16(0), dword_6FD48C);
-                    vector.RotateByAngle_40F6B0(angle);
-                    zero = Fix16(0);
-                    unknown = dword_6FD4CC;
+                    ped_offset.x = -dword_6FD464;
+                    ped_offset.y = dword_6FD468 + dword_6FD2E8;
+                    ped_offset.RotateByAngle_40F6B0(pSprt->field_0_rotation);
+                    ped_offset = ped_offset + *(Fix16_Point*)&pPed->field_98_velocity_vector;
+                    pParticle->field_30_pNext->set_ang_lazy_420690(pSprt->field_0_rotation);
+                    pParticle->field_30_pNext->set_xyz_lazy_420600(pSprt->field_14_xy.x + ped_offset.x, pSprt->field_14_xy.y + ped_offset.y, zpos);
                 }
-                vector_2.SetXY_432860(zero, unknown);
-                pParticle->field_30_pNext->set_ang_lazy_420690(angle);
-                vector_2.RotateByAngle_40F6B0(pSprt->field_0);
-                vector += vector_2.Add_40AC50(pSprt->get_x_y());
-                pSprt->field_8_car_bc_ptr->field_58_physics->GetPointVelocity_561350(&vector); // not used?
-                pParticle->field_30_pNext->set_xyz_lazy_420600(vector.x, vector.y, zpos);
+                pParticle->field_28_pSprite = pSprt;
+                if (pParticle->field_30_pNext->CheckSpriteMovementRegion_5A2500() != 0)
+                {
+                    pParticle->field_2C_counter = 0;
+                }
+                gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
+                pParticle->field_30_pNext->field_2C_flags = pParticle->field_30_pNext->field_2C_flags | 4;
             }
-            else
-            {
-                vector_2.x = -dword_6FD464;
-                vector_2.y = dword_6FD468 + dword_6FD2E8;
-                vector_2.RotateByAngle_40F6B0(pSprt->field_0);
-                vector = vector_2.Add_40AC50(*(Fix16_Point*)&pSprt->field_8_char_b4_ptr->field_98_velocity_vector);
-                pParticle->field_30_pNext->set_ang_lazy_420690(pSprt->field_0);
-                pParticle->field_30_pNext->set_xyz_lazy_420600(pSprt->field_14_xy.x + vector.x, pSprt->field_14_xy.y + vector.y, zpos);
-            }
-            pParticle->field_28_pSprite = pSprt;
-            if (pParticle->field_30_pNext->CheckSpriteMovementRegion_5A2500())
-            {
-                pParticle->field_2C_counter = 0;
-            }
-            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pParticle->field_28_pSprite);
-            pParticle->field_30_pNext->field_2C_flags |= 4;
         }
     }
 }
@@ -435,15 +443,15 @@ void Particle_8::EmitFireTruckSprayParticle_53FAE0(Sprite* pSprite)
         Particle_4C* pParticle = gParticle_8_6FD5E8->New_53E3C0(vector.x, vector.y, dword_6FD330, 0, 0, 0);
         if (pParticle)
         {
-            pParticle->field_4_flags |= 1;
-            pParticle->field_30_pNext->SetType_4206F0(8);
-            pParticle->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 111);
-            pParticle->field_30_pNext->AllocInternal_59F950(dword_6FD554 * dword_6FD508, dword_6FD554 * dword_6FD508, kFP16Quarter_6FD2EC);
-            pParticle->field_34 = 0;
+            pParticle->field_4_bf.bDriverAttacking = true;
+            pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
+            pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 111);
+            pParticle->field_30_pNext->AllocCollisionShape_59F950(dword_6FD554 * dword_6FD508, dword_6FD554 * dword_6FD508, kFP16Quarter_6FD2EC);
+            pParticle->field_34_unused = 0;
             pParticle->field_38_state = 34;
             Fix16 vec_x;
             Fix16 vec_y;
-            Ang16::PolarToCartesian_41FC20(pSprite->field_0, dword_6FD2E8, vec_x, vec_y);
+            Ang16::PolarToCartesian_41FC20(pSprite->field_0_rotation, dword_6FD2E8, vec_x, vec_y);
             pParticle->field_2C_counter = 100;
             pParticle->field_46_sub_state = 0;
             pParticle->field_48_timer = 0;
@@ -453,20 +461,20 @@ void Particle_8::EmitFireTruckSprayParticle_53FAE0(Sprite* pSprite)
             if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car_2)
             {
                 Car_BC* pCar = pSprite->field_8_car_bc_ptr;
-                Sprite_18* pGun = pCar->field_0_qq.GetSpriteForModel_5A6A50(114);
+                AttachedSprite_18* pGun = pCar->field_0_attachments.GetSpriteForModel_5A6A50(114);
                 if (pGun)
                 {
-                    angle = pGun->field_0->field_0 + kAng180_6FD3EE;
+                    angle = pGun->field_0_pSprite->field_0_rotation + kAng180_6FD3EE;
                 }
                 else
                 {
-                    angle = pCar->field_0_qq.GetSpriteForModel_5A6A50(248)->field_0->field_0;
+                    angle = pCar->field_0_attachments.GetSpriteForModel_5A6A50(248)->field_0_pSprite->field_0_rotation;
                 }
                 pParticle->field_30_pNext->set_ang_lazy_420690(angle);
             }
             else
             {
-                pParticle->field_30_pNext->set_ang_lazy_420690(pSprite->field_0);
+                pParticle->field_30_pNext->set_ang_lazy_420690(pSprite->field_0_rotation);
             }
             pParticle->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, zpos);
             pParticle->field_28_pSprite = pSprite;
@@ -474,8 +482,8 @@ void Particle_8::EmitFireTruckSprayParticle_53FAE0(Sprite* pSprite)
             {
                 pParticle->field_2C_counter = 0;
             }
-            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
-            pParticle->field_30_pNext->field_2C_flags |= 4;
+            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
+            pParticle->field_30_pNext->field_2C_bf.bNoLighting = true;
         }
     }
 }
@@ -519,16 +527,16 @@ void Particle_8::EmitImpactParticles_53FE40(Fix16 x, Fix16 y, Fix16 z, Fix16_Poi
         Particle_4C* pNew4C = gParticle_8_6FD5E8->New_53E3C0(t.x, t.y, dword_6FD330, t.x.DivideInt_53E860(15).Negate_4086A0(), t.y.DivideInt_53E860(15).Negate_4086A0(), 0);
         if (pNew4C)
         {
-            pNew4C->field_34 = 1;
+            pNew4C->field_34_unused = 1;
             pNew4C->field_38_state = 7;
             pNew4C->field_2C_counter = 7;
             pNew4C->field_2E = 7;
-            pNew4C->field_30_pNext->SetType_4206F0(8);
-            pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 127);
+            pNew4C->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
+            pNew4C->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 127);
             pNew4C->field_30_pNext->set_xyz_lazy_420600(x, y, z);
-            pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+            pNew4C->field_30_pNext->SetNoLighting_4337F0();
 
-            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
+            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
         }
     }
 }
@@ -560,18 +568,18 @@ void Particle_8::EmitElectricArcParticle(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang
         Particle_4C* pNew4C = gParticle_8_6FD5E8->New_53E3C0(vector.x, vector.y, dword_6FD330, 0, 0, 0);
         if (pNew4C)
         {
-            pNew4C->field_34 = 0;
+            pNew4C->field_34_unused = 0;
             pNew4C->field_38_state = 37;
             pNew4C->field_46_sub_state = 0;
             pNew4C->field_2E = pNew4C->field_2C_counter;
-            pNew4C->field_30_pNext->SetType_4206F0(8);
-            pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+            pNew4C->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
+            pNew4C->field_30_pNext->SetNoLighting_4337F0();
             pNew4C->field_30_pNext->set_xyz_lazy_420600(xpos, ypos, zpos);
             pNew4C->field_30_pNext->set_ang_lazy_420690(ang);
-            pNew4C->field_30_pNext->set_id_lazy_4206C0(gRng_6F6784.get_int_4F7AE0(4) + gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 175);
-            pNew4C->field_30_pNext->SetFlags_4337D0(2, 20);
-            pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
-            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
+            pNew4C->field_30_pNext->set_id_lazy_4206C0(gRng_6F6784.get_int_4F7AE0(4) + gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 175);
+            pNew4C->field_30_pNext->SetBlendAndAlpha_4337D0(2, 20);
+            pNew4C->field_30_pNext->SetNoLighting_4337F0();
+            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
         }
     }
 }
@@ -585,17 +593,17 @@ void Particle_8::SpawnParticleSprite_5405D0(Sprite* pSprite)
         if (pNew4C)
         {
             pNew4C->field_28_pSprite = pSprite;
-            pNew4C->field_34 = 0;
+            pNew4C->field_34_unused = 0;
             pNew4C->field_46_sub_state = 0;
 
-            pNew4C->field_30_pNext = gSprite_Pool_703818->get_new_sprite();
-            pNew4C->field_30_pNext->SetType_4206F0(8);
+            pNew4C->field_30_pNext = gSpritePool_703818->get_new_sprite();
+            pNew4C->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
             pNew4C->field_38_state = 38;
-            pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 164);
-            pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+            pNew4C->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 164);
+            pNew4C->field_30_pNext->SetNoLighting_4337F0();
             pNew4C->field_30_pNext->set_xyz_lazy_420600(pSprite->field_14_xy.x, pSprite->field_14_xy.y, pSprite->field_1C_zpos);
 
-            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
+            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
         }
     }
 }
@@ -613,7 +621,7 @@ void Particle_8::SpawnCigaretteSmokePuff_5406B0(Sprite* pSprite, char_type bUnkn
         Particle_4C* pNew4C = gParticle_8_6FD5E8->New_53E3C0(vel.x, vel.y, dword_6FD330, 0, 0, 0);
         if (pNew4C)
         {
-            pNew4C->field_34 = 1;
+            pNew4C->field_34_unused = 1;
 
             if (bUnknown)
             {
@@ -627,37 +635,37 @@ void Particle_8::SpawnCigaretteSmokePuff_5406B0(Sprite* pSprite, char_type bUnkn
             }
 
             pNew4C->field_2E = pNew4C->field_2C_counter;
-            pNew4C->field_30_pNext->SetType_4206F0(8);
-            pNew4C->field_30_pNext->set_id_lazy_4206C0(gPhi_8CA8_6FCF00->field_8CA4_def112_sprite_palette + 3);
+            pNew4C->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
+            pNew4C->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 3);
 
             Fix16 x;
             Fix16 y;
             if (bUnknown)
             {
-                PolarToCartesian_OutOfLineCos(pSprite->field_0, dword_6FD474, x, y);
+                PolarToCartesian_OutOfLineCos(pSprite->field_0_rotation, dword_6FD474, x, y);
             }
             else
             {
-                PolarToCartesian_OutOfLineCos(pSprite->field_0, dword_6FD46C, x, y);
+                PolarToCartesian_OutOfLineCos(pSprite->field_0_rotation, dword_6FD46C, x, y);
             }
             stru_6FD388 = x;
             stru_6FD38C = y;
 
-            Fix16 v16;
-            Fix16 v17;
-            PolarToCartesian_OutOfLineCos(pSprite->field_0 - kAng90_6FD314, dword_6FD468, v16, v17);
+            Fix16 offset_x;
+            Fix16 offset_y;
+            PolarToCartesian_OutOfLineCos(pSprite->field_0_rotation - kAng90_6FD314, dword_6FD468, offset_x, offset_y);
 
-            stru_6FD388 += v16 + pSprite->field_14_xy.x;
-            stru_6FD38C += v17 + pSprite->field_14_xy.y;
+            stru_6FD388 += offset_x + pSprite->field_14_xy.x;
+            stru_6FD38C += offset_y + pSprite->field_14_xy.y;
 
             pNew4C->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, pSprite->field_1C_zpos);
             pNew4C->field_28_pSprite = pSprite;
 
-            gPurpleDoom_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
+            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pNew4C->field_30_pNext);
 
             if (bUnknown)
             {
-                pNew4C->field_30_pNext->Set_2C_0x4_Flag_4337F0();
+                pNew4C->field_30_pNext->SetNoLighting_4337F0();
             }
         }
     }

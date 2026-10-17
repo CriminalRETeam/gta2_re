@@ -49,7 +49,7 @@ void TileAnim_18::Start_5BC1D0()
 MATCH_FUNC(0x5bc1f0)
 char_type TileAnim_18::PoolUpdate()
 {
-    u8 bVar3;
+    u8 bAtEnd;
 
     field_A_frame_timer--;
     if (field_A_frame_timer == 0)
@@ -57,14 +57,14 @@ char_type TileAnim_18::PoolUpdate()
         if (field_2_anim_length < field_0_start_frame)
         {
             field_8_current_frame--;
-            bVar3 = field_8_current_frame < field_2_anim_length;
+            bAtEnd = field_8_current_frame < field_2_anim_length;
         }
         else
         {
             field_8_current_frame++;
-            bVar3 = field_8_current_frame > field_2_anim_length;
+            bAtEnd = field_8_current_frame > field_2_anim_length;
         }
-        if (bVar3)
+        if (bAtEnd)
         {
             if (field_6_repeat > 0 && --field_6_repeat == 0)
             {

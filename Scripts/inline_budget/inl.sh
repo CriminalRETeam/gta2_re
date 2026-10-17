@@ -11,7 +11,7 @@
 SRC=$(realpath "$1"); shift
 LOG=${LOG:-$IC2/last.log}
 OBJ=${OBJ:-$IC2/last.obj}
-case "$(basename "$SRC")" in Network_20324.cpp) X="/Gz";; sharp_bose_0x54.cpp) X="/GX-";; gbh_graphics.cpp) X="/Od /ZI";; esac
+case "$(basename "$SRC")" in Network_20324.cpp) X="/Gz";; FpsCounter_54.cpp) X="/GX-";; gbh_graphics.cpp) X="/Od /ZI";; esac
 export INCLUDE="$(winpath "$RT/VC98/ATL/Include");$(winpath "$RT/VC98/Include");$(winpath "$RT/VC98/MFC/Include")"
 FLAGS="/DWIN32 /D_WINDOWS /D_CRT_SECURE_NO_WARNINGS /D_CRT_NON_CONFORMING_SWPRINTFS /DIMGUI_DLL /W3 /EHsc /GX /ML /O2 /DNDEBUG $X"
 INCS="/I$(winpath "$(dirname "$SRC")") /I$(winpath "$ROOT") /I$(winpath "$RT")"

@@ -76,6 +76,7 @@ EXPORT void __stdcall DMA_Video_Unload_5EB8C0(SVideo* pVidSys)
     varName = (varType)GetProcAddress(hDmaVideoDll_7085E8, funcName); \
     if (!varName)                                                      \
     {                                                                  \
+        char_type Text[120];                                           \
         sprintf(Text, "Can't Find Function Called %s", funcName);      \
         MessageBoxA(0, Text, "Error Patching DLL Function", MB_OK);    \
         FreeLibrary(hDmaVideoDll_7085E8);                             \
@@ -86,7 +87,6 @@ EXPORT void __stdcall DMA_Video_Unload_5EB8C0(SVideo* pVidSys)
 WIP_FUNC(0x5EB970)
 EXPORT s32 __stdcall DMA_Video_LoadDll_5EB970(const char_type* lpLibFileName)
 {
-    char_type Text[120];
     char_type Buffer[128];
 
     gVidFuncs_708600.pVid_GetVersion = &pVid_GetVersion;

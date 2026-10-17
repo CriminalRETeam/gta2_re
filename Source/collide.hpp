@@ -2,12 +2,12 @@
 
 #include "Function.hpp"
 #include "Pool.hpp"
-#include "PurpleDoom.hpp"
+#include "SpriteGrid_400.hpp"
 #include "fix16.hpp"
 
 class Sprite;
 
-class Collide_8
+class GridSpriteLink_8
 {
   public:
     void PoolAllocate()
@@ -18,47 +18,47 @@ class Collide_8
     {
     }
 
-    Sprite* field_0_sprt;
-    Collide_8* mpNext;
+    Sprite* field_0_pSprite;
+    GridSpriteLink_8* mpNext;
 };
 
-class Collide_8_Pool : public PoolBasic<Collide_8, 4096>
+class GridSpriteLink_Pool : public PoolBasic<GridSpriteLink_8, 4096>
 {
   public:
-    Collide_8_Pool()
+    GridSpriteLink_Pool()
     {
 
     }
 
-    ~Collide_8_Pool()
+    ~GridSpriteLink_Pool()
     {
       this->field_0_pHead = 0;
     }
 };
 
-class PurpleDoom_C_Pool : public PoolBasic<PurpleDoom_C, 6000>
+class GridCell_Pool : public PoolBasic<GridCell_C, 6000>
 {
   public:
-    PurpleDoom_C_Pool()
+    GridCell_Pool()
     {
 
     }
 
-    ~PurpleDoom_C_Pool()
+    ~GridCell_Pool()
     {
       this->field_0_pHead = 0;
     }
 };
 
-class Collide_C
+class CollisionCounters_C
 {
   public:
     EXPORT void ResetCount_478A20();
-    EXPORT Collide_C();
-    EXPORT ~Collide_C();
-    s32 field_0_count;
-    s32 field_4_count;
+    EXPORT CollisionCounters_C();
+    EXPORT ~CollisionCounters_C();
+    s32 field_0_test_count;
+    s32 field_4_query_id;
     s32 field_8_bUnknown;
 };
 
-EXTERN_GLOBAL(Collide_C*, gCollide_C_6791FC);
+EXTERN_GLOBAL(CollisionCounters_C*, gCollisionCounters_6791FC);

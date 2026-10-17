@@ -279,8 +279,8 @@ class Fix16_Point
     // Out-of-line copy of RotateByAngle_40F6B0, emitted in CarPhysics_B0.cpp
     EXPORT void RotateVelocity_562C20(const Ang16& angle);
 
-    EXPORT Fix16_Point Multiply_438FE0(Fix16& a1);
-    EXPORT Fix16_Point Divide_442CB0(Fix16& a1);
+    EXPORT Fix16_Point Multiply_438FE0(Fix16& in);
+    EXPORT Fix16_Point Divide_442CB0(Fix16& in);
 
     // Divide_442CB0 as a nothrow inline (see DivideInl_55F9E0; CarPhysics_B0::HandleObjectCollision_5606C0,
     // Car_BC::ApplyExplosionImpulse_443710)
@@ -380,7 +380,7 @@ class Fix16_Point
     }
 
     // MATCH_FUNC(0x40AC80)
-    Fix16_Point operator-(const Fix16_Point& rhs)
+    Fix16_Point operator-(const Fix16_Point& rhs) const
     {
         return Fix16_Point(x - rhs.x, y - rhs.y);
     }
@@ -389,6 +389,10 @@ class Fix16_Point
     // for temporaries around the call (Crane_15C::HookPickupCar_47EF80, ComputeHookPolar_47F6C0); the
     // inline operator- called out of line gets none (CarPhysics_B0::HandleCarCollision_55FF20)
     EXPORT Fix16_Point Sub_40AC80(const Fix16_Point& rhs);
+
+    // operator+/operator- with their bodies defined at the end of Car_BC.cpp (HandleCarHitByObject_43F130)
+    inline Fix16_Point AddLate_40AC50(const Fix16_Point& in);
+    inline Fix16_Point SubLate_40AC80(const Fix16_Point& rhs);
 
     // Out of line operator+ (CarPhysics_B0::SpawnSkidSegment_55D200)
     EXPORT Fix16_Point Add_40AC50(const Fix16_Point& in);

@@ -2,7 +2,22 @@
 
 #include "Function.hpp"
 
-class nostalgic_ellis_0x28;
+namespace traffic_light_phase
+{
+enum
+{
+    north_south_green_1 = 1,
+    north_south_amber_2 = 2,
+    north_south_red_3 = 3,
+    east_west_green_4 = 4,
+    east_west_amber_5 = 5,
+    east_west_red_6 = 6,
+    peds_crossing_7 = 7, // all red, pedestrians cross
+    all_red_8 = 8,
+};
+} // namespace traffic_light_phase
+
+class Light_28;
 class Object_2C;
 
 class TrafficLight_20
@@ -15,10 +30,10 @@ class TrafficLight_20
     Object_2C* field_4_south_headlight_obj;
     Object_2C* field_8_west_headlight_obj;
     Object_2C* field_C_east_headlight_obj;
-    nostalgic_ellis_0x28* field_10_north_light;
-    nostalgic_ellis_0x28* field_14_south_light;
-    nostalgic_ellis_0x28* field_18_west_light;
-    nostalgic_ellis_0x28* field_1C_east_light;
+    Light_28* field_10_north_light;
+    Light_28* field_14_south_light;
+    Light_28* field_18_west_light;
+    Light_28* field_1C_east_light;
 };
 
 class TrafficLights_194
@@ -30,9 +45,9 @@ class TrafficLights_194
     EXPORT void CreateFromMapZones_5C2AC0();
     EXPORT TrafficLights_194();
     EXPORT ~TrafficLights_194();
-    bool is_phase_7_434960() const
+    bool ArePedsCrossing_434960() const
     {
-      return field_192_phase == 7;
+      return field_192_phase == traffic_light_phase::peds_crossing_7;
     }
     TrafficLight_20* field_0_traffic_lights[100];
     u16 field_190_array_used_count;

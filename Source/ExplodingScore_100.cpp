@@ -108,7 +108,7 @@ ExplodingScore_50::ExplodingScore_50()
     field_3C = 0;
     field_40 = 0;
     field_4C_score = 0;
-    field_48 = 0;
+    field_48_unused = 0;
     mpNext = 0;
     field_34_palette = 9;
 }
@@ -130,9 +130,9 @@ void ExplodingScore_50::PoolDeallocate()
 }
 
 MATCH_FUNC(0x596a70)
-void ExplodingScore_50::ClearNumbersArrayFrom_596A70(s32 a2)
+void ExplodingScore_50::ClearNumbersArrayFrom_596A70(s32 start_idx)
 {
-    for (u32 i = a2; i > 0; i--)
+    for (u32 i = start_idx; i > 0; i--)
     {
         field_4_digits[i] = 0;
     }
@@ -250,35 +250,35 @@ MATCH_FUNC(0x596c90)
 void ExplodingScore_50::DrawNumbers_596C90()
 {
     Fix16 a3;
-    Fix16 v12;
-    Fix16 v6;
-    Fix16 v7;
-    Camera_0xBC* pCamera = &gGame_0x40_67E008->field_38_orf1->field_14C_view_camera;
-    pCamera->ProjectWorldToScreen_OutOfLine_4B90E0(field_28_x, field_2C_y, field_30_z, &a3, &v12);
+    Fix16 screen_y;
+    Fix16 x_delta;
+    Fix16 y_delta;
+    Camera_0xBC* pCamera = &gGame_0x40_67E008->field_38_local_player->field_14C_view_camera;
+    pCamera->ProjectWorldToScreen_OutOfLine_4B90E0(field_28_x, field_2C_y, field_30_z, &a3, &screen_y);
     if (a3 < dword_702C6C)
     {
         a3 = dword_702C6C - a3;
-        v6 = a3 / dword_702BC4;
-        field_28_x += v6;
+        x_delta = a3 / dword_702BC4;
+        field_28_x += x_delta;
     }
     else if (a3 > dword_702F10)
     {
         a3 = dword_702F10 - a3;
-        v6 = a3 / dword_702BC4;
-        field_28_x += v6;
+        x_delta = a3 / dword_702BC4;
+        field_28_x += x_delta;
     }
 
-    if (v12 < dword_702C74)
+    if (screen_y < dword_702C74)
     {
-        v12 = dword_702C74 - v12;
-        v7 = v12 / dword_702BC4;
-        field_2C_y += v7;
+        screen_y = dword_702C74 - screen_y;
+        y_delta = screen_y / dword_702BC4;
+        field_2C_y += y_delta;
     }
-    else if (v12 > dword_702C08)
+    else if (screen_y > dword_702C08)
     {
-        v12 = dword_702C08 - v12;
-        v7 = v12 / dword_702BC4;
-        field_2C_y += v7;
+        screen_y = dword_702C08 - screen_y;
+        y_delta = screen_y / dword_702BC4;
+        field_2C_y += y_delta;
     }
 
     switch (this->field_0_numbers_count)
@@ -393,7 +393,7 @@ MATCH_FUNC(0x597100)
 void ExplodingScore_50::DrawSingleNumber_597100(s32 number_to_draw, s32 xpos_sub)
 {
 
-    Camera_0xBC* pCam = &gGame_0x40_67E008->field_38_orf1->field_14C_view_camera;
+    Camera_0xBC* pCam = &gGame_0x40_67E008->field_38_local_player->field_14C_view_camera;
 
     Fix16 proj_x;
     Fix16 proj_y;

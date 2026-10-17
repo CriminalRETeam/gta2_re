@@ -162,9 +162,9 @@ void Mike_A80::sDrawString_4FF910(s32 xpos, s32 ypos, const wchar_t* pFormat, ..
 }
 
 MATCH_FUNC(0x4ff970)
-void __stdcall Mike_A80::sub_4FF970(u32* a1)
+void __stdcall Mike_A80::sub_4FF970(u32* pValue)
 {
-    *a1 = 0;
+    *pValue = 0;
 }
 
 MATCH_FUNC(0x4ff980)

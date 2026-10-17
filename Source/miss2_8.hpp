@@ -2,8 +2,8 @@
 
 #include "Function.hpp"
 
-class Frismo_C_Pool;
-class Frismo_C;
+class ScriptStackFramePool_25C;
+class ScriptStackFrame_C;
 
 class miss2_8
 {
@@ -11,16 +11,16 @@ class miss2_8
     EXPORT miss2_8() throw(); // 503120
     EXPORT ~miss2_8(); // 503130
 
-    EXPORT void add_503160(Frismo_C* a2);
-    EXPORT Frismo_C* remove_503180();
+    EXPORT void add_503160(ScriptStackFrame_C* pFrame);
+    EXPORT ScriptStackFrame_C* remove_503180();
 
-    EXPORT Frismo_C* AllocFrame_5031A0();
+    EXPORT ScriptStackFrame_C* AllocFrame_5031A0();
 
-    EXPORT void FreeFrame_5031C0(Frismo_C* a2);
+    EXPORT void FreeFrame_5031C0(ScriptStackFrame_C* pFrame);
 
     EXPORT void remove_5031E0(u8 count);
 
-    Frismo_C* field_0_current;
+    ScriptStackFrame_C* field_0_current;
     u8 field_4_count;
     u8 field_5_pad;
     u8 field_6_pad;

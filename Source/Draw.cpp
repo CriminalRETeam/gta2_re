@@ -5,8 +5,8 @@
 #include "Function.hpp"
 #include "gbh_graphics.hpp"
 #include "gtx_0x106C.hpp"
-#include "magical_germain_0x8EC.hpp"
-#include "sharp_pare_0x15D8.hpp"
+#include "KanjiFont_8EC.hpp"
+#include "TextureCache_15D8.hpp"
 
 DEFINE_GLOBAL_INIT(Fix16, kFpOne_706A6C, Fix16(1), 0x706A6C);
 DEFINE_GLOBAL_INIT(Ang16, kAngZero_706C3C, Ang16(0), 0x706C3C);
@@ -143,7 +143,7 @@ void __stdcall MakeScreenTableAndSetWindow_5D7D30()
 }
 
 // https://decomp.me/scratch/Zmms7
-// 9.6f 0x4CBA50: v12/v13 are assigned after their declaration (the multiply result is copied into
+// 9.6f 0x4CBA50: half_w/half_h are assigned after their declaration (the multiply result is copied into
 // them), the flags test is one equality condition and the widths go through the Fix16(u8) ctor.
 // The ternary, the field reads in u/v and `u32 flags` set the front-end size that gives the
 // original's inline cut-offs: the second rotation's Negate_4086A0 inline, the others out of line.
@@ -164,10 +164,10 @@ void __stdcall DrawFigure_5D7EC0(s32 sprite_type,
         gGtx_0x106C_703DD4->get_sprite_index_5AA440(gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_type, sprite_idx));
     Fix16_Point point;
 
-    Fix16 v12;
-    Fix16 v13;
-    v12 = (Fix16(sprite_index_5AA440->field_4_width) / 2) * scale;
-    v13 = (Fix16(sprite_index_5AA440->field_5_height) / 2) * scale;
+    Fix16 half_w;
+    Fix16 half_h;
+    half_w = (Fix16(sprite_index_5AA440->field_4_width) / 2) * scale;
+    half_h = (Fix16(sprite_index_5AA440->field_5_height) / 2) * scale;
 
     u32 flags;
 
@@ -177,28 +177,28 @@ void __stdcall DrawFigure_5D7EC0(s32 sprite_type,
         flags |= 0x20000u;
     }
 
-    point.SetXY_432860(-v12, -v13);
+    point.SetXY_432860(-half_w, -half_h);
     point.RotateByAngle_40F6B0(rotation);
 
     gQuadVerts_706B88.field_0_verts[0].x = ((x_pos + point.x).ToFloat());
     gQuadVerts_706B88.field_0_verts[0].y = ((y_pos + point.y).ToFloat());
     gQuadVerts_706B88.field_0_verts[0].z = 0.000099999997f;
 
-    point.SetXY_432860(v12, -v13);
+    point.SetXY_432860(half_w, -half_h);
     point.RotateByAngle_40F6B0(rotation);
 
     gQuadVerts_706B88.field_0_verts[1].x = ((x_pos + point.x).ToFloat());
     gQuadVerts_706B88.field_0_verts[1].y = ((y_pos + point.y).ToFloat());
     gQuadVerts_706B88.field_0_verts[1].z = 0.000099999997f;
 
-    point.SetXY_432860(v12, v13);
+    point.SetXY_432860(half_w, half_h);
     point.RotateByAngle_40F6B0(rotation);
 
     gQuadVerts_706B88.field_0_verts[2].x = ((x_pos + point.x).ToFloat());
     gQuadVerts_706B88.field_0_verts[2].y = ((y_pos + point.y).ToFloat());
     gQuadVerts_706B88.field_0_verts[2].z = 0.000099999997f;
 
-    point.SetXY_432860(-v12, v13);
+    point.SetXY_432860(-half_w, half_h);
     point.RotateByAngle_40F6B0(rotation);
 
     gQuadVerts_706B88.field_0_verts[3].x = ((x_pos + point.x).ToFloat());
@@ -218,7 +218,7 @@ void __stdcall DrawFigure_5D7EC0(s32 sprite_type,
     gQuadVerts_706B88.field_0_verts[3].v = v;
 
     pgbh_DrawQuad(flags | CalcQuadFlags_5D83E0(alpha_value, og_flags),
-                  gSharp_pare_0x15D8_705064->GetSpriteTexture_5B94F0(sprite_type, sprite_idx, palette_type, palette),
+                  gTextureCache_15D8_705064->GetSpriteTexture_5B94F0(sprite_type, sprite_idx, palette_type, palette),
                   gQuadVerts_706B88.field_0_verts,
                   255);
 }
@@ -247,8 +247,17 @@ s32 __stdcall CalcQuadFlags_5D83E0(s32 mode, u8 a2)
     }
 }
 
+// Converts through an f32 local: the store to it is an x87 no-op node between the fildl and the fmuls
+// (as Fix16ToF32_Rounded in MapRenderer.cpp), which lets the scheduler put two integer loads between them.
+// Free inline (size <= 40), so it doesn't touch the inline budget.
+static inline f32 Fix16ToF32_Rounded(const Fix16& v)
+{
+    f32 f = v.mValue;
+    return (f / 16384.0f);
+}
+
 // https://decomp.me/scratch/SCz1D
-WIP_FUNC(0x5D8470);
+MATCH_FUNC(0x5D8470);
 void __stdcall DrawTexture_5D8470(STexture* pTexture,
                                  Fix16 x_pos,
                                  Fix16 y_pos,
@@ -261,8 +270,8 @@ void __stdcall DrawTexture_5D8470(STexture* pTexture,
 {
     Fix16_Point point;
     u32 flags;
-    Fix16 v12;
-    Fix16 v13;
+    Fix16 half_w;
+    Fix16 half_h;
     if (scale == kFpOne_706A6C && rotation == kAngZero_706C3C)
     {
         flags = 0x10000;
@@ -272,12 +281,12 @@ void __stdcall DrawTexture_5D8470(STexture* pTexture,
         flags = 0;
     }
 
-    v12 = (Fix16(width) / 2) * scale;
-    v13 = (Fix16(height) / 2) * scale;
+    half_w = (Fix16(width) / 2) * scale;
+    half_h = (Fix16(height) / 2) * scale;
 
     // point 1
 
-    point.SetXY_432860(-v12, -v13);
+    point.SetXY_432860(-half_w, -half_h);
     point.RotateByAngle_40F6B0(rotation);
 
     gQuadVerts_706B88.field_0_verts[0].x = ((x_pos + point.x).ToFloat());
@@ -286,16 +295,17 @@ void __stdcall DrawTexture_5D8470(STexture* pTexture,
 
     // point 2
 
-    point.SetXY_432860(v12, -v13);
+    point.SetXY_432860(half_w, -half_h);
     point.RotateByAngle_40F6B0(rotation);
 
-    gQuadVerts_706B88.field_0_verts[1].x = ((x_pos + point.x).ToFloat());
+    // Only this vertex converts through an f32 local (the original issues the fmuls two loads later)
+    gQuadVerts_706B88.field_0_verts[1].x = Fix16ToF32_Rounded(x_pos + point.x);
     gQuadVerts_706B88.field_0_verts[1].y = ((y_pos + point.y).ToFloat());
     gQuadVerts_706B88.field_0_verts[1].z = 0.000099999997f;
 
     // point 3
 
-    point.SetXY_432860(v12, v13);
+    point.SetXY_432860(half_w, half_h);
     point.RotateByAngle_40F6B0(rotation);
 
     gQuadVerts_706B88.field_0_verts[2].x = ((x_pos + point.x).ToFloat());
@@ -304,7 +314,7 @@ void __stdcall DrawTexture_5D8470(STexture* pTexture,
 
     // point 4
 
-    point.SetXY_432860(-v12, v13);
+    point.SetXY_432860(-half_w, half_h);
     point.RotateByAngle_40F6B0(rotation);
 
     gQuadVerts_706B88.field_0_verts[3].x = ((x_pos + point.x).ToFloat());
@@ -379,11 +389,11 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
     {
         if (curr_palette_type == palette_types_enum::font_remaps_8)
         {
-            gMagical_germain_0x8EC_6F5168->SetGlyphParamsFromRemap_4D29D0(og_palette);
+            gKanjiFont_6F5168->SetGlyphParamsFromRemap_4D29D0(og_palette);
         }
         else
         {
-            gMagical_germain_0x8EC_6F5168->SetGlyphParamsFromFont_4D28A0(font_type);
+            gKanjiFont_6F5168->SetGlyphParamsFromFont_4D28A0(font_type);
         }
     }
 
@@ -422,11 +432,11 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
             {
                 if (curr_palette_type == palette_types_enum::font_remaps_8)
                 {
-                    gMagical_germain_0x8EC_6F5168->SetGlyphParamsFromRemap_4D29D0(curr_palette);
+                    gKanjiFont_6F5168->SetGlyphParamsFromRemap_4D29D0(curr_palette);
                 }
                 else
                 {
-                    gMagical_germain_0x8EC_6F5168->SetGlyphParamsFromFont_4D28A0(font_type);
+                    gKanjiFont_6F5168->SetGlyphParamsFromFont_4D28A0(font_type);
                 }
             }
         }
@@ -441,18 +451,18 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
                     u16 sprt_relative_idx = gGtx_0x106C_703DD4->GetSpriteIdxFromFont_5AA710(font_type, text_char - 33);
                     u16 sprt_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::font_7, sprt_relative_idx);
                     pSprIdx = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprt_idx);
-                    pTexture = gSharp_pare_0x15D8_705064->GetSpriteTexture_5B94F0(sprite_types_enum::font_7, sprt_relative_idx, curr_palette_type, curr_palette);
+                    pTexture = gTextureCache_15D8_705064->GetSpriteTexture_5B94F0(sprite_types_enum::font_7, sprt_relative_idx, curr_palette_type, curr_palette);
                 }
                 else
                 {
-                    pSprIdx = gMagical_germain_0x8EC_6F5168->field_8E0_sprite_index;
-                    pTexture = gMagical_germain_0x8EC_6F5168->GetLargeGlyphTexture_4D27D0(text_char);
+                    pSprIdx = gKanjiFont_6F5168->field_8E0_sprite_index;
+                    pTexture = gKanjiFont_6F5168->GetLargeGlyphTexture_4D27D0(text_char);
                 }
             }
             else
             {
-                pSprIdx = gMagical_germain_0x8EC_6F5168->field_8D4_sprite_index;
-                pTexture = gMagical_germain_0x8EC_6F5168->GetSmallGlyphTexture_4D2710(text_char);
+                pSprIdx = gKanjiFont_6F5168->field_8D4_sprite_index;
+                pTexture = gKanjiFont_6F5168->GetSmallGlyphTexture_4D2710(text_char);
             }
 
             sprite_w = Fix16(pSprIdx->field_4_width) * scale_fp;

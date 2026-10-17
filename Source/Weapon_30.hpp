@@ -11,7 +11,7 @@ class Sprite;
 class Car_BC;
 class Fix16_Point;
 
-class infallible_turing;
+class SoundObject_10;
 
 EXPORT void __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a4, Ped* a5, Sprite* a6);
 
@@ -52,8 +52,8 @@ class Weapon_30
     EXPORT ~Weapon_30();
     EXPORT void init_5DCD90();
     EXPORT void PoolDeallocate();
-    EXPORT void add_ammo_5DCE20(u8 a2);
-    EXPORT char_type add_ammo_capped_5DCE40(u8 a2);
+    EXPORT void add_ammo_5DCE20(u8 clips);
+    EXPORT char_type add_ammo_capped_5DCE40(u8 to_add);
     EXPORT bool is_max_capacity_5DCEA0();
     EXPORT bool sub_5DCEF0();
     EXPORT void TickReloadSpeed_5DCF40();
@@ -63,12 +63,12 @@ class Weapon_30
     EXPORT void pistol_5DD860();
     EXPORT void dual_pistol_5DDA70();
     EXPORT void smg_5DDD20();
-    EXPORT void throwable_5DDFC0(s32 a2, s32 a3, s32 a4);
+    EXPORT void throwable_5DDFC0(s32 obj_idx, s32 throw_strength, s32 throw_charge);
     EXPORT void sub_5DE4F0();
-    EXPORT void sub_5DFB60(u8 a2, Sprite* a3, Ang16 a4);
+    EXPORT void sub_5DFB60(u8 bFlag, Sprite* pSprite, Ang16 target_angle);
     EXPORT void shocker_5E06B0();
     EXPORT void electro_batton_5E0740();
-    EXPORT void car_bomb_5E0AB0(char_type a2);
+    EXPORT void car_bomb_5E0AB0(char_type instant_bomb);
     EXPORT void fire_truck_flamethrower_5E0B10();
     EXPORT void fire_truck_gun_5E0E70();
     EXPORT void tank_main_gun_5E10E0();
@@ -153,22 +153,22 @@ class Weapon_30
         return field_1C_idx;
     }
     
-    void Set_F4_433810(s32 value)
+    void SetTargetHit_433810(s32 value)
     {
-        field_4 = value;
+        field_4_bTargetHit = value;
     }
 
-    s32 Get_F4_41CC70()
+    s32 IsTargetHit_41CC70()
     {
-        return field_4;
+        return field_4_bTargetHit;
     }
 
     u16 field_0_ammo;
     u8 field_2_reload_speed;
-    s8 field_3;
-    s32 field_4;
+    s8 field_3_unused;
+    s32 field_4_bTargetHit;
     s32 field_8;
-    s32 field_C;
+    s32 field_C_unused;
     s16 field_10;
     s16 field_12;
     Car_BC* field_14_car;
@@ -176,12 +176,12 @@ class Weapon_30
     s32 field_1C_idx; // weapon_type
     s8 field_20;
     s8 field_21;
-    s8 field_22;
-    s8 field_23;
+    s8 field_22_unused;
+    s8 field_23_unused;
     Ped* field_24_pPed;
-    infallible_turing* field_28_pSound;
+    SoundObject_10* field_28_pSound;
     s8 field_2C_shot_fired;
-    s8 field_2D;
-    s8 field_2E;
-    s8 field_2F;
+    s8 field_2D_unused;
+    s8 field_2E_unused;
+    s8 field_2F_unused;
 };

@@ -8,9 +8,9 @@
 DEFINE_GLOBAL(root_sound, gRoot_sound_66B038, 0x66B038);
 
 MATCH_FUNC(0x40EF40)
-infallible_turing* root_sound::CreateSoundObject_40EF40(void* pObject, s32 objectType)
+SoundObject_10* root_sound::CreateSoundObject_40EF40(void* pObject, s32 objectType)
 {
-    infallible_turing* pCurrent = PopFree_410730();
+    SoundObject_10* pCurrent = PopFree_410730();
     pCurrent->field_C_pAny.pAny = pObject;
     pCurrent->field_4_bStatus = 0;
     pCurrent->field_0_object_type = objectType;
@@ -36,15 +36,15 @@ void root_sound::Service_40EFA0()
 }
 
 MATCH_FUNC(0x40EFB0)
-s32 root_sound::AddSoundObject_40EFB0(infallible_turing* a2)
+s32 root_sound::AddSoundObject_40EFB0(SoundObject_10* pSoundObj)
 {
-    return gSound_obj_66F680.AddSoundObject_419FA0(a2);
+    return gSound_obj_66F680.AddSoundObject_419FA0(pSoundObj);
 }
 
 MATCH_FUNC(0x40EFD0)
-void root_sound::FreeSoundEntry_40EFD0(s32 a2)
+void root_sound::FreeSoundEntry_40EFD0(s32 sound_entry)
 {
-    gSound_obj_66F680.FreeSoundEntry_41A090(a2);
+    gSound_obj_66F680.FreeSoundEntry_41A090(sound_entry);
 }
 
 MATCH_FUNC(0x40EFF0)
@@ -72,15 +72,15 @@ void root_sound::DeclareRadioStation_40F030(s32 station_idx, Fix16 xpos, Fix16 y
 }
 
 MATCH_FUNC(0x40F050)
-void root_sound::RemoveSound_40F050(Fix16 a1, Fix16 a2)
+void root_sound::RemoveSound_40F050(Fix16 sound_id, Fix16 emitter)
 {
-    gSound_obj_66F680.RemoveSound_57EE30(a1, a2);
+    gSound_obj_66F680.RemoveSound_57EE30(sound_id, emitter);
 }
 
 MATCH_FUNC(0x40F070)
-void root_sound::CycleRadioStation_40F070(char_type a1)
+void root_sound::CycleRadioStation_40F070(char_type direction)
 {
-    gSound_obj_66F680.CycleRadioStation_57EEE0(a1);
+    gSound_obj_66F680.CycleRadioStation_57EEE0(direction);
 }
 
 MATCH_FUNC(0x40F090)
@@ -140,15 +140,15 @@ char_type root_sound::Get3DSound_40F180()
 MATCH_FUNC(0x411E30)
 root_sound::root_sound()
 {
-    infallible_turing* pIter = field_4_pool;
+    SoundObject_10* pIter = field_4_pool;
     for (s32 i = 0; i < 999; i++)
     {
-        pIter->field_C_pAny.pInfallible_turing = pIter + 1;
+        pIter->field_C_pAny.pNextFree = pIter + 1;
         pIter++;
     }
 
     field_0_pFreeList = field_4_pool;
-    field_4_pool[999].field_C_pAny.pInfallible_turing = 0;
+    field_4_pool[999].field_C_pAny.pNextFree = 0;
 }
 
 MATCH_FUNC(0x411E60)

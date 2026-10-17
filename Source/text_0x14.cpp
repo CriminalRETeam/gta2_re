@@ -43,18 +43,18 @@ static const u16 kExtendedWesternCharMap[128] = {
     157, 158, 159, 160, 161, 162, 163, 164, 0,   174, 165, 166, 167, 0,   168, 0, 0,   169, 170, 171, 172, 0,   0,   0};
 
 MATCH_FUNC(0x5B58D0)
-u16 text_0x14::RemapExtendedChar_5B58D0(u16 a2)
+u16 text_0x14::RemapExtendedChar_5B58D0(u16 ch)
 {
-    u16 result = a2;
-    if (a2 >= 128u)
+    u16 result = ch;
+    if (ch >= 128u)
     {
-        if (a2 >= 256u)
+        if (ch >= 256u)
         {
             result = 63;
         }
         else
         {
-            result = field_10_lang_code == 'r' ? kExtendedRussianCharMap_626490[a2 - 128] : kExtendedWesternCharMap[a2 - 128];
+            result = field_10_lang_code == 'r' ? kExtendedRussianCharMap_626490[ch - 128] : kExtendedWesternCharMap[ch - 128];
             if (!result)
             {
                 result = 63;
@@ -65,11 +65,11 @@ u16 text_0x14::RemapExtendedChar_5B58D0(u16 a2)
 }
 
 MATCH_FUNC(0x5B5910)
-void text_0x14::RemapExtendedCharsIfNotJapanese_5B5910(wchar_t* a2)
+void text_0x14::RemapExtendedCharsIfNotJapanese_5B5910(wchar_t* pText)
 {
     if (field_10_lang_code != 'j')
     {
-        RemapExtendedChars_5B5930(a2);
+        RemapExtendedChars_5B5930(pText);
     }
 }
 
@@ -163,7 +163,7 @@ void text_tdat::TDAT_Load_5B5A80(u32 size)
 }
 
 MATCH_FUNC(0x5B5AD0)
-u16 text_0x14::ToUpper_5B5AD0(wchar_t a2)
+u16 text_0x14::ToUpper_5B5AD0(wchar_t ch)
 {
     // Both tables are indexed with the raw char (0x80-0xFF), so the 'g'/'i'/'r'/'s' lookup reads
     // past kExtendedRussianCharMap_626490 into word_626590[0..127], and 'f' reads word_626590[128..255].
@@ -171,20 +171,20 @@ u16 text_0x14::ToUpper_5B5AD0(wchar_t a2)
     switch (field_10_lang_code)
     {
         case 'e':
-            if (a2 >= 'a' && a2 <= 'z')
+            if (ch >= 'a' && ch <= 'z')
             {
-                return a2 - ' ';
+                return ch - ' ';
             }
             break;
 
         case 'f':
-            if (a2 >= 'a' && a2 <= 'z')
+            if (ch >= 'a' && ch <= 'z')
             {
-                return a2 - ' ';
+                return ch - ' ';
             }
-            if (a2 >= 0x80 && a2 <= 0xFF)
+            if (ch >= 0x80 && ch <= 0xFF)
             {
-                return word_626590[a2];
+                return word_626590[ch];
             }
             break;
 
@@ -192,17 +192,17 @@ u16 text_0x14::ToUpper_5B5AD0(wchar_t a2)
         case 'i':
         case 'r':
         case 's':
-            if (a2 >= 'a' && a2 <= 'z')
+            if (ch >= 'a' && ch <= 'z')
             {
-                return a2 - ' ';
+                return ch - ' ';
             }
-            if (a2 >= 0x80 && a2 <= 0xFF)
+            if (ch >= 0x80 && ch <= 0xFF)
             {
-                return kExtendedRussianCharMap_626490[a2];
+                return kExtendedRussianCharMap_626490[ch];
             }
             break;
     }
-    return a2;
+    return ch;
 }
 
 MATCH_FUNC(0x5B5B80)
@@ -286,9 +286,9 @@ s32 __stdcall text_0x14::InsertLineBreaksAndGetNumLines_5B5BC0(wchar_t* pDestStr
 }
 
 MATCH_FUNC(0x5B5D10)
-char* text_0x14::Wide2PesudoAscii_5B5D10(const wchar_t* a1)
+char* text_0x14::Wide2PesudoAscii_5B5D10(const wchar_t* pText)
 {
-    const wchar_t* pSrc = a1;
+    const wchar_t* pSrc = pText;
     // jnb forced to jge by changing u32 loop index to int
     s32 dstIdx = 0;
     while (pSrc) // bug: should be *pSrc

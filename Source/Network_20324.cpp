@@ -13,7 +13,914 @@ DEFINE_GLOBAL(s32, gChatLineCount_6F8A2C, 0x6F8A2C);
 
 EXTERN_GLOBAL_ARRAY(char_type, gTmpBuffer_67C598, 256);
 
-Network_UI_Control_Data gUiControlDefinitions_621430[3][30];
+struct Network_UI_Control_Data_Array
+{
+    Network_UI_Control_Data_Array()
+    {
+        data[0][0].field_0_windowParams.field_0_x = 10;
+        data[0][0].field_0_windowParams.field_4_y = 10;
+        data[0][0].field_0_windowParams.field_8_w = 300;
+        data[0][0].field_0_windowParams.field_C_h = 300;
+        data[0][0].field_0_windowParams.field_10_hMenu = (HMENU)1000;
+        data[0][0].field_0_windowParams.field_14_style = 0x40010001;
+        data[0][0].field_0_windowParams.field_18_exStyle = 0x200;
+        strcpy(data[0][0].field_1C_window_class_name, "LISTBOX");
+        strcpy(data[0][0].field_6C_gtx_string_name, "");
+
+        data[0][1].field_0_windowParams.field_0_x = 10;
+        data[0][1].field_0_windowParams.field_4_y = 320;
+        data[0][1].field_0_windowParams.field_8_w = 100;
+        data[0][1].field_0_windowParams.field_C_h = 30;
+        data[0][1].field_0_windowParams.field_10_hMenu = (HMENU)1001;
+        data[0][1].field_0_windowParams.field_14_style = 0x48030001;
+        data[0][1].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[0][1].field_1C_window_class_name, "BUTTON");
+        strcpy(data[0][1].field_6C_gtx_string_name, "netui01");
+
+        data[0][2].field_0_windowParams.field_0_x = 110;
+        data[0][2].field_0_windowParams.field_4_y = 320;
+        data[0][2].field_0_windowParams.field_8_w = 100;
+        data[0][2].field_0_windowParams.field_C_h = 30;
+        data[0][2].field_0_windowParams.field_10_hMenu = (HMENU)1002;
+        data[0][2].field_0_windowParams.field_14_style = 0x40010000;
+        data[0][2].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[0][2].field_1C_window_class_name, "BUTTON");
+        strcpy(data[0][2].field_6C_gtx_string_name, "netui02");
+
+        data[0][3].field_0_windowParams.field_0_x = 210;
+        data[0][3].field_0_windowParams.field_4_y = 320;
+        data[0][3].field_0_windowParams.field_8_w = 100;
+        data[0][3].field_0_windowParams.field_C_h = 30;
+        data[0][3].field_0_windowParams.field_10_hMenu = (HMENU)2;
+        data[0][3].field_0_windowParams.field_14_style = 0x40010000;
+        data[0][3].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[0][3].field_1C_window_class_name, "BUTTON");
+        strcpy(data[0][3].field_6C_gtx_string_name, "netui03");
+
+        data[0][4].field_0_windowParams.field_0_x = 320;
+        data[0][4].field_0_windowParams.field_4_y = 10;
+        data[0][4].field_0_windowParams.field_8_w = 50;
+        data[0][4].field_0_windowParams.field_C_h = 30;
+        data[0][4].field_0_windowParams.field_10_hMenu = (HMENU)1003;
+        data[0][4].field_0_windowParams.field_14_style = 0x40000000;
+        data[0][4].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[0][4].field_1C_window_class_name, "STATIC");
+        strcpy(data[0][4].field_6C_gtx_string_name, "netui04");
+
+        data[0][5].field_0_windowParams.field_0_x = 380;
+        data[0][5].field_0_windowParams.field_4_y = 10;
+        data[0][5].field_0_windowParams.field_8_w = 100;
+        data[0][5].field_0_windowParams.field_C_h = 25;
+        data[0][5].field_0_windowParams.field_10_hMenu = (HMENU)1004;
+        data[0][5].field_0_windowParams.field_14_style = 0x40010000;
+        data[0][5].field_0_windowParams.field_18_exStyle = 0x200;
+        strcpy(data[0][5].field_1C_window_class_name, "EDIT");
+        strcpy(data[0][5].field_6C_gtx_string_name, "");
+
+        data[0][6].field_0_windowParams.field_0_x = 0;
+        data[0][6].field_0_windowParams.field_4_y = 0;
+        data[0][6].field_0_windowParams.field_8_w = 0;
+        data[0][6].field_0_windowParams.field_C_h = 0;
+        data[0][6].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[0][6].field_0_windowParams.field_14_style = 0x0;
+        data[0][6].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[0][6].field_1C_window_class_name, "");
+        strcpy(data[0][6].field_6C_gtx_string_name, "");
+
+        data[0][7].field_0_windowParams.field_0_x = 0;
+        data[0][7].field_0_windowParams.field_4_y = 0;
+        data[0][7].field_0_windowParams.field_8_w = 0;
+        data[0][7].field_0_windowParams.field_C_h = 0;
+        data[0][7].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[0][7].field_0_windowParams.field_14_style = 0x0;
+        data[0][7].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[0][7].field_1C_window_class_name, "");
+        strcpy(data[0][7].field_6C_gtx_string_name, "");
+
+        data[0][8].field_0_windowParams.field_0_x = 0;
+        data[0][8].field_0_windowParams.field_4_y = 0;
+        data[0][8].field_0_windowParams.field_8_w = 0;
+        data[0][8].field_0_windowParams.field_C_h = 0;
+        data[0][8].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[0][8].field_0_windowParams.field_14_style = 0x0;
+        data[0][8].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[0][8].field_1C_window_class_name, "");
+        strcpy(data[0][8].field_6C_gtx_string_name, "");
+
+        data[0][9].field_0_windowParams.field_0_x = 0;
+        data[0][9].field_0_windowParams.field_4_y = 0;
+        data[0][9].field_0_windowParams.field_8_w = 0;
+        data[0][9].field_0_windowParams.field_C_h = 0;
+        data[0][9].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[0][9].field_0_windowParams.field_14_style = 0x0;
+        data[0][9].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[0][9].field_1C_window_class_name, "");
+        strcpy(data[0][9].field_6C_gtx_string_name, "");
+
+        data[0][10].field_0_windowParams.field_0_x = 0;
+        data[0][10].field_0_windowParams.field_4_y = 0;
+        data[0][10].field_0_windowParams.field_8_w = 0;
+        data[0][10].field_0_windowParams.field_C_h = 0;
+        data[0][10].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[0][10].field_0_windowParams.field_14_style = 0x0;
+        data[0][10].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[0][10].field_1C_window_class_name, "");
+        strcpy(data[0][10].field_6C_gtx_string_name, "");
+
+        data[0][11].field_0_windowParams.field_0_x = 0;
+        data[0][11].field_0_windowParams.field_4_y = 0;
+        data[0][11].field_0_windowParams.field_8_w = 0;
+        data[0][11].field_0_windowParams.field_C_h = 0;
+        data[0][11].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[0][11].field_0_windowParams.field_14_style = 0x0;
+        data[0][11].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[0][11].field_1C_window_class_name, "");
+        strcpy(data[0][11].field_6C_gtx_string_name, "");
+
+        data[0][12].field_0_windowParams.field_0_x = 0;
+        data[0][12].field_0_windowParams.field_4_y = 0;
+        data[0][12].field_0_windowParams.field_8_w = 0;
+        data[0][12].field_0_windowParams.field_C_h = 0;
+        data[0][12].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[0][12].field_0_windowParams.field_14_style = 0x0;
+        data[0][12].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[0][12].field_1C_window_class_name, "");
+        strcpy(data[0][12].field_6C_gtx_string_name, "");
+
+        data[0][13].field_0_windowParams.field_0_x = 0;
+        data[0][13].field_0_windowParams.field_4_y = 0;
+        data[0][13].field_0_windowParams.field_8_w = 0;
+        data[0][13].field_0_windowParams.field_C_h = 0;
+        data[0][13].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[0][13].field_0_windowParams.field_14_style = 0x0;
+        data[0][13].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[0][13].field_1C_window_class_name, "");
+        strcpy(data[0][13].field_6C_gtx_string_name, "");
+
+        data[0][14].field_0_windowParams.field_0_x = 0;
+        data[0][14].field_0_windowParams.field_4_y = 0;
+        data[0][14].field_0_windowParams.field_8_w = 0;
+        data[0][14].field_0_windowParams.field_C_h = 0;
+        data[0][14].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[0][14].field_0_windowParams.field_14_style = 0x0;
+        data[0][14].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[0][14].field_1C_window_class_name, "");
+        strcpy(data[0][14].field_6C_gtx_string_name, "");
+
+        data[0][15].field_0_windowParams.field_0_x = 0;
+        data[0][15].field_0_windowParams.field_4_y = 0;
+        data[0][15].field_0_windowParams.field_8_w = 0;
+        data[0][15].field_0_windowParams.field_C_h = 0;
+        data[0][15].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[0][15].field_0_windowParams.field_14_style = 0x0;
+        data[0][15].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[0][15].field_1C_window_class_name, "");
+        strcpy(data[0][15].field_6C_gtx_string_name, "");
+
+        data[0][16].field_0_windowParams.field_0_x = 0;
+        data[0][16].field_0_windowParams.field_4_y = 0;
+        data[0][16].field_0_windowParams.field_8_w = 0;
+        data[0][16].field_0_windowParams.field_C_h = 0;
+        data[0][16].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[0][16].field_0_windowParams.field_14_style = 0x0;
+        data[0][16].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[0][16].field_1C_window_class_name, "");
+        strcpy(data[0][16].field_6C_gtx_string_name, "");
+
+        data[0][17].field_0_windowParams.field_0_x = 0;
+        data[0][17].field_0_windowParams.field_4_y = 0;
+        data[0][17].field_0_windowParams.field_8_w = 0;
+        data[0][17].field_0_windowParams.field_C_h = 0;
+        data[0][17].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[0][17].field_0_windowParams.field_14_style = 0x0;
+        data[0][17].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[0][17].field_1C_window_class_name, "");
+        strcpy(data[0][17].field_6C_gtx_string_name, "");
+
+        data[0][18].field_0_windowParams.field_0_x = 0;
+        data[0][18].field_0_windowParams.field_4_y = 0;
+        data[0][18].field_0_windowParams.field_8_w = 0;
+        data[0][18].field_0_windowParams.field_C_h = 0;
+        data[0][18].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[0][18].field_0_windowParams.field_14_style = 0x0;
+        data[0][18].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[0][18].field_1C_window_class_name, "");
+        strcpy(data[0][18].field_6C_gtx_string_name, "");
+
+        data[0][19].field_0_windowParams.field_0_x = 0;
+        data[0][19].field_0_windowParams.field_4_y = 0;
+        data[0][19].field_0_windowParams.field_8_w = 0;
+        data[0][19].field_0_windowParams.field_C_h = 0;
+        data[0][19].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[0][19].field_0_windowParams.field_14_style = 0x0;
+        data[0][19].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[0][19].field_1C_window_class_name, "");
+        strcpy(data[0][19].field_6C_gtx_string_name, "");
+
+        data[0][20].field_0_windowParams.field_0_x = 0;
+        data[0][20].field_0_windowParams.field_4_y = 0;
+        data[0][20].field_0_windowParams.field_8_w = 0;
+        data[0][20].field_0_windowParams.field_C_h = 0;
+        data[0][20].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[0][20].field_0_windowParams.field_14_style = 0x0;
+        data[0][20].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[0][20].field_1C_window_class_name, "");
+        strcpy(data[0][20].field_6C_gtx_string_name, "");
+
+        data[0][21].field_0_windowParams.field_0_x = 0;
+        data[0][21].field_0_windowParams.field_4_y = 0;
+        data[0][21].field_0_windowParams.field_8_w = 0;
+        data[0][21].field_0_windowParams.field_C_h = 0;
+        data[0][21].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[0][21].field_0_windowParams.field_14_style = 0x0;
+        data[0][21].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[0][21].field_1C_window_class_name, "");
+        strcpy(data[0][21].field_6C_gtx_string_name, "");
+
+        data[0][22].field_0_windowParams.field_0_x = 0;
+        data[0][22].field_0_windowParams.field_4_y = 0;
+        data[0][22].field_0_windowParams.field_8_w = 0;
+        data[0][22].field_0_windowParams.field_C_h = 0;
+        data[0][22].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[0][22].field_0_windowParams.field_14_style = 0x0;
+        data[0][22].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[0][22].field_1C_window_class_name, "");
+        strcpy(data[0][22].field_6C_gtx_string_name, "");
+
+        data[0][23].field_0_windowParams.field_0_x = 0;
+        data[0][23].field_0_windowParams.field_4_y = 0;
+        data[0][23].field_0_windowParams.field_8_w = 0;
+        data[0][23].field_0_windowParams.field_C_h = 0;
+        data[0][23].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[0][23].field_0_windowParams.field_14_style = 0x0;
+        data[0][23].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[0][23].field_1C_window_class_name, "");
+        strcpy(data[0][23].field_6C_gtx_string_name, "");
+
+        data[0][24].field_0_windowParams.field_0_x = 0;
+        data[0][24].field_0_windowParams.field_4_y = 0;
+        data[0][24].field_0_windowParams.field_8_w = 0;
+        data[0][24].field_0_windowParams.field_C_h = 0;
+        data[0][24].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[0][24].field_0_windowParams.field_14_style = 0x0;
+        data[0][24].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[0][24].field_1C_window_class_name, "");
+        strcpy(data[0][24].field_6C_gtx_string_name, "");
+
+        data[0][25].field_0_windowParams.field_0_x = 0;
+        data[0][25].field_0_windowParams.field_4_y = 0;
+        data[0][25].field_0_windowParams.field_8_w = 0;
+        data[0][25].field_0_windowParams.field_C_h = 0;
+        data[0][25].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[0][25].field_0_windowParams.field_14_style = 0x0;
+        data[0][25].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[0][25].field_1C_window_class_name, "");
+        strcpy(data[0][25].field_6C_gtx_string_name, "");
+
+        data[0][26].field_0_windowParams.field_0_x = 0;
+        data[0][26].field_0_windowParams.field_4_y = 0;
+        data[0][26].field_0_windowParams.field_8_w = 0;
+        data[0][26].field_0_windowParams.field_C_h = 0;
+        data[0][26].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[0][26].field_0_windowParams.field_14_style = 0x0;
+        data[0][26].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[0][26].field_1C_window_class_name, "");
+        strcpy(data[0][26].field_6C_gtx_string_name, "");
+
+        data[0][27].field_0_windowParams.field_0_x = 0;
+        data[0][27].field_0_windowParams.field_4_y = 0;
+        data[0][27].field_0_windowParams.field_8_w = 0;
+        data[0][27].field_0_windowParams.field_C_h = 0;
+        data[0][27].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[0][27].field_0_windowParams.field_14_style = 0x0;
+        data[0][27].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[0][27].field_1C_window_class_name, "");
+        strcpy(data[0][27].field_6C_gtx_string_name, "");
+
+        data[0][28].field_0_windowParams.field_0_x = 0;
+        data[0][28].field_0_windowParams.field_4_y = 0;
+        data[0][28].field_0_windowParams.field_8_w = 0;
+        data[0][28].field_0_windowParams.field_C_h = 0;
+        data[0][28].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[0][28].field_0_windowParams.field_14_style = 0x0;
+        data[0][28].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[0][28].field_1C_window_class_name, "");
+        strcpy(data[0][28].field_6C_gtx_string_name, "");
+
+        data[0][29].field_0_windowParams.field_0_x = 0;
+        data[0][29].field_0_windowParams.field_4_y = 0;
+        data[0][29].field_0_windowParams.field_8_w = 0;
+        data[0][29].field_0_windowParams.field_C_h = 0;
+        data[0][29].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[0][29].field_0_windowParams.field_14_style = 0x0;
+        data[0][29].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[0][29].field_1C_window_class_name, "");
+        strcpy(data[0][29].field_6C_gtx_string_name, "");
+
+        data[1][0].field_0_windowParams.field_0_x = 10;
+        data[1][0].field_0_windowParams.field_4_y = 10;
+        data[1][0].field_0_windowParams.field_8_w = 210;
+        data[1][0].field_0_windowParams.field_C_h = 130;
+        data[1][0].field_0_windowParams.field_10_hMenu = (HMENU)1024;
+        data[1][0].field_0_windowParams.field_14_style = 0x40008005;
+        data[1][0].field_0_windowParams.field_18_exStyle = 0x200;
+        strcpy(data[1][0].field_1C_window_class_name, "SysListView32");
+        strcpy(data[1][0].field_6C_gtx_string_name, "");
+
+        data[1][1].field_0_windowParams.field_0_x = 230;
+        data[1][1].field_0_windowParams.field_4_y = 10;
+        data[1][1].field_0_windowParams.field_8_w = 270;
+        data[1][1].field_0_windowParams.field_C_h = 130;
+        data[1][1].field_0_windowParams.field_10_hMenu = (HMENU)1022;
+        data[1][1].field_0_windowParams.field_14_style = 0x400018c4;
+        data[1][1].field_0_windowParams.field_18_exStyle = 0x200;
+        strcpy(data[1][1].field_1C_window_class_name, "EDIT");
+        strcpy(data[1][1].field_6C_gtx_string_name, "");
+
+        data[1][2].field_0_windowParams.field_0_x = 10;
+        data[1][2].field_0_windowParams.field_4_y = 170;
+        data[1][2].field_0_windowParams.field_8_w = 100;
+        data[1][2].field_0_windowParams.field_C_h = 30;
+        data[1][2].field_0_windowParams.field_10_hMenu = (HMENU)1020;
+        data[1][2].field_0_windowParams.field_14_style = 0x48030000;
+        data[1][2].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[1][2].field_1C_window_class_name, "BUTTON");
+        strcpy(data[1][2].field_6C_gtx_string_name, "netui05");
+
+        data[1][3].field_0_windowParams.field_0_x = 10;
+        data[1][3].field_0_windowParams.field_4_y = 210;
+        data[1][3].field_0_windowParams.field_8_w = 100;
+        data[1][3].field_0_windowParams.field_C_h = 30;
+        data[1][3].field_0_windowParams.field_10_hMenu = (HMENU)1021;
+        data[1][3].field_0_windowParams.field_14_style = 0x48010000;
+        data[1][3].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[1][3].field_1C_window_class_name, "BUTTON");
+        strcpy(data[1][3].field_6C_gtx_string_name, "netui06");
+
+        data[1][4].field_0_windowParams.field_0_x = 10;
+        data[1][4].field_0_windowParams.field_4_y = 250;
+        data[1][4].field_0_windowParams.field_8_w = 100;
+        data[1][4].field_0_windowParams.field_C_h = 30;
+        data[1][4].field_0_windowParams.field_10_hMenu = (HMENU)2;
+        data[1][4].field_0_windowParams.field_14_style = 0x40010000;
+        data[1][4].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[1][4].field_1C_window_class_name, "BUTTON");
+        strcpy(data[1][4].field_6C_gtx_string_name, "netui03");
+
+        data[1][5].field_0_windowParams.field_0_x = 230;
+        data[1][5].field_0_windowParams.field_4_y = 150;
+        data[1][5].field_0_windowParams.field_8_w = 270;
+        data[1][5].field_0_windowParams.field_C_h = 30;
+        data[1][5].field_0_windowParams.field_10_hMenu = (HMENU)1025;
+        data[1][5].field_0_windowParams.field_14_style = 0x40031080;
+        data[1][5].field_0_windowParams.field_18_exStyle = 0x200;
+        strcpy(data[1][5].field_1C_window_class_name, "EDIT");
+        strcpy(data[1][5].field_6C_gtx_string_name, "");
+
+        data[1][6].field_0_windowParams.field_0_x = 230;
+        data[1][6].field_0_windowParams.field_4_y = 190;
+        data[1][6].field_0_windowParams.field_8_w = 270;
+        data[1][6].field_0_windowParams.field_C_h = 30;
+        data[1][6].field_0_windowParams.field_10_hMenu = (HMENU)1023;
+        data[1][6].field_0_windowParams.field_14_style = 0x40010000;
+        data[1][6].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[1][6].field_1C_window_class_name, "BUTTON");
+        strcpy(data[1][6].field_6C_gtx_string_name, "netui07");
+
+        data[1][7].field_0_windowParams.field_0_x = 230;
+        data[1][7].field_0_windowParams.field_4_y = 230;
+        data[1][7].field_0_windowParams.field_8_w = 270;
+        data[1][7].field_0_windowParams.field_C_h = 130;
+        data[1][7].field_0_windowParams.field_10_hMenu = (HMENU)1026;
+        data[1][7].field_0_windowParams.field_14_style = 0x40210243;
+        data[1][7].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[1][7].field_1C_window_class_name, "COMBOBOX");
+        strcpy(data[1][7].field_6C_gtx_string_name, "");
+
+        data[1][8].field_0_windowParams.field_0_x = 230;
+        data[1][8].field_0_windowParams.field_4_y = 260;
+        data[1][8].field_0_windowParams.field_8_w = 200;
+        data[1][8].field_0_windowParams.field_C_h = 30;
+        data[1][8].field_0_windowParams.field_10_hMenu = (HMENU)1033;
+        data[1][8].field_0_windowParams.field_14_style = 0x40000000;
+        data[1][8].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[1][8].field_1C_window_class_name, "STATIC");
+        strcpy(data[1][8].field_6C_gtx_string_name, "");
+
+        data[1][9].field_0_windowParams.field_0_x = 10;
+        data[1][9].field_0_windowParams.field_4_y = 300;
+        data[1][9].field_0_windowParams.field_8_w = 200;
+        data[1][9].field_0_windowParams.field_C_h = 30;
+        data[1][9].field_0_windowParams.field_10_hMenu = (HMENU)1031;
+        data[1][9].field_0_windowParams.field_14_style = 0x40000001;
+        data[1][9].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[1][9].field_1C_window_class_name, "msctls_trackbar32");
+        strcpy(data[1][9].field_6C_gtx_string_name, "netui09");
+
+        data[1][10].field_0_windowParams.field_0_x = 10;
+        data[1][10].field_0_windowParams.field_4_y = 340;
+        data[1][10].field_0_windowParams.field_8_w = 200;
+        data[1][10].field_0_windowParams.field_C_h = 30;
+        data[1][10].field_0_windowParams.field_10_hMenu = (HMENU)1032;
+        data[1][10].field_0_windowParams.field_14_style = 0x40000000;
+        data[1][10].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[1][10].field_1C_window_class_name, "STATIC");
+        strcpy(data[1][10].field_6C_gtx_string_name, "");
+
+        data[1][11].field_0_windowParams.field_0_x = 230;
+        data[1][11].field_0_windowParams.field_4_y = 290;
+        data[1][11].field_0_windowParams.field_8_w = 130;
+        data[1][11].field_0_windowParams.field_C_h = 130;
+        data[1][11].field_0_windowParams.field_10_hMenu = (HMENU)1036;
+        data[1][11].field_0_windowParams.field_14_style = 0x40210243;
+        data[1][11].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[1][11].field_1C_window_class_name, "COMBOBOX");
+        strcpy(data[1][11].field_6C_gtx_string_name, "");
+
+        data[1][12].field_0_windowParams.field_0_x = 230;
+        data[1][12].field_0_windowParams.field_4_y = 330;
+        data[1][12].field_0_windowParams.field_8_w = 60;
+        data[1][12].field_0_windowParams.field_C_h = 26;
+        data[1][12].field_0_windowParams.field_10_hMenu = (HMENU)1059;
+        data[1][12].field_0_windowParams.field_14_style = 0x40033000;
+        data[1][12].field_0_windowParams.field_18_exStyle = 0x1200;
+        strcpy(data[1][12].field_1C_window_class_name, "EDIT");
+        strcpy(data[1][12].field_6C_gtx_string_name, "");
+
+        data[1][13].field_0_windowParams.field_0_x = 300;
+        data[1][13].field_0_windowParams.field_4_y = 330;
+        data[1][13].field_0_windowParams.field_8_w = 200;
+        data[1][13].field_0_windowParams.field_C_h = 30;
+        data[1][13].field_0_windowParams.field_10_hMenu = (HMENU)1035;
+        data[1][13].field_0_windowParams.field_14_style = 0x40000000;
+        data[1][13].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[1][13].field_1C_window_class_name, "STATIC");
+        strcpy(data[1][13].field_6C_gtx_string_name, "");
+
+        data[1][14].field_0_windowParams.field_0_x = 230;
+        data[1][14].field_0_windowParams.field_4_y = 370;
+        data[1][14].field_0_windowParams.field_8_w = 60;
+        data[1][14].field_0_windowParams.field_C_h = 26;
+        data[1][14].field_0_windowParams.field_10_hMenu = (HMENU)1038;
+        data[1][14].field_0_windowParams.field_14_style = 0x40033000;
+        data[1][14].field_0_windowParams.field_18_exStyle = 0x1200;
+        strcpy(data[1][14].field_1C_window_class_name, "EDIT");
+        strcpy(data[1][14].field_6C_gtx_string_name, "");
+
+        data[1][15].field_0_windowParams.field_0_x = 300;
+        data[1][15].field_0_windowParams.field_4_y = 370;
+        data[1][15].field_0_windowParams.field_8_w = 200;
+        data[1][15].field_0_windowParams.field_C_h = 30;
+        data[1][15].field_0_windowParams.field_10_hMenu = (HMENU)1037;
+        data[1][15].field_0_windowParams.field_14_style = 0x40000000;
+        data[1][15].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[1][15].field_1C_window_class_name, "STATIC");
+        strcpy(data[1][15].field_6C_gtx_string_name, "");
+
+        data[1][16].field_0_windowParams.field_0_x = 230;
+        data[1][16].field_0_windowParams.field_4_y = 400;
+        data[1][16].field_0_windowParams.field_8_w = 20;
+        data[1][16].field_0_windowParams.field_C_h = 30;
+        data[1][16].field_0_windowParams.field_10_hMenu = (HMENU)1027;
+        data[1][16].field_0_windowParams.field_14_style = 0x40000003;
+        data[1][16].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[1][16].field_1C_window_class_name, "BUTTON");
+        strcpy(data[1][16].field_6C_gtx_string_name, "");
+
+        data[1][17].field_0_windowParams.field_0_x = 250;
+        data[1][17].field_0_windowParams.field_4_y = 405;
+        data[1][17].field_0_windowParams.field_8_w = 200;
+        data[1][17].field_0_windowParams.field_C_h = 30;
+        data[1][17].field_0_windowParams.field_10_hMenu = (HMENU)1028;
+        data[1][17].field_0_windowParams.field_14_style = 0x40000000;
+        data[1][17].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[1][17].field_1C_window_class_name, "STATIC");
+        strcpy(data[1][17].field_6C_gtx_string_name, "");
+
+        data[1][18].field_0_windowParams.field_0_x = 0;
+        data[1][18].field_0_windowParams.field_4_y = 0;
+        data[1][18].field_0_windowParams.field_8_w = 0;
+        data[1][18].field_0_windowParams.field_C_h = 0;
+        data[1][18].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[1][18].field_0_windowParams.field_14_style = 0x0;
+        data[1][18].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[1][18].field_1C_window_class_name, "");
+        strcpy(data[1][18].field_6C_gtx_string_name, "");
+
+        data[1][19].field_0_windowParams.field_0_x = 0;
+        data[1][19].field_0_windowParams.field_4_y = 0;
+        data[1][19].field_0_windowParams.field_8_w = 0;
+        data[1][19].field_0_windowParams.field_C_h = 0;
+        data[1][19].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[1][19].field_0_windowParams.field_14_style = 0x0;
+        data[1][19].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[1][19].field_1C_window_class_name, "");
+        strcpy(data[1][19].field_6C_gtx_string_name, "");
+
+        data[1][20].field_0_windowParams.field_0_x = 0;
+        data[1][20].field_0_windowParams.field_4_y = 0;
+        data[1][20].field_0_windowParams.field_8_w = 0;
+        data[1][20].field_0_windowParams.field_C_h = 0;
+        data[1][20].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[1][20].field_0_windowParams.field_14_style = 0x0;
+        data[1][20].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[1][20].field_1C_window_class_name, "");
+        strcpy(data[1][20].field_6C_gtx_string_name, "");
+
+        data[1][21].field_0_windowParams.field_0_x = 0;
+        data[1][21].field_0_windowParams.field_4_y = 0;
+        data[1][21].field_0_windowParams.field_8_w = 0;
+        data[1][21].field_0_windowParams.field_C_h = 0;
+        data[1][21].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[1][21].field_0_windowParams.field_14_style = 0x0;
+        data[1][21].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[1][21].field_1C_window_class_name, "");
+        strcpy(data[1][21].field_6C_gtx_string_name, "");
+
+        data[1][22].field_0_windowParams.field_0_x = 0;
+        data[1][22].field_0_windowParams.field_4_y = 0;
+        data[1][22].field_0_windowParams.field_8_w = 0;
+        data[1][22].field_0_windowParams.field_C_h = 0;
+        data[1][22].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[1][22].field_0_windowParams.field_14_style = 0x0;
+        data[1][22].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[1][22].field_1C_window_class_name, "");
+        strcpy(data[1][22].field_6C_gtx_string_name, "");
+
+        data[1][23].field_0_windowParams.field_0_x = 0;
+        data[1][23].field_0_windowParams.field_4_y = 0;
+        data[1][23].field_0_windowParams.field_8_w = 0;
+        data[1][23].field_0_windowParams.field_C_h = 0;
+        data[1][23].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[1][23].field_0_windowParams.field_14_style = 0x0;
+        data[1][23].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[1][23].field_1C_window_class_name, "");
+        strcpy(data[1][23].field_6C_gtx_string_name, "");
+
+        data[1][24].field_0_windowParams.field_0_x = 0;
+        data[1][24].field_0_windowParams.field_4_y = 0;
+        data[1][24].field_0_windowParams.field_8_w = 0;
+        data[1][24].field_0_windowParams.field_C_h = 0;
+        data[1][24].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[1][24].field_0_windowParams.field_14_style = 0x0;
+        data[1][24].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[1][24].field_1C_window_class_name, "");
+        strcpy(data[1][24].field_6C_gtx_string_name, "");
+
+        data[1][25].field_0_windowParams.field_0_x = 0;
+        data[1][25].field_0_windowParams.field_4_y = 0;
+        data[1][25].field_0_windowParams.field_8_w = 0;
+        data[1][25].field_0_windowParams.field_C_h = 0;
+        data[1][25].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[1][25].field_0_windowParams.field_14_style = 0x0;
+        data[1][25].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[1][25].field_1C_window_class_name, "");
+        strcpy(data[1][25].field_6C_gtx_string_name, "");
+
+        data[1][26].field_0_windowParams.field_0_x = 0;
+        data[1][26].field_0_windowParams.field_4_y = 0;
+        data[1][26].field_0_windowParams.field_8_w = 0;
+        data[1][26].field_0_windowParams.field_C_h = 0;
+        data[1][26].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[1][26].field_0_windowParams.field_14_style = 0x0;
+        data[1][26].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[1][26].field_1C_window_class_name, "");
+        strcpy(data[1][26].field_6C_gtx_string_name, "");
+
+        data[1][27].field_0_windowParams.field_0_x = 0;
+        data[1][27].field_0_windowParams.field_4_y = 0;
+        data[1][27].field_0_windowParams.field_8_w = 0;
+        data[1][27].field_0_windowParams.field_C_h = 0;
+        data[1][27].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[1][27].field_0_windowParams.field_14_style = 0x0;
+        data[1][27].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[1][27].field_1C_window_class_name, "");
+        strcpy(data[1][27].field_6C_gtx_string_name, "");
+
+        data[1][28].field_0_windowParams.field_0_x = 0;
+        data[1][28].field_0_windowParams.field_4_y = 0;
+        data[1][28].field_0_windowParams.field_8_w = 0;
+        data[1][28].field_0_windowParams.field_C_h = 0;
+        data[1][28].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[1][28].field_0_windowParams.field_14_style = 0x0;
+        data[1][28].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[1][28].field_1C_window_class_name, "");
+        strcpy(data[1][28].field_6C_gtx_string_name, "");
+
+        data[1][29].field_0_windowParams.field_0_x = 0;
+        data[1][29].field_0_windowParams.field_4_y = 0;
+        data[1][29].field_0_windowParams.field_8_w = 0;
+        data[1][29].field_0_windowParams.field_C_h = 0;
+        data[1][29].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[1][29].field_0_windowParams.field_14_style = 0x0;
+        data[1][29].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[1][29].field_1C_window_class_name, "");
+        strcpy(data[1][29].field_6C_gtx_string_name, "");
+
+        data[2][0].field_0_windowParams.field_0_x = 10;
+        data[2][0].field_0_windowParams.field_4_y = 10;
+        data[2][0].field_0_windowParams.field_8_w = 210;
+        data[2][0].field_0_windowParams.field_C_h = 130;
+        data[2][0].field_0_windowParams.field_10_hMenu = (HMENU)1050;
+        data[2][0].field_0_windowParams.field_14_style = 0x40008005;
+        data[2][0].field_0_windowParams.field_18_exStyle = 0x200;
+        strcpy(data[2][0].field_1C_window_class_name, "SysListView32");
+        strcpy(data[2][0].field_6C_gtx_string_name, "");
+
+        data[2][1].field_0_windowParams.field_0_x = 230;
+        data[2][1].field_0_windowParams.field_4_y = 10;
+        data[2][1].field_0_windowParams.field_8_w = 270;
+        data[2][1].field_0_windowParams.field_C_h = 130;
+        data[2][1].field_0_windowParams.field_10_hMenu = (HMENU)1051;
+        data[2][1].field_0_windowParams.field_14_style = 0x400018c4;
+        data[2][1].field_0_windowParams.field_18_exStyle = 0x200;
+        strcpy(data[2][1].field_1C_window_class_name, "EDIT");
+        strcpy(data[2][1].field_6C_gtx_string_name, "");
+
+        data[2][2].field_0_windowParams.field_0_x = 10;
+        data[2][2].field_0_windowParams.field_4_y = 170;
+        data[2][2].field_0_windowParams.field_8_w = 150;
+        data[2][2].field_0_windowParams.field_C_h = 30;
+        data[2][2].field_0_windowParams.field_10_hMenu = (HMENU)2;
+        data[2][2].field_0_windowParams.field_14_style = 0x40000000;
+        data[2][2].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[2][2].field_1C_window_class_name, "BUTTON");
+        strcpy(data[2][2].field_6C_gtx_string_name, "netui03");
+
+        data[2][3].field_0_windowParams.field_0_x = 230;
+        data[2][3].field_0_windowParams.field_4_y = 150;
+        data[2][3].field_0_windowParams.field_8_w = 270;
+        data[2][3].field_0_windowParams.field_C_h = 30;
+        data[2][3].field_0_windowParams.field_10_hMenu = (HMENU)1053;
+        data[2][3].field_0_windowParams.field_14_style = 0x40000080;
+        data[2][3].field_0_windowParams.field_18_exStyle = 0x200;
+        strcpy(data[2][3].field_1C_window_class_name, "EDIT");
+        strcpy(data[2][3].field_6C_gtx_string_name, "");
+
+        data[2][4].field_0_windowParams.field_0_x = 230;
+        data[2][4].field_0_windowParams.field_4_y = 190;
+        data[2][4].field_0_windowParams.field_8_w = 270;
+        data[2][4].field_0_windowParams.field_C_h = 30;
+        data[2][4].field_0_windowParams.field_10_hMenu = (HMENU)1052;
+        data[2][4].field_0_windowParams.field_14_style = 0x40000000;
+        data[2][4].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[2][4].field_1C_window_class_name, "BUTTON");
+        strcpy(data[2][4].field_6C_gtx_string_name, "netui07");
+
+        data[2][5].field_0_windowParams.field_0_x = 230;
+        data[2][5].field_0_windowParams.field_4_y = 230;
+        data[2][5].field_0_windowParams.field_8_w = 270;
+        data[2][5].field_0_windowParams.field_C_h = 30;
+        data[2][5].field_0_windowParams.field_10_hMenu = (HMENU)1054;
+        data[2][5].field_0_windowParams.field_14_style = 0x40000000;
+        data[2][5].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[2][5].field_1C_window_class_name, "STATIC");
+        strcpy(data[2][5].field_6C_gtx_string_name, "");
+
+        data[2][6].field_0_windowParams.field_0_x = 230;
+        data[2][6].field_0_windowParams.field_4_y = 260;
+        data[2][6].field_0_windowParams.field_8_w = 270;
+        data[2][6].field_0_windowParams.field_C_h = 30;
+        data[2][6].field_0_windowParams.field_10_hMenu = (HMENU)1057;
+        data[2][6].field_0_windowParams.field_14_style = 0x40000000;
+        data[2][6].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[2][6].field_1C_window_class_name, "STATIC");
+        strcpy(data[2][6].field_6C_gtx_string_name, "");
+
+        data[2][7].field_0_windowParams.field_0_x = 230;
+        data[2][7].field_0_windowParams.field_4_y = 290;
+        data[2][7].field_0_windowParams.field_8_w = 270;
+        data[2][7].field_0_windowParams.field_C_h = 30;
+        data[2][7].field_0_windowParams.field_10_hMenu = (HMENU)1058;
+        data[2][7].field_0_windowParams.field_14_style = 0x40000000;
+        data[2][7].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[2][7].field_1C_window_class_name, "STATIC");
+        strcpy(data[2][7].field_6C_gtx_string_name, "");
+
+        data[2][8].field_0_windowParams.field_0_x = 230;
+        data[2][8].field_0_windowParams.field_4_y = 320;
+        data[2][8].field_0_windowParams.field_8_w = 270;
+        data[2][8].field_0_windowParams.field_C_h = 30;
+        data[2][8].field_0_windowParams.field_10_hMenu = (HMENU)1056;
+        data[2][8].field_0_windowParams.field_14_style = 0x40000000;
+        data[2][8].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[2][8].field_1C_window_class_name, "STATIC");
+        strcpy(data[2][8].field_6C_gtx_string_name, "");
+
+        data[2][9].field_0_windowParams.field_0_x = 230;
+        data[2][9].field_0_windowParams.field_4_y = 350;
+        data[2][9].field_0_windowParams.field_8_w = 270;
+        data[2][9].field_0_windowParams.field_C_h = 30;
+        data[2][9].field_0_windowParams.field_10_hMenu = (HMENU)1055;
+        data[2][9].field_0_windowParams.field_14_style = 0x40000000;
+        data[2][9].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[2][9].field_1C_window_class_name, "STATIC");
+        strcpy(data[2][9].field_6C_gtx_string_name, "");
+
+        data[2][10].field_0_windowParams.field_0_x = 230;
+        data[2][10].field_0_windowParams.field_4_y = 380;
+        data[2][10].field_0_windowParams.field_8_w = 270;
+        data[2][10].field_0_windowParams.field_C_h = 30;
+        data[2][10].field_0_windowParams.field_10_hMenu = (HMENU)1060;
+        data[2][10].field_0_windowParams.field_14_style = 0x40000000;
+        data[2][10].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[2][10].field_1C_window_class_name, "STATIC");
+        strcpy(data[2][10].field_6C_gtx_string_name, "");
+
+        data[2][11].field_0_windowParams.field_0_x = 0;
+        data[2][11].field_0_windowParams.field_4_y = 0;
+        data[2][11].field_0_windowParams.field_8_w = 0;
+        data[2][11].field_0_windowParams.field_C_h = 0;
+        data[2][11].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[2][11].field_0_windowParams.field_14_style = 0x0;
+        data[2][11].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[2][11].field_1C_window_class_name, "0");
+        strcpy(data[2][11].field_6C_gtx_string_name, "0");
+
+        data[2][12].field_0_windowParams.field_0_x = 0;
+        data[2][12].field_0_windowParams.field_4_y = 0;
+        data[2][12].field_0_windowParams.field_8_w = 0;
+        data[2][12].field_0_windowParams.field_C_h = 0;
+        data[2][12].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[2][12].field_0_windowParams.field_14_style = 0x0;
+        data[2][12].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[2][12].field_1C_window_class_name, "0");
+        strcpy(data[2][12].field_6C_gtx_string_name, "0");
+
+        data[2][13].field_0_windowParams.field_0_x = 0;
+        data[2][13].field_0_windowParams.field_4_y = 0;
+        data[2][13].field_0_windowParams.field_8_w = 0;
+        data[2][13].field_0_windowParams.field_C_h = 0;
+        data[2][13].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[2][13].field_0_windowParams.field_14_style = 0x0;
+        data[2][13].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[2][13].field_1C_window_class_name, "0");
+        strcpy(data[2][13].field_6C_gtx_string_name, "0");
+
+        data[2][14].field_0_windowParams.field_0_x = 0;
+        data[2][14].field_0_windowParams.field_4_y = 0;
+        data[2][14].field_0_windowParams.field_8_w = 0;
+        data[2][14].field_0_windowParams.field_C_h = 0;
+        data[2][14].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[2][14].field_0_windowParams.field_14_style = 0x0;
+        data[2][14].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[2][14].field_1C_window_class_name, "0");
+        strcpy(data[2][14].field_6C_gtx_string_name, "0");
+
+        data[2][15].field_0_windowParams.field_0_x = 0;
+        data[2][15].field_0_windowParams.field_4_y = 0;
+        data[2][15].field_0_windowParams.field_8_w = 0;
+        data[2][15].field_0_windowParams.field_C_h = 0;
+        data[2][15].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[2][15].field_0_windowParams.field_14_style = 0x0;
+        data[2][15].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[2][15].field_1C_window_class_name, "0");
+        strcpy(data[2][15].field_6C_gtx_string_name, "0");
+
+        data[2][16].field_0_windowParams.field_0_x = 0;
+        data[2][16].field_0_windowParams.field_4_y = 0;
+        data[2][16].field_0_windowParams.field_8_w = 0;
+        data[2][16].field_0_windowParams.field_C_h = 0;
+        data[2][16].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[2][16].field_0_windowParams.field_14_style = 0x0;
+        data[2][16].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[2][16].field_1C_window_class_name, "0");
+        strcpy(data[2][16].field_6C_gtx_string_name, "0");
+
+        data[2][17].field_0_windowParams.field_0_x = 0;
+        data[2][17].field_0_windowParams.field_4_y = 0;
+        data[2][17].field_0_windowParams.field_8_w = 0;
+        data[2][17].field_0_windowParams.field_C_h = 0;
+        data[2][17].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[2][17].field_0_windowParams.field_14_style = 0x0;
+        data[2][17].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[2][17].field_1C_window_class_name, "0");
+        strcpy(data[2][17].field_6C_gtx_string_name, "0");
+
+        data[2][18].field_0_windowParams.field_0_x = 0;
+        data[2][18].field_0_windowParams.field_4_y = 0;
+        data[2][18].field_0_windowParams.field_8_w = 0;
+        data[2][18].field_0_windowParams.field_C_h = 0;
+        data[2][18].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[2][18].field_0_windowParams.field_14_style = 0x0;
+        data[2][18].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[2][18].field_1C_window_class_name, "0");
+        strcpy(data[2][18].field_6C_gtx_string_name, "0");
+
+        data[2][19].field_0_windowParams.field_0_x = 0;
+        data[2][19].field_0_windowParams.field_4_y = 0;
+        data[2][19].field_0_windowParams.field_8_w = 0;
+        data[2][19].field_0_windowParams.field_C_h = 0;
+        data[2][19].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[2][19].field_0_windowParams.field_14_style = 0x0;
+        data[2][19].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[2][19].field_1C_window_class_name, "0");
+        strcpy(data[2][19].field_6C_gtx_string_name, "0");
+
+        data[2][20].field_0_windowParams.field_0_x = 0;
+        data[2][20].field_0_windowParams.field_4_y = 0;
+        data[2][20].field_0_windowParams.field_8_w = 0;
+        data[2][20].field_0_windowParams.field_C_h = 0;
+        data[2][20].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[2][20].field_0_windowParams.field_14_style = 0x0;
+        data[2][20].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[2][20].field_1C_window_class_name, "0");
+        strcpy(data[2][20].field_6C_gtx_string_name, "0");
+
+        data[2][21].field_0_windowParams.field_0_x = 0;
+        data[2][21].field_0_windowParams.field_4_y = 0;
+        data[2][21].field_0_windowParams.field_8_w = 0;
+        data[2][21].field_0_windowParams.field_C_h = 0;
+        data[2][21].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[2][21].field_0_windowParams.field_14_style = 0x0;
+        data[2][21].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[2][21].field_1C_window_class_name, "0");
+        strcpy(data[2][21].field_6C_gtx_string_name, "0");
+
+        data[2][22].field_0_windowParams.field_0_x = 0;
+        data[2][22].field_0_windowParams.field_4_y = 0;
+        data[2][22].field_0_windowParams.field_8_w = 0;
+        data[2][22].field_0_windowParams.field_C_h = 0;
+        data[2][22].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[2][22].field_0_windowParams.field_14_style = 0x0;
+        data[2][22].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[2][22].field_1C_window_class_name, "0");
+        strcpy(data[2][22].field_6C_gtx_string_name, "0");
+
+        data[2][23].field_0_windowParams.field_0_x = 0;
+        data[2][23].field_0_windowParams.field_4_y = 0;
+        data[2][23].field_0_windowParams.field_8_w = 0;
+        data[2][23].field_0_windowParams.field_C_h = 0;
+        data[2][23].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[2][23].field_0_windowParams.field_14_style = 0x0;
+        data[2][23].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[2][23].field_1C_window_class_name, "0");
+        strcpy(data[2][23].field_6C_gtx_string_name, "0");
+
+        data[2][24].field_0_windowParams.field_0_x = 0;
+        data[2][24].field_0_windowParams.field_4_y = 0;
+        data[2][24].field_0_windowParams.field_8_w = 0;
+        data[2][24].field_0_windowParams.field_C_h = 0;
+        data[2][24].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[2][24].field_0_windowParams.field_14_style = 0x0;
+        data[2][24].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[2][24].field_1C_window_class_name, "0");
+        strcpy(data[2][24].field_6C_gtx_string_name, "0");
+
+        data[2][25].field_0_windowParams.field_0_x = 0;
+        data[2][25].field_0_windowParams.field_4_y = 0;
+        data[2][25].field_0_windowParams.field_8_w = 0;
+        data[2][25].field_0_windowParams.field_C_h = 0;
+        data[2][25].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[2][25].field_0_windowParams.field_14_style = 0x0;
+        data[2][25].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[2][25].field_1C_window_class_name, "0");
+        strcpy(data[2][25].field_6C_gtx_string_name, "0");
+
+        data[2][26].field_0_windowParams.field_0_x = 0;
+        data[2][26].field_0_windowParams.field_4_y = 0;
+        data[2][26].field_0_windowParams.field_8_w = 0;
+        data[2][26].field_0_windowParams.field_C_h = 0;
+        data[2][26].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[2][26].field_0_windowParams.field_14_style = 0x0;
+        data[2][26].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[2][26].field_1C_window_class_name, "0");
+        strcpy(data[2][26].field_6C_gtx_string_name, "0");
+
+        data[2][27].field_0_windowParams.field_0_x = 0;
+        data[2][27].field_0_windowParams.field_4_y = 0;
+        data[2][27].field_0_windowParams.field_8_w = 0;
+        data[2][27].field_0_windowParams.field_C_h = 0;
+        data[2][27].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[2][27].field_0_windowParams.field_14_style = 0x0;
+        data[2][27].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[2][27].field_1C_window_class_name, "0");
+        strcpy(data[2][27].field_6C_gtx_string_name, "0");
+
+        data[2][28].field_0_windowParams.field_0_x = 0;
+        data[2][28].field_0_windowParams.field_4_y = 0;
+        data[2][28].field_0_windowParams.field_8_w = 0;
+        data[2][28].field_0_windowParams.field_C_h = 0;
+        data[2][28].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[2][28].field_0_windowParams.field_14_style = 0x0;
+        data[2][28].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[2][28].field_1C_window_class_name, "0");
+        strcpy(data[2][28].field_6C_gtx_string_name, "0");
+
+        data[2][29].field_0_windowParams.field_0_x = 0;
+        data[2][29].field_0_windowParams.field_4_y = 0;
+        data[2][29].field_0_windowParams.field_8_w = 0;
+        data[2][29].field_0_windowParams.field_C_h = 0;
+        data[2][29].field_0_windowParams.field_10_hMenu = (HMENU)0;
+        data[2][29].field_0_windowParams.field_14_style = 0x0;
+        data[2][29].field_0_windowParams.field_18_exStyle = 0x0;
+        strcpy(data[2][29].field_1C_window_class_name, "0");
+        strcpy(data[2][29].field_6C_gtx_string_name, "0");
+    }
+    Network_UI_Control_Data data[3][30];
+};
+
+Network_UI_Control_Data_Array gUiControlDefinitions_621430;
 
 MATCH_FUNC(0x519960)
 void __stdcall WideToDbcs_519960(char_type* pDst, wchar_t* pSrc)
@@ -107,10 +1014,10 @@ Network_20324::Network_20324()
 {
     this->field_202E4_hInstance = 0;
     this->field_202E0_dlg_hwnd = 0;
-    this->field_202DC = 0;
+    this->field_202DC_unused = 0;
     this->field_202D4_showing_specific_window_idx = 0;
     this->field_202D8_last_showing_specific_window_idx = 3;
-    this->field_20084 = 0;
+    this->field_20084_unused = 0;
     this->field_1FD6C_count = 0;
     this->field_1FD64_total_map_count = 0;
     this->field_1FD68_bEndDialog = 0;
@@ -223,9 +1130,9 @@ s32 Network_20324::cb_FillSessionList_519D30(Network_20324* pThis, Network_NameL
 }
 
 MATCH_FUNC(0x519e10)
-void Network_20324::SetDlgHwnd_519E10(HWND a2)
+void Network_20324::SetDlgHwnd_519E10(HWND hDlg)
 {
-    field_202E0_dlg_hwnd = a2;
+    field_202E0_dlg_hwnd = hDlg;
 }
 
 MATCH_FUNC(0x519e20)
@@ -235,7 +1142,7 @@ HWND Network_20324::Get_202E0_HWND_519E20()
 }
 
 MATCH_FUNC(0x519e30)
-void Network_20324::cb_AddPlayerToList_519E30(Network_20324* pNetUi, wchar_t* pName, s32 a3)
+void Network_20324::cb_AddPlayerToList_519E30(Network_20324* pNetUi, wchar_t* pName, s32 player_idx)
 {
     LVITEMA item;
     char_type name[260];
@@ -293,7 +1200,7 @@ void Network_20324::cb_AddPlayerToList_519E30(Network_20324* pNetUi, wchar_t* pN
 }
 
 MATCH_FUNC(0x519fd0)
-void __stdcall Network_20324::OnPaint_519FD0(HWND a1)
+void __stdcall Network_20324::OnPaint_519FD0(HWND hWnd)
 {
     // Empty
 }
@@ -312,14 +1219,14 @@ void __stdcall Network_20324::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s
 
     switch (id)
     {
-        case 1001:
+        case 1001: // "Join" button
             if (gNetPlay_7071E8.field_4_bModem)
             {
                 gNetPlay_7071E8.EnumSessions_51E650();
                 wchar_t playerNameW[260];
-                playerData.field_0 = 0;
+                playerData.field_0_data = 0;
                 playerData.field_4_len = 0;
-                groupData.field_0 = 0;
+                groupData.field_0_data = 0;
                 groupData.field_4_len = 0;
                 GetDlgItemTextA(hDlg, 1004, playerName, 259);
                 Network_20324::GetString_519A50(playerNameW, playerName, 260);
@@ -329,7 +1236,7 @@ void __stdcall Network_20324::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s
                 {
                     if (gNetPlay_7071E8.JoinSession_520570(0, playerNameW, &playerData, &groupData))
                     {
-                        pThis->ApplyHostGameSettings_51B810((const char_type*)groupData.field_0);
+                        pThis->ApplyHostGameSettings_51B810((const char_type*)groupData.field_0_data);
                         pThis->ShowSpecificWindow_51ABF0(2);
                     }
                 }
@@ -337,9 +1244,9 @@ void __stdcall Network_20324::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s
             else
             {
                 wchar_t playerNameW[260];
-                playerData.field_0 = 0;
+                playerData.field_0_data = 0;
                 playerData.field_4_len = 0;
-                groupData.field_0 = 0;
+                groupData.field_0_data = 0;
                 groupData.field_4_len = 0;
                 GetDlgItemTextA(hDlg, 1004, playerName, 259);
                 Network_20324::GetString_519A50(playerNameW, playerName, 260);
@@ -351,20 +1258,20 @@ void __stdcall Network_20324::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s
                     LRESULT idx = SendDlgItemMessageA(hDlg, 1000, LB_GETITEMDATA, sel, 0);
                     if (gNetPlay_7071E8.JoinSession_520570(idx, playerNameW, &playerData, &groupData))
                     {
-                        pThis->ApplyHostGameSettings_51B810((const char_type*)groupData.field_0);
+                        pThis->ApplyHostGameSettings_51B810((const char_type*)groupData.field_0_data);
                         pThis->ShowSpecificWindow_51ABF0(2);
                     }
                 }
             }
             break;
 
-        case 1000:
+        case 1000: // Double click on the network game session
             if (notify == LBN_DBLCLK)
             {
                 wchar_t playerNameW[260];
-                playerData.field_0 = 0;
+                playerData.field_0_data = 0;
                 playerData.field_4_len = 0;
-                groupData.field_0 = 0;
+                groupData.field_0_data = 0;
                 groupData.field_4_len = 0;
                 GetDlgItemTextA(hDlg, 1004, playerName, 259);
                 Network_20324::GetString_519A50(playerNameW, playerName, 260);
@@ -411,13 +1318,13 @@ void __stdcall Network_20324::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s
             break;
         }
 
-        case 1002:
+        case 1002: // "Create" button
         {
             Network_20324* pThis = (Network_20324*)GetWindowLongA(hDlg, 8);
             NetworkGameSettings settings = pThis->field_20088_game_settings;
-            groupData.field_0 = &settings;
+            groupData.field_0_data = &settings;
             groupData.field_4_len = sizeof(NetworkGameSettings);
-            playerData.field_0 = 0;
+            playerData.field_0_data = 0;
             playerData.field_4_len = 0;
             GetDlgItemTextA(hDlg, 1004, playerName, 259);
             sprintf(sessionName, "%s's game", playerName);
@@ -434,7 +1341,7 @@ void __stdcall Network_20324::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s
             break;
         }
 
-        case 1023:
+        case 1023: // "Send" button ?
         {
             GetWindowLongA(hDlg, 8);
             GetDlgItemTextA(hDlg, 1025, chatText, 127);
@@ -446,7 +1353,7 @@ void __stdcall Network_20324::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s
             break;
         }
 
-        case 1021:
+        case 1021: // ?
         {
             gNetPlay_7071E8.NetworkTick_51ED00();
             Sleep(100);
@@ -459,7 +1366,7 @@ void __stdcall Network_20324::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s
             break;
         }
 
-        case 1020:
+        case 1020: // "Reject" button
         {
             Network_20324* pThis = (Network_20324*)GetWindowLongA(hDlg, 8);
             HWND hList = GetDlgItem(pThis->Get_202E0_HWND_519E20(), 1024);
@@ -477,7 +1384,7 @@ void __stdcall Network_20324::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s
             break;
         }
 
-        case 1026:
+        case 1026: // Map list
             switch (notify)
             {
                 case CBN_SELCHANGE:
@@ -491,7 +1398,7 @@ void __stdcall Network_20324::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s
             }
             break;
 
-        case 1052:
+        case 1052: // "Send" again?
         {
             Network_20324* pThis = (Network_20324*)GetWindowLongA(hDlg, 8);
             GetDlgItemTextA(hDlg, 1053, chatText, 127);
@@ -502,7 +1409,7 @@ void __stdcall Network_20324::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s
             break;
         }
 
-        case 1036:
+        case 1036: // Game type
             switch (notify)
             {
                 case CBN_SELCHANGE:
@@ -516,7 +1423,7 @@ void __stdcall Network_20324::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s
             }
             break;
 
-        case 1059:
+        case 1059: // Frags/Points to win
             if (notify == EN_CHANGE)
             {
                 GetDlgItemTextA(hDlg, 1059, chatText, 127);
@@ -551,7 +1458,7 @@ void __stdcall Network_20324::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s
             }
             break;
 
-        case 1038:
+        case 1038: // Game time limit
             if (notify == EN_CHANGE)
             {
                 GetDlgItemTextA(hDlg, 1038, chatText, 127);
@@ -567,7 +1474,7 @@ void __stdcall Network_20324::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s
 }
 
 MATCH_FUNC(0x51a9d0)
-void __stdcall Network_20324::OnTimer_51A9D0(HWND hWnd, s32 a2)
+void __stdcall Network_20324::OnTimer_51A9D0(HWND hWnd, s32 timer_id)
 {
     Network_20324* pThis = (Network_20324*)GetWindowLongA(hWnd, 8);
     int hadSelection = 0;
@@ -609,31 +1516,31 @@ void Network_20324::CreateMainUi_51AA90(HWND hWndParent)
         for (u32 j = 0; j < 30; j++)
         {
             char* pNewWindowStr;
-            if (gUiControlDefinitions_621430[i][j].field_6C_gtx_string_name[0])
+            if (gUiControlDefinitions_621430.data[i][j].field_6C_gtx_string_name[0])
             {
-                pNewWindowStr = GetString_519A00(gUiControlDefinitions_621430[i][j].field_6C_gtx_string_name);
+                pNewWindowStr = GetString_519A00(gUiControlDefinitions_621430.data[i][j].field_6C_gtx_string_name);
             }
             else
             {
                 pNewWindowStr = ""; // byte_67DC88
             }
 
-            field_201A8_ui_control_hwnds[i][j] = CreateWindowExA(gUiControlDefinitions_621430[i][j].field_0_windowParams.field_18_exStyle,
-                                                                 gUiControlDefinitions_621430[i][j].field_1C_window_class_name,
+            field_201A8_ui_control_hwnds[i][j] = CreateWindowExA(gUiControlDefinitions_621430.data[i][j].field_0_windowParams.field_18_exStyle,
+                                                                 gUiControlDefinitions_621430.data[i][j].field_1C_window_class_name,
                                                                  pNewWindowStr,
-                                                                 gUiControlDefinitions_621430[i][j].field_0_windowParams.field_14_style,
-                                                                 gUiControlDefinitions_621430[i][j].field_0_windowParams.field_0_x,
-                                                                 gUiControlDefinitions_621430[i][j].field_0_windowParams.field_4_y,
-                                                                 gUiControlDefinitions_621430[i][j].field_0_windowParams.field_8_w,
-                                                                 gUiControlDefinitions_621430[i][j].field_0_windowParams.field_C_h,
+                                                                 gUiControlDefinitions_621430.data[i][j].field_0_windowParams.field_14_style,
+                                                                 gUiControlDefinitions_621430.data[i][j].field_0_windowParams.field_0_x,
+                                                                 gUiControlDefinitions_621430.data[i][j].field_0_windowParams.field_4_y,
+                                                                 gUiControlDefinitions_621430.data[i][j].field_0_windowParams.field_8_w,
+                                                                 gUiControlDefinitions_621430.data[i][j].field_0_windowParams.field_C_h,
                                                                  hWndParent,
-                                                                 gUiControlDefinitions_621430[i][j].field_0_windowParams.field_10_hMenu,
+                                                                 gUiControlDefinitions_621430.data[i][j].field_0_windowParams.field_10_hMenu,
                                                                  this->field_202E4_hInstance,
                                                                  0);
         }
     }
 
-    SetWindowTextA(hWndParent, GetString_519A00("netui08"));
+    SetWindowTextA(hWndParent, GetString_519A00("netui08")); // "Network GTA2"
 
     // Subclass to handle enter key pressing
     this->field_1FD70_old_proc = (WNDPROC)GetWindowLongA(GetDlgItem(hWndParent, 1053), GWL_WNDPROC);
@@ -643,8 +1550,8 @@ void Network_20324::CreateMainUi_51AA90(HWND hWndParent)
 
     SendDlgItemMessageA(hWndParent, 1031, 0x406, 0x1, 0x20000);
 
-    SetDlgItemTextA(hWndParent, 1028, GetString_519A00("netui14"));
-    SetDlgItemTextA(hWndParent, 1037, GetString_519A00("netui21"));
+    SetDlgItemTextA(hWndParent, 1028, GetString_519A00("netui14")); // "Cops"
+    SetDlgItemTextA(hWndParent, 1037, GetString_519A00("netui21")); // "Time Limit (Minutes)"
     Network_20324::SetPlayerCountText_51CB30(0, hWndParent);
     if (gNetPlay_7071E8.field_4_bModem)
     {
@@ -674,7 +1581,7 @@ void Network_20324::ShowSpecificWindow_51ABF0(s32 showing_specific_window_idx)
 }
 
 MATCH_FUNC(0x51ac60)
-s32 Network_20324::OnInitDialog_51AC60(HWND hWnd, s32 a2, Network_20324* thisPtr)
+s32 Network_20324::OnInitDialog_51AC60(HWND hWnd, s32 lParam, Network_20324* thisPtr)
 {
     SetWindowLongA(hWnd, 8, (LONG)thisPtr);
     gTimerId_6F8A18 = SetTimer(hWnd, 0xAu, 0xAu, 0);
@@ -804,7 +1711,7 @@ void Network_20324::PopulateMainUI_51AFA0()
     LPARAM columnInfo[8];
     memset(columnInfo, 0, sizeof(columnInfo));
 
-    u16 colWidth = 3 * (gUiControlDefinitions_621430[1][0].field_0_windowParams.field_8_w >> 2);
+    u16 colWidth = 3 * (gUiControlDefinitions_621430.data[1][0].field_0_windowParams.field_8_w >> 2);
 
     columnInfo[0] = 36;
     columnInfo[3] = (LPARAM) "Player Name";
@@ -821,10 +1728,10 @@ void Network_20324::PopulateMainUI_51AFA0()
     memset(columnInfo, 0, sizeof(columnInfo));
     columnInfo[0] = 36;
     columnInfo[3] = (LPARAM) "Player Name";
-    u16 v4 = 3 * (gUiControlDefinitions_621430[2][0].field_0_windowParams.field_8_w >> 2);
+    u16 col_width = 3 * (gUiControlDefinitions_621430.data[2][0].field_0_windowParams.field_8_w >> 2);
     columnInfo[7] = 0;
     SendDlgItemMessageA(field_202E0_dlg_hwnd, 1050, 0x101B, 0, (LPARAM)columnInfo);
-    SendDlgItemMessageA(field_202E0_dlg_hwnd, 1050, 0x101Eu, 0, v4);
+    SendDlgItemMessageA(field_202E0_dlg_hwnd, 1050, 0x101Eu, 0, col_width);
     memset(columnInfo, 0, sizeof(columnInfo));
     columnInfo[0] = 37;
     columnInfo[1] = 0;
@@ -833,18 +1740,18 @@ void Network_20324::PopulateMainUI_51AFA0()
     SendDlgItemMessageA(field_202E0_dlg_hwnd, 1050, 0x101B, 1u, (LPARAM)columnInfo);
     SendDlgItemMessageA(field_202E0_dlg_hwnd, 1050, 0x101E, 1u, 65534);
 
-    for (u32 v5 = 0; v5 < field_1FD64_total_map_count; v5++)
+    for (u32 map_idx = 0; map_idx < field_1FD64_total_map_count; map_idx++)
     {
-        LRESULT v6 = SendDlgItemMessageA(field_202E0_dlg_hwnd, 1026, CB_ADDSTRING, 0, (LPARAM)field_4_maps[v5].field_30C_description);
-        SendDlgItemMessageA(field_202E0_dlg_hwnd, 1026, CB_SETITEMDATA, v6, v5);
+        LRESULT item_idx = SendDlgItemMessageA(field_202E0_dlg_hwnd, 1026, CB_ADDSTRING, 0, (LPARAM)field_4_maps[map_idx].field_30C_description);
+        SendDlgItemMessageA(field_202E0_dlg_hwnd, 1026, CB_SETITEMDATA, item_idx, map_idx);
     }
 
-    LRESULT v8 = SendDlgItemMessageA(field_202E0_dlg_hwnd, 1036, 323u, 0, (LPARAM)GetString_519A00("netui19"));
-    SendDlgItemMessageA(field_202E0_dlg_hwnd, 1036, CB_SETITEMDATA, v8, 0);
-    LRESULT v10 = SendDlgItemMessageA(field_202E0_dlg_hwnd, 1036, CB_ADDSTRING, 0, (LPARAM)GetString_519A00("netui20"));
-    SendDlgItemMessageA(field_202E0_dlg_hwnd, 1036, CB_SETITEMDATA, v10, 1);
-    LRESULT v12 = SendDlgItemMessageA(field_202E0_dlg_hwnd, 1036, 0x143u, 0, (LPARAM)GetString_519A00("netui22"));
-    SendDlgItemMessageA(field_202E0_dlg_hwnd, 1036, CB_SETITEMDATA, v12, 2);
+    LRESULT item_a = SendDlgItemMessageA(field_202E0_dlg_hwnd, 1036, 323u, 0, (LPARAM)GetString_519A00("netui19"));
+    SendDlgItemMessageA(field_202E0_dlg_hwnd, 1036, CB_SETITEMDATA, item_a, 0);
+    LRESULT item_b = SendDlgItemMessageA(field_202E0_dlg_hwnd, 1036, CB_ADDSTRING, 0, (LPARAM)GetString_519A00("netui20"));
+    SendDlgItemMessageA(field_202E0_dlg_hwnd, 1036, CB_SETITEMDATA, item_b, 1);
+    LRESULT item_c = SendDlgItemMessageA(field_202E0_dlg_hwnd, 1036, 0x143u, 0, (LPARAM)GetString_519A00("netui22"));
+    SendDlgItemMessageA(field_202E0_dlg_hwnd, 1036, CB_SETITEMDATA, item_c, 2);
     Network_20324::LoadGameSettingsFromRegistry_51C830();
     SendDlgItemMessageA(field_202E0_dlg_hwnd, 1026, CB_SETCURSEL, field_20088_game_settings.field_2018C_map_idx, 0);
     SendDlgItemMessageA(field_202E0_dlg_hwnd, COMBO_GAME_TYPE_1036, CB_SETCURSEL, field_20088_game_settings.field_20198_game_type - 1, 0);
@@ -915,7 +1822,7 @@ LRESULT Network_20324::cb_AddChatMessage_51B2F0(Network_20324* pNetUi, Network_C
 #pragma warning(disable : 4715) // not all control paths return a value
 #pragma warning(disable : 4700) // name is never filled in, as in the original
 MATCH_FUNC(0x51b4f0)
-s32 Network_20324::AppendChatMessage_51B4F0(s32 a2, const char_type* pMsg)
+s32 Network_20324::AppendChatMessage_51B4F0(s32 player_idx, const char_type* pMsg)
 {
     char_type line[260];
     char_type name[260];
@@ -1011,25 +1918,25 @@ void Network_20324::SetPlayerNameText_51B7C0()
 }
 
 MATCH_FUNC(0x51b7e0)
-void Network_20324::cb_sub_51B7E0(Network_20324* a1, const char_type** a2)
+void Network_20324::cb_sub_51B7E0(Network_20324* pNetUi, const char_type** ppData)
 {
-    const char_type* v2 = *a2;
-    if (a1->Get_202D4_active_control_idx_51ACC0() == 2)
+    const char_type* pData = *ppData;
+    if (pNetUi->Get_202D4_active_control_idx_51ACC0() == 2)
     {
-        a1->ApplyHostGameSettings_51B810(v2);
+        pNetUi->ApplyHostGameSettings_51B810(pData);
     }
 }
 
 #pragma warning(push)
 #pragma warning(disable : 4701) // pSpeedText is used uninitialised for an unknown speed, as in the original
 MATCH_FUNC(0x51b810)
-void Network_20324::ApplyHostGameSettings_51B810(const char_type* a2)
+void Network_20324::ApplyHostGameSettings_51B810(const char_type* pData)
 {
     char_type msg[520];
     wchar_t wmsg[520];
     char_type* pSpeedText;
 
-    const NetworkGameSettings* pSettings = (const NetworkGameSettings*)a2;
+    const NetworkGameSettings* pSettings = (const NetworkGameSettings*)pData;
     if (pSettings)
     {
         field_20088_game_settings = *pSettings;
@@ -1158,9 +2065,9 @@ void Network_20324::SetSetting_51B9C0(s32 setting, s32 value)
             break;
     }
 
-    data.field_0 = &field_20088_game_settings;
+    data.field_0_data = &field_20088_game_settings;
     data.field_4_len = sizeof(field_20088_game_settings);
-    gNetPlay_7071E8.SetGroupData_521170(&data);
+    gNetPlay_7071E8.SetGameSettings_521170(&data);
 }
 #pragma warning(pop)
 
@@ -1201,9 +2108,9 @@ void Network_20324::cb_SavePlayerName_51BC00(Network_20324* pThis)
 }
 
 MATCH_FUNC(0x51bc70)
-void Network_20324::SetEndDialog_51BC70(s32 a2)
+void Network_20324::SetEndDialog_51BC70(s32 bEnd)
 {
-    field_1FD68_bEndDialog = a2;
+    field_1FD68_bEndDialog = bEnd;
 }
 
 MATCH_FUNC(0x51bc80)
@@ -1301,7 +2208,7 @@ LRESULT __stdcall Network_20324::subclass_proc_51BDD0(HWND hWnd, UINT Msg, WPARA
 }
 
 MATCH_FUNC(0x51beb0)
-void Network_20324::OnEnterPressed_51BEB0(s32 nIDDlgItem, s32 a3)
+void Network_20324::OnEnterPressed_51BEB0(s32 nIDDlgItem, s32 player_idx)
 {
     char_type String[128];
     wchar_t Dest[260];
@@ -1309,7 +2216,7 @@ void Network_20324::OnEnterPressed_51BEB0(s32 nIDDlgItem, s32 a3)
     Network_20324::GetString_519A50(Dest, String, 260);
     gNetPlay_7071E8.SendChatMessage_521060(Dest, -1);
     SetDlgItemTextA(field_202E0_dlg_hwnd, nIDDlgItem, "");
-    Network_20324::AppendChatMessage_51B4F0(a3, String);
+    Network_20324::AppendChatMessage_51B4F0(player_idx, String);
 }
 
 // https://decomp.me/scratch/tQkqa
@@ -1494,11 +2401,11 @@ void __stdcall Network_20324::ShowUnableToOpenFileError_51CAD0(const char_type* 
 }
 
 MATCH_FUNC(0x51cb30)
-void Network_20324::SetPlayerCountText_51CB30(s32 a1, HWND hDlg)
+void Network_20324::SetPlayerCountText_51CB30(s32 count, HWND hDlg)
 {
     char String[260];
     const char* pStr = GetString_519A00("netui13");
-    sprintf(String, "%s %d", pStr, a1);
+    sprintf(String, "%s %d", pStr, count);
     SetDlgItemTextA(hDlg, 1033, String);
 }
 

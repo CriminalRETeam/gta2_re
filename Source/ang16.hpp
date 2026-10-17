@@ -35,14 +35,14 @@ class Ang16
         return rValue != other.rValue;
     }
 
-    Ang16 operator-=(const Ang16& other)
+    Ang16& operator-=(const Ang16& other)
     {
         rValue -= other.rValue;
         Normalize();
         return *this;
     }
 
-    Ang16 operator+=(const Ang16& other)
+    Ang16& operator+=(const Ang16& other)
     {
         rValue += other.rValue;
         Normalize();
@@ -77,7 +77,7 @@ class Ang16
     }
 
     // operator+ with the normalizing constructor called out of line (AssignNormalized_409300), for
-    // functions that ran out of inline expansions (Wolfy_30::state_22_23_24_25_542E30)
+    // functions that ran out of inline expansions (Explosion_30::EmitBuildingDebris_22_23_24_25_542E30)
     Ang16 Add_ool(const Ang16& rhs)
     {
         s16 value = rValue + rhs.rValue;
@@ -207,12 +207,12 @@ class Ang16
         }
     }
 
-    EXPORT static bool __stdcall IsAngleAhead_405C60(Ang16* a1, Ang16* a2);
+    EXPORT static bool __stdcall IsAngleAhead_405C60(Ang16* pFrom, Ang16* pTo);
 
     EXPORT void SnapToAng4_405640();
     EXPORT Ang16* AssignNormalized_409300(const s16& value, s32 a3);
     EXPORT Ang16 SubtractNormalized_409340(const Ang16& toSub);
-    EXPORT static Ang16 __stdcall Fix16_To_Ang16_482740(Fix16& a2);
+    EXPORT static Ang16 __stdcall Fix16_To_Ang16_482740(Fix16& value);
 
     // 10.5 0x409300 (AssignNormalized_409300) is the out-of-line copy of the normalizing constructor
     // Ang16(const s16&, s32) below (9.6f 0x401C60). VC6 calls it instead of inlining in functions that
@@ -259,7 +259,7 @@ class Ang16
     // Non-inlined version of above function
     EXPORT static void __stdcall PolarToCartesian_451730(Ang16& angle, Fix16& radius, Fix16& ret1, Fix16& ret2);
 
-    EXPORT static s32 __stdcall Ang16::GetAngleFace_4F78F0(Ang16& a1);
+    EXPORT static s32 __stdcall Ang16::GetAngleFace_4F78F0(Ang16& angle);
 
     // inlined from 0x40f580 on v9.6f
     // I was tempted to put this on the Fix16 header, but that will create a circular dependency...
@@ -361,7 +361,7 @@ class Ang16
         return Fix16(rValue) / scale.rValue;
     }
 
-    EXPORT static Fix16 __stdcall NormalizeAngleDeltaScaled_405B60(Ang16& a2, Ang16& a3, Ang16& a4);
+    EXPORT static Fix16 __stdcall NormalizeAngleDeltaScaled_405B60(Ang16& from, Ang16& to, Ang16& divisor);
     EXPORT u8 GetOctant_4056A0();
     EXPORT u8 ToAng4_405680();
 

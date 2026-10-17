@@ -1,9 +1,10 @@
 #include "TrafficLights_194.hpp"
+#include "rgb.hpp"
 #include "Globals.hpp"
 #include "Hud.hpp"
 #include "Object_5C.hpp"
 #include "map_0x370.hpp"
-#include "nostalgic_ellis_0x28.hpp"
+#include "Light_28.hpp"
 #include "Light_1D4CC.hpp"
 #include "Car_BC.hpp"
 #include "debug.hpp"
@@ -34,14 +35,24 @@ DEFINE_GLOBAL_INIT(Ang16, kAng90_705690, Ang16(360), 0x705690);
 DEFINE_GLOBAL_INIT(Ang16, kAng180_705762, Ang16(720), 0x705762);
 DEFINE_GLOBAL_INIT(Ang16, kAng0_705948, Ang16(0), 0x705948);
 
+// Sprite index offset from the object's base sprite for the traffic_light_lighting_255 object
+namespace traffic_light_sprite_offset
+{
+enum
+{
+    red_0 = 0,
+    green_1 = 1,
+    amber_2 = 2,
+};
+} // namespace traffic_light_sprite_offset
+
 // TODO: Is this too big?
 u8 traffic_light_phase_timers_626840[] = {0x00, 0x64, 0x18, 0x18, 0x64, 0x18, 0x18, 0x96, 0x50, 0x00, 0x00, 0x00};
 
 // https://decomp.me/scratch/JogBj
-WIP_FUNC(0x5C1D00)
+MATCH_FUNC(0x5C1D00)
 void TrafficLight_20::Init_5C1D00(u8 x, u8 y, u8 w, u8 h)
 {
-    WIP_IMPLEMENTED;
 
     Fix16 zpos = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(x, y);
     u8 zTmp = (zpos.ToInt()) - 1;
@@ -56,8 +67,8 @@ void TrafficLight_20::Init_5C1D00(u8 x, u8 y, u8 w, u8 h)
                                                           Fix16(y + (h / 2)),
                                                           zpos + kFpTwo_7055E0,
                                                           kAng270_705788);
-        field_8_west_headlight_obj->SetSpriteIdOffset_5290C0(0);
-        field_18_west_light = gLight_1D4CC_6F5520->InitOutOfLine_469010(Fix16(x) - kFpOne_7055E4, Fix16(y + (h / 2)), zpos, 0xFF0000, kFpOneAndHalf_705850, 200);
+        field_8_west_headlight_obj->SetSpriteIdxOffset_5290C0(traffic_light_sprite_offset::red_0);
+        field_18_west_light = gLight_1D4CC_6F5520->InitOutOfLine_469010(Fix16(x) - kFpOne_7055E4, Fix16(y + (h / 2)), zpos, MAKE_RGB(255, 0, 0), kFpOneAndHalf_705850, 200);
     }
     else
     {
@@ -74,8 +85,8 @@ void TrafficLight_20::Init_5C1D00(u8 x, u8 y, u8 w, u8 h)
                                                           Fix16(y + (h / 2)),
                                                           zpos + kFpTwo_7055E0,
                                                           kAng90_705690);
-        field_C_east_headlight_obj->SetSpriteIdOffset_5290C0(0);
-        field_1C_east_light = gLight_1D4CC_6F5520->InitOutOfLine_469010(Fix16(x + w) + kFpOne_7055E4, Fix16(y + (h / 2)), zpos, 0xFF0000, kFpOneAndHalf_705850, 200);
+        field_C_east_headlight_obj->SetSpriteIdxOffset_5290C0(traffic_light_sprite_offset::red_0);
+        field_1C_east_light = gLight_1D4CC_6F5520->InitOutOfLine_469010(Fix16(x + w) + kFpOne_7055E4, Fix16(y + (h / 2)), zpos + kFpTwo_7055E0, MAKE_RGB(255, 0, 0), kFpOneAndHalf_705850, 200);
     }
     else
     {
@@ -88,12 +99,12 @@ void TrafficLight_20::Init_5C1D00(u8 x, u8 y, u8 w, u8 h)
         // OK
         gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::traffic_light_hull_170, Fix16(x + (w / 2)), Fix16(y) - kFpOne_7055E4, kFpTwo_7055E0 + zpos, kAng180_705762);
         field_0_north_headlight_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::traffic_light_lighting_255,
-                                                          Fix16(x + (w / 2)) - kFpThreeThirtySeconds_7055FC - kFpOne_7055E4,
-                                                          Fix16(y),
+                                                          Fix16(x + (w / 2)),
+                                                          Fix16(y) - kFpThreeThirtySeconds_7055FC - kFpOne_7055E4,
                                                           zpos + kFpTwo_7055E0,
                                                           kAng180_705762);
-        field_0_north_headlight_obj->SetSpriteIdOffset_5290C0(0);
-        field_10_north_light = gLight_1D4CC_6F5520->InitOutOfLine_469010(Fix16(x + (w / 2)), Fix16(y) - kFpOne_7055E4, zpos, 0x00FF00, kFpOneAndHalf_705850, 200);
+        field_0_north_headlight_obj->SetSpriteIdxOffset_5290C0(traffic_light_sprite_offset::green_1);
+        field_10_north_light = gLight_1D4CC_6F5520->InitOutOfLine_469010(Fix16(x + (w / 2)), Fix16(y) - kFpOne_7055E4, zpos, MAKE_RGB(0, 255, 0), kFpOneAndHalf_705850, 200);
     }
     else
     {
@@ -109,8 +120,8 @@ void TrafficLight_20::Init_5C1D00(u8 x, u8 y, u8 w, u8 h)
                                                           Fix16(y + h) + kFpOne_7055E4 + kFpThreeThirtySeconds_7055FC,
                                                           zpos + kFpTwo_7055E0,
                                                           kAng0_705948);
-        field_4_south_headlight_obj->SetSpriteIdOffset_5290C0(0);
-        field_14_south_light = gLight_1D4CC_6F5520->InitOutOfLine_469010(Fix16(x + (w / 2)), Fix16(y + h) + kFpOne_7055E4, zpos, 0x00FF00, kFpOneAndHalf_705850, 200);
+        field_4_south_headlight_obj->SetSpriteIdxOffset_5290C0(traffic_light_sprite_offset::green_1);
+        field_14_south_light = gLight_1D4CC_6F5520->InitOutOfLine_469010(Fix16(x + (w / 2)), Fix16(y + h) + kFpOne_7055E4, zpos, MAKE_RGB(0, 255, 0), kFpOneAndHalf_705850, 200);
     }
     else
     {
@@ -139,66 +150,57 @@ void TrafficLight_20::Init_5C1D00(u8 x, u8 y, u8 w, u8 h)
 
     if (field_0_north_headlight_obj)
     {
-        Fix16 xIter1(x);
-
         for (s32 i = 0; i < w; i++)
         {
-            gmp_block_info* pBlock1 = gMap_0x370_6F6268->get_block_4DFE10((xIter1 + kFpHalf_705714).ToInt(),
+            gmp_block_info* pBlock1 = gMap_0x370_6F6268->GetBlock_4DFE10((Fix16(x + i) + kFpHalf_705714).ToInt(),
                                                                           (Fix16(y) - dword_705660).ToInt(),
                                                                           (zpos - kFpOne_70580C).ToInt());
-            if (pBlock1 && (pBlock1->field_A_arrows & 8) != 0)
+            if (pBlock1 && (pBlock1->field_A_arrows & block_arrow::green_down_8) != 0)
             {
-                gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::pedestrian_crossing_marker_122, xIter1 + kFpHalf_705714, Fix16(y) - dword_705660, zpos, kAng0_705948);
+                gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::pedestrian_crossing_marker_122, Fix16(x + i) + kFpHalf_705714, Fix16(y) - dword_705660, zpos, kAng0_705948);
             }
-            xIter1 += Fix16(1);
         }
     }
 
     if (field_4_south_headlight_obj)
     {
-        Fix16 xIter2(x);
         for (s32 i = 0; i < w; i++)
         {
-            gmp_block_info* pBlock2 = gMap_0x370_6F6268->get_block_4DFE10((xIter2 + kFpHalf_705714).ToInt(),
+            gmp_block_info* pBlock2 = gMap_0x370_6F6268->GetBlock_4DFE10((Fix16(x + i) + kFpHalf_705714).ToInt(),
                                                                           (Fix16(y + h) + dword_705660).ToInt(),
                                                                           (zpos - kFpOne_70580C).ToInt());
-            if (pBlock2 && (pBlock2->field_A_arrows & 4) != 0)
+            if (pBlock2 && (pBlock2->field_A_arrows & block_arrow::green_up_4) != 0)
             {
-                gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::pedestrian_crossing_marker_122, xIter2 + kFpHalf_705714, Fix16(y + h) + dword_705660, zpos, kAng0_705948);
+                gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::pedestrian_crossing_marker_122, Fix16(x + i) + kFpHalf_705714, Fix16(y + h) + dword_705660, zpos, kAng0_705948);
             }
-            xIter2 += Fix16(1);
         }
     }
 
     if (field_C_east_headlight_obj)
     {
-        Fix16 yOff(y);
         for (s32 i = 0; i < h; i++)
         {
-            gmp_block_info* pBlock3 = gMap_0x370_6F6268->get_block_4DFE10((Fix16(x + w) + dword_705660).ToInt(),
-                                                                          (yOff + kFpHalf_705714).ToInt(),
+            gmp_block_info* pBlock3 = gMap_0x370_6F6268->GetBlock_4DFE10((Fix16(x + w) + dword_705660).ToInt(),
+                                                                          (Fix16(y + i) + kFpHalf_705714).ToInt(),
                                                                           (zpos - kFpOne_70580C).ToInt());
-            if (pBlock3 && (pBlock3->field_A_arrows & 1) != 0)
+            if (pBlock3 && (pBlock3->field_A_arrows & block_arrow::green_left_1) != 0)
             {
-                gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::pedestrian_crossing_marker_122, Fix16(x + w) + dword_705660, yOff + kFpHalf_705714, zpos, kAng90_705690);
+                gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::pedestrian_crossing_marker_122, Fix16(x + w) + dword_705660, Fix16(y + i) + kFpHalf_705714, zpos, kAng90_705690);
             }
-            yOff += Fix16(1);
         }
     }
 
     if (field_8_west_headlight_obj)
     {
-        Fix16 yOff(y);
         for (s32 i = 0; i < h; i++)
         {
-            gmp_block_info* pBlock4 = gMap_0x370_6F6268->get_block_4DFE10((Fix16(x) - (dword_705660)).ToInt(),
-                                                                          (yOff + kFpHalf_705714).ToInt(),
+            gmp_block_info* pBlock4 = gMap_0x370_6F6268->GetBlock_4DFE10((Fix16(x) - (dword_705660)).ToInt(),
+                                                                          (Fix16(y + i) + kFpHalf_705714).ToInt(),
                                                                           (zpos - kFpOne_70580C).ToInt());
-            if (pBlock4 && (pBlock4->field_A_arrows & 2) != 0)
+            if (pBlock4 && (pBlock4->field_A_arrows & block_arrow::green_right_2) != 0)
             {
-                gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::pedestrian_crossing_marker_122, Fix16(x) - dword_705660, yOff + kFpHalf_705714, zpos, kAng90_705690);
+                gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::pedestrian_crossing_marker_122, Fix16(x) - dword_705660, Fix16(y + i) + kFpHalf_705714, zpos, kAng90_705690);
             }
-            yOff += Fix16(1);
         }
     }
 }
@@ -208,87 +210,87 @@ void TrafficLight_20::UpdateLightsFromPhase_5C27A0(u8 phase)
 {
     switch (phase)
     {
-        case 1u:
+        case traffic_light_phase::north_south_green_1:
             if (field_0_north_headlight_obj)
             {
-                field_0_north_headlight_obj->SetSpriteIdOffset_5290C0(1u);
-                field_10_north_light->field_10_argb = 0xFF00;
+                field_0_north_headlight_obj->SetSpriteIdxOffset_5290C0(traffic_light_sprite_offset::green_1);
+                field_10_north_light->field_10_argb = MAKE_RGB(0, 255, 0);
             }
 
             if (field_4_south_headlight_obj)
             {
-                field_4_south_headlight_obj->SetSpriteIdOffset_5290C0(1u);
-                field_14_south_light->field_10_argb = 0xFF00;
+                field_4_south_headlight_obj->SetSpriteIdxOffset_5290C0(traffic_light_sprite_offset::green_1);
+                field_14_south_light->field_10_argb = MAKE_RGB(0, 255, 0);
             }
             break;
 
-        case 2u:
+        case traffic_light_phase::north_south_amber_2:
             if (field_0_north_headlight_obj)
             {
-                field_0_north_headlight_obj->SetSpriteIdOffset_5290C0(2u);
-                field_10_north_light->field_10_argb = 0xFF8000;
+                field_0_north_headlight_obj->SetSpriteIdxOffset_5290C0(traffic_light_sprite_offset::amber_2);
+                field_10_north_light->field_10_argb = MAKE_RGB(255, 128, 0);
             }
 
             if (field_4_south_headlight_obj)
             {
-                field_4_south_headlight_obj->SetSpriteIdOffset_5290C0(2u);
-                field_14_south_light->field_10_argb = 0xFF8000;
+                field_4_south_headlight_obj->SetSpriteIdxOffset_5290C0(traffic_light_sprite_offset::amber_2);
+                field_14_south_light->field_10_argb = MAKE_RGB(255, 128, 0);
             }
             break;
 
-        case 3u:
+        case traffic_light_phase::north_south_red_3:
             if (field_0_north_headlight_obj)
             {
-                field_0_north_headlight_obj->SetSpriteIdOffset_5290C0(0);
-                field_10_north_light->field_10_argb = 0xFF0000;
+                field_0_north_headlight_obj->SetSpriteIdxOffset_5290C0(traffic_light_sprite_offset::red_0);
+                field_10_north_light->field_10_argb = MAKE_RGB(255, 0, 0);
             }
 
             if (field_4_south_headlight_obj)
             {
-                field_4_south_headlight_obj->SetSpriteIdOffset_5290C0(0);
-                field_14_south_light->field_10_argb = 0xFF0000;
+                field_4_south_headlight_obj->SetSpriteIdxOffset_5290C0(traffic_light_sprite_offset::red_0);
+                field_14_south_light->field_10_argb = MAKE_RGB(255, 0, 0);
             }
             break;
 
-        case 4u:
+        case traffic_light_phase::east_west_green_4:
             if (field_C_east_headlight_obj)
             {
-                field_C_east_headlight_obj->SetSpriteIdOffset_5290C0(1u);
-                field_1C_east_light->field_10_argb = 0xFF00;
+                field_C_east_headlight_obj->SetSpriteIdxOffset_5290C0(traffic_light_sprite_offset::green_1);
+                field_1C_east_light->field_10_argb = MAKE_RGB(0, 255, 0);
             }
 
             if (field_8_west_headlight_obj)
             {
-                field_8_west_headlight_obj->SetSpriteIdOffset_5290C0(1u);
-                field_18_west_light->field_10_argb = 0xFF00;
+                field_8_west_headlight_obj->SetSpriteIdxOffset_5290C0(traffic_light_sprite_offset::green_1);
+                field_18_west_light->field_10_argb = MAKE_RGB(0, 255, 0);
             }
             break;
 
-        case 5u:
+        case traffic_light_phase::east_west_amber_5:
             if (field_C_east_headlight_obj)
             {
-                field_C_east_headlight_obj->SetSpriteIdOffset_5290C0(2u);
-                field_1C_east_light->field_10_argb = 0xFF8000;
+                field_C_east_headlight_obj->SetSpriteIdxOffset_5290C0(traffic_light_sprite_offset::amber_2);
+                field_1C_east_light->field_10_argb = MAKE_RGB(255, 128, 0);
             }
 
             if (field_8_west_headlight_obj)
             {
-                field_8_west_headlight_obj->SetSpriteIdOffset_5290C0(2u);
-                field_18_west_light->field_10_argb = 0xFF8000;
+                field_8_west_headlight_obj->SetSpriteIdxOffset_5290C0(traffic_light_sprite_offset::amber_2);
+                field_18_west_light->field_10_argb = MAKE_RGB(255, 128, 0);
             }
             break;
 
-        case 6u:
+        case traffic_light_phase::east_west_red_6:
             if (field_C_east_headlight_obj)
             {
-                field_C_east_headlight_obj->SetSpriteIdOffset_5290C0(0);
-                field_1C_east_light->field_10_argb = 0xFF0000;
+                field_C_east_headlight_obj->SetSpriteIdxOffset_5290C0(traffic_light_sprite_offset::red_0);
+                field_1C_east_light->field_10_argb = MAKE_RGB(255, 0, 0);
             }
 
             if (field_8_west_headlight_obj)
             {
-                field_8_west_headlight_obj->SetSpriteIdOffset_5290C0(0);
-                field_18_west_light->field_10_argb = 0xFF0000;
+                field_8_west_headlight_obj->SetSpriteIdxOffset_5290C0(traffic_light_sprite_offset::red_0);
+                field_18_west_light->field_10_argb = MAKE_RGB(255, 0, 0);
             }
             break;
 
@@ -312,16 +314,16 @@ void TrafficLights_194::TrafficLightsService_5C2950()
 
     if (field_193_timer == 0)
     {
-        if (field_192_phase == 5)
+        if (field_192_phase == traffic_light_phase::east_west_amber_5)
         {
-            gCar_6C_677930->sub_4C39F0();
+            gCarManager_6C_677930->ToggleTrafficLightState_4C39F0();
         }
 
         field_192_phase++;
 
-        if (field_192_phase > 8) // TODO: Why is  GTA2_COUNTOF_S(traffic_light_phase_timers_626840) wrong?
+        if (field_192_phase > traffic_light_phase::all_red_8) // TODO: Why is  GTA2_COUNTOF_S(traffic_light_phase_timers_626840) wrong?
         {
-            field_192_phase = 1;
+            field_192_phase = traffic_light_phase::north_south_green_1;
         }
 
         field_193_timer = traffic_light_phase_timers_626840[field_192_phase];
@@ -347,7 +349,7 @@ void TrafficLights_194::ShowTrafficLightsInfo_5C2A10()
     swprintf(tmpBuff_67BD9C, L"phase: %d", field_192_phase);
     gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, -1, 16, gDebugFont_706600, 1);
 
-    if (field_192_phase == 7)
+    if (field_192_phase == traffic_light_phase::peds_crossing_7)
     {
         gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(L"peds crossing now!", -1, 32, gDebugFont_706600, 1);
     }
@@ -356,11 +358,11 @@ void TrafficLights_194::ShowTrafficLightsInfo_5C2A10()
 MATCH_FUNC(0x5c2ac0)
 void TrafficLights_194::CreateFromMapZones_5C2AC0()
 {
-    gmp_map_zone* pZoneIter = gMap_0x370_6F6268->first_zone_by_type_4DF1D0(Traffic_light_2);
+    gmp_map_zone* pZoneIter = gMap_0x370_6F6268->GetFirstZoneOfType_4DF1D0(Traffic_light_2);
     while (pZoneIter)
     {
         AddTrafficLight_5C2910(pZoneIter->field_1_x, pZoneIter->field_2_y, pZoneIter->field_3_w, pZoneIter->field_4_h);
-        pZoneIter = gMap_0x370_6F6268->next_zone_4DF770();
+        pZoneIter = gMap_0x370_6F6268->GetNextZone_4DF770();
     }
 }
 
@@ -372,8 +374,8 @@ TrafficLights_194::TrafficLights_194()
     {
         field_0_traffic_lights[i] = 0;
     }
-    field_192_phase = 1;
-    field_193_timer = traffic_light_phase_timers_626840[1];
+    field_192_phase = traffic_light_phase::north_south_green_1;
+    field_193_timer = traffic_light_phase_timers_626840[traffic_light_phase::north_south_green_1];
 }
 
 MATCH_FUNC(0x5c2b30)

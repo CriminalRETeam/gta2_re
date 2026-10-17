@@ -11,11 +11,11 @@ class ExplodingScore_50
     EXPORT ~ExplodingScore_50();
     EXPORT void PoolAllocate();
     EXPORT void PoolDeallocate();
-    EXPORT void ClearNumbersArrayFrom_596A70(s32 a2);
+    EXPORT void ClearNumbersArrayFrom_596A70(s32 start_idx);
     EXPORT void InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 score);
     EXPORT void DrawNumbers_596C90();
     EXPORT char_type PoolUpdate();
-    EXPORT void DrawSingleNumber_597100(s32 a2, s32 a3);
+    EXPORT void DrawSingleNumber_597100(s32 number_to_draw, s32 xpos_sub);
 
     s32 field_0_numbers_count;
     s32 field_4_digits[9]; // Number components
@@ -24,14 +24,14 @@ class ExplodingScore_50
     Fix16 field_30_z;
     s16 field_34_palette;
     char_type field_36; // draw figure param
-    char_type field_37; // pad ?
+    char_type field_37_unused; // pad ?
     s32 field_38; // scale factor?
     s32 field_3C; // xoff ?
     s32 field_40; // yoff ?
     // NOTE: Used by a template so the name maters
     ExplodingScore_50* mpNext;
-    s16 field_48; // set to 0, never used ??
-    s16 field_4A; // pad?
+    s16 field_48_unused; // set to 0, never used ??
+    s16 field_4A_unused; // pad?
     s32 field_4C_score;
 };
 
@@ -42,7 +42,7 @@ class ExplodingScorePool
     EXPORT ~ExplodingScorePool();
     EXPORT s16 NextPalette_596860();
     EXPORT void IncrementFreeScores_596880();
-    EXPORT void PushScore_596890(Fix16 a2, Fix16 a3, Fix16 a4, u32 a5);
+    EXPORT void PushScore_596890(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 score);
     EXPORT void Update_596940();
     EXPORT void DrawExplodingScores_5969E0();
 

@@ -168,11 +168,11 @@ void keybrd_0x204::RecreateIfLayoutChanged_4D5FD0()
     }
 }
 
-// TODO: only differs in scheduling: the original computes &v2 before loading pwszKLID[6] and [7]
-WIP_FUNC(0x4D6000)
-s32 keybrd_0x204::GetLayout_4D6000()
+// __stdcall, not __cdecl: with __cdecl VC6 gives the loads after GetKeyboardLayoutNameA no call-clobber
+// latency, so the KLID byte loads are scheduled before `lea &v2` (see matching_quirks.md)
+MATCH_FUNC(0x4D6000)
+s32 __stdcall keybrd_0x204::GetLayout_4D6000()
 {
-    WIP_IMPLEMENTED;
     s32 result; // eax
     char_type Buffer[4]; // [esp+0h] [ebp-14h] BYREF
     char_type pwszKLID[KL_NAMELENGTH]; // [esp+8h] [ebp-Ch] BYREF
@@ -184,9 +184,9 @@ s32 keybrd_0x204::GetLayout_4D6000()
     Buffer[0] = pwszKLID[6];
     Buffer[1] = pwszKLID[7];
 
-    s32 v2;
-    sscanf(Buffer, "%x", &v2);
-    switch (v2)
+    s32 key_code;
+    sscanf(Buffer, "%x", &key_code);
+    switch (key_code)
     {
         case 12:
             result = 1;

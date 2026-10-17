@@ -479,21 +479,6 @@ enum
 // static_assert(sizeof(ped_state_2) == 0x4);
 } // namespace ped_state_2
 
-namespace ped_type_enum
-{
-enum
-{
-    New_Name = 0,
-    New_Name_1 = 1,
-    ped_player = 2,
-    New_Name_2 = 3,
-    ped_elvis = 4,
-    New_Name_3 = 5,
-    ped_car_thief = 6,
-};
-// static_assert(sizeof(ped_type_enum) == 0x4);
-} // namespace ped_type_enum
-
 namespace Char_B4_state
 {
 enum
@@ -580,7 +565,7 @@ namespace sprite_types_enum
 enum
 {
     unknown_0 = 0, // At least in the function sprite_FUN_004b9aa0, but don't know what represents.
-    unknown_1 = 1, // At least in the function sprite_FUN_004b9aa0, but don't know what represents.
+    object_1 = 1, // has an Object_2C like code_obj1_4 and map_obj_5
     car_2 = 2,
     ped_3 = 3,
     code_obj1_4 = 4,
@@ -916,6 +901,8 @@ namespace ped_type
 {
 enum
 {
+    unknown_0 = 0,
+    unknown_1 = 1,
     player_2 = 2,
     dummy_3 = 3,
     special_ped_4 = 4,
@@ -923,6 +910,18 @@ enum
     dummy_with_occupation_6 = 6,
 };
 } // namespace ped_type
+
+// Keeps the number of distinct names in headers MapRenderer.cpp includes unchanged after merging ped_type_enum into
+// ped_type; it flips Draw3SidedDiagonalDownRight_4EF520 / Draw4SidedDiagonalUpLeft_4EF880 otherwise (see car_flags.hpp
+// and docs/matching_quirks.md). Do not remove without running the whole build.
+enum
+{
+    kPedTypeNameCount0,
+    kPedTypeNameCount1,
+    kPedTypeNameCount2,
+    kPedTypeNameCount3,
+    kPedTypeNameCount4
+};
 
 namespace ped_state_1
 {
