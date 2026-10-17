@@ -2492,22 +2492,31 @@ DEFINE_GLOBAL_INIT(u8, byte_624FBD, 1, 0x624FBD); // the next roadblock lane get
 // The "first free slot" fills for the cars, barriers and guards are written out in the body, as in
 // 9.6f (built with /Ob0, so they were never inline helpers). As inline helpers they used up VC6's
 // inline budget and the x branch's Ang16 Normalize went out of line.
-WIP_FUNC(0x575ff0)
+MATCH_FUNC(0x575ff0)
 char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
 {
     Car_BC* pCar = 0;
-    u8 tries = 0;
-    char_type bFound;
+    u8 bEdge;
+    u8 tries;
+    u8 width;
+    u8 x_start;
+    u8 y_start;
     u8 lane;
     Ang16 angle;
-
-    Fix16 y_bottom;
     Fix16 zpos;
+    Fix16 x_left;
+    Fix16 y_top;
+    Fix16 x_right;
+    Fix16 y_bottom;
+
     if (orientation == 2)
     {
         // Find the road's edges along y
-        u8 bEdge = 0;
+        x_start = x;
+        bEdge = 0;
+        tries = 0;
         s32 z_below = z - 1;
+        char_type bFound;
         do
         {
             bFound = 0;
@@ -2542,13 +2551,13 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
             }
         } while (!bFound);
 
-        u8 width = 0;
+        width = 0;
         if (bEdge == 1)
         {
             width = 1;
             y++;
         }
-        u8 y_start = y;
+        y_start = y;
         bEdge = 0;
         tries = 0;
         do
@@ -2560,8 +2569,6 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                 case ROAD:
                     width++;
                     break;
-                // PAVEMENT and FIELD written out separately (VC6 merges them again): closer than a shared
-                // label (226 vs 286). The x branch's order and the zpos declaration also only move registers.
                 case PAVEMENT:
                     if (!bEdge)
                     {
@@ -2603,11 +2610,11 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
             return 0;
         }
 
-        Fix16 x_left = Fix16(x) + dword_6FEBF4;
-        Fix16 y_top = Fix16(y_start);
-        Fix16 x_right = Fix16(x) + dword_6FEBF4;
-        Fix16 y_bottom = Fix16(y_start + width + 1);
-        Fix16 zpos = Fix16(z);
+        x_left = Fix16(x_start) + dword_6FEBF4;
+        y_top = Fix16(y_start);
+        x_right = Fix16(x_start) + dword_6FEBF4;
+        y_bottom = Fix16(y_start + width + 1);
+        zpos = Fix16(z);
         field_A0_rect->SetRect_41E350(x_left - dword_6FEBF4, x_right + dword_6FEBF4, y_top, y_bottom);
         field_A0_rect->SetHiLowZ_41E370(zpos - dword_6FECEC, zpos + dword_6FECEC);
         if (gSpriteGrid_1_679208->CheckRectForCollisions_477F60(field_A0_rect, 0, 0, 0))
@@ -2646,7 +2653,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                         default:
                             break;
                         case crew_kind::police_1:
-                            pCar = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x) + dword_6FEBF4,
+                            pCar = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x_start) + dword_6FEBF4,
                                                                              Fix16(y_start + lane) + dword_6FEBF4,
                                                                              angle,
                                                                              car_model_enum::COPCAR,
@@ -2655,7 +2662,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                             byte_624FBD = 1;
                             break;
                         case crew_kind::swat_2:
-                            pCar = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x) + dword_6FEBF4,
+                            pCar = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x_start) + dword_6FEBF4,
                                                                              Fix16(y_start + lane) + dword_6FEBF4,
                                                                              angle,
                                                                              car_model_enum::COPCAR,
@@ -2664,7 +2671,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                             byte_624FBD = 1;
                             break;
                         case crew_kind::fbi_3:
-                            pCar = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x) + dword_6FEBF4,
+                            pCar = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x_start) + dword_6FEBF4,
                                                                              Fix16(y_start + lane) + dword_6FEBF4,
                                                                              angle,
                                                                              car_model_enum::EDSELFBI,
@@ -2675,7 +2682,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                         case crew_kind::army_4:
                             if (lane != width - 1)
                             {
-                                pCar = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x) + dword_6FEBF4,
+                                pCar = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x_start) + dword_6FEBF4,
                                                                                  Fix16(y_start + lane) + dword_6FEBD0,
                                                                                  angle,
                                                                                  car_model_enum::TANK,
@@ -2730,12 +2737,12 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                 if (byte_624FBC)
                 {
                     Object_2C* pBarrier1 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(21,
-                                                                                   Fix16(x) + dword_6FEB50,
+                                                                                   Fix16(x_start) + dword_6FEB50,
                                                                                    Fix16(y_start + lane) + dword_6FEBF4,
                                                                                    z,
                                                                                    word_6FEB74);
                     Object_2C* pBarrier2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(21,
-                                                                                   Fix16(x) + kFpPoint8_6FEB68,
+                                                                                   Fix16(x_start) + kFpPoint8_6FEB68,
                                                                                    Fix16(y_start + lane) + dword_6FEBF4,
                                                                                    z,
                                                                                    word_6FEB74);
@@ -2784,7 +2791,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                 }
                 if (byte_624FBD)
                 {
-                    Ped* pGuard = gPolice_7B8_6FEE40->SpawnRoadblockGuard_56F5C0(Fix16(x) + dword_6FEB5C,
+                    Ped* pGuard = gPolice_7B8_6FEE40->SpawnRoadblockGuard_56F5C0(Fix16(x_start) + dword_6FEB5C,
                                                                             Fix16(y_start + lane) + dword_6FEBF4,
                                                                             z,
                                                                             word_6FEB74);
@@ -2819,8 +2826,11 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
     else
     {
         // Find the road's edges along x
-        u8 bEdge = 0;
+        y_start = y;
+        bEdge = 0;
+        tries = 0;
         s32 z_below = z - 1;
+        char_type bFound;
         do
         {
             bFound = 0;
@@ -2855,13 +2865,13 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
             }
         } while (!bFound);
 
-        u8 width = 0;
+        width = 0;
         if (bEdge == 1)
         {
             width = 1;
             x++;
         }
-        u8 x_start = x;
+        x_start = x;
         bEdge = 0;
         tries = 0;
         do
@@ -2874,11 +2884,21 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                     width++;
                     break;
                 case PAVEMENT:
+                    if (!bEdge)
+                    {
+                        width++;
+                        bEdge = 1;
+                    }
+                    else
+                    {
+                        bFound = 1;
+                    }
+                    break;
                 case FIELD:
                     if (!bEdge)
                     {
-                        bEdge = 1;
                         width++;
+                        bEdge = 1;
                     }
                     else
                     {
@@ -2904,10 +2924,10 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
             return 0;
         }
 
-        Fix16 x_left = Fix16(x_start);
-        Fix16 y_top = Fix16(y) + dword_6FEBF4;
-        Fix16 x_right = Fix16(x_start + width + 1);
-        y_bottom = Fix16(y) + dword_6FEBF4;
+        x_left = Fix16(x_start);
+        y_top = Fix16(y_start) + dword_6FEBF4;
+        x_right = Fix16(x_start + width + 1);
+        y_bottom = Fix16(y_start) + dword_6FEBF4;
         zpos = Fix16(z);
         field_A0_rect->SetRect_41E350(x_left, x_right, y_top - dword_6FEBF4, y_bottom + dword_6FEBF4);
         field_A0_rect->SetHiLowZ_41E370(zpos - dword_6FECEC, zpos + dword_6FECEC);
@@ -2948,7 +2968,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                             break;
                         case crew_kind::police_1:
                             pCar = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x_start + lane) + dword_6FEBF4,
-                                                                             Fix16(y) + dword_6FEBF4,
+                                                                             Fix16(y_start) + dword_6FEBF4,
                                                                              angle,
                                                                              car_model_enum::COPCAR,
                                                                              dword_6FECEC);
@@ -2956,7 +2976,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                             break;
                         case crew_kind::swat_2:
                             pCar = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x_start + lane) + dword_6FEBF4,
-                                                                             Fix16(y) + dword_6FEBF4,
+                                                                             Fix16(y_start) + dword_6FEBF4,
                                                                              angle,
                                                                              car_model_enum::COPCAR,
                                                                              dword_6FECEC);
@@ -2964,7 +2984,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                             break;
                         case crew_kind::fbi_3:
                             pCar = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x_start + lane) + dword_6FEBF4,
-                                                                             Fix16(y) + dword_6FEBF4,
+                                                                             Fix16(y_start) + dword_6FEBF4,
                                                                              angle,
                                                                              car_model_enum::EDSELFBI,
                                                                              dword_6FECEC);
@@ -2974,7 +2994,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                             if (lane != width - 1)
                             {
                                 pCar = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x_start + lane) + dword_6FEBD0,
-                                                                                 Fix16(y) + dword_6FEBF4,
+                                                                                 Fix16(y_start) + dword_6FEBF4,
                                                                                  angle,
                                                                                  car_model_enum::TANK,
                                                                                  dword_6FECEC);
@@ -3028,12 +3048,12 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                 {
                     Object_2C* pBarrier1 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(21,
                                                                                    Fix16(x_start + lane) + dword_6FEBF4,
-                                                                                   Fix16(y) + dword_6FEB50,
+                                                                                   Fix16(y_start) + dword_6FEB50,
                                                                                    z,
                                                                                    word_6FEE30);
                     Object_2C* pBarrier2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(21,
                                                                                    Fix16(x_start + lane) + dword_6FEBF4,
-                                                                                   Fix16(y) + kFpPoint8_6FEB68,
+                                                                                   Fix16(y_start) + kFpPoint8_6FEB68,
                                                                                    z,
                                                                                    word_6FEE30);
                     if (!field_28_barrier_1)
@@ -3082,7 +3102,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                 if (byte_624FBD)
                 {
                     Ped* pGuard = gPolice_7B8_6FEE40->SpawnRoadblockGuard_56F5C0(Fix16(x_start + lane) + dword_6FEBF4,
-                                                                            Fix16(y) + dword_6FEB5C,
+                                                                            Fix16(y_start) + dword_6FEB5C,
                                                                             z,
                                                                             word_6FEE30);
                     if (!field_88_guard_1)

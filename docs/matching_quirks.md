@@ -1826,6 +1826,26 @@ puts both in slots it reuses, including the dead `dist` parameter's slot. A temp
 (`GetAngleFace_4F78F0(Ang16(...).Normalized_406C20())`, an inline that returns `*this`) and a
 block-scoped `{ Fix16 found_z; ... }` gave the original's frame (`Map_0x370::AdvanceAlongRailway_4E6660`).
 
+**A by-value inline argument built only from temporaries is built late.** VC6 delays building an
+inline's by-value result argument until after later call arguments only when it is constructed
+directly from temporaries: `Fix16::Add_ref(Fix16(u8), Fix16(global))` returns `Fix16(a + b, 0)`
+and gets built after a nested call, while the member `operator+` (which computes a local first) is
+always built early. The original keeps the u8 coordinate and a copy of the global across the call,
+which also makes its frame bigger (`PublicTransport_181C::SpawnTrainsFromStations_578860`).
+
+**Variables shared by two mirrored branches.** When two branches do the same work along x or along y,
+the original may name its locals by axis and use them in both branches. In
+`PoliceRoadblock_A4::CreateRoadblock_575FF0` one function-scope `width` gave the original's shared
+width-as-int stack slot, and function-scope `x_start`/`y_start` (the rect's min corner, the fixed axis
+copied at the top of each branch) gave the match. VC6 keeps one int widening temp per variable and
+creates them in reverse order of each variable's first int use in the source. A commutative `lea`
+puts the operand with the older temp first, and its result takes that operand's register. With a
+per-branch `x_start`, the x-branch's `x_start + width + 1` had the operands the other way round
+from the y-branch, which moved every register in the branch. A single shared `start` fixed the
+registers but not the slots: slot order counts memory references per variable, so one `start`
+(4 refs) sorted ahead of `pCar` where the original's two variables (2 refs each) didn't. Tools:
+`Scripts/regalloc/opdump.py` shows the operand order, `slotlog.py` the slot list.
+
 **An implicit conversion into a by-value argument calls the constructor out of line.**
 `Call(98, 179)` to a function taking `Fix16` by value builds each argument in its stack slot
 with `mov %esp,%ecx; push $98; call Fix16::FromInt_4369F0` (the `Fix16(s32)` constructor out of
