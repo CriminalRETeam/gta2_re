@@ -2479,17 +2479,20 @@ WIP_FUNC(0x575ff0)
 char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
 {
     Car_BC* pCar = 0;
-    u8 bEdge = 0;
-    u8 tries = 0;
-    char_type bFound;
-    u8 width;
+    u8 bEdge;
+    u8 tries;
     u8 lane;
     Ang16 angle;
+    Fix16 zpos;
 
     if (orientation == 2)
     {
         // Find the road's edges along y
+        u8 width;
+        bEdge = 0;
+        tries = 0;
         s32 z_below = z - 1;
+        char_type bFound;
         do
         {
             bFound = 0;
@@ -2543,6 +2546,16 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                     width++;
                     break;
                 case PAVEMENT:
+                    if (!bEdge)
+                    {
+                        width++;
+                        bEdge = 1;
+                    }
+                    else
+                    {
+                        bFound = 1;
+                    }
+                    break;
                 case FIELD:
                     if (!bEdge)
                     {
@@ -2577,7 +2590,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
         Fix16 y_top = Fix16(y_start);
         Fix16 x_right = Fix16(x) + dword_6FEBF4;
         Fix16 y_bottom = Fix16(y_start + width + 1);
-        Fix16 zpos = Fix16(z);
+        zpos = Fix16(z);
         field_A0_rect->SetRect_41E350(x_left - dword_6FEBF4, x_right + dword_6FEBF4, y_top, y_bottom);
         field_A0_rect->SetHiLowZ_41E370(zpos - dword_6FECEC, zpos + dword_6FECEC);
         if (gPurpleDoom_1_679208->CheckRectForCollisions_477F60(field_A0_rect, 0, 0, 0))
@@ -2789,7 +2802,11 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
     else
     {
         // Find the road's edges along x
+        u8 width;
+        bEdge = 0;
+        tries = 0;
         s32 z_below = z - 1;
+        char_type bFound;
         do
         {
             bFound = 0;
@@ -2843,6 +2860,16 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                     width++;
                     break;
                 case PAVEMENT:
+                    if (!bEdge)
+                    {
+                        width++;
+                        bEdge = 1;
+                    }
+                    else
+                    {
+                        bFound = 1;
+                    }
+                    break;
                 case FIELD:
                     if (!bEdge)
                     {
@@ -2877,7 +2904,7 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
         Fix16 y_top = Fix16(y) + dword_6FEBF4;
         Fix16 x_right = Fix16(x_start + width + 1);
         Fix16 y_bottom = Fix16(y) + dword_6FEBF4;
-        Fix16 zpos = Fix16(z);
+        zpos = Fix16(z);
         field_A0_rect->SetRect_41E350(x_left, x_right, y_top - dword_6FEBF4, y_bottom + dword_6FEBF4);
         field_A0_rect->SetHiLowZ_41E370(zpos - dword_6FECEC, zpos + dword_6FECEC);
         if (gPurpleDoom_1_679208->CheckRectForCollisions_477F60(field_A0_rect, 0, 0, 0))
