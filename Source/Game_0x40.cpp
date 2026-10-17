@@ -80,8 +80,6 @@ enum
 };
 } // namespace network_game_speed
 
-//DEFINE_GLOBAL(s32, gNetworkGameSpeed_7071A0, 0x7071A0);
-//DEFINE_GLOBAL(s32, gNetworkPolice_7071B0, 0x7071B0);
 DEFINE_GLOBAL(s32, gCachedScreenDimension_706C58, 0x706C58);
 
 // TODO
