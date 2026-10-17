@@ -1770,6 +1770,19 @@ puts both in slots it reuses, including the dead `dist` parameter's slot. A temp
 (`GetAngleFace_4F78F0(Ang16(...).Normalized_406C20())`, an inline that returns `*this`) and a
 block-scoped `{ Fix16 found_z; ... }` gave the original's frame (`Map_0x370::sub_4E6660`).
 
+**A by-value inline argument built only from temporaries is built late.** VC6 delays building an
+inline's by-value result argument until after later call arguments only when it is constructed
+directly from temporaries: `Fix16::Add_ref(Fix16(u8), Fix16(global))` returns `Fix16(a + b, 0)`
+and gets built after a nested call, while the member `operator+` (which computes a local first) is
+always built early. The original keeps the u8 coordinate and a copy of the global across the call,
+which also makes its frame bigger (`PublicTransport_181C::SpawnTrainsFromStations_578860`).
+
+**One variable for both branches.** When two branches do the same work (scan along x or along y),
+a single function-scope local used by both can be what the original had: in
+`PoliceRoadblock_A4::CreateRoadblock_575FF0` one `width` gave the original's shared width-as-int
+stack slot, and one `start` (instead of `x_start`/`y_start`) fixed the second branch's register
+allocation (62 -> 12). Per-branch or two function-scope variables both kept the wrong registers.
+
 **An implicit conversion into a by-value argument calls the constructor out of line.**
 `Call(98, 179)` to a function taking `Fix16` by value builds each argument in its stack slot
 with `mov %esp,%ecx; push $98; call Fix16::FromInt_4369F0` (the `Fix16(s32)` constructor out of
