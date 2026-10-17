@@ -1777,11 +1777,18 @@ and gets built after a nested call, while the member `operator+` (which computes
 always built early. The original keeps the u8 coordinate and a copy of the global across the call,
 which also makes its frame bigger (`PublicTransport_181C::SpawnTrainsFromStations_578860`).
 
-**One variable for both branches.** When two branches do the same work (scan along x or along y),
-a single function-scope local used by both can be what the original had: in
-`PoliceRoadblock_A4::CreateRoadblock_575FF0` one `width` gave the original's shared width-as-int
-stack slot, and one `start` (instead of `x_start`/`y_start`) fixed the second branch's register
-allocation (62 -> 12). Per-branch or two function-scope variables both kept the wrong registers.
+**Variables shared by two mirrored branches.** When two branches do the same work along x or along y,
+the original may name its locals by axis and use them in both branches. In
+`PoliceRoadblock_A4::CreateRoadblock_575FF0` one function-scope `width` gave the original's shared
+width-as-int stack slot, and function-scope `x_start`/`y_start` (the rect's min corner, the fixed axis
+copied at the top of each branch) gave the match. VC6 keeps one int widening temp per variable and
+creates them in reverse order of each variable's first int use in the source. A commutative `lea`
+puts the operand with the older temp first, and its result takes that operand's register. With a
+per-branch `x_start`, the x-branch's `x_start + width + 1` had the operands the other way round
+from the y-branch, which moved every register in the branch. A single shared `start` fixed the
+registers but not the slots: slot order counts memory references per variable, so one `start`
+(4 refs) sorted ahead of `pCar` where the original's two variables (2 refs each) didn't. Tools:
+`Scripts/regalloc/opdump.py` shows the operand order, `slotlog.py` the slot list.
 
 **An implicit conversion into a by-value argument calls the constructor out of line.**
 `Call(98, 179)` to a function taking `Fix16` by value builds each argument in its stack slot
