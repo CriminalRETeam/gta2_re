@@ -2404,7 +2404,7 @@ void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
 
             if (gStoredCar_6F7560 != NULL)
             {
-                if (gStoredCar_6F7560 != pCar && gStoredCar_6F7560->field_6C_maybe_id != pCar->field_6C_maybe_id)
+                if (pCar != gStoredCar_6F7560 && gStoredCar_6F7560->field_6C_maybe_id != pCar->field_6C_maybe_id)
                 {
                     if (gStoredCar_6F7560->field_6C_maybe_id == gStoredCarId_6F78B4)
                     {
@@ -2453,9 +2453,9 @@ void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
             }
             else
             {
-                gStoredCar_6F7560 = pParam2->field_8_car;
                 gStoredCarId_6F78B4 = pParam2->field_8_car->field_6C_maybe_id;
-                pParam2->field_8_car->ReassignAllocatedCarType_443EE0(8);
+                gStoredCar_6F7560 = pCar;
+                gStoredCar_6F7560->ReassignAllocatedCarType_443EE0(8);
             }
         }
     }
