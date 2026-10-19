@@ -5883,3 +5883,13 @@ into `opponent_idx` gives 4 but moves it to a 4-byte slot). The VC7 witness did 
 - Correction to the frame-pass notes: three function-scope locals without their address taken
   (`main_stage_idx`, `option_idx`, `num_players`) do share slot 0x14 here; the "two function-scope locals never
   share" probe only covered address-taken locals.
+- Why the split of `stage_idx` moved S and B (worker H3): slot addresses are not the list order. Slots are created
+  by walking the list (each local tries the existing slots from the last created to the first, joins the first
+  non-interfering one of at most twice its size, lifetimes are real, not lexical), then, when the frame exceeds
+  0x80 bytes, sorted by a K&R quicksort (middle pivot, strict `>`, unstable) on the decreasing key
+  `refs * 1000 / size` summed over the slot's members (`0x10759F00`). S and B tie at 2000, so their order falls out
+  of the partitioning of the whole table: with one 16-ref `stage_idx` slot B comes first, with three smaller slots S
+  does. A model of the sort (scratch `h3w/qs.py`, `run(slots)` with `(name, size, refs)` in creation order)
+  reproduces the base, the duplicated-tail variant and the fold of `game_mode_2`. Worker H2 mapped both frames
+  (10.5 and 9.6f) and showed that 9.6f's slot sharing follows lifetimes, so it hints at the variable set but does
+  not prove identity; worker H4 (permuter, 4361 compiles) found nothing below 8 in a 1-byte slot.
