@@ -5921,3 +5921,33 @@ patch items are still needed: the 35 entries of header padding, the two cluster-
 - **Integration**: 135 candidates through a 2 s stock + oracle harness. The cost of D is additive and
   independent of every other change, and no candidate turns it into `test`. With D and the else store both
   pointing there, a different block graph through the region walk is the remaining route.
+
+**Round 2 on cluster D (Oct 19 night, five workers): the region-walk requirement is now exact, and no source form meets it.**
+- D2 read the walk (0x107429ee): 3 passes over the uncoloured ranges of the pass (363 blocks at colour time), blocks
+  visited in block-list order, a block joins the region of the first predecessor (then successor) whose region
+  leaves it a free register (free = 0x1de minus the registers taken in the block; a region accumulates the union of
+  its blocks' taken registers). In the compare / side-test / owner-stores chain one region covers everything with
+  union 0x19e: ebp is the only common free register and makes every join. A forced boundary anywhere in that chain
+  in pass 1 or 3 gives 0 (in pass 2 it breaks the result). The "ebp taken" route is closed (the only ebp here is a
+  codegen temp and the target has the same code), leaving two mechanisms: a predecessor in region 0 (no uncoloured
+  range live there, or all 7 registers taken), or the block-list order (a block visited before its predecessor has a
+  region). Tool: `$S/usm7/d2/mkforce.py` (region logger + forcer).
+- D3 read the constant record: one record per value per function (the hash key is kind + low 32 bits, never size or
+  type; enums, `(u16)0`, `x -= x`, `sizeof` forms fold before the pass), the predicate keeps an immediate only for a
+  kind-1 temp; a store of 0 to memory always joins. With the oracle the owner block's two zeros become their own
+  coloured piece (block-local `xor %eax`) and the else's zero an immediate: the compare's use is what links the two
+  sibling blocks. So nothing on the source side can give the owner block a separate 0.
+- D4 (9.6f under VC7): the original site is T3's state-first form with two `return`s (9.6f's single tail is a VC7
+  cross-jump: the 5 kept in ebx needs three uses); the inverted form is excluded by the caller size; the physics
+  helpers as calls make the whole case identical to 9.6f under VC7 but break the VC6 inline budget (as noted on Oct
+  14). Stock 240 / oracle 0 for that form.
+- D1 (426 variants of the site: store orders, else first, merged conditions, inverted inner test, nested forms,
+  ternary condition): every form that keeps the target's two-tail layout reduces to the same block graph (C2 threads
+  the second pOwner test, the front end canonicalises empty and inverted ifs), the regions never move, and the
+  compare stays `xor; cmp`. Only the then-branch's store order decides whether the else's zero joins the web.
+- D5: the final form without D is on branch `claude/usm2-d5` (not merged): 34 entries from an `s32 unused;` in
+  `Ang16::PolarToCartesian_41FC20` (29 expansions) and `CarPhysics_B0::TurnClockwise_42ABA0` (5), the smallest
+  impact (only this function changes across the 9 TUs that use them; a `#pragma warning` around a body written
+  inside the class is ignored, VC6 compiles those bodies after the `};`, so the helpers are defined after their
+  class), the two cluster-C spellings commented in Source; 186 stock / 0 oracle. Untested: the block-list order
+  as a boundary cause (D2's route (a)), interleaving owner and pChase stores, a region-0 predecessor.
