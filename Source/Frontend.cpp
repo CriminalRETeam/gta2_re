@@ -3509,580 +3509,590 @@ void Frontend::SetFontTypes_4AF0E0()
     }
 }
 
-WIP_FUNC(0x4B0220)
+MATCH_FUNC(0x4B0220)
 void Frontend::SetupMenuStringsOptionsElements_4B0220()
 {
-    WIP_IMPLEMENTED;
-
     // local_4 = (-(ushort)(cVar1 != 'j') & 0xfffc) + 0x10;
 
+    MenuPage_0xBCA* pPage;
     s32 line_height = gText_0x14_704DFC->field_10_lang_code != 'j' ? 12 : 16;
     field_134_unused = 16;
 
-    field_136_menu_pages_array[0].field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
-    field_136_menu_pages_array[0].field_4_options_array[0].field_2_x_pos = 300; // ebx
-    field_136_menu_pages_array[0].field_0_number_of_options = 3; // edi
-    field_136_menu_pages_array[0].field_4_options_array[0].field_4_y_pos = 250;
-    wcsncpy(field_136_menu_pages_array[0].field_4_options_array[0].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("play"), 0x32u);
-    field_136_menu_pages_array[0].field_4_options_array[0].field_80_menu_page_target = 1;
-    field_136_menu_pages_array[0].field_4_options_array[1].field_0_option_type = STRING_TEXT_1;
-    field_136_menu_pages_array[0].field_4_options_array[1].field_2_x_pos = 300;
-    field_136_menu_pages_array[0].field_4_options_array[1].field_4_y_pos = 270;
-    wcsncpy(field_136_menu_pages_array[0].field_4_options_array[1].field_6_option_name_str,
+    pPage = &field_136_menu_pages_array[0];
+    pPage->field_0_number_of_options = 3;
+    pPage->field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[0].field_2_x_pos = 300;
+    pPage->field_4_options_array[0].field_4_y_pos = 250;
+    wcsncpy(pPage->field_4_options_array[0].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("play"), 0x32u);
+    pPage->field_4_options_array[0].field_80_menu_page_target = 1;
+    pPage->field_4_options_array[1].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[1].field_2_x_pos = 300;
+    pPage->field_4_options_array[1].field_4_y_pos = 270;
+    wcsncpy(pPage->field_4_options_array[1].field_6_option_name_str,
             gText_0x14_704DFC->Find_5B5F90("options"),
             0x32u);
-    field_136_menu_pages_array[0].field_4_options_array[1].field_80_menu_page_target = 257;
-    field_136_menu_pages_array[0].field_4_options_array[2].field_0_option_type = STRING_TEXT_1;
-    field_136_menu_pages_array[0].field_4_options_array[2].field_2_x_pos = 300;
-    field_136_menu_pages_array[0].field_4_options_array[2].field_4_y_pos = 290;
-    wcsncpy(field_136_menu_pages_array[0].field_4_options_array[2].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("quit"), 0x32u);
-    field_136_menu_pages_array[0].field_4_options_array[2].field_80_menu_page_target = 9;
-    field_136_menu_pages_array[0].field_B8A[0].field_0 = 280;
-    field_136_menu_pages_array[0].field_B8A[0].field_2_unused = 258;
-    field_136_menu_pages_array[0].field_B8A[1].field_0 = 280;
-    field_136_menu_pages_array[0].field_B8A[1].field_2_unused = 278;
-    field_136_menu_pages_array[0].field_B8A[2].field_0 = 280;
-    field_136_menu_pages_array[0].field_B8A[2].field_2_unused = 298;
-    field_136_menu_pages_array[0].field_BC6_current_option_idx = 0;
-    field_136_menu_pages_array[0].field_BC8_default_option_idx = 0;
-    field_136_menu_pages_array[1].field_0_number_of_options = 5;
-    field_136_menu_pages_array[1].field_4_options_array[0].field_0_option_type = STRING_TEXT_2;
-    field_136_menu_pages_array[1].field_4_options_array[0].field_2_x_pos = 300;
-    field_136_menu_pages_array[1].field_4_options_array[0].field_4_y_pos = 210;
-    wcsncpy(field_136_menu_pages_array[1].field_4_options_array[0].field_6_option_name_str,
+    pPage->field_4_options_array[1].field_80_menu_page_target = 257;
+    pPage->field_4_options_array[2].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[2].field_2_x_pos = 300;
+    pPage->field_4_options_array[2].field_4_y_pos = 290;
+    wcsncpy(pPage->field_4_options_array[2].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("quit"), 0x32u);
+    pPage->field_4_options_array[2].field_80_menu_page_target = 9;
+    pPage->field_B8A[0].field_0 = 280;
+    pPage->field_B8A[0].field_2_unused = 258;
+    pPage->field_B8A[1].field_0 = 280;
+    pPage->field_B8A[1].field_2_unused = 278;
+    pPage->field_B8A[2].field_0 = 280;
+    pPage->field_B8A[2].field_2_unused = 298;
+    pPage->field_BC6_current_option_idx = 0;
+    pPage->field_BC8_default_option_idx = 0;
+    pPage = &field_136_menu_pages_array[1];
+    pPage->field_0_number_of_options = 5;
+    pPage->field_4_options_array[0].field_0_option_type = STRING_TEXT_2;
+    pPage->field_4_options_array[0].field_2_x_pos = 300;
+    pPage->field_4_options_array[0].field_4_y_pos = 210;
+    wcsncpy(pPage->field_4_options_array[0].field_6_option_name_str,
             gText_0x14_704DFC->Find_5B5F90("charctr"),
             0x32u);
-    field_136_menu_pages_array[1].field_4_options_array[0].field_6E_horizontal_selected_idx = 0;
-    field_136_menu_pages_array[1].field_4_options_array[0].field_70 = 0;
-    field_136_menu_pages_array[1].field_4_options_array[0].field_7E_horizontal_max_idx = 7;
+    pPage->field_4_options_array[0].field_6E_horizontal_selected_idx = 0;
+    pPage->field_4_options_array[0].field_70 = 0;
+    pPage->field_4_options_array[0].field_7E_horizontal_max_idx = 7;
 
     u16 enabled_idx = 0;
     do
     {
-        field_136_menu_pages_array[1].field_4_options_array[0].field_72_horizontal_idx_enabled[enabled_idx++] = 1;
-    } while (enabled_idx <= field_136_menu_pages_array[1].field_4_options_array[0].field_7E_horizontal_max_idx);
+        pPage->field_4_options_array[0].field_72_horizontal_idx_enabled[enabled_idx++] = 1;
+    } while (enabled_idx <= pPage->field_4_options_array[0].field_7E_horizontal_max_idx);
 
-    field_136_menu_pages_array[1].field_4_options_array[1].field_0_option_type = STRING_TEXT_1;
-    field_136_menu_pages_array[1].field_4_options_array[1].field_2_x_pos = 300;
-    field_136_menu_pages_array[1].field_4_options_array[1].field_4_y_pos = 230;
-    wcsncpy(field_136_menu_pages_array[1].field_4_options_array[1].field_6_option_name_str,
+    pPage->field_4_options_array[1].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[1].field_2_x_pos = 300;
+    pPage->field_4_options_array[1].field_4_y_pos = 230;
+    wcsncpy(pPage->field_4_options_array[1].field_6_option_name_str,
             gText_0x14_704DFC->Find_5B5F90("savepos"),
             0x32u);
-    field_136_menu_pages_array[1].field_4_options_array[1].field_80_menu_page_target = 260;
-    field_136_menu_pages_array[1].field_4_options_array[2].field_0_option_type = STRING_TEXT_1;
-    field_136_menu_pages_array[1].field_4_options_array[2].field_2_x_pos = 300;
-    field_136_menu_pages_array[1].field_4_options_array[2].field_4_y_pos = 250;
-    wcsncpy(field_136_menu_pages_array[1].field_4_options_array[2].field_6_option_name_str,
+    pPage->field_4_options_array[1].field_80_menu_page_target = 260;
+    pPage->field_4_options_array[2].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[2].field_2_x_pos = 300;
+    pPage->field_4_options_array[2].field_4_y_pos = 250;
+    wcsncpy(pPage->field_4_options_array[2].field_6_option_name_str,
             gText_0x14_704DFC->Find_5B5F90("hi_scre"),
             0x32u);
-    field_136_menu_pages_array[1].field_4_options_array[2].field_80_menu_page_target = 5;
-    field_136_menu_pages_array[1].field_4_options_array[3].field_0_option_type = STRING_TEXT_1;
-    field_136_menu_pages_array[1].field_4_options_array[3].field_2_x_pos = 300;
-    field_136_menu_pages_array[1].field_4_options_array[3].field_4_y_pos = 270;
-    wcsncpy(field_136_menu_pages_array[1].field_4_options_array[3].field_6_option_name_str,
+    pPage->field_4_options_array[2].field_80_menu_page_target = 5;
+    pPage->field_4_options_array[3].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[3].field_2_x_pos = 300;
+    pPage->field_4_options_array[3].field_4_y_pos = 270;
+    wcsncpy(pPage->field_4_options_array[3].field_6_option_name_str,
             gText_0x14_704DFC->Find_5B5F90("strtlev"),
             0x32u);
-    field_136_menu_pages_array[1].field_4_options_array[3].field_80_menu_page_target = 264;
-    field_136_menu_pages_array[1].field_4_options_array[4].field_0_option_type = STRING_TEXT_1;
-    field_136_menu_pages_array[1].field_4_options_array[4].field_2_x_pos = 300;
-    field_136_menu_pages_array[1].field_4_options_array[4].field_4_y_pos = 350;
-    wcsncpy(field_136_menu_pages_array[1].field_4_options_array[4].field_6_option_name_str,
+    pPage->field_4_options_array[3].field_80_menu_page_target = 264;
+    pPage->field_4_options_array[4].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[4].field_2_x_pos = 300;
+    pPage->field_4_options_array[4].field_4_y_pos = 350;
+    wcsncpy(pPage->field_4_options_array[4].field_6_option_name_str,
             gText_0x14_704DFC->Find_5B5F90("bonslev"),
             0x32u);
-    field_136_menu_pages_array[1].field_4_options_array[4].field_80_menu_page_target = 265;
-    field_136_menu_pages_array[1].field_B8A[0].field_0 = 280;
-    field_136_menu_pages_array[1].field_B8A[0].field_2_unused = 218;
-    field_136_menu_pages_array[1].field_B8A[1].field_0 = 280;
-    field_136_menu_pages_array[1].field_B8A[1].field_2_unused = 238;
-    field_136_menu_pages_array[1].field_B8A[2].field_0 = 280;
-    field_136_menu_pages_array[1].field_B8A[2].field_2_unused = 258;
-    field_136_menu_pages_array[1].field_B8A[3].field_0 = 280;
-    field_136_menu_pages_array[1].field_B8A[3].field_2_unused = 278;
-    field_136_menu_pages_array[1].field_B8A[4].field_0 = 280;
-    field_136_menu_pages_array[1].field_B8A[4].field_2_unused = 358;
-    field_136_menu_pages_array[1].field_BC6_current_option_idx = 3;
-    field_136_menu_pages_array[1].field_BC8_default_option_idx = 3;
-    field_136_menu_pages_array[1].field_2_number_of_elements = 10;
-    field_136_menu_pages_array[1].field_518_elements_array[0].field_0_element_type = GEOMETRIC_SHAPE_3;
-    field_136_menu_pages_array[1].field_518_elements_array[0].field_2_xpos = 420;
-    field_136_menu_pages_array[1].field_518_elements_array[0].field_4_ypos = 310;
-    field_136_menu_pages_array[1].field_518_elements_array[0].field_6_geometric_shape_type = 0;
-    field_136_menu_pages_array[1].field_518_elements_array[1].field_0_element_type = GEOMETRIC_SHAPE_3;
-    field_136_menu_pages_array[1].field_518_elements_array[1].field_2_xpos = 420;
-    field_136_menu_pages_array[1].field_518_elements_array[1].field_4_ypos = 390;
-    field_136_menu_pages_array[1].field_518_elements_array[1].field_6_geometric_shape_type = 0;
-    field_136_menu_pages_array[1].field_518_elements_array[2].field_0_element_type = STRING_TEXT_1;
-    field_136_menu_pages_array[1].field_518_elements_array[2].field_2_xpos = 410;
-    field_136_menu_pages_array[1].field_518_elements_array[2].field_4_ypos = 298;
-    wcsncpy(field_136_menu_pages_array[1].field_518_elements_array[2].field_6_element_name_str,
+    pPage->field_4_options_array[4].field_80_menu_page_target = 265;
+    pPage->field_B8A[0].field_0 = 280;
+    pPage->field_B8A[0].field_2_unused = 218;
+    pPage->field_B8A[1].field_0 = 280;
+    pPage->field_B8A[1].field_2_unused = 238;
+    pPage->field_B8A[2].field_0 = 280;
+    pPage->field_B8A[2].field_2_unused = 258;
+    pPage->field_B8A[3].field_0 = 280;
+    pPage->field_B8A[3].field_2_unused = 278;
+    pPage->field_B8A[4].field_0 = 280;
+    pPage->field_B8A[4].field_2_unused = 358;
+    pPage->field_BC6_current_option_idx = 3;
+    pPage->field_BC8_default_option_idx = 3;
+    pPage->field_2_number_of_elements = 10;
+    pPage->field_518_elements_array[0].field_0_element_type = GEOMETRIC_SHAPE_3;
+    pPage->field_518_elements_array[0].field_2_xpos = 420;
+    pPage->field_518_elements_array[0].field_4_ypos = 310;
+    pPage->field_518_elements_array[0].field_6_geometric_shape_type = 0;
+    pPage->field_518_elements_array[1].field_0_element_type = GEOMETRIC_SHAPE_3;
+    pPage->field_518_elements_array[1].field_2_xpos = 420;
+    pPage->field_518_elements_array[1].field_4_ypos = 390;
+    pPage->field_518_elements_array[1].field_6_geometric_shape_type = 0;
+    pPage->field_518_elements_array[2].field_0_element_type = STRING_TEXT_1;
+    pPage->field_518_elements_array[2].field_2_xpos = 410;
+    pPage->field_518_elements_array[2].field_4_ypos = 298;
+    wcsncpy(pPage->field_518_elements_array[2].field_6_element_name_str,
             gText_0x14_704DFC->Find_5B5F90("car_dam"),
             0x32u);
-    field_136_menu_pages_array[1].field_518_elements_array[2].field_6A_font_type = word_703C3C;
-    field_136_menu_pages_array[1].field_518_elements_array[3].field_0_element_type = STRING_TEXT_1;
-    field_136_menu_pages_array[1].field_518_elements_array[3].field_2_xpos = 410;
-    field_136_menu_pages_array[1].field_518_elements_array[3].field_4_ypos = 378;
-    wcsncpy(field_136_menu_pages_array[1].field_518_elements_array[3].field_6_element_name_str,
+    pPage->field_518_elements_array[2].field_6A_font_type = word_703C3C;
+    pPage->field_518_elements_array[3].field_0_element_type = STRING_TEXT_1;
+    pPage->field_518_elements_array[3].field_2_xpos = 410;
+    pPage->field_518_elements_array[3].field_4_ypos = 378;
+    wcsncpy(pPage->field_518_elements_array[3].field_6_element_name_str,
             gText_0x14_704DFC->Find_5B5F90("car_dam"),
             0x32u);
-    field_136_menu_pages_array[1].field_518_elements_array[3].field_6A_font_type = word_703C3C;
-    field_136_menu_pages_array[1].field_518_elements_array[4].field_2_xpos = 380;
-    field_136_menu_pages_array[1].field_518_elements_array[4].field_4_ypos = 310;
-    field_136_menu_pages_array[1].field_518_elements_array[5].field_2_xpos = 460;
-    field_136_menu_pages_array[1].field_518_elements_array[5].field_4_ypos = 310;
-    field_136_menu_pages_array[1].field_518_elements_array[6].field_2_xpos = 380;
-    field_136_menu_pages_array[1].field_518_elements_array[4].field_0_element_type = GEOMETRIC_SHAPE_3;
-    field_136_menu_pages_array[1].field_518_elements_array[4].field_6_geometric_shape_type = 3;
-    field_136_menu_pages_array[1].field_518_elements_array[5].field_0_element_type = GEOMETRIC_SHAPE_3;
-    field_136_menu_pages_array[1].field_518_elements_array[5].field_6_geometric_shape_type = 4;
-    field_136_menu_pages_array[1].field_518_elements_array[6].field_0_element_type = GEOMETRIC_SHAPE_3;
-    field_136_menu_pages_array[1].field_518_elements_array[6].field_4_ypos = 390;
-    field_136_menu_pages_array[1].field_518_elements_array[6].field_6_geometric_shape_type = 3;
-    field_136_menu_pages_array[1].field_518_elements_array[7].field_2_xpos = 460;
-    field_136_menu_pages_array[1].field_518_elements_array[7].field_0_element_type = GEOMETRIC_SHAPE_3;
-    field_136_menu_pages_array[1].field_518_elements_array[7].field_4_ypos = 390;
-    field_136_menu_pages_array[1].field_518_elements_array[7].field_6_geometric_shape_type = 4;
-    field_136_menu_pages_array[1].field_518_elements_array[8].field_0_element_type = GEOMETRIC_SHAPE_3;
-    field_136_menu_pages_array[1].field_518_elements_array[8].field_2_xpos = 290;
-    field_136_menu_pages_array[1].field_518_elements_array[8].field_4_ypos = 222;
-    field_136_menu_pages_array[1].field_518_elements_array[8].field_6_geometric_shape_type = 3;
-    field_136_menu_pages_array[1].field_518_elements_array[9].field_0_element_type = GEOMETRIC_SHAPE_3;
-    field_136_menu_pages_array[1].field_518_elements_array[9].field_2_xpos = 580;
-    field_136_menu_pages_array[1].field_518_elements_array[9].field_4_ypos = 222;
-    field_136_menu_pages_array[1].field_518_elements_array[9].field_6_geometric_shape_type = 4;
-    field_136_menu_pages_array[11].field_0_number_of_options = 3;
-    field_136_menu_pages_array[11].field_2_number_of_elements = 1;
-    field_136_menu_pages_array[11].field_518_elements_array[0].field_0_element_type = STRING_TEXT_1;
-    field_136_menu_pages_array[11].field_518_elements_array[0].field_2_xpos = 35;
-    field_136_menu_pages_array[11].field_518_elements_array[0].field_4_ypos = 11;
-    wcscpy(field_136_menu_pages_array[11].field_518_elements_array[0].field_6_element_name_str, gText_0x14_704DFC->Find_5B5F90("plr_qut"));
-    field_136_menu_pages_array[11].field_518_elements_array[0].field_6A_font_type = field_130;
-    field_136_menu_pages_array[11].field_518_elements_array[0].field_6C_font_palette = 5;
-    field_136_menu_pages_array[11].field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
-    field_136_menu_pages_array[11].field_4_options_array[0].field_4_y_pos = 392;
-    wcsncpy(field_136_menu_pages_array[11].field_4_options_array[0].field_6_option_name_str,
+    pPage->field_518_elements_array[3].field_6A_font_type = word_703C3C;
+    pPage->field_518_elements_array[4].field_0_element_type = GEOMETRIC_SHAPE_3;
+    pPage->field_518_elements_array[4].field_2_xpos = 380;
+    pPage->field_518_elements_array[4].field_4_ypos = 310;
+    pPage->field_518_elements_array[4].field_6_geometric_shape_type = 3;
+    pPage->field_518_elements_array[5].field_0_element_type = GEOMETRIC_SHAPE_3;
+    pPage->field_518_elements_array[5].field_2_xpos = 460;
+    pPage->field_518_elements_array[5].field_4_ypos = 310;
+    pPage->field_518_elements_array[5].field_6_geometric_shape_type = 4;
+    pPage->field_518_elements_array[6].field_0_element_type = GEOMETRIC_SHAPE_3;
+    pPage->field_518_elements_array[6].field_2_xpos = 380;
+    pPage->field_518_elements_array[6].field_4_ypos = 390;
+    pPage->field_518_elements_array[6].field_6_geometric_shape_type = 3;
+    pPage->field_518_elements_array[7].field_0_element_type = GEOMETRIC_SHAPE_3;
+    pPage->field_518_elements_array[7].field_2_xpos = 460;
+    pPage->field_518_elements_array[7].field_4_ypos = 390;
+    pPage->field_518_elements_array[7].field_6_geometric_shape_type = 4;
+    pPage->field_518_elements_array[8].field_0_element_type = GEOMETRIC_SHAPE_3;
+    pPage->field_518_elements_array[8].field_2_xpos = 290;
+    pPage->field_518_elements_array[8].field_4_ypos = 222;
+    pPage->field_518_elements_array[8].field_6_geometric_shape_type = 3;
+    pPage->field_518_elements_array[9].field_0_element_type = GEOMETRIC_SHAPE_3;
+    pPage->field_518_elements_array[9].field_2_xpos = 580;
+    pPage->field_518_elements_array[9].field_4_ypos = 222;
+    pPage->field_518_elements_array[9].field_6_geometric_shape_type = 4;
+    pPage = &field_136_menu_pages_array[11];
+    pPage->field_0_number_of_options = 3;
+    pPage->field_2_number_of_elements = 1;
+    pPage->field_518_elements_array[0].field_0_element_type = STRING_TEXT_1;
+    pPage->field_518_elements_array[0].field_2_xpos = 35;
+    pPage->field_518_elements_array[0].field_4_ypos = 11;
+    wcscpy(pPage->field_518_elements_array[0].field_6_element_name_str, gText_0x14_704DFC->Find_5B5F90("plr_qut"));
+    pPage->field_518_elements_array[0].field_6A_font_type = field_130;
+    pPage->field_518_elements_array[0].field_6C_font_palette = 5;
+    pPage->field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[0].field_4_y_pos = 392;
+    wcsncpy(pPage->field_4_options_array[0].field_6_option_name_str,
             gText_0x14_704DFC->Find_5B5F90("savepos"),
             0x32u);
-    field_136_menu_pages_array[11].field_4_options_array[0].field_2_x_pos =
-        Frontend::GetCenteredXPos_4B0190(field_136_menu_pages_array[11].field_4_options_array[0].field_6_option_name_str,
-                             field_136_menu_pages_array[11].field_4_options_array[0].field_6A_font_type,
+    pPage->field_4_options_array[0].field_2_x_pos =
+        Frontend::GetCenteredXPos_4B0190(pPage->field_4_options_array[0].field_6_option_name_str,
+                             pPage->field_4_options_array[0].field_6A_font_type,
                              320);
-    field_136_menu_pages_array[11].field_4_options_array[0].field_80_menu_page_target = 260;
-    field_136_menu_pages_array[11].field_4_options_array[1].field_0_option_type = STRING_TEXT_1;
-    field_136_menu_pages_array[11].field_4_options_array[1].field_4_y_pos = 412;
-    wcsncpy(field_136_menu_pages_array[11].field_4_options_array[1].field_6_option_name_str,
+    pPage->field_4_options_array[0].field_80_menu_page_target = 260;
+    pPage->field_4_options_array[1].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[1].field_4_y_pos = 412;
+    wcsncpy(pPage->field_4_options_array[1].field_6_option_name_str,
             gText_0x14_704DFC->Find_5B5F90("replay"),
             0x32u);
-    field_136_menu_pages_array[11].field_4_options_array[1].field_2_x_pos =
-        Frontend::GetCenteredXPos_4B0190(field_136_menu_pages_array[11].field_4_options_array[1].field_6_option_name_str,
-                             field_136_menu_pages_array[11].field_4_options_array[1].field_6A_font_type,
+    pPage->field_4_options_array[1].field_2_x_pos =
+        Frontend::GetCenteredXPos_4B0190(pPage->field_4_options_array[1].field_6_option_name_str,
+                             pPage->field_4_options_array[1].field_6A_font_type,
                              320);
-    field_136_menu_pages_array[11].field_4_options_array[1].field_80_menu_page_target = 259;
-    field_136_menu_pages_array[11].field_4_options_array[2].field_0_option_type = STRING_TEXT_1;
-    field_136_menu_pages_array[11].field_4_options_array[2].field_4_y_pos = 432;
-    wcsncpy(field_136_menu_pages_array[11].field_4_options_array[2].field_6_option_name_str,
+    pPage->field_4_options_array[1].field_80_menu_page_target = 259;
+    pPage->field_4_options_array[2].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[2].field_4_y_pos = 432;
+    wcsncpy(pPage->field_4_options_array[2].field_6_option_name_str,
             gText_0x14_704DFC->Find_5B5F90("mainmen"),
             0x32u);
-    field_136_menu_pages_array[11].field_4_options_array[2].field_2_x_pos =
-        Frontend::GetCenteredXPos_4B0190(field_136_menu_pages_array[11].field_4_options_array[2].field_6_option_name_str,
-                             field_136_menu_pages_array[11].field_4_options_array[2].field_6A_font_type,
+    pPage->field_4_options_array[2].field_2_x_pos =
+        Frontend::GetCenteredXPos_4B0190(pPage->field_4_options_array[2].field_6_option_name_str,
+                             pPage->field_4_options_array[2].field_6A_font_type,
                              320);
-    field_136_menu_pages_array[11].field_4_options_array[2].field_80_menu_page_target = 0;
-    field_136_menu_pages_array[11].field_B8A[0].field_0 = 150;
-    field_136_menu_pages_array[11].field_B8A[0].field_2_unused = 400;
-    field_136_menu_pages_array[11].field_B8A[1].field_0 = 150;
-    field_136_menu_pages_array[11].field_B8A[1].field_2_unused = 420;
-    field_136_menu_pages_array[11].field_B8A[2].field_0 = 150;
-    field_136_menu_pages_array[11].field_B8A[2].field_2_unused = 440;
-    field_136_menu_pages_array[11].field_BC6_current_option_idx = 0;
-    field_136_menu_pages_array[11].field_BC8_default_option_idx = 0;
-    field_136_menu_pages_array[2].field_0_number_of_options = 3;
-    field_136_menu_pages_array[2].field_2_number_of_elements = 1;
-    field_136_menu_pages_array[2].field_518_elements_array[0].field_0_element_type = STRING_TEXT_1;
-    field_136_menu_pages_array[2].field_518_elements_array[0].field_2_xpos = 35;
-    field_136_menu_pages_array[2].field_518_elements_array[0].field_4_ypos = 11;
-    wcsncpy(field_136_menu_pages_array[2].field_518_elements_array[0].field_6_element_name_str,
+    pPage->field_4_options_array[2].field_80_menu_page_target = 0;
+    pPage->field_B8A[0].field_0 = 150;
+    pPage->field_B8A[0].field_2_unused = 400;
+    pPage->field_B8A[1].field_0 = 150;
+    pPage->field_B8A[1].field_2_unused = 420;
+    pPage->field_B8A[2].field_0 = 150;
+    pPage->field_B8A[2].field_2_unused = 440;
+    pPage->field_BC6_current_option_idx = 0;
+    pPage->field_BC8_default_option_idx = 0;
+    pPage = &field_136_menu_pages_array[2];
+    pPage->field_0_number_of_options = 3;
+    pPage->field_2_number_of_elements = 1;
+    pPage->field_518_elements_array[0].field_0_element_type = STRING_TEXT_1;
+    pPage->field_518_elements_array[0].field_2_xpos = 35;
+    pPage->field_518_elements_array[0].field_4_ypos = 11;
+    wcsncpy(pPage->field_518_elements_array[0].field_6_element_name_str,
             gText_0x14_704DFC->Find_5B5F90("plr_ded"),
             0x32u);
-    field_136_menu_pages_array[2].field_518_elements_array[0].field_6A_font_type = field_130;
-    field_136_menu_pages_array[2].field_518_elements_array[0].field_6C_font_palette = 0;
-    field_136_menu_pages_array[2].field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
-    field_136_menu_pages_array[2].field_4_options_array[0].field_4_y_pos = 392;
-    wcsncpy(field_136_menu_pages_array[2].field_4_options_array[0].field_6_option_name_str,
+    pPage->field_518_elements_array[0].field_6A_font_type = field_130;
+    pPage->field_518_elements_array[0].field_6C_font_palette = 0;
+    pPage->field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[0].field_4_y_pos = 392;
+    wcsncpy(pPage->field_4_options_array[0].field_6_option_name_str,
             gText_0x14_704DFC->Find_5B5F90("savepos"),
             0x32u);
-    field_136_menu_pages_array[2].field_4_options_array[0].field_2_x_pos =
-        Frontend::GetCenteredXPos_4B0190(field_136_menu_pages_array[2].field_4_options_array[0].field_6_option_name_str,
-                             field_136_menu_pages_array[2].field_4_options_array[0].field_6A_font_type,
+    pPage->field_4_options_array[0].field_2_x_pos =
+        Frontend::GetCenteredXPos_4B0190(pPage->field_4_options_array[0].field_6_option_name_str,
+                             pPage->field_4_options_array[0].field_6A_font_type,
                              320);
-    field_136_menu_pages_array[2].field_4_options_array[0].field_80_menu_page_target = 260;
-    field_136_menu_pages_array[2].field_4_options_array[1].field_0_option_type = STRING_TEXT_1;
-    field_136_menu_pages_array[2].field_4_options_array[1].field_4_y_pos = 412;
-    wcsncpy(field_136_menu_pages_array[2].field_4_options_array[1].field_6_option_name_str,
+    pPage->field_4_options_array[0].field_80_menu_page_target = 260;
+    pPage->field_4_options_array[1].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[1].field_4_y_pos = 412;
+    wcsncpy(pPage->field_4_options_array[1].field_6_option_name_str,
             gText_0x14_704DFC->Find_5B5F90("replay"),
             0x32u);
-    field_136_menu_pages_array[2].field_4_options_array[1].field_2_x_pos =
-        Frontend::GetCenteredXPos_4B0190(field_136_menu_pages_array[2].field_4_options_array[1].field_6_option_name_str,
-                             field_136_menu_pages_array[2].field_4_options_array[1].field_6A_font_type,
+    pPage->field_4_options_array[1].field_2_x_pos =
+        Frontend::GetCenteredXPos_4B0190(pPage->field_4_options_array[1].field_6_option_name_str,
+                             pPage->field_4_options_array[1].field_6A_font_type,
                              320);
-    field_136_menu_pages_array[2].field_4_options_array[1].field_80_menu_page_target = 259;
-    field_136_menu_pages_array[2].field_4_options_array[2].field_0_option_type = STRING_TEXT_1;
-    field_136_menu_pages_array[2].field_4_options_array[2].field_4_y_pos = 432;
-    wcsncpy(field_136_menu_pages_array[2].field_4_options_array[2].field_6_option_name_str,
+    pPage->field_4_options_array[1].field_80_menu_page_target = 259;
+    pPage->field_4_options_array[2].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[2].field_4_y_pos = 432;
+    wcsncpy(pPage->field_4_options_array[2].field_6_option_name_str,
             gText_0x14_704DFC->Find_5B5F90("mainmen"),
             0x32u);
-    field_136_menu_pages_array[2].field_4_options_array[2].field_2_x_pos =
-        Frontend::GetCenteredXPos_4B0190(field_136_menu_pages_array[2].field_4_options_array[2].field_6_option_name_str,
-                             field_136_menu_pages_array[2].field_4_options_array[2].field_6A_font_type,
+    pPage->field_4_options_array[2].field_2_x_pos =
+        Frontend::GetCenteredXPos_4B0190(pPage->field_4_options_array[2].field_6_option_name_str,
+                             pPage->field_4_options_array[2].field_6A_font_type,
                              320);
-    field_136_menu_pages_array[2].field_4_options_array[2].field_80_menu_page_target = 0;
-    field_136_menu_pages_array[2].field_B8A[0].field_0 = 150;
-    field_136_menu_pages_array[2].field_B8A[0].field_2_unused = 400;
-    field_136_menu_pages_array[2].field_B8A[1].field_0 = 150;
-    field_136_menu_pages_array[2].field_B8A[1].field_2_unused = 420;
-    field_136_menu_pages_array[2].field_B8A[2].field_0 = 150;
-    field_136_menu_pages_array[2].field_B8A[2].field_2_unused = 440;
-    field_136_menu_pages_array[2].field_BC6_current_option_idx = 0;
-    field_136_menu_pages_array[2].field_BC8_default_option_idx = 0;
-    field_136_menu_pages_array[3].field_0_number_of_options = 5;
-    field_136_menu_pages_array[3].field_2_number_of_elements = 1;
-    field_136_menu_pages_array[3].field_518_elements_array[0].field_0_element_type = STRING_TEXT_1;
-    field_136_menu_pages_array[3].field_518_elements_array[0].field_2_xpos = 35;
-    field_136_menu_pages_array[3].field_518_elements_array[0].field_4_ypos = 11;
-    wcsncpy(field_136_menu_pages_array[3].field_518_elements_array[0].field_6_element_name_str,
+    pPage->field_4_options_array[2].field_80_menu_page_target = 0;
+    pPage->field_B8A[0].field_0 = 150;
+    pPage->field_B8A[0].field_2_unused = 400;
+    pPage->field_B8A[1].field_0 = 150;
+    pPage->field_B8A[1].field_2_unused = 420;
+    pPage->field_B8A[2].field_0 = 150;
+    pPage->field_B8A[2].field_2_unused = 440;
+    pPage->field_BC6_current_option_idx = 0;
+    pPage->field_BC8_default_option_idx = 0;
+    pPage = &field_136_menu_pages_array[3];
+    pPage->field_0_number_of_options = 5;
+    pPage->field_2_number_of_elements = 1;
+    pPage->field_518_elements_array[0].field_0_element_type = STRING_TEXT_1;
+    pPage->field_518_elements_array[0].field_2_xpos = 35;
+    pPage->field_518_elements_array[0].field_4_ypos = 11;
+    wcsncpy(pPage->field_518_elements_array[0].field_6_element_name_str,
             gText_0x14_704DFC->Find_5B5F90("cmpltd"),
             0x32u);
-    field_136_menu_pages_array[3].field_518_elements_array[0].field_6A_font_type = field_12C;
-    field_136_menu_pages_array[3].field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
-    field_136_menu_pages_array[3].field_4_options_array[0].field_4_y_pos = 365;
-    wcsncpy(field_136_menu_pages_array[3].field_4_options_array[0].field_6_option_name_str,
+    pPage->field_518_elements_array[0].field_6A_font_type = field_12C;
+    pPage->field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[0].field_4_y_pos = 365;
+    wcsncpy(pPage->field_4_options_array[0].field_6_option_name_str,
             gText_0x14_704DFC->Find_5B5F90("nxt_lvl"),
             0x32u);
-    field_136_menu_pages_array[3].field_4_options_array[0].field_2_x_pos =
-        Frontend::GetCenteredXPos_4B0190(field_136_menu_pages_array[3].field_4_options_array[0].field_6_option_name_str,
-                             field_136_menu_pages_array[3].field_4_options_array[0].field_6A_font_type,
+    pPage->field_4_options_array[0].field_2_x_pos =
+        Frontend::GetCenteredXPos_4B0190(pPage->field_4_options_array[0].field_6_option_name_str,
+                             pPage->field_4_options_array[0].field_6A_font_type,
                              320);
-    field_136_menu_pages_array[3].field_4_options_array[0].field_80_menu_page_target = 261;
-    field_136_menu_pages_array[3].field_4_options_array[1].field_0_option_type = STRING_TEXT_1;
-    field_136_menu_pages_array[3].field_4_options_array[1].field_4_y_pos = 385;
-    wcsncpy(field_136_menu_pages_array[3].field_4_options_array[1].field_6_option_name_str,
+    pPage->field_4_options_array[0].field_80_menu_page_target = 261;
+    pPage->field_4_options_array[1].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[1].field_4_y_pos = 385;
+    wcsncpy(pPage->field_4_options_array[1].field_6_option_name_str,
             gText_0x14_704DFC->Find_5B5F90("savepos"),
             0x32u);
-    field_136_menu_pages_array[3].field_4_options_array[1].field_2_x_pos =
-        Frontend::GetCenteredXPos_4B0190(field_136_menu_pages_array[3].field_4_options_array[1].field_6_option_name_str,
-                             field_136_menu_pages_array[3].field_4_options_array[1].field_6A_font_type,
+    pPage->field_4_options_array[1].field_2_x_pos =
+        Frontend::GetCenteredXPos_4B0190(pPage->field_4_options_array[1].field_6_option_name_str,
+                             pPage->field_4_options_array[1].field_6A_font_type,
                              320);
-    field_136_menu_pages_array[3].field_4_options_array[1].field_80_menu_page_target = 260;
-    field_136_menu_pages_array[3].field_4_options_array[2].field_0_option_type = STRING_TEXT_1;
-    field_136_menu_pages_array[3].field_4_options_array[2].field_4_y_pos = 405;
-    wcsncpy(field_136_menu_pages_array[3].field_4_options_array[2].field_6_option_name_str,
+    pPage->field_4_options_array[1].field_80_menu_page_target = 260;
+    pPage->field_4_options_array[2].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[2].field_4_y_pos = 405;
+    wcsncpy(pPage->field_4_options_array[2].field_6_option_name_str,
             gText_0x14_704DFC->Find_5B5F90("replay"),
             0x32u);
-    field_136_menu_pages_array[3].field_4_options_array[2].field_2_x_pos =
-        Frontend::GetCenteredXPos_4B0190(field_136_menu_pages_array[3].field_4_options_array[2].field_6_option_name_str,
-                             field_136_menu_pages_array[3].field_4_options_array[2].field_6A_font_type,
+    pPage->field_4_options_array[2].field_2_x_pos =
+        Frontend::GetCenteredXPos_4B0190(pPage->field_4_options_array[2].field_6_option_name_str,
+                             pPage->field_4_options_array[2].field_6A_font_type,
                              320);
-    field_136_menu_pages_array[3].field_4_options_array[2].field_80_menu_page_target = 259;
-    field_136_menu_pages_array[3].field_4_options_array[3].field_0_option_type = STRING_TEXT_1;
-    field_136_menu_pages_array[3].field_4_options_array[3].field_4_y_pos = 425;
-    wcsncpy(field_136_menu_pages_array[3].field_4_options_array[3].field_6_option_name_str,
+    pPage->field_4_options_array[2].field_80_menu_page_target = 259;
+    pPage->field_4_options_array[3].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[3].field_4_y_pos = 425;
+    wcsncpy(pPage->field_4_options_array[3].field_6_option_name_str,
             gText_0x14_704DFC->Find_5B5F90("contnue"),
             0x32u);
-    field_136_menu_pages_array[3].field_4_options_array[3].field_2_x_pos =
-        Frontend::GetCenteredXPos_4B0190(field_136_menu_pages_array[3].field_4_options_array[3].field_6_option_name_str,
-                             field_136_menu_pages_array[3].field_4_options_array[3].field_6A_font_type,
+    pPage->field_4_options_array[3].field_2_x_pos =
+        Frontend::GetCenteredXPos_4B0190(pPage->field_4_options_array[3].field_6_option_name_str,
+                             pPage->field_4_options_array[3].field_6A_font_type,
                              320);
-    field_136_menu_pages_array[3].field_4_options_array[3].field_80_menu_page_target = 266;
-    field_136_menu_pages_array[3].field_4_options_array[4].field_0_option_type = STRING_TEXT_1;
-    field_136_menu_pages_array[3].field_4_options_array[4].field_4_y_pos = 445;
-    wcsncpy(field_136_menu_pages_array[3].field_4_options_array[4].field_6_option_name_str,
+    pPage->field_4_options_array[3].field_80_menu_page_target = 266;
+    pPage->field_4_options_array[4].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[4].field_4_y_pos = 445;
+    wcsncpy(pPage->field_4_options_array[4].field_6_option_name_str,
             gText_0x14_704DFC->Find_5B5F90("mainmen"),
             0x32u);
-    field_136_menu_pages_array[3].field_4_options_array[4].field_2_x_pos =
-        Frontend::GetCenteredXPos_4B0190(field_136_menu_pages_array[3].field_4_options_array[4].field_6_option_name_str,
-                             field_136_menu_pages_array[3].field_4_options_array[4].field_6A_font_type,
+    pPage->field_4_options_array[4].field_2_x_pos =
+        Frontend::GetCenteredXPos_4B0190(pPage->field_4_options_array[4].field_6_option_name_str,
+                             pPage->field_4_options_array[4].field_6A_font_type,
                              320);
-    field_136_menu_pages_array[3].field_4_options_array[4].field_80_menu_page_target = 0;
-    field_136_menu_pages_array[3].field_B8A[0].field_0 = 150;
-    field_136_menu_pages_array[3].field_B8A[0].field_2_unused = 373;
-    field_136_menu_pages_array[3].field_B8A[1].field_0 = 150;
-    field_136_menu_pages_array[3].field_B8A[1].field_2_unused = 393;
-    field_136_menu_pages_array[3].field_B8A[2].field_0 = 150;
-    field_136_menu_pages_array[3].field_B8A[2].field_2_unused = 413;
-    field_136_menu_pages_array[3].field_B8A[3].field_0 = 150;
-    field_136_menu_pages_array[3].field_B8A[3].field_2_unused = 433;
-    field_136_menu_pages_array[3].field_B8A[4].field_0 = 150;
-    field_136_menu_pages_array[3].field_B8A[4].field_2_unused = 453;
-    field_136_menu_pages_array[3].field_BC6_current_option_idx = 0;
-    field_136_menu_pages_array[3].field_BC8_default_option_idx = 0;
-    field_136_menu_pages_array[4].field_0_number_of_options = 1;
-    field_136_menu_pages_array[4].field_2_number_of_elements = 1;
-    field_136_menu_pages_array[4].field_518_elements_array[0].field_0_element_type = STRING_TEXT_1;
-    field_136_menu_pages_array[4].field_518_elements_array[0].field_4_ypos = 230;
-    wcsncpy(field_136_menu_pages_array[4].field_518_elements_array[0].field_6_element_name_str,
+    pPage->field_4_options_array[4].field_80_menu_page_target = 0;
+    pPage->field_B8A[0].field_0 = 150;
+    pPage->field_B8A[0].field_2_unused = 373;
+    pPage->field_B8A[1].field_0 = 150;
+    pPage->field_B8A[1].field_2_unused = 393;
+    pPage->field_B8A[2].field_0 = 150;
+    pPage->field_B8A[2].field_2_unused = 413;
+    pPage->field_B8A[3].field_0 = 150;
+    pPage->field_B8A[3].field_2_unused = 433;
+    pPage->field_B8A[4].field_0 = 150;
+    pPage->field_B8A[4].field_2_unused = 453;
+    pPage->field_BC6_current_option_idx = 0;
+    pPage->field_BC8_default_option_idx = 0;
+    pPage = &field_136_menu_pages_array[4];
+    pPage->field_0_number_of_options = 1;
+    pPage->field_2_number_of_elements = 1;
+    pPage->field_518_elements_array[0].field_0_element_type = STRING_TEXT_1;
+    pPage->field_518_elements_array[0].field_4_ypos = 230;
+    wcsncpy(pPage->field_518_elements_array[0].field_6_element_name_str,
             gText_0x14_704DFC->Find_5B5F90("gam_cmp"),
             0x32u);
     s16 title_font = field_130;
-    field_136_menu_pages_array[4].field_518_elements_array[0].field_6A_font_type = title_font;
-    field_136_menu_pages_array[4].field_518_elements_array[0].field_2_xpos =
-        Frontend::GetCenteredXPos_4B0190(field_136_menu_pages_array[4].field_518_elements_array[0].field_6_element_name_str, title_font, 320);
-    field_136_menu_pages_array[4].field_518_elements_array[0].field_6C_font_palette = 4;
-    field_136_menu_pages_array[4].field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
-    field_136_menu_pages_array[4].field_4_options_array[0].field_2_x_pos = 180;
-    field_136_menu_pages_array[4].field_4_options_array[0].field_4_y_pos = 410;
-    wcsncpy(field_136_menu_pages_array[4].field_4_options_array[0].field_6_option_name_str,
+    pPage->field_518_elements_array[0].field_6A_font_type = title_font;
+    pPage->field_518_elements_array[0].field_2_xpos =
+        Frontend::GetCenteredXPos_4B0190(pPage->field_518_elements_array[0].field_6_element_name_str, title_font, 320);
+    pPage->field_518_elements_array[0].field_6C_font_palette = 4;
+    pPage->field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[0].field_2_x_pos = 180;
+    pPage->field_4_options_array[0].field_4_y_pos = 410;
+    wcsncpy(pPage->field_4_options_array[0].field_6_option_name_str,
             gText_0x14_704DFC->Find_5B5F90("mainmen"),
             0x32u);
-    field_136_menu_pages_array[4].field_4_options_array[0].field_80_menu_page_target = 0;
-    field_136_menu_pages_array[4].field_B8A[0].field_0 = 160;
-    field_136_menu_pages_array[4].field_B8A[0].field_2_unused = 418;
-    field_136_menu_pages_array[4].field_BC6_current_option_idx = 0;
-    field_136_menu_pages_array[4].field_BC8_default_option_idx = 0;
-    field_136_menu_pages_array[5].field_0_number_of_options = 1;
-    field_136_menu_pages_array[5].field_2_number_of_elements = 5;
-    field_136_menu_pages_array[5].field_4_options_array[0].field_0_option_type = STRING_TEXT_2;
-    field_136_menu_pages_array[5].field_4_options_array[0].field_2_x_pos = 300;
-    field_136_menu_pages_array[5].field_4_options_array[0].field_4_y_pos = 155;
-    field_136_menu_pages_array[5].field_4_options_array[0].field_6E_horizontal_selected_idx = 0;
-    field_136_menu_pages_array[5].field_4_options_array[0].field_70 = 0;
-    field_136_menu_pages_array[5].field_4_options_array[0].field_7E_horizontal_max_idx = 11;
+    pPage->field_4_options_array[0].field_80_menu_page_target = 0;
+    pPage->field_B8A[0].field_0 = 160;
+    pPage->field_B8A[0].field_2_unused = 418;
+    pPage->field_BC6_current_option_idx = 0;
+    pPage->field_BC8_default_option_idx = 0;
+    pPage = &field_136_menu_pages_array[5];
+    pPage->field_0_number_of_options = 1;
+    pPage->field_2_number_of_elements = 5;
+    pPage->field_4_options_array[0].field_0_option_type = STRING_TEXT_2;
+    pPage->field_4_options_array[0].field_2_x_pos = 300;
+    pPage->field_4_options_array[0].field_4_y_pos = 155;
+    pPage->field_4_options_array[0].field_6E_horizontal_selected_idx = 0;
+    pPage->field_4_options_array[0].field_70 = 0;
+    pPage->field_4_options_array[0].field_7E_horizontal_max_idx = 11;
 
     u16 enabled_idx2 = 0;
     do
     {
-        field_136_menu_pages_array[5].field_4_options_array[0].field_72_horizontal_idx_enabled[enabled_idx2++] = 1;
-    } while (enabled_idx2 <= field_136_menu_pages_array[5].field_4_options_array[0].field_7E_horizontal_max_idx);
+        pPage->field_4_options_array[0].field_72_horizontal_idx_enabled[enabled_idx2++] = 1;
+    } while (enabled_idx2 <= pPage->field_4_options_array[0].field_7E_horizontal_max_idx);
 
-    field_136_menu_pages_array[5].field_B8A[0].field_0 = 280;
-    field_136_menu_pages_array[5].field_B8A[0].field_2_unused = 163;
-    field_136_menu_pages_array[5].field_BC6_current_option_idx = 0;
-    field_136_menu_pages_array[5].field_BC8_default_option_idx = 0;
-    field_136_menu_pages_array[5].field_518_elements_array[0].field_0_element_type = GEOMETRIC_SHAPE_3;
-    field_136_menu_pages_array[5].field_518_elements_array[0].field_2_xpos = 450;
-    field_136_menu_pages_array[5].field_518_elements_array[0].field_4_ypos = 197;
-    field_136_menu_pages_array[5].field_518_elements_array[0].field_6_geometric_shape_type = 0;
-    field_136_menu_pages_array[5].field_518_elements_array[1].field_0_element_type = STRING_TEXT_1;
-    field_136_menu_pages_array[5].field_518_elements_array[1].field_2_xpos = 440;
-    field_136_menu_pages_array[5].field_518_elements_array[1].field_4_ypos = 185;
-    //    v34 = ;
-    field_136_menu_pages_array[5].field_518_elements_array[2].field_4_ypos = 197;
-    field_136_menu_pages_array[5].field_518_elements_array[3].field_4_ypos = 197;
-    field_136_menu_pages_array[5].field_518_elements_array[1].field_6A_font_type = word_703C3C; // v34
-    field_136_menu_pages_array[5].field_518_elements_array[2].field_0_element_type = GEOMETRIC_SHAPE_3;
-    field_136_menu_pages_array[5].field_518_elements_array[2].field_2_xpos = 410;
-    field_136_menu_pages_array[5].field_518_elements_array[2].field_6_geometric_shape_type = 3;
-    field_136_menu_pages_array[5].field_518_elements_array[3].field_0_element_type = GEOMETRIC_SHAPE_3;
-    field_136_menu_pages_array[5].field_518_elements_array[3].field_2_xpos = 490;
-    field_136_menu_pages_array[5].field_518_elements_array[3].field_6_geometric_shape_type = 4;
-    field_136_menu_pages_array[5].field_518_elements_array[4].field_0_element_type = STRING_TEXT_1;
-    field_136_menu_pages_array[5].field_518_elements_array[4].field_2_xpos = 340;
-    field_136_menu_pages_array[5].field_518_elements_array[4].field_4_ypos = line_height;
-    wcsncpy(field_136_menu_pages_array[5].field_518_elements_array[4].field_6_element_name_str,
+    pPage->field_B8A[0].field_0 = 280;
+    pPage->field_B8A[0].field_2_unused = 163;
+    pPage->field_BC6_current_option_idx = 0;
+    pPage->field_BC8_default_option_idx = 0;
+    pPage->field_518_elements_array[0].field_0_element_type = GEOMETRIC_SHAPE_3;
+    pPage->field_518_elements_array[0].field_2_xpos = 450;
+    pPage->field_518_elements_array[0].field_4_ypos = 197;
+    pPage->field_518_elements_array[0].field_6_geometric_shape_type = 0;
+    pPage->field_518_elements_array[1].field_0_element_type = STRING_TEXT_1;
+    pPage->field_518_elements_array[1].field_2_xpos = 440;
+    pPage->field_518_elements_array[1].field_4_ypos = 185;
+    pPage->field_518_elements_array[1].field_6A_font_type = word_703C3C;
+    pPage->field_518_elements_array[2].field_4_ypos = 197;
+    pPage->field_518_elements_array[3].field_4_ypos = 197;
+    pPage->field_518_elements_array[2].field_0_element_type = GEOMETRIC_SHAPE_3;
+    pPage->field_518_elements_array[2].field_2_xpos = 410;
+    pPage->field_518_elements_array[2].field_6_geometric_shape_type = 3;
+    pPage->field_518_elements_array[3].field_0_element_type = GEOMETRIC_SHAPE_3;
+    pPage->field_518_elements_array[3].field_2_xpos = 490;
+    pPage->field_518_elements_array[3].field_6_geometric_shape_type = 4;
+    pPage->field_518_elements_array[4].field_0_element_type = STRING_TEXT_1;
+    pPage->field_518_elements_array[4].field_2_xpos = 340;
+    pPage->field_518_elements_array[4].field_4_ypos = line_height;
+    wcsncpy(pPage->field_518_elements_array[4].field_6_element_name_str,
             gText_0x14_704DFC->Find_5B5F90("hi_scre"),
             0x32u);
-    field_136_menu_pages_array[5].field_518_elements_array[4].field_6A_font_type = field_126;
-    field_136_menu_pages_array[6].field_0_number_of_options = 3;
-    field_136_menu_pages_array[6].field_2_number_of_elements = 3;
-    field_136_menu_pages_array[6].field_518_elements_array[0].field_0_element_type = STRING_TEXT_1;
-    field_136_menu_pages_array[6].field_518_elements_array[0].field_2_xpos = 35;
-    field_136_menu_pages_array[6].field_518_elements_array[0].field_4_ypos = 11;
-    wcsncpy(field_136_menu_pages_array[6].field_518_elements_array[0].field_6_element_name_str,
+    pPage->field_518_elements_array[4].field_6A_font_type = field_126;
+    pPage = &field_136_menu_pages_array[6];
+    pPage->field_0_number_of_options = 3;
+    pPage->field_2_number_of_elements = 3;
+    pPage->field_518_elements_array[0].field_0_element_type = STRING_TEXT_1;
+    pPage->field_518_elements_array[0].field_2_xpos = 35;
+    pPage->field_518_elements_array[0].field_4_ypos = 11;
+    wcsncpy(pPage->field_518_elements_array[0].field_6_element_name_str,
             gText_0x14_704DFC->Find_5B5F90("bonslev"),
             0x32u);
-    field_136_menu_pages_array[6].field_518_elements_array[0].field_6A_font_type = field_130;
-    field_136_menu_pages_array[6].field_518_elements_array[0].field_6C_font_palette = 5;
-    field_136_menu_pages_array[6].field_518_elements_array[1].field_0_element_type = STRING_TEXT_1;
-    field_136_menu_pages_array[6].field_518_elements_array[1].field_2_xpos = 170;
-    field_136_menu_pages_array[6].field_518_elements_array[1].field_4_ypos = 250;
-    wcsncpy(field_136_menu_pages_array[6].field_518_elements_array[1].field_6_element_name_str,
+    pPage->field_518_elements_array[0].field_6A_font_type = field_130;
+    pPage->field_518_elements_array[0].field_6C_font_palette = 5;
+    pPage->field_518_elements_array[1].field_0_element_type = STRING_TEXT_1;
+    pPage->field_518_elements_array[1].field_2_xpos = 170;
+    pPage->field_518_elements_array[1].field_4_ypos = 250;
+    wcsncpy(pPage->field_518_elements_array[1].field_6_element_name_str,
             gText_0x14_704DFC->Find_5B5F90("score"),
             0x32u);
-    field_136_menu_pages_array[6].field_518_elements_array[2].field_0_element_type = STRING_TEXT_1;
-    field_136_menu_pages_array[6].field_518_elements_array[2].field_2_xpos = 400;
-    field_136_menu_pages_array[6].field_518_elements_array[2].field_4_ypos = 250;
-    field_136_menu_pages_array[6].field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
-    field_136_menu_pages_array[6].field_518_elements_array[2].field_6A_font_type = field_120_selected_font;
-    field_136_menu_pages_array[6].field_4_options_array[0].field_4_y_pos = 340;
-    wcsncpy(field_136_menu_pages_array[6].field_4_options_array[0].field_6_option_name_str,
+    pPage->field_518_elements_array[2].field_0_element_type = STRING_TEXT_1;
+    pPage->field_518_elements_array[2].field_2_xpos = 400;
+    pPage->field_518_elements_array[2].field_4_ypos = 250;
+    pPage->field_518_elements_array[2].field_6A_font_type = field_120_selected_font;
+    pPage->field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[0].field_4_y_pos = 340;
+    wcsncpy(pPage->field_4_options_array[0].field_6_option_name_str,
             gText_0x14_704DFC->Find_5B5F90("repbons"),
             0x32u);
     // The original reads the option's own (never written) font field here, not field_120_selected_font
-    field_136_menu_pages_array[6].field_4_options_array[0].field_2_x_pos =
-        Frontend::GetCenteredXPos_4B0190(field_136_menu_pages_array[6].field_4_options_array[0].field_6_option_name_str,
-                             field_136_menu_pages_array[6].field_4_options_array[0].field_6A_font_type,
+    pPage->field_4_options_array[0].field_2_x_pos =
+        Frontend::GetCenteredXPos_4B0190(pPage->field_4_options_array[0].field_6_option_name_str,
+                             pPage->field_4_options_array[0].field_6A_font_type,
                              320);
-    field_136_menu_pages_array[6].field_4_options_array[0].field_80_menu_page_target = 259;
-    field_136_menu_pages_array[6].field_4_options_array[1].field_0_option_type = STRING_TEXT_1;
-    field_136_menu_pages_array[6].field_4_options_array[1].field_4_y_pos = 360;
-    wcsncpy(field_136_menu_pages_array[6].field_4_options_array[1].field_6_option_name_str,
+    pPage->field_4_options_array[0].field_80_menu_page_target = 259;
+    pPage->field_4_options_array[1].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[1].field_4_y_pos = 360;
+    wcsncpy(pPage->field_4_options_array[1].field_6_option_name_str,
             gText_0x14_704DFC->Find_5B5F90("nxt_lvl"),
             0x32u);
-    field_136_menu_pages_array[6].field_4_options_array[1].field_2_x_pos =
-        Frontend::GetCenteredXPos_4B0190(field_136_menu_pages_array[6].field_4_options_array[1].field_6_option_name_str,
-                             field_136_menu_pages_array[6].field_4_options_array[1].field_6A_font_type,
+    pPage->field_4_options_array[1].field_2_x_pos =
+        Frontend::GetCenteredXPos_4B0190(pPage->field_4_options_array[1].field_6_option_name_str,
+                             pPage->field_4_options_array[1].field_6A_font_type,
                              320);
-    field_136_menu_pages_array[6].field_4_options_array[1].field_80_menu_page_target = 261;
-    field_136_menu_pages_array[6].field_4_options_array[2].field_0_option_type = STRING_TEXT_1;
-    field_136_menu_pages_array[6].field_4_options_array[2].field_4_y_pos = 380;
-    wcsncpy(field_136_menu_pages_array[6].field_4_options_array[2].field_6_option_name_str,
+    pPage->field_4_options_array[1].field_80_menu_page_target = 261;
+    pPage->field_4_options_array[2].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[2].field_4_y_pos = 380;
+    wcsncpy(pPage->field_4_options_array[2].field_6_option_name_str,
             gText_0x14_704DFC->Find_5B5F90("mainmen"),
             0x32u);
-    field_136_menu_pages_array[6].field_4_options_array[2].field_2_x_pos =
-        Frontend::GetCenteredXPos_4B0190(field_136_menu_pages_array[6].field_4_options_array[2].field_6_option_name_str,
-                             field_136_menu_pages_array[6].field_4_options_array[2].field_6A_font_type,
+    pPage->field_4_options_array[2].field_2_x_pos =
+        Frontend::GetCenteredXPos_4B0190(pPage->field_4_options_array[2].field_6_option_name_str,
+                             pPage->field_4_options_array[2].field_6A_font_type,
                              320);
-    field_136_menu_pages_array[6].field_4_options_array[2].field_80_menu_page_target = 0;
-    field_136_menu_pages_array[6].field_B8A[0].field_0 = 150;
-    field_136_menu_pages_array[6].field_B8A[0].field_2_unused = 348;
-    field_136_menu_pages_array[6].field_B8A[1].field_0 = 150;
-    field_136_menu_pages_array[6].field_B8A[1].field_2_unused = 368;
-    field_136_menu_pages_array[6].field_B8A[2].field_0 = 150;
-    field_136_menu_pages_array[6].field_B8A[2].field_2_unused = 388;
-    field_136_menu_pages_array[6].field_BC6_current_option_idx = 0;
-    field_136_menu_pages_array[6].field_BC8_default_option_idx = 0;
-    field_136_menu_pages_array[7].field_0_number_of_options = 1;
-    field_136_menu_pages_array[7].field_2_number_of_elements = 14;
-    field_136_menu_pages_array[7].field_518_elements_array[0].field_0_element_type = STRING_TEXT_1;
-    field_136_menu_pages_array[7].field_518_elements_array[0].field_2_xpos = 35;
-    field_136_menu_pages_array[7].field_518_elements_array[0].field_4_ypos = 11;
-    field_136_menu_pages_array[7].field_518_elements_array[0].field_6A_font_type = field_130;
-    field_136_menu_pages_array[7].field_518_elements_array[0].field_6C_font_palette = 5;
-    field_136_menu_pages_array[7].field_518_elements_array[1].field_0_element_type = STRING_TEXT_1;
-    field_136_menu_pages_array[7].field_518_elements_array[1].field_2_xpos = 100;
-    field_136_menu_pages_array[7].field_518_elements_array[1].field_4_ypos = 170;
-    wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[1].field_6_element_name_str, gEmptyWStr_67DC8C, 50u);
-    field_136_menu_pages_array[7].field_518_elements_array[2].field_0_element_type = STRING_TEXT_1;
-    field_136_menu_pages_array[7].field_518_elements_array[2].field_2_xpos = 100;
-    field_136_menu_pages_array[7].field_518_elements_array[2].field_4_ypos = 190;
-    wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[2].field_6_element_name_str, gEmptyWStr_67DC8C, 0x32u);
-    field_136_menu_pages_array[7].field_518_elements_array[3].field_0_element_type = STRING_TEXT_1;
-    field_136_menu_pages_array[7].field_518_elements_array[3].field_2_xpos = 100;
-    field_136_menu_pages_array[7].field_518_elements_array[3].field_4_ypos = 210;
-    wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[3].field_6_element_name_str, gEmptyWStr_67DC8C, 0x32u);
-    field_136_menu_pages_array[7].field_518_elements_array[4].field_0_element_type = STRING_TEXT_1;
-    field_136_menu_pages_array[7].field_518_elements_array[4].field_2_xpos = 100;
-    field_136_menu_pages_array[7].field_518_elements_array[4].field_4_ypos = 230;
-    wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[4].field_6_element_name_str, gEmptyWStr_67DC8C, 0x32u);
-    field_136_menu_pages_array[7].field_518_elements_array[5].field_0_element_type = STRING_TEXT_1;
-    field_136_menu_pages_array[7].field_518_elements_array[5].field_2_xpos = 100;
-    field_136_menu_pages_array[7].field_518_elements_array[5].field_4_ypos = 250;
-    wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[5].field_6_element_name_str, gEmptyWStr_67DC8C, 0x32u);
-    field_136_menu_pages_array[7].field_518_elements_array[6].field_0_element_type = STRING_TEXT_1;
-    field_136_menu_pages_array[7].field_518_elements_array[6].field_2_xpos = 100;
-    field_136_menu_pages_array[7].field_518_elements_array[6].field_4_ypos = 270;
-    wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[6].field_6_element_name_str, gEmptyWStr_67DC8C, 0x32u);
-    field_136_menu_pages_array[7].field_518_elements_array[7].field_0_element_type = STRING_TEXT_1;
-    field_136_menu_pages_array[7].field_518_elements_array[7].field_4_ypos = 300;
-    wcsncpy(field_136_menu_pages_array[7].field_518_elements_array[7].field_6_element_name_str,
+    pPage->field_4_options_array[2].field_80_menu_page_target = 0;
+    pPage->field_B8A[0].field_0 = 150;
+    pPage->field_B8A[0].field_2_unused = 348;
+    pPage->field_B8A[1].field_0 = 150;
+    pPage->field_B8A[1].field_2_unused = 368;
+    pPage->field_B8A[2].field_0 = 150;
+    pPage->field_B8A[2].field_2_unused = 388;
+    pPage->field_BC6_current_option_idx = 0;
+    pPage->field_BC8_default_option_idx = 0;
+    pPage = &field_136_menu_pages_array[7];
+    pPage->field_0_number_of_options = 1;
+    pPage->field_2_number_of_elements = 14;
+    pPage->field_518_elements_array[0].field_0_element_type = STRING_TEXT_1;
+    pPage->field_518_elements_array[0].field_2_xpos = 35;
+    pPage->field_518_elements_array[0].field_4_ypos = 11;
+    pPage->field_518_elements_array[0].field_6A_font_type = field_130;
+    pPage->field_518_elements_array[0].field_6C_font_palette = 5;
+    pPage->field_518_elements_array[1].field_0_element_type = STRING_TEXT_1;
+    pPage->field_518_elements_array[1].field_2_xpos = 100;
+    pPage->field_518_elements_array[1].field_4_ypos = 170;
+    wcsncpy(pPage->field_518_elements_array[1].field_6_element_name_str, gEmptyWStr_67DC8C, 50u);
+    pPage->field_518_elements_array[2].field_0_element_type = STRING_TEXT_1;
+    pPage->field_518_elements_array[2].field_2_xpos = 100;
+    pPage->field_518_elements_array[2].field_4_ypos = 190;
+    wcsncpy(pPage->field_518_elements_array[2].field_6_element_name_str, gEmptyWStr_67DC8C, 0x32u);
+    pPage->field_518_elements_array[3].field_0_element_type = STRING_TEXT_1;
+    pPage->field_518_elements_array[3].field_2_xpos = 100;
+    pPage->field_518_elements_array[3].field_4_ypos = 210;
+    wcsncpy(pPage->field_518_elements_array[3].field_6_element_name_str, gEmptyWStr_67DC8C, 0x32u);
+    pPage->field_518_elements_array[4].field_0_element_type = STRING_TEXT_1;
+    pPage->field_518_elements_array[4].field_2_xpos = 100;
+    pPage->field_518_elements_array[4].field_4_ypos = 230;
+    wcsncpy(pPage->field_518_elements_array[4].field_6_element_name_str, gEmptyWStr_67DC8C, 0x32u);
+    pPage->field_518_elements_array[5].field_0_element_type = STRING_TEXT_1;
+    pPage->field_518_elements_array[5].field_2_xpos = 100;
+    pPage->field_518_elements_array[5].field_4_ypos = 250;
+    wcsncpy(pPage->field_518_elements_array[5].field_6_element_name_str, gEmptyWStr_67DC8C, 0x32u);
+    pPage->field_518_elements_array[6].field_0_element_type = STRING_TEXT_1;
+    pPage->field_518_elements_array[6].field_2_xpos = 100;
+    pPage->field_518_elements_array[6].field_4_ypos = 270;
+    wcsncpy(pPage->field_518_elements_array[6].field_6_element_name_str, gEmptyWStr_67DC8C, 0x32u);
+    pPage->field_518_elements_array[7].field_0_element_type = STRING_TEXT_1;
+    pPage->field_518_elements_array[7].field_4_ypos = 300;
+    wcsncpy(pPage->field_518_elements_array[7].field_6_element_name_str,
             gText_0x14_704DFC->Find_5B5F90("kills_h"),
             0x32u);
-    field_136_menu_pages_array[7].field_518_elements_array[7].field_2_xpos =
-        GetCenteredXPos_4B0190(field_136_menu_pages_array[7].field_518_elements_array[7].field_6_element_name_str,
-                   field_136_menu_pages_array[7].field_518_elements_array[7].field_6A_font_type,
+    pPage->field_518_elements_array[7].field_2_xpos =
+        GetCenteredXPos_4B0190(pPage->field_518_elements_array[7].field_6_element_name_str,
+                   pPage->field_518_elements_array[7].field_6A_font_type,
                    320);
-    field_136_menu_pages_array[7].field_518_elements_array[8].field_0_element_type = STRING_TEXT_1;
-    field_136_menu_pages_array[7].field_518_elements_array[8].field_2_xpos = 100;
-    field_136_menu_pages_array[7].field_518_elements_array[8].field_4_ypos = 320;
-    field_136_menu_pages_array[7].field_518_elements_array[9].field_0_element_type = STRING_TEXT_1;
-    field_136_menu_pages_array[7].field_518_elements_array[9].field_2_xpos = 100;
-    field_136_menu_pages_array[7].field_518_elements_array[9].field_4_ypos = 340;
-    field_136_menu_pages_array[7].field_518_elements_array[10].field_0_element_type = STRING_TEXT_1;
-    field_136_menu_pages_array[7].field_518_elements_array[10].field_2_xpos = 100;
-    field_136_menu_pages_array[7].field_518_elements_array[10].field_4_ypos = 360;
-    field_136_menu_pages_array[7].field_518_elements_array[11].field_0_element_type = STRING_TEXT_1;
-    field_136_menu_pages_array[7].field_518_elements_array[11].field_2_xpos = 100;
-    field_136_menu_pages_array[7].field_518_elements_array[11].field_4_ypos = 380;
-    field_136_menu_pages_array[7].field_518_elements_array[12].field_0_element_type = STRING_TEXT_1;
-    field_136_menu_pages_array[7].field_518_elements_array[12].field_2_xpos = 100;
-    field_136_menu_pages_array[7].field_518_elements_array[12].field_4_ypos = 400;
-    field_136_menu_pages_array[7].field_518_elements_array[13].field_0_element_type = STRING_TEXT_1;
-    field_136_menu_pages_array[7].field_518_elements_array[13].field_2_xpos = 30;
-    field_136_menu_pages_array[7].field_518_elements_array[13].field_4_ypos = 150;
-    field_136_menu_pages_array[7].field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
-    field_136_menu_pages_array[7].field_4_options_array[0].field_4_y_pos = 430;
-    wcsncpy(field_136_menu_pages_array[7].field_4_options_array[0].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("quit"), 0x32u);
-    field_136_menu_pages_array[7].field_4_options_array[0].field_2_x_pos =
-        GetCenteredXPos_4B0190(field_136_menu_pages_array[7].field_4_options_array[0].field_6_option_name_str,
-                   field_136_menu_pages_array[7].field_4_options_array[0].field_6A_font_type,
+    pPage->field_518_elements_array[8].field_0_element_type = STRING_TEXT_1;
+    pPage->field_518_elements_array[8].field_2_xpos = 100;
+    pPage->field_518_elements_array[8].field_4_ypos = 320;
+    pPage->field_518_elements_array[9].field_0_element_type = STRING_TEXT_1;
+    pPage->field_518_elements_array[9].field_2_xpos = 100;
+    pPage->field_518_elements_array[9].field_4_ypos = 340;
+    pPage->field_518_elements_array[10].field_0_element_type = STRING_TEXT_1;
+    pPage->field_518_elements_array[10].field_2_xpos = 100;
+    pPage->field_518_elements_array[10].field_4_ypos = 360;
+    pPage->field_518_elements_array[11].field_0_element_type = STRING_TEXT_1;
+    pPage->field_518_elements_array[11].field_2_xpos = 100;
+    pPage->field_518_elements_array[11].field_4_ypos = 380;
+    pPage->field_518_elements_array[12].field_0_element_type = STRING_TEXT_1;
+    pPage->field_518_elements_array[12].field_2_xpos = 100;
+    pPage->field_518_elements_array[12].field_4_ypos = 400;
+    pPage->field_518_elements_array[13].field_0_element_type = STRING_TEXT_1;
+    pPage->field_518_elements_array[13].field_2_xpos = 30;
+    pPage->field_518_elements_array[13].field_4_ypos = 150;
+    pPage->field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[0].field_4_y_pos = 430;
+    wcsncpy(pPage->field_4_options_array[0].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("quit"), 0x32u);
+    pPage->field_4_options_array[0].field_2_x_pos =
+        GetCenteredXPos_4B0190(pPage->field_4_options_array[0].field_6_option_name_str,
+                   pPage->field_4_options_array[0].field_6A_font_type,
                    320);
-    field_136_menu_pages_array[7].field_4_options_array[0].field_80_menu_page_target = 258;
-    field_136_menu_pages_array[7].field_B8A[0].field_0 = 180;
-    field_136_menu_pages_array[7].field_B8A[0].field_2_unused = 438;
-    field_136_menu_pages_array[7].field_BC6_current_option_idx = 0;
-    field_136_menu_pages_array[7].field_BC8_default_option_idx = 0;
-    field_136_menu_pages_array[8].field_0_number_of_options = 1;
-    field_136_menu_pages_array[8].field_2_number_of_elements = 0;
-    field_136_menu_pages_array[8].field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
-    field_136_menu_pages_array[8].field_4_options_array[0].field_2_x_pos = 200;
-    field_136_menu_pages_array[8].field_4_options_array[0].field_4_y_pos = 280;
-    wcsncpy(field_136_menu_pages_array[8].field_4_options_array[0].field_6_option_name_str,
+    pPage->field_4_options_array[0].field_80_menu_page_target = 258;
+    pPage->field_B8A[0].field_0 = 180;
+    pPage->field_B8A[0].field_2_unused = 438;
+    pPage->field_BC6_current_option_idx = 0;
+    pPage->field_BC8_default_option_idx = 0;
+    pPage = &field_136_menu_pages_array[8];
+    pPage->field_0_number_of_options = 1;
+    pPage->field_2_number_of_elements = 0;
+    pPage->field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[0].field_2_x_pos = 200;
+    pPage->field_4_options_array[0].field_4_y_pos = 280;
+    wcsncpy(pPage->field_4_options_array[0].field_6_option_name_str,
             gText_0x14_704DFC->Find_5B5F90("mainmen"),
             0x32u);
-    field_136_menu_pages_array[8].field_4_options_array[0].field_80_menu_page_target = 0;
-    field_136_menu_pages_array[8].field_B8A[0].field_0 = 180;
-    field_136_menu_pages_array[8].field_B8A[0].field_2_unused = 288;
-    field_136_menu_pages_array[8].field_BC6_current_option_idx = 0;
-    field_136_menu_pages_array[8].field_BC8_default_option_idx = 0;
-    field_136_menu_pages_array[10].field_0_number_of_options = 1;
-    field_136_menu_pages_array[10].field_2_number_of_elements = 1;
-    field_136_menu_pages_array[10].field_518_elements_array[0].field_0_element_type = STRING_TEXT_1;
-    field_136_menu_pages_array[10].field_518_elements_array[0].field_4_ypos = 230;
-    wcsncpy(field_136_menu_pages_array[10].field_518_elements_array[0].field_6_element_name_str,
+    pPage->field_4_options_array[0].field_80_menu_page_target = 0;
+    pPage->field_B8A[0].field_0 = 180;
+    pPage->field_B8A[0].field_2_unused = 288;
+    pPage->field_BC6_current_option_idx = 0;
+    pPage->field_BC8_default_option_idx = 0;
+    pPage = &field_136_menu_pages_array[10];
+    pPage->field_0_number_of_options = 1;
+    pPage->field_2_number_of_elements = 1;
+    pPage->field_518_elements_array[0].field_0_element_type = STRING_TEXT_1;
+    pPage->field_518_elements_array[0].field_4_ypos = 230;
+    wcsncpy(pPage->field_518_elements_array[0].field_6_element_name_str,
             gText_0x14_704DFC->Find_5B5F90("nicetry"),
             0x32u);
     s16 title_font2 = field_130;
-    field_136_menu_pages_array[10].field_518_elements_array[0].field_6A_font_type = title_font2;
-    field_136_menu_pages_array[10].field_518_elements_array[0].field_2_xpos =
-        GetCenteredXPos_4B0190(field_136_menu_pages_array[10].field_518_elements_array[0].field_6_element_name_str, title_font2, 320);
-    field_136_menu_pages_array[10].field_518_elements_array[0].field_6C_font_palette = 4;
-    field_136_menu_pages_array[10].field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
-    field_136_menu_pages_array[10].field_4_options_array[0].field_2_x_pos = 180;
-    field_136_menu_pages_array[10].field_4_options_array[0].field_4_y_pos = 410;
-    wcsncpy(field_136_menu_pages_array[10].field_4_options_array[0].field_6_option_name_str,
+    pPage->field_518_elements_array[0].field_6A_font_type = title_font2;
+    pPage->field_518_elements_array[0].field_2_xpos =
+        GetCenteredXPos_4B0190(pPage->field_518_elements_array[0].field_6_element_name_str, title_font2, 320);
+    pPage->field_518_elements_array[0].field_6C_font_palette = 4;
+    pPage->field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[0].field_2_x_pos = 180;
+    pPage->field_4_options_array[0].field_4_y_pos = 410;
+    wcsncpy(pPage->field_4_options_array[0].field_6_option_name_str,
             gText_0x14_704DFC->Find_5B5F90("mainmen"),
             0x32u);
-    field_136_menu_pages_array[10].field_4_options_array[0].field_80_menu_page_target = 0;
-    field_136_menu_pages_array[10].field_B8A[0].field_0 = 160;
-    field_136_menu_pages_array[10].field_B8A[0].field_2_unused = 418;
-    field_136_menu_pages_array[10].field_BC6_current_option_idx = 0;
-    field_136_menu_pages_array[10].field_BC8_default_option_idx = 0;
-    field_136_menu_pages_array[14].field_0_number_of_options = 1;
-    field_136_menu_pages_array[14].field_2_number_of_elements = 5;
-    field_136_menu_pages_array[14].field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
-    field_136_menu_pages_array[14].field_4_options_array[0].field_2_x_pos = 170;
-    field_136_menu_pages_array[14].field_4_options_array[0].field_4_y_pos = 340;
-    field_136_menu_pages_array[14].field_4_options_array[0].field_80_menu_page_target = 268;
-    field_136_menu_pages_array[14].field_518_elements_array[0].field_0_element_type = STRING_TEXT_1;
-    field_136_menu_pages_array[14].field_518_elements_array[0].field_2_xpos = 20;
-    field_136_menu_pages_array[14].field_518_elements_array[0].field_4_ypos = 160;
-    wcsncpy(field_136_menu_pages_array[14].field_518_elements_array[0].field_6_element_name_str,
+    pPage->field_4_options_array[0].field_80_menu_page_target = 0;
+    pPage->field_B8A[0].field_0 = 160;
+    pPage->field_B8A[0].field_2_unused = 418;
+    pPage->field_BC6_current_option_idx = 0;
+    pPage->field_BC8_default_option_idx = 0;
+    pPage = &field_136_menu_pages_array[14];
+    pPage->field_0_number_of_options = 1;
+    pPage->field_2_number_of_elements = 5;
+    pPage->field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[0].field_2_x_pos = 170;
+    pPage->field_4_options_array[0].field_4_y_pos = 340;
+    pPage->field_4_options_array[0].field_80_menu_page_target = 268;
+    pPage->field_518_elements_array[0].field_0_element_type = STRING_TEXT_1;
+    pPage->field_518_elements_array[0].field_2_xpos = 20;
+    pPage->field_518_elements_array[0].field_4_ypos = 160;
+    wcsncpy(pPage->field_518_elements_array[0].field_6_element_name_str,
             gText_0x14_704DFC->Find_5B5F90("fr_ent1"),
             0x32u);
-    field_136_menu_pages_array[14].field_518_elements_array[1].field_0_element_type = STRING_TEXT_1;
-    field_136_menu_pages_array[14].field_518_elements_array[1].field_2_xpos = 20;
-    field_136_menu_pages_array[14].field_518_elements_array[1].field_4_ypos = 180;
-    wcsncpy(field_136_menu_pages_array[14].field_518_elements_array[1].field_6_element_name_str,
+    pPage->field_518_elements_array[1].field_0_element_type = STRING_TEXT_1;
+    pPage->field_518_elements_array[1].field_2_xpos = 20;
+    pPage->field_518_elements_array[1].field_4_ypos = 180;
+    wcsncpy(pPage->field_518_elements_array[1].field_6_element_name_str,
             gText_0x14_704DFC->Find_5B5F90("fr_ent2"),
             0x32u);
-    field_136_menu_pages_array[14].field_518_elements_array[2].field_0_element_type = STRING_TEXT_1;
-    field_136_menu_pages_array[14].field_518_elements_array[2].field_2_xpos = 20;
-    field_136_menu_pages_array[14].field_518_elements_array[2].field_4_ypos = 200;
-    wcsncpy(field_136_menu_pages_array[14].field_518_elements_array[2].field_6_element_name_str, gEmptyWStr_67DC8C, 0x32u);
-    field_136_menu_pages_array[14].field_518_elements_array[3].field_0_element_type = STRING_TEXT_1;
-    field_136_menu_pages_array[14].field_518_elements_array[3].field_2_xpos = 20;
-    field_136_menu_pages_array[14].field_518_elements_array[3].field_4_ypos = 300;
-    wcsncpy(field_136_menu_pages_array[14].field_518_elements_array[3].field_6_element_name_str,
+    pPage->field_518_elements_array[2].field_0_element_type = STRING_TEXT_1;
+    pPage->field_518_elements_array[2].field_2_xpos = 20;
+    pPage->field_518_elements_array[2].field_4_ypos = 200;
+    wcsncpy(pPage->field_518_elements_array[2].field_6_element_name_str, gEmptyWStr_67DC8C, 0x32u);
+    pPage->field_518_elements_array[3].field_0_element_type = STRING_TEXT_1;
+    pPage->field_518_elements_array[3].field_2_xpos = 20;
+    pPage->field_518_elements_array[3].field_4_ypos = 300;
+    wcsncpy(pPage->field_518_elements_array[3].field_6_element_name_str,
             gText_0x14_704DFC->Find_5B5F90("fr_pmpt"),
             0x32u);
-    field_136_menu_pages_array[14].field_518_elements_array[4].field_0_element_type = STRING_TEXT_1;
-    field_136_menu_pages_array[14].field_518_elements_array[4].field_2_xpos = 20;
-    field_136_menu_pages_array[14].field_518_elements_array[4].field_4_ypos = 320;
-    wcsncpy(field_136_menu_pages_array[14].field_518_elements_array[4].field_6_element_name_str,
+    pPage->field_518_elements_array[4].field_0_element_type = STRING_TEXT_1;
+    pPage->field_518_elements_array[4].field_2_xpos = 20;
+    pPage->field_518_elements_array[4].field_4_ypos = 320;
+    wcsncpy(pPage->field_518_elements_array[4].field_6_element_name_str,
             gText_0x14_704DFC->Find_5B5F90("score"),
             0x32u);
-    field_136_menu_pages_array[14].field_B8A[0].field_0 = 150;
-    field_136_menu_pages_array[14].field_B8A[0].field_2_unused = 348; //  TODO: check for wrong var
-    field_136_menu_pages_array[14].field_BC6_current_option_idx = 0;
-    field_136_menu_pages_array[14].field_BC8_default_option_idx = 0;
+    pPage->field_B8A[0].field_0 = 150;
+    pPage->field_B8A[0].field_2_unused = 348; //  TODO: check for wrong var
+    pPage->field_BC6_current_option_idx = 0;
+    pPage->field_BC8_default_option_idx = 0;
     field_EE0E_credits.LoadCredits_483F20();
 }
 

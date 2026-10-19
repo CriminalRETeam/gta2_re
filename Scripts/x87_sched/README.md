@@ -143,3 +143,14 @@ DynamoRIO.
 
 `sched.sh` can hang when wine starts a fresh `winedevice` that inherits its `| tr -d '\r'` pipe. Kill the
 `tr` process to unblock it, or start a persistent wine server first (`wineserver -p`) to avoid it.
+
+## Memory dependence edges
+
+Stores and loads through the same base pointer are told apart by location, but only for the last 31
+distinct locations of each base in the function (see "The scheduler tells field stores apart per base
+pointer" in `docs/matching_quirks.md`). Earlier ones share one bit and are chained. When a long run of
+stores shows each store one height above the next in `sched.sh`, the original probably wrote through
+another pointer (a local pointer or reference to the sub-struct). `python3 Scripts/x87_sched/alias_log.py`
+builds the `alog` variant: `X87_C2=alog sched.sh file.cpp func` then also writes each alias test (`@A`:
+the two operands, their points-to index, the result) and location entry (`@D`: base, bit, mask) to
+`last.log`.

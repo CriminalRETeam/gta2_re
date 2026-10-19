@@ -3157,3 +3157,32 @@ original uses eax there, the near use is through a second variable (`p = Get(); 
 short web is coloured eax and the long one stays spilled. VC7 `/Ob0` (`Scripts/compile_vc7.sh`) against 9.6f is a
 quick oracle for this kind of first-block allocation. Related: `!MACRO(a && b)` and `MACRO(a && b) == false`
 compile to the same tests but leave different blocks, which can change which identical tails are cross-jumped.
+
+## The scheduler tells field stores apart per base pointer, 32 locations at most (`Frontend::SetupMenuStringsOptionsElements_4B0220`)
+
+Whether two memory instructions get a dependence edge in the list scheduler (and so whether constant defs,
+`add $0xC,%esp` and loads can move above the stores) depends on how C2 numbers the locations, not on the offsets
+alone. The rule, from C2 SP4:
+
+- The graph builder (`0x1072a8ab`) adds RAW and WAW edges through `0x1072b509` and WAR edges through
+  `0x1072caad`. Both call the alias test `0x1070283e`, which for two `[reg+disp]` operands only compares their
+  points-to indexes (`[op+0x1c]`, `0x107027c1`): same index or index 1 means alias, two location entries of the
+  same base alias when `(1 << bit(B)) & mask(A)`, anything else is an intersection of points-to sets.
+- Location entries are built at `0x1073ac1f`. Walking the IL in order, every `[base + const]` access with a
+  distinct (offset, size) is added to the list of its base pointer, at most 0x60 per base (and 0x400 minus the
+  symbol count in all). The list is built by prepending, and bits are given from the head: the last 31
+  locations of a base, in first-appearance order, get bits 0 to 30, every earlier one shares bit 31 and so
+  aliases all the others that have bit 31. Overlapping locations also take each other's bits. Locations past
+  the 96th are not tracked and alias everything on that base.
+- The base is the pointer the source writes through, before it folds into `esi + disp`. `this->a[0].x` and
+  `this->a[7].y` share `this`'s list; `pPage->x` with `MenuPage_0xBCA* pPage = &a[k]` (or a reference, or one
+  pointer variable reassigned per page) gets a list of its own for each value, and the output is still all
+  `off(%esi)`. Two different bases alias each other through their points-to sets.
+
+So in a long run of stores through one base, everything but the last 31 locations is chained, each store one
+height above the next, and a constant's def lands two stores before its first use. 4B0220 (375 stores through
+`this`) only matched once each menu page went through its own pointer: the stores of a page are then unchained,
+equal height, and they issue in IL order after all the constant defs of the block, as in the original. With
+unchained stores the store order is the statement order again, and the source can keep the natural one (type, x,
+y, shape per element). `Scripts/x87_sched/alias_log.py` builds a C2 variant that logs every alias test and
+location entry (`@A`/`@D` lines in `last.log` next to the `sched.sh` output).

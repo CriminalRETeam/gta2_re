@@ -5822,3 +5822,30 @@ below-block code no longer jumped into the down case's copy). Three source chang
   original's null-pSlope `je` goes to the wall check). 2 -> 0. The up case keeps it inside.
 
 Full build in the worktree: `[3412/3412] funcs OK`.
+
+## Frontend::SetupMenuStringsOptionsElements_4B0220 (Oct 19): matched (84 -> 0)
+
+The store chaining was the whole problem, and the rule behind it is now in `docs/matching_quirks.md` ("The
+scheduler tells field stores apart per base pointer").
+- Bisecting a stand-alone copy of the function: the first statements alone give unchained stores; adding the
+  page 1 option 1 `field_80_menu_page_target = 260` store (the 33rd distinct location through `this`) adds one
+  edge, `0x134 -> 0x13A`. A logging C2 (`Scripts/x87_sched/alias_log.py`) shows why: the alias test compares
+  per-base location entries, `0x134` and `0x13A` both had bit 31. In the whole function `this` has 96 tracked
+  locations (the per-base cap), all but the last 31 of them share bit 31 and the rest are untracked, so every
+  store is chained.
+- Top block in `sched.sh`, base source: `mov ebx,1` 126, `0x134` store 124, `mov edi,300` 124, `0x13A` 122,
+  `mov ebp,3` 122, `0x13C` 120, `0x136` 118, `0x13E` 116 (a chain, 2 apart). With page 0 written through a
+  pointer: the three defs 106, the `0x134` store 104 (`this` base, aliases the page stores through the
+  points-to sets), the four page stores 102 each, in IL order: the original's top block once
+  `number_of_options = 3` is the first page statement. 84 -> 20 with every page through its own pointer
+  value.
+- The task's candidates: a reference to the page, a pointer local, and one `MenuPage_0xBCA* pPage` reassigned
+  per page all give the same code (each value gets its own base). `field_136_menu_pages_array->` for page 0 keeps
+  `this` as the base (no change). The struct types (unions, byte arrays) play no part.
+- 20 -> 0 by statement order only, now that equal priorities keep the IL order: page 6 `elements[2]` font store
+  (the `field_120` load) before `options[0]` type, page 5 `elements[1]` font right after its ypos (each 20 -> 16),
+  and page 1 elements 4 to 9 in the natural type, x, y, shape order (12 -> 0; the scattered order came from
+  fitting the chained schedule).
+
+Kept form: one `MenuPage_0xBCA* pPage;` set to `&field_136_menu_pages_array[k]` at the start of each page.
+Full build in the worktree: `[3413/3413] funcs OK`.
