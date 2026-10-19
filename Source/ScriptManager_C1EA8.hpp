@@ -484,7 +484,6 @@ enum SCRCMD
     SCRCMD_RESTORE_RESPECT = 446, // BE01
 };
 
-EXTERN_GLOBAL(Car_BC*, gStoredCar_6F7560);
 EXTERN_GLOBAL(s32, gStoredCarId_6F78B4);
 
 // A script thread waiting to be started by an event (a car / phone object interaction): the ids to match and the
