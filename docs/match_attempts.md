@@ -6386,3 +6386,8 @@ right; only which `return -1` tails are kept differs, and the reason is the comp
   from a prebuilt DMA library, built with a C2 whose cost check lacks the totals (another VC5/VC6 build).
 - What would match: compiling `dma_video.cpp` with a C2 patched like `--noacc` (or the library's real compiler).
   Not done, since it means a second toolchain for one TU; `DMA_Video_Unload_5EB8C0` and the stub match either way.
+- Which compiler: the Rich header of 10.5.exe lists one C++ object and three C objects from build 8830 (product
+  ids 0x1D/0x1C, a VC7 pre-release), and 9.6f.exe has the same single 0x1D/8830 object next to its 9466 ones. Our
+  VC7 13.00.9466 (`Scripts/compile_vc7.sh` flags, then `/O2`, `/O1`, `/Ox`, `/Os /Oy`, `/O2 /Oy-`) scores 1608,
+  1160, 462, 1412, 575: `/Ox` keeps the 10.5 register picks but lays the error blocks after the function body.
+  The library was built with that 8830 compiler, which the project does not have.
