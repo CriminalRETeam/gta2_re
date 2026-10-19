@@ -5983,3 +5983,36 @@ switch cases, since the inline walker visits case bodies in source order while t
   extra free site count: the else polar keeps its sine inline everywhere (best: 2 off at 1165, 1184, 1221).
 - Open as before: the original needs 55..59 fewer nodes than the natural lever 2 form (1191), or free sites after
   the else polar that no natural spelling provides.
+
+**Round 6 (coordinator + 4 parallel workers): 257 (per-site helpers) -> 156 natural, the then-branch byte-exact.**
+- H1 (VC7 witness): our natural 9.6f-shape source compiled with VC7 scores 0 against 9.6f 0x436BF0 once case 2 is
+  written `angle = angle + kAng180_6785A6` (9.6f calls `angle_plus` with `this` = angle; `kAng180 + angle` was 378).
+  In VC6 that spelling removes the first branch's 0xC temp (874 -> 723) with no change in nodes or sites. VC7 also
+  rejects the ternary radius (337), store sinking (285), `Fix16 tx/ty` copies (249), `pTarget` at the top (438),
+  `field_40_rotation` (36) and confirms the getters, the braced if/else and the bUnk statement order; 9.6f has no
+  hidden local or temporary (frame 0x14: angle, radius, vec_x, vec_y, one shared Ang16 temp). VC7 does not see dead
+  code, so it cannot reveal dead nodes or sites. The remaining 0xC temp in Ped.cpp comes from the in-TU definition
+  of `kAng180_6785A6` (any definition form: init, dynamic init, static); with the definition in another TU the
+  temp is gone. Its 10.5 initialiser 0x45FCB0 sits between `Mugger_AI_45F360` and `CarThief_AI_45FF60`, which
+  suggests the original Ped code was more than one TU; the definition now lives in Char_Pool.cpp (every other user
+  compiles identically, full build green).
+- H2 (node accounting, probe-measured): the ternary radius does NOT give the same code as the if/else (it selects
+  an address), so the earlier "ternary -3" scores measured wrong code; braces, `else` without braces and the comma
+  form give identical code (+20 / +10 / 0). Per-construct prices: `case N:` 3, `break` 1, `if (bUnk)` 8,
+  `angle += k` 10, `radius = k` 5, polar 12, `field += vec` 13, case 2 15, each velocity test 26, group condition
+  50, atan2 47. Getters floor 1165; at 1184..1185 only the else polar is wrong (score 156: `g3`, braces everywhere
+  except `if (bUnk) angle += k, radius = 3/4; else radius = 3/8;` in cases 4-7/default); 1171..1183 gives 221,
+  1186+ gives 780 (case 2 ctor goes inline). Simulation with 0..2 free sites at any position and sizes 1050..1350
+  never gives the full pattern.
+- H3 (free sites after the else polar): measured every construct there; none that keeps the code and 9.6f adds a
+  site (`(void)`, `Fix16&` refs, functional casts, `return;` are not sites; `x = x + v` and `Add` replace the `+=`
+  site with a charged one). Only setters (`SetMoveTargetX(field + vec)`) add sites without changing the final
+  code, and they reproduce the exact pattern in a diagnostic, but 9.6f calls `Fix16::operator+=` directly there.
+  Fix16/Ang16 have no user copy ctor or `operator=(const T&)`, so copies are never sites.
+- H4 (permuter, about 9800 compiles): nothing below the base with the code intact; the only pattern gains come
+  from the known dead-site mechanisms (a value-returning getter as `+=` target, dead temporaries).
+- Charged `Fix16::operator+=` (41..50 nodes) is excluded by both H2 and H4: all 20 `+=` sites get charged and the
+  budget is exhausted before the default (1276..1646).
+- What is left: at 1184..1185 nodes with getters, the else polar's nested budget is (B - 66) / 3 = 84 and must be
+  <= 56, i.e. about 70..106 more charge between the default's first `+=` and the else chain with no extra site.
+  No natural construct found supplies it; the setter diagnostic shows the compiler can produce the pattern.
