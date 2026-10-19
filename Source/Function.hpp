@@ -59,6 +59,10 @@
                 __declspec(dllexport) type name;    \
                 GLOBAL(name, addr)
 
+            #define DEFINE_STATIC_GLOBAL(type, name, addr) \
+                static type name;                          \
+                GLOBAL(name, addr)
+
             #define DEFINE_GLOBAL_INIT(type, name, value, addr) \
                 __declspec(dllexport) type name = value;        \
                 GLOBAL(name, addr)
@@ -77,6 +81,7 @@
         #elif defined(IMPORT_VARS)
             // define
             #define DEFINE_GLOBAL(type, name, addr) __declspec(dllimport) type name
+            #define DEFINE_STATIC_GLOBAL(type, name, addr) static type name
             #define DEFINE_GLOBAL_INIT(type, name, value, addr) __declspec(dllimport) type name;
 
             #define DEFINE_GLOBAL_ARRAY(type, name, size, addr) __declspec(dllimport) type name[size]
@@ -89,6 +94,10 @@
         // Static build
         #define DEFINE_GLOBAL(type, name, addr) \
             type name;                          \
+            GLOBAL(name, addr)
+
+        #define DEFINE_STATIC_GLOBAL(type, name, addr) \
+            static type name;                          \
             GLOBAL(name, addr)
 
         #define DEFINE_GLOBAL_INIT(type, name, value, addr) \
@@ -176,6 +185,7 @@ void __stdcall LogFuncAddr(u32 codeAddr, s32 mode);
     #define __stdcall
 
     #define DEFINE_GLOBAL(type, name, addr) type name
+    #define DEFINE_STATIC_GLOBAL(type, name, addr) static type name
     #define DEFINE_GLOBAL_INIT(type, name, value, addr) type name = value
 
     #define DEFINE_GLOBAL_ARRAY(type, name, size, addr) type name[size]

@@ -27,7 +27,7 @@ DEFINE_GLOBAL_INIT(u8, gbAllowMiss2Logging_6212EC, 1, 0x6212EC);
 EXTERN_GLOBAL(SCR_POINTER*, gBasePtr_6F8070);
 
 // Internal linkage as in the original, where all users were in one file: VC6 allocates registers differently for it.
-static Car_BC* gStoredCar_6F7560;
+DEFINE_STATIC_GLOBAL(Car_BC*, gStoredCar_6F7560, 0x6F7560);
 
 MATCH_FUNC(0x502dc0)
 void Miss2_25C::MissionCleanUp_502DC0()
