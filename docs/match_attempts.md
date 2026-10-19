@@ -5951,3 +5951,27 @@ patch items are still needed: the 35 entries of header padding, the two cluster-
   inside the class is ignored, VC6 compiles those bodies after the `};`, so the helpers are defined after their
   class), the two cluster-C spellings commented in Source; 186 stock / 0 oracle. Untested: the block-list order
   as a boundary cause (D2's route (a)), interleaving owner and pChase stores, a region-0 predecessor.
+
+**Round 3 on cluster D (Oct 19 night, three workers): all three remaining routes are closed.**
+- R1 (a predecessor left in region 0): the five uncoloured ranges of pass 1 are not variables but constant records
+  (the int 0 and the bytes 1, 2, 3, 4 of the `mov $n,%bl` stores at the function start); in pass 3 they are the 10,
+  a piece of the 0 and the byte 3. A constant is live from use to use, and the 0, the byte 1 and the byte 3 are live
+  in every block of the chain (the 0 stays live in the CheckSprite block even when the compare no longer uses it,
+  because of the owner, pChase and else stores of 0). No source change can end all of them before the chain:
+  `> (u16)10`, `>= 10`, `(u16)0`/`(s16)0` stores, `pOwner` declared earlier keep the walk identical; loading
+  `field_30_pTargetPed` or `gCarChaseTaskTable_678E30` into a local first only adds taken registers (410..436).
+- R2 (block-list order): at colour time `[func+8]` is exactly the final layout. 29 forms (`do { } while (0)`, `if (1)`,
+  `for (;;) { break; }`, labels, `switch` on the inner test, `goto`, owner or else block placed before the call)
+  either keep the visit order 656, 660, 663, 665 (186) or change the layout too (else first 244, switch on
+  `pOwner != 0` 256). In the target layout each chain block follows its only predecessor, so no layout-preserving
+  form visits one first. New with mkforce: a boundary at the compare block or at the owner stores gives 0, but one
+  at the four CheckSprite blocks (or higher, at 649 or 621) gives 186, because block 687 (the side test's fall
+  through) joins its first placed predecessor, the CheckSprite block, and the union grows back.
+- R3 (a constant coloured ebp then dropped): with a combined ralog + region-walk C2, the walks run after rounds 1,
+  3 and 6; no range takes ebp in rounds 1 and 2, and the three later ebp variables are not live in the chain. The
+  only constant given a range in the whole function is the 0 (edi round 5, then edx round 8, the `xor edx` of the
+  site); 5, 10, 100 and 3 never get one from stores, only from pushes. An extra `push 100` gives a constant coloured
+  ebp in round 6, which takes all 7 registers in the compare block in pass 3 (region 0, the wanted boundary, site
+  becomes `test`), but ebp is already saved for variables here so the constant is kept (`mov $0x64,%ebp`), and the
+  original loads no immediate into ebp, ebx or esi. Tools: `$S/usm7/r1/mkv.py` (`@V` per range with the constant
+  value, liveness in `@B`), `$S/usm7/r3/mkforce_ra.py` (colour decisions and walk in one log).
