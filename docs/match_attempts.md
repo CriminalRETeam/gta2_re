@@ -6361,3 +6361,28 @@ patch items are still needed: the 35 entries of header padding, the two cluster-
   becomes `test`), but ebp is already saved for variables here so the constant is kept (`mov $0x64,%ebp`), and the
   original loads no immediate into ebp, ebx or esi. Tools: `$S/usm7/r1/mkv.py` (`@V` per range with the constant
   value, liveness in `@B`), `$S/usm7/r3/mkforce_ra.py` (colour decisions and walk in one log).
+
+## `DMA_Video_LoadDll_5EB970` (Oct 19): 1360, a different C2 for the library
+
+Score 1360 with the current scorer (`WIP_IMPLEMENTED` stripped), source unchanged. The instructions are all
+right; only which `return -1` tails are kept differs, and the reason is the compiler, not the source.
+
+- **Per site** (both exes): sprintf `lea` / MessageBoxA `lea` follow the round robin, site k in class
+  (k-1) mod 3: eax/ecx (sites 1, 4, ..., 22), ecx/edx (2, 5, ..., 20), edx/eax (3, 6, ..., 21). Ours picks the
+  same registers at every site. The original keeps the tails of sites 20, 21, 22 (plus the LoadLibrary
+  failure), and every other site jumps to its class's tail at `push <buffer reg>` (n=6). Ours: class eax/ecx
+  jumps to site 22, class edx/eax to site 3 except 21, class ecx/edx keeps all 7 tails (11 in total).
+- **cjlog** (`@C` lines, now in `patch_c2.py`): exit list [22, 21, ..., 1]. 21 and 20 against P0 = 22 match only
+  `call FreeLibrary` (sum 11, totals 0: rejected). 19 matches n=6 (sum 22: merged, P0's total 22). From then on
+  every cross-class site matches `call FreeLibrary` alone with sum 11 + total 22 > 20 and merges, which breaks the
+  class structure. The tails at the `call` label are then merged by later sweeps into the 11-tail result.
+- `--rank` forcing the order [22, 21, 20, class of 20, class of 21, class of 22] gives 0, and so does the plain
+  source with `--noacc` (the totals term removed). No source order can give that grouping (it follows register
+  classes), and every source form tried keeps the order: `do { } while (0)`, a local handle (1600), the same code
+  compiled as C (`/TC`, standalone copy: also 11 tails).
+- `--noacc` on every TU changes 19 MATCH functions (for example `CarAI_78::ManageTrafficCarDirection_448CE0`,
+  `Ped::AttackTargetStateMachine_46D460`), so the game's C2 has the term. The 9.6f copy
+  (`Load_DMAVideo_DLL_4D2E50`) is byte-identical to 10.5 although 9.6f was built with VC7, so the function comes
+  from a prebuilt DMA library, built with a C2 whose cost check lacks the totals (another VC5/VC6 build).
+- What would match: compiling `dma_video.cpp` with a C2 patched like `--noacc` (or the library's real compiler).
+  Not done, since it means a second toolchain for one TU; `DMA_Video_Unload_5EB8C0` and the stub match either way.

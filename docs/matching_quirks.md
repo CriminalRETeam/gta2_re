@@ -3252,3 +3252,17 @@ useful as structure witnesses, with full `/O2` inlining like 10.5: statements an
 are still visible there (the `%bl` flag of USM's follow_behind), and so are cases or helpers removed later
 (USM's alongside `task_type` switch had a dead `case 1` in 1999, hence two more jump tables). They are not
 oracles for register allocation, scheduling or the inline budget.
+
+## A merged-into cross-jump target accepts one-instruction matches
+
+The cross-jump cost check (`Scripts/flowopt/README.md`, rule 3a) adds the larger of the two jumps' running totals
+to the matched size, and every merge raises the target's total to at least 20. So the first real merge into a
+target P0 makes every later candidate in the same list that shares only its last instruction with P0 (typically a
+`call` worth 11) merge too, unless that candidate was already compared and rejected before the first merge (a
+rejected candidate is not compared with the same target again). With several register classes of otherwise
+identical tails (round robin), the classes then collapse into one chain instead of one tail per class.
+`@C` lines of the `cjlog` variant show the sum and the totals; `--noacc` shows what the function would be
+without the term. `DMA_Video_LoadDll_5EB970` is the known case: the original keeps one tail per class, which
+stock VC6 SP4 only gives for a predecessor order grouped by class (not a source order), while `--noacc` gives a
+byte match with the plain source. The game itself needs the term (19 matched functions change without it), and
+the function is byte-identical in 9.6f (a VC7 build), so it comes from a prebuilt library compiled by another C2.
