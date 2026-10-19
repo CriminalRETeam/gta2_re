@@ -3148,6 +3148,13 @@ rules: `Fix16(v + i)` in a loop is strength-reduced into an induction register i
 (an explicit `Fix16 it(v); it += Fix16(1);` initialises it before), and an implicit `Fix16` argument conversion
 keeps the build-in-slot shape where an explicit `Fix16(y)` pushes the shifted value directly.
 
+## A file-static global allocates differently from an extern one (`miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180`)
+
+C2 gives a `static` (internal linkage) global symbol kind 8 and an extern global kind 7, and the kind-8 one is
+split into more colour webs, which changes the priorities of everything live across them. When a function that
+uses a global is a pure priority puzzle, try the global as a `static` in the TU (all its users then have to
+move into that TU). A hint in 9.6f: VC7 keeps a static in a register across stores through pointers and
+across calls to inline helpers that do not write it, where an extern global is reloaded.
 ## A call result used right away and kept for later wants two variables (`Map_0x370::CanMoveOntoSlopeTile_4E0130`)
 
 In region-walk mode (100+ blocks) a block that contains a call has no free register, so no successor can join its

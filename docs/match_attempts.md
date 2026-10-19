@@ -5792,6 +5792,35 @@ elsewhere. (3) No natural site form changes the graph: single shared tail, bool 
 branches, `break`, function scope; threading runs before allocation and dupB never duplicates here, so 9.6f's single
 tail is a VC7 cross-jump. D stays open on both routes.
 
+## miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180 (Oct 19): matched (80 -> 0)
+
+The fix is not in the function: `gStoredCar_6F7560` has internal linkage (`static`) in the original. With it, the
+true shape (else branch stores `gStoredCar`, then reloads `pParam2->field_8_car` for the id, `Reassign(8)` on the
+forwarded `gStoredCar`) scores 0. No spelling change was needed; `has_car_403B80()`/`get_car_416B60()` (as 9.6f
+calls them) and the open-coded `field_16C_car` both give 0.
+
+- Found with the 9.6f oracle. 9.6f 0x4790F0 has no row in `og_function_data_v96f.csv`; it ends at 0x4792A4 and was
+  added to the local `target_96f.json` by hand. VC7 (`Scripts/compile_vc7.sh`) on our source scored 201 (191 with
+  the getters), and two things in 9.6f looked like extra locals: `gStoredCar` loaded once into esi for
+  SetDriverPedType/IsDeactivated/MarkForDespawn, and no reload of `pParam2->field_8_car` after the `gStoredCar`
+  store. Real locals there make VC6 drop the 10.5 reloads (90), so they are not the source. `/Ow` reproduces both
+  (140, the rest is the GetBasePointer register use, an inline in 9.6f), but it breaks matched miss2 functions
+  against 9.6f (MissionFailOnArrest 0 -> 26, Next 0 -> 16), so the 9.6f TU was not built with it. A `static`
+  `gStoredCar`/`gStoredCarId` gives the same 140 with plain flags: VC7 knows a static's address is not stored
+  anywhere it cannot see, so field stores do not alias it. Every instruction then matches 9.6f in order, with
+  only round-robin register differences.
+- In VC6 only `gStoredCar` matters: `static Car_BC*` gives 0, `static s32 gStoredCarId` alone 80. Not it: a
+  non-static definition in the TU, with or without dllexport (80), an anonymous namespace (80), a `static Car_BC*&`
+  to the extern (143). Taking the static's address (`GLOBAL()` or `&`) still gives 0. priolog: a static is
+  symbol kind 8 (`k=000a0008`), an extern global kind 7. The kind-8 variable gets nine webs where the global got
+  five, the extra ones in the despawn blocks. That lowers pParam2 from 7 to 4 (below the zero constant at 7),
+  which gives (A), and the constant 3 rises from 7 to 14 and takes ecx, which gives (B). This fits MrSapps' note
+  that extra live ranges in those blocks lower pParam2.
+- Repo change: all four users of `gStoredCar` (10.5 references at 0x502DC0, 0x509180, 0x512CE0, 0x5130E0, all
+  in the range of one original miss2 source file that also holds 0x503080) have to share one TU. `gStoredCar` is
+  now a `static` in `ScriptManager_C1EA8.cpp` (no `EXTERN_GLOBAL`), and `Miss2_25C::MissionCleanUp_502DC0` and
+  `SCRCMD_STORE_CAR_INFO_509180` moved there. The other users still match. Like the existing function-local
+  statics, the DLL builds no longer map it to the exe's 0x6F7560; all of its users are reimplemented.
 ## Map_0x370::CanMoveOntoSlopeTile_4E0130 (Oct 19): matched (476 -> 0)
 
 Start: `permuter_score` 476, not near26's 290. Bisecting showed the regression came from 6fe7c06d (slope helpers
