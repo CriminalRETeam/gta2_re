@@ -5822,3 +5822,39 @@ below-block code no longer jumped into the down case's copy). Three source chang
   original's null-pSlope `je` goes to the wall check). 2 -> 0. The up case keeps it inside.
 
 Full build in the worktree: `[3412/3412] funcs OK`.
+
+## Frontend::ChangeMenuPage_4B3170 (Oct 19): duplicated tails and the alias rule, 8 unchanged
+
+Still only the `saved_main_stage` (S) / `saved_is_bonus` (B) byte slot swap. Nothing kept in Source/.
+
+- **Alias rule (scheduler location bits): does not apply.** `alog` on the function: the `this` base has 20
+  distinct (offset, size) locations, under the 31 that get their own bit, so no chaining. S and B are plain
+  stack symbols (kind 2), not per-base location entries, and the frame walk runs before the scheduler, so the
+  rule cannot change the slot list here.
+- **Duplicated tails at the `stage_idx` join** (the if/else for `stage_idx = 0/1` with statements copied into
+  both arms; the second FlowOpts cross-jumps them back, every copy counts in the walk). Code is identical to the
+  target in all of them; only the slots move. Counts from reflog, 1-byte list order, score:
+  - `game_mode = Get()` only in the arms: game_mode 3, S 2, order unchanged (bc, bsi, B, S), 76.
+  - game_mode + S (near31's x1): game_mode 4, S 3 reached at the not-bonus load, bsi 3 reached at the compare:
+    bc, S, bsi, B, 54.
+  - x1 with the multiplayer `game_mode_2` folded into `game_mode` (one function-scope `u8`, 7 refs): game_mode
+    lands on 0x2C again, **14**. Left: S/bsi at 0x1F/0x1E (S before bsi) and the AREA_COMPLETE `lea 0x1EB51` temp
+    at 0x30 instead of 0x2C (with a block-local game_mode_2 the temp shares its slot, with one variable it doesn't).
+  - game_mode + bonus_count: bc 10, game_mode 4, 58. game_mode + bc + S: S 3, 211. All four reads in the arms:
+    B 3 reached at the B test, order bc, B, bsi, 275.
+  - A `bonus_stage_idx = 0;` added to the copied tail is a dead store and is gone before the frame pass (14).
+  - The whole block copied into the AREA_COMPLETE arm (`stage_idx = 1; ...`) and a DEAD/QUIT arm: the AREA copy is
+    constant-folded (stage_idx known) and never merges, 625.
+- Why the tail lever can't finish it: with a single copy at frame time the layout is the reverse postorder, the
+  not-bonus arm always follows the B test, so S's region-entry load is always walked after B's test load. A tail
+  copy of S's store gives S 3 reached at that load, and bsi only reaches 3 at the compare after it; bsi's refs
+  live in the IsBonusStage arms, which can only be inside a copied tail together with B's store (B 3 at the test,
+  ahead of S). So the target order (bc, bsi, S, B) is out of reach for every duplicated-tail form.
+- **9.6f says the original has one copy.** `compile_vc7.sh` on the current source gives 9.6f's `movb $1,0x1c;
+  jmp <GetPlySlotIdx call>` at the end of the AREA_COMPLETE block, and VC7 does NOT cross-jump the x1 tails (the
+  AREA arm keeps its own call and loads). So the original's extra frame-walk reference of S (or missing one of B)
+  is not a source-level duplicate of the read block. (`add_96f_target.py 0x4b3170=0x4587b0` adds the 9.6f target;
+  VC7's register rotation in the read block still differs from 9.6f's, untried.)
+- Other notes: the final code has one more `stage_idx` ref than the walk because dupB copies the 2-instruction
+  `mov $1,stage_idx; jmp` block into the AREA_COMPLETE end and leaves the original in place as dead code (it is in
+  the target too).
