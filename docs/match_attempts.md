@@ -5932,3 +5932,32 @@ on stripped copies, `inlsim` searches over caller size, extra free sites per seg
   from case 2's `kAng180_6785A6 + angle` (member `operator+` or `Add_ool`, `this` bound to the global); the same
   source with case 2 through a free function `f(const Ang16& a, const Ang16& b)` has no temp (496). So the
   per-site helpers are still needed for the else polar, and the first branch is not fixed by the extern alone.
+
+**Round 4 (Oct 19, not matched).** Source left at the committed 257 form. Two structural changes that move sites
+between segments, on the round 3 small TU (stripped copies, `inl.sh -a`, `permuter_score.py`).
+
+- Lever 1, atan2 statement after the if/else behind a flag (`if (bStopped) { switch } else { ... }` then
+  `if (bStopped) field_130 = atan2(...)`): the getters and both `operator-` move after the else polar. `inlsim`
+  with the sites reordered, scanned over caller size 1050..1400 and 0..3 extra free sites in cases 2-7, default,
+  between the switch and the else, in the else, after the else polar and after the atan2, finds no window with
+  getters. Exact reason (inl.sh log at 1208): the else chain runs with 11..7 sites left, so its four Normalize need
+  B0 >= 778, 819, 860, 901 (B0 = budget at the first else `-=`) and the polar out of line needs
+  (B0 - 432 - 66) / 7 <= 56, B0 <= 890: an 11 node conflict whatever the caller size, and extra free sites after
+  the polar widen it (67 per site on the adds, 57 on the polar). Without getter sites (n = 5 at the polar) the
+  windows meet, but only with exactly one free site between the then switch and the else adds, at 1150..1154.
+- Lever 1 on the real compiler (getters, `u8`/`bool` alike): a flag computed from the compare
+  (`u8 bStopped = vel == kFpZero`) keeps `sete; test; je` (1206-1208 nodes, score 1312); a flag set in the
+  then arm (`bStopped = false; if (vel == kFpZero) { bStopped = true; ... }`) is threaded away and gives the
+  original's layout (one `jne` to the else, atan2 after the cases, two `ret`), 1208 nodes, score 962. Pattern as
+  the model predicts: case 2 ctor inline, 3rd else Normalize out, else polar sine inline. The `Fix16 dx/dy`
+  spelling (x first) keeps that pattern (1212, 962).
+- Lever 2, `Fix16 tx = pTarget->field_1AC_cam.x; Fix16 ty = ...;` before the atan2: no site, +7 each, and it
+  does give the register form `mov 0x1ac(%eax),%ecx; sub %ecx,%edx` (copying x first; y first loads y first),
+  with the `0x1b0(%eax)` load scheduled one instruction earlier than the original. In the return form it is 1191
+  nodes, score 961; its windows are the field-access ones (1132..1136, or a free site in cases 2-7/default with one
+  after the else polar at 1165..1170 or two at 1199..1203), 55 nodes or two sites away. Levers 1 + 2 together:
+  1214 nodes, score 1068, needs the C site above and -60 nodes.
+- Diagnostic scaffold (lever 2, dead `Fix16` locals in the default and after the else adds, 1224 nodes): all
+  decisions right except case 2's ctor (inline), score 650, below the best natural 749 even with the 0xC first
+  branch temp. It shows a second window at 1221..1225 that is off only by case 2: case 2's `kAng180 + angle` ctor
+  goes inline from 1186 nodes in the best natural form and from 1208 in the scaffold, which caps the caller size.
