@@ -5850,3 +5850,37 @@ has those two locals; they do not change the budget.
 Measured forms (permuter_score, stripped): natural with getters 874; + `field_40_rotation` 758; + `Ped* pLeader` 874;
 + single group `if` 901; fields 1240; fields + `pTarget` 1206 nodes, same decisions. Open: the source of about 70
 missing front-end nodes (or the extra free sites) between the 9.6f-shaped source and the original.
+
+**Round 2 (Oct 19, not matched).** Source left at the committed 257 form. Small TU copy of the function, `inl.sh -a`
+on stripped copies, `inlsim` searches over caller size, extra free sites per segment and callee sizes.
+
+- Free sites: `Fix16::operator+=` is free (36, two compiled-out asserts), so each `field_1C4/1C8 += vec` is a free
+  site; so are the three local ctors, `operator>`/`operator==` (33), `get_rotation_433A40` (32), `get_id` (24) and
+  `get_cam_x/y` (34). Round 1's windows already counted them. Segments for extra free sites: before the case 2
+  `operator+` (no effect), cases 2-7 (A), default (B), atan2 (C), else before its polar (D), after the else polar (E).
+  Only these combinations work: none extra at size 1132..1136; A >= 1 with E = 1, 2, 3 at about +33 nodes per E site.
+  B, C or D sites never work, nor uniform extra or missing sites per case, nor a per-block `Fix16 vec_x, vec_y`
+  (no window at all), nor `angle = angle - k` in the else (the ctor level halves the nested budget), nor the atan2
+  statement after the else branch. No pair of callee size changes within +-10 (AS, Normalize, polar, op*, op+, op-)
+  gives a window near the natural size.
+- Node prices measured on the caller: `{}` around a single statement +2 (so the brace style of the bUnk blocks
+  matters), `angle += k;` 10, `field_1C4 += vec;` 13, polar call 12, bUnk block 25, `x = y;` 5, `break;` 1,
+  atan2 statement 63 (fields), `if (bUnk) angle += k; radius = bUnk ? a : b;` 3 less than the if/else with braces
+  and the same code (C2 merges the two tests), `return;` after the atan2 instead of the `else` block -5,
+  `Ped* pTarget` local -7 but it lives in `ebp` and changes the code, `bool` or `u8` bUnk and `= 0`/`= false` 0.
+- The atan2 code settles getters vs fields: the original loads the target's cam into a register and subtracts it
+  (`mov 0x1ac(%eax),%ecx; sub %ecx,%edx`), which is what `get_cam_x()`/`get_cam_y()` compile to; fields give
+  `sub 0x1ac(%eax),%edx`. Same for the first branch (`mov 0x40(%eax),%ax; add %ax,%cx`: a getter temp). So the
+  source has the 9.6f getters, which put two free sites in segment C, and with free getters no caller size works.
+- With getters the model has exactly one way out: about 70..106 more budget charged by the atan2 statement, with
+  no extra site. Both getters charged at 41..53 nodes give a window at caller size 1184..1185 (up to 1190..1203
+  with one more free site in cases 2-7, depending on the getter size), and the 9.6f-shaped source with getters is
+  then only one decision off (case 2's ctor inline), at 1212. `Fix16 x = field_1AC_cam.x; return x;` or
+  `return Fix16(field_1AC_cam.x);` make the getter 41, but a full build with either breaks 14 matched functions
+  (3397/3411: `FindBestTargetPed_466BF0`, `Init_AI_Chase_44E0C0`, `dual_pistol_5DDA70`, ...), so the shared getters
+  are free in 10.5. The extra charge has to come from something specific to this statement that is still unknown.
+- Natural sizes with getters (stripped): 9.6f shape 1212; + single group `if` 1205; + no braces on the `else`
+  of cases 4-7/default 1195; + ternary instead 1190; + `return` form 1185-1190.
+- Scaffolds that reproduce the exact inline pattern (dead getter statements as free sites) score 636: `push %ebp`
+  lands at the switch head instead of inside case 3 for every natural-form variant tried, while the committed
+  per-site helper form keeps it in case 3. That is a second open difference once the pattern is right.

@@ -3158,3 +3158,10 @@ so the number of sites between the groups is forced: a getter instead of a field
 against the other, and no caller size or free site elsewhere can compensate. Solve these windows before trying
 caller size changes. Measure on a copy with `WIP_IMPLEMENTED` removed: `inl.sh` compiles the file as is and the
 macro adds 32 caller nodes.
+
+## A register load before an operator tells a getter from a field (`Ped::CalcApproachPointNearTargetPed_4645B0`)
+
+`a - pTarget->get_cam_x()` loads the getter's by-value result into a register and subtracts it
+(`mov 0x1ac(%eax),%ecx; sub %ecx,%edx`); `a - pTarget->field_1AC_cam.x` folds the memory operand
+(`sub 0x1ac(%eax),%edx`). Check this before choosing fields to fix an inline budget: a getter is a free site
+that moves the windows, and the asm says which one the original had.
