@@ -5884,3 +5884,43 @@ on stripped copies, `inlsim` searches over caller size, extra free sites per seg
 - Scaffolds that reproduce the exact inline pattern (dead getter statements as free sites) score 636: `push %ebp`
   lands at the switch head instead of inside case 3 for every natural-form variant tried, while the committed
   per-site helper form keeps it in case 3. That is a second open difference once the pattern is right.
+
+**Round 3 (Oct 19, not matched).** Source left at the committed 257 form. All results on the real compiler
+(`inl.sh` on a small TU holding the stripped function, scored with `permuter_score.py`).
+
+- Caller size scan, natural getters form, every size from 1104 to about 1350 (step 1 node: `{}` pairs, plus
+  removals of non-site statements below 1212), with extra free sites (`Fix16` locals) in case 4 (A) and after the
+  else adds (E). Ranges where at most one decision is off (site index in the target signature: 7 case 2 ctor, 23
+  case 7 polar, 24 default first `+=`, 33 else polar):
+
+  | A, E | best sizes | wrong decisions |
+  |---|---|---|
+  | 0, 0 | 1184-1185 | else polar |
+  | 1, 0 / 2, 0 / 3, 0 | 1184-1203 | else polar |
+  | 0, 1 | none | always 2 or more |
+  | 0, 2 | 1137-1144 | case 7 polar, default `+=` (else polar right) |
+  | 1, 1 | 1217-1229 | else polar |
+  | 1, 2 | 1141-1144 / 1251 | case 7 + default / else polar |
+
+  The full pattern is never reached: the model's negative claim holds on the real compiler. The same scan with
+  field access in the atan2 statement does reach it (A 1, E 2, sizes 1199-1203), as round 1 predicted. Natural
+  source at 1185 (single group `if`, ternary radius, `return` after the atan2) is one decision off (else polar),
+  score 749.
+- Store sinking: `radius = kFpThreeEighths; if (bUnk) {...}` in cases 4-7 and default is not sunk into an else
+  arm (`radius` is address-taken, the first store stays before the test), so the code differs from the original's
+  if/else. It is 30 nodes smaller (1182) and its size windows are the natural ones shifted, nothing new (scored 570
+  only because case 2's ctor goes out of line at that size).
+- bUnk block as a file-local inline helper: the natural body is 42 nodes (charged, not free), and its nested
+  `angle += k` gets `budget / sites_left` = 40 at case 0, so the whole `operator+=` is called out of line there. A
+  40-node spelling (comma expression) is free, but the free sites it adds in cases 0-3 give exactly the windows of
+  the natural form (same scan, same table row 0, 0); used in every case (after the sunk store), its nested `+=` goes
+  fully out of line in cases 0-2.
+- `push %ebp`: every natural getters form keeps it in case 3, as the original does (with or without extra free
+  sites). It moves to the switch head only when the atan2 statement uses field access, so round 2's scaffolds
+  (fields or dead getter statements) caused it; it is not an independent difference.
+- New lead, first branch: `angle = rot; angle += kAng180` compiles to the original's `mov k,%cx; add %ax,%cx` only
+  when `kAng180_6785A6` is not defined in the same TU; `DEFINE_GLOBAL(_INIT)` of it in Ped.cpp (with or without the
+  initialiser) gives the 0xC getter temp in the natural forms and in the committed form alike. The committed
+  per-site form with that first branch and unbraced `else radius = kFpThreeEighths_67878C;` in cases 4-7/default
+  (1201 nodes) scores 0 in a TU where the global is extern, 299 in Ped.cpp. Not usable as is (per-site helpers);
+  the global's definition may belong to another TU in the original (compare STORE_CAR_INFO_509180's linkage lever).
