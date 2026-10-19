@@ -3157,3 +3157,12 @@ original uses eax there, the near use is through a second variable (`p = Get(); 
 short web is coloured eax and the long one stays spilled. VC7 `/Ob0` (`Scripts/compile_vc7.sh`) against 9.6f is a
 quick oracle for this kind of first-block allocation. Related: `!MACRO(a && b)` and `MACRO(a && b) == false`
 compile to the same tests but leave different blocks, which can change which identical tails are cross-jumped.
+
+## The 9.6f build as a variable-identity oracle (`Frontend::ChangeMenuPage_4B3170`)
+
+When only stack slots differ, compile the function with VC7 (`Scripts/compile_vc7.sh`) and score it against 9.6f.
+VC7 packs locals by lifetime, so which locals share a slot there shows whether two uses were one variable or two
+(here one `stage_idx` was three variables in the original, and a `bonus_count` was two). A register rotation that
+differs in one block can come from an earlier block (a `Fix16(410)` temporary in CREDITS). Byte locals that
+share a 4-byte granule in VC6 can move when the 4-byte locals above them are split or merged, even when the
+1-byte list order and the walk positions stay the same.

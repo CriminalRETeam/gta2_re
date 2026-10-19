@@ -5858,3 +5858,28 @@ Still only the `saved_main_stage` (S) / `saved_is_bonus` (B) byte slot swap. Not
 - Other notes: the final code has one more `stage_idx` ref than the walk because dupB copies the 2-instruction
   `mov $1,stage_idx; jmp` block into the AREA_COMPLETE end and leaves the original in place as dead code (it is in
   the target too).
+
+## `Frontend::ChangeMenuPage_4B3170` (Oct 19, round 6): 8 -> 0 (MATCH) through the 9.6f build
+
+Four hypotheses ran in parallel (VC7 witness, variable identity, references elsewhere, permuter). The permuter
+(4361 compiles, all 48 passes on the read block) found nothing below 8 that keeps S in a 1-byte slot (merging S
+into `opponent_idx` gives 4 but moves it to a 4-byte slot). The VC7 witness did it:
+- Compile the function with `Scripts/compile_vc7.sh` and score it against 9.6f 0x4587B0 (`permuter_score.py --96f`,
+  target added with `add_96f_target.py 0x4b3170=0x4587b0`). The read block's register rotation differed from 9.6f
+  because of the CREDITS block above it: 9.6f builds `field_1EB34_credits_ypos` from a `Fix16(410)` temporary
+  (ctor call 0x401AF0, also the 4 extra frame bytes there), stored after `scroll_timer`. With
+  `field_1EB30_credits_scroll_timer = 0; field_1EB34_credits_ypos = Fix16(410);` the read block is 0 in registers.
+- VC7 packs locals by lifetime, so its slot sharing exposes the variable set: AREA_COMPLETE uses `main_stage_idx`
+  (not the option index) followed by `bonus_stage_idx = 0` (kept by 9.6f, a dead store in VC6); BONUS_AREA calls
+  `DecodeStage(GetStage(), &main_stage_idx, &bonus_stage_idx)`; the read block decodes into its own
+  `saved_bonus_code`, not AREA's `bonus_count`; the option index (`option_idx`) is only that; MULTIPLAYER has its
+  own `num_players`. All five are needed for VC7 to match 9.6f (whole function 704 -> 227, read block 58 -> 0;
+  the remaining 227 are member offsets and code changes between the versions).
+- In VC6 the walk positions and the 1-byte list order do not change (B still reaches 2 before S), yet S lands at
+  0x2A: the old 4-byte `stage_idx` (16 refs) is now three locals (`main_stage_idx` 5, `option_idx` 4,
+  `num_players` 7) sharing 0x14, which changes how the byte granules are packed. The lever was the 4-byte slot
+  stacking, not the 1-byte list. Variants without `saved_bonus_code` or without `bonus_stage_idx = 0` also give 0;
+  the full form is kept because it is the one that reproduces 9.6f.
+- Correction to the frame-pass notes: three function-scope locals without their address taken
+  (`main_stage_idx`, `option_idx`, `num_players`) do share slot 0x14 here; the "two function-scope locals never
+  share" probe only covered address-taken locals.
