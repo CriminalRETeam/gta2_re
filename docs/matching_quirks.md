@@ -3147,3 +3147,14 @@ x/y/this priorities reordered. Twenty spelling tries could not fix what was a wr
 rules: `Fix16(v + i)` in a loop is strength-reduced into an induction register initialised after the loop guard
 (an explicit `Fix16 it(v); it += Fix16(1);` initialises it before), and an implicit `Fix16` argument conversion
 keeps the build-in-slot shape where an explicit `Fix16(y)` pushes the shifted value directly.
+
+## Two bounded inline sites fix the number of sites between them (`Ped::CalcApproachPointNearTargetPed_4645B0`)
+
+When the original inlines a callee at one site and not at the next (Normalize at 67: inline at
+`(B - 41) / k >= 67`, out of line at the next `+=`), the budget there is fixed to a window of width about 41 for
+each count k of sites left. A second bounded group later (the else branch's four inline `-=` and its out-of-line
+polar) fixes a window for the budget there too. The charges between the two are fixed by the inline decisions,
+so the number of sites between the groups is forced: a getter instead of a field access moves one window by 67
+against the other, and no caller size or free site elsewhere can compensate. Solve these windows before trying
+caller size changes. Measure on a copy with `WIP_IMPLEMENTED` removed: `inl.sh` compiles the file as is and the
+macro adds 32 caller nodes.

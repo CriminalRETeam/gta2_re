@@ -5791,3 +5791,62 @@ join can never fail (free registers are monotone along compare -> side test -> o
 elsewhere. (3) No natural site form changes the graph: single shared tail, bool flag, inline tail, inverted
 branches, `break`, function scope; threading runs before allocation and dupB never duplicates here, so 9.6f's single
 tail is a VC7 cross-jump. D stays open on both routes.
+
+## Ped::CalcApproachPointNearTargetPed_4645B0 (0x4645B0): inline budget analysis (Oct 19, not matched)
+
+Source left at the committed 257 form (per-site helpers). No natural form beats it; this section records why.
+
+**Original's call pattern** (10.5 asm, 9.6f 0x436BF0 for the source shape): first branch `angle = rot; angle += kAng180`
+with `Normalize_406C20` out of line (9.6f: `get_rotation_433A40` + `compound_add`); cases 0, 1, 4, 5, 6: both `+=`
+call Normalize, both polar multiplies call `Multiply_408680`; case 2: `operator+` inline with its normalizing ctor out
+of line (`AssignNormalized_409300`); case 3: polar then the bUnk `+=` (new in 10.5, 9.6f's case 3 has no bUnk block);
+case 7: both Normalize out of line, sine multiply inline, cosine out of line; default: first `+=` fully inline,
+second out of line, sine inline, cosine out of line; atan2 line: both `Fix16::operator-` inline; else branch: the
+four `-=`/`+=` fully inline, polar with both multiplies out of line.
+
+**Natural form** (9.6f shape: `PolarToCartesian_41FC20` at every site, `angle += k`, case 2 `angle = kAng180 + angle`,
+first branch as in 9.6f, `pTarget->get_cam_x()/get_cam_y()` as 9.6f calls them). Caller size 1212 on a stripped copy
+(`inl.sh` compiles the file as is, and `WIP_IMPLEMENTED` adds 32 nodes: 1244). Site table, nested budget =
+(budget - size) / sites_left:
+
+| site | callee (size) | budget | left | nested | ours | original |
+|---|---|---|---|---|---|---|
+| first `+=` | AS 41 / Normalize 67 | 2424 | 58 | 41 | N out | N out |
+| c0, c1 `+=` x2 | AS / Normalize | 2383..2194 | 55..49 | 42..43 | out | out |
+| c0, c1 polar | P 66 / op* 57 x2 | 2301, 2153 | 53, 48 | 42, 43 | out, out | out, out |
+| c2 `kAng180 + angle` | op+ 54 / ctor 44 | 2087 | 45 | **45** | **ctor inline** | ctor out (needs <= 43) |
+| c2..c6 `+=`, polars | | 1989..1397 | 44..24 | 44..55 | out | out |
+| c7 `+=` x2, polar | | 1331, 1290, 1249 | 21, 20, 19 | 61, 62, 62 | out, out, sin in | same |
+| default `+=` x2 | | 1126, 1018 | 16, 15 | 67, 65 | in, out | in, out |
+| default polar | | 977 | 14 | 65 | sin in | sin in |
+| atan2 `-` x2 | op- 52 | 854, 802 | 10, 8 | | in | in |
+| else `-=`/`+=` x4 | | 750..426 | 7..4 | 101..96 | in | in |
+| else polar | | 318 | 3 | **84** | **sin in** | both out (needs <= 56) |
+
+So the natural form is two decisions off (score 874; 758 with `field_40_rotation` instead of the getter in the first
+branch, which removes the 0xC temp there). The default case sits exactly on its edge (nested 67).
+
+**Why no caller size or free site fixes it** (`inlsim` model, checked against `inl.sh`): with k = sites from the
+default's first `+=` to the end, that `+=` needs budget B in [41 + 67k, 82 + 67k) (inline, then the second one out).
+The else chain needs, at the first else `-=`, B0 in [633, 669) (all four Normalize inline and the polar out of line,
+7 sites left), and B0 = B - 376 (charges of the default case and the two subtractions). With the two getters k = 16:
+B0 in [737, 778), about 100 too high, whatever the caller size; free sites after the else polar move both windows
+together. Exhaustive search over caller size, free sites in every segment (cases 2-7, default, atan2 line, else switch,
+after the else polar), default position, else-first order, and callee sizes (AS 36-60, P 56-90, op- 44-66, op+ 50-120)
+finds no solution with getters. With field access for the target cam (k = 14) the windows meet, and then the
+original needs one of:
+- caller size 1132..1136 (ours 1204 with fields, stripped), or
+- one free site after the else polar, one or more in cases 2-7, size 1165..1170, or
+- two free sites after the else polar, one or more in cases 2-7, size 1199..1203.
+
+A scaffold with field access, two unused `Fix16` locals after the else adds, one in a `case 4` block and four code
+statements deleted to reach 1203 gives exactly the original's pattern (validated with `inl.sh`), but scores 854: the
+extra locals move `push %ebp` to the switch head and shift slots. None of the three options has a natural source:
+size-neutral spellings found give at most -13 (single `if` for the group check -5, `field_40_rotation` -6,
+`field_200_id` -2), a `Fix16` local costs 11 nodes, a getter statement 12, `const` globals 0, `Ped* pLeader` /
+`Ped* pTarget` locals about 0. 9.6f keeps the leader and the target in `edi` across calls, so the source probably
+has those two locals; they do not change the budget.
+
+Measured forms (permuter_score, stripped): natural with getters 874; + `field_40_rotation` 758; + `Ped* pLeader` 874;
++ single group `if` 901; fields 1240; fields + `pTarget` 1206 nodes, same decisions. Open: the source of about 70
+missing front-end nodes (or the extra free sites) between the 9.6f-shaped source and the original.
