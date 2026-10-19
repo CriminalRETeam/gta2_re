@@ -5924,3 +5924,11 @@ on stripped copies, `inlsim` searches over caller size, extra free sites per seg
   per-site form with that first branch and unbraced `else radius = kFpThreeEighths_67878C;` in cases 4-7/default
   (1201 nodes) scores 0 in a TU where the global is extern, 299 in Ped.cpp. Not usable as is (per-site helpers);
   the global's definition may belong to another TU in the original (compare STORE_CAR_INFO_509180's linkage lever).
+- Follow-up on that lead, in the real Ped.cpp: `EXTERN_GLOBAL(Ang16, kAng180_6785A6)` at the top and its
+  `DEFINE_GLOBAL_INIT` moved after the last function changes nothing (committed form 257, the per-site form above
+  299, natural 749, same as with the definition in place): C2 sees the TU's definition whatever its position, so
+  definition order is not a lever. The natural form is 749 both with the global extern (small TU) and defined, at
+  1185 nodes with one decision off (else polar), and keeps the 0xC first-branch temp in both: there the temp comes
+  from case 2's `kAng180_6785A6 + angle` (member `operator+` or `Add_ool`, `this` bound to the global); the same
+  source with case 2 through a free function `f(const Ang16& a, const Ang16& b)` has no temp (496). So the
+  per-site helpers are still needed for the else polar, and the first branch is not fixed by the extern alone.
