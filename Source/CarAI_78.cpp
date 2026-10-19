@@ -3203,7 +3203,8 @@ void CarAI_78::UpdateStateMachine_44E560()
 
                         if (gCurrCarAI_TargetCar_6779B0->GetMaxSpeed_439F30().mValue > speed_limit.mValue)
                         {
-                            if (pChase->field_3C_block_counter > 3u)
+                            // Spelling required by VC6's CSE numbering, like the one below (docs/match_attempts.md)
+                            if (3u < pChase->field_3C_block_counter)
                             {
                                 bOvertake = 1;
                                 waitCount = 10;
@@ -3218,7 +3219,8 @@ void CarAI_78::UpdateStateMachine_44E560()
                             switch (gCarChaseTaskTable_678E30->CountPursuers_474920(pChase->field_30_pTargetPed, field_0_car->field_54_driver))
                             {
                                 case 1:
-                                    waitCount = gPolice_7B8_6FEE40->field_654_max_wanted_level != 1 ? 10 : 50;
+                                    // Spelling required by VC6's CSE numbering (docs/match_attempts.md)
+                                    waitCount = gPolice_7B8_6FEE40->field_654_max_wanted_level - 1 != 0 ? 10 : 50;
                                     break;
 
                                 case 2:
