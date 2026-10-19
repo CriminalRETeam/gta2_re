@@ -3148,6 +3148,13 @@ rules: `Fix16(v + i)` in a loop is strength-reduced into an induction register i
 (an explicit `Fix16 it(v); it += Fix16(1);` initialises it before), and an implicit `Fix16` argument conversion
 keeps the build-in-slot shape where an explicit `Fix16(y)` pushes the shifted value directly.
 
+## A file-static global allocates differently from an extern one (`miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180`)
+
+C2 gives a `static` (internal linkage) global symbol kind 8 and an extern global kind 7, and the kind-8 one is
+split into more colour webs, which changes the priorities of everything live across them. When a function that
+uses a global is a pure priority puzzle, try the global as a `static` in the TU (all its users then have to
+move into that TU). A hint in 9.6f: VC7 keeps a static in a register across stores through pointers and
+across calls to inline helpers that do not write it, where an extern global is reloaded.
 ## A call result used right away and kept for later wants two variables (`Map_0x370::CanMoveOntoSlopeTile_4E0130`)
 
 In region-walk mode (100+ blocks) a block that contains a call has no free register, so no successor can join its
@@ -3166,3 +3173,31 @@ VC7 packs locals by lifetime, so which locals share a slot there shows whether t
 differs in one block can come from an earlier block (a `Fix16(410)` temporary in CREDITS). Byte locals that
 share a 4-byte granule in VC6 can move when the 4-byte locals above them are split or merged, even when the
 1-byte list order and the walk positions stay the same.
+## The scheduler tells field stores apart per base pointer, 32 locations at most (`Frontend::SetupMenuStringsOptionsElements_4B0220`)
+
+Whether two memory instructions get a dependence edge in the list scheduler (and so whether constant defs,
+`add $0xC,%esp` and loads can move above the stores) depends on how C2 numbers the locations, not on the offsets
+alone. The rule, from C2 SP4:
+
+- The graph builder (`0x1072a8ab`) adds RAW and WAW edges through `0x1072b509` and WAR edges through
+  `0x1072caad`. Both call the alias test `0x1070283e`, which for two `[reg+disp]` operands only compares their
+  points-to indexes (`[op+0x1c]`, `0x107027c1`): same index or index 1 means alias, two location entries of the
+  same base alias when `(1 << bit(B)) & mask(A)`, anything else is an intersection of points-to sets.
+- Location entries are built at `0x1073ac1f`. Walking the IL in order, every `[base + const]` access with a
+  distinct (offset, size) is added to the list of its base pointer, at most 0x60 per base (and 0x400 minus the
+  symbol count in all). The list is built by prepending, and bits are given from the head: the last 31
+  locations of a base, in first-appearance order, get bits 0 to 30, every earlier one shares bit 31 and so
+  aliases all the others that have bit 31. Overlapping locations also take each other's bits. Locations past
+  the 96th are not tracked and alias everything on that base.
+- The base is the pointer the source writes through, before it folds into `esi + disp`. `this->a[0].x` and
+  `this->a[7].y` share `this`'s list; `pPage->x` with `MenuPage_0xBCA* pPage = &a[k]` (or a reference, or one
+  pointer variable reassigned per page) gets a list of its own for each value, and the output is still all
+  `off(%esi)`. Two different bases alias each other through their points-to sets.
+
+So in a long run of stores through one base, everything but the last 31 locations is chained, each store one
+height above the next, and a constant's def lands two stores before its first use. 4B0220 (375 stores through
+`this`) only matched once each menu page went through its own pointer: the stores of a page are then unchained,
+equal height, and they issue in IL order after all the constant defs of the block, as in the original. With
+unchained stores the store order is the statement order again, and the source can keep the natural one (type, x,
+y, shape per element). `Scripts/x87_sched/alias_log.py` builds a C2 variant that logs every alias test and
+location entry (`@A`/`@D` lines in `last.log` next to the `sched.sh` output).
