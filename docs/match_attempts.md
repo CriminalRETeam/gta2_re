@@ -5961,3 +5961,25 @@ between segments, on the round 3 small TU (stripped copies, `inl.sh -a`, `permut
   decisions right except case 2's ctor (inline), score 650, below the best natural 749 even with the 0xC first
   branch temp. It shows a second window at 1221..1225 that is off only by case 2: case 2's `kAng180 + angle` ctor
   goes inline from 1186 nodes in the best natural form and from 1208 in the scaffold, which caps the caller size.
+
+**Round 5 (Oct 19, not matched).** Source left at the committed 257 form. Lever tested: the source order of the
+switch cases, since the inline walker visits case bodies in source order while the jump table is by value.
+
+- Layout rule (probe with cases written 2, 0, default, 1, 3, then default, 2, 0, 3, 1): VC6 lays out jump table case
+  bodies in source order, and puts the default body last whatever its source position. The original's table at
+  0x464E80 points to bodies in ascending address order 0, 1, 2, ..., 7 with the default after case 7, so its source
+  has cases 0..7 in value order; only the default's source position is left free.
+- Default position scan (`inlsim` on the lever 2 log, round 4's `Fix16 tx/ty` copies, default block moved before
+  each case, 0..2 extra free sites in case 3, the default, the else before its polar and after it, sizes
+  1080..1320): only "default last" reaches the pattern, with exactly round 4's windows (1132..1136, 1165..1170,
+  1199..1203). Any earlier position leaves the default's first `+=` out of line (best: 1 off before case 7, 2 off
+  elsewhere), because it needs the large nested budget of the end of the walk. Checked on the real compiler: with
+  the default before case 7 the decisions follow walk position (case 7 gets `Ai Ai`, the default `Ao Ao`), score
+  1063; default before case 0 or case 2, 1300. So moving case 2's budget by source order is impossible, and its
+  ctor still caps the caller size.
+- Natural free sites before the else polar (`Fix16 dx; Fix16 dy;` in the else block, used as the polar's outputs):
+  1213 nodes, three decisions off (case 2 ctor inline, fourth else Normalize out, else polar sine inline), score
+  707, the best natural score so far. The model with these two sites never reaches the pattern at any size or
+  extra free site count: the else polar keeps its sine inline everywhere (best: 2 off at 1165, 1184, 1221).
+- Open as before: the original needs 55..59 fewer nodes than the natural lever 2 form (1191), or free sites after
+  the else polar that no natural spelling provides.
