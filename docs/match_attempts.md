@@ -5878,3 +5878,46 @@ scheduler tells field stores apart per base pointer").
 
 Kept form: one `MenuPage_0xBCA* pPage;` set to `&field_136_menu_pages_array[k]` at the start of each page.
 Full build in the worktree: `[3413/3413] funcs OK`.
+
+## UpdateStateMachine_44E560 (Oct 19 evening): five theories
+
+Still 186 with the stock compiler (`Scripts/usm_44e560/experiment.patch`), 0 with `c2pred P659`. All three
+patch items are still needed: the 35 entries of header padding, the two cluster-C spellings, and the D compare.
+- **Const-0 web composition (cluster D): refuted.** Predicate 0x107129B0 (op 0x2f) only looks at the compare's
+  operands: the 0 stays an immediate only for a kind-1 IL temp whose record has +4 != 2. Otherwise the const-0
+  record is looked up in the hash at 0x1079D750 (created at 0x10712BFE if missing). The web's extent never
+  decides. One const-0 record covers the whole function (101 uses). A region-walk log (patches at 0x10742B3A and
+  0x10742A4C) puts blocks 658, 661 and 663 in one region on all three passes, and region sets are unions.
+  - Static linkage, one at a time, of the 57 CarAI_78 globals and of the externs `gCarChaseTaskTable`, `gPolice`
+    and `gSpriteGrid`: 186 at best. ypos 222, zpos 495, TargetX 529, all together 577.
+  - About 25 forms of the call value (const pointer, declaration in the condition, ternary, casts, `NULL`,
+    references, two variables): 186, 430 or 3283.
+  - Literal spellings (`0u`, `(u16)0`, `false`, chained store): 186.
+  - The site keeps `xor %edx,%edx; cmp %edx,%eax` in all of them, and on every cap from -35 to 130.
+- **The 35 entries.** `Scripts/usm_44e560/entry_probe.py` (branch `claude/usm-t2`) measures a construct's
+  entries and nodes on a probe TU in about 5 s.
+  - Only a declared, never-read local gives 1 entry with 0 nodes (also with `register`, an array or a POD struct).
+  - A local plus a compiled-out assert costs 1 entry and 2 nodes, a distinct string literal 1 entry and 4 nodes.
+    `static`, `extern`, `typedef`, `enum`, labels and `sizeof` give 0 entries.
+  - Only the total counts. Unused locals in `PolarToCartesian_41FC20` (29 expansions), `Fix16::operator>` (5)
+    and `GetOppositeFace_42A660` (1) also give 186 / 0.
+  - Neither 9.6f nor the out-of-line 10.5 copies can show such a local, since VC6 and VC7 both drop dead locals.
+- **VC7 witness against 9.6f 0x42D820.**
+  - In both pOwner branches of follow_behind, 9.6f stores `field_C_chase_state = choose_side_5` first. VC7 keeps
+    the source order there, so this is likely the original order (branch `claude/usm-t3`, 9a889481).
+    - With it: P659 still gives 0, but stock gives 240, because the const-0 web then also takes the no-owner
+      branch's `movw $0`.
+    - So the real fix for D must also leave that store as an immediate.
+  - pOwner was already a real variable in 9.6f (VC7 `cmp %ebp,%eax`).
+  - `heading_delta` goes through `Ang16::operator>` in 9.6f (VC7 diff 468 -> 332 lines), but that breaks the
+    VC6 inline budget (3237).
+- **Cluster C** costs exactly 4 (without the two spellings: 190, and 4 with P659).
+  - The original has two more CSE numbers before `IsAngleAhead_405C60(&field_10_angle, ...)`.
+  - A spelling adds one only when it makes the alongside left/right twins asymmetric (which side does not
+    matter). Symmetric spellings cancel out.
+  - Only other form at 186 / 0: `field_654_max_wanted_level - 1 ? 10 : 50` with `3u <`, still one-sided.
+  - The Oct 19 rules do not apply here. In-TU definitions and statics have no effect or are rejected. The
+    scheduler alias rule and the slot quicksort cannot matter: P659 already gives 0, so schedule and slots agree.
+- **Integration**: 135 candidates through a 2 s stock + oracle harness. The cost of D is additive and
+  independent of every other change, and no candidate turns it into `test`. With D and the else store both
+  pointing there, a different block graph through the region walk is the remaining route.
