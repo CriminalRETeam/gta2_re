@@ -5821,5 +5821,33 @@ calls them) and the open-coded `field_16C_car` both give 0.
   now a `static` in `ScriptManager_C1EA8.cpp` (no `EXTERN_GLOBAL`), and `Miss2_25C::MissionCleanUp_502DC0` and
   `SCRCMD_STORE_CAR_INFO_509180` moved there. The other users still match. Like the existing function-local
   statics, the DLL builds no longer map it to the exe's 0x6F7560; all of its users are reimplemented.
+## Map_0x370::CanMoveOntoSlopeTile_4E0130 (Oct 19): matched (476 -> 0)
+
+Start: `permuter_score` 476, not near26's 290. Bisecting showed the regression came from 6fe7c06d (slope helpers
+become macros): with the inline `is_gradient_slope(u8&)` the function had 26 `GetEffectiveBlock_4DFE60` calls like
+the original, with the macro 25 (the right case's third lookup cross-jumped into the left case, the up case's
+below-block code no longer jumped into the down case's copy). Three source changes, each checked on the real function:
+
+- The four below-block tests `if (!IS_GRADIENT_SLOPE(pBelow->...))` are `if (IS_GRADIENT_SLOPE(...) == false)`
+  (476 -> 290, 26 calls). Replacing only these four sites by a bool inline also gives 290; any three of them do
+  not (360-514). Every form that turns the `&&` into a value works (`== false`, `!= 0` on the `!`, a bool local,
+  `? true : false`); open-coded `<= 0 || >= 0xB4` and an inverted `if (IS_GRADIENT_SLOPE) {...} return false;`
+  stay at 442-476.
+- The first block (near26/near28's 2-byte diff): the first lookup goes into `pNext`, copied into `pBlock`, and the
+  base slope is read through `pNext` (also reused for the `z - 1` lookup of the else arm). 290 -> 2.
+  railcnt: 276 blocks at colour time, so the region walk. The call block has no free register (`@M used=1de
+  avail=0`), so the then-block always starts its own region and pBlock's piece there is a reload; no priority or
+  block-count change can join it to the def block. Forcing the carve (C2 patched at 0x10742a0c, `jb` -> `jmp`)
+  does give `{def, then}` but moves everything else (926). With a separate variable the then-block's use is its
+  own short web, coloured eax like the else arm's block pointer, and the cases keep the spilled pBlock.
+  Found with VC7 (`Scripts/compile_vc7.sh`, 1 s per compile, a copy of Source/ next to the variant, compared with
+  objdump of 9.6f 0x4656D0): 9.6f has the same first block as 10.5, and VC7 reproduces our reload for our source,
+  so it is a source property. Of ten top-block spellings only `pNext = Get(); pBlock = pNext; if (pNext)` gives
+  9.6f's first block. Not it: pBelow/pNext/pBlockBelow for the else arm only, `if ((pBlock = ...) != 0)`, a
+  joined `if (!pBase && z > 0) pBase = ...; if (pBase)` (one shared slope block), `pBlock` address-taken.
+  VC7's later block layout differs from 9.6f for every spelling (cross-jumping), so only the first block is usable
+  as an oracle there.
+- Down case: `if (pBlock->field_6_bottom & 0x400) break;` sits after `if (pSlope) {...}`, not inside it (the
+  original's null-pSlope `je` goes to the wall check). 2 -> 0. The up case keeps it inside.
 
 Full build in the worktree: `[3412/3412] funcs OK`.

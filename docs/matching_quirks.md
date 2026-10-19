@@ -3155,3 +3155,12 @@ split into more colour webs, which changes the priorities of everything live acr
 uses a global is a pure priority puzzle, try the global as a `static` in the TU (all its users then have to
 move into that TU). A hint in 9.6f: VC7 keeps a static in a register across stores through pointers and
 across calls to inline helpers that do not write it, where an extern global is reloaded.
+## A call result used right away and kept for later wants two variables (`Map_0x370::CanMoveOntoSlopeTile_4E0130`)
+
+In region-walk mode (100+ blocks) a block that contains a call has no free register, so no successor can join its
+region. A variable defined by a call, tested, used in the then-block and also used much later is split there: its
+then-block piece is a reload (`mov slot,%ecx`) even when the original reads the field straight from eax. If the
+original uses eax there, the near use is through a second variable (`p = Get(); pKeep = p; if (p) use(p);`): the
+short web is coloured eax and the long one stays spilled. VC7 `/Ob0` (`Scripts/compile_vc7.sh`) against 9.6f is a
+quick oracle for this kind of first-block allocation. Related: `!MACRO(a && b)` and `MACRO(a && b) == false`
+compile to the same tests but leave different blocks, which can change which identical tails are cross-jumped.
