@@ -302,3 +302,18 @@ temp after it.
   worse (4 -> 44 and 4 -> ~70 lines).
 - The near misses that read as register swaps in `docs/match_attempts.md` are worth a `ralog.sh`
   run each: equal priorities point at statement order, a nonzero score at a preference.
+
+## Slot offsets: creation order, then a quicksort by density (frames over 0x80 bytes)
+
+Reversed on `Frontend::ChangeMenuPage_4B3170` (Oct 19):
+
+- **Creation** (`0x10744132`, `0x10744B37`): the list is walked in order; a local tries the existing slots from
+  the LAST created to the first and joins the first one it does not interfere with (real lifetimes, not lexical
+  scope: a function-scope `game_mode` shares with a block-scope `game_mode_2`) if its size is at most twice the
+  slot's, else it creates a new slot.
+- **Sorting** (`0x10759F00`): when the frame exceeds 0x80 bytes the local slots are sorted by a K&R quicksort
+  (middle pivot, strict `>` compare, unstable) on the decreasing key `refs * 1000 / size`, where refs is the sum
+  of the walk counts of the slot's members; addresses then grow in sorted order. Equal keys (two 1-byte locals
+  with 2 refs each) are ordered by the quicksort's partitioning, i.e. by the whole slot table, so splitting or
+  merging an unrelated 4-byte local can swap two byte locals whose list order and walk positions did not change.
+  A simulator of the sort is in the Oct 19 notes of `docs/match_attempts.md` (ChangeMenuPage round 6).
