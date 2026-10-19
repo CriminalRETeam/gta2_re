@@ -15,15 +15,94 @@
 #include "map_0x370.hpp"
 #include "memory.hpp"
 #include "miss2_0x11C.hpp"
+#include "Ped.hpp"
+#include "PedGroup.hpp"
+#include "PublicTransport.hpp"
 
 DEFINE_GLOBAL(ScriptManager_C1EA8*, gScriptManager_6F8060, 0x6F8060);
 DEFINE_GLOBAL(SaveData_748, gGameSave_6F78C8, 0x6F78C8);
-DEFINE_GLOBAL(Car_BC*, gStoredCar_6F7560, 0x6F7560);
 DEFINE_GLOBAL(s32, gStoredCarId_6F78B4, 0x6F78B4);
 DEFINE_GLOBAL_INIT(u8, gbAllowMiss2Logging_6212EC, 1, 0x6212EC);
 
-//Car_BC* gStoredCar_6F7560;
-//s32 gStoredCarId_6F78B4;
+EXTERN_GLOBAL(SCR_POINTER*, gBasePtr_6F8070);
+
+// Internal linkage as in the original, where all users were in one file: VC6 allocates registers differently for it.
+static Car_BC* gStoredCar_6F7560;
+
+MATCH_FUNC(0x502dc0)
+void Miss2_25C::MissionCleanUp_502DC0()
+{
+    Miss2_C* pIter = &field_0_entries[0];
+    PedGroup* pGroup = gGame_0x40_67E008->field_38_local_player->field_2C4_player_ped->field_164_ped_group;
+    if (pGroup)
+    {
+        pGroup->DestroyGroup_4C93A0();
+    }
+
+    if (gStoredCar_6F7560)
+    {
+        if (gStoredCar_6F7560->field_6C_car_id == gStoredCarId_6F78B4)
+        {
+            gGame_0x40_67E008->field_38_local_player->PushCarInfo_564680(gStoredCar_6F7560);
+            gStoredCar_6F7560->SetDriverPedType_421560(ped_type::dummy_3);
+            if (!gStoredCar_6F7560->IsDeactivated_4214D0())
+            {
+                gStoredCar_6F7560->MarkForDespawn_421470();
+            }
+            gStoredCar_6F7560 = 0;
+            gStoredCarId_6F78B4 = 0;
+        }
+    }
+
+    for (s32 i = 0; i < GTA2_COUNTOF(field_0_entries); i++)
+    {
+        if ((u32*)pIter->field_0_car != NULL)
+        {
+            switch (pIter->field_4_type)
+            {
+                case 2:
+                    if (pIter->field_0_obj->field_14_id == pIter->field_8_entity_id)
+                    {
+                        pIter->field_0_obj->Dealloc_5291B0();
+                        pIter->field_0_obj->RequestRemovalWhenOffScreen_5290B0();
+                    }
+                    break;
+                case 3:
+                    if (pIter->field_0_ped->field_200_id == pIter->field_8_entity_id)
+                    {
+                        PedGroup* pPedGroup = pIter->field_0_ped->field_164_ped_group;
+                        if (pPedGroup)
+                        {
+                            pPedGroup->DisbandGroup_4C92A0();
+                        }
+                        pIter->field_0_ped->ForceDoNothing_462590();
+                        pIter->field_0_ped->field_21C_bf.bScheduledForRemoval = true;
+                    }
+                    break;
+                case 1:
+                    if (pIter->field_0_car->field_6C_car_id == pIter->field_8_entity_id)
+                    {
+                        gGame_0x40_67E008->field_38_local_player->PushCarInfo_564680(pIter->field_0_car);
+                        pIter->field_0_car->SetDriverPedType_421560(ped_type::dummy_3);
+                        if (!pIter->field_0_car->IsDeactivated_4214D0())
+                        {
+                            pIter->field_0_car->MarkForDespawn_421470();
+                        }
+                    }
+                    break;
+                default:
+                    break;
+            }
+            pIter->field_0_car = NULL;
+            pIter->field_8_entity_id = 0;
+            pIter->field_4_type = 0;
+            --field_258_count;
+        }
+        pIter++;
+    }
+    gScriptManager_6F8060->field_C1E70_wanted_car_model = 87;
+}
+
 
 MATCH_FUNC(0x503080)
 str_table_entry* ScriptManager_C1EA8::FindStringById_503080(s16 stringId)
@@ -63,6 +142,79 @@ EXTERN_GLOBAL_ARRAY(u8, kDecidePowerupGenTypes_6212F0, 19);
 
 // Sets the generator type for `car_model` from the script's car list, or type 0x41 when it isn't
 // in the list. Reads the global rather than `this`.
+MATCH_FUNC(0x509180)
+void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
+{
+    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pParam2 = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2);
+    Ped* pChar = pPointer->field_8_char;
+
+    if (pChar != NULL)
+    {
+        if (pChar->has_car_403B80())
+        {
+            pParam2->field_8_car = pChar->get_car_416B60();
+
+            if (gStoredCar_6F7560 != NULL)
+            {
+                if (gStoredCar_6F7560 != pParam2->field_8_car && gStoredCar_6F7560->field_6C_car_id != pParam2->field_8_car->field_6C_car_id)
+                {
+                    if (gStoredCar_6F7560->field_6C_car_id == gStoredCarId_6F78B4)
+                    {
+                        if (gCarManager_6C_677930->CanAllocateCarOfKind_446930(car_kind::recycled_1))
+                        {
+                            gStoredCar_6F7560->ReassignAllocatedCarType_443EE0(car_kind::recycled_1);
+                            gGame_0x40_67E008->field_38_local_player->PushCarInfo_564680(gStoredCar_6F7560);
+                            gStoredCar_6F7560->SetDriverPedType_421560(ped_type::dummy_3);
+
+                            if (!gStoredCar_6F7560->IsDeactivated_4214D0())
+                            {
+                                gStoredCar_6F7560->MarkForDespawn_421470();
+                            }
+                        }
+                        else if (gCarManager_6C_677930->CanAllocateCarOfKindWithSpare_446870(car_kind::mission_car_8))
+                        {
+                            gGame_0x40_67E008->field_38_local_player->PushCarInfo_564680(gStoredCar_6F7560);
+                            gStoredCar_6F7560->SetDriverPedType_421560(ped_type::dummy_3);
+
+                            if (!gStoredCar_6F7560->IsDeactivated_4214D0())
+                            {
+                                gStoredCar_6F7560->MarkForDespawn_421470();
+                            }
+                        }
+                        else
+                        {
+                            gGame_0x40_67E008->field_38_local_player->PushCarInfo_564680(gStoredCar_6F7560);
+                            gStoredCar_6F7560->SetDriverPedType_421560(ped_type::dummy_3);
+
+                            gStoredCar_6F7560->DespawnSoon_421490();
+                        }
+                    }
+
+                    gStoredCar_6F7560 = pParam2->field_8_car;
+                    gStoredCarId_6F78B4 = pParam2->field_8_car->field_6C_car_id;
+
+                    gStoredCar_6F7560->ReassignAllocatedCarType_443EE0(car_kind::mission_car_8);
+
+                    if (!gPublicTransport_181C_6FF1D4->is_bus_579AA0(pParam2->field_8_car))
+                    {
+                        pParam2->field_8_car->LockoutThiefUnlessPermanent_475C40();
+                    }
+                }
+            }
+            else
+            {
+                gStoredCar_6F7560 = pParam2->field_8_car;
+                gStoredCarId_6F78B4 = pParam2->field_8_car->field_6C_car_id;
+                gStoredCar_6F7560->ReassignAllocatedCarType_443EE0(car_kind::mission_car_8);
+            }
+        }
+    }
+
+    miss2_0x11C::Next_503620(gBasePtr_6F8070);
+}
+
 MATCH_FUNC(0x511A70)
 void ScriptManager_C1EA8::SetGeneratorTypeForCar_511A70(s32 car_model, Generator_2C* pGen)
 {
