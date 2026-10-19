@@ -963,11 +963,11 @@ char_type Map_0x370::TakeLowerBlockHasArrows_4E0120()
 // The up and down cases step y in place (`y--` / `y++`) before the shared lookups: that keeps y referenced in the
 // below-block lookups (priority 98 vs z 76, x 68), which puts y in edi and z in ebp like the original. The right
 // and left cases keep `x + 1` / `x - 1` expressions (an in-place `x++` lifts x above z: 484).
-WIP_FUNC(0x4E0130)
+// The base slope is read through pNext, not pBlock: a separate variable keeps the first lookup's result in eax.
+// The below-block gradient tests are `== false`: a plain `!` changes which tails VC6 cross-jumps.
+MATCH_FUNC(0x4E0130)
 bool Map_0x370::CanMoveOntoSlopeTile_4E0130(s32 x, s32 y, s32 z, s32 path_direction, u8* pSlopeZDelta, char_type bReportStepUp)
 {
-    WIP_IMPLEMENTED;
-
     gmp_block_info* pBlock;
     gmp_map_slope* pSlope = 0;
     gmp_map_slope* pBaseSlope = 0;
@@ -977,17 +977,18 @@ bool Map_0x370::CanMoveOntoSlopeTile_4E0130(s32 x, s32 y, s32 z, s32 path_direct
 
     field_36E_bBlockedByTerrain = 0;
 
-    pBlock = GetEffectiveBlock_4DFE60(x, y, z);
-    if (pBlock)
+    pNext = GetEffectiveBlock_4DFE60(x, y, z);
+    pBlock = pNext;
+    if (pNext)
     {
-        pBaseSlope = get_slope_struct(pBlock->field_B_slope_type);
+        pBaseSlope = get_slope_struct(pNext->field_B_slope_type);
     }
     else if (z > 0)
     {
-        gmp_block_info* pBlockBelow = GetEffectiveBlock_4DFE60(x, y, z - 1);
-        if (pBlockBelow)
+        pNext = GetEffectiveBlock_4DFE60(x, y, z - 1);
+        if (pNext)
         {
-            pBaseSlope = get_slope_struct(pBlockBelow->field_B_slope_type);
+            pBaseSlope = get_slope_struct(pNext->field_B_slope_type);
         }
     }
 
@@ -1117,7 +1118,7 @@ bool Map_0x370::CanMoveOntoSlopeTile_4E0130(s32 x, s32 y, s32 z, s32 path_direct
                 pBelow = GetEffectiveBlock_4DFE60(x, y, z - 1);
                 if (pBelow && !IS_AIR_TYPE(pBelow->field_B_slope_type))
                 {
-                    if (!IS_GRADIENT_SLOPE(pBelow->field_B_slope_type))
+                    if (IS_GRADIENT_SLOPE(pBelow->field_B_slope_type) == false)
                     {
                         return false;
                     }
@@ -1216,11 +1217,11 @@ bool Map_0x370::CanMoveOntoSlopeTile_4E0130(s32 x, s32 y, s32 z, s32 path_direct
                         }
                         return false;
                     }
+                }
 
-                    if (pBlock->field_6_bottom & 0x400)
-                    {
-                        break;
-                    }
+                if (pBlock->field_6_bottom & 0x400)
+                {
+                    break;
                 }
             }
 
@@ -1266,7 +1267,7 @@ bool Map_0x370::CanMoveOntoSlopeTile_4E0130(s32 x, s32 y, s32 z, s32 path_direct
                 pBelow = GetEffectiveBlock_4DFE60(x, y, z - 1);
                 if (pBelow && !IS_AIR_TYPE(pBelow->field_B_slope_type))
                 {
-                    if (!IS_GRADIENT_SLOPE(pBelow->field_B_slope_type))
+                    if (IS_GRADIENT_SLOPE(pBelow->field_B_slope_type) == false)
                     {
                         return false;
                     }
@@ -1427,7 +1428,7 @@ bool Map_0x370::CanMoveOntoSlopeTile_4E0130(s32 x, s32 y, s32 z, s32 path_direct
                 pBelow = GetEffectiveBlock_4DFE60(x + 1, y, z - 1);
                 if (pBelow && !IS_AIR_TYPE(pBelow->field_B_slope_type))
                 {
-                    if (!IS_GRADIENT_SLOPE(pBelow->field_B_slope_type))
+                    if (IS_GRADIENT_SLOPE(pBelow->field_B_slope_type) == false)
                     {
                         return false;
                     }
@@ -1585,7 +1586,7 @@ bool Map_0x370::CanMoveOntoSlopeTile_4E0130(s32 x, s32 y, s32 z, s32 path_direct
                 pBelow = GetEffectiveBlock_4DFE60(x - 1, y, z - 1);
                 if (pBelow && !IS_AIR_TYPE(pBelow->field_B_slope_type))
                 {
-                    if (!IS_GRADIENT_SLOPE(pBelow->field_B_slope_type))
+                    if (IS_GRADIENT_SLOPE(pBelow->field_B_slope_type) == false)
                     {
                         return false;
                     }

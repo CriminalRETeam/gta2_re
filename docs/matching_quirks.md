@@ -3147,3 +3147,13 @@ x/y/this priorities reordered. Twenty spelling tries could not fix what was a wr
 rules: `Fix16(v + i)` in a loop is strength-reduced into an induction register initialised after the loop guard
 (an explicit `Fix16 it(v); it += Fix16(1);` initialises it before), and an implicit `Fix16` argument conversion
 keeps the build-in-slot shape where an explicit `Fix16(y)` pushes the shifted value directly.
+
+## A call result used right away and kept for later wants two variables (`Map_0x370::CanMoveOntoSlopeTile_4E0130`)
+
+In region-walk mode (100+ blocks) a block that contains a call has no free register, so no successor can join its
+region. A variable defined by a call, tested, used in the then-block and also used much later is split there: its
+then-block piece is a reload (`mov slot,%ecx`) even when the original reads the field straight from eax. If the
+original uses eax there, the near use is through a second variable (`p = Get(); pKeep = p; if (p) use(p);`): the
+short web is coloured eax and the long one stays spilled. VC7 `/Ob0` (`Scripts/compile_vc7.sh`) against 9.6f is a
+quick oracle for this kind of first-block allocation. Related: `!MACRO(a && b)` and `MACRO(a && b) == false`
+compile to the same tests but leave different blocks, which can change which identical tails are cross-jumped.
