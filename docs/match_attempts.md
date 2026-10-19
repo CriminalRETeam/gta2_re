@@ -6016,3 +6016,37 @@ switch cases, since the inline walker visits case bodies in source order while t
 - What is left: at 1184..1185 nodes with getters, the else polar's nested budget is (B - 66) / 3 = 84 and must be
   <= 56, i.e. about 70..106 more charge between the default's first `+=` and the else chain with no extra site.
   No natural construct found supplies it; the setter diagnostic shows the compiler can produce the pattern.
+
+**Round 7 (coordinator + 5 workers, after the 156 form): the last decision is closed on every legitimate route.**
+The else polar needs its nested budget (B - 66) / 3 <= 56 (ours 84 at 1184..1185 nodes), i.e. +70..+107 charge
+between the default's second `+=` and the else polar with no extra site, or a charged extra site above 136 plus a
+free site in cases 3-7, or two fewer sites after the default. Results:
+- T1 (window model, verified against inl.sh from 1150 to 1240 nodes): pure charge 70..107 works only after the
+  default's second `+=`; one or two charged sites alone never work (k grows by 67 per site while the case 2 ctor caps
+  the size at 1185, +22 per free site after case 2); a charged site >= 136 plus a free site works at 1217..1229; the
+  "exchange" (one `.mValue` raw add in the default, k 16 -> 15, plus one charged dead Fix16 site) works at 1184..1185.
+  On the real compiler the exchange gives SCORE 0 on Ped.cpp (`Fix16 unused;` in the default, one raw add, a dead
+  `Fix16::Abs(radius);` after the atan2 line, comma forms in cases 0-3; 1197 nodes), proving the pattern is reachable;
+  it is padding (unused local, dead Abs, asymmetric raw add) and is not committed. Dead `MaxAbsDistance` (326) and dead
+  `Ang16 +=` (258) leave calls or Normalize code behind.
+- T2 (callee sizes, modelled, then checked on the real compiler and on the objects of all 112 TUs): only four
+  callees give the pattern alone and all break other matches: op- 87..105 (op- 54 already changes 9 MATCH, 90 changes
+  61), getters 41..53 (14), `Fix16(s32,u8)` and sine/cosine (wrong decisions elsewhere in this function). AS alone at
+  45..55 never works (it is also charged at the 16 `+=` before the default, which moves that window); P, op*, op+
+  alone never. Pairs: AS +3..+8 with Normalize -5..-8, Normalize -5..-7 with P +7..+15, Normalize -1..-4 with op-
+  +24..+30. Normalize 65/63 changes ManageTrafficCarDirection_448CE0, 61 changes 3 matches, 59 six (one shared
+  Normalize: 9.6f's ctor, += and -= all call 0x401C10). AS 47/49/51 and P 68 change no other match, AS 53 one, P 72
+  two, op* 59 thirteen. AS 47 + Normalize 61 scores 0 on Ped.cpp at the cost of ManageTrafficCarDirection,
+  HandleGenericCollision_54A530 and GetNextRotationToward_550F60: net loss, not applied.
+- T3 (directives): `#pragma inline_depth` acts per call site (0 puts the polar out of line, 1/2/255 nothing),
+  `inline_recursion`/`auto_inline` nothing, `__forceinline` only removes charge (494..2380). Excluded.
+- T4 (fewer sites, identical code): `field_1C4_move_target_x.mValue += vec_x.mValue;` in the default is byte-identical
+  and removes free sites (k 14 at 1183: else polar right, case 2 ctor and case 6 sine wrong, 643; floor 1168 with
+  the known savings, windows 1132..1136 or 1165..1170 with two free sites). Refuted by VC7 against 9.6f: the raw adds
+  score 94 and `field_200_id` 355 where the natural form scores 0, so 9.6f calls `operator+=` and the getters there.
+- T5 (plausible dead code): VC6 deletes a dead Fix16 op-/op*/Abs (charge kept, no code) but never anything through
+  Normalize, and a dead `MaxAbsDistance` keeps its out-of-line calls; VC7 deletes the same dead calls, so 9.6f cannot
+  confirm or exclude dead code. With getters no combination of dead Fix16 sites has a window; with the (refuted) local
+  copies, windows exist but need 35..56 fewer nodes than the real forms.
+Conclusion: the function matches only with padding or with a shared-header size change that loses matches
+elsewhere. The committed natural form (156, then-branch byte-exact) stays WIP.
