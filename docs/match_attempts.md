@@ -6050,3 +6050,27 @@ free site in cases 3-7, or two fewer sites after the default. Results:
   copies, windows exist but need 35..56 fewer nodes than the real forms.
 Conclusion: the function matches only with padding or with a shared-header size change that loses matches
 elsewhere. The committed natural form (156, then-branch byte-exact) stays WIP.
+
+**Matched with a reconstructed dead statement (Oct 19).** The project owner accepted a documented reconstruction
+after round 7. The committed form is the 156 natural form plus three spellings, scored 0 on Ped.cpp and verified by
+the full build (1184 caller nodes, `inl.sh` on the committed file):
+- `bUnk = true, field_264_killer_id_timer = 50;` for the group `if` and `angle += kAng180_6785A6, radius =
+  kFpThreeQuarters_678794;` in the bUnk blocks of cases 0-3 (comma forms, same code as the braced blocks). They
+  only lower the caller size: -2 and -8 nodes. Case 2's `operator+` gets budget 2031 with 45 sites left, nested 43,
+  so its normalizing ctor (44) stays out of line; at 1186 nodes it goes inline (score 636). Round 7's `Fix16 unused;`
+  in the default (a free site that lifted that cap by about 22 nodes) is no longer needed.
+- `field_1C4_move_target_x.mValue += vec_x.mValue;` for the default's first target add (same bytes as
+  `Fix16::operator+=`): one free site fewer after the default's first `+=`, so k goes from 16 to 15. With both adds
+  written `+=` (and the dead Abs at any placement) the score is 262: the window model needs k to drop by one.
+- `Fix16::Abs(radius);` after the atan2 line, dead: VC6 deletes its code, but the inline walker charges it (57,
+  plus its nested `operator-` 42, one site). With the raw add this exchanges a free site for a charged one: the
+  default's first `+=` keeps nested 67 (Normalize inline, the second one out at 64), and the else polar gets budget
+  207 with 3 sites left, nested 47 <= 56, so both multiplies go out of line as in the original. The same Abs also
+  gives 0 at the start of the else branch, just before the else polar, or as `Fix16::Abs(vec_x)`.
+
+The Abs is not claimed to be the original line: the original must have had some computation between the default
+and the else polar that the compiler removed, charged about 70..107 nodes in one site (rounds 6 and 7). If another
+build (a later 9.6f-like build, a debug build, a PDB) ever shows that line, replace the Abs with it; if it also
+shows the default's adds, or one free site fewer elsewhere after the default's first `+=`, restore
+`field_1C4_move_target_x += vec_x;` and check the case 2 cap again (the size must stay at 1184..1185 or below
+with the windows of round 7).

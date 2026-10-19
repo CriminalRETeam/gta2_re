@@ -3165,3 +3165,12 @@ macro adds 32 caller nodes.
 (`mov 0x1ac(%eax),%ecx; sub %ecx,%edx`); `a - pTarget->field_1AC_cam.x` folds the memory operand
 (`sub 0x1ac(%eax),%edx`). Check this before choosing fields to fix an inline budget: a getter is a free site
 that moves the windows, and the asm says which one the original had.
+
+## A dead `Fix16` operator is deleted but still charged (`Ped::CalcApproachPointNearTargetPed_4645B0`)
+
+VC6 removes the code of a dead `Fix16::Abs(x);` or dead `Fix16` operator (`a - b;`, `a * b;`) but the inline walker
+has already charged it to the caller's budget as one site, with its nested calls (Abs: 57 + 42). Nothing that goes
+through `Ang16::Normalize` or an out-of-line call disappears this way. When the inline windows prove the original
+had extra charge with no visible code, this is the only route: in CalcApproachPoint a dead `Fix16::Abs(radius);`
+after the atan2 line, plus one raw `.mValue +=` in the default (one free site fewer), moves the else polar's nested
+budget from 84 to 47 and matches. Document it as a reconstruction, see `docs/match_attempts.md`.
