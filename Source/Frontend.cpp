@@ -411,20 +411,21 @@ inline s32 TagGame_28::GetLeaderIdx_453AB0()
     return gGameSession_67E8E0.GetWinnerIdx_4C5C20();
 }
 
-WIP_FUNC(0x4B3170)
+MATCH_FUNC(0x4B3170)
 void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
 {
-    WIP_IMPLEMENTED;
     u8 bonus_count;
-    u8 stage_idx;
+    u8 option_idx;
     u8 i;
     u8 saved_main_stage;
+    u8 saved_bonus_code;
     u8 saved_is_bonus;
     u8 main_stage_idx;
     u8 bonus_stage_idx;
     u8 game_mode;
     u8 opponent_idx;
     u8 player;
+    u8 num_players;
     s32 user_idx;
     wchar_t player_name[50];
     wchar_t quit_name[64];
@@ -444,14 +445,15 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
     }
     else if (menu_page_idx == MENUPAGE_CREDITS)
     {
-        field_1EB34_credits_ypos = 0x668000;
         field_1EB30_credits_scroll_timer = 0;
+        field_1EB34_credits_ypos = Fix16(410);
         field_1EB38_credits_line_idx = 0;
         field_C9B3_key_held = 1;
     }
     else if (menu_page_idx == MENUPAGE_AREA_COMPLETE)
     {
-        stage_idx = gGameSession_67E8E0.GetMainStageIdx_4C5980();
+        main_stage_idx = gGameSession_67E8E0.GetMainStageIdx_4C5980();
+        bonus_stage_idx = 0;
         bonus_count = gGameSession_67E8E0.GetLevelFinishBonusType_4C59C0();
         if (gGameSession_67E8E0.get_secret_tokens_collected_453A80() == 50)
         {
@@ -460,20 +462,20 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
 
         for (i = 1; i <= bonus_count; i++)
         {
-            if (i < field_1EB51_num_bonus_stages[stage_idx])
+            if (i < field_1EB51_num_bonus_stages[main_stage_idx])
             {
-                gPlyDat_6FEAC0->UnlockStage_56BBD0(stage_idx, i);
+                gPlyDat_6FEAC0->UnlockStage_56BBD0(main_stage_idx, i);
             }
         }
 
-        if (stage_idx == (u8)field_1EB50_num_main_stages - 1)
+        if (main_stage_idx == (u8)field_1EB50_num_main_stages - 1)
         {
             field_136_menu_pages_array[3].field_4_options_array[0].field_1_is_unlocked = 0;
             field_136_menu_pages_array[3].field_B8A[0].field_4_is_option_unlocked = 0;
         }
         else
         {
-            gPlyDat_6FEAC0->UnlockStage_56BBD0(stage_idx + 1, 0);
+            gPlyDat_6FEAC0->UnlockStage_56BBD0(main_stage_idx + 1, 0);
             field_136_menu_pages_array[3].field_4_options_array[0].field_1_is_unlocked = 1;
             field_136_menu_pages_array[3].field_B8A[0].field_4_is_option_unlocked = 1;
         }
@@ -482,7 +484,7 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
         field_136_menu_pages_array[3].field_B8A[3].field_4_is_option_unlocked = 0;
         for (i = 1; i < 4; i++)
         {
-            if (pStats->field_0_plyr_stage_stats[stage_idx][i].field_0_is_stage_unlocked && i < field_1EB51_num_bonus_stages[stage_idx])
+            if (pStats->field_0_plyr_stage_stats[main_stage_idx][i].field_0_is_stage_unlocked && i < field_1EB51_num_bonus_stages[main_stage_idx])
             {
                 field_136_menu_pages_array[3].field_4_options_array[3].field_1_is_unlocked = 1;
                 field_136_menu_pages_array[3].field_B8A[3].field_4_is_option_unlocked = 1;
@@ -491,11 +493,11 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
     }
     else if (menu_page_idx == MENUPAGE_BONUS_AREA)
     {
-        gGameSession_67E8E0.DecodeStage_453A60(gGameSession_67E8E0.GetStage_4C5990(), &stage_idx, &bonus_count);
-        swprintf(tmpBuff_67BD9C, L"%d", pStats->field_0_plyr_stage_stats[stage_idx][bonus_count].field_8_stage_latest_score);
+        gGameSession_67E8E0.DecodeStage_453A60(gGameSession_67E8E0.GetStage_4C5990(), &main_stage_idx, &bonus_stage_idx);
+        swprintf(tmpBuff_67BD9C, L"%d", pStats->field_0_plyr_stage_stats[main_stage_idx][bonus_stage_idx].field_8_stage_latest_score);
         wcsncpy(field_136_menu_pages_array[6].field_518_elements_array[2].field_6_element_name_str, tmpBuff_67BD9C, 50);
-        if (gGameSession_67E8E0.IsStartedFromPlayBonusMenu_4C5AE0() || stage_idx >= (u8)field_1EB50_num_main_stages - 1 ||
-            !pStats->field_0_plyr_stage_stats[stage_idx + 1][0].field_0_is_stage_unlocked)
+        if (gGameSession_67E8E0.IsStartedFromPlayBonusMenu_4C5AE0() || main_stage_idx >= (u8)field_1EB50_num_main_stages - 1 ||
+            !pStats->field_0_plyr_stage_stats[main_stage_idx + 1][0].field_0_is_stage_unlocked)
         {
             field_136_menu_pages_array[6].field_4_options_array[1].field_1_is_unlocked = 0;
             field_136_menu_pages_array[6].field_B8A[1].field_4_is_option_unlocked = 0;
@@ -510,10 +512,10 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
     if (menu_page_idx == MENUPAGE_AREA_COMPLETE || menu_page_idx == MENUPAGE_DEAD || menu_page_idx == MENUPAGE_RESULTS_PLAYER_QUIT)
     {
         // the option to check is "continue" (1) on the area complete page, and 0 on the dead/quit pages
-        stage_idx = (menu_page_idx == MENUPAGE_DEAD || menu_page_idx == MENUPAGE_RESULTS_PLAYER_QUIT) ? 0 : 1;
+        option_idx = (menu_page_idx == MENUPAGE_DEAD || menu_page_idx == MENUPAGE_RESULTS_PLAYER_QUIT) ? 0 : 1;
         game_mode = gGameSession_67E8E0.GetPlySlotIdx_4C59B0();
         saved_main_stage = field_EDE8_plySlots[game_mode].field_1_last_saved_stage;
-        bonus_count = field_EDE8_plySlots[game_mode].field_2_last_saved_bonus_stage_code;
+        saved_bonus_code = field_EDE8_plySlots[game_mode].field_2_last_saved_bonus_stage_code;
         saved_is_bonus = field_EDE8_plySlots[game_mode].field_3_last_saved_is_bonus;
         if (!gGameSession_67E8E0.IsBonusStage_4C59A0())
         {
@@ -527,23 +529,23 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
 
         if (!saved_is_bonus)
         {
-            bonus_count = 0;
+            saved_bonus_code = 0;
         }
         else
         {
-            gGameSession_67E8E0.DecodeStage_453A60(bonus_count, &saved_main_stage, &bonus_count);
+            gGameSession_67E8E0.DecodeStage_453A60(saved_bonus_code, &saved_main_stage, &saved_bonus_code);
         }
 
         MenuPage_0xBCA* pPage = &field_136_menu_pages_array[menu_page_idx];
-        if (main_stage_idx == saved_main_stage && bonus_stage_idx == bonus_count)
+        if (main_stage_idx == saved_main_stage && bonus_stage_idx == saved_bonus_code)
         {
-            pPage->field_4_options_array[stage_idx].field_1_is_unlocked = 1;
-            pPage->field_B8A[stage_idx].field_4_is_option_unlocked = 1;
+            pPage->field_4_options_array[option_idx].field_1_is_unlocked = 1;
+            pPage->field_B8A[option_idx].field_4_is_option_unlocked = 1;
         }
         else
         {
-            pPage->field_4_options_array[stage_idx].field_1_is_unlocked = 0;
-            pPage->field_B8A[stage_idx].field_4_is_option_unlocked = 0;
+            pPage->field_4_options_array[option_idx].field_1_is_unlocked = 0;
+            pPage->field_B8A[option_idx].field_4_is_option_unlocked = 0;
         }
     }
 
@@ -558,7 +560,7 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
     }
     else if (menu_page_idx == MENUPAGE_MULTIPLAYER_RESULTS)
     {
-        stage_idx = gGameSession_67E8E0.GetMaxPlayers_4C5BF0();
+        num_players = gGameSession_67E8E0.GetMaxPlayers_4C5BF0();
         gTagGame_6F8450.GetLeaderIdx_453AB0();
         user_idx = (u8)gGameSession_67E8E0.GetUserPlayerIdx_4C5BE0();
         u8 game_mode_2 = gGameSession_67E8E0.GetMultiplayerGamemode_4C5BC0();
@@ -604,7 +606,7 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
 
         for (player = 0; player < 6; player++)
         {
-            if (player < stage_idx)
+            if (player < num_players)
             {
                 field_136_menu_pages_array[7].field_518_elements_array[player + 1].field_1_is_it_displayed = 1;
                 field_136_menu_pages_array[7].field_518_elements_array[player + 7].field_1_is_it_displayed = !IsTagGame_434B20();
@@ -617,7 +619,7 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
         }
 
         opponent_idx = 0;
-        for (player = 0; player < stage_idx; player++)
+        for (player = 0; player < num_players; player++)
         {
             if (gTagGame_6F8450.HasQuit_453A90(player))
             {
@@ -650,7 +652,7 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
         }
         else if (game_mode_2 == FRAG_GAME_1)
         {
-            for (i = 0; i < stage_idx; i++)
+            for (i = 0; i < num_players; i++)
             {
                 if (i != user_idx && !gTagGame_6F8450.HasQuit_453A90(i) &&
                     (s16)gGameSession_67E8E0.GetFragsForPlayerIdx_4C5D60(i) > best_opponent)
@@ -662,7 +664,7 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
         }
         else if (game_mode_2 == POINTS_GAME_2)
         {
-            for (i = 0; i < stage_idx; i++)
+            for (i = 0; i < num_players; i++)
             {
                 if (i != user_idx && !gTagGame_6F8450.HasQuit_453A90(i) &&
                     gGameSession_67E8E0.GetPointsForPlayerIdx_4C5CB0(i) > best_opponent)
@@ -674,7 +676,7 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
         }
         else if (game_mode_2 == TAG_GAME_3)
         {
-            for (i = 0; i < stage_idx; i++)
+            for (i = 0; i < num_players; i++)
             {
                 if (i != user_idx && !gTagGame_6F8450.HasQuit_453A90(i))
                 {

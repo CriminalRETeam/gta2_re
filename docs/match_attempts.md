@@ -5852,6 +5852,76 @@ below-block code no longer jumped into the down case's copy). Three source chang
 
 Full build in the worktree: `[3412/3412] funcs OK`.
 
+## Frontend::ChangeMenuPage_4B3170 (Oct 19): duplicated tails and the alias rule, 8 unchanged
+
+Still only the `saved_main_stage` (S) / `saved_is_bonus` (B) byte slot swap. Nothing kept in Source/.
+
+- **Alias rule (scheduler location bits): does not apply.** `alog` on the function: the `this` base has 20
+  distinct (offset, size) locations, under the 31 that get their own bit, so no chaining. S and B are plain
+  stack symbols (kind 2), not per-base location entries, and the frame walk runs before the scheduler, so the
+  rule cannot change the slot list here.
+- **Duplicated tails at the `stage_idx` join** (the if/else for `stage_idx = 0/1` with statements copied into
+  both arms; the second FlowOpts cross-jumps them back, every copy counts in the walk). Code is identical to the
+  target in all of them; only the slots move. Counts from reflog, 1-byte list order, score:
+  - `game_mode = Get()` only in the arms: game_mode 3, S 2, order unchanged (bc, bsi, B, S), 76.
+  - game_mode + S (near31's x1): game_mode 4, S 3 reached at the not-bonus load, bsi 3 reached at the compare:
+    bc, S, bsi, B, 54.
+  - x1 with the multiplayer `game_mode_2` folded into `game_mode` (one function-scope `u8`, 7 refs): game_mode
+    lands on 0x2C again, **14**. Left: S/bsi at 0x1F/0x1E (S before bsi) and the AREA_COMPLETE `lea 0x1EB51` temp
+    at 0x30 instead of 0x2C (with a block-local game_mode_2 the temp shares its slot, with one variable it doesn't).
+  - game_mode + bonus_count: bc 10, game_mode 4, 58. game_mode + bc + S: S 3, 211. All four reads in the arms:
+    B 3 reached at the B test, order bc, B, bsi, 275.
+  - A `bonus_stage_idx = 0;` added to the copied tail is a dead store and is gone before the frame pass (14).
+  - The whole block copied into the AREA_COMPLETE arm (`stage_idx = 1; ...`) and a DEAD/QUIT arm: the AREA copy is
+    constant-folded (stage_idx known) and never merges, 625.
+- Why the tail lever can't finish it: with a single copy at frame time the layout is the reverse postorder, the
+  not-bonus arm always follows the B test, so S's region-entry load is always walked after B's test load. A tail
+  copy of S's store gives S 3 reached at that load, and bsi only reaches 3 at the compare after it; bsi's refs
+  live in the IsBonusStage arms, which can only be inside a copied tail together with B's store (B 3 at the test,
+  ahead of S). So the target order (bc, bsi, S, B) is out of reach for every duplicated-tail form.
+- **9.6f says the original has one copy.** `compile_vc7.sh` on the current source gives 9.6f's `movb $1,0x1c;
+  jmp <GetPlySlotIdx call>` at the end of the AREA_COMPLETE block, and VC7 does NOT cross-jump the x1 tails (the
+  AREA arm keeps its own call and loads). So the original's extra frame-walk reference of S (or missing one of B)
+  is not a source-level duplicate of the read block. (`add_96f_target.py 0x4b3170=0x4587b0` adds the 9.6f target;
+  VC7's register rotation in the read block still differs from 9.6f's, untried.)
+- Other notes: the final code has one more `stage_idx` ref than the walk because dupB copies the 2-instruction
+  `mov $1,stage_idx; jmp` block into the AREA_COMPLETE end and leaves the original in place as dead code (it is in
+  the target too).
+
+## `Frontend::ChangeMenuPage_4B3170` (Oct 19, round 6): 8 -> 0 (MATCH) through the 9.6f build
+
+Four hypotheses ran in parallel (VC7 witness, variable identity, references elsewhere, permuter). The permuter
+(4361 compiles, all 48 passes on the read block) found nothing below 8 that keeps S in a 1-byte slot (merging S
+into `opponent_idx` gives 4 but moves it to a 4-byte slot). The VC7 witness did it:
+- Compile the function with `Scripts/compile_vc7.sh` and score it against 9.6f 0x4587B0 (`permuter_score.py --96f`,
+  target added with `add_96f_target.py 0x4b3170=0x4587b0`). The read block's register rotation differed from 9.6f
+  because of the CREDITS block above it: 9.6f builds `field_1EB34_credits_ypos` from a `Fix16(410)` temporary
+  (ctor call 0x401AF0, also the 4 extra frame bytes there), stored after `scroll_timer`. With
+  `field_1EB30_credits_scroll_timer = 0; field_1EB34_credits_ypos = Fix16(410);` the read block is 0 in registers.
+- VC7 packs locals by lifetime, so its slot sharing exposes the variable set: AREA_COMPLETE uses `main_stage_idx`
+  (not the option index) followed by `bonus_stage_idx = 0` (kept by 9.6f, a dead store in VC6); BONUS_AREA calls
+  `DecodeStage(GetStage(), &main_stage_idx, &bonus_stage_idx)`; the read block decodes into its own
+  `saved_bonus_code`, not AREA's `bonus_count`; the option index (`option_idx`) is only that; MULTIPLAYER has its
+  own `num_players`. All five are needed for VC7 to match 9.6f (whole function 704 -> 227, read block 58 -> 0;
+  the remaining 227 are member offsets and code changes between the versions).
+- In VC6 the walk positions and the 1-byte list order do not change (B still reaches 2 before S), yet S lands at
+  0x2A: the old 4-byte `stage_idx` (16 refs) is now three locals (`main_stage_idx` 5, `option_idx` 4,
+  `num_players` 7) sharing 0x14, which changes how the byte granules are packed. The lever was the 4-byte slot
+  stacking, not the 1-byte list. Variants without `saved_bonus_code` or without `bonus_stage_idx = 0` also give 0;
+  the full form is kept because it is the one that reproduces 9.6f.
+- Correction to the frame-pass notes: three function-scope locals without their address taken
+  (`main_stage_idx`, `option_idx`, `num_players`) do share slot 0x14 here; the "two function-scope locals never
+  share" probe only covered address-taken locals.
+- Why the split of `stage_idx` moved S and B (worker H3): slot addresses are not the list order. Slots are created
+  by walking the list (each local tries the existing slots from the last created to the first, joins the first
+  non-interfering one of at most twice its size, lifetimes are real, not lexical), then, when the frame exceeds
+  0x80 bytes, sorted by a K&R quicksort (middle pivot, strict `>`, unstable) on the decreasing key
+  `refs * 1000 / size` summed over the slot's members (`0x10759F00`). S and B tie at 2000, so their order falls out
+  of the partitioning of the whole table: with one 16-ref `stage_idx` slot B comes first, with three smaller slots S
+  does. A model of the sort (scratch `h3w/qs.py`, `run(slots)` with `(name, size, refs)` in creation order)
+  reproduces the base, the duplicated-tail variant and the fold of `game_mode_2`. Worker H2 mapped both frames
+  (10.5 and 9.6f) and showed that 9.6f's slot sharing follows lifetimes, so it hints at the variable set but does
+  not prove identity; worker H4 (permuter, 4361 compiles) found nothing below 8 in a 1-byte slot.
 ## Frontend::SetupMenuStringsOptionsElements_4B0220 (Oct 19): matched (84 -> 0)
 
 The store chaining was the whole problem, and the rule behind it is now in `docs/matching_quirks.md` ("The
