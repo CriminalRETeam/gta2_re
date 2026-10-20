@@ -250,11 +250,7 @@ class Ang16
     }
 
     // 9.6f 0x41FC20: the table value is the left operand (this) of the multiply
-    inline static void __stdcall PolarToCartesian_41FC20(Ang16& angle, Fix16& radius, Fix16& ret1, Fix16& ret2)
-    {
-        ret1 = Ang16::sine_40F500(angle) * radius;
-        ret2 = Ang16::cosine_40F520(angle) * radius;
-    }
+    inline static void __stdcall PolarToCartesian_41FC20(Ang16& angle, Fix16& radius, Fix16& ret1, Fix16& ret2);
 
     // Non-inlined version of above function
     EXPORT static void __stdcall PolarToCartesian_451730(Ang16& angle, Fix16& radius, Fix16& ret1, Fix16& ret2);
@@ -376,6 +372,17 @@ class Ang16
 
     s16 rValue;
 };
+
+#pragma warning(push)
+#pragma warning(disable : 4101)
+inline void __stdcall Ang16::PolarToCartesian_41FC20(Ang16& angle, Fix16& radius, Fix16& ret1, Fix16& ret2)
+{
+    // Never read: its optimizer entry is needed by CarAI_78::UpdateStateMachine_44E560 (docs/match_attempts.md)
+    s32 unused;
+    ret1 = Ang16::sine_40F500(angle) * radius;
+    ret2 = Ang16::cosine_40F520(angle) * radius;
+}
+#pragma warning(pop)
 
 inline Ang16 operator-(const Ang16& a, const Ang16& b)
 {

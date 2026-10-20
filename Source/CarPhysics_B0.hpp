@@ -444,10 +444,7 @@ class CarPhysics_B0
     }
 
     // FUNCTION: 96f 0x42ABA0
-    void TurnClockwise_42ABA0()
-    {
-        field_AD_turn_direction = car_turn_direction::clockwise_m1;
-    }
+    void TurnClockwise_42ABA0();
 
     // FUNCTION: 96f 0x42AB90
     void TurnAntiClockwise_42AB90()
@@ -516,6 +513,16 @@ class CarPhysics_B0
     char_type field_AE_unused;
     char_type field_AF_unused;
 };
+
+#pragma warning(push)
+#pragma warning(disable : 4101)
+inline void CarPhysics_B0::TurnClockwise_42ABA0()
+{
+    // Never read: its optimizer entry is needed by CarAI_78::UpdateStateMachine_44E560 (docs/match_attempts.md)
+    s32 unused;
+    field_AD_turn_direction = car_turn_direction::clockwise_m1;
+}
+#pragma warning(pop)
 
 class CarPhyisicsPool : public PoolBasic<CarPhysics_B0, 306>
 {

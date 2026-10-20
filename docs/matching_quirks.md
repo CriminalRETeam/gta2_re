@@ -3054,7 +3054,10 @@ of it: `xor edx,edx; cmp edx,eax`, and the stores of both branches then share th
 predicate `0x107129B0` (pass `0x10711F93`) leaves the 0 as an immediate, giving `test`, only when the compared
 operand is a register value (a call result compared directly, a temp); a variable always becomes a use, however
 the test is written. A call between the test and the stores breaks the link too
-(`PublicTransport_181C::BusesService_579CA0`).
+(`PublicTransport_181C::BusesService_579CA0`). So does a register-allocation region boundary between the compare
+block and the stores: in `CarAI_78::UpdateStateMachine_44E560` the original's `test %eax,%eax` and block-local
+`xor %eax,%eax` come from a flag set after the stores and tested later (`flag = 1;` instead of `return;`), which
+VC6 threads away but which changes the block graph the regions are built from.
 
 ### Duplicated early-return blocks shift the round-robin cursor (`Char_B4::state_8_5520A0`)
 
@@ -3148,6 +3151,32 @@ rules: `Fix16(v + i)` in a loop is strength-reduced into an induction register i
 (an explicit `Fix16 it(v); it += Fix16(1);` initialises it before), and an implicit `Fix16` argument conversion
 keeps the build-in-slot shape where an explicit `Fix16(y)` pushes the shifted value directly.
 
+## Two bounded inline sites fix the number of sites between them (`Ped::CalcApproachPointNearTargetPed_4645B0`)
+
+When the original inlines a callee at one site and not at the next (Normalize at 67: inline at
+`(B - 41) / k >= 67`, out of line at the next `+=`), the budget there is fixed to a window of width about 41 for
+each count k of sites left. A second bounded group later (the else branch's four inline `-=` and its out-of-line
+polar) fixes a window for the budget there too. The charges between the two are fixed by the inline decisions,
+so the number of sites between the groups is forced: a getter instead of a field access moves one window by 67
+against the other, and no caller size or free site elsewhere can compensate. Solve these windows before trying
+caller size changes. Measure on a copy with `WIP_IMPLEMENTED` removed: `inl.sh` compiles the file as is and the
+macro adds 32 caller nodes.
+
+## A register load before an operator tells a getter from a field (`Ped::CalcApproachPointNearTargetPed_4645B0`)
+
+`a - pTarget->get_cam_x()` loads the getter's by-value result into a register and subtracts it
+(`mov 0x1ac(%eax),%ecx; sub %ecx,%edx`); `a - pTarget->field_1AC_cam.x` folds the memory operand
+(`sub 0x1ac(%eax),%edx`). Check this before choosing fields to fix an inline budget: a getter is a free site
+that moves the windows, and the asm says which one the original had.
+
+## A dead `Fix16` operator is deleted but still charged (`Ped::CalcApproachPointNearTargetPed_4645B0`)
+
+VC6 removes the code of a dead `Fix16::Abs(x);` or dead `Fix16` operator (`a - b;`, `a * b;`) but the inline walker
+has already charged it to the caller's budget as one site, with its nested calls (Abs: 57 + 42). Nothing that goes
+through `Ang16::Normalize` or an out-of-line call disappears this way. When the inline windows prove the original
+had extra charge with no visible code, this is the only route: in CalcApproachPoint a dead `Fix16::Abs(radius);`
+after the atan2 line, plus one raw `.mValue +=` in the default (one free site fewer), moves the else polar's nested
+budget from 84 to 47 and matches. Document it as a reconstruction, see `docs/match_attempts.md`.
 ## A file-static global allocates differently from an extern one (`miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180`)
 
 C2 gives a `static` (internal linkage) global symbol kind 8 and an extern global kind 7, and the kind-8 one is
@@ -3201,3 +3230,15 @@ equal height, and they issue in IL order after all the constant defs of the bloc
 unchained stores the store order is the statement order again, and the source can keep the natural one (type, x,
 y, shape per element). `Scripts/x87_sched/alias_log.py` builds a C2 variant that logs every alias test and
 location entry (`@A`/`@D` lines in `last.log` next to the `sched.sh` output).
+
+## Other retail builds
+
+Besides 10.5 and 9.6f, the 8.9 demo (Sept 1999), 9.6, 10.1 (Russian) and 10.5 Japan (Dec 1999) exist. They are
+the 1999 source, not ours: 9.6, 10.1 and Japan have the same `CarAI_78::UpdateStateMachine_44E560` once
+addresses are masked, and Japan's objects have no `@comp.id` in the Rich header (a VC5-era compiler, not VC6).
+No VC6 toolchain (RTM, SP3 to SP6) reproduces them better than SP4: over 687 matched functions in 9 TUs, SP4
+output equals Japan for 424, RTM for 411, and where they differ Japan never agrees with RTM alone. They are
+useful as structure witnesses, with full `/O2` inlining like 10.5: statements and flags that SP4 threads away
+are still visible there (the `%bl` flag of USM's follow_behind), and so are cases or helpers removed later
+(USM's alongside `task_type` switch had a dead `case 1` in 1999, hence two more jump tables). They are not
+oracles for register allocation, scheduling or the inline budget.
