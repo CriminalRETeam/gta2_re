@@ -3054,7 +3054,10 @@ of it: `xor edx,edx; cmp edx,eax`, and the stores of both branches then share th
 predicate `0x107129B0` (pass `0x10711F93`) leaves the 0 as an immediate, giving `test`, only when the compared
 operand is a register value (a call result compared directly, a temp); a variable always becomes a use, however
 the test is written. A call between the test and the stores breaks the link too
-(`PublicTransport_181C::BusesService_579CA0`).
+(`PublicTransport_181C::BusesService_579CA0`). So does a register-allocation region boundary between the compare
+block and the stores: in `CarAI_78::UpdateStateMachine_44E560` the original's `test %eax,%eax` and block-local
+`xor %eax,%eax` come from a flag set after the stores and tested later (`flag = 1;` instead of `return;`), which
+VC6 threads away but which changes the block graph the regions are built from.
 
 ### Duplicated early-return blocks shift the round-robin cursor (`Char_B4::state_8_5520A0`)
 
@@ -3201,3 +3204,15 @@ equal height, and they issue in IL order after all the constant defs of the bloc
 unchained stores the store order is the statement order again, and the source can keep the natural one (type, x,
 y, shape per element). `Scripts/x87_sched/alias_log.py` builds a C2 variant that logs every alias test and
 location entry (`@A`/`@D` lines in `last.log` next to the `sched.sh` output).
+
+## Other retail builds
+
+Besides 10.5 and 9.6f, the 8.9 demo (Sept 1999), 9.6, 10.1 (Russian) and 10.5 Japan (Dec 1999) exist. They are
+the 1999 source, not ours: 9.6, 10.1 and Japan have the same `CarAI_78::UpdateStateMachine_44E560` once
+addresses are masked, and Japan's objects have no `@comp.id` in the Rich header (a VC5-era compiler, not VC6).
+No VC6 toolchain (RTM, SP3 to SP6) reproduces them better than SP4: over 687 matched functions in 9 TUs, SP4
+output equals Japan for 424, RTM for 411, and where they differ Japan never agrees with RTM alone. They are
+useful as structure witnesses, with full `/O2` inlining like 10.5: statements and flags that SP4 threads away
+are still visible there (the `%bl` flag of USM's follow_behind), and so are cases or helpers removed later
+(USM's alongside `task_type` switch had a dead `case 1` in 1999, hence two more jump tables). They are not
+oracles for register allocation, scheduling or the inline budget.
