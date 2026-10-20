@@ -85,8 +85,8 @@ DEFINE_GLOBAL(u32, dword_6F5B00, 0x6F5B00); // TODO: move
 DEFINE_GLOBAL(u32, dword_6F580C, 0x6F580C); // TODO: move
 DEFINE_GLOBAL(u32, dword_6F5AC0, 0x6F5AC0); // TODO: move
 DEFINE_GLOBAL(s32, gFramesOfCurrSecond_6F5858, 0x6F5858); // TODO: move
-DEFINE_GLOBAL(s32, dword_6F5B74, 0x6F5B74);
-DEFINE_GLOBAL(s32, dword_6F5944, 0x6F5944);
+DEFINE_GLOBAL(s32, gNetTimerBlinkCounter_6F5B74, 0x6F5B74);
+DEFINE_GLOBAL(s32, gNetTimerSeconds_6F5944, 0x6F5944);
 DEFINE_GLOBAL(u8, byte_6F59C0, 0x6F59C0); // TODO: move
 DEFINE_GLOBAL(NetworkGameSettings, gNetworkGameSettings_707098, 0x707098);
 
@@ -1357,7 +1357,7 @@ EXPORT void ManageNetworkTimeAndHudPager_4DADA0()
             if (!byte_6F59C0)
             {
                 bShow = true;
-                dword_6F5B74 = 59;
+                gNetTimerBlinkCounter_6F5B74 = 59;
                 byte_6F59C0 = 1;
             }
             else
@@ -1368,25 +1368,25 @@ EXPORT void ManageNetworkTimeAndHudPager_4DADA0()
         if (!bShow)
         {
             byte_6F59C0 = 0;
-            dword_6F5B74 = 0;
+            gNetTimerBlinkCounter_6F5B74 = 0;
         }
         else
         {
-            if (dword_6F5B74 > 0)
+            if (gNetTimerBlinkCounter_6F5B74 > 0)
             {
-                if (((dword_6F5B74 / 5) & 1) == 0)
+                if (((gNetTimerBlinkCounter_6F5B74 / 5) & 1) == 0)
                 {
                     bShow = false;
                 }
-                dword_6F5B74--;
+                gNetTimerBlinkCounter_6F5B74--;
             }
 
             if (bShow)
             {
-                dword_6F5944 = minutes * 60 + seconds;
+                gNetTimerSeconds_6F5944 = minutes * 60 + seconds;
                 if (gHudTimerIdx_6F5860 == -1)
                 {
-                    gHudTimerIdx_6F5860 = gHud_2B00_706620->field_620_pagers.CreateTimer_5D31F0(dword_6F5944);
+                    gHudTimerIdx_6F5860 = gHud_2B00_706620->field_620_pagers.CreateTimer_5D31F0(gNetTimerSeconds_6F5944);
                 }
                 return;
             }

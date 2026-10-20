@@ -12,10 +12,10 @@
 #include "Car_BC.hpp"
 
 // Forward declarations: the functions below are in address order
-EXTERN_GLOBAL(Ang16, word_6FD25C);
-EXTERN_GLOBAL(Ang16, word_6FCFB0);
-EXTERN_GLOBAL(Ang16, word_6FD07E);
-EXTERN_GLOBAL(Ang16, word_6FD0A4);
+EXTERN_GLOBAL(Ang16, kAng0_6FD25C);
+EXTERN_GLOBAL(Ang16, kAng90_6FCFB0);
+EXTERN_GLOBAL(Ang16, kAng180_6FD07E);
+EXTERN_GLOBAL(Ang16, kAng270_6FD0A4);
 
 DEFINE_GLOBAL(Garage_48*, gGarage_48_6FD26C, 0x6FD26C);
 
@@ -38,25 +38,25 @@ EXPORT Ang16 __stdcall sub_5345E0(s32 face)
     switch (face)
     {
         case 4:
-            return word_6FD25C;
+            return kAng0_6FD25C;
         case 2:
-            return word_6FCFB0;
+            return kAng90_6FCFB0;
         case 3:
-            return word_6FD07E;
+            return kAng180_6FD07E;
         case 1:
-            return word_6FD0A4;
+            return kAng270_6FD0A4;
     }
-    return word_6FD25C;
+    return kAng0_6FD25C;
 }
 
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD124, Fix16(1), 0x6FD124);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FCF98, Fix16(0.5), 0x6FCF98);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD218, Fix16(0x3333, 0), 0x6FD218);
+DEFINE_GLOBAL_INIT(Fix16, kFpOne_6FD124, Fix16(1), 0x6FD124);
+DEFINE_GLOBAL_INIT(Fix16, kFpHalf_6FCF98, Fix16(0.5), 0x6FCF98);
+DEFINE_GLOBAL_INIT(Fix16, kFpPoint8_6FD218, Fix16(0x3333, 0), 0x6FD218);
 
 // Car_BC::IsLongerThanOneBlock_447ED0 (9.6f), with this file's copy of the 1.0 constant
 static inline bool IsLongerThanOneBlock_447ED0(Car_BC* pCar)
 {
-    if (pCar->field_50_car_sprite->GetHeight_447E70() > dword_6FD124)
+    if (pCar->field_50_car_sprite->GetHeight_447E70() > kFpOne_6FD124)
     {
         return true;
     }
@@ -88,13 +88,13 @@ void Garage_48::ValidateParkCommand_534650()
     }
 }
 
-DEFINE_GLOBAL(Fix16, dword_6FD120, 0x6FD120);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FCF10, Fix16(0x666, 0), 0x6FCF10);
+DEFINE_GLOBAL(Fix16, kFpZero_6FD120, 0x6FD120);
+DEFINE_GLOBAL_INIT(Fix16, kFpPoint1_6FCF10, Fix16(0x666, 0), 0x6FCF10);
 
-DEFINE_GLOBAL_INIT(Ang16, word_6FCFB0, Ang16(360), 0x6FCFB0);
-DEFINE_GLOBAL_INIT(Ang16, word_6FD07E, Ang16(720), 0x6FD07E);
-DEFINE_GLOBAL_INIT(Ang16, word_6FD0A4, Ang16(1080), 0x6FD0A4);
-DEFINE_GLOBAL_INIT(Ang16, word_6FD25C, Ang16(0), 0x6FD25C);
+DEFINE_GLOBAL_INIT(Ang16, kAng90_6FCFB0, Ang16(360), 0x6FCFB0);
+DEFINE_GLOBAL_INIT(Ang16, kAng180_6FD07E, Ang16(720), 0x6FD07E);
+DEFINE_GLOBAL_INIT(Ang16, kAng270_6FD0A4, Ang16(1080), 0x6FD0A4);
+DEFINE_GLOBAL_INIT(Ang16, kAng0_6FD25C, Ang16(0), 0x6FD25C);
 
 MATCH_FUNC(0x534700)
 u8 Garage_48::ParkCarAtDoor_534700(Car_BC* pCar, Door_38* pDoor)
@@ -132,8 +132,8 @@ u8 Garage_48::ParkCarAtDoor_534700(Car_BC* pCar, Door_38* pDoor)
     }
     else
     {
-        w1 = dword_6FD124;
-        w2 = dword_6FD124;
+        w1 = kFpOne_6FD124;
+        w2 = kFpOne_6FD124;
     }
 
     // The half size goes before the constant in the y sums (`Fix16(y) + w1 + 1`), the other order changes
@@ -145,50 +145,50 @@ u8 Garage_48::ParkCarAtDoor_534700(Car_BC* pCar, Door_38* pDoor)
         case 1:
             if (field_10_door->IsDoubleDoor_489600())
             {
-                ((Fix16_Point_POD*)&field_18_park_x_min)->SetXY_432860(Fix16(x), Fix16(y) - w1 - dword_6FD124);
+                ((Fix16_Point_POD*)&field_18_park_x_min)->SetXY_432860(Fix16(x), Fix16(y) - w1 - kFpOne_6FD124);
             }
             else
             {
                 ((Fix16_Point_POD*)&field_18_park_x_min)->SetXY_432860(Fix16(x), Fix16(y) - w1);
             }
-            ((Fix16_Point_POD*)&field_20_park_x_max)->SetXY_432860(Fix16(x) + dword_6FD124 + w2, Fix16(y) + w1 + dword_6FD124);
-            ((Fix16_Point_POD*)&field_30_target_x)->SetXY_432860(Fix16(x) - dword_6FD218, Fix16(y) + dword_6FCF98);
+            ((Fix16_Point_POD*)&field_20_park_x_max)->SetXY_432860(Fix16(x) + kFpOne_6FD124 + w2, Fix16(y) + w1 + kFpOne_6FD124);
+            ((Fix16_Point_POD*)&field_30_target_x)->SetXY_432860(Fix16(x) - kFpPoint8_6FD218, Fix16(y) + kFpHalf_6FCF98);
             break;
         case 2:
             ((Fix16_Point_POD*)&field_18_park_x_min)->SetXY_432860(Fix16(x) - w2, Fix16(y) - w1);
             if (field_10_door->IsDoubleDoor_489600())
             {
-                ((Fix16_Point_POD*)&field_20_park_x_max)->SetXY_432860(Fix16(x) + dword_6FD124, Fix16(y) + w1 + kFpTwo_6FD128);
+                ((Fix16_Point_POD*)&field_20_park_x_max)->SetXY_432860(Fix16(x) + kFpOne_6FD124, Fix16(y) + w1 + kFpTwo_6FD128);
             }
             else
             {
-                ((Fix16_Point_POD*)&field_20_park_x_max)->SetXY_432860(Fix16(x) + dword_6FD124, Fix16(y) + w1 + dword_6FD124);
+                ((Fix16_Point_POD*)&field_20_park_x_max)->SetXY_432860(Fix16(x) + kFpOne_6FD124, Fix16(y) + w1 + kFpOne_6FD124);
             }
-            ((Fix16_Point_POD*)&field_30_target_x)->SetXY_432860(Fix16(x) + dword_6FD124 + dword_6FD218, Fix16(y) + dword_6FCF98);
+            ((Fix16_Point_POD*)&field_30_target_x)->SetXY_432860(Fix16(x) + kFpOne_6FD124 + kFpPoint8_6FD218, Fix16(y) + kFpHalf_6FCF98);
             break;
         case 3:
             ((Fix16_Point_POD*)&field_18_park_x_min)->SetXY_432860(Fix16(x) - w1, Fix16(y));
             if (field_10_door->IsDoubleDoor_489600())
             {
-                ((Fix16_Point_POD*)&field_20_park_x_max)->SetXY_432860(Fix16(x) + kFpTwo_6FD128 + w1, Fix16(y) + w2 + dword_6FD124);
+                ((Fix16_Point_POD*)&field_20_park_x_max)->SetXY_432860(Fix16(x) + kFpTwo_6FD128 + w1, Fix16(y) + w2 + kFpOne_6FD124);
             }
             else
             {
-                ((Fix16_Point_POD*)&field_20_park_x_max)->SetXY_432860(Fix16(x) + dword_6FD124 + w1, Fix16(y) + w2 + dword_6FD124);
+                ((Fix16_Point_POD*)&field_20_park_x_max)->SetXY_432860(Fix16(x) + kFpOne_6FD124 + w1, Fix16(y) + w2 + kFpOne_6FD124);
             }
-            ((Fix16_Point_POD*)&field_30_target_x)->SetXY_432860(Fix16(x) + dword_6FCF98, Fix16(y) - dword_6FD218);
+            ((Fix16_Point_POD*)&field_30_target_x)->SetXY_432860(Fix16(x) + kFpHalf_6FCF98, Fix16(y) - kFpPoint8_6FD218);
             break;
         case 4:
             if (field_10_door->IsDoubleDoor_489600())
             {
-                ((Fix16_Point_POD*)&field_18_park_x_min)->SetXY_432860(Fix16(x) - dword_6FD124 - w1, Fix16(y) - w2);
+                ((Fix16_Point_POD*)&field_18_park_x_min)->SetXY_432860(Fix16(x) - kFpOne_6FD124 - w1, Fix16(y) - w2);
             }
             else
             {
                 ((Fix16_Point_POD*)&field_18_park_x_min)->SetXY_432860(Fix16(x) - w1, Fix16(y) - w2);
             }
-            ((Fix16_Point_POD*)&field_20_park_x_max)->SetXY_432860(Fix16(x) + dword_6FD124 + w1, Fix16(y) + dword_6FD124);
-            ((Fix16_Point_POD*)&field_30_target_x)->SetXY_432860(Fix16(x) + dword_6FCF98, Fix16(y) + dword_6FD124 + dword_6FD218);
+            ((Fix16_Point_POD*)&field_20_park_x_max)->SetXY_432860(Fix16(x) + kFpOne_6FD124 + w1, Fix16(y) + kFpOne_6FD124);
+            ((Fix16_Point_POD*)&field_30_target_x)->SetXY_432860(Fix16(x) + kFpHalf_6FCF98, Fix16(y) + kFpOne_6FD124 + kFpPoint8_6FD218);
             break;
     }
 
@@ -271,14 +271,14 @@ void Garage_48::GaragesService_5349D0()
             car_pos.SetXY_432860(field_0_parking_car->GetX_41E430(), field_0_parking_car->GetY_41E440());
             SpriteShape_4C* pBox = field_0_parking_car->field_50_car_sprite->field_C_pCollisionShape;
             field_28_push_dir = (pBox->field_C_corners[idx1] + pBox->field_C_corners[idx2]).Divide_442CB0(kFpTwo_6FD128) - car_pos;
-            if (field_28_push_dir.x == dword_6FD120 && field_28_push_dir.y == dword_6FD120)
+            if (field_28_push_dir.x == kFpZero_6FD120 && field_28_push_dir.y == kFpZero_6FD120)
             {
                 field_3D_in_position = 1;
                 field_C_state = 2;
             }
             else
             {
-                field_28_push_dir = field_28_push_dir.NormalizeSafe_442AD0().Multiply_438FE0(dword_6FCF10);
+                field_28_push_dir = field_28_push_dir.NormalizeSafe_442AD0().Multiply_438FE0(kFpPoint1_6FCF10);
             }
             field_0_parking_car->field_58_physics->ApplyForceScaledByMass_55F9A0(field_28_push_dir);
             field_C_state = 2;

@@ -32,17 +32,17 @@ DEFINE_GLOBAL_ARRAY(gmp_map_slope, gGmpSlopes_6F5BA8, 64, 0x6F5BA8);
 // them 32-bit where the original has a 16-bit mov (MapRenderer::DrawPartialBlockTop_4F5560 etc.).
 DEFINE_GLOBAL(u16, gBlockLeft_6F62F6, 0x6F62F6);
 DEFINE_GLOBAL(u16, gBlockRight_6F63C6, 0x6F63C6);
-DEFINE_GLOBAL(gmp_map_slope*, dword_6F5EC8, 0x6F5EC8);
+DEFINE_GLOBAL(gmp_map_slope*, gCurrentBlockSlope_6F5EC8, 0x6F5EC8);
 // Defined in sprite.cpp: with the definition in this TU VC6 reads the s16 mask with a 32-bit mov
 // (it knows the padding is safe to read), while the original's `mov 0x6F6002,%cx; test %cx,face`
 // needs an extern declaration (Map_0x370::SpriteHitsBlockFacesInArea_4E1A30, CanSpriteEnterTile_4E1E00).
 EXTERN_GLOBAL(s16, gFaceCollisionMask_6F6002);
 DEFINE_GLOBAL(s32, gSpriteGrid_right_6F5B80, 0x6F5B80);
 DEFINE_GLOBAL(s32, gSpriteGrid_left_6F5FD4, 0x6F5FD4);
-DEFINE_GLOBAL(s32, dword_6F620C, 0x6F620C);
-DEFINE_GLOBAL(s32, dword_6F5BA0, 0x6F5BA0);
-DEFINE_GLOBAL(s32, dword_6F6248, 0x6F6248);
-DEFINE_GLOBAL(s32, dword_6F5FAC, 0x6F5FAC);
+DEFINE_GLOBAL(s32, gEastTileZ_6F620C, 0x6F620C);
+DEFINE_GLOBAL(s32, gWestTileZ_6F5BA0, 0x6F5BA0);
+DEFINE_GLOBAL(s32, gSouthTileZ_6F6248, 0x6F6248);
+DEFINE_GLOBAL(s32, gNorthTileZ_6F5FAC, 0x6F5FAC);
 DEFINE_GLOBAL_INIT(Fix16, kFpZero_6F610C, Fix16(0), 0x6F610C);
 DEFINE_GLOBAL_INIT(Fix16, kFpEight_6F6130, Fix16(0x20000, 0), 0x6F6130);
 DEFINE_GLOBAL_INIT(Fix16, kFpOneThirtySecond_6F601C, Fix16(0x200, 0), 0x6F601C);
@@ -50,9 +50,9 @@ DEFINE_GLOBAL_INIT(Fix16, kFpOneSixtyFourth_6F60C0, Fix16(0x100, 0), 0x6F60C0);
 DEFINE_GLOBAL_INIT(Fix16, kGradientScaleSize1_6F5ED8, Fix16(0x4000, 0), 0x6F5ED8);
 DEFINE_GLOBAL_INIT(Fix16, kGradientScaleSize2_6F5FA8, Fix16(0x1FE8, 0), 0x6F5FA8);
 DEFINE_GLOBAL_INIT(Fix16, kGradientScaleSize8_6F6214, Fix16(0x824, 0), 0x6F6214);
-DEFINE_GLOBAL(s32, dword_6F6164, 0x6F6164);
-DEFINE_GLOBAL(s32, dword_6F6148, 0x6F6148);
-DEFINE_GLOBAL(s32, dword_6F613C, 0x6F613C);
+DEFINE_GLOBAL(s32, gSearchX_6F6164, 0x6F6164);
+DEFINE_GLOBAL(s32, gSearchY_6F6148, 0x6F6148);
+DEFINE_GLOBAL(s32, gSearchZ_6F613C, 0x6F613C);
 DEFINE_GLOBAL_INIT(Fix16, kFpOneEighth_6F6050, Fix16(0x800, 0), 0x6F6050);
 DEFINE_GLOBAL_INIT(Fix16, kFpQuarter_6F6180, Fix16(0x1000, 0), 0x6F6180);
 DEFINE_GLOBAL_INIT(Fix16, kFpThreeEighths_6F60A0, Fix16(0x1800, 0), 0x6F60A0);
@@ -65,20 +65,20 @@ DEFINE_GLOBAL_INIT(Fix16, kFpTen_6F6184, Fix16(10), 0x6F6184);
 DEFINE_GLOBAL_INIT(Fix16, kFpSeven_6F6128, Fix16(7), 0x6F6128);
 DEFINE_GLOBAL_INIT(Fix16, kFpHalf_6F5FE0, Fix16(0.5f), 0x6F5FE0);
 
-DEFINE_GLOBAL(gmp_block_info*, dword_6F5F98, 0x6F5F98);
-DEFINE_GLOBAL(gmp_map_slope*, dword_6F6080, 0x6F6080);
-DEFINE_GLOBAL(gmp_map_slope*, dword_6F6084, 0x6F6084);
-DEFINE_GLOBAL(gmp_block_info*, dword_6F6054, 0x6F6054);
-DEFINE_GLOBAL(gmp_block_info*, dword_6F606C, 0x6F606C);
-DEFINE_GLOBAL(gmp_block_info*, dword_6F6070, 0x6F6070);
-DEFINE_GLOBAL(gmp_map_slope*, dword_6F6088, 0x6F6088);
-DEFINE_GLOBAL(gmp_block_info*, dword_6F6078, 0x6F6078);
-DEFINE_GLOBAL(gmp_map_slope*, dword_6F608C, 0x6F608C);
-DEFINE_GLOBAL(gmp_block_info*, dword_6F5F90, 0x6F5F90);
-DEFINE_GLOBAL(gmp_block_info*, dword_6F6060, 0x6F6060);
-DEFINE_GLOBAL(gmp_block_info*, dword_6F5FB0, 0x6F5FB0);
-DEFINE_GLOBAL(gmp_block_info*, dword_6F5F54, 0x6F5F54);
-DEFINE_GLOBAL_INIT(Ang16, word_6F603E, Ang16(720), 0x6F603E);
+DEFINE_GLOBAL(gmp_block_info*, gSouthEastBlock_6F5F98, 0x6F5F98);
+DEFINE_GLOBAL(gmp_map_slope*, gEastSlope_6F6080, 0x6F6080);
+DEFINE_GLOBAL(gmp_map_slope*, gNorthSlope_6F6084, 0x6F6084);
+DEFINE_GLOBAL(gmp_block_info*, gBlockAbove_6F6054, 0x6F6054);
+DEFINE_GLOBAL(gmp_block_info*, gNorthBlock_6F606C, 0x6F606C);
+DEFINE_GLOBAL(gmp_block_info*, gSouthBlock_6F6070, 0x6F6070);
+DEFINE_GLOBAL(gmp_map_slope*, gSouthSlope_6F6088, 0x6F6088);
+DEFINE_GLOBAL(gmp_block_info*, gWestBlock_6F6078, 0x6F6078);
+DEFINE_GLOBAL(gmp_map_slope*, gWestSlope_6F608C, 0x6F608C);
+DEFINE_GLOBAL(gmp_block_info*, gNorthWestBlock_6F5F90, 0x6F5F90);
+DEFINE_GLOBAL(gmp_block_info*, gEastBlock_6F6060, 0x6F6060);
+DEFINE_GLOBAL(gmp_block_info*, gSouthWestBlock_6F5FB0, 0x6F5FB0);
+DEFINE_GLOBAL(gmp_block_info*, gNorthEastBlock_6F5F54, 0x6F5F54);
+DEFINE_GLOBAL_INIT(Ang16, kAng180_6F603E, Ang16(720), 0x6F603E);
 
 
 Fix16 kFpOne_6F6110 = Fix16(1); // = 0x4000; // todo
@@ -1879,10 +1879,10 @@ char Map_0x370::CanSpriteEnterTile_4E1E00(s32 regionLeft,
                                           s32 tileY,
                                           s32 zLevel)
 {
-    dword_6F5FAC = zLevel;
-    dword_6F6248 = zLevel;
-    dword_6F620C = zLevel;
-    dword_6F5BA0 = zLevel;
+    gNorthTileZ_6F5FAC = zLevel;
+    gSouthTileZ_6F6248 = zLevel;
+    gEastTileZ_6F620C = zLevel;
+    gWestTileZ_6F5BA0 = zLevel;
 
     if (gSprite_6F61E8)
     {
@@ -1906,32 +1906,32 @@ char Map_0x370::CanSpriteEnterTile_4E1E00(s32 regionLeft,
     }
 
     u8 gradient_direction;
-    dword_6F5EC8 = &gGmpSlopes_6F5BA8[pBlock->field_B_slope_type >> 2];
-    if (!dword_6F5EC8->field_0_gradient_direction || dword_6F5EC8->field_2_gradient_level)
+    gCurrentBlockSlope_6F5EC8 = &gGmpSlopes_6F5BA8[pBlock->field_B_slope_type >> 2];
+    if (!gCurrentBlockSlope_6F5EC8->field_0_gradient_direction || gCurrentBlockSlope_6F5EC8->field_2_gradient_level)
     {
         gradient_direction = 0;
     }
     else
     {
-        gradient_direction = dword_6F5EC8->field_0_gradient_direction;
+        gradient_direction = gCurrentBlockSlope_6F5EC8->field_0_gradient_direction;
         switch (gradient_direction)
         {
             case 1u:
-                ++dword_6F5FAC;
+                ++gNorthTileZ_6F5FAC;
                 break;
             case 2u:
-                ++dword_6F6248;
+                ++gSouthTileZ_6F6248;
                 break;
             case 3u:
-                ++dword_6F5BA0;
+                ++gWestTileZ_6F5BA0;
                 break;
             case 4u:
-                ++dword_6F620C;
+                ++gEastTileZ_6F620C;
                 break;
             default:
                 break;
         }
-        dword_6F6054 = GetBlock_4DFE10(tileX, tileY, zLevel + 1);
+        gBlockAbove_6F6054 = GetBlock_4DFE10(tileX, tileY, zLevel + 1);
     }
 
     // North (y - 1)
@@ -1939,7 +1939,7 @@ char Map_0x370::CanSpriteEnterTile_4E1E00(s32 regionLeft,
     {
         if (gradient_direction == 1)
         {
-            if (dword_6F6054 && ((u16)gFaceCollisionMask_6F6002 & dword_6F6054->field_4_top) != 0)
+            if (gBlockAbove_6F6054 && ((u16)gFaceCollisionMask_6F6002 & gBlockAbove_6F6054->field_4_top) != 0)
             {
                 if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970((u32)tileX, tileX + 1, tileY))
                 {
@@ -1948,7 +1948,7 @@ char Map_0x370::CanSpriteEnterTile_4E1E00(s32 regionLeft,
             }
         }
         else if (((u16)gFaceCollisionMask_6F6002 & gBlockInfo0_6F5EB0->field_4_top) != 0 &&
-                 dword_6F5EC8->field_0_gradient_direction != 3 && dword_6F5EC8->field_0_gradient_direction != 4)
+                 gCurrentBlockSlope_6F5EC8->field_0_gradient_direction != 3 && gCurrentBlockSlope_6F5EC8->field_0_gradient_direction != 4)
         {
             if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970((u32)tileX, tileX + 1, tileY))
             {
@@ -1956,17 +1956,17 @@ char Map_0x370::CanSpriteEnterTile_4E1E00(s32 regionLeft,
             }
         }
 
-        dword_6F606C = GetEffectiveBlock_4DFE60(tileX, tileY - 1, dword_6F5FAC);
-        if (dword_6F606C)
+        gNorthBlock_6F606C = GetEffectiveBlock_4DFE60(tileX, tileY - 1, gNorthTileZ_6F5FAC);
+        if (gNorthBlock_6F606C)
         {
-            if (((u16)gFaceCollisionMask_6F6002 & dword_6F606C->field_6_bottom) != 0)
+            if (((u16)gFaceCollisionMask_6F6002 & gNorthBlock_6F606C->field_6_bottom) != 0)
             {
                 if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970((u32)tileX, tileX + 1, tileY))
                 {
                     return 1;
                 }
             }
-            dword_6F6084 = &gGmpSlopes_6F5BA8[dword_6F606C->field_B_slope_type >> 2];
+            gNorthSlope_6F6084 = &gGmpSlopes_6F5BA8[gNorthBlock_6F606C->field_B_slope_type >> 2];
         }
     }
 
@@ -1975,7 +1975,7 @@ char Map_0x370::CanSpriteEnterTile_4E1E00(s32 regionLeft,
     {
         if (gradient_direction == 2)
         {
-            if (dword_6F6054 && ((u16)gFaceCollisionMask_6F6002 & dword_6F6054->field_6_bottom) != 0)
+            if (gBlockAbove_6F6054 && ((u16)gFaceCollisionMask_6F6002 & gBlockAbove_6F6054->field_6_bottom) != 0)
             {
                 if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970((u32)tileX, tileX + 1, tileY + 1))
                 {
@@ -1984,7 +1984,7 @@ char Map_0x370::CanSpriteEnterTile_4E1E00(s32 regionLeft,
             }
         }
         else if (((u16)gFaceCollisionMask_6F6002 & gBlockInfo0_6F5EB0->field_6_bottom) != 0 &&
-                 dword_6F5EC8->field_0_gradient_direction != 3 && dword_6F5EC8->field_0_gradient_direction != 4)
+                 gCurrentBlockSlope_6F5EC8->field_0_gradient_direction != 3 && gCurrentBlockSlope_6F5EC8->field_0_gradient_direction != 4)
         {
             if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970((u32)tileX, tileX + 1, tileY + 1))
             {
@@ -1992,17 +1992,17 @@ char Map_0x370::CanSpriteEnterTile_4E1E00(s32 regionLeft,
             }
         }
 
-        dword_6F6070 = GetEffectiveBlock_4DFE60(tileX, tileY + 1, dword_6F6248);
-        if (dword_6F6070)
+        gSouthBlock_6F6070 = GetEffectiveBlock_4DFE60(tileX, tileY + 1, gSouthTileZ_6F6248);
+        if (gSouthBlock_6F6070)
         {
-            if (((u16)gFaceCollisionMask_6F6002 & dword_6F6070->field_4_top) != 0)
+            if (((u16)gFaceCollisionMask_6F6002 & gSouthBlock_6F6070->field_4_top) != 0)
             {
                 if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970((u32)tileX, tileX + 1, tileY + 1))
                 {
                     return 1;
                 }
             }
-            dword_6F6088 = &gGmpSlopes_6F5BA8[dword_6F6070->field_B_slope_type >> 2];
+            gSouthSlope_6F6088 = &gGmpSlopes_6F5BA8[gSouthBlock_6F6070->field_B_slope_type >> 2];
         }
     }
 
@@ -2011,7 +2011,7 @@ char Map_0x370::CanSpriteEnterTile_4E1E00(s32 regionLeft,
     {
         if (gradient_direction == 3)
         {
-            if (dword_6F6054 && ((u16)gFaceCollisionMask_6F6002 & dword_6F6054->field_0_left) != 0)
+            if (gBlockAbove_6F6054 && ((u16)gFaceCollisionMask_6F6002 & gBlockAbove_6F6054->field_0_left) != 0)
             {
                 if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine_5A0EF0((u32)tileY, tileY + 1, tileX))
                 {
@@ -2020,7 +2020,7 @@ char Map_0x370::CanSpriteEnterTile_4E1E00(s32 regionLeft,
             }
         }
         else if (((u16)gFaceCollisionMask_6F6002 & gBlockInfo0_6F5EB0->field_0_left) != 0 &&
-                 dword_6F5EC8->field_0_gradient_direction != 1 && dword_6F5EC8->field_0_gradient_direction != 2)
+                 gCurrentBlockSlope_6F5EC8->field_0_gradient_direction != 1 && gCurrentBlockSlope_6F5EC8->field_0_gradient_direction != 2)
         {
             if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine_5A0EF0((u32)tileY, tileY + 1, tileX))
             {
@@ -2028,23 +2028,23 @@ char Map_0x370::CanSpriteEnterTile_4E1E00(s32 regionLeft,
             }
         }
 
-        dword_6F6078 = GetEffectiveBlock_4DFE60(tileX - 1, tileY, dword_6F5BA0);
-        if (dword_6F6078)
+        gWestBlock_6F6078 = GetEffectiveBlock_4DFE60(tileX - 1, tileY, gWestTileZ_6F5BA0);
+        if (gWestBlock_6F6078)
         {
-            if (((u16)gFaceCollisionMask_6F6002 & dword_6F6078->field_2_right) != 0)
+            if (((u16)gFaceCollisionMask_6F6002 & gWestBlock_6F6078->field_2_right) != 0)
             {
                 if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine_5A0EF0((u32)tileY, tileY + 1, tileX))
                 {
                     return 1;
                 }
             }
-            dword_6F608C = &gGmpSlopes_6F5BA8[dword_6F6078->field_B_slope_type >> 2];
+            gWestSlope_6F608C = &gGmpSlopes_6F5BA8[gWestBlock_6F6078->field_B_slope_type >> 2];
         }
 
         if (regionTop < tileY)
         {
-            if (dword_6F606C && dword_6F5BA0 <= dword_6F5FAC && ((u16)gFaceCollisionMask_6F6002 & dword_6F606C->field_0_left) != 0 &&
-                dword_6F6084->field_0_gradient_direction != 1 && dword_6F6084->field_0_gradient_direction != 2)
+            if (gNorthBlock_6F606C && gWestTileZ_6F5BA0 <= gNorthTileZ_6F5FAC && ((u16)gFaceCollisionMask_6F6002 & gNorthBlock_6F606C->field_0_left) != 0 &&
+                gNorthSlope_6F6084->field_0_gradient_direction != 1 && gNorthSlope_6F6084->field_0_gradient_direction != 2)
             {
                 if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine_5A0EF0(tileY - 1, (u32)tileY, tileX))
                 {
@@ -2052,8 +2052,8 @@ char Map_0x370::CanSpriteEnterTile_4E1E00(s32 regionLeft,
                 }
             }
 
-            if (dword_6F6078 && dword_6F5FAC <= dword_6F5BA0 && ((u16)gFaceCollisionMask_6F6002 & dword_6F6078->field_4_top) != 0 &&
-                dword_6F608C->field_0_gradient_direction != 3 && dword_6F608C->field_0_gradient_direction != 4)
+            if (gWestBlock_6F6078 && gNorthTileZ_6F5FAC <= gWestTileZ_6F5BA0 && ((u16)gFaceCollisionMask_6F6002 & gWestBlock_6F6078->field_4_top) != 0 &&
+                gWestSlope_6F608C->field_0_gradient_direction != 3 && gWestSlope_6F608C->field_0_gradient_direction != 4)
             {
                 if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(tileX - 1, (u32)tileX, tileY))
                 {
@@ -2061,17 +2061,17 @@ char Map_0x370::CanSpriteEnterTile_4E1E00(s32 regionLeft,
                 }
             }
 
-            dword_6F5F90 = GetEffectiveBlock_4DFE60(tileX - 1, tileY - 1, dword_6F5FAC > dword_6F5BA0 ? dword_6F5FAC : dword_6F5BA0);
-            if (dword_6F5F90)
+            gNorthWestBlock_6F5F90 = GetEffectiveBlock_4DFE60(tileX - 1, tileY - 1, gNorthTileZ_6F5FAC > gWestTileZ_6F5BA0 ? gNorthTileZ_6F5FAC : gWestTileZ_6F5BA0);
+            if (gNorthWestBlock_6F5F90)
             {
-                if (((u16)gFaceCollisionMask_6F6002 & dword_6F5F90->field_2_right) != 0)
+                if (((u16)gFaceCollisionMask_6F6002 & gNorthWestBlock_6F5F90->field_2_right) != 0)
                 {
                     if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine_5A0EF0(tileY - 1, (u32)tileY, tileX))
                     {
                         return 1;
                     }
                 }
-                if (dword_6F5F90 && ((u16)gFaceCollisionMask_6F6002 & dword_6F5F90->field_6_bottom) != 0)
+                if (gNorthWestBlock_6F5F90 && ((u16)gFaceCollisionMask_6F6002 & gNorthWestBlock_6F5F90->field_6_bottom) != 0)
                 {
                     if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(tileX - 1, (u32)tileX, tileY))
                     {
@@ -2083,8 +2083,8 @@ char Map_0x370::CanSpriteEnterTile_4E1E00(s32 regionLeft,
 
         if (regionBottom > tileY)
         {
-            if (dword_6F6070 && dword_6F5BA0 <= dword_6F6248 && ((u16)gFaceCollisionMask_6F6002 & dword_6F6070->field_0_left) != 0 &&
-                dword_6F6088->field_0_gradient_direction != 1 && dword_6F6088->field_0_gradient_direction != 2)
+            if (gSouthBlock_6F6070 && gWestTileZ_6F5BA0 <= gSouthTileZ_6F6248 && ((u16)gFaceCollisionMask_6F6002 & gSouthBlock_6F6070->field_0_left) != 0 &&
+                gSouthSlope_6F6088->field_0_gradient_direction != 1 && gSouthSlope_6F6088->field_0_gradient_direction != 2)
             {
                 if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine_5A0EF0(tileY + 1, tileY + 2, tileX))
                 {
@@ -2092,8 +2092,8 @@ char Map_0x370::CanSpriteEnterTile_4E1E00(s32 regionLeft,
                 }
             }
 
-            if (dword_6F6078 && dword_6F6248 <= dword_6F5BA0 && ((u16)gFaceCollisionMask_6F6002 & dword_6F6078->field_6_bottom) != 0 &&
-                dword_6F608C->field_0_gradient_direction != 3 && dword_6F608C->field_0_gradient_direction != 4)
+            if (gWestBlock_6F6078 && gSouthTileZ_6F6248 <= gWestTileZ_6F5BA0 && ((u16)gFaceCollisionMask_6F6002 & gWestBlock_6F6078->field_6_bottom) != 0 &&
+                gWestSlope_6F608C->field_0_gradient_direction != 3 && gWestSlope_6F608C->field_0_gradient_direction != 4)
             {
                 if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(tileX - 1, (u32)tileX, tileY + 1))
                 {
@@ -2101,17 +2101,17 @@ char Map_0x370::CanSpriteEnterTile_4E1E00(s32 regionLeft,
                 }
             }
 
-            dword_6F5FB0 = GetEffectiveBlock_4DFE60(tileX - 1, tileY + 1, dword_6F6248 > dword_6F5BA0 ? dword_6F6248 : dword_6F5BA0);
-            if (dword_6F5FB0)
+            gSouthWestBlock_6F5FB0 = GetEffectiveBlock_4DFE60(tileX - 1, tileY + 1, gSouthTileZ_6F6248 > gWestTileZ_6F5BA0 ? gSouthTileZ_6F6248 : gWestTileZ_6F5BA0);
+            if (gSouthWestBlock_6F5FB0)
             {
-                if (((u16)gFaceCollisionMask_6F6002 & dword_6F5FB0->field_2_right) != 0)
+                if (((u16)gFaceCollisionMask_6F6002 & gSouthWestBlock_6F5FB0->field_2_right) != 0)
                 {
                     if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine_5A0EF0(tileY + 1, tileY + 2, tileX))
                     {
                         return 1;
                     }
                 }
-                if (dword_6F5FB0 && ((u16)gFaceCollisionMask_6F6002 & dword_6F5FB0->field_4_top) != 0)
+                if (gSouthWestBlock_6F5FB0 && ((u16)gFaceCollisionMask_6F6002 & gSouthWestBlock_6F5FB0->field_4_top) != 0)
                 {
                     if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(tileX - 1, (u32)tileX, tileY + 1))
                     {
@@ -2127,7 +2127,7 @@ char Map_0x370::CanSpriteEnterTile_4E1E00(s32 regionLeft,
     {
         if (gradient_direction == 4)
         {
-            if (dword_6F6054 && ((u16)gFaceCollisionMask_6F6002 & dword_6F6054->field_2_right) != 0)
+            if (gBlockAbove_6F6054 && ((u16)gFaceCollisionMask_6F6002 & gBlockAbove_6F6054->field_2_right) != 0)
             {
                 if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine_5A0EF0((u32)tileY, tileY + 1, tileX + 1))
                 {
@@ -2136,7 +2136,7 @@ char Map_0x370::CanSpriteEnterTile_4E1E00(s32 regionLeft,
             }
         }
         else if (((u16)gFaceCollisionMask_6F6002 & gBlockInfo0_6F5EB0->field_2_right) != 0 &&
-                 dword_6F5EC8->field_0_gradient_direction != 1 && dword_6F5EC8->field_0_gradient_direction != 2)
+                 gCurrentBlockSlope_6F5EC8->field_0_gradient_direction != 1 && gCurrentBlockSlope_6F5EC8->field_0_gradient_direction != 2)
         {
             if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine_5A0EF0((u32)tileY, tileY + 1, tileX + 1))
             {
@@ -2144,23 +2144,23 @@ char Map_0x370::CanSpriteEnterTile_4E1E00(s32 regionLeft,
             }
         }
 
-        dword_6F6060 = GetEffectiveBlock_4DFE60(tileX + 1, tileY, dword_6F620C);
-        if (dword_6F6060)
+        gEastBlock_6F6060 = GetEffectiveBlock_4DFE60(tileX + 1, tileY, gEastTileZ_6F620C);
+        if (gEastBlock_6F6060)
         {
-            if (((u16)gFaceCollisionMask_6F6002 & dword_6F6060->field_0_left) != 0)
+            if (((u16)gFaceCollisionMask_6F6002 & gEastBlock_6F6060->field_0_left) != 0)
             {
                 if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine_5A0EF0((u32)tileY, tileY + 1, tileX + 1))
                 {
                     return 1;
                 }
             }
-            dword_6F6080 = &gGmpSlopes_6F5BA8[dword_6F6060->field_B_slope_type >> 2];
+            gEastSlope_6F6080 = &gGmpSlopes_6F5BA8[gEastBlock_6F6060->field_B_slope_type >> 2];
         }
 
         if (regionTop < tileY)
         {
-            if (dword_6F606C && dword_6F620C <= dword_6F5FAC && ((u16)gFaceCollisionMask_6F6002 & dword_6F606C->field_2_right) != 0 &&
-                dword_6F6084->field_0_gradient_direction != 1 && dword_6F6084->field_0_gradient_direction != 2)
+            if (gNorthBlock_6F606C && gEastTileZ_6F620C <= gNorthTileZ_6F5FAC && ((u16)gFaceCollisionMask_6F6002 & gNorthBlock_6F606C->field_2_right) != 0 &&
+                gNorthSlope_6F6084->field_0_gradient_direction != 1 && gNorthSlope_6F6084->field_0_gradient_direction != 2)
             {
                 if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine_5A0EF0(tileY - 1, (u32)tileY, tileX + 1))
                 {
@@ -2168,8 +2168,8 @@ char Map_0x370::CanSpriteEnterTile_4E1E00(s32 regionLeft,
                 }
             }
 
-            if (dword_6F6060 && dword_6F5FAC <= dword_6F620C && ((u16)gFaceCollisionMask_6F6002 & dword_6F6060->field_4_top) != 0 &&
-                dword_6F6080->field_0_gradient_direction != 3 && dword_6F6080->field_0_gradient_direction != 4)
+            if (gEastBlock_6F6060 && gNorthTileZ_6F5FAC <= gEastTileZ_6F620C && ((u16)gFaceCollisionMask_6F6002 & gEastBlock_6F6060->field_4_top) != 0 &&
+                gEastSlope_6F6080->field_0_gradient_direction != 3 && gEastSlope_6F6080->field_0_gradient_direction != 4)
             {
                 if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(tileX + 1, tileX + 2, tileY))
                 {
@@ -2177,17 +2177,17 @@ char Map_0x370::CanSpriteEnterTile_4E1E00(s32 regionLeft,
                 }
             }
 
-            dword_6F5F54 = GetEffectiveBlock_4DFE60(tileX + 1, tileY - 1, dword_6F5FAC > dword_6F620C ? dword_6F5FAC : dword_6F620C);
-            if (dword_6F5F54)
+            gNorthEastBlock_6F5F54 = GetEffectiveBlock_4DFE60(tileX + 1, tileY - 1, gNorthTileZ_6F5FAC > gEastTileZ_6F620C ? gNorthTileZ_6F5FAC : gEastTileZ_6F620C);
+            if (gNorthEastBlock_6F5F54)
             {
-                if (((u16)gFaceCollisionMask_6F6002 & dword_6F5F54->field_0_left) != 0)
+                if (((u16)gFaceCollisionMask_6F6002 & gNorthEastBlock_6F5F54->field_0_left) != 0)
                 {
                     if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine_5A0EF0(tileY - 1, (u32)tileY, tileX + 1))
                     {
                         return 1;
                     }
                 }
-                if (dword_6F5F54 && ((u16)gFaceCollisionMask_6F6002 & dword_6F5F54->field_6_bottom) != 0)
+                if (gNorthEastBlock_6F5F54 && ((u16)gFaceCollisionMask_6F6002 & gNorthEastBlock_6F5F54->field_6_bottom) != 0)
                 {
                     if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(tileX + 1, tileX + 2, tileY))
                     {
@@ -2199,8 +2199,8 @@ char Map_0x370::CanSpriteEnterTile_4E1E00(s32 regionLeft,
 
         if (regionBottom > tileY)
         {
-            if (dword_6F6070 && dword_6F620C <= dword_6F6248 && ((u16)gFaceCollisionMask_6F6002 & dword_6F6070->field_2_right) != 0 &&
-                dword_6F6088->field_0_gradient_direction != 1 && dword_6F6088->field_0_gradient_direction != 2)
+            if (gSouthBlock_6F6070 && gEastTileZ_6F620C <= gSouthTileZ_6F6248 && ((u16)gFaceCollisionMask_6F6002 & gSouthBlock_6F6070->field_2_right) != 0 &&
+                gSouthSlope_6F6088->field_0_gradient_direction != 1 && gSouthSlope_6F6088->field_0_gradient_direction != 2)
             {
                 if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine_5A0EF0(tileY + 1, tileY + 2, tileX + 1))
                 {
@@ -2208,8 +2208,8 @@ char Map_0x370::CanSpriteEnterTile_4E1E00(s32 regionLeft,
                 }
             }
 
-            if (dword_6F6060 && dword_6F6248 <= dword_6F620C && ((u16)gFaceCollisionMask_6F6002 & dword_6F6060->field_6_bottom) != 0 &&
-                dword_6F6080->field_0_gradient_direction != 3 && dword_6F6080->field_0_gradient_direction != 4)
+            if (gEastBlock_6F6060 && gSouthTileZ_6F6248 <= gEastTileZ_6F620C && ((u16)gFaceCollisionMask_6F6002 & gEastBlock_6F6060->field_6_bottom) != 0 &&
+                gEastSlope_6F6080->field_0_gradient_direction != 3 && gEastSlope_6F6080->field_0_gradient_direction != 4)
             {
                 if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(tileX + 1, tileX + 2, tileY + 1))
                 {
@@ -2217,17 +2217,17 @@ char Map_0x370::CanSpriteEnterTile_4E1E00(s32 regionLeft,
                 }
             }
 
-            dword_6F5F98 = GetEffectiveBlock_4DFE60(tileX + 1, tileY + 1, dword_6F6248 > dword_6F620C ? dword_6F6248 : dword_6F620C);
-            if (dword_6F5F98)
+            gSouthEastBlock_6F5F98 = GetEffectiveBlock_4DFE60(tileX + 1, tileY + 1, gSouthTileZ_6F6248 > gEastTileZ_6F620C ? gSouthTileZ_6F6248 : gEastTileZ_6F620C);
+            if (gSouthEastBlock_6F5F98)
             {
-                if (((u16)gFaceCollisionMask_6F6002 & dword_6F5F98->field_0_left) != 0)
+                if (((u16)gFaceCollisionMask_6F6002 & gSouthEastBlock_6F5F98->field_0_left) != 0)
                 {
                     if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine_5A0EF0(tileY + 1, tileY + 2, tileX + 1))
                     {
                         return 1;
                     }
                 }
-                if (dword_6F5F98 && ((u16)gFaceCollisionMask_6F6002 & dword_6F5F98->field_4_top) != 0)
+                if (gSouthEastBlock_6F5F98 && ((u16)gFaceCollisionMask_6F6002 & gSouthEastBlock_6F5F98->field_4_top) != 0)
                 {
                     if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(tileX + 1, tileX + 2, tileY + 1))
                     {
@@ -2259,7 +2259,7 @@ char_type Map_0x370::CanSpriteEnterMovementRegion_4E4460(s32 tile_x, s32 tile_y,
                                              gSpriteGrid_bottom_6F5F38,
                                              gSpriteGrid_right_6F5B80 - 1,
                                              tile_y,
-                                             dword_6F620C);
+                                             gEastTileZ_6F620C);
         }
         else
         {
@@ -2269,7 +2269,7 @@ char_type Map_0x370::CanSpriteEnterMovementRegion_4E4460(s32 tile_x, s32 tile_y,
                                              gSpriteGrid_bottom_6F5F38,
                                              gSpriteGrid_left_6F5FD4 + 1,
                                              tile_y,
-                                             dword_6F5BA0);
+                                             gWestTileZ_6F5BA0);
         }
     }
     else if (gSpriteGrid_bottom_6F5F38 - gSpriteGrid_top_6F6108 >= 3 || tile_y > gSpriteGrid_top_6F6108 + 1 || tile_y < gSpriteGrid_bottom_6F5F38 - 1)
@@ -2286,7 +2286,7 @@ char_type Map_0x370::CanSpriteEnterMovementRegion_4E4460(s32 tile_x, s32 tile_y,
                                              gSpriteGrid_bottom_6F5F38,
                                              tile_x,
                                              gSpriteGrid_bottom_6F5F38 - 1,
-                                             dword_6F6248);
+                                             gSouthTileZ_6F6248);
         }
         else
         {
@@ -2296,7 +2296,7 @@ char_type Map_0x370::CanSpriteEnterMovementRegion_4E4460(s32 tile_x, s32 tile_y,
                                              gSpriteGrid_top_6F6108 + 1,
                                              tile_x,
                                              gSpriteGrid_top_6F6108 + 1,
-                                             dword_6F5FAC);
+                                             gNorthTileZ_6F5FAC);
         }
     }
     else
@@ -2329,8 +2329,8 @@ char_type Map_0x370::CheckSlopeTopInSpriteGrid_4E4630(Fix16 z_pos)
                     }
                     else
                     {
-                        dword_6F5EC8 = &gGmpSlopes_6F5BA8[GET_SLOPE_IDX(gBlockInfo0_6F5EB0->field_B_slope_type)];
-                        if (dword_6F5EC8->field_2_gradient_level == dword_6F5EC8->field_1_gradient_size - 1)
+                        gCurrentBlockSlope_6F5EC8 = &gGmpSlopes_6F5BA8[GET_SLOPE_IDX(gBlockInfo0_6F5EB0->field_B_slope_type)];
+                        if (gCurrentBlockSlope_6F5EC8->field_2_gradient_level == gCurrentBlockSlope_6F5EC8->field_1_gradient_size - 1)
                         {
                             bFound = 1;
                         }
@@ -2436,9 +2436,9 @@ void Map_0x370::FindNearbyBlockOfType_4E4930(u8* pX, u8* pY, u8* pZ, char_type b
 {
     u16 step = 1;
     s32 direction = 3;
-    dword_6F6164 = *pX;
-    dword_6F6148 = *pY;
-    dword_6F613C = *pZ;
+    gSearchX_6F6164 = *pX;
+    gSearchY_6F6148 = *pY;
+    gSearchZ_6F613C = *pZ;
     u16 i;
     while (1)
     {
@@ -2447,12 +2447,12 @@ void Map_0x370::FindNearbyBlockOfType_4E4930(u8* pX, u8* pY, u8* pZ, char_type b
             case 3:
                 for (i = 0; i < step; i++)
                 {
-                    dword_6F6164++;
+                    gSearchX_6F6164++;
                     if (IsSearchBlockOfType_4E4AC0(block_type))
                     {
-                        *pX = dword_6F6164;
-                        *pY = dword_6F6148;
-                        *pZ = dword_6F613C;
+                        *pX = gSearchX_6F6164;
+                        *pY = gSearchY_6F6148;
+                        *pZ = gSearchZ_6F613C;
                         return;
                     }
                 }
@@ -2462,12 +2462,12 @@ void Map_0x370::FindNearbyBlockOfType_4E4930(u8* pX, u8* pY, u8* pZ, char_type b
             case 2:
                 for (i = 0; i < step; i++)
                 {
-                    dword_6F6148++;
+                    gSearchY_6F6148++;
                     if (IsSearchBlockOfType_4E4AC0(block_type))
                     {
-                        *pX = dword_6F6164;
-                        *pY = dword_6F6148;
-                        *pZ = dword_6F613C;
+                        *pX = gSearchX_6F6164;
+                        *pY = gSearchY_6F6148;
+                        *pZ = gSearchZ_6F613C;
                         return;
                     }
                 }
@@ -2477,12 +2477,12 @@ void Map_0x370::FindNearbyBlockOfType_4E4930(u8* pX, u8* pY, u8* pZ, char_type b
             case 4:
                 for (i = 0; i < step; i++)
                 {
-                    dword_6F6164--;
+                    gSearchX_6F6164--;
                     if (IsSearchBlockOfType_4E4AC0(block_type))
                     {
-                        *pX = dword_6F6164;
-                        *pY = dword_6F6148;
-                        *pZ = dword_6F613C;
+                        *pX = gSearchX_6F6164;
+                        *pY = gSearchY_6F6148;
+                        *pZ = gSearchZ_6F613C;
                         return;
                     }
                 }
@@ -2492,12 +2492,12 @@ void Map_0x370::FindNearbyBlockOfType_4E4930(u8* pX, u8* pY, u8* pZ, char_type b
             case 1:
                 for (i = 0; i < step; i++)
                 {
-                    dword_6F6148--;
+                    gSearchY_6F6148--;
                     if (IsSearchBlockOfType_4E4AC0(block_type))
                     {
-                        *pX = dword_6F6164;
-                        *pY = dword_6F6148;
-                        *pZ = dword_6F613C;
+                        *pX = gSearchX_6F6164;
+                        *pY = gSearchY_6F6148;
+                        *pZ = gSearchZ_6F613C;
                         return;
                     }
                 }
@@ -2511,16 +2511,16 @@ void Map_0x370::FindNearbyBlockOfType_4E4930(u8* pX, u8* pY, u8* pZ, char_type b
 MATCH_FUNC(0x4E4AC0)
 bool __stdcall Map_0x370::IsSearchBlockOfType_4E4AC0(char_type block_type)
 {
-    if (dword_6F6164 >= 0 && dword_6F6148 >= 0 && dword_6F6164 <= 255 && dword_6F6148 <= 255)
+    if (gSearchX_6F6164 >= 0 && gSearchY_6F6148 >= 0 && gSearchX_6F6164 <= 255 && gSearchY_6F6148 <= 255)
     {
         if (block_type == PAVEMENT)
         {
-            if (gMap_0x370_6F6268->FindPavementBlockForCoord_4E4BB0(dword_6F6164, dword_6F6148, dword_6F613C))
+            if (gMap_0x370_6F6268->FindPavementBlockForCoord_4E4BB0(gSearchX_6F6164, gSearchY_6F6148, gSearchZ_6F613C))
             {
                 return true;
             }
         }
-        else if (gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(dword_6F6164, dword_6F6148, dword_6F613C) == ROAD)
+        else if (gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(gSearchX_6F6164, gSearchY_6F6148, gSearchZ_6F613C) == ROAD)
         {
             return true;
         }
@@ -3130,9 +3130,9 @@ u8 Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(Fix16 x_pos, Fix16 y_pos, Fix16& z_
 
         if (!IS_AIR_TYPE(gBlockInfo0_6F5EB0->field_B_slope_type))
         {
-            dword_6F5EC8 = &gGmpSlopes_6F5BA8[GET_SLOPE_IDX(gBlockInfo0_6F5EB0->field_B_slope_type)];
+            gCurrentBlockSlope_6F5EC8 = &gGmpSlopes_6F5BA8[GET_SLOPE_IDX(gBlockInfo0_6F5EB0->field_B_slope_type)];
 
-            switch (dword_6F5EC8->field_0_gradient_direction)
+            switch (gCurrentBlockSlope_6F5EC8->field_0_gradient_direction)
             {
                 case 0:
                     return 0;
@@ -3152,16 +3152,16 @@ u8 Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(Fix16 x_pos, Fix16 y_pos, Fix16& z_
                     break;
             }
 
-            get_grad_scale_from_size_4634E0(grad_scale, dword_6F5EC8->field_1_gradient_size);
+            get_grad_scale_from_size_4634E0(grad_scale, gCurrentBlockSlope_6F5EC8->field_1_gradient_size);
 
-            Fix16 relative_z_pos = dword_6F5EC8->field_4_zpos_lower + (grad_pos * grad_scale);
+            Fix16 relative_z_pos = gCurrentBlockSlope_6F5EC8->field_4_zpos_lower + (grad_pos * grad_scale);
 
             if (relative_z_pos == kFpZero_6F610C)
             {
                 relative_z_pos = kFpOneSixtyFourth_6F60C0;
             }
             z_pos = relative_z_pos + z_pos.GetRoundValue();
-            return dword_6F5EC8->field_0_gradient_direction;
+            return gCurrentBlockSlope_6F5EC8->field_0_gradient_direction;
         }
     }
     return 0;
@@ -3327,10 +3327,10 @@ s16 Map_0x370::ClassifyArrowOnSlope_4E6190(Fix16 x, Fix16 y, Fix16 z, s32 arrow_
 
     gBlockInfo0_6F5EB0 = Map_0x370::GetBlock_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
 
-    dword_6F5EC8 = &gGmpSlopes_6F5BA8[gBlockInfo0_6F5EB0->field_B_slope_type >> 2];
+    gCurrentBlockSlope_6F5EC8 = &gGmpSlopes_6F5BA8[gBlockInfo0_6F5EB0->field_B_slope_type >> 2];
     s16 result;
     bool bMatched = false;
-    switch (dword_6F5EC8->field_0_gradient_direction)
+    switch (gCurrentBlockSlope_6F5EC8->field_0_gradient_direction)
     {
         case 1:
             switch (arrow_dir)
@@ -3638,7 +3638,7 @@ s32 Map_0x370::AdvanceAlongRailway_4E6660(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16
                        &y,
                        kFpOne_6F6110 - to_edge,
                        Ang16::GetAngleFace_4F78F0(
-                           Ang16(ReturnAngleFromRoadDirection_4F7940(direction).rValue + word_6F603E.rValue).Normalized_406C20()));
+                           Ang16(ReturnAngleFromRoadDirection_4F7940(direction).rValue + kAng180_6F603E.rValue).Normalized_406C20()));
             dist += kFpOne_6F6110 - to_edge;
             gmp_block_info* pNext = GetRoadBlockAtOrNull_4E7190(x, y, z);
             if (!pNext || !HasGreenArrowForPathDirection_4E5E90(pNext, direction, 1))
@@ -3679,7 +3679,7 @@ s32 Map_0x370::AdvanceAlongRailway_4E6660(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16
                            &y,
                            kFpOne_6F6110 - to_edge,
                            Ang16::GetAngleFace_4F78F0(
-                               Ang16(ReturnAngleFromRoadDirection_4F7940(direction).rValue + word_6F603E.rValue).Normalized_406C20()));
+                               Ang16(ReturnAngleFromRoadDirection_4F7940(direction).rValue + kAng180_6F603E.rValue).Normalized_406C20()));
                 dist += kFpOne_6F6110 - to_edge;
                 SET_ROAD_BLOCK_AT(pBlock, x, y, z);
                 if (pBlock != pPrev)
@@ -3831,7 +3831,7 @@ s32 Map_0x370::AdvanceAlongRailwayChecked_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ
             MovePosAlongDirection_4E5D10(&x,
                        &y,
                        kFpOne_6F6110 - to_edge,
-                       Ang16::GetAngleFace_4F78F0(ReturnAngleFromRoadDirection_4F7940(direction) + word_6F603E));
+                       Ang16::GetAngleFace_4F78F0(ReturnAngleFromRoadDirection_4F7940(direction) + kAng180_6F603E));
             dist += kFpOne_6F6110 - to_edge;
             gmp_block_info* pNext = GetRoadBlockAtOrNull_4E7190(x, y, z);
             if (!pNext || !HasGreenArrowForPathDirection_4E5E90(pNext, direction, 0))
@@ -3884,11 +3884,11 @@ s32 Map_0x370::AdvanceAlongRailwayChecked_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ
                 MovePosAlongDirection_4E5D10(&x,
                            &y,
                            kFpOne_6F6110,
-                           Ang16::GetAngleFace_4F78F0(ReturnAngleFromRoadDirection_4F7940(direction) + word_6F603E));
+                           Ang16::GetAngleFace_4F78F0(ReturnAngleFromRoadDirection_4F7940(direction) + kAng180_6F603E));
                 MovePosAlongDirection_4E5D10(&x,
                            &y,
                            kFpOne_6F6110 - to_edge,
-                           Ang16::GetAngleFace_4F78F0(ReturnAngleFromRoadDirection_4F7940(direction) + word_6F603E));
+                           Ang16::GetAngleFace_4F78F0(ReturnAngleFromRoadDirection_4F7940(direction) + kAng180_6F603E));
                 dist += kFpOne_6F6110 + kFpOne_6F6110 - to_edge;
                 z = last_z;
                 SetRoadBlockAt_4E6660(pBlock, x, y, z);

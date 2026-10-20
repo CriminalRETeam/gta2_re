@@ -53,41 +53,41 @@ DEFINE_GLOBAL_INIT(Fix16, kFpZero_66F3F0, Fix16(0), 0x66F3F0);
 DEFINE_GLOBAL_INIT(Ang16, kMinCorneringAngle_66F274, Ang16(360), 0x66F274);
 DEFINE_GLOBAL_INIT(Ang16, kMaxCorneringAngle_66F370, Ang16(1080), 0x66F370);
 DEFINE_GLOBAL_INIT(Fix16, kMinCorneringSpeed_66F378, Fix16(0x40, 0), 0x66F378);
-DEFINE_GLOBAL_INIT(Fix16, dword_674DA8, Fix16(0x100000, 0), 0x674DA8);
+DEFINE_GLOBAL_INIT(Fix16, kFp64_674DA8, Fix16(0x100000, 0), 0x674DA8);
 DEFINE_GLOBAL_ARRAY(u8, gPanTable_61A688, 64, 0x61A688);
 DEFINE_GLOBAL(u8, gSoundSwitchRadioCoolDown_6FF539, 0x6FF539);
 DEFINE_GLOBAL(Car_BC*, gLastPlayerCar_6FF53C, 0x6FF53C);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FF3F4, Fix16(1), 0x6FF3F4);
+DEFINE_GLOBAL_INIT(Fix16, kFpOne_6FF3F4, Fix16(1), 0x6FF3F4);
 DEFINE_GLOBAL(bool, gSoundVocalsInited_6FF538, 0x6FF538);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne_66F3F4, Fix16(0x4000, 0), 0x66F3F4);
-DEFINE_GLOBAL(u16, word_6757FC, 0x6757FC);
+DEFINE_GLOBAL(u16, gLastRadioCarRemap_6757FC, 0x6757FC);
 
 DEFINE_GLOBAL(u8, gType6SampleIndexCounter_66F541, 0x66F541);
 DEFINE_GLOBAL_INIT(u8, gSoundSampleIdx_61A684, 0x64, 0x61A684);
 DEFINE_GLOBAL(char_type, byte_66F543, 0x66F543);
 
-DEFINE_GLOBAL_INIT(Fix16, dword_675414, Fix16(0x14000, 0), 0x675414);
+DEFINE_GLOBAL_INIT(Fix16, kFpFive_675414, Fix16(0x14000, 0), 0x675414);
 DEFINE_GLOBAL_INIT(Fix16, kFpZero_675400, Fix16(0), 0x675400);
 DEFINE_GLOBAL_INIT(Fix16, kFpZero_675220, kFpZero_675400, 0x675220);
-DEFINE_GLOBAL_INIT(Fix16, dword_675418, Fix16(0x18000, 0), 0x675418);
-DEFINE_GLOBAL_INIT(Fix16, dword_6751F4, Fix16(0x640000, 0), 0x6751F4);
+DEFINE_GLOBAL_INIT(Fix16, kFpSix_675418, Fix16(0x18000, 0), 0x675418);
+DEFINE_GLOBAL_INIT(Fix16, kFp400_6751F4, Fix16(0x640000, 0), 0x6751F4);
 
-DEFINE_GLOBAL_INIT(Fix16, dword_66F3B4, Fix16(0xA3, 0), 0x66F3B4);
-DEFINE_GLOBAL_INIT(Fix16, dword_66F3F8, Fix16(0x8000, 0), 0x66F3F8);
-DEFINE_GLOBAL_INIT(Fix16, dword_66F3C0, Fix16(0x147, 0), 0x66F3C0);
-DEFINE_GLOBAL_INIT(Fix16, dword_66F24C, Fix16(0xCCC, 0), 0x66F24C);
-DEFINE_GLOBAL_INIT(Fix16, dword_66F490, Fix16(0x41, 0), 0x66F490);
-DEFINE_GLOBAL_INIT(Fix16, dword_66F2FC, Fix16(0x2000, 0), 0x66F2FC);
-DEFINE_GLOBAL_INIT(Fix16, dword_66F3FC, Fix16(0xC000, 0), 0x66F3FC);
-DEFINE_GLOBAL_INIT(Fix16, dword_66F1CC, Fix16(0x1FC000, 0), 0x66F1CC);
+DEFINE_GLOBAL_INIT(Fix16, kFpPoint01_66F3B4, Fix16(0xA3, 0), 0x66F3B4);
+DEFINE_GLOBAL_INIT(Fix16, kFpTwo_66F3F8, Fix16(0x8000, 0), 0x66F3F8);
+DEFINE_GLOBAL_INIT(Fix16, kFpPoint02_66F3C0, Fix16(0x147, 0), 0x66F3C0);
+DEFINE_GLOBAL_INIT(Fix16, kFpPoint2_66F24C, Fix16(0xCCC, 0), 0x66F24C);
+DEFINE_GLOBAL_INIT(Fix16, kFpPoint004_66F490, Fix16(0x41, 0), 0x66F490);
+DEFINE_GLOBAL_INIT(Fix16, kFpHalf_66F2FC, Fix16(0x2000, 0), 0x66F2FC);
+DEFINE_GLOBAL_INIT(Fix16, kFpThree_66F3FC, Fix16(0xC000, 0), 0x66F3FC);
+DEFINE_GLOBAL_INIT(Fix16, kFp127_66F1CC, Fix16(0x1FC000, 0), 0x66F1CC);
 DEFINE_GLOBAL(u8, byte_66F542, 0x66F542);
 DEFINE_GLOBAL(u8, gCooldownCounter_67554D, 0x67554D);
-DEFINE_GLOBAL_INIT(Fix16, dword_674E18, Fix16(0x190000, 0), 0x674E18);
+DEFINE_GLOBAL_INIT(Fix16, kFp100_674E18, Fix16(0x190000, 0), 0x674E18);
 
-DEFINE_GLOBAL_INIT(Fix16, dword_66F404, Fix16(0x14000, 0), 0x66F404);
-DEFINE_GLOBAL_INIT(Fix16, dword_66F1D0, dword_66F404, 0x66F1D0);
-DEFINE_GLOBAL_INIT(Fix16, dword_66F220, dword_66F1D0, 0x66F220);
-DEFINE_GLOBAL_INIT(Fix16, dword_66F258, Fix16(0x2000, 0), 0x66F258);
+DEFINE_GLOBAL_INIT(Fix16, kFpFive_66F404, Fix16(0x14000, 0), 0x66F404);
+DEFINE_GLOBAL_INIT(Fix16, kFpFive_66F1D0, kFpFive_66F404, 0x66F1D0);
+DEFINE_GLOBAL_INIT(Fix16, kFpFive_66F220, kFpFive_66F1D0, 0x66F220);
+DEFINE_GLOBAL_INIT(Fix16, kFpHalf_66F258, Fix16(0x2000, 0), 0x66F258);
 
 // TODO: can't use 2d arrays here :Skull:
 //DEFINE_GLOBAL(char_type, byte_5FE434[8][44], 0x5FE434);
@@ -1290,15 +1290,15 @@ char_type sound_obj::Type6_413A10(CollisionEvent_28* pEvent)
     switch (pEvent->field_0_type)
     {
         case collision_event_type::car_car_2:
-            if (pEvent->field_24_impact_strength < dword_66F3B4)
+            if (pEvent->field_24_impact_strength < kFpPoint01_66F3B4)
             {
                 return 0;
             }
-            if (pEvent->field_24_impact_strength > dword_66F3F8)
+            if (pEvent->field_24_impact_strength > kFpTwo_66F3F8)
             {
-                pEvent->field_24_impact_strength = dword_66F3F8;
+                pEvent->field_24_impact_strength = kFpTwo_66F3F8;
             }
-            ratio = pEvent->field_24_impact_strength / dword_66F3F8;
+            ratio = pEvent->field_24_impact_strength / kFpTwo_66F3F8;
             break;
 
         case collision_event_type::car_object_3:
@@ -1312,46 +1312,46 @@ char_type sound_obj::Type6_413A10(CollisionEvent_28* pEvent)
                 goto return_zero;
             }
             pEvent->field_24_impact_strength = pEvent->field_10_car->GetCarLinearSpeed_43A240();
-            if (pEvent->field_24_impact_strength < dword_66F3C0)
+            if (pEvent->field_24_impact_strength < kFpPoint02_66F3C0)
             {
                 return 0;
             }
-            if (pEvent->field_24_impact_strength > dword_66F24C)
+            if (pEvent->field_24_impact_strength > kFpPoint2_66F24C)
             {
-                pEvent->field_24_impact_strength = dword_66F24C;
+                pEvent->field_24_impact_strength = kFpPoint2_66F24C;
             }
-            ratio = pEvent->field_24_impact_strength / dword_66F24C;
+            ratio = pEvent->field_24_impact_strength / kFpPoint2_66F24C;
             break;
 
         case collision_event_type::car_ped_4:
-            if (pEvent->field_24_impact_strength < dword_66F490)
+            if (pEvent->field_24_impact_strength < kFpPoint004_66F490)
             {
                 return 0;
             }
-            if (pEvent->field_24_impact_strength > dword_66F2FC)
+            if (pEvent->field_24_impact_strength > kFpHalf_66F2FC)
             {
-                pEvent->field_24_impact_strength = dword_66F2FC;
+                pEvent->field_24_impact_strength = kFpHalf_66F2FC;
             }
-            ratio = pEvent->field_24_impact_strength / dword_66F2FC;
+            ratio = pEvent->field_24_impact_strength / kFpHalf_66F2FC;
             break;
 
         case collision_event_type::car_wall_5:
-            if (pEvent->field_24_impact_strength < dword_66F3B4)
+            if (pEvent->field_24_impact_strength < kFpPoint01_66F3B4)
             {
             return_zero:
                 return 0;
             }
-            if (pEvent->field_24_impact_strength > dword_66F3FC)
+            if (pEvent->field_24_impact_strength > kFpThree_66F3FC)
             {
-                pEvent->field_24_impact_strength = dword_66F3FC;
+                pEvent->field_24_impact_strength = kFpThree_66F3FC;
             }
-            ratio = pEvent->field_24_impact_strength / dword_66F3FC;
+            ratio = pEvent->field_24_impact_strength / kFpThree_66F3FC;
             break;
 
         default:
             return this->field_1454_anRandomTable[(u8)++byte_66F542 % 5] % 0xAu + 5;
     }
-    return Fix16::Round_To_Int_410BF0(ratio * dword_66F1CC);
+    return Fix16::Round_To_Int_410BF0(ratio * kFp127_66F1CC);
 }
 
 MATCH_FUNC(0x413B90)
@@ -2019,10 +2019,10 @@ void sound_obj::HandleCarEngineSound_4157C0(Sound_Params_8* pParams)
                     return;
                 }
 
-                max_speed = dword_66F220;
+                max_speed = kFpFive_66F220;
                 if (!pCar->field_58_physics->field_94_is_backward_gas_on)
                 {
-                    max_speed = dword_66F1D0;
+                    max_speed = kFpFive_66F1D0;
                 }
                 gas_pedal = pCar->field_58_physics->field_60_gas_pedal;
                 emitting_vol = Fix16::Round_To_Int_410BF0(Fix16(573440, 0) * (gas_pedal / max_speed)) + 25;
@@ -2056,7 +2056,7 @@ void sound_obj::HandleCarEngineSound_4157C0(Sound_Params_8* pParams)
                     }
                     else
                     {
-                        emitting_vol = Fix16::Round_To_Int_410BF0((Fix16(573440, 0) * dword_66F258) * ((gas_pedal - gear3_speed) / (max_speed - gear3_speed))) + 25;
+                        emitting_vol = Fix16::Round_To_Int_410BF0((Fix16(573440, 0) * kFpHalf_66F258) * ((gas_pedal - gear3_speed) / (max_speed - gear3_speed))) + 25;
                     }
                 }
             }
@@ -2116,10 +2116,10 @@ char_type sound_obj::Type_1_6_416260(sound_0x68* pSound)
             {
                 if (speed == kFpZero_66F3F0)
                 {
-                    max_speed = dword_66F220;
+                    max_speed = kFpFive_66F220;
                     if (!pCar->field_58_physics->is_backward_gas_on_411810())
                     {
-                        max_speed = dword_66F1D0;
+                        max_speed = kFpFive_66F1D0;
                     }
 
                     if (pSound->field_58_type == 1)
@@ -2182,7 +2182,7 @@ char_type sound_obj::Type_1_6_416260(sound_0x68* pSound)
                             if (pSound->field_58_type == 1)
                             {
                                 pSound->field_20_rate = Fix16::Round_To_Int_410BF0(
-                                                        (speed - gear3_speed) / (max_speed - gear3_speed) * (Fix16(262144000, 0) * dword_66F258)) +
+                                                        (speed - gear3_speed) / (max_speed - gear3_speed) * (Fix16(262144000, 0) * kFpHalf_66F258)) +
                                     16000;
                             }
                             else
@@ -3878,7 +3878,7 @@ char_type sound_obj::CalcVolume_41A3F0(u8 base_volume, Fix16 max_dist, Fix16 dis
 MATCH_FUNC(0x41A4A0)
 u8 sound_obj::ComputePan_41A4A0(Fix16 a1, Fix16 a2) // TODO: Ret type
 {
-    Fix16 half_width = a1 / dword_674DA8;
+    Fix16 half_width = a1 / kFp64_674DA8;
     if (half_width == kFpZero_674CD8)
     {
         return 63;
@@ -3931,7 +3931,7 @@ s32 sound_obj::AdjustPlaybackRate_41A580(s32 snd_rate, Fix16 xpos, Fix16 ypos, F
         // q and rate are assigned, not initialised: that keeps them as register locals
         // (q moved to ecx before the imul, snd_rate << 14 held in esi across the divide)
         Fix16 q;
-        q = Fix16(zpos.mValue) / dword_674E18;
+        q = Fix16(zpos.mValue) / kFp100_674E18;
         s32 relative_speed = (((ypos - xpos) * q) / Fix16(field_C, 0)).mValue;
         s32 a = relative_speed > 0 ? relative_speed : -relative_speed;
         if (a >= field_4_speed_of_sound)
@@ -4504,7 +4504,7 @@ void sound_obj::AdjustSamplesVolume_41B540()
     }
 }
 
-DEFINE_GLOBAL(s16, word_675548, 0x675548);
+DEFINE_GLOBAL(s16, gElvisVoiceCooldown_675548, 0x675548);
 DEFINE_GLOBAL(u8, byte_67554A, 0x67554A);
 DEFINE_GLOBAL(u8, byte_67554B, 0x67554B);
 DEFINE_GLOBAL(u8, byte_67554C, 0x67554C);
@@ -5206,7 +5206,7 @@ void sound_obj::ProcessObject_Type12_41E850(Sound_Params_8* pParams)
     AddSampleToRequestedQueue_41A850();
 }
 
-DEFINE_GLOBAL(u16, word_6758A8, 0x6758A8);
+DEFINE_GLOBAL(u16, gCrimeCalloutCooldown_6758A8, 0x6758A8);
 
 MATCH_FUNC(0x41F520)
 void sound_obj::ProcessOtherObjects_41F520(Sound_Params_8* pParams)
@@ -5648,20 +5648,20 @@ void sound_obj::ProcessPed_422B70(Sound_Params_8* pType3Entity)
                     return;
                 }
                 zpos = pType3Entity->field_0_pObj->field_1C_zpos;
-                if (zpos > dword_675418)
+                if (zpos > kFpSix_675418)
                 {
-                    zpos = dword_675418;
+                    zpos = kFpSix_675418;
                 }
-                if (zpos > dword_675414)
+                if (zpos > kFpFive_675414)
                 {
                     samp_idx_ = 193;
-                    if (Fix16::Round_To_Int_410BF0(Fix16(655360, 0) * (zpos - dword_675414)) > 127)
+                    if (Fix16::Round_To_Int_410BF0(Fix16(655360, 0) * (zpos - kFpFive_675414)) > 127)
                     {
                         vol = 127;
                     }
                     else
                     {
-                        vol = Fix16::Round_To_Int_410BF0(Fix16(655360, 0) * (zpos - dword_675414));
+                        vol = Fix16::Round_To_Int_410BF0(Fix16(655360, 0) * (zpos - kFpFive_675414));
                     }
                     releasingMod_ = 5;
                     f_54 = Fix16(81920, 0);
@@ -5671,7 +5671,7 @@ void sound_obj::ProcessPed_422B70(Sound_Params_8* pType3Entity)
                     rate = gSampManager_6FFF00.GetPlayBackRateIdx_58DBF0(193);
                     this->field_30_sQueueSample.field_20_rate = rate;
                     this->field_30_sQueueSample.field_20_rate =
-                        rate + Fix16::Round_To_Int_410BF0(pType3Entity->field_0_pObj->field_1C_zpos * dword_6751F4);
+                        rate + Fix16::Round_To_Int_410BF0(pType3Entity->field_0_pObj->field_1C_zpos * kFp400_6751F4);
                     break;
                 }
                 // fall through: zpos too low, play the ped voice instead
@@ -5860,12 +5860,12 @@ void sound_obj::HandlePedVoiceEvent_423080(Sound_Params_8* pParams)
         s32 occupation = pPed->get_occupation_403980();
         if (occupation == ped_ocupation_enum::elvis || occupation == ped_ocupation_enum::elvis_leader)
         {
-            if (!word_675548)
+            if (!gElvisVoiceCooldown_675548)
             {
                 samp = field_1454_anRandomTable[0] % 6 + 303;
-                word_675548 = 275;
+                gElvisVoiceCooldown_675548 = 275;
             }
-            word_675548--;
+            gElvisVoiceCooldown_675548--;
         }
     }
     else if (voice == 20)
@@ -6029,9 +6029,9 @@ void sound_obj::PoliceRadioMessageGeneration_426790()
     }
 
     s16 stars = pPed->get_wanted_star_count_46EF00();
-    if (word_6758A8 > 0)
+    if (gCrimeCalloutCooldown_6758A8 > 0)
     {
-        word_6758A8--;
+        gCrimeCalloutCooldown_6758A8--;
     }
 
     if (stars > 0)
@@ -6070,7 +6070,7 @@ void sound_obj::PoliceRadioMessageGeneration_426790()
                 nullsub_4();
                 field_5570_timer = field_1454_anRandomTable[2] % 1067 + 150;
                 field_556C_timer = field_1454_anRandomTable[2] % 1530 + 600;
-                word_6758A8 = field_1454_anRandomTable[3] % 50 + 889;
+                gCrimeCalloutCooldown_6758A8 = field_1454_anRandomTable[3] % 50 + 889;
                 switch (stars)
                 {
                     case 1:
@@ -6163,10 +6163,10 @@ void sound_obj::PoliceRadioMessageGeneration_426790()
                         }
                         break;
                     case 1:
-                        if (!word_6758A8)
+                        if (!gCrimeCalloutCooldown_6758A8)
                         {
                             EnqueueRadioCrimeCallout_427340(best_crime, xpos, ypos);
-                            word_6758A8 = field_1454_anRandomTable[3] % 50 + 889;
+                            gCrimeCalloutCooldown_6758A8 = field_1454_anRandomTable[3] % 50 + 889;
                         }
                         break;
                     case 2:
@@ -6197,10 +6197,10 @@ void sound_obj::PoliceRadioMessageGeneration_426790()
                         }
                         break;
                     case 7:
-                        if (!word_6758A8)
+                        if (!gCrimeCalloutCooldown_6758A8)
                         {
                             EnqueueRadioCrimeCallout_427340(best_crime, xpos, ypos);
-                            word_6758A8 = field_1454_anRandomTable[3] % 680 + 628;
+                            gCrimeCalloutCooldown_6758A8 = field_1454_anRandomTable[3] % 680 + 628;
                             field_5570_timer = field_1454_anRandomTable[2] % 1067 + 150;
                         }
                         break;
@@ -6212,10 +6212,10 @@ void sound_obj::PoliceRadioMessageGeneration_426790()
     {
         ResetRadioMessageState_426750();
     }
-    else if (best_crime > 0 && !(field_1454_anRandomTable[4] % 15) && !word_6758A8)
+    else if (best_crime > 0 && !(field_1454_anRandomTable[4] % 15) && !gCrimeCalloutCooldown_6758A8)
     {
         EnqueueRadioCrimeCallout_427340(best_crime, xpos, ypos);
-        word_6758A8 = field_1454_anRandomTable[3] % 80 + 228;
+        gCrimeCalloutCooldown_6758A8 = field_1454_anRandomTable[3] % 80 + 228;
     }
 
     field_5522_wanted_star_count = stars;
@@ -6303,7 +6303,7 @@ void sound_obj::GenerateRadioVehicleDescription_426F20(Car_BC* pCar)
     else
     {
         const s32 car_info_idx = pCar->GetCarInfoIdx_411940();
-        if (this->field_5574_car_info_idx != car_info_idx || word_6757FC != (u16)pCar->field_50_car_sprite->get_remap_41C1F0())
+        if (this->field_5574_car_info_idx != car_info_idx || gLastRadioCarRemap_6757FC != (u16)pCar->field_50_car_sprite->get_remap_41C1F0())
         {
             this->field_5574_car_info_idx = car_info_idx;
             switch (car_info_idx)
@@ -6363,8 +6363,8 @@ void sound_obj::GenerateRadioVehicleDescription_426F20(Car_BC* pCar)
                     return;
             }
 
-            word_6757FC = (u16)pCar->field_50_car_sprite->get_remap_41C1F0();
-            switch (word_6757FC)
+            gLastRadioCarRemap_6757FC = (u16)pCar->field_50_car_sprite->get_remap_41C1F0();
+            switch (gLastRadioCarRemap_6757FC)
             {
                 case 1:
                 case 2:
@@ -6764,7 +6764,7 @@ void sound_obj::ProcessType3_CopRadioAndMusic_57DD50()
                 field_5506 = 0;
             }
 
-            HandleVocalStreamSwitching_57DF10(pCar->field_68_scale != dword_6FF3F4);
+            HandleVocalStreamSwitching_57DF10(pCar->field_68_scale != kFpOne_6FF3F4);
             gLastPlayerCar_6FF53C = pCar;
             return;
         }

@@ -19,8 +19,8 @@ EXTERN_GLOBAL(Fix16, gCharB4_Saved_Ypos_6FD800);
 EXTERN_GLOBAL(Fix16, gCharB4_Saved_Zpos_6FD7FC);
 EXTERN_GLOBAL(Fix16, kFpOne128th_6784BC);
 
-EXTERN_GLOBAL(Ang16, word_6FD940);
-EXTERN_GLOBAL(Ang16, word_6FD8F8);
+EXTERN_GLOBAL(Ang16, kAng16_6FD940);
+EXTERN_GLOBAL(Ang16, kAng344_6FD8F8);
 
 EXPORT void __stdcall UnpackSignedNibbles_529050(u8 a1, s8* a2, s8* a3);
 EXPORT Ang16 __stdcall ComputeShortestAngleDelta_4056C0(Ang16& a2, Ang16& a3);
@@ -250,7 +250,7 @@ class Char_B4
     inline void sub_4923D0()
     {
         field_40_rotation.SnapToAng4_405640();
-        field_40_rotation += word_6FD940;
+        field_40_rotation += kAng16_6FD940;
         field_10_char_state = 9;
         field_46_timer = 10;
     }
@@ -258,7 +258,7 @@ class Char_B4
     inline void sub_4923A0()
     {
         field_40_rotation.SnapToAng4_405640();
-        field_40_rotation += word_6FD8F8;
+        field_40_rotation += kAng344_6FD8F8;
         field_10_char_state = 8;
         field_46_timer = 10;
     }

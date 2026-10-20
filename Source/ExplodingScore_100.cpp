@@ -7,14 +7,14 @@
 
 DEFINE_GLOBAL(ExplodingScorePool*, gExplodingScorePool, 0x702F34);
 
-DEFINE_GLOBAL_INIT(Fix16, dword_702C6C, Fix16(0x280000, 0), 0x702C6C); // 0x2800000000LL / dword_702DF0
-DEFINE_GLOBAL_INIT(Fix16, dword_702BC4, Fix16(0x3FC000, 0), 0x702BC4); // 0x3FC000
-DEFINE_GLOBAL_INIT(Fix16, dword_702F10, Fix16(0x780000, 0), 0x702F10); // 0xA00000 - dword_702C6C
-DEFINE_GLOBAL_INIT(Fix16, dword_702C74, Fix16(0x1E0000, 0), 0x702C74); // 0x1E00000000LL / dword_702DF0
-DEFINE_GLOBAL_INIT(Fix16, dword_702C08, Fix16(0x5A0000, 0), 0x702C08); // 0x780000 - dword_702C74
+DEFINE_GLOBAL_INIT(Fix16, kFp160_702C6C, Fix16(0x280000, 0), 0x702C6C); // 0x2800000000LL / dword_702DF0
+DEFINE_GLOBAL_INIT(Fix16, kFp255_702BC4, Fix16(0x3FC000, 0), 0x702BC4); // 0x3FC000
+DEFINE_GLOBAL_INIT(Fix16, kFp480_702F10, Fix16(0x780000, 0), 0x702F10); // 0xA00000 - kFp160_702C6C
+DEFINE_GLOBAL_INIT(Fix16, kFp120_702C74, Fix16(0x1E0000, 0), 0x702C74); // 0x1E00000000LL / dword_702DF0
+DEFINE_GLOBAL_INIT(Fix16, kFp360_702C08, Fix16(0x5A0000, 0), 0x702C08); // 0x780000 - kFp120_702C74
 
-DEFINE_GLOBAL(Fix16, dword_702DE0, 0x702DE0);
-DEFINE_GLOBAL(Ang16, word_702F24, 0x702F24);
+DEFINE_GLOBAL(Fix16, kFpZero_702DE0, 0x702DE0);
+DEFINE_GLOBAL(Ang16, kAng0_702F24, 0x702F24);
 
 MATCH_FUNC(0x5967e0)
 ExplodingScorePool::ExplodingScorePool()
@@ -255,29 +255,29 @@ void ExplodingScore_50::DrawNumbers_596C90()
     Fix16 y_delta;
     Camera_0xBC* pCamera = &gGame_0x40_67E008->field_38_local_player->field_14C_view_camera;
     pCamera->ProjectWorldToScreen_OutOfLine_4B90E0(field_28_x, field_2C_y, field_30_z, &a3, &screen_y);
-    if (a3 < dword_702C6C)
+    if (a3 < kFp160_702C6C)
     {
-        a3 = dword_702C6C - a3;
-        x_delta = a3 / dword_702BC4;
+        a3 = kFp160_702C6C - a3;
+        x_delta = a3 / kFp255_702BC4;
         field_28_x += x_delta;
     }
-    else if (a3 > dword_702F10)
+    else if (a3 > kFp480_702F10)
     {
-        a3 = dword_702F10 - a3;
-        x_delta = a3 / dword_702BC4;
+        a3 = kFp480_702F10 - a3;
+        x_delta = a3 / kFp255_702BC4;
         field_28_x += x_delta;
     }
 
-    if (screen_y < dword_702C74)
+    if (screen_y < kFp120_702C74)
     {
-        screen_y = dword_702C74 - screen_y;
-        y_delta = screen_y / dword_702BC4;
+        screen_y = kFp120_702C74 - screen_y;
+        y_delta = screen_y / kFp255_702BC4;
         field_2C_y += y_delta;
     }
-    else if (screen_y > dword_702C08)
+    else if (screen_y > kFp360_702C08)
     {
-        screen_y = dword_702C08 - screen_y;
-        y_delta = screen_y / dword_702BC4;
+        screen_y = kFp360_702C08 - screen_y;
+        y_delta = screen_y / kFp255_702BC4;
         field_2C_y += y_delta;
     }
 
@@ -424,17 +424,17 @@ void ExplodingScore_50::DrawSingleNumber_597100(s32 number_to_draw, s32 xpos_sub
     {
         x_off = x_base - xpos_sub;
         y_off = -7;
-        base_scale = dword_702DE4;
+        base_scale = kFpOne_702DE4;
     }
 
     Fix16 x_to_use = proj_x + Fix16(x_off);
     Fix16 y_to_use = proj_y + Fix16(y_off);
 
-    if (x_to_use >= dword_702DE0)
+    if (x_to_use >= kFpZero_702DE0)
     {
         if (x_to_use <= Fix16(640))
         {
-            if (y_to_use >= dword_702DE0)
+            if (y_to_use >= kFpZero_702DE0)
             {
                 if (y_to_use <= Fix16(480))
                 {
@@ -444,7 +444,7 @@ void ExplodingScore_50::DrawSingleNumber_597100(s32 number_to_draw, s32 xpos_sub
                                       number_to_draw + 163, // pal
                                       x_to_use, // x
                                       y_to_use, // y
-                                      word_702F24, // rot
+                                      kAng0_702F24, // rot
                                       finalScale, // scale
                                       drawKind, // drawkind
                                       this->field_34_palette,

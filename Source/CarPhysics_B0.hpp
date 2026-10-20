@@ -15,15 +15,15 @@ class ModelPhysics_48;
 class CarAI_78;
 
 EXTERN_GLOBAL(Fix16, kFP16Zero_6FE20C);
-EXTERN_GLOBAL(Fix16, dword_6FD120);
+EXTERN_GLOBAL(Fix16, kFpZero_6FD120);
 EXTERN_GLOBAL(ModelPhysics_48*, gCarInfo_48_6FE258);
 EXTERN_GLOBAL(Ang16, kAng90_6FE00C);
 EXTERN_GLOBAL(Ang16, kAng270_6FE154);
 EXTERN_GLOBAL(CarInfo_2C*, gCarInfo_2C_6FE0E4);
 EXTERN_GLOBAL(Fix16, gDamageSpeedFactor_6FE348);
 EXTERN_GLOBAL(Fix16, kDrowningMaxSpeed_677794);
-EXTERN_GLOBAL(Fix16_Point, stru_6FDF50);
-EXTERN_GLOBAL(Fix16, dword_6FE0B0);
+EXTERN_GLOBAL(Fix16_Point, gConveyorVelocity_6FDF50);
+EXTERN_GLOBAL(Fix16, gArrowSteerAngVel_6FE0B0);
 EXTERN_GLOBAL(Fix16, kF16Zero_677B90);
 EXTERN_GLOBAL(Fix16_Point, CollisionIntersectionPoint_6FE1A0);
 
@@ -92,7 +92,7 @@ class CarPhysics_B0
     // 9.6f 0x4895D0
     inline void StopMoving_4895D0()
     {
-        field_74_ang_vel_rad = dword_6FD120;
+        field_74_ang_vel_rad = kFpZero_6FD120;
         field_40_linvel_1.clear_41E1E0();
     }
 
@@ -386,25 +386,25 @@ class CarPhysics_B0
     // FUNCTION: 96f 0x49ea60
     inline void Field74Subtract()
     {
-        field_74_ang_vel_rad -= dword_6FE0B0;
+        field_74_ang_vel_rad -= gArrowSteerAngVel_6FE0B0;
     }
 
     // FUNCTION: 96f 0x49f4e0
     inline void Field40Add()
     {
-        field_40_linvel_1 += stru_6FDF50;
+        field_40_linvel_1 += gConveyorVelocity_6FDF50;
     }
 
     // FUNCTION: 96f 0x49f4f0
     inline void Field40Subtract()
     {
-        field_40_linvel_1 -= stru_6FDF50;
+        field_40_linvel_1 -= gConveyorVelocity_6FDF50;
     }
 
     // FUNCTION: 96f 0x49f500
     inline void ResetPoint6FDF50()
     {
-        stru_6FDF50.reset();
+        gConveyorVelocity_6FDF50.reset();
     }
 
     // FUNCTION: 96f 0x421210

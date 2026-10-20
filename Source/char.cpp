@@ -61,53 +61,53 @@ DEFINE_GLOBAL_INIT(Fix16, kFP16Quarter_6FD7A4, Fix16(0x1000, 0), 0x6FD7A4);
 DEFINE_GLOBAL_INIT(Fix16, gCharB4_Saved_SlopeGradDir_6FD7B0, kFP16Zero_6FD9E4, 0x6FD7B0);
 DEFINE_GLOBAL_INIT(Fix16, kZeroVelocity_6FD7C0, kFP16Zero_6FD9E4, 0x6FD7C0);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD7DC, kFP16Zero_6FD9E4, 0x6FD7DC);
-DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD868, Fix16(256, 0), 0x6FD868);
+DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6FD868, Fix16(256, 0), 0x6FD868);
 DEFINE_GLOBAL_INIT(Fix16, kFP16Half_6FD9B4, Fix16(0x2000, 0), 0x6FD9B4);
-DEFINE_GLOBAL_INIT(Fix16, gRunOrJumpSpeed_6FD7D0, kFP16Four_6FD9F4* k_dword_6FD868, 0x6FD7D0);
+DEFINE_GLOBAL_INIT(Fix16, gRunOrJumpSpeed_6FD7D0, kFP16Four_6FD9F4* kFpOne64th_6FD868, 0x6FD7D0);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FD8B4, kFP16Zero_6FD9E4, 0x6FD8B4);
 DEFINE_GLOBAL_INIT(Fix16, gCharB4_StepXpos_6FD8B8, kFP16Zero_6FD9E4, 0x6FD8B8);
 DEFINE_GLOBAL_INIT(Fix16, gCharB4_StepYpos_6FD8BC, kFP16Zero_6FD9E4, 0x6FD8BC);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD82C, Fix16(0xCCC, 0), 0x6FD82C);
-DEFINE_GLOBAL_INIT(Fix16, gCharB4_WorldCollisionOffset_6FD8D8, dword_6FD82C, 0x6FD8D8);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD870, k_dword_6FD868 * 2, 0x6FD870);
-DEFINE_GLOBAL_INIT(Fix16, k_CollisionRepulsionSpeed_6FD7BC, dword_6FD870, 0x6FD7BC);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD9B0, Fix16(0x333, 0), 0x6FD9B0);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FDAE4, dword_6FD9B0, 0x6FDAE4);
+DEFINE_GLOBAL_INIT(Fix16, kFpPoint2_6FD82C, Fix16(0xCCC, 0), 0x6FD82C);
+DEFINE_GLOBAL_INIT(Fix16, gCharB4_WorldCollisionOffset_6FD8D8, kFpPoint2_6FD82C, 0x6FD8D8);
+DEFINE_GLOBAL_INIT(Fix16, kFpOneThirtySecond_6FD870, kFpOne64th_6FD868 * 2, 0x6FD870);
+DEFINE_GLOBAL_INIT(Fix16, k_CollisionRepulsionSpeed_6FD7BC, kFpOneThirtySecond_6FD870, 0x6FD7BC);
+DEFINE_GLOBAL_INIT(Fix16, kFpPoint05_6FD9B0, Fix16(0x333, 0), 0x6FD9B0);
+DEFINE_GLOBAL_INIT(Fix16, kFpPoint05_6FDAE4, kFpPoint05_6FD9B0, 0x6FDAE4);
 DEFINE_GLOBAL_INIT(Fix16, gFix16_Two_6FD9EC, Fix16(2), 0x6FD9EC);
 DEFINE_GLOBAL_INIT(Fix16, kFP16One_6FD9E8, Fix16(1), 0x6FD9E8);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD9A8, Fix16(0x1EB, 0), 0x6FD9A8);
+DEFINE_GLOBAL_INIT(Fix16, kFpPoint03_6FD9A8, Fix16(0x1EB, 0), 0x6FD9A8);
 DEFINE_GLOBAL_INIT(Fix16, kFP16Three_6FD9F0, Fix16(3), 0x6FD9F0);
 DEFINE_GLOBAL_INIT(Fix16, kFP16Five_6FD9F8, Fix16(5), 0x6FD9F8);
 DEFINE_GLOBAL_INIT(Fix16, kFP16Six_6FD9FC, Fix16(6), 0x6FD9FC);
 DEFINE_GLOBAL_INIT(Fix16, kFP16Seven_6FDA00, Fix16(7), 0x6FDA00);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FDAC8, k_dword_6FD868 * 6, 0x6FDAC8);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD99C, k_dword_6FD868 / kFP16Four_6FD9F4, 0x6FD99C);
-DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD7B8, k_dword_6FD868, 0x6FD7B8);
-DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD7CC, kFP16Three_6FD9F0* k_dword_6FD868, 0x6FD7CC);
+DEFINE_GLOBAL_INIT(Fix16, kFpThreeThirtySeconds_6FDAC8, kFpOne64th_6FD868 * 6, 0x6FDAC8);
+DEFINE_GLOBAL_INIT(Fix16, kFpOne256th_6FD99C, kFpOne64th_6FD868 / kFP16Four_6FD9F4, 0x6FD99C);
+DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6FD7B8, kFpOne64th_6FD868, 0x6FD7B8);
+DEFINE_GLOBAL_INIT(Fix16, kFpThreeSixtyFourths_6FD7CC, kFP16Three_6FD9F0* kFpOne64th_6FD868, 0x6FD7CC);
 
-DEFINE_GLOBAL_INIT(Fix16, dword_6FDB20, k_dword_6FD868 * 64, 0x6FDB20);
+DEFINE_GLOBAL_INIT(Fix16, kFpOne_6FDB20, kFpOne64th_6FD868 * 64, 0x6FDB20);
 
-DEFINE_GLOBAL_INIT(Ang16, k_dword_6FD892, Ang16(48), 0x6FD892);
+DEFINE_GLOBAL_INIT(Ang16, kAng12_6FD892, Ang16(48), 0x6FD892);
 
-DEFINE_GLOBAL_INIT(Fix16, k_dword_6FD8DC, Fix16(0x666, 0), 0x6FD8DC);
+DEFINE_GLOBAL_INIT(Fix16, kFpPoint1_6FD8DC, Fix16(0x666, 0), 0x6FD8DC);
 DEFINE_GLOBAL_INIT(Fix16, kFP16Half_6FD8E4, Fix16(0x2000, 0), 0x6FD8E4);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FDB28, kFP16Half_6FD8E4, 0x6FDB28);
+DEFINE_GLOBAL_INIT(Fix16, kFpHalf_6FDB28, kFP16Half_6FD8E4, 0x6FDB28);
 
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD87C, k_dword_6FD868 * 4, 0x6FD87C);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD88C, k_dword_6FD868 * 8, 0x6FD88C);
+DEFINE_GLOBAL_INIT(Fix16, kFpOneSixteenth_6FD87C, kFpOne64th_6FD868 * 4, 0x6FD87C);
+DEFINE_GLOBAL_INIT(Fix16, kFpOneEighth_6FD88C, kFpOne64th_6FD868 * 8, 0x6FD88C);
 DEFINE_GLOBAL_INIT(Fix16, kFP16Quarter_6FD828, Fix16(0x1000, 0), 0x6FD828);
 DEFINE_GLOBAL_INIT(Fix16, kFP16Eighth_6FDB04, Fix16(0x800, 0), 0x6FDB04);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD9A0, Fix16(0xA3, 0), 0x6FD9A0);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FDB24, Fix16(0x200, 0), 0x6FDB24);
+DEFINE_GLOBAL_INIT(Fix16, kFpPoint01_6FD9A0, Fix16(0xA3, 0), 0x6FD9A0);
+DEFINE_GLOBAL_INIT(Fix16, kFpOneThirtySecond_6FDB24, Fix16(0x200, 0), 0x6FDB24);
 
-DEFINE_GLOBAL_INIT(Fix16, k_dword_6FDA9C, Fix16(0x100, 0), 0x6FDA9C);
+DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6FDA9C, Fix16(0x100, 0), 0x6FDA9C);
 
 DEFINE_GLOBAL(u16, gNumPedsOnScreen_6787EC, 0x6787EC);
 
 DEFINE_GLOBAL(u8, byte_6FDB51, 0x6FDB51);
 DEFINE_GLOBAL(u8, byte_6FDB52, 0x6FDB52);
 DEFINE_GLOBAL(u8, byte_6FDB53, 0x6FDB53);
-DEFINE_GLOBAL(u8, byte_6FDB54, 0x6FDB54);
+DEFINE_GLOBAL(u8, gCharB4_GradientSlopeBelow_6FDB54, 0x6FDB54);
 
 DEFINE_GLOBAL(u8, byte_6FDB56, 0x6FDB56);
 DEFINE_GLOBAL_INIT(u8, byte_623F48, 1, 0x623F48);
@@ -117,8 +117,8 @@ DEFINE_GLOBAL(u8, byte_6FDB57, 0x6FDB57);
 
 DEFINE_GLOBAL_INIT(Ang16, gAng16_AngleOfCollision_6FD808, Ang16(0), 0x6FD808);
 DEFINE_GLOBAL_INIT(Ang16, kAng90_6FD8A2, Ang16(360), 0x6FD8A2);
-DEFINE_GLOBAL_INIT(Ang16, word_6FD940, Ang16(64), 0x6FD940);
-DEFINE_GLOBAL_INIT(Ang16, word_6FD8F8, Ang16(1376), 0x6FD8F8);
+DEFINE_GLOBAL_INIT(Ang16, kAng16_6FD940, Ang16(64), 0x6FD940);
+DEFINE_GLOBAL_INIT(Ang16, kAng344_6FD8F8, Ang16(1376), 0x6FD8F8);
 DEFINE_GLOBAL_INIT(Ang16, kAng270_6FD94C, Ang16(1080), 0x6FD94C);
 DEFINE_GLOBAL_INIT(Ang16, kAng270_6FD95C, Ang16(1080), 0x6FD95C);
 DEFINE_GLOBAL_INIT(Ang16, kAng90_6FD854, Ang16(360), 0x6FD854);
@@ -128,25 +128,25 @@ DEFINE_GLOBAL(Ang16, word_6FDB3C, 0x6FDB3C);
 DEFINE_GLOBAL_INIT(Ang16, kAng90_6FDA64, Ang16(0x168), 0x6FDA64);
 DEFINE_GLOBAL_INIT(Ang16, kAng270_6FD904, Ang16(0x438), 0x6FD904);
 
-DEFINE_GLOBAL_INIT(Ang16, word_6FDA54, Ang16(0x18), 0x6FDA54); // TODO: Init via func 0x54A300
+DEFINE_GLOBAL_INIT(Ang16, kAng6_6FDA54, Ang16(0x18), 0x6FDA54); // TODO: Init via func 0x54A300
 DEFINE_GLOBAL_INIT(Ang16, kAng180_6FD920, kAng180_6FD936, 0x6FD920);
-DEFINE_GLOBAL_INIT(Ang16, dword_6FD9D8, Ang16(0x588), 0x6FD9D8); // TODO: Init via func 0x54A270
-DEFINE_GLOBAL_INIT(Ang16, word_6FD890, Ang16(96), 0x6FD890);
+DEFINE_GLOBAL_INIT(Ang16, kAng354_6FD9D8, Ang16(0x588), 0x6FD9D8); // TODO: Init via func 0x54A270
+DEFINE_GLOBAL_INIT(Ang16, kAng24_6FD890, Ang16(96), 0x6FD890);
 DEFINE_GLOBAL_INIT(Ang16, kAng45_6FD89C, Ang16(180), 0x6FD89C);
 
-DEFINE_GLOBAL_INIT(Fix16, dword_6FDAB0, kFP16Half_6FD8E4, 0x6FDAB0);
+DEFINE_GLOBAL_INIT(Fix16, kFpHalf_6FDAB0, kFP16Half_6FD8E4, 0x6FDAB0);
 
 EXTERN_GLOBAL(Ang16, kAng0_6FDB34);
 EXTERN_GLOBAL(Ped_List_4, gThreateningPedsList_678468);
 
 DEFINE_GLOBAL_INIT(Fix16, kFP16Half_6F67B0, Fix16(0x2000, 0), 0x6F67B0);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FDB18, k_dword_6FD868 * 32, 0x6FDB18);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FDB08, k_dword_6FD868 * 12, 0x6FDB08);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD91C, Fix16(0x1333, 0), 0x6FD91C);
+DEFINE_GLOBAL_INIT(Fix16, kFpHalf_6FDB18, kFpOne64th_6FD868 * 32, 0x6FDB18);
+DEFINE_GLOBAL_INIT(Fix16, kFpThreeSixteenths_6FDB08, kFpOne64th_6FD868 * 12, 0x6FDB08);
+DEFINE_GLOBAL_INIT(Fix16, kFpPoint3_6FD91C, Fix16(0x1333, 0), 0x6FD91C);
 DEFINE_GLOBAL_INIT(Fix16, kFP16Eight_6FDA08, Fix16(8), 0x6FDA08);
 DEFINE_GLOBAL_INIT(Fix16, gFP16_CollisionCheckRadius_6FDACC, Fix16(0x800, 0), 0x6FDACC);
 DEFINE_GLOBAL_INIT(Fix16, kFP16MinusOne_6FD790, Fix16(-1), 0x6FD790);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FDA04, k_dword_6FD868 * 256, 0x6FDA04);
+DEFINE_GLOBAL_INIT(Fix16, kFpFour_6FDA04, kFpOne64th_6FD868 * 256, 0x6FDA04);
 
 
 MATCH_FUNC(0x4056C0)
@@ -220,7 +220,7 @@ void __stdcall ResetCharUpdateGlobals_544F70()
     byte_6FDB51 = 0;
     byte_6FDB52 = 0;
     byte_6FDB53 = 0;
-    byte_6FDB54 = 0;
+    gCharB4_GradientSlopeBelow_6FDB54 = 0;
     byte_6FDB55 = 0;
     gCharB4_PathDirection_623F44 = path_direction::up_1;
     byte_6FDB56 = 0;
@@ -1172,7 +1172,7 @@ void Char_B4::UpdateAnimState_546360()
 
             field_80_sprite_ptr->set_xyz_lazy_420600(newx, newy, pCar->field_50_car_sprite->field_1C_zpos);
             field_80_sprite_ptr->SetDrawLayer_40F7B0(6);
-            byte_6FDB54 = gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(field_80_sprite_ptr->field_14_xy.x.ToInt(),
+            gCharB4_GradientSlopeBelow_6FDB54 = gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(field_80_sprite_ptr->field_14_xy.x.ToInt(),
                                                                       field_80_sprite_ptr->field_14_xy.y.ToInt(),
                                                                       field_80_sprite_ptr->field_1C_zpos.ToInt() - 1);
             ManageZCoordAndSlopes_548590();
@@ -1341,7 +1341,7 @@ void Char_B4::UpdateAnimState_546360()
                     }
                     else
                     {
-                        byte_6FDB54 = gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(field_80_sprite_ptr->field_14_xy.x.ToInt(),
+                        gCharB4_GradientSlopeBelow_6FDB54 = gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(field_80_sprite_ptr->field_14_xy.x.ToInt(),
                                                                                   field_80_sprite_ptr->field_14_xy.y.ToInt(),
                                                                                   field_80_sprite_ptr->field_1C_zpos.ToInt() - 1);
                         ManageZCoordAndSlopes_548590();
@@ -1453,22 +1453,22 @@ void Char_B4::UpdateAnimState_546360()
                 case 2:
                 case 3:
                 case 4:
-                    gCharB4_Saved_Zpos_6FD7FC += dword_6FDAE4;
+                    gCharB4_Saved_Zpos_6FD7FC += kFpPoint05_6FDAE4;
                     gCharB4_Saved_Zpos_6FD7FC = SnapZTo16_4F79B0(gCharB4_Saved_Zpos_6FD7FC);
                     if (field_58_flags & 1)
                     {
-                        byte_6FDB54 = 0;
+                        gCharB4_GradientSlopeBelow_6FDB54 = 0;
                     }
                     ManageZCoordAndSlopes_548590();
                     break;
 
                 case 0:
                     field_54_jump_scale_counter = 0;
-                    gCharB4_Saved_Zpos_6FD7FC += dword_6FDAE4;
+                    gCharB4_Saved_Zpos_6FD7FC += kFpPoint05_6FDAE4;
                     gCharB4_Saved_Zpos_6FD7FC = SnapZTo16_4F79B0(gCharB4_Saved_Zpos_6FD7FC);
                     if (field_58_flags & 1)
                     {
-                        byte_6FDB54 = 0;
+                        gCharB4_GradientSlopeBelow_6FDB54 = 0;
                     }
                     ManageZCoordAndSlopes_548590();
                     break;
@@ -1486,13 +1486,13 @@ void Char_B4::UpdateAnimState_546360()
 
             if ((u8)field_54_jump_scale_counter < 12)
             {
-                field_80_sprite_ptr->ApplyScaleToDimensions_59E4C0(kFP16One_6FD9E8 + Fix16((u8)field_54_jump_scale_counter) * dword_6FD9A8,
+                field_80_sprite_ptr->ApplyScaleToDimensions_59E4C0(kFP16One_6FD9E8 + Fix16((u8)field_54_jump_scale_counter) * kFpPoint03_6FD9A8,
                                                                    0);
             }
             else if ((u8)field_54_jump_scale_counter < 24)
             {
                 field_80_sprite_ptr->ApplyScaleToDimensions_59E4C0(kFP16One_6FD9E8 +
-                                                                       Fix16(25 - (u8)field_54_jump_scale_counter) * dword_6FD9A8,
+                                                                       Fix16(25 - (u8)field_54_jump_scale_counter) * kFpPoint03_6FD9A8,
                                                                    0);
             }
             return;
@@ -1637,7 +1637,7 @@ void Char_B4::ManageZCoordAndSlopes_548590()
     Fix16 zpos = kFP16Zero_6FD9E4;
     zpos = field_80_sprite_ptr->field_1C_zpos;
 
-    if (byte_6FDB54 == 1)
+    if (gCharB4_GradientSlopeBelow_6FDB54 == 1)
     {
         zpos--;
     }
@@ -1651,7 +1651,7 @@ void Char_B4::ManageZCoordAndSlopes_548590()
             Fix16 frac = zpos.GetFracValue();
             zpos = zpos.GetRoundValue();
 
-            if (frac > dword_6FDB28)
+            if (frac > kFpHalf_6FDB28)
             {
                 zpos++;
             }
@@ -1671,13 +1671,13 @@ void Char_B4::ManageZCoordAndSlopes_548590()
     field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x, field_80_sprite_ptr->field_14_xy.y, zpos);
 }
 
-DEFINE_GLOBAL_INIT(Ang16, word_6FD888, Ang16(64), 0x6FD888);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD860, Fix16(0x80, 0), 0x6FD860);
+DEFINE_GLOBAL_INIT(Ang16, kAng16_6FD888, Ang16(64), 0x6FD888);
+DEFINE_GLOBAL_INIT(Fix16, kFpOne128th_6FD860, Fix16(0x80, 0), 0x6FD860);
 
 // The angle is a by-value parameter: the original keeps it in memory and adds it as a dword
 static inline Ang16 TurnBy16Deg_548BD0(Ang16 angle)
 {
-    return word_6FD888 + angle;
+    return kAng16_6FD888 + angle;
 }
 
 // 9.6f 0x499F00
@@ -1856,7 +1856,7 @@ void Char_B4::HandleObjectCollision_548840(Object_2C* pObj)
             }
         }
 
-        if (pObj->GetMass_482C80() < dword_6FDAB0)
+        if (pObj->GetMass_482C80() < kFpHalf_6FDAB0)
         {
 
             field_80_sprite_ptr->set_xyz_lazy_420600(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800, gCharB4_Saved_Zpos_6FD7FC);
@@ -1984,7 +1984,7 @@ void Char_B4::HandlePedCollision_548BD0(Char_B4* pOther)
                         {
                             if (field_7C_pPed->GetInternalObjective_403A90() != objectives_enum::objective_11)
                             {
-                                compound_add_41FA70(field_40_rotation, word_6FD888);
+                                compound_add_41FA70(field_40_rotation, kAng16_6FD888);
                                 field_10_char_state = 10;
                             }
                             else
@@ -2029,7 +2029,7 @@ void Char_B4::HandlePedCollision_548BD0(Char_B4* pOther)
                         {
                             if (field_7C_pPed->GetInternalObjective_403A90() != objectives_enum::objective_11)
                             {
-                                compound_add_41FA70(field_40_rotation, word_6FD888);
+                                compound_add_41FA70(field_40_rotation, kAng16_6FD888);
                                 field_10_char_state = 10;
                             }
                             else
@@ -2057,7 +2057,7 @@ void Char_B4::HandlePedCollision_548BD0(Char_B4* pOther)
             if (field_7C_pPed->GetInternalObjective_403A90() == objectives_enum::objective_48 || field_7C_pPed->GetInternalObjective_403A90() == objectives_enum::enter_train_37 ||
                 field_7C_pPed->GetInternalObjective_403A90() == objectives_enum::leave_train_38 || field_7C_pPed->GetInternalObjective_403A90() == objectives_enum::goto_area_on_foot_12)
             {
-                field_38_velocity = k_dword_6FD7CC;
+                field_38_velocity = kFpThreeSixtyFourths_6FD7CC;
                 break;
             }
             switch (other_type)
@@ -2069,7 +2069,7 @@ void Char_B4::HandlePedCollision_548BD0(Char_B4* pOther)
                     }
                     if (pOther->field_38_velocity != kZeroVelocity_6FD7C0)
                     {
-                        field_38_velocity = dword_6FD860;
+                        field_38_velocity = kFpOne128th_6FD860;
                     }
                     else
                     {
@@ -2080,7 +2080,7 @@ void Char_B4::HandlePedCollision_548BD0(Char_B4* pOther)
                 case 5:
                     if (pOther->field_38_velocity != kZeroVelocity_6FD7C0)
                     {
-                        field_38_velocity = dword_6FD860;
+                        field_38_velocity = kFpOne128th_6FD860;
                     }
                     else
                     {
@@ -2090,7 +2090,7 @@ void Char_B4::HandlePedCollision_548BD0(Char_B4* pOther)
                     break;
                 case 4:
                 case 6:
-                    field_38_velocity = dword_6FD860;
+                    field_38_velocity = kFpOne128th_6FD860;
                     break;
                 case 3:
                     if (!field_20)
@@ -2270,7 +2270,7 @@ void Char_B4::HandleGenericCollision_54A530(Car_BC* pCar, Object_2C* pObj, Char_
         target_y = field_7C_pPed->GetMoveTargetY_492CF0();
         if (target_x == kFP16MinusOne_6FD790 || target_y == kFP16MinusOne_6FD790)
         {
-            Ang16::PolarToCartesian_41FC20(field_40_rotation, dword_6FDA04, target_x, target_y);
+            Ang16::PolarToCartesian_41FC20(field_40_rotation, kFpFour_6FDA04, target_x, target_y);
             target_x += field_80_sprite_ptr->field_14_xy.x;
             target_y += field_80_sprite_ptr->field_14_xy.y;
         }
@@ -2748,7 +2748,7 @@ char_type Char_B4::CanMoveOntoSlope_54C1A0(s32 path_direction)
             }
             zpos_frac = zpos.GetFracValue();
 
-            if (zpos_frac < k_dword_6FD8DC)
+            if (zpos_frac < kFpPoint1_6FD8DC)
             {
                 field_58_flags &= ~1;
                 result = CanMoveOntoSlope_54C1A0(path_direction);
@@ -2920,7 +2920,7 @@ void Char_B4::ApplyRandomRotationJitter_54C6C0()
     if (gRng_6F6784.get_int_4F7AE0(32) > 22)
     {
         Ang16 old_angle = field_42_rotation_jitter;
-        field_42_rotation_jitter = Ang16::Fix16_To_Ang16_inlined_40F540(k_dword_6FD868 * (Fix16(gRng_6F6784.get_int_4F7AE0(16)) - kFP16Eight_6FDA08)); // INLINED_MODE required
+        field_42_rotation_jitter = Ang16::Fix16_To_Ang16_inlined_40F540(kFpOne64th_6FD868 * (Fix16(gRng_6F6784.get_int_4F7AE0(16)) - kFP16Eight_6FDA08)); // INLINED_MODE required
         if (old_angle > kAng180_6FD936 && field_42_rotation_jitter > kAng180_6FD936)
         {
             field_42_rotation_jitter = -field_42_rotation_jitter;
@@ -2940,7 +2940,7 @@ void Char_B4::TickMovementStateMachine_54C900()
     {
         case 1:
             ApplyRandomRotationJitter_54C6C0();
-            this->field_38_velocity = k_dword_6FD7B8;
+            this->field_38_velocity = kFpOne64th_6FD7B8;
             byte_6FDB51 = 1;
             byte_6FDB52 = 1;
             byte_6FDB53 = 0;
@@ -2954,7 +2954,7 @@ void Char_B4::TickMovementStateMachine_54C900()
             }
             else
             {
-                this->field_38_velocity = k_dword_6FD7B8;
+                this->field_38_velocity = kFpOne64th_6FD7B8;
                 this->field_10_char_state = 1;
                 this->field_6C_animation_state = 0;
             }
@@ -2966,12 +2966,12 @@ void Char_B4::TickMovementStateMachine_54C900()
         case 4:
             if (this->field_46_timer)
             {
-                this->field_38_velocity = k_dword_6FD7CC;
+                this->field_38_velocity = kFpThreeSixtyFourths_6FD7CC;
                 ApplyRandomRotationJitter_54C6C0();
             }
             else
             {
-                this->field_38_velocity = k_dword_6FD7B8;
+                this->field_38_velocity = kFpOne64th_6FD7B8;
                 this->field_10_char_state = 1;
                 this->field_6C_animation_state = 0;
             }
@@ -2992,7 +2992,7 @@ void Char_B4::TickMovementStateMachine_54C900()
                 this->field_6C_animation_state = 0;
                 this->field_68_animation_frame = 0;
                 this->field_10_char_state = 1;
-                this->field_38_velocity = k_dword_6FD7B8;
+                this->field_38_velocity = kFpOne64th_6FD7B8;
             }
             byte_6FDB53 = 0;
             byte_6FDB51 = 1;
@@ -3015,9 +3015,9 @@ void Char_B4::TickMovementStateMachine_54C900()
 
         case 25:
             TurnTowardsAngle_54CAE0();
-            if (ComputeShortestAngleDelta_4056C0(this->field_40_rotation, this->field_14_target_rotation) < k_dword_6FD892)
+            if (ComputeShortestAngleDelta_4056C0(this->field_40_rotation, this->field_14_target_rotation) < kAng12_6FD892)
             {
-                this->field_38_velocity = k_dword_6FD7B8;
+                this->field_38_velocity = kFpOne64th_6FD7B8;
                 this->field_10_char_state = 1;
                 this->field_6C_animation_state = 0;
                 this->field_46_timer = 0;
@@ -3048,7 +3048,7 @@ void Char_B4::TurnTowardsAngle_54CAE0()
             goto add_6FDA54;
         }
     add_6FD9D8:
-        this->field_40_rotation += dword_6FD9D8;
+        this->field_40_rotation += kAng354_6FD9D8;
     }
     else
     {
@@ -3057,7 +3057,7 @@ void Char_B4::TurnTowardsAngle_54CAE0()
             goto add_6FD9D8;
         }
     add_6FDA54:
-        this->field_40_rotation += word_6FDA54;
+        this->field_40_rotation += kAng6_6FDA54;
     }
 }
 
@@ -3352,7 +3352,7 @@ void Char_B4::state_0_54DDF0()
     byte_6FDB51 = 1;
     byte_6FDB52 = 1;
     byte_6FDB53 = 0;
-    byte_6FDB54 = 0;
+    gCharB4_GradientSlopeBelow_6FDB54 = 0;
     this->field_4A = 500;
     bAllowStateChange = 1;
     bCanMove = 0;
@@ -3424,16 +3424,16 @@ void Char_B4::state_0_54DDF0()
         {
             if (field_7C_pPed->GetMoveDirection_45C9B0() < kFP16Zero_6FD9E4 || (field_58_flags & 8) != 0)
             {
-                Ang16::PolarToCartesian_41FC20(field_40_rotation + kAng180_6FD936, dword_6FDAC8, ret1, ret2);
+                Ang16::PolarToCartesian_41FC20(field_40_rotation + kAng180_6FD936, kFpThreeThirtySeconds_6FDAC8, ret1, ret2);
             }
             else
             {
-                Ang16::PolarToCartesian_41FC20(field_40_rotation, dword_6FDAC8, ret1, ret2);
+                Ang16::PolarToCartesian_41FC20(field_40_rotation, kFpThreeThirtySeconds_6FDAC8, ret1, ret2);
             }
         }
         else
         {
-            Ang16::PolarToCartesian_41FC20(field_40_rotation, dword_6FDAC8, ret1, ret2);
+            Ang16::PolarToCartesian_41FC20(field_40_rotation, kFpThreeThirtySeconds_6FDAC8, ret1, ret2);
         }
         // ......
 
@@ -3492,7 +3492,7 @@ void Char_B4::state_0_54DDF0()
     Fix16 radius;
     if (field_7C_pPed->PedTypeIs_45EDE0(ped_type::player_2) == true)
     {
-        radius = dword_6FDAC8;
+        radius = kFpThreeThirtySeconds_6FDAC8;
         if (this->field_10_char_state)
         {
             this->field_46_timer = 9999;
@@ -3517,13 +3517,13 @@ void Char_B4::state_0_54DDF0()
                 {
                     if (field_3C_run_or_jump_speed > field_38_velocity)
                     {
-                        this->field_38_velocity += dword_6FD99C;
+                        this->field_38_velocity += kFpOne256th_6FD99C;
                     }
                     else
                     {
                         if (field_38_velocity > field_3C_run_or_jump_speed)
                         {
-                            this->field_38_velocity -= dword_6FD99C;
+                            this->field_38_velocity -= kFpOne256th_6FD99C;
                         }
                     }
                 }
@@ -3546,14 +3546,14 @@ void Char_B4::state_0_54DDF0()
                 {
                     if (field_38_velocity < field_3C_run_or_jump_speed)
                     {
-                        this->field_38_velocity += dword_6FD99C;
+                        this->field_38_velocity += kFpOne256th_6FD99C;
                         field_58_flags &= ~8;
                     }
                     else
                     {
                         if (field_38_velocity > field_3C_run_or_jump_speed)
                         {
-                            this->field_38_velocity -= dword_6FD99C;
+                            this->field_38_velocity -= kFpOne256th_6FD99C;
                         }
                         field_58_flags &= ~8;
                     }
@@ -3577,13 +3577,13 @@ void Char_B4::state_0_54DDF0()
                         if (field_38_velocity < field_3C_run_or_jump_speed)
                         {
                             bNoNewRotation = 0;
-                            this->field_38_velocity += dword_6FD99C;
+                            this->field_38_velocity += kFpOne256th_6FD99C;
                         }
                         else
                         {
                             if (field_38_velocity > field_3C_run_or_jump_speed)
                             {
-                                this->field_38_velocity -= dword_6FD99C;
+                                this->field_38_velocity -= kFpOne256th_6FD99C;
                             }
                             bNoNewRotation = 0;
                         }
@@ -3620,7 +3620,7 @@ void Char_B4::state_0_54DDF0()
     }
     else
     {
-        radius = dword_6FDAC8;
+        radius = kFpThreeThirtySeconds_6FDAC8;
         if (this->field_69_is_colliding_with_sprite || this->field_10_char_state == Char_B4_state::Jumping_15) // line 6b1
         {
             bAllowStateChange = 0;
@@ -3780,7 +3780,7 @@ LABEL_152:
     field_50_conveyor_dy = kFP16Zero_6FD9E4;
     if (bCanMove == 1 || (field_58_flags & 1) == 1)
     {
-        byte_6FDB54 = gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(field_80_sprite_ptr->field_14_xy.x.ToInt(),
+        gCharB4_GradientSlopeBelow_6FDB54 = gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(field_80_sprite_ptr->field_14_xy.x.ToInt(),
                                                                   field_80_sprite_ptr->field_14_xy.y.ToInt(),
                                                                   field_80_sprite_ptr->field_1C_zpos.ToInt() - 1);
         Char_B4::ManageZCoordAndSlopes_548590();
@@ -3813,7 +3813,7 @@ LABEL_152:
                     {
                         // Line 507 on 9.6f IDA
                         field_80_sprite_ptr->set_xyz_lazy_420600(old_xpos, old_ypos, gCharB4_Saved_Zpos_6FD7FC);
-                        byte_6FDB54 = gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(field_80_sprite_ptr->field_14_xy.x.ToInt(),
+                        gCharB4_GradientSlopeBelow_6FDB54 = gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(field_80_sprite_ptr->field_14_xy.x.ToInt(),
                                                                     field_80_sprite_ptr->field_14_xy.y.ToInt(),
                                                                     (field_80_sprite_ptr->field_1C_zpos - kFP16One_6FD9E8).ToInt());
                         Char_B4::ManageZCoordAndSlopes_548590();
@@ -3897,7 +3897,7 @@ bool Char_B4::CanStepForwardWithRegionCheck_54ECB0(s32 direction)
 
     if ((field_58_flags & 1) == 1)
     {
-        if (zpos.GetFracValue() < dword_6FD91C)
+        if (zpos.GetFracValue() < kFpPoint3_6FD91C)
         {
             field_58_flags &= ~1u;
             bool result = Char_B4::CanStepForward_54FEC0(direction);
@@ -4637,7 +4637,7 @@ void Char_B4::state_1_5504F0()
     bMoved = 0;
     saved_rotation = 0;
     bSnapRotation = 0;
-    byte_6FDB54 = 0;
+    gCharB4_GradientSlopeBelow_6FDB54 = 0;
     gCharB4_Saved_TileX_6FDAD8 = gCharB4_Saved_Xpos_6FD7F8.ToUInt8();
     gCharB4_Saved_TileY_6FDAD9 = gCharB4_Saved_Ypos_6FD800.ToUInt8();
     u8 unk_xpos = gCharB4_Saved_Xpos_6FD7F8.ToUInt8();
@@ -4775,13 +4775,13 @@ void Char_B4::state_1_5504F0()
             {
                 if (field_7C_pPed->field_224_bf.bWaitingOnTarget)
                 {
-                    if (gCharB4_DistanceToTarget_6FD80C < dword_6FD87C)
+                    if (gCharB4_DistanceToTarget_6FD80C < kFpOneSixteenth_6FD87C)
                     {
-                        field_38_velocity = k_dword_6FD7B8;
+                        field_38_velocity = kFpOne64th_6FD7B8;
                     }
                     else
                     {
-                        if (gCharB4_DistanceToTarget_6FD80C < dword_6FD88C)
+                        if (gCharB4_DistanceToTarget_6FD80C < kFpOneEighth_6FD88C)
                         {
                             field_38_velocity = k_CollisionRepulsionSpeed_6FD7BC;
                         }
@@ -4802,7 +4802,7 @@ void Char_B4::state_1_5504F0()
     {
         if (field_38_velocity > k_CollisionRepulsionSpeed_6FD7BC)
         {
-            field_38_velocity = k_dword_6FD7CC;
+            field_38_velocity = kFpThreeSixtyFourths_6FD7CC;
         }
         bSnapRotation = 1;
     }
@@ -4942,7 +4942,7 @@ LABEL_65:
     }
     if (bMoved == 1 || field_58_flags_bf.bOnSlope == true)
     {
-        byte_6FDB54 = gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(field_80_sprite_ptr->field_14_xy.x.ToInt(),
+        gCharB4_GradientSlopeBelow_6FDB54 = gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(field_80_sprite_ptr->field_14_xy.x.ToInt(),
                                                                   field_80_sprite_ptr->field_14_xy.y.ToInt(),
                                                                   field_80_sprite_ptr->field_1C_zpos.ToInt() - 1);
 
@@ -4996,7 +4996,7 @@ LABEL_65:
                     if (bMoved == 1 || field_58_flags_bf.bOnSlope == true)
                     {
 
-                        byte_6FDB54 =
+                        gCharB4_GradientSlopeBelow_6FDB54 =
                             gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(field_80_sprite_ptr->field_14_xy.x.ToInt(),
                                                                         field_80_sprite_ptr->field_14_xy.y.ToInt(),
                                                                         (field_80_sprite_ptr->field_1C_zpos - kFP16One_6FD9E8).ToInt());
@@ -5046,11 +5046,11 @@ Ang16 Char_B4::GetNextRotationToward_550F60(Ang16 inputAng)
     {
         if (field_38_velocity > k_CollisionRepulsionSpeed_6FD7BC)
         {
-            max_turn = k_dword_6FD892;
+            max_turn = kAng12_6FD892;
         }
         else
         {
-            max_turn = word_6FD890;
+            max_turn = kAng24_6FD890;
         }
     }
     else
@@ -5167,11 +5167,11 @@ bool Char_B4::CanStepInDirection_551350(Ang16 ang)
 
     if (field_C_ped_state_2 == ped_state_2::Unknown_3)
     {
-        Ang16::PolarToCartesian_41FC20(ang, dword_6FDB18, x_pos, y_pos);
+        Ang16::PolarToCartesian_41FC20(ang, kFpHalf_6FDB18, x_pos, y_pos);
     }
     else
     {
-        Ang16::PolarToCartesian_41FC20(ang, dword_6FDB08, x_pos, y_pos);
+        Ang16::PolarToCartesian_41FC20(ang, kFpThreeSixteenths_6FDB08, x_pos, y_pos);
     }
     x_pos += old_x;
     y_pos += old_y;
@@ -5817,19 +5817,19 @@ void Char_B4::state_8_5520A0()
                 nudge_y = kFP16Zero_6FD9E4;
                 if (tile_frac_x < 10)
                 {
-                    nudge_x = dword_6FD87C;
+                    nudge_x = kFpOneSixteenth_6FD87C;
                 }
                 if (tile_frac_x > 54)
                 {
-                    nudge_x = -dword_6FD87C;
+                    nudge_x = -kFpOneSixteenth_6FD87C;
                 }
                 if (tile_frac_y < 10)
                 {
-                    nudge_y = dword_6FD87C;
+                    nudge_y = kFpOneSixteenth_6FD87C;
                 }
                 if (tile_frac_y > 54)
                 {
-                    nudge_y = -dword_6FD87C;
+                    nudge_y = -kFpOneSixteenth_6FD87C;
                 }
                 field_80_sprite_ptr->set_xyz_lazy_420600(nudge_x + field_80_sprite_ptr->field_14_xy.x,
                                                          nudge_y + field_80_sprite_ptr->field_14_xy.y,
@@ -5914,7 +5914,7 @@ void Char_B4::state_8_5520A0()
                                                            1);
                 if ((field_46_timer % 2) == 0)
                 {
-                    field_80_sprite_ptr->ShrinkSprite_59E390(dword_6FDB24, dword_6FDB24, 0);
+                    field_80_sprite_ptr->ShrinkSprite_59E390(kFpOneThirtySecond_6FDB24, kFpOneThirtySecond_6FDB24, 0);
                 }
                 if (field_46_timer == 0)
                 {
@@ -5987,7 +5987,7 @@ void Char_B4::state_8_5520A0()
                                                                                                field_84_target_car->field_50_car_sprite->field_0_rotation,
                                                                                                field_80_sprite_ptr->field_0_rotation,
                                                                                                field_84_target_car->field_58_physics->vec_len_552DE0(),
-                                                                                               -k_dword_6FD868,
+                                                                                               -kFpOne64th_6FD868,
                                                                                                0);
                     }
                     else
@@ -5998,8 +5998,8 @@ void Char_B4::state_8_5520A0()
                                                                                                field_80_sprite_ptr->field_1C_zpos,
                                                                                                field_84_target_car->field_50_car_sprite->field_0_rotation,
                                                                                                field_80_sprite_ptr->field_0_rotation,
-                                                                                               dword_6FD87C,
-                                                                                               -k_dword_6FD868,
+                                                                                               kFpOneSixteenth_6FD87C,
+                                                                                               -kFpOne64th_6FD868,
                                                                                                0);
                     }
 
@@ -6028,12 +6028,12 @@ void Char_B4::state_8_5520A0()
                     }
                     if (field_94_fall_z_speed < kFpPoint1_6FD824)
                     {
-                        field_94_fall_z_speed += dword_6FD9A0;
+                        field_94_fall_z_speed += kFpPoint01_6FD9A0;
                     }
                     field_80_sprite_ptr->field_1C_zpos -= field_94_fall_z_speed;
                     if (field_90_fall_speed > kFP16One_6FD9E8)
                     {
-                        field_90_fall_speed -= dword_6FD82C;
+                        field_90_fall_speed -= kFpPoint2_6FD82C;
                     }
                 }
                 else
@@ -6058,7 +6058,7 @@ void Char_B4::state_8_5520A0()
                                                                                                    field_80_sprite_ptr->field_0_rotation,
                                                                                                    field_80_sprite_ptr->field_0_rotation,
                                                                                                    kFpPoint1_6FD824,
-                                                                                                   -dword_6FD9A0,
+                                                                                                   -kFpPoint01_6FD9A0,
                                                                                                    kFP16Zero_6FD9E4);
 
                             field_7C_pPed->ChangeNextPedState1_45C500(ped_state_1::immobilized_8);
@@ -6534,8 +6534,8 @@ char_type Char_B4::OnObjectTouched_553640(Object_2C* p2c)
 
         case objects::conveyor_139:
             p2c->GetConveyorDirection_493090(&conveyor_x, &conveyor_y); // TODO: Ang8 or something ???
-            this->field_4C_conveyor_dx = k_dword_6FDA9C * conveyor_x;
-            this->field_50_conveyor_dy = k_dword_6FDA9C * conveyor_y;
+            this->field_4C_conveyor_dx = kFpOne64th_6FDA9C * conveyor_x;
+            this->field_50_conveyor_dy = kFpOne64th_6FDA9C * conveyor_y;
             break;
 
         default:
@@ -6664,7 +6664,7 @@ void Char_B4::HandleCarImpact_5538A0(Car_BC* pCar, u8 bUnknown, Fix16 x, Fix16 y
         }
         else if (vecLen < kFpPoint3_6FD830)
         {
-            if (vecLen < dword_6FD82C)
+            if (vecLen < kFpPoint2_6FD82C)
             {
                 if (this->field_C_ped_state_2 == ped_state_2::lying_on_floor_22)
                 {
@@ -6673,7 +6673,7 @@ void Char_B4::HandleCarImpact_5538A0(Car_BC* pCar, u8 bUnknown, Fix16 x, Fix16 y
                 else
                 {
                     this->field_7C_pPed->field_184_pObj2C = SPAWN_KNOCKDOWN_OBJ(vecLen / gFix16_Two_6FD9EC);
-                    this->field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_10_z_speed = dword_6FD9B0;
+                    this->field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_10_z_speed = kFpPoint05_6FD9B0;
                     this->field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_2A_bAirborne = 1;
                     this->field_7C_pPed->field_184_pObj2C->SetDamageOwner_529080(this->field_7C_pPed->field_267_ped_ref_idx);
                     this->field_7C_pPed->ChangeNextPedState1_45C500(ped_state_1::immobilized_8);

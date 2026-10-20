@@ -1548,7 +1548,7 @@ void Hud_TextEntry_C4::FormatAndSetupText_5D1B10(const wchar_t* pStr, s16 xpos, 
 
     text_0x14::InsertLineBreaksAndGetNumLines_5B5BC0(field_0_str_buf, pStr, 640, fontType);
 
-    if (field_AC_fontType == word_703C9C || field_AC_fontType == word_703D9C)
+    if (field_AC_fontType == gStyleZoneNameFont_703C9C || field_AC_fontType == gStyleMessageFont_703D9C)
     {
         /*v7 =*/gText_0x14_704DFC->StrToUpper_5B5B80(field_0_str_buf);
     }
@@ -3241,15 +3241,15 @@ void Hud_2B00::SetFontTypes_5D6B00()
     }
     else
     {
-        gCarNameFont_706508 = word_703D98;
+        gCarNameFont_706508 = gStyleCarNameFont_703D98;
         word_7064B8 = word_703BAA;
-        gZoneNameFont_706618 = word_703C9C;
+        gZoneNameFont_706618 = gStyleZoneNameFont_703C9C;
         gBriefFont_7065C4 = word_703BAA;
         gPlayerStatsFont_70646C = word_703BAA;
-        gMessageFont_7062F0 = word_703D9C;
+        gMessageFont_7062F0 = gStyleMessageFont_703D9C;
         gDebugFont_706600 = word_703BAA;
         word_7064D8 = word_703BAA;
-        gPauseFont_7063F8 = word_703DA4;
+        gPauseFont_7063F8 = gStylePauseFont_703DA4;
         gPlayerNameFont_7062DC = word_703BAA;
         word_70643E = word_703BAA;
     }

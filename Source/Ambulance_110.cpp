@@ -129,7 +129,7 @@ bool Ambulance_110::TryAddPatient_4FA470(Ped* pPed)
     return true;
 }
 
-EXTERN_GLOBAL(Fix16, dword_6F6FC0);
+EXTERN_GLOBAL(Fix16, kFpEight_6F6FC0);
 
 MATCH_FUNC(0x4fa4b0)
 Ambulance_20* Ambulance_110::AllocateTaskSlot_4FA4B0()
@@ -181,7 +181,7 @@ void Ambulance_110::ProcessPatientQueue_4FA500()
                 if (Fix16::MaxAbsDistance_42A6B0(pPed->get_cam_x(),
                                                  pPed->get_cam_y(),
                                                  Fix16(pAmbulance->field_0_target_x),
-                                                 Fix16(pAmbulance->field_1_target_y)) < dword_6F6FC0 &&
+                                                 Fix16(pAmbulance->field_1_target_y)) < kFpEight_6F6FC0 &&
                     pAmbulance->field_14_patient_count < 10)
                 {
                     pAmbulance->AddPassenger_4FA800(pPed);
@@ -401,7 +401,7 @@ void Ambulance_20::EvaluatePickupState_4FA9D0()
     }
 }
 
-DEFINE_GLOBAL_INIT(Fix16, dword_6F6FC0, Fix16(8), 0x6F6FC0);
+DEFINE_GLOBAL_INIT(Fix16, kFpEight_6F6FC0, Fix16(8), 0x6F6FC0);
 
 // Runs the paramedic crew (the leader, then each group member, in gParamedicCrewPed_6F6D60): pick up the
 // patients in field_10_patients one by one, revive them, then drive off. Sets field_1C_done when nobody had
@@ -477,7 +477,7 @@ void Ambulance_20::HandleObjectiveState_4FAAC0()
                         if (Fix16::MaxAbsDistance_42A6B0(gParamedicCrewPed_6F6D60->get_cam_x(),
                                                             gParamedicCrewPed_6F6D60->get_cam_y(),
                                                             Fix16(field_0_target_x),
-                                                            Fix16(field_1_target_y)) >= dword_6F6FC0)
+                                                            Fix16(field_1_target_y)) >= kFpEight_6F6FC0)
                         {
                             break;
                         }

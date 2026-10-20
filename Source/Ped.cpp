@@ -74,7 +74,7 @@ DEFINE_GLOBAL(u8, byte_6787D9, 0x6787D9);
 DEFINE_GLOBAL_INIT(u8, byte_61A8A4, 1, 0x61A8A4);
 DEFINE_GLOBAL(u8, byte_6787C4, 0x6787C4);
 DEFINE_GLOBAL(s16, gNumPedsCrossingRoad_6787D0, 0x6787D0);
-DEFINE_GLOBAL(s16, word_6787F2, 0x6787F2);
+DEFINE_GLOBAL(s16, gElvisVoiceTimer_6787F2, 0x6787F2);
 DEFINE_GLOBAL(u16, gNumPedsUpdated_6787E0, 0x6787E0);
 DEFINE_GLOBAL(Ped*, gSearchingPed_6787DC, 0x6787DC);
 DEFINE_GLOBAL_INIT(Fix16, kFpZero_678660, Fix16(0), 0x678660);
@@ -119,7 +119,7 @@ DEFINE_GLOBAL_INIT(Fix16, kFpFour_678680, kFpOne64th_6784C4 * 256, 0x678680);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_678430, kFpOne64th_6784C4, 0x678430);
 DEFINE_GLOBAL_INIT(Fix16, kFp9999_678524, Fix16(0x9C3C000, 0), 0x678524);
 
-DEFINE_GLOBAL_INIT(s16, k_word_678656, 40, 0x678656);
+DEFINE_GLOBAL_INIT(s16, gPedOffscreenDespawnTime_678656, 40, 0x678656);
 DEFINE_GLOBAL(u8, gNumberArmedGangMembers_6787CE, 0x6787CE);
 
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint8_6784A0, Fix16(0x3333, 0), 0x6784A0);
@@ -171,10 +171,10 @@ DEFINE_GLOBAL_INIT(Fix16, kFpFiveSixtyFourths_67843C, kFpFive_678674 * kFpOne64t
 
 // TODO: these are defined in char.cpp
 EXTERN_GLOBAL(Fix16, gCharB4_WorldCollisionOffset_6FD8D8);
-EXTERN_GLOBAL(Fix16, dword_6FDB20);
+EXTERN_GLOBAL(Fix16, kFpOne_6FDB20);
 EXTERN_GLOBAL(Fix16, kFP16Zero_6FD9E4);
-EXTERN_GLOBAL(Fix16, dword_6FD82C);
-EXTERN_GLOBAL(Fix16, dword_6FD9B0);
+EXTERN_GLOBAL(Fix16, kFpPoint2_6FD82C);
+EXTERN_GLOBAL(Fix16, kFpPoint05_6FD9B0);
 
 EXTERN_GLOBAL(Ang16, kAng180_6FD936);
 EXTERN_GLOBAL(Ang16, kAng90_6FD854);
@@ -204,16 +204,16 @@ EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(u8 animPhase, Car_BC* pCar, 
     bool bUnk = false;
     bool bFront = false;
 
-    if (x_pos >= dword_6FDB20)
+    if (x_pos >= kFpOne_6FDB20)
     {
-        x_pos -= dword_6FDB20;
+        x_pos -= kFpOne_6FDB20;
         bUnk = true;
     }
     else
     {
-        if (x_pos <= -dword_6FDB20)
+        if (x_pos <= -kFpOne_6FDB20)
         {
-            x_pos += dword_6FDB20;
+            x_pos += kFpOne_6FDB20;
             bUnk = true;
         }
     }
@@ -243,7 +243,7 @@ EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(u8 animPhase, Car_BC* pCar, 
                     switch ((u8)animPhase)
                     {
                         case 0:
-                            x_pos -= dword_6FD82C;
+                            x_pos -= kFpPoint2_6FD82C;
                             break;
                         case 1:
                             x_pos -= kFpPoint1_6FD824 + kFpPoint06_6FD9C8;
@@ -274,7 +274,7 @@ EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(u8 animPhase, Car_BC* pCar, 
                 switch ((u8)animPhase)
                 {
                     case 0:
-                        y_pos += dword_6FD82C;
+                        y_pos += kFpPoint2_6FD82C;
                         break;
                     case 1:
                         y_pos += kFpPoint1_6FD824 + kFpPoint06_6FD9C8;
@@ -309,7 +309,7 @@ EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(u8 animPhase, Car_BC* pCar, 
                         break;
                     case 1:
                         y_pos -= kFpPoint1_6FD824;
-                        x_pos -= dword_6FD9B0;
+                        x_pos -= kFpPoint05_6FD9B0;
                         outAng = pCar->field_50_car_sprite->field_0_rotation;
                         break;
                     case 2:
@@ -318,31 +318,31 @@ EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(u8 animPhase, Car_BC* pCar, 
                         break;
                     case 3:
                         y_pos -= kFpPoint1_6FD824;
-                        x_pos += dword_6FD9B0;
+                        x_pos += kFpPoint05_6FD9B0;
                         outAng = pCar->field_50_car_sprite->field_0_rotation;
                         break;
                     case 4:
-                        y_pos -= dword_6FD9B0;
+                        y_pos -= kFpPoint05_6FD9B0;
                         x_pos -= kFpPoint1_6FD824;
                         outAng = pCar->field_50_car_sprite->field_0_rotation;
                         break;
                     case 5:
-                        y_pos -= dword_6FD9B0;
-                        x_pos -= kFpPoint1_6FD824 + dword_6FD9B0;
+                        y_pos -= kFpPoint05_6FD9B0;
+                        x_pos -= kFpPoint1_6FD824 + kFpPoint05_6FD9B0;
                         outAng = pCar->field_50_car_sprite->field_0_rotation;
                         break;
                     case 6:
-                        y_pos -= dword_6FD9B0;
-                        x_pos -= dword_6FD82C;
+                        y_pos -= kFpPoint05_6FD9B0;
+                        x_pos -= kFpPoint2_6FD82C;
                         outAng = pCar->field_50_car_sprite->field_0_rotation;
                         break;
                     case 7:
-                        y_pos -= dword_6FD9B0;
-                        x_pos -= dword_6FD82C + dword_6FD9B0;
+                        y_pos -= kFpPoint05_6FD9B0;
+                        x_pos -= kFpPoint2_6FD82C + kFpPoint05_6FD9B0;
                         outAng = pCar->field_50_car_sprite->field_0_rotation;
                         break;
                     case 8:
-                        y_pos -= dword_6FD9B0;
+                        y_pos -= kFpPoint05_6FD9B0;
                         x_pos -= kFpPoint3_6FD830;
                         outAng = pCar->field_50_car_sprite->field_0_rotation;
                         break;
@@ -391,7 +391,7 @@ EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(u8 animPhase, Car_BC* pCar, 
                 switch ((u8)animPhase)
                 {
                     case 0:
-                        x_pos += dword_6FD82C;
+                        x_pos += kFpPoint2_6FD82C;
                         break;
                     case 1:
                         x_pos += kFpPoint1_6FD824 + kFpPoint06_6FD9C8;
@@ -426,7 +426,7 @@ EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(u8 animPhase, Car_BC* pCar, 
                         break;
                     case 1:
                         y_pos -= kFpPoint1_6FD824;
-                        x_pos += dword_6FD9B0;
+                        x_pos += kFpPoint05_6FD9B0;
                         outAng = pCar->field_50_car_sprite->field_0_rotation + kAng180_6FD936;
                         break;
                     case 2:
@@ -435,27 +435,27 @@ EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(u8 animPhase, Car_BC* pCar, 
                         break;
                     case 3:
                         y_pos -= kFpPoint1_6FD824;
-                        x_pos -= dword_6FD9B0;
+                        x_pos -= kFpPoint05_6FD9B0;
                         outAng = pCar->field_50_car_sprite->field_0_rotation + kAng180_6FD936;
                         break;
                     case 5:
-                        y_pos -= dword_6FD9B0;
-                        x_pos += kFpPoint1_6FD824 + dword_6FD9B0;
+                        y_pos -= kFpPoint05_6FD9B0;
+                        x_pos += kFpPoint1_6FD824 + kFpPoint05_6FD9B0;
                         outAng = pCar->field_50_car_sprite->field_0_rotation;
                         break;
                     case 6:
-                        y_pos -= dword_6FD9B0;
-                        x_pos += dword_6FD82C;
+                        y_pos -= kFpPoint05_6FD9B0;
+                        x_pos += kFpPoint2_6FD82C;
                         outAng = pCar->field_50_car_sprite->field_0_rotation;
                         break;
                     case 7:
-                        y_pos -= dword_6FD9B0;
-                        x_pos += dword_6FD82C + dword_6FD9B0;
+                        y_pos -= kFpPoint05_6FD9B0;
+                        x_pos += kFpPoint2_6FD82C + kFpPoint05_6FD9B0;
                         outAng = pCar->field_50_car_sprite->field_0_rotation;
                         break;
                     case 4:
                     case 8:
-                        y_pos -= dword_6FD9B0;
+                        y_pos -= kFpPoint05_6FD9B0;
                         x_pos += kFpPoint1_6FD824;
                         outAng = pCar->field_50_car_sprite->field_0_rotation;
                         break;
@@ -4192,7 +4192,7 @@ char_type Ped::StateMachineTick_4626B0()
                         return 0;
                     }
                 }
-                else if (f20E >= k_word_678656)
+                else if (f20E >= gPedOffscreenDespawnTime_678656)
                 {
                     Ped::Deallocate_45EB60();
                     return 0;
@@ -4294,14 +4294,14 @@ bool Ped::PoolUpdate()
 {
     if (Is_occupation_elvis_433C90())
     {
-        if (word_6787F2 > 0)
+        if (gElvisVoiceTimer_6787F2 > 0)
         {
-            --word_6787F2;
+            --gElvisVoiceTimer_6787F2;
         }
         else
         {
             SetVoiceEvent_IfBit24Clear_433DD0(23);
-            word_6787F2 = gRng_6F6784.get_int_4F7AE0(300) + 450;
+            gElvisVoiceTimer_6787F2 = gRng_6F6784.get_int_4F7AE0(300) + 450;
         }
     }
 

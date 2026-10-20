@@ -16,16 +16,16 @@ DEFINE_GLOBAL(Police_7B8*, gPolice_7B8_6FEE40, 0x6FEE40);
 DEFINE_GLOBAL(s32, gCrewKind_6FEDB8, 0x6FEDB8);
 DEFINE_GLOBAL(u8, bHaveCriminals_6FEE44, 0x6FEE44);
 DEFINE_GLOBAL(u16, id_counter_6FEE46, 0x6FEE46);
-DEFINE_GLOBAL(s32, dword_6FEDCC, 0x6FEDCC);
-DEFINE_GLOBAL(u32, dword_6FEE18, 0x6FEE18);
-DEFINE_GLOBAL(s16, word_6FEAC8, 0x6FEAC8);
+DEFINE_GLOBAL(s32, gDispatchCrewState_6FEDCC, 0x6FEDCC);
+DEFINE_GLOBAL(u32, gDispatchCrewType_6FEE18, 0x6FEE18);
+DEFINE_GLOBAL(s16, gDispatchCrewSpawnDelay_6FEAC8, 0x6FEAC8);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint8_6FEB68, Fix16(13107, 0), 0x6FEB68);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6FECA0, Fix16(256, 0), 0x6FECA0);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6FEB88, kFpOne64th_6FECA0, 0x6FEB88);
 DEFINE_GLOBAL_INIT(Fix16, kFpFour_6FECF8, Fix16(4), 0x6FECF8);
 DEFINE_GLOBAL_INIT(Fix16, kFpOneSixteenth_6FEB0C, kFpFour_6FECF8* kFpOne64th_6FEB88, 0x6FEB0C);
 
-EXTERN_GLOBAL(Fix16, dword_6FECE8);
+EXTERN_GLOBAL(Fix16, kFpZero_6FECE8);
 
 MATCH_FUNC(0x4BEB50)
 Police_7B8::~Police_7B8()
@@ -52,9 +52,9 @@ void Police_7B8::Init_56F400()
         field_464_pursuit_targets[i].field_4_wanted_level = cop_level_enum::none_0;
         field_464_pursuit_targets[i].field_8_state = pursuit_state::idle_0;
 
-        field_464_pursuit_targets[i].field_10_x = dword_6FECE8;
-        field_464_pursuit_targets[i].field_14_y = dword_6FECE8;
-        field_464_pursuit_targets[i].field_18_z = dword_6FECE8;
+        field_464_pursuit_targets[i].field_10_x = kFpZero_6FECE8;
+        field_464_pursuit_targets[i].field_14_y = kFpZero_6FECE8;
+        field_464_pursuit_targets[i].field_18_z = kFpZero_6FECE8;
 
         field_464_pursuit_targets[i].field_1C_crew_gave_up = 0;
         field_464_pursuit_targets[i].field_E = 0;
@@ -403,13 +403,13 @@ bool Police_7B8::DispatchNewCrewToPursuit_56FAA0(PolicePursuitTarget_7C* pPursui
         pNewPoliceCrew->field_0_id = id_counter_6FEE46++; // TODO: types
         EmergencyCrew_30* pEmergencyCrew = pNewPoliceCrew->field_10_subObj;
         pNewPoliceCrew->field_14_pPursuitTarget = pPursuitTarget;
-        pNewPoliceCrew->field_24_state = dword_6FEDCC;
+        pNewPoliceCrew->field_24_state = gDispatchCrewState_6FEDCC;
         pNewPoliceCrew->field_20_crew_kind = gCrewKind_6FEDB8;
         pEmergencyCrew->field_1E_is_used = 1;
-        pEmergencyCrew->field_20_crew_type = dword_6FEE18; // field_20_crew_type
+        pEmergencyCrew->field_20_crew_type = gDispatchCrewType_6FEE18; // field_20_crew_type
         pEmergencyCrew->field_24_phase = crew_phase::in_car_1;
         pEmergencyCrew->field_28_state = crew_state::spawn_car_3;
-        pEmergencyCrew->field_18_spawn_delay = word_6FEAC8;
+        pEmergencyCrew->field_18_spawn_delay = gDispatchCrewSpawnDelay_6FEAC8;
         pEmergencyCrew->field_C_spawn_x = Fix16(tileX);
         pEmergencyCrew->field_10_spawn_y = Fix16(tileY);
         pEmergencyCrew->field_14_spawn_z = Fix16(tileZ);
@@ -419,7 +419,7 @@ bool Police_7B8::DispatchNewCrewToPursuit_56FAA0(PolicePursuitTarget_7C* pPursui
     return false;
 }
 
-DEFINE_GLOBAL_INIT(Fix16, dword_6FECFC, Fix16(5), 0x6FECFC);
+DEFINE_GLOBAL_INIT(Fix16, kFpFive_6FECFC, Fix16(5), 0x6FECFC);
 
 // Updates every pursuit target: its wanted level from the criminal's stars, then its state
 // (send crews, escalate, give up, clean up when the criminal is gone).
@@ -560,9 +560,9 @@ void Police_7B8::UpdatePursuitTargets_56FBD0()
                     {
                         if (!field_658_police_car_count)
                         {
-                            word_6FEAC8 = 200;
-                            dword_6FEE18 = crew_type::police_3;
-                            dword_6FEDCC = police_crew_state::alerted_search_3;
+                            gDispatchCrewSpawnDelay_6FEAC8 = 200;
+                            gDispatchCrewType_6FEE18 = crew_type::police_3;
+                            gDispatchCrewState_6FEDCC = police_crew_state::alerted_search_3;
                             gCrewKind_6FEDB8 = crew_kind::police_1;
                             if (gPolice_7B8_6FEE40->DispatchNewCrewToPursuit_56FAA0(pPursuitTarget))
                             {
@@ -598,9 +598,9 @@ void Police_7B8::UpdatePursuitTargets_56FBD0()
                         field_659_max_police_cars = 0;
                         if (pPursuitTarget->field_70_num_police_crews < pPursuitTarget->field_71_target_police_crews)
                         {
-                            dword_6FEE18 = crew_type::police_3;
-                            word_6FEAC8 = 50;
-                            dword_6FEDCC = police_crew_state::pursue_or_chase_5;
+                            gDispatchCrewType_6FEE18 = crew_type::police_3;
+                            gDispatchCrewSpawnDelay_6FEAC8 = 50;
+                            gDispatchCrewState_6FEDCC = police_crew_state::pursue_or_chase_5;
                             gCrewKind_6FEDB8 = crew_kind::police_1;
                             gPolice_7B8_6FEE40->DispatchNewCrewToPursuit_56FAA0(pPursuitTarget);
                         }
@@ -608,17 +608,17 @@ void Police_7B8::UpdatePursuitTargets_56FBD0()
                     case cop_level_enum::swat_4:
                         if (pPursuitTarget->field_70_num_police_crews < pPursuitTarget->field_71_target_police_crews)
                         {
-                            dword_6FEE18 = crew_type::police_3;
-                            word_6FEAC8 = 50;
-                            dword_6FEDCC = police_crew_state::pursue_or_chase_5;
+                            gDispatchCrewType_6FEE18 = crew_type::police_3;
+                            gDispatchCrewSpawnDelay_6FEAC8 = 50;
+                            gDispatchCrewState_6FEDCC = police_crew_state::pursue_or_chase_5;
                             gCrewKind_6FEDB8 = crew_kind::police_1;
                             gPolice_7B8_6FEE40->DispatchNewCrewToPursuit_56FAA0(pPursuitTarget);
                         }
                         if (!pPursuitTarget->field_72_num_swat_crews)
                         {
-                            word_6FEAC8 = 50;
-                            dword_6FEE18 = crew_type::swat_5;
-                            dword_6FEDCC = police_crew_state::pursue_or_chase_5;
+                            gDispatchCrewSpawnDelay_6FEAC8 = 50;
+                            gDispatchCrewType_6FEE18 = crew_type::swat_5;
+                            gDispatchCrewState_6FEDCC = police_crew_state::pursue_or_chase_5;
                             gCrewKind_6FEDB8 = crew_kind::swat_2;
                             if (gPolice_7B8_6FEE40->DispatchNewCrewToPursuit_56FAA0(pPursuitTarget))
                             {
@@ -702,7 +702,7 @@ void Police_7B8::UpdatePursuitTargets_56FBD0()
                                 {
                                     dx = dy;
                                 }
-                                if (dx > dword_6FECFC)
+                                if (dx > kFpFive_6FECFC)
                                 {
                                     pCrew->RemoveFromPursuit_570AB0();
                                     pPursuitTarget->field_1C_crew_gave_up = 1;
@@ -713,9 +713,9 @@ void Police_7B8::UpdatePursuitTargets_56FBD0()
                     }
                     if (bNoneSearching && !field_658_police_car_count)
                     {
-                        word_6FEAC8 = 200;
-                        dword_6FEE18 = crew_type::police_3;
-                        dword_6FEDCC = police_crew_state::alerted_search_3;
+                        gDispatchCrewSpawnDelay_6FEAC8 = 200;
+                        gDispatchCrewType_6FEE18 = crew_type::police_3;
+                        gDispatchCrewState_6FEDCC = police_crew_state::alerted_search_3;
                         gCrewKind_6FEDB8 = crew_kind::police_1;
                         gPolice_7B8_6FEE40->DispatchNewCrewToPursuit_56FAA0(pPursuitTarget);
                     }

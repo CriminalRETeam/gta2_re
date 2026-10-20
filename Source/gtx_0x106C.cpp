@@ -16,13 +16,13 @@
 void __stdcall ClearPixelsOfColourInRow_5ABAE0(u8* pData, int width, u8 clear_target);
 
 DEFINE_GLOBAL(gtx_0x106C*, gGtx_0x106C_703DD4, 0x703DD4);
-DEFINE_GLOBAL(s16, word_703D9C, 0x703D9C);
+DEFINE_GLOBAL(s16, gStyleMessageFont_703D9C, 0x703D9C);
 DEFINE_GLOBAL(s16, word_703D9A, 0x703D9A);
 DEFINE_GLOBAL(s16, word_703C3E, 0x703C3E);
-DEFINE_GLOBAL(s16, word_703DA4, 0x703DA4);
+DEFINE_GLOBAL(s16, gStylePauseFont_703DA4, 0x703DA4);
 DEFINE_GLOBAL(s16, word_703BAA, 0x703BAA);
-DEFINE_GLOBAL(s16, word_703D98, 0x703D98);
-DEFINE_GLOBAL(s16, word_703C9C, 0x703C9C);
+DEFINE_GLOBAL(s16, gStyleCarNameFont_703D98, 0x703D98);
+DEFINE_GLOBAL(s16, gStyleZoneNameFont_703C9C, 0x703C9C);
 
 MATCH_FUNC(0x5AA3B0)
 car_info* gtx_0x106C::get_car_info_5AA3B0(u8 idx)
@@ -735,33 +735,33 @@ void gtx_0x106C::InitFontTypes_5AAFE0(u16 fontCount)
 {
     if (fontCount == 14)
     {
-        word_703D9C = 0;
+        gStyleMessageFont_703D9C = 0;
         word_703C3E = 1;
         word_703D9A = 2;
-        word_703DA4 = 3;
-        word_703D0C = 4;
-        word_703C16 = 5;
+        gStylePauseFont_703DA4 = 3;
+        gFrontendNormalFont_703D0C = 4;
+        gFrontendSelectedFont_703C16 = 5;
         word_703C8C = 6;
         font_type_703C14 = 7;
         word_703C3C = 8;
         word_703C8A = 9;
-        word_703BE2 = 10;
+        gFrontendScoreFont_703BE2 = 10;
         word_703B88 = 11;
         word_703DAC = 12;
         word_703B9C = 13;
         word_703BAA = 99;
-        word_703D98 = 99;
-        word_703C9C = 99;
+        gStyleCarNameFont_703D98 = 99;
+        gStyleZoneNameFont_703C9C = 99;
     }
     else if (fontCount == 7)
     {
-        word_703D9C = 0;
+        gStyleMessageFont_703D9C = 0;
         word_703BAA = 1;
-        word_703D98 = 2;
+        gStyleCarNameFont_703D98 = 2;
         word_703C3E = 3;
         word_703D9A = 4;
-        word_703C9C = 5;
-        word_703DA4 = 6;
+        gStyleZoneNameFont_703C9C = 5;
+        gStylePauseFont_703DA4 = 6;
     }
     else
     {

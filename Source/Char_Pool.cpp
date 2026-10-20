@@ -23,7 +23,7 @@
 #include "ped_graphic_type.hpp"
 
 // Defined in Ped.cpp
-EXTERN_GLOBAL(s16, k_word_678656);
+EXTERN_GLOBAL(s16, gPedOffscreenDespawnTime_678656);
 EXTERN_GLOBAL(Ang16, word_6784F0);
 EXTERN_GLOBAL(u8, byte_61A8A0);
 EXTERN_GLOBAL(s8, byte_61A8A3);
@@ -44,7 +44,7 @@ EXTERN_GLOBAL(u16, gNumPedsUpdated_6787E0);
 EXTERN_GLOBAL(u8, gNumDummyChars_6787E2);
 EXTERN_GLOBAL(u8, gNumScriptCreatedPeds_6787E3);
 
-// Initial value not verified (assumed to be k_word_678656's default, which PedManager resets from it)
+// Initial value not verified (assumed to be gPedOffscreenDespawnTime_678656's default, which PedManager resets from it)
 DEFINE_GLOBAL_INIT(s16, word_61A898, 40, 0x61A898); // TODO: initial value 40 is a guess, check it against 10.5.exe
 DEFINE_GLOBAL(PedManager*, gPedManager_6787BC, 0x6787BC);
 DEFINE_GLOBAL(PedPool*, gPedPool_6787B8, 0x6787B8);
@@ -736,7 +736,7 @@ PedManager::PedManager()
     gNumberArmedGangMembers_6787CE = 0;
     gNumPedsCrossingRoad_6787D0 = 0;
     field_5_fbi_army_count = 0;
-    k_word_678656 = word_61A898;
+    gPedOffscreenDespawnTime_678656 = word_61A898;
     gPedsServiceTickCount_6787F0 = 0;
     gNewTaxiCustomersThisTick_6787D2 = 0;
     gNumberBusCustomers_6787D3 = 0;

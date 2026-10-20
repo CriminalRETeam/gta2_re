@@ -38,7 +38,7 @@ DEFINE_GLOBAL_INIT(Ang16, kAng180_6F8D62, Ang16(0x2D0), 0x6F8D62);
 
 DEFINE_GLOBAL(Fix16_Point, gZeroVector_6F8EF0, 0x6F8EF0);
 DEFINE_GLOBAL_INIT(Fix16, kFpZero_6F8E10, Fix16(0), 0x6F8E10);
-DEFINE_GLOBAL_INIT(Fix16, k_dword_6F8C9C, Fix16(0x100, 0), 0x6F8C9C);
+DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6F8C9C, Fix16(0x100, 0), 0x6F8C9C);
 
 DEFINE_GLOBAL(u8, byte_6F8C68, 0x6F8C68);
 DEFINE_GLOBAL(u8, byte_6F8C4C, 0x6F8C4C);
@@ -56,22 +56,22 @@ DEFINE_GLOBAL_INIT(Ang16, kAng45_6F8CD0, Ang16(0xB4), 0x6F8CD0);
 
 DEFINE_GLOBAL(Sprite*, gObject2C_LastCollisionSprite_6F8F8C, 0x6F8F8C);
 DEFINE_GLOBAL(u8, gObject2C_HitWallOrDoor_6F8F94, 0x6F8F94);
-DEFINE_GLOBAL_INIT(Fix16, dword_6F8F5C, Fix16(0x200, 0), 0x6F8F5C);
+DEFINE_GLOBAL_INIT(Fix16, kFpOneThirtySecond_6F8F5C, Fix16(0x200, 0), 0x6F8F5C);
 DEFINE_GLOBAL_INIT(Fix16, kObjectGravity_6F8DA8, Fix16(0xFFFFFFF8, 0), 0x6F8DA8);
 DEFINE_GLOBAL_INIT(Fix16, kFP16One_6F8E14, Fix16(0x4000, 0), 0x6F8E14);
-DEFINE_GLOBAL_INIT(Fix16, k_dword_6F8C58, Fix16(0x666, 0), 0x6F8C58);
+DEFINE_GLOBAL_INIT(Fix16, kFpPoint1_6F8C58, Fix16(0x666, 0), 0x6F8C58);
 DEFINE_GLOBAL_INIT(u8, byte_623EC4, 1, 0x623EC4);
 
-DEFINE_GLOBAL_INIT(Fix16, dword_6F8DC8, Fix16(256, 0), 0x6F8DC8);
-DEFINE_GLOBAL_INIT(Fix16, dword_6F8CE8, Fix16(0x48000, 0), 0x6F8CE8);
+DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6F8DC8, Fix16(256, 0), 0x6F8DC8);
+DEFINE_GLOBAL_INIT(Fix16, kFpEighteen_6F8CE8, Fix16(0x48000, 0), 0x6F8CE8);
 DEFINE_GLOBAL_INIT(Fix16, kFP16One_6F8CEC, Fix16(1), 0x6F8CEC);
-DEFINE_GLOBAL_INIT(Fix16, dword_6F8ECC, dword_6F8DC8, 0x6F8ECC);
+DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6F8ECC, kFpOne64th_6F8DC8, 0x6F8ECC);
 
 DEFINE_GLOBAL_INIT(Ang16, kAng90_6F8C88, Ang16(0x168), 0x6F8C88); // TODO: Init via func 0x5269F0
 DEFINE_GLOBAL_INIT(Ang16, kAng270_6F8D88, Ang16(0x438), 0x6F8D88); // TODO: Init via func 0x526E70
 
-DEFINE_GLOBAL_INIT(Fix16, dword_6F8CF0, Fix16(0x40, 0), 0x6F8CF0);
-DEFINE_GLOBAL_INIT(Fix16, k_dword_6F8BFC, Fix16(0x1FF00, 0), 0x6F8BFC);
+DEFINE_GLOBAL_INIT(Fix16, kFpOne256th_6F8CF0, Fix16(0x40, 0), 0x6F8CF0);
+DEFINE_GLOBAL_INIT(Fix16, kMaxZ_6F8BFC, Fix16(0x1FF00, 0), 0x6F8BFC);
 DEFINE_GLOBAL_INIT(Fix16, kFP16Half_6F8D10, Fix16(0x2000, 0), 0x6F8D10);
 
 DEFINE_GLOBAL_INIT(u8, byte_6771DC, 0, 0x6771DC);
@@ -94,8 +94,8 @@ DEFINE_GLOBAL(Fix16, gObj2C_LastValidZ_6F8EFC, 0x6F8EFC);
 DEFINE_GLOBAL_INIT(Ang16, gObj2C_LastValidAng_6F8D1C, Ang16(0), 0x6F8D1C);
 DEFINE_GLOBAL_INIT(Fix16, kMapSize_6F8BF4, Fix16(256), 0x6F8BF4);
 
-DEFINE_GLOBAL_INIT(Fix16, dword_6F8C78, Fix16(0x2CCC, 0), 0x6F8C78);
-DEFINE_GLOBAL_INIT(Fix16, kObjectBounceRestitution_6F8DBC, dword_6F8C78, 0x6F8DBC);
+DEFINE_GLOBAL_INIT(Fix16, kFpPoint7_6F8C78, Fix16(0x2CCC, 0), 0x6F8C78);
+DEFINE_GLOBAL_INIT(Fix16, kObjectBounceRestitution_6F8DBC, kFpPoint7_6F8C78, 0x6F8DBC);
 
 // TODO: From CarPhysics_B0
 EXTERN_GLOBAL(Fix16_Point, CollisionIntersectionPoint_6FE1A0);
@@ -653,9 +653,9 @@ void Object_2C::Sprite_UpdateZFromSlopeAndTile_522FA0(Sprite* pSprite)
                 z_val += Fix16(0x4000, 0);
             }
 
-            if (z_val > k_dword_6F8BFC)
+            if (z_val > kMaxZ_6F8BFC)
             {
-                z_val = k_dword_6F8BFC;
+                z_val = kMaxZ_6F8BFC;
             }
         }
     }
@@ -678,7 +678,7 @@ bool Object_2C::TryStartSlide_5233A0(Fix16 value)
         }
 
         gObject2C_LastCollisionSprite_6F8F8C = gCollisionTarget_679188.field_20_pHitSprite;
-        if (value > k_dword_6F8C58)
+        if (value > kFpPoint1_6F8C58)
         {
             return 0;
         }
@@ -691,7 +691,7 @@ bool Object_2C::TryStartSlide_5233A0(Fix16 value)
         {
             this->field_4->SetDrawLayer_40F7B0(6);
         }
-        this->field_10_obj_3c->field_C_speed = k_dword_6F8C58;
+        this->field_10_obj_3c->field_C_speed = kFpPoint1_6F8C58;
         this->field_10_obj_3c->field_18_friction = this->field_8->field_14_friction;
         return 1;
     }
@@ -827,9 +827,9 @@ bool Object_2C::HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite, Fix
 {
     field_10_obj_3c->field_2A_bAirborne = 1;
 
-    if (pSprite->field_1C_zpos > k_dword_6F8BFC)
+    if (pSprite->field_1C_zpos > kMaxZ_6F8BFC)
     {
-        pSprite->field_1C_zpos = k_dword_6F8BFC;
+        pSprite->field_1C_zpos = kMaxZ_6F8BFC;
         pSprite->ResetZCollisionAndDebugBoxes_59E7B0();
         field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
         field_10_obj_3c->field_1C_z_accel = kFpZero_6F8E10;
@@ -931,7 +931,7 @@ bool Object_2C::HandleSpriteZCollision_5238B0(Sprite* pSprite, Fix16_Point* pPoi
             {
                 if (!gObject2C_LastCollisionSprite_6F8F8C)
                 {
-                    if (field_10_obj_3c->field_10_z_speed >= -k_dword_6F8C58)
+                    if (field_10_obj_3c->field_10_z_speed >= -kFpPoint1_6F8C58)
                     {
                         *pHit2 = true;
                         field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
@@ -2020,7 +2020,7 @@ void Object_2C::InheritMotionFromSprite_526B40(Sprite* pSprite)
     switch (pSprite->GetType_416B40())
     {
         case sprite_types_enum::ped_3: //sprite_type_3_Char_B4:
-            this->field_10_obj_3c->field_C_speed = (pSprite->field_8_char_b4_ptr->get_velocity_41B080() * k_dword_6F8C9C);
+            this->field_10_obj_3c->field_C_speed = (pSprite->field_8_char_b4_ptr->get_velocity_41B080() * kFpOne64th_6F8C9C);
             this->field_10_obj_3c->field_4_angle = pSprite->field_0_rotation;
             this->field_4->SetDrawLayer_40F7B0(27);
             break;
@@ -2387,7 +2387,7 @@ void Object_2C::TickObject_5283C0(s32 obj_type)
         {
             if (obj_type == 259)
             {
-                dir.SetFromPolar_41E210(k_dword_6F8C9C, field_4->field_0_rotation);
+                dir.SetFromPolar_41E210(kFpOne64th_6F8C9C, field_4->field_0_rotation);
                 gParticle_8_6FD5E8->EmitImpactParticles_53FE40(field_4->field_14_xy.x,
                                                                field_4->field_14_xy.y,
                                                                field_4->field_1C_zpos,
@@ -2594,7 +2594,7 @@ void Object_2C::HandleWaterDeath_528900()
     if ((gpRng_67AB34->get_cur_rng_41CFE0() & 3) == 0)
     {
         field_4->IncreaseZoom_59E320(1);
-        if (field_4->ShrinkSprite_59E390(dword_6F8F5C, dword_6F8F5C, 0))
+        if (field_4->ShrinkSprite_59E390(kFpOneThirtySecond_6F8F5C, kFpOneThirtySecond_6F8F5C, 0))
         {
             field_4->set_z_lazy_420660(kFpZero_6F8E10);
             RequestRemoval_5290A0();
@@ -2742,7 +2742,7 @@ void Object_2C::HandleImpactNoSprite_528BA0()
         case objects::machine_gun_bullet_254:
         case objects::pistol_bullet_265:
         {
-            point.FromPolar_41E210(k_dword_6F8C9C, field_4->field_0_rotation + kAng180_6F8D62);
+            point.FromPolar_41E210(kFpOne64th_6F8C9C, field_4->field_0_rotation + kAng180_6F8D62);
             gParticle_8_6FD5E8->EmitImpactParticles_53FE40(field_4->field_14_xy.x,
                                                            field_4->field_14_xy.y,
                                                            field_4->field_1C_zpos,
@@ -3525,8 +3525,8 @@ Object_2C* Object_5C::CreateObject_529C00(int object_type, Fix16 xpos, Fix16 ypo
     {
         Object_2C* pLight = NewPhysicsObj_5299B0(objects::powergen_light_284, kFpZero_6F8E10, kFpZero_6F8E10, kFpZero_6F8E10, kZeroAng_6F8F68);
         pNew2C->field_4->DispatchCollisionEvent_5A3100(pLight->field_4,
-                                                       (dword_6F8CE8 * dword_6F8ECC), // x?
-                                                       (kFP16One_6F8CEC * dword_6F8ECC), // y?
+                                                       (kFpEighteen_6F8CE8 * kFpOne64th_6F8ECC), // x?
+                                                       (kFP16One_6F8CEC * kFpOne64th_6F8ECC), // y?
                                                        kZeroAng_6F8F68); // ang?
     }
     else

@@ -48,7 +48,7 @@ DEFINE_GLOBAL_INIT(Fix16, kTwo_6FE618, Fix16(2), 0x6FE618);
 DEFINE_GLOBAL_INIT(Fix16, kZero_6FE41C, kZero_6FE610, 0x6FE41C);
 DEFINE_GLOBAL_INIT(Ang16, kAngZero_6FE754, Ang16(0), 0x6FE754);
 DEFINE_GLOBAL_INIT(Ang16, kJumpTurnAccel_6FE74C, Ang16(4), 0x6FE74C);
-DEFINE_GLOBAL_INIT(Ang16, word_6FE750, Ang16(12), 0x6FE750);
+DEFINE_GLOBAL_INIT(Ang16, kAng3_6FE750, Ang16(12), 0x6FE750);
 DEFINE_GLOBAL_INIT(Ang16, kAttackTurnAccel_6FE488, Ang16(12), 0x6FE488);
 DEFINE_GLOBAL_INIT(Ang16, kMaxJumpTurnSpeed_6FE450, Ang16(24), 0x6FE450);
 DEFINE_GLOBAL_INIT(Ang16, kMaxTurnSpeed_6FE700, Ang16(48), 0x6FE700);
@@ -858,7 +858,7 @@ void Player::InitPlayerPed_565490(Ped* pPed)
     field_2C_death_countdown = 0;
     field_2C4_player_ped = pPed;
     field_8_turn_speed = kAngZero_6FE754;
-    field_A_turn_accel = kJumpTurnAccel_6FE74C + (word_6FE750 + kJumpTurnAccel_6FE74C);
+    field_A_turn_accel = kJumpTurnAccel_6FE74C + (kAng3_6FE750 + kJumpTurnAccel_6FE74C);
     field_C_move_direction = kZero_6FE610;
     field_10_unused = 0;
     field_680_traffic_spawn_counter = 0;

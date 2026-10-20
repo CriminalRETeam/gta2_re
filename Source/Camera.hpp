@@ -8,14 +8,14 @@ class Sprite;
 class Car_BC;
 class Ped;
 
-EXTERN_GLOBAL(Fix16, dword_676840);
+EXTERN_GLOBAL(Fix16, kFpEight_676840);
 
 EXTERN_GLOBAL(Fix16, kZero_676818);
 
 EXTERN_GLOBAL(Fix16, kOne_67681C);
 
-EXTERN_GLOBAL(Fix16, dword_702E04);
-EXTERN_GLOBAL(Fix16, dword_702DE4);
+EXTERN_GLOBAL(Fix16, kFpEight_702E04);
+EXTERN_GLOBAL(Fix16, kFpOne_702DE4);
 
 namespace camera_follow_mode
 {
@@ -85,7 +85,7 @@ class Camera_0xBC
 
     void ProjectWorldToScreen_4B90E0(Fix16 x, Fix16 y, Fix16 z, Fix16* pOutX, Fix16* pOutY)
     {
-        Fix16 scale = dword_702DE4 / ((dword_702E04 - z) + field_98_cur_pos.field_8_z);
+        Fix16 scale = kFpOne_702DE4 / ((kFpEight_702E04 - z) + field_98_cur_pos.field_8_z);
         *pOutX = (((x - field_98_cur_pos.field_0_x) * field_60_screen_scale.x) * scale) + Fix16(field_70_screen_px_center_x);
         *pOutY = (((y - field_98_cur_pos.field_4_y) * field_60_screen_scale.x) * scale) + Fix16(field_74_screen_px_center_y);
     }
@@ -93,7 +93,7 @@ class Camera_0xBC
     // ProjectWorldToScreen_4B90E0 with the out-of-line Fix16 helpers (ExplodingScore_50::DrawNumbers_596C90)
     void ProjectWorldToScreen_OutOfLine_4B90E0(Fix16 x, Fix16 y, Fix16 z, Fix16* pOutX, Fix16* pOutY)
     {
-        Fix16 scale = dword_702DE4.Divide_436A20((field_98_cur_pos.field_8_z - z) + dword_702E04);
+        Fix16 scale = kFpOne_702DE4.Divide_436A20((field_98_cur_pos.field_8_z - z) + kFpEight_702E04);
 
         *pOutX = (x.Subtract_436A00(field_98_cur_pos.field_0_x).Multiply_408680(field_60_screen_scale.x).Multiply_408680(scale))
                      .Add_408660(Fix16(field_70_screen_px_center_x));
@@ -118,7 +118,7 @@ class Camera_0xBC
     {
         Fix16_Point_POD tmp;
         Fix16 u = field_98_cur_pos.field_8_z - z;
-        Fix16 t(kOne_67681C / Fix16(u.mValue + dword_676840.mValue, 0));
+        Fix16 t(kOne_67681C / Fix16(u.mValue + kFpEight_676840.mValue, 0));
 
         tmp.x = (((x - field_98_cur_pos.field_0_x) * field_60_screen_scale.y) * t) + Fix16(320);
         tmp.y = (((y - field_98_cur_pos.field_4_y) * field_60_screen_scale.y) * t) + Fix16(240);

@@ -331,7 +331,7 @@ EXTERN_GLOBAL(Fix16, kGradientScaleSize8_6F6214);
 
 EXTERN_GLOBAL(Fix16, kFpZero_6F610C);
 extern Fix16 kFpOne_6F6110;
-EXTERN_GLOBAL(Ang16, word_6F603E);
+EXTERN_GLOBAL(Ang16, kAng180_6F603E);
 EXPORT Ang16 __stdcall ReturnAngleFromRoadDirection_4F7940(s32& road_direction);
 
 // Slope byte tests. 9.6f (inlining off) has no functions for these, so the original wrote them inline.
