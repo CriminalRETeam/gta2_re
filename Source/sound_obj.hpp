@@ -356,7 +356,7 @@ class sound_obj
     EXPORT char_type Set3DSound_41A2F0(char_type b3dSound);
     EXPORT void ServiceSoundEffects_41A3A0();
     EXPORT char_type CalcVolume_41A3F0(u8 base_volume, Fix16 max_dist, Fix16 dist);
-    EXPORT u8 ComputePan_41A4A0(Fix16 a1, Fix16 a2);
+    EXPORT u8 ComputePan_41A4A0(Fix16 intensity, Fix16 x_offset);
     EXPORT s32 AdjustPlaybackRate_41A580(s32 snd_rate, Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT s32 RandomDisplacement_41A650(u32 seed);
     EXPORT void ResetEntry_41A6C0(s32 idx);

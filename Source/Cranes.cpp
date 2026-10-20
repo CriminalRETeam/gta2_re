@@ -14,7 +14,7 @@
 #include "sprite.hpp"
 
 // TODO: Move
-EXPORT void __stdcall SmoothApproachAngle_405CE0(Fix16& a1, Fix16& a2, Fix16& a3, Fix16& a4, Fix16& a5);
+EXPORT void __stdcall SmoothApproachAngle_405CE0(Fix16& target_angle, Fix16& angle_speed, Fix16& angle, Fix16& accel, Fix16& max_speed);
 EXPORT void __stdcall SmoothApproach_4F7540(Fix16& Coord_1, Fix16& Velocity_1, Fix16& Coord_2, Fix16& Velocity_2, Fix16& Velocity_3);
 
 DEFINE_GLOBAL_INIT(Fix16, kHomeHookRadius_679E58, Fix16(0x2000, 0), 0x679E58);
@@ -723,8 +723,8 @@ void Crane_15C::UpdateCraneTick_47FD50()
 MATCH_FUNC(0x47fe10)
 void Crane_15C::UpdateCraneSprites_47FE10()
 {
-    Fix16_Point a4;
-    Ang16 a2 = Ang16::Fix16_To_Ang16_40F540(field_8C_crane_angle);
+    Fix16_Point pos;
+    Ang16 crane_angle = Ang16::Fix16_To_Ang16_40F540(field_8C_crane_angle);
 
     field_30_part_obj_0->RemoveFromCollisionBuckets_527D00();
     field_34_part_obj_1->RemoveFromCollisionBuckets_527D00();
@@ -737,50 +737,50 @@ void Crane_15C::UpdateCraneSprites_47FE10()
     field_50_part_obj_8->RemoveFromCollisionBuckets_527D00();
     field_54_hook_obj->RemoveFromCollisionBuckets_527D00();
 
-    ComputeHookPos_47E730(a2, kFpHalf_679D34, &a4);
-    field_30_part_obj_0->field_4->set_ang_lazy_420690(a2);
-    field_30_part_obj_0->field_4->set_xy_lazy_447E20(a4.x, a4.y);
+    ComputeHookPos_47E730(crane_angle, kFpHalf_679D34, &pos);
+    field_30_part_obj_0->field_4->set_ang_lazy_420690(crane_angle);
+    field_30_part_obj_0->field_4->set_xy_lazy_447E20(pos.x, pos.y);
 
-    field_40_part_obj_4->field_4->set_ang_lazy_420690(a2);
-    field_40_part_obj_4->field_4->set_xy_lazy_447E20(a4.x, a4.y);
+    field_40_part_obj_4->field_4->set_ang_lazy_420690(crane_angle);
+    field_40_part_obj_4->field_4->set_xy_lazy_447E20(pos.x, pos.y);
 
-    ComputeHookPos_47E730(a2, kFpOneAndHalf_679D30, &a4);
-    field_34_part_obj_1->field_4->set_ang_lazy_420690(a2);
-    field_34_part_obj_1->field_4->set_xy_lazy_447E20(a4.x, a4.y);
+    ComputeHookPos_47E730(crane_angle, kFpOneAndHalf_679D30, &pos);
+    field_34_part_obj_1->field_4->set_ang_lazy_420690(crane_angle);
+    field_34_part_obj_1->field_4->set_xy_lazy_447E20(pos.x, pos.y);
 
-    field_44_part_obj_5->field_4->set_ang_lazy_420690(a2);
-    field_44_part_obj_5->field_4->set_xy_lazy_447E20(a4.x, a4.y);
+    field_44_part_obj_5->field_4->set_ang_lazy_420690(crane_angle);
+    field_44_part_obj_5->field_4->set_xy_lazy_447E20(pos.x, pos.y);
 
-    ComputeHookPos_47E730(a2, kFpTwoAndHalf_679D2C, &a4);
-    field_38_part_obj_2->field_4->set_ang_lazy_420690(a2);
-    field_38_part_obj_2->field_4->set_xy_lazy_447E20(a4.x, a4.y);
+    ComputeHookPos_47E730(crane_angle, kFpTwoAndHalf_679D2C, &pos);
+    field_38_part_obj_2->field_4->set_ang_lazy_420690(crane_angle);
+    field_38_part_obj_2->field_4->set_xy_lazy_447E20(pos.x, pos.y);
 
-    field_48_part_obj_6->field_4->set_ang_lazy_420690(a2);
-    field_48_part_obj_6->field_4->set_xy_lazy_447E20(a4.x, a4.y);
+    field_48_part_obj_6->field_4->set_ang_lazy_420690(crane_angle);
+    field_48_part_obj_6->field_4->set_xy_lazy_447E20(pos.x, pos.y);
 
-    ComputeHookPos_47E730(a2, kFpThreeAndHalf_679D28, &a4);
-    field_3C_part_obj_3->field_4->set_ang_lazy_420690(a2);
-    field_3C_part_obj_3->field_4->set_xy_lazy_447E20(a4.x, a4.y);
+    ComputeHookPos_47E730(crane_angle, kFpThreeAndHalf_679D28, &pos);
+    field_3C_part_obj_3->field_4->set_ang_lazy_420690(crane_angle);
+    field_3C_part_obj_3->field_4->set_xy_lazy_447E20(pos.x, pos.y);
 
-    field_4C_part_obj_7->field_4->set_ang_lazy_420690(a2);
-    field_4C_part_obj_7->field_4->set_xy_lazy_447E20(a4.x, a4.y);
+    field_4C_part_obj_7->field_4->set_ang_lazy_420690(crane_angle);
+    field_4C_part_obj_7->field_4->set_xy_lazy_447E20(pos.x, pos.y);
 
-    field_50_part_obj_8->field_4->set_ang_lazy_420690(a2);
+    field_50_part_obj_8->field_4->set_ang_lazy_420690(crane_angle);
 
-    ComputeHookOffset_47E840(a2, &a4);
-    field_5C_counterweight_obj->field_4->set_ang_lazy_420690(a2);
-    field_5C_counterweight_obj->field_4->set_xy_lazy_447E20(a4.x, a4.y);
+    ComputeHookOffset_47E840(crane_angle, &pos);
+    field_5C_counterweight_obj->field_4->set_ang_lazy_420690(crane_angle);
+    field_5C_counterweight_obj->field_4->set_xy_lazy_447E20(pos.x, pos.y);
 
-    ComputeHookPos_47E620(field_90_hook_radius, a2, &a4);
-    field_50_part_obj_8->field_4->set_xy_lazy_447E20(a4.x, a4.y);
+    ComputeHookPos_47E620(field_90_hook_radius, crane_angle, &pos);
+    field_50_part_obj_8->field_4->set_xy_lazy_447E20(pos.x, pos.y);
 
-    field_54_hook_obj->field_4->set_xyz_lazy_420600(a4.x, a4.y, field_80_ground_z - field_84_hook_depth);
+    field_54_hook_obj->field_4->set_xyz_lazy_420600(pos.x, pos.y, field_80_ground_z - field_84_hook_depth);
     field_54_hook_obj->field_4->set_ang_lazy_420690(Ang16::Fix16_To_Ang16_40F540(field_A0_hook_axial_angle));
 
     if (field_74_pSprite_on_hook)
     {
-        a4 += field_10_hooked_sprite_offset;
-        field_74_pSprite_on_hook->set_xyz_lazy_inlined_420600(a4.x, a4.y, field_80_ground_z - field_84_hook_depth); // INLINED_MODE required
+        pos += field_10_hooked_sprite_offset;
+        field_74_pSprite_on_hook->set_xyz_lazy_inlined_420600(pos.x, pos.y, field_80_ground_z - field_84_hook_depth); // INLINED_MODE required
         field_74_pSprite_on_hook->set_ang_lazy_420690(Ang16::Fix16_To_Ang16_40F540(field_A0_hook_axial_angle));
     }
 

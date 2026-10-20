@@ -33,7 +33,7 @@ EXPORT Fix16_Point __stdcall ComputeLineLineIntersection_55F3B0(Fix16 OwnerMass,
                                                                 Fix16_Point& DistToCollision_ByRef,
                                                                 Fix16_Point& CollisionIntersectPoint,
                                                                 Fix16_Point& CoM_related,
-                                                                Fix16_Point& a8,
+                                                                Fix16_Point& TargetCoM,
                                                                 Fix16 OwnerMomOfInertia,
                                                                 Fix16 TargetMomOfInertia,
                                                                 Fix16 offset);
@@ -203,7 +203,7 @@ class CarPhysics_B0
     EXPORT void ApplyForceScaledByMass_55F9A0(Fix16_Point& pForce);
     EXPORT void ApplyImpulseWithTrailerRedirect_55FA10(Fix16_Point* pPoint);
     EXPORT Fix16 ApplyImpactForcesAndDamage_55FA60(Fix16_Point& PointOfForce, Fix16_Point& Impulse, s32 base_dmg);
-    EXPORT void AccumulateImpulse_55FC30(Fix16_Point& a2, s32 base_dmg);
+    EXPORT void AccumulateImpulse_55FC30(Fix16_Point& point, s32 base_dmg);
     EXPORT void HandleWorldCollision_55FD00(Fix16_Point& pHitPoint);
     EXPORT void HandleCarCollision_55FF20(Car_BC* pOtherCar);
     EXPORT void HandleObjectCollision_5606C0(Object_2C* p2C, char_type damage_area);
@@ -222,8 +222,8 @@ class CarPhysics_B0
     // FUNCTION: 96f 0x40f840
     bool IsVelocityAlignedWithHeading_40F840()
     {
-        Ang16 v14 = (field_40_linvel_1.atan2_40F790() - field_58_theta);
-        return v14 <= kAng90_6FE00C || v14 >= kAng270_6FE154;
+        Ang16 heading_diff = (field_40_linvel_1.atan2_40F790() - field_58_theta);
+        return heading_diff <= kAng90_6FE00C || heading_diff >= kAng270_6FE154;
     }
 
     Fix16 inline_ComputeTorqueFromThrottle_561DD0()
@@ -312,11 +312,11 @@ class CarPhysics_B0
     EXPORT void SetCurrentCarInfoAndModelPhysics_562EF0();
 
     // 9.6f 0x482CC0
-    inline void HandleObjectCollisionAt_482CC0(Object_2C* pObj, Fix16_Point& point, char_type a3)
+    inline void HandleObjectCollisionAt_482CC0(Object_2C* pObj, Fix16_Point& point, char_type damage_area)
     {
         SetCurrentCarInfoAndModelPhysics_562EF0();
         CollisionIntersectionPoint_6FE1A0 = point;
-        HandleObjectCollision_5606C0(pObj, a3);
+        HandleObjectCollision_5606C0(pObj, damage_area);
     }
     EXPORT void ApplyInputsAndIntegratePhysics_562F30();
     EXPORT char_type UpdateLastMovementTimer_562FA0();

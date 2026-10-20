@@ -1918,8 +1918,8 @@ char_type CarPhysics_B0::StepMovementAndCollisions_55E470()
 
     Sprite* sprites_array[4];
 
-    Fix16 a2;
-    Fix16 a3;
+    Fix16 hit_step;
+    Fix16 no_hit_step;
 
     while (gRemainingTimeStep_6FE198 >= kFP16Eighth_6FE370)
     {
@@ -1928,7 +1928,7 @@ char_type CarPhysics_B0::StepMovementAndCollisions_55E470()
         save_physics_state_55A4B0();
         ApplyMovementStep_560F20(k_dword_6FE210);
         UpdateTrailerPhysicsFromTowingCar_559A40();
-        if (SweepTestMovementForCollision_55C3B0(&a2, &a3))
+        if (SweepTestMovementForCollision_55C3B0(&hit_step, &no_hit_step))
         {
             ret_val = 1;
             if (gCollisionTarget_679188.field_20_pHitSprite)
@@ -1945,15 +1945,15 @@ char_type CarPhysics_B0::StepMovementAndCollisions_55E470()
                 }
             }
 
-            BinarySearchCollisionTime_55C560(a2, a3);
+            BinarySearchCollisionTime_55C560(hit_step, no_hit_step);
             if (field_5C_pCar->IsTrainModel_403BA0() && !field_40_linvel_1.HasZeroComponent_49E450())
             {
-                a3 = kFP16Zero_6FE20C;
+                no_hit_step = kFP16Zero_6FE20C;
             }
-            ReplayAndDispatchCollision_55CBB0(a2, a3);
+            ReplayAndDispatchCollision_55CBB0(hit_step, no_hit_step);
         }
 
-        gRemainingTimeStep_6FE198 = (gRemainingTimeStep_6FE198 * (k_dword_6FE210 - a3));
+        gRemainingTimeStep_6FE198 = (gRemainingTimeStep_6FE198 * (k_dword_6FE210 - no_hit_step));
         sprites_array[sprites_array_idx++] = gCollisionTarget_679188.field_20_pHitSprite;
 
         if ((gCollisionTarget_679188.IsCharB4_49EF20() || gCollisionTarget_679188.IsObj2C_477A10()) && k2Counter < 4)
@@ -2029,9 +2029,9 @@ void CarPhysics_B0::ApplyForwardEngineForce_55EC30()
 // https://decomp.me/scratch/foNCl
 // The largest of the three values
 MATCH_FUNC(0x55EEE0)
-Fix16 __stdcall Fix16::ClampToRangeFlexible_ool_55EEE0(Fix16& a2, Fix16& a3, Fix16& a4)
+Fix16 __stdcall Fix16::ClampToRangeFlexible_ool_55EEE0(Fix16& first, Fix16& second, Fix16& third)
 {
-    return ClampToRangeFlexible_55EEE0(a2, a3, a4);
+    return ClampToRangeFlexible_55EEE0(first, second, third);
 }
 
 MATCH_FUNC(0x55ef20)
@@ -2222,7 +2222,7 @@ EXPORT Fix16_Point __stdcall ComputeLineLineIntersection_55F3B0(Fix16 OwnerMass,
                                                                 Fix16_Point& DistToCollision_ByRef,
                                                                 Fix16_Point& CollisionIntersectPoint,
                                                                 Fix16_Point& CoM_related,
-                                                                Fix16_Point& a8,
+                                                                Fix16_Point& TargetCoM,
                                                                 Fix16 OwnerMomOfInertia,
                                                                 Fix16 TargetMomOfInertia,
                                                                 Fix16 offset)
@@ -2253,7 +2253,7 @@ EXPORT Fix16_Point __stdcall ComputeLineLineIntersection_55F3B0(Fix16 OwnerMass,
     else
     {
         Fix16 TargetMassFactor = k_dword_6FE210 / TargetMass;
-        Fix16_Point TargetOrthogonal = (CollisionIntersectPoint - a8).Rotate90CCW_5605E0();
+        Fix16_Point TargetOrthogonal = (CollisionIntersectPoint - TargetCoM).Rotate90CCW_5605E0();
 
         // DotProduct_49E500 is out of line here (0x560680)
         MassFactor =
@@ -2444,19 +2444,19 @@ MATCH_FUNC(0x55fc30)
 void CarPhysics_B0::AccumulateImpulse_55FC30(Fix16_Point& point, s32 base_dmg)
 {
 
-    Fix16_Point a2;
+    Fix16_Point impulse;
     if (!field_5C_pCar->IsTrainModel_403BA0())
     {
         if (this->field_92_is_hand_brake_on)
         {
-            a2 = (point / kFP16Two_6FE214);
+            impulse = (point / kFP16Two_6FE214);
         }
         else
         {
-            a2 = point;
+            impulse = point;
         }
 
-        ApplyImpulseWithTrailerRedirect_55FA10(&a2);
+        ApplyImpulseWithTrailerRedirect_55FA10(&impulse);
 
         u32 rng_damage = base_dmg + gpRng_67AB34->get_cur_rng_41CFE0();
         if (rng_damage > this->field_8_total_damage_q)

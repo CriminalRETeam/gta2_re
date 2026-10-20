@@ -1131,11 +1131,11 @@ s16 RouteFinder::DoStartRoute_58A0D0(u8 x1, u8 y1, u8 z1, u8 x2, u8 y2, u8 z2, s
 }
 
 MATCH_FUNC(0x58a130)
-s16 RouteFinder::sub_58A130(u8 a1, s16 a2, u8 a3, u8* pRouteLength, s32 a5, s32 a6)
+s16 RouteFinder::sub_58A130(u8 x, s16 y, u8 z, u8* pRouteLength, s32 arrow_type, s32 direction)
 {
-    if (sub_5895C0(a1, a2, a3, a5, a6))
+    if (sub_5895C0(x, y, z, arrow_type, direction))
     {
-        if (sub_589E70(a5))
+        if (sub_589E70(arrow_type))
         {
             s16 ret = sub_589F70();
             *pRouteLength = (u8)gLastRouteLength_6FFDCC;

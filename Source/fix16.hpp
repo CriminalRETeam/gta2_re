@@ -21,9 +21,9 @@ class Fix16
 {
   public:
     // 9.6f func
-    static inline s32 __stdcall Round_To_Int_410BF0(Fix16& a1)
+    static inline s32 __stdcall Round_To_Int_410BF0(Fix16& input)
     {
-        s32 v = a1.mValue;
+        s32 v = input.mValue;
         return (v + 0x2000) >> 14;
     }
 
@@ -190,19 +190,19 @@ class Fix16
         return mValue >> 14;
     }
 
-    inline void FromInt(s32 a1)
+    inline void FromInt(s32 value)
     {
-        mValue = a1 << 14;
+        mValue = value << 14;
     }
 
-    inline void FromShort(s16 a1)
+    inline void FromShort(s16 value)
     {
-        mValue = a1 << 14;
+        mValue = value << 14;
     }
 
-    inline void FromUnsignedShort(u16 a1)
+    inline void FromUnsignedShort(u16 value)
     {
-        mValue = a1 << 14;
+        mValue = value << 14;
     }
 
     float ToFloat() const
@@ -298,9 +298,9 @@ class Fix16
         return Fix16(mValue & 0x3FFF, 0); // 0x4000 = Fix16(1)
     }
 
-    inline s32 MultiplyInt64(Fix16 a2)
+    inline s32 MultiplyInt64(Fix16 rhs)
     {
-        __int64 t = (mValue * (__int64)a2.mValue) >> 14;
+        __int64 t = (mValue * (__int64)rhs.mValue) >> 14;
         return (s32)t;
     }
 
@@ -311,9 +311,9 @@ class Fix16
     }
 
     //  inline sub_462ED0 in 9.6f
-    static Fix16 ctor_462ED0(s16 a1)
+    static Fix16 ctor_462ED0(s16 value)
     {
-        return Fix16(a1 << 7, 0);
+        return Fix16(value << 7, 0);
     }
 
     // Non-member style add of two references. Unlike the member operator+ it loads the left
@@ -360,7 +360,7 @@ class Fix16
         }
     }
     EXPORT static Fix16 __stdcall Abs_436A50(Fix16& input);
-    EXPORT static Fix16 __stdcall SquareRoot_436A70(Fix16& a2) throw();
+    EXPORT static Fix16 __stdcall SquareRoot_436A70(Fix16& input) throw();
     // throw(): the original calls these out-of-line copies without an EH frame (their inline
     // bodies were visible there), see CarPhysics_B0::UpdateReferencePoint_563460
     // Out-of-line copy of operator+ (0x408660)
@@ -441,31 +441,31 @@ class Fix16
 
     // Out-of-line copy of the inline below, at its address (callers use the inline, which VC6 emits as
     // its own COMDAT copy). Defined in CarPhysics_B0.cpp.
-    EXPORT static Fix16 __stdcall ClampToRangeFlexible_ool_55EEE0(Fix16& a2, Fix16& a3, Fix16& a4);
+    EXPORT static Fix16 __stdcall ClampToRangeFlexible_ool_55EEE0(Fix16& first, Fix16& second, Fix16& third);
 
     // NOTE: 10.5 function - matched but inlined
-    static inline Fix16 __stdcall ClampToRangeFlexible_55EEE0(Fix16& a2, Fix16& a3, Fix16& a4)
+    static inline Fix16 __stdcall ClampToRangeFlexible_55EEE0(Fix16& first, Fix16& second, Fix16& third)
     {
-        if (a2 > a3)
+        if (first > second)
         {
-            if ((a2 <= a4))
+            if ((first <= third))
             {
-                return a4;
+                return third;
             }
             else
             {
-                return a2;
+                return first;
             }
         }
         else
         {
-            if (a3 > a4)
+            if (second > third)
             {
-                return a3;
+                return second;
             }
             else
             {
-                return a4;
+                return third;
             }
         }
     }

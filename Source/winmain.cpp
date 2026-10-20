@@ -1860,10 +1860,10 @@ EXPORT s32 __stdcall SkipWhiteSpace_4DA390(char_type* pStr)
 
 // todo move to another file for ordering
 MATCH_FUNC(0x4DA3F0)
-EXPORT char_type* __stdcall SkipToNextToken_4DA3F0(char_type* a1)
+EXPORT char_type* __stdcall SkipToNextToken_4DA3F0(char_type* pStr)
 {
-    char_type* result = a1;
-    for (char_type i = *a1; i; i = *++result)
+    char_type* result = pStr;
+    for (char_type i = *pStr; i; i = *++result)
     {
         if (i == ' ')
         {

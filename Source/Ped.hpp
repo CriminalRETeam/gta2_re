@@ -957,7 +957,7 @@ class Ped
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Ped, 0x294)
 
-EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(u8 a1, Car_BC* a2, u8 a3, Fix16& a4, Fix16& a5, Ang16& a6);
+EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(u8 animPhase, Car_BC* pCar, u8 doorId, Fix16& outX, Fix16& outY, Ang16& outAng);
 
 EXTERN_GLOBAL(s32, gPedId_61A89C);
 

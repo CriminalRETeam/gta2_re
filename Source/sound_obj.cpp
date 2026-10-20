@@ -3876,19 +3876,19 @@ char_type sound_obj::CalcVolume_41A3F0(u8 base_volume, Fix16 max_dist, Fix16 dis
 }
 
 MATCH_FUNC(0x41A4A0)
-u8 sound_obj::ComputePan_41A4A0(Fix16 a1, Fix16 a2) // TODO: Ret type
+u8 sound_obj::ComputePan_41A4A0(Fix16 intensity, Fix16 x_offset) // TODO: Ret type
 {
-    Fix16 half_width = a1 / dword_674DA8;
+    Fix16 half_width = intensity / dword_674DA8;
     if (half_width == kFpZero_674CD8)
     {
         return 63;
     }
     else
     {
-        Fix16 offset = a2;
-        if (a2 <= 0)
+        Fix16 offset = x_offset;
+        if (x_offset <= 0)
         {
-            offset = -a2;
+            offset = -x_offset;
         }
         s32 table_idx = (offset / half_width + Fix16(0x2000, 0)).ToInt();
         if (table_idx > 63)
@@ -3896,7 +3896,7 @@ u8 sound_obj::ComputePan_41A4A0(Fix16 a1, Fix16 a2) // TODO: Ret type
             table_idx = 63;
         }
         s32 pan;
-        if (a2 > kFpZero_674CD8)
+        if (x_offset > kFpZero_674CD8)
         {
             pan = gPanTable_61A688[table_idx] + 63;
             if (pan >= 117)

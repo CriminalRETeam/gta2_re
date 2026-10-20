@@ -38,16 +38,16 @@ struct Fix16_Point_POD
     {
     }
 
-    Fix16_Point_POD(Fix16& a1, Fix16& a2)
+    Fix16_Point_POD(Fix16& new_x, Fix16& new_y)
     {
-        x = a1;
-        y = a2;
+        x = new_x;
+        y = new_y;
     }
 
-    void SetXY_432860(Fix16& a2, Fix16& a3)
+    void SetXY_432860(Fix16& new_x, Fix16& new_y)
     {
-        this->x = a2;
-        this->y = a3;
+        this->x = new_x;
+        this->y = new_y;
     }
 
     inline void SetFromPolar_41E210(Fix16& radius, Ang16& angle)
@@ -83,10 +83,10 @@ struct Fix16_Point_POD
 class Fix16_Point
 {
   public:
-    void SetXY_432860(Fix16& a2, Fix16& a3)
+    void SetXY_432860(Fix16& new_x, Fix16& new_y)
     {
-        this->x = a2;
-        this->y = a3;
+        this->x = new_x;
+        this->y = new_y;
     }
 
     // Reads the TU's FIX16_POINT_ZERO copy (Weapon_30::throwable_5DDFC0 compares with 0x706EB8)
@@ -342,7 +342,7 @@ class Fix16_Point
     // implicit one does not use up VC6's inline budget (SpawnCabAndTrailerHelper_408370 needs that).
 
     // 9.6f 0x401D20
-    Fix16_Point(const Fix16& a1, const Fix16& a2) : x(a1), y(a2)
+    Fix16_Point(const Fix16& new_x, const Fix16& new_y) : x(new_x), y(new_y)
     {
     }
 
@@ -618,14 +618,14 @@ class Fix16_Point
         y = 0;
     }
 
-    EXPORT Fix16_Point operator/(const s32& a3);
+    EXPORT Fix16_Point operator/(const s32& divisor);
 
     // operator/ 0x55F9E0 as a nothrow inline that VC6 still calls out of line: the original sets no EH
     // state for the temporaries that live across this call (CarPhysics_B0::HandleCarCollision_55FF20,
     // HandleObjectCollision_5606C0). throw() on the real operator/ changes 6 matched functions.
-    inline Fix16_Point DivideInl_55F9E0(const s32& a3) throw()
+    inline Fix16_Point DivideInl_55F9E0(const s32& divisor) throw()
     {
-        return Fix16_Point(x / a3, y / a3);
+        return Fix16_Point(x / divisor, y / divisor);
     }
 
     // Same layout: a point sliced into a Fix16_Point_POD (one free inline site, see sub_5DF270)

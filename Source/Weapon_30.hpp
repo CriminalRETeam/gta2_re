@@ -13,7 +13,7 @@ class Fix16_Point;
 
 class SoundObject_10;
 
-EXPORT void __stdcall sub_5DF270(Sprite* a1, Fix16 a2, char_type a3, char_type a4, Ped* a5, Sprite* a6);
+EXPORT void __stdcall sub_5DF270(Sprite* pSprite, Fix16 search_size, char_type bCheckAngle, char_type a4, Ped* pAttacker, Sprite* pTargetSprite);
 
 class Weapon_30
 {
@@ -143,9 +143,9 @@ class Weapon_30
         return field_0_ammo != 0;
     }
 
-    void SetAmmo_4A4FF0(u16 a2)
+    void SetAmmo_4A4FF0(u16 ammo)
     {
-        this->field_0_ammo = a2;
+        this->field_0_ammo = ammo;
     }
 
     s32 GetWeaponType_41CC90()

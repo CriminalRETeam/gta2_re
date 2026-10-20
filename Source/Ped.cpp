@@ -487,14 +487,14 @@ EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(u8 animPhase, Car_BC* pCar, 
 }
 
 MATCH_FUNC(0x45AE40)
-EXPORT bool __stdcall abs_sub_less_than_epislon_45AE40(Fix16 a1, Fix16 a2)
+EXPORT bool __stdcall abs_sub_less_than_epislon_45AE40(Fix16 lhs, Fix16 rhs)
 {
-    if (a1 == a2)
+    if (lhs == rhs)
     {
         return true;
     }
 
-    if (Fix16::Abs(a1 - a2) < kFpPoint9_6784A4)
+    if (Fix16::Abs(lhs - rhs) < kFpPoint9_6784A4)
     {
         return true;
     }
@@ -1161,10 +1161,10 @@ void Ped::SpawnCharInZone_45C0C0(gmp_map_zone* pZone)
 
     s32 found_z;
 
-    u8 a2 = 1;
-    u8 a0 = 1;
-    u8 a3 = 1;
-    u8 a1 = 1;
+    u8 x_run_len = 1;
+    u8 y_run_len = 1;
+    u8 x_steps_left = 1;
+    u8 y_steps_left = 1;
 
     while (true)
     {
@@ -1175,10 +1175,10 @@ void Ped::SpawnCharInZone_45C0C0(gmp_map_zone* pZone)
         switch (next)
         {
             case 0:
-                if (!--a3)
+                if (!--x_steps_left)
                 {
                     next = 1;
-                    a1 = a0;
+                    y_steps_left = y_run_len;
                 }
                 if (--xxx < xs - (pZone->field_3_w >> 1))
                 {
@@ -1186,11 +1186,11 @@ void Ped::SpawnCharInZone_45C0C0(gmp_map_zone* pZone)
                 }
                 break;
             case 1:
-                --a1;
-                if (!a1)
+                --y_steps_left;
+                if (!y_steps_left)
                 {
                     next = 2;
-                    a3 = ++a2;
+                    x_steps_left = ++x_run_len;
                 }
                 if (--yyy < ys - (pZone->field_4_h >> 1))
                 {
@@ -1198,11 +1198,11 @@ void Ped::SpawnCharInZone_45C0C0(gmp_map_zone* pZone)
                 }
                 break;
             case 2:
-                if (!--a3)
+                if (!--x_steps_left)
                 {
-                    ++a0;
+                    ++y_run_len;
                     next = 3;
-                    a1 = a0;
+                    y_steps_left = y_run_len;
                 }
                 if (++xxx > xs + (pZone->field_3_w >> 1))
                 {
@@ -1210,11 +1210,11 @@ void Ped::SpawnCharInZone_45C0C0(gmp_map_zone* pZone)
                 }
                 break;
             case 3:
-                --a1;
-                if (!a1)
+                --y_steps_left;
+                if (!y_steps_left)
                 {
                     next = 0;
-                    a3 = a2;
+                    x_steps_left = x_run_len;
                 }
                 if (++yyy > ys + (pZone->field_4_h >> 1))
                 {
@@ -6542,7 +6542,7 @@ Ped* Ped::FindBestTargetPed_Mode5_466BD0(s32 max_x_check)
 // https://decomp.me/scratch/jl40w
 // 9.6f 0x437BE0
 MATCH_FUNC(0x466bf0)
-Ped* Ped::FindBestTargetPed_466BF0(s32 a2)
+Ped* Ped::FindBestTargetPed_466BF0(s32 max_x_check)
 {
     gSearchingPed_6787DC = this;
 
@@ -6553,7 +6553,7 @@ Ped* Ped::FindBestTargetPed_466BF0(s32 a2)
         pNear = gSpriteGrid_1_679208->FindNearestSprite_SpiralSearch_477C90(sprite_types_enum::ped_3,
                                                                             sprite_types_enum::car_2,
                                                                             field_168_game_object->field_80_sprite_ptr,
-                                                                            a2,
+                                                                            max_x_check,
                                                                             0,
                                                                             0);
     }
@@ -6562,7 +6562,7 @@ Ped* Ped::FindBestTargetPed_466BF0(s32 a2)
         pNear = gSpriteGrid_1_679208->FindNearestSprite_SpiralSearch_477C90(sprite_types_enum::ped_3,
                                                                             sprite_types_enum::car_2,
                                                                             field_16C_car->field_50_car_sprite,
-                                                                            a2,
+                                                                            max_x_check,
                                                                             0,
                                                                             0);
     }
@@ -6667,13 +6667,13 @@ Ped* Ped::FindNearestPed_Mode4_466F40(u8 max_x_check)
 }
 
 MATCH_FUNC(0x466f60)
-Ped* Ped::FindNearestPed_466F60(u8 a2)
+Ped* Ped::FindNearestPed_466F60(u8 max_x_check)
 {
     gSearchingPed_6787DC = this;
     Sprite* pSprite = gSpriteGrid_1_679208->FindNearestSprite_SpiralSearch_477C90(sprite_types_enum::ped_3,
                                                                                   sprite_types_enum::car_2,
                                                                                   field_168_game_object->field_80_sprite_ptr,
-                                                                                  a2,
+                                                                                  max_x_check,
                                                                                   0,
                                                                                   0);
     if (pSprite)
@@ -7012,12 +7012,12 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
                         Fix16 dist_2 = (kFpHalf_67853C + Fix16(field_1C8_move_target_y.ToUInt8())) - field_1AC_cam.y;
 
                         // Assigned, not initialised: both stay in memory for the pointer select of the Max.
-                        Fix16 a1;
-                        Fix16 a2;
-                        a1 = Fix16::Abs(dist_1);
-                        a2 = Fix16::Abs(dist_2);
+                        Fix16 abs_dx;
+                        Fix16 abs_dy;
+                        abs_dx = Fix16::Abs(dist_1);
+                        abs_dy = Fix16::Abs(dist_2);
 
-                        if (Fix16::Max(a1, a2) < kFpHalf_678790 || (field_168_game_object->field_58_flags_bf.bFlag6))
+                        if (Fix16::Max(abs_dx, abs_dy) < kFpHalf_678790 || (field_168_game_object->field_58_flags_bf.bFlag6))
                         {
                             field_18C_current_path_point++;
                             field_1C4_move_target_x = kFpHalf_67853C + Fix16(field_18C_current_path_point->field_0_x);

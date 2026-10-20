@@ -15,7 +15,7 @@ EXPORT void __stdcall DrawText_4B87A0(const wchar_t* pBuffer, Fix16 xpos_fp, Fix
 
 EXPORT void __stdcall DrawFigureScaled_5D7670(s32 sprite_type, s16 sprite_idx, Fix16 x_pos, Fix16 y_pos, Ang16 rotation, const s32& palette_type, s16 palette, s32 alpha_value, u8 flags);
 
-EXPORT s32 __stdcall GetLineSpacingFromFontType_5D7700(u16 a1);
+EXPORT s32 __stdcall GetLineSpacingFromFontType_5D7700(u16 font_type);
 
 EXPORT void __stdcall DrawText_5D7720(const wchar_t* pStr, Fix16 xoff, Fix16 yoff, u16 fontType, const s32& palette_type, u16 palette, s32 alpha, u8 alpha_flag);
 
@@ -38,7 +38,7 @@ EXPORT void __stdcall DrawFigure_5D7EC0(s32 sprite_type,
                                  u8 flags,
                                  char_type a11);
 
-EXPORT s32 __stdcall CalcQuadFlags_5D83E0(s32 mode, u8 a2);
+EXPORT s32 __stdcall CalcQuadFlags_5D83E0(s32 mode, u8 alpha);
 
 EXPORT void __stdcall DrawText_5D8A10(const wchar_t* pText,
                                       Fix16 xpos_fp,
@@ -59,10 +59,10 @@ EXPORT void __stdcall DrawTexture_5D8470(STexture* pTexture,
                                  u8 height,
                                  Ang16 rotation,
                                  Fix16 scale,
-                                 s32 a8,
-                                 u8 a9);
+                                 s32 alpha_value,
+                                 u8 alpha_flag);
 
-EXPORT void __stdcall DrawTextureScaled_495470(STexture* pTexture, Fix16 x_pos, Fix16 y_pos, u8 width, u8 height, Ang16 rotation, s32 a7, u8 a8);
+EXPORT void __stdcall DrawTextureScaled_495470(STexture* pTexture, Fix16 x_pos, Fix16 y_pos, u8 width, u8 height, Ang16 rotation, s32 alpha_value, u8 alpha_flag);
 
 // 9.6f 0x4539B0, the inlined copy of GetLineSpacingFromFontType_5D7700
 inline s32 __stdcall GetLineSpacingFromFontType_5D7700_inlined(u16 font_type)
@@ -76,4 +76,4 @@ inline s32 __stdcall GetCharWidth_4539D0(u16 font_type, wchar_t chr)
     return (u16)gGtx_0x106C_703DD4->GetFontWidth_5AA760(&font_type, &chr);
 }
 
-EXPORT s32 __stdcall CountLineSpacing_5D8940(wchar_t* a1, u16 a2);
+EXPORT s32 __stdcall CountLineSpacing_5D8940(wchar_t* pStr, u16 font_type);

@@ -47,9 +47,9 @@ class SpriteShape_4C
         this->mpNext = (SpriteShape_4C*)id;
     }
 
-    bool CollisionIdIs_446930(u32 a2)
+    bool CollisionIdIs_446930(u32 id)
     {
-        return (u32)mpNext == a2;
+        return (u32)mpNext == id;
     }
 
     // 9.6f 0x41E390
@@ -108,9 +108,9 @@ class SpriteShape_4C
         return field_8_depth;
     }
 
-    bool ReduceWidthBy_4BA120(Fix16 a2)
+    bool ReduceWidthBy_4BA120(Fix16 amount)
     {
-        field_0_width -= a2;
+        field_0_width -= amount;
         if (field_0_width <= gFix16_7035C0)
         {
             field_0_width = gFix16_7035C0;
@@ -119,21 +119,21 @@ class SpriteShape_4C
         return field_0_width == gFix16_7035C0 ? true : false;
     }
 
-    void ReduceHeightNoClamp_4BA110(Fix16 a2)
+    void ReduceHeightNoClamp_4BA110(Fix16 amount)
     {
-        field_4_height -= a2;
+        field_4_height -= amount;
     }
 
-    void CopyDimensions_447DF0(SpriteShape_4C* a2)
+    void CopyDimensions_447DF0(SpriteShape_4C* pOther)
     {
-        this->field_0_width = a2->field_0_width;
-        this->field_4_height = a2->field_4_height;
-        this->field_8_depth = a2->field_8_depth;
+        this->field_0_width = pOther->field_0_width;
+        this->field_4_height = pOther->field_4_height;
+        this->field_8_depth = pOther->field_8_depth;
     }
 
-    bool ReduceHeightBy_4BA160(Fix16 a2)
+    bool ReduceHeightBy_4BA160(Fix16 amount)
     {
-        field_4_height -= a2;
+        field_4_height -= amount;
         if (field_4_height <= gFix16_7035C0)
         {
             field_4_height = gFix16_7035C0;
@@ -246,9 +246,9 @@ class Sprite
     EXPORT char_type CollisionCheck_5A0320(Fix16* pXY1, Fix16* pXY2, u8* pCollisionIdx1, u8* pCollisionIdx2);
     EXPORT bool RotatedRectCollisionSAT_5A0380(Sprite* pOther);
     EXPORT char_type CheckBBoxScanlineIntersection_5A0970(Fix16 scanXMin, Fix16 scanXMax, Fix16 scanY);
-    EXPORT bool GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 a2, Fix16_Point& point, u8& a4);
+    EXPORT bool GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 line_y, Fix16_Point& point, u8& a4);
     EXPORT char_type HitTestVerticalLine_5A0EF0(Fix16 x, Fix16 y1, Fix16 y2);
-    EXPORT bool GetNearestVerticalEdgeToCoordinate_5A1030(Fix16 a2, Fix16_Point& a3, u8& a4);
+    EXPORT bool GetNearestVerticalEdgeToCoordinate_5A1030(Fix16 line_x, Fix16_Point& point, u8& a4);
     EXPORT bool PointInsideRotatedBounds_5A1490(Fix16_Point& point1, Fix16_Point& point2);
     EXPORT char_type sub_5A19C0();
     EXPORT char sub_5A1A60();
@@ -303,9 +303,9 @@ class Sprite
         field_10_sound = NULL;
     }
 
-    inline bool TypeIs_446940(s32 a2)
+    inline bool TypeIs_446940(s32 sprite_type)
     {
-        return field_30_sprite_type_enum == a2;
+        return field_30_sprite_type_enum == sprite_type;
     }
 
     Fix16 GetWidth_420740()
@@ -318,11 +318,11 @@ class Sprite
         return field_C_pCollisionShape->GetHeight_447E10();
     }
 
-    void GetPosition_4117B0(Fix16* a2, Fix16* a3, Fix16* a4)
+    void GetPosition_4117B0(Fix16* pOutX, Fix16* pOutY, Fix16* pOutZ)
     {
-        *a2 = this->field_14_xy.x;
-        *a3 = this->field_14_xy.y;
-        *a4 = this->field_1C_zpos;
+        *pOutX = this->field_14_xy.x;
+        *pOutY = this->field_14_xy.y;
+        *pOutZ = this->field_1C_zpos;
     }
 
     // 9.6f 0x420700
@@ -475,9 +475,9 @@ class Sprite
         SetDefaultDrawLayerBySpriteType_59E960(); // Update field_28
     }
 
-    void SetObject2C_482A30(Object_2C* a2)
+    void SetObject2C_482A30(Object_2C* pObject)
     {
-        this->field_8_object_2C_ptr = a2;
+        this->field_8_object_2C_ptr = pObject;
     }
 
     void SetCar_420710(Car_BC* pCar)
@@ -494,9 +494,9 @@ class Sprite
         }
     }
 
-    void set_id_4206E0(u16 a2)
+    void set_id_4206E0(u16 new_id)
     {
-        this->field_22_type_sprite_idx = a2;
+        this->field_22_type_sprite_idx = new_id;
     }
 
     void SetNoLighting_4337F0()
@@ -524,11 +524,11 @@ class Sprite
     }
 
     // 9.6f inline 0x420690
-    inline void set_ang_lazy_420690(Ang16 a1)
+    inline void set_ang_lazy_420690(Ang16 ang)
     {
-        if (a1 != field_0_rotation)
+        if (ang != field_0_rotation)
         {
-            field_0_rotation = a1;
+            field_0_rotation = ang;
             ResetZCollisionAndDebugBoxes_59E7B0();
         }
     }
@@ -645,11 +645,11 @@ class SpriteMask_14
         field_4_sprite_idx = -1;
     }
 
-    void SetKey_44AF50(u16 sprite_idx, u32 a2, u16 a3)
+    void SetKey_44AF50(u16 sprite_idx, u32 delta_mask, u16 palette)
     {
         field_4_sprite_idx = sprite_idx;
-        field_8_delta_mask = a2;
-        field_12 = a3;
+        field_8_delta_mask = delta_mask;
+        field_12 = palette;
     }
 
     u8* field_0_pixels;

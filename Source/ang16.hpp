@@ -173,12 +173,12 @@ class Ang16
         return (u16)rValue << 14;
     }
 
-    inline void ConvertAndMultiply(Ang16* a1, Ang16* a2)
+    inline void ConvertAndMultiply(Ang16* factor, Ang16* degrees)
     {
         Fix16 fix_1;
-        fix_1.mValue = a2->FromUnsignedToFloat();
+        fix_1.mValue = degrees->FromUnsignedToFloat();
         Fix16 fix_2;
-        fix_2.mValue = a1->ToFloat();
+        fix_2.mValue = factor->ToFloat();
         Fix16 fix_3;
         fix_3.mValue = fix_2.MultiplyInt64(fix_1);
 
@@ -210,7 +210,7 @@ class Ang16
     EXPORT static bool __stdcall IsAngleAhead_405C60(Ang16* pFrom, Ang16* pTo);
 
     EXPORT void SnapToAng4_405640();
-    EXPORT Ang16* AssignNormalized_409300(const s16& value, s32 a3);
+    EXPORT Ang16* AssignNormalized_409300(const s16& value, s32 not_used);
     EXPORT Ang16 SubtractNormalized_409340(const Ang16& toSub);
     EXPORT static Ang16 __stdcall Fix16_To_Ang16_482740(Fix16& value);
 
@@ -218,26 +218,26 @@ class Ang16
     // Ang16(const s16&, s32) below (9.6f 0x401C60). VC6 calls it instead of inlining in functions that
     // ran out of inline expansions. C++ can't declare the inline and the out-of-line copy of one
     // constructor, so the out-of-line one is reached through these overloads.
-    Ang16(Ang16& input, s32 a3)
+    Ang16(Ang16& input, s32 not_used)
     {
-        AssignNormalized_409300(input.rValue, a3);
+        AssignNormalized_409300(input.rValue, not_used);
     }
 
-    Ang16(const s16* value, s32 a3)
+    Ang16(const s16* value, s32 not_used)
     {
-        AssignNormalized_409300(*value, a3);
+        AssignNormalized_409300(*value, not_used);
     }
 
     // The value is stored as a dword, as 9.6f's 0x40F540 passes it to 0x401C60; the copy reads its low word
-    Ang16(const s32* value, s32 a3)
+    Ang16(const s32* value, s32 not_used)
     {
-        AssignNormalized_409300(*(const s16*)value, a3);
+        AssignNormalized_409300(*(const s16*)value, not_used);
     }
 
     // The out-of-line copy of Ang16(Fix16& value, u8) (9.6f 0x401C40). A real constructor, not a
     // method: when it is called out of line its 0 argument is pushed before the Fix16 argument is
     // evaluated (Particle_8::EmitImpactParticles_53FE40). Also used by miss2_0x11C::SCRCMD_CRANE_5041C0.
-    EXPORT Ang16(Fix16* a2, s32 a3);
+    EXPORT Ang16(Fix16* value, s32 not_used);
 
     inline static Fix16 __stdcall cosine_40F520(const Ang16& angle)
     {
@@ -267,22 +267,22 @@ class Ang16
 
     // Reverse of above func
     // OBS: INLINE_MODE required to match Char_B4::ApplyRandomRotationJitter_54C6C0
-    INLINE_MODE static Ang16 __stdcall Fix16_To_Ang16_inlined_40F540(const Fix16& a2)
+    INLINE_MODE static Ang16 __stdcall Fix16_To_Ang16_inlined_40F540(const Fix16& input)
     {
-        return Ang16(a2.GetRaw_40F4B0() / 71, 0);
+        return Ang16(input.GetRaw_40F4B0() / 71, 0);
     }
 
-    inline static Ang16 __stdcall Fix16_To_Ang16_40F540(const Fix16& a2)
+    inline static Ang16 __stdcall Fix16_To_Ang16_40F540(const Fix16& input)
     {
-        return Ang16(a2.GetRaw_40F4B0() / 71, 0);
+        return Ang16(input.GetRaw_40F4B0() / 71, 0);
     }
 
     // Fix16_To_Ang16_40F540 with the normalizing Ang16 ctor called out of line (AssignNormalized_409300),
     // Trailer::UpdateTrailerAlignment_407CE0
-    inline static Ang16 __stdcall Fix16_To_Ang16_ool_40F540(const Fix16& a2)
+    inline static Ang16 __stdcall Fix16_To_Ang16_ool_40F540(const Fix16& input)
     {
         // The quotient is stored as a dword, like 9.6f's 0x40F540 passing it to 0x401C60
-        s32 value = a2.GetRaw_40F4B0() / 71;
+        s32 value = input.GetRaw_40F4B0() / 71;
         return Ang16(&value, 0);
     }
 
@@ -331,24 +331,24 @@ class Ang16
         Normalize();
     }
 
-    Ang16 MultiplyByFix16_401CB0(const Fix16& a2)
+    Ang16 MultiplyByFix16_401CB0(const Fix16& factor)
     {
-        return Ang16(Fix16(rValue) * a2, 0);
+        return Ang16(Fix16(rValue) * factor, 0);
     }
 
     // MultiplyByFix16_401CB0 with the multiply and the Fix16* constructor out of line. The product
     // goes straight into the constructor call, so its 0 argument is pushed before the multiply
     // (Particle_8::EmitImpactParticles_53FE40)
-    Ang16 MultiplyByFix16_401CB0_out_of_line(const Fix16& a2)
+    Ang16 MultiplyByFix16_401CB0_out_of_line(const Fix16& factor)
     {
-        return Ang16((Fix16*)&(const Fix16&)Fix16(rValue).Multiply_408680(a2), 0);
+        return Ang16((Fix16*)&(const Fix16&)Fix16(rValue).Multiply_408680(factor), 0);
     }
 
     // MultiplyByFix16_401CB0 with the multiply inline and the Fix16* constructor out of line
     // (Particle_8::EmitWaterSplash_53F060)
-    Ang16 MultiplyByFix16_401CB0_ctor_ool(const Fix16& a2)
+    Ang16 MultiplyByFix16_401CB0_ctor_ool(const Fix16& factor)
     {
-        Fix16 tmp = Fix16(rValue) * a2;
+        Fix16 tmp = Fix16(rValue) * factor;
         return Ang16(&tmp, 0);
     }
 

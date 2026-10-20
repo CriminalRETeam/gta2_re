@@ -86,9 +86,9 @@ Fix16 Fix16_Point::GetLength_453590()
 }
 
 MATCH_FUNC(0x55F9E0)
-Fix16_Point Fix16_Point::operator/(const s32& a3)
+Fix16_Point Fix16_Point::operator/(const s32& divisor)
 {
-    return Fix16_Point(x / a3, y / a3);
+    return Fix16_Point(x / divisor, y / divisor);
 }
 
 MATCH_FUNC(0x5605E0)
