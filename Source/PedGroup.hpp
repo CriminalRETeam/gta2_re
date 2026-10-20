@@ -20,7 +20,7 @@ class PedGroup
         return field_40_in_use;
     }
 
-    EXPORT void sub_4C8E60();
+    EXPORT void DestroyGroupArray_4C8E60();
     EXPORT static void sub_4C8E80();
     EXPORT void ClearGroupData_4C8E90();
     EXPORT void Reset_4C8EF0();
@@ -41,9 +41,9 @@ class PedGroup
     EXPORT void add_ped_leader_4C9B10(Ped* ptr);
     EXPORT void add_ped_to_list_4C9B30(Ped* ptr, u8 idx);
     EXPORT char_type MergeWithOtherGroup_4C9B60(Ped* pPed);
-    EXPORT Ped* sub_4C9ED0();
+    EXPORT Ped* FindLastNonPanickingMember_4C9ED0();
     EXPORT void CoordinateGroupCarEntry_4C9F00();
-    EXPORT u32 sub_4CA3E0();
+    EXPORT u32 IsLeaderPanicking_4CA3E0();
     EXPORT Ped* FindFarthestMember_4CA3F0(Fix16* pFoundDistance);
     EXPORT void UpdateFormation_4CA4B0();
     EXPORT void UpdateMemberAIState_4CA5E0(u8 idx);

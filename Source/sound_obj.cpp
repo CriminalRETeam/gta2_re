@@ -7427,7 +7427,7 @@ void sound_obj::DeclareRadioStation_57ECB0(s32 station_idx, Fix16 xpos, Fix16 yp
             RadioEmitter(i + 1).field_8_ypos = Fix16((u16)ypos.ToInt());
             RadioEmitter(i + 1).field_14 = RadioEmitter(i + 1).field_18 =
                 field_1454_anRandomTable[(i + 1) % 5] * field_1454_anRandomTable[i % 5];
-            sub_57EDB0(&RadioEmitter(i + 1), station_idx);
+            SetRadioEmitterRadii_57EDB0(&RadioEmitter(i + 1), station_idx);
             return;
         }
     }
@@ -7435,7 +7435,7 @@ void sound_obj::DeclareRadioStation_57ECB0(s32 station_idx, Fix16 xpos, Fix16 yp
 
 // Cases are written out separately so the jump table has one entry per case
 MATCH_FUNC(0x57EDB0)
-void sound_obj::sub_57EDB0(sound_f16_pos_0x1C* pEmitter, s32 type)
+void sound_obj::SetRadioEmitterRadii_57EDB0(sound_f16_pos_0x1C* pEmitter, s32 type)
 {
     switch (type)
     {

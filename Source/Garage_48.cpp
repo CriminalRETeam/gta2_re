@@ -33,7 +33,7 @@ Garage_48::~Garage_48()
 
 // The heading for a ped leaving through a door facing `face`.
 MATCH_FUNC(0x5345E0)
-EXPORT Ang16 __stdcall sub_5345E0(s32 face)
+EXPORT Ang16 __stdcall GetHeadingForDoorFace_5345E0(s32 face)
 {
     switch (face)
     {
@@ -342,7 +342,7 @@ void Garage_48::GaragesService_5349D0()
                     {
                         pDriver->StartPedWalking_470200(field_30_target_x, field_34_target_y, field_0_parking_car->GetZ_41E450());
                         field_0_parking_car->ClearDriver_4407F0();
-                        pDriver->SetRotation_433C00(sub_5345E0(field_38_door_face));
+                        pDriver->SetRotation_433C00(GetHeadingForDoorFace_5345E0(field_38_door_face));
                         field_0_parking_car->field_54_driver = NULL;
                         pDriver->field_168_game_object->field_5C = 20;
                     }
@@ -350,7 +350,7 @@ void Garage_48::GaragesService_5349D0()
                              field_14_driver->get_cam_y() >= field_1C_park_y_min && field_14_driver->get_cam_y() <= field_24_park_y_max)
                     {
                         field_14_driver->StartPedWalking_470200(field_30_target_x, field_34_target_y, field_0_parking_car->GetZ_41E450());
-                        field_14_driver->SetRotation_433C00(sub_5345E0(field_38_door_face));
+                        field_14_driver->SetRotation_433C00(GetHeadingForDoorFace_5345E0(field_38_door_face));
                     }
                 }
                 field_0_parking_car->SetDespawn3IfNot5_421490();

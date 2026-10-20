@@ -35,7 +35,7 @@ class Crane_15C
     EXPORT void DropHookedCarOnTransporter_47ED60();
     EXPORT void HookTransporterCargo_47EDF0();
     EXPORT void HookPickupCar_47EF80();
-    EXPORT void sub_47F170();
+    EXPORT void DropInPlaceOrReturnHome_47F170();
     EXPORT void SetTransporterCargoTarget_47F220(Fix16 radius, Fix16 angle, Sprite* pCargo, Sprite* pTransporter);
     EXPORT void SetDropTransporterTarget_47F290(Fix16 radius, Fix16 angle, Sprite* pSprite);
     EXPORT void SetPickupCarTarget_47F2F0(Fix16 radius, Fix16 angle, Sprite* pSprite);

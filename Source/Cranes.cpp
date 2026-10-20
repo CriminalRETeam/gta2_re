@@ -191,7 +191,7 @@ void Crane_15C::DropHookedCar_47ECC0()
     }
     field_74_pSprite_on_hook = 0;
     field_150_hook_job = 0;
-    Crane_15C::sub_47F170();
+    Crane_15C::DropInPlaceOrReturnHome_47F170();
 }
 
 MATCH_FUNC(0x47ed60)
@@ -206,7 +206,7 @@ void Crane_15C::DropHookedCarOnTransporter_47ED60()
     field_74_pSprite_on_hook = 0;
     field_150_hook_job = 0;
     field_64_drop_transporter = 0;
-    Crane_15C::sub_47F170();
+    Crane_15C::DropInPlaceOrReturnHome_47F170();
 }
 
 // 9.6 0x448300
@@ -305,7 +305,7 @@ void Crane_15C::HookPickupCar_47EF80()
 
 // 9.6f 0x447D40
 MATCH_FUNC(0x47f170)
-void Crane_15C::sub_47F170()
+void Crane_15C::DropInPlaceOrReturnHome_47F170()
 {
     if (field_150_hook_job)
     {
@@ -498,7 +498,7 @@ void Crane_15C::UpdateCraneTargets_47F4C0()
 
         if (!field_14C_return_delay)
         {
-            sub_47F170();
+            DropInPlaceOrReturnHome_47F170();
         }
         else
         {

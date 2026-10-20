@@ -41,7 +41,7 @@ class Link_2
 class Junction_10
 {
   public:
-    EXPORT char_type sub_588580(s32 arrow_type);
+    EXPORT char_type IsUsableWithArrowType_588580(s32 arrow_type);
     EXPORT u16 GetDirectionToJunction_5885C0(u16 junction_idx);
 
     // 9.6f 0x40CEE0
@@ -103,7 +103,7 @@ class RouteFinder
     EXPORT void Load_RGEN_588B30();
     EXPORT void Reset_588C60();
     EXPORT bool HasBlockDesiredArrow_588CA0(gmp_block_info* block, s32 arrow_type, u8 direction);
-    EXPORT char_type sub_588DE0(gmp_block_info* pBlock, s32 arrow_type, s32 road_direction);
+    EXPORT char_type HasBlockArrowInRoadDirection_588DE0(gmp_block_info* pBlock, s32 arrow_type, s32 road_direction);
     EXPORT u16 FindHorzSegmentJunction_588E60(u8 x, u8 y, u8 z, char_type bIsDest, s32 arrow_type);
     EXPORT u16 FindVertSegmentJunction_588F30(u8 x, u8 y, u8 z, char_type bIsDest, s32 arrow_type);
     EXPORT u16 FindSegmentJunction_589000(u8 x_coord, u8 y_coord, u8 z_coord, char_type bIsDest, s32 arrow_type);
@@ -113,21 +113,21 @@ class RouteFinder
     EXPORT RouteFinder_10* NewStartNode_589390(u16 junction_idx);
     EXPORT void InsertIntoOpenList_589420(RouteFinder_10* pRoute);
     EXPORT char_type InitSearch_589480(u8 start_x, u8 start_y, u8 start_z, u8 dest_x, u8 dest_y, u8 dest_z, s32 arrow_type);
-    EXPORT char_type sub_5895C0(u8 x, u8 y, u8 z, s32 arrow_type, s32 direction);
+    EXPORT char_type InitSearchWithDirection_5895C0(u8 x, u8 y, u8 z, s32 arrow_type, s32 direction);
     EXPORT void CancelRoute_589930(s16 idx);
     EXPORT s16 GetFreeRouteIdx_589960();
     EXPORT u16 AddChildNode_589990(RouteFinder_10* pRoute, u16 junction_idx, s16 step_cost);
-    EXPORT bool sub_5899C0(RouteFinder_10* pNode, s32 arrow_type);
-    EXPORT char_type sub_589BB0(RouteFinder_10* pRoute, s32 arrow_type);
+    EXPORT bool ExpandNode_5899C0(RouteFinder_10* pNode, s32 arrow_type);
+    EXPORT char_type ExpandNodeUnlessOffScreen_589BB0(RouteFinder_10* pRoute, s32 arrow_type);
     EXPORT RouteFinder_10* GetFirstUnexpandedNode_589E00();
-    EXPORT char_type sub_589E20(s32 arrow_type);
-    EXPORT char_type sub_589E70(s32 arrow_type);
-    EXPORT s16 sub_589EB0();
-    EXPORT s16 sub_589F70();
+    EXPORT char_type SearchToDest_589E20(s32 arrow_type);
+    EXPORT char_type SearchUntilOffScreen_589E70(s32 arrow_type);
+    EXPORT s16 StoreRoute_589EB0();
+    EXPORT s16 StoreRouteReversed_589F70();
     EXPORT void DebugPrintRoute_58A020(char_type junc_idx);
     EXPORT Junction_10* GetJunction_58A0B0(u16 jIdx);
     EXPORT s16 DoStartRoute_58A0D0(u8 x1, u8 y1, u8 z1, u8 x2, u8 y2, u8 z2, s32 arrow_type);
-    EXPORT s16 sub_58A130(u8 a1, s16 a2, u8 a3, u8* pRouteLength, s32 a5, s32 a6);
+    EXPORT s16 FindOffScreenRoute_58A130(u8 a1, s16 a2, u8 a3, u8* pRouteLength, s32 a5, s32 a6);
     EXPORT u16 StartRoute_58A190(u8 x1, u8 y1, u8 z1, u8 x2, u8 y2, u8 z2, s32 arrow_type);
     EXPORT RouteFinder();
 

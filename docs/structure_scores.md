@@ -76,7 +76,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 0 | 38 | 48 | - | 0x4ef1c0 | `MapRenderer::Draw3SidedDiagonalDownLeft_4EF1C0` | MapRenderer.cpp |
 | 0 | 40 | 104 | 46 | 0x4e8370 | `Map_0x370::CloneColumnWithoutBlock_4E8370` | map_0x370.cpp |
 | 0 | 40 | 172 | 527 | 0x422b70 | `sound_obj::ProcessPed_422B70` | sound_obj.cpp |
-| 0 | 40 | 192 | - | 0x5de4f0 | `Weapon_30::sub_5DE4F0` | Weapon_30.cpp |
+| 0 | 40 | 192 | - | 0x5de4f0 | `Weapon_30::TraceBeamToHitTarget_5DE4F0` | Weapon_30.cpp |
 | 0 | 40 | 371 | 187 | 0x53fe40 | `Particle_8::EmitImpactParticles_53FE40` | Particle_8.cpp |
 | 0 | 40 | 40 | - | 0x4ef520 | `MapRenderer::Draw3SidedDiagonalDownRight_4EF520` | MapRenderer.cpp |
 | 0 | 40 | 40 | - | 0x4efdb0 | `MapRenderer::Draw4SidedDiagonalDownLeft_4EFDB0` | MapRenderer.cpp |
@@ -111,7 +111,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 0 | 784 | 1081 | - | 0x43f130 | `Car_BC::HandleCarHitByObject_43F130` | Car_BC.cpp |
 | 1 | 13 | 137 | - | 0x45d000 | `Ped::HandlePedHitByObject_45D000` | Ped.cpp |
 | 2 | 6 | 24 | 12 | 0x4b7270 | `Frontend::GetNextUnlockedMainStage_4B7270` | Frontend.cpp |
-| 2 | 6 | 58 | - | 0x54c3e0 | `Char_B4::sub_54C3E0` | char.cpp |
+| 2 | 6 | 58 | - | 0x54c3e0 | `Char_B4::TurnToFreeAdjacentFace_54C3E0` | char.cpp |
 | 2 | 6 | 8 | 6 | 0x5d9910 | `SetGamma_5D9910` | Frontend.cpp |
 | 2 | 10 | 38 | 217 | 0x448770 | `CarAI_78::CheckRoadAhead_448770` | CarAI_78.cpp |
 | 2 | 12 | 24 | 72 | 0x5d7cb0 | `ConvertColourBanks_5D7CB0` | Draw.cpp |
@@ -130,7 +130,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 3 | 15 | 61 | 102 | 0x53b670 | `Particle_4C::UpdateAttachedEmitter_state_9_10_53B670` | Particle_4C.cpp |
 | 3 | 41 | 55 | 591 | 0x5a3550 | `SpriteShape_4C::UpdateRotatedBoundingBox_5A3550` | sprite.cpp |
 | 4 | 8 | 20 | 113 | 0x4b7ae0 | `Frontend::DrawCredits_4B7AE0` | Frontend.cpp |
-| 4 | 12 | 12 | - | 0x4c8e60 | `PedGroup::sub_4C8E60` | PedGroup.cpp |
+| 4 | 12 | 12 | - | 0x4c8e60 | `PedGroup::DestroyGroupArray_4C8E60` | PedGroup.cpp |
 | 4 | 18 | 22 | 113 | 0x4e11e0 | `Map_0x370::RectHitsDiagonalWall_4E11E0` | map_0x370.cpp |
 | 4 | 20 | 32 | 52 | 0x55fa60 | `CarPhysics_B0::ApplyImpactForcesAndDamage_55FA60` | CarPhysics_B0.cpp |
 | 4 | 20 | 36 | 0 | 0x548840 | `Char_B4::HandleObjectCollision_548840` | char.cpp |
@@ -189,7 +189,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 25 | 82 | 179 | 108 | 0x5e5a30 | `Start_NetworkGame_5E5A30` | winmain.cpp |
 | 30 | 102 | 150 | - | 0x44d1d0 | `CarAI_78::DetectCarAhead_44D1D0` | CarAI_78.cpp |
 | 36 | 119 | 403 | 750 | 0x54a530 | `Char_B4::HandleGenericCollision_54A530` | char.cpp |
-| 38 | 153 | 512 | - | 0x5df270 | `sub_5DF270` | Weapon_30.cpp |
+| 38 | 153 | 512 | - | 0x5df270 | `ShockPedsAroundSprite_5DF270` | Weapon_30.cpp |
 | 40 | 54 | 90 | 0 | 0x47f930 | `Crane_15C::PickUpCar_47F930` | Cranes.cpp |
 | 42 | 96 | 201 | 191 | 0x498da0 | `InputDevices_1::read_input_device_498DA0` | InputRecorder_67F8B0.cpp |
 | 44 | 195 | 376 | 358 | 0x592660 | `PlayerScoreTracker_36C::AwardPedKilledScore_592660` | PlayerScoreTracker_36C.cpp |

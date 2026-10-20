@@ -56,13 +56,13 @@ class PoliceCrew_38
     EXPORT void State5_PursueOrChase_572920();
     EXPORT void State6_ShutDown_574720();
     EXPORT void State1_Patrol_574F10();
-    EXPORT void sub_575200();
-    EXPORT void sub_575210();
-    EXPORT void sub_575270();
+    EXPORT void State2_SwitchToShutDown_575200();
+    EXPORT void HandleEnterCarObjective_575210();
+    EXPORT void HandleLeaveCarObjective_575270();
     EXPORT void sub_5752C0();
     EXPORT void sub_575310();
     EXPORT void Service_575590();
-    EXPORT void sub_575650();
+    EXPORT void UnlinkFromPursuitTarget_575650();
 
     u16 field_0_id;
     u8 field_2_targ_x;

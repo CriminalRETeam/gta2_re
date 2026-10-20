@@ -1890,7 +1890,7 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
                     stage_bonus_idx = gGameSession_67E8E0.GetPlySlotIdx_4C59B0();
                     if (PlySlotSvgExists_4B5370(stage_bonus_idx))
                     {
-                        sub_4B4EC0();
+                        LoadMapFilenamesFromSvg_4B4EC0();
                     }
                     else
                     {
@@ -5059,7 +5059,7 @@ bool Frontend::ChangeMainStageToNext_4B7200()
 }
 
 MATCH_FUNC(0x4B4EC0)
-void Frontend::sub_4B4EC0()
+void Frontend::LoadMapFilenamesFromSvg_4B4EC0()
 {
     char_type FileName[256];
     {

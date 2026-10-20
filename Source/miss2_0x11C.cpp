@@ -4250,7 +4250,7 @@ void miss2_0x11C::SCRCMD_IS_CAR_ON_TRAIL_50C1B0()
     SCR_POINTER* pCarPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
     SCR_POINTER* pTrailerPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2);
 
-    //Sprite* pSprite = pTrailerPointer->field_8_sprite->sub_5A6CA0(2);
+    //Sprite* pSprite = pTrailerPointer->field_8_sprite->FirstSpriteOfType_5A6CA0(2);
     Sprite* pSprite = pTrailerPointer->field_8_car->field_0_attachments.FirstSpriteOfType_5A6CA0(2);
     Car_BC* pCarOnTrailer;
 

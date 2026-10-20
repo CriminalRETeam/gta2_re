@@ -26,7 +26,7 @@ class Object_2C;
 class SoundObject_10;
 class Ped;
 
-EXPORT void __stdcall sub_5A5690(Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16* pOut2);
+EXPORT void __stdcall ProjectWorldToScreen_5A5690(Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16* pOut2);
 
 class SpriteShape_4C
 {
@@ -250,15 +250,15 @@ class Sprite
     EXPORT char_type HitTestVerticalLine_5A0EF0(Fix16 x, Fix16 y1, Fix16 y2);
     EXPORT bool GetNearestVerticalEdgeToCoordinate_5A1030(Fix16 a2, Fix16_Point& a3, u8& a4);
     EXPORT bool PointInsideRotatedBounds_5A1490(Fix16_Point& point1, Fix16_Point& point2);
-    EXPORT char_type sub_5A19C0();
-    EXPORT char sub_5A1A60();
+    EXPORT char_type IsStraddlingSlopeAndFlat_5A19C0();
+    EXPORT char CheckSlopeTopInFootprint_5A1A60();
     EXPORT void ResolveZOrder_5A1B30(Sprite* pOther);
     EXPORT char_type ComputeZLayer_5A1BD0();
     EXPORT char_type CheckCornerZCollisions_5A1CA0(u32* pCount);
     EXPORT char_type IsTouchingSlopeBlock_5A1EB0();
     EXPORT char_type CheckMapZCollision_5A21F0();
     EXPORT Fix16 MinDistanceToAnySpriteBBoxCorner_5A22B0(Sprite* pOther);
-    EXPORT char_type sub_5A2440();
+    EXPORT char_type CheckBulletWallCollision_5A2440();
     EXPORT char_type CheckSpriteMovementRegion_5A2500();
     EXPORT Ang16 GetNegatedAngle_5A26E0();
     EXPORT Fix16_Point FindCollisionIntersectionPoint_5A2710(Sprite* pOther,

@@ -27,7 +27,7 @@ class Fix16_Point;
 
 // A point without a destructor. 10.5 has points that don't take part in EH unwinding: struct members
 // (~Sprite is a bare jmp, the Char_B4 ctor's EH states leave out field_98_velocity_vector), a by-value
-// parameter the caller copies as two dwords (sub_5DE910) and a few locals (CarPhysics_B0 0x55F280,
+// parameter the caller copies as two dwords (DrawElectricArc_5DE910) and a few locals (CarPhysics_B0 0x55F280,
 // 0x55F800, Camera_0xBC::WorldToScreen_40CFC0's result). Everything else is a Fix16_Point. It is a
 // separate type, not a base of Fix16_Point: 10.5 charges Fix16_Point's ctor as one size-42 inline
 // site at the top level, which a derived class's ctor (base ctor nested in it) doesn't reproduce.
@@ -295,7 +295,7 @@ class Fix16_Point
         return Fix16_Point(x * in, y * in);
     }
 
-    // Out-of-line copies emitted in Weapon_30.cpp (used by sub_5DE910).
+    // Out-of-line copies emitted in Weapon_30.cpp (used by DrawElectricArc_5DE910).
     EXPORT Fix16_Point& AddAssign_5E40C0(const Fix16_Point& other);
     EXPORT Fix16_Point& DivAssign_5E40E0(const Fix16& v);
     EXPORT Fix16 MaxAbs_5E4140();
@@ -628,7 +628,7 @@ class Fix16_Point
         return Fix16_Point(x / a3, y / a3);
     }
 
-    // Same layout: a point sliced into a Fix16_Point_POD (one free inline site, see sub_5DF270)
+    // Same layout: a point sliced into a Fix16_Point_POD (one free inline site, see ShockPedsAroundSprite_5DF270)
     operator Fix16_Point_POD&()
     {
         return *(Fix16_Point_POD*)this;

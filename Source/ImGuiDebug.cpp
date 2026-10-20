@@ -2515,12 +2515,12 @@ void CC ImGuiDebugDraw()
                         gHud_2B00_706620->field_620_pagers.ClearClockOnly_5D32D0(v);
                     }
 
-                    if (ImGui::Button("sub_5D3280 (stop sound?)") && v <= 3)
+                    if (ImGui::Button("ClearPager_5D3280") && v <= 3)
                     {
                         gHud_2B00_706620->field_620_pagers.ClearPager_5D3280(v);
                     }
 
-                    if (ImGui::Button("sub_5D3220 (start sound?)") && v <= 3)
+                    if (ImGui::Button("AddOnScreenCounter_5D3220") && v <= 3)
                     {
                         gHud_2B00_706620->field_620_pagers.AddOnScreenCounter_5D3220(&v);
                     }
@@ -2964,8 +2964,8 @@ void CC ImGuiDebugDraw()
             {
                 s32 value_1 = gMap_0x370_6F6268->GetArrowDirectionFromBlock_4E5FC0(pPlayerBlock, 0);
                 s32 value_2 = gMap_0x370_6F6268->GetArrowDirectionFromBlock_4E5FC0(pPlayerBlock, 1);
-                ImGui::Value("sub_4E5FC0 type 0", value_1);
-                ImGui::Value("sub_4E5FC0 type 1", value_2);
+                ImGui::Value("GetArrowDirectionFromBlock_4E5FC0 type 0", value_1);
+                ImGui::Value("GetArrowDirectionFromBlock_4E5FC0 type 1", value_2);
             }
 
             u8 xpos = player_xpos.ToUInt8();
@@ -2994,7 +2994,7 @@ void CC ImGuiDebugDraw()
             //ImGui::Value("bRet", bUnk);
             ImGui::Value("Can Move Dir 4", gMap_0x370_6F6268->CanMoveOntoSlopeTile_4E0130(xpos, ypos, zpos, path_direction::left_4, &bRet, bUnk));
             //ImGui::Value("bRet", bUnk);
-            //gMap_0x370_6F6268->sub_4E0130(player_xpos.ToInt(), player_ypos.ToInt(), player_zpos.ToInt())
+            //gMap_0x370_6F6268->CanMoveOntoSlopeTile_4E0130(player_xpos.ToInt(), player_ypos.ToInt(), player_zpos.ToInt())
 
             ImGui::TreePop();
         }
