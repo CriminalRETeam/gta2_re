@@ -5,12 +5,12 @@
 
 struct STexture;
 
-// One scrolling digit strip texture, see RollingDigitCounter_38
-class DigitTexture_C
+// One scrolling digit strip texture, see RollingDigitCounter
+class DigitTexture
 {
   public:
     // inlined 0x4C2F70
-    DigitTexture_C()
+    DigitTexture()
     {
         field_0_pPixelData = 0;
         field_4_pTexture = 0;
@@ -23,9 +23,10 @@ class DigitTexture_C
     u16 field_8_height;
     u16 field_A_row_offset; // first pixel row of the digit strip that the texture shows
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(DigitTexture, 0xC);
 
 // A set of textures registered for one sprite type, one per sprite and remap palette
-class RemapTextureSet_14
+class RemapTextureSet
 {
   public:
     STexture** field_0_pTextures;
@@ -36,7 +37,7 @@ class RemapTextureSet_14
     char_type field_10_bDoFree;
 
     // inlined 0x4C2F10
-    RemapTextureSet_14()
+    RemapTextureSet()
     {
         field_0_pTextures = 0;
         field_4_texture_count = 0;
@@ -46,7 +47,7 @@ class RemapTextureSet_14
         field_10_bDoFree = 0;
     }
 
-    EXPORT ~RemapTextureSet_14();
+    EXPORT ~RemapTextureSet();
 
     EXPORT void Alloc_5B8E90(s16 sprite_count, s16 remaps_per_sprite, s32 sprite_type, s32 pal_type);
 
@@ -58,22 +59,23 @@ class RemapTextureSet_14
 
     EXPORT STexture* GetRemappedTexture_5B90D0(s16 sprite_idx, s16 remap);
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(RemapTextureSet, 0x14);
 
-struct TextureCache_15D8
+struct TextureCache
 {
     STexture* field_0_tile_textures[1024];
     char_type field_1000_bFreeCarDamageTextures;
     char_type field_1001_bFreeTileTextures;
     STexture* field_1004_car_damage_textures[48];
-    DigitTexture_C field_10C4_digit_textures[96];
+    DigitTexture field_10C4_digit_textures[96];
     STexture* field_1544_pShared_texture; // 128x128, re-pointed at different pixel data on demand
-    RemapTextureSet_14 field_1548_sprite_textures;
-    RemapTextureSet_14 field_155C_car_remap_textures;
-    RemapTextureSet_14 field_1570_ped_remap_textures;
-    RemapTextureSet_14 field_1584_code_obj_remap_textures;
-    RemapTextureSet_14 field_1598_map_obj_remap_textures;
-    RemapTextureSet_14 field_15AC_font_remap_textures;
-    RemapTextureSet_14 field_15C0_user_remap_textures;
+    RemapTextureSet field_1548_sprite_textures;
+    RemapTextureSet field_155C_car_remap_textures;
+    RemapTextureSet field_1570_ped_remap_textures;
+    RemapTextureSet field_1584_code_obj_remap_textures;
+    RemapTextureSet field_1598_map_obj_remap_textures;
+    RemapTextureSet field_15AC_font_remap_textures;
+    RemapTextureSet field_15C0_user_remap_textures;
     s16 field_15D4_next_digit_idx;
     u16 field_15D6_pal_count;
 
@@ -94,8 +96,9 @@ struct TextureCache_15D8
     EXPORT void SetPal_5B9660(u16 digit_idx, u16 pal_idx);
     EXPORT void SetCarDamageTextureSizeAndPalette_5B96B0(u16 texture_idx, u16 new_width, u16 new_height, u16 pal);
     EXPORT STexture* SetSharedTextureData_5B9710(s16 width, s16 height, u8* pPixelData, u16 pal);
-    EXPORT TextureCache_15D8();
-    EXPORT ~TextureCache_15D8();
+    EXPORT TextureCache();
+    EXPORT ~TextureCache();
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(TextureCache, 0x15D8);
 
-EXTERN_GLOBAL(TextureCache_15D8*, gTextureCache_15D8_705064);
+EXTERN_GLOBAL(TextureCache*, gTextureCache_15D8_705064);

@@ -86,13 +86,13 @@ DEFINE_GLOBAL(s32, gCachedScreenDimension_706C58, 0x706C58);
 EXTERN_GLOBAL(u32, counter_706C4C);
 EXTERN_GLOBAL(char_type, gLighting_626A09);
 
-DEFINE_GLOBAL(Game_0x40*, gGame_0x40_67E008, 0x67E008);
+DEFINE_GLOBAL(Game*, gGame_0x40_67E008, 0x67E008);
 
 // TODO: move
 void sub_SetGamma();
 
 MATCH_FUNC(0x4B8BB0)
-s32 Game_0x40::GetFrameDurationMs_4B8BB0()
+s32 Game::GetFrameDurationMs_4B8BB0()
 {
     if (bStartNetworkGame_7081F0 == false)
     {
@@ -102,7 +102,7 @@ s32 Game_0x40::GetFrameDurationMs_4B8BB0()
 }
 
 MATCH_FUNC(0x4B8BD0)
-void Game_0x40::ExitGame_4B8BD0(s32 new_timer, s32 exit_type, s8 bonus_type)
+void Game::ExitGame_4B8BD0(s32 new_timer, s32 exit_type, s8 bonus_type)
 {
     int timer = field_28_exit_timer;
     if (timer == -1 || timer > new_timer)
@@ -114,13 +114,13 @@ void Game_0x40::ExitGame_4B8BD0(s32 new_timer, s32 exit_type, s8 bonus_type)
 }
 
 MATCH_FUNC(0x4B8C00)
-void Game_0x40::ExitGameNoBonus_4B8C00(s32 new_timer, s32 exit_type)
+void Game::ExitGameNoBonus_4B8C00(s32 new_timer, s32 exit_type)
 {
     ExitGame_4B8BD0(new_timer, exit_type, 0);
 }
 
 MATCH_FUNC(0x4B8C20)
-bool Game_0x40::UpdateExitTimer_4B8C20()
+bool Game::UpdateExitTimer_4B8C20()
 {
     if (field_28_exit_timer == 0)
     {
@@ -136,7 +136,7 @@ bool Game_0x40::UpdateExitTimer_4B8C20()
 }
 
 MATCH_FUNC(0x4B8C40)
-void Game_0x40::LoadGameFiles_4B8C40()
+void Game::LoadGameFiles_4B8C40()
 {
     char_type tmp_array[256];
 
@@ -192,7 +192,7 @@ void Game_0x40::LoadGameFiles_4B8C40()
 }
 
 MATCH_FUNC(0x4B8E00)
-void Game_0x40::SetScreenSize_4B8E00(u32 width, u32 height)
+void Game::SetScreenSize_4B8E00(u32 width, u32 height)
 {
     field_38_local_player->field_90_game_camera.SetScreenSize_4361B0(width, height);
     field_38_local_player->field_208_aux_game_camera.SetScreenSize_4361B0(width, height);
@@ -201,7 +201,7 @@ void Game_0x40::SetScreenSize_4B8E00(u32 width, u32 height)
 }
 
 MATCH_FUNC(0x4B8E50)
-void Game_0x40::ApplyNetworkGameSettings_4B8E50()
+void Game::ApplyNetworkGameSettings_4B8E50()
 {
     switch (gNetworkGameSettings_707098.field_20190_game_speed)
     {
@@ -282,7 +282,7 @@ EXPORT void InvalidateCachedScreenDimension_5D8DF0()
 }
 
 MATCH_FUNC(0x4B8EB0)
-void Game_0x40::BootGame_4B8EB0()
+void Game::BootGame_4B8EB0()
 {
 
     gGameSession_67E8E0.SetBonusRatingTextIdx_4C5AB0(0);
@@ -331,7 +331,7 @@ void Game_0x40::BootGame_4B8EB0()
 }
 
 MATCH_FUNC(0x4B8FF0)
-void Game_0x40::ShowCounters_4B8FF0()
+void Game::ShowCounters_4B8FF0()
 {
     swprintf(tmpBuff_67BD9C, L"recycled cars : %d", gCarManager_6C_677930->field_28_recycled_cars);
     gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 32, gDebugFont_706600, 1);
@@ -372,7 +372,7 @@ void Game_0x40::ShowCounters_4B8FF0()
 }
 
 MATCH_FUNC(0x4B9270)
-void Game_0x40::ShowDebugOverlay_4B9270()
+void Game::ShowDebugOverlay_4B9270()
 {
     if (gDo_show_counter_67D6E6)
     {
@@ -381,13 +381,13 @@ void Game_0x40::ShowDebugOverlay_4B9270()
 
     if (field_30_fast_forward)
     {
-        Hud_TextEntry_C4* pC4 = gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(L"FF", 0, 440, gDebugFont_706600, 1);
+        Hud_TextEntry* pC4 = gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(L"FF", 0, 440, gDebugFont_706600, 1);
         pC4->SetDrawKind8_45AFD0(6);
     }
 }
 
 MATCH_FUNC(0x4B92D0)
-void Game_0x40::Draw_4B92D0()
+void Game::Draw_4B92D0()
 {
     gViewCamera_676978 = &field_1C_draw_player->field_14C_view_camera;
 
@@ -422,7 +422,7 @@ void Game_0x40::Draw_4B92D0()
 }
 
 MATCH_FUNC(0x4B9380)
-void Game_0x40::UpdateAllPlayersControls_4B9380()
+void Game::UpdateAllPlayersControls_4B9380()
 {
     Player** ppPlayersIterator = field_4_players;
     u32 idx = 0;
@@ -455,7 +455,7 @@ static void SetGamma_5D9970() // TODO Function chunk of 0x4AEC00, 0x4B93C0 and 0
 }
 
 MATCH_FUNC(0x4B93C0)
-void Game_0x40::UpdatePaused_4B93C0()
+void Game::UpdatePaused_4B93C0()
 {
     Player** pIter = field_4_players;
     u32 i = 0;
@@ -478,7 +478,7 @@ void Game_0x40::UpdatePaused_4B93C0()
 }
 
 MATCH_FUNC(0x4B9410)
-void Game_0x40::UpdateGame_4B9410()
+void Game::UpdateGame_4B9410()
 {
     Player** ppPlayerIter = field_4_players;
     u32 i = 0;
@@ -571,7 +571,7 @@ void Game_0x40::UpdateGame_4B9410()
 }
 
 MATCH_FUNC(0x4B9640)
-bool Game_0x40::ExecuteGame_4B9640()
+bool Game::ExecuteGame_4B9640()
 {
     UpdateAllPlayersControls_4B9380();
 
@@ -611,7 +611,7 @@ bool Game_0x40::ExecuteGame_4B9640()
 
 // TODO: Werid function chunk stuff
 MATCH_FUNC(0x4B96B0)
-void Game_0x40::Pause_4B96B0()
+void Game::Pause_4B96B0()
 {
     // Singleplayer or playing alone on multiplayer?
     if (field_23_num_players == 1)
@@ -621,7 +621,7 @@ void Game_0x40::Pause_4B96B0()
 }
 
 MATCH_FUNC(0x4B96C0)
-void Game_0x40::Unpause_4B96C0()
+void Game::Unpause_4B96C0()
 {
     if (field_23_num_players == 1)
     {
@@ -643,7 +643,7 @@ void Game_0x40::Unpause_4B96C0()
 }
 
 MATCH_FUNC(0x4B9700)
-void Game_0x40::TogglePause_4B9700()
+void Game::TogglePause_4B9700()
 {
     if (field_0_game_state == GameState::Running_1)
     {
@@ -656,7 +656,7 @@ void Game_0x40::TogglePause_4B9700()
 }
 
 MATCH_FUNC(0x4B9710)
-void Game_0x40::SinglePlayerStepFrame_4B9710()
+void Game::SinglePlayerStepFrame_4B9710()
 {
     if (field_23_num_players == 1)
     {
@@ -665,7 +665,7 @@ void Game_0x40::SinglePlayerStepFrame_4B9710()
 }
 
 MATCH_FUNC(0x4B9720)
-void Game_0x40::ReinitAfterVideoModeChange_4B9720()
+void Game::ReinitAfterVideoModeChange_4B9720()
 {
     if (field_38_local_player)
     {
@@ -681,7 +681,7 @@ void Game_0x40::ReinitAfterVideoModeChange_4B9720()
 }
 
 MATCH_FUNC(0x4B9750)
-Player* Game_0x40::GetFirstPlayerWithoutPed_4B9750()
+Player* Game::GetFirstPlayerWithoutPed_4B9750()
 {
     for (s32 i = 0; i < field_23_num_players; i++)
     {
@@ -694,9 +694,9 @@ Player* Game_0x40::GetFirstPlayerWithoutPed_4B9750()
 }
 
 MATCH_FUNC(0x4B9790)
-void Game_0x40::ShakeCamerasAtPos_4B9790(Fix16 amount, Fix16 x, Fix16 y)
+void Game::ShakeCamerasAtPos_4B9790(Fix16 amount, Fix16 x, Fix16 y)
 {
-    Camera_0xBC* pCam = IteratePlayerCamera_4B9BC0();
+    Camera* pCam = IteratePlayerCamera_4B9BC0();
     while (pCam)
     {
         if (pCam->IsPointInViewBounds_40CF60(x, y))
@@ -708,7 +708,7 @@ void Game_0x40::ShakeCamerasAtPos_4B9790(Fix16 amount, Fix16 x, Fix16 y)
 }
 
 MATCH_FUNC(0x4B97E0)
-bool Game_0x40::IsSpriteInAnyPlayerBounds_4B97E0(Sprite* pSprite, Fix16 margin)
+bool Game::IsSpriteInAnyPlayerBounds_4B97E0(Sprite* pSprite, Fix16 margin)
 {
     for (u8 i = 0; i < field_23_num_players; i++)
     {
@@ -721,7 +721,7 @@ bool Game_0x40::IsSpriteInAnyPlayerBounds_4B97E0(Sprite* pSprite, Fix16 margin)
 }
 
 MATCH_FUNC(0x4B9830)
-bool Game_0x40::IsSpriteInBoundsOrFollowedByAnyPlayer_4B9830(Sprite* pSprite, Fix16 margin)
+bool Game::IsSpriteInBoundsOrFollowedByAnyPlayer_4B9830(Sprite* pSprite, Fix16 margin)
 {
     for (u8 i = 0; i < field_23_num_players; i++)
     {
@@ -734,7 +734,7 @@ bool Game_0x40::IsSpriteInBoundsOrFollowedByAnyPlayer_4B9830(Sprite* pSprite, Fi
 }
 
 MATCH_FUNC(0x4B9890)
-bool Game_0x40::IsSpriteInAnyPlayerView_4B9890(Sprite* pSprite, s32 wide_view)
+bool Game::IsSpriteInAnyPlayerView_4B9890(Sprite* pSprite, s32 wide_view)
 {
     for (u8 i = 0; i < field_23_num_players; i++)
     {
@@ -747,7 +747,7 @@ bool Game_0x40::IsSpriteInAnyPlayerView_4B9890(Sprite* pSprite, s32 wide_view)
 }
 
 MATCH_FUNC(0x4B98E0)
-bool Game_0x40::IsSpriteInPlayerView_4B98E0(Sprite* pSprite, u8 player_idx, s32 wide_view)
+bool Game::IsSpriteInPlayerView_4B98E0(Sprite* pSprite, u8 player_idx, s32 wide_view)
 {
     if (field_4_players[player_idx]->field_8E_in_use)
     {
@@ -762,7 +762,7 @@ bool Game_0x40::IsSpriteInPlayerView_4B98E0(Sprite* pSprite, u8 player_idx, s32 
 }
 
 MATCH_FUNC(0x4B9950)
-bool Game_0x40::IsSpriteInPlayerBounds_4B9950(Sprite* pSprite, u8 player_idx, Fix16 margin)
+bool Game::IsSpriteInPlayerBounds_4B9950(Sprite* pSprite, u8 player_idx, Fix16 margin)
 {
     Player*& pPlayer = this->field_4_players[player_idx]; // a reference: 9.6f keeps the slot address too
     if (!pPlayer->field_8E_in_use)
@@ -784,7 +784,7 @@ bool Game_0x40::IsSpriteInPlayerBounds_4B9950(Sprite* pSprite, u8 player_idx, Fi
 }
 
 MATCH_FUNC(0x4B9A10)
-bool Game_0x40::IsSpriteCameraSubjectForPlayer_4B9A10(Sprite* pSprite, u8 player_idx)
+bool Game::IsSpriteCameraSubjectForPlayer_4B9A10(Sprite* pSprite, u8 player_idx)
 {
     if (field_4_players[player_idx]->field_8E_in_use)
     {
@@ -799,7 +799,7 @@ bool Game_0x40::IsSpriteCameraSubjectForPlayer_4B9A10(Sprite* pSprite, u8 player
 
 // https://decomp.me/scratch/PO0RU wip - prob needs Fix16 operators ??
 MATCH_FUNC(0x4B9A80)
-bool Game_0x40::IsPointOnScreen_4B9A80(Fix16 x, Fix16 y)
+bool Game::IsPointOnScreen_4B9A80(Fix16 x, Fix16 y)
 {
     s32 i;
     Player** ppPlayer = field_4_players;
@@ -822,7 +822,7 @@ bool Game_0x40::IsPointOnScreen_4B9A80(Fix16 x, Fix16 y)
 }
 
 MATCH_FUNC(0x4B9B10)
-bool Game_0x40::IsRectVisibleToAnyPlayer_4B9B10(Fix16_Rect* pBounds)
+bool Game::IsRectVisibleToAnyPlayer_4B9B10(Fix16_Rect* pBounds)
 {
     s32 i;
     Player** ppPlayer = field_4_players;
@@ -845,7 +845,7 @@ bool Game_0x40::IsRectVisibleToAnyPlayer_4B9B10(Fix16_Rect* pBounds)
 }
 
 MATCH_FUNC(0x4B9BC0)
-Camera_0xBC* Game_0x40::IteratePlayerCamera_4B9BC0()
+Camera* Game::IteratePlayerCamera_4B9BC0()
 {
     for (field_21_camera_iter_idx = 0; field_21_camera_iter_idx < field_23_num_players; field_21_camera_iter_idx++)
     {
@@ -859,7 +859,7 @@ Camera_0xBC* Game_0x40::IteratePlayerCamera_4B9BC0()
 }
 
 MATCH_FUNC(0x4B9C10)
-bool Game_0x40::IsCarInAnyPlayerHistory_4B9C10(Car_BC* pCar)
+bool Game::IsCarInAnyPlayerHistory_4B9C10(Car* pCar)
 {
     Player* pPlayer = IterateFirstPlayer_4B9CD0();
     while (pPlayer)
@@ -874,7 +874,7 @@ bool Game_0x40::IsCarInAnyPlayerHistory_4B9C10(Car_BC* pCar)
 }
 
 MATCH_FUNC(0x4B9C50)
-Camera_0xBC* Game_0x40::IterateNextPlayerCamera_4B9C50()
+Camera* Game::IterateNextPlayerCamera_4B9C50()
 {
     if (!field_4_players[field_21_camera_iter_idx]->field_2D0_aux_cam_active || field_22_aux_cam_iterated)
     {
@@ -896,7 +896,7 @@ Camera_0xBC* Game_0x40::IterateNextPlayerCamera_4B9C50()
 }
 
 MATCH_FUNC(0x4B9CD0)
-Player* Game_0x40::IterateFirstPlayer_4B9CD0()
+Player* Game::IterateFirstPlayer_4B9CD0()
 {
     for (field_20_player_iter_idx = 0; field_20_player_iter_idx < field_23_num_players; field_20_player_iter_idx++)
     {
@@ -909,7 +909,7 @@ Player* Game_0x40::IterateFirstPlayer_4B9CD0()
 }
 
 MATCH_FUNC(0x4B9D10)
-Player* Game_0x40::IterateNextPlayer_4B9D10()
+Player* Game::IterateNextPlayer_4B9D10()
 {
     while (++field_20_player_iter_idx < field_23_num_players)
     {
@@ -922,7 +922,7 @@ Player* Game_0x40::IterateNextPlayer_4B9D10()
 }
 
 MATCH_FUNC(0x4B9D60)
-void Game_0x40::ReduceTrafficSpawnCounterOfOtherViewers_4B9D60(Sprite* pSprite, Player* pExclude)
+void Game::ReduceTrafficSpawnCounterOfOtherViewers_4B9D60(Sprite* pSprite, Player* pExclude)
 {
     for (u8 i = 0; i < GTA2_COUNTOF(field_4_players); i++)
     {
@@ -947,7 +947,7 @@ void Game_0x40::ReduceTrafficSpawnCounterOfOtherViewers_4B9D60(Sprite* pSprite, 
 DEFINE_GLOBAL_INIT(Fix16, kInitialAmbient_67DCCC, Fix16(0x666, 0), 0x67DCCC);
 
 MATCH_FUNC(0x4B9DE0)
-Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
+Game::Game(u8 max_players, s8 player_idx) // 4B9DE0
 {
     gRng_6F6784.srand_4F7A40(); // srand?
 
@@ -979,7 +979,7 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1793);
     }
 
-    gText_0x14_704DFC = new text_0x14(); // ctor call
+    gText_0x14_704DFC = new TextTable(); // ctor call
     if (!gText_0x14_704DFC)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1795);
@@ -1003,43 +1003,43 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1808);
     }
 
-    gSpriteRenderer_67B580 = new SpriteRenderer_1C(); // ctor call
+    gSpriteRenderer_67B580 = new SpriteRenderer(); // ctor call
     if (!gSpriteRenderer_67B580)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1810);
     }
 
-    gMike_A80_6F7328 = new Mike_A80(); // inlined
+    gMike_A80_6F7328 = new FrameProfiler(); // inlined
     if (!gMike_A80_6F7328)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1824);
     }
 
-    gCarManager_6C_677930 = new CarManager_6C(); // ctor call
+    gCarManager_6C_677930 = new CarManager(); // ctor call
     if (!gCarManager_6C_677930)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1827);
     }
 
-    gCarThreadTriggers_214_705F20 = new CarThreadTriggers_214(); // no ctor
+    gCarThreadTriggers_214_705F20 = new CarThreadTriggers(); // no ctor
     if (!gCarThreadTriggers_214_705F20)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1829);
     }
 
-    gScriptManager_6F8060 = new ScriptManager_C1EA8(); // ctor call
+    gScriptManager_6F8060 = new ScriptManager(); // ctor call
     if (!gScriptManager_6F8060)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1831);
     }
 
-    gScriptStackFramePool_6F8068 = new ScriptStackFramePool_25C(); // multi level inlines
+    gScriptStackFramePool_6F8068 = new ScriptStackFramePool(); // multi level inlines
     if (!gScriptStackFramePool_6F8068)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1833);
     }
 
-    gFpsCounter_7055D4 = new FpsCounter_54(); // ctor call
+    gFpsCounter_7055D4 = new FpsCounter(); // ctor call
     if (!gFpsCounter_7055D4)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1836);
@@ -1057,13 +1057,13 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1841);
     }
 
-    gCollisionCounters_6791FC = new CollisionCounters_C(); // ctor call
+    gCollisionCounters_6791FC = new CollisionCounters(); // ctor call
     if (!gCollisionCounters_6791FC)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1843);
     }
 
-    gObjectDefinitions_6FCF00 = new ObjectDefinitions_8CA8(); // ctor call
+    gObjectDefinitions_6FCF00 = new ObjectDefinitions(); // ctor call
     if (!gObjectDefinitions_6FCF00)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1845);
@@ -1075,61 +1075,61 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1847);
     }
 
-    gPedRefTable_7F8_703398 = new PedRefTable_7F8(); // ctor call
+    gPedRefTable_7F8_703398 = new PedRefTable(); // ctor call
     if (!gPedRefTable_7F8_703398)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1849);
     }
 
-    gTileAnim_2_7052C4 = new TileAnim_2(); // ctor call
+    gTileAnim_2_7052C4 = new TileAnimManager(); // ctor call
     if (!gTileAnim_2_7052C4)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1851);
     }
 
-    gWeapon_8_707018 = new Weapon_8(); // ctor call
+    gWeapon_8_707018 = new WeaponManager(); // ctor call
     if (!gWeapon_8_707018)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1853);
     }
 
-    gDoor_4D4_67BD2C = new Door_4D4(); // ctor call ok
+    gDoor_4D4_67BD2C = new DoorPool(); // ctor call ok
     if (!gDoor_4D4_67BD2C)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1855);
     }
 
-    gAmbulance_110_6F70A8 = new Ambulance_110(); // multi level inline
+    gAmbulance_110_6F70A8 = new AmbulanceService(); // multi level inline
     if (!gAmbulance_110_6F70A8)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1857);
     }
 
-    gPublicTransport_181C_6FF1D4 = new PublicTransport_181C(); // ctor call
+    gPublicTransport_181C_6FF1D4 = new PublicTransport(); // ctor call
     if (!gPublicTransport_181C_6FF1D4)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1860);
     }
 
-    gTaxi_4_704130 = new Taxi_4(); // ctor call
+    gTaxi_4_704130 = new TaxiList(); // ctor call
     if (!gTaxi_4_704130)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1863);
     }
 
-    gHud_2B00_706620 = new Hud_2B00(); // ctor call
+    gHud_2B00_706620 = new Hud(); // ctor call
     if (!gHud_2B00_706620)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1865);
     }
 
-    gTextureCache_15D8_705064 = new TextureCache_15D8(); // ctor call
+    gTextureCache_15D8_705064 = new TextureCache(); // ctor call
     if (!gTextureCache_15D8_705064)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1867);
     }
 
-    gTrafficLights_194_705958 = new TrafficLights_194(); // ctor call
+    gTrafficLights_194_705958 = new TrafficLights(); // ctor call
     if (!gTrafficLights_194_705958)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1869);
@@ -1141,25 +1141,25 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1871);
     }
 
-    gPatrolRoutePool_6FD784 = new PatrolRoutePool_1D7E(); // ctor call
+    gPatrolRoutePool_6FD784 = new PatrolRoutePool(); // ctor call
     if (!gPatrolRoutePool_6FD784)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1873);
     }
 
-    gPathFinder_6FDEF0 = new PathFinder_2FD4(); // inline
+    gPathFinder_6FDEF0 = new PathFinder(); // inline
     if (!gPathFinder_6FDEF0)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1875);
     }
 
-    gCarInfo_808_678098 = new CarInfo_808(); // ctor call
+    gCarInfo_808_678098 = new CarInfoTable(); // ctor call
     if (!gCarInfo_808_678098)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1877);
     }
 
-    gParticle_8_6FD5E8 = new Particle_8(); // ctor call
+    gParticle_8_6FD5E8 = new ParticleManager(); // ctor call
     if (!gParticle_8_6FD5E8)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1879);
@@ -1171,61 +1171,61 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1881);
     }
 
-    gExplosionPool_7A8_6FD5F0 = new ExplosionPool_7A8(); // ctor call
+    gExplosionPool_7A8_6FD5F0 = new ExplosionPool(); // ctor call
     if (!gExplosionPool_7A8_6FD5F0)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1883);
     }
 
-    gCranePool_D9C_679FD4 = new CranePool_D9C(); // ctor call
+    gCranePool_D9C_679FD4 = new CranePool(); // ctor call
     if (!gCranePool_D9C_679FD4)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1885);
     }
 
-    gCrusherPool_94_67A830 = new CrusherPool_94(); // ctor call
+    gCrusherPool_94_67A830 = new CrusherPool(); // ctor call
     if (!gCrusherPool_94_67A830)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1887);
     }
 
-    gGeneratorPool_14AC_67E5D0 = new GeneratorPool_14AC(); // ctor call
+    gGeneratorPool_14AC_67E5D0 = new GeneratorPool(); // ctor call
     if (!gGeneratorPool_14AC_67E5D0)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1889);
     }
 
-    gEmergencyCrewPool_706280 = new EmergencyCrewPool_1E0(); // multi level inline
+    gEmergencyCrewPool_706280 = new EmergencyCrewPool(); // multi level inline
     if (!gEmergencyCrewPool_706280)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1891);
     }
 
-    gPolice_7B8_6FEE40 = new Police_7B8(); // multi level inline
+    gPolice_7B8_6FEE40 = new Police(); // multi level inline
     if (!gPolice_7B8_6FEE40)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1893);
     }
 
-    gLight_1D4CC_6F5520 = new Light_1D4CC(); // multi level inline
+    gLight_1D4CC_6F5520 = new LightPool(); // multi level inline
     if (!gLight_1D4CC_6F5520)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1896);
     }
 
-    gGangPool_CA8_67E274 = new GangPool_CA8(); // multi level inline
+    gGangPool_CA8_67E274 = new GangPool(); // multi level inline
     if (!gGangPool_CA8_67E274)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1899);
     }
 
-    gGarage_48_6FD26C = new Garage_48(); // ctor call
+    gGarage_48_6FD26C = new Garage(); // ctor call
     if (!gGarage_48_6FD26C)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1901);
     }
 
-    gCarChaseTaskTable_678E30 = new CarChaseTaskTable_500(); // ctor call
+    gCarChaseTaskTable_678E30 = new CarChaseTaskTable(); // ctor call
     if (!gCarChaseTaskTable_678E30)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1903);
@@ -1246,13 +1246,13 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1913);
     }
 
-    gFirefighterPool_54_67D4C0 = new FirefighterPool_54(); // multi level inline 4A88D0 func only
+    gFirefighterPool_54_67D4C0 = new FirefighterPool(); // multi level inline 4A88D0 func only
     if (!gFirefighterPool_54_67D4C0)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1915);
     }
 
-    gCollisionSoundQueue_66AFE0 = new CollisionSoundQueue_C88(); // ctor call
+    gCollisionSoundQueue_66AFE0 = new CollisionSoundQueue(); // ctor call
     if (!gCollisionSoundQueue_66AFE0)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1918);
@@ -1260,7 +1260,7 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
 
     if (gText_0x14_704DFC->field_10_lang_code == 'j')
     {
-        gKanjiFont_6F5168 = new KanjiFont_8EC(); // ctor call
+        gKanjiFont_6F5168 = new KanjiFont(); // ctor call
         if (!gKanjiFont_6F5168)
         {
             FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1923);
@@ -1283,7 +1283,7 @@ Game_0x40::Game_0x40(u8 max_players, s8 player_idx) // 4B9DE0
 }
 
 MATCH_FUNC(0x4BAE30)
-Game_0x40::~Game_0x40()
+Game::~Game()
 {
     bSkip_police_67D4F9 = field_3C_skip_police;
 

@@ -7,7 +7,7 @@
 class Player;
 class Ped;
 
-class TagGame_28
+class TagGame
 {
   public:
     EXPORT void Init_516560();
@@ -53,5 +53,6 @@ class TagGame_28
     s32 field_1C_tick_timer;
     u8 field_20_bHasQuit[MAX_PLAYERS];
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(TagGame, 0x28);
 
-EXTERN_GLOBAL(TagGame_28, gTagGame_6F8450);
+EXTERN_GLOBAL(TagGame, gTagGame_6F8450);

@@ -7,8 +7,8 @@
 #include <windows.h>
 
 struct naughty_sinoussi_0x800;
-class Game_0x40;
-class Network_20324;
+class Game;
+class NetUi;
 
 #pragma pack(push,1)
 class PacketHeader
@@ -18,13 +18,14 @@ class PacketHeader
     s32 field_4_sub_type;
 };
 
-class Packet_Ping_C
+class Packet_Ping
 {
   public:
     s32 field_0_sender_player_id;
     s32 field_4_receiver_player_id;
     s32 field_8_time;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Packet_Ping, 0xC);
 
 class Standard_Packet
 {
@@ -110,10 +111,11 @@ struct Network_PlayerPing
     s32 field_208_avg_ping;
 };
 
-struct Network_4
+struct Network_IpAddress
 {
     wchar_t* field_0_allocated_str;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Network_IpAddress, 0x4);
 
 struct Network_8
 {
@@ -121,37 +123,41 @@ struct Network_8
     s32 field_4_len;
 };
 
-struct Network_18
+struct Network_ConnectionList
 {
     EnumeratedConnection* field_0_enumed_connections;
-    Network_4* field_4_d_array_8_entries;
+    Network_IpAddress* field_4_d_array_8_entries;
     u32 field_8_connections_count;
     u32 field_C_f4_d_array_count;
     s32 field_10_enum_success;
     s32 field_14_dplay_success;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Network_ConnectionList, 0x18);
 
-struct Network_504
+struct Network_SessionList
 {
     DPSESSIONDESC2 field_C4_sessions[16];
     u32 field_5C4_session_count;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Network_SessionList, 0x504);
 
-struct Network_Buffer_8
+struct Network_Buffer
 {
     void* field_0;
     s32 field_4_len;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Network_Buffer, 0x8);
 
-struct Network_InputData_0x8
+struct Network_InputData
 {
     u32 field_0_Inputs;
     u32 field_4_rng;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Network_InputData, 0x8);
 
-struct Network_14
+struct Network_InputPacket
 {
-    Network_InputData_0x8 field_0_inputs;
+    Network_InputData field_0_inputs;
     s32 field_8_id;
     s32 field_C_len;
     u8 field_10_used;
@@ -159,6 +165,7 @@ struct Network_14
     char field_12;
     char field_13_unused;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Network_InputPacket, 0x14);
 
 struct PacketHandlerSlot
 {
@@ -179,7 +186,7 @@ struct NetPlay
                                          const DPNAME* lpName,
                                          unsigned long dwFlags,
                                          void* lpContext);
-    EXPORT s32 SetProtoAndConnection_51DAE0(GUID* pProtocolGuid, Network_Buffer_8* pUseThisConnection);
+    EXPORT s32 SetProtoAndConnection_51DAE0(GUID* pProtocolGuid, Network_Buffer* pUseThisConnection);
     EXPORT void DirectPlayDestroy_51DC90();
     EXPORT s32 DirectPlayCreate_51DCD0();
     EXPORT s32 DirectPlayCreate_51DED0();
@@ -194,7 +201,7 @@ struct NetPlay
     EXPORT u32 AddPlayer_51E9C0(Network_8* pData, s32 player_id, DPNAME name, Network_Game_Session* pStru);
     EXPORT static s32 __stdcall EnumSessions_cb_51EAE0(DPSESSIONDESC2* lpThisSD, s32 lpDwTimeOut, char_type dwFlags, NetPlay* lpContext);
     EXPORT s32 AddEnumeratedSession_51EB00(DPSESSIONDESC2* pSession);
-    EXPORT void Set15_51ECD0(s32 pFunc, Network_20324* pParam);
+    EXPORT void Set15_51ECD0(s32 pFunc, NetUi* pParam);
     EXPORT void NetworkTick_51ED00();
     EXPORT s32 SendPing_51EF60();
     EXPORT char_type Receive_51F010(s32* pOutData, s32* pOutDataLen, unsigned long* recvId, unsigned long* senderId);
@@ -229,7 +236,7 @@ struct NetPlay
     EXPORT void Set27SavePlayerName_5211F0(s32 pCallback, s32 pContext);
     EXPORT void DisableJoining_521220();
     EXPORT s32 IsUserHost_5212E0();
-    EXPORT void SetExitGameCallBack_521330(s32 pFunc, Game_0x40* pGame);
+    EXPORT void SetExitGameCallBack_521330(s32 pFunc, Game* pGame);
     EXPORT s32 GetMaxPlayers_521350();
     EXPORT void SendAcknowledgment_521370();
     EXPORT bool WaitForPlayersSync_5213E0();
@@ -272,10 +279,10 @@ struct NetPlay
     s32 field_24_unused;
     s32 field_28_unused;
     s32 field_2C_ptrs;
-    Network_18 field_30_enumed_connections;
+    Network_ConnectionList field_30_enumed_connections;
     s32 field_48_net_state;
     PacketHandlerSlot field_4C_func_ptrs_and_params[10];
-    Network_504 field_C4_sessions;
+    Network_SessionList field_C4_sessions;
     s32 field_5C8_not_used;
     s32 field_5CC_bIsHost;
     s32 field_5D0_player_og_idx; // Only set for the host, but it's not used
@@ -296,7 +303,7 @@ struct NetPlay
     char field_8F2_unused;
     char field_8F3_unused;
     s32 field_8F4_time_diff;
-    Network_14 field_8F8_packets[48];
+    Network_InputPacket field_8F8_packets[48];
     s32 field_CB8_count;
 };
 

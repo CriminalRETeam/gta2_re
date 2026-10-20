@@ -10,20 +10,21 @@
 
 class Ped;
 class Player;
-class Gang_144;
-class SoundObject_10;
-class Gang_144;
-class Object_2C;
-class Car_BC;
+class Gang;
+class SoundObject;
+class Gang;
+class Object;
+class Car;
 
-class Hud_PlayerNames_4
+class Hud_PlayerNames
 {
   public:
     EXPORT void DrawPlayerNames_5CFE40();
     s32 field_0;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Hud_PlayerNames, 0x4);
 
-class Hud_MpMessage_D0
+class Hud_MpMessage
 {
   public:
     EXPORT void CalcTextWidth_5D56B0();
@@ -31,13 +32,14 @@ class Hud_MpMessage_D0
     EXPORT void ShowText_5D5730(const wchar_t* pStr);
     EXPORT void DecrementTimer_5D5760();
     EXPORT void AnnounceKill_5D5770(Player* killer, Player* victim);
-    EXPORT Hud_MpMessage_D0();
+    EXPORT Hud_MpMessage();
     char_type field_0_timer;
     wchar_t field_2_str[101];
     s32 field_CC_text_width;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Hud_MpMessage, 0xD0);
 
-class Hud_ChatInput_1
+class Hud_ChatInput
 {
   public:
     EXPORT bool IsTypingOnChat_5D15E0(s32 action, Player* pPlayer);
@@ -45,8 +47,9 @@ class Hud_ChatInput_1
     EXPORT bool IsChatInputKey_5D17D0(s32 key_idx);
     EXPORT void StartChatting_5D1830(Player* pPlayer);
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Hud_ChatInput, 0x1);
 
-class Hud_QuitMessage_1
+class Hud_QuitMessage
 {
   public:
     EXPORT bool IsOnQuitMessage_5D13C0(s32 action, Player* pPlayer);
@@ -55,12 +58,13 @@ class Hud_QuitMessage_1
     EXPORT void ShowQuitMessage_5D15D0(Player* pPlayer);
     char_type field_12EC_quit_message;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Hud_QuitMessage, 0x1);
 
-class Hud_BriefSelector_4
+class Hud_BriefSelector
 {
   public:
     // inline 0x4C6AC0
-    Hud_BriefSelector_4()
+    Hud_BriefSelector()
     {
         field_0_value = 0; // TODO: byte ?
     }
@@ -68,6 +72,7 @@ class Hud_BriefSelector_4
     EXPORT void ShowPrevNumberedBrief_5CF6B0();
     s32 field_0_value;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Hud_BriefSelector, 0x4);
 
 namespace HudPauseSection
 {
@@ -83,11 +88,11 @@ enum
 };
 } // namespace HudPauseSection
 
-class Hud_PauseScreen_2
+class Hud_PauseScreen
 {
   public:
     // inline 0x4C71A0
-    Hud_PauseScreen_2()
+    Hud_PauseScreen()
     {
         field_0_current_pause_section = 0;
         field_1_timer = 45;
@@ -97,8 +102,9 @@ class Hud_PauseScreen_2
     u8 field_0_current_pause_section;
     char_type field_1_timer;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Hud_PauseScreen, 0x2);
 
-class Hud_Message_1C8
+class Hud_Message
 {
   public:
     EXPORT void ClearTimeToShow_5D1850();
@@ -106,27 +112,29 @@ class Hud_Message_1C8
     EXPORT void DrawMessage_5D1940();
     EXPORT void ShowMessage_5D1A00(wchar_t* pStr, s32 priority);
     EXPORT void DecrementTimeToShow_5D1AB0();
-    EXPORT Hud_Message_1C8();
+    EXPORT Hud_Message();
     u8 field_0_time_to_show;
     wchar_t field_2_str[221];
     s32 field_1BC_str_width;
     s32 field_1C0_num_lines;
     s32 field_1C4_priority; // hud_message_priority (hud_message_priority.hpp)
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Hud_Message, 0x1C8);
 
-class Hud_PlayerStats_4
+class Hud_PlayerStats
 {
   public:
     EXPORT void DrawPlayerStats_5D5C80();
     EXPORT void UpdateRollingDigits_5D6290();
     s32 field_0;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Hud_PlayerStats, 0x4);
 
-class Hud_UnderRoofArrowMarker_C
+class Hud_UnderRoofArrowMarker
 {
   public:
     // inline 0x4C6E50
-    Hud_UnderRoofArrowMarker_C()
+    Hud_UnderRoofArrowMarker()
     {
         field_8_rotation = 0;
         field_A_ped_under_solid = 0;
@@ -139,32 +147,35 @@ class Hud_UnderRoofArrowMarker_C
     char_type field_A_ped_under_solid;
     char_type field_B_unused;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Hud_UnderRoofArrowMarker, 0xC);
 
-class Hud_Health_4
+class Hud_Health
 {
   public:
     EXPORT void DrawHealth_5D0260();
     s32 field_0;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Hud_Health, 0x4);
 
-class Hud_PickupText_88
+class Hud_PickupText
 {
   public:
     EXPORT void CalcTextWidth_5D53E0();
     EXPORT void Draw_5D5420();
     EXPORT void ShowPickupText_5D5600(u8 pickup_idx);
     EXPORT void DecrementTimer_5D5690();
-    EXPORT Hud_PickupText_88();
+    EXPORT Hud_PickupText();
     char_type field_0_timer;
     wchar_t field_2_str[65];
     s32 field_84_text_width;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Hud_PickupText, 0x88);
 
-class Hud_ShowCoords_1
+class Hud_ShowCoords
 {
   public:
     // inline 0x4C6E70
-    Hud_ShowCoords_1()
+    Hud_ShowCoords()
     {
         field_0_show_coords = false;
     }
@@ -178,8 +189,9 @@ class Hud_ShowCoords_1
 
     char_type field_0_show_coords;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Hud_ShowCoords, 0x1);
 
-class Hud_GangRespectBars_1
+class Hud_GangRespectBars
 {
   public:
     EXPORT void DrawGangRespectBars_5CFA70();
@@ -187,18 +199,20 @@ class Hud_GangRespectBars_1
     EXPORT void Empty_5CFE30();
     char_type field_107C_gang_respect_bars;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Hud_GangRespectBars, 0x1);
 
-class Hud_CopHead_C
+class Hud_CopHead
 {
   public:
     EXPORT void UpdateHead_5D0050(bool bShakeHead);
-    EXPORT Hud_CopHead_C();
+    EXPORT Hud_CopHead();
     u8 field_0_frame;
     char_type field_1_frame_timer;
     char_type field_2_frame_delay;
     s32 field_4_height;
     s32 field_8_velocity;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Hud_CopHead, 0xC);
 
 class Hud_CopHead_C_Array
 {
@@ -211,19 +225,19 @@ class Hud_CopHead_C_Array
     EXPORT void UpdateWantedLevel_5D00B0();
     EXPORT void DrawWantedLevel_5D0110();
     EXPORT void Init_5D0210();
-    Hud_CopHead_C field_1028_cop_heads[6];
+    Hud_CopHead field_1028_cop_heads[6];
     s32 field_48_cop_level;
     Fix16 field_4C_w_fp;
     Fix16 field_50_h_fp;
 };
 
-class Hud_TextEntry_C4
+class Hud_TextEntry
 {
   public:
     EXPORT void FormatAndSetupText_5D1B10(const wchar_t* pStr, s16 xpos, s16 ypos, s16 fontType, s32 displayTime);
     EXPORT void Draw_5D1D00();
     EXPORT bool DecrementDisplayTime_5D1DB0();
-    EXPORT bool operator_equals_5D1E10(Hud_TextEntry_C4* pOther);
+    EXPORT bool operator_equals_5D1E10(Hud_TextEntry* pOther);
 
     // 9.6f 0x4C70F0
     inline void Expire_4C70F0()
@@ -253,25 +267,27 @@ class Hud_TextEntry_C4
     s16 field_B4_palette;
     s32 field_B8_alpha;
     s32 field_BC_alpha_flag;
-    Hud_TextEntry_C4* field_C0_pNext;
+    Hud_TextEntry* field_C0_pNext;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Hud_TextEntry, 0xC4);
 
-class Hud_TextList_968
+class Hud_TextList
 {
   public:
-    EXPORT void ExpireDuplicates_5D1EB0(Hud_TextEntry_C4* String2);
-    EXPORT Hud_TextEntry_C4* DisplayText_5D1F50(const wchar_t* pStr, s16 xpos, s16 ypos, s16 font_type, s32 display_time);
+    EXPORT void ExpireDuplicates_5D1EB0(Hud_TextEntry* String2);
+    EXPORT Hud_TextEntry* DisplayText_5D1F50(const wchar_t* pStr, s16 xpos, s16 ypos, s16 font_type, s32 display_time);
     EXPORT void Service_5D2010();
     EXPORT void RemoveExpired_5D2050();
-    EXPORT Hud_TextList_968();
+    EXPORT Hud_TextList();
 
     // TODO: Seems like a pool and the ctor would suggest it is, yet somehow the fields are in the wrong order?
-    Hud_TextEntry_C4 field_0_29_ary[30];
-    Hud_TextEntry_C4* field_960_pFirst;
-    Hud_TextEntry_C4* field_964_pFreeList;
+    Hud_TextEntry field_0_29_ary[30];
+    Hud_TextEntry* field_960_pFirst;
+    Hud_TextEntry* field_964_pFreeList;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Hud_TextList, 0x1700);
 
-class Hud_Pager_C
+class Hud_Pager
 {
   public:
     // 9.6f 0x4C7160
@@ -301,17 +317,18 @@ class Hud_Pager_C
         return field_0_timer;
     }
 
-    EXPORT ~Hud_Pager_C();
+    EXPORT ~Hud_Pager();
     EXPORT void Service_5D2320();
     EXPORT void DrawCounterDigits_5D2380(s32 xpos, s32 ypos);
     EXPORT void DrawDigits_5D2680(s32 xpos, s32 ypos);
     EXPORT void DrawPager_5D2AB0(u32 xpos, s32 ypos);
 
-    EXPORT Hud_Pager_C();
+    EXPORT Hud_Pager();
     s32 field_0_timer;
     s32* field_4_ptr_counter; //  counter?
-    SoundObject_10* field_8_sound;
+    SoundObject* field_8_sound;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Hud_Pager, 0xC);
 
 class Hud_Pager_C_Array
 {
@@ -332,7 +349,7 @@ class Hud_Pager_C_Array
     EXPORT void AddTime_5D32F0(s32 pager_idx, s32 time_to_add);
     EXPORT void ClearCounterOnly_5D3310(s32 pager_idx);
 
-    Hud_Pager_C field_0_pagers_array[4];
+    Hud_Pager field_0_pagers_array[4];
 };
 
 inline u8 __stdcall get_sprite_width_4C7220(s16 user_sprite_idx)
@@ -347,15 +364,16 @@ inline u8 __stdcall get_sprite_height_4C7250(s16 user_sprite_idx)
     return gGtx_0x106C_703DD4->get_sprite_height_4C6C90(sprite_idx);
 }
 
-class Hud_BriefEntry_18
+class Hud_BriefEntry
 {
   public:
     char_type field_0_brief_id_str[8]; // gxt key, e.g. "1_3"
     s32 field_8_brief_priority;
-    Hud_BriefEntry_18* field_C_pNext;
+    Hud_BriefEntry* field_C_pNext;
     u8 field_10_was_displayed;
     s32 field_14_cost_param;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Hud_BriefEntry, 0x18);
 
 namespace ArrowTargetType
 {
@@ -371,22 +389,23 @@ enum
 };
 } // namespace ArrowTargetType
 
-class Hud_ArrowGangInfo_8
+class Hud_ArrowGangInfo
 {
   public:
-    Gang_144* field_30_gang;
+    Gang* field_30_gang;
     char_type field_34_min_respect;
     char_type field_5_is_visible; // not sure
     char_type field_6_in_use;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Hud_ArrowGangInfo, 0x8);
 
-class ArrowTrace_24
+class ArrowTrace
 {
   public:
-    EXPORT void PointToInfoPhone_5D03C0(Gang_144* pZone);
+    EXPORT void PointToInfoPhone_5D03C0(Gang* pZone);
     EXPORT void UpdateAimCoordinates_5D03F0();
 
-    void SetTargetCar(Car_BC* pCar)
+    void SetTargetCar(Car* pCar)
     {
         field_4_car = pCar;
         field_10_target_type = ArrowTargetType::Car_3;
@@ -400,7 +419,7 @@ class ArrowTrace_24
     }
 
     // 9.6f 0x476810
-    inline void SetTargetObject_476810(Object_2C* pObj)
+    inline void SetTargetObject_476810(Object* pObj)
     {
         field_8_obj = pObj;
         field_10_target_type = ArrowTargetType::Object_4;
@@ -445,8 +464,8 @@ class ArrowTrace_24
     }
 
     Ped* field_0_ped;
-    Car_BC* field_4_car;
-    Object_2C* field_8_obj;
+    Car* field_4_car;
+    Object* field_8_obj;
     Player* field_C_player;
     s32 field_10_target_type;
     Fix16 field_14_aim_x;
@@ -454,8 +473,9 @@ class ArrowTrace_24
     Fix16 field_1C_aim_z;
     char_type field_20_bIsTargetVisible;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(ArrowTrace, 0x24);
 
-class Hud_ArrowTargets_64
+class Hud_ArrowTargets
 {
   public:
 
@@ -469,13 +489,14 @@ class Hud_ArrowTargets_64
     s32 field_28_arrow_colour;
     s16 field_2C_arrow_sprt_idx;
     u8 field_2E_target_swap_timer;
-    Hud_ArrowGangInfo_8 field_10;
-    ArrowTrace_24 field_18_primary_target;
-    ArrowTrace_24 field_3C_secondary_target;
-    ArrowTrace_24* field_60_curr_target;
+    Hud_ArrowGangInfo field_10;
+    ArrowTrace field_18_primary_target;
+    ArrowTrace field_3C_secondary_target;
+    ArrowTrace* field_60_curr_target;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Hud_ArrowTargets, 0x64);
 
-class Hud_Arrow_7C
+class Hud_Arrow
 {
   public:
     // 9.6f 0x4CA610, defined in Hud.cpp
@@ -537,35 +558,36 @@ class Hud_Arrow_7C
     }
 
     // 9.6f 0x476860
-    inline void SetArrowTargetCar_476860(Car_BC* pCar)
+    inline void SetArrowTargetCar_476860(Car* pCar)
     {
         field_18.field_18_primary_target.SetTargetCar(pCar);
     }
 
     // 9.6f 0x476870
-    inline void SetArrowTargetObject_476870(Object_2C* pObj)
+    inline void SetArrowTargetObject_476870(Object* pObj)
     {
         field_18.field_18_primary_target.SetTargetObject_476810(pObj);
     }
 
     inline void SetArrowAim_476840(Fix16 xpos, Fix16 ypos, Fix16 zpos)
     {
-        ArrowTrace_24* pTarget = &field_18.field_18_primary_target;
+        ArrowTrace* pTarget = &field_18.field_18_primary_target;
         pTarget->field_14_aim_x = xpos;
         pTarget->field_18_aim_y = ypos;
         pTarget->field_1C_aim_z = zpos;
         pTarget->field_10_target_type = ArrowTargetType::XYZ_Coord_1;
     }
 
-    EXPORT Hud_Arrow_7C();
+    EXPORT Hud_Arrow();
     Fix16 field_0_screen_pos_x; // x and y are not independent from field_10_radius_pos
     Fix16 field_4_screen_pos_y;
     Ang16 field_8_rotation;
     Fix16 field_C_min_radius_pos; // minimum radial distance from the player
     Fix16 field_10_radius_pos; // radial distance from the player
     Fix16 field_14_reposition_speed; // how slower/faster the arrow goes to the aim target, or "get back" to the player
-    Hud_ArrowTargets_64 field_18;
+    Hud_ArrowTargets field_18;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Hud_Arrow, 0x7C);
 
 class Hud_Arrow_7C_Array
 {
@@ -585,34 +607,34 @@ class Hud_Arrow_7C_Array
     }
 
     EXPORT void CreatePlayerArrows_5D1350();
-    EXPORT bool IsThereAnyOtherArrowsInSameGang_5D0E40(Hud_Arrow_7C* pArgArrow);
+    EXPORT bool IsThereAnyOtherArrowsInSameGang_5D0E40(Hud_Arrow* pArgArrow);
     EXPORT void DrawArrows_5D0E90();
     EXPORT void FindVisibleGangArrow_5D0EF0();
-    EXPORT bool IsThereAnyMissionPhoneArrowForGang_5D0F40(Gang_144* pArgGang);
+    EXPORT bool IsThereAnyMissionPhoneArrowForGang_5D0F40(Gang* pArgGang);
     EXPORT void ClearOrphanInfoPhoneArrows_5D0F80();
     EXPORT void UpdateArrows_5D0FD0();
-    EXPORT Hud_Arrow_7C* FindFreeArrow_5D1020(s32* pOutIdx);
-    EXPORT Hud_Arrow_7C* AllocArrow_5D1050();
+    EXPORT Hud_Arrow* FindFreeArrow_5D1020(s32* pOutIdx);
+    EXPORT Hud_Arrow* AllocArrow_5D1050();
     EXPORT void ReleaseAllArrows_5D10B0();
-    EXPORT Hud_Arrow_7C* FindGangPhoneArrow_5D10D0(Gang_144* pZone, s32 phone_type);
-    EXPORT void place_gang_phone_5D1110(Object_2C* pPhoneInfo);
-    EXPORT void SetNewGangArrow_5D1310(Gang_144* pZone);
-    Hud_Arrow_7C field_0_array[17];
+    EXPORT Hud_Arrow* FindGangPhoneArrow_5D10D0(Gang* pZone, s32 phone_type);
+    EXPORT void place_gang_phone_5D1110(Object* pPhoneInfo);
+    EXPORT void SetNewGangArrow_5D1310(Gang* pZone);
+    Hud_Arrow field_0_array[17];
     char_type field_83C_show_gang_arrows;
-    Hud_Arrow_7C* field_840_visible_gang_arrow;
+    Hud_Arrow* field_840_visible_gang_arrow;
     char_type field_844_check_info_phones;
 };
 
 EXPORT char_type __stdcall GetBriefFaceIdx_5D3680(u16 face_char);
 
-class Hud_Brief_704 // size 0x704
+class Hud_Brief // size 0x704
 {
   public:
     EXPORT void MovePrevBriefToCurrent_5D3330();
     EXPORT void FreeCurrentBrief_5D3350();
     EXPORT void MoveCurrentBriefToPrev_5D3370();
     EXPORT void AppendCurrentBriefToPrev_5D33A0();
-    EXPORT Hud_BriefEntry_18* AllocBrief_5D33F0();
+    EXPORT Hud_BriefEntry* AllocBrief_5D33F0();
     EXPORT size_t FormatCurrentBrief_5D3470();
     EXPORT void StartCurrentBrief_5D39D0();
     EXPORT void DrawBrief_5D3B80();
@@ -621,7 +643,7 @@ class Hud_Brief_704 // size 0x704
     EXPORT void UpdateBrief_5D44D0();
     EXPORT void ShowBrief_5D4850();
     EXPORT void ClearAllBriefsWithPriority_5D4890(s32 priority);
-    EXPORT Hud_Brief_704();
+    EXPORT Hud_Brief();
 
     wchar_t field_0_str[640];
     s16 field_500_unused;
@@ -632,17 +654,18 @@ class Hud_Brief_704 // size 0x704
     s32 field_510_time_to_show;
     s32 field_514_upward_timer;
     // Pool of 20 entries linked through field_C_pNext as the free list (field_6FC_free_briefs is its head)
-    Hud_BriefEntry_18 field_518_briefs[20];
+    Hud_BriefEntry field_518_briefs[20];
     // Linked lists through field_C_pNext: the shown brief and those queued behind it by priority, the briefs pushed back
     // by a more urgent one, and the free pool entries
-    Hud_BriefEntry_18* field_6F8_curr_briefs;
-    Hud_BriefEntry_18* field_6FC_free_briefs;
-    Hud_BriefEntry_18* field_700_prev_briefs;
+    Hud_BriefEntry* field_6F8_curr_briefs;
+    Hud_BriefEntry* field_6FC_free_briefs;
+    Hud_BriefEntry* field_700_prev_briefs;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Hud_Brief, 0x704);
 
 class gmp_map_zone;
 
-class Hud_MapZone_98
+class Hud_MapZone
 {
   public:
     // 9.6f 0x4A4770
@@ -657,7 +680,7 @@ class Hud_MapZone_98
     EXPORT void ShowZoneName_5D5AF0(gmp_map_zone* pZone1, gmp_map_zone* pZone2);
     EXPORT void UpdateZoneName_5D5B60();
     EXPORT void ResetTransparency_5D5C50();
-    EXPORT Hud_MapZone_98();
+    EXPORT Hud_MapZone();
     u8 field_0_timer;
     wchar_t field_2_wstr[65];
     s32 field_84_xpos_offset;
@@ -666,22 +689,24 @@ class Hud_MapZone_98
     s32 field_90_alpha_flag;
     u8 field_94_transparency; // range from 0 to 31
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Hud_MapZone, 0x98);
 
-class Hud_CarName_4C
+class Hud_CarName
 {
   public:
-    EXPORT Hud_CarName_4C();
+    EXPORT Hud_CarName();
     EXPORT void DrawCarName_5D4A10();
     char_type field_0_display_time;
     wchar_t field_2_car_name[33];
     s32 field_44_xpos_offset;
     s32 field_48_ypos;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Hud_CarName, 0x4C);
 
-class Hud_2B00
+class Hud
 {
   public:
-    EXPORT ~Hud_2B00();
+    EXPORT ~Hud();
     EXPORT void CalcCarNameXPosOffset_5D5190();
     EXPORT void ShowCarName_5D5240(wchar_t* Source);
     EXPORT void UpdateCarName_5D5350();
@@ -696,32 +721,33 @@ class Hud_2B00
     EXPORT bool IsBusy_5D6C20(s32 action, Player* pPlayer);
     EXPORT bool IsInputKeyConsumed_5D6C70(s32 action);
     EXPORT bool IsQuitMessageInputKey_5D6CB0(s32 action);
-    EXPORT Hud_2B00();
+    EXPORT Hud();
 
-    Hud_CarName_4C field_0_car_name;
-    Hud_MapZone_98 field_4C_zone_name;
-    Hud_Brief_704 field_DC_brief;
+    Hud_CarName field_0_car_name;
+    Hud_MapZone field_4C_zone_name;
+    Hud_Brief field_DC_brief;
     Hud_Pager_C_Array field_620_pagers;
-    Hud_TextList_968 field_650_texts;
+    Hud_TextList field_650_texts;
     Hud_Arrow_7C_Array field_1F18_arrows;
     Hud_CopHead_C_Array field_1028_wanted_level;
-    Hud_GangRespectBars_1 field_107C_gang_respect_bars;
-    Hud_ShowCoords_1 field_27B5_show_coords;
-    Hud_PickupText_88 field_1080_pickup_text;
-    Hud_Health_4 field_1108_health;
-    Hud_UnderRoofArrowMarker_C field_110C_under_roof_arrow_marker;
-    Hud_PlayerStats_4 field_1118_player_stats;
-    Hud_Message_1C8 field_111C_message;
-    Hud_PauseScreen_2 field_12E4_pause_screen;
-    Hud_BriefSelector_4 field_12E8_brief_selector;
-    Hud_QuitMessage_1 field_12EC_quit_message;
-    Hud_ChatInput_1 field_2A25_chat_input;
-    Hud_MpMessage_D0 field_12F0_mp_message;
-    Hud_PlayerNames_4 field_13C0_player_names;
+    Hud_GangRespectBars field_107C_gang_respect_bars;
+    Hud_ShowCoords field_27B5_show_coords;
+    Hud_PickupText field_1080_pickup_text;
+    Hud_Health field_1108_health;
+    Hud_UnderRoofArrowMarker field_110C_under_roof_arrow_marker;
+    Hud_PlayerStats field_1118_player_stats;
+    Hud_Message field_111C_message;
+    Hud_PauseScreen field_12E4_pause_screen;
+    Hud_BriefSelector field_12E8_brief_selector;
+    Hud_QuitMessage field_12EC_quit_message;
+    Hud_ChatInput field_2A25_chat_input;
+    Hud_MpMessage field_12F0_mp_message;
+    Hud_PlayerNames field_13C0_player_names;
     u32 field_13C4_text_speed;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Hud, 0x2B00);
 
-EXTERN_GLOBAL(Hud_2B00*, gHud_2B00_706620);
+EXTERN_GLOBAL(Hud*, gHud_2B00_706620);
 
 EXTERN_GLOBAL(s16, gDebugFont_706600);
 

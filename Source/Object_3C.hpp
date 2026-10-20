@@ -10,13 +10,13 @@ EXTERN_GLOBAL(u32, gObj3C_dealloc_count_6F8F0C);
 EXTERN_GLOBAL(Ang16, kZeroAng_6F8F68);
 
 class Sprite;
-class AttachedSprite_18;
-class Object_2C;
+class AttachedSprite;
+class Object;
 
-class SpriteList_4
+class SpriteList
 {
   public:
-    SpriteList_4() // 424620 inline
+    SpriteList() // 424620 inline
     {
         ResetHead_4207E0();
     }
@@ -26,9 +26,9 @@ class SpriteList_4
         field_0_p18 = 0;
     }
 
-    EXPORT AttachedSprite_18* GetSpriteForModel_5A6A50(s32 obj_type);
-    EXPORT Object_2C* FindObject2CByModel_5A6A90(s32 obj_type);
-    EXPORT AttachedSprite_18* FindFirstActiveObject_5A6AD0();
+    EXPORT AttachedSprite* GetSpriteForModel_5A6A50(s32 obj_type);
+    EXPORT Object* FindObject2CByModel_5A6A90(s32 obj_type);
+    EXPORT AttachedSprite* FindFirstActiveObject_5A6AD0();
     EXPORT void RemoveSprite_5A6B10(Sprite* toFind);
     EXPORT void RemoveSpriteSafe_5A6B60(Sprite* toFind);
     EXPORT void sub_5A6BB0();
@@ -43,7 +43,7 @@ class SpriteList_4
     EXPORT char_type SpriteExists_5A6D80(Sprite* pToFind);
     EXPORT Sprite* PopFrontSprite_5A6DA0();
     EXPORT Sprite* PopBackSprite_5A6DC0();
-    EXPORT AttachedSprite_18* ClearList_5A6E10();
+    EXPORT AttachedSprite* ClearList_5A6E10();
     EXPORT Sprite* FindClosestSprite_5A6E40(Fix16 xOff, Fix16 yOff);
     EXPORT Sprite* TakeClosestSprite_5A6EA0(Fix16 xpos, Fix16 ypos);
 
@@ -58,8 +58,9 @@ class SpriteList_4
     EXPORT char_type sub_5A7310();
 
   public:
-    AttachedSprite_18* field_0_p18;
+    AttachedSprite* field_0_p18;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(SpriteList, 0x4);
 
 class Object_3C
 {
@@ -109,7 +110,7 @@ class Object_3C
 
     EXPORT void GetMovementSpeedAndAngle_521FD0(Fix16& Speed, Ang16& Angle);
 
-    SpriteList_4 field_0;
+    SpriteList field_0;
     Ang16 field_4_angle;
     s16 field_6_unused;
     Object_3C* mpNext;
@@ -135,4 +136,4 @@ class Object_3C
     char_type field_3B_unused;
 };
 
-EXTERN_GLOBAL(SpriteList_4, stru_67727C);
+EXTERN_GLOBAL(SpriteList, stru_67727C);

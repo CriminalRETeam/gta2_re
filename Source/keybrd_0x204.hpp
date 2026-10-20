@@ -3,12 +3,12 @@
 #include "Function.hpp"
 #include <stdio.h>
 
-class keybrd_0x204
+class KeyboardLayout
 {
   public:
-    EXPORT keybrd_0x204();
+    EXPORT KeyboardLayout();
 
-    EXPORT ~keybrd_0x204();
+    EXPORT ~KeyboardLayout();
 
     EXPORT void ReadCfg_4D5DA0(FILE* Stream, wchar_t* pOut);
 
@@ -27,5 +27,6 @@ class keybrd_0x204
     s16 field_0_keys[256];
     s32 field_200_keyBoardLayout;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(KeyboardLayout, 0x204);
 
-EXTERN_GLOBAL(keybrd_0x204*, gKeybrd_0x204_6F52F4);
+EXTERN_GLOBAL(KeyboardLayout*, gKeybrd_0x204_6F52F4);

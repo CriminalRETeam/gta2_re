@@ -189,7 +189,7 @@ s32 __stdcall NetPlay::EnumConnections_cb_51DA30(const GUID* lpguidSP,
 }
 
 MATCH_FUNC(0x51dae0)
-s32 NetPlay::SetProtoAndConnection_51DAE0(GUID* pProtocolGuid, Network_Buffer_8* pUseThisConnection)
+s32 NetPlay::SetProtoAndConnection_51DAE0(GUID* pProtocolGuid, Network_Buffer* pUseThisConnection)
 {
     s32 isIpx;
 
@@ -299,7 +299,7 @@ MATCH_FUNC(0x51ded0)
 s32 NetPlay::DirectPlayCreate_51DED0()
 {
     GUID guid_DPSPGUID_MODEM = DPSPGUID_MODEM;
-    this->field_30_enumed_connections.field_4_d_array_8_entries = new Network_4[8];
+    this->field_30_enumed_connections.field_4_d_array_8_entries = new Network_IpAddress[8];
     this->field_30_enumed_connections.field_C_f4_d_array_count = 0;
 
     IDirectPlay* pDirectPlay;
@@ -786,7 +786,7 @@ s32 NetPlay::AddEnumeratedSession_51EB00(DPSESSIONDESC2* pSession)
 }
 
 MATCH_FUNC(0x51ecd0)
-void NetPlay::Set15_51ECD0(s32 pFunc, Network_20324* pParam)
+void NetPlay::Set15_51ECD0(s32 pFunc, NetUi* pParam)
 {
     this->field_4C_func_ptrs_and_params[5].field_0_param_fn_callback = (void*)pFunc;
     this->field_4C_func_ptrs_and_params[5].field_4_param_context = pParam;
@@ -881,7 +881,7 @@ s32 NetPlay::SendPing_51EF60()
 {
     u32 dataLen;
     s32 pData;
-    Packet_Ping_C ping;
+    Packet_Ping ping;
     Packet_SubType_3 pStru;
 
     memset(&pStru, 0, sizeof(pStru));
@@ -966,7 +966,7 @@ void NetPlay::ProcessPingOrHandshakeSend_51F110(void* pPacket, s32 packetLen, s3
         {
             case packet_subtype::Ping_1:
             {
-                Packet_Ping_C* pPing = (Packet_Ping_C*)(pBytes + 5);
+                Packet_Ping* pPing = (Packet_Ping*)(pBytes + 5);
                 if (field_5D8_player_id == pPing->field_0_sender_player_id)
                 {
                     UpdatePlayerPing_520EB0(pPing->field_4_receiver_player_id, timeGetTime() - pPing->field_8_time, &field_758_n2);
@@ -980,7 +980,7 @@ void NetPlay::ProcessPingOrHandshakeSend_51F110(void* pPacket, s32 packetLen, s3
                     pStru.field_9_bLoadData = 1;
                     pStru.field_8_seq = 0;
                     pStru.field_D_data = (void*)pPing;
-                    pStru.field_11_len = sizeof(Packet_Ping_C);
+                    pStru.field_11_len = sizeof(Packet_Ping);
                     NetPlay::MakeSendData_51F420(&pStru, &pData, &dataLen);
                     field_5E4_pDPlay3->Send(field_5D8_player_id, pPing->field_0_sender_player_id, 0, (void*)pData, dataLen);
                 }
@@ -1156,8 +1156,8 @@ void NetPlay::MakeSendData_51F420(Packet_SubType_3* pPacket, s32* pData, u32* pD
                                 break;
                             case std_packet_subtype::SyncCheckData_5:
                                 pBuffer[0] = pkt_data_type::SyncCheckData_3;
-                                memcpy(pBuffer + 1, pPacket->field_D_data, sizeof(SyncCheckData_1F));
-                                *pDataLen = 1 + sizeof(SyncCheckData_1F);
+                                memcpy(pBuffer + 1, pPacket->field_D_data, sizeof(SyncCheckData));
+                                *pDataLen = 1 + sizeof(SyncCheckData);
                                 break;
                             default:
                                 // TODO: the source file name is a guess
@@ -1912,7 +1912,7 @@ s32 NetPlay::IsUserHost_5212E0()
 }
 
 MATCH_FUNC(0x521330)
-void NetPlay::SetExitGameCallBack_521330(s32 pFunc, Game_0x40* pGame)
+void NetPlay::SetExitGameCallBack_521330(s32 pFunc, Game* pGame)
 {
     this->field_4C_func_ptrs_and_params[4].field_0_param_fn_callback = (void*)pFunc;
     this->field_4C_func_ptrs_and_params[4].field_4_param_context = pGame;
@@ -2064,7 +2064,7 @@ void NetPlay::Add_5216E0(Network_8* pData, s32 id, char_type game_tick)
     {
         if (!field_8F8_packets[j].field_10_used)
         {
-            field_8F8_packets[j].field_0_inputs = *(Network_InputData_0x8*)pData->field_0_data;
+            field_8F8_packets[j].field_0_inputs = *(Network_InputData*)pData->field_0_data;
             field_8F8_packets[j].field_C_len = pData->field_4_len;
             field_8F8_packets[j].field_8_id = id;
             field_8F8_packets[j].field_11_game_tick = game_tick;
@@ -2351,7 +2351,7 @@ s32 NetPlay::SendSyncCheckData_521E40(s32 pSendData)
     pStru.header.field_0_type = 1;
     pStru.header.field_4_sub_type = packet_subtype::StandardPacket_2;
     pStru.field_9_bLoadData = 1;
-    pStru.field_D_data = (void*)pSendData; // SyncCheckData_1F*
+    pStru.field_D_data = (void*)pSendData; // SyncCheckData*
     pStru.field_11_len = 0x1F;
     NetPlay::MakeSendData_51F420(&pStru, &pData, &dataLen);
     return field_5E4_pDPlay3->Send(field_5D8_player_id, 0, 0, (void*)pData, dataLen);

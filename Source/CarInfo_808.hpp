@@ -50,7 +50,7 @@ struct PixelsToFix16Table
 
 EXTERN_GLOBAL(PixelsToFix16Table, gPixelsToFix16_6F6850);
 
-class ModelPhysics_48
+class ModelPhysics
 {
   public:
     u8 field_0_model;
@@ -82,7 +82,7 @@ class ModelPhysics_48
 
     EXPORT void ConvertMass_454680();
 };
-GTA2_ASSERT_SIZEOF_ALWAYS(ModelPhysics_48, 0x48);
+GTA2_ASSERT_SIZEOF_ALWAYS(ModelPhysics, 0x48);
 
 class CarInfo_2C
 {
@@ -104,10 +104,10 @@ class CarInfo_2C
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(CarInfo_2C, 0x2C);
 
-class CarInfo_808
+class CarInfoTable
 {
   public:
-    EXPORT ModelPhysics_48* GetModelPhysicsFromIdx_4546B0(u8 model_idx);
+    EXPORT ModelPhysics* GetModelPhysicsFromIdx_4546B0(u8 model_idx);
     EXPORT void LoadModelPhysics_4546D0();
     EXPORT CarInfo_2C* GetInfoAtIdx_454840(u8 idx);
     EXPORT void CalculateAllCarInfo_454850();
@@ -116,12 +116,12 @@ class CarInfo_808
     EXPORT void Reload_454A50();
     EXPORT void Clear_454A80();
     EXPORT void Free_454AA0();
-    EXPORT CarInfo_808();
-    EXPORT ~CarInfo_808();
+    EXPORT CarInfoTable();
+    EXPORT ~CarInfoTable();
 
     EXPORT static char* __stdcall parse_gci_file_430A30(void* input,
                                                         size_t input_size,
-                                                        ModelPhysics_48* output,
+                                                        ModelPhysics* output,
                                                         size_t output_size,
                                                         u32* next_position);
     EXPORT static char* __stdcall SetErr_430AC0(s32 error_code);
@@ -135,11 +135,11 @@ class CarInfo_808
 
     CarInfo_2C* field_0_ptr_array[256];
     CarInfo_2C* field_400_raw_data;
-    ModelPhysics_48* field_404_model_physics_array[256];
-    ModelPhysics_48* field_804_raw_data;
+    ModelPhysics* field_404_model_physics_array[256];
+    ModelPhysics* field_804_raw_data;
 };
-GTA2_ASSERT_SIZEOF_ALWAYS(CarInfo_808, 0x808);
+GTA2_ASSERT_SIZEOF_ALWAYS(CarInfoTable, 0x808);
 
-EXTERN_GLOBAL(CarInfo_808*, gCarInfo_808_678098);
+EXTERN_GLOBAL(CarInfoTable*, gCarInfo_808_678098);
 
 EXPORT s32 __stdcall ParseTokenAndPush_430C70(char_type* a1);

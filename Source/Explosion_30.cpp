@@ -14,7 +14,7 @@
 #include "debug.hpp"
 #include "rng.hpp"
 
-DEFINE_GLOBAL(ExplosionPool_7A8*, gExplosionPool_7A8_6FD5F0, 0x6FD5F0);
+DEFINE_GLOBAL(ExplosionPool*, gExplosionPool_7A8_6FD5F0, 0x6FD5F0);
 DEFINE_GLOBAL(ExplosionPool_3D4*, gExplosionPool_3D4_6FD5EC, 0x6FD5EC);
 
 EXTERN_GLOBAL(u16, gParticleInstCount_6FD5F4);
@@ -67,7 +67,7 @@ EXTERN_GLOBAL(Fix16, dword_6FD2E8);
 EXTERN_GLOBAL(Fix16, dword_6FD46C);
 
 MATCH_FUNC(0x5408f0)
-Explosion_30::Explosion_30()
+Explosion::Explosion()
 {
     this->field_C_angle = 0;
     this->field_20 = 0;
@@ -89,7 +89,7 @@ Explosion_30::Explosion_30()
 }
 
 MATCH_FUNC(0x540a10)
-Explosion_30::~Explosion_30()
+Explosion::~Explosion()
 {
     field_14_pObj2C = 0;
     field_1C_pAttachedSprite = 0;
@@ -97,7 +97,7 @@ Explosion_30::~Explosion_30()
 
 // No callers. Every few frames, a particle thrown in a random diagonal direction from the attached object
 MATCH_FUNC(0x540A40)
-void Explosion_30::EmitRandomDiagonalParticle_540A40()
+void Explosion::EmitRandomDiagonalParticle_540A40()
 {
     if (this->field_18_particle_cooldown == 0)
     {
@@ -164,7 +164,7 @@ void Explosion_30::EmitRandomDiagonalParticle_540A40()
 }
 
 MATCH_FUNC(0x540d30)
-void Explosion_30::EmitFireTrail_3_12_540D30(Ang16 ang, Fix16 speed)
+void Explosion::EmitFireTrail_3_12_540D30(Ang16 ang, Fix16 speed)
 {
     // Fix16_Point (has a destructor): the original sets an EH state for it. Zero-constructed
     // then assigned as in 9.6f: the speed stores are scheduled after the angle add.
@@ -207,7 +207,7 @@ void Explosion_30::EmitFireTrail_3_12_540D30(Ang16 ang, Fix16 speed)
 
 // 9.6f 0x48E5F0
 MATCH_FUNC(0x540f90)
-void Explosion_30::EmitFireTrail_4_540F90(Ang16 ang, Fix16 speed)
+void Explosion::EmitFireTrail_4_540F90(Ang16 ang, Fix16 speed)
 {
     // Fix16_Point (has a destructor): the original sets an EH state for it. Zero-constructed
     // then assigned as in 9.6f: the speed stores are scheduled after the angle add.
@@ -249,7 +249,7 @@ void Explosion_30::EmitFireTrail_4_540F90(Ang16 ang, Fix16 speed)
 }
 
 MATCH_FUNC(0x5411e0)
-void Explosion_30::EmitFireTrail_13_14_5411E0(Ang16 ang, Fix16 speed)
+void Explosion::EmitFireTrail_13_14_5411E0(Ang16 ang, Fix16 speed)
 {
     // Fix16_Point (has a destructor): the original sets an EH state for it. Zero-constructed
     // then assigned as in 9.6f: the speed stores are scheduled after the angle add.
@@ -291,7 +291,7 @@ void Explosion_30::EmitFireTrail_13_14_5411E0(Ang16 ang, Fix16 speed)
 }
 
 MATCH_FUNC(0x541430)
-void Explosion_30::EmitFireTrail_5_541430(Ang16 ang, Fix16 speed)
+void Explosion::EmitFireTrail_5_541430(Ang16 ang, Fix16 speed)
 {
 
     Fix16_Point point(Fix16(0), Fix16(0));
@@ -339,7 +339,7 @@ void Explosion_30::EmitFireTrail_5_541430(Ang16 ang, Fix16 speed)
 }
 
 MATCH_FUNC(0x541680)
-Fix16 Explosion_30::GetBlastRadius_541680()
+Fix16 Explosion::GetBlastRadius_541680()
 {
     Fix16 radius;
     switch (this->field_10_type)
@@ -369,7 +369,7 @@ Fix16 Explosion_30::GetBlastRadius_541680()
 
 
 MATCH_FUNC(0x541710)
-Fix16 Explosion_30::GetBlastHeight_541710()
+Fix16 Explosion::GetBlastHeight_541710()
 {
     Fix16 height;
     switch (this->field_10_type)
@@ -392,7 +392,7 @@ Fix16 Explosion_30::GetBlastHeight_541710()
 }
 
 MATCH_FUNC(0x541760)
-void Explosion_30::SpawnFlashParticle_541760()
+void Explosion::SpawnFlashParticle_541760()
 {
     if (field_10_type != explosion_type::small_18 && field_10_type != explosion_type::no_ring_32)
     {
@@ -415,13 +415,13 @@ void Explosion_30::SpawnFlashParticle_541760()
 }
 
 MATCH_FUNC(0x541850)
-void Explosion_30::ApplyBlastDamage_541850(u16 timerVal)
+void Explosion::ApplyBlastDamage_541850(u16 timerVal)
 {
-    SpriteList_4 collision_list;
+    SpriteList collision_list;
 
-    Fix16 half_height = Explosion_30::GetBlastHeight_541710();
+    Fix16 half_height = Explosion::GetBlastHeight_541710();
 
-    Fix16 blast_radius = Explosion_30::GetBlastRadius_541680();
+    Fix16 blast_radius = Explosion::GetBlastRadius_541680();
 
     this->field_28_blast_radius = blast_radius;
 
@@ -446,7 +446,7 @@ void Explosion_30::ApplyBlastDamage_541850(u16 timerVal)
         while (collision_list.field_0_p18)
         {
             Sprite* pSprite = collision_list.PopFrontSprite_5A6DA0();
-            Char_B4* pPedChar = pSprite->AsCharB4_40FEA0();
+            Char* pPedChar = pSprite->AsCharB4_40FEA0();
             if (pPedChar)
             {
                 if (timerVal > explosion_timer::damage_phase_50 && pPedChar->get_ped_state_1_48A4C0() != ped_state_1::immobilized_8)
@@ -497,7 +497,7 @@ void Explosion_30::ApplyBlastDamage_541850(u16 timerVal)
             }
             else
             {
-                Car_BC* pCar = pSprite->AsCar_40FEB0();
+                Car* pCar = pSprite->AsCar_40FEB0();
                 if (pCar)
                 {
                     if ((timerVal > explosion_timer::damage_phase_50 && timerVal < 60u) || (timerVal > 80u && timerVal < 90u))
@@ -506,7 +506,7 @@ void Explosion_30::ApplyBlastDamage_541850(u16 timerVal)
                         {
                             if (Fix16::MaxAbsDistance_42A6B0(pSprite->field_14_xy.x, pSprite->field_14_xy.y, field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y) <= this->field_28_blast_radius)
                             {
-                                // 9.6f: PedRefTable_7F8::GetPedId_420F10 (inlined, using it here makes the diff worse)
+                                // 9.6f: PedRefTable::GetPedId_420F10 (inlined, using it here makes the diff worse)
                                 s32 exploder_ped_id = gPedRefTable_7F8_703398->field_0_entries[this->field_14_pObj2C->field_26_ped_ref_idx].field_0_ped_id;
                                 if (!exploder_ped_id)
                                 {
@@ -550,7 +550,7 @@ void Explosion_30::ApplyBlastDamage_541850(u16 timerVal)
                 }
                 else
                 {
-                    Object_2C* pObject = pSprite->AsObject2C_40FEC0();
+                    Object* pObject = pSprite->AsObject2C_40FEC0();
                     if (timerVal > explosion_timer::damage_phase_50 && timerVal < 60u)
                     {
                         pObject->OnExplosionNearby_525190(this->field_14_pObj2C->field_26_ped_ref_idx);
@@ -563,7 +563,7 @@ void Explosion_30::ApplyBlastDamage_541850(u16 timerVal)
 
 // 9.6f 0x48EB00
 MATCH_FUNC(0x541d60)
-void Explosion_30::EmitExplosion_18_33_541D60()
+void Explosion::EmitExplosion_18_33_541D60()
 {
     if (gParticle_4C_Pool_6FD5E4->has_pStart_48A8F0())
     {
@@ -616,7 +616,7 @@ void Explosion_30::EmitExplosion_18_33_541D60()
 }
 
 MATCH_FUNC(0x542060)
-void Explosion_30::EmitExplosion_19_32_542060()
+void Explosion::EmitExplosion_19_32_542060()
 {
     if (gParticle_4C_Pool_6FD5E4->has_pStart_48A8F0())
     {
@@ -665,7 +665,7 @@ void Explosion_30::EmitExplosion_19_32_542060()
 }
 
 MATCH_FUNC(0x542340)
-void Explosion_30::EmitExplosion_20_542340()
+void Explosion::EmitExplosion_20_542340()
 {
     if (gParticle_4C_Pool_6FD5E4->has_pStart_48A8F0())
     {
@@ -712,7 +712,7 @@ void Explosion_30::EmitExplosion_20_542340()
 }
 
 MATCH_FUNC(0x542790)
-void Explosion_30::UpdateExplosion_18_19_20_32_33_542790()
+void Explosion::UpdateExplosion_18_19_20_32_33_542790()
 {
     bool isOnScreen = true;
     if (this->field_1A_timer < 90u)
@@ -752,10 +752,10 @@ void Explosion_30::UpdateExplosion_18_19_20_32_33_542790()
             case 79:
             case 89:
             {
-                Object_2C* pExplosionObj = gObject_5C_6F8F84->CreateExplosion_52A3D0(Fix16(113), Fix16(145), 2, kAngZero_6FD5D4, explosion_type::molotov_fire_5, field_2C_owner_ped_id);
+                Object* pExplosionObj = gObject_5C_6F8F84->CreateExplosion_52A3D0(Fix16(113), Fix16(145), 2, kAngZero_6FD5D4, explosion_type::molotov_fire_5, field_2C_owner_ped_id);
                 if (pExplosionObj)
                 {
-                    Object_2C* pDebris = gObject_5C_6F8F84->NewMovingObj_52A240(127,
+                    Object* pDebris = gObject_5C_6F8F84->NewMovingObj_52A240(127,
                                                                              field_14_pObj2C->field_4->field_14_xy.x,
                                                                              field_14_pObj2C->field_4->field_14_xy.y,
                                                                              field_14_pObj2C->field_4->field_1C_zpos,
@@ -766,7 +766,7 @@ void Explosion_30::UpdateExplosion_18_19_20_32_33_542790()
                                                                              dword_6FD2F0);
                     pDebris->field_4->DispatchCollisionEvent_5A3100(pExplosionObj->field_4, 0, 0, kAngZero_6FD5D4);
 
-                    Object_2C* pLight = gObject_5C_6F8F84->NewLight_529A40(94, 138, 2, 0xFF8000, 3, 255);
+                    Object* pLight = gObject_5C_6F8F84->NewLight_529A40(94, 138, 2, 0xFF8000, 3, 255);
                     pDebris->field_4->DispatchCollisionEvent_5A3100(pLight->field_4, 0, 0, kAngZero_6FD5D4);
                 }
                 break;
@@ -818,7 +818,7 @@ void Explosion_30::UpdateExplosion_18_19_20_32_33_542790()
 }
 
 MATCH_FUNC(0x542e30)
-void Explosion_30::EmitBuildingDebris_22_23_24_25_542E30(u8 direction_idx)
+void Explosion::EmitBuildingDebris_22_23_24_25_542E30(u8 direction_idx)
 {
     Sprite* pSprite = this->field_14_pObj2C->field_4;
     if (pSprite->field_14_xy.x < Fix16(0x3F8000, 0) && pSprite->field_14_xy.x > kFP16One_6FD4A0 &&
@@ -942,7 +942,7 @@ void Explosion_30::EmitBuildingDebris_22_23_24_25_542E30(u8 direction_idx)
 }
 
 MATCH_FUNC(0x5434a0)
-char_type Explosion_30::Update_5434A0(Fix16 speed, Ang16 ang)
+char_type Explosion::Update_5434A0(Fix16 speed, Ang16 ang)
 {
     u16 timer = this->field_1A_timer;
     if (timer != explosion_timer::forever_9999)
@@ -955,7 +955,7 @@ char_type Explosion_30::Update_5434A0(Fix16 speed, Ang16 ang)
 
     if (!this->field_1A_timer)
     {
-        Explosion_30::Release_543610();
+        Explosion::Release_543610();
         return 1;
     }
 
@@ -968,43 +968,43 @@ char_type Explosion_30::Update_5434A0(Fix16 speed, Ang16 ang)
     {
         case explosion_type::fire_3:
         case explosion_type::car_fire_level1_12:
-            Explosion_30::EmitFireTrail_3_12_540D30(ang, speed);
+            Explosion::EmitFireTrail_3_12_540D30(ang, speed);
             return 0;
         case explosion_type::car_fire_level2_13:
         case explosion_type::car_fire_level3_14:
-            Explosion_30::EmitFireTrail_13_14_5411E0(ang, speed);
+            Explosion::EmitFireTrail_13_14_5411E0(ang, speed);
             return 0;
         case explosion_type::car_fire_4:
-            Explosion_30::EmitFireTrail_4_540F90(ang, speed);
+            Explosion::EmitFireTrail_4_540F90(ang, speed);
             return 0;
         case explosion_type::molotov_fire_5:
-            Explosion_30::EmitFireTrail_5_541430(ang, speed);
+            Explosion::EmitFireTrail_5_541430(ang, speed);
             return 0;
         case explosion_type::small_18:
         case explosion_type::item_19:
         case explosion_type::large_20:
         case explosion_type::no_ring_32:
         case explosion_type::small_33:
-            Explosion_30::UpdateExplosion_18_19_20_32_33_542790();
+            Explosion::UpdateExplosion_18_19_20_32_33_542790();
             return 0;
         case explosion_type::building_135_24:
-            Explosion_30::EmitBuildingDebris_22_23_24_25_542E30(building_debris_dir::towards_135_0);
+            Explosion::EmitBuildingDebris_22_23_24_25_542E30(building_debris_dir::towards_135_0);
             return 0;
         case explosion_type::building_315_25:
-            Explosion_30::EmitBuildingDebris_22_23_24_25_542E30(building_debris_dir::towards_315_1);
+            Explosion::EmitBuildingDebris_22_23_24_25_542E30(building_debris_dir::towards_315_1);
             return 0;
         case explosion_type::building_225_23:
-            Explosion_30::EmitBuildingDebris_22_23_24_25_542E30(building_debris_dir::towards_225_2);
+            Explosion::EmitBuildingDebris_22_23_24_25_542E30(building_debris_dir::towards_225_2);
             return 0;
         case explosion_type::building_45_22:
-            Explosion_30::EmitBuildingDebris_22_23_24_25_542E30(building_debris_dir::towards_45_3);
+            Explosion::EmitBuildingDebris_22_23_24_25_542E30(building_debris_dir::towards_45_3);
             return 0;
     }
     return 0;
 }
 
 MATCH_FUNC(0x5435d0)
-bool Explosion_30::IsFireType_5435D0()
+bool Explosion::IsFireType_5435D0()
 {
     switch (field_10_type)
     {
@@ -1021,7 +1021,7 @@ bool Explosion_30::IsFireType_5435D0()
 }
 
 MATCH_FUNC(0x543610)
-void Explosion_30::Release_543610()
+void Explosion::Release_543610()
 {
     this->field_6_id = 0;
     if (field_0_bIn20Pool == 0)
@@ -1035,7 +1035,7 @@ void Explosion_30::Release_543610()
 }
 
 MATCH_FUNC(0x543650)
-void Explosion_30::Init_543650()
+void Explosion::Init_543650()
 {
     this->field_10_type = 0;
     this->field_18_particle_cooldown = 0;
@@ -1048,7 +1048,7 @@ void Explosion_30::Init_543650()
 }
 
 MATCH_FUNC(0x543680)
-void Explosion_30::SetObject_543680(Object_2C* pObj)
+void Explosion::SetObject_543680(Object* pObj)
 {
     this->field_14_pObj2C = pObj;
 }
@@ -1059,7 +1059,7 @@ void Explosion_30::SetObject_543680(Object_2C* pObj)
 #pragma warning(push)
 #pragma warning(disable : 4715) // not all control paths return a value
 MATCH_FUNC(0x543690)
-s32 ExplosionPool_7A8::FreeLowestPriority_543690()
+s32 ExplosionPool::FreeLowestPriority_543690()
 {
     u8 lowest_priority = 99;
     u8 lowest_idx = 99;
@@ -1070,7 +1070,7 @@ s32 ExplosionPool_7A8::FreeLowestPriority_543690()
     {
         if (this->field_780_bUsed[cur_idx] == 1)
         {
-            Explosion_30* pExplosion = &this->field_0_explosions[cur_idx];
+            Explosion* pExplosion = &this->field_0_explosions[cur_idx];
             // Each case written out on its own: merged labels give a byte index table, the
             // original has one dword entry per case. Cases 1 and 39 keep the range.
             switch (pExplosion->field_10_type)
@@ -1190,7 +1190,7 @@ s32 ExplosionPool_7A8::FreeLowestPriority_543690()
 #pragma warning(pop)
 
 MATCH_FUNC(0x543800)
-Explosion_30* ExplosionPool_7A8::Allocate_543800()
+Explosion* ExplosionPool::Allocate_543800()
 {
     // 9.6f has the init block twice, 10.5 merges both into one block. Indexing field_0_explosions at each
     // use (no pNew local) gives both copies the same registers, so they merge completely.
@@ -1229,7 +1229,7 @@ Explosion_30* ExplosionPool_7A8::Allocate_543800()
 }
 
 MATCH_FUNC(0x5438b0)
-ExplosionPool_7A8::ExplosionPool_7A8()
+ExplosionPool::ExplosionPool()
 {
     for (u8 i = 0; i < GTA2_COUNTOF(field_0_explosions); i++)
     {
@@ -1241,12 +1241,12 @@ ExplosionPool_7A8::ExplosionPool_7A8()
 }
 
 MATCH_FUNC(0x5438f0)
-ExplosionPool_7A8::~ExplosionPool_7A8()
+ExplosionPool::~ExplosionPool()
 {
 }
 
 MATCH_FUNC(0x543900)
-Explosion_30* ExplosionPool_3D4::Allocate_543900()
+Explosion* ExplosionPool_3D4::Allocate_543900()
 {
     for (u8 idx = 0; idx < GTA2_COUNTOF(field_0_explosions); idx++)
     {

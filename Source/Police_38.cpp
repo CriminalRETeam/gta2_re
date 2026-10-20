@@ -24,18 +24,18 @@ DEFINE_GLOBAL(u8, byte_6FEB48, 0x6FEB48);
 DEFINE_GLOBAL_INIT(Fix16, kFpEight_6FED48, kFpOne64th_6FEB88 * 512, 0x6FED48);
 
 MATCH_FUNC(0x4beb30)
-PoliceCrew_38::PoliceCrew_38()
+PoliceCrew::PoliceCrew()
 {
     Init_5709C0();
 }
 
 MATCH_FUNC(0x4beb40)
-PoliceCrew_38::~PoliceCrew_38()
+PoliceCrew::~PoliceCrew()
 {
 }
 
 MATCH_FUNC(0x5709c0)
-void PoliceCrew_38::Init_5709C0()
+void PoliceCrew::Init_5709C0()
 {
     field_2_targ_x = 0;
     field_3_targ_y = 0;
@@ -58,7 +58,7 @@ void PoliceCrew_38::Init_5709C0()
 }
 
 MATCH_FUNC(0x570a10)
-void PoliceCrew_38::AddToPursuit_570A10()
+void PoliceCrew::AddToPursuit_570A10()
 {
     if (field_14_pPursuitTarget->field_75_num_crews < 6)
     {
@@ -94,14 +94,14 @@ void PoliceCrew_38::AddToPursuit_570A10()
 }
 
 MATCH_FUNC(0x570ab0)
-void PoliceCrew_38::RemoveFromPursuit_570AB0()
+void PoliceCrew::RemoveFromPursuit_570AB0()
 {
     if (!field_1C_used || (field_24_state != police_crew_state::none_0 
         && field_24_state != police_crew_state::patrol_1 
         && field_24_state != police_crew_state::shutdown_6))
     {
         u8 last_idx = field_14_pPursuitTarget->field_75_num_crews - 1;
-        PoliceCrew_38* pPolice38_last = field_14_pPursuitTarget->field_20_crews[last_idx];
+        PoliceCrew* pPolice38_last = field_14_pPursuitTarget->field_20_crews[last_idx];
         if (pPolice38_last == this)
         {
             field_14_pPursuitTarget->field_20_crews[last_idx] = NULL;
@@ -144,7 +144,7 @@ void PoliceCrew_38::RemoveFromPursuit_570AB0()
 }
 
 MATCH_FUNC(0x570bf0)
-void PoliceCrew_38::SpawnPoliceInCar_570BF0()
+void PoliceCrew::SpawnPoliceInCar_570BF0()
 {
     PedGroup* pGroup = PedGroup::New_4CB0D0();
     Ped* pCopLeader = gPedManager_6787BC->AllocatePed_470F30();
@@ -226,7 +226,7 @@ void PoliceCrew_38::SpawnPoliceInCar_570BF0()
 }
 
 MATCH_FUNC(0x570e30)
-void PoliceCrew_38::SpawnSWAT_570E30()
+void PoliceCrew::SpawnSWAT_570E30()
 {
     PedGroup* pSwatGroup = PedGroup::New_4CB0D0();
     Ped* pSwatLeader = gPedManager_6787BC->AllocatePed_470F30();
@@ -272,7 +272,7 @@ void PoliceCrew_38::SpawnSWAT_570E30()
 }
 
 MATCH_FUNC(0x571150)
-void PoliceCrew_38::SpawnFBI_nonused_571150()
+void PoliceCrew::SpawnFBI_nonused_571150()
 {
     Ped* pFBI = gPedManager_6787BC->AllocatePed_470F30();
     pFBI->SetPedType_403920(ped_type::special_ped_4);
@@ -298,7 +298,7 @@ void PoliceCrew_38::SpawnFBI_nonused_571150()
 }
 
 MATCH_FUNC(0x571350)
-void PoliceCrew_38::TryDespawnOffscreenCrew_571350()
+void PoliceCrew::TryDespawnOffscreenCrew_571350()
 {
     field_24_state = police_crew_state::unknown_2;
     PedGroup* pGroup = field_10_subObj->field_8_group;
@@ -342,9 +342,9 @@ void PoliceCrew_38::TryDespawnOffscreenCrew_571350()
 }
 
 MATCH_FUNC(0x571540)
-void PoliceCrew_38::sub_571540()
+void PoliceCrew::sub_571540()
 {
-    Car_BC* pCar = field_10_subObj->field_0_car;
+    Car* pCar = field_10_subObj->field_0_car;
     PedGroup* pGroup = field_10_subObj->field_8_group;
     if (pCar)
     {
@@ -440,9 +440,9 @@ void PoliceCrew_38::sub_571540()
 }
 
 MATCH_FUNC(0x571a30)
-void PoliceCrew_38::sub_571A30()
+void PoliceCrew::sub_571A30()
 {
-    Car_BC* pPlayerCar = gCurrentCrewPed_6FEDDC->field_16C_car;
+    Car* pPlayerCar = gCurrentCrewPed_6FEDDC->field_16C_car;
     if (pPlayerCar && gCurrentCrewPed_6FEDDC == pPlayerCar->field_54_driver)
     {
         PedGroup* pGroup = field_10_subObj->field_8_group;
@@ -510,7 +510,7 @@ void PoliceCrew_38::sub_571A30()
         }
         else
         {
-            Car_BC* pCar = field_10_subObj->field_0_car;
+            Car* pCar = field_10_subObj->field_0_car;
             if (pCar->GetLastSeenTimer_4A9AD0() > 80)
             {
                 pCar->MarkForDespawn_421470();
@@ -529,7 +529,7 @@ void PoliceCrew_38::sub_571A30()
                 return;
             }
 
-            Car_BC* pCar = field_10_subObj->field_0_car;
+            Car* pCar = field_10_subObj->field_0_car;
             if (pCar->GetLastSeenTimer_4A9AD0() <= 200 && pCar->field_7C_ped_type != ped_type::player_2)
             {
                 return;
@@ -557,7 +557,7 @@ void PoliceCrew_38::sub_571A30()
         }
         else
         {
-            Car_BC* pCar = field_10_subObj->field_0_car;
+            Car* pCar = field_10_subObj->field_0_car;
             if (pCar->GetLastSeenTimer_4A9AD0() <= 200 && pCar->field_7C_ped_type != ped_type::player_2)
             {
                 return;
@@ -578,7 +578,7 @@ void PoliceCrew_38::sub_571A30()
 }
 
 MATCH_FUNC(0x5720c0)
-void PoliceCrew_38::sub_5720C0()
+void PoliceCrew::sub_5720C0()
 {
     if (field_10_subObj->field_24_phase == crew_phase::finished_2)
     {
@@ -620,7 +620,7 @@ void PoliceCrew_38::sub_5720C0()
 // https://decomp.me/scratch/p2NiN
 // MaxAbsDistance_42A6B0 with a by-value max, which keeps the compare in registers
 MATCH_FUNC(0x572210)
-bool PoliceCrew_38::sub_572210()
+bool PoliceCrew::sub_572210()
 {
     if (field_14_pPursuitTarget->field_0_criminal_ped && !field_34_is_dismissed && field_14_pPursuitTarget->field_C_timer > 0)
     {
@@ -643,7 +643,7 @@ bool PoliceCrew_38::sub_572210()
 }
 
 MATCH_FUNC(0x572340)
-void PoliceCrew_38::State3_AlertedSearch_572340()
+void PoliceCrew::State3_AlertedSearch_572340()
 {
     u8 bUnk = true;
     u8 idx = 0;
@@ -653,7 +653,7 @@ void PoliceCrew_38::State3_AlertedSearch_572340()
     {
         if (field_10_subObj->field_28_state == crew_state::update_6)
         {
-            PoliceCrew_38::sub_5720C0();
+            PoliceCrew::sub_5720C0();
         }
     }
     else if (field_10_subObj->field_2C_ready)
@@ -663,10 +663,10 @@ void PoliceCrew_38::State3_AlertedSearch_572340()
             switch (field_10_subObj->field_20_crew_type)
             {
                 case crew_type::police_3:
-                    PoliceCrew_38::SpawnPoliceInCar_570BF0();
+                    PoliceCrew::SpawnPoliceInCar_570BF0();
                     break;
                 case crew_type::swat_5:
-                    PoliceCrew_38::SpawnSWAT_570E30();
+                    PoliceCrew::SpawnSWAT_570E30();
                 default:
                     break;
             }
@@ -675,13 +675,13 @@ void PoliceCrew_38::State3_AlertedSearch_572340()
         }
         else
         {
-            Car_BC* pCar = field_10_subObj->field_0_car;
+            Car* pCar = field_10_subObj->field_0_car;
             if (pCar)
             {
                 pCar->MarkForDespawn_421470();
                 field_10_subObj->field_0_car = NULL;
                 field_24_state = police_crew_state::shutdown_6;
-                PoliceCrew_38::sub_575650();
+                PoliceCrew::sub_575650();
             }
         }
     }
@@ -691,7 +691,7 @@ void PoliceCrew_38::State3_AlertedSearch_572340()
         if (field_10_subObj->field_18_spawn_delay == -80)
         {
             field_24_state = police_crew_state::shutdown_6;
-            PoliceCrew_38::sub_575650();
+            PoliceCrew::sub_575650();
         }
     }
 
@@ -722,7 +722,7 @@ void PoliceCrew_38::State3_AlertedSearch_572340()
                                 gCurrentCrewPed_6FEDDC->field_1E4_objective_target_z = Fix16(field_14_pPursuitTarget->field_18_z.ToUInt8());
                                 break;
                             case objectives_enum::goto_area_in_car_14:
-                                PoliceCrew_38::sub_5752C0();
+                                PoliceCrew::sub_5752C0();
                                 xpos_f = field_14_pPursuitTarget->field_10_x;
                                 if (gCurrentCrewPed_6FEDDC->field_1DC_objective_target_x != field_14_pPursuitTarget->field_10_x ||
                                     gCurrentCrewPed_6FEDDC->field_1E0_objective_target_y != field_14_pPursuitTarget->field_14_y)
@@ -763,10 +763,10 @@ void PoliceCrew_38::State3_AlertedSearch_572340()
                                 }
                                 break;
                             case objectives_enum::leave_car_36:
-                                PoliceCrew_38::sub_575270();
+                                PoliceCrew::sub_575270();
                                 break;
                             case objectives_enum::enter_car_as_driver_35:
-                                PoliceCrew_38::sub_575210();
+                                PoliceCrew::sub_575210();
                                 break;
                             case objectives_enum::objective_51:
                                 if (pPed->GetObjectiveStatus_450CB0() == objective_status::failed_2)
@@ -827,7 +827,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FED08, Fix16(4), 0x6FED08);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FECB8, Fix16(0x147, 0), 0x6FECB8);
 
 // MaxAbsDistance_42A6B0 as State5_PursueOrChase_572920 inlines it: past the nested inline budget, Max is the named
-// out-of-line copy Max_44E540 (as in Weapon_30's MaxAbsDistance_5DF270)
+// out-of-line copy Max_44E540 (as in Weapon's MaxAbsDistance_5DF270)
 static inline Fix16 MaxAbsDistance_572920(Fix16& x1, Fix16& y1, Fix16& x2, Fix16& y2)
 {
     Fix16 diff_x;
@@ -845,7 +845,7 @@ static inline Fix16 MaxAbsDistance_572920(Fix16& x1, Fix16& y1, Fix16& x2, Fix16
 // i.e. the 18 sites left after it: the enter-car test reads field_278_ped_state_1 directly. `default: break;` first in
 // the objective switch keeps goto_area_in_car_14's trailing `field_28 = 1; break;` as the copy objective_43 merges into.
 MATCH_FUNC(0x572920)
-void PoliceCrew_38::State5_PursueOrChase_572920()
+void PoliceCrew::State5_PursueOrChase_572920()
 {
     u8 bUnk = true;
     u8 bChaseOnFoot = false;
@@ -854,7 +854,7 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
     if (!field_14_pPursuitTarget->field_0_criminal_ped)
     {
         field_24_state = police_crew_state::shutdown_6;
-        PoliceCrew_38::sub_575650();
+        PoliceCrew::sub_575650();
         return;
     }
 
@@ -862,11 +862,11 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
     {
         if (field_10_subObj->field_28_state == crew_state::update_6)
         {
-            PoliceCrew_38::sub_5720C0();
+            PoliceCrew::sub_5720C0();
             if (field_10_subObj->field_28_state == crew_state::clean_up_5 || field_24_state == police_crew_state::shutdown_6)
             {
                 field_24_state = police_crew_state::shutdown_6;
-                PoliceCrew_38::sub_575650();
+                PoliceCrew::sub_575650();
                 return;
             }
         }
@@ -880,10 +880,10 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
                 switch (field_10_subObj->field_20_crew_type)
                 {
                     case crew_type::police_3:
-                        PoliceCrew_38::SpawnPoliceInCar_570BF0();
+                        PoliceCrew::SpawnPoliceInCar_570BF0();
                         break;
                     case crew_type::swat_5:
-                        PoliceCrew_38::SpawnSWAT_570E30();
+                        PoliceCrew::SpawnSWAT_570E30();
                     default:
                         break;
                 }
@@ -892,13 +892,13 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
             }
             else
             {
-                Car_BC* pCar = field_10_subObj->field_0_car;
+                Car* pCar = field_10_subObj->field_0_car;
                 if (pCar)
                 {
                     pCar->MarkForDespawn_421470();
                     field_10_subObj->field_0_car = NULL;
                     field_24_state = police_crew_state::shutdown_6;
-                    PoliceCrew_38::sub_575650();
+                    PoliceCrew::sub_575650();
                 }
             }
         }
@@ -908,7 +908,7 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
             if (field_10_subObj->field_18_spawn_delay == -80)
             {
                 field_24_state = police_crew_state::shutdown_6;
-                PoliceCrew_38::sub_575650();
+                PoliceCrew::sub_575650();
             }
         }
     }
@@ -918,7 +918,7 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
     }
 
     gCurrentCrewPed_6FEDDC = field_10_subObj->field_4_ped;
-    if (PoliceCrew_38::sub_572210())
+    if (PoliceCrew::sub_572210())
     {
         field_14_pPursuitTarget->field_10_x = field_14_pPursuitTarget->field_0_criminal_ped->get_cam_x();
         field_14_pPursuitTarget->field_14_y = field_14_pPursuitTarget->field_0_criminal_ped->get_cam_y();
@@ -929,7 +929,7 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
         if (!field_10_subObj->field_24_phase)
         {
             field_24_state = police_crew_state::shutdown_6;
-            PoliceCrew_38::sub_575650();
+            PoliceCrew::sub_575650();
             return;
         }
         if (field_14_pPursuitTarget->field_0_criminal_ped->field_16C_car)
@@ -944,7 +944,7 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
         if (!field_10_subObj->field_24_phase)
         {
             field_24_state = police_crew_state::shutdown_6;
-            PoliceCrew_38::sub_575650();
+            PoliceCrew::sub_575650();
             return;
         }
         field_24_state = police_crew_state::alerted_search_3;
@@ -998,7 +998,7 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
                         if (field_10_subObj->field_0_car &&
                             (!field_10_subObj->field_8_group || field_10_subObj->field_8_group->HasNoActiveMembers_4CAAE0()))
                         {
-                            PoliceCrew_38::sub_575310();
+                            PoliceCrew::sub_575310();
                             field_28 = 1;
                         }
                         else
@@ -1059,12 +1059,12 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
                         break;
 
                     case objectives_enum::leave_car_36:
-                        PoliceCrew_38::sub_575270();
+                        PoliceCrew::sub_575270();
                         field_28 = 0;
                         break;
 
                     case objectives_enum::enter_car_as_driver_35:
-                        PoliceCrew_38::sub_575210();
+                        PoliceCrew::sub_575210();
                         field_28 = 1;
                         break;
 
@@ -1191,7 +1191,7 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
 
                     case objectives_enum::flee_char_on_foot_till_safe_2:
                         byte_6FEB48 = 0;
-                        PoliceCrew_38::RemoveFromPursuit_570AB0();
+                        PoliceCrew::RemoveFromPursuit_570AB0();
                         break;
 
                     case objectives_enum::objective_43:
@@ -1244,13 +1244,13 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
         gCurrentCrewPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0);
         gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::no_obj_0);
         field_24_state = police_crew_state::shutdown_6;
-        PoliceCrew_38::sub_575650();
+        PoliceCrew::sub_575650();
     }
 }
 
 // https://decomp.me/scratch/mAN9o
 MATCH_FUNC(0x574720)
-void PoliceCrew_38::State6_ShutDown_574720()
+void PoliceCrew::State6_ShutDown_574720()
 {
     u8 i = 0;
     byte_6FEB48 = 1;
@@ -1272,7 +1272,7 @@ void PoliceCrew_38::State6_ShutDown_574720()
     {
         if (field_10_subObj->field_28_state == crew_state::update_6)
         {
-            PoliceCrew_38::sub_5720C0();
+            PoliceCrew::sub_5720C0();
         }
         if (field_10_subObj->field_28_state == crew_state::clean_up_5)
         {
@@ -1287,7 +1287,7 @@ void PoliceCrew_38::State6_ShutDown_574720()
                     }
                 }
             }
-            PoliceCrew_38::sub_575650();
+            PoliceCrew::sub_575650();
             if (field_29_bCountedInPoliceCount)
             {
                 if (gPolice_7B8_6FEE40->field_658_police_car_count > 0)
@@ -1303,7 +1303,7 @@ void PoliceCrew_38::State6_ShutDown_574720()
             }
             field_10_subObj->field_28_state = crew_state::idle_0;
             field_10_subObj->ReInit_5CBC30();
-            PoliceCrew_38::Init_5709C0();
+            PoliceCrew::Init_5709C0();
             return;
         }
 
@@ -1313,7 +1313,7 @@ void PoliceCrew_38::State6_ShutDown_574720()
             {
                 if (field_14_pPursuitTarget->field_0_criminal_ped)
                 {
-                    if (PoliceCrew_38::sub_572210())
+                    if (PoliceCrew::sub_572210())
                     {
                         if (field_10_subObj->field_20_crew_type == crew_type::army_6 ||
                             (field_14_pPursuitTarget->field_4_wanted_level != 6 && field_14_pPursuitTarget->field_4_wanted_level))
@@ -1395,10 +1395,10 @@ void PoliceCrew_38::State6_ShutDown_574720()
                             case objectives_enum::objective_50:
                                 break;
                             case objectives_enum::enter_car_as_driver_35:
-                                PoliceCrew_38::sub_575210();
+                                PoliceCrew::sub_575210();
                                 break;
                             case objectives_enum::leave_car_36:
-                                PoliceCrew_38::sub_575270();
+                                PoliceCrew::sub_575270();
                                 break;
                             case objectives_enum::objective_28:
                                 if (gCurrentCrewPed_6FEDDC->GetObjectiveStatus_450CB0())
@@ -1448,15 +1448,15 @@ void PoliceCrew_38::State6_ShutDown_574720()
                 --gPolice_7B8_6FEE40->field_658_police_car_count;
             }
         }
-        PoliceCrew_38::Init_5709C0();
-        PoliceCrew_38::sub_575650();
+        PoliceCrew::Init_5709C0();
+        PoliceCrew::sub_575650();
     }
 }
 
 MATCH_FUNC(0x574f10)
-void PoliceCrew_38::State1_Patrol_574F10()
+void PoliceCrew::State1_Patrol_574F10()
 {
-    Car_BC* pCarUnk;
+    Car* pCarUnk;
 
     byte_6FEB48 = 1;
     u8 idx = 0;
@@ -1470,15 +1470,15 @@ void PoliceCrew_38::State1_Patrol_574F10()
         pCarUnk->ClearAIHalted_421550();
         if (field_10_subObj->field_28_state == crew_state::update_6)
         {
-            PoliceCrew_38::sub_5720C0();
+            PoliceCrew::sub_5720C0();
         }
 
         if (field_10_subObj->field_28_state == crew_state::clean_up_5)
         {
-            Car_BC* pCar = field_10_subObj->field_0_car;
+            Car* pCar = field_10_subObj->field_0_car;
             if (pCar)
             {
-                CarAI_78* pAI = pCar->field_5C_AI;
+                CarAI* pAI = pCar->field_5C_AI;
                 if (pAI)
                 {
                     char field_28_junc_idx = pAI->field_28_junc_idx;
@@ -1489,7 +1489,7 @@ void PoliceCrew_38::State1_Patrol_574F10()
                     }
                 }
             }
-            PoliceCrew_38::sub_575650();
+            PoliceCrew::sub_575650();
             if (field_29_bCountedInPoliceCount)
             {
                 if (gPolice_7B8_6FEE40->field_658_police_car_count > 0)
@@ -1499,11 +1499,11 @@ void PoliceCrew_38::State1_Patrol_574F10()
             }
             field_10_subObj->field_28_state = crew_state::idle_0;
             field_10_subObj->ReInit_5CBC30();
-            PoliceCrew_38::Init_5709C0();
+            PoliceCrew::Init_5709C0();
         }
         else
         {
-            if (field_14_pPursuitTarget && field_14_pPursuitTarget->field_0_criminal_ped && PoliceCrew_38::sub_572210() &&
+            if (field_14_pPursuitTarget && field_14_pPursuitTarget->field_0_criminal_ped && PoliceCrew::sub_572210() &&
                 (field_10_subObj->field_20_crew_type == crew_type::army_6 || field_14_pPursuitTarget->field_4_wanted_level != 6))
             {
                 field_14_pPursuitTarget->field_10_x = field_14_pPursuitTarget->field_0_criminal_ped->get_cam_x();
@@ -1515,7 +1515,7 @@ void PoliceCrew_38::State1_Patrol_574F10()
             {
                 gCurrentCrewPed_6FEDDC = field_10_subObj->field_4_ped;
                 gCurrentCrewPed_6FEDDC->ClearAttacking_403A40();
-                CarChaseTask_40* pChaseTask;
+                CarChaseTask* pChaseTask;
                 for (Ped* pPedIter = gCurrentCrewPed_6FEDDC; pPedIter; ++idx)
                 {
                     switch (pPedIter->get_objective_403A80())
@@ -1547,10 +1547,10 @@ void PoliceCrew_38::State1_Patrol_574F10()
                             }
                             break;
                         case objectives_enum::leave_car_36:
-                            PoliceCrew_38::sub_575270();
+                            PoliceCrew::sub_575270();
                             break;
                         case objectives_enum::enter_car_as_driver_35:
-                            PoliceCrew_38::sub_575210();
+                            PoliceCrew::sub_575210();
                             break;
                         case objectives_enum::flee_char_on_foot_till_safe_2:
                         case objectives_enum::goto_area_on_foot_12:
@@ -1585,14 +1585,14 @@ void PoliceCrew_38::State1_Patrol_574F10()
 }
 
 MATCH_FUNC(0x575200)
-void PoliceCrew_38::sub_575200()
+void PoliceCrew::sub_575200()
 {
     byte_6FEB48 = 1;
     field_24_state = police_crew_state::shutdown_6;
 }
 
 MATCH_FUNC(0x575210)
-void PoliceCrew_38::sub_575210()
+void PoliceCrew::sub_575210()
 {
     if (field_10_subObj->field_24_phase)
     {
@@ -1614,7 +1614,7 @@ void PoliceCrew_38::sub_575210()
 }
 
 MATCH_FUNC(0x575270)
-void PoliceCrew_38::sub_575270()
+void PoliceCrew::sub_575270()
 {
     if (field_10_subObj->field_24_phase)
     {
@@ -1632,7 +1632,7 @@ void PoliceCrew_38::sub_575270()
 }
 
 MATCH_FUNC(0x5752c0)
-void PoliceCrew_38::sub_5752C0()
+void PoliceCrew::sub_5752C0()
 {
     if (gCurrentCrewPed_6FEDDC->GetObjectiveStatus_450CB0() != objective_status::not_finished_0)
     {
@@ -1649,7 +1649,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FECF4, Fix16(3), 0x6FECF4);
 DEFINE_GLOBAL_INIT(Fix16, dword_6FEDE0, Fix16(0x1EB, 0), 0x6FEDE0);
 
 MATCH_FUNC(0x575310)
-void PoliceCrew_38::sub_575310()
+void PoliceCrew::sub_575310()
 {
     byte_6FEB48 = 1;
     gCurrentCrewPed_6FEDDC->set_objective_target_ped_403AC0(field_14_pPursuitTarget->field_0_criminal_ped);
@@ -1683,8 +1683,8 @@ void PoliceCrew_38::sub_575310()
                                             field_14_pPursuitTarget->field_0_criminal_ped->get_cam_x(),
                                             field_14_pPursuitTarget->field_0_criminal_ped->get_cam_y());
 
-        Car_BC* pCar = field_10_subObj->field_0_car;
-        CarChaseTask_40* pChase = pCar->field_60_pChaseTask;
+        Car* pCar = field_10_subObj->field_0_car;
+        CarChaseTask* pChase = pCar->field_60_pChaseTask;
         if (!pChase)
         {
             return;
@@ -1735,7 +1735,7 @@ void PoliceCrew_38::sub_575310()
 }
 
 MATCH_FUNC(0x575590)
-void PoliceCrew_38::Service_575590()
+void PoliceCrew::Service_575590()
 {
     if (field_10_subObj)
     {
@@ -1766,19 +1766,19 @@ void PoliceCrew_38::Service_575590()
     switch (field_24_state)
     {
         case police_crew_state::alerted_search_3:
-            PoliceCrew_38::State3_AlertedSearch_572340();
+            PoliceCrew::State3_AlertedSearch_572340();
             break;
         case police_crew_state::pursue_or_chase_5:
-            PoliceCrew_38::State5_PursueOrChase_572920();
+            PoliceCrew::State5_PursueOrChase_572920();
             break;
         case police_crew_state::shutdown_6:
-            PoliceCrew_38::State6_ShutDown_574720();
+            PoliceCrew::State6_ShutDown_574720();
             break;
         case police_crew_state::patrol_1:
-            PoliceCrew_38::State1_Patrol_574F10();
+            PoliceCrew::State1_Patrol_574F10();
             break;
         case 2:
-            PoliceCrew_38::sub_575200();
+            PoliceCrew::sub_575200();
             break;
         default:
             return;
@@ -1787,9 +1787,9 @@ void PoliceCrew_38::Service_575590()
 
 // TODO: logic matches, but the original keeps field_75_num_crews in bl and i in cl
 MATCH_FUNC(0x575650)
-void PoliceCrew_38::sub_575650()
+void PoliceCrew::sub_575650()
 {
-    PolicePursuitTarget_7C* pPursuitTarget = field_14_pPursuitTarget;
+    PolicePursuitTarget* pPursuitTarget = field_14_pPursuitTarget;
     if (pPursuitTarget)
     {
         for (u8 i = 0; i < pPursuitTarget->field_75_num_crews; i++)
@@ -1829,7 +1829,7 @@ void PoliceCrew_38::sub_575650()
 }
 
 MATCH_FUNC(0x575710)
-void PoliceRoadblock_A4::Reset_575710()
+void PoliceRoadblock::Reset_575710()
 {
     field_0_bActive = 0;
     field_4_unused = 0;
@@ -1876,7 +1876,7 @@ void PoliceRoadblock_A4::Reset_575710()
 }
 
 MATCH_FUNC(0x5757b0)
-void PoliceRoadblock_A4::Update_5757B0()
+void PoliceRoadblock::Update_5757B0()
 {
     u8 bAllClear = 1;
 
@@ -2235,7 +2235,7 @@ void PoliceRoadblock_A4::Update_5757B0()
                 }
                 if (dx > kFpTen_6FED54)
                 {
-                    PoliceRoadblock_A4::RemoveRoadblock_575CA0();
+                    PoliceRoadblock::RemoveRoadblock_575CA0();
                     return;
                 }
             }
@@ -2245,7 +2245,7 @@ void PoliceRoadblock_A4::Update_5757B0()
 }
 
 MATCH_FUNC(0x575ca0)
-void PoliceRoadblock_A4::RemoveRoadblock_575CA0()
+void PoliceRoadblock::RemoveRoadblock_575CA0()
 {
     if (field_10_car_1)
     {
@@ -2493,9 +2493,9 @@ DEFINE_GLOBAL_INIT(u8, byte_624FBD, 1, 0x624FBD); // the next roadblock lane get
 // 9.6f (built with /Ob0, so they were never inline helpers). As inline helpers they used up VC6's
 // inline budget and the x branch's Ang16 Normalize went out of line.
 MATCH_FUNC(0x575ff0)
-char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
+char_type PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
 {
-    Car_BC* pCar = 0;
+    Car* pCar = 0;
     u8 bEdge;
     u8 tries;
     u8 width;
@@ -2736,12 +2736,12 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
             {
                 if (byte_624FBC)
                 {
-                    Object_2C* pBarrier1 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(21,
+                    Object* pBarrier1 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(21,
                                                                                    Fix16(x_start) + dword_6FEB50,
                                                                                    Fix16(y_start + lane) + dword_6FEBF4,
                                                                                    z,
                                                                                    word_6FEB74);
-                    Object_2C* pBarrier2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(21,
+                    Object* pBarrier2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(21,
                                                                                    Fix16(x_start) + kFpPoint8_6FEB68,
                                                                                    Fix16(y_start + lane) + dword_6FEBF4,
                                                                                    z,
@@ -3046,12 +3046,12 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
             {
                 if (byte_624FBC)
                 {
-                    Object_2C* pBarrier1 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(21,
+                    Object* pBarrier1 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(21,
                                                                                    Fix16(x_start + lane) + dword_6FEBF4,
                                                                                    Fix16(y_start) + dword_6FEB50,
                                                                                    z,
                                                                                    word_6FEE30);
-                    Object_2C* pBarrier2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(21,
+                    Object* pBarrier2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(21,
                                                                                    Fix16(x_start + lane) + dword_6FEBF4,
                                                                                    Fix16(y_start) + kFpPoint8_6FEB68,
                                                                                    z,
@@ -3140,14 +3140,14 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
 }
 
 MATCH_FUNC(0x577480)
-PoliceRoadblock_A4::PoliceRoadblock_A4()
+PoliceRoadblock::PoliceRoadblock()
 {
     Reset_575710();
     field_A0_rect = new Fix16_Rect();
 }
 
 MATCH_FUNC(0x5774a0)
-PoliceRoadblock_A4::~PoliceRoadblock_A4()
+PoliceRoadblock::~PoliceRoadblock()
 {
     delete[] field_A0_rect;
 }

@@ -48,8 +48,8 @@ EXTERN_GLOBAL(u8, gNumScriptCreatedPeds_6787E3);
 DEFINE_GLOBAL_INIT(s16, word_61A898, 40, 0x61A898); // TODO: initial value 40 is a guess, check it against 10.5.exe
 DEFINE_GLOBAL(PedManager*, gPedManager_6787BC, 0x6787BC);
 DEFINE_GLOBAL(PedPool*, gPedPool_6787B8, 0x6787B8);
-DEFINE_GLOBAL(Char_B4_Pool*, gChar_B4_Pool_6FDB44, 0x6FDB44);
-DEFINE_GLOBAL(Char_8_Pool*, gChar_8_Pool_678b50, 0x678b50);
+DEFINE_GLOBAL(CharPool*, gChar_B4_Pool_6FDB44, 0x6FDB44);
+DEFINE_GLOBAL(PedListNodePool*, gChar_8_Pool_678b50, 0x678b50);
 
 DEFINE_GLOBAL(u16, gPedsServiceTickCount_6787F0, 0x6787F0);
 DEFINE_GLOBAL_INIT(u8, byte_61A8A1, 1, 0x61A8A1);
@@ -261,7 +261,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
                 gmp_map_zone* pMapZone = gMap_0x370_6F6268->GetZoneAtPosOfType_4DF4D0(xpos.ToInt(), ypos.ToInt(), 14u);
                 if (pMapZone)
                 {
-                    Gang_144* pGang = gGangPool_CA8_67E274->FindGangByName_4BF100(pMapZone->field_6_name);
+                    Gang* pGang = gGangPool_CA8_67E274->FindGangByName_4BF100(pMapZone->field_6_name);
                     if ((u8)gNumberArmedGangMembers_6787CE < 4u)
                     {
                         ++gNumberArmedGangMembers_6787CE;
@@ -463,7 +463,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
 }
 
 MATCH_FUNC(0x46eb60)
-void PedManager::SpawnDummies_46EB60(Camera_0xBC* pCam)
+void PedManager::SpawnDummies_46EB60(Camera* pCam)
 {
     Fix16 xpos;
     Fix16 ypos;
@@ -595,7 +595,7 @@ void PedManager::Dummies_470330()
     }
     if (gNumDummyChars_6787E2 < max_dummies)
     {
-        for (Camera_0xBC* pCam = gGame_0x40_67E008->IteratePlayerCamera_4B9BC0(); pCam; pCam = gGame_0x40_67E008->IterateNextPlayerCamera_4B9C50())
+        for (Camera* pCam = gGame_0x40_67E008->IteratePlayerCamera_4B9BC0(); pCam; pCam = gGame_0x40_67E008->IterateNextPlayerCamera_4B9C50())
         {
             spawnSideLocked_6787D5 = 0;
             if (pCam->HasFollowTarget_433E90())
@@ -696,7 +696,7 @@ PedManager::PedManager()
 
     if (!gChar_B4_Pool_6FDB44)
     {
-        gChar_B4_Pool_6FDB44 = new Char_B4_Pool();
+        gChar_B4_Pool_6FDB44 = new CharPool();
         if (!gChar_B4_Pool_6FDB44)
         {
             FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\char.cpp", 15834); // OutOfMemoryNewOperator
@@ -705,7 +705,7 @@ PedManager::PedManager()
 
     if (!gChar_8_Pool_678b50)
     {
-        gChar_8_Pool_678b50 = new Char_8_Pool();
+        gChar_8_Pool_678b50 = new PedListNodePool();
         if (!gChar_8_Pool_678b50)
         {
             FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\char.cpp", 15841); // OutOfMemoryNewOperator
@@ -818,7 +818,7 @@ Ped* PedManager::SpawnPedAt(Fix16 xpos, Fix16 ypos, Fix16 zpos, u8 remap, Ang16 
 }
 
 MATCH_FUNC(0x470b00)
-Ped* PedManager::SpawnDriver_470B00(Car_BC* pCar)
+Ped* PedManager::SpawnDriver_470B00(Car* pCar)
 {
     Ped* pNewPed = gPedPool_6787B8->Allocate();
     pNewPed->SetPedType_403920(ped_type::dummy_3);
@@ -839,7 +839,7 @@ Ped* PedManager::SpawnDriver_470B00(Car_BC* pCar)
 
 // https://decomp.me/scratch/6AW5o
 MATCH_FUNC(0x470ba0)
-Ped* PedManager::SpawnGangDriver_470BA0(Car_BC* pCar, Gang_144* pGang)
+Ped* PedManager::SpawnGangDriver_470BA0(Car* pCar, Gang* pGang)
 {
     Ped* pNewPed = gPedPool_6787B8->Allocate();
 
@@ -882,7 +882,7 @@ Ped* PedManager::SpawnGangDriver_470BA0(Car_BC* pCar, Gang_144* pGang)
 }
 
 MATCH_FUNC(0x470cc0)
-Ped* PedManager::CreateDummyDriver_470CC0(Car_BC* pCar)
+Ped* PedManager::CreateDummyDriver_470CC0(Car* pCar)
 {
     Ped* pNewPed = gPedPool_6787B8->Allocate();
     pNewPed->set_remap_433B90(-1);

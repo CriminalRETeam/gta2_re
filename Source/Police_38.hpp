@@ -3,11 +3,11 @@
 #include "Function.hpp"
 #include "fix16.hpp"
 
-class EmergencyCrew_30;
+class EmergencyCrew;
 class Ped;
-class Car_BC;
-class Object_2C;
-class PolicePursuitTarget_7C;
+class Car;
+class Object;
+class PolicePursuitTarget;
 class Fix16_Rect;
 
 namespace police_crew_state
@@ -23,7 +23,7 @@ enum
 };
 } // namespace police_crew_state
 
-// PolicePursuitTarget_7C::field_8_state, see Police_7B8::UpdatePursuitTargets_56FBD0
+// PolicePursuitTarget::field_8_state, see Police::UpdatePursuitTargets_56FBD0
 namespace pursuit_state
 {
 enum
@@ -36,11 +36,11 @@ enum
 };
 } // namespace pursuit_state
 
-class PoliceCrew_38
+class PoliceCrew
 {
   public:
-    EXPORT PoliceCrew_38();
-    EXPORT ~PoliceCrew_38();
+    EXPORT PoliceCrew();
+    EXPORT ~PoliceCrew();
     EXPORT void Init_5709C0();
     EXPORT void AddToPursuit_570A10();
     EXPORT void RemoveFromPursuit_570AB0();
@@ -73,8 +73,8 @@ class PoliceCrew_38
     char_type field_7_unused;
     Fix16 field_8;
     Fix16 field_C;
-    EmergencyCrew_30* field_10_subObj;
-    PolicePursuitTarget_7C* field_14_pPursuitTarget; // Pursuit of one wanted criminal by police crews
+    EmergencyCrew* field_10_subObj;
+    PolicePursuitTarget* field_14_pPursuitTarget; // Pursuit of one wanted criminal by police crews
     s16 field_18;
     char_type field_1A_unused;
     char_type field_1B_unused;
@@ -93,8 +93,9 @@ class PoliceCrew_38
     char_type field_36_unused;
     char_type field_37_unused;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(PoliceCrew, 0x38);
 
-class PolicePursuitTarget_7C  // Pursuit of one wanted criminal by police crews
+class PolicePursuitTarget  // Pursuit of one wanted criminal by police crews
 {
   public:
     Ped* field_0_criminal_ped;
@@ -110,7 +111,7 @@ class PolicePursuitTarget_7C  // Pursuit of one wanted criminal by police crews
     char_type field_1D_unused;
     char_type field_1E_unused;
     char_type field_1F_unused;
-    PoliceCrew_38* field_20_crews[6];
+    PoliceCrew* field_20_crews[6];
     s32 field_38_unused;
     s32 field_3C_unused;
     s32 field_40;
@@ -136,8 +137,9 @@ class PolicePursuitTarget_7C  // Pursuit of one wanted criminal by police crews
     char_type field_79_unused;
     s16 field_7A_wanted_timer;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(PolicePursuitTarget, 0x7C);
 
-class PoliceRoadblock_A4
+class PoliceRoadblock
 {
   public:
     EXPORT void Reset_575710();
@@ -145,8 +147,8 @@ class PoliceRoadblock_A4
     EXPORT void RemoveRoadblock_575CA0();
     EXPORT char_type CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation);
 
-    EXPORT PoliceRoadblock_A4();
-    EXPORT ~PoliceRoadblock_A4();
+    EXPORT PoliceRoadblock();
+    EXPORT ~PoliceRoadblock();
     char_type field_0_bActive;
     char_type field_1_unused;
     char_type field_2_unused;
@@ -158,24 +160,24 @@ class PoliceRoadblock_A4
     char_type field_B_unused;
     u16 field_C;
     s16 field_E;
-    Car_BC* field_10_car_1;
-    Car_BC* field_14_car_2;
-    Car_BC* field_18_car_3;
-    Car_BC* field_1C_car_4;
-    Car_BC* field_20_car_5;
-    Car_BC* field_24_car_6;
-    Object_2C* field_28_barrier_1;
-    Object_2C* field_2C_barrier_2;
-    Object_2C* field_30_barrier_3;
-    Object_2C* field_34_barrier_4;
-    Object_2C* field_38_barrier_5;
-    Object_2C* field_3C_barrier_6;
-    Object_2C* field_40_barrier_7;
-    Object_2C* field_44_barrier_8;
-    Object_2C* field_48_barrier_9;
-    Object_2C* field_4C_barrier_10;
-    Object_2C* field_50_barrier_11;
-    Object_2C* field_54_barrier_12;
+    Car* field_10_car_1;
+    Car* field_14_car_2;
+    Car* field_18_car_3;
+    Car* field_1C_car_4;
+    Car* field_20_car_5;
+    Car* field_24_car_6;
+    Object* field_28_barrier_1;
+    Object* field_2C_barrier_2;
+    Object* field_30_barrier_3;
+    Object* field_34_barrier_4;
+    Object* field_38_barrier_5;
+    Object* field_3C_barrier_6;
+    Object* field_40_barrier_7;
+    Object* field_44_barrier_8;
+    Object* field_48_barrier_9;
+    Object* field_4C_barrier_10;
+    Object* field_50_barrier_11;
+    Object* field_54_barrier_12;
     s32 field_58_barrier_1_id;
     s32 field_5C_barrier_2_id;
     s32 field_60_barrier_3_id;
@@ -196,3 +198,4 @@ class PoliceRoadblock_A4
     Ped* field_9C_guard_6;
     Fix16_Rect* field_A0_rect;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(PoliceRoadblock, 0xA4);

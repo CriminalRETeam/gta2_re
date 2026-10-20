@@ -9,10 +9,10 @@
 #include "PedGroup.hpp"
 #include "Player.hpp"
 
-DEFINE_GLOBAL(Miss2_25C*, gMiss2_25C_6F805C, 0x6F805C);
+DEFINE_GLOBAL(MissionCleanupList*, gMiss2_25C_6F805C, 0x6F805C);
 
 MATCH_FUNC(0x502d90)
-Miss2_25C::Miss2_25C() throw()
+MissionCleanupList::MissionCleanupList() throw()
 {
     field_258_count = 0;
     for (s32 i = 0; i < 50; i++)
@@ -24,9 +24,9 @@ Miss2_25C::Miss2_25C() throw()
 }
 
 MATCH_FUNC(0x502f60)
-Miss2_C* Miss2_25C::allocate_next_502F60()
+MissionCleanupEntry* MissionCleanupList::allocate_next_502F60()
 {
-    Miss2_C* pIter = field_0_entries;
+    MissionCleanupEntry* pIter = field_0_entries;
     for (u16 idx = 0; idx < 50; idx++)
     {
         if (!pIter->field_0_obj)
@@ -39,9 +39,9 @@ Miss2_C* Miss2_25C::allocate_next_502F60()
 }
 
 MATCH_FUNC(0x502f80)
-void Miss2_25C::push_type_1_car_502F80(Car_BC* pCar)
+void MissionCleanupList::push_type_1_car_502F80(Car* pCar)
 {
-    Miss2_C* pFree = allocate_next_502F60();
+    MissionCleanupEntry* pFree = allocate_next_502F60();
     if (pFree)
     {
         pFree->field_0_car = pCar;
@@ -53,9 +53,9 @@ void Miss2_25C::push_type_1_car_502F80(Car_BC* pCar)
 }
 
 MATCH_FUNC(0x502fb0)
-void Miss2_25C::push_type_3_ped_502FB0(Ped* pPed)
+void MissionCleanupList::push_type_3_ped_502FB0(Ped* pPed)
 {
-    Miss2_C* pFree = allocate_next_502F60();
+    MissionCleanupEntry* pFree = allocate_next_502F60();
     if (pFree)
     {
         pFree->field_0_ped = pPed;
@@ -67,11 +67,11 @@ void Miss2_25C::push_type_3_ped_502FB0(Ped* pPed)
 }
 
 MATCH_FUNC(0x502ff0)
-void Miss2_25C::push_type_2_502FF0(Object_2C* pObj, char_type bUnknown)
+void MissionCleanupList::push_type_2_502FF0(Object* pObj, char_type bUnknown)
 {
     if (bUnknown || pObj && ((pObj->GetModel_40FEF0() < 64) || pObj->GetModel_40FEF0() > 108) && (pObj->GetModel_40FEF0() < 200 || pObj->GetModel_40FEF0() > 244))
     {
-        Miss2_C* pC = allocate_next_502F60();
+        MissionCleanupEntry* pC = allocate_next_502F60();
         if (pC)
         {
             pC->field_0_obj = pObj;
@@ -83,9 +83,9 @@ void Miss2_25C::push_type_2_502FF0(Object_2C* pObj, char_type bUnknown)
 }
 
 MATCH_FUNC(0x503050)
-void Miss2_25C::push_type_2_503050(Object_2C* pObj)
+void MissionCleanupList::push_type_2_503050(Object* pObj)
 {
-    Miss2_C* pC = allocate_next_502F60();
+    MissionCleanupEntry* pC = allocate_next_502F60();
     if (pC)
     {
         pC->field_0_obj = pObj;

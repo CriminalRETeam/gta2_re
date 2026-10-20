@@ -26,9 +26,9 @@ EXTERN_GLOBAL(Fix16, kZero_679E70);
 class Fix16_Point;
 
 // A point without a destructor. 10.5 has points that don't take part in EH unwinding: struct members
-// (~Sprite is a bare jmp, the Char_B4 ctor's EH states leave out field_98_velocity_vector), a by-value
-// parameter the caller copies as two dwords (sub_5DE910) and a few locals (CarPhysics_B0 0x55F280,
-// 0x55F800, Camera_0xBC::WorldToScreen_40CFC0's result). Everything else is a Fix16_Point. It is a
+// (~Sprite is a bare jmp, the Char ctor's EH states leave out field_98_velocity_vector), a by-value
+// parameter the caller copies as two dwords (sub_5DE910) and a few locals (CarPhysics 0x55F280,
+// 0x55F800, Camera::WorldToScreen_40CFC0's result). Everything else is a Fix16_Point. It is a
 // separate type, not a base of Fix16_Point: 10.5 charges Fix16_Point's ctor as one size-42 inline
 // site at the top level, which a derived class's ctor (base ctor nested in it) doesn't reproduce.
 // 9.6f doesn't tell the two apart.
@@ -89,7 +89,7 @@ class Fix16_Point
         this->y = a3;
     }
 
-    // Reads the TU's FIX16_POINT_ZERO copy (Weapon_30::throwable_5DDFC0 compares with 0x706EB8)
+    // Reads the TU's FIX16_POINT_ZERO copy (Weapon::throwable_5DDFC0 compares with 0x706EB8)
     inline bool IsNull_420360() const
     {
         return x == FIX16_POINT_ZERO && y == FIX16_POINT_ZERO;
@@ -126,7 +126,7 @@ class Fix16_Point
     Fix16 GetLength_453590();
 
     // 9.6f 0x41E260; the out-of-line copy is GetLength_453590. The nested if/else (front-end size 162, the
-    // else-if chain is 160) gives the original's cut-offs in Crane_15C::ComputeHookPolar_47F6C0 with
+    // else-if chain is 160) gives the original's cut-offs in Crane::ComputeHookPolar_47F6C0 with
     // SquareRoot at 48; matched functions allow 159..162.
     inline Fix16 GetLength_41E260()
     {
@@ -147,7 +147,7 @@ class Fix16_Point
         }
     }
 
-    // GetLength_41E260 as inlined twice into Car_BC::GetCarLinearSpeed_43A240: the original inlines both
+    // GetLength_41E260 as inlined twice into Car::GetCarLinearSpeed_43A240: the original inlines both
     // multiplies, the add and SquareRoot but calls Negate_4086A0 for all four Abs. No helper/caller shape found
     // that gives that with the plain inline (unexplained, no 9.6f copy of the function).
     inline Fix16 GetLength_SqrtForced_43A240()
@@ -173,7 +173,7 @@ class Fix16_Point
     }
 
     // RotateByAngle_40F6B0 in a function that ran out of inline expansions: every operator but
-    // the first + is called out of line (CarPhysics_B0::SpawnSkidSegment_55D200)
+    // the first + is called out of line (CarPhysics::SpawnSkidSegment_55D200)
     inline void RotateByAngle_40F6B0_out_of_line(const Ang16& angle)
     {
         Fix16 sin = Ang16::sine_40F500(angle);
@@ -186,7 +186,7 @@ class Fix16_Point
     }
 
     // RotateByAngle_40F6B0 in a function whose inline budget ran out after the first multiply
-    // (y * sin, evaluated first): the rest are the out-of-line copies (Car_BC::SpawnDamageFireEffect_43B870)
+    // (y * sin, evaluated first): the rest are the out-of-line copies (Car::SpawnDamageFireEffect_43B870)
     inline void RotateByAngle_OneMulInline_40F6B0(const Ang16& angle)
     {
         Fix16 sin = Ang16::sine_40F500(angle);
@@ -198,7 +198,7 @@ class Fix16_Point
         y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(y.Multiply_408680(cos));
     }
 
-    // RotateByAngle_40F6B0 with every operator called out of line (Particle_8::EmitImpactParticles_53FE40)
+    // RotateByAngle_40F6B0 with every operator called out of line (ParticleManager::EmitImpactParticles_53FE40)
     inline void RotateByAngle_40F6B0_all_out_of_line(const Ang16& angle)
     {
         Fix16 sin = Ang16::sine_40F500(angle);
@@ -223,7 +223,7 @@ class Fix16_Point
     }
 
     // RotateByAngle_40F6B0 as big functions get it once they run out of inline expansions:
-    // the Fix16 operators are the out-of-line copies (Car_BC::HandleCarHitByObject_43F130)
+    // the Fix16 operators are the out-of-line copies (Car::HandleCarHitByObject_43F130)
     inline void RotateByAngle_OOL_40F6B0(const Ang16& angle)
     {
         Fix16 x_old = x;
@@ -282,14 +282,14 @@ class Fix16_Point
     EXPORT Fix16_Point Multiply_438FE0(Fix16& in);
     EXPORT Fix16_Point Divide_442CB0(Fix16& in);
 
-    // Divide_442CB0 as a nothrow inline (see DivideInl_55F9E0; CarPhysics_B0::HandleObjectCollision_5606C0,
-    // Car_BC::ApplyExplosionImpulse_443710)
+    // Divide_442CB0 as a nothrow inline (see DivideInl_55F9E0; CarPhysics::HandleObjectCollision_5606C0,
+    // Car::ApplyExplosionImpulse_443710)
     inline Fix16_Point DivideInl_442CB0(Fix16& in) throw()
     {
         return Fix16_Point(x / in, y / in);
     }
 
-    // Multiply_438FE0 as a nothrow inline (see DivideInl_55F9E0; Car_BC::TryHitchTrailer_442810)
+    // Multiply_438FE0 as a nothrow inline (see DivideInl_55F9E0; Car::TryHitchTrailer_442810)
     inline Fix16_Point MultiplyInl_438FE0(Fix16& in) throw()
     {
         return Fix16_Point(x * in, y * in);
@@ -386,25 +386,25 @@ class Fix16_Point
     }
 
     // The out-of-line copy of the inline operator-. Called by name where the original keeps an EH state
-    // for temporaries around the call (Crane_15C::HookPickupCar_47EF80, ComputeHookPolar_47F6C0); the
-    // inline operator- called out of line gets none (CarPhysics_B0::HandleCarCollision_55FF20)
+    // for temporaries around the call (Crane::HookPickupCar_47EF80, ComputeHookPolar_47F6C0); the
+    // inline operator- called out of line gets none (CarPhysics::HandleCarCollision_55FF20)
     EXPORT Fix16_Point Sub_40AC80(const Fix16_Point& rhs);
 
     // operator+/operator- with their bodies defined at the end of Car_BC.cpp (HandleCarHitByObject_43F130)
     inline Fix16_Point AddLate_40AC50(const Fix16_Point& in);
     inline Fix16_Point SubLate_40AC80(const Fix16_Point& rhs);
 
-    // Out of line operator+ (CarPhysics_B0::SpawnSkidSegment_55D200)
+    // Out of line operator+ (CarPhysics::SpawnSkidSegment_55D200)
     EXPORT Fix16_Point Add_40AC50(const Fix16_Point& in);
 
     // operator+ 0x40AC50 as a nothrow inline that VC6 still calls out of line: no EH state for the
-    // temporaries alive across the call (Car_BC::TryHitchTrailer_442810)
+    // temporaries alive across the call (Car::TryHitchTrailer_442810)
     inline Fix16_Point AddInl_40AC50(const Fix16_Point& in) throw()
     {
         return Fix16_Point(x + in.x, y + in.y);
     }
 
-    // Out of line unary minus (Object_2C::ResolveCollisionWithPed_5229B0)
+    // Out of line unary minus (Object::ResolveCollisionWithPed_5229B0)
     EXPORT Fix16_Point Negate_40ACB0() const;
 
     // Unused (ComputeHookPolar_47F6C0 calls GetLength_41E260 now). Kept: deleting any inline from this header
@@ -444,7 +444,7 @@ class Fix16_Point
         }
     }
 
-    // Needed for CarPhysics_B0::HandleCarCollision_55FF20.
+    // Needed for CarPhysics::HandleCarCollision_55FF20.
     inline Fix16 GetLength_all_out_of_line_abs_y_negate_2()
     {
         if (x == kFP16Zero_6FE20C)
@@ -461,7 +461,7 @@ class Fix16_Point
         }
     }
 
-    // Needed for CarPhysics_B0::ComputeEngineTorque_561970: named out-of-line multiplies, inline add (Abs goes
+    // Needed for CarPhysics::ComputeEngineTorque_561970: named out-of-line multiplies, inline add (Abs goes
     // out of line by the inline budget).
     inline Fix16 GetLength_ool_abs_mul()
     {
@@ -479,7 +479,7 @@ class Fix16_Point
         }
     }
 
-    // Needed for CarPhysics_B0::SpawnSkidSegment_55D200.
+    // Needed for CarPhysics::SpawnSkidSegment_55D200.
     inline Fix16 GetLength_all_out_of_line_abs()
     {
         if (x == kFP16Zero_6FE20C)
@@ -496,7 +496,7 @@ class Fix16_Point
         }
     }
 
-    // Needed for CarPhysics_B0::ScarePedsOnDrivingFast_559C30 and UpdateSteeringAngle_562560.
+    // Needed for CarPhysics::ScarePedsOnDrivingFast_559C30 and UpdateSteeringAngle_562560.
     inline Fix16 GetLength_out_of_line_x_squared()
     {
         if (x == kFP16Zero_6FE20C)
@@ -563,7 +563,7 @@ class Fix16_Point
         }
     }
 
-    // MultiplyByFix16_49E3A0 as inlined into CarPhysics_B0::CalculateRearWheelForce_5620D0: the
+    // MultiplyByFix16_49E3A0 as inlined into CarPhysics::CalculateRearWheelForce_5620D0: the
     // second *= is the out-of-line copy
     void MultiplyByFix16_inline_5620D0(const Fix16& factor)
     {
@@ -571,7 +571,7 @@ class Fix16_Point
         y.MultiplyAssign_562430(factor);
     }
 
-    // GetLength_41E260 as inlined into CarPhysics_B0::CalculateRearWheelForce_5620D0: Abs and x*x out of line
+    // GetLength_41E260 as inlined into CarPhysics::CalculateRearWheelForce_5620D0: Abs and x*x out of line
     // by the inline budget, y*y written out inline (the plain y * y changes the function)
     inline Fix16 GetLength_inline_5620D0()
     {
@@ -621,7 +621,7 @@ class Fix16_Point
     EXPORT Fix16_Point operator/(const s32& a3);
 
     // operator/ 0x55F9E0 as a nothrow inline that VC6 still calls out of line: the original sets no EH
-    // state for the temporaries that live across this call (CarPhysics_B0::HandleCarCollision_55FF20,
+    // state for the temporaries that live across this call (CarPhysics::HandleCarCollision_55FF20,
     // HandleObjectCollision_5606C0). throw() on the real operator/ changes 6 matched functions.
     inline Fix16_Point DivideInl_55F9E0(const s32& a3) throw()
     {

@@ -7,16 +7,16 @@
 #include "fix16.hpp"
 
 class Sprite;
-class Car_BC;
+class Car;
 class Trailer;
-class SpriteShape_4C;
+class SpriteShape;
 class Ped;
-class ModelPhysics_48;
-class CarAI_78;
+class ModelPhysics;
+class CarAI;
 
 EXTERN_GLOBAL(Fix16, kFP16Zero_6FE20C);
 EXTERN_GLOBAL(Fix16, dword_6FD120);
-EXTERN_GLOBAL(ModelPhysics_48*, gCarInfo_48_6FE258);
+EXTERN_GLOBAL(ModelPhysics*, gCarInfo_48_6FE258);
 EXTERN_GLOBAL(Ang16, kAng90_6FE00C);
 EXTERN_GLOBAL(Ang16, kAng270_6FE154);
 EXTERN_GLOBAL(CarInfo_2C*, gCarInfo_2C_6FE0E4);
@@ -48,7 +48,7 @@ enum
 };
 } // namespace car_turn_direction
                                                                 
-class CarPhysics_B0
+class CarPhysics
 {
   public:
     // 9.6f 0x40F800
@@ -130,7 +130,7 @@ class CarPhysics_B0
     EXPORT Fix16 ComputeZPosition_559E90();
 
     EXPORT Fix16_Point get_cp1_40B560();
-    EXPORT ~CarPhysics_B0();
+    EXPORT ~CarPhysics();
     EXPORT void ShowPhysicsDebug_559430();
     EXPORT void ShowSpeedRevsDamage_5597B0();
     EXPORT bool IsNotMoving_5599D0();
@@ -141,7 +141,7 @@ class CarPhysics_B0
     EXPORT void SpinOutOnOil_559BA0();
     EXPORT void ScarePedsOnDrivingFast_559C30();
     EXPORT void ApplyForcedSteering_559DD0();
-    EXPORT void ApplyObjectImpact_559E20(Object_2C* pObj);
+    EXPORT void ApplyObjectImpact_559E20(Object* pObj);
     EXPORT Fix16_Point ComputeCombinedCenterOfMass_559EC0();
     EXPORT Fix16 CalculateMass_559FF0();
     EXPORT Fix16 GetEffectiveMomentOfInertia_55A050();
@@ -205,9 +205,9 @@ class CarPhysics_B0
     EXPORT Fix16 ApplyImpactForcesAndDamage_55FA60(Fix16_Point& PointOfForce, Fix16_Point& Impulse, s32 base_dmg);
     EXPORT void AccumulateImpulse_55FC30(Fix16_Point& a2, s32 base_dmg);
     EXPORT void HandleWorldCollision_55FD00(Fix16_Point& pHitPoint);
-    EXPORT void HandleCarCollision_55FF20(Car_BC* pOtherCar);
-    EXPORT void HandleObjectCollision_5606C0(Object_2C* p2C, char_type damage_area);
-    EXPORT void ProcessPedImpact_560B40(Char_B4* pCharB4, u8 hitType);
+    EXPORT void HandleCarCollision_55FF20(Car* pOtherCar);
+    EXPORT void HandleObjectCollision_5606C0(Object* p2C, char_type damage_area);
+    EXPORT void ProcessPedImpact_560B40(Char* pCharB4, u8 hitType);
     EXPORT void UpdateLinearAndAngularAccel_560EB0();
     EXPORT void ApplyMovementStep_560F20(Fix16 time_scale);
     EXPORT void IntegrateAndClampVelocities_5610B0();
@@ -272,7 +272,7 @@ class CarPhysics_B0
         }
     }
 
-    Fix16 CarPhysics_B0::ComputeTorqueUnknown_49E8E0()
+    Fix16 CarPhysics::ComputeTorqueUnknown_49E8E0()
     {
         if (get_revs_561940())
         {
@@ -284,7 +284,7 @@ class CarPhysics_B0
         }
     }
 
-    bool CarPhysics_B0::IsDrowning_421100()
+    bool CarPhysics::IsDrowning_421100()
     {
         if (field_98_surface_type == 8)
         {
@@ -312,7 +312,7 @@ class CarPhysics_B0
     EXPORT void SetCurrentCarInfoAndModelPhysics_562EF0();
 
     // 9.6f 0x482CC0
-    inline void HandleObjectCollisionAt_482CC0(Object_2C* pObj, Fix16_Point& point, char_type a3)
+    inline void HandleObjectCollisionAt_482CC0(Object* pObj, Fix16_Point& point, char_type a3)
     {
         SetCurrentCarInfoAndModelPhysics_562EF0();
         CollisionIntersectionPoint_6FE1A0 = point;
@@ -338,8 +338,8 @@ class CarPhysics_B0
     {
     }
 
-    EXPORT void SetCar_5638C0(Car_BC* pBC);
-    EXPORT CarPhysics_B0();
+    EXPORT void SetCar_5638C0(Car* pBC);
+    EXPORT CarPhysics();
 
     inline Fix16 GetLinearSpeed_4211A0()
     {
@@ -467,7 +467,7 @@ class CarPhysics_B0
 
     Fix16_Point field_0_vel_read_only;
     u32 field_8_total_damage_q;
-    CarPhysics_B0* mpNext;
+    CarPhysics* mpNext;
     Fix16_Point field_10_last_skid_pos[4];
     Fix16_Point field_30_cm1;
     Fix16_Point field_38_cp1;
@@ -476,7 +476,7 @@ class CarPhysics_B0
     Fix16_Point field_50_linear_accel;
     Ang16 field_58_theta;
     s16 field_5A_unused;
-    Car_BC* field_5C_pCar;
+    Car* field_5C_pCar;
     Fix16 field_60_gas_pedal;
     Fix16 field_64_brake_pressure;
     Fix16 field_68_z_pos;
@@ -513,21 +513,22 @@ class CarPhysics_B0
     char_type field_AE_unused;
     char_type field_AF_unused;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(CarPhysics, 0xB0);
 
 #pragma warning(push)
 #pragma warning(disable : 4101)
-inline void CarPhysics_B0::TurnClockwise_42ABA0()
+inline void CarPhysics::TurnClockwise_42ABA0()
 {
-    // Never read: its optimizer entry is needed by CarAI_78::UpdateStateMachine_44E560 (docs/match_attempts.md)
+    // Never read: its optimizer entry is needed by CarAI::UpdateStateMachine_44E560 (docs/match_attempts.md)
     s32 unused;
     field_AD_turn_direction = car_turn_direction::clockwise_m1;
 }
 #pragma warning(pop)
 
-class CarPhyisicsPool : public PoolBasic<CarPhysics_B0, 306>
+class CarPhyisicsPool : public PoolBasic<CarPhysics, 306>
 {
   public:
-    //Inlined in CarManager_6C constructor 9.6f -> 0x420f8
+    //Inlined in CarManager constructor 9.6f -> 0x420f8
     CarPhyisicsPool()
     {
 

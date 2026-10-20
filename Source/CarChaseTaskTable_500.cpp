@@ -2,12 +2,12 @@
 #include "Globals.hpp"
 #include "Ped.hpp"
 
-DEFINE_GLOBAL(CarChaseTaskTable_500*, gCarChaseTaskTable_678E30, 0x678E30);
+DEFINE_GLOBAL(CarChaseTaskTable*, gCarChaseTaskTable_678E30, 0x678E30);
 
 DEFINE_GLOBAL_INIT(Fix16, kFpZero_678D0C, Fix16(0), 0x678D0C);
 
 MATCH_FUNC(0x4747b0)
-void CarChaseTask_40::ResetEntry_4747B0()
+void CarChaseTask::ResetEntry_4747B0()
 {
     field_0_in_use = 0;
     field_10_ram_target = 0;
@@ -34,7 +34,7 @@ void CarChaseTask_40::ResetEntry_4747B0()
 }
 
 MATCH_FUNC(0x474810)
-CarChaseTask_40* CarChaseTaskTable_500::AllocateEntry_474810()
+CarChaseTask* CarChaseTaskTable::AllocateEntry_474810()
 {
     for (u8 i = 0; i < k_max_entries; i++)
     {
@@ -48,7 +48,7 @@ CarChaseTask_40* CarChaseTaskTable_500::AllocateEntry_474810()
 }
 
 MATCH_FUNC(0x474850)
-bool CarChaseTaskTable_500::AreAllies_474850(Ped* pPed1, Ped* pPed2)
+bool CarChaseTaskTable::AreAllies_474850(Ped* pPed1, Ped* pPed2)
 {
     if (pPed1->get_occupation_403980() < ped_ocupation_enum::police || pPed1->get_occupation_403980() > ped_ocupation_enum::army_army) // ped 1 is not police
     {
@@ -68,7 +68,7 @@ bool CarChaseTaskTable_500::AreAllies_474850(Ped* pPed1, Ped* pPed2)
 }
 
 MATCH_FUNC(0x4748a0)
-Ped* CarChaseTaskTable_500::FindDriverInState_4748A0(s32 chase_state, Ped* pTargetPed)
+Ped* CarChaseTaskTable::FindDriverInState_4748A0(s32 chase_state, Ped* pTargetPed)
 {
     for (u8 i = 0; i < k_max_entries; i++)
     {
@@ -82,7 +82,7 @@ Ped* CarChaseTaskTable_500::FindDriverInState_4748A0(s32 chase_state, Ped* pTarg
 }
 
 MATCH_FUNC(0x474920)
-u8 CarChaseTaskTable_500::CountPursuers_474920(Ped* pTargetPed, Ped* pPed)
+u8 CarChaseTaskTable::CountPursuers_474920(Ped* pTargetPed, Ped* pPed)
 {
     u8 total = 0;
     for (u8 i = 0; i < k_max_entries; i++)
@@ -99,7 +99,7 @@ u8 CarChaseTaskTable_500::CountPursuers_474920(Ped* pTargetPed, Ped* pPed)
 }
 
 MATCH_FUNC(0x474970)
-bool CarChaseTaskTable_500::HasAnyPursuer_474970(Ped* pTargetPed)
+bool CarChaseTaskTable::HasAnyPursuer_474970(Ped* pTargetPed)
 {
     for (u8 i = 0; i < k_max_entries; i++)
     {
@@ -112,7 +112,7 @@ bool CarChaseTaskTable_500::HasAnyPursuer_474970(Ped* pTargetPed)
 }
 
 MATCH_FUNC(0x4749b0)
-bool CarChaseTaskTable_500::HasPursuerInFront_4749B0(Ped* pPed)
+bool CarChaseTaskTable::HasPursuerInFront_4749B0(Ped* pPed)
 {
     for (u8 i = 0; i < k_max_entries; i++)
     {
@@ -133,7 +133,7 @@ bool CarChaseTaskTable_500::HasPursuerInFront_4749B0(Ped* pPed)
 }
 
 MATCH_FUNC(0x474a20)
-bool CarChaseTaskTable_500::HasPursuerAlongsideLeft_474A20(Ped* pPed)
+bool CarChaseTaskTable::HasPursuerAlongsideLeft_474A20(Ped* pPed)
 {
     for (u8 i = 0; i < k_max_entries; i++)
     {
@@ -149,7 +149,7 @@ bool CarChaseTaskTable_500::HasPursuerAlongsideLeft_474A20(Ped* pPed)
 }
 
 MATCH_FUNC(0x474a80)
-bool CarChaseTaskTable_500::HasPursuerOnLeft_474A80(Ped* pPed)
+bool CarChaseTaskTable::HasPursuerOnLeft_474A80(Ped* pPed)
 {
     for (u8 i = 0; i < k_max_entries; i++)
     {
@@ -171,7 +171,7 @@ bool CarChaseTaskTable_500::HasPursuerOnLeft_474A80(Ped* pPed)
 }
 
 MATCH_FUNC(0x474af0)
-bool CarChaseTaskTable_500::HasPursuerAlongsideRight_474AF0(Ped* pPed)
+bool CarChaseTaskTable::HasPursuerAlongsideRight_474AF0(Ped* pPed)
 {
     for (u8 i = 0; i < k_max_entries; i++)
     {
@@ -187,7 +187,7 @@ bool CarChaseTaskTable_500::HasPursuerAlongsideRight_474AF0(Ped* pPed)
 }
 
 MATCH_FUNC(0x474b50)
-bool CarChaseTaskTable_500::HasPursuerOnRight_474B50(Ped* pPed)
+bool CarChaseTaskTable::HasPursuerOnRight_474B50(Ped* pPed)
 {
     for (u8 i = 0; i < k_max_entries; i++)
     {
@@ -210,7 +210,7 @@ bool CarChaseTaskTable_500::HasPursuerOnRight_474B50(Ped* pPed)
 }
 
 MATCH_FUNC(0x474bc0)
-bool CarChaseTaskTable_500::HasPursuerAlongside_474BC0(Ped* pPed)
+bool CarChaseTaskTable::HasPursuerAlongside_474BC0(Ped* pPed)
 {
     for (u8 i = 0; i < k_max_entries; i++)
     {
@@ -229,7 +229,7 @@ bool CarChaseTaskTable_500::HasPursuerAlongside_474BC0(Ped* pPed)
 }
 
 MATCH_FUNC(0x474c30)
-char_type CarChaseTaskTable_500::HasPursuerChoosingSide_474C30(Ped* pPed)
+char_type CarChaseTaskTable::HasPursuerChoosingSide_474C30(Ped* pPed)
 {
     for (u8 i = 0; i < k_max_entries; i++)
     {
@@ -253,18 +253,18 @@ char_type CarChaseTaskTable_500::HasPursuerChoosingSide_474C30(Ped* pPed)
 }
 
 MATCH_FUNC(0x474ca0)
-CarChaseTask_40::CarChaseTask_40()
+CarChaseTask::CarChaseTask()
 {
     ResetEntry_4747B0();
 }
 
 MATCH_FUNC(0x474cb0)
-CarChaseTask_40::~CarChaseTask_40()
+CarChaseTask::~CarChaseTask()
 {
 }
 
 MATCH_FUNC(0x474cc0)
-void CarChaseTaskTable_500::FreeEntry_474CC0(CarChaseTask_40* toFind)
+void CarChaseTaskTable::FreeEntry_474CC0(CarChaseTask* toFind)
 {
     for (u8 i = 0; i < k_max_entries; i++)
     {
@@ -278,11 +278,11 @@ void CarChaseTaskTable_500::FreeEntry_474CC0(CarChaseTask_40* toFind)
 }
 
 MATCH_FUNC(0x474d10)
-CarChaseTaskTable_500::CarChaseTaskTable_500()
+CarChaseTaskTable::CarChaseTaskTable()
 {
 }
 
 MATCH_FUNC(0x474d30)
-CarChaseTaskTable_500::~CarChaseTaskTable_500()
+CarChaseTaskTable::~CarChaseTaskTable()
 {
 }

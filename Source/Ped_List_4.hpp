@@ -4,18 +4,18 @@
 #include "fix16.hpp"
 
 class Ped;
-class Char_8;
-class Car_BC;
+class PedListNode;
+class Car;
 
-class Ped_List_4
+class Ped_List
 {
   public:
-    Ped_List_4()
+    Ped_List()
     {
         ClearList_420E90();
     }
 
-    EXPORT Char_8* AddPedToFront_471140(Ped* pPed);
+    EXPORT PedListNode* AddPedToFront_471140(Ped* pPed);
     EXPORT void AddPedToBackIfMissing_471160(Ped* pPed);
     EXPORT void AddPedToFrontIfMissing_4711B0(Ped* pPed);
     EXPORT void RemovePed_4711F0(Ped* pPed);
@@ -36,7 +36,7 @@ class Ped_List_4
 
     // 9.6f 0x445BB0
     EXPORT u16 GetPedsCount_4716B0();
-    EXPORT void SyncPassengersWithCarState_4716D0(Car_BC* pCar);
+    EXPORT void SyncPassengersWithCarState_4716D0(Car* pCar);
     EXPORT bool HasScriptCreatedPed_471710();
 
     // inline
@@ -51,8 +51,8 @@ class Ped_List_4
         return field_0_pFirstPed == 0;
     }
 
-    Char_8* field_0_pFirstPed;
+    PedListNode* field_0_pFirstPed;
 };
-GTA2_ASSERT_SIZEOF_ALWAYS(Ped_List_4, 0x4)
+GTA2_ASSERT_SIZEOF_ALWAYS(Ped_List, 0x4)
 
-EXTERN_GLOBAL(Ped_List_4, gThreateningPedsList_678468);
+EXTERN_GLOBAL(Ped_List, gThreateningPedsList_678468);

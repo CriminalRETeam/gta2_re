@@ -1,6 +1,6 @@
 #pragma once
 
-// Explosion_30::field_10_type: what kind of explosion/fire effect this is. Created by Object_5C::CreateExplosion_52A3D0
+// Explosion::field_10_type: what kind of explosion/fire effect this is. Created by Object_5C::CreateExplosion_52A3D0
 // (a6), the script explosion commands pass small_18 / item_19 / large_20 / no_ring_32 and the building ones 22-25. Kept in
 // its own header, like car_despawn_status.hpp, so that the enum does not land in a header many TUs share.
 namespace explosion_type
@@ -11,9 +11,9 @@ enum
     unknown_1 = 1,
     unknown_2 = 2,
     fire_3 = 3, // 3, 4, 5, 12, 13, 14 are fires: a moving particle trail from the object's speed/angle (IsFireType_5435D0)
-    car_fire_4 = 4, // Car_BC::SpawnFire_43BBC0, a burning car
-    molotov_fire_5 = 5, // the flames of a thrown molotov (Weapon_30), also left by explosions
-    car_fire_level1_12 = 12, // Car_BC::GetFireExplosionType_43BB90, fire level 1 to 3
+    car_fire_4 = 4, // Car::SpawnFire_43BBC0, a burning car
+    molotov_fire_5 = 5, // the flames of a thrown molotov (Weapon), also left by explosions
+    car_fire_level1_12 = 12, // Car::GetFireExplosionType_43BB90, fire level 1 to 3
     car_fire_level2_13 = 13,
     car_fire_level3_14 = 14,
     unknown_15 = 15,
@@ -38,7 +38,7 @@ enum
 };
 } // namespace explosion_type
 
-// Explosion_30::field_1A_timer: counts down every update, the effect ends at 0
+// Explosion::field_1A_timer: counts down every update, the effect ends at 0
 namespace explosion_timer
 {
 enum
@@ -50,7 +50,7 @@ enum
 };
 } // namespace explosion_timer
 
-// Explosion_30::EmitBuildingDebris_22_23_24_25_542E30 argument: which way the debris flies (the angle is added to a random
+// Explosion::EmitBuildingDebris_22_23_24_25_542E30 argument: which way the debris flies (the angle is added to a random
 // spread). Update_5434A0 maps building_135_24 -> 0, building_315_25 -> 1, building_225_23 -> 2, building_45_22 -> 3.
 namespace building_debris_dir
 {

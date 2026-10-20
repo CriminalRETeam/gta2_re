@@ -4,32 +4,32 @@
 #include "Ped.hpp"
 #include "PedGroup.hpp"
 
-DEFINE_GLOBAL(EmergencyCrewPool_1E0*, gEmergencyCrewPool_706280, 0x706280);
+DEFINE_GLOBAL(EmergencyCrewPool*, gEmergencyCrewPool_706280, 0x706280);
 DEFINE_GLOBAL(Fix16, dword_706148, 0x706148);
 
 MATCH_FUNC(0x4beb00)
-EmergencyCrew_30::EmergencyCrew_30()
+EmergencyCrew::EmergencyCrew()
 {
     Init_5CBC00();
 }
 
 MATCH_FUNC(0x4beb10)
-EmergencyCrew_30::~EmergencyCrew_30()
+EmergencyCrew::~EmergencyCrew()
 {
 }
 
 MATCH_FUNC(0x4beb20)
-EmergencyCrewPool_1E0::~EmergencyCrewPool_1E0()
+EmergencyCrewPool::~EmergencyCrewPool()
 {
 }
 
 MATCH_FUNC(0x5cbb70)
-void EmergencyCrewPool_1E0::init_5CBB70()
+void EmergencyCrewPool::init_5CBB70()
 {
 }
 
 MATCH_FUNC(0x5cbb80)
-EmergencyCrew_30* EmergencyCrewPool_1E0::AllocateSlot_5CBB80()
+EmergencyCrew* EmergencyCrewPool::AllocateSlot_5CBB80()
 {
     for (u8 i = 0; i < GTA2_COUNTOF(field_0_slots); i++)
     {
@@ -42,7 +42,7 @@ EmergencyCrew_30* EmergencyCrewPool_1E0::AllocateSlot_5CBB80()
 }
 
 MATCH_FUNC(0x5cbbd0)
-void EmergencyCrewPool_1E0::ServiceAll_5CBBD0()
+void EmergencyCrewPool::ServiceAll_5CBBD0()
 {
     for (s32 i = 0; i < 10; i++)
     {
@@ -57,7 +57,7 @@ void EmergencyCrewPool_1E0::ServiceAll_5CBBD0()
 }
 
 MATCH_FUNC(0x5cbc00)
-void EmergencyCrew_30::Init_5CBC00()
+void EmergencyCrew::Init_5CBC00()
 {
     field_1A_idle_limit = 150;
     field_1E_is_used = 0;
@@ -72,13 +72,13 @@ void EmergencyCrew_30::Init_5CBC00()
 }
 
 MATCH_FUNC(0x5cbc30)
-void EmergencyCrew_30::ReInit_5CBC30()
+void EmergencyCrew::ReInit_5CBC30()
 {
     Init_5CBC00();
 }
 
 MATCH_FUNC(0x5cbc40)
-void EmergencyCrew_30::RemovePed_5CBC40(Ped* pPed)
+void EmergencyCrew::RemovePed_5CBC40(Ped* pPed)
 {
     field_8_group->RemovePed_4C9970(pPed);
     field_4_ped = field_8_group->field_2C_ped_leader;
@@ -86,7 +86,7 @@ void EmergencyCrew_30::RemovePed_5CBC40(Ped* pPed)
 
 // https://decomp.me/scratch/HmQPr
 MATCH_FUNC(0x5cbc60)
-bool EmergencyCrew_30::IsLeaderAlive_5CBC60()
+bool EmergencyCrew::IsLeaderAlive_5CBC60()
 {
     if (field_4_ped && field_4_ped->isDead_403B60())
     {
@@ -108,7 +108,7 @@ bool EmergencyCrew_30::IsLeaderAlive_5CBC60()
 }
 
 MATCH_FUNC(0x5cbc90)
-bool EmergencyCrew_30::ReplaceLeaderIfNeeded_5CBC90()
+bool EmergencyCrew::ReplaceLeaderIfNeeded_5CBC90()
 {
     PedGroup* pGroup = this->field_8_group;
     if (!pGroup)
@@ -149,7 +149,7 @@ bool EmergencyCrew_30::ReplaceLeaderIfNeeded_5CBC90()
 
 // https://decomp.me/scratch/sUPg8
 MATCH_FUNC(0x5cbd50)
-void EmergencyCrew_30::UpdateStateMachine_5CBD50()
+void EmergencyCrew::UpdateStateMachine_5CBD50()
 {
     char_type bCarGone = 0;
     char_type bNoPedsAlive = 1;
@@ -428,7 +428,7 @@ void EmergencyCrew_30::UpdateStateMachine_5CBD50()
 
 // 9.6f 0x4C5A00
 MATCH_FUNC(0x5cc1c0)
-void EmergencyCrew_30::CleanupExpiredEntities_5CC1C0()
+void EmergencyCrew::CleanupExpiredEntities_5CC1C0()
 {
     bool bClearRouteAndTryClearOthers = 0;
     bool bClearPedAndGroup = 1;
@@ -598,7 +598,7 @@ void EmergencyCrew_30::CleanupExpiredEntities_5CC1C0()
 }
 
 MATCH_FUNC(0x5cc480)
-bool EmergencyCrew_30::Service_5CC480()
+bool EmergencyCrew::Service_5CC480()
 {
     if (field_18_spawn_delay > 0)
     {

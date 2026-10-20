@@ -6,7 +6,7 @@
 #include "gtx_0x106C.hpp"
 #include <windows.h>
 
-class Gang_144;
+class Gang;
 class Sprite;
 class Fix16_Rect;
 
@@ -418,7 +418,7 @@ class Map_0x370
 
     EXPORT gmp_map_zone* GetZone_4DFB30(u16 zone_idx);
 
-    EXPORT Gang_144* GetGangAtCoords_4DFB50(Fix16 x, Fix16 y);
+    EXPORT Gang* GetGangAtCoords_4DFB50(Fix16 x, Fix16 y);
 
     EXPORT void SpawnMapObjects_4DFB90();
     EXPORT void AllocZones_4DFCA0();
@@ -638,7 +638,7 @@ class Map_0x370
         return false;
     }
 
-    // Like IsBlockPavementTypeInlined_433530 but via GetBlockOrNull_452980 (TrafficLight_20::Init_5C1D00)
+    // Like IsBlockPavementTypeInlined_433530 but via GetBlockOrNull_452980 (TrafficLight::Init_5C1D00)
     inline bool IsBlockPavementTypeAt_452980(u8 x, u8 y, u8 z)
     {
         gmp_block_info* pBlock = GetBlockOrNull_452980(x, y, z);

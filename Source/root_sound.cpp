@@ -8,9 +8,9 @@
 DEFINE_GLOBAL(root_sound, gRoot_sound_66B038, 0x66B038);
 
 MATCH_FUNC(0x40EF40)
-SoundObject_10* root_sound::CreateSoundObject_40EF40(void* pObject, s32 objectType)
+SoundObject* root_sound::CreateSoundObject_40EF40(void* pObject, s32 objectType)
 {
-    SoundObject_10* pCurrent = PopFree_410730();
+    SoundObject* pCurrent = PopFree_410730();
     pCurrent->field_C_pAny.pAny = pObject;
     pCurrent->field_4_bStatus = 0;
     pCurrent->field_0_object_type = objectType;
@@ -36,7 +36,7 @@ void root_sound::Service_40EFA0()
 }
 
 MATCH_FUNC(0x40EFB0)
-s32 root_sound::AddSoundObject_40EFB0(SoundObject_10* pSoundObj)
+s32 root_sound::AddSoundObject_40EFB0(SoundObject* pSoundObj)
 {
     return gSound_obj_66F680.AddSoundObject_419FA0(pSoundObj);
 }
@@ -140,7 +140,7 @@ char_type root_sound::Get3DSound_40F180()
 MATCH_FUNC(0x411E30)
 root_sound::root_sound()
 {
-    SoundObject_10* pIter = field_4_pool;
+    SoundObject* pIter = field_4_pool;
     for (s32 i = 0; i < 999; i++)
     {
         pIter->field_C_pAny.pNextFree = pIter + 1;

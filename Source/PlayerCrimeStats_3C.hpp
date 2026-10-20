@@ -20,11 +20,11 @@ enum
 };
 } // namespace crime_stats_type
 
-class PlayerCrimeStats_3C
+class PlayerCrimeStats
 {
   public:
-    EXPORT PlayerCrimeStats_3C(); // 0x484ED0
-    EXPORT ~PlayerCrimeStats_3C(); // 0x484EE0
+    EXPORT PlayerCrimeStats(); // 0x484ED0
+    EXPORT ~PlayerCrimeStats(); // 0x484EE0
     EXPORT void Reset_484EF0();
     EXPORT void Service_484F20();
     EXPORT void ResetCrimeCountFlags_484F30();
@@ -38,3 +38,4 @@ class PlayerCrimeStats_3C
     s32 field_34_car_damage_cost;
     s32 field_38_evasion_rating;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(PlayerCrimeStats, 0x3C);

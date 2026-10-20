@@ -6,7 +6,7 @@
 #include "sprite.hpp"
 #include <memory.h>
 
-DEFINE_GLOBAL(ObjectDefinitions_8CA8*, gObjectDefinitions_6FCF00, 0x6FCF00);
+DEFINE_GLOBAL(ObjectDefinitions*, gObjectDefinitions_6FCF00, 0x6FCF00);
 
 DEFINE_GLOBAL_INIT(Fix16, kFpQuarter_6F8FAC, Fix16(4096, 0), 0x6f8fac);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint1_6F8FD8, Fix16(1638, 0), 0x6F8FD8);
@@ -36,48 +36,48 @@ Fix16 kFpZeroForStaticInit_6FCE08 = 0;
 DEFINE_GLOBAL_INIT(s32, gMapObjectOverrides_length_623EEC, 24, 0x623EEC);
 
 // This array is initialized by FUN_005323b0 (likely a static constructor).
-// Must remain a fixed array — pointer would break ObjectDefinitions_8CA8::ApplyMapObjectOverrides_533360.
-DEFINE_GLOBAL_ARRAY(MapObjectOverride_54, gMapObjectOverrides_6FC5F8, 24, 0x6FC5F8);
+// Must remain a fixed array — pointer would break ObjectDefinitions::ApplyMapObjectOverrides_533360.
+DEFINE_GLOBAL_ARRAY(MapObjectOverride, gMapObjectOverrides_6FC5F8, 24, 0x6FC5F8);
 
 /*
-DEFINE_GLOBAL_ARRAY_INIT(MapObjectOverride_54,
+DEFINE_GLOBAL_ARRAY_INIT(MapObjectOverride,
 gMapObjectOverrides_6FC5F8,
 24,
 0x6FC5F8,
-MapObjectOverride_54(22 ,0 ,45 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpOne_6FCE0C ,10 ,0 ,0 ,0 ,1 ,1),
-MapObjectOverride_54(7 ,0 ,157 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,0 ,1 ,kFpThree_6FCE14 ,10 ,0 ,0 ,0 ,1 ,1),
-MapObjectOverride_54(1 ,0 ,158 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,0 ,1 ,kFpPoint2_6F8FE0 ,11 ,0 ,0 ,0 ,1 ,1),
-MapObjectOverride_54(5 ,0 ,156 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,1 ,0 ,1 ,1),
-MapObjectOverride_54(2 ,0 ,0 ,0 ,0 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,-kFpPoint01_6FCDD8 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,10 ,0 ,0 ,0 ,1 ,1),
-MapObjectOverride_54(4 ,0 ,52 ,0 ,1 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,0 ,0 ,1 ,1),
-MapObjectOverride_54(11 ,0 ,123 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1),
-MapObjectOverride_54(3 ,0 ,155 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1),
-MapObjectOverride_54(12 ,0 ,50 ,0 ,1 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,0 ,0 ,1 ,1),
-MapObjectOverride_54(13 ,0 ,56 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1),
-MapObjectOverride_54(14 ,0 ,57 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1),
-MapObjectOverride_54(18 ,0 ,49 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1),
-MapObjectOverride_54(19 ,0 ,0 ,0 ,0 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,-kFpPoint01_6FCDD8 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,10 ,0 ,0 ,0 ,1 ,1),
-MapObjectOverride_54(20 ,0 ,0 ,0 ,0 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,-kFpPoint01_6FCDD8 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,10 ,0 ,0 ,0 ,1 ,1),
-MapObjectOverride_54(10 ,0 ,0 ,0 ,7 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,-kFpPoint01_6FCDD8 ,-1 ,1 ,1 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,0 ,0 ,3 ,0),
-MapObjectOverride_54(15 ,0 ,59 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1),
-MapObjectOverride_54(8 ,2 ,9 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,1 ,1 ,1 ,1 ,0 ,kFpZeroForStaticInit_6FCE08 ,3 ,0 ,0 ,0 ,1 ,1),
-MapObjectOverride_54(9 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,3 ,0 ,0 ,0 ,3 ,0),
-MapObjectOverride_54(16 ,0 ,61 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1),
-MapObjectOverride_54(23 ,0 ,43 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1),
-MapObjectOverride_54(21 ,0 ,47 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpFive_6FCE1C ,10 ,0 ,0 ,0 ,1 ,1),
-MapObjectOverride_54(6 ,0 ,151 ,0 ,1 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,0 ,0 ,1 ,1),
-MapObjectOverride_54(25 ,0 ,0 ,0 ,0 ,12 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,10 ,0 ,0 ,0 ,1 ,1),
-MapObjectOverride_54(17 ,0 ,63 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1));
+MapObjectOverride(22 ,0 ,45 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpOne_6FCE0C ,10 ,0 ,0 ,0 ,1 ,1),
+MapObjectOverride(7 ,0 ,157 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,0 ,1 ,kFpThree_6FCE14 ,10 ,0 ,0 ,0 ,1 ,1),
+MapObjectOverride(1 ,0 ,158 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,0 ,1 ,kFpPoint2_6F8FE0 ,11 ,0 ,0 ,0 ,1 ,1),
+MapObjectOverride(5 ,0 ,156 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,1 ,0 ,1 ,1),
+MapObjectOverride(2 ,0 ,0 ,0 ,0 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,-kFpPoint01_6FCDD8 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,10 ,0 ,0 ,0 ,1 ,1),
+MapObjectOverride(4 ,0 ,52 ,0 ,1 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,0 ,0 ,1 ,1),
+MapObjectOverride(11 ,0 ,123 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1),
+MapObjectOverride(3 ,0 ,155 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1),
+MapObjectOverride(12 ,0 ,50 ,0 ,1 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,0 ,0 ,1 ,1),
+MapObjectOverride(13 ,0 ,56 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1),
+MapObjectOverride(14 ,0 ,57 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1),
+MapObjectOverride(18 ,0 ,49 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1),
+MapObjectOverride(19 ,0 ,0 ,0 ,0 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,-kFpPoint01_6FCDD8 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,10 ,0 ,0 ,0 ,1 ,1),
+MapObjectOverride(20 ,0 ,0 ,0 ,0 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,-kFpPoint01_6FCDD8 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,10 ,0 ,0 ,0 ,1 ,1),
+MapObjectOverride(10 ,0 ,0 ,0 ,7 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,-kFpPoint01_6FCDD8 ,-1 ,1 ,1 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,0 ,0 ,3 ,0),
+MapObjectOverride(15 ,0 ,59 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1),
+MapObjectOverride(8 ,2 ,9 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,1 ,1 ,1 ,1 ,0 ,kFpZeroForStaticInit_6FCE08 ,3 ,0 ,0 ,0 ,1 ,1),
+MapObjectOverride(9 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,3 ,0 ,0 ,0 ,3 ,0),
+MapObjectOverride(16 ,0 ,61 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1),
+MapObjectOverride(23 ,0 ,43 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1),
+MapObjectOverride(21 ,0 ,47 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpFive_6FCE1C ,10 ,0 ,0 ,0 ,1 ,1),
+MapObjectOverride(6 ,0 ,151 ,0 ,1 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,0 ,0 ,1 ,1),
+MapObjectOverride(25 ,0 ,0 ,0 ,0 ,12 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,10 ,0 ,0 ,0 ,1 ,1),
+MapObjectOverride(17 ,0 ,63 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1));
 */
 
 DEFINE_GLOBAL_INIT(s32, gCodeObjectTemplates_length_623EF0, 126, 0x623EF0);
 
 // This array is initialized by FUN_0052cde0 (likely a static constructor).
-// Must remain a fixed array — pointer would break ObjectDefinitions_8CA8::CreateCodeObjectDefinitions_533B30.
-DEFINE_GLOBAL_ARRAY(CodeObjectTemplate_6C, gCodeObjectTemplates_6F9038, 126, 0x6F9038);
+// Must remain a fixed array — pointer would break ObjectDefinitions::CreateCodeObjectDefinitions_533B30.
+DEFINE_GLOBAL_ARRAY(CodeObjectTemplate, gCodeObjectTemplates_6F9038, 126, 0x6F9038);
 
-/* TODO: fix pass constants by ref, solve Fix16 operations and CodeObjectTemplate_6C id 225 variables
-DEFINE_GLOBAL_ARRAY_INIT(CodeObjectTemplate_6C,
+/* TODO: fix pass constants by ref, solve Fix16 operations and CodeObjectTemplate id 225 variables
+DEFINE_GLOBAL_ARRAY_INIT(CodeObjectTemplate,
 gCodeObjectTemplates_6F9038,
 126,
 0x6F9038,
@@ -210,7 +210,7 @@ gCodeObjectTemplates_6F9038,
 */
 
 // Temporary workaround: create overload without pulling params by ref
-MapObjectOverride_54::MapObjectOverride_54(s32 param_1,
+MapObjectOverride::MapObjectOverride(s32 param_1,
                s32 param_2,
                s32 param_3,
                s8 param_4,
@@ -256,7 +256,7 @@ MapObjectOverride_54::MapObjectOverride_54(s32 param_1,
 }
 
 // Temporary workaround: create overload without pulling params by ref
-CodeObjectTemplate_6C::CodeObjectTemplate_6C(u32 param_1,
+CodeObjectTemplate::CodeObjectTemplate(u32 param_1,
                u8 param_2,
                u32 param_3,
                u32 param_4,
@@ -319,176 +319,176 @@ CodeObjectTemplate_6C::CodeObjectTemplate_6C(u32 param_1,
 
 void InitMapObjectOverrides()
 {
-    gMapObjectOverrides_6FC5F8[0] = MapObjectOverride_54(22 ,0 ,45 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpOne_6FCE0C ,10 ,0 ,0 ,0 ,1 ,1);
-    gMapObjectOverrides_6FC5F8[1] = MapObjectOverride_54(7 ,0 ,157 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,0 ,1 ,kFpThree_6FCE14 ,10 ,0 ,0 ,0 ,1 ,1);
-    gMapObjectOverrides_6FC5F8[2] = MapObjectOverride_54(1 ,0 ,158 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,0 ,1 ,kFpPoint2_6F8FE0 ,11 ,0 ,0 ,0 ,1 ,1);
-    gMapObjectOverrides_6FC5F8[3] = MapObjectOverride_54(5 ,0 ,156 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,1 ,0 ,1 ,1);
-    gMapObjectOverrides_6FC5F8[4] = MapObjectOverride_54(2 ,0 ,0 ,0 ,0 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,-kFpPoint01_6FCDD8 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,10 ,0 ,0 ,0 ,1 ,1);
-    gMapObjectOverrides_6FC5F8[5] = MapObjectOverride_54(4 ,0 ,52 ,0 ,1 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,0 ,0 ,1 ,1);
-    gMapObjectOverrides_6FC5F8[6] = MapObjectOverride_54(11 ,0 ,123 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1);
-    gMapObjectOverrides_6FC5F8[7] = MapObjectOverride_54(3 ,0 ,155 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1);
-    gMapObjectOverrides_6FC5F8[8] = MapObjectOverride_54(12 ,0 ,50 ,0 ,1 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,0 ,0 ,1 ,1);
-    gMapObjectOverrides_6FC5F8[9] = MapObjectOverride_54(13 ,0 ,56 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1);
-    gMapObjectOverrides_6FC5F8[10] = MapObjectOverride_54(14 ,0 ,57 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1);
-    gMapObjectOverrides_6FC5F8[11] = MapObjectOverride_54(18 ,0 ,49 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1);
-    gMapObjectOverrides_6FC5F8[12] = MapObjectOverride_54(19 ,0 ,0 ,0 ,0 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,-kFpPoint01_6FCDD8 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,10 ,0 ,0 ,0 ,1 ,1);
-    gMapObjectOverrides_6FC5F8[13] = MapObjectOverride_54(20 ,0 ,0 ,0 ,0 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,-kFpPoint01_6FCDD8 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,10 ,0 ,0 ,0 ,1 ,1);
-    gMapObjectOverrides_6FC5F8[14] = MapObjectOverride_54(10 ,0 ,0 ,0 ,7 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,-kFpPoint01_6FCDD8 ,-1 ,1 ,1 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,0 ,0 ,3 ,0);
-    gMapObjectOverrides_6FC5F8[15] = MapObjectOverride_54(15 ,0 ,59 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1);
-    gMapObjectOverrides_6FC5F8[16] = MapObjectOverride_54(8 ,2 ,9 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,1 ,1 ,1 ,1 ,0 ,kFpZeroForStaticInit_6FCE08 ,3 ,0 ,0 ,0 ,1 ,1);
-    gMapObjectOverrides_6FC5F8[17] = MapObjectOverride_54(9 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,3 ,0 ,0 ,0 ,3 ,0);
-    gMapObjectOverrides_6FC5F8[18] = MapObjectOverride_54(16 ,0 ,61 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1);
-    gMapObjectOverrides_6FC5F8[19] = MapObjectOverride_54(23 ,0 ,43 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1);
-    gMapObjectOverrides_6FC5F8[20] = MapObjectOverride_54(21 ,0 ,47 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpFive_6FCE1C ,10 ,0 ,0 ,0 ,1 ,1);
-    gMapObjectOverrides_6FC5F8[21] = MapObjectOverride_54(6 ,0 ,151 ,0 ,1 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,0 ,0 ,1 ,1);
-    gMapObjectOverrides_6FC5F8[22] = MapObjectOverride_54(25 ,0 ,0 ,0 ,0 ,12 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,10 ,0 ,0 ,0 ,1 ,1);
-    gMapObjectOverrides_6FC5F8[23] = MapObjectOverride_54(17 ,0 ,63 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1);
-    printf("MapObjectOverride_54 array loaded!\n");
+    gMapObjectOverrides_6FC5F8[0] = MapObjectOverride(22 ,0 ,45 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpOne_6FCE0C ,10 ,0 ,0 ,0 ,1 ,1);
+    gMapObjectOverrides_6FC5F8[1] = MapObjectOverride(7 ,0 ,157 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,0 ,1 ,kFpThree_6FCE14 ,10 ,0 ,0 ,0 ,1 ,1);
+    gMapObjectOverrides_6FC5F8[2] = MapObjectOverride(1 ,0 ,158 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,0 ,1 ,kFpPoint2_6F8FE0 ,11 ,0 ,0 ,0 ,1 ,1);
+    gMapObjectOverrides_6FC5F8[3] = MapObjectOverride(5 ,0 ,156 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,1 ,0 ,1 ,1);
+    gMapObjectOverrides_6FC5F8[4] = MapObjectOverride(2 ,0 ,0 ,0 ,0 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,-kFpPoint01_6FCDD8 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,10 ,0 ,0 ,0 ,1 ,1);
+    gMapObjectOverrides_6FC5F8[5] = MapObjectOverride(4 ,0 ,52 ,0 ,1 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,0 ,0 ,1 ,1);
+    gMapObjectOverrides_6FC5F8[6] = MapObjectOverride(11 ,0 ,123 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1);
+    gMapObjectOverrides_6FC5F8[7] = MapObjectOverride(3 ,0 ,155 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1);
+    gMapObjectOverrides_6FC5F8[8] = MapObjectOverride(12 ,0 ,50 ,0 ,1 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,0 ,0 ,1 ,1);
+    gMapObjectOverrides_6FC5F8[9] = MapObjectOverride(13 ,0 ,56 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1);
+    gMapObjectOverrides_6FC5F8[10] = MapObjectOverride(14 ,0 ,57 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1);
+    gMapObjectOverrides_6FC5F8[11] = MapObjectOverride(18 ,0 ,49 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1);
+    gMapObjectOverrides_6FC5F8[12] = MapObjectOverride(19 ,0 ,0 ,0 ,0 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,-kFpPoint01_6FCDD8 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,10 ,0 ,0 ,0 ,1 ,1);
+    gMapObjectOverrides_6FC5F8[13] = MapObjectOverride(20 ,0 ,0 ,0 ,0 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,-kFpPoint01_6FCDD8 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,10 ,0 ,0 ,0 ,1 ,1);
+    gMapObjectOverrides_6FC5F8[14] = MapObjectOverride(10 ,0 ,0 ,0 ,7 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,-kFpPoint01_6FCDD8 ,-1 ,1 ,1 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,0 ,0 ,3 ,0);
+    gMapObjectOverrides_6FC5F8[15] = MapObjectOverride(15 ,0 ,59 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1);
+    gMapObjectOverrides_6FC5F8[16] = MapObjectOverride(8 ,2 ,9 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,1 ,1 ,1 ,1 ,0 ,kFpZeroForStaticInit_6FCE08 ,3 ,0 ,0 ,0 ,1 ,1);
+    gMapObjectOverrides_6FC5F8[17] = MapObjectOverride(9 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,3 ,0 ,0 ,0 ,3 ,0);
+    gMapObjectOverrides_6FC5F8[18] = MapObjectOverride(16 ,0 ,61 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1);
+    gMapObjectOverrides_6FC5F8[19] = MapObjectOverride(23 ,0 ,43 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1);
+    gMapObjectOverrides_6FC5F8[20] = MapObjectOverride(21 ,0 ,47 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpFive_6FCE1C ,10 ,0 ,0 ,0 ,1 ,1);
+    gMapObjectOverrides_6FC5F8[21] = MapObjectOverride(6 ,0 ,151 ,0 ,1 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,0 ,0 ,1 ,1);
+    gMapObjectOverrides_6FC5F8[22] = MapObjectOverride(25 ,0 ,0 ,0 ,0 ,12 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,10 ,0 ,0 ,0 ,1 ,1);
+    gMapObjectOverrides_6FC5F8[23] = MapObjectOverride(17 ,0 ,63 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1);
+    printf("MapObjectOverride array loaded!\n");
 }
 
 void InitCodeObjectTemplates()
 {
-    gCodeObjectTemplates_6F9038[0] = CodeObjectTemplate_6C(149 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[1] = CodeObjectTemplate_6C(109 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[2] = CodeObjectTemplate_6C(257 ,1 ,0 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[3] = CodeObjectTemplate_6C(111 ,5 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,1 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,1 ,2 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[4] = CodeObjectTemplate_6C(247 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,5 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[5] = CodeObjectTemplate_6C(266 ,1 ,1 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[6] = CodeObjectTemplate_6C(175 ,5 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,5 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[7] = CodeObjectTemplate_6C(254 ,3 ,3 ,0 ,0 ,1 ,7 ,0 ,1 ,kFpPoint2_6F8FE0 ,kFpZeroForStaticInit_6FCE08 ,25 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,4 ,1 ,1 ,1 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[8] = CodeObjectTemplate_6C(129 ,0 ,0 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpPoint6_6F8FF0 ,kFpPoint6_6F8FF0 ,kFpQuarter_6F8FDC ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[9] = CodeObjectTemplate_6C(132 ,0 ,2 ,42 ,42 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,120 ,1 ,1 ,1 ,1 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[10] = CodeObjectTemplate_6C(122 ,0 ,0 ,0 ,0 ,0 ,9 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne_6FCE0C , kFpOne64th_6FCEB0 * 2 ,kFpQuarter_6F8FDC ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[11] = CodeObjectTemplate_6C(130 ,0 ,10 ,131 ,131 ,0 ,6 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,7 ,0 ,0 ,1 ,0 ,0 ,0 ,0);
-    gCodeObjectTemplates_6F9038[12] = CodeObjectTemplate_6C(131 ,0 ,10 ,130 ,130 ,1 ,3 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,7 ,0 ,0 ,1 ,0 ,0 ,0 ,0);
-    gCodeObjectTemplates_6F9038[13] = CodeObjectTemplate_6C(139 ,0 ,1 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,0 ,1 ,0 ,1 ,0 ,0);
-    gCodeObjectTemplates_6F9038[14] = CodeObjectTemplate_6C(200 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[15] = CodeObjectTemplate_6C(201 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[16] = CodeObjectTemplate_6C(202 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[17] = CodeObjectTemplate_6C(203 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[18] = CodeObjectTemplate_6C(204 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[19] = CodeObjectTemplate_6C(205 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[20] = CodeObjectTemplate_6C(206 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[21] = CodeObjectTemplate_6C(207 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[22] = CodeObjectTemplate_6C(208 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[23] = CodeObjectTemplate_6C(209 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[24] = CodeObjectTemplate_6C(210 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[25] = CodeObjectTemplate_6C(211 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[26] = CodeObjectTemplate_6C(212 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[27] = CodeObjectTemplate_6C(213 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[28] = CodeObjectTemplate_6C(214 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[29] = CodeObjectTemplate_6C(215 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[30] = CodeObjectTemplate_6C(216 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[31] = CodeObjectTemplate_6C(217 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[32] = CodeObjectTemplate_6C(218 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[33] = CodeObjectTemplate_6C(219 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[34] = CodeObjectTemplate_6C(220 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[35] = CodeObjectTemplate_6C(221 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[36] = CodeObjectTemplate_6C(222 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[37] = CodeObjectTemplate_6C(223 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[38] = CodeObjectTemplate_6C(224 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[39] = CodeObjectTemplate_6C(225 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[40] = CodeObjectTemplate_6C(226 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[41] = CodeObjectTemplate_6C(227 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[42] = CodeObjectTemplate_6C(228 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[43] = CodeObjectTemplate_6C(229 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[44] = CodeObjectTemplate_6C(230 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[45] = CodeObjectTemplate_6C(231 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[46] = CodeObjectTemplate_6C(232 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[47] = CodeObjectTemplate_6C(233 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[48] = CodeObjectTemplate_6C(234 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[49] = CodeObjectTemplate_6C(235 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[50] = CodeObjectTemplate_6C(236 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[51] = CodeObjectTemplate_6C(237 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[52] = CodeObjectTemplate_6C(238 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[53] = CodeObjectTemplate_6C(239 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[54] = CodeObjectTemplate_6C(240 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[55] = CodeObjectTemplate_6C(241 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[56] = CodeObjectTemplate_6C(242 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[57] = CodeObjectTemplate_6C(243 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[58] = CodeObjectTemplate_6C(244 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[59] = CodeObjectTemplate_6C(134 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,30 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[60] = CodeObjectTemplate_6C(252 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,32 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[61] = CodeObjectTemplate_6C(260 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,32 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[62] = CodeObjectTemplate_6C(261 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,32 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[63] = CodeObjectTemplate_6C(262 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,32 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[64] = CodeObjectTemplate_6C(135 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,10 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[65] = CodeObjectTemplate_6C(136 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,29 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[66] = CodeObjectTemplate_6C(140 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,30 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[67] = CodeObjectTemplate_6C(263 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,31 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[68] = CodeObjectTemplate_6C(137 ,0 ,1 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpEight_6FCE28 ,kFpEight_6FCE28 ,kFpTwo_6FCE10 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0);
-    gCodeObjectTemplates_6F9038[69] = CodeObjectTemplate_6C(258 ,0 ,0 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpPoint6_6F8FF0 ,kFpPoint6_6F8FF0 ,kFpQuarter_6F8FDC ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0);
-    gCodeObjectTemplates_6F9038[70] = CodeObjectTemplate_6C(142 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,15 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[71] = CodeObjectTemplate_6C(150 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,17 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[72] = CodeObjectTemplate_6C(143 ,0 ,1 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0);
-    gCodeObjectTemplates_6F9038[73] = CodeObjectTemplate_6C(141 ,0 ,1 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0);
-    gCodeObjectTemplates_6F9038[74] = CodeObjectTemplate_6C(167 ,0 ,1 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0);
-    gCodeObjectTemplates_6F9038[75] = CodeObjectTemplate_6C(168 ,0 ,1 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne64th_6FCEB0 ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0);
-    gCodeObjectTemplates_6F9038[76] = CodeObjectTemplate_6C(169 ,0 ,1 ,0 ,0 ,0 ,0 ,12 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[77] = CodeObjectTemplate_6C(197 ,8 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,1 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,29 ,133 ,1 ,1 ,0 ,1 ,0 ,1);
-    gCodeObjectTemplates_6F9038[78] = CodeObjectTemplate_6C(114 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[79] = CodeObjectTemplate_6C(194 ,0 ,3 ,194 ,194 ,0 ,8 ,0 ,2 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,1 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,0 ,0 ,1 ,1 ,1 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[80] = CodeObjectTemplate_6C(284 ,2 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,9 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,11 ,4 ,1 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[81] = CodeObjectTemplate_6C(183 ,4 ,4 ,182 ,40 ,1 ,0 ,0 ,4 ,kFpPoint1_6F8FD8 ,-kFpPoint01_6FCDD8 ,12 ,3 ,3 ,4 ,2 ,1 ,kFpPoint1_6F8FD8 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,10 ,0 ,1 ,1 ,1 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[82] = CodeObjectTemplate_6C(195 ,0 ,3 ,0 ,0 ,1 ,7 ,0 ,2 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,1 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,0 ,0 ,1 ,1 ,1 ,0 ,0 ,0);
-    gCodeObjectTemplates_6F9038[83] = CodeObjectTemplate_6C(199 ,0 ,3 ,0 ,0 ,1 ,7 ,0 ,2 ,kFpThree_6FCE14 ,kFpZeroForStaticInit_6FCE08 ,1 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,0 ,0 ,1 ,1 ,1 ,0 ,0 ,0);
-    gCodeObjectTemplates_6F9038[84] = CodeObjectTemplate_6C(285 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,5 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[85] = CodeObjectTemplate_6C(283 ,0 ,0 ,285 ,0 ,0 ,11 ,13 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpHalf_6F8FEC ,kFpHalf_6F8FEC ,kFpHalf_6F8FEC ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[86] = CodeObjectTemplate_6C(166 ,0 ,1 ,0 ,0 ,0 ,0 ,12 ,2 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne64th_6FCEB0 ,kFpSqrt2_6FC5A4 ,kFpTwo_6FCE10 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[87] = CodeObjectTemplate_6C(280 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,5 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[88] = CodeObjectTemplate_6C(248 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[89] = CodeObjectTemplate_6C(286 ,8 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,5 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[90] = CodeObjectTemplate_6C(165 ,0 ,11 ,0 ,0 ,0 ,0 ,0 ,5 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[91] = CodeObjectTemplate_6C(171 ,0 ,11 ,0 ,0 ,0 ,0 ,0 ,5 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[92] = CodeObjectTemplate_6C(172 ,0 ,11 ,0 ,0 ,0 ,0 ,0 ,5 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[93] = CodeObjectTemplate_6C(173 ,0 ,11 ,0 ,0 ,0 ,0 ,0 ,5 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[94] = CodeObjectTemplate_6C(287 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[95] = CodeObjectTemplate_6C(288 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[96] = CodeObjectTemplate_6C(289 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[97] = CodeObjectTemplate_6C(290 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[98] = CodeObjectTemplate_6C(291 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[99] = CodeObjectTemplate_6C(292 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[100] = CodeObjectTemplate_6C(293 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[101] = CodeObjectTemplate_6C(161 ,0 ,1 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0);
-    gCodeObjectTemplates_6F9038[102] = CodeObjectTemplate_6C(138 ,4 ,4 ,39 ,39 ,1 ,7 ,0 ,1 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,4 ,4 ,4 ,3 ,1 ,kFpPoint1_6F8FD8 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,10 ,0 ,1 ,1 ,1 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[103] = CodeObjectTemplate_6C(112 ,205 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[104] = CodeObjectTemplate_6C(163 ,1 ,0 ,164 ,164 ,0 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,1 ,0 ,0 ,1 ,0 ,1 ,0 ,1);
-    gCodeObjectTemplates_6F9038[105] = CodeObjectTemplate_6C(164 ,2 ,2 ,185 ,185 ,1 ,6 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,10 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,1 ,0 ,0 ,1 ,0 ,1 ,0 ,1);
-    gCodeObjectTemplates_6F9038[106] = CodeObjectTemplate_6C(281 ,1 ,0 ,282 ,0 ,1 ,11 ,13 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 , kFpOne64th_6FCEB0 * Fix16(48) , kFpOne64th_6FCEB0 * Fix16(52) ,kFpZeroForStaticInit_6FCE08 ,10 ,0 ,0 ,1 ,0 ,1 ,0 ,1);
-    gCodeObjectTemplates_6F9038[107] = CodeObjectTemplate_6C(282 ,1 ,0 ,0 ,0 ,0 ,0 ,12 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 , kFpOne64th_6FCEB0 * Fix16(48) ,kFpOne64th_6FCEB0 * Fix16(52) ,kFpZeroForStaticInit_6FCE08 ,10 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[108] = CodeObjectTemplate_6C(256 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[109] = CodeObjectTemplate_6C(253 ,4 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,45 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,0 ,2 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[110] = CodeObjectTemplate_6C(144 ,4 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,45 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,0 ,2 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[111] = CodeObjectTemplate_6C(121 ,4 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,45 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,0 ,2 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[112] = CodeObjectTemplate_6C(118 ,4 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,45 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,0 ,2 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[113] = CodeObjectTemplate_6C(295 ,8 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,5 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[114] = CodeObjectTemplate_6C(128 ,1 ,3 ,0 ,0 ,1 ,7 ,0 ,1 ,kFpPoint4_6F8FE8 ,kFpZeroForStaticInit_6FCE08 ,50 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,4 ,1 ,1 ,1 ,1 ,0 ,1);
-    gCodeObjectTemplates_6F9038[115] = CodeObjectTemplate_6C(192 ,0 ,3 ,259 ,259 ,1 ,8 ,0 ,2 ,kFpPoint4_6F8FE8 ,kFpZeroForStaticInit_6FCE08 ,8 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,0 ,0 ,1 ,1 ,1 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[116] = CodeObjectTemplate_6C(259 ,5 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,1 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,1 ,2 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[117] = CodeObjectTemplate_6C(148 ,2 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[118] = CodeObjectTemplate_6C(170 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,29 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[119] = CodeObjectTemplate_6C(255 ,3 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,32 ,4 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[120] = CodeObjectTemplate_6C(294 ,0 ,0 ,0 ,0 ,0 ,0 ,12 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[121] = CodeObjectTemplate_6C(113 ,0 ,5 ,0 ,0 ,1 ,0 ,0 ,2 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,0 ,1 ,0 ,1 ,0 ,1);
-    gCodeObjectTemplates_6F9038[122] = CodeObjectTemplate_6C(278 ,0 ,12 ,0 ,0 ,0 ,0 ,0 ,5 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,1 ,0 ,1 ,0 ,1);
-    gCodeObjectTemplates_6F9038[123] = CodeObjectTemplate_6C(279 ,0 ,12 ,0 ,0 ,1 ,0 ,0 ,5 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,1 ,0 ,1 ,0 ,1);
-    gCodeObjectTemplates_6F9038[124] = CodeObjectTemplate_6C(198 ,0 ,3 ,198 ,198 ,0 ,8 ,0 ,2 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,1 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,0 ,0 ,1 ,1 ,1 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[125] = CodeObjectTemplate_6C(251 ,0 ,3 ,0 ,0 ,1 ,0 ,0 ,5 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,1 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,0 ,0 ,1 ,1 ,1 ,0 ,0 ,1);
-    printf("CodeObjectTemplate_6C array loaded!\n");
+    gCodeObjectTemplates_6F9038[0] = CodeObjectTemplate(149 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[1] = CodeObjectTemplate(109 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[2] = CodeObjectTemplate(257 ,1 ,0 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[3] = CodeObjectTemplate(111 ,5 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,1 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,1 ,2 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[4] = CodeObjectTemplate(247 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,5 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[5] = CodeObjectTemplate(266 ,1 ,1 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[6] = CodeObjectTemplate(175 ,5 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,5 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[7] = CodeObjectTemplate(254 ,3 ,3 ,0 ,0 ,1 ,7 ,0 ,1 ,kFpPoint2_6F8FE0 ,kFpZeroForStaticInit_6FCE08 ,25 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,4 ,1 ,1 ,1 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[8] = CodeObjectTemplate(129 ,0 ,0 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpPoint6_6F8FF0 ,kFpPoint6_6F8FF0 ,kFpQuarter_6F8FDC ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[9] = CodeObjectTemplate(132 ,0 ,2 ,42 ,42 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,120 ,1 ,1 ,1 ,1 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[10] = CodeObjectTemplate(122 ,0 ,0 ,0 ,0 ,0 ,9 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne_6FCE0C , kFpOne64th_6FCEB0 * 2 ,kFpQuarter_6F8FDC ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[11] = CodeObjectTemplate(130 ,0 ,10 ,131 ,131 ,0 ,6 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,7 ,0 ,0 ,1 ,0 ,0 ,0 ,0);
+    gCodeObjectTemplates_6F9038[12] = CodeObjectTemplate(131 ,0 ,10 ,130 ,130 ,1 ,3 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,7 ,0 ,0 ,1 ,0 ,0 ,0 ,0);
+    gCodeObjectTemplates_6F9038[13] = CodeObjectTemplate(139 ,0 ,1 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,0 ,1 ,0 ,1 ,0 ,0);
+    gCodeObjectTemplates_6F9038[14] = CodeObjectTemplate(200 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[15] = CodeObjectTemplate(201 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[16] = CodeObjectTemplate(202 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[17] = CodeObjectTemplate(203 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[18] = CodeObjectTemplate(204 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[19] = CodeObjectTemplate(205 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[20] = CodeObjectTemplate(206 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[21] = CodeObjectTemplate(207 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[22] = CodeObjectTemplate(208 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[23] = CodeObjectTemplate(209 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[24] = CodeObjectTemplate(210 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[25] = CodeObjectTemplate(211 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[26] = CodeObjectTemplate(212 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[27] = CodeObjectTemplate(213 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[28] = CodeObjectTemplate(214 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[29] = CodeObjectTemplate(215 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[30] = CodeObjectTemplate(216 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[31] = CodeObjectTemplate(217 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[32] = CodeObjectTemplate(218 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[33] = CodeObjectTemplate(219 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[34] = CodeObjectTemplate(220 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[35] = CodeObjectTemplate(221 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[36] = CodeObjectTemplate(222 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[37] = CodeObjectTemplate(223 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[38] = CodeObjectTemplate(224 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[39] = CodeObjectTemplate(225 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[40] = CodeObjectTemplate(226 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[41] = CodeObjectTemplate(227 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[42] = CodeObjectTemplate(228 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[43] = CodeObjectTemplate(229 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[44] = CodeObjectTemplate(230 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[45] = CodeObjectTemplate(231 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[46] = CodeObjectTemplate(232 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[47] = CodeObjectTemplate(233 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[48] = CodeObjectTemplate(234 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[49] = CodeObjectTemplate(235 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[50] = CodeObjectTemplate(236 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[51] = CodeObjectTemplate(237 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[52] = CodeObjectTemplate(238 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[53] = CodeObjectTemplate(239 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[54] = CodeObjectTemplate(240 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[55] = CodeObjectTemplate(241 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[56] = CodeObjectTemplate(242 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[57] = CodeObjectTemplate(243 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[58] = CodeObjectTemplate(244 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[59] = CodeObjectTemplate(134 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,30 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[60] = CodeObjectTemplate(252 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,32 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[61] = CodeObjectTemplate(260 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,32 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[62] = CodeObjectTemplate(261 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,32 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[63] = CodeObjectTemplate(262 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,32 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[64] = CodeObjectTemplate(135 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,10 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[65] = CodeObjectTemplate(136 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,29 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[66] = CodeObjectTemplate(140 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,30 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[67] = CodeObjectTemplate(263 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,31 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[68] = CodeObjectTemplate(137 ,0 ,1 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpEight_6FCE28 ,kFpEight_6FCE28 ,kFpTwo_6FCE10 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0);
+    gCodeObjectTemplates_6F9038[69] = CodeObjectTemplate(258 ,0 ,0 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpPoint6_6F8FF0 ,kFpPoint6_6F8FF0 ,kFpQuarter_6F8FDC ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0);
+    gCodeObjectTemplates_6F9038[70] = CodeObjectTemplate(142 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,15 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[71] = CodeObjectTemplate(150 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,17 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[72] = CodeObjectTemplate(143 ,0 ,1 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0);
+    gCodeObjectTemplates_6F9038[73] = CodeObjectTemplate(141 ,0 ,1 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0);
+    gCodeObjectTemplates_6F9038[74] = CodeObjectTemplate(167 ,0 ,1 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0);
+    gCodeObjectTemplates_6F9038[75] = CodeObjectTemplate(168 ,0 ,1 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne64th_6FCEB0 ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0);
+    gCodeObjectTemplates_6F9038[76] = CodeObjectTemplate(169 ,0 ,1 ,0 ,0 ,0 ,0 ,12 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[77] = CodeObjectTemplate(197 ,8 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,1 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,29 ,133 ,1 ,1 ,0 ,1 ,0 ,1);
+    gCodeObjectTemplates_6F9038[78] = CodeObjectTemplate(114 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[79] = CodeObjectTemplate(194 ,0 ,3 ,194 ,194 ,0 ,8 ,0 ,2 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,1 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,0 ,0 ,1 ,1 ,1 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[80] = CodeObjectTemplate(284 ,2 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,9 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,11 ,4 ,1 ,1 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[81] = CodeObjectTemplate(183 ,4 ,4 ,182 ,40 ,1 ,0 ,0 ,4 ,kFpPoint1_6F8FD8 ,-kFpPoint01_6FCDD8 ,12 ,3 ,3 ,4 ,2 ,1 ,kFpPoint1_6F8FD8 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,10 ,0 ,1 ,1 ,1 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[82] = CodeObjectTemplate(195 ,0 ,3 ,0 ,0 ,1 ,7 ,0 ,2 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,1 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,0 ,0 ,1 ,1 ,1 ,0 ,0 ,0);
+    gCodeObjectTemplates_6F9038[83] = CodeObjectTemplate(199 ,0 ,3 ,0 ,0 ,1 ,7 ,0 ,2 ,kFpThree_6FCE14 ,kFpZeroForStaticInit_6FCE08 ,1 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,0 ,0 ,1 ,1 ,1 ,0 ,0 ,0);
+    gCodeObjectTemplates_6F9038[84] = CodeObjectTemplate(285 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,5 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[85] = CodeObjectTemplate(283 ,0 ,0 ,285 ,0 ,0 ,11 ,13 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpHalf_6F8FEC ,kFpHalf_6F8FEC ,kFpHalf_6F8FEC ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[86] = CodeObjectTemplate(166 ,0 ,1 ,0 ,0 ,0 ,0 ,12 ,2 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne64th_6FCEB0 ,kFpSqrt2_6FC5A4 ,kFpTwo_6FCE10 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[87] = CodeObjectTemplate(280 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,5 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[88] = CodeObjectTemplate(248 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[89] = CodeObjectTemplate(286 ,8 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,5 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[90] = CodeObjectTemplate(165 ,0 ,11 ,0 ,0 ,0 ,0 ,0 ,5 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[91] = CodeObjectTemplate(171 ,0 ,11 ,0 ,0 ,0 ,0 ,0 ,5 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[92] = CodeObjectTemplate(172 ,0 ,11 ,0 ,0 ,0 ,0 ,0 ,5 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[93] = CodeObjectTemplate(173 ,0 ,11 ,0 ,0 ,0 ,0 ,0 ,5 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[94] = CodeObjectTemplate(287 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[95] = CodeObjectTemplate(288 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[96] = CodeObjectTemplate(289 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[97] = CodeObjectTemplate(290 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[98] = CodeObjectTemplate(291 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[99] = CodeObjectTemplate(292 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[100] = CodeObjectTemplate(293 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[101] = CodeObjectTemplate(161 ,0 ,1 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0);
+    gCodeObjectTemplates_6F9038[102] = CodeObjectTemplate(138 ,4 ,4 ,39 ,39 ,1 ,7 ,0 ,1 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,4 ,4 ,4 ,3 ,1 ,kFpPoint1_6F8FD8 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,10 ,0 ,1 ,1 ,1 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[103] = CodeObjectTemplate(112 ,205 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[104] = CodeObjectTemplate(163 ,1 ,0 ,164 ,164 ,0 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,1 ,0 ,0 ,1 ,0 ,1 ,0 ,1);
+    gCodeObjectTemplates_6F9038[105] = CodeObjectTemplate(164 ,2 ,2 ,185 ,185 ,1 ,6 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,10 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,1 ,0 ,0 ,1 ,0 ,1 ,0 ,1);
+    gCodeObjectTemplates_6F9038[106] = CodeObjectTemplate(281 ,1 ,0 ,282 ,0 ,1 ,11 ,13 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 , kFpOne64th_6FCEB0 * Fix16(48) , kFpOne64th_6FCEB0 * Fix16(52) ,kFpZeroForStaticInit_6FCE08 ,10 ,0 ,0 ,1 ,0 ,1 ,0 ,1);
+    gCodeObjectTemplates_6F9038[107] = CodeObjectTemplate(282 ,1 ,0 ,0 ,0 ,0 ,0 ,12 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 , kFpOne64th_6FCEB0 * Fix16(48) ,kFpOne64th_6FCEB0 * Fix16(52) ,kFpZeroForStaticInit_6FCE08 ,10 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[108] = CodeObjectTemplate(256 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[109] = CodeObjectTemplate(253 ,4 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,45 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,0 ,2 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[110] = CodeObjectTemplate(144 ,4 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,45 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,0 ,2 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[111] = CodeObjectTemplate(121 ,4 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,45 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,0 ,2 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[112] = CodeObjectTemplate(118 ,4 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,45 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,0 ,2 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[113] = CodeObjectTemplate(295 ,8 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,5 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
+    gCodeObjectTemplates_6F9038[114] = CodeObjectTemplate(128 ,1 ,3 ,0 ,0 ,1 ,7 ,0 ,1 ,kFpPoint4_6F8FE8 ,kFpZeroForStaticInit_6FCE08 ,50 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,4 ,1 ,1 ,1 ,1 ,0 ,1);
+    gCodeObjectTemplates_6F9038[115] = CodeObjectTemplate(192 ,0 ,3 ,259 ,259 ,1 ,8 ,0 ,2 ,kFpPoint4_6F8FE8 ,kFpZeroForStaticInit_6FCE08 ,8 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,0 ,0 ,1 ,1 ,1 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[116] = CodeObjectTemplate(259 ,5 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,1 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,1 ,2 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[117] = CodeObjectTemplate(148 ,2 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[118] = CodeObjectTemplate(170 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,29 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[119] = CodeObjectTemplate(255 ,3 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,32 ,4 ,0 ,1 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[120] = CodeObjectTemplate(294 ,0 ,0 ,0 ,0 ,0 ,0 ,12 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[121] = CodeObjectTemplate(113 ,0 ,5 ,0 ,0 ,1 ,0 ,0 ,2 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,0 ,1 ,0 ,1 ,0 ,1);
+    gCodeObjectTemplates_6F9038[122] = CodeObjectTemplate(278 ,0 ,12 ,0 ,0 ,0 ,0 ,0 ,5 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,1 ,0 ,1 ,0 ,1);
+    gCodeObjectTemplates_6F9038[123] = CodeObjectTemplate(279 ,0 ,12 ,0 ,0 ,1 ,0 ,0 ,5 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,1 ,0 ,1 ,0 ,1);
+    gCodeObjectTemplates_6F9038[124] = CodeObjectTemplate(198 ,0 ,3 ,198 ,198 ,0 ,8 ,0 ,2 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,1 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,0 ,0 ,1 ,1 ,1 ,0 ,0 ,1);
+    gCodeObjectTemplates_6F9038[125] = CodeObjectTemplate(251 ,0 ,3 ,0 ,0 ,1 ,0 ,0 ,5 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,1 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,0 ,0 ,1 ,1 ,1 ,0 ,0 ,1);
+    printf("CodeObjectTemplate array loaded!\n");
 }
 
 MATCH_FUNC(0x4bdf40)
-ObjectDefinitions_8CA8::~ObjectDefinitions_8CA8()
+ObjectDefinitions::~ObjectDefinitions()
 {
 }
 
 MATCH_FUNC(0x4bdf60)
-ObjectDefinition_74::~ObjectDefinition_74()
+ObjectDefinition::~ObjectDefinition()
 {
 }
 
 MATCH_FUNC(0x531860)
-CodeObjectTemplate_6C::CodeObjectTemplate_6C(u32 param_1,
+CodeObjectTemplate::CodeObjectTemplate(u32 param_1,
                u8 param_2,
                u32& param_3,
                u32 param_4,
@@ -550,7 +550,7 @@ CodeObjectTemplate_6C::CodeObjectTemplate_6C(u32 param_1,
 }
 
 MATCH_FUNC(0x532fb0)
-MapObjectOverride_54::MapObjectOverride_54(s32 param_1,
+MapObjectOverride::MapObjectOverride(s32 param_1,
                s32& param_2,
                s32 param_3,
                s8 param_4,
@@ -596,7 +596,7 @@ MapObjectOverride_54::MapObjectOverride_54(s32 param_1,
 }
 
 MATCH_FUNC(0x533060)
-void ObjectDefinition_74::SetDimensions_533060(Fix16 width, Fix16 height, Fix16 depth)
+void ObjectDefinition::SetDimensions_533060(Fix16 width, Fix16 height, Fix16 depth)
 {
     field_0_width = width;
     field_4_height = height;
@@ -612,7 +612,7 @@ void ObjectDefinition_74::SetDimensions_533060(Fix16 width, Fix16 height, Fix16 
 }
 
 MATCH_FUNC(0x533090)
-void ObjectDefinition_74::SetDimensionsFromSprite_533090()
+void ObjectDefinition::SetDimensionsFromSprite_533090()
 {
     if (field_28_sprite_type != sprite_types_enum::object_1)
     {
@@ -640,7 +640,7 @@ void ObjectDefinition_74::SetDimensionsFromSprite_533090()
 }
 
 MATCH_FUNC(0x533110)
-void ObjectDefinition_74::SetRemap_533110(s16 remap)
+void ObjectDefinition::SetRemap_533110(s16 remap)
 {
     switch (field_28_sprite_type)
     {
@@ -655,14 +655,14 @@ void ObjectDefinition_74::SetRemap_533110(s16 remap)
 }
 
 MATCH_FUNC(0x533150)
-void ObjectDefinition_74::OffsetBaseSpriteIdxAndSetAnimSpeed_533150(s16 sprite_idx_offset, s16 anim_speed)
+void ObjectDefinition::OffsetBaseSpriteIdxAndSetAnimSpeed_533150(s16 sprite_idx_offset, s16 anim_speed)
 {
     field_1E_base_sprite_idx += sprite_idx_offset;
     field_6C_sprite_anim_speed = anim_speed;
 }
 
 MATCH_FUNC(0x533170)
-Sprite* ObjectDefinition_74::CreateSpriteFromDefinition_533170()
+Sprite* ObjectDefinition::CreateSpriteFromDefinition_533170()
 {
     Sprite* pFreeSprite = gSpritePool_703818->get_new_sprite();
     ApplyDefinitionToSprite_5331A0(pFreeSprite);
@@ -673,7 +673,7 @@ Sprite* ObjectDefinition_74::CreateSpriteFromDefinition_533170()
 s32 kFp255_6F8FA4 = 0x3FC000;
 
 MATCH_FUNC(0x5331a0)
-void ObjectDefinition_74::ApplyDefinitionToSprite_5331A0(Sprite* pSprite)
+void ObjectDefinition::ApplyDefinitionToSprite_5331A0(Sprite* pSprite)
 {
     s32 f40; // eax
 
@@ -701,7 +701,7 @@ void ObjectDefinition_74::ApplyDefinitionToSprite_5331A0(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x533220)
-ObjectDefinition_74::ObjectDefinition_74()
+ObjectDefinition::ObjectDefinition()
 {
     field_0_width = kFp255_6F8FA4;
     field_4_height = kFp255_6F8FA4;
@@ -739,9 +739,9 @@ ObjectDefinition_74::ObjectDefinition_74()
 }
 
 MATCH_FUNC(0x5332d0)
-ObjectDefinition_74* ObjectDefinitions_8CA8::AllocDefinitionWithSprite_5332D0(s32 idx, s32 sprite_type, s16 sprite_palette, u8 anim_speed)
+ObjectDefinition* ObjectDefinitions::AllocDefinitionWithSprite_5332D0(s32 idx, s32 sprite_type, s16 sprite_palette, u8 anim_speed)
 {
-    ObjectDefinition_74* result = AllocDefinition_5343C0(idx);
+    ObjectDefinition* result = AllocDefinition_5343C0(idx);
     result->field_28_sprite_type = sprite_type;
     result->field_1E_base_sprite_idx = sprite_palette;
     result->field_6C_sprite_anim_speed = anim_speed;
@@ -750,14 +750,14 @@ ObjectDefinition_74* ObjectDefinitions_8CA8::AllocDefinitionWithSprite_5332D0(s3
 }
 
 MATCH_FUNC(0x533300)
-void ObjectDefinitions_8CA8::CreateMapObjectDefinitions_533300()
+void ObjectDefinitions::CreateMapObjectDefinitions_533300()
 {
     s16 sprites = 0;
     u16 i = 0;
     object_info* pIter = gGtx_0x106C_703DD4->get_map_object_info_5AA910(i++);
     while (pIter)
     {
-        ObjectDefinition_74* pDefinition = AllocDefinitionWithSprite_5332D0(pIter->field_0_model, 5, sprites, pIter->field_1_sprites);
+        ObjectDefinition* pDefinition = AllocDefinitionWithSprite_5332D0(pIter->field_0_model, 5, sprites, pIter->field_1_sprites);
         sprites += pIter->field_1_sprites;
         pDefinition->SetDimensionsFromSprite_533090();
         pIter = gGtx_0x106C_703DD4->get_map_object_info_5AA910(i++);
@@ -765,16 +765,16 @@ void ObjectDefinitions_8CA8::CreateMapObjectDefinitions_533300()
 }
 
 MATCH_FUNC(0x533360)
-void ObjectDefinitions_8CA8::ApplyMapObjectOverrides_533360()
+void ObjectDefinitions::ApplyMapObjectOverrides_533360()
 {
     int override_count = gMapObjectOverrides_length_623EEC;
 
     if (0 < override_count)
     {
-        MapObjectOverride_54* pOverride = gMapObjectOverrides_6FC5F8;
+        MapObjectOverride* pOverride = gMapObjectOverrides_6FC5F8;
         do
         {
-            ObjectDefinition_74* pDef = GetObjectDefinition_534360(pOverride->field_0_definition_idx);
+            ObjectDefinition* pDef = GetObjectDefinition_534360(pOverride->field_0_definition_idx);
             pDef->field_34_behavior_type = pOverride->field_4_behavior_type;
             pDef->field_38 = pOverride->field_8_next_definition_idx;
             pDef->field_3C_next_definition_idx = pOverride->field_8_next_definition_idx;
@@ -804,9 +804,9 @@ void ObjectDefinitions_8CA8::ApplyMapObjectOverrides_533360()
 }
 
 MATCH_FUNC(0x533420)
-void ObjectDefinitions_8CA8::CloneAnimatedDefinitions_533420()
+void ObjectDefinitions::CloneAnimatedDefinitions_533420()
 {
-    ObjectDefinition_74* pAVar1;
+    ObjectDefinition* pAVar1;
 
     CloneDefinition_534370(0x97, 6);
     pAVar1 = GetObjectDefinition_534360(0x97);
@@ -1102,15 +1102,15 @@ void ObjectDefinitions_8CA8::CloneAnimatedDefinitions_533420()
 }
 
 MATCH_FUNC(0x533b30)
-void ObjectDefinitions_8CA8::CreateCodeObjectDefinitions_533B30()
+void ObjectDefinitions::CreateCodeObjectDefinitions_533B30()
 {
     u16 sprite_base = 0;
     if (0 < gCodeObjectTemplates_length_623EF0)
     {
-        CodeObjectTemplate_6C* pTemplate = &gCodeObjectTemplates_6F9038[0];
+        CodeObjectTemplate* pTemplate = &gCodeObjectTemplates_6F9038[0];
         for(s32 remaining = gCodeObjectTemplates_length_623EF0; remaining != 0; remaining--)
         {
-            ObjectDefinition_74* pDef = AllocDefinitionWithSprite_5332D0(pTemplate->field_0_definition_idx, 4, sprite_base, pTemplate->field_4_num_sprites);
+            ObjectDefinition* pDef = AllocDefinitionWithSprite_5332D0(pTemplate->field_0_definition_idx, 4, sprite_base, pTemplate->field_4_num_sprites);
             sprite_base += pTemplate->field_4_num_sprites;
             pDef->field_28_sprite_type = pTemplate->field_38_sprite_type;
             if (pTemplate->field_48_width == kFpZero_6FCE08 && pTemplate->field_4C_height == kFpZero_6FCE08 && pTemplate->field_50_depth == kFpZero_6FCE08)
@@ -1152,9 +1152,9 @@ void ObjectDefinitions_8CA8::CreateCodeObjectDefinitions_533B30()
 }
 
 MATCH_FUNC(0x533c90)
-void ObjectDefinitions_8CA8::CloneRemappedDefinitions_533C90()
+void ObjectDefinitions::CloneRemappedDefinitions_533C90()
 {
-    ObjectDefinition_74* tmp;
+    ObjectDefinition* tmp;
     tmp = CloneDefinition_534370(0x93, 0x90);
     tmp->SetRemap_533110(4);
     tmp = CloneDefinition_534370(0xfa, 0xfd);
@@ -1367,7 +1367,7 @@ void ObjectDefinitions_8CA8::CloneRemappedDefinitions_533C90()
 }
 
 MATCH_FUNC(0x534270)
-void ObjectDefinitions_8CA8::ClearColour1PixelsOfDefinitions287To293_534270()
+void ObjectDefinitions::ClearColour1PixelsOfDefinitions287To293_534270()
 {
     ClearColour1PixelsOfDefinitionSprite_5342F0(287);
     ClearColour1PixelsOfDefinitionSprite_5342F0(288);
@@ -1379,22 +1379,22 @@ void ObjectDefinitions_8CA8::ClearColour1PixelsOfDefinitions287To293_534270()
 }
 
 MATCH_FUNC(0x5342d0)
-void ObjectDefinitions_8CA8::CacheDef112SpritePalette_5342D0()
+void ObjectDefinitions::CacheDef112SpritePalette_5342D0()
 {
     field_8CA4_def112_sprite_palette = GetObjectDefinition_534360(112)->field_1E_base_sprite_idx;
 }
 
 MATCH_FUNC(0x5342f0)
-void ObjectDefinitions_8CA8::ClearColour1PixelsOfDefinitionSprite_5342F0(s32 idx)
+void ObjectDefinitions::ClearColour1PixelsOfDefinitionSprite_5342F0(s32 idx)
 {
-    ObjectDefinition_74* pDef = GetObjectDefinition_534360(idx);
+    ObjectDefinition* pDef = GetObjectDefinition_534360(idx);
     u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(4, pDef->field_1E_base_sprite_idx);
     sprite_index* psprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
     psprite_index->ClearPixelsOfColour_5ABAA0(1);
 }
 
 MATCH_FUNC(0x534330)
-void ObjectDefinitions_8CA8::InitDefinitions_534330()
+void ObjectDefinitions::InitDefinitions_534330()
 {
     CreateMapObjectDefinitions_533300();
     ApplyMapObjectOverrides_533360();
@@ -1405,26 +1405,26 @@ void ObjectDefinitions_8CA8::InitDefinitions_534330()
 }
 
 MATCH_FUNC(0x534360)
-ObjectDefinition_74* ObjectDefinitions_8CA8::GetObjectDefinition_534360(s32 idx)
+ObjectDefinition* ObjectDefinitions::GetObjectDefinition_534360(s32 idx)
 {
     return field_87F4_definition_by_idx[idx];
 }
 
 MATCH_FUNC(0x534370)
-ObjectDefinition_74* ObjectDefinitions_8CA8::CloneDefinition_534370(s32 dst_idx, s32 src_idx)
+ObjectDefinition* ObjectDefinitions::CloneDefinition_534370(s32 dst_idx, s32 src_idx)
 {
-    ObjectDefinition_74* result = &field_4_definitions[field_0_next_idx];
+    ObjectDefinition* result = &field_4_definitions[field_0_next_idx];
     field_87F4_definition_by_idx[dst_idx] = result;
     ++field_0_next_idx;
-    memcpy(result, field_87F4_definition_by_idx[src_idx], sizeof(ObjectDefinition_74));
+    memcpy(result, field_87F4_definition_by_idx[src_idx], sizeof(ObjectDefinition));
     result->field_24_object_idx = dst_idx;
     return result;
 }
 
 MATCH_FUNC(0x5343c0)
-ObjectDefinition_74* ObjectDefinitions_8CA8::AllocDefinition_5343C0(s32 idx)
+ObjectDefinition* ObjectDefinitions::AllocDefinition_5343C0(s32 idx)
 {
-    ObjectDefinition_74* result = &field_4_definitions[field_0_next_idx];
+    ObjectDefinition* result = &field_4_definitions[field_0_next_idx];
     field_87F4_definition_by_idx[idx] = result;
     ++field_0_next_idx;
     result->field_24_object_idx = idx;
@@ -1432,7 +1432,7 @@ ObjectDefinition_74* ObjectDefinitions_8CA8::AllocDefinition_5343C0(s32 idx)
 }
 
 MATCH_FUNC(0x5343f0)
-ObjectDefinitions_8CA8::ObjectDefinitions_8CA8()
+ObjectDefinitions::ObjectDefinitions()
 {
     for (s32 i = 0; i < GTA2_COUNTOF(field_87F4_definition_by_idx); i++)
     {

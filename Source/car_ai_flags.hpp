@@ -2,7 +2,7 @@
 
 #include "types.hpp"
 
-// CarAI_78::field_24_bf. Same layout as CompilerBitField32 (the bit field form is needed to match), with the meaning of
+// CarAI::field_24_bf. Same layout as CompilerBitField32 (the bit field form is needed to match), with the meaning of
 // each bit where it is understood. Bits named bFlagN are used but their meaning is not understood yet.
 struct CarAIFlags32
 {

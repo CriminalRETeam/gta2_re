@@ -8,9 +8,9 @@
 EXPORT s32 get_rdtsc_5BEE90();
 EXTERN_GLOBAL(u32, dword_705334);
 
-DEFINE_GLOBAL(SpriteRenderer_1C*, gSpriteRenderer_67B580, 0x67B580);
-DEFINE_GLOBAL(SpriteTreeNodePool_2EE4*, gSpriteTreeNodePool_705BBC, 0x705BBC);
-DEFINE_GLOBAL(SpriteTreeStack_FA4*, gSpriteTreeStack_705BC0, 0x705BC0);
+DEFINE_GLOBAL(SpriteRenderer*, gSpriteRenderer_67B580, 0x67B580);
+DEFINE_GLOBAL(SpriteTreeNodePool*, gSpriteTreeNodePool_705BBC, 0x705BBC);
+DEFINE_GLOBAL(SpriteTreeStack*, gSpriteTreeStack_705BC0, 0x705BC0);
 DEFINE_GLOBAL(s32, gDisplayDraw_67B57C, 0x67B57C);
 DEFINE_GLOBAL(s32, gDisplayAdd_67B578, 0x67B578);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne_67B434, Fix16(1), 0x67B434);
@@ -18,7 +18,7 @@ DEFINE_GLOBAL_INIT(Fix16, kFp96_705B80, Fix16(0x180000, 0), 0x705B80);
 DEFINE_GLOBAL_INIT(Fix16, kFpZero_705AC4, Fix16(0), 0x705AC4);
 
 MATCH_FUNC(0x4954f0)
-void SpriteRenderer_1C::ResetAll_4954F0()
+void SpriteRenderer::ResetAll_4954F0()
 {
     for (s32 i = 0; i < GTA2_COUNTOF(field_0_layers); i++)
     {
@@ -27,7 +27,7 @@ void SpriteRenderer_1C::ResetAll_4954F0()
 }
 
 MATCH_FUNC(0x495510)
-void SpriteRenderer_1C::DisplayAdd_495510(Sprite* pSprite)
+void SpriteRenderer::DisplayAdd_495510(Sprite* pSprite)
 {
     const s32 rdtsc = get_rdtsc_5BEE90();
     if (pSprite->field_1C_zpos >= kFpOne_67B434)
@@ -38,7 +38,7 @@ void SpriteRenderer_1C::DisplayAdd_495510(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x495560)
-void SpriteRenderer_1C::Draw_495560(s32 layer)
+void SpriteRenderer::Draw_495560(s32 layer)
 {
     const s32 rdtsc = get_rdtsc_5BEE90();
     field_0_layers[layer - 1]->Draw_5C5DF0();
@@ -46,11 +46,11 @@ void SpriteRenderer_1C::Draw_495560(s32 layer)
 }
 
 MATCH_FUNC(0x4955a0)
-SpriteRenderer_1C::SpriteRenderer_1C()
+SpriteRenderer::SpriteRenderer()
 {
     for (s32 i = 0; i < k_num_layers; i++)
     {
-        field_0_layers[i] = new SpriteTree_4();
+        field_0_layers[i] = new SpriteTree();
         if (!field_0_layers[i])
         {
             FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\display.cpp", 121);
@@ -59,7 +59,7 @@ SpriteRenderer_1C::SpriteRenderer_1C()
 }
 
 MATCH_FUNC(0x495630)
-SpriteRenderer_1C::~SpriteRenderer_1C()
+SpriteRenderer::~SpriteRenderer()
 {
     for (s32 i = 0; i < k_num_layers; i++)
     {
@@ -99,9 +99,9 @@ EXPORT s32 __stdcall sub_5BEED0(s32 cycles)
 
 // https://decomp.me/scratch/qyVgM
 MATCH_FUNC(0x5c5cf0)
-void SpriteTree_4::AddSprite_5C5CF0(Sprite* pSprite)
+void SpriteTree::AddSprite_5C5CF0(Sprite* pSprite)
 {
-    SpriteTreeNode_C* pRoot = field_0_pRoot;
+    SpriteTreeNode* pRoot = field_0_pRoot;
     Fix16 node_z;
     Fix16 z_pos;
 
@@ -121,8 +121,8 @@ void SpriteTree_4::AddSprite_5C5CF0(Sprite* pSprite)
         z_pos = kFpZero_705AC4;
     }
 
-    SpriteTreeNode_C* pParent; // TODO: not initialized before 'for' loop
-    for (SpriteTreeNode_C* pIter = pRoot; pIter;)
+    SpriteTreeNode* pParent; // TODO: not initialized before 'for' loop
+    for (SpriteTreeNode* pIter = pRoot; pIter;)
     {
         Sprite* pSprt = pIter->field_0_pSprite;
         pParent = pIter;
@@ -164,7 +164,7 @@ void SpriteTree_4::AddSprite_5C5CF0(Sprite* pSprite)
         }
     }
 
-    SpriteTreeNode_C* pAllocated = gSpriteTreeNodePool_705BBC->Alloc_4C4B40();
+    SpriteTreeNode* pAllocated = gSpriteTreeNodePool_705BBC->Alloc_4C4B40();
     pAllocated->field_0_pSprite = pSprite;
     pAllocated->field_4_pLeft = NULL;
     pAllocated->field_8_pRight = NULL;
@@ -187,9 +187,9 @@ void SpriteTree_4::AddSprite_5C5CF0(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x5C5DF0)
-void SpriteTree_4::Draw_5C5DF0()
+void SpriteTree::Draw_5C5DF0()
 {
-    SpriteTreeNode_C* pIter = this->field_0_pRoot;
+    SpriteTreeNode* pIter = this->field_0_pRoot;
     for (;;)
     {
         while (pIter)
@@ -211,7 +211,7 @@ void SpriteTree_4::Draw_5C5DF0()
 DEFINE_GLOBAL_INIT(u32, dword_705334, 1701493, 0x705334);
 
 MATCH_FUNC(0x5c5e50)
-void SpriteTree_4::Reset_5C5E50()
+void SpriteTree::Reset_5C5E50()
 {
     gSpriteTreeNodePool_705BBC->Reset_4C4B70();
     field_0_pRoot = 0;
@@ -219,29 +219,29 @@ void SpriteTree_4::Reset_5C5E50()
 
 // TODO: Doesn't match due to SEH stuff
 MATCH_FUNC(0x5c5e70)
-SpriteTree_4::SpriteTree_4()
+SpriteTree::SpriteTree()
 {
     if (!gSpriteTreeNodePool_705BBC)
     {
-        gSpriteTreeNodePool_705BBC = new SpriteTreeNodePool_2EE4();
+        gSpriteTreeNodePool_705BBC = new SpriteTreeNodePool();
     }
 
     if (!gSpriteTreeStack_705BC0)
     {
-        gSpriteTreeStack_705BC0 = new SpriteTreeStack_FA4();
+        gSpriteTreeStack_705BC0 = new SpriteTreeStack();
     }
     Reset_5C5E50();
 }
 
 MATCH_FUNC(0x5c5f10)
-SpriteTree_4::~SpriteTree_4()
+SpriteTree::~SpriteTree()
 {
     // An explicit dtor call through the global plus operator delete on a saved copy gives the original's
     // test in ecx with esi pushed and loaded inside the if; `delete` keeps the pointer in esi throughout
     if (gSpriteTreeNodePool_705BBC != NULL)
     {
-        SpriteTreeNodePool_2EE4* p = gSpriteTreeNodePool_705BBC;
-        gSpriteTreeNodePool_705BBC->~SpriteTreeNodePool_2EE4();
+        SpriteTreeNodePool* p = gSpriteTreeNodePool_705BBC;
+        gSpriteTreeNodePool_705BBC->~SpriteTreeNodePool();
         operator delete(p);
         gSpriteTreeNodePool_705BBC = 0;
     }
@@ -253,7 +253,7 @@ SpriteTree_4::~SpriteTree_4()
 }
 
 MATCH_FUNC(0x5c5f60)
-SpriteTreeNodePool_2EE4::SpriteTreeNodePool_2EE4()
+SpriteTreeNodePool::SpriteTreeNodePool()
 {
     for (s32 i = 0; i < GTA2_COUNTOF(field_0_entries); i++)
     {
@@ -263,6 +263,6 @@ SpriteTreeNodePool_2EE4::SpriteTreeNodePool_2EE4()
 }
 
 MATCH_FUNC(0x5c5f90)
-SpriteTreeNodePool_2EE4::~SpriteTreeNodePool_2EE4()
+SpriteTreeNodePool::~SpriteTreeNodePool()
 {
 }

@@ -80,7 +80,7 @@ callees through the existing pairs and compares them with the calls of every unp
 
 | 10.5 | 9.6f | shared |
 |---|---|---|
-| `miss2_0x11C::GetSpeed_50E190` (matched) | 0x47D070 | 6/14 |
+| `ScriptThread::GetSpeed_50E190` (matched) | 0x47D070 | 6/14 |
 | `Ped::FindBestTargetPed_466BF0` | 0x437BE0 | 6/6 |
 | `Ped::BusCustomer_AI_461290` | 0x4427E0 | 14/19 |
 | `Ped::HandlePedHitByObject_45D000` | 0x441A30 | 15/28 |
@@ -88,11 +88,11 @@ callees through the existing pairs and compares them with the calls of every unp
 | `sound_obj::ProcessOtherObjects_41F520` | 0x41A3C0 | 9/9 |
 | `sound_obj::HandleVocalStreamSwitching_57DF10` | 0x4B25D0 | 12/16 |
 | `Sprite::Draw_59EFF0` | 0x4BE060 | 13/16 |
-| `TrafficLight_20::Init_5C1D00` | 0x4C3C70 | 22/26 |
+| `TrafficLight::Init_5C1D00` | 0x4C3C70 | 22/26 |
 | `Map_0x370::AdvanceAlongRailway_4E6660` | 0x467110 | 56/56 |
 | `Particle_4C::PoolUpdate` 0x53D260 | 0x490760 | 25/28 |
 | `Particle_4C::UpdateObjectBeamLink_state_38_538AC0` | 0x48F230 | 12/24 |
-| `Particle_8::EmitElectricArcParticle` 0x540320 | 0x48DDC0 | 9/18 |
+| `ParticleManager::EmitElectricArcParticle` 0x540320 | 0x48DDC0 | 9/18 |
 | `CarDoorAlignmentSolver_545AF0` | 0x493940 | 2/9 (found through its callers: 21 calls from the paired 10.5 callers) |
 
 Matching the source against 9.6f first settles its shape fast (VC7 compiles in about 1 s): for
@@ -117,11 +117,11 @@ score from 201 to 50.
   others (the asm normaliser hides these behind `stable_name` numbers), and
   `compare_callees_multiset.py` lists calls to real functions that the original makes and ours
   doesn't, or the reverse. Both found real bugs (`SetupTrainAndBusStops_5794B0`,
-  `Weapon_30::throwable_5DDFC0`). Run them before tuning registers.
+  `Weapon::throwable_5DDFC0`). Run them before tuning registers.
 
 ## Rejected candidates
 
-- **`PoliceCrew_38::sub_571A30`, score 129 → 72.** The candidate casts `(s8)pCar->field_76_last_seen_timer <= 200`, which is always true. VC6 then drops the compare and the score falls, but the original does `cmpw $0xC8`. With `(u8)` instead it scores 0.659 (base 0.748).
+- **`PoliceCrew::sub_571A30`, score 129 → 72.** The candidate casts `(s8)pCar->field_76_last_seen_timer <= 200`, which is always true. VC6 then drops the compare and the score falls, but the original does `cmpw $0xC8`. With `(u8)` instead it scores 0.659 (base 0.748).
 - **`MapRenderer::DrawDiagonalDownRightFace_4ECE40`, exhaustive run.** `(s8)right_word >> 13` changes the result from 0–7 to 0 or -1. The random run's candidate (a `u32` temp) was used instead.
 - **`PedGroup::CoordinateGroupCarEntry_4C9F00` and `Ped::IncreaseWantedLevelFromDebugKeys_46EFD0`.** The permuter score went down but the real ratio got worse. Always re-check with the real ratio before committing.
 

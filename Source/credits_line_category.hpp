@@ -1,6 +1,6 @@
 #pragma once
 
-// CreditsLine_6C::field_6_string_category: set by CreditsText_FD22::LoadCredits_483F20 from the "#X" tag in the credits
+// CreditsLine::field_6_string_category: set by CreditsText::LoadCredits_483F20 from the "#X" tag in the credits
 // text, drawn by Frontend::DrawCredits_4B7AE0. Kept in its own header, like car_despawn_status.hpp, so that the enum does
 // not land in a header many TUs share.
 namespace credits_line_category

@@ -11,7 +11,7 @@
 
 EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 
-DEFINE_GLOBAL(TrafficLights_194*, gTrafficLights_194_705958, 0x705958);
+DEFINE_GLOBAL(TrafficLights*, gTrafficLights_194_705958, 0x705958);
 
 DEFINE_GLOBAL_INIT(Fix16, kFpOne_70580C, Fix16(1), 0x70580C);
 DEFINE_GLOBAL_INIT(Fix16, kFpTwo_705810, Fix16(2), 0x705810);
@@ -51,7 +51,7 @@ u8 traffic_light_phase_timers_626840[] = {0x00, 0x64, 0x18, 0x18, 0x64, 0x18, 0x
 
 // https://decomp.me/scratch/JogBj
 MATCH_FUNC(0x5C1D00)
-void TrafficLight_20::Init_5C1D00(u8 x, u8 y, u8 w, u8 h)
+void TrafficLight::Init_5C1D00(u8 x, u8 y, u8 w, u8 h)
 {
 
     Fix16 zpos = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(x, y);
@@ -206,7 +206,7 @@ void TrafficLight_20::Init_5C1D00(u8 x, u8 y, u8 w, u8 h)
 }
 
 MATCH_FUNC(0x5C27A0)
-void TrafficLight_20::UpdateLightsFromPhase_5C27A0(u8 phase)
+void TrafficLight::UpdateLightsFromPhase_5C27A0(u8 phase)
 {
     switch (phase)
     {
@@ -300,15 +300,15 @@ void TrafficLight_20::UpdateLightsFromPhase_5C27A0(u8 phase)
 }
 
 MATCH_FUNC(0x5c2910)
-void TrafficLights_194::AddTrafficLight_5C2910(u8 x, u8 y, u8 w, u8 h)
+void TrafficLights::AddTrafficLight_5C2910(u8 x, u8 y, u8 w, u8 h)
 {
-    TrafficLight_20* pMem = new TrafficLight_20();
+    TrafficLight* pMem = new TrafficLight();
     field_0_traffic_lights[field_190_array_used_count++] = pMem;
     pMem->Init_5C1D00(x, y, w, h);
 }
 
 MATCH_FUNC(0x5c2950)
-void TrafficLights_194::TrafficLightsService_5C2950()
+void TrafficLights::TrafficLightsService_5C2950()
 {
     field_193_timer--;
 
@@ -341,7 +341,7 @@ void TrafficLights_194::TrafficLightsService_5C2950()
 }
 
 MATCH_FUNC(0x5c2a10)
-void TrafficLights_194::ShowTrafficLightsInfo_5C2A10()
+void TrafficLights::ShowTrafficLightsInfo_5C2A10()
 {
     swprintf(tmpBuff_67BD9C, L"timer: %d", field_193_timer);
     gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, -1, 0, gDebugFont_706600, 1);
@@ -356,7 +356,7 @@ void TrafficLights_194::ShowTrafficLightsInfo_5C2A10()
 }
 
 MATCH_FUNC(0x5c2ac0)
-void TrafficLights_194::CreateFromMapZones_5C2AC0()
+void TrafficLights::CreateFromMapZones_5C2AC0()
 {
     gmp_map_zone* pZoneIter = gMap_0x370_6F6268->GetFirstZoneOfType_4DF1D0(Traffic_light_2);
     while (pZoneIter)
@@ -367,7 +367,7 @@ void TrafficLights_194::CreateFromMapZones_5C2AC0()
 }
 
 MATCH_FUNC(0x5c2b00)
-TrafficLights_194::TrafficLights_194()
+TrafficLights::TrafficLights()
 {
     field_190_array_used_count = 0;
     for (s32 i = 0; i < GTA2_COUNTOF(field_0_traffic_lights); i++)
@@ -379,7 +379,7 @@ TrafficLights_194::TrafficLights_194()
 }
 
 MATCH_FUNC(0x5c2b30)
-TrafficLights_194::~TrafficLights_194()
+TrafficLights::~TrafficLights()
 {
     for (u32 i = 0; i < field_190_array_used_count; i++)
     {

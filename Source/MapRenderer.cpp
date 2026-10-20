@@ -224,7 +224,7 @@ static VertProjector4 gVertProjector4;
 
 static inline void set_vert_xyz_relative_to_cam_inlined(Fix16 xCoord, Fix16 yCoord, Fix16 z_val, Vert* pVerts)
 {
-    Camera_0xBC* pCam = gViewCamera_676978;
+    Camera* pCam = gViewCamera_676978;
 
     s32 next_idx = (pVerts - gTileVerts_6F65A8) + 4;
 
@@ -718,7 +718,7 @@ void MapRenderer::DrawLeftSide_4EA390(u16& left_word)
 MATCH_FUNC(0x4ead90)
 void __stdcall set_vert_xyz_relative_to_cam_4EAD90(Fix16 xCoord, Fix16 yCoord, Fix16 z_val, Vert* pVerts)
 {
-    Camera_0xBC* pCam = gViewCamera_676978;
+    Camera* pCam = gViewCamera_676978;
 
     s32 next_idx = (pVerts - gTileVerts_6F65A8) + 4;
 
@@ -3508,11 +3508,11 @@ void MapRenderer::ClearDrawnTileCount_4F6A10()
 // can't take those rvalues.
 static inline void AddToDrawListByVal(MapRenderer* pThis, s32 x, s32 y)
 {
-    Nanobotz_8* pPos = &pThis->field_1C_draw_list[pThis->field_2EFC_curr_draw_layer_size];
+    Nanobotz* pPos = &pThis->field_1C_draw_list[pThis->field_2EFC_curr_draw_layer_size];
     pPos->field_0_x = x;
     pPos->field_4_y = y;
 
-    Nanobotz_8* pIter = &pThis->field_1C_draw_list[pThis->field_2EFC_curr_draw_layer_size - 1];
+    Nanobotz* pIter = &pThis->field_1C_draw_list[pThis->field_2EFC_curr_draw_layer_size - 1];
     for (s32 i = pThis->field_2EFC_curr_draw_layer_size - 1; i >= 0; i--, pIter--)
     {
         if (pIter->IsEqual_46BB60(pPos))
@@ -3643,7 +3643,7 @@ void MapRenderer::Draw_4F6A20()
 
             // Now draw tiles in reverse order
             s32 j = field_2EFC_curr_draw_layer_size - 1;
-            Nanobotz_8* pIter = &field_1C_draw_list[field_2EFC_curr_draw_layer_size - 1];
+            Nanobotz* pIter = &field_1C_draw_list[field_2EFC_curr_draw_layer_size - 1];
             while (j >= 0)
             {
                 MapRenderer::RenderBlockAt_4F6880(pIter->field_0_x, pIter->field_4_y);

@@ -3,12 +3,13 @@
 #include "Function.hpp"
 #include <windows.h>
 
-struct text_0xC
+struct TextKeyEntry
 {
     wchar_t* field_0_pwstr;
     const char_type* field_4_pKey;
     s32 field_8;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(TextKeyEntry, 0xC);
 
 class text_tdat
 {
@@ -49,12 +50,12 @@ public:
         }
         field_0_tKey = 0;
     }
-    text_0xC* field_0_tKey;
+    TextKeyEntry* field_0_tKey;
     s32 field_4_tKey_count;
 };
 
 
-class text_0x14
+class TextTable
 {
   public:
     // 9.6f 0x452E60
@@ -103,12 +104,13 @@ class text_0x14
     EXPORT bool KeyExists_5B5FA0(const char_type* pIdStr);
 
     // 0x5B5FB0
-    EXPORT text_0x14();
+    EXPORT TextTable();
 
     // 0x5B6050
-    EXPORT ~text_0x14();
+    EXPORT ~TextTable();
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(TextTable, 0x14);
 
-EXTERN_GLOBAL(text_0x14*, gText_0x14_704DFC);
+EXTERN_GLOBAL(TextTable*, gText_0x14_704DFC);
 
-EXTERN_GLOBAL(text_0x14*, gtext_0x14_6F87F0);
+EXTERN_GLOBAL(TextTable*, gtext_0x14_6F87F0);

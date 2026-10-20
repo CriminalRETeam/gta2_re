@@ -6,10 +6,10 @@
 #include "ang16.hpp"
 #include "fix16.hpp"
 
-class SoundObject_10;
-class Car_BC;
+class SoundObject;
+class Car;
 
-class Crane_15C
+class Crane
 {
   public:
     // 9.6f 0x447F60
@@ -19,13 +19,13 @@ class Crane_15C
     }
 
     // 9.6f 0x476900
-    inline void set_maybe_homecrane_476900(Crane_15C* v)
+    inline void set_maybe_homecrane_476900(Crane* v)
     {
         field_78_maybe_homecrane = v;
     }
 
-    EXPORT ~Crane_15C();
-    EXPORT Crane_15C();
+    EXPORT ~Crane();
+    EXPORT Crane();
     EXPORT void ComputeHookPos_47E620(Fix16 radius, Ang16 ang, Fix16_Point* pOutPoint);
     EXPORT void ComputeHookPos_47E730(Ang16 radius, Fix16 ang, Fix16_Point* pOutPoint);
     EXPORT void ComputeHookOffset_47E840(Ang16 ang, Fix16_Point* pOutPoint);
@@ -44,8 +44,8 @@ class Crane_15C
     EXPORT bool IsDropTransporterTargetValid_47F450();
     EXPORT void UpdateCraneTargets_47F4C0();
     EXPORT bool ComputeHookPolar_47F6C0(Fix16_Point& pPoint, Fix16* pOutF16, Fix16* pOutAng);
-    EXPORT void TargetTransporter_47F7F0(Car_BC* pCar);
-    EXPORT void PickUpCar_47F930(Car_BC* pCar);
+    EXPORT void TargetTransporter_47F7F0(Car* pCar);
+    EXPORT void PickUpCar_47F930(Car* pCar);
     EXPORT void TryNextDropPosition_47FB40();
     EXPORT s32 MoveTowardsTargets_47FBA0();
     EXPORT void ReleaseHookedCar_47FD10();
@@ -55,7 +55,7 @@ class Crane_15C
     EXPORT void InitCrane_4803B0(Fix16 x_pos, Fix16 y_pos, char_type obj_id);
     EXPORT void CraneTargetPickupCheck_480900(Fix16 xpos, Fix16 ypos, Ang16 ang);
     EXPORT void ComputePickupAlignment_480B60(Fix16 xpos, Fix16 ypos, Ang16 ang);
-    EXPORT Car_BC* GetCarFromCrane_480DA0();
+    EXPORT Car* GetCarFromCrane_480DA0();
 
     inline void SetHomeRotation_4768E0(Ang16 rotation)
     {
@@ -79,28 +79,28 @@ class Crane_15C
     Fix16_Point field_10_hooked_sprite_offset;
     Fix16_Point field_18_target1_offset;
     Fix16_Point field_20_target2_offset;
-    SpriteList_4 field_28_strct4;
-    Object_2C* field_2C_rotor_obj;
-    Object_2C* field_30_part_obj_0;
-    Object_2C* field_34_part_obj_1;
-    Object_2C* field_38_part_obj_2;
-    Object_2C* field_3C_part_obj_3;
-    Object_2C* field_40_part_obj_4;
-    Object_2C* field_44_part_obj_5;
-    Object_2C* field_48_part_obj_6;
-    Object_2C* field_4C_part_obj_7;
-    Object_2C* field_50_part_obj_8;
-    Object_2C* field_54_hook_obj;
-    Object_2C* field_58_crane_base_obj;
-    Object_2C* field_5C_counterweight_obj;
+    SpriteList field_28_strct4;
+    Object* field_2C_rotor_obj;
+    Object* field_30_part_obj_0;
+    Object* field_34_part_obj_1;
+    Object* field_38_part_obj_2;
+    Object* field_3C_part_obj_3;
+    Object* field_40_part_obj_4;
+    Object* field_44_part_obj_5;
+    Object* field_48_part_obj_6;
+    Object* field_4C_part_obj_7;
+    Object* field_50_part_obj_8;
+    Object* field_54_hook_obj;
+    Object* field_58_crane_base_obj;
+    Object* field_5C_counterweight_obj;
     Sprite* field_60_probe_sprite;
     Sprite* field_64_drop_transporter;
     Sprite* field_68_pickup_car;
     Sprite* field_6C_transporter_cargo;
     Sprite* field_70_cargo_transporter;
     Sprite* field_74_pSprite_on_hook;
-    Crane_15C* field_78_maybe_homecrane;
-    SoundObject_10* field_7C_sound;
+    Crane* field_78_maybe_homecrane;
+    SoundObject* field_7C_sound;
     Fix16 field_80_ground_z;
     Fix16 field_84_hook_depth;
     Fix16 field_88_hook_depth_speed;
@@ -166,18 +166,20 @@ class Crane_15C
     char_type field_15A_unused;
     char_type field_15B_unused;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Crane, 0x15C);
 
-class CranePool_D9C
+class CranePool
 {
   public:
-    EXPORT void PickUpCar_480E00(Car_BC* pCar, u8 crane_idx);
+    EXPORT void PickUpCar_480E00(Car* pCar, u8 crane_idx);
     EXPORT void CranesService_480E50();
-    EXPORT Crane_15C* NewCrane_480EC0(Fix16 x_pos, Fix16 y_pos);
-    EXPORT CranePool_D9C();
-    EXPORT ~CranePool_D9C();
+    EXPORT Crane* NewCrane_480EC0(Fix16 x_pos, Fix16 y_pos);
+    EXPORT CranePool();
+    EXPORT ~CranePool();
 
-    Crane_15C field_0_cranes[10];
+    Crane field_0_cranes[10];
     s32 field_D98_count;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(CranePool, 0xD9C);
 
-EXTERN_GLOBAL(CranePool_D9C*, gCranePool_D9C_679FD4);
+EXTERN_GLOBAL(CranePool*, gCranePool_D9C_679FD4);

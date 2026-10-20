@@ -4,14 +4,14 @@
 #include "fix16.hpp"
 #include "ang16.hpp"
 
-class Object_2C;
+class Object;
 class Sprite;
 
-class Explosion_30
+class Explosion
 {
   public:
-    EXPORT Explosion_30();
-    EXPORT ~Explosion_30();
+    EXPORT Explosion();
+    EXPORT ~Explosion();
     EXPORT void EmitRandomDiagonalParticle_540A40();
     EXPORT void EmitFireTrail_3_12_540D30(Ang16 ang, Fix16 speed);
     EXPORT void EmitFireTrail_4_540F90(Ang16 ang, Fix16 speed);
@@ -30,7 +30,7 @@ class Explosion_30
     EXPORT bool IsFireType_5435D0();
     EXPORT void Release_543610();
     EXPORT void Init_543650();
-    EXPORT void SetObject_543680(Object_2C* pObj);
+    EXPORT void SetObject_543680(Object* pObj);
 
     // 9.6f 0x482A90
     inline void SetType_482A90(s32 type_or_state)
@@ -44,7 +44,7 @@ class Explosion_30
     Fix16 field_8_speed;
     Ang16 field_C_angle;
     s32 field_10_type;
-    Object_2C* field_14_pObj2C;
+    Object* field_14_pObj2C;
     s16 field_18_particle_cooldown;
     u16 field_1A_timer;
     Sprite* field_1C_pAttachedSprite;
@@ -54,27 +54,29 @@ class Explosion_30
     Fix16 field_28_blast_radius;
     s32 field_2C_owner_ped_id;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Explosion, 0x30);
 
-class ExplosionPool_7A8
+class ExplosionPool
 {
   public:
     EXPORT s32 FreeLowestPriority_543690();
-    EXPORT Explosion_30* Allocate_543800();
-    EXPORT ExplosionPool_7A8();
-    EXPORT ~ExplosionPool_7A8();
-    Explosion_30 field_0_explosions[40];
+    EXPORT Explosion* Allocate_543800();
+    EXPORT ExplosionPool();
+    EXPORT ~ExplosionPool();
+    Explosion field_0_explosions[40];
     bool field_780_bUsed[40];
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(ExplosionPool, 0x7A8);
 
 class ExplosionPool_3D4
 {
   public:
-    EXPORT Explosion_30* Allocate_543900();
+    EXPORT Explosion* Allocate_543900();
     EXPORT ExplosionPool_3D4();
     EXPORT ~ExplosionPool_3D4();
-    Explosion_30 field_0_explosions[20];
+    Explosion field_0_explosions[20];
     bool field_3C0_bUsed[20];
 };
 
-EXTERN_GLOBAL(ExplosionPool_7A8*, gExplosionPool_7A8_6FD5F0);
+EXTERN_GLOBAL(ExplosionPool*, gExplosionPool_7A8_6FD5F0);
 EXTERN_GLOBAL(ExplosionPool_3D4*, gExplosionPool_3D4_6FD5EC);

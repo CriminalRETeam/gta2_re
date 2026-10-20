@@ -172,7 +172,7 @@ enum
 };
 } // namespace Car_Door_Lock
 
-// Wanted level (star count / cop head), what Police_7B8 sends at each
+// Wanted level (star count / cop head), what Police sends at each
 namespace cop_level_enum
 {
 enum cop_level_enum
@@ -243,7 +243,7 @@ enum
 };
 } // namespace crew_type
 
-// Which kind of crew (or roadblock guard) is built: PoliceCrew_38::field_20_crew_kind and gCrewKind_6FEDB8
+// Which kind of crew (or roadblock guard) is built: PoliceCrew::field_20_crew_kind and gCrewKind_6FEDB8
 namespace crew_kind
 {
 enum
@@ -565,7 +565,7 @@ namespace sprite_types_enum
 enum
 {
     unknown_0 = 0, // At least in the function sprite_FUN_004b9aa0, but don't know what represents.
-    object_1 = 1, // has an Object_2C like code_obj1_4 and map_obj_5
+    object_1 = 1, // has an Object like code_obj1_4 and map_obj_5
     car_2 = 2,
     ped_3 = 3,
     code_obj1_4 = 4,

@@ -3,7 +3,7 @@
 #include "root_sound.hpp"
 
 MATCH_FUNC(0x40EF20)
-void SoundObject_10::Release_40EF20()
+void SoundObject::Release_40EF20()
 {
     if (field_8_sound_entry)
     {

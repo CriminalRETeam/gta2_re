@@ -4,13 +4,13 @@
 
 class Sprite;
 class Object_3C;
-class GridSpriteLink_8;
+class GridSpriteLink;
 class Fix16_Rect;
-class SpriteList_4;
+class SpriteList;
 class Ped;
 
 // One occupied x cell of a grid row: the sprites in cell (field_0_x, row). Cells of a row are sorted by x.
-struct GridCell_C
+struct GridCell
 {
     void PoolAllocate()
     {
@@ -21,20 +21,21 @@ struct GridCell_C
     }
 
     u8 field_0_x;
-    GridSpriteLink_8* field_4_pSpriteLinks;
-    GridCell_C* mpNext;
+    GridSpriteLink* field_4_pSpriteLinks;
+    GridCell* mpNext;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(GridCell, 0xC);
 
 // Sparse 256x256 spatial hash of sprites: 256 rows, each a sorted linked list of occupied cells. Collision and
 // nearest-sprite queries walk the cells that overlap the query rect (gSpriteGrid_left/right/top/bottom).
-class SpriteGrid_400
+class SpriteGrid
 {
   public:
-    inline GridSpriteLink_8* GetCollideListAt_446820(s32 x_find, s32 y_pos)
+    inline GridSpriteLink* GetCollideListAt_446820(s32 x_find, s32 y_pos)
     {
         if (y_pos <= 255 && y_pos >= 0)
         {
-            for (GridCell_C* i = field_0_rows[y_pos]; i; i = i->mpNext)
+            for (GridCell* i = field_0_rows[y_pos]; i; i = i->mpNext)
             {
                 s32 x_len = i->field_0_x;
 
@@ -74,16 +75,16 @@ class SpriteGrid_400
                                              char_type bDeepCheck,
                                              s32 exclude_sprite_type,
                                              Sprite* pExclude,
-                                             SpriteList_4* pOutList);
+                                             SpriteList* pOutList);
     EXPORT bool CheckRectForCollisions_477F60(Fix16_Rect* pRect, char_type bDeepCheck, s32 exclude_sprite_type, Sprite* pExclude);
-    EXPORT SpriteGrid_400();
-    EXPORT ~SpriteGrid_400();
+    EXPORT SpriteGrid();
+    EXPORT ~SpriteGrid();
 
     // height = how many rows to scan downward from gSpriteGrid_start_y_679098
     EXPORT void SearchTileColumnForClosestSprite_478160(u8 height);
 
-    // pSpriteLinks = linked list of GridSpriteLink_8 at a single (x,y) tile
-    EXPORT void CheckTileSpritesForClosestMatch_478060(GridSpriteLink_8* pSpriteLinks);
+    // pSpriteLinks = linked list of GridSpriteLink at a single (x,y) tile
+    EXPORT void CheckTileSpritesForClosestMatch_478060(GridSpriteLink* pSpriteLinks);
 
     // width = how many columns to scan horizontally from gSpriteGrid_start_x_679090
     EXPORT void SearchTileStripForClosestSprite_4781E0(u8 width);
@@ -94,22 +95,23 @@ class SpriteGrid_400
     EXPORT void AddToColumnBuckets_478370(s32 y_pos, Sprite* pSprite);
     EXPORT void AddToSingleBucket_478440(s32 x_pos, s32 y_pos, Sprite* pSprite);
     EXPORT void AddToRowBuckets_4784D0(s32 y_pos, Sprite* pSprite);
-    EXPORT GridCell_C* GetFirstXCellInRow_478590(s32 y_pos);
+    EXPORT GridCell* GetFirstXCellInRow_478590(s32 y_pos);
     EXPORT char_type CheckRowForRectCollisions_4785D0(u32 y_pos, Fix16_Rect* pRect);
     EXPORT char_type CheckAndHandleCollisionsInStrip_478750(u32 y_pos, Sprite* pSprite);
     EXPORT bool CheckAndHandleRowCollisionsForSprite_4787E0(u32 y_pos, Sprite* pSprite);
     EXPORT Sprite* FindNearestSpriteInRow_478880(u32 y_pos, Sprite* pSprite);
     EXPORT void DebugLog_478950(s32 x_pos, s32 y_pos);
-    EXPORT GridCell_C** Clear_4789F0();
+    EXPORT GridCell** Clear_4789F0();
 
-    GridCell_C* field_0_rows[256]; // rows of Y; each is a sparse X-linked list of GridCell_C
+    GridCell* field_0_rows[256]; // rows of Y; each is a sparse X-linked list of GridCell
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(SpriteGrid, 0x400);
 
-EXTERN_GLOBAL(SpriteGrid_400*, gSpriteGrid_1_679208);
+EXTERN_GLOBAL(SpriteGrid*, gSpriteGrid_1_679208);
 
-EXTERN_GLOBAL(SpriteGrid_400*, gSpriteGrid_2_67920C);
+EXTERN_GLOBAL(SpriteGrid*, gSpriteGrid_2_67920C);
 
-EXTERN_GLOBAL(SpriteGrid_400*, gSpriteGrid_3_679210);
+EXTERN_GLOBAL(SpriteGrid*, gSpriteGrid_3_679210);
 
 EXTERN_GLOBAL(s32, gSpriteGrid_top_6F6108);
 

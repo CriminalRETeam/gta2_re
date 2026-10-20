@@ -51,10 +51,10 @@
 
 #pragma comment(lib, "Shlwapi.lib")
 
-EXTERN_GLOBAL(Ambulance_110*, gAmbulance_110_6F70A8);
-EXTERN_GLOBAL(CollisionCounters_C*, gCollisionCounters_6791FC);
-EXTERN_GLOBAL(FirefighterPool_54*, gFirefighterPool_54_67D4C0);
-EXTERN_GLOBAL(PathFinder_2FD4*, gPathFinder_6FDEF0);
+EXTERN_GLOBAL(AmbulanceService*, gAmbulance_110_6F70A8);
+EXTERN_GLOBAL(CollisionCounters*, gCollisionCounters_6791FC);
+EXTERN_GLOBAL(FirefighterPool*, gFirefighterPool_54_67D4C0);
+EXTERN_GLOBAL(PathFinder*, gPathFinder_6FDEF0);
 
 EXTERN_GLOBAL(car_rng_list, gAverageCarModels_676DB4);
 EXTERN_GLOBAL(car_rng_list, gBadCarModels_676988);
@@ -67,11 +67,11 @@ EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 
 EXTERN_GLOBAL(Fix16_Point, CollisionIntersectionPoint_6FE1A0);
 
-Object_2C* spawned_obj = NULL;
-Car_BC* pNewCar = NULL;
+Object* spawned_obj = NULL;
+Car* pNewCar = NULL;
 char TmpBitSetChar[50];
 
-Hud_Arrow_7C* gpArrow = NULL;
+Hud_Arrow* gpArrow = NULL;
 
 void wchar_to_char(wchar_t* wchar, char* out, u8 size)
 {
@@ -87,7 +87,7 @@ void wchar_to_char(wchar_t* wchar, char* out, u8 size)
     }
 }
 
-void get_car_name(Car_BC* pCar, char* out)
+void get_car_name(Car* pCar, char* out)
 {
     wchar_t* car_wname = pCar->GetCarStr_439F80();
     wchar_to_char(car_wname, out, 33);
@@ -177,7 +177,7 @@ bool InputU16(const char* label, u16* v, int step, int step_fast, ImGuiInputText
 
 } // namespace ImGui
 
-EXTERN_GLOBAL(CrimeReportQueue_CC*, gCrimeReportQueue_67A4B8);
+EXTERN_GLOBAL(CrimeReportQueue*, gCrimeReportQueue_67A4B8);
 
 // crt_init_own_libname_21 or sub_4F7530
 void Init_Unk_Width_Height_F16_array()
@@ -308,7 +308,7 @@ static void GetPlayerPos(Fix16& xpos, Fix16& ypos, Fix16& zpos)
     }
 }
 
-static void ShowRectAndPointsForSprite4C(SpriteShape_4C* p4C)
+static void ShowRectAndPointsForSprite4C(SpriteShape* p4C)
 {
     Fix16_Rect rect = p4C->field_30_boundingBox;
     if (ImGui::TreeNode("bounding box"))
@@ -483,18 +483,18 @@ static char_type* GetOccupationStrFromPed(Ped* pPed)
 }
 
 // Test scene globals
-DEFINE_GLOBAL(Car_BC*, gTestCar1_704418, 0x704418);
+DEFINE_GLOBAL(Car*, gTestCar1_704418, 0x704418);
 DEFINE_GLOBAL(Trailer*, gTestTrailer_7041A8, 0x7041A8);
-DEFINE_GLOBAL(Car_BC*, gTestCar2_704410, 0x704410);
-DEFINE_GLOBAL(Car_BC*, gTestCar3_7043D4, 0x7043D4);
-DEFINE_GLOBAL(Object_2C*, gTestObject_704274, 0x704274);
+DEFINE_GLOBAL(Car*, gTestCar2_704410, 0x704410);
+DEFINE_GLOBAL(Car*, gTestCar3_7043D4, 0x7043D4);
+DEFINE_GLOBAL(Object*, gTestObject_704274, 0x704274);
 DEFINE_GLOBAL_INIT(Ang16, word_70420C, Ang16(360), 0x70420C);
 DEFINE_GLOBAL(Ang16, word_704500, 0x704500);
 DEFINE_GLOBAL_INIT(Fix16, dword_7042A4, Fix16(0.5), 0x7042A4);
 DEFINE_GLOBAL_INIT(Fix16, dword_7043AC, Fix16(1), 0x7043AC);
 DEFINE_GLOBAL_INIT(Fix16, dword_704420, Fix16(0.25), 0x704420);
 DEFINE_GLOBAL_INIT(Fix16, dword_7041F0, Fix16(0.5), 0x7041F0);
-EXTERN_GLOBAL(Car_BC*, gTestArrowCar_7043F0);
+EXTERN_GLOBAL(Car*, gTestArrowCar_7043F0);
 
 // Builds a test scene: a few blocks, cars with weapons and gang icons, and a row of each object
 MATCH_FUNC(0x5B1170)
@@ -797,7 +797,7 @@ static const char* ObjectIdToString(s32 id)
     }
 }
 
-static Camera_0xBC* GetPlayerCam()
+static Camera* GetPlayerCam()
 {
     if (gGame_0x40_67E008)
     {
@@ -825,7 +825,7 @@ EXTERN_GLOBAL(Fix16, kFpOne_7064C4);
 EXTERN_GLOBAL(Fix16, kFpEight_7064E8);
 EXTERN_GLOBAL(s16, gDebugFont_706600);
 
-static void ProjectXYZ_intoScreen(Fix16 xpos, Fix16 ypos, Fix16 zpos, Fix16& screen_x, Fix16& screen_y, Camera_0xBC* pCam)
+static void ProjectXYZ_intoScreen(Fix16 xpos, Fix16 ypos, Fix16 zpos, Fix16& screen_x, Fix16& screen_y, Camera* pCam)
 {
     Fix16 zCalc = (kFpOne_7064C4) /
         (kFpEight_7064E8 + (pCam->field_98_cur_pos.field_8_z - zpos)); // kFpOne_7064C4 ??
@@ -842,7 +842,7 @@ static void DisplayWideTextAtSprite(wchar_t* pStr, Sprite* pSprt, s16 x_offset, 
 {
     if (gHud_2B00_706620)
     {
-        Camera_0xBC* pPlayerCam = GetPlayerCam();
+        Camera* pPlayerCam = GetPlayerCam();
         if (pPlayerCam && pSprt)
         {
             Fix16 sprt_xpos = pSprt->field_14_xy.x;
@@ -869,7 +869,7 @@ static void DisplayWideTextAtSprite(wchar_t* pStr, Sprite* pSprt, s16 x_offset, 
 // Draw Text with char_type
 static void DisplayTextAtSprite(char* pStr, Sprite* pSprt, s16 x_offset, s16 y_offset)
 {
-    DisplayWideTextAtSprite(text_0x14::Ascii2Wide_5B5DF0(pStr), pSprt, x_offset, y_offset);
+    DisplayWideTextAtSprite(TextTable::Ascii2Wide_5B5DF0(pStr), pSprt, x_offset, y_offset);
 }
 
 // Draw Text at fixed position in screen (like OG debug stuff)
@@ -883,7 +883,7 @@ static void DisplayWideTextAtScreenCoords(wchar_t* pStr, s16 screen_xpos, s16 sc
 
 static void DisplayTextAtScreenCoords(char* pStr, s16 screen_xpos, s16 screen_ypos)
 {
-    DisplayWideTextAtScreenCoords(text_0x14::Ascii2Wide_5B5DF0(pStr), screen_xpos, screen_ypos);
+    DisplayWideTextAtScreenCoords(TextTable::Ascii2Wide_5B5DF0(pStr), screen_xpos, screen_ypos);
 }
 
 // Draw Text with wchar_t
@@ -891,7 +891,7 @@ static void DisplayWideTextAtXYZ(wchar_t* pStr, Fix16 xpos, Fix16 ypos, Fix16 zp
 {
     if (gHud_2B00_706620)
     {
-        Camera_0xBC* pPlayerCam = GetPlayerCam();
+        Camera* pPlayerCam = GetPlayerCam();
         if (pPlayerCam)
         {
             if (pPlayerCam->IsCoordsPosVisible_435A70(xpos, ypos, zpos))
@@ -1039,7 +1039,7 @@ char* flat_char_array(char* pArray, u16 num_itens)
     return flattened_arr;
 }
 
-bool PointArrowToEntity(Ped* pPed, Car_BC* pCar, Object_2C* pObj)
+bool PointArrowToEntity(Ped* pPed, Car* pCar, Object* pObj)
 {
     if (gHud_2B00_706620)
     {
@@ -1049,7 +1049,7 @@ bool PointArrowToEntity(Ped* pPed, Car_BC* pCar, Object_2C* pObj)
         }
         if (gpArrow)
         {
-            ArrowTrace_24* pTarget = &gpArrow->field_18.field_18_primary_target;
+            ArrowTrace* pTarget = &gpArrow->field_18.field_18_primary_target;
             if (pPed)
             {
                 pTarget->field_0_ped = pPed;
@@ -1297,7 +1297,7 @@ void CC ImGuiDebugDraw()
 
     if (ImGui::TreeNode("Exploding score"))
     {
-        static ExplodingScore_50 test;
+        static ExplodingScore test;
         Sprite* pPlayerSprite = GetPlayerSprite();
         if (ImGui::Button("Single number"))
         {
@@ -1454,7 +1454,7 @@ void CC ImGuiDebugDraw()
 
         if (gCar_BC_Pool_67792C && ImGui::TreeNode("Car Pool"))
         {
-            Car_BC* pCarIter = gCar_BC_Pool_67792C->field_0_pool.field_4_pPrev;
+            Car* pCarIter = gCar_BC_Pool_67792C->field_0_pool.field_4_pPrev;
 
             if (ImGui::TreeNode("All cars Field 88 "))
             {
@@ -1663,7 +1663,7 @@ void CC ImGuiDebugDraw()
                     ImGui::SliderInt("gZCoord_6F63E0", (int*)&gZCoord_6F63E0, 0, 2000);
                 }
 
-                if (ImGui::Button("PathFinder_2FD4::FindNearbyTileMatchingSlopeType_5552B0"))
+                if (ImGui::Button("PathFinder::FindNearbyTileMatchingSlopeType_5552B0"))
                 {
                     u8 xpos = gViewCamera_676978->field_78_view_bounds.field_0_left.ToInt() + 5;
                     u8 ypos = gViewCamera_676978->field_78_view_bounds.field_8_top.ToInt() + 5;
@@ -1682,9 +1682,9 @@ void CC ImGuiDebugDraw()
                     Player* pPlayer = gGame_0x40_67E008->field_4_players[0];
                     if (pPlayer)
                     {
-                        Camera_0xBC* game_camera = &pPlayer->field_90_game_camera;
-                        //Camera_0xBC* view_camera = &pPlayer->field_14C_view_camera;
-                        //Camera_0xBC* aux_camera = &pPlayer->field_208_aux_game_camera;
+                        Camera* game_camera = &pPlayer->field_90_game_camera;
+                        //Camera* view_camera = &pPlayer->field_14C_view_camera;
+                        //Camera* aux_camera = &pPlayer->field_208_aux_game_camera;
                         if (game_camera)
                         {
                             ImGui::SliderInt("field_A4", &game_camera->field_98_cur_pos.field_C_zoom.mValue, 0, 25000);
@@ -1726,7 +1726,7 @@ void CC ImGuiDebugDraw()
             {
                 Ped* pPlayerPed = pPlayer->field_2C4_player_ped;
 
-                Char_B4* pPlayerChar = pPlayerPed->field_168_game_object;
+                Char* pPlayerChar = pPlayerPed->field_168_game_object;
                 //Sprite* pPlayerSprite = pPlayerChar->field_80_sprite_ptr;
 
                 Fix16 xpos, ypos, zpos;
@@ -1770,7 +1770,7 @@ void CC ImGuiDebugDraw()
                     s8 zone_idx = gGangPool_CA8_67E274->FindGangByCarModel_4BF2F0(pNewCar->field_84_car_info_idx);
                     if (zone_idx > -1)
                     {
-                        Gang_144* pGang = gGangPool_CA8_67E274->GangByIdx_4BF1C0(zone_idx);
+                        Gang* pGang = gGangPool_CA8_67E274->GangByIdx_4BF1C0(zone_idx);
                         pNewCar->AttachGangIcon_440660(pGang->field_138_arrow_colour);
                         pNewCar->SetCarRemap(pGang->field_140_gang_car_remap);
                     }
@@ -1875,7 +1875,7 @@ void CC ImGuiDebugDraw()
                     {
                         for (u32 i = 0; i < GTA2_COUNTOF(gCar_BC_Pool_67792C->field_0_pool.field_8_pool); i++)
                         {
-                            Car_BC* pCarIter = &gCar_BC_Pool_67792C->field_0_pool.field_8_pool[i];
+                            Car* pCarIter = &gCar_BC_Pool_67792C->field_0_pool.field_8_pool[i];
                             if (pCarIter && pCarIter->field_50_car_sprite)
                             {
                                 swprintf(tmpBuff_67BD9C, L"%d", pCarIter->field_9C_engine_status);
@@ -1894,10 +1894,10 @@ void CC ImGuiDebugDraw()
             if (ImGui::TreeNode("Show Car AI info"))
             {
                 s32 num_AI_count = 0;
-                Car_BC* pCarIter = gCar_BC_Pool_67792C->field_0_pool.field_4_pPrev;
+                Car* pCarIter = gCar_BC_Pool_67792C->field_0_pool.field_4_pPrev;
                 while (pCarIter)
                 {
-                    CarAI_78* pAI_Iter = pCarIter->field_5C_AI;
+                    CarAI* pAI_Iter = pCarIter->field_5C_AI;
                     if (pAI_Iter && pCarIter->field_50_car_sprite)
                     {
                         /*
@@ -1952,12 +1952,12 @@ void CC ImGuiDebugDraw()
                 Sprite* pPlayerSprt = GetPlayerAssociatedSprite();
                 if (pPlayerSprt)
                 {
-                    Car_BC* pCarIter = gCar_BC_Pool_67792C->field_0_pool.field_4_pPrev;
-                    CarAI_78* pNearestAI = NULL;
+                    Car* pCarIter = gCar_BC_Pool_67792C->field_0_pool.field_4_pPrev;
+                    CarAI* pNearestAI = NULL;
                     Fix16 smallest = Fix16(99999);
                     while (pCarIter)
                     {
-                        CarAI_78* pAI_Iter = pCarIter->field_5C_AI;
+                        CarAI* pAI_Iter = pCarIter->field_5C_AI;
                         if (pAI_Iter && pCarIter->field_50_car_sprite)
                         {
                             Fix16 curr_dist = Fix16::MaxAbsDistance_42A6B0(pPlayerSprt->field_14_xy.x, pPlayerSprt->field_14_xy.y,
@@ -2014,7 +2014,7 @@ void CC ImGuiDebugDraw()
                 static s32 spawnObjectType = 0;
                 ImGui::InputInt("Object type", &spawnObjectType, 1, 1);
                 ImGui::Text("Object name %s", ObjectIdToString(spawnObjectType));
-                ObjectDefinition_74* pObjectDefinition_74 = gObjectDefinitions_6FCF00->GetObjectDefinition_534360(spawnObjectType);
+                ObjectDefinition* pObjectDefinition_74 = gObjectDefinitions_6FCF00->GetObjectDefinition_534360(spawnObjectType);
                 if (pObjectDefinition_74)
                 {
                     ImGui::Value("Behaviour", pObjectDefinition_74->field_34_behavior_type);
@@ -2022,7 +2022,7 @@ void CC ImGuiDebugDraw()
 
                 if (ImGui::Button("Obj spawn"))
                 {
-                    Char_B4* pPlayerChar = pPlayerPed->field_168_game_object;
+                    Char* pPlayerChar = pPlayerPed->field_168_game_object;
                     Sprite* pPlayerSprite2 = pPlayerChar->field_80_sprite_ptr;
                     spawned_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(spawnObjectType,
                                                                           pPlayerSprite2->field_14_xy.x + Fix16(1),
@@ -2125,11 +2125,11 @@ void CC ImGuiDebugDraw()
                 ImGui::Value("ID found", id);
             }
 
-            if (gObject_2C_Pool_6F8F80 && ImGui::TreeNode("Show Object_2C model IDs"))
+            if (gObject_2C_Pool_6F8F80 && ImGui::TreeNode("Show Object model IDs"))
             {
                 for (u32 i = 0;i < 3824; i++)
                 {
-                    Object_2C* pObjIter = &gObject_2C_Pool_6F8F80->field_8_pool[i];
+                    Object* pObjIter = &gObject_2C_Pool_6F8F80->field_8_pool[i];
                     if (pObjIter && pObjIter->field_18_model != 0)
                     {
                         swprintf(tmpBuff_67BD9C, L"%d", pObjIter->field_18_model);
@@ -2181,7 +2181,7 @@ void CC ImGuiDebugDraw()
                     ImGui::SliderU16("F-210", &pPlayer->field_2C4_player_ped->field_210_shock_counter, 0, 500);
                     ImGui::SliderU16("F-212", &pPlayer->field_2C4_player_ped->field_212_electrocution_threshold, 0, 500);
 
-                    Car_BC* pPlayerCar = pPlayerPed->field_16C_car;
+                    Car* pPlayerCar = pPlayerPed->field_16C_car;
                     ImGui::Text("Car 0x%X", pPlayerCar);
                     if (pPlayerCar)
                     {
@@ -2207,7 +2207,7 @@ void CC ImGuiDebugDraw()
                                 pPlayerCar->ResprayOrCleanPlates(2); // 0xFD - clean plates
                             }
 
-                            CarPhysics_B0* pPhysics = pPlayerCar->field_58_physics;
+                            CarPhysics* pPhysics = pPlayerCar->field_58_physics;
 
                             if (pPhysics)
                             {
@@ -2230,7 +2230,7 @@ void CC ImGuiDebugDraw()
 
                                 if (ImGui::TreeNode("Model Physics"))
                                 {
-                                    ModelPhysics_48* pModelPhy =
+                                    ModelPhysics* pModelPhy =
                                         gCarInfo_808_678098->GetModelPhysicsFromIdx_4546B0(pPlayerCar->field_84_car_info_idx);
                                     if (pModelPhy)
                                     {
@@ -2260,7 +2260,7 @@ void CC ImGuiDebugDraw()
                                     static char_type gang_idx = 0;
                                     ImGui::SliderS8("Gang idx", &gang_idx, 0, 2);
 
-                                    Gang_144* pGang = &gGangPool_CA8_67E274->field_0_gang_list[gang_idx];
+                                    Gang* pGang = &gGangPool_CA8_67E274->field_0_gang_list[gang_idx];
                                     if (pGang)
                                     {
                                         if (ImGui::Button("Attach gang icon"))
@@ -2278,7 +2278,7 @@ void CC ImGuiDebugDraw()
                                 if (ImGui::TreeNode("Sprite"))
                                 {
                                     ImGui::Input_char_type("Sprt F38", &pSprt->field_38_zoom, 1, 1);
-                                    SpriteShape_4C* p4C = pSprt->field_4_pVisualShape;
+                                    SpriteShape* p4C = pSprt->field_4_pVisualShape;
                                     if (p4C)
                                     {
                                         ShowRectAndPointsForSprite4C(p4C);
@@ -2364,11 +2364,11 @@ void CC ImGuiDebugDraw()
                         pPlayerPed->AddWeaponWithAmmo_45DD30(currentWeaponIndex, 99);
 
                         /*
-                        Char_B4* pB4 = pPlayerPed->field_168_game_object;
+                        Char* pB4 = pPlayerPed->field_168_game_object;
                         if ( pB4 )
                         {
                         //pB4->field_80_sprite_ptr->field_2C |= 4u;
-                        // Object_2C* p2C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(198, 0, 0, 0, 0); // ped_like_fire_197 ?? but its actually fire
+                        // Object* p2C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(198, 0, 0, 0, 0); // ped_like_fire_197 ?? but its actually fire
                         // pB4->field_80_sprite_ptr->DispatchCollisionEvent_5A3100(p2C->field_4, 0, 0, 0);
                         pB4->field_b0 = 100;
                         }*/
@@ -2389,12 +2389,12 @@ void CC ImGuiDebugDraw()
 
                     //ImGui::SliderInt("field_220", &pPlayerPed->field_220, 0, 999999);
 
-                    Car_BC** field_54_car_array = pPlayer->field_54_car_history;
+                    Car** field_54_car_array = pPlayer->field_54_car_history;
                     if (field_54_car_array)
                     {
                         for (u32 car_idx = 0; car_idx < 3; car_idx++)
                         {
-                            Car_BC* pCar = field_54_car_array[car_idx];
+                            Car* pCar = field_54_car_array[car_idx];
                             if (pCar)
                             {
                                 static char car_name[33];
@@ -2478,18 +2478,18 @@ void CC ImGuiDebugDraw()
                 {
                     static s32 arrow_idx = 0;
                     ImGui::SliderInt("Arrow idx", &arrow_idx, 0, GTA2_COUNTOF(gHud_2B00_706620->field_1F18_arrows.field_0_array) - 1);
-                    Hud_Arrow_7C* pArrow = &gHud_2B00_706620->field_1F18_arrows.field_0_array[arrow_idx];
+                    Hud_Arrow* pArrow = &gHud_2B00_706620->field_1F18_arrows.field_0_array[arrow_idx];
 
                     if (pArrow)
                     {
                         ImGui::SliderS16("Rotation", &pArrow->field_8_rotation.rValue, 0, 1439);
 
-                        Hud_ArrowTargets_64* g20 = &pArrow->field_18;
-                        Hud_ArrowGangInfo_8* g30 = &g20->field_10;
-                        ImGui::Input_char_type("Hud_ArrowGangInfo_8 f5", &g30->field_5_is_visible, 1, 1);
-                        ImGui::Input_char_type("Hud_ArrowGangInfo_8 f6", &g30->field_6_in_use, 1, 1);
+                        Hud_ArrowTargets* g20 = &pArrow->field_18;
+                        Hud_ArrowGangInfo* g30 = &g20->field_10;
+                        ImGui::Input_char_type("Hud_ArrowGangInfo f5", &g30->field_5_is_visible, 1, 1);
+                        ImGui::Input_char_type("Hud_ArrowGangInfo f6", &g30->field_6_in_use, 1, 1);
 
-                        ArrowTrace_24* pPrimaryTrace = &g20->field_18_primary_target;
+                        ArrowTrace* pPrimaryTrace = &g20->field_18_primary_target;
                         if (pPrimaryTrace)
                         {
 
@@ -2532,9 +2532,9 @@ void CC ImGuiDebugDraw()
                     ImGui::TreePop();
                 }
 
-                if (ImGui::TreeNode("Hud_Brief_704"))
+                if (ImGui::TreeNode("Hud_Brief"))
                 {
-                    Hud_Brief_704* pHud_Brief_704 = &gHud_2B00_706620->field_DC_brief;
+                    Hud_Brief* pHud_Brief_704 = &gHud_2B00_706620->field_DC_brief;
 
                     if (pHud_Brief_704)
                     {
@@ -2565,7 +2565,7 @@ void CC ImGuiDebugDraw()
                         }
 
 
-                        Hud_BriefEntry_18* curr_brief = pHud_Brief_704->field_6F8_curr_briefs;
+                        Hud_BriefEntry* curr_brief = pHud_Brief_704->field_6F8_curr_briefs;
                         if (curr_brief)
                         {
                             ImGui::Value("curr brief f_10", curr_brief->field_10_was_displayed);
@@ -2578,7 +2578,7 @@ void CC ImGuiDebugDraw()
 
                         static u16 brief_idx = 0;
                         ImGui::SliderU16("Brief idx", &brief_idx, 0, 19);
-                        Hud_BriefEntry_18* brief = &pHud_Brief_704->field_518_briefs[brief_idx];
+                        Hud_BriefEntry* brief = &pHud_Brief_704->field_518_briefs[brief_idx];
                         if (brief)
                         {
                             ImGui::Text("Brief id: %.8s", brief->field_0_brief_id_str);
@@ -2681,7 +2681,7 @@ void CC ImGuiDebugDraw()
                     s32 c;
                     for (c = 0; c < 100; c++)
                     {
-                        Char_B4* pPlayerChar = pPlayerPed->field_168_game_object;
+                        Char* pPlayerChar = pPlayerPed->field_168_game_object;
                         Sprite* pPlayerSprite = pPlayerChar->field_80_sprite_ptr;
                         gPedManager_6787BC->SpawnPedAt(pPlayerSprite->field_14_xy.x,
                                                        pPlayerSprite->field_14_xy.y,
@@ -2791,21 +2791,21 @@ void CC ImGuiDebugDraw()
 
                 for (i = 0; i < 25; i++)
                 {
-                    PatientSlot_8& j8 = gAmbulance_110_6F70A8->field_8_unused_slots[i];
+                    PatientSlot& j8 = gAmbulance_110_6F70A8->field_8_unused_slots[i];
                     ImGui::Value("field_0", j8.field_0);
                     ImGui::Value("field_4_unused", j8.field_4_unused);
                 }
 
                 for (i = 0; i < 2; i++)
                 {
-                    Ambulance_20& a20 = gAmbulance_110_6F70A8->field_D0_tasks[i];
+                    AmbulanceTask& a20 = gAmbulance_110_6F70A8->field_D0_tasks[i];
                 }
 
                 /*
                 // TODO:
                     char_type field_0_unused;
                     u8 field_1_queue_count;
-                    Ped_List_4 field_4_patient_queue;
+                    Ped_List field_4_patient_queue;
                 */
             }
             ImGui::TreePop();
@@ -2817,7 +2817,7 @@ void CC ImGuiDebugDraw()
             {
                 for (s32 i = 0; i < 20; i++)
                 {
-                    CarChaseTask_40& hb = gCarChaseTaskTable_678E30->field_0_entries[i];
+                    CarChaseTask& hb = gCarChaseTaskTable_678E30->field_0_entries[i];
                     ImGui::Value("field_0", hb.field_0_in_use);
                 }
             }
@@ -2840,13 +2840,13 @@ void CC ImGuiDebugDraw()
                 ImGui::Value("field_8CA6_unused", gObjectDefinitions_6FCF00->field_8CA6_unused);
 
                 //static s32 phi_74_id = 0;
-                //ImGui::SliderInt("ObjectDefinition_74 id", &phi_74_id, 0, 299);
-                //ObjectDefinition_74* phi = gObjectDefinitions_6FCF00->field_87F4_definition_by_idx[phi_74_id];
+                //ImGui::SliderInt("ObjectDefinition id", &phi_74_id, 0, 299);
+                //ObjectDefinition* phi = gObjectDefinitions_6FCF00->field_87F4_definition_by_idx[phi_74_id];
                 if (ImGui::TreeNode("Spawned object"))
                 {
                     if (spawned_obj)
                     {
-                        ObjectDefinition_74* phi = spawned_obj->field_8;
+                        ObjectDefinition* phi = spawned_obj->field_8;
 
                         ImGui::InputInt("field_0", &phi->field_0_width.mValue, 1, 1);
                         ImGui::InputInt("field_4", &phi->field_4_height.mValue, 1, 1);
@@ -2918,7 +2918,7 @@ void CC ImGuiDebugDraw()
                     s16 ypos = 64;
                     for (u32 idx = 0; idx < GTA2_COUNTOF(gPolice_7B8_6FEE40->field_4_cop_crew); idx++)
                     {
-                        PoliceCrew_38* pCrew = &gPolice_7B8_6FEE40->field_4_cop_crew[idx];
+                        PoliceCrew* pCrew = &gPolice_7B8_6FEE40->field_4_cop_crew[idx];
                         if (pCrew && pCrew->field_1C_used)
                         {
                             swprintf(tmpBuff_67BD9C, L"Crew %d state: %d", idx, pCrew->field_24_state);
@@ -2938,7 +2938,7 @@ void CC ImGuiDebugDraw()
                     
                     for (u32 idx2 = 0; idx2 < GTA2_COUNTOF(gPolice_7B8_6FEE40->field_464_pursuit_targets); idx2++)
                     {
-                        PolicePursuitTarget_7C* p7C = &gPolice_7B8_6FEE40->field_464_pursuit_targets[idx2];
+                        PolicePursuitTarget* p7C = &gPolice_7B8_6FEE40->field_464_pursuit_targets[idx2];
                         if (p7C && p7C->field_18_z != kFP16Zero_6FE20C)
                         {
                             swprintf(tmpBuff_67BD9C, L"P7C target coords (%.1f, %.1f, %.1f)", p7C->field_10_x.ToFloat(), p7C->field_14_y.ToFloat(), p7C->field_18_z.ToFloat());
@@ -3058,7 +3058,7 @@ void CC ImGuiDebugDraw()
             ImGui::TreePop();
         }
         
-        if (gParticle_8_6FD5E8 && ImGui::TreeNode("Particle_8"))
+        if (gParticle_8_6FD5E8 && ImGui::TreeNode("ParticleManager"))
         {
             pPlayerSprite = GetPlayerSprite();
 
@@ -3166,7 +3166,7 @@ void CC ImGuiDebugDraw()
         ImGui::Checkbox("Brian Test", &bDo_brian_test_67D544);
         ImGui::Checkbox("Do Test", &bDo_test_67D4F8);
         ImGui::Checkbox("Do Mike", &bDo_mike_67D5CC);
-        ImGui::Checkbox("Do Text ID Test", &gDo_text_id_test_67D6D0); // press '<' or '>' to navigate through gxt text id's  (Hud_BriefSelector_4 stuff)
+        ImGui::Checkbox("Do Text ID Test", &gDo_text_id_test_67D6D0); // press '<' or '>' to navigate through gxt text id's  (Hud_BriefSelector stuff)
         ImGui::Checkbox("3D Sound", &bDo_3d_sound_67D6C2); // seems to not work
 
         if (ImGui::TreeNode("Skip stuff"))
@@ -3213,25 +3213,25 @@ void CC ImGuiDebugDraw()
 
     if (gFrontend_67DC84 && ImGui::TreeNode("Frontend"))
     {
-        if (ImGui::TreeNode("MenuPage_0xBCA"))
+        if (ImGui::TreeNode("MenuPage"))
         {
             //if (gFrontend_67DC84)
             {
                 static s32 page_idx = 0;
                 ImGui::SliderInt("Menu page", &page_idx, 0, 16);
 
-                MenuPage_0xBCA* pMenuPage = &gFrontend_67DC84->field_136_menu_pages_array[page_idx];
+                MenuPage* pMenuPage = &gFrontend_67DC84->field_136_menu_pages_array[page_idx];
                 ImGui::Value("field_0_number_of_options", pMenuPage->field_0_number_of_options);
                 ImGui::Value("field_2", pMenuPage->field_2_number_of_elements);
                 ImGui::Value("field_BC6_current_option_idx", pMenuPage->field_BC6_current_option_idx);
                 ImGui::Value("field_BC8", pMenuPage->field_BC8_default_option_idx);
 
-                if (ImGui::TreeNode("menu_option_0x82"))
+                if (ImGui::TreeNode("MenuItem"))
                 {
                     static s32 option_entry_idx = 0;
                     ImGui::SliderInt("Nifty Maxwell ID", &option_entry_idx, 0, 9);
 
-                    menu_option_0x82* pOptionEntry = &pMenuPage->field_4_options_array[option_entry_idx];
+                    MenuItem* pOptionEntry = &pMenuPage->field_4_options_array[option_entry_idx];
 
                     ImGui::Value("field_0", pOptionEntry->field_0_option_type);
                     ImGui::Value("field_1", pOptionEntry->field_1_is_unlocked);
@@ -3256,12 +3256,12 @@ void CC ImGuiDebugDraw()
                     ImGui::TreePop();
                 }
 
-                if (ImGui::TreeNode("menu_element_0x6E"))
+                if (ImGui::TreeNode("MenuElement"))
                 {
                     static s32 element_idx = 0;
                     ImGui::SliderInt("Competent Noyce ID", &element_idx, 0, 14);
 
-                    menu_element_0x6E* pElement = &pMenuPage->field_518_elements_array[element_idx];
+                    MenuElement* pElement = &pMenuPage->field_518_elements_array[element_idx];
 
                     ImGui::Value("field_0", pElement->field_0_element_type);
                     ImGui::Value("field_1", pElement->field_1_is_it_displayed);
@@ -3279,12 +3279,12 @@ void CC ImGuiDebugDraw()
                     ImGui::TreePop();
                 }
 
-                if (ImGui::TreeNode("MenuOption_6"))
+                if (ImGui::TreeNode("MenuOption"))
                 {
                     static s32 option_idx = 0;
                     ImGui::SliderInt("Kind Beaver ID", &option_idx, 0, 9);
 
-                    MenuOption_6* menu_option = &pMenuPage->field_B8A[option_idx];
+                    MenuOption* menu_option = &pMenuPage->field_B8A[option_idx];
 
                     ImGui::SliderS16("field_0", &menu_option->field_0, 0, 1000);
                     ImGui::SliderS16("field_2_unused", &menu_option->field_2_unused, 0, 700);
@@ -3298,14 +3298,14 @@ void CC ImGuiDebugDraw()
             ImGui::TreePop();
         }
 
-        if (ImGui::TreeNode("SaveSlotSummary_4"))
+        if (ImGui::TreeNode("SaveSlotSummary"))
         {
             //if (gFrontend_67DC84)
             {
                 static s32 slot_idx = 0;
                 ImGui::SliderInt("Save slot", &slot_idx, 0, 7);
 
-                SaveSlotSummary_4* pSlot = &gFrontend_67DC84->field_EDE8_plySlots[slot_idx];
+                SaveSlotSummary* pSlot = &gFrontend_67DC84->field_EDE8_plySlots[slot_idx];
 
                 ImGui::Value("field_0", pSlot->field_0_save_exists);
                 ImGui::Value("field_1", pSlot->field_1_last_saved_stage);
@@ -3378,7 +3378,7 @@ void CC ImGuiDebugDraw()
                 if (ImGui::TreeNode("Credits"))
                 {
 
-                    CreditsText_FD22* pCreditsStruct = &gFrontend_67DC84->field_EE0E_credits;
+                    CreditsText* pCreditsStruct = &gFrontend_67DC84->field_EE0E_credits;
                     if (pCreditsStruct)
                     {
                         ImGui::InputS16("Credits line count", &pCreditsStruct->field_0_line_count, 1, 1);
@@ -3386,7 +3386,7 @@ void CC ImGuiDebugDraw()
                         static s32 credit_line;
                         ImGui::InputInt("Credit line", &credit_line, 1, 1);
 
-                        CreditsLine_6C* pCreditLine = &pCreditsStruct->field_2_lines[credit_line];
+                        CreditsLine* pCreditLine = &pCreditsStruct->field_2_lines[credit_line];
                         if (pCreditLine)
                         {
                             ImGui::Checkbox("Credit line loaded", &pCreditLine->field_0_bLoaded);
@@ -3407,11 +3407,11 @@ void CC ImGuiDebugDraw()
     {
         //if (gPlyDat_6FEAC0)
         {
-            if (ImGui::TreeNode("BestStageStats_28"))
+            if (ImGui::TreeNode("BestStageStats"))
             {
                 static s32 struc_221_id = 0;
-                ImGui::SliderInt("BestStageStats_28 ID", &struc_221_id, 0, 2);
-                BestStageStats_28* struc = &gPlyDat_6FEAC0->field_1800_best_stats[struc_221_id];
+                ImGui::SliderInt("BestStageStats ID", &struc_221_id, 0, 2);
+                BestStageStats* struc = &gPlyDat_6FEAC0->field_1800_best_stats[struc_221_id];
 
                 static s32 byte_id = 0;
                 ImGui::SliderInt("Byte ID", &byte_id, 0, 39);
@@ -3419,7 +3419,7 @@ void CC ImGuiDebugDraw()
                 ImGui::TreePop();
             }
 
-            if (ImGui::TreeNode("HighScoreTable_F0"))
+            if (ImGui::TreeNode("HighScoreTable"))
             {
                 static s32 table_type = 0;
 
@@ -3431,7 +3431,7 @@ void CC ImGuiDebugDraw()
                 ImGui::SliderInt("field_1890 ID 1", &id_1, 0, 2);
                 ImGui::SliderInt("field_1890 ID 2", &id_2, 0, 3);
 
-                HighScoreTable_F0* pTable;
+                HighScoreTable* pTable;
 
                 switch (table_type)
                 {
@@ -3453,7 +3453,7 @@ void CC ImGuiDebugDraw()
 
                 static s32 string_id = 0;
                 ImGui::SliderInt("string_id", &string_id, 0, 9);
-                ScoreTableLine_18* s_string = &pTable->field_0_score_table_line[string_id];
+                ScoreTableLine* s_string = &pTable->field_0_score_table_line[string_id];
 
                 static char str_buf_3[10];
                 wchar_to_char(s_string->field_0_player_name, str_buf_3, 10);
@@ -3463,11 +3463,11 @@ void CC ImGuiDebugDraw()
                 ImGui::TreePop();
             }
 
-            if (ImGui::TreeNode("PlySlot_A4"))
+            if (ImGui::TreeNode("PlySlot"))
             {
                 static s32 table_idx = 0;
                 ImGui::SliderInt("table_idx", &table_idx, 0, 7);
-                PlySlot_A4* dreamy = &gPlyDat_6FEAC0->field_26A0_plyr_stats[table_idx];
+                PlySlot* dreamy = &gPlyDat_6FEAC0->field_26A0_plyr_stats[table_idx];
 
                 static char str_buf_4[9];
                 wchar_to_char(dreamy->field_90_strPlayerName, str_buf_4, 9);
@@ -3475,9 +3475,9 @@ void CC ImGuiDebugDraw()
 
                 static s32 gifted_joliot_id_1 = 0;
                 static s32 gifted_joliot_id_2 = 0;
-                ImGui::SliderInt("StageStats_C ID 1", &gifted_joliot_id_1, 0, 2);
-                ImGui::SliderInt("StageStats_C ID 2", &gifted_joliot_id_2, 0, 3);
-                StageStats_C* g_joliot = &dreamy->field_0_plyr_stage_stats[gifted_joliot_id_1][gifted_joliot_id_2];
+                ImGui::SliderInt("StageStats ID 1", &gifted_joliot_id_1, 0, 2);
+                ImGui::SliderInt("StageStats ID 2", &gifted_joliot_id_2, 0, 3);
+                StageStats* g_joliot = &dreamy->field_0_plyr_stage_stats[gifted_joliot_id_1][gifted_joliot_id_2];
 
                 ImGui::Value("Joliot field_0", g_joliot->field_0_is_stage_unlocked);
                 ImGui::Value("Joliot field_4", g_joliot->field_4_stage_best_score);
@@ -3522,11 +3522,11 @@ void CC ImGuiDebugDraw()
         if (ImGui::TreeNode("gMapObjectOverrides_6FC5F8"))
         {
             static s32 override_idx = 0;
-            ImGui::SliderInt("MapObjectOverride_54 idx", &override_idx, 0, 23);
+            ImGui::SliderInt("MapObjectOverride idx", &override_idx, 0, 23);
 
             if (gMapObjectOverrides_6FC5F8)
             {
-                MapObjectOverride_54* phi_54 = &gMapObjectOverrides_6FC5F8[override_idx];
+                MapObjectOverride* phi_54 = &gMapObjectOverrides_6FC5F8[override_idx];
                 if (phi_54)
                 {
                     ImGui::Value("field_0", phi_54->field_0_definition_idx);

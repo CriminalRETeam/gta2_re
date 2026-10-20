@@ -331,8 +331,8 @@ EXPORT s32 __stdcall SetGamma_5D9910(s32 gamma)
     return gamma;
 }
 
-DEFINE_GLOBAL(SoundObject_10, snd1_67D818, 0x67D818);
-DEFINE_GLOBAL(SoundObject_10, snd2_67D6F8, 0x67D6F8);
+DEFINE_GLOBAL(SoundObject, snd1_67D818, 0x67D818);
+DEFINE_GLOBAL(SoundObject, snd2_67D6F8, 0x67D6F8);
 
 MATCH_FUNC(0x4B4C60)
 void Frontend::LoadStringsFromStage_4B4C60(u16 mainBlockIdx, u16 bounusBlockIdx, char* pDebugStr, char* pMapName, char* pStyName)
@@ -392,7 +392,7 @@ void __stdcall Frontend::destroy_4AD070()
 }
 
 // 9.6f 0x453AB0: index of the tag game player with the longest time (that hasn't quit)
-inline s32 TagGame_28::GetLeaderIdx_453AB0()
+inline s32 TagGame::GetLeaderIdx_453AB0()
 {
     s32 leader_idx = -1;
     s32 leader_time = -1;
@@ -430,7 +430,7 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
     wchar_t player_name[50];
     wchar_t quit_name[64];
 
-    PlySlot_A4* pStats = GetCurrPlayerStats_4B43E0();
+    PlySlot* pStats = GetCurrPlayerStats_4B43E0();
     field_132_f136_idx = menu_page_idx;
 
     if (menu_page_idx == MENUPAGE_PARENTAL_CONTROL)
@@ -536,7 +536,7 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
             gGameSession_67E8E0.DecodeStage_453A60(saved_bonus_code, &saved_main_stage, &saved_bonus_code);
         }
 
-        MenuPage_0xBCA* pPage = &field_136_menu_pages_array[menu_page_idx];
+        MenuPage* pPage = &field_136_menu_pages_array[menu_page_idx];
         if (main_stage_idx == saved_main_stage && bonus_stage_idx == saved_bonus_code)
         {
             pPage->field_4_options_array[option_idx].field_1_is_unlocked = 1;
@@ -734,7 +734,7 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
 
     field_132_f136_idx = menu_page_idx;
     field_136_menu_pages_array[menu_page_idx].field_BC6_current_option_idx = field_136_menu_pages_array[menu_page_idx].field_BC8_default_option_idx;
-    MenuPage_0xBCA* pCurPage = &field_136_menu_pages_array[field_132_f136_idx];
+    MenuPage* pCurPage = &field_136_menu_pages_array[field_132_f136_idx];
     if (!pCurPage->field_4_options_array[pCurPage->field_BC6_current_option_idx].field_1_is_unlocked)
     {
         pCurPage->SelectNextOption_4B6200();
@@ -752,8 +752,8 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
 MATCH_FUNC(0x4B3AF0)
 void Frontend::GetOptionText_4B3AF0(u16 menu_page_idx, u16 option_idx, wchar_t** w_buffer)
 {
-    MenuPage_0xBCA* pPage = &field_136_menu_pages_array[menu_page_idx];
-    menu_option_0x82* pOption = &pPage->field_4_options_array[option_idx];
+    MenuPage* pPage = &field_136_menu_pages_array[menu_page_idx];
+    MenuItem* pOption = &pPage->field_4_options_array[option_idx];
 
     if (menu_page_idx == MENUPAGE_PLAY && option_idx == 0) // option 0 = change player/name
     {
@@ -911,7 +911,7 @@ s32 Frontend::Run_4AEDB0()
 
 // https://decomp.me/scratch/ci11a
 MATCH_FUNC(0x4B5430)
-void Frontend::DrawScoreTable_4B5430(ScoreTableLine_18* pStrings,
+void Frontend::DrawScoreTable_4B5430(ScoreTableLine* pStrings,
                           u16 text_xpos,
                           u16 text_ypos,
                           u16 num_entries,
@@ -923,7 +923,7 @@ void Frontend::DrawScoreTable_4B5430(ScoreTableLine_18* pStrings,
 
     for (u16 i = 0; i < num_entries; i++)
     {
-        ScoreTableLine_18* pIter = &pStrings[i];
+        ScoreTableLine* pIter = &pStrings[i];
         u16 text_ypos_to_use = text_ypos + 40 * i;
         if (spacing_type)
         {
@@ -980,7 +980,7 @@ void Frontend::DrawMenu_4AD140()
 {
     const s32 line_height = gText_0x14_704DFC->field_10_lang_code != 'j' ? 14 : 16;
 
-    MenuPage_0xBCA* pMenuPage = &field_136_menu_pages_array[field_132_f136_idx];
+    MenuPage* pMenuPage = &field_136_menu_pages_array[field_132_f136_idx];
 
     u16 selected_option_idx;
     u16 last_xpos;
@@ -1021,31 +1021,31 @@ void Frontend::DrawMenu_4AD140()
         }
     }
 
-    HighScoreTable_F0* pHighScoreTable;
+    HighScoreTable* pHighScoreTable;
 
     if (field_132_f136_idx == MENUPAGE_VIEW_HIGH_SCORE)
     {
         if (field_EE0D_hiscore_table_idx < 3) //  line 1b8
         {
             pHighScoreTable = &gPlyDat_6FEAC0->field_1890_stage_scores[field_EE0D_hiscore_table_idx][0]; // main district score
-            Frontend::DrawScoreTable_4B5430((ScoreTableLine_18*)&pHighScoreTable->field_0_score_table_line, 300, 250, 5, field_12A_score_font, 0xFFFF, 2);
+            Frontend::DrawScoreTable_4B5430((ScoreTableLine*)&pHighScoreTable->field_0_score_table_line, 300, 250, 5, field_12A_score_font, 0xFFFF, 2);
         }
         else if (field_EE0D_hiscore_table_idx < 6)
         {
             pHighScoreTable = &gPlyDat_6FEAC0->field_1890_stage_scores[0][field_EE0D_hiscore_table_idx - 2];
-            Frontend::DrawScoreTable_4B5430((ScoreTableLine_18*)&pHighScoreTable->field_0_score_table_line, 300, 250, 5, field_12A_score_font, 0xFFFF, 2);
+            Frontend::DrawScoreTable_4B5430((ScoreTableLine*)&pHighScoreTable->field_0_score_table_line, 300, 250, 5, field_12A_score_font, 0xFFFF, 2);
         }
         else
         {
             if (field_EE0D_hiscore_table_idx < 9)
             {
                 pHighScoreTable = &gPlyDat_6FEAC0->field_1890_stage_scores[1][field_EE0D_hiscore_table_idx - 5];
-                Frontend::DrawScoreTable_4B5430((ScoreTableLine_18*)&pHighScoreTable->field_0_score_table_line, 300, 250, 5, field_12A_score_font, 0xFFFF, 2);
+                Frontend::DrawScoreTable_4B5430((ScoreTableLine*)&pHighScoreTable->field_0_score_table_line, 300, 250, 5, field_12A_score_font, 0xFFFF, 2);
             }
             else
             {
                 pHighScoreTable = &gPlyDat_6FEAC0->field_1890_stage_scores[2][field_EE0D_hiscore_table_idx - 8];
-                Frontend::DrawScoreTable_4B5430((ScoreTableLine_18*)&pHighScoreTable->field_0_score_table_line, 300, 250, 5, field_12A_score_font, 0xFFFF, 2);
+                Frontend::DrawScoreTable_4B5430((ScoreTableLine*)&pHighScoreTable->field_0_score_table_line, 300, 250, 5, field_12A_score_font, 0xFFFF, 2);
             }
         }
 
@@ -1095,7 +1095,7 @@ void Frontend::DrawMenu_4AD140()
             DrawBonusRating_4B7D60();
         }
 
-        Frontend::DrawScoreTable_4B5430((ScoreTableLine_18*)&gPlyDat_6FEAC0->field_1890_stage_scores[main_level_idx][bonus_stage_idx]
+        Frontend::DrawScoreTable_4B5430((ScoreTableLine*)&gPlyDat_6FEAC0->field_1890_stage_scores[main_level_idx][bonus_stage_idx]
                                  .field_0_score_table_line,
                              0xAAu,
                              155,
@@ -1126,7 +1126,7 @@ void Frontend::DrawMenu_4AD140()
 
     for (option_idx = 0; option_idx < pMenuPage->field_0_number_of_options; option_idx++)
     {
-        menu_option_0x82* pMenuOption = &pMenuPage->field_4_options_array[option_idx];
+        MenuItem* pMenuOption = &pMenuPage->field_4_options_array[option_idx];
 
         if (pMenuOption->field_1_is_unlocked)
         {
@@ -1290,7 +1290,7 @@ void Frontend::DrawMenu_4AD140()
         {
             gGameSession_67E8E0.DecodeStage_453A60(gGameSession_67E8E0.GetStage_4C5990(), &main_level_idx, &bonus_level_idx);
         }
-        Frontend::DrawScoreTable_4B5430((ScoreTableLine_18*)&gPlyDat_6FEAC0->field_1890_stage_scores[main_level_idx][bonus_level_idx]
+        Frontend::DrawScoreTable_4B5430((ScoreTableLine*)&gPlyDat_6FEAC0->field_1890_stage_scores[main_level_idx][bonus_level_idx]
                                  .field_0_score_table_line,
                              0x12Cu,
                              line_height,
@@ -1302,7 +1302,7 @@ void Frontend::DrawMenu_4AD140()
 
     for (option_idx = 0; option_idx < pMenuPage->field_2_number_of_elements; option_idx++)
     {
-        menu_element_0x6E* pMenuElement = &pMenuPage->field_518_elements_array[option_idx];
+        MenuElement* pMenuElement = &pMenuPage->field_518_elements_array[option_idx];
 
         if (pMenuElement->field_1_is_it_displayed)
         {
@@ -1411,7 +1411,7 @@ void Frontend::DrawCredits_4B7AE0()
     u16 credit_idx = field_1EB38_credits_line_idx;
     for (Fix16 y = field_1EB34_credits_ypos; y < 480 && credit_idx < 600; credit_idx++, y += field_EE0E_credits.field_2_lines[credit_idx].field_4_y_gap)
     {
-        CreditsLine_6C* pLine = &field_EE0E_credits.field_2_lines[credit_idx];
+        CreditsLine* pLine = &field_EE0E_credits.field_2_lines[credit_idx];
         switch (pLine->field_6_string_category)
         {
             case credits_line_category::normal_0: // normal string: white
@@ -1681,7 +1681,7 @@ void Frontend::read_menu_input_4AFEB0()
 MATCH_FUNC(0x4B6780)
 void Frontend::UpdateMenuScreen_4B6780()
 {
-    MenuPage_0xBCA* pMenuPage = &field_136_menu_pages_array[field_132_f136_idx];
+    MenuPage* pMenuPage = &field_136_menu_pages_array[field_132_f136_idx];
     if (field_110_state != 2)
     {
         if (field_132_f136_idx == MENUPAGE_START_MENU)
@@ -1815,19 +1815,19 @@ void Frontend::ManageCredits_4B7A10()
 MATCH_FUNC(0x4AE2D0)
 void Frontend::UpdatePageFromUserInput_4AE2D0()
 {
-    MenuPage_0xBCA* pMenuPage; // ebx
-    PlySlot_A4* pStats; // ebp
+    MenuPage* pMenuPage; // ebx
+    PlySlot* pStats; // ebp
     u16 target_page_idx; // ax
     u8 bonus_scan_idx; // bl
     u8 main_stage_idx; // al
     u8 unused_idx;
     u16 current_option_idx; // cx
-    menu_option_0x82* pOption_prev; // edi
+    MenuItem* pOption_prev; // edi
     bool bWrapped_prev; // bl
     u16 option_idx; // cx
-    menu_option_0x82* pOption_next; // edi
+    MenuItem* pOption_next; // edi
     bool bWrapped_next; // bl
-    MenuPage_0xBCA* pMenuPageSaved; // [esp+10h] [ebp-Ch]
+    MenuPage* pMenuPageSaved; // [esp+10h] [ebp-Ch]
     u8 stage_main_idx;
     u8 stage_bonus_idx;
 
@@ -1836,7 +1836,7 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
     pStats = GetCurrPlayerStats_4B43E0();
     if (field_C9D0_return_pressed)
     {
-        menu_option_0x82* pOption = &pMenuPage->field_4_options_array[pMenuPage->field_BC6_current_option_idx];
+        MenuItem* pOption = &pMenuPage->field_4_options_array[pMenuPage->field_BC6_current_option_idx];
         if (pOption->field_0_option_type == STRING_TEXT_1)
         {
             target_page_idx = pOption->field_80_menu_page_target;
@@ -2167,7 +2167,7 @@ void Frontend::HandlePlayerNameTyping_4B2F60()
             }
             goto LABEL_26;
         }
-        keybrd_0x204::RecreateIfLayoutChanged_4D5FD0();
+        KeyboardLayout::RecreateIfLayoutChanged_4D5FD0();
         Key_4D5F40 = gKeybrd_0x204_6F52F4->GetKey_4D5F40(input);
         typed_char = gText_0x14_704DFC->RemapExtendedChar_5B58D0(Key_4D5F40);
         if ((u16)GetCharWidth_4539D0(field_11C_normal_font, typed_char) >= 3u && typed_char)
@@ -2460,7 +2460,7 @@ void Frontend::DeleteCurrentPlayer_4B4410()
 }
 
 MATCH_FUNC(0x4B43E0)
-PlySlot_A4* Frontend::GetCurrPlayerStats_4B43E0()
+PlySlot* Frontend::GetCurrPlayerStats_4B43E0()
 {
     // note: movsx vs movzx due to signedness
     u16 idx = gGameSession_67E8E0.GetPlySlotIdx_4C59B0();
@@ -2470,9 +2470,9 @@ PlySlot_A4* Frontend::GetCurrPlayerStats_4B43E0()
 MATCH_FUNC(0x4B42E0)
 void Frontend::UpdateMenuForCurrPlayer_4B42E0()
 {
-    PlySlot_A4* pPlayerStats = Frontend::GetCurrPlayerStats_4B43E0();
+    PlySlot* pPlayerStats = Frontend::GetCurrPlayerStats_4B43E0();
     u8 PlySlotIdx_4C59B0 = gGameSession_67E8E0.GetPlySlotIdx_4C59B0();
-    MenuPage_0xBCA* pMenuPage = &field_136_menu_pages_array[field_132_f136_idx];
+    MenuPage* pMenuPage = &field_136_menu_pages_array[field_132_f136_idx];
 
     u8 prev_stage_idx = Frontend::GetPrevUnlockedStageIndex_4B77B0(pPlayerStats);
     u8 prev_bonus_code = Frontend::GetPrevUnlockedStageBonusCode_4B7800(pPlayerStats);
@@ -2524,7 +2524,7 @@ void Frontend::SaveAndUpdatePlayerName_4B4230()
 MATCH_FUNC(0x4B3CC0)
 void Frontend::GetElementText_4B3CC0(u16 page_idx, u16 element_idx, wchar_t** ppText)
 {
-    menu_element_0x6E* temp = &field_136_menu_pages_array[page_idx].field_518_elements_array[element_idx];
+    MenuElement* temp = &field_136_menu_pages_array[page_idx].field_518_elements_array[element_idx];
 
     if (page_idx == 14 && element_idx == 4)
     {
@@ -2548,7 +2548,7 @@ void Frontend::GetElementText_4B3CC0(u16 page_idx, u16 element_idx, wchar_t** pp
 MATCH_FUNC(0x4B3DD0)
 void Frontend::HandleCheatCode_4B3DD0(const wchar_t* cheat_str_wide)
 {
-    const char* ascii_cheat_str = text_0x14::Wide2PesudoAscii_5B5D10(cheat_str_wide);
+    const char* ascii_cheat_str = TextTable::Wide2PesudoAscii_5B5D10(cheat_str_wide);
     const size_t cheat_str_len = wcslen(cheat_str_wide);
 
     if (cheat_str_len > 16) // OG bug - should be checking for 8?
@@ -2769,7 +2769,7 @@ void Frontend::CheckPassword_4B8560()
 MATCH_FUNC(0x4B8020)
 void Frontend::ContinueToNextStage_4B8020()
 {
-    PlySlot_A4* pClarke = GetCurrPlayerStats_4B43E0();
+    PlySlot* pClarke = GetCurrPlayerStats_4B43E0();
     u8 main_stage_idx = gGameSession_67E8E0.GetMainStageIdx_4C5980();
 
     if (AreAllStagesUnlocked_4B7FB0()) // Everything unlocked, including all bonus stages
@@ -2809,7 +2809,7 @@ void Frontend::DrawBonusRating_4B7D60()
     if (rating_idx)
     {
         wchar_t* pRatingStr = gText_0x14_704DFC->Find_5B5F90(text_id);
-        text_0x14::InsertLineBreaksAndGetNumLines_5B5BC0(text, pRatingStr, 560, font_type);
+        TextTable::InsertLineBreaksAndGetNumLines_5B5BC0(text, pRatingStr, 560, font_type);
         DrawText_4B87A0(text, 40, 270, font_type, 1);
     }
 }
@@ -2879,7 +2879,7 @@ EXPORT int Frontend::sub_4B7E10(u8 str_id_idx, u16 text_xpos, u16 text_ypos, u16
 MATCH_FUNC(0x4B7FB0)
 char_type Frontend::AreAllStagesUnlocked_4B7FB0()
 {
-    PlySlot_A4* pPlayerSlot = GetCurrPlayerStats_4B43E0();
+    PlySlot* pPlayerSlot = GetCurrPlayerStats_4B43E0();
     u16 main_stage_idx = 0;
     // note: two separated while's interlaced by a backwards goto may be actually two nested while's
     while (main_stage_idx < field_1EB50_num_main_stages)
@@ -3262,7 +3262,7 @@ Frontend::Frontend()
 {
     SetField10D_453A30(1);
 
-    gText_0x14_704DFC = new text_0x14();
+    gText_0x14_704DFC = new TextTable();
     if (!gText_0x14_704DFC)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2288);
@@ -3274,7 +3274,7 @@ Frontend::Frontend()
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2290);
     }
 
-    gTextureCache_15D8_705064 = new TextureCache_15D8();
+    gTextureCache_15D8_705064 = new TextureCache();
     if (!gTextureCache_15D8_705064)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2292);
@@ -3282,8 +3282,8 @@ Frontend::Frontend()
 
     if (gText_0x14_704DFC->field_10_lang_code == 'j')
     {
-        // pKanjiFont_8EC = pKanjiFont_8EC_mem ? KanjiFont_8EC::ctor_4D2C80(pKanjiFont_8EC_mem) : 0;
-        gKanjiFont_6F5168 = new KanjiFont_8EC();
+        // pKanjiFont_8EC = pKanjiFont_8EC_mem ? KanjiFont::ctor_4D2C80(pKanjiFont_8EC_mem) : 0;
+        gKanjiFont_6F5168 = new KanjiFont();
         if (!gKanjiFont_6F5168)
         {
             FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2297);
@@ -3516,7 +3516,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
 {
     // local_4 = (-(ushort)(cVar1 != 'j') & 0xfffc) + 0x10;
 
-    MenuPage_0xBCA* pPage;
+    MenuPage* pPage;
     s32 line_height = gText_0x14_704DFC->field_10_lang_code != 'j' ? 12 : 16;
     field_134_unused = 16;
 
@@ -4378,7 +4378,7 @@ char_type Frontend::PlySlotSvgExists_4B5370(u8 idx)
 }
 
 MATCH_FUNC(0x4B77B0)
-u8 Frontend::GetPrevUnlockedStageIndex_4B77B0(PlySlot_A4* pStats)
+u8 Frontend::GetPrevUnlockedStageIndex_4B77B0(PlySlot* pStats)
 {
     u8 result;
 
@@ -4393,7 +4393,7 @@ u8 Frontend::GetPrevUnlockedStageIndex_4B77B0(PlySlot_A4* pStats)
 }
 
 MATCH_FUNC(0x4B7800)
-u8 Frontend::GetPrevUnlockedStageBonusCode_4B7800(PlySlot_A4* pStats)
+u8 Frontend::GetPrevUnlockedStageBonusCode_4B7800(PlySlot* pStats)
 {
     u8 stage = Frontend::GetPrevUnlockedStageIndex_4B77B0(pStats);
     u8 bonus = field_1EB51_num_bonus_stages[stage] - 1;
@@ -4714,7 +4714,7 @@ u16 Frontend::GetCenteredXPos_4B0190(wchar_t* pText, u16 fontType, s32 width)
 MATCH_FUNC(0x4B7060)
 u8 Frontend::GetPreviousUnlockedMainStage_4B7060(u8 stage_idx)
 {
-    PlySlot_A4* pStats = GetCurrPlayerStats_4B43E0();
+    PlySlot* pStats = GetCurrPlayerStats_4B43E0();
     u8 result = stage_idx;
     if (stage_idx == 0)
     {
@@ -4738,7 +4738,7 @@ u8 Frontend::GetPreviousUnlockedMainStage_4B7060(u8 stage_idx)
 MATCH_FUNC(0x4B7270)
 u8 Frontend::GetNextUnlockedMainStage_4B7270(char_type main_stage_idx)
 {
-    PlySlot_A4* pStats = GetCurrPlayerStats_4B43E0();
+    PlySlot* pStats = GetCurrPlayerStats_4B43E0();
     u8 result = main_stage_idx;
     if (main_stage_idx == 2)
     {
@@ -4784,7 +4784,7 @@ bool Frontend::ExistsNextMainStage_4B74C0()
 MATCH_FUNC(0x4B7550)
 void Frontend::UpdateMainStageArrows_4B7550()
 {
-    MenuPage_0xBCA* pMenuPage = &field_136_menu_pages_array[field_132_f136_idx];
+    MenuPage* pMenuPage = &field_136_menu_pages_array[field_132_f136_idx];
     u8 main_stage_idx = gGameSession_67E8E0.GetMainStageIdx_4C5980();
     swprintf(tmpBuff_67BD9C, L"%d", main_stage_idx + 1);
     wcsncpy(pMenuPage->field_518_elements_array[2].field_6_element_name_str, tmpBuff_67BD9C, 0x32u);
@@ -4839,7 +4839,7 @@ void Frontend::StripPlayerNameToCurrLength_4B42B0()
 MATCH_FUNC(0x4B7120)
 char_type Frontend::GetPreviousUnlockedBonusStage_4B7120(u8 stage)
 {
-    PlySlot_A4* player_stats = Frontend::GetCurrPlayerStats_4B43E0();
+    PlySlot* player_stats = Frontend::GetCurrPlayerStats_4B43E0();
 
     u8 main_stage_idx;
     u8 bonus_stage_idx;
@@ -4887,7 +4887,7 @@ char_type Frontend::GetPreviousUnlockedBonusStage_4B7120(u8 stage)
 MATCH_FUNC(0x4B7610)
 void Frontend::UpdateBonusStageArrows_4B7610()
 {
-    MenuPage_0xBCA* pPage = &field_136_menu_pages_array[field_132_f136_idx];
+    MenuPage* pPage = &field_136_menu_pages_array[field_132_f136_idx];
     u8 stage = gGameSession_67E8E0.GetStage_4C5990();
     u8 main_idx;
     u8 bonus_idx;
@@ -4961,7 +4961,7 @@ bool Frontend::ExistsPreviousBonusStage_4B74F0()
 MATCH_FUNC(0x4B7360)
 char_type Frontend::GetNextUnlockedBonusStage_4B7360(u8 stage)
 {
-    PlySlot_A4* player_stats = GetCurrPlayerStats_4B43E0();
+    PlySlot* player_stats = GetCurrPlayerStats_4B43E0();
 
     u8 main_stage_idx;
     u8 bonus_stage_idx;
@@ -5068,9 +5068,9 @@ void Frontend::sub_4B4EC0()
     }
     File::Global_Open_4A7060(FileName);
 
-    SaveSlotInfo_52 svg;
+    SaveSlotInfo svg;
     {
-        u32 len = sizeof(SaveSlotInfo_52);
+        u32 len = sizeof(SaveSlotInfo);
         File::Global_Read_4A71C0(&svg, len);
     }
 
@@ -5122,7 +5122,7 @@ void Frontend::sub_4B4EC0()
 }
 
 MATCH_FUNC(0x4B6070)
-MenuPage_0xBCA::MenuPage_0xBCA()
+MenuPage::MenuPage()
 {
     field_0_number_of_options = 0;
     field_2_number_of_elements = 0;
@@ -5131,7 +5131,7 @@ MenuPage_0xBCA::MenuPage_0xBCA()
 }
 
 MATCH_FUNC(0x4B6110)
-MenuPage_0xBCA::~MenuPage_0xBCA()
+MenuPage::~MenuPage()
 {
     field_0_number_of_options = 0;
     field_2_number_of_elements = 0;
@@ -5140,7 +5140,7 @@ MenuPage_0xBCA::~MenuPage_0xBCA()
 }
 
 MATCH_FUNC(0x4B61B0)
-bool MenuPage_0xBCA::SelectPrevOption_4B61B0()
+bool MenuPage::SelectPrevOption_4B61B0()
 {
     u16 oldIdx = field_BC6_current_option_idx;
     do
@@ -5158,7 +5158,7 @@ bool MenuPage_0xBCA::SelectPrevOption_4B61B0()
 }
 
 MATCH_FUNC(0x4B6200)
-bool MenuPage_0xBCA::SelectNextOption_4B6200()
+bool MenuPage::SelectNextOption_4B6200()
 {
     u16 oldIdx = field_BC6_current_option_idx;
     do
@@ -5176,7 +5176,7 @@ bool MenuPage_0xBCA::SelectNextOption_4B6200()
 }
 
 MATCH_FUNC(0x4B63E0)
-menu_element_0x6E::menu_element_0x6E()
+MenuElement::MenuElement()
 {
     field_0_element_type = NULL_TYPE_0;
     field_2_xpos = 0;
@@ -5188,7 +5188,7 @@ menu_element_0x6E::menu_element_0x6E()
 }
 
 MATCH_FUNC(0x4B6420)
-menu_element_0x6E::~menu_element_0x6E()
+MenuElement::~MenuElement()
 {
     field_1_is_it_displayed = 1;
     field_0_element_type = NULL_TYPE_0;
@@ -5199,7 +5199,7 @@ menu_element_0x6E::~menu_element_0x6E()
 }
 
 MATCH_FUNC(0x4B6290)
-menu_option_0x82::menu_option_0x82()
+MenuItem::MenuItem()
 {
     field_6A_font_type = -1;
     field_6C_palette = -1;
@@ -5221,7 +5221,7 @@ menu_option_0x82::menu_option_0x82()
 }
 
 MATCH_FUNC(0x4B62F0)
-menu_option_0x82::~menu_option_0x82()
+MenuItem::~MenuItem()
 {
     field_0_option_type = NULL_TYPE_0;
     field_1_is_unlocked = 1;
@@ -5236,7 +5236,7 @@ menu_option_0x82::~menu_option_0x82()
 }
 
 MATCH_FUNC(0x4B6330)
-bool menu_option_0x82::SelectNextHorizontalIdx_4B6330()
+bool MenuItem::SelectNextHorizontalIdx_4B6330()
 {
     BYTE tmp = bIsLeftRightLoopEnabled_67DA80;
     u16 old_count = field_6E_horizontal_selected_idx;
@@ -5273,7 +5273,7 @@ bool menu_option_0x82::SelectNextHorizontalIdx_4B6330()
 }
 
 MATCH_FUNC(0x4B6390)
-bool menu_option_0x82::SelectPrevHorizontalIdx_4B6390()
+bool MenuItem::SelectPrevHorizontalIdx_4B6390()
 {
     u16 oldCount = field_6E_horizontal_selected_idx;
     u16 new_count = oldCount;
@@ -5311,7 +5311,7 @@ bool menu_option_0x82::SelectPrevHorizontalIdx_4B6390()
 }
 
 MATCH_FUNC(0x4B6260)
-MenuOption_6::MenuOption_6()
+MenuOption::MenuOption()
 {
     field_0 = 0;
     field_2_unused = 0;
@@ -5319,7 +5319,7 @@ MenuOption_6::MenuOption_6()
 }
 
 MATCH_FUNC(0x4B6280)
-MenuOption_6::~MenuOption_6()
+MenuOption::~MenuOption()
 {
     field_0 = 0;
     field_2_unused = 0;
@@ -5327,7 +5327,7 @@ MenuOption_6::~MenuOption_6()
 }
 
 MATCH_FUNC(0x4B6440)
-SaveSlotSummary_4::SaveSlotSummary_4()
+SaveSlotSummary::SaveSlotSummary()
 {
     field_0_save_exists = false;
     field_1_last_saved_stage = 0;
@@ -5336,7 +5336,7 @@ SaveSlotSummary_4::SaveSlotSummary_4()
 }
 
 MATCH_FUNC(0x4B6450)
-SaveSlotSummary_4::~SaveSlotSummary_4()
+SaveSlotSummary::~SaveSlotSummary()
 {
     field_0_save_exists = false;
     field_1_last_saved_stage = 0;
@@ -5345,12 +5345,12 @@ SaveSlotSummary_4::~SaveSlotSummary_4()
 }
 
 MATCH_FUNC(0x4B6480)
-void SaveSlotSummary_4::LoadPlySlotSvg_4B6480(const char_type* FileName)
+void SaveSlotSummary::LoadPlySlotSvg_4B6480(const char_type* FileName)
 {
     File::Global_Open_4A7060(FileName);
 
-    SaveSlotInfo_52 svg;
-    u32 len = sizeof(SaveSlotInfo_52);
+    SaveSlotInfo svg;
+    u32 len = sizeof(SaveSlotInfo);
     File::Global_Read_4A71C0(&svg, len);
 
     File::Global_Close_4A70C0();

@@ -6,7 +6,7 @@
 
 class gmp_map_zone;
 
-class Gang_144
+class Gang
 {
   public:
     // 9.6f 0x45DD50
@@ -83,8 +83,8 @@ class Gang_144
         field_139_kill_respect_change = v;
     }
 
-    EXPORT Gang_144(); //  0x4BE4E0
-    EXPORT ~Gang_144(); // 0x4BE4F0
+    EXPORT Gang(); //  0x4BE4E0
+    EXPORT ~Gang(); // 0x4BE4F0
 
     EXPORT wchar_t* GetNameWide_4BED30();
     EXPORT void Init_4BED70();
@@ -132,26 +132,28 @@ class Gang_144
     char field_142_unused;
     char field_143_unused;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Gang, 0x144);
 
-class GangPool_CA8
+class GangPool
 {
   public:
-    GangPool_CA8()
+    GangPool()
     {
     }
 
-    EXPORT ~GangPool_CA8();
-    EXPORT Gang_144* FirstGang_4BECA0();
-    EXPORT Gang_144* NextGang_4BECE0();
-    EXPORT Gang_144* FindGangByName_4BF100(const char* pGangName);
-    EXPORT Gang_144* AllocGang_4BF170();
-    EXPORT Gang_144* GangByIdx_4BF1C0(u8 gang_idx);
+    EXPORT ~GangPool();
+    EXPORT Gang* FirstGang_4BECA0();
+    EXPORT Gang* NextGang_4BECE0();
+    EXPORT Gang* FindGangByName_4BF100(const char* pGangName);
+    EXPORT Gang* AllocGang_4BF170();
+    EXPORT Gang* GangByIdx_4BF1C0(u8 gang_idx);
     EXPORT void AddGangForMapZone_4BF1E0(gmp_map_zone* pMapZone);
     EXPORT s8 GetGangIdxByName_4BF210(const char* gangName);
-    EXPORT void SwapGangSlots_4BF230(Gang_144* pGang, u8 gang_idx);
+    EXPORT void SwapGangSlots_4BF230(Gang* pGang, u8 gang_idx);
     EXPORT s8 FindGangByCarModel_4BF2F0(s32 car_model);
 
-    Gang_144 field_0_gang_list[10];
+    Gang field_0_gang_list[10];
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(GangPool, 0xCA8);
 
-EXTERN_GLOBAL(GangPool_CA8*, gGangPool_CA8_67E274);
+EXTERN_GLOBAL(GangPool*, gGangPool_CA8_67E274);

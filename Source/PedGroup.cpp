@@ -392,10 +392,10 @@ void PedGroup::PromoteMemberToLeader_4C9680(u8 idx)
 {
     Ped* pTmp = gPedPool_6787B8->Allocate();
 
-    Weapon_30* leaderWeapon = field_2C_ped_leader->field_170_selected_weapon;
-    Weapon_30* memberWeapon = field_4_ped_list[idx]->field_170_selected_weapon;
-    Weapon_30* leaderWeapon2 = field_2C_ped_leader->field_174_pWeapon;
-    Weapon_30* memberWeapon2 = field_4_ped_list[idx]->field_174_pWeapon;
+    Weapon* leaderWeapon = field_2C_ped_leader->field_170_selected_weapon;
+    Weapon* memberWeapon = field_4_ped_list[idx]->field_170_selected_weapon;
+    Weapon* leaderWeapon2 = field_2C_ped_leader->field_174_pWeapon;
+    Weapon* memberWeapon2 = field_4_ped_list[idx]->field_174_pWeapon;
 
     pTmp->CopyStatsFromPed_45B5B0(field_2C_ped_leader);
     field_2C_ped_leader->CopyStatsFromPed_45B5B0(field_4_ped_list[idx]);
@@ -707,7 +707,7 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
         field_30_panicking = 1;
         if (pLeader->GetPedState_403990() == ped_state_1::in_car_10 || pLeader->FindUsableCarDoor_467090())
         {
-            Car_BC* pCar;
+            Car* pCar;
             if (field_2C_ped_leader->field_168_game_object)
             {
                 pCar = field_2C_ped_leader->field_168_game_object->field_84_target_car;
@@ -753,7 +753,7 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
                     pMember->field_168_game_object->ClearCollisionState_545600();
                 }
 
-                Car_BC* pTargetCar = pMember->get_target_to_enter_403B10();
+                Car* pTargetCar = pMember->get_target_to_enter_403B10();
                 u8 tries = 0;
                 byte_620838 = i + 1;
                 u8 maxDoor = pTargetCar->GetRemap() - 1;
@@ -1186,7 +1186,7 @@ MATCH_FUNC(0x4cad40)
 bool PedGroup::IsLeaderCloseToTargetCar_4CAD40()
 {
     Fix16 leader_xpos = field_2C_ped_leader->get_cam_x();
-    Car_BC* pTargetCar = field_2C_ped_leader->get_target_to_enter_403B10();
+    Car* pTargetCar = field_2C_ped_leader->get_target_to_enter_403B10();
     if (!pTargetCar)
     {
         pTargetCar = field_2C_ped_leader->get_target_objective_car_403AB0();

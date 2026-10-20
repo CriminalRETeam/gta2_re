@@ -5,13 +5,13 @@
 #include "Pool.hpp"
 #include "fix16.hpp"
 
-class Object_2C;
-class DoorData_10;
-class SpriteShape_4C;
+class Object;
+class DoorData;
+class SpriteShape;
 class Ped;
-class Car_BC;
+class Car;
 
-class DoorData_10 // Contains only position, face and DoorInfo id
+class DoorData // Contains only position, face and DoorInfo id
 {
   public:
     EXPORT void PoolAllocate();
@@ -41,15 +41,16 @@ class DoorData_10 // Contains only position, face and DoorInfo id
     u8 field_6_z;
     u8 field_7_gr_id;
     s32 field_8_face;
-    DoorData_10* mpNext;
+    DoorData* mpNext;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(DoorData, 0x10);
 
-inline bool Door_38::IsOpen_44C860()
+inline bool Door::IsOpen_44C860()
 {
     return field_0_primary_door_data->field_0_state == 2;
 }
 
-inline void Door_38::CloseDoors_476A30()
+inline void Door::CloseDoors_476A30()
 {
     if (field_28_bClosing)
     {
@@ -64,13 +65,13 @@ inline void Door_38::CloseDoors_476A30()
     }
 }
 
-class DoorData_10_Pool
+class DoorDataPool
 {
   public:
     // inlined 0x44c830
-    DoorData_10* Allocate()
+    DoorData* Allocate()
     {
-        DoorData_10* tmp = field_0_pool.field_0_pHead;
+        DoorData* tmp = field_0_pool.field_0_pHead;
         field_0_pool.field_0_pHead = tmp->mpNext;
         tmp->PoolAllocate();
         return tmp;
@@ -84,26 +85,26 @@ class DoorData_10_Pool
     }*/
 
     // inlined 0x44C800
-    DoorData_10_Pool()
+    DoorDataPool()
     {
     }
 
     // 9.6f 0x44C7F0
-    ~DoorData_10_Pool()
+    ~DoorDataPool()
     {
         field_0_pool.field_0_pHead = 0;
     }
 
-    PoolBasic<DoorData_10, 44> field_0_pool;
+    PoolBasic<DoorData, 44> field_0_pool;
 };
 
-class Door_4D4
+class DoorPool
 {
   public:
-    EXPORT DoorData_10* AllocDoorData_49CF10(u8 gr_id, char_type x, char_type y, char_type z, s32 face, char_type bDoFlip);
-    EXPORT Door_38* RegisterSingleDoorNoCheck_49CF50(u8 gr_id, u8 x, u8 y, u8 z, u32 face, u8 flip, u8 reversed);
-    EXPORT Door_38* RegisterDoubleDoorNoCheck_49CFA0(u8 gr_id, u8 x, u8 y, u8 z, s32 face, u8 flip, u8 reversed);
-    EXPORT Door_38* RegisterSingleDoor_49D170(u8 gr_id,
+    EXPORT DoorData* AllocDoorData_49CF10(u8 gr_id, char_type x, char_type y, char_type z, s32 face, char_type bDoFlip);
+    EXPORT Door* RegisterSingleDoorNoCheck_49CF50(u8 gr_id, u8 x, u8 y, u8 z, u32 face, u8 flip, u8 reversed);
+    EXPORT Door* RegisterDoubleDoorNoCheck_49CFA0(u8 gr_id, u8 x, u8 y, u8 z, s32 face, u8 flip, u8 reversed);
+    EXPORT Door* RegisterSingleDoor_49D170(u8 gr_id,
                                               u8 x,
                                               u8 y,
                                               u8 z,
@@ -115,7 +116,7 @@ class Door_4D4
                                               Fix16 check_height,
                                               u8 flip,
                                               u8 reversed);
-    EXPORT Door_38* RegisterDoubleDoor_49D1F0(u8 gr_id,
+    EXPORT Door* RegisterDoubleDoor_49D1F0(u8 gr_id,
                                               u8 x,
                                               u8 y,
                                               u8 z,
@@ -128,17 +129,18 @@ class Door_4D4
                                               u8 flip,
                                               u8 reversed);
     EXPORT void RegisterDoorInfo_49D2D0(s16 start_frame, s16 end_frame, char_type speed);
-    EXPORT void TryOpenDoorForCar_49D340(Car_BC* pCar, u8 door_idx);
+    EXPORT void TryOpenDoorForCar_49D340(Car* pCar, u8 door_idx);
     EXPORT void TryOpenDoorForPed_49D370(Ped* pPed, u8 idx);
-    EXPORT Door_38* GetNextFreeDoor_49D3A0();
+    EXPORT Door* GetNextFreeDoor_49D3A0();
     EXPORT char_type CheckDoorAccess_49D3C0(Sprite* pSprite, u8 door_idx);
     EXPORT void DoorsService_49D460();
-    EXPORT Door_4D4();
-    EXPORT ~Door_4D4();
+    EXPORT DoorPool();
+    EXPORT ~DoorPool();
 
-    Door_38 field_0_doors[22];
+    Door field_0_doors[22];
     u16 field_4D0_count;
     s16 field_4D2_unused;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(DoorPool, 0x4D4);
 
-EXTERN_GLOBAL(Door_4D4*, gDoor_4D4_67BD2C);
+EXTERN_GLOBAL(DoorPool*, gDoor_4D4_67BD2C);

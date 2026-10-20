@@ -3,11 +3,11 @@
 #include "Function.hpp"
 #include "fix16.hpp"
 
-class Object_2C;
-class DoorData_10;
-class SpriteShape_4C;
+class Object;
+class DoorData;
+class SpriteShape;
 class Ped;
-class Car_BC;
+class Car;
 class Sprite;
 
 namespace door_open_type
@@ -38,7 +38,7 @@ enum
 //static_assert(sizeof(door_close_type) == 4);
 } // namespace door_close_type
 
-struct DoorAnimInfo_A
+struct DoorAnimInfo
 {
     u16 field_0_start_frame;
     u16 field_2_end_frame;
@@ -47,8 +47,9 @@ struct DoorAnimInfo_A
     u8 field_8_speed;
     s8 field_9_unused;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(DoorAnimInfo, 0xA);
 
-class Door_38
+class Door
 {
   public:
     // 9.6f 0x476A90
@@ -57,26 +58,26 @@ class Door_38
         return field_20_state;
     }
 
-    EXPORT Door_38();
-    EXPORT ~Door_38();
+    EXPORT Door();
+    EXPORT ~Door();
     EXPORT bool IsSpriteClearOfDoorCollision_49C6A0(Sprite* pSprite);
-    EXPORT bool CanOpen_49C6D0(Car_BC* pCar);
+    EXPORT bool CanOpen_49C6D0(Car* pCar);
     EXPORT bool CanOpenForPed_49C7F0(Ped* pPed);
     EXPORT void Open_49C840();
-    EXPORT void TryOpenForCar_49C870(Car_BC* pCar);
+    EXPORT void TryOpenForCar_49C870(Car* pCar);
     EXPORT void TryOpenForPed_49C8A0(Ped* pPed);
     EXPORT void InitSingleNoCheck_49C8D0(u8 door_group, u8 gr_id, u8 x, u8 y, u8 z, s32 facing);
     EXPORT void AddDoorData_49CA50(u8 gr_id, char_type x, char_type y, char_type z, s32 face);
-    EXPORT void InitSingle_49CAC0(DoorData_10* pDoorData, char_type bFlip, u8 obj_id, Fix16 trigger_x, Fix16 trigger_y, Fix16 trigger_z, Fix16 trigger_w, Fix16 trigger_h);
-    EXPORT void InitDouble_49CC00(DoorData_10* pDoorData, char_type bFlip, u8 obj_id, Fix16 trigger_x, Fix16 trigger_y, Fix16 trigger_z, Fix16 trigger_w, Fix16 trigger_h);
+    EXPORT void InitSingle_49CAC0(DoorData* pDoorData, char_type bFlip, u8 obj_id, Fix16 trigger_x, Fix16 trigger_y, Fix16 trigger_z, Fix16 trigger_w, Fix16 trigger_h);
+    EXPORT void InitDouble_49CC00(DoorData* pDoorData, char_type bFlip, u8 obj_id, Fix16 trigger_x, Fix16 trigger_y, Fix16 trigger_z, Fix16 trigger_w, Fix16 trigger_h);
     EXPORT void UpdateAutoClose_49CD90();
     EXPORT char_type Service_49CE90();
     EXPORT void get_door_xyz_face_49CEE0(u8* pX, u8* pY, u8* pZ, u32* pFace);
     
-    // 9.6f 0x44C860, defined in Door_4D4.hpp (needs DoorData_10)
+    // 9.6f 0x44C860, defined in Door_4D4.hpp (needs DoorData)
     inline bool IsOpen_44C860();
 
-    // 9.6f 0x476A30, defined in Door_4D4.hpp (needs DoorData_10)
+    // 9.6f 0x476A30, defined in Door_4D4.hpp (needs DoorData)
     inline void CloseDoors_476A30();
 
     // 9.6f 0x4895F0
@@ -112,7 +113,7 @@ class Door_38
     }
 
     // inlined in 0x4769e0
-    inline void set_open_details_car_bc(u32 open, Car_BC* car_bc_ptr)
+    inline void set_open_details_car_bc(u32 open, Car* car_bc_ptr)
     {
         field_20_state = open;
         field_10_car_bc = car_bc_ptr;
@@ -142,14 +143,14 @@ class Door_38
         field_2C_bCanAutoOpen = 1;
     }
 
-    DoorData_10* field_0_primary_door_data;
-    DoorData_10* field_4_secondary_door_data; // Only active when this door is a double door
-    Object_2C* field_8_door_obj;
-    Object_2C* field_C_trigger_obj;
+    DoorData* field_0_primary_door_data;
+    DoorData* field_4_secondary_door_data; // Only active when this door is a double door
+    Object* field_8_door_obj;
+    Object* field_C_trigger_obj;
     union
     {
         Ped* field_10_ped; // Active when field_20_state is door_open_type::one_char_on_foot
-        Car_BC* field_10_car_bc; // Active when field_20_state is door_open_type::one_car
+        Car* field_10_car_bc; // Active when field_20_state is door_open_type::one_car
         s32 field_10_model_id; // Active when field_20_state is door_open_type::one_model
     };
     s32 field_14_target_id;
@@ -169,5 +170,6 @@ class Door_38
     Fix16 field_30_x;
     Fix16 field_34_y;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Door, 0x38);
 
-EXTERN_GLOBAL_ARRAY(DoorAnimInfo_A, gDoorAnimInfo_67BB38, 5);
+EXTERN_GLOBAL_ARRAY(DoorAnimInfo, gDoorAnimInfo_67BB38, 5);

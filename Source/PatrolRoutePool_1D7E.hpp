@@ -4,22 +4,23 @@
 
 #pragma pack(push)
 #pragma pack(1)
-class PatrolPoint_3
+class PatrolPoint
 {
   public:
     // ctor 463F90
     // dtor 463FA0
-    EXPORT PatrolPoint_3();
-    EXPORT ~PatrolPoint_3();
+    EXPORT PatrolPoint();
+    EXPORT ~PatrolPoint();
 
     u8 field_0_x;
     u8 field_1_y;
     u8 field_2_z;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(PatrolPoint, 0x3);
 #pragma pack(pop)
 
 // A patrol route of up to 50 waypoints
-class PatrolRoute_96
+class PatrolRoute
 {
   public:
     enum
@@ -28,14 +29,15 @@ class PatrolRoute_96
     };
 
 
-    EXPORT ~PatrolRoute_96();
+    EXPORT ~PatrolRoute();
     EXPORT void sub_543EC0();
-    EXPORT PatrolRoute_96();
-    PatrolPoint_3 field_0_points[k_max_points];
+    EXPORT PatrolRoute();
+    PatrolPoint field_0_points[k_max_points];
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(PatrolRoute, 0x96);
 
 // Pool of 50 patrol routes handed out to peds by AllocPatrolList_543F10
-class PatrolRoutePool_1D7E
+class PatrolRoutePool
 {
   public:
     enum
@@ -44,11 +46,12 @@ class PatrolRoutePool_1D7E
     };
 
 
-    EXPORT ~PatrolRoutePool_1D7E();
-    EXPORT PatrolRoutePool_1D7E();
-    EXPORT PatrolRoute_96* AllocPatrolList_543F10(u8* pRet);
-    PatrolRoute_96 field_0_routes[k_max_routes];
+    EXPORT ~PatrolRoutePool();
+    EXPORT PatrolRoutePool();
+    EXPORT PatrolRoute* AllocPatrolList_543F10(u8* pRet);
+    PatrolRoute field_0_routes[k_max_routes];
     u8 field_1D4C_bUsed[k_max_routes];
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(PatrolRoutePool, 0x1D7E);
 
-EXTERN_GLOBAL(PatrolRoutePool_1D7E*, gPatrolRoutePool_6FD784);
+EXTERN_GLOBAL(PatrolRoutePool*, gPatrolRoutePool_6FD784);

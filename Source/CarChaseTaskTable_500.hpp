@@ -10,19 +10,19 @@ class Ped;
 
 // The chase task of a car whose driver is following / chasing another ped (police cars chasing a wanted player).
 // The cars of a chase try to box in the target car, the chase state says what each one is doing at the moment.
-// Car_BC::field_60 points at the task of the car.
-class CarChaseTask_40
+// Car::field_60 points at the task of the car.
+class CarChaseTask
 {
   public:
     EXPORT void ResetEntry_4747B0();
-    EXPORT CarChaseTask_40();
-    EXPORT ~CarChaseTask_40();
+    EXPORT CarChaseTask();
+    EXPORT ~CarChaseTask();
 
     char_type field_0_in_use;
     Ped* field_4_pDriver;
     s32 field_8_task_type; // car_task_type
     s32 field_C_chase_state; // car_chase_state
-    char_type field_10_ram_target; // set when overtaking: touching the target car then damages it (CarAI_78)
+    char_type field_10_ram_target; // set when overtaking: touching the target car then damages it (CarAI)
     Fix16 field_14_target_x;
     Fix16 field_18_target_y;
     Fix16 field_1C_target_z;
@@ -42,9 +42,10 @@ class CarChaseTask_40
     s32 field_38_unused;
     char_type field_3C_block_counter;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(CarChaseTask, 0x40);
 
 // Fixed table of the 20 chase tasks
-class CarChaseTaskTable_500
+class CarChaseTaskTable
 {
   public:
     enum
@@ -52,7 +53,7 @@ class CarChaseTaskTable_500
         k_max_entries = 20
     };
 
-    EXPORT CarChaseTask_40* AllocateEntry_474810();
+    EXPORT CarChaseTask* AllocateEntry_474810();
     EXPORT bool AreAllies_474850(Ped* pPed1, Ped* pPed2);
     EXPORT Ped* FindDriverInState_4748A0(s32 chase_state, Ped* pTargetPed);
     EXPORT u8 CountPursuers_474920(Ped* pTargetPed, Ped* pPed);
@@ -64,11 +65,12 @@ class CarChaseTaskTable_500
     EXPORT bool HasPursuerOnRight_474B50(Ped* pPed);
     EXPORT bool HasPursuerAlongside_474BC0(Ped* pPed);
     EXPORT char_type HasPursuerChoosingSide_474C30(Ped* pPed);
-    EXPORT void FreeEntry_474CC0(CarChaseTask_40* pEntry);
-    EXPORT CarChaseTaskTable_500();
-    EXPORT ~CarChaseTaskTable_500();
+    EXPORT void FreeEntry_474CC0(CarChaseTask* pEntry);
+    EXPORT CarChaseTaskTable();
+    EXPORT ~CarChaseTaskTable();
 
-    CarChaseTask_40 field_0_entries[k_max_entries];
+    CarChaseTask field_0_entries[k_max_entries];
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(CarChaseTaskTable, 0x500);
 
-EXTERN_GLOBAL(CarChaseTaskTable_500*, gCarChaseTaskTable_678E30);
+EXTERN_GLOBAL(CarChaseTaskTable*, gCarChaseTaskTable_678E30);

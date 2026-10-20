@@ -7,7 +7,7 @@
 
 class Sprite;
 
-class GridSpriteLink_8
+class GridSpriteLink
 {
   public:
     void PoolAllocate()
@@ -19,10 +19,11 @@ class GridSpriteLink_8
     }
 
     Sprite* field_0_pSprite;
-    GridSpriteLink_8* mpNext;
+    GridSpriteLink* mpNext;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(GridSpriteLink, 0x8);
 
-class GridSpriteLink_Pool : public PoolBasic<GridSpriteLink_8, 4096>
+class GridSpriteLink_Pool : public PoolBasic<GridSpriteLink, 4096>
 {
   public:
     GridSpriteLink_Pool()
@@ -36,7 +37,7 @@ class GridSpriteLink_Pool : public PoolBasic<GridSpriteLink_8, 4096>
     }
 };
 
-class GridCell_Pool : public PoolBasic<GridCell_C, 6000>
+class GridCell_Pool : public PoolBasic<GridCell, 6000>
 {
   public:
     GridCell_Pool()
@@ -50,15 +51,16 @@ class GridCell_Pool : public PoolBasic<GridCell_C, 6000>
     }
 };
 
-class CollisionCounters_C
+class CollisionCounters
 {
   public:
     EXPORT void ResetCount_478A20();
-    EXPORT CollisionCounters_C();
-    EXPORT ~CollisionCounters_C();
+    EXPORT CollisionCounters();
+    EXPORT ~CollisionCounters();
     s32 field_0_test_count;
     s32 field_4_query_id;
     s32 field_8_bUnknown;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(CollisionCounters, 0xC);
 
-EXTERN_GLOBAL(CollisionCounters_C*, gCollisionCounters_6791FC);
+EXTERN_GLOBAL(CollisionCounters*, gCollisionCounters_6791FC);

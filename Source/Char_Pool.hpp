@@ -5,29 +5,29 @@
 #include "Pool.hpp"
 #include "char.hpp"
 
-class Camera_0xBC;
+class Camera;
 
-class Char_B4_Pool
+class CharPool
 {
   public:
-    __forceinline Char_B4_Pool()
+    __forceinline CharPool()
     {
     }
 
-    ~Char_B4_Pool()
+    ~CharPool()
     {
     }
 
     // inline 0x4355C0
-    void DeAllocate(Char_B4* pB4)
+    void DeAllocate(Char* pB4)
     {
         field_0_pool.DeAllocate(pB4);
     }
 
-    PoolBasic<Char_B4, 400> field_0_pool;
+    PoolBasic<Char, 400> field_0_pool;
 };
 
-class Char_8
+class PedListNode
 {
   public:
     // 9.6f 0x420EA0
@@ -45,32 +45,33 @@ class Char_8
     }
 
     Ped* field_0_char_ped;
-    Char_8* mpNext;
+    PedListNode* mpNext;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(PedListNode, 0x8);
 
-class Char_8_Pool
+class PedListNodePool
 {
   public:
-    PoolBasic<Char_8, 100> field_0_pool;
+    PoolBasic<PedListNode, 100> field_0_pool;
 
-    ~Char_8_Pool()
+    ~PedListNodePool()
     {
         field_0_pool.field_0_pHead = 0;
     }
 
     // 9.6f 0x445EF0
-    inline Char_8* Allocate_445EF0()
+    inline PedListNode* Allocate_445EF0()
     {
         return field_0_pool.Allocate();
     }
 
     // 9.6f 0x445F00
-    inline void DeAllocate_445F00(Char_8* pItem)
+    inline void DeAllocate_445F00(PedListNode* pItem)
     {
         field_0_pool.DeAllocate(pItem);
     }
 
-    __forceinline Char_8_Pool()
+    __forceinline PedListNodePool()
     {
     }
 };
@@ -78,14 +79,14 @@ class Char_8_Pool
 class PedManager
 {
   public:
-    EXPORT void SpawnDummies_46EB60(Camera_0xBC* pCam);
+    EXPORT void SpawnDummies_46EB60(Camera* pCam);
     EXPORT void PedsService_4703F0();
     EXPORT PedManager();
     EXPORT ~PedManager();
     EXPORT Ped* SpawnPedAt(Fix16 xpos, Fix16 ypos, Fix16 zpos, u8 remap, Ang16 rotation);
-    EXPORT Ped* SpawnDriver_470B00(Car_BC* pCar);
-    EXPORT Ped* SpawnGangDriver_470BA0(Car_BC* pCar, Gang_144* pGang);
-    EXPORT Ped* CreateDummyDriver_470CC0(Car_BC* pCar);
+    EXPORT Ped* SpawnDriver_470B00(Car* pCar);
+    EXPORT Ped* SpawnGangDriver_470BA0(Car* pCar, Gang* pGang);
+    EXPORT Ped* CreateDummyDriver_470CC0(Car* pCar);
     EXPORT Ped* SpawnRunAwayGuy_470D60();
     EXPORT Ped* SpawnTrainLeaver_470E30();
     EXPORT Ped* AllocatePed_470F30();
@@ -192,9 +193,9 @@ EXTERN_GLOBAL(PedManager*, gPedManager_6787BC);
 
 EXTERN_GLOBAL(PedPool*, gPedPool_6787B8);
 
-EXTERN_GLOBAL(Char_B4_Pool*, gChar_B4_Pool_6FDB44);
+EXTERN_GLOBAL(CharPool*, gChar_B4_Pool_6FDB44);
 
-EXTERN_GLOBAL(Char_8_Pool*, gChar_8_Pool_678b50);
+EXTERN_GLOBAL(PedListNodePool*, gChar_8_Pool_678b50);
 
 EXTERN_GLOBAL(u8, gNumPolicePedsInRangeScreen_6787EE);
 

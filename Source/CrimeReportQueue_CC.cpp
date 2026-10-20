@@ -8,7 +8,7 @@
 #include "Police_7B8.hpp"
 #include "char.hpp"
 
-DEFINE_GLOBAL(CrimeReportQueue_CC*, gCrimeReportQueue_67A4B8, 0x67A4B8);
+DEFINE_GLOBAL(CrimeReportQueue*, gCrimeReportQueue_67A4B8, 0x67A4B8);
 
 DEFINE_GLOBAL_INIT(Fix16, kFP16Zero_67A370, Fix16(0), 0x67A370);
 
@@ -16,7 +16,7 @@ EXTERN_GLOBAL(u8, gCharB4_HitByMine_6FDB59);
 
 
 MATCH_FUNC(0x484cb0)
-CrimeReport_14::CrimeReport_14()
+CrimeReport::CrimeReport()
 {
     field_0_crime_type = crime_stats_type::none_0;
     field_4_ped_id = 0;
@@ -26,12 +26,12 @@ CrimeReport_14::CrimeReport_14()
 }
 
 MATCH_FUNC(0x484ce0)
-CrimeReport_14::~CrimeReport_14()
+CrimeReport::~CrimeReport()
 {
 }
 
 MATCH_FUNC(0x484cf0)
-void CrimeReport_14::SetReport(s32 crime_type, s32 ped_id)
+void CrimeReport::SetReport(s32 crime_type, s32 ped_id)
 {
     field_0_crime_type = crime_type;
     field_4_ped_id = ped_id;
@@ -51,7 +51,7 @@ void CrimeReport_14::SetReport(s32 crime_type, s32 ped_id)
 }
 
 MATCH_FUNC(0x484d50)
-void CrimeReport_14::GetReport(s32* pCrimeType, Fix16* pXPos, Fix16* yPos, Fix16* zPos)
+void CrimeReport::GetReport(s32* pCrimeType, Fix16* pXPos, Fix16* yPos, Fix16* zPos)
 {
     *pCrimeType = field_0_crime_type;
     *pXPos = field_8_pos.x;
@@ -60,19 +60,19 @@ void CrimeReport_14::GetReport(s32* pCrimeType, Fix16* pXPos, Fix16* yPos, Fix16
 }
 
 MATCH_FUNC(0x484d80)
-CrimeReportQueue_CC::CrimeReportQueue_CC()
+CrimeReportQueue::CrimeReportQueue()
 {
     field_0_write_idx = 0;
     field_2_read_idx = 0;
 }
 
 MATCH_FUNC(0x484db0)
-CrimeReportQueue_CC::~CrimeReportQueue_CC()
+CrimeReportQueue::~CrimeReportQueue()
 {
 }
 
 MATCH_FUNC(0x484dd0)
-void CrimeReportQueue_CC::QueueReport(s32 crime_type, s32 ped_id)
+void CrimeReportQueue::QueueReport(s32 crime_type, s32 ped_id)
 {
     field_4_reports[field_0_write_idx].SetReport(crime_type, ped_id);
 
@@ -94,7 +94,7 @@ void CrimeReportQueue_CC::QueueReport(s32 crime_type, s32 ped_id)
 }
 
 MATCH_FUNC(0x484e20)
-bool CrimeReportQueue_CC::TryPopOldestReport(s32* pCrimeType, Fix16* pXPos, Fix16* pYPos, Fix16* pZPos)
+bool CrimeReportQueue::TryPopOldestReport(s32* pCrimeType, Fix16* pXPos, Fix16* pYPos, Fix16* pZPos)
 {
     // Get it
     field_4_reports[field_2_read_idx].GetReport(pCrimeType, pXPos, pYPos, pZPos);
@@ -117,7 +117,7 @@ bool CrimeReportQueue_CC::TryPopOldestReport(s32* pCrimeType, Fix16* pXPos, Fix1
 }
 
 MATCH_FUNC(0x484e90)
-bool CrimeReportQueue_CC::IsCrimeQueued(s32 crime_type)
+bool CrimeReportQueue::IsCrimeQueued(s32 crime_type)
 {
     // Circular loop around
     u16 idx = field_2_read_idx;
@@ -148,7 +148,7 @@ CrimeReportQueue_CC_Sub::~CrimeReportQueue_CC_Sub()
 
 // https://decomp.me/scratch/0XcCw
 MATCH_FUNC(0x484fe0)
-void CrimeReportQueue_CC::ReportCrimeForPed(u32 crime_type, Ped* pPed)
+void CrimeReportQueue::ReportCrimeForPed(u32 crime_type, Ped* pPed)
 {
     switch (pPed->get_occupation_403980())
     {
@@ -206,7 +206,7 @@ void CrimeReportQueue_CC::ReportCrimeForPed(u32 crime_type, Ped* pPed)
 
 // https://decomp.me/scratch/xN2BK
 MATCH_FUNC(0x485090)
-bool CrimeReportQueue_CC::ShouldReportCarCrime_485090(Car_BC* pCar, Player* pPlayer)
+bool CrimeReportQueue::ShouldReportCarCrime_485090(Car* pCar, Player* pPlayer)
 {
     bool bInRange = true;
     if (gCarManager_6C_677930->field_68_object_hit_active)
@@ -227,7 +227,7 @@ bool CrimeReportQueue_CC::ShouldReportCarCrime_485090(Car_BC* pCar, Player* pPla
 
 // https://decomp.me/scratch/KvTvv
 MATCH_FUNC(0x4850f0)
-bool CrimeReportQueue_CC::ShouldReportCharCrime_4850F0(Char_B4* pB4, Player* pPlayer)
+bool CrimeReportQueue::ShouldReportCharCrime_4850F0(Char* pB4, Player* pPlayer)
 {
     bool result = true;
     if (gCharB4_HitByMine_6FDB59)
@@ -241,9 +241,9 @@ bool CrimeReportQueue_CC::ShouldReportCharCrime_4850F0(Char_B4* pB4, Player* pPl
 }
 
 MATCH_FUNC(0x485140)
-bool CrimeReportQueue_CC::ShouldReportPedCrime_485140(Ped* pPed, Player* pPlayer)
+bool CrimeReportQueue::ShouldReportPedCrime_485140(Ped* pPed, Player* pPlayer)
 {
-    Char_B4* pB4 = pPed->field_168_game_object;
+    Char* pB4 = pPed->field_168_game_object;
     if (pB4)
     {
         return ShouldReportCharCrime_4850F0(pB4, pPlayer);

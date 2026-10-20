@@ -13,7 +13,7 @@
 // TODO: Init to correct values
 DEFINE_GLOBAL_INIT(Fix16, dword_6F8BF0, Fix16(0x3FC000, 0), 0x6F8BF0);
 DEFINE_GLOBAL(Ang16, kZeroAng_6F8F68, 0x6F8F68);
-DEFINE_GLOBAL(SpriteList_4, stru_67727C, 0x67727C);
+DEFINE_GLOBAL(SpriteList, stru_67727C, 0x67727C);
 
 EXTERN_GLOBAL(Fix16, dword_6F8ECC);
 
@@ -80,12 +80,12 @@ Fix16_Point Object_3C::GetSpeedVector_52ADF0()
 }
 
 MATCH_FUNC(0x5a6a50)
-AttachedSprite_18* SpriteList_4::GetSpriteForModel_5A6A50(s32 obj_type)
+AttachedSprite* SpriteList::GetSpriteForModel_5A6A50(s32 obj_type)
 {
-    AttachedSprite_18* pIter = this->field_0_p18;
+    AttachedSprite* pIter = this->field_0_p18;
     while (pIter)
     {
-        Object_2C* o5c = pIter->field_0_pSprite->AsObject2C_40FEC0();
+        Object* o5c = pIter->field_0_pSprite->AsObject2C_40FEC0();
         if (o5c)
         {
             if (o5c->field_18_model == obj_type)
@@ -99,16 +99,16 @@ AttachedSprite_18* SpriteList_4::GetSpriteForModel_5A6A50(s32 obj_type)
 }
 
 MATCH_FUNC(0x5a6a90)
-Object_2C* SpriteList_4::FindObject2CByModel_5A6A90(s32 obj_type)
+Object* SpriteList::FindObject2CByModel_5A6A90(s32 obj_type)
 {
-    AttachedSprite_18* pIter = this->field_0_p18;
+    AttachedSprite* pIter = this->field_0_p18;
     while (pIter)
     {
         const s32 sprite_type_enum = pIter->field_0_pSprite->field_30_sprite_type_enum;
         if (sprite_type_enum == sprite_types_enum::code_obj1_4 || sprite_type_enum == sprite_types_enum::map_obj_5 ||
             sprite_type_enum == sprite_types_enum::object_1)
         {
-            Object_2C* p2C = pIter->field_0_pSprite->field_8_object_2C_ptr;
+            Object* p2C = pIter->field_0_pSprite->field_8_object_2C_ptr;
             if (p2C)
             {
                 if (p2C->field_18_model == obj_type)
@@ -123,15 +123,15 @@ Object_2C* SpriteList_4::FindObject2CByModel_5A6A90(s32 obj_type)
 }
 
 MATCH_FUNC(0x5a6ad0)
-AttachedSprite_18* SpriteList_4::FindFirstActiveObject_5A6AD0()
+AttachedSprite* SpriteList::FindFirstActiveObject_5A6AD0()
 {
-    AttachedSprite_18* pObjIter = this->field_0_p18;
+    AttachedSprite* pObjIter = this->field_0_p18;
     while (pObjIter)
     {
         const s32 sprite_type = pObjIter->field_0_pSprite->field_30_sprite_type_enum;
         if (sprite_type == sprite_types_enum::code_obj1_4 || sprite_type == sprite_types_enum::map_obj_5 || sprite_type == sprite_types_enum::object_1)
         {
-            Object_2C* o2c = pObjIter->field_0_pSprite->field_8_object_2C_ptr;
+            Object* o2c = pObjIter->field_0_pSprite->field_8_object_2C_ptr;
             if (o2c)
             {
                 if (o2c->IsFireExplosion_525AC0())
@@ -146,10 +146,10 @@ AttachedSprite_18* SpriteList_4::FindFirstActiveObject_5A6AD0()
 }
 
 MATCH_FUNC(0x5a6b10)
-void SpriteList_4::RemoveSprite_5A6B10(Sprite* toFind)
+void SpriteList::RemoveSprite_5A6B10(Sprite* toFind)
 {
-    AttachedSprite_18* pLast = 0;
-    AttachedSprite_18* pIter = this->field_0_p18;
+    AttachedSprite* pLast = 0;
+    AttachedSprite* pIter = this->field_0_p18;
     for (;;)
     {
         if (pIter->field_0_pSprite == toFind)
@@ -172,10 +172,10 @@ void SpriteList_4::RemoveSprite_5A6B10(Sprite* toFind)
 }
 
 MATCH_FUNC(0x5a6b60)
-void SpriteList_4::RemoveSpriteSafe_5A6B60(Sprite* toFind)
+void SpriteList::RemoveSpriteSafe_5A6B60(Sprite* toFind)
 {
-    AttachedSprite_18* pLast = 0;
-    AttachedSprite_18* pIter = this->field_0_p18;
+    AttachedSprite* pLast = 0;
+    AttachedSprite* pIter = this->field_0_p18;
     while (pIter)
     {
         if (pIter->field_0_pSprite == toFind)
@@ -198,38 +198,38 @@ void SpriteList_4::RemoveSpriteSafe_5A6B60(Sprite* toFind)
 }
 
 MATCH_FUNC(0x5a6bb0)
-void SpriteList_4::sub_5A6BB0()
+void SpriteList::sub_5A6BB0()
 {
-    for (AttachedSprite_18* p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->mpNext)
+    for (AttachedSprite* p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->mpNext)
     {
         p18Iter->DestroyAttached_5A69E0();
     }
 }
 
 MATCH_FUNC(0x5a6bd0)
-void SpriteList_4::sub_5A6BD0()
+void SpriteList::sub_5A6BD0()
 {
-    for (AttachedSprite_18* p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->mpNext)
+    for (AttachedSprite* p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->mpNext)
     {
         p18Iter->SinkAttachedCar_5A6A20();
     }
 }
 
 MATCH_FUNC(0x5a6bf0)
-void SpriteList_4::DispatchCarImpactEvents_5A6BF0(Sprite* pSprite)
+void SpriteList::DispatchCarImpactEvents_5A6BF0(Sprite* pSprite)
 {
-    for (AttachedSprite_18* p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->mpNext)
+    for (AttachedSprite* p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->mpNext)
     {
         p18Iter->field_0_pSprite->ProcessCarToCarImpactIfCar_59E910(pSprite);
     }
 }
 
 MATCH_FUNC(0x5a6c10)
-char_type SpriteList_4::TagSpriteWithRng_5A6C10(Sprite* toFind)
+char_type SpriteList::TagSpriteWithRng_5A6C10(Sprite* toFind)
 {
     if (field_0_p18 != NULL)
     {
-        for (AttachedSprite_18* pNext = field_0_p18; pNext != NULL; pNext = pNext->mpNext)
+        for (AttachedSprite* pNext = field_0_p18; pNext != NULL; pNext = pNext->mpNext)
         {
             if (pNext->field_0_pSprite == toFind)
             {
@@ -242,10 +242,10 @@ char_type SpriteList_4::TagSpriteWithRng_5A6C10(Sprite* toFind)
 }
 
 MATCH_FUNC(0x5a6c40)
-void SpriteList_4::RemoveByRngValue_5A6C40(s32 toFind)
+void SpriteList::RemoveByRngValue_5A6C40(s32 toFind)
 {
-    AttachedSprite_18* pIter = this->field_0_p18;
-    AttachedSprite_18* pLast = 0;
+    AttachedSprite* pIter = this->field_0_p18;
+    AttachedSprite* pLast = 0;
 
     while (pIter)
     {
@@ -256,7 +256,7 @@ void SpriteList_4::RemoveByRngValue_5A6C40(s32 toFind)
         }
         else
         {
-            AttachedSprite_18* pSavedNext = pIter->mpNext;
+            AttachedSprite* pSavedNext = pIter->mpNext;
             if (pLast)
             {
                 pLast->mpNext = pSavedNext;
@@ -274,11 +274,11 @@ void SpriteList_4::RemoveByRngValue_5A6C40(s32 toFind)
 }
 
 MATCH_FUNC(0x5a6ca0)
-Sprite* SpriteList_4::FirstSpriteOfType_5A6CA0(s32 sprite_type)
+Sprite* SpriteList::FirstSpriteOfType_5A6CA0(s32 sprite_type)
 {
     if (field_0_p18 != NULL)
     {
-        for (AttachedSprite_18* pNext = field_0_p18; pNext != NULL; pNext = pNext->mpNext)
+        for (AttachedSprite* pNext = field_0_p18; pNext != NULL; pNext = pNext->mpNext)
         {
             if (pNext->field_0_pSprite->field_30_sprite_type_enum == sprite_type)
             {
@@ -290,9 +290,9 @@ Sprite* SpriteList_4::FirstSpriteOfType_5A6CA0(s32 sprite_type)
 }
 
 MATCH_FUNC(0x5a6cd0)
-void SpriteList_4::AddSprite_5A6CD0(Sprite* pSprite)
+void SpriteList::AddSprite_5A6CD0(Sprite* pSprite)
 {
-    AttachedSprite_18* p18 = gAttachedSpritePool_703B80->Allocate();
+    AttachedSprite* p18 = gAttachedSpritePool_703B80->Allocate();
     p18->field_0_pSprite = pSprite;
     p18->mpNext = this->field_0_p18;
     p18->field_6_offset_x = 0;
@@ -301,9 +301,9 @@ void SpriteList_4::AddSprite_5A6CD0(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x5a6d00)
-void SpriteList_4::PushImpactEvent_5A6D00(Sprite* pSprite1, Fix16 x, Fix16 y, Ang16 angle)
+void SpriteList::PushImpactEvent_5A6D00(Sprite* pSprite1, Fix16 x, Fix16 y, Ang16 angle)
 {
-    AttachedSprite_18* p18 = gAttachedSpritePool_703B80->Allocate();
+    AttachedSprite* p18 = gAttachedSpritePool_703B80->Allocate();
     p18->field_0_pSprite = pSprite1;
     p18->mpNext = field_0_p18;
     p18->field_6_offset_x = x;
@@ -313,9 +313,9 @@ void SpriteList_4::PushImpactEvent_5A6D00(Sprite* pSprite1, Fix16 x, Fix16 y, An
 }
 
 MATCH_FUNC(0x5a6d40)
-void SpriteList_4::PushSprite_5A6D40(Sprite* pToFind)
+void SpriteList::PushSprite_5A6D40(Sprite* pToFind)
 {
-    AttachedSprite_18* pIter = this->field_0_p18;
+    AttachedSprite* pIter = this->field_0_p18;
     while (pIter)
     {
         if (pIter->field_0_pSprite == pToFind)
@@ -325,7 +325,7 @@ void SpriteList_4::PushSprite_5A6D40(Sprite* pToFind)
         pIter = pIter->mpNext;
     }
 
-    AttachedSprite_18* pNew = gAttachedSpritePool_703B80->Allocate();
+    AttachedSprite* pNew = gAttachedSpritePool_703B80->Allocate();
     pNew->field_0_pSprite = pToFind;
 
     pNew->mpNext = this->field_0_p18;
@@ -333,9 +333,9 @@ void SpriteList_4::PushSprite_5A6D40(Sprite* pToFind)
 }
 
 MATCH_FUNC(0x5a6d80)
-char_type SpriteList_4::SpriteExists_5A6D80(Sprite* pToFind)
+char_type SpriteList::SpriteExists_5A6D80(Sprite* pToFind)
 {
-    AttachedSprite_18* pIter = this->field_0_p18;
+    AttachedSprite* pIter = this->field_0_p18;
     while (pIter)
     {
         if (pIter->field_0_pSprite == pToFind)
@@ -348,9 +348,9 @@ char_type SpriteList_4::SpriteExists_5A6D80(Sprite* pToFind)
 }
 
 MATCH_FUNC(0x5a6da0)
-Sprite* SpriteList_4::PopFrontSprite_5A6DA0()
+Sprite* SpriteList::PopFrontSprite_5A6DA0()
 {
-    AttachedSprite_18* p18 = this->field_0_p18;
+    AttachedSprite* p18 = this->field_0_p18;
     if (!this->field_0_p18)
     {
         return 0;
@@ -362,10 +362,10 @@ Sprite* SpriteList_4::PopFrontSprite_5A6DA0()
 }
 
 MATCH_FUNC(0x5a6dc0)
-Sprite* SpriteList_4::PopBackSprite_5A6DC0()
+Sprite* SpriteList::PopBackSprite_5A6DC0()
 {
-    AttachedSprite_18* pIter = this->field_0_p18;
-    AttachedSprite_18* pLast = 0;
+    AttachedSprite* pIter = this->field_0_p18;
+    AttachedSprite* pLast = 0;
     while (pIter->mpNext)
     {
         pLast = pIter;
@@ -387,12 +387,12 @@ Sprite* SpriteList_4::PopBackSprite_5A6DC0()
 }
 
 MATCH_FUNC(0x5a6e10)
-AttachedSprite_18* SpriteList_4::ClearList_5A6E10()
+AttachedSprite* SpriteList::ClearList_5A6E10()
 {
-    AttachedSprite_18* pIter = this->field_0_p18;
+    AttachedSprite* pIter = this->field_0_p18;
     while (pIter)
     {
-        AttachedSprite_18* pLast = pIter;
+        AttachedSprite* pLast = pIter;
         pIter = pIter->mpNext;
         gAttachedSpritePool_703B80->DeAllocate(pLast);
     }
@@ -401,12 +401,12 @@ AttachedSprite_18* SpriteList_4::ClearList_5A6E10()
 }
 
 MATCH_FUNC(0x5a6e40)
-Sprite* SpriteList_4::FindClosestSprite_5A6E40(Fix16 xOff, Fix16 yOff)
+Sprite* SpriteList::FindClosestSprite_5A6E40(Fix16 xOff, Fix16 yOff)
 {
     Fix16 smallest(99999);
 
     Sprite* new_ret = 0;
-    for (AttachedSprite_18* pIter = this->field_0_p18; pIter; pIter = pIter->mpNext)
+    for (AttachedSprite* pIter = this->field_0_p18; pIter; pIter = pIter->mpNext)
     {
         Fix16 yDelta = Fix16::MaxAbsDistance_42A6B0(xOff, yOff, pIter->field_0_pSprite->field_14_xy.x, pIter->field_0_pSprite->field_14_xy.y);
         if (yDelta < smallest)
@@ -419,15 +419,15 @@ Sprite* SpriteList_4::FindClosestSprite_5A6E40(Fix16 xOff, Fix16 yOff)
 }
 
 MATCH_FUNC(0x5a6ea0)
-Sprite* SpriteList_4::TakeClosestSprite_5A6EA0(Fix16 xpos, Fix16 ypos)
+Sprite* SpriteList::TakeClosestSprite_5A6EA0(Fix16 xpos, Fix16 ypos)
 {
-    AttachedSprite_18* pPrev = 0;
-    AttachedSprite_18* pClosest = 0;
-    AttachedSprite_18* pBeforeClosest = 0;
+    AttachedSprite* pPrev = 0;
+    AttachedSprite* pClosest = 0;
+    AttachedSprite* pBeforeClosest = 0;
     Fix16 smallest(99999);
     Fix16 distance;
 
-    for (AttachedSprite_18* pIter = field_0_p18; pIter; pIter = pIter->mpNext)
+    for (AttachedSprite* pIter = field_0_p18; pIter; pIter = pIter->mpNext)
     {
         distance = Fix16::MaxAbsDistance_42A6B0(xpos, ypos, pIter->field_0_pSprite->field_14_xy.x, pIter->field_0_pSprite->field_14_xy.y);
         if (distance < smallest)
@@ -458,17 +458,17 @@ Sprite* SpriteList_4::TakeClosestSprite_5A6EA0(Fix16 xpos, Fix16 ypos)
 }
 
 MATCH_FUNC(0x5a6f70)
-void SpriteList_4::PoolUpdate_5A6F70(Sprite* pSprite)
+void SpriteList::PoolUpdate_5A6F70(Sprite* pSprite)
 {
     // TODO: Pretty much an exact match of UpdatePoolNoDeallocate but this one passes an extra
     // argument to PoolUpdate, probably DeAllocate was inlined - need to try to consolidate and refactor
     // all of these.
     // 9.6f 0x4BEF70
-    AttachedSprite_18* pPreviousItem = 0;
-    AttachedSprite_18* pCurrItem = field_0_p18;
+    AttachedSprite* pPreviousItem = 0;
+    AttachedSprite* pCurrItem = field_0_p18;
     while (pCurrItem)
     {
-        AttachedSprite_18* pNext = pCurrItem->mpNext;
+        AttachedSprite* pNext = pCurrItem->mpNext;
         if (pCurrItem->UpdateAttached_5A6910(pSprite))
         {
             if (pPreviousItem && pPreviousItem->mpNext != pCurrItem)
@@ -508,9 +508,9 @@ void SpriteList_4::PoolUpdate_5A6F70(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x5a7010)
-void SpriteList_4::DestroyAllSprites_5A7010()
+void SpriteList::DestroyAllSprites_5A7010()
 {
-    AttachedSprite_18* p18Iter = this->field_0_p18;
+    AttachedSprite* p18Iter = this->field_0_p18;
     while (p18Iter)
     {
         Sprite* pSprite = p18Iter->field_0_pSprite;
@@ -534,10 +534,10 @@ void SpriteList_4::DestroyAllSprites_5A7010()
 
 // https://decomp.me/scratch/hQof2
 MATCH_FUNC(0x5a7080)
-void SpriteList_4::CleanupSpriteList_5A7080()
+void SpriteList::CleanupSpriteList_5A7080()
 {
-    AttachedSprite_18* pLast = 0;
-    AttachedSprite_18* pIter = this->field_0_p18;
+    AttachedSprite* pLast = 0;
+    AttachedSprite* pIter = this->field_0_p18;
     while (pIter)
     {
         bool bUnlinkHead = false;
@@ -564,7 +564,7 @@ void SpriteList_4::CleanupSpriteList_5A7080()
 
         if (bUnlinkHead)
         {
-            AttachedSprite_18* pNext = pIter->mpNext;
+            AttachedSprite* pNext = pIter->mpNext;
             gAttachedSpritePool_703B80->DeAllocate(pIter);
             pIter = pNext;
             this->field_0_p18 = pNext;
@@ -573,11 +573,11 @@ void SpriteList_4::CleanupSpriteList_5A7080()
 }
 
 MATCH_FUNC(0x5a7110)
-void SpriteList_4::ClearGangIconSprite_5A7110()
+void SpriteList::ClearGangIconSprite_5A7110()
 {
-    AttachedSprite_18* pIter = this->field_0_p18;
-    AttachedSprite_18* pLast = 0;
-    Object_2C* p5C;
+    AttachedSprite* pIter = this->field_0_p18;
+    AttachedSprite* pLast = 0;
+    Object* p5C;
     if (pIter)
     {
         while (pIter)
@@ -614,15 +614,15 @@ void SpriteList_4::ClearGangIconSprite_5A7110()
 }
 
 MATCH_FUNC(0x5a71a0)
-s32 SpriteList_4::GetGangIdxFromSpriteIfAny_5A71A0()
+s32 SpriteList::GetGangIdxFromSpriteIfAny_5A71A0()
 {
-    AttachedSprite_18* p18Iter = this->field_0_p18;
+    AttachedSprite* p18Iter = this->field_0_p18;
     while (p18Iter)
     {
         const s32 type = p18Iter->field_0_pSprite->field_30_sprite_type_enum;
         if (type == sprite_types_enum::code_obj1_4 || type == sprite_types_enum::map_obj_5 || type == sprite_types_enum::object_1)
         {
-            Object_2C* o5c = p18Iter->field_0_pSprite->field_8_object_2C_ptr;
+            Object* o5c = p18Iter->field_0_pSprite->field_8_object_2C_ptr;
             if (o5c)
             {
                 // If it is car gang icon
@@ -642,14 +642,14 @@ s32 SpriteList_4::GetGangIdxFromSpriteIfAny_5A71A0()
 }
 
 MATCH_FUNC(0x5a71f0)
-void SpriteList_4::sub_5A71F0()
+void SpriteList::sub_5A71F0()
 {
-    for (AttachedSprite_18* p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->mpNext)
+    for (AttachedSprite* p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->mpNext)
     {
         const s32 type = p18Iter->field_0_pSprite->GetType_416B40();
         if (type == sprite_types_enum::object_1 || type > sprite_types_enum::ped_3 && type <= sprite_types_enum::map_obj_5)
         {
-            Object_2C* o2c = p18Iter->field_0_pSprite->field_8_object_2C_ptr;
+            Object* o2c = p18Iter->field_0_pSprite->field_8_object_2C_ptr;
             if (o2c->IsFlameObject_4BE830())
             {
                 p18Iter->field_0_pSprite->field_8_object_2C_ptr->field_C_pAny.pExplosion->field_1A_timer = 2;
@@ -659,10 +659,10 @@ void SpriteList_4::sub_5A71F0()
 }
 
 MATCH_FUNC(0x5a7240)
-void SpriteList_4::PruneNonCollidingSprites_5A7240(Sprite* pSprite)
+void SpriteList::PruneNonCollidingSprites_5A7240(Sprite* pSprite)
 {
-    AttachedSprite_18* pNext = this->field_0_p18;
-    AttachedSprite_18* pLast = 0;
+    AttachedSprite* pNext = this->field_0_p18;
+    AttachedSprite* pLast = 0;
 
     pSprite->UpdateCollisionBoundsIfNeeded_59E9C0();
 
@@ -681,7 +681,7 @@ void SpriteList_4::PruneNonCollidingSprites_5A7240(Sprite* pSprite)
         }
         else
         {
-            AttachedSprite_18* pSaveNext = pNext->mpNext;
+            AttachedSprite* pSaveNext = pNext->mpNext;
             gAttachedSpritePool_703B80->DeAllocate(pNext);
             pNext = pSaveNext;
             this->field_0_p18 = pSaveNext;
@@ -690,12 +690,12 @@ void SpriteList_4::PruneNonCollidingSprites_5A7240(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x5a72b0)
-void SpriteList_4::PropagateMaxZLayer_5A72B0(Sprite* pSprite, char_type bUnknown)
+void SpriteList::PropagateMaxZLayer_5A72B0(Sprite* pSprite, char_type bUnknown)
 {
     char start_val = pSprite->ComputeZLayer_5A1BD0();
     char max_val = start_val;
 
-    AttachedSprite_18* p18Iter;
+    AttachedSprite* p18Iter;
     for (p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->mpNext)
     {
         if (p18Iter->field_0_pSprite->IsTypeAbove1_446950()) // object_5c type
@@ -720,9 +720,9 @@ void SpriteList_4::PropagateMaxZLayer_5A72B0(Sprite* pSprite, char_type bUnknown
 }
 
 MATCH_FUNC(0x5a7310)
-char_type SpriteList_4::sub_5A7310()
+char_type SpriteList::sub_5A7310()
 {
-    AttachedSprite_18* p18Iter;
+    AttachedSprite* p18Iter;
     for (p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->mpNext)
     {
         if (p18Iter->field_0_pSprite->sub_5A1A60())

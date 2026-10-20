@@ -8,20 +8,20 @@
 #include "gtx_0x106C.hpp"
 #include "map_0x370.hpp"
 
-DEFINE_GLOBAL(DoorData_10_Pool*, gDoor_10_Pool_67BD28, 0x67BD28);
+DEFINE_GLOBAL(DoorDataPool*, gDoor_10_Pool_67BD28, 0x67BD28);
 
 EXTERN_GLOBAL(Fix16, kFpOne_67BBE4);
 EXTERN_GLOBAL(Fix16, kFpTwo_67BBE8);
 EXTERN_GLOBAL(Fix16, kFpHalf_67BA20);
 
 MATCH_FUNC(0x49c320)
-void DoorData_10::PoolAllocate()
+void DoorData::PoolAllocate()
 {
     field_0_state = 0;
 }
 
 MATCH_FUNC(0x49c340)
-void DoorData_10::Init_49C340(u8 id, u8 x, u8 y, u8 z, u32 face, u8 bDoFlip)
+void DoorData::Init_49C340(u8 id, u8 x, u8 y, u8 z, u32 face, u8 bDoFlip)
 {
 
     gmp_block_info blockData; // [esp+10h] [ebp-Ch] BYREF
@@ -35,7 +35,7 @@ void DoorData_10::Init_49C340(u8 id, u8 x, u8 y, u8 z, u32 face, u8 bDoFlip)
     this->field_0_state = 1;
 
     const u8& anim_id = id;
-    DoorAnimInfo_A* pInfo = &gDoorAnimInfo_67BB38[anim_id];
+    DoorAnimInfo* pInfo = &gDoorAnimInfo_67BB38[anim_id];
     gGtx_0x106C_703DD4->SetTileRemap_5AA930(pInfo->field_4_internal_tile_idx, pInfo->field_0_start_frame);
 
     u16 tile_word = pInfo->field_4_internal_tile_idx | 0x1C00; // wall, bullet wall and flat
@@ -80,9 +80,9 @@ void DoorData_10::Init_49C340(u8 id, u8 x, u8 y, u8 z, u32 face, u8 bDoFlip)
 }
 
 MATCH_FUNC(0x49c4e0)
-void DoorData_10::Open_49C4E0(u8 bFlip)
+void DoorData::Open_49C4E0(u8 bFlip)
 {
-    DoorAnimInfo_A* tmp = &gDoorAnimInfo_67BB38[field_7_gr_id];
+    DoorAnimInfo* tmp = &gDoorAnimInfo_67BB38[field_7_gr_id];
     if (field_0_state != 2)
     {
         field_0_state = 2;
@@ -98,9 +98,9 @@ void DoorData_10::Open_49C4E0(u8 bFlip)
 }
 
 MATCH_FUNC(0x49c590)
-void DoorData_10::Close_49C590(u8 bDoFlip)
+void DoorData::Close_49C590(u8 bDoFlip)
 {
-    DoorAnimInfo_A* tmp = &gDoorAnimInfo_67BB38[field_7_gr_id];
+    DoorAnimInfo* tmp = &gDoorAnimInfo_67BB38[field_7_gr_id];
     if (field_0_state != 1)
     {
         field_0_state = 1;
@@ -116,17 +116,17 @@ void DoorData_10::Close_49C590(u8 bDoFlip)
 }
 
 MATCH_FUNC(0x49cf10)
-DoorData_10* Door_4D4::AllocDoorData_49CF10(u8 gr_id, char_type x, char_type y, char_type z, s32 face, char_type bDoFlip)
+DoorData* DoorPool::AllocDoorData_49CF10(u8 gr_id, char_type x, char_type y, char_type z, s32 face, char_type bDoFlip)
 {
-    DoorData_10* tmp = gDoor_10_Pool_67BD28->Allocate();
+    DoorData* tmp = gDoor_10_Pool_67BD28->Allocate();
     tmp->Init_49C340(gr_id, x, y, z, face, bDoFlip);
     return tmp;
 }
 
 MATCH_FUNC(0x49cf50)
-Door_38* Door_4D4::RegisterSingleDoorNoCheck_49CF50(u8 gr_id, u8 x, u8 y, u8 z, u32 face, u8 flip, u8 reversed)
+Door* DoorPool::RegisterSingleDoorNoCheck_49CF50(u8 gr_id, u8 x, u8 y, u8 z, u32 face, u8 flip, u8 reversed)
 {
-    Door_38* pDVar1 = GetNextFreeDoor_49D3A0();
+    Door* pDVar1 = GetNextFreeDoor_49D3A0();
     field_4D0_count++;
     pDVar1->field_2A_bDoFlip = flip;
     pDVar1->field_2B_bReversed = reversed;
@@ -136,9 +136,9 @@ Door_38* Door_4D4::RegisterSingleDoorNoCheck_49CF50(u8 gr_id, u8 x, u8 y, u8 z, 
 
 // 9.6f 0x44D430 ?
 MATCH_FUNC(0x49cfa0)
-Door_38* Door_4D4::RegisterDoubleDoorNoCheck_49CFA0(u8 gr_id, u8 x, u8 y, u8 z, s32 face, u8 flip, u8 reversed)
+Door* DoorPool::RegisterDoubleDoorNoCheck_49CFA0(u8 gr_id, u8 x, u8 y, u8 z, s32 face, u8 flip, u8 reversed)
 {
-    Door_38* pDoor;
+    Door* pDoor;
     u8 x2;
     u8 y2;
     Fix16 check_z;
@@ -196,7 +196,7 @@ Door_38* Door_4D4::RegisterDoubleDoorNoCheck_49CFA0(u8 gr_id, u8 x, u8 y, u8 z, 
 }
 
 MATCH_FUNC(0x49d170)
-Door_38* Door_4D4::RegisterSingleDoor_49D170(u8 gr_id,
+Door* DoorPool::RegisterSingleDoor_49D170(u8 gr_id,
                                              u8 x,
                                              u8 y,
                                              u8 z,
@@ -209,7 +209,7 @@ Door_38* Door_4D4::RegisterSingleDoor_49D170(u8 gr_id,
                                              u8 flip,
                                              u8 reversed)
 {
-    Door_38* this_00 = GetNextFreeDoor_49D3A0();
+    Door* this_00 = GetNextFreeDoor_49D3A0();
     field_4D0_count++;
     this_00->field_2A_bDoFlip = flip;
     this_00->field_2B_bReversed = reversed;
@@ -220,7 +220,7 @@ Door_38* Door_4D4::RegisterSingleDoor_49D170(u8 gr_id,
 }
 
 MATCH_FUNC(0x49d1f0)
-Door_38* Door_4D4::RegisterDoubleDoor_49D1F0(u8 gr_id,
+Door* DoorPool::RegisterDoubleDoor_49D1F0(u8 gr_id,
                                              u8 x,
                                              u8 y,
                                              u8 z,
@@ -233,7 +233,7 @@ Door_38* Door_4D4::RegisterDoubleDoor_49D1F0(u8 gr_id,
                                              u8 flip,
                                              u8 reversed)
 {
-    Door_38* this_00 = GetNextFreeDoor_49D3A0();
+    Door* this_00 = GetNextFreeDoor_49D3A0();
     field_4D0_count++;
     this_00->field_2A_bDoFlip = flip;
     this_00->field_2B_bReversed = reversed;
@@ -260,7 +260,7 @@ Door_38* Door_4D4::RegisterDoubleDoor_49D1F0(u8 gr_id,
     return this_00;
 }
 
-inline bool Door_38_inline_unknown(Door_38* pDoor)
+inline bool Door_38_inline_unknown(Door* pDoor)
 {
     if (pDoor->IsOpen_44C860())
     {
@@ -273,9 +273,9 @@ inline bool Door_38_inline_unknown(Door_38* pDoor)
 }
 
 MATCH_FUNC(0x49d2d0)
-void Door_4D4::RegisterDoorInfo_49D2D0(s16 start_frame, s16 end_frame, char_type speed)
+void DoorPool::RegisterDoorInfo_49D2D0(s16 start_frame, s16 end_frame, char_type speed)
 {
-    DoorAnimInfo_A* psVar3 = &gDoorAnimInfo_67BB38[0];
+    DoorAnimInfo* psVar3 = &gDoorAnimInfo_67BB38[0];
     u8 idx = 0;
     do
     {
@@ -298,28 +298,28 @@ void Door_4D4::RegisterDoorInfo_49D2D0(s16 start_frame, s16 end_frame, char_type
 }
 
 MATCH_FUNC(0x49d340)
-void Door_4D4::TryOpenDoorForCar_49D340(Car_BC* pCar, u8 door_idx)
+void DoorPool::TryOpenDoorForCar_49D340(Car* pCar, u8 door_idx)
 {
     field_0_doors[door_idx].TryOpenForCar_49C870(pCar);
 }
 
 MATCH_FUNC(0x49d370)
-void Door_4D4::TryOpenDoorForPed_49D370(Ped* pPed, u8 idx)
+void DoorPool::TryOpenDoorForPed_49D370(Ped* pPed, u8 idx)
 {
     field_0_doors[idx].TryOpenForPed_49C8A0(pPed);
 }
 
 MATCH_FUNC(0x49d3a0)
-Door_38* Door_4D4::GetNextFreeDoor_49D3A0()
+Door* DoorPool::GetNextFreeDoor_49D3A0()
 {
     return &field_0_doors[field_4D0_count];
 }
 
 // https://decomp.me/scratch/dGqMg
 MATCH_FUNC(0x49d3c0)
-char_type Door_4D4::CheckDoorAccess_49D3C0(Sprite* pSprite, u8 door_idx)
+char_type DoorPool::CheckDoorAccess_49D3C0(Sprite* pSprite, u8 door_idx)
 {
-    Car_BC* pCar = pSprite->AsCar_40FEB0();
+    Car* pCar = pSprite->AsCar_40FEB0();
     if (pCar)
     {
 
@@ -334,12 +334,12 @@ char_type Door_4D4::CheckDoorAccess_49D3C0(Sprite* pSprite, u8 door_idx)
         return 0;
     }
 
-    Char_B4* pB4 = pSprite->AsCharB4_40FEA0();
+    Char* pB4 = pSprite->AsCharB4_40FEA0();
     if (pB4)
     {
         if (!Door_38_inline_unknown(&field_0_doors[door_idx]))
         {
-            // 9.6f: Char_B4::get_ped_433A20 (inlined, using it changes the code)
+            // 9.6f: Char::get_ped_433A20 (inlined, using it changes the code)
             if (!field_0_doors[door_idx].CanOpenForPed_49C7F0(pB4->field_7C_pPed))
             {
                 return 1;
@@ -353,7 +353,7 @@ char_type Door_4D4::CheckDoorAccess_49D3C0(Sprite* pSprite, u8 door_idx)
 }
 
 MATCH_FUNC(0x49d460)
-void Door_4D4::DoorsService_49D460()
+void DoorPool::DoorsService_49D460()
 {
     for (u16 i = 0; i < field_4D0_count; ++i)
     {
@@ -362,11 +362,11 @@ void Door_4D4::DoorsService_49D460()
 }
 
 MATCH_FUNC(0x49d4a0)
-Door_4D4::Door_4D4()
+DoorPool::DoorPool()
 {
     if (!gDoor_10_Pool_67BD28)
     {
-        gDoor_10_Pool_67BD28 = new DoorData_10_Pool();
+        gDoor_10_Pool_67BD28 = new DoorDataPool();
         if (!gDoor_10_Pool_67BD28)
         {
             FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\door.cpp", 1194);
@@ -379,7 +379,7 @@ Door_4D4::Door_4D4()
 
 // The EH frame needs <new> kept out of the TU (see gbh_graphics.hpp)
 MATCH_FUNC(0x49d570)
-Door_4D4::~Door_4D4()
+DoorPool::~DoorPool()
 {
     if (gDoor_10_Pool_67BD28)
     {
@@ -388,7 +388,7 @@ Door_4D4::~Door_4D4()
 }
 
 MATCH_FUNC(0x4DEEB0)
-s32 DoorData_10::GetOppositeFace_4DEEB0(s32 v)
+s32 DoorData::GetOppositeFace_4DEEB0(s32 v)
 {
     switch (v)
     {

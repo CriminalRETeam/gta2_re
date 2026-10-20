@@ -4,11 +4,11 @@
 #include "Function.hpp"
 #include "Pool.hpp"
 
-class ExplodingScore_50
+class ExplodingScore
 {
   public:
-    EXPORT ExplodingScore_50();
-    EXPORT ~ExplodingScore_50();
+    EXPORT ExplodingScore();
+    EXPORT ~ExplodingScore();
     EXPORT void PoolAllocate();
     EXPORT void PoolDeallocate();
     EXPORT void ClearNumbersArrayFrom_596A70(s32 start_idx);
@@ -29,11 +29,12 @@ class ExplodingScore_50
     s32 field_3C; // xoff ?
     s32 field_40; // yoff ?
     // NOTE: Used by a template so the name maters
-    ExplodingScore_50* mpNext;
+    ExplodingScore* mpNext;
     s16 field_48_unused; // set to 0, never used ??
     s16 field_4A_unused; // pad?
     s32 field_4C_score;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(ExplodingScore, 0x50);
 
 class ExplodingScorePool
 {
@@ -52,7 +53,7 @@ class ExplodingScorePool
     // NOTE: Nearly all other pools start at offset 0, this object is some 
     // suggestion its composition and not inheritance unless this object 
     // has an additional unknown base that been melted by the compiler :']
-    Pool<ExplodingScore_50, 3> field_4_pool;
+    Pool<ExplodingScore, 3> field_4_pool;
 };
 
 EXTERN_GLOBAL(ExplodingScorePool*, gExplodingScorePool);

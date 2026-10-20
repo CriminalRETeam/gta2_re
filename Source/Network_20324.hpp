@@ -52,44 +52,44 @@ struct NetworkGameSettings
     u32 field_201A4_game_time_limit;
 };
 
-class Network_20324
+class NetUi
 {
   public:
     //EXPORT u16 WideToDbcs_519960(u8* a1, u16* a2);
     EXPORT static void DbcsToWide_5199B0(wchar_t* pDst, char_type* pSrc);
     //EXPORT char_type* GetString_519A00(const char_type* Key);
     EXPORT static void GetString_519A50(wchar_t* Dest, char_type* Source, size_t MaxCount);
-    EXPORT Network_20324();
-    EXPORT virtual ~Network_20324();
+    EXPORT NetUi();
+    EXPORT virtual ~NetUi();
     EXPORT s32 ShowNetworkUiBlocking_519BD0(HINSTANCE hInstance);
     EXPORT static int __stdcall DialogFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam);
-    EXPORT static s32 __stdcall cb_FillSessionList_519D30(Network_20324* pThis, Network_NameList* pSessions);
+    EXPORT static s32 __stdcall cb_FillSessionList_519D30(NetUi* pThis, Network_NameList* pSessions);
     EXPORT void SetDlgHwnd_519E10(HWND hDlg);
     EXPORT HWND Get_202E0_HWND_519E20();
-    EXPORT static void __stdcall cb_AddPlayerToList_519E30(Network_20324* pNetUi, wchar_t* pName, s32 player_idx);
+    EXPORT static void __stdcall cb_AddPlayerToList_519E30(NetUi* pNetUi, wchar_t* pName, s32 player_idx);
     EXPORT static void __stdcall OnPaint_519FD0(HWND hWnd);
     EXPORT static void __stdcall OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s32 notify);
     EXPORT static void __stdcall OnTimer_51A9D0(HWND hWnd, s32 timer_id);
     EXPORT void CreateMainUi_51AA90(HWND hWndParent);
     EXPORT void ShowSpecificWindow_51ABF0(s32 showing_specific_window_idx);
-    EXPORT static s32 OnInitDialog_51AC60(HWND hWnd, s32 lParam, Network_20324* thisPtr);
+    EXPORT static s32 OnInitDialog_51AC60(HWND hWnd, s32 lParam, NetUi* thisPtr);
     EXPORT s32 Get_202D4_active_control_idx_51ACC0();
-    EXPORT static void __stdcall cb_sub_51ACD0(Network_20324* pNetUi, wchar_t* Source);
-    EXPORT static void _stdcall cb_Disconnect_51ADE0(Network_20324* pNetUi);
+    EXPORT static void __stdcall cb_sub_51ACD0(NetUi* pNetUi, wchar_t* Source);
+    EXPORT static void _stdcall cb_Disconnect_51ADE0(NetUi* pNetUi);
     EXPORT void ClearTreeView_51AE20(s32 nIDDlgItem);
-    EXPORT static s32 __stdcall cb_SetPlayerPing_51AE50(Network_20324* pNetUi, Network_PlayerPing* pPing);
+    EXPORT static s32 __stdcall cb_SetPlayerPing_51AE50(NetUi* pNetUi, Network_PlayerPing* pPing);
     EXPORT void PopulateMainUI_51AFA0();
-    EXPORT static LRESULT __stdcall cb_AddChatMessage_51B2F0(Network_20324* pNetUi, Network_ChatMessage* pMsg);
+    EXPORT static LRESULT __stdcall cb_AddChatMessage_51B2F0(NetUi* pNetUi, Network_ChatMessage* pMsg);
     EXPORT s32 AppendChatMessage_51B4F0(s32 player_idx, const char_type* pMsg);
     EXPORT void SetPlayerNameText_51B7C0();
-    EXPORT static void __stdcall cb_sub_51B7E0(Network_20324* pNetUi, const char_type** ppData);
+    EXPORT static void __stdcall cb_sub_51B7E0(NetUi* pNetUi, const char_type** ppData);
     EXPORT void ApplyHostGameSettings_51B810(const char_type* pData);
     EXPORT void SetSetting_51B9C0(s32 setting, s32 value);
     EXPORT void IncCount_51BBC0();
     EXPORT u32 GetCount_51BBD0();
     EXPORT void DecCount_51BBE0();
     EXPORT void ResetCount_51BBF0();
-    EXPORT static void __stdcall cb_SavePlayerName_51BC00(Network_20324* pThis);
+    EXPORT static void __stdcall cb_SavePlayerName_51BC00(NetUi* pThis);
     EXPORT void SetEndDialog_51BC70(s32 bEnd);
     EXPORT s32 GetEndDialog_51BC80();
     EXPORT void LoadPlayerNameFromRegistry_51BC90();
@@ -133,6 +133,7 @@ class Network_20324
     HWND field_202E0_dlg_hwnd;
     HINSTANCE field_202E4_hInstance;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(NetUi, 0x20324);
 
 struct Network_WindowCreateParams
 {

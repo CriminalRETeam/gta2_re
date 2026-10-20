@@ -50,7 +50,7 @@ void ExplodingScorePool::PushScore_596890(Fix16 xpos, Fix16 ypos, Fix16 zpos, u3
 {
     if (this->field_2_free_scores == 0)
     {
-        ExplodingScore_50* pIter = field_4_pool.GetFirstUsed_4B8FD0();
+        ExplodingScore* pIter = field_4_pool.GetFirstUsed_4B8FD0();
         while (pIter)
         {
             if (pIter->field_4C_score >= score)
@@ -68,7 +68,7 @@ void ExplodingScorePool::PushScore_596890(Fix16 xpos, Fix16 ypos, Fix16 zpos, u3
 
     if (this->field_2_free_scores > 0)
     {
-        ExplodingScore_50* pNew = field_4_pool.Allocate();
+        ExplodingScore* pNew = field_4_pool.Allocate();
         if (pNew)
         {
             --this->field_2_free_scores;
@@ -87,7 +87,7 @@ MATCH_FUNC(0x5969e0)
 void ExplodingScorePool::DrawExplodingScores_5969E0()
 {
     // TODO: Would there have been an iterator object ??
-    ExplodingScore_50* pIter = field_4_pool.GetFirstUsed_4B8FD0();
+    ExplodingScore* pIter = field_4_pool.GetFirstUsed_4B8FD0();
     while (pIter)
     {
         pIter->DrawNumbers_596C90();
@@ -96,7 +96,7 @@ void ExplodingScorePool::DrawExplodingScores_5969E0()
 }
 
 MATCH_FUNC(0x596a00)
-ExplodingScore_50::ExplodingScore_50()
+ExplodingScore::ExplodingScore()
 {
     field_0_numbers_count = 0;
     for (s32 i = 0; i < 9; i++)
@@ -114,23 +114,23 @@ ExplodingScore_50::ExplodingScore_50()
 }
 
 MATCH_FUNC(0x596a40)
-ExplodingScore_50::~ExplodingScore_50()
+ExplodingScore::~ExplodingScore()
 {
     mpNext = 0;
 }
 
 MATCH_FUNC(0x596a50)
-void ExplodingScore_50::PoolAllocate()
+void ExplodingScore::PoolAllocate()
 {
 }
 
 MATCH_FUNC(0x596a60)
-void ExplodingScore_50::PoolDeallocate()
+void ExplodingScore::PoolDeallocate()
 {
 }
 
 MATCH_FUNC(0x596a70)
-void ExplodingScore_50::ClearNumbersArrayFrom_596A70(s32 start_idx)
+void ExplodingScore::ClearNumbersArrayFrom_596A70(s32 start_idx)
 {
     for (u32 i = start_idx; i > 0; i--)
     {
@@ -139,7 +139,7 @@ void ExplodingScore_50::ClearNumbersArrayFrom_596A70(s32 start_idx)
 }
 
 MATCH_FUNC(0x596a90)
-void ExplodingScore_50::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 score)
+void ExplodingScore::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 score)
 {
     u32 tmpScore = score;
 
@@ -247,13 +247,13 @@ void ExplodingScore_50::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32
 }
 
 MATCH_FUNC(0x596c90)
-void ExplodingScore_50::DrawNumbers_596C90()
+void ExplodingScore::DrawNumbers_596C90()
 {
     Fix16 a3;
     Fix16 screen_y;
     Fix16 x_delta;
     Fix16 y_delta;
-    Camera_0xBC* pCamera = &gGame_0x40_67E008->field_38_local_player->field_14C_view_camera;
+    Camera* pCamera = &gGame_0x40_67E008->field_38_local_player->field_14C_view_camera;
     pCamera->ProjectWorldToScreen_OutOfLine_4B90E0(field_28_x, field_2C_y, field_30_z, &a3, &screen_y);
     if (a3 < dword_702C6C)
     {
@@ -361,7 +361,7 @@ void ExplodingScore_50::DrawNumbers_596C90()
 }
 
 MATCH_FUNC(0x5970c0)
-char_type ExplodingScore_50::PoolUpdate()
+char_type ExplodingScore::PoolUpdate()
 {
     if (field_38 < 0)
     {
@@ -390,10 +390,10 @@ char_type ExplodingScore_50::PoolUpdate()
 
 // 9.6f 0x4B92B0
 MATCH_FUNC(0x597100)
-void ExplodingScore_50::DrawSingleNumber_597100(s32 number_to_draw, s32 xpos_sub)
+void ExplodingScore::DrawSingleNumber_597100(s32 number_to_draw, s32 xpos_sub)
 {
 
-    Camera_0xBC* pCam = &gGame_0x40_67E008->field_38_local_player->field_14C_view_camera;
+    Camera* pCam = &gGame_0x40_67E008->field_38_local_player->field_14C_view_camera;
 
     Fix16 proj_x;
     Fix16 proj_y;
