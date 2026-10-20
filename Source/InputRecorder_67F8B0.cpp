@@ -34,20 +34,20 @@ struct mini_device_obj_data
 
 DEFINE_GLOBAL(InputRecorder_67F8B0, gInputRecorder_67F8B0, 0x67F8B0);
 DEFINE_GLOBAL(InputDevices_1*, gInputDevices_67B990, 0x67B990);
-DEFINE_GLOBAL(DWORD, gKeyboardStatus_67B624, 0x67B624);
+DEFINE_GLOBAL(DWORD, gDeviceDataCount_67B624, 0x67B624);
 DEFINE_GLOBAL(u8, gAltKeyDown_67B80C, 0x67B80C);
 DEFINE_GLOBAL(bool, gNeedKbAcquire_67B66C, 0x67B66C);
 DEFINE_GLOBAL(DIDEVICEOBJECTDATA, gKeyboardDeviceData_67B610, 0x67B610);
 DEFINE_GLOBAL(mini_device_obj_data, gGamePadDeviceData_67B5B0, 0x67B5B0);
 
 DEFINE_GLOBAL_ARRAY(s32, gDefaultControls_61A9E4, 12, 0x61A9E4);
-DEFINE_GLOBAL_ARRAY(s32, gMaybeDeviceType_67B91C, 12, 0x67B91C);
+DEFINE_GLOBAL_ARRAY(s32, gControlDeviceType_67B91C, 12, 0x67B91C);
 DEFINE_GLOBAL_ARRAY(s32, gPlayerControlsBinding_67B6E8, 12, 0x67B6E8);
 
 EXTERN_GLOBAL(DIDATAFORMAT, gKeyboardDataFormat_601A54);
 EXTERN_GLOBAL(HINSTANCE, gHInstance_708220);
 EXTERN_GLOBAL(s32, gGTA2VersionMajor_708280);
-EXTERN_GLOBAL(s32, gGTA2VersionMajor_708284);
+EXTERN_GLOBAL(s32, gGTA2VersionMinor_708284);
 
 DEFINE_GUID(GUID_SysKeyboard, 0x6F1D2B61, 0xD5A0, 0x11CF, 0xBF, 0xC7, 0x44, 0x45, 0x53, 0x54, 0x00, 0x00);
 
@@ -66,9 +66,9 @@ bool InputDevices_1::acquire_input_device_498730(LPDIRECTINPUTDEVICEA pGamePadDe
         return 0;
     }
 
-    gKeyboardStatus_67B624 = -1;
+    gDeviceDataCount_67B624 = -1;
 
-    const HRESULT hr = pGamePadDevice->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), 0, &gKeyboardStatus_67B624, DIGDD_PEEK);
+    const HRESULT hr = pGamePadDevice->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), 0, &gDeviceDataCount_67B624, DIGDD_PEEK);
     if (hr == DIERR_INPUTLOST || hr == DIERR_NOTACQUIRED)
     {
         return SUCCEEDED(pGamePadDevice->Acquire()) ? true : false;
@@ -289,8 +289,8 @@ void InputDevices_1::get_registry_controls_498C00()
 {
     for (u32 i = 0; i < 12; ++i)
     {
-        const u32 setting = gRegistry_6FF968.Set_Control_Setting_587010(i, gDefaultControls_61A9E4[i]);
-        gMaybeDeviceType_67B91C[i] = setting >> 15;
+        const u32 setting = gRegistry_6FF968.Get_Control_Setting_587010(i, gDefaultControls_61A9E4[i]);
+        gControlDeviceType_67B91C[i] = setting >> 15;
         gPlayerControlsBinding_67B6E8[i] = (u8)setting;
     }
 }
@@ -336,18 +336,18 @@ void InputDevices_1::SetAltKeyState_498CB0(u32 alt_down)
 }
 
 MATCH_FUNC(0x498CC0)
-void InputDevices_1::read_keyboard_and_gamepad_498CC0()
+void InputDevices_1::flush_keyboard_and_gamepad_498CC0()
 {
-    gKeyboardStatus_67B624 = -1;
+    gDeviceDataCount_67B624 = -1;
     if (gKeyboardDevice_67B5C0)
     {
-        gKeyboardDevice_67B5C0->GetDeviceData(16, 0, &gKeyboardStatus_67B624, 0);
+        gKeyboardDevice_67B5C0->GetDeviceData(16, 0, &gDeviceDataCount_67B624, 0);
     }
 
-    gKeyboardStatus_67B624 = -1;
+    gDeviceDataCount_67B624 = -1;
     if (gGamePadDevice_67B6C0)
     {
-        gGamePadDevice_67B6C0->GetDeviceData(16, 0, &gKeyboardStatus_67B624, 0);
+        gGamePadDevice_67B6C0->GetDeviceData(16, 0, &gDeviceDataCount_67B624, 0);
     }
 }
 
@@ -392,26 +392,26 @@ void InputDevices_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
             HRESULT padResult;
             bool bHandled = false;
 
-            gKeyboardStatus_67B624 = 0;
+            gDeviceDataCount_67B624 = 0;
             if (gKeyboardDevice_67B5C0)
             {
-                gKeyboardStatus_67B624 = 1;
-                kbResult = gKeyboardDevice_67B5C0->GetDeviceData(16, &gKeyboardDeviceData_67B610, &gKeyboardStatus_67B624, 0);
+                gDeviceDataCount_67B624 = 1;
+                kbResult = gKeyboardDevice_67B5C0->GetDeviceData(16, &gKeyboardDeviceData_67B610, &gDeviceDataCount_67B624, 0);
             }
             else
             {
                 kbResult = -1;
             }
 
-            if (gGamePadDevice_67B6C0 && !gKeyboardStatus_67B624)
+            if (gGamePadDevice_67B6C0 && !gDeviceDataCount_67B624)
             {
-                gKeyboardStatus_67B624 = 1;
+                gDeviceDataCount_67B624 = 1;
                 gGamePadDevice_67B6C0->GetDeviceData(16, 0, &padItems, DIGDD_PEEK);
                 padResult = gGamePadDevice_67B6C0->GetDeviceData(16,
                                                                  (DIDEVICEOBJECTDATA*)&gGamePadDeviceData_67B5B0,
-                                                                 &gKeyboardStatus_67B624,
+                                                                 &gDeviceDataCount_67B624,
                                                                  0);
-                if (bLog_directinput_67D6C0 && gKeyboardStatus_67B624 > 0)
+                if (bLog_directinput_67D6C0 && gDeviceDataCount_67B624 > 0)
                 {
                     sprintf(gTmpBuffer_67C598,
                             "%d: input num_items = %d dwOfs = %d; data = %d",
@@ -428,7 +428,7 @@ void InputDevices_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                 padItems = 0;
             }
 
-            if ((kbResult < 0 && padResult < 0) || gKeyboardStatus_67B624 <= 0)
+            if ((kbResult < 0 && padResult < 0) || gDeviceDataCount_67B624 <= 0)
             {
                 return;
             }
@@ -453,7 +453,7 @@ void InputDevices_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                 {
                     // Reset for every input, so only the last binding (input 11) counts
                     bHandled = false;
-                    if (kbResult == 0 && gMaybeDeviceType_67B91C[input] == 0 &&
+                    if (kbResult == 0 && gControlDeviceType_67B91C[input] == 0 &&
                         gPlayerControlsBinding_67B6E8[input] == gKeyboardDeviceData_67B610.dwOfs)
                     {
                         // Keyboard binding
@@ -473,7 +473,7 @@ void InputDevices_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                             }
                         }
                     }
-                    else if (padResult == 0 && gMaybeDeviceType_67B91C[input] == 1)
+                    else if (padResult == 0 && gControlDeviceType_67B91C[input] == 1)
                     {
                         // Gamepad binding
                         s32 binding = gPlayerControlsBinding_67B6E8[input];
@@ -637,7 +637,7 @@ bool InputRecorder_67F8B0::should_ignore_input_4CDD80(s32 dinput_key)
 }
 
 MATCH_FUNC(0x4cddf0)
-bool InputRecorder_67F8B0::should_ignore_input_4CDDF0(s32 dinput_key)
+bool InputRecorder_67F8B0::should_record_input_4CDDF0(s32 dinput_key)
 {
     return !should_ignore_input_4CDD80(dinput_key) && dinput_key != DIK_ADD;
 }
@@ -677,7 +677,7 @@ MATCH_FUNC(0x4cded0)
 void InputRecorder_67F8B0::SaveReplay_4CDED0()
 {
     if (bConstant_replay_save_67D5C4 != 1 && bDo_release_replay_67D4EB && field_38_replay_state != Disabled_2 && field_75340_rec_buf_idx > 0 &&
-        !RecOrPlayBackState_4CEDF0())
+        !IsPlayingBack_4CEDF0())
     {
         size_t len = sizeof(InputRecord_C) * field_75340_rec_buf_idx;
         File::AppendBufferToFile_4A6F50("test\\replay.rep", field_3C_rec_buff, &len);
@@ -720,7 +720,7 @@ void InputRecorder_67F8B0::AppendReplayHeader_4CDF70()
 
     memset(&header, 0, sizeof(header));
     computer_name_size = 29;
-    sprintf(header.field_0_version, "v%d.%d", gGTA2VersionMajor_708280, gGTA2VersionMajor_708284);
+    sprintf(header.field_0_version, "v%d.%d", gGTA2VersionMajor_708280, gGTA2VersionMinor_708284);
 
     time_t now = time(NULL);
     char_type* pDate = ctime(&now);
@@ -731,7 +731,7 @@ void InputRecorder_67F8B0::AppendReplayHeader_4CDF70()
     strcpy(header.field_44_map_name, gGameSession_67E8E0.GetMapName_4C5940());
     strcpy(header.field_6C_style_name, gGameSession_67E8E0.GetStyleName_4C5950());
     strcpy(header.field_94_script_name, gGameSession_67E8E0.GetScriptName_4C5960());
-    strcpy(header.field_BC_debug_str, gGameSession_67E8E0.GetDebugStr_4C5970());
+    strcpy(header.field_BC_debug_str, gGameSession_67E8E0.GetSaveFileName_4C5970());
 
     header.field_0_version[7] = '\n';
     header.field_8_date[29] = '\n';
@@ -793,7 +793,7 @@ void InputRecorder_67F8B0::LoadReplayHeader_4CE380(char_type bLoadDebug)
         gGameSession_67E8E0.SetMapName_4C5870(header.field_44_map_name);
         gGameSession_67E8E0.SetStyleName_4C5890(header.field_6C_style_name);
         gGameSession_67E8E0.SetScriptName_4C58B0(header.field_94_script_name);
-        gGameSession_67E8E0.DebugStr_4C58D0(header.field_BC_debug_str);
+        gGameSession_67E8E0.SetSaveFileName_4C58D0(header.field_BC_debug_str);
 
         if (bLoadDebug)
         {
@@ -890,7 +890,7 @@ void InputRecorder_67F8B0::input_init_replay_4CE740(HINSTANCE hInstance)
     LoadReplayHeader_4CE380(0);
 
     u32 bufLen = sizeof(field_3C_rec_buff);
-    const s32 remainderSize = File::GetRemainderSize_4A7250(this->field_3C_rec_buff, &bufLen);
+    const s32 remainderSize = File::Global_ReadRemainder_4A7250(this->field_3C_rec_buff, &bufLen);
     File::Global_Close_4A70C0();
     this->field_7533C_used_recs_count = remainderSize / sizeof(InputRecord_C);
     if (sizeof(InputRecord_C) * (remainderSize / sizeof(InputRecord_C)) != remainderSize)
@@ -940,7 +940,7 @@ void InputRecorder_67F8B0::input_init_live_4CE880(HINSTANCE hInstance)
         File::Global_Open_4A7060("test\\replay.rep");
         InputRecorder_67F8B0::LoadReplayHeader_4CE380(1);
         u32 size = 480000;
-        size_t remainderSize = File::GetRemainderSize_4A7250(field_3C_rec_buff, &size);
+        size_t remainderSize = File::Global_ReadRemainder_4A7250(field_3C_rec_buff, &size);
         File::Global_Close_4A70C0();
         field_7533C_used_recs_count = remainderSize / 0xC;
         if (12 * (remainderSize / 0xC) != remainderSize)
@@ -1118,7 +1118,7 @@ u32 InputRecorder_67F8B0::get_input_bits_4CEAC0()
                 else
                 {
                     gInputDevices_67B990->read_input_device_498DA0((s32*)control_status, 0);
-                    if (InputRecorder_67F8B0::should_ignore_input_4CDDF0(((u32)*control_status >> 12) & 0x1FF))
+                    if (InputRecorder_67F8B0::should_record_input_4CDDF0(((u32)*control_status >> 12) & 0x1FF))
                     {
                         *control_status = remove_bit;
                     }
@@ -1224,7 +1224,7 @@ void InputRecorder_67F8B0::DisplayInputBits_4CED90()
 }
 
 MATCH_FUNC(0x4cedf0)
-bool InputRecorder_67F8B0::RecOrPlayBackState_4CEDF0()
+bool InputRecorder_67F8B0::IsPlayingBack_4CEDF0()
 {
     if (field_38_replay_state == Playback_1 || field_38_replay_state == Attract_3)
     {
@@ -1236,7 +1236,7 @@ bool InputRecorder_67F8B0::RecOrPlayBackState_4CEDF0()
 MATCH_FUNC(0x4cee10)
 void InputRecorder_67F8B0::ShowInput_4CEE10()
 {
-    if (RecOrPlayBackState_4CEDF0())
+    if (IsPlayingBack_4CEDF0())
     {
         gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(L"PLAYBACK", -1, 0, gDebugFont_706600, 1);
     }

@@ -6,7 +6,7 @@
 struct text_0xC
 {
     wchar_t* field_0_pwstr;
-    const char_type* field_4_pKey;
+    const char_type* field_4_key;
     s32 field_8;
 };
 

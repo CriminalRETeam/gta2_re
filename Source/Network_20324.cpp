@@ -1012,11 +1012,11 @@ void Network_20324::GetString_519A50(wchar_t* Dest, char_type* Source, size_t Ma
 MATCH_FUNC(0x519a90)
 Network_20324::Network_20324()
 {
-    this->field_202E4_hInstance = 0;
-    this->field_202E0_dlg_hwnd = 0;
-    this->field_202DC_unused = 0;
-    this->field_202D4_showing_specific_window_idx = 0;
-    this->field_202D8_last_showing_specific_window_idx = 3;
+    this->field_20320_hInstance = 0;
+    this->field_2031C_dlg_hwnd = 0;
+    this->field_20318_unused = 0;
+    this->field_20310_showing_specific_window_idx = 0;
+    this->field_20314_last_showing_specific_window_idx = 3;
     this->field_20084_unused = 0;
     this->field_1FD6C_count = 0;
     this->field_1FD64_total_map_count = 0;
@@ -1048,7 +1048,7 @@ Network_20324::~Network_20324()
 MATCH_FUNC(0x519bd0)
 s32 Network_20324::ShowNetworkUiBlocking_519BD0(HINSTANCE hInstance)
 {
-    this->field_202E4_hInstance = hInstance;
+    this->field_20320_hInstance = hInstance;
     gNetPlay_7071E8.Set15_51ECD0((int)Network_20324::cb_FillSessionList_519D30, this);
     gNetPlay_7071E8.Set6_520530((void*)Network_20324::cb_AddPlayerToList_519E30, (void*)this);
     gNetPlay_7071E8.Set9_520E60((int)Network_20324::cb_sub_51ACD0, (int)this);
@@ -1057,7 +1057,7 @@ s32 Network_20324::ShowNetworkUiBlocking_519BD0(HINSTANCE hInstance)
     gNetPlay_7071E8.Set21_5210D0((int)Network_20324::cb_AddChatMessage_51B2F0, (int)this);
     gNetPlay_7071E8.Set24_521140((int)Network_20324::cb_sub_51B7E0, (int)this);
     gNetPlay_7071E8.Set27SavePlayerName_5211F0((int)Network_20324::cb_SavePlayerName_51BC00, (int)this);
-    return DialogBoxParamA(this->field_202E4_hInstance,
+    return DialogBoxParamA(this->field_20320_hInstance,
                            (LPCSTR)103, // probably IDD_NETWORK_DIALOG
                            0,
                            Network_20324::DialogFunc,
@@ -1111,34 +1111,34 @@ s32 Network_20324::cb_FillSessionList_519D30(Network_20324* pThis, Network_NameL
 {
     char_type name[260];
 
-    SendDlgItemMessageA(pThis->Get_202E0_HWND_519E20(), 1000, LB_RESETCONTENT, 0, 0);
+    SendDlgItemMessageA(pThis->Get_2031C_HWND_519E20(), 1000, LB_RESETCONTENT, 0, 0);
     for (u32 i = 0; i < pSessions->field_40_count; i++)
     {
         wcstombs(name, pSessions->field_0_names[i], sizeof(name));
-        LRESULT item = SendDlgItemMessageA(pThis->Get_202E0_HWND_519E20(), 1000, LB_ADDSTRING, 0, (LPARAM)name);
+        LRESULT item = SendDlgItemMessageA(pThis->Get_2031C_HWND_519E20(), 1000, LB_ADDSTRING, 0, (LPARAM)name);
         if (item != LB_ERR && item != LB_ERRSPACE)
         {
-            SendDlgItemMessageA(pThis->Get_202E0_HWND_519E20(), 1000, LB_SETITEMDATA, item, i);
+            SendDlgItemMessageA(pThis->Get_2031C_HWND_519E20(), 1000, LB_SETITEMDATA, item, i);
         }
     }
 
     if (pSessions->field_40_count > 0 || gNetPlay_7071E8.field_4_bModem)
     {
-        return EnableWindow(GetDlgItem(pThis->Get_202E0_HWND_519E20(), 1001), TRUE);
+        return EnableWindow(GetDlgItem(pThis->Get_2031C_HWND_519E20(), 1001), TRUE);
     }
-    return EnableWindow(GetDlgItem(pThis->Get_202E0_HWND_519E20(), 1001), FALSE);
+    return EnableWindow(GetDlgItem(pThis->Get_2031C_HWND_519E20(), 1001), FALSE);
 }
 
 MATCH_FUNC(0x519e10)
 void Network_20324::SetDlgHwnd_519E10(HWND hDlg)
 {
-    field_202E0_dlg_hwnd = hDlg;
+    field_2031C_dlg_hwnd = hDlg;
 }
 
 MATCH_FUNC(0x519e20)
-HWND Network_20324::Get_202E0_HWND_519E20()
+HWND Network_20324::Get_2031C_HWND_519E20()
 {
-    return field_202E0_dlg_hwnd;
+    return field_2031C_dlg_hwnd;
 }
 
 MATCH_FUNC(0x519e30)
@@ -1156,12 +1156,12 @@ void Network_20324::cb_AddPlayerToList_519E30(Network_20324* pNetUi, wchar_t* pN
         wcstombs(name, pName, 260u);
     }
 
-    switch (pNetUi->Get_202D4_active_control_idx_51ACC0())
+    switch (pNetUi->Get_20310_showing_window_idx_51ACC0())
     {
         case 2:
         {
             memset(&item, 0, sizeof(item));
-            HWND hList = GetDlgItem(pNetUi->Get_202E0_HWND_519E20(), 1050);
+            HWND hList = GetDlgItem(pNetUi->Get_2031C_HWND_519E20(), 1050);
             item.iItem = SendMessageA(hList, LVM_GETITEMCOUNT, 0, 0);
             item.mask = LVIF_TEXT;
             item.iSubItem = 0;
@@ -1173,7 +1173,7 @@ void Network_20324::cb_AddPlayerToList_519E30(Network_20324* pNetUi, wchar_t* pN
         case 1:
         {
             memset(&item, 0, sizeof(item));
-            HWND hList = GetDlgItem(pNetUi->Get_202E0_HWND_519E20(), 1024);
+            HWND hList = GetDlgItem(pNetUi->Get_2031C_HWND_519E20(), 1024);
             s32 count = SendMessageA(hList, LVM_GETITEMCOUNT, 0, 0);
             item.mask = LVIF_TEXT;
             item.iItem = count;
@@ -1188,7 +1188,7 @@ void Network_20324::cb_AddPlayerToList_519E30(Network_20324* pNetUi, wchar_t* pN
         case 0:
         {
             memset(&item, 0, sizeof(item));
-            HWND hList = GetDlgItem(pNetUi->Get_202E0_HWND_519E20(), 1050);
+            HWND hList = GetDlgItem(pNetUi->Get_2031C_HWND_519E20(), 1050);
             item.iItem = SendMessageA(hList, LVM_GETITEMCOUNT, 0, 0);
             item.mask = LVIF_TEXT;
             item.iSubItem = 0;
@@ -1292,7 +1292,7 @@ void __stdcall Network_20324::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s
         case IDCANCEL:
         {
             Network_20324* pThis = (Network_20324*)GetWindowLongA(hDlg, 8);
-            switch (pThis->Get_202D4_active_control_idx_51ACC0())
+            switch (pThis->Get_20310_showing_window_idx_51ACC0())
             {
                 case 0:
                     KillTimer(hDlg, gTimerId_6F8A18);
@@ -1369,7 +1369,7 @@ void __stdcall Network_20324::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s
         case 1020: // "Reject" button
         {
             Network_20324* pThis = (Network_20324*)GetWindowLongA(hDlg, 8);
-            HWND hList = GetDlgItem(pThis->Get_202E0_HWND_519E20(), 1024);
+            HWND hList = GetDlgItem(pThis->Get_2031C_HWND_519E20(), 1024);
             LRESULT item = SendMessageA(hList, LVM_GETNEXTITEM, -1, LVNI_SELECTED);
             LVITEMA lvItem;
             lvItem.iSubItem = 0;
@@ -1535,7 +1535,7 @@ void Network_20324::CreateMainUi_51AA90(HWND hWndParent)
                                                                  gUiControlDefinitions_621430.data[i][j].field_0_windowParams.field_C_h,
                                                                  hWndParent,
                                                                  gUiControlDefinitions_621430.data[i][j].field_0_windowParams.field_10_hMenu,
-                                                                 this->field_202E4_hInstance,
+                                                                 this->field_20320_hInstance,
                                                                  0);
         }
     }
@@ -1567,7 +1567,7 @@ void Network_20324::ShowSpecificWindow_51ABF0(s32 showing_specific_window_idx)
     // Hide old
     for (i = 0; i < 30; ++i)
     {
-        ShowWindow(this->field_201A8_ui_control_hwnds[this->field_202D4_showing_specific_window_idx][i], SW_HIDE);
+        ShowWindow(this->field_201A8_ui_control_hwnds[this->field_20310_showing_specific_window_idx][i], SW_HIDE);
     }
 
     // Show new (using param, not the mem var)
@@ -1576,8 +1576,8 @@ void Network_20324::ShowSpecificWindow_51ABF0(s32 showing_specific_window_idx)
         ShowWindow(this->field_201A8_ui_control_hwnds[showing_specific_window_idx][i], SW_SHOW);
     }
 
-    this->field_202D8_last_showing_specific_window_idx = this->field_202D4_showing_specific_window_idx;
-    this->field_202D4_showing_specific_window_idx = showing_specific_window_idx;
+    this->field_20314_last_showing_specific_window_idx = this->field_20310_showing_specific_window_idx;
+    this->field_20310_showing_specific_window_idx = showing_specific_window_idx;
 }
 
 MATCH_FUNC(0x51ac60)
@@ -1594,9 +1594,9 @@ s32 Network_20324::OnInitDialog_51AC60(HWND hWnd, s32 lParam, Network_20324* thi
 }
 
 MATCH_FUNC(0x51acc0)
-s32 Network_20324::Get_202D4_active_control_idx_51ACC0()
+s32 Network_20324::Get_20310_showing_window_idx_51ACC0()
 {
-    return field_202D4_showing_specific_window_idx;
+    return field_20310_showing_specific_window_idx;
 }
 
 MATCH_FUNC(0x51acd0)
@@ -1607,13 +1607,13 @@ void Network_20324::cb_sub_51ACD0(Network_20324* pNetUi, wchar_t* Source)
 
     wcstombs(Dest, Source, 260u);
 
-    switch (pNetUi->Get_202D4_active_control_idx_51ACC0())
+    switch (pNetUi->Get_20310_showing_window_idx_51ACC0())
     {
         case 1:
         {
             memset(&findInfo, 0, sizeof(findInfo));
 
-            HWND hItem = GetDlgItem(pNetUi->Get_202E0_HWND_519E20(), 1024);
+            HWND hItem = GetDlgItem(pNetUi->Get_2031C_HWND_519E20(), 1024);
 
             findInfo.flags = LVFI_STRING;
             findInfo.psz = Dest;
@@ -1630,7 +1630,7 @@ void Network_20324::cb_sub_51ACD0(Network_20324* pNetUi, wchar_t* Source)
         {
             memset(&findInfo, 0, sizeof(findInfo));
 
-            HWND hItem = GetDlgItem(pNetUi->Get_202E0_HWND_519E20(), 1050);
+            HWND hItem = GetDlgItem(pNetUi->Get_2031C_HWND_519E20(), 1050);
 
             findInfo.flags = LVFI_STRING;
             findInfo.psz = Dest;
@@ -1646,15 +1646,15 @@ MATCH_FUNC(0x51ade0)
 void Network_20324::cb_Disconnect_51ADE0(Network_20324* pNetUi)
 {
     gNetPlay_7071E8.Disconnect_520D10();
-    pNetUi->ClearTreeView_51AE20(TREEVIEW_UNKNOWN_1050);
-    pNetUi->ClearTreeView_51AE20(TREEVIEW_UNKNOWN_1024);
+    pNetUi->ClearListView_51AE20(LISTVIEW_JOINED_PLAYERS_1050);
+    pNetUi->ClearListView_51AE20(LISTVIEW_HOST_PLAYERS_1024);
     pNetUi->ShowSpecificWindow_51ABF0(0);
 }
 
 MATCH_FUNC(0x51ae20)
-void Network_20324::ClearTreeView_51AE20(s32 nIDDlgItem)
+void Network_20324::ClearListView_51AE20(s32 nIDDlgItem)
 {
-    HWND hwndDlg = this->field_202E0_dlg_hwnd;
+    HWND hwndDlg = this->field_2031C_dlg_hwnd;
     if (hwndDlg)
     {
         SendDlgItemMessageA(hwndDlg, nIDDlgItem, LVM_DELETEALLITEMS, 0, 0);
@@ -1673,13 +1673,13 @@ s32 Network_20324::cb_SetPlayerPing_51AE50(Network_20324* pNetUi, Network_Player
 
     wcstombs(name, pPing->field_0_name, 260u);
 
-    switch (pNetUi->Get_202D4_active_control_idx_51ACC0())
+    switch (pNetUi->Get_20310_showing_window_idx_51ACC0())
     {
         case 1:
         {
             memset(&findInfo, 0, sizeof(findInfo));
             sprintf(pingText, "%d", pPing->field_208_avg_ping);
-            HWND hItem = GetDlgItem(pNetUi->Get_202E0_HWND_519E20(), 1024);
+            HWND hItem = GetDlgItem(pNetUi->Get_2031C_HWND_519E20(), 1024);
             findInfo.flags = LVFI_STRING;
             findInfo.psz = name;
             LRESULT idx = SendMessageA(hItem, LVM_FINDITEMA, 0xFFFFFFFF, (LPARAM)&findInfo);
@@ -1692,7 +1692,7 @@ s32 Network_20324::cb_SetPlayerPing_51AE50(Network_20324* pNetUi, Network_Player
         {
             memset(&findInfo, 0, sizeof(findInfo));
             sprintf(pingText, "%d", pPing->field_208_avg_ping);
-            HWND hItem = GetDlgItem(pNetUi->Get_202E0_HWND_519E20(), 1050);
+            HWND hItem = GetDlgItem(pNetUi->Get_2031C_HWND_519E20(), 1050);
             findInfo.flags = LVFI_STRING;
             findInfo.psz = name;
             LRESULT idx = SendMessageA(hItem, LVM_FINDITEMA, 0xFFFFFFFF, (LPARAM)&findInfo);
@@ -1716,52 +1716,52 @@ void Network_20324::PopulateMainUI_51AFA0()
     columnInfo[0] = 36;
     columnInfo[3] = (LPARAM) "Player Name";
     columnInfo[7] = 0;
-    SendDlgItemMessageA(field_202E0_dlg_hwnd, 1024, 0x101B, 0, (LPARAM)columnInfo); // 0x101B = LVM_INSERTCOLUMNA
-    SendDlgItemMessageA(field_202E0_dlg_hwnd, 1024, 0x101E, 0, colWidth); // 0x101E = LVM_SETCOLUMNWIDTH
+    SendDlgItemMessageA(field_2031C_dlg_hwnd, 1024, 0x101B, 0, (LPARAM)columnInfo); // 0x101B = LVM_INSERTCOLUMNA
+    SendDlgItemMessageA(field_2031C_dlg_hwnd, 1024, 0x101E, 0, colWidth); // 0x101E = LVM_SETCOLUMNWIDTH
     memset(columnInfo, 0, sizeof(columnInfo));
     columnInfo[0] = 37;
     columnInfo[1] = 0;
     columnInfo[3] = (LPARAM) "Ping";
     columnInfo[7] = 1;
-    SendDlgItemMessageA(field_202E0_dlg_hwnd, 1024, 0x101B, 1u, (LPARAM)columnInfo);
-    SendDlgItemMessageA(field_202E0_dlg_hwnd, 1024, 0x101E, 1u, 65534);
+    SendDlgItemMessageA(field_2031C_dlg_hwnd, 1024, 0x101B, 1u, (LPARAM)columnInfo);
+    SendDlgItemMessageA(field_2031C_dlg_hwnd, 1024, 0x101E, 1u, 65534);
     memset(columnInfo, 0, sizeof(columnInfo));
     columnInfo[0] = 36;
     columnInfo[3] = (LPARAM) "Player Name";
     u16 col_width = 3 * (gUiControlDefinitions_621430.data[2][0].field_0_windowParams.field_8_w >> 2);
     columnInfo[7] = 0;
-    SendDlgItemMessageA(field_202E0_dlg_hwnd, 1050, 0x101B, 0, (LPARAM)columnInfo);
-    SendDlgItemMessageA(field_202E0_dlg_hwnd, 1050, 0x101Eu, 0, col_width);
+    SendDlgItemMessageA(field_2031C_dlg_hwnd, 1050, 0x101B, 0, (LPARAM)columnInfo);
+    SendDlgItemMessageA(field_2031C_dlg_hwnd, 1050, 0x101Eu, 0, col_width);
     memset(columnInfo, 0, sizeof(columnInfo));
     columnInfo[0] = 37;
     columnInfo[1] = 0;
     columnInfo[3] = (LPARAM) "Ping";
     columnInfo[7] = 1;
-    SendDlgItemMessageA(field_202E0_dlg_hwnd, 1050, 0x101B, 1u, (LPARAM)columnInfo);
-    SendDlgItemMessageA(field_202E0_dlg_hwnd, 1050, 0x101E, 1u, 65534);
+    SendDlgItemMessageA(field_2031C_dlg_hwnd, 1050, 0x101B, 1u, (LPARAM)columnInfo);
+    SendDlgItemMessageA(field_2031C_dlg_hwnd, 1050, 0x101E, 1u, 65534);
 
     for (u32 map_idx = 0; map_idx < field_1FD64_total_map_count; map_idx++)
     {
-        LRESULT item_idx = SendDlgItemMessageA(field_202E0_dlg_hwnd, 1026, CB_ADDSTRING, 0, (LPARAM)field_4_maps[map_idx].field_30C_description);
-        SendDlgItemMessageA(field_202E0_dlg_hwnd, 1026, CB_SETITEMDATA, item_idx, map_idx);
+        LRESULT item_idx = SendDlgItemMessageA(field_2031C_dlg_hwnd, 1026, CB_ADDSTRING, 0, (LPARAM)field_4_maps[map_idx].field_30C_description);
+        SendDlgItemMessageA(field_2031C_dlg_hwnd, 1026, CB_SETITEMDATA, item_idx, map_idx);
     }
 
-    LRESULT item_a = SendDlgItemMessageA(field_202E0_dlg_hwnd, 1036, 323u, 0, (LPARAM)GetString_519A00("netui19"));
-    SendDlgItemMessageA(field_202E0_dlg_hwnd, 1036, CB_SETITEMDATA, item_a, 0);
-    LRESULT item_b = SendDlgItemMessageA(field_202E0_dlg_hwnd, 1036, CB_ADDSTRING, 0, (LPARAM)GetString_519A00("netui20"));
-    SendDlgItemMessageA(field_202E0_dlg_hwnd, 1036, CB_SETITEMDATA, item_b, 1);
-    LRESULT item_c = SendDlgItemMessageA(field_202E0_dlg_hwnd, 1036, 0x143u, 0, (LPARAM)GetString_519A00("netui22"));
-    SendDlgItemMessageA(field_202E0_dlg_hwnd, 1036, CB_SETITEMDATA, item_c, 2);
+    LRESULT item_a = SendDlgItemMessageA(field_2031C_dlg_hwnd, 1036, 323u, 0, (LPARAM)GetString_519A00("netui19"));
+    SendDlgItemMessageA(field_2031C_dlg_hwnd, 1036, CB_SETITEMDATA, item_a, 0);
+    LRESULT item_b = SendDlgItemMessageA(field_2031C_dlg_hwnd, 1036, CB_ADDSTRING, 0, (LPARAM)GetString_519A00("netui20"));
+    SendDlgItemMessageA(field_2031C_dlg_hwnd, 1036, CB_SETITEMDATA, item_b, 1);
+    LRESULT item_c = SendDlgItemMessageA(field_2031C_dlg_hwnd, 1036, 0x143u, 0, (LPARAM)GetString_519A00("netui22"));
+    SendDlgItemMessageA(field_2031C_dlg_hwnd, 1036, CB_SETITEMDATA, item_c, 2);
     Network_20324::LoadGameSettingsFromRegistry_51C830();
-    SendDlgItemMessageA(field_202E0_dlg_hwnd, 1026, CB_SETCURSEL, field_20088_game_settings.field_2018C_map_idx, 0);
-    SendDlgItemMessageA(field_202E0_dlg_hwnd, COMBO_GAME_TYPE_1036, CB_SETCURSEL, field_20088_game_settings.field_20198_game_type - 1, 0);
-    Network_20324::SetPlayerCountText_51CB30(field_4_maps[field_20088_game_settings.field_2018C_map_idx].field_514_player_count, field_202E0_dlg_hwnd);
-    Network_20324::SetPoliceEnabledCheckBox_51CCB0(field_20088_game_settings.field_201A0_police_on, field_202E0_dlg_hwnd);
+    SendDlgItemMessageA(field_2031C_dlg_hwnd, 1026, CB_SETCURSEL, field_20088_game_settings.field_2018C_map_idx, 0);
+    SendDlgItemMessageA(field_2031C_dlg_hwnd, COMBO_GAME_TYPE_1036, CB_SETCURSEL, field_20088_game_settings.field_20198_game_type - 1, 0);
+    Network_20324::SetPlayerCountText_51CB30(field_4_maps[field_20088_game_settings.field_2018C_map_idx].field_514_player_count, field_2031C_dlg_hwnd);
+    Network_20324::SetPoliceEnabledCheckBox_51CCB0(field_20088_game_settings.field_201A0_police_on, field_2031C_dlg_hwnd);
     Network_20324::SetFragsNumberAndLabel_51CDC0(field_20088_game_settings.field_20198_game_type,
                                                  field_20088_game_settings.field_20194_frag_limit,
-                                                 field_202E0_dlg_hwnd);
-    Network_20324::SetGameSpeedTextLabelAndSlider_51CFC0(field_20088_game_settings.field_20190_game_speed, field_202E0_dlg_hwnd);
-    Network_20324::SetGameTimeLimitTextBox_51D3B0(field_20088_game_settings.field_201A4_game_time_limit, field_202E0_dlg_hwnd);
+                                                 field_2031C_dlg_hwnd);
+    Network_20324::SetGameSpeedTextLabelAndSlider_51CFC0(field_20088_game_settings.field_20190_game_speed, field_2031C_dlg_hwnd);
+    Network_20324::SetGameTimeLimitTextBox_51D3B0(field_20088_game_settings.field_201A4_game_time_limit, field_2031C_dlg_hwnd);
 }
 
 #pragma warning(push)
@@ -1780,11 +1780,11 @@ LRESULT Network_20324::cb_AddChatMessage_51B2F0(Network_20324* pNetUi, Network_C
     // TODO: the format strings are guesses (right sizes, contents unverified)
     sprintf(line, "%s: %s", name, message);
 
-    switch (pNetUi->Get_202D4_active_control_idx_51ACC0())
+    switch (pNetUi->Get_20310_showing_window_idx_51ACC0())
     {
         case 1:
         {
-            GetDlgItemTextA(pNetUi->Get_202E0_HWND_519E20(), 1022, text, 0x7FF);
+            GetDlgItemTextA(pNetUi->Get_2031C_HWND_519E20(), 1022, text, 0x7FF);
             if (strlen(text))
             {
                 sprintf(newText, "%s\r\n%s", text, line);
@@ -1793,14 +1793,14 @@ LRESULT Network_20324::cb_AddChatMessage_51B2F0(Network_20324* pNetUi, Network_C
             {
                 sprintf(newText, "%s", line);
             }
-            SetDlgItemTextA(pNetUi->Get_202E0_HWND_519E20(), 1022, newText);
-            LRESULT lineCount = SendDlgItemMessageA(pNetUi->Get_202E0_HWND_519E20(), 1022, EM_GETLINECOUNT, 0, 0);
-            return SendDlgItemMessageA(pNetUi->Get_202E0_HWND_519E20(), 1022, EM_LINESCROLL, 0, lineCount);
+            SetDlgItemTextA(pNetUi->Get_2031C_HWND_519E20(), 1022, newText);
+            LRESULT lineCount = SendDlgItemMessageA(pNetUi->Get_2031C_HWND_519E20(), 1022, EM_GETLINECOUNT, 0, 0);
+            return SendDlgItemMessageA(pNetUi->Get_2031C_HWND_519E20(), 1022, EM_LINESCROLL, 0, lineCount);
         }
 
         case 2:
         {
-            GetDlgItemTextA(pNetUi->Get_202E0_HWND_519E20(), 1051, text, 0x7FF);
+            GetDlgItemTextA(pNetUi->Get_2031C_HWND_519E20(), 1051, text, 0x7FF);
             if (strlen(text))
             {
                 sprintf(newText, "%s\r\n%s", text, line);
@@ -1809,9 +1809,9 @@ LRESULT Network_20324::cb_AddChatMessage_51B2F0(Network_20324* pNetUi, Network_C
             {
                 sprintf(newText, "%s", line);
             }
-            SetDlgItemTextA(pNetUi->Get_202E0_HWND_519E20(), 1051, newText);
-            LRESULT lineCount = SendDlgItemMessageA(pNetUi->Get_202E0_HWND_519E20(), 1051, EM_GETLINECOUNT, 0, 0);
-            return SendDlgItemMessageA(pNetUi->Get_202E0_HWND_519E20(), 1051, EM_LINESCROLL, 0, lineCount);
+            SetDlgItemTextA(pNetUi->Get_2031C_HWND_519E20(), 1051, newText);
+            LRESULT lineCount = SendDlgItemMessageA(pNetUi->Get_2031C_HWND_519E20(), 1051, EM_GETLINECOUNT, 0, 0);
+            return SendDlgItemMessageA(pNetUi->Get_2031C_HWND_519E20(), 1051, EM_LINESCROLL, 0, lineCount);
         }
     }
     // No return here in the original either
@@ -1837,7 +1837,7 @@ s32 Network_20324::AppendChatMessage_51B4F0(s32 player_idx, const char_type* pMs
     sprintf(line, "%s: %s", name, pMsg);
     gChatLineCount_6F8A2C++;
 
-    switch (field_202D4_showing_specific_window_idx)
+    switch (field_20310_showing_specific_window_idx)
     {
         case 2:
         {
@@ -1845,7 +1845,7 @@ s32 Network_20324::AppendChatMessage_51B4F0(s32 player_idx, const char_type* pMs
             {
                 // Keep only the last 10 lines
                 gChatLineCount_6F8A2C = 10;
-                s32 pos = GetWindowTextA(GetDlgItem(Get_202E0_HWND_519E20(), 1051), allText, sizeof(allText));
+                s32 pos = GetWindowTextA(GetDlgItem(Get_2031C_HWND_519E20(), 1051), allText, sizeof(allText));
                 s32 lines = 0;
                 while (pos > 0 && lines < 10)
                 {
@@ -1855,10 +1855,10 @@ s32 Network_20324::AppendChatMessage_51B4F0(s32 player_idx, const char_type* pMs
                     }
                     pos--;
                 }
-                SetWindowTextA(GetDlgItem(Get_202E0_HWND_519E20(), 1051), &allText[pos]);
+                SetWindowTextA(GetDlgItem(Get_2031C_HWND_519E20(), 1051), &allText[pos]);
             }
 
-            GetDlgItemTextA(Get_202E0_HWND_519E20(), 1051, text, 0x7FF);
+            GetDlgItemTextA(Get_2031C_HWND_519E20(), 1051, text, 0x7FF);
             if (strlen(text))
             {
                 sprintf(newText, "%s\r\n%s", text, line);
@@ -1867,9 +1867,9 @@ s32 Network_20324::AppendChatMessage_51B4F0(s32 player_idx, const char_type* pMs
             {
                 sprintf(newText, "%s", line);
             }
-            SetDlgItemTextA(Get_202E0_HWND_519E20(), 1051, newText);
-            LRESULT lineCount = SendDlgItemMessageA(Get_202E0_HWND_519E20(), 1051, EM_GETLINECOUNT, 0, 0);
-            return SendDlgItemMessageA(Get_202E0_HWND_519E20(), 1051, EM_LINESCROLL, 0, lineCount);
+            SetDlgItemTextA(Get_2031C_HWND_519E20(), 1051, newText);
+            LRESULT lineCount = SendDlgItemMessageA(Get_2031C_HWND_519E20(), 1051, EM_GETLINECOUNT, 0, 0);
+            return SendDlgItemMessageA(Get_2031C_HWND_519E20(), 1051, EM_LINESCROLL, 0, lineCount);
         }
 
         case 1:
@@ -1878,7 +1878,7 @@ s32 Network_20324::AppendChatMessage_51B4F0(s32 player_idx, const char_type* pMs
             {
                 // Keep only the last 10 lines
                 gChatLineCount_6F8A2C = 10;
-                s32 pos = GetWindowTextA(GetDlgItem(Get_202E0_HWND_519E20(), 1022), allText, sizeof(allText));
+                s32 pos = GetWindowTextA(GetDlgItem(Get_2031C_HWND_519E20(), 1022), allText, sizeof(allText));
                 s32 lines = 0;
                 while (pos > 0 && lines < 10)
                 {
@@ -1888,10 +1888,10 @@ s32 Network_20324::AppendChatMessage_51B4F0(s32 player_idx, const char_type* pMs
                     }
                     pos--;
                 }
-                SetWindowTextA(GetDlgItem(Get_202E0_HWND_519E20(), 1022), &allText[pos]);
+                SetWindowTextA(GetDlgItem(Get_2031C_HWND_519E20(), 1022), &allText[pos]);
             }
 
-            GetDlgItemTextA(Get_202E0_HWND_519E20(), 1022, text, 0x7FF);
+            GetDlgItemTextA(Get_2031C_HWND_519E20(), 1022, text, 0x7FF);
             if (strlen(text))
             {
                 sprintf(newText, "%s\r\n%s", text, line);
@@ -1900,9 +1900,9 @@ s32 Network_20324::AppendChatMessage_51B4F0(s32 player_idx, const char_type* pMs
             {
                 sprintf(newText, "%s", line);
             }
-            SetDlgItemTextA(Get_202E0_HWND_519E20(), 1022, newText);
-            LRESULT lineCount = SendDlgItemMessageA(Get_202E0_HWND_519E20(), 1022, EM_GETLINECOUNT, 0, 0);
-            return SendDlgItemMessageA(Get_202E0_HWND_519E20(), 1022, EM_LINESCROLL, 0, lineCount);
+            SetDlgItemTextA(Get_2031C_HWND_519E20(), 1022, newText);
+            LRESULT lineCount = SendDlgItemMessageA(Get_2031C_HWND_519E20(), 1022, EM_GETLINECOUNT, 0, 0);
+            return SendDlgItemMessageA(Get_2031C_HWND_519E20(), 1022, EM_LINESCROLL, 0, lineCount);
         }
     }
     // No return here in the original either
@@ -1912,7 +1912,7 @@ s32 Network_20324::AppendChatMessage_51B4F0(s32 player_idx, const char_type* pMs
 MATCH_FUNC(0x51b7c0)
 void Network_20324::SetPlayerNameText_51B7C0()
 {
-    SetDlgItemTextA(field_202E0_dlg_hwnd,
+    SetDlgItemTextA(field_2031C_dlg_hwnd,
                     1004, // TODO: control constant
                     field_1FF80_player_name);
 }
@@ -1921,7 +1921,7 @@ MATCH_FUNC(0x51b7e0)
 void Network_20324::cb_sub_51B7E0(Network_20324* pNetUi, const char_type** ppData)
 {
     const char_type* pData = *ppData;
-    if (pNetUi->Get_202D4_active_control_idx_51ACC0() == 2)
+    if (pNetUi->Get_20310_showing_window_idx_51ACC0() == 2)
     {
         pNetUi->ApplyHostGameSettings_51B810(pData);
     }
@@ -1953,7 +1953,7 @@ void Network_20324::ApplyHostGameSettings_51B810(const char_type* pData)
             {
                 field_20088_game_settings = *pSettings;
                 field_20088_game_settings.field_2018C_map_idx = i;
-                SetDlgItemTextA(field_202E0_dlg_hwnd, UNKNOWN_PLAYER_COUNT_1054, field_4_maps[i].field_30C_description);
+                SetDlgItemTextA(field_2031C_dlg_hwnd, LABEL_JOINED_GAME_MAP_1054, field_4_maps[i].field_30C_description);
                 // A found flag, an i >= count check after the loop or a break all change the code
                 goto map_done;
             }
@@ -1979,13 +1979,13 @@ void Network_20324::ApplyHostGameSettings_51B810(const char_type* pData)
                 pSpeedText = GetString_519A00("netui10");
                 break;
         }
-        SetDlgItemTextA(field_202E0_dlg_hwnd, LABLE_GAME_SPEED_1055, pSpeedText);
+        SetDlgItemTextA(field_2031C_dlg_hwnd, LABLE_GAME_SPEED_1055, pSpeedText);
 
-        SetJoinedGamePoliceEnabledText_51CD30(field_20088_game_settings.field_201A0_police_on, field_202E0_dlg_hwnd);
+        SetJoinedGamePoliceEnabledText_51CD30(field_20088_game_settings.field_201A0_police_on, field_2031C_dlg_hwnd);
         SetJoinedGameTypeAndFragLimitText_51D0C0(field_20088_game_settings.field_20198_game_type,
                                                  field_20088_game_settings.field_20194_frag_limit,
-                                                 field_202E0_dlg_hwnd);
-        SetJoinedGameTimeLimitText_51D2F0(field_20088_game_settings.field_201A4_game_time_limit, field_202E0_dlg_hwnd);
+                                                 field_2031C_dlg_hwnd);
+        SetJoinedGameTimeLimitText_51D2F0(field_20088_game_settings.field_201A4_game_time_limit, field_2031C_dlg_hwnd);
     }
 }
 #pragma warning(pop)
@@ -2003,7 +2003,7 @@ void Network_20324::SetSetting_51B9C0(s32 setting, s32 value)
         case 1:
             field_20088_game_settings.field_2018C_map_idx = value;
             strcpy(field_20088_game_settings.field_20088_default_map, field_4_maps[value].field_410_mmp_name);
-            SetPlayerCountText_51CB30(field_4_maps[value].field_514_player_count, field_202E0_dlg_hwnd);
+            SetPlayerCountText_51CB30(field_4_maps[value].field_514_player_count, field_2031C_dlg_hwnd);
             gRegistry_6FF968.Set_Network_Setting_587730("map_index", value);
             break;
 
@@ -2024,11 +2024,11 @@ void Network_20324::SetSetting_51B9C0(s32 setting, s32 value)
             gRegistry_6FF968.Set_Network_Setting_587730("game_type", value);
             if (field_20088_game_settings.field_20198_game_type == 1)
             {
-                field_20088_game_settings.field_20194_frag_limit = gRegistry_6FF968.Set_Network_Setting_587690("f_limit", 3);
+                field_20088_game_settings.field_20194_frag_limit = gRegistry_6FF968.Get_Network_Setting_587690("f_limit", 3);
             }
             else if (field_20088_game_settings.field_20198_game_type == 2)
             {
-                field_20088_game_settings.field_20194_frag_limit = gRegistry_6FF968.Set_Network_Setting_587690("s_limit", 10000);
+                field_20088_game_settings.field_20194_frag_limit = gRegistry_6FF968.Get_Network_Setting_587690("s_limit", 10000);
             }
             break;
 
@@ -2055,7 +2055,7 @@ void Network_20324::SetSetting_51B9C0(s32 setting, s32 value)
                     pSpeedText = GetString_519A00("netui10");
                     break;
             }
-            SetDlgItemTextA(field_202E0_dlg_hwnd, LABEL_GAME_SPEED_TEXT_1032, pSpeedText);
+            SetDlgItemTextA(field_2031C_dlg_hwnd, LABEL_GAME_SPEED_TEXT_1032, pSpeedText);
             gRegistry_6FF968.Set_Network_Setting_587730("game_speed", value);
             break;
 
@@ -2101,7 +2101,7 @@ void Network_20324::cb_SavePlayerName_51BC00(Network_20324* pThis)
     char String[260];
     wchar_t Dest[260];
 
-    GetDlgItemTextA(pThis->Get_202E0_HWND_519E20(), 1004, String, GTA2_COUNTOF(String)); // TODO: control constants
+    GetDlgItemTextA(pThis->Get_2031C_HWND_519E20(), 1004, String, GTA2_COUNTOF(String)); // TODO: control constants
     GetString_519A50(Dest, String, GTA2_COUNTOF(String));
     pThis->SetPlayNameAndSaveToRegistry_51BD40(Dest, String);
     pThis->SetEndDialog_51BC70(1);
@@ -2184,7 +2184,7 @@ LRESULT __stdcall Network_20324::subclass_proc_51BDD0(HWND hWnd, UINT Msg, WPARA
         Network_20324* pThis = (Network_20324*)GetWindowLongA(parentHwnd, 8);
         if (Msg == WM_KEYUP && wParam == VK_RETURN && (lParam & (KF_ALTDOWN << 16)) == 0)
         {
-            switch (pThis->Get_202D4_active_control_idx_51ACC0())
+            switch (pThis->Get_20310_showing_window_idx_51ACC0())
             {
                 case 2:
                     pThis->OnEnterPressed_51BEB0(1053, 1051);
@@ -2196,7 +2196,7 @@ LRESULT __stdcall Network_20324::subclass_proc_51BDD0(HWND hWnd, UINT Msg, WPARA
             }
         }
 
-        switch (pThis->Get_202D4_active_control_idx_51ACC0())
+        switch (pThis->Get_20310_showing_window_idx_51ACC0())
         {
             case 2:
                 return CallWindowProcA(pThis->field_1FD70_old_proc, hWnd, Msg, wParam, lParam);
@@ -2212,10 +2212,10 @@ void Network_20324::OnEnterPressed_51BEB0(s32 nIDDlgItem, s32 player_idx)
 {
     char_type String[128];
     wchar_t Dest[260];
-    GetDlgItemTextA(field_202E0_dlg_hwnd, nIDDlgItem, String, 127);
+    GetDlgItemTextA(field_2031C_dlg_hwnd, nIDDlgItem, String, 127);
     Network_20324::GetString_519A50(Dest, String, 260);
     gNetPlay_7071E8.SendChatMessage_521060(Dest, -1);
-    SetDlgItemTextA(field_202E0_dlg_hwnd, nIDDlgItem, "");
+    SetDlgItemTextA(field_2031C_dlg_hwnd, nIDDlgItem, "");
     Network_20324::AppendChatMessage_51B4F0(player_idx, String);
 }
 
@@ -2351,23 +2351,23 @@ void Network_20324::CopyGameSettings_51C7F0(NetworkGameSettings* pSettings)
 MATCH_FUNC(0x51c830)
 void Network_20324::LoadGameSettingsFromRegistry_51C830()
 {
-    field_20088_game_settings.field_2018C_map_idx = gRegistry_6FF968.Set_Network_Setting_587690("map_index", 0);
+    field_20088_game_settings.field_2018C_map_idx = gRegistry_6FF968.Get_Network_Setting_587690("map_index", 0);
     if (field_20088_game_settings.field_2018C_map_idx >= field_1FD64_total_map_count)
     {
         field_20088_game_settings.field_2018C_map_idx = 0;
     }
-    field_20088_game_settings.field_201A4_game_time_limit = gRegistry_6FF968.Set_Network_Setting_587690("game_time_limit", 1);
-    field_20088_game_settings.field_20190_game_speed = gRegistry_6FF968.Set_Network_Setting_587690("game_speed", 1);
-    field_20088_game_settings.field_20198_game_type = gRegistry_6FF968.Set_Network_Setting_587690("game_type", 1);
-    field_20088_game_settings.field_201A0_police_on = gRegistry_6FF968.Set_Network_Setting_587690("police", 0);
+    field_20088_game_settings.field_201A4_game_time_limit = gRegistry_6FF968.Get_Network_Setting_587690("game_time_limit", 1);
+    field_20088_game_settings.field_20190_game_speed = gRegistry_6FF968.Get_Network_Setting_587690("game_speed", 1);
+    field_20088_game_settings.field_20198_game_type = gRegistry_6FF968.Get_Network_Setting_587690("game_type", 1);
+    field_20088_game_settings.field_201A0_police_on = gRegistry_6FF968.Get_Network_Setting_587690("police", 0);
 
     if (field_20088_game_settings.field_20198_game_type == 1)
     {
-        field_20088_game_settings.field_20194_frag_limit = gRegistry_6FF968.Set_Network_Setting_587690("f_limit", 3);
+        field_20088_game_settings.field_20194_frag_limit = gRegistry_6FF968.Get_Network_Setting_587690("f_limit", 3);
     }
     else
     {
-        field_20088_game_settings.field_20194_frag_limit = gRegistry_6FF968.Set_Network_Setting_587690("s_limit", 10000);
+        field_20088_game_settings.field_20194_frag_limit = gRegistry_6FF968.Get_Network_Setting_587690("s_limit", 10000);
     }
 
     strcpy(field_20088_game_settings.field_20088_default_map,
@@ -2414,20 +2414,20 @@ void Network_20324::UpdateButtonsEnabledState_51CBC0()
 {
     if (Network_20324::GetCount_51BBD0() == field_4_maps[field_20088_game_settings.field_2018C_map_idx].field_514_player_count)
     {
-        EnableWindow(GetDlgItem(Network_20324::Get_202E0_HWND_519E20(), 1021), true);
+        EnableWindow(GetDlgItem(Network_20324::Get_2031C_HWND_519E20(), 1021), true);
     }
     else
     {
-        EnableWindow(GetDlgItem(Network_20324::Get_202E0_HWND_519E20(), 1021), false);
+        EnableWindow(GetDlgItem(Network_20324::Get_2031C_HWND_519E20(), 1021), false);
     }
 
     if (Network_20324::GetCount_51BBD0() > 1)
     {
-        EnableWindow(GetDlgItem(Network_20324::Get_202E0_HWND_519E20(), 1020), true);
+        EnableWindow(GetDlgItem(Network_20324::Get_2031C_HWND_519E20(), 1020), true);
     }
     else
     {
-        EnableWindow(GetDlgItem(Network_20324::Get_202E0_HWND_519E20(), 1020), false);
+        EnableWindow(GetDlgItem(Network_20324::Get_2031C_HWND_519E20(), 1020), false);
     }
 }
 
@@ -2482,7 +2482,7 @@ void Network_20324::SetFragsNumberAndLabel_51CDC0(s32 gameType, s32 fragLimit, H
         SetDlgItemTextA(hDlg, LABEL_FRAG_LIMIT_TEXT_1035, tmpBuffer);
         sprintf(tmpBuffer, "%d", fragLimit);
         SetDlgItemTextA(hDlg, TEXTBOX_FRAG_LIMIT_NUMBER_1059, tmpBuffer);
-        if (Network_20324::Get_202D4_active_control_idx_51ACC0() == 1)
+        if (Network_20324::Get_20310_showing_window_idx_51ACC0() == 1)
         {
             ShowWindow(GetDlgItem(hDlg, TEXTBOX_FRAG_LIMIT_NUMBER_1059), SW_SHOW);
             ShowWindow(GetDlgItem(hDlg, LABEL_FRAG_LIMIT_TEXT_1035), SW_SHOW);
@@ -2490,7 +2490,7 @@ void Network_20324::SetFragsNumberAndLabel_51CDC0(s32 gameType, s32 fragLimit, H
     }
     else
     {
-        if (Network_20324::Get_202D4_active_control_idx_51ACC0() == 1) // hide if its not a frag game?
+        if (Network_20324::Get_20310_showing_window_idx_51ACC0() == 1) // hide if its not a frag game?
         {
             ShowWindow(GetDlgItem(hDlg, TEXTBOX_FRAG_LIMIT_NUMBER_1059), SW_HIDE);
             ShowWindow(GetDlgItem(hDlg, LABEL_FRAG_LIMIT_TEXT_1035), SW_HIDE);

@@ -13,13 +13,13 @@ class Crane_15C
 {
   public:
     // 9.6f 0x447F60
-    inline void set_field_148_447F60(s32 v)
+    inline void SetDisabled_447F60(s32 v)
     {
         field_148_disabled = v;
     }
 
     // 9.6f 0x476900
-    inline void set_maybe_homecrane_476900(Crane_15C* v)
+    inline void SetHomeCrane_476900(Crane_15C* v)
     {
         field_78_maybe_homecrane = v;
     }
@@ -53,8 +53,8 @@ class Crane_15C
     EXPORT void UpdateCraneSprites_47FE10();
     EXPORT void Service_480310();
     EXPORT void InitCrane_4803B0(Fix16 x_pos, Fix16 y_pos, char_type obj_id);
-    EXPORT void CraneTargetPickupCheck_480900(Fix16 xpos, Fix16 ypos, Ang16 ang);
-    EXPORT void ComputePickupAlignment_480B60(Fix16 xpos, Fix16 ypos, Ang16 ang);
+    EXPORT void SetTarget1_480900(Fix16 xpos, Fix16 ypos, Ang16 ang);
+    EXPORT void SetTarget2_480B60(Fix16 xpos, Fix16 ypos, Ang16 ang);
     EXPORT Car_BC* GetCarFromCrane_480DA0();
 
     inline void SetHomeRotation_4768E0(Ang16 rotation)
@@ -69,7 +69,7 @@ class Crane_15C
     }
 
     // FUNCTION: 96f 0x447f40
-    inline s32 check_8c_a8_447f40()
+    inline s32 IsAtHomeAngle_447F40()
     {
         return field_8C_crane_angle == field_A8_home_angle;
     }

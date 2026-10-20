@@ -98,7 +98,7 @@ class CarInfo_2C
     Fix16 field_14_half_thrust;
     Fix16 field_18_fith_thrust;
     Fix16 field_1C_max_thrust_with_turbo;
-    Fix16 field_20_front_drive_bias;
+    Fix16 field_20_rear_drive_bias;
     Fix16 field_24_skid_threshhold_1;
     Fix16 field_28_skid_threshhold_2;
 };

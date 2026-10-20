@@ -91,7 +91,7 @@ class Player
     }
 
     // 9.6f 0x476700
-    inline bool IsBustedNotObjective54_476700()
+    inline bool IsWastedOrBustedNotObjective54_476700()
     {
         Ped* pPed;
         return field_28_wasted_or_busted && field_2C_death_countdown == 2 && ((pPed = field_2C4_player_ped) == NULL || pPed->get_objective_403A80() != objectives_enum::objective_54);
@@ -216,7 +216,7 @@ class Player
     EXPORT u8 GetIdx_4881E0();
     EXPORT void AddCarToHistory_5645B0(Car_BC* pNewCar);
     EXPORT bool PromoteCarInHistory_564610(Car_BC* pCar, bool dont_modify);
-    EXPORT void PushCarInfo_564680(Car_BC* pCar);
+    EXPORT void RemoveCarFromHistory_564680(Car_BC* pCar);
     EXPORT void SetKFCarWeapon_564710(Car_BC* pCar, s32 weapon_kind);
     EXPORT void SetKFWeapon_564790(s32 weapon_idx);
     EXPORT void ClearKFWeapon_5647D0();
@@ -406,16 +406,16 @@ class Player
     bool field_83_now_special_3_pressed;
 
     // Previous inputs state
-    bool field_84_was_special_1_pressed;
-    bool field_85_was_special_2_pressed;
-    bool field_86_was_special_3_pressed;
-    bool field_87_was_next_weapon_pressed;
-    bool field_88_was_prev_weapon_pressed;
-    bool field_89_was_enter_exit_pressed;
-    bool field_8A_was_hand_brake_or_jump_pressed;
-    bool field_8B_was_forward_pressed;
-    bool field_8C_was_down_pressed;
-    bool field_8D_was_attack_pressed;
+    bool field_84_special_1_changed;
+    bool field_85_special_2_changed;
+    bool field_86_special_3_changed;
+    bool field_87_next_weapon_changed;
+    bool field_88_prev_weapon_changed;
+    bool field_89_enter_exit_changed;
+    bool field_8A_hand_brake_or_jump_changed;
+    bool field_8B_forward_changed;
+    bool field_8C_down_changed;
+    bool field_8D_attack_changed;
 
     bool field_8E_in_use;
     char_type field_8F_block_attack;

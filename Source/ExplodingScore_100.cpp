@@ -98,7 +98,7 @@ void ExplodingScorePool::DrawExplodingScores_5969E0()
 MATCH_FUNC(0x596a00)
 ExplodingScore_50::ExplodingScore_50()
 {
-    field_0_numbers_count = 0;
+    field_0_highest_digit_idx = 0;
     for (s32 i = 0; i < 9; i++)
     {
         field_4_digits[i] = 0;
@@ -144,11 +144,11 @@ void ExplodingScore_50::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32
     u32 tmpScore = score;
 
     this->field_4C_score = score;
-    this->field_0_numbers_count = 0;
+    this->field_0_highest_digit_idx = 0;
 
     if (score >= 100000000)
     {
-        this->field_0_numbers_count = 8;
+        this->field_0_highest_digit_idx = 8;
         this->field_4_digits[8] = score / 100000000;
         ClearNumbersArrayFrom_596A70(7);
         tmpScore = score % 100000000;
@@ -156,9 +156,9 @@ void ExplodingScore_50::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32
 
     if (tmpScore >= 10000000)
     {
-        if (!this->field_0_numbers_count)
+        if (!this->field_0_highest_digit_idx)
         {
-            this->field_0_numbers_count = 7;
+            this->field_0_highest_digit_idx = 7;
         }
         this->field_4_digits[7] = tmpScore / 10000000;
         ClearNumbersArrayFrom_596A70(6);
@@ -167,9 +167,9 @@ void ExplodingScore_50::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32
 
     if (tmpScore >= 1000000)
     {
-        if (!this->field_0_numbers_count)
+        if (!this->field_0_highest_digit_idx)
         {
-            this->field_0_numbers_count = 6;
+            this->field_0_highest_digit_idx = 6;
         }
         this->field_4_digits[6] = tmpScore / 1000000;
         ClearNumbersArrayFrom_596A70(5);
@@ -178,9 +178,9 @@ void ExplodingScore_50::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32
 
     if (tmpScore >= 100000)
     {
-        if (!this->field_0_numbers_count)
+        if (!this->field_0_highest_digit_idx)
         {
-            this->field_0_numbers_count = 5;
+            this->field_0_highest_digit_idx = 5;
         }
         this->field_4_digits[5] = tmpScore / 100000;
         ClearNumbersArrayFrom_596A70(4);
@@ -189,9 +189,9 @@ void ExplodingScore_50::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32
 
     if (tmpScore >= 10000)
     {
-        if (!this->field_0_numbers_count)
+        if (!this->field_0_highest_digit_idx)
         {
-            this->field_0_numbers_count = 4;
+            this->field_0_highest_digit_idx = 4;
         }
         this->field_4_digits[4] = tmpScore / 10000;
         ClearNumbersArrayFrom_596A70(3);
@@ -200,9 +200,9 @@ void ExplodingScore_50::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32
 
     if (tmpScore >= 1000)
     {
-        if (!this->field_0_numbers_count)
+        if (!this->field_0_highest_digit_idx)
         {
-            this->field_0_numbers_count = 3;
+            this->field_0_highest_digit_idx = 3;
         }
         this->field_4_digits[3] = tmpScore / 1000;
         ClearNumbersArrayFrom_596A70(2);
@@ -211,9 +211,9 @@ void ExplodingScore_50::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32
 
     if (tmpScore >= 100)
     {
-        if (!this->field_0_numbers_count)
+        if (!this->field_0_highest_digit_idx)
         {
-            this->field_0_numbers_count = 2;
+            this->field_0_highest_digit_idx = 2;
         }
         this->field_4_digits[2] = tmpScore / 100;
         ClearNumbersArrayFrom_596A70(1);
@@ -222,9 +222,9 @@ void ExplodingScore_50::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32
 
     if (tmpScore >= 10)
     {
-        if (!this->field_0_numbers_count)
+        if (!this->field_0_highest_digit_idx)
         {
-            this->field_0_numbers_count = 1;
+            this->field_0_highest_digit_idx = 1;
         }
         this->field_4_digits[1] = tmpScore / 10;
         this->field_4_digits[0] = tmpScore % 10;
@@ -281,7 +281,7 @@ void ExplodingScore_50::DrawNumbers_596C90()
         field_2C_y += y_delta;
     }
 
-    switch (this->field_0_numbers_count)
+    switch (this->field_0_highest_digit_idx)
     {
         case 0:
             DrawSingleNumber_597100(this->field_4_digits[0], 10);

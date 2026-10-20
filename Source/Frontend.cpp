@@ -68,7 +68,7 @@ DEFINE_GLOBAL(bool, gCheatGetBasicWeaponsMaxAmmo_67D545, 0x67D545);
 DEFINE_GLOBAL(bool, gCheatGet99Lives_67D4F1, 0x67D4F1);
 DEFINE_GLOBAL(bool, gCheatGetPlayerPoints_67D4C8, 0x67D4C8);
 DEFINE_GLOBAL(bool, gCheatUnlimitedFlameThrower_67D6CC, 0x67D6CC);
-DEFINE_GLOBAL(bool, gCheatUnknown_67D4F6, 0x67D4F6);
+DEFINE_GLOBAL(bool, gCheatUnlimitedJailCard_67D4F6, 0x67D4F6);
 DEFINE_GLOBAL(bool, gCheatGet10MillionMoney_67D6CE, 0x67D6CE);
 DEFINE_GLOBAL(bool, gCheat10xMultiplier_67D589, 0x67D589);
 DEFINE_GLOBAL(bool, gCheatUnlockThreeLevels_67D6CB, 0x67D6CB);
@@ -337,17 +337,17 @@ DEFINE_GLOBAL(SoundObject_10, snd2_67D6F8, 0x67D6F8);
 MATCH_FUNC(0x4B4C60)
 void Frontend::LoadStringsFromStage_4B4C60(u16 mainBlockIdx, u16 bounusBlockIdx, char* pDebugStr, char* pMapName, char* pStyName)
 {
-    strcpy(pDebugStr, field_C9E8_blocks[mainBlockIdx][bounusBlockIdx].field_0_debug_str);
-    strcpy(pMapName, field_C9E8_blocks[mainBlockIdx][bounusBlockIdx].field_100_map_name);
-    strcpy(pStyName, field_C9E8_blocks[mainBlockIdx][bounusBlockIdx].field_200_sty_name);
+    strcpy(pDebugStr, field_C9E8_blocks[mainBlockIdx][bounusBlockIdx].field_0_gmp_name);
+    strcpy(pMapName, field_C9E8_blocks[mainBlockIdx][bounusBlockIdx].field_100_sty_name);
+    strcpy(pStyName, field_C9E8_blocks[mainBlockIdx][bounusBlockIdx].field_200_scr_name);
 }
 
 MATCH_FUNC(0x4B4BC0)
 void Frontend::StoreStringsForStage_4B4BC0(u16 mainBlockIdx, u16 bounusBlockIdx, const char* pDebugStr, const char* pMapName, const char* pStyName)
 {
-    strcpy(field_C9E8_blocks[mainBlockIdx][bounusBlockIdx].field_0_debug_str, pDebugStr);
-    strcpy(field_C9E8_blocks[mainBlockIdx][bounusBlockIdx].field_100_map_name, pMapName);
-    strcpy(field_C9E8_blocks[mainBlockIdx][bounusBlockIdx].field_200_sty_name, pStyName);
+    strcpy(field_C9E8_blocks[mainBlockIdx][bounusBlockIdx].field_0_gmp_name, pDebugStr);
+    strcpy(field_C9E8_blocks[mainBlockIdx][bounusBlockIdx].field_100_sty_name, pMapName);
+    strcpy(field_C9E8_blocks[mainBlockIdx][bounusBlockIdx].field_200_scr_name, pStyName);
 }
 
 MATCH_FUNC(0x4ACFA0)
@@ -555,7 +555,7 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
         // (`mov %al,%cl; push %ecx`), which an s16 local gives as `push %eax`
         gGameSession_67E8E0.SetPlySlotIdx_4C5920(field_136_menu_pages_array[1].field_4_options_array[0].field_70 =
                                                      field_136_menu_pages_array[1].field_4_options_array[0].field_6E_horizontal_selected_idx =
-                                                         gRegistry_6FF968.Create_Player_Setting_587810("plyrslot"));
+                                                         gRegistry_6FF968.Get_Player_Setting_587810("plyrslot"));
         UpdateMenuForCurrPlayer_4B42E0();
     }
     else if (menu_page_idx == MENUPAGE_MULTIPLAYER_RESULTS)
@@ -971,7 +971,7 @@ void Frontend::DrawScoreTable_4B5430(ScoreTableLine_18* pStrings,
 // todo: add to header
 EXTERN_GLOBAL(s32, gGTA2VersionMajor_708280);
 
-EXTERN_GLOBAL(s32, gGTA2VersionMajor_708284);
+EXTERN_GLOBAL(s32, gGTA2VersionMinor_708284);
 
 // sub_457920 in 9.6f
 // https://decomp.me/scratch/jchxT
@@ -987,7 +987,7 @@ void Frontend::DrawMenu_4AD140()
 
     if (field_132_f136_idx == MENUPAGE_START_MENU)
     {
-        swprintf(tmpBuff_67BD9C, L"GTA2 V%d.%d", gGTA2VersionMajor_708280, gGTA2VersionMajor_708284);
+        swprintf(tmpBuff_67BD9C, L"GTA2 V%d.%d", gGTA2VersionMajor_708280, gGTA2VersionMinor_708284);
         DrawText_4B87A0(tmpBuff_67BD9C, 300, 460, font_type_703C14, 1);
     }
 
@@ -1882,7 +1882,7 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
                     }
                     break;
                 case MENUPAGE_REPLAY_PREVIOUS_AREA: // 259
-                    gGameSession_67E8E0.DebugStr_4C58D0("");
+                    gGameSession_67E8E0.SetSaveFileName_4C58D0("");
                     field_EE08_menu_screen = RedBar_16;
                     field_110_state = FrontendState::Booting_Map_2;
                     break;
@@ -1894,7 +1894,7 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
                     }
                     else
                     {
-                        gGameSession_67E8E0.DebugStr_4C58D0("");
+                        gGameSession_67E8E0.SetSaveFileName_4C58D0("");
                     }
                     field_EE08_menu_screen = RedBar_16;
                     field_110_state = FrontendState::Booting_Map_2;
@@ -2474,8 +2474,8 @@ void Frontend::UpdateMenuForCurrPlayer_4B42E0()
     u8 PlySlotIdx_4C59B0 = gGameSession_67E8E0.GetPlySlotIdx_4C59B0();
     MenuPage_0xBCA* pMenuPage = &field_136_menu_pages_array[field_132_f136_idx];
 
-    u8 prev_stage_idx = Frontend::GetPrevUnlockedStageIndex_4B77B0(pPlayerStats);
-    u8 prev_bonus_code = Frontend::GetPrevUnlockedStageBonusCode_4B7800(pPlayerStats);
+    u8 prev_stage_idx = Frontend::GetLastUnlockedMainStage_4B77B0(pPlayerStats);
+    u8 prev_bonus_code = Frontend::GetLastUnlockedBonusStageCode_4B7800(pPlayerStats);
 
     if (prev_stage_idx < field_1EB3A_selected_main_stage[PlySlotIdx_4C59B0])
     {
@@ -2655,7 +2655,7 @@ void Frontend::HandleCheatCode_4B3DD0(const wchar_t* cheat_str_wide)
     }
     else if (cheat_str_hash == 0x45118)
     { // ??
-        gCheatUnknown_67D4F6 = gCheatUnknown_67D4F6 == 0;
+        gCheatUnlimitedJailCard_67D4F6 = gCheatUnlimitedJailCard_67D4F6 == 0;
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x4672D)
@@ -2907,7 +2907,7 @@ void Frontend::LoadMapFilenames_4B4D00(u8 mainBlockIdx, u8 bonusBlockIdx)
     char styName[256]; // [esp+310h] [ebp-100h] BYREF
 
     LoadStringsFromStage_4B4C60(mainBlockIdx, bonusBlockIdx, debugStr, mapName, styName);
-    gGameSession_67E8E0.DebugStr_4C58D0("");
+    gGameSession_67E8E0.SetSaveFileName_4C58D0("");
     strcpy(fullPath, "data\\");
     strcat(fullPath, debugStr);
     gGameSession_67E8E0.SetMapName_4C5870(fullPath);
@@ -3315,7 +3315,7 @@ Frontend::Frontend()
     field_C9D7_return_key_down = 0;
     field_C9D8_escape_key_down = 0;
     field_C9D9_delete_key_down = 0;
-    field_10C_bKeyboardAcquired = 0;
+    field_10C_bKeyboardAcquireFailed = 0;
     field_108_winmain_next_state = Run_Frontend_2;
     field_C9E1_bCheatsEnabled = 0;
 
@@ -3412,7 +3412,7 @@ void Frontend::AcquireKeyBoard_4AFD70()
 {
     if (!field_4_pKeyboardDevice || field_4_pKeyboardDevice->Acquire() < 0)
     {
-        field_10C_bKeyboardAcquired = 1;
+        field_10C_bKeyboardAcquireFailed = 1;
     }
 }
 
@@ -4378,7 +4378,7 @@ char_type Frontend::PlySlotSvgExists_4B5370(u8 idx)
 }
 
 MATCH_FUNC(0x4B77B0)
-u8 Frontend::GetPrevUnlockedStageIndex_4B77B0(PlySlot_A4* pStats)
+u8 Frontend::GetLastUnlockedMainStage_4B77B0(PlySlot_A4* pStats)
 {
     u8 result;
 
@@ -4393,9 +4393,9 @@ u8 Frontend::GetPrevUnlockedStageIndex_4B77B0(PlySlot_A4* pStats)
 }
 
 MATCH_FUNC(0x4B7800)
-u8 Frontend::GetPrevUnlockedStageBonusCode_4B7800(PlySlot_A4* pStats)
+u8 Frontend::GetLastUnlockedBonusStageCode_4B7800(PlySlot_A4* pStats)
 {
-    u8 stage = Frontend::GetPrevUnlockedStageIndex_4B77B0(pStats);
+    u8 stage = Frontend::GetLastUnlockedMainStage_4B77B0(pStats);
     u8 bonus = field_1EB51_num_bonus_stages[stage] - 1;
     while (1)
     {
@@ -5092,27 +5092,27 @@ void Frontend::sub_4B4EC0()
 
     char_type path[256];
     strcpy(path, "data\\");
-    strcat(path, field_C9E8_blocks[main_stage][bonus_stage].field_0_debug_str);
+    strcat(path, field_C9E8_blocks[main_stage][bonus_stage].field_0_gmp_name);
     if (strcmp(svg.field_0_map_name, path))
     {
         FatalError_4A38C0(Gta2Error::GmpFilenameMismatch, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5254);
     }
 
     strcpy(path, "data\\");
-    strcat(path, field_C9E8_blocks[main_stage][bonus_stage].field_100_map_name);
+    strcat(path, field_C9E8_blocks[main_stage][bonus_stage].field_100_sty_name);
     if (strcmp(svg.field_19_style_name, path))
     {
         FatalError_4A38C0(Gta2Error::StyFilenameMismatch, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5262);
     }
 
     strcpy(path, "data\\");
-    strcat(path, field_C9E8_blocks[main_stage][bonus_stage].field_200_sty_name);
+    strcat(path, field_C9E8_blocks[main_stage][bonus_stage].field_200_scr_name);
     if (strcmp(svg.field_32_script_name, path))
     {
         FatalError_4A38C0(Gta2Error::ScrFilenameMismatch, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5270);
     }
 
-    gGameSession_67E8E0.DebugStr_4C58D0(FileName);
+    gGameSession_67E8E0.SetSaveFileName_4C58D0(FileName);
     gGameSession_67E8E0.SetMapName_4C5870(svg.field_0_map_name);
     gGameSession_67E8E0.SetStyleName_4C5890(svg.field_19_style_name);
     gGameSession_67E8E0.SetScriptName_4C58B0(svg.field_32_script_name);

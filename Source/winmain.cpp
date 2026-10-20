@@ -173,7 +173,7 @@ void force_link()
     lewin.GetIdx_4881E0();
     lewin.AddCarToHistory_5645B0(0);
     lewin.PromoteCarInHistory_564610(0, 0);
-    lewin.PushCarInfo_564680(0);
+    lewin.RemoveCarFromHistory_564680(0);
     lewin.SetKFCarWeapon_564710(0, 0);
     lewin.SetKFWeapon_564790(0);
     lewin.ClearKFWeapon_5647D0();
@@ -247,7 +247,7 @@ void force_link()
     drawUnk.SavePrevCamPos_4357B0();
     drawUnk.IncreaseElevation_4357F0();
     drawUnk.DecreaseElevation_435810();
-    drawUnk.ReturnToDefaultZoom_435830();
+    drawUnk.ResetElevation_435830();
     drawUnk.ClampTargetZ_435840();
     drawUnk.ApplyMovementDeltaFrom_435860(0);
     drawUnk.MoveTarget_435D20(1, 1, 1, 1, 1, 1);
@@ -274,7 +274,7 @@ void force_link()
     input_recorder.set_input_4CDCF0(0);
     input_recorder.clear_input_4CDD10(0);
     input_recorder.should_ignore_input_4CDD80(0);
-    input_recorder.should_ignore_input_4CDDF0(0);
+    input_recorder.should_record_input_4CDDF0(0);
     input_recorder.save_replay_record_4CDE20(0);
     input_recorder.SaveReplay_4CDED0();
     input_recorder.modify_inputs_4CDF30(0);
@@ -288,7 +288,7 @@ void force_link()
     input_recorder.get_input_bits_4CEAC0();
     input_recorder.save_replay_inputs_4CED00(0, 0);
     input_recorder.DisplayInputBits_4CED90();
-    input_recorder.RecOrPlayBackState_4CEDF0();
+    input_recorder.IsPlayingBack_4CEDF0();
     input_recorder.ShowInput_4CEE10();
 
     Hud_2B00 garox;
@@ -326,7 +326,7 @@ void force_link()
 DEFINE_GLOBAL(HINSTANCE, gHInstance_708220, 0x708220);
 DEFINE_GLOBAL(HANDLE, gMutex_707078, 0x707078);
 DEFINE_GLOBAL(s32, gGTA2VersionMajor_708280, 0x708280);
-DEFINE_GLOBAL(s32, gGTA2VersionMajor_708284, 0x708284);
+DEFINE_GLOBAL(s32, gGTA2VersionMinor_708284, 0x708284);
 DEFINE_GLOBAL_ARRAY(char_type, gWorkingDir_707F64, 652, 0x707F64);
 DEFINE_GLOBAL_INIT(bool, bDoFrontEnd_626B68, true, 0x626B68);
 
@@ -823,9 +823,9 @@ EXPORT void __stdcall Init_keybrd_jolly_and_sound_4DA440()
     if (!bSkip_audio_67D6BE)
     {
         gRoot_sound_66B038.Init_40EF80();
-        gRoot_sound_66B038.SetCDVol_40F0F0(gRegistry_6FF968.Set_Sound_Setting_586AE0("CDVol", 127));
-        gRoot_sound_66B038.SetSfxVol_40F0B0(gRegistry_6FF968.Set_Sound_Setting_586AE0("SFXVol", 127));
-        gRoot_sound_66B038.Set3DSound_40F160(gRegistry_6FF968.Get_Sound_Settting_586A70("do_3d_sound"));
+        gRoot_sound_66B038.SetCDVol_40F0F0(gRegistry_6FF968.Get_Sound_Setting_586AE0("CDVol", 127));
+        gRoot_sound_66B038.SetSfxVol_40F0B0(gRegistry_6FF968.Get_Sound_Setting_586AE0("SFXVol", 127));
+        gRoot_sound_66B038.Set3DSound_40F160(gRegistry_6FF968.Sound_Setting_Exists_586A70("do_3d_sound"));
         gRegistry_6FF968.Clear_Or_Delete_Sound_Setting_586BF0("do_3d_sound", gRoot_sound_66B038.Get3DSound_40F180());
     }
 }
@@ -899,7 +899,7 @@ void __stdcall ClearDebugFlags_4DB170()
     gCheatOnlyElvisPeds_67D4ED = 0;
     gCheatOnlyMuggerPeds_67D5A4 = 0;
     gCheatNakedPeds_67D5E8 = 0;
-    gCheatUnknown_67D4F6 = 0;
+    gCheatUnlimitedJailCard_67D4F6 = 0;
     gCheatInvisibility_67D539 = 0;
     gCheatUnlimitedDoubleDamage_67D57C = 0;
     byte_67D56B = 0;
@@ -939,7 +939,7 @@ EXPORT void __stdcall InitializeGame_4DA4D0()
         gInputRecorder_67F8B0.input_init_live_4CE880(gHInstance_708220);
     }
 
-    gRoot_sound_66B038.Set3DSound_40F160(gRegistry_6FF968.Get_Sound_Settting_586A70("do_3d_sound"));
+    gRoot_sound_66B038.Set3DSound_40F160(gRegistry_6FF968.Sound_Setting_Exists_586A70("do_3d_sound"));
     gRegistry_6FF968.Clear_Or_Delete_Sound_Setting_586BF0("do_3d_sound", gRoot_sound_66B038.Get3DSound_40F180());
 
     if (bStartNetworkGame_7081F0)
@@ -948,7 +948,7 @@ EXPORT void __stdcall InitializeGame_4DA4D0()
 
         ClearDebugFlags_4DB170();
 
-        gGame_0x40_67E008 = new Game_0x40(gNetPlay_7071E8.GetMaxPlayers_521350(), gNetPlay_7071E8.GetPlayerIdx_409C40());
+        gGame_0x40_67E008 = new Game_0x40(gNetPlay_7071E8.CountActivePlayers_521350(), gNetPlay_7071E8.GetPlayerIdx_409C40());
         gNetPlay_7071E8.SetExitGameCallBack_521330((int)ExitGameCallback_4DB0D0, gGame_0x40_67E008);
 
         memset(&gCurrentNetInputs_6F57D8, 0, sizeof(gCurrentNetInputs_6F57D8));
@@ -1751,8 +1751,8 @@ EXPORT void __stdcall Video_Render_Inits_5D90E0()
     gVideodevice_70694C = gRegistry_6FF968.Get_Screen_Setting_5870D0("videodevice", 1);
     strcpy(gRenderDllName_7067F0, kDefaultDllNames_626A00[0]);
     strcpy(gVideoDllName_706654, kDefaultDllNames_626A00[1]);
-    gRegistry_6FF968.Set_Screen_Setting_5871E0("rendername", (BYTE*)gRenderDllName_7067F0, 0xFFu);
-    gRegistry_6FF968.Set_Screen_Setting_5871E0("videoname", (BYTE*)gVideoDllName_706654, 0xFFu);
+    gRegistry_6FF968.Get_Screen_String_5871E0("rendername", (BYTE*)gRenderDllName_7067F0, 0xFFu);
+    gRegistry_6FF968.Get_Screen_String_5871E0("videoname", (BYTE*)gVideoDllName_706654, 0xFFu);
 
     if (strcmp(gRenderDllName_7067F0, "softdll.dll") == 0)
     {
@@ -1812,7 +1812,7 @@ EXPORT void __stdcall CleanUpInputAndOthers_4DA700()
 
 // todo move to another file for ordering
 MATCH_FUNC(0x4DA390)
-EXPORT s32 __stdcall SkipWhiteSpace_4DA390(char_type* pStr)
+EXPORT s32 __stdcall CountTokens_4DA390(char_type* pStr)
 {
     char* pCur = pStr;
     s32 result = 0;
@@ -1897,7 +1897,7 @@ MATCH_FUNC(0x4DA320)
 EXPORT void __stdcall ParseCommandLine_4DA320(char_type* pCommandLine)
 {
     char* pIter = pCommandLine;
-    s32 len = SkipWhiteSpace_4DA390(pCommandLine);
+    s32 len = CountTokens_4DA390(pCommandLine);
     _strupr(pCommandLine);
     while (len > 0)
     {
@@ -1985,7 +1985,7 @@ EXPORT void Input_Read_498D10()
 {
     if (gInputDevices_67B990)
     {
-        gInputDevices_67B990->read_keyboard_and_gamepad_498CC0();
+        gInputDevices_67B990->flush_keyboard_and_gamepad_498CC0();
     }
 }
 
@@ -2022,8 +2022,8 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
 
         case WM_SETFOCUS: // order ok
             gRoot_sound_66B038.Reacquire_40F140();
-            gRoot_sound_66B038.SetCDVol_40F0F0(gRegistry_6FF968.Set_Sound_Setting_586AE0("CDVol", 127));
-            gRoot_sound_66B038.SetSfxVol_40F0B0(gRegistry_6FF968.Set_Sound_Setting_586AE0("SFXVol", 127));
+            gRoot_sound_66B038.SetCDVol_40F0F0(gRegistry_6FF968.Get_Sound_Setting_586AE0("CDVol", 127));
+            gRoot_sound_66B038.SetSfxVol_40F0B0(gRegistry_6FF968.Get_Sound_Setting_586AE0("SFXVol", 127));
 
             if (bDoFrontEnd_626B68)
             {
@@ -2031,7 +2031,7 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
             }
             else
             {
-                gRoot_sound_66B038.Set3DSound_40F160(gRegistry_6FF968.Get_Sound_Settting_586A70("do_3d_sound"));
+                gRoot_sound_66B038.Set3DSound_40F160(gRegistry_6FF968.Sound_Setting_Exists_586A70("do_3d_sound"));
                 gRegistry_6FF968.Clear_Or_Delete_Sound_Setting_586BF0("do_3d_sound", gRoot_sound_66B038.Get3DSound_40F180());
             }
 
@@ -2253,7 +2253,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
     }
 
     gMutex_707078 = CreateMutexA(0, 0, "GBH_COOP_MUTEX");
-    GetGTA2Version_5E5D60(&gGTA2VersionMajor_708280, &gGTA2VersionMajor_708284);
+    GetGTA2Version_5E5D60(&gGTA2VersionMajor_708280, &gGTA2VersionMinor_708284);
 
     u32 dxVer;
     u32 osKind;
@@ -2357,7 +2357,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
     if (bStartNetworkGame_7081F0)
     {
         bDoFrontEnd_626B68 = 0;
-        gRoot_sound_66B038.Set3DSound_40F160(gRegistry_6FF968.Get_Sound_Settting_586A70("do_3d_sound"));
+        gRoot_sound_66B038.Set3DSound_40F160(gRegistry_6FF968.Sound_Setting_Exists_586A70("do_3d_sound"));
         gRegistry_6FF968.Clear_Or_Delete_Sound_Setting_586BF0("do_3d_sound", gRoot_sound_66B038.Get3DSound_40F180());
     }
 
@@ -2558,7 +2558,7 @@ EXPORT char_type __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
             bRet = 0;
         }
 
-        if (gRegistry_6FF968.Get_Int_5873E0(hKey, "UseProtocol") != sizeof(GUID))
+        if (gRegistry_6FF968.Get_Binary_Size_5873E0(hKey, "UseProtocol") != sizeof(GUID))
         {
             RegCloseKey(hKey);
             if (!gNetPlay_7071E8.SetProtoAndConnection_51DAE0(0, 0))
@@ -2576,7 +2576,7 @@ EXPORT char_type __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
             }
 
             Network_Buffer_8 connection;
-            connection.field_4_len = gRegistry_6FF968.Get_Int_5873E0(hKey, "UseConnection");
+            connection.field_4_len = gRegistry_6FF968.Get_Binary_Size_5873E0(hKey, "UseConnection");
             connection.field_0 = operator new(connection.field_4_len);
             if (!gRegistry_6FF968.Get_Binary_587340(hKey, "UseConnection", connection.field_4_len, (LPBYTE)connection.field_0))
             {
@@ -2594,7 +2594,7 @@ EXPORT char_type __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
 
             if (gNetPlay_7071E8.field_4_bModem)
             {
-                u16 len = gRegistry_6FF968.Get_Int_5873E0(hKey, "ModemNumber");
+                u16 len = gRegistry_6FF968.Get_Binary_Size_5873E0(hKey, "ModemNumber");
                 if (len >= 128)
                 {
                     return 0;
@@ -2629,7 +2629,7 @@ EXPORT char_type __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
         gGameSession_67E8E0.SetMultiplayerParams_4C5B80(gNetworkGameSettings_707098.field_20198_game_type,
                                                            gNetworkGameSettings_707098.field_20194_frag_limit,
                                                            gNetPlay_7071E8.GetPlayerIdx_409C40(),
-                                                           gNetPlay_7071E8.GetMaxPlayers_521350(),
+                                                           gNetPlay_7071E8.CountActivePlayers_521350(),
                                                            gNetworkGameSettings_707098.field_201A4_game_time_limit);
     }
     return bRet;

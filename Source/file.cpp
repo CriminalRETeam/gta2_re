@@ -326,7 +326,7 @@ bool __stdcall File::Global_Read_4A7210(void* Buffer, u32* pSize)
 }
 
 MATCH_FUNC(0x4A7250)
-size_t __stdcall File::GetRemainderSize_4A7250(void* Buffer, u32* pMaxFileSize)
+size_t __stdcall File::Global_ReadRemainder_4A7250(void* Buffer, u32* pMaxFileSize)
 {
     if (!gbGlobalFileOpen_67D160)
     {

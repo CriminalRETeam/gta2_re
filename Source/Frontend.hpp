@@ -219,9 +219,9 @@ enum ElementType
 
 struct MainBlockStrings
 {
-    char field_0_debug_str[256];
-    char field_100_map_name[256];
-    char field_200_sty_name[256];
+    char field_0_gmp_name[256];
+    char field_100_sty_name[256];
+    char field_200_scr_name[256];
 };
 
 struct Frontend
@@ -230,7 +230,7 @@ struct Frontend
     LPDIRECTINPUTDEVICEA field_4_pKeyboardDevice;
     char_type field_8_keys[256];
     s32 field_108_winmain_next_state;
-    char_type field_10C_bKeyboardAcquired;
+    char_type field_10C_bKeyboardAcquireFailed;
     char_type field_10D_bInputEnabled;
     char_type field_10E_unused;
     char_type field_10F_unused;
@@ -362,9 +362,9 @@ struct Frontend
 
     EXPORT void LoadCurrPlayerName_4B4280();
 
-    EXPORT u8 GetPrevUnlockedStageIndex_4B77B0(PlySlot_A4* pStats);
+    EXPORT u8 GetLastUnlockedMainStage_4B77B0(PlySlot_A4* pStats);
 
-    EXPORT u8 GetPrevUnlockedStageBonusCode_4B7800(PlySlot_A4* pStats);
+    EXPORT u8 GetLastUnlockedBonusStageCode_4B7800(PlySlot_A4* pStats);
 
     EXPORT void StripPasswordToCurrLength_4B8530();
 
@@ -543,7 +543,7 @@ EXTERN_GLOBAL(bool, gCheatGetBasicWeaponsMaxAmmo_67D545);
 EXTERN_GLOBAL(bool, gCheatGet99Lives_67D4F1);
 EXTERN_GLOBAL(bool, gCheatGetPlayerPoints_67D4C8);
 EXTERN_GLOBAL(bool, gCheatUnlimitedFlameThrower_67D6CC);
-EXTERN_GLOBAL(bool, gCheatUnknown_67D4F6);
+EXTERN_GLOBAL(bool, gCheatUnlimitedJailCard_67D4F6);
 EXTERN_GLOBAL(bool, gCheatGet10MillionMoney_67D6CE);
 EXTERN_GLOBAL(bool, gCheat10xMultiplier_67D589);
 EXTERN_GLOBAL(bool, gCheatUnlockThreeLevels_67D6CB);

@@ -165,7 +165,7 @@ void Sprite::set_xyz_lazy_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos)
         field_14_xy.x = xpos;
         field_14_xy.y = ypos;
         field_1C_zpos = zpos;
-        ResetZCollisionAndDebugBoxes_59E7B0();
+        InvalidateZColAndBBoxes_59E7B0();
     }
 }
 
@@ -175,7 +175,7 @@ void Sprite::set_angle_4833B0(Ang16 ang)
     if (ang != field_0_rotation)
     {
         field_0_rotation = ang;
-        ResetZCollisionAndDebugBoxes_59E7B0();
+        InvalidateZColAndBBoxes_59E7B0();
     }
 }
 
@@ -264,7 +264,7 @@ SpriteMask_14* SpriteMaskCache_3CC::FindLeastRecentlyUsed_48F690(u32* pKey)
 }
 
 MATCH_FUNC(0x48f6e0)
-void SpriteMaskCache_3CC::InvalidateMasksByType_48F6E0(u16* sprite_idx)
+void SpriteMaskCache_3CC::InvalidateMasksBySpriteIdx_48F6E0(u16* sprite_idx)
 {
     s32 count = 0;
     for (SpriteMask_14* pIter = &this->field_0_masks[0]; count < 48; count++, ++pIter)
@@ -499,12 +499,12 @@ void Sprite::setxy_lazy_54EC80(Fix16 xpos, Fix16 ypos)
     {
         this->field_14_xy.x = xpos;
         this->field_14_xy.y = ypos;
-        ResetZCollisionAndDebugBoxes_59E7B0();
+        InvalidateZColAndBBoxes_59E7B0();
     }
 }
 
 MATCH_FUNC(0x59E170)
-bool Sprite::IsControlledByActivePlayer_59E170()
+bool Sprite::IsControlledByRemotePlayer_59E170()
 {
     Ped* pPed = GetPed_59E1B0();
     if (!pPed)
@@ -728,13 +728,13 @@ char_type Sprite::CheckDirectionalSliceCollision_59E680(Fix16 sliceLen, Sprite* 
 
     gSprite_703814->field_14_xy.x = point.x + pSprite->field_14_xy.x;
     gSprite_703814->field_14_xy.y = point.y + pSprite->field_14_xy.y;
-    gSprite_703814->ResetZCollisionAndDebugBoxes_59E7B0();
+    gSprite_703814->InvalidateZColAndBBoxes_59E7B0();
     gSprite_703814->UpdateCollisionBoundsIfNeeded_59E9C0();
     return CollisionCheck_59E590(gSprite_703814);
 }
 
 MATCH_FUNC(0x59e7b0)
-void Sprite::ResetZCollisionAndDebugBoxes_59E7B0()
+void Sprite::InvalidateZColAndBBoxes_59E7B0()
 {
     field_39_z_col = -1;
     if (field_C_pCollisionShape != NULL)
@@ -766,7 +766,7 @@ Sprite* Sprite::QuerySpriteCollision_59E7D0(s32 sprite_type)
     {
         return gCollisionTarget_679188.field_20_pHitSprite;
     }
-    result = gSpriteGrid_1_679208->FindNearestSpriteOfType_477E60(this, sprite_type);
+    result = gSpriteGrid_1_679208->FindCollidingSpritePreferType_477E60(this, sprite_type);
     if (result)
     {
         gCollisionTarget_679188.SetSprite_40FEE0(result);
@@ -1149,7 +1149,7 @@ void Sprite::Draw_59EFF0()
     {
         if (field_38_zoom)
         {
-            gSpriteMaskCache_67AF1C->InvalidateMasksByType_48F6E0(&sprite_idx);
+            gSpriteMaskCache_67AF1C->InvalidateMasksBySpriteIdx_48F6E0(&sprite_idx);
         }
         car_flags = pCar->field_8_damaged_areas.GetRaw_4A5190();
         if (gLighting_626A09)
@@ -2082,7 +2082,7 @@ char_type Sprite::sub_5A2440()
 {
     UpdateCollisionBoundsIfNeeded_59E9C0();
     field_C_pCollisionShape->SetCurrentRect_5A4D90();
-    char_type result = gMap_0x370_6F6268->CanSpriteEnterMovementRegion_4E4460(field_14_xy.x.ToInt(),
+    char_type result = gMap_0x370_6F6268->IsMovementRegionBlocked_4E4460(field_14_xy.x.ToInt(),
                                                                               field_14_xy.y.ToInt(),
                                                                               field_1C_zpos.ToInt(),
                                                                               this,
@@ -2101,28 +2101,28 @@ char_type Sprite::CheckSpriteMovementRegion_5A2500()
     {
         if (field_14_xy.x < kFP16One_7035C4)
         {
-            gCollisionTarget_679188.SetVerticalSegment_4BA280(field_14_xy.y.GetRoundValue(), (field_14_xy.y.GetRoundValue()) + kFP16One_7035C4, kFP16One_7035C4);
+            gCollisionTarget_679188.SetVerticalSegment_4BA280(field_14_xy.y.GetFloorValue(), (field_14_xy.y.GetFloorValue()) + kFP16One_7035C4, kFP16One_7035C4);
             gCollisionTarget_679188.SetMapZ_4BA2B0(field_1C_zpos);
             return 1;
         }
 
         if (field_14_xy.x > k_dword_7033B4)
         {
-            gCollisionTarget_679188.SetVerticalSegment_4BA280(field_14_xy.y.GetRoundValue(), (field_14_xy.y.GetRoundValue()) + kFP16One_7035C4, k_dword_7033B4);
+            gCollisionTarget_679188.SetVerticalSegment_4BA280(field_14_xy.y.GetFloorValue(), (field_14_xy.y.GetFloorValue()) + kFP16One_7035C4, k_dword_7033B4);
             gCollisionTarget_679188.SetMapZ_4BA2B0(field_1C_zpos);
             return 1;
         }
 
         if (field_14_xy.y < kFP16One_7035C4)
         {
-            gCollisionTarget_679188.SetHorizontalSegment_4BA250(field_14_xy.x.GetRoundValue(), (field_14_xy.x.GetRoundValue()) + kFP16One_7035C4, kFP16One_7035C4);
+            gCollisionTarget_679188.SetHorizontalSegment_4BA250(field_14_xy.x.GetFloorValue(), (field_14_xy.x.GetFloorValue()) + kFP16One_7035C4, kFP16One_7035C4);
             gCollisionTarget_679188.SetMapZ_4BA2B0(field_1C_zpos);
             return 1;
         }
 
         if (field_14_xy.y > k_dword_7033B4)
         {
-            gCollisionTarget_679188.SetHorizontalSegment_4BA250(field_14_xy.x.GetRoundValue(), (field_14_xy.x.GetRoundValue()) + kFP16One_7035C4, k_dword_7033B4);
+            gCollisionTarget_679188.SetHorizontalSegment_4BA250(field_14_xy.x.GetFloorValue(), (field_14_xy.x.GetFloorValue()) + kFP16One_7035C4, k_dword_7033B4);
             gCollisionTarget_679188.SetMapZ_4BA2B0(field_1C_zpos);
             return 1;
         }
@@ -2142,7 +2142,7 @@ char_type Sprite::CheckSpriteMovementRegion_5A2500()
         val = 1024;
     }
 
-    char_type result = gMap_0x370_6F6268->CanSpriteEnterMovementRegion_4E4460(field_14_xy.x.ToInt(),
+    char_type result = gMap_0x370_6F6268->IsMovementRegionBlocked_4E4460(field_14_xy.x.ToInt(),
                                                                               field_14_xy.y.ToInt(),
                                                                               field_1C_zpos.ToInt(),
                                                                               this,
@@ -2264,7 +2264,7 @@ void Sprite::ResolveCollisionWithCarPedOrObject_5A2A30()
         {
             Car_BC* pIterCar = pCurrent->AsCar_40FEB0();
             if (field_30_sprite_type_enum != sprite_types_enum::car_2 ||
-                (!pIterCar->IsCargoCarOf_4BA390(field_8_car_bc_ptr) && !pIterCar->HasOtherCarOnTrailer_475E60(field_8_car_bc_ptr)))
+                (!pIterCar->IsCargoCarOf_4BA390(field_8_car_bc_ptr) && !pIterCar->HasAttachedTrailer_475E60(field_8_car_bc_ptr)))
             {
                 u8 x = field_14_xy.x.ToInt();
                 u8 y = field_14_xy.y.ToInt();
@@ -2273,7 +2273,7 @@ void Sprite::ResolveCollisionWithCarPedOrObject_5A2A30()
                 // car shoving / overlap resolution ?
                 if (gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &x, &y, &z, 1))
                 {
-                    gSpriteGrid_1_679208->AddToSpriteRectBuckets_477B60(pCurrent);
+                    gSpriteGrid_1_679208->RemoveFromRegionBuckets_477B60(pCurrent);
                     pIterCar->SnapCarToGreenArrow_444E40(x, y, z);
                     gSpriteGrid_1_679208->AddToRegionBuckets_477B20(pCurrent);
                 }
@@ -2328,17 +2328,17 @@ void Sprite::PoolDeallocate()
 }
 
 MATCH_FUNC(0x5a3100)
-void Sprite::DispatchCollisionEvent_5A3100(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 ang)
+void Sprite::AttachSprite_5A3100(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 ang)
 {
     Object_2C* o2c;
 
     switch (field_30_sprite_type_enum)
     {
         case sprite_types_enum::ped_3:
-            field_8_char_b4_ptr->field_88_obj_2c.PushImpactEvent_5A6D00(pSprite, x, y, ang);
+            field_8_char_b4_ptr->field_88_obj_2c.PushAttachedSprite_5A6D00(pSprite, x, y, ang);
             break;
         case sprite_types_enum::car_2:
-            field_8_car_bc_ptr->field_0_attachments.PushImpactEvent_5A6D00(pSprite, x, y, ang);
+            field_8_car_bc_ptr->field_0_attachments.PushAttachedSprite_5A6D00(pSprite, x, y, ang);
             break;
         case sprite_types_enum::object_1: // sprite_type_1_Object_5C
         case sprite_types_enum::code_obj1_4: // sprite_type_4_Object_5C
@@ -2348,7 +2348,7 @@ void Sprite::DispatchCollisionEvent_5A3100(Sprite* pSprite, Fix16 x, Fix16 y, An
             {
                 o2c->EnsureObject3C_52A650();
             }
-            field_8_object_2C_ptr->field_10_obj_3c->field_0.PushImpactEvent_5A6D00(pSprite, x, y, ang);
+            field_8_object_2C_ptr->field_10_obj_3c->field_0.PushAttachedSprite_5A6D00(pSprite, x, y, ang);
             break;
         default:
             break;
@@ -2362,7 +2362,7 @@ void Sprite::DispatchCollisionEvent_5A3100(Sprite* pSprite, Fix16 x, Fix16 y, An
         case sprite_types_enum::object_1: // sprite_type_1_Object_5C
         case sprite_types_enum::code_obj1_4: // sprite_type_4_Object_5C
         case sprite_types_enum::map_obj_5: // sprite_type_5_Object_5C
-            pSprite->field_8_object_2C_ptr->ReactivateObjectAfterImpact_52A6D0(this);
+            pSprite->field_8_object_2C_ptr->OnAttachedToSprite_52A6D0(this);
             break;
         default:
             return;
@@ -2742,7 +2742,7 @@ bool AttachedSprite_18::UpdateAttached_5A6910(Sprite* pSprite)
     Object_2C* o2c = field_0_pSprite->AsObject2C_40FEC0();
     if (o2c)
     {
-        bRet = o2c->UpdateMovementAndEffects_527070(pSprite, field_6_offset_x, field_8_offset_y, field_10_offset_rot);
+        bRet = o2c->UpdateMovementAndEffects_527070(pSprite, field_8_offset_x, field_C_offset_y, field_10_offset_rot);
         if (bRet)
         {
             gObject_2C_Pool_6F8F80->DeAllocate(o2c);
@@ -2754,7 +2754,7 @@ bool AttachedSprite_18::UpdateAttached_5A6910(Sprite* pSprite)
         Car_BC* cBC = field_0_pSprite->AsCar_40FEB0();
         if (cBC)
         {
-            bRet = cBC->UpdateAttachedToSprite_443360(pSprite, field_6_offset_x, field_8_offset_y, field_10_offset_rot);
+            bRet = cBC->UpdateAttachedToSprite_443360(pSprite, field_8_offset_x, field_C_offset_y, field_10_offset_rot);
             if (bRet)
             {
                 gCar_BC_Pool_67792C->Remove(cBC);

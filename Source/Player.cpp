@@ -79,7 +79,7 @@ void UnknownDebugClass::DoBrianTest_42D870(u16 action)
             gGame_0x40_67E008->ExitGameNoBonus_4B8C00(0, GameExitType::GameOverRIP_3);
             break;
         case 9:
-            gScriptManager_6F8060->SaveGame_511E10(gGameSession_67E8E0.GetDebugStr_4C5970());
+            gScriptManager_6F8060->SaveGame_511E10(gGameSession_67E8E0.GetSaveFileName_4C5970());
             break;
         case 6:
             gTestRouteIdx_675F14 = gRouteFinder_6FFDC8->DoStartRoute_58A0D0(3, 3, 1, 0xD5, 0xAB, 1, 1);
@@ -93,7 +93,7 @@ void UnknownDebugClass::DoBrianTest_42D870(u16 action)
             {
                 pPed->field_16C_car->GoToBlockTest_441030(3, 3, 1, 1);
                 pPed->field_16C_car->InitCarAIControl_440590();
-                gRouteFinder_6FFDC8->DebugPrintRoute_58A020(pPed->field_16C_car->field_5C_AI->field_28_junc_idx);
+                gRouteFinder_6FFDC8->DebugPrintRoute_58A020(pPed->field_16C_car->field_5C_AI->field_28_route_idx);
             }
             break;
         }
@@ -212,7 +212,7 @@ bool Player::PromoteCarInHistory_564610(Car_BC* pCar, bool dont_modify)
 }
 
 MATCH_FUNC(0x564680)
-void Player::PushCarInfo_564680(Car_BC* pCar)
+void Player::RemoveCarFromHistory_564680(Car_BC* pCar)
 {
     Car_BC** pIter = field_54_car_history;
     if (!bStartNetworkGame_7081F0)
@@ -569,7 +569,7 @@ void Player::RemovePlayerWeapons_564C50()
         {
             if (pWeapon->HasAmmo_4A4F80())
             {
-                pWeapon->add_ammo_5DCE20(0);
+                pWeapon->set_ammo_clips_5DCE20(0);
             }
         }
         ++pWeapon;
@@ -929,7 +929,7 @@ void Player::Hud_Controls_565890(u16 action)
 {
     s32 vol;
 
-    if (!gHud_2B00_706620->IsBusy_5D6C20(action, this))
+    if (!gHud_2B00_706620->HandleInputKey_5D6C20(action, this))
     {
         switch (action)
         {
@@ -949,8 +949,8 @@ void Player::Hud_Controls_565890(u16 action)
             case DIK_HOME:
                 if (bDo_debug_keys_67D6CF)
                 {
-                    field_90_game_camera.ReturnToDefaultZoom_435830();
-                    field_208_aux_game_camera.ReturnToDefaultZoom_435830();
+                    field_90_game_camera.ResetElevation_435830();
+                    field_208_aux_game_camera.ResetElevation_435830();
                 }
                 break;
             case DIK_NEXT:
@@ -1265,13 +1265,13 @@ void Player::CharacterControls_566520()
     // up arrow 0x1
     bool forwardGas = (input & 1) == 1;
     bool same = (forwardGas == this->field_78_now_forward_pressed);
-    this->field_8B_was_forward_pressed = !same;
+    this->field_8B_forward_changed = !same;
     this->field_78_now_forward_pressed = forwardGas;
 
     // down arrow 0x2
     bool footBrake = (input & 2) == 2;
     same = (footBrake == this->field_79_now_down_pressed);
-    this->field_8C_was_down_pressed = !same;
+    this->field_8C_down_changed = !same;
     this->field_79_now_down_pressed = footBrake;
 
     // left arrow 0x4
@@ -1282,49 +1282,49 @@ void Player::CharacterControls_566520()
     // ctrl 0x10 (attack)
     const bool ctrl10 = (input & 0x10) == 0x10;
     same = (ctrl10 == this->field_7C_now_attack_pressed);
-    this->field_8D_was_attack_pressed = !same;
+    this->field_8D_attack_changed = !same;
     this->field_7C_now_attack_pressed = ctrl10;
 
     // space 0x40 (handbrake, jump)
     const bool prevHandBrake = this->field_7E_now_hand_brake_or_jump_pressed;
     const bool handBrake = (input & 0x40) == 0x40;
     this->field_7E_now_hand_brake_or_jump_pressed = handBrake;
-    this->field_8A_was_hand_brake_or_jump_pressed = (handBrake != prevHandBrake);
+    this->field_8A_hand_brake_or_jump_changed = (handBrake != prevHandBrake);
 
     // enter 0x20 (enter/exit car)
     const bool prev20 = this->field_7D_now_enter_exit_pressed;
     const bool ctrl20 = (input & 0x20) == 0x20;
     this->field_7D_now_enter_exit_pressed = ctrl20;
-    this->field_89_was_enter_exit_pressed = (ctrl20 != prev20);
+    this->field_89_enter_exit_changed = (ctrl20 != prev20);
 
     // y 0x80 (prev weapon)
     const bool prev80 = this->field_7F_now_prev_weapon_pressed;
     const bool ctrl80 = (input & 0x80) == 0x80;
     this->field_7F_now_prev_weapon_pressed = ctrl80;
-    this->field_88_was_prev_weapon_pressed = (ctrl80 != prev80);
+    this->field_88_prev_weapon_changed = (ctrl80 != prev80);
 
     // x 0x100 (next weapon)
     const bool prev100 = this->field_80_now_next_weapon_pressed;
     this->field_80_now_next_weapon_pressed = (input & 0x100) == 0x100;
-    this->field_87_was_next_weapon_pressed = (field_80_now_next_weapon_pressed != prev100);
+    this->field_87_next_weapon_changed = (field_80_now_next_weapon_pressed != prev100);
 
     // tab 0x200  (hold for turret movement, horn, siren, burp, fart on press)
     const bool prev200 = this->field_81_now_special_1_pressed;
     bool ctrl200 = (input & 0x200) == 0x200;
     this->field_81_now_special_1_pressed = ctrl200;
-    this->field_84_was_special_1_pressed = (ctrl200 != prev200);
+    this->field_84_special_1_changed = (ctrl200 != prev200);
 
     // alt 0x400 (special2, hold for camera pan)
     const bool ctrl400 = (input & 0x400) == 0x400;
     same = (ctrl400 == this->field_82_now_special_2_pressed);
-    this->field_85_was_special_2_pressed = !same;
+    this->field_85_special_2_changed = !same;
     this->field_82_now_special_2_pressed = ctrl400;
 
     // right shift 0x800 (special 3??)
     const bool prev800 = this->field_83_now_special_3_pressed;
     bool ctrl800 = (input & 0x800) == 0x800;
     this->field_83_now_special_3_pressed = ctrl800;
-    this->field_86_was_special_3_pressed = (ctrl800 != prev800);
+    this->field_86_special_3_changed = (ctrl800 != prev800);
 }
 
 MATCH_FUNC(0x566820)
@@ -1364,7 +1364,7 @@ void Player::HandleControls_5668D0(Ped* pPed)
     {
         return;
     }
-    if (field_7D_now_enter_exit_pressed && field_89_was_enter_exit_pressed)
+    if (field_7D_now_enter_exit_pressed && field_89_enter_exit_changed)
     {
         if (!pPedCar)
         {
@@ -1440,7 +1440,7 @@ void Player::HandleControls_5668D0(Ped* pPed)
     }
     else
     {
-        if (!field_8D_was_attack_pressed)
+        if (!field_8D_attack_changed)
         {
             if (field_788_curr_weapon_idx == -1)
             {
@@ -1506,7 +1506,7 @@ void Player::DoCarControlInputs_566C30(Car_BC* pCar)
                                  this->field_7B_now_right_pressed,
                                  this->field_7E_now_hand_brake_or_jump_pressed,
                                  this->field_81_now_special_1_pressed,
-                                 this->field_84_was_special_1_pressed,
+                                 this->field_84_special_1_changed,
                                  bAttackPressed);
 }
 
@@ -1600,7 +1600,7 @@ void Player::DoPedControlInputs_566C80(Ped* pPed)
     }
 
     // --- Jump / handbrake ---
-    if (field_7E_now_hand_brake_or_jump_pressed == 1 && field_8A_was_hand_brake_or_jump_pressed)
+    if (field_7E_now_hand_brake_or_jump_pressed == 1 && field_8A_hand_brake_or_jump_changed)
     {
         if (pPed->field_168_game_object && pPed->field_168_game_object->GetCharState_433A80() != Char_B4_state::Jumping_15 &&
             pPed->field_21C_bf.bLeftVehicle == 0)
@@ -1612,9 +1612,9 @@ void Player::DoPedControlInputs_566C80(Ped* pPed)
     // --- Special action ---
     if (pPed->field_168_game_object)
     {
-        if (field_81_now_special_1_pressed && field_84_was_special_1_pressed && !field_7C_now_attack_pressed)
+        if (field_81_now_special_1_pressed && field_84_special_1_changed && !field_7C_now_attack_pressed)
         {
-            pPed->SetVoiceEvent_IfBit24Clear_433DD0(20);
+            pPed->SetVoiceEventIfNotOnFire_433DD0(20);
         }
     }
 }
@@ -1885,7 +1885,7 @@ void Player::Busted_5679E0()
                 Player::ClearKFWeapon_5647D0();
                 if (HasPowerUp_434920(power_up_indices::JailCard_4))
                 {
-                    if (!gCheatUnknown_67D4F6)
+                    if (!gCheatUnlimitedJailCard_67D4F6)
                     {
                         DecPowerUp_434940(power_up_indices::JailCard_4);
                     }
@@ -1984,8 +1984,8 @@ void Player::UpdateCamera_5686D0(Camera_0xBC* pCam)
         this->field_7B_now_right_pressed = 0;
         this->field_78_now_forward_pressed = 0;
         this->field_79_now_down_pressed = 0;
-        this->field_8B_was_forward_pressed = 0;
-        this->field_8C_was_down_pressed = 0;
+        this->field_8B_forward_changed = 0;
+        this->field_8C_down_changed = 0;
     }
     else
     {
@@ -2013,9 +2013,9 @@ MATCH_FUNC(0x5687F0)
 void Player::Service_5687F0()
 {
     const bool bNowEnterExitPressed = this->field_7D_now_enter_exit_pressed;
-    const bool bWasEnterExitPressed = this->field_89_was_enter_exit_pressed;
+    const bool bWasEnterExitPressed = this->field_89_enter_exit_changed;
     const bool bNowSpecial_1_Pressed = this->field_81_now_special_1_pressed;
-    const bool bWasSpecial_1_Pressed = this->field_84_was_special_1_pressed;
+    const bool bWasSpecial_1_Pressed = this->field_84_special_1_changed;
 
     if (field_680_traffic_spawn_counter < 100u)
     {
@@ -2028,14 +2028,14 @@ void Player::Service_5687F0()
     if (this->field_30_disable_enter_vehicles)
     {
         this->field_7D_now_enter_exit_pressed = 0;
-        this->field_89_was_enter_exit_pressed = 0;
+        this->field_89_enter_exit_changed = 0;
     }
 
     field_2D4_scores.Service_591C70();
     field_644_crime_stats.Service_484F20();
 
-    Player::SelectNextOrPrevWeapon_5649D0(this->field_87_was_next_weapon_pressed && this->field_80_now_next_weapon_pressed,
-                                          this->field_88_was_prev_weapon_pressed && this->field_7F_now_prev_weapon_pressed);
+    Player::SelectNextOrPrevWeapon_5649D0(this->field_87_next_weapon_changed && this->field_80_now_next_weapon_pressed,
+                                          this->field_88_prev_weapon_changed && this->field_7F_now_prev_weapon_pressed);
 
     if (this->field_8F_block_attack)
     {
@@ -2102,7 +2102,7 @@ void Player::Service_5687F0()
 
         case 2:
             this->field_7D_now_enter_exit_pressed = 0;
-            this->field_89_was_enter_exit_pressed = 0;
+            this->field_89_enter_exit_changed = 0;
 
             Player::UpdateCamera_5686D0(&this->field_208_aux_game_camera);
 
@@ -2194,9 +2194,9 @@ void Player::Service_5687F0()
         }
     }
     this->field_7D_now_enter_exit_pressed = bNowEnterExitPressed;
-    this->field_89_was_enter_exit_pressed = bWasEnterExitPressed;
+    this->field_89_enter_exit_changed = bWasEnterExitPressed;
     this->field_81_now_special_1_pressed = bNowSpecial_1_Pressed;
-    this->field_84_was_special_1_pressed = bWasSpecial_1_Pressed;
+    this->field_84_special_1_changed = bWasSpecial_1_Pressed;
     Player::SetScoreTextColour_569C20();
 }
 
@@ -2792,7 +2792,7 @@ void Player::UpdateGameFromSave_56A310(SavedPlayerStats_90* pSave)
 
     for (u16 weapon_idx = 0; weapon_idx < 15; weapon_idx++)
     {
-        field_718_weapons[weapon_idx]->add_ammo_5DCE20(pSave->field_66_weapon_ammo[weapon_idx]);
+        field_718_weapons[weapon_idx]->set_ammo_clips_5DCE20(pSave->field_66_weapon_ammo[weapon_idx]);
     }
 
     for (u16 crime_idx = 0; crime_idx < crime_stats_type::count_10; crime_idx++)
@@ -2846,7 +2846,7 @@ void Player::ApplyCheats_56A490()
         gPedManager_6787BC->field_7_make_all_muggers = true;
     }
 
-    if (gCheatUnknown_67D4F6)
+    if (gCheatUnlimitedJailCard_67D4F6)
     {
         Player::CollectPowerUp_564D60(power_up_indices::JailCard_4);
     }
@@ -2888,14 +2888,14 @@ void Player::ClearInputs_56A6D0()
     field_82_now_special_2_pressed = 0;
     field_83_now_special_3_pressed = 0;
 
-    field_84_was_special_1_pressed = 0;
-    field_88_was_prev_weapon_pressed = 0;
-    field_87_was_next_weapon_pressed = 0;
-    field_89_was_enter_exit_pressed = 0;
-    field_8D_was_attack_pressed = 0;
-    field_8A_was_hand_brake_or_jump_pressed = 0;
-    field_8B_was_forward_pressed = 0;
-    field_8C_was_down_pressed = 0;
+    field_84_special_1_changed = 0;
+    field_88_prev_weapon_changed = 0;
+    field_87_next_weapon_changed = 0;
+    field_89_enter_exit_changed = 0;
+    field_8D_attack_changed = 0;
+    field_8A_hand_brake_or_jump_changed = 0;
+    field_8B_forward_changed = 0;
+    field_8C_down_changed = 0;
 }
 
 // https://decomp.me/scratch/OMzHk early %ecx load

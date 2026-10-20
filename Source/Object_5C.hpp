@@ -56,7 +56,7 @@ class Object_2C
 
     EXPORT Object_2C();
     EXPORT void PoolDeallocate();
-    EXPORT bool CanCollideWithSpriteByOwnerRef_522250(Sprite* pSprite);
+    EXPORT bool IsSpriteOwnerPed_522250(Sprite* pSprite);
     EXPORT s32 GetMovementRegionSize_5222B0();
     EXPORT void UpdatePhysics_5222D0();
     EXPORT void PoolGive_522340();
@@ -71,8 +71,8 @@ class Object_2C
     EXPORT void ResolveCollisionWithObject_522710(Object_2C* pObj, Fix16_Point* pPoint);
     EXPORT void ResolveCollisionWithPed_5229B0(Char_B4* pB4, Fix16_Point* pPoint, u8 not_used);
     EXPORT void ResolveCollisionWithWorld_522B20(Fix16_Point* f18, Fix16_Point* pPoint, Fix16_Point* speed);
-    EXPORT void ResolveCollisionWithMapTile_522BE0(Fix16_Point* pPoint);
-    EXPORT void ResolveCollisionWithMapTileHorizontal_522D00(Fix16_Point* pPoint);
+    EXPORT void ResolveCollisionWithHorizontalEdge_522BE0(Fix16_Point* pPoint);
+    EXPORT void ResolveCollisionWithVerticalEdge_522D00(Fix16_Point* pPoint);
     EXPORT void HandleCollision_522E10(Fix16_Point* pPoint);
     EXPORT bool TryStartSlide_5233A0(Fix16 value);
     EXPORT void HandleCollisionOutcome_523440(Fix16_Point point, char_type bUnknown1, char_type bUnknown2);
@@ -115,7 +115,7 @@ class Object_2C
     EXPORT void HandleCollisionWithObject_529000(Object_2C* pObj);
     EXPORT void SetConveyorSpeed_529030(s8 speed_x, s8 speed_y);
     EXPORT void ApplyConveyorSpeedFrom_529070(Object_2C* pObj);
-    EXPORT s32 GetExplosionSideFromDiagonalWall_529210();
+    EXPORT s32 GetExplosionTypeForDiagonalWall_529210();
     EXPORT s32 GetMapBlockSoundSpec_529240();
     EXPORT void SetDefaultWeaponAmmo_5292D0();
     EXPORT void SetDamageOwner_529080(u8 ped_ref_idx);
@@ -123,11 +123,11 @@ class Object_2C
     EXPORT void RequestRemovalWhenOffScreen_5290B0();
     EXPORT void Dealloc_5291B0();
     EXPORT void PoolGiveAndMarkDone_5291D0();
-    EXPORT void PoolGiveAndSetDone_5291E0(s32 bDone);
+    EXPORT void PoolGiveAndQueueObjectType_5291E0(s32 bDone);
     EXPORT bool IsNotModel_174_529200();
     EXPORT ~Object_2C();
     EXPORT void EnsureObject3C_52A650();
-    EXPORT void ReactivateObjectAfterImpact_52A6D0(Sprite* pSprite);
+    EXPORT void OnAttachedToSprite_52A6D0(Sprite* pSprite);
     EXPORT Fix16_Point GetXY_52AE70();
     EXPORT Fix16_Point GetSpeedVector_52AE90();
     // 9.6f 0x482C50; GetSpeedVector_52AE90 is its out-of-line copy. It returns a Fix16_Point (which has

@@ -52,9 +52,9 @@ class Door_38
 {
   public:
     // 9.6f 0x476A90
-    inline s32 get_state_476A90()
+    inline s32 get_open_type_476A90()
     {
-        return field_20_state;
+        return field_20_open_type;
     }
 
     EXPORT Door_38();
@@ -95,7 +95,7 @@ class Door_38
     // 9.6f 0x476990
     inline void set_field_20(u32 v)
     {
-        field_20_state = v;
+        field_20_open_type = v;
     }
 
     // inlined in 0x476a10
@@ -114,7 +114,7 @@ class Door_38
     // inlined in 0x4769e0
     inline void set_open_details_car_bc(u32 open, Car_BC* car_bc_ptr)
     {
-        field_20_state = open;
+        field_20_open_type = open;
         field_10_car_bc = car_bc_ptr;
         field_2C_bCanAutoOpen = 1;
     }
@@ -122,7 +122,7 @@ class Door_38
     // inlined in 0x4769a0
     inline void set_open_details_model_id(u32 open, s32 id)
     {
-        field_20_state = open;
+        field_20_open_type = open;
         field_10_model_id = id;
         field_2C_bCanAutoOpen = 1;
     }
@@ -130,7 +130,7 @@ class Door_38
     // inlined in 0x4769c0
     inline void set_open_details_ped(u32 open, Ped* ped_ptr)
     {
-        field_20_state = open;
+        field_20_open_type = open;
         field_10_ped = ped_ptr;
         field_2C_bCanAutoOpen = 1;
     }
@@ -148,15 +148,15 @@ class Door_38
     Object_2C* field_C_trigger_obj;
     union
     {
-        Ped* field_10_ped; // Active when field_20_state is door_open_type::one_char_on_foot
-        Car_BC* field_10_car_bc; // Active when field_20_state is door_open_type::one_car
-        s32 field_10_model_id; // Active when field_20_state is door_open_type::one_model
+        Ped* field_10_ped; // Active when field_20_open_type is door_open_type::one_char_on_foot
+        Car_BC* field_10_car_bc; // Active when field_20_open_type is door_open_type::one_car
+        s32 field_10_model_id; // Active when field_20_open_type is door_open_type::one_model
     };
     s32 field_14_target_id;
     s32 field_18;
     s16 field_1C_close_delay;
     u16 field_1E_close_timer;
-    s32 field_20_state;
+    s32 field_20_open_type;
     s32 field_24_close_type;
     char_type field_28_bClosing;
     char_type field_29_bAuto;

@@ -65,14 +65,14 @@ struct JunctionSegment_0x8
 {
     inline bool ContainsPoint_40CF20(s16 x, s16 y)
     {
-        return x >= field_4_min_x && x <= field_6_max_x && y >= field_5_min_y && y <= field_7_min_y;
+        return x >= field_4_min_x && x <= field_6_max_x && y >= field_5_min_y && y <= field_7_max_y;
     }
     u16 field_0_junction_num1;
     u16 field_2_junction_num2;
     u8 field_4_min_x;
     u8 field_5_min_y;
     u8 field_6_max_x;
-    u8 field_7_min_y;
+    u8 field_7_max_y;
 };
 
 class RouteFinder_10

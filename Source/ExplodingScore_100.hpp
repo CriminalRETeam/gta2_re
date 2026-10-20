@@ -17,7 +17,7 @@ class ExplodingScore_50
     EXPORT char_type PoolUpdate();
     EXPORT void DrawSingleNumber_597100(s32 number_to_draw, s32 xpos_sub);
 
-    s32 field_0_numbers_count;
+    s32 field_0_highest_digit_idx;
     s32 field_4_digits[9]; // Number components
     Fix16 field_28_x;
     Fix16 field_2C_y;

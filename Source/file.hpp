@@ -40,7 +40,7 @@ class File
 
     EXPORT static bool __stdcall Global_Read_4A7210(void* Buffer, u32* pSize);
 
-    EXPORT static size_t __stdcall GetRemainderSize_4A7250(void* Buffer, u32* pMaxFileSize);
+    EXPORT static size_t __stdcall Global_ReadRemainder_4A7250(void* Buffer, u32* pMaxFileSize);
 
     EXPORT static char_type __stdcall SkipWhitespace_4A7340(FILE* Stream);
 };

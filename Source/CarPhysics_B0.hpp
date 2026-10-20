@@ -27,7 +27,7 @@ EXTERN_GLOBAL(Fix16, dword_6FE0B0);
 EXTERN_GLOBAL(Fix16, kF16Zero_677B90);
 EXTERN_GLOBAL(Fix16_Point, CollisionIntersectionPoint_6FE1A0);
 
-EXPORT Fix16_Point __stdcall ComputeLineLineIntersection_55F3B0(Fix16 OwnerMass,
+EXPORT Fix16_Point __stdcall ComputeCollisionImpulse_55F3B0(Fix16 OwnerMass,
                                                                 Fix16 TargetMass,
                                                                 Fix16_Point& RelativeVelocity,
                                                                 Fix16_Point& DistToCollision_ByRef,
@@ -141,7 +141,7 @@ class CarPhysics_B0
     EXPORT void SpinOutOnOil_559BA0();
     EXPORT void ScarePedsOnDrivingFast_559C30();
     EXPORT void ApplyForcedSteering_559DD0();
-    EXPORT void ApplyObjectImpact_559E20(Object_2C* pObj);
+    EXPORT void ApplyConveyorPush_559E20(Object_2C* pObj);
     EXPORT Fix16_Point ComputeCombinedCenterOfMass_559EC0();
     EXPORT Fix16 CalculateMass_559FF0();
     EXPORT Fix16 GetEffectiveMomentOfInertia_55A050();
@@ -188,8 +188,8 @@ class CarPhysics_B0
     EXPORT void DoSkidmarks_55E260();
     EXPORT char_type StepMovementAndCollisions_55E470();
     EXPORT char_type CheckAndHandleCarAndTrailerCollisions_55EB80();
-    EXPORT void ApplyForwardEngineForce_55EC30();
-    EXPORT void ApplyReverseEngineForce_55EF20();
+    EXPORT void ApplyVerticalEdgeNudge_55EC30();
+    EXPORT void ApplyHorizontalEdgeNudge_55EF20();
     EXPORT void ApplyTurningForce_55F020();
     EXPORT char_type ApplyMovementCommand_55F240();
     EXPORT char_type ProcessCollisionAndClampVelocity_55F280();
@@ -215,7 +215,7 @@ class CarPhysics_B0
     EXPORT Fix16_Point GetPointVelocity_561350(Fix16_Point* pPoint);
     EXPORT Fix16_Point ComputePointVelocity_561380(Fix16_Point& point);
     EXPORT Fix16 ApplyDriveForce_5615D0(Fix16_Point& wheel_point, Ang16 angle, Fix16_Point& friction, Fix16 slip_speed);
-    EXPORT bool get_revs_561940();
+    EXPORT bool IsTurboActive_561940();
     EXPORT Fix16 ComputeEngineTorque_561970();
     EXPORT Fix16 ComputeTorqueFromThrottle_561DD0();
 
@@ -228,7 +228,7 @@ class CarPhysics_B0
 
     Fix16 inline_ComputeTorqueFromThrottle_561DD0()
     {
-        if (get_revs_561940() != 0)
+        if (IsTurboActive_561940() != 0)
         {
             return gCarInfo_2C_6FE0E4->field_14_half_thrust +
                 ((field_60_gas_pedal * ((gDamageSpeedFactor_6FE348 * gCarInfo_2C_6FE0E4->field_18_fith_thrust)))) * 2;
@@ -243,7 +243,7 @@ class CarPhysics_B0
     // ComputeTorqueFromThrottle_561DD0 as inlined into ComputeEngineTorque_561970 (out of line operators)
     Fix16 inline_ComputeTorqueFromThrottle_561DD0_ool()
     {
-        if (get_revs_561940() != 0)
+        if (IsTurboActive_561940() != 0)
         {
             return gCarInfo_2C_6FE0E4->field_14_half_thrust.Add_408660(
                 gCarInfo_2C_6FE0E4->field_18_fith_thrust.Multiply_408680(gDamageSpeedFactor_6FE348)
@@ -260,7 +260,7 @@ class CarPhysics_B0
     // ComputeTorqueUnknown_49E8E0 as inlined into ComputeEngineTorque_561970 (out of line operators)
     Fix16 ComputeTorqueUnknown_49E8E0_ool()
     {
-        if (get_revs_561940())
+        if (IsTurboActive_561940())
         {
             return gCarInfo_2C_6FE0E4->field_14_half_thrust.Add_408660(
                 gCarInfo_2C_6FE0E4->field_18_fith_thrust.Multiply_408680(field_60_gas_pedal).MultiplyInt_561DB0(2));
@@ -274,7 +274,7 @@ class CarPhysics_B0
 
     Fix16 CarPhysics_B0::ComputeTorqueUnknown_49E8E0()
     {
-        if (get_revs_561940())
+        if (IsTurboActive_561940())
         {
             return gCarInfo_2C_6FE0E4->field_14_half_thrust + (gCarInfo_2C_6FE0E4->field_18_fith_thrust * this->field_60_gas_pedal) * 2;
         }
@@ -479,7 +479,7 @@ class CarPhysics_B0
     Car_BC* field_5C_pCar;
     Fix16 field_60_gas_pedal;
     Fix16 field_64_brake_pressure;
-    Fix16 field_68_z_pos;
+    Fix16 field_68_air_z_vel;
     Fix16 field_6C_cp3;
     Fix16 field_70_z_vel;
     Fix16 field_74_ang_vel_rad;

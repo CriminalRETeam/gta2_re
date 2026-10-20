@@ -53,7 +53,7 @@ void GameSession_578::LoadDebugSettings_4C53D0()
         strcpy(path, "");
     }
 
-    gGameSession_67E8E0.DebugStr_4C58D0(path);
+    gGameSession_67E8E0.SetSaveFileName_4C58D0(path);
     gGameSession_67E8E0.SetMainStageIdx_4C58F0(0);
     gGameSession_67E8E0.SetStage_4C5900(0);
     gGameSession_67E8E0.SetBonusStage_4C5910(0);
@@ -92,9 +92,9 @@ char* GameSession_578::SetScriptName_4C58B0(char_type* pName)
 }
 
 MATCH_FUNC(0x4C58D0)
-char_type* GameSession_578::DebugStr_4C58D0(char_type* pStr)
+char_type* GameSession_578::SetSaveFileName_4C58D0(char_type* pStr)
 {
-    return strncpy(field_300_debug_str, pStr, 0xFFu);
+    return strncpy(field_300_save_file_name, pStr, 0xFFu);
 }
 
 MATCH_FUNC(0x4C58F0)
@@ -146,9 +146,9 @@ char* GameSession_578::GetScriptName_4C5960()
 }
 
 MATCH_FUNC(0x4C5970)
-char* GameSession_578::GetDebugStr_4C5970()
+char* GameSession_578::GetSaveFileName_4C5970()
 {
-    return field_300_debug_str;
+    return field_300_save_file_name;
 }
 
 MATCH_FUNC(0x4C5980)

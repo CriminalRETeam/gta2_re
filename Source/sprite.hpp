@@ -212,7 +212,7 @@ class Sprite
     inline Fix16_Point get_x_y_late_443580();
     EXPORT void set_xyz_lazy_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT void setxy_lazy_54EC80(Fix16 xpos, Fix16 ypos);
-    EXPORT bool IsControlledByActivePlayer_59E170();
+    EXPORT bool IsControlledByRemotePlayer_59E170();
     EXPORT Ped* GetPed_59E1B0();
     EXPORT s32 IsOnWater_59E1D0();
     EXPORT u8 GetWaterCornerMask_59E250();
@@ -223,7 +223,7 @@ class Sprite
     EXPORT void ApplyScaleToDimensions_59E4C0(Fix16 scale, s32 bScale_Field_C_4C);
     EXPORT char_type CollisionCheck_59E590(Sprite* pOther);
     EXPORT char_type CheckDirectionalSliceCollision_59E680(Fix16 sliceLen, Sprite* pSprite);
-    EXPORT void ResetZCollisionAndDebugBoxes_59E7B0();
+    EXPORT void InvalidateZColAndBBoxes_59E7B0();
     EXPORT Sprite* QuerySpriteCollision_59E7D0(s32 sprite_type);
     EXPORT char_type IsThreatToSearchingPed_59E830();
     EXPORT char_type ShouldCollideWithSprite_59E850(Sprite* pSprite);
@@ -273,7 +273,7 @@ class Sprite
     EXPORT void ResolveCollisionWithCarPedOrObject_5A2A30();
     EXPORT void PoolAllocate();
     EXPORT void PoolDeallocate();
-    EXPORT void DispatchCollisionEvent_5A3100(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 ang);
+    EXPORT void AttachSprite_5A3100(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 ang);
 
     EXPORT void set_angle_4833B0(Ang16 ang);
 
@@ -508,7 +508,7 @@ class Sprite
     void SetDimensions_482A40(Fix16 w, Fix16 h, Fix16 depth)
     {
         field_C_pCollisionShape->SetDimensions_482980(w, h, depth);
-        ResetZCollisionAndDebugBoxes_59E7B0();
+        InvalidateZColAndBBoxes_59E7B0();
     }
 
     // 9.6f 0x433800
@@ -529,7 +529,7 @@ class Sprite
         if (a1 != field_0_rotation)
         {
             field_0_rotation = a1;
-            ResetZCollisionAndDebugBoxes_59E7B0();
+            InvalidateZColAndBBoxes_59E7B0();
         }
     }
 
@@ -541,7 +541,7 @@ class Sprite
             field_14_xy.x = xpos;
             field_14_xy.y = ypos;
             field_1C_zpos = zpos;
-            ResetZCollisionAndDebugBoxes_59E7B0();
+            InvalidateZColAndBBoxes_59E7B0();
         }
     }
 
@@ -554,7 +554,7 @@ class Sprite
             field_14_xy.x = xpos;
             field_14_xy.y = ypos;
             field_1C_zpos = zpos;
-            ResetZCollisionAndDebugBoxes_59E7B0();
+            InvalidateZColAndBBoxes_59E7B0();
         }
     }
 
@@ -565,7 +565,7 @@ class Sprite
         {
             field_14_xy.x = x_target;
             field_14_xy.y = y_target;
-            ResetZCollisionAndDebugBoxes_59E7B0();
+            InvalidateZColAndBBoxes_59E7B0();
         }
     }
 
@@ -575,7 +575,7 @@ class Sprite
         if (field_1C_zpos != zpos)
         {
             field_1C_zpos = zpos;
-            ResetZCollisionAndDebugBoxes_59E7B0();
+            InvalidateZColAndBBoxes_59E7B0();
         }
     }
 
@@ -667,7 +667,7 @@ class SpriteMaskCache_3CC
   public:
     EXPORT SpriteMask_14* FindCachedMask_48F600(u16& sprite_idx, u32* pFlag, u32* pDeltaMask, const u16* pExtra);
     EXPORT SpriteMask_14* FindLeastRecentlyUsed_48F690(u32* pKey);
-    EXPORT void InvalidateMasksByType_48F6E0(u16* sprite_idx);
+    EXPORT void InvalidateMasksBySpriteIdx_48F6E0(u16* sprite_idx);
     EXPORT void InvalidateAllMasks_48F710();
     EXPORT SpriteMaskCache_3CC();
     EXPORT ~SpriteMaskCache_3CC();
@@ -719,8 +719,8 @@ class AttachedSprite_18
 
     Sprite* field_0_pSprite;
     AttachedSprite_18* mpNext;
-    Fix16 field_6_offset_x; // NOTE: Fix16_Point here breaks match of UpdateAttached_5A6910
-    Fix16 field_8_offset_y;
+    Fix16 field_8_offset_x; // NOTE: Fix16_Point here breaks match of UpdateAttached_5A6910
+    Fix16 field_C_offset_y;
     Ang16 field_10_offset_rot;
     s16 field_12;
     s32 field_14_rng;

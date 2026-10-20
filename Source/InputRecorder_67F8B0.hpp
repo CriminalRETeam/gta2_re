@@ -28,7 +28,7 @@ class InputDevices_1
     // TODO: Probably this call
     EXPORT void __stdcall free_input_devices_4987A0();
 
-    EXPORT void read_keyboard_and_gamepad_498CC0();
+    EXPORT void flush_keyboard_and_gamepad_498CC0();
 
     EXPORT void get_registry_controls_498C00();
     EXPORT bool game_pads_init_498BA0();
@@ -80,7 +80,7 @@ class InputRecorder_67F8B0
     EXPORT void set_input_4CDCF0(s32 mask_idx);
     EXPORT void clear_input_4CDD10(s32 mask_idx);
     EXPORT bool should_ignore_input_4CDD80(s32 dinput_key);
-    EXPORT bool should_ignore_input_4CDDF0(s32 dinput_key);
+    EXPORT bool should_record_input_4CDDF0(s32 dinput_key);
     EXPORT void save_replay_record_4CDE20(u32 inputs);
     EXPORT void SaveReplay_4CDED0();
     EXPORT void modify_inputs_4CDF30(s32 match_mask);
@@ -95,7 +95,7 @@ class InputRecorder_67F8B0
     EXPORT u32 get_input_bits_4CEAC0();
     EXPORT void save_replay_inputs_4CED00(s32 input_old, s32 input_new);
     EXPORT void DisplayInputBits_4CED90();
-    EXPORT bool RecOrPlayBackState_4CEDF0();
+    EXPORT bool IsPlayingBack_4CEDF0();
     EXPORT void ShowInput_4CEE10();
 
     // 9.6f 0x44AA60

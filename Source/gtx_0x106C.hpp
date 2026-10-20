@@ -284,7 +284,7 @@ class gtx_0x106C
 
     EXPORT car_info* get_car_info_5AA3B0(u8 idx);
 
-    EXPORT BYTE* get_car_remap_5AA3D0(u8 idx);
+    EXPORT BYTE* get_car_door_data_5AA3D0(u8 idx);
 
     EXPORT sprite_delta* get_delta_5AA3F0(u16 sprite_idx, u8 delta_idx);
 
@@ -362,7 +362,7 @@ class gtx_0x106C
 
     EXPORT void load_font_base_5AB0F0(u32 fonb_chunk_size);
 
-    EXPORT static u16 __stdcall ConvertToVirtualOffsets_5AB1A0(u16* pOffsets, u32 offsetsCount);
+    EXPORT static u16 __stdcall SumCounts_5AB1A0(u16* pOffsets, u32 offsetsCount);
 
     EXPORT static void __stdcall ConvertToVirtualOffsets_5AB1C0(u16* pBuffer, u32 len);
 
@@ -427,12 +427,12 @@ class gtx_0x106C
     object_info* field_24_map_object_info;
     palette_index* field_28_palette_index;
     void* field_2C_physical_palettes;
-    void* field_30_physical_palettes_size;
+    void* field_30_physical_palettes_unaligned;
     BYTE* field_34_sprite_graphics;
     void* field_38_sprite_graphics_unaligned;
     u8* field_3C_tiles;
     tile_array* field_40_tile;
-    void* field_44_aligned_tiles_size;
+    void* field_44_tiles_unaligned;
     delta_store_entry* field_48_delta_store;
     delta_entry* field_4C_delta_index;
     void* field_50_delta_buffer;

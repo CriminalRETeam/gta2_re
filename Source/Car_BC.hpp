@@ -148,13 +148,13 @@ class CarManager_6C
     // 9.6f 0x421960
     inline Ped* GetSpareDriver_421960()
     {
-        return field_4_unused;
+        return field_4_spare_driver;
     }
 
     // 9.6f 0x421970
     inline void SetSpareDriver_421970(Ped* pPed)
     {
-        field_4_unused = pPed;
+        field_4_spare_driver = pPed;
     }
 
     void ToggleTrafficLightState_4C39F0()
@@ -279,7 +279,7 @@ class CarManager_6C
 
     CarRemapRng_2 field_0;
     s16 field_2_unused;
-    Ped* field_4_unused;
+    Ped* field_4_spare_driver;
     char_type field_8_unused;
     u8 field_9_good_car_idx;
     u8 field_A_bad_car_idx;
@@ -328,7 +328,7 @@ class Trailer
 {
   public:
     EXPORT Ped* GetTruckCabDriver_407B80();
-    EXPORT Car_BC* GetCabOrLoadedCar_407B90(Car_BC* pCar);
+    EXPORT Car_BC* GetCabOrTrailerCar_407B90(Car_BC* pCar);
     EXPORT void SetTruckCabAndTrailerCar_407BB0(Car_BC* pTruckCab, Car_BC* pTrailerCar);
     EXPORT Fix16_Point GetHitchPosition_407BD0();
     EXPORT void UpdateTrailerAlignment_407CE0();
@@ -357,7 +357,7 @@ class Trailer
     {
         mpNext = NULL;
         field_8_truck_cab = NULL;
-        field_C_pCarOnTrailer = NULL;
+        field_C_trailer_car = NULL;
         field_0_hitch_angle_clamped = NULL;
         0;
     }
@@ -368,7 +368,7 @@ class Trailer
     char_type field_3_unused;
     Trailer* mpNext;
     Car_BC* field_8_truck_cab;
-    Car_BC* field_C_pCarOnTrailer;
+    Car_BC* field_C_trailer_car;
 };
 
 static inline bool IsArmyModel(s32 idx1)
@@ -514,7 +514,7 @@ class Car_BC
     EXPORT void DoBrake_43A950();
     EXPORT void DoBrakeAndHandbrake_43A970();
     EXPORT void SetDriver(Ped* pNewDriver);
-    EXPORT void ApplyVisualDamage_43A9F0();
+    EXPORT void TriggerCarAlarm_43A9F0();
     EXPORT void SetDummyControl_43AA20();
     EXPORT void StartLightFlashing_43CAC0();
     EXPORT void Deactivate_43AA60();
@@ -528,7 +528,7 @@ class Car_BC
     EXPORT bool IsStoppedWithPavementAtDoor_43B140(u8 target_car_door);
     EXPORT bool IsDoorLockedForPed_43B2B0(Ped* pPed);
     EXPORT Car_Door_10* GetDoor(u8 door_idx);
-    EXPORT char_type GetRemap();
+    EXPORT char_type GetDoorCount_43B360();
     EXPORT void OpenAllDoors_43B380();
     EXPORT void CloseAllDoors_43B3D0();
     EXPORT void GetDoorWorldPos_43B420(u8 door_idx, Fix16* pOutX, Fix16* pOutY);
@@ -562,7 +562,7 @@ class Car_BC
     EXPORT void ResetBottomLeftRoofLight_43C840();
     EXPORT void ActivateEmergencyLights_43C920();
     EXPORT void DeactivateEmergencyLights_43C9D0();
-    EXPORT void SyncEmergencyLightState_43CA80();
+    EXPORT void ToggleEmergencyLights_43CA80();
     EXPORT void StopLightFlashing_43CBE0();
     EXPORT void SetCarGraphic_43CDF0(char_type graphic_idx);
     EXPORT void DamageArea_43CF30(s32 damage_area);
@@ -590,7 +590,7 @@ class Car_BC
     EXPORT char_type OnObjectTouched_43EA60(Object_2C* pObj);
     EXPORT char_type HandleCarHitByObject_43F130(Object_2C* pObj);
     EXPORT Fix16 GetMaxTurnRate_440510();
-    EXPORT char_type GetPassengersCount_440570();
+    EXPORT char_type GetMaxPassengers_440570();
     EXPORT void InitCarAIControl_440590();
     EXPORT void SpawnDriverPed();
     EXPORT void AddGangDriver_440630(Gang_144* pGang);
@@ -622,7 +622,7 @@ class Car_BC
     EXPORT void HonkHorn_4417F0();
     EXPORT void HandleSpecialInput_441800(char_type now_special_pressed);
     EXPORT void DoDetachTrailer_4418A0();
-    EXPORT void DetachTrailerAndUpdateDamage_4418B0();
+    EXPORT void FlashAndDetachTrailer_4418B0();
     EXPORT void HandleUserInput_4418D0(char_type forward_gas_on,
                                     char_type foot_brake_on,
                                     char_type left_on,
@@ -660,8 +660,8 @@ class Car_BC
     EXPORT void UpdateOnCraneHook_443330();
     EXPORT bool UpdateAttachedToSprite_443360(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 rot);
     EXPORT void InitDoors_4435A0();
-    EXPORT s32 GetCrashSoundCategory_4435B0();
-    EXPORT void UpdateSpriteNum_4435F0();
+    EXPORT s32 GetAttachedDrawLayer_4435B0();
+    EXPORT void UpdateDrawLayer_4435F0();
     EXPORT void ApplyExplosionImpulse_443710(Fix16_Point* xy);
     EXPORT static s32 __stdcall GetCarWeaponCost_443A50(s32 weapon_kind);
     EXPORT void BuyCarWeapon_4438C0(s32 weapon_kind);
@@ -717,10 +717,10 @@ class Car_BC
     }
 
     // Inlined 0x421720
-    bool IsOnTrailer_421720()
+    bool IsTrailerCar_421720()
     {
         // We are on the trailer
-        return field_64_pTrailer && field_64_pTrailer->field_C_pCarOnTrailer == this;
+        return field_64_pTrailer && field_64_pTrailer->field_C_trailer_car == this;
     }
 
     Ped* GetDriver_4118B0()
@@ -736,10 +736,9 @@ class Car_BC
     }
 
     // Inlined 0x475E60
-    bool HasOtherCarOnTrailer_475E60(Car_BC* pExcludeCar)
+    bool HasAttachedTrailer_475E60(Car_BC* pTrailerCar)
     {
-        // A car is on the trailer but must not be pExcludeCar
-        return field_64_pTrailer && field_64_pTrailer->field_C_pCarOnTrailer == pExcludeCar && this != pExcludeCar;
+        return field_64_pTrailer && field_64_pTrailer->field_C_trailer_car == pTrailerCar && this != pTrailerCar;
     }
 
     bool IsCargoCarOf_4BA390(Car_BC* pOther) const

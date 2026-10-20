@@ -185,7 +185,7 @@ void Camera_0xBC::DecreaseElevation_435810()
 }
 
 MATCH_FUNC(0x435830)
-void Camera_0xBC::ReturnToDefaultZoom_435830()
+void Camera_0xBC::ResetElevation_435830()
 {
     field_40_target_elevation = kZero_676818;
 }
@@ -648,7 +648,7 @@ void Camera_0xBC::UpdateFollowPedCamera_436540(Ped* pPed)
         {
             zoom = kDefaultZoom_6766D4;
         }
-        Camera_0xBC::ApplyZOffsetToScreenPosition_436860(pPed, xpos, ypos, zposToUse);
+        Camera_0xBC::ApplyPanOffset_436860(pPed, xpos, ypos, zposToUse);
         SetPendingTarget_41E3D0(xpos, ypos, zposToUse, zoom);
     }
 }
@@ -745,7 +745,7 @@ void Camera_0xBC::ResetPanning_436830()
 }
 
 MATCH_FUNC(0x436860)
-void Camera_0xBC::ApplyZOffsetToScreenPosition_436860(Ped* pPed, Fix16& x_pos, Fix16& y_pos, Fix16 z_pos)
+void Camera_0xBC::ApplyPanOffset_436860(Ped* pPed, Fix16& x_pos, Fix16& y_pos, Fix16 z_pos)
 {
     Fix16 depth_scale = (z_pos - pPed->get_cam_z() + Fix16(8)) / field_60_screen_scale.y;
     x_pos += field_48_pan_x * depth_scale;
@@ -757,7 +757,7 @@ Camera_0xBC::Camera_0xBC()
 {
     field_68_screen_px_width = 0;
     field_6C_screen_px_height = 0;
-    ReturnToDefaultZoom_435830();
+    ResetElevation_435830();
     field_98_cur_pos.field_C_zoom = kDefaultZoom_6766D4;
     SetTarget_4397D0(-1, -1, -1, kDefaultZoom_6766D4);
     CommitPendingTarget_41E410();

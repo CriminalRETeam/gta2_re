@@ -658,7 +658,7 @@ class ScriptManager_C1EA8
     EXPORT void LoadSave_511F80(char_type* FileName);
     EXPORT miss2_0x11C* SpawnThread_5120C0(s16 start_cmd, char_type bFlag);
     EXPORT SCR_CMD_HEADER* FindCommandByType_512100(u16 toFind, u16 startOff);
-    EXPORT void Update_512160();
+    EXPORT void StartLevelThread_512160();
     EXPORT void LoadStringTbl_5121E0(u16 tableSize);
     EXPORT void GetScrFileName_5122D0();
     EXPORT void Load_512330(const char_type* pScrName);

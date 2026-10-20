@@ -76,12 +76,12 @@ static inline bool is_car_weapon(s32& weapon_idx)
 }
 
 MATCH_FUNC(0x503200)
-void miss2_0x11C::MissionFailOnArrest_503200()
+void miss2_0x11C::MissionFailOnDeathOrArrest_503200()
 {
     if (gScriptManager_6F8060->field_355_death_arr_state && gScriptManager_6F8060->field_344_mission_flag &&
         *gScriptManager_6F8060->field_344_mission_flag == 1)
     {
-        if (!gGame_0x40_67E008->field_38_local_player->IsBustedNotObjective54_476700() &&
+        if (!gGame_0x40_67E008->field_38_local_player->IsWastedOrBustedNotObjective54_476700() &&
             !gGame_0x40_67E008->field_38_local_player->IsBustedObjective54_476730())
         {
             return;
@@ -91,7 +91,7 @@ void miss2_0x11C::MissionFailOnArrest_503200()
         SCRCMD_RETURN_506B80();
 
         s32 v;
-        if (gGame_0x40_67E008->field_38_local_player->IsBustedNotObjective54_476700())
+        if (gGame_0x40_67E008->field_38_local_player->IsWastedOrBustedNotObjective54_476700())
         {
             v = 0;
         }
@@ -382,8 +382,8 @@ void miss2_0x11C::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
         Ped* pPed;
         if (gScriptManager_6F8060->get_field_C1E2C_475A20())
         {
-            Fix16 weird_y = kFpOneAndHalf_6F76DC + gGameSave_6F78C8.field_54_player_and_world_stats.field_4_y.GetRoundValue();
-            Fix16 weird_x = kFpHalf_6F75F0 + gGameSave_6F78C8.field_54_player_and_world_stats.field_0_x.GetRoundValue();
+            Fix16 weird_y = kFpOneAndHalf_6F76DC + gGameSave_6F78C8.field_54_player_and_world_stats.field_4_y.GetFloorValue();
+            Fix16 weird_x = kFpHalf_6F75F0 + gGameSave_6F78C8.field_54_player_and_world_stats.field_0_x.GetFloorValue();
 
             pPed = gPedManager_6787BC->SpawnPedAt(weird_x,
                                                   weird_y,
@@ -461,7 +461,7 @@ void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER* 
         {
             pPointer->field_8_car->LockPermanently_475C30();
             pPointer->field_8_car->SetFlag4_476270();
-            pPointer->field_8_car->UpdateSpriteNum_4435F0();
+            pPointer->field_8_car->UpdateDrawLayer_4435F0();
         }
     }
     else //  There is a trailer
@@ -478,7 +478,7 @@ void miss2_0x11C::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER* 
                                                                     pCmd->field_C_pos.field_8_z,
                                                                     rotation,
                                                                     pCmd->field_1C_car_id);
-            pPointer->field_8_car->field_50_car_sprite->DispatchCollisionEvent_5A3100(pTrailerCar->field_50_car_sprite,
+            pPointer->field_8_car->field_50_car_sprite->AttachSprite_5A3100(pTrailerCar->field_50_car_sprite,
                                                                                       kFpZero_6F77C0,
                                                                                       kFpZero_6F77C0,
                                                                                       kAng180_6F771E);
@@ -620,7 +620,7 @@ void miss2_0x11C::SCRCMD_CRANE_5041C0(SCR_CRANE_TARGET_DEC* pTargetCmd, SCR_CRAN
             Fix16 fix_rot = Fix16(kDegreesToAng16_6F8044.rValue) * Fix16(pTargetCmd->field_24_target_rotation);
             Ang16 rotation(&fix_rot, 0);
 
-            pTargetCmd->field_8_crane->CraneTargetPickupCheck_480900(pTargetCmd->field_1C_target_pos.field_0_x,
+            pTargetCmd->field_8_crane->SetTarget1_480900(pTargetCmd->field_1C_target_pos.field_0_x,
                                                                      pTargetCmd->field_1C_target_pos.field_4_y,
                                                                      rotation);
         }
@@ -629,7 +629,7 @@ void miss2_0x11C::SCRCMD_CRANE_5041C0(SCR_CRANE_TARGET_DEC* pTargetCmd, SCR_CRAN
             Fix16 fix_rot = Fix16(kDegreesToAng16_6F8044.rValue) * Fix16(pTargetCmd->field_24_target_rotation);
             Ang16 rotation(&fix_rot, 0);
 
-            pTargetCmd->field_8_crane->ComputePickupAlignment_480B60(pTargetCmd->field_1C_target_pos.field_0_x,
+            pTargetCmd->field_8_crane->SetTarget2_480B60(pTargetCmd->field_1C_target_pos.field_0_x,
                                                                      pTargetCmd->field_1C_target_pos.field_4_y,
                                                                      rotation);
         }
@@ -639,13 +639,13 @@ void miss2_0x11C::SCRCMD_CRANE_5041C0(SCR_CRANE_TARGET_DEC* pTargetCmd, SCR_CRAN
         Ang16 rotation;
         rotation.ConvertAndMultiply(&kDegreesToAng16_6F8044, (Ang16*)&pBasicCmd->field_24_target_rotation);
         rotation.Normalize_406C20();
-        pBasicCmd->field_8_crane->CraneTargetPickupCheck_480900(pBasicCmd->field_1C_target_pos.field_0_x,
+        pBasicCmd->field_8_crane->SetTarget1_480900(pBasicCmd->field_1C_target_pos.field_0_x,
                                                                 pBasicCmd->field_1C_target_pos.field_4_y,
                                                                 rotation);
 
         rotation.ConvertAndMultiply(&kDegreesToAng16_6F8044, (Ang16*)&pBasicCmd->field_26_second_rotation);
         rotation.Normalize_406C20();
-        pBasicCmd->field_8_crane->ComputePickupAlignment_480B60(pBasicCmd->field_28_second_pos.field_0_x,
+        pBasicCmd->field_8_crane->SetTarget2_480B60(pBasicCmd->field_28_second_pos.field_0_x,
                                                                 pBasicCmd->field_28_second_pos.field_4_y,
                                                                 rotation);
     }
@@ -660,7 +660,7 @@ void miss2_0x11C::SCRCMD_CRANE_5041C0(SCR_CRANE_TARGET_DEC* pTargetCmd, SCR_CRAN
     if (pTargetCmd->field_C_homecrane)
     {
         SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pTargetCmd->field_C_homecrane);
-        pBasicCmd->field_8_crane->set_maybe_homecrane_476900(pPointer->field_8_crane);
+        pBasicCmd->field_8_crane->SetHomeCrane_476900(pPointer->field_8_crane);
     }
 }
 
@@ -779,7 +779,7 @@ void miss2_0x11C::SCRCMD_THREAD_DECLARE5_504710(SCR_CHAR_AREA_ANY* pCmd)
         switch (pCmd->field_2_type)
         {
             case SCRCMD_THREAD_DECLARE5:
-                pCmd->field_26_result = gCarThreadTriggers_214_705F20->AddThreadTrigger_5C86C0(4,
+                pCmd->field_26_trigger_idx = gCarThreadTriggers_214_705F20->AddThreadTrigger_5C86C0(4,
                                                                     2,
                                                                     (SCR_THREAD*)pCmd,
                                                                     pCmd->field_10_x,
@@ -790,7 +790,7 @@ void miss2_0x11C::SCRCMD_THREAD_DECLARE5_504710(SCR_CHAR_AREA_ANY* pCmd)
 
                 break;
             case SCRCMD_CHAR_AREA_ANY_MEANS:
-                pCmd->field_26_result = gCarThreadTriggers_214_705F20->AddThreadTrigger_5C86C0(3,
+                pCmd->field_26_trigger_idx = gCarThreadTriggers_214_705F20->AddThreadTrigger_5C86C0(3,
                                                                     2,
                                                                     (SCR_THREAD*)pCmd,
                                                                     pCmd->field_10_x,
@@ -1050,11 +1050,11 @@ void miss2_0x11C::SCRCMD_DOOR_DECLARE_D2_S2_504B80(SCR_DOOR_DATA_DEC* pCmd)
     switch (pCmd->field_11_open_type)
     {
         case SCR_DOOR_OPENTYPES::any_player:
-            //pCmd->field_8_door->field_20_state = 1;
+            //pCmd->field_8_door->field_20_open_type = 1;
             pCmd->field_8_door->set_field_20(door_open_type::any_player);
             break;
         case SCR_DOOR_OPENTYPES::any_car:
-            //pCmd->field_8_door->field_20_state = 2;
+            //pCmd->field_8_door->field_20_open_type = 2;
             pCmd->field_8_door->set_field_20(door_open_type::any_car);
             break;
         case SCR_DOOR_OPENTYPES::one_car:
@@ -1341,7 +1341,7 @@ void miss2_0x11C::DisableThread_505790(u16 idx)
             break;
         case SCRCMD_THREAD_DECLARE5:
         case SCRCMD_CHAR_AREA_ANY_MEANS:
-            gCarThreadTriggers_214_705F20->SetTriggerEnableState_4768C0(((SCR_CHAR_AREA_ANY*)pCmd)->field_26_result, 2);
+            gCarThreadTriggers_214_705F20->SetTriggerEnableState_4768C0(((SCR_CHAR_AREA_ANY*)pCmd)->field_26_trigger_idx, 2);
             break;
         case SCRCMD_THREAD_DECLARE2:
         {
@@ -3406,7 +3406,7 @@ void miss2_0x11C::EnableThread_50A9E0(u16 idx)
 
             if (pAny->field_27_flag)
             {
-                gCarThreadTriggers_214_705F20->SetTriggerEnableState_4768C0(pAny->field_26_result, 1);
+                gCarThreadTriggers_214_705F20->SetTriggerEnableState_4768C0(pAny->field_26_trigger_idx, 1);
             }
             else
             {
@@ -3674,7 +3674,7 @@ void miss2_0x11C::SCRCMD_STOP_PHONE_RING_50B360()
         {
             gScriptManager_6F8060->RemovePhoneThread_512A70(pHeader->field_0_ped_id, pHeader->field_4_obj_f14);
         }
-        pPointer->field_8_obj->PoolGiveAndSetDone_5291E0(163);
+        pPointer->field_8_obj->PoolGiveAndQueueObjectType_5291E0(163);
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
 }
@@ -3748,7 +3748,7 @@ void miss2_0x11C::SCRCMD_CHAR_TO_DRIVE_CAR_50B4F0()
         }
         else
         {
-            pPtrPed->field_8_char->EnterCarAsDriver(pPtrCar->field_8_car);
+            pPtrPed->field_8_char->EnterCarByBackDoor_45C7A0(pPtrCar->field_8_car);
         }
     }
     miss2_0x11C::Next_503620(gBasePtr_6F8070);
@@ -3953,7 +3953,7 @@ void miss2_0x11C::SCRCMD_ALT_WANTED_LEVEL_50BA70()
 
     if (gBasePtr_6F8070->field_2_type == SCRCMD_ALTER_WANTED_LEVEL)
     {
-        if (!pPointer->field_8_char->WantedStartCountLessThan_46F100(kGlobal->field_C_wanted_level))
+        if (!pPointer->field_8_char->WantedStarCountGreaterThan_46F100(kGlobal->field_C_wanted_level))
         {
             pPointer->field_8_char->set_wanted_star_count_46F070(kGlobal->field_C_wanted_level);
         }
@@ -3997,7 +3997,7 @@ void miss2_0x11C::SCRCMD_SEND_CAR_TO_BLOCK_50BB80()
 }
 
 MATCH_FUNC(0x50bbd0)
-void miss2_0x11C::SCRCMD_SET_CHAR_BRAVERY_50BBD0()
+void miss2_0x11C::SCRCMD_THREAT_SEARCH_REACT_ADD_GROUP_50BBD0()
 {
     SCR_CHAR_OBJECTIVE* pCmd = (SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070;
     SCR_POINTER* pScrPtr = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_char_idx);
@@ -4131,7 +4131,7 @@ void miss2_0x11C::SCRCMD_CHECK_MAX_PASS_50BED0()
     SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
     Car_BC* pCar = pPointer->field_8_char->get_car_416B60();
 
-    if (pCar && (u8)pCar->GetPassengersCount_440570() >= pCmd->field_A_signed_2)
+    if (pCar && (u8)pCar->GetMaxPassengers_440570() >= pCmd->field_A_signed_2)
     {
         field_8_cond_result = true;
     }
@@ -4187,7 +4187,7 @@ void miss2_0x11C::SCRCMD_SET_PHONE_DEAD_50C040()
     u16* pIndex = &gBasePtr_6F8070->field_8_index;
     SCR_POINTER* pScrPtr = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(*pIndex);
 
-    pScrPtr->field_8_obj->PoolGiveAndSetDone_5291E0(174);
+    pScrPtr->field_8_obj->PoolGiveAndQueueObjectType_5291E0(174);
     gScriptManager_6F8060->RemovePhoneThreadByObjId_512AA0(pScrPtr->field_8_obj->field_14_id);
     u16* pPhoneIds = &gScriptManager_6F8060->field_C1E32_phone_ids[0];
 
@@ -4218,7 +4218,7 @@ void miss2_0x11C::SCRCMD_IS_TRAILER_ATT_50C0E0()
     {
         pCar = pParam1->field_8_car;
 
-        if (pCar->IsOnTrailer_421720() || pParam1->field_8_car->IsTrailerCab_41E460())
+        if (pCar->IsTrailerCar_421720() || pParam1->field_8_car->IsTrailerCab_41E460())
         {
             field_8_cond_result = true;
         }
@@ -4231,7 +4231,7 @@ void miss2_0x11C::SCRCMD_IS_TRAILER_ATT_50C0E0()
     {
         pCar = pParam2->field_8_car;
 
-        if (pParam1->field_8_car->HasOtherCarOnTrailer_475E60(pCar))
+        if (pParam1->field_8_car->HasAttachedTrailer_475E60(pCar))
         {
             field_8_cond_result = true;
         }
@@ -4520,7 +4520,7 @@ void miss2_0x11C::SCRCMD_UPDATE_DOOR_50C7D0()
 
     SCR_POINTER* pTarget;
 
-    switch (pDoorPointer->field_8_door->get_state_476A90())
+    switch (pDoorPointer->field_8_door->get_open_type_476A90())
     {
         case 5:
             pTarget = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_target_idx);
@@ -4770,7 +4770,7 @@ void miss2_0x11C::SCRCMD_SWITCH_GENERATOR1_50CCB0()
     u16 killTimer = pCmd->field_A_unsigned_2;
     Generator_2C* pGen = pPointer->field_8_generator;
     pGen->Activate_4C1A70();
-    pGen->field_1E_kill_timer = killTimer;
+    pGen->field_1E_spawns_left = killTimer;
 
     s32 type = pPointer->field_8_generator->field_0_gen_type;
 
@@ -4796,7 +4796,7 @@ void miss2_0x11C::SCRCMD_SWITCH_GENERATOR3_50CD30()
     Generator_2C* pGen = pPointer->field_8_generator;
     u16 killTimer = pCmd->field_A_unsigned_2;
     pGen->Activate_4C1A70();
-    pGen->field_1E_kill_timer = killTimer;
+    pGen->field_1E_spawns_left = killTimer;
 
     s16 type = pCmd->field_C_signed_3;
 
@@ -5038,7 +5038,7 @@ void miss2_0x11C::SCRCMD_LAUNCH_MISSION_50D2E0()
 MATCH_FUNC(0x50d340)
 void miss2_0x11C::SCRCMD_SAVE_GAME_50D340()
 {
-    char* pSaveFileName = gGameSession_67E8E0.GetDebugStr_4C5970();
+    char* pSaveFileName = gGameSession_67E8E0.GetSaveFileName_4C5970();
     gScriptManager_6F8060->SaveGame_511E10(pSaveFileName);
     Next_503620(gBasePtr_6F8070);
 }
@@ -5068,7 +5068,7 @@ void miss2_0x11C::SCRCMD_DO_SAVE_GAME_50D3C0()
                     // Hallelluya! Another soul saved!
                     gRoot_sound_66B038.PlayVoice_40F090(voice_line::hallelujah_61);
                     gGame_0x40_67E008->field_38_local_player->AddCash_421990(-50000);
-                    gScriptManager_6F8060->SaveGame_511E10(gGameSession_67E8E0.GetDebugStr_4C5970());
+                    gScriptManager_6F8060->SaveGame_511E10(gGameSession_67E8E0.GetSaveFileName_4C5970());
                     sprintf(gTmpBuffer_67C598, "svdone");
                 }
                 else
@@ -5710,7 +5710,7 @@ void miss2_0x11C::SCRCMD_PUT_CAR_ON_TRAILER_50E900()
         if (pDstCar->IsTrailerCab_41E460())
         {
             // put car on the trailer attached to the truck cab
-            pDstCar->GetSprite_440840()->DispatchCollisionEvent_5A3100(pCarPointer->field_8_car->field_50_car_sprite,
+            pDstCar->GetSprite_440840()->AttachSprite_5A3100(pCarPointer->field_8_car->field_50_car_sprite,
                                                                        kFpZero_6F77C0,
                                                                        kFpZero_6F77C0,
                                                                        kAng180_6F771E);
@@ -5718,7 +5718,7 @@ void miss2_0x11C::SCRCMD_PUT_CAR_ON_TRAILER_50E900()
         else
         {
             // put car directly on the trailer
-            pDstCar->field_50_car_sprite->DispatchCollisionEvent_5A3100(pCarPointer->field_8_car->field_50_car_sprite,
+            pDstCar->field_50_car_sprite->AttachSprite_5A3100(pCarPointer->field_8_car->field_50_car_sprite,
                                                                         kFpZero_6F77C0,
                                                                         kFpZero_6F77C0,
                                                                         kAng180_6F771E);
@@ -6067,12 +6067,12 @@ void miss2_0x11C::SCRCMD_DECIDE_POWERUP_50F150()
             if (kDecidePowerupGenTypes_6212F0[i] < 91)
             {
                 pGen->Activate_4C1A70();
-                pGen->field_1E_kill_timer = 3;
+                pGen->field_1E_spawns_left = 3;
             }
             else
             {
                 pGen->Activate_4C1A70();
-                pGen->field_1E_kill_timer = 1;
+                pGen->field_1E_spawns_left = 1;
             }
 
             break;
@@ -6085,7 +6085,7 @@ void miss2_0x11C::SCRCMD_DECIDE_POWERUP_50F150()
     {
         Generator_2C* pGen = pParam2->field_8_generator;
         pGen->Activate_4C1A70();
-        pGen->field_1E_kill_timer = 3;
+        pGen->field_1E_spawns_left = 3;
         pParam2->field_8_generator->field_0_gen_type = 65;
     }
 
@@ -7071,7 +7071,7 @@ void miss2_0x11C::PreExecOpCode_5108D0()
             case SCRCMD_ADD_GROUP:
             case SCRCMD_SET_CHAR_SHOOT:
             case SCRCMD_SET_CHAR_BRAVERY:
-                SCRCMD_SET_CHAR_BRAVERY_50BBD0();
+                SCRCMD_THREAT_SEARCH_REACT_ADD_GROUP_50BBD0();
                 break;
             case SCRCMD_CHANGE_CAR_REMAP:
                 SCRCMD_CHANGE_CAR_REMAP_50A570();
@@ -7633,7 +7633,7 @@ char_type miss2_0x11C::PoolUpdate()
         sprintf(gTmpBuffer_67C598, "Miss2: accessing nonexistant mission line. Current uid: %d", field_4_next_cmd);
     }
 
-    miss2_0x11C::MissionFailOnArrest_503200();
+    miss2_0x11C::MissionFailOnDeathOrArrest_503200();
 
     if (BasePointer_512770->field_2_type == SCRCMD_START_EXEC)
     {

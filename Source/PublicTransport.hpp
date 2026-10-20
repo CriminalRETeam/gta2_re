@@ -63,7 +63,7 @@ class TrainStation_34
     gmp_map_zone* field_10_pZone;
     s32 field_14_used;
     Train_58* field_18_pStoppedTrain; // train stopped at the station?
-    s32 field_1C_bOccupied;
+    s32 field_1C_platform_state;
     TrainStation_34* field_20_next_station;
     u8 field_24_train_wagons[10];
     char_type field_2E_wagons_number;
@@ -107,7 +107,7 @@ class PublicTransport_181C
     EXPORT Car_BC* GetLeadTrainCar_57B540(Car_BC* pCar);
     EXPORT Train_58* GetTrainFromCar_57B5C0(Car_BC* pToFind);
     EXPORT Train_58* GetTrainFromCarExcludingLeadCar_57B6A0(Car_BC* pToFind);
-    EXPORT bool AreCarsInDifferentTrains_57B740(Car_BC* pCar1, Car_BC* pCar2);
+    EXPORT bool AreTrainsOnDifferentTracks_57B740(Car_BC* pCar1, Car_BC* pCar2);
     EXPORT PublicTransport_181C();
     EXPORT ~PublicTransport_181C();
 

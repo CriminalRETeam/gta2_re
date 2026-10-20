@@ -26,7 +26,7 @@ Door_38::Door_38()
     field_4_secondary_door_data = 0;
     field_8_door_obj = 0;
     field_C_trigger_obj = 0;
-    field_20_state = 0;
+    field_20_open_type = 0;
     field_24_close_type = 0;
     field_10_model_id = 0;
     field_18 = 0;
@@ -66,7 +66,7 @@ MATCH_FUNC(0x49c6d0)
 bool Door_38::CanOpen_49C6D0(Car_BC* pCar)
 {
     bool ret = false;
-    switch (field_20_state)
+    switch (field_20_open_type)
     {
         case door_open_type::any_player:
             if (!pCar->IsDrivenByPlayer_4118D0())
@@ -133,7 +133,7 @@ MATCH_FUNC(0x49c7f0)
 bool Door_38::CanOpenForPed_49C7F0(Ped* pPed)
 {
     bool ret = false;
-    switch (field_20_state)
+    switch (field_20_open_type)
     {
         case 1:
             if (pPed->is_player_41B0A0())

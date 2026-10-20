@@ -52,7 +52,7 @@ bool PathFinder_2FD4::CanMoveInDirection_554080(s32 path_direction)
     if (field_25_xpos > 1u && field_25_xpos < 254u && field_26_ypos > 1u && field_26_ypos < 254u)
     {
         bool result =
-            gMap_0x370_6F6268->CanMoveOntoSlopeTile_4E0130(field_25_xpos, field_26_ypos, field_27_zpos, path_direction, &gPathFinder_SlopeZDelta_6FDEEC, 1) ==
+            gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(field_25_xpos, field_26_ypos, field_27_zpos, path_direction, &gPathFinder_SlopeZDelta_6FDEEC, 1) ==
             0;
         return result;
     }
@@ -60,16 +60,16 @@ bool PathFinder_2FD4::CanMoveInDirection_554080(s32 path_direction)
 }
 
 MATCH_FUNC(0x5540e0)
-char_type PathFinder_2FD4::TestDiagonalMove_5540E0(u8 curr_xpos, u8 curr_ypos, u8 curr_zpos, u8 desired_xpos, u8 desired_ypos)
+char_type PathFinder_2FD4::TestMoveToAdjacentTile_5540E0(u8 curr_xpos, u8 curr_ypos, u8 curr_zpos, u8 desired_xpos, u8 desired_ypos)
 {
     field_25_xpos = curr_xpos;
     field_26_ypos = curr_ypos;
     field_27_zpos = curr_zpos;
-    return CanMoveDiagonally_554110(desired_xpos, desired_ypos);
+    return CanMoveToAdjacentTile_554110(desired_xpos, desired_ypos);
 }
 
 MATCH_FUNC(0x554110)
-char_type PathFinder_2FD4::CanMoveDiagonally_554110(u8 desired_xpos, u8 desired_ypos)
+char_type PathFinder_2FD4::CanMoveToAdjacentTile_554110(u8 desired_xpos, u8 desired_ypos)
 {
 
     gPathFinder_SlopeZDelta_6FDEEC = 0;
@@ -109,7 +109,7 @@ char_type PathFinder_2FD4::CanMoveDiagonally_554110(u8 desired_xpos, u8 desired_
 
                 if (CanMoveInDirection_554080(path_direction::down_2) && CanMoveInDirection_554080(path_direction::right_3))
                 {
-                    if (gMap_0x370_6F6268->CanMoveOntoSlopeTile_4E0130(this->field_25_xpos + 1,
+                    if (gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(this->field_25_xpos + 1,
                                                                        this->field_26_ypos,
                                                                        this->field_27_zpos,
                                                                        path_direction::down_2,
@@ -118,7 +118,7 @@ char_type PathFinder_2FD4::CanMoveDiagonally_554110(u8 desired_xpos, u8 desired_
                     {
                         return false;
                     }
-                    return gMap_0x370_6F6268->CanMoveOntoSlopeTile_4E0130(this->field_25_xpos,
+                    return gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(this->field_25_xpos,
                                                                               this->field_26_ypos + 1,
                                                                               this->field_27_zpos,
                                                                               path_direction::right_3,
@@ -144,13 +144,13 @@ char_type PathFinder_2FD4::CanMoveDiagonally_554110(u8 desired_xpos, u8 desired_
             }
 
             if (gMap_0x370_6F6268
-                    ->CanMoveOntoSlopeTile_4E0130(this->field_25_xpos + 1, this->field_26_ypos, this->field_27_zpos, path_direction::up_1, &gPathFinder_SlopeZDelta_6FDEEC, 1))
+                    ->IsMoveOntoSlopeTileBlocked_4E0130(this->field_25_xpos + 1, this->field_26_ypos, this->field_27_zpos, path_direction::up_1, &gPathFinder_SlopeZDelta_6FDEEC, 1))
             {
                 return false;
             }
             //v29 = 3;
             //LABEL_73:
-            return gMap_0x370_6F6268->CanMoveOntoSlopeTile_4E0130(this->field_25_xpos,
+            return gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(this->field_25_xpos,
                                                                       this->field_26_ypos - 1,
                                                                       this->field_27_zpos,
                                                                       path_direction::right_3,
@@ -176,12 +176,12 @@ char_type PathFinder_2FD4::CanMoveDiagonally_554110(u8 desired_xpos, u8 desired_
             }
 
             if (gMap_0x370_6F6268
-                    ->CanMoveOntoSlopeTile_4E0130(this->field_25_xpos - 1, this->field_26_ypos, this->field_27_zpos, path_direction::down_2, &gPathFinder_SlopeZDelta_6FDEEC, 1))
+                    ->IsMoveOntoSlopeTileBlocked_4E0130(this->field_25_xpos - 1, this->field_26_ypos, this->field_27_zpos, path_direction::down_2, &gPathFinder_SlopeZDelta_6FDEEC, 1))
             {
                 return false;
             }
             return gMap_0x370_6F6268
-                       ->CanMoveOntoSlopeTile_4E0130(this->field_25_xpos, this->field_26_ypos + 1, this->field_27_zpos, path_direction::left_4, &gPathFinder_SlopeZDelta_6FDEEC, 1) ? false : true;
+                       ->IsMoveOntoSlopeTileBlocked_4E0130(this->field_25_xpos, this->field_26_ypos + 1, this->field_27_zpos, path_direction::left_4, &gPathFinder_SlopeZDelta_6FDEEC, 1) ? false : true;
         }
 
         if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(this->field_25_xpos, this->field_26_ypos - 1, this->field_27_zpos))
@@ -200,13 +200,13 @@ char_type PathFinder_2FD4::CanMoveDiagonally_554110(u8 desired_xpos, u8 desired_
         }
 
         if (gMap_0x370_6F6268
-                ->CanMoveOntoSlopeTile_4E0130(this->field_25_xpos - 1, this->field_26_ypos, this->field_27_zpos, path_direction::up_1, &gPathFinder_SlopeZDelta_6FDEEC, 1))
+                ->IsMoveOntoSlopeTileBlocked_4E0130(this->field_25_xpos - 1, this->field_26_ypos, this->field_27_zpos, path_direction::up_1, &gPathFinder_SlopeZDelta_6FDEEC, 1))
         {
             return false;
         }
         //v29 = 4;
         //goto LABEL_73;
-        return gMap_0x370_6F6268->CanMoveOntoSlopeTile_4E0130(this->field_25_xpos,
+        return gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(this->field_25_xpos,
                                                                   this->field_26_ypos - 1,
                                                                   this->field_27_zpos,
                                                                   path_direction::left_4,
@@ -437,7 +437,7 @@ bool PathFinder_2FD4::ProcessGridCell_5548C0()
     char_type cell_result = PathFinder_2FD4::EvaluateGridCell_554640();
     if (cell_result == 1)
     {
-        if (PathFinder_2FD4::CanMoveDiagonally_554110(field_20_xpos, field_21_ypos))
+        if (PathFinder_2FD4::CanMoveToAdjacentTile_554110(field_20_xpos, field_21_ypos))
         {
             PathFinder_2FD4::AddGridCell_554710();
         }
@@ -511,7 +511,7 @@ void PathFinder_2FD4::RestoreSavedPosition_554920()
 }
 
 MATCH_FUNC(0x554a90)
-s32 PathFinder_2FD4::IsFirstPassenger_554A90(Ped* pPed)
+s32 PathFinder_2FD4::IsFirstInPathQueue_554A90(Ped* pPed)
 {
     return field_3C_ped_list.field_0_pFirstPed->field_0_char_ped == pPed;
 }

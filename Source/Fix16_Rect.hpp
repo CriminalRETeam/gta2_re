@@ -134,7 +134,7 @@ class Fix16_Rect
 
     EXPORT void DoSetCurrentRect_59DD60();
     EXPORT bool IntersectsSpriteRenderingRect_59DDF0(Sprite* pSprite);
-    EXPORT char_type CanRectEnterMovementRegion_59DE80();
+    EXPORT char_type IsRectBlockedByMap_59DE80();
     EXPORT void ExpandToIncludePoint_59DEE0(Fix16 x, Fix16 y);
     EXPORT bool RectOverlapsZone_59DF20(u8 zone_type);
     EXPORT bool EveryTileMatchesArrowType_59DFB0(s32 arrow_type);

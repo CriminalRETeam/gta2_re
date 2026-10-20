@@ -150,10 +150,10 @@ void Explosion_30::EmitRandomDiagonalParticle_540A40()
             pParticle->field_38_state = 6;
             pParticle->field_2C_counter = 100;
             pParticle->field_2E = 100;
-            pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
-            pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette);
-            pParticle->field_30_pNext->set_xyz_lazy_420600(field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y, field_14_pObj2C->field_4->field_1C_zpos);
-            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
+            pParticle->field_30_pOwnSprite->SetType_4206F0(sprite_types_enum::code_obj2_8);
+            pParticle->field_30_pOwnSprite->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_base_sprite_idx);
+            pParticle->field_30_pOwnSprite->set_xyz_lazy_420600(field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y, field_14_pObj2C->field_4->field_1C_zpos);
+            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pOwnSprite);
             this->field_18_particle_cooldown = gRng_6F6784.get_int_4F7AE0(5);
         }
     }
@@ -190,12 +190,12 @@ void Explosion_30::EmitFireTrail_3_12_540D30(Ang16 ang, Fix16 speed)
             pParticle->field_46_sub_state = 0;
             pParticle->field_2C_counter = 32;
             pParticle->field_2E = 32;
-            pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
+            pParticle->field_30_pOwnSprite->SetType_4206F0(sprite_types_enum::code_obj2_8);
             pParticle->field_38_state = 3;
-            pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 96);
-            pParticle->field_30_pNext->SetNoLighting_4337F0();
-            pParticle->field_30_pNext->set_xyz_lazy_420600(field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y, field_14_pObj2C->field_4->field_1C_zpos);
-            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
+            pParticle->field_30_pOwnSprite->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_base_sprite_idx + 96);
+            pParticle->field_30_pOwnSprite->SetNoLighting_4337F0();
+            pParticle->field_30_pOwnSprite->set_xyz_lazy_420600(field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y, field_14_pObj2C->field_4->field_1C_zpos);
+            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pOwnSprite);
             this->field_18_particle_cooldown = gRng_6F6784.get_int_4F7AE0(2);
         }
     }
@@ -233,12 +233,12 @@ void Explosion_30::EmitFireTrail_4_540F90(Ang16 ang, Fix16 speed)
             pParticle->field_46_sub_state = 0;
             pParticle->field_2C_counter = 32;
             pParticle->field_2E = 32;
-            pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
+            pParticle->field_30_pOwnSprite->SetType_4206F0(sprite_types_enum::code_obj2_8);
             pParticle->field_38_state = 4;
-            pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette);
-            pParticle->field_30_pNext->SetNoLighting_4337F0();
-            pParticle->field_30_pNext->set_xyz_lazy_420600(field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y, field_14_pObj2C->field_4->field_1C_zpos);
-            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
+            pParticle->field_30_pOwnSprite->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_base_sprite_idx);
+            pParticle->field_30_pOwnSprite->SetNoLighting_4337F0();
+            pParticle->field_30_pOwnSprite->set_xyz_lazy_420600(field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y, field_14_pObj2C->field_4->field_1C_zpos);
+            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pOwnSprite);
             this->field_18_particle_cooldown = gRng_6F6784.get_int_4F7AE0(2);
         }
     }
@@ -275,12 +275,12 @@ void Explosion_30::EmitFireTrail_13_14_5411E0(Ang16 ang, Fix16 speed)
             pParticle->field_46_sub_state = 0;
             pParticle->field_2C_counter = 32;
             pParticle->field_2E = 32;
-            pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
+            pParticle->field_30_pOwnSprite->SetType_4206F0(sprite_types_enum::code_obj2_8);
             pParticle->field_38_state = 36;
-            pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette);
-            pParticle->field_30_pNext->SetNoLighting_4337F0();
-            pParticle->field_30_pNext->set_xyz_lazy_420600(field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y, field_14_pObj2C->field_4->field_1C_zpos);
-            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
+            pParticle->field_30_pOwnSprite->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_base_sprite_idx);
+            pParticle->field_30_pOwnSprite->SetNoLighting_4337F0();
+            pParticle->field_30_pOwnSprite->set_xyz_lazy_420600(field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y, field_14_pObj2C->field_4->field_1C_zpos);
+            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pOwnSprite);
             this->field_18_particle_cooldown = gRng_6F6784.get_int_4F7AE0(2);
         }
     }
@@ -320,16 +320,16 @@ void Explosion_30::EmitFireTrail_5_541430(Ang16 ang, Fix16 speed)
             pParticle->field_46_sub_state = 0;
             pParticle->field_2C_counter = 32;
             pParticle->field_2E = 32;
-            pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
+            pParticle->field_30_pOwnSprite->SetType_4206F0(sprite_types_enum::code_obj2_8);
             pParticle->field_38_state = 5;
-            pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 96);
-            pParticle->field_30_pNext->set_xyz_lazy_420600(field_14_pObj2C->field_4->field_14_xy.x,
+            pParticle->field_30_pOwnSprite->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_base_sprite_idx + 96);
+            pParticle->field_30_pOwnSprite->set_xyz_lazy_420600(field_14_pObj2C->field_4->field_14_xy.x,
                                                       field_14_pObj2C->field_4->field_14_xy.y,
                                                       field_14_pObj2C->field_4->field_1C_zpos);
-            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
+            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pOwnSprite);
             this->field_18_particle_cooldown = gRng_6F6784.get_int_4F7AE0(2);
-            pParticle->field_30_pNext->SetBlendAndAlpha_4337D0(2, 20);
-            pParticle->field_30_pNext->SetNoLighting_4337F0();
+            pParticle->field_30_pOwnSprite->SetBlendAndAlpha_4337D0(2, 20);
+            pParticle->field_30_pOwnSprite->SetNoLighting_4337F0();
         }
     }
     else
@@ -401,14 +401,14 @@ void Explosion_30::SpawnFlashParticle_541760()
             Particle_4C* pNew = gParticle_4C_Pool_6FD5E4->Allocate();
             pNew->field_46_sub_state = 0;
             pNew->field_38_state = 29;
-            pNew->field_30_pNext = gSpritePool_703818->get_new_sprite();
-            pNew->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
-            pNew->field_30_pNext->SetNoLighting_4337F0();
-            pNew->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 37);
-            pNew->field_30_pNext->set_xyz_lazy_420600(field_14_pObj2C->field_4->field_14_xy.x,
+            pNew->field_30_pOwnSprite = gSpritePool_703818->get_new_sprite();
+            pNew->field_30_pOwnSprite->SetType_4206F0(sprite_types_enum::code_obj2_8);
+            pNew->field_30_pOwnSprite->SetNoLighting_4337F0();
+            pNew->field_30_pOwnSprite->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_base_sprite_idx + 37);
+            pNew->field_30_pOwnSprite->set_xyz_lazy_420600(field_14_pObj2C->field_4->field_14_xy.x,
                                                       field_14_pObj2C->field_4->field_14_xy.y,
                                                       field_14_pObj2C->field_4->field_1C_zpos);
-            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pNew->field_30_pNext);
+            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pNew->field_30_pOwnSprite);
             pNew->field_48_timer = 10;
         }
     }
@@ -536,7 +536,7 @@ void Explosion_30::ApplyBlastDamage_541850(u16 timerVal)
                             }
                             else
                             {
-                                pCar->ApplyVisualDamage_43A9F0();
+                                pCar->TriggerCarAlarm_43A9F0();
                             }
                         }
                     }
@@ -586,12 +586,12 @@ void Explosion_30::EmitExplosion_18_33_541D60()
                 Particle_4C* pParticle = gParticle_4C_Pool_6FD5E4->Allocate();
                 pParticle->field_46_sub_state = 0;
                 pParticle->field_38_state = 18;
-                pParticle->field_30_pNext = gSpritePool_703818->get_new_sprite();
-                pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
-                pParticle->field_30_pNext->SetNoLighting_4337F0();
-                pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 20);
-                pParticle->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
-                gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
+                pParticle->field_30_pOwnSprite = gSpritePool_703818->get_new_sprite();
+                pParticle->field_30_pOwnSprite->SetType_4206F0(sprite_types_enum::code_obj2_8);
+                pParticle->field_30_pOwnSprite->SetNoLighting_4337F0();
+                pParticle->field_30_pOwnSprite->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_base_sprite_idx + 20);
+                pParticle->field_30_pOwnSprite->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
+                gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pOwnSprite);
                 pParticle->field_48_timer = 1;
             }
             else
@@ -602,13 +602,13 @@ void Explosion_30::EmitExplosion_18_33_541D60()
                 Particle_4C* pParticle = gParticle_4C_Pool_6FD5E4->Allocate();
                 pParticle->field_46_sub_state = 0;
                 pParticle->field_38_state = 18;
-                pParticle->field_30_pNext = gSpritePool_703818->get_new_sprite();
-                pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
-                pParticle->field_30_pNext->SetNoLighting_4337F0();
-                pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 20);
-                pParticle->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
-                gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
-                pParticle->field_30_pNext->ApplyScaleToDimensions_59E4C0(kFP16Quarter_6FD2EC, 0);
+                pParticle->field_30_pOwnSprite = gSpritePool_703818->get_new_sprite();
+                pParticle->field_30_pOwnSprite->SetType_4206F0(sprite_types_enum::code_obj2_8);
+                pParticle->field_30_pOwnSprite->SetNoLighting_4337F0();
+                pParticle->field_30_pOwnSprite->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_base_sprite_idx + 20);
+                pParticle->field_30_pOwnSprite->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
+                gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pOwnSprite);
+                pParticle->field_30_pOwnSprite->ApplyScaleToDimensions_59E4C0(kFP16Quarter_6FD2EC, 0);
                 pParticle->field_48_timer = 5;
             }
         }
@@ -635,14 +635,14 @@ void Explosion_30::EmitExplosion_19_32_542060()
             Particle_4C* pParticle = gParticle_4C_Pool_6FD5E4->Allocate();
             pParticle->field_46_sub_state = 0;
             pParticle->field_38_state = 19;
-            pParticle->field_30_pNext = gSpritePool_703818->get_new_sprite();
-            pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
-            pParticle->field_30_pNext->SetNoLighting_4337F0();
+            pParticle->field_30_pOwnSprite = gSpritePool_703818->get_new_sprite();
+            pParticle->field_30_pOwnSprite->SetType_4206F0(sprite_types_enum::code_obj2_8);
+            pParticle->field_30_pOwnSprite->SetNoLighting_4337F0();
             pParticle->field_40_pExplosion = this;
-            pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 20);
-            pParticle->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, this->field_14_pObj2C->field_4->field_1C_zpos);
-            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
-            pParticle->field_30_pNext->ApplyScaleToDimensions_59E4C0(kFP16Half_6FD39C + kFP16One_6FD4A0, 0);
+            pParticle->field_30_pOwnSprite->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_base_sprite_idx + 20);
+            pParticle->field_30_pOwnSprite->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, this->field_14_pObj2C->field_4->field_1C_zpos);
+            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pOwnSprite);
+            pParticle->field_30_pOwnSprite->ApplyScaleToDimensions_59E4C0(kFP16Half_6FD39C + kFP16One_6FD4A0, 0);
             pParticle->field_48_timer = 1;
         }
         else
@@ -653,12 +653,12 @@ void Explosion_30::EmitExplosion_19_32_542060()
             Particle_4C* pParticle = gParticle_4C_Pool_6FD5E4->Allocate();
             pParticle->field_46_sub_state = 0;
             pParticle->field_38_state = 19;
-            pParticle->field_30_pNext = gSpritePool_703818->get_new_sprite();
-            pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
-            pParticle->field_30_pNext->SetNoLighting_4337F0();
-            pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 20);
-            pParticle->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
-            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
+            pParticle->field_30_pOwnSprite = gSpritePool_703818->get_new_sprite();
+            pParticle->field_30_pOwnSprite->SetType_4206F0(sprite_types_enum::code_obj2_8);
+            pParticle->field_30_pOwnSprite->SetNoLighting_4337F0();
+            pParticle->field_30_pOwnSprite->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_base_sprite_idx + 20);
+            pParticle->field_30_pOwnSprite->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
+            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pOwnSprite);
             pParticle->field_48_timer = 5;
         }
     }
@@ -684,12 +684,12 @@ void Explosion_30::EmitExplosion_20_542340()
             Particle_4C* pParticle = gParticle_4C_Pool_6FD5E4->Allocate();
             pParticle->field_46_sub_state = 0;
             pParticle->field_38_state = 20;
-            pParticle->field_30_pNext = gSpritePool_703818->get_new_sprite();
-            pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
-            pParticle->field_30_pNext->SetNoLighting_4337F0();
-            pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 56);
-            pParticle->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
-            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
+            pParticle->field_30_pOwnSprite = gSpritePool_703818->get_new_sprite();
+            pParticle->field_30_pOwnSprite->SetType_4206F0(sprite_types_enum::code_obj2_8);
+            pParticle->field_30_pOwnSprite->SetNoLighting_4337F0();
+            pParticle->field_30_pOwnSprite->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_base_sprite_idx + 56);
+            pParticle->field_30_pOwnSprite->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
+            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pOwnSprite);
             pParticle->field_48_timer = 1;
         }
         else
@@ -700,12 +700,12 @@ void Explosion_30::EmitExplosion_20_542340()
             Particle_4C* pParticle = gParticle_4C_Pool_6FD5E4->Allocate();
             pParticle->field_46_sub_state = 0;
             pParticle->field_38_state = 20;
-            pParticle->field_30_pNext = gSpritePool_703818->get_new_sprite();
-            pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
-            pParticle->field_30_pNext->SetNoLighting_4337F0();
-            pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 56);
-            pParticle->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
-            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
+            pParticle->field_30_pOwnSprite = gSpritePool_703818->get_new_sprite();
+            pParticle->field_30_pOwnSprite->SetType_4206F0(sprite_types_enum::code_obj2_8);
+            pParticle->field_30_pOwnSprite->SetNoLighting_4337F0();
+            pParticle->field_30_pOwnSprite->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_base_sprite_idx + 56);
+            pParticle->field_30_pOwnSprite->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
+            gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pOwnSprite);
             pParticle->field_48_timer = 5;
         }
     }
@@ -764,10 +764,10 @@ void Explosion_30::UpdateExplosion_18_19_20_32_33_542790()
                                                                              dword_6FD484,
                                                                              -dword_6FD540,
                                                                              dword_6FD2F0);
-                    pDebris->field_4->DispatchCollisionEvent_5A3100(pExplosionObj->field_4, 0, 0, kAngZero_6FD5D4);
+                    pDebris->field_4->AttachSprite_5A3100(pExplosionObj->field_4, 0, 0, kAngZero_6FD5D4);
 
                     Object_2C* pLight = gObject_5C_6F8F84->NewLight_529A40(94, 138, 2, 0xFF8000, 3, 255);
-                    pDebris->field_4->DispatchCollisionEvent_5A3100(pLight->field_4, 0, 0, kAngZero_6FD5D4);
+                    pDebris->field_4->AttachSprite_5A3100(pLight->field_4, 0, 0, kAngZero_6FD5D4);
                 }
                 break;
             }
@@ -889,8 +889,8 @@ void Explosion_30::EmitBuildingDebris_22_23_24_25_542E30(u8 direction_idx)
                         break;
                 }
 
-                pParticle->field_30_pNext = gSpritePool_703818->get_new_sprite();
-                pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
+                pParticle->field_30_pOwnSprite = gSpritePool_703818->get_new_sprite();
+                pParticle->field_30_pOwnSprite->SetType_4206F0(sprite_types_enum::code_obj2_8);
                 pParticle->field_48_timer = 0;
                 pParticle->field_46_sub_state = 0;
                 pParticle->field_24_angle = this->field_22_spawn_angle;
@@ -901,18 +901,18 @@ void Explosion_30::EmitBuildingDebris_22_23_24_25_542E30(u8 direction_idx)
                 }
 
                 pParticle->field_20_speed = (dword_6FD548 * Fix16(gRng_6F6784.get_int_4F7AE0(field_1A_timer)));
-                pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 40);
+                pParticle->field_30_pOwnSprite->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_base_sprite_idx + 40);
 
                 if (field_14_pObj2C->field_4->field_1C_zpos + kFP16One_6FD4A0 >= kFP16Eight_6FD4C0)
                 {
-                    pParticle->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
+                    pParticle->field_30_pOwnSprite->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
                 }
                 else
                 {
-                    pParticle->field_30_pNext->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos + kFP16One_6FD4A0);
+                    pParticle->field_30_pOwnSprite->set_xyz_lazy_420600(stru_6FD388, stru_6FD38C, field_14_pObj2C->field_4->field_1C_zpos + kFP16One_6FD4A0);
                 }
-                gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
-                pParticle->field_30_pNext->SetNoLighting_4337F0();
+                gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pOwnSprite);
+                pParticle->field_30_pOwnSprite->SetNoLighting_4337F0();
             }
         }
 

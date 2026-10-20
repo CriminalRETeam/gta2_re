@@ -25,7 +25,7 @@ class Generator_2C
     s16 field_16_unused;
     u32 field_18_cycle;
     u16 field_1C_ammo;
-    u16 field_1E_kill_timer;
+    u16 field_1E_spawns_left;
     char_type field_20;
     char_type field_21;
     char_type field_22_unused;

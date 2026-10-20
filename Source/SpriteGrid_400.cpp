@@ -21,7 +21,7 @@ DEFINE_GLOBAL(SpriteGrid_400*, gSpriteGrid_3_679210, 0x679210);
 DEFINE_GLOBAL(s32, gSpriteGrid_bottom_6F5F38, 0x6F5F38);
 DEFINE_GLOBAL(s32, gSpriteGrid_top_6F6108, 0x6F6108);
 DEFINE_GLOBAL(s32, gSpriteGrid_sprite_type_filter_678FA8, 0x678FA8);
-DEFINE_GLOBAL(s32, gSpriteGrid_exclude_type_678F60, 0x678F60);
+DEFINE_GLOBAL(s32, gSpriteGrid_preferred_type_678F60, 0x678F60);
 DEFINE_GLOBAL(Sprite*, gSpriteGrid_smallestDistSprite_678E40, 0x678E40);
 DEFINE_GLOBAL(u8, bDoCollisionCheck_679006, 0x679006);
 DEFINE_GLOBAL(s32, gSpriteGrid_exclude_types_678F88, 0x678F88);
@@ -38,8 +38,8 @@ DEFINE_GLOBAL(s32, gSpriteGrid_sprite_type2_678FEC, 0x678FEC);
 DEFINE_GLOBAL(Sprite*, gSpriteGrid_exclude_sprite_678F40, 0x678F40);
 DEFINE_GLOBAL(Ped*, gSpriteGrid_ped_678F64, 0x678F64);
 DEFINE_GLOBAL(Fix16, gSpriteGrid_smallestDistance_678E5C, 0x678E5C);
-DEFINE_GLOBAL(Fix16, gSpriteGrid_zpos_max_678F38, 0x678F38);
-DEFINE_GLOBAL(Fix16, gSpriteGrid_zpos_min_678F3C, 0x678F3C);
+DEFINE_GLOBAL(Fix16, gSpriteGrid_zpos_low_678F38, 0x678F38);
+DEFINE_GLOBAL(Fix16, gSpriteGrid_zpos_high_678F3C, 0x678F3C);
 DEFINE_GLOBAL(s32, gSpriteGrid_search_mode_678FD0, 0x678FD0);
 
 DEFINE_GLOBAL_INIT(Fix16, kFpOneAndHalf_678F80, Fix16(0x6000, 0), 0x678F80);
@@ -79,7 +79,6 @@ void SpriteGrid_400::AddToSingleBucket_477AE0(Sprite* pSprite)
 MATCH_FUNC(0x477b00)
 void SpriteGrid_400::Remove_477B00(Sprite* pSprite)
 {
-    // Note: Single bucket remove only - multi bucket remove doesn't exist
     DoRemove_4782C0(pSprite->field_14_xy.x.ToInt(), pSprite->field_14_xy.y.ToInt(), pSprite);
 }
 
@@ -95,12 +94,12 @@ void SpriteGrid_400::AddToRegionBuckets_477B20(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x477b60)
-void SpriteGrid_400::AddToSpriteRectBuckets_477B60(Sprite* pSprite)
+void SpriteGrid_400::RemoveFromRegionBuckets_477B60(Sprite* pSprite)
 {
     pSprite->field_C_pCollisionShape->SetCurrentRect_5A4D90();
     for (s32 y_pos = gSpriteGrid_top_6F6108; y_pos <= gSpriteGrid_bottom_6F5F38; ++y_pos)
     {
-        AddToColumnBuckets_478370(y_pos, pSprite);
+        RemoveFromRowBuckets_478370(y_pos, pSprite);
     }
 }
 
@@ -168,13 +167,13 @@ Sprite* SpriteGrid_400::FindNearestSprite_SpiralSearch_477C90(s32 primary_sprite
 
     if (bUseSpriteZ == 1)
     {
-        gSpriteGrid_zpos_max_678F38 = pExclude->field_1C_zpos - kFpHalf_678F74;
-        gSpriteGrid_zpos_min_678F3C = pExclude->field_1C_zpos + kFpHalf_678F74;
+        gSpriteGrid_zpos_low_678F38 = pExclude->field_1C_zpos - kFpHalf_678F74;
+        gSpriteGrid_zpos_high_678F3C = pExclude->field_1C_zpos + kFpHalf_678F74;
     }
     else
     {
-        gSpriteGrid_zpos_max_678F38 = 0;
-        gSpriteGrid_zpos_min_678F3C = Fix16(7);
+        gSpriteGrid_zpos_low_678F38 = 0;
+        gSpriteGrid_zpos_high_678F3C = Fix16(7);
     }
 
     SearchTileStripForClosestSprite_4781E0(1u);
@@ -252,9 +251,9 @@ void SpriteGrid_400::SetSpriteToExclude_477E50(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x477e60)
-Sprite* SpriteGrid_400::FindNearestSpriteOfType_477E60(Sprite* pSprite, s32 desired_sprite_type)
+Sprite* SpriteGrid_400::FindCollidingSpritePreferType_477E60(Sprite* pSprite, s32 desired_sprite_type)
 {
-    gSpriteGrid_exclude_type_678F60 = desired_sprite_type;
+    gSpriteGrid_preferred_type_678F60 = desired_sprite_type;
     gSpriteGrid_smallestDistSprite_678E40 = 0;
 
     gCollisionCounters_6791FC->field_4_query_id++;
@@ -264,7 +263,7 @@ Sprite* SpriteGrid_400::FindNearestSpriteOfType_477E60(Sprite* pSprite, s32 desi
 
     for (s32 top = gSpriteGrid_top_6F6108; top <= gSpriteGrid_bottom_6F5F38; top++)
     {
-        Sprite* pObj = FindNearestSpriteInRow_478880(top, pSprite);
+        Sprite* pObj = FindCollidingSpriteInRow_478880(top, pSprite);
         if (pObj)
         {
             return pObj;
@@ -336,7 +335,7 @@ void SpriteGrid_400::CheckTileSpritesForClosestMatch_478060(GridSpriteLink_8* pS
             pSprt != gSpriteGrid_exclude_sprite_678F40)
         {
 
-            if (pSprt->field_1C_zpos <= gSpriteGrid_zpos_min_678F3C && pSprt->field_1C_zpos >= gSpriteGrid_zpos_max_678F38)
+            if (pSprt->field_1C_zpos <= gSpriteGrid_zpos_high_678F3C && pSprt->field_1C_zpos >= gSpriteGrid_zpos_low_678F38)
             {
                 if (gSpriteGrid_search_mode_678FD0 == 3)
                 {
@@ -493,7 +492,7 @@ void SpriteGrid_400::DoRemove_4782C0(s32 x_pos, s32 y_pos, Sprite* pToFind)
 }
 
 MATCH_FUNC(0x478370)
-void SpriteGrid_400::AddToColumnBuckets_478370(s32 y_pos, Sprite* pSprite)
+void SpriteGrid_400::RemoveFromRowBuckets_478370(s32 y_pos, Sprite* pSprite)
 {
     s32 x_pos = gSpriteGrid_left_6F5FD4;
     GridCell_C* pLastXIter = 0;
@@ -793,7 +792,7 @@ bool SpriteGrid_400::CheckAndHandleRowCollisionsForSprite_4787E0(u32 y_pos, Spri
 }
 
 MATCH_FUNC(0x478880)
-Sprite* SpriteGrid_400::FindNearestSpriteInRow_478880(u32 y_pos, Sprite* pSprite)
+Sprite* SpriteGrid_400::FindCollidingSpriteInRow_478880(u32 y_pos, Sprite* pSprite)
 {
     GridCell_C* pXItem = GetFirstXCellInRow_478590(y_pos);
     while (pXItem)
@@ -807,7 +806,7 @@ Sprite* SpriteGrid_400::FindNearestSpriteInRow_478880(u32 y_pos, Sprite* pSprite
         {
             Sprite* pSprt = pObj->field_0_pSprite;
             if (pObj->field_0_pSprite == gSpriteGrid_exclusion_sprite_678F84 ||
-                gSpriteGrid_smallestDistSprite_678E40 && !pSprt->TypeIs_446940(gSpriteGrid_exclude_type_678F60) ||
+                gSpriteGrid_smallestDistSprite_678E40 && !pSprt->TypeIs_446940(gSpriteGrid_preferred_type_678F60) ||
                 pSprt->field_C_pCollisionShape->CollisionIdIs_446930(gCollisionCounters_6791FC->field_4_query_id) || !pSprt->ShouldCollideWithSprite_59E850(pSprite))
             {
                 continue;
@@ -817,7 +816,7 @@ Sprite* SpriteGrid_400::FindNearestSpriteInRow_478880(u32 y_pos, Sprite* pSprite
 
             if (pSprite->CollisionCheck_59E590(pObj->field_0_pSprite))
             {
-                if (!pObj->field_0_pSprite->TypeIs_446940(gSpriteGrid_exclude_type_678F60))
+                if (!pObj->field_0_pSprite->TypeIs_446940(gSpriteGrid_preferred_type_678F60))
                 {
                     gSpriteGrid_smallestDistSprite_678E40 = pObj->field_0_pSprite;
                 }
