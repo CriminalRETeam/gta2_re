@@ -127,7 +127,7 @@ class RouteFinder
     EXPORT void DebugPrintRoute_58A020(char_type junc_idx);
     EXPORT Junction_10* GetJunction_58A0B0(u16 jIdx);
     EXPORT s16 DoStartRoute_58A0D0(u8 x1, u8 y1, u8 z1, u8 x2, u8 y2, u8 z2, s32 arrow_type);
-    EXPORT s16 sub_58A130(u8 a1, s16 a2, u8 a3, u8* pRouteLength, s32 a5, s32 a6);
+    EXPORT s16 sub_58A130(u8 x, s16 y, u8 z, u8* pRouteLength, s32 arrow_type, s32 direction);
     EXPORT u16 StartRoute_58A190(u8 x1, u8 y1, u8 z1, u8 x2, u8 y2, u8 z2, s32 arrow_type);
     EXPORT RouteFinder();
 

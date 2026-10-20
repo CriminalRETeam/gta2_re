@@ -114,10 +114,10 @@ class MapRenderer
         return gCurrentSlope_6F646C.field_0_gradient_direction;
     }
 
-    inline u8 GetColour_46B5E0(s32 a1)
+    inline u8 GetColour_46B5E0(s32 light_level)
     {
         //u8 diffuseColour;
-        switch (a1)
+        switch (light_level)
         {
             case 0u:
                 return -1;
@@ -188,7 +188,7 @@ EXPORT void __stdcall set_vert_xyz_relative_to_cam_4EAD90(Fix16 xCoord, Fix16 yC
 
 EXPORT void __stdcall draw_4F3FB0(s32 arg);
 
-EXPORT void __stdcall Set_UV_4F4190(Fix16& a1, Fix16& a2, const u32& pVertIdx);
+EXPORT void __stdcall Set_UV_4F4190(Fix16& edge01_frac, Fix16& edge03_frac, const u32& pVertIdx);
 
 EXTERN_GLOBAL(MapRenderer*, gpMapRenderer_6F66E4);
 

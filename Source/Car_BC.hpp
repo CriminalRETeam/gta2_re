@@ -1257,8 +1257,8 @@ class Car_BC
 
     bool IsTruckCab_421620()
     {
-        car_info* v1 =  gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx);
-        return v1->IsTruckCab_41FEA0();
+        car_info* pCarInfo =  gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx);
+        return pCarInfo->IsTruckCab_41FEA0();
     }
 
     bool IsLongerThanOneBlock_447ED0()

@@ -70,7 +70,7 @@ void Ang16::Normalize_406C20()
 }
 
 MATCH_FUNC(0x409300)
-Ang16* Ang16::AssignNormalized_409300(const s16& value, s32 a3)
+Ang16* Ang16::AssignNormalized_409300(const s16& value, s32 not_used)
 {
     rValue = value;
     Normalize();
@@ -84,9 +84,9 @@ Ang16 Ang16::SubtractNormalized_409340(const Ang16& toSub)
 }
 
 MATCH_FUNC(0x4516B0)
-Ang16::Ang16(Fix16* a2, s32 a3)
+Ang16::Ang16(Fix16* value, s32 not_used)
 {
-    rValue = a2->ToInt();
+    rValue = value->ToInt();
     Normalize();
 }
 

@@ -2460,9 +2460,9 @@ void __stdcall draw_4F3FB0(s32 arg)
 
 // https://decomp.me/scratch/NaMFS or https://decomp.me/scratch/hij63
 MATCH_FUNC(0x4f4190)
-void __stdcall Set_UV_4F4190(Fix16& a1, Fix16& a2, const u32& pVertIdx)
+void __stdcall Set_UV_4F4190(Fix16& edge01_frac, Fix16& edge03_frac, const u32& pVertIdx)
 {
-    Fix16_Point uv_coords = ((gUVEdge01_6F62A8 * a1) + (gUVEdge03_6F62A0 * a2)) + gUVCorner0_6F6580;
+    Fix16_Point uv_coords = ((gUVEdge01_6F62A8 * edge01_frac) + (gUVEdge03_6F62A0 * edge03_frac)) + gUVCorner0_6F6580;
     // Converting through f32 locals (rather than ToFloat()) adds a narrowing step that makes
     // VC6 schedule the index load before the fmuls, like the original.
     f32 u = uv_coords.x.mValue;

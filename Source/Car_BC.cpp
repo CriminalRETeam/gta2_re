@@ -5689,68 +5689,68 @@ inline Fix16 __stdcall WrapAngle_40E790(Fix16& unk) // 9.6f inlined func
 // TODO: Move
 // https://decomp.me/scratch/GnD4O
 MATCH_FUNC(0x405CE0)
-EXPORT void __stdcall SmoothApproachAngle_405CE0(Fix16& a1, Fix16& a2, Fix16& a3, Fix16& a4, Fix16& a5)
+EXPORT void __stdcall SmoothApproachAngle_405CE0(Fix16& target_angle, Fix16& angle_speed, Fix16& angle, Fix16& accel, Fix16& max_speed)
 {
-    if (a1 - a3 > kAngFix16HalfCircle_6691EC)
+    if (target_angle - angle > kAngFix16HalfCircle_6691EC)
     {
-        a3 += kAngFix16FullCircle_66A8E4;
+        angle += kAngFix16FullCircle_66A8E4;
     }
     else
     {
-        if (a1 - a3 < -kAngFix16HalfCircle_6691EC)
+        if (target_angle - angle < -kAngFix16HalfCircle_6691EC)
         {
-            a3 -= kAngFix16FullCircle_66A8E4;
+            angle -= kAngFix16FullCircle_66A8E4;
         }
     }
 
-    Fix16 a1_m_a3 = a1 - a3;
+    Fix16 a1_m_a3 = target_angle - angle;
 
     if (a1_m_a3 > kFPZero_6691B0)
     {
-        if (a2 >= kFPZero_6691B0)
+        if (angle_speed >= kFPZero_6691B0)
         {
-            if (a2 + a4 <= a1_m_a3)
+            if (angle_speed + accel <= a1_m_a3)
             {
-                a2 += a4;
-                if (a2 > a5)
+                angle_speed += accel;
+                if (angle_speed > max_speed)
                 {
-                    a2 = a5;
+                    angle_speed = max_speed;
                 }
             }
             else
             {
-                a2 = a1_m_a3;
+                angle_speed = a1_m_a3;
             }
         }
         else
         {
-            a2 = kFPZero_6691B0;
+            angle_speed = kFPZero_6691B0;
         }
     }
     else
     {
-        if (a1_m_a3 >= kFPZero_6691B0 || a2 > kFPZero_6691B0)
+        if (a1_m_a3 >= kFPZero_6691B0 || angle_speed > kFPZero_6691B0)
         {
-            a2 = kFPZero_6691B0;
+            angle_speed = kFPZero_6691B0;
         }
         else
         {
-            if (a2 - a4 >= a1_m_a3)
+            if (angle_speed - accel >= a1_m_a3)
             {
-                a2 -= a4;
-                if (a2 < -a5)
+                angle_speed -= accel;
+                if (angle_speed < -max_speed)
                 {
-                    a2 = -a5;
+                    angle_speed = -max_speed;
                 }
             }
             else
             {
-                a2 = a1_m_a3;
+                angle_speed = a1_m_a3;
             }
         }
     }
 
-    a3 = WrapAngle_40E790(a3 + a2);
+    angle = WrapAngle_40E790(angle + angle_speed);
 }
 
 // 9.6f 0x424280
@@ -5889,12 +5889,12 @@ void Car_BC::TryHitchTrailer_442810()
                         {
                             hitch_point = pCar->field_50_car_sprite->get_x_y_443580().AddInl_40AC50(offset.NormalizeSafe_442AD0().MultiplyInl_438FE0(kFpOne64th_677888));
                             {
-                                s32 a5 = 1;
+                                s32 rotation_mode = 1;
                                 pCar->field_58_physics->SetVelocityTowardTarget_55A1D0(
                                     hitch_point.x,
                                     hitch_point.y,
                                     Ang16::Ang16_to_Fix16(pCar->field_58_physics->get_theta_40F820()),
-                                    &a5);
+                                    &rotation_mode);
                             }
                         }
                     }
@@ -6657,27 +6657,27 @@ void Car_BC::UpdateExploderTimer_444020()
 MATCH_FUNC(0x444090)
 u32 Car_BC::GetEffectiveDriverPedId_444090()
 {
-    Car_BC* a1 = this;
-    while (!a1->field_54_driver)
+    Car_BC* pCar = this;
+    while (!pCar->field_54_driver)
     {
-        if (!a1->field_64_pTrailer || a1->field_64_pTrailer->field_C_pCarOnTrailer != a1)
+        if (!pCar->field_64_pTrailer || pCar->field_64_pTrailer->field_C_pCarOnTrailer != pCar)
         {
-            return a1->field_70_exploder_ped_id;
+            return pCar->field_70_exploder_ped_id;
         }
-        a1 = a1->field_64_pTrailer->field_8_truck_cab;
+        pCar = pCar->field_64_pTrailer->field_8_truck_cab;
     }
 
-    Ped* pDriver = a1->field_54_driver;
+    Ped* pDriver = pCar->field_54_driver;
     if (pDriver->get_occupation_403980() == ped_ocupation_enum::unknown_2)
     {
-        return a1->field_70_exploder_ped_id;
+        return pCar->field_70_exploder_ped_id;
     }
 
     if (!IsPlayerPedId_420C30(pDriver->field_200_id))
     {
-        if (a1->field_70_exploder_ped_id)
+        if (pCar->field_70_exploder_ped_id)
         {
-            return a1->field_70_exploder_ped_id;
+            return pCar->field_70_exploder_ped_id;
         }
     }
     return pDriver->field_200_id;

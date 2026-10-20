@@ -22,8 +22,8 @@ EXTERN_GLOBAL(Fix16, kFpOne128th_6784BC);
 EXTERN_GLOBAL(Ang16, word_6FD940);
 EXTERN_GLOBAL(Ang16, word_6FD8F8);
 
-EXPORT void __stdcall UnpackSignedNibbles_529050(u8 a1, s8* a2, s8* a3);
-EXPORT Ang16 __stdcall ComputeShortestAngleDelta_4056C0(Ang16& a2, Ang16& a3);
+EXPORT void __stdcall UnpackSignedNibbles_529050(u8 packed, s8* pX, s8* pY);
+EXPORT Ang16 __stdcall ComputeShortestAngleDelta_4056C0(Ang16& angle1, Ang16& angle2);
 
 // SpriteList_4 with a (trivial) destructor: the original Char_B4 ctor has an EH frame for this member,
 // while other owners of a SpriteList_4 (Car_BC, Object_5C, Weapon_8) have none.
@@ -163,9 +163,9 @@ class Char_B4
     }
 
     // 9.6f 0x492180
-    inline void Set_F8_ped_state_1_433910(s32 a2)
+    inline void Set_F8_ped_state_1_433910(s32 ped_state)
     {
-        field_8_ped_state_1 = a2;
+        field_8_ped_state_1 = ped_state;
     }
 
     inline Ang16 get_rotation_433A40()

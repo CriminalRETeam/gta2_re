@@ -22,7 +22,7 @@ DEFINE_GLOBAL(DWORD, gWindowBottom_70679C, 0x70679C);
 //u16 word_703BAA; //DEFINE_GLOBAL(u16, word_703BAA, 0x703BAA);
 
 MATCH_FUNC(0x495470)
-void __stdcall DrawTextureScaled_495470(STexture* pTexture, Fix16 x_pos, Fix16 y_pos, u8 width, u8 height, Ang16 rotation, s32 a7, u8 a8)
+void __stdcall DrawTextureScaled_495470(STexture* pTexture, Fix16 x_pos, Fix16 y_pos, u8 width, u8 height, Ang16 rotation, s32 alpha_value, u8 alpha_flag)
 {
     DrawTexture_5D8470(pTexture,
                x_pos * gViewCamera_676978->field_A8_ui_scale,
@@ -31,8 +31,8 @@ void __stdcall DrawTextureScaled_495470(STexture* pTexture, Fix16 x_pos, Fix16 y
                height,
                rotation,
                gViewCamera_676978->field_A8_ui_scale,
-               a7,
-               a8);
+               alpha_value,
+               alpha_flag);
 }
 
 MATCH_FUNC(0x4B87A0)
@@ -224,23 +224,23 @@ void __stdcall DrawFigure_5D7EC0(s32 sprite_type,
 }
 
 MATCH_FUNC(0x5D83E0);
-s32 __stdcall CalcQuadFlags_5D83E0(s32 mode, u8 a2)
+s32 __stdcall CalcQuadFlags_5D83E0(s32 mode, u8 alpha)
 {
     switch (mode)
     {
         case 0:
             return gLightingDrawFlag_7068F4 | 0x80;
         case 1:
-            gQuadVerts_706B88.field_0_verts[0].diff = (a2 << 27) | 0xFFFFFF;
-            gQuadVerts_706B88.field_0_verts[1].diff = (a2 << 27) | 0xFFFFFF;
-            gQuadVerts_706B88.field_0_verts[2].diff = (a2 << 27) | 0xFFFFFF;
-            gQuadVerts_706B88.field_0_verts[3].diff = (a2 << 27) | 0xFFFFFF;
+            gQuadVerts_706B88.field_0_verts[0].diff = (alpha << 27) | 0xFFFFFF;
+            gQuadVerts_706B88.field_0_verts[1].diff = (alpha << 27) | 0xFFFFFF;
+            gQuadVerts_706B88.field_0_verts[2].diff = (alpha << 27) | 0xFFFFFF;
+            gQuadVerts_706B88.field_0_verts[3].diff = (alpha << 27) | 0xFFFFFF;
             return gLightingDrawFlag_7068F4 | 0x2180;
         case 2:
-            gQuadVerts_706B88.field_0_verts[0].diff = (a2 << 27) | 0xFFFFFF;
-            gQuadVerts_706B88.field_0_verts[1].diff = (a2 << 27) | 0xFFFFFF;
-            gQuadVerts_706B88.field_0_verts[2].diff = (a2 << 27) | 0xFFFFFF;
-            gQuadVerts_706B88.field_0_verts[3].diff = (a2 << 27) | 0xFFFFFF;
+            gQuadVerts_706B88.field_0_verts[0].diff = (alpha << 27) | 0xFFFFFF;
+            gQuadVerts_706B88.field_0_verts[1].diff = (alpha << 27) | 0xFFFFFF;
+            gQuadVerts_706B88.field_0_verts[2].diff = (alpha << 27) | 0xFFFFFF;
+            gQuadVerts_706B88.field_0_verts[3].diff = (alpha << 27) | 0xFFFFFF;
             return gLightingDrawFlag_7068F4 | 0x2280;
         default:
             return 0;
@@ -265,8 +265,8 @@ void __stdcall DrawTexture_5D8470(STexture* pTexture,
                                  u8 height,
                                  Ang16 rotation,
                                  Fix16 scale,
-                                 s32 a8,
-                                 u8 a9)
+                                 s32 alpha_value,
+                                 u8 alpha_flag)
 {
     Fix16_Point point;
     u32 flags;
@@ -333,7 +333,7 @@ void __stdcall DrawTexture_5D8470(STexture* pTexture,
     gQuadVerts_706B88.field_0_verts[2].v = v;
     gQuadVerts_706B88.field_0_verts[3].v = v;
 
-    pgbh_DrawQuad(flags | CalcQuadFlags_5D83E0(a8, a9) | 0x20000, pTexture, gQuadVerts_706B88.field_0_verts, 255);
+    pgbh_DrawQuad(flags | CalcQuadFlags_5D83E0(alpha_value, alpha_flag) | 0x20000, pTexture, gQuadVerts_706B88.field_0_verts, 255);
 }
 
 MATCH_FUNC(0x5D8940)

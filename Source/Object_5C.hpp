@@ -12,7 +12,7 @@
 EXTERN_GLOBAL(Fix16_Point, gZeroVector_6F8EF0);
 EXTERN_GLOBAL(s32, gObj2C_id_623EC0);
 
-EXPORT void __stdcall UnpackSignedNibbles_529050(u8 a1, s8* a2, s8* a3);
+EXPORT void __stdcall UnpackSignedNibbles_529050(u8 packed, s8* pX, s8* pY);
 
 class Object_2C;
 class Sprite;
@@ -162,8 +162,8 @@ class Object_2C
     // 9.6f 0x475A60
     inline bool IsShop_475A60()
     {
-        s32 v1 = field_8->field_34_behavior_type;
-        return v1 == object_behavior_type::shop_10;
+        s32 behavior_type = field_8->field_34_behavior_type;
+        return behavior_type == object_behavior_type::shop_10;
     }
 
     bool IsAnimatedBehavior_475A80()
@@ -202,9 +202,9 @@ class Object_2C
     }
 
     // Sucky names but better than just "sub" for now
-    bool IsOwnedByPedRef_4973E0(u8 a2)
+    bool IsOwnedByPedRef_4973E0(u8 ped_ref_idx)
     {
-        return UsesParamAsPedRef_421080() && field_26_ped_ref_idx == a2;
+        return UsesParamAsPedRef_421080() && field_26_ped_ref_idx == ped_ref_idx;
     }
 
     bool IsSpriteGrid2Region3_4210B0()

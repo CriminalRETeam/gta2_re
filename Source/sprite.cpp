@@ -340,9 +340,9 @@ SpriteMaskCache_3CC::~SpriteMaskCache_3CC()
 }
 
 MATCH_FUNC(0x48F820)
-void DamageAreaFlags::Delta_48F820(u16& sprite_idx, u8* pArray, u32& a3, u8& width)
+void DamageAreaFlags::Delta_48F820(u16& sprite_idx, u8* pArray, u32& delta_mask, u8& width)
 {
-    u32 unknown = a3;
+    u32 unknown = delta_mask;
     u32 delta_idx = 0;
     for (u32 i = 1; unknown; i = i << 1, delta_idx++)
     {
@@ -376,7 +376,7 @@ inline u16 Sprite::GetTrueSpriteIdx_4BA230()
 }
 
 MATCH_FUNC(0x48F8B0)
-s16 DamageAreaFlags::Delta_48F8B0(u16& sprite_idx, u8& bRet, const u16& a4, const u32& a5)
+s16 DamageAreaFlags::Delta_48F8B0(u16& sprite_idx, u8& bRet, const u16& palette, const u32& bClearMask)
 {
     if (!m_var)
     {
@@ -384,7 +384,7 @@ s16 DamageAreaFlags::Delta_48F8B0(u16& sprite_idx, u8& bRet, const u16& a4, cons
     }
     sprite_index* sprite_index_5AA440 = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
     u32 bUnk = sprite_index_5AA440->field_5_height > 0x40u;
-    SpriteMask_14* pSprt14 = gSpriteMaskCache_67AF1C->FindCachedMask_48F600(sprite_idx, &bUnk, &m_var, &a4);
+    SpriteMask_14* pSprt14 = gSpriteMaskCache_67AF1C->FindCachedMask_48F600(sprite_idx, &bUnk, &m_var, &palette);
     if (pSprt14)
     {
         if (pSprt14->field_8_delta_mask < m_var)
@@ -392,7 +392,7 @@ s16 DamageAreaFlags::Delta_48F8B0(u16& sprite_idx, u8& bRet, const u16& a4, cons
             bRet = 1;
             u32 sub = m_var - pSprt14->field_8_delta_mask;
             Delta_48F820(sprite_idx, (u8*)pSprt14->field_0_pixels, sub, sprite_index_5AA440->field_4_width);
-            pSprt14->SetKey_44AF50(sprite_idx, m_var, a4);
+            pSprt14->SetKey_44AF50(sprite_idx, m_var, palette);
         }
         else
         {
@@ -403,7 +403,7 @@ s16 DamageAreaFlags::Delta_48F8B0(u16& sprite_idx, u8& bRet, const u16& a4, cons
     {
         bRet = 1;
         pSprt14 = gSpriteMaskCache_67AF1C->FindLeastRecentlyUsed_48F690(&bUnk);
-        if (!a5)
+        if (!bClearMask)
         {
             sprite_index_5AA440->CopyPixels_5ABB00(pSprt14->field_0_pixels);
         }
@@ -413,7 +413,7 @@ s16 DamageAreaFlags::Delta_48F8B0(u16& sprite_idx, u8& bRet, const u16& a4, cons
         }
         
         Delta_48F820(sprite_idx, (u8*)pSprt14->field_0_pixels, m_var, sprite_index_5AA440->field_4_width);
-        pSprt14->SetKey_44AF50(sprite_idx, m_var, a4);
+        pSprt14->SetKey_44AF50(sprite_idx, m_var, palette);
     }
     
     pSprt14->MarkUsed_48F5A0();
@@ -1670,13 +1670,13 @@ char_type Sprite::CheckBBoxScanlineIntersection_5A0970(Fix16 scanXMin, Fix16 sca
 
 // https://decomp.me/scratch/EK1Y2
 MATCH_FUNC(0x5A0A70)
-bool Sprite::GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 a2, Fix16_Point& point, u8& a4)
+bool Sprite::GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 line_y, Fix16_Point& point, u8& a4)
 {
     // Same as GetNearestVerticalEdgeToCoordinate_5A1030
     UpdateCollisionBoundsIfNeeded_59E9C0();
     Fix16_Point* RenderingRect = field_C_pCollisionShape->field_C_corners;
 
-    Fix16 diff = RenderingRect[0].y - a2;
+    Fix16 diff = RenderingRect[0].y - line_y;
     Fix16 sign = Sign_4B9C20(diff.mValue);
     Fix16 least_abs;
     least_abs = Fix16::Abs(diff);
@@ -1684,7 +1684,7 @@ bool Sprite::GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 a2, Fix16_Point& 
     point = RenderingRect[0];
     a4 = 0;
 
-    diff = RenderingRect[1].y - a2;
+    diff = RenderingRect[1].y - line_y;
     if (Sign_4B9C20(diff.mValue) != sign)
     {
         return false;
@@ -1704,7 +1704,7 @@ bool Sprite::GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 a2, Fix16_Point& 
         a4 = 5;
     }
 
-    diff = RenderingRect[2].y - a2;
+    diff = RenderingRect[2].y - line_y;
     if (Sign_4B9C20(diff.mValue) != sign)
     {
         return false;
@@ -1724,7 +1724,7 @@ bool Sprite::GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 a2, Fix16_Point& 
         a4 = 5;
     }
 
-    diff = RenderingRect[3].y - a2;
+    diff = RenderingRect[3].y - line_y;
     if (Sign_4B9C20(diff.mValue) != sign)
     {
         return false;
@@ -1763,22 +1763,22 @@ char_type Sprite::HitTestVerticalLine_5A0EF0(Fix16 x, Fix16 y1, Fix16 y2)
 
 // https://decomp.me/scratch/ScgaC
 MATCH_FUNC(0x5a1030)
-bool Sprite::GetNearestVerticalEdgeToCoordinate_5A1030(Fix16 a2, Fix16_Point& a3, u8& a4)
+bool Sprite::GetNearestVerticalEdgeToCoordinate_5A1030(Fix16 line_x, Fix16_Point& point, u8& a4)
 {
-    // least_abs assigned (not initialised) so it lives in a register. a3 set with one point copy (smaller
+    // least_abs assigned (not initialised) so it lives in a register. point set with one point copy (smaller
     // than the two field copies): the inline budget then leaves the negation in all four Abs out of line
     Fix16_Point* RenderingRect = field_C_pCollisionShape->field_C_corners;
     UpdateCollisionBoundsIfNeeded_59E9C0();
 
-    Fix16 diff = RenderingRect[0].x - a2;
+    Fix16 diff = RenderingRect[0].x - line_x;
     Fix16 sign = Sign_4B9C20(diff.mValue);
     Fix16 least_abs;
     least_abs = Fix16::Abs(diff);
 
-    a3 = RenderingRect[0];
+    point = RenderingRect[0];
     a4 = 0;
 
-    diff = RenderingRect[1].x - a2;
+    diff = RenderingRect[1].x - line_x;
     if (Sign_4B9C20(diff.mValue) != sign)
     {
         return false;
@@ -1788,17 +1788,17 @@ bool Sprite::GetNearestVerticalEdgeToCoordinate_5A1030(Fix16 a2, Fix16_Point& a3
     if (diff < least_abs)
     {
         least_abs = diff;
-        a3.x = RenderingRect[1].x;
-        a3.y = RenderingRect[1].y;
+        point.x = RenderingRect[1].x;
+        point.y = RenderingRect[1].y;
         a4 = 1;
     }
     else if (diff == least_abs)
     {
-        a3.y = (a3.y + RenderingRect[1].y) / kFP16Two_7035C8;
+        point.y = (point.y + RenderingRect[1].y) / kFP16Two_7035C8;
         a4 = 5;
     }
 
-    diff = RenderingRect[2].x - a2;
+    diff = RenderingRect[2].x - line_x;
     if (Sign_4B9C20(diff.mValue) != sign)
     {
         return false;
@@ -1808,17 +1808,17 @@ bool Sprite::GetNearestVerticalEdgeToCoordinate_5A1030(Fix16 a2, Fix16_Point& a3
     if (diff < least_abs)
     {
         least_abs = diff;
-        a3.x = RenderingRect[2].x;
-        a3.y = RenderingRect[2].y;
+        point.x = RenderingRect[2].x;
+        point.y = RenderingRect[2].y;
         a4 = 2;
     }
     else if (diff == least_abs)
     {
-        a3.y = (a3.y + RenderingRect[2].y) / kFP16Two_7035C8;
+        point.y = (point.y + RenderingRect[2].y) / kFP16Two_7035C8;
         a4 = 5;
     }
 
-    diff = RenderingRect[3].x - a2;
+    diff = RenderingRect[3].x - line_x;
     if (Sign_4B9C20(diff.mValue) != sign)
     {
         return false;
@@ -1827,13 +1827,13 @@ bool Sprite::GetNearestVerticalEdgeToCoordinate_5A1030(Fix16 a2, Fix16_Point& a3
     diff = Fix16::Abs(diff);
     if (diff < least_abs)
     {
-        a3.x = RenderingRect[3].x;
-        a3.y = RenderingRect[3].y;
+        point.x = RenderingRect[3].x;
+        point.y = RenderingRect[3].y;
         a4 = 3;
     }
     else if (diff == least_abs)
     {
-        a3.y = (a3.y + RenderingRect[3].y) / kFP16Two_7035C8;
+        point.y = (point.y + RenderingRect[3].y) / kFP16Two_7035C8;
         a4 = 5;
     }
 

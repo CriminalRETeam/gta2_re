@@ -17,9 +17,9 @@ void __cdecl free(void* Block)
 }
 
 STUB_FUNC(0x5EE28A);
-int __cdecl fseek(FILE* a1, long a2, int a3)
+int __cdecl fseek(FILE* stream, long offset, int origin)
 {
-    return ::fseek(a1, a2, a3);
+    return ::fseek(stream, offset, origin);
 }
 
 STUB_FUNC(0x5EE316);

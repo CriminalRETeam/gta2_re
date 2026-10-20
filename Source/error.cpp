@@ -16,7 +16,7 @@ EXTERN_GLOBAL(s32, gGTA2VersionMajor_708280);
 EXTERN_GLOBAL(s32, gGTA2VersionMajor_708284);
 
 MATCH_FUNC(0x4D9470)
-void ErrorLog::Open_4D9470(const char_type* path, s32 a3)
+void ErrorLog::Open_4D9470(const char_type* path, s32 truncate_mode)
 {
     u8* fileNameLen = new u8;
     if (fileNameLen)
@@ -30,7 +30,7 @@ void ErrorLog::Open_4D9470(const char_type* path, s32 a3)
     this->field_3C_pLen = fileNameLen;
 
     s32 mode;
-    switch (a3)
+    switch (truncate_mode)
     {
         case 0:
             mode = 8; // ios::app
@@ -57,16 +57,16 @@ void ErrorLog::Open_4D9470(const char_type* path, s32 a3)
 // OBS: keep ErrorLog functions disabled for now.
 // Any changes on it must be tested before pulling a request. Run decomp_main.exe and check that your changes won't make it crash.
 WIP_FUNC(0x4D94E0)
-ErrorLog::ErrorLog(const char* FileName, int a3)
+ErrorLog::ErrorLog(const char* FileName, int truncate_mode)
 {
-    //Open_4D9470(FileName, a3);
+    //Open_4D9470(FileName, truncate_mode);
 }
 
 // This func matches but for some reason it's crashing the patched version
 MATCH_FUNC(0x4D9690)
-EXPORT void __cdecl log_on_line_written_cb_4D9690(void* a1)
+EXPORT void __cdecl log_on_line_written_cb_4D9690(void* pStream)
 {
-    ((ostream_type*)a1)->flush();
+    ((ostream_type*)pStream)->flush();
 }
 
 MATCH_FUNC(0x4D9620)
@@ -2327,46 +2327,46 @@ EXPORT void FatalError_4A38C0(s32 Code, const char_type* pSourceFile, s32 lineNo
             }
             else if (Code < 2000)
             {
-                s32 a33 = va_arg(va, int);
-                FatalError_4A07C0(Code, pSourceFile, lineNo, a33);
+                s32 arg1 = va_arg(va, int);
+                FatalError_4A07C0(Code, pSourceFile, lineNo, arg1);
             }
             else if (Code < 3000)
             {
-                s32 a33 = va_arg(va, int);
-                s32 a44 = va_arg(va, int);
-                FatalError_4A07C0(Code, pSourceFile, lineNo, a44, a44);
+                s32 arg1 = va_arg(va, int);
+                s32 arg2 = va_arg(va, int);
+                FatalError_4A07C0(Code, pSourceFile, lineNo, arg2, arg2);
             }
             else if (Code < 4000)
             {
-                s32 a33 = va_arg(va, int);
-                s32 a44 = va_arg(va, int);
-                s32 a55 = va_arg(va, int);
-                FatalError_4A07C0(Code, pSourceFile, lineNo, a55, a55, a55);
+                s32 arg1 = va_arg(va, int);
+                s32 arg2 = va_arg(va, int);
+                s32 arg3 = va_arg(va, int);
+                FatalError_4A07C0(Code, pSourceFile, lineNo, arg3, arg3, arg3);
             }
             else if (Code < 5000)
             {
-                s32 a33 = va_arg(va, int);
-                s32 a44 = va_arg(va, int);
-                s32 a55 = va_arg(va, int);
-                s32 a66 = va_arg(va, int);
-                FatalError_4A07C0(Code, pSourceFile, lineNo, a33, a44, a55, a66);
+                s32 arg1 = va_arg(va, int);
+                s32 arg2 = va_arg(va, int);
+                s32 arg3 = va_arg(va, int);
+                s32 arg4 = va_arg(va, int);
+                FatalError_4A07C0(Code, pSourceFile, lineNo, arg1, arg2, arg3, arg4);
             }
             else if (Code < 6000)
             {
-                s32 a33 = va_arg(va, int);
-                FatalError_4A07C0(Code, pSourceFile, lineNo, a33);
+                s32 arg1 = va_arg(va, int);
+                FatalError_4A07C0(Code, pSourceFile, lineNo, arg1);
             }
             else if (Code < 7000)
             {
-                s32 a33 = va_arg(va, int);
-                s32 a44 = va_arg(va, int);
-                s32 a55 = va_arg(va, int);
-                s32 a66 = va_arg(va, int);
-                s32 a77 = va_arg(va, int);
-                s32 a88 = va_arg(va, int);
-                s32 a99 = va_arg(va, int);
-                s32 a10 = va_arg(va, int);
-                FatalError_4A07C0(Code, pSourceFile, lineNo, a33, a44, a55, a66, a77, a88, a99, a10);
+                s32 arg1 = va_arg(va, int);
+                s32 arg2 = va_arg(va, int);
+                s32 arg3 = va_arg(va, int);
+                s32 arg4 = va_arg(va, int);
+                s32 arg5 = va_arg(va, int);
+                s32 arg6 = va_arg(va, int);
+                s32 arg7 = va_arg(va, int);
+                s32 arg8 = va_arg(va, int);
+                FatalError_4A07C0(Code, pSourceFile, lineNo, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8);
             }
             else if (Code < 8000)
             {
@@ -2378,8 +2378,8 @@ EXPORT void FatalError_4A38C0(s32 Code, const char_type* pSourceFile, s32 lineNo
             }
             else if (Code == 9011)
             {
-                s32 a33 = va_arg(va, int);
-                FatalError_4A07C0(Code, pSourceFile, lineNo, a33);
+                s32 arg1 = va_arg(va, int);
+                FatalError_4A07C0(Code, pSourceFile, lineNo, arg1);
             }
             else
             {

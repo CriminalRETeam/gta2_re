@@ -249,22 +249,22 @@ void ExplodingScore_50::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32
 MATCH_FUNC(0x596c90)
 void ExplodingScore_50::DrawNumbers_596C90()
 {
-    Fix16 a3;
+    Fix16 screen_x;
     Fix16 screen_y;
     Fix16 x_delta;
     Fix16 y_delta;
     Camera_0xBC* pCamera = &gGame_0x40_67E008->field_38_local_player->field_14C_view_camera;
-    pCamera->ProjectWorldToScreen_OutOfLine_4B90E0(field_28_x, field_2C_y, field_30_z, &a3, &screen_y);
-    if (a3 < dword_702C6C)
+    pCamera->ProjectWorldToScreen_OutOfLine_4B90E0(field_28_x, field_2C_y, field_30_z, &screen_x, &screen_y);
+    if (screen_x < dword_702C6C)
     {
-        a3 = dword_702C6C - a3;
-        x_delta = a3 / dword_702BC4;
+        screen_x = dword_702C6C - screen_x;
+        x_delta = screen_x / dword_702BC4;
         field_28_x += x_delta;
     }
-    else if (a3 > dword_702F10)
+    else if (screen_x > dword_702F10)
     {
-        a3 = dword_702F10 - a3;
-        x_delta = a3 / dword_702BC4;
+        screen_x = dword_702F10 - screen_x;
+        x_delta = screen_x / dword_702BC4;
         field_28_x += x_delta;
     }
 

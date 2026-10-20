@@ -604,22 +604,22 @@ void Object_2C::HandleCollision_522E10(Fix16_Point* pPoint)
 
         case collision_target_type::sprite_3:
         {
-            u8 a7;
-            u8 a8;
-            u8 a9;
-            hit_point = field_4->FindCollisionIntersectionPoint_5A2710(gCollisionTarget_679188.field_20_pHitSprite, *pPoint, field_4->field_0_rotation, a7, a8, a9);
+            u8 side_self;
+            u8 side_other;
+            u8 hit_type;
+            hit_point = field_4->FindCollisionIntersectionPoint_5A2710(gCollisionTarget_679188.field_20_pHitSprite, *pPoint, field_4->field_0_rotation, side_self, side_other, hit_type);
             Car_BC* pCar = gCollisionTarget_679188.field_20_pHitSprite->AsCar_40FEB0();
             if (pCar)
             {
                 pCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
-                pCar->field_58_physics->HandleObjectCollisionAt_482CC0(this, hit_point, a8);
+                pCar->field_58_physics->HandleObjectCollisionAt_482CC0(this, hit_point, side_other);
             }
             else
             {
                 Char_B4* pChar = gCollisionTarget_679188.field_20_pHitSprite->AsCharB4_40FEA0();
                 if (pChar)
                 {
-                    ResolveCollisionWithPed_5229B0(pChar, &hit_point, a9);
+                    ResolveCollisionWithPed_5229B0(pChar, &hit_point, hit_type);
                     HandleImpact_528E50(gCollisionTarget_679188.field_20_pHitSprite);
                 }
                 else

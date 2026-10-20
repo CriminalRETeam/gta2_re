@@ -5191,7 +5191,7 @@ MATCH_FUNC(0x453a40)
 void CarAI_78::UpdateTrainMovement_453A40()
 {
     Fix16 zpos = kF16Zero_677B90;
-    s32 a5 = 0;
+    s32 rotation_mode = 0;
     Car_BC* pCar = this->field_0_car;
 
     this->field_10_angle = this->field_0_car->field_50_car_sprite->field_0_rotation;
@@ -5217,16 +5217,16 @@ void CarAI_78::UpdateTrainMovement_453A40()
         switch (track_dir)
         {
             case road_direction::up_1:
-                a5 = (AngleFace_4F78F0 != 3) + 1;
+                rotation_mode = (AngleFace_4F78F0 != 3) + 1;
                 break;
             case road_direction::down_2:
-                a5 = (AngleFace_4F78F0 == 3) + 1;
+                rotation_mode = (AngleFace_4F78F0 == 3) + 1;
                 break;
             case road_direction::right_3:
-                a5 = (AngleFace_4F78F0 != 2) + 1;
+                rotation_mode = (AngleFace_4F78F0 != 2) + 1;
                 break;
             case road_direction::left_4:
-                a5 = (AngleFace_4F78F0 == 2) + 1;
+                rotation_mode = (AngleFace_4F78F0 == 2) + 1;
                 break;
             default:
                 break;
@@ -5245,7 +5245,7 @@ void CarAI_78::UpdateTrainMovement_453A40()
     }
 
     UpdateSpeedTowardTarget_4539D0();
-    field_0_car->field_58_physics->SetVelocityTowardTarget_55A1D0(xpos, ypos, i, &a5);
+    field_0_car->field_58_physics->SetVelocityTowardTarget_55A1D0(xpos, ypos, i, &rotation_mode);
 }
 
 MATCH_FUNC(0x453bb0)

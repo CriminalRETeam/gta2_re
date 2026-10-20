@@ -671,9 +671,9 @@ class Map_0x370
     }
 
     // 9.6f inline 0x420420
-    inline u8 GetBlockTypeAtCoord_420420(s32 a2, s32 a3, s32 a4)
+    inline u8 GetBlockTypeAtCoord_420420(s32 xpos, s32 ypos, s32 zpos)
     {
-        gmp_block_info* pBlock = GetBlock_4DFE10(a2, a3, a4);
+        gmp_block_info* pBlock = GetBlock_4DFE10(xpos, ypos, zpos);
         if (pBlock)
         {
             return GET_BLOCK_TYPE(pBlock->field_B_slope_type);

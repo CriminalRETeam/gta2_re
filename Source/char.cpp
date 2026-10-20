@@ -150,9 +150,9 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6FDA04, k_dword_6FD868 * 256, 0x6FDA04);
 
 
 MATCH_FUNC(0x4056C0)
-EXPORT Ang16 __stdcall ComputeShortestAngleDelta_4056C0(Ang16& a2, Ang16& a3)
+EXPORT Ang16 __stdcall ComputeShortestAngleDelta_4056C0(Ang16& angle1, Ang16& angle2)
 {
-    Ang16 delta = a2 - a3;
+    Ang16 delta = angle1 - angle2;
     if (delta > kAng180_669156)
     {
         delta = -delta;
@@ -193,16 +193,16 @@ void Char_B4::SetRemap_46DD50(u8 remap)
 }
 
 MATCH_FUNC(0x4F79B0)
-EXPORT Fix16 __stdcall SnapZTo16_4F79B0(Fix16 a2)
+EXPORT Fix16 __stdcall SnapZTo16_4F79B0(Fix16 zpos)
 {
-    return ((kFP16Half_6F67B0 + (a2 * 1000)).GetRoundValue()) / 1000;
+    return ((kFP16Half_6F67B0 + (zpos * 1000)).GetRoundValue()) / 1000;
 }
 
 MATCH_FUNC(0x529050)
-EXPORT void __stdcall UnpackSignedNibbles_529050(u8 a1, s8* a2, s8* a3)
+EXPORT void __stdcall UnpackSignedNibbles_529050(u8 packed, s8* pX, s8* pY)
 {
-    *a2 = (a1 >> 4) - 7;
-    *a3 = (a1 & 0xF) - 7;
+    *pX = (packed >> 4) - 7;
+    *pY = (packed & 0xF) - 7;
 }
 
 //https://decomp.me/scratch/iQH9l
@@ -1817,11 +1817,11 @@ void Char_B4::HandleObjectCollision_548840(Object_2C* pObj)
     //v19 = 4;
     //pPhi = pObj->field_8;
     //phi_type = pPhi->field_34_type;
-    Fix16_Point a4;
+    Fix16_Point new_pos;
     Fix16_Point point;
     // Unused: the original enters with EH state 4, so three more Fix16_Point locals were constructed up front
     Fix16_Point unused_1, unused_2, unused_3;
-    u8 a6;
+    u8 side_self;
     u8 out2;
     u8 out3 = 0;
     bool bUnknown = 0;
@@ -1862,7 +1862,7 @@ void Char_B4::HandleObjectCollision_548840(Object_2C* pObj)
             field_80_sprite_ptr->set_xyz_lazy_420600(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800, gCharB4_Saved_Zpos_6FD7FC);
 
             point = field_80_sprite_ptr
-                        ->FindCollisionIntersectionPoint_5A2710(pObj->field_4, a4, field_80_sprite_ptr->field_0_rotation, a6, out2, out3);
+                        ->FindCollisionIntersectionPoint_5A2710(pObj->field_4, new_pos, field_80_sprite_ptr->field_0_rotation, side_self, out2, out3);
             pObj->ResolveCollisionWithPed_5229B0(this, &point, 1);
             return;
         }
