@@ -41,12 +41,12 @@ class ErrorLog
     // the original's ??0ofstream@@QAE@XZ call and EH frame (ErrorLog::ErrorLog 0x4D94E0)
     ofstream field_0_ofstr;
 #else
-    // HACK: Isn't a pointer but just done so we can use the var in Write and some other funcs for now
+    // Only keeps the 0x3C bytes (the globals registry checks sizes); never used as a stream
     struct fake_ofstream
     {
       char buffer[0x3C];
     };
-    fake_ofstream field_0_ofstr; // Crashes standalone
+    fake_ofstream field_0_ofstr;
 #endif
     u8* field_3C_pLen;
 };

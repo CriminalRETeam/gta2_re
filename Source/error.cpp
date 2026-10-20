@@ -45,7 +45,7 @@ void ErrorLog::Open_4D9470(const char_type* path, s32 truncate_mode)
             break;
     }
 
-#if defined(__clang__) || (_MSC_VER <= 1200)
+#if !defined(__clang__) && (_MSC_VER <= 1200)
     ((ofstream&)field_0_ofstr).open(path, mode, filebuf::openprot);
 #endif
 
@@ -54,39 +54,35 @@ void ErrorLog::Open_4D9470(const char_type* path, s32 truncate_mode)
 
 // The member ofstream's constructor call and EH frame come from the real ofstream member
 // (error.hpp, VC6 only)
-// OBS: keep ErrorLog functions disabled for now.
-// Any changes on it must be tested before pulling a request. Run decomp_main.exe and check that your changes won't make it crash.
-WIP_FUNC(0x4D94E0)
+MATCH_FUNC(0x4D94E0)
 ErrorLog::ErrorLog(const char* FileName, int truncate_mode)
 {
-    //Open_4D9470(FileName, truncate_mode);
+    Open_4D9470(FileName, truncate_mode);
 }
 
 // This func matches but for some reason it's crashing the patched version
 MATCH_FUNC(0x4D9690)
 EXPORT void __cdecl log_on_line_written_cb_4D9690(void* pStream)
 {
+#if !defined(__clang__) && (_MSC_VER <= 1200)
     ((ostream_type*)pStream)->flush();
+#endif
 }
 
 MATCH_FUNC(0x4D9620)
 void ErrorLog::Write_4D9620(const char_type* pMsg)
 {
-#if defined(__clang__) || (_MSC_VER <= 1200)
-#else
-    using namespace std;
-#endif
+#if !defined(__clang__) && (_MSC_VER <= 1200)
     ((ostream_type&)this->field_0_ofstr) << pMsg << endl << flush;
+#endif
 }
 
 MATCH_FUNC(0x4D9650)
 void ErrorLog::Write_Log_4D9650(const char_type* buffer)
 {
-#if defined(__clang__) || (_MSC_VER <= 1200)
-#else
-    using namespace std;
-#endif
+#if !defined(__clang__) && (_MSC_VER <= 1200)
     ((ostream_type&)this->field_0_ofstr) << buffer << flush;
+#endif
 }
 
 MATCH_FUNC(0x4D9540)
