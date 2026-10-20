@@ -5878,3 +5878,38 @@ scheduler tells field stores apart per base pointer").
 
 Kept form: one `MenuPage_0xBCA* pPage;` set to `&field_136_menu_pages_array[k]` at the start of each page.
 Full build in the worktree: `[3413/3413] funcs OK`.
+
+## CarAI_78::UpdateStateMachine_44E560 (Oct 20): matched (186 -> 0)
+
+Cluster D (the last difference, see the Oct 14 section) was a source fact, found through the 1999 builds.
+- The other retail builds: 9.6, 10.1 (Russian) and 10.5 Japan (Dec 1999) have the same USM once addresses are
+  masked, the 8.9 demo differs by one error-log call. Their follow_behind keeps a flag in `%bl`: set to 1 after
+  the settle test, cleared on the failure paths, `test %bl,%bl; jne <epilogue>` after the block. The same `%bl`
+  holds `bOvertake` elsewhere in the function. 9.6f (VC7) also has no helper call there, so the flag is a local.
+- In our 10.5 the flag is gone (SP4 threads it into direct returns), but writing it in the source is what gives
+  the `test %eax,%eax` and the block-local `xor %eax,%eax`: the jump to the flag test after the stores changes
+  the block graph, so the compare block and the owner stores fall in different register-allocation regions.
+- Kept form: `bOvertake` reused as the hand-off flag (`= 0` at the start of the case, `= 1` after the pChase
+  stores in both branches instead of `return`, `if (bOvertake) return;` after the settle block). The pChase
+  stores are written in the 1999/9.6f order (state, settle, side), same bytes as the other order under SP4.
+- A new `bool` local for the flag gives the right D site but scores 384: the extra local shifts registers at
+  the first `PolarToCartesian_41FC20` and before the steer probe. Reusing `bOvertake` gives 0.
+- Inline budget: the flag costs 21 front-end nodes, and the inline decisions only stay the same for a caller
+  size of 7853 to 7866. 5 compiled-out asserts (2 nodes each, no code, no entry) are dropped to compensate:
+  the follow_behind `TargetCar` one, its three `pPhysics` ones, and the one at the start of move_left_3. Which
+  asserts go does not change the bytes.
+- The two cluster C spellings are still needed with the flag (each plain form costs 4).
+
+What the 1999 builds are worth as oracles (details in `docs/matching_quirks.md`, "Other retail builds"):
+- 10.5 Japan is not our source compiled by an older C2. Its objects have no `@comp.id` (VC5-era compiler).
+  Over 687 matched functions of 9 TUs, SP4 output equals Japan for 424 and RTM (`msvc6.0`, same as `msvc6.3`)
+  for 411. Where RTM and SP4 differ (71), Japan agrees with SP4 13 times and with RTM never.
+  Over the whole exe, 1448 of 2357 paired matched functions are identical to Japan.
+- The RTM/SP4 difference in USM comes from C1XX, not C2. The RTM and SP3 C2 have the same 0x400
+  optimizer-entry cap. Japan's USM stays under the cap (its prologue equals our compile with the cap raised),
+  so it cannot confirm the 35 extra entries.
+- The 1999 alongside twins have a 5-entry `task_type` jump table: a non-empty dead `case 1` was removed by
+  10.5. Empty `case 1: case 2:` labels make no table. The left/right asymmetries (the extra `bOvertake = 0`,
+  `bOvertake` on the stack on the left and in `%bl` on the right) are the same in 1999 and 2001.
+
+Full build in the worktree: `[3415/3415] funcs OK`.

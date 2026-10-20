@@ -1,11 +1,10 @@
 #!/bin/bash
-# score.sh [C2DIR] : copies Source/ to build_vc6/usm_exp, applies experiment.patch, compiles CarAI_78.cpp with
+# score.sh [C2DIR] : copies Source/ to build_vc6/usm_exp, compiles CarAI_78.cpp with
 # the toolchain in C2DIR (default: the stock one) and prints UpdateStateMachine_44E560's permuter score (0 = match).
 HERE="$(cd "$(dirname "$0")" && pwd)"; ROOT="$(cd "$HERE/../.." && pwd)"
 RT="$ROOT/3rdParty/gta2_re_compile_tools"; TC="${1:-$RT}"; W="$ROOT/build_vc6/usm_exp"
 winpath() { printf 'Z:%s' "$(realpath -m "$1")" | tr / '\\'; }
 rm -rf "$W"; mkdir -p "$W"; cp -r "$ROOT/Source" "$W/"
-(cd "$W" && patch -s -p1 < "$HERE/experiment.patch") || exit 1
 export WINEDEBUG=-all WINEPATH="$(winpath "$TC/VC98/Bin");$(winpath "$RT/Common/MSDev98/Bin")"
 export INCLUDE="$(winpath "$RT/VC98/ATL/Include");$(winpath "$RT/VC98/Include");$(winpath "$RT/VC98/MFC/Include")"
 FLAGS="/DWIN32 /D_WINDOWS /D_CRT_SECURE_NO_WARNINGS /D_CRT_NON_CONFORMING_SWPRINTFS /DIMGUI_DLL /W3 /EHsc /GX /ML /O2 /DNDEBUG"

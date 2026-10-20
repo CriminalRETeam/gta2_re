@@ -2992,11 +2992,9 @@ static inline s32 __stdcall GetOppositeFace_42A660(const s32& face)
     }
 }
 
-WIP_FUNC(0x44e560)
+MATCH_FUNC(0x44e560)
 void CarAI_78::UpdateStateMachine_44E560()
 {
-    NOT_IMPLEMENTED;
-
     Ang16 target_angle = kAng0_677CE8;
     Ang16 heading_copy = kAng0_677CE8;
     Ang16 aim_angle = kAng0_677CE8;
@@ -3641,7 +3639,7 @@ void CarAI_78::UpdateStateMachine_44E560()
         {
             case car_chase_state::follow_behind_0:
             case car_chase_state::follow_behind_2:
-                assert(gCurrCarAI_TargetCar_6779B0 != 0);
+                bOvertake = 0;
                 if ((u16)pChase->field_2A_settle_counter >= 10u)
                 {
                     gCurrCarAI_TargetX_6779F0 = savedTargetX;
@@ -3662,26 +3660,29 @@ void CarAI_78::UpdateStateMachine_44E560()
                             {
                                 pOwner->field_16C_car->field_60_pChaseTask->field_C_chase_state = car_chase_state::move_left_3;
                                 pOwner->field_16C_car->field_60_pChaseTask->field_2C_side_counter = 0;
+                                pChase->field_C_chase_state = car_chase_state::choose_side_5;
                                 pChase->field_2A_settle_counter = 100;
                                 pChase->field_2C_side_counter = 0;
-                                pChase->field_C_chase_state = car_chase_state::choose_side_5;
-                                return;
+                                bOvertake = 1;
                             }
                         }
                         else
                         {
+                            pChase->field_C_chase_state = car_chase_state::choose_side_5;
                             pChase->field_2A_settle_counter = 100;
                             pChase->field_2C_side_counter = 0;
-                            pChase->field_C_chase_state = car_chase_state::choose_side_5;
-                            return;
+                            bOvertake = 1;
                         }
                     }
+                }
+                if (bOvertake)
+                {
+                    return;
                 }
 
                 dword_677A8C = gCurrCarAI_TargetCar_6779B0->GetCarLinearSpeed_43A240();
                 if (target_dist < gF16fOne_677B94)
                 {
-                    assert(pPhysics != 0);
                     pPhysics = this->field_0_car->field_58_physics;
                     pPhysics->field_91_is_foot_brake_on = 0;
                     pPhysics->field_93_is_forward_gas_on = 0;
@@ -3690,7 +3691,6 @@ void CarAI_78::UpdateStateMachine_44E560()
                 }
                 else if (gCurrCarAI_Velocity_677B00 < dword_677A8C + dword_677B5C)
                 {
-                    assert(pPhysics != 0);
                     pPhysics = this->field_0_car->field_58_physics;
                     pPhysics->field_93_is_forward_gas_on = 1;
                     pPhysics->field_91_is_foot_brake_on = 0;
@@ -3699,7 +3699,6 @@ void CarAI_78::UpdateStateMachine_44E560()
                 }
                 else
                 {
-                    assert(pPhysics != 0);
                     pPhysics = this->field_0_car->field_58_physics;
                     pPhysics->field_95 = 1;
                     pPhysics->field_91_is_foot_brake_on = 0;
@@ -3714,7 +3713,6 @@ void CarAI_78::UpdateStateMachine_44E560()
                 break;
 
             case car_chase_state::move_left_3:
-                assert(gCurrCarAI_TargetCar_6779B0 != 0);
                 if (pChase->field_2C_side_counter == 10)
                 {
                     field_0_car->field_50_car_sprite->set_xyz_lazy_420600(gCurrCarAI_TargetX_6779F0, gCurrCarAI_TargetY_6779F4, gCurrCarAI_zpos_677C48);
