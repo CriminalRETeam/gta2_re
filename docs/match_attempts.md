@@ -5792,6 +5792,288 @@ elsewhere. (3) No natural site form changes the graph: single shared tail, bool 
 branches, `break`, function scope; threading runs before allocation and dupB never duplicates here, so 9.6f's single
 tail is a VC7 cross-jump. D stays open on both routes.
 
+## Ped::CalcApproachPointNearTargetPed_4645B0 (0x4645B0): inline budget analysis (Oct 19, not matched)
+
+Source left at the committed 257 form (per-site helpers). No natural form beats it; this section records why.
+
+**Original's call pattern** (10.5 asm, 9.6f 0x436BF0 for the source shape): first branch `angle = rot; angle += kAng180`
+with `Normalize_406C20` out of line (9.6f: `get_rotation_433A40` + `compound_add`); cases 0, 1, 4, 5, 6: both `+=`
+call Normalize, both polar multiplies call `Multiply_408680`; case 2: `operator+` inline with its normalizing ctor out
+of line (`AssignNormalized_409300`); case 3: polar then the bUnk `+=` (new in 10.5, 9.6f's case 3 has no bUnk block);
+case 7: both Normalize out of line, sine multiply inline, cosine out of line; default: first `+=` fully inline,
+second out of line, sine inline, cosine out of line; atan2 line: both `Fix16::operator-` inline; else branch: the
+four `-=`/`+=` fully inline, polar with both multiplies out of line.
+
+**Natural form** (9.6f shape: `PolarToCartesian_41FC20` at every site, `angle += k`, case 2 `angle = kAng180 + angle`,
+first branch as in 9.6f, `pTarget->get_cam_x()/get_cam_y()` as 9.6f calls them). Caller size 1212 on a stripped copy
+(`inl.sh` compiles the file as is, and `WIP_IMPLEMENTED` adds 32 nodes: 1244). Site table, nested budget =
+(budget - size) / sites_left:
+
+| site | callee (size) | budget | left | nested | ours | original |
+|---|---|---|---|---|---|---|
+| first `+=` | AS 41 / Normalize 67 | 2424 | 58 | 41 | N out | N out |
+| c0, c1 `+=` x2 | AS / Normalize | 2383..2194 | 55..49 | 42..43 | out | out |
+| c0, c1 polar | P 66 / op* 57 x2 | 2301, 2153 | 53, 48 | 42, 43 | out, out | out, out |
+| c2 `kAng180 + angle` | op+ 54 / ctor 44 | 2087 | 45 | **45** | **ctor inline** | ctor out (needs <= 43) |
+| c2..c6 `+=`, polars | | 1989..1397 | 44..24 | 44..55 | out | out |
+| c7 `+=` x2, polar | | 1331, 1290, 1249 | 21, 20, 19 | 61, 62, 62 | out, out, sin in | same |
+| default `+=` x2 | | 1126, 1018 | 16, 15 | 67, 65 | in, out | in, out |
+| default polar | | 977 | 14 | 65 | sin in | sin in |
+| atan2 `-` x2 | op- 52 | 854, 802 | 10, 8 | | in | in |
+| else `-=`/`+=` x4 | | 750..426 | 7..4 | 101..96 | in | in |
+| else polar | | 318 | 3 | **84** | **sin in** | both out (needs <= 56) |
+
+So the natural form is two decisions off (score 874; 758 with `field_40_rotation` instead of the getter in the first
+branch, which removes the 0xC temp there). The default case sits exactly on its edge (nested 67).
+
+**Why no caller size or free site fixes it** (`inlsim` model, checked against `inl.sh`): with k = sites from the
+default's first `+=` to the end, that `+=` needs budget B in [41 + 67k, 82 + 67k) (inline, then the second one out).
+The else chain needs, at the first else `-=`, B0 in [633, 669) (all four Normalize inline and the polar out of line,
+7 sites left), and B0 = B - 376 (charges of the default case and the two subtractions). With the two getters k = 16:
+B0 in [737, 778), about 100 too high, whatever the caller size; free sites after the else polar move both windows
+together. Exhaustive search over caller size, free sites in every segment (cases 2-7, default, atan2 line, else switch,
+after the else polar), default position, else-first order, and callee sizes (AS 36-60, P 56-90, op- 44-66, op+ 50-120)
+finds no solution with getters. With field access for the target cam (k = 14) the windows meet, and then the
+original needs one of:
+- caller size 1132..1136 (ours 1204 with fields, stripped), or
+- one free site after the else polar, one or more in cases 2-7, size 1165..1170, or
+- two free sites after the else polar, one or more in cases 2-7, size 1199..1203.
+
+A scaffold with field access, two unused `Fix16` locals after the else adds, one in a `case 4` block and four code
+statements deleted to reach 1203 gives exactly the original's pattern (validated with `inl.sh`), but scores 854: the
+extra locals move `push %ebp` to the switch head and shift slots. None of the three options has a natural source:
+size-neutral spellings found give at most -13 (single `if` for the group check -5, `field_40_rotation` -6,
+`field_200_id` -2), a `Fix16` local costs 11 nodes, a getter statement 12, `const` globals 0, `Ped* pLeader` /
+`Ped* pTarget` locals about 0. 9.6f keeps the leader and the target in `edi` across calls, so the source probably
+has those two locals; they do not change the budget.
+
+Measured forms (permuter_score, stripped): natural with getters 874; + `field_40_rotation` 758; + `Ped* pLeader` 874;
++ single group `if` 901; fields 1240; fields + `pTarget` 1206 nodes, same decisions. Open: the source of about 70
+missing front-end nodes (or the extra free sites) between the 9.6f-shaped source and the original.
+
+**Round 2 (Oct 19, not matched).** Source left at the committed 257 form. Small TU copy of the function, `inl.sh -a`
+on stripped copies, `inlsim` searches over caller size, extra free sites per segment and callee sizes.
+
+- Free sites: `Fix16::operator+=` is free (36, two compiled-out asserts), so each `field_1C4/1C8 += vec` is a free
+  site; so are the three local ctors, `operator>`/`operator==` (33), `get_rotation_433A40` (32), `get_id` (24) and
+  `get_cam_x/y` (34). Round 1's windows already counted them. Segments for extra free sites: before the case 2
+  `operator+` (no effect), cases 2-7 (A), default (B), atan2 (C), else before its polar (D), after the else polar (E).
+  Only these combinations work: none extra at size 1132..1136; A >= 1 with E = 1, 2, 3 at about +33 nodes per E site.
+  B, C or D sites never work, nor uniform extra or missing sites per case, nor a per-block `Fix16 vec_x, vec_y`
+  (no window at all), nor `angle = angle - k` in the else (the ctor level halves the nested budget), nor the atan2
+  statement after the else branch. No pair of callee size changes within +-10 (AS, Normalize, polar, op*, op+, op-)
+  gives a window near the natural size.
+- Node prices measured on the caller: `{}` around a single statement +2 (so the brace style of the bUnk blocks
+  matters), `angle += k;` 10, `field_1C4 += vec;` 13, polar call 12, bUnk block 25, `x = y;` 5, `break;` 1,
+  atan2 statement 63 (fields), `if (bUnk) angle += k; radius = bUnk ? a : b;` 3 less than the if/else with braces
+  and the same code (C2 merges the two tests), `return;` after the atan2 instead of the `else` block -5,
+  `Ped* pTarget` local -7 but it lives in `ebp` and changes the code, `bool` or `u8` bUnk and `= 0`/`= false` 0.
+- The atan2 code settles getters vs fields: the original loads the target's cam into a register and subtracts it
+  (`mov 0x1ac(%eax),%ecx; sub %ecx,%edx`), which is what `get_cam_x()`/`get_cam_y()` compile to; fields give
+  `sub 0x1ac(%eax),%edx`. Same for the first branch (`mov 0x40(%eax),%ax; add %ax,%cx`: a getter temp). So the
+  source has the 9.6f getters, which put two free sites in segment C, and with free getters no caller size works.
+- With getters the model has exactly one way out: about 70..106 more budget charged by the atan2 statement, with
+  no extra site. Both getters charged at 41..53 nodes give a window at caller size 1184..1185 (up to 1190..1203
+  with one more free site in cases 2-7, depending on the getter size), and the 9.6f-shaped source with getters is
+  then only one decision off (case 2's ctor inline), at 1212. `Fix16 x = field_1AC_cam.x; return x;` or
+  `return Fix16(field_1AC_cam.x);` make the getter 41, but a full build with either breaks 14 matched functions
+  (3397/3411: `FindBestTargetPed_466BF0`, `Init_AI_Chase_44E0C0`, `dual_pistol_5DDA70`, ...), so the shared getters
+  are free in 10.5. The extra charge has to come from something specific to this statement that is still unknown.
+- Natural sizes with getters (stripped): 9.6f shape 1212; + single group `if` 1205; + no braces on the `else`
+  of cases 4-7/default 1195; + ternary instead 1190; + `return` form 1185-1190.
+- Scaffolds that reproduce the exact inline pattern (dead getter statements as free sites) score 636: `push %ebp`
+  lands at the switch head instead of inside case 3 for every natural-form variant tried, while the committed
+  per-site helper form keeps it in case 3. That is a second open difference once the pattern is right.
+
+**Round 3 (Oct 19, not matched).** Source left at the committed 257 form. All results on the real compiler
+(`inl.sh` on a small TU holding the stripped function, scored with `permuter_score.py`).
+
+- Caller size scan, natural getters form, every size from 1104 to about 1350 (step 1 node: `{}` pairs, plus
+  removals of non-site statements below 1212), with extra free sites (`Fix16` locals) in case 4 (A) and after the
+  else adds (E). Ranges where at most one decision is off (site index in the target signature: 7 case 2 ctor, 23
+  case 7 polar, 24 default first `+=`, 33 else polar):
+
+  | A, E | best sizes | wrong decisions |
+  |---|---|---|
+  | 0, 0 | 1184-1185 | else polar |
+  | 1, 0 / 2, 0 / 3, 0 | 1184-1203 | else polar |
+  | 0, 1 | none | always 2 or more |
+  | 0, 2 | 1137-1144 | case 7 polar, default `+=` (else polar right) |
+  | 1, 1 | 1217-1229 | else polar |
+  | 1, 2 | 1141-1144 / 1251 | case 7 + default / else polar |
+
+  The full pattern is never reached: the model's negative claim holds on the real compiler. The same scan with
+  field access in the atan2 statement does reach it (A 1, E 2, sizes 1199-1203), as round 1 predicted. Natural
+  source at 1185 (single group `if`, ternary radius, `return` after the atan2) is one decision off (else polar),
+  score 749.
+- Store sinking: `radius = kFpThreeEighths; if (bUnk) {...}` in cases 4-7 and default is not sunk into an else
+  arm (`radius` is address-taken, the first store stays before the test), so the code differs from the original's
+  if/else. It is 30 nodes smaller (1182) and its size windows are the natural ones shifted, nothing new (scored 570
+  only because case 2's ctor goes out of line at that size).
+- bUnk block as a file-local inline helper: the natural body is 42 nodes (charged, not free), and its nested
+  `angle += k` gets `budget / sites_left` = 40 at case 0, so the whole `operator+=` is called out of line there. A
+  40-node spelling (comma expression) is free, but the free sites it adds in cases 0-3 give exactly the windows of
+  the natural form (same scan, same table row 0, 0); used in every case (after the sunk store), its nested `+=` goes
+  fully out of line in cases 0-2.
+- `push %ebp`: every natural getters form keeps it in case 3, as the original does (with or without extra free
+  sites). It moves to the switch head only when the atan2 statement uses field access, so round 2's scaffolds
+  (fields or dead getter statements) caused it; it is not an independent difference.
+- New lead, first branch: `angle = rot; angle += kAng180` compiles to the original's `mov k,%cx; add %ax,%cx` only
+  when `kAng180_6785A6` is not defined in the same TU; `DEFINE_GLOBAL(_INIT)` of it in Ped.cpp (with or without the
+  initialiser) gives the 0xC getter temp in the natural forms and in the committed form alike. The committed
+  per-site form with that first branch and unbraced `else radius = kFpThreeEighths_67878C;` in cases 4-7/default
+  (1201 nodes) scores 0 in a TU where the global is extern, 299 in Ped.cpp. Not usable as is (per-site helpers);
+  the global's definition may belong to another TU in the original (compare STORE_CAR_INFO_509180's linkage lever).
+- Follow-up on that lead, in the real Ped.cpp: `EXTERN_GLOBAL(Ang16, kAng180_6785A6)` at the top and its
+  `DEFINE_GLOBAL_INIT` moved after the last function changes nothing (committed form 257, the per-site form above
+  299, natural 749, same as with the definition in place): C2 sees the TU's definition whatever its position, so
+  definition order is not a lever. The natural form is 749 both with the global extern (small TU) and defined, at
+  1185 nodes with one decision off (else polar), and keeps the 0xC first-branch temp in both: there the temp comes
+  from case 2's `kAng180_6785A6 + angle` (member `operator+` or `Add_ool`, `this` bound to the global); the same
+  source with case 2 through a free function `f(const Ang16& a, const Ang16& b)` has no temp (496). So the
+  per-site helpers are still needed for the else polar, and the first branch is not fixed by the extern alone.
+
+**Round 4 (Oct 19, not matched).** Source left at the committed 257 form. Two structural changes that move sites
+between segments, on the round 3 small TU (stripped copies, `inl.sh -a`, `permuter_score.py`).
+
+- Lever 1, atan2 statement after the if/else behind a flag (`if (bStopped) { switch } else { ... }` then
+  `if (bStopped) field_130 = atan2(...)`): the getters and both `operator-` move after the else polar. `inlsim`
+  with the sites reordered, scanned over caller size 1050..1400 and 0..3 extra free sites in cases 2-7, default,
+  between the switch and the else, in the else, after the else polar and after the atan2, finds no window with
+  getters. Exact reason (inl.sh log at 1208): the else chain runs with 11..7 sites left, so its four Normalize need
+  B0 >= 778, 819, 860, 901 (B0 = budget at the first else `-=`) and the polar out of line needs
+  (B0 - 432 - 66) / 7 <= 56, B0 <= 890: an 11 node conflict whatever the caller size, and extra free sites after
+  the polar widen it (67 per site on the adds, 57 on the polar). Without getter sites (n = 5 at the polar) the
+  windows meet, but only with exactly one free site between the then switch and the else adds, at 1150..1154.
+- Lever 1 on the real compiler (getters, `u8`/`bool` alike): a flag computed from the compare
+  (`u8 bStopped = vel == kFpZero`) keeps `sete; test; je` (1206-1208 nodes, score 1312); a flag set in the
+  then arm (`bStopped = false; if (vel == kFpZero) { bStopped = true; ... }`) is threaded away and gives the
+  original's layout (one `jne` to the else, atan2 after the cases, two `ret`), 1208 nodes, score 962. Pattern as
+  the model predicts: case 2 ctor inline, 3rd else Normalize out, else polar sine inline. The `Fix16 dx/dy`
+  spelling (x first) keeps that pattern (1212, 962).
+- Lever 2, `Fix16 tx = pTarget->field_1AC_cam.x; Fix16 ty = ...;` before the atan2: no site, +7 each, and it
+  does give the register form `mov 0x1ac(%eax),%ecx; sub %ecx,%edx` (copying x first; y first loads y first),
+  with the `0x1b0(%eax)` load scheduled one instruction earlier than the original. In the return form it is 1191
+  nodes, score 961; its windows are the field-access ones (1132..1136, or a free site in cases 2-7/default with one
+  after the else polar at 1165..1170 or two at 1199..1203), 55 nodes or two sites away. Levers 1 + 2 together:
+  1214 nodes, score 1068, needs the C site above and -60 nodes.
+- Diagnostic scaffold (lever 2, dead `Fix16` locals in the default and after the else adds, 1224 nodes): all
+  decisions right except case 2's ctor (inline), score 650, below the best natural 749 even with the 0xC first
+  branch temp. It shows a second window at 1221..1225 that is off only by case 2: case 2's `kAng180 + angle` ctor
+  goes inline from 1186 nodes in the best natural form and from 1208 in the scaffold, which caps the caller size.
+
+**Round 5 (Oct 19, not matched).** Source left at the committed 257 form. Lever tested: the source order of the
+switch cases, since the inline walker visits case bodies in source order while the jump table is by value.
+
+- Layout rule (probe with cases written 2, 0, default, 1, 3, then default, 2, 0, 3, 1): VC6 lays out jump table case
+  bodies in source order, and puts the default body last whatever its source position. The original's table at
+  0x464E80 points to bodies in ascending address order 0, 1, 2, ..., 7 with the default after case 7, so its source
+  has cases 0..7 in value order; only the default's source position is left free.
+- Default position scan (`inlsim` on the lever 2 log, round 4's `Fix16 tx/ty` copies, default block moved before
+  each case, 0..2 extra free sites in case 3, the default, the else before its polar and after it, sizes
+  1080..1320): only "default last" reaches the pattern, with exactly round 4's windows (1132..1136, 1165..1170,
+  1199..1203). Any earlier position leaves the default's first `+=` out of line (best: 1 off before case 7, 2 off
+  elsewhere), because it needs the large nested budget of the end of the walk. Checked on the real compiler: with
+  the default before case 7 the decisions follow walk position (case 7 gets `Ai Ai`, the default `Ao Ao`), score
+  1063; default before case 0 or case 2, 1300. So moving case 2's budget by source order is impossible, and its
+  ctor still caps the caller size.
+- Natural free sites before the else polar (`Fix16 dx; Fix16 dy;` in the else block, used as the polar's outputs):
+  1213 nodes, three decisions off (case 2 ctor inline, fourth else Normalize out, else polar sine inline), score
+  707, the best natural score so far. The model with these two sites never reaches the pattern at any size or
+  extra free site count: the else polar keeps its sine inline everywhere (best: 2 off at 1165, 1184, 1221).
+- Open as before: the original needs 55..59 fewer nodes than the natural lever 2 form (1191), or free sites after
+  the else polar that no natural spelling provides.
+
+**Round 6 (coordinator + 4 parallel workers): 257 (per-site helpers) -> 156 natural, the then-branch byte-exact.**
+- H1 (VC7 witness): our natural 9.6f-shape source compiled with VC7 scores 0 against 9.6f 0x436BF0 once case 2 is
+  written `angle = angle + kAng180_6785A6` (9.6f calls `angle_plus` with `this` = angle; `kAng180 + angle` was 378).
+  In VC6 that spelling removes the first branch's 0xC temp (874 -> 723) with no change in nodes or sites. VC7 also
+  rejects the ternary radius (337), store sinking (285), `Fix16 tx/ty` copies (249), `pTarget` at the top (438),
+  `field_40_rotation` (36) and confirms the getters, the braced if/else and the bUnk statement order; 9.6f has no
+  hidden local or temporary (frame 0x14: angle, radius, vec_x, vec_y, one shared Ang16 temp). VC7 does not see dead
+  code, so it cannot reveal dead nodes or sites. The remaining 0xC temp in Ped.cpp comes from the in-TU definition
+  of `kAng180_6785A6` (any definition form: init, dynamic init, static); with the definition in another TU the
+  temp is gone. Its 10.5 initialiser 0x45FCB0 sits between `Mugger_AI_45F360` and `CarThief_AI_45FF60`, which
+  suggests the original Ped code was more than one TU; the definition now lives in Char_Pool.cpp (every other user
+  compiles identically, full build green).
+- H2 (node accounting, probe-measured): the ternary radius does NOT give the same code as the if/else (it selects
+  an address), so the earlier "ternary -3" scores measured wrong code; braces, `else` without braces and the comma
+  form give identical code (+20 / +10 / 0). Per-construct prices: `case N:` 3, `break` 1, `if (bUnk)` 8,
+  `angle += k` 10, `radius = k` 5, polar 12, `field += vec` 13, case 2 15, each velocity test 26, group condition
+  50, atan2 47. Getters floor 1165; at 1184..1185 only the else polar is wrong (score 156: `g3`, braces everywhere
+  except `if (bUnk) angle += k, radius = 3/4; else radius = 3/8;` in cases 4-7/default); 1171..1183 gives 221,
+  1186+ gives 780 (case 2 ctor goes inline). Simulation with 0..2 free sites at any position and sizes 1050..1350
+  never gives the full pattern.
+- H3 (free sites after the else polar): measured every construct there; none that keeps the code and 9.6f adds a
+  site (`(void)`, `Fix16&` refs, functional casts, `return;` are not sites; `x = x + v` and `Add` replace the `+=`
+  site with a charged one). Only setters (`SetMoveTargetX(field + vec)`) add sites without changing the final
+  code, and they reproduce the exact pattern in a diagnostic, but 9.6f calls `Fix16::operator+=` directly there.
+  Fix16/Ang16 have no user copy ctor or `operator=(const T&)`, so copies are never sites.
+- H4 (permuter, about 9800 compiles): nothing below the base with the code intact; the only pattern gains come
+  from the known dead-site mechanisms (a value-returning getter as `+=` target, dead temporaries).
+- Charged `Fix16::operator+=` (41..50 nodes) is excluded by both H2 and H4: all 20 `+=` sites get charged and the
+  budget is exhausted before the default (1276..1646).
+- What is left: at 1184..1185 nodes with getters, the else polar's nested budget is (B - 66) / 3 = 84 and must be
+  <= 56, i.e. about 70..106 more charge between the default's first `+=` and the else chain with no extra site.
+  No natural construct found supplies it; the setter diagnostic shows the compiler can produce the pattern.
+
+**Round 7 (coordinator + 5 workers, after the 156 form): the last decision is closed on every legitimate route.**
+The else polar needs its nested budget (B - 66) / 3 <= 56 (ours 84 at 1184..1185 nodes), i.e. +70..+107 charge
+between the default's second `+=` and the else polar with no extra site, or a charged extra site above 136 plus a
+free site in cases 3-7, or two fewer sites after the default. Results:
+- T1 (window model, verified against inl.sh from 1150 to 1240 nodes): pure charge 70..107 works only after the
+  default's second `+=`; one or two charged sites alone never work (k grows by 67 per site while the case 2 ctor caps
+  the size at 1185, +22 per free site after case 2); a charged site >= 136 plus a free site works at 1217..1229; the
+  "exchange" (one `.mValue` raw add in the default, k 16 -> 15, plus one charged dead Fix16 site) works at 1184..1185.
+  On the real compiler the exchange gives SCORE 0 on Ped.cpp (`Fix16 unused;` in the default, one raw add, a dead
+  `Fix16::Abs(radius);` after the atan2 line, comma forms in cases 0-3; 1197 nodes), proving the pattern is reachable;
+  it is padding (unused local, dead Abs, asymmetric raw add) and is not committed. Dead `MaxAbsDistance` (326) and dead
+  `Ang16 +=` (258) leave calls or Normalize code behind.
+- T2 (callee sizes, modelled, then checked on the real compiler and on the objects of all 112 TUs): only four
+  callees give the pattern alone and all break other matches: op- 87..105 (op- 54 already changes 9 MATCH, 90 changes
+  61), getters 41..53 (14), `Fix16(s32,u8)` and sine/cosine (wrong decisions elsewhere in this function). AS alone at
+  45..55 never works (it is also charged at the 16 `+=` before the default, which moves that window); P, op*, op+
+  alone never. Pairs: AS +3..+8 with Normalize -5..-8, Normalize -5..-7 with P +7..+15, Normalize -1..-4 with op-
+  +24..+30. Normalize 65/63 changes ManageTrafficCarDirection_448CE0, 61 changes 3 matches, 59 six (one shared
+  Normalize: 9.6f's ctor, += and -= all call 0x401C10). AS 47/49/51 and P 68 change no other match, AS 53 one, P 72
+  two, op* 59 thirteen. AS 47 + Normalize 61 scores 0 on Ped.cpp at the cost of ManageTrafficCarDirection,
+  HandleGenericCollision_54A530 and GetNextRotationToward_550F60: net loss, not applied.
+- T3 (directives): `#pragma inline_depth` acts per call site (0 puts the polar out of line, 1/2/255 nothing),
+  `inline_recursion`/`auto_inline` nothing, `__forceinline` only removes charge (494..2380). Excluded.
+- T4 (fewer sites, identical code): `field_1C4_move_target_x.mValue += vec_x.mValue;` in the default is byte-identical
+  and removes free sites (k 14 at 1183: else polar right, case 2 ctor and case 6 sine wrong, 643; floor 1168 with
+  the known savings, windows 1132..1136 or 1165..1170 with two free sites). Refuted by VC7 against 9.6f: the raw adds
+  score 94 and `field_200_id` 355 where the natural form scores 0, so 9.6f calls `operator+=` and the getters there.
+- T5 (plausible dead code): VC6 deletes a dead Fix16 op-/op*/Abs (charge kept, no code) but never anything through
+  Normalize, and a dead `MaxAbsDistance` keeps its out-of-line calls; VC7 deletes the same dead calls, so 9.6f cannot
+  confirm or exclude dead code. With getters no combination of dead Fix16 sites has a window; with the (refuted) local
+  copies, windows exist but need 35..56 fewer nodes than the real forms.
+Conclusion: the function matches only with padding or with a shared-header size change that loses matches
+elsewhere. The committed natural form (156, then-branch byte-exact) stays WIP.
+
+**Matched with a reconstructed dead statement (Oct 19).** The project owner accepted a documented reconstruction
+after round 7. The committed form is the 156 natural form plus three spellings, scored 0 on Ped.cpp and verified by
+the full build (1184 caller nodes, `inl.sh` on the committed file):
+- `bUnk = true, field_264_killer_id_timer = 50;` for the group `if` and `angle += kAng180_6785A6, radius =
+  kFpThreeQuarters_678794;` in the bUnk blocks of cases 0-3 (comma forms, same code as the braced blocks). They
+  only lower the caller size: -2 and -8 nodes. Case 2's `operator+` gets budget 2031 with 45 sites left, nested 43,
+  so its normalizing ctor (44) stays out of line; at 1186 nodes it goes inline (score 636). Round 7's `Fix16 unused;`
+  in the default (a free site that lifted that cap by about 22 nodes) is no longer needed.
+- `field_1C4_move_target_x.mValue += vec_x.mValue;` for the default's first target add (same bytes as
+  `Fix16::operator+=`): one free site fewer after the default's first `+=`, so k goes from 16 to 15. With both adds
+  written `+=` (and the dead Abs at any placement) the score is 262: the window model needs k to drop by one.
+- `Fix16::Abs(radius);` after the atan2 line, dead: VC6 deletes its code, but the inline walker charges it (57,
+  plus its nested `operator-` 42, one site). With the raw add this exchanges a free site for a charged one: the
+  default's first `+=` keeps nested 67 (Normalize inline, the second one out at 64), and the else polar gets budget
+  207 with 3 sites left, nested 47 <= 56, so both multiplies go out of line as in the original. The same Abs also
+  gives 0 at the start of the else branch, just before the else polar, or as `Fix16::Abs(vec_x)`.
+
+The Abs is not claimed to be the original line: the original must have had some computation between the default
+and the else polar that the compiler removed, charged about 70..107 nodes in one site (rounds 6 and 7). If another
+build (a later 9.6f-like build, a debug build, a PDB) ever shows that line, replace the Abs with it; if it also
+shows the default's adds, or one free site fewer elsewhere after the default's first `+=`, restore
+`field_1C4_move_target_x += vec_x;` and check the case 2 cap again (the size must stay at 1184..1185 or below
+with the windows of round 7).
 ## miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180 (Oct 19): matched (80 -> 0)
 
 The fix is not in the function: `gStoredCar_6F7560` has internal linkage (`static`) in the original. With it, the
