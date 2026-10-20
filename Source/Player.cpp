@@ -2720,21 +2720,21 @@ void Player::RestoreCarsFromSave_56A0F0()
 {
     for (u8 i = 0; i < 3; i++)
     {
-        if (gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_0_x[i].field_0 > kZero_6FE610 &&
-            gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_C_y[i].field_0 > kZero_6FE610)
+        if (gGameSave_6F78C8.field_E4_car_and_script_data.field_0_saved_cars.field_0_x[i].field_0 > kZero_6FE610 &&
+            gGameSave_6F78C8.field_E4_car_and_script_data.field_0_saved_cars.field_C_y[i].field_0 > kZero_6FE610)
         {
-            Car_BC* pNewCar = gCarManager_6C_677930->SpawnCar_426E10(gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_0_x[i].field_0,
-                                                                gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_C_y[i].field_0,
-                                                                gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_18_z[i].field_0,
-                                                                gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_24_ang[i],
-                                                                gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_3C_car_model[i],
+            Car_BC* pNewCar = gCarManager_6C_677930->SpawnCar_426E10(gGameSave_6F78C8.field_E4_car_and_script_data.field_0_saved_cars.field_0_x[i].field_0,
+                                                                gGameSave_6F78C8.field_E4_car_and_script_data.field_0_saved_cars.field_C_y[i].field_0,
+                                                                gGameSave_6F78C8.field_E4_car_and_script_data.field_0_saved_cars.field_18_z[i].field_0,
+                                                                gGameSave_6F78C8.field_E4_car_and_script_data.field_0_saved_cars.field_24_ang[i],
+                                                                gGameSave_6F78C8.field_E4_car_and_script_data.field_0_saved_cars.field_3C_car_model[i],
                                                                 kOne_6FE614);
             AddCarToHistory_5645B0(pNewCar);
-            pNewCar->field_8_damaged_areas.m_var = gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_30_damaged_areas[i];
-            pNewCar->SetDamage_4A51B0(gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_2A_damage[i]);
+            pNewCar->field_8_damaged_areas.m_var = gGameSave_6F78C8.field_E4_car_and_script_data.field_0_saved_cars.field_30_damaged_areas[i];
+            pNewCar->SetDamage_4A51B0(gGameSave_6F78C8.field_E4_car_and_script_data.field_0_saved_cars.field_2A_damage[i]);
         }
     }
-    memset(&gGameSave_6F78C8.field_E4_car_and_script_data.field_0, 0, 68u);
+    memset(&gGameSave_6F78C8.field_E4_car_and_script_data.field_0_saved_cars, 0, 68u);
 }
 
 MATCH_FUNC(0x56A1A0)

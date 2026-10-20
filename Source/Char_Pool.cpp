@@ -470,7 +470,7 @@ void PedManager::SpawnDummies_46EB60(Camera_0xBC* pCam)
     s32 zpos;
     Ang16 rotation;
 
-    Sprite* pSprite = this->field_8;
+    Sprite* pSprite = this->field_8_spawn_probe_sprite;
 
     s16 tileLeft;
     s16 tileRight;
@@ -684,7 +684,7 @@ void PedManager::PedsService_4703F0()
 MATCH_FUNC(0x470650)
 PedManager::PedManager()
 {
-    field_8 = 0;
+    field_8_spawn_probe_sprite = 0;
     if (!gPedPool_6787B8)
     {
         gPedPool_6787B8 = new PedPool();
@@ -712,11 +712,11 @@ PedManager::PedManager()
         }
     }
 
-    field_8 = gSpritePool_703818->get_new_sprite();
+    field_8_spawn_probe_sprite = gSpritePool_703818->get_new_sprite();
     // Plain 0s: implicit Fix16 conversions, out of line (Fix16::FromInt_4369F0) once the inline budget runs out
-    field_8->set_xyz_lazy_451950(0, 0, 0); // 9.6f inlined set_xyz_lazy_420600
-    field_8->set_ang_lazy_420690(gDummyPedAng_6787A8);
-    field_8->AllocCollisionShape_59F950(0, 0, 0);
+    field_8_spawn_probe_sprite->set_xyz_lazy_451950(0, 0, 0); // 9.6f inlined set_xyz_lazy_420600
+    field_8_spawn_probe_sprite->set_ang_lazy_420690(gDummyPedAng_6787A8);
+    field_8_spawn_probe_sprite->AllocCollisionShape_59F950(0, 0, 0);
 
     field_2_num_dummy_chars = 0;
     field_3_num_peds_updated = 0;
@@ -789,10 +789,10 @@ PedManager::~PedManager()
         GTA2_DELETE_AND_NULL(gChar_8_Pool_678b50);
     }
 
-    if (field_8)
+    if (field_8_spawn_probe_sprite)
     {
-        gSpritePool_703818->remove(field_8);
-        field_8 = 0;
+        gSpritePool_703818->remove(field_8_spawn_probe_sprite);
+        field_8_spawn_probe_sprite = 0;
     }
 }
 

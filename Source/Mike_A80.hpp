@@ -8,13 +8,13 @@
 class Mike_78
 {
   public:
-    s32 field_0[30];
+    s32 field_0_samples[30];
 
     void Clear()
     {
         for (s32 i = 0; i < 30; i++)
         {
-            field_0[i] = 0;
+            field_0_samples[i] = 0;
         }
     }
 };
@@ -23,30 +23,30 @@ struct Mike_80
 {
     Mike_80()
     {
-        field_7C = 0;
+        field_7C_sum = 0;
         field_A0_count = 0;
-        field_0.Clear();
+        field_0_samples.Clear();
     }
 
     s32 Average()
     {
-        return field_7C / 30;
+        return field_7C_sum / 30;
     }
 
     // 9.6f 0x474450. Keeps a running sum of the last 30 samples
     void AddSample(s32 value)
     {
-        field_7C += value - field_0.field_0[field_A0_count];
-        field_0.field_0[field_A0_count] = value;
+        field_7C_sum += value - field_0_samples.field_0_samples[field_A0_count];
+        field_0_samples.field_0_samples[field_A0_count] = value;
         if (++field_A0_count >= 30)
         {
             field_A0_count = 0;
         }
     }
 
-    Mike_78 field_0;
+    Mike_78 field_0_samples;
     s32 field_A0_count;
-    s32 field_7C;
+    s32 field_7C_sum;
 };
 
 struct Mike_8
@@ -58,19 +58,19 @@ struct Mike_8
 
     void init()
     {
-        field_0 = 0;
-        field_4 = 0;
+        field_0_start_time = 0;
+        field_4_end_time = 0;
     }
     // 9.6f 0x474430
     s32 TakeElapsed()
     {
-        s32 elapsed = field_4 - field_0;
+        s32 elapsed = field_4_end_time - field_0_start_time;
         init();
         return elapsed;
     }
 
-    int field_0;
-    int field_4;
+    int field_0_start_time;
+    int field_4_end_time;
 };
 
 class Mike_A80

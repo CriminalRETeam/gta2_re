@@ -47,7 +47,7 @@ void TagGame_28::SetNewFugitive_516590(Player* pNewFugitive)
     if (!field_0_fugitive->IsUser_41DC70())
     {
         Hud_Arrow_7C* pArrow = gHud_2B00_706620->field_1F18_arrows.AllocArrow_5D1050();
-        pArrow->field_18.field_18_primary_target.SetTargetPlayer_4820A0(field_0_fugitive);
+        pArrow->field_18_targets.field_18_primary_target.SetTargetPlayer_4820A0(field_0_fugitive);
 
         if (field_0_fugitive->field_2C4_player_ped != NULL)
         {

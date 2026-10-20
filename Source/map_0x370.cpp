@@ -534,7 +534,7 @@ gmp_zone_info* Map_0x370::GetCurrentZoneInfo_4DF840()
         BYTE zone_idx = field_330_pZoneArray[field_364_cur_zone_idx];
         if (zone_idx != 0)
         {
-            return &field_334_pUnknownZoneData[zone_idx];
+            return &field_334_pZoneInfo[zone_idx];
         }
     }
     return 0;
@@ -549,7 +549,7 @@ gmp_zone_info* Map_0x370::GetZoneInfoAt_4DF890(s32 zone_x, s32 zone_y)
     }
     else
     {
-        return field_334_pUnknownZoneData;
+        return field_334_pZoneInfo;
     }
 }
 
@@ -568,7 +568,7 @@ void Map_0x370::SetZoneInfo_4DF8C0(s32 zone_idx,
                                             s16 policeped_ratio)
 {
     GetZone_4DFB30(zone_idx);
-    gmp_zone_info* pZoneInfo = &field_334_pUnknownZoneData[field_330_pZoneArray[zone_idx]];
+    gmp_zone_info* pZoneInfo = &field_334_pZoneInfo[field_330_pZoneArray[zone_idx]];
     if (car_density != -1)
     {
         pZoneInfo->field_0_car_density = car_density;
@@ -628,7 +628,7 @@ void Map_0x370::SetZoneInfo_4DF8C0(s32 zone_idx,
 MATCH_FUNC(0x4DF9A0)
 gmp_zone_info* Map_0x370::GetZoneInfo_4DF9A0(u16 zone_idx)
 {
-    return &field_334_pUnknownZoneData[field_330_pZoneArray[zone_idx]];
+    return &field_334_pZoneInfo[field_330_pZoneArray[zone_idx]];
 }
 
 MATCH_FUNC(0x4DF9D0)
@@ -1719,7 +1719,7 @@ bool Map_0x370::SpriteHitsDiagonalWall_4E1520(s32 z_pos)
 
                     if (gSprite_6F61E8->PointInsideRotatedBounds_5A1490(point, unk_point))
                     {
-                        Sprite* pSprt = gObject_5C_6F8F84->GetDirectionalObject_5298E0(slope_type)->field_4;
+                        Sprite* pSprt = gObject_5C_6F8F84->GetDirectionalObject_5298E0(slope_type)->field_4_sprite;
                         // (u32): the block centre goes through the Fix16(u32) constructor (out-of-line copy 0x4926F0);
                         // z is converted inline in its argument slot
                         pSprt->set_xyz_lazy_451950(Fix16((u32)x_pos) + kFpHalf_6F5FE0,
@@ -4503,12 +4503,12 @@ void Map_0x370::do_process_loaded_zone_data_4E8E30()
 
     s32 zoneCount = zone_count + 1;
     gmp_zone_info* pZoneInfo = (gmp_zone_info*)Memory::malloc_4FE4D0(sizeof(gmp_zone_info) * zoneCount);
-    field_334_pUnknownZoneData = pZoneInfo;
+    field_334_pZoneInfo = pZoneInfo;
     s32 t = 0;
     do
     {
 
-        pZoneInfo = &field_334_pUnknownZoneData[t];
+        pZoneInfo = &field_334_pZoneInfo[t];
         pZoneInfo->field_0_car_density = 500;
         pZoneInfo->field_2_goodcar_ratio = 300;
         pZoneInfo->field_4_badcar_ratio = 300;
@@ -4753,7 +4753,7 @@ Map_0x370::Map_0x370()
     field_344_map_object_count = 0;
     field_0_pDmap = 0;
     field_330_pZoneArray = 0;
-    field_334_pUnknownZoneData = 0;
+    field_334_pZoneInfo = 0;
     field_340_pTileAnimData = 0;
     field_33C_pLightData = 0;
     field_348_num_lights = 0;
@@ -4835,11 +4835,11 @@ Map_0x370::~Map_0x370()
     }
     field_330_pZoneArray = 0;
 
-    if (field_334_pUnknownZoneData)
+    if (field_334_pZoneInfo)
     {
-        crt::free(field_334_pUnknownZoneData);
+        crt::free(field_334_pZoneInfo);
     }
-    field_334_pUnknownZoneData = 0;
+    field_334_pZoneInfo = 0;
 
     if (field_340_pTileAnimData)
     {

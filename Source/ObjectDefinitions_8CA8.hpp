@@ -62,13 +62,13 @@ class MapObjectOverride_54
     s32 field_0_definition_idx;
     s32 field_4_behavior_type;
     s32 field_8_next_definition_idx;
-    s8 field_C;
+    s8 field_C_in_pool_list;
     s32 field_10;
     s32 field_14;
     s32 field_18_collision_bucket_category;
     Fix16 field_1C_speed;
     Fix16 field_20_friction;
-    s8 field_24;
+    s8 field_24_next_definition_timer;
     s32 field_28;
     s32 field_2C;
     s8 field_30_next_frame_max;
@@ -156,13 +156,13 @@ class CodeObjectTemplate_6C
     s32 field_8_behavior_type;
     s32 field_C;
     s32 field_10_next_definition_idx;
-    s8 field_14;
+    s8 field_14_in_pool_list;
     s32 field_18;
     s32 field_1C;
     s32 field_20_collision_bucket_category;
     Fix16 field_24_speed;
     Fix16 field_28_friction;
-    s8 field_2C;
+    s8 field_2C_next_definition_timer;
     s32 field_30;
     s32 field_34;
     s32 field_38_sprite_type;
@@ -255,12 +255,12 @@ class ObjectDefinition_74
     s32 field_24_object_idx;
     s32 field_28_sprite_type;
     s32 field_2C_draw_layer;
-    s32 field_30;
+    s32 field_30_palette_type;
     s32 field_34_behavior_type; // One of object_behavior_type
     s32 field_38;
     s32 field_3C_next_definition_idx;
     s32 field_40_collision_bucket_category; // One of collision_bucket_category
-    s32 field_44;
+    s32 field_44_touch_behavior;
     s32 field_48;
     s32 field_4C;
     s32 field_50;
@@ -268,11 +268,11 @@ class ObjectDefinition_74
     s32 field_58;
     s32 field_5C;
     char_type field_60;
-    char_type field_61;
+    char_type field_61_in_pool_list;
     char_type field_62_has_shadows;
     char_type field_63;
     char_type field_64_next_frame_max;
-    char_type field_65;
+    char_type field_65_next_definition_timer;
     s32 field_68;
     u8 field_6C_sprite_anim_speed;
     s32 field_70_has_sound;

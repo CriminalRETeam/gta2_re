@@ -57,7 +57,7 @@ bool Door_38::IsSpriteClearOfDoorCollision_49C6A0(Sprite* pSprite)
 {
     if (pSprite)
     {
-        return field_8_door_obj->field_4->RotatedRectCollisionSAT_5A0380(pSprite) == false;
+        return field_8_door_obj->field_4_sprite->RotatedRectCollisionSAT_5A0380(pSprite) == false;
     }
     return true;
 }

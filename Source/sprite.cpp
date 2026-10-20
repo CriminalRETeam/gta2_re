@@ -218,7 +218,7 @@ SpriteMask_14* SpriteMaskCache_3CC::FindCachedMask_48F600(u16& sprite_idx, u32* 
     for (SpriteMask_14* pIter = &field_0_masks[start_idx]; count < final_idx; count++, ++pIter)
     {
         s32 sprite_idx_copy = sprite_idx;
-        if (pIter->field_4_sprite_idx == sprite_idx_copy && pIter->field_12 == *pExtra)
+        if (pIter->field_4_sprite_idx == sprite_idx_copy && pIter->field_12_palette == *pExtra)
         {
             if (pIter->field_8_delta_mask == *pDeltaMask)
             {
@@ -980,7 +980,7 @@ char_type Sprite::has_shadows_59EAE0()
         case sprite_types_enum::object_1:
         case sprite_types_enum::code_obj1_4:
         case sprite_types_enum::map_obj_5:
-            return field_8_object_2C_ptr->field_8->field_62_has_shadows;
+            return field_8_object_2C_ptr->field_8_definition->field_62_has_shadows;
         case sprite_types_enum::user_6:
         case sprite_types_enum::font_7:
         case sprite_types_enum::code_obj2_8:
@@ -2348,7 +2348,7 @@ void Sprite::DispatchCollisionEvent_5A3100(Sprite* pSprite, Fix16 x, Fix16 y, An
             {
                 o2c->EnsureObject3C_52A650();
             }
-            field_8_object_2C_ptr->field_10_obj_3c->field_0.PushImpactEvent_5A6D00(pSprite, x, y, ang);
+            field_8_object_2C_ptr->field_10_obj_3c->field_0_attached_sprites.PushImpactEvent_5A6D00(pSprite, x, y, ang);
             break;
         default:
             break;

@@ -636,7 +636,7 @@ class SpriteMask_14
         field_C_last_used = 0;
         field_8_delta_mask = 0;
         field_4_sprite_idx = -1;
-        field_12 = 0;
+        field_12_palette = 0;
     }
 
     // 9.6f 0x44AF70
@@ -649,7 +649,7 @@ class SpriteMask_14
     {
         field_4_sprite_idx = sprite_idx;
         field_8_delta_mask = a2;
-        field_12 = a3;
+        field_12_palette = a3;
     }
 
     u8* field_0_pixels;
@@ -659,7 +659,7 @@ class SpriteMask_14
     s32 field_8_delta_mask;
     s32 field_C_last_used;
     u16 field_10_idx;
-    u16 field_12;
+    u16 field_12_palette;
 };
 
 class SpriteMaskCache_3CC

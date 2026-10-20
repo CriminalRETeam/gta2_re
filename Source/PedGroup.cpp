@@ -867,18 +867,18 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
                 {
                     field_2C_ped_leader->SetObjective2_463830(objectives_enum::objective_9);
                     field_2C_ped_leader->field_14C_internal_target_ped = pFarthest;
-                    field_3C = 1;
+                    field_3C_is_leader_waiting = 1;
                 }
                 bWaiting = true;
             }
-            else if (field_3C == 1)
+            else if (field_3C_is_leader_waiting == 1)
             {
                 field_2C_ped_leader->SetObjective2_463830(objectives_enum::no_obj_0);
             }
         }
         if (!bWaiting)
         {
-            field_3C = 0;
+            field_3C_is_leader_waiting = 0;
         }
     }
 

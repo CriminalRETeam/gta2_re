@@ -344,7 +344,7 @@ void Garage_48::GaragesService_5349D0()
                         field_0_parking_car->ClearDriver_4407F0();
                         pDriver->SetRotation_433C00(sub_5345E0(field_38_door_face));
                         field_0_parking_car->field_54_driver = NULL;
-                        pDriver->field_168_game_object->field_5C = 20;
+                        pDriver->field_168_game_object->field_5C_jump_over_timer = 20;
                     }
                     else if (field_14_driver && field_14_driver->get_cam_x() >= field_18_park_x_min && field_14_driver->get_cam_x() <= field_20_park_x_max &&
                              field_14_driver->get_cam_y() >= field_1C_park_y_min && field_14_driver->get_cam_y() <= field_24_park_y_max)

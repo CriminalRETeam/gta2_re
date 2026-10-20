@@ -2148,7 +2148,7 @@ char_type Ped::HandlePedHitByObject_45D000(Object_2C* pTargetPed)
 
         case objects::maybe_bullet_on_fire_198:
             Ped::PutOutFire();
-            angle = ComputeShortestAngleDelta_4056C0(field_168_game_object->field_80_sprite_ptr->field_0_rotation, pTargetPed->field_4->field_0_rotation);
+            angle = ComputeShortestAngleDelta_4056C0(field_168_game_object->field_80_sprite_ptr->field_0_rotation, pTargetPed->field_4_sprite->field_0_rotation);
             if (angle > kAng90_6784B0)
             {
                 field_168_game_object->SetCharState_433A60(33); // TODO: include and use Char_B4_state enum
@@ -2179,7 +2179,7 @@ char_type Ped::HandlePedHitByObject_45D000(Object_2C* pTargetPed)
             {
                 Ped::TakeDamage(5 * GetDamageMultiplier_45CF90(pBlamedPed));
             }
-            gParticle_8_6FD5E8->EmitBloodBurst_53E450(field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, pTargetPed->field_4->field_0_rotation);
+            gParticle_8_6FD5E8->EmitBloodBurst_53E450(field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, pTargetPed->field_4_sprite->field_0_rotation);
             break;
 
         case objects::rocket_bullet_128:
@@ -2189,7 +2189,7 @@ char_type Ped::HandlePedHitByObject_45D000(Object_2C* pTargetPed)
         case objects::machine_gun_bullet_254:
         case objects::pistol_bullet_265:
         {
-            angle = ComputeShortestAngleDelta_4056C0(field_168_game_object->field_80_sprite_ptr->field_0_rotation, pTargetPed->field_4->field_0_rotation);
+            angle = ComputeShortestAngleDelta_4056C0(field_168_game_object->field_80_sprite_ptr->field_0_rotation, pTargetPed->field_4_sprite->field_0_rotation);
             if (angle > kAng90_6784B0)
             {
                 field_168_game_object->SetCharState_433A60(33); // TODO: include and use Char_B4_state enum
@@ -2230,7 +2230,7 @@ char_type Ped::HandlePedHitByObject_45D000(Object_2C* pTargetPed)
                 // Non-player ped
                 Ped::TakeDamage(25 * damage_amplifier * GetDamageMultiplier_45CF90(pBlamedPed));
             }
-            gParticle_8_6FD5E8->EmitBloodBurst_53E450(field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, pTargetPed->field_4->field_0_rotation);
+            gParticle_8_6FD5E8->EmitBloodBurst_53E450(field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, pTargetPed->field_4_sprite->field_0_rotation);
             break;
         }
 
@@ -3630,12 +3630,12 @@ void Ped::UpdateFacingAngle_461A60()
 
                 if (byte_6787D4 == 1)
                 {
-                    this->field_168_game_object->field_6A = 1;
+                    this->field_168_game_object->field_6A_repulsion_timer = 1;
                     Ang16 jitter;
                     if ((this->field_200_id & 1) != 0)
                     {
                         jitter = Ang16::Fix16_To_Ang16_40F540(kFpOne64th_6784C4 * Fix16(gRng_6F6784.get_int_4F7AE0(45)));
-                        this->field_168_game_object->field_74 = field_130_target_facing_angle + kAng90_6784B0 + jitter;
+                        this->field_168_game_object->field_74_repulsion_rotation = field_130_target_facing_angle + kAng90_6784B0 + jitter;
                     }
                     else
                     {
@@ -3645,7 +3645,7 @@ void Ped::UpdateFacingAngle_461A60()
                         jitter.Normalize();
                         Ang16 tmp = field_130_target_facing_angle - kAng90_6784B0;
                         tmp = tmp - jitter;
-                        this->field_168_game_object->field_74 = tmp;
+                        this->field_168_game_object->field_74_repulsion_rotation = tmp;
                     }
                 }
                 else if (GetPedVelocity_45C920() < kFpZero_678660)
@@ -4915,9 +4915,9 @@ void Ped::ProcessOnFootObjective_463AA0()
         {
             if (field_1A0_objective_target_object)
             {
-                field_1B8_target_x = field_1A0_objective_target_object->field_4->GetXPos();
-                field_1BC_target_y = field_1A0_objective_target_object->field_4->GetYPos();
-                field_1C0_target_z = field_1A0_objective_target_object->field_4->GetZPos();
+                field_1B8_target_x = field_1A0_objective_target_object->field_4_sprite->GetXPos();
+                field_1BC_target_y = field_1A0_objective_target_object->field_4_sprite->GetYPos();
+                field_1C0_target_z = field_1A0_objective_target_object->field_4_sprite->GetZPos();
             }
             else if (field_1DC_objective_target_x != kFpZero_678660 && field_1E0_objective_target_y != kFpZero_678660)
             {
@@ -8824,8 +8824,8 @@ void Ped::FireAtObject_46A530()
     Fix16 x_v = pSprite_18->field_14_xy.x;
     Fix16 y_v = pSprite_18->field_14_xy.y;
     Ang16 aim_angle;
-    aim_angle = Fix16::atan2_fixed_405320(field_1A0_objective_target_object->field_4->field_14_xy.y - y_v,
-                                   field_1A0_objective_target_object->field_4->field_14_xy.x - x_v);
+    aim_angle = Fix16::atan2_fixed_405320(field_1A0_objective_target_object->field_4_sprite->field_14_xy.y - y_v,
+                                   field_1A0_objective_target_object->field_4_sprite->field_14_xy.x - x_v);
 
     field_21C_bf.bUseCarWeapon = true;
 
@@ -9989,7 +9989,7 @@ void Ped::ExitCarStateMachine_46C250()
                 field_168_game_object->DoJump_5454D0();
                 this->field_168_game_object->field_80_sprite_ptr->field_0_rotation = this->field_154_target_to_enter->field_50_car_sprite->field_0_rotation;
                 this->field_168_game_object->set_rotation_433A30(this->field_154_target_to_enter->field_50_car_sprite->field_0_rotation);
-                this->field_168_game_object->field_5C = 10;
+                this->field_168_game_object->field_5C_jump_over_timer = 10;
                 this->field_16C_car = 0;
                 field_168_game_object->Set_F84_433900(field_154_target_to_enter);
                 this->field_154_target_to_enter = 0;
@@ -10311,7 +10311,7 @@ void Ped::WaitForTrain_46D030()
     {
         Train_58* pTrain = gPublicTransport_181C_6FF1D4->GetTrainFromCarExcludingLeadCar_57B6A0(field_154_target_to_enter);
         Car_BC* pOldTarget = field_154_target_to_enter;
-        if (pTrain->field_4C_maybe_train_station->field_1C_bOccupied == 2 &&
+        if (pTrain->field_4C_station->field_1C_bOccupied == 2 &&
             pTrain->field_C_carriages[1]->GetCarInfoIdx_411940() == car_model_enum::TRAIN)
         {
             Ped::SetObjective2_463830(objectives_enum::enter_train_37);

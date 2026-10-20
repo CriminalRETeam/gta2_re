@@ -2577,10 +2577,10 @@ EXPORT char_type __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
 
             Network_Buffer_8 connection;
             connection.field_4_len = gRegistry_6FF968.Get_Int_5873E0(hKey, "UseConnection");
-            connection.field_0 = operator new(connection.field_4_len);
-            if (!gRegistry_6FF968.Get_Binary_587340(hKey, "UseConnection", connection.field_4_len, (LPBYTE)connection.field_0))
+            connection.field_0_data = operator new(connection.field_4_len);
+            if (!gRegistry_6FF968.Get_Binary_587340(hKey, "UseConnection", connection.field_4_len, (LPBYTE)connection.field_0_data))
             {
-                operator delete(connection.field_0);
+                operator delete(connection.field_0_data);
                 RegCloseKey(hKey);
                 return 0;
             }
@@ -2588,7 +2588,7 @@ EXPORT char_type __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
 
             if (!gNetPlay_7071E8.SetProtoAndConnection_51DAE0(&protocolGuid, &connection))
             {
-                operator delete(connection.field_0);
+                operator delete(connection.field_0_data);
                 return 0;
             }
 

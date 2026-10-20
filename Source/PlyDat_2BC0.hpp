@@ -50,7 +50,7 @@ struct HighScoreTable_F0
 // The best of each of the 10 statistics (GameSession statistics) in a main stage
 struct BestStageStats_28
 {
-    BYTE field_0[40];
+    BYTE field_0_best_statistics[40];
 };
 
 // Player profile and high score data (plydat.cpp): the 8 player slots (player\plyslotN.dat) and the high score tables

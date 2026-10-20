@@ -41,7 +41,7 @@ s32 Generator_2C::next_cycle_4C1AB0()
 MATCH_FUNC(0x4C1B10)
 EXPORT void Generator_2C::SpawnObject_4C1B10()
 {
-    if (field_21 == 2)
+    if (field_21_spawn_mode == 2)
     {
         if (field_24_obj)
         {
@@ -138,7 +138,7 @@ void Generator_2C::Init_4C1C70(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 generat
     field_1C_ammo = 0;
     field_24_obj = NULL;
     field_28_id = 0;
-    field_21 = 1;
+    field_21_spawn_mode = 1;
 }
 
 MATCH_FUNC(0x4c1cd0)

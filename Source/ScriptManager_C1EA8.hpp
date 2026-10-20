@@ -28,7 +28,7 @@ struct str_table_normalized
 {
     u16 field_0_string_count;
     s16 field_2_unused; // pad ?
-    str_table_entry* field_4[999];
+    str_table_entry* field_4_entries[999];
 };
 
 enum SCRCMD
@@ -562,11 +562,11 @@ struct SavedScriptCounter_4
 // Car and script data
 struct SavedCarAndScriptData_500
 {
-    SavedCarInfo field_0; // 3x saved cars
+    SavedCarInfo field_0_saved_cars; // 3x saved cars
     s16 field_44_unused; // pad ??
     s16 field_46_script_ptr_count; // count of populated array entries
     s32 field_48_flags;
-    s32 field_4C; // never used ?
+    s32 field_4C_started_basic_kf_mask;
     SavedScriptCounter_4 field_50_script_counter[300];
 };
 

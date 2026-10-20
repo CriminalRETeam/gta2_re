@@ -27,7 +27,7 @@ class Weapon_8
     EXPORT u8 get_defalt_ammo_5E3E80(s32 weapon_kind);
     EXPORT Weapon_8();
     EXPORT ~Weapon_8();
-    SpriteList_4 field_0;
+    SpriteList_4 field_0_hit_sprites;
     s16 field_4_ref_count;
     s16 field_6_unused;
 };

@@ -102,7 +102,7 @@ class PedManager
     u8 field_5_fbi_army_count;
     char_type field_6_num_peds_on_screen;
     char_type field_7_make_all_muggers;
-    Sprite* field_8;
+    Sprite* field_8_spawn_probe_sprite;
 };
 
 class PedPool

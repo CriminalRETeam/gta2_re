@@ -71,7 +71,7 @@ class PoliceCrew_38
     char_type field_5_unused;
     char_type field_6_unused;
     char_type field_7_unused;
-    Fix16 field_8;
+    Fix16 field_8_criminal_distance;
     Fix16 field_C;
     EmergencyCrew_30* field_10_subObj;
     PolicePursuitTarget_7C* field_14_pPursuitTarget; // Pursuit of one wanted criminal by police crews
@@ -81,7 +81,7 @@ class PoliceCrew_38
     s32 field_1C_used;
     s32 field_20_crew_kind; // crew_kind
     s32 field_24_state;
-    char_type field_28;
+    char_type field_28_use_car;
     char_type field_29_bCountedInPoliceCount;
     s16 field_2A;
     s16 field_2C_unused;
@@ -89,7 +89,7 @@ class PoliceCrew_38
     char_type field_2F_unused;
     s32 field_30;
     char_type field_34_is_dismissed;
-    u8 field_35;
+    u8 field_35_fast_target_counter;
     char_type field_36_unused;
     char_type field_37_unused;
 };
@@ -156,8 +156,8 @@ class PoliceRoadblock_A4
     u8 field_9_y;
     char_type field_A_unused;
     char_type field_B_unused;
-    u16 field_C;
-    s16 field_E;
+    u16 field_C_startup_timer;
+    s16 field_E_unseen_timer;
     Car_BC* field_10_car_1;
     Car_BC* field_14_car_2;
     Car_BC* field_18_car_3;

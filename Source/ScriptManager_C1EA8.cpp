@@ -108,7 +108,7 @@ MATCH_FUNC(0x503080)
 str_table_entry* ScriptManager_C1EA8::FindStringById_503080(s16 stringId)
 {
     u16 idx = 0;
-    str_table_entry* result = field_13350_pStringTbl->field_4[idx];
+    str_table_entry* result = field_13350_pStringTbl->field_4_entries[idx];
     while (result)
     {
         if (result->field_0_str_id == stringId)
@@ -116,7 +116,7 @@ str_table_entry* ScriptManager_C1EA8::FindStringById_503080(s16 stringId)
             return result;
         }
         idx++;
-        result = field_13350_pStringTbl->field_4[idx];
+        result = field_13350_pStringTbl->field_4_entries[idx];
     }
     return 0;
 }
@@ -125,7 +125,7 @@ MATCH_FUNC(0x5030b0)
 str_table_entry* ScriptManager_C1EA8::StrEntryByString_5030B0(char_type* strToFind)
 {
     u16 idx = 0;
-    str_table_entry* pEntry = field_13350_pStringTbl->field_4[idx];
+    str_table_entry* pEntry = field_13350_pStringTbl->field_4_entries[idx];
     while (pEntry)
     {
         if (_strnicmp(strToFind, (const char*)&pEntry[1], pEntry->field_8_length) == 0) // string data is after the end of the structure
@@ -133,7 +133,7 @@ str_table_entry* ScriptManager_C1EA8::StrEntryByString_5030B0(char_type* strToFi
             return pEntry;
         }
         idx++;
-        pEntry = field_13350_pStringTbl->field_4[idx];
+        pEntry = field_13350_pStringTbl->field_4_entries[idx];
     }
     return 0;
 }
@@ -533,7 +533,7 @@ void ScriptManager_C1EA8::LoadStringTbl_5121E0(u16 tableSize)
     {
         pStringDataIter2->field_2_zone_idx = gMap_0x370_6F6268->FindZoneIdxByName_4DF050((char_type*)&pStringDataIter2[1],
                                                                                         strlen((const char_type*)&pStringDataIter2[1]));
-        field_13350_pStringTbl->field_4[str_count] = pStringDataIter2;
+        field_13350_pStringTbl->field_4_entries[str_count] = pStringDataIter2;
         s32 str_length_ = pStringDataIter2->field_8_length + 9;
         total_str_length_ += str_length_;
         pStringDataIter2 = (str_table_entry*)((char_type*)pStringDataIter2 + str_length_);
@@ -631,7 +631,7 @@ void ScriptManager_C1EA8::LoadSubScripts_5125F0()
     u16 j = 0;
     for (u16 i = 0; i < field_13350_pStringTbl->field_0_string_count; i++)
     {
-        str_table_entry* pEntry = field_13350_pStringTbl->field_4[i];
+        str_table_entry* pEntry = field_13350_pStringTbl->field_4_entries[i];
         if ((u8)pEntry->field_4_type == 21)
         {
             size_t length = strlen(pEntry->get_name());
@@ -1091,7 +1091,7 @@ ScriptManager_C1EA8::~ScriptManager_C1EA8()
 
     if (field_13350_pStringTbl)
     {
-        memset(field_13350_pStringTbl->field_4, 0, sizeof(field_13350_pStringTbl->field_4));
+        memset(field_13350_pStringTbl->field_4_entries, 0, sizeof(field_13350_pStringTbl->field_4_entries));
         free(field_13350_pStringTbl);
         field_13350_pStringTbl = NULL;
     }

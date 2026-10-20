@@ -242,7 +242,7 @@ s32 NetPlay::SetProtoAndConnection_51DAE0(GUID* pProtocolGuid, Network_Buffer_8*
             info.field_0_sp_guid = *pProtocolGuid;
 
             info.field_14_pConnection = new u8[pUseThisConnection->field_4_len];
-            memcpy(info.field_14_pConnection, pUseThisConnection->field_0, pUseThisConnection->field_4_len);
+            memcpy(info.field_14_pConnection, pUseThisConnection->field_0_data, pUseThisConnection->field_4_len);
             info.field_18_connection_len = pUseThisConnection->field_4_len;
             info.field_10_pConnectionName = new wchar_t[wcslen(L"dummy prot") + 1];
             wcscpy(info.field_10_pConnectionName, L"dummy prot");

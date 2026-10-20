@@ -233,7 +233,7 @@ inline f64 Fix16::to_float_410BA0() const
 MATCH_FUNC(0x453F50)
 void CarPhysics_B0::ForceNeutralInput_453F50()
 {
-  this->field_95 = 1;
+  this->field_95_is_coasting = 1;
   this->field_91_is_foot_brake_on = 0;
   this->field_94_is_backward_gas_on = 0;
   this->field_93_is_forward_gas_on = 0;
@@ -245,7 +245,7 @@ void CarPhysics_B0::ForceForwardAcceleration_453F70()
   this->field_93_is_forward_gas_on = 1;
   this->field_91_is_foot_brake_on = 0;
   this->field_94_is_backward_gas_on = 0;
-  this->field_95 = 0;
+  this->field_95_is_coasting = 0;
 }
 
 MATCH_FUNC(0x453F90)
@@ -254,7 +254,7 @@ void CarPhysics_B0::ClearDriverInputs_453F90()
   this->field_91_is_foot_brake_on = 0;
   this->field_93_is_forward_gas_on = 0;
   this->field_94_is_backward_gas_on = 0;
-  this->field_95 = 0;
+  this->field_95_is_coasting = 0;
 }
 
 MATCH_FUNC(0x559430)
@@ -482,13 +482,13 @@ void CarPhysics_B0::ApplyForcedSteering_559DD0()
     {
         if (field_A0_oil_spin_dir == 1)
         {
-            this->field_95 = 0;
+            this->field_95_is_coasting = 0;
             this->field_93_is_forward_gas_on = 1;
             this->field_AD_turn_direction = car_turn_direction::clockwise_m1;
         }
         else if (field_A0_oil_spin_dir == 2)
         {
-            this->field_95 = 0;
+            this->field_95_is_coasting = 0;
             this->field_93_is_forward_gas_on = 1;
             this->field_AD_turn_direction = car_turn_direction::anticlockwise_1;
         }
@@ -872,7 +872,7 @@ void CarPhysics_B0::HandleUserInputs_55A860(char_type bForwardGasOn,
             this->field_93_is_forward_gas_on = 0;
         }
     }
-    this->field_95 = 0;
+    this->field_95_is_coasting = 0;
     this->field_92_is_hand_brake_on = bHandBrakeOn;
     if (bRightOn)
     {
@@ -1749,7 +1749,7 @@ void CarPhysics_B0::SpawnSkidSegment_55D200(s32 box_idx, Fix16_Point arg_4, s32 
                     gObject_5C_6F8F84->NewPhysicsObj_5299B0(get_skid_obj_type_55D490(surface, len), obj_x, obj_y, field_6C_cp3, r);
                 if (pObj)
                 {
-                    if (pObj->field_4->sub_5A19C0())
+                    if (pObj->field_4_sprite->sub_5A19C0())
                     {
                         pObj->RequestRemoval_5290A0();
                     }
@@ -2743,7 +2743,7 @@ void CarPhysics_B0::HandleObjectCollision_5606C0(Object_2C* p2C, char_type damag
                                                      kFP16Quarter_6FDFB8);
     }
 
-    if (field_98_surface_type == car_surface_type::air_surface_6 && p2C->field_4->field_1C_zpos != field_5C_pCar->field_50_car_sprite->field_1C_zpos)
+    if (field_98_surface_type == car_surface_type::air_surface_6 && p2C->field_4_sprite->field_1C_zpos != field_5C_pCar->field_50_car_sprite->field_1C_zpos)
     {
         field_68_z_pos = dword_6FDFF4 * (-field_68_z_pos);
         if (Fix16::Abs(field_68_z_pos) < kFP16One32nd_6FE118)
@@ -2983,7 +2983,7 @@ Fix16 CarPhysics_B0::ApplyDriveForce_5615D0(Fix16_Point& wheel_point, Ang16 angl
     Fix16 y_abs;
     Fix16 x_abs;
 
-    if (field_95)
+    if (field_95_is_coasting)
     {
         force.SetXY_432860(kFP16Zero_6FE20C, kFP16Zero_6FE20C);
     }
@@ -3882,7 +3882,7 @@ void CarPhysics_B0::Init_5637A0()
     field_92_is_hand_brake_on = 0;
     field_93_is_forward_gas_on = 0;
     field_94_is_backward_gas_on = 0;
-    field_95 = 0;
+    field_95_is_coasting = 0;
     field_AD_turn_direction = car_turn_direction::none_0;
     field_A9_car_model = -1;
     field_A8_hand_brake_force = 0;

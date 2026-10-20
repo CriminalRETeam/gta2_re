@@ -110,10 +110,10 @@ char_type Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
     {
         if (field_2C_counter > 60)
         {
-            if (field_40_pExplosion->field_14_pObj2C->field_4)
+            if (field_40_pExplosion->field_14_pObj2C->field_4_sprite)
             {
-                field_20_speed = field_40_pExplosion->field_14_pObj2C->field_4->field_8_object_2C_ptr->GetEffectiveSpeed_5290F0();
-                field_24_angle = field_40_pExplosion->field_14_pObj2C->field_4->field_8_object_2C_ptr->field_10_obj_3c->field_4_angle;
+                field_20_speed = field_40_pExplosion->field_14_pObj2C->field_4_sprite->field_8_object_2C_ptr->GetEffectiveSpeed_5290F0();
+                field_24_angle = field_40_pExplosion->field_14_pObj2C->field_4_sprite->field_8_object_2C_ptr->field_10_obj_3c->field_4_angle;
             }
             if (field_40_pExplosion->field_1A_timer == 1)
             {
@@ -206,16 +206,16 @@ char_type Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
 
     if (field_40_pExplosion)
     {
-        if (field_40_pExplosion->field_6_id != field_44)
+        if (field_40_pExplosion->field_6_id != field_44_explosion_id)
         {
             field_40_pExplosion = NULL;
             field_20_speed = kFP16Zero_6FD49C;
         }
         else if (field_40_pExplosion->field_14_pObj2C)
         {
-            if (field_40_pExplosion->field_14_pObj2C->field_4)
+            if (field_40_pExplosion->field_14_pObj2C->field_4_sprite)
             {
-                field_20_speed = field_40_pExplosion->field_14_pObj2C->field_4->field_8_object_2C_ptr->GetEffectiveSpeed_5290F0();
+                field_20_speed = field_40_pExplosion->field_14_pObj2C->field_4_sprite->field_8_object_2C_ptr->GetEffectiveSpeed_5290F0();
                 field_24_angle = field_40_pExplosion->field_14_pObj2C->field_10_obj_3c->field_4_angle;
             }
             if (field_40_pExplosion->field_1A_timer == 1)
@@ -356,7 +356,7 @@ char_type Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
     field_30_pNext->SetNoLighting_4337F0();
     if (field_40_pExplosion)
     {
-        field_30_pNext->ResolveZOrder_5A1B30(field_40_pExplosion->field_14_pObj2C->field_4);
+        field_30_pNext->ResolveZOrder_5A1B30(field_40_pExplosion->field_14_pObj2C->field_4_sprite);
     }
     gSpriteGrid_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
 
@@ -457,7 +457,7 @@ char_type Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
                     pSegment->field_38_state = 43;
                     pSegment->field_2C_counter = 50;
                     pSegment->field_46_sub_state = 0;
-                    pSegment->field_2E = 50;
+                    pSegment->field_2E_initial_counter = 50;
                     pSegment->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
                     pSegment->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 104);
                     pSegment->field_30_pNext->set_xyz_lazy_420600(mid.x, mid.y, field_30_pNext->field_1C_zpos);
@@ -524,16 +524,16 @@ char_type Particle_4C::UpdateDirectedBurstSweep_state_4_539040()
     {
         if (field_40_pExplosion)
         {
-            if (field_40_pExplosion->field_6_id != field_44)
+            if (field_40_pExplosion->field_6_id != field_44_explosion_id)
             {
                 field_40_pExplosion = NULL;
                 field_20_speed = kFP16Zero_6FD49C;
             }
             else if (field_40_pExplosion->field_14_pObj2C)
             {
-                if (field_40_pExplosion->field_14_pObj2C->field_4)
+                if (field_40_pExplosion->field_14_pObj2C->field_4_sprite)
                 {
-                    field_20_speed = field_40_pExplosion->field_14_pObj2C->field_4->field_8_object_2C_ptr->GetEffectiveSpeed_5290F0();
+                    field_20_speed = field_40_pExplosion->field_14_pObj2C->field_4_sprite->field_8_object_2C_ptr->GetEffectiveSpeed_5290F0();
                     field_24_angle = field_40_pExplosion->field_14_pObj2C->field_10_obj_3c->field_4_angle;
                 }
                 if (field_40_pExplosion->field_1A_timer == 1)
@@ -609,7 +609,7 @@ char_type Particle_4C::UpdateDirectedBurstSweep_state_4_539040()
             field_30_pNext->ApplyScaleToDimensions_59E4C0(kFP16One_6FD4A0 + Fix16(field_46_sub_state) * dword_6FD2E8, 0);
             if (field_40_pExplosion)
             {
-                field_30_pNext->ResolveZOrder_5A1B30(field_40_pExplosion->field_14_pObj2C->field_4);
+                field_30_pNext->ResolveZOrder_5A1B30(field_40_pExplosion->field_14_pObj2C->field_4_sprite);
             }
             gSpriteGrid_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
             return 0;
@@ -633,16 +633,16 @@ char_type Particle_4C::UpdateDirectedBurst_state_13_14_36_539480()
     {
         if (field_40_pExplosion)
         {
-            if (field_40_pExplosion->field_6_id != field_44)
+            if (field_40_pExplosion->field_6_id != field_44_explosion_id)
             {
                 field_40_pExplosion = NULL;
                 field_20_speed = kFP16Zero_6FD49C;
             }
             else if (field_40_pExplosion->field_14_pObj2C)
             {
-                if (field_40_pExplosion->field_14_pObj2C->field_4)
+                if (field_40_pExplosion->field_14_pObj2C->field_4_sprite)
                 {
-                    field_20_speed = field_40_pExplosion->field_14_pObj2C->field_4->field_8_object_2C_ptr->GetEffectiveSpeed_5290F0();
+                    field_20_speed = field_40_pExplosion->field_14_pObj2C->field_4_sprite->field_8_object_2C_ptr->GetEffectiveSpeed_5290F0();
                     field_24_angle = field_40_pExplosion->field_14_pObj2C->field_10_obj_3c->field_4_angle;
                 }
                 if (field_40_pExplosion->field_1A_timer == 1)
@@ -717,7 +717,7 @@ char_type Particle_4C::UpdateDirectedBurst_state_13_14_36_539480()
             field_30_pNext->SetNoLighting_4337F0();
             if (field_40_pExplosion)
             {
-                field_30_pNext->ResolveZOrder_5A1B30(field_40_pExplosion->field_14_pObj2C->field_4);
+                field_30_pNext->ResolveZOrder_5A1B30(field_40_pExplosion->field_14_pObj2C->field_4_sprite);
             }
             gSpriteGrid_3_679210->AddToSingleBucket_477AE0(field_30_pNext);
             return 0;
@@ -742,16 +742,16 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
 
     if (field_40_pExplosion)
     {
-        if (field_40_pExplosion->field_6_id != field_44)
+        if (field_40_pExplosion->field_6_id != field_44_explosion_id)
         {
             field_40_pExplosion = NULL;
         }
         else if (field_40_pExplosion->field_14_pObj2C)
         {
-            if (field_40_pExplosion->field_14_pObj2C->field_4)
+            if (field_40_pExplosion->field_14_pObj2C->field_4_sprite)
             {
-                field_20_speed = field_40_pExplosion->field_14_pObj2C->field_4->field_8_object_2C_ptr->GetEffectiveSpeed_5290F0();
-                field_24_angle = field_40_pExplosion->field_14_pObj2C->field_4->field_8_object_2C_ptr->field_10_obj_3c->field_4_angle;
+                field_20_speed = field_40_pExplosion->field_14_pObj2C->field_4_sprite->field_8_object_2C_ptr->GetEffectiveSpeed_5290F0();
+                field_24_angle = field_40_pExplosion->field_14_pObj2C->field_4_sprite->field_8_object_2C_ptr->field_10_obj_3c->field_4_angle;
             }
             if (field_40_pExplosion->field_1A_timer == 1)
             {
@@ -815,9 +815,9 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
             field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 98);
             dir.x = 0;
             dir.y = 0;
-            if (field_40_pExplosion && field_40_pExplosion->field_14_pObj2C->field_4)
+            if (field_40_pExplosion && field_40_pExplosion->field_14_pObj2C->field_4_sprite)
             {
-                Sprite* pTarget = field_40_pExplosion->field_14_pObj2C->field_4;
+                Sprite* pTarget = field_40_pExplosion->field_14_pObj2C->field_4_sprite;
                 xpos = pTarget->field_14_xy.x;
                 ypos = pTarget->field_14_xy.y;
                 zpos = pTarget->field_1C_zpos;
@@ -828,9 +828,9 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
             field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 97);
             dir.x = 0;
             dir.y = 0;
-            if (field_40_pExplosion && field_40_pExplosion->field_14_pObj2C->field_4)
+            if (field_40_pExplosion && field_40_pExplosion->field_14_pObj2C->field_4_sprite)
             {
-                Sprite* pTarget = field_40_pExplosion->field_14_pObj2C->field_4;
+                Sprite* pTarget = field_40_pExplosion->field_14_pObj2C->field_4_sprite;
                 xpos = pTarget->field_14_xy.x;
                 ypos = pTarget->field_14_xy.y;
                 zpos = pTarget->field_1C_zpos;
@@ -856,7 +856,7 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
                     pSmoke->field_34_unused = 1;
                     pSmoke->field_38_state = 6;
                     pSmoke->field_2C_counter = 100;
-                    pSmoke->field_2E = 100;
+                    pSmoke->field_2E_initial_counter = 100;
                     pSmoke->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
                     pSmoke->field_38_state = 6;
                     pSmoke->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette);
@@ -1089,7 +1089,7 @@ char_type Particle_4C::UpdateSimpleBallisticMotion_state_1_53ABA0()
         return 1;
     }
 
-    if (field_2C_counter > this->field_2E >> 1)
+    if (field_2C_counter > this->field_2E_initial_counter >> 1)
     {
         this->field_8_speed_x = this->field_14_additional_speed_x + this->field_8_speed_x;
         this->field_C_speed_y = this->field_18_additional_speed_y + field_C_speed_y;
@@ -1132,7 +1132,7 @@ char_type Particle_4C::UpdateLargeBallisticDebris_state_35_53AE60()
     }
 
     Fix16 zpos;
-    if (field_2C_counter > (field_2E >> 1))
+    if (field_2C_counter > (field_2E_initial_counter >> 1))
     {
         field_8_speed_x = field_8_speed_x + field_14_additional_speed_x;
         field_C_speed_y = field_C_speed_y + field_18_additional_speed_y;
@@ -1180,7 +1180,7 @@ bool Particle_4C::UpdateDebrisArc_state_7_53B1A0()
     }
 
     Fix16 zpos;
-    if (field_2C_counter > (field_2E >> 1))
+    if (field_2C_counter > (field_2E_initial_counter >> 1))
     {
         field_8_speed_x = field_8_speed_x + field_14_additional_speed_x;
         field_C_speed_y = field_C_speed_y + field_18_additional_speed_y;
@@ -1541,7 +1541,7 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
                     {
                         field_46_sub_state = 10;
                     }
-                    gParticle_8_6FD5E8->field_0_fire_hit_obj->field_4->set_xyz_lazy_420600(xpos, ypos, zpos);
+                    gParticle_8_6FD5E8->field_0_fire_hit_obj->field_4_sprite->set_xyz_lazy_420600(xpos, ypos, zpos);
                     if (pB4)
                     {
                         gParticle_8_6FD5E8->field_0_fire_hit_obj->SetDamageOwner_529080(pB4->field_7C_pPed->get_ped_ref_idx_420B50());
@@ -1563,18 +1563,18 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
                     {
                         gParticle_8_6FD5E8->EmitWaterSplash_53F060(xpos, ypos, zpos, angle, 0);
                     }
-                    gParticle_8_6FD5E8->field_4->field_4->set_xyz_lazy_420600(xpos, ypos, zpos);
+                    gParticle_8_6FD5E8->field_4_water_hit_obj->field_4_sprite->set_xyz_lazy_420600(xpos, ypos, zpos);
                     if (pB4)
                     {
-                        gParticle_8_6FD5E8->field_4->SetDamageOwner_529080(pB4->field_7C_pPed->get_ped_ref_idx_420B50());
+                        gParticle_8_6FD5E8->field_4_water_hit_obj->SetDamageOwner_529080(pB4->field_7C_pPed->get_ped_ref_idx_420B50());
                     }
                     else if (pCar)
                     {
-                        gParticle_8_6FD5E8->field_4->SetDamageOwner_529080(pCar->field_54_driver->get_ped_ref_idx_420B50());
+                        gParticle_8_6FD5E8->field_4_water_hit_obj->SetDamageOwner_529080(pCar->field_54_driver->get_ped_ref_idx_420B50());
                     }
                     if (!pHit->IsObject2CType_40FE80())
                     {
-                        gParticle_8_6FD5E8->field_4->HandleObjectHit_528990(pHit);
+                        gParticle_8_6FD5E8->field_4_water_hit_obj->HandleObjectHit_528990(pHit);
                     }
                     if (pHit->GetType_416B40() == sprite_types_enum::ped_3)
                     {

@@ -177,7 +177,7 @@ class cSampleManager
     f32 field_2708_float;
     f32 field_270C_float;
     s32 field_2710_3d_provider_count;
-    char_type field_2714_bUnknown;
+    char_type field_2714_is_stereo;
     char_type field_2715_pad;
     char_type field_2716_pad;
     char_type field_2717_pad;

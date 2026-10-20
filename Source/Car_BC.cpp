@@ -203,7 +203,7 @@ MATCH_FUNC(0x5c8680)
 void CarThreadTriggers_214::FreeTrigger_5C8680(u8 idx)
 {
     field_0_triggers[idx].field_8_type = 0;
-    field_0_triggers[idx].field_C = 0;
+    field_0_triggers[idx].field_C_action = 0;
     field_0_triggers[idx].field_0_pScriptCmd = 0;
     field_0_triggers[idx].field_14_enable_state = 2;
     field_0_triggers[idx].field_4_O2C->Dealloc_5291B0();
@@ -219,7 +219,7 @@ char_type CarThreadTriggers_214::AddThreadTrigger_5C86C0(const s32& type, const 
         if (pIter->field_8_type == 0)
         {
             pIter->field_8_type = type;
-            pIter->field_C = param;
+            pIter->field_C_action = param;
             pIter->field_0_pScriptCmd = (s32)pScriptThread;
             pIter->field_14_enable_state = 1;
             pIter->field_4_O2C = gObject_5C_6F8F84->NewTouchPoint_529950(objects::savepoint_161,
@@ -248,7 +248,7 @@ void CarThreadTriggers_214::Reset_5C8750()
     {
         pOff->field_10_remap_rng = i;
         pOff->field_8_type = 0;
-        pOff->field_C = 0;
+        pOff->field_C_action = 0;
         pOff->field_0_pScriptCmd = 0;
         pOff->field_14_enable_state = 1;
         pOff++;
@@ -264,7 +264,7 @@ struct CarThreadTriggerCmd : SCR_CMD_HEADER
         miss2_0x11C* field_8_thread;
     };
     u16 field_C;
-    s16 field_E;
+    s16 field_E_thread_start_cmd;
     u16 field_10_idx;
     u8 field_12_pad[0x12];
     u16 field_24_idx;
@@ -464,11 +464,11 @@ void CarThreadTriggers_214::CheckThreadTrigger_5C8780(u8 idx, Sprite* pSprite)
 
     if (pEntry->field_14_enable_state == 0)
     {
-        switch (pEntry->field_C)
+        switch (pEntry->field_C_action)
         {
             case 2:
                 pCmd = (CarThreadTriggerCmd*)pEntry->field_0_pScriptCmd;
-                pCmd->field_8_thread = gScriptManager_6F8060->SpawnThread_5120C0(pCmd->field_E, 0);
+                pCmd->field_8_thread = gScriptManager_6F8060->SpawnThread_5120C0(pCmd->field_E_thread_start_cmd, 0);
                 break;
             case 3:
                 gScriptManager_6F8060->SetGeneratorTypeForCar_511A70(pCar->field_84_car_info_idx, (Generator_2C*)pEntry->field_0_pScriptCmd);
@@ -497,16 +497,16 @@ CarRemapRng_2::CarRemapRng_2()
             gRngRemapTable_679320[idx] = next;
         }
     }
-    field_0 = 0;
+    field_0_table_idx = 0;
 }
 
 MATCH_FUNC(0x47bd90)
 void CarRemapRng_2::IncNextRngRemapIdx_47BD90()
 {
-    field_0++;
-    if (field_0 == 1000)
+    field_0_table_idx++;
+    if (field_0_table_idx == 1000)
     {
-        field_0 = 0;
+        field_0_table_idx = 0;
     }
 }
 
@@ -2211,7 +2211,7 @@ void Car_BC::DoBrake_43A950()
     pCarPhysics->field_91_is_foot_brake_on = 1;
     pCarPhysics->field_93_is_forward_gas_on = 0;
     pCarPhysics->field_94_is_backward_gas_on = 0;
-    pCarPhysics->field_95 = 0;
+    pCarPhysics->field_95_is_coasting = 0;
 }
 
 MATCH_FUNC(0x43a970)
@@ -2222,7 +2222,7 @@ void Car_BC::DoBrakeAndHandbrake_43A970()
     pCarPhysics->field_91_is_foot_brake_on = 1;
     pCarPhysics->field_93_is_forward_gas_on = 0;
     pCarPhysics->field_94_is_backward_gas_on = 0;
-    pCarPhysics->field_95 = 0;
+    pCarPhysics->field_95_is_coasting = 0;
 }
 
 MATCH_FUNC(0x43a9a0)
@@ -2428,7 +2428,7 @@ char_type Car_BC::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
         sprite_type = pSprite->field_30_sprite_type_enum;
         if ((sprite_type == sprite_types_enum::code_obj1_4 || sprite_type == sprite_types_enum::map_obj_5 || sprite_type == sprite_types_enum::object_1) && (o2c = pSprite->field_8_object_2C_ptr) != 0)
         {
-            pDefinition = o2c->field_8;
+            pDefinition = o2c->field_8_definition;
             phi_type = pDefinition->field_34_behavior_type;
             if (phi_type == object_behavior_type::pickup_6 || phi_type == object_behavior_type::pickup_physics_7 || phi_type == object_behavior_type::pickup_animated_8 ||
             phi_type == object_behavior_type::pickup_physics_animated_9 || phi_type == object_behavior_type::shop_10 || phi_type == object_behavior_type::static_collision_check_1 || phi_type == object_behavior_type::effect_only_12 ||
@@ -3004,7 +3004,7 @@ void Car_BC::SpawnDamageFireEffect_43B870(s32 fire_size, const Fix16_Point* pPos
                                                                       field_70_exploder_ped_id);
     if (pExplosion)
     {
-        field_50_car_sprite->DispatchCollisionEvent_5A3100(pExplosion->field_4, x_hit, y_hit, kAngZero_67791C);
+        field_50_car_sprite->DispatchCollisionEvent_5A3100(pExplosion->field_4_sprite, x_hit, y_hit, kAngZero_67791C);
         if (++gCarManager_6C_677930->field_1A_fire_effect_cycle > 3u)
         {
             gCarManager_6C_677930->field_1A_fire_effect_cycle = 0;
@@ -3040,7 +3040,7 @@ void Car_BC::SpawnFire_43BBC0()
             gObject_5C_6F8F84->CreateExplosion_52A3D0(field_50_car_sprite->field_14_xy.x, field_50_car_sprite->field_14_xy.y, 4, kAngZero_67791C, explosion_type::car_fire_4, field_70_exploder_ped_id);
         if (pExplosion)
         {
-            field_50_car_sprite->DispatchCollisionEvent_5A3100(pExplosion->field_4, gFix16_6777CC, gFix16_6777CC, kAngZero_67791C);
+            field_50_car_sprite->DispatchCollisionEvent_5A3100(pExplosion->field_4_sprite, gFix16_6777CC, gFix16_6777CC, kAngZero_67791C);
         }
     }
 }
@@ -3733,7 +3733,7 @@ void Car_BC::EmitExplosion_43D690(s32 type, Fix16 x, Fix16 y)
     Object_2C* p2C = gObject_5C_6F8F84->CreateExplosion_52A3D0(gFix16_6777CC, gFix16_6777CC, 2, kAngZero_67791C, type, field_70_exploder_ped_id);
     if (p2C)
     {
-        field_50_car_sprite->DispatchCollisionEvent_5A3100(p2C->field_4, x, y, kAngZero_67791C);
+        field_50_car_sprite->DispatchCollisionEvent_5A3100(p2C->field_4_sprite, x, y, kAngZero_67791C);
     }
 }
 
@@ -4308,17 +4308,17 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
             {
                 damage = AccumulateDamage_43DA90(
                     32000,
-                    &((pObj->field_4->get_x_y_late_443580().AddLate_40AC50(field_50_car_sprite->get_x_y_late_443580())) * kFpHalf_677218));
+                    &((pObj->field_4_sprite->get_x_y_late_443580().AddLate_40AC50(field_50_car_sprite->get_x_y_late_443580())) * kFpHalf_677218));
                 if (!IsMaxDamage_40F890())
                 {
-                    offset = pObj->field_4->get_x_y_late_443580().SubLate_40AC80(field_50_car_sprite->get_x_y_late_443580());
+                    offset = pObj->field_4_sprite->get_x_y_late_443580().SubLate_40AC80(field_50_car_sprite->get_x_y_late_443580());
                     offset.RotateByAngle_40F6B0(-field_50_car_sprite->field_0_rotation);
                     EmitExplosion_43D690(18, offset.x, offset.y);
                 }
             }
             else
             {
-                offset = pObj->field_4->get_x_y_late_443580().SubLate_40AC80(field_50_car_sprite->get_x_y_late_443580());
+                offset = pObj->field_4_sprite->get_x_y_late_443580().SubLate_40AC80(field_50_car_sprite->get_x_y_late_443580());
                 offset.RotateByAngle_40F6B0(-field_50_car_sprite->field_0_rotation);
                 EmitExplosion_43D690(18, offset.x, offset.y);
             }
@@ -4335,12 +4335,12 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
                     {
                         damage = AccumulateDamage_43DA90(
                             32000,
-                            &((pObj->field_4->get_x_y_late_443580().AddLate_40AC50(field_50_car_sprite->get_x_y_late_443580())) * kFpHalf_677218));
+                            &((pObj->field_4_sprite->get_x_y_late_443580().AddLate_40AC50(field_50_car_sprite->get_x_y_late_443580())) * kFpHalf_677218));
                     }
 
                     if (!IsMaxDamage_40F890())
                     {
-                        offset = pObj->field_4->get_x_y_late_443580().SubLate_40AC80(field_50_car_sprite->get_x_y_late_443580());
+                        offset = pObj->field_4_sprite->get_x_y_late_443580().SubLate_40AC80(field_50_car_sprite->get_x_y_late_443580());
                         offset.RotateByAngle_40F6B0(-field_50_car_sprite->field_0_rotation);
                         EmitExplosion_43D690(18, offset.x, offset.y);
                     }
@@ -4353,7 +4353,7 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
             {
                 damage = AccumulateDamage_43DA90(
                     100 * GetDamageMultiplier_45CF90(pFoundPed),
-                    &((pObj->field_4->get_x_y_late_443580().AddLate_40AC50(field_50_car_sprite->get_x_y_late_443580())) * kFpHalf_677218));
+                    &((pObj->field_4_sprite->get_x_y_late_443580().AddLate_40AC50(field_50_car_sprite->get_x_y_late_443580())) * kFpHalf_677218));
             }
             break;
 
@@ -4362,12 +4362,12 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
             {
                 damage = AccumulateDamage_43DA90(
                     1600 * GetDamageMultiplier_45CF90(pFoundPed),
-                    &((pObj->field_4->get_x_y_late_443580().AddLate_40AC50(field_50_car_sprite->get_x_y_late_443580())) * kFpHalf_677218));
+                    &((pObj->field_4_sprite->get_x_y_late_443580().AddLate_40AC50(field_50_car_sprite->get_x_y_late_443580())) * kFpHalf_677218));
             }
             // Like 9.6f, 265 and default pass `offset`, which only the explosion cases set
-            gParticle_8_6FD5E8->EmitImpactParticles_53FE40(pObj->field_4->field_14_xy.x,
-                                                           pObj->field_4->field_14_xy.y,
-                                                           pObj->field_4->field_1C_zpos,
+            gParticle_8_6FD5E8->EmitImpactParticles_53FE40(pObj->field_4_sprite->field_14_xy.x,
+                                                           pObj->field_4_sprite->field_14_xy.y,
+                                                           pObj->field_4_sprite->field_1C_zpos,
                                                            impact_vec);
             break;
 
@@ -4376,11 +4376,11 @@ char_type Car_BC::HandleCarHitByObject_43F130(Object_2C* pObj)
             {
                 damage = AccumulateDamage_43DA90(
                     800 * GetDamageMultiplier_45CF90(pFoundPed),
-                    &((pObj->field_4->get_x_y_late_443580().AddLate_40AC50(field_50_car_sprite->get_x_y_late_443580())) * kFpHalf_677218));
+                    &((pObj->field_4_sprite->get_x_y_late_443580().AddLate_40AC50(field_50_car_sprite->get_x_y_late_443580())) * kFpHalf_677218));
             }
-            gParticle_8_6FD5E8->EmitImpactParticles_53FE40(pObj->field_4->field_14_xy.x,
-                                                           pObj->field_4->field_14_xy.y,
-                                                           pObj->field_4->field_1C_zpos,
+            gParticle_8_6FD5E8->EmitImpactParticles_53FE40(pObj->field_4_sprite->field_14_xy.x,
+                                                           pObj->field_4_sprite->field_14_xy.y,
+                                                           pObj->field_4_sprite->field_1C_zpos,
                                                            impact_vec);
             break;
 
@@ -4488,7 +4488,7 @@ void Car_BC::AttachGangIcon_440660(u8 arrow_colour)
 {
     Object_2C* pIcon =
         gObject_5C_6F8F84->NewPhysicsObj_5299B0(arrow_colour + 286, gFix16_6777CC, gFix16_6777CC, gFix16_6777CC, kAngZero_67791C);
-    field_50_car_sprite->DispatchCollisionEvent_5A3100(pIcon->field_4, gFix16_6777CC, gFix16_6777CC, kAngZero_67791C);
+    field_50_car_sprite->DispatchCollisionEvent_5A3100(pIcon->field_4_sprite, gFix16_6777CC, gFix16_6777CC, kAngZero_67791C);
 }
 
 MATCH_FUNC(0x4406b0)
@@ -4596,7 +4596,7 @@ void Car_BC::PutWaterCannonOnRoof_440AC0()
 {
     Object_2C* p2C =
         gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::water_cannon_114, gFix16_6777CC, gFix16_6777CC, gFix16_6777CC, kAngZero_67791C);
-    field_50_car_sprite->DispatchCollisionEvent_5A3100(p2C->field_4, gFix16_6777CC, kWaterCannonOffsetY_6771F0, kAng180_677326);
+    field_50_car_sprite->DispatchCollisionEvent_5A3100(p2C->field_4_sprite, gFix16_6777CC, kWaterCannonOffsetY_6771F0, kAng180_677326);
 }
 
 MATCH_FUNC(0x440b10)
@@ -4604,21 +4604,21 @@ void Car_BC::PutTankCannonOnRoof_440B10()
 {
     Object_2C* p2C =
         gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::small_brown_skid_148, gFix16_6777CC, gFix16_6777CC, gFix16_6777CC, kAngZero_67791C);
-    field_50_car_sprite->DispatchCollisionEvent_5A3100(p2C->field_4, gFix16_6777CC, kTankCannonOffsetY_6772A4, kAngZero_67791C);
+    field_50_car_sprite->DispatchCollisionEvent_5A3100(p2C->field_4_sprite, gFix16_6777CC, kTankCannonOffsetY_6772A4, kAngZero_67791C);
 }
 
 MATCH_FUNC(0x440b60)
 void Car_BC::PutMachineGunOnRoof_440B60()
 {
     Object_2C* pObj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(248, gFix16_6777CC, gFix16_6777CC, gFix16_6777CC, kAngZero_67791C);
-    field_50_car_sprite->DispatchCollisionEvent_5A3100(pObj->field_4, gFix16_6777CC, kMachineGunOffsetY_6777FC, kAngZero_67791C);
+    field_50_car_sprite->DispatchCollisionEvent_5A3100(pObj->field_4_sprite, gFix16_6777CC, kMachineGunOffsetY_6777FC, kAngZero_67791C);
 }
 
 MATCH_FUNC(0x440bb0)
 void Car_BC::PutTV_Antenna_440BB0()
 {
     Object_2C* pNewObj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(149, gFix16_6777CC, gFix16_6777CC, gFix16_6777CC, kAngZero_67791C);
-    field_50_car_sprite->DispatchCollisionEvent_5A3100(pNewObj->field_4, gFix16_6777CC, kTvAntennaOffsetY_6778A0, GetRadioTowerAngle_442520());
+    field_50_car_sprite->DispatchCollisionEvent_5A3100(pNewObj->field_4_sprite, gFix16_6777CC, kTvAntennaOffsetY_6778A0, GetRadioTowerAngle_442520());
 }
 
 MATCH_FUNC(0x440c10)
@@ -4757,7 +4757,7 @@ void Car_BC::FireCarBomb_440F90(char_type instant_bomb)
         {
             pNew2C->SetDamageOwner_529080(pDriver->get_ped_ref_idx_420B50());
         }
-        field_50_car_sprite->DispatchCollisionEvent_5A3100(pNew2C->field_4, gFix16_6777CC, gFix16_6777CC, kAngZero_67791C);
+        field_50_car_sprite->DispatchCollisionEvent_5A3100(pNew2C->field_4_sprite, gFix16_6777CC, gFix16_6777CC, kAngZero_67791C);
     }
 }
 
@@ -6637,7 +6637,7 @@ void Car_BC::AttachLight_443F30(s32 object_type, s32 argb, s32 x_offset, s32 y_o
 {
     Object_2C* pObj = gObject_5C_6F8F84->NewLight_529AB0(object_type, 0, 0, 0, argb, kFpOneAndHalf_6772AC, 200);
     pObj->TurnOffLight_527990();
-    field_50_car_sprite->DispatchCollisionEvent_5A3100(pObj->field_4, (kFpOne64th_677888 * x_offset), (kFpOne64th_677888 * y_offset), kAngZero_67791C);
+    field_50_car_sprite->DispatchCollisionEvent_5A3100(pObj->field_4_sprite, (kFpOne64th_677888 * x_offset), (kFpOne64th_677888 * y_offset), kAngZero_67791C);
 }
 
 MATCH_FUNC(0x444020)
