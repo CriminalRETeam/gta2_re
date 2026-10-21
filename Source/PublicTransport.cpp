@@ -323,7 +323,7 @@ Train_58::~Train_58()
 }
 
 MATCH_FUNC(0x5782d0)
-void Train_58::sub_5782D0()
+void Train_58::StartIfHasDriver_5782D0()
 {
     if (!bSkip_trains_67D550)
     {
@@ -1096,7 +1096,7 @@ bool PublicTransport_181C::is_bus_579AA0(Car_BC* pCar)
 }
 
 MATCH_FUNC(0x579ad0)
-Car_BC* PublicTransport_181C::sub_579AD0()
+Car_BC* PublicTransport_181C::GetBusIfBoarding_579AD0()
 {
     if (bSkip_buses_67D558)
     {
@@ -1542,7 +1542,7 @@ void PublicTransport_181C::PublicTransportService_57A7A0()
                     pStation = pTrain->field_4C_maybe_train_station;
                     if (!pTrain->field_0)
                     {
-                        pTrain->sub_5782D0();
+                        pTrain->StartIfHasDriver_5782D0();
                     }
                     else if (!bStopped)
                     {
@@ -1606,7 +1606,7 @@ void PublicTransport_181C::PublicTransportService_57A7A0()
                     {
                         if (!pTrain->field_4C_maybe_train_station->field_18_pStoppedTrain)
                         {
-                            pTrain->sub_5782D0();
+                            pTrain->StartIfHasDriver_5782D0();
                             pTrain->field_48_stop_phase = 0;
                             pTrain->IncrementState_578180();
                         }

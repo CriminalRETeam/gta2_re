@@ -13,7 +13,7 @@ class Fix16_Point;
 
 class SoundObject_10;
 
-EXPORT void __stdcall sub_5DF270(Sprite* pSprite, Fix16 search_size, char_type bCheckAngle, char_type a4, Ped* pAttacker, Sprite* pTargetSprite);
+EXPORT void __stdcall ShockPedsAroundSprite_5DF270(Sprite* pSprite, Fix16 search_size, char_type bCheckAngle, char_type a4, Ped* pAttacker, Sprite* pTargetSprite);
 
 class Weapon_30
 {
@@ -64,8 +64,8 @@ class Weapon_30
     EXPORT void dual_pistol_5DDA70();
     EXPORT void smg_5DDD20();
     EXPORT void throwable_5DDFC0(s32 obj_idx, s32 throw_strength, s32 throw_charge);
-    EXPORT void sub_5DE4F0();
-    EXPORT void sub_5DFB60(u8 bFlag, Sprite* pSprite, Ang16 target_angle);
+    EXPORT void TraceBeamToHitTarget_5DE4F0();
+    EXPORT void ChainShockTargets_5DFB60(u8 bFlag, Sprite* pSprite, Ang16 target_angle);
     EXPORT void shocker_5E06B0();
     EXPORT void electro_batton_5E0740();
     EXPORT void car_bomb_5E0AB0(char_type instant_bomb);

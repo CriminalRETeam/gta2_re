@@ -57,7 +57,7 @@ class Fix16_Rect
         this->field_14_high_z = z + FIX16_RECT_HALF_HEIGHT;
     }
 
-    // Unused since sub_5DF270 calls ComputeCollisionPrism_4204D0 with FIX16_RECT_HALF_HEIGHT. Kept because removing
+    // Unused since ShockPedsAroundSprite_5DF270 calls ComputeCollisionPrism_4204D0 with FIX16_RECT_HALF_HEIGHT. Kept because removing
     // an unused inline can move code in other TUs (docs/matching_quirks.md).
     void ComputeShockPrism(Fix16 x, Fix16 y, Fix16 offset, Fix16 z, const Fix16& half_z)
     {

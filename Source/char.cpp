@@ -2785,7 +2785,7 @@ char_type Char_B4::CanMoveOntoSlope_54C1A0(s32 path_direction)
 
 // 9.6f 0x495470
 MATCH_FUNC(0x54c3e0)
-void Char_B4::sub_54C3E0()
+void Char_B4::TurnToFreeAdjacentFace_54C3E0()
 {
     bool cw_free = false;
     s32 face = Ang16::GetAngleFace_4F78F0(field_40_rotation);
@@ -3297,7 +3297,7 @@ void Char_B4::ApplyMovement_54CC40()
 }
 
 MATCH_FUNC(0x54dd70)
-void Char_B4::sub_54DD70()
+void Char_B4::CheckCollisionsAndUpdateAnim_54DD70()
 {
     if (this->field_8_ped_state_1 != ped_state_1::dead_9 && this->field_10_char_state != Char_B4_state::Jumping_15)
     {
@@ -3715,7 +3715,7 @@ void Char_B4::state_0_54DDF0()
 
             if (byte_6FDB51)
             {
-                Char_B4::sub_54C3E0();
+                Char_B4::TurnToFreeAdjacentFace_54C3E0();
             }
 
             if (bTileOk == 1)
@@ -3828,7 +3828,7 @@ LABEL_152:
         field_40_rotation = new_rotation; //*p_field_40_rotation = new_rotation;
     }
 
-    Char_B4::sub_54DD70();
+    Char_B4::CheckCollisionsAndUpdateAnim_54DD70();
 }
 
 // https://decomp.me/scratch/Zk9Eh
@@ -5022,7 +5022,7 @@ LABEL_65:
         field_40_rotation = Ang16(field_40_rotation.rValue + kAng180_6FD936.rValue, (u8)0);
         field_38_velocity = -field_38_velocity;
     }
-    Char_B4::sub_54DD70();
+    Char_B4::CheckCollisionsAndUpdateAnim_54DD70();
 }
 
 // https://decomp.me/scratch/4eLOQ

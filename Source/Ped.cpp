@@ -945,7 +945,7 @@ void Ped::ManageShocking_45BC70()
         {
             if (field_21C_bf.bElectroFingers)
             {
-                sub_5DF270(field_168_game_object->get_sprite_ptr_4338D0(), kFpHalf_67853C, 0, 1, this, 0);
+                ShockPedsAroundSprite_5DF270(field_168_game_object->get_sprite_ptr_4338D0(), kFpHalf_67853C, 0, 1, this, 0);
             }
         }
     }
@@ -1682,7 +1682,7 @@ void Ped::HandlePedCrossingTrigger_45CF20(Object_2C* pObj)
     }
 }
 
-Fix16 __stdcall sub_4614E0(Fix16& x1, Fix16& y1, Fix16& x2, Fix16& y2);
+Fix16 __stdcall MaxAbsDistance_4614E0(Fix16& x1, Fix16& y1, Fix16& x2, Fix16& y2);
 
 // 10.5 inlines this into HandlePedHitByObject_45D000 (the first call there; the second one
 // calls 0x465D00) and into IsThreatToSearchingPed_4661F0 (search mode 1), so it has to be defined
@@ -1822,7 +1822,7 @@ inline bool Ped::IsPedAThreat_Inline_465D00(Ped* pTargetPed)
                     }
 
                     Fix16 result;
-                    result = sub_4614E0(this->field_1AC_cam.x, this->field_1AC_cam.y, pTargetPed->get_cam_x(), pTargetPed->get_cam_y());
+                    result = MaxAbsDistance_4614E0(this->field_1AC_cam.x, this->field_1AC_cam.y, pTargetPed->get_cam_x(), pTargetPed->get_cam_y());
                     if (result <= kFpOne_678798)
                     {
                         goto ret_true;
@@ -3316,7 +3316,7 @@ void Ped::BusCustomer_AI_461290()
             break;
 
         default:
-            Car_BC* pBus = gPublicTransport_181C_6FF1D4->sub_579AD0();
+            Car_BC* pBus = gPublicTransport_181C_6FF1D4->GetBusIfBoarding_579AD0();
             if (pBus)
             {
                 SetObjective2_463830(objectives_enum::no_obj_0);
@@ -5889,7 +5889,7 @@ char_type Ped::IsInvisibleOnFoot_466B70()
 // Returns Fix16 by value (hidden out pointer, ret $0x14). Max of the two Abs written out with
 // the y abs first: Fix16::Max takes references and spills both to the stack.
 MATCH_FUNC(0x4614e0)
-Fix16 __stdcall sub_4614E0(Fix16& x1, Fix16& y1, Fix16& x2, Fix16& y2)
+Fix16 __stdcall MaxAbsDistance_4614E0(Fix16& x1, Fix16& y1, Fix16& x2, Fix16& y2)
 {
     Fix16 diff_x = x2 - x1;
     Fix16 diff_y = y2 - y1;

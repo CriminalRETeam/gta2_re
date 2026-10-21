@@ -767,21 +767,21 @@ char Car_BC::TrySnapCarToNearestDrivableRoadAndDriveForward_445EC0(Fix16 xpos, F
         {
             if (GET_BLOCK_TYPE(pBlock->field_B_slope_type) == ROAD)
             {
-                if (!gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, direction))
+                if (!gRouteFinder_6FFDC8->HasBlockArrowInRoadDirection_588DE0(pBlock, green_1, direction))
                 {
-                    if (gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction::up_1))
+                    if (gRouteFinder_6FFDC8->HasBlockArrowInRoadDirection_588DE0(pBlock, green_1, road_direction::up_1))
                     {
                         direction = road_direction::up_1;
                     }
-                    else if (gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction::right_3))
+                    else if (gRouteFinder_6FFDC8->HasBlockArrowInRoadDirection_588DE0(pBlock, green_1, road_direction::right_3))
                     {
                         direction = road_direction::right_3;
                     }
-                    else if (gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction::down_2))
+                    else if (gRouteFinder_6FFDC8->HasBlockArrowInRoadDirection_588DE0(pBlock, green_1, road_direction::down_2))
                     {
                         direction = road_direction::down_2;
                     }
-                    else if (gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction::left_4))
+                    else if (gRouteFinder_6FFDC8->HasBlockArrowInRoadDirection_588DE0(pBlock, green_1, road_direction::left_4))
                     {
                         direction = road_direction::left_4;
                     }
@@ -972,21 +972,21 @@ Car_BC* CarManager_6C::SpawnBusAtValidRoadPosition_4453E0(Fix16 x, Fix16 y, s32 
         gmp_block_info* pBlock = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x.ToInt(), y.ToInt(), &found_z);
         if (pBlock)
         {
-            if (GET_BLOCK_TYPE(pBlock->field_B_slope_type) == 1 && !gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction))
+            if (GET_BLOCK_TYPE(pBlock->field_B_slope_type) == 1 && !gRouteFinder_6FFDC8->HasBlockArrowInRoadDirection_588DE0(pBlock, green_1, road_direction))
             {
-                if (gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction::up_1))
+                if (gRouteFinder_6FFDC8->HasBlockArrowInRoadDirection_588DE0(pBlock, green_1, road_direction::up_1))
                 {
                     road_direction = road_direction::up_1;
                 }
-                else if (gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction::right_3))
+                else if (gRouteFinder_6FFDC8->HasBlockArrowInRoadDirection_588DE0(pBlock, green_1, road_direction::right_3))
                 {
                     road_direction = road_direction::right_3;
                 }
-                else if (gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction::down_2))
+                else if (gRouteFinder_6FFDC8->HasBlockArrowInRoadDirection_588DE0(pBlock, green_1, road_direction::down_2))
                 {
                     road_direction = road_direction::down_2;
                 }
-                else if (gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction::left_4))
+                else if (gRouteFinder_6FFDC8->HasBlockArrowInRoadDirection_588DE0(pBlock, green_1, road_direction::left_4))
                 {
                     road_direction = road_direction::left_4;
                 }
@@ -998,7 +998,7 @@ Car_BC* CarManager_6C::SpawnBusAtValidRoadPosition_4453E0(Fix16 x, Fix16 y, s32 
                             x += kFP16One_6777D0;
                             y -= kFP16One_6777D0;
                             pBlock = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x.ToInt(), y.ToInt(), &found_z);
-                            if (gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction::left_4))
+                            if (gRouteFinder_6FFDC8->HasBlockArrowInRoadDirection_588DE0(pBlock, green_1, road_direction::left_4))
                             {
                                 road_direction = road_direction::left_4;
                             }
@@ -1006,7 +1006,7 @@ Car_BC* CarManager_6C::SpawnBusAtValidRoadPosition_4453E0(Fix16 x, Fix16 y, s32 
                             {
                                 x -= kFpTwo_6777D4;
                                 pBlock = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x.ToInt(), y.ToInt(), &found_z);
-                                if (gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction::right_3))
+                                if (gRouteFinder_6FFDC8->HasBlockArrowInRoadDirection_588DE0(pBlock, green_1, road_direction::right_3))
                                 {
                                     road_direction = road_direction::right_3;
                                 }
@@ -1016,7 +1016,7 @@ Car_BC* CarManager_6C::SpawnBusAtValidRoadPosition_4453E0(Fix16 x, Fix16 y, s32 
                             x += kFP16One_6777D0;
                             y += kFP16One_6777D0;
                             pBlock = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x.ToInt(), y.ToInt(), &found_z);
-                            if (gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction::left_4))
+                            if (gRouteFinder_6FFDC8->HasBlockArrowInRoadDirection_588DE0(pBlock, green_1, road_direction::left_4))
                             {
                                 road_direction = road_direction::left_4;
                             }
@@ -1024,7 +1024,7 @@ Car_BC* CarManager_6C::SpawnBusAtValidRoadPosition_4453E0(Fix16 x, Fix16 y, s32 
                             {
                                 x -= kFpTwo_6777D4;
                                 pBlock = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x.ToInt(), y.ToInt(), &found_z);
-                                if (gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction::right_3))
+                                if (gRouteFinder_6FFDC8->HasBlockArrowInRoadDirection_588DE0(pBlock, green_1, road_direction::right_3))
                                 {
                                     road_direction = road_direction::right_3;
                                 }
@@ -1034,7 +1034,7 @@ Car_BC* CarManager_6C::SpawnBusAtValidRoadPosition_4453E0(Fix16 x, Fix16 y, s32 
                             x += kFP16One_6777D0;
                             y -= kFP16One_6777D0;
                             pBlock = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x.ToInt(), y.ToInt(), &found_z);
-                            if (gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction::down_2))
+                            if (gRouteFinder_6FFDC8->HasBlockArrowInRoadDirection_588DE0(pBlock, green_1, road_direction::down_2))
                             {
                                 road_direction = road_direction::down_2;
                             }
@@ -1042,7 +1042,7 @@ Car_BC* CarManager_6C::SpawnBusAtValidRoadPosition_4453E0(Fix16 x, Fix16 y, s32 
                             {
                                 y += kFpTwo_6777D4;
                                 pBlock = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x.ToInt(), y.ToInt(), &found_z);
-                                if (gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction::up_1))
+                                if (gRouteFinder_6FFDC8->HasBlockArrowInRoadDirection_588DE0(pBlock, green_1, road_direction::up_1))
                                 {
                                     road_direction = road_direction::up_1;
                                 }
@@ -1053,7 +1053,7 @@ Car_BC* CarManager_6C::SpawnBusAtValidRoadPosition_4453E0(Fix16 x, Fix16 y, s32 
                             y -= kFP16One_6777D0;
                             pBlock = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x.ToInt(), y.ToInt(), &found_z);
 
-                            if (gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction::down_2))
+                            if (gRouteFinder_6FFDC8->HasBlockArrowInRoadDirection_588DE0(pBlock, green_1, road_direction::down_2))
                             {
                                 road_direction = road_direction::down_2;
                             }
@@ -1061,7 +1061,7 @@ Car_BC* CarManager_6C::SpawnBusAtValidRoadPosition_4453E0(Fix16 x, Fix16 y, s32 
                             {
                                 y += kFpTwo_6777D4;
                                 pBlock = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x.ToInt(), y.ToInt(), &found_z);
-                                if (gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction::up_1))
+                                if (gRouteFinder_6FFDC8->HasBlockArrowInRoadDirection_588DE0(pBlock, green_1, road_direction::up_1))
                                 {
                                     road_direction = road_direction::up_1;
                                 }
@@ -1133,7 +1133,7 @@ Car_BC* CarManager_6C::SpawnCarOnRoadNetwork_4458B0(Fix16 xpos, Fix16 ypos, s32 
     s32 x_int = xpos.ToInt();
     s32 y_int = ypos.ToInt();
     gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x_int, y_int, &found_z);
-    s16 route_idx = (char_type)gRouteFinder_6FFDC8->sub_58A130(x_int, y_int, found_z, &unused, 1, road_direction);
+    s16 route_idx = (char_type)gRouteFinder_6FFDC8->FindOffScreenRoute_58A130(x_int, y_int, found_z, &unused, 1, road_direction);
     if (route_idx <= 0)
     {
         return NULL;
@@ -1171,21 +1171,21 @@ Car_BC* CarManager_6C::SpawnCarOnRoadNetwork_4458B0(Fix16 xpos, Fix16 ypos, s32 
         gmp_block_info* pBlock = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x.ToInt(), y.ToInt(), &found_z);
         if (pBlock)
         {
-            if (!gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction) && GET_BLOCK_TYPE(pBlock->field_B_slope_type) == 1)
+            if (!gRouteFinder_6FFDC8->HasBlockArrowInRoadDirection_588DE0(pBlock, green_1, road_direction) && GET_BLOCK_TYPE(pBlock->field_B_slope_type) == 1)
             {
-                if (gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction::up_1))
+                if (gRouteFinder_6FFDC8->HasBlockArrowInRoadDirection_588DE0(pBlock, green_1, road_direction::up_1))
                 {
                     road_direction = road_direction::up_1;
                 }
-                else if (gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction::right_3))
+                else if (gRouteFinder_6FFDC8->HasBlockArrowInRoadDirection_588DE0(pBlock, green_1, road_direction::right_3))
                 {
                     road_direction = road_direction::right_3;
                 }
-                else if (gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction::down_2))
+                else if (gRouteFinder_6FFDC8->HasBlockArrowInRoadDirection_588DE0(pBlock, green_1, road_direction::down_2))
                 {
                     road_direction = road_direction::down_2;
                 }
-                else if (gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction::left_4))
+                else if (gRouteFinder_6FFDC8->HasBlockArrowInRoadDirection_588DE0(pBlock, green_1, road_direction::left_4))
                 {
                     road_direction = road_direction::left_4;
                 }
@@ -1197,7 +1197,7 @@ Car_BC* CarManager_6C::SpawnCarOnRoadNetwork_4458B0(Fix16 xpos, Fix16 ypos, s32 
                             y = y - kFP16One_6777D0;
                             x = x + kFP16One_6777D0;
                             pBlock = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x.ToInt(), y.ToInt(), &found_z);
-                            if (gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction::left_4))
+                            if (gRouteFinder_6FFDC8->HasBlockArrowInRoadDirection_588DE0(pBlock, green_1, road_direction::left_4))
                             {
                                 road_direction = road_direction::left_4;
                             }
@@ -1205,7 +1205,7 @@ Car_BC* CarManager_6C::SpawnCarOnRoadNetwork_4458B0(Fix16 xpos, Fix16 ypos, s32 
                             {
                                 x = x - kFpTwo_6777D4;
                                 pBlock = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x.ToInt(), y.ToInt(), &found_z);
-                                if (gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction::right_3))
+                                if (gRouteFinder_6FFDC8->HasBlockArrowInRoadDirection_588DE0(pBlock, green_1, road_direction::right_3))
                                 {
                                     road_direction = road_direction::right_3;
                                 }
@@ -1215,7 +1215,7 @@ Car_BC* CarManager_6C::SpawnCarOnRoadNetwork_4458B0(Fix16 xpos, Fix16 ypos, s32 
                             y = y + kFP16One_6777D0;
                             x = x + kFP16One_6777D0;
                             pBlock = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x.ToInt(), y.ToInt(), &found_z);
-                            if (gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction::left_4))
+                            if (gRouteFinder_6FFDC8->HasBlockArrowInRoadDirection_588DE0(pBlock, green_1, road_direction::left_4))
                             {
                                 road_direction = road_direction::left_4;
                             }
@@ -1223,7 +1223,7 @@ Car_BC* CarManager_6C::SpawnCarOnRoadNetwork_4458B0(Fix16 xpos, Fix16 ypos, s32 
                             {
                                 x = x - kFpTwo_6777D4;
                                 pBlock = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x.ToInt(), y.ToInt(), &found_z);
-                                if (gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction::right_3))
+                                if (gRouteFinder_6FFDC8->HasBlockArrowInRoadDirection_588DE0(pBlock, green_1, road_direction::right_3))
                                 {
                                     road_direction = road_direction::right_3;
                                 }
@@ -1233,7 +1233,7 @@ Car_BC* CarManager_6C::SpawnCarOnRoadNetwork_4458B0(Fix16 xpos, Fix16 ypos, s32 
                             x = x + kFP16One_6777D0;
                             y = y - kFP16One_6777D0;
                             pBlock = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x.ToInt(), y.ToInt(), &found_z);
-                            if (gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction::down_2))
+                            if (gRouteFinder_6FFDC8->HasBlockArrowInRoadDirection_588DE0(pBlock, green_1, road_direction::down_2))
                             {
                                 road_direction = road_direction::down_2;
                             }
@@ -1241,7 +1241,7 @@ Car_BC* CarManager_6C::SpawnCarOnRoadNetwork_4458B0(Fix16 xpos, Fix16 ypos, s32 
                             {
                                 y = y + kFpTwo_6777D4;
                                 pBlock = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x.ToInt(), y.ToInt(), &found_z);
-                                if (gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction::up_1))
+                                if (gRouteFinder_6FFDC8->HasBlockArrowInRoadDirection_588DE0(pBlock, green_1, road_direction::up_1))
                                 {
                                     road_direction = road_direction::up_1;
                                 }
@@ -1251,7 +1251,7 @@ Car_BC* CarManager_6C::SpawnCarOnRoadNetwork_4458B0(Fix16 xpos, Fix16 ypos, s32 
                             x = x - kFP16One_6777D0;
                             y = y - kFP16One_6777D0;
                             pBlock = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x.ToInt(), y.ToInt(), &found_z);
-                            if (gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction::down_2))
+                            if (gRouteFinder_6FFDC8->HasBlockArrowInRoadDirection_588DE0(pBlock, green_1, road_direction::down_2))
                             {
                                 road_direction = road_direction::down_2;
                             }
@@ -1259,7 +1259,7 @@ Car_BC* CarManager_6C::SpawnCarOnRoadNetwork_4458B0(Fix16 xpos, Fix16 ypos, s32 
                             {
                                 y = y + kFpTwo_6777D4;
                                 pBlock = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x.ToInt(), y.ToInt(), &found_z);
-                                if (gRouteFinder_6FFDC8->sub_588DE0(pBlock, green_1, road_direction::up_1))
+                                if (gRouteFinder_6FFDC8->HasBlockArrowInRoadDirection_588DE0(pBlock, green_1, road_direction::up_1))
                                 {
                                     road_direction = road_direction::up_1;
                                 }
@@ -3770,7 +3770,7 @@ void Car_BC::HandleCarExplosion_43D840(s32 type)
         StartWreckCountdown_441380();
         EmitExplosion_43D690(type, kZeroPoint_6778A8.x, kZeroPoint_6778A8.y);
         AssignKillerToOccupants_43B770();
-        field_0_attachments.sub_5A71F0();
+        field_0_attachments.ExpireAttachedFlames_5A71F0();
 
         if (field_54_driver)
         {
@@ -3786,7 +3786,7 @@ void Car_BC::HandleCarExplosion_43D840(s32 type)
 
         this->field_74_damage = 32001;
 
-        field_0_attachments.sub_5A6BB0();
+        field_0_attachments.DestroyAllAttached_5A6BB0();
 
         g6C_f_58 = gCarManager_6C_677930->field_58_model_to_check_destroy;
         if (g6C_f_58 != 87 && g6C_f_58 == this->field_84_car_info_idx)
@@ -3879,7 +3879,7 @@ s16 Car_BC::AccumulateDamage_43DA90(s16 damage, const Fix16_Point* pVec)
         {
             if (this->field_8C_damage_level < 4)
             {
-                field_0_attachments.sub_5A71F0();
+                field_0_attachments.ExpireAttachedFlames_5A71F0();
                 Car_BC::SpawnDamageFireEffect_43B870(2, pVec);
                 this->field_8C_damage_level = 4;
             }
@@ -3986,7 +3986,7 @@ void Car_BC::DestroyWhileSinking_43DD60()
 
     StopMovement_43DBD0();
     field_50_car_sprite->IncreaseZoom_59E320(1);
-    field_0_attachments.sub_5A6BD0();
+    field_0_attachments.SinkAllAttachedCars_5A6BD0();
 
     if (CarShrinkSprite_43DC80(2, 2))
     {
@@ -5857,7 +5857,7 @@ void Car_BC::TryHitchTrailer_442810()
         }
         else
         {
-            if (field_50_car_sprite->sub_5A1A60() || stru_67727C.sub_5A7310())
+            if (field_50_car_sprite->CheckSlopeTopInFootprint_5A1A60() || stru_67727C.sub_5A7310())
             {
                 this->field_50_car_sprite->SetDrawLayer_40F7B0(8);
                 stru_67727C.PropagateMaxZLayer_5A72B0(this->field_50_car_sprite, 1);
@@ -6970,13 +6970,13 @@ void Trailer::UpdateTrailerAlignment_407CE0()
     // The trailer points along hitch - rear, kept within a window around the cab's angle
     delta = hitch.Sub_40AC80(rear);
     Fix16 new_theta = Ang16::Ang16_to_Fix16(delta.atan2_40F790());
-    field_0_hitch_angle_clamped = sub_405E80(&cab_theta, &new_theta);
+    field_0_hitch_angle_clamped = ClampAngleAroundTarget_405E80(&cab_theta, &new_theta);
 
     if (new_theta.mValue != cab_theta.mValue && new_theta.mValue == trailer_theta.mValue)
     {
         if (IsVelocityAlignedWithHeading_40F840(pCabPhys) && pCabPhys->IsGasPedalPressedEnough_5626A0())
         {
-            new_theta = sub_405DA0(new_theta, &cab_theta, &field_8_truck_cab->GetMaxTurnRate_440510());
+            new_theta = TurnAngleToward_405DA0(new_theta, &cab_theta, &field_8_truck_cab->GetMaxTurnRate_440510());
         }
     }
 

@@ -1878,7 +1878,7 @@ bool Sprite::PointInsideRotatedBounds_5A1490(Fix16_Point& point1, Fix16_Point& p
 }
 
 MATCH_FUNC(0x5a19c0)
-char_type Sprite::sub_5A19C0()
+char_type Sprite::IsStraddlingSlopeAndFlat_5A19C0()
 {
     EnsureVisualShape_59F990();
 
@@ -1891,7 +1891,7 @@ char_type Sprite::sub_5A19C0()
 }
 
 MATCH_FUNC(0x5a1a60)
-char Sprite::sub_5A1A60()
+char Sprite::CheckSlopeTopInFootprint_5A1A60()
 {
     EnsureVisualShape_59F990();
 
@@ -1935,7 +1935,7 @@ char_type Sprite::ComputeZLayer_5A1BD0()
         }
         else
         {
-            this->field_39_z_col = (this->field_1C_zpos - kFP16One_7035C4).ToInt() + sub_5A1A60();
+            this->field_39_z_col = (this->field_1C_zpos - kFP16One_7035C4).ToInt() + CheckSlopeTopInFootprint_5A1A60();
         }
     }
     return field_39_z_col;
@@ -2078,7 +2078,7 @@ Fix16 Sprite::MinDistanceToAnySpriteBBoxCorner_5A22B0(Sprite* pOther)
 }
 
 MATCH_FUNC(0x5A2440)
-char_type Sprite::sub_5A2440()
+char_type Sprite::CheckBulletWallCollision_5A2440()
 {
     UpdateCollisionBoundsIfNeeded_59E9C0();
     field_C_pCollisionShape->SetCurrentRect_5A4D90();
@@ -2566,7 +2566,7 @@ void SpriteShape_4C::DrawCollisionBox_5A4DA0(Fix16 zpos)
         ProjectToScreen_5A5690(field_C_corners[0].x, field_C_corners[0].y, zpos, &x1, &y1);
         ProjectToScreen_5A5690(field_C_corners[1].x, field_C_corners[1].y, zpos, &x2, &y2);
         ProjectToScreen_5A5690(field_C_corners[2].x, field_C_corners[2].y, zpos, &x3, &y3);
-        sub_5A5690(field_C_corners[3].x, field_C_corners[3].y, zpos, &x4, &y4);
+        ProjectWorldToScreen_5A5690(field_C_corners[3].x, field_C_corners[3].y, zpos, &x4, &y4);
         DrawDebugLine_5D7DD0((s16)x1.ToInt(), (s16)y1.ToInt(), (s16)x2.ToInt(), (s16)y2.ToInt(), gDebugColour_626260);
         DrawDebugLine_5D7DD0((s16)x2.ToInt(), (s16)y2.ToInt(), (s16)x3.ToInt(), (s16)y3.ToInt(), gDebugColour_626260);
         DrawDebugLine_5D7DD0((s16)x3.ToInt(), (s16)y3.ToInt(), (s16)x4.ToInt(), (s16)y4.ToInt(), gDebugColour_626260);
@@ -2575,7 +2575,7 @@ void SpriteShape_4C::DrawCollisionBox_5A4DA0(Fix16 zpos)
 }
 
 MATCH_FUNC(0x5A5690)
-EXPORT void __stdcall sub_5A5690(Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16* pOut2)
+EXPORT void __stdcall ProjectWorldToScreen_5A5690(Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16* pOut2)
 {
     z = kFP16One_7035C4 / ((kFP16Eight_7035E4 - z) + gViewCamera_676978->field_98_cur_pos.field_8_z);
     *pOut1 = (((x - gViewCamera_676978->field_98_cur_pos.field_0_x) * gViewCamera_676978->field_60_screen_scale.x) * z) +
@@ -2585,7 +2585,7 @@ EXPORT void __stdcall sub_5A5690(Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16*
 }
 
 // World to screen pixels. DrawCollisionBox_5A4DA0 expands the inline, except for its last call, which
-// is the out-of-line copy sub_5A5690.
+// is the out-of-line copy ProjectWorldToScreen_5A5690.
 // Like the original, the function runs out of inline expansions, so the Fix16 operators are the
 // out-of-line copies.
 static inline void ProjectToScreen_5A5690(Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16* pOut2)

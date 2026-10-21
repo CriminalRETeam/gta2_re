@@ -198,7 +198,7 @@ void SpriteList_4::RemoveSpriteSafe_5A6B60(Sprite* toFind)
 }
 
 MATCH_FUNC(0x5a6bb0)
-void SpriteList_4::sub_5A6BB0()
+void SpriteList_4::DestroyAllAttached_5A6BB0()
 {
     for (AttachedSprite_18* p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->mpNext)
     {
@@ -207,7 +207,7 @@ void SpriteList_4::sub_5A6BB0()
 }
 
 MATCH_FUNC(0x5a6bd0)
-void SpriteList_4::sub_5A6BD0()
+void SpriteList_4::SinkAllAttachedCars_5A6BD0()
 {
     for (AttachedSprite_18* p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->mpNext)
     {
@@ -642,7 +642,7 @@ s32 SpriteList_4::GetGangIdxFromSpriteIfAny_5A71A0()
 }
 
 MATCH_FUNC(0x5a71f0)
-void SpriteList_4::sub_5A71F0()
+void SpriteList_4::ExpireAttachedFlames_5A71F0()
 {
     for (AttachedSprite_18* p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->mpNext)
     {
@@ -725,7 +725,7 @@ char_type SpriteList_4::sub_5A7310()
     AttachedSprite_18* p18Iter;
     for (p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->mpNext)
     {
-        if (p18Iter->field_0_pSprite->sub_5A1A60())
+        if (p18Iter->field_0_pSprite->CheckSlopeTopInFootprint_5A1A60())
         {
             return 1;
         }

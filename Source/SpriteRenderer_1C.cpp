@@ -92,7 +92,7 @@ EXPORT s32 get_rdtsc_5BEE90()
 // Converts a cycle count from get_rdtsc_5BEE90 for the profiler display (dword_705334 is the
 // number of cycles per unit)
 MATCH_FUNC(0x5BEED0)
-EXPORT s32 __stdcall sub_5BEED0(s32 cycles)
+EXPORT s32 __stdcall ConvertCycleCount_5BEED0(s32 cycles)
 {
     return (u32)cycles / dword_705334;
 }

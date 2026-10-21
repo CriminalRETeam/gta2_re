@@ -360,14 +360,14 @@ class Char_B4
     EXPORT void sub_54C090();
     EXPORT char_type CanMoveOntoSlope_54C1A0(s32 path_direction);
     inline void SetTurnTarget_492400(Ang16 target_rotation);
-    EXPORT void sub_54C3E0();
+    EXPORT void TurnToFreeAdjacentFace_54C3E0();
     EXPORT char_type CanMoveToTile_54C500(char_type x, char_type y);
     EXPORT void SelectRandomIdleBehavior_54C580();
     EXPORT void ApplyRandomRotationJitter_54C6C0();
     EXPORT void TickMovementStateMachine_54C900();
     EXPORT void TurnTowardsAngle_54CAE0();
     EXPORT void ApplyMovement_54CC40();
-    EXPORT void sub_54DD70();
+    EXPORT void CheckCollisionsAndUpdateAnim_54DD70();
     EXPORT void state_0_54DDF0();
     EXPORT bool CanStepForwardWithRegionCheck_54ECB0(s32 direction);
     EXPORT bool CanStepDiagonal_54EF60(char_type target_x, char_type target_y);

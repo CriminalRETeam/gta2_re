@@ -593,7 +593,7 @@ void PoliceCrew_38::sub_5720C0()
 
         if (field_24_state != police_crew_state::shutdown_6)
         {
-            sub_575650();
+            UnlinkFromPursuitTarget_575650();
             field_24_state = police_crew_state::shutdown_6;
             return;
         }
@@ -681,7 +681,7 @@ void PoliceCrew_38::State3_AlertedSearch_572340()
                 pCar->MarkForDespawn_421470();
                 field_10_subObj->field_0_car = NULL;
                 field_24_state = police_crew_state::shutdown_6;
-                PoliceCrew_38::sub_575650();
+                PoliceCrew_38::UnlinkFromPursuitTarget_575650();
             }
         }
     }
@@ -691,7 +691,7 @@ void PoliceCrew_38::State3_AlertedSearch_572340()
         if (field_10_subObj->field_18_spawn_delay == -80)
         {
             field_24_state = police_crew_state::shutdown_6;
-            PoliceCrew_38::sub_575650();
+            PoliceCrew_38::UnlinkFromPursuitTarget_575650();
         }
     }
 
@@ -763,10 +763,10 @@ void PoliceCrew_38::State3_AlertedSearch_572340()
                                 }
                                 break;
                             case objectives_enum::leave_car_36:
-                                PoliceCrew_38::sub_575270();
+                                PoliceCrew_38::HandleLeaveCarObjective_575270();
                                 break;
                             case objectives_enum::enter_car_as_driver_35:
-                                PoliceCrew_38::sub_575210();
+                                PoliceCrew_38::HandleEnterCarObjective_575210();
                                 break;
                             case objectives_enum::objective_51:
                                 if (pPed->GetObjectiveStatus_450CB0() == objective_status::failed_2)
@@ -854,7 +854,7 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
     if (!field_14_pPursuitTarget->field_0_criminal_ped)
     {
         field_24_state = police_crew_state::shutdown_6;
-        PoliceCrew_38::sub_575650();
+        PoliceCrew_38::UnlinkFromPursuitTarget_575650();
         return;
     }
 
@@ -866,7 +866,7 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
             if (field_10_subObj->field_28_state == crew_state::clean_up_5 || field_24_state == police_crew_state::shutdown_6)
             {
                 field_24_state = police_crew_state::shutdown_6;
-                PoliceCrew_38::sub_575650();
+                PoliceCrew_38::UnlinkFromPursuitTarget_575650();
                 return;
             }
         }
@@ -898,7 +898,7 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
                     pCar->MarkForDespawn_421470();
                     field_10_subObj->field_0_car = NULL;
                     field_24_state = police_crew_state::shutdown_6;
-                    PoliceCrew_38::sub_575650();
+                    PoliceCrew_38::UnlinkFromPursuitTarget_575650();
                 }
             }
         }
@@ -908,7 +908,7 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
             if (field_10_subObj->field_18_spawn_delay == -80)
             {
                 field_24_state = police_crew_state::shutdown_6;
-                PoliceCrew_38::sub_575650();
+                PoliceCrew_38::UnlinkFromPursuitTarget_575650();
             }
         }
     }
@@ -929,7 +929,7 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
         if (!field_10_subObj->field_24_phase)
         {
             field_24_state = police_crew_state::shutdown_6;
-            PoliceCrew_38::sub_575650();
+            PoliceCrew_38::UnlinkFromPursuitTarget_575650();
             return;
         }
         if (field_14_pPursuitTarget->field_0_criminal_ped->field_16C_car)
@@ -944,7 +944,7 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
         if (!field_10_subObj->field_24_phase)
         {
             field_24_state = police_crew_state::shutdown_6;
-            PoliceCrew_38::sub_575650();
+            PoliceCrew_38::UnlinkFromPursuitTarget_575650();
             return;
         }
         field_24_state = police_crew_state::alerted_search_3;
@@ -1059,12 +1059,12 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
                         break;
 
                     case objectives_enum::leave_car_36:
-                        PoliceCrew_38::sub_575270();
+                        PoliceCrew_38::HandleLeaveCarObjective_575270();
                         field_28 = 0;
                         break;
 
                     case objectives_enum::enter_car_as_driver_35:
-                        PoliceCrew_38::sub_575210();
+                        PoliceCrew_38::HandleEnterCarObjective_575210();
                         field_28 = 1;
                         break;
 
@@ -1244,7 +1244,7 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
         gCurrentCrewPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0);
         gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::no_obj_0);
         field_24_state = police_crew_state::shutdown_6;
-        PoliceCrew_38::sub_575650();
+        PoliceCrew_38::UnlinkFromPursuitTarget_575650();
     }
 }
 
@@ -1287,7 +1287,7 @@ void PoliceCrew_38::State6_ShutDown_574720()
                     }
                 }
             }
-            PoliceCrew_38::sub_575650();
+            PoliceCrew_38::UnlinkFromPursuitTarget_575650();
             if (field_29_bCountedInPoliceCount)
             {
                 if (gPolice_7B8_6FEE40->field_658_police_car_count > 0)
@@ -1395,10 +1395,10 @@ void PoliceCrew_38::State6_ShutDown_574720()
                             case objectives_enum::objective_50:
                                 break;
                             case objectives_enum::enter_car_as_driver_35:
-                                PoliceCrew_38::sub_575210();
+                                PoliceCrew_38::HandleEnterCarObjective_575210();
                                 break;
                             case objectives_enum::leave_car_36:
-                                PoliceCrew_38::sub_575270();
+                                PoliceCrew_38::HandleLeaveCarObjective_575270();
                                 break;
                             case objectives_enum::objective_28:
                                 if (gCurrentCrewPed_6FEDDC->GetObjectiveStatus_450CB0())
@@ -1449,7 +1449,7 @@ void PoliceCrew_38::State6_ShutDown_574720()
             }
         }
         PoliceCrew_38::Init_5709C0();
-        PoliceCrew_38::sub_575650();
+        PoliceCrew_38::UnlinkFromPursuitTarget_575650();
     }
 }
 
@@ -1489,7 +1489,7 @@ void PoliceCrew_38::State1_Patrol_574F10()
                     }
                 }
             }
-            PoliceCrew_38::sub_575650();
+            PoliceCrew_38::UnlinkFromPursuitTarget_575650();
             if (field_29_bCountedInPoliceCount)
             {
                 if (gPolice_7B8_6FEE40->field_658_police_car_count > 0)
@@ -1547,10 +1547,10 @@ void PoliceCrew_38::State1_Patrol_574F10()
                             }
                             break;
                         case objectives_enum::leave_car_36:
-                            PoliceCrew_38::sub_575270();
+                            PoliceCrew_38::HandleLeaveCarObjective_575270();
                             break;
                         case objectives_enum::enter_car_as_driver_35:
-                            PoliceCrew_38::sub_575210();
+                            PoliceCrew_38::HandleEnterCarObjective_575210();
                             break;
                         case objectives_enum::flee_char_on_foot_till_safe_2:
                         case objectives_enum::goto_area_on_foot_12:
@@ -1585,14 +1585,14 @@ void PoliceCrew_38::State1_Patrol_574F10()
 }
 
 MATCH_FUNC(0x575200)
-void PoliceCrew_38::sub_575200()
+void PoliceCrew_38::State2_SwitchToShutDown_575200()
 {
     byte_6FEB48 = 1;
     field_24_state = police_crew_state::shutdown_6;
 }
 
 MATCH_FUNC(0x575210)
-void PoliceCrew_38::sub_575210()
+void PoliceCrew_38::HandleEnterCarObjective_575210()
 {
     if (field_10_subObj->field_24_phase)
     {
@@ -1614,7 +1614,7 @@ void PoliceCrew_38::sub_575210()
 }
 
 MATCH_FUNC(0x575270)
-void PoliceCrew_38::sub_575270()
+void PoliceCrew_38::HandleLeaveCarObjective_575270()
 {
     if (field_10_subObj->field_24_phase)
     {
@@ -1778,7 +1778,7 @@ void PoliceCrew_38::Service_575590()
             PoliceCrew_38::State1_Patrol_574F10();
             break;
         case 2:
-            PoliceCrew_38::sub_575200();
+            PoliceCrew_38::State2_SwitchToShutDown_575200();
             break;
         default:
             return;
@@ -1787,7 +1787,7 @@ void PoliceCrew_38::Service_575590()
 
 // TODO: logic matches, but the original keeps field_75_num_crews in bl and i in cl
 MATCH_FUNC(0x575650)
-void PoliceCrew_38::sub_575650()
+void PoliceCrew_38::UnlinkFromPursuitTarget_575650()
 {
     PolicePursuitTarget_7C* pPursuitTarget = field_14_pPursuitTarget;
     if (pPursuitTarget)

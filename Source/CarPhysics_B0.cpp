@@ -1749,7 +1749,7 @@ void CarPhysics_B0::SpawnSkidSegment_55D200(s32 box_idx, Fix16_Point arg_4, s32 
                     gObject_5C_6F8F84->NewPhysicsObj_5299B0(get_skid_obj_type_55D490(surface, len), obj_x, obj_y, field_6C_cp3, r);
                 if (pObj)
                 {
-                    if (pObj->field_4->sub_5A19C0())
+                    if (pObj->field_4->IsStraddlingSlopeAndFlat_5A19C0())
                     {
                         pObj->RequestRemoval_5290A0();
                     }

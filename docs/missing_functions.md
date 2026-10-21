@@ -63,9 +63,9 @@ Only the `WIP_FUNC` functions are worth working on: they are real, called game c
 | 0x404AA0 | 1 | `nullsub_45` |
 | 0x404AE0 | 1 | `nullsub_46` |
 | 0x4057B0 | 421 | `sub_4057B0` |
-| 0x405DA0 | 118 | `sub_405DA0` |
-| 0x405E20 | 95 | `sub_405E20` |
-| 0x405E80 | 272 | `sub_405E80` |
+| 0x405DA0 | 118 | `TurnAngleToward_405DA0` |
+| 0x405E20 | 95 | `IsAngleWithinTolerance_405E20` |
+| 0x405E80 | 272 | `ClampAngleAroundTarget_405E80` |
 | 0x40AC40 | 1 | `Car_8::dtor_40AC40` |
 | 0x40AC80 | 42 | `Fix16::subtract_40AC80` |
 | 0x40ACB0 | 31 | `Fix16::Negate_40ACB0` |
@@ -149,7 +149,7 @@ Only the `WIP_FUNC` functions are worth working on: they are real, called game c
 | 0x45ABD0 | 1 | `nullsub_112` |
 | 0x45AC20 | 1 | `nullsub_113` |
 | 0x45C4E0 | 20 | `Fix16::FromInt_45C4E0` |
-| 0x4614E0 | 66 | `sub_4614E0` |
+| 0x4614E0 | 66 | `MaxAbsDistance_4614E0` |
 | 0x462450 | 1 | `nullsub_114` |
 | 0x462490 | 1 | `nullsub_115` |
 | 0x466B70 | 28 | `HasBit25AndGameObject_466B70` |
@@ -303,7 +303,7 @@ Only the `WIP_FUNC` functions are worth working on: they are real, called game c
 | 0x531940 | 3 | `sub_531940` |
 | 0x533C80 | 1 | `nullsub_233` |
 | 0x534260 | 1 | `nullsub_234` |
-| 0x5345E0 | 85 | `sub_5345E0` |
+| 0x5345E0 | 85 | `GetHeadingForDoorFace_5345E0` |
 | 0x537440 | 1 | `nullsub_235` |
 | 0x537480 | 1 | `nullsub_236` |
 | 0x537E10 | 1 | `nullsub_237` |
@@ -401,7 +401,7 @@ Only the `WIP_FUNC` functions are worth working on: they are real, called game c
 | 0x59D660 | 1 | `nullsub_315` |
 | 0x59D6A0 | 1 | `nullsub_316` |
 | 0x59F940 | 1 | `nullsub_317` |
-| 0x5A5690 | 192 | `sub_5A5690` |
+| 0x5A5690 | 192 | `ProjectWorldToScreen_5A5690` |
 | 0x5A5C90 | 1 | `nullsub_318` |
 | 0x5A5CD0 | 1 | `nullsub_319` |
 | 0x5A67E0 | 1 | `nullsub_320` |
@@ -753,10 +753,10 @@ Already in `Source/` with a marker, but also dead (kept, listed for reference):
 | 0x4E0120 | 14 | `Map_0x370::TakeLowerBlockHasArrows_4E0120` | (nothing) |
 | 0x4E4820 | 242 | `Map_0x370::AllBlocksInRectHaveSlopeBits_4E4820` | (nothing) |
 | 0x4E7E90 | 120 | `Map_0x370::FindFirstPavementCoord_4E7E90` | (nothing) |
-| 0x4FF990 | 70 | `Mike_A80::sub_4FF990` | (nothing) |
-| 0x4FF9F0 | 71 | `Mike_A80::sub_4FF9F0` | (nothing) |
-| 0x4FFA50 | 50 | `Mike_A80::sub_4FFA50` | (nothing) |
-| 0x4FFA90 | 758 | `Mike_A80::sub_4FFA90` | (nothing) |
+| 0x4FF990 | 70 | `Mike_A80::StartProfileTimer_4FF990` | (nothing) |
+| 0x4FF9F0 | 71 | `Mike_A80::StopProfileTimer_4FF9F0` | (nothing) |
+| 0x4FFA50 | 50 | `Mike_A80::DebugPrintf_4FFA50` | (nothing) |
+| 0x4FFA90 | 758 | `Mike_A80::UpdateProfiling_4FFA90` | (nothing) |
 | 0x51E140 | 361 | `NetPlay::CreateTcpIpAddress_51E140` | (nothing) |
 | 0x51E2B0 | 405 | `NetPlay::CreateModemAddress_51E2B0` | (nothing) |
 | 0x51E450 | 354 | `NetPlay::CreateSerialAddress_51E450` | (nothing) |

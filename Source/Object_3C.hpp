@@ -31,8 +31,8 @@ class SpriteList_4
     EXPORT AttachedSprite_18* FindFirstActiveObject_5A6AD0();
     EXPORT void RemoveSprite_5A6B10(Sprite* toFind);
     EXPORT void RemoveSpriteSafe_5A6B60(Sprite* toFind);
-    EXPORT void sub_5A6BB0();
-    EXPORT void sub_5A6BD0();
+    EXPORT void DestroyAllAttached_5A6BB0();
+    EXPORT void SinkAllAttachedCars_5A6BD0();
     EXPORT void DispatchCarImpactEvents_5A6BF0(Sprite* pSprite);
     EXPORT char_type TagSpriteWithRng_5A6C10(Sprite* toFind);
     EXPORT void RemoveByRngValue_5A6C40(s32 toFind);
@@ -52,7 +52,7 @@ class SpriteList_4
     EXPORT void CleanupSpriteList_5A7080();
     EXPORT void ClearGangIconSprite_5A7110();
     EXPORT s32 GetGangIdxFromSpriteIfAny_5A71A0();
-    EXPORT void sub_5A71F0();
+    EXPORT void ExpireAttachedFlames_5A71F0();
     EXPORT void PruneNonCollidingSprites_5A7240(Sprite* pSprite);
     EXPORT void PropagateMaxZLayer_5A72B0(Sprite* pSprite, char_type bUnknown);
     EXPORT char_type sub_5A7310();

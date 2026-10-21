@@ -726,7 +726,7 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 throw_strength, s32 throw_char
     }
 }
 
-EXPORT void __stdcall sub_5DE910(Fix16_Point_POD start_pos, Fix16_Point& end_pos, Fix16 z_pos);
+EXPORT void __stdcall DrawElectricArc_5DE910(Fix16_Point_POD start_pos, Fix16_Point& end_pos, Fix16 z_pos);
 
 // GetLength_41E260 with both Abs and the x multiply, the add and the square root out of line
 static inline Fix16 BeamLength_5DE4F0(Fix16_Point& d)
@@ -756,7 +756,7 @@ static inline void BeamStep_5DE4F0(Ang16& angle, Fix16 radius, Fix16& ret1, Fix1
 // The direct field_1AC_cam.x read in `delta` (instead of get_cam_x()) drops one register candidate from the
 // first block, so `angle` loses ebx to the `dist << 14` temp and is spilled like in the original.
 MATCH_FUNC(0x5de4f0)
-void Weapon_30::sub_5DE4F0()
+void Weapon_30::TraceBeamToHitTarget_5DE4F0()
 {
     Sprite* pBeam = gObject_5C_6F8F84->field_58_collision_probe_sprite;
     Fix16_Point delta(field_24_pPed->field_198_hit_target_ped->field_1AC_cam.x - field_24_pPed->get_cam_x(),
@@ -810,7 +810,7 @@ void Weapon_30::sub_5DE4F0()
         {
             gMap_0x370_6F6268->FindGroundZBelowCoord_4E4D40(pBeam->field_14_xy.x, pBeam->field_14_xy.y, pBeam->field_1C_zpos);
             pBeam->set_xy_lazy_447E20(pBeam->field_14_xy.x + step_x, pBeam->field_14_xy.y + step_y);
-            if (pBeam->sub_5A2440())
+            if (pBeam->CheckBulletWallCollision_5A2440())
             {
                 break;
             }
@@ -851,7 +851,7 @@ void Weapon_30::sub_5DE4F0()
         gPolice_7B8_6FEE40->field_7B0_last_firing_emergency_ped = field_24_pPed;
     }
 
-    sub_5DE910(field_24_pPed->field_168_game_object->field_80_sprite_ptr->get_x_y(),
+    DrawElectricArc_5DE910(field_24_pPed->field_168_game_object->field_80_sprite_ptr->get_x_y(),
                field_24_pPed->field_198_hit_target_ped->field_168_game_object->field_80_sprite_ptr->get_x_y(),
                field_24_pPed->get_cam_z());
 }
@@ -880,12 +880,12 @@ static inline Fix16 BeamLength_5DE910(Fix16_Point& d)
 // Draws the electro beam from `start_pos` (or the gun muzzle when gElectroChainDepth_706C94 is clear) to `end_pos` at height
 // `z_pos`: kFP16Quarter_706CF4 long segments with a random kink each, then straight segments for the rest.
 // `start_pos` is the base type: callers pass a get_x_y() temporary, which is sliced into it
-// (Fix16_Point here breaks the caller sub_5DFB60). 9.6f: sub_4CCBD0.
+// (Fix16_Point here breaks the caller ChainShockTargets_5DFB60). 9.6f: sub_4CCBD0.
 // The EH state is 0xA at entry and never changes: 11 Fix16_Point locals, two of them unused
 // (likely the original's by-value start_pos is one of them). `d` is reused for the rest of the way and
 // `len` for the straight segment count, as the original's frame shows.
 MATCH_FUNC(0x5de910)
-void __stdcall sub_5DE910(Fix16_Point_POD start_pos, Fix16_Point& end_pos, Fix16 z_pos)
+void __stdcall DrawElectricArc_5DE910(Fix16_Point_POD start_pos, Fix16_Point& end_pos, Fix16 z_pos)
 {
     Fix16_Point d;
     Fix16_Point start;
@@ -979,7 +979,7 @@ void __stdcall sub_5DE910(Fix16_Point_POD start_pos, Fix16_Point& end_pos, Fix16
     }
 }
 
-// MaxAbsDistance_42A6B0 as sub_5DF270 inlines it: past the inline budget, Max is the named out-of-line copy
+// MaxAbsDistance_42A6B0 as ShockPedsAroundSprite_5DF270 inlines it: past the inline budget, Max is the named out-of-line copy
 // Max_44E540 (the Abs calls and the y subtraction go out of line by themselves)
 static inline Fix16 MaxAbsDistance_5DF270(Fix16& x1, Fix16& y1, Fix16& x2, Fix16& y2)
 {
@@ -995,7 +995,7 @@ static inline Fix16 MaxAbsDistance_5DF270(Fix16& x1, Fix16& y1, Fix16& x2, Fix16
 // The pTargetSprite check is a do-while under an if (the first loop's exit jumps straight to the tail, which stays last),
 // and the !a4 (shock counter) branch comes first in the source: its get_x_y temporaries take EH states 0/1.
 MATCH_FUNC(0x5DF270)
-void __stdcall sub_5DF270(Sprite* pSprite, Fix16 search_size, char_type bCheckAngle, char_type a4, Ped* pAttacker, Sprite* pTargetSprite)
+void __stdcall ShockPedsAroundSprite_5DF270(Sprite* pSprite, Fix16 search_size, char_type bCheckAngle, char_type a4, Ped* pAttacker, Sprite* pTargetSprite)
 {
     // 9.6f 0x4CEF40
     SpriteList_4 hits;
@@ -1111,7 +1111,7 @@ void __stdcall sub_5DF270(Sprite* pSprite, Fix16 search_size, char_type bCheckAn
                             {
                                 z = zpos;
                             }
-                            sub_5DE910(pSprite->get_x_y(), pHit->get_x_y(), z);
+                            DrawElectricArc_5DE910(pSprite->get_x_y(), pHit->get_x_y(), z);
                             pB4->field_7C_pPed->field_210_shock_counter += 3;
                             if (pAttacker->field_170_selected_weapon)
                             {
@@ -1131,7 +1131,7 @@ void __stdcall sub_5DF270(Sprite* pSprite, Fix16 search_size, char_type bCheckAn
                             {
                                 z = zpos;
                             }
-                            sub_5DE910(pSprite->get_x_y(), pHit->get_x_y(), z);
+                            DrawElectricArc_5DE910(pSprite->get_x_y(), pHit->get_x_y(), z);
                             pB4->field_7C_pPed->TakeDamage(3);
                         }
                     }
@@ -1153,7 +1153,7 @@ void __stdcall sub_5DF270(Sprite* pSprite, Fix16 search_size, char_type bCheckAn
 }
 
 MATCH_FUNC(0x5dfb60)
-void Weapon_30::sub_5DFB60(u8 bFlag, Sprite* pSprite, Ang16 target_angle)
+void Weapon_30::ChainShockTargets_5DFB60(u8 bFlag, Sprite* pSprite, Ang16 target_angle)
 {
     SpriteList_4 hits;
     char_type bHit = 0;
@@ -1217,13 +1217,13 @@ void Weapon_30::sub_5DFB60(u8 bFlag, Sprite* pSprite, Ang16 target_angle)
                                                               pHit->field_1C_zpos))
                             {
                                 gElectroChainDepth_706C94 = bFlag;
-                                sub_5DE910(pSprite->get_x_y(),
+                                DrawElectricArc_5DE910(pSprite->get_x_y(),
                                            pHit->get_x_y(),
                                            pHit->field_1C_zpos > pSprite->field_1C_zpos ? pHit->field_1C_zpos : pSprite->field_1C_zpos);
                                 gWeapon_8_707018->field_0.PushSprite_5A6D40(pHit);
                                 if (bFlag < 1)
                                 {
-                                    sub_5DFB60(bFlag + 1, pHit, angle);
+                                    ChainShockTargets_5DFB60(bFlag + 1, pHit, angle);
                                 }
                                 pHit->field_8_char_b4_ptr->field_7C_pPed->SetAttacker_433BF0(field_24_pPed);
                                 pHit->field_8_char_b4_ptr->field_7C_pPed->field_204_killer_id = field_24_pPed->field_200_id;
@@ -1262,13 +1262,13 @@ void Weapon_30::sub_5DFB60(u8 bFlag, Sprite* pSprite, Ang16 target_angle)
                                                               pHit->field_1C_zpos))
                             {
                                 gElectroChainDepth_706C94 = bFlag;
-                                sub_5DE910(pSprite->get_x_y(),
+                                DrawElectricArc_5DE910(pSprite->get_x_y(),
                                            pHit->get_x_y(),
                                            pHit->field_1C_zpos > pSprite->field_1C_zpos ? pHit->field_1C_zpos : pSprite->field_1C_zpos);
                                 gWeapon_8_707018->field_0.PushSprite_5A6D40(pHit);
                                 if (bFlag < 1)
                                 {
-                                    sub_5DFB60(bFlag + 1, pHit, angle);
+                                    ChainShockTargets_5DFB60(bFlag + 1, pHit, angle);
                                 }
                                 if (!pHit->field_8_car_bc_ptr->IsFlameproof_425770())
                                 {
@@ -1312,7 +1312,7 @@ void Weapon_30::shocker_5E06B0()
 {
     gWeapon_8_707018->field_0.ClearList_5A6E10();
 
-    sub_5DFB60(0,
+    ChainShockTargets_5DFB60(0,
                this->field_24_pPed->field_168_game_object->field_80_sprite_ptr,
                this->field_24_pPed->field_168_game_object->field_80_sprite_ptr->field_0_rotation);
     Ped* pPed = this->field_24_pPed;
@@ -1372,7 +1372,7 @@ void Weapon_30::electro_batton_5E0740()
                 return;
             }
         }
-        sub_5DE4F0();
+        TraceBeamToHitTarget_5DE4F0();
     }
     else
     {

@@ -459,7 +459,7 @@ struct Frontend
 
     EXPORT bool ChangeMainStageToNext_4B7200();
 
-    EXPORT void sub_4B4EC0();
+    EXPORT void LoadMapFilenamesFromSvg_4B4EC0();
 
     EXPORT s32 Run_4AEDB0();
 

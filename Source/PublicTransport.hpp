@@ -15,7 +15,7 @@ class Train_58
     EXPORT void DecrementState_5781F0();
     EXPORT Train_58();
     EXPORT ~Train_58();
-    EXPORT void sub_5782D0();
+    EXPORT void StartIfHasDriver_5782D0();
     EXPORT void Stop_578300();
     EXPORT void CloseCarriageDoors_578330();
     EXPORT void OpenCarriageDoors_578360();
@@ -95,7 +95,7 @@ class PublicTransport_181C
     EXPORT TrainStation_34* GetBusStopOnScreen_5799B0();
     EXPORT void OnBusStopMarkerHit_579A30(Car_BC* pToFind);
     EXPORT bool is_bus_579AA0(Car_BC* pCar);
-    EXPORT Car_BC* sub_579AD0();
+    EXPORT Car_BC* GetBusIfBoarding_579AD0();
     EXPORT bool is_bus_full_579AF0();
     EXPORT void IncrementBusPassengerCount_579B10();
     EXPORT void KillAllPassengers_579B20();

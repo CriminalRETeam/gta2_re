@@ -20,7 +20,7 @@ entry under "Still unexplained") for the details behind each point.
   without changing the matched functions. A global limit of 69 changes `set_shading_lev_4E9DB0`, so the
   nodes are not spread evenly over the TU.
 - Matched along the way: `Set_UV_4F4190` (f32 locals instead of `ToFloat()`: one more no-op node),
-  `Mike_A80::sub_4FFD90` (a repeated `630 - fx` that VC6 CSEs; a ternary clamp).
+  `Mike_A80::DrawProfileHistory_4FFD90` (a repeated `630 - fx` that VC6 CSEs; a ternary clamp).
 
 ## What is known
 

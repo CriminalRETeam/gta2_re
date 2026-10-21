@@ -41,7 +41,7 @@ s32 Mike_A80::sDrawFlatRect_4FF1C0(f32 left, f32 top, f32 right, f32 bottom, s32
 EXTERN_GLOBAL(u32, gBufferMode_706B34);
 EXTERN_GLOBAL(s32, gDisplayDraw_67B57C);
 EXTERN_GLOBAL(s32, gDisplayAdd_67B578);
-EXPORT s32 __stdcall sub_5BEED0(s32 cycles);
+EXPORT s32 __stdcall ConvertCycleCount_5BEED0(s32 cycles);
 
 DEFINE_GLOBAL(u32, gMemTotal_6F7360, 0x6F7360);
 DEFINE_GLOBAL(s32, gMemTotalCounter_6F7550, 0x6F7550);
@@ -140,15 +140,15 @@ void Mike_A80::DebugDrawProfiling_4FF250()
         sDrawString_4FF910(280, 140, L"LARGE");
     }
 
-    s32 display_add = sub_5BEED0(gDisplayAdd_67B578);
-    s32 display_draw = sub_5BEED0(gDisplayDraw_67B57C);
+    s32 display_add = ConvertCycleCount_5BEED0(gDisplayAdd_67B578);
+    s32 display_draw = ConvertCycleCount_5BEED0(gDisplayDraw_67B57C);
     // TODO: the format strings at 0x621100 and 0x6210DC are guesses
     sDrawString_4FF910(280, 160, L"DisplayAdd  %d", display_add);
     sDrawString_4FF910(280, 180, L"DisplayDraw %d", display_draw);
     gDisplayAdd_67B578 = 0;
     gDisplayDraw_67B57C = 0;
 
-    sub_4FFD90();
+    DrawProfileHistory_4FFD90();
 }
 
 MATCH_FUNC(0x4ff910)
@@ -173,7 +173,7 @@ void Mike_A80::sub_4FF980()
 }
 
 MATCH_FUNC(0x4ff990)
-void Mike_A80::sub_4FF990(u32 idx)
+void Mike_A80::StartProfileTimer_4FF990(u32 idx)
 {
     switch (idx)
     {
@@ -193,7 +193,7 @@ void Mike_A80::sub_4FF990(u32 idx)
 }
 
 MATCH_FUNC(0x4ff9f0)
-void Mike_A80::sub_4FF9F0(u32 idx)
+void Mike_A80::StopProfileTimer_4FF9F0(u32 idx)
 {
     switch (idx)
     {
@@ -213,7 +213,7 @@ void Mike_A80::sub_4FF9F0(u32 idx)
 }
 
 MATCH_FUNC(0x4ffa50)
-void Mike_A80::sub_4FFA50(const char_type* pFormat, ...)
+void Mike_A80::DebugPrintf_4FFA50(const char_type* pFormat, ...)
 {
     char_type buffer[240];
     va_list args;
@@ -223,7 +223,7 @@ void Mike_A80::sub_4FFA50(const char_type* pFormat, ...)
 }
 
 MATCH_FUNC(0x4ffa90)
-void Mike_A80::sub_4FFA90()
+void Mike_A80::UpdateProfiling_4FFA90()
 {
     s32 process_time = m81.TakeElapsed();
     s32 draw_time = m82.TakeElapsed();
@@ -310,7 +310,7 @@ void Mike_A80::sub_4FFA90()
 }
 
 MATCH_FUNC(0x4ffd90)
-void Mike_A80::sub_4FFD90()
+void Mike_A80::DrawProfileHistory_4FFD90()
 {
     s32 count = field_A7C_count < 100 ? field_A7C_count : 100;
 

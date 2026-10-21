@@ -27,7 +27,7 @@ static void __cdecl PedGroup_dtor_4CB870(void* pGroup)
 }
 
 MATCH_FUNC(0x4c8e60)
-void PedGroup::sub_4C8E60()
+void PedGroup::DestroyGroupArray_4C8E60()
 {
     __ehvec_dtor(pedGroups_67EF20, sizeof(PedGroup), GTA2_COUNTOF(pedGroups_67EF20), PedGroup_dtor_4CB870);
 }
@@ -619,7 +619,7 @@ char_type PedGroup::MergeWithOtherGroup_4C9B60(Ped* pPed)
             Ped* pMember = field_4_ped_list[i];
             if (!pMember->GetPanicking() && !pMember->field_21C_bf.bLeftVehicle && pMember->field_168_game_object)
             {
-                Ped* pTarget = pOther->sub_4C9ED0();
+                Ped* pTarget = pOther->FindLastNonPanickingMember_4C9ED0();
                 if (pTarget)
                 {
                     pMember->SetObjective2_463830(objectives_enum::kill_char_on_foot_20);
@@ -682,7 +682,7 @@ char_type PedGroup::MergeWithOtherGroup_4C9B60(Ped* pPed)
 #pragma warning(pop)
 
 MATCH_FUNC(0x4c9ed0)
-Ped* PedGroup::sub_4C9ED0()
+Ped* PedGroup::FindLastNonPanickingMember_4C9ED0()
 {
     for (s8 i = this->field_34_count - 1; i >= 0; i--)
     {
@@ -882,7 +882,7 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
         }
     }
 
-    if (!(u8)sub_4CA3E0())
+    if (!(u8)IsLeaderPanicking_4CA3E0())
     {
         for (i = 0; i < field_34_count; i++)
         {
@@ -899,7 +899,7 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
 }
 
 MATCH_FUNC(0x4ca3e0)
-u32 PedGroup::sub_4CA3E0()
+u32 PedGroup::IsLeaderPanicking_4CA3E0()
 {
     return field_2C_ped_leader->field_21C_bf.bPanicking;
 }
