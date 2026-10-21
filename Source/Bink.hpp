@@ -17,7 +17,7 @@ EXTERN_GLOBAL(BINKBUFFER*, gBinkBufferSlot2_6F80C4);
 EXTERN_GLOBAL(BINKBUFFER*, gBinkBufferSlot1_6F8170);
 EXTERN_GLOBAL(char_type, gBinkDDState_6F83FE);
 EXTERN_GLOBAL(char_type, gBinkActiveSlot_6F83FF);
-EXTERN_GLOBAL(s32, gBinkSummary_6F8250);
+EXTERN_GLOBAL_ARRAY(u32, gBinkSummary_6F8250, 30);
 EXTERN_GLOBAL(s32, gBinkPixelFormat_6F81B0);
 
 class Bink
