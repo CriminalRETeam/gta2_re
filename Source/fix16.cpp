@@ -450,15 +450,18 @@ EXPORT void __stdcall FindMinMax_5A57E0(Fix16& minOut, Fix16& maxOut, const Fix1
 
 void Init_trigonometry_tables()
 {
-    s16 arg = 0; 
+    // Same steps as the original (0x405200, 0x405270): two separate multiplies, which VC6 would fold into one
+    s32 arg = 0;
     for (u32 idx = 0; idx < GTA2_COUNTOF(gSin_table_667A80); idx++, arg++)
     {
-        gSin_table_667A80[idx] = Fix16( sin(((f64)arg / 1440.0) * 2 * 3.141592654) );
+        f64 radians = arg * 3.141592654;
+        gSin_table_667A80[idx] = Fix16(sin(radians * 0.001388888888888889));
     }
     arg = 0;
     for (u32 entry = 0; entry < GTA2_COUNTOF(gCos_table_669260); entry++, arg++)
     {
-        gCos_table_669260[entry] = Fix16( cos(((f64)arg / 1440.0) * 2 * 3.141592654) );
+        f64 radians = arg * 3.141592654;
+        gCos_table_669260[entry] = Fix16(cos(radians * 0.001388888888888889));
     }
     arc_tan_table_init_4052D0();
     printf("Sine, cosine and tangent tables initialized!\n");

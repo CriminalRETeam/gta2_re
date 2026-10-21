@@ -74,14 +74,19 @@ class TrainStation_34
     char_type field_33_unused;
 };
 
+// Plain array/u8 globals instead of these structs change the registers of SetupTrainAndBusStops_5794B0
 struct TrainStationList
 {
-    TrainStation_34* field_0_list[101];
-    u8 field_194_count;
+    TrainStation_34* field_0_list[5];
+};
+
+struct TrainStopCount
+{
+    u8 field_0_count;
 };
 
 EXTERN_GLOBAL(TrainStationList, gTrainStationList_6FEE68);
-//extern TrainStationList gTrainStationList_6FEE68;
+EXTERN_GLOBAL(TrainStopCount, gTrainStopCount_6FEFFC);
 
 class PublicTransport_181C
 {
