@@ -11,46 +11,20 @@ class Sprite;
 class MapObjectOverride_54
 {
   public:
-    // Temporary ctor, otherwise it won't be possible to define gMapObjectOverrides_6FC5F8.
-    EXPORT MapObjectOverride_54()
-    {
-    }
     EXPORT MapObjectOverride_54(s32 param_1,
-                  s32& param_2,
+                  const s32& param_2,
                   s32 param_3,
                   s8 param_4,
-                  s32& param_5,
-                  s32& param_6,
-                  s32& param_7,
+                  const s32& param_5,
+                  const s32& param_6,
+                  const s32& param_7,
                   Fix16 param_8,
                   Fix16 param_9,
                   s8 param_10,
-                  s32& param_11,
-                  s32& param_12,
+                  const s32& param_11,
+                  const s32& param_12,
                   s8 param_13,
-                  s32& param_14,
-                  Fix16 param_15,
-                  s32 param_16,
-                  s32 param_17,
-                  s32 param_18,
-                  s8 param_19,
-                  s32 param_20,
-                  s8 param_21);
-
-    EXPORT MapObjectOverride_54(s32 param_1,
-                  s32 param_2,
-                  s32 param_3,
-                  s8 param_4,
-                  s32 param_5,
-                  s32 param_6,
-                  s32 param_7,
-                  Fix16 param_8,
-                  Fix16 param_9,
-                  s8 param_10,
-                  s32 param_11,
-                  s32 param_12,
-                  s8 param_13,
-                  s32 param_14,
+                  const s32& param_14,
                   Fix16 param_15,
                   s32 param_16,
                   s32 param_17,
@@ -87,27 +61,23 @@ class MapObjectOverride_54
 class CodeObjectTemplate_6C
 {
   public:
-    // Temporary ctor, otherwise it won't be possible to define gCodeObjectTemplates_6F9038.
-    EXPORT CodeObjectTemplate_6C()
-    {
-    }
     EXPORT CodeObjectTemplate_6C(u32 param_1,
                   u8 param_2,
-                  u32& param_3,
+                  const u32& param_3,
                   u32 param_4,
                   u32 param_5,
                   u8 param_6,
-                  u32& param_7,
-                  u32& param_8,
-                  u32& param_9,
+                  const u32& param_7,
+                  const u32& param_8,
+                  const u32& param_9,
                   Fix16 param_10,
                   Fix16 param_11,
-                  u8 param_12,
-                  u32& param_13,
-                  u32& param_14,
+                  s8 param_12,
+                  const u32& param_13,
+                  const u32& param_14,
                   u32 param_15,
                   u32 param_16,
-                  u32& param_17,
+                  const u32& param_17,
                   Fix16 param_18,
                   Fix16 param_19,
                   Fix16 param_20,
@@ -115,37 +85,7 @@ class CodeObjectTemplate_6C
                   u32 param_22,
                   u32 param_23,
                   u8 param_24,
-                  u32& param_25,
-                  u32 param_26,
-                  u32 param_27,
-                  u8 param_28,
-                  u8 param_29);
-
-    EXPORT CodeObjectTemplate_6C(u32 param_1,
-                  u8 param_2,
-                  u32 param_3,
-                  u32 param_4,
-                  u32 param_5,
-                  u8 param_6,
-                  u32 param_7,
-                  u32 param_8,
-                  u32 param_9,
-                  Fix16 param_10,
-                  Fix16 param_11,
-                  u8 param_12,
-                  u32 param_13,
-                  u32 param_14,
-                  u32 param_15,
-                  u32 param_16,
-                  u32 param_17,
-                  Fix16 param_18,
-                  Fix16 param_19,
-                  Fix16 param_20,
-                  Fix16 param_21,
-                  u32 param_22,
-                  u32 param_23,
-                  u8 param_24,
-                  u32 param_25,
+                  const u32& param_25,
                   u32 param_26,
                   u32 param_27,
                   u8 param_28,
@@ -329,6 +269,3 @@ EXTERN_GLOBAL(s32, gCodeObjectTemplates_length_623EF0);
 
 EXTERN_GLOBAL_ARRAY(MapObjectOverride_54, gMapObjectOverrides_6FC5F8, 24);
 EXTERN_GLOBAL_ARRAY(CodeObjectTemplate_6C, gCodeObjectTemplates_6F9038, 126);
-
-EXPORT void InitMapObjectOverrides();
-EXPORT void InitCodeObjectTemplates();

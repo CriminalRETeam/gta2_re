@@ -344,8 +344,42 @@ EXPORT s32 __stdcall sub_405E80(Fix16* pTarget, Fix16* pCur)
     return 0;
 }
 
-// The original is a CRT init func (called from the CRT init table), here Init_trigonometry_tables
-// calls it. The constants are pi and 1/720: 1440 steps of the full circle.
+// The trigonometry tables are filled by static initialisers. The constants are pi and 1/720:
+// 1440 steps of the full circle.
+struct SinTableInit
+{
+    SinTableInit()
+    {
+        s32 arg = 0;
+        Fix16* pSin = gSin_table_667A80;
+        for (s32 i = 1440; i != 0; i--)
+        {
+            f64 radians = arg * 3.141592654;
+            *pSin = Fix16(sin(radians * 0.001388888888888889));
+            arg++;
+            pSin++;
+        }
+    }
+};
+static SinTableInit sSinTableInit;
+
+struct CosTableInit
+{
+    CosTableInit()
+    {
+        s32 arg = 0;
+        Fix16* pCos = gCos_table_669260;
+        for (s32 i = 1440; i != 0; i--)
+        {
+            f64 radians = arg * 3.141592654;
+            *pCos = Fix16(cos(radians * 0.001388888888888889));
+            arg++;
+            pCos++;
+        }
+    }
+};
+static CosTableInit sCosTableInit;
+
 MATCH_FUNC(0x4052D0)
 EXPORT void __stdcall arc_tan_table_init_4052D0()
 {
@@ -359,6 +393,16 @@ EXPORT void __stdcall arc_tan_table_init_4052D0()
         pTan++;
     }
 }
+
+// In 10.5, arc_tan_table_init_4052D0 is the generated initialiser of this object (its inlined constructor)
+struct TanTableInit
+{
+    TanTableInit()
+    {
+        arc_tan_table_init_4052D0();
+    }
+};
+static TanTableInit sTanTableInit;
 
 // 9.6f: 0x40E810
 MATCH_FUNC(0x405500)
@@ -446,23 +490,4 @@ EXPORT void __stdcall FindMinMax_5A57E0(Fix16& minOut, Fix16& maxOut, const Fix1
     {
         maxOut = d;
     }
-}
-
-void Init_trigonometry_tables()
-{
-    // Same steps as the original (0x405200, 0x405270): two separate multiplies, which VC6 would fold into one
-    s32 arg = 0;
-    for (u32 idx = 0; idx < GTA2_COUNTOF(gSin_table_667A80); idx++, arg++)
-    {
-        f64 radians = arg * 3.141592654;
-        gSin_table_667A80[idx] = Fix16(sin(radians * 0.001388888888888889));
-    }
-    arg = 0;
-    for (u32 entry = 0; entry < GTA2_COUNTOF(gCos_table_669260); entry++, arg++)
-    {
-        f64 radians = arg * 3.141592654;
-        gCos_table_669260[entry] = Fix16(cos(radians * 0.001388888888888889));
-    }
-    arc_tan_table_init_4052D0();
-    printf("Sine, cosine and tangent tables initialized!\n");
 }

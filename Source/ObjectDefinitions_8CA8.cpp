@@ -33,449 +33,171 @@ DEFINE_GLOBAL_INIT(Fix16, kFpPoint4_6F8FE8, Fix16(6553, 0), 0x6F8FE8);
 
 Fix16 kFpZeroForStaticInit_6FCE08 = 0;
 
-DEFINE_GLOBAL_INIT(s32, gMapObjectOverrides_length_623EEC, 24, 0x623EEC);
-
-// This array is initialized by FUN_005323b0 (likely a static constructor).
-// Must remain a fixed array — pointer would break ObjectDefinitions_8CA8::ApplyMapObjectOverrides_533360.
-DEFINE_GLOBAL_ARRAY(MapObjectOverride_54, gMapObjectOverrides_6FC5F8, 24, 0x6FC5F8);
-
-/*
-DEFINE_GLOBAL_ARRAY_INIT(MapObjectOverride_54,
-gMapObjectOverrides_6FC5F8,
-24,
-0x6FC5F8,
-MapObjectOverride_54(22 ,0 ,45 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpOne_6FCE0C ,10 ,0 ,0 ,0 ,1 ,1),
-MapObjectOverride_54(7 ,0 ,157 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,0 ,1 ,kFpThree_6FCE14 ,10 ,0 ,0 ,0 ,1 ,1),
-MapObjectOverride_54(1 ,0 ,158 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,0 ,1 ,kFpPoint2_6F8FE0 ,11 ,0 ,0 ,0 ,1 ,1),
-MapObjectOverride_54(5 ,0 ,156 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,1 ,0 ,1 ,1),
-MapObjectOverride_54(2 ,0 ,0 ,0 ,0 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,-kFpPoint01_6FCDD8 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,10 ,0 ,0 ,0 ,1 ,1),
-MapObjectOverride_54(4 ,0 ,52 ,0 ,1 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,0 ,0 ,1 ,1),
-MapObjectOverride_54(11 ,0 ,123 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1),
-MapObjectOverride_54(3 ,0 ,155 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1),
-MapObjectOverride_54(12 ,0 ,50 ,0 ,1 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,0 ,0 ,1 ,1),
-MapObjectOverride_54(13 ,0 ,56 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1),
-MapObjectOverride_54(14 ,0 ,57 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1),
-MapObjectOverride_54(18 ,0 ,49 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1),
-MapObjectOverride_54(19 ,0 ,0 ,0 ,0 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,-kFpPoint01_6FCDD8 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,10 ,0 ,0 ,0 ,1 ,1),
-MapObjectOverride_54(20 ,0 ,0 ,0 ,0 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,-kFpPoint01_6FCDD8 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,10 ,0 ,0 ,0 ,1 ,1),
-MapObjectOverride_54(10 ,0 ,0 ,0 ,7 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,-kFpPoint01_6FCDD8 ,-1 ,1 ,1 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,0 ,0 ,3 ,0),
-MapObjectOverride_54(15 ,0 ,59 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1),
-MapObjectOverride_54(8 ,2 ,9 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,1 ,1 ,1 ,1 ,0 ,kFpZeroForStaticInit_6FCE08 ,3 ,0 ,0 ,0 ,1 ,1),
-MapObjectOverride_54(9 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,3 ,0 ,0 ,0 ,3 ,0),
-MapObjectOverride_54(16 ,0 ,61 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1),
-MapObjectOverride_54(23 ,0 ,43 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1),
-MapObjectOverride_54(21 ,0 ,47 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpFive_6FCE1C ,10 ,0 ,0 ,0 ,1 ,1),
-MapObjectOverride_54(6 ,0 ,151 ,0 ,1 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,0 ,0 ,1 ,1),
-MapObjectOverride_54(25 ,0 ,0 ,0 ,0 ,12 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,10 ,0 ,0 ,0 ,1 ,1),
-MapObjectOverride_54(17 ,0 ,63 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1));
-*/
-
 DEFINE_GLOBAL_INIT(s32, gCodeObjectTemplates_length_623EF0, 126, 0x623EF0);
 
-// This array is initialized by FUN_0052cde0 (likely a static constructor).
-// Must remain a fixed array — pointer would break ObjectDefinitions_8CA8::CreateCodeObjectDefinitions_533B30.
-DEFINE_GLOBAL_ARRAY(CodeObjectTemplate_6C, gCodeObjectTemplates_6F9038, 126, 0x6F9038);
-
-/* TODO: fix pass constants by ref, solve Fix16 operations and CodeObjectTemplate_6C id 225 variables
+// Must remain a fixed array, a pointer would break ObjectDefinitions_8CA8::CreateCodeObjectDefinitions_533B30
 DEFINE_GLOBAL_ARRAY_INIT(CodeObjectTemplate_6C,
-gCodeObjectTemplates_6F9038,
-126,
-0x6F9038,
-{149 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1},
-{109 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,1 ,1 ,0 ,0 ,0 ,1},
-{257 ,1 ,0 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,1 ,1 ,0 ,0 ,0 ,1},
-{111 ,5 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,1 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,1 ,2 ,0 ,0 ,0 ,1},
-{247 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,5 ,0 ,1 ,1 ,0 ,0 ,0 ,1},
-{266 ,1 ,1 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
-{175 ,5 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,5 ,0 ,1 ,1 ,0 ,0 ,0 ,1},
-{254 ,3 ,3 ,0 ,0 ,1 ,7 ,0 ,1 ,kFpPoint2_6F8FE0 ,kFpZeroForStaticInit_6FCE08 ,25 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,4 ,1 ,1 ,1 ,0 ,0 ,1},
-{129 ,0 ,0 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpPoint6_6F8FF0 ,kFpPoint6_6F8FF0 ,kFpQuarter_6F8FDC ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
-{132 ,0 ,2 ,42 ,42 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,120 ,1 ,1 ,1 ,1 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,1 ,0 ,0 ,0 ,1},
-{122 ,0 ,0 ,0 ,0 ,0 ,9 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne_6FCE0C ,2 * kFpOne64th_6FCEB0 ,kFpQuarter_6F8FDC ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
-{130 ,0 ,10 ,131 ,131 ,0 ,6 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,7 ,0 ,0 ,1 ,0 ,0 ,0 ,0},
-{131 ,0 ,10 ,130 ,130 ,1 ,3 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,7 ,0 ,0 ,1 ,0 ,0 ,0 ,0},
-{139 ,0 ,1 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,0 ,1 ,0 ,1 ,0 ,0},
-{200 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{201 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{202 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{203 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{204 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{205 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{206 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{207 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{208 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{209 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{210 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{211 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{212 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{213 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{214 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{215 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{216 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{217 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{218 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{219 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{220 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{221 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{222 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{223 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{224 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{225 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,v16 ,v17 ,0 ,1 ,1 ,4 ,0 ,0 ,v18 ,v19 ,v20 ,v21 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{226 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{227 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{228 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{229 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{230 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{231 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{232 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{233 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{234 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{235 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{236 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{237 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{238 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{239 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{240 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{241 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{242 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{243 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{244 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{134 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,30 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
-{252 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,32 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
-{260 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,32 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
-{261 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,32 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
-{262 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,32 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
-{135 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,10 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
-{136 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,29 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
-{140 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,30 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
-{263 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,31 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
-{137 ,0 ,1 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpEight_6FCE28 ,kFpEight_6FCE28 ,kFpTwo_6FCE10 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0},
-{258 ,0 ,0 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpPoint6_6F8FF0 ,kFpPoint6_6F8FF0 ,kFpQuarter_6F8FDC ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0},
-{142 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,15 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
-{150 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,17 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
-{143 ,0 ,1 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0},
-{141 ,0 ,1 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0},
-{167 ,0 ,1 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0},
-{168 ,0 ,1 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne64th_6FCEB0 ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0},
-{169 ,0 ,1 ,0 ,0 ,0 ,0 ,12 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
-{197 ,8 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,1 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,29 ,133 ,1 ,1 ,0 ,1 ,0 ,1},
-{114 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1},
-{194 ,0 ,3 ,194 ,194 ,0 ,8 ,0 ,2 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,1 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,0 ,0 ,1 ,1 ,1 ,0 ,0 ,1},
-{284 ,2 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,9 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,11 ,4 ,1 ,1 ,0 ,0 ,0 ,1},
-{183 ,4 ,4 ,182 ,40 ,1 ,0 ,0 ,4 ,kFpPoint1_6F8FD8 ,-kFpPoint01_6FCDD8 ,12 ,3 ,3 ,4 ,2 ,1 ,kFpPoint1_6F8FD8 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,10 ,0 ,1 ,1 ,1 ,0 ,0 ,1},
-{195 ,0 ,3 ,0 ,0 ,1 ,7 ,0 ,2 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,1 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,0 ,0 ,1 ,1 ,1 ,0 ,0 ,0},
-{199 ,0 ,3 ,0 ,0 ,1 ,7 ,0 ,2 ,kFpThree_6FCE14 ,kFpZeroForStaticInit_6FCE08 ,1 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,0 ,0 ,1 ,1 ,1 ,0 ,0 ,0},
-{285 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,5 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
-{283 ,0 ,0 ,285 ,0 ,0 ,11 ,13 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpHalf_6F8FEC ,kFpHalf_6F8FEC ,kFpHalf_6F8FEC ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
-{166 ,0 ,1 ,0 ,0 ,0 ,0 ,12 ,2 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne64th_6FCEB0 ,kFpSqrt2_6FC5A4 ,kFpTwo_6FCE10 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
-{280 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,5 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
-{248 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1},
-{286 ,8 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,5 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{165 ,0 ,11 ,0 ,0 ,0 ,0 ,0 ,5 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,1 ,0 ,0 ,0 ,1},
-{171 ,0 ,11 ,0 ,0 ,0 ,0 ,0 ,5 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,1 ,0 ,0 ,0 ,1},
-{172 ,0 ,11 ,0 ,0 ,0 ,0 ,0 ,5 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,1 ,0 ,0 ,0 ,1},
-{173 ,0 ,11 ,0 ,0 ,0 ,0 ,0 ,5 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,1 ,0 ,0 ,0 ,1},
-{287 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1},
-{288 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1},
-{289 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1},
-{290 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1},
-{291 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1},
-{292 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1},
-{293 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1},
-{161 ,0 ,1 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0},
-{138 ,4 ,4 ,39 ,39 ,1 ,7 ,0 ,1 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,4 ,4 ,4 ,3 ,1 ,kFpPoint1_6F8FD8 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,10 ,0 ,1 ,1 ,1 ,0 ,0 ,1},
-{112 ,205 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
-{163 ,1 ,0 ,164 ,164 ,0 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,1 ,0 ,0 ,1 ,0 ,1 ,0 ,1},
-{164 ,2 ,2 ,185 ,185 ,1 ,6 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,10 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,1 ,0 ,0 ,1 ,0 ,1 ,0 ,1},
-{281 ,1 ,0 ,282 ,0 ,1 ,11 ,13 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,Fix16::Multiply_408680(&kFpOne64th_6FCEB0, &v27, &v2->mValue) ,*Fix16::Multiply_408680(&kFpOne64th_6FCEB0, &v25, &v1->mValue) ,kFpZeroForStaticInit_6FCE08 ,10 ,0 ,0 ,1 ,0 ,1 ,0 ,1},
-{282 ,1 ,0 ,0 ,0 ,0 ,0 ,12 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,Fix16::Multiply_408680(&kFpOne64th_6FCEB0, &v24, &v5->mValue) ,*Fix16::Multiply_408680(&kFpOne64th_6FCEB0, &v26, &v4->mValue) ,kFpZeroForStaticInit_6FCE08 ,10 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
-{256 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
-{253 ,4 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,45 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,0 ,2 ,0 ,0 ,0 ,1},
-{144 ,4 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,45 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,0 ,2 ,0 ,0 ,0 ,1},
-{121 ,4 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,45 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,0 ,2 ,0 ,0 ,0 ,1},
-{118 ,4 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,45 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,0 ,2 ,0 ,0 ,0 ,1},
-{295 ,8 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,5 ,0 ,1 ,1 ,0 ,0 ,1 ,1},
-{128 ,1 ,3 ,0 ,0 ,1 ,7 ,0 ,1 ,kFpPoint4_6F8FE8 ,kFpZeroForStaticInit_6FCE08 ,50 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,4 ,1 ,1 ,1 ,1 ,0 ,1},
-{192 ,0 ,3 ,259 ,259 ,1 ,8 ,0 ,2 ,kFpPoint4_6F8FE8 ,kFpZeroForStaticInit_6FCE08 ,8 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,0 ,0 ,1 ,1 ,1 ,0 ,0 ,1},
-{259 ,5 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,1 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,1 ,2 ,0 ,0 ,0 ,1},
-{148 ,2 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1},
-{170 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,29 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
-{255 ,3 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,32 ,4 ,0 ,1 ,0 ,0 ,0 ,1},
-{294 ,0 ,0 ,0 ,0 ,0 ,0 ,12 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1},
-{113 ,0 ,5 ,0 ,0 ,1 ,0 ,0 ,2 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,0 ,1 ,0 ,1 ,0 ,1},
-{278 ,0 ,12 ,0 ,0 ,0 ,0 ,0 ,5 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,1 ,0 ,1 ,0 ,1},
-{279 ,0 ,12 ,0 ,0 ,1 ,0 ,0 ,5 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,1 ,0 ,1 ,0 ,1},
-{198 ,0 ,3 ,198 ,198 ,0 ,8 ,0 ,2 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,1 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,0 ,0 ,1 ,1 ,1 ,0 ,0 ,1},
-{251 ,0 ,3 ,0 ,0 ,1 ,0 ,0 ,5 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,1 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,0 ,0 ,1 ,1 ,1 ,0 ,0 ,1});
-*/
+                         gCodeObjectTemplates_6F9038,
+                         126,
+                         0x6F9038,
+                         CodeObjectTemplate_6C(149, 1, 0, 0, 0, 0, 0, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpOne_6FCE0C, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 28, 0, 1, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(109, 1, 0, 0, 0, 0, 0, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 2, 0, 1, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(257, 1, 0, 0, 0, 0, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 2, 0, 1, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(111, 5, 2, 0, 0, 1, 0, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 1, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 2, 0, 1, 2, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(247, 1, 0, 0, 0, 0, 0, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, -1, 1, 1, 4, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 5, 0, 1, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(266, 1, 1, 0, 0, 0, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, -1, 1, 1, 4, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 7, 0, 0, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(175, 5, 2, 0, 0, 1, 0, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, -1, 1, 1, 4, 3, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 5, 0, 1, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(254, 3, 3, 0, 0, 1, 7, 0, 1, kFpPoint2_6F8FE0, kFpZero_6FCE08, 25, 1, 1, 4, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 28, 4, 1, 1, 1, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(129, 0, 0, 0, 0, 0, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 1, 0, 0, kFpZero_6FCE08, kFpPoint6_6F8FF0, kFpPoint6_6F8FF0, kFpQuarter_6F8FDC, 0, 0, 0, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(132, 0, 2, 42, 42, 0, 0, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, 120, 1, 1, 1, 1, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 0, 0, 1, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(122, 0, 0, 0, 0, 0, 9, 0, 4, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 1, 0, 0, kFpZero_6FCE08, kFpOne_6FCE0C, kFpOne64th_6FCEB0 * 2, kFpQuarter_6F8FDC, 0, 0, 0, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(130, 0, 10, 131, 131, 0, 6, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 1, 0, 0, kFpZero_6FCE08, kFpOne_6FCE0C, kFpOne_6FCE0C, kFpOne_6FCE0C, 7, 0, 0, 1, 0, 0, 0, 0) COMMA
+                         CodeObjectTemplate_6C(131, 0, 10, 130, 130, 1, 3, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 1, 0, 0, kFpZero_6FCE08, kFpOne_6FCE0C, kFpOne_6FCE0C, kFpOne_6FCE0C, 7, 0, 0, 1, 0, 0, 0, 0) COMMA
+                         CodeObjectTemplate_6C(139, 0, 1, 0, 0, 1, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 1, 0, 0, kFpZero_6FCE08, kFpOne_6FCE0C, kFpOne_6FCE0C, kFpZero_6FCE08, 0, 0, 0, 1, 0, 1, 0, 0) COMMA
+                         CodeObjectTemplate_6C(200, 8, 8, 0, 0, 1, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, -1, 1, 1, 4, 4, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 7, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(201, 8, 8, 0, 0, 1, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, -1, 1, 1, 4, 4, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 7, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(202, 8, 8, 0, 0, 1, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, -1, 1, 1, 4, 4, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 7, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(203, 8, 8, 0, 0, 1, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, -1, 1, 1, 4, 4, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 7, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(204, 8, 8, 0, 0, 1, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, -1, 1, 1, 4, 4, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 7, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(205, 8, 8, 0, 0, 1, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, -1, 1, 1, 4, 4, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 7, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(206, 8, 8, 0, 0, 1, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, -1, 1, 1, 4, 4, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 7, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(207, 8, 8, 0, 0, 1, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, -1, 1, 1, 4, 4, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 7, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(208, 8, 8, 0, 0, 1, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, -1, 1, 1, 4, 4, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 7, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(209, 8, 8, 0, 0, 1, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, -1, 1, 1, 4, 4, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 7, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(210, 8, 8, 0, 0, 1, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, -1, 1, 1, 4, 4, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 7, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(211, 1, 6, 0, 0, 0, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 7, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(212, 1, 6, 0, 0, 0, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 7, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(213, 1, 6, 0, 0, 0, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 7, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(214, 1, 6, 0, 0, 0, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 7, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(215, 8, 8, 0, 0, 1, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, -1, 1, 1, 4, 4, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 7, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(216, 8, 8, 0, 0, 1, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, -1, 1, 1, 4, 4, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 7, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(217, 8, 8, 0, 0, 1, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, -1, 1, 1, 4, 4, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 7, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(218, 8, 8, 0, 0, 1, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, -1, 1, 1, 4, 4, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 7, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(219, 1, 6, 0, 0, 0, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 7, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(220, 1, 6, 0, 0, 0, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 7, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(221, 1, 6, 0, 0, 0, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 7, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(222, 1, 6, 0, 0, 0, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 7, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(223, 1, 6, 0, 0, 0, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 7, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(224, 1, 6, 0, 0, 0, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 7, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(225, 1, 6, 0, 0, 0, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 7, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(226, 1, 6, 0, 0, 0, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 7, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(227, 1, 6, 0, 0, 0, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 7, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(228, 8, 8, 0, 0, 1, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, -1, 1, 1, 4, 3, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 7, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(229, 8, 8, 0, 0, 1, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, -1, 1, 1, 4, 3, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 7, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(230, 8, 8, 0, 0, 1, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, -1, 1, 1, 4, 3, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 7, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(231, 8, 8, 0, 0, 1, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, -1, 1, 1, 4, 3, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 7, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(232, 8, 8, 0, 0, 1, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, -1, 1, 1, 4, 3, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 7, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(233, 8, 8, 0, 0, 1, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, -1, 1, 1, 4, 3, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 7, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(234, 8, 8, 0, 0, 1, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, -1, 1, 1, 4, 3, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 7, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(235, 8, 8, 0, 0, 1, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, -1, 1, 1, 4, 3, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 7, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(236, 8, 8, 0, 0, 1, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, -1, 1, 1, 4, 3, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 7, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(237, 8, 8, 0, 0, 1, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, -1, 1, 1, 4, 3, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 7, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(238, 8, 8, 0, 0, 1, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, -1, 1, 1, 4, 3, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 7, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(239, 8, 8, 0, 0, 1, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, -1, 1, 1, 4, 3, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 7, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(240, 8, 8, 0, 0, 1, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, -1, 1, 1, 4, 3, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 7, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(241, 1, 6, 0, 0, 0, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 7, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(242, 1, 6, 0, 0, 0, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 7, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(243, 1, 6, 0, 0, 0, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 7, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(244, 1, 6, 0, 0, 0, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 7, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(134, 1, 0, 0, 0, 0, 0, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 30, 0, 0, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(252, 1, 0, 0, 0, 0, 0, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 32, 0, 0, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(260, 1, 0, 0, 0, 0, 0, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 32, 0, 0, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(261, 1, 0, 0, 0, 0, 0, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 32, 0, 0, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(262, 1, 0, 0, 0, 0, 0, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 32, 0, 0, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(135, 1, 0, 0, 0, 0, 0, 0, 4, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 10, 0, 0, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(136, 1, 0, 0, 0, 0, 0, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 29, 0, 0, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(140, 1, 0, 0, 0, 0, 0, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 30, 0, 0, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(263, 1, 0, 0, 0, 0, 0, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 31, 0, 0, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(137, 0, 1, 0, 0, 0, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 1, 0, 0, kFpZero_6FCE08, kFpEight_6FCE28, kFpEight_6FCE28, kFpTwo_6FCE10, 0, 0, 0, 1, 0, 0, 0, 0) COMMA
+                         CodeObjectTemplate_6C(258, 0, 0, 0, 0, 0, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 1, 0, 0, kFpZero_6FCE08, kFpPoint6_6F8FF0, kFpPoint6_6F8FF0, kFpQuarter_6F8FDC, 0, 0, 0, 1, 0, 0, 0, 0) COMMA
+                         CodeObjectTemplate_6C(142, 1, 0, 0, 0, 0, 0, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 15, 0, 0, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(150, 1, 0, 0, 0, 0, 0, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 17, 0, 0, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(143, 0, 1, 0, 0, 0, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 1, 0, 0, kFpZero_6FCE08, kFpOne_6FCE0C, kFpOne_6FCE0C, kFpZero_6FCE08, 0, 0, 0, 1, 0, 0, 0, 0) COMMA
+                         CodeObjectTemplate_6C(141, 0, 1, 0, 0, 1, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 1, 0, 0, kFpZero_6FCE08, kFpOne_6FCE0C, kFpOne_6FCE0C, kFpZero_6FCE08, 0, 0, 0, 1, 0, 0, 0, 0) COMMA
+                         CodeObjectTemplate_6C(167, 0, 1, 0, 0, 0, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 1, 0, 0, kFpZero_6FCE08, kFpOne_6FCE0C, kFpOne_6FCE0C, kFpOne_6FCE0C, 0, 0, 0, 1, 0, 0, 0, 0) COMMA
+                         CodeObjectTemplate_6C(168, 0, 1, 0, 0, 0, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 1, 0, 0, kFpZero_6FCE08, kFpOne64th_6FCEB0, kFpOne_6FCE0C, kFpOne_6FCE0C, 0, 0, 0, 1, 0, 0, 0, 0) COMMA
+                         CodeObjectTemplate_6C(169, 0, 1, 0, 0, 0, 0, 12, 4, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 1, 0, 0, kFpZero_6FCE08, kFpOne_6FCE0C, kFpOne_6FCE0C, kFpOne_6FCE0C, 0, 0, 0, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(197, 8, 2, 0, 0, 1, 0, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, -1, 1, 1, 4, 1, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 29, 133, 1, 1, 0, 1, 0, 1) COMMA
+                         CodeObjectTemplate_6C(114, 1, 0, 0, 0, 0, 0, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpOne_6FCE0C, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 28, 0, 1, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(194, 0, 3, 194, 194, 0, 8, 0, 2, kFpOne_6FCE0C, kFpZero_6FCE08, 1, 1, 1, 1, 0, 0, kFpZero_6FCE08, kFpQuarter_6FCE60, kFpQuarter_6FCE60, kFpQuarter_6FCE60, 0, 0, 1, 1, 1, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(284, 2, 2, 0, 0, 1, 0, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, -1, 1, 1, 4, 9, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 11, 4, 1, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(183, 4, 4, 182, 40, 1, 0, 0, 4, kFpPoint1_6F8FD8, -kFpPoint01_6FCDD8, 12, 3, 3, 4, 2, 1, kFpPoint1_6F8FD8, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 10, 0, 1, 1, 1, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(195, 0, 3, 0, 0, 1, 7, 0, 2, kFpOne_6FCE0C, kFpZero_6FCE08, 1, 1, 1, 1, 0, 0, kFpZero_6FCE08, kFpQuarter_6FCE60, kFpQuarter_6FCE60, kFpQuarter_6FCE60, 0, 0, 1, 1, 1, 0, 0, 0) COMMA
+                         CodeObjectTemplate_6C(199, 0, 3, 0, 0, 1, 7, 0, 2, kFpThree_6FCE14, kFpZero_6FCE08, 1, 1, 1, 1, 0, 0, kFpZero_6FCE08, kFpQuarter_6FCE60, kFpQuarter_6FCE60, kFpQuarter_6FCE60, 0, 0, 1, 1, 1, 0, 0, 0) COMMA
+                         CodeObjectTemplate_6C(285, 0, 0, 0, 0, 0, 0, 0, 5, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 1, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 0, 0, 0, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(283, 0, 0, 285, 0, 0, 11, 13, 4, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 1, 0, 0, kFpZero_6FCE08, kFpHalf_6F8FEC, kFpHalf_6F8FEC, kFpHalf_6F8FEC, 0, 0, 0, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(166, 0, 1, 0, 0, 0, 0, 12, 2, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 1, 0, 0, kFpZero_6FCE08, kFpOne64th_6FCEB0, kFpSqrt2_6FC5A4, kFpTwo_6FCE10, 0, 0, 0, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(280, 0, 0, 0, 0, 0, 0, 0, 5, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 1, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 0, 0, 0, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(248, 1, 0, 0, 0, 0, 0, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpOne_6FCE0C, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 28, 0, 1, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(286, 8, 2, 0, 0, 1, 0, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, -1, 1, 1, 4, 3, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 5, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(165, 0, 11, 0, 0, 0, 0, 0, 5, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 1, 0, 0, kFpOne_6FCE0C, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 0, 0, 1, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(171, 0, 11, 0, 0, 0, 0, 0, 5, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 1, 0, 0, kFpOne_6FCE0C, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 0, 0, 1, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(172, 0, 11, 0, 0, 0, 0, 0, 5, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 1, 0, 0, kFpOne_6FCE0C, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 0, 0, 1, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(173, 0, 11, 0, 0, 0, 0, 0, 5, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 1, 0, 0, kFpOne_6FCE0C, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 0, 0, 1, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(287, 1, 0, 0, 0, 0, 0, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpOne_6FCE0C, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 28, 0, 1, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(288, 1, 0, 0, 0, 0, 0, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpOne_6FCE0C, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 28, 0, 1, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(289, 1, 0, 0, 0, 0, 0, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpOne_6FCE0C, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 28, 0, 1, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(290, 1, 0, 0, 0, 0, 0, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpOne_6FCE0C, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 28, 0, 1, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(291, 1, 0, 0, 0, 0, 0, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpOne_6FCE0C, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 28, 0, 1, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(292, 1, 0, 0, 0, 0, 0, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpOne_6FCE0C, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 28, 0, 1, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(293, 1, 0, 0, 0, 0, 0, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpOne_6FCE0C, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 28, 0, 1, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(161, 0, 1, 0, 0, 0, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 1, 0, 0, kFpZero_6FCE08, kFpOne_6FCE0C, kFpOne_6FCE0C, kFpZero_6FCE08, 0, 0, 0, 1, 0, 0, 0, 0) COMMA
+                         CodeObjectTemplate_6C(138, 4, 4, 39, 39, 1, 7, 0, 1, kFpZero_6FCE08, kFpZero_6FCE08, -1, 4, 4, 4, 3, 1, kFpPoint1_6F8FD8, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 10, 0, 1, 1, 1, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(112, 205, 0, 0, 0, 0, 0, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 0, 0, 0, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(163, 1, 0, 164, 164, 0, 1, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 1, 0, 0, 1, 0, 1, 0, 1) COMMA
+                         CodeObjectTemplate_6C(164, 2, 2, 185, 185, 1, 6, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, -1, 1, 1, 4, 10, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 1, 0, 0, 1, 0, 1, 0, 1) COMMA
+                         CodeObjectTemplate_6C(281, 1, 0, 282, 0, 1, 11, 13, 4, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpZero_6FCE08, kFpOne64th_6FCEB0 * Fix16(48), kFpOne64th_6FCEB0 * Fix16(52), kFpZero_6FCE08, 10, 0, 0, 1, 0, 1, 0, 1) COMMA
+                         CodeObjectTemplate_6C(282, 1, 0, 0, 0, 0, 0, 12, 4, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpZero_6FCE08, kFpOne64th_6FCEB0 * Fix16(48), kFpOne64th_6FCEB0 * Fix16(52), kFpZero_6FCE08, 10, 0, 0, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(256, 1, 0, 0, 0, 0, 0, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 2, 0, 0, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(253, 4, 2, 0, 0, 1, 0, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 45, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 2, 0, 0, 2, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(144, 4, 2, 0, 0, 1, 0, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 45, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 2, 0, 0, 2, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(121, 4, 2, 0, 0, 1, 0, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 45, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 2, 0, 0, 2, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(118, 4, 2, 0, 0, 1, 0, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 45, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 2, 0, 0, 2, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(295, 8, 2, 0, 0, 1, 0, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, -1, 1, 1, 4, 3, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 5, 0, 1, 1, 0, 0, 1, 1) COMMA
+                         CodeObjectTemplate_6C(128, 1, 3, 0, 0, 1, 7, 0, 1, kFpPoint4_6F8FE8, kFpZero_6FCE08, 50, 1, 1, 4, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 28, 4, 1, 1, 1, 1, 0, 1) COMMA
+                         CodeObjectTemplate_6C(192, 0, 3, 259, 259, 1, 8, 0, 2, kFpPoint4_6F8FE8, kFpZero_6FCE08, 8, 1, 1, 1, 0, 0, kFpZero_6FCE08, kFpQuarter_6FCE60, kFpQuarter_6FCE60, kFpQuarter_6FCE60, 0, 0, 1, 1, 1, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(259, 5, 2, 0, 0, 1, 0, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 1, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 2, 0, 1, 2, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(148, 2, 0, 0, 0, 0, 0, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpOne_6FCE0C, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 28, 0, 1, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(170, 1, 0, 0, 0, 0, 0, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 29, 0, 0, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(255, 3, 0, 0, 0, 0, 0, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 4, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 32, 4, 0, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(294, 0, 0, 0, 0, 0, 0, 12, 4, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 1, 0, 0, kFpZero_6FCE08, kFpOne_6FCE0C, kFpOne_6FCE0C, kFpOne_6FCE0C, 0, 0, 0, 1, 0, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(113, 0, 5, 0, 0, 1, 0, 0, 2, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 1, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 0, 0, 0, 1, 0, 1, 0, 1) COMMA
+                         CodeObjectTemplate_6C(278, 0, 12, 0, 0, 0, 0, 0, 5, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 1, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 0, 0, 1, 1, 0, 1, 0, 1) COMMA
+                         CodeObjectTemplate_6C(279, 0, 12, 0, 0, 1, 0, 0, 5, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 1, 0, 0, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, kFpZero_6FCE08, 0, 0, 1, 1, 0, 1, 0, 1) COMMA
+                         CodeObjectTemplate_6C(198, 0, 3, 198, 198, 0, 8, 0, 2, kFpOne_6FCE0C, kFpZero_6FCE08, 1, 1, 1, 1, 0, 0, kFpZero_6FCE08, kFpQuarter_6FCE60, kFpQuarter_6FCE60, kFpQuarter_6FCE60, 0, 0, 1, 1, 1, 0, 0, 1) COMMA
+                         CodeObjectTemplate_6C(251, 0, 3, 0, 0, 1, 0, 0, 5, kFpZero_6FCE08, kFpZero_6FCE08, 1, 1, 1, 1, 0, 0, kFpZero_6FCE08, kFpQuarter_6FCE60, kFpQuarter_6FCE60, kFpQuarter_6FCE60, 0, 0, 1, 1, 1, 0, 0, 1));
 
-// Temporary workaround: create overload without pulling params by ref
-MapObjectOverride_54::MapObjectOverride_54(s32 param_1,
-               s32 param_2,
-               s32 param_3,
-               s8 param_4,
-               s32 param_5,
-               s32 param_6,
-               s32 param_7,
-               Fix16 param_8,
-               Fix16 param_9,
-               s8 param_10,
-               s32 param_11,
-               s32 param_12,
-               s8 param_13,
-               s32 param_14,
-               Fix16 param_15,
-               s32 param_16,
-               s32 param_17,
-               s32 param_18,
-               s8 param_19,
-               s32 param_20,
-               s8 param_21)
-{
-    field_0_definition_idx = param_1;
-    field_4_behavior_type = param_2;
-    field_8_next_definition_idx = param_3;
-    field_C = param_4;
-    field_10 = param_5;
-    field_14 = param_6;
-    field_18_collision_bucket_category = param_7;
-    field_1C_speed = param_8;
-    field_20_friction = param_9;
-    field_24 = param_10;
-    field_28 = param_11;
-    field_2C = param_12;
-    field_30_next_frame_max = param_13;
-    field_34 = param_14;
-    field_38_mass = param_15;
-    field_3C_draw_layer = param_16;
-    field_40_sprite_flags = param_17;
-    field_44_has_sound = param_18;
-    field_48_has_shadows = param_19;
-    field_4C = param_20;
-    field_50 = param_21;
-}
+DEFINE_GLOBAL_INIT(s32, gMapObjectOverrides_length_623EEC, 24, 0x623EEC);
 
-// Temporary workaround: create overload without pulling params by ref
-CodeObjectTemplate_6C::CodeObjectTemplate_6C(u32 param_1,
-               u8 param_2,
-               u32 param_3,
-               u32 param_4,
-               u32 param_5,
-               u8 param_6,
-               u32 param_7,
-               u32 param_8,
-               u32 param_9,
-               Fix16 param_10,
-               Fix16 param_11,
-               u8 param_12,
-               u32 param_13,
-               u32 param_14,
-               u32 param_15,
-               u32 param_16,
-               u32 param_17,
-               Fix16 param_18,
-               Fix16 param_19,
-               Fix16 param_20,
-               Fix16 param_21,
-               u32 param_22,
-               u32 param_23,
-               u8 param_24,
-               u32 param_25,
-               u32 param_26,
-               u32 param_27,
-               u8 param_28,
-               u8 param_29)
-{
-    field_0_definition_idx = param_1;
-    field_4_num_sprites = param_2;
-    field_8_behavior_type = param_3;
-    field_C = param_4;
-    field_10_next_definition_idx = param_5;
-    field_14 = param_6;
-    field_18 = param_7;
-    field_1C = param_8;
-    field_20_collision_bucket_category = param_9;
-    field_24_speed = param_10;
-    field_28_friction = param_11;
-    field_2C = param_12;
-    field_30 = param_13;
-    field_34 = param_14;
-    field_38_sprite_type = param_15;
-    field_3C_next_frame_max = param_16;
-    field_40 = param_17;
-    field_44_mass = param_18;
-    field_48_width = param_19;
-    field_4C_height = param_20;
-    field_50_depth = param_21;
-    field_54_draw_layer = param_22;
-    field_58_sprite_flags = param_23;
-    field_59 = param_24;
-    field_5C = param_25;
-    field_60 = param_26;
-    field_64_has_sound = param_27;
-    field_68_has_shadows = param_28;
-    field_69 = param_29;
-}
-
-void InitMapObjectOverrides()
-{
-    gMapObjectOverrides_6FC5F8[0] = MapObjectOverride_54(22 ,0 ,45 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpOne_6FCE0C ,10 ,0 ,0 ,0 ,1 ,1);
-    gMapObjectOverrides_6FC5F8[1] = MapObjectOverride_54(7 ,0 ,157 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,0 ,1 ,kFpThree_6FCE14 ,10 ,0 ,0 ,0 ,1 ,1);
-    gMapObjectOverrides_6FC5F8[2] = MapObjectOverride_54(1 ,0 ,158 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,0 ,1 ,kFpPoint2_6F8FE0 ,11 ,0 ,0 ,0 ,1 ,1);
-    gMapObjectOverrides_6FC5F8[3] = MapObjectOverride_54(5 ,0 ,156 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,1 ,0 ,1 ,1);
-    gMapObjectOverrides_6FC5F8[4] = MapObjectOverride_54(2 ,0 ,0 ,0 ,0 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,-kFpPoint01_6FCDD8 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,10 ,0 ,0 ,0 ,1 ,1);
-    gMapObjectOverrides_6FC5F8[5] = MapObjectOverride_54(4 ,0 ,52 ,0 ,1 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,0 ,0 ,1 ,1);
-    gMapObjectOverrides_6FC5F8[6] = MapObjectOverride_54(11 ,0 ,123 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1);
-    gMapObjectOverrides_6FC5F8[7] = MapObjectOverride_54(3 ,0 ,155 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1);
-    gMapObjectOverrides_6FC5F8[8] = MapObjectOverride_54(12 ,0 ,50 ,0 ,1 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,0 ,0 ,1 ,1);
-    gMapObjectOverrides_6FC5F8[9] = MapObjectOverride_54(13 ,0 ,56 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1);
-    gMapObjectOverrides_6FC5F8[10] = MapObjectOverride_54(14 ,0 ,57 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1);
-    gMapObjectOverrides_6FC5F8[11] = MapObjectOverride_54(18 ,0 ,49 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1);
-    gMapObjectOverrides_6FC5F8[12] = MapObjectOverride_54(19 ,0 ,0 ,0 ,0 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,-kFpPoint01_6FCDD8 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,10 ,0 ,0 ,0 ,1 ,1);
-    gMapObjectOverrides_6FC5F8[13] = MapObjectOverride_54(20 ,0 ,0 ,0 ,0 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,-kFpPoint01_6FCDD8 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,10 ,0 ,0 ,0 ,1 ,1);
-    gMapObjectOverrides_6FC5F8[14] = MapObjectOverride_54(10 ,0 ,0 ,0 ,7 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,-kFpPoint01_6FCDD8 ,-1 ,1 ,1 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,0 ,0 ,3 ,0);
-    gMapObjectOverrides_6FC5F8[15] = MapObjectOverride_54(15 ,0 ,59 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1);
-    gMapObjectOverrides_6FC5F8[16] = MapObjectOverride_54(8 ,2 ,9 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,1 ,1 ,1 ,1 ,0 ,kFpZeroForStaticInit_6FCE08 ,3 ,0 ,0 ,0 ,1 ,1);
-    gMapObjectOverrides_6FC5F8[17] = MapObjectOverride_54(9 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,3 ,0 ,0 ,0 ,3 ,0);
-    gMapObjectOverrides_6FC5F8[18] = MapObjectOverride_54(16 ,0 ,61 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1);
-    gMapObjectOverrides_6FC5F8[19] = MapObjectOverride_54(23 ,0 ,43 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1);
-    gMapObjectOverrides_6FC5F8[20] = MapObjectOverride_54(21 ,0 ,47 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpFive_6FCE1C ,10 ,0 ,0 ,0 ,1 ,1);
-    gMapObjectOverrides_6FC5F8[21] = MapObjectOverride_54(6 ,0 ,151 ,0 ,1 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,0 ,0 ,1 ,1);
-    gMapObjectOverrides_6FC5F8[22] = MapObjectOverride_54(25 ,0 ,0 ,0 ,0 ,12 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,10 ,0 ,0 ,0 ,1 ,1);
-    gMapObjectOverrides_6FC5F8[23] = MapObjectOverride_54(17 ,0 ,63 ,0 ,2 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,0 ,1 ,kFpPoint1_6F8FD8 ,10 ,0 ,0 ,0 ,1 ,1);
-    printf("MapObjectOverride_54 array loaded!\n");
-}
-
-void InitCodeObjectTemplates()
-{
-    gCodeObjectTemplates_6F9038[0] = CodeObjectTemplate_6C(149 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[1] = CodeObjectTemplate_6C(109 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[2] = CodeObjectTemplate_6C(257 ,1 ,0 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[3] = CodeObjectTemplate_6C(111 ,5 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,1 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,1 ,2 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[4] = CodeObjectTemplate_6C(247 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,5 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[5] = CodeObjectTemplate_6C(266 ,1 ,1 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[6] = CodeObjectTemplate_6C(175 ,5 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,5 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[7] = CodeObjectTemplate_6C(254 ,3 ,3 ,0 ,0 ,1 ,7 ,0 ,1 ,kFpPoint2_6F8FE0 ,kFpZeroForStaticInit_6FCE08 ,25 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,4 ,1 ,1 ,1 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[8] = CodeObjectTemplate_6C(129 ,0 ,0 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpPoint6_6F8FF0 ,kFpPoint6_6F8FF0 ,kFpQuarter_6F8FDC ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[9] = CodeObjectTemplate_6C(132 ,0 ,2 ,42 ,42 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,120 ,1 ,1 ,1 ,1 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[10] = CodeObjectTemplate_6C(122 ,0 ,0 ,0 ,0 ,0 ,9 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne_6FCE0C , kFpOne64th_6FCEB0 * 2 ,kFpQuarter_6F8FDC ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[11] = CodeObjectTemplate_6C(130 ,0 ,10 ,131 ,131 ,0 ,6 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,7 ,0 ,0 ,1 ,0 ,0 ,0 ,0);
-    gCodeObjectTemplates_6F9038[12] = CodeObjectTemplate_6C(131 ,0 ,10 ,130 ,130 ,1 ,3 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,7 ,0 ,0 ,1 ,0 ,0 ,0 ,0);
-    gCodeObjectTemplates_6F9038[13] = CodeObjectTemplate_6C(139 ,0 ,1 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,0 ,1 ,0 ,1 ,0 ,0);
-    gCodeObjectTemplates_6F9038[14] = CodeObjectTemplate_6C(200 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[15] = CodeObjectTemplate_6C(201 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[16] = CodeObjectTemplate_6C(202 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[17] = CodeObjectTemplate_6C(203 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[18] = CodeObjectTemplate_6C(204 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[19] = CodeObjectTemplate_6C(205 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[20] = CodeObjectTemplate_6C(206 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[21] = CodeObjectTemplate_6C(207 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[22] = CodeObjectTemplate_6C(208 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[23] = CodeObjectTemplate_6C(209 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[24] = CodeObjectTemplate_6C(210 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[25] = CodeObjectTemplate_6C(211 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[26] = CodeObjectTemplate_6C(212 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[27] = CodeObjectTemplate_6C(213 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[28] = CodeObjectTemplate_6C(214 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[29] = CodeObjectTemplate_6C(215 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[30] = CodeObjectTemplate_6C(216 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[31] = CodeObjectTemplate_6C(217 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[32] = CodeObjectTemplate_6C(218 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,4 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[33] = CodeObjectTemplate_6C(219 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[34] = CodeObjectTemplate_6C(220 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[35] = CodeObjectTemplate_6C(221 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[36] = CodeObjectTemplate_6C(222 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[37] = CodeObjectTemplate_6C(223 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[38] = CodeObjectTemplate_6C(224 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[39] = CodeObjectTemplate_6C(225 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[40] = CodeObjectTemplate_6C(226 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[41] = CodeObjectTemplate_6C(227 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[42] = CodeObjectTemplate_6C(228 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[43] = CodeObjectTemplate_6C(229 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[44] = CodeObjectTemplate_6C(230 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[45] = CodeObjectTemplate_6C(231 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[46] = CodeObjectTemplate_6C(232 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[47] = CodeObjectTemplate_6C(233 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[48] = CodeObjectTemplate_6C(234 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[49] = CodeObjectTemplate_6C(235 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[50] = CodeObjectTemplate_6C(236 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[51] = CodeObjectTemplate_6C(237 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[52] = CodeObjectTemplate_6C(238 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[53] = CodeObjectTemplate_6C(239 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[54] = CodeObjectTemplate_6C(240 ,8 ,8 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[55] = CodeObjectTemplate_6C(241 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[56] = CodeObjectTemplate_6C(242 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[57] = CodeObjectTemplate_6C(243 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[58] = CodeObjectTemplate_6C(244 ,1 ,6 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,7 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[59] = CodeObjectTemplate_6C(134 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,30 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[60] = CodeObjectTemplate_6C(252 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,32 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[61] = CodeObjectTemplate_6C(260 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,32 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[62] = CodeObjectTemplate_6C(261 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,32 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[63] = CodeObjectTemplate_6C(262 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,32 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[64] = CodeObjectTemplate_6C(135 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,10 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[65] = CodeObjectTemplate_6C(136 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,29 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[66] = CodeObjectTemplate_6C(140 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,30 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[67] = CodeObjectTemplate_6C(263 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,31 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[68] = CodeObjectTemplate_6C(137 ,0 ,1 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpEight_6FCE28 ,kFpEight_6FCE28 ,kFpTwo_6FCE10 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0);
-    gCodeObjectTemplates_6F9038[69] = CodeObjectTemplate_6C(258 ,0 ,0 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpPoint6_6F8FF0 ,kFpPoint6_6F8FF0 ,kFpQuarter_6F8FDC ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0);
-    gCodeObjectTemplates_6F9038[70] = CodeObjectTemplate_6C(142 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,15 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[71] = CodeObjectTemplate_6C(150 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,17 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[72] = CodeObjectTemplate_6C(143 ,0 ,1 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0);
-    gCodeObjectTemplates_6F9038[73] = CodeObjectTemplate_6C(141 ,0 ,1 ,0 ,0 ,1 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0);
-    gCodeObjectTemplates_6F9038[74] = CodeObjectTemplate_6C(167 ,0 ,1 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0);
-    gCodeObjectTemplates_6F9038[75] = CodeObjectTemplate_6C(168 ,0 ,1 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne64th_6FCEB0 ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0);
-    gCodeObjectTemplates_6F9038[76] = CodeObjectTemplate_6C(169 ,0 ,1 ,0 ,0 ,0 ,0 ,12 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[77] = CodeObjectTemplate_6C(197 ,8 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,1 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,29 ,133 ,1 ,1 ,0 ,1 ,0 ,1);
-    gCodeObjectTemplates_6F9038[78] = CodeObjectTemplate_6C(114 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[79] = CodeObjectTemplate_6C(194 ,0 ,3 ,194 ,194 ,0 ,8 ,0 ,2 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,1 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,0 ,0 ,1 ,1 ,1 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[80] = CodeObjectTemplate_6C(284 ,2 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,9 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,11 ,4 ,1 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[81] = CodeObjectTemplate_6C(183 ,4 ,4 ,182 ,40 ,1 ,0 ,0 ,4 ,kFpPoint1_6F8FD8 ,-kFpPoint01_6FCDD8 ,12 ,3 ,3 ,4 ,2 ,1 ,kFpPoint1_6F8FD8 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,10 ,0 ,1 ,1 ,1 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[82] = CodeObjectTemplate_6C(195 ,0 ,3 ,0 ,0 ,1 ,7 ,0 ,2 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,1 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,0 ,0 ,1 ,1 ,1 ,0 ,0 ,0);
-    gCodeObjectTemplates_6F9038[83] = CodeObjectTemplate_6C(199 ,0 ,3 ,0 ,0 ,1 ,7 ,0 ,2 ,kFpThree_6FCE14 ,kFpZeroForStaticInit_6FCE08 ,1 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,0 ,0 ,1 ,1 ,1 ,0 ,0 ,0);
-    gCodeObjectTemplates_6F9038[84] = CodeObjectTemplate_6C(285 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,5 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[85] = CodeObjectTemplate_6C(283 ,0 ,0 ,285 ,0 ,0 ,11 ,13 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpHalf_6F8FEC ,kFpHalf_6F8FEC ,kFpHalf_6F8FEC ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[86] = CodeObjectTemplate_6C(166 ,0 ,1 ,0 ,0 ,0 ,0 ,12 ,2 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne64th_6FCEB0 ,kFpSqrt2_6FC5A4 ,kFpTwo_6FCE10 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[87] = CodeObjectTemplate_6C(280 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,5 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[88] = CodeObjectTemplate_6C(248 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[89] = CodeObjectTemplate_6C(286 ,8 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,5 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[90] = CodeObjectTemplate_6C(165 ,0 ,11 ,0 ,0 ,0 ,0 ,0 ,5 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[91] = CodeObjectTemplate_6C(171 ,0 ,11 ,0 ,0 ,0 ,0 ,0 ,5 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[92] = CodeObjectTemplate_6C(172 ,0 ,11 ,0 ,0 ,0 ,0 ,0 ,5 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[93] = CodeObjectTemplate_6C(173 ,0 ,11 ,0 ,0 ,0 ,0 ,0 ,5 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[94] = CodeObjectTemplate_6C(287 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[95] = CodeObjectTemplate_6C(288 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[96] = CodeObjectTemplate_6C(289 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[97] = CodeObjectTemplate_6C(290 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[98] = CodeObjectTemplate_6C(291 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[99] = CodeObjectTemplate_6C(292 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[100] = CodeObjectTemplate_6C(293 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[101] = CodeObjectTemplate_6C(161 ,0 ,1 ,0 ,0 ,0 ,9 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,0);
-    gCodeObjectTemplates_6F9038[102] = CodeObjectTemplate_6C(138 ,4 ,4 ,39 ,39 ,1 ,7 ,0 ,1 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,4 ,4 ,4 ,3 ,1 ,kFpPoint1_6F8FD8 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,10 ,0 ,1 ,1 ,1 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[103] = CodeObjectTemplate_6C(112 ,205 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[104] = CodeObjectTemplate_6C(163 ,1 ,0 ,164 ,164 ,0 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,1 ,0 ,0 ,1 ,0 ,1 ,0 ,1);
-    gCodeObjectTemplates_6F9038[105] = CodeObjectTemplate_6C(164 ,2 ,2 ,185 ,185 ,1 ,6 ,0 ,3 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,10 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,1 ,0 ,0 ,1 ,0 ,1 ,0 ,1);
-    gCodeObjectTemplates_6F9038[106] = CodeObjectTemplate_6C(281 ,1 ,0 ,282 ,0 ,1 ,11 ,13 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 , kFpOne64th_6FCEB0 * Fix16(48) , kFpOne64th_6FCEB0 * Fix16(52) ,kFpZeroForStaticInit_6FCE08 ,10 ,0 ,0 ,1 ,0 ,1 ,0 ,1);
-    gCodeObjectTemplates_6F9038[107] = CodeObjectTemplate_6C(282 ,1 ,0 ,0 ,0 ,0 ,0 ,12 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 , kFpOne64th_6FCEB0 * Fix16(48) ,kFpOne64th_6FCEB0 * Fix16(52) ,kFpZeroForStaticInit_6FCE08 ,10 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[108] = CodeObjectTemplate_6C(256 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[109] = CodeObjectTemplate_6C(253 ,4 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,45 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,0 ,2 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[110] = CodeObjectTemplate_6C(144 ,4 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,45 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,0 ,2 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[111] = CodeObjectTemplate_6C(121 ,4 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,45 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,0 ,2 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[112] = CodeObjectTemplate_6C(118 ,4 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,45 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,0 ,2 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[113] = CodeObjectTemplate_6C(295 ,8 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,-1 ,1 ,1 ,4 ,3 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,5 ,0 ,1 ,1 ,0 ,0 ,1 ,1);
-    gCodeObjectTemplates_6F9038[114] = CodeObjectTemplate_6C(128 ,1 ,3 ,0 ,0 ,1 ,7 ,0 ,1 ,kFpPoint4_6F8FE8 ,kFpZeroForStaticInit_6FCE08 ,50 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,4 ,1 ,1 ,1 ,1 ,0 ,1);
-    gCodeObjectTemplates_6F9038[115] = CodeObjectTemplate_6C(192 ,0 ,3 ,259 ,259 ,1 ,8 ,0 ,2 ,kFpPoint4_6F8FE8 ,kFpZeroForStaticInit_6FCE08 ,8 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,0 ,0 ,1 ,1 ,1 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[116] = CodeObjectTemplate_6C(259 ,5 ,2 ,0 ,0 ,1 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,1 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,2 ,0 ,1 ,2 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[117] = CodeObjectTemplate_6C(148 ,2 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,28 ,0 ,1 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[118] = CodeObjectTemplate_6C(170 ,1 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,29 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[119] = CodeObjectTemplate_6C(255 ,3 ,0 ,0 ,0 ,0 ,0 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,4 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,32 ,4 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[120] = CodeObjectTemplate_6C(294 ,0 ,0 ,0 ,0 ,0 ,0 ,12 ,4 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,kFpOne_6FCE0C ,0 ,0 ,0 ,1 ,0 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[121] = CodeObjectTemplate_6C(113 ,0 ,5 ,0 ,0 ,1 ,0 ,0 ,2 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,0 ,1 ,0 ,1 ,0 ,1);
-    gCodeObjectTemplates_6F9038[122] = CodeObjectTemplate_6C(278 ,0 ,12 ,0 ,0 ,0 ,0 ,0 ,5 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,1 ,0 ,1 ,0 ,1);
-    gCodeObjectTemplates_6F9038[123] = CodeObjectTemplate_6C(279 ,0 ,12 ,0 ,0 ,1 ,0 ,0 ,5 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,0 ,0 ,1 ,1 ,0 ,1 ,0 ,1);
-    gCodeObjectTemplates_6F9038[124] = CodeObjectTemplate_6C(198 ,0 ,3 ,198 ,198 ,0 ,8 ,0 ,2 ,kFpOne_6FCE0C ,kFpZeroForStaticInit_6FCE08 ,1 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,0 ,0 ,1 ,1 ,1 ,0 ,0 ,1);
-    gCodeObjectTemplates_6F9038[125] = CodeObjectTemplate_6C(251 ,0 ,3 ,0 ,0 ,1 ,0 ,0 ,5 ,kFpZeroForStaticInit_6FCE08 ,kFpZeroForStaticInit_6FCE08 ,1 ,1 ,1 ,1 ,0 ,0 ,kFpZeroForStaticInit_6FCE08 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,kFpQuarter_6FCE60 ,0 ,0 ,1 ,1 ,1 ,0 ,0 ,1);
-    printf("CodeObjectTemplate_6C array loaded!\n");
-}
+// Must remain a fixed array, a pointer would break ObjectDefinitions_8CA8::ApplyMapObjectOverrides_533360
+DEFINE_GLOBAL_ARRAY_INIT(MapObjectOverride_54,
+                         gMapObjectOverrides_6FC5F8,
+                         24,
+                         0x6FC5F8,
+                         MapObjectOverride_54(22, 0, 45, 0, 2, 0, 4, kFpZero_6FCE08, kFpZero_6FCE08, 0, 0, 1, 0, 1, kFpOne_6FCE0C, 10, 0, 0, 0, 1, 1) COMMA
+                         MapObjectOverride_54(7, 0, 157, 0, 2, 0, 4, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 0, 1, kFpThree_6FCE14, 10, 0, 0, 0, 1, 1) COMMA
+                         MapObjectOverride_54(1, 0, 158, 0, 2, 0, 4, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 0, 1, kFpPoint2_6F8FE0, 11, 0, 0, 0, 1, 1) COMMA
+                         MapObjectOverride_54(5, 0, 156, 0, 2, 0, 4, kFpZero_6FCE08, kFpZero_6FCE08, 0, 0, 1, 0, 1, kFpPoint1_6F8FD8, 10, 0, 1, 0, 1, 1) COMMA
+                         MapObjectOverride_54(2, 0, 0, 0, 0, 0, 4, kFpZero_6FCE08, -kFpPoint01_6FCDD8, 0, 1, 1, 0, 0, kFpZero_6FCE08, 10, 0, 0, 0, 1, 1) COMMA
+                         MapObjectOverride_54(4, 0, 52, 0, 1, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 0, 0, kFpZero_6FCE08, 2, 0, 0, 0, 1, 1) COMMA
+                         MapObjectOverride_54(11, 0, 123, 0, 2, 0, 4, kFpZero_6FCE08, kFpZero_6FCE08, 0, 0, 1, 0, 1, kFpPoint1_6F8FD8, 10, 0, 0, 0, 1, 1) COMMA
+                         MapObjectOverride_54(3, 0, 155, 0, 2, 0, 4, kFpZero_6FCE08, kFpZero_6FCE08, 0, 0, 1, 0, 1, kFpPoint1_6F8FD8, 10, 0, 0, 0, 1, 1) COMMA
+                         MapObjectOverride_54(12, 0, 50, 0, 1, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 0, 0, kFpZero_6FCE08, 2, 0, 0, 0, 1, 1) COMMA
+                         MapObjectOverride_54(13, 0, 56, 0, 2, 0, 4, kFpZero_6FCE08, kFpZero_6FCE08, 0, 0, 1, 0, 1, kFpPoint1_6F8FD8, 10, 0, 0, 0, 1, 1) COMMA
+                         MapObjectOverride_54(14, 0, 57, 0, 2, 0, 4, kFpZero_6FCE08, kFpZero_6FCE08, 0, 0, 1, 0, 1, kFpPoint1_6F8FD8, 10, 0, 0, 0, 1, 1) COMMA
+                         MapObjectOverride_54(18, 0, 49, 0, 2, 0, 4, kFpZero_6FCE08, kFpZero_6FCE08, 0, 0, 1, 0, 1, kFpPoint1_6F8FD8, 10, 0, 0, 0, 1, 1) COMMA
+                         MapObjectOverride_54(19, 0, 0, 0, 0, 0, 4, kFpZero_6FCE08, -kFpPoint01_6FCDD8, 0, 1, 1, 0, 0, kFpZero_6FCE08, 10, 0, 0, 0, 1, 1) COMMA
+                         MapObjectOverride_54(20, 0, 0, 0, 0, 0, 4, kFpZero_6FCE08, -kFpPoint01_6FCDD8, 0, 1, 1, 0, 0, kFpZero_6FCE08, 10, 0, 0, 0, 1, 1) COMMA
+                         MapObjectOverride_54(10, 0, 0, 0, 7, 0, 3, kFpZero_6FCE08, -kFpPoint01_6FCDD8, -1, 1, 1, 4, 0, kFpZero_6FCE08, 7, 0, 0, 0, 3, 0) COMMA
+                         MapObjectOverride_54(15, 0, 59, 0, 2, 0, 4, kFpZero_6FCE08, kFpZero_6FCE08, 0, 0, 1, 0, 1, kFpPoint1_6F8FD8, 10, 0, 0, 0, 1, 1) COMMA
+                         MapObjectOverride_54(8, 2, 9, 1, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, 1, 1, 1, 1, 0, kFpZero_6FCE08, 3, 0, 0, 0, 1, 1) COMMA
+                         MapObjectOverride_54(9, 0, 0, 0, 9, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 0, 0, kFpZero_6FCE08, 3, 0, 0, 0, 3, 0) COMMA
+                         MapObjectOverride_54(16, 0, 61, 0, 2, 0, 4, kFpZero_6FCE08, kFpZero_6FCE08, 0, 0, 1, 0, 1, kFpPoint1_6F8FD8, 10, 0, 0, 0, 1, 1) COMMA
+                         MapObjectOverride_54(23, 0, 43, 0, 2, 0, 4, kFpZero_6FCE08, kFpZero_6FCE08, 0, 0, 1, 0, 1, kFpPoint1_6F8FD8, 10, 0, 0, 0, 1, 1) COMMA
+                         MapObjectOverride_54(21, 0, 47, 0, 2, 0, 4, kFpZero_6FCE08, kFpZero_6FCE08, 0, 0, 1, 0, 1, kFpFive_6FCE1C, 10, 0, 0, 0, 1, 1) COMMA
+                         MapObjectOverride_54(6, 0, 151, 0, 1, 0, 3, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 0, 0, kFpZero_6FCE08, 2, 0, 0, 0, 1, 1) COMMA
+                         MapObjectOverride_54(25, 0, 0, 0, 0, 12, 4, kFpZero_6FCE08, kFpZero_6FCE08, 0, 1, 1, 0, 0, kFpZero_6FCE08, 10, 0, 0, 0, 1, 1) COMMA
+                         MapObjectOverride_54(17, 0, 63, 0, 2, 0, 4, kFpZero_6FCE08, kFpZero_6FCE08, 0, 0, 1, 0, 1, kFpPoint1_6F8FD8, 10, 0, 0, 0, 1, 1));
 
 MATCH_FUNC(0x4bdf40)
 ObjectDefinitions_8CA8::~ObjectDefinitions_8CA8()
@@ -488,23 +210,23 @@ ObjectDefinition_74::~ObjectDefinition_74()
 }
 
 MATCH_FUNC(0x531860)
-CodeObjectTemplate_6C::CodeObjectTemplate_6C(u32 param_1,
+inline CodeObjectTemplate_6C::CodeObjectTemplate_6C(u32 param_1,
                u8 param_2,
-               u32& param_3,
+               const u32& param_3,
                u32 param_4,
                u32 param_5,
                u8 param_6,
-               u32& param_7,
-               u32& param_8,
-               u32& param_9,
+               const u32& param_7,
+               const u32& param_8,
+               const u32& param_9,
                Fix16 param_10,
                Fix16 param_11,
-               u8 param_12,
-               u32& param_13,
-               u32& param_14,
+               s8 param_12,
+               const u32& param_13,
+               const u32& param_14,
                u32 param_15,
                u32 param_16,
-               u32& param_17,
+               const u32& param_17,
                Fix16 param_18,
                Fix16 param_19,
                Fix16 param_20,
@@ -512,7 +234,7 @@ CodeObjectTemplate_6C::CodeObjectTemplate_6C(u32 param_1,
                u32 param_22,
                u32 param_23,
                u8 param_24,
-               u32& param_25,
+               const u32& param_25,
                u32 param_26,
                u32 param_27,
                u8 param_28,
@@ -550,20 +272,20 @@ CodeObjectTemplate_6C::CodeObjectTemplate_6C(u32 param_1,
 }
 
 MATCH_FUNC(0x532fb0)
-MapObjectOverride_54::MapObjectOverride_54(s32 param_1,
-               s32& param_2,
+inline MapObjectOverride_54::MapObjectOverride_54(s32 param_1,
+               const s32& param_2,
                s32 param_3,
                s8 param_4,
-               s32& param_5,
-               s32& param_6,
-               s32& param_7,
+               const s32& param_5,
+               const s32& param_6,
+               const s32& param_7,
                Fix16 param_8,
                Fix16 param_9,
                s8 param_10,
-               s32& param_11,
-               s32& param_12,
+               const s32& param_11,
+               const s32& param_12,
                s8 param_13,
-               s32& param_14,
+               const s32& param_14,
                Fix16 param_15,
                s32 param_16,
                s32 param_17,

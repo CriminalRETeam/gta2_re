@@ -254,7 +254,7 @@ struct gmp_tile_animation
 
 struct gmp_map_slope
 {
-    EXPORT gmp_map_slope(u8 gradient_direction, u8 gradient_size, u8 gradient_level, Fix16 zpos_lower, Fix16 zpos_higher);
+    EXPORT gmp_map_slope(s32 gradient_direction, s32 gradient_size, s32 gradient_level, Fix16 zpos_lower, Fix16 zpos_higher);
 
     gmp_map_slope()
     {
@@ -827,7 +827,6 @@ EXTERN_GLOBAL(s32, gSpriteGrid_left_6F5FD4);
 
 EXTERN_GLOBAL(s32, gSpriteGrid_right_6F5B80);
 
-EXPORT void Init_gmp_slopes_array();
 
 static inline gmp_map_slope* get_slope_struct(u8& slope_byte)
 {

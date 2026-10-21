@@ -179,40 +179,8 @@ bool InputU16(const char* label, u16* v, int step, int step_fast, ImGuiInputText
 
 EXTERN_GLOBAL(CrimeReportQueue_CC*, gCrimeReportQueue_67A4B8);
 
-// crt_init_own_libname_21 or sub_4F7530
-void Init_Unk_Width_Height_F16_array()
-{
-    for (u32 i = 0; i < GTA2_COUNTOF(gPixelsToFix16_6F6850.list); i++)
-    {
-        gPixelsToFix16_6F6850.list[i] = Fix16(i) / 64;
-    }
-}
-
-// InputRecorder_67F8B0 *crt_init_4CDCB0
-void Init_InputRecorder()
-{
-    gInputRecorder_67F8B0.field_0_bShutDown = false;
-    gInputRecorder_67F8B0.field_4_input_bits = 0;
-    gInputRecorder_67F8B0.field_75344_bInputEnabled = true;
-    gInputRecorder_67F8B0.field_38_replay_state = Disabled_2;
-    gInputRecorder_67F8B0.field_75345_attract_idx = 0;
-    memset(gInputRecorder_67F8B0.field_8_input_masks, 0, sizeof(gInputRecorder_67F8B0.field_8_input_masks));
-    memset(gInputRecorder_67F8B0.field_3C_rec_buff, 0, sizeof(gInputRecorder_67F8B0.field_3C_rec_buff));
-    gInputRecorder_67F8B0.field_7533C_used_recs_count = 205;
-    gInputRecorder_67F8B0.field_75340_rec_buf_idx = 205;
-    gInputRecorder_67F8B0.VerifyAttractFilesExist_4CE650();
-}
-
 void EnableBoot2MapDebugOptions()
 {
-    // Init Phi else its over fr
-    InitMapObjectOverrides();
-    InitCodeObjectTemplates();
-    Init_gmp_slopes_array();
-    Init_trigonometry_tables();
-    Init_Unk_Width_Height_F16_array();
-    Init_InputRecorder();
-
     bSkip_traffic_lights_67D4EC = true;
     bSkip_trains_67D550 = true;
 
@@ -2826,12 +2794,6 @@ void CC ImGuiDebugDraw()
 
         if (ImGui::TreeNode("gObjectDefinitions_6FCF00"))
         {
-            if (ImGui::Button("Init Phi arrays"))
-            {
-                InitMapObjectOverrides();
-                InitCodeObjectTemplates();
-            }
-
             if (gObjectDefinitions_6FCF00)
             {
                 ImGui::Value("field_0_next_idx", gObjectDefinitions_6FCF00->field_0_next_idx);
