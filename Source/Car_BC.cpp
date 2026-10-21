@@ -49,8 +49,8 @@ DEFINE_GLOBAL(CarThreadTriggers_214*, gCarThreadTriggers_214_705F20, 0x705F20);
 DEFINE_GLOBAL(CarManager_6C*, gCarManager_6C_677930, 0x677930);
 DEFINE_GLOBAL(Car_BC_Pool*, gCar_BC_Pool_67792C, 0x67792C);
 DEFINE_GLOBAL(TrailerPool*, gTrailerPool_66AC80, 0x66AC80);
-DEFINE_GLOBAL(Fix16_Point, gTrailerHitchOffset_66AAC8, 0x66AAC8);
-DEFINE_GLOBAL(Fix16_Point, gTrailerCabOffset_66AAE0, 0x66AAE0);
+DEFINE_GLOBAL_INIT(Fix16_Point, gTrailerHitchOffset_66AAC8, Fix16_Point(Fix16(0, 0), Fix16(-0x1E00, 0)), 0x66AAC8); // (0, -30/64)
+DEFINE_GLOBAL_INIT(Fix16_Point, gTrailerCabOffset_66AAE0, Fix16_Point(Fix16(0, 0), Fix16(0x2F00, 0)), 0x66AAE0); // (0, 47/64)
 DEFINE_GLOBAL_INIT(Ang16, word_66A9C8, Ang16(360), 0x66A9C8);
 DEFINE_GLOBAL_INIT(Ang16, word_66AABC, Ang16(1080), 0x66AABC);
 DEFINE_GLOBAL(TrafficSpawner_14*, gTrafficSpawner_14_677934, 0x677934);
