@@ -57,7 +57,7 @@ class Camera_0xBC
     EXPORT void SavePrevCamPos_4357B0();
     EXPORT void IncreaseElevation_4357F0();
     EXPORT void DecreaseElevation_435810();
-    EXPORT void ReturnToDefaultZoom_435830();
+    EXPORT void ResetElevation_435830();
     EXPORT void ClampTargetZ_435840();
     EXPORT void ApplyMovementDeltaFrom_435860(Camera_0xBC* pCamera);
     EXPORT Ang16 ComputeTargetFacingAngle_4358D0();
@@ -77,7 +77,7 @@ class Camera_0xBC
     EXPORT void UpdateFollowPedCamera_436540(Ped* pPed);
     EXPORT void HandlePanning_436710(char_type forward_gas_on, char_type foot_brake_on, char_type left_on, char_type right_on);
     EXPORT void ResetPanning_436830();
-    EXPORT void ApplyZOffsetToScreenPosition_436860(Ped* pPed, Fix16& x_pos, Fix16& y_pos, Fix16 z_pos);
+    EXPORT void ApplyPanOffset_436860(Ped* pPed, Fix16& x_pos, Fix16& y_pos, Fix16 z_pos);
     EXPORT Camera_0xBC(); // 4368E0
     EXPORT ~Camera_0xBC(); // empty 4369E0
     EXPORT void SetTarget_4397D0(Fix16 x, Fix16 y, Fix16 z, Fix16 zoom);

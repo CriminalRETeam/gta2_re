@@ -124,13 +124,13 @@ void Mike_A80::DebugDrawProfiling_4FF250()
     }
     sDrawString_4FF910(0, 380, L"Mem Total %5d", gMemTotal_6F7360);
 
-    s32 total = field_28_m80_1.Average() + field_28_m80_2.Average() + field_28_m80_3.Average() +
-        field_28_m80_5.Average() + field_28_m80_4.Average();
+    s32 total = field_28_m80_1.Average() + field_A8_m80_2.Average() + field_128_m80_3.Average() +
+        field_228_m80_5.Average() + field_1A8_m80_4.Average();
     sDrawString_4FF910(280, 20, L"Process %3d", field_28_m80_1.Average());
-    sDrawString_4FF910(280, 40, L"Draw    %3d", field_28_m80_2.Average());
-    sDrawString_4FF910(280, 60, L"Render  %3d", field_28_m80_3.Average());
-    sDrawString_4FF910(280, 80, L"Audio   %3d", field_28_m80_5.Average());
-    sDrawString_4FF910(280, 100, L"Input   %3d", field_28_m80_4.Average());
+    sDrawString_4FF910(280, 40, L"Draw    %3d", field_A8_m80_2.Average());
+    sDrawString_4FF910(280, 60, L"Render  %3d", field_128_m80_3.Average());
+    sDrawString_4FF910(280, 80, L"Audio   %3d", field_228_m80_5.Average());
+    sDrawString_4FF910(280, 100, L"Input   %3d", field_1A8_m80_4.Average());
     sDrawString_4FF910(280, 120, L"Total   %3d", total);
 
     s32 large_timer = total > 30 ? 15 : gLargeFrameTimer_6F754C;
@@ -261,7 +261,7 @@ void Mike_A80::UpdateProfiling_4FFA90()
 
     if (draw_time)
     {
-        field_28_m80_2.AddSample(draw_time);
+        field_A8_m80_2.AddSample(draw_time);
     }
     if (draw_time > 15)
     {
@@ -271,12 +271,12 @@ void Mike_A80::UpdateProfiling_4FFA90()
 
     if (flip_time)
     {
-        field_28_m80_3.AddSample(flip_time);
+        field_128_m80_3.AddSample(flip_time);
     }
 
     if (input_time)
     {
-        field_28_m80_4.AddSample(input_time);
+        field_1A8_m80_4.AddSample(input_time);
     }
     if (input_time > 10)
     {
@@ -286,7 +286,7 @@ void Mike_A80::UpdateProfiling_4FFA90()
 
     if (audio_time)
     {
-        field_28_m80_5.AddSample(audio_time);
+        field_228_m80_5.AddSample(audio_time);
     }
     // Checks input_time rather than audio_time
     if (input_time > 10)

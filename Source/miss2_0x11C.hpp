@@ -199,7 +199,7 @@ struct SCR_CHAR_AREA_ANY : SCR_CMD_HEADER
     Fix16 field_1C_w;
     Fix16 field_20_h;
     u16 field_24_char_idx;
-    char_type field_26_result;
+    char_type field_26_trigger_idx;
     u8 field_27_flag;
 };
 
@@ -885,7 +885,7 @@ EXTERN_GLOBAL(Fix16, kFpTwo_6F77C8);
 class miss2_0x11C
 {
   public:
-    EXPORT void MissionFailOnArrest_503200();
+    EXPORT void MissionFailOnDeathOrArrest_503200();
     EXPORT u8 GetEntityTypeOfCommand_503410(u32 opcode);
     EXPORT void PoolAllocate_5035B0();
     EXPORT void Log_5035D0();
@@ -1023,7 +1023,7 @@ class miss2_0x11C
     EXPORT void SCRCMD_ALT_WANTED_LEVEL_50BA70();
     EXPORT void SCRCMD_CAR_WRECK_IN_LOCATION_50BAD0();
     EXPORT void SCRCMD_SEND_CAR_TO_BLOCK_50BB80();
-    EXPORT void SCRCMD_SET_CHAR_BRAVERY_50BBD0();
+    EXPORT void SCRCMD_THREAT_SEARCH_REACT_ADD_GROUP_50BBD0();
     EXPORT void SCRCMD_CHECK_NUM_ALIVE_50BC60();
     EXPORT void SCRCMD_SET_MIN_ALIVE_50BCD0();
     EXPORT void SCRCMD_CHAR_GROUP_50BD10();

@@ -403,7 +403,7 @@ void PedGroup::PromoteMemberToLeader_4C9680(u8 idx)
     field_2C_ped_leader->field_174_pWeapon = leaderWeapon2;
 
     field_2C_ped_leader->SetObjective(pTmp->get_objective_403A80(), pTmp->get_objective_timer_403B30());
-    field_2C_ped_leader->SetObjective2_463830(pTmp->GetInternalObjective_403A90(), pTmp->get_car_state_timer_403B20());
+    field_2C_ped_leader->SetObjective2_463830(pTmp->GetInternalObjective_403A90(), pTmp->get_internal_objective_timer_403B20());
     field_2C_ped_leader->set_objective_status_403B40(pTmp->GetObjectiveStatus_450CB0());
     field_2C_ped_leader->SetInternalObjectiveStatus_403B50(pTmp->GetInternalObjectiveStatus_4039D0());
     field_2C_ped_leader->set_objective_target_ped_403AC0(pTmp->get_objective_target_ped_403AD0());
@@ -569,7 +569,7 @@ void PedGroup::add_ped_to_list_4C9B30(Ped* ptr, u8 idx)
 #pragma warning(push)
 #pragma warning(disable : 4716)
 MATCH_FUNC(0x4c9b60)
-char_type PedGroup::MergeWithOtherGroup_4C9B60(Ped* pPed)
+char_type PedGroup::GroupAttackPed_4C9B60(Ped* pPed)
 {
     s8 i;
     field_30_panicking = 1;
@@ -716,7 +716,7 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
             {
                 pCar = field_2C_ped_leader->field_16C_car;
             }
-            u8 passengers = pCar->GetPassengersCount_440570();
+            u8 passengers = pCar->GetMaxPassengers_440570();
 
             for (i = 0; i < passengers && i < field_34_count; i++)
             {
@@ -756,7 +756,7 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
                 Car_BC* pTargetCar = pMember->get_target_to_enter_403B10();
                 u8 tries = 0;
                 gGroupMemberCarDoor_620838 = i + 1;
-                u8 maxDoor = pTargetCar->GetRemap() - 1;
+                u8 maxDoor = pTargetCar->GetDoorCount_43B360() - 1;
                 char_type searching;
                 if (pTargetCar->IsSwatVanOrBankVan_403BC0())
                 {

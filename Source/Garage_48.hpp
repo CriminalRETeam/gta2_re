@@ -48,7 +48,7 @@ class Garage_48
         field_34_target_y = 0;
     }
 
-    bool IsMaybeParkingCar_493540(Car_BC* pCar)
+    bool IsParkingCar_493540(Car_BC* pCar)
     {
         if (pCar == field_0_parking_car)
         {

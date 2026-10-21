@@ -40,7 +40,7 @@ class PedGroup
     EXPORT void RemovePed_4C9970(Ped* pPed);
     EXPORT void add_ped_leader_4C9B10(Ped* ptr);
     EXPORT void add_ped_to_list_4C9B30(Ped* ptr, u8 idx);
-    EXPORT char_type MergeWithOtherGroup_4C9B60(Ped* pPed);
+    EXPORT char_type GroupAttackPed_4C9B60(Ped* pPed);
     EXPORT Ped* FindLastNonPanickingMember_4C9ED0();
     EXPORT void CoordinateGroupCarEntry_4C9F00();
     EXPORT u32 IsLeaderPanicking_4CA3E0();
@@ -78,7 +78,7 @@ class PedGroup
     Ped* field_4_ped_list[9];
     s32 field_28;
     Ped* field_2C_ped_leader;
-    s32 field_30_panicking; // UpdateFormation recomputes it as "the leader or a member is panicking"; merging groups, a leader in state 3/5/10 and the paramedics' revive step also set it. A dword in the original, so not a bool
+    s32 field_30_panicking; // UpdateFormation recomputes it as "the leader or a member is panicking"; GroupAttackPed_4C9B60, a leader in state 3/5/10 and the paramedics' revive step also set it. A dword in the original, so not a bool
     u8 field_34_count;
     char_type field_35_unused;
     char_type field_36_count;

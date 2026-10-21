@@ -1280,10 +1280,10 @@ void PoliceCrew_38::State6_ShutDown_574720()
             {
                 if (field_10_subObj->field_0_car->field_5C_AI)
                 {
-                    if (field_10_subObj->field_0_car->field_5C_AI->field_28_junc_idx > 0)
+                    if (field_10_subObj->field_0_car->field_5C_AI->field_28_route_idx > 0)
                     {
-                        gRouteFinder_6FFDC8->CancelRoute_589930(field_10_subObj->field_0_car->field_5C_AI->field_28_junc_idx);
-                        field_10_subObj->field_0_car->field_5C_AI->field_28_junc_idx = -1;
+                        gRouteFinder_6FFDC8->CancelRoute_589930(field_10_subObj->field_0_car->field_5C_AI->field_28_route_idx);
+                        field_10_subObj->field_0_car->field_5C_AI->field_28_route_idx = -1;
                     }
                 }
             }
@@ -1432,10 +1432,10 @@ void PoliceCrew_38::State6_ShutDown_574720()
         {
             if (field_10_subObj->field_0_car->field_5C_AI)
             {
-                if (field_10_subObj->field_0_car->field_5C_AI->field_28_junc_idx > 0)
+                if (field_10_subObj->field_0_car->field_5C_AI->field_28_route_idx > 0)
                 {
-                    gRouteFinder_6FFDC8->CancelRoute_589930(field_10_subObj->field_0_car->field_5C_AI->field_28_junc_idx);
-                    field_10_subObj->field_0_car->field_5C_AI->field_28_junc_idx = -1;
+                    gRouteFinder_6FFDC8->CancelRoute_589930(field_10_subObj->field_0_car->field_5C_AI->field_28_route_idx);
+                    field_10_subObj->field_0_car->field_5C_AI->field_28_route_idx = -1;
                 }
             }
         }
@@ -1481,11 +1481,11 @@ void PoliceCrew_38::State1_Patrol_574F10()
                 CarAI_78* pAI = pCar->field_5C_AI;
                 if (pAI)
                 {
-                    char field_28_junc_idx = pAI->field_28_junc_idx;
-                    if (field_28_junc_idx > 0)
+                    char route_idx = pAI->field_28_route_idx;
+                    if (route_idx > 0)
                     {
-                        gRouteFinder_6FFDC8->CancelRoute_589930(field_28_junc_idx);
-                        field_10_subObj->field_0_car->field_5C_AI->field_28_junc_idx = -1;
+                        gRouteFinder_6FFDC8->CancelRoute_589930(route_idx);
+                        field_10_subObj->field_0_car->field_5C_AI->field_28_route_idx = -1;
                     }
                 }
             }

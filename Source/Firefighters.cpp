@@ -77,7 +77,7 @@ bool Firefighter_28::sub_4A7FC0()
         {
             if (field_C_target_car)
             {
-                if (!field_C_target_car->field_0_attachments.FindFirstActiveObject_5A6AD0())
+                if (!field_C_target_car->field_0_attachments.FindFirstFireExplosion_5A6AD0())
                 {
                     field_8_state = firefighter_state::finished_5;
                 }

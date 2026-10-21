@@ -10,9 +10,9 @@ class Registry
 
     EXPORT bool Open_Sound_Root_586A00(PHKEY phkResult);
 
-    EXPORT bool Get_Sound_Settting_586A70(const char_type* lpValueName);
+    EXPORT bool Sound_Setting_Exists_586A70(const char_type* lpValueName);
 
-    EXPORT s32 Set_Sound_Setting_586AE0(const char_type* lpValueName, s32 value);
+    EXPORT s32 Get_Sound_Setting_586AE0(const char_type* lpValueName, s32 value);
 
     EXPORT void Set_Sound_Setting_586B80(const char_type* lpValueName, s32 Data);
 
@@ -26,15 +26,15 @@ class Registry
 
     EXPORT char_type Open_Screen_Root_586DB0(PHKEY phkResult);
 
-    EXPORT bool Get_Debug_Setting_586E20(const char_type* lpValueName);
+    EXPORT bool Debug_Setting_Exists_586E20(const char_type* lpValueName);
 
     EXPORT void Get_Debug_Setting_586E90(const char_type* lpValueName, LPBYTE lpData, s32 data_size);
 
     EXPORT void Get_Option_586F00(const char_type* lpValueName, BYTE* pBuffer, s32 bufferSize);
 
-    EXPORT s32 Set_Option_586F70(const char_type* lpValueName, s32 value);
+    EXPORT s32 Get_Option_Int_586F70(const char_type* lpValueName, s32 value);
 
-    EXPORT s32 Set_Control_Setting_587010(s32 control_idx, s32 value);
+    EXPORT s32 Get_Control_Setting_587010(s32 control_idx, s32 value);
 
     EXPORT s32 Get_Screen_Setting_5870D0(const char_type* lpValueName, s32 default_value);
 
@@ -44,7 +44,7 @@ class Registry
 
     EXPORT bool Get_Binary_587340(HKEY hKey, const char_type* keyPath, s32 value, LPBYTE lpData);
 
-    EXPORT s32 Get_Int_5873E0(HKEY hKey, const char_type* subKey);
+    EXPORT s32 Get_Binary_Size_5873E0(HKEY hKey, const char_type* subKey);
 
     EXPORT char_type CreateNetworkRoot_587420(PHKEY phkResult);
 
@@ -56,19 +56,19 @@ class Registry
 
     EXPORT char_type Network_Setting_Exists_587620(const char_type* lpValueName);
 
-    EXPORT s32 Set_Network_Setting_587690(const char_type* lpValueName, s32 value);
+    EXPORT s32 Get_Network_Setting_587690(const char_type* lpValueName, s32 value);
 
     EXPORT void Set_Network_Setting_587730(const char_type* lpValueName, BYTE Data);
 
     EXPORT char_type Open_Player_Root_5877A0(PHKEY phkResult);
 
-    EXPORT DWORD Create_Player_Setting_587810(const char_type* lpValueName);
+    EXPORT DWORD Get_Player_Setting_587810(const char_type* lpValueName);
 
     EXPORT void Set_Player_Setting_5878C0(const char_type* lpValueName, DWORD Data);
 
     EXPORT void Set_Screen_Setting_587170(const char_type* lpValueName, s32 Data);
 
-    EXPORT void Set_Screen_Setting_5871E0(const char_type* lpValueName, BYTE* lpData, u16 maxLen);
+    EXPORT void Get_Screen_String_5871E0(const char_type* lpValueName, BYTE* lpData, u16 maxLen);
 };
 
 EXTERN_GLOBAL(Registry, gRegistry_6FF968);

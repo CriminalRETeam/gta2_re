@@ -87,7 +87,7 @@ Weapon_30::Weapon_30()
     field_0_ammo = 0;
     field_24_pPed = 0;
     field_14_car = 0;
-    field_2_reload_speed = 0;
+    field_2_reload_timer = 0;
     field_4_bTargetHit = 0;
     mpNext = 0;
     field_1C_idx = 0;
@@ -121,7 +121,7 @@ void Weapon_30::init_5DCD90()
     field_14_car = 0;
     field_1C_idx = 0;
     field_0_ammo = 0;
-    field_2_reload_speed = 0;
+    field_2_reload_timer = 0;
     field_4_bTargetHit = 0;
     field_21 = 0;
     field_8 = 0;
@@ -149,7 +149,7 @@ void Weapon_30::PoolDeallocate()
 }
 
 MATCH_FUNC(0x5dce20)
-void Weapon_30::add_ammo_5DCE20(u8 clips)
+void Weapon_30::set_ammo_clips_5DCE20(u8 clips)
 {
     field_0_ammo = clips * 10;
 }
@@ -214,14 +214,14 @@ bool Weapon_30::sub_5DCEF0()
 }
 
 MATCH_FUNC(0x5dcf40)
-void Weapon_30::TickReloadSpeed_5DCF40()
+void Weapon_30::ApplyFastReload_5DCF40()
 {
     Player* pPlayer = field_24_pPed->field_15C_player;
     if (pPlayer)
     {
         if (pPlayer->field_6F4_power_up_timers[power_up_indices::FastReload_8])
         {
-            field_2_reload_speed /= 2;
+            field_2_reload_timer /= 2;
         }
     }
 }
@@ -325,7 +325,7 @@ void Weapon_30::shotgun_5DD290()
 {
     Ang16 ped_rotation;
     Fix16_Point vector;
-    if (field_2_reload_speed == 0)
+    if (field_2_reload_timer == 0)
     {
         Fix16 x = field_24_pPed->get_cam_x();
         Fix16 y = field_24_pPed->get_cam_y();
@@ -344,7 +344,7 @@ void Weapon_30::shotgun_5DD290()
             {
                 decrement_ammo_4CCA30();
             }
-            field_2_reload_speed = 40;
+            field_2_reload_timer = 40;
             field_24_pPed->AddThreateningPedToList_46FC70();
             gParticle_8_6FD5E8->GunMuzzelFlash_53E970(field_24_pPed->field_168_game_object->field_80_sprite_ptr);
 
@@ -360,13 +360,13 @@ void Weapon_30::shotgun_5DD290()
             Weapon_30::spawn_bullet_5DCF60(objects::tanktop_193, x, y, z, ped_rotation, vector);
             Weapon_30::spawn_bullet_5DCF60(objects::tanktop_193, x, y, z, Ang16(ped_rotation.rValue - kAng12_706D5E.rValue, (u8)0), vector);
             Weapon_30::spawn_bullet_5DCF60(objects::tanktop_193, x, y, z, Ang16(ped_rotation.rValue - kAng24_706D5C.rValue).Normalized_406C20(), vector);
-            field_2_reload_speed = 5;
+            field_2_reload_timer = 5;
         }
-        Weapon_30::TickReloadSpeed_5DCF40();
+        Weapon_30::ApplyFastReload_5DCF40();
     }
     else
     {
-        field_2_reload_speed--;
+        field_2_reload_timer--;
     }
 }
 
@@ -387,7 +387,7 @@ void Weapon_30::pistol_5DD860()
     Fix16_Point offset;
     Fix16_Point velocity;
 
-    if (field_2_reload_speed == 0)
+    if (field_2_reload_timer == 0)
     {
         set_field_2C_4CCA80(1);
         if (!field_4_bTargetHit) // first shot ??
@@ -410,7 +410,7 @@ void Weapon_30::pistol_5DD860()
                 }
             }
 
-            field_2_reload_speed = 20;
+            field_2_reload_timer = 20;
 
             gParticle_8_6FD5E8->GunMuzzelFlash_53E970(field_24_pPed->field_168_game_object->field_80_sprite_ptr);
             field_24_pPed->AddThreateningPedToList_46FC70();
@@ -428,13 +428,13 @@ void Weapon_30::pistol_5DD860()
                                 field_24_pPed->get_cam_z(),
                                 field_24_pPed->GetAimAngle_4CCA90(),
                                 field_24_pPed->GetVelocityVector_45B520());
-            field_2_reload_speed = 5;
+            field_2_reload_timer = 5;
         }
-        TickReloadSpeed_5DCF40();
+        ApplyFastReload_5DCF40();
     }
     else
     {
-        field_2_reload_speed--;
+        field_2_reload_timer--;
     }
 }
 
@@ -449,7 +449,7 @@ void Weapon_30::dual_pistol_5DDA70()
     Fix16_Point vector_esp1; // not used, but required to match
     Fix16_Point vector_esp2; // not used, but required to match
 
-    if (field_2_reload_speed == 0)
+    if (field_2_reload_timer == 0)
     {
         vector = field_24_pPed->GetVelocityVector_45B520();
 
@@ -484,7 +484,7 @@ void Weapon_30::dual_pistol_5DDA70()
             {
                 decrement_ammo_4CCA30();
             }
-            field_2_reload_speed = 10;
+            field_2_reload_timer = 10;
             field_24_pPed->AddThreateningPedToList_46FC70();
             gParticle_8_6FD5E8->GunMuzzelFlash_53E970(field_24_pPed->field_168_game_object->field_80_sprite_ptr);
 
@@ -497,13 +497,13 @@ void Weapon_30::dual_pistol_5DDA70()
         {
             Weapon_30::spawn_bullet_5DCF60(objects::flamethrower_fire_154, point_x, point_y, z, ped_rotation - kAng12_706D5E, vector);
             Weapon_30::spawn_bullet_5DCF60(objects::flamethrower_fire_154, point_y, point_y, z, ped_rotation + kAng12_706D5E, vector);
-            field_2_reload_speed = 5;
+            field_2_reload_timer = 5;
         }
-        Weapon_30::TickReloadSpeed_5DCF40();
+        Weapon_30::ApplyFastReload_5DCF40();
     }
     else
     {
-        field_2_reload_speed--;
+        field_2_reload_timer--;
     }
 }
 
@@ -512,7 +512,7 @@ MATCH_FUNC(0x5ddd20)
 void Weapon_30::smg_5DDD20()
 {
     Fix16_Point point;
-    if (field_2_reload_speed == 0)
+    if (field_2_reload_timer == 0)
     {
         set_field_2C_4CCA80(1);
         if (!field_4_bTargetHit)
@@ -540,7 +540,7 @@ void Weapon_30::smg_5DDD20()
                 }
             }
 
-            field_2_reload_speed = 2;
+            field_2_reload_timer = 2;
             gParticle_8_6FD5E8->GunMuzzelFlash_53E970(field_24_pPed->field_168_game_object->field_80_sprite_ptr);
 
             if (field_1C_idx != weapon_type::silence_smg)
@@ -560,13 +560,13 @@ void Weapon_30::smg_5DDD20()
                                            field_24_pPed->get_cam_z(),
                                            field_24_pPed->GetAimAngle_4CCA90(),
                                            field_24_pPed->GetVelocityVector_45B520());
-            field_2_reload_speed = 1;
+            field_2_reload_timer = 1;
         }
-        Weapon_30::TickReloadSpeed_5DCF40();
+        Weapon_30::ApplyFastReload_5DCF40();
     }
     else
     {
-        field_2_reload_speed--;
+        field_2_reload_timer--;
     }
 }
 
@@ -580,7 +580,7 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 throw_strength, s32 throw_char
     if (throw_strength)
     {
         field_21 = 0;
-        if (field_2_reload_speed == 0)
+        if (field_2_reload_timer == 0)
         {
             set_field_2C_4CCA80(1);
             if (!field_4_bTargetHit)
@@ -593,7 +593,7 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 throw_strength, s32 throw_char
                                         field_24_pPed->get_cam_z(),
                                         field_24_pPed->GetAimAngle_4CCA90(),
                                         field_24_pPed->GetVelocityVector_45B520());
-                    field_2_reload_speed = 5;
+                    field_2_reload_timer = 5;
                     field_20 = 1;
                     if (field_24_pPed->is_player_41B0A0())
                     {
@@ -657,12 +657,12 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 throw_strength, s32 throw_char
                             if (obj_idx == objects::moving_molotov_138)
                             {
                                 Object_2C* pLightObj = gObject_5C_6F8F84->NewLight_529A40(94, 138, 2, 0xFF8000, 3, 255);
-                                pProjectile->field_4_sprite->DispatchCollisionEvent_5A3100(pLightObj->field_4_sprite, 0, 0, kAngZero_707006);
+                                pProjectile->field_4_sprite->AttachSprite_5A3100(pLightObj->field_4_sprite, 0, 0, kAngZero_707006);
                                 Object_2C* pMaybeExplosionObj =
                                     gObject_5C_6F8F84->CreateExplosion_52A3D0(Fix16(113), Fix16(145), 2, kAngZero_707006, explosion_type::molotov_fire_5, field_24_pPed->field_200_id);
                                 if (pMaybeExplosionObj)
                                 {
-                                    pProjectile->field_4_sprite->DispatchCollisionEvent_5A3100(pMaybeExplosionObj->field_4_sprite, 0, 0, kAngZero_707006);
+                                    pProjectile->field_4_sprite->AttachSprite_5A3100(pMaybeExplosionObj->field_4_sprite, 0, 0, kAngZero_707006);
                                 }
                             }
                             else
@@ -685,16 +685,16 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 throw_strength, s32 throw_char
                     }
                     if (field_24_pPed->field_15C_player)
                     {
-                        field_2_reload_speed = 4;
+                        field_2_reload_timer = 4;
                         field_24_pPed->field_21C_bf.bFlag22 = true;
                     }
                     else
                     {
-                        field_2_reload_speed = 50;
+                        field_2_reload_timer = 50;
                         field_24_pPed->field_21C_bf.bFlag22 = true;
                     }
                     field_21 = 1;
-                    Weapon_30::TickReloadSpeed_5DCF40();
+                    Weapon_30::ApplyFastReload_5DCF40();
                 }
             }
             else
@@ -705,9 +705,9 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 throw_strength, s32 throw_char
                                     field_24_pPed->get_cam_z(),
                                     field_24_pPed->GetAimAngle_4CCA90(),
                                     field_24_pPed->GetVelocityVector_45B520());
-                field_2_reload_speed = 5;
+                field_2_reload_timer = 5;
                 field_20 = 0;
-                Weapon_30::TickReloadSpeed_5DCF40();
+                Weapon_30::ApplyFastReload_5DCF40();
             }
         }
         else
@@ -716,8 +716,8 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 throw_strength, s32 throw_char
             {
                 field_24_pPed->field_21C_bf.bFlag22 = false;
             }
-            --field_2_reload_speed;
-            if (field_2_reload_speed < 30 && field_21)
+            --field_2_reload_timer;
+            if (field_2_reload_timer < 30 && field_21)
             {
                 field_21 = 0;
                 field_24_pPed->field_21C_bf.bFlag22 = false;
@@ -1276,7 +1276,7 @@ void Weapon_30::ChainShockTargets_5DFB60(u8 bFlag, Sprite* pSprite, Ang16 target
                                     pHit->field_8_car_bc_ptr->field_90_death_cause = ped_death_cause::rocket_18;
                                     pHit->field_8_car_bc_ptr->field_94_exploder_timer = 50;
                                     s16 damage = pHit->field_8_car_bc_ptr->AccumulateDamage_43DA90(300, &kZeroPoint_706F90);
-                                    pHit->field_8_car_bc_ptr->ApplyVisualDamage_43A9F0();
+                                    pHit->field_8_car_bc_ptr->TriggerCarAlarm_43A9F0();
                                     if (field_24_pPed->PedTypeIs_45EDE0(ped_type::player_2) && damage > 0)
                                     {
                                         field_24_pPed->field_15C_player->field_2D4_scores.AwardCarDamageScoreHit_593150(pHit->field_8_car_bc_ptr, 1);
@@ -1327,7 +1327,7 @@ void Weapon_30::electro_batton_5E0740()
 {
     if (!field_24_pPed->field_198_hit_target_ped)
     {
-        if (!field_2_reload_speed)
+        if (!field_2_reload_timer)
         {
             field_2C_shot_fired = 1;
             if (!field_4_bTargetHit)
@@ -1342,7 +1342,7 @@ void Weapon_30::electro_batton_5E0740()
                 {
                     decrement_ammo_4CCA30();
                 }
-                field_2_reload_speed = 20;
+                field_2_reload_timer = 20;
             }
             else
             {
@@ -1352,13 +1352,13 @@ void Weapon_30::electro_batton_5E0740()
                                     field_24_pPed->get_cam_z(),
                                     field_24_pPed->GetAimAngle_4CCA90(),
                                     field_24_pPed->GetVelocityVector_45B520());
-                field_2_reload_speed = 5;
+                field_2_reload_timer = 5;
             }
-            TickReloadSpeed_5DCF40();
+            ApplyFastReload_5DCF40();
         }
         else
         {
-            field_2_reload_speed--;
+            field_2_reload_timer--;
         }
     }
     else if (field_24_pPed->field_198_hit_target_ped->field_168_game_object)
@@ -1391,8 +1391,8 @@ void Weapon_30::car_bomb_5E0AB0(char_type instant_bomb)
 
     if (field_14_car->IsTrailerCab_41E460())
     {
-        field_14_car->field_64_pTrailer->field_C_pCarOnTrailer->FireCarBomb_440F90(instant_bomb);
-        field_14_car->DetachTrailerAndUpdateDamage_4418B0();
+        field_14_car->field_64_pTrailer->field_C_trailer_car->FireCarBomb_440F90(instant_bomb);
+        field_14_car->FlashAndDetachTrailer_4418B0();
     }
     else
     {
@@ -1528,7 +1528,7 @@ void Weapon_30::tank_main_gun_5E10E0()
     Fix16_Point offset;
     Fix16_Point velocity;
 
-    if (field_2_reload_speed == 0)
+    if (field_2_reload_timer == 0)
     {
         field_24_pPed = field_14_car->GetDriver_4118B0();
         cannon_angle = field_14_car->field_0_attachments.GetSpriteForModel_5A6A50(148)
@@ -1571,7 +1571,7 @@ void Weapon_30::tank_main_gun_5E10E0()
                     decrement_ammo_4CCA30();
                 }
             }
-            field_2_reload_speed = 50;
+            field_2_reload_timer = 50;
             field_24_pPed->AddThreateningPedToList_46FC70();
             if (field_24_pPed->is_player_41B0A0())
             {
@@ -1586,13 +1586,13 @@ void Weapon_30::tank_main_gun_5E10E0()
                                            field_14_car->field_50_car_sprite->field_1C_zpos,
                                            cannon_angle,
                                            velocity);
-            field_2_reload_speed = 5;
+            field_2_reload_timer = 5;
         }
-        Weapon_30::TickReloadSpeed_5DCF40();
+        Weapon_30::ApplyFastReload_5DCF40();
     }
     else
     {
-        --field_2_reload_speed;
+        --field_2_reload_timer;
     }
 }
 
@@ -1603,7 +1603,7 @@ void Weapon_30::army_gun_jeep_5E13E0()
     Fix16_Point bullet_pos;
     Fix16_Point muzzle_offset;
     Fix16_Point muzzle_vel;
-    if (field_2_reload_speed == 0)
+    if (field_2_reload_timer == 0)
     {
         field_24_pPed = field_14_car->GetDriver_4118B0();
 
@@ -1637,7 +1637,7 @@ void Weapon_30::army_gun_jeep_5E13E0()
                     field_0_ammo--;
                 }
             }
-            field_2_reload_speed = 2;
+            field_2_reload_timer = 2;
 
             field_24_pPed->AddThreateningPedToList_46FC70();
             if (field_24_pPed->field_15C_player)
@@ -1648,13 +1648,13 @@ void Weapon_30::army_gun_jeep_5E13E0()
         else
         {
             spawn_bullet_5DCF60(154, bullet_pos.x, bullet_pos.y, field_14_car->field_50_car_sprite->field_1C_zpos, gun_ang, muzzle_vel);
-            field_2_reload_speed = 1;
+            field_2_reload_timer = 1;
         }
-        TickReloadSpeed_5DCF40();
+        ApplyFastReload_5DCF40();
     }
     else
     {
-        field_2_reload_speed--;
+        field_2_reload_timer--;
     }
 }
 
@@ -1745,7 +1745,7 @@ void Weapon_30::car_smg_5E2940()
     Fix16_Point right;
     Fix16_Point left_point_velocity;
     Fix16_Point right_point_velocity;
-    if (field_2_reload_speed == 0)
+    if (field_2_reload_timer == 0)
     {
         field_24_pPed = field_14_car->GetDriver_4118B0();
 
@@ -1787,7 +1787,7 @@ void Weapon_30::car_smg_5E2940()
 
             gParticle_8_6FD5E8->GunMuzzelFlash_53E970(field_14_car->field_50_car_sprite);
 
-            field_2_reload_speed = 2;
+            field_2_reload_timer = 2;
 
             field_24_pPed->AddThreateningPedToList_46FC70();
             if (field_24_pPed->is_player_41B0A0())
@@ -1805,15 +1805,15 @@ void Weapon_30::car_smg_5E2940()
                                 pCarSprite->field_1C_zpos,
                                 sprite_ang,
                                 right_point_velocity);
-            field_2_reload_speed = 1;
+            field_2_reload_timer = 1;
         }
 
-        TickReloadSpeed_5DCF40();
+        ApplyFastReload_5DCF40();
         set_field_2C_4CCA80(1);
     }
     else
     {
-        field_2_reload_speed--;
+        field_2_reload_timer--;
     }
 }
 
@@ -1840,9 +1840,9 @@ char_type Weapon_30::sub_5E33C0()
 MATCH_FUNC(0x5e34b0)
 void Weapon_30::ChuckThrowable_5E34B0()
 {
-    if (field_2_reload_speed > 0)
+    if (field_2_reload_timer > 0)
     {
-        field_2_reload_speed--;
+        field_2_reload_timer--;
     }
     else
     {
@@ -1980,7 +1980,7 @@ void Weapon_30::pull_trigger_5E3670()
 MATCH_FUNC(0x5e3850)
 void Weapon_30::rocket_5E3850()
 {
-    if (field_2_reload_speed == 0)
+    if (field_2_reload_timer == 0)
     {
         set_field_2C_4CCA80(1);
 
@@ -2006,7 +2006,7 @@ void Weapon_30::rocket_5E3850()
                                         field_24_pPed->get_cam_z(),
                                         field_24_pPed->GetAimAngle_4CCA90(),
                                         field_24_pPed->GetVelocityVector_45B520());
-                    field_2_reload_speed = 5;
+                    field_2_reload_timer = 5;
                     field_20 = 1;
                     return;
                 }
@@ -2030,7 +2030,7 @@ void Weapon_30::rocket_5E3850()
                 }
             }
 
-            field_2_reload_speed = 50;
+            field_2_reload_timer = 50;
             gParticle_8_6FD5E8->GunMuzzelFlash_53E970(field_24_pPed->field_168_game_object->field_80_sprite_ptr);
             field_20 = 0;
 
@@ -2047,10 +2047,10 @@ void Weapon_30::rocket_5E3850()
                                 field_24_pPed->get_cam_z(),
                                 field_24_pPed->GetAimAngle_4CCA90(),
                                 field_24_pPed->GetVelocityVector_45B520());
-            field_2_reload_speed = 5;
+            field_2_reload_timer = 5;
             field_20 = 0;
         }
-        TickReloadSpeed_5DCF40();
+        ApplyFastReload_5DCF40();
     }
     else
     {
@@ -2058,7 +2058,7 @@ void Weapon_30::rocket_5E3850()
         {
             field_24_pPed->field_21C_bf.bFlag22 = false;
         }
-        field_2_reload_speed--;
+        field_2_reload_timer--;
     }
 }
 

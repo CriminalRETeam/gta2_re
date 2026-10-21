@@ -438,13 +438,13 @@ class Map_0x370
     inline u8 GetBlockSurfaceType_49EBE0(s32 x, s32 y, s32 z, u8* pGradientSize, u8* pGradientLevel);
     EXPORT char_type TakeBlockedByTerrain_4E0110();
     EXPORT char_type TakeLowerBlockHasArrows_4E0120();
-    EXPORT bool CanMoveOntoSlopeTile_4E0130(s32 x, s32 y, s32 z, s32 path_direction, u8* pSlopeZDelta, char_type bReportStepUp);
+    EXPORT bool IsMoveOntoSlopeTileBlocked_4E0130(s32 x, s32 y, s32 z, s32 path_direction, u8* pSlopeZDelta, char_type bReportStepUp);
     EXPORT char_type RectHitsDiagonalWall_4E11E0(Fix16_Rect* pRect);
     EXPORT bool SpriteHitsDiagonalWall_4E1520(s32 z_pos);
     EXPORT bool HasWallInArea_4E18A0(s32 x_min, s32 x_max, s32 y_min, s32 y_max, s32 z);
     EXPORT bool SpriteHitsBlockFacesInArea_4E1A30(s32 x_min, s32 x_max, s32 y_min, s32 y_max, s32 z);
-    EXPORT char_type CanSpriteEnterTile_4E1E00(s32 regionLeft, s32 regionRight, s32 regionTop, s32 regionBottom, s32 tileX, s32 tileY, s32 zLevel);
-    EXPORT char_type CanSpriteEnterMovementRegion_4E4460(s32 tile_x, s32 tile_y, s32 tile_z, Sprite* pSprite, s16 collision_mask);
+    EXPORT char_type IsTileBlockedForSprite_4E1E00(s32 regionLeft, s32 regionRight, s32 regionTop, s32 regionBottom, s32 tileX, s32 tileY, s32 zLevel);
+    EXPORT char_type IsMovementRegionBlocked_4E4460(s32 tile_x, s32 tile_y, s32 tile_z, Sprite* pSprite, s16 collision_mask);
     EXPORT char_type CheckSlopeTopInSpriteGrid_4E4630(Fix16 z_pos);
     EXPORT bool SlopeBordersFlatInSpriteGrid_4E4770(Fix16 z_pos);
     EXPORT char_type AllBlocksInRectHaveSlopeBits_4E4820(Fix16_Rect* pRect, u8 slope_bits);
@@ -713,7 +713,7 @@ class Map_0x370
         return pBlock && pBlock->field_A_arrows;
     }
 
-    inline void Clear_F36E_492130()
+    inline void ClearBlockedByTerrain_492130()
     {
         field_36E_bBlockedByTerrain = 0;
     }

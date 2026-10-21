@@ -127,7 +127,7 @@ s32 __cdecl text_0x14::TKeySearch_5B5A10(const void* a, const void* b)
 {
     const char_type* pIdStr = (const char_type*)a;
     const text_0xC* pEntry = (const text_0xC*)b;
-    return strcmp(pIdStr, (const char_type*)&pEntry->field_4_pKey); // TODO: ???
+    return strcmp(pIdStr, (const char_type*)&pEntry->field_4_key); // TODO: ???
 }
 
 MATCH_FUNC(0x5B5A50)

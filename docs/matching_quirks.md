@@ -113,7 +113,7 @@ change; count the real differing lines (`Camera_0xBC::ApplyCarVelocityCameraOffs
 **csv sizes can stop at a call.** When a function ends in a call such as `FatalError_4A38C0`,
 the csv size (and so the target asm) can be cut off right after it, although the real epilogue
 follows. A missing epilogue in the target doesn't mean the callee is `noreturn`
-(`NetPlay::CalcPacketLen_51F210`).
+(`NetPlay::DecodeReceivedPacket_51F210`).
 
 **Target jumps can be near where short would reach.** `target_asm.json` can show a 6-byte
 `jcc` where a 2-byte one would do; don't read a layout difference into that alone.
@@ -359,7 +359,7 @@ the `if` in the source.
 **`if/else` block order follows the condition.** The `then` block is usually laid out first.
 If the original has your `else` block first, invert the condition and swap the blocks
 (`Car_BC::GetMaxTurnRate_440510`, `GetDamageMultiplier_45CF90`, `Ang16::SnapToAng4_405640`). VC6 sometimes normalises
-both spellings to the same code, in which case this won't help (`Ped::ProcessInCarObjective_463FB0`).
+both spellings to the same code, in which case this won't help (`Ped::ProcessInternalObjective_463FB0`).
 
 **`je tail; jmp next`** for an `if/else` whose branches share a tail comes from a `goto`.
 In `ScriptManager_C1EA8::ClearWeaponHitFlag_512BA0`/`RecordWeaponHit_512C00`, early `continue`/`return`, the body
@@ -605,7 +605,7 @@ it; making the two destination fields `u32` matched `Map_0x370::OnModifiedMapDat
 When an add's operand order won't move, check the destination field's type.
 
 **Copy the 9.6f store order for a run of field stores.** VC6 doesn't reorder independent
-stores much, so their source order shows in the scheduling. `UpdateCarEngineAudio_57E220`
+stores much, so their source order shows in the scheduling. `UpdateCarRadioAudio_57E220`
 matched once the second sample's stores followed 9.6f exactly (rate, volume, `Fix16(0)`
 distance, pan, type). Earlier `operator=` "barrier" workarounds were no longer needed.
 
@@ -613,7 +613,7 @@ distance, pan, type). Earlier `operator=` "barrier" workarounds were no longer n
 `field = rate + adj + B(y);`, VC6 adds `B()`'s result to `rate` first and `adj` last, whatever the grouping
 or operand order. The original of `sound_obj::ProcessType7_Weapon_42A500` holds `B()`'s result in `ecx`,
 adds `adj + rate` in `eax` and then the two: that came from writing it as one expression,
-`field_20_rate = gSampManager.GetPlayBackRateIdx_58DBF0(field_14_samp_idx) + rate_adjust +
+`field_20_rate = gSampManager.GetPlayBackRate_58DBF0(field_14_samp_idx) + rate_adjust +
 RandomDisplacement_41A650(field_14_samp_idx);` with the `field_58_type = 20` store after it. Reading the
 argument from the just-stored field instead of the `samp_idx` local was also needed: it is what lets VC6
 load `field_14` for the next call (`GetLoopStart`) early, as the original does.
@@ -631,7 +631,7 @@ the `/=` order (divisor first) and reads the result late through the returned po
 `field_58_type = 20;` just before the rate store is deleted by VC6, but the sum then stays in
 edi like the original. Any dead store to the sample works. 9.6f has none, so treat it as a
 last-resort workaround and say so in a comment. 423080 itself no longer needs it: the one-expression
-rate form above (`field_20_rate = GetPlayBackRateIdx_58DBF0(field_14_samp_idx) + RandomDisplacement_41A650(...);`
+rate form above (`field_20_rate = GetPlayBackRate_58DBF0(field_14_samp_idx) + RandomDisplacement_41A650(...);`
 then the type store) matches without a dead store.
 
 **Write out `RotateVector_41FC90` with an `Ang16&`.** Taking the sprite angle as `Ang16&`
@@ -716,7 +716,7 @@ three dwords and a word was an inline `memset` of 14 bytes (`InitializeGame_4DA4
 **A shift-down loop can be `rep movsl`.** `for (; i < N; i++, p++) *p = p[1];` becomes `rep movsl`
 with no `movsb` for a variable `N`, or an unrolled load-load-store-store through a copied pointer
 (`mov %esi,%eax` before the stores) for `N = 2`. A `memcpy` adds the `movsb`
-(`Player::PushCarInfo_564680`, `AddCarToHistory_5645B0`).
+(`Player::RemoveCarFromHistory_564680`, `AddCarToHistory_5645B0`).
 
 **An inline bool helper as a condition can change block layout** where the expanded `&&` test
 doesn't (`Car_BC::IsSwatVanOrBankVan_403BC0` in `PedGroup::CoordinateGroupCarEntry_4C9F00`).
@@ -725,7 +725,7 @@ doesn't (`Car_BC::IsSwatVanOrBankVan_403BC0` in `PedGroup::CoordinateGroupCarEnt
 `return (a << 4) | b` promotes to int ops (`Frontend::GetNextUnlockedBonusStage_4B7360`).
 
 **`Fix16::operator=` on a member is a scheduling barrier** and blocks constant CSE across it
-(`UpdateCarEngineAudio_57E220`, 6 -> 1 diff lines). With `field_28_distance = 0;` VC6 can't hoist
+(`UpdateCarRadioAudio_57E220`, 6 -> 1 diff lines). With `field_28_distance = 0;` VC6 can't hoist
 the following `mov ecx, esi` or a constant load above the neighbouring stores; `.mValue = 0` or
 `= Fix16(0, 0)` removes the barrier. `operator=` on a dead local is not a barrier. By-value Fix16 returns assigned through
 `operator=` on a named local give the ecx return slot + `mov eax,ecx` (`TrafficSpawner_14::GetRandomTrafficSpeed_583750`).
@@ -1180,7 +1180,7 @@ the same instructions with different registers (`this` in `edi` rather than `ebx
 
 **Bitfield reads through an inline getter.** `if (!p->field_21C_bf.b2)` gives `test $4,%al`.
 An inline that returns the bit (`u8 GetPanicking() { return field_21C_bf.b2; }`) gives
-`mov %eax,%ecx; shr $2,%ecx; test $1,%cl` (`PedGroup::MergeWithOtherGroup_4C9B60`).
+`mov %eax,%ecx; shr $2,%ecx; test $1,%cl` (`PedGroup::GroupAttackPed_4C9B60`).
 
 **Operand order matters.** `a + b` vs `b + a` changes which value is loaded first and which
 register holds the result (`ProjectOntoAxis_5A5AA0`). Writing `x |= f()` instead of
@@ -1690,9 +1690,9 @@ field access with a one-line inline helper (a scalar or pointer field get/set, `
 left the code of every matching function unchanged, so those can be used wherever 9.6f calls
 them. Adding these helpers made `Object_2C::InheritMotionFromSprite_526B40` match (`Sprite::GetType_416B40`,
 `Char_B4::get_velocity_41B080`, `Sprite::SetDrawLayer_40F7B0`). The exception is
-`Char_B4::SetMaxSpeed_433920(Fix16)`: as a by-value `Fix16` parameter it changed six matching
+`Char_B4::SetVelocity_433920(Fix16)`: as a by-value `Fix16` parameter it changed six matching
 `Ped` functions (`WalkToTargetPoint_46C770` and others), although 9.6f calls it there. Those keep the plain
-assignment for now. `SetMaxSpeedByRef_433920` (by reference) changes register choice later in the
+assignment for now. `SetVelocityByRef_433920` (by reference) changes register choice later in the
 function and matched `Ped::EnterCarStateMachine_46BDC0` and `ExitCarStateMachine_46C250`.
 
 **Adding unused inline methods to a header can still move code in other TUs.** Ten small
@@ -1921,7 +1921,7 @@ byte compare come from `x < 63 ? x : 63` written out; an s32 or u8 `Min` helper 
 
 **`f() ? false : true` gives `test/sete`; `!f()` gives `neg/sbb/inc`.** A flat if chain lets VC6
 thread repeated register tests, which can move a case to the end of the function as in the original
-(`PathFinder_2FD4::CanMoveDiagonally_554110`).
+(`PathFinder_2FD4::CanMoveToAdjacentTile_554110`).
 
 - **`x += k` is free, `x = x + k` is charged.** `Fix16::operator+=` is below the free-inline size
   (40), `operator+`/`operator-` cost 52 each. Six coordinate adjustments written `gXCoord = gXCoord + k` /
@@ -2257,7 +2257,7 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
 - **Byte parameters:** a caller pushing a byte register without zero-extending means a `u8` parameter
   (`CarDoorAlignmentSolver_545AF0`).
 - **`Fix16(u32)` vs `Fix16(s32)` per argument:** a plain int variable converts through 0x4926F0, a computed
-  one (`x + 1`) through 0x4369F0 (`Map_0x370::CanSpriteEnterTile_4E1E00`).
+  one (`x + 1`) through 0x4369F0 (`Map_0x370::IsTileBlockedForSprite_4E1E00`).
 - **`x = obj.inlineWrapper();` into a declared local** keeps the variable out of memory; initialising it or
   a direct call pins it to the stack (`DrawElectricArc_5DE910`).
 - **Inline `const T&` overload forwarding to a `T*` export** evaluates all arguments before pushing; the
@@ -3184,7 +3184,7 @@ split into more colour webs, which changes the priorities of everything live acr
 uses a global is a pure priority puzzle, try the global as a `static` in the TU (all its users then have to
 move into that TU). A hint in 9.6f: VC7 keeps a static in a register across stores through pointers and
 across calls to inline helpers that do not write it, where an extern global is reloaded.
-## A call result used right away and kept for later wants two variables (`Map_0x370::CanMoveOntoSlopeTile_4E0130`)
+## A call result used right away and kept for later wants two variables (`Map_0x370::IsMoveOntoSlopeTileBlocked_4E0130`)
 
 In region-walk mode (100+ blocks) a block that contains a call has no free register, so no successor can join its
 region. A variable defined by a call, tested, used in the then-block and also used much later is split there: its

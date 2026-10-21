@@ -52,7 +52,7 @@ class CarAI_78
     EXPORT void FollowRoadDirection_44A1F0();
     EXPORT void AlignToLaneCenter_44AF00();
     EXPORT void DetectCarAhead_44D1D0();
-    EXPORT void Init_AI_Chase_44E0C0();
+    EXPORT void UpdateChase_44E0C0();
     EXPORT void UpdateStateMachine_44E560();
     EXPORT void ReactToNearbyCar_451980();
     EXPORT void ReactToNearbyObject_451FA0();
@@ -98,7 +98,7 @@ class CarAI_78
         CarAIFlags32 field_24_bf;
     };
 
-    char_type field_28_junc_idx;
+    char_type field_28_route_idx;
     char_type field_29_pad;
     u8 field_2A_stopped_timer;
     u8 field_2B_ticks_since_alloc;

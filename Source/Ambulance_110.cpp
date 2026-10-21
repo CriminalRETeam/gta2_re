@@ -184,7 +184,7 @@ void Ambulance_110::ProcessPatientQueue_4FA500()
                                                  Fix16(pAmbulance->field_1_target_y)) < kFpEight_6F6FC0 &&
                     pAmbulance->field_14_patient_count < 10)
                 {
-                    pAmbulance->AddPassenger_4FA800(pPed);
+                    pAmbulance->AddPatient_4FA800(pPed);
                     field_1_corpse_count--;
                     EmergencyCrew_30* pCrew = pAmbulance->field_4_paramedics_crew;
                     if (pCrew->field_28_state != crew_state::update_6)
@@ -228,7 +228,7 @@ void Ambulance_110::ProcessPatientQueue_4FA500()
             pCrew->field_C_spawn_x = Fix16(x);
             pCrew->field_10_spawn_y = Fix16(y);
             pCrew->field_14_spawn_z = Fix16(z);
-            pNew->AddPassenger_4FA800(pPed);
+            pNew->AddPatient_4FA800(pPed);
         }
     }
     field_1_corpse_count--;
@@ -269,7 +269,7 @@ void Ambulance_20::ClearTask_4FA7D0()
 }
 
 MATCH_FUNC(0x4fa800)
-void Ambulance_20::AddPassenger_4FA800(Ped* pPed)
+void Ambulance_20::AddPatient_4FA800(Ped* pPed)
 {
     field_10_patients.AddPedToFront_471140(pPed);
     field_14_patient_count++;
@@ -516,10 +516,10 @@ void Ambulance_20::HandleObjectiveState_4FAAC0()
                             if (field_4_paramedics_crew->field_0_car)
                             {
                                 CarAI_78* pAI = field_4_paramedics_crew->field_0_car->field_5C_AI;
-                                if (pAI && pAI->field_28_junc_idx > 0)
+                                if (pAI && pAI->field_28_route_idx > 0)
                                 {
-                                    gRouteFinder_6FFDC8->CancelRoute_589930(pAI->field_28_junc_idx);
-                                    field_4_paramedics_crew->field_0_car->field_5C_AI->field_28_junc_idx = -1;
+                                    gRouteFinder_6FFDC8->CancelRoute_589930(pAI->field_28_route_idx);
+                                    field_4_paramedics_crew->field_0_car->field_5C_AI->field_28_route_idx = -1;
                                 }
                                 if (field_4_paramedics_crew->field_0_car->field_60_pChaseTask)
                                 {

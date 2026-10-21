@@ -537,7 +537,7 @@ EXPORT void __stdcall NoRefs_sub_5B1170()
     gTestCar1_704418->field_98_door_lock = Car_Door_Lock::locked_permanently_4;
     gTestCar1_704418->IncrementCarStats_443D70(8);
     gTestCar1_704418->field_78_flags |= 0x10;
-    gTestCar1_704418->UpdateSpriteNum_4435F0();
+    gTestCar1_704418->UpdateDrawLayer_4435F0();
     gWeapon_8_707018->allocate_5E3D50(23, 1, gTestCar1_704418);
     gTestCar1_704418->IsBeingCrushed_43DD50();
     gTestTrailer_7041A8 = gCarManager_6C_677930->SpawnCabAndTrailer_446530(98, 179, kAng90_70420C, 64, 66);
@@ -1236,7 +1236,7 @@ void BootMap(char* mapName, char* styName, char* scrName)
     {
         char fullPath[256];
 
-        gGameSession_67E8E0.DebugStr_4C58D0("");
+        gGameSession_67E8E0.SetSaveFileName_4C58D0("");
         strcpy(fullPath, "data\\");
         strcat(fullPath, mapName);
         gGameSession_67E8E0.SetMapName_4C5870(fullPath);
@@ -1809,7 +1809,7 @@ void CC ImGuiDebugDraw()
 
                     pNewCar->field_78_flags |= 0x10u;
 
-                    pNewCar->UpdateSpriteNum_4435F0();
+                    pNewCar->UpdateDrawLayer_4435F0();
 
                     pPlayer->AddCarToHistory_5645B0(pNewCar);
 
@@ -2369,7 +2369,7 @@ void CC ImGuiDebugDraw()
                         {
                         //pB4->field_80_sprite_ptr->field_2C |= 4u;
                         // Object_2C* p2C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(198, 0, 0, 0, 0); // ped_like_fire_197 ?? but its actually fire
-                        // pB4->field_80_sprite_ptr->DispatchCollisionEvent_5A3100(p2C->field_4, 0, 0, 0);
+                        // pB4->field_80_sprite_ptr->AttachSprite_5A3100(p2C->field_4, 0, 0, 0);
                         pB4->field_b0 = 100;
                         }*/
                     }
@@ -2543,8 +2543,8 @@ void CC ImGuiDebugDraw()
                         ImGui::Value("field_504_tick_timer", pHud_Brief_704->field_504_tick_timer);
                         ImGui::Value("field_508_num_lines", pHud_Brief_704->field_508_num_lines);
                         ImGui::Value("field_50C_face_variant", pHud_Brief_704->field_50C_face_variant);
-                        ImGui::Value("field_510_time_to_show", pHud_Brief_704->field_510_time_to_show);
-                        ImGui::Value("field_514_upward_timer", pHud_Brief_704->field_514_upward_timer);
+                        ImGui::Value("field_510_num_chars", pHud_Brief_704->field_510_num_chars);
+                        ImGui::Value("field_514_face_anim_char_idx", pHud_Brief_704->field_514_face_anim_char_idx);
 
                         if (ImGui::TreeNode("Try field_6F8_prev_brief as text"))
                         {
@@ -2836,7 +2836,7 @@ void CC ImGuiDebugDraw()
             {
                 ImGui::Value("field_0_next_idx", gObjectDefinitions_6FCF00->field_0_next_idx);
                 ImGui::Value("field_2_unused", gObjectDefinitions_6FCF00->field_2_unused);
-                ImGui::Value("field_8CA4_def112_sprite_palette", gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette);
+                ImGui::Value("field_8CA4_def112_base_sprite_idx", gObjectDefinitions_6FCF00->field_8CA4_def112_base_sprite_idx);
                 ImGui::Value("field_8CA6_unused", gObjectDefinitions_6FCF00->field_8CA6_unused);
 
                 //static s32 def_idx = 0;
@@ -2888,7 +2888,7 @@ void CC ImGuiDebugDraw()
                             ImGui::TreePop();
                         }
 
-                        ImGui::SliderU8("field_6C_sprite_anim_speed", &pDef->field_6C_sprite_anim_speed, 0, 32);
+                        ImGui::SliderU8("field_6C_num_frames", &pDef->field_6C_num_frames, 0, 32);
                         ImGui::InputInt("field_70_has_sound", &pDef->field_70_has_sound, 1, 1);
                     }
                     ImGui::TreePop();
@@ -2986,15 +2986,15 @@ void CC ImGuiDebugDraw()
             u8 bRet;
             static bool bUnk;
             //ImGui::Checkbox("Last arg", &bUnk);
-            ImGui::Value("Can Move Dir 1", gMap_0x370_6F6268->CanMoveOntoSlopeTile_4E0130(xpos, ypos, zpos, path_direction::up_1, &bRet, bUnk));
+            ImGui::Value("Can Move Dir 1", gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(xpos, ypos, zpos, path_direction::up_1, &bRet, bUnk));
             //ImGui::Value("bRet", bUnk);
-            ImGui::Value("Can Move Dir 2", gMap_0x370_6F6268->CanMoveOntoSlopeTile_4E0130(xpos, ypos, zpos, path_direction::down_2, &bRet, bUnk));
+            ImGui::Value("Can Move Dir 2", gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(xpos, ypos, zpos, path_direction::down_2, &bRet, bUnk));
             //ImGui::Value("bRet", bUnk);
-            ImGui::Value("Can Move Dir 3", gMap_0x370_6F6268->CanMoveOntoSlopeTile_4E0130(xpos, ypos, zpos, path_direction::right_3, &bRet, bUnk));
+            ImGui::Value("Can Move Dir 3", gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(xpos, ypos, zpos, path_direction::right_3, &bRet, bUnk));
             //ImGui::Value("bRet", bUnk);
-            ImGui::Value("Can Move Dir 4", gMap_0x370_6F6268->CanMoveOntoSlopeTile_4E0130(xpos, ypos, zpos, path_direction::left_4, &bRet, bUnk));
+            ImGui::Value("Can Move Dir 4", gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(xpos, ypos, zpos, path_direction::left_4, &bRet, bUnk));
             //ImGui::Value("bRet", bUnk);
-            //gMap_0x370_6F6268->CanMoveOntoSlopeTile_4E0130(player_xpos.ToInt(), player_ypos.ToInt(), player_zpos.ToInt())
+            //gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(player_xpos.ToInt(), player_ypos.ToInt(), player_zpos.ToInt())
 
             ImGui::TreePop();
         }
@@ -3009,9 +3009,9 @@ void CC ImGuiDebugDraw()
                 {
                     DisplayWideTextAtSprite(tmpBuff_67BD9C, pIter->field_28_pSprite, 0, 0);
                 }
-                else if (pIter->field_30_pNext)
+                else if (pIter->field_30_pOwnSprite)
                 {
-                    DisplayWideTextAtSprite(tmpBuff_67BD9C, pIter->field_30_pNext, 0, 0);
+                    DisplayWideTextAtSprite(tmpBuff_67BD9C, pIter->field_30_pOwnSprite, 0, 0);
                 }
             }
             ImGui::TreePop();
@@ -3099,12 +3099,12 @@ void CC ImGuiDebugDraw()
                     pParticle->field_2C_counter = counter;
                     pParticle->field_2E_initial_counter = f_2E;
 
-                    pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
-                    pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 132);
+                    pParticle->field_30_pOwnSprite->SetType_4206F0(sprite_types_enum::code_obj2_8);
+                    pParticle->field_30_pOwnSprite->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_base_sprite_idx + 132);
                     pParticle->field_46_sub_state = 0; // TODO
                     pParticle->field_48_timer = timer;
-                    pParticle->field_30_pNext->set_xyz_lazy_420600(pPlayerSprite->field_14_xy.x, pPlayerSprite->field_14_xy.y, pPlayerSprite->field_1C_zpos);
-                    gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
+                    pParticle->field_30_pOwnSprite->set_xyz_lazy_420600(pPlayerSprite->field_14_xy.x, pPlayerSprite->field_14_xy.y, pPlayerSprite->field_1C_zpos);
+                    gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pOwnSprite);
                 }
             }
             

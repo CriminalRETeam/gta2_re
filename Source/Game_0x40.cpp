@@ -162,9 +162,9 @@ void Game_0x40::LoadGameFiles_4B8C40()
     char_type* script_name = gGameSession_67E8E0.GetScriptName_4C5960();
     gScriptManager_6F8060->Load_512330(script_name);
 
-    if (strlen(gGameSession_67E8E0.GetDebugStr_4C5970()) != 0)
+    if (strlen(gGameSession_67E8E0.GetSaveFileName_4C5970()) != 0)
     {
-        char_type* debug_str = gGameSession_67E8E0.GetDebugStr_4C5970();
+        char_type* debug_str = gGameSession_67E8E0.GetSaveFileName_4C5970();
         gScriptManager_6F8060->LoadSave_511F80(debug_str);
     }
 
@@ -306,7 +306,7 @@ void Game_0x40::BootGame_4B8EB0()
     gCarThreadTriggers_214_705F20->Reset_5C8750();
     gMap_0x370_6F6268->AllocZones_4DFCA0();
     gHud_2B00_706620->Init_5D6BE0();
-    gScriptManager_6F8060->Update_512160(); // script
+    gScriptManager_6F8060->StartLevelThread_512160(); // script
     gGame_0x40_67E008->field_38_local_player->ApplyCheats_56A490();
     if (bDo_iain_test_67D4E9)
     {
@@ -629,7 +629,7 @@ void Game_0x40::Unpause_4B96C0()
 
         if (gInputDevices_67B990)
         {
-            gInputDevices_67B990->read_keyboard_and_gamepad_498CC0();
+            gInputDevices_67B990->flush_keyboard_and_gamepad_498CC0();
         }
 
         Player* pPlayer = this->field_38_local_player;

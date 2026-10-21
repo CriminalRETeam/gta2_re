@@ -145,7 +145,7 @@ TrainStation_34::TrainStation_34()
     field_10_pZone = NULL;
     field_14_used = 0;
     field_18_pStoppedTrain = 0;
-    field_1C_bOccupied = 0;
+    field_1C_platform_state = 0;
     field_20_next_station = NULL;
     field_2E_wagons_number = 0;
     field_2F_track_idx = 0;
@@ -405,7 +405,7 @@ void Train_58::UpdatePassengerAI_578390()
                     {
                         if (this->field_54_passenger_timer <= 0)
                         {
-                            for (gTargetCarDoor_6FF1D8 = gRng_6F6784.get_int_4F7AE0(4); gTargetCarDoor_6FF1D8 < (u8)(*pTrainCar)->GetRemap();
+                            for (gTargetCarDoor_6FF1D8 = gRng_6F6784.get_int_4F7AE0(4); gTargetCarDoor_6FF1D8 < (u8)(*pTrainCar)->GetDoorCount_43B360();
                                  gTargetCarDoor_6FF1D8++)
                             {
                                 if ((*pTrainCar)->IsStoppedWithPavementAtDoor_43B140(gTargetCarDoor_6FF1D8) && this->field_56_passenger_count > 0)
@@ -801,7 +801,7 @@ void PublicTransport_181C::SpawnTrainsFromStations_578860()
                     pTrain->field_C_carriages[0]->SpawnDriverPed();
                     pTrain->field_C_carriages[0]->SetDriverPedType_421560(ped_type::script_created_5);
                     Object_2C* pLight = gObject_5C_6F8F84->NewLight_529A40(94, 138, 2, 0xFF8000, 3, 255);
-                    pTrain->field_C_carriages[0]->field_0_attachments.PushImpactEvent_5A6D00(pLight->field_4_sprite, 0, 2, kAng0_6FF1BC);
+                    pTrain->field_C_carriages[0]->field_0_attachments.PushAttachedSprite_5A6D00(pLight->field_4_sprite, 0, 2, kAng0_6FF1BC);
                     pTrain->field_C_carriages[0]->LockPermanently_475C30();
 
                     for (j = 0; j < wagons; j++)
@@ -824,7 +824,7 @@ void PublicTransport_181C::SpawnTrainsFromStations_578860()
                     pTrain->field_C_carriages[0]->InitCarAIControl_440590();
                     pTrain->field_C_carriages[0]->HaltAIDriving_43AF60();
                     pStation->field_14_used = 2;
-                    pStation->field_1C_bOccupied = 1;
+                    pStation->field_1C_platform_state = 1;
                     pStation->field_18_pStoppedTrain = pTrain;
                     break;
                 }
@@ -918,7 +918,7 @@ void PublicTransport_181C::SetupTrainAndBusStops_5794B0()
                     TrainStation_34* pStation = gPublicTransport_181C_6FF1D4->AllocateTrainStation_5787E0();
                     pStation->field_0_station_type = 2;
                     pStation->field_14_used = 1;
-                    pStation->field_1C_bOccupied = 1;
+                    pStation->field_1C_platform_state = 1;
                     pStation->field_10_pZone = i;
                     pStation->field_18_pStoppedTrain = 0;
                     pStation->field_2F_track_idx = station_zone_kind;
@@ -960,7 +960,7 @@ void PublicTransport_181C::SetupTrainAndBusStops_5794B0()
             TrainStation_34* pBusStop = gPublicTransport_181C_6FF1D4->AllocateTrainStation_5787E0();
             pBusStop->field_0_station_type = 1;
             pBusStop->field_14_used = 1;
-            pBusStop->field_1C_bOccupied = 1;
+            pBusStop->field_1C_platform_state = 1;
             pBusStop->field_10_pZone = pZone;
             pBusStop->field_18_pStoppedTrain = 0;
             ++gStationCount_6FF1CC;
@@ -1503,14 +1503,14 @@ void PublicTransport_181C::PublicTransportService_57A7A0()
                     pTrain->field_0_is_hijacked = 1;
                     if (pCar->field_54_driver->GetMoveDirection_45C9B0() > kFpZero_6FF078)
                     {
-                        if (pTrain->field_C_carriages[0]->field_54_driver->field_15C_player->field_8B_was_forward_pressed)
+                        if (pTrain->field_C_carriages[0]->field_54_driver->field_15C_player->field_8B_forward_changed)
                         {
                             pTrain->IncrementState_578180();
                         }
                     }
                     else if (pTrain->field_C_carriages[0]->field_54_driver->GetMoveDirection_45C9B0() < kFpZero_6FF078)
                     {
-                        if (pTrain->field_C_carriages[0]->field_54_driver->field_15C_player->field_8C_was_down_pressed)
+                        if (pTrain->field_C_carriages[0]->field_54_driver->field_15C_player->field_8C_down_changed)
                         {
                             pTrain->DecrementState_5781F0();
                         }
@@ -1561,7 +1561,7 @@ void PublicTransport_181C::PublicTransportService_57A7A0()
                         pStation->field_18_pStoppedTrain = 0;
                         pStation = pStation->field_20_next_station;
                         pTrain->field_4C_station = pStation;
-                        pStation->field_1C_bOccupied = 1;
+                        pStation->field_1C_platform_state = 1;
                     }
                     break;
 
@@ -1670,7 +1670,7 @@ void PublicTransport_181C::PublicTransportService_57A7A0()
                         pTrain->field_48_stop_phase = 6;
                         pTrain->field_4_wait_timer = 10;
                         pStation->field_18_pStoppedTrain = pTrain;
-                        pStation->field_1C_bOccupied = 4;
+                        pStation->field_1C_platform_state = 4;
                     }
                     break;
 
@@ -1687,7 +1687,7 @@ void PublicTransport_181C::PublicTransportService_57A7A0()
                         {
                             pTrain->field_4_wait_timer = 50;
                             pTrain->field_48_stop_phase = 7;
-                            pTrain->field_4C_station->field_1C_bOccupied = 2;
+                            pTrain->field_4C_station->field_1C_platform_state = 2;
                         }
                     }
                     else
@@ -1697,7 +1697,7 @@ void PublicTransport_181C::PublicTransportService_57A7A0()
                         {
                             pTrain->field_4_wait_timer = 50;
                             pTrain->field_48_stop_phase = 7;
-                            pTrain->field_4C_station->field_1C_bOccupied = 2;
+                            pTrain->field_4C_station->field_1C_platform_state = 2;
                         }
                     }
                     break;
@@ -1716,7 +1716,7 @@ void PublicTransport_181C::PublicTransportService_57A7A0()
                         {
                             pTrain->field_48_stop_phase = 8;
                             pTrain->field_4_wait_timer = 50;
-                            pTrain->field_4C_station->field_1C_bOccupied = 2;
+                            pTrain->field_4C_station->field_1C_platform_state = 2;
                         }
                     }
                     else
@@ -1727,7 +1727,7 @@ void PublicTransport_181C::PublicTransportService_57A7A0()
                         {
                             pTrain->field_48_stop_phase = 8;
                             pTrain->field_4_wait_timer = 50;
-                            pTrain->field_4C_station->field_1C_bOccupied = 2;
+                            pTrain->field_4C_station->field_1C_platform_state = 2;
                         }
                     }
                     break;
@@ -1745,7 +1745,7 @@ void PublicTransport_181C::PublicTransportService_57A7A0()
                         {
                             pTrain->field_48_stop_phase = 9;
                             pTrain->field_4_wait_timer = 10;
-                            pTrain->field_4C_station->field_1C_bOccupied = 3;
+                            pTrain->field_4C_station->field_1C_platform_state = 3;
                         }
                     }
                     else
@@ -1757,7 +1757,7 @@ void PublicTransport_181C::PublicTransportService_57A7A0()
                             SetDriverStation(pTrain, pStation);
                             pTrain->field_48_stop_phase = 9;
                             pTrain->field_4_wait_timer = 10;
-                            pStation->field_1C_bOccupied = 3;
+                            pStation->field_1C_platform_state = 3;
                         }
                     }
                     break;
@@ -1777,7 +1777,7 @@ void PublicTransport_181C::PublicTransportService_57A7A0()
                         if (pTrain->field_4_wait_timer == 0)
                         {
                             pTrain->field_48_stop_phase = 10;
-                            pTrain->field_4C_station->field_1C_bOccupied = 1;
+                            pTrain->field_4C_station->field_1C_platform_state = 1;
                         }
                     }
                     break;
@@ -1862,7 +1862,7 @@ Train_58* PublicTransport_181C::GetTrainFromCarExcludingLeadCar_57B6A0(Car_BC* p
 }
 
 MATCH_FUNC(0x57b740)
-bool PublicTransport_181C::AreCarsInDifferentTrains_57B740(Car_BC* pCar1, Car_BC* pCar2)
+bool PublicTransport_181C::AreTrainsOnDifferentTracks_57B740(Car_BC* pCar1, Car_BC* pCar2)
 {
     if (pCar1->IsTrainModel_403BA0() && pCar2->IsTrainModel_403BA0())
     {

@@ -5,7 +5,7 @@
 #include "ang16.hpp"
 #include "fix16.hpp"
 
-EXTERN_GLOBAL(u32, gObj3C_id_6F8E54);
+EXTERN_GLOBAL(u32, gObj3C_live_count_6F8E54);
 EXTERN_GLOBAL(u32, gObj3C_dealloc_count_6F8F0C);
 EXTERN_GLOBAL(Ang16, kZeroAng_6F8F68);
 
@@ -28,17 +28,17 @@ class SpriteList_4
 
     EXPORT AttachedSprite_18* GetSpriteForModel_5A6A50(s32 obj_type);
     EXPORT Object_2C* FindObject2CByModel_5A6A90(s32 obj_type);
-    EXPORT AttachedSprite_18* FindFirstActiveObject_5A6AD0();
+    EXPORT AttachedSprite_18* FindFirstFireExplosion_5A6AD0();
     EXPORT void RemoveSprite_5A6B10(Sprite* toFind);
     EXPORT void RemoveSpriteSafe_5A6B60(Sprite* toFind);
     EXPORT void DestroyAllAttached_5A6BB0();
     EXPORT void SinkAllAttachedCars_5A6BD0();
     EXPORT void DispatchCarImpactEvents_5A6BF0(Sprite* pSprite);
     EXPORT char_type TagSpriteWithRng_5A6C10(Sprite* toFind);
-    EXPORT void RemoveByRngValue_5A6C40(s32 toFind);
+    EXPORT void RemoveAllExceptRngValue_5A6C40(s32 toFind);
     EXPORT Sprite* FirstSpriteOfType_5A6CA0(s32 sprite_type);
     EXPORT void AddSprite_5A6CD0(Sprite* pSprite);
-    EXPORT void PushImpactEvent_5A6D00(Sprite* pSprite1, Fix16 x, Fix16 y, Ang16 angle);
+    EXPORT void PushAttachedSprite_5A6D00(Sprite* pSprite1, Fix16 x, Fix16 y, Ang16 angle);
     EXPORT void PushSprite_5A6D40(Sprite* pToFind);
     EXPORT char_type SpriteExists_5A6D80(Sprite* pToFind);
     EXPORT Sprite* PopFrontSprite_5A6DA0();
@@ -70,7 +70,7 @@ class Object_3C
     // 9.6f 0x482B20
     void PoolAllocate()
     {
-        ++gObj3C_id_6F8E54;
+        ++gObj3C_live_count_6F8E54;
         field_C_speed = 0;
         field_4_angle = kZeroAng_6F8F68;
         field_18_friction = Fix16(0);
@@ -85,7 +85,7 @@ class Object_3C
     // 9.6f 0x482B80
     void PoolDeallocate()
     {
-        --gObj3C_id_6F8E54;
+        --gObj3C_live_count_6F8E54;
         ++gObj3C_dealloc_count_6F8F0C;
     }
 

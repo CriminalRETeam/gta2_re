@@ -22,7 +22,7 @@ DEFINE_GLOBAL_ARRAY(char, file_name_677EC4, 64, 0x677EC4);
 DEFINE_GLOBAL(u32, processedGciData_676260, 0x676260);
 DEFINE_GLOBAL(u32, gciDataLen_675F94, 0x675F94);
 DEFINE_GLOBAL(u8*, input_data_676170, 0x676170);
-DEFINE_GLOBAL(u32, found_open_brackets_67626C, 0x67626C);
+DEFINE_GLOBAL(u32, gTokenizerState_67626C, 0x67626C);
 DEFINE_GLOBAL(s32, line_number_676258, 0x676258);
 DEFINE_GLOBAL(u32, processed_output_676250, 0x676250);
 DEFINE_GLOBAL(s32, modelPhyArrLen_675F90, 0x675F90);
@@ -125,7 +125,7 @@ s32 __stdcall CarInfo_808::ReadToken_430B10(char* pOut)
             }
         }
 
-        switch (found_open_brackets_67626C)
+        switch (gTokenizerState_67626C)
         {
             case 0:
                 if (currentChar == -1)
@@ -134,12 +134,12 @@ s32 __stdcall CarInfo_808::ReadToken_430B10(char* pOut)
                 }
                 if (currentChar == '{')
                 {
-                    found_open_brackets_67626C = 1;
+                    gTokenizerState_67626C = 1;
                 }
                 else if (currentChar != ' ' && currentChar != '\t' && currentChar != '\n' && currentChar != ')' && currentChar != '(' &&
                          currentChar != '\r')
                 {
-                    found_open_brackets_67626C = 2;
+                    gTokenizerState_67626C = 2;
                     pOut[i] = (char)currentChar;
                     i++;
                 }
@@ -151,7 +151,7 @@ s32 __stdcall CarInfo_808::ReadToken_430B10(char* pOut)
                 }
                 if (currentChar == '}')
                 {
-                    found_open_brackets_67626C = 0;
+                    gTokenizerState_67626C = 0;
                 }
                 break;
             case 2:
@@ -163,14 +163,14 @@ s32 __stdcall CarInfo_808::ReadToken_430B10(char* pOut)
                 if (currentChar == '{')
                 {
                     pOut[i] = 0;
-                    found_open_brackets_67626C = 1;
+                    gTokenizerState_67626C = 1;
                     return 0;
                 }
                 if (currentChar == ' ' || currentChar == '\t' || currentChar == '\n' || currentChar == ')' || currentChar == '(' ||
                     currentChar == '\r')
                 {
                     pOut[i] = 0;
-                    found_open_brackets_67626C = 0;
+                    gTokenizerState_67626C = 0;
                     return 0;
                 }
                 pOut[i] = (char)currentChar;
@@ -577,7 +577,7 @@ void CarInfo_2C::CalculateCarInfo_4542A0(s32 idx)
     this->field_18_fith_thrust = pModelPhysics->field_24_thrust / 5;
     this->field_1C_max_thrust_with_turbo =
         ComputeThrustWithTurbo_5618F0(field_14_half_thrust, field_18_fith_thrust, pModelPhysics->field_1_turbo);
-    this->field_20_front_drive_bias = kOne_677F54 - pModelPhysics->field_8_front_drive_bias;
+    this->field_20_rear_drive_bias = kOne_677F54 - pModelPhysics->field_8_front_drive_bias;
     this->field_24_skid_threshhold_1 = (pModelPhysics->field_30_sked_threshold * (kOne_677F54 - kOneTenth_677D74));
     this->field_28_skid_threshhold_2 = (pModelPhysics->field_30_sked_threshold * (kOne_677F54 + kOneTenth_677D74));
 }

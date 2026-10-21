@@ -52,11 +52,11 @@ class Weapon_30
     EXPORT ~Weapon_30();
     EXPORT void init_5DCD90();
     EXPORT void PoolDeallocate();
-    EXPORT void add_ammo_5DCE20(u8 clips);
+    EXPORT void set_ammo_clips_5DCE20(u8 clips);
     EXPORT char_type add_ammo_capped_5DCE40(u8 to_add);
     EXPORT bool is_max_capacity_5DCEA0();
     EXPORT bool sub_5DCEF0();
-    EXPORT void TickReloadSpeed_5DCF40();
+    EXPORT void ApplyFastReload_5DCF40();
     EXPORT Object_2C* spawn_bullet_5DCF60(s32 bullet_type, Fix16 x, Fix16 y, Fix16 z, Ang16 rot, Fix16_Point& speed);
     EXPORT void flamethrower_5DD0F0();
     EXPORT void shotgun_5DD290();
@@ -164,7 +164,7 @@ class Weapon_30
     }
 
     u16 field_0_ammo;
-    u8 field_2_reload_speed;
+    u8 field_2_reload_timer;
     s8 field_3_unused;
     s32 field_4_bTargetHit;
     s32 field_8;

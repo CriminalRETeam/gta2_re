@@ -221,13 +221,13 @@ class Char_B4
         }
     }
 
-    inline void SetMaxSpeed_433920(Fix16 max_speed)
+    inline void SetVelocity_433920(Fix16 max_speed)
     {
         field_38_velocity = max_speed;
     }
 
     // strange, the same 9.6f func but Ped::ChaseTargetStateMachine_46B170 only matches if it pass by ref
-    inline void SetMaxSpeedByRef_433920(Fix16& max_speed)
+    inline void SetVelocityByRef_433920(Fix16& max_speed)
     {
         field_38_velocity = max_speed;
     }
@@ -370,7 +370,7 @@ class Char_B4
     EXPORT void CheckCollisionsAndUpdateAnim_54DD70();
     EXPORT void state_0_54DDF0();
     EXPORT bool CanStepForwardWithRegionCheck_54ECB0(s32 direction);
-    EXPORT bool CanStepDiagonal_54EF60(char_type target_x, char_type target_y);
+    EXPORT bool CanStepToTile_54EF60(char_type target_x, char_type target_y);
     EXPORT bool CanStepForward_54FEC0(s32 direction);
     EXPORT bool CanReachTile_550090(u8 xpos, u8 ypos);
     EXPORT void state_1_5504F0();
@@ -379,7 +379,7 @@ class Char_B4
     EXPORT void ChooseNextMovementTile_551400();
     EXPORT void SelectNextTileFast_5516F0();
     //EXPORT void state_1_5504F0();
-    EXPORT void state_1_5519F0();
+    EXPORT void state_2_5519F0();
     EXPORT void state_3_551A00();
     EXPORT void state_4_551B30();
     EXPORT void state_5_551BB0();

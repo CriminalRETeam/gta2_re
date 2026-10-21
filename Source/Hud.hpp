@@ -40,7 +40,7 @@ class Hud_MpMessage_D0
 class Hud_ChatInput_1
 {
   public:
-    EXPORT bool IsTypingOnChat_5D15E0(s32 action, Player* pPlayer);
+    EXPORT bool HandleChatInputKey_5D15E0(s32 action, Player* pPlayer);
     EXPORT void DrawChatMessages_5D16B0();
     EXPORT bool IsChatInputKey_5D17D0(s32 key_idx);
     EXPORT void StartChatting_5D1830(Player* pPlayer);
@@ -49,7 +49,7 @@ class Hud_ChatInput_1
 class Hud_QuitMessage_1
 {
   public:
-    EXPORT bool IsOnQuitMessage_5D13C0(s32 action, Player* pPlayer);
+    EXPORT bool HandleQuitMessageKey_5D13C0(s32 action, Player* pPlayer);
     EXPORT void DrawQuitMessage_5D1430();
     EXPORT bool IsQuitMessageKey_5D15A0(s32 action);
     EXPORT void ShowQuitMessage_5D15D0(Player* pPlayer);
@@ -109,8 +109,8 @@ class Hud_Message_1C8
     EXPORT Hud_Message_1C8();
     u8 field_0_time_to_show;
     wchar_t field_2_str[221];
-    s32 field_1BC_str_width;
-    s32 field_1C0_num_lines;
+    s32 field_1BC_xpos;
+    s32 field_1C0_ypos;
     s32 field_1C4_priority; // hud_message_priority (hud_message_priority.hpp)
 };
 
@@ -629,8 +629,8 @@ class Hud_Brief_704 // size 0x704
     u16 field_504_tick_timer;
     s32 field_508_num_lines;
     s32 field_50C_face_variant;
-    s32 field_510_time_to_show;
-    s32 field_514_upward_timer;
+    s32 field_510_num_chars;
+    s32 field_514_face_anim_char_idx;
     // Pool of 20 entries linked through field_C_pNext as the free list (field_6FC_free_briefs is its head)
     Hud_BriefEntry_18 field_518_briefs[20];
     // Linked lists through field_C_pNext: the shown brief and those queued behind it by priority, the briefs pushed back
@@ -653,14 +653,14 @@ class Hud_MapZone_98
     }
 
     EXPORT void DrawZoneName_5D5900();
-    EXPORT void GetXPosOffset_5D5AD0();
+    EXPORT void CalcTextWidth_5D5AD0();
     EXPORT void ShowZoneName_5D5AF0(gmp_map_zone* pZone1, gmp_map_zone* pZone2);
     EXPORT void UpdateZoneName_5D5B60();
     EXPORT void ResetTransparency_5D5C50();
     EXPORT Hud_MapZone_98();
     u8 field_0_timer;
     wchar_t field_2_wstr[65];
-    s32 field_84_xpos_offset;
+    s32 field_84_text_width;
     gmp_map_zone* field_88_nav_zone;
     gmp_map_zone* field_8C_local_nav_zone;
     s32 field_90_alpha_flag;
@@ -674,7 +674,7 @@ class Hud_CarName_4C
     EXPORT void DrawCarName_5D4A10();
     char_type field_0_display_time;
     wchar_t field_2_car_name[33];
-    s32 field_44_xpos_offset;
+    s32 field_44_text_width;
     s32 field_48_ypos;
 };
 
@@ -682,7 +682,7 @@ class Hud_2B00
 {
   public:
     EXPORT ~Hud_2B00();
-    EXPORT void CalcCarNameXPosOffset_5D5190();
+    EXPORT void CalcCarNameTextWidth_5D5190();
     EXPORT void ShowCarName_5D5240(wchar_t* Source);
     EXPORT void UpdateCarName_5D5350();
     EXPORT void DrawGui_5D6860();
@@ -693,7 +693,7 @@ class Hud_2B00
     EXPORT void RecalcTextLayout_5D6AB0();
     EXPORT void SetFontTypes_5D6B00();
     EXPORT void Init_5D6BE0();
-    EXPORT bool IsBusy_5D6C20(s32 action, Player* pPlayer);
+    EXPORT bool HandleInputKey_5D6C20(s32 action, Player* pPlayer);
     EXPORT bool IsInputKeyConsumed_5D6C70(s32 action);
     EXPORT bool IsQuitMessageInputKey_5D6CB0(s32 action);
     EXPORT Hud_2B00();

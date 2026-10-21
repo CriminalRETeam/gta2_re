@@ -50,7 +50,7 @@ PlayerScoreTracker_36C::PlayerScoreTracker_36C()
     field_78_last_kill_time = 0;
     field_7C_execution_count = 0;
     field_86_total_kills = 0;
-    field_88_killed_cops = 0;
+    field_88_cop_cars_destroyed = 0;
     field_8A_cars_stolen_count = 0;
     field_80_last_elvis_kill_time = 0;
     field_84_num_elvis_killed = 0;
@@ -141,9 +141,9 @@ void PlayerScoreTracker_36C::Service_591C70()
         }
     }
 
-    if (field_88_killed_cops >= 20u)
+    if (field_88_cop_cars_destroyed >= 20u)
     {
-        field_88_killed_cops = 0;
+        field_88_cop_cars_destroyed = 0;
         field_368_player->AddScore_41DC40(5000);
         if (field_368_player->IsUser_41DC70())
         {
@@ -810,7 +810,7 @@ void PlayerScoreTracker_36C::AwardCarDestroyedScore_592DD0(Car_BC* pCar, Ped* pK
     }
     if (pCar->IsCopCar_421790() && bAwardScore)
     {
-        field_88_killed_cops++;
+        field_88_cop_cars_destroyed++;
     }
 
     u32 car_score_value = GetCarScoreValue_5925B0(pCar->field_84_car_info_idx, car_score_tier::destroyed_2);

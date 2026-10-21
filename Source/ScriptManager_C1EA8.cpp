@@ -43,7 +43,7 @@ void Miss2_25C::MissionCleanUp_502DC0()
     {
         if (gStoredCar_6F7560->field_6C_car_id == gStoredCarId_6F78B4)
         {
-            gGame_0x40_67E008->field_38_local_player->PushCarInfo_564680(gStoredCar_6F7560);
+            gGame_0x40_67E008->field_38_local_player->RemoveCarFromHistory_564680(gStoredCar_6F7560);
             gStoredCar_6F7560->SetDriverPedType_421560(ped_type::dummy_3);
             if (!gStoredCar_6F7560->IsDeactivated_4214D0())
             {
@@ -82,7 +82,7 @@ void Miss2_25C::MissionCleanUp_502DC0()
                 case 1:
                     if (pIter->field_0_car->field_6C_car_id == pIter->field_8_entity_id)
                     {
-                        gGame_0x40_67E008->field_38_local_player->PushCarInfo_564680(pIter->field_0_car);
+                        gGame_0x40_67E008->field_38_local_player->RemoveCarFromHistory_564680(pIter->field_0_car);
                         pIter->field_0_car->SetDriverPedType_421560(ped_type::dummy_3);
                         if (!pIter->field_0_car->IsDeactivated_4214D0())
                         {
@@ -165,7 +165,7 @@ void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
                         if (gCarManager_6C_677930->CanAllocateCarOfKind_446930(car_kind::recycled_1))
                         {
                             gStoredCar_6F7560->ReassignAllocatedCarType_443EE0(car_kind::recycled_1);
-                            gGame_0x40_67E008->field_38_local_player->PushCarInfo_564680(gStoredCar_6F7560);
+                            gGame_0x40_67E008->field_38_local_player->RemoveCarFromHistory_564680(gStoredCar_6F7560);
                             gStoredCar_6F7560->SetDriverPedType_421560(ped_type::dummy_3);
 
                             if (!gStoredCar_6F7560->IsDeactivated_4214D0())
@@ -175,7 +175,7 @@ void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
                         }
                         else if (gCarManager_6C_677930->CanAllocateCarOfKindWithSpare_446870(car_kind::mission_car_8))
                         {
-                            gGame_0x40_67E008->field_38_local_player->PushCarInfo_564680(gStoredCar_6F7560);
+                            gGame_0x40_67E008->field_38_local_player->RemoveCarFromHistory_564680(gStoredCar_6F7560);
                             gStoredCar_6F7560->SetDriverPedType_421560(ped_type::dummy_3);
 
                             if (!gStoredCar_6F7560->IsDeactivated_4214D0())
@@ -185,7 +185,7 @@ void miss2_0x11C::SCRCMD_STORE_CAR_INFO_509180()
                         }
                         else
                         {
-                            gGame_0x40_67E008->field_38_local_player->PushCarInfo_564680(gStoredCar_6F7560);
+                            gGame_0x40_67E008->field_38_local_player->RemoveCarFromHistory_564680(gStoredCar_6F7560);
                             gStoredCar_6F7560->SetDriverPedType_421560(ped_type::dummy_3);
 
                             gStoredCar_6F7560->DespawnSoon_421490();
@@ -228,12 +228,12 @@ void ScriptManager_C1EA8::SetGeneratorTypeForCar_511A70(s32 car_model, Generator
             if (kDecidePowerupGenTypes_6212F0[i] < 0x5B)
             {
                 pGen->Activate_4C1A70();
-                pGen->field_1E_kill_timer = 3;
+                pGen->field_1E_spawns_left = 3;
             }
             else
             {
                 pGen->Activate_4C1A70();
-                pGen->field_1E_kill_timer = 1;
+                pGen->field_1E_spawns_left = 1;
             }
             break;
         }
@@ -242,7 +242,7 @@ void ScriptManager_C1EA8::SetGeneratorTypeForCar_511A70(s32 car_model, Generator
     if (i == 19)
     {
         pGen->Activate_4C1A70();
-        pGen->field_1E_kill_timer = 3;
+        pGen->field_1E_spawns_left = 3;
         pGen->field_0_gen_type = 0x41;
     }
 }
@@ -314,7 +314,7 @@ void ScriptManager_C1EA8::RestoreAnsweredPhones_511C60()
         if (((1 << bit) & gGameSave_6F78C8.field_E4_car_and_script_data.field_48_flags) != 0)
         {
             SCR_POINTER* pPointer = (SCR_POINTER*)GetBasePointer_512770(field_C1E32_phone_ids[bit]);
-            pPointer->field_8_obj->PoolGiveAndSetDone_5291E0(174);
+            pPointer->field_8_obj->PoolGiveAndQueueObjectType_5291E0(174);
             gScriptManager_6F8060->RemovePhoneThreadByObjId_512AA0(pPointer->field_8_obj->field_14_id);
         }
     }
@@ -480,7 +480,7 @@ SCR_CMD_HEADER* ScriptManager_C1EA8::FindCommandByType_512100(u16 toFind, u16 st
 }
 
 MATCH_FUNC(0x512160)
-void ScriptManager_C1EA8::Update_512160()
+void ScriptManager_C1EA8::StartLevelThread_512160()
 {
     if (!bSkip_mission_67D4E5)
     {
@@ -581,7 +581,7 @@ void ScriptManager_C1EA8::Load_512330(const char_type* pScrName)
         len = sizeof(tableSize);
         File::Global_Read_4A71C0(&tableSize, len);
         len = 5118;
-        File::GetRemainderSize_4A7250(field_1334C_strings, &len);
+        File::Global_ReadRemainder_4A7250(field_1334C_strings, &len);
         File::Global_Close_4A70C0();
         LoadStringTbl_5121E0(tableSize);
         GetScrFileName_5122D0();
@@ -604,7 +604,7 @@ u16 ScriptManager_C1EA8::LoadMissionScript_512400(const char_type* String1, u16*
         File::Global_Read_4A71C0(pStartCmd, 2);
         File::Global_Read_4A71C0(&remainder, 4);
         File::Global_Read_4A71C0(&field_46C_base_pointers[(u16)Buffer], 0xC00);
-        File::GetRemainderSize_4A7250(&field_334C_script_data[field_46C_base_pointers[(u16)Buffer]], &remainder);
+        File::Global_ReadRemainder_4A7250(&field_334C_script_data[field_46C_base_pointers[(u16)Buffer]], &remainder);
         File::Global_Close_4A70C0();
     }
     else
@@ -654,7 +654,7 @@ void ScriptManager_C1EA8::LoadSubScripts_5125F0()
                 field_C1DB0_mission_script_data_len[j] = Buffer;
 
                 File::Global_Read_4A71C0(&field_AA934_mission_base_pointers[3072 * j], 3072);
-                File::GetRemainderSize_4A7250(&field_13354_mission_script_data[20000 * j], &field_C1DB0_mission_script_data_len[j]);
+                File::Global_ReadRemainder_4A7250(&field_13354_mission_script_data[20000 * j], &field_C1DB0_mission_script_data_len[j]);
 
                 File::Global_Close_4A70C0();
 

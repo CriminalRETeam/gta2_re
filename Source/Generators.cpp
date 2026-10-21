@@ -9,7 +9,7 @@ EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
 MATCH_FUNC(0x4C1A70)
 void Generator_2C::Activate_4C1A70()
 {
-    field_1E_kill_timer = -1;
+    field_1E_spawns_left = -1;
 
     if (!bStartNetworkGame_7081F0)
     {
@@ -63,9 +63,9 @@ EXPORT void Generator_2C::SpawnObject_4C1B10()
             {
                 field_24_obj = pObj;
                 field_28_id = pObj->field_14_id;
-                if (field_1E_kill_timer < 0xFFFF)
+                if (field_1E_spawns_left < 0xFFFF)
                 {
-                    field_1E_kill_timer--;
+                    field_1E_spawns_left--;
                 }
 
                 if (pObj->IsPickup_421060())
@@ -86,9 +86,9 @@ EXPORT void Generator_2C::SpawnObject_4C1B10()
         Object_2C* pObj = gObject_5C_6F8F84->NewPhysicsObjUnlessBlocked_529BC0(field_0_gen_type, field_4_x, field_8_y, field_C_z, field_10_rot);
         if (pObj)
         {
-            if (field_1E_kill_timer < 0xFFFF)
+            if (field_1E_spawns_left < 0xFFFF)
             {
-                field_1E_kill_timer--;
+                field_1E_spawns_left--;
             }
 
             if (pObj->IsPickup_421060())
@@ -104,7 +104,7 @@ EXPORT void Generator_2C::SpawnObject_4C1B10()
         field_18_cycle = next_cycle_4C1AB0();
     }
 
-    if (field_1E_kill_timer == 0)
+    if (field_1E_spawns_left == 0)
     {
         gGeneratorPool_14AC_67E5D0->field_14A4_kill_count--;
     }
@@ -115,7 +115,7 @@ void Generator_2C::Service_4C1C50()
 {
     if (gpRng_67AB34->get_cur_rng_41CFE0() >= field_18_cycle)
     {
-        if (field_1E_kill_timer > 0)
+        if (field_1E_spawns_left > 0)
         {
             SpawnObject_4C1B10();
         }
@@ -134,7 +134,7 @@ void Generator_2C::Init_4C1C70(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 generat
     field_14_max_delay = max_delay;
     field_18_cycle = gpRng_67AB34->get_cur_rng_41CFE0() + 1;
     field_20 = 1;
-    field_1E_kill_timer = 0;
+    field_1E_spawns_left = 0;
     field_1C_ammo = 0;
     field_24_obj = NULL;
     field_28_id = 0;

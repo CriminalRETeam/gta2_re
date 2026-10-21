@@ -24,7 +24,7 @@ struct Mike_80
     Mike_80()
     {
         field_7C_sum = 0;
-        field_A0_count = 0;
+        field_78_sample_idx = 0;
         field_0_samples.Clear();
     }
 
@@ -36,16 +36,16 @@ struct Mike_80
     // 9.6f 0x474450. Keeps a running sum of the last 30 samples
     void AddSample(s32 value)
     {
-        field_7C_sum += value - field_0_samples.field_0_samples[field_A0_count];
-        field_0_samples.field_0_samples[field_A0_count] = value;
-        if (++field_A0_count >= 30)
+        field_7C_sum += value - field_0_samples.field_0_samples[field_78_sample_idx];
+        field_0_samples.field_0_samples[field_78_sample_idx] = value;
+        if (++field_78_sample_idx >= 30)
         {
-            field_A0_count = 0;
+            field_78_sample_idx = 0;
         }
     }
 
     Mike_78 field_0_samples;
-    s32 field_A0_count;
+    s32 field_78_sample_idx;
     s32 field_7C_sum;
 };
 
@@ -110,10 +110,10 @@ class Mike_A80
     Mike_8 m85;
 
     Mike_80 field_28_m80_1;
-    Mike_80 field_28_m80_2;
-    Mike_80 field_28_m80_3;
-    Mike_80 field_28_m80_4;
-    Mike_80 field_28_m80_5;
+    Mike_80 field_A8_m80_2;
+    Mike_80 field_128_m80_3;
+    Mike_80 field_1A8_m80_4;
+    Mike_80 field_228_m80_5;
 
     s32 field_2A8_ary[100];
     s32 field_438_ary[100];

@@ -35,7 +35,7 @@ DEFINE_GLOBAL(u16, gBlockRight_6F63C6, 0x6F63C6);
 DEFINE_GLOBAL(gmp_map_slope*, gCurrentBlockSlope_6F5EC8, 0x6F5EC8);
 // Defined in sprite.cpp: with the definition in this TU VC6 reads the s16 mask with a 32-bit mov
 // (it knows the padding is safe to read), while the original's `mov 0x6F6002,%cx; test %cx,face`
-// needs an extern declaration (Map_0x370::SpriteHitsBlockFacesInArea_4E1A30, CanSpriteEnterTile_4E1E00).
+// needs an extern declaration (Map_0x370::SpriteHitsBlockFacesInArea_4E1A30, IsTileBlockedForSprite_4E1E00).
 EXTERN_GLOBAL(s16, gFaceCollisionMask_6F6002);
 DEFINE_GLOBAL(s32, gSpriteGrid_right_6F5B80, 0x6F5B80);
 DEFINE_GLOBAL(s32, gSpriteGrid_left_6F5FD4, 0x6F5FD4);
@@ -966,7 +966,7 @@ char_type Map_0x370::TakeLowerBlockHasArrows_4E0120()
 // The base slope is read through pNext, not pBlock: a separate variable keeps the first lookup's result in eax.
 // The below-block gradient tests are `== false`: a plain `!` changes which tails VC6 cross-jumps.
 MATCH_FUNC(0x4E0130)
-bool Map_0x370::CanMoveOntoSlopeTile_4E0130(s32 x, s32 y, s32 z, s32 path_direction, u8* pSlopeZDelta, char_type bReportStepUp)
+bool Map_0x370::IsMoveOntoSlopeTileBlocked_4E0130(s32 x, s32 y, s32 z, s32 path_direction, u8* pSlopeZDelta, char_type bReportStepUp)
 {
     gmp_block_info* pBlock;
     gmp_map_slope* pSlope = 0;
@@ -1871,7 +1871,7 @@ bool Map_0x370::SpriteHitsBlockFacesInArea_4E1A30(s32 x_min, s32 x_max, s32 y_mi
 // Each face test passes a plain tile coordinate as u32 (out-of-line Fix16(u32) copy 0x4926F0) and a
 // computed one as s32 (Fix16(s32) copy 0x4369F0); the last argument is converted inline.
 MATCH_FUNC(0x4E1E00)
-char Map_0x370::CanSpriteEnterTile_4E1E00(s32 regionLeft,
+char Map_0x370::IsTileBlockedForSprite_4E1E00(s32 regionLeft,
                                           s32 regionRight,
                                           s32 regionTop,
                                           s32 regionBottom,
@@ -2241,19 +2241,19 @@ char Map_0x370::CanSpriteEnterTile_4E1E00(s32 regionLeft,
 }
 
 MATCH_FUNC(0x4E4460)
-char_type Map_0x370::CanSpriteEnterMovementRegion_4E4460(s32 tile_x, s32 tile_y, s32 tile_z, Sprite* pSprite, s16 collision_mask)
+char_type Map_0x370::IsMovementRegionBlocked_4E4460(s32 tile_x, s32 tile_y, s32 tile_z, Sprite* pSprite, s16 collision_mask)
 {
     gSprite_6F61E8 = pSprite;
     gFaceCollisionMask_6F6002 = collision_mask;
     if (gSpriteGrid_right_6F5B80 - gSpriteGrid_left_6F5FD4 >= 3 || tile_x > gSpriteGrid_left_6F5FD4 + 1 || tile_x < gSpriteGrid_right_6F5B80 - 1)
     {
-        if (CanSpriteEnterTile_4E1E00(tile_x - 1, tile_x + 1, gSpriteGrid_top_6F6108, gSpriteGrid_bottom_6F5F38, tile_x, tile_y, tile_z))
+        if (IsTileBlockedForSprite_4E1E00(tile_x - 1, tile_x + 1, gSpriteGrid_top_6F6108, gSpriteGrid_bottom_6F5F38, tile_x, tile_y, tile_z))
         {
             return 1;
         }
         else if (gSpriteGrid_right_6F5B80 == tile_x + 2)
         {
-            return CanSpriteEnterTile_4E1E00(gSpriteGrid_right_6F5B80 - 1,
+            return IsTileBlockedForSprite_4E1E00(gSpriteGrid_right_6F5B80 - 1,
                                              gSpriteGrid_right_6F5B80,
                                              gSpriteGrid_top_6F6108,
                                              gSpriteGrid_bottom_6F5F38,
@@ -2263,7 +2263,7 @@ char_type Map_0x370::CanSpriteEnterMovementRegion_4E4460(s32 tile_x, s32 tile_y,
         }
         else
         {
-            return CanSpriteEnterTile_4E1E00(gSpriteGrid_left_6F5FD4,
+            return IsTileBlockedForSprite_4E1E00(gSpriteGrid_left_6F5FD4,
                                              gSpriteGrid_left_6F5FD4 + 1,
                                              gSpriteGrid_top_6F6108,
                                              gSpriteGrid_bottom_6F5F38,
@@ -2274,13 +2274,13 @@ char_type Map_0x370::CanSpriteEnterMovementRegion_4E4460(s32 tile_x, s32 tile_y,
     }
     else if (gSpriteGrid_bottom_6F5F38 - gSpriteGrid_top_6F6108 >= 3 || tile_y > gSpriteGrid_top_6F6108 + 1 || tile_y < gSpriteGrid_bottom_6F5F38 - 1)
     {
-        if (CanSpriteEnterTile_4E1E00(gSpriteGrid_left_6F5FD4, gSpriteGrid_right_6F5B80, tile_y - 1, tile_y + 1, tile_x, tile_y, tile_z))
+        if (IsTileBlockedForSprite_4E1E00(gSpriteGrid_left_6F5FD4, gSpriteGrid_right_6F5B80, tile_y - 1, tile_y + 1, tile_x, tile_y, tile_z))
         {
             return 1;
         }
         else if (gSpriteGrid_bottom_6F5F38 == tile_y + 2)
         {
-            return CanSpriteEnterTile_4E1E00(gSpriteGrid_left_6F5FD4,
+            return IsTileBlockedForSprite_4E1E00(gSpriteGrid_left_6F5FD4,
                                              gSpriteGrid_right_6F5B80,
                                              gSpriteGrid_bottom_6F5F38 - 1,
                                              gSpriteGrid_bottom_6F5F38,
@@ -2290,7 +2290,7 @@ char_type Map_0x370::CanSpriteEnterMovementRegion_4E4460(s32 tile_x, s32 tile_y,
         }
         else
         {
-            return CanSpriteEnterTile_4E1E00(gSpriteGrid_left_6F5FD4,
+            return IsTileBlockedForSprite_4E1E00(gSpriteGrid_left_6F5FD4,
                                              gSpriteGrid_right_6F5B80,
                                              gSpriteGrid_top_6F6108,
                                              gSpriteGrid_top_6F6108 + 1,
@@ -2301,7 +2301,7 @@ char_type Map_0x370::CanSpriteEnterMovementRegion_4E4460(s32 tile_x, s32 tile_y,
     }
     else
     {
-        return CanSpriteEnterTile_4E1E00(gSpriteGrid_left_6F5FD4, gSpriteGrid_right_6F5B80, gSpriteGrid_top_6F6108, gSpriteGrid_bottom_6F5F38, tile_x, tile_y, tile_z);
+        return IsTileBlockedForSprite_4E1E00(gSpriteGrid_left_6F5FD4, gSpriteGrid_right_6F5B80, gSpriteGrid_top_6F6108, gSpriteGrid_bottom_6F5F38, tile_x, tile_y, tile_z);
     }
 }
 
@@ -2622,7 +2622,7 @@ Fix16 Map_0x370::FindGroundZBelowCoord_4E4D40(Fix16 x_pos, Fix16 y_pos, Fix16 z_
     Fix16 new_z;
 
     if (z_pos.GetFracValue() == kFpZero_6F610C || !IsGradientSlopeAt_466CF0(x_pos.ToInt(), y_pos.ToInt(), z_pos.ToInt()) ||
-        (new_z = z_pos.GetRoundValue(), Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x_pos, y_pos, new_z), new_z > z_pos))
+        (new_z = z_pos.GetFloorValue(), Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x_pos, y_pos, new_z), new_z > z_pos))
     {
         s32 below_z = z_pos.ToInt() - 1;
         gmp_block_info* pBlock = Map_0x370::FindNonAirBlockAtOrBelowZ_4E4CB0(x_pos.ToInt(), y_pos.ToInt(), below_z);
@@ -2649,7 +2649,7 @@ Fix16 Map_0x370::FindGroundZBelowCoord_4E4D40(Fix16 x_pos, Fix16 y_pos, Fix16 z_
 MATCH_FUNC(0x4E4E50)
 Fix16 Map_0x370::FindGroundZAboveCoord_4E4E50(Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
 {
-    for (Fix16 curr_z = z_pos; curr_z < z_pos + kFpOne_6F6110; curr_z = kFpOne_6F6110 + curr_z.GetRoundValue())
+    for (Fix16 curr_z = z_pos; curr_z < z_pos + kFpOne_6F6110; curr_z = kFpOne_6F6110 + curr_z.GetFloorValue())
     {
         gmp_block_info* pBlockAtPos = GetBlock_4DFE10(x_pos.ToInt(), y_pos.ToInt(), curr_z.ToInt());
         gBlockInfo0_6F5EB0 = pBlockAtPos;
@@ -2676,7 +2676,7 @@ Fix16 Map_0x370::FindGroundZAboveCoord_4E4E50(Fix16 x_pos, Fix16 y_pos, Fix16 z_
         {
             if (IS_GRADIENT_SLOPE(slope_byte))
             {
-                Fix16 unk_z_coord = curr_z.GetRoundValue();
+                Fix16 unk_z_coord = curr_z.GetFloorValue();
                 Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x_pos, y_pos, unk_z_coord);
                 if (unk_z_coord >= curr_z)
                 {
@@ -2694,7 +2694,7 @@ Fix16 Map_0x370::GetGroundZBelowCoord_4E4F40(Fix16 x, Fix16 y, Fix16 z)
     Fix16 new_z;
 
     if (z.GetFracValue() == kFpZero_6F610C || !IsGradientSlopeAt_466CF0(x.ToInt(), y.ToInt(), z.ToInt()) ||
-        (new_z = z.GetRoundValue(), Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, new_z), new_z > z))
+        (new_z = z.GetFloorValue(), Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, new_z), new_z > z))
     {
         s32 int_z = z.ToInt() - 1;
         gBlockInfo0_6F5EB0 = Map_0x370::FindNonAirBlockAtOrBelowZ_4E4CB0(x.ToInt(), y.ToInt(), int_z);
@@ -2728,7 +2728,7 @@ Fix16 Map_0x370::GetGroundZBelowCoordEx_4E5050(Fix16 x, Fix16 y, Fix16 z, bool& 
         {
             if (IS_GRADIENT_SLOPE(pBlockAtPos->field_B_slope_type) && !IS_AIR_TYPE(pBlockAtPos->field_B_slope_type))
             {
-                new_z = z.GetRoundValue();
+                new_z = z.GetFloorValue();
                 Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, new_z);
                 if (new_z <= z)
                 {
@@ -2766,7 +2766,7 @@ bool Map_0x370::IsZOnGround_4E5170(Fix16 x, Fix16 y, Fix16 z)
         {
             if (IS_GRADIENT_SLOPE(gBlockInfo0_6F5EB0->field_B_slope_type) && !IS_AIR_TYPE(gBlockInfo0_6F5EB0->field_B_slope_type))
             {
-                Fix16 new_z = z.GetRoundValue();
+                Fix16 new_z = z.GetFloorValue();
                 Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, new_z);
                 if (new_z == z)
                 {
@@ -2813,8 +2813,8 @@ MATCH_FUNC(0x4E5300)
 bool Map_0x370::CheckZCollisionAtCoord_4E5300(Fix16 x, Fix16 y, Fix16 z, Fix16 second_z)
 {
     Fix16 new_z;
-    Fix16 floor_z = z.GetRoundValue();
-    Fix16 floor_second_z = second_z.GetRoundValue();
+    Fix16 floor_z = z.GetFloorValue();
+    Fix16 floor_second_z = second_z.GetFloorValue();
 
     if (floor_z == floor_second_z)
     {
@@ -2874,8 +2874,8 @@ bool Map_0x370::CheckZCollisionAtCoord_4E5300(Fix16 x, Fix16 y, Fix16 z, Fix16 s
 MATCH_FUNC(0x4E5480)
 bool Map_0x370::CanPlaceOilOrMine_4E5480(Fix16 x, Fix16 y, Fix16 z, Fix16 unk_z_coord, Fix16* found_z)
 {
-    Fix16 z_floor = z.GetRoundValue();
-    Fix16 unk_z_floor = unk_z_coord.GetRoundValue();
+    Fix16 z_floor = z.GetFloorValue();
+    Fix16 unk_z_floor = unk_z_coord.GetFloorValue();
 
     if (z_floor == unk_z_floor)
     {
@@ -3160,7 +3160,7 @@ u8 Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(Fix16 x_pos, Fix16 y_pos, Fix16& z_
             {
                 relative_z_pos = kFpOneSixtyFourth_6F60C0;
             }
-            z_pos = relative_z_pos + z_pos.GetRoundValue();
+            z_pos = relative_z_pos + z_pos.GetFloorValue();
             return gCurrentBlockSlope_6F5EC8->field_0_gradient_direction;
         }
     }
@@ -3389,7 +3389,7 @@ s16 Map_0x370::ClassifyArrowOnSlope_4E6190(Fix16 x, Fix16 y, Fix16 z, s32 arrow_
 MATCH_FUNC(0x4E62B0)
 Fix16 Map_0x370::FloorPlusOne_4E62B0(Fix16 value)
 {
-    return kFpOne_6F6110 + value.GetRoundValue();
+    return kFpOne_6F6110 + value.GetFloorValue();
 }
 
 MATCH_FUNC(0x4E62D0)
@@ -3440,7 +3440,7 @@ Fix16 Map_0x370::GetRailwayZBelowCoord_4E6400(Fix16 x_pos, Fix16 y_pos, Fix16 z_
     Fix16 new_z;
 
     if (z_pos.GetFracValue() == kFpZero_6F610C || !IsGradientSlopeAt_466CF0(x_pos.ToInt(), y_pos.ToInt(), z_pos.ToInt()) ||
-        (new_z = z_pos.GetRoundValue(), Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x_pos, y_pos, new_z), new_z > z_pos))
+        (new_z = z_pos.GetFloorValue(), Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x_pos, y_pos, new_z), new_z > z_pos))
     {
         s32 below_z = z_pos.ToInt() - 1;
         gmp_block_info* pBlock = Map_0x370::FindRailwayBelowZAtCoord_4E6360(x_pos.ToInt(), y_pos.ToInt(), below_z);

@@ -54,7 +54,7 @@ struct GameSession_578
     char_type field_0_map_name[256];
     char_type field_100_style_name[256];
     char_type field_200_script_name[256];
-    char_type field_300_debug_str[256];
+    char_type field_300_save_file_name[256];
     char_type field_400_main_stage;
     char_type field_401_stage;
     char_type field_402_bonus_stage;
@@ -105,7 +105,7 @@ struct GameSession_578
 
     EXPORT char* SetScriptName_4C58B0(char_type* pName);
 
-    EXPORT char_type* DebugStr_4C58D0(char_type* pStr);
+    EXPORT char_type* SetSaveFileName_4C58D0(char_type* pStr);
 
     EXPORT void SetMainStageIdx_4C58F0(char_type main_stage);
 
@@ -123,7 +123,7 @@ struct GameSession_578
 
     EXPORT char_type* GetScriptName_4C5960();
 
-    EXPORT char_type* GetDebugStr_4C5970();
+    EXPORT char_type* GetSaveFileName_4C5970();
 
     EXPORT char_type GetMainStageIdx_4C5980();
 

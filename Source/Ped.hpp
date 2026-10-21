@@ -102,9 +102,9 @@ class Ped
     }
 
     // 9.6f 0x403B20
-    inline u16 get_car_state_timer_403B20()
+    inline u16 get_internal_objective_timer_403B20()
     {
-        return field_21A_car_state_timer;
+        return field_21A_internal_objective_timer;
     }
 
     // 9.6f 0x403B30
@@ -192,7 +192,7 @@ class Ped
     EXPORT void CancelEnterCarObjective_45C5C0();
     EXPORT void SpawnDriverRunAway_45C650(Car_BC* pCar, Ped* pPed);
     EXPORT void SpawnPedInCar_45C730(Car_BC* pCar);
-    EXPORT void EnterCarAsDriver(Car_BC* pCar);
+    EXPORT void EnterCarByBackDoor_45C7A0(Car_BC* pCar);
     EXPORT void EnterCarAsPassenger_45C7F0(Car_BC* pCar);
     EXPORT char_type AllocCharB4_45C830(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT Ang16 GetTurnSpeed_45C900();
@@ -237,8 +237,8 @@ class Ped
     EXPORT void SetStatesForObjective_4633E0(char_type bMainObj);
     EXPORT void SetObjective(s32 objective, s16 objective_timer = 9999); // 9999: never times out
     EXPORT void SetObjective2_463830(s32 internal_objective, s16 internal_objective_timer = 9999);
-    EXPORT void ProcessOnFootObjective_463AA0();
-    EXPORT void ProcessInCarObjective_463FB0();
+    EXPORT void ProcessMainObjective_463AA0();
+    EXPORT void ProcessInternalObjective_463FB0();
     EXPORT void CalcApproachPointNearTargetPed_4645B0();
     EXPORT void Threat_Reaction_AI_465270();
     EXPORT void ReactToAttacker_465B20();
@@ -262,19 +262,19 @@ class Ped
     EXPORT void FleeCharOnFootTillSafe_467960();
     EXPORT void FleeFromCharOnFootAlways_467A20();
     EXPORT void FleeCharAlwaysOnceCarStopped_467AD0();
-    EXPORT void EnterCarOrFlee_467BD0();
+    EXPORT void LeaveCarAndFleeFromIt_467BD0();
     EXPORT void KillCharOnFoot_467CA0();
     EXPORT void KillCharAnyMeans_467E20();
     EXPORT void KillFrenzy_467FB0();
     EXPORT void PunchChar_467FD0();
-    EXPORT void ProcessAirborneMovement_468040();
+    EXPORT void WaitOnFootAtTarget_468040();
     EXPORT void TimeWaitedInCar_4682A0();
     EXPORT void GotoAreaInCar_468310();
     EXPORT void EnterTargetObjectiveCar_4686C0();
     EXPORT void LeaveTargetObjectiveCar_468820();
     EXPORT void EnterTrain_468930();
     EXPORT void LeaveTrain_468A00();
-    EXPORT void AbortEnterCarObjective_468BD0();
+    EXPORT void LeaveCarThenStop_468BD0();
     EXPORT void PatrolOnFoot_468C70();
     EXPORT void GotoAreaOnFoot_468DE0();
     EXPORT void UpdateFollowPedObjective_468E80();
@@ -322,7 +322,7 @@ class Ped
     EXPORT void StartPedCrossingAtTrafficLight_Y_Forwards_46CDB0();
     EXPORT void StartPedCrossingAtTrafficLight_X_Backwards_46CEF0();
     EXPORT void WaitForTrain_46D030();
-    EXPORT void WaitForCarStateTimer_46D0B0();
+    EXPORT void WaitForInternalObjectiveTimer_46D0B0();
     EXPORT void EnterTrainStateMachine_46D0D0();
     EXPORT void ExitTrainStateMachine_46D240();
     EXPORT void FollowCarOnFoot_46D300();
@@ -339,7 +339,7 @@ class Ped
     EXPORT void set_wanted_level_46EF40(u16 wanted);
     EXPORT void IncreaseWantedLevelFromDebugKeys_46EFD0();
     EXPORT void set_wanted_star_count_46F070(u8 star_count);
-    EXPORT bool WantedStartCountLessThan_46F100(u8 star_count);
+    EXPORT bool WantedStarCountGreaterThan_46F100(u8 star_count);
     EXPORT Weapon_30* GetWeaponFromPed_46F110();
     EXPORT void ApplyAimJitter_46F1E0(Weapon_30* pWeapon);
     EXPORT void ManageWeapon_46F390();
@@ -596,7 +596,7 @@ class Ped
         return ret;
     }
 
-    inline void SetVoiceEvent_IfBit24Clear_433DD0(s32 voice_event)
+    inline void SetVoiceEventIfNotOnFire_433DD0(s32 voice_event)
     {
         // TODO: Check if (HIBYTE(this->field_21C) & 1)
         // is correct
@@ -679,7 +679,7 @@ class Ped
     {
         if ((u32)(gpRng_67AB34->get_cur_rng_41CFE0() - field_220_last_voice_rng) > 5)
         {
-            SetVoiceEvent_IfBit24Clear_433DD0(25);
+            SetVoiceEventIfNotOnFire_433DD0(25);
             field_220_last_voice_rng = gpRng_67AB34->get_cur_rng_41CFE0();
         }
     }
@@ -906,7 +906,7 @@ class Ped
     s16 field_214_unused;
     s16 field_216_health;
     u16 field_218_objective_timer;
-    u16 field_21A_car_state_timer;
+    u16 field_21A_internal_objective_timer;
 
     PedFlags32 field_21C_bf;
 
@@ -939,7 +939,7 @@ class Ped
     u8 field_263_prev_attackers_count;
     u8 field_264_killer_id_timer;
     u8 field_265_patrol_list_idx;
-    u8 field_266_path_fail_count;
+    u8 field_266_path_point_count;
     u8 field_267_ped_ref_idx;
     char_type field_268_electrocution_timer;
     char_type field_269_unused;

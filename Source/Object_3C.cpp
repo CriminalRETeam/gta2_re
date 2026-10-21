@@ -123,7 +123,7 @@ Object_2C* SpriteList_4::FindObject2CByModel_5A6A90(s32 obj_type)
 }
 
 MATCH_FUNC(0x5a6ad0)
-AttachedSprite_18* SpriteList_4::FindFirstActiveObject_5A6AD0()
+AttachedSprite_18* SpriteList_4::FindFirstFireExplosion_5A6AD0()
 {
     AttachedSprite_18* pObjIter = this->field_0_p18;
     while (pObjIter)
@@ -242,7 +242,7 @@ char_type SpriteList_4::TagSpriteWithRng_5A6C10(Sprite* toFind)
 }
 
 MATCH_FUNC(0x5a6c40)
-void SpriteList_4::RemoveByRngValue_5A6C40(s32 toFind)
+void SpriteList_4::RemoveAllExceptRngValue_5A6C40(s32 toFind)
 {
     AttachedSprite_18* pIter = this->field_0_p18;
     AttachedSprite_18* pLast = 0;
@@ -295,19 +295,19 @@ void SpriteList_4::AddSprite_5A6CD0(Sprite* pSprite)
     AttachedSprite_18* p18 = gAttachedSpritePool_703B80->Allocate();
     p18->field_0_pSprite = pSprite;
     p18->mpNext = this->field_0_p18;
-    p18->field_6_offset_x = 0;
-    p18->field_8_offset_y = 0;
+    p18->field_8_offset_x = 0;
+    p18->field_C_offset_y = 0;
     field_0_p18 = p18;
 }
 
 MATCH_FUNC(0x5a6d00)
-void SpriteList_4::PushImpactEvent_5A6D00(Sprite* pSprite1, Fix16 x, Fix16 y, Ang16 angle)
+void SpriteList_4::PushAttachedSprite_5A6D00(Sprite* pSprite1, Fix16 x, Fix16 y, Ang16 angle)
 {
     AttachedSprite_18* p18 = gAttachedSpritePool_703B80->Allocate();
     p18->field_0_pSprite = pSprite1;
     p18->mpNext = field_0_p18;
-    p18->field_6_offset_x = x;
-    p18->field_8_offset_y = y;
+    p18->field_8_offset_x = x;
+    p18->field_C_offset_y = y;
     p18->field_10_offset_rot = angle;
     field_0_p18 = p18;
 }

@@ -42,7 +42,7 @@ class cSampleManager
 
     EXPORT void Shutdown_58DB30();
 
-    EXPORT s32 GetPlayBackRateIdx_58DBF0(s32 idx);
+    EXPORT s32 GetPlayBackRate_58DBF0(s32 idx);
 
     EXPORT s32 GetRandomDisplacement_58DC10(s32 idx);
 
@@ -50,7 +50,7 @@ class cSampleManager
 
     EXPORT s32 GetLoopEnd_58DC50(s32 sample_idx);
 
-    EXPORT s32 GetSampleLength_maybe_58DC70(s32 sample_idx);
+    EXPORT s32 GetSampleLength_58DC70(s32 sample_idx);
 
     EXPORT void InitialiseChannel_58DC90(s32 channel, s32 sample_idx);
 
@@ -150,7 +150,7 @@ class cSampleManager
     HDIGDRIVER field_0_hDriver;
     char_type field_4_gtaAudioDriveLetter;
     char_type field_5_str[80];
-    bool field_55_bMusicLoaded;
+    bool field_55_bMusicFound;
     short field_56_pad;
     HSAMPLE field_58_hSamples[16];
     HSAMPLE field_98_hSample;
@@ -168,7 +168,7 @@ class cSampleManager
     char_type field_1EB3_pad;
     HPROVIDER field_1EB4_h3dProvider[256];
     char_type* field_22B4_str[256];
-    HPROVIDER field_26B4_env_idx;
+    HPROVIDER field_26B4_3d_provider_idx;
     s32 field_26B8_bEaxSupported;
     s32 field_26BC_eax_environment;
     s32 field_26C0_3d_provider;

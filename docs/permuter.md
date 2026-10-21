@@ -7,7 +7,7 @@ before spending time on manual permutations. See its README for the passes and o
 
 ```sh
 git submodule update --init 3rdParty/cpp_permuter
-Scripts/permute.sh Source/sound_obj.cpp sound_obj::UpdateCarEngineAudio_57E220 57e220 -j 4 -n 400
+Scripts/permute.sh Source/sound_obj.cpp sound_obj::UpdateCarRadioAudio_57E220 57e220 -j 4 -n 400
 Scripts/permute.sh Source/Foo.cpp Foo::Bar_123456 123456 -m exhaustive -p reorder_saves+invert_if -j 4
 Scripts/permute.sh Source/Foo.cpp Foo::Bar_123456 123456 --base-only   # just print the score
 ```

@@ -146,7 +146,7 @@ cSampleManager::cSampleManager()
     field_1EB0_count_samples = 16;
     field_1EB1_bytes_per_sample = 2;
     field_1EB2_3d_samp_count = 0;
-    field_26B4_env_idx = -1;
+    field_26B4_3d_provider_idx = -1;
     field_26B8_bEaxSupported = 0;
     field_26C0_3d_provider = 0;
     field_2704_float = -1.0;
@@ -160,7 +160,7 @@ cSampleManager::cSampleManager()
 
     field_4_gtaAudioDriveLetter = 0;
 
-    field_55_bMusicLoaded = false;
+    field_55_bMusicFound = false;
 
     u32 driveLetter = 'C';
     while (driveLetter <= 'Z')
@@ -179,7 +179,7 @@ cSampleManager::cSampleManager()
         if (hFile)
         {
             fclose(hFile);
-            field_55_bMusicLoaded = true;
+            field_55_bMusicFound = true;
             field_4_gtaAudioDriveLetter = driveLetter;
             break;
         }
@@ -391,7 +391,7 @@ void cSampleManager::Reset3DSamples_58D960()
 
     field_1EB0_count_samples = 16;
     field_1EB2_3d_samp_count = 0;
-    field_26B4_env_idx = -1;
+    field_26B4_3d_provider_idx = -1;
     field_26B8_bEaxSupported = 0;
     field_26C0_3d_provider = 0;
     field_2704_float = -1.0;
@@ -464,7 +464,7 @@ void cSampleManager::Shutdown_58DB30()
     {
         if (i == 0)
         {
-            if (field_55_bMusicLoaded)
+            if (field_55_bMusicFound)
             {
                 if (field_9C_hStreams[0])
                 {
@@ -504,7 +504,7 @@ void cSampleManager::Shutdown_58DB30()
 }
 
 MATCH_FUNC(0x58DBF0)
-s32 cSampleManager::GetPlayBackRateIdx_58DBF0(s32 idx)
+s32 cSampleManager::GetPlayBackRate_58DBF0(s32 idx)
 {
     const s32 playBackRate = field_A8_sdt_entries[idx].field_8_playBackRate;
     if (playBackRate == 0)
@@ -533,7 +533,7 @@ s32 cSampleManager::GetLoopEnd_58DC50(s32 sample_idx)
 }
 
 MATCH_FUNC(0x58DC70)
-s32 cSampleManager::GetSampleLength_maybe_58DC70(s32 sample_idx)
+s32 cSampleManager::GetSampleLength_58DC70(s32 sample_idx)
 {
     return field_A8_sdt_entries[sample_idx].field_4_sample_length;
 }
@@ -751,13 +751,13 @@ void cSampleManager::SetEaxEnvironment_58E010(s32 env_idx)
 MATCH_FUNC(0x58E140)
 char_type cSampleManager::Open3DProvider_58E140(s32 envIdx)
 {
-    field_26B4_env_idx = envIdx;
+    field_26B4_3d_provider_idx = envIdx;
     if (envIdx != -1)
     {
         M3DRESULT envIdx2 = AIL_open_3D_provider(field_1EB4_h3dProvider[envIdx]);
         if (envIdx2 != M3D_NOERR)
         {
-            field_26B4_env_idx = -1;
+            field_26B4_3d_provider_idx = -1;
             return 0;
         }
 
@@ -827,7 +827,7 @@ const char_type dma_wav_5FF5D8[3][6] = {"d.wav", "m.wav", "a.wav"};
 MATCH_FUNC(0x58E2C0)
 bool cSampleManager::StreamStatus_58E2C0()
 {
-    if (field_55_bMusicLoaded)
+    if (field_55_bMusicFound)
     {
         if (field_9C_hStreams[0])
         {
@@ -848,7 +848,7 @@ bool cSampleManager::StreamStatus_58E2C0()
 MATCH_FUNC(0x58E2F0)
 void cSampleManager::StreamSetVolume_58E2F0(u8 vol)
 {
-    if (field_55_bMusicLoaded)
+    if (field_55_bMusicFound)
     {
         if (field_9C_hStreams[0])
         {
@@ -861,7 +861,7 @@ MATCH_FUNC(0x58E320)
 void cSampleManager::OpenStream_58E320(u32 stream_idx)
 {
     char_type wavPath[80];
-    if (field_55_bMusicLoaded)
+    if (field_55_bMusicFound)
     {
         if (!field_9C_hStreams[0] && stream_idx < 3)
         {
@@ -892,7 +892,7 @@ void cSampleManager::OpenStream_58E320(u32 stream_idx)
 MATCH_FUNC(0x58E460)
 void cSampleManager::CloseStream_58E460()
 {
-    if (field_55_bMusicLoaded)
+    if (field_55_bMusicFound)
     {
         if (field_9C_hStreams[0])
         {
@@ -905,7 +905,7 @@ void cSampleManager::CloseStream_58E460()
 MATCH_FUNC(0x58E490)
 void cSampleManager::FadeOut_58E490()
 {
-    if (field_55_bMusicLoaded && field_9C_hStreams[0])
+    if (field_55_bMusicFound && field_9C_hStreams[0])
     {
         u8 cur_vol = AIL_stream_volume(field_9C_hStreams[0]);
         if (cur_vol > 0)
@@ -928,13 +928,13 @@ void cSampleManager::FadeOut_58E490()
 MATCH_FUNC(0x58E500)
 char_type cSampleManager::MusicFileExists_58E500()
 {
-    return field_55_bMusicLoaded;
+    return field_55_bMusicFound;
 }
 
 MATCH_FUNC(0x58E510)
 void cSampleManager::PlayVocal_58E510(s32 stream_idx, s32 voc_idx, char_type bAppendA)
 {
-    if (stream_idx || field_55_bMusicLoaded)
+    if (stream_idx || field_55_bMusicFound)
     {
         if (field_9C_hStreams[stream_idx])
         {
@@ -1070,7 +1070,7 @@ void cSampleManager::PlayAtIdx_58E7F0(s32 idx)
             AIL_set_sample_address(field_98_hSample,
                                    (BYTE*)field_1EAC_pAudioBuffer2 + field_A8_sdt_entries[idx].field_0_offset,
                                    field_A8_sdt_entries[idx].field_4_sample_length);
-            AIL_set_sample_playback_rate(field_98_hSample, GetPlayBackRateIdx_58DBF0(idx));
+            AIL_set_sample_playback_rate(field_98_hSample, GetPlayBackRate_58DBF0(idx));
             AIL_set_sample_pan(field_98_hSample, 64);
             AIL_set_sample_loop_count(field_98_hSample, 1);
             AIL_start_sample(field_98_hSample);

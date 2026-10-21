@@ -70,7 +70,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 0 | 34 | 86 | - | 0x5d0850 | `Hud_Arrow_7C::UpdateScreenPos_5D0850` | Hud.cpp |
 | 0 | 35 | 40 | - | 0x4eeaf0 | `MapRenderer::Draw3SidedDiagonalUpLeft_4EEAF0` | MapRenderer.cpp |
 | 0 | 35 | 44 | - | 0x4f0030 | `MapRenderer::Draw4SidedDiagonalDownRight_4F0030` | MapRenderer.cpp |
-| 0 | 38 | 104 | 34 | 0x4c9b60 | `PedGroup::MergeWithOtherGroup_4C9B60` | PedGroup.cpp |
+| 0 | 38 | 104 | 34 | 0x4c9b60 | `PedGroup::GroupAttackPed_4C9B60` | PedGroup.cpp |
 | 0 | 38 | 225 | 387 | 0x4482c0 | `CarAI_78::BrakeForBlockedRoadAhead_4482C0` | CarAI_78.cpp |
 | 0 | 38 | 44 | - | 0x4efb20 | `MapRenderer::Draw4SidedDiagonalUpRight_4EFB20` | MapRenderer.cpp |
 | 0 | 38 | 48 | - | 0x4ef1c0 | `MapRenderer::Draw3SidedDiagonalDownLeft_4EF1C0` | MapRenderer.cpp |
@@ -124,7 +124,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 2 | 70 | 452 | 194 | 0x550f60 | `Char_B4::GetNextRotationToward_550F60` | char.cpp |
 | 2 | 84 | 288 | 70 | 0x523bf0 | `Object_2C::IntegrateMovementAndCollisions_523BF0` | Object_5C.cpp |
 | 2 | 94 | 291 | 176 | 0x53e450 | `Particle_8::EmitBloodBurst_53E450` | Particle_8.cpp |
-| 2 | 124 | 182 | 124 | 0x51f210 | `NetPlay::CalcPacketLen_51F210` | NetPlay.cpp |
+| 2 | 124 | 182 | 124 | 0x51f210 | `NetPlay::DecodeReceivedPacket_51F210` | NetPlay.cpp |
 | 2 | 189 | 395 | - | 0x4645b0 | `Ped::CalcApproachPointNearTargetPed_4645B0` | Ped.cpp |
 | 2 | 303 | 776 | 243 | 0x53e970 | `Particle_8::GunMuzzelFlash_53E970` | Particle_8.cpp |
 | 3 | 15 | 61 | 102 | 0x53b670 | `Particle_4C::UpdateAttachedEmitter_state_9_10_53B670` | Particle_4C.cpp |
@@ -136,7 +136,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 4 | 20 | 36 | 0 | 0x548840 | `Char_B4::HandleObjectCollision_548840` | char.cpp |
 | 4 | 28 | 80 | 551 | 0x546360 | `Char_B4::UpdateAnimState_546360` | char.cpp |
 | 4 | 30 | 54 | 104 | 0x5552b0 | `PathFinder_2FD4::FindNearbyTileMatchingSlopeType_5552B0` | PathFinder_2FD4.cpp |
-| 4 | 34 | 108 | 214 | 0x55f3b0 | `ComputeLineLineIntersection_55F3B0` | CarPhysics_B0.cpp |
+| 4 | 34 | 108 | 214 | 0x55f3b0 | `ComputeCollisionImpulse_55F3B0` | CarPhysics_B0.cpp |
 | 4 | 36 | 46 | 111 | 0x46d460 | `Ped::AttackTargetStateMachine_46D460` | Ped.cpp |
 | 4 | 46 | 58 | - | 0x55d200 | `CarPhysics_B0::SpawnSkidSegment_55D200` | CarPhysics_B0.cpp |
 | 4 | 48 | 140 | - | 0x44a1f0 | `CarAI_78::FollowRoadDirection_44A1F0` | CarAI_78.cpp |
@@ -174,7 +174,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 16 | 158 | 609 | - | 0x44af00 | `CarAI_78::AlignToLaneCenter_44AF00` | CarAI_78.cpp |
 | 17 | 14 | 160 | - | 0x53a280 | `Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280` | Particle_4C.cpp |
 | 19 | 71 | 129 | 56 | 0x571a30 | `PoliceCrew_38::sub_571A30` | Police_38.cpp |
-| 20 | 88 | 528 | 722 | 0x4e0130 | `Map_0x370::CanMoveOntoSlopeTile_4E0130` | map_0x370.cpp |
+| 20 | 88 | 528 | 722 | 0x4e0130 | `Map_0x370::IsMoveOntoSlopeTileBlocked_4E0130` | map_0x370.cpp |
 | 20 | 90 | 146 | 105 | 0x5238b0 | `Object_2C::HandleSpriteZCollision_5238B0` | Object_5C.cpp |
 | 20 | 113 | 339 | 226 | 0x451980 | `CarAI_78::ReactToNearbyCar_451980` | CarAI_78.cpp |
 | 20 | 123 | 203 | - | 0x416260 | `sound_obj::Type_1_6_416260` | sound_obj.cpp |
@@ -185,7 +185,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 22 | 218 | 616 | - | 0x4661f0 | `Ped::IsThreatToSearchingPed_4661F0` | Ped.cpp |
 | 23 | 192 | 529 | 369 | 0x575ff0 | `PoliceRoadblock_A4::CreateRoadblock_575FF0` | Police_38.cpp |
 | 24 | 140 | 482 | 105 | 0x5538a0 | `Char_B4::HandleCarImpact_5538A0` | char.cpp |
-| 24 | 194 | 461 | 913 | 0x54ef60 | `Char_B4::CanStepDiagonal_54EF60` | char.cpp |
+| 24 | 194 | 461 | 913 | 0x54ef60 | `Char_B4::CanStepToTile_54EF60` | char.cpp |
 | 25 | 82 | 179 | 108 | 0x5e5a30 | `Start_NetworkGame_5E5A30` | winmain.cpp |
 | 30 | 102 | 150 | - | 0x44d1d0 | `CarAI_78::DetectCarAhead_44D1D0` | CarAI_78.cpp |
 | 36 | 119 | 403 | 750 | 0x54a530 | `Char_B4::HandleGenericCollision_54A530` | char.cpp |

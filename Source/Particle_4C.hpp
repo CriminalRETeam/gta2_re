@@ -50,7 +50,7 @@ class Particle_4C
     Sprite* field_28_pSprite;
     u16 field_2C_counter;
     u16 field_2E_initial_counter;
-    Sprite* field_30_pNext;
+    Sprite* field_30_pOwnSprite;
     s32 field_34_unused;
     s32 field_38_state;
     Particle_4C* mpNext; // 0x3C

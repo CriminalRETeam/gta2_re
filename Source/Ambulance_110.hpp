@@ -21,7 +21,7 @@ class Ambulance_20
     EXPORT Ambulance_20();
     EXPORT ~Ambulance_20();
     EXPORT void ClearTask_4FA7D0();
-    EXPORT void AddPassenger_4FA800(Ped* pPed);
+    EXPORT void AddPatient_4FA800(Ped* pPed);
     EXPORT bool SpawnParamedicCrew_4FA820();
     EXPORT void EvaluatePickupState_4FA9D0();
     EXPORT void HandleObjectiveState_4FAAC0();

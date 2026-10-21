@@ -282,7 +282,7 @@ class Fix16
         return *this;
     }
 
-    inline Fix16 GetRoundValue() const
+    inline Fix16 GetFloorValue() const
     {
         // get the "integer part" of Fix16, since everything less than 0x3FFF is decimal in float
         return Fix16(mValue & 0xFFFFC000, 0); // 0xFFFFC000 = 0xFFFFFFFF - Fix16(1)
@@ -441,10 +441,10 @@ class Fix16
 
     // Out-of-line copy of the inline below, at its address (callers use the inline, which VC6 emits as
     // its own COMDAT copy). Defined in CarPhysics_B0.cpp.
-    EXPORT static Fix16 __stdcall ClampToRangeFlexible_ool_55EEE0(Fix16& first, Fix16& second, Fix16& third);
+    EXPORT static Fix16 __stdcall Max3_ool_55EEE0(Fix16& first, Fix16& second, Fix16& third);
 
     // NOTE: 10.5 function - matched but inlined
-    static inline Fix16 __stdcall ClampToRangeFlexible_55EEE0(Fix16& first, Fix16& second, Fix16& third)
+    static inline Fix16 __stdcall Max3_55EEE0(Fix16& first, Fix16& second, Fix16& third)
     {
         if (first > second)
         {

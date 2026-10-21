@@ -13,7 +13,7 @@ DEFINE_GLOBAL(HWND, gHwnd_707F04, 0x707F04);
 
 // todo: add to header
 EXTERN_GLOBAL(s32, gGTA2VersionMajor_708280);
-EXTERN_GLOBAL(s32, gGTA2VersionMajor_708284);
+EXTERN_GLOBAL(s32, gGTA2VersionMinor_708284);
 
 MATCH_FUNC(0x4D9470)
 void ErrorLog::Open_4D9470(const char_type* path, s32 truncate_mode)
@@ -120,7 +120,7 @@ ErrorLog::~ErrorLog()
 MATCH_FUNC(0x4D95A0)
 void ErrorLog::log_intro_4D95A0()
 {
-    sprintf(gTmpBuffer_67C598, "Coop v%d.%d", gGTA2VersionMajor_708280, gGTA2VersionMajor_708284);
+    sprintf(gTmpBuffer_67C598, "Coop v%d.%d", gGTA2VersionMajor_708280, gGTA2VersionMinor_708284);
     Write_4D9620(gTmpBuffer_67C598);
 
     time_t curTime = time(0);
