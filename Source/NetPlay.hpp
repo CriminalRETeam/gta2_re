@@ -139,7 +139,7 @@ struct Network_504
 
 struct Network_Buffer_8
 {
-    void* field_0;
+    void* field_0_data;
     s32 field_4_len;
 };
 

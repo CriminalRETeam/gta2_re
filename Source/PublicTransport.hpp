@@ -21,7 +21,7 @@ class Train_58
     EXPORT void OpenCarriageDoors_578360();
     EXPORT void UpdatePassengerAI_578390();
     EXPORT void ProcessTrainExplosionChain_578670();
-    char_type field_0;
+    char_type field_0_is_hijacked;
     char_type field_1_unused;
     char_type field_2;
     char_type field_3_unused;
@@ -37,7 +37,7 @@ class Train_58
     char_type field_46_unused;
     char_type field_47_unused;
     s32 field_48_stop_phase;
-    TrainStation_34* field_4C_maybe_train_station;
+    TrainStation_34* field_4C_station;
     s32 field_50_state;
     char_type field_54_passenger_timer;
     char_type field_55_unused;

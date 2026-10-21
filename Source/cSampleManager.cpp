@@ -154,7 +154,7 @@ cSampleManager::cSampleManager()
     field_270C_float = -1.0;
     field_26BC_eax_environment = 0;
     field_2710_3d_provider_count = 0;
-    field_2714_bUnknown = 0;
+    field_2714_is_stereo = 0;
 
     DisableA3DSplash_58D620();
 
@@ -225,7 +225,7 @@ char_type cSampleManager::SoundInit_58D6C0(s32* a2)
 {
     AIL_startup();
 
-    if (!OpenDigitalDriver_58D720(1, field_2714_bUnknown, 22050))
+    if (!OpenDigitalDriver_58D720(1, field_2714_is_stereo, 22050))
     {
         AIL_shutdown();
         return 0;
@@ -290,7 +290,7 @@ char_type cSampleManager::OpenDigitalDriver_58D720(char_type bFlag, char_type bS
         return 0;
     }
 
-    field_2714_bUnknown = bStereo;
+    field_2714_is_stereo = bStereo;
 
     AllocSample_58DA80();
 
@@ -311,7 +311,7 @@ char_type cSampleManager::Init3DProvider_58D820(BYTE* pMaxSamples)
     Terminate_58DAE0();
     Reset3DSamples_58D960();
 
-    if (field_2714_bUnknown)
+    if (field_2714_is_stereo)
     {
         AIL_waveOutClose(field_0_hDriver);
         if (!OpenDigitalDriver_58D720(1, 0, 22050))
@@ -406,7 +406,7 @@ char_type cSampleManager::AllocSamples_58D9F0(s32 a2)
     Terminate_58DAE0();
     Reset3DSamples_58D960();
 
-    if (field_2714_bUnknown)
+    if (field_2714_is_stereo)
     {
         AIL_waveOutClose(field_0_hDriver);
 

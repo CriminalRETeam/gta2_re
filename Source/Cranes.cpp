@@ -100,7 +100,7 @@ void Crane_15C::ComputeHookPos_47E620(Fix16 radius, Ang16 ang, Fix16_Point* pOut
     pOutPoint->x = (pOutPoint->x * cos) + (pOutPoint->y * sin);
     pOutPoint->y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(pOutPoint->y * cos);
 
-    *pOutPoint += field_2C_rotor_obj->field_4->get_x_y();
+    *pOutPoint += field_2C_rotor_obj->field_4_sprite->get_x_y();
 }
 
 MATCH_FUNC(0x47e730)
@@ -113,7 +113,7 @@ void Crane_15C::ComputeHookPos_47E730(Ang16 radius, Fix16 ang, Fix16_Point* pOut
     Fix16 x_old = pOutPoint->x;
     pOutPoint->x = (pOutPoint->x * cos) + (pOutPoint->y * sin);
     pOutPoint->y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(pOutPoint->y * cos);
-    *pOutPoint += field_2C_rotor_obj->field_4->get_x_y();
+    *pOutPoint += field_2C_rotor_obj->field_4_sprite->get_x_y();
 }
 
 // 9.6f 0x448030
@@ -128,7 +128,7 @@ void Crane_15C::ComputeHookOffset_47E840(Ang16 ang, Fix16_Point* pOutPoint)
     Fix16 x_old = pOutPoint->x;
     pOutPoint->x = (pOutPoint->x * cos) + (pOutPoint->y * sin);
     pOutPoint->y = (-x_old).Multiply_408680(sin).Add_408660(pOutPoint->y.Multiply_408680(cos));
-    *pOutPoint += field_2C_rotor_obj->field_4->get_x_y();
+    *pOutPoint += field_2C_rotor_obj->field_4_sprite->get_x_y();
 }
 
 // 9.6f 0x448090
@@ -219,7 +219,7 @@ void Crane_15C::HookTransporterCargo_47EDF0()
     gSpriteGrid_3_679210->Remove_477B00(field_6C_transporter_cargo);
 
     this->field_74_pSprite_on_hook = this->field_6C_transporter_cargo;
-    this->field_10_hooked_sprite_offset = field_74_pSprite_on_hook->get_x_y() - field_54_hook_obj->field_4->get_x_y();
+    this->field_10_hooked_sprite_offset = field_74_pSprite_on_hook->get_x_y() - field_54_hook_obj->field_4_sprite->get_x_y();
 
     field_60_probe_sprite->field_C_pCollisionShape->CopyDimensions_447DF0(field_74_pSprite_on_hook->field_C_pCollisionShape);
 
@@ -272,7 +272,7 @@ void Crane_15C::HookPickupCar_47EF80()
     gSpriteGrid_1_679208->AddToSpriteRectBuckets_477B60(field_68_pickup_car);
 
     this->field_74_pSprite_on_hook = this->field_68_pickup_car;
-    this->field_10_hooked_sprite_offset = field_74_pSprite_on_hook->get_x_y().Sub_40AC80(field_54_hook_obj->field_4->get_x_y());
+    this->field_10_hooked_sprite_offset = field_74_pSprite_on_hook->get_x_y().Sub_40AC80(field_54_hook_obj->field_4_sprite->get_x_y());
 
     field_60_probe_sprite->field_C_pCollisionShape->CopyDimensions_447DF0(field_74_pSprite_on_hook->field_C_pCollisionShape);
 
@@ -511,7 +511,7 @@ void Crane_15C::UpdateCraneTargets_47F4C0()
 MATCH_FUNC(0x47f6c0)
 bool Crane_15C::ComputeHookPolar_47F6C0(Fix16_Point& pPoint, Fix16* pOutF16, Fix16* pOutAng)
 {
-    Fix16_Point to_hook = (pPoint.Sub_40AC80(field_2C_rotor_obj->field_4->get_x_y()));
+    Fix16_Point to_hook = (pPoint.Sub_40AC80(field_2C_rotor_obj->field_4_sprite->get_x_y()));
     *pOutF16 = to_hook.GetLength_41E260();
 
     // TODO: 1st check is removed in 9.6f ??
@@ -738,44 +738,44 @@ void Crane_15C::UpdateCraneSprites_47FE10()
     field_54_hook_obj->RemoveFromCollisionBuckets_527D00();
 
     ComputeHookPos_47E730(crane_angle, kFpHalf_679D34, &pos);
-    field_30_part_obj_0->field_4->set_ang_lazy_420690(crane_angle);
-    field_30_part_obj_0->field_4->set_xy_lazy_447E20(pos.x, pos.y);
+    field_30_part_obj_0->field_4_sprite->set_ang_lazy_420690(crane_angle);
+    field_30_part_obj_0->field_4_sprite->set_xy_lazy_447E20(pos.x, pos.y);
 
-    field_40_part_obj_4->field_4->set_ang_lazy_420690(crane_angle);
-    field_40_part_obj_4->field_4->set_xy_lazy_447E20(pos.x, pos.y);
+    field_40_part_obj_4->field_4_sprite->set_ang_lazy_420690(crane_angle);
+    field_40_part_obj_4->field_4_sprite->set_xy_lazy_447E20(pos.x, pos.y);
 
     ComputeHookPos_47E730(crane_angle, kFpOneAndHalf_679D30, &pos);
-    field_34_part_obj_1->field_4->set_ang_lazy_420690(crane_angle);
-    field_34_part_obj_1->field_4->set_xy_lazy_447E20(pos.x, pos.y);
+    field_34_part_obj_1->field_4_sprite->set_ang_lazy_420690(crane_angle);
+    field_34_part_obj_1->field_4_sprite->set_xy_lazy_447E20(pos.x, pos.y);
 
-    field_44_part_obj_5->field_4->set_ang_lazy_420690(crane_angle);
-    field_44_part_obj_5->field_4->set_xy_lazy_447E20(pos.x, pos.y);
+    field_44_part_obj_5->field_4_sprite->set_ang_lazy_420690(crane_angle);
+    field_44_part_obj_5->field_4_sprite->set_xy_lazy_447E20(pos.x, pos.y);
 
     ComputeHookPos_47E730(crane_angle, kFpTwoAndHalf_679D2C, &pos);
-    field_38_part_obj_2->field_4->set_ang_lazy_420690(crane_angle);
-    field_38_part_obj_2->field_4->set_xy_lazy_447E20(pos.x, pos.y);
+    field_38_part_obj_2->field_4_sprite->set_ang_lazy_420690(crane_angle);
+    field_38_part_obj_2->field_4_sprite->set_xy_lazy_447E20(pos.x, pos.y);
 
-    field_48_part_obj_6->field_4->set_ang_lazy_420690(crane_angle);
-    field_48_part_obj_6->field_4->set_xy_lazy_447E20(pos.x, pos.y);
+    field_48_part_obj_6->field_4_sprite->set_ang_lazy_420690(crane_angle);
+    field_48_part_obj_6->field_4_sprite->set_xy_lazy_447E20(pos.x, pos.y);
 
     ComputeHookPos_47E730(crane_angle, kFpThreeAndHalf_679D28, &pos);
-    field_3C_part_obj_3->field_4->set_ang_lazy_420690(crane_angle);
-    field_3C_part_obj_3->field_4->set_xy_lazy_447E20(pos.x, pos.y);
+    field_3C_part_obj_3->field_4_sprite->set_ang_lazy_420690(crane_angle);
+    field_3C_part_obj_3->field_4_sprite->set_xy_lazy_447E20(pos.x, pos.y);
 
-    field_4C_part_obj_7->field_4->set_ang_lazy_420690(crane_angle);
-    field_4C_part_obj_7->field_4->set_xy_lazy_447E20(pos.x, pos.y);
+    field_4C_part_obj_7->field_4_sprite->set_ang_lazy_420690(crane_angle);
+    field_4C_part_obj_7->field_4_sprite->set_xy_lazy_447E20(pos.x, pos.y);
 
-    field_50_part_obj_8->field_4->set_ang_lazy_420690(crane_angle);
+    field_50_part_obj_8->field_4_sprite->set_ang_lazy_420690(crane_angle);
 
     ComputeHookOffset_47E840(crane_angle, &pos);
-    field_5C_counterweight_obj->field_4->set_ang_lazy_420690(crane_angle);
-    field_5C_counterweight_obj->field_4->set_xy_lazy_447E20(pos.x, pos.y);
+    field_5C_counterweight_obj->field_4_sprite->set_ang_lazy_420690(crane_angle);
+    field_5C_counterweight_obj->field_4_sprite->set_xy_lazy_447E20(pos.x, pos.y);
 
     ComputeHookPos_47E620(field_90_hook_radius, crane_angle, &pos);
-    field_50_part_obj_8->field_4->set_xy_lazy_447E20(pos.x, pos.y);
+    field_50_part_obj_8->field_4_sprite->set_xy_lazy_447E20(pos.x, pos.y);
 
-    field_54_hook_obj->field_4->set_xyz_lazy_420600(pos.x, pos.y, field_80_ground_z - field_84_hook_depth);
-    field_54_hook_obj->field_4->set_ang_lazy_420690(Ang16::Fix16_To_Ang16_40F540(field_A0_hook_axial_angle));
+    field_54_hook_obj->field_4_sprite->set_xyz_lazy_420600(pos.x, pos.y, field_80_ground_z - field_84_hook_depth);
+    field_54_hook_obj->field_4_sprite->set_ang_lazy_420690(Ang16::Fix16_To_Ang16_40F540(field_A0_hook_axial_angle));
 
     if (field_74_pSprite_on_hook)
     {
@@ -808,7 +808,7 @@ void Crane_15C::Service_480310()
     Crane_15C::UpdateCraneTargets_47F4C0();
     if (!field_148_disabled)
     {
-        if (field_78_maybe_homecrane == NULL || !check_8c_a8_447f40() || field_78_maybe_homecrane->check_8c_a8_447f40())
+        if (field_78_home_crane == NULL || !check_8c_a8_447f40() || field_78_home_crane->check_8c_a8_447f40())
         {
             Crane_15C::UpdateCraneTick_47FD50();
         }
@@ -847,7 +847,7 @@ void Crane_15C::InitCrane_4803B0(Fix16 x_pos, Fix16 y_pos, char_type obj_id)
 
     field_58_crane_base_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_base_137, x_pos, y_pos, field_80_ground_z - kFpTwo_679C78, kAngZero_679FC4);
     field_58_crane_base_obj->set_field_26(obj_id);
-    field_78_maybe_homecrane = 0;
+    field_78_home_crane = 0;
     field_94_hook_radius_speed = kZero_679E70;
     field_98_crane_angle_speed = kZero_679E70;
     field_9C_unused = kZero_679E70;

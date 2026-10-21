@@ -413,13 +413,13 @@ class CarPhysics_B0
         field_93_is_forward_gas_on = 1;
         field_91_is_foot_brake_on = 0;
         field_94_is_backward_gas_on = 0;
-        field_95 = 0;
+        field_95_is_coasting = 0;
     }
 
     // FUNCTION: 96f 0x42ABC0
     void ForceNeutralInput_42ABC0()
     {
-        field_95 = 1;
+        field_95_is_coasting = 1;
         field_91_is_foot_brake_on = 0;
         field_94_is_backward_gas_on = 0;
         field_93_is_forward_gas_on = 0;
@@ -431,7 +431,7 @@ class CarPhysics_B0
         field_91_is_foot_brake_on = 0;
         field_93_is_forward_gas_on = 0;
         field_94_is_backward_gas_on = 0;
-        field_95 = 0;
+        field_95_is_coasting = 0;
     }
 
     // Unknown 9.6f inlined func
@@ -440,7 +440,7 @@ class CarPhysics_B0
         field_94_is_backward_gas_on = 1;
         field_91_is_foot_brake_on = 0;
         field_93_is_forward_gas_on = 0;
-        field_95 = 0;
+        field_95_is_coasting = 0;
     }
 
     // FUNCTION: 96f 0x42ABA0
@@ -494,7 +494,7 @@ class CarPhysics_B0
     char_type field_92_is_hand_brake_on;
     char_type field_93_is_forward_gas_on;
     char_type field_94_is_backward_gas_on;
-    char_type field_95;
+    char_type field_95_is_coasting;
     char_type field_96_unused;
     char_type field_97_unused;
     s32 field_98_surface_type;

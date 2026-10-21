@@ -68,7 +68,7 @@ class PedGroup
 
     inline s32 Get_F3C_433370()
     {
-        return field_3C;
+        return field_3C_is_leader_waiting;
     }
 
     char_type field_0;
@@ -84,7 +84,7 @@ class PedGroup
     char_type field_36_count;
     char_type field_37_unused;
     s32 field_38_group_type;
-    s32 field_3C;
+    s32 field_3C_is_leader_waiting;
     char_type field_40_in_use;
     char_type field_41_unused;
     char_type field_42_unused;

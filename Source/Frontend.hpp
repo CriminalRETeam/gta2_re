@@ -128,7 +128,7 @@ struct MenuPage_0xBCA
     u16 field_2_number_of_elements;
     menu_option_0x82 field_4_options_array[10];
     menu_element_0x6E field_518_elements_array[15];
-    MenuOption_6 field_B8A[10];
+    MenuOption_6 field_B8A_option_states[10];
     u16 field_BC6_current_option_idx;
     s16 field_BC8_default_option_idx;
 };
@@ -247,7 +247,7 @@ struct Frontend
     s16 field_12A_score_font;
     s16 field_12C;
     s16 field_12E_unused;
-    s16 field_130;
+    s16 field_130_title_font;
     u16 field_132_f136_idx;
     s16 field_134_unused;
     MenuPage_0xBCA field_136_menu_pages_array[17];

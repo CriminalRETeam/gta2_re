@@ -35,7 +35,7 @@ struct SoundPosEntry_C
     //char_type field_6;
     //char_type field_7;
     s16 field_8;
-    u8 field_A;
+    u8 field_A_horn_pattern_idx;
     char_type field_B_unused;
 };
 
@@ -51,7 +51,7 @@ struct AudioEntity_C
 
 struct SoundEntry_1C
 {
-    char_type field_0;
+    char_type field_0_fifth_frame_flag;
     char_type field_1_unused;
     char_type field_2_unused;
     char_type field_3;
@@ -70,11 +70,11 @@ struct sound_f16_pos_0x1C
     Fix16 field_4_xpos;
     Fix16 field_8_ypos;
 
-    s32 field_C;
+    s32 field_C_station_idx;
     s16 field_10;
     s16 field_12;
-    s32 field_14;
-    s32 field_18;
+    s32 field_14_elapsed_frames;
+    s32 field_18_pos_ms;
 };
 
 struct sound_0x68
@@ -106,7 +106,7 @@ struct sound_0x68
     s32 field_38_loop_end;
     s32 field_3C_speed_multiplier;
     char_type field_40_pan;
-    char_type field_41;
+    char_type field_41_releasing_sound_flag;
     char_type field_42_unused;
     char_type field_43_unused;
     s32 field_44_frames_to_play;
@@ -229,16 +229,16 @@ class sound_obj
     char_type field_54E7_unused;
     s16 field_54E8[5];
     u8 field_54F2[5];
-    u8 field_54F7[5];
+    u8 field_54F7_active_emitter_idx[5];
     s32 field_54FC;
     s32 field_5500;
     char_type field_5504_radio_station_change_mode;
     char_type field_5505_unused;
-    char_type field_5506;
+    char_type field_5506_mute_timer;
     char_type field_5507_unused;
     s32 field_5508_radio_entity_idx;
     SoundObject_10 field_550C_radio_entity;
-    s32 field_551C;
+    s32 field_551C_fade_in_timer;
     u8 field_5520_bCanPlay;
     u8 field_5521_radio_word;
     s16 field_5522_wanted_star_count;

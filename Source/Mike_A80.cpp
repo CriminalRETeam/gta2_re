@@ -178,16 +178,16 @@ void Mike_A80::StartProfileTimer_4FF990(u32 idx)
     switch (idx)
     {
         case 0:
-            m81.field_0 = timeGetTime();
+            m81.field_0_start_time = timeGetTime();
             break;
         case 1:
-            m82.field_0 = timeGetTime();
+            m82.field_0_start_time = timeGetTime();
             break;
         case 2:
-            m84.field_0 = timeGetTime();
+            m84.field_0_start_time = timeGetTime();
             break;
         case 3:
-            m85.field_0 = timeGetTime();
+            m85.field_0_start_time = timeGetTime();
             break;
     }
 }
@@ -198,16 +198,16 @@ void Mike_A80::StopProfileTimer_4FF9F0(u32 idx)
     switch (idx)
     {
         case 0:
-            m81.field_4 = timeGetTime();
+            m81.field_4_end_time = timeGetTime();
             break;
         case 1:
-            m82.field_4 = timeGetTime();
+            m82.field_4_end_time = timeGetTime();
             break;
         case 2:
-            m84.field_4 = timeGetTime();
+            m84.field_4_end_time = timeGetTime();
             break;
         case 3:
-            m85.field_4 = timeGetTime();
+            m85.field_4_end_time = timeGetTime();
             break;
     }
 }

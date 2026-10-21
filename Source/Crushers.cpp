@@ -127,22 +127,22 @@ void Crusher_30::Service_488350()
 
         Object_2C* Obj_0 = field_0_piston_top;
         Obj_0->RemoveFromCollisionBuckets_527D00();
-        Obj_0->field_4->set_xy_lazy_447E20(field_24_xpos, field_28_ypos - field_20_h);
+        Obj_0->field_4_sprite->set_xy_lazy_447E20(field_24_xpos, field_28_ypos - field_20_h);
         Obj_0->AssignToBucket_527AE0();
 
         Object_2C* Obj_4 = field_4_piston_right;
         Obj_4->RemoveFromCollisionBuckets_527D00();
-        Obj_4->field_4->set_xy_lazy_447E20(field_24_xpos + field_1C_w, field_28_ypos);
+        Obj_4->field_4_sprite->set_xy_lazy_447E20(field_24_xpos + field_1C_w, field_28_ypos);
         Obj_4->AssignToBucket_527AE0();
 
         Object_2C* Obj_8 = field_8_piston_bottom;
         Obj_8->RemoveFromCollisionBuckets_527D00();
-        Obj_8->field_4->set_xy_lazy_447E20(field_24_xpos, field_20_h + field_28_ypos);
+        Obj_8->field_4_sprite->set_xy_lazy_447E20(field_24_xpos, field_20_h + field_28_ypos);
         Obj_8->AssignToBucket_527AE0();
 
         Object_2C* Obj_C = field_C_piston_left;
         Obj_C->RemoveFromCollisionBuckets_527D00();
-        Obj_C->field_4->set_xy_lazy_447E20(field_24_xpos - field_1C_w, field_28_ypos);
+        Obj_C->field_4_sprite->set_xy_lazy_447E20(field_24_xpos - field_1C_w, field_28_ypos);
         Obj_C->AssignToBucket_527AE0();
     }
 }

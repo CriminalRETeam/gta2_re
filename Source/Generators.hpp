@@ -27,7 +27,7 @@ class Generator_2C
     u16 field_1C_ammo;
     u16 field_1E_kill_timer;
     char_type field_20;
-    char_type field_21;
+    char_type field_21_spawn_mode;
     char_type field_22_unused;
     char_type field_23_unused;
     Object_2C* field_24_obj;

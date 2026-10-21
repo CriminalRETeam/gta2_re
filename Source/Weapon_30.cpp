@@ -242,11 +242,11 @@ Object_2C* Weapon_30::spawn_bullet_5DCF60(s32 bullet_type, Fix16 xpos, Fix16 ypo
     probe_y = field_24_pPed->get_cam_y() + (ypos - field_24_pPed->get_cam_y()) / kFP16Two_706EC0;
     p5CSprite->set_xyz_lazy_420600(probe_x, probe_y, zpos);
 
-    p5CSprite->set_ang_lazy_420690(pNewBullet->field_4->field_0_rotation);
+    p5CSprite->set_ang_lazy_420690(pNewBullet->field_4_sprite->field_0_rotation);
 
-    p5CSprite->AllocCollisionShape_59F950(pNewBullet->field_8->field_0_width, kFP16Quarter_706CF4, pNewBullet->field_8->field_8_depth);
-    p5CSprite->SetType_4206F0(pNewBullet->field_4->GetType_416B40());
-    p5CSprite->SetObject2C_482A30(pNewBullet->field_4->field_8_object_2C_ptr);
+    p5CSprite->AllocCollisionShape_59F950(pNewBullet->field_8_definition->field_0_width, kFP16Quarter_706CF4, pNewBullet->field_8_definition->field_8_depth);
+    p5CSprite->SetType_4206F0(pNewBullet->field_4_sprite->GetType_416B40());
+    p5CSprite->SetObject2C_482A30(pNewBullet->field_4_sprite->field_8_object_2C_ptr);
 
     pNewBullet->SetDamageOwner_529080(field_24_pPed->get_ped_ref_idx_420B50());
 
@@ -657,12 +657,12 @@ void Weapon_30::throwable_5DDFC0(s32 obj_idx, s32 throw_strength, s32 throw_char
                             if (obj_idx == objects::moving_molotov_138)
                             {
                                 Object_2C* pLightObj = gObject_5C_6F8F84->NewLight_529A40(94, 138, 2, 0xFF8000, 3, 255);
-                                pProjectile->field_4->DispatchCollisionEvent_5A3100(pLightObj->field_4, 0, 0, kAngZero_707006);
+                                pProjectile->field_4_sprite->DispatchCollisionEvent_5A3100(pLightObj->field_4_sprite, 0, 0, kAngZero_707006);
                                 Object_2C* pMaybeExplosionObj =
                                     gObject_5C_6F8F84->CreateExplosion_52A3D0(Fix16(113), Fix16(145), 2, kAngZero_707006, explosion_type::molotov_fire_5, field_24_pPed->field_200_id);
                                 if (pMaybeExplosionObj)
                                 {
-                                    pProjectile->field_4->DispatchCollisionEvent_5A3100(pMaybeExplosionObj->field_4, 0, 0, kAngZero_707006);
+                                    pProjectile->field_4_sprite->DispatchCollisionEvent_5A3100(pMaybeExplosionObj->field_4_sprite, 0, 0, kAngZero_707006);
                                 }
                             }
                             else
@@ -1198,7 +1198,7 @@ void Weapon_30::ChainShockTargets_5DFB60(u8 bFlag, Sprite* pSprite, Ang16 target
             switch (pHit->GetType_416B40())
             {
                 case sprite_types_enum::ped_3:
-                    if (pSprite != pHit && !gWeapon_8_707018->field_0.SpriteExists_5A6D80(pHit))
+                    if (pSprite != pHit && !gWeapon_8_707018->field_0_hit_sprites.SpriteExists_5A6D80(pHit))
                     {
                         angle = Fix16::atan2_fixed_405320(pHit->field_14_xy.y - pSprite->field_14_xy.y, pHit->field_14_xy.x - pSprite->field_14_xy.x);
                         Fix16::MaxAbsDistance_42A6B0(pHit->field_14_xy.x, pHit->field_14_xy.y, pSprite->field_14_xy.x, pSprite->field_14_xy.y);
@@ -1220,7 +1220,7 @@ void Weapon_30::ChainShockTargets_5DFB60(u8 bFlag, Sprite* pSprite, Ang16 target
                                 DrawElectricArc_5DE910(pSprite->get_x_y(),
                                            pHit->get_x_y(),
                                            pHit->field_1C_zpos > pSprite->field_1C_zpos ? pHit->field_1C_zpos : pSprite->field_1C_zpos);
-                                gWeapon_8_707018->field_0.PushSprite_5A6D40(pHit);
+                                gWeapon_8_707018->field_0_hit_sprites.PushSprite_5A6D40(pHit);
                                 if (bFlag < 1)
                                 {
                                     ChainShockTargets_5DFB60(bFlag + 1, pHit, angle);
@@ -1243,7 +1243,7 @@ void Weapon_30::ChainShockTargets_5DFB60(u8 bFlag, Sprite* pSprite, Ang16 target
                     break;
 
                 case sprite_types_enum::car_2:
-                    if (pSprite != pHit && !gWeapon_8_707018->field_0.SpriteExists_5A6D80(pHit))
+                    if (pSprite != pHit && !gWeapon_8_707018->field_0_hit_sprites.SpriteExists_5A6D80(pHit))
                     {
                         angle = Fix16::atan2_fixed_405320(pHit->field_14_xy.y - pSprite->field_14_xy.y, pHit->field_14_xy.x - pSprite->field_14_xy.x);
                         Fix16::MaxAbsDistance_42A6B0(pHit->field_14_xy.x, pHit->field_14_xy.y, pSprite->field_14_xy.x, pSprite->field_14_xy.y);
@@ -1265,7 +1265,7 @@ void Weapon_30::ChainShockTargets_5DFB60(u8 bFlag, Sprite* pSprite, Ang16 target
                                 DrawElectricArc_5DE910(pSprite->get_x_y(),
                                            pHit->get_x_y(),
                                            pHit->field_1C_zpos > pSprite->field_1C_zpos ? pHit->field_1C_zpos : pSprite->field_1C_zpos);
-                                gWeapon_8_707018->field_0.PushSprite_5A6D40(pHit);
+                                gWeapon_8_707018->field_0_hit_sprites.PushSprite_5A6D40(pHit);
                                 if (bFlag < 1)
                                 {
                                     ChainShockTargets_5DFB60(bFlag + 1, pHit, angle);
@@ -1310,7 +1310,7 @@ void Weapon_30::ChainShockTargets_5DFB60(u8 bFlag, Sprite* pSprite, Ang16 target
 MATCH_FUNC(0x5e06b0)
 void Weapon_30::shocker_5E06B0()
 {
-    gWeapon_8_707018->field_0.ClearList_5A6E10();
+    gWeapon_8_707018->field_0_hit_sprites.ClearList_5A6E10();
 
     ChainShockTargets_5DFB60(0,
                this->field_24_pPed->field_168_game_object->field_80_sprite_ptr,

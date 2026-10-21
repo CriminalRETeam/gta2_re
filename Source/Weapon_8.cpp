@@ -155,7 +155,7 @@ Weapon_8::Weapon_8()
         }
     }
     field_4_ref_count = 0;
-    field_0.ResetHead_4207E0();
+    field_0_hit_sprites.ResetHead_4207E0();
 }
 
 MATCH_FUNC(0x5e3f60)

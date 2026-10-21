@@ -173,7 +173,7 @@ struct SCR_THREAD : SCR_CMD_HEADER
     {
         struct
         {
-            u16 field_10;
+            u16 field_10_char_var_idx;
             u16 field_12_car_or_phone_idx;
         };
         struct
@@ -377,7 +377,7 @@ struct SCR_START_BONUS : SCR_CMD_HEADER
     u16 field_14_reward;
     u16 field_16_unused;
     u16 field_18_ptr;
-    u8 field_1A;
+    u8 field_1A_death_cause;
     u8 field_1B_unused;
 };
 

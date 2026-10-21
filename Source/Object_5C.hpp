@@ -156,19 +156,19 @@ class Object_2C
     // 9.6f 0x475A70
     inline bool IsStaticCollisionCheck_475A70()
     {
-        return field_8->field_34_behavior_type == object_behavior_type::static_collision_check_1;
+        return field_8_definition->field_34_behavior_type == object_behavior_type::static_collision_check_1;
     }
 
     // 9.6f 0x475A60
     inline bool IsShop_475A60()
     {
-        s32 behavior_type = field_8->field_34_behavior_type;
+        s32 behavior_type = field_8_definition->field_34_behavior_type;
         return behavior_type == object_behavior_type::shop_10;
     }
 
     bool IsAnimatedBehavior_475A80()
     {
-        s32 t = this->field_8->field_34_behavior_type;
+        s32 t = this->field_8_definition->field_34_behavior_type;
         return t == object_behavior_type::animated_2 || t == object_behavior_type::physics_animated_4 || t == object_behavior_type::pickup_animated_8 || t == object_behavior_type::pickup_physics_animated_9;
     }
 
@@ -183,9 +183,9 @@ class Object_2C
 
     bool CanBePushed_482C90() // matched
     {
-        s32 f34 = field_8->field_34_behavior_type;
+        s32 f34 = field_8_definition->field_34_behavior_type;
         if (f34 == object_behavior_type::physics_3 || f34 == object_behavior_type::physics_animated_4 ||
-            ((f34 == object_behavior_type::static_object_0 || f34 == object_behavior_type::static_collision_check_1 || f34 == object_behavior_type::animated_2) && field_8->field_44 == 2))
+            ((f34 == object_behavior_type::static_object_0 || f34 == object_behavior_type::static_collision_check_1 || f34 == object_behavior_type::animated_2) && field_8_definition->field_44_touch_behavior == 2))
         {
             return true;
         }
@@ -194,7 +194,7 @@ class Object_2C
 
     bool UsesParamAsPedRef_421080()
     {
-        s32 type = this->field_8->field_34_behavior_type;
+        s32 type = this->field_8_definition->field_34_behavior_type;
         return type != object_behavior_type::pickup_6 && type != object_behavior_type::pickup_physics_7 &&
             type != object_behavior_type::pickup_animated_8 && type != object_behavior_type::pickup_physics_animated_9 &&
             type != object_behavior_type::shop_10 && type != object_behavior_type::static_collision_check_1 &&
@@ -209,7 +209,7 @@ class Object_2C
 
     bool IsSpriteGrid2Region3_4210B0()
     {
-        return field_8->field_40_collision_bucket_category == collision_bucket_category::sprite_grid_2_region_3;
+        return field_8_definition->field_40_collision_bucket_category == collision_bucket_category::sprite_grid_2_region_3;
     }
 
     // Inlined on version 9.6f 0x447e90 (also 9.6f copies 0x45E0A0 and 0x482C00)
@@ -239,7 +239,7 @@ class Object_2C
     // 9.6f 0x40FF00
     inline char_type GetDefHasShadowsField_40FF00()
     {
-        return field_8->field_63;
+        return field_8_definition->field_63;
     }
 
     // 9.6f 0x475AA0
@@ -251,10 +251,10 @@ class Object_2C
 
     bool IsPickup_421060()
     {
-        return field_8->field_34_behavior_type == object_behavior_type::pickup_6 ||
-            field_8->field_34_behavior_type == object_behavior_type::pickup_physics_7 ||
-            field_8->field_34_behavior_type == object_behavior_type::pickup_animated_8 ||
-            field_8->field_34_behavior_type == object_behavior_type::pickup_physics_animated_9;
+        return field_8_definition->field_34_behavior_type == object_behavior_type::pickup_6 ||
+            field_8_definition->field_34_behavior_type == object_behavior_type::pickup_physics_7 ||
+            field_8_definition->field_34_behavior_type == object_behavior_type::pickup_animated_8 ||
+            field_8_definition->field_34_behavior_type == object_behavior_type::pickup_physics_animated_9;
     }
 
     // 9.6f 0x482490
@@ -266,23 +266,23 @@ class Object_2C
         field_10_obj_3c = 0;
         field_C_pAny.o8 = 0;
         field_1C_has_explosion = 0;
-        field_4 = 0;
+        field_4_sprite = 0;
         field_18_model = 0;
     }
 
     inline Fix16 GetX_4340D0()
     {
-        return field_4->field_14_xy.x;
+        return field_4_sprite->field_14_xy.x;
     }
 
     inline Fix16 GetY_4340E0()
     {
-        return field_4->field_14_xy.y;
+        return field_4_sprite->field_14_xy.y;
     }
 
     inline Fix16 GetZ_4340F0()
     {
-        return field_4->field_1C_zpos;
+        return field_4_sprite->field_1C_zpos;
     }
 
     // 9.6f 0x4BE850
@@ -315,12 +315,12 @@ class Object_2C
     // 9.6f 0x482C80
     inline Fix16 GetMass_482C80()
     {
-        return field_8->field_18_mass;
+        return field_8_definition->field_18_mass;
     }
 
     void ApplyDefinitionDrawLayer_482BE0()
     {
-        field_4->SetDrawLayer_40F7B0(field_8->field_2C_draw_layer);
+        field_4_sprite->SetDrawLayer_40F7B0(field_8_definition->field_2C_draw_layer);
     }
 
     // 9.6f 0x482C10, defined in Object_5C.cpp (needs Object_8)
@@ -335,12 +335,12 @@ class Object_2C
     // 9.6f 0x482BF0
     void SetTopDrawLayer_482BF0()
     {
-        field_4->SetDrawLayer_40F7B0(29);
+        field_4_sprite->SetDrawLayer_40F7B0(29);
     }
 
     Object_2C* mpNext;
-    Sprite* field_4;
-    ObjectDefinition_74* field_8;
+    Sprite* field_4_sprite;
+    ObjectDefinition_74* field_8_definition;
     union TAny
     {
         Explosion_30* pExplosion;

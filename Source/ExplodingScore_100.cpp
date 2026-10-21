@@ -103,10 +103,10 @@ ExplodingScore_50::ExplodingScore_50()
     {
         field_4_digits[i] = 0;
     }
-    field_36 = 0;
+    field_36_alpha = 0;
     field_38 = 0;
-    field_3C = 0;
-    field_40 = 0;
+    field_3C_x_offset_mult = 0;
+    field_40_y_offset_mult = 0;
     field_4C_score = 0;
     field_48_unused = 0;
     mpNext = 0;
@@ -240,10 +240,10 @@ void ExplodingScore_50::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32
 
     this->field_34_palette = gExplodingScorePool->NextPalette_596860();
 
-    this->field_36 = 25;
+    this->field_36_alpha = 25;
     this->field_38 = 2;
-    this->field_3C = 1;
-    this->field_40 = 1;
+    this->field_3C_x_offset_mult = 1;
+    this->field_40_y_offset_mult = 1;
 }
 
 MATCH_FUNC(0x596c90)
@@ -365,18 +365,18 @@ char_type ExplodingScore_50::PoolUpdate()
 {
     if (field_38 < 0)
     {
-        field_3C++;
-        field_40++;
+        field_3C_x_offset_mult++;
+        field_40_y_offset_mult++;
 
-        if (field_36 > 2u)
+        if (field_36_alpha > 2u)
         {
-            field_36 -= 2;
+            field_36_alpha -= 2;
             field_38--;
             return 0;
         }
         else
         {
-            field_36 = 0;
+            field_36_alpha = 0;
             gExplodingScorePool->IncrementFreeScores_596880();
             return 1;
         }
@@ -416,8 +416,8 @@ void ExplodingScore_50::DrawSingleNumber_597100(s32 number_to_draw, s32 xpos_sub
     s32 y_off;
     if (field_38 < 0) // scale factor?
     {
-        x_off = this->field_3C * (x_base - xpos_sub);
-        y_off = -7 * this->field_40;
+        x_off = this->field_3C_x_offset_mult * (x_base - xpos_sub);
+        y_off = -7 * this->field_40_y_offset_mult;
         base_scale = Fix16(-field_38);
     }
     else
@@ -449,7 +449,7 @@ void ExplodingScore_50::DrawSingleNumber_597100(s32 number_to_draw, s32 xpos_sub
                                       drawKind, // drawkind
                                       this->field_34_palette,
                                       1,
-                                      this->field_36,
+                                      this->field_36_alpha,
                                       1);
                 }
             }

@@ -501,7 +501,7 @@ class Hud_Arrow_7C
     // 9.6f inline 0x4C6F80
     inline bool IsType0_4C6F80()
     {
-        if (field_18.field_18_primary_target.HasNoTarget_4C6F20() && field_18.field_3C_secondary_target.HasNoTarget_4C6F20())
+        if (field_18_targets.field_18_primary_target.HasNoTarget_4C6F20() && field_18_targets.field_3C_secondary_target.HasNoTarget_4C6F20())
         {
             return true;
         }
@@ -511,7 +511,7 @@ class Hud_Arrow_7C
     // 9.6f inline 0x4C7050
     inline bool IsVisible_4C7050()
     {
-        if (field_18.field_10.field_5_is_visible)
+        if (field_18_targets.field_10.field_5_is_visible)
         {
             return true;
         }
@@ -520,37 +520,37 @@ class Hud_Arrow_7C
 
     inline void swap_arrows_4C7060()
     {
-        if (field_18.field_60_curr_target == &field_18.field_18_primary_target)
+        if (field_18_targets.field_60_curr_target == &field_18_targets.field_18_primary_target)
         {
-            field_18.field_60_curr_target = &field_18.field_3C_secondary_target;
+            field_18_targets.field_60_curr_target = &field_18_targets.field_3C_secondary_target;
         }
         else
         {
-            field_18.field_60_curr_target = &field_18.field_18_primary_target;
+            field_18_targets.field_60_curr_target = &field_18_targets.field_18_primary_target;
         }
     }
 
     // 9.6f 0x476850
     inline void SetArrowTargetPed_476850(Ped* pPed)
     {
-        field_18.field_18_primary_target.SetTargetPed_4767E0(pPed);
+        field_18_targets.field_18_primary_target.SetTargetPed_4767E0(pPed);
     }
 
     // 9.6f 0x476860
     inline void SetArrowTargetCar_476860(Car_BC* pCar)
     {
-        field_18.field_18_primary_target.SetTargetCar(pCar);
+        field_18_targets.field_18_primary_target.SetTargetCar(pCar);
     }
 
     // 9.6f 0x476870
     inline void SetArrowTargetObject_476870(Object_2C* pObj)
     {
-        field_18.field_18_primary_target.SetTargetObject_476810(pObj);
+        field_18_targets.field_18_primary_target.SetTargetObject_476810(pObj);
     }
 
     inline void SetArrowAim_476840(Fix16 xpos, Fix16 ypos, Fix16 zpos)
     {
-        ArrowTrace_24* pTarget = &field_18.field_18_primary_target;
+        ArrowTrace_24* pTarget = &field_18_targets.field_18_primary_target;
         pTarget->field_14_aim_x = xpos;
         pTarget->field_18_aim_y = ypos;
         pTarget->field_1C_aim_z = zpos;
@@ -564,7 +564,7 @@ class Hud_Arrow_7C
     Fix16 field_C_min_radius_pos; // minimum radial distance from the player
     Fix16 field_10_radius_pos; // radial distance from the player
     Fix16 field_14_reposition_speed; // how slower/faster the arrow goes to the aim target, or "get back" to the player
-    Hud_ArrowTargets_64 field_18;
+    Hud_ArrowTargets_64 field_18_targets;
 };
 
 class Hud_Arrow_7C_Array

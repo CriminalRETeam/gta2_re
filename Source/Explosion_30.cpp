@@ -140,19 +140,19 @@ void Explosion_30::EmitRandomDiagonalParticle_540A40()
         if (pParticle)
         {
             pParticle->field_40_pExplosion = this;
-            pParticle->field_44 = this->field_6_id;
-            if (field_14_pObj2C->field_4)
+            pParticle->field_44_explosion_id = this->field_6_id;
+            if (field_14_pObj2C->field_4_sprite)
             {
-                pParticle->field_20_speed = field_14_pObj2C->field_4->field_8_object_2C_ptr->GetEffectiveSpeed_5290F0();
-                pParticle->field_24_angle = field_14_pObj2C->field_4->field_8_object_2C_ptr->field_10_obj_3c->field_4_angle;
+                pParticle->field_20_speed = field_14_pObj2C->field_4_sprite->field_8_object_2C_ptr->GetEffectiveSpeed_5290F0();
+                pParticle->field_24_angle = field_14_pObj2C->field_4_sprite->field_8_object_2C_ptr->field_10_obj_3c->field_4_angle;
             }
             pParticle->field_34_unused = 1;
             pParticle->field_38_state = 6;
             pParticle->field_2C_counter = 100;
-            pParticle->field_2E = 100;
+            pParticle->field_2E_initial_counter = 100;
             pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
             pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette);
-            pParticle->field_30_pNext->set_xyz_lazy_420600(field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y, field_14_pObj2C->field_4->field_1C_zpos);
+            pParticle->field_30_pNext->set_xyz_lazy_420600(field_14_pObj2C->field_4_sprite->field_14_xy.x, field_14_pObj2C->field_4_sprite->field_14_xy.y, field_14_pObj2C->field_4_sprite->field_1C_zpos);
             gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
             this->field_18_particle_cooldown = gRng_6F6784.get_int_4F7AE0(5);
         }
@@ -183,18 +183,18 @@ void Explosion_30::EmitFireTrail_3_12_540D30(Ang16 ang, Fix16 speed)
         if (pParticle)
         {
             pParticle->field_40_pExplosion = this;
-            pParticle->field_44 = this->field_6_id;
+            pParticle->field_44_explosion_id = this->field_6_id;
             pParticle->field_20_speed = speed;
             pParticle->field_24_angle = ang;
             pParticle->field_34_unused = 0;
             pParticle->field_46_sub_state = 0;
             pParticle->field_2C_counter = 32;
-            pParticle->field_2E = 32;
+            pParticle->field_2E_initial_counter = 32;
             pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
             pParticle->field_38_state = 3;
             pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 96);
             pParticle->field_30_pNext->SetNoLighting_4337F0();
-            pParticle->field_30_pNext->set_xyz_lazy_420600(field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y, field_14_pObj2C->field_4->field_1C_zpos);
+            pParticle->field_30_pNext->set_xyz_lazy_420600(field_14_pObj2C->field_4_sprite->field_14_xy.x, field_14_pObj2C->field_4_sprite->field_14_xy.y, field_14_pObj2C->field_4_sprite->field_1C_zpos);
             gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
             this->field_18_particle_cooldown = gRng_6F6784.get_int_4F7AE0(2);
         }
@@ -226,18 +226,18 @@ void Explosion_30::EmitFireTrail_4_540F90(Ang16 ang, Fix16 speed)
         if (pParticle)
         {
             pParticle->field_40_pExplosion = this;
-            pParticle->field_44 = this->field_6_id;
+            pParticle->field_44_explosion_id = this->field_6_id;
             pParticle->field_20_speed = speed;
             pParticle->field_24_angle = ang;
             pParticle->field_34_unused = 0;
             pParticle->field_46_sub_state = 0;
             pParticle->field_2C_counter = 32;
-            pParticle->field_2E = 32;
+            pParticle->field_2E_initial_counter = 32;
             pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
             pParticle->field_38_state = 4;
             pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette);
             pParticle->field_30_pNext->SetNoLighting_4337F0();
-            pParticle->field_30_pNext->set_xyz_lazy_420600(field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y, field_14_pObj2C->field_4->field_1C_zpos);
+            pParticle->field_30_pNext->set_xyz_lazy_420600(field_14_pObj2C->field_4_sprite->field_14_xy.x, field_14_pObj2C->field_4_sprite->field_14_xy.y, field_14_pObj2C->field_4_sprite->field_1C_zpos);
             gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
             this->field_18_particle_cooldown = gRng_6F6784.get_int_4F7AE0(2);
         }
@@ -268,18 +268,18 @@ void Explosion_30::EmitFireTrail_13_14_5411E0(Ang16 ang, Fix16 speed)
         if (pParticle)
         {
             pParticle->field_40_pExplosion = this;
-            pParticle->field_44 = this->field_6_id;
+            pParticle->field_44_explosion_id = this->field_6_id;
             pParticle->field_20_speed = speed;
             pParticle->field_24_angle = ang;
             pParticle->field_34_unused = 0;
             pParticle->field_46_sub_state = 0;
             pParticle->field_2C_counter = 32;
-            pParticle->field_2E = 32;
+            pParticle->field_2E_initial_counter = 32;
             pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
             pParticle->field_38_state = 36;
             pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette);
             pParticle->field_30_pNext->SetNoLighting_4337F0();
-            pParticle->field_30_pNext->set_xyz_lazy_420600(field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y, field_14_pObj2C->field_4->field_1C_zpos);
+            pParticle->field_30_pNext->set_xyz_lazy_420600(field_14_pObj2C->field_4_sprite->field_14_xy.x, field_14_pObj2C->field_4_sprite->field_14_xy.y, field_14_pObj2C->field_4_sprite->field_1C_zpos);
             gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
             this->field_18_particle_cooldown = gRng_6F6784.get_int_4F7AE0(2);
         }
@@ -313,19 +313,19 @@ void Explosion_30::EmitFireTrail_5_541430(Ang16 ang, Fix16 speed)
         if (pParticle)
         {
             pParticle->field_40_pExplosion = this;
-            pParticle->field_44 = field_6_id;
+            pParticle->field_44_explosion_id = field_6_id;
             pParticle->field_20_speed = speed;
             pParticle->field_24_angle = ang;
             pParticle->field_34_unused = 0;
             pParticle->field_46_sub_state = 0;
             pParticle->field_2C_counter = 32;
-            pParticle->field_2E = 32;
+            pParticle->field_2E_initial_counter = 32;
             pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
             pParticle->field_38_state = 5;
             pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 96);
-            pParticle->field_30_pNext->set_xyz_lazy_420600(field_14_pObj2C->field_4->field_14_xy.x,
-                                                      field_14_pObj2C->field_4->field_14_xy.y,
-                                                      field_14_pObj2C->field_4->field_1C_zpos);
+            pParticle->field_30_pNext->set_xyz_lazy_420600(field_14_pObj2C->field_4_sprite->field_14_xy.x,
+                                                      field_14_pObj2C->field_4_sprite->field_14_xy.y,
+                                                      field_14_pObj2C->field_4_sprite->field_1C_zpos);
             gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
             this->field_18_particle_cooldown = gRng_6F6784.get_int_4F7AE0(2);
             pParticle->field_30_pNext->SetBlendAndAlpha_4337D0(2, 20);
@@ -405,9 +405,9 @@ void Explosion_30::SpawnFlashParticle_541760()
             pNew->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
             pNew->field_30_pNext->SetNoLighting_4337F0();
             pNew->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 37);
-            pNew->field_30_pNext->set_xyz_lazy_420600(field_14_pObj2C->field_4->field_14_xy.x,
-                                                      field_14_pObj2C->field_4->field_14_xy.y,
-                                                      field_14_pObj2C->field_4->field_1C_zpos);
+            pNew->field_30_pNext->set_xyz_lazy_420600(field_14_pObj2C->field_4_sprite->field_14_xy.x,
+                                                      field_14_pObj2C->field_4_sprite->field_14_xy.y,
+                                                      field_14_pObj2C->field_4_sprite->field_1C_zpos);
             gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pNew->field_30_pNext);
             pNew->field_48_timer = 10;
         }
@@ -425,12 +425,12 @@ void Explosion_30::ApplyBlastDamage_541850(u16 timerVal)
 
     this->field_28_blast_radius = blast_radius;
 
-    Fix16 left = field_14_pObj2C->field_4->field_14_xy.x - field_28_blast_radius * kFP16Two_6FD4A4;
-    Fix16 right = field_14_pObj2C->field_4->field_14_xy.x + field_28_blast_radius * kFP16Two_6FD4A4;
-    Fix16 top = field_14_pObj2C->field_4->field_14_xy.y - field_28_blast_radius * kFP16Two_6FD4A4;
-    Fix16 bottom = field_14_pObj2C->field_4->field_14_xy.y + field_28_blast_radius * kFP16Two_6FD4A4;
-    Fix16 z_low = field_14_pObj2C->field_4->field_1C_zpos - half_height;
-    Fix16 z_high = field_14_pObj2C->field_4->field_1C_zpos + half_height;
+    Fix16 left = field_14_pObj2C->field_4_sprite->field_14_xy.x - field_28_blast_radius * kFP16Two_6FD4A4;
+    Fix16 right = field_14_pObj2C->field_4_sprite->field_14_xy.x + field_28_blast_radius * kFP16Two_6FD4A4;
+    Fix16 top = field_14_pObj2C->field_4_sprite->field_14_xy.y - field_28_blast_radius * kFP16Two_6FD4A4;
+    Fix16 bottom = field_14_pObj2C->field_4_sprite->field_14_xy.y + field_28_blast_radius * kFP16Two_6FD4A4;
+    Fix16 z_low = field_14_pObj2C->field_4_sprite->field_1C_zpos - half_height;
+    Fix16 z_high = field_14_pObj2C->field_4_sprite->field_1C_zpos + half_height;
 
     if (this->field_1A_timer == explosion_timer::first_tick_99 && unk_6FD5F6 == 1)
     {
@@ -441,7 +441,7 @@ void Explosion_30::ApplyBlastDamage_541850(u16 timerVal)
     rect.SetRect_41E350(left, right, top, bottom);
     rect.SetHiLowZ_41E370(z_low, z_high);
 
-    if (gSpriteGrid_1_679208->CollectRectCollisions_477F30(&rect, 0, 0, field_14_pObj2C->field_4, &collision_list))
+    if (gSpriteGrid_1_679208->CollectRectCollisions_477F30(&rect, 0, 0, field_14_pObj2C->field_4_sprite, &collision_list))
     {
         while (collision_list.field_0_p18)
         {
@@ -463,13 +463,13 @@ void Explosion_30::ApplyBlastDamage_541850(u16 timerVal)
                     pPedChar->field_7C_pPed->field_290_death_cause = ped_death_cause::unknown_4;
                     pPedChar->field_7C_pPed->field_264_killer_id_timer = 50;
 
-                    Fix16 dx = pSprite->field_14_xy.x - this->field_14_pObj2C->field_4->field_14_xy.x;
-                    Fix16 dy = pSprite->field_14_xy.y - this->field_14_pObj2C->field_4->field_14_xy.y;
+                    Fix16 dx = pSprite->field_14_xy.x - this->field_14_pObj2C->field_4_sprite->field_14_xy.x;
+                    Fix16 dy = pSprite->field_14_xy.y - this->field_14_pObj2C->field_4_sprite->field_14_xy.y;
 
                     Ang16 ang;
                     ang = Fix16::atan2_fixed_405320(dy, dx);
 
-                    Fix16 distance = Fix16::MaxAbsDistance_42A6B0(pSprite->field_14_xy.x, pSprite->field_14_xy.y, field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y);
+                    Fix16 distance = Fix16::MaxAbsDistance_42A6B0(pSprite->field_14_xy.x, pSprite->field_14_xy.y, field_14_pObj2C->field_4_sprite->field_14_xy.x, field_14_pObj2C->field_4_sprite->field_14_xy.y);
                     if (distance > this->field_28_blast_radius)
                     {
                         if (timerVal < 70u)
@@ -504,7 +504,7 @@ void Explosion_30::ApplyBlastDamage_541850(u16 timerVal)
                     {
                         if (!pCar->IsMaxDamage_40F890() && !pCar->IsTrainModel_403BA0() && !pCar->IsImmuneToExplosionType_43B850(field_10_type))
                         {
-                            if (Fix16::MaxAbsDistance_42A6B0(pSprite->field_14_xy.x, pSprite->field_14_xy.y, field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y) <= this->field_28_blast_radius)
+                            if (Fix16::MaxAbsDistance_42A6B0(pSprite->field_14_xy.x, pSprite->field_14_xy.y, field_14_pObj2C->field_4_sprite->field_14_xy.x, field_14_pObj2C->field_4_sprite->field_14_xy.y) <= this->field_28_blast_radius)
                             {
                                 // 9.6f: PedRefTable_7F8::GetPedId_420F10 (inlined, using it here makes the diff worse)
                                 s32 exploder_ped_id = gPedRefTable_7F8_703398->field_0_entries[this->field_14_pObj2C->field_26_ped_ref_idx].field_0_ped_id;
@@ -542,9 +542,9 @@ void Explosion_30::ApplyBlastDamage_541850(u16 timerVal)
                     }
                     else if (timerVal == explosion_timer::first_tick_99)
                     {
-                        if (Fix16::MaxAbsDistance_42A6B0(pSprite->field_14_xy.x, pSprite->field_14_xy.y, field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y) <= this->field_28_blast_radius)
+                        if (Fix16::MaxAbsDistance_42A6B0(pSprite->field_14_xy.x, pSprite->field_14_xy.y, field_14_pObj2C->field_4_sprite->field_14_xy.x, field_14_pObj2C->field_4_sprite->field_14_xy.y) <= this->field_28_blast_radius)
                         {
-                            pCar->ApplyExplosionImpulse_443710(&this->field_14_pObj2C->field_4->get_x_y_443580());
+                            pCar->ApplyExplosionImpulse_443710(&this->field_14_pObj2C->field_4_sprite->get_x_y_443580());
                         }
                     }
                 }
@@ -580,8 +580,8 @@ void Explosion_30::EmitExplosion_18_33_541D60()
                 Ang16::PolarToCartesian_41FC20(field_22_spawn_angle, radius, gParticlePosX_6FD388, gParticlePosY_6FD38C);
 
                 // NOTE: This proves these 2 vars are not a Fix16_Point
-                gParticlePosX_6FD388 = this->field_14_pObj2C->field_4->field_14_xy.x + gParticlePosX_6FD388;
-                gParticlePosY_6FD38C = this->field_14_pObj2C->field_4->field_14_xy.y + gParticlePosY_6FD38C;
+                gParticlePosX_6FD388 = this->field_14_pObj2C->field_4_sprite->field_14_xy.x + gParticlePosX_6FD388;
+                gParticlePosY_6FD38C = this->field_14_pObj2C->field_4_sprite->field_14_xy.y + gParticlePosY_6FD38C;
 
                 Particle_4C* pParticle = gParticle_4C_Pool_6FD5E4->Allocate();
                 pParticle->field_46_sub_state = 0;
@@ -590,14 +590,14 @@ void Explosion_30::EmitExplosion_18_33_541D60()
                 pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
                 pParticle->field_30_pNext->SetNoLighting_4337F0();
                 pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 20);
-                pParticle->field_30_pNext->set_xyz_lazy_420600(gParticlePosX_6FD388, gParticlePosY_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
+                pParticle->field_30_pNext->set_xyz_lazy_420600(gParticlePosX_6FD388, gParticlePosY_6FD38C, field_14_pObj2C->field_4_sprite->field_1C_zpos);
                 gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
                 pParticle->field_48_timer = 1;
             }
             else
             {
-                gParticlePosX_6FD388 = this->field_14_pObj2C->field_4->field_14_xy.x;
-                gParticlePosY_6FD38C = this->field_14_pObj2C->field_4->field_14_xy.y;
+                gParticlePosX_6FD388 = this->field_14_pObj2C->field_4_sprite->field_14_xy.x;
+                gParticlePosY_6FD38C = this->field_14_pObj2C->field_4_sprite->field_14_xy.y;
 
                 Particle_4C* pParticle = gParticle_4C_Pool_6FD5E4->Allocate();
                 pParticle->field_46_sub_state = 0;
@@ -606,7 +606,7 @@ void Explosion_30::EmitExplosion_18_33_541D60()
                 pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
                 pParticle->field_30_pNext->SetNoLighting_4337F0();
                 pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 20);
-                pParticle->field_30_pNext->set_xyz_lazy_420600(gParticlePosX_6FD388, gParticlePosY_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
+                pParticle->field_30_pNext->set_xyz_lazy_420600(gParticlePosX_6FD388, gParticlePosY_6FD38C, field_14_pObj2C->field_4_sprite->field_1C_zpos);
                 gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
                 pParticle->field_30_pNext->ApplyScaleToDimensions_59E4C0(kFP16Quarter_6FD2EC, 0);
                 pParticle->field_48_timer = 5;
@@ -629,8 +629,8 @@ void Explosion_30::EmitExplosion_19_32_542060()
             // 9.6f calls Ang16::PolarToCartesian_41FC20
             Ang16::PolarToCartesian_41FC20(field_22_spawn_angle, radius, gParticlePosX_6FD388, gParticlePosY_6FD38C);
 
-            gParticlePosX_6FD388 = this->field_14_pObj2C->field_4->field_14_xy.x + gParticlePosX_6FD388;
-            gParticlePosY_6FD38C = this->field_14_pObj2C->field_4->field_14_xy.y + gParticlePosY_6FD38C;
+            gParticlePosX_6FD388 = this->field_14_pObj2C->field_4_sprite->field_14_xy.x + gParticlePosX_6FD388;
+            gParticlePosY_6FD38C = this->field_14_pObj2C->field_4_sprite->field_14_xy.y + gParticlePosY_6FD38C;
 
             Particle_4C* pParticle = gParticle_4C_Pool_6FD5E4->Allocate();
             pParticle->field_46_sub_state = 0;
@@ -640,15 +640,15 @@ void Explosion_30::EmitExplosion_19_32_542060()
             pParticle->field_30_pNext->SetNoLighting_4337F0();
             pParticle->field_40_pExplosion = this;
             pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 20);
-            pParticle->field_30_pNext->set_xyz_lazy_420600(gParticlePosX_6FD388, gParticlePosY_6FD38C, this->field_14_pObj2C->field_4->field_1C_zpos);
+            pParticle->field_30_pNext->set_xyz_lazy_420600(gParticlePosX_6FD388, gParticlePosY_6FD38C, this->field_14_pObj2C->field_4_sprite->field_1C_zpos);
             gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
             pParticle->field_30_pNext->ApplyScaleToDimensions_59E4C0(kFP16Half_6FD39C + kFP16One_6FD4A0, 0);
             pParticle->field_48_timer = 1;
         }
         else
         {
-            gParticlePosX_6FD388 = this->field_14_pObj2C->field_4->field_14_xy.x;
-            gParticlePosY_6FD38C = this->field_14_pObj2C->field_4->field_14_xy.y;
+            gParticlePosX_6FD388 = this->field_14_pObj2C->field_4_sprite->field_14_xy.x;
+            gParticlePosY_6FD38C = this->field_14_pObj2C->field_4_sprite->field_14_xy.y;
 
             Particle_4C* pParticle = gParticle_4C_Pool_6FD5E4->Allocate();
             pParticle->field_46_sub_state = 0;
@@ -657,7 +657,7 @@ void Explosion_30::EmitExplosion_19_32_542060()
             pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
             pParticle->field_30_pNext->SetNoLighting_4337F0();
             pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 20);
-            pParticle->field_30_pNext->set_xyz_lazy_420600(gParticlePosX_6FD388, gParticlePosY_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
+            pParticle->field_30_pNext->set_xyz_lazy_420600(gParticlePosX_6FD388, gParticlePosY_6FD38C, field_14_pObj2C->field_4_sprite->field_1C_zpos);
             gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
             pParticle->field_48_timer = 5;
         }
@@ -678,8 +678,8 @@ void Explosion_30::EmitExplosion_20_542340()
             // 9.6f calls Ang16::PolarToCartesian_41FC20
             Ang16::PolarToCartesian_41FC20(field_22_spawn_angle, radius, gParticlePosX_6FD388, gParticlePosY_6FD38C);
 
-            gParticlePosX_6FD388 = this->field_14_pObj2C->field_4->field_14_xy.x + gParticlePosX_6FD388;
-            gParticlePosY_6FD38C = this->field_14_pObj2C->field_4->field_14_xy.y + gParticlePosY_6FD38C;
+            gParticlePosX_6FD388 = this->field_14_pObj2C->field_4_sprite->field_14_xy.x + gParticlePosX_6FD388;
+            gParticlePosY_6FD38C = this->field_14_pObj2C->field_4_sprite->field_14_xy.y + gParticlePosY_6FD38C;
 
             Particle_4C* pParticle = gParticle_4C_Pool_6FD5E4->Allocate();
             pParticle->field_46_sub_state = 0;
@@ -688,14 +688,14 @@ void Explosion_30::EmitExplosion_20_542340()
             pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
             pParticle->field_30_pNext->SetNoLighting_4337F0();
             pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 56);
-            pParticle->field_30_pNext->set_xyz_lazy_420600(gParticlePosX_6FD388, gParticlePosY_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
+            pParticle->field_30_pNext->set_xyz_lazy_420600(gParticlePosX_6FD388, gParticlePosY_6FD38C, field_14_pObj2C->field_4_sprite->field_1C_zpos);
             gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
             pParticle->field_48_timer = 1;
         }
         else
         {
-            gParticlePosX_6FD388 = this->field_14_pObj2C->field_4->field_14_xy.x;
-            gParticlePosY_6FD38C = this->field_14_pObj2C->field_4->field_14_xy.y;
+            gParticlePosX_6FD388 = this->field_14_pObj2C->field_4_sprite->field_14_xy.x;
+            gParticlePosY_6FD38C = this->field_14_pObj2C->field_4_sprite->field_14_xy.y;
 
             Particle_4C* pParticle = gParticle_4C_Pool_6FD5E4->Allocate();
             pParticle->field_46_sub_state = 0;
@@ -704,7 +704,7 @@ void Explosion_30::EmitExplosion_20_542340()
             pParticle->field_30_pNext->SetType_4206F0(sprite_types_enum::code_obj2_8);
             pParticle->field_30_pNext->SetNoLighting_4337F0();
             pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 56);
-            pParticle->field_30_pNext->set_xyz_lazy_420600(gParticlePosX_6FD388, gParticlePosY_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
+            pParticle->field_30_pNext->set_xyz_lazy_420600(gParticlePosX_6FD388, gParticlePosY_6FD38C, field_14_pObj2C->field_4_sprite->field_1C_zpos);
             gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
             pParticle->field_48_timer = 5;
         }
@@ -717,7 +717,7 @@ void Explosion_30::UpdateExplosion_18_19_20_32_33_542790()
     bool isOnScreen = true;
     if (this->field_1A_timer < 90u)
     {
-        if (!gGame_0x40_67E008->IsPointOnScreen_4B9A80(this->field_14_pObj2C->field_4->field_14_xy.x, this->field_14_pObj2C->field_4->field_14_xy.y))
+        if (!gGame_0x40_67E008->IsPointOnScreen_4B9A80(this->field_14_pObj2C->field_4_sprite->field_14_xy.x, this->field_14_pObj2C->field_4_sprite->field_14_xy.y))
         {
             isOnScreen = false;
         }
@@ -756,18 +756,18 @@ void Explosion_30::UpdateExplosion_18_19_20_32_33_542790()
                 if (pExplosionObj)
                 {
                     Object_2C* pDebris = gObject_5C_6F8F84->NewMovingObj_52A240(127,
-                                                                             field_14_pObj2C->field_4->field_14_xy.x,
-                                                                             field_14_pObj2C->field_4->field_14_xy.y,
-                                                                             field_14_pObj2C->field_4->field_1C_zpos,
+                                                                             field_14_pObj2C->field_4_sprite->field_14_xy.x,
+                                                                             field_14_pObj2C->field_4_sprite->field_14_xy.y,
+                                                                             field_14_pObj2C->field_4_sprite->field_1C_zpos,
                                                                              this->field_22_spawn_angle,
                                                                              kAngZero_6FD5D4,
                                                                              kFpPoint09_6FD484,
                                                                              -kFpOne1024th_6FD540,
                                                                              kFpPoint2_6FD2F0);
-                    pDebris->field_4->DispatchCollisionEvent_5A3100(pExplosionObj->field_4, 0, 0, kAngZero_6FD5D4);
+                    pDebris->field_4_sprite->DispatchCollisionEvent_5A3100(pExplosionObj->field_4_sprite, 0, 0, kAngZero_6FD5D4);
 
                     Object_2C* pLight = gObject_5C_6F8F84->NewLight_529A40(94, 138, 2, 0xFF8000, 3, 255);
-                    pDebris->field_4->DispatchCollisionEvent_5A3100(pLight->field_4, 0, 0, kAngZero_6FD5D4);
+                    pDebris->field_4_sprite->DispatchCollisionEvent_5A3100(pLight->field_4_sprite, 0, 0, kAngZero_6FD5D4);
                 }
                 break;
             }
@@ -803,7 +803,7 @@ void Explosion_30::UpdateExplosion_18_19_20_32_33_542790()
     if (this->field_1A_timer == explosion_timer::first_tick_99)
     {
         // TODO: Arg order correct?
-        gGame_0x40_67E008->ShakeCamerasAtPos_4B9790(8, this->field_14_pObj2C->field_4->field_14_xy.x, this->field_14_pObj2C->field_4->field_14_xy.y);
+        gGame_0x40_67E008->ShakeCamerasAtPos_4B9790(8, this->field_14_pObj2C->field_4_sprite->field_14_xy.x, this->field_14_pObj2C->field_4_sprite->field_14_xy.y);
     }
 
     if (this->field_1A_timer != explosion_timer::forever_9999)
@@ -820,7 +820,7 @@ void Explosion_30::UpdateExplosion_18_19_20_32_33_542790()
 MATCH_FUNC(0x542e30)
 void Explosion_30::EmitBuildingDebris_22_23_24_25_542E30(u8 direction_idx)
 {
-    Sprite* pSprite = this->field_14_pObj2C->field_4;
+    Sprite* pSprite = this->field_14_pObj2C->field_4_sprite;
     if (pSprite->field_14_xy.x < Fix16(0x3F8000, 0) && pSprite->field_14_xy.x > kFP16One_6FD4A0 &&
         pSprite->field_14_xy.y < Fix16(0x3F8000, 0) && pSprite->field_14_xy.y > kFP16One_6FD4A0)
     {
@@ -841,8 +841,8 @@ void Explosion_30::EmitBuildingDebris_22_23_24_25_542E30(u8 direction_idx)
 
                         Ang16::PolarToCartesian_41FC20(field_22_spawn_angle, kFpOne1024th_6FD540, gParticlePosX_6FD388, gParticlePosY_6FD38C);
 
-                        gParticlePosX_6FD388 += this->field_14_pObj2C->field_4->field_14_xy.x;
-                        gParticlePosY_6FD38C += this->field_14_pObj2C->field_4->field_14_xy.y;
+                        gParticlePosX_6FD388 += this->field_14_pObj2C->field_4_sprite->field_14_xy.x;
+                        gParticlePosY_6FD38C += this->field_14_pObj2C->field_4_sprite->field_14_xy.y;
                         break;
                     }
 
@@ -854,8 +854,8 @@ void Explosion_30::EmitBuildingDebris_22_23_24_25_542E30(u8 direction_idx)
 
                         Ang16::PolarToCartesian_41FC20(field_22_spawn_angle, kFpOne1024th_6FD540, gParticlePosX_6FD388, gParticlePosY_6FD38C);
 
-                        gParticlePosX_6FD388 += this->field_14_pObj2C->field_4->field_14_xy.x;
-                        gParticlePosY_6FD38C += this->field_14_pObj2C->field_4->field_14_xy.y;
+                        gParticlePosX_6FD388 += this->field_14_pObj2C->field_4_sprite->field_14_xy.x;
+                        gParticlePosY_6FD38C += this->field_14_pObj2C->field_4_sprite->field_14_xy.y;
                         break;
                     }
 
@@ -867,8 +867,8 @@ void Explosion_30::EmitBuildingDebris_22_23_24_25_542E30(u8 direction_idx)
 
                         Ang16::PolarToCartesian_41FC20(field_22_spawn_angle, kFpOne1024th_6FD540, gParticlePosX_6FD388, gParticlePosY_6FD38C);
 
-                        gParticlePosX_6FD388 += this->field_14_pObj2C->field_4->field_14_xy.x;
-                        gParticlePosY_6FD38C += this->field_14_pObj2C->field_4->field_14_xy.y;
+                        gParticlePosX_6FD388 += this->field_14_pObj2C->field_4_sprite->field_14_xy.x;
+                        gParticlePosY_6FD38C += this->field_14_pObj2C->field_4_sprite->field_14_xy.y;
                         break;
                     }
 
@@ -880,8 +880,8 @@ void Explosion_30::EmitBuildingDebris_22_23_24_25_542E30(u8 direction_idx)
 
                         Ang16::PolarToCartesian_41FC20(field_22_spawn_angle, kFpOne1024th_6FD540, gParticlePosX_6FD388, gParticlePosY_6FD38C);
 
-                        gParticlePosX_6FD388 += this->field_14_pObj2C->field_4->field_14_xy.x;
-                        gParticlePosY_6FD38C += this->field_14_pObj2C->field_4->field_14_xy.y;
+                        gParticlePosX_6FD388 += this->field_14_pObj2C->field_4_sprite->field_14_xy.x;
+                        gParticlePosY_6FD38C += this->field_14_pObj2C->field_4_sprite->field_14_xy.y;
                         break;
                     }
 
@@ -903,13 +903,13 @@ void Explosion_30::EmitBuildingDebris_22_23_24_25_542E30(u8 direction_idx)
                 pParticle->field_20_speed = (kFpOne512th_6FD548 * Fix16(gRng_6F6784.get_int_4F7AE0(field_1A_timer)));
                 pParticle->field_30_pNext->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_sprite_palette + 40);
 
-                if (field_14_pObj2C->field_4->field_1C_zpos + kFP16One_6FD4A0 >= kFP16Eight_6FD4C0)
+                if (field_14_pObj2C->field_4_sprite->field_1C_zpos + kFP16One_6FD4A0 >= kFP16Eight_6FD4C0)
                 {
-                    pParticle->field_30_pNext->set_xyz_lazy_420600(gParticlePosX_6FD388, gParticlePosY_6FD38C, field_14_pObj2C->field_4->field_1C_zpos);
+                    pParticle->field_30_pNext->set_xyz_lazy_420600(gParticlePosX_6FD388, gParticlePosY_6FD38C, field_14_pObj2C->field_4_sprite->field_1C_zpos);
                 }
                 else
                 {
-                    pParticle->field_30_pNext->set_xyz_lazy_420600(gParticlePosX_6FD388, gParticlePosY_6FD38C, field_14_pObj2C->field_4->field_1C_zpos + kFP16One_6FD4A0);
+                    pParticle->field_30_pNext->set_xyz_lazy_420600(gParticlePosX_6FD388, gParticlePosY_6FD38C, field_14_pObj2C->field_4_sprite->field_1C_zpos + kFP16One_6FD4A0);
                 }
                 gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pParticle->field_30_pNext);
                 pParticle->field_30_pNext->SetNoLighting_4337F0();
@@ -918,7 +918,7 @@ void Explosion_30::EmitBuildingDebris_22_23_24_25_542E30(u8 direction_idx)
 
         if (this->field_1A_timer == explosion_timer::first_tick_99)
         {
-            gGame_0x40_67E008->ShakeCamerasAtPos_4B9790(8, field_14_pObj2C->field_4->field_14_xy.x, field_14_pObj2C->field_4->field_14_xy.y);
+            gGame_0x40_67E008->ShakeCamerasAtPos_4B9790(8, field_14_pObj2C->field_4_sprite->field_14_xy.x, field_14_pObj2C->field_4_sprite->field_14_xy.y);
         }
 
         if (this->field_1A_timer > explosion_timer::damage_phase_50)

@@ -66,8 +66,8 @@ class Light_1D4CC : public LightBase
         pLight->field_8_y = ypos;
         pLight->field_C_z = zpos;
         pLight->field_10_argb = argb;
-        pLight->field_0.flag = 0x10000;
-        pLight->field_0.SetRadius_463F10(radius);
+        pLight->field_0_intensity_radius.flag = 0x10000;
+        pLight->field_0_intensity_radius.SetRadius_463F10(radius);
         pLight->SetCurrentIntensity_45B2D0(intensity);
         pLight->field_18_intensity = intensity;
         pLight->AddToGrid_4D6D70();
@@ -83,8 +83,8 @@ class Light_1D4CC : public LightBase
         pLight->field_8_y = ypos;
         pLight->field_C_z = zpos;
         pLight->field_10_argb = argb;
-        pLight->field_0.flag = 0x10000;
-        pLight->field_0.SetRadius_5C5CD0(radius);
+        pLight->field_0_intensity_radius.flag = 0x10000;
+        pLight->field_0_intensity_radius.SetRadius_5C5CD0(radius);
         pLight->SetCurrentIntensity_45B2D0(intensity);
         pLight->field_18_intensity = intensity;
         pLight->AddToGrid_4D6D70();

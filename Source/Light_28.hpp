@@ -40,9 +40,9 @@ class Light_28
         field_17_timer--;
         if (!field_17_timer)
         {
-            if (field_0.flag & 0xff)
+            if (field_0_intensity_radius.flag & 0xff)
             {
-                field_0.flag &= ~0xff;
+                field_0_intensity_radius.flag &= ~0xff;
                 field_17_timer = field_15_off_time;
                 if (field_16_flicker_range)
                 {
@@ -51,9 +51,9 @@ class Light_28
             }
             else
             {
-                field_0.flag &= ~0xff;
+                field_0_intensity_radius.flag &= ~0xff;
                 u8 t = field_18_intensity;
-                field_0.flag |= t;
+                field_0_intensity_radius.flag |= t;
                 field_17_timer = field_14_on_time;
                 if (field_16_flicker_range)
                 {
@@ -67,24 +67,24 @@ class Light_28
     // 0x45B320
     void PoolDeallocate()
     {
-        field_0.flag = 0x2A2A2A2A;
+        field_0_intensity_radius.flag = 0x2A2A2A2A;
     }
 
     void Reset_463F50()
     {
-        field_0.flag = 0;
+        field_0_intensity_radius.flag = 0;
         field_14_on_time = 0;
     }
 
     void SetCurrentIntensity_45B2D0(u8 intensity)
     {
-        field_0.flag = intensity | (field_0.flag & ~0xFF);
+        field_0_intensity_radius.flag = intensity | (field_0_intensity_radius.flag & ~0xFF);
     }
 
     inline void SetColourRadiusIntensity_482D60(s32 argb, Fix16 radius, u8 intensity)
     {
         field_10_argb = argb;
-        field_0.SetRadius_463F10(radius);
+        field_0_intensity_radius.SetRadius_463F10(radius);
         SetCurrentIntensity_45B2D0(intensity);
         field_18_intensity = intensity;
     }
@@ -104,7 +104,7 @@ class Light_28
         AddToGrid_4D6D70();
     }
 
-    LightIntensityRadius field_0; // low byte: current intensity, second byte: radius
+    LightIntensityRadius field_0_intensity_radius; // low byte: current intensity, second byte: radius
     Fix16 field_4_x;
     Fix16 field_8_y;
     Fix16 field_C_z;

@@ -9,7 +9,7 @@ DEFINE_GLOBAL(Light_28**, gLightGrid_6F5400, 0x6F5400) ;
 MATCH_FUNC(0x4D6D20)
 Light_28::Light_28()
 {
-    field_0.flag = 0x2A2A2A2A;
+    field_0_intensity_radius.flag = 0x2A2A2A2A;
     field_4_x = 0;
     field_8_y = 0;
     field_C_z = 0;
@@ -129,7 +129,7 @@ void __stdcall LightGrid::SubmitLightsInArea_4D6E50(s32 min_x, s32 min_y, s32 ma
             while (pLight)
             {
                 SLight pSLight;
-                pSLight.field_0 = pLight->field_0.flag;
+                pSLight.field_0 = pLight->field_0_intensity_radius.flag;
                 pSLight.field_4_x = pLight->field_4_x.ToFloat();
                 pSLight.field_8_y = pLight->field_8_y.ToFloat();
                 pSLight.field_C_z = pLight->field_C_z.ToFloat();

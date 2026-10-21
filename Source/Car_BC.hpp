@@ -87,7 +87,7 @@ class CarThreadTrigger_18
     s32 field_0_pScriptCmd;
     Object_2C* field_4_O2C;
     s32 field_8_type;
-    s32 field_C;
+    s32 field_C_action;
     u8 field_10_remap_rng;
     u8 field_11_pad[3];
     s32 field_14_enable_state;
@@ -124,10 +124,10 @@ class CarRemapRng_2
 
     u16 GetRngValue_4212D0()
     {
-        return gRngRemapTable_679320[this->field_0];
+        return gRngRemapTable_679320[this->field_0_table_idx];
     }
 
-    u16 field_0;
+    u16 field_0_table_idx;
 };
 
 EXTERN_GLOBAL(Fix16, kFpHalf_6F7690);

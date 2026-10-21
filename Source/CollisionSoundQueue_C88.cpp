@@ -325,7 +325,7 @@ bool CollisionTarget_28::IsObj2C_477A10()
         Object_2C* p2c = field_20_pHitSprite->AsObject2C_40FEC0();
         if (p2c)
         {
-            if (p2c->field_8->field_4C == 3)
+            if (p2c->field_8_definition->field_4C == 3)
             {
                 return 1;
             }

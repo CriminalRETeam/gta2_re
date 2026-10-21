@@ -109,7 +109,7 @@ class Object_3C
 
     EXPORT void GetMovementSpeedAndAngle_521FD0(Fix16& Speed, Ang16& Angle);
 
-    SpriteList_4 field_0;
+    SpriteList_4 field_0_attached_sprites;
     Ang16 field_4_angle;
     s16 field_6_unused;
     Object_3C* mpNext;

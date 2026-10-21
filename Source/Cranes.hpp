@@ -21,7 +21,7 @@ class Crane_15C
     // 9.6f 0x476900
     inline void set_maybe_homecrane_476900(Crane_15C* v)
     {
-        field_78_maybe_homecrane = v;
+        field_78_home_crane = v;
     }
 
     EXPORT ~Crane_15C();
@@ -65,7 +65,7 @@ class Crane_15C
     // 9.6f 0x411A00
     inline Sprite* GetRotorSprite_411A00()
     {
-        return field_2C_rotor_obj->field_4;
+        return field_2C_rotor_obj->field_4_sprite;
     }
 
     // FUNCTION: 96f 0x447f40
@@ -99,7 +99,7 @@ class Crane_15C
     Sprite* field_6C_transporter_cargo;
     Sprite* field_70_cargo_transporter;
     Sprite* field_74_pSprite_on_hook;
-    Crane_15C* field_78_maybe_homecrane;
+    Crane_15C* field_78_home_crane;
     SoundObject_10* field_7C_sound;
     Fix16 field_80_ground_z;
     Fix16 field_84_hook_depth;
