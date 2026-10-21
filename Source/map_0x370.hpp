@@ -434,7 +434,7 @@ class Map_0x370
     EXPORT s32 GetTopEdgeSpec_4E0000(Fix16 x_pos, Fix16 y_pos, Fix16 z_pos);
     EXPORT s32 GetBlockSpec_4E00A0(Fix16 x, Fix16 y, Fix16 z);
 
-    // 9.6f 0x49EBE0, inlined in 10.5; defined in CarPhysics_B0.cpp (ProcessGroundCollisionAndSurfaceType_55B970)
+    // 9.6f 0x49EBE0, inlined in 10.5; defined in CarPhysics.cpp (ProcessGroundCollisionAndSurfaceType_55B970)
     inline u8 GetBlockSurfaceType_49EBE0(s32 x, s32 y, s32 z, u8* pGradientSize, u8* pGradientLevel);
     EXPORT char_type TakeBlockedByTerrain_4E0110();
     EXPORT char_type TakeLowerBlockHasArrows_4E0120();

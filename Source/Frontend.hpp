@@ -2,9 +2,9 @@
 
 #include "Function.hpp"
 #include "multiplayer_game_type.hpp"
-#include "CreditsLine_6C.hpp"
-#include "CreditsText_FD22.hpp"
-#include "TagGame_28.hpp"
+#include "CreditsLine.hpp"
+#include "CreditsText.hpp"
+#include "TagGame.hpp"
 #include <windows.h>
 
 #ifndef DIRECTINPUT_VERSION

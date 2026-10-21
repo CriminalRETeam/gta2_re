@@ -130,7 +130,7 @@ Probes (`int` unless noted; `{}` is a separate scope):
 
 ```bash
 venv/bin/python3 Scripts/regalloc/slotlog.py
-X87_C2=slotlog X87_OUT=/tmp/sl Scripts/x87_sched/sched.sh -l Source/CarAI_78.cpp
+X87_C2=slotlog X87_OUT=/tmp/sl Scripts/x87_sched/sched.sh -l Source/CarAI.cpp
 awk '/^@SLOTS/{p=index($0,"sub_452060")} p' /tmp/sl/last.log | grep -a '^@SLOT'
 #   @SLOT _v82$59045 size=2 refs=3     (slot 0, at [esp+0])
 #   @SLOT _new_z$ size=4 refs=4        (slot 1)
@@ -181,7 +181,7 @@ docstring). It shows which values are symbols (colour candidates) and which are 
 ## Priority and tie-break (reversed)
 
 Both are now exact (`priolog.py` logs every term; summing its terms gives the final priority of every live
-range in `Explosion_30.cpp`, 329 of 329, and the tie of 373 of 377, the rest being constants and split pieces).
+range in `Explosion.cpp`, 329 of 329, and the tie of 373 of 377, the rest being constants and split pieces).
 
 **Priority** `[lr+0x0C]` is built by `0x107203FD` (before the colour pass) in one walk over the blocks in list order:
 
@@ -216,7 +216,7 @@ comes after it in reverse order), `c |= ..` (14). So a, b, c are coloured in tha
 
 ```bash
 venv/bin/python3 Scripts/regalloc/patch_c2.py && venv/bin/python3 Scripts/regalloc/priolog.py
-X87_C2=priolog X87_OUT=/tmp/pl Scripts/x87_sched/sched.sh -l Source/Explosion_30.cpp
+X87_C2=priolog X87_OUT=/tmp/pl Scripts/x87_sched/sched.sh -l Source/Explosion.cpp
 grep -a '^@[PTRQ]' /tmp/pl/last.log     # @T ties, @P priority terms, @Q preferences, @R colour decisions (ralog)
 ```
 

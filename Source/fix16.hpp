@@ -171,7 +171,7 @@ class Fix16
         return mValue / 16384.0f;
     }
 
-    // 9.6f 0x410BA0, defined in CarPhysics_B0.cpp (AsDouble with the parentheses of the original: each
+    // 9.6f 0x410BA0, defined in CarPhysics.cpp (AsDouble with the parentheses of the original: each
     // pair is a no-op node for VC6's x87 scheduler, see Scripts/x87_sched/README.md)
     inline f64 to_float_410BA0() const;
 
@@ -288,7 +288,7 @@ class Fix16
         return Fix16(mValue & 0xFFFFC000, 0); // 0xFFFFC000 = 0xFFFFFFFF - Fix16(1)
     }
 
-    // 9.6f 0x42A630 as a static taking the value by reference; defined in CarPhysics_B0.cpp (UpdateZPhysics_55AD90)
+    // 9.6f 0x42A630 as a static taking the value by reference; defined in CarPhysics.cpp (UpdateZPhysics_55AD90)
     static Fix16 __stdcall GetFracValue_42A630(const Fix16& v);
 
     // 9.6f func: 0x42A630
@@ -440,7 +440,7 @@ class Fix16
     }
 
     // Out-of-line copy of the inline below, at its address (callers use the inline, which VC6 emits as
-    // its own COMDAT copy). Defined in CarPhysics_B0.cpp.
+    // its own COMDAT copy). Defined in CarPhysics.cpp.
     EXPORT static Fix16 __stdcall Max3_ool_55EEE0(Fix16& first, Fix16& second, Fix16& third);
 
     // NOTE: 10.5 function - matched but inlined

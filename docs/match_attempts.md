@@ -602,7 +602,7 @@ These are called by stubs worked on above but have no entry in the target asm du
 because they weren't in the source when it was made. They now have `STUB_FUNC` markers,
 so the next "Dump target asm" run will include them:
 
-- `ConvertCycleCount_5BEED0` (SpriteRenderer_1C.cpp): converts a cycle count for `DebugDrawProfiling_4FF250`. The
+- `ConvertCycleCount_5BEED0` (SpriteRenderer.cpp): converts a cycle count for `DebugDrawProfiling_4FF250`. The
   body is a guess.
 - `Net_4DA9B0` (winmain.cpp, 64 bytes, `__stdcall` with 3 arguments): called by the matched
   `Net_4DA9F0` to re-send an earlier frame's inputs to one player. Empty for now.
@@ -852,7 +852,7 @@ Matched (116 -> 0) with two changes:
 ## Start_NetworkGame_5E5A30 (WIP, was STUB)
 
 - 0.429. Added `gNetworkGameSettings_707098` (NetworkGameSettings). It overlaps the existing `gNetworkGameSpeed_7071A0` /
-  `gNetworkPolice_7071B0` in Game_0x40.cpp (game_speed / police_on fields).
+  `gNetworkPolice_7071B0` in Game.cpp (game_speed / police_on fields).
 - The registry part reads `UseProtocol` (GUID) and `UseConnection` (a `Network_Buffer` buffer via
   `operator new`), and `ModemNumber` when `gNetPlay.field_4` is set. Then it runs `NetUi` UI →
   `CopyGameSettings`, the map/sty/scr names, and `SetMultiplayerParams`.
@@ -973,7 +973,7 @@ Matched (116 -> 0) with two changes:
 - 0.161. The spark sits on `field_28_pSprite`:
   - **Car:** the spark goes at a corner of the car's box (half width/height plus constants, sub-states 1–4), rotated by the car's angle. State 40 and 41 use mirrored corners. The id is base + sub_state + 200.
   - **Ped:** an offset rotated by the ped's angle plus `Char::field_98`. The id is base + sub_state + 197.
-- Needed `#include "Car_BC.hpp"` (compare_builds is unchanged) and three new globals (`kFpMinusOneThirtySecond_6FD3C0`, `dword_6FD5A8`, `kFpPoint4_6FD2F8`).
+- Needed `#include "Car.hpp"` (compare_builds is unchanged) and three new globals (`kFpMinusOneThirtySecond_6FD3C0`, `dword_6FD5A8`, `kFpPoint4_6FD2F8`).
 - **Open question:** our build calls `Fix16_Point_POD::Fix16_Point_POD()` out of line for the `Fix16_Point offset` local. The original constructs it inline, as it does for all five points in `538AC0` (where we call it twice). The ctor is empty and the struct isn't exported. Unexplained so far.
 - Oct 5: 160 lines. The original's two rotation branches put sin/cos in swapped stack slots and aren't
   tail-merged; ours are merged.
@@ -1052,7 +1052,7 @@ Matched (116 -> 0) with two changes:
   - With `a6` set, every hit nearer than `a6` must be inside the angle window. Otherwise it gives up and sets the weapon's `field_4`.
   - Then it shocks the peds outside the window (or every ped when `a3 == 0`) that have line of sight, and draws the arc with `DrawElectricArc_5DE910`.
   - With `a4` set it uses `TakeDamage(3)`. Otherwise it adds 3 to the shock counter and stops after the first ped.
-- Moved from Ped.cpp to Weapon_30.cpp, where its address falls (between `DrawElectricArc_5DE910` and `ChainShockTargets_5DFB60`). It's declared in Weapon_30.hpp.
+- Moved from Ped.cpp to Weapon.cpp, where its address falls (between `DrawElectricArc_5DE910` and `ChainShockTargets_5DFB60`). It's declared in Weapon.hpp.
 - Now `void`, with `a6` typed as `Sprite*` (it's compared with the hit sprites). `ManageShocking_45BC70` still matches.
 - Oct 9: 210 -> 0 (**MATCH**). The unused distance calls `Max_44E540` (the original's only Max symbol), via a
   local `MaxAbsDistance_5DF270`: 208. `if (!a4) {shock} else {TakeDamage}` gives the original's EH states
@@ -1082,7 +1082,7 @@ Matched (116 -> 0) with two changes:
 - The permuter did the rest of 405E80: assign `lo` before `hi` in every case so the shared `*pCur = lo` block tail-merges (0.63 to 0.93), and read `*pTarget` directly instead of through a local `t`, which fixes the `lea` operand order (to 1.0).
 
 ### Fix16_Point_POD::AddAssign_5E40C0 / DivAssign_5E40E0 / MaxAbs_5E4140: MATCH, first try
-- These are out-of-line copies emitted after Weapon_30.cpp's functions, used by `DrawElectricArc_5DE910`: `+=`, `/= Fix16` and max(|x|, |y|). The csv names them `Fix16::sub_...`, but they're `Fix16_Point` members (`this` is a point).
+- These are out-of-line copies emitted after Weapon.cpp's functions, used by `DrawElectricArc_5DE910`: `+=`, `/= Fix16` and max(|x|, |y|). The csv names them `Fix16::sub_...`, but they're `Fix16_Point` members (`this` is a point).
 
 ## Round: remaining non-CRT stubs (Oct 2)
 
@@ -1122,7 +1122,7 @@ Matched (116 -> 0) with two changes:
   only when nothing else was reported), counts down the radio timers, then queues the dispatcher
   lines for a new wanted level or one random chatter line.
 - 0.998 on the first build. It matched once `best_crime = 0` was declared before the two
-  `u8 = 0`s. It also needed the empty `sound_obj::nullsub_4` (0x427330) and CrimeReportQueue_CC.hpp.
+  `u8 = 0`s. It also needed the empty `sound_obj::nullsub_4` (0x427330) and CrimeReportQueue.hpp.
 
 ### Police::UpdatePursuitTargets_56FBD0 (0x56FBD0): MATCH
 - Updates each call for service: wanted level from the criminal's stars, then the state
@@ -1500,7 +1500,7 @@ Each was a few asm lines away from the original. What is left and what was tried
 - Matched: `Char::state_7_551CB0` (both block lookups call `GetBlockTypeAtCoord_420420`/`GetBlock_4DFE10` in each branch; the seven `z == N` tests compare raw `mValue` to stay inside the inline budget; cases 8 and 9 as separate identical bodies), `PedManager::PedManager` 0x470650 (sprite setup and statics restored, implicit conversions for `set_xyz(0,0,0)`, `__forceinline` on the pool ctors because of the budget), `Hud_PauseScreen::DrawPause_5D63B0` (pass a u32 where the original calls the `Fix16(u32)` copy 0x4926F0)
 - Closer: `SelectObjectImpactSound_413120` 0.35->0.99 (two switches inside `if (model <= 110)`), `fire_truck_gun_5E0E70` 241->15 (out-of-line rotation helpers, `Add_40AC50`, Fix16_Point locals before the field_24 store), `SpawnSkidSegment_55D200` 0.23->0.84, `Draw_59EFF0` 0.75->0.92, `PoliceCrew::State6_ShutDown_574720` 410->119, `army_gun_jeep_5E13E0` 0.43->0.55, `FindBestTargetPed_466BF0` 0.31->0.43, `HandleCarDoorSounds_4182E0` 0.15->0.33, smaller gains in `4410D0`, `561E50`, `561380`, `5D8A10`, `4672E0` (path switch fix)
 - No change: `46EB60` (rewritten without gotos, regalloc left), `5E5A30` (shared EH epilogue)
-- Matched: `Ped::CarThief_AI_45FF60` (case order 0, 35, 31, 36, 1; Kill written out at each site; inline bus model compare; `*(xd > yd ? &xd : &yd)` instead of `Max_44E540`), `Sprite::FindCollisionIntersectionPoint_5A2710` (logic fixes: restore paths use the saved angle, second-half corners from pOther, bOutSideSelf/bOutSideOther were swapped; one named result; `GetBoundingBoxCorner_562450` moved to CarPhysics_B0.cpp)
+- Matched: `Ped::CarThief_AI_45FF60` (case order 0, 35, 31, 36, 1; Kill written out at each site; inline bus model compare; `*(xd > yd ? &xd : &yd)` instead of `Max_44E540`), `Sprite::FindCollisionIntersectionPoint_5A2710` (logic fixes: restore paths use the saved angle, second-half corners from pOther, bOutSideSelf/bOutSideOther were swapped; one named result; `GetBoundingBoxCorner_562450` moved to CarPhysics.cpp)
 - Closer: `ProcessPedImpact_560B40` 0.26->0.95 (left: an EH state around the negated temporary; `throw()` on `operator/` removes it but breaks `ResolveCollisionWithObject_522710`), `EmitExplosion_18_33_541D60` 306->35
 - No change: `59EB30` ShowId, `465D00` IsPedAThreat (register rotation)
 - Unverified data: `word_61A898` now defined with initial value 40, a guess (marked TODO in Char_Pool.cpp)
@@ -2626,7 +2626,7 @@ Scores are `quick_score.sh` lines (10.5) / `permuter_score.py --96f` lines (VC7 
   global, 0x5E4D4C, and takes the rotation by value). The plain inline with a per-TU `CAR_6C_SPAWN_SCALE` define
   (like `FIX16_POINT_ZERO`) gives 9.6f 747 but 10.5 935: the frame grows 0x68 -> 0x78 (by-value `Ang16` copies and
   `temp_z`), so not applied.
-## Ped.cpp / sound_obj.cpp / Car_BC.cpp, second pass (Oct 6)
+## Ped.cpp / sound_obj.cpp / Car.cpp, second pass (Oct 6)
 - `Ped::ComputeAimAngle_45C9D0` 12 -> 0 (**MATCH**; 9.6f 0x43E3A0 16). `field_130` stored in each arm as 9.6f
   does. The old note that per-arm stores copy the return tail predates the `Marker_<addr>_fpo` fix: the tail is
   21 bytes with the `[esp+x]` SIB bytes counted, so dupB jumps to it.
@@ -2649,7 +2649,7 @@ Scores are `quick_score.sh` lines (10.5) / `permuter_score.py --96f` lines (VC7 
   `AttackTargetStateMachine_46D460` 46 / 307, `StartCrossingRoad_45E4A0` 414 / 166, `IsPedAThreat_465D00` 142 / 604,
   `Car::HandleCarHitByObject_43F130` 882, `CarThreadTriggers::CheckThreadTrigger_5C8780` 84 / 422, `SpawnCarOnRoadNetwork_4458B0` 469 / 855.
 
-## Weapon_30.cpp / sprite.cpp / Ped.cpp helper-variant pass (Oct 6)
+## Weapon.cpp / sprite.cpp / Ped.cpp helper-variant pass (Oct 6)
 - `Sprite::Draw_59EFF0` (104; 9.6f 0x4BE060 388): 9.6f calls all three helpers as functions (`sub_4BA4D0` x4,
   `sub_4B9BC0` x2, `sub_4B9C70` x1), so they existed. `ProjectWorldPointToScreen_4BA4D0` compiled with VC7 against
   9.6f 0x4BA4D0: the body is the same (VC7 keeps the reciprocal in a temp either way; an explicit `f32 z` local
@@ -2722,7 +2722,7 @@ the original's 26 bytes, it only had no `target_asm.json` entry (disassembled 0x
   taken either. Dead end from source without a tool change.
 - `DoorPool::dtor_49D570` (92): the dropped EH frame reproduces in a 12-line TU: a member array of a class with
   an out-of-line dtor plus `delete` of a pointer whose class has an *inline* dtor, after `#include <new>`; with an
-  out-of-line pool dtor the frame stays. In Door_4D4.cpp `<new>` comes through Garage_48.hpp -> ... -> Ped.hpp
+  out-of-line pool dtor the frame stays. In DoorPool.cpp `<new>` comes through Garage.hpp -> ... -> Ped.hpp
   -> char.hpp -> sprite.hpp -> gbh_graphics.hpp -> d3ddll.hpp -> DmaVideo.hpp (`<set>`, `<vector>`), so dropping
   the Ped.hpp/Object_5C.hpp includes doesn't help. `#define _SET_`/`_VECTOR_` before the includes removes the
   frame problem in the test TU but DmaVideo.hpp's `Renderer` uses `std::vector`/`std::set` members (line 282),
@@ -3485,7 +3485,7 @@ helpers under other names, or plain Fix16/Ang16 operators.
   `gCharB4_Saved_TileX/Y` (`kFP16Zero.ToInt()`), `dword_705334` (SpriteRenderer's rdtsc init),
   `gCollisionDamage_6FE33C` (no original initialiser), the debug bools (one 79-store init at 0x4AB950).
 - Address order for whole files: 34 files reordered (pure moves), 3304/3304 and every WIP score unchanged.
-- PCH: `/Yc`/`/Yu` builds of Weapon_30.cpp change nothing. Defining `Fix16_Point::operator+` at the end of
+- PCH: `/Yc`/`/Yu` builds of Weapon.cpp change nothing. Defining `Fix16_Point::operator+` at the end of
   the TU does reproduce 10.5's EH stores in all Weapon callers (see matching_quirks.md).
 
 
@@ -4004,7 +4004,7 @@ this round) gives a cleaner instruction match-percent, 80.66%, and shows a real,
 every `Ang16 angle = X - kAng180_677ADE;` / `X - kAng90_6779E4;` style construction (feeding
 `PolarToCartesian_41FC20`) compiles, in the original, to a call to the named out-of-line
 `Ang16::Normalize_406C20()` (already a real `MATCH_FUNC`, used explicitly like this all over the
-codebase - see `CarPhysics_B0.cpp:1577`, `char.cpp:2486`), while ours falls back to the generic,
+codebase - see `CarPhysics.cpp:1577`, `char.cpp:2486`), while ours falls back to the generic,
 unnamed `Ang16::Normalize()` out-of-line copy once the nested inline budget for the normalizing
 `Ang16(const s16&, s32)` ctor runs out (`Scripts/inline_budget/inl.sh`, nested budget 17 down to
 14 and lower at each site). Rewriting those 11 **subtraction** sites (5x `- kAng180_677ADE`, 6x
@@ -4012,7 +4012,7 @@ unnamed `Ang16::Normalize()` out-of-line copy once the nested inline budget for 
 the non-normalizing `Ang16(s32)` ctor, call the named method explicitly - the same idiom already
 used at the cited call sites) moves match-percent 80.66% -> 81.05%, with no change to `build.py`'s
 3359/3359 (confirmed with `--single_cpp` + a direct `objdiff-cli` diff against
-`Source/CarAI_78.cpp.obj`, which is where `--single_cpp` actually writes its object, *not*
+`Source/CarAI.cpp.obj`, which is where `--single_cpp` actually writes its object, *not*
 `build_vc6/CMakeFiles/gta2_lib.dir/...` - that one is stale until a full relink).
 
 Tried and reverted (each individually, each made it worse): the same transform on all 6
@@ -4063,7 +4063,7 @@ is. Those three changes were reverted.
 Scores are `quick_score.sh` lines. No new match; all source left as on the base.
 
 - `CarManager::SpawnCarOnRoadNetwork_4458B0` (2): the `lea` operand order is a symbol rank, found with the
-  `opdump` C2 variant (boundary 10765a67): in every inlined commutative add of Car_BC.cpp the first operand is
+  `opdump` C2 variant (boundary 10765a67): in every inlined commutative add of Car.cpp the first operand is
   the lowest of kind-3 compiler temp < kind-7 global < kind-4 block-local < coloured local/param. The matched
   `SpawnBusAtValidRoadPosition_4453E0` has (one, ground_z) from the same source line; the original 4458B0 has
   ground_z first, so its ground_z is an expression temporary, not a named local. Every spelling that tries to
@@ -4805,7 +4805,7 @@ root with `VC6_TOOLS`-free `patch_c2.X` set to a scratch dir, see `Scripts/regal
 
 ## Agent cheap15 (ParticleManager::GunMuzzelFlash_53E970)
 
-- Start 444, end 444 (no change kept). Not matched. Main tree `Source/Particle_8.cpp` is unchanged.
+- Start 444, end 444 (no change kept). Not matched. Main tree `Source/ParticleManager.cpp` is unchanged.
 - Diagnostics (NO_PCH=1): `--structure` 183, `--skeleton` 12. The diff is mostly register/stack, but the car
   corner rotations also differ in call kind: the original calls `Multiply_408680` explicitly for every product
   and `Negate` as an inline `neg`, while the baseline's `corner_N.RotateByAngle_40F6B0` calls the `operator*`/
@@ -4824,7 +4824,7 @@ root with `VC6_TOOLS`-free `patch_c2.X` set to a scratch dir, see `Scripts/regal
   not a local statement change. Not pursued further.
 
 ## Agent cheap16 (TrafficLight::Init_5C1D00, 738, no change kept)
-- Start 738, final 738 (no change kept, `Source/TrafficLights_194.cpp` is byte-identical to the base). Not matched.
+- Start 738, final 738 (no change kept, `Source/TrafficLights.cpp` is byte-identical to the base). Not matched.
 - Structure: `permuter_score.py --skeleton` gives 0 on the function (branches, block order and call order match);
   `--structure` is 466, all of it block-internal scheduling and register/stack choice. So this is not a control flow issue.
 - Top of function: the original keeps x in `ebx` (loaded at entry) and the masked y in `edi` (loaded first, shifted for
@@ -4975,7 +4975,7 @@ root with `VC6_TOOLS`-free `patch_c2.X` set to a scratch dir, see `Scripts/regal
 
 ## Agent near18 (Oct 11): state_8_5520A0 (12, unchanged), SCRCMD_STORE_CAR_INFO_509180 (80 -> 46), AdvanceAlongRailwayChecked_4E7190 (92, permuter only)
 
-Scores are `NO_PCH=1 quick_score.sh`. No header edits; only `Source/miss2_0x11C.cpp` changed.
+Scores are `NO_PCH=1 quick_score.sh`. No header edits; only `Source/ScriptThread.cpp` changed.
 
 - `Char::state_8_5520A0` (12, unchanged). ralog/priolog on the base: the reload
   `field_184_pObj2C = field_7C_pPed->field_184_pObj2C` is a coloured web (prio 32, tie 185) with scores eax 0 /
@@ -5488,7 +5488,7 @@ code as before (objdump compare, only EH `$T` names differ). Three independent f
     --list-passes`); a run with them dies at once.
 
 ## Agent near35 (Oct 12): CarAI::DetectCarAhead_44D1D0 16 -> 0 (MATCH)
-`NO_PCH=1 quick_score.sh` lines. Only `Source/CarAI_78.cpp` changed (the tail_2 block and the marker), no header edits;
+`NO_PCH=1 quick_score.sh` lines. Only `Source/CarAI.cpp` changed (the tail_2 block and the marker), no header edits;
 the other 30 MATCH_FUNCs of the TU compile to identical code (base vs new obj compare).
 - **The fix:** `u8 last_idx = --arrow_count;` instead of `arrow_count - 1`, with the compare written `next_idx > last_idx`
   (the old `last_idx < next_idx` gives the mirrored `cmp`, 4). The decrement then belongs to arrow_count's own
@@ -5525,7 +5525,7 @@ the other 30 MATCH_FUNCs of the TU compile to identical code (base vs new obj co
   `s32 x_block = x.ToInt()`, `bool b = call()`) are forwarded by the FE before numbering and don't count; six
   never-used `s32 dummy = 0;` locals also matched (proof of the rule, not kept).
 - Tools: `opdump1c.py` in /tmp/claude-0/agents/near36 (opdump printing `[sym+0x1C]` instead of `[sym+0x30]`) and
-  `ids.sh` (number map per function). All other 247 MATCH_FUNCs in Car_BC.cpp produce identical code.
+  `ids.sh` (number map per function). All other 247 MATCH_FUNCs in Car.cpp produce identical code.
 
 
 ## Agent near37 (Oct 12): Map_0x370::AdvanceAlongRailwayChecked_4E7190 92 -> 34 raw / 35 -> 18 masked (not matched, nothing in Source/)
@@ -5618,7 +5618,7 @@ Base for all diagnostics: `pPrev = pBlock` after `SnapZToRailway_4E65A0(x, y, &z
 
 - VC7 13.00 `/O2 /Ob0 /G5 /GX` compiles the source to 9.6f 0x430CC0 with only 4 jump targets different, which pinned
   the shape (every inline call is visible there) before the VC6 work.
-- `kAng180/90/270` are `static` in CarAI_78.cpp: VC6 then propagates `target_angle = kAngX` into the first use of
+- `kAng180/90/270` are `static` in CarAI.cpp: VC6 then propagates `target_angle = kAngX` into the first use of
   each case head (`mov kAng180,%ax; mov %ax,%bx; sub a08,%ax`). `bOnGradientSlope_677C90` was renamed (from
   `bIsOnGradientSlope`) so that `.bss` puts an even number of bytes before kAng180 (see the widening quirk).
 - `field_24_flags` is written through `field_24_bf` bit by bit, as in the other CarAI functions. This gives the
@@ -6100,7 +6100,7 @@ calls them) and the open-coded `field_16C_car` both give 0.
   that extra live ranges in those blocks lower pParam2.
 - Repo change: all four users of `gStoredCar` (10.5 references at 0x502DC0, 0x509180, 0x512CE0, 0x5130E0, all
   in the range of one original miss2 source file that also holds 0x503080) have to share one TU. `gStoredCar` is
-  now a `static` in `ScriptManager_C1EA8.cpp` (no `EXTERN_GLOBAL`), and `MissionCleanupList::MissionCleanUp_502DC0` and
+  now a `static` in `ScriptManager.cpp` (no `EXTERN_GLOBAL`), and `MissionCleanupList::MissionCleanUp_502DC0` and
   `SCRCMD_STORE_CAR_INFO_509180` moved there. The other users still match. Like the existing function-local
   statics, the DLL builds no longer map it to the exe's 0x6F7560; all of its users are reimplemented.
 ## Map_0x370::IsMoveOntoSlopeTileBlocked_4E0130 (Oct 19): matched (476 -> 0)

@@ -3,7 +3,7 @@
 #include "Globals.hpp"
 #include "error.hpp"
 #include "map_0x370.hpp"
-#include "text_0x14.hpp"
+#include "TextTable.hpp"
 #include <string.h>
 
 DEFINE_GLOBAL(GangPool*, gGangPool_CA8_67E274, 0x67E274);

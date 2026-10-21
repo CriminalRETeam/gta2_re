@@ -84,7 +84,7 @@ callees through the existing pairs and compares them with the calls of every unp
 | `Ped::FindBestTargetPed_466BF0` | 0x437BE0 | 6/6 |
 | `Ped::BusCustomer_AI_461290` | 0x4427E0 | 14/19 |
 | `Ped::HandlePedHitByObject_45D000` | 0x441A30 | 15/28 |
-| `ShockPedsAroundSprite_5DF270` (Weapon_30.cpp) | 0x4CEF40 | 9/13 |
+| `ShockPedsAroundSprite_5DF270` (Weapon.cpp) | 0x4CEF40 | 9/13 |
 | `sound_obj::ProcessOtherObjects_41F520` | 0x41A3C0 | 9/9 |
 | `sound_obj::HandleVocalStreamSwitching_57DF10` | 0x4B25D0 | 12/16 |
 | `Sprite::Draw_59EFF0` | 0x4BE060 | 13/16 |

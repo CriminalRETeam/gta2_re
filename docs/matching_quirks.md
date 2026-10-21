@@ -20,12 +20,12 @@ marked unlisted addresses into `target_extra.json`) before trusting the marker.
 - It is not the position, the file, the name or the line count: 12 comment lines in `enums.hpp` and a
   one-member enum (any namespace name) keep 3307; a three-member enum fails whatever it is called, and in
   either header. `crew_kind` (4 members), `pursuit_state` (5) and the renamed `cop_level_enum` went in fine.
-- It also hits when the enum is reached through `Car_BC.hpp` (`car_despawn_status`, 8 members, included from
-  `Car_BC.hpp`: `Draw4SidedDiagonalUpLeft_4EF880` and `Draw3SidedDiagonalDownRight_4EF520` fail). Keep such enums in
-  their own header and include it only from the `.cpp` files, so inline code in `Car_BC.hpp` stays numeric.
+- It also hits when the enum is reached through `Car.hpp` (`car_despawn_status`, 8 members, included from
+  `Car.hpp`: `Draw4SidedDiagonalUpLeft_4EF880` and `Draw3SidedDiagonalDownRight_4EF520` fail). Keep such enums in
+  their own header and include it only from the `.cpp` files, so inline code in `Car.hpp` stays numeric.
 - So it looks like a symbol table / hash effect inside VC6 that depends on how many names a TU has, and
   only a function as fragile as that x87 one notices.
-- Removing padding fields from `Car` in `Car_BC.hpp` (12 unused `char_type`/`s16` pads) hits the same two
+- Removing padding fields from `Car` in `Car.hpp` (12 unused `char_type`/`s16` pads) hits the same two
   `MapRenderer` functions, even though the layout is unchanged: the count of member names in the TU is what matters.
   Rename such pads (`field_7A_pad`) instead of deleting them.
 - Deleting the unused `ped_bit_index` enum (32 names) from `ped_flags.hpp` hits the same two functions once
@@ -470,7 +470,7 @@ which also inlines `IsVelocityAlignedWithHeading_40F840` and, inside it, `Fix16_
 `Ang16`/`s16`/`u16` global in the function's own .cpp, VC6 can load it with a 32-bit `mov` and
 add it with `lea`, where the original has a 16-bit `mov`/`add`. With only an `EXTERN_GLOBAL` in
 that file it emits the original's code, so move the definition to another .cpp that uses it
-(`kAng180_6FD3EE` moved from `Explosion_30.cpp` to `Particle_4C.cpp`: `Explosion::EmitFireTrail_3_12_540D30`
+(`kAng180_6FD3EE` moved from `Explosion.cpp` to `Particle_4C.cpp`: `Explosion::EmitFireTrail_3_12_540D30`
 181 -> 32 lines). It can go the other way too (`gFaceCollisionMask_6F6002` and `kAng180_676772`
 had to move *into* `sprite.cpp`), so compare the load width in the target first.
 The move can also fix the order in which globals are reloaded after a call, not only the load
@@ -788,7 +788,7 @@ temporary to an inline taking `const T&`; a `const T&` local doesn't work (`Hand
 **`Fix16::Abs` and `operator*` have the same inline size (57), so a GetLength budget cut-off that rejects both Abs
 but inlines the first multiply can't come from the plain inline**: `ApplyImpactForcesAndDamage_55FA60` calls
 `Abs_436A50` twice and inlines `x * x` (nested budget 61). A file-local copy with explicit `Abs_436A50` calls and the
-natural `x * x + y * y` / `SquareRoot` gives it (`CarPhysics_B0.cpp`, `GetLength_AbsOutOfLine_41E260`).
+natural `x * x + y * y` / `SquareRoot` gives it (`CarPhysics.cpp`, `GetLength_AbsOutOfLine_41E260`).
 
 **An inlined helper's `u8` return read back and widened.** `movb $N,0x14(%esp); jmp join` per return plus
 `mov 0x14(%esp),%eax; and $0xFF,%eax; cmp $5,%eax` at the join means the result went into an `s32` local
@@ -995,7 +995,7 @@ identical case bodies give the `sub/dec/je` chain (`Char::state_7_551CB0`).
 
 **Moving a callee to its own TU brings back EH state stores.** With `GetBoundingBoxCorner_562450` defined earlier
 in sprite.cpp, VC6 knew it couldn't throw and dropped the state stores around its calls in
-`Sprite::FindCollisionIntersectionPoint_5A2710`. Defining it in CarPhysics_B0.cpp (its address range) restored them
+`Sprite::FindCollisionIntersectionPoint_5A2710`. Defining it in CarPhysics.cpp (its address range) restored them
 and gave the match. Worth checking in any WIP whose EH state stores are missing.
 
 **EH state at entry counts the destructible locals declared up front.** When the original sets the trylevel to N
@@ -1036,7 +1036,7 @@ expansions (`AddNormalized`, explicit `Multiply_408680`/`Add_408660` rotations) 
 **Inline sizes recovered from 9.6f and addresses.** The "top-level named calls" group (small functions whose
 original keeps Fix16 operators out of line although a top-level budget can't run out) are hand-expanded inlines;
 writing the 9.6f helper call needs the helpers' real front-end sizes and sites:
-- `Sprite::get_x_y()` is an inline (9.6f 0x4207B0): its out-of-line copy 0x443580 sits in Car_BC.cpp's address
+- `Sprite::get_x_y()` is an inline (9.6f 0x4207B0): its out-of-line copy 0x443580 sits in Car.cpp's address
   range, not sprite.cpp's. It returns a `Fix16_Point`, so it is charged (`CALL(udt)`) and counts as a site.
   Calls keep `get_x_y_443580` where two of its temporaries must not share a stack slot
   (`Crane::TargetTransporter_47F7F0`) or the extra site moves the original's cut-offs and nothing natural
@@ -1073,7 +1073,7 @@ directly in the first check keeps the original jump target (`Car::CanCarCollideW
 
 **Identical switch cases are cross-jumped only when their instructions are identical before scheduling.** `UpdateCircularBurst_state_5_539890` matches with cases 4 and 5 both written `set_id; dir.x = 0; dir.y = ...` (see "How VC6 copies and merges block tails").
 
-**Out-of-line copies by address:** `Abs_436A50` is `Fix16::Abs`, `AssignNormalized_409300` is the `Ang16(const s16&, s32)` ctor (9.6f 0x401C60), `sub_53E860` is a COMDAT copy of `Fix16::operator/(const s32&)` emitted by Particle_8.cpp and also called from sprite.cpp (no EXPORT yet, so those divides can't match).
+**Out-of-line copies by address:** `Abs_436A50` is `Fix16::Abs`, `AssignNormalized_409300` is the `Ang16(const s16&, s32)` ctor (9.6f 0x401C60), `sub_53E860` is a COMDAT copy of `Fix16::operator/(const s32&)` emitted by ParticleManager.cpp and also called from sprite.cpp (no EXPORT yet, so those divides can't match).
 
 **Hoisting a rotation angle into a local changes evaluation order.** Storing the spread angle in the Ang16 local 9.6f uses gave the original's left-first `(A + ang) - B` (`EmitBloodBurst_53E450`, `EmitWaterSplash_53F060`).
 
@@ -1364,7 +1364,7 @@ computing `sine(angle) * radius` (the 9.6f order) instead of `radius * sine(angl
 **A by-value class argument pushed as plain dwords, with an EH frame in the callee.** The caller pushes
 the members directly, but the callee still destroys the parameter. That is a class with a destructor
 and no user-defined copy constructor: `Fix16_Point`'s inline copy constructor builds the copy in place
-instead. `Fix16_Point_ByValue` in `CarPhysics_B0.hpp` is the parameter type of
+instead. `Fix16_Point_ByValue` in `CarPhysics.hpp` is the parameter type of
 `ApplyForceAndIntegrate_55F7A0`, which matched its caller `ApplyForceWithTrailerRedirect_55F740`.
 A POD parameter matched the caller but lost the callee's EH frame.
 
@@ -1622,7 +1622,7 @@ so don't include C++ std headers from widely used headers.
 Checked 2026-10-01: dropping either per-file flag in `cmake/vc6.cmake` breaks every matched
 function in that file.
 
-- **`FpsCounter_54.cpp` with `/GX-`.** The ctor builds five `ProfilerTimer`
+- **`FpsCounter.cpp` with `/GX-`.** The ctor builds five `ProfilerTimer`
   members that have real dtors, yet the original ctor has no EH frame. Under `/GX`, VC6 can't
   drop that frame, so the file really was built without exception handling.
 - **`gbh_graphics.cpp` with `/Od /ZI`.** The DLL loader there is a debug / edit-and-continue
@@ -1696,10 +1696,10 @@ assignment for now. `SetVelocityByRef_433920` (by reference) changes register ch
 function and matched `Ped::EnterCarStateMachine_46BDC0` and `ExitCarStateMachine_46C250`.
 
 **Adding unused inline methods to a header can still move code in other TUs.** Ten small
-`field_A6` bit helpers added to `Car_BC.hpp` (for `CarAI::PlanTurnAtNextJunction_447710`) leave every
+`field_A6` bit helpers added to `Car.hpp` (for `CarAI::PlanTurnAtNextJunction_447710`) leave every
 `MATCH_FUNC` alone but make five `MapRenderer.cpp` WIPs (`Draw3SidedDiagonal*`,
 `Draw4SidedDiagonal*`) 2 to 4 lines worse, by swapping the operands of one `lea`.
-`MapRenderer.cpp` gets `Car_BC.hpp` through `Camera.hpp` and never calls the helpers. So when a
+`MapRenderer.cpp` gets `Car.hpp` through `Camera.hpp` and never calls the helpers. So when a
 WIP's register choice is close, the set of inline functions VC6 has seen in the TU is a
 suspect too, not just the ones it uses.
 It works the other way round too, and the matched `MapRenderer.cpp` diagonals now depend on it:
@@ -1872,7 +1872,7 @@ gets the zero folded, and VC6 then keeps 0 in a register for the other zero test
 `test`/`mov %ecx,...` came from a small inline returning `count` for a zero count
 (`StepFor_5D7DD0`).
 
-Not checked yet: `CarAI_78.cpp` has many `sine_40F500(a) * r` / `cosine_40F520(a) * r` pairs
+Not checked yet: `CarAI.cpp` has many `sine_40F500(a) * r` / `cosine_40F520(a) * r` pairs
 that may be `FromPolar_41E210` or `Ang16::PolarToCartesian_41FC20`.
 
 
@@ -2029,7 +2029,7 @@ Found by tracing C2.DLL (see `Scripts/inline_budget/`); the instrumented compile
   helpers with the operators as sites gives 3268/3304, no better. So the operator sizes are right and the
   named calls stand in for missing or misshaped helpers, function by function.
 - **Precompiled headers don't explain it.** An earlier note here said 10.5's `/Yu` compiled header inline
-  copies late. A `/Yc`//`/Yu` build of Weapon_30.cpp, with a PCH holding only the Fix16/Ang16/Fix16_Point
+  copies late. A `/Yc`//`/Yu` build of Weapon.cpp, with a PCH holding only the Fix16/Ang16/Fix16_Point
   headers or every header the file includes, gives exactly the same code as no PCH (our compiler is the
   original's: C2 12.00.8799, as in the Rich header). 10.5's initialiser table does have the `Fix16` 0..7
   header constants once per TU, 100 times, so nearly every TU includes the Fix16 headers through one

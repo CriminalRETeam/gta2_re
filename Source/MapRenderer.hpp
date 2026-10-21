@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
-#include "Game_0x40.hpp"
+#include "Game.hpp"
 #include "map_0x370.hpp"
 #include "fix16.hpp"
 #include "3rdParty/GTA2Hax/d3ddll/d3ddll.hpp" // Vert

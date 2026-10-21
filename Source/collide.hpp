@@ -2,7 +2,7 @@
 
 #include "Function.hpp"
 #include "Pool.hpp"
-#include "SpriteGrid_400.hpp"
+#include "SpriteGrid.hpp"
 #include "fix16.hpp"
 
 class Sprite;

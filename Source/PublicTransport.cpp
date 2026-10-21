@@ -1,17 +1,17 @@
 #include "PublicTransport.hpp"
-#include "Car_BC.hpp"
+#include "Car.hpp"
 #include "Char_Pool.hpp"
-#include "Game_0x40.hpp"
+#include "Game.hpp"
 #include "Globals.hpp"
 #include "debug.hpp"
 #include "error.hpp"
 #include "map_0x370.hpp"
 #include "rng.hpp"
-#include "CarAI_78.hpp"
-#include "CarPhysics_B0.hpp"
+#include "CarAI.hpp"
+#include "CarPhysics.hpp"
 #include "Object_5C.hpp"
 #include "Player.hpp"
-#include "SpriteGrid_400.hpp"
+#include "SpriteGrid.hpp"
 
 DEFINE_GLOBAL(PublicTransport*, gPublicTransport_181C_6FF1D4, 0x6FF1D4);
 DEFINE_GLOBAL(TrainStationList, gTrainStationList_6FEE68, 0x6FEE68);

@@ -1,13 +1,13 @@
 #define FIX16_POINT_ZERO kZero_676818
 #include "Camera.hpp"
-#include "Car_BC.hpp"
-#include "CarPhysics_B0.hpp"
+#include "Car.hpp"
+#include "CarPhysics.hpp"
 #include "Function.hpp"
-#include "Game_0x40.hpp"
+#include "Game.hpp"
 #include "Globals.hpp"
-#include "CarChaseTaskTable_500.hpp"
+#include "CarChaseTaskTable.hpp"
 #include "Ped.hpp"
-#include "Police_7B8.hpp"
+#include "Police.hpp"
 #include "sprite.hpp"
 
 // Forward declarations: the functions below are in address order

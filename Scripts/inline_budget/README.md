@@ -68,7 +68,7 @@ submodule's `C2.DLL` and checks its hash first. The patch only adds logging; the
 
 ```bash
 # Decision tree of one function: each site's result, callee size, budget, sites left, nested budget
-Scripts/inline_budget/inl.sh Source/Explosion_30.cpp TimerAfter50Handler      # -a also lists free sites
+Scripts/inline_budget/inl.sh Source/Explosion.cpp TimerAfter50Handler      # -a also lists free sites
 
 # What-if, on the log inl.sh just wrote
 L=build_vc6/inline_c2/last.log
@@ -82,7 +82,7 @@ venv/bin/python3 Scripts/inline_budget/inlsim.py $L --verify                    
 Scripts/inline_budget/probe.sh /tmp/t.cpp > /tmp/t.log; python3 Scripts/inline_budget/inltree.py /tmp/t.log
 
 # Which MATCH/WIP functions change between two copies of Source/ (before/after an inline change)
-venv/bin/python3 Scripts/inline_budget/fullexp.py /tmp/src_base /tmp/src_mod CarAI_78.cpp Ped.cpp
+venv/bin/python3 Scripts/inline_budget/fullexp.py /tmp/src_base /tmp/src_mod CarAI.cpp Ped.cpp
 ```
 
 `inlsim.py` only knows the callee bodies that were expanded somewhere in the log; it lists the

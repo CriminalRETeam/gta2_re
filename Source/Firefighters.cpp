@@ -1,12 +1,12 @@
 #include "Firefighters.hpp"
 #include "car_despawn_status.hpp"
-#include "Car_BC.hpp"
-#include "CarAI_78.hpp"
-#include "CarPhysics_B0.hpp"
+#include "Car.hpp"
+#include "CarAI.hpp"
+#include "CarPhysics.hpp"
 #include "Char_Pool.hpp"
-#include "Game_0x40.hpp"
-#include "CarChaseTaskTable_500.hpp"
-#include "PathFinder_2FD4.hpp"
+#include "Game.hpp"
+#include "CarChaseTaskTable.hpp"
+#include "PathFinder.hpp"
 #include "debug.hpp"
 
 // Forward declarations: the functions below are in address order

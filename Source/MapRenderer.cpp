@@ -5,10 +5,10 @@
 #include "Globals.hpp"
 #include "debug.hpp"
 #include "fix16.hpp"
-#include "Light_1D4CC.hpp"
+#include "LightPool.hpp"
 #include "map_0x370.hpp"
-#include "SpriteRenderer_1C.hpp"
-#include "TextureCache_15D8.hpp"
+#include "SpriteRenderer.hpp"
+#include "TextureCache.hpp"
 #include "winmain.hpp"
 
 DEFINE_GLOBAL(MapRenderer*, gpMapRenderer_6F66E4, 0x6F66E4);

@@ -25,7 +25,7 @@ else
 fi
 b=$(basename "$SRC")
 sed -E 's/^\s*(WIP|NOT)_IMPLEMENTED;\s*$//' "$SRC" > "$OUTD/$b"
-case "$b" in Network_20324.cpp) XF="/Gz";; FpsCounter_54.cpp) XF="/GX-";; gbh_graphics.cpp) XF="/Od /ZI";; esac
+case "$b" in NetUi.cpp) XF="/Gz";; FpsCounter.cpp) XF="/GX-";; gbh_graphics.cpp) XF="/Od /ZI";; esac
 if [ -n "$MSYSTEM" ]; then
   export PATH="$B/VC98/Bin:$RT/Common/MSDev98/Bin:$PATH"
 else

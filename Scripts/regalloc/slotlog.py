@@ -10,7 +10,7 @@ instruction in IL order (0x10724286). Order: size ascending, then reference coun
 1, loops don't weigh more), then first reference. See README.md, "Stack slots".
 
     venv/bin/python3 Scripts/regalloc/slotlog.py
-    X87_C2=slotlog X87_OUT=/tmp/sl Scripts/x87_sched/sched.sh -l Source/CarAI_78.cpp
+    X87_C2=slotlog X87_OUT=/tmp/sl Scripts/x87_sched/sched.sh -l Source/CarAI.cpp
     awk '/^@SLOTS/{p=index($0,"sub_452060")} p' /tmp/sl/last.log | grep -a '^@SLOT'
 """
 import os, sys, shutil

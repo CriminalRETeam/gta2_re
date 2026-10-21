@@ -1,20 +1,20 @@
 #include "sprite.hpp"
 #include "explosion_type.hpp"
 #include "car_despawn_status.hpp"
-#include "CarInfo_808.hpp" // TODO: only because of gPixelsToFix16_6F6850
-#include "Car_BC.hpp"
+#include "CarInfoTable.hpp" // TODO: only because of gPixelsToFix16_6F6850
+#include "Car.hpp"
 #include "Globals.hpp"
 #include "Ped.hpp"
 #include "Frontend.hpp"
 #include "Camera.hpp"
 #include "Draw.hpp"
-#include "Object_2C_Pool.hpp"
+#include "ObjectPool.hpp"
 #include "Object_5C.hpp"
-#include "PathFinder_2FD4.hpp"
+#include "PathFinder.hpp"
 #include "Player.hpp"
-#include "Police_7B8.hpp"
-#include "SpriteGrid_400.hpp"
-#include "CollisionSoundQueue_C88.hpp"
+#include "Police.hpp"
+#include "SpriteGrid.hpp"
+#include "CollisionSoundQueue.hpp"
 #include "char.hpp"
 #include "crt_stubs.hpp"
 #include "debug.hpp"
@@ -25,7 +25,7 @@
 #include "map_0x370.hpp"
 #include "memory.hpp"
 #include "root_sound.hpp"
-#include "TextureCache_15D8.hpp"
+#include "TextureCache.hpp"
 #include "winmain.hpp" // TODO: only because of gLighting_626A09
 
 // Forward declarations: the functions below are in address order

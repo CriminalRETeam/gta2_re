@@ -4,7 +4,7 @@
 #include "error.hpp"
 #include "file.hpp"
 #include "map_0x370.hpp"
-#include "Game_0x40.hpp"
+#include "Game.hpp"
 #include "Player.hpp"
 #include "Camera.hpp"
 #include "Hud.hpp"

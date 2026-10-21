@@ -3,15 +3,15 @@
 #include "ped_death_cause.hpp"
 #include "car_despawn_status.hpp"
 #include "Camera.hpp"
-#include "Car_BC.hpp"
+#include "Car.hpp"
 #include "Globals.hpp"
-#include "SoundObject_10.hpp"
+#include "SoundObject.hpp"
 #include "root_sound.hpp"
 #include "Object_5C.hpp"
 #include "debug.hpp"
 #include "map_0x370.hpp"
 #include "winmain.hpp"
-#include "Game_0x40.hpp"
+#include "Game.hpp"
 #include "Player.hpp"
 #include <stdio.h>
 

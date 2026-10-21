@@ -276,7 +276,7 @@ class Fix16_Point
         return *this;
     }
 
-    // Out-of-line copy of RotateByAngle_40F6B0, emitted in CarPhysics_B0.cpp
+    // Out-of-line copy of RotateByAngle_40F6B0, emitted in CarPhysics.cpp
     EXPORT void RotateVelocity_562C20(const Ang16& angle);
 
     EXPORT Fix16_Point Multiply_438FE0(Fix16& in);
@@ -295,7 +295,7 @@ class Fix16_Point
         return Fix16_Point(x * in, y * in);
     }
 
-    // Out-of-line copies emitted in Weapon_30.cpp (used by DrawElectricArc_5DE910).
+    // Out-of-line copies emitted in Weapon.cpp (used by DrawElectricArc_5DE910).
     EXPORT Fix16_Point& AddAssign_5E40C0(const Fix16_Point& other);
     EXPORT Fix16_Point& DivAssign_5E40E0(const Fix16& v);
     EXPORT Fix16 MaxAbs_5E4140();
@@ -390,7 +390,7 @@ class Fix16_Point
     // inline operator- called out of line gets none (CarPhysics::HandleCarCollision_55FF20)
     EXPORT Fix16_Point Sub_40AC80(const Fix16_Point& rhs);
 
-    // operator+/operator- with their bodies defined at the end of Car_BC.cpp (HandleCarHitByObject_43F130)
+    // operator+/operator- with their bodies defined at the end of Car.cpp (HandleCarHitByObject_43F130)
     inline Fix16_Point AddLate_40AC50(const Fix16_Point& in);
     inline Fix16_Point SubLate_40AC80(const Fix16_Point& rhs);
 

@@ -1,5 +1,5 @@
 #include "InputRecorder_67F8B0.hpp"
-#include "Game_0x40.hpp"
+#include "Game.hpp"
 #include "Globals.hpp"
 #include "Hud.hpp"
 #include "debug.hpp"
@@ -13,7 +13,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
-#include "GameSession_578.hpp"
+#include "GameSession.hpp"
 
 #define ATTRACT_COUNT 3
 

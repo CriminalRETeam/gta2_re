@@ -4,7 +4,7 @@
 #include "Function.hpp"
 #include "Object_3C.hpp"
 #include "Object_8.hpp"
-#include "ObjectDefinitions_8CA8.hpp"
+#include "ObjectDefinitions.hpp"
 #include "ang16.hpp"
 #include "fix16.hpp"
 #include "sprite.hpp"

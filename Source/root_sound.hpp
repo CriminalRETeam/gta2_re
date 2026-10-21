@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
-#include "SoundObject_10.hpp"
+#include "SoundObject.hpp"
 #include "fix16.hpp"
 #include <windows.h>
 

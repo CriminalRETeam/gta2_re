@@ -1,6 +1,6 @@
 #include "ExplodingScore_100.hpp"
 #include "Camera.hpp"
-#include "Game_0x40.hpp"
+#include "Game.hpp"
 #include "Globals.hpp"
 #include "Player.hpp"
 #include <memory.h>

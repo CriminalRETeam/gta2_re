@@ -1,6 +1,6 @@
 #include "Fix16_Rect.hpp"
 #include "map_0x370.hpp"
-#include "SpriteGrid_400.hpp"
+#include "SpriteGrid.hpp"
 #include "sprite.hpp"
 
 DEFINE_GLOBAL_INIT(Fix16, kSmallWidthEpslion_703450, Fix16(0xCCC, 0), 0x703450);
