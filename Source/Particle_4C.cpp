@@ -966,7 +966,7 @@ char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
 
     if (field_28_pSprite->field_30_sprite_type_enum == sprite_types_enum::car_2)
     {
-        Car_BC* pCar = field_28_pSprite->AsCar_40FEB0();
+        Car* pCar = field_28_pSprite->AsCar_40FEB0();
         if (!pCar || pCar->IsDespawning_4215B0())
         {
             return true;
@@ -1030,7 +1030,7 @@ char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
     }
     else
     {
-        Char_B4* pB4 = field_28_pSprite->AsCharB4_40FEA0();
+        Char* pB4 = field_28_pSprite->AsCharB4_40FEA0();
         if (!pB4 || !pB4->field_7C_pPed || !pB4->field_7C_pPed->field_21C_bf.bActive)
         {
             return true;
@@ -1273,7 +1273,7 @@ char_type Particle_4C::UpdateAttachedEmitter_state_9_10_53B670()
         return true;
     }
 
-    Char_B4* pB4 = pSprite->field_8_char_b4_ptr;
+    Char* pB4 = pSprite->field_8_char_b4_ptr;
 
     Ped* pPed = pB4->get_ped_433A20();
     if (!pPed || !pPed->IsActive_433B40())
@@ -1393,8 +1393,8 @@ char_type Particle_4C::UpdateBurstAnimation_state_29_30_53B9F0()
 MATCH_FUNC(0x53bac0)
 char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
 {
-    Char_B4* pB4 = NULL;
-    Car_BC* pCar = NULL;
+    Char* pB4 = NULL;
+    Car* pCar = NULL;
     Ang16 spread;
     // Declaration order sets C2's symbol numbers: the vel + d operand order and the ypos/xpos reloads depend on it
     Fix16 dx;
@@ -1477,7 +1477,7 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
         Ang16 car_angle;
         Fix16_Point offset;
         Fix16_Point attach;
-        AttachedSprite_18* pGun = pCar->field_0_attachments.GetSpriteForModel_5A6A50(114);
+        AttachedSprite* pGun = pCar->field_0_attachments.GetSpriteForModel_5A6A50(114);
         if (pGun)
         {
             car_angle = pGun->field_0_pSprite->field_0_rotation + kAng180_6FD3EE;

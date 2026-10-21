@@ -3,7 +3,7 @@
 #include "3rdParty/mss.h"
 #include "Function.hpp"
 
-struct sdt_entry_0x18
+struct SdtEntry
 {
     s32 field_0_offset;
     s32 field_4_sample_length;
@@ -12,6 +12,7 @@ struct sdt_entry_0x18
     s32 field_10_loop_start;
     s32 field_14_loop_end; // -1 = end of sample
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(SdtEntry, 0x18);
 
 class cSampleManager
 {
@@ -159,7 +160,7 @@ class cSampleManager
     char_type field_A5_pad;
     char_type field_A6_pad;
     char_type field_A7_pad;
-    sdt_entry_0x18 field_A8_sdt_entries[320];
+    SdtEntry field_A8_sdt_entries[320];
     void* field_1EA8_pAudioBuffer1;
     void* field_1EAC_pAudioBuffer2;
     u8 field_1EB0_count_samples;

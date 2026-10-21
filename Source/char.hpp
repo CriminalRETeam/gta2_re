@@ -10,7 +10,7 @@
 
 class Sprite_3C;
 class Ped;
-class Car_BC;
+class Car;
 class Sprite;
 
 EXTERN_GLOBAL(Fix16, kFpOne256th_678620);
@@ -25,9 +25,9 @@ EXTERN_GLOBAL(Ang16, kAng344_6FD8F8);
 EXPORT void __stdcall UnpackSignedNibbles_529050(u8 packed, s8* pX, s8* pY);
 EXPORT Ang16 __stdcall ComputeShortestAngleDelta_4056C0(Ang16& angle1, Ang16& angle2);
 
-// SpriteList_4 with a (trivial) destructor: the original Char_B4 ctor has an EH frame for this member,
-// while other owners of a SpriteList_4 (Car_BC, Object_5C, Weapon_8) have none.
-class SpriteList_4_dtor : public SpriteList_4
+// SpriteList with a (trivial) destructor: the original Char ctor has an EH frame for this member,
+// while other owners of a SpriteList (Car, Object_5C, WeaponManager) have none.
+class SpriteList_4_dtor : public SpriteList
 {
   public:
     ~SpriteList_4_dtor()
@@ -35,7 +35,7 @@ class SpriteList_4_dtor : public SpriteList_4
     }
 };
 
-class Char_B4
+class Char
 {
   public:
     // 9.6f 0x41B080
@@ -137,10 +137,10 @@ class Char_B4
     Ang16 field_74_repulsion_rotation;
     s8 field_76_unused;
     s8 field_77_unused;
-    Char_B4* mpNext;
+    Char* mpNext;
     Ped* field_7C_pPed;
     Sprite* field_80_sprite_ptr; // TODO: Or sprite_3c, are they the same type ??
-    Car_BC* field_84_target_car;
+    Car* field_84_target_car;
     SpriteList_4_dtor field_88_obj_2c;
     Fix16 field_8C_jump_base_z;
     Fix16 field_90_fall_speed;
@@ -280,12 +280,12 @@ class Char_B4
     }
 
     // 9.6f 0x403900
-    inline Car_BC* Get_F84_403900()
+    inline Car* Get_F84_403900()
     {
         return field_84_target_car;
     }
 
-    inline void Set_F84_433900(Car_BC* pCar)
+    inline void Set_F84_433900(Car* pCar)
     {
         field_84_target_car = pCar;
     }
@@ -314,8 +314,8 @@ class Char_B4
         return false;
     }
 
-    Char_B4();
-    ~Char_B4();
+    Char();
+    ~Char();
 
     EXPORT void PoolAllocate();
     EXPORT void PoolDeallocate();
@@ -353,9 +353,9 @@ class Char_B4
     EXPORT void UpdateAnimState_546360();
     EXPORT void ManageZCoordAndSlopes_548590();
     EXPORT void DispatchCollision_548670(char_type bFlag);
-    EXPORT void HandleObjectCollision_548840(Object_2C* pObj);
-    EXPORT void HandlePedCollision_548BD0(Char_B4* pOther);
-    EXPORT void HandleGenericCollision_54A530(Car_BC* pCar, Object_2C* pObj, Char_B4* pChar);
+    EXPORT void HandleObjectCollision_548840(Object* pObj);
+    EXPORT void HandlePedCollision_548BD0(Char* pOther);
+    EXPORT void HandleGenericCollision_54A530(Car* pCar, Object* pObj, Char* pChar);
     EXPORT char_type ContinueMovementAfterCollision_54B8F0();
     EXPORT void sub_54C090();
     EXPORT char_type CanMoveOntoSlope_54C1A0(s32 path_direction);
@@ -390,14 +390,15 @@ class Char_B4
     EXPORT bool IsNearTileCentre_5532C0();
     EXPORT char_type IsThreatToSearchingPed_553330();
     EXPORT bool ShouldCollideWithSprite_553340(Sprite* pSprite);
-    EXPORT bool PhoneTouched_5535B0(Object_2C* p2c);
-    EXPORT char_type OnObjectTouched_553640(Object_2C* p2c);
-    EXPORT char_type HandlePedObjectHit_5537F0(Object_2C* p2c);
-    EXPORT void HandleCarImpact_5538A0(Car_BC* pCar, u8 bUnknown, Fix16 x, Fix16 y);
+    EXPORT bool PhoneTouched_5535B0(Object* p2c);
+    EXPORT char_type OnObjectTouched_553640(Object* p2c);
+    EXPORT char_type HandlePedObjectHit_5537F0(Object* p2c);
+    EXPORT void HandleCarImpact_5538A0(Car* pCar, u8 bUnknown, Fix16 x, Fix16 y);
     EXPORT void HandleGenericImpact_553E00(Ang16 ang, Fix16 impact_x, Fix16 impact_z, char_type impact_type);
 
     EXPORT void nullsub_28();
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Char, 0xB4);
 
 EXPORT void __stdcall ResetCharUpdateGlobals_544F70();
 EXPORT void __stdcall ResetCharStatics_553F90();

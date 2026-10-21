@@ -8,9 +8,9 @@
 #include "GameSession_578.hpp"
 #include <io.h>
 
-DEFINE_GLOBAL(PlyDat_2BC0*, gPlyDat_6FEAC0, 0x6FEAC0);
+DEFINE_GLOBAL(PlyDat*, gPlyDat_6FEAC0, 0x6FEAC0);
 EXTERN_GLOBAL_ARRAY(wchar_t, gEmptyWStr_67DC8C, 32);
-DEFINE_GLOBAL_ARRAY_INIT(ScoreTableLine_18, gDefaultHiScores_6242B0, 10, 0x6242B0,
+DEFINE_GLOBAL_ARRAY_INIT(ScoreTableLine, gDefaultHiScores_6242B0, 10, 0x6242B0,
     { L"ALISDAIR" COMMA 50000 } COMMA
     { L"BILLY"    COMMA 40000 } COMMA
     { L"BRIAN"    COMMA 30000 } COMMA
@@ -22,7 +22,7 @@ DEFINE_GLOBAL_ARRAY_INIT(ScoreTableLine_18, gDefaultHiScores_6242B0, 10, 0x6242B
     { L"STEPHEN"  COMMA  6000 } COMMA
     { L"WILLIAM"  COMMA  5000 } COMMA
 );
-DEFINE_GLOBAL_ARRAY_INIT(ScoreTableLine_18, gDefaultStageHiScores_6243A0, 120, 0x6243A0,   //, , 3][4][10, 0xUNKNOWN);
+DEFINE_GLOBAL_ARRAY_INIT(ScoreTableLine, gDefaultStageHiScores_6243A0, 120, 0x6243A0,   //, , 3][4][10, 0xUNKNOWN);
     {L"ALISDAIR" COMMA 50000 } COMMA
     {L"BILLY"    COMMA 40000 } COMMA
     {L"BRIAN"    COMMA 30000 } COMMA
@@ -150,18 +150,18 @@ EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
 
 
 MATCH_FUNC(0x56B500)
-HighScoreTable_F0::HighScoreTable_F0()
+HighScoreTable::HighScoreTable()
 {
     Init_56B520();
 }
 
 MATCH_FUNC(0x56B510)
-HighScoreTable_F0::~HighScoreTable_F0()
+HighScoreTable::~HighScoreTable()
 {
 }
 
 MATCH_FUNC(0x56B520)
-void HighScoreTable_F0::Init_56B520()
+void HighScoreTable::Init_56B520()
 {
     for (s32 i = 0; i < 10; i++)
     {
@@ -171,7 +171,7 @@ void HighScoreTable_F0::Init_56B520()
 }
 
 MATCH_FUNC(0x56B550)
-char_type HighScoreTable_F0::InsertScore_56B550(const wchar_t* pFindStr, s32 findScore)
+char_type HighScoreTable::InsertScore_56B550(const wchar_t* pFindStr, s32 findScore)
 {
     u16 startIdx = 10;
     for (s16 i = 9; i != -1; --i)
@@ -208,18 +208,18 @@ char_type HighScoreTable_F0::InsertScore_56B550(const wchar_t* pFindStr, s32 fin
 }
 
 MATCH_FUNC(0x56B610)
-PlySlot_A4::PlySlot_A4()
+PlySlot::PlySlot()
 {
     ResetPlayerSlot_56B630();
 }
 
 MATCH_FUNC(0x56B620)
-PlySlot_A4::~PlySlot_A4()
+PlySlot::~PlySlot()
 {
 }
 
 MATCH_FUNC(0x56B630)
-void PlySlot_A4::ResetPlayerSlot_56B630()
+void PlySlot::ResetPlayerSlot_56B630()
 {
     for (u16 k = 0; k < 9; k++)
     {
@@ -239,7 +239,7 @@ void PlySlot_A4::ResetPlayerSlot_56B630()
 }
 
 MATCH_FUNC(0x56B680)
-s32 PlySlot_A4::GetTotalLatestScore_56B680()
+s32 PlySlot::GetTotalLatestScore_56B680()
 {
     s32 result = 0;
 
@@ -254,7 +254,7 @@ s32 PlySlot_A4::GetTotalLatestScore_56B680()
 }
 
 MATCH_FUNC(0x56B6B0)
-s32 PlySlot_A4::GetTotalBestScore_56B6B0()
+s32 PlySlot::GetTotalBestScore_56B6B0()
 {
     s32 result = 0;
 
@@ -303,11 +303,11 @@ s32 len;
 */
 
 MATCH_FUNC(0x56B6E0)
-PlyDat_2BC0::PlyDat_2BC0()
+PlyDat::PlyDat()
 {
     for (s32 i = 0; i < 3; i++)
     {
-        memset(&field_1800_best_stats[i], 0, sizeof(BestStageStats_28));
+        memset(&field_1800_best_stats[i], 0, sizeof(BestStageStats));
         field_1878_best_car_damage_cost[i] = 0;
         field_1884_best_evasion_rating[i] = 0;
     }
@@ -337,15 +337,15 @@ PlyDat_2BC0::PlyDat_2BC0()
     InitAltHiScores_56BD20();
 }
 
-// Defined after ~HighScoreTable_F0 so VC6 knows that destructor can't throw and
+// Defined after ~HighScoreTable so VC6 knows that destructor can't throw and
 // drops the EH state updates between the calls to it.
 MATCH_FUNC(0x56B810)
-PlyDat_2BC0::~PlyDat_2BC0()
+PlyDat::~PlyDat()
 {
 }
 
 MATCH_FUNC(0x56B8A0)
-void PlyDat_2BC0::GetPlySlotDatName_56B8A0(u16 slot_idx, char_type* pName)
+void PlyDat::GetPlySlotDatName_56B8A0(u16 slot_idx, char_type* pName)
 {
     char_type Buffer[8];
     _itoa(slot_idx, Buffer, 10);
@@ -355,7 +355,7 @@ void PlyDat_2BC0::GetPlySlotDatName_56B8A0(u16 slot_idx, char_type* pName)
 }
 
 MATCH_FUNC(0x56B940)
-char_type PlyDat_2BC0::PlySlotDatExists_56B940(s32 slot_idx)
+char_type PlyDat::PlySlotDatExists_56B940(s32 slot_idx)
 {
     char_type FileName[356];
     GetPlySlotDatName_56B8A0(slot_idx, FileName);
@@ -371,11 +371,11 @@ char_type PlyDat_2BC0::PlySlotDatExists_56B940(s32 slot_idx)
 }
 
 MATCH_FUNC(0x56B990)
-void PlyDat_2BC0::LoadPlySlotDat_56B990(u16 slotIdx)
+void PlyDat::LoadPlySlotDat_56B990(u16 slotIdx)
 {
     char_type FileName[356];
 
-    PlySlot_A4* pTmp = &field_26A0_plyr_stats[slotIdx];
+    PlySlot* pTmp = &field_26A0_plyr_stats[slotIdx];
 
     GetPlySlotDatName_56B8A0(slotIdx, FileName);
     File::Global_Open_4A7060(FileName);
@@ -404,7 +404,7 @@ void PlyDat_2BC0::LoadPlySlotDat_56B990(u16 slotIdx)
 }
 
 MATCH_FUNC(0x56BA60)
-void PlyDat_2BC0::SavePlySlotDat_56BA60(s16 slotIdx)
+void PlyDat::SavePlySlotDat_56BA60(s16 slotIdx)
 {
     char_type FileName[356];
     size_t len;
@@ -441,10 +441,10 @@ void PlyDat_2BC0::SavePlySlotDat_56BA60(s16 slotIdx)
 
 // https://decomp.me/scratch/oIJET
 MATCH_FUNC(0x56BB10)
-void PlyDat_2BC0::UpdateStageScore_56BB10(Player* pPlayer)
+void PlyDat::UpdateStageScore_56BB10(Player* pPlayer)
 {
     const u8 slot_idx = gGameSession_67E8E0.GetPlySlotIdx_4C59B0();
-    PlySlot_A4* pPlayerStats = &field_26A0_plyr_stats[slot_idx];
+    PlySlot* pPlayerStats = &field_26A0_plyr_stats[slot_idx];
     u8 map_num;
     u8 bonus_num;
     if (!gGameSession_67E8E0.IsBonusStage_4C59A0())
@@ -457,7 +457,7 @@ void PlyDat_2BC0::UpdateStageScore_56BB10(Player* pPlayer)
         gGameSession_67E8E0.DecodeStage_453A60(gGameSession_67E8E0.GetStage_4C5990(), &map_num, &bonus_num);
     }
 
-    StageStats_C* pStageStats = &pPlayerStats->field_0_plyr_stage_stats[map_num][bonus_num];
+    StageStats* pStageStats = &pPlayerStats->field_0_plyr_stage_stats[map_num][bonus_num];
     const u32 latest_score = pPlayer->field_2D4_scores.GetScore_592370();
     if (latest_score > pStageStats->field_4_stage_best_score)
     {
@@ -468,7 +468,7 @@ void PlyDat_2BC0::UpdateStageScore_56BB10(Player* pPlayer)
 }
 
 MATCH_FUNC(0x56BBD0)
-void PlyDat_2BC0::UnlockStage_56BBD0(u8 map_num, u8 bonus_num)
+void PlyDat::UnlockStage_56BBD0(u8 map_num, u8 bonus_num)
 {
     const u8 slot_idx = gGameSession_67E8E0.GetPlySlotIdx_4C59B0();
     this->field_26A0_plyr_stats[slot_idx].field_0_plyr_stage_stats[map_num][bonus_num].field_0_is_stage_unlocked = 1;
@@ -479,10 +479,10 @@ void PlyDat_2BC0::UnlockStage_56BBD0(u8 map_num, u8 bonus_num)
 }
 
 MATCH_FUNC(0x56BC40)
-void PlyDat_2BC0::UnlockAllStages_56BC40()
+void PlyDat::UnlockAllStages_56BC40()
 {
     const u8 slot_idx = gGameSession_67E8E0.GetPlySlotIdx_4C59B0();
-    PlySlot_A4* pStats = &this->field_26A0_plyr_stats[slot_idx];
+    PlySlot* pStats = &this->field_26A0_plyr_stats[slot_idx];
     for (s32 k3 = 0; k3 < 3; k3++)
     {
         for (s32 k4 = 0; k4 < 4; k4++)
@@ -500,7 +500,7 @@ void PlyDat_2BC0::UnlockAllStages_56BC40()
 // =====================================================================
 
 MATCH_FUNC(0x56BCA0)
-char_type PlyDat_2BC0::HiScoreHscExists_56BCA0()
+char_type PlyDat::HiScoreHscExists_56BCA0()
 {
     char_type FileName[356];
     GetHiScoreHscFileName_56BCF0(FileName);
@@ -516,13 +516,13 @@ char_type PlyDat_2BC0::HiScoreHscExists_56BCA0()
 }
 
 MATCH_FUNC(0x56BCF0)
-void PlyDat_2BC0::GetHiScoreHscFileName_56BCF0(char_type* pName)
+void PlyDat::GetHiScoreHscFileName_56BCF0(char_type* pName)
 {
     strcpy(pName, "player\\hiscores.hsc");
 }
 
 MATCH_FUNC(0x56BD20)
-void PlyDat_2BC0::InitAltHiScores_56BD20()
+void PlyDat::InitAltHiScores_56BD20()
 {
     wcsncpy(field_24C0_alt_scores.field_0_score_table_line[0].field_0_player_name, L"ALAN", 9u);
     field_24C0_alt_scores.field_0_score_table_line[0].field_14_score = 1000000;
@@ -547,7 +547,7 @@ void PlyDat_2BC0::InitAltHiScores_56BD20()
 }
 
 MATCH_FUNC(0x56BE50)
-void PlyDat_2BC0::LoadHiScores_56BE50()
+void PlyDat::LoadHiScores_56BE50()
 {
     char_type FileName[256];
     GetHiScoreHscFileName_56BCF0(FileName);
@@ -573,7 +573,7 @@ void PlyDat_2BC0::LoadHiScores_56BE50()
 }
 
 MATCH_FUNC(0x56BF20)
-void PlyDat_2BC0::SaveHiScores_56BF20()
+void PlyDat::SaveHiScores_56BF20()
 {
     char_type FileName[256];
     size_t len;
@@ -582,22 +582,22 @@ void PlyDat_2BC0::SaveHiScores_56BF20()
 
     // The start of this object is reused as the buffer for the high score file
     u8* pDst = reinterpret_cast<u8*>(this);
-    memcpy(pDst, &field_23D0_total_scores, sizeof(HighScoreTable_F0));
-    pDst += sizeof(HighScoreTable_F0);
-    len = sizeof(HighScoreTable_F0);
+    memcpy(pDst, &field_23D0_total_scores, sizeof(HighScoreTable));
+    pDst += sizeof(HighScoreTable);
+    len = sizeof(HighScoreTable);
 
     for (s32 k = 0; k < 3; k++)
     {
         for (s32 j = 0; j < 4; j++)
         {
-            memcpy(pDst, &field_1890_stage_scores[k][j], sizeof(HighScoreTable_F0));
-            pDst += sizeof(HighScoreTable_F0);
-            len += sizeof(HighScoreTable_F0);
+            memcpy(pDst, &field_1890_stage_scores[k][j], sizeof(HighScoreTable));
+            pDst += sizeof(HighScoreTable);
+            len += sizeof(HighScoreTable);
         }
 
-        memcpy(pDst, &field_1800_best_stats[k], sizeof(BestStageStats_28));
-        pDst += sizeof(BestStageStats_28);
-        len += sizeof(BestStageStats_28);
+        memcpy(pDst, &field_1800_best_stats[k], sizeof(BestStageStats));
+        pDst += sizeof(BestStageStats);
+        len += sizeof(BestStageStats);
 
         *reinterpret_cast<s32*>(pDst) = field_1878_best_car_damage_cost[k];
         pDst += 4;
@@ -613,7 +613,7 @@ void PlyDat_2BC0::SaveHiScores_56BF20()
 
 // TODO: logic matches, only register allocation differs
 MATCH_FUNC(0x56C010)
-void PlyDat_2BC0::UpdateHiScores_56C010()
+void PlyDat::UpdateHiScores_56C010()
 {
     u8 map_num;
     u8 bonus_num;
@@ -629,7 +629,7 @@ void PlyDat_2BC0::UpdateHiScores_56C010()
         gGameSession_67E8E0.DecodeStage_453A60(gGameSession_67E8E0.GetStage_4C5990(), &map_num, &bonus_num);
     }
 
-    PlySlot_A4* pPlayerStats = &field_26A0_plyr_stats[gGameSession_67E8E0.GetPlySlotIdx_4C59B0()];
+    PlySlot* pPlayerStats = &field_26A0_plyr_stats[gGameSession_67E8E0.GetPlySlotIdx_4C59B0()];
     s32 latest = pPlayerStats->field_0_plyr_stage_stats[map_num][bonus_num].field_8_stage_latest_score;
     const char_type bNewStageScore =
         field_1890_stage_scores[map_num][bonus_num].InsertScore_56B550(pPlayerStats->field_90_strPlayerName, latest);
@@ -670,10 +670,10 @@ void PlyDat_2BC0::UpdateHiScores_56C010()
 }
 
 MATCH_FUNC(0x56C170)
-void PlyDat_2BC0::BuildMergedHiScores_56C170()
+void PlyDat::BuildMergedHiScores_56C170()
 {
     field_25B0.Init_56B520();
-    ScoreTableLine_18* pLine = field_24C0_alt_scores.field_0_score_table_line;
+    ScoreTableLine* pLine = field_24C0_alt_scores.field_0_score_table_line;
     for (s32 k10 = 0; k10 < 10; k10++)
     {
         field_25B0.InsertScore_56B550(pLine->field_0_player_name, pLine->field_14_score);
@@ -682,23 +682,23 @@ void PlyDat_2BC0::BuildMergedHiScores_56C170()
 
     for (s32 k8 = 0; k8 < 8; k8++)
     {
-        PlySlot_A4* pSlot = &field_26A0_plyr_stats[k8];
+        PlySlot* pSlot = &field_26A0_plyr_stats[k8];
         field_25B0.InsertScore_56B550(pSlot->field_90_strPlayerName, pSlot->GetTotalLatestScore_56B680());
     }
 }
 
 MATCH_FUNC(0x56C1D0)
-void PlyDat_2BC0::InitDefaultHiScores_56C1D0()
+void PlyDat::InitDefaultHiScores_56C1D0()
 {
     field_23D0_total_scores.Init_56B520();
-    ScoreTableLine_18* p10StruIter = gDefaultHiScores_6242B0;
+    ScoreTableLine* p10StruIter = gDefaultHiScores_6242B0;
     for (s32 k10 = 0; k10 < 10; k10++)
     {
         field_23D0_total_scores.InsertScore_56B550(p10StruIter->field_0_player_name, p10StruIter->field_14_score);
         ++p10StruIter;
     }
 
-    ScoreTableLine_18* pSruIter = gDefaultStageHiScores_6243A0;
+    ScoreTableLine* pSruIter = gDefaultStageHiScores_6243A0;
     for (s32 k3 = 0; k3 < 3; k3++)
     {
         for (s32 k4 = 0; k4 < 4; k4++)
@@ -714,11 +714,11 @@ void PlyDat_2BC0::InitDefaultHiScores_56C1D0()
 }
 
 MATCH_FUNC(0x56C250)
-void PlyDat_2BC0::DoMuchCashCheat_56C250()
+void PlyDat::DoMuchCashCheat_56C250()
 {
     if (!bStartNetworkGame_7081F0)
     {
-        PlySlot_A4* pStats = &this->field_26A0_plyr_stats[gGameSession_67E8E0.GetPlySlotIdx_4C59B0()];
+        PlySlot* pStats = &this->field_26A0_plyr_stats[gGameSession_67E8E0.GetPlySlotIdx_4C59B0()];
         if (wcscmp(pStats->field_90_strPlayerName, L"MUCHCASH") == 0)
         {
             Player* pPlayer = gGame_0x40_67E008->field_38_local_player;
@@ -728,11 +728,11 @@ void PlyDat_2BC0::DoMuchCashCheat_56C250()
 }
 
 MATCH_FUNC(0x56C2C0)
-void PlyDat_2BC0::Create_56C2C0()
+void PlyDat::Create_56C2C0()
 {
     if (!gPlyDat_6FEAC0)
     {
-        gPlyDat_6FEAC0 = new PlyDat_2BC0();
+        gPlyDat_6FEAC0 = new PlyDat();
         if (!gPlyDat_6FEAC0)
         {
             FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\plydat.cpp", 1269);
@@ -741,7 +741,7 @@ void PlyDat_2BC0::Create_56C2C0()
 }
 
 MATCH_FUNC(0x56C340)
-void PlyDat_2BC0::Destroy_56C340()
+void PlyDat::Destroy_56C340()
 {
     if (gPlyDat_6FEAC0)
     {

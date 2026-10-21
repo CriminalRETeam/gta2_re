@@ -7,15 +7,15 @@ struct object_info;
 class Sprite;
 
 // Static table entry (gMapObjectOverrides_6FC5F8): overrides the properties of an existing (map) object definition,
-// see ObjectDefinitions_8CA8::ApplyMapObjectOverrides_533360
-class MapObjectOverride_54
+// see ObjectDefinitions::ApplyMapObjectOverrides_533360
+class MapObjectOverride
 {
   public:
     // Temporary ctor, otherwise it won't be possible to define gMapObjectOverrides_6FC5F8.
-    EXPORT MapObjectOverride_54()
+    EXPORT MapObjectOverride()
     {
     }
-    EXPORT MapObjectOverride_54(s32 param_1,
+    EXPORT MapObjectOverride(s32 param_1,
                   s32& param_2,
                   s32 param_3,
                   s8 param_4,
@@ -37,7 +37,7 @@ class MapObjectOverride_54
                   s32 param_20,
                   s8 param_21);
 
-    EXPORT MapObjectOverride_54(s32 param_1,
+    EXPORT MapObjectOverride(s32 param_1,
                   s32 param_2,
                   s32 param_3,
                   s8 param_4,
@@ -81,17 +81,18 @@ class MapObjectOverride_54
     s32 field_4C;
     s8 field_50;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(MapObjectOverride, 0x54);
 
-// Static table entry (gCodeObjectTemplates_6F9038): template of a code object, converted into an ObjectDefinition_74 by
-// ObjectDefinitions_8CA8::CreateCodeObjectDefinitions_533B30
-class CodeObjectTemplate_6C
+// Static table entry (gCodeObjectTemplates_6F9038): template of a code object, converted into an ObjectDefinition by
+// ObjectDefinitions::CreateCodeObjectDefinitions_533B30
+class CodeObjectTemplate
 {
   public:
     // Temporary ctor, otherwise it won't be possible to define gCodeObjectTemplates_6F9038.
-    EXPORT CodeObjectTemplate_6C()
+    EXPORT CodeObjectTemplate()
     {
     }
-    EXPORT CodeObjectTemplate_6C(u32 param_1,
+    EXPORT CodeObjectTemplate(u32 param_1,
                   u8 param_2,
                   u32& param_3,
                   u32 param_4,
@@ -121,7 +122,7 @@ class CodeObjectTemplate_6C
                   u8 param_28,
                   u8 param_29);
 
-    EXPORT CodeObjectTemplate_6C(u32 param_1,
+    EXPORT CodeObjectTemplate(u32 param_1,
                   u8 param_2,
                   u32 param_3,
                   u32 param_4,
@@ -181,6 +182,7 @@ class CodeObjectTemplate_6C
     s8 field_68_has_shadows;
     s8 field_69;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(CodeObjectTemplate, 0x6C);
 
 namespace CollisionReaction
 {
@@ -217,7 +219,7 @@ enum
     animated_2 = 2, // animated (UpdateAnimation, has an Object_8)
     physics_3 = 3, // bullets/thrown things: removed from buckets, moves with UpdatePhysicsAndMovement (has an Object_3C)
     physics_animated_4 = 4, // like physics_3 but also animates (UpdatePhysicsMovementAndAnimation)
-    explosion_5 = 5, // Explosion_30 explosion / timed effect
+    explosion_5 = 5, // Explosion explosion / timed effect
     pickup_6 = 6, // static pickup (weapons, health, ...): field_26 is the item parameter, not a ped ref
     pickup_physics_7 = 7, // pickup that moves like physics_3 (dropped items)
     pickup_animated_8 = 8, // animated pickup (like animated_2)
@@ -229,17 +231,17 @@ enum
 } // namespace object_behavior_type
 
 // Properties shared by all objects of one model: size, physics, behaviour, sprite. Looked up by object model id.
-class ObjectDefinition_74
+class ObjectDefinition
 {
   public:
-    EXPORT ~ObjectDefinition_74();
+    EXPORT ~ObjectDefinition();
     EXPORT void SetDimensions_533060(Fix16 width, Fix16 height, Fix16 depth);
     EXPORT void SetDimensionsFromSprite_533090();
     EXPORT void SetRemap_533110(s16 remap);
     EXPORT void OffsetBaseSpriteIdxAndSetNumFrames_533150(s16 sprite_idx_offset, s16 anim_speed);
     EXPORT Sprite* CreateSpriteFromDefinition_533170();
     EXPORT void ApplyDefinitionToSprite_5331A0(Sprite* pSprite);
-    EXPORT ObjectDefinition_74();
+    EXPORT ObjectDefinition();
 
 
     Fix16 field_0_width;
@@ -277,9 +279,10 @@ class ObjectDefinition_74
     u8 field_6C_num_frames;
     s32 field_70_has_sound;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(ObjectDefinition, 0x74);
 
 // All object definitions (up to 300), indexed by object model id
-class ObjectDefinitions_8CA8
+class ObjectDefinitions
 {
   public:
     enum
@@ -287,8 +290,8 @@ class ObjectDefinitions_8CA8
         k_max_definitions = 300
     };
 
-    EXPORT ~ObjectDefinitions_8CA8();
-    EXPORT ObjectDefinition_74* AllocDefinitionWithSprite_5332D0(s32 idx, s32 sprite_type, s16 sprite_palette, u8 anim_speed);
+    EXPORT ~ObjectDefinitions();
+    EXPORT ObjectDefinition* AllocDefinitionWithSprite_5332D0(s32 idx, s32 sprite_type, s16 sprite_palette, u8 anim_speed);
     EXPORT void CreateMapObjectDefinitions_533300();
     EXPORT void ApplyMapObjectOverrides_533360();
     EXPORT void CloneAnimatedDefinitions_533420();
@@ -298,26 +301,27 @@ class ObjectDefinitions_8CA8
     EXPORT void CacheDef112BaseSpriteIdx_5342D0();
     EXPORT void ClearColour1PixelsOfDefinitionSprite_5342F0(s32 idx);
     EXPORT void InitDefinitions_534330();
-    EXPORT ObjectDefinition_74* GetObjectDefinition_534360(s32 idx);
+    EXPORT ObjectDefinition* GetObjectDefinition_534360(s32 idx);
 
     // 9.6f 0x4C6E30
     inline s16 GetObjectBaseSpriteIdx_4C6E30(s32 idx)
     {
         return GetObjectDefinition_534360(idx)->field_1E_base_sprite_idx;
     }
-    EXPORT ObjectDefinition_74* CloneDefinition_534370(s32 dst_idx, s32 src_idx);
-    EXPORT ObjectDefinition_74* AllocDefinition_5343C0(s32 idx);
-    EXPORT ObjectDefinitions_8CA8();
+    EXPORT ObjectDefinition* CloneDefinition_534370(s32 dst_idx, s32 src_idx);
+    EXPORT ObjectDefinition* AllocDefinition_5343C0(s32 idx);
+    EXPORT ObjectDefinitions();
 
     u16 field_0_next_idx;
     s16 field_2_unused;
-    ObjectDefinition_74 field_4_definitions[k_max_definitions];
-    ObjectDefinition_74* field_87F4_definition_by_idx[k_max_definitions];
+    ObjectDefinition field_4_definitions[k_max_definitions];
+    ObjectDefinition* field_87F4_definition_by_idx[k_max_definitions];
     s16 field_8CA4_def112_base_sprite_idx;
     s16 field_8CA6_unused;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(ObjectDefinitions, 0x8CA8);
 
-EXTERN_GLOBAL(ObjectDefinitions_8CA8*, gObjectDefinitions_6FCF00);
+EXTERN_GLOBAL(ObjectDefinitions*, gObjectDefinitions_6FCF00);
 
 EXTERN_GLOBAL(Fix16, kFpQuarter_6F8FAC);
 EXTERN_GLOBAL(Fix16, kFpPoint1_6F8FD8);
@@ -327,8 +331,8 @@ EXTERN_GLOBAL(Fix16, kFpHalf_6FC584);
 EXTERN_GLOBAL(s32, gMapObjectOverrides_length_623EEC);
 EXTERN_GLOBAL(s32, gCodeObjectTemplates_length_623EF0);
 
-EXTERN_GLOBAL_ARRAY(MapObjectOverride_54, gMapObjectOverrides_6FC5F8, 24);
-EXTERN_GLOBAL_ARRAY(CodeObjectTemplate_6C, gCodeObjectTemplates_6F9038, 126);
+EXTERN_GLOBAL_ARRAY(MapObjectOverride, gMapObjectOverrides_6FC5F8, 24);
+EXTERN_GLOBAL_ARRAY(CodeObjectTemplate, gCodeObjectTemplates_6F9038, 126);
 
 EXPORT void InitMapObjectOverrides();
 EXPORT void InitCodeObjectTemplates();

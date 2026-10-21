@@ -73,7 +73,7 @@ struct door_info
     char_type rx, ry;
 };
 
-// car_info::info_flags bits (from how Car_BC uses them)
+// car_info::info_flags bits (from how Car uses them)
 namespace car_info_flag
 {
 enum
@@ -130,7 +130,7 @@ class car_info
     }
 
     // Like IsTruckCab_41FEA0; going through a car_info method keeps the check a plain branch in
-    // Car_BC::CanBeLiftedByCrane_447F00 (a direct `(flags & 0x10) == 0x10` there gives a sete)
+    // Car::CanBeLiftedByCrane_447F00 (a direct `(flags & 0x10) == 0x10` there gives a sete)
     bool IsTrailer() const
     {
         return (this->info_flags & car_info_flag::trailer) == car_info_flag::trailer;

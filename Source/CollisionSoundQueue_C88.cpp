@@ -6,13 +6,13 @@
 #include "sprite.hpp"
 #include "collision_event_type.hpp"
 
-DEFINE_GLOBAL(CollisionSoundQueue_C88*, gCollisionSoundQueue_66AFE0, 0x66AFE0);
-DEFINE_GLOBAL(CollisionTarget_28, gCollisionTarget_679188, 0x679188);
+DEFINE_GLOBAL(CollisionSoundQueue*, gCollisionSoundQueue_66AFE0, 0x66AFE0);
+DEFINE_GLOBAL(CollisionTarget, gCollisionTarget_679188, 0x679188);
 DEFINE_GLOBAL(Fix16, kFpZero_66AE98, 0x66AE98);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne_66AE9C, Fix16(0x4000, 0), 0x66AE9C);
 
 MATCH_FUNC(0x40B870)
-void CollisionEvent_28::SetPosition_40B870(Fix16 x, Fix16 y, Fix16 z)
+void CollisionEvent::SetPosition_40B870(Fix16 x, Fix16 y, Fix16 z)
 {
     field_4_x = x;
     field_8_y = y;
@@ -20,7 +20,7 @@ void CollisionEvent_28::SetPosition_40B870(Fix16 x, Fix16 y, Fix16 z)
 }
 
 MATCH_FUNC(0x40B890)
-void CollisionEvent_28::SetupForCar_40B890(Car_BC* pCar)
+void CollisionEvent::SetupForCar_40B890(Car* pCar)
 {
     field_10_car = pCar;
 
@@ -40,7 +40,7 @@ void CollisionEvent_28::SetupForCar_40B890(Car_BC* pCar)
 
         case collision_target_type::sprite_3:
         {
-            Car_BC* cBC = gCollisionTarget_679188.field_20_pHitSprite->AsCar_40FEB0();
+            Car* cBC = gCollisionTarget_679188.field_20_pHitSprite->AsCar_40FEB0();
             if (cBC)
             {
                 field_14_other_car = cBC;
@@ -52,7 +52,7 @@ void CollisionEvent_28::SetupForCar_40B890(Car_BC* pCar)
             }
             else
             {
-                Object_2C* p2C = gCollisionTarget_679188.field_20_pHitSprite->AsObject2C_40FEC0();
+                Object* p2C = gCollisionTarget_679188.field_20_pHitSprite->AsObject2C_40FEC0();
 
                 field_18_object_model = p2C->GetModel_40FEF0();
                 if (field_18_object_model == objects::diagonal_wall_collision_obj_166)
@@ -71,7 +71,7 @@ void CollisionEvent_28::SetupForCar_40B890(Car_BC* pCar)
 }
 
 MATCH_FUNC(0x40B980)
-void CollisionEvent_28::SetupForPed_40B980()
+void CollisionEvent::SetupForPed_40B980()
 {
     switch (gCollisionTarget_679188.field_0_type)
     {
@@ -89,7 +89,7 @@ void CollisionEvent_28::SetupForPed_40B980()
 
         case collision_target_type::sprite_3:
         {
-            Car_BC* cBC = gCollisionTarget_679188.field_20_pHitSprite->AsCar_40FEB0();
+            Car* cBC = gCollisionTarget_679188.field_20_pHitSprite->AsCar_40FEB0();
             if (cBC)
             {
                 field_10_car = cBC;
@@ -101,7 +101,7 @@ void CollisionEvent_28::SetupForPed_40B980()
             }
             else
             {
-                Object_2C* p2C = gCollisionTarget_679188.field_20_pHitSprite->AsObject2C_40FEC0();
+                Object* p2C = gCollisionTarget_679188.field_20_pHitSprite->AsObject2C_40FEC0();
                 field_18_object_model = p2C->GetModel_40FEF0();
                 if (field_18_object_model == objects::diagonal_wall_collision_obj_166)
                 {
@@ -119,7 +119,7 @@ void CollisionEvent_28::SetupForPed_40B980()
 }
 
 MATCH_FUNC(0x40BA60)
-bool CollisionEvent_28::SetupForObject_40BA60(Object_2C* pObj)
+bool CollisionEvent::SetupForObject_40BA60(Object* pObj)
 {
     if (!pObj->GetDefHasShadowsField_40FF00())
     {
@@ -146,7 +146,7 @@ bool CollisionEvent_28::SetupForObject_40BA60(Object_2C* pObj)
 
         case collision_target_type::sprite_3:
         {
-            Car_BC* cBC = gCollisionTarget_679188.field_20_pHitSprite->AsCar_40FEB0();
+            Car* cBC = gCollisionTarget_679188.field_20_pHitSprite->AsCar_40FEB0();
             if (cBC)
             {
                 field_10_car = cBC;
@@ -160,7 +160,7 @@ bool CollisionEvent_28::SetupForObject_40BA60(Object_2C* pObj)
             }
             else
             {
-                Object_2C* o2c = gCollisionTarget_679188.field_20_pHitSprite->AsObject2C_40FEC0();
+                Object* o2c = gCollisionTarget_679188.field_20_pHitSprite->AsObject2C_40FEC0();
                 if (!o2c->GetDefHasShadowsField_40FF00())
                 {
                     return 0;
@@ -185,7 +185,7 @@ bool CollisionEvent_28::SetupForObject_40BA60(Object_2C* pObj)
 }
 
 MATCH_FUNC(0x40bb90)
-void CollisionSoundQueue_C88::Reset_40BB90()
+void CollisionSoundQueue::Reset_40BB90()
 {
     field_C84_count = 0;
 }
@@ -193,12 +193,12 @@ void CollisionSoundQueue_C88::Reset_40BB90()
 // ================================================================
 
 MATCH_FUNC(0x40bba0)
-void CollisionSoundQueue_C88::AddCollision_40BBA0(Sprite* pSprite, Fix16 impact_strength)
+void CollisionSoundQueue::AddCollision_40BBA0(Sprite* pSprite, Fix16 impact_strength)
 {
     if (!bSkip_audio_67D6BE)
     {
-        CollisionEvent_28* pEvent = &field_4_events[field_C84_count];
-        Car_BC* pCar = pSprite->AsCar_40FEB0();
+        CollisionEvent* pEvent = &field_4_events[field_C84_count];
+        Car* pCar = pSprite->AsCar_40FEB0();
         if (pCar)
         {
             pEvent->SetupForCar_40B890(pCar);
@@ -209,7 +209,7 @@ void CollisionSoundQueue_C88::AddCollision_40BBA0(Sprite* pSprite, Fix16 impact_
         }
         else
         {
-            Object_2C* p2c = pSprite->AsObject2C_40FEC0();
+            Object* p2c = pSprite->AsObject2C_40FEC0();
             if (!pEvent->SetupForObject_40BA60(p2c))
             {
                 return;
@@ -223,15 +223,15 @@ void CollisionSoundQueue_C88::AddCollision_40BBA0(Sprite* pSprite, Fix16 impact_
 }
 
 MATCH_FUNC(0x40bc40)
-void CollisionSoundQueue_C88::AddFloorCollision_40BC40(Sprite* pSprite)
+void CollisionSoundQueue::AddFloorCollision_40BC40(Sprite* pSprite)
 {
     if (!bSkip_audio_67D6BE)
     {
-        CollisionEvent_28* pEvent = &field_4_events[field_C84_count];
+        CollisionEvent* pEvent = &field_4_events[field_C84_count];
         pEvent->SetPosition_40B870(pSprite->field_14_xy.x, pSprite->field_14_xy.y, pSprite->field_1C_zpos);
         pEvent->SetImpactStrength_40FF10(kFpZero_66AE98);
 
-        Car_BC* pCar = pSprite->AsCar_40FEB0();
+        Car* pCar = pSprite->AsCar_40FEB0();
         if (pCar)
         {
             pEvent->field_0_type = collision_event_type::car_floor_12;
@@ -243,7 +243,7 @@ void CollisionSoundQueue_C88::AddFloorCollision_40BC40(Sprite* pSprite)
         }
         else
         {
-            Object_2C* p2c = pSprite->AsObject2C_40FEC0();
+            Object* p2c = pSprite->AsObject2C_40FEC0();
             pEvent->field_0_type = collision_event_type::object_floor_1;
             pEvent->field_18_object_model = p2c->GetModel_40FEF0();
         }
@@ -255,15 +255,15 @@ void CollisionSoundQueue_C88::AddFloorCollision_40BC40(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x40bd10)
-void CollisionSoundQueue_C88::AddBlockCollision_40BD10(Sprite* pSprite)
+void CollisionSoundQueue::AddBlockCollision_40BD10(Sprite* pSprite)
 {
     if (!bSkip_audio_67D6BE)
     {
-        CollisionEvent_28* pEvent = &this->field_4_events[this->field_C84_count];
+        CollisionEvent* pEvent = &this->field_4_events[this->field_C84_count];
         pEvent->SetPosition_40B870(pSprite->field_14_xy.x, pSprite->field_14_xy.y, pSprite->field_1C_zpos);
         pEvent->SetImpactStrength_40FF10(kFpZero_66AE98);
 
-        Car_BC* pCar = pSprite->AsCar_40FEB0();
+        Car* pCar = pSprite->AsCar_40FEB0();
         if (pCar)
         {
             pEvent->field_0_type = collision_event_type::car_floor_12;
@@ -275,7 +275,7 @@ void CollisionSoundQueue_C88::AddBlockCollision_40BD10(Sprite* pSprite)
         }
         else
         {
-            Object_2C* p2c = pSprite->AsObject2C_40FEC0();
+            Object* p2c = pSprite->AsObject2C_40FEC0();
             pEvent->field_0_type = collision_event_type::object_floor_1;
             pEvent->field_18_object_model = p2c->GetModel_40FEF0();
         }
@@ -286,7 +286,7 @@ void CollisionSoundQueue_C88::AddBlockCollision_40BD10(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x40bdd0)
-void CollisionSoundQueue_C88::AddSpriteCollision_40BDD0(Sprite* pSprite, Sprite* pHitSprite)
+void CollisionSoundQueue::AddSpriteCollision_40BDD0(Sprite* pSprite, Sprite* pHitSprite)
 {
     gCollisionTarget_679188.field_20_pHitSprite = pHitSprite;
     gCollisionTarget_679188.field_0_type = collision_target_type::sprite_3;
@@ -294,7 +294,7 @@ void CollisionSoundQueue_C88::AddSpriteCollision_40BDD0(Sprite* pSprite, Sprite*
 }
 
 MATCH_FUNC(0x40be00)
-CollisionSoundQueue_C88::CollisionSoundQueue_C88()
+CollisionSoundQueue::CollisionSoundQueue()
 {
     if (bSkip_audio_67D6BE)
     {
@@ -308,7 +308,7 @@ CollisionSoundQueue_C88::CollisionSoundQueue_C88()
 }
 
 MATCH_FUNC(0x40be40)
-CollisionSoundQueue_C88::~CollisionSoundQueue_C88()
+CollisionSoundQueue::~CollisionSoundQueue()
 {
     if (field_0_pSoundObj)
     {
@@ -318,11 +318,11 @@ CollisionSoundQueue_C88::~CollisionSoundQueue_C88()
 }
 
 MATCH_FUNC(0x477A10)
-bool CollisionTarget_28::IsObj2C_477A10()
+bool CollisionTarget::IsObj2C_477A10()
 {
     if (field_0_type == collision_target_type::sprite_3)
     {
-        Object_2C* p2c = field_20_pHitSprite->AsObject2C_40FEC0();
+        Object* p2c = field_20_pHitSprite->AsObject2C_40FEC0();
         if (p2c)
         {
             if (p2c->field_8_definition->field_4C == 3)

@@ -704,7 +704,7 @@ gmp_map_zone* Map_0x370::GetZone_4DFB30(u16 zone_idx)
 }
 
 MATCH_FUNC(0x4DFB50)
-Gang_144* Map_0x370::GetGangAtCoords_4DFB50(Fix16 x, Fix16 y)
+Gang* Map_0x370::GetGangAtCoords_4DFB50(Fix16 x, Fix16 y)
 {
     gmp_map_zone* pZone = GetZoneAtPosOfType_4DF4D0(x.ToInt(), y.ToInt(), Gang_14);
     if (pZone)
@@ -770,7 +770,7 @@ void Map_0x370::UpdateLights_4DFCD0()
             radius -= kFpOneThirtySecond_6F601C;
         }
 
-        Light_28* pLight =
+        Light* pLight =
             gLight_1D4CC_6F5520->Init_469010(xpos, ypos, zpos, pMapLight->field_0_argb, radius, pMapLight->field_C_intensity);
 
         if (pMapLight->field_E_on_time)

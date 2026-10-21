@@ -7,12 +7,12 @@
 #include "sprite.hpp"
 #include "memory.hpp"
 
-DEFINE_GLOBAL(TextureCache_15D8*, gTextureCache_15D8_705064, 0x705064);
+DEFINE_GLOBAL(TextureCache*, gTextureCache_15D8_705064, 0x705064);
 DEFINE_GLOBAL(u32, gRemappedSpriteCounter_704ED0, 0x704ED0);
 DEFINE_GLOBAL(u32, gRemappedTextureCounter_704F28, 0x704F28);
 
 MATCH_FUNC(0x5B8E90)
-void RemapTextureSet_14::Alloc_5B8E90(s16 sprite_count, s16 remaps_per_sprite, s32 sprite_type, s32 pal_type)
+void RemapTextureSet::Alloc_5B8E90(s16 sprite_count, s16 remaps_per_sprite, s32 sprite_type, s32 pal_type)
 {
     if (!field_0_pTextures)
     {
@@ -34,7 +34,7 @@ void RemapTextureSet_14::Alloc_5B8E90(s16 sprite_count, s16 remaps_per_sprite, s
 }
 
 MATCH_FUNC(0x5B8F00)
-void RemapTextureSet_14::LoadTextures_5B8F00()
+void RemapTextureSet::LoadTextures_5B8F00()
 {
     if (field_10_bDoFree)
     {
@@ -60,7 +60,7 @@ void RemapTextureSet_14::LoadTextures_5B8F00()
 }
 
 MATCH_FUNC(0x5B8F70)
-void RemapTextureSet_14::LoadRemappedTextures_5B8F70()
+void RemapTextureSet::LoadRemappedTextures_5B8F70()
 {
     if (field_10_bDoFree)
     {
@@ -86,7 +86,7 @@ void RemapTextureSet_14::LoadRemappedTextures_5B8F70()
 }
 
 MATCH_FUNC(0x5B9050)
-RemapTextureSet_14::~RemapTextureSet_14()
+RemapTextureSet::~RemapTextureSet()
 {
     if (field_10_bDoFree && field_0_pTextures)
     {
@@ -101,19 +101,19 @@ RemapTextureSet_14::~RemapTextureSet_14()
 }
 
 MATCH_FUNC(0x5B90A0)
-STexture* RemapTextureSet_14::get_texture_5B90A0(s32 sprite_type, s16 sprite_idx)
+STexture* RemapTextureSet::get_texture_5B90A0(s32 sprite_type, s16 sprite_idx)
 {
     return field_0_pTextures[gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_type, sprite_idx)];
 }
 
 MATCH_FUNC(0x5B90D0)
-STexture* RemapTextureSet_14::GetRemappedTexture_5B90D0(s16 sprite_idx, s16 remap)
+STexture* RemapTextureSet::GetRemappedTexture_5B90D0(s16 sprite_idx, s16 remap)
 {
     return field_0_pTextures[(u16)(remap + (sprite_idx * field_6_remaps_per_sprite))];
 }
 
 MATCH_FUNC(0x5B90F0)
-void TextureCache_15D8::LoadPals_5B90F0()
+void TextureCache::LoadPals_5B90F0()
 {
     field_15D6_pal_count = gGtx_0x106C_703DD4->get_physical_palettes_len_5AA900();
 
@@ -124,7 +124,7 @@ void TextureCache_15D8::LoadPals_5B90F0()
 }
 
 MATCH_FUNC(0x5B9140)
-void TextureCache_15D8::FreePals_5B9140()
+void TextureCache::FreePals_5B9140()
 {
     for (u16 i = 0; i < field_15D6_pal_count; ++i)
     {
@@ -134,7 +134,7 @@ void TextureCache_15D8::FreePals_5B9140()
 }
 
 MATCH_FUNC(0x5B9180)
-void TextureCache_15D8::LoadCarDamageTextures_5B9180()
+void TextureCache::LoadCarDamageTextures_5B9180()
 {
     u16 width_height = 64;
     if (gGtx_0x106C_703DD4->GetSpriteBaseOfType_5AA4F0(sprite_types_enum::car_2))
@@ -161,7 +161,7 @@ void TextureCache_15D8::LoadCarDamageTextures_5B9180()
 }
 
 MATCH_FUNC(0x5B9220)
-s16 TextureCache_15D8::RegisterDigits_5B9220(u16 num_of_digits, u16 palette)
+s16 TextureCache::RegisterDigits_5B9220(u16 num_of_digits, u16 palette)
 {
     const u16 og_idx = field_15D4_next_digit_idx;
     const s16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, palette);
@@ -181,7 +181,7 @@ s16 TextureCache_15D8::RegisterDigits_5B9220(u16 num_of_digits, u16 palette)
 }
 
 WIP_FUNC(0x5B92E0)
-void TextureCache_15D8::ReadTextures_5B92E0()
+void TextureCache::ReadTextures_5B92E0()
 {
     if (gGtx_0x106C_703DD4->has_tiles_4C2EE0())
     {
@@ -202,7 +202,7 @@ void TextureCache_15D8::ReadTextures_5B92E0()
 }
 
 MATCH_FUNC(0x5B9350)
-void TextureCache_15D8::LoadStyleTextures_5B9350()
+void TextureCache::LoadStyleTextures_5B9350()
 {
     LoadPals_5B90F0();
     ReadTextures_5B92E0();
@@ -252,7 +252,7 @@ void TextureCache_15D8::LoadStyleTextures_5B9350()
 }
 
 MATCH_FUNC(0x5B94F0)
-STexture* TextureCache_15D8::GetSpriteTexture_5B94F0(s32 sprite_type, u16 sprite_id, s32 palette_type, s16 remap)
+STexture* TextureCache::GetSpriteTexture_5B94F0(s32 sprite_type, u16 sprite_id, s32 palette_type, s16 remap)
 {
     STexture* result;
 
@@ -287,15 +287,15 @@ STexture* TextureCache_15D8::GetSpriteTexture_5B94F0(s32 sprite_type, u16 sprite
 }
 
 MATCH_FUNC(0x5B95D0)
-STexture* TextureCache_15D8::GetCarDamageTexture_5B95D0(u16 texture_idx)
+STexture* TextureCache::GetCarDamageTexture_5B95D0(u16 texture_idx)
 {
     return field_1004_car_damage_textures[texture_idx];
 }
 
 MATCH_FUNC(0x5B95F0)
-STexture* TextureCache_15D8::GetDigitTexture_5B95F0(u16 idx, u16 row_offset, u16 height)
+STexture* TextureCache::GetDigitTexture_5B95F0(u16 idx, u16 row_offset, u16 height)
 {
-    DigitTexture_C* pDigit = &field_10C4_digit_textures[idx];
+    DigitTexture* pDigit = &field_10C4_digit_textures[idx];
     STexture* pTexture = pDigit->field_4_pTexture;
 
     if (height != pDigit->field_8_height || row_offset != pDigit->field_A_row_offset)
@@ -312,7 +312,7 @@ STexture* TextureCache_15D8::GetDigitTexture_5B95F0(u16 idx, u16 row_offset, u16
 }
 
 MATCH_FUNC(0x5B9660)
-void TextureCache_15D8::SetPal_5B9660(u16 digit_idx, u16 pal_idx)
+void TextureCache::SetPal_5B9660(u16 digit_idx, u16 pal_idx)
 {
     STexture* pTexture = field_10C4_digit_textures[digit_idx].field_4_pTexture;
     u16 pal = gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(pal_idx);
@@ -322,7 +322,7 @@ void TextureCache_15D8::SetPal_5B9660(u16 digit_idx, u16 pal_idx)
 }
 
 MATCH_FUNC(0x5B96B0)
-void TextureCache_15D8::SetCarDamageTextureSizeAndPalette_5B96B0(u16 texture_idx, u16 new_width, u16 new_height, u16 pal)
+void TextureCache::SetCarDamageTextureSizeAndPalette_5B96B0(u16 texture_idx, u16 new_width, u16 new_height, u16 pal)
 {
     u16 pal_idx = gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(pal);
     STexture* pTexture = field_1004_car_damage_textures[texture_idx];
@@ -334,7 +334,7 @@ void TextureCache_15D8::SetCarDamageTextureSizeAndPalette_5B96B0(u16 texture_idx
 }
 
 MATCH_FUNC(0x5B9710)
-STexture* TextureCache_15D8::SetSharedTextureData_5B9710(s16 width, s16 height, u8* pPixelData, u16 pal)
+STexture* TextureCache::SetSharedTextureData_5B9710(s16 width, s16 height, u8* pPixelData, u16 pal)
 {
     u16 phys_pal_5AA6F0 = gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(pal);
     pgbh_LockTexture(field_1544_pShared_texture);
@@ -347,7 +347,7 @@ STexture* TextureCache_15D8::SetSharedTextureData_5B9710(s16 width, s16 height, 
 }
 
 MATCH_FUNC(0x5B9790)
-TextureCache_15D8::TextureCache_15D8()
+TextureCache::TextureCache()
 {
 
     field_1000_bFreeCarDamageTextures = 0;
@@ -369,7 +369,7 @@ TextureCache_15D8::TextureCache_15D8()
 }
 
 MATCH_FUNC(0x5B9900)
-TextureCache_15D8::~TextureCache_15D8()
+TextureCache::~TextureCache()
 {
     if (field_1001_bFreeTileTextures)
     {

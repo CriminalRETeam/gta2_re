@@ -5,7 +5,7 @@
 #include "ang16.hpp"
 
 class Sprite;
-class Explosion_30;
+class Explosion;
 
 class Particle_4C
 {
@@ -54,7 +54,7 @@ class Particle_4C
     s32 field_34_unused;
     s32 field_38_state;
     Particle_4C* mpNext; // 0x3C
-    Explosion_30* field_40_pExplosion;
+    Explosion* field_40_pExplosion;
     s16 field_44_explosion_id;
     u8 field_46_sub_state;
     char_type field_47_unused;

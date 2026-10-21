@@ -3,19 +3,19 @@
 #include "Globals.hpp"
 
 // TODO: move
-DEFINE_GLOBAL(ScriptStackFramePool_25C*, gScriptStackFramePool_6F8068, 0x6F8068);
+DEFINE_GLOBAL(ScriptStackFramePool*, gScriptStackFramePool_6F8068, 0x6F8068);
 
 MATCH_FUNC(0x503120)
-miss2_8::miss2_8() throw() // 503120
+ScriptGosubStack::ScriptGosubStack() throw() // 503120
 {
     field_0_current = 0;
     field_4_count = 0;
 }
 
 MATCH_FUNC(0x503130)
-miss2_8::~miss2_8() // 503130
+ScriptGosubStack::~ScriptGosubStack() // 503130
 {
-    for (ScriptStackFrame_C* pOld = field_0_current; field_0_current; pOld = field_0_current)
+    for (ScriptStackFrame* pOld = field_0_current; field_0_current; pOld = field_0_current)
     {
         field_0_current = pOld->mpNext;
         gScriptStackFramePool_6F8068->DeAllocate_476780(pOld);
@@ -24,7 +24,7 @@ miss2_8::~miss2_8() // 503130
 }
 
 MATCH_FUNC(0x503160)
-void miss2_8::add_503160(ScriptStackFrame_C* pFrame)
+void ScriptGosubStack::add_503160(ScriptStackFrame* pFrame)
 {
     pFrame->mpNext = field_0_current;
     field_0_current = pFrame;
@@ -32,9 +32,9 @@ void miss2_8::add_503160(ScriptStackFrame_C* pFrame)
 }
 
 MATCH_FUNC(0x503180)
-ScriptStackFrame_C* miss2_8::remove_503180()
+ScriptStackFrame* ScriptGosubStack::remove_503180()
 {
-    ScriptStackFrame_C* pOld = field_0_current;
+    ScriptStackFrame* pOld = field_0_current;
     if (pOld)
     {
         field_0_current = pOld->mpNext;
@@ -46,9 +46,9 @@ ScriptStackFrame_C* miss2_8::remove_503180()
 }
 
 MATCH_FUNC(0x5031A0)
-ScriptStackFrame_C* miss2_8::AllocFrame_5031A0()
+ScriptStackFrame* ScriptGosubStack::AllocFrame_5031A0()
 {
-    ScriptStackFrame_C* pFrame = gScriptStackFramePool_6F8068->field_0_pool.field_0_pHead;
+    ScriptStackFrame* pFrame = gScriptStackFramePool_6F8068->field_0_pool.field_0_pHead;
     gScriptStackFramePool_6F8068->field_0_pool.field_0_pHead = gScriptStackFramePool_6F8068->field_0_pool.field_0_pHead->mpNext;
     pFrame->PoolAllocate();
     return pFrame;
@@ -58,13 +58,13 @@ ScriptStackFrame_C* miss2_8::AllocFrame_5031A0()
 }
 
 MATCH_FUNC(0x5031C0)
-void miss2_8::FreeFrame_5031C0(ScriptStackFrame_C* pFrame)
+void ScriptGosubStack::FreeFrame_5031C0(ScriptStackFrame* pFrame)
 {
     gScriptStackFramePool_6F8068->field_0_pool.DeAllocate(pFrame);
 }
 
 MATCH_FUNC(0x5031E0)
-void miss2_8::remove_5031E0(u8 count)
+void ScriptGosubStack::remove_5031E0(u8 count)
 {
     while (field_4_count > count)
     {

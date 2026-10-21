@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Object_5C.hpp" // for Object_2C
+#include "Object_5C.hpp" // for Object
 #include "Pool.hpp"
 
-typedef Pool<Object_2C, 3825> TObject_2C_Pool;
+typedef Pool<Object, 3825> TObjectPool;
 
-EXTERN_GLOBAL(TObject_2C_Pool*, gObject_2C_Pool_6F8F80);
+EXTERN_GLOBAL(TObjectPool*, gObject_2C_Pool_6F8F80);

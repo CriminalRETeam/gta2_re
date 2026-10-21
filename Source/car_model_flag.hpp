@@ -1,6 +1,6 @@
 #pragma once
 
-// PlayerScoreTracker_36C::field_8C_car_model_flags bits (one byte per car model). Kept in its own header, like
+// PlayerScoreTracker::field_8C_car_model_flags bits (one byte per car model). Kept in its own header, like
 // car_despawn_status.hpp, so that the enum does not land in a header many TUs share.
 namespace car_model_flag
 {

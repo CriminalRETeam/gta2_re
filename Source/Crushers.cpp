@@ -15,7 +15,7 @@
 #include "Player.hpp"
 #include <stdio.h>
 
-DEFINE_GLOBAL(CrusherPool_94*, gCrusherPool_94_67A830, 0x67A830);
+DEFINE_GLOBAL(CrusherPool*, gCrusherPool_94_67A830, 0x67A830);
 
 // TODO: Name and init these to the correct values
 DEFINE_GLOBAL_INIT(Fix16, kCrusherOpenDist_67A7D0, Fix16(0x3C00, 0), 0x67A7D0);
@@ -30,13 +30,13 @@ DEFINE_GLOBAL_INIT(Ang16, kAng180_67A63A, Ang16(0x2D0), 0x67A63A);
 DEFINE_GLOBAL_INIT(Ang16, kAng90_67A568, Ang16(0x168), 0x67A568);
 
 MATCH_FUNC(0x4882d0)
-Crusher_30::Crusher_30()
+Crusher::Crusher()
 {
     field_18_sound = NULL;
 }
 
 MATCH_FUNC(0x4882e0)
-Crusher_30::~Crusher_30()
+Crusher::~Crusher()
 {
     if (field_18_sound)
     {
@@ -46,7 +46,7 @@ Crusher_30::~Crusher_30()
 }
 
 MATCH_FUNC(0x488310)
-void Crusher_30::CrushCar_488310(Car_BC* pCar)
+void Crusher::CrushCar_488310(Car* pCar)
 {
     if (field_2C_state == CrusherStates::Idle_0 && !pCar->IsDespawning_4215B0() && !pCar->IsSpriteShrunk_43DC00() && !pCar->IsEngineCrushed_447EB0())
     {
@@ -57,7 +57,7 @@ void Crusher_30::CrushCar_488310(Car_BC* pCar)
 }
 
 MATCH_FUNC(0x488350)
-void Crusher_30::Service_488350()
+void Crusher::Service_488350()
 {
     if (field_2C_state != CrusherStates::Idle_0)
     {
@@ -125,22 +125,22 @@ void Crusher_30::Service_488350()
                 break;
         }
 
-        Object_2C* Obj_0 = field_0_piston_top;
+        Object* Obj_0 = field_0_piston_top;
         Obj_0->RemoveFromCollisionBuckets_527D00();
         Obj_0->field_4_sprite->set_xy_lazy_447E20(field_24_xpos, field_28_ypos - field_20_h);
         Obj_0->AssignToBucket_527AE0();
 
-        Object_2C* Obj_4 = field_4_piston_right;
+        Object* Obj_4 = field_4_piston_right;
         Obj_4->RemoveFromCollisionBuckets_527D00();
         Obj_4->field_4_sprite->set_xy_lazy_447E20(field_24_xpos + field_1C_w, field_28_ypos);
         Obj_4->AssignToBucket_527AE0();
 
-        Object_2C* Obj_8 = field_8_piston_bottom;
+        Object* Obj_8 = field_8_piston_bottom;
         Obj_8->RemoveFromCollisionBuckets_527D00();
         Obj_8->field_4_sprite->set_xy_lazy_447E20(field_24_xpos, field_20_h + field_28_ypos);
         Obj_8->AssignToBucket_527AE0();
 
-        Object_2C* Obj_C = field_C_piston_left;
+        Object* Obj_C = field_C_piston_left;
         Obj_C->RemoveFromCollisionBuckets_527D00();
         Obj_C->field_4_sprite->set_xy_lazy_447E20(field_24_xpos - field_1C_w, field_28_ypos);
         Obj_C->AssignToBucket_527AE0();
@@ -148,7 +148,7 @@ void Crusher_30::Service_488350()
 }
 
 MATCH_FUNC(0x4885a0)
-void Crusher_30::InitCrusher_4885A0(Fix16 xpos, Fix16 ypos, char_type crusher_idx)
+void Crusher::InitCrusher_4885A0(Fix16 xpos, Fix16 ypos, char_type crusher_idx)
 {
     Fix16 zpos = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(xpos, ypos);
 
@@ -181,7 +181,7 @@ void Crusher_30::InitCrusher_4885A0(Fix16 xpos, Fix16 ypos, char_type crusher_id
 }
 
 MATCH_FUNC(0x4887a0)
-bool CrusherPool_94::IsCarBeingCrushed_4887A0(Car_BC* pCar)
+bool CrusherPool::IsCarBeingCrushed_4887A0(Car* pCar)
 {
     for (s32 i = 0; i < field_90_count; i++)
     {
@@ -194,16 +194,16 @@ bool CrusherPool_94::IsCarBeingCrushed_4887A0(Car_BC* pCar)
 }
 
 MATCH_FUNC(0x4887d0)
-void CrusherPool_94::CrushCarWithCrusher_4887D0(Car_BC* pCar, u8 crusher_idx)
+void CrusherPool::CrushCarWithCrusher_4887D0(Car* pCar, u8 crusher_idx)
 {
     field_0_crushers[crusher_idx].CrushCar_488310(pCar);
 }
 
 MATCH_FUNC(0x4887f0)
-void CrusherPool_94::CrushersService_4887F0()
+void CrusherPool::CrushersService_4887F0()
 {
     s32 idx = 0;
-    Crusher_30* pIter = &field_0_crushers[0];
+    Crusher* pIter = &field_0_crushers[0];
     while (idx < field_90_count)
     {
         pIter->Service_488350();
@@ -213,21 +213,21 @@ void CrusherPool_94::CrushersService_4887F0()
 }
 
 MATCH_FUNC(0x488820)
-Crusher_30* CrusherPool_94::CreateCrusher_488820(Fix16 xpos, Fix16 ypos)
+Crusher* CrusherPool::CreateCrusher_488820(Fix16 xpos, Fix16 ypos)
 {
-    Crusher_30* pNew = &field_0_crushers[field_90_count];
+    Crusher* pNew = &field_0_crushers[field_90_count];
     pNew->InitCrusher_4885A0(xpos, ypos, field_90_count);
     field_90_count++;
     return pNew;
 }
 
 MATCH_FUNC(0x488860)
-CrusherPool_94::CrusherPool_94()
+CrusherPool::CrusherPool()
 {
     field_90_count = 0;
 }
 
 MATCH_FUNC(0x4bbc30)
-CrusherPool_94::~CrusherPool_94()
+CrusherPool::~CrusherPool()
 {
 }

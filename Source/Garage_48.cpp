@@ -17,7 +17,7 @@ EXTERN_GLOBAL(Ang16, kAng90_6FCFB0);
 EXTERN_GLOBAL(Ang16, kAng180_6FD07E);
 EXTERN_GLOBAL(Ang16, kAng270_6FD0A4);
 
-DEFINE_GLOBAL(Garage_48*, gGarage_48_6FD26C, 0x6FD26C);
+DEFINE_GLOBAL(Garage*, gGarage_48_6FD26C, 0x6FD26C);
 
 DEFINE_GLOBAL_INIT(Fix16, kFpTwo_6FD128, Fix16(0x8000, 0), 0x6FD128);
 DEFINE_GLOBAL_INIT(Fix16, kFpQuarter_6FCF88, Fix16(0x1000, 0), 0x6FCF88);
@@ -27,7 +27,7 @@ DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6FD0D8, Fix16(0x100, 0), 0x6FD0D8);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6FD1D8, kFpOne64th_6FD0D8, 0x6FD1D8);
 
 MATCH_FUNC(0x4bbc60)
-Garage_48::~Garage_48()
+Garage::~Garage()
 {
 }
 
@@ -53,8 +53,8 @@ DEFINE_GLOBAL_INIT(Fix16, kFpOne_6FD124, Fix16(1), 0x6FD124);
 DEFINE_GLOBAL_INIT(Fix16, kFpHalf_6FCF98, Fix16(0.5), 0x6FCF98);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint8_6FD218, Fix16(0x3333, 0), 0x6FD218);
 
-// Car_BC::IsLongerThanOneBlock_447ED0 (9.6f), with this file's copy of the 1.0 constant
-static inline bool IsLongerThanOneBlock_447ED0(Car_BC* pCar)
+// Car::IsLongerThanOneBlock_447ED0 (9.6f), with this file's copy of the 1.0 constant
+static inline bool IsLongerThanOneBlock_447ED0(Car* pCar)
 {
     if (pCar->field_50_car_sprite->GetHeight_447E70() > kFpOne_6FD124)
     {
@@ -65,7 +65,7 @@ static inline bool IsLongerThanOneBlock_447ED0(Car_BC* pCar)
 
 // 9.6f 0x489B10
 MATCH_FUNC(0x534650)
-void Garage_48::ValidateParkCommand_534650()
+void Garage::ValidateParkCommand_534650()
 {
     // The result is unused (the out-of-line Add_408660 on a const Fix16)
     {
@@ -97,7 +97,7 @@ DEFINE_GLOBAL_INIT(Ang16, kAng270_6FD0A4, Ang16(1080), 0x6FD0A4);
 DEFINE_GLOBAL_INIT(Ang16, kAng0_6FD25C, Ang16(0), 0x6FD25C);
 
 MATCH_FUNC(0x534700)
-u8 Garage_48::ParkCarAtDoor_534700(Car_BC* pCar, Door_38* pDoor)
+u8 Garage::ParkCarAtDoor_534700(Car* pCar, Door* pDoor)
 {
     field_0_parking_car = pCar;
     field_44_wait_ticks = 0;
@@ -197,7 +197,7 @@ u8 Garage_48::ParkCarAtDoor_534700(Car_BC* pCar, Door_38* pDoor)
 }
 
 MATCH_FUNC(0x5349d0)
-void Garage_48::GaragesService_5349D0()
+void Garage::GaragesService_5349D0()
 {
     u8 idx1;
     u8 idx2;
@@ -269,7 +269,7 @@ void Garage_48::GaragesService_5349D0()
             field_0_parking_car->field_58_physics->StopMoving_4895D0();
 
             car_pos.SetXY_432860(field_0_parking_car->GetX_41E430(), field_0_parking_car->GetY_41E440());
-            SpriteShape_4C* pBox = field_0_parking_car->field_50_car_sprite->field_C_pCollisionShape;
+            SpriteShape* pBox = field_0_parking_car->field_50_car_sprite->field_C_pCollisionShape;
             field_28_push_dir = (pBox->field_C_corners[idx1] + pBox->field_C_corners[idx2]).Divide_442CB0(kFpTwo_6FD128) - car_pos;
             if (field_28_push_dir.x == kFpZero_6FD120 && field_28_push_dir.y == kFpZero_6FD120)
             {
@@ -323,7 +323,7 @@ void Garage_48::GaragesService_5349D0()
         {
             if (field_0_parking_car->field_50_car_sprite)
             {
-                // 9.6f: Car_BC 0x476230/0x4895E0 (clear f78 bits 2 and 8, inlined)
+                // 9.6f: Car 0x476230/0x4895E0 (clear f78 bits 2 and 8, inlined)
                 field_0_parking_car->field_78_flags &= (u16)~car_flag::NoCollide;
                 field_0_parking_car->field_78_flags &= (u16)~car_flag::Flag3;
                 field_10_door->CloseDoors_476A30();
@@ -365,7 +365,7 @@ void Garage_48::GaragesService_5349D0()
 }
 
 MATCH_FUNC(0x534e80)
-Garage_48::Garage_48()
+Garage::Garage()
 {
     field_0_parking_car = 0;
     field_10_door = 0;

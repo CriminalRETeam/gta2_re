@@ -19,19 +19,19 @@
 
 struct gmp_zone_info;
 struct SCR_THREAD;
-class Camera_0xBC;
-class Object_2C;
+class Camera;
+class Object;
 class Fix16_Rect;
-class CarAI_78;
-class CarPhysics_B0;
+class CarAI;
+class CarPhysics;
 class Trailer;
 class Ped;
-class Char_8;
-class CarChaseTask_40;
-class Ped_List_4;
+class PedListNode;
+class CarChaseTask;
+class Ped_List;
 class car_info;
-class SoundObject_10;
-class Gang_144;
+class SoundObject;
+class Gang;
 class Player;
 
 EXTERN_GLOBAL(Fix16, kFP16One_6777D0);
@@ -81,19 +81,20 @@ struct car_rng_list
     s32 values[256];
 };
 
-class CarThreadTrigger_18
+class CarThreadTrigger
 {
   public:
     s32 field_0_pScriptCmd;
-    Object_2C* field_4_O2C;
+    Object* field_4_O2C;
     s32 field_8_type;
     s32 field_C_action;
     u8 field_10_remap_rng;
     u8 field_11_pad[3];
     s32 field_14_enable_state;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(CarThreadTrigger, 0x18);
 
-class CarThreadTriggers_214
+class CarThreadTriggers
 {
   public:
     EXPORT void FreeTrigger_5C8680(u8 idx);
@@ -107,19 +108,20 @@ class CarThreadTriggers_214
         field_0_triggers[idx].field_14_enable_state = state;
     }
 
-    CarThreadTrigger_18 field_0_triggers[22];
+    CarThreadTrigger field_0_triggers[22];
     s16 field_210_count;
     s16 field_212_unused;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(CarThreadTriggers, 0x214);
 
-EXTERN_GLOBAL(CarThreadTriggers_214*, gCarThreadTriggers_214_705F20);
+EXTERN_GLOBAL(CarThreadTriggers*, gCarThreadTriggers_214_705F20);
 EXTERN_GLOBAL_ARRAY(u16, gRngRemapTable_679320, 1000);
 
-class CarRemapRng_2
+class CarRemapRng
 {
   public:
-    EXPORT CarRemapRng_2();
-    ~CarRemapRng_2() {}
+    EXPORT CarRemapRng();
+    ~CarRemapRng() {}
     EXPORT void IncNextRngRemapIdx_47BD90();
 
     u16 GetRngValue_4212D0()
@@ -129,6 +131,7 @@ class CarRemapRng_2
 
     u16 field_0_table_idx;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(CarRemapRng, 0x2);
 
 EXTERN_GLOBAL(Fix16, kFpHalf_6F7690);
 
@@ -142,7 +145,7 @@ EXTERN_GLOBAL(Fix16, kFpZero_6F77C0);
 EXTERN_GLOBAL(Fix16, kFpOne_6F77C4);
 EXTERN_GLOBAL(Fix16, kFpOne_679E74);
 
-class CarManager_6C
+class CarManager
 {
   public:
     // 9.6f 0x421960
@@ -181,63 +184,63 @@ class CarManager_6C
     EXPORT void DistributeCarsByRating_444980();
     EXPORT u32 SelectTrafficCarModel_444AB0(Player* pPlayer, gmp_zone_info* pZoneInfo, Fix16 density_scale, u16* pOut);
     EXPORT char_type NoRefs_444CE0(s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
-    EXPORT Car_BC* SpawnCarAtRoadDirection_444CF0(s32 car_model_type, Fix16 xpos, Fix16 ypos, Fix16 zpos);
-    EXPORT Car_BC* GetNearestCarFromCoord_444F80(Fix16 x, Fix16 y, Fix16 z, Ped* pPed);
-    EXPORT Car_BC* GetNearestEnterableCarFromCoord_444FA0(Fix16 x, Fix16 y, Fix16 z, Ped* pPed);
-    EXPORT Car_BC* DoGetNearestCarFromCoord_444FC0(Fix16 xpos,
+    EXPORT Car* SpawnCarAtRoadDirection_444CF0(s32 car_model_type, Fix16 xpos, Fix16 ypos, Fix16 zpos);
+    EXPORT Car* GetNearestCarFromCoord_444F80(Fix16 x, Fix16 y, Fix16 z, Ped* pPed);
+    EXPORT Car* GetNearestEnterableCarFromCoord_444FA0(Fix16 x, Fix16 y, Fix16 z, Ped* pPed);
+    EXPORT Car* DoGetNearestCarFromCoord_444FC0(Fix16 xpos,
                                                    Fix16 ypos,
                                                    Fix16 zpos,
                                                    s32 bMatchDriverless,
                                                    Ped* pPed,
                                                    char_type bIgnorePedRestrictions);
 
-    EXPORT Car_BC* GetNearestFrontVehicle_445210(Sprite* pSprite, u8 k3);
-    EXPORT Car_BC* SpawnBusAtValidRoadPosition_4453E0(Fix16 x, Fix16 y, s32 side, const s32& car_model);
-    EXPORT Car_BC* SpawnCarOnRoadNetwork_4458B0(Fix16 xpos, Fix16 ypos, s32 road_direction, s32 car_model_type);
-    EXPORT Car_BC* SpawnCarAt_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx, Fix16 maybe_w_scale);
+    EXPORT Car* GetNearestFrontVehicle_445210(Sprite* pSprite, u8 k3);
+    EXPORT Car* SpawnBusAtValidRoadPosition_4453E0(Fix16 x, Fix16 y, s32 side, const s32& car_model);
+    EXPORT Car* SpawnCarOnRoadNetwork_4458B0(Fix16 xpos, Fix16 ypos, s32 road_direction, s32 car_model_type);
+    EXPORT Car* SpawnCarAt_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx, Fix16 maybe_w_scale);
     EXPORT Trailer* SpawnCabAndTrailer_446530(Fix16 xpos, Fix16 ypos, Ang16 rotation, s32 car_idx, s32 trailer_idx);
-    EXPORT void RemoveFromPoolAndCollision_446730(Car_BC* pCar);
+    EXPORT void RemoveFromPoolAndCollision_446730(Car* pCar);
 
     EXPORT void DecrementAllocatedCarType_4466C0(s32 car_kind);
     EXPORT void EnableFreeShoppingIfAllKFsPassed_446760();
     EXPORT void CarsService_446790();
     EXPORT bool CanAllocateCarOfKindWithSpare_446870(s32 type);
     EXPORT bool CanAllocateCarOfKind_446930(s32 type);
-    EXPORT CarManager_6C();
-    EXPORT ~CarManager_6C();
+    EXPORT CarManager();
+    EXPORT ~CarManager();
 
     // 9.6f inlined
-    inline Car_BC* SpawnCar_426E10(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx)
+    inline Car* SpawnCar_426E10(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx)
     {
         return SpawnCarAt_446230(xpos, ypos, zpos, rotation, car_info_idx, kFpOne_6F77C4);
     }
 
     // SpawnCar_426E10 with the scale passed in: 10.5 loads a different Fix16(1) global per TU
-    // (kFpOne_6F77C4 in miss2_0x11C, kOne_6FE614 in Player)
-    inline Car_BC* SpawnCar_426E10(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx, const Fix16& scale)
+    // (kFpOne_6F77C4 in ScriptThread, kOne_6FE614 in Player)
+    inline Car* SpawnCar_426E10(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx, const Fix16& scale)
     {
         return SpawnCarAt_446230(xpos, ypos, zpos, rotation, car_info_idx, scale);
     }
 
     // 9.6f inlined
-    inline Car_BC* SpawnCar_4764A0(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx)
+    inline Car* SpawnCar_4764A0(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx)
     {
         return SpawnCarAt_446230(xpos, ypos, zpos, rotation, car_info_idx, kFpHalf_6F7690);
     }
 
-    inline Car_BC* SpawnCar_426E10_v2(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx)
+    inline Car* SpawnCar_426E10_v2(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx)
     {
         return SpawnCarAt_446230(xpos, ypos, zpos, rotation, car_info_idx, kFP16One_6777D0);
     }
 
     // unknown inlined function
-    inline Car_BC* SpawnCar_shortened(s32 car_info_idx)
+    inline Car* SpawnCar_shortened(s32 car_info_idx)
     {
         return SpawnCarAt_446230(kFpFive_6F77D4, kFpFive_6F77D4, kFpZero_6F77C0, kAngZero_6F804C, car_info_idx, kFpOne_6F77C4);
     }
 
-    // As SpawnCarAtCorrectZ_426E40 with the scale passed in (PublicTransport_181C::SpawnTrainsFromStations_578860)
-    inline Car_BC* SpawnCarAtCorrectZ_Scaled(Fix16 xpos, Fix16 ypos, const Ang16& rotation, s32 car_model, const Fix16& scale)
+    // As SpawnCarAtCorrectZ_426E40 with the scale passed in (PublicTransport::SpawnTrainsFromStations_578860)
+    inline Car* SpawnCarAtCorrectZ_Scaled(Fix16 xpos, Fix16 ypos, const Ang16& rotation, s32 car_model, const Fix16& scale)
     {
         if (car_model == car_model_enum::TRAIN || car_model == car_model_enum::TRAINCAB || car_model == car_model_enum::TRAINFB ||
             car_model == car_model_enum::boxcar)
@@ -250,8 +253,8 @@ class CarManager_6C
         }
     }
 
-    // As SpawnCarAtCorrectZ_426E40 but with the scale passed in (TrafficSpawner_14::SpawnTrafficCar_582480 passes its own kFpOne_6FF778)
-    inline Car_BC* SpawnCarAtCorrectZ_WithScale(Fix16 xpos, Fix16 ypos, Ang16 rotation, s32 car_model, const Fix16& scale)
+    // As SpawnCarAtCorrectZ_426E40 but with the scale passed in (TrafficSpawner::SpawnTrafficCar_582480 passes its own kFpOne_6FF778)
+    inline Car* SpawnCarAtCorrectZ_WithScale(Fix16 xpos, Fix16 ypos, Ang16 rotation, s32 car_model, const Fix16& scale)
     {
         if (car_model == car_model_enum::TRAIN || car_model == car_model_enum::TRAINCAB || car_model == car_model_enum::TRAINFB ||
             car_model == car_model_enum::boxcar)
@@ -264,7 +267,7 @@ class CarManager_6C
         }
     }
 
-    inline Car_BC* SpawnCarAtCorrectZ_426E40(Fix16 xpos, Fix16 ypos, Ang16 rotation, s32 car_model)
+    inline Car* SpawnCarAtCorrectZ_426E40(Fix16 xpos, Fix16 ypos, Ang16 rotation, s32 car_model)
     {
         if (car_model == car_model_enum::TRAIN || car_model == car_model_enum::TRAINCAB || car_model == car_model_enum::TRAINFB ||
             car_model == car_model_enum::boxcar)
@@ -277,7 +280,7 @@ class CarManager_6C
         }
     }
 
-    CarRemapRng_2 field_0;
+    CarRemapRng field_0;
     s16 field_2_unused;
     Ped* field_4_spare_driver;
     char_type field_8_unused;
@@ -285,8 +288,8 @@ class CarManager_6C
     u8 field_A_bad_car_idx;
     u8 field_B_average_car_idx;
     s32 field_C_suppressed_model;
-    CarRemapRng_2 field_10_remap_rng;
-    CarRemapRng_2 field_12_unused;
+    CarRemapRng field_10_remap_rng;
+    CarRemapRng field_12_unused;
     s32 field_14_next_car_id;
     char_type field_18_unused;
     char_type field_19_unused;
@@ -321,15 +324,16 @@ class CarManager_6C
     char_type field_6A_unused;
     char_type field_6B_unused;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(CarManager, 0x6C);
 
-EXTERN_GLOBAL(CarManager_6C*, gCarManager_6C_677930);
+EXTERN_GLOBAL(CarManager*, gCarManager_6C_677930);
 
 class Trailer
 {
   public:
     EXPORT Ped* GetTruckCabDriver_407B80();
-    EXPORT Car_BC* GetCabOrTrailerCar_407B90(Car_BC* pCar);
-    EXPORT void SetTruckCabAndTrailerCar_407BB0(Car_BC* pTruckCab, Car_BC* pTrailerCar);
+    EXPORT Car* GetCabOrTrailerCar_407B90(Car* pCar);
+    EXPORT void SetTruckCabAndTrailerCar_407BB0(Car* pTruckCab, Car* pTrailerCar);
     EXPORT Fix16_Point GetHitchPosition_407BD0();
     EXPORT void UpdateTrailerAlignment_407CE0();
     EXPORT char_type ServicePhysics_408140();
@@ -352,7 +356,7 @@ class Trailer
         return field_0_hitch_angle_clamped;
     }
 
-    //Inlined in CarManager_6C constructor 9.6f -> 0x4212d0
+    //Inlined in CarManager constructor 9.6f -> 0x4212d0
     __forceinline Trailer()
     {
         mpNext = NULL;
@@ -367,8 +371,8 @@ class Trailer
     char_type field_2_unused;
     char_type field_3_unused;
     Trailer* mpNext;
-    Car_BC* field_8_truck_cab;
-    Car_BC* field_C_trailer_car;
+    Car* field_8_truck_cab;
+    Car* field_C_trailer_car;
 };
 
 static inline bool IsArmyModel(s32 idx1)
@@ -376,7 +380,7 @@ static inline bool IsArmyModel(s32 idx1)
     return idx1 == car_model_enum::TANK || idx1 == 22 || idx1 == 30 || idx1 == 3;
 }
 
-class Car_BC
+class Car
 {
   public:
     // 9.6f 0x42AC70
@@ -527,7 +531,7 @@ class Car_BC
     EXPORT char_type IsDoorAccessible_43AFE0(u8 target_door);
     EXPORT bool IsStoppedWithPavementAtDoor_43B140(u8 target_car_door);
     EXPORT bool IsDoorLockedForPed_43B2B0(Ped* pPed);
-    EXPORT Car_Door_10* GetDoor(u8 door_idx);
+    EXPORT Car_Door* GetDoor(u8 door_idx);
     EXPORT char_type GetDoorCount_43B360();
     EXPORT void OpenAllDoors_43B380();
     EXPORT void CloseAllDoors_43B3D0();
@@ -537,7 +541,7 @@ class Car_BC
     EXPORT char_type IsOnScreenForAnyPlayer_43B730();
     EXPORT char_type IsVisibleToAnyPlayer_43B750();
     EXPORT void AssignKillerToOccupants_43B770();
-    EXPORT void AssignDriverBlameForExplosion_43B7B0(Car_BC* pCar);
+    EXPORT void AssignDriverBlameForExplosion_43B7B0(Car* pCar);
     EXPORT bool IsImmuneToExplosionType_43B850(s32 explosion_type);
     EXPORT void SpawnDamageFireEffect_43B870(s32 fire_size, const Fix16_Point* pPos);
     // Called without this in SpawnDamageFireEffect_43B870: a static __stdcall
@@ -585,15 +589,15 @@ class Car_BC
     EXPORT bool IsBeingCrushed_43DD50();
     EXPORT void DestroyWhileSinking_43DD60();
     EXPORT char_type ManageDrowning_43E560();
-    EXPORT Car_BC* GetCabOrSelf_43E8D0();
+    EXPORT Car* GetCabOrSelf_43E8D0();
     EXPORT Ped* GetEffectiveDriver_43E990();
-    EXPORT char_type OnObjectTouched_43EA60(Object_2C* pObj);
-    EXPORT char_type HandleCarHitByObject_43F130(Object_2C* pObj);
+    EXPORT char_type OnObjectTouched_43EA60(Object* pObj);
+    EXPORT char_type HandleCarHitByObject_43F130(Object* pObj);
     EXPORT Fix16 GetMaxTurnRate_440510();
     EXPORT char_type GetMaxPassengers_440570();
     EXPORT void InitCarAIControl_440590();
     EXPORT void SpawnDriverPed();
-    EXPORT void AddGangDriver_440630(Gang_144* pGang);
+    EXPORT void AddGangDriver_440630(Gang* pGang);
     EXPORT void AttachGangIcon_440660(u8 arrow_colour);
     EXPORT void ShowCarName_4406B0(Ped* pPed);
     EXPORT void AssignDriver_4406E0(Ped* pPed);
@@ -651,7 +655,7 @@ class Car_BC
     EXPORT void ManageTVAntenna_4425D0();
     EXPORT void ServiceDoorsLightsAndHorn_4426D0();
     EXPORT void DetachTrailer_442760();
-    EXPORT void AttachTrailer_4427A0(Car_BC* pToFind);
+    EXPORT void AttachTrailer_4427A0(Car* pToFind);
     EXPORT void TryHitchTrailer_442810();
     EXPORT void LightUpdate_442D10();
     EXPORT char_type TrainUpdate_442D70();
@@ -668,7 +672,7 @@ class Car_BC
     EXPORT static void __stdcall ShowCantAffordMessage_443AB0(Player* pPlayer, s32 weapon_cost);
     EXPORT void ResprayOrChangePlates(u8 remap);
     EXPORT void ResprayOrCleanPlates(u8 remap);
-    EXPORT void HandleShops_443C40(Object_2C* pObj);
+    EXPORT void HandleShops_443C40(Object* pObj);
     EXPORT void SetPosition_443D00(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT void IncrementCarStats_443D70(s32 car_kind);
     EXPORT void IncrementAllocatedCarType_443DA0(s32 car_kind);
@@ -684,8 +688,8 @@ class Car_BC
     EXPORT void DeAllocateAI_4446E0();
     EXPORT void PoolDeallocate();
 
-    Car_BC(); // 0x444860
-    ~Car_BC(); // 0x444960
+    Car(); // 0x444860
+    ~Car(); // 0x444960
 
     EXPORT void ClearHeadlightDeltas_447360();
     EXPORT bool IsDrivenByNonPlayer_564300();
@@ -736,12 +740,12 @@ class Car_BC
     }
 
     // Inlined 0x475E60
-    bool HasAttachedTrailer_475E60(Car_BC* pTrailerCar)
+    bool HasAttachedTrailer_475E60(Car* pTrailerCar)
     {
         return field_64_pTrailer && field_64_pTrailer->field_C_trailer_car == pTrailerCar && this != pTrailerCar;
     }
 
-    bool IsCargoCarOf_4BA390(Car_BC* pOther) const
+    bool IsCargoCarOf_4BA390(Car* pOther) const
     {
         return field_64_pTrailer && field_64_pTrailer->field_8_truck_cab == pOther && this != pOther;
     }
@@ -1319,16 +1323,16 @@ class Car_BC
     EXPORT char SnapCarToGreenArrow_444E40(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT char TrySnapCarToNearestDrivableRoadAndDriveForward_445EC0(Fix16 xpos, Fix16 ypos, s32 direction);
 
-    SpriteList_4 field_0_attachments;
-    Ped_List_4 field_4_passengers_list;
+    SpriteList field_0_attachments;
+    Ped_List field_4_passengers_list;
     DamageAreaFlags field_8_damaged_areas; // TODO: check if it's a bitset
-    Car_Door_10 field_C_doors[4];
-    Car_BC* mpNext;
+    Car_Door field_C_doors[4];
+    Car* mpNext;
     Sprite* field_50_car_sprite;
     Ped* field_54_driver;
-    CarPhysics_B0* field_58_physics;
-    CarAI_78* field_5C_AI;
-    CarChaseTask_40* field_60_pChaseTask;
+    CarPhysics* field_58_physics;
+    CarAI* field_5C_AI;
+    CarChaseTask* field_60_pChaseTask;
     Trailer* field_64_pTrailer;
     Fix16 field_68_scale;
     s32 field_6C_car_id;
@@ -1380,22 +1384,22 @@ class Car_BC
     char_type field_BA_pad;
     char_type field_BB_pad;
 };
-GTA2_ASSERT_SIZEOF_ALWAYS(Car_BC, 0xBC)
+GTA2_ASSERT_SIZEOF_ALWAYS(Car, 0xBC)
 
-struct Car_BC_Pool
+struct CarPool
 {
-    //Inlined in CarManager_6C constructor 9.6f -> 0x426db0
-    Car_BC_Pool()
+    //Inlined in CarManager constructor 9.6f -> 0x426db0
+    CarPool()
     {
     }
 
-    ~Car_BC_Pool()
+    ~CarPool()
     {
 
     }
 
     // TODO: 9.6f addr/check
-    void Remove(Car_BC* pCar)
+    void Remove(Car* pCar)
     {
         field_0_pool.DeAllocate(pCar);
     }
@@ -1407,24 +1411,24 @@ struct Car_BC_Pool
     }
 
     // 9.6f 0x420E50
-    inline Car_BC* GetFirstCar_420E50()
+    inline Car* GetFirstCar_420E50()
     {
         return field_0_pool.field_4_pPrev;
     }
 
     // FUNCTION: 96f 0x420f20
-    void UpdateNextPrev(Car_BC* pItem)
+    void UpdateNextPrev(Car* pItem)
     {
         field_0_pool.UpdateNextPrev(pItem);
     }
 
-    Pool<Car_BC, 306> field_0_pool;
+    Pool<Car, 306> field_0_pool;
 };
 
 class TrailerPool
 {
   public:
-    //Inlined in CarManager_6C constructor 9.6f -> 0x425500
+    //Inlined in CarManager constructor 9.6f -> 0x425500
     TrailerPool()
     {
     }
@@ -1443,10 +1447,10 @@ class TrailerPool
     PoolBasic<Trailer, 10> field_0_pool;
 };
 
-struct TrafficSpawner_14
+struct TrafficSpawner
 {
-    EXPORT TrafficSpawner_14();
-    EXPORT ~TrafficSpawner_14();
+    EXPORT TrafficSpawner();
+    EXPORT ~TrafficSpawner();
     EXPORT char IsInsideCameraEdge_582360(int direction, Fix16 x, Fix16 y);
     EXPORT void MakeTrafficForCurrCamera_5832C0();
     EXPORT char_type SpawnTrafficCarFacing_583260(s32 angle_face);
@@ -1462,7 +1466,7 @@ struct TrafficSpawner_14
     EXPORT s32 GetLaneOffset_5838E0(u8 lane_idx);
     EXPORT char_type ResolveSpawnDirection_583930(char_type a1, char_type a2);
 
-    Camera_0xBC* field_0_cam;
+    Camera* field_0_cam;
     Fix16_Rect* field_4_rect;
     s8 field_8_spawn_side;
     s8 field_9_traffic_car_model;
@@ -1471,14 +1475,15 @@ struct TrafficSpawner_14
     Player* field_C_player;
     gmp_zone_info* field_10_zone;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(TrafficSpawner, 0x14);
 
-EXTERN_GLOBAL(Car_BC_Pool*, gCar_BC_Pool_67792C);
+EXTERN_GLOBAL(CarPool*, gCar_BC_Pool_67792C);
 
 EXTERN_GLOBAL(Sprite*, gSprite_6F61E8);
 
 EXTERN_GLOBAL(TrailerPool*, gTrailerPool_66AC80);
 
-EXTERN_GLOBAL(TrafficSpawner_14*, gTrafficSpawner_14_677934);
+EXTERN_GLOBAL(TrafficSpawner*, gTrafficSpawner_14_677934);
 
 EXTERN_GLOBAL(char_type, gbRngRemapTableDone_679C0A);
 

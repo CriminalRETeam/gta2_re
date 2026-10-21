@@ -3,10 +3,10 @@
 #include "Function.hpp"
 #include "fix16.hpp"
 
-class Car_BC;
+class Car;
 class Ped;
 
-// Firefighter_28::field_8_state (stored as s32)
+// Firefighter::field_8_state (stored as s32)
 namespace firefighter_state
 {
 enum
@@ -21,7 +21,7 @@ enum
 };
 } // namespace firefighter_state
 
-class Firefighter_28
+class Firefighter
 {
   public:
     // inline
@@ -45,20 +45,21 @@ class Firefighter_28
     s16 field_2_unused;
     s32 field_4_bActive;
     s32 field_8_state; // firefighter_state
-    Car_BC* field_C_target_car;
+    Car* field_C_target_car;
     Fix16 field_10_xpos;
     Fix16 field_14_ypos;
     Fix16 field_18_zpos;
-    Car_BC* field_1C_car;
+    Car* field_1C_car;
     Ped* field_20_ped;
     u16 field_24_next_state_timer;
     s16 field_26_unused;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Firefighter, 0x28);
 
-class FirefighterPool_54
+class FirefighterPool
 {
   public:
-    FirefighterPool_54()
+    FirefighterPool()
     {
         for (s32 i = 0; i < 2; i++)
         {
@@ -67,21 +68,22 @@ class FirefighterPool_54
         ResetCount_4A88D0();
     }
 
-    ~FirefighterPool_54()
+    ~FirefighterPool()
     {
         // TODO: Should this be empty?
     }
 
     EXPORT void FireEnginesService_4A85F0();
-    EXPORT Firefighter_28* DispatchFirefighters_4A8620(Car_BC* pCar, Fix16 x, Fix16 y, Fix16 z);
-    EXPORT Firefighter_28* New28_4A8800();
-    EXPORT char_type TryDispatchFirefightersToCar_4A8820(Car_BC* pCar);
-    EXPORT char_type IsFireEngineSentToCar_4A8890(Car_BC* pFireEngine, Car_BC* pTargetCar);
+    EXPORT Firefighter* DispatchFirefighters_4A8620(Car* pCar, Fix16 x, Fix16 y, Fix16 z);
+    EXPORT Firefighter* New28_4A8800();
+    EXPORT char_type TryDispatchFirefightersToCar_4A8820(Car* pCar);
+    EXPORT char_type IsFireEngineSentToCar_4A8890(Car* pFireEngine, Car* pTargetCar);
     EXPORT void ResetCount_4A88D0();
 
-    Firefighter_28 field_0_firefighters[2];
+    Firefighter field_0_firefighters[2];
     s16 field_50_count;
     s16 field_52_unused;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(FirefighterPool, 0x54);
 
-EXTERN_GLOBAL(FirefighterPool_54*, gFirefighterPool_54_67D4C0);
+EXTERN_GLOBAL(FirefighterPool*, gFirefighterPool_54_67D4C0);

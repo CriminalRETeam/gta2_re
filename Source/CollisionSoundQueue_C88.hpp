@@ -5,12 +5,12 @@
 #include "sprite.hpp"
 #include "collision_target_type.hpp"
 
-class SoundObject_10;
-class Car_BC;
-class Object_2C;
+class SoundObject;
+class Car;
+class Object;
 
 // What the sprite being moved has just collided with: a wall segment or another sprite. One global instance.
-class CollisionTarget_28
+class CollisionTarget
 {
   public:
     EXPORT bool IsObj2C_477A10();
@@ -85,17 +85,18 @@ class CollisionTarget_28
     Fix16 field_18_hseg_y;
     Fix16 field_1C_z;
     Sprite* field_20_pHitSprite;
-    Sprite* field_24_pSourceSprite; // the car sprite that is being moved, set by CarPhysics_B0
+    Sprite* field_24_pSourceSprite; // the car sprite that is being moved, set by CarPhysics
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(CollisionTarget, 0x28);
 
 // One queued impact for the sound system: where it happened, what collided and how hard
-class CollisionEvent_28
+class CollisionEvent
 {
   public:
     EXPORT void SetPosition_40B870(Fix16 x, Fix16 y, Fix16 z);
-    EXPORT void SetupForCar_40B890(Car_BC* pCar);
+    EXPORT void SetupForCar_40B890(Car* pCar);
     EXPORT void SetupForPed_40B980();
-    EXPORT bool SetupForObject_40BA60(Object_2C* pObj);
+    EXPORT bool SetupForObject_40BA60(Object* pObj);
 
     void SetImpactStrength_40FF10(const Fix16& strength)
     {
@@ -106,16 +107,17 @@ class CollisionEvent_28
     Fix16 field_4_x;
     Fix16 field_8_y;
     Fix16 field_C_z;
-    Car_BC* field_10_car;
-    Car_BC* field_14_other_car;
+    Car* field_10_car;
+    Car* field_14_other_car;
     s32 field_18_object_model; // model of the object involved
     s32 field_1C_other_object_model; // model of the other object collided with
     s32 field_20_map_block_spec;
     Fix16 field_24_impact_strength;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(CollisionEvent, 0x28);
 
 // Impacts collected during a frame; processed by sound_obj::ProcessType6_CollisionSoundQueue_413760
-class CollisionSoundQueue_C88
+class CollisionSoundQueue
 {
   public:
     enum
@@ -128,13 +130,14 @@ class CollisionSoundQueue_C88
     EXPORT void AddFloorCollision_40BC40(Sprite* pSprite);
     EXPORT void AddBlockCollision_40BD10(Sprite* pSprite);
     EXPORT void AddSpriteCollision_40BDD0(Sprite* pSprite, Sprite* pHitSprite);
-    EXPORT CollisionSoundQueue_C88();
-    EXPORT ~CollisionSoundQueue_C88();
+    EXPORT CollisionSoundQueue();
+    EXPORT ~CollisionSoundQueue();
 
-    SoundObject_10* field_0_pSoundObj;
-    CollisionEvent_28 field_4_events[k_max_events];
+    SoundObject* field_0_pSoundObj;
+    CollisionEvent field_4_events[k_max_events];
     s32 field_C84_count;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(CollisionSoundQueue, 0xC88);
 
-EXTERN_GLOBAL(CollisionSoundQueue_C88*, gCollisionSoundQueue_66AFE0);
-EXTERN_GLOBAL(CollisionTarget_28, gCollisionTarget_679188);
+EXTERN_GLOBAL(CollisionSoundQueue*, gCollisionSoundQueue_66AFE0);
+EXTERN_GLOBAL(CollisionTarget, gCollisionTarget_679188);

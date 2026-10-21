@@ -62,7 +62,7 @@ Fix16& Fix16::DivideAssign_539F90(const Fix16& rhs)
     return *this;
 }
 
-// Out-of-line copy of operator/(const s32&) (20 bytes, called by Particle_8::EmitImpactParticles_53FE40)
+// Out-of-line copy of operator/(const s32&) (20 bytes, called by ParticleManager::EmitImpactParticles_53FE40)
 MATCH_FUNC(0x53E860)
 Fix16 Fix16::DivideInt_53E860(const s32& in) const
 {

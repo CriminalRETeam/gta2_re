@@ -6,19 +6,20 @@
 
 struct gmp_tile_animation;
 
-class TileAnim_2
+class TileAnimManager
 {
   public:
     EXPORT void AddAnim_5BC260(s16 base, s16 f0, s16 length, s16 frame_rate, s16 repeat);
     EXPORT void AddGmpAnim_5BC2C0(const gmp_tile_animation* pTileAnimation);
     EXPORT void Empty_5BC300();
     EXPORT void UpdateTileAnimations_5BC310();
-    EXPORT TileAnim_2();
-    EXPORT ~TileAnim_2();
+    EXPORT TileAnimManager();
+    EXPORT ~TileAnimManager();
     s16 field_0_count;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(TileAnimManager, 0x2);
 
-class TileAnim_18
+class TileAnim
 {
   public:
     // 9.6f 0x4C33F0
@@ -41,8 +42,8 @@ class TileAnim_18
     EXPORT void InitFromGmpAnim_5BC190(const gmp_tile_animation* pStru);
     EXPORT void Start_5BC1D0();
     EXPORT char_type PoolUpdate();
-    EXPORT TileAnim_18();
-    EXPORT ~TileAnim_18();
+    EXPORT TileAnim();
+    EXPORT ~TileAnim();
 
     u16 field_0_start_frame;
     u16 field_2_anim_length;
@@ -53,8 +54,9 @@ class TileAnim_18
     const gmp_tile_animation* field_C_ptr;
     s16 field_10_base;
     s16 field_12_idx;
-    TileAnim_18* mpNext;
+    TileAnim* mpNext;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(TileAnim, 0x18);
 
 class TileAnimPool
 {
@@ -66,12 +68,12 @@ class TileAnimPool
 
     EXPORT ~TileAnimPool();
 
-    TileAnim_18* Allocate()
+    TileAnim* Allocate()
     {
         return field_0_pool.Allocate();
     }
 
-    Pool<TileAnim_18, 50> field_0_pool;
+    Pool<TileAnim, 50> field_0_pool;
 };
 
-EXTERN_GLOBAL(TileAnim_2*, gTileAnim_2_7052C4);
+EXTERN_GLOBAL(TileAnimManager*, gTileAnim_2_7052C4);

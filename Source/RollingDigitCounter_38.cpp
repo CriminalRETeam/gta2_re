@@ -9,7 +9,7 @@ s32 __stdcall GetMaxNumOfDigits_4F7660(s32 &max_value);
 DEFINE_GLOBAL_INIT(Ang16, kAngZero_67B210, Ang16(0), 0x67B210);
 
 MATCH_FUNC(0x4920b0)
-RollingDigitCounter_38::RollingDigitCounter_38()
+RollingDigitCounter::RollingDigitCounter()
 {
     for (s32 digit_idx = 0; digit_idx < kNumDigits; digit_idx++)
     {
@@ -33,7 +33,7 @@ RollingDigitCounter_38::RollingDigitCounter_38()
 }
 
 MATCH_FUNC(0x492110)
-void RollingDigitCounter_38::SetupDigitsParams_492110(s16 digit_transition_speed, s32 max_value, s16 palette)
+void RollingDigitCounter::SetupDigitsParams_492110(s16 digit_transition_speed, s32 max_value, s16 palette)
 {
     field_36_sprite_idx = palette;
     field_2C_digit_transition_speed = digit_transition_speed;
@@ -45,7 +45,7 @@ void RollingDigitCounter_38::SetupDigitsParams_492110(s16 digit_transition_speed
 }
 
 MATCH_FUNC(0x492150)
-void RollingDigitCounter_38::InitDigitSprites_492150()
+void RollingDigitCounter::InitDigitSprites_492150()
 {
     u16 true_sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::user_6, field_36_sprite_idx);
     sprite_index* pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(true_sprite_idx);
@@ -55,7 +55,7 @@ void RollingDigitCounter_38::InitDigitSprites_492150()
 }
 
 MATCH_FUNC(0x4921b0)
-void RollingDigitCounter_38::ChangeStatByAmount_4921B0(s32 amount)
+void RollingDigitCounter::ChangeStatByAmount_4921B0(s32 amount)
 {
     if (amount > 0)
     {
@@ -90,7 +90,7 @@ void RollingDigitCounter_38::ChangeStatByAmount_4921B0(s32 amount)
 }
 
 MATCH_FUNC(0x4921f0)
-void RollingDigitCounter_38::ColorDigits_4921F0(s32 palette_type, s16 palette)
+void RollingDigitCounter::ColorDigits_4921F0(s32 palette_type, s16 palette)
 {
     u16 true_palette;
     if (palette_type == palette_types_enum::sprites_2)
@@ -114,7 +114,7 @@ void RollingDigitCounter_38::ColorDigits_4921F0(s32 palette_type, s16 palette)
 
 // https://decomp.me/scratch/6E5vt
 MATCH_FUNC(0x492260)
-s32 RollingDigitCounter_38::DrawDigitsRightAligned_492260(s32 base_xpos, s32 base_ypos)
+s32 RollingDigitCounter::DrawDigitsRightAligned_492260(s32 base_xpos, s32 base_ypos)
 {
     s32 curr_xpos = base_xpos;
     bool bFirst = true;
@@ -176,7 +176,7 @@ s32 RollingDigitCounter_38::DrawDigitsRightAligned_492260(s32 base_xpos, s32 bas
 
 // Draws the digits left to right, skipping leading zeros, and returns the x after the last digit
 MATCH_FUNC(0x492430)
-s32 RollingDigitCounter_38::DrawDigitsLeftAligned_492430(s32 base_xpos, s32 base_ypos)
+s32 RollingDigitCounter::DrawDigitsLeftAligned_492430(s32 base_xpos, s32 base_ypos)
 {
     // u32: converts with the Fix16(u32) constructor, whose out-of-line copy is 0x4926F0
     bool bFirst = true;
@@ -237,7 +237,7 @@ s32 RollingDigitCounter_38::DrawDigitsLeftAligned_492430(s32 base_xpos, s32 base
 }
 
 MATCH_FUNC(0x4925c0)
-bool RollingDigitCounter_38::IsAnyDigitRolling_4925C0()
+bool RollingDigitCounter::IsAnyDigitRolling_4925C0()
 {
     s32 digit_idx = field_2E_non_used_digits;
 
@@ -253,12 +253,12 @@ bool RollingDigitCounter_38::IsAnyDigitRolling_4925C0()
 }
 
 MATCH_FUNC(0x4925e0)
-void RollingDigitCounter_38::UpdateRollingDigits_4925E0()
+void RollingDigitCounter::UpdateRollingDigits_4925E0()
 {
     s32 shown_value;
     sscanf(field_9_shown_digits, "%d", &shown_value);
 
-    if (field_4_target_value == -1 || shown_value == field_4_target_value && !RollingDigitCounter_38::IsAnyDigitRolling_4925C0())
+    if (field_4_target_value == -1 || shown_value == field_4_target_value && !RollingDigitCounter::IsAnyDigitRolling_4925C0())
     {
         if (field_0_value == shown_value)
         {

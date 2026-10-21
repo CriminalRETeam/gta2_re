@@ -33,7 +33,7 @@ struct mini_device_obj_data
 };
 
 DEFINE_GLOBAL(InputRecorder_67F8B0, gInputRecorder_67F8B0, 0x67F8B0);
-DEFINE_GLOBAL(InputDevices_1*, gInputDevices_67B990, 0x67B990);
+DEFINE_GLOBAL(InputDevices*, gInputDevices_67B990, 0x67B990);
 DEFINE_GLOBAL(DWORD, gDeviceDataCount_67B624, 0x67B624);
 DEFINE_GLOBAL(u8, gAltKeyDown_67B80C, 0x67B80C);
 DEFINE_GLOBAL(bool, gNeedKbAcquire_67B66C, 0x67B66C);
@@ -54,7 +54,7 @@ DEFINE_GUID(GUID_SysKeyboard, 0x6F1D2B61, 0xD5A0, 0x11CF, 0xBF, 0xC7, 0x44, 0x45
 const AttractFile attractFiles_62083C[ATTRACT_COUNT] = {"data\\attract\\attr1.rep", "data\\attract\\attr2.rep", "data\\attract\\attr3.rep"};
 
 MATCH_FUNC(0x498730)
-bool InputDevices_1::acquire_input_device_498730(LPDIRECTINPUTDEVICEA pGamePadDevice)
+bool InputDevices::acquire_input_device_498730(LPDIRECTINPUTDEVICEA pGamePadDevice)
 {
     if (!pGamePadDevice)
     {
@@ -77,7 +77,7 @@ bool InputDevices_1::acquire_input_device_498730(LPDIRECTINPUTDEVICEA pGamePadDe
 }
 
 MATCH_FUNC(0x4987A0)
-void InputDevices_1::free_input_devices_4987A0()
+void InputDevices::free_input_devices_4987A0()
 {
     if (gpDInput_67B804)
     {
@@ -98,7 +98,7 @@ void InputDevices_1::free_input_devices_4987A0()
 }
 
 MATCH_FUNC(0x498800)
-BOOL __stdcall InputDevices_1::make_input_devices_498800(HINSTANCE hInstance)
+BOOL __stdcall InputDevices::make_input_devices_498800(HINSTANCE hInstance)
 {
     DIPROPDWORD prop;
 
@@ -169,7 +169,7 @@ EXPORT BOOL CALLBACK DirectInputDeviceEnumCallBack_498910(LPCDIDEVICEINSTANCEA l
 
 // TODO: the debug strings are guesses, only code is compared
 MATCH_FUNC(0x4989C0)
-void InputDevices_1::set_game_pad_device_properties_4989C0()
+void InputDevices::set_game_pad_device_properties_4989C0()
 {
     DIPROPDWORD prop;
     DIPROPRANGE range;
@@ -244,7 +244,7 @@ void InputDevices_1::set_game_pad_device_properties_4989C0()
 }
 
 MATCH_FUNC(0x498BA0)
-bool InputDevices_1::game_pads_init_498BA0()
+bool InputDevices::game_pads_init_498BA0()
 {
     if (gpDInput_67B804)
     {
@@ -285,7 +285,7 @@ bool InputDevices_1::game_pads_init_498BA0()
 }
 
 MATCH_FUNC(0x498C00)
-void InputDevices_1::get_registry_controls_498C00()
+void InputDevices::get_registry_controls_498C00()
 {
     for (u32 i = 0; i < 12; ++i)
     {
@@ -296,7 +296,7 @@ void InputDevices_1::get_registry_controls_498C00()
 }
 
 MATCH_FUNC(0x498C40)
-void __stdcall InputDevices_1::input_devices_init_498C40(HINSTANCE hInstance)
+void __stdcall InputDevices::input_devices_init_498C40(HINSTANCE hInstance)
 {
     get_registry_controls_498C00();
 
@@ -310,7 +310,7 @@ void __stdcall InputDevices_1::input_devices_init_498C40(HINSTANCE hInstance)
 }
 
 MATCH_FUNC(0x498C80)
-void InputDevices_1::AddKeyToInputBits_498C80(s32* pInputBits, DIDEVICEOBJECTDATA* device_data_keys)
+void InputDevices::AddKeyToInputBits_498C80(s32* pInputBits, DIDEVICEOBJECTDATA* device_data_keys)
 {
     *pInputBits = (device_data_keys->dwOfs << 12) | *pInputBits;
     if ((device_data_keys->dwData & 0x80) != 0)
@@ -321,7 +321,7 @@ void InputDevices_1::AddKeyToInputBits_498C80(s32* pInputBits, DIDEVICEOBJECTDAT
 
 // https://decomp.me/scratch/LbfoG ridiculous function to match
 MATCH_FUNC(0x498CB0)
-void InputDevices_1::SetAltKeyState_498CB0(u32 alt_down)
+void InputDevices::SetAltKeyState_498CB0(u32 alt_down)
 {
     // An if/else on the DirectInput key state bit: VC6 turns it into a dword load + `shr $7,%al`,
     // the expression forms all give a byte load or `and $1`
@@ -336,7 +336,7 @@ void InputDevices_1::SetAltKeyState_498CB0(u32 alt_down)
 }
 
 MATCH_FUNC(0x498CC0)
-void InputDevices_1::flush_keyboard_and_gamepad_498CC0()
+void InputDevices::flush_keyboard_and_gamepad_498CC0()
 {
     gDeviceDataCount_67B624 = -1;
     if (gKeyboardDevice_67B5C0)
@@ -352,7 +352,7 @@ void InputDevices_1::flush_keyboard_and_gamepad_498CC0()
 }
 
 MATCH_FUNC(0x498D20)
-bool InputDevices_1::game_pad_read_498D20()
+bool InputDevices::game_pad_read_498D20()
 {
     DWORD num_items = -1;
     if (acquire_input_device_498730(gGamePadDevice_67B6C0))
@@ -372,7 +372,7 @@ bool InputDevices_1::game_pad_read_498D20()
 
 // https://decomp.me/scratch/75Pau
 MATCH_FUNC(0x498DA0)
-void InputDevices_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
+void InputDevices::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
 {
     bool bFirstPass = true;
     s32 bReleased = 0;
@@ -664,7 +664,7 @@ void InputRecorder_67F8B0::save_replay_record_4CDE20(u32 inputs)
             if (bConstant_replay_save_67D5C4 == 1)
             {
                 const s32 rec_idx = this->field_75340_rec_buf_idx;
-                u32 rec_len = sizeof(InputRecord_C);
+                u32 rec_len = sizeof(InputRecord);
                 File::AppendBufferToFile_4A6F50("test\\replay.rep", &field_3C_rec_buff[rec_idx], &rec_len);
             }
 
@@ -679,7 +679,7 @@ void InputRecorder_67F8B0::SaveReplay_4CDED0()
     if (bConstant_replay_save_67D5C4 != 1 && bDo_release_replay_67D4EB && field_38_replay_state != Disabled_2 && field_75340_rec_buf_idx > 0 &&
         !IsPlayingBack_4CEDF0())
     {
-        size_t len = sizeof(InputRecord_C) * field_75340_rec_buf_idx;
+        size_t len = sizeof(InputRecord) * field_75340_rec_buf_idx;
         File::AppendBufferToFile_4A6F50("test\\replay.rep", field_3C_rec_buff, &len);
     }
 }
@@ -714,7 +714,7 @@ void InputRecorder_67F8B0::modify_inputs_4CDF30(s32 match_mask)
 MATCH_FUNC(0x4cdf70)
 void InputRecorder_67F8B0::AppendReplayHeader_4CDF70()
 {
-    ReplayHeader_10C header;
+    ReplayHeader header;
     DWORD computer_name_size;
     size_t header_size;
 
@@ -781,8 +781,8 @@ void InputRecorder_67F8B0::AppendReplayHeader_4CDF70()
 MATCH_FUNC(0x4ce380)
 void InputRecorder_67F8B0::LoadReplayHeader_4CE380(char_type bLoadDebug)
 {
-    u32 header_size = sizeof(ReplayHeader_10C);
-    ReplayHeader_10C header;
+    u32 header_size = sizeof(ReplayHeader);
+    ReplayHeader header;
     File::Global_Read_4A71C0(&header, header_size);
 
     if (!bIgnore_replay_header_67D4F3)
@@ -892,8 +892,8 @@ void InputRecorder_67F8B0::input_init_replay_4CE740(HINSTANCE hInstance)
     u32 bufLen = sizeof(field_3C_rec_buff);
     const s32 remainderSize = File::Global_ReadRemainder_4A7250(this->field_3C_rec_buff, &bufLen);
     File::Global_Close_4A70C0();
-    this->field_7533C_used_recs_count = remainderSize / sizeof(InputRecord_C);
-    if (sizeof(InputRecord_C) * (remainderSize / sizeof(InputRecord_C)) != remainderSize)
+    this->field_7533C_used_recs_count = remainderSize / sizeof(InputRecord);
+    if (sizeof(InputRecord) * (remainderSize / sizeof(InputRecord)) != remainderSize)
     {
         FatalError_4A38C0(Gta2Error::ReplayFileTooLarge, "C:\\Splitting\\Gta2\\Source\\input.cpp", 616, remainderSize);
     }
@@ -923,7 +923,7 @@ void InputRecorder_67F8B0::input_init_live_4CE880(HINSTANCE hInstance)
     field_4_input_bits = 0;
     field_38_replay_state = Live_0;
 
-    gInputDevices_67B990 = new InputDevices_1();
+    gInputDevices_67B990 = new InputDevices();
     if (!gInputDevices_67B990)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\input.cpp", 675);
@@ -999,7 +999,7 @@ void InputRecorder_67F8B0::replay_save_4CEA40(u32* input_bits)
         // Clear out the unused records
         memset(&this->field_3C_rec_buff[this->field_75340_rec_buf_idx],
                0,
-               sizeof(InputRecord_C) * ((GTA2_COUNTOF(field_3C_rec_buff) - field_75340_rec_buf_idx)));
+               sizeof(InputRecord) * ((GTA2_COUNTOF(field_3C_rec_buff) - field_75340_rec_buf_idx)));
         if (bConstant_replay_save_67D5C4)
         {
             SaveReplay_4CDED0();

@@ -23,33 +23,33 @@ class LightBase
         UpdatePool_45BF50();
     }
 
-    Pool<Light_28, 3000> field_0_pool;
+    Pool<Light, 3000> field_0_pool;
 };
 
-class Light_1D4CC : public LightBase
+class LightPool : public LightBase
 {
   public:
-    Light_1D4CC()
+    LightPool()
     {
         LightGrid::AllocGrid_4D6E00();
     }
 
-    inline void AddToUpdateList_464C60(Light_28* pLight)
+    inline void AddToUpdateList_464C60(Light* pLight)
     {
         pLight->mpNext = field_0_pool.field_4_pPrev;
         field_0_pool.field_4_pPrev = pLight;
     }
 
-    inline Light_28* Alloc_464C40()
+    inline Light* Alloc_464C40()
     {
-        Light_28* pFirst = field_0_pool.field_0_pStart;
+        Light* pFirst = field_0_pool.field_0_pStart;
         field_0_pool.field_0_pStart = field_0_pool.field_0_pStart->mpNext;
         pFirst->mpNext = 0;
         pFirst->Reset_463F50();
         return pFirst;
     }
 
-    inline void SetFlashing_469070(Light_28* pLight, u8 on_time, u8 off_time, u8 shape)
+    inline void SetFlashing_469070(Light* pLight, u8 on_time, u8 off_time, u8 shape)
     {
         pLight->field_16_flicker_range = shape;
         pLight->field_14_on_time = on_time;
@@ -59,9 +59,9 @@ class Light_1D4CC : public LightBase
         AddToUpdateList_464C60(pLight);
     }
     
-    inline Light_28* Init_469010(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity)
+    inline Light* Init_469010(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity)
     {
-        Light_28* pLight = Alloc_464C40();
+        Light* pLight = Alloc_464C40();
         pLight->field_4_x = xpos;
         pLight->field_8_y = ypos;
         pLight->field_C_z = zpos;
@@ -74,11 +74,11 @@ class Light_1D4CC : public LightBase
         return pLight;
     }
 
-    // Same as Init_469010, but TrafficLight_20::Init_5C1D00 calls the out-of-line copies
+    // Same as Init_469010, but TrafficLight::Init_5C1D00 calls the out-of-line copies
     // Alloc_5C2B70 and LightIntensityRadius::SetRadius_5C5CD0 in 10.5.
-    inline Light_28* InitOutOfLine_469010(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity)
+    inline Light* InitOutOfLine_469010(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity)
     {
-        Light_28* pLight = Alloc_5C2B70();
+        Light* pLight = Alloc_5C2B70();
         pLight->field_4_x = xpos;
         pLight->field_8_y = ypos;
         pLight->field_C_z = zpos;
@@ -91,7 +91,7 @@ class Light_1D4CC : public LightBase
         return pLight;
     }
 
-    inline void Free_47F4B0(Light_28* pLight)
+    inline void Free_47F4B0(Light* pLight)
     {
         pLight->PoolDeallocate();
         pLight->mpNext = field_0_pool.field_0_pStart;
@@ -99,11 +99,11 @@ class Light_1D4CC : public LightBase
     }
 
     // matched https://decomp.me/scratch/cZQwK
-    inline void RemoveFromUpdateListAndFree_47F450(Light_28* pLight)
+    inline void RemoveFromUpdateListAndFree_47F450(Light* pLight)
     {
-        Light_28* pPrevious = NULL;
+        Light* pPrevious = NULL;
 
-        for (Light_28* pCurr = field_0_pool.field_4_pPrev; pCurr; pPrevious = pCurr, pCurr = pCurr->mpNext)
+        for (Light* pCurr = field_0_pool.field_4_pPrev; pCurr; pPrevious = pCurr, pCurr = pCurr->mpNext)
         {
             if (pCurr == pLight)
             {
@@ -123,7 +123,7 @@ class Light_1D4CC : public LightBase
         }
     }
 
-    inline void DeallocLight_47F4F0(Light_28* pLight)
+    inline void DeallocLight_47F4F0(Light* pLight)
     {
         pLight->RemoveFromGrid_4D6DC0();
         if (pLight->field_14_on_time)
@@ -138,9 +138,10 @@ class Light_1D4CC : public LightBase
         }
     }
 
-    EXPORT ~Light_1D4CC();
-    EXPORT Light_28* Alloc_5C2B70();
-    EXPORT Light_28* CreateLight_52B2A0(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity);
+    EXPORT ~LightPool();
+    EXPORT Light* Alloc_5C2B70();
+    EXPORT Light* CreateLight_52B2A0(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity);
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(LightPool, 0x1D4CC);
 
-EXTERN_GLOBAL(Light_1D4CC*, gLight_1D4CC_6F5520);
+EXTERN_GLOBAL(LightPool*, gLight_1D4CC_6F5520);

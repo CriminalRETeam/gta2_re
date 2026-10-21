@@ -6,19 +6,19 @@
 #include <windows.h>
 #include "enums.hpp"
 
-DEFINE_GLOBAL(keybrd_0x204*, gKeybrd_0x204_6F52F4, 0x6F52F4);
+DEFINE_GLOBAL(KeyboardLayout*, gKeybrd_0x204_6F52F4, 0x6F52F4);
 
 char kTwoSpacesStr_620D2C[] = {' ', ' ', 0};
 
 MATCH_FUNC(0x4D5D70)
-keybrd_0x204::keybrd_0x204()
+KeyboardLayout::KeyboardLayout()
 {
     field_200_keyBoardLayout = 0;
     memset(field_0_keys, 0, sizeof(field_0_keys));
 }
 
 MATCH_FUNC(0x4D5D90)
-keybrd_0x204::~keybrd_0x204()
+KeyboardLayout::~KeyboardLayout()
 {
 }
 
@@ -29,7 +29,7 @@ static inline bool is_line_break_or_space(wchar_t letter)
 }
 
 MATCH_FUNC(0x4D5DA0)
-void keybrd_0x204::ReadCfg_4D5DA0(FILE* Stream, wchar_t* pOut)
+void KeyboardLayout::ReadCfg_4D5DA0(FILE* Stream, wchar_t* pOut)
 {
     u8 i = 0;
     for (;;)
@@ -46,7 +46,7 @@ void keybrd_0x204::ReadCfg_4D5DA0(FILE* Stream, wchar_t* pOut)
 
 
 MATCH_FUNC(0x4D5E00)
-void keybrd_0x204::LoadKbCfg_4D5E00()
+void KeyboardLayout::LoadKbCfg_4D5E00()
 {
     field_200_keyBoardLayout = 0;
     field_200_keyBoardLayout = GetLayout_4D6000();
@@ -118,18 +118,18 @@ void keybrd_0x204::LoadKbCfg_4D5E00()
 }
 
 MATCH_FUNC(0x4D5F40)
-wchar_t keybrd_0x204::GetKey_4D5F40(u16 key_idx)
+wchar_t KeyboardLayout::GetKey_4D5F40(u16 key_idx)
 {
     return field_0_keys[key_idx];
 }
 
 
 MATCH_FUNC(0x4D5F50)
-void __stdcall keybrd_0x204::create_4D5F50()
+void __stdcall KeyboardLayout::create_4D5F50()
 {
     if (!gKeybrd_0x204_6F52F4)
     {
-        gKeybrd_0x204_6F52F4 = new keybrd_0x204();
+        gKeybrd_0x204_6F52F4 = new KeyboardLayout();
         if (!gKeybrd_0x204_6F52F4)
         {
             FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\keybrd.cpp", 244);
@@ -139,7 +139,7 @@ void __stdcall keybrd_0x204::create_4D5F50()
 }
 
 MATCH_FUNC(0x4D5FA0)
-void keybrd_0x204::destroy_4D5FA0()
+void KeyboardLayout::destroy_4D5FA0()
 {
     if (gKeybrd_0x204_6F52F4)
     {
@@ -150,28 +150,28 @@ void keybrd_0x204::destroy_4D5FA0()
 
 
 MATCH_FUNC(0x4D5FD0)
-void keybrd_0x204::RecreateIfLayoutChanged_4D5FD0()
+void KeyboardLayout::RecreateIfLayoutChanged_4D5FD0()
 {
     if (gKeybrd_0x204_6F52F4)
     {
         s32 curLayout = gKeybrd_0x204_6F52F4->field_200_keyBoardLayout;
-        if (curLayout == keybrd_0x204::GetLayout_4D6000())
+        if (curLayout == KeyboardLayout::GetLayout_4D6000())
         {
             return;
         }
-        keybrd_0x204::destroy_4D5FA0();
-        keybrd_0x204::create_4D5F50();
+        KeyboardLayout::destroy_4D5FA0();
+        KeyboardLayout::create_4D5F50();
     }
     else
     {
-        keybrd_0x204::create_4D5F50();
+        KeyboardLayout::create_4D5F50();
     }
 }
 
 // __stdcall, not __cdecl: with __cdecl VC6 gives the loads after GetKeyboardLayoutNameA no call-clobber
 // latency, so the KLID byte loads are scheduled before `lea &v2` (see matching_quirks.md)
 MATCH_FUNC(0x4D6000)
-s32 __stdcall keybrd_0x204::GetLayout_4D6000()
+s32 __stdcall KeyboardLayout::GetLayout_4D6000()
 {
     s32 result; // eax
     char_type Buffer[4]; // [esp+0h] [ebp-14h] BYREF

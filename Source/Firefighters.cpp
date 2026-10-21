@@ -12,7 +12,7 @@
 // Forward declarations: the functions below are in address order
 EXTERN_GLOBAL(Fix16, kFpThree_67D384);
 
-DEFINE_GLOBAL(FirefighterPool_54*, gFirefighterPool_54_67D4C0, 0x67D4C0);
+DEFINE_GLOBAL(FirefighterPool*, gFirefighterPool_54_67D4C0, 0x67D4C0);
 DEFINE_GLOBAL_INIT(Fix16, kFpHalf_67D1F0, Fix16(0.5f), 0x67D1F0);
 DEFINE_GLOBAL_INIT(Fix16, kFpZero_67D378, Fix16(0), 0x67D378);
 
@@ -23,11 +23,11 @@ DEFINE_GLOBAL_INIT(Ang16, kAng270_67D2FC, Ang16(1080), 0x67D2FC);
 
 // https://decomp.me/scratch/X8G5z mov 0x4(%esp) vs mov (%eax)
 MATCH_FUNC(0x4a7fc0)
-bool Firefighter_28::sub_4A7FC0()
+bool Firefighter::sub_4A7FC0()
 {
     if (!field_1C_car->field_58_physics)
     {
-        Firefighter_28::deinit_4A81A0();
+        Firefighter::deinit_4A81A0();
         return 0;
     }
 
@@ -35,7 +35,7 @@ bool Firefighter_28::sub_4A7FC0()
     {
         if (++field_24_next_state_timer >= 1000)
         {
-            Firefighter_28::deinit_4A81A0();
+            Firefighter::deinit_4A81A0();
             return 0;
         }
     }
@@ -107,18 +107,18 @@ bool Firefighter_28::sub_4A7FC0()
 
     if (field_8_state == firefighter_state::abort_6)
     {
-        Firefighter_28::deinit_4A81A0();
+        Firefighter::deinit_4A81A0();
     }
     return 1;
 }
 
 MATCH_FUNC(0x4a81a0)
-void Firefighter_28::deinit_4A81A0()
+void Firefighter::deinit_4A81A0()
 {
-    Car_BC* pCar = this->field_1C_car;
+    Car* pCar = this->field_1C_car;
     if (pCar)
     {
-        CarChaseTask_40* pRoute = pCar->field_60_pChaseTask;
+        CarChaseTask* pRoute = pCar->field_60_pChaseTask;
         if (pRoute)
         {
             gCarChaseTaskTable_678E30->FreeEntry_474CC0(pRoute);
@@ -131,7 +131,7 @@ void Firefighter_28::deinit_4A81A0()
         pPed->SetObjective(objectives_enum::no_obj_0);
     }
 
-    Car_BC* pCar2 = this->field_C_target_car;
+    Car* pCar2 = this->field_C_target_car;
     this->field_8_state = firefighter_state::finished_5;
     if (pCar2)
     {
@@ -140,7 +140,7 @@ void Firefighter_28::deinit_4A81A0()
 }
 
 MATCH_FUNC(0x4a81f0)
-void Firefighter_28::Update_4A81F0()
+void Firefighter::Update_4A81F0()
 {
     if (!field_4_bActive)
     {
@@ -158,7 +158,7 @@ void Firefighter_28::Update_4A81F0()
                 {
                     field_1C_car->IncrementCarStats_443D70(5);
                     field_1C_car->SetDriverPedType_421560(ped_type::special_ped_4);
-                    Car_BC* pCar = field_1C_car;
+                    Car* pCar = field_1C_car;
                     if (!pCar->field_5C_AI)
                     {
                         pCar->field_5C_AI = gCarAI_78_Pool_677CF8->Allocate();
@@ -282,13 +282,13 @@ void Firefighter_28::Update_4A81F0()
 }
 
 MATCH_FUNC(0x4a85c0)
-void Firefighter_28::init_4A85C0()
+void Firefighter::init_4A85C0()
 {
     Clear_450C10();
 }
 
 MATCH_FUNC(0x4a85e0)
-void Firefighter_28::Reset_4A85E0()
+void Firefighter::Reset_4A85E0()
 {
     this->field_C_target_car = 0;
     this->field_8_state = firefighter_state::idle_0;
@@ -297,9 +297,9 @@ void Firefighter_28::Reset_4A85E0()
 }
 
 MATCH_FUNC(0x4a85f0)
-void FirefighterPool_54::FireEnginesService_4A85F0()
+void FirefighterPool::FireEnginesService_4A85F0()
 {
-    Firefighter_28* p = field_0_firefighters;
+    Firefighter* p = field_0_firefighters;
     if (!bSkip_fire_engines_67D53A)
     {
         for (u32 i = 0; i < 2; i++)
@@ -314,7 +314,7 @@ void FirefighterPool_54::FireEnginesService_4A85F0()
 }
 
 MATCH_FUNC(0x4a8620)
-Firefighter_28* FirefighterPool_54::DispatchFirefighters_4A8620(Car_BC* pCar, Fix16 xpos, Fix16 ypos, Fix16 zpos)
+Firefighter* FirefighterPool::DispatchFirefighters_4A8620(Car* pCar, Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
     if (bSkip_fire_engines_67D53A)
     {
@@ -341,7 +341,7 @@ Firefighter_28* FirefighterPool_54::DispatchFirefighters_4A8620(Car_BC* pCar, Fi
             }
         }
     }
-    Firefighter_28* pNewFireFighter = FirefighterPool_54::New28_4A8800();
+    Firefighter* pNewFireFighter = FirefighterPool::New28_4A8800();
     if (!pNewFireFighter)
     {
         return NULL;
@@ -362,9 +362,9 @@ Firefighter_28* FirefighterPool_54::DispatchFirefighters_4A8620(Car_BC* pCar, Fi
 DEFINE_GLOBAL_INIT(Fix16, kFpThree_67D384, Fix16(3), 0x67D384);
 
 MATCH_FUNC(0x4a8800)
-Firefighter_28* FirefighterPool_54::New28_4A8800()
+Firefighter* FirefighterPool::New28_4A8800()
 {
-    Firefighter_28* p = field_0_firefighters;
+    Firefighter* p = field_0_firefighters;
     for (s16 i = 0; i < 2; i++)
     {
         if (!p->field_4_bActive)
@@ -377,7 +377,7 @@ Firefighter_28* FirefighterPool_54::New28_4A8800()
 }
 
 MATCH_FUNC(0x4a8820)
-char_type FirefighterPool_54::TryDispatchFirefightersToCar_4A8820(Car_BC* pCar)
+char_type FirefighterPool::TryDispatchFirefightersToCar_4A8820(Car* pCar)
 {
     if (!pCar)
     {
@@ -394,7 +394,7 @@ char_type FirefighterPool_54::TryDispatchFirefightersToCar_4A8820(Car_BC* pCar)
         return 0;
     }
 
-    Firefighter_28* pFoundCar =
+    Firefighter* pFoundCar =
         DispatchFirefighters_4A8620(pCar, pCar->field_50_car_sprite->GetXPos(), pCar->field_50_car_sprite->GetYPos(), pCar->field_50_car_sprite->GetZPos());
 
     if (!pFoundCar)
@@ -406,10 +406,10 @@ char_type FirefighterPool_54::TryDispatchFirefightersToCar_4A8820(Car_BC* pCar)
 }
 
 MATCH_FUNC(0x4A8890)
-char_type FirefighterPool_54::IsFireEngineSentToCar_4A8890(Car_BC* pFireEngine, Car_BC* pTargetCar)
+char_type FirefighterPool::IsFireEngineSentToCar_4A8890(Car* pFireEngine, Car* pTargetCar)
 {
     u8 i = 0;
-    Firefighter_28* p = field_0_firefighters;
+    Firefighter* p = field_0_firefighters;
     while (i < GTA2_COUNTOF(field_0_firefighters))
     {
         if (p && p->field_C_target_car == pTargetCar && p->field_1C_car == pFireEngine)
@@ -423,7 +423,7 @@ char_type FirefighterPool_54::IsFireEngineSentToCar_4A8890(Car_BC* pFireEngine, 
 }
 
 MATCH_FUNC(0x4a88d0)
-void FirefighterPool_54::ResetCount_4A88D0()
+void FirefighterPool::ResetCount_4A88D0()
 {
     field_50_count = 0;
 }

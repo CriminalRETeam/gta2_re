@@ -4,19 +4,21 @@
 #include "multiplayer_game_type.hpp"
 #include <windows.h>
 
-struct FragsByVictim_C
+struct FragsByVictim
 {
     s16 field_0_frags_on_victim[MAX_PLAYERS];
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(FragsByVictim, 0xC);
 
-struct PlayerName_20
+struct PlayerName
 {
     wchar_t field_0_name[16];
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(PlayerName, 0x20);
 
 class Player;
 
-struct GameSession_578
+struct GameSession
 {
     // 9.6f 0x453A80
     inline s32 get_secret_tokens_collected_453A80()
@@ -79,10 +81,10 @@ struct GameSession_578
     char_type field_441_max_players;
     char_type field_442_winner_player_idx;
     s32 field_444_game_time_limit;
-    FragsByVictim_C field_448_frags_by_victim[MAX_PLAYERS];
+    FragsByVictim field_448_frags_by_victim[MAX_PLAYERS];
     s16 field_490_frags_list[MAX_PLAYERS];
     s32 field_49C_points_list[MAX_PLAYERS];
-    PlayerName_20 field_4B4_player_names[MAX_PLAYERS];
+    PlayerName field_4B4_player_names[MAX_PLAYERS];
     s32 field_574_secret_tokens_collected;
 
     // inlined at 45b420 in 9.6f
@@ -175,7 +177,7 @@ struct GameSession_578
 
     EXPORT void SetPlayerName_4C5C30(u16 player_idx, wchar_t* pName);
 
-    EXPORT PlayerName_20* GetPlayerName_4C5C60(u16 player_idx);
+    EXPORT PlayerName* GetPlayerName_4C5C60(u16 player_idx);
 
     EXPORT void ChangePointsForPlayerIdxByAmount_4C5C80(u8 player_idx, s32 amount);
 
@@ -187,8 +189,9 @@ struct GameSession_578
 
     EXPORT s16 GetFragsOnPlayer_4C5D80(u8 player_killer_idx, u8 player_victim_idx);
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(GameSession, 0x578);
 
-EXTERN_GLOBAL(GameSession_578, gGameSession_67E8E0);
+EXTERN_GLOBAL(GameSession, gGameSession_67E8E0);
 
 // 9.6f 0x434B20
 inline bool IsTagGame_434B20()

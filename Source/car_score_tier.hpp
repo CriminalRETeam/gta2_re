@@ -1,6 +1,6 @@
 #pragma once
 
-// Second argument of PlayerScoreTracker_36C::GetCarScoreValue_5925B0: multiplier applied to the car model's base value.
+// Second argument of PlayerScoreTracker::GetCarScoreValue_5925B0: multiplier applied to the car model's base value.
 // Kept in its own header, like car_despawn_status.hpp, so that the enum does not land in a header many TUs share.
 namespace car_score_tier
 {

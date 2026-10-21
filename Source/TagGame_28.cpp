@@ -11,12 +11,12 @@
 #include "text_0x14.hpp"
 #include <string>
 
-DEFINE_GLOBAL(TagGame_28, gTagGame_6F8450, 0x6F8450);
+DEFINE_GLOBAL(TagGame, gTagGame_6F8450, 0x6F8450);
 DEFINE_GLOBAL(Fix16_Point, stru_6F8720, 0x6F8720);
 DEFINE_GLOBAL(s32, gNetTimeLimitEnabled_6F58A4, 0x6F58A4);
 
 MATCH_FUNC(0x516560)
-void TagGame_28::Init_516560() // For some reason, it's a function instead of a proper ctor
+void TagGame::Init_516560() // For some reason, it's a function instead of a proper ctor
 {
     field_0_fugitive = NULL;
     field_1C_tick_timer = 0;
@@ -25,7 +25,7 @@ void TagGame_28::Init_516560() // For some reason, it's a function instead of a 
 }
 
 MATCH_FUNC(0x516590)
-void TagGame_28::SetNewFugitive_516590(Player* pNewFugitive)
+void TagGame::SetNewFugitive_516590(Player* pNewFugitive)
 {
     if (pNewFugitive == NULL)
     {
@@ -46,7 +46,7 @@ void TagGame_28::SetNewFugitive_516590(Player* pNewFugitive)
 
     if (!field_0_fugitive->IsUser_41DC70())
     {
-        Hud_Arrow_7C* pArrow = gHud_2B00_706620->field_1F18_arrows.AllocArrow_5D1050();
+        Hud_Arrow* pArrow = gHud_2B00_706620->field_1F18_arrows.AllocArrow_5D1050();
         pArrow->field_18_targets.field_18_primary_target.SetTargetPlayer_4820A0(field_0_fugitive);
 
         if (field_0_fugitive->field_2C4_player_ped != NULL)
@@ -61,7 +61,7 @@ void TagGame_28::SetNewFugitive_516590(Player* pNewFugitive)
 }
 
 MATCH_FUNC(0x516660)
-void TagGame_28::ExecuteGamemodeTick_516660()
+void TagGame::ExecuteGamemodeTick_516660()
 {
     switch (gGameSession_67E8E0.GetMultiplayerGamemode_4C5BC0())
     {
@@ -98,7 +98,7 @@ void TagGame_28::ExecuteGamemodeTick_516660()
 }
 
 MATCH_FUNC(0x516740)
-void TagGame_28::UpdateFugitive_516740(Player* pFormerPlayerFugitive, Player* pPlayer_killer)
+void TagGame::UpdateFugitive_516740(Player* pFormerPlayerFugitive, Player* pPlayer_killer)
 {
     Fix16 threshold_distance(65535); // 65535.0 (raw 0x3FFFC000): start value of the nearest player search
     if (gGameSession_67E8E0.GetMultiplayerGamemode_4C5BC0() == TAG_GAME_3
@@ -106,7 +106,7 @@ void TagGame_28::UpdateFugitive_516740(Player* pFormerPlayerFugitive, Player* pP
     {
         if (pPlayer_killer != NULL)
         {
-            TagGame_28::SetNewFugitive_516590(pPlayer_killer); //  Make him "IT"
+            TagGame::SetNewFugitive_516590(pPlayer_killer); //  Make him "IT"
         }
         else
         {
@@ -137,7 +137,7 @@ void TagGame_28::UpdateFugitive_516740(Player* pFormerPlayerFugitive, Player* pP
             */
             if (pChosenPlayer != NULL)
             {
-                TagGame_28::SetNewFugitive_516590(pChosenPlayer); //  Make him "IT"
+                TagGame::SetNewFugitive_516590(pChosenPlayer); //  Make him "IT"
             }
         }
     }

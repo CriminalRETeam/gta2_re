@@ -22,7 +22,7 @@ enum ReplayState
 #pragma pack(push)
 #pragma pack(1)
 // DirectInput keyboard and game pads (the object has no data of its own)
-class InputDevices_1
+class InputDevices
 {
   public:
     // TODO: Probably this call
@@ -43,18 +43,20 @@ class InputDevices_1
 
     u8 field_0;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(InputDevices, 0x1);
 #pragma pack(pop)
 
 // One recorded input change: the rng index it happened at, the input bits and the random number
-struct InputRecord_C
+struct InputRecord
 {
     s32 field_0_rng_idx;
     s32 field_4_inputs;
     s32 field_8_rng_rnd;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(InputRecord, 0xC);
 
 // The text header at the start of a replay file
-struct ReplayHeader_10C
+struct ReplayHeader
 {
     char_type field_0_version[8];
     char_type field_8_date[30];
@@ -65,6 +67,7 @@ struct ReplayHeader_10C
     char_type field_BC_debug_str[40];
     char_type field_E4_flags[40];
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(ReplayHeader, 0x10C);
 
 // Reads the inputs (get_input_bits_4CEAC0) and records / plays back replays
 class InputRecorder_67F8B0
@@ -124,7 +127,7 @@ class InputRecorder_67F8B0
     s32 field_4_input_bits;
     s32 field_8_input_masks[12];
     s32 field_38_replay_state;
-    InputRecord_C field_3C_rec_buff[k_max_records];
+    InputRecord field_3C_rec_buff[k_max_records];
     s32 field_7533C_used_recs_count;
     u32 field_75340_rec_buf_idx;
     // front end input on/off ??
@@ -134,4 +137,4 @@ class InputRecorder_67F8B0
 
 EXTERN_GLOBAL(InputRecorder_67F8B0, gInputRecorder_67F8B0);
 
-EXTERN_GLOBAL(InputDevices_1*, gInputDevices_67B990);
+EXTERN_GLOBAL(InputDevices*, gInputDevices_67B990);

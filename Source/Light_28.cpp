@@ -4,10 +4,10 @@
 #include "gbh_graphics.hpp"
 #include <stdlib.h>
 
-DEFINE_GLOBAL(Light_28**, gLightGrid_6F5400, 0x6F5400) ;
+DEFINE_GLOBAL(Light**, gLightGrid_6F5400, 0x6F5400) ;
 
 MATCH_FUNC(0x4D6D20)
-Light_28::Light_28()
+Light::Light()
 {
     field_0_intensity_radius.flag = 0x2A2A2A2A;
     field_4_x = 0;
@@ -25,7 +25,7 @@ Light_28::Light_28()
 }
 
 MATCH_FUNC(0x4D6D60)
-Light_28::~Light_28()
+Light::~Light()
 {
     mpNext = 0;
     field_24_pGridPrev = 0;
@@ -33,10 +33,10 @@ Light_28::~Light_28()
 }
 
 MATCH_FUNC(0x4D6D70)
-void Light_28::AddToGrid_4D6D70()
+void Light::AddToGrid_4D6D70()
 {
     u32 cell_idx = (field_4_x.ToInt() >> 2) + ((field_8_y.ToInt() >> 2) * 64);
-    Light_28* pFirst = gLightGrid_6F5400[cell_idx];
+    Light* pFirst = gLightGrid_6F5400[cell_idx];
     
     if (!pFirst)
     {
@@ -54,9 +54,9 @@ void Light_28::AddToGrid_4D6D70()
 }
 
 MATCH_FUNC(0x4D6DC0)
-Light_28* Light_28::RemoveFromGrid_4D6DC0()
+Light* Light::RemoveFromGrid_4D6DC0()
 {
-    Light_28* pPrev = field_24_pGridPrev;
+    Light* pPrev = field_24_pGridPrev;
     if (pPrev)
     {
         pPrev->field_20_pGridNext = field_20_pGridNext;
@@ -66,7 +66,7 @@ Light_28* Light_28::RemoveFromGrid_4D6DC0()
         *(&gLightGrid_6F5400[64 * (field_8_y.ToInt() >> 2)] + (field_4_x.ToInt() >> 2)) = field_20_pGridNext;
     }
 
-    Light_28* pNext = field_20_pGridNext;
+    Light* pNext = field_20_pGridNext;
     if (pNext)
     {
         pNext->field_24_pGridPrev = field_24_pGridPrev;
@@ -77,7 +77,7 @@ Light_28* Light_28::RemoveFromGrid_4D6DC0()
 MATCH_FUNC(0x4D6E00)
 void __stdcall LightGrid::AllocGrid_4D6E00()
 {
-    gLightGrid_6F5400 = (Light_28**)crt::malloc(0x4000u);
+    gLightGrid_6F5400 = (Light**)crt::malloc(0x4000u);
     for (s32 i = 0; i < 4096; i++)
     {
         gLightGrid_6F5400[i] = 0;
@@ -125,7 +125,7 @@ void __stdcall LightGrid::SubmitLightsInArea_4D6E50(s32 min_x, s32 min_y, s32 ma
     {
         for (s32 xpos = min_x; xpos <= max_x; xpos++)
         {
-            Light_28* pLight = gLightGrid_6F5400[(ypos * 64) + xpos];
+            Light* pLight = gLightGrid_6F5400[(ypos * 64) + xpos];
             while (pLight)
             {
                 SLight pSLight;

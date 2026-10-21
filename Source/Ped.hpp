@@ -17,15 +17,15 @@
 class Player;
 class gmp_map_zone;
 class PedGroup;
-class Weapon_30;
-class Gang_144;
+class Weapon;
+class Gang;
 class Sprite;
-class Char_8;
-class Char_B4;
-class PatrolRoute_96;
-class Object_2C;
-class Car_BC;
-class TrainStation_34;
+class PedListNode;
+class Char;
+class PatrolRoute;
+class Object;
+class Car;
+class TrainStation;
 
 class Ped
 {
@@ -61,7 +61,7 @@ class Ped
     }
 
     // 9.6f 0x4AF860 (0x4AF880 is an identical copy)
-    inline void SetTrainStation_4AF860(TrainStation_34* pStation)
+    inline void SetTrainStation_4AF860(TrainStation* pStation)
     {
         if (pStation != field_13C_pTrainStation)
         {
@@ -70,9 +70,9 @@ class Ped
     }
 
     // 9.6f 0x4117D0 (0x4117F0 is an identical copy)
-    inline TrainStation_34* PopTrainStation_4117D0()
+    inline TrainStation* PopTrainStation_4117D0()
     {
-        TrainStation_34* pStation = field_13C_pTrainStation;
+        TrainStation* pStation = field_13C_pTrainStation;
         field_13C_pTrainStation = 0;
         return pStation;
     }
@@ -96,7 +96,7 @@ class Ped
     }
 
     // 9.6f 0x403B00
-    inline void set_target_to_enter_403B00(Car_BC* v)
+    inline void set_target_to_enter_403B00(Car* v)
     {
         field_154_target_to_enter = v;
     }
@@ -150,7 +150,7 @@ class Ped
     }
 
     // 9.6f 0x4A5020
-    inline Char_B4* get_game_object_4A5020()
+    inline Char* get_game_object_4A5020()
     {
         return field_168_game_object;
     }
@@ -165,10 +165,10 @@ class Ped
     EXPORT void SetPlayer_45B560(Player* pPlayer, char_type bIsAuxPed);
     EXPORT bool IsEmergencyOccupation_45B590();
     EXPORT void CopyStatsFromPed_45B5B0(Ped* pSrc);
-    EXPORT Car_BC* GetCarBeingEnteredOrExited_45BBF0();
+    EXPORT Car* GetCarBeingEnteredOrExited_45BBF0();
     EXPORT void TeleportToCoord_45BC10(Fix16 xpos, Fix16 ypos);
     EXPORT void ManageShocking_45BC70();
-    EXPORT bool CloseDoorIfCarApproaching_45BD20(Car_BC* pCar);
+    EXPORT bool CloseDoorIfCarApproaching_45BD20(Car* pCar);
     EXPORT s32 GetBulletSpriteOffset_45BE30();
     EXPORT void SetOnFire();
     EXPORT void PutOutFire();
@@ -190,10 +190,10 @@ class Ped
     EXPORT void ChangeNextPedState2_45C540(s32 new_state);
     EXPORT void RestorePreviousPedState_45C5A0();
     EXPORT void CancelEnterCarObjective_45C5C0();
-    EXPORT void SpawnDriverRunAway_45C650(Car_BC* pCar, Ped* pPed);
-    EXPORT void SpawnPedInCar_45C730(Car_BC* pCar);
-    EXPORT void EnterCarByBackDoor_45C7A0(Car_BC* pCar);
-    EXPORT void EnterCarAsPassenger_45C7F0(Car_BC* pCar);
+    EXPORT void SpawnDriverRunAway_45C650(Car* pCar, Ped* pPed);
+    EXPORT void SpawnPedInCar_45C730(Car* pCar);
+    EXPORT void EnterCarByBackDoor_45C7A0(Car* pCar);
+    EXPORT void EnterCarAsPassenger_45C7F0(Car* pCar);
     EXPORT char_type AllocCharB4_45C830(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT Ang16 GetTurnSpeed_45C900();
     EXPORT Fix16 GetPedVelocity_45C920();
@@ -202,10 +202,10 @@ class Ped
     EXPORT Ang16 ComputeAimAngle_45C9D0();
     EXPORT void HandleClosePedInteraction_45CAA0();
     EXPORT void TakeDamage(s16 damage);
-    EXPORT void HandlePedCrossingTrigger_45CF20(Object_2C* pObj);
-    EXPORT char_type HandlePedHitByObject_45D000(Object_2C* pObj);
+    EXPORT void HandlePedCrossingTrigger_45CF20(Object* pObj);
+    EXPORT char_type HandlePedHitByObject_45D000(Object* pObj);
     EXPORT char_type AddWeaponWithAmmo_45DD30(s32 weapon_kind, char_type ammo);
-    EXPORT char_type HandlePickupCollision_45DE80(Object_2C* pPickUp);
+    EXPORT char_type HandlePickupCollision_45DE80(Object* pPickUp);
     EXPORT void SpawnWeaponOnDeath_45E080();
     EXPORT void StartCrossingRoad_45E4A0();
     EXPORT void DeallocateWithGroupCleanup_45EA00();
@@ -307,7 +307,7 @@ class Ped
     EXPORT void PullDriverOutOfCarStateMachine_46B2F0();
     EXPORT void MeleeAttackStateMachine_46B670();
     EXPORT void WaitOnFoot_46BD30();
-    EXPORT char_type IsOtherPedEnteringAsDriver_46BD50(Car_BC* pCar);
+    EXPORT char_type IsOtherPedEnteringAsDriver_46BD50(Car* pCar);
     EXPORT void EnterCarStateMachine_46BDC0();
     EXPORT void ExitCarStateMachine_46C250();
     EXPORT void WalkToTargetPoint_46C770();
@@ -340,18 +340,18 @@ class Ped
     EXPORT void IncreaseWantedLevelFromDebugKeys_46EFD0();
     EXPORT void set_wanted_star_count_46F070(u8 star_count);
     EXPORT bool WantedStarCountGreaterThan_46F100(u8 star_count);
-    EXPORT Weapon_30* GetWeaponFromPed_46F110();
-    EXPORT void ApplyAimJitter_46F1E0(Weapon_30* pWeapon);
+    EXPORT Weapon* GetWeaponFromPed_46F110();
+    EXPORT void ApplyAimJitter_46F1E0(Weapon* pWeapon);
     EXPORT void ManageWeapon_46F390();
-    EXPORT Weapon_30* ChooseAttackWeapon_46F490();
+    EXPORT Weapon* ChooseAttackWeapon_46F490();
     EXPORT void ForceWeapon_46F600(s32 weapon_kind);
     EXPORT void GiveWeapon_46F650(s32 weapon_kind);
     EXPORT void ApplyGangRespectForKill_46F680(Ped* pPed);
     EXPORT void UpdateStatsForKiller_46F720();
     EXPORT void Kill_46F9D0();
     EXPORT void AddThreateningPedToList_46FC70();
-    EXPORT void HandleShootingAtCar_46FC90(Car_BC* pCar, s32 model);
-    EXPORT void ProcessWeaponHitResponse_46FE20(Object_2C* pObj);
+    EXPORT void HandleShootingAtCar_46FC90(Car* pCar, s32 model);
+    EXPORT void ProcessWeaponHitResponse_46FE20(Object* pObj);
     EXPORT void NotifyWeaponHit_46FF00(Fix16 xpos, Fix16 ypos, s32 model);
     EXPORT void HandleWeaponFireEnd_46FFF0(s32 model);
     EXPORT void AimRoofGun_470050();
@@ -457,13 +457,13 @@ class Ped
     }
 
     // 9.6f 0x492CB0
-    void SetStolenCar_492CB0(Car_BC* pCar)
+    void SetStolenCar_492CB0(Car* pCar)
     {
         field_140_stolen_car = pCar;
     }
 
     // 9.6f 0x49EF40
-    inline Car_BC* GetStolenCar_49EF40()
+    inline Car* GetStolenCar_49EF40()
     {
         return field_140_stolen_car;
     }
@@ -492,12 +492,12 @@ class Ped
     }
 
     // 9.6f 0x403AA0
-    void SetTargetObjectiveCar(Car_BC* ptr)
+    void SetTargetObjectiveCar(Car* ptr)
     {
         field_150_target_objective_car = ptr;
     }
 
-    Car_BC* get_target_objective_car_403AB0()
+    Car* get_target_objective_car_403AB0()
     {
         return field_150_target_objective_car;
     }
@@ -548,7 +548,7 @@ class Ped
         return field_248_enter_car_as_passenger != 1;
     }
 
-    inline Car_BC* get_car_416B60()
+    inline Car* get_car_416B60()
     {
         return field_16C_car;
     }
@@ -667,11 +667,11 @@ class Ped
     // TODO: to use this inline we need to fix a circular dependency issue
     inline s32 get_car_model();
 
-    // 9.6f 0x433C10: a thin wrapper around Char_B4::SetRemap. The remap is taken by const reference:
-    // by value, VC6 loads the argument before the Char_B4 and 9 callers stop matching.
+    // 9.6f 0x433C10: a thin wrapper around Char::SetRemap. The remap is taken by const reference:
+    // by value, VC6 loads the argument before the Char and 9 callers stop matching.
     inline void SetRemap_433C10(const u8& remap)
     {
-        Char_B4* p_B4 = field_168_game_object; // local necessary to match Ped::SetupFollower_46DF70
+        Char* p_B4 = field_168_game_object; // local necessary to match Ped::SetupFollower_46DF70
         p_B4->SetRemap_Inline(remap);
     }
 
@@ -783,7 +783,7 @@ class Ped
         return field_258_objective;
     }
 
-    inline Car_BC* get_target_to_enter_403B10()
+    inline Car* get_target_to_enter_403B10()
     {
         return field_154_target_to_enter;
     }
@@ -840,7 +840,7 @@ class Ped
         ++field_262_attackers_count;
     }
 
-    PatrolPoint_3 field_0_patrol_points[100];
+    PatrolPoint field_0_patrol_points[100];
     Ang16 field_12C_facing_angle;
     Ang16 field_12E_aim_angle;
     Ang16 field_130_target_facing_angle;
@@ -848,33 +848,33 @@ class Ped
     Ang16 field_134_rotation;
     s16 field_136_unused;
     s32 field_138_collided_char_b4;
-    TrainStation_34* field_13C_pTrainStation;
-    Car_BC* field_140_stolen_car;
+    TrainStation* field_13C_pTrainStation;
+    Car* field_140_stolen_car;
     Ped* field_144_attacker;
     Ped* field_148_objective_target_ped;
     Ped* field_14C_internal_target_ped;
-    Car_BC* field_150_target_objective_car;
-    Car_BC* field_154_target_to_enter;
-    Car_BC* field_158_escape_car;
+    Car* field_150_target_objective_car;
+    Car* field_154_target_to_enter;
+    Car* field_158_escape_car;
     Player* field_15C_player;
     Ped* mpNext;
     PedGroup* field_164_ped_group;
-    Char_B4* field_168_game_object;
-    Car_BC* field_16C_car;
-    Weapon_30* field_170_selected_weapon;
-    Weapon_30* field_174_pWeapon;
-    Weapon_30* field_178_car_weapon;
-    Gang_144* field_17C_pGang;
+    Char* field_168_game_object;
+    Car* field_16C_car;
+    Weapon* field_170_selected_weapon;
+    Weapon* field_174_pWeapon;
+    Weapon* field_178_car_weapon;
+    Gang* field_17C_pGang;
     Ped* field_180_car_thief;
-    Object_2C* field_184_pObj2C;
+    Object* field_184_pObj2C;
     Ped* field_188_last_char_punched;
-    PatrolPoint_3* field_18C_current_path_point;
-    PatrolRoute_96* field_190_patrol_route;
-    PatrolPoint_3* field_194_current_patrol_point;
+    PatrolPoint* field_18C_current_path_point;
+    PatrolRoute* field_190_patrol_route;
+    PatrolPoint* field_194_current_patrol_point;
     Ped* field_198_hit_target_ped; // ped last hit by this ped's weapon / electrobaton
-    Gang_144* field_19C_dummy_gang; // gang of a dummy ped
-    Object_2C* field_1A0_objective_target_object;
-    Object_2C* field_1A4_internal_target_object;
+    Gang* field_19C_dummy_gang; // gang of a dummy ped
+    Object* field_1A0_objective_target_object;
+    Object* field_1A4_internal_target_object;
     Ped* field_1A8_ped_killer;
     Fix16_Vec field_1AC_cam;
     Fix16 field_1B8_target_x;
@@ -957,7 +957,7 @@ class Ped
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Ped, 0x294)
 
-EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(u8 animPhase, Car_BC* pCar, u8 doorId, Fix16& outX, Fix16& outY, Ang16& outAng);
+EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(u8 animPhase, Car* pCar, u8 doorId, Fix16& outX, Fix16& outY, Ang16& outAng);
 
 EXTERN_GLOBAL(s32, gPedId_61A89C);
 

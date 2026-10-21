@@ -10,8 +10,8 @@
 #include "map_0x370.hpp"
 
 DEFINE_GLOBAL(s32, dword_67BBE0, 0x67BBE0);
-DEFINE_GLOBAL_ARRAY(DoorAnimInfo_A, gDoorAnimInfo_67BB38, 5, 0x67BB38);
-DEFINE_GLOBAL(Door_4D4*, gDoor_4D4_67BD2C, 0x67BD2C);
+DEFINE_GLOBAL_ARRAY(DoorAnimInfo, gDoorAnimInfo_67BB38, 5, 0x67BB38);
+DEFINE_GLOBAL(DoorPool*, gDoor_4D4_67BD2C, 0x67BD2C);
 DEFINE_GLOBAL_INIT(Fix16, kFpHalf_67BA20, Fix16(0x2000, 0), 0x67BA20);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne_67BBE4, Fix16(0x4000, 0), 0x67BBE4);
 DEFINE_GLOBAL_INIT(Fix16, kFpTwo_67BBE8, Fix16(0x8000, 0), 0x67BBE8);
@@ -20,7 +20,7 @@ DEFINE_GLOBAL_INIT(Ang16, kAng270_67BB2C, Ang16(0x438), 0x67BB2C);
 DEFINE_GLOBAL(Ang16, DAT_0067BD18, 0x67BD18);
 
 MATCH_FUNC(0x49c640)
-Door_38::Door_38()
+Door::Door()
 {
     field_0_primary_door_data = 0;
     field_4_secondary_door_data = 0;
@@ -44,7 +44,7 @@ Door_38::Door_38()
 }
 
 MATCH_FUNC(0x49c690)
-Door_38::~Door_38()
+Door::~Door()
 {
     field_0_primary_door_data = 0;
     field_4_secondary_door_data = 0;
@@ -53,7 +53,7 @@ Door_38::~Door_38()
 }
 
 MATCH_FUNC(0x49c6a0)
-bool Door_38::IsSpriteClearOfDoorCollision_49C6A0(Sprite* pSprite)
+bool Door::IsSpriteClearOfDoorCollision_49C6A0(Sprite* pSprite)
 {
     if (pSprite)
     {
@@ -63,7 +63,7 @@ bool Door_38::IsSpriteClearOfDoorCollision_49C6A0(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x49c6d0)
-bool Door_38::CanOpen_49C6D0(Car_BC* pCar)
+bool Door::CanOpen_49C6D0(Car* pCar)
 {
     bool ret = false;
     switch (field_20_open_type)
@@ -130,7 +130,7 @@ bool Door_38::CanOpen_49C6D0(Car_BC* pCar)
 }
 
 MATCH_FUNC(0x49c7f0)
-bool Door_38::CanOpenForPed_49C7F0(Ped* pPed)
+bool Door::CanOpenForPed_49C7F0(Ped* pPed)
 {
     bool ret = false;
     switch (field_20_open_type)
@@ -159,9 +159,9 @@ bool Door_38::CanOpenForPed_49C7F0(Ped* pPed)
 }
 
 MATCH_FUNC(0x49c840)
-void Door_38::Open_49C840()
+void Door::Open_49C840()
 {
-    DoorData_10* this_00 = this->field_0_primary_door_data;
+    DoorData* this_00 = this->field_0_primary_door_data;
     if (this_00 != NULL)
     {
         if (this_00->field_0_state != 2)
@@ -178,7 +178,7 @@ void Door_38::Open_49C840()
 }
 
 MATCH_FUNC(0x49c870)
-void Door_38::TryOpenForCar_49C870(Car_BC* pCar)
+void Door::TryOpenForCar_49C870(Car* pCar)
 {
     if (field_29_bAuto)
     {
@@ -193,7 +193,7 @@ void Door_38::TryOpenForCar_49C870(Car_BC* pCar)
 }
 
 MATCH_FUNC(0x49c8a0)
-void Door_38::TryOpenForPed_49C8A0(Ped* pPed)
+void Door::TryOpenForPed_49C8A0(Ped* pPed)
 {
     if (field_29_bAuto)
     {
@@ -208,7 +208,7 @@ void Door_38::TryOpenForPed_49C8A0(Ped* pPed)
 }
 
 MATCH_FUNC(0x49c8d0)
-void Door_38::InitSingleNoCheck_49C8D0(u8 door_group, u8 gr_id, u8 x, u8 y, u8 z, s32 facing)
+void Door::InitSingleNoCheck_49C8D0(u8 door_group, u8 gr_id, u8 x, u8 y, u8 z, s32 facing)
 {
     Fix16 trigger_x;
     Fix16 trigger_y;
@@ -269,7 +269,7 @@ void Door_38::InitSingleNoCheck_49C8D0(u8 door_group, u8 gr_id, u8 x, u8 y, u8 z
 }
 
 MATCH_FUNC(0x49ca50)
-void Door_38::AddDoorData_49CA50(u8 gr_id, char_type x, char_type y, char_type z, s32 face)
+void Door::AddDoorData_49CA50(u8 gr_id, char_type x, char_type y, char_type z, s32 face)
 {
     if (!field_0_primary_door_data)
     {
@@ -284,7 +284,7 @@ void Door_38::AddDoorData_49CA50(u8 gr_id, char_type x, char_type y, char_type z
 }
 
 MATCH_FUNC(0x49cac0)
-void Door_38::InitSingle_49CAC0(DoorData_10* pDoorData, char_type bFlip, u8 obj_id, Fix16 trigger_x, Fix16 trigger_y, Fix16 trigger_z, Fix16 trigger_w, Fix16 trigger_h)
+void Door::InitSingle_49CAC0(DoorData* pDoorData, char_type bFlip, u8 obj_id, Fix16 trigger_x, Fix16 trigger_y, Fix16 trigger_z, Fix16 trigger_w, Fix16 trigger_h)
 {
     Fix16 z(pDoorData->field_6_z);
     Fix16 x = Fix16(pDoorData->field_4_x) + kFpHalf_67BA20;
@@ -332,7 +332,7 @@ void Door_38::InitSingle_49CAC0(DoorData_10* pDoorData, char_type bFlip, u8 obj_
 }
 
 MATCH_FUNC(0x49cc00)
-void Door_38::InitDouble_49CC00(DoorData_10* pDoorData, char_type bFlip, u8 obj_id, Fix16 trigger_x, Fix16 trigger_y, Fix16 trigger_z, Fix16 trigger_w, Fix16 trigger_h)
+void Door::InitDouble_49CC00(DoorData* pDoorData, char_type bFlip, u8 obj_id, Fix16 trigger_x, Fix16 trigger_y, Fix16 trigger_z, Fix16 trigger_w, Fix16 trigger_h)
 {
     Ang16 door_angle;
     Fix16 z(pDoorData->field_6_z);
@@ -390,7 +390,7 @@ void Door_38::InitDouble_49CC00(DoorData_10* pDoorData, char_type bFlip, u8 obj_
 }
 
 MATCH_FUNC(0x49cd90)
-void Door_38::UpdateAutoClose_49CD90()
+void Door::UpdateAutoClose_49CD90()
 {
     if (field_29_bAuto != 0)
     {
@@ -433,7 +433,7 @@ void Door_38::UpdateAutoClose_49CD90()
 }
 
 MATCH_FUNC(0x49ce90)
-char_type Door_38::Service_49CE90()
+char_type Door::Service_49CE90()
 {
     if (field_2D_play_open_sound)
     {
@@ -450,7 +450,7 @@ char_type Door_38::Service_49CE90()
 }
 
 MATCH_FUNC(0x49CEE0)
-void Door_38::get_door_xyz_face_49CEE0(u8* pX, u8* pY, u8* pZ, u32* pFace)
+void Door::get_door_xyz_face_49CEE0(u8* pX, u8* pY, u8* pZ, u32* pFace)
 {
     *pX = field_0_primary_door_data->field_4_x;
     *pY = field_0_primary_door_data->field_5_y;

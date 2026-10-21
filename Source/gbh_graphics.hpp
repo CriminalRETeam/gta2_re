@@ -4,7 +4,7 @@
 // DmaVideo.hpp (GTA2Hax) includes <set> and <vector> for two members of its Renderer class, which no
 // game code uses. Through them every TU that includes sprite.hpp got <new> and its throw() operator delete,
 // and with it VC6 drops the EH frame of destructors that delete through an inline destructor
-// (Door_4D4::~Door_4D4). The original TUs had no STL there, so unless a TU already has <set>/<vector>, their
+// (DoorPool::~DoorPool). The original TUs had no STL there, so unless a TU already has <set>/<vector>, their
 // include guards are set and the two members get placeholder types.
 #if !defined(_SET_) && !defined(_VECTOR_)
 #define _SET_

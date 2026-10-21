@@ -5,7 +5,7 @@
 #include <wchar.h>
 
 // TODO: Not sure if this type actually exists yet
-class Mike_78
+class ProfileSamples
 {
   public:
     s32 field_0_samples[30];
@@ -18,10 +18,11 @@ class Mike_78
         }
     }
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(ProfileSamples, 0x78);
 
-struct Mike_80
+struct ProfileAverage
 {
-    Mike_80()
+    ProfileAverage()
     {
         field_7C_sum = 0;
         field_78_sample_idx = 0;
@@ -44,14 +45,15 @@ struct Mike_80
         }
     }
 
-    Mike_78 field_0_samples;
+    ProfileSamples field_0_samples;
     s32 field_78_sample_idx;
     s32 field_7C_sum;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(ProfileAverage, 0x80);
 
-struct Mike_8
+struct ProfileStopwatch
 {
-    Mike_8()
+    ProfileStopwatch()
     {
         init();
     }
@@ -72,11 +74,12 @@ struct Mike_8
     int field_0_start_time;
     int field_4_end_time;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(ProfileStopwatch, 0x8);
 
-class Mike_A80
+class FrameProfiler
 {
   public:
-    Mike_A80()
+    FrameProfiler()
     {
         Init_4FF1B0();
     }
@@ -103,17 +106,17 @@ class Mike_A80
         sDrawFlatRect_4FF1C0(left, 478.0f - (value * 4), right, 478.0f, colour);
     }
 
-    Mike_8 m81;
-    Mike_8 m82;
-    Mike_8 m83;
-    Mike_8 m84;
-    Mike_8 m85;
+    ProfileStopwatch m81;
+    ProfileStopwatch m82;
+    ProfileStopwatch m83;
+    ProfileStopwatch m84;
+    ProfileStopwatch m85;
 
-    Mike_80 field_28_m80_1;
-    Mike_80 field_A8_m80_2;
-    Mike_80 field_128_m80_3;
-    Mike_80 field_1A8_m80_4;
-    Mike_80 field_228_m80_5;
+    ProfileAverage field_28_m80_1;
+    ProfileAverage field_A8_m80_2;
+    ProfileAverage field_128_m80_3;
+    ProfileAverage field_1A8_m80_4;
+    ProfileAverage field_228_m80_5;
 
     s32 field_2A8_ary[100];
     s32 field_438_ary[100];
@@ -123,5 +126,6 @@ class Mike_A80
     s32 field_A78_ary_idx;
     s32 field_A7C_count;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(FrameProfiler, 0xA80);
 
-EXTERN_GLOBAL(Mike_A80*, gMike_A80_6F7328);
+EXTERN_GLOBAL(FrameProfiler*, gMike_A80_6F7328);

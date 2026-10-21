@@ -8,7 +8,7 @@ class Ped;
 // Entry of the search grid and of the open node list (the fields mean different things in each, see the cpp)
 #pragma pack(push)
 #pragma pack(1)
-class PathNode_8
+class PathNode
 {
   public:
     char_type field_0_idx1;
@@ -19,14 +19,15 @@ class PathNode_8
     char_type field_5_unused;
     s16 field_6_cost;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(PathNode, 0x8);
 #pragma pack(pop)
 
 // Local path search for peds. Searches a 34x33 window of map tiles around the start (field_40_grid) with a best-first
 // search over field_2350_nodes, and is spread over several frames (field_2E_iteration_budget).
-class PathFinder_2FD4
+class PathFinder
 {
   public:
-    PathFinder_2FD4()
+    PathFinder()
     {
         Init_5545E0();
     }
@@ -36,7 +37,7 @@ class PathFinder_2FD4
     EXPORT void ClearGrid_5545C0();
     EXPORT void Init_5545E0();
 
-    ~PathFinder_2FD4()
+    ~PathFinder()
     {
         // TODO: Should this be empty?
     }
@@ -60,7 +61,7 @@ class PathFinder_2FD4
 
     s32 field_0_ped_id;
     char_type field_4_bFindTileMode; // 1: FindNearbyTileMatchingSlopeType, 0: ComputePath
-    PathNode_8 * field_8_pNode;
+    PathNode * field_8_pNode;
     u16 field_C_node_count;
     u8 field_E_xStart;
     u8 field_F_yStart;
@@ -95,9 +96,9 @@ class PathFinder_2FD4
     s16 field_36_unused;
     char_type field_38_bComputePathInProgress;
     s16 field_3A_unused;
-    Ped_List_4 field_3C_ped_list;
-    PathNode_8 field_40_grid[1122];
-    PathNode_8 field_2350_nodes[398];
+    Ped_List field_3C_ped_list;
+    PathNode field_40_grid[1122];
+    PathNode field_2350_nodes[398];
     s32 field_2FC0_unused;
     s32 field_2FC4_unused;
     s32 field_2FC8_unused;
@@ -105,5 +106,6 @@ class PathFinder_2FD4
     char_type field_2FD0_bTimedOut;
     u8 field_2FD1_time_out_counter;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(PathFinder, 0x2FD4);
 
-EXTERN_GLOBAL(PathFinder_2FD4*, gPathFinder_6FDEF0);
+EXTERN_GLOBAL(PathFinder*, gPathFinder_6FDEF0);

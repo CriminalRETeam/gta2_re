@@ -103,7 +103,7 @@ void test_registry()
 
 void test_GameSession_578()
 {
-    GameSession_578 c;
+    GameSession c;
     c.SetPlySlotIdx_4C5920(0);
 }
 
@@ -115,7 +115,7 @@ void test_winmain()
 
 void test_text_0x14()
 {
-    text_0x14 t;
+    TextTable t;
 }
 
 void test_gbh_graphics()
@@ -125,13 +125,13 @@ void test_gbh_graphics()
 
 void test_ProfilerTimer_C()
 {
-    ProfilerTimer_C t;
+    ProfilerTimer t;
     t.AccumulateElapsed_5BEBF0();
 }
 
 void test_FpsCounter_54()
 {
-    FpsCounter_54 t;
+    FpsCounter t;
     t.UpdateFpsCounters_5BECF0(0, 0);
 }
 
@@ -149,7 +149,7 @@ void test_Map_0x370()
 
 void test_ScriptManager_C1EA8()
 {
-    ScriptManager_C1EA8 t;
+    ScriptManager t;
     t.Load_512330("lol.scr");
 }
 

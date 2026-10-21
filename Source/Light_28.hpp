@@ -23,16 +23,16 @@ struct LightIntensityRadius
 };
 
 // A point light: position, colour, radius and an on/off flicker cycle. Registered in LightGrid for rendering.
-class Light_28
+class Light
 {
   public:
-    EXPORT Light_28();
+    EXPORT Light();
 
-    EXPORT ~Light_28();
+    EXPORT ~Light();
 
     EXPORT void AddToGrid_4D6D70();
 
-    EXPORT Light_28* RemoveFromGrid_4D6DC0();
+    EXPORT Light* RemoveFromGrid_4D6DC0();
 
     // 0x45B330
     s32 PoolUpdate()
@@ -114,10 +114,11 @@ class Light_28
     u8 field_16_flicker_range;
     char_type field_17_timer;
     char_type field_18_intensity;
-    Light_28* mpNext;
-    Light_28* field_20_pGridNext;
-    Light_28* field_24_pGridPrev;
+    Light* mpNext;
+    Light* field_20_pGridNext;
+    Light* field_24_pGridPrev;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Light, 0x28);
 
 // The 64x64 cell grid (4x4 tiles per cell) that the lights are registered in
 class LightGrid

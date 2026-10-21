@@ -2,7 +2,7 @@
 
 #include "Function.hpp"
 
-class RollingDigitCounter_38
+class RollingDigitCounter
 {
   public:
     enum
@@ -11,7 +11,7 @@ class RollingDigitCounter_38
         kDigitAfterNine = '9' + 1, // the glyph rows are 0-9 then a blank row, see DrawDigits
     };
 
-    EXPORT RollingDigitCounter_38();
+    EXPORT RollingDigitCounter();
     EXPORT void SetupDigitsParams_492110(s16 digit_transition_speed, s32 max_value, s16 palette);
     EXPORT void InitDigitSprites_492150();
     EXPORT void ChangeStatByAmount_4921B0(s32 amount);
@@ -59,3 +59,4 @@ class RollingDigitCounter_38
     s16 field_34_first_digit_texture_idx;
     s16 field_36_sprite_idx;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(RollingDigitCounter, 0x38);

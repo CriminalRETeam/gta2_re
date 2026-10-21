@@ -69,9 +69,9 @@ DEFINE_GLOBAL(u32, gPlayerQuit_6F5AEC, 0x6F5AEC); // TODO: move
 DEFINE_GLOBAL(u32, gMatchStartTime_6F5A28, 0x6F5A28); // TODO: move
 DEFINE_GLOBAL(u32, gNetworkFrameCounter_6F5868, 0x6F5868); // TODO: move
 DEFINE_GLOBAL(u8, bRecordStartTime_6F593C, 0x6F593C); // TODO: move
-DEFINE_GLOBAL(Network_PlayerInputs_0x30, gCurrentNetInputs_6F57D8, 0x6F57D8); // TODO: move
+DEFINE_GLOBAL(Network_PlayerInputs, gCurrentNetInputs_6F57D8, 0x6F57D8); // TODO: move
 DEFINE_GLOBAL(Network_8, gInputSendData_6F5B18, 0x6F5B18); // TODO: move
-DEFINE_GLOBAL(Network_PlayerInputs_0x30, gPrevNetInputs_6F5B28, 0x6F5B28); // TODO: move
+DEFINE_GLOBAL(Network_PlayerInputs, gPrevNetInputs_6F5B28, 0x6F5B28); // TODO: move
 DEFINE_GLOBAL(ReceivedPacket*, gpInputBuffer_6F58C0, 0x6F58C0); // TODO: move
 DEFINE_GLOBAL(u32, gCurrentInputsBufferSize_6F58C4, 0x6F58C4); // TODO: move
 DEFINE_GLOBAL_ARRAY(u8, gSyncCheckData_6F58E0, 0x20, 0x6F58E0); // TODO: move
@@ -141,28 +141,28 @@ void LoadBeginSceneCBPtr()
 
 void force_link()
 {
-    ObjectDefinitions_8CA8 phi_8ca8;
+    ObjectDefinitions phi_8ca8;
     phi_8ca8.AllocDefinitionWithSprite_5332D0(0, 0, 0, 0);
 
-    Ambulance_20 jaw_20;
+    AmbulanceTask jaw_20;
     jaw_20.field_14_patient_count = 1;
 
-    CollisionSoundQueue_C88 collision_sound_queue;
+    CollisionSoundQueue collision_sound_queue;
     collision_sound_queue.field_0_pSoundObj = 0;
 
-    GeneratorPool_14AC maccies;
+    GeneratorPool maccies;
     maccies.sub_4C1CD0();
 
     Sprite car_3c;
     car_3c.field_20_instance_id = 5;
 
-    CrusherPool_94 snooky;
+    CrusherPool snooky;
     snooky.IsCarBeingCrushed_4887A0(0);
 
-    Network_20324 network;
+    NetUi network;
     network.cb_FillSessionList_519D30(0, 0);
 
-    Light_28 light;
+    Light light;
     light.AddToGrid_4D6D70();
 
     PedManager PedManager;
@@ -243,7 +243,7 @@ void force_link()
     lewin.ApplyCheats_56A490();
     lewin.ClearInputs_56A6D0();
 
-    Camera_0xBC drawUnk;
+    Camera drawUnk;
     drawUnk.SavePrevCamPos_4357B0();
     drawUnk.IncreaseElevation_4357F0();
     drawUnk.DecreaseElevation_435810();
@@ -263,7 +263,7 @@ void force_link()
     cn.SetPlayer_45B560(NULL, 0);
     cn.IsEmergencyOccupation_45B590();
 
-    miss2_8 miss2;
+    ScriptGosubStack miss2;
     miss2.add_503160(0);
     miss2.remove_503180();
     miss2.remove_5031E0(0);
@@ -291,30 +291,30 @@ void force_link()
     input_recorder.IsPlayingBack_4CEDF0();
     input_recorder.ShowInput_4CEE10();
 
-    Hud_2B00 garox;
+    Hud garox;
 
     MapRenderer nano;
     u16 zero = 0;
     nano.draw_bottom_4ED290(zero);
 
-    SpriteRenderer_1C sprite_renderer;
+    SpriteRenderer sprite_renderer;
     sprite_renderer.ResetAll_4954F0();
 
-    Mike_A80 mike;
+    FrameProfiler mike;
     mike.DebugDrawProfiling_4FF250();
 
-    CrimeReport_14 crime_report_14;
-    CrimeReportQueue_CC crime_report_queue_CC;
+    CrimeReport crime_report_14;
+    CrimeReportQueue crime_report_queue_CC;
 
-    Firefighter_28 tango_28;
+    Firefighter tango_28;
     tango_28.Clear_450C10();
 
-    FirefighterPool_54 tango_54;
+    FirefighterPool tango_54;
 
-    CarChaseTaskTable_500 car_chase_task_table;
+    CarChaseTaskTable car_chase_task_table;
     car_chase_task_table.FreeEntry_474CC0(0);
 
-    CollisionCounters_C collide_C;
+    CollisionCounters collide_C;
 
     Fix16_Rect car14_18;
     car14_18.DoSetCurrentRect_59DD60();
@@ -817,8 +817,8 @@ EXPORT void InitVideo_5D96C0()
 MATCH_FUNC(0x4DA440)
 EXPORT void __stdcall Init_keybrd_jolly_and_sound_4DA440()
 {
-    keybrd_0x204::create_4D5F50();
-    PlyDat_2BC0::Create_56C2C0();
+    KeyboardLayout::create_4D5F50();
+    PlyDat::Create_56C2C0();
 
     if (!bSkip_audio_67D6BE)
     {
@@ -916,7 +916,7 @@ EXPORT void __stdcall ShowPlayerLeftMessage_4DB070(u8 idx)
 }
 
 MATCH_FUNC(0x4DB0D0)
-void __stdcall ExitGameCallback_4DB0D0(Game_0x40* pGame, int reason)
+void __stdcall ExitGameCallback_4DB0D0(Game* pGame, int reason)
 {
     char Buffer[260];
     sprintf(Buffer, "(ExitGameCallback)Called with reason - %d", reason);
@@ -948,7 +948,7 @@ EXPORT void __stdcall InitializeGame_4DA4D0()
 
         ClearDebugFlags_4DB170();
 
-        gGame_0x40_67E008 = new Game_0x40(gNetPlay_7071E8.CountActivePlayers_521350(), gNetPlay_7071E8.GetPlayerIdx_409C40());
+        gGame_0x40_67E008 = new Game(gNetPlay_7071E8.CountActivePlayers_521350(), gNetPlay_7071E8.GetPlayerIdx_409C40());
         gNetPlay_7071E8.SetExitGameCallBack_521330((int)ExitGameCallback_4DB0D0, gGame_0x40_67E008);
 
         memset(&gCurrentNetInputs_6F57D8, 0, sizeof(gCurrentNetInputs_6F57D8));
@@ -979,7 +979,7 @@ EXPORT void __stdcall InitializeGame_4DA4D0()
     }
     else
     {
-        gGame_0x40_67E008 = new Game_0x40(1, 0);
+        gGame_0x40_67E008 = new Game(1, 0);
     }
 
     gGame_0x40_67E008->LoadGameFiles_4B8C40();
@@ -1036,8 +1036,8 @@ void __stdcall Draw_4DA7B0()
     }
 }
 
-DEFINE_GLOBAL(Network_PlayerInputs_0x30, gNetInputsHistory1_6F56E0, 0x6F56E0);
-DEFINE_GLOBAL(Network_PlayerInputs_0x30, gNetInputsHistory2_6F5798, 0x6F5798);
+DEFINE_GLOBAL(Network_PlayerInputs, gNetInputsHistory1_6F56E0, 0x6F56E0);
+DEFINE_GLOBAL(Network_PlayerInputs, gNetInputsHistory2_6F5798, 0x6F5798);
 
 // Re-sends our inputs of a previous frame to one player.
 MATCH_FUNC(0x4DA9B0)
@@ -1183,10 +1183,10 @@ EXPORT s32 __stdcall FileByteSum_4DB120(FILE* hFile)
 MATCH_FUNC(0x4DB2E0)
 EXPORT void __stdcall MakeInitialSyncData_4DB2E0(u8* pSyncData)
 {
-    SyncCheckData_1F* pData = (SyncCheckData_1F*)pSyncData;
+    SyncCheckData* pData = (SyncCheckData*)pSyncData;
     struct _stat st;
 
-    memset(pData, 0, sizeof(SyncCheckData_1F));
+    memset(pData, 0, sizeof(SyncCheckData));
     pData->field_0_type = std_packet_subtype::SyncCheckData_5;
     if (gCarManager_6C_677930)
     {
@@ -1244,8 +1244,8 @@ EXPORT void __stdcall FatalErrorMsg_4DB410(const char_type* pMsg)
 MATCH_FUNC(0x4DB440)
 EXPORT void __stdcall CompareRemotePlayers_4DB440(u8* pLocalSyncData, u8* pRemoteSyncData)
 {
-    SyncCheckData_1F* pLocal = (SyncCheckData_1F*)pLocalSyncData;
-    SyncCheckData_1F* pRemote = (SyncCheckData_1F*)pRemoteSyncData;
+    SyncCheckData* pLocal = (SyncCheckData*)pLocalSyncData;
+    SyncCheckData* pRemote = (SyncCheckData*)pRemoteSyncData;
     char_type msg[260];
     char_type name[260];
     wchar_t wname[260];
@@ -1297,7 +1297,7 @@ EXPORT void Net_Send_Our_Inputs_4DACB0()
             s16 max = 100;
             gCurrentNetInputs_6F57D8.field_0_inputs[gNetworkPlayerIdx_6F56C8].field_4_rng = gRng_6F6784.get_int_4F7AE0(max);
             gInputSendData_6F5B18.field_0_data = &gCurrentNetInputs_6F57D8.field_0_inputs[gNetworkPlayerIdx_6F56C8];
-            gInputSendData_6F5B18.field_4_len = sizeof(Network_InputData_0x8);
+            gInputSendData_6F5B18.field_4_len = sizeof(Network_InputData);
         }
         else
         {
@@ -2533,8 +2533,8 @@ EXPORT void __stdcall Shutdown_4DA740()
     if (!bDestroyed_6F5B70)
     {
         bDestroyed_6F5B70 = 1;
-        keybrd_0x204::destroy_4D5FA0();
-        PlyDat_2BC0::Destroy_56C340();
+        KeyboardLayout::destroy_4D5FA0();
+        PlyDat::Destroy_56C340();
         CleanUpInputAndOthers_4DA700();
         Frontend::destroy_4AD070();
 
@@ -2575,7 +2575,7 @@ EXPORT char_type __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
                 return 0;
             }
 
-            Network_Buffer_8 connection;
+            Network_Buffer connection;
             connection.field_4_len = gRegistry_6FF968.Get_Binary_Size_5873E0(hKey, "UseConnection");
             connection.field_0_data = operator new(connection.field_4_len);
             if (!gRegistry_6FF968.Get_Binary_587340(hKey, "UseConnection", connection.field_4_len, (LPBYTE)connection.field_0_data))
@@ -2605,7 +2605,7 @@ EXPORT char_type __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
             }
         }
 
-        Network_20324 networkUi;
+        NetUi networkUi;
         if (!gNetPlay_7071E8.InitializeConnection_51E5C0())
         {
             return 0;

@@ -6,10 +6,10 @@
 #include "Weapon_30.hpp"
 
 class Ped;
-class Car_BC;
-class SoundObject_10;
+class Car;
+class SoundObject;
 
-class Weapon_8
+class WeaponManager
 {
   public:
     bool is_car_weapon_433820(s32 weapon_kind)
@@ -17,32 +17,33 @@ class Weapon_8
         return weapon_kind >= 15;
     }
 
-    EXPORT Weapon_30* allocate_5E3C10(s32 weapon_kind, Ped* pPed, u8 ammo);
-    EXPORT void deallocate_5E3CB0(Weapon_30* pWeapon);
-    EXPORT Weapon_30* allocate_5E3CE0(s32 weapon_kind, Car_BC* pCar, u8 ammo);
-    EXPORT Weapon_30* find_5E3D20(Car_BC* pCar, s32 weapon_kind);
-    EXPORT char_type allocate_5E3D50(s32 weapon_kind, u8 ammo, Car_BC* pCar);
-    EXPORT void dealloc_car_weapon_5E3DF0(Car_BC* pCar);
+    EXPORT Weapon* allocate_5E3C10(s32 weapon_kind, Ped* pPed, u8 ammo);
+    EXPORT void deallocate_5E3CB0(Weapon* pWeapon);
+    EXPORT Weapon* allocate_5E3CE0(s32 weapon_kind, Car* pCar, u8 ammo);
+    EXPORT Weapon* find_5E3D20(Car* pCar, s32 weapon_kind);
+    EXPORT char_type allocate_5E3D50(s32 weapon_kind, u8 ammo, Car* pCar);
+    EXPORT void dealloc_car_weapon_5E3DF0(Car* pCar);
     EXPORT u8 get_max_ammo_capacity_5E3E70(s32 weapon_kind);
     EXPORT u8 get_defalt_ammo_5E3E80(s32 weapon_kind);
-    EXPORT Weapon_8();
-    EXPORT ~Weapon_8();
-    SpriteList_4 field_0_hit_sprites;
+    EXPORT WeaponManager();
+    EXPORT ~WeaponManager();
+    SpriteList field_0_hit_sprites;
     s16 field_4_ref_count;
     s16 field_6_unused;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(WeaponManager, 0x8);
 
-class Weapon_30_Pool
+class WeaponPool
 {
   public:
-    Weapon_30_Pool() // 4CDA20 inline
+    WeaponPool() // 4CDA20 inline
     {
     }
 
     // 9.6f 0x4CC9C0 (which also calls 0x4CC810, init_5DCD90 in 10.5)
-    Weapon_30* Allocate()
+    Weapon* Allocate()
     {
-        Weapon_30* pWeapon = field_0_pool.field_0_pStart;
+        Weapon* pWeapon = field_0_pool.field_0_pStart;
         field_0_pool.field_0_pStart = pWeapon->mpNext;
         pWeapon->mpNext = field_0_pool.field_4_pPrev;
         field_0_pool.field_4_pPrev = pWeapon;
@@ -50,9 +51,9 @@ class Weapon_30_Pool
     }
 
     // 9.6f 0x4CC9E0 (which also calls 0x4CC810, init_5DCD90 in 10.5)
-    inline Weapon_30* AllocateUnlinked_4CC9E0()
+    inline Weapon* AllocateUnlinked_4CC9E0()
     {
-        Weapon_30* pWeapon = field_0_pool.field_0_pStart;
+        Weapon* pWeapon = field_0_pool.field_0_pStart;
         field_0_pool.field_0_pStart = pWeapon->mpNext;
         pWeapon->mpNext = 0;
         return pWeapon;
@@ -60,10 +61,10 @@ class Weapon_30_Pool
 
     // TODO: This is probably a heavily inlined common iteration func
     // Remove/dealloc?
-    void DeAllocate_4A4F20(Weapon_30* pW30)
+    void DeAllocate_4A4F20(Weapon* pW30)
     {
-        Weapon_30* pIter = this->field_0_pool.field_4_pPrev;
-        Weapon_30* pLastIter = 0;
+        Weapon* pIter = this->field_0_pool.field_4_pPrev;
+        Weapon* pLastIter = 0;
         while (pIter)
         {
             if (pIter == pW30)
@@ -89,18 +90,18 @@ class Weapon_30_Pool
         }
     }
 
-    Weapon_30* get_next_4CC9B0()
+    Weapon* get_next_4CC9B0()
     {
         return this->field_0_pool.field_4_pPrev;
     }
 
-    EXPORT ~Weapon_30_Pool();
+    EXPORT ~WeaponPool();
 
-    Pool<Weapon_30, 255> field_0_pool;
+    Pool<Weapon, 255> field_0_pool;
 };
 
-EXTERN_GLOBAL(Weapon_30_Pool*, gWeapon_30_Pool_707014);
+EXTERN_GLOBAL(WeaponPool*, gWeapon_30_Pool_707014);
 
-EXTERN_GLOBAL(Weapon_8*, gWeapon_8_707018);
+EXTERN_GLOBAL(WeaponManager*, gWeapon_8_707018);
 
 EXTERN_GLOBAL_ARRAY(u8, max_ammo_capacity_5FF75C, 28);

@@ -5,8 +5,8 @@
 
 class Player;
 class Sprite;
-class Car_BC;
-class Camera_0xBC;
+class Car;
+class Camera;
 class Fix16_Rect;
 
 namespace GameState
@@ -33,7 +33,7 @@ enum GameExitType
 };
 } // namespace GameExitType
 
-class Game_0x40
+class Game
 {
   public:
     // 9.6f 0x4A4750
@@ -96,14 +96,14 @@ class Game_0x40
     EXPORT bool IsSpriteCameraSubjectForPlayer_4B9A10(Sprite* pSprite, u8 player_idx);
     EXPORT bool IsPointOnScreen_4B9A80(Fix16 x, Fix16 y);
     EXPORT bool IsRectVisibleToAnyPlayer_4B9B10(Fix16_Rect* pBounds);
-    EXPORT Camera_0xBC* IteratePlayerCamera_4B9BC0();
-    EXPORT bool IsCarInAnyPlayerHistory_4B9C10(Car_BC* pCar);
-    EXPORT Camera_0xBC* IterateNextPlayerCamera_4B9C50();
+    EXPORT Camera* IteratePlayerCamera_4B9BC0();
+    EXPORT bool IsCarInAnyPlayerHistory_4B9C10(Car* pCar);
+    EXPORT Camera* IterateNextPlayerCamera_4B9C50();
     EXPORT Player* IterateFirstPlayer_4B9CD0();
     EXPORT Player* IterateNextPlayer_4B9D10();
     EXPORT void ReduceTrafficSpawnCounterOfOtherViewers_4B9D60(Sprite* pSprite, Player* pExclude);
-    EXPORT Game_0x40(u8 max_players, s8 player_idx); // 4B9DE0
-    EXPORT ~Game_0x40(); // 4BAE30
+    EXPORT Game(u8 max_players, s8 player_idx); // 4B9DE0
+    EXPORT ~Game(); // 4BAE30
 
     Player* GetPlayer_4219E0(u8 idx)
     {
@@ -134,11 +134,12 @@ class Game_0x40
     char_type field_3E_unused;
     char_type field_3F_unused;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Game, 0x40);
 
-EXTERN_GLOBAL(Game_0x40*, gGame_0x40_67E008);
+EXTERN_GLOBAL(Game*, gGame_0x40_67E008);
 
 EXTERN_GLOBAL(Fix16, kInitialAmbient_67DCCC);
 
 EXTERN_GLOBAL(s32, gCachedScreenDimension_706C58);
 
-EXTERN_GLOBAL(class CarChaseTaskTable_500*, gCarChaseTaskTable_678E30);
+EXTERN_GLOBAL(class CarChaseTaskTable*, gCarChaseTaskTable_678E30);

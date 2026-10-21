@@ -7,7 +7,7 @@ struct STexture;
 struct sprite_index;
 
 // A cached glyph texture: the character it currently shows, drawn with colour/outline_colour
-struct KanjiGlyph_10
+struct KanjiGlyph
 {
     u8 field_0_colour;
     u8 field_1_outline_colour;
@@ -16,6 +16,7 @@ struct KanjiGlyph_10
     sprite_index* field_8_sprt_index;
     u32 field_C_last_used;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(KanjiGlyph, 0x10);
 
 /*
 struct kanji_0x2
@@ -32,7 +33,7 @@ struct kanji_0x20
 
 // Kanji font: glyph bitmaps loaded from data\kanji.dat (KIDX: character to glyph index, KBIT: 16x16 1bpp glyphs),
 // rendered on demand into the textures of two least-recently-used glyph caches (small 16x16 and large 32x32).
-class KanjiFont_8EC
+class KanjiFont
 {
   public:
     enum
@@ -41,8 +42,8 @@ class KanjiFont_8EC
         k_num_large_glyphs = 20
     };
 
-    KanjiGlyph_10 field_0_small_glyphs[k_num_small_glyphs];
-    KanjiGlyph_10 field_780_large_glyphs[k_num_large_glyphs];
+    KanjiGlyph field_0_small_glyphs[k_num_small_glyphs];
+    KanjiGlyph field_780_large_glyphs[k_num_large_glyphs];
     s32 field_8C0_use_counter;
     u16* field_8C4_pKidX;
     BYTE* field_8C8_pKBIT;
@@ -68,8 +69,9 @@ class KanjiFont_8EC
     EXPORT void SetGlyphParamsFromFont_4D28A0(u16 font_type);
     EXPORT void SetGlyphParamsFromRemap_4D29D0(u16 remap);
     EXPORT void InitGlyphCaches_4D2B40();
-    EXPORT KanjiFont_8EC();
-    EXPORT ~KanjiFont_8EC();
+    EXPORT KanjiFont();
+    EXPORT ~KanjiFont();
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(KanjiFont, 0x8EC);
 
-EXTERN_GLOBAL(KanjiFont_8EC*, gKanjiFont_6F5168);
+EXTERN_GLOBAL(KanjiFont*, gKanjiFont_6F5168);

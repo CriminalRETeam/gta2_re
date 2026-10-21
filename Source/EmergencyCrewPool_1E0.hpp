@@ -5,9 +5,9 @@
 
 class Ped;
 class PedGroup;
-class Car_BC;
+class Car;
 
-// EmergencyCrew_30::field_28_state (stored as s32)
+// EmergencyCrew::field_28_state (stored as s32)
 namespace crew_state
 {
 enum
@@ -19,7 +19,7 @@ enum
 };
 } // namespace crew_state
 
-// EmergencyCrew_30::field_24_phase (stored as s32)
+// EmergencyCrew::field_24_phase (stored as s32)
 namespace crew_phase
 {
 enum
@@ -31,12 +31,12 @@ enum
 } // namespace crew_phase
 
 // One emergency crew (paramedics, police, SWAT, FBI or army): the car, its leader ped and the ped group,
-// plus the spawn position and the state machine that drives them. Pooled in EmergencyCrewPool_1E0.
-class EmergencyCrew_30
+// plus the spawn position and the state machine that drives them. Pooled in EmergencyCrewPool.
+class EmergencyCrew
 {
   public:
-    EXPORT EmergencyCrew_30();
-    EXPORT ~EmergencyCrew_30();
+    EXPORT EmergencyCrew();
+    EXPORT ~EmergencyCrew();
     EXPORT void Init_5CBC00();
     EXPORT void ReInit_5CBC30();
     EXPORT void RemovePed_5CBC40(Ped* pPed);
@@ -45,7 +45,7 @@ class EmergencyCrew_30
     EXPORT void UpdateStateMachine_5CBD50();
     EXPORT void CleanupExpiredEntities_5CC1C0();
     EXPORT bool Service_5CC480();
-    Car_BC* field_0_car;
+    Car* field_0_car;
     Ped* field_4_ped;
     PedGroup* field_8_group;
     Fix16 field_C_spawn_x;
@@ -60,19 +60,21 @@ class EmergencyCrew_30
     s32 field_28_state; // crew_state
     char_type field_2C_ready; // set once the car is spawned or the crew was cleaned up
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(EmergencyCrew, 0x30);
 
-class EmergencyCrewPool_1E0
+class EmergencyCrewPool
 {
   public:
-    EmergencyCrewPool_1E0()
+    EmergencyCrewPool()
     {
         init_5CBB70();
     }
-    EXPORT ~EmergencyCrewPool_1E0();
+    EXPORT ~EmergencyCrewPool();
     EXPORT void init_5CBB70();
-    EXPORT EmergencyCrew_30* AllocateSlot_5CBB80();
+    EXPORT EmergencyCrew* AllocateSlot_5CBB80();
     EXPORT void ServiceAll_5CBBD0();
-    EmergencyCrew_30 field_0_slots[10];
+    EmergencyCrew field_0_slots[10];
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(EmergencyCrewPool, 0x1E0);
 
-EXTERN_GLOBAL(EmergencyCrewPool_1E0*, gEmergencyCrewPool_706280);
+EXTERN_GLOBAL(EmergencyCrewPool*, gEmergencyCrewPool_706280);

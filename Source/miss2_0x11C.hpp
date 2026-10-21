@@ -8,17 +8,17 @@
 #include "miss2_xyz.hpp"
 
 class Ped;
-class Generator_2C;
-class Crusher_30;
-class miss2_8;
-class Car_BC;
-class Object_2C;
-class Crane_15C;
-class Light_28;
-class Door_38;
-class miss2_0x11C;
-class Hud_Arrow_7C;
-class AttachedSprite_18;
+class Generator;
+class Crusher;
+class ScriptGosubStack;
+class Car;
+class Object;
+class Crane;
+class Light;
+class Door;
+class ScriptThread;
+class Hud_Arrow;
+class AttachedSprite;
 
 struct SCR_CMD_HEADER
 {
@@ -67,7 +67,7 @@ struct SCR_CHAR_DATA_DEC : SCR_CMD_HEADER
 
 struct SCR_OBJ_DATA : SCR_CMD_HEADER
 {
-    Object_2C* field_8_obj;
+    Object* field_8_obj;
     SCR_XYZ_f field_C_pos;
     u16 field_18_obj_id;
     Ang16 field_1A_rot;
@@ -130,12 +130,12 @@ struct SCR_POINTER : SCR_CMD_HEADER
     union
     {
         Ped* field_8_char;
-        Car_BC* field_8_car;
-        Object_2C* field_8_obj;
-        Crane_15C* field_8_crane;
-        Light_28* field_8_light;
-        Door_38* field_8_door;
-        Crusher_30* field_8_crusher;
+        Car* field_8_car;
+        Object* field_8_obj;
+        Crane* field_8_crane;
+        Light* field_8_light;
+        Door* field_8_door;
+        Crusher* field_8_crusher;
         s32 field_8_counter;
         u16 field_8_index;
         union
@@ -143,9 +143,9 @@ struct SCR_POINTER : SCR_CMD_HEADER
             u16 field_6;
             u16 field_8;
         } words;
-        Generator_2C* field_8_generator;
-        Hud_Arrow_7C* field_8_arrow;
-        AttachedSprite_18* field_8_sprite;
+        Generator* field_8_generator;
+        Hud_Arrow* field_8_arrow;
+        AttachedSprite* field_8_sprite;
     };
 };
 
@@ -166,7 +166,7 @@ struct SCR_LOC_SEC_CHAR : SCR_CMD_HEADER
 
 struct SCR_THREAD : SCR_CMD_HEADER
 {
-    miss2_0x11C* field_8_script_thread;
+    ScriptThread* field_8_script_thread;
     s16 field_C_thread_id;
     u16 field_E_thread_start_cmd;
     union
@@ -190,7 +190,7 @@ struct SCR_THREAD : SCR_CMD_HEADER
 
 struct SCR_CHAR_AREA_ANY : SCR_CMD_HEADER
 {
-    miss2_0x11C* field_8_script_thread;
+    ScriptThread* field_8_script_thread;
     s16 field_C_unused;
     u16 field_E_unused;
     Fix16 field_10_x;
@@ -273,7 +273,7 @@ struct SCR_RADIOSTATION_DEC : SCR_CMD_HEADER
 
 struct SCR_CRANE_TARGET_DEC : SCR_CMD_HEADER
 {
-    Crane_15C* field_8_crane;
+    Crane* field_8_crane;
     u32 field_C_homecrane;
     SCR_XY_f field_10_pos;
     u16 field_18_home_rotation;
@@ -285,7 +285,7 @@ struct SCR_CRANE_TARGET_DEC : SCR_CMD_HEADER
 
 struct SCR_CRANE_BASIC_DEC : SCR_CMD_HEADER
 {
-    Crane_15C* field_8_crane;
+    Crane* field_8_crane;
     u32 field_C_homecrane;
     SCR_XY_f field_10_pos;
     u16 field_18_home_rotation;
@@ -449,7 +449,7 @@ struct SCR_IF_JUMP : SCR_CMD_HEADER
 
 struct SCR_DOOR_DATA_DEC : SCR_CMD_HEADER
 {
-    Door_38* field_8_door;
+    Door* field_8_door;
     SCR_XYZ_uc field_C_block;
     u8 field_F_face;
     u8 field_10_gr_id;
@@ -822,9 +822,9 @@ struct SCR_ARROW_ENTITY : SCR_CMD_HEADER
 {
     union
     {
-        Car_BC* field_8_car;
+        Car* field_8_car;
         Ped* field_8_char;
-        Object_2C* field_8_obj;
+        Object* field_8_obj;
     };
 };
 
@@ -882,7 +882,7 @@ EXTERN_GLOBAL(Fix16, kFpZero_6F77C0);
 EXTERN_GLOBAL(Fix16, kFpOne_6F77C4);
 EXTERN_GLOBAL(Fix16, kFpTwo_6F77C8);
 
-class miss2_0x11C
+class ScriptThread
 {
   public:
     EXPORT void MissionFailOnDeathOrArrest_503200();
@@ -1142,13 +1142,13 @@ class miss2_0x11C
     EXPORT void PreExecOpCode_5108D0();
     EXPORT char_type PoolUpdate();
     EXPORT void InitThread_511930(char_type flags, u16 levelStart);
-    EXPORT miss2_0x11C* SpawnThread_511960(u16 levelStart);
+    EXPORT ScriptThread* SpawnThread_511960(u16 levelStart);
     EXPORT void launch_mission_5119A0(SCR_CMD_HEADER* base_pointer, char_type* string);
-    EXPORT miss2_0x11C();
+    EXPORT ScriptThread();
     EXPORT void DisableBasicKfsFromSave_511CD0();
-    EXPORT ~miss2_0x11C();
+    EXPORT ~ScriptThread();
 
-    miss2_0x11C* mpNext;
+    ScriptThread* mpNext;
     u16 field_4_next_cmd;
     char_type field_6;
     char_type field_7_unused;
@@ -1161,21 +1161,21 @@ class miss2_0x11C
     s16 field_12_exec_flag;
     char_type field_14_str[255];
     char_type field_113_unused;
-    miss2_8* field_114_gosub_stack;
+    ScriptGosubStack* field_114_gosub_stack;
     char_type field_118_in_level_start;
     char_type field_119_unused;
     s16 field_11A_thread_id;
 };
-GTA2_ASSERT_SIZEOF_ALWAYS(miss2_0x11C, 0x11C)
+GTA2_ASSERT_SIZEOF_ALWAYS(ScriptThread, 0x11C)
 
-class miss2_0x11C_Pool
+class ScriptThreadPool
 {
   public:
     // TODO: Pools Use pool method
     // inlined
-    miss2_0x11C* Allocate_4767A0()
+    ScriptThread* Allocate_4767A0()
     {
-        miss2_0x11C* pf_0 = field_0_pool.field_0_pStart;
+        ScriptThread* pf_0 = field_0_pool.field_0_pStart;
         field_0_pool.field_0_pStart = pf_0->mpNext;
         pf_0->mpNext = field_0_pool.field_4_pPrev;
         field_0_pool.field_4_pPrev = pf_0;
@@ -1184,21 +1184,21 @@ class miss2_0x11C_Pool
     }
 
     // 9.6f inlined ctor 0x481310
-    miss2_0x11C_Pool()
+    ScriptThreadPool()
     {
     }
 
     void LogAll_47F4D0()
     {
-        for (miss2_0x11C* pThread = field_0_pool.field_4_pPrev; pThread; pThread = pThread->mpNext)
+        for (ScriptThread* pThread = field_0_pool.field_4_pPrev; pThread; pThread = pThread->mpNext)
         {
             pThread->Log_5035D0();
         }
     }
 
-    EXPORT ~miss2_0x11C_Pool();
+    EXPORT ~ScriptThreadPool();
 
-    Pool<miss2_0x11C, 8> field_0_pool;
+    Pool<ScriptThread, 8> field_0_pool;
 };
 
-EXTERN_GLOBAL(miss2_0x11C_Pool*, miss2_0x11C_Pool_6F8064);
+EXTERN_GLOBAL(ScriptThreadPool*, miss2_0x11C_Pool_6F8064);

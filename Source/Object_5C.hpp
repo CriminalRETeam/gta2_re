@@ -14,16 +14,16 @@ EXTERN_GLOBAL(s32, gObj2C_id_623EC0);
 
 EXPORT void __stdcall UnpackSignedNibbles_529050(u8 packed, s8* pX, s8* pY);
 
-class Object_2C;
+class Object;
 class Sprite;
-class SpriteShape_4C;
-class Car_BC;
-class ObjectDefinition_74;
+class SpriteShape;
+class Car;
+class ObjectDefinition;
 class Object_3C;
-class Object_2C_Pool;
-class Explosion_30;
+class ObjectPool;
+class Explosion;
 class Object_8;
-class Light_28;
+class Light;
 
 namespace object_pool_state
 {
@@ -45,7 +45,7 @@ enum
 };
 } // namespace object_removal_state
 
-class Object_2C
+class Object
 {
   public:
     // 9.6f 0x4C4F10
@@ -54,7 +54,7 @@ class Object_2C
         field_27_thread_trigger_idx = v;
     }
 
-    EXPORT Object_2C();
+    EXPORT Object();
     EXPORT void PoolDeallocate();
     EXPORT bool IsSpriteOwnerPed_522250(Sprite* pSprite);
     EXPORT s32 GetMovementRegionSize_5222B0();
@@ -68,8 +68,8 @@ class Object_2C
     EXPORT void SetMovementVector_5224E0(Fix16_Point& speed);
     EXPORT void SetMovementVectorWithRandomState_522640(Fix16_Point& point);
     EXPORT void SetConveyorPush_5226A0(char_type conveyor_speed);
-    EXPORT void ResolveCollisionWithObject_522710(Object_2C* pObj, Fix16_Point* pPoint);
-    EXPORT void ResolveCollisionWithPed_5229B0(Char_B4* pB4, Fix16_Point* pPoint, u8 not_used);
+    EXPORT void ResolveCollisionWithObject_522710(Object* pObj, Fix16_Point* pPoint);
+    EXPORT void ResolveCollisionWithPed_5229B0(Char* pB4, Fix16_Point* pPoint, u8 not_used);
     EXPORT void ResolveCollisionWithWorld_522B20(Fix16_Point* f18, Fix16_Point* pPoint, Fix16_Point* speed);
     EXPORT void ResolveCollisionWithHorizontalEdge_522BE0(Fix16_Point* pPoint);
     EXPORT void ResolveCollisionWithVerticalEdge_522D00(Fix16_Point* pPoint);
@@ -107,14 +107,14 @@ class Object_2C
     EXPORT char_type OnObjectTouched_5288B0(Sprite* pSprite);
     EXPORT void HandleWaterDeath_528900();
     EXPORT static s32 __stdcall GetExplosionTypeForWallSide_528E00(s32 wall_side); // TODO: Check if thiscall
-    EXPORT bool HandleObjectHitIfExplosive_528960(Object_2C* pOther);
+    EXPORT bool HandleObjectHitIfExplosive_528960(Object* pOther);
     EXPORT char_type HandleObjectHit_528990(Sprite* pSprite);
-    EXPORT void ProcessObjectExplosionImpact_528A20(Object_2C* pObj);
+    EXPORT void ProcessObjectExplosionImpact_528A20(Object* pObj);
     EXPORT void HandleImpactNoSprite_528BA0();
     EXPORT void HandleImpact_528E50(Sprite* pSprite);
-    EXPORT void HandleCollisionWithObject_529000(Object_2C* pObj);
+    EXPORT void HandleCollisionWithObject_529000(Object* pObj);
     EXPORT void SetConveyorSpeed_529030(s8 speed_x, s8 speed_y);
-    EXPORT void ApplyConveyorSpeedFrom_529070(Object_2C* pObj);
+    EXPORT void ApplyConveyorSpeedFrom_529070(Object* pObj);
     EXPORT s32 GetExplosionTypeForDiagonalWall_529210();
     EXPORT s32 GetMapBlockSoundSpec_529240();
     EXPORT void SetDefaultWeaponAmmo_5292D0();
@@ -125,7 +125,7 @@ class Object_2C
     EXPORT void PoolGiveAndMarkDone_5291D0();
     EXPORT void PoolGiveAndQueueObjectType_5291E0(s32 bDone);
     EXPORT bool IsNotModel_174_529200();
-    EXPORT ~Object_2C();
+    EXPORT ~Object();
     EXPORT void EnsureObject3C_52A650();
     EXPORT void OnAttachedToSprite_52A6D0(Sprite* pSprite);
     EXPORT Fix16_Point GetXY_52AE70();
@@ -338,14 +338,14 @@ class Object_2C
         field_4_sprite->SetDrawLayer_40F7B0(29);
     }
 
-    Object_2C* mpNext;
+    Object* mpNext;
     Sprite* field_4_sprite;
-    ObjectDefinition_74* field_8_definition;
+    ObjectDefinition* field_8_definition;
     union TAny
     {
-        Explosion_30* pExplosion;
+        Explosion* pExplosion;
         Object_8* o8;
-        Light_28* pLight;
+        Light* pLight;
     };
     TAny field_C_pAny;
     Object_3C* field_10_obj_3c;
@@ -365,8 +365,9 @@ class Object_2C
     char_type field_2A;
     char_type field_2B_unused;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Object, 0x2C);
 
-struct SavedObjectData_164;
+struct SavedObjectData;
 
 class Object_5C
 {
@@ -376,17 +377,17 @@ class Object_5C
     EXPORT Object_5C();
     EXPORT ~Object_5C();
     EXPORT void CreateDiagonalWallObjects_5297F0();
-    EXPORT Object_2C* GetDirectionalObject_5298E0(s32 slope_type);
-    EXPORT Object_2C* NewTouchPoint_529950(s32 object_type, Fix16 x, Fix16 y, Fix16 z, Ang16 rot, Fix16 w, Fix16 h, Fix16 depth);
-    EXPORT Object_2C* NewPhysicsObj_5299B0(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation);
-    EXPORT Object_2C* NewWithPedRefIdx_5299F0(s32 object_type, u32 ped_ref_idx, Fix16 xpos, Fix16 ypos, Fix16 zpos);
-    EXPORT Object_2C* NewLight_529A40(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity);
-    EXPORT Object_2C* NewLight_529AB0(s32 light_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 argb, Fix16 radius, u8 intensity);
-    EXPORT Object_2C* NewFlashingLight_529B20(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity, u8 on_time, u8 off_time, u8 shape);
-    EXPORT Object_2C* NewPhysicsObjUnlessBlocked_529BC0(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation);
-    EXPORT Object_2C* CreateObject_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, char fail_if_blocked);
+    EXPORT Object* GetDirectionalObject_5298E0(s32 slope_type);
+    EXPORT Object* NewTouchPoint_529950(s32 object_type, Fix16 x, Fix16 y, Fix16 z, Ang16 rot, Fix16 w, Fix16 h, Fix16 depth);
+    EXPORT Object* NewPhysicsObj_5299B0(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation);
+    EXPORT Object* NewWithPedRefIdx_5299F0(s32 object_type, u32 ped_ref_idx, Fix16 xpos, Fix16 ypos, Fix16 zpos);
+    EXPORT Object* NewLight_529A40(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity);
+    EXPORT Object* NewLight_529AB0(s32 light_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 argb, Fix16 radius, u8 intensity);
+    EXPORT Object* NewFlashingLight_529B20(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity, u8 on_time, u8 off_time, u8 shape);
+    EXPORT Object* NewPhysicsObjUnlessBlocked_529BC0(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation);
+    EXPORT Object* CreateObject_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, char fail_if_blocked);
     EXPORT char_type SetPendingDamageOwner_52A210(char_type owner);
-    EXPORT Object_2C* NewMovingObj_52A240(s32 object_type,
+    EXPORT Object* NewMovingObj_52A240(s32 object_type,
                                         Fix16 xpos,
                                         Fix16 ypos,
                                         Fix16 zpos,
@@ -395,7 +396,7 @@ class Object_5C
                                         Fix16 speed,
                                         Fix16 friction,
                                         Fix16 z_speed);
-    EXPORT Object_2C* NewMovingObjUnlessBlocked_52A280(s32 object_type,
+    EXPORT Object* NewMovingObjUnlessBlocked_52A280(s32 object_type,
                                  Fix16 xpos,
                                  Fix16 ypos,
                                  Fix16 zpos,
@@ -404,7 +405,7 @@ class Object_5C
                                  Fix16 speed,
                                  Fix16 friction,
                                  Fix16 z_speed);
-    EXPORT Object_2C* CreateMovingObj_52A2C0(s32 object_type,
+    EXPORT Object* CreateMovingObj_52A2C0(s32 object_type,
                                  Fix16 xpos,
                                  Fix16 ypos,
                                  Fix16 zpos,
@@ -414,22 +415,22 @@ class Object_5C
                                  Fix16 friction,
                                  Fix16 z_speed,
                                  char_type fail_if_blocked);
-    EXPORT Object_2C* CreateExplosion_52A3D0(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 kind, s32 ped_id);
+    EXPORT Object* CreateExplosion_52A3D0(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 kind, s32 ped_id);
 
-    EXPORT void SaveObjects_52A500(SavedObjectData_164* pUnknownObj);
-    EXPORT void RestoreObjects_52A590(SavedObjectData_164* pUnknownObj);
-    EXPORT void RemoveAndFree_52A610(Object_2C* p2C);
+    EXPORT void SaveObjects_52A500(SavedObjectData* pUnknownObj);
+    EXPORT void RestoreObjects_52A590(SavedObjectData* pUnknownObj);
+    EXPORT void RemoveAndFree_52A610(Object* p2C);
 
-    Object_2C* field_0_diagonal_wall_ang315;
-    Object_2C* field_4_diagonal_wall_ang135;
-    Object_2C* field_8_diagonal_wall_ang225;
-    Object_2C* field_C_diagonal_wall_ang45;
+    Object* field_0_diagonal_wall_ang315;
+    Object* field_4_diagonal_wall_ang135;
+    Object* field_8_diagonal_wall_ang225;
+    Object* field_C_diagonal_wall_ang45;
     s32 field_10_rotating_object_count;
     s32 field_14_listed_sprite_count;
     u8 field_18_pending_damage_owner;
     u8 field_19_unused;
     u16 field_1A_unused;
-    SpriteList_4 field_1C_sprite_list;
+    SpriteList field_1C_sprite_list;
     u8 field_20_uncollected_tokens[50];
     u16 field_52_unused; // pad?
     s32 field_54_uncollected_token_index;

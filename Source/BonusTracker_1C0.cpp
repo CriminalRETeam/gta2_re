@@ -1,23 +1,23 @@
 #include "BonusTracker_1C0.hpp"
 #include "Function.hpp"
-#include "Player.hpp" // PlayerScoreTracker_36C
+#include "Player.hpp" // PlayerScoreTracker
 #include "rng.hpp"
 #include "bonus_event_type.hpp"
 #include "ped_death_cause.hpp"
 
 MATCH_FUNC(0x431D30);
-BonusRule_2C::BonusRule_2C()
+BonusRule::BonusRule()
 {
     Init_431D50();
 }
 
 MATCH_FUNC(0x431D40);
-BonusRule_2C::~BonusRule_2C()
+BonusRule::~BonusRule()
 {
 }
 
 MATCH_FUNC(0x431D50);
-void BonusRule_2C::Init_431D50()
+void BonusRule::Init_431D50()
 {
     field_0_pZone = 0;
     field_4_event_type = bonus_event_type::any_event;
@@ -38,13 +38,13 @@ void BonusRule_2C::Init_431D50()
 }
 
 MATCH_FUNC(0x431DA0);
-void BonusRule_2C::Reset_431DA0()
+void BonusRule::Reset_431DA0()
 {
     Init_431D50();
 }
 
 MATCH_FUNC(0x431DB0);
-void BonusRule_2C::Deactivate_431DB0()
+void BonusRule::Deactivate_431DB0()
 {
     field_2B_bActive = 0;
 }
@@ -52,31 +52,31 @@ void BonusRule_2C::Deactivate_431DB0()
 // ============
 
 MATCH_FUNC(0x431DC0);
-BonusTracker_1C0::BonusTracker_1C0()
+BonusTracker::BonusTracker()
 {
     field_1B8_pScores = 0;
     field_1BC_cur_time = 0;
 }
 
 MATCH_FUNC(0x431DF0);
-BonusTracker_1C0::~BonusTracker_1C0()
+BonusTracker::~BonusTracker()
 {
     field_1B8_pScores = 0;
 }
 
 MATCH_FUNC(0x431E10);
-void BonusTracker_1C0::Init_431E10(PlayerScoreTracker_36C* pScores)
+void BonusTracker::Init_431E10(PlayerScoreTracker* pScores)
 {
     field_1BC_cur_time = 0;
     field_1B8_pScores = pScores;
 }
 
 MATCH_FUNC(0x431E30);
-void BonusTracker_1C0::Service_431E30()
+void BonusTracker::Service_431E30()
 {
     field_1BC_cur_time = gpRng_67AB34->get_cur_rng_41CFE0();
 
-    BonusRule_2C* pIter = &field_0_bonuses[0];
+    BonusRule* pIter = &field_0_bonuses[0];
     for (s32 i = GTA2_COUNTOF(field_0_bonuses) - 1; i >= 0; i--)
     {
         if (pIter->field_2A_bUsed)
@@ -96,7 +96,7 @@ void BonusTracker_1C0::Service_431E30()
 }
 
 MATCH_FUNC(0x431E90);
-u16 BonusTracker_1C0::FindFreeRule_431E90()
+u16 BonusTracker::FindFreeRule_431E90()
 {
     for (u16 i = 0; i < GTA2_COUNTOF(field_0_bonuses); i++)
     {
@@ -109,7 +109,7 @@ u16 BonusTracker_1C0::FindFreeRule_431E90()
 }
 
 MATCH_FUNC(0x431EC0);
-u16 BonusTracker_1C0::FindMatchingRule_431EC0(u16 start_idx,
+u16 BonusTracker::FindMatchingRule_431EC0(u16 start_idx,
                                 s16 event_type,
                                 s32 car_model,
                                 s32 occupation,
@@ -120,7 +120,7 @@ u16 BonusTracker_1C0::FindMatchingRule_431EC0(u16 start_idx,
                                 gmp_map_zone* pZone)
 {
     u16 i;
-    BonusRule_2C* pBonus;
+    BonusRule* pBonus;
     s16 bonus_type;
     s32 bonus_occupation;
     s32 bonus_car_model;
@@ -179,7 +179,7 @@ u16 BonusTracker_1C0::FindMatchingRule_431EC0(u16 start_idx,
 }
 
 MATCH_FUNC(0x431FE0);
-s16 BonusTracker_1C0::AllocRule_431FE0(s16 event_type,
+s16 BonusTracker::AllocRule_431FE0(s16 event_type,
                                       s32 car_model,
                                       s32 occupation,
                                       s16 gang_idx,
@@ -219,9 +219,9 @@ s16 BonusTracker_1C0::AllocRule_431FE0(s16 event_type,
 }
 
 MATCH_FUNC(0x432080);
-s16 BonusTracker_1C0::GetBonusResult_432080(u16 idx)
+s16 BonusTracker::GetBonusResult_432080(u16 idx)
 {
-    BonusRule_2C* pItem = &field_0_bonuses[idx];
+    BonusRule* pItem = &field_0_bonuses[idx];
     if (!pItem->field_2A_bUsed)
     {
         return -1;
@@ -245,7 +245,7 @@ s16 BonusTracker_1C0::GetBonusResult_432080(u16 idx)
 }
 
 MATCH_FUNC(0x4320D0);
-void BonusTracker_1C0::ProcessBonusEvent_4320D0(s16 event_type, s32 car_model, s32 occupation, s16 gang_idx, s16 remap, s32 death_cause, s32 alt_car_model, gmp_map_zone* pZone)
+void BonusTracker::ProcessBonusEvent_4320D0(s16 event_type, s32 car_model, s32 occupation, s16 gang_idx, s16 remap, s32 death_cause, s32 alt_car_model, gmp_map_zone* pZone)
 {
     for (u16 i = 0; i < k_max_rules; i++)
     {
@@ -254,7 +254,7 @@ void BonusTracker_1C0::ProcessBonusEvent_4320D0(s16 event_type, s32 car_model, s
         {
             break;
         }
-        BonusRule_2C* pFound = &field_0_bonuses[i];
+        BonusRule* pFound = &field_0_bonuses[i];
         field_0_bonuses[i].field_26_progress_count++;
         if (GetProgressCount_476660(i) == pFound->field_25_target_count)
         {
@@ -265,7 +265,7 @@ void BonusTracker_1C0::ProcessBonusEvent_4320D0(s16 event_type, s32 car_model, s
 }
 
 MATCH_FUNC(0x432170);
-s8 BonusTracker_1C0::IsDeathCauseInGroup_432170(int death_cause, int rule_death_cause)
+s8 BonusTracker::IsDeathCauseInGroup_432170(int death_cause, int rule_death_cause)
 {
     if (rule_death_cause == ped_death_cause::run_over_1)
     {
@@ -337,7 +337,7 @@ s8 BonusTracker_1C0::IsDeathCauseInGroup_432170(int death_cause, int rule_death_
 }
 
 MATCH_FUNC(0x432240);
-s8 BonusTracker_1C0::IsOccupationInGroup_432240(int occupation, int rule_occupation)
+s8 BonusTracker::IsOccupationInGroup_432240(int occupation, int rule_occupation)
 {
     if (rule_occupation == ped_ocupation_enum::any_law_enforcement)
     {
@@ -397,7 +397,7 @@ s8 BonusTracker_1C0::IsOccupationInGroup_432240(int occupation, int rule_occupat
 }
 
 MATCH_FUNC(0x432300);
-bool BonusTracker_1C0::AreCarModelsEquivalent_432300(int car_model_1, int car_model_2)
+bool BonusTracker::AreCarModelsEquivalent_432300(int car_model_1, int car_model_2)
 {
     bool is_fed_car_1;
     bool is_fed_car_2;

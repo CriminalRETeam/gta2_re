@@ -4,18 +4,18 @@
 #include "ang16.hpp"
 
 class Player;
-class Object_2C;
+class Object;
 class Ped;
 class Fix16;
 class Sprite;
-class Car_BC;
+class Car;
 class Fix16_Point;
 
-class SoundObject_10;
+class SoundObject;
 
 EXPORT void __stdcall ShockPedsAroundSprite_5DF270(Sprite* pSprite, Fix16 search_size, char_type bCheckAngle, char_type a4, Ped* pAttacker, Sprite* pTargetSprite);
 
-class Weapon_30
+class Weapon
 {
   public:
     // 9.6f 0x4A4FE0
@@ -43,13 +43,13 @@ class Weapon_30
     }
 
     // 9.6f 0x4CCA20
-    inline void set_car_4CCA20(Car_BC* v)
+    inline void set_car_4CCA20(Car* v)
     {
         field_14_car = v;
     }
 
-    EXPORT Weapon_30();
-    EXPORT ~Weapon_30();
+    EXPORT Weapon();
+    EXPORT ~Weapon();
     EXPORT void init_5DCD90();
     EXPORT void PoolDeallocate();
     EXPORT void set_ammo_clips_5DCE20(u8 clips);
@@ -57,7 +57,7 @@ class Weapon_30
     EXPORT bool is_max_capacity_5DCEA0();
     EXPORT bool sub_5DCEF0();
     EXPORT void ApplyFastReload_5DCF40();
-    EXPORT Object_2C* spawn_bullet_5DCF60(s32 bullet_type, Fix16 x, Fix16 y, Fix16 z, Ang16 rot, Fix16_Point& speed);
+    EXPORT Object* spawn_bullet_5DCF60(s32 bullet_type, Fix16 x, Fix16 y, Fix16 z, Ang16 rot, Fix16_Point& speed);
     EXPORT void flamethrower_5DD0F0();
     EXPORT void shotgun_5DD290();
     EXPORT void pistol_5DD860();
@@ -171,17 +171,18 @@ class Weapon_30
     s32 field_C_unused;
     s16 field_10;
     s16 field_12;
-    Car_BC* field_14_car;
-    Weapon_30* mpNext;
+    Car* field_14_car;
+    Weapon* mpNext;
     s32 field_1C_idx; // weapon_type
     s8 field_20;
     s8 field_21;
     s8 field_22_unused;
     s8 field_23_unused;
     Ped* field_24_pPed;
-    SoundObject_10* field_28_pSound;
+    SoundObject* field_28_pSound;
     s8 field_2C_shot_fired;
     s8 field_2D_unused;
     s8 field_2E_unused;
     s8 field_2F_unused;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Weapon, 0x30);

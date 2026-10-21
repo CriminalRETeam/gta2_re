@@ -7,9 +7,9 @@
 #include "Pool.hpp"
 #include "ang16.hpp"
 
-class Car_BC;
+class Car;
 class Sprite;
-class CarChaseTask_40;
+class CarChaseTask;
 struct gmp_block_info;
 
 namespace car_ai_direction
@@ -36,7 +36,7 @@ enum
 };
 } // namespace car_ai_target_direction
 
-class CarAI_78
+class CarAI
 {
   public:
     EXPORT void MakeAgressiveSirensAndLights_4476F0();
@@ -68,23 +68,23 @@ class CarAI_78
     EXPORT void UpdateSpeedTowardTarget_4539D0();
     EXPORT void UpdateTrainMovement_453A40();
     EXPORT void AI_Service_453BB0();
-    EXPORT void SetCar_453BF0(Car_BC* pCar);
+    EXPORT void SetCar_453BF0(Car* pCar);
     EXPORT void ReverseOrNeutral_453C00();
     EXPORT void PoolAllocate();
-    EXPORT CarAI_78();
+    EXPORT CarAI();
 
     void PoolDeallocate()
     {
         field_0_car = 0;
     }
 
-    Car_BC* field_0_car;
+    Car* field_0_car;
     s32 field_4_unused;
     char_type field_8_maneuver_active;
     char_type field_9_probe_x;
     char_type field_A_probe_y;
     char_type field_B_pad;
-    CarAI_78* mpNext;
+    CarAI* mpNext;
     Ang16 field_10_angle;
     s16 field_12_pad;
     Fix16 field_14_speed;
@@ -125,37 +125,38 @@ class CarAI_78
     Fix16 field_5C_unused;
     Fix16 field_60_unused;
     Fix16 field_64_unused;
-    Car_BC* field_68_car_in_collision; // Car collided
-    Car_BC* field_6C_yield_to_car;
+    Car* field_68_car_in_collision; // Car collided
+    Car* field_6C_yield_to_car;
     Sprite* field_70_nearest_entity;
     Fix16 field_74_max_speed;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(CarAI, 0x78);
 
-class CarAI_78_Pool
+class CarAIPool
 {
   public:
-    //Inlined in CarManager_6C constructor 9.6f -> 0x420eb0
-    CarAI_78_Pool()
+    //Inlined in CarManager constructor 9.6f -> 0x420eb0
+    CarAIPool()
     {
     }
 
-    ~CarAI_78_Pool()
+    ~CarAIPool()
     {
         field_0_pool.field_0_pHead = 0;
     }
 
-    CarAI_78* Allocate()
+    CarAI* Allocate()
     {
         return field_0_pool.Allocate();
     }
 
     // TODO: get 9.6f inline addr
-    void DeAllocate(CarAI_78* p78)
+    void DeAllocate(CarAI* p78)
     {
         field_0_pool.DeAllocate(p78);
     }
 
-    PoolBasic<CarAI_78, 306> field_0_pool;
+    PoolBasic<CarAI, 306> field_0_pool;
 };
 
-EXTERN_GLOBAL(CarAI_78_Pool*, gCarAI_78_Pool_677CF8);
+EXTERN_GLOBAL(CarAIPool*, gCarAI_78_Pool_677CF8);

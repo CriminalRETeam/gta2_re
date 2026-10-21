@@ -1162,7 +1162,7 @@ char_type cSampleManager::LoadWavSdtData_58E980(const char_type* pRawOrSdtName)
         fclose(hRawFile_);
     }
 
-    fread(field_A8_sdt_entries, sizeof(sdt_entry_0x18), 320u, hSdtFile);
+    fread(field_A8_sdt_entries, sizeof(SdtEntry), 320u, hSdtFile);
     fclose(hSdtFile);
     field_A4_bLoaded = 1;
     return 1;

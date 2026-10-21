@@ -6,11 +6,11 @@ class gmp_map_zone;
 
 // One bonus challenge defined by the mission script: count the events that match the filters and pay the reward
 // when target_count is reached (within time_limit). Filters set to their wildcard value match everything.
-class BonusRule_2C
+class BonusRule
 {
   public:
-    EXPORT BonusRule_2C(); // 0x431D30
-    EXPORT ~BonusRule_2C(); // 0x431D40
+    EXPORT BonusRule(); // 0x431D30
+    EXPORT ~BonusRule(); // 0x431D40
     EXPORT void Init_431D50();
     EXPORT void Reset_431DA0();
     EXPORT void Deactivate_431DB0();
@@ -32,9 +32,10 @@ class BonusRule_2C
     char_type field_2A_bUsed;
     char_type field_2B_bActive;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(BonusRule, 0x2C);
 
-// The rules of one player's score tracker (PlayerScoreTracker_36C::field_1A8_bonuses)
-class BonusTracker_1C0
+// The rules of one player's score tracker (PlayerScoreTracker::field_1A8_bonuses)
+class BonusTracker
 {
   public:
     enum
@@ -54,9 +55,9 @@ class BonusTracker_1C0
         field_0_bonuses[idx].Deactivate_431DB0();
     }
 
-    EXPORT BonusTracker_1C0(); // 0x431DC0
-    EXPORT ~BonusTracker_1C0(); // 0x431DF0
-    EXPORT void Init_431E10(class PlayerScoreTracker_36C* pScores);
+    EXPORT BonusTracker(); // 0x431DC0
+    EXPORT ~BonusTracker(); // 0x431DF0
+    EXPORT void Init_431E10(class PlayerScoreTracker* pScores);
     EXPORT void Service_431E30();
     EXPORT u16 FindFreeRule_431E90();
     EXPORT u16 FindMatchingRule_431EC0(u16 start_idx, s16 event_type, s32 car_model, s32 occupation, s16 gang_idx, s16 remap, s32 death_cause, s32 alt_car_model, gmp_map_zone* pZone);
@@ -78,7 +79,8 @@ class BonusTracker_1C0
     EXPORT s8 IsOccupationInGroup_432240(int occupation, int rule_occupation);
     EXPORT bool AreCarModelsEquivalent_432300(int car_model_1, int car_model_2);
 
-    BonusRule_2C field_0_bonuses[k_max_rules];
-    class PlayerScoreTracker_36C* field_1B8_pScores;
+    BonusRule field_0_bonuses[k_max_rules];
+    class PlayerScoreTracker* field_1B8_pScores;
     s32 field_1BC_cur_time;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(BonusTracker, 0x1C0);
