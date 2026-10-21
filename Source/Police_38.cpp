@@ -17,7 +17,7 @@
 #include "CarAI_78.hpp"
 #include "ped_graphic_type.hpp"
 
-DEFINE_GLOBAL(Fix16, dword_6FECE8, 0x6FECE8);
+DEFINE_GLOBAL(Fix16, kFpZero_6FECE8, 0x6FECE8);
 DEFINE_GLOBAL_INIT(Fix16, kFpTen_6FED54, Fix16(0x28000, 0), 0x6FED54);
 DEFINE_GLOBAL(Ped*, gCurrentCrewPed_6FEDDC, 0x6FEDDC);
 DEFINE_GLOBAL(u8, byte_6FEB48, 0x6FEB48);
@@ -46,8 +46,8 @@ void PoliceCrew_38::Init_5709C0()
     field_10_subObj = 0;
     field_24_state = police_crew_state::none_0;
     field_28 = 0;
-    field_8 = dword_6FECE8;
-    field_C = dword_6FECE8;
+    field_8 = kFpZero_6FECE8;
+    field_C = kFpZero_6FECE8;
     field_14_pPursuitTarget = 0;
     field_1A_unused = 0;
     field_29_bCountedInPoliceCount = 0;
@@ -822,9 +822,9 @@ void PoliceCrew_38::State3_AlertedSearch_572340()
 }
 
 EXTERN_GLOBAL(Fix16, kFpFour_6FECF8);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FEB44, Fix16(0x666, 0), 0x6FEB44);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FED08, Fix16(4), 0x6FED08);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FECB8, Fix16(0x147, 0), 0x6FECB8);
+DEFINE_GLOBAL_INIT(Fix16, kFpPoint1_6FEB44, Fix16(0x666, 0), 0x6FEB44);
+DEFINE_GLOBAL_INIT(Fix16, kFpFour_6FED08, Fix16(4), 0x6FED08);
+DEFINE_GLOBAL_INIT(Fix16, kFpPoint02_6FECB8, Fix16(0x147, 0), 0x6FECB8);
 
 // MaxAbsDistance_42A6B0 as State5_PursueOrChase_572920 inlines it: past the nested inline budget, Max is the named
 // out-of-line copy Max_44E540 (as in Weapon_30's MaxAbsDistance_5DF270)
@@ -1115,14 +1115,14 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
                                 }
                                 else if (field_14_pPursuitTarget->field_0_criminal_ped->field_16C_car)
                                 {
-                                    if (field_14_pPursuitTarget->field_0_criminal_ped->field_16C_car->GetCarLinearSpeed_43A240() > dword_6FEB44)
+                                    if (field_14_pPursuitTarget->field_0_criminal_ped->field_16C_car->GetCarLinearSpeed_43A240() > kFpPoint1_6FEB44)
                                     {
                                         if (++field_35 > 30)
                                         {
                                             bEnterCar = true;
                                         }
                                     }
-                                    else if (field_8 > dword_6FED08)
+                                    else if (field_8 > kFpFour_6FED08)
                                     {
                                         bEnterCar = true;
                                     }
@@ -1218,7 +1218,7 @@ void PoliceCrew_38::State5_PursueOrChase_572920()
                         break;
 
                     case objectives_enum::wait_in_car_27:
-                        if (field_10_subObj->field_0_car->GetCarLinearSpeed_43A240() <= dword_6FECB8)
+                        if (field_10_subObj->field_0_car->GetCarLinearSpeed_43A240() <= kFpPoint02_6FECB8)
                         {
                             gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::leave_car_36);
                             gCurrentCrewPed_6FEDDC->SetTargetObjectiveCar(gCurrentCrewPed_6FEDDC->field_16C_car);
@@ -1643,10 +1643,10 @@ void PoliceCrew_38::sub_5752C0()
     byte_6FEB48 = 1;
 }
 
-DEFINE_GLOBAL_INIT(Fix16, dword_6FECF0, Fix16(2), 0x6FECF0);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FEBF4, Fix16(0.5), 0x6FEBF4);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FECF4, Fix16(3), 0x6FECF4);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FEDE0, Fix16(0x1EB, 0), 0x6FEDE0);
+DEFINE_GLOBAL_INIT(Fix16, kFpTwo_6FECF0, Fix16(2), 0x6FECF0);
+DEFINE_GLOBAL_INIT(Fix16, kFpHalf_6FEBF4, Fix16(0.5), 0x6FEBF4);
+DEFINE_GLOBAL_INIT(Fix16, kFpThree_6FECF4, Fix16(3), 0x6FECF4);
+DEFINE_GLOBAL_INIT(Fix16, kFpPoint03_6FEDE0, Fix16(0x1EB, 0), 0x6FEDE0);
 
 MATCH_FUNC(0x575310)
 void PoliceCrew_38::sub_575310()
@@ -1661,7 +1661,7 @@ void PoliceCrew_38::sub_575310()
                                             gCurrentCrewPed_6FEDDC->get_cam_y(),
                                             field_14_pPursuitTarget->field_0_criminal_ped->get_cam_x(),
                                             field_14_pPursuitTarget->field_0_criminal_ped->get_cam_y());
-        if (dist < dword_6FECF0 + dword_6FEBF4)
+        if (dist < kFpTwo_6FECF0 + kFpHalf_6FEBF4)
         {
             gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::wait_in_car_27);
             if (field_10_subObj && field_10_subObj->field_0_car && field_10_subObj->field_0_car->field_60_pChaseTask)
@@ -1721,8 +1721,8 @@ void PoliceCrew_38::sub_575310()
             field_10_subObj->field_0_car->field_60_pChaseTask->field_3C_block_counter = field_14_pPursuitTarget->field_E;
         }
 
-        if (dist < dword_6FECF4 && field_10_subObj->field_0_car->GetVelocity_43A4C0() < dword_6FEDE0 &&
-            field_14_pPursuitTarget->field_0_criminal_ped->field_16C_car->GetVelocity_43A4C0() < dword_6FEDE0)
+        if (dist < kFpThree_6FECF4 && field_10_subObj->field_0_car->GetVelocity_43A4C0() < kFpPoint03_6FEDE0 &&
+            field_14_pPursuitTarget->field_0_criminal_ped->field_16C_car->GetVelocity_43A4C0() < kFpPoint03_6FEDE0)
         {
             gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::wait_in_car_27);
             if (field_10_subObj->field_0_car->field_60_pChaseTask)
@@ -2477,17 +2477,17 @@ void PoliceRoadblock_A4::RemoveRoadblock_575CA0()
 }
 
 // Roadblock building: the values aren't known yet
-DEFINE_GLOBAL_INIT(Fix16, dword_6FECEC, Fix16(1), 0x6FECEC);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FEDA0, Fix16(0x100, 0), 0x6FEDA0);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FED80, Fix16(16), 0x6FED80);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FED0C, Fix16(8), 0x6FED0C);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FEBD0, Fix16(0.75), 0x6FEBD0);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FEB50, Fix16(0xCCC, 0), 0x6FEB50);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FEB5C, Fix16(0.5), 0x6FEB5C);
-DEFINE_GLOBAL(Ang16, word_6FEE30, 0x6FEE30);
-DEFINE_GLOBAL_INIT(Ang16, word_6FEB74, Ang16(360), 0x6FEB74);
-DEFINE_GLOBAL_INIT(u8, byte_624FBC, 1, 0x624FBC); // the next roadblock lane gets barriers
-DEFINE_GLOBAL_INIT(u8, byte_624FBD, 1, 0x624FBD); // the next roadblock lane gets a guard
+DEFINE_GLOBAL_INIT(Fix16, kFpOne_6FECEC, Fix16(1), 0x6FECEC);
+DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6FEDA0, Fix16(0x100, 0), 0x6FEDA0);
+DEFINE_GLOBAL_INIT(Fix16, kFpSixteen_6FED80, Fix16(16), 0x6FED80);
+DEFINE_GLOBAL_INIT(Fix16, kFpEight_6FED0C, Fix16(8), 0x6FED0C);
+DEFINE_GLOBAL_INIT(Fix16, kFpThreeQuarters_6FEBD0, Fix16(0.75), 0x6FEBD0);
+DEFINE_GLOBAL_INIT(Fix16, kFpPoint2_6FEB50, Fix16(0xCCC, 0), 0x6FEB50);
+DEFINE_GLOBAL_INIT(Fix16, kFpHalf_6FEB5C, Fix16(0.5), 0x6FEB5C);
+DEFINE_GLOBAL(Ang16, kAng0_6FEE30, 0x6FEE30);
+DEFINE_GLOBAL_INIT(Ang16, kAng90_6FEB74, Ang16(360), 0x6FEB74);
+DEFINE_GLOBAL_INIT(u8, gRoadblockLaneHasBarriers_624FBC, 1, 0x624FBC); // the next roadblock lane gets barriers
+DEFINE_GLOBAL_INIT(u8, gRoadblockLaneHasGuard_624FBD, 1, 0x624FBD); // the next roadblock lane gets a guard
 
 // The "first free slot" fills for the cars, barriers and guards are written out in the body, as in
 // 9.6f (built with /Ob0, so they were never inline helpers). As inline helpers they used up VC6's
@@ -2610,21 +2610,21 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
             return 0;
         }
 
-        x_left = Fix16(x_start) + dword_6FEBF4;
+        x_left = Fix16(x_start) + kFpHalf_6FEBF4;
         y_top = Fix16(y_start);
-        x_right = Fix16(x_start) + dword_6FEBF4;
+        x_right = Fix16(x_start) + kFpHalf_6FEBF4;
         y_bottom = Fix16(y_start + width + 1);
         zpos = Fix16(z);
-        field_A0_rect->SetRect_41E350(x_left - dword_6FEBF4, x_right + dword_6FEBF4, y_top, y_bottom);
-        field_A0_rect->SetHiLowZ_41E370(zpos - dword_6FECEC, zpos + dword_6FECEC);
+        field_A0_rect->SetRect_41E350(x_left - kFpHalf_6FEBF4, x_right + kFpHalf_6FEBF4, y_top, y_bottom);
+        field_A0_rect->SetHiLowZ_41E370(zpos - kFpOne_6FECEC, zpos + kFpOne_6FECEC);
         if (gSpriteGrid_1_679208->CheckRectForCollisions_477F60(field_A0_rect, 0, 0, 0))
         {
             return 0;
         }
-        if (gMap_0x370_6F6268->HasWallInArea_4E18A0((x_left - dword_6FEBF4).ToInt(),
-                                                    (x_right + dword_6FEBF4 - dword_6FEDA0).ToInt(),
+        if (gMap_0x370_6F6268->HasWallInArea_4E18A0((x_left - kFpHalf_6FEBF4).ToInt(),
+                                                    (x_right + kFpHalf_6FEBF4 - kFpOne64th_6FEDA0).ToInt(),
                                                     y_top.ToInt(),
-                                                    (y_bottom - dword_6FEDA0).ToInt(),
+                                                    (y_bottom - kFpOne64th_6FEDA0).ToInt(),
                                                     zpos.ToInt()))
         {
             return 0;
@@ -2638,12 +2638,12 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                 if (lane > 0 && lane < width - 1)
                 {
                     s16 max = 32;
-                    angle = Ang16::Fix16_To_Ang16_40F540((Fix16(gRng_6F6784.get_int_4F7AE0(max)) - dword_6FED80) * kFpOne64th_6FEB88) +
-                        word_6FEE30;
+                    angle = Ang16::Fix16_To_Ang16_40F540((Fix16(gRng_6F6784.get_int_4F7AE0(max)) - kFpSixteen_6FED80) * kFpOne64th_6FEB88) +
+                        kAng0_6FEE30;
                 }
                 else
                 {
-                    angle = word_6FEE30;
+                    angle = kAng0_6FEE30;
                 }
 
                 if (gCarManager_6C_677930->CanAllocateCarOfKind_446930(car_kind::roadblock_car_7))
@@ -2653,47 +2653,47 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                         default:
                             break;
                         case crew_kind::police_1:
-                            pCar = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x_start) + dword_6FEBF4,
-                                                                             Fix16(y_start + lane) + dword_6FEBF4,
+                            pCar = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x_start) + kFpHalf_6FEBF4,
+                                                                             Fix16(y_start + lane) + kFpHalf_6FEBF4,
                                                                              angle,
                                                                              car_model_enum::COPCAR,
-                                                                             dword_6FECEC);
-                            byte_624FBC = 1;
-                            byte_624FBD = 1;
+                                                                             kFpOne_6FECEC);
+                            gRoadblockLaneHasBarriers_624FBC = 1;
+                            gRoadblockLaneHasGuard_624FBD = 1;
                             break;
                         case crew_kind::swat_2:
-                            pCar = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x_start) + dword_6FEBF4,
-                                                                             Fix16(y_start + lane) + dword_6FEBF4,
+                            pCar = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x_start) + kFpHalf_6FEBF4,
+                                                                             Fix16(y_start + lane) + kFpHalf_6FEBF4,
                                                                              angle,
                                                                              car_model_enum::COPCAR,
-                                                                             dword_6FECEC);
-                            byte_624FBC = 1;
-                            byte_624FBD = 1;
+                                                                             kFpOne_6FECEC);
+                            gRoadblockLaneHasBarriers_624FBC = 1;
+                            gRoadblockLaneHasGuard_624FBD = 1;
                             break;
                         case crew_kind::fbi_3:
-                            pCar = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x_start) + dword_6FEBF4,
-                                                                             Fix16(y_start + lane) + dword_6FEBF4,
+                            pCar = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x_start) + kFpHalf_6FEBF4,
+                                                                             Fix16(y_start + lane) + kFpHalf_6FEBF4,
                                                                              angle,
                                                                              car_model_enum::EDSELFBI,
-                                                                             dword_6FECEC);
-                            byte_624FBC = 1;
-                            byte_624FBD = 1;
+                                                                             kFpOne_6FECEC);
+                            gRoadblockLaneHasBarriers_624FBC = 1;
+                            gRoadblockLaneHasGuard_624FBD = 1;
                             break;
                         case crew_kind::army_4:
                             if (lane != width - 1)
                             {
-                                pCar = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x_start) + dword_6FEBF4,
-                                                                                 Fix16(y_start + lane) + dword_6FEBD0,
+                                pCar = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x_start) + kFpHalf_6FEBF4,
+                                                                                 Fix16(y_start + lane) + kFpThreeQuarters_6FEBD0,
                                                                                  angle,
                                                                                  car_model_enum::TANK,
-                                                                                 dword_6FECEC);
-                                byte_624FBC = 0;
-                                byte_624FBD = 0;
+                                                                                 kFpOne_6FECEC);
+                                gRoadblockLaneHasBarriers_624FBC = 0;
+                                gRoadblockLaneHasGuard_624FBD = 0;
                                 Ped* pDriver = gPedManager_6787BC->SpawnDriver_470B00(pCar);
                                 pDriver->SetPedType_403920(5);
                                 pDriver->set_occupation_403970(ped_ocupation_enum::road_block_tank_man);
                                 pDriver->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
-                                pCar->field_0_attachments.GetSpriteForModel_5A6A50(148)->field_10_offset_rot = word_6FEB74;
+                                pCar->field_0_attachments.GetSpriteForModel_5A6A50(148)->field_10_offset_rot = kAng90_6FEB74;
                             }
                             break;
                     }
@@ -2734,18 +2734,18 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
             }
             else
             {
-                if (byte_624FBC)
+                if (gRoadblockLaneHasBarriers_624FBC)
                 {
                     Object_2C* pBarrier1 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(21,
-                                                                                   Fix16(x_start) + dword_6FEB50,
-                                                                                   Fix16(y_start + lane) + dword_6FEBF4,
+                                                                                   Fix16(x_start) + kFpPoint2_6FEB50,
+                                                                                   Fix16(y_start + lane) + kFpHalf_6FEBF4,
                                                                                    z,
-                                                                                   word_6FEB74);
+                                                                                   kAng90_6FEB74);
                     Object_2C* pBarrier2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(21,
                                                                                    Fix16(x_start) + kFpPoint8_6FEB68,
-                                                                                   Fix16(y_start + lane) + dword_6FEBF4,
+                                                                                   Fix16(y_start + lane) + kFpHalf_6FEBF4,
                                                                                    z,
-                                                                                   word_6FEB74);
+                                                                                   kAng90_6FEB74);
                     if (!field_28_barrier_1)
                     {
                         field_28_barrier_1 = pBarrier1;
@@ -2789,12 +2789,12 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                         field_84_barrier_12_id = pBarrier2->field_14_id;
                     }
                 }
-                if (byte_624FBD)
+                if (gRoadblockLaneHasGuard_624FBD)
                 {
-                    Ped* pGuard = gPolice_7B8_6FEE40->SpawnRoadblockGuard_56F5C0(Fix16(x_start) + dword_6FEB5C,
-                                                                            Fix16(y_start + lane) + dword_6FEBF4,
+                    Ped* pGuard = gPolice_7B8_6FEE40->SpawnRoadblockGuard_56F5C0(Fix16(x_start) + kFpHalf_6FEB5C,
+                                                                            Fix16(y_start + lane) + kFpHalf_6FEBF4,
                                                                             z,
-                                                                            word_6FEB74);
+                                                                            kAng90_6FEB74);
                     if (!field_88_guard_1)
                     {
                         field_88_guard_1 = pGuard;
@@ -2925,20 +2925,20 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
         }
 
         x_left = Fix16(x_start);
-        y_top = Fix16(y_start) + dword_6FEBF4;
+        y_top = Fix16(y_start) + kFpHalf_6FEBF4;
         x_right = Fix16(x_start + width + 1);
-        y_bottom = Fix16(y_start) + dword_6FEBF4;
+        y_bottom = Fix16(y_start) + kFpHalf_6FEBF4;
         zpos = Fix16(z);
-        field_A0_rect->SetRect_41E350(x_left, x_right, y_top - dword_6FEBF4, y_bottom + dword_6FEBF4);
-        field_A0_rect->SetHiLowZ_41E370(zpos - dword_6FECEC, zpos + dword_6FECEC);
+        field_A0_rect->SetRect_41E350(x_left, x_right, y_top - kFpHalf_6FEBF4, y_bottom + kFpHalf_6FEBF4);
+        field_A0_rect->SetHiLowZ_41E370(zpos - kFpOne_6FECEC, zpos + kFpOne_6FECEC);
         if (gSpriteGrid_1_679208->CheckRectForCollisions_477F60(field_A0_rect, 0, 0, 0))
         {
             return 0;
         }
         if (gMap_0x370_6F6268->HasWallInArea_4E18A0(x_left.ToInt(),
-                                                    (x_right - dword_6FEDA0).ToInt(),
-                                                    (y_top - dword_6FEBF4).ToInt(),
-                                                    (y_bottom + dword_6FEBF4 - dword_6FEDA0).ToInt(),
+                                                    (x_right - kFpOne64th_6FEDA0).ToInt(),
+                                                    (y_top - kFpHalf_6FEBF4).ToInt(),
+                                                    (y_bottom + kFpHalf_6FEBF4 - kFpOne64th_6FEDA0).ToInt(),
                                                     zpos.ToInt()))
         {
             return 0;
@@ -2953,11 +2953,11 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                 {
                     s16 max = 16;
                     angle =
-                        Ang16::Fix16_To_Ang16_40F540((Fix16(gRng_6F6784.get_int_4F7AE0(max)) - dword_6FED0C) * kFpOne64th_6FEB88) + word_6FEB74;
+                        Ang16::Fix16_To_Ang16_40F540((Fix16(gRng_6F6784.get_int_4F7AE0(max)) - kFpEight_6FED0C) * kFpOne64th_6FEB88) + kAng90_6FEB74;
                 }
                 else
                 {
-                    angle = word_6FEB74;
+                    angle = kAng90_6FEB74;
                 }
 
                 if (gCarManager_6C_677930->CanAllocateCarOfKind_446930(car_kind::roadblock_car_7))
@@ -2967,39 +2967,39 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                         default:
                             break;
                         case crew_kind::police_1:
-                            pCar = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x_start + lane) + dword_6FEBF4,
-                                                                             Fix16(y_start) + dword_6FEBF4,
+                            pCar = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x_start + lane) + kFpHalf_6FEBF4,
+                                                                             Fix16(y_start) + kFpHalf_6FEBF4,
                                                                              angle,
                                                                              car_model_enum::COPCAR,
-                                                                             dword_6FECEC);
-                            byte_624FBC = 1;
+                                                                             kFpOne_6FECEC);
+                            gRoadblockLaneHasBarriers_624FBC = 1;
                             break;
                         case crew_kind::swat_2:
-                            pCar = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x_start + lane) + dword_6FEBF4,
-                                                                             Fix16(y_start) + dword_6FEBF4,
+                            pCar = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x_start + lane) + kFpHalf_6FEBF4,
+                                                                             Fix16(y_start) + kFpHalf_6FEBF4,
                                                                              angle,
                                                                              car_model_enum::COPCAR,
-                                                                             dword_6FECEC);
-                            byte_624FBC = 1;
+                                                                             kFpOne_6FECEC);
+                            gRoadblockLaneHasBarriers_624FBC = 1;
                             break;
                         case crew_kind::fbi_3:
-                            pCar = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x_start + lane) + dword_6FEBF4,
-                                                                             Fix16(y_start) + dword_6FEBF4,
+                            pCar = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x_start + lane) + kFpHalf_6FEBF4,
+                                                                             Fix16(y_start) + kFpHalf_6FEBF4,
                                                                              angle,
                                                                              car_model_enum::EDSELFBI,
-                                                                             dword_6FECEC);
-                            byte_624FBC = 1;
+                                                                             kFpOne_6FECEC);
+                            gRoadblockLaneHasBarriers_624FBC = 1;
                             break;
                         case crew_kind::army_4:
                             if (lane != width - 1)
                             {
-                                pCar = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x_start + lane) + dword_6FEBD0,
-                                                                                 Fix16(y_start) + dword_6FEBF4,
+                                pCar = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(x_start + lane) + kFpThreeQuarters_6FEBD0,
+                                                                                 Fix16(y_start) + kFpHalf_6FEBF4,
                                                                                  angle,
                                                                                  car_model_enum::TANK,
-                                                                                 dword_6FECEC);
-                                byte_624FBC = 0;
-                                byte_624FBD = 0;
+                                                                                 kFpOne_6FECEC);
+                                gRoadblockLaneHasBarriers_624FBC = 0;
+                                gRoadblockLaneHasGuard_624FBD = 0;
                                 Ped* pDriver = gPedManager_6787BC->SpawnDriver_470B00(pCar);
                                 pDriver->SetPedType_403920(5);
                                 pDriver->set_occupation_403970(ped_ocupation_enum::road_block_tank_man);
@@ -3044,18 +3044,18 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
             }
             else
             {
-                if (byte_624FBC)
+                if (gRoadblockLaneHasBarriers_624FBC)
                 {
                     Object_2C* pBarrier1 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(21,
-                                                                                   Fix16(x_start + lane) + dword_6FEBF4,
-                                                                                   Fix16(y_start) + dword_6FEB50,
+                                                                                   Fix16(x_start + lane) + kFpHalf_6FEBF4,
+                                                                                   Fix16(y_start) + kFpPoint2_6FEB50,
                                                                                    z,
-                                                                                   word_6FEE30);
+                                                                                   kAng0_6FEE30);
                     Object_2C* pBarrier2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(21,
-                                                                                   Fix16(x_start + lane) + dword_6FEBF4,
+                                                                                   Fix16(x_start + lane) + kFpHalf_6FEBF4,
                                                                                    Fix16(y_start) + kFpPoint8_6FEB68,
                                                                                    z,
-                                                                                   word_6FEE30);
+                                                                                   kAng0_6FEE30);
                     if (!field_28_barrier_1)
                     {
                         field_28_barrier_1 = pBarrier1;
@@ -3099,12 +3099,12 @@ char_type PoliceRoadblock_A4::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orien
                         field_84_barrier_12_id = pBarrier2->field_14_id;
                     }
                 }
-                if (byte_624FBD)
+                if (gRoadblockLaneHasGuard_624FBD)
                 {
-                    Ped* pGuard = gPolice_7B8_6FEE40->SpawnRoadblockGuard_56F5C0(Fix16(x_start + lane) + dword_6FEBF4,
-                                                                            Fix16(y_start) + dword_6FEB5C,
+                    Ped* pGuard = gPolice_7B8_6FEE40->SpawnRoadblockGuard_56F5C0(Fix16(x_start + lane) + kFpHalf_6FEBF4,
+                                                                            Fix16(y_start) + kFpHalf_6FEB5C,
                                                                             z,
-                                                                            word_6FEE30);
+                                                                            kAng0_6FEE30);
                     if (!field_88_guard_1)
                     {
                         field_88_guard_1 = pGuard;

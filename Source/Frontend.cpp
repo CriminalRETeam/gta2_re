@@ -40,17 +40,17 @@ void Start_GTA2Manager_5E4DE0();
 
 DEFINE_GLOBAL(Frontend*, gFrontend_67DC84, 0x67DC84);
 DEFINE_GLOBAL_INIT(u32, counter_706C4C, 0, 0x706C4C);
-DEFINE_GLOBAL_INIT(Fix16, dword_67D930, Fix16(0, 0), 0x67D930);
+DEFINE_GLOBAL_INIT(Fix16, kFpZero_67D930, Fix16(0, 0), 0x67D930);
 u16 gTableSize_61FF20 = 25; // Note is constant but can't be marked const
 DEFINE_GLOBAL_ARRAY(wchar_t, gEmptyWStr_67DC8C, 32, 0x67DC8C); // 67DCCC
 DEFINE_GLOBAL_INIT(Fix16, kFpOne_67D9FC, Fix16(1), 0x67D9FC);
 DEFINE_GLOBAL(short, font_type_703C14, 0x703C14);
 DEFINE_GLOBAL(s16, word_703C3C, 0x703C3C);
-DEFINE_GLOBAL(s16, word_703D0C, 0x703D0C);
-DEFINE_GLOBAL(s16, word_703C16, 0x703C16);
+DEFINE_GLOBAL(s16, gFrontendNormalFont_703D0C, 0x703D0C);
+DEFINE_GLOBAL(s16, gFrontendSelectedFont_703C16, 0x703C16);
 DEFINE_GLOBAL(s16, word_703C8C, 0x703C8C);
 DEFINE_GLOBAL(s16, word_703C8A, 0x703C8A);
-DEFINE_GLOBAL(s16, word_703BE2, 0x703BE2);
+DEFINE_GLOBAL(s16, gFrontendScoreFont_703BE2, 0x703BE2);
 DEFINE_GLOBAL(s16, word_703B88, 0x703B88);
 DEFINE_GLOBAL(s16, word_703DAC, 0x703DAC);
 DEFINE_GLOBAL(s16, word_703B9C, 0x703B9C);
@@ -3363,7 +3363,7 @@ Frontend::Frontend()
     field_EE0A_dialog_cursor_ypos = 190;
     field_EE0C_dialog_type = 0;
     field_1EB30_credits_scroll_timer = 0;
-    field_1EB34_credits_ypos = dword_67D930;
+    field_1EB34_credits_ypos = kFpZero_67D930;
     field_1EB38_credits_line_idx = 0;
     field_1EB4A_has_prev_player_slot = 0;
     field_1EB4B_has_next_player_slot = 0;
@@ -3497,14 +3497,14 @@ void Frontend::SetFontTypes_4AF0E0()
     }
     else
     {
-        this->field_11C_normal_font = word_703D0C;
-        this->field_11E = word_703D0C;
-        this->field_120_selected_font = word_703C16;
+        this->field_11C_normal_font = gFrontendNormalFont_703D0C;
+        this->field_11E = gFrontendNormalFont_703D0C;
+        this->field_120_selected_font = gFrontendSelectedFont_703C16;
         this->field_122_unused = word_703C8C;
         this->field_124_font_type = font_type_703C14;
         this->field_126 = word_703C3C;
         this->field_128 = word_703C8A;
-        this->field_12A_score_font = word_703BE2;
+        this->field_12A_score_font = gFrontendScoreFont_703BE2;
         this->field_12C = word_703B88;
         this->field_12E_unused = word_703DAC;
         this->field_130 = word_703B9C;

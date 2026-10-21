@@ -20,10 +20,10 @@ DEFINE_GLOBAL(u8, gTargetCarDoor_6FF1D8, 0x6FF1D8);
 DEFINE_GLOBAL_INIT(Fix16, kFpZero_6FF078, 0, 0x6FF078);
 DEFINE_GLOBAL_INIT(Fix16_Point, kZeroPoint_6FF150, Fix16_Point(Fix16(0), Fix16(0)), 0x6FF150);
 DEFINE_GLOBAL(u8, gNameCompareLen_6FF158, 0x6FF158);
-DEFINE_GLOBAL(u8, byte_6FF1CD, 0x6FF1CD);
-DEFINE_GLOBAL(s32, dword_6FF1D0, 0x6FF1D0);
+DEFINE_GLOBAL(u8, gBusSpawned_6FF1CD, 0x6FF1CD);
+DEFINE_GLOBAL(s32, gBusSpawnCooldown_6FF1D0, 0x6FF1D0);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne_6FF07C, Fix16(1), 0x6FF07C);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FF04C, Fix16(0x333, 0), 0x6FF04C);
+DEFINE_GLOBAL_INIT(Fix16, kFpPoint05_6FF04C, Fix16(0x333, 0), 0x6FF04C);
 
 Fix16 kFpHalf_6FEEE8 = Fix16(0.5); //DEFINE_GLOBAL_INIT(Fix16, kFpHalf_6FEEE8, Fix16(0.5), 0x6FEEE8);
 Ang16 kAng0_6FF1BC = Ang16(0); //DEFINE_GLOBAL_INIT(Ang16, kAng0_6FF1BC, Ang16(0), 0x6FF1BC);
@@ -876,8 +876,8 @@ MATCH_FUNC(0x5794b0)
 void PublicTransport_181C::SetupTrainAndBusStops_5794B0()
 {
     char Buffer[8];
-    byte_6FF1CD = 0;
-    dword_6FF1D0 = 0;
+    gBusSpawned_6FF1CD = 0;
+    gBusSpawnCooldown_6FF1D0 = 0;
     if (!bSkip_trains_67D550)
     {
         for (u8 station_zone_kind = 0; station_zone_kind < 5; station_zone_kind++)
@@ -1228,11 +1228,11 @@ void PublicTransport_181C::BusesService_579CA0()
     {
         u16 i;
         s32 found_z;
-        if (dword_6FF1D0 || byte_6FF1CD || !gCarManager_6C_677930->CanAllocateCarOfKind_446930(car_kind::recycled_1))
+        if (gBusSpawnCooldown_6FF1D0 || gBusSpawned_6FF1CD || !gCarManager_6C_677930->CanAllocateCarOfKind_446930(car_kind::recycled_1))
         {
-            if (--dword_6FF1D0 < 0)
+            if (--gBusSpawnCooldown_6FF1D0 < 0)
             {
-                dword_6FF1D0 = 0;
+                gBusSpawnCooldown_6FF1D0 = 0;
             }
         }
         else
@@ -1318,13 +1318,13 @@ void PublicTransport_181C::BusesService_579CA0()
                     field_17C0_bus.field_C_carriages[0]->InitCarAIControl_440590();
                     field_17C0_bus.field_C_carriages[0]->StartEngine_426E00();
 
-                    byte_6FF1CD = 1;
+                    gBusSpawned_6FF1CD = 1;
                     field_17C0_bus.field_48_stop_phase = 0;
                     field_17C0_bus.field_56_passenger_count = 0;
                     field_17C0_bus.field_C_carriages[0]->IncrementCarStats_443D70(1);
                 }
             }
-            dword_6FF1D0 = 200;
+            gBusSpawnCooldown_6FF1D0 = 200;
         }
 
         pBusCar = field_17C0_bus.field_C_carriages[0];
@@ -1366,7 +1366,7 @@ void PublicTransport_181C::BusesService_579CA0()
                 }
                 if (!field_17C0_bus.field_2 && !field_1818_stop_getting_off_bus)
                 {
-                    if (field_17C0_bus.field_C_carriages[0]->GetCarLinearSpeed_43A240() > kTrainSpeedState1And3_6FEED4 + dword_6FF04C)
+                    if (field_17C0_bus.field_C_carriages[0]->GetCarLinearSpeed_43A240() > kTrainSpeedState1And3_6FEED4 + kFpPoint05_6FF04C)
                     {
                         field_17C0_bus.field_2 = 1;
                         field_17C0_bus.field_C_carriages[0]->field_4_passengers_list.ApplyPassengerBusStopBehavior_471630();
@@ -1378,8 +1378,8 @@ void PublicTransport_181C::BusesService_579CA0()
             {
                 field_17C0_bus.field_C_carriages[0]->MarkForDespawn_421470();
                 field_17C0_bus.field_C_carriages[0] = 0;
-                byte_6FF1CD = 0;
-                dword_6FF1D0 = 100;
+                gBusSpawned_6FF1CD = 0;
+                gBusSpawnCooldown_6FF1D0 = 100;
             }
             else
             {
@@ -1387,8 +1387,8 @@ void PublicTransport_181C::BusesService_579CA0()
                     field_17C0_bus.field_C_carriages[0]->field_74_damage == 32000)
                 {
                     field_17C0_bus.field_C_carriages[0] = 0;
-                    byte_6FF1CD = 0;
-                    dword_6FF1D0 = 0;
+                    gBusSpawned_6FF1CD = 0;
+                    gBusSpawnCooldown_6FF1D0 = 0;
                 }
                 else
                 {

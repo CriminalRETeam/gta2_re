@@ -10,7 +10,7 @@
 #include "debug.hpp"
 
 // Forward declarations: the functions below are in address order
-EXTERN_GLOBAL(Fix16, dword_67D384);
+EXTERN_GLOBAL(Fix16, kFpThree_67D384);
 
 DEFINE_GLOBAL(FirefighterPool_54*, gFirefighterPool_54_67D4C0, 0x67D4C0);
 DEFINE_GLOBAL_INIT(Fix16, kFpHalf_67D1F0, Fix16(0.5f), 0x67D1F0);
@@ -201,7 +201,7 @@ void Firefighter_28::Update_4A81F0()
                 if (Fix16::MaxAbsDistance_42A6B0(field_1C_car->GetX_41E430(),
                                           field_1C_car->GetY_41E440(),
                                           field_C_target_car->GetX_41E430(),
-                                          field_C_target_car->GetY_41E440()) < dword_67D384 &&
+                                          field_C_target_car->GetY_41E440()) < kFpThree_67D384 &&
                     field_24_next_state_timer > 100)
                 {
                     field_8_state = firefighter_state::arrived_3;
@@ -359,7 +359,7 @@ Firefighter_28* FirefighterPool_54::DispatchFirefighters_4A8620(Car_BC* pCar, Fi
 }
 
 // https://decomp.me/scratch/ZcdAk
-DEFINE_GLOBAL_INIT(Fix16, dword_67D384, Fix16(3), 0x67D384);
+DEFINE_GLOBAL_INIT(Fix16, kFpThree_67D384, Fix16(3), 0x67D384);
 
 MATCH_FUNC(0x4a8800)
 Firefighter_28* FirefighterPool_54::New28_4A8800()

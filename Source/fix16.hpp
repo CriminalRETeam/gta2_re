@@ -15,7 +15,7 @@ EXTERN_GLOBAL(Fix16, kFP16Zero_6FE20C);
 EXTERN_GLOBAL(Fix16, kFPZero_6691B0);
 EXTERN_GLOBAL(Fix16, kFpZero_6F8E10);
 EXTERN_GLOBAL(Fix16, kFP16One256th_6FE07C);
-EXTERN_GLOBAL(Fix16, dword_6F8CF0);
+EXTERN_GLOBAL(Fix16, kFpOne256th_6F8CF0);
 
 class Fix16
 {
@@ -275,7 +275,7 @@ class Fix16
 
     inline Fix16 ZeroIfNegligible_482730()
     {
-        if (Fix16::Abs(*this) < dword_6F8CF0)
+        if (Fix16::Abs(*this) < kFpOne256th_6F8CF0)
         {
             return kFpZero_6F8E10;
         }

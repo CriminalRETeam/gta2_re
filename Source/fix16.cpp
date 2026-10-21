@@ -259,24 +259,24 @@ EXPORT Fix16 __stdcall sub_405DA0(Fix16 cur, Fix16* pTarget, Fix16* pSpeed)
     return result;
 }
 
-DEFINE_GLOBAL_INIT(Fix16, dword_66A924, Fix16(0x11C, 0), 0x66A924);
-DEFINE_GLOBAL_INIT(Fix16, dword_669140, Fix16(0x63D8, 0), 0x669140);
-DEFINE_GLOBAL_INIT(Fix16, dword_6691FC, Fix16(0x12B88, 0), 0x6691FC);
+DEFINE_GLOBAL_INIT(Fix16, kAngFix16OneDegree_66A924, Fix16(0x11C, 0), 0x66A924);
+DEFINE_GLOBAL_INIT(Fix16, kAngFix16QuarterCircle_669140, Fix16(0x63D8, 0), 0x669140);
+DEFINE_GLOBAL_INIT(Fix16, kAngFix16ThreeQuarterCircle_6691FC, Fix16(0x12B88, 0), 0x6691FC);
 
-// Is `*a` within dword_66A924 of `*b`, directly or one turn (kAngFix16FullCircle_66A8E4) either way.
+// Is `*a` within kAngFix16OneDegree_66A924 of `*b`, directly or one turn (kAngFix16FullCircle_66A8E4) either way.
 MATCH_FUNC(0x405E20)
 EXPORT s32 __stdcall sub_405E20(Fix16* a, Fix16* b)
 {
-    if ((*a > *b - dword_66A924 && *a < *b + dword_66A924) ||
-        (*a > *b - kAngFix16FullCircle_66A8E4 - dword_66A924 && *a < *b - kAngFix16FullCircle_66A8E4 + dword_66A924) ||
-        (*a > *b - dword_66A924 + kAngFix16FullCircle_66A8E4 && *a < *b + kAngFix16FullCircle_66A8E4 + dword_66A924))
+    if ((*a > *b - kAngFix16OneDegree_66A924 && *a < *b + kAngFix16OneDegree_66A924) ||
+        (*a > *b - kAngFix16FullCircle_66A8E4 - kAngFix16OneDegree_66A924 && *a < *b - kAngFix16FullCircle_66A8E4 + kAngFix16OneDegree_66A924) ||
+        (*a > *b - kAngFix16OneDegree_66A924 + kAngFix16FullCircle_66A8E4 && *a < *b + kAngFix16FullCircle_66A8E4 + kAngFix16OneDegree_66A924))
     {
         return 1;
     }
     return 0;
 }
 
-// Clamps the angle `*pCur` into the window of +-dword_669140 around `*pTarget`, allowing for the
+// Clamps the angle `*pCur` into the window of +-kAngFix16QuarterCircle_669140 around `*pTarget`, allowing for the
 // wrap at 0 / 2pi, and returns whether it ends up on either edge. Called by
 // Trailer::UpdateTrailerAlignment_407CE0.
 MATCH_FUNC(0x405E80)
@@ -284,11 +284,11 @@ EXPORT s32 __stdcall sub_405E80(Fix16* pTarget, Fix16* pCur)
 {
     Fix16 lo;
     Fix16 hi;
-    if (*pTarget < dword_669140)
+    if (*pTarget < kAngFix16QuarterCircle_669140)
     {
-        lo = dword_6691FC + *pTarget;
-        hi = *pTarget + dword_669140;
-        if (*pCur > lo - dword_669140 && *pCur < lo)
+        lo = kAngFix16ThreeQuarterCircle_6691FC + *pTarget;
+        hi = *pTarget + kAngFix16QuarterCircle_669140;
+        if (*pCur > lo - kAngFix16QuarterCircle_669140 && *pCur < lo)
         {
             *pCur = lo;
         }
@@ -299,9 +299,9 @@ EXPORT s32 __stdcall sub_405E80(Fix16* pTarget, Fix16* pCur)
     }
     else if (*pTarget < kAngFix16HalfCircle_6691EC)
     {
-        lo = *pTarget - dword_669140;
-        hi = *pTarget + dword_669140;
-        if (*pCur < lo || *pCur > hi + dword_669140)
+        lo = *pTarget - kAngFix16QuarterCircle_669140;
+        hi = *pTarget + kAngFix16QuarterCircle_669140;
+        if (*pCur < lo || *pCur > hi + kAngFix16QuarterCircle_669140)
         {
             *pCur = lo;
         }
@@ -310,11 +310,11 @@ EXPORT s32 __stdcall sub_405E80(Fix16* pTarget, Fix16* pCur)
             *pCur = hi;
         }
     }
-    else if (*pTarget < dword_6691FC)
+    else if (*pTarget < kAngFix16ThreeQuarterCircle_6691FC)
     {
-        lo = *pTarget - dword_669140;
-        hi = *pTarget + dword_669140;
-        if (*pCur < hi - dword_6691FC || *pCur > hi)
+        lo = *pTarget - kAngFix16QuarterCircle_669140;
+        hi = *pTarget + kAngFix16QuarterCircle_669140;
+        if (*pCur < hi - kAngFix16ThreeQuarterCircle_6691FC || *pCur > hi)
         {
             *pCur = hi;
         }
@@ -325,9 +325,9 @@ EXPORT s32 __stdcall sub_405E80(Fix16* pTarget, Fix16* pCur)
     }
     else
     {
-        lo = *pTarget - dword_669140;
-        hi = *pTarget - dword_6691FC;
-        if (*pCur > hi && *pCur < hi + dword_669140)
+        lo = *pTarget - kAngFix16QuarterCircle_669140;
+        hi = *pTarget - kAngFix16ThreeQuarterCircle_6691FC;
+        if (*pCur > hi && *pCur < hi + kAngFix16QuarterCircle_669140)
         {
             *pCur = hi;
         }

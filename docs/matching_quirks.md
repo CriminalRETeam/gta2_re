@@ -79,7 +79,7 @@ for `Scripts/quick_score.sh` (score one function without touching `build_vc6/`) 
 `Scripts/bin_comp/show_96f.py` (9.6f version of a function and its callees).
 
 A case found this way: in `Particle_8::EmitFireTruckSprayParticle_53FAE0` the asm matched
-with `dword_6FD508 * dword_6FD554` while the original multiplies `dword_6FD554 * dword_6FD508`
+with `kFpTen_6FD508 * kFpOne64th_6FD554` while the original multiplies `kFpOne64th_6FD554 * kFpTen_6FD508`
 (the two globals were swapped, the instructions identical). Comparing the referenced
 globals per instruction catches this.
 

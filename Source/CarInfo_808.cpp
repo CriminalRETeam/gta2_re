@@ -13,9 +13,9 @@
 EXPORT Fix16 __stdcall ComputeCarMassAndInertia_454410(Fix16 width, Fix16 height, Fix16 mass, Fix16 frontMassBias, Fix16* outCgHeight);
 EXPORT Fix16 __stdcall ComputeThrustWithTurbo_5618F0(Fix16 half_thrust, Fix16 thrust_div5, s8 bTurbo);
 
-EXTERN_GLOBAL(Fix16, k_dword_6FE210);
-EXTERN_GLOBAL(Fix16, k_dword_6FDFEC);
-EXTERN_GLOBAL(Fix16, k_dword_6FDEFC);
+EXTERN_GLOBAL(Fix16, kFpOne_6FE210);
+EXTERN_GLOBAL(Fix16, kFpHalf_6FDFEC);
+EXTERN_GLOBAL(Fix16, kFpFive_6FDEFC);
 
 DEFINE_GLOBAL(CarInfo_808*, gCarInfo_808_678098, 0x678098);
 DEFINE_GLOBAL_ARRAY(char, file_name_677EC4, 64, 0x677EC4);
@@ -774,11 +774,11 @@ EXPORT Fix16 __stdcall ComputeThrustWithTurbo_5618F0(Fix16 half_thrust, Fix16 th
     Fix16 thrust;
     if (bTurbo)
     {
-        thrust = (k_dword_6FE210 + k_dword_6FDFEC) * ((thrust_div5 * k_dword_6FDEFC));
+        thrust = (kFpOne_6FE210 + kFpHalf_6FDFEC) * ((thrust_div5 * kFpFive_6FDEFC));
     }
     else
     {
-        thrust = thrust_div5 * k_dword_6FDEFC;
+        thrust = thrust_div5 * kFpFive_6FDEFC;
     }
     thrust = thrust + half_thrust;
     return thrust;

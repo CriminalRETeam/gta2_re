@@ -15,7 +15,7 @@ DEFINE_GLOBAL_INIT(Fix16, dword_6F8BF0, Fix16(0x3FC000, 0), 0x6F8BF0);
 DEFINE_GLOBAL(Ang16, kZeroAng_6F8F68, 0x6F8F68);
 DEFINE_GLOBAL(SpriteList_4, stru_67727C, 0x67727C);
 
-EXTERN_GLOBAL(Fix16, dword_6F8ECC);
+EXTERN_GLOBAL(Fix16, kFpOne64th_6F8ECC);
 
 // 10.5 https://decomp.me/scratch/kj3y3
 // 9.6f 0x482D90
@@ -29,8 +29,8 @@ void Object_3C::GetMovementSpeedAndAngle_521FD0(Fix16& Speed, Ang16& Angle)
     if (field_38_conveyor_speed)
     {
         UnpackSignedNibbles_529050(field_38_conveyor_speed, &x_related, &y_related);
-        unk.x = dword_6F8ECC * x_related;
-        unk.y = dword_6F8ECC * y_related;
+        unk.x = kFpOne64th_6F8ECC * x_related;
+        unk.y = kFpOne64th_6F8ECC * y_related;
         point = unk + GetSpeedVector_482BA0();
 
         Speed = point.GetLength_41E260();

@@ -9,12 +9,12 @@
 
 DEFINE_GLOBAL_ARRAY(PedGroup, pedGroups_67EF20, 20, 0x67EF20);
 DEFINE_GLOBAL_INIT(Fix16, dword_67F60C, Fix16(0x270F00, 0), 0x67F60C);
-DEFINE_GLOBAL_INIT(Fix16, dword_67F608, Fix16(2), 0x67F608);
+DEFINE_GLOBAL_INIT(Fix16, kFpTwo_67F608, Fix16(2), 0x67F608);
 DEFINE_GLOBAL(Fix16, dword_67F610, 0x67F610);
-DEFINE_GLOBAL_INIT(Fix16, dword_67F670, Fix16(8), 0x67F670);
-DEFINE_GLOBAL_INIT(Fix16, k_dword_67EEE4, Fix16(0x500, 0), 0x67EEE4);
-DEFINE_GLOBAL_INIT(char_type, byte_620838, 1, 0x620838);
-DEFINE_GLOBAL_INIT(Fix16, dword_67F630, Fix16(4), 0x67F630);
+DEFINE_GLOBAL_INIT(Fix16, kFpEight_67F670, Fix16(8), 0x67F670);
+DEFINE_GLOBAL_INIT(Fix16, kFpFiveSixtyFourths_67EEE4, Fix16(0x500, 0), 0x67EEE4);
+DEFINE_GLOBAL_INIT(char_type, gGroupMemberCarDoor_620838, 1, 0x620838);
+DEFINE_GLOBAL_INIT(Fix16, kFpFour_67F630, Fix16(4), 0x67F630);
 
 // The original is the compiler generated static destructor of pedGroups_67EF20: a call to the
 // CRT's vector destructor iterator `??_M` (`__ehvec_dtor`, which VC6 maps to that name). The CRT's
@@ -35,7 +35,7 @@ void PedGroup::sub_4C8E60()
 MATCH_FUNC(0x4c8e80)
 void PedGroup::sub_4C8E80()
 {
-    byte_620838 = 1;
+    gGroupMemberCarDoor_620838 = 1;
 }
 
 MATCH_FUNC(0x4c8e90)
@@ -354,7 +354,7 @@ void PedGroup::DisbandGroupDueToAttack_4C94E0(Ped* pAttacker)
             this->field_2C_ped_leader->SetInternalTargetPed_403AE0(pAttacker);
             this->field_2C_ped_leader->SetPanicking_403950();
             this->field_2C_ped_leader->ClearHitCount_403A20();
-            this->field_2C_ped_leader->field_168_game_object->field_3C_run_or_jump_speed = k_dword_67EEE4;
+            this->field_2C_ped_leader->field_168_game_object->field_3C_run_or_jump_speed = kFpFiveSixtyFourths_67EEE4;
         }
 
         this->field_2C_ped_leader->ClearGroupAndGroupIdx_403A30();
@@ -378,7 +378,7 @@ void PedGroup::DisbandGroupDueToAttack_4C94E0(Ped* pAttacker)
                 this->field_4_ped_list[i]->SetInternalTargetPed_403AE0(pAttacker);
                 this->field_4_ped_list[i]->SetPanicking_403950();
                 this->field_4_ped_list[i]->ClearHitCount_403A20();
-                this->field_4_ped_list[i]->field_168_game_object->field_3C_run_or_jump_speed = k_dword_67EEE4;
+                this->field_4_ped_list[i]->field_168_game_object->field_3C_run_or_jump_speed = kFpFiveSixtyFourths_67EEE4;
                 this->field_4_ped_list[i]->ClearGroupAndGroupIdx_403A30();
                 this->field_4_ped_list[i]->SetPedType_403920(ped_type::dummy_3);
             }
@@ -755,42 +755,42 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
 
                 Car_BC* pTargetCar = pMember->get_target_to_enter_403B10();
                 u8 tries = 0;
-                byte_620838 = i + 1;
+                gGroupMemberCarDoor_620838 = i + 1;
                 u8 maxDoor = pTargetCar->GetRemap() - 1;
                 char_type searching;
                 if (pTargetCar->IsSwatVanOrBankVan_403BC0())
                 {
-                    byte_620838 = i + 2;
+                    gGroupMemberCarDoor_620838 = i + 2;
                     do
                     {
                         searching = 1;
                         do
                         {
-                            if (byte_620838 > maxDoor)
+                            if (gGroupMemberCarDoor_620838 > maxDoor)
                             {
-                                byte_620838 += 1 - maxDoor;
+                                gGroupMemberCarDoor_620838 += 1 - maxDoor;
                             }
-                        } while (byte_620838 > maxDoor);
+                        } while (gGroupMemberCarDoor_620838 > maxDoor);
 
-                        if (pTargetCar->IsDoorAccessible_43AFE0(byte_620838))
+                        if (pTargetCar->IsDoorAccessible_43AFE0(gGroupMemberCarDoor_620838))
                         {
                             searching = 0;
                         }
                         else
                         {
-                            byte_620838++;
+                            gGroupMemberCarDoor_620838++;
                         }
 
                         if (++tries == maxDoor + 1)
                         {
-                            byte_620838 = maxDoor;
+                            gGroupMemberCarDoor_620838 = maxDoor;
                             if (pTargetCar->IsDoorAccessible_43AFE0(0))
                             {
-                                byte_620838 = 0;
+                                gGroupMemberCarDoor_620838 = 0;
                             }
                             else if (pTargetCar->IsDoorAccessible_43AFE0(1))
                             {
-                                byte_620838 = 1;
+                                gGroupMemberCarDoor_620838 = 1;
                             }
                             break;
                         }
@@ -803,27 +803,27 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
                         searching = 1;
                         do
                         {
-                            if (byte_620838 > maxDoor)
+                            if (gGroupMemberCarDoor_620838 > maxDoor)
                             {
-                                byte_620838 -= maxDoor;
+                                gGroupMemberCarDoor_620838 -= maxDoor;
                             }
-                        } while (byte_620838 > maxDoor);
+                        } while (gGroupMemberCarDoor_620838 > maxDoor);
 
-                        if (pTargetCar->IsDoorAccessible_43AFE0(byte_620838))
+                        if (pTargetCar->IsDoorAccessible_43AFE0(gGroupMemberCarDoor_620838))
                         {
                             searching = 0;
                         }
                         else
                         {
-                            byte_620838++;
+                            gGroupMemberCarDoor_620838++;
                         }
 
                         if (++tries == maxDoor + 1)
                         {
-                            byte_620838 = maxDoor;
+                            gGroupMemberCarDoor_620838 = maxDoor;
                             if (pTargetCar->IsDoorAccessible_43AFE0(0))
                             {
-                                byte_620838 = 0;
+                                gGroupMemberCarDoor_620838 = 0;
                             }
                             break;
                         }
@@ -839,7 +839,7 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
                         pMember->field_14C_internal_target_ped = pOther;
                     }
                 }
-                pMember->set_target_car_door_403A70(byte_620838);
+                pMember->set_target_car_door_403A70(gGroupMemberCarDoor_620838);
             }
 
             for (; i < field_34_count; i++)
@@ -861,7 +861,7 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
         if (field_1_wait_for_members)
         {
             Ped* pFarthest = FindFarthestMember_4CA3F0(&distance);
-            if (distance > dword_67F608 && !field_2C_ped_leader->PedTypeIs_45EDE0(ped_type::player_2))
+            if (distance > kFpTwo_67F608 && !field_2C_ped_leader->PedTypeIs_45EDE0(ped_type::player_2))
             {
                 if (field_2C_ped_leader->get_objective_403A80() != objectives_enum::goto_area_any_means_13 && field_2C_ped_leader->field_25C_internal_objective != objectives_enum::leave_car_36)
                 {
@@ -1100,7 +1100,7 @@ void PedGroup::UpdateMemberTightFollowState_4CA820(u8 idx)
         Fix16 y_diff = field_2C_ped_leader->field_1AC_cam.y - pMember->field_1AC_cam.y;
         Fix16 x_abs = Fix16::Abs(x_diff);
         Fix16 y_abs = Fix16::Abs(y_diff);
-        if (Fix16::Max(x_abs, y_abs) < dword_67F670)
+        if (Fix16::Max(x_abs, y_abs) < kFpEight_67F670)
         {
             pMember->SetObjective2_463830(objectives_enum::objective_9);
             pMember->SetInternalTargetPed_403AE0(field_2C_ped_leader);
@@ -1175,7 +1175,7 @@ bool PedGroup::IsMemberTooFarFromLeader_4CAC20(u8 idx)
 
     Fix16 max_distance = (x_abs > y_abs) ? x_abs : y_abs;
 
-    if (max_distance > dword_67F630)
+    if (max_distance > kFpFour_67F630)
     {
         return true;
     }
@@ -1200,7 +1200,7 @@ bool PedGroup::IsLeaderCloseToTargetCar_4CAD40()
 
     Fix16 max_distance = (x_abs > y_abs) ? x_abs : y_abs;
 
-    if (max_distance <= dword_67F630)
+    if (max_distance <= kFpFour_67F630)
     {
         return true;
     }
