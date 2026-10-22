@@ -27,6 +27,7 @@
 #include "root_sound.hpp"
 #include "TextureCache.hpp"
 #include "winmain.hpp" // TODO: only because of gLighting_626A09
+#include "block_face.hpp"
 
 // Forward declarations: the functions below are in address order
 EXPORT void __stdcall ProjectOntoAxis_5A5AA0(Fix16& xpos1, Fix16& ypos1, Ang16& angle, Fix16& xpos2, Fix16& ypos2, Fix16& outX, Fix16& outY);
@@ -560,7 +561,7 @@ s32 Sprite::IsOnWater_59E1D0()
 
     if (pBlock)
     {
-        const u16 lid_idx = pBlock->field_8_lid & 1023;
+        const u16 lid_idx = pBlock->field_8_lid & block_face::tile_idx_mask;
         if (gGtx_0x106C_703DD4->IsRemappedWaterTile_49E540(lid_idx))
         {
             return true;

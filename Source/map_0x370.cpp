@@ -22,6 +22,7 @@
 #include "memory.hpp"
 #include "sprite.hpp"
 #include "CollisionSoundQueue.hpp"
+#include "block_face.hpp"
 
 DEFINE_GLOBAL(Map_0x370*, gMap_0x370_6F6268, 0x6F6268);
 DEFINE_GLOBAL(gmp_block_info*, gBlockInfo0_6F5EB0, 0x6F5EB0);
@@ -97,7 +98,7 @@ static inline s32 clamp_z_from_column(s32 height, s32 offset, s32 z_pos)
 
 static inline u16 get_tile_idx(u16& side_word)
 {
-    return side_word & 1023;
+    return side_word & block_face::tile_idx_mask;
 }
 
 static inline bool has_any_green_arrows(u8& arrow_data)
@@ -1031,7 +1032,7 @@ bool Map_0x370::IsMoveOntoSlopeTileBlocked_4E0130(s32 x, s32 y, s32 z, s32 path_
                                 }
                             }
                         }
-                        else if (pBlock->field_4_top & 0x400)
+                        else if (pBlock->field_4_top & block_face::wall)
                         {
                             return true;
                         }
@@ -1039,7 +1040,7 @@ bool Map_0x370::IsMoveOntoSlopeTileBlocked_4E0130(s32 x, s32 y, s32 z, s32 path_
                     else if (pSlope->field_2_gradient_level == 0)
                     {
                         pNext = GetEffectiveBlock_4DFE60(x, y - 1, z + 1);
-                        if (pNext && (pNext->field_6_bottom & 0x400))
+                        if (pNext && (pNext->field_6_bottom & block_face::wall))
                         {
                             break;
                         }
@@ -1069,7 +1070,7 @@ bool Map_0x370::IsMoveOntoSlopeTileBlocked_4E0130(s32 x, s32 y, s32 z, s32 path_
                         return false;
                     }
 
-                    if (pBlock->field_4_top & 0x400)
+                    if (pBlock->field_4_top & block_face::wall)
                     {
                         break;
                     }
@@ -1080,7 +1081,7 @@ bool Map_0x370::IsMoveOntoSlopeTileBlocked_4E0130(s32 x, s32 y, s32 z, s32 path_
             pNext = GetEffectiveBlock_4DFE60(x, y, z);
             if (pNext)
             {
-                if (pNext->field_6_bottom & 0x400)
+                if (pNext->field_6_bottom & block_face::wall)
                 {
                     break;
                 }
@@ -1180,7 +1181,7 @@ bool Map_0x370::IsMoveOntoSlopeTileBlocked_4E0130(s32 x, s32 y, s32 z, s32 path_
                                 }
                             }
                         }
-                        else if (pBlock->field_6_bottom & 0x400)
+                        else if (pBlock->field_6_bottom & block_face::wall)
                         {
                             return true;
                         }
@@ -1188,7 +1189,7 @@ bool Map_0x370::IsMoveOntoSlopeTileBlocked_4E0130(s32 x, s32 y, s32 z, s32 path_
                     else if (pSlope->field_2_gradient_level == 0)
                     {
                         pNext = GetEffectiveBlock_4DFE60(x, y + 1, z + 1);
-                        if (pNext && (pNext->field_4_top & 0x400))
+                        if (pNext && (pNext->field_4_top & block_face::wall))
                         {
                             break;
                         }
@@ -1219,7 +1220,7 @@ bool Map_0x370::IsMoveOntoSlopeTileBlocked_4E0130(s32 x, s32 y, s32 z, s32 path_
                     }
                 }
 
-                if (pBlock->field_6_bottom & 0x400)
+                if (pBlock->field_6_bottom & block_face::wall)
                 {
                     break;
                 }
@@ -1229,7 +1230,7 @@ bool Map_0x370::IsMoveOntoSlopeTileBlocked_4E0130(s32 x, s32 y, s32 z, s32 path_
             pNext = GetEffectiveBlock_4DFE60(x, y, z);
             if (pNext)
             {
-                if (pNext->field_4_top & 0x400)
+                if (pNext->field_4_top & block_face::wall)
                 {
                     break;
                 }
@@ -1314,7 +1315,7 @@ bool Map_0x370::IsMoveOntoSlopeTileBlocked_4E0130(s32 x, s32 y, s32 z, s32 path_
                             if (pSlope->field_2_gradient_level == 0)
                             {
                                 pNext = GetEffectiveBlock_4DFE60(x + 1, y, z + 1);
-                                if (pNext && (pNext->field_0_left & 0x400))
+                                if (pNext && (pNext->field_0_left & block_face::wall))
                                 {
                                     return true;
                                 }
@@ -1370,7 +1371,7 @@ bool Map_0x370::IsMoveOntoSlopeTileBlocked_4E0130(s32 x, s32 y, s32 z, s32 path_
                             }
                             break;
                         default:
-                            if (!(pBlock->field_2_right & 0x400))
+                            if (!(pBlock->field_2_right & block_face::wall))
                             {
                                 break;
                             }
@@ -1380,7 +1381,7 @@ bool Map_0x370::IsMoveOntoSlopeTileBlocked_4E0130(s32 x, s32 y, s32 z, s32 path_
                             }
                     }
 
-                    if (pBlock->field_2_right & 0x400)
+                    if (pBlock->field_2_right & block_face::wall)
                     {
                         break;
                     }
@@ -1390,7 +1391,7 @@ bool Map_0x370::IsMoveOntoSlopeTileBlocked_4E0130(s32 x, s32 y, s32 z, s32 path_
             pNext = GetEffectiveBlock_4DFE60(x + 1, y, z);
             if (pNext)
             {
-                if (pNext->field_0_left & 0x400)
+                if (pNext->field_0_left & block_face::wall)
                 {
                     break;
                 }
@@ -1475,7 +1476,7 @@ bool Map_0x370::IsMoveOntoSlopeTileBlocked_4E0130(s32 x, s32 y, s32 z, s32 path_
                             if (pSlope->field_2_gradient_level == 0)
                             {
                                 pNext = GetEffectiveBlock_4DFE60(x - 1, y, z + 1);
-                                if (pNext && (pNext->field_2_right & 0x400))
+                                if (pNext && (pNext->field_2_right & block_face::wall))
                                 {
                                     return true;
                                 }
@@ -1531,14 +1532,14 @@ bool Map_0x370::IsMoveOntoSlopeTileBlocked_4E0130(s32 x, s32 y, s32 z, s32 path_
                             }
                             break;
                         default:
-                            if (pBlock->field_0_left & 0x400)
+                            if (pBlock->field_0_left & block_face::wall)
                             {
                                 return true;
                             }
                             break;
                     }
 
-                    if (pBlock->field_0_left & 0x400)
+                    if (pBlock->field_0_left & block_face::wall)
                     {
                         return true;
                     }
@@ -1548,7 +1549,7 @@ bool Map_0x370::IsMoveOntoSlopeTileBlocked_4E0130(s32 x, s32 y, s32 z, s32 path_
             pNext = GetEffectiveBlock_4DFE60(x - 1, y, z);
             if (pNext)
             {
-                if (pNext->field_2_right & 0x400)
+                if (pNext->field_2_right & block_face::wall)
                 {
                     return true;
                 }
@@ -1750,7 +1751,7 @@ bool Map_0x370::HasWallInArea_4E18A0(s32 x_min, s32 x_max, s32 y_min, s32 y_max,
                 pBlock = Map_0x370::GetEffectiveBlock_4DFE60(x_pos, y_pos, z);
                 if (pBlock)
                 {
-                    if ((pBlock->field_2_right & 0x400) != 0) // is wall tile
+                    if ((pBlock->field_2_right & block_face::wall) != 0)
                     {
                         return true;
                     }
@@ -1758,7 +1759,7 @@ bool Map_0x370::HasWallInArea_4E18A0(s32 x_min, s32 x_max, s32 y_min, s32 y_max,
                 pBlock = Map_0x370::GetEffectiveBlock_4DFE60(x_pos + 1, y_pos, z);
                 if (pBlock)
                 {
-                    if ((pBlock->field_0_left & 0x400) != 0) // is wall tile
+                    if ((pBlock->field_0_left & block_face::wall) != 0)
                     {
                         return true;
                     }
@@ -1770,7 +1771,7 @@ bool Map_0x370::HasWallInArea_4E18A0(s32 x_min, s32 x_max, s32 y_min, s32 y_max,
                 pBlock = Map_0x370::GetEffectiveBlock_4DFE60(x_pos, y_pos, z);
                 if (pBlock)
                 {
-                    if ((pBlock->field_6_bottom & 0x400) != 0) // is wall tile
+                    if ((pBlock->field_6_bottom & block_face::wall) != 0)
                     {
                         return true;
                     }
@@ -1778,7 +1779,7 @@ bool Map_0x370::HasWallInArea_4E18A0(s32 x_min, s32 x_max, s32 y_min, s32 y_max,
                 pBlock = Map_0x370::GetEffectiveBlock_4DFE60(x_pos, y_pos + 1, z);
                 if (pBlock)
                 {
-                    if ((pBlock->field_4_top & 0x400) != 0) // is wall tile
+                    if ((pBlock->field_4_top & block_face::wall) != 0)
                     {
                         return true;
                     }
@@ -4046,7 +4047,7 @@ char_type Map_0x370::CheckColumnHasSolidAbove_4E7FC0(Fix16 x, Fix16 y, Fix16 z)
 
         if (pDMap->field_4000C_block[block_idx].field_8_lid)
         {
-            if ((pDMap->field_4000C_block[block_idx].field_8_lid & 0x1000) == 0)
+            if ((pDMap->field_4000C_block[block_idx].field_8_lid & block_face::flat) == 0)
             {
                 u8 slope_type = pDMap->field_4000C_block[block_idx].field_B_slope_type;
                 u8 slope_type_masked = GET_SLOPE_BITS(slope_type);
@@ -4066,7 +4067,7 @@ char_type Map_0x370::CheckColumnHasSolidAbove_4E7FC0(Fix16 x, Fix16 y, Fix16 z)
             s32 idx = pColInfo->field_4_blockd[block_d_idx];
             if (pDMap->field_4000C_block[idx].field_8_lid)
             {
-                if ((pDMap->field_4000C_block[idx].field_8_lid & 0x1000) == 0)
+                if ((pDMap->field_4000C_block[idx].field_8_lid & block_face::flat) == 0)
                 {
                     u8 slope_type_masked_ = GET_SLOPE_BITS(pDMap->field_4000C_block[idx].field_B_slope_type);
                     if (slope_type_masked_ < DIAGONAL_WALL_UP_LEFT || slope_type_masked_ > PARTIAL_CENTRE_BLOCK)

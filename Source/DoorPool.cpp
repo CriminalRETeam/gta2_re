@@ -7,6 +7,7 @@
 #include "error.hpp"
 #include "gtx_0x106C.hpp"
 #include "map_0x370.hpp"
+#include "block_face.hpp"
 
 DEFINE_GLOBAL(DoorDataPool*, gDoor_10_Pool_67BD28, 0x67BD28);
 
@@ -38,10 +39,10 @@ void DoorData::Init_49C340(u8 id, u8 x, u8 y, u8 z, u32 face, u8 bDoFlip)
     DoorAnimInfo* pInfo = &gDoorAnimInfo_67BB38[anim_id];
     gGtx_0x106C_703DD4->SetTileRemap_5AA930(pInfo->field_4_internal_tile_idx, pInfo->field_0_start_frame);
 
-    u16 tile_word = pInfo->field_4_internal_tile_idx | 0x1C00; // wall, bullet wall and flat
+    u16 tile_word = pInfo->field_4_internal_tile_idx | (block_face::wall | block_face::bullet_wall | block_face::flat);
     if (bDoFlip)
     {
-        tile_word |= 0x2000; // flip
+        tile_word |= block_face::flip;
     }
 
     if (gMap_0x370_6F6268->GetBlock_4DFE10(this->field_4_x, this->field_5_y, this->field_6_z))
@@ -86,10 +87,10 @@ void DoorData::Open_49C4E0(u8 bFlip)
     if (field_0_state != 2)
     {
         field_0_state = 2;
-        s16 tile_idx = tmp->field_6_open_internal_tile_idx | 0x1000;
+        s16 tile_idx = tmp->field_6_open_internal_tile_idx | block_face::flat;
         if (bFlip)
         {
-            tile_idx |= 0x2000;
+            tile_idx |= block_face::flip;
         }
         gMap_0x370_6F6268->ChangeBlock_4E8620(field_4_x, field_5_y, field_6_z, field_8_face, tile_idx);
         gMap_0x370_6F6268->ChangeBlock_4E8620(field_4_x, field_5_y, field_6_z, GetOppositeFace_4DEEB0(field_8_face), tmp->field_6_open_internal_tile_idx);
@@ -104,10 +105,10 @@ void DoorData::Close_49C590(u8 bDoFlip)
     if (field_0_state != 1)
     {
         field_0_state = 1;
-        s16 block_side_word = tmp->field_4_internal_tile_idx | 0x1C00; // 0x1C00 means: wall, bullet wall and flat
+        s16 block_side_word = tmp->field_4_internal_tile_idx | (block_face::wall | block_face::bullet_wall | block_face::flat);
         if (bDoFlip)
         {
-            block_side_word |= 0x2000; // flip
+            block_side_word |= block_face::flip;
         }
         gMap_0x370_6F6268->ChangeBlock_4E8620(field_4_x, field_5_y, field_6_z, field_8_face, block_side_word);
         gMap_0x370_6F6268->ChangeBlock_4E8620(field_4_x, field_5_y, field_6_z, GetOppositeFace_4DEEB0(field_8_face), tmp->field_4_internal_tile_idx);

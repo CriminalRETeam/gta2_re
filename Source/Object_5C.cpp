@@ -27,6 +27,7 @@
 #include "ScriptManager.hpp"
 #include "map_0x370.hpp"
 #include "sprite.hpp"
+#include "block_face.hpp"
 
 EXTERN_GLOBAL(PedRefTable*, gPedRefTable_7F8_703398);
 EXTERN_GLOBAL(Ang16, kZeroAng_6F8F68);
@@ -3076,12 +3077,12 @@ s32 Object::GetMapBlockSoundSpec_529240()
     {
         case 45u:
         case 47u:
-            result = gGtx_0x106C_703DD4->sub_462FD0(pBlockInfo->field_0_left & 0x3FF);
+            result = gGtx_0x106C_703DD4->sub_462FD0(pBlockInfo->field_0_left & block_face::tile_idx_mask);
             break;
 
         case 46u:
         case 48u:
-            result = gGtx_0x106C_703DD4->sub_462FD0(pBlockInfo->field_2_right & 0x3FF);
+            result = gGtx_0x106C_703DD4->sub_462FD0(pBlockInfo->field_2_right & block_face::tile_idx_mask);
             break;
 
         default:

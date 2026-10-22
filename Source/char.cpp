@@ -31,6 +31,7 @@
 #include "sprite.hpp"
 #include "winmain.hpp"
 #include "ped_graphic_type.hpp"
+#include "block_face.hpp"
 
 // Ped.cpp
 EXTERN_GLOBAL(Fix16, kFpPoint02_6FD9AC);
@@ -3388,7 +3389,7 @@ void Char::state_0_54DDF0()
     {
         // bit 0: standing on a slope
         field_58_flags_bf.bOnSlope = GET_SLOPE_BITS(pBlock->field_B_slope_type) != 0 && GET_SLOPE_BITS(pBlock->field_B_slope_type) != 0xFC;
-        if (gGtx_0x106C_703DD4->IsElectrifiedFloorType_491F80(pBlock->field_8_lid & 0x3FF) &&
+        if (gGtx_0x106C_703DD4->IsElectrifiedFloorType_491F80(pBlock->field_8_lid & block_face::tile_idx_mask) &&
             field_10_char_state != Char_B4_state::Jumping_15)
         {
             //if ((field_7C_pPed->field_21C & 0x8000000) == 0)
@@ -4667,7 +4668,7 @@ void Char::state_1_5504F0()
     if (pBlock)
     {
         field_58_flags_bf.bOnSlope = IsOnSlopeBlock(pBlock);
-        if (gGtx_0x106C_703DD4->IsElectrifiedFloorType_491F80(pBlock->field_8_lid & 0x3FF) && field_10_char_state != 15)
+        if (gGtx_0x106C_703DD4->IsElectrifiedFloorType_491F80(pBlock->field_8_lid & block_face::tile_idx_mask) && field_10_char_state != 15)
         {
             if (field_7C_pPed->field_21C_bf.bLeftVehicle == false)
             {
@@ -5607,7 +5608,7 @@ void Char::state_7_551CB0()
         }
         if (pBlockAtPos)
         {
-            if (gGtx_0x106C_703DD4->IsElectrifiedFloorType_491F80(pBlockAtPos->field_8_lid & 0x3FF))
+            if (gGtx_0x106C_703DD4->IsElectrifiedFloorType_491F80(pBlockAtPos->field_8_lid & block_face::tile_idx_mask))
             {
                 if (field_7C_pPed->field_21C_bf.bLeftVehicle == false)
                 {

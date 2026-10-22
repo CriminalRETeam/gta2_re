@@ -16,6 +16,7 @@
 #include "RouteFinder.hpp"
 #include "map_0x370.hpp"
 #include "rng.hpp"
+#include "block_face.hpp"
 
 EXTERN_GLOBAL(Ang16, kAng0_677CE8);
 DEFINE_GLOBAL_INIT(Fix16, kF16Zero_677B90, Fix16(0), 0x677B90);
@@ -929,7 +930,7 @@ void CarAI::CheckRoadAhead_448770()
 
     if (pBlock_)
     {
-        if (gGtx_0x106C_703DD4->IsRoadTile_42A810(pBlock_->field_8_lid & 0x3FF) || this->field_24_bf.bFlag17)
+        if (gGtx_0x106C_703DD4->IsRoadTile_42A810(pBlock_->field_8_lid & block_face::tile_idx_mask) || this->field_24_bf.bFlag17)
         {
             if (!gCurrCarAI_IsChasing_677BBC)
             {
