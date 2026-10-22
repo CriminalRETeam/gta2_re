@@ -682,7 +682,7 @@ class ScriptManager
     EXPORT ThreadTrigger* RemovePhoneThread_512A70(s32 ped_id, s32 obj_f14);
     EXPORT ThreadTrigger* RemovePhoneThreadByObjId_512AA0(s32 obj_f14);
     EXPORT ThreadTrigger* FindPhoneThreadByObjId_512AD0(s32 obj_f14);
-    EXPORT char_type TestAndRecordWeaponHit_512AF0(s32 id, char_type weapon_idx, char_type bIsPed);
+    EXPORT bool TestAndRecordWeaponHit_512AF0(s32 id, char_type weapon_idx, char_type bIsPed);
     EXPORT void ClearWeaponHitFlag_512BA0(s32 id, char_type bIsPed);
     EXPORT void RecordWeaponHit_512C00(s32 entity_id, s32 projectile_model, char_type bIsPed);
     EXPORT bool IsWeaponHitRecorded_512C70(s32 id, char_type weapon_idx, char_type bIsPed);

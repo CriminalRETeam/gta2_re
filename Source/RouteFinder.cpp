@@ -21,7 +21,7 @@ DEFINE_GLOBAL_INIT(Fix16, kFpEight_6FFC9C, Fix16(8), 0x6FFC9C);
 EXTERN_GLOBAL(s16, word_703BAA);
 
 MATCH_FUNC(0x588580)
-char_type Junction::IsUsableWithArrowType_588580(s32 arrow_type)
+bool Junction::IsUsableWithArrowType_588580(s32 arrow_type)
 {
     if (arrow_type == 2)
     {
@@ -672,7 +672,7 @@ void RouteFinder::InsertIntoOpenList_589420(RouteSearchNode* pRoute)
 }
 
 MATCH_FUNC(0x589480)
-char_type RouteFinder::InitSearch_589480(u8 start_x, u8 start_y, u8 start_z, u8 dest_x, u8 dest_y, u8 dest_z, s32 arrow_type)
+bool RouteFinder::InitSearch_589480(u8 start_x, u8 start_y, u8 start_z, u8 dest_x, u8 dest_y, u8 dest_z, s32 arrow_type)
 {
     field_CC66_545_count = 0;
     memset(field_CA40_visited, 0, sizeof(field_CA40_visited));
@@ -709,7 +709,7 @@ char_type RouteFinder::InitSearch_589480(u8 start_x, u8 start_y, u8 start_z, u8 
 }
 
 MATCH_FUNC(0x5895c0)
-char_type RouteFinder::InitSearchWithDirection_5895C0(u8 x, u8 y, u8 z, s32 arrow_type, s32 direction)
+bool RouteFinder::InitSearchWithDirection_5895C0(u8 x, u8 y, u8 z, s32 arrow_type, s32 direction)
 {
     field_CC66_545_count = 0;
     memset(field_CA40_visited, 0, sizeof(field_CA40_visited));
@@ -908,7 +908,7 @@ bool RouteFinder::ExpandNode_5899C0(RouteSearchNode* pNode, s32 arrow_type)
 }
 
 MATCH_FUNC(0x589bb0)
-char_type RouteFinder::ExpandNodeUnlessOffScreen_589BB0(RouteSearchNode* pRoute, s32 arrow_type)
+bool RouteFinder::ExpandNodeUnlessOffScreen_589BB0(RouteSearchNode* pRoute, s32 arrow_type)
 {
     Junction* pJunction = &field_8_junctions[pRoute->field_0_idx];
     if (!gGame_0x40_67E008->IsPointOnScreen_4B9A80(pJunction->field_C_min_x, pJunction->field_D_min_y) &&

@@ -53,7 +53,7 @@ class Weapon
     EXPORT void init_5DCD90();
     EXPORT void PoolDeallocate();
     EXPORT void set_ammo_clips_5DCE20(u8 clips);
-    EXPORT char_type add_ammo_capped_5DCE40(u8 to_add);
+    EXPORT bool add_ammo_capped_5DCE40(u8 to_add);
     EXPORT bool is_max_capacity_5DCEA0();
     EXPORT bool sub_5DCEF0();
     EXPORT void ApplyFastReload_5DCF40();

@@ -715,7 +715,7 @@ void Ped::PoolAllocate()
 }
 
 MATCH_FUNC(0x45b4e0)
-char_type Ped::IsLawEnforcement_45B4E0()
+bool Ped::IsLawEnforcement_45B4E0()
 {
     switch (field_240_occupation)
     {
@@ -1449,7 +1449,7 @@ void Ped::EnterCarAsPassenger_45C7F0(Car* pCar)
 }
 
 MATCH_FUNC(0x45c830)
-char_type Ped::AllocCharB4_45C830(Fix16 xpos, Fix16 ypos, Fix16 zpos)
+bool Ped::AllocCharB4_45C830(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
     Char* pChar = gChar_B4_Pool_6FDB44->field_0_pool.Allocate();
 
@@ -2031,7 +2031,7 @@ ret_false:
 
 // https://decomp.me/scratch/Yg4cw
 MATCH_FUNC(0x45d000)
-char_type Ped::HandlePedHitByObject_45D000(Object* pTargetPed)
+bool Ped::HandlePedHitByObject_45D000(Object* pTargetPed)
 {
 
     Ang16 angle;
@@ -2733,7 +2733,7 @@ void Ped::Deallocate_45EB60()
 }
 
 MATCH_FUNC(0x45edc0)
-char_type Ped::IsActivePlayerPed_45EDC0()
+bool Ped::IsActivePlayerPed_45EDC0()
 {
     if (field_238_ped_type == ped_type::player_2)
     {
@@ -4036,7 +4036,7 @@ void Ped::UpdateOnScreenCounter_462620()
 }
 
 MATCH_FUNC(0x4626b0)
-char_type Ped::StateMachineTick_4626B0()
+bool Ped::StateMachineTick_4626B0()
 {
     switch (this->field_238_ped_type)
     {
@@ -5901,7 +5901,7 @@ bool Ped::IsAttackingTargetPed_465CD0()
 
 // https://decomp.me/scratch/Fh1iq
 MATCH_FUNC(0x466b70)
-char_type Ped::IsInvisibleOnFoot_466B70()
+bool Ped::IsInvisibleOnFoot_466B70()
 {
     if (field_21C_bf.bInvisible && field_168_game_object != 0)
     {
@@ -6740,7 +6740,7 @@ Ped* Ped::GetLastProcessedPedOnFoot_467070()
 }
 
 MATCH_FUNC(0x467090)
-char_type Ped::FindUsableCarDoor_467090()
+bool Ped::FindUsableCarDoor_467090()
 {
     Car* pTargetToEnter = this->field_154_target_to_enter;
     if (pTargetToEnter ||
@@ -9701,7 +9701,7 @@ void Ped::WaitOnFoot_46BD30()
 }
 
 MATCH_FUNC(0x46bd50)
-char_type Ped::IsOtherPedEnteringAsDriver_46BD50(Car* pCar)
+bool Ped::IsOtherPedEnteringAsDriver_46BD50(Car* pCar)
 {
     u8 new_door_idx = 0;
     u8 door_idx = 0;

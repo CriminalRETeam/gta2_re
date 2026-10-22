@@ -518,7 +518,7 @@ s32 PathFinder::IsFirstInPathQueue_554A90(Ped* pPed)
 
 // https://decomp.me/scratch/Fr0bT
 MATCH_FUNC(0x554ab0)
-char_type PathFinder::ComputePath_554AB0(s32 ped_id,
+bool PathFinder::ComputePath_554AB0(s32 ped_id,
                                         Ped* pPed,
                                         u8 x_start,
                                         u8 y_start,

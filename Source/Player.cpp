@@ -349,7 +349,7 @@ void Player::SetWeapon_564910(Weapon* pWeapon)
 }
 
 MATCH_FUNC(0x564940)
-char_type Player::HasAnyAmmo_564940()
+bool Player::HasAnyAmmo_564940()
 {
     for (s32 i = 0; i < 15; i++)
     {
@@ -630,7 +630,7 @@ void Player::ClearPowerUpsExceptJailCard_564CF0()
 }
 
 MATCH_FUNC(0x564D60)
-char_type Player::CollectPowerUp_564D60(s32 power_up_idx)
+bool Player::CollectPowerUp_564D60(s32 power_up_idx)
 {
     switch (power_up_idx)
     {

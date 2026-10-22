@@ -174,7 +174,7 @@ bool PedGroup::PurgeMembersInCars_4C9040()
 }
 
 MATCH_FUNC(0x4c9150)
-char_type PedGroup::AreAllMembersOffScreen_4C9150()
+bool PedGroup::AreAllMembersOffScreen_4C9150()
 {
     if (field_2C_ped_leader->field_168_game_object == NULL || field_2C_ped_leader->GetOffscreenCounter_4039F0() < 0x28)
     {
@@ -1137,7 +1137,7 @@ bool PedGroup::IsAllMembersInSomeCar_4CAA20()
 }
 
 MATCH_FUNC(0x4caae0)
-char_type PedGroup::HasNoActiveMembers_4CAAE0()
+bool PedGroup::HasNoActiveMembers_4CAAE0()
 {
     for (u8 i = 0; i < field_34_count; i++)
     {
@@ -1151,7 +1151,7 @@ char_type PedGroup::HasNoActiveMembers_4CAAE0()
 }
 
 MATCH_FUNC(0x4cab80)
-char_type PedGroup::AreAllMembersOnFoot_4CAB80()
+bool PedGroup::AreAllMembersOnFoot_4CAB80()
 {
     for (u8 i = 0; i < field_34_count; i++)
     {

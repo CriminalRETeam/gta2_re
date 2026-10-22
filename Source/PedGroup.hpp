@@ -28,7 +28,7 @@ class PedGroup
     EXPORT void add_ped_to_end_of_list_4C8F90(Ped* pPed);
     EXPORT void replace_leader_4C8FE0(Ped* pPed);
     EXPORT bool PurgeMembersInCars_4C9040();
-    EXPORT char_type AreAllMembersOffScreen_4C9150();
+    EXPORT bool AreAllMembersOffScreen_4C9150();
     EXPORT void ResetMembersToFollowLeader_4C91B0();
     EXPORT bool IsLeaderInCar_4C9210();
     EXPORT bool IsLeaderEnteringCarOrTrain_4C9220();
@@ -49,8 +49,8 @@ class PedGroup
     EXPORT void UpdateMemberAIState_4CA5E0(u8 idx);
     EXPORT void UpdateMemberTightFollowState_4CA820(u8 idx);
     EXPORT bool IsAllMembersInSomeCar_4CAA20();
-    EXPORT char_type HasNoActiveMembers_4CAAE0();
-    EXPORT char_type AreAllMembersOnFoot_4CAB80();
+    EXPORT bool HasNoActiveMembers_4CAAE0();
+    EXPORT bool AreAllMembersOnFoot_4CAB80();
     EXPORT bool IsMemberTooFarFromLeader_4CAC20(u8 idx);
     EXPORT bool IsLeaderCloseToTargetCar_4CAD40();
     EXPORT Ped* FindNearestOtherMember_4CAE80(u8 idx);

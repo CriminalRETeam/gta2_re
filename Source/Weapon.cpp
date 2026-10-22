@@ -154,7 +154,7 @@ void Weapon::set_ammo_clips_5DCE20(u8 clips)
 }
 
 MATCH_FUNC(0x5dce40)
-char_type Weapon::add_ammo_capped_5DCE40(u8 to_add)
+bool Weapon::add_ammo_capped_5DCE40(u8 to_add)
 {
     s32 cap_total = max_ammo_capacity_5FF75C[field_1C_idx] * 10;
     if (is_infinite_ammo_4A4FA0())

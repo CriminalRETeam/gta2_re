@@ -222,7 +222,7 @@ class Player
     EXPORT void ClearKFWeapon_5647D0();
     EXPORT Weapon* GetCurrPlayerWeapon_5648F0();
     EXPORT void SetWeapon_564910(Weapon* pWeapon);
-    EXPORT char_type HasAnyAmmo_564940();
+    EXPORT bool HasAnyAmmo_564940();
     EXPORT char_type AddWeaponWithAmmo_564960(s32 weapon_kind, u8 ammo);
     EXPORT void SelectNextOrPrevWeapon_5649D0(char_type go_forwards, char_type go_backwards);
     EXPORT void LoadCarWeapons_564AD0(Car* pCar);
@@ -232,7 +232,7 @@ class Player
     EXPORT void RemovePlayerWeapons_564C50();
     EXPORT void ClearPowerUps_564CC0();
     EXPORT void ClearPowerUpsExceptJailCard_564CF0();
-    EXPORT char_type CollectPowerUp_564D60(s32 power_up_idx);
+    EXPORT bool CollectPowerUp_564D60(s32 power_up_idx);
     EXPORT void tick_down_powerups_565070();
     EXPORT void RestorePowerUpsFromSave_5651F0(SavedPlayerStats* pSave);
     EXPORT void TeleportToDebugCam_565310();

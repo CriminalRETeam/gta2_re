@@ -848,7 +848,7 @@ ThreadTrigger* ScriptManager::FindPhoneThreadByObjId_512AD0(s32 obj_f14)
 }
 
 MATCH_FUNC(0x512af0)
-char_type ScriptManager::TestAndRecordWeaponHit_512AF0(s32 id, char_type weapon_idx, char_type bIsPed)
+bool ScriptManager::TestAndRecordWeaponHit_512AF0(s32 id, char_type weapon_idx, char_type bIsPed)
 {
     WeaponCheckTable* pFree = NULL;
     WeaponCheckTable* pTable = &field_27C_weapon_check_table[0];

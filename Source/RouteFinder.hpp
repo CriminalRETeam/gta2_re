@@ -42,7 +42,7 @@ GTA2_ASSERT_SIZEOF_ALWAYS(Link, 0x2);
 class Junction
 {
   public:
-    EXPORT char_type IsUsableWithArrowType_588580(s32 arrow_type);
+    EXPORT bool IsUsableWithArrowType_588580(s32 arrow_type);
     EXPORT u16 GetDirectionToJunction_5885C0(u16 junction_idx);
 
     // 9.6f 0x40CEE0
@@ -117,13 +117,13 @@ class RouteFinder
     EXPORT RouteSearchNode* NewChildNode_5892F0(RouteSearchNode* pRoute, u16 idx, s16 step_cost);
     EXPORT RouteSearchNode* NewStartNode_589390(u16 junction_idx);
     EXPORT void InsertIntoOpenList_589420(RouteSearchNode* pRoute);
-    EXPORT char_type InitSearch_589480(u8 start_x, u8 start_y, u8 start_z, u8 dest_x, u8 dest_y, u8 dest_z, s32 arrow_type);
-    EXPORT char_type InitSearchWithDirection_5895C0(u8 x, u8 y, u8 z, s32 arrow_type, s32 direction);
+    EXPORT bool InitSearch_589480(u8 start_x, u8 start_y, u8 start_z, u8 dest_x, u8 dest_y, u8 dest_z, s32 arrow_type);
+    EXPORT bool InitSearchWithDirection_5895C0(u8 x, u8 y, u8 z, s32 arrow_type, s32 direction);
     EXPORT void CancelRoute_589930(s16 idx);
     EXPORT s16 GetFreeRouteIdx_589960();
     EXPORT u16 AddChildNode_589990(RouteSearchNode* pRoute, u16 junction_idx, s16 step_cost);
     EXPORT bool ExpandNode_5899C0(RouteSearchNode* pNode, s32 arrow_type);
-    EXPORT char_type ExpandNodeUnlessOffScreen_589BB0(RouteSearchNode* pRoute, s32 arrow_type);
+    EXPORT bool ExpandNodeUnlessOffScreen_589BB0(RouteSearchNode* pRoute, s32 arrow_type);
     EXPORT RouteSearchNode* GetFirstUnexpandedNode_589E00();
     EXPORT char_type SearchToDest_589E20(s32 arrow_type);
     EXPORT char_type SearchUntilOffScreen_589E70(s32 arrow_type);
