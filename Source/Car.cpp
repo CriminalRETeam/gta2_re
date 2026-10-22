@@ -42,6 +42,12 @@
 #include "TextTable.hpp"
 #include "winmain.hpp"
 
+// field_A4_light_flags bits of CarLightFlags8: bEmergencyLights, bLightFlashing and bHeadlightFlash
+enum
+{
+    kEmergencyOrFlashingLightsMask = 0x1C
+};
+
 // TODO: Its in FrontEnd by seems crazy to include the whole file just for this
 EXTERN_GLOBAL(bool, gCheatMiniCars_67D6C8);
 
@@ -2261,7 +2267,7 @@ void Car::TriggerCarAlarm_43A9F0()
 MATCH_FUNC(0x43CAC0)
 void Car::StartLightFlashing_43CAC0()
 {
-    if ((field_A4_light_flags & 0x1C) == 0)
+    if ((field_A4_light_flags & kEmergencyOrFlashingLightsMask) == 0)
     {
         field_A5_flash_phase_counter = 12;
         field_A4_bf.bLightFlashing = true;
@@ -2379,7 +2385,7 @@ char_type Car::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
 
                 our_flags = this->field_78_flags;
                 their_flags = cBC->field_78_flags;
-                if ((((u8)their_flags ^ (u8)our_flags) & 0x10) != 0)
+                if ((((u8)their_flags ^ (u8)our_flags) & car_flag::Flag4) != 0)
                 {
                     return 0;
                 }
@@ -3092,7 +3098,7 @@ void Car::DeAllocateCarPhysics_43BD00()
 MATCH_FUNC(0x43bd40)
 void Car::FlashHeadlights_43BD40()
 {
-    if ((field_A4_light_flags & 0x1C) == 0)
+    if ((field_A4_light_flags & kEmergencyOrFlashingLightsMask) == 0)
     {
         if (field_A4_bf.bHeadlights)
         {
@@ -3413,7 +3419,7 @@ void Car::ResetBottomLeftRoofLight_43C840()
 MATCH_FUNC(0x43c920)
 void Car::ActivateEmergencyLights_43C920()
 {
-    if ((field_A4_light_flags & 0x1C) == 0)
+    if ((field_A4_light_flags & kEmergencyOrFlashingLightsMask) == 0)
     {
         if (IsFbiCar_411920())
         {
@@ -3448,7 +3454,7 @@ void Car::DeactivateEmergencyLights_43C9D0()
 MATCH_FUNC(0x43ca80)
 void Car::ToggleEmergencyLights_43CA80()
 {
-    if ((field_A4_light_flags & 0x1C) != 0)
+    if ((field_A4_light_flags & kEmergencyOrFlashingLightsMask) != 0)
     {
         Car::DeactivateEmergencyLights_43C9D0();
     }

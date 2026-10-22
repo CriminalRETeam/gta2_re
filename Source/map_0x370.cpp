@@ -103,7 +103,7 @@ static inline u16 get_tile_idx(u16& side_word)
 
 static inline bool has_any_green_arrows(u8& arrow_data)
 {
-    return (arrow_data & 0xF) != 0;
+    return (arrow_data & block_arrow::green_mask) != 0;
 }
 
 static inline bool check_green_up(u8& arrow_data)
