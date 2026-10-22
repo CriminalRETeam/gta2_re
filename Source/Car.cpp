@@ -1386,7 +1386,7 @@ Car* CarManager::SpawnCarAt_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rot
     pCar->field_50_car_sprite->SetCar_420710(pCar);
     pCar->field_50_car_sprite->AllocCollisionShape_59F950(gPixelsToFix16_6F6850.list[pCarInfo->w], gPixelsToFix16_6F6850.list[pCarInfo->h], kFpHalf_6771FC);
 
-    pCar->field_68_scale = scale; // 19b
+    pCar->field_68_scale = scale;
 
     if (scale != kFP16One_6777D0)
     {
@@ -2162,7 +2162,7 @@ char_type Car::GetCarModelForPhysics_43A850()
             {
                 if (field_60_pChaseTask->field_22_following_route != 0)
                 {
-                    if (field_84_car_info_idx == car_model_enum::TANK) // 0x36
+                    if (field_84_car_info_idx == car_model_enum::TANK)
                     {
                         return car_model_enum::HOTDOG_D4;
                     }
@@ -2171,7 +2171,7 @@ char_type Car::GetCarModelForPhysics_43A850()
             }
             else
             {
-                if (field_84_car_info_idx == car_model_enum::TANK) // 0x36
+                if (field_84_car_info_idx == car_model_enum::TANK)
                 {
                     return car_model_enum::HOTDOG_D4;
                 }
@@ -5642,7 +5642,7 @@ char_type Car::UpdateCarDespawnStatus_4424C0()
             field_88_despawn_status = car_despawn_status::despawning_5; // Despawn now
             return 0;
 
-        case car_despawn_status::marked_for_despawn_4: // ????
+        case car_despawn_status::marked_for_despawn_4:
             field_88_despawn_status = car_despawn_status::despawn_pending_2;
             return 0;
 

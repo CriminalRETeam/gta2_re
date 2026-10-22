@@ -1023,7 +1023,7 @@ void Frontend::DrawMenu_4AD140()
 
     if (field_132_f136_idx == MENUPAGE_VIEW_HIGH_SCORE)
     {
-        if (field_EE0D_hiscore_table_idx < 3) //  line 1b8
+        if (field_EE0D_hiscore_table_idx < 3)
         {
             pHighScoreTable = &gPlyDat_6FEAC0->field_1890_stage_scores[field_EE0D_hiscore_table_idx][0]; // main district score
             Frontend::DrawScoreTable_4B5430((ScoreTableLine*)&pHighScoreTable->field_0_score_table_line, 300, 250, 5, field_12A_score_font, 0xFFFF, 2);
@@ -1111,7 +1111,7 @@ void Frontend::DrawMenu_4AD140()
 
     if (field_132_f136_idx == MENUPAGE_MULTIPLAYER_RESULTS)
     {
-        Frontend::DrawMultiplayerScores_4B55F0(); // line 41d
+        Frontend::DrawMultiplayerScores_4B55F0();
     }
 
     u32 chosen_option_idx = -1;
@@ -1417,7 +1417,7 @@ void Frontend::DrawCredits_4B7AE0()
                 draw_kind = 2;
                 palette = 0;
                 break;
-            case credits_line_category::unknown_1: // ???
+            case credits_line_category::unknown_1:
                 font_type = field_120_selected_font;
                 draw_kind = 2;
                 palette = 0;
@@ -2652,7 +2652,7 @@ void Frontend::HandleCheatCode_4B3DD0(const wchar_t* cheat_str_wide)
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x45118)
-    { // ??
+    {
         gCheatUnlimitedJailCard_67D4F6 = gCheatUnlimitedJailCard_67D4F6 == 0;
         snd1_67D818.field_0_object_type = 9;
     }
@@ -4237,7 +4237,7 @@ void Frontend::GetSeqItem_4B48D0(s32 type, char_type* ppRet, FILE* hSeqFile)
             }
             if (pos > 0xFFu)
             {
-                FatalError_4A38C0(Gta2Error::LabelTooLong, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5031); // LabelTooLong
+                FatalError_4A38C0(Gta2Error::LabelTooLong, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 5031);
             }
         } // 0x3d
         output_buf[pos] = 0;

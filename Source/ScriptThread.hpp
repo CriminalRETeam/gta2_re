@@ -1180,7 +1180,7 @@ class ScriptThreadPool
         pf_0->mpNext = field_0_pool.field_4_pPrev;
         field_0_pool.field_4_pPrev = pf_0;
         pf_0->PoolAllocate_5035B0();
-        return pf_0; // ??
+        return pf_0;
     }
 
     // 9.6f inlined ctor 0x481310

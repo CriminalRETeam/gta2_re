@@ -1126,7 +1126,6 @@ void Object::IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 angle)
         }
         if (!bHandled)
         {
-            // label 24 of 9.6f ida idb,  or line 402 in 10.5 idb
             field_4_sprite->set_xyz_lazy_420600(pSprt->field_14_xy.x, pSprt->field_14_xy.y, pSprt->field_1C_zpos);
             field_4_sprite->set_ang_lazy_420690(pSprt->field_0_rotation);
             if (bHitSomething)
@@ -2026,7 +2025,7 @@ void Object::InheritMotionFromSprite_526B40(Sprite* pSprite)
             this->field_4_sprite->SetDrawLayer_40F7B0(27);
             break;
 
-        case sprite_types_enum::car_2: // 2
+        case sprite_types_enum::car_2:
             this->field_10_obj_3c->field_C_speed = pSprite->field_8_car_bc_ptr->GetCarLinearSpeed_43A240();
             this->field_10_obj_3c->field_4_angle = pSprite->field_8_car_bc_ptr->GetOrientationAngle_43A3E0();
             this->field_4_sprite->SetDrawLayer_40F7B0(pSprite->AsCar_40FEB0()->GetAttachedDrawLayer_4435B0());
@@ -3369,7 +3368,7 @@ Object* Object_5C::CreateObject_529C00(int object_type, Fix16 xpos, Fix16 ypos, 
 {
     if (object_type == objects::secret_token_266)
     {
-        if (!field_20_uncollected_tokens[field_54_uncollected_token_index]) // 20
+        if (!field_20_uncollected_tokens[field_54_uncollected_token_index])
         {
             field_54_uncollected_token_index++;
             return 0;
@@ -3387,7 +3386,7 @@ Object* Object_5C::CreateObject_529C00(int object_type, Fix16 xpos, Fix16 ypos, 
     }
 
     Object* pNew2C; // esi
-    if (pDefinition->field_61_in_pool_list) // 6c
+    if (pDefinition->field_61_in_pool_list)
     {
         pNew2C = gObject_2C_Pool_6F8F80->Allocate();
         pNew2C->field_20_pool_list_state = object_pool_state::in_pool_list_1;
@@ -3421,7 +3420,7 @@ Object* Object_5C::CreateObject_529C00(int object_type, Fix16 xpos, Fix16 ypos, 
         return 0;
     }
 
-    if (pDefinition->field_5C_instance_limit_kind == 3) // 1e0
+    if (pDefinition->field_5C_instance_limit_kind == 3)
     {
         ++field_14_listed_sprite_count;
         field_1C_sprite_list.AddSprite_5A6CD0(pNew2C->field_4_sprite);
@@ -3444,7 +3443,7 @@ Object* Object_5C::CreateObject_529C00(int object_type, Fix16 xpos, Fix16 ypos, 
             Explosion* pNew30; // eax
             pNew30 = gExplosionPool_7A8_6FD5F0->Allocate_543800();
             pNew2C->field_C_pAny.pExplosion = pNew30;
-            if (pNew30) // 225
+            if (pNew30)
             {
                 pNew2C->field_1C_has_explosion = 1;
             }
@@ -3501,7 +3500,7 @@ Object* Object_5C::CreateObject_529C00(int object_type, Fix16 xpos, Fix16 ypos, 
             Object_8* pNew8; // eax
             pNew8 = gObject_8_Pool_6F8F78->Allocate();
             pNew2C->field_C_pAny.o8 = pNew8;
-            pNew2C->field_C_pAny.o8->field_7_frame_idx = 0; // ??
+            pNew2C->field_C_pAny.o8->field_7_frame_idx = 0;
             pNew2C->field_C_pAny.o8->field_4_timer = pDefinition->field_65_next_definition_timer;
             pNew2C->field_C_pAny.o8->field_6_frame_counter = 0;
             break;
@@ -3526,8 +3525,8 @@ Object* Object_5C::CreateObject_529C00(int object_type, Fix16 xpos, Fix16 ypos, 
     {
         Object* pLight = NewPhysicsObj_5299B0(objects::powergen_light_284, kFpZero_6F8E10, kFpZero_6F8E10, kFpZero_6F8E10, kZeroAng_6F8F68);
         pNew2C->field_4_sprite->AttachSprite_5A3100(pLight->field_4_sprite,
-                                                       (kFpEighteen_6F8CE8 * kFpOne64th_6F8ECC), // x?
-                                                       (kFP16One_6F8CEC * kFpOne64th_6F8ECC), // y?
+                                                       (kFpEighteen_6F8CE8 * kFpOne64th_6F8ECC),
+                                                       (kFP16One_6F8CEC * kFpOne64th_6F8ECC),
                                                        kZeroAng_6F8F68); // ang?
     }
     else
@@ -3714,9 +3713,9 @@ void Object_5C::RestoreObjects_52A590(SavedObjectData* pData)
             pData->field_0_obj_x[1][19 - i].field_0_value != kFpZero_6F8E10) // x and y not zero?
         {
             Object* pNewObj = NewPhysicsObj_5299B0(*pModel,
-                                                      pData->field_0_obj_x[0][19 - i].field_0_value, // x?
+                                                      pData->field_0_obj_x[0][19 - i].field_0_value,
                                                       pData->field_0_obj_x[1][19 - i].field_0_value,
-                                                      pData->field_0_obj_x[2][19 - i].field_0_value, // z?
+                                                      pData->field_0_obj_x[2][19 - i].field_0_value,
                                                       kZeroAng_6F8F68);
             pNewObj->set_field_26(*pPedRefIdx);
         }

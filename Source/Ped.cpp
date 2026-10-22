@@ -4490,7 +4490,7 @@ bool Ped::PoolUpdate()
 
         if (field_234_lifetime_timer == ped_lifetime::remove_0)
         {
-            field_234_lifetime_timer = ped_lifetime::remove_0; // ????????????????
+            field_234_lifetime_timer = ped_lifetime::remove_0;
         }
     }
 
@@ -4828,7 +4828,7 @@ void Ped::SetObjective2_463830(s32 internal_objective, s16 internal_objective_ti
                 break;
             case objectives_enum::leave_train_38:
                 Ped::ChangeNextPedState1_45C500(ped_state_1::unknown_6);
-                Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_driving_10); // ??
+                Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_driving_10);
                 break;
             case objectives_enum::leave_car_36:
                 mode = 7;
@@ -6921,7 +6921,6 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
 
         if (!bGiveUp)
         {
-            // line 22d
             byte_678554 = 1;
             Ped::ChangeNextPedState1_45C500(ped_state_1::findind_path_2);
             Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
@@ -6971,7 +6970,6 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
                     // fall through
 
                 default:
-                    // line 361
                     if (field_18C_current_path_point->field_0_x != 0 || field_18C_current_path_point->field_1_y != 0)
                     {
                         bNextPoint = true;
@@ -6994,7 +6992,6 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
 
             if (bUseCurrentPath)
             {
-                // line 38e
                 if (field_18C_current_path_point)
                 {
                     if (field_18C_current_path_point->field_0_x == 0 && field_18C_current_path_point->field_1_y == 0)
@@ -7047,7 +7044,6 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
 
             if (bNextPoint)
             {
-                // line 54e
                 field_1C4_move_target_x = kFpHalf_67853C + Fix16(field_18C_current_path_point->field_0_x);
                 field_1C8_move_target_y = kFpHalf_67853C + Fix16(field_18C_current_path_point->field_1_y);
                 field_1CC_move_target_z = Fix16(field_18C_current_path_point->field_2_z);
@@ -7064,7 +7060,6 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
 
     if (bGiveUp)
     {
-        // 5a5
         Ped::ChangeNextPedState1_45C500(ped_state_1::flee_or_running_1);
         Ped::ChangeNextPedState2_45C540(ped_state_2::Unknown_2);
         field_21C_bf.bFlag15 = false;
@@ -10630,7 +10625,7 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
         field_14C_internal_target_ped->IncrementAttackersCount_433BD0();
     }
 
-    if (field_198_hit_target_ped) // line 185
+    if (field_198_hit_target_ped)
     {
         Ped::ChangeNextPedState1_45C500(ped_state_1::standing_still_7);
         Ped::ChangeNextPedState2_45C540(11);
@@ -10638,7 +10633,7 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
     }
     else
     {
-        if (field_240_occupation == ped_ocupation_enum::stand_still_bloke) // line 294
+        if (field_240_occupation == ped_ocupation_enum::stand_still_bloke)
         {
             pWeapon->SetTargetHit_433810(0);
         }
@@ -10660,9 +10655,9 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
                         byte_6787D4 = 1;
                         field_168_game_object->RegulateVelocity_433970(field_1F0_max_speed);
 
-                        if (field_168_game_object->field_58_flags_bf.bFlag7) // line 375
+                        if (field_168_game_object->field_58_flags_bf.bFlag7)
                         {
-                            Ped::SetObjective2_463830(objectives_enum::flee_on_foot_till_safe_1); // line 462
+                            Ped::SetObjective2_463830(objectives_enum::flee_on_foot_till_safe_1);
                             field_1C4_move_target_x = field_1AC_cam.x;
                             field_1C8_move_target_y = field_1AC_cam.y;
                         }
@@ -10698,9 +10693,9 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
 
                         if (field_21C_bf.bFlag22 == false)
                         {
-                            if (field_168_game_object->field_58_flags_bf.bFlag7) // line 45c
+                            if (field_168_game_object->field_58_flags_bf.bFlag7)
                             {
-                                Ped::SetObjective2_463830(objectives_enum::flee_on_foot_till_safe_1); // line 384
+                                Ped::SetObjective2_463830(objectives_enum::flee_on_foot_till_safe_1);
                                 field_1C4_move_target_x = field_1AC_cam.x;
                                 field_1C8_move_target_y = field_1AC_cam.y;
                             }
@@ -10718,8 +10713,6 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
                     }
                     // no else here
                 }
-
-                // line 4c9 and 4d2
 
                 if (bThrownWeapon)
                 {
@@ -10742,7 +10735,7 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
                     {
                         if (field_168_game_object->GetCharState_433A80() != Char_B4_state::Jumping_15)
                         {
-                            Ped::ChangeNextPedState1_45C500(ped_state_1::standing_still_7); // line 5b5
+                            Ped::ChangeNextPedState1_45C500(ped_state_1::standing_still_7);
                             Ped::ChangeNextPedState2_45C540(11);
                             field_21C_bf.bAttacking = true;
                         }
@@ -10757,7 +10750,7 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
                         return;
                     }
                 }
-                else if (field_168_game_object->GetCharState_433A80() != Char_B4_state::Jumping_15) // line 5fe
+                else if (field_168_game_object->GetCharState_433A80() != Char_B4_state::Jumping_15)
                 {
                     Ped::ChangeNextPedState1_45C500(ped_state_1::standing_still_7);
                     Ped::ChangeNextPedState2_45C540(11);

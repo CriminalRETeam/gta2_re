@@ -919,7 +919,6 @@ bool Police::SpawnCrewInCar_5703E0(Car* pCar)
                     break;
 
                 case cop_level_enum::police_2:
-                    // line 231
                     pNewPed1->GiveWeapon_46F650(weapon_type::pistol);
                     pNewPed1->set_health_4039A0(100);
                     pNewPed1->field_1F0_max_speed = kFpOneSixteenth_6FEB0C * kFpPoint8_6FEB68;

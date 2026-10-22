@@ -358,7 +358,7 @@ gmp_map_zone* Map_0x370::GetNearestZoneOfType_4DF240(u8 xpos, u8 ypos, u8 zone_t
             {
                 if (dist > kFpTen_6F6184) // dist < 10.0
                 {
-                    if (pOtherZone) //  line 101
+                    if (pOtherZone)
                     {
                         pChosenZone = pOtherZone;
                         second_dist = nearest_dist;

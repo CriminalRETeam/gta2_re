@@ -2119,7 +2119,7 @@ Hud_BriefEntry* Hud_Brief::AllocBrief_5D33F0()
         if (field_700_prev_briefs)
         {
             pIter = field_700_prev_briefs->field_C_pNext;
-            if (pIter) // line 29
+            if (pIter)
             {
                 do
                 {

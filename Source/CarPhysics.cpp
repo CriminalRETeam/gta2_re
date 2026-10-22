@@ -3402,7 +3402,7 @@ bool CarPhysics::IsGasPedalPressedEnough_5626A0()
 MATCH_FUNC(0x5626c0)
 Fix16 CarPhysics::MinGasPedalPressure_5626C0()
 {
-    if (field_5C_pCar->field_7C_ped_type == ped_type::player_2) // ??
+    if (field_5C_pCar->field_7C_ped_type == ped_type::player_2)
     {
         return kFP16Two_6FDFB0;
     }

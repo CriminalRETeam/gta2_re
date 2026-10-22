@@ -15,8 +15,8 @@ class Nanobotz  // Maybe Fix16_Point
     {
         return field_0_x == other->field_0_x && field_4_y == other->field_4_y;
     }
-    s32 field_0_x;  // x?
-    s32 field_4_y;  // y?
+    s32 field_0_x;
+    s32 field_4_y;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Nanobotz, 0x8);
 

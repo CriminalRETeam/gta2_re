@@ -569,7 +569,7 @@ void Char::Update_545720(Fix16 distance_to_target)
                 Char::state_4_551B30(); // ExitingCar
                 break;
             case 5:
-                Char::state_5_551BB0(); // ??????
+                Char::state_5_551BB0();
                 break;
             case 6:
                 nullsub_28();
@@ -2776,7 +2776,7 @@ char_type Char::CanMoveOntoSlope_54C1A0(s32 path_direction)
             }
             return false;
         case PAVEMENT:
-        case 4: // ???
+        case 4:
             return 1;
         default:
             return 0;
@@ -3506,7 +3506,7 @@ void Char::state_0_54DDF0()
             if (this->field_6C_animation_state != Char_Anim_state::Jumping_5)
             {
                 this->field_6C_animation_state = Char_Anim_state::Jumping_5;
-                this->field_68_animation_frame = 0; // line 4b2
+                this->field_68_animation_frame = 0;
             }
             if (field_7C_pPed->GetMoveDirection_45C9B0() > kFP16Zero_6FD9E4)
             {
@@ -3536,7 +3536,7 @@ void Char::state_0_54DDF0()
         }
         else
         {
-            if (field_7C_pPed->GetMoveDirection_45C9B0() > kFP16Zero_6FD9E4) // line 53c
+            if (field_7C_pPed->GetMoveDirection_45C9B0() > kFP16Zero_6FD9E4)
             {
                 if (field_38_velocity == kZeroVelocity_6FD7C0)
                 {
@@ -3614,7 +3614,7 @@ void Char::state_0_54DDF0()
             }
         }
 
-        if (this->field_7C_pPed->field_21C_bf.bHitByAttacker != 0) // line 69a
+        if (this->field_7C_pPed->field_21C_bf.bHitByAttacker != 0)
         {
             this->field_38_velocity = k_CollisionRepulsionSpeed_6FD7BC;
         }
@@ -3622,7 +3622,7 @@ void Char::state_0_54DDF0()
     else
     {
         radius = kFpThreeThirtySeconds_6FDAC8;
-        if (this->field_69_is_colliding_with_sprite || this->field_10_char_state == Char_B4_state::Jumping_15) // line 6b1
+        if (this->field_69_is_colliding_with_sprite || this->field_10_char_state == Char_B4_state::Jumping_15)
         {
             bAllowStateChange = 0;
             field_7C_pPed->field_21C_bf.bAttacking = 0; // TODO: Check it
@@ -3643,7 +3643,6 @@ void Char::state_0_54DDF0()
             }
             if (this->field_38_velocity < kZeroVelocity_6FD7C0)
             {
-                // line 367 on 9.6f IDA
                 Ang16 rotation = field_40_rotation;
                 new_rotation = rotation;
                 rotation += kAng180_6FD936;
@@ -3688,7 +3687,6 @@ void Char::state_0_54DDF0()
         field_58_flags &= ~8;
     }
 
-    // line 401 on 9.6f IDA
     Ang16::PolarToCartesian_41FC20(field_40_rotation, radius, ret1, ret2);
 
     ret1 += gCharB4_Saved_Xpos_6FD7F8;
@@ -4826,7 +4824,7 @@ LABEL_65:
             bSnapRotation = 1;
         }
         angle = desired_angle;
-        if (field_58_flags_bf.bFlag7) // line 434
+        if (field_58_flags_bf.bFlag7)
         {
             if (MaxAbsDistance_5504F0(gCharB4_Saved_Xpos_6FD7F8,
                                       gCharB4_Saved_Ypos_6FD800,
@@ -5637,7 +5635,7 @@ void Char::state_7_551CB0()
     }
     if (field_10_char_state == Char_B4_state::Jumping_15)
     {
-        field_38_velocity = gRunOrJumpSpeed_6FD7D0; // line 1be
+        field_38_velocity = gRunOrJumpSpeed_6FD7D0;
     }
     if (field_6A_repulsion_timer > 0 || field_10_char_state == Char_B4_state::Jumping_15 || field_4C_conveyor_dx != kFP16Zero_6FD9E4 || field_50_conveyor_dy != kFP16Zero_6FD9E4)
     {
@@ -5685,7 +5683,7 @@ void Char::state_7_551CB0()
     switch (field_C_ped_state_2)
     {
         case ped_state_2::ped2_staying_14:
-            if (field_7C_pPed->GetAttacking_433CA0() == 1) // line 344
+            if (field_7C_pPed->GetAttacking_433CA0() == 1)
             {
                 if (field_7C_pPed->field_21C_bf.bNoWeapon)
                 {

@@ -805,7 +805,7 @@ LABEL_35:
         switch (field_1B_direction)
         {
             case 1:
-                pCell += 34; // 34
+                pCell += 34;
                 ++yCoord;
                 goto LABEL_52;
             case 3:

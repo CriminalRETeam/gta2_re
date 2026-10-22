@@ -2402,7 +2402,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
             }
             else
             {
-                if (!bQuit && gMinimizedState_70827C != 2 && !bVideoModeResetPending_706C5D) //  line 3e4
+                if (!bQuit && gMinimizedState_70827C != 2 && !bVideoModeResetPending_706C5D)
                 {
                     if (bDoFrontEnd_626B68)
                     {

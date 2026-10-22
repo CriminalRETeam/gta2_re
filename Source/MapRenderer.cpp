@@ -3387,7 +3387,7 @@ void MapRenderer::RenderFlatBlock_4F66C0()
             MapRenderer::draw_bottom_4F49B0(side_word, kZeroOnePoint_6F6484.x, kZeroOnePoint_6F6484.y, kZeroOnePoint_6F6484.x);
         }
     }
-    if (gBlockLeft_6F62F6) // line 103
+    if (gBlockLeft_6F62F6)
     {
         if (gBlockRight_6F63C6 == 0 || (gBlockRight_6F63C6 & block_face::flat) == 0 || (gBlockLeft_6F62F6 & block_face::flat) != 0)
         {

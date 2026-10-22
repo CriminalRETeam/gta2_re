@@ -1352,7 +1352,7 @@ void __stdcall NetUi::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s32 notif
             break;
         }
 
-        case 1021: // ?
+        case 1021:
         {
             gNetPlay_7071E8.NetworkTick_51ED00();
             Sleep(100);

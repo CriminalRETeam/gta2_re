@@ -1688,9 +1688,9 @@ void CarAI::FollowRoadDirection_44A1F0()
                     {
                         field_24_flags &= 0xFFFEDFFF;
 
-                        if (lane_dx <= kFpPoint4_6779C8) // 9.6f idb line 131
+                        if (lane_dx <= kFpPoint4_6779C8)
                         {
-                            if (travel_angle > (lane_angle_copy - kAng10_677A08)) // 9.6f idb line 134
+                            if (travel_angle > (lane_angle_copy - kAng10_677A08))
                             {
                                 if (travel_angle < (lane_angle - kAng4_677CE2))
                                 {
@@ -1706,7 +1706,6 @@ void CarAI::FollowRoadDirection_44A1F0()
                                 field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
                             }
                         }
-                        // 9.6f idb line 139
                         else if (travel_angle < (kAng10_677A08 + lane_angle_copy))
                         {
                             if (travel_angle > (lane_angle + kAng4_677CE2))
@@ -1732,7 +1731,6 @@ void CarAI::FollowRoadDirection_44A1F0()
                     return;
 
                 case car_ai_direction::east_3:
-                    // 9.6f idb line 147
                     if (field_24_bf.bFlag7 && field_44_target_direction == car_ai_target_direction::northwards_1)
                     {
                         field_0_car->field_58_physics->TurnAntiClockwise_42AB90();
@@ -1852,13 +1850,10 @@ void CarAI::FollowRoadDirection_44A1F0()
                     {
                         field_24_flags &= 0xFFFEDFFF;
 
-                        // 9.6f idb line 214
                         if (lane_dy <= kFpPoint4_6779C8)
                         {
-                            // 9.6f idb line 217
                             if (travel_angle < Ang16(lane_angle.rValue - kAng4_677CE2.rValue, 0))
                             {
-                                // 9.6f idb line 225
                                 if (travel_angle > Ang16(lane_angle_copy.rValue - kAng10_677A08.rValue, 0))
                                 {
                                     field_0_car->field_58_physics->SetGoStraight_42ABB0();
@@ -1877,7 +1872,6 @@ void CarAI::FollowRoadDirection_44A1F0()
                         }
                         else
                         {
-                            // 9.6f idb line 235
                             if (travel_angle > Ang16(lane_angle.rValue + kAng4_677CE2.rValue, 0))
                             {
                                 if (travel_angle < Ang16(kAng10_677A08.rValue + lane_angle_copy.rValue, 0))
@@ -1957,7 +1951,6 @@ void CarAI::FollowRoadDirection_44A1F0()
 
         default:
 
-            // 9.6f idb line 283
             field_24_bf.bFlag3 = true;
             if (!field_3C_seeking_road)
             {
@@ -4160,7 +4153,6 @@ void CarAI::ReactToNearbyCar_451980()
                 {
                     gCurrCarAI_DesiredSpeed_677A8C = cBC->GetCarLinearSpeed_43A240();
 
-                    // line 1e7
                     if (field_0_car->field_60_pChaseTask->field_8_task_type == car_task_type::follow_ped_2)
                     {
                         if (gCurrCarAI_DesiredSpeed_677A8C == kF16Zero_677B90)
