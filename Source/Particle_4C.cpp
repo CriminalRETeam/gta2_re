@@ -66,7 +66,7 @@ DEFINE_GLOBAL_INIT(Fix16, kFpFour_6FD4AC, Fix16(4), 0x6FD4AC);
 
 // https://decomp.me/scratch/nKSYL
 MATCH_FUNC(0x538060)
-char_type Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
+bool Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
 {
     Fix16 rng_1;
     Fix16 rng_2;
@@ -190,7 +190,7 @@ char_type Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
 }
 
 MATCH_FUNC(0x5384c0)
-char_type Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
+bool Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
 {
     Fix16 jitter_x;
     Fix16 off_x = kFP16Zero_6FD49C;
@@ -369,7 +369,7 @@ char_type Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
 }
 
 MATCH_FUNC(0x538a40)
-char_type Particle_4C::UpdateBeamSegment_state_43_538A40()
+bool Particle_4C::UpdateBeamSegment_state_43_538A40()
 {
     gSpriteGrid_3_679210->Remove_477B00(this->field_30_pOwnSprite);
 
@@ -418,7 +418,7 @@ static inline Fix16 MaxValue_44E540(const Fix16& a, const Fix16& b)
 // each case is one SetFromPolar(radius, angle sum) call with both arguments as temporaries;
 // dst.SetXY(target) then dst += src (target declared ahead of src, else the x add's operands swap).
 MATCH_FUNC(0x538ac0)
-char_type Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
+bool Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
 {
     ++field_46_sub_state;
     Ang16 jitter;
@@ -511,7 +511,7 @@ char_type Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
 }
 
 MATCH_FUNC(0x539040)
-char_type Particle_4C::UpdateDirectedBurstSweep_state_4_539040()
+bool Particle_4C::UpdateDirectedBurstSweep_state_4_539040()
 {
     Fix16 jitter_x;
     Fix16 jitter_y;
@@ -620,7 +620,7 @@ char_type Particle_4C::UpdateDirectedBurstSweep_state_4_539040()
 }
 
 MATCH_FUNC(0x539480)
-char_type Particle_4C::UpdateDirectedBurst_state_13_14_36_539480()
+bool Particle_4C::UpdateDirectedBurst_state_13_14_36_539480()
 {
     Fix16 jitter_x;
     Fix16 jitter_y;
@@ -729,7 +729,7 @@ char_type Particle_4C::UpdateDirectedBurst_state_13_14_36_539480()
 
 // https://decomp.me/scratch/2UJLM
 MATCH_FUNC(0x539890)
-char_type Particle_4C::UpdateCircularBurst_state_5_539890()
+bool Particle_4C::UpdateCircularBurst_state_5_539890()
 {
     char_type bJitter = 1;
     Fix16 jitter_y;
@@ -923,7 +923,7 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
 }
 
 MATCH_FUNC(0x53a180)
-char_type Particle_4C::UpdateStaticAnim_state_39_53A180()
+bool Particle_4C::UpdateStaticAnim_state_39_53A180()
 {
     gSpriteGrid_3_679210->Remove_477B00(this->field_30_pOwnSprite);
 
@@ -953,7 +953,7 @@ char_type Particle_4C::UpdateStaticAnim_state_39_53A180()
 
 // 9.6f 0x48BEE0: the car box is read through GetCarWidth_48A930/GetCarHeight_48A950 (puts this in edi)
 MATCH_FUNC(0x53a280)
-char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
+bool Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
 {
     Fix16_Point corner;
 
@@ -1067,14 +1067,14 @@ char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
 }
 
 MATCH_FUNC(0x53ab70)
-char_type Particle_4C::Empty_state_42_53AB70()
+bool Particle_4C::Empty_state_42_53AB70()
 {
     return 0;
 }
 
 // 9.6f 0x48C270
 MATCH_FUNC(0x53aba0)
-char_type Particle_4C::UpdateSimpleBallisticMotion_state_1_53ABA0()
+bool Particle_4C::UpdateSimpleBallisticMotion_state_1_53ABA0()
 {
 
     Fix16 z = kFpPoint05_6FD46C;
@@ -1118,7 +1118,7 @@ char_type Particle_4C::UpdateSimpleBallisticMotion_state_1_53ABA0()
 }
 
 MATCH_FUNC(0x53ae60)
-char_type Particle_4C::UpdateLargeBallisticDebris_state_35_53AE60()
+bool Particle_4C::UpdateLargeBallisticDebris_state_35_53AE60()
 {
     Fix16 z_offset = kFpPoint1_6FD2E8;
     Fix16 x = kFP16Zero_6FD49C;
@@ -1160,7 +1160,7 @@ char_type Particle_4C::UpdateLargeBallisticDebris_state_35_53AE60()
 }
 
 MATCH_FUNC(0x53b170)
-char_type Particle_4C::Empty_state_44_53B170()
+bool Particle_4C::Empty_state_44_53B170()
 {
     return 0;
 }
@@ -1227,7 +1227,7 @@ bool Particle_4C::UpdateDebrisArc_state_7_53B1A0()
 
 // 9.6f 0x48C790
 MATCH_FUNC(0x53b580)
-char_type Particle_4C::UpdateShortAnim_state_37_53B580()
+bool Particle_4C::UpdateShortAnim_state_37_53B580()
 {
     gSpriteGrid_3_679210->Remove_477B00(this->field_30_pOwnSprite);
 
@@ -1255,7 +1255,7 @@ char_type Particle_4C::UpdateShortAnim_state_37_53B580()
 }
 
 MATCH_FUNC(0x53b670)
-char_type Particle_4C::UpdateAttachedEmitter_state_9_10_53B670()
+bool Particle_4C::UpdateAttachedEmitter_state_9_10_53B670()
 {
     gSpriteGrid_3_679210->Remove_477B00(field_30_pOwnSprite);
     if (field_2C_counter == 0)
@@ -1344,7 +1344,7 @@ char_type Particle_4C::UpdateAttachedEmitter_state_9_10_53B670()
 }
 
 MATCH_FUNC(0x53b9f0)
-char_type Particle_4C::UpdateBurstAnimation_state_29_30_53B9F0()
+bool Particle_4C::UpdateBurstAnimation_state_29_30_53B9F0()
 {
     Fix16 scale_related;
     u8 idx;
@@ -1392,7 +1392,7 @@ char_type Particle_4C::UpdateBurstAnimation_state_29_30_53B9F0()
 }
 
 MATCH_FUNC(0x53bac0)
-char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
+bool Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
 {
     Char* pB4 = NULL;
     Car* pCar = NULL;
