@@ -3344,7 +3344,7 @@ void CarAI::UpdateStateMachine_44E560()
                             switch (gCarChaseTaskTable_678E30->CountPursuers_474920(pChase->field_30_pTargetPed, field_0_car->field_54_driver))
                             {
                                 case 1:
-                                    waitCount = gPolice_7B8_6FEE40->field_654_max_wanted_level != 1 ? 10 : 50;
+                                    waitCount = gPolice_7B8_6FEE40->field_654_max_wanted_level != cop_level_enum::police_1 ? 10 : 50;
                                     break;
 
                                 case 2:
@@ -3552,7 +3552,7 @@ void CarAI::UpdateStateMachine_44E560()
     }
     else
     {
-        if (this->field_4C_curr_direction == 2)
+        if (this->field_4C_curr_direction == car_ai_direction::south_2)
         {
             heading_copy = this->field_10_angle + kAng90_6779E4;
             aim_angle = target_angle + kAng90_6779E4;
@@ -3775,7 +3775,7 @@ void CarAI::UpdateStateMachine_44E560()
                     case 1:
                         bTryRight = 1;
                         bTryLeft = 1;
-                        maxCount = gPolice_7B8_6FEE40->field_654_max_wanted_level != 1 ? 80 : 400;
+                        maxCount = gPolice_7B8_6FEE40->field_654_max_wanted_level != cop_level_enum::police_1 ? 80 : 400;
                         break;
 
                     case 2:

@@ -318,11 +318,11 @@ void CarThreadTriggers::CheckThreadTrigger_5C8780(u8 idx, Sprite* pSprite)
             {
                 pPed = pSprite->AsCharB4_40FEA0()->get_ped_433A20();
                 pCmd = (CarThreadTriggerCmd*)pEntry->field_0_pScriptCmd;
-                if (pCmd->field_2_type == 0xD4)
+                if (pCmd->field_2_type == SCRCMD_THREAD_DECLARE3)
                 {
                     pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_10_idx);
                 }
-                else if (pCmd->field_2_type == 0xD6)
+                else if (pCmd->field_2_type == SCRCMD_THREAD_DECLARE5)
                 {
                     pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_24_idx);
                 }
@@ -351,7 +351,7 @@ void CarThreadTriggers::CheckThreadTrigger_5C8780(u8 idx, Sprite* pSprite)
                 if (pPed)
                 {
                     pCmd = (CarThreadTriggerCmd*)pEntry->field_0_pScriptCmd;
-                    if (pCmd->field_2_type == 0x1B2)
+                    if (pCmd->field_2_type == SCRCMD_CHAR_AREA_ANY_MEANS)
                     {
                         pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_24_idx);
                     }
@@ -372,7 +372,7 @@ void CarThreadTriggers::CheckThreadTrigger_5C8780(u8 idx, Sprite* pSprite)
                 if (pPed)
                 {
                     pCmd = (CarThreadTriggerCmd*)pEntry->field_0_pScriptCmd;
-                    if (pCmd->field_2_type == 0x1B2)
+                    if (pCmd->field_2_type == SCRCMD_CHAR_AREA_ANY_MEANS)
                     {
                         pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_24_idx);
                     }
@@ -2441,7 +2441,7 @@ char_type Car::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
             phi_type == object_behavior_type::pickup_physics_animated_9 || phi_type == object_behavior_type::shop_10 || phi_type == object_behavior_type::static_collision_check_1 || phi_type == object_behavior_type::effect_only_12 ||
                 (field_18_model = o2c->field_18_model, field_18_model == 182) || field_18_model == objects::grenade_obj_183)
             {
-                if (pDefinition->field_40_collision_bucket_category == 3)
+                if (pDefinition->field_40_collision_bucket_category == collision_bucket_category::sprite_grid_2_region_3)
                 {
                     return 0;
                 }
@@ -6841,7 +6841,7 @@ Car::Car()
     this->field_0_attachments.DestroyAllSprites_5A7010();
     ClearHorn_421460();
     field_80_abandoned = 0;
-    field_A0_car_kind = 0;
+    field_A0_car_kind = car_kind::none_0;
     field_8D_car_thread_flags = 0;
     field_70_exploder_ped_id = 0;
     field_90_death_cause = ped_death_cause::none_0;

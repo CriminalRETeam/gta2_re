@@ -156,7 +156,7 @@ void Firefighter::Update_4A81F0()
                 field_1C_car = gCarManager_6C_677930->SpawnCarAtRoadDirection_444CF0(car_model_enum::FIRETRUK, field_10_xpos, field_14_ypos, field_18_zpos);
                 if (field_1C_car)
                 {
-                    field_1C_car->IncrementCarStats_443D70(5);
+                    field_1C_car->IncrementCarStats_443D70(car_kind::firefighter_5);
                     field_1C_car->SetDriverPedType_421560(ped_type::special_ped_4);
                     Car* pCar = field_1C_car;
                     if (!pCar->field_5C_AI)

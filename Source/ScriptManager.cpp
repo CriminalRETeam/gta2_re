@@ -100,7 +100,7 @@ void MissionCleanupList::MissionCleanUp_502DC0()
         }
         pIter++;
     }
-    gScriptManager_6F8060->field_C1E70_wanted_car_model = 87;
+    gScriptManager_6F8060->field_C1E70_wanted_car_model = car_model_enum::none;
 }
 
 
@@ -1058,7 +1058,7 @@ ScriptManager::ScriptManager()
     field_34C_gang_2_mission_flag = 0;
     field_350_gang_3_mission_flag = 0;
     field_354_next_gang_idx = 0;
-    field_C1E70_wanted_car_model = 87;
+    field_C1E70_wanted_car_model = car_model_enum::none;
     field_356_gang_1_death_base = 0;
     field_358_gang_2_death_base = 0;
     field_35A_gang_3_death_base = 0;

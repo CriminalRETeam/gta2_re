@@ -2341,8 +2341,8 @@ void ScriptThread::SCRCMD_REMOVE_ARROW_508E80()
 
     if (pArrow != NULL)
     {
-        pArrow->field_18_targets.field_18_primary_target.field_10_target_type = 0;
-        pArrow->field_18_targets.field_3C_secondary_target.field_10_target_type = 0;
+        pArrow->field_18_targets.field_18_primary_target.field_10_target_type = ArrowTargetType::Nothing_0;
+        pArrow->field_18_targets.field_3C_secondary_target.field_10_target_type = ArrowTargetType::Nothing_0;
     }
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }
@@ -2857,7 +2857,7 @@ void ScriptThread::SCRCMD_EXPLODE_509ED0()
     SCR_EXPLODE* pCmd = (SCR_EXPLODE*)gBasePtr_6F8070;
     switch (gBasePtr_6F8070->field_2_type)
     {
-        case 406:
+        case SCRCMD_EXPLODE_NO_RING2:
             gObject_5C_6F8F84->CreateExplosion_52A3D0(pCmd->field_8_pos.field_0_x,
                                                       pCmd->field_8_pos.field_4_y,
                                                       pCmd->field_8_pos.field_8_z,
@@ -2865,7 +2865,7 @@ void ScriptThread::SCRCMD_EXPLODE_509ED0()
                                                       explosion_type::no_ring_32,
                                                       0);
             break;
-        case 404:
+        case SCRCMD_EXPLODE_SMALL2:
             gObject_5C_6F8F84->CreateExplosion_52A3D0(pCmd->field_8_pos.field_0_x,
                                                       pCmd->field_8_pos.field_4_y,
                                                       pCmd->field_8_pos.field_8_z,
@@ -2873,7 +2873,7 @@ void ScriptThread::SCRCMD_EXPLODE_509ED0()
                                                       explosion_type::small_18,
                                                       0);
             break;
-        case 142:
+        case SCRCMD_EXPLODE:
             gObject_5C_6F8F84->CreateExplosion_52A3D0(pCmd->field_8_pos.field_0_x,
                                                       pCmd->field_8_pos.field_4_y,
                                                       pCmd->field_8_pos.field_8_z,
@@ -2881,7 +2881,7 @@ void ScriptThread::SCRCMD_EXPLODE_509ED0()
                                                       explosion_type::item_19,
                                                       0);
             break;
-        case 399:
+        case SCRCMD_EXPLODE_LARGE2:
             gObject_5C_6F8F84->CreateExplosion_52A3D0(pCmd->field_8_pos.field_0_x,
                                                       pCmd->field_8_pos.field_4_y,
                                                       pCmd->field_8_pos.field_8_z,
@@ -4005,13 +4005,13 @@ void ScriptThread::SCRCMD_THREAT_SEARCH_REACT_ADD_GROUP_50BBD0()
 
     switch (gBasePtr_6F8070->field_2_type)
     {
-        case 153:
+        case SCRCMD_ADD_GROUP:
             pScrPtr->field_8_char->SpawnPedGroupFollowers_46E200(pCmd->field_A_objective);
             break;
-        case 152:
+        case SCRCMD_SET_THREAT_REACT:
             pScrPtr->field_8_char->field_28C_threat_reaction = pCmd->field_A_objective;
             break;
-        case 151:
+        case SCRCMD_SET_THREAT_SEARCH:
             pScrPtr->field_8_char->field_288_threat_search = pCmd->field_A_objective;
             break;
     }
@@ -4526,19 +4526,19 @@ void ScriptThread::SCRCMD_UPDATE_DOOR_50C7D0()
         case 5:
             pTarget = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_target_idx);
 
-            pDoorPointer->field_8_door->set_open_details_ped(5, pTarget->field_8_char);
+            pDoorPointer->field_8_door->set_open_details_ped(door_open_type::one_char_on_foot, pTarget->field_8_char);
             pDoorPointer->field_8_door->set_target_id(pTarget->field_8_char->field_200_id);
             break;
         case 3:
             pTarget = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_target_idx);
 
-            pDoorPointer->field_8_door->set_open_details_car_bc(3, pTarget->field_8_car);
+            pDoorPointer->field_8_door->set_open_details_car_bc(door_open_type::one_car, pTarget->field_8_car);
             pDoorPointer->field_8_door->set_target_id(pTarget->field_8_car->field_6C_car_id);
             break;
         case 6:
             pTarget = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_target_idx);
 
-            pDoorPointer->field_8_door->set_open_details_car_bc(6, pTarget->field_8_car);
+            pDoorPointer->field_8_door->set_open_details_car_bc(door_open_type::any_player_one_car, pTarget->field_8_car);
             pDoorPointer->field_8_door->set_target_id(pTarget->field_8_car->field_6C_car_id);
             break;
     }

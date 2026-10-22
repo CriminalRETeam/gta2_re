@@ -286,7 +286,7 @@ class CarPhysics
 
     bool CarPhysics::IsDrowning_421100()
     {
-        if (field_98_surface_type == 8)
+        if (field_98_surface_type == car_surface_type::water_surface_8)
         {
             if (field_40_linvel_1.GetLength_41E260() <= kDrowningMaxSpeed_677794)
             {
@@ -454,7 +454,7 @@ class CarPhysics
 
     void SetGoStraight_42ABB0()
     {
-        field_AD_turn_direction = 0;
+        field_AD_turn_direction = car_turn_direction::none_0;
         field_78_pointing_ang_rad = kF16Zero_677B90;
     }
 

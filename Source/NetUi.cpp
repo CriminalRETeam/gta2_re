@@ -1160,7 +1160,7 @@ void NetUi::cb_AddPlayerToList_519E30(NetUi* pNetUi, wchar_t* pName, s32 player_
         case 2:
         {
             memset(&item, 0, sizeof(item));
-            HWND hList = GetDlgItem(pNetUi->Get_2031C_HWND_519E20(), 1050);
+            HWND hList = GetDlgItem(pNetUi->Get_2031C_HWND_519E20(), LISTVIEW_JOINED_PLAYERS_1050);
             item.iItem = SendMessageA(hList, LVM_GETITEMCOUNT, 0, 0);
             item.mask = LVIF_TEXT;
             item.iSubItem = 0;
@@ -1172,7 +1172,7 @@ void NetUi::cb_AddPlayerToList_519E30(NetUi* pNetUi, wchar_t* pName, s32 player_
         case 1:
         {
             memset(&item, 0, sizeof(item));
-            HWND hList = GetDlgItem(pNetUi->Get_2031C_HWND_519E20(), 1024);
+            HWND hList = GetDlgItem(pNetUi->Get_2031C_HWND_519E20(), LISTVIEW_HOST_PLAYERS_1024);
             s32 count = SendMessageA(hList, LVM_GETITEMCOUNT, 0, 0);
             item.mask = LVIF_TEXT;
             item.iItem = count;
@@ -1187,7 +1187,7 @@ void NetUi::cb_AddPlayerToList_519E30(NetUi* pNetUi, wchar_t* pName, s32 player_
         case 0:
         {
             memset(&item, 0, sizeof(item));
-            HWND hList = GetDlgItem(pNetUi->Get_2031C_HWND_519E20(), 1050);
+            HWND hList = GetDlgItem(pNetUi->Get_2031C_HWND_519E20(), LISTVIEW_JOINED_PLAYERS_1050);
             item.iItem = SendMessageA(hList, LVM_GETITEMCOUNT, 0, 0);
             item.mask = LVIF_TEXT;
             item.iSubItem = 0;
@@ -1299,7 +1299,7 @@ void __stdcall NetUi::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s32 notif
                     break;
                 case 1:
                     gNetPlay_7071E8.Disconnect_520D10();
-                    SendMessageA(GetDlgItem(hDlg, 1024), LVM_DELETEALLITEMS, 0, 0);
+                    SendMessageA(GetDlgItem(hDlg, LISTVIEW_HOST_PLAYERS_1024), LVM_DELETEALLITEMS, 0, 0);
                     SetDlgItemTextA(hDlg, 1025, "");
                     SetDlgItemTextA(hDlg, 1022, "");
                     pThis->ResetCount_51BBF0();
@@ -1307,7 +1307,7 @@ void __stdcall NetUi::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s32 notif
                     break;
                 case 2:
                     gNetPlay_7071E8.Disconnect_520D10();
-                    SendMessageA(GetDlgItem(hDlg, 1050), LVM_DELETEALLITEMS, 0, 0);
+                    SendMessageA(GetDlgItem(hDlg, LISTVIEW_JOINED_PLAYERS_1050), LVM_DELETEALLITEMS, 0, 0);
                     SetDlgItemTextA(hDlg, 1053, "");
                     SetDlgItemTextA(hDlg, 1051, "");
                     pThis->ResetCount_51BBF0();
@@ -1368,7 +1368,7 @@ void __stdcall NetUi::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s32 notif
         case 1020: // "Reject" button
         {
             NetUi* pThis = (NetUi*)GetWindowLongA(hDlg, 8);
-            HWND hList = GetDlgItem(pThis->Get_2031C_HWND_519E20(), 1024);
+            HWND hList = GetDlgItem(pThis->Get_2031C_HWND_519E20(), LISTVIEW_HOST_PLAYERS_1024);
             LRESULT item = SendMessageA(hList, LVM_GETNEXTITEM, -1, LVNI_SELECTED);
             LVITEMA lvItem;
             lvItem.iSubItem = 0;
@@ -1414,7 +1414,7 @@ void __stdcall NetUi::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s32 notif
                 case CBN_SELCHANGE:
                 {
                     NetUi* pThis = (NetUi*)GetWindowLongA(hDlg, 8);
-                    s32 gameType = SendDlgItemMessageA(hDlg, 1036, CB_GETCURSEL, 0, 0) + 1;
+                    s32 gameType = SendDlgItemMessageA(hDlg, COMBO_GAME_TYPE_1036, CB_GETCURSEL, 0, 0) + 1;
                     pThis->SetSetting_51B9C0(3, gameType);
                     pThis->SetFragsNumberAndLabel_51CDC0(gameType, pThis->field_20088_game_settings.field_20194_frag_limit, hDlg);
                     break;
@@ -1437,7 +1437,7 @@ void __stdcall NetUi::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s32 notif
 
         case 1027:
         {
-            LRESULT state = SendDlgItemMessageA(hDlg, 1027, BM_GETCHECK, 0, 0);
+            LRESULT state = SendDlgItemMessageA(hDlg, CHECKBOX_POLICE_ENABLED_1027, BM_GETCHECK, 0, 0);
             NetUi* pThis = (NetUi*)GetWindowLongA(hDlg, 8);
             if ((state & 3) == BST_CHECKED)
             {
@@ -1612,7 +1612,7 @@ void NetUi::cb_sub_51ACD0(NetUi* pNetUi, wchar_t* Source)
         {
             memset(&findInfo, 0, sizeof(findInfo));
 
-            HWND hItem = GetDlgItem(pNetUi->Get_2031C_HWND_519E20(), 1024);
+            HWND hItem = GetDlgItem(pNetUi->Get_2031C_HWND_519E20(), LISTVIEW_HOST_PLAYERS_1024);
 
             findInfo.flags = LVFI_STRING;
             findInfo.psz = Dest;
@@ -1629,7 +1629,7 @@ void NetUi::cb_sub_51ACD0(NetUi* pNetUi, wchar_t* Source)
         {
             memset(&findInfo, 0, sizeof(findInfo));
 
-            HWND hItem = GetDlgItem(pNetUi->Get_2031C_HWND_519E20(), 1050);
+            HWND hItem = GetDlgItem(pNetUi->Get_2031C_HWND_519E20(), LISTVIEW_JOINED_PLAYERS_1050);
 
             findInfo.flags = LVFI_STRING;
             findInfo.psz = Dest;
@@ -1678,7 +1678,7 @@ s32 NetUi::cb_SetPlayerPing_51AE50(NetUi* pNetUi, Network_PlayerPing* pPing)
         {
             memset(&findInfo, 0, sizeof(findInfo));
             sprintf(pingText, "%d", pPing->field_208_avg_ping);
-            HWND hItem = GetDlgItem(pNetUi->Get_2031C_HWND_519E20(), 1024);
+            HWND hItem = GetDlgItem(pNetUi->Get_2031C_HWND_519E20(), LISTVIEW_HOST_PLAYERS_1024);
             findInfo.flags = LVFI_STRING;
             findInfo.psz = name;
             LRESULT idx = SendMessageA(hItem, LVM_FINDITEMA, 0xFFFFFFFF, (LPARAM)&findInfo);
@@ -1691,7 +1691,7 @@ s32 NetUi::cb_SetPlayerPing_51AE50(NetUi* pNetUi, Network_PlayerPing* pPing)
         {
             memset(&findInfo, 0, sizeof(findInfo));
             sprintf(pingText, "%d", pPing->field_208_avg_ping);
-            HWND hItem = GetDlgItem(pNetUi->Get_2031C_HWND_519E20(), 1050);
+            HWND hItem = GetDlgItem(pNetUi->Get_2031C_HWND_519E20(), LISTVIEW_JOINED_PLAYERS_1050);
             findInfo.flags = LVFI_STRING;
             findInfo.psz = name;
             LRESULT idx = SendMessageA(hItem, LVM_FINDITEMA, 0xFFFFFFFF, (LPARAM)&findInfo);
@@ -1715,29 +1715,29 @@ void NetUi::PopulateMainUI_51AFA0()
     columnInfo[0] = 36;
     columnInfo[3] = (LPARAM) "Player Name";
     columnInfo[7] = 0;
-    SendDlgItemMessageA(field_2031C_dlg_hwnd, 1024, 0x101B, 0, (LPARAM)columnInfo); // 0x101B = LVM_INSERTCOLUMNA
-    SendDlgItemMessageA(field_2031C_dlg_hwnd, 1024, 0x101E, 0, colWidth); // 0x101E = LVM_SETCOLUMNWIDTH
+    SendDlgItemMessageA(field_2031C_dlg_hwnd, LISTVIEW_HOST_PLAYERS_1024, 0x101B, 0, (LPARAM)columnInfo); // 0x101B = LVM_INSERTCOLUMNA
+    SendDlgItemMessageA(field_2031C_dlg_hwnd, LISTVIEW_HOST_PLAYERS_1024, 0x101E, 0, colWidth); // 0x101E = LVM_SETCOLUMNWIDTH
     memset(columnInfo, 0, sizeof(columnInfo));
     columnInfo[0] = 37;
     columnInfo[1] = 0;
     columnInfo[3] = (LPARAM) "Ping";
     columnInfo[7] = 1;
-    SendDlgItemMessageA(field_2031C_dlg_hwnd, 1024, 0x101B, 1u, (LPARAM)columnInfo);
-    SendDlgItemMessageA(field_2031C_dlg_hwnd, 1024, 0x101E, 1u, 65534);
+    SendDlgItemMessageA(field_2031C_dlg_hwnd, LISTVIEW_HOST_PLAYERS_1024, 0x101B, 1u, (LPARAM)columnInfo);
+    SendDlgItemMessageA(field_2031C_dlg_hwnd, LISTVIEW_HOST_PLAYERS_1024, 0x101E, 1u, 65534);
     memset(columnInfo, 0, sizeof(columnInfo));
     columnInfo[0] = 36;
     columnInfo[3] = (LPARAM) "Player Name";
     u16 col_width = 3 * (gUiControlDefinitions_621430.data[2][0].field_0_windowParams.field_8_w >> 2);
     columnInfo[7] = 0;
-    SendDlgItemMessageA(field_2031C_dlg_hwnd, 1050, 0x101B, 0, (LPARAM)columnInfo);
-    SendDlgItemMessageA(field_2031C_dlg_hwnd, 1050, 0x101Eu, 0, col_width);
+    SendDlgItemMessageA(field_2031C_dlg_hwnd, LISTVIEW_JOINED_PLAYERS_1050, 0x101B, 0, (LPARAM)columnInfo);
+    SendDlgItemMessageA(field_2031C_dlg_hwnd, LISTVIEW_JOINED_PLAYERS_1050, 0x101Eu, 0, col_width);
     memset(columnInfo, 0, sizeof(columnInfo));
     columnInfo[0] = 37;
     columnInfo[1] = 0;
     columnInfo[3] = (LPARAM) "Ping";
     columnInfo[7] = 1;
-    SendDlgItemMessageA(field_2031C_dlg_hwnd, 1050, 0x101B, 1u, (LPARAM)columnInfo);
-    SendDlgItemMessageA(field_2031C_dlg_hwnd, 1050, 0x101E, 1u, 65534);
+    SendDlgItemMessageA(field_2031C_dlg_hwnd, LISTVIEW_JOINED_PLAYERS_1050, 0x101B, 1u, (LPARAM)columnInfo);
+    SendDlgItemMessageA(field_2031C_dlg_hwnd, LISTVIEW_JOINED_PLAYERS_1050, 0x101E, 1u, 65534);
 
     for (u32 map_idx = 0; map_idx < field_1FD64_total_map_count; map_idx++)
     {
@@ -1745,12 +1745,12 @@ void NetUi::PopulateMainUI_51AFA0()
         SendDlgItemMessageA(field_2031C_dlg_hwnd, 1026, CB_SETITEMDATA, item_idx, map_idx);
     }
 
-    LRESULT item_a = SendDlgItemMessageA(field_2031C_dlg_hwnd, 1036, 323u, 0, (LPARAM)GetString_519A00("netui19"));
-    SendDlgItemMessageA(field_2031C_dlg_hwnd, 1036, CB_SETITEMDATA, item_a, 0);
-    LRESULT item_b = SendDlgItemMessageA(field_2031C_dlg_hwnd, 1036, CB_ADDSTRING, 0, (LPARAM)GetString_519A00("netui20"));
-    SendDlgItemMessageA(field_2031C_dlg_hwnd, 1036, CB_SETITEMDATA, item_b, 1);
-    LRESULT item_c = SendDlgItemMessageA(field_2031C_dlg_hwnd, 1036, 0x143u, 0, (LPARAM)GetString_519A00("netui22"));
-    SendDlgItemMessageA(field_2031C_dlg_hwnd, 1036, CB_SETITEMDATA, item_c, 2);
+    LRESULT item_a = SendDlgItemMessageA(field_2031C_dlg_hwnd, COMBO_GAME_TYPE_1036, 323u, 0, (LPARAM)GetString_519A00("netui19"));
+    SendDlgItemMessageA(field_2031C_dlg_hwnd, COMBO_GAME_TYPE_1036, CB_SETITEMDATA, item_a, 0);
+    LRESULT item_b = SendDlgItemMessageA(field_2031C_dlg_hwnd, COMBO_GAME_TYPE_1036, CB_ADDSTRING, 0, (LPARAM)GetString_519A00("netui20"));
+    SendDlgItemMessageA(field_2031C_dlg_hwnd, COMBO_GAME_TYPE_1036, CB_SETITEMDATA, item_b, 1);
+    LRESULT item_c = SendDlgItemMessageA(field_2031C_dlg_hwnd, COMBO_GAME_TYPE_1036, 0x143u, 0, (LPARAM)GetString_519A00("netui22"));
+    SendDlgItemMessageA(field_2031C_dlg_hwnd, COMBO_GAME_TYPE_1036, CB_SETITEMDATA, item_c, 2);
     NetUi::LoadGameSettingsFromRegistry_51C830();
     SendDlgItemMessageA(field_2031C_dlg_hwnd, 1026, CB_SETCURSEL, field_20088_game_settings.field_2018C_map_idx, 0);
     SendDlgItemMessageA(field_2031C_dlg_hwnd, COMBO_GAME_TYPE_1036, CB_SETCURSEL, field_20088_game_settings.field_20198_game_type - 1, 0);
@@ -1911,9 +1911,7 @@ s32 NetUi::AppendChatMessage_51B4F0(s32 player_idx, const char_type* pMsg)
 MATCH_FUNC(0x51b7c0)
 void NetUi::SetPlayerNameText_51B7C0()
 {
-    SetDlgItemTextA(field_2031C_dlg_hwnd,
-                    1004, // TODO: control constant
-                    field_1FF80_player_name);
+    SetDlgItemTextA(field_2031C_dlg_hwnd, TEXTBOX_PLAYER_NAME_1004, field_1FF80_player_name);
 }
 
 MATCH_FUNC(0x51b7e0)

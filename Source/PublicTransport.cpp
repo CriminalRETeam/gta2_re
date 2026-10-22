@@ -91,7 +91,7 @@ gmp_map_zone* __stdcall FindStationZoneByName_577EE0(char_type* pChar, u8 case_v
             zone_type = Railway_Station_Stop_Point_13;
             break;
         default:
-            FatalError_4A38C0(1006, "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp", 98); // invalid case
+            FatalError_4A38C0(Gta2Error::InvalidCase, "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp", 98);
             break;
     }
 
@@ -866,7 +866,7 @@ void PublicTransport::InitTrainStations_579440()
             case 1:
                 break;
             default:
-                FatalError_4A38C0(0x3EE, "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp", 928);
+                FatalError_4A38C0(Gta2Error::InvalidCase, "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp", 928);
                 break;
         }
     }
@@ -1322,7 +1322,7 @@ void PublicTransport::BusesService_579CA0()
                     byte_6FF1CD = 1;
                     field_17C0_bus.field_48_stop_phase = 0;
                     field_17C0_bus.field_56_passenger_count = 0;
-                    field_17C0_bus.field_C_carriages[0]->IncrementCarStats_443D70(1);
+                    field_17C0_bus.field_C_carriages[0]->IncrementCarStats_443D70(car_kind::recycled_1);
                 }
             }
             dword_6FF1D0 = 200;

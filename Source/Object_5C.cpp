@@ -3169,20 +3169,20 @@ Object_5C::Object_5C()
         gObject_2C_Pool_6F8F80 = new TObjectPool();
         if (!gObject_2C_Pool_6F8F80)
         {
-            FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\object.cpp", 4239);
+            FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\object.cpp", 4239);
         }
     }
 
     gObject_8_Pool_6F8F78 = new TObject_8_Pool();
     if (!gObject_8_Pool_6F8F78)
     {
-        FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\object.cpp", 4243);
+        FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\object.cpp", 4243);
     }
 
     gObject_3C_Pool_6F8F7C = new TObject_3C_Pool();
     if (!gObject_3C_Pool_6F8F7C)
     {
-        FatalError_4A38C0(0x20, "C:\\Splitting\\Gta2\\Source\\object.cpp", 4245);
+        FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\object.cpp", 4245);
     }
 
     field_58_collision_probe_sprite = gSpritePool_703818->get_new_sprite();

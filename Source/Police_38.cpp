@@ -1672,7 +1672,7 @@ void PoliceCrew::HandleChaseInCarObjective_575310()
         }
         else
         {
-            field_24_state = 3;
+            field_24_state = police_crew_state::alerted_search_3;
         }
     }
     else
@@ -2699,7 +2699,7 @@ char_type PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientat
                     if (pCar)
                     {
                         pCar->SetDriverPedType_421560(ped_type::special_ped_4);
-                        pCar->IncrementCarStats_443D70(7);
+                        pCar->IncrementCarStats_443D70(car_kind::roadblock_car_7);
                         if (pCar->HasEmergencyLights_414F20())
                         {
                             pCar->ActivateEmergencyLights_43C920();
@@ -3009,7 +3009,7 @@ char_type PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientat
                     if (pCar)
                     {
                         pCar->SetDriverPedType_421560(ped_type::special_ped_4);
-                        pCar->IncrementCarStats_443D70(7);
+                        pCar->IncrementCarStats_443D70(car_kind::roadblock_car_7);
                         if (pCar->HasEmergencyLights_414F20())
                         {
                             pCar->ActivateEmergencyLights_43C920();

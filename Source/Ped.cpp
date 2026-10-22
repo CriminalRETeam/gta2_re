@@ -8209,7 +8209,7 @@ void Ped::GotoAreaByAnyMeans_469060()
                                 pCar = gCarManager_6C_677930->SpawnCarAtRoadDirection_444CF0(field_274_gang_car_model, xpos, ypos, zpos);
                                 if (pCar)
                                 {
-                                    pCar->IncrementCarStats_443D70(1);
+                                    pCar->IncrementCarStats_443D70(car_kind::recycled_1);
                                     if (field_140_stolen_car && !field_140_stolen_car->field_54_driver)
                                     {
                                         field_140_stolen_car->SetDriverPedType_421560(ped_type::dummy_3);
@@ -8263,7 +8263,7 @@ void Ped::GotoAreaByAnyMeans_469060()
                                 pCar = gCarManager_6C_677930->SpawnCarAtRoadDirection_444CF0(Ped::GetValueByIdParity_469010(), xpos, ypos, zpos);
                                 if (pCar)
                                 {
-                                    pCar->IncrementCarStats_443D70(1);
+                                    pCar->IncrementCarStats_443D70(car_kind::recycled_1);
                                 }
                             }
                         }

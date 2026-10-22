@@ -500,7 +500,7 @@ EXPORT void __stdcall SetFullScreenMode_5D93A0()
              full_height_706798 = 480,
              (bcheckModeRet = pVid_CheckMode(gVidSys_7071D0, 640, 480, 16)) == 0))
         {
-            FatalError_4A38C0(0xBBB, // Gta2Error::VideomodeNotAvailable
+            FatalError_4A38C0(Gta2Error::VideomodeNotAvailable,
                               "C:\\Splitting\\Gta2\\Source\\video.cpp",
                               1359,
                               full_width_706B5C,

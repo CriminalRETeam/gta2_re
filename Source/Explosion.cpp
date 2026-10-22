@@ -73,7 +73,7 @@ Explosion::Explosion()
     this->field_20_unused = 0;
     this->field_22_spawn_angle = 0;
     this->field_4_idx = 0;
-    this->field_10_type = 0;
+    this->field_10_type = explosion_type::none_0;
     this->field_14_pObj2C = 0;
     this->field_18_particle_cooldown = 0;
     this->field_1A_timer = 0;
@@ -1037,7 +1037,7 @@ void Explosion::Release_543610()
 MATCH_FUNC(0x543650)
 void Explosion::Init_543650()
 {
-    this->field_10_type = 0;
+    this->field_10_type = explosion_type::none_0;
     this->field_18_particle_cooldown = 0;
     this->field_24_particle_spread = 0;
     this->field_22_spawn_angle = kAngZero_6FD5D4;
