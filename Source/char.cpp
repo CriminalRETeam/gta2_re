@@ -553,19 +553,19 @@ void Char::Update_545720(Fix16 distance_to_target)
     {
         switch (field_8_ped_state_1)
         {
-            case 0:
+            case ped_state_1::walking_0:
                 Char::state_0_54DDF0(); // Walking
                 break;
-            case 1:
+            case ped_state_1::flee_or_running_1:
                 Char::state_1_5504F0(); // Scared/Running
                 break;
-            case 2:
+            case ped_state_1::findind_path_2:
                 Char::state_2_5519F0(); // Running (for cops?)
                 break;
-            case 3:
+            case ped_state_1::entering_car_3:
                 Char::state_3_551A00(); // EnteringCar
                 break;
-            case 4:
+            case ped_state_1::exiting_car_4:
                 Char::state_4_551B30(); // ExitingCar
                 break;
             case 5:
@@ -574,13 +574,13 @@ void Char::Update_545720(Fix16 distance_to_target)
             case 6:
                 nullsub_28();
                 break;
-            case 7:
+            case ped_state_1::standing_still_7:
                 Char::state_7_551CB0(); // Standing Still?
                 break;
-            case 8:
+            case ped_state_1::immobilized_8:
                 Char::state_8_5520A0(); // Immobilized?
                 break;
-            case 9:
+            case ped_state_1::dead_9:
                 Char::state_9_552E90(); // Dying?
                 break;
             default:
@@ -1154,7 +1154,7 @@ void Char::UpdateAnimState_546360()
             break;
         }
 
-        case 8:
+        case Char_Anim_state::Getting_pulled_out_of_car_8:
         {
             Car* pCar = field_84_target_car;
             pCar->field_76_last_seen_timer = 0;
@@ -3028,7 +3028,7 @@ void Char::TickMovementStateMachine_54C900()
             byte_6FDB53 = 0;
             break;
 
-        case 36:
+        case Char_B4_state::Interacting_Car_Door_36:
             this->field_10_char_state = 1;
             break;
 
@@ -6430,16 +6430,16 @@ bool Char::ShouldCollideWithSprite_553340(Sprite* pSprite)
 
     switch (this->field_C_ped_state_2)
     {
-        case 6:
-        case 7:
+        case ped_state_2::ped2_entering_a_car_6:
+        case ped_state_2::ped2_getting_out_a_car_7:
         case 9:
-        case 10:
+        case ped_state_2::ped2_driving_10:
         case 17:
-        case 19:
+        case ped_state_2::falling_19:
         case 24:
         case 25:
         case 26:
-        case 27:
+        case ped_state_2::electrocuted_27:
             return 0;
 
         case 8:
@@ -6449,7 +6449,7 @@ bool Char::ShouldCollideWithSprite_553340(Sprite* pSprite)
             }
             return 0;
 
-        case 22:
+        case ped_state_2::lying_on_floor_22:
             break;
 
         default:

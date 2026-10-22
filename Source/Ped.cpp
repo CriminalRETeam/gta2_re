@@ -1909,7 +1909,7 @@ no_my_gang:
 block_466022:
     if (pTargetPed->IsActivePlayerPed_45EDC0())
     {
-        if (pTargetPed->field_168_game_object != 0 && pTargetPed->field_168_game_object->field_10_char_state == 0xF)
+        if (pTargetPed->field_168_game_object != 0 && pTargetPed->field_168_game_object->field_10_char_state == Char_B4_state::Jumping_15)
         {
             goto ret_false;
         }
@@ -6127,7 +6127,7 @@ no_my_gang:
 block_466022:
     if (pTargetPed->IsActivePlayerPed_45EDC0())
     {
-        if (pTargetPed->field_168_game_object != 0 && pTargetPed->field_168_game_object->field_10_char_state == 0xF)
+        if (pTargetPed->field_168_game_object != 0 && pTargetPed->field_168_game_object->field_10_char_state == Char_B4_state::Jumping_15)
         {
             goto ret_false;
         }
