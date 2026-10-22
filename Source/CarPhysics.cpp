@@ -1175,7 +1175,7 @@ inline u8 Map_0x370::GetBlockSurfaceType_49EBE0(s32 x, s32 y, s32 z, u8* pGradie
 
         if (!IS_AIR_TYPE(pBlock->field_B_slope_type))
         {
-            if (gGtx_0x106C_703DD4->sub_49E570(pBlock->field_8_lid & block_face::tile_idx_mask))
+            if (gGtx_0x106C_703DD4->IsUnremappedWaterTile_49E570(pBlock->field_8_lid & block_face::tile_idx_mask))
             {
                 return 9;
             }

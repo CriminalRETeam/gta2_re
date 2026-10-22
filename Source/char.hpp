@@ -324,7 +324,7 @@ class Char
     EXPORT void DrawFlamesAndStartScreamTimer_545430();
     EXPORT bool HasShadows_5451C0();
 
-    EXPORT Fix16_Point sub_545580();
+    EXPORT Fix16_Point GetRunVelocity_545580();
     EXPORT void SetRemap_46DD50(u8 remap);
 
     // Inlined copy of SetRemap_46DD50
@@ -357,7 +357,7 @@ class Char
     EXPORT void HandlePedCollision_548BD0(Char* pOther);
     EXPORT void HandleGenericCollision_54A530(Car* pCar, Object* pObj, Char* pChar);
     EXPORT char_type ContinueMovementAfterCollision_54B8F0();
-    EXPORT void sub_54C090();
+    EXPORT void SnapRotationToFace_54C090();
     EXPORT char_type CanMoveOntoSlope_54C1A0(s32 path_direction);
     inline void SetTurnTarget_492400(Ang16 target_rotation);
     EXPORT void TurnToFreeAdjacentFace_54C3E0();

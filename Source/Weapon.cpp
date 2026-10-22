@@ -1817,7 +1817,7 @@ void Weapon::car_smg_5E2940()
 }
 
 MATCH_FUNC(0x5e33c0)
-char_type Weapon::sub_5E33C0()
+char_type Weapon::CanFireWhileHeld_5E33C0()
 {
     char result;
     switch (this->field_1C_idx)

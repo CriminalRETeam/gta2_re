@@ -55,7 +55,7 @@ class SpriteList
     EXPORT void ExpireAttachedFlames_5A71F0();
     EXPORT void PruneNonCollidingSprites_5A7240(Sprite* pSprite);
     EXPORT void PropagateMaxZLayer_5A72B0(Sprite* pSprite, char_type bUnknown);
-    EXPORT char_type sub_5A7310();
+    EXPORT char_type AnySpriteHasSlopeTopInFootprint_5A7310();
 
   public:
     AttachedSprite* field_0_p18;

@@ -1449,7 +1449,7 @@ void Player::HandleControls_5668D0(Ped* pPed)
             }
             else
             {
-                bNoPed = field_718_weapons[field_788_curr_weapon_idx]->sub_5E33C0() == 0;
+                bNoPed = field_718_weapons[field_788_curr_weapon_idx]->CanFireWhileHeld_5E33C0() == 0;
                 if (!bNoPed)
                 {
                     pPed->SetAttacking_4A5010();

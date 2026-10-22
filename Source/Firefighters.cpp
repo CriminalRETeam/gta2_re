@@ -23,7 +23,7 @@ DEFINE_GLOBAL_INIT(Ang16, kAng270_67D2FC, Ang16(1080), 0x67D2FC);
 
 // https://decomp.me/scratch/X8G5z mov 0x4(%esp) vs mov (%eax)
 MATCH_FUNC(0x4a7fc0)
-bool Firefighter::sub_4A7FC0()
+bool Firefighter::CheckAbortConditions_4A7FC0()
 {
     if (!field_1C_car->field_58_physics)
     {
@@ -196,7 +196,7 @@ void Firefighter::Update_4A81F0()
             {
                 field_8_state = firefighter_state::abort_6;
             }
-            else if (sub_4A7FC0())
+            else if (CheckAbortConditions_4A7FC0())
             {
                 if (Fix16::MaxAbsDistance_42A6B0(field_1C_car->GetX_41E430(),
                                           field_1C_car->GetY_41E440(),
@@ -227,7 +227,7 @@ void Firefighter::Update_4A81F0()
             break;
 
         case firefighter_state::arrived_3:
-            if (sub_4A7FC0() && field_20_ped && field_8_state == firefighter_state::arrived_3)
+            if (CheckAbortConditions_4A7FC0() && field_20_ped && field_8_state == firefighter_state::arrived_3)
             {
                 field_20_ped->SetObjective(objectives_enum::turret_put_out_car_fire_60);
                 field_20_ped->SetTargetObjectiveCar(field_C_target_car);
@@ -236,7 +236,7 @@ void Firefighter::Update_4A81F0()
             break;
 
         case firefighter_state::put_out_fire_4:
-            if (sub_4A7FC0())
+            if (CheckAbortConditions_4A7FC0())
             {
                 switch (field_20_ped->GetObjectiveStatus_450CB0())
                 {

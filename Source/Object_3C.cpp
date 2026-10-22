@@ -719,7 +719,7 @@ void SpriteList::PropagateMaxZLayer_5A72B0(Sprite* pSprite, char_type bUnknown)
 }
 
 MATCH_FUNC(0x5a7310)
-char_type SpriteList::sub_5A7310()
+char_type SpriteList::AnySpriteHasSlopeTopInFootprint_5A7310()
 {
     AttachedSprite* p18Iter;
     for (p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->mpNext)

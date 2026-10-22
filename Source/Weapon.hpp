@@ -76,7 +76,7 @@ class Weapon
     EXPORT void oil_stain_5E1DC0();
     EXPORT void car_mine_5E2550();
     EXPORT void car_smg_5E2940();
-    EXPORT char_type sub_5E33C0();
+    EXPORT char_type CanFireWhileHeld_5E33C0();
     EXPORT void ChuckThrowable_5E34B0();
     EXPORT void pull_trigger_5E3670();
     EXPORT void rocket_5E3850();

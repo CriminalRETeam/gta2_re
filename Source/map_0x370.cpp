@@ -875,13 +875,13 @@ DWORD Map_0x370::GetLeftEdgeSpec_4DFF60(Fix16 x_coord, Fix16 y_coord, Fix16 z_co
     gmp_block_info* pBlock1 = GetBlock_4DFE10((x_coord - kFpOne_6F6110).ToInt(), y_coord.ToInt(), z_coord.ToInt());
     if (pBlock1 && pBlock1->field_2_right != 0)
     {
-        return gGtx_0x106C_703DD4->sub_462FD0(get_tile_idx(pBlock1->field_2_right));
+        return gGtx_0x106C_703DD4->GetSpecIgnoringRoadJunction_462FD0(get_tile_idx(pBlock1->field_2_right));
     }
 
     gmp_block_info* pBlock2 = GetBlock_4DFE10(x_coord.ToInt(), y_coord.ToInt(), z_coord.ToInt());
     if (pBlock2 && pBlock2->field_0_left != 0)
     {
-        return gGtx_0x106C_703DD4->sub_462FD0(get_tile_idx(pBlock2->field_0_left));
+        return gGtx_0x106C_703DD4->GetSpecIgnoringRoadJunction_462FD0(get_tile_idx(pBlock2->field_0_left));
     }
 
     return 0;
@@ -893,14 +893,14 @@ s32 Map_0x370::GetTopEdgeSpec_4E0000(Fix16 x_pos, Fix16 y_pos, Fix16 z_pos)
     gmp_block_info* pBlockAtPos = Map_0x370::GetBlock_4DFE10(x_pos.ToInt(), (y_pos - kFpOne_6F6110).ToInt(), z_pos.ToInt());
     if (pBlockAtPos && has_bottom(pBlockAtPos))
     {
-        return gGtx_0x106C_703DD4->sub_462FD0(get_tile_idx(pBlockAtPos->field_6_bottom));
+        return gGtx_0x106C_703DD4->GetSpecIgnoringRoadJunction_462FD0(get_tile_idx(pBlockAtPos->field_6_bottom));
     }
     else
     {
         gmp_block_info* pBlock = Map_0x370::GetBlock_4DFE10(x_pos.ToInt(), y_pos.ToInt(), z_pos.ToInt());
         if (pBlock && has_top(pBlock))
         {
-            return gGtx_0x106C_703DD4->sub_462FD0(get_tile_idx(pBlock->field_4_top));
+            return gGtx_0x106C_703DD4->GetSpecIgnoringRoadJunction_462FD0(get_tile_idx(pBlock->field_4_top));
         }
         else
         {
@@ -922,7 +922,7 @@ s32 Map_0x370::GetBlockSpec_4E00A0(Fix16 x, Fix16 y, Fix16 z)
                 u16 lid = pBlock->field_8_lid;
                 if (lid)
                 {
-                    return gGtx_0x106C_703DD4->sub_462FD0(get_tile_idx(lid));
+                    return gGtx_0x106C_703DD4->GetSpecIgnoringRoadJunction_462FD0(get_tile_idx(lid));
                 }
             }
         }

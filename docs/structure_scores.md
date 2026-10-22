@@ -173,7 +173,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 14 | 384 | 448 | - | 0x4f6a20 | `MapRenderer::Draw_4F6A20` | MapRenderer.cpp |
 | 16 | 158 | 609 | - | 0x44af00 | `CarAI::AlignToLaneCenter_44AF00` | CarAI.cpp |
 | 17 | 14 | 160 | - | 0x53a280 | `Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280` | Particle_4C.cpp |
-| 19 | 71 | 129 | 56 | 0x571a30 | `PoliceCrew::sub_571A30` | Police_38.cpp |
+| 19 | 71 | 129 | 56 | 0x571a30 | `PoliceCrew::TryDespawnInCarCrew_571A30` | Police_38.cpp |
 | 20 | 88 | 528 | 722 | 0x4e0130 | `Map_0x370::IsMoveOntoSlopeTileBlocked_4E0130` | map_0x370.cpp |
 | 20 | 90 | 146 | 105 | 0x5238b0 | `Object::HandleSpriteZCollision_5238B0` | Object_5C.cpp |
 | 20 | 113 | 339 | 226 | 0x451980 | `CarAI::ReactToNearbyCar_451980` | CarAI.cpp |

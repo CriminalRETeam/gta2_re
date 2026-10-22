@@ -236,7 +236,7 @@ The in-game message pump. It first drains buffered out-of-order packets (`sub_52
 matches now),
 otherwise reads new ones with `Receive_51F010`. Game packets (type 3) are compared with
 the sender's and our own 8-bit sequence numbers (`SeqDiff`, an inline helper in NetPlay.cpp): old ones
-are dropped, the next one is accepted (`sub_521820`, sequence++), anything later is
+are dropped, the next one is accepted (`ResolvePlayerInput_521820`, sequence++), anything later is
 buffered (`Add_5216E0`). It stops on a message, `field_8F0` or after 500 ms, and stores
 the time taken in `field_8F4_time_diff`.
 
@@ -397,7 +397,7 @@ original).
 Tried: one `u8 i` shared by all three loops (no change); separate block-scoped counters
 declared counter first (no change).
 
-## Frontend::sub_4B7E10 (WIP)
+## Frontend::DrawKeyHint_4B7E10 (WIP)
 
 Draws one of 12 frontend key labels (`Find_5B5F90` keys, the last four prefixed with ": "),
 with `DrawText_4B87A0` or, if `palette != 0xFFFF`, the paletted `DrawText_5D8A10`, and
@@ -653,7 +653,7 @@ does the `<< 14` right after each `__ftol`. Ours keeps a zero in `ebx` for the w
 function, reloads the car pointer from `this`, and delays the shifts. The three
 `DrawText_5D8A10` calls also get tail merged in ours.
 
-## PoliceCrew::sub_571540 (WIP, was STUB)
+## PoliceCrew::TryDespawnFinishedCrew_571540 (WIP, was STUB)
 
 Shut-down for a crew with a car (`EmergencyCrew::field_24 == 2`): same shape as the matched
 `TryDespawnOffscreenCrew_571350`, with the car's `field_76_last_seen_timer > 200` checks and the despawn state
@@ -664,7 +664,7 @@ to the `field_2C = 1` tail right after the `if`, ours to the identical tail of t
 in the function, which makes them near jumps (12 bytes longer). Tried: `field_2C = 1` in
 both branches (0.812), an explicit `return` after it (no change).
 
-## PoliceCrew::sub_571A30 (WIP, was STUB)
+## PoliceCrew::TryDespawnInCarCrew_571A30 (WIP, was STUB)
 
 Shut-down for the other crew kinds. If the player is driving, the crew either gets back
 into its car (group members flagged `field_238 = 3`) or, once everyone is ready, leaves
@@ -681,7 +681,7 @@ Still different:
   `field_4_ped_list[i]` (same loop as `TryDespawnOffscreenCrew_571350` otherwise). Rewriting it as a `while`
   with `u8 idx = i++` made it worse (0.655).
 
-## PoliceCrew::sub_575310 (WIP, was STUB)
+## PoliceCrew::HandleChaseInCarObjective_575310 (WIP, was STUB)
 
 Crew state handler when it has caught up with the criminal: on foot the player ped gets
 objective 27 once close enough, in a car it depends on the car's `CarChaseTask` path
@@ -1314,7 +1314,7 @@ Each was a few asm lines away from the original. What is left and what was tried
 - `KeyboardLayout::GetLayout_4D6000` (0x4d6000): lea &v2 scheduled before the two KLID byte loads in orig; tried decl orders, u16 copy, store order, result local, temps.
 - `PlyDat::sub_56BA60` (0x56ba60): len=126 store vs outer loop counter init order; tried len at every position, decl order, struct copy, pStats local, 600 permuter iterations.
 - `MenuItem::sub_4B6330` (0x4b6330): orig reloads field_6E (cmp 0x6E(%ecx),%ax) in loop cond though nothing in the loop stores; VC6 CSEs it to old_count's reg whatever the spelling (s16 old_count, casts, volatile worse, 800 permuter iters). Same issue in sibling 0x4b6390.
-- `sub_4B7E10` (0x4b7e10): xpos load before the arg-slot push; tried s32/u32 ypos/xpos params with casts, branch inversion, explicit Fix16 (inlines ctor, worse).
+- `DrawKeyHint_4B7E10` (0x4b7e10): xpos load before the arg-slot push; tried s32/u32 ypos/xpos params with casts, branch inversion, explicit Fix16 (inlines ctor, worse).
 - `CarPhysics::ShowPhysicsDebug_559430` (0x559430): lea 0x818 (field_650 this) placement around pushes; theta local, pText reorder, 600 permuter iters.
 - `SetGamma_5D9910` (0x5d9910): matches (0) just by uncommenting gErrorLog_67C530.Write_4D9620, but commit e538f1b8 (Valps, 2026-09-30) demoted it from MATCH on purpose because that call crashes the standalone exe at boot. Main session/user should decide.
 - `Car::sub_43B2B0` (0x43b2b0): known unsolved return width (bool call result returned unextended, other paths eax); not retried beyond analysis (PedTypeIs_45EDE0 has 96 callers testing al).
@@ -1432,7 +1432,7 @@ Each was a few asm lines away from the original. What is left and what was tried
 
 ### Near-miss pass, batches K, L, M and Fable trial (2026-10-02)
 
-- Matched: `CarPhysics::ApplyHorizontalEdgeNudge_55EF20` (`theta = field_58_theta + kAng180`), `Ped::UpdateStatsForKiller_46F720` (Ped* local, no Player* local), `get_skid_obj_type_55D490` (per-case returns, cases 0,2,1,3), `SmoothApproachAngle_405CE0` and `SmoothApproachClamped_4F75D0` (missing else branch, single `*curr += *vel` at the end), `Ped::ReactToAttacker_465B20`, `sound_obj::EnqueueRadioLocationPhrase_426E10` (local order mid_x, mid_y, halves), `Crane::ComputeHookPos_47E620`/`_47E730` (rotation written out), `Hud::ctor_5D6CD0` (ctor moved to the top of Hud.cpp), `CarManager::SpawnCarAtRoadDirection_444CF0` (u8 z, else-if chain with a pCar=0 local), `Char::sub_54C090`, `Player::RestoreCarsFromSave_56A0F0` (SpawnCar inline with const Fix16& scale, u8 loop index, u16 model)
+- Matched: `CarPhysics::ApplyHorizontalEdgeNudge_55EF20` (`theta = field_58_theta + kAng180`), `Ped::UpdateStatsForKiller_46F720` (Ped* local, no Player* local), `get_skid_obj_type_55D490` (per-case returns, cases 0,2,1,3), `SmoothApproachAngle_405CE0` and `SmoothApproachClamped_4F75D0` (missing else branch, single `*curr += *vel` at the end), `Ped::ReactToAttacker_465B20`, `sound_obj::EnqueueRadioLocationPhrase_426E10` (local order mid_x, mid_y, halves), `Crane::ComputeHookPos_47E620`/`_47E730` (rotation written out), `Hud::ctor_5D6CD0` (ctor moved to the top of Hud.cpp), `CarManager::SpawnCarAtRoadDirection_444CF0` (u8 z, else-if chain with a pCar=0 local), `Char::SnapRotationToFace_54C090`, `Player::RestoreCarsFromSave_56A0F0` (SpawnCar inline with const Fix16& scale, u8 loop index, u16 model)
 - `ChooseRadioEmitterForVehicle_57E6C0`: closer 94->49. Left: the found block of the search loops sits after the case 0 loop with `jae ret; jmp top`; for/do/goto/break variants failed
 - `BonusTracker::ProcessBonusEvent_4320D0`: closer 69->12. Left: eax/ecx/edx swap in the inlined AddScore_41DC40
 
@@ -1490,7 +1490,7 @@ Each was a few asm lines away from the original. What is left and what was tried
 - No change: `46F1E0` (original tests the angle with jns right after the 16-bit sub/add)
 - `EmitElectricArcParticle_540320`: 202->21 (explicit Multiply/Negate rotation, block scope). Left: one operand order in MultiplyByFix16_401CB0
 - Matched: `Car::TrySnapCarToNearestDrivableRoadAndDriveForward_445EC0` (params modified in place, pos_z declared at the call), `Object::ResolveCollisionWithObject_522710` (Fix16_Point results declared up front, Negate_40ACB0 out of line, angle += through an Ang16& + Normalize_406C20), `Train::UpdatePassengerAI_578390` (new global gTargetCarDoor_6FF1D8 as the loop counter, inverted field_1818 test fixed)
-- Closer: `ApplyImpactForcesAndDamage_55FA60` 205->19 (left: three return tails should jump to one shared epilogue), `PoliceCrew::sub_575310` 233->49, `PathFinder::ComputePath_554AB0` 216->48, `Hud_UnderRoofArrowMarker::Update_5CF730` 225->60, `ApplyCarVelocityCameraOffset_436200` 233->119
+- Closer: `ApplyImpactForcesAndDamage_55FA60` 205->19 (left: three return tails should jump to one shared epilogue), `PoliceCrew::HandleChaseInCarObjective_575310` 233->49, `PathFinder::ComputePath_554AB0` 216->48, `Hud_UnderRoofArrowMarker::Update_5CF730` 225->60, `ApplyCarVelocityCameraOffset_436200` 233->119
 - No change: `4B0220` (5 KB of stores, register rotation everywhere), `521890` (ours hoists pPlayerIdx into ebp), `5DDA70` (rotation in %bx), `57DF10` (original keeps the restart tail unmerged)
 
 ### Near-miss pass, batches AA-AE (2026-10-03, partial)
@@ -2370,7 +2370,7 @@ Scores are `sc.sh` lines.
   (127 -> 125), so the store order differs in the IL, not at a window break.
 ## Near-miss pass 2 (VC7/9.6f first, then VC6)
 Scores are `sc.sh` lines (VC6 vs 10.5); `sc7` is `sc7.sh` (VC7 vs 9.6f).
-- `PoliceCrew::sub_571A30` 129 -> 0 (**MATCH**): `Car* pCar` loaded inside each branch (9.6f) instead of
+- `PoliceCrew::TryDespawnInCarCrew_571A30` 129 -> 0 (**MATCH**): `Car* pCar` loaded inside each branch (9.6f) instead of
   once before `if (pGroup)`; the shared local let both compilers hoist `Get_F76` and moved the state tail.
 - `RouteFinder::ShowJunctionIds_588620` 136 -> 0 (**MATCH**): 9.6f's `WorldToScreen_40CFC0` shape with two out
   pointers (file-local copy for this TU's constants) and `Fix16(pJunction->field_C_min_x)` at each use.
@@ -2873,7 +2873,7 @@ Scores are `quick_score.sh` lines. Matched: `ApplyImpactForcesAndDamage_55FA60` 
   keeps the `timeGetTime` import in edi for the two calls at the loop end (`mov __imp__,%edi; call *%edi` twice);
   ours hoists the two parameters into ebp/edi and calls through memory. Our build does CSE the import when a
   register is free (`NetPlay 0x51ED00`), so again register priority. Permuter 650: 130, only by deleting the
-  `sub_521820` call (rejected).
+  `ResolvePlayerInput_521820` call (rejected).
 - `Object::HandleSpriteZCollision_5238B0` (146): the `field_50 == 1` arm. 9.6f 0x4843A0 lays the slope path's
   `cmp $1; je` out to the non-slope `*a5 = 1; z = 0; speed = 0` block (VC7 merged the identical blocks) and the
   `!= 1` arm (`cmp $4`, default) right before the final CheckSpriteMovementRegion. In 10.5 the then-arm is a

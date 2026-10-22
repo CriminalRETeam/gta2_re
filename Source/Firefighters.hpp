@@ -35,7 +35,7 @@ class Firefighter
         field_24_next_state_timer = 0;
     }
 
-    EXPORT bool sub_4A7FC0();
+    EXPORT bool CheckAbortConditions_4A7FC0();
     EXPORT void deinit_4A81A0();
     EXPORT void Update_4A81F0();
     EXPORT void init_4A85C0();

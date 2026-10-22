@@ -48,10 +48,10 @@ class PoliceCrew
     EXPORT void SpawnSWAT_570E30();
     EXPORT void SpawnFBI_nonused_571150();
     EXPORT void TryDespawnOffscreenCrew_571350();
-    EXPORT void sub_571540();
-    EXPORT void sub_571A30();
-    EXPORT void sub_5720C0();
-    EXPORT bool sub_572210();
+    EXPORT void TryDespawnFinishedCrew_571540();
+    EXPORT void TryDespawnInCarCrew_571A30();
+    EXPORT void HandleShutdownAndDespawn_5720C0();
+    EXPORT bool CanTrackCriminal_572210();
     EXPORT void State3_AlertedSearch_572340();
     EXPORT void State5_PursueOrChase_572920();
     EXPORT void State6_ShutDown_574720();
@@ -59,8 +59,8 @@ class PoliceCrew
     EXPORT void State2_SwitchToShutDown_575200();
     EXPORT void HandleEnterCarObjective_575210();
     EXPORT void HandleLeaveCarObjective_575270();
-    EXPORT void sub_5752C0();
-    EXPORT void sub_575310();
+    EXPORT void HandleGotoAreaInCarObjective_5752C0();
+    EXPORT void HandleChaseInCarObjective_575310();
     EXPORT void Service_575590();
     EXPORT void UnlinkFromPursuitTarget_575650();
 

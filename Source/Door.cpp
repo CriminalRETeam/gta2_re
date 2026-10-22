@@ -109,13 +109,13 @@ bool Door::CanOpen_49C6D0(Car* pCar)
                 break;
             }
 
-            if (IsSpriteClearOfDoorCollision_49C6A0(pCar->field_50_car_sprite) && (!pCar->IsDrivenByPlayer_4118D0() || gGarage_48_6FD26C->sub_44C870(pCar)))
+            if (IsSpriteClearOfDoorCollision_49C6A0(pCar->field_50_car_sprite) && (!pCar->IsDrivenByPlayer_4118D0() || gGarage_48_6FD26C->IsParkedCar_44C870(pCar)))
             {
                 if (pCar->IsDrivenByPlayer_4118D0())
                 {
                     break;
                 }
-                if (!gGarage_48_6FD26C->sub_44C870(pCar))
+                if (!gGarage_48_6FD26C->IsParkedCar_44C870(pCar))
                 {
                     break;
                 }

@@ -480,7 +480,7 @@ void Object::ResolveCollisionWithPed_5229B0(Char* pB4, Fix16_Point* pPoint, u8 n
 
     lineHitPos = ComputeCollisionImpulse_55F3B0(GetMass_482C80(),
                                                     kFP16Half_6F8EE4,
-                                                    pB4->sub_545580(),
+                                                    pB4->GetRunVelocity_545580(),
                                                     posDelta,
                                                     *pPoint,
                                                     spritePos,
@@ -3077,12 +3077,12 @@ s32 Object::GetMapBlockSoundSpec_529240()
     {
         case 45u:
         case 47u:
-            result = gGtx_0x106C_703DD4->sub_462FD0(pBlockInfo->field_0_left & block_face::tile_idx_mask);
+            result = gGtx_0x106C_703DD4->GetSpecIgnoringRoadJunction_462FD0(pBlockInfo->field_0_left & block_face::tile_idx_mask);
             break;
 
         case 46u:
         case 48u:
-            result = gGtx_0x106C_703DD4->sub_462FD0(pBlockInfo->field_2_right & block_face::tile_idx_mask);
+            result = gGtx_0x106C_703DD4->GetSpecIgnoringRoadJunction_462FD0(pBlockInfo->field_2_right & block_face::tile_idx_mask);
             break;
 
         default:

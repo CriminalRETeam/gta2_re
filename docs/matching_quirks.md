@@ -532,7 +532,7 @@ paths set all of `eax` is still unsolved (`Car::IsDoorLockedForPed_43B2B0`).
 in a function that returns a point means the return type has a destructor: return
 `Fix16_Point`, not `Fix16_Point_POD` (`Fix16_Point::Multiply_438FE0`, `Divide_442CB0`).
 A function the decomp wrote as `Fix16_Point* f(Fix16_Point* out)` usually returned by value
-in the original. Return a local filled in place instead (`Char::sub_545580` uses
+in the original. Return a local filled in place instead (`Char::GetRunVelocity_545580` uses
 `FromPolar_41E210`).
 
 **Passing by value vs by reference.** `mov 0x19(%edi),%al; push %eax` passes the byte;
@@ -691,7 +691,7 @@ ctor's EH frame. Moving the ctor above them restored it (`Hud::ctor_5D6CD0`).
 outer `else` (VC6 tail-merges the copies) gave the original block order (`Ped::ReactToAttacker_465B20`).
 
 **Ternaries into one local stored after a switch.** One store after the switch instead of one per
-case, with `b ? 4 : 3` as setne/add and `b ? 1 : 2` as neg/sbb/add (`Char::sub_54C090`).
+case, with `b ? 4 : 3` as setne/add and `b ? 1 : 2` as neg/sbb/add (`Char::SnapRotationToFace_54C090`).
 
 **A switch default that sets a value then shares a fix-up.** `default: v = 127;` plus one fix-up
 after the switch lets VC6 jump-thread the default (`ChooseRadioEmitterForVehicle_57E6C0`, closer).
@@ -1648,9 +1648,9 @@ grep `Fix16_Point.hpp`, `fix16.hpp` and `ang16.hpp` for an inline that does it.
 not the same compiler and never has to match, but it is often the same source, so it shows
 which helper was called and in which order things happened:
 
-- `PoliceCrew::sub_571540`: one branch open-coded the despawn check that 9.6f calls as
+- `PoliceCrew::TryDespawnFinishedCrew_571540`: one branch open-coded the despawn check that 9.6f calls as
   `Car::MarkForDespawn_421470`, and every path stored `field_28` before `field_2C`.
-- `Firefighter::sub_4A7FC0`: 9.6f compares `get_car_velocity_4211C0()`, which is
+- `Firefighter::CheckAbortConditions_4A7FC0`: 9.6f compares `get_car_velocity_4211C0()`, which is
   `GetLength_41E260`, not the `GetLength_453590` the source used.
 - `Hud_ChatInput::DrawChatMessages_5D16B0`: 9.6f calls the line spacing wrapper (0x4539B0),
   which 10.5 inlines (`GetLineSpacingFromFontType_5D7700_inlined`).
@@ -2180,7 +2180,7 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   `shr`/`test $1` for `!IsFlagSet(0x400)`; the if form gives the original's `testb $4,0x79(%eax)`. Both
   bodies compile to 9.6f 0x411930 with VC7.
 - **10.5 inlines `Max_44E540` in small functions** (`Ped_List::FindClosestActivePed_471340`,
-  `SpriteList::FindClosestSprite_5A6E40`, `PoliceCrew::sub_572210` all have the compare and no call),
+  `SpriteList::FindClosestSprite_5A6E40`, `PoliceCrew::CanTrackCriminal_572210` all have the compare and no call),
   so 0x44E540 is probably the out-of-line copy of 9.6f's `Max_41E130` inline (`if (a > b) return a;
   else return b;`, size 62, VC7-identical to 9.6f), which `MaxAbsDistance_42A6B0` calls. Making
   `MaxAbsDistance_42A6B0` call that inline is not consistent yet: the extra nested site leaves
@@ -2492,7 +2492,7 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
 - **Get `sc7.sh` (VC7 against 9.6f) down before working on VC6 registers.** With `/Ob0` every inline is a
   call in 9.6f, so the VC7 score shows statement order, helper calls, shared locals and temporaries
   directly. Three far WIPs matched this way: once VC7 was near 0, either the VC6 score was already 0
-  (`PoliceCrew::sub_571A30`, `RouteFinder::ShowJunctionIds_588620`) or the permuter found the last
+  (`PoliceCrew::TryDespawnInCarCrew_571A30`, `RouteFinder::ShowJunctionIds_588620`) or the permuter found the last
   register tweak in about 100 compiles (`Ped::TaxiCustomer_AI_460820`). Before, the VC6 permuter alone had
   run for thousands of compiles without progress. `/tmp`-style helper: score each variant with both
   `sc.sh` and `sc7.sh`.
@@ -2500,7 +2500,7 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   field_10->field_0_car;` before `if (pGroup) { pCar->Get_F76() ... } else if (pCar->Get_F76() > 80)` made
   both compilers compute `Get_F76` before the test; 9.6f loads the car in each branch. With the load moved
   into each branch, the shared `state = 5; field_2C = 1` tail also merged as in the original
-  (`sub_571A30`, 129 -> 0).
+  (`TryDespawnInCarCrew_571A30`, 129 -> 0).
 - **A 9.6f out-pointer helper.** `Camera::WorldToScreen_40CFC0` in 9.6f writes through two out
   pointers; a by-value `Fix16_Point_POD` return gave the wrong order of the out-of-line operator calls.
   With the out pointers and `Fix16(pJunction->field_C_min_x)` written at each use (no `u8 x` locals,

@@ -460,7 +460,7 @@ s32 Char::IsOnWater_545570()
 
 // 9.6f 0x493780
 MATCH_FUNC(0x545580)
-Fix16_Point Char::sub_545580()
+Fix16_Point Char::GetRunVelocity_545580()
 {
     Fix16_Point p;
     p.FromPolar_41E210(-gRunOrJumpSpeed_6FD7D0, field_80_sprite_ptr->field_0_rotation);
@@ -2636,7 +2636,7 @@ inline void Char::SetTurnTarget_492400(Ang16 target_rotation)
 }
 
 MATCH_FUNC(0x54c090)
-void Char::sub_54C090()
+void Char::SnapRotationToFace_54C090()
 {
 
     s32 AngleFace_4F78F0 = Ang16::GetAngleFace_4F78F0(field_40_rotation);
@@ -3761,7 +3761,7 @@ void Char::state_0_54DDF0()
             }
             else
             {
-                Char::sub_54C090();
+                Char::SnapRotationToFace_54C090();
                 goto LABEL_152;
             }
         }

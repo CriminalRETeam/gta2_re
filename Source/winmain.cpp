@@ -151,7 +151,7 @@ void force_link()
     collision_sound_queue.field_0_pSoundObj = 0;
 
     GeneratorPool maccies;
-    maccies.sub_4C1CD0();
+    maccies.FinalizeAfterScriptLoad_4C1CD0();
 
     Sprite car_3c;
     car_3c.field_20_instance_id = 5;

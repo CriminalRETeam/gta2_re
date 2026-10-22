@@ -33,7 +33,7 @@ void PedGroup::DestroyGroupArray_4C8E60()
 }
 
 MATCH_FUNC(0x4c8e80)
-void PedGroup::sub_4C8E80()
+void PedGroup::ResetMemberCarDoor_4C8E80()
 {
     gGroupMemberCarDoor_620838 = 1;
 }
@@ -1253,7 +1253,7 @@ Ped* PedGroup::FindNearestOtherMember_4CAE80(u8 idx)
 MATCH_FUNC(0x4cb080)
 void PedGroup::ResetAllGroups_4CB080()
 {
-    sub_4C8E80();
+    ResetMemberCarDoor_4C8E80();
 
     PedGroup* pIter = pedGroups_67EF20;
     for (s32 i = 0; i < 20; i++)

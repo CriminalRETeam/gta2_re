@@ -38,7 +38,7 @@ GTA2_ASSERT_SIZEOF_ALWAYS(Generator, 0x2C);
 class GeneratorPool
 {
   public:
-    EXPORT void sub_4C1CD0();
+    EXPORT void FinalizeAfterScriptLoad_4C1CD0();
     EXPORT void GeneratorsService_4C1D70();
     EXPORT Generator* CreateGenerator_4C1DC0(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 type, s16 min_delay, s16 max_delay);
     EXPORT GeneratorPool();

@@ -142,7 +142,7 @@ void Generator::Init_4C1C70(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 generator_
 }
 
 MATCH_FUNC(0x4c1cd0)
-void GeneratorPool::sub_4C1CD0()
+void GeneratorPool::FinalizeAfterScriptLoad_4C1CD0()
 {
     s32 count = field_14A0_count;
     field_14A8_count_d3 = count / 3;

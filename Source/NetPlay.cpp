@@ -2114,7 +2114,7 @@ u32 NetPlay::GetOldestBufferedPacket_521770(Network_8* pOut, char_type* pSeq, u3
 }
 
 MATCH_FUNC(0x521820)
-void NetPlay::sub_521820(s32** ppData, s32 idx)
+void NetPlay::ResolvePlayerInput_521820(s32** ppData, s32 idx)
 {
     s32* p = *ppData;
     if (*p == -1)
@@ -2184,7 +2184,7 @@ char_type NetPlay::ReceiveGameMessage_521890(Network_8* pOut, s32* pPlayerIdx, u
             {
                 // our buffer matches tick from the player packet, but this tick is older than our user player tick
                 Remove_521870(slot);
-                sub_521820((s32**)pOut, *pPlayerIdx);
+                ResolvePlayerInput_521820((s32**)pOut, *pPlayerIdx);
                 NextSeq(&field_758_n2, *pPlayerIdx);
             }
             else
@@ -2218,7 +2218,7 @@ char_type NetPlay::ReceiveGameMessage_521890(Network_8* pOut, s32* pPlayerIdx, u
                         }
                         else if (diff <= 0 && diffLocal < 0) // diff == 0 && diffLocal < 0
                         {
-                            sub_521820((s32**)pOut, *pPlayerIdx);
+                            ResolvePlayerInput_521820((s32**)pOut, *pPlayerIdx);
                             NextSeq(pN2, *pPlayerIdx);
                         }
                         else

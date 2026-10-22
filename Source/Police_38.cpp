@@ -342,7 +342,7 @@ void PoliceCrew::TryDespawnOffscreenCrew_571350()
 }
 
 MATCH_FUNC(0x571540)
-void PoliceCrew::sub_571540()
+void PoliceCrew::TryDespawnFinishedCrew_571540()
 {
     Car* pCar = field_10_subObj->field_0_car;
     PedGroup* pGroup = field_10_subObj->field_8_group;
@@ -440,7 +440,7 @@ void PoliceCrew::sub_571540()
 }
 
 MATCH_FUNC(0x571a30)
-void PoliceCrew::sub_571A30()
+void PoliceCrew::TryDespawnInCarCrew_571A30()
 {
     Car* pPlayerCar = gCurrentCrewPed_6FEDDC->field_16C_car;
     if (pPlayerCar && gCurrentCrewPed_6FEDDC == pPlayerCar->field_54_driver)
@@ -578,7 +578,7 @@ void PoliceCrew::sub_571A30()
 }
 
 MATCH_FUNC(0x5720c0)
-void PoliceCrew::sub_5720C0()
+void PoliceCrew::HandleShutdownAndDespawn_5720C0()
 {
     if (field_10_subObj->field_24_phase == crew_phase::finished_2)
     {
@@ -609,18 +609,18 @@ void PoliceCrew::sub_5720C0()
     }
     else if (field_10_subObj->field_24_phase == crew_phase::finished_2)
     {
-        sub_571540();
+        TryDespawnFinishedCrew_571540();
     }
     else
     {
-        sub_571A30();
+        TryDespawnInCarCrew_571A30();
     }
 }
 
 // https://decomp.me/scratch/p2NiN
 // MaxAbsDistance_42A6B0 with a by-value max, which keeps the compare in registers
 MATCH_FUNC(0x572210)
-bool PoliceCrew::sub_572210()
+bool PoliceCrew::CanTrackCriminal_572210()
 {
     if (field_14_pPursuitTarget->field_0_criminal_ped && !field_34_is_dismissed && field_14_pPursuitTarget->field_C_timer > 0)
     {
@@ -653,7 +653,7 @@ void PoliceCrew::State3_AlertedSearch_572340()
     {
         if (field_10_subObj->field_28_state == crew_state::update_6)
         {
-            PoliceCrew::sub_5720C0();
+            PoliceCrew::HandleShutdownAndDespawn_5720C0();
         }
     }
     else if (field_10_subObj->field_2C_ready)
@@ -722,7 +722,7 @@ void PoliceCrew::State3_AlertedSearch_572340()
                                 gCurrentCrewPed_6FEDDC->field_1E4_objective_target_z = Fix16(field_14_pPursuitTarget->field_18_z.ToUInt8());
                                 break;
                             case objectives_enum::goto_area_in_car_14:
-                                PoliceCrew::sub_5752C0();
+                                PoliceCrew::HandleGotoAreaInCarObjective_5752C0();
                                 xpos_f = field_14_pPursuitTarget->field_10_x;
                                 if (gCurrentCrewPed_6FEDDC->field_1DC_objective_target_x != field_14_pPursuitTarget->field_10_x ||
                                     gCurrentCrewPed_6FEDDC->field_1E0_objective_target_y != field_14_pPursuitTarget->field_14_y)
@@ -862,7 +862,7 @@ void PoliceCrew::State5_PursueOrChase_572920()
     {
         if (field_10_subObj->field_28_state == crew_state::update_6)
         {
-            PoliceCrew::sub_5720C0();
+            PoliceCrew::HandleShutdownAndDespawn_5720C0();
             if (field_10_subObj->field_28_state == crew_state::clean_up_5 || field_24_state == police_crew_state::shutdown_6)
             {
                 field_24_state = police_crew_state::shutdown_6;
@@ -918,7 +918,7 @@ void PoliceCrew::State5_PursueOrChase_572920()
     }
 
     gCurrentCrewPed_6FEDDC = field_10_subObj->field_4_ped;
-    if (PoliceCrew::sub_572210())
+    if (PoliceCrew::CanTrackCriminal_572210())
     {
         field_14_pPursuitTarget->field_10_x = field_14_pPursuitTarget->field_0_criminal_ped->get_cam_x();
         field_14_pPursuitTarget->field_14_y = field_14_pPursuitTarget->field_0_criminal_ped->get_cam_y();
@@ -998,7 +998,7 @@ void PoliceCrew::State5_PursueOrChase_572920()
                         if (field_10_subObj->field_0_car &&
                             (!field_10_subObj->field_8_group || field_10_subObj->field_8_group->HasNoActiveMembers_4CAAE0()))
                         {
-                            PoliceCrew::sub_575310();
+                            PoliceCrew::HandleChaseInCarObjective_575310();
                             field_28_use_car = 1;
                         }
                         else
@@ -1272,7 +1272,7 @@ void PoliceCrew::State6_ShutDown_574720()
     {
         if (field_10_subObj->field_28_state == crew_state::update_6)
         {
-            PoliceCrew::sub_5720C0();
+            PoliceCrew::HandleShutdownAndDespawn_5720C0();
         }
         if (field_10_subObj->field_28_state == crew_state::clean_up_5)
         {
@@ -1313,7 +1313,7 @@ void PoliceCrew::State6_ShutDown_574720()
             {
                 if (field_14_pPursuitTarget->field_0_criminal_ped)
                 {
-                    if (PoliceCrew::sub_572210())
+                    if (PoliceCrew::CanTrackCriminal_572210())
                     {
                         if (field_10_subObj->field_20_crew_type == crew_type::army_6 ||
                             (field_14_pPursuitTarget->field_4_wanted_level != 6 && field_14_pPursuitTarget->field_4_wanted_level))
@@ -1470,7 +1470,7 @@ void PoliceCrew::State1_Patrol_574F10()
         pCarUnk->ClearAIHalted_421550();
         if (field_10_subObj->field_28_state == crew_state::update_6)
         {
-            PoliceCrew::sub_5720C0();
+            PoliceCrew::HandleShutdownAndDespawn_5720C0();
         }
 
         if (field_10_subObj->field_28_state == crew_state::clean_up_5)
@@ -1503,7 +1503,7 @@ void PoliceCrew::State1_Patrol_574F10()
         }
         else
         {
-            if (field_14_pPursuitTarget && field_14_pPursuitTarget->field_0_criminal_ped && PoliceCrew::sub_572210() &&
+            if (field_14_pPursuitTarget && field_14_pPursuitTarget->field_0_criminal_ped && PoliceCrew::CanTrackCriminal_572210() &&
                 (field_10_subObj->field_20_crew_type == crew_type::army_6 || field_14_pPursuitTarget->field_4_wanted_level != 6))
             {
                 field_14_pPursuitTarget->field_10_x = field_14_pPursuitTarget->field_0_criminal_ped->get_cam_x();
@@ -1632,7 +1632,7 @@ void PoliceCrew::HandleLeaveCarObjective_575270()
 }
 
 MATCH_FUNC(0x5752c0)
-void PoliceCrew::sub_5752C0()
+void PoliceCrew::HandleGotoAreaInCarObjective_5752C0()
 {
     if (gCurrentCrewPed_6FEDDC->GetObjectiveStatus_450CB0() != objective_status::not_finished_0)
     {
@@ -1649,7 +1649,7 @@ DEFINE_GLOBAL_INIT(Fix16, kFpThree_6FECF4, Fix16(3), 0x6FECF4);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint03_6FEDE0, Fix16(0x1EB, 0), 0x6FEDE0);
 
 MATCH_FUNC(0x575310)
-void PoliceCrew::sub_575310()
+void PoliceCrew::HandleChaseInCarObjective_575310()
 {
     byte_6FEB48 = 1;
     gCurrentCrewPed_6FEDDC->set_objective_target_ped_403AC0(field_14_pPursuitTarget->field_0_criminal_ped);

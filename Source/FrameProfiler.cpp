@@ -119,7 +119,7 @@ void FrameProfiler::DebugDrawProfiling_4FF250()
 
     if (++gMemTotalCounter_6F7550 > 100)
     {
-        sub_4FF970(&gMemTotal_6F7360);
+        GetMemTotal_4FF970(&gMemTotal_6F7360);
         gMemTotalCounter_6F7550 = 0;
     }
     sDrawString_4FF910(0, 380, L"Mem Total %5d", gMemTotal_6F7360);
@@ -162,7 +162,7 @@ void FrameProfiler::sDrawString_4FF910(s32 xpos, s32 ypos, const wchar_t* pForma
 }
 
 MATCH_FUNC(0x4ff970)
-void __stdcall FrameProfiler::sub_4FF970(u32* pValue)
+void __stdcall FrameProfiler::GetMemTotal_4FF970(u32* pValue)
 {
     *pValue = 0;
 }

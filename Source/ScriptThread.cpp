@@ -1682,7 +1682,7 @@ void ScriptThread::ExecOpCode_5061C0()
     }
     gScriptManager_6F8060->RestoreAnsweredPhones_511C60();
     ScriptThread::DisableBasicKfsFromSave_511CD0();
-    gGeneratorPool_14AC_67E5D0->sub_4C1CD0();
+    gGeneratorPool_14AC_67E5D0->FinalizeAfterScriptLoad_4C1CD0();
 }
 
 MATCH_FUNC(0x5069c0)

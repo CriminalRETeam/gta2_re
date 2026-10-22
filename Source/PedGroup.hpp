@@ -21,7 +21,7 @@ class PedGroup
     }
 
     EXPORT void DestroyGroupArray_4C8E60();
-    EXPORT static void sub_4C8E80();
+    EXPORT static void ResetMemberCarDoor_4C8E80();
     EXPORT void ClearGroupData_4C8E90();
     EXPORT void Reset_4C8EF0();
     EXPORT void ResetGroupObjectives_4C8F20();

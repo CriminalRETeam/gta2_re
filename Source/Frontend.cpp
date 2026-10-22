@@ -998,11 +998,11 @@ void Frontend::DrawMenu_4AD140()
 
             // NOTE: field_124_font_type is u16
 
-            last_xpos = sub_4B7E10(2, 0x12Cu, 0x1B8u, field_124_font_type, 0xFFFF); // text: ENTER
-            last_xpos = sub_4B7E10(11, last_xpos + 300, 0x1B8u, field_124_font_type, 0xFFFF); // text: : ENTER NAME
+            last_xpos = DrawKeyHint_4B7E10(2, 0x12Cu, 0x1B8u, field_124_font_type, 0xFFFF); // text: ENTER
+            last_xpos = DrawKeyHint_4B7E10(11, last_xpos + 300, 0x1B8u, field_124_font_type, 0xFFFF); // text: : ENTER NAME
 
-            last_xpos = sub_4B7E10(3, 0x12Cu, 0x1CCu, field_124_font_type, 0xFFFF); // text: BACKSPACE
-            sub_4B7E10(10, last_xpos + 300, 0x1CCu, field_124_font_type, 0xFFFF); // text: : DELETE LETTER
+            last_xpos = DrawKeyHint_4B7E10(3, 0x12Cu, 0x1CCu, field_124_font_type, 0xFFFF); // text: BACKSPACE
+            DrawKeyHint_4B7E10(10, last_xpos + 300, 0x1CCu, field_124_font_type, 0xFFFF); // text: : DELETE LETTER
         }
         else
         {
@@ -1192,10 +1192,10 @@ void Frontend::DrawMenu_4AD140()
                                 }
                             }
 
-                            last_xpos = sub_4B7E10(2, 0x12Cu, 0x1B8u, field_124_font_type, 0xFFFF);
-                            sub_4B7E10(8, last_xpos + 300, 0x1B8u, field_124_font_type, 0xFFFF);
-                            last_xpos = sub_4B7E10(1, 0x12Cu, 0x1CCu, field_124_font_type, 0xFFFF);
-                            sub_4B7E10(9, last_xpos + 300, 0x1CCu, field_124_font_type, 0xFFFF);
+                            last_xpos = DrawKeyHint_4B7E10(2, 0x12Cu, 0x1B8u, field_124_font_type, 0xFFFF);
+                            DrawKeyHint_4B7E10(8, last_xpos + 300, 0x1B8u, field_124_font_type, 0xFFFF);
+                            last_xpos = DrawKeyHint_4B7E10(1, 0x12Cu, 0x1CCu, field_124_font_type, 0xFFFF);
+                            DrawKeyHint_4B7E10(9, last_xpos + 300, 0x1CCu, field_124_font_type, 0xFFFF);
                         }
                     }
                 }
@@ -2814,7 +2814,7 @@ void Frontend::DrawBonusRating_4B7D60()
 
 // TODO: the text keys are guesses, only code is compared
 MATCH_FUNC(0x4B7E10)
-EXPORT int Frontend::sub_4B7E10(u8 str_id_idx, u16 text_xpos, u16 text_ypos, u16 fontType, s32 palette)
+EXPORT int Frontend::DrawKeyHint_4B7E10(u8 str_id_idx, u16 text_xpos, u16 text_ypos, u16 fontType, s32 palette)
 {
     switch (str_id_idx)
     {

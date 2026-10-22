@@ -201,7 +201,7 @@ void ClearCarInfoGlobals_5639C0()
 }
 
 MATCH_FUNC(0x447640)
-void sub_447640()
+void ResetBlockedRoadBrakeTimer_447640()
 {
     word_677CFC = 0;
 }
@@ -1737,7 +1737,7 @@ CarManager::CarManager()
     stru_67737C.ResetHead_4207E0();
 
     ClearCarInfoGlobals_5639C0();
-    sub_447640();
+    ResetBlockedRoadBrakeTimer_447640();
 
     field_20_light_state_a = 4;
     field_24_light_state_b = 1;
@@ -5864,7 +5864,7 @@ void Car::TryHitchTrailer_442810()
         }
         else
         {
-            if (field_50_car_sprite->CheckSlopeTopInFootprint_5A1A60() || stru_67727C.sub_5A7310())
+            if (field_50_car_sprite->CheckSlopeTopInFootprint_5A1A60() || stru_67727C.AnySpriteHasSlopeTopInFootprint_5A7310())
             {
                 this->field_50_car_sprite->SetDrawLayer_40F7B0(8);
                 stru_67727C.PropagateMaxZLayer_5A72B0(this->field_50_car_sprite, 1);

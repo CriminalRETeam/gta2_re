@@ -240,7 +240,7 @@ class gtx_0x106C
     }
 
     // 9.6f 0x462FD0
-    inline s32 sub_462FD0(u16 spec_idx)
+    inline s32 GetSpecIgnoringRoadJunction_462FD0(u16 spec_idx)
     {
         s32 result = field_6C_spec[spec_idx];
         if (result == 3)
@@ -251,7 +251,7 @@ class gtx_0x106C
     }
 
     // 9.6f 0x49E570
-    inline bool sub_49E570(u16 spec_idx)
+    inline bool IsUnremappedWaterTile_49E570(u16 spec_idx)
     {
         if (field_6C_spec[spec_idx] == 4 && !IsTileRemapped_5AA850(spec_idx))
         {
