@@ -19,6 +19,7 @@
 #include "Game.hpp"
 #include "Gang.hpp"
 #include "Garage.hpp"
+#include "garage_state.hpp"
 #include "Generators.hpp"
 #include "Globals.hpp"
 #include "Hud.hpp"
@@ -4835,7 +4836,7 @@ void ScriptThread::SCRCMD_CAR_DAMAGE_POS_50CDB0()
 MATCH_FUNC(0x50ce10)
 void ScriptThread::SCRCMD_PARK_FINISHED_50CE10()
 {
-    if (gGarage_48_6FD26C->field_C_state == 3)
+    if (gGarage_48_6FD26C->field_C_state == garage_state::park_finished_3)
     {
         field_8_cond_result = true;
     }

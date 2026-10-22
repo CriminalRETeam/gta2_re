@@ -10,6 +10,7 @@
 #include "Ped.hpp"
 #include "CarPhysics.hpp"
 #include "Car.hpp"
+#include "garage_state.hpp"
 
 // Forward declarations: the functions below are in address order
 EXTERN_GLOBAL(Ang16, kAng0_6FD25C);
@@ -102,7 +103,7 @@ u8 Garage::ParkCarAtDoor_534700(Car* pCar, Door* pDoor)
     field_0_parking_car = pCar;
     field_44_wait_ticks = 0;
     field_10_door = pDoor;
-    field_C_state = 1;
+    field_C_state = garage_state::waiting_for_car_1;
     field_14_driver = 0;
     field_3C_settle_ticks = 30;
     field_3D_in_position = 0;
@@ -205,11 +206,11 @@ void Garage::GaragesService_5349D0()
 
     switch (field_C_state)
     {
-        case 1:
+        case garage_state::waiting_for_car_1:
         {
             if (!field_0_parking_car->field_50_car_sprite)
             {
-                field_C_state = 3;
+                field_C_state = garage_state::park_finished_3;
                 return;
             }
             if (field_0_parking_car->GetDriver_4118B0() && field_0_parking_car->field_54_driver != field_14_driver)
@@ -249,7 +250,7 @@ void Garage::GaragesService_5349D0()
             {
                 if (collision >= 4)
                 {
-                    field_C_state = 2;
+                    field_C_state = garage_state::pushing_2;
                     return;
                 }
             }
@@ -274,18 +275,18 @@ void Garage::GaragesService_5349D0()
             if (field_28_push_dir.x == kFpZero_6FD120 && field_28_push_dir.y == kFpZero_6FD120)
             {
                 field_3D_in_position = 1;
-                field_C_state = 2;
+                field_C_state = garage_state::pushing_2;
             }
             else
             {
                 field_28_push_dir = field_28_push_dir.NormalizeSafe_442AD0().Multiply_438FE0(kFpPoint1_6FCF10);
             }
             field_0_parking_car->field_58_physics->ApplyForceScaledByMass_55F9A0(field_28_push_dir);
-            field_C_state = 2;
+            field_C_state = garage_state::pushing_2;
             break;
         }
 
-        case 2:
+        case garage_state::pushing_2:
         {
             if (!field_0_parking_car->field_58_physics)
             {
@@ -293,7 +294,7 @@ void Garage::GaragesService_5349D0()
             }
             if (++field_44_wait_ticks >= 300)
             {
-                field_C_state = 3;
+                field_C_state = garage_state::park_finished_3;
                 return;
             }
             if (field_0_parking_car->GetDriver_4118B0() && !field_0_parking_car->IsDrivenByPlayer_4118D0())
@@ -313,13 +314,13 @@ void Garage::GaragesService_5349D0()
             field_0_parking_car->field_58_physics->StopMoving_4895D0();
             if (field_3C_settle_ticks == 0)
             {
-                field_C_state = 3;
+                field_C_state = garage_state::park_finished_3;
                 field_0_parking_car->field_58_physics->StopMoving_4895D0();
             }
             break;
         }
 
-        case 3:
+        case garage_state::park_finished_3:
         {
             if (field_0_parking_car->field_50_car_sprite)
             {
@@ -370,7 +371,7 @@ Garage::Garage()
     field_0_parking_car = 0;
     field_10_door = 0;
     field_14_driver = 0;
-    field_C_state = 0;
+    field_C_state = garage_state::idle_0;
     field_28_push_dir.x = 0;
     field_28_push_dir.y = 0;
     field_18_park_x_min = 0;
