@@ -44,18 +44,18 @@ DEFINE_GLOBAL_INIT(Fix16, kTrainSpeedState4_6FEEDC, Fix16(0xCCC, 0), 0x6FEEDC);
 DEFINE_GLOBAL_INIT(Fix16, kTrainSpeedState5_6FEEE4, Fix16(0x1999, 0), 0x6FEEE4);
 
 MATCH_FUNC(0x577E20)
-char __stdcall HasBlockGreenArrowAtDirection_577E20(s32 direction, gmp_block_info* param_2)
+char __stdcall HasBlockGreenArrowAtDirection_577E20(s32 direction, gmp_block_info* pBlock)
 {
     switch (direction)
     {
         case road_direction::up_1:
-            return param_2->field_A_arrows >> 2 & 1; // up
+            return pBlock->field_A_arrows >> 2 & 1; // up
         case road_direction::down_2:
-            return param_2->field_A_arrows >> 3 & 1; // down
+            return pBlock->field_A_arrows >> 3 & 1; // down
         case road_direction::right_3:
-            return param_2->field_A_arrows >> 1 & 1; // right
+            return pBlock->field_A_arrows >> 1 & 1; // right
         case road_direction::left_4:
-            return param_2->field_A_arrows & block_arrow::green_left_1; // left
+            return pBlock->field_A_arrows & block_arrow::green_left_1; // left
         default:
             return true;
     }

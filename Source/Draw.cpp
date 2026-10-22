@@ -158,7 +158,7 @@ void __stdcall DrawFigure_5D7EC0(s32 sprite_type,
                           s16 palette,
                           s32 alpha_value,
                           u8 og_flags,
-                          char_type a11)
+                          char_type bNoTextureFiltering)
 {
     sprite_index* sprite_index_5AA440 =
         gGtx_0x106C_703DD4->get_sprite_index_5AA440(gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_type, sprite_idx));
@@ -172,7 +172,7 @@ void __stdcall DrawFigure_5D7EC0(s32 sprite_type,
     u32 flags;
 
     flags = (scale == kFpOne_706A6C && rotation == kAngZero_706C3C) ? 0x10000 : 0;
-    if (!a11)
+    if (!bNoTextureFiltering)
     {
         flags |= 0x20000u;
     }

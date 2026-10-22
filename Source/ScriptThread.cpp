@@ -3348,17 +3348,17 @@ void ScriptThread::SCRCMD_DELAY_HERE_50A940()
 MATCH_FUNC(0x50a980)
 void ScriptThread::SCRCMD_DELAY_50A980()
 {
-    s16 param_1 = gBasePtr_6F8070->field_8_index;
+    s16 delay = gBasePtr_6F8070->field_8_index;
     SCR_CMD_HEADER* pNextCmd = ((SCR_CMD_HEADER*)gBasePtr_6F8070) + 1; //  TODO: remove this hack
 
-    if (param_1 == -1)
+    if (delay == -1)
     {
         pNextCmd->field_0_cmd_this = ((SCR_CMD_HEADER*)gBasePtr_6F8070)[1].field_2_type;
         field_8_cond_result = true;
     }
     else
     {
-        pNextCmd->field_0_cmd_this = param_1 - 1;
+        pNextCmd->field_0_cmd_this = delay - 1;
         if (!pNextCmd->field_0_cmd_this)
         {
             pNextCmd->field_0_cmd_this = -1;

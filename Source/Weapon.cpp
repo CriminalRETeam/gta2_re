@@ -995,7 +995,7 @@ static inline Fix16 MaxAbsDistance_5DF270(Fix16& x1, Fix16& y1, Fix16& x2, Fix16
 // The pTargetSprite check is a do-while under an if (the first loop's exit jumps straight to the tail, which stays last),
 // and the !a4 (shock counter) branch comes first in the source: its get_x_y temporaries take EH states 0/1.
 MATCH_FUNC(0x5DF270)
-void __stdcall ShockPedsAroundSprite_5DF270(Sprite* pSprite, Fix16 search_size, char_type bCheckAngle, char_type a4, Ped* pAttacker, Sprite* pTargetSprite)
+void __stdcall ShockPedsAroundSprite_5DF270(Sprite* pSprite, Fix16 search_size, char_type bCheckAngle, char_type bShockAllPeds, Ped* pAttacker, Sprite* pTargetSprite)
 {
     // 9.6f 0x4CEF40
     SpriteList hits;
@@ -1100,7 +1100,7 @@ void __stdcall ShockPedsAroundSprite_5DF270(Sprite* pSprite, Fix16 search_size, 
                         pB4->field_7C_pPed->field_204_killer_id = pAttacker->field_200_id;
                         pB4->field_7C_pPed->field_290_death_cause = ped_death_cause::rocket_18;
                         pB4->field_7C_pPed->field_264_killer_id_timer = 50;
-                        if (!a4)
+                        if (!bShockAllPeds)
                         {
                             Fix16 z;
                             if (pHit->field_1C_zpos > zpos)

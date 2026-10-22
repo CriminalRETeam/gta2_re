@@ -140,9 +140,9 @@ class Fix16_Rect
     EXPORT bool EveryTileMatchesArrowType_59DFB0(s32 arrow_type);
 
     // 9.6f 0x4B9FD0
-    inline bool IsPointInRect_4B9FD0(Fix16_Point* a2)
+    inline bool IsPointInRect_4B9FD0(Fix16_Point* pPoint)
     {
-        return Fix16::IsBetween_4B9E10(field_0_left, field_4_right, a2->x) && Fix16::IsBetween_4B9E10(field_8_top, field_C_bottom, a2->y);
+        return Fix16::IsBetween_4B9E10(field_0_left, field_4_right, pPoint->x) && Fix16::IsBetween_4B9E10(field_8_top, field_C_bottom, pPoint->y);
     }
 
     // 9.6f 0x41E2F0

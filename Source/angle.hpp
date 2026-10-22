@@ -11,15 +11,15 @@ struct angle
     {
     }
 
-    angle(const s16 &param_1, s32)
+    angle(const s16 &value, s32)
     {
-        this->field_0_value = param_1;
+        this->field_0_value = value;
         clamp();
     }
 
-    angle(const Fix16 &param_1, s32)
+    angle(const Fix16 &value, s32)
     {
-        field_0_value = param_1.ToInt();
+        field_0_value = value.ToInt();
         clamp();
     }
 

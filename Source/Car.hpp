@@ -1464,7 +1464,7 @@ struct TrafficSpawner
     EXPORT char_type IsFlatRoadAt_583870(Fix16 xpos, Fix16 ypos);
 
     EXPORT s32 GetLaneOffset_5838E0(u8 lane_idx);
-    EXPORT char_type ResolveSpawnDirection_583930(char_type a1, char_type a2);
+    EXPORT char_type ResolveSpawnDirection_583930(char_type spawn_pos_idx, char_type road_len);
 
     Camera* field_0_cam;
     Fix16_Rect* field_4_rect;

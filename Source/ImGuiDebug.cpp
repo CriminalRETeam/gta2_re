@@ -2798,7 +2798,7 @@ void CC ImGuiDebugDraw()
 
                 for (i = 0; i < 2; i++)
                 {
-                    AmbulanceTask& a20 = gAmbulance_110_6F70A8->field_D0_tasks[i];
+                    AmbulanceTask& task = gAmbulance_110_6F70A8->field_D0_tasks[i];
                 }
 
                 /*

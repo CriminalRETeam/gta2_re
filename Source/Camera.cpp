@@ -79,13 +79,13 @@ DEFINE_GLOBAL_INIT(Ang16, kAngZero_676964, Ang16(0), 0x676964);
 
 
 // TODO: move
-static inline Fix16 Max_41E130(Fix16 a1, Fix16 a2)
+static inline Fix16 Max_41E130(Fix16 a, Fix16 b)
 {
-    if (a1 > a2)
+    if (a > b)
     {
-        return a1;
+        return a;
     }
-    return a2;
+    return b;
 }
 
 MATCH_FUNC(0x4355D0)

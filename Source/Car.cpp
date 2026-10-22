@@ -183,13 +183,13 @@ DEFINE_GLOBAL_INIT(Fix16, kHitchPullDist_6772C0, kFpOne64th_677888 * 8, 0x6772C0
 DEFINE_GLOBAL_INIT(Fix16, kHitchAttachDist_677900, kFpOne64th_677888 * 3, 0x677900);
 
 // TODO: Move
-static inline void __stdcall SwapIf3or4_41FE40(s32 a1, Fix16& a2, Fix16& a3) 
+static inline void __stdcall SwapIf3or4_41FE40(s32 direction, Fix16& width, Fix16& height) 
 {
-    if (a1 >= 3 && a1 <= 4)
+    if (direction >= 3 && direction <= 4)
     {
-        Fix16 tmp = a2;
-        a2 = a3;
-        a3 = tmp;
+        Fix16 tmp = width;
+        width = height;
+        height = tmp;
     }
 }
 
@@ -7919,23 +7919,23 @@ s32 TrafficSpawner::GetLaneOffset_5838E0(u8 lane_idx)
 }
 
 MATCH_FUNC(0x583930)
-char_type TrafficSpawner::ResolveSpawnDirection_583930(char_type a1, char_type a2)
+char_type TrafficSpawner::ResolveSpawnDirection_583930(char_type spawn_pos_idx, char_type road_len)
 {
-    if (a2 == 3)
+    if (road_len == 3)
     {
-        return a1;
+        return spawn_pos_idx;
     }
-    else if (a2 != 2)
+    else if (road_len != 2)
     {
         return 2;
     }
-    else if (a1 == 1)
+    else if (spawn_pos_idx == 1)
     {
         return 2;
     }
     else
     {
-        return a1;
+        return spawn_pos_idx;
     }
 }
 

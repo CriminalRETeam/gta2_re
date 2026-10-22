@@ -13,7 +13,7 @@ class Fix16_Point;
 
 class SoundObject;
 
-EXPORT void __stdcall ShockPedsAroundSprite_5DF270(Sprite* pSprite, Fix16 search_size, char_type bCheckAngle, char_type a4, Ped* pAttacker, Sprite* pTargetSprite);
+EXPORT void __stdcall ShockPedsAroundSprite_5DF270(Sprite* pSprite, Fix16 search_size, char_type bCheckAngle, char_type bShockAllPeds, Ped* pAttacker, Sprite* pTargetSprite);
 
 class Weapon
 {

@@ -54,21 +54,21 @@ DEFINE_GLOBAL_INIT(Fix16, kHookDepthMaxSpeed_679DC8, kFpOne64th_679F28 * 4, 0x67
 DEFINE_GLOBAL_INIT(Fix16, kAngFix16HalfCircle_679EB8, Fix16(0xC7B0, 0), 0x679EB8);
 
 // FUNCTION: 96f 0x40e790
-inline Fix16 __stdcall WrapAngle_40E790(Fix16 a2)
+inline Fix16 __stdcall WrapAngle_40E790(Fix16 angle)
 {
-    while (a2 < kZero_679E70)
+    while (angle < kZero_679E70)
     {
-        a2 += kAngFix16FullCircle_679F58;
+        angle += kAngFix16FullCircle_679F58;
     }
 
-    if (a2 >= kAngFix16FullCircle_679F58)
+    if (angle >= kAngFix16FullCircle_679F58)
     {
         do
         {
-            a2 -= kAngFix16FullCircle_679F58;
-        } while (a2 >= kAngFix16FullCircle_679F58);
+            angle -= kAngFix16FullCircle_679F58;
+        } while (angle >= kAngFix16FullCircle_679F58);
     }
-    return a2;
+    return angle;
 }
 
 // The EH frame in state 4 comes from field_0-field_20_target2_offset, which are Fix16_Point (destructor)
@@ -583,16 +583,16 @@ void Crane::PickUpCar_47F930(Car* pCar)
                 {
                     if (pCar->CanBeLiftedByCrane_447F00())
                     {
-                        Fix16 a2a;
+                        Fix16 hook_radius;
                         Fix16 angTmp;
                         Sprite* pSprt = pCar->field_50_car_sprite;
-                        if (ComputeHookPolar_47F6C0(pSprt->get_x_y(), &a2a, &angTmp))
+                        if (ComputeHookPolar_47F6C0(pSprt->get_x_y(), &hook_radius, &angTmp))
                         {
                             if (field_144_crane_mode != 1 || IsTarget1PositionClear_47EB00())
                             {
                                 if (field_68_pickup_car == 0 || pSprt == field_68_pickup_car)
                                 {
-                                    SetPickupCarTarget_47F2F0(a2a, angTmp, pSprt);
+                                    SetPickupCarTarget_47F2F0(hook_radius, angTmp, pSprt);
                                 }
                             }
                         }

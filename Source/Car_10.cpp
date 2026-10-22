@@ -58,16 +58,16 @@ void Car_Door::AnimateClosing_439D40(u32* pDeltaMask)
 }
 
 MATCH_FUNC(0x439DA0)
-void Car_Door::Service_439DA0(u32* a3a)
+void Car_Door::Service_439DA0(u32* pDeltaMask)
 {
     switch (field_4_state)
     {
         case car_door_state::opening_2:
-            AnimateOpening_439CD0(a3a);
+            AnimateOpening_439CD0(pDeltaMask);
             break;
 
         case car_door_state::closing_3:
-            AnimateClosing_439D40(a3a);
+            AnimateClosing_439D40(pDeltaMask);
             break;
 
         case car_door_state::close_requested_5:

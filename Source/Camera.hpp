@@ -218,4 +218,4 @@ GTA2_ASSERT_SIZEOF_ALWAYS(Camera, 0xBC)
 
 EXTERN_GLOBAL(Camera*, gViewCamera_676978);
 
-extern inline Fix16 Max_41E130(Fix16 a1, Fix16 a2);
+extern inline Fix16 Max_41E130(Fix16 a, Fix16 b);

@@ -36,7 +36,7 @@ EXPORT void __stdcall DrawFigure_5D7EC0(s32 sprite_type,
                                  s16 palette,
                                  s32 alpha_value,
                                  u8 flags,
-                                 char_type a11);
+                                 char_type bNoTextureFiltering);
 
 EXPORT s32 __stdcall CalcQuadFlags_5D83E0(s32 mode, u8 alpha);
 

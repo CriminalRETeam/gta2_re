@@ -142,4 +142,4 @@ GTA2_ASSERT_SIZEOF_ALWAYS(CarInfoTable, 0x808);
 
 EXTERN_GLOBAL(CarInfoTable*, gCarInfo_808_678098);
 
-EXPORT s32 __stdcall ParseTokenAndPush_430C70(char_type* a1);
+EXPORT s32 __stdcall ParseTokenAndPush_430C70(char_type* pStr);

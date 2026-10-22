@@ -18,9 +18,9 @@ class Garage
     EXPORT Garage();
 
     // inlined 0x44C870
-    bool sub_44C870(Car* param_1) const
+    bool sub_44C870(Car* pCar) const
     {
-        if (param_1 == this->field_4_parked_car && param_1 != NULL && param_1->field_6C_car_id == this->field_8_parked_car_id)
+        if (pCar == this->field_4_parked_car && pCar != NULL && pCar->field_6C_car_id == this->field_8_parked_car_id)
         {
             return true;
         }

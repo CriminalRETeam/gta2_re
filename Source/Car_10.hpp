@@ -15,7 +15,7 @@ class Car_Door
 
     EXPORT void AnimateOpening_439CD0(u32* pRet);
     EXPORT void AnimateClosing_439D40(u32* pDeltaMask);
-    EXPORT void Service_439DA0(u32* a3a);
+    EXPORT void Service_439DA0(u32* pDeltaMask);
     EXPORT void Init_439E40(u8 door_idx);
     EXPORT void Open_439E60();
     EXPORT void Close_439EA0();

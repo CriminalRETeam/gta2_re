@@ -135,13 +135,13 @@ static inline void __fastcall SetUV_4B9BC0(f32& u, f32& v)
 }
 
 // matched https://decomp.me/scratch/RhBO0
-static inline Fix16 __stdcall Sign_4B9C20(s32& a2)
+static inline Fix16 __stdcall Sign_4B9C20(s32& value)
 {
-    if (a2 > 0)
+    if (value > 0)
     {
         return Fix16(1);
     }
-    else if (a2 < 0)
+    else if (value < 0)
     {
         return Fix16(-1);
     }
@@ -1671,7 +1671,7 @@ char_type Sprite::CheckBBoxScanlineIntersection_5A0970(Fix16 scanXMin, Fix16 sca
 
 // https://decomp.me/scratch/EK1Y2
 MATCH_FUNC(0x5A0A70)
-bool Sprite::GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 line_y, Fix16_Point& point, u8& a4)
+bool Sprite::GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 line_y, Fix16_Point& point, u8& nearest_corner_idx)
 {
     // Same as GetNearestVerticalEdgeToCoordinate_5A1030
     UpdateCollisionBoundsIfNeeded_59E9C0();
@@ -1683,7 +1683,7 @@ bool Sprite::GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 line_y, Fix16_Poi
     least_abs = Fix16::Abs(diff);
 
     point = RenderingRect[0];
-    a4 = 0;
+    nearest_corner_idx = 0;
 
     diff = RenderingRect[1].y - line_y;
     if (Sign_4B9C20(diff.mValue) != sign)
@@ -1697,12 +1697,12 @@ bool Sprite::GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 line_y, Fix16_Poi
         least_abs = diff;
         point.x = RenderingRect[1].x;
         point.y = RenderingRect[1].y;
-        a4 = 1;
+        nearest_corner_idx = 1;
     }
     else if (diff == least_abs)
     {
         point.x = (point.x + RenderingRect[1].x) / kFP16Two_7035C8;
-        a4 = 5;
+        nearest_corner_idx = 5;
     }
 
     diff = RenderingRect[2].y - line_y;
@@ -1717,12 +1717,12 @@ bool Sprite::GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 line_y, Fix16_Poi
         least_abs = diff;
         point.x = RenderingRect[2].x;
         point.y = RenderingRect[2].y;
-        a4 = 2;
+        nearest_corner_idx = 2;
     }
     else if (diff == least_abs)
     {
         point.x = (point.x + RenderingRect[2].x) / kFP16Two_7035C8;
-        a4 = 5;
+        nearest_corner_idx = 5;
     }
 
     diff = RenderingRect[3].y - line_y;
@@ -1736,12 +1736,12 @@ bool Sprite::GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 line_y, Fix16_Poi
     {
         point.x = RenderingRect[3].x;
         point.y = RenderingRect[3].y;
-        a4 = 3;
+        nearest_corner_idx = 3;
     }
     else if (diff == least_abs)
     {
         point.x = (point.x + RenderingRect[3].x) / kFP16Two_7035C8;
-        a4 = 5;
+        nearest_corner_idx = 5;
     }
 
     return true;
@@ -1764,7 +1764,7 @@ char_type Sprite::HitTestVerticalLine_5A0EF0(Fix16 x, Fix16 y1, Fix16 y2)
 
 // https://decomp.me/scratch/ScgaC
 MATCH_FUNC(0x5a1030)
-bool Sprite::GetNearestVerticalEdgeToCoordinate_5A1030(Fix16 line_x, Fix16_Point& point, u8& a4)
+bool Sprite::GetNearestVerticalEdgeToCoordinate_5A1030(Fix16 line_x, Fix16_Point& point, u8& nearest_corner_idx)
 {
     // least_abs assigned (not initialised) so it lives in a register. point set with one point copy (smaller
     // than the two field copies): the inline budget then leaves the negation in all four Abs out of line
@@ -1777,7 +1777,7 @@ bool Sprite::GetNearestVerticalEdgeToCoordinate_5A1030(Fix16 line_x, Fix16_Point
     least_abs = Fix16::Abs(diff);
 
     point = RenderingRect[0];
-    a4 = 0;
+    nearest_corner_idx = 0;
 
     diff = RenderingRect[1].x - line_x;
     if (Sign_4B9C20(diff.mValue) != sign)
@@ -1791,12 +1791,12 @@ bool Sprite::GetNearestVerticalEdgeToCoordinate_5A1030(Fix16 line_x, Fix16_Point
         least_abs = diff;
         point.x = RenderingRect[1].x;
         point.y = RenderingRect[1].y;
-        a4 = 1;
+        nearest_corner_idx = 1;
     }
     else if (diff == least_abs)
     {
         point.y = (point.y + RenderingRect[1].y) / kFP16Two_7035C8;
-        a4 = 5;
+        nearest_corner_idx = 5;
     }
 
     diff = RenderingRect[2].x - line_x;
@@ -1811,12 +1811,12 @@ bool Sprite::GetNearestVerticalEdgeToCoordinate_5A1030(Fix16 line_x, Fix16_Point
         least_abs = diff;
         point.x = RenderingRect[2].x;
         point.y = RenderingRect[2].y;
-        a4 = 2;
+        nearest_corner_idx = 2;
     }
     else if (diff == least_abs)
     {
         point.y = (point.y + RenderingRect[2].y) / kFP16Two_7035C8;
-        a4 = 5;
+        nearest_corner_idx = 5;
     }
 
     diff = RenderingRect[3].x - line_x;
@@ -1830,12 +1830,12 @@ bool Sprite::GetNearestVerticalEdgeToCoordinate_5A1030(Fix16 line_x, Fix16_Point
     {
         point.x = RenderingRect[3].x;
         point.y = RenderingRect[3].y;
-        a4 = 3;
+        nearest_corner_idx = 3;
     }
     else if (diff == least_abs)
     {
         point.y = (point.y + RenderingRect[3].y) / kFP16Two_7035C8;
-        a4 = 5;
+        nearest_corner_idx = 5;
     }
 
     return true;
