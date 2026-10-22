@@ -135,7 +135,7 @@ void Object::PoolDeallocate()
     const s32 f5C = field_8_definition->field_5C_instance_limit_kind;
     if (f5C == 2)
     {
-        --gObject_5C_6F8F84->field_10_rotating_object_count;
+        --gObject_5C_6F8F84->field_10_limited_object_count;
     }
     else if (f5C == 3)
     {
@@ -2295,7 +2295,7 @@ void Object::NewObj3C_528130(Fix16_Point& speed)
 }
 
 MATCH_FUNC(0x528240)
-bool Object::HandleRotationStateTransition_528240(s32 current, s32 desired)
+bool Object::ChangeInstanceLimitKind_528240(s32 current, s32 desired)
 {
     switch (current)
     {
@@ -2303,12 +2303,12 @@ bool Object::HandleRotationStateTransition_528240(s32 current, s32 desired)
             switch (desired)
             {
                 case 2:
-                    if (gObject_5C_6F8F84->field_10_rotating_object_count == 360)
+                    if (gObject_5C_6F8F84->field_10_limited_object_count == 360)
                     {
                         RequestRemoval_5290A0();
                         return 1;
                     }
-                    gObject_5C_6F8F84->field_10_rotating_object_count++;
+                    gObject_5C_6F8F84->field_10_limited_object_count++;
                     break;
 
                 case 3:
@@ -2322,11 +2322,11 @@ bool Object::HandleRotationStateTransition_528240(s32 current, s32 desired)
             switch (desired)
             {
                 case 1:
-                    gObject_5C_6F8F84->field_10_rotating_object_count--;
+                    gObject_5C_6F8F84->field_10_limited_object_count--;
                     break;
 
                 case 3:
-                    gObject_5C_6F8F84->field_10_rotating_object_count--;
+                    gObject_5C_6F8F84->field_10_limited_object_count--;
                     gObject_5C_6F8F84->field_14_listed_sprite_count++;
                     gObject_5C_6F8F84->field_1C_sprite_list.AddSprite_5A6CD0(field_4_sprite);
                     break;
@@ -2342,7 +2342,7 @@ bool Object::HandleRotationStateTransition_528240(s32 current, s32 desired)
                     break;
 
                 case 2:
-                    if (gObject_5C_6F8F84->field_10_rotating_object_count == 360)
+                    if (gObject_5C_6F8F84->field_10_limited_object_count == 360)
                     {
                         RequestRemoval_5290A0();
                         return 1;
@@ -2350,7 +2350,7 @@ bool Object::HandleRotationStateTransition_528240(s32 current, s32 desired)
 
                     gObject_5C_6F8F84->field_14_listed_sprite_count--;
                     gObject_5C_6F8F84->field_1C_sprite_list.RemoveSprite_5A6B10(field_4_sprite);
-                    gObject_5C_6F8F84->field_10_rotating_object_count++;
+                    gObject_5C_6F8F84->field_10_limited_object_count++;
                     break;
             }
             break;
@@ -2399,7 +2399,7 @@ void Object::TickObject_5283C0(s32 obj_type)
             {
                 ObjectDefinition* pDefinition = gObjectDefinitions_6FCF00->GetObjectDefinition_534360(obj_type);
                 if (field_8_definition->field_5C_instance_limit_kind == pDefinition->field_5C_instance_limit_kind ||
-                    !Object::HandleRotationStateTransition_528240(field_8_definition->field_5C_instance_limit_kind, pDefinition->field_5C_instance_limit_kind))
+                    !Object::ChangeInstanceLimitKind_528240(field_8_definition->field_5C_instance_limit_kind, pDefinition->field_5C_instance_limit_kind))
                 {
                     if (!byte_6F8C4C && !byte_6F8C68)
                     {
@@ -3154,7 +3154,7 @@ Object_5C::Object_5C()
     byte_6F8C68 = 0;
     byte_6F8C4C = 0;
     byte_6F8F40 = 0;
-    field_10_rotating_object_count = 0;
+    field_10_limited_object_count = 0;
     field_14_listed_sprite_count = 0;
     gObj3C_live_count_6F8E54 = 0;
     gObj8_count_6F8F18 = 0;
@@ -3379,11 +3379,11 @@ Object* Object_5C::CreateObject_529C00(int object_type, Fix16 xpos, Fix16 ypos, 
     ObjectDefinition* pDefinition = gObjectDefinitions_6FCF00->GetObjectDefinition_534360(object_type);
     if (pDefinition->field_5C_instance_limit_kind == 2)
     {
-        if (field_10_rotating_object_count == 360)
+        if (field_10_limited_object_count == 360)
         {
             return 0;
         }
-        field_10_rotating_object_count++;
+        field_10_limited_object_count++;
     }
 
     Object* pNew2C; // esi

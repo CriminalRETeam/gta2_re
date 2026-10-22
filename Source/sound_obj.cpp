@@ -571,7 +571,7 @@ void sound_obj::ProcessCar_412B80(Sound_Params* pParams)
             }
             else
             {
-                pAlloc->field_0_x = kFpZero_66F3F0;
+                pAlloc->field_0_last_speed = kFpZero_66F3F0;
             }
             switch (pParams->field_0_pObj->field_8_car_bc_ptr->GetCarInfoIdx_411940())
             {
@@ -2661,7 +2661,7 @@ void sound_obj::HandleHeavyVehicleStopSound_417E30(Sound_Params* pParams, SoundP
     Car* cBC = pParams->field_0_pObj->field_8_car_bc_ptr;
     Fix16 car_speed;
     car_speed = cBC->GetCarLinearSpeed_43A240();
-    if (pAlloc->field_0_x > kFpZero_66F3F0 && car_speed == kFpZero_66F3F0)
+    if (pAlloc->field_0_last_speed > kFpZero_66F3F0 && car_speed == kFpZero_66F3F0)
     {
         if (IsHeavyTruckOrBus_417F40(cBC->GetCarInfoIdx_411940()))
         {
@@ -2682,7 +2682,7 @@ void sound_obj::HandleHeavyVehicleStopSound_417E30(Sound_Params* pParams, SoundP
             }
         }
     }
-    pAlloc->field_0_x = car_speed;
+    pAlloc->field_0_last_speed = car_speed;
 }
 
 MATCH_FUNC(0x417EF0)
@@ -3610,7 +3610,7 @@ s32 sound_obj::AddSoundObject_419FA0(SoundObject* pTuring)
                             case sprite_types_enum::car_2: // note: sub eax, 2 added via switch case instead of if
                                 SoundPosEntry* pNewObj = new SoundPosEntry();
                                 field_147C_audio_entities[idx].field_8_pAlloc = pNewObj;
-                                pNewObj->field_0_x = kFpZero_674CD8;
+                                pNewObj->field_0_last_speed = kFpZero_674CD8;
                                 pNewObj->field_8_unused = 0;
                                 pNewObj->field_A_horn_pattern_idx = 0;
                                 break;

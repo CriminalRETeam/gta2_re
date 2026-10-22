@@ -29,7 +29,7 @@ struct SoundPosEntry
     {
     }
 
-    Fix16 field_0_x;
+    Fix16 field_0_last_speed;
     u32 field_4;
     //char_type field_4;
     //char_type field_5;

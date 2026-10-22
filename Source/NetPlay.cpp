@@ -2151,7 +2151,7 @@ char_type NetPlay::ReceiveGameMessage_521890(Network_8* pOut, s32* pPlayerIdx, u
     DWORD startTime = timeGetTime();
 
     // ((u8*)pData)[1] = field_1_tick
-    // ((u8*)pData)[2] = field_2
+    // ((u8*)pData)[2] = field_2_msg_size
     // ((u8*)pData)[3] = field_3_type
     // ((u8*)pData)[4] = field_4_length
     // ((u8*)pData)[5] = field_5_data

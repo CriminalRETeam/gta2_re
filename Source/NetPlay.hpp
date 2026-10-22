@@ -65,7 +65,7 @@ struct Network_Data
 {
     u8 field_0;
     u8 field_1_tick;
-    u8 field_2_unused;
+    u8 field_2_msg_size; // field_4_length + 2
     u8 field_3_type;
     u8 field_4_length;
     void* field_5_data;

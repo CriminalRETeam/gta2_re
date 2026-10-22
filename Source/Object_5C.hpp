@@ -102,7 +102,7 @@ class Object
     EXPORT void RemoveFromCollisionBuckets_527D00();
     EXPORT void ReleaseSubObjects_527F10();
     EXPORT void NewObj3C_528130(Fix16_Point& speed);
-    EXPORT bool HandleRotationStateTransition_528240(s32 current, s32 desired);
+    EXPORT bool ChangeInstanceLimitKind_528240(s32 current, s32 desired);
     EXPORT void TickObject_5283C0(s32 obj_type);
     EXPORT char_type OnObjectTouched_5288B0(Sprite* pSprite);
     EXPORT void HandleWaterDeath_528900();
@@ -425,7 +425,7 @@ class Object_5C
     Object* field_4_diagonal_wall_ang135;
     Object* field_8_diagonal_wall_ang225;
     Object* field_C_diagonal_wall_ang45;
-    s32 field_10_rotating_object_count;
+    s32 field_10_limited_object_count;
     s32 field_14_listed_sprite_count;
     u8 field_18_pending_damage_owner;
     u8 field_19_unused;
