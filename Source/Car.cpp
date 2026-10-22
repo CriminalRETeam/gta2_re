@@ -583,7 +583,7 @@ MATCH_FUNC(0x444ab0)
 u32 CarManager::SelectTrafficCarModel_444AB0(Player* pPlayer, gmp_zone_info* pZoneInfo, Fix16 density_scale, u16* pOut)
 {
     u32 result;
-    Fix16 density_calc = Fix16(pZoneInfo->field_0_car_density) / Fix16(0xFA0000, 0);
+    Fix16 density_calc = Fix16(pZoneInfo->field_0_car_density) / Fix16(1000);
     if (density_calc == gFix16_6777CC)
     {
         *pOut = 0;
@@ -591,7 +591,7 @@ u32 CarManager::SelectTrafficCarModel_444AB0(Player* pPlayer, gmp_zone_info* pZo
     }
     else
     {
-        u16 density = (Fix16(0x190000, 0) * (density_scale * density_calc)).ToInt();
+        u16 density = (Fix16(100) * (density_scale * density_calc)).ToInt();
         if (density > 99)
         {
             density = 99;
@@ -5962,8 +5962,8 @@ char_type Car::TrainUpdate_442D70()
     {
         gGame_0x40_67E008->field_38_local_player->get_pos_569920(&player_x, &player_y, &player_z);
 
-        if (Fix16::Abs_negate_out_of_line(field_50_car_sprite->field_14_xy.x - player_x) >= Fix16(0x28000, 0) ||
-            Fix16::Abs(field_50_car_sprite->field_14_xy.y - player_y) >= Fix16(0x28000, 0))
+        if (Fix16::Abs_negate_out_of_line(field_50_car_sprite->field_14_xy.x - player_x) >= Fix16(10) ||
+            Fix16::Abs(field_50_car_sprite->field_14_xy.y - player_y) >= Fix16(10))
         {
             field_A8_horn_cooldown = 0;
         }
@@ -5977,7 +5977,7 @@ char_type Car::TrainUpdate_442D70()
                     Fix16 y = field_50_car_sprite->field_14_xy.y;
                     Fix16 z = field_50_car_sprite->field_1C_zpos;
                     Fix16 x = field_50_car_sprite->field_14_xy.x;
-                    SetPrism(rect, x - Fix16(0x4000, 0), x + Fix16(0x4000, 0), y, y + Fix16(0x28000, 0), z);
+                    SetPrism(rect, x - Fix16(1), x + Fix16(1), y, y + Fix16(10), z);
                     break;
                 }
 
@@ -5986,7 +5986,7 @@ char_type Car::TrainUpdate_442D70()
                     Fix16 z = field_50_car_sprite->field_1C_zpos;
                     Fix16 y = field_50_car_sprite->field_14_xy.y;
                     Fix16 x = field_50_car_sprite->field_14_xy.x;
-                    SetPrism(rect, x - Fix16(0x4000, 0), x + Fix16(0x4000, 0), y - Fix16(0x28000, 0), y, z);
+                    SetPrism(rect, x - Fix16(1), x + Fix16(1), y - Fix16(10), y, z);
                     break;
                 }
 
@@ -5995,7 +5995,7 @@ char_type Car::TrainUpdate_442D70()
                     Fix16 y = field_50_car_sprite->field_14_xy.y;
                     Fix16 z = field_50_car_sprite->field_1C_zpos;
                     Fix16 x = field_50_car_sprite->field_14_xy.x;
-                    SetPrism(rect, x, x + Fix16(0x28000, 0), y - Fix16(0x4000, 0), y + Fix16(0x4000, 0), z);
+                    SetPrism(rect, x, x + Fix16(10), y - Fix16(1), y + Fix16(1), z);
                     break;
                 }
 
@@ -6003,10 +6003,10 @@ char_type Car::TrainUpdate_442D70()
                 {
                     // Written out: here the original inlines operator+ for high_z
                     Fix16 z = field_50_car_sprite->field_1C_zpos;
-                    rect.SetRect_41E350(field_50_car_sprite->field_14_xy.x - Fix16(0x28000, 0),
+                    rect.SetRect_41E350(field_50_car_sprite->field_14_xy.x - Fix16(10),
                                         field_50_car_sprite->field_14_xy.x,
-                                        field_50_car_sprite->field_14_xy.y - Fix16(0x4000, 0),
-                                        field_50_car_sprite->field_14_xy.y + Fix16(0x4000, 0));
+                                        field_50_car_sprite->field_14_xy.y - Fix16(1),
+                                        field_50_car_sprite->field_14_xy.y + Fix16(1));
                     rect.field_10_low_z = z - kCollisionPrismHalfHeight_6771E4;
                     rect.field_14_high_z = z + kCollisionPrismHalfHeight_6771E4;
                     break;
@@ -7378,21 +7378,21 @@ Fix16 TrafficSpawner::GetRandomTrafficSpeed_583750(Fix16 max_speed, u8* pOut)
     if (max_speed >= kFpPoint3_6FF85C)
     {
         *pOut = 2;
-        roll = Fix16(gRng_6F6784.get_uint8_4F7B70(100)) / Fix16(1638400, 0);
+        roll = Fix16(gRng_6F6784.get_uint8_4F7B70(100)) / Fix16(100);
         lo = kFpPoint3_6FF85C;
         hi = kFpPoint4_6FF70C;
     }
     else if (max_speed >= kFpPoint2_6FF724)
     {
         *pOut = 1;
-        roll = Fix16(gRng_6F6784.get_uint8_4F7B70(100)) / Fix16(1638400, 0);
+        roll = Fix16(gRng_6F6784.get_uint8_4F7B70(100)) / Fix16(100);
         lo = kFpPoint2_6FF724;
         hi = kFpPoint3_6FF85C;
     }
     else
     {
         *pOut = 0;
-        roll = Fix16(gRng_6F6784.get_uint8_4F7B70(100)) / Fix16(0x190000, 0);
+        roll = Fix16(gRng_6F6784.get_uint8_4F7B70(100)) / Fix16(100);
         lo = kFpPoint03_6FF6A4;
         hi = kFpPoint2_6FF724;
     }

@@ -821,8 +821,8 @@ MATCH_FUNC(0x542e30)
 void Explosion::EmitBuildingDebris_22_23_24_25_542E30(u8 direction_idx)
 {
     Sprite* pSprite = this->field_14_pObj2C->field_4_sprite;
-    if (pSprite->field_14_xy.x < Fix16(0x3F8000, 0) && pSprite->field_14_xy.x > kFP16One_6FD4A0 &&
-        pSprite->field_14_xy.y < Fix16(0x3F8000, 0) && pSprite->field_14_xy.y > kFP16One_6FD4A0)
+    if (pSprite->field_14_xy.x < Fix16(254) && pSprite->field_14_xy.x > kFP16One_6FD4A0 &&
+        pSprite->field_14_xy.y < Fix16(254) && pSprite->field_14_xy.y > kFP16One_6FD4A0)
     {
         unk_6FD5F6 = 0;
         for (u8 i = 0; i < 2u; i++)

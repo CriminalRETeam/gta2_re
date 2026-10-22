@@ -641,7 +641,7 @@ void Object::Sprite_UpdateZFromSlopeAndTile_522FA0(Sprite* pSprite)
     Fix16 z_val = pSprite->field_1C_zpos;
     if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(pSprite->field_14_xy.x.ToInt(), pSprite->field_14_xy.y.ToInt(), (z_val.ToInt()) - 1))
     {
-        z_val -= Fix16(0x4000, 0);
+        z_val -= Fix16(1);
     }
 
     if (gMap_0x370_6F6268->UpdateZFromSlopeAtCoord_4E5BF0(pSprite->field_14_xy.x, pSprite->field_14_xy.y, z_val) == 0)
@@ -652,7 +652,7 @@ void Object::Sprite_UpdateZFromSlopeAndTile_522FA0(Sprite* pSprite)
             z_val = z_val.GetFloorValue();
             if (z_frac > kFP16Half_6F8D10)
             {
-                z_val += Fix16(0x4000, 0);
+                z_val += Fix16(1);
             }
 
             if (z_val > kMaxZ_6F8BFC)

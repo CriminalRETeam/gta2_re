@@ -4667,9 +4667,9 @@ void Ped::SetObjective(s32 objective, s16 objective_timer)
     {
         this->field_258_objective = objective;
         this->field_218_objective_timer = objective_timer;
-        this->field_1B8_target_x = Fix16(-16384, 0);
-        this->field_1BC_target_y = Fix16(-16384, 0);
-        this->field_1C0_target_z = Fix16(-16384, 0);
+        this->field_1B8_target_x = Fix16(-1);
+        this->field_1BC_target_y = Fix16(-1);
+        this->field_1C0_target_z = Fix16(-1);
         this->field_1DC_objective_target_x = kFpZero_678660;
         this->field_1E0_objective_target_y = kFpZero_678660;
         this->field_148_objective_target_ped = 0;
@@ -4816,9 +4816,9 @@ void Ped::SetObjective2_463830(s32 internal_objective, s16 internal_objective_ti
 
         this->field_25C_internal_objective = internal_objective;
         this->field_21A_internal_objective_timer = internal_objective_timer;
-        this->field_1C4_move_target_x = Fix16(-16384, 0);
-        this->field_1C8_move_target_y = Fix16(-16384, 0);
-        this->field_1CC_move_target_z = Fix16(-16384, 0);
+        this->field_1C4_move_target_x = Fix16(-1);
+        this->field_1C8_move_target_y = Fix16(-1);
+        this->field_1CC_move_target_z = Fix16(-1);
         this->field_1D0_internal_target_x = kFpZero_678660;
         this->field_1D4_internal_target_y = kFpZero_678660;
         this->field_1D8_internal_target_z = kFpZero_678660;
