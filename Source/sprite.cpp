@@ -421,7 +421,7 @@ s16 DamageAreaFlags::Delta_48F8B0(u16& sprite_idx, u8& bRet, const u16& palette,
 }
 
 MATCH_FUNC(0x4F76A0)
-EXPORT char_type __stdcall ComputeScanlineIntersectionY_4F76A0(Fix16& minX, Fix16& minY, Fix16& scanLineY, Fix16_Point& p0, Fix16_Point& p1)
+EXPORT bool __stdcall ComputeScanlineIntersectionY_4F76A0(Fix16& minX, Fix16& minY, Fix16& scanLineY, Fix16_Point& p0, Fix16_Point& p1)
 {
 
     // Raw compares: with Fix16 operators VC6 runs out of inline budget and calls the Fix16_Point ctor
@@ -692,7 +692,7 @@ void Sprite::ApplyScaleToDimensions_59E4C0(Fix16 scale, s32 bScale_Field_C_4C)
 
 // https://decomp.me/scratch/GIpfM
 MATCH_FUNC(0x59E590)
-char_type Sprite::CollisionCheck_59E590(Sprite* pOther)
+bool Sprite::CollisionCheck_59E590(Sprite* pOther)
 {
     if (field_C_pCollisionShape->field_30_boundingBox.AABB_Intersects_41E2F0(&pOther->field_C_pCollisionShape->field_30_boundingBox))
     {
@@ -1648,7 +1648,7 @@ bool Sprite::RotatedRectCollisionSAT_5A0380(Sprite* pOther)
 }
 
 MATCH_FUNC(0x5A0970)
-char_type Sprite::CheckBBoxScanlineIntersection_5A0970(Fix16 scanXMin, Fix16 scanXMax, Fix16 scanY)
+bool Sprite::CheckBBoxScanlineIntersection_5A0970(Fix16 scanXMin, Fix16 scanXMax, Fix16 scanY)
 {
     Fix16_Point* pBBox = field_C_pCollisionShape->field_C_corners;
     if (ComputeScanlineIntersectionY_4F76A0(scanXMin, scanXMax, scanY, pBBox[0], pBBox[1]) ||
@@ -1746,7 +1746,7 @@ bool Sprite::GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 line_y, Fix16_Poi
 }
 
 MATCH_FUNC(0x5A0EF0)
-char_type Sprite::HitTestVerticalLine_5A0EF0(Fix16 x, Fix16 y1, Fix16 y2)
+bool Sprite::HitTestVerticalLine_5A0EF0(Fix16 x, Fix16 y1, Fix16 y2)
 {
     Fix16_Point* pBBox = this->field_C_pCollisionShape->field_C_corners;
     if (ComputeScanlineIntersectionX_4F77D0(x, y1, y2, pBBox[0], pBBox[1]) ||
@@ -1990,7 +1990,7 @@ char_type Sprite::CheckCornerZCollisions_5A1CA0(u32* pCount)
 }
 
 MATCH_FUNC(0x5A1EB0)
-char_type Sprite::IsTouchingSlopeBlock_5A1EB0()
+bool Sprite::IsTouchingSlopeBlock_5A1EB0()
 {
     s32 zpos_int = this->field_1C_zpos.ToInt();
 

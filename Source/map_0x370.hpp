@@ -439,7 +439,7 @@ class Map_0x370
     EXPORT char_type TakeBlockedByTerrain_4E0110();
     EXPORT char_type TakeLowerBlockHasArrows_4E0120();
     EXPORT bool IsMoveOntoSlopeTileBlocked_4E0130(s32 x, s32 y, s32 z, s32 path_direction, u8* pSlopeZDelta, char_type bReportStepUp);
-    EXPORT char_type RectHitsDiagonalWall_4E11E0(Fix16_Rect* pRect);
+    EXPORT bool RectHitsDiagonalWall_4E11E0(Fix16_Rect* pRect);
     EXPORT bool SpriteHitsDiagonalWall_4E1520(s32 z_pos);
     EXPORT bool HasWallInArea_4E18A0(s32 x_min, s32 x_max, s32 y_min, s32 y_max, s32 z);
     EXPORT bool SpriteHitsBlockFacesInArea_4E1A30(s32 x_min, s32 x_max, s32 y_min, s32 y_max, s32 z);
@@ -447,7 +447,7 @@ class Map_0x370
     EXPORT char_type IsMovementRegionBlocked_4E4460(s32 tile_x, s32 tile_y, s32 tile_z, Sprite* pSprite, s16 collision_mask);
     EXPORT char_type CheckSlopeTopInSpriteGrid_4E4630(Fix16 z_pos);
     EXPORT bool SlopeBordersFlatInSpriteGrid_4E4770(Fix16 z_pos);
-    EXPORT char_type AllBlocksInRectHaveSlopeBits_4E4820(Fix16_Rect* pRect, u8 slope_bits);
+    EXPORT bool AllBlocksInRectHaveSlopeBits_4E4820(Fix16_Rect* pRect, u8 slope_bits);
     EXPORT void FindNearbyBlockOfType_4E4930(u8* pX, u8* pY, u8* pZ, char_type block_type);
     EXPORT static bool __stdcall IsSearchBlockOfType_4E4AC0(char_type block_type);
     EXPORT bool CheckGreenArrowDirection_4E4B40(s32 direction, gmp_block_info* pBlock);
@@ -462,7 +462,7 @@ class Map_0x370
     EXPORT char_type GetSurfaceTypeBelowCoord_4E52A0(Fix16 x, Fix16 y, Fix16 z);
     EXPORT bool CheckZCollisionAtCoord_4E5300(Fix16 x, Fix16 y, Fix16 z, Fix16 second_z);
     EXPORT bool CanPlaceOilOrMine_4E5480(Fix16 x, Fix16 y, Fix16 z, Fix16 z_high, Fix16* found_z);
-    EXPORT char_type IsProbePathClear_4E5640(Fix16 width, Fix16 height, Fix16 depth, Fix16 from_x, Fix16 from_y, Fix16 from_z, Fix16 to_x, Fix16 to_y, Fix16 to_z);
+    EXPORT bool IsProbePathClear_4E5640(Fix16 width, Fix16 height, Fix16 depth, Fix16 from_x, Fix16 from_y, Fix16 from_z, Fix16 to_x, Fix16 to_y, Fix16 to_z);
     EXPORT Fix16 FindGroundZForCoord_4E5B60(Fix16 x_pos, Fix16 y_pos);
     EXPORT u8 UpdateZFromSlopeAtCoord_4E5BF0(Fix16 x_pos, Fix16 y_pos, Fix16& z_pos);
     EXPORT char_type HasGreenArrowForPathDirection_4E5E90(gmp_block_info* pBlock, s32 direction, char_type bDefault);
@@ -531,8 +531,8 @@ class Map_0x370
 
     EXPORT s32 AdvanceAlongRailway_4E6660(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist);
     EXPORT s32 AdvanceAlongRailwayChecked_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist);
-    EXPORT char_type FindFirstPavementCoord_4E7E90(u8* pX, char_type* pY);
-    EXPORT char_type CheckColumnHasSolidAbove_4E7FC0(Fix16 x, Fix16 y, Fix16 z);
+    EXPORT bool FindFirstPavementCoord_4E7E90(u8* pX, char_type* pY);
+    EXPORT bool CheckColumnHasSolidAbove_4E7FC0(Fix16 x, Fix16 y, Fix16 z);
     EXPORT s32 AddBlock_4E8140(gmp_block_info* pBlockInfo);
     EXPORT s32 CloneOriginalBlock_4E8180(u32 read_block_idx);
     EXPORT s32 CloneOriginalColumn_4E81D0(u32 column_idx);

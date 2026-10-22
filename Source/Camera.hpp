@@ -53,7 +53,7 @@ class Camera
     }
 
     EXPORT bool IsSpriteTheCameraSubject_4355D0(Sprite* pSprite);
-    EXPORT char_type IsSpriteInView_435630(Sprite* pSprite, s32 wide_view);
+    EXPORT bool IsSpriteInView_435630(Sprite* pSprite, s32 wide_view);
     EXPORT void SavePrevCamPos_4357B0();
     EXPORT void IncreaseElevation_4357F0();
     EXPORT void DecreaseElevation_435810();

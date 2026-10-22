@@ -1634,7 +1634,7 @@ inline bool Fix16_Rect::EdgesCrossSegment_463690(Fix16_Point& p1, Fix16_Point& p
 }
 
 MATCH_FUNC(0x4E11E0)
-char_type Map_0x370::RectHitsDiagonalWall_4E11E0(Fix16_Rect* pRect)
+bool Map_0x370::RectHitsDiagonalWall_4E11E0(Fix16_Rect* pRect)
 {
 
     // TODO: rect ?
@@ -2398,7 +2398,7 @@ bool Map_0x370::SlopeBordersFlatInSpriteGrid_4E4770(Fix16 z_pos)
 }
 
 MATCH_FUNC(0x4E4820)
-char_type Map_0x370::AllBlocksInRectHaveSlopeBits_4E4820(Fix16_Rect* pRect, u8 slope_bits)
+bool Map_0x370::AllBlocksInRectHaveSlopeBits_4E4820(Fix16_Rect* pRect, u8 slope_bits)
 {
     s32 left = Fix16::Round_To_Int_410BF0(pRect->get_left_45ADB0());
     s32 right = Fix16::Round_To_Int_410BF0(pRect->get_right_45ADA0());
@@ -2958,7 +2958,7 @@ static inline void __stdcall PolarToCartesianByVal(Ang16& angle, Fix16 radius, F
 // Walks the collision probe sprite from (x_1, y_1, z_1) towards (x_2, y_2, z_2) in steps of about `height`,
 // returning 0 as soon as it hits something (line of sight / clear path test).
 MATCH_FUNC(0x4E5640)
-char_type Map_0x370::IsProbePathClear_4E5640(Fix16 width, Fix16 height, Fix16 depth, Fix16 from_x, Fix16 from_y, Fix16 from_z, Fix16 to_x, Fix16 to_y, Fix16 to_z)
+bool Map_0x370::IsProbePathClear_4E5640(Fix16 width, Fix16 height, Fix16 depth, Fix16 from_x, Fix16 from_y, Fix16 from_z, Fix16 to_x, Fix16 to_y, Fix16 to_z)
 {
     Sprite* pProbe = gObject_5C_6F8F84->field_58_collision_probe_sprite;
     Fix16 total_dz = to_z - from_z;
@@ -4021,7 +4021,7 @@ s32 Map_0x370::AdvanceAlongRailwayChecked_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ
 }
 
 MATCH_FUNC(0x4E7E90)
-char_type Map_0x370::FindFirstPavementCoord_4E7E90(u8* pX, char_type* pY)
+bool Map_0x370::FindFirstPavementCoord_4E7E90(u8* pX, char_type* pY)
 {
     for (u8 x = 1; x < 255; x++)
     {
@@ -4040,7 +4040,7 @@ char_type Map_0x370::FindFirstPavementCoord_4E7E90(u8* pX, char_type* pY)
 }
 
 MATCH_FUNC(0x4E7FC0)
-char_type Map_0x370::CheckColumnHasSolidAbove_4E7FC0(Fix16 x, Fix16 y, Fix16 z)
+bool Map_0x370::CheckColumnHasSolidAbove_4E7FC0(Fix16 x, Fix16 y, Fix16 z)
 {
     gmp_compressed_map_32* pDMap = this->field_0_pDmap;
 

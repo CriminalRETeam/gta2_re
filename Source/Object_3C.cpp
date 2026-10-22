@@ -224,7 +224,7 @@ void SpriteList::DispatchCarImpactEvents_5A6BF0(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x5a6c10)
-char_type SpriteList::TagSpriteWithRng_5A6C10(Sprite* toFind)
+bool SpriteList::TagSpriteWithRng_5A6C10(Sprite* toFind)
 {
     if (field_0_p18 != NULL)
     {
@@ -332,7 +332,7 @@ void SpriteList::PushSprite_5A6D40(Sprite* pToFind)
 }
 
 MATCH_FUNC(0x5a6d80)
-char_type SpriteList::SpriteExists_5A6D80(Sprite* pToFind)
+bool SpriteList::SpriteExists_5A6D80(Sprite* pToFind)
 {
     AttachedSprite* pIter = this->field_0_p18;
     while (pIter)
@@ -719,7 +719,7 @@ void SpriteList::PropagateMaxZLayer_5A72B0(Sprite* pSprite, char_type bAlsoSetSp
 }
 
 MATCH_FUNC(0x5a7310)
-char_type SpriteList::AnySpriteHasSlopeTopInFootprint_5A7310()
+bool SpriteList::AnySpriteHasSlopeTopInFootprint_5A7310()
 {
     AttachedSprite* p18Iter;
     for (p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->mpNext)

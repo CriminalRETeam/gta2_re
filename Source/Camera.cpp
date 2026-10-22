@@ -121,7 +121,7 @@ bool Camera::IsSpriteTheCameraSubject_4355D0(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x435630)
-char_type Camera::IsSpriteInView_435630(Sprite* pSprite, s32 wide_view)
+bool Camera::IsSpriteInView_435630(Sprite* pSprite, s32 wide_view)
 {
     Fix16 half_width;
     half_width = field_98_cur_pos.field_8_z - pSprite->field_1C_zpos + kFpEight_676840;
