@@ -14,6 +14,7 @@
 #include <string.h>
 #include <time.h>
 #include "GameSession.hpp"
+#include "input_bits.hpp"
 
 #define ATTRACT_COUNT 3
 
@@ -312,10 +313,10 @@ void __stdcall InputDevices::input_devices_init_498C40(HINSTANCE hInstance)
 MATCH_FUNC(0x498C80)
 void InputDevices::AddKeyToInputBits_498C80(s32* pInputBits, DIDEVICEOBJECTDATA* device_data_keys)
 {
-    *pInputBits = (device_data_keys->dwOfs << 12) | *pInputBits;
+    *pInputBits = (device_data_keys->dwOfs << input_bit::KeyShift) | *pInputBits;
     if ((device_data_keys->dwData & 0x80) != 0)
     {
-        *pInputBits |= 0x200000;
+        *pInputBits |= input_bit::KeyDown;
     }
 }
 
@@ -645,9 +646,9 @@ bool InputRecorder_67F8B0::should_record_input_4CDDF0(s32 dinput_key)
 MATCH_FUNC(0x4cde20)
 void InputRecorder_67F8B0::save_replay_record_4CDE20(u32 inputs)
 {
-    if ((inputs & 0x1FF000) != 0)
+    if ((inputs & input_bit::KeyBits) != 0)
     {
-        if (should_ignore_input_4CDD80((inputs >> 12) & 0x1FF))
+        if (should_ignore_input_4CDD80((inputs >> input_bit::KeyShift) & input_bit::KeyMask))
         {
             inputs &= 0xFFC00FFF;
         }
@@ -868,18 +869,18 @@ void InputRecorder_67F8B0::input_init_replay_4CE740(HINSTANCE hInstance)
 
     this->field_0_bShutDown = 0;
     InputRecorder_67F8B0::GetNextAttrReplay_4CE6E0(FileName);
-    this->field_8_input_masks[0] = 1;
-    this->field_8_input_masks[1] = 2;
-    this->field_8_input_masks[2] = 4;
-    this->field_8_input_masks[3] = 8;
-    this->field_8_input_masks[4] = 0x10;
-    this->field_8_input_masks[5] = 0x20;
-    this->field_8_input_masks[6] = 0x40;
-    this->field_8_input_masks[7] = 0x80;
-    this->field_8_input_masks[8] = 0x100;
-    this->field_8_input_masks[9] = 0x200;
-    this->field_8_input_masks[10] = 0x400;
-    this->field_8_input_masks[11] = 0x800;
+    this->field_8_input_masks[0] = input_bit::Forward;
+    this->field_8_input_masks[1] = input_bit::Backward;
+    this->field_8_input_masks[2] = input_bit::Left;
+    this->field_8_input_masks[3] = input_bit::Right;
+    this->field_8_input_masks[4] = input_bit::Attack;
+    this->field_8_input_masks[5] = input_bit::EnterExit;
+    this->field_8_input_masks[6] = input_bit::HandbrakeJump;
+    this->field_8_input_masks[7] = input_bit::PrevWeapon;
+    this->field_8_input_masks[8] = input_bit::NextWeapon;
+    this->field_8_input_masks[9] = input_bit::Special1;
+    this->field_8_input_masks[10] = input_bit::Special2;
+    this->field_8_input_masks[11] = input_bit::Special3;
     this->field_4_input_bits = 0;
     this->field_38_replay_state = Attract_3;
     gInputDevices_67B990->input_devices_init_498C40(hInstance);
@@ -908,18 +909,18 @@ MATCH_FUNC(0x4ce880)
 void InputRecorder_67F8B0::input_init_live_4CE880(HINSTANCE hInstance)
 {
     field_0_bShutDown = 0;
-    field_8_input_masks[0] = 1;
-    field_8_input_masks[1] = 2;
-    field_8_input_masks[2] = 4;
-    field_8_input_masks[3] = 8;
-    field_8_input_masks[4] = 0x10;
-    field_8_input_masks[5] = 0x20;
-    field_8_input_masks[6] = 0x40;
-    field_8_input_masks[7] = 128;
-    field_8_input_masks[8] = 0x100;
-    field_8_input_masks[9] = 0x200;
-    field_8_input_masks[10] = 1024;
-    field_8_input_masks[11] = 0x800;
+    field_8_input_masks[0] = input_bit::Forward;
+    field_8_input_masks[1] = input_bit::Backward;
+    field_8_input_masks[2] = input_bit::Left;
+    field_8_input_masks[3] = input_bit::Right;
+    field_8_input_masks[4] = input_bit::Attack;
+    field_8_input_masks[5] = input_bit::EnterExit;
+    field_8_input_masks[6] = input_bit::HandbrakeJump;
+    field_8_input_masks[7] = input_bit::PrevWeapon;
+    field_8_input_masks[8] = input_bit::NextWeapon;
+    field_8_input_masks[9] = input_bit::Special1;
+    field_8_input_masks[10] = input_bit::Special2;
+    field_8_input_masks[11] = input_bit::Special3;
     field_4_input_bits = 0;
     field_38_replay_state = Live_0;
 
@@ -1018,7 +1019,7 @@ u32 InputRecorder_67F8B0::get_input_bits_4CEAC0()
 
     s32 replay_state = field_38_replay_state;
 
-    *control_status &= ~0x200000;
+    *control_status &= ~input_bit::KeyDown;
     u32 remove_bit = *control_status;
 
     switch (replay_state)
@@ -1059,7 +1060,7 @@ u32 InputRecorder_67F8B0::get_input_bits_4CEAC0()
             {
                 saved_input = *control_status;
                 // saved_input equals *control_status here; the original tests both (je/jne pair in the asm)
-                if ((saved_input & 0x1FF000) == 0 || (*control_status & 0x1FF000) == 0)
+                if ((saved_input & input_bit::KeyBits) == 0 || (*control_status & input_bit::KeyBits) == 0)
                 {
                     *control_status = 0;
                     gInputDevices_67B990->read_input_device_498DA0((s32*)control_status, 0);
@@ -1093,7 +1094,7 @@ u32 InputRecorder_67F8B0::get_input_bits_4CEAC0()
             {
                 saved_input = *control_status;
                 // Same double test as above
-                if ((saved_input & 0x1FF000) == 0 || (*control_status & 0x1FF000) == 0)
+                if ((saved_input & input_bit::KeyBits) == 0 || (*control_status & input_bit::KeyBits) == 0)
                 {
                     *control_status = 0;
                     gInputDevices_67B990->read_input_device_498DA0((s32*)control_status, 0);
@@ -1118,7 +1119,7 @@ u32 InputRecorder_67F8B0::get_input_bits_4CEAC0()
                 else
                 {
                     gInputDevices_67B990->read_input_device_498DA0((s32*)control_status, 0);
-                    if (InputRecorder_67F8B0::should_record_input_4CDDF0(((u32)*control_status >> 12) & 0x1FF))
+                    if (InputRecorder_67F8B0::should_record_input_4CDDF0(((u32)*control_status >> input_bit::KeyShift) & input_bit::KeyMask))
                     {
                         *control_status = remove_bit;
                     }
@@ -1195,7 +1196,7 @@ void InputRecorder_67F8B0::save_replay_inputs_4CED00(s32 input_old, s32 input_ne
         {
             calc_inputs |= 0x800;
         }
-        if ((input_old & 0x1FF000) != 0)
+        if ((input_old & input_bit::KeyBits) != 0)
         {
             calc_inputs |= field_4_input_bits & 0xFFFFF000;
         }

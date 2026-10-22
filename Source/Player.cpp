@@ -2,6 +2,7 @@
 #include "hud_message_priority.hpp"
 #include "voice_line.hpp"
 #include "InputRecorder_67F8B0.hpp"
+#include "input_bits.hpp"
 #include "CarPhysics.hpp"
 #include "Car.hpp"
 #include "RouteFinder.hpp"
@@ -1262,67 +1263,67 @@ void Player::CharacterControls_566520()
 {
     int input = this->field_4_inputs;
 
-    // up arrow 0x1
-    bool forwardGas = (input & 1) == 1;
+    // up arrow
+    bool forwardGas = (input & input_bit::Forward) == input_bit::Forward;
     bool same = (forwardGas == this->field_78_now_forward_pressed);
     this->field_8B_forward_changed = !same;
     this->field_78_now_forward_pressed = forwardGas;
 
-    // down arrow 0x2
-    bool footBrake = (input & 2) == 2;
+    // down arrow
+    bool footBrake = (input & input_bit::Backward) == input_bit::Backward;
     same = (footBrake == this->field_79_now_down_pressed);
     this->field_8C_down_changed = !same;
     this->field_79_now_down_pressed = footBrake;
 
-    // left arrow 0x4
-    // right arrow 0x8
-    this->field_7A_now_left_pressed = (input & 4) == 4;
-    this->field_7B_now_right_pressed = (input & 8) == 8;
+    // left arrow
+    // right arrow
+    this->field_7A_now_left_pressed = (input & input_bit::Left) == input_bit::Left;
+    this->field_7B_now_right_pressed = (input & input_bit::Right) == input_bit::Right;
 
-    // ctrl 0x10 (attack)
-    const bool ctrl10 = (input & 0x10) == 0x10;
+    // ctrl (attack)
+    const bool ctrl10 = (input & input_bit::Attack) == input_bit::Attack;
     same = (ctrl10 == this->field_7C_now_attack_pressed);
     this->field_8D_attack_changed = !same;
     this->field_7C_now_attack_pressed = ctrl10;
 
-    // space 0x40 (handbrake, jump)
+    // space (handbrake, jump)
     const bool prevHandBrake = this->field_7E_now_hand_brake_or_jump_pressed;
-    const bool handBrake = (input & 0x40) == 0x40;
+    const bool handBrake = (input & input_bit::HandbrakeJump) == input_bit::HandbrakeJump;
     this->field_7E_now_hand_brake_or_jump_pressed = handBrake;
     this->field_8A_hand_brake_or_jump_changed = (handBrake != prevHandBrake);
 
-    // enter 0x20 (enter/exit car)
+    // enter (enter/exit car)
     const bool prev20 = this->field_7D_now_enter_exit_pressed;
-    const bool ctrl20 = (input & 0x20) == 0x20;
+    const bool ctrl20 = (input & input_bit::EnterExit) == input_bit::EnterExit;
     this->field_7D_now_enter_exit_pressed = ctrl20;
     this->field_89_enter_exit_changed = (ctrl20 != prev20);
 
-    // y 0x80 (prev weapon)
+    // y (prev weapon)
     const bool prev80 = this->field_7F_now_prev_weapon_pressed;
-    const bool ctrl80 = (input & 0x80) == 0x80;
+    const bool ctrl80 = (input & input_bit::PrevWeapon) == input_bit::PrevWeapon;
     this->field_7F_now_prev_weapon_pressed = ctrl80;
     this->field_88_prev_weapon_changed = (ctrl80 != prev80);
 
-    // x 0x100 (next weapon)
+    // x (next weapon)
     const bool prev100 = this->field_80_now_next_weapon_pressed;
-    this->field_80_now_next_weapon_pressed = (input & 0x100) == 0x100;
+    this->field_80_now_next_weapon_pressed = (input & input_bit::NextWeapon) == input_bit::NextWeapon;
     this->field_87_next_weapon_changed = (field_80_now_next_weapon_pressed != prev100);
 
-    // tab 0x200  (hold for turret movement, horn, siren, burp, fart on press)
+    // tab (hold for turret movement, horn, siren, burp, fart on press)
     const bool prev200 = this->field_81_now_special_1_pressed;
-    bool ctrl200 = (input & 0x200) == 0x200;
+    bool ctrl200 = (input & input_bit::Special1) == input_bit::Special1;
     this->field_81_now_special_1_pressed = ctrl200;
     this->field_84_special_1_changed = (ctrl200 != prev200);
 
-    // alt 0x400 (special2, hold for camera pan)
-    const bool ctrl400 = (input & 0x400) == 0x400;
+    // alt (special2, hold for camera pan)
+    const bool ctrl400 = (input & input_bit::Special2) == input_bit::Special2;
     same = (ctrl400 == this->field_82_now_special_2_pressed);
     this->field_85_special_2_changed = !same;
     this->field_82_now_special_2_pressed = ctrl400;
 
-    // right shift 0x800 (special 3??)
+    // right shift (special 3??)
     const bool prev800 = this->field_83_now_special_3_pressed;
-    bool ctrl800 = (input & 0x800) == 0x800;
+    bool ctrl800 = (input & input_bit::Special3) == input_bit::Special3;
     this->field_83_now_special_3_pressed = ctrl800;
     this->field_86_special_3_changed = (ctrl800 != prev800);
 }
@@ -1334,10 +1335,10 @@ void Player::ControlInputs_566820()
 
     if (field_4_inputs)
     {
-        const u16 dxKey = (field_4_inputs >> 12) & 0x1FF;
+        const u16 dxKey = (field_4_inputs >> input_bit::KeyShift) & input_bit::KeyMask;
         if (dxKey != 0)
         {
-            if ((field_4_inputs & 0x200000) != 0)
+            if ((field_4_inputs & input_bit::KeyDown) != 0)
             {
                 Hud_Controls_565890(dxKey);
             }
