@@ -6850,9 +6850,10 @@ void __stdcall ResetCharStatics_553F90()
     gB4_id_6FDB4C = 0;
 }
 
+MATCH_FUNC(0x551CA0)
 EXPORT void Char::nullsub_28()
 {
-    NOT_IMPLEMENTED;
+    // State 6 deliberately does nothing in the original game.
 }
 
 //STUB_FUNC(0x5519f0)

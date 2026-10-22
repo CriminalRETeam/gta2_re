@@ -1,4 +1,5 @@
 #include "rng.hpp"
+#include "CarInfoTable.hpp"
 #include "Globals.hpp"
 #include "debug.hpp"
 #include "error.hpp"
@@ -9,6 +10,7 @@
 
 DEFINE_GLOBAL(rng*, gpRng_67AB34, 0x67AB34);
 DEFINE_GLOBAL(rng, gRng_6F6784, 0x6F6784);
+DEFINE_GLOBAL(PixelsToFix16Table, gPixelsToFix16_6F6850, 0x6F6850);
 
 EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 
@@ -37,6 +39,15 @@ void rng::ShowCycle_48B920()
 
     }
     gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 460, gDebugFont_706600, 1);
+}
+
+MATCH_FUNC(0x4F79F0)
+PixelsToFix16Table::PixelsToFix16Table()
+{
+    for (s32 i = 0; i < 256; i++)
+    {
+        list[i] = Fix16(i) / 64;
+    }
 }
 
 MATCH_FUNC(0x4F7A40)

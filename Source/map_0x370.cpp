@@ -28,7 +28,6 @@ DEFINE_GLOBAL(Map_0x370*, gMap_0x370_6F6268, 0x6F6268);
 DEFINE_GLOBAL(gmp_block_info*, gBlockInfo0_6F5EB0, 0x6F5EB0);
 DEFINE_GLOBAL(gmp_block_info, gBlockInfo1_6F5F40, 0x6F5F40);
 DEFINE_GLOBAL(gmp_block_info, gBlockInfo2_6F6028, 0x6F6028);
-DEFINE_GLOBAL_ARRAY(gmp_map_slope, gGmpSlopes_6F5BA8, 64, 0x6F5BA8);
 // Used by MapRenderer.cpp. Defined here, not there: with the definition in MapRenderer.cpp VC6 loads
 // them 32-bit where the original has a 16-bit mov (MapRenderer::DrawPartialBlockTop_4F5560 etc.).
 DEFINE_GLOBAL(u16, gBlockLeft_6F62F6, 0x6F62F6);
@@ -84,6 +83,75 @@ DEFINE_GLOBAL_INIT(Ang16, kAng180_6F603E, Ang16(720), 0x6F603E);
 
 Fix16 kFpOne_6F6110 = Fix16(1); // = 0x4000; // todo
 
+DEFINE_GLOBAL_ARRAY_INIT(gmp_map_slope,
+                         gGmpSlopes_6F5BA8,
+                         64,
+                         0x6F5BA8,
+                         gmp_map_slope(0, 0, 0, kFpZero_6F610C, kFpZero_6F610C) COMMA
+                         gmp_map_slope(1, 2, 1, kFpZero_6F610C, kFpHalf_6F5F18) COMMA
+                         gmp_map_slope(1, 2, 0, kFpHalf_6F5F18, kFpOne_6F6110) COMMA
+                         gmp_map_slope(2, 2, 1, kFpZero_6F610C, kFpHalf_6F5F18) COMMA
+                         gmp_map_slope(2, 2, 0, kFpHalf_6F5F18, kFpOne_6F6110) COMMA
+                         gmp_map_slope(3, 2, 1, kFpZero_6F610C, kFpHalf_6F5F18) COMMA
+                         gmp_map_slope(3, 2, 0, kFpHalf_6F5F18, kFpOne_6F6110) COMMA
+                         gmp_map_slope(4, 2, 1, kFpZero_6F610C, kFpHalf_6F5F18) COMMA
+                         gmp_map_slope(4, 2, 0, kFpHalf_6F5F18, kFpOne_6F6110) COMMA
+                         gmp_map_slope(1, 8, 7, kFpZero_6F610C, kFpOneEighth_6F6050) COMMA
+                         gmp_map_slope(1, 8, 6, kFpOneEighth_6F6050, kFpQuarter_6F6180) COMMA
+                         gmp_map_slope(1, 8, 5, kFpQuarter_6F6180, kFpThreeEighths_6F60A0) COMMA
+                         gmp_map_slope(1, 8, 4, kFpThreeEighths_6F60A0, kFpHalf_6F5F18) COMMA
+                         gmp_map_slope(1, 8, 3, kFpHalf_6F5F18, kFpFiveEighths_6F60B8) COMMA
+                         gmp_map_slope(1, 8, 2, kFpFiveEighths_6F60B8, kFpThreeQuarters_6F61D8) COMMA
+                         gmp_map_slope(1, 8, 1, kFpThreeQuarters_6F61D8, kFpSevenEighths_6F6218) COMMA
+                         gmp_map_slope(1, 8, 0, kFpSevenEighths_6F6218, kFpOne_6F6110) COMMA
+                         gmp_map_slope(2, 8, 7, kFpZero_6F610C, kFpOneEighth_6F6050) COMMA
+                         gmp_map_slope(2, 8, 6, kFpOneEighth_6F6050, kFpQuarter_6F6180) COMMA
+                         gmp_map_slope(2, 8, 5, kFpQuarter_6F6180, kFpThreeEighths_6F60A0) COMMA
+                         gmp_map_slope(2, 8, 4, kFpThreeEighths_6F60A0, kFpHalf_6F5F18) COMMA
+                         gmp_map_slope(2, 8, 3, kFpHalf_6F5F18, kFpFiveEighths_6F60B8) COMMA
+                         gmp_map_slope(2, 8, 2, kFpFiveEighths_6F60B8, kFpThreeQuarters_6F61D8) COMMA
+                         gmp_map_slope(2, 8, 1, kFpThreeQuarters_6F61D8, kFpSevenEighths_6F6218) COMMA
+                         gmp_map_slope(2, 8, 0, kFpSevenEighths_6F6218, kFpOne_6F6110) COMMA
+                         gmp_map_slope(3, 8, 7, kFpZero_6F610C, kFpOneEighth_6F6050) COMMA
+                         gmp_map_slope(3, 8, 6, kFpOneEighth_6F6050, kFpQuarter_6F6180) COMMA
+                         gmp_map_slope(3, 8, 5, kFpQuarter_6F6180, kFpThreeEighths_6F60A0) COMMA
+                         gmp_map_slope(3, 8, 4, kFpThreeEighths_6F60A0, kFpHalf_6F5F18) COMMA
+                         gmp_map_slope(3, 8, 3, kFpHalf_6F5F18, kFpFiveEighths_6F60B8) COMMA
+                         gmp_map_slope(3, 8, 2, kFpFiveEighths_6F60B8, kFpThreeQuarters_6F61D8) COMMA
+                         gmp_map_slope(3, 8, 1, kFpThreeQuarters_6F61D8, kFpSevenEighths_6F6218) COMMA
+                         gmp_map_slope(3, 8, 0, kFpSevenEighths_6F6218, kFpOne_6F6110) COMMA
+                         gmp_map_slope(4, 8, 7, kFpZero_6F610C, kFpOneEighth_6F6050) COMMA
+                         gmp_map_slope(4, 8, 6, kFpOneEighth_6F6050, kFpQuarter_6F6180) COMMA
+                         gmp_map_slope(4, 8, 5, kFpQuarter_6F6180, kFpThreeEighths_6F60A0) COMMA
+                         gmp_map_slope(4, 8, 4, kFpThreeEighths_6F60A0, kFpHalf_6F5F18) COMMA
+                         gmp_map_slope(4, 8, 3, kFpHalf_6F5F18, kFpFiveEighths_6F60B8) COMMA
+                         gmp_map_slope(4, 8, 2, kFpFiveEighths_6F60B8, kFpThreeQuarters_6F61D8) COMMA
+                         gmp_map_slope(4, 8, 1, kFpThreeQuarters_6F61D8, kFpSevenEighths_6F6218) COMMA
+                         gmp_map_slope(4, 8, 0, kFpSevenEighths_6F6218, kFpOne_6F6110) COMMA
+                         gmp_map_slope(1, 1, 0, kFpZero_6F610C, kFpOne_6F6110) COMMA
+                         gmp_map_slope(2, 1, 0, kFpZero_6F610C, kFpOne_6F6110) COMMA
+                         gmp_map_slope(3, 1, 0, kFpZero_6F610C, kFpOne_6F6110) COMMA
+                         gmp_map_slope(4, 1, 0, kFpZero_6F610C, kFpOne_6F6110) COMMA
+                         gmp_map_slope(0, 0, 0, kFpZero_6F610C, kFpZero_6F610C) COMMA
+                         gmp_map_slope(0, 0, 0, kFpZero_6F610C, kFpZero_6F610C) COMMA
+                         gmp_map_slope(0, 0, 0, kFpZero_6F610C, kFpZero_6F610C) COMMA
+                         gmp_map_slope(0, 0, 0, kFpZero_6F610C, kFpZero_6F610C) COMMA
+                         gmp_map_slope(0, 0, 0, kFpZero_6F610C, kFpZero_6F610C) COMMA
+                         gmp_map_slope(0, 0, 0, kFpZero_6F610C, kFpZero_6F610C) COMMA
+                         gmp_map_slope(0, 0, 0, kFpZero_6F610C, kFpZero_6F610C) COMMA
+                         gmp_map_slope(0, 0, 0, kFpZero_6F610C, kFpZero_6F610C) COMMA
+                         gmp_map_slope(0, 0, 0, kFpZero_6F610C, kFpZero_6F610C) COMMA
+                         gmp_map_slope(0, 0, 0, kFpZero_6F610C, kFpZero_6F610C) COMMA
+                         gmp_map_slope(0, 0, 0, kFpZero_6F610C, kFpZero_6F610C) COMMA
+                         gmp_map_slope(0, 0, 0, kFpZero_6F610C, kFpZero_6F610C) COMMA
+                         gmp_map_slope(0, 0, 0, kFpZero_6F610C, kFpZero_6F610C) COMMA
+                         gmp_map_slope(0, 0, 0, kFpZero_6F610C, kFpZero_6F610C) COMMA
+                         gmp_map_slope(0, 0, 0, kFpZero_6F610C, kFpZero_6F610C) COMMA
+                         gmp_map_slope(0, 0, 0, kFpZero_6F610C, kFpZero_6F610C) COMMA
+                         gmp_map_slope(0, 0, 0, kFpZero_6F610C, kFpZero_6F610C) COMMA
+                         gmp_map_slope(0, 0, 0, kFpZero_6F610C, kFpZero_6F610C) COMMA
+                         gmp_map_slope(0, 0, 0, kFpZero_6F610C, kFpZero_6F610C));
+
 static inline s32 clamp_z_from_column(s32 height, s32 offset, s32 z_pos)
 {
     if (z_pos >= height)
@@ -134,75 +202,6 @@ static inline bool has_bottom(gmp_block_info* pBlock)
 static inline bool has_top(gmp_block_info* pBlock)
 {
     return pBlock->field_4_top != 0;
-}
-
-void Init_gmp_slopes_array()
-{
-    gGmpSlopes_6F5BA8[0] = gmp_map_slope(0, 0, 0, kFpZero_6F610C, kFpZero_6F610C);
-    gGmpSlopes_6F5BA8[1] = gmp_map_slope(1, 2, 1, kFpZero_6F610C, kFpHalf_6F5F18);
-    gGmpSlopes_6F5BA8[2] = gmp_map_slope(1, 2, 0, kFpHalf_6F5F18, kFpOne_6F6110);
-    gGmpSlopes_6F5BA8[3] = gmp_map_slope(2, 2, 1, kFpZero_6F610C, kFpHalf_6F5F18);
-    gGmpSlopes_6F5BA8[4] = gmp_map_slope(2, 2, 0, kFpHalf_6F5F18, kFpOne_6F6110);
-    gGmpSlopes_6F5BA8[5] = gmp_map_slope(3, 2, 1, kFpZero_6F610C, kFpHalf_6F5F18);
-    gGmpSlopes_6F5BA8[6] = gmp_map_slope(3, 2, 0, kFpHalf_6F5F18, kFpOne_6F6110);
-    gGmpSlopes_6F5BA8[7] = gmp_map_slope(4, 2, 1, kFpZero_6F610C, kFpHalf_6F5F18);
-    gGmpSlopes_6F5BA8[8] = gmp_map_slope(4, 2, 0, kFpHalf_6F5F18, kFpOne_6F6110);
-    gGmpSlopes_6F5BA8[9] = gmp_map_slope(1, 8, 7, kFpZero_6F610C, kFpOneEighth_6F6050);
-    gGmpSlopes_6F5BA8[10] = gmp_map_slope(1, 8, 6, kFpOneEighth_6F6050, kFpQuarter_6F6180);
-    gGmpSlopes_6F5BA8[11] = gmp_map_slope(1, 8, 5, kFpQuarter_6F6180, kFpThreeEighths_6F60A0);
-    gGmpSlopes_6F5BA8[12] = gmp_map_slope(1, 8, 4, kFpThreeEighths_6F60A0, kFpHalf_6F5F18);
-    gGmpSlopes_6F5BA8[13] = gmp_map_slope(1, 8, 3, kFpHalf_6F5F18, kFpFiveEighths_6F60B8);
-    gGmpSlopes_6F5BA8[14] = gmp_map_slope(1, 8, 2, kFpFiveEighths_6F60B8, kFpThreeQuarters_6F61D8);
-    gGmpSlopes_6F5BA8[15] = gmp_map_slope(1, 8, 1, kFpThreeQuarters_6F61D8, kFpSevenEighths_6F6218);
-    gGmpSlopes_6F5BA8[16] = gmp_map_slope(1, 8, 0, kFpSevenEighths_6F6218, kFpOne_6F6110);
-    gGmpSlopes_6F5BA8[17] = gmp_map_slope(2, 8, 7, kFpZero_6F610C, kFpOneEighth_6F6050);
-    gGmpSlopes_6F5BA8[18] = gmp_map_slope(2, 8, 6, kFpOneEighth_6F6050, kFpQuarter_6F6180);
-    gGmpSlopes_6F5BA8[19] = gmp_map_slope(2, 8, 5, kFpQuarter_6F6180, kFpThreeEighths_6F60A0);
-    gGmpSlopes_6F5BA8[20] = gmp_map_slope(2, 8, 4, kFpThreeEighths_6F60A0, kFpHalf_6F5F18);
-    gGmpSlopes_6F5BA8[21] = gmp_map_slope(2, 8, 3, kFpHalf_6F5F18, kFpFiveEighths_6F60B8);
-    gGmpSlopes_6F5BA8[22] = gmp_map_slope(2, 8, 2, kFpFiveEighths_6F60B8, kFpThreeQuarters_6F61D8);
-    gGmpSlopes_6F5BA8[23] = gmp_map_slope(2, 8, 1, kFpThreeQuarters_6F61D8, kFpSevenEighths_6F6218);
-    gGmpSlopes_6F5BA8[24] = gmp_map_slope(2, 8, 0, kFpSevenEighths_6F6218, kFpOne_6F6110);
-    gGmpSlopes_6F5BA8[25] = gmp_map_slope(3, 8, 7, kFpZero_6F610C, kFpOneEighth_6F6050);
-    gGmpSlopes_6F5BA8[26] = gmp_map_slope(3, 8, 6, kFpOneEighth_6F6050, kFpQuarter_6F6180);
-    gGmpSlopes_6F5BA8[27] = gmp_map_slope(3, 8, 5, kFpQuarter_6F6180, kFpThreeEighths_6F60A0);
-    gGmpSlopes_6F5BA8[28] = gmp_map_slope(3, 8, 4, kFpThreeEighths_6F60A0, kFpHalf_6F5F18);
-    gGmpSlopes_6F5BA8[29] = gmp_map_slope(3, 8, 3, kFpHalf_6F5F18, kFpFiveEighths_6F60B8);
-    gGmpSlopes_6F5BA8[30] = gmp_map_slope(3, 8, 2, kFpFiveEighths_6F60B8, kFpThreeQuarters_6F61D8);
-    gGmpSlopes_6F5BA8[31] = gmp_map_slope(3, 8, 1, kFpThreeQuarters_6F61D8, kFpSevenEighths_6F6218);
-    gGmpSlopes_6F5BA8[32] = gmp_map_slope(3, 8, 0, kFpSevenEighths_6F6218, kFpOne_6F6110);
-    gGmpSlopes_6F5BA8[33] = gmp_map_slope(4, 8, 7, kFpZero_6F610C, kFpOneEighth_6F6050);
-    gGmpSlopes_6F5BA8[34] = gmp_map_slope(4, 8, 6, kFpOneEighth_6F6050, kFpQuarter_6F6180);
-    gGmpSlopes_6F5BA8[35] = gmp_map_slope(4, 8, 5, kFpQuarter_6F6180, kFpThreeEighths_6F60A0);
-    gGmpSlopes_6F5BA8[36] = gmp_map_slope(4, 8, 4, kFpThreeEighths_6F60A0, kFpHalf_6F5F18);
-    gGmpSlopes_6F5BA8[37] = gmp_map_slope(4, 8, 3, kFpHalf_6F5F18, kFpFiveEighths_6F60B8);
-    gGmpSlopes_6F5BA8[38] = gmp_map_slope(4, 8, 2, kFpFiveEighths_6F60B8, kFpThreeQuarters_6F61D8);
-    gGmpSlopes_6F5BA8[39] = gmp_map_slope(4, 8, 1, kFpThreeQuarters_6F61D8, kFpSevenEighths_6F6218);
-    gGmpSlopes_6F5BA8[40] = gmp_map_slope(4, 8, 0, kFpSevenEighths_6F6218, kFpOne_6F6110);
-    gGmpSlopes_6F5BA8[41] = gmp_map_slope(1, 1, 0, kFpZero_6F610C, kFpOne_6F6110);
-    gGmpSlopes_6F5BA8[42] = gmp_map_slope(2, 1, 0, kFpZero_6F610C, kFpOne_6F6110);
-    gGmpSlopes_6F5BA8[43] = gmp_map_slope(3, 1, 0, kFpZero_6F610C, kFpOne_6F6110);
-    gGmpSlopes_6F5BA8[44] = gmp_map_slope(4, 1, 0, kFpZero_6F610C, kFpOne_6F6110);
-    gGmpSlopes_6F5BA8[45] = gmp_map_slope(0, 0, 0, kFpZero_6F610C, kFpZero_6F610C);
-    gGmpSlopes_6F5BA8[46] = gmp_map_slope(0, 0, 0, kFpZero_6F610C, kFpZero_6F610C);
-    gGmpSlopes_6F5BA8[47] = gmp_map_slope(0, 0, 0, kFpZero_6F610C, kFpZero_6F610C);
-    gGmpSlopes_6F5BA8[48] = gmp_map_slope(0, 0, 0, kFpZero_6F610C, kFpZero_6F610C);
-    gGmpSlopes_6F5BA8[49] = gmp_map_slope(0, 0, 0, kFpZero_6F610C, kFpZero_6F610C);
-    gGmpSlopes_6F5BA8[50] = gmp_map_slope(0, 0, 0, kFpZero_6F610C, kFpZero_6F610C);
-    gGmpSlopes_6F5BA8[51] = gmp_map_slope(0, 0, 0, kFpZero_6F610C, kFpZero_6F610C);
-    gGmpSlopes_6F5BA8[52] = gmp_map_slope(0, 0, 0, kFpZero_6F610C, kFpZero_6F610C);
-    gGmpSlopes_6F5BA8[53] = gmp_map_slope(0, 0, 0, kFpZero_6F610C, kFpZero_6F610C);
-    gGmpSlopes_6F5BA8[54] = gmp_map_slope(0, 0, 0, kFpZero_6F610C, kFpZero_6F610C);
-    gGmpSlopes_6F5BA8[55] = gmp_map_slope(0, 0, 0, kFpZero_6F610C, kFpZero_6F610C);
-    gGmpSlopes_6F5BA8[56] = gmp_map_slope(0, 0, 0, kFpZero_6F610C, kFpZero_6F610C);
-    gGmpSlopes_6F5BA8[57] = gmp_map_slope(0, 0, 0, kFpZero_6F610C, kFpZero_6F610C);
-    gGmpSlopes_6F5BA8[58] = gmp_map_slope(0, 0, 0, kFpZero_6F610C, kFpZero_6F610C);
-    gGmpSlopes_6F5BA8[59] = gmp_map_slope(0, 0, 0, kFpZero_6F610C, kFpZero_6F610C);
-    gGmpSlopes_6F5BA8[60] = gmp_map_slope(0, 0, 0, kFpZero_6F610C, kFpZero_6F610C);
-    gGmpSlopes_6F5BA8[61] = gmp_map_slope(0, 0, 0, kFpZero_6F610C, kFpZero_6F610C);
-    gGmpSlopes_6F5BA8[62] = gmp_map_slope(0, 0, 0, kFpZero_6F610C, kFpZero_6F610C);
-    gGmpSlopes_6F5BA8[63] = gmp_map_slope(0, 0, 0, kFpZero_6F610C, kFpZero_6F610C);
-    printf("Map slopes info array initialized!\n");
 }
 
 MATCH_FUNC(0x452980)
@@ -3094,7 +3093,7 @@ char_type Map_0x370::IsProbePathClear_4E5640(Fix16 width, Fix16 height, Fix16 de
 }
 
 MATCH_FUNC(0x4E5B30)
-gmp_map_slope::gmp_map_slope(u8 gradient_direction, u8 gradient_size, u8 gradient_level, Fix16 zpos_lower, Fix16 zpos_higher)
+inline gmp_map_slope::gmp_map_slope(s32 gradient_direction, s32 gradient_size, s32 gradient_level, Fix16 zpos_lower, Fix16 zpos_higher)
 {
     field_0_gradient_direction = gradient_direction;
     field_1_gradient_size = gradient_size;

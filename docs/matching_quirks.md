@@ -3244,6 +3244,28 @@ unchained stores the store order is the statement order again, and the source ca
 y, shape per element). `Scripts/x87_sched/alias_log.py` builds a C2 variant that logs every alias test and
 location entry (`@A`/`@D` lines in `last.log` next to the `sched.sh` output).
 
+## Static initialisers (`$E` functions)
+
+The `.CRT$XCU` entries of 10.5 point at compiler-generated `$E` functions, which no marker can check. For a global
+with a dynamic initialiser the entry is `jmp $E1` and `$E1` does the work; for an object with a destructor it is
+`call $E1; jmp $E2`, `$E2` passing the destructor thunk to `atexit`. A global array with a constructor call per
+element (`DEFINE_GLOBAL_ARRAY_INIT`) or a global object with a constructor gives the same shapes, in definition
+order within the TU.
+
+- VC6 compiles the `$E` functions after the whole TU, so an `inline` constructor defined further down the .cpp is
+  still inlined into the array initialiser. The budget is the usual one (2 x the initialiser's front-end size): the
+  first elements are expanded and the rest call the out-of-line copy, which VC6 emits at the constructor's
+  definition, so a `MATCH_FUNC` there keeps working (`gmp_map_slope` 0x4E5B30, `CodeObjectTemplate_6C` 0x531860,
+  `MapObjectOverride_54` 0x532FB0).
+- The cut-off pins the constructor's size: `gmp_map_slope` takes `s32` arguments for its byte fields (size 90, 31
+  of 64 expanded as in 10.5), `u8` ones give 87 and one element too many.
+- Literal arguments need `const T&` for the reference parameters; a `-1` passed to an `s8` parameter is
+  `push 0xffffffff` at the out-of-line calls, `0xff` for a `u8` one.
+- Out-of-line `Fix16` operators in an initialiser call the operator's own COMDAT copy, not `Multiply_408680` or
+  `Negate_4086A0`: same bytes, different symbol.
+- Still open: `gMapObjectOverrides_6FC5F8`'s initialiser (0x5323B0) differs only in where six loads and stores
+  sit in the first two scheduling windows.
+
 ## Other retail builds
 
 Besides 10.5 and 9.6f, the 8.9 demo (Sept 1999), 9.6, 10.1 (Russian) and 10.5 Japan (Dec 1999) exist. They are

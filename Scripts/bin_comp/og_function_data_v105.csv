@@ -1527,6 +1527,7 @@ InputRecorder_67F8B0::StaticShutdown_4CDCD0,0x4cdcd0,0xcdcd0,0xa
 InputRecorder_67F8B0::clear_inputs_4CDCE0,0x4cdce0,0xcdce0,0x8
 InputRecorder_67F8B0::set_input_4CDCF0,0x4cdcf0,0xcdcf0,0x13
 InputRecorder_67F8B0::clear_input_4CDD10,0x4cdd10,0xcdd10,0x15
+InputRecorder_67F8B0::InputRecorder_67F8B0,0x4cdd30,0xcdd30,0x50
 InputRecorder_67F8B0::should_ignore_input_4CDD80,0x4cdd80,0xcdd80,0x67
 InputRecorder_67F8B0::should_record_input_4CDDF0,0x4cddf0,0xcddf0,0x23
 InputRecorder_67F8B0::save_replay_record_4CDE20,0x4cde20,0xcde20,0xaf
@@ -1809,6 +1810,7 @@ ComputeScanlineIntersectionX_4F77D0,0x4f77d0,0xf77d0,0x11f
 Ang16::GetAngleFace_4F78F0,0x4f78f0,0xf78f0,0x4a
 ReturnAngleFromRoadDirection_4F7940,0x4f7940,0xf7940,0x57
 SnapZTo16_4F79B0,0x4f79b0,0xf79b0,0x36
+PixelsToFix16Table::PixelsToFix16Table,0x4f79f0,0xf79f0,0x28
 rng::srand_4F7A40,0x4f7a40,0xf7a40,0x9
 rng::get_int_4F7AE0,0x4f7ae0,0xf7ae0,0x84
 rng::get_uint8_4F7B70,0x4f7b70,0xf7b70,0x82

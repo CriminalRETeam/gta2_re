@@ -11,46 +11,20 @@ class Sprite;
 class MapObjectOverride
 {
   public:
-    // Temporary ctor, otherwise it won't be possible to define gMapObjectOverrides_6FC5F8.
-    EXPORT MapObjectOverride()
-    {
-    }
     EXPORT MapObjectOverride(s32 definition_idx,
-                  s32& behavior_type,
+                  const s32& behavior_type,
                   s32 next_definition_idx,
                   s8 in_pool_list,
-                  s32& touch_behavior,
-                  s32& projectile_hit_type,
-                  s32& collision_bucket_category,
+                  const s32& touch_behavior,
+                  const s32& projectile_hit_type,
+                  const s32& collision_bucket_category,
                   Fix16 speed,
                   Fix16 friction,
                   s8 next_definition_timer,
-                  s32& param_11,
-                  s32& param_12,
+                  const s32& param_11,
+                  const s32& param_12,
                   s8 next_frame_max,
-                  s32& uses_3d_movement,
-                  Fix16 mass,
-                  s32 draw_layer,
-                  s32 sprite_flags,
-                  s32 has_sound,
-                  s8 has_shadows,
-                  s32 instance_limit_kind,
-                  s8 makes_collision_sound);
-
-    EXPORT MapObjectOverride(s32 definition_idx,
-                  s32 behavior_type,
-                  s32 next_definition_idx,
-                  s8 in_pool_list,
-                  s32 touch_behavior,
-                  s32 projectile_hit_type,
-                  s32 collision_bucket_category,
-                  Fix16 speed,
-                  Fix16 friction,
-                  s8 next_definition_timer,
-                  s32 param_11,
-                  s32 param_12,
-                  s8 next_frame_max,
-                  s32 uses_3d_movement,
+                  const s32& uses_3d_movement,
                   Fix16 mass,
                   s32 draw_layer,
                   s32 sprite_flags,
@@ -88,27 +62,23 @@ GTA2_ASSERT_SIZEOF_ALWAYS(MapObjectOverride, 0x54);
 class CodeObjectTemplate
 {
   public:
-    // Temporary ctor, otherwise it won't be possible to define gCodeObjectTemplates_6F9038.
-    EXPORT CodeObjectTemplate()
-    {
-    }
     EXPORT CodeObjectTemplate(u32 definition_idx,
                   u8 num_sprites,
-                  u32& behavior_type,
+                  const u32& behavior_type,
                   u32 param_4,
                   u32 next_definition_idx,
                   u8 in_pool_list,
-                  u32& touch_behavior,
-                  u32& projectile_hit_type,
-                  u32& collision_bucket_category,
+                  const u32& touch_behavior,
+                  const u32& projectile_hit_type,
+                  const u32& collision_bucket_category,
                   Fix16 speed,
                   Fix16 friction,
-                  u8 next_definition_timer,
-                  u32& param_13,
-                  u32& z_collision_response,
+                  s8 next_definition_timer,
+                  const u32& param_13,
+                  const u32& z_collision_response,
                   u32 sprite_type,
                   u32 next_frame_max,
-                  u32& uses_3d_movement,
+                  const u32& uses_3d_movement,
                   Fix16 mass,
                   Fix16 width,
                   Fix16 height,
@@ -116,37 +86,7 @@ class CodeObjectTemplate
                   u32 draw_layer,
                   u32 sprite_flags,
                   u8 destroyed_by_destructor,
-                  u32& instance_limit_kind,
-                  u32 uses_bullet_walls,
-                  u32 has_sound,
-                  u8 has_shadows,
-                  u8 makes_collision_sound);
-
-    EXPORT CodeObjectTemplate(u32 definition_idx,
-                  u8 num_sprites,
-                  u32 behavior_type,
-                  u32 param_4,
-                  u32 next_definition_idx,
-                  u8 in_pool_list,
-                  u32 touch_behavior,
-                  u32 projectile_hit_type,
-                  u32 collision_bucket_category,
-                  Fix16 speed,
-                  Fix16 friction,
-                  u8 next_definition_timer,
-                  u32 param_13,
-                  u32 z_collision_response,
-                  u32 sprite_type,
-                  u32 next_frame_max,
-                  u32 uses_3d_movement,
-                  Fix16 mass,
-                  Fix16 width,
-                  Fix16 height,
-                  Fix16 depth,
-                  u32 draw_layer,
-                  u32 sprite_flags,
-                  u8 destroyed_by_destructor,
-                  u32 instance_limit_kind,
+                  const u32& instance_limit_kind,
                   u32 uses_bullet_walls,
                   u32 has_sound,
                   u8 has_shadows,
@@ -333,6 +273,3 @@ EXTERN_GLOBAL(s32, gCodeObjectTemplates_length_623EF0);
 
 EXTERN_GLOBAL_ARRAY(MapObjectOverride, gMapObjectOverrides_6FC5F8, 24);
 EXTERN_GLOBAL_ARRAY(CodeObjectTemplate, gCodeObjectTemplates_6F9038, 126);
-
-EXPORT void InitMapObjectOverrides();
-EXPORT void InitCodeObjectTemplates();

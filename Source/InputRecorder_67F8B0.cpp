@@ -168,7 +168,6 @@ EXPORT BOOL CALLBACK DirectInputDeviceEnumCallBack_498910(LPCDIDEVICEINSTANCEA l
     return DIENUM_STOP;
 }
 
-// TODO: the debug strings are guesses, only code is compared
 MATCH_FUNC(0x4989C0)
 void InputDevices::set_game_pad_device_properties_4989C0()
 {
@@ -211,14 +210,14 @@ void InputDevices::set_game_pad_device_properties_4989C0()
         range.diph.dwObj = DIJOFS_X;
         if (FAILED(gGamePadDevice_67B6C0->SetProperty(DIPROP_RANGE, &range.diph)))
         {
-            OutputDebugStringA("Failed to set the x axis range\n");
+            OutputDebugStringA("SetProperty(RANGE, X-Axis) failed.\n");
             return;
         }
 
         range.diph.dwObj = DIJOFS_Y;
         if (FAILED(gGamePadDevice_67B6C0->SetProperty(DIPROP_RANGE, &range.diph)))
         {
-            OutputDebugStringA("Failed to set the y axis range\n");
+            OutputDebugStringA("SetProperty(RANGE, Y-Axis) failed.\n");
             return;
         }
 
@@ -229,14 +228,14 @@ void InputDevices::set_game_pad_device_properties_4989C0()
         prop.diph.dwObj = DIJOFS_X;
         if (FAILED(gGamePadDevice_67B6C0->SetProperty(DIPROP_DEADZONE, &prop.diph)))
         {
-            OutputDebugStringA("Failed to set the x axis dead zone\n");
+            OutputDebugStringA("SetProperty(DEADZONE, X-Axis) failed.\n");
             return;
         }
 
         prop.diph.dwObj = DIJOFS_Y;
         if (FAILED(gGamePadDevice_67B6C0->SetProperty(DIPROP_DEADZONE, &prop.diph)))
         {
-            OutputDebugStringA("Failed to set the y axis dead zone\n");
+            OutputDebugStringA("SetProperty(DEADZONE, Y-Axis) failed.\n");
             return;
         }
 
@@ -590,11 +589,11 @@ void InputDevices::read_input_device_498DA0(s32* input_bits, u8 bApplyKeyboardCo
                 {
                     if (gKeyboardDeviceData_67B610.dwData & 0x80)
                     {
-                        sprintf(gTmpBuffer_67C598, "%d: KEY OFF: %d", gpRng_67AB34->get_cur_rng_41CFE0(), gKeyboardDeviceData_67B610.dwOfs);
+                        sprintf(gTmpBuffer_67C598, "%d: KEY ON : %d", gpRng_67AB34->get_cur_rng_41CFE0(), gKeyboardDeviceData_67B610.dwOfs);
                     }
                     else
                     {
-                        sprintf(gTmpBuffer_67C598, "%d: KEY ON : %d", gpRng_67AB34->get_cur_rng_41CFE0(), gKeyboardDeviceData_67B610.dwOfs);
+                        sprintf(gTmpBuffer_67C598, "%d: KEY OFF: %d", gpRng_67AB34->get_cur_rng_41CFE0(), gKeyboardDeviceData_67B610.dwOfs);
                     }
                 }
             }
@@ -626,6 +625,21 @@ MATCH_FUNC(0x4cdd10)
 void InputRecorder_67F8B0::clear_input_4CDD10(s32 mask_idx)
 {
     field_4_input_bits &= ~field_8_input_masks[mask_idx];
+}
+
+MATCH_FUNC(0x4cdd30)
+InputRecorder_67F8B0::InputRecorder_67F8B0()
+{
+    field_0_bShutDown = false;
+    field_4_input_bits = 0;
+    field_75344_bInputEnabled = true;
+    field_38_replay_state = Disabled_2;
+    field_75345_attract_idx = 0;
+    memset(field_8_input_masks, 0, sizeof(field_8_input_masks));
+    memset(field_3C_rec_buff, 0, sizeof(field_3C_rec_buff));
+    field_7533C_used_recs_count = 205;
+    field_75340_rec_buf_idx = 205;
+    VerifyAttractFilesExist_4CE650();
 }
 
 MATCH_FUNC(0x4cdd80)
