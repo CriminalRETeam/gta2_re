@@ -204,7 +204,7 @@ struct NetPlay
     EXPORT void Set15_51ECD0(s32 pFunc, NetUi* pParam);
     EXPORT void NetworkTick_51ED00();
     EXPORT s32 SendPing_51EF60();
-    EXPORT char_type Receive_51F010(s32* pOutData, s32* pOutDataLen, unsigned long* recvId, unsigned long* senderId);
+    EXPORT bool Receive_51F010(s32* pOutData, s32* pOutDataLen, unsigned long* recvId, unsigned long* senderId);
     EXPORT void DispatchReceivedMessage_51F0D0(void* pPacket, s32 packetLen, s32 recvId, s32 bSendOrRecv);
     EXPORT void OnPlayerMessage_51F110(void* pPacket, s32 packetLen, s32 recvId, s32 sendFlag);
     EXPORT s32 DecodeReceivedPacket_51F210(s32 pPacket, u32 packetLen); // Also converts enums back

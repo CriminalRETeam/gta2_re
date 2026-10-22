@@ -18,13 +18,13 @@ class Registry
 
     EXPORT void Clear_Or_Delete_Sound_Setting_586BF0(const char_type* lpValueName, char_type bClear);
 
-    EXPORT char_type Open_Debug_Root_586C60(PHKEY phkResult);
+    EXPORT bool Open_Debug_Root_586C60(PHKEY phkResult);
 
-    EXPORT char_type Open_Options_Root_586CD0(PHKEY phkResult);
+    EXPORT bool Open_Options_Root_586CD0(PHKEY phkResult);
 
-    EXPORT char_type Open_Control_Root_586D40(PHKEY phkResult);
+    EXPORT bool Open_Control_Root_586D40(PHKEY phkResult);
 
-    EXPORT char_type Open_Screen_Root_586DB0(PHKEY phkResult);
+    EXPORT bool Open_Screen_Root_586DB0(PHKEY phkResult);
 
     EXPORT bool Debug_Setting_Exists_586E20(const char_type* lpValueName);
 
@@ -46,7 +46,7 @@ class Registry
 
     EXPORT s32 Get_Binary_Size_5873E0(HKEY hKey, const char_type* subKey);
 
-    EXPORT char_type CreateNetworkRoot_587420(PHKEY phkResult);
+    EXPORT bool CreateNetworkRoot_587420(PHKEY phkResult);
 
     EXPORT DWORD Get_Int_Setting_5874E0(HKEY hKey, const char_type* lpValueName);
 
@@ -60,7 +60,7 @@ class Registry
 
     EXPORT void Set_Network_Setting_587730(const char_type* lpValueName, BYTE Data);
 
-    EXPORT char_type Open_Player_Root_5877A0(PHKEY phkResult);
+    EXPORT bool Open_Player_Root_5877A0(PHKEY phkResult);
 
     EXPORT DWORD Get_Player_Setting_587810(const char_type* lpValueName);
 

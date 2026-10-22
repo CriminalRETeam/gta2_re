@@ -474,7 +474,7 @@ EXPORT void __stdcall HideCursor_5D94F0()
 
 // todo: move
 MATCH_FUNC(0x5D7BF0)
-EXPORT char_type Input_InitMouse_5D7BF0()
+EXPORT bool Input_InitMouse_5D7BF0()
 {
     // TODO: using the HR error checking macros doesn't match here, what did they do??
     if (!gpDInput_67B804 || gMouseDevice_706C60 || gpDInput_67B804->CreateDevice(GUID_SysMouse, &gMouseDevice_706C60, 0) ||
@@ -556,7 +556,7 @@ EXPORT void __stdcall ShowCursor_5D9660()
 // todo: move
 // __stdcall, not __cdecl: see GetLayout_4D6000 (the `push 0x316` goes before the rect loads)
 MATCH_FUNC(0x5D9510)
-EXPORT char_type __stdcall SetWindowedMode_5D9510()
+EXPORT bool __stdcall SetWindowedMode_5D9510()
 {
 
     if (!IsWindowedModeAvailable_5D92C0())

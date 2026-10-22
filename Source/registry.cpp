@@ -124,7 +124,7 @@ void Registry::Clear_Or_Delete_Sound_Setting_586BF0(const char_type* lpValueName
 }
 
 MATCH_FUNC(0x586C60)
-char_type Registry::Open_Debug_Root_586C60(PHKEY phkResult)
+bool Registry::Open_Debug_Root_586C60(PHKEY phkResult)
 {
     DWORD dwDisposition;
     if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SOFTWARE\\DMA Design Ltd\\GTA2\\Debug", 0, KEY_ALL_ACCESS, phkResult) != ERROR_SUCCESS)
@@ -147,7 +147,7 @@ char_type Registry::Open_Debug_Root_586C60(PHKEY phkResult)
 }
 
 MATCH_FUNC(0x586CD0)
-char_type Registry::Open_Options_Root_586CD0(PHKEY phkResult)
+bool Registry::Open_Options_Root_586CD0(PHKEY phkResult)
 {
     DWORD dwDisposition;
     if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SOFTWARE\\DMA Design Ltd\\GTA2\\Option", 0, KEY_ALL_ACCESS, phkResult) != ERROR_SUCCESS)
@@ -170,7 +170,7 @@ char_type Registry::Open_Options_Root_586CD0(PHKEY phkResult)
 }
 
 MATCH_FUNC(0x586D40)
-char_type Registry::Open_Control_Root_586D40(PHKEY phkResult)
+bool Registry::Open_Control_Root_586D40(PHKEY phkResult)
 {
     DWORD dwDisposition;
     if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SOFTWARE\\DMA Design Ltd\\GTA2\\Control", 0, KEY_ALL_ACCESS, phkResult) != ERROR_SUCCESS)
@@ -193,7 +193,7 @@ char_type Registry::Open_Control_Root_586D40(PHKEY phkResult)
 }
 
 MATCH_FUNC(0x586DB0)
-char_type Registry::Open_Screen_Root_586DB0(PHKEY phkResult)
+bool Registry::Open_Screen_Root_586DB0(PHKEY phkResult)
 {
     DWORD dwDisposition;
     if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SOFTWARE\\DMA Design Ltd\\GTA2\\Screen", 0, KEY_ALL_ACCESS, phkResult) != ERROR_SUCCESS)
@@ -441,7 +441,7 @@ s32 Registry::Get_Binary_Size_5873E0(HKEY hKey, const char_type* subKey)
 }
 
 MATCH_FUNC(0x587420)
-char_type Registry::CreateNetworkRoot_587420(PHKEY phkResult)
+bool Registry::CreateNetworkRoot_587420(PHKEY phkResult)
 {
     DWORD dwDisposition;
     char_type SubKey[260];
@@ -565,7 +565,7 @@ void Registry::Set_Network_Setting_587730(const char_type* lpValueName, BYTE Dat
 }
 
 MATCH_FUNC(0x5877A0)
-char_type Registry::Open_Player_Root_5877A0(PHKEY phkResult)
+bool Registry::Open_Player_Root_5877A0(PHKEY phkResult)
 {
     if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SOFTWARE\\DMA Design Ltd\\GTA2\\Player", 0, KEY_ALL_ACCESS, phkResult) != ERROR_SUCCESS)
     {

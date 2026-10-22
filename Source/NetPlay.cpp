@@ -899,7 +899,7 @@ s32 NetPlay::SendPing_51EF60()
 }
 
 MATCH_FUNC(0x51f010)
-char_type NetPlay::Receive_51F010(s32* pOutData, s32* pOutDataLen, unsigned long* recvId, unsigned long* senderId)
+bool NetPlay::Receive_51F010(s32* pOutData, s32* pOutDataLen, unsigned long* recvId, unsigned long* senderId)
 {
     unsigned long readLen = 0x1800;
     // The shared return 0 has to sit at the end of the loop body to get the original layout;

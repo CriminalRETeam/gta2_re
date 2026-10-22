@@ -117,7 +117,7 @@ void __cdecl FreeLoader::MessageBox_4AE170(UINT uType, LPCSTR lpCaption, LPCSTR 
 }
 
 MATCH_FUNC(0x4AE1F0)
-EXPORT char_type __stdcall FreeLoader::CheckCityInstalled_4AE1F0(u8 city_idx)
+EXPORT bool __stdcall FreeLoader::CheckCityInstalled_4AE1F0(u8 city_idx)
 {
     if (city_idx > FreeLoader::GetCityInstalled_4AE0F0())
     {
@@ -2874,7 +2874,7 @@ EXPORT int Frontend::DrawKeyHint_4B7E10(u8 str_id_idx, u16 text_xpos, u16 text_y
 }
 
 MATCH_FUNC(0x4B7FB0)
-char_type Frontend::AreAllStagesUnlocked_4B7FB0()
+bool Frontend::AreAllStagesUnlocked_4B7FB0()
 {
     PlySlot* pPlayerSlot = GetCurrPlayerStats_4B43E0();
     u16 main_stage_idx = 0;
@@ -3431,7 +3431,7 @@ void Frontend::FreeImageTable_4B6750()
 }
 
 MATCH_FUNC(0x4AFDD0)
-char_type Frontend::KeyBoard_GetKeyStates_4AFDD0()
+bool Frontend::KeyBoard_GetKeyStates_4AFDD0()
 {
     HRESULT hr = field_4_pKeyboardDevice->GetDeviceState(256, field_8_keys);
     if (FAILED(hr))
@@ -4358,7 +4358,7 @@ void Frontend::DrawSavedStage_4B5270()
 }
 
 MATCH_FUNC(0x4B5370)
-char_type Frontend::PlySlotSvgExists_4B5370(u8 idx)
+bool Frontend::PlySlotSvgExists_4B5370(u8 idx)
 {
     char_type FileName[256];
     GetPlySlotSvgName_4B51D0(idx, FileName);
