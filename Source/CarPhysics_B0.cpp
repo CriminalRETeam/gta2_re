@@ -285,7 +285,7 @@ void CarPhysics_B0::ShowPhysicsDebug_559430()
         gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 96, gDebugFont_706600, 1);
 
         // TODO: the format string at 0x623FFC is a guess
-        swprintf(tmpBuff_67BD9C, L"pointing ang = %3.3f", field_78_pointing_ang_rad.to_float_410BA0());
+        swprintf(tmpBuff_67BD9C, L"pointingangrad = %3.3f", field_78_pointing_ang_rad.to_float_410BA0());
         gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 112, gDebugFont_706600, 1);
 
         swprintf(tmpBuff_67BD9C, L"mass = %3.3f", CalculateMass_559FF0().to_float_410BA0());
@@ -341,7 +341,7 @@ void CarPhysics_B0::ShowSpeedRevsDamage_5597B0()
         gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 32, gDebugFont_706600, 1);
 
         // TODO: the format string at 0x6240FC is a guess
-        swprintf(tmpBuff_67BD9C, L"damage:%d", field_5C_pCar->field_74_damage * 100 / 32000);
+        swprintf(tmpBuff_67BD9C, L"damage:%d%%", field_5C_pCar->field_74_damage * 100 / 32000);
         gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 48, gDebugFont_706600, 1);
     }
 }

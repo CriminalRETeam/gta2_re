@@ -1498,10 +1498,10 @@ bool Frontend::pre_intro_bik_exists_4B6030()
 }
 
 // TODO: the contents of these strings aren't known, only their addresses
-DEFINE_GLOBAL_ARRAY_INIT(char_type, gBikDataDir_620454, 8, 0x620454, "data\\");
+DEFINE_GLOBAL_ARRAY_INIT(char_type, gBikDataDir_620454, 8, 0x620454, "Data\\");
 DEFINE_GLOBAL_ARRAY_INIT(char_type, gBikDriveDataDir_62045C, 4, 0x62045C, ":\\");
-DEFINE_GLOBAL_ARRAY_INIT(char_type, gIntroBikName_5FE76C, 16, 0x5FE76C, "movie\\intro.bik");
-DEFINE_GLOBAL_ARRAY_INIT(char_type, gPreIntroBikName_5FE77C, 20, 0x5FE77C, "movie\\preintro.bik");
+DEFINE_GLOBAL_ARRAY_INIT(char_type, gIntroBikName_5FE76C, 16, 0x5FE76C, "Movie\\intro.bik");
+DEFINE_GLOBAL_ARRAY_INIT(char_type, gPreIntroBikName_5FE77C, 20, 0x5FE77C, "Movie\\preintro.bik");
 DEFINE_GLOBAL_ARRAY(char_type, gIntroBikPath_67DA84, 256, 0x67DA84);
 DEFINE_GLOBAL_ARRAY(char_type, gPreIntroBikPath_67DB84, 256, 0x67DB84);
 
@@ -2812,51 +2812,50 @@ void Frontend::DrawBonusRating_4B7D60()
     }
 }
 
-// TODO: the text keys are guesses, only code is compared
 MATCH_FUNC(0x4B7E10)
 EXPORT int Frontend::sub_4B7E10(u8 str_id_idx, u16 text_xpos, u16 text_ypos, u16 fontType, s32 palette)
 {
     switch (str_id_idx)
     {
         case 0:
-            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("fekey0"));
+            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("esc_i"));
             break;
         case 1:
-            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("fekey1"));
+            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("del_i"));
             break;
         case 2:
-            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("fekey2"));
+            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("ent_i"));
             break;
         case 3:
-            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("fekey3"));
+            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("bspc_i"));
             break;
         case 4:
-            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("fekey4"));
+            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("up_i"));
             break;
         case 5:
-            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("fekey5"));
+            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("down_i"));
             break;
         case 6:
-            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("fekey6"));
+            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("left_i"));
             break;
         case 7:
-            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("fekey7"));
+            swprintf(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("right_i"));
             break;
         case 8:
-            swprintf(gTmpWideStr_67C7D8, gText_0x14_704DFC->Find_5B5F90("fekey8"));
-            swprintf(tmpBuff_67BD9C, L": %s", gTmpWideStr_67C7D8);
+            swprintf(gTmpWideStr_67C7D8, gText_0x14_704DFC->Find_5B5F90("edtnm_i"));
+            swprintf(tmpBuff_67BD9C, L";  %s", gTmpWideStr_67C7D8);
             break;
         case 9:
-            swprintf(gTmpWideStr_67C7D8, gText_0x14_704DFC->Find_5B5F90("fekey9"));
-            swprintf(tmpBuff_67BD9C, L": %s", gTmpWideStr_67C7D8);
+            swprintf(gTmpWideStr_67C7D8, gText_0x14_704DFC->Find_5B5F90("clrsl_i"));
+            swprintf(tmpBuff_67BD9C, L";  %s", gTmpWideStr_67C7D8);
             break;
         case 10:
-            swprintf(gTmpWideStr_67C7D8, gText_0x14_704DFC->Find_5B5F90("fekey10"));
-            swprintf(tmpBuff_67BD9C, L": %s", gTmpWideStr_67C7D8);
+            swprintf(gTmpWideStr_67C7D8, gText_0x14_704DFC->Find_5B5F90("delch_i"));
+            swprintf(tmpBuff_67BD9C, L";  %s", gTmpWideStr_67C7D8);
             break;
         case 11:
-            swprintf(gTmpWideStr_67C7D8, gText_0x14_704DFC->Find_5B5F90("fekey11"));
-            swprintf(tmpBuff_67BD9C, L": %s", gTmpWideStr_67C7D8);
+            swprintf(gTmpWideStr_67C7D8, gText_0x14_704DFC->Find_5B5F90("name_i"));
+            swprintf(tmpBuff_67BD9C, L";  %s", gTmpWideStr_67C7D8);
             break;
         default:
             FatalError_4A38C0(Gta2Error::InvalidCase, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 8148);

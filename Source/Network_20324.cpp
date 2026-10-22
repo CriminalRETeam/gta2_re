@@ -1327,7 +1327,7 @@ void __stdcall Network_20324::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s
             playerData.field_0_data = 0;
             playerData.field_4_len = 0;
             GetDlgItemTextA(hDlg, 1004, playerName, 259);
-            sprintf(sessionName, "%s's game", playerName);
+            sprintf(sessionName, "%s's Game", playerName);
             Network_20324::GetString_519A50(hostPlayerNameW, playerName, 260);
             Network_20324::GetString_519A50(textW, sessionName, 260);
             if (gNetPlay_7071E8.HostSession_51E7A0(textW, hostPlayerNameW, &groupData, &playerData))
@@ -1454,7 +1454,7 @@ void __stdcall Network_20324::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s
         case 1031:
             if (notify == 4)
             {
-                MessageBoxA(0, "Not implemented", "", 0);
+                MessageBoxA(0, "TB_THUMBPOSITION ", "", 0);
             }
             break;
 
@@ -1778,7 +1778,7 @@ LRESULT Network_20324::cb_AddChatMessage_51B2F0(Network_20324* pNetUi, Network_C
     wcstombs(message, pMsg->field_0_message, 260u);
     wcstombs(name, pMsg->field_100_name, 260u);
     // TODO: the format strings are guesses (right sizes, contents unverified)
-    sprintf(line, "%s: %s", name, message);
+    sprintf(line, "%s : %s", name, message);
 
     switch (pNetUi->Get_202D4_active_control_idx_51ACC0())
     {
@@ -1833,8 +1833,7 @@ s32 Network_20324::AppendChatMessage_51B4F0(s32 player_idx, const char_type* pMs
 
     // The original gets our name as a wide string but then formats with the (unset) narrow buffer
     gNetPlay_7071E8.GetPlayerName_521100(playerName, 7);
-    // TODO: the format string is a guess, only code is compared
-    sprintf(line, "%s: %s", name, pMsg);
+    sprintf(line, "%s : %s", name, pMsg);
     gChatLineCount_6F8A2C++;
 
     switch (field_202D4_showing_specific_window_idx)
@@ -1960,8 +1959,7 @@ void Network_20324::ApplyHostGameSettings_51B810(const char_type* pData)
             i++;
         }
 
-        // TODO: the format string is a guess (probably a "map not found" message), only code is compared
-        sprintf(msg, "%s", pSettings->field_20088_default_map);
+        sprintf(msg, "### ERROR ### \r\r\nDo Not Have Map %s", pSettings->field_20088_default_map);
         GetString_519A50(wmsg, msg, 260);
         gNetPlay_7071E8.SendChatMessage_521060(wmsg, -1);
         AppendChatMessage_51B4F0(1022, msg);

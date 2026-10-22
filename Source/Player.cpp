@@ -2992,20 +2992,19 @@ Player::~Player()
 	*/
 }
 
-// TODO: the brief strings are guesses, only code is compared
 MATCH_FUNC(0x5B2640)
 void UnknownDebugClass::DoTest_5B2640(u16 action)
 {
     switch (action)
     {
         case 3:
-            gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, "test1");
+            gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, "8011");
             break;
         case 4:
-            gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(3, "test2");
+            gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(3, "8012");
             break;
         case 5:
-            gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(3, "test3");
+            gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(3, "8013");
             break;
         case 6:
             gGame_0x40_67E008->field_38_local_player->ChangeMultipliers_4766B0(1);

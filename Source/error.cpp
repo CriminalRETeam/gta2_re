@@ -1451,7 +1451,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         case 1109:
         {
             const char_type* va_1 = va_arg(va, const char_type*);
-            sprintf(gTmpBuffer_67C598, "Line attempting to order driver out of car, but char_type isn't a driver!: %d", (int)va_1);
+            sprintf(gTmpBuffer_67C598, "Line attempting to order driver out of car, but char isn't a driver!: %d", (int)va_1);
             break;
         }
 
@@ -1500,7 +1500,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         case 1118:
         {
             const char_type* va_1 = va_arg(va, const char_type*);
-            sprintf(gTmpBuffer_67C598, "Attempted to pos32 arrow at a 'logical' item, not a physical item. Script line: %d", va_1);
+            sprintf(gTmpBuffer_67C598, "Attempted to point arrow at a 'logical' item, not a physical item. Script line: %d", va_1);
             break;
         }
 
@@ -1670,21 +1670,21 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         case 1145:
         {
             const char_type* va_1 = va_arg(va, const char_type*);
-            sprintf(gTmpBuffer_67C598, "Unable to find zone matching name in a 'is char_type in gangzone'. uid: %d", va_1);
+            sprintf(gTmpBuffer_67C598, "Unable to find zone matching name in a 'is char in gangzone'. uid: %d", va_1);
             break;
         }
 
         case 1146:
         {
             const char_type* va_1 = va_arg(va, const char_type*);
-            sprintf(gTmpBuffer_67C598, "Unable to find zone matching name in a 'is char_type in zone'. uid: %d", va_1);
+            sprintf(gTmpBuffer_67C598, "Unable to find zone matching name in a 'is char in zone'. uid: %d", va_1);
             break;
         }
 
         case 1147:
         {
             const char_type* va_1 = va_arg(va, const char_type*);
-            sprintf(gTmpBuffer_67C598, "Unable to find gang matching name in a 'add char_type to gang'. uid: %d", va_1);
+            sprintf(gTmpBuffer_67C598, "Unable to find gang matching name in a 'add char to gang'. uid: %d", va_1);
             break;
         }
 
