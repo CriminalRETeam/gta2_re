@@ -223,10 +223,10 @@ class Sprite
     EXPORT bool ShrinkSprite_59E390(Fix16 xoff, Fix16 yoff, s32 bShrinkCollisionShape);
     EXPORT void ApplyScaleToDimensions_59E4C0(Fix16 scale, s32 bScale_Field_C_4C);
     EXPORT bool CollisionCheck_59E590(Sprite* pOther);
-    EXPORT char_type CheckDirectionalSliceCollision_59E680(Fix16 sliceLen, Sprite* pSprite);
+    EXPORT bool CheckDirectionalSliceCollision_59E680(Fix16 sliceLen, Sprite* pSprite);
     EXPORT void InvalidateZColAndBBoxes_59E7B0();
     EXPORT Sprite* QuerySpriteCollision_59E7D0(s32 sprite_type);
-    EXPORT char_type IsThreatToSearchingPed_59E830();
+    EXPORT bool IsThreatToSearchingPed_59E830();
     EXPORT char_type ShouldCollideWithSprite_59E850(Sprite* pSprite);
     EXPORT void HandleObjectCollision_59E8C0(Sprite* pSprite);
     EXPORT void ProcessCarToCarImpactIfCar_59E910(Sprite* pSprite);
@@ -251,13 +251,13 @@ class Sprite
     EXPORT bool HitTestVerticalLine_5A0EF0(Fix16 x, Fix16 y1, Fix16 y2);
     EXPORT bool GetNearestVerticalEdgeToCoordinate_5A1030(Fix16 line_x, Fix16_Point& point, u8& nearest_corner_idx);
     EXPORT bool PointInsideRotatedBounds_5A1490(Fix16_Point& point1, Fix16_Point& point2);
-    EXPORT char_type IsStraddlingSlopeAndFlat_5A19C0();
+    EXPORT bool IsStraddlingSlopeAndFlat_5A19C0();
     EXPORT char CheckSlopeTopInFootprint_5A1A60();
     EXPORT void ResolveZOrder_5A1B30(Sprite* pOther);
     EXPORT char_type ComputeZLayer_5A1BD0();
     EXPORT char_type CheckCornerZCollisions_5A1CA0(u32* pCount);
     EXPORT bool IsTouchingSlopeBlock_5A1EB0();
-    EXPORT char_type CheckMapZCollision_5A21F0();
+    EXPORT bool CheckMapZCollision_5A21F0();
     EXPORT Fix16 MinDistanceToAnySpriteBBoxCorner_5A22B0(Sprite* pOther);
     EXPORT char_type CheckBulletWallCollision_5A2440();
     EXPORT char_type CheckSpriteMovementRegion_5A2500();

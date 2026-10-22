@@ -522,7 +522,7 @@ class Car
     EXPORT void SetDummyControl_43AA20();
     EXPORT void StartLightFlashing_43CAC0();
     EXPORT void Deactivate_43AA60();
-    EXPORT char_type IsThreatToSearchingPed_43AAE0();
+    EXPORT bool IsThreatToSearchingPed_43AAE0();
     EXPORT char_type CanCarCollideWithSprite_43AAF0(Sprite* pSprite);
     EXPORT void ProcessCarToCarImpact_43ADC0(Sprite* pSprite);
     EXPORT bool CanExitCar_43AF10();
@@ -538,8 +538,8 @@ class Car
     EXPORT void GetDoorWorldPos_43B420(u8 door_idx, Fix16* pOutX, Fix16* pOutY);
     EXPORT bool IsDoorOffsetLarge_43B540(u8 targetDoor);
     EXPORT void GetDoorWorldPosition_43B5A0(u8 targetDoor, Fix16* pOutX, Fix16* pOutY);
-    EXPORT char_type IsOnScreenForAnyPlayer_43B730();
-    EXPORT char_type IsVisibleToAnyPlayer_43B750();
+    EXPORT bool IsOnScreenForAnyPlayer_43B730();
+    EXPORT bool IsVisibleToAnyPlayer_43B750();
     EXPORT void AssignKillerToOccupants_43B770();
     EXPORT void AssignDriverBlameForExplosion_43B7B0(Car* pCar);
     EXPORT bool IsImmuneToExplosionType_43B850(s32 explosion_type);
@@ -1453,7 +1453,7 @@ struct TrafficSpawner
     EXPORT ~TrafficSpawner();
     EXPORT char IsInsideCameraEdge_582360(int direction, Fix16 x, Fix16 y);
     EXPORT void MakeTrafficForCurrCamera_5832C0();
-    EXPORT char_type SpawnTrafficCarFacing_583260(s32 angle_face);
+    EXPORT bool SpawnTrafficCarFacing_583260(s32 angle_face);
     EXPORT void GenerateTraffic_583670();
 
     // 9.6f 0x4B3230. A thiscall member: SpawnTrafficCar_582480 sets ecx = this before calling it

@@ -6291,7 +6291,7 @@ static inline Ang16 SubAng16(const Ang16& lhs, const Ang16& rhs)
 // (9.6f default-constructs three Ang16 at the top): the original's 4-byte slots for the mode 4 and 5
 // differences never share with the mode 1 and 3 temporaries, and the 2-byte Ang16 temps stay 2 bytes.
 MATCH_FUNC(0x4661F0)
-char_type Ped::IsThreatToSearchingPed_4661F0()
+bool Ped::IsThreatToSearchingPed_4661F0()
 {
     Ang16 a;
     Ang16 rel;

@@ -287,15 +287,15 @@ class sound_obj
     EXPORT void ProcessType9_Crusher_412A60(s32 idx);
     EXPORT void ProcessCar_412B80(Sound_Params* pType2Entity);
     EXPORT char_type Type6_412C90(CollisionEvent* pEvent, u8 base_sample);
-    EXPORT char_type SelectObjectImpactSound_1_10_412D30(CollisionEvent* pEvent);
+    EXPORT bool SelectObjectImpactSound_1_10_412D30(CollisionEvent* pEvent);
     EXPORT bool Type6_2_412D40(u8 roll);
     EXPORT void Type6_Play_412D90(s32 model);
-    EXPORT char_type Type6_3_413000(CollisionEvent* pEvent);
+    EXPORT bool Type6_3_413000(CollisionEvent* pEvent);
     EXPORT bool Type6_4_413040(u8 roll);
     EXPORT bool Type6_5_413090(u8 roll);
-    EXPORT char_type Type6_7_4130E0(CollisionEvent* pEvent);
+    EXPORT bool Type6_7_4130E0(CollisionEvent* pEvent);
     EXPORT bool SelectObjectImpactSound_413120(CollisionEvent* pEvent, s32 interactionType);
-    EXPORT char_type Type6_9_413540(CollisionEvent* pEvent);
+    EXPORT bool Type6_9_413540(CollisionEvent* pEvent);
     EXPORT bool Type6_12_4136D0(CollisionEvent* pEvent);
     EXPORT void ProcessType6_CollisionSoundQueue_413760(s32 idx);
     EXPORT char_type Type6_413A10(CollisionEvent* pEvent);
@@ -355,7 +355,7 @@ class sound_obj
     EXPORT s32 AddSoundObject_419FA0(SoundObject* pTuring);
 
     EXPORT void FreeSoundEntry_41A090(u32 idx);
-    EXPORT char_type LoadStyle_41A1B0(const char_type* pStyleName);
+    EXPORT bool LoadStyle_41A1B0(const char_type* pStyleName);
     EXPORT const char_type* GetFileName_41A1E0(const char_type* Str);
     EXPORT void SetSfxVol_41A250(u8 sfxVol);
     EXPORT void SetCDVol_41A270(u8 cdVol);

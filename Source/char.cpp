@@ -6386,7 +6386,7 @@ bool Char::IsNearTileCentre_5532C0()
 }
 
 MATCH_FUNC(0x553330)
-char_type Char::IsThreatToSearchingPed_553330()
+bool Char::IsThreatToSearchingPed_553330()
 {
     return field_7C_pPed->IsThreatToSearchingPed_4661F0();
 }
@@ -6546,7 +6546,7 @@ char_type Char::OnObjectTouched_553640(Object* p2c)
 }
 
 MATCH_FUNC(0x5537F0)
-char_type Char::HandlePedObjectHit_5537F0(Object* p2c)
+bool Char::HandlePedObjectHit_5537F0(Object* p2c)
 {
     const u8 idx = p2c->get_field_26_420FF0();
     const s32 pedId = gPedRefTable_7F8_703398->GetPedId_420F10(idx);

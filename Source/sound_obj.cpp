@@ -634,7 +634,7 @@ char_type sound_obj::Type6_412C90(CollisionEvent* pEvent, u8 base_sample)
 }
 
 MATCH_FUNC(0x412D30)
-char_type sound_obj::SelectObjectImpactSound_1_10_412D30(CollisionEvent* pObj)
+bool sound_obj::SelectObjectImpactSound_1_10_412D30(CollisionEvent* pObj)
 {
     return SelectObjectImpactSound_413120(pObj, 1);
 }
@@ -795,7 +795,7 @@ void sound_obj::Type6_Play_412D90(s32 model)
 }
 
 MATCH_FUNC(0x413000)
-char_type sound_obj::Type6_3_413000(CollisionEvent* pObj)
+bool sound_obj::Type6_3_413000(CollisionEvent* pObj)
 {
     if ((pObj->field_18_object_model < 200 || pObj->field_18_object_model > 244) &&
         (pObj->field_18_object_model < 64 || pObj->field_18_object_model > 108))
@@ -857,7 +857,7 @@ bool sound_obj::Type6_5_413090(u8 roll)
 }
 
 MATCH_FUNC(0x4130E0)
-char_type sound_obj::Type6_7_4130E0(CollisionEvent* pEvent)
+bool sound_obj::Type6_7_4130E0(CollisionEvent* pEvent)
 {
     if ((pEvent->field_18_object_model < 200 || pEvent->field_18_object_model > 244) && (pEvent->field_18_object_model < 64 || pEvent->field_18_object_model > 108))
     {
@@ -1073,7 +1073,7 @@ rate_20000:
 }
 
 MATCH_FUNC(0x413540)
-char_type sound_obj::Type6_9_413540(CollisionEvent* pEvent)
+bool sound_obj::Type6_9_413540(CollisionEvent* pEvent)
 {
     switch (pEvent->field_1C_other_object_model)
     {
@@ -3705,7 +3705,7 @@ void sound_obj::FreeSoundEntry_41A090(u32 idx)
 }
 
 MATCH_FUNC(0x41A1B0)
-char_type sound_obj::LoadStyle_41A1B0(const char_type* pStyleName)
+bool sound_obj::LoadStyle_41A1B0(const char_type* pStyleName)
 {
     if (field_0_bSoundInitialized)
     {

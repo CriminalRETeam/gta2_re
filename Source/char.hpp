@@ -388,11 +388,11 @@ class Char
     EXPORT void state_9_552E90();
 
     EXPORT bool IsNearTileCentre_5532C0();
-    EXPORT char_type IsThreatToSearchingPed_553330();
+    EXPORT bool IsThreatToSearchingPed_553330();
     EXPORT bool ShouldCollideWithSprite_553340(Sprite* pSprite);
     EXPORT bool PhoneTouched_5535B0(Object* p2c);
     EXPORT char_type OnObjectTouched_553640(Object* p2c);
-    EXPORT char_type HandlePedObjectHit_5537F0(Object* p2c);
+    EXPORT bool HandlePedObjectHit_5537F0(Object* p2c);
     EXPORT void HandleCarImpact_5538A0(Car* pCar, u8 bUnknown, Fix16 x, Fix16 y);
     EXPORT void HandleGenericImpact_553E00(Ang16 ang, Fix16 impact_x, Fix16 impact_z, char_type impact_type);
 

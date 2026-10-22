@@ -714,7 +714,7 @@ bool Sprite::CollisionCheck_59E590(Sprite* pOther)
 
 // 9.6f 0x4BDF20
 MATCH_FUNC(0x59E680)
-char_type Sprite::CheckDirectionalSliceCollision_59E680(Fix16 sliceLen, Sprite* pSprite)
+bool Sprite::CheckDirectionalSliceCollision_59E680(Fix16 sliceLen, Sprite* pSprite)
 {
     Fix16_Point point;
     point.FromPolar_41E210(-sliceLen / 2, pSprite->field_0_rotation);
@@ -776,7 +776,7 @@ Sprite* Sprite::QuerySpriteCollision_59E7D0(s32 sprite_type)
 // 9.6f inline
 
 MATCH_FUNC(0x59E830)
-char_type Sprite::IsThreatToSearchingPed_59E830()
+bool Sprite::IsThreatToSearchingPed_59E830()
 {
     switch (this->field_30_sprite_type_enum)
     {
@@ -1877,7 +1877,7 @@ bool Sprite::PointInsideRotatedBounds_5A1490(Fix16_Point& point1, Fix16_Point& p
 }
 
 MATCH_FUNC(0x5a19c0)
-char_type Sprite::IsStraddlingSlopeAndFlat_5A19C0()
+bool Sprite::IsStraddlingSlopeAndFlat_5A19C0()
 {
     EnsureVisualShape_59F990();
 
@@ -2041,7 +2041,7 @@ bool Sprite::IsTouchingSlopeBlock_5A1EB0()
 }
 
 MATCH_FUNC(0x5A21F0)
-char_type Sprite::CheckMapZCollision_5A21F0()
+bool Sprite::CheckMapZCollision_5A21F0()
 {
     Fix16 half = this->field_C_pCollisionShape->field_8_depth / 2; // which union type ??
     Fix16 zLow = field_1C_zpos - half;

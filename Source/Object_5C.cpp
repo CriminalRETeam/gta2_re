@@ -2617,7 +2617,7 @@ bool Object::HandleObjectHitIfExplosive_528960(Object* pOther)
 }
 
 MATCH_FUNC(0x528990)
-char_type Object::HandleObjectHit_528990(Sprite* pSprite)
+bool Object::HandleObjectHit_528990(Sprite* pSprite)
 {
     Char* cB4 = pSprite->AsCharB4_40FEA0();
     if (cB4)

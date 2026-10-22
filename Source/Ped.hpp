@@ -246,7 +246,7 @@ class Ped
     EXPORT bool IsPedAThreat_465D00(Ped* pTargetPed);
     inline bool IsPedAThreat_Inline_465D00(Ped* pTargetPed);
     EXPORT bool IsInvisibleOnFoot_466B70();
-    EXPORT char_type IsThreatToSearchingPed_4661F0();
+    EXPORT bool IsThreatToSearchingPed_4661F0();
     EXPORT Ped* FindBestTargetPed_Mode1_466B90(s32 max_x_check);
     EXPORT Ped* FindBestTargetPed_Mode4_466BB0(s32 max_x_check);
     EXPORT Ped* FindBestTargetPed_Mode5_466BD0(s32 max_x_check);

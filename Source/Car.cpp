@@ -2344,7 +2344,7 @@ void Car::Deactivate_43AA60()
 }
 
 MATCH_FUNC(0x43AAE0)
-char_type Car::IsThreatToSearchingPed_43AAE0()
+bool Car::IsThreatToSearchingPed_43AAE0()
 {
     Ped* pDriver = this->field_54_driver;
     if (!pDriver)
@@ -2835,13 +2835,13 @@ void Car::GetDoorWorldPosition_43B5A0(u8 target_door, Fix16* pOutX, Fix16* pOutY
 }
 
 MATCH_FUNC(0x43b730)
-char_type Car::IsOnScreenForAnyPlayer_43B730()
+bool Car::IsOnScreenForAnyPlayer_43B730()
 {
     return gGame_0x40_67E008->IsSpriteInAnyPlayerBounds_4B97E0(field_50_car_sprite, kFpFive_6778D0);
 }
 
 MATCH_FUNC(0x43b750)
-char_type Car::IsVisibleToAnyPlayer_43B750()
+bool Car::IsVisibleToAnyPlayer_43B750()
 {
     return gGame_0x40_67E008->IsSpriteInBoundsOrFollowedByAnyPlayer_4B9830(field_50_car_sprite, kFpFive_6778D0);
 }
@@ -7299,7 +7299,7 @@ void TrafficSpawner::MakeTrafficForCurrCamera_5832C0()
 }
 
 MATCH_FUNC(0x583260)
-char_type TrafficSpawner::SpawnTrafficCarFacing_583260(s32 angle_face)
+bool TrafficSpawner::SpawnTrafficCarFacing_583260(s32 angle_face)
 {
     switch (angle_face)
     {
