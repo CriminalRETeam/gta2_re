@@ -1976,7 +1976,7 @@ void Object::TriggerCarExplosionIfApplicable_526790(Sprite* pSprite)
                 Car* pCar = pSprite->AsCar_40FEB0();
                 if (pCar)
                 {
-                    if (this->field_18_model == objects::moving_collect_36_132)
+                    if (this->field_18_model == objects::car_bomb_132)
                     {
 
                         s32 id = gPedRefTable_7F8_703398->GetPedId_420F10(get_field_26_420FF0());

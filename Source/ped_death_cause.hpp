@@ -17,7 +17,7 @@ enum
     projectile_default_9 = 9, // GetDeathCauseForObjectModel_48E780 fallback
     punched_10 = 10,
     bullet_11 = 11,       // machine gun / pistol bullet
-    bomb_12 = 12,         // car bomb (moving_collect_36_132)
+    bomb_12 = 12,         // car_bomb_132
     fire_13 = 13,         // fire_197
     fire_hit_14 = 14,     // fire_hitting_194
     grenade_15 = 15,      // objects 182, 183

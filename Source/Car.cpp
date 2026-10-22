@@ -4207,7 +4207,7 @@ s32 __stdcall GetDeathCauseForObjectModel_48E780(s32 model)
         {
             switch (model)
             {
-                case objects::moving_collect_36_132:
+                case objects::car_bomb_132:
                     return ped_death_cause::bomb_12;
                 case 182:
                 case objects::grenade_obj_183:
@@ -4756,7 +4756,7 @@ void Car::FireCarBomb_440F90(char_type instant_bomb)
     }
     else
     {
-        Object* pNew2C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::moving_collect_36_132,
+        Object* pNew2C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::car_bomb_132,
                                                                     gFix16_6777CC,
                                                                     gFix16_6777CC,
                                                                     gFix16_6777CC,
