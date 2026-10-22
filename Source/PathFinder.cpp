@@ -889,10 +889,10 @@ LABEL_61:
 
 // https://decomp.me/scratch/19LIh
 MATCH_FUNC(0x5552b0)
-bool PathFinder::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos, u8* ypos, u8* zpos, char_type maybe_timer)
+bool PathFinder::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos, u8* ypos, u8* zpos, char_type bAllowDuringPathCompute)
 {
     u8 j = 0;
-    if (field_38_bComputePathInProgress && !maybe_timer)
+    if (field_38_bComputePathInProgress && !bAllowDuringPathCompute)
     {
         return 0;
     }
@@ -1043,7 +1043,7 @@ bool PathFinder::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos,
                     if (!PathFinder::ProcessGridCell_5548C0())
                     {
                         ++field_16_start_cost;
-                        if (++j <= 6 || maybe_timer != 0)
+                        if (++j <= 6 || bAllowDuringPathCompute != 0)
                         {
                             if (!field_18_bSearching)
                             {

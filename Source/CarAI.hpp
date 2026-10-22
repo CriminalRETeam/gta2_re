@@ -43,7 +43,7 @@ class CarAI
     EXPORT void PlanTurnAtNextJunction_447710();
     EXPORT void DoShortcutsUsingJunctions_447970();
     inline void TurnAround_447970();
-    EXPORT bool GoToBlock_447CA0(u8 x, u8 y, u8 z, s32 maybe_direction);
+    EXPORT bool GoToBlock_447CA0(u8 x, u8 y, u8 z, s32 arrow_type);
     EXPORT char_type TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBlock);
     EXPORT bool IsClockwiseTurning_448270();
     EXPORT void BrakeForBlockedRoadAhead_4482C0();

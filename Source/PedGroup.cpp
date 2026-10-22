@@ -217,7 +217,7 @@ bool PedGroup::IsLeaderInCar_4C9210()
 }
 
 MATCH_FUNC(0x4c9220)
-bool PedGroup::IsLeaderEnteringCarOrUnknown5_4C9220()
+bool PedGroup::IsLeaderEnteringCarOrTrain_4C9220()
 {
     if (field_2C_ped_leader->GetPedState_403990() != ped_state1_enum::ped_entering_a_car)
     {

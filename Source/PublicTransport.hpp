@@ -107,7 +107,7 @@ class PublicTransport
     EXPORT void IncrementBusPassengerCount_579B10();
     EXPORT void KillAllPassengers_579B20();
     EXPORT Car** GetCarArrayFromLeadCar_579B40(Car* toFind);
-    EXPORT bool GetTrainSpeed_579B90(Car* pToFind, Fix16* pF16Unk);
+    EXPORT bool GetTrainSpeed_579B90(Car* pToFind, Fix16* pOutSpeed);
     EXPORT void BusesService_579CA0();
     EXPORT void PublicTransportService_57A7A0();
     EXPORT TrainStation* TrainStationForZone_57B4B0(gmp_map_zone* pZone);

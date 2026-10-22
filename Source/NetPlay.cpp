@@ -1438,9 +1438,8 @@ typedef void(__stdcall* T2)(void*, s32);
 typedef void(__stdcall* T3)(void*, s32, s32);
 
 MATCH_FUNC(0x520230)
-void NetPlay::InvokeCallback_520230(s32 idx, u32 pUnknown)
+void NetPlay::InvokeCallback_520230(s32 idx, u32 event_data)
 {
-    // TODO: Figure out what pUnknown is
     if (idx >= 1 && idx <= 10)
     {
         switch (idx)
@@ -1457,8 +1456,8 @@ void NetPlay::InvokeCallback_520230(s32 idx, u32 pUnknown)
                 {
                     ((T3)field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)(
                         field_4C_func_ptrs_and_params[idx].field_4_param_context,
-                        *(s32*)(pUnknown + 0x1C),
-                        pUnknown + 0x24);
+                        *(s32*)(event_data + 0x1C),
+                        event_data + 0x24);
                 }
                 break;
             case 3:
@@ -1470,7 +1469,7 @@ void NetPlay::InvokeCallback_520230(s32 idx, u32 pUnknown)
                 {
                     ((T2)field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)(
                         field_4C_func_ptrs_and_params[idx].field_4_param_context,
-                        pUnknown); // a wchar_t* string?
+                        event_data); // a wchar_t* string?
                 }
                 break;
             case 4:
@@ -1479,7 +1478,7 @@ void NetPlay::InvokeCallback_520230(s32 idx, u32 pUnknown)
                 {
                     ((T2)field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)(
                         field_4C_func_ptrs_and_params[idx].field_4_param_context,
-                        *(u32*)pUnknown); // s32* usually set to 2 ?
+                        *(u32*)event_data); // s32* usually set to 2 ?
                 }
                 break;
 

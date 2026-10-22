@@ -701,7 +701,7 @@ bool Object::TryStartSlide_5233A0(Fix16 value)
 }
 
 MATCH_FUNC(0x523440)
-void Object::HandleCollisionOutcome_523440(Fix16_Point point, char_type bUnknown1, char_type bUnknown2)
+void Object::HandleCollisionOutcome_523440(Fix16_Point point, char_type bHitFloorBelow, char_type bHitBlockAtZ)
 {
     if ((u8)field_4_sprite->IsOnWater_59E1D0())
     {
@@ -718,9 +718,9 @@ void Object::HandleCollisionOutcome_523440(Fix16_Point point, char_type bUnknown
                 field_4_sprite->set_z_lazy_420660(gCollisionTarget_679188.field_20_pHitSprite->field_1C_zpos);
             }
 
-            if (!bUnknown1 || gCollisionTarget_679188.field_0_type == collision_target_type::sprite_3)
+            if (!bHitFloorBelow || gCollisionTarget_679188.field_0_type == collision_target_type::sprite_3)
             {
-                if (bUnknown2 && gCollisionTarget_679188.field_0_type != collision_target_type::sprite_3)
+                if (bHitBlockAtZ && gCollisionTarget_679188.field_0_type != collision_target_type::sprite_3)
                 {
                     gCollisionTarget_679188.SetType5_482A80();
                 }
@@ -735,11 +735,11 @@ void Object::HandleCollisionOutcome_523440(Fix16_Point point, char_type bUnknown
 
         case 0:
         case 1:
-            if (bUnknown1)
+            if (bHitFloorBelow)
             {
                 gCollisionTarget_679188.SetType4_482A70();
             }
-            else if (bUnknown2)
+            else if (bHitBlockAtZ)
             {
                 gCollisionTarget_679188.SetType5_482A80();
             }

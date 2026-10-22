@@ -31,7 +31,7 @@ class PedGroup
     EXPORT char_type AreAllMembersOffScreen_4C9150();
     EXPORT void ResetMembersToFollowLeader_4C91B0();
     EXPORT bool IsLeaderInCar_4C9210();
-    EXPORT bool IsLeaderEnteringCarOrUnknown5_4C9220();
+    EXPORT bool IsLeaderEnteringCarOrTrain_4C9220();
     EXPORT void KillEntireGroup_4C9240();
     EXPORT void DisbandGroup_4C92A0();
     EXPORT void DestroyGroup_4C93A0();

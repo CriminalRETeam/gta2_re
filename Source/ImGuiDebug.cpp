@@ -180,7 +180,7 @@ bool InputU16(const char* label, u16* v, int step, int step_fast, ImGuiInputText
 EXTERN_GLOBAL(CrimeReportQueue*, gCrimeReportQueue_67A4B8);
 
 // crt_init_own_libname_21 or sub_4F7530
-void Init_Unk_Width_Height_F16_array()
+void Init_PixelsToFix16_table()
 {
     for (u32 i = 0; i < GTA2_COUNTOF(gPixelsToFix16_6F6850.list); i++)
     {
@@ -210,7 +210,7 @@ void EnableBoot2MapDebugOptions()
     InitCodeObjectTemplates();
     Init_gmp_slopes_array();
     Init_trigonometry_tables();
-    Init_Unk_Width_Height_F16_array();
+    Init_PixelsToFix16_table();
     Init_InputRecorder();
 
     bSkip_traffic_lights_67D4EC = true;

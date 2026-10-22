@@ -5591,7 +5591,7 @@ void Ped::Threat_Reaction_AI_465270()
                         SetInternalTargetPed_403AE0(field_164_ped_group->field_2C_ped_leader);
                         SetPanicking_403950();
                     }
-                    if (field_164_ped_group->IsLeaderEnteringCarOrUnknown5_4C9220() && field_164_ped_group->IsLeaderCloseToTargetCar_4CAD40())
+                    if (field_164_ped_group->IsLeaderEnteringCarOrTrain_4C9220() && field_164_ped_group->IsLeaderCloseToTargetCar_4CAD40())
                     {
                         Ped::SetObjective2_463830(objectives_enum::objective_7);
                         SetInternalTargetPed_403AE0(field_164_ped_group->field_2C_ped_leader);
@@ -5701,7 +5701,7 @@ void Ped::Threat_Reaction_AI_465270()
                     field_21C_bf.bPanicking = false;
                 }
                 else if (!field_164_ped_group ||
-                         (!field_164_ped_group->IsLeaderEnteringCarOrUnknown5_4C9220() && !field_164_ped_group->IsLeaderInCar_4C9210()))
+                         (!field_164_ped_group->IsLeaderEnteringCarOrTrain_4C9220() && !field_164_ped_group->IsLeaderInCar_4C9210()))
                 {
                     if (field_288_threat_search == threat_search_enum::line_of_sight_1 ||
                         field_288_threat_search == threat_search_enum::line_of_sight_player_only_6 ||

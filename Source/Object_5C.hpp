@@ -75,7 +75,7 @@ class Object
     EXPORT void ResolveCollisionWithVerticalEdge_522D00(Fix16_Point* pPoint);
     EXPORT void HandleCollision_522E10(Fix16_Point* pPoint);
     EXPORT bool TryStartSlide_5233A0(Fix16 value);
-    EXPORT void HandleCollisionOutcome_523440(Fix16_Point point, char_type bUnknown1, char_type bUnknown2);
+    EXPORT void HandleCollisionOutcome_523440(Fix16_Point point, char_type bHitFloorBelow, char_type bHitBlockAtZ);
     EXPORT bool HandleSpriteGroundAndCollision_5235B0(Sprite* pSprite, Fix16_Point* pPoint, u8* pHit, Fix16 found_z);
     EXPORT bool HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite, Fix16_Point* pPoint, u8* pHit, u8* pHit2);
     EXPORT bool HandleSpriteZCollision_5238B0(Sprite* pSprite, Fix16_Point* pPoint, u8* pHit, u8* pHit2, Fix16 found_z);
@@ -417,8 +417,8 @@ class Object_5C
                                  char_type fail_if_blocked);
     EXPORT Object* CreateExplosion_52A3D0(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 kind, s32 ped_id);
 
-    EXPORT void SaveObjects_52A500(SavedObjectData* pUnknownObj);
-    EXPORT void RestoreObjects_52A590(SavedObjectData* pUnknownObj);
+    EXPORT void SaveObjects_52A500(SavedObjectData* pData);
+    EXPORT void RestoreObjects_52A590(SavedObjectData* pData);
     EXPORT void RemoveAndFree_52A610(Object* p2C);
 
     Object* field_0_diagonal_wall_ang315;

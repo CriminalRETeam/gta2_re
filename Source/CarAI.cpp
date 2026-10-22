@@ -399,7 +399,7 @@ void CarAI::DoShortcutsUsingJunctions_447970()
 }
 
 MATCH_FUNC(0x447ca0)
-bool CarAI::GoToBlock_447CA0(u8 x, u8 y, u8 z, s32 maybe_direction)
+bool CarAI::GoToBlock_447CA0(u8 x, u8 y, u8 z, s32 arrow_type)
 {
     field_28_route_idx = gRouteFinder_6FFDC8->StartRoute_58A190(gCurrCarAI_xpos_677C38.ToInt(),
                                                                gCurrCarAI_ypos_677C30.ToInt(),
@@ -407,7 +407,7 @@ bool CarAI::GoToBlock_447CA0(u8 x, u8 y, u8 z, s32 maybe_direction)
                                                                x,
                                                                y,
                                                                z,
-                                                               maybe_direction);
+                                                               arrow_type);
     if (field_28_route_idx > 0)
     {
         field_0_car->field_60_pChaseTask->field_14_target_x = Fix16(x);
@@ -5281,7 +5281,7 @@ void CarAI::ReverseOrNeutral_453C00()
 {
     if (IsMovingForwards_453C00(field_0_car->field_58_physics) || field_0_car->GetCarLinearSpeed_43A240() < gCurrCarAI_DesiredSpeed_677A8C)
     {
-        field_0_car->field_58_physics->Reverse_Unk();
+        field_0_car->field_58_physics->ForceReverseInput();
     }
     else
     {

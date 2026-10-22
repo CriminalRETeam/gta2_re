@@ -1637,14 +1637,14 @@ void Hud_TextList::ExpireDuplicates_5D1EB0(Hud_TextEntry* String2)
 }
 
 MATCH_FUNC(0x5d1f50)
-Hud_TextEntry* Hud_TextList::DisplayText_5D1F50(const wchar_t* pStr, s16 maybe_x, s16 maybe_y, s16 font_type, s32 display_time)
+Hud_TextEntry* Hud_TextList::DisplayText_5D1F50(const wchar_t* pStr, s16 xpos, s16 ypos, s16 font_type, s32 display_time)
 {
     Hud_TextEntry* pOld_964 = field_964_pFreeList;
     Hud_TextEntry* pOldFirst = field_960_pFirst;
     field_964_pFreeList = pOld_964->field_C0_pNext;
     pOld_964->field_C0_pNext = pOldFirst;
     field_960_pFirst = pOld_964;
-    pOld_964->FormatAndSetupText_5D1B10(pStr, maybe_x, maybe_y, font_type, display_time);
+    pOld_964->FormatAndSetupText_5D1B10(pStr, xpos, ypos, font_type, display_time);
     ExpireDuplicates_5D1EB0(pOld_964);
     return pOld_964;
 }

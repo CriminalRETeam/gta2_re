@@ -18,7 +18,7 @@ EXPORT void __stdcall SmoothApproachClamped_4F75D0(Fix16* target_coord,
                                                    Fix16* velocity_1,
                                                    Fix16* velocity_2,
                                                    Fix16* velocity_3,
-                                                   Fix16* maybe_decrement);
+                                                   Fix16* max_neg_velocity);
 
 DEFINE_GLOBAL(Camera*, gViewCamera_676978, 0x676978);
 DEFINE_GLOBAL_INIT(Fix16, kFpEight_676840, Fix16(0x20000, 0), 0x676840);
@@ -856,7 +856,7 @@ EXPORT void __stdcall SmoothApproachClamped_4F75D0(Fix16* target_coord,
                                                    Fix16* velocity_1,
                                                    Fix16* velocity_2,
                                                    Fix16* velocity_3,
-                                                   Fix16* maybe_decrement)
+                                                   Fix16* max_neg_velocity)
 {
     Fix16 DeltaCoord = *target_coord - *curr_coord;
     if (DeltaCoord > kZero_6F6C50)
@@ -892,9 +892,9 @@ EXPORT void __stdcall SmoothApproachClamped_4F75D0(Fix16* target_coord,
             if (*coord_velocity - *velocity_3 >= DeltaCoord)
             {
                 *coord_velocity -= *velocity_3;
-                if (*coord_velocity < -*maybe_decrement)
+                if (*coord_velocity < -*max_neg_velocity)
                 {
-                    *coord_velocity = -*maybe_decrement;
+                    *coord_velocity = -*max_neg_velocity;
                 }
             }
             else

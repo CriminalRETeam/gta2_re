@@ -1162,7 +1162,7 @@ Car** PublicTransport::GetCarArrayFromLeadCar_579B40(Car* toFind)
 }
 
 MATCH_FUNC(0x579b90)
-bool PublicTransport::GetTrainSpeed_579B90(Car* pToFind, Fix16* pF16Unk)
+bool PublicTransport::GetTrainSpeed_579B90(Car* pToFind, Fix16* pOutSpeed)
 {
     if (!bSkip_trains_67D550)
     {
@@ -1174,7 +1174,7 @@ bool PublicTransport::GetTrainSpeed_579B90(Car* pToFind, Fix16* pF16Unk)
             {
                 if (!pCar->IsEngineOn_4118C0())
                 {
-                    *pF16Unk = kFpZero_6FF078;
+                    *pOutSpeed = kFpZero_6FF078;
                     if (pTrain->field_50_state != 0 && pTrain->field_50_state != 1)
                     {
                         return true;
@@ -1185,27 +1185,27 @@ bool PublicTransport::GetTrainSpeed_579B90(Car* pToFind, Fix16* pF16Unk)
                 switch (pTrain->field_50_state)
                 {
                     case 0:
-                        *pF16Unk = kTrainSpeedState0_6FEEE0;
+                        *pOutSpeed = kTrainSpeedState0_6FEEE0;
                         return false;
                         break;
                     case 1:
-                        *pF16Unk = kTrainSpeedState1And3_6FEED4;
+                        *pOutSpeed = kTrainSpeedState1And3_6FEED4;
                         return false;
                         break;
                     case 2:
-                        *pF16Unk = kFpZero_6FF078;
+                        *pOutSpeed = kFpZero_6FF078;
                         return true;
                         break;
                     case 3:
-                        *pF16Unk = kTrainSpeedState1And3_6FEED4;
+                        *pOutSpeed = kTrainSpeedState1And3_6FEED4;
                         return true;
                         break;
                     case 4:
-                        *pF16Unk = kTrainSpeedState4_6FEEDC;
+                        *pOutSpeed = kTrainSpeedState4_6FEEDC;
                         return true;
                         break;
                     case 5:
-                        *pF16Unk = kTrainSpeedState5_6FEEE4;
+                        *pOutSpeed = kTrainSpeedState5_6FEEE4;
                         return true;
                         break;
                     default:

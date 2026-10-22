@@ -408,7 +408,7 @@ void UpdateGameScreenSize_5D8E00()
 
 // todo move to another file for ordering
 MATCH_FUNC(0x5D8EB0)
-EXPORT void __stdcall Init_FrameRateLightAndUnknown_5D8EB0()
+EXPORT void __stdcall Init_FrameRateLightingAndExplodingScores_5D8EB0()
 {
     if (bStartNetworkGame_7081F0)
     {
@@ -675,7 +675,7 @@ EXPORT void __stdcall SetSavedGamma_5D98E0()
 MATCH_FUNC(0x5D92D0)
 EXPORT void __stdcall SetVideoModeFromSettings_5D92D0()
 {
-    Init_FrameRateLightAndUnknown_5D8EB0();
+    Init_FrameRateLightingAndExplodingScores_5D8EB0();
     ReadScreenSettings_5D8F70();
     Input_MouseAcquire_5D7C60();
 
@@ -1003,7 +1003,7 @@ EXPORT void OnVideoModeChanged_5D9680()
 MATCH_FUNC(0x5D9690)
 EXPORT void __stdcall ApplyChangedScreenSettings_5D9690()
 {
-    Init_FrameRateLightAndUnknown_5D8EB0();
+    Init_FrameRateLightingAndExplodingScores_5D8EB0();
     if ((u8)ReadScreenSettings_5D8F70() || bVideoModeResetPending_706C5D)
     {
         SetVideoModeFromSettings_5D92D0();
@@ -1767,7 +1767,7 @@ EXPORT void __stdcall Video_Render_Inits_5D90E0()
         gBufferMode_706B34 = 1;
     }
 
-    Init_FrameRateLightAndUnknown_5D8EB0();
+    Init_FrameRateLightingAndExplodingScores_5D8EB0();
     ReadScreenSettings_5D8F70();
 }
 

@@ -629,7 +629,7 @@ void Sprite::IncreaseZoom_59E320(char_type delta)
 
 // https://decomp.me/scratch/dijmx
 MATCH_FUNC(0x59e390)
-bool Sprite::ShrinkSprite_59E390(Fix16 xoff, Fix16 yoff, s32 bUnknown)
+bool Sprite::ShrinkSprite_59E390(Fix16 xoff, Fix16 yoff, s32 bShrinkCollisionShape)
 {
     EnsureVisualShape_59F990();
 
@@ -641,7 +641,7 @@ bool Sprite::ShrinkSprite_59E390(Fix16 xoff, Fix16 yoff, s32 bUnknown)
     bool bHOrWLimit = field_4_pVisualShape->ReduceWidthBy_4BA120(xoff);
     bHOrWLimit |= field_4_pVisualShape->ReduceHeightBy_4BA160(yoff);
 
-    if (bUnknown == 1)
+    if (bShrinkCollisionShape == 1)
     {
         Fix16 w_val1;
         Fix16 h_val1;

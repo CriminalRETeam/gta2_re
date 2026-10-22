@@ -1341,13 +1341,13 @@ Car* CarManager::SpawnCarOnRoadNetwork_4458B0(Fix16 xpos, Fix16 ypos, s32 road_d
 // https://decomp.me/scratch/HFGKH
 // 9.6f 0x426AC0
 MATCH_FUNC(0x446230)
-Car* CarManager::SpawnCarAt_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx, Fix16 maybe_w_scale)
+Car* CarManager::SpawnCarAt_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx, Fix16 scale)
 {
     if (gCheatMiniCars_67D6C8)
     {
-        if (maybe_w_scale == kFP16One_6777D0)
+        if (scale == kFP16One_6777D0)
         {
-            maybe_w_scale = kFpHalf_6772D0;
+            scale = kFpHalf_6772D0;
         }
     }
 
@@ -1386,9 +1386,9 @@ Car* CarManager::SpawnCarAt_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rot
     pCar->field_50_car_sprite->SetCar_420710(pCar);
     pCar->field_50_car_sprite->AllocCollisionShape_59F950(gPixelsToFix16_6F6850.list[pCarInfo->w], gPixelsToFix16_6F6850.list[pCarInfo->h], kFpHalf_6771FC);
 
-    pCar->field_68_scale = maybe_w_scale; // 19b
+    pCar->field_68_scale = scale; // 19b
 
-    if (maybe_w_scale != kFP16One_6777D0)
+    if (scale != kFP16One_6777D0)
     {
         pCar->field_50_car_sprite->ApplyScaleToDimensions_59E4C0(pCar->field_68_scale, 1);
     }
@@ -5678,9 +5678,9 @@ Ang16 Car::GetRadioTowerAngle_442520()
 EXTERN_GLOBAL(Fix16, kFPZero_6691B0);
 DEFINE_GLOBAL_INIT(Fix16, kAngFix16FullCircle_66A8E4, Fix16(0x18F60, 0), 0x66A8E4);
 DEFINE_GLOBAL_INIT(Fix16, kAngFix16HalfCircle_6691EC, Fix16(0xC7B0, 0), 0x6691EC);
-inline Fix16 __stdcall WrapAngle_40E790(Fix16& unk) // 9.6f inlined func
+inline Fix16 __stdcall WrapAngle_40E790(Fix16& angle) // 9.6f inlined func
 {
-    Fix16 result = unk;
+    Fix16 result = angle;
     for (; result < kFPZero_6691B0; result += kAngFix16FullCircle_66A8E4)
     {
         ;

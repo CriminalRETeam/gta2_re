@@ -428,12 +428,12 @@ void MapRenderer::ambient_light_tick_4E9EA0()
 
 // this function matches, but some "fcomps" offsets are wrong
 MATCH_FUNC(0x4E9EE0)
-void MapRenderer::draw_4E9EE0(u16& word_side, const bool& bUnk, u8 colour)
+void MapRenderer::draw_4E9EE0(u16& word_side, const bool& bFourSided, u8 colour)
 {
     u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(word_side & block_face::tile_idx_mask);
     if (texture_idx)
     {
-        if (bUnk)
+        if (bFourSided)
         {
             u16 rotation_and_flip = word_side & block_face::flip_and_rotation_mask;
             TransformTriangleUVs_46B910(rotation_and_flip);
@@ -2597,21 +2597,21 @@ void MapRenderer::draw_bottom_4F49B0(u16& side_word, Fix16& x_off_a, Fix16& x_of
 
 // https://decomp.me/scratch/sV2SV
 MATCH_FUNC(0x4f4d60)
-void MapRenderer::draw_lid_4F4D60(Fix16& unk1, Fix16& unk2, Fix16& unk3, Fix16& unk4)
+void MapRenderer::draw_lid_4F4D60(Fix16& x_min, Fix16& x_max, Fix16& y_min, Fix16& y_max)
 {
     if (!bSkip_lid_67D546)
     {
-        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + unk1, gYCoord_6F63B8 + unk3, &gTileVerts_6F65A8[0]);
-        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + unk2, gYCoord_6F63B8 + unk3, &gTileVerts_6F65A8[1]);
-        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + unk2, gYCoord_6F63B8 + unk4, &gTileVerts_6F65A8[2]);
-        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + unk1, gYCoord_6F63B8 + unk4, &gTileVerts_6F65A8[3]);
+        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + x_min, gYCoord_6F63B8 + y_min, &gTileVerts_6F65A8[0]);
+        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + x_max, gYCoord_6F63B8 + y_min, &gTileVerts_6F65A8[1]);
+        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + x_max, gYCoord_6F63B8 + y_max, &gTileVerts_6F65A8[2]);
+        gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + x_min, gYCoord_6F63B8 + y_max, &gTileVerts_6F65A8[3]);
 
         draw_4F3FB0(kLidFlags_620FA4[(u16)gLidType_6F6274 >> 13]);
 
-        Set_UV_4F4190(unk1, unk3, 0);
-        Set_UV_4F4190(unk2, unk3, 1);
-        Set_UV_4F4190(unk2, unk4, 2);
-        Set_UV_4F4190(unk1, unk4, 3);
+        Set_UV_4F4190(x_min, y_min, 0);
+        Set_UV_4F4190(x_max, y_min, 1);
+        Set_UV_4F4190(x_max, y_max, 2);
+        Set_UV_4F4190(x_min, y_max, 3);
 
         u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(gLidType_6F6274 & block_face::tile_idx_mask);
         if (texture_idx)

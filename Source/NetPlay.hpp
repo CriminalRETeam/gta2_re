@@ -212,7 +212,7 @@ struct NetPlay
     EXPORT void OnPacketReceived_51F870(void* pPacket, s32 packetLen, s32 recvId, s32 sendFlag);
     EXPORT s32 MovePlayerToGroup_520040(s32 toFind, Network_Game_Session* pStru, Network_Game_Session* pDst, u32* pOutIdx);
     EXPORT void FreePlayerSlot_5201A0(s32 idx, Network_Game_Session* pStru);
-    EXPORT void InvokeCallback_520230(s32 idx, u32 pUnknown);
+    EXPORT void InvokeCallback_520230(s32 idx, u32 event_data);
     EXPORT void Set6_520530(void* pFunc, void* pParam);
     EXPORT s32 JoinSession_520570(u32 session_idx, wchar_t* pPlayerName, Network_8* pPlayerData, Network_8* pOutGroupData);
     EXPORT static s32 __stdcall EnumGroups_cb_520C20(s32 group_id, s32 callback_type, s32 pName, char_type flags, NetPlay* pContext);

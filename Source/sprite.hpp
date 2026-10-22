@@ -220,7 +220,7 @@ class Sprite
     EXPORT void CopyCollisionShapeToVisual_59E2E0();
     EXPORT void CopyVisualShapeToCollision_59E300();
     EXPORT void IncreaseZoom_59E320(char_type delta);
-    EXPORT bool ShrinkSprite_59E390(Fix16 xoff, Fix16 yoff, s32 bUnknown);
+    EXPORT bool ShrinkSprite_59E390(Fix16 xoff, Fix16 yoff, s32 bShrinkCollisionShape);
     EXPORT void ApplyScaleToDimensions_59E4C0(Fix16 scale, s32 bScale_Field_C_4C);
     EXPORT char_type CollisionCheck_59E590(Sprite* pOther);
     EXPORT char_type CheckDirectionalSliceCollision_59E680(Fix16 sliceLen, Sprite* pSprite);

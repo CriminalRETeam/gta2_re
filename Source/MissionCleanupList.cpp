@@ -67,9 +67,9 @@ void MissionCleanupList::push_type_3_ped_502FB0(Ped* pPed)
 }
 
 MATCH_FUNC(0x502ff0)
-void MissionCleanupList::push_type_2_502FF0(Object* pObj, char_type bUnknown)
+void MissionCleanupList::push_type_2_502FF0(Object* pObj, char_type bForce)
 {
-    if (bUnknown || pObj && ((pObj->GetModel_40FEF0() < 64) || pObj->GetModel_40FEF0() > 108) && (pObj->GetModel_40FEF0() < 200 || pObj->GetModel_40FEF0() > 244))
+    if (bForce || pObj && ((pObj->GetModel_40FEF0() < 64) || pObj->GetModel_40FEF0() > 108) && (pObj->GetModel_40FEF0() < 200 || pObj->GetModel_40FEF0() > 244))
     {
         MissionCleanupEntry* pC = allocate_next_502F60();
         if (pC)

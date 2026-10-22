@@ -261,11 +261,11 @@ Door* DoorPool::RegisterDoubleDoor_49D1F0(u8 gr_id,
     return this_00;
 }
 
-inline bool Door_38_inline_unknown(Door* pDoor)
+inline bool IsDoorOpenWithoutAutoClose(Door* pDoor)
 {
     if (pDoor->IsOpen_44C860())
     {
-        if (pDoor->field_24_close_type == 3 || pDoor->field_24_close_type == 0)
+        if (pDoor->field_24_close_type == door_close_type::close_never || pDoor->field_24_close_type == door_close_type::unknown1)
         {
             return true;
         }
@@ -324,7 +324,7 @@ char_type DoorPool::CheckDoorAccess_49D3C0(Sprite* pSprite, u8 door_idx)
     if (pCar)
     {
 
-        if (!Door_38_inline_unknown(&field_0_doors[door_idx]))
+        if (!IsDoorOpenWithoutAutoClose(&field_0_doors[door_idx]))
         {
             if (!field_0_doors[door_idx].CanOpen_49C6D0(pCar))
             {
@@ -338,7 +338,7 @@ char_type DoorPool::CheckDoorAccess_49D3C0(Sprite* pSprite, u8 door_idx)
     Char* pB4 = pSprite->AsCharB4_40FEA0();
     if (pB4)
     {
-        if (!Door_38_inline_unknown(&field_0_doors[door_idx]))
+        if (!IsDoorOpenWithoutAutoClose(&field_0_doors[door_idx]))
         {
             // 9.6f: Char::get_ped_433A20 (inlined, using it changes the code)
             if (!field_0_doors[door_idx].CanOpenForPed_49C7F0(pB4->field_7C_pPed))

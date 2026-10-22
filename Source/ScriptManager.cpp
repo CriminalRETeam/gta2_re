@@ -848,7 +848,7 @@ ThreadTrigger* ScriptManager::FindPhoneThreadByObjId_512AD0(s32 obj_f14)
 }
 
 MATCH_FUNC(0x512af0)
-char_type ScriptManager::TestAndRecordWeaponHit_512AF0(s32 id, char_type weapon_idx, char_type bUnk)
+char_type ScriptManager::TestAndRecordWeaponHit_512AF0(s32 id, char_type weapon_idx, char_type bIsPed)
 {
     WeaponCheckTable* pFree = NULL;
     WeaponCheckTable* pTable = &field_27C_weapon_check_table[0];
@@ -864,7 +864,7 @@ char_type ScriptManager::TestAndRecordWeaponHit_512AF0(s32 id, char_type weapon_
         {
             if (pTable->field_4_weapon_idx == weapon_idx || pTable->field_4_weapon_idx == weapon_type::weapon_0x17)
             {
-                if (bUnk)
+                if (bIsPed)
                 {
                     if (HasCheckFlag4_4759C0(pTable))
                     {
@@ -886,7 +886,7 @@ char_type ScriptManager::TestAndRecordWeaponHit_512AF0(s32 id, char_type weapon_
     {
         pFree->field_0_entity_id = id;
         pFree->field_4_weapon_idx = weapon_idx;
-        if (bUnk)
+        if (bIsPed)
         {
             pFree->field_6_flags = 4;
         }
@@ -900,7 +900,7 @@ char_type ScriptManager::TestAndRecordWeaponHit_512AF0(s32 id, char_type weapon_
 }
 
 MATCH_FUNC(0x512ba0)
-void ScriptManager::ClearWeaponHitFlag_512BA0(s32 id, char_type bUnk)
+void ScriptManager::ClearWeaponHitFlag_512BA0(s32 id, char_type bIsPed)
 {
     WeaponCheckTable* pTable = &field_27C_weapon_check_table[0];
 
@@ -908,7 +908,7 @@ void ScriptManager::ClearWeaponHitFlag_512BA0(s32 id, char_type bUnk)
     {
         if (pTable->field_0_entity_id == id)
         {
-            if (bUnk)
+            if (bIsPed)
             {
                 if (HasCheckFlag4_4759C0(pTable))
                 {
@@ -934,7 +934,7 @@ void ScriptManager::ClearWeaponHitFlag_512BA0(s32 id, char_type bUnk)
 
 // https://decomp.me/scratch/r6LhX
 MATCH_FUNC(0x512c00)
-void ScriptManager::RecordWeaponHit_512C00(s32 entity_id, s32 projectile_model, char_type bUnk)
+void ScriptManager::RecordWeaponHit_512C00(s32 entity_id, s32 projectile_model, char_type bIsPed)
 {
     WeaponCheckTable* pTable = &field_27C_weapon_check_table[0];
 
@@ -946,7 +946,7 @@ void ScriptManager::RecordWeaponHit_512C00(s32 entity_id, s32 projectile_model, 
         {
             if (pTable->field_4_weapon_idx == weapon_type::weapon_0x17 || pTable->field_4_weapon_idx == projectile_type)
             {
-                if (bUnk)
+                if (bIsPed)
                 {
                     if (HasCheckFlag4_4759C0(pTable))
                     {
@@ -970,7 +970,7 @@ void ScriptManager::RecordWeaponHit_512C00(s32 entity_id, s32 projectile_model, 
 }
 
 MATCH_FUNC(0x512c70)
-bool ScriptManager::IsWeaponHitRecorded_512C70(s32 id, char_type weapon_idx, char_type bUnk)
+bool ScriptManager::IsWeaponHitRecorded_512C70(s32 id, char_type weapon_idx, char_type bIsPed)
 {
     WeaponCheckTable* pTable = &field_27C_weapon_check_table[0];
 
@@ -980,7 +980,7 @@ bool ScriptManager::IsWeaponHitRecorded_512C70(s32 id, char_type weapon_idx, cha
         {
             if (pTable->field_4_weapon_idx == weapon_idx || pTable->field_4_weapon_idx == weapon_type::weapon_0x17)
             {
-                if (bUnk)
+                if (bIsPed)
                 {
                     if (HasCheckFlag4_4759C0(pTable))
                     {

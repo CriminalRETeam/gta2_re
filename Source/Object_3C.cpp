@@ -689,7 +689,7 @@ void SpriteList::PruneNonCollidingSprites_5A7240(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x5a72b0)
-void SpriteList::PropagateMaxZLayer_5A72B0(Sprite* pSprite, char_type bUnknown)
+void SpriteList::PropagateMaxZLayer_5A72B0(Sprite* pSprite, char_type bAlsoSetSprite)
 {
     char start_val = pSprite->ComputeZLayer_5A1BD0();
     char max_val = start_val;
@@ -707,7 +707,7 @@ void SpriteList::PropagateMaxZLayer_5A72B0(Sprite* pSprite, char_type bUnknown)
         }
     }
 
-    if (bUnknown)
+    if (bAlsoSetSprite)
     {
         pSprite->set_z_col_4BA220(max_val);
     }

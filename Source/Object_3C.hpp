@@ -54,7 +54,7 @@ class SpriteList
     EXPORT s32 GetGangIdxFromSpriteIfAny_5A71A0();
     EXPORT void ExpireAttachedFlames_5A71F0();
     EXPORT void PruneNonCollidingSprites_5A7240(Sprite* pSprite);
-    EXPORT void PropagateMaxZLayer_5A72B0(Sprite* pSprite, char_type bUnknown);
+    EXPORT void PropagateMaxZLayer_5A72B0(Sprite* pSprite, char_type bAlsoSetSprite);
     EXPORT char_type AnySpriteHasSlopeTopInFootprint_5A7310();
 
   public:

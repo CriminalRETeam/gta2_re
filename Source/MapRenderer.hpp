@@ -49,7 +49,7 @@ class MapRenderer
 
     EXPORT void SetAmbientLevel_4E9D50(s32& target_level, u16& cycles);
     EXPORT void set_shading_lev_4E9DB0(u8 shading_lev);
-    EXPORT void draw_4E9EE0(u16& word_side, const bool& bUnk, u8 colour);
+    EXPORT void draw_4E9EE0(u16& word_side, const bool& bFourSided, u8 colour);
     EXPORT void ambient_light_tick_4E9EA0();
     EXPORT void draw_4EA190(u16& rotation_and_flip);
     EXPORT void DrawLeftSide_4EA390(u16& left_word);
@@ -99,7 +99,7 @@ class MapRenderer
     EXPORT void draw_right_4F4250(u16& side_word, Fix16& x_off, Fix16& y_off_a, Fix16& y_off_b);
     EXPORT void draw_top_4F4600(u16& side_word, Fix16& x_off_a, Fix16& x_off_b, Fix16& y_off);
     EXPORT void draw_bottom_4F49B0(u16& side_word, Fix16& x_off_a, Fix16& x_off_b, Fix16& y_off);
-    EXPORT void draw_lid_4F4D60(Fix16& unk1, Fix16& unk2, Fix16& unk3, Fix16& unk4);
+    EXPORT void draw_lid_4F4D60(Fix16& x_min, Fix16& x_max, Fix16& y_min, Fix16& y_max);
     EXPORT void DrawPartialBlocks_4F6580();
     EXPORT void DrawGradientSlope_4F6630();
     EXPORT void RenderFlatBlock_4F66C0();
@@ -139,11 +139,11 @@ class MapRenderer
         //return diffuseColour;
     }
 
-    inline void AddToDrawList_46BB90(s32& maybe_x, s32& maybe_y)
+    inline void AddToDrawList_46BB90(s32& x, s32& y)
     {
         Nanobotz* pPos = &field_1C_draw_list[field_2EFC_curr_draw_layer_size];
-        pPos->field_0_x = maybe_x;
-        pPos->field_4_y = maybe_y;
+        pPos->field_0_x = x;
+        pPos->field_4_y = y;
         
         Nanobotz* pIter = &field_1C_draw_list[field_2EFC_curr_draw_layer_size-1];
         for (s32 i = field_2EFC_curr_draw_layer_size - 1; i >= 0; i--, pIter--)

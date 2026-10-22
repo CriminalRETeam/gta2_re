@@ -2873,10 +2873,10 @@ bool Map_0x370::CheckZCollisionAtCoord_4E5300(Fix16 x, Fix16 y, Fix16 z, Fix16 s
 }
 
 MATCH_FUNC(0x4E5480)
-bool Map_0x370::CanPlaceOilOrMine_4E5480(Fix16 x, Fix16 y, Fix16 z, Fix16 unk_z_coord, Fix16* found_z)
+bool Map_0x370::CanPlaceOilOrMine_4E5480(Fix16 x, Fix16 y, Fix16 z, Fix16 z_high, Fix16* found_z)
 {
     Fix16 z_floor = z.GetFloorValue();
-    Fix16 unk_z_floor = unk_z_coord.GetFloorValue();
+    Fix16 unk_z_floor = z_high.GetFloorValue();
 
     if (z_floor == unk_z_floor)
     {
@@ -2888,7 +2888,7 @@ bool Map_0x370::CanPlaceOilOrMine_4E5480(Fix16 x, Fix16 y, Fix16 z, Fix16 unk_z_
             {
                 *found_z = z_floor;
                 Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, *found_z);
-                if (unk_z_coord >= *found_z && z <= *found_z)
+                if (z_high >= *found_z && z <= *found_z)
                 {
                     return true;
                 }
@@ -2904,7 +2904,7 @@ bool Map_0x370::CanPlaceOilOrMine_4E5480(Fix16 x, Fix16 y, Fix16 z, Fix16 unk_z_
         {
             *found_z = unk_z_floor;
             Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, *found_z);
-            if (unk_z_coord >= *found_z)
+            if (z_high >= *found_z)
             {
                 return true;
             }

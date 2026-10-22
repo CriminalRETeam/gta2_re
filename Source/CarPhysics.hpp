@@ -257,8 +257,8 @@ class CarPhysics
         }
     }
 
-    // ComputeTorqueUnknown_49E8E0 as inlined into ComputeEngineTorque_561970 (out of line operators)
-    Fix16 ComputeTorqueUnknown_49E8E0_ool()
+    // ComputeUndamagedThrottleTorque_49E8E0 as inlined into ComputeEngineTorque_561970 (out of line operators)
+    Fix16 ComputeUndamagedThrottleTorque_49E8E0_ool()
     {
         if (IsTurboActive_561940())
         {
@@ -272,7 +272,7 @@ class CarPhysics
         }
     }
 
-    Fix16 CarPhysics::ComputeTorqueUnknown_49E8E0()
+    Fix16 CarPhysics::ComputeUndamagedThrottleTorque_49E8E0()
     {
         if (IsTurboActive_561940())
         {
@@ -435,7 +435,7 @@ class CarPhysics
     }
 
     // Unknown 9.6f inlined func
-    void Reverse_Unk()
+    void ForceReverseInput()
     {
         field_94_is_backward_gas_on = 1;
         field_91_is_foot_brake_on = 0;

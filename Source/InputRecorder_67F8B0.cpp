@@ -373,7 +373,7 @@ bool InputDevices::game_pad_read_498D20()
 
 // https://decomp.me/scratch/75Pau
 MATCH_FUNC(0x498DA0)
-void InputDevices::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
+void InputDevices::read_input_device_498DA0(s32* input_bits, u8 bApplyKeyboardControls)
 {
     bool bFirstPass = true;
     s32 bReleased = 0;
@@ -461,14 +461,14 @@ void InputDevices::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                         bHandled = true;
                         if (gKeyboardDeviceData_67B610.dwData & 0x80)
                         {
-                            if (bUnknown)
+                            if (bApplyKeyboardControls)
                             {
                                 gInputRecorder_67F8B0.set_input_4CDCF0(input);
                             }
                         }
                         else
                         {
-                            if (bUnknown)
+                            if (bApplyKeyboardControls)
                             {
                                 gInputRecorder_67F8B0.clear_input_4CDD10(input);
                             }
@@ -560,14 +560,14 @@ void InputDevices::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                         if (bPressed)
                         {
                             bHandled = true;
-                            if (bUnknown)
+                            if (bApplyKeyboardControls)
                             {
                                 gInputRecorder_67F8B0.set_input_4CDCF0(input);
                             }
                         }
                         else if (bReleased)
                         {
-                            if (bUnknown && gInputRecorder_67F8B0.IsInputSet_44C050(input))
+                            if (bApplyKeyboardControls && gInputRecorder_67F8B0.IsInputSet_44C050(input))
                             {
                                 gInputRecorder_67F8B0.clear_input_4CDD10(input);
                             }
