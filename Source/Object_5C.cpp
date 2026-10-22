@@ -132,7 +132,7 @@ void Object::PoolDeallocate()
     this->field_18_model = 0;
 
     // TODO: Local required, inline?
-    const s32 f5C = field_8_definition->field_5C;
+    const s32 f5C = field_8_definition->field_5C_instance_limit_kind;
     if (f5C == 2)
     {
         --gObject_5C_6F8F84->field_10_rotating_object_count;
@@ -190,7 +190,7 @@ bool Object::IsSpriteOwnerPed_522250(Sprite* pSprite)
 MATCH_FUNC(0x5222b0)
 s32 Object::GetMovementRegionSize_5222B0()
 {
-    return this->field_8_definition->field_68 != 0 ? 2048 : 1024;
+    return this->field_8_definition->field_68_uses_bullet_walls != 0 ? 2048 : 1024;
 }
 
 MATCH_FUNC(0x5222d0)
@@ -841,7 +841,7 @@ bool Object::HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite, Fix16_
         *pHit2 = 1;
         field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
         field_10_obj_3c->field_1C_z_accel = kFpZero_6F8E10;
-        if (field_8_definition->field_50 == 4)
+        if (field_8_definition->field_50_z_collision_response == 4)
         {
             return 1;
         }
@@ -883,7 +883,7 @@ bool Object::HandleSpriteZCollision_5238B0(Sprite* pSprite, Fix16_Point* pPoint,
     Fix16 ground_z;
     bool bOverGap = false;
     // The landing code after the slope/non-slope split is reached through this flag, not a goto: VC6
-    // threads the `if (bLanded)` test away on every path, which puts the `field_50 != 1` arms after the
+    // threads the `if (bLanded)` test away on every path, which puts the `field_50_z_collision_response != 1` arms after the
     // non-slope `bAirborne = 1` block (and lets the two `bAirborne = 1` tails merge there).
     bool bLanded = false;
 
@@ -966,7 +966,7 @@ bool Object::HandleSpriteZCollision_5238B0(Sprite* pSprite, Fix16_Point* pPoint,
 
     if (bLanded)
     {
-        if (field_8_definition->field_50 == 1)
+        if (field_8_definition->field_50_z_collision_response == 1)
         {
             *pHit2 = true;
             field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
@@ -974,7 +974,7 @@ bool Object::HandleSpriteZCollision_5238B0(Sprite* pSprite, Fix16_Point* pPoint,
         }
         else
         {
-            if (field_8_definition->field_50 == 4)
+            if (field_8_definition->field_50_z_collision_response == 4)
             {
                 *pHit2 = true;
                 return true;
@@ -997,7 +997,7 @@ bool Object::HandleSpriteZCollision_5238B0(Sprite* pSprite, Fix16_Point* pPoint,
     else if (Object::SelectCollisionSprite_522460(pSprite))
     {
         *pHit2 = true;
-        if (field_8_definition->field_50 == 4)
+        if (field_8_definition->field_50_z_collision_response == 4)
         {
             return true;
         }
@@ -1430,7 +1430,7 @@ void Object::OnExplosionNearby_525190(u8 ped_ref_idx)
     {
         PoolGiveAndQueueObjectType_5291E0(field_8_definition->field_3C_next_definition_idx);
     }
-    else if (field_8_definition->field_48 == 13)
+    else if (field_8_definition->field_48_projectile_hit_type == 13)
     {
         PoolGiveAndMarkDone_5291D0();
         Object* pExplosion = gObject_5C_6F8F84->CreateExplosion_52A3D0(this->field_4_sprite->field_14_xy.x,
@@ -1551,13 +1551,13 @@ char Object::ShouldCollideWithSprite_525370(Sprite* pSprite)
                 {
                     if (pObj2C->field_8_definition->field_44_touch_behavior == 7 || pObj2C->field_8_definition->field_44_touch_behavior == 8)
                     {
-                        switch (field_8_definition->field_48)
+                        switch (field_8_definition->field_48_projectile_hit_type)
                         {
-                            case objects::object_0:
+                            case 0:
                                 return 0;
-                            case objects::crate_12:
+                            case 12:
                                 return 1;
-                            case objects::footy_13:
+                            case 13:
                                 return 1;
                         }
                     }
@@ -1726,7 +1726,7 @@ void Object::UpdatePhysicsAndMovement_525B80()
     Fix16 mov_speed;
     field_10_obj_3c->GetMovementSpeedAndAngle_521FD0(mov_speed, ang);
 
-    if (!field_8_definition->field_58)
+    if (!field_8_definition->field_58_uses_3d_movement)
     {
         IntegrateHorizontalMovementAndCollisions_524630(mov_speed, ang);
     }
@@ -1800,7 +1800,7 @@ void Object::UpdatePhysicsMovementAndAnimation_525D90()
     Fix16 mov_speed;
     field_10_obj_3c->GetMovementSpeedAndAngle_521FD0(mov_speed, ang);
 
-    if (!field_8_definition->field_58)
+    if (!field_8_definition->field_58_uses_3d_movement)
     {
         IntegrateHorizontalMovementAndCollisions_524630(mov_speed, ang);
     }
@@ -2398,8 +2398,8 @@ void Object::TickObject_5283C0(s32 obj_type)
             else
             {
                 ObjectDefinition* pDefinition = gObjectDefinitions_6FCF00->GetObjectDefinition_534360(obj_type);
-                if (field_8_definition->field_5C == pDefinition->field_5C ||
-                    !Object::HandleRotationStateTransition_528240(field_8_definition->field_5C, pDefinition->field_5C))
+                if (field_8_definition->field_5C_instance_limit_kind == pDefinition->field_5C_instance_limit_kind ||
+                    !Object::HandleRotationStateTransition_528240(field_8_definition->field_5C_instance_limit_kind, pDefinition->field_5C_instance_limit_kind))
                 {
                     if (!byte_6F8C4C && !byte_6F8C68)
                     {
@@ -2607,7 +2607,7 @@ MATCH_FUNC(0x528960)
 bool Object::HandleObjectHitIfExplosive_528960(Object* pOther)
 {
     // Check is explosive range
-    if (field_8_definition->field_48 < 12 || field_8_definition->field_48 > 13)
+    if (field_8_definition->field_48_projectile_hit_type < 12 || field_8_definition->field_48_projectile_hit_type > 13)
     {
         return 0;
     }
@@ -2659,7 +2659,7 @@ void Object::ProcessObjectExplosionImpact_528A20(Object* pObj)
             }
             else
             {
-                if (pObj->field_8_definition->field_48 == 13)
+                if (pObj->field_8_definition->field_48_projectile_hit_type == 13)
                 {
                     remapped = 19;
                 }
@@ -2940,7 +2940,7 @@ void Object::HandleCollisionWithObject_529000(Object* pObj)
             break;
 
         case objects::destructor_141:
-            if (field_8_definition->field_60)
+            if (field_8_definition->field_60_destroyed_by_destructor)
             {
                 Dealloc_5291B0();
             }
@@ -3377,7 +3377,7 @@ Object* Object_5C::CreateObject_529C00(int object_type, Fix16 xpos, Fix16 ypos, 
     }
 
     ObjectDefinition* pDefinition = gObjectDefinitions_6FCF00->GetObjectDefinition_534360(object_type);
-    if (pDefinition->field_5C == 2)
+    if (pDefinition->field_5C_instance_limit_kind == 2)
     {
         if (field_10_rotating_object_count == 360)
         {
@@ -3421,7 +3421,7 @@ Object* Object_5C::CreateObject_529C00(int object_type, Fix16 xpos, Fix16 ypos, 
         return 0;
     }
 
-    if (pDefinition->field_5C == 3) // 1e0
+    if (pDefinition->field_5C_instance_limit_kind == 3) // 1e0
     {
         ++field_14_listed_sprite_count;
         field_1C_sprite_list.AddSprite_5A6CD0(pNew2C->field_4_sprite);

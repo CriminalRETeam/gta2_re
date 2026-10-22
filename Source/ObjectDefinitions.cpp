@@ -210,111 +210,111 @@ gCodeObjectTemplates_6F9038,
 */
 
 // Temporary workaround: create overload without pulling params by ref
-MapObjectOverride::MapObjectOverride(s32 param_1,
-               s32 param_2,
-               s32 param_3,
-               s8 param_4,
-               s32 param_5,
-               s32 param_6,
-               s32 param_7,
-               Fix16 param_8,
-               Fix16 param_9,
-               s8 param_10,
+MapObjectOverride::MapObjectOverride(s32 definition_idx,
+               s32 behavior_type,
+               s32 next_definition_idx,
+               s8 in_pool_list,
+               s32 touch_behavior,
+               s32 projectile_hit_type,
+               s32 collision_bucket_category,
+               Fix16 speed,
+               Fix16 friction,
+               s8 next_definition_timer,
                s32 param_11,
                s32 param_12,
-               s8 param_13,
-               s32 param_14,
-               Fix16 param_15,
-               s32 param_16,
-               s32 param_17,
-               s32 param_18,
-               s8 param_19,
-               s32 param_20,
-               s8 param_21)
+               s8 next_frame_max,
+               s32 uses_3d_movement,
+               Fix16 mass,
+               s32 draw_layer,
+               s32 sprite_flags,
+               s32 has_sound,
+               s8 has_shadows,
+               s32 instance_limit_kind,
+               s8 makes_collision_sound)
 {
-    field_0_definition_idx = param_1;
-    field_4_behavior_type = param_2;
-    field_8_next_definition_idx = param_3;
-    field_C_in_pool_list = param_4;
-    field_10 = param_5;
-    field_14 = param_6;
-    field_18_collision_bucket_category = param_7;
-    field_1C_speed = param_8;
-    field_20_friction = param_9;
-    field_24_next_definition_timer = param_10;
+    field_0_definition_idx = definition_idx;
+    field_4_behavior_type = behavior_type;
+    field_8_next_definition_idx = next_definition_idx;
+    field_C_in_pool_list = in_pool_list;
+    field_10_touch_behavior = touch_behavior;
+    field_14_projectile_hit_type = projectile_hit_type;
+    field_18_collision_bucket_category = collision_bucket_category;
+    field_1C_speed = speed;
+    field_20_friction = friction;
+    field_24_next_definition_timer = next_definition_timer;
     field_28 = param_11;
     field_2C = param_12;
-    field_30_next_frame_max = param_13;
-    field_34 = param_14;
-    field_38_mass = param_15;
-    field_3C_draw_layer = param_16;
-    field_40_sprite_flags = param_17;
-    field_44_has_sound = param_18;
-    field_48_has_shadows = param_19;
-    field_4C = param_20;
-    field_50 = param_21;
+    field_30_next_frame_max = next_frame_max;
+    field_34_uses_3d_movement = uses_3d_movement;
+    field_38_mass = mass;
+    field_3C_draw_layer = draw_layer;
+    field_40_sprite_flags = sprite_flags;
+    field_44_has_sound = has_sound;
+    field_48_has_shadows = has_shadows;
+    field_4C_instance_limit_kind = instance_limit_kind;
+    field_50_makes_collision_sound = makes_collision_sound;
 }
 
 // Temporary workaround: create overload without pulling params by ref
-CodeObjectTemplate::CodeObjectTemplate(u32 param_1,
-               u8 param_2,
-               u32 param_3,
+CodeObjectTemplate::CodeObjectTemplate(u32 definition_idx,
+               u8 num_sprites,
+               u32 behavior_type,
                u32 param_4,
-               u32 param_5,
-               u8 param_6,
-               u32 param_7,
-               u32 param_8,
-               u32 param_9,
-               Fix16 param_10,
-               Fix16 param_11,
-               u8 param_12,
+               u32 next_definition_idx,
+               u8 in_pool_list,
+               u32 touch_behavior,
+               u32 projectile_hit_type,
+               u32 collision_bucket_category,
+               Fix16 speed,
+               Fix16 friction,
+               u8 next_definition_timer,
                u32 param_13,
-               u32 param_14,
-               u32 param_15,
-               u32 param_16,
-               u32 param_17,
-               Fix16 param_18,
-               Fix16 param_19,
-               Fix16 param_20,
-               Fix16 param_21,
-               u32 param_22,
-               u32 param_23,
-               u8 param_24,
-               u32 param_25,
-               u32 param_26,
-               u32 param_27,
-               u8 param_28,
-               u8 param_29)
+               u32 z_collision_response,
+               u32 sprite_type,
+               u32 next_frame_max,
+               u32 uses_3d_movement,
+               Fix16 mass,
+               Fix16 width,
+               Fix16 height,
+               Fix16 depth,
+               u32 draw_layer,
+               u32 sprite_flags,
+               u8 destroyed_by_destructor,
+               u32 instance_limit_kind,
+               u32 uses_bullet_walls,
+               u32 has_sound,
+               u8 has_shadows,
+               u8 makes_collision_sound)
 {
-    field_0_definition_idx = param_1;
-    field_4_num_sprites = param_2;
-    field_8_behavior_type = param_3;
+    field_0_definition_idx = definition_idx;
+    field_4_num_sprites = num_sprites;
+    field_8_behavior_type = behavior_type;
     field_C = param_4;
-    field_10_next_definition_idx = param_5;
-    field_14_in_pool_list = param_6;
-    field_18 = param_7;
-    field_1C = param_8;
-    field_20_collision_bucket_category = param_9;
-    field_24_speed = param_10;
-    field_28_friction = param_11;
-    field_2C_next_definition_timer = param_12;
+    field_10_next_definition_idx = next_definition_idx;
+    field_14_in_pool_list = in_pool_list;
+    field_18_touch_behavior = touch_behavior;
+    field_1C_projectile_hit_type = projectile_hit_type;
+    field_20_collision_bucket_category = collision_bucket_category;
+    field_24_speed = speed;
+    field_28_friction = friction;
+    field_2C_next_definition_timer = next_definition_timer;
     field_30 = param_13;
-    field_34 = param_14;
-    field_38_sprite_type = param_15;
-    field_3C_next_frame_max = param_16;
-    field_40 = param_17;
-    field_44_mass = param_18;
-    field_48_width = param_19;
-    field_4C_height = param_20;
-    field_50_depth = param_21;
-    field_54_draw_layer = param_22;
-    field_58_sprite_flags = param_23;
-    field_59 = param_24;
-    field_5C = param_25;
-    field_60 = param_26;
-    field_64_has_sound = param_27;
-    field_68_has_shadows = param_28;
-    field_69 = param_29;
+    field_34_z_collision_response = z_collision_response;
+    field_38_sprite_type = sprite_type;
+    field_3C_next_frame_max = next_frame_max;
+    field_40_uses_3d_movement = uses_3d_movement;
+    field_44_mass = mass;
+    field_48_width = width;
+    field_4C_height = height;
+    field_50_depth = depth;
+    field_54_draw_layer = draw_layer;
+    field_58_sprite_flags = sprite_flags;
+    field_59_destroyed_by_destructor = destroyed_by_destructor;
+    field_5C_instance_limit_kind = instance_limit_kind;
+    field_60_uses_bullet_walls = uses_bullet_walls;
+    field_64_has_sound = has_sound;
+    field_68_has_shadows = has_shadows;
+    field_69_makes_collision_sound = makes_collision_sound;
 }
 
 void InitMapObjectOverrides()
@@ -488,111 +488,111 @@ ObjectDefinition::~ObjectDefinition()
 }
 
 MATCH_FUNC(0x531860)
-CodeObjectTemplate::CodeObjectTemplate(u32 param_1,
-               u8 param_2,
-               u32& param_3,
+CodeObjectTemplate::CodeObjectTemplate(u32 definition_idx,
+               u8 num_sprites,
+               u32& behavior_type,
                u32 param_4,
-               u32 param_5,
-               u8 param_6,
-               u32& param_7,
-               u32& param_8,
-               u32& param_9,
-               Fix16 param_10,
-               Fix16 param_11,
-               u8 param_12,
+               u32 next_definition_idx,
+               u8 in_pool_list,
+               u32& touch_behavior,
+               u32& projectile_hit_type,
+               u32& collision_bucket_category,
+               Fix16 speed,
+               Fix16 friction,
+               u8 next_definition_timer,
                u32& param_13,
-               u32& param_14,
-               u32 param_15,
-               u32 param_16,
-               u32& param_17,
-               Fix16 param_18,
-               Fix16 param_19,
-               Fix16 param_20,
-               Fix16 param_21,
-               u32 param_22,
-               u32 param_23,
-               u8 param_24,
-               u32& param_25,
-               u32 param_26,
-               u32 param_27,
-               u8 param_28,
-               u8 param_29)
+               u32& z_collision_response,
+               u32 sprite_type,
+               u32 next_frame_max,
+               u32& uses_3d_movement,
+               Fix16 mass,
+               Fix16 width,
+               Fix16 height,
+               Fix16 depth,
+               u32 draw_layer,
+               u32 sprite_flags,
+               u8 destroyed_by_destructor,
+               u32& instance_limit_kind,
+               u32 uses_bullet_walls,
+               u32 has_sound,
+               u8 has_shadows,
+               u8 makes_collision_sound)
 {
-    field_0_definition_idx = param_1;
-    field_4_num_sprites = param_2;
-    field_8_behavior_type = param_3;
+    field_0_definition_idx = definition_idx;
+    field_4_num_sprites = num_sprites;
+    field_8_behavior_type = behavior_type;
     field_C = param_4;
-    field_10_next_definition_idx = param_5;
-    field_14_in_pool_list = param_6;
-    field_18 = param_7;
-    field_1C = param_8;
-    field_20_collision_bucket_category = param_9;
-    field_24_speed = param_10;
-    field_28_friction = param_11;
-    field_2C_next_definition_timer = param_12;
+    field_10_next_definition_idx = next_definition_idx;
+    field_14_in_pool_list = in_pool_list;
+    field_18_touch_behavior = touch_behavior;
+    field_1C_projectile_hit_type = projectile_hit_type;
+    field_20_collision_bucket_category = collision_bucket_category;
+    field_24_speed = speed;
+    field_28_friction = friction;
+    field_2C_next_definition_timer = next_definition_timer;
     field_30 = param_13;
-    field_34 = param_14;
-    field_38_sprite_type = param_15;
-    field_3C_next_frame_max = param_16;
-    field_40 = param_17;
-    field_44_mass = param_18;
-    field_48_width = param_19;
-    field_4C_height = param_20;
-    field_50_depth = param_21;
-    field_54_draw_layer = param_22;
-    field_58_sprite_flags = param_23;
-    field_59 = param_24;
-    field_5C = param_25;
-    field_60 = param_26;
-    field_64_has_sound = param_27;
-    field_68_has_shadows = param_28;
-    field_69 = param_29;
+    field_34_z_collision_response = z_collision_response;
+    field_38_sprite_type = sprite_type;
+    field_3C_next_frame_max = next_frame_max;
+    field_40_uses_3d_movement = uses_3d_movement;
+    field_44_mass = mass;
+    field_48_width = width;
+    field_4C_height = height;
+    field_50_depth = depth;
+    field_54_draw_layer = draw_layer;
+    field_58_sprite_flags = sprite_flags;
+    field_59_destroyed_by_destructor = destroyed_by_destructor;
+    field_5C_instance_limit_kind = instance_limit_kind;
+    field_60_uses_bullet_walls = uses_bullet_walls;
+    field_64_has_sound = has_sound;
+    field_68_has_shadows = has_shadows;
+    field_69_makes_collision_sound = makes_collision_sound;
 }
 
 MATCH_FUNC(0x532fb0)
-MapObjectOverride::MapObjectOverride(s32 param_1,
-               s32& param_2,
-               s32 param_3,
-               s8 param_4,
-               s32& param_5,
-               s32& param_6,
-               s32& param_7,
-               Fix16 param_8,
-               Fix16 param_9,
-               s8 param_10,
+MapObjectOverride::MapObjectOverride(s32 definition_idx,
+               s32& behavior_type,
+               s32 next_definition_idx,
+               s8 in_pool_list,
+               s32& touch_behavior,
+               s32& projectile_hit_type,
+               s32& collision_bucket_category,
+               Fix16 speed,
+               Fix16 friction,
+               s8 next_definition_timer,
                s32& param_11,
                s32& param_12,
-               s8 param_13,
-               s32& param_14,
-               Fix16 param_15,
-               s32 param_16,
-               s32 param_17,
-               s32 param_18,
-               s8 param_19,
-               s32 param_20,
-               s8 param_21)
+               s8 next_frame_max,
+               s32& uses_3d_movement,
+               Fix16 mass,
+               s32 draw_layer,
+               s32 sprite_flags,
+               s32 has_sound,
+               s8 has_shadows,
+               s32 instance_limit_kind,
+               s8 makes_collision_sound)
 {
-    field_0_definition_idx = param_1;
-    field_4_behavior_type = param_2;
-    field_8_next_definition_idx = param_3;
-    field_C_in_pool_list = param_4;
-    field_10 = param_5;
-    field_14 = param_6;
-    field_18_collision_bucket_category = param_7;
-    field_1C_speed = param_8;
-    field_20_friction = param_9;
-    field_24_next_definition_timer = param_10;
+    field_0_definition_idx = definition_idx;
+    field_4_behavior_type = behavior_type;
+    field_8_next_definition_idx = next_definition_idx;
+    field_C_in_pool_list = in_pool_list;
+    field_10_touch_behavior = touch_behavior;
+    field_14_projectile_hit_type = projectile_hit_type;
+    field_18_collision_bucket_category = collision_bucket_category;
+    field_1C_speed = speed;
+    field_20_friction = friction;
+    field_24_next_definition_timer = next_definition_timer;
     field_28 = param_11;
     field_2C = param_12;
-    field_30_next_frame_max = param_13;
-    field_34 = param_14;
-    field_38_mass = param_15;
-    field_3C_draw_layer = param_16;
-    field_40_sprite_flags = param_17;
-    field_44_has_sound = param_18;
-    field_48_has_shadows = param_19;
-    field_4C = param_20;
-    field_50 = param_21;
+    field_30_next_frame_max = next_frame_max;
+    field_34_uses_3d_movement = uses_3d_movement;
+    field_38_mass = mass;
+    field_3C_draw_layer = draw_layer;
+    field_40_sprite_flags = sprite_flags;
+    field_44_has_sound = has_sound;
+    field_48_has_shadows = has_shadows;
+    field_4C_instance_limit_kind = instance_limit_kind;
+    field_50_makes_collision_sound = makes_collision_sound;
 }
 
 MATCH_FUNC(0x533060)
@@ -715,10 +715,10 @@ ObjectDefinition::ObjectDefinition()
     field_3C_next_definition_idx = 0;
     field_40_collision_bucket_category = collision_bucket_category::sprite_grid_3_single_cell_0;
     field_44_touch_behavior = 0;
-    field_48 = 0;
+    field_48_projectile_hit_type = 0;
     field_4C = 1;
-    field_50 = 1;
-    field_58 = 0;
+    field_50_z_collision_response = 1;
+    field_58_uses_3d_movement = 0;
     field_54_react_to_collisions_with = CollisionReaction::Always_0;
     field_C_min_size = kFp255_6F8FA4;
     field_10_speed = kFp255_6F8FA4;
@@ -730,11 +730,11 @@ ObjectDefinition::ObjectDefinition()
     field_1E_base_sprite_idx = 99;
     field_6C_num_frames = 99;
     Fix16 zero_mass = kFpZeroForStaticInit_6FCE08;
-    field_68 = 0;
+    field_68_uses_bullet_walls = 0;
     field_18_mass = zero_mass;
     field_20_sprite_flags = 0;
-    field_60 = 0;
-    field_5C = 1;
+    field_60_destroyed_by_destructor = 0;
+    field_5C_instance_limit_kind = 1;
     field_70_has_sound = 0;
 }
 
@@ -780,23 +780,23 @@ void ObjectDefinitions::ApplyMapObjectOverrides_533360()
             pDef->field_3C_next_definition_idx = pOverride->field_8_next_definition_idx;
             pDef->field_61_in_pool_list = pOverride->field_C_in_pool_list;
             pDef->field_40_collision_bucket_category = pOverride->field_18_collision_bucket_category;
-            pDef->field_44_touch_behavior = pOverride->field_10;
-            pDef->field_48 = pOverride->field_14;
+            pDef->field_44_touch_behavior = pOverride->field_10_touch_behavior;
+            pDef->field_48_projectile_hit_type = pOverride->field_14_projectile_hit_type;
             pDef->field_10_speed = pOverride->field_1C_speed;
             pDef->field_65_next_definition_timer = pOverride->field_24_next_definition_timer;
             pDef->field_14_friction = pOverride->field_20_friction;
             pDef->field_4C = pOverride->field_28;
             pDef->field_64_next_frame_max = pOverride->field_30_next_frame_max;
-            pDef->field_58 = pOverride->field_34;
+            pDef->field_58_uses_3d_movement = pOverride->field_34_uses_3d_movement;
             pDef->field_18_mass = pOverride->field_38_mass;
             pDef->field_20_sprite_flags = pOverride->field_40_sprite_flags;
             pDef->field_2C_draw_layer = pOverride->field_3C_draw_layer;
-            pDef->field_60 = 1;
-            pDef->field_5C = pOverride->field_4C;
-            pDef->field_68 = 0;
+            pDef->field_60_destroyed_by_destructor = 1;
+            pDef->field_5C_instance_limit_kind = pOverride->field_4C_instance_limit_kind;
+            pDef->field_68_uses_bullet_walls = 0;
             pDef->field_70_has_sound = pOverride->field_44_has_sound;
             pDef->field_62_has_shadows = pOverride->field_48_has_shadows;
-            pDef->field_63 = pOverride->field_50;
+            pDef->field_63_makes_collision_sound = pOverride->field_50_makes_collision_sound;
             pDef->field_54_react_to_collisions_with = CollisionReaction::Always_0;
             pOverride++;
         } while (--override_count != 0);
@@ -871,9 +871,9 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pAVar1->field_14_friction = -kFpPoint01_6FCDD8;
     pAVar1->field_61_in_pool_list = 1;
     pAVar1->field_4C = 3;
-    pAVar1->field_50 = 3;
+    pAVar1->field_50_z_collision_response = 3;
     pAVar1->field_65_next_definition_timer = -1;
-    pAVar1->field_58 = 1;
+    pAVar1->field_58_uses_3d_movement = 1;
 
     pAVar1 = CloneDefinition_534370(0x35, 3);
     pAVar1->OffsetBaseSpriteIdxAndSetNumFrames_533150(pAVar1->field_6C_num_frames - 1, 1);
@@ -890,9 +890,9 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pAVar1->field_14_friction = -kFpPoint01_6FCDD8;
     pAVar1->field_61_in_pool_list = '\x01';
     pAVar1->field_4C = 3;
-    pAVar1->field_50 = 3;
+    pAVar1->field_50_z_collision_response = 3;
     pAVar1->field_65_next_definition_timer = -1;
-    pAVar1->field_58 = 1;
+    pAVar1->field_58_uses_3d_movement = 1;
 
     pAVar1 = CloneDefinition_534370(0x37, 0xb);
     pAVar1->OffsetBaseSpriteIdxAndSetNumFrames_533150(pAVar1->field_6C_num_frames - 1, 1);
@@ -909,9 +909,9 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pAVar1->field_14_friction = -kFpPoint01_6FCDD8;
     pAVar1->field_61_in_pool_list = '\x01';
     pAVar1->field_4C = 3;
-    pAVar1->field_50 = 3;
+    pAVar1->field_50_z_collision_response = 3;
     pAVar1->field_65_next_definition_timer = -1;
-    pAVar1->field_58 = 1;
+    pAVar1->field_58_uses_3d_movement = 1;
 
     pAVar1 = CloneDefinition_534370(0x36, 5);
     pAVar1->OffsetBaseSpriteIdxAndSetNumFrames_533150(pAVar1->field_6C_num_frames - 1, 1);
@@ -928,9 +928,9 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pAVar1->field_14_friction = -kFpPoint01_6FCDD8;
     pAVar1->field_61_in_pool_list = '\x01';
     pAVar1->field_4C = 3;
-    pAVar1->field_50 = 3;
+    pAVar1->field_50_z_collision_response = 3;
     pAVar1->field_65_next_definition_timer = -1;
-    pAVar1->field_58 = 1;
+    pAVar1->field_58_uses_3d_movement = 1;
 
     pAVar1 = CloneDefinition_534370(0x39, 0xe);
     pAVar1->OffsetBaseSpriteIdxAndSetNumFrames_533150(1, pAVar1->field_6C_num_frames + -1);
@@ -944,9 +944,9 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pAVar1->field_14_friction = -kFpPoint01_6FCDD8;
     pAVar1->field_61_in_pool_list = '\x01';
     pAVar1->field_4C = 3;
-    pAVar1->field_50 = 3;
+    pAVar1->field_50_z_collision_response = 3;
     pAVar1->field_65_next_definition_timer = -1;
-    pAVar1->field_58 = 1;
+    pAVar1->field_58_uses_3d_movement = 1;
 
     pAVar1 = CloneDefinition_534370(0x3a, 0xe);
     pAVar1->OffsetBaseSpriteIdxAndSetNumFrames_533150(pAVar1->field_6C_num_frames - 1, 1);
@@ -963,9 +963,9 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pAVar1->field_14_friction = -kFpPoint01_6FCDD8;
     pAVar1->field_61_in_pool_list = '\x01';
     pAVar1->field_4C = 3;
-    pAVar1->field_50 = 3;
+    pAVar1->field_50_z_collision_response = 3;
     pAVar1->field_65_next_definition_timer = -1;
-    pAVar1->field_58 = 1;
+    pAVar1->field_58_uses_3d_movement = 1;
 
     pAVar1 = CloneDefinition_534370(0x3c, 0xf);
     pAVar1->OffsetBaseSpriteIdxAndSetNumFrames_533150(pAVar1->field_6C_num_frames - 1, 1);
@@ -982,9 +982,9 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pAVar1->field_14_friction = -kFpPoint01_6FCDD8;
     pAVar1->field_61_in_pool_list = '\x01';
     pAVar1->field_4C = 3;
-    pAVar1->field_50 = 3;
+    pAVar1->field_50_z_collision_response = 3;
     pAVar1->field_65_next_definition_timer = -1;
-    pAVar1->field_58 = 1;
+    pAVar1->field_58_uses_3d_movement = 1;
 
     pAVar1 = CloneDefinition_534370(0x3e, 0x10);
     pAVar1->OffsetBaseSpriteIdxAndSetNumFrames_533150(pAVar1->field_6C_num_frames - 1, 1);
@@ -1001,9 +1001,9 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pAVar1->field_14_friction = -kFpPoint01_6FCDD8;
     pAVar1->field_61_in_pool_list = '\x01';
     pAVar1->field_4C = 3;
-    pAVar1->field_50 = 3;
+    pAVar1->field_50_z_collision_response = 3;
     pAVar1->field_65_next_definition_timer = -1;
-    pAVar1->field_58 = 1;
+    pAVar1->field_58_uses_3d_movement = 1;
 
     pAVar1 = CloneDefinition_534370(0x2d, 0x16);
     pAVar1->OffsetBaseSpriteIdxAndSetNumFrames_533150(1, pAVar1->field_6C_num_frames + -1);
@@ -1017,9 +1017,9 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pAVar1->field_14_friction = -kFpPoint01_6FCDD8;
     pAVar1->field_61_in_pool_list = '\x01';
     pAVar1->field_4C = 3;
-    pAVar1->field_50 = 3;
+    pAVar1->field_50_z_collision_response = 3;
     pAVar1->field_65_next_definition_timer = -1;
-    pAVar1->field_58 = 1;
+    pAVar1->field_58_uses_3d_movement = 1;
 
     pAVar1 = CloneDefinition_534370(0x2e, 0x16);
     pAVar1->OffsetBaseSpriteIdxAndSetNumFrames_533150(pAVar1->field_6C_num_frames - 1, 1);
@@ -1036,9 +1036,9 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pAVar1->field_14_friction = -kFpPoint01_6FCDD8;
     pAVar1->field_61_in_pool_list = '\x01';
     pAVar1->field_4C = 3;
-    pAVar1->field_50 = 3;
+    pAVar1->field_50_z_collision_response = 3;
     pAVar1->field_65_next_definition_timer = -1;
-    pAVar1->field_58 = 1;
+    pAVar1->field_58_uses_3d_movement = 1;
 
     pAVar1 = CloneDefinition_534370(0x30, 0x15);
     pAVar1->OffsetBaseSpriteIdxAndSetNumFrames_533150(pAVar1->field_6C_num_frames - 1, 1);
@@ -1052,9 +1052,9 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pAVar1->field_10_speed = kFpPoint1_6F8FD8;
     pAVar1->field_14_friction = -kFpPoint01_6FCDD8;
     pAVar1->field_4C = 3;
-    pAVar1->field_50 = 3;
+    pAVar1->field_50_z_collision_response = 3;
     pAVar1->field_61_in_pool_list = '\x01';
-    pAVar1->field_58 = 1;
+    pAVar1->field_58_uses_3d_movement = 1;
 
     pAVar1 = CloneDefinition_534370(0x2b, 0x17);
     pAVar1->OffsetBaseSpriteIdxAndSetNumFrames_533150(1, pAVar1->field_6C_num_frames + -1);
@@ -1068,9 +1068,9 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pAVar1->field_14_friction = -kFpPoint01_6FCDD8;
     pAVar1->field_61_in_pool_list = '\x01';
     pAVar1->field_4C = 3;
-    pAVar1->field_50 = 3;
+    pAVar1->field_50_z_collision_response = 3;
     pAVar1->field_65_next_definition_timer = -1;
-    pAVar1->field_58 = 1;
+    pAVar1->field_58_uses_3d_movement = 1;
 
     pAVar1 = CloneDefinition_534370(0x2c, 0x17);
     pAVar1->OffsetBaseSpriteIdxAndSetNumFrames_533150(pAVar1->field_6C_num_frames - 1, 1);
@@ -1084,7 +1084,7 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pAVar1->field_40_collision_bucket_category = collision_bucket_category::sprite_grid_1_region_4;
     pAVar1->field_44_touch_behavior = 0;
     pAVar1->field_61_in_pool_list = '\x01';
-    pAVar1->field_58 = 1;
+    pAVar1->field_58_uses_3d_movement = 1;
 
     pAVar1 = CloneDefinition_534370(0x9e, 1);
     pAVar1->field_34_behavior_type = object_behavior_type::physics_3;
@@ -1094,7 +1094,7 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pAVar1->field_3C_next_definition_idx = 1;
     pAVar1->field_44_touch_behavior = 0;
     pAVar1->field_61_in_pool_list = '\x01';
-    pAVar1->field_58 = 1;
+    pAVar1->field_58_uses_3d_movement = 1;
     pAVar1 = GetObjectDefinition_534360(0x19);
     pAVar1->field_28_sprite_type = 1;
     pAVar1->field_8_depth = kFpTwo_6FCE10;
@@ -1127,25 +1127,25 @@ void ObjectDefinitions::CreateCodeObjectDefinitions_533B30()
             pDef->field_3C_next_definition_idx = pTemplate->field_10_next_definition_idx;
             pDef->field_61_in_pool_list = pTemplate->field_14_in_pool_list;
             pDef->field_40_collision_bucket_category = pTemplate->field_20_collision_bucket_category;
-            pDef->field_44_touch_behavior = pTemplate->field_18;
-            pDef->field_48 = pTemplate->field_1C;
+            pDef->field_44_touch_behavior = pTemplate->field_18_touch_behavior;
+            pDef->field_48_projectile_hit_type = pTemplate->field_1C_projectile_hit_type;
             pDef->field_10_speed = pTemplate->field_24_speed;
             pDef->field_65_next_definition_timer = pTemplate->field_2C_next_definition_timer;
             pDef->field_14_friction = pTemplate->field_28_friction;
             pDef->field_4C = pTemplate->field_30;
-            pDef->field_50 = pTemplate->field_34;
+            pDef->field_50_z_collision_response = pTemplate->field_34_z_collision_response;
             pDef->field_64_next_frame_max = pTemplate->field_3C_next_frame_max;
             pDef->field_54_react_to_collisions_with = CollisionReaction::Always_0;
-            pDef->field_58 = pTemplate->field_40;
+            pDef->field_58_uses_3d_movement = pTemplate->field_40_uses_3d_movement;
             pDef->field_18_mass = pTemplate->field_44_mass;
             pDef->field_2C_draw_layer = pTemplate->field_54_draw_layer;
             pDef->field_20_sprite_flags = pTemplate->field_58_sprite_flags;
-            pDef->field_60 = pTemplate->field_59;
-            pDef->field_5C = pTemplate->field_5C;
-            pDef->field_68 = pTemplate->field_60;
+            pDef->field_60_destroyed_by_destructor = pTemplate->field_59_destroyed_by_destructor;
+            pDef->field_5C_instance_limit_kind = pTemplate->field_5C_instance_limit_kind;
+            pDef->field_68_uses_bullet_walls = pTemplate->field_60_uses_bullet_walls;
             pDef->field_70_has_sound = pTemplate->field_64_has_sound;
             pDef->field_62_has_shadows = pTemplate->field_68_has_shadows;
-            pDef->field_63 = pTemplate->field_69;
+            pDef->field_63_makes_collision_sound = pTemplate->field_69_makes_collision_sound;
             pTemplate++;
         }
     }
@@ -1213,8 +1213,8 @@ void ObjectDefinitions::CloneRemappedDefinitions_533C90()
         tmp->field_40_collision_bucket_category = collision_bucket_category::sprite_grid_3_single_cell_1;
     }
     tmp->field_44_touch_behavior = 2;
-    tmp->field_58 = 1;
-    tmp->field_50 = 1;
+    tmp->field_58_uses_3d_movement = 1;
+    tmp->field_50_z_collision_response = 1;
 
     tmp = CloneDefinition_534370(0x7f, 0x9b);
     tmp->field_38 = 0;
@@ -1231,8 +1231,8 @@ void ObjectDefinitions::CloneRemappedDefinitions_533C90()
         tmp->field_40_collision_bucket_category = collision_bucket_category::sprite_grid_3_single_cell_1;
     }
     tmp->field_44_touch_behavior = 2;
-    tmp->field_58 = 1;
-    tmp->field_50 = 1;
+    tmp->field_58_uses_3d_movement = 1;
+    tmp->field_50_z_collision_response = 1;
 
     tmp = CloneDefinition_534370(0xc1, 0xc0);
     tmp->field_38 = 0;
@@ -1344,7 +1344,7 @@ void ObjectDefinitions::CloneRemappedDefinitions_533C90()
     tmp->field_14_friction = kFpZero_6FCE08;
     tmp->field_10_speed = kFpZero_6FCE08;
     tmp->field_4C = 0;
-    tmp->field_50 = 0;
+    tmp->field_50_z_collision_response = 0;
     tmp->field_64_next_frame_max = '\b';
     tmp->OffsetBaseSpriteIdxAndSetNumFrames_533150(tmp->field_6C_num_frames - 1, 1);
 
@@ -1355,9 +1355,9 @@ void ObjectDefinitions::CloneRemappedDefinitions_533C90()
         tmp->field_34_behavior_type = tmp->field_34_behavior_type == object_behavior_type::pickup_6 ? object_behavior_type::pickup_physics_7 : object_behavior_type::pickup_physics_animated_9;
         tmp->field_14_friction = -kFpPoint01_6FCDD8;
         tmp->field_4C = 1;
-        tmp->field_50 = 1;
+        tmp->field_50_z_collision_response = 1;
         tmp->field_61_in_pool_list = '\x01';
-        tmp->field_58 = 1;
+        tmp->field_58_uses_3d_movement = 1;
         tmp->field_40_collision_bucket_category = collision_bucket_category::sprite_grid_2_region_3;
         tmp->field_18_mass = kFpPoint1_6F8FD8;
         tmp->field_10_speed = kFpPoint02_6FCDE0;

@@ -2869,21 +2869,21 @@ void CC ImGuiDebugDraw()
                             ImGui::InputInt("field_3C_next_definition_idx", &pDef->field_3C_next_definition_idx, 1, 1);
                             ImGui::InputInt("field_40_collision_bucket_category", &pDef->field_40_collision_bucket_category, 1, 1);
                             ImGui::InputInt("field_44_touch_behavior", &pDef->field_44_touch_behavior, 1, 1);
-                            ImGui::InputInt("field_48", &pDef->field_48, 1, 1);
+                            ImGui::InputInt("field_48", &pDef->field_48_projectile_hit_type, 1, 1);
                             ImGui::InputInt("field_4C", &pDef->field_4C, 1, 1);
-                            ImGui::InputInt("field_50", &pDef->field_50, 1, 1);
+                            ImGui::InputInt("field_50", &pDef->field_50_z_collision_response, 1, 1);
                             ImGui::InputInt("field_54_react_to_collisions_with", &pDef->field_54_react_to_collisions_with, 1, 1);
-                            ImGui::InputInt("field_58", &pDef->field_58, 1, 1);
-                            ImGui::InputInt("field_5C", &pDef->field_5C, 1, 1);
+                            ImGui::InputInt("field_58", &pDef->field_58_uses_3d_movement, 1, 1);
+                            ImGui::InputInt("field_5C", &pDef->field_5C_instance_limit_kind, 1, 1);
 
-                            ImGui::Input_char_type("field_60", &pDef->field_60, 1, 1);
+                            ImGui::Input_char_type("field_60", &pDef->field_60_destroyed_by_destructor, 1, 1);
                             ImGui::Input_char_type("field_61_in_pool_list", &pDef->field_61_in_pool_list, 1, 1);
                             ImGui::Input_char_type("field_62_has_shadows", &pDef->field_62_has_shadows, 1, 1);
-                            ImGui::Input_char_type("field_63", &pDef->field_63, 1, 1);
+                            ImGui::Input_char_type("field_63", &pDef->field_63_makes_collision_sound, 1, 1);
                             ImGui::Input_char_type("field_64_next_frame_max", &pDef->field_64_next_frame_max, 1, 1);
                             ImGui::Input_char_type("field_65_next_definition_timer", &pDef->field_65_next_definition_timer, 1, 1);
 
-                            ImGui::InputInt("field_68", &pDef->field_68, 1, 1);
+                            ImGui::InputInt("field_68", &pDef->field_68_uses_bullet_walls, 1, 1);
 
                             ImGui::TreePop();
                         }
@@ -3533,8 +3533,8 @@ void CC ImGuiDebugDraw()
                     ImGui::Value("field_4_behavior_type", phi_54->field_4_behavior_type);
                     ImGui::Value("field_8_next_definition_idx", phi_54->field_8_next_definition_idx);
                     ImGui::Value("field_C_in_pool_list", phi_54->field_C_in_pool_list);
-                    ImGui::Value("field_10", phi_54->field_10);
-                    ImGui::Value("field_14", phi_54->field_14);
+                    ImGui::Value("field_10", phi_54->field_10_touch_behavior);
+                    ImGui::Value("field_14", phi_54->field_14_projectile_hit_type);
                     ImGui::Value("field_18_collision_bucket_category", phi_54->field_18_collision_bucket_category);
                     ImGui::Value("field_1C_speed", phi_54->field_1C_speed.mValue);
                     ImGui::Value("field_20_friction", phi_54->field_20_friction.mValue);
@@ -3542,14 +3542,14 @@ void CC ImGuiDebugDraw()
                     ImGui::Value("field_28", phi_54->field_28);
                     ImGui::Value("field_2C", phi_54->field_2C);
                     ImGui::Value("field_30_next_frame_max", phi_54->field_30_next_frame_max);
-                    ImGui::Value("field_34", phi_54->field_34);
+                    ImGui::Value("field_34", phi_54->field_34_uses_3d_movement);
                     ImGui::Value("field_38_mass", phi_54->field_38_mass.mValue);
                     ImGui::Value("field_3C_draw_layer", phi_54->field_3C_draw_layer);
                     ImGui::Value("field_40_sprite_flags", phi_54->field_40_sprite_flags);
                     ImGui::Value("field_44_has_sound", phi_54->field_44_has_sound);
                     ImGui::Value("field_48_has_shadows", phi_54->field_48_has_shadows);
-                    ImGui::Value("field_4C", phi_54->field_4C);
-                    ImGui::Value("field_50", phi_54->field_50);
+                    ImGui::Value("field_4C", phi_54->field_4C_instance_limit_kind);
+                    ImGui::Value("field_50", phi_54->field_50_makes_collision_sound);
                 }
             }
 

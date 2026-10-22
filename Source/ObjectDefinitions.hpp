@@ -15,56 +15,56 @@ class MapObjectOverride
     EXPORT MapObjectOverride()
     {
     }
-    EXPORT MapObjectOverride(s32 param_1,
-                  s32& param_2,
-                  s32 param_3,
-                  s8 param_4,
-                  s32& param_5,
-                  s32& param_6,
-                  s32& param_7,
-                  Fix16 param_8,
-                  Fix16 param_9,
-                  s8 param_10,
+    EXPORT MapObjectOverride(s32 definition_idx,
+                  s32& behavior_type,
+                  s32 next_definition_idx,
+                  s8 in_pool_list,
+                  s32& touch_behavior,
+                  s32& projectile_hit_type,
+                  s32& collision_bucket_category,
+                  Fix16 speed,
+                  Fix16 friction,
+                  s8 next_definition_timer,
                   s32& param_11,
                   s32& param_12,
-                  s8 param_13,
-                  s32& param_14,
-                  Fix16 param_15,
-                  s32 param_16,
-                  s32 param_17,
-                  s32 param_18,
-                  s8 param_19,
-                  s32 param_20,
-                  s8 param_21);
+                  s8 next_frame_max,
+                  s32& uses_3d_movement,
+                  Fix16 mass,
+                  s32 draw_layer,
+                  s32 sprite_flags,
+                  s32 has_sound,
+                  s8 has_shadows,
+                  s32 instance_limit_kind,
+                  s8 makes_collision_sound);
 
-    EXPORT MapObjectOverride(s32 param_1,
-                  s32 param_2,
-                  s32 param_3,
-                  s8 param_4,
-                  s32 param_5,
-                  s32 param_6,
-                  s32 param_7,
-                  Fix16 param_8,
-                  Fix16 param_9,
-                  s8 param_10,
+    EXPORT MapObjectOverride(s32 definition_idx,
+                  s32 behavior_type,
+                  s32 next_definition_idx,
+                  s8 in_pool_list,
+                  s32 touch_behavior,
+                  s32 projectile_hit_type,
+                  s32 collision_bucket_category,
+                  Fix16 speed,
+                  Fix16 friction,
+                  s8 next_definition_timer,
                   s32 param_11,
                   s32 param_12,
-                  s8 param_13,
-                  s32 param_14,
-                  Fix16 param_15,
-                  s32 param_16,
-                  s32 param_17,
-                  s32 param_18,
-                  s8 param_19,
-                  s32 param_20,
-                  s8 param_21);
+                  s8 next_frame_max,
+                  s32 uses_3d_movement,
+                  Fix16 mass,
+                  s32 draw_layer,
+                  s32 sprite_flags,
+                  s32 has_sound,
+                  s8 has_shadows,
+                  s32 instance_limit_kind,
+                  s8 makes_collision_sound);
 
     s32 field_0_definition_idx;
     s32 field_4_behavior_type;
     s32 field_8_next_definition_idx;
     s8 field_C_in_pool_list;
-    s32 field_10;
-    s32 field_14;
+    s32 field_10_touch_behavior;
+    s32 field_14_projectile_hit_type;
     s32 field_18_collision_bucket_category;
     Fix16 field_1C_speed;
     Fix16 field_20_friction;
@@ -72,14 +72,14 @@ class MapObjectOverride
     s32 field_28;
     s32 field_2C;
     s8 field_30_next_frame_max;
-    s32 field_34;
+    s32 field_34_uses_3d_movement;
     Fix16 field_38_mass;
     s32 field_3C_draw_layer;
     s8 field_40_sprite_flags;
     s32 field_44_has_sound;
     s8 field_48_has_shadows;
-    s32 field_4C;
-    s8 field_50;
+    s32 field_4C_instance_limit_kind;
+    s8 field_50_makes_collision_sound;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(MapObjectOverride, 0x54);
 
@@ -92,65 +92,65 @@ class CodeObjectTemplate
     EXPORT CodeObjectTemplate()
     {
     }
-    EXPORT CodeObjectTemplate(u32 param_1,
-                  u8 param_2,
-                  u32& param_3,
+    EXPORT CodeObjectTemplate(u32 definition_idx,
+                  u8 num_sprites,
+                  u32& behavior_type,
                   u32 param_4,
-                  u32 param_5,
-                  u8 param_6,
-                  u32& param_7,
-                  u32& param_8,
-                  u32& param_9,
-                  Fix16 param_10,
-                  Fix16 param_11,
-                  u8 param_12,
+                  u32 next_definition_idx,
+                  u8 in_pool_list,
+                  u32& touch_behavior,
+                  u32& projectile_hit_type,
+                  u32& collision_bucket_category,
+                  Fix16 speed,
+                  Fix16 friction,
+                  u8 next_definition_timer,
                   u32& param_13,
-                  u32& param_14,
-                  u32 param_15,
-                  u32 param_16,
-                  u32& param_17,
-                  Fix16 param_18,
-                  Fix16 param_19,
-                  Fix16 param_20,
-                  Fix16 param_21,
-                  u32 param_22,
-                  u32 param_23,
-                  u8 param_24,
-                  u32& param_25,
-                  u32 param_26,
-                  u32 param_27,
-                  u8 param_28,
-                  u8 param_29);
+                  u32& z_collision_response,
+                  u32 sprite_type,
+                  u32 next_frame_max,
+                  u32& uses_3d_movement,
+                  Fix16 mass,
+                  Fix16 width,
+                  Fix16 height,
+                  Fix16 depth,
+                  u32 draw_layer,
+                  u32 sprite_flags,
+                  u8 destroyed_by_destructor,
+                  u32& instance_limit_kind,
+                  u32 uses_bullet_walls,
+                  u32 has_sound,
+                  u8 has_shadows,
+                  u8 makes_collision_sound);
 
-    EXPORT CodeObjectTemplate(u32 param_1,
-                  u8 param_2,
-                  u32 param_3,
+    EXPORT CodeObjectTemplate(u32 definition_idx,
+                  u8 num_sprites,
+                  u32 behavior_type,
                   u32 param_4,
-                  u32 param_5,
-                  u8 param_6,
-                  u32 param_7,
-                  u32 param_8,
-                  u32 param_9,
-                  Fix16 param_10,
-                  Fix16 param_11,
-                  u8 param_12,
+                  u32 next_definition_idx,
+                  u8 in_pool_list,
+                  u32 touch_behavior,
+                  u32 projectile_hit_type,
+                  u32 collision_bucket_category,
+                  Fix16 speed,
+                  Fix16 friction,
+                  u8 next_definition_timer,
                   u32 param_13,
-                  u32 param_14,
-                  u32 param_15,
-                  u32 param_16,
-                  u32 param_17,
-                  Fix16 param_18,
-                  Fix16 param_19,
-                  Fix16 param_20,
-                  Fix16 param_21,
-                  u32 param_22,
-                  u32 param_23,
-                  u8 param_24,
-                  u32 param_25,
-                  u32 param_26,
-                  u32 param_27,
-                  u8 param_28,
-                  u8 param_29);
+                  u32 z_collision_response,
+                  u32 sprite_type,
+                  u32 next_frame_max,
+                  u32 uses_3d_movement,
+                  Fix16 mass,
+                  Fix16 width,
+                  Fix16 height,
+                  Fix16 depth,
+                  u32 draw_layer,
+                  u32 sprite_flags,
+                  u8 destroyed_by_destructor,
+                  u32 instance_limit_kind,
+                  u32 uses_bullet_walls,
+                  u32 has_sound,
+                  u8 has_shadows,
+                  u8 makes_collision_sound);
 
     s32 field_0_definition_idx;
     u8 field_4_num_sprites;
@@ -158,29 +158,29 @@ class CodeObjectTemplate
     s32 field_C;
     s32 field_10_next_definition_idx;
     s8 field_14_in_pool_list;
-    s32 field_18;
-    s32 field_1C;
+    s32 field_18_touch_behavior;
+    s32 field_1C_projectile_hit_type;
     s32 field_20_collision_bucket_category;
     Fix16 field_24_speed;
     Fix16 field_28_friction;
     s8 field_2C_next_definition_timer;
     s32 field_30;
-    s32 field_34;
+    s32 field_34_z_collision_response;
     s32 field_38_sprite_type;
     s8 field_3C_next_frame_max;
-    s32 field_40;
+    s32 field_40_uses_3d_movement;
     Fix16 field_44_mass;
     Fix16 field_48_width;
     Fix16 field_4C_height;
     Fix16 field_50_depth;
     s32 field_54_draw_layer;
     s8 field_58_sprite_flags;
-    s8 field_59;
-    s32 field_5C;
-    s32 field_60;
+    s8 field_59_destroyed_by_destructor;
+    s32 field_5C_instance_limit_kind;
+    s32 field_60_uses_bullet_walls;
     s32 field_64_has_sound;
     s8 field_68_has_shadows;
-    s8 field_69;
+    s8 field_69_makes_collision_sound;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(CodeObjectTemplate, 0x6C);
 
@@ -263,19 +263,19 @@ class ObjectDefinition
     s32 field_3C_next_definition_idx;
     s32 field_40_collision_bucket_category; // One of collision_bucket_category
     s32 field_44_touch_behavior;
-    s32 field_48;
+    s32 field_48_projectile_hit_type;
     s32 field_4C;
-    s32 field_50;
+    s32 field_50_z_collision_response;
     s32 field_54_react_to_collisions_with; // One of CollisionReaction
-    s32 field_58;
-    s32 field_5C;
-    char_type field_60;
+    s32 field_58_uses_3d_movement;
+    s32 field_5C_instance_limit_kind;
+    char_type field_60_destroyed_by_destructor;
     char_type field_61_in_pool_list;
     char_type field_62_has_shadows;
-    char_type field_63;
+    char_type field_63_makes_collision_sound;
     char_type field_64_next_frame_max;
     char_type field_65_next_definition_timer;
-    s32 field_68;
+    s32 field_68_uses_bullet_walls;
     u8 field_6C_num_frames;
     s32 field_70_has_sound;
 };

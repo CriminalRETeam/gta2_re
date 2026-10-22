@@ -237,9 +237,9 @@ class Object
     }
 
     // 9.6f 0x40FF00
-    inline char_type GetDefHasShadowsField_40FF00()
+    inline char_type MakesCollisionSound_40FF00()
     {
-        return field_8_definition->field_63;
+        return field_8_definition->field_63_makes_collision_sound;
     }
 
     // 9.6f 0x475AA0

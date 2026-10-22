@@ -121,7 +121,7 @@ void CollisionEvent::SetupForPed_40B980()
 MATCH_FUNC(0x40BA60)
 bool CollisionEvent::SetupForObject_40BA60(Object* pObj)
 {
-    if (!pObj->GetDefHasShadowsField_40FF00())
+    if (!pObj->MakesCollisionSound_40FF00())
     {
         return 0;
     }
@@ -161,7 +161,7 @@ bool CollisionEvent::SetupForObject_40BA60(Object* pObj)
             else
             {
                 Object* o2c = gCollisionTarget_679188.field_20_pHitSprite->AsObject2C_40FEC0();
-                if (!o2c->GetDefHasShadowsField_40FF00())
+                if (!o2c->MakesCollisionSound_40FF00())
                 {
                     return 0;
                 }

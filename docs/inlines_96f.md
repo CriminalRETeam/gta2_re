@@ -314,7 +314,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x408220 | `Car_A4_10::sub_408220` | 0x40FBE0 | `sub_40F490`, ✓ `sub_40F7B0`, `sub_40FB70` | checked | 40F490 = CarPool::Remove (already), 40FB70 = ExplodeBothIfOneDestroyed_4081D0 (called), SetDrawLayer_40F7B0 already |
 | 0x40B890 | `CollisionEvent::sub_40B890` | 0x40FF20 | ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `sub_40FEC0`, ✓ `sub_40FEF0` | done | all 9.6f inlines used |
 | 0x40B980 | `CollisionEvent::sub_40B980` | 0x410010 | ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `sub_40FEC0`, ✓ `sub_40FEF0` | done | all 9.6f inlines used |
-| 0x40BA60 | `CollisionEvent::sub_40BA60` | 0x4100F0 | ✓ `sub_40FF00`, ✓ `sub_40FEF0`, ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `sub_40FEC0` | done | Object::GetDefHasShadowsField_40FF00 (second use); Still matches. |
+| 0x40BA60 | `CollisionEvent::sub_40BA60` | 0x4100F0 | ✓ `sub_40FF00`, ✓ `sub_40FEF0`, ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `sub_40FEC0` | done | Object::MakesCollisionSound_40FF00 (second use); Still matches. |
 | 0x40BBA0 | `CollisionSoundQueue::AddCollision_40BBA0` | 0x410210 | ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `sub_40FEC0`, ✓ `sub_40FF10` | done | all 9.6f inlines used |
 | 0x40BC40 | `CollisionSoundQueue::AddFloorCollision_40BC40` | 0x410370 | ✓ `sub_40FF10`, ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `sub_40FEC0`, ✓ `sub_40FEF0` | done | all 9.6f inlines used |
 | 0x40BD10 | `CollisionSoundQueue::AddBlockCollision_40BD10` | 0x4102A0 | ✓ `sub_40FF10`, ✓ `sub_40FEB0`, ✓ `sub_40FEA0`, ✓ `sub_40FEC0`, ✓ `sub_40FEF0` | done | all 9.6f inlines used |
