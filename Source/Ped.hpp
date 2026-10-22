@@ -204,8 +204,8 @@ class Ped
     EXPORT void TakeDamage(s16 damage);
     EXPORT void HandlePedCrossingTrigger_45CF20(Object* pObj);
     EXPORT bool HandlePedHitByObject_45D000(Object* pObj);
-    EXPORT char_type AddWeaponWithAmmo_45DD30(s32 weapon_kind, char_type ammo);
-    EXPORT char_type HandlePickupCollision_45DE80(Object* pPickUp);
+    EXPORT bool AddWeaponWithAmmo_45DD30(s32 weapon_kind, char_type ammo);
+    EXPORT bool HandlePickupCollision_45DE80(Object* pPickUp);
     EXPORT void SpawnWeaponOnDeath_45E080();
     EXPORT void StartCrossingRoad_45E4A0();
     EXPORT void DeallocateWithGroupCleanup_45EA00();

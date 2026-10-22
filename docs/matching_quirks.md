@@ -490,8 +490,12 @@ full imm16 (`66 81 ff ff ff`, 5 bytes). Both disassemble to the same text, so th
 is every later jump target off by one byte. Look at the raw bytes when that happens
 (`Sprite::Draw_59EFF0`, the two `Delta_48F8B0` results; `cmp $0xFFFF,%ax` is `66 3d ff ff` either way).
 
-**A flag returned with no `setne` is `char_type`, not `bool`.** If the original returns a
-`char` local as is, a `bool` return makes VC6 normalise it (`Ped::HandlePickupCollision_45DE80`).
+**A flag returned with no `setne` is a `char_type` local, or a `bool` one fed only by `bool` values.**
+Any `char` to `bool` conversion on the way (a `char` local returned as `bool`, or a `bool` local set
+from a `char_type` call) makes VC6 normalise the value: `Sprite::CheckSpriteMovementRegion_5A2500`
+changes with a `bool` flag because the flag comes from the `char_type` `IsMovementRegionBlocked_4E4460`.
+With a `bool` local whose sources are all `bool`, the code is the same as with `char_type` throughout
+(`Ped::HandlePickupCollision_45DE80`).
 
 **`int` and `long` compile the same; only the symbol changes.** Under VC6 both are 32 bits, and
 `int`/`long` (and `unsigned int`/`unsigned long`) give identical code for division, shifts,

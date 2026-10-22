@@ -2828,7 +2828,7 @@ void Char::TurnToFreeAdjacentFace_54C3E0()
 
 // 9.6f 0x495540
 MATCH_FUNC(0x54c500)
-char_type Char::CanMoveToTile_54C500(char_type x, char_type y)
+bool Char::CanMoveToTile_54C500(char_type x, char_type y)
 {
     Fix16 tx = field_80_sprite_ptr->field_14_xy.x;
     Fix16 ty = field_80_sprite_ptr->field_14_xy.y;
@@ -6492,7 +6492,7 @@ bool Char::PhoneTouched_5535B0(Object* p2c)
 }
 
 MATCH_FUNC(0x553640)
-char_type Char::OnObjectTouched_553640(Object* p2c)
+bool Char::OnObjectTouched_553640(Object* p2c)
 {
     s8 conveyor_x;
     s8 conveyor_y;

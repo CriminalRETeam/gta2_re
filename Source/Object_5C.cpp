@@ -2562,7 +2562,7 @@ void Object::TickObject_5283C0(s32 obj_type)
 }
 
 MATCH_FUNC(0x5288B0)
-char_type Object::OnObjectTouched_5288B0(Sprite* pSprite)
+bool Object::OnObjectTouched_5288B0(Sprite* pSprite)
 {
     if (!pSprite)
     {

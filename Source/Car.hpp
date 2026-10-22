@@ -336,7 +336,7 @@ class Trailer
     EXPORT void SetTruckCabAndTrailerCar_407BB0(Car* pTruckCab, Car* pTrailerCar);
     EXPORT Fix16_Point GetHitchPosition_407BD0();
     EXPORT void UpdateTrailerAlignment_407CE0();
-    EXPORT char_type ServicePhysics_408140();
+    EXPORT bool ServicePhysics_408140();
     EXPORT void SetupCarPhysicsAndSpriteBinding_408190();
     EXPORT void DeAllocateCarPhysics_4081B0();
     EXPORT bool ExplodeBothIfOneDestroyed_4081D0();
@@ -591,7 +591,7 @@ class Car
     EXPORT bool ManageDrowning_43E560();
     EXPORT Car* GetCabOrSelf_43E8D0();
     EXPORT Ped* GetEffectiveDriver_43E990();
-    EXPORT char_type OnObjectTouched_43EA60(Object* pObj);
+    EXPORT bool OnObjectTouched_43EA60(Object* pObj);
     EXPORT bool HandleCarHitByObject_43F130(Object* pObj);
     EXPORT Fix16 GetMaxTurnRate_440510();
     EXPORT char_type GetMaxPassengers_440570();

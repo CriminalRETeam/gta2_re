@@ -104,7 +104,7 @@ class Object
     EXPORT void NewObj3C_528130(Fix16_Point& speed);
     EXPORT bool ChangeInstanceLimitKind_528240(s32 current, s32 desired);
     EXPORT void TickObject_5283C0(s32 obj_type);
-    EXPORT char_type OnObjectTouched_5288B0(Sprite* pSprite);
+    EXPORT bool OnObjectTouched_5288B0(Sprite* pSprite);
     EXPORT void HandleWaterDeath_528900();
     EXPORT static s32 __stdcall GetExplosionTypeForWallSide_528E00(s32 wall_side);
     EXPORT bool HandleObjectHitIfExplosive_528960(Object* pOther);

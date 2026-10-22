@@ -4116,7 +4116,7 @@ Ped* Car::GetEffectiveDriver_43E990()
 }
 
 MATCH_FUNC(0x43ea60)
-char_type Car::OnObjectTouched_43EA60(Object* pObj)
+bool Car::OnObjectTouched_43EA60(Object* pObj)
 {
     if (pObj->IsPickup_421060() || pObj->field_18_model == objects::secret_token_266)
     {
@@ -6999,7 +6999,7 @@ void Trailer::UpdateTrailerAlignment_407CE0()
 }
 
 MATCH_FUNC(0x408140)
-char_type Trailer::ServicePhysics_408140()
+bool Trailer::ServicePhysics_408140()
 {
     if (!field_8_truck_cab->field_58_physics && !field_C_trailer_car->field_58_physics)
     {

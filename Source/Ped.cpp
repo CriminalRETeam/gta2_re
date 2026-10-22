@@ -2249,7 +2249,7 @@ bool Ped::HandlePedHitByObject_45D000(Object* pTargetPed)
 }
 
 MATCH_FUNC(0x45dd30)
-char_type Ped::AddWeaponWithAmmo_45DD30(s32 weapon_kind, char_type ammo)
+bool Ped::AddWeaponWithAmmo_45DD30(s32 weapon_kind, char_type ammo)
 {
     if (ammo == 100) // max is 99, 100 means get default count
     {
@@ -2282,9 +2282,9 @@ char_type Ped::AddWeaponWithAmmo_45DD30(s32 weapon_kind, char_type ammo)
 }
 
 MATCH_FUNC(0x45de80)
-char_type Ped::HandlePickupCollision_45DE80(Object* pPickUp)
+bool Ped::HandlePickupCollision_45DE80(Object* pPickUp)
 {
-    char_type bCollected;
+    bool bCollected;
     if (this->field_238_ped_type != ped_type::player_2)
     {
         return 0;
