@@ -65,6 +65,12 @@ this). Examples it would not catch on its own: `Player::Hud_Controls_565890` cal
 `DoBrianTest_42D870` on the wrong global object, and `Car::DetachTrailer_442760` pushed
 onto the pool's free list instead of the active list.
 
+**Jump table data isn't compared either.** The tables after the code (and the byte index tables of
+merged cases) are left out, so a `case` label that sends a value to the wrong block still matches.
+`Ped::Deallocate_45EB60` had `case guard` (28) on the walking-cop counter, where the original's index table
+sends 29 (`walking_guard_29`) there; the port's state check (`docs/port.md`, M2) found it as a game
+difference. When a switch's case values are guesses, read the tables (`objdump -s` at the table address).
+
 **Forward `jmp` targets inside the function are renamed too.** A `jmp` into the middle of another block
 (a cross-jump) shows as `jmp stable_name_N`, so a candidate that jumps into the *wrong* identical-looking
 block still scores 0. In `sound_obj::ProcessOtherObjects_41F520`, giving the fire case volume 85 made VC6
