@@ -78,7 +78,7 @@ class Object_3C
         field_28_next_definition_timer = 0;
         field_38_conveyor_speed = 0;
         field_34 = 2;
-        field_24 = 0;
+        field_24_unused = 0;
         field_2F_bOnSlope = 0;
         field_30_bSkipAnim = 0;
     }
@@ -116,11 +116,11 @@ class Object_3C
     Object_3C* mpNext;
     Fix16 field_C_speed;
     Fix16 field_10_z_speed;
-    Fix16 field_14;
+    Fix16 field_14_saved_speed;
     Fix16 field_18_friction;
     Fix16 field_1C_z_accel;
     s32 field_20_obj2c_id;
-    s32 field_24;
+    s32 field_24_unused;
     s16 field_28_next_definition_timer;
     s16 field_2A_bAirborne;
     s16 field_2C_unused;

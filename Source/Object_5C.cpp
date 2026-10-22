@@ -810,7 +810,7 @@ bool Object::HandleSpriteGroundAndCollision_5235B0(Sprite* pSprite, Fix16_Point*
     }
     else if (SelectCollisionSprite_522460(pSprite))
     {
-        field_10_obj_3c->field_14 = field_10_obj_3c->field_C_speed.mValue;
+        field_10_obj_3c->field_14_saved_speed = field_10_obj_3c->field_C_speed.mValue;
         field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
         field_10_obj_3c->field_2A_bAirborne = 0;
         *pPoint = pSprite->get_x_y();
@@ -849,7 +849,7 @@ bool Object::HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite, Fix16_
 
     if (pSprite->CheckSpriteMovementRegion_5A2500())
     {
-        field_10_obj_3c->field_14 = field_10_obj_3c->field_C_speed;
+        field_10_obj_3c->field_14_saved_speed = field_10_obj_3c->field_C_speed;
         *pPoint = pSprite->get_x_y();
         *pHit = 1;
         ComputeWallHitSide_524550();
@@ -859,13 +859,13 @@ bool Object::HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite, Fix16_
     {
         if (gObject2C_HitWallOrDoor_6F8F94 != 0)
         {
-            field_10_obj_3c->field_14 = field_10_obj_3c->field_C_speed;
+            field_10_obj_3c->field_14_saved_speed = field_10_obj_3c->field_C_speed;
             *pPoint = pSprite->get_x_y();
             *pHit = 1;
         }
         else
         {
-            field_10_obj_3c->field_14 = field_10_obj_3c->field_C_speed;
+            field_10_obj_3c->field_14_saved_speed = field_10_obj_3c->field_C_speed;
             *pPoint = pSprite->get_x_y();
         }
         return 1;
@@ -986,7 +986,7 @@ bool Object::HandleSpriteZCollision_5238B0(Sprite* pSprite, Fix16_Point* pPoint,
 
     if (pSprite->CheckSpriteMovementRegion_5A2500())
     {
-        field_10_obj_3c->field_14 = field_10_obj_3c->field_C_speed;
+        field_10_obj_3c->field_14_saved_speed = field_10_obj_3c->field_C_speed;
         field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
         field_10_obj_3c->field_2A_bAirborne = 0;
         *pPoint = pSprite->get_x_y();
@@ -1003,7 +1003,7 @@ bool Object::HandleSpriteZCollision_5238B0(Sprite* pSprite, Fix16_Point* pPoint,
         }
         else if (gObject2C_HitWallOrDoor_6F8F94)
         {
-            field_10_obj_3c->field_14 = field_10_obj_3c->field_C_speed.mValue;
+            field_10_obj_3c->field_14_saved_speed = field_10_obj_3c->field_C_speed.mValue;
             *pPoint = pSprite->get_x_y();
             *pHit = true;
             return true;
@@ -3607,7 +3607,7 @@ Object* Object_5C::CreateMovingObj_52A2C0(s32 object_type,
         }
         pNewObj->field_10_obj_3c->field_C_speed = speed;
         pNewObj->field_10_obj_3c->field_10_z_speed = z_speed;
-        pNewObj->field_10_obj_3c->field_14 = speed;
+        pNewObj->field_10_obj_3c->field_14_saved_speed = speed;
         pNewObj->field_10_obj_3c->field_1C_z_accel = kObjectGravity_6F8DA8;
         pNewObj->field_10_obj_3c->field_18_friction = friction;
         pNewObj->field_10_obj_3c->field_4_angle = move_angle;

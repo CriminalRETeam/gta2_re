@@ -384,8 +384,8 @@ void Char::PoolAllocate()
     field_58_flags_bf.bFlag7 = 0;
     field_60_unused = 0;
     field_64_unused = 0;
-    field_55 = 0;
-    field_A0 = 0;
+    field_55_next_tile_timer = 0;
+    field_A0_force_top_layer = 0;
     field_B0_scream_timer = -1;
 }
 
@@ -586,7 +586,7 @@ void Char::Update_545720(Fix16 distance_to_target)
             default:
                 break;
         }
-        if (field_A0)
+        if (field_A0_force_top_layer)
         {
             if (field_8_ped_state_1 != ped_state_1::dead_9)
             {
@@ -602,7 +602,7 @@ void Char::Update_545720(Fix16 distance_to_target)
         }
         else
         {
-            field_A0 = 0;
+            field_A0_force_top_layer = 0;
         }
         Char::UpdateAnimState_546360();
 
@@ -2249,7 +2249,7 @@ void Char::HandleGenericCollision_54A530(Car* pCar, Object* pObj, Char* pChar)
                 {
                     if (pCar->field_50_car_sprite->field_1C_zpos >= field_80_sprite_ptr->field_1C_zpos)
                     {
-                        field_A0 = 1;
+                        field_A0_force_top_layer = 1;
                         field_80_sprite_ptr->ResolveZOrder_5A1B30(pCar->field_50_car_sprite);
                     }
                 }
@@ -4808,9 +4808,9 @@ void Char::state_1_5504F0()
         bSnapRotation = 1;
     }
 LABEL_65:
-    if (field_55 > 0)
+    if (field_55_next_tile_timer > 0)
     {
-        field_55--;
+        field_55_next_tile_timer--;
     }
 
     if (field_38_velocity != kZeroVelocity_6FD7C0)
@@ -4861,7 +4861,7 @@ LABEL_65:
         if (field_C_ped_state_2 == ped_state_2::Unknown_3)
         {
         LABEL_82:
-            if (field_55 > 0)
+            if (field_55_next_tile_timer > 0)
             {
                 if (field_58_flags_bf.bFlag7 == false)
                 {
@@ -5195,7 +5195,7 @@ void Char::ChooseNextMovementTile_551400()
                     field_72_next_tile_x = gCharB4_Saved_TileX_6FDAD8 + 1;
                     field_73_next_tile_y = gCharB4_Saved_TileY_6FDAD9;
                     field_60_unused = 3;
-                    field_55 = 40;
+                    field_55_next_tile_timer = 40;
                     return;
                 }
                 else
@@ -5206,7 +5206,7 @@ void Char::ChooseNextMovementTile_551400()
                         field_72_next_tile_x = gCharB4_Saved_TileX_6FDAD8 - 1;
                         field_73_next_tile_y = gCharB4_Saved_TileY_6FDAD9;
                         field_60_unused = 4;
-                        field_55 = 40;
+                        field_55_next_tile_timer = 40;
                         return;
                     }
                 }
@@ -5219,7 +5219,7 @@ void Char::ChooseNextMovementTile_551400()
                     field_72_next_tile_x = gCharB4_Saved_TileX_6FDAD8 - 1;
                     field_73_next_tile_y = gCharB4_Saved_TileY_6FDAD9;
                     field_60_unused = 4;
-                    field_55 = 40;
+                    field_55_next_tile_timer = 40;
                     return;
                 }
                 else
@@ -5230,7 +5230,7 @@ void Char::ChooseNextMovementTile_551400()
                         field_72_next_tile_x = gCharB4_Saved_TileX_6FDAD8 + 1;
                         field_73_next_tile_y = gCharB4_Saved_TileY_6FDAD9;
                         field_60_unused = 3;
-                        field_55 = 40;
+                        field_55_next_tile_timer = 40;
                         return;
                     }
                 }
@@ -5258,7 +5258,7 @@ void Char::ChooseNextMovementTile_551400()
                 {
                     field_72_next_tile_x = gCharB4_Saved_TileX_6FDAD8;
                     field_73_next_tile_y = gCharB4_Saved_TileY_6FDAD9 + 1;
-                    field_55 = 40;
+                    field_55_next_tile_timer = 40;
                     return;
                 }
                 else
@@ -5268,7 +5268,7 @@ void Char::ChooseNextMovementTile_551400()
                     {
                         field_72_next_tile_x = gCharB4_Saved_TileX_6FDAD8;
                         field_73_next_tile_y = gCharB4_Saved_TileY_6FDAD9 - 1;
-                        field_55 = 40;
+                        field_55_next_tile_timer = 40;
                         return;
                     }
                 }
@@ -5280,7 +5280,7 @@ void Char::ChooseNextMovementTile_551400()
                 {
                     field_72_next_tile_x = gCharB4_Saved_TileX_6FDAD8;
                     field_73_next_tile_y = gCharB4_Saved_TileY_6FDAD9 - 1;
-                    field_55 = 40;
+                    field_55_next_tile_timer = 40;
                     return;
                 }
                 else
@@ -5290,7 +5290,7 @@ void Char::ChooseNextMovementTile_551400()
                     {
                         field_72_next_tile_x = gCharB4_Saved_TileX_6FDAD8;
                         field_73_next_tile_y = gCharB4_Saved_TileY_6FDAD9 + 1;
-                        field_55 = 40;
+                        field_55_next_tile_timer = 40;
                         return;
                     }
                 }
@@ -5310,7 +5310,7 @@ void Char::ChooseNextMovementTile_551400()
         default:
             break;
     }
-    field_55 = 40;
+    field_55_next_tile_timer = 40;
 }
 
 MATCH_FUNC(0x5516f0)
@@ -6286,7 +6286,7 @@ void Char::state_9_552E90()
         field_16_state_init_pending = 0;
         if (field_7C_pPed->field_164_ped_group)
         {
-            if (field_7C_pPed->field_164_ped_group->field_0)
+            if (field_7C_pPed->field_164_ped_group->field_0_remove_dead_members)
             {
                 field_7C_pPed->field_164_ped_group->RemovePed_4C9970(field_7C_pPed);
                 field_7C_pPed->field_164_ped_group = 0;

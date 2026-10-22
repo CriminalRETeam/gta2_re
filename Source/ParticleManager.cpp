@@ -68,10 +68,10 @@ Particle_4C* ParticleManager::New_53E3C0(Fix16 speed_x, Fix16 speed_y, Fix16 fie
         pNew4C = gParticle_4C_Pool_6FD5E4->Allocate();
         pNew4C->field_8_speed_x = speed_x;
         pNew4C->field_C_speed_y = speed_y;
-        pNew4C->field_10 = field_10_value;
+        pNew4C->field_10_unused = field_10_value;
         pNew4C->field_14_additional_speed_x = additional_speed_x;
         pNew4C->field_18_additional_speed_y = additional_speed_y;
-        pNew4C->field_1C = field_1C_value;
+        pNew4C->field_1C_unused = field_1C_value;
         pNew4C->field_0_id = gParticleInstCount_6FD5F4;
         pNew4C->field_30_pOwnSprite = gSpritePool_703818->get_new_sprite();
         ++gParticleInstCount_6FD5F4;

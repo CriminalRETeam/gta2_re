@@ -70,7 +70,7 @@ MATCH_FUNC(0x5408f0)
 Explosion::Explosion()
 {
     this->field_C_angle = 0;
-    this->field_20 = 0;
+    this->field_20_unused = 0;
     this->field_22_spawn_angle = 0;
     this->field_4_idx = 0;
     this->field_10_type = 0;
@@ -78,7 +78,7 @@ Explosion::Explosion()
     this->field_18_particle_cooldown = 0;
     this->field_1A_timer = 0;
     this->field_8_speed = kFP16Zero_6FD49C;
-    this->field_20 = kAngZero_6FD5D4;
+    this->field_20_unused = kAngZero_6FD5D4;
     this->field_22_spawn_angle = kAngZero_6FD5D4;
     this->field_24_particle_spread = kFP16Zero_6FD49C;
     this->field_28_blast_radius = kFP16Zero_6FD49C;

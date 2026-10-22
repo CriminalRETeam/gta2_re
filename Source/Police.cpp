@@ -57,7 +57,7 @@ void Police::Init_56F400()
         field_464_pursuit_targets[i].field_18_z = kFpZero_6FECE8;
 
         field_464_pursuit_targets[i].field_1C_crew_gave_up = 0;
-        field_464_pursuit_targets[i].field_E = 0;
+        field_464_pursuit_targets[i].field_E_block_counter = 0;
 
         field_464_pursuit_targets[i].field_75_num_crews = 0;
         field_464_pursuit_targets[i].field_78_is_actively_chased = 0;
@@ -465,7 +465,7 @@ void Police::UpdatePursuitTargets_56FBD0()
             case cop_level_enum::police_2:
                 if (pPursuitTarget->field_71_target_police_crews == 1)
                 {
-                    pPursuitTarget->field_E = 1;
+                    pPursuitTarget->field_E_block_counter = 1;
                 }
                 pPursuitTarget->field_71_target_police_crews = 2;
                 pPursuitTarget->field_4_wanted_level = cop_level_enum::police_2;
@@ -751,7 +751,7 @@ void Police::UpdatePursuitTargets_56FBD0()
                 pPursuitTarget->field_71_target_police_crews = 0;
                 pPursuitTarget->field_75_num_crews = 0;
                 pPursuitTarget->field_76_unused = 0;
-                pPursuitTarget->field_E = 0;
+                pPursuitTarget->field_E_block_counter = 0;
                 bHaveCriminals_6FEE44--;
                 gPolice_7B8_6FEE40->field_65C_highest_crew_type_in_pursuit = crew_type::police_3;
                 break;
@@ -967,7 +967,7 @@ bool Police::SpawnCrewInCar_5703E0(Car* pCar)
     pNewPedGroup->add_ped_leader_4C9B10(pNewPed1);
     pNewPedGroup->SetCounts_433360(1);
     pNewPedGroup->add_ped_to_list_4C9B30(pNewPed2, 0);
-    pNewPedGroup->field_0 = 0;
+    pNewPedGroup->field_0_remove_dead_members = 0;
     pEmergencyCrew->field_4_ped = pNewPed1;
     pEmergencyCrew->field_18_spawn_delay = 0;
     pEmergencyCrew->field_28_state = crew_state::update_6;

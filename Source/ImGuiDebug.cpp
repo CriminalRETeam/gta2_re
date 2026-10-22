@@ -1309,7 +1309,7 @@ void CC ImGuiDebugDraw()
                 test.field_30_z = pPlayerSprite->GetZPos();
                 test.field_34_palette = 9; // 9-13
                 test.field_36_alpha = 25;
-                test.field_38 = 2;
+                test.field_38_explode_counter = 2;
                 test.field_3C_x_offset_mult = 1;
                 test.field_40_y_offset_mult = 1;
                 test.DrawSingleNumber_597100(number, 10);
@@ -2076,7 +2076,7 @@ void CC ImGuiDebugDraw()
                         ImGui::InputS16("Obj3C field_6_unused", &obj_3c->field_6_unused, 0, 1439);
                         ImGui::Value("Obj3C field_C", obj_3c->field_C_speed.mValue);
                         ImGui::Value("Obj3C field_10", obj_3c->field_10_z_speed.mValue);
-                        ImGui::Value("Obj3C field_14", obj_3c->field_14.mValue);
+                        ImGui::Value("Obj3C field_14", obj_3c->field_14_saved_speed.mValue);
                         ImGui::Value("Obj3C field_18", obj_3c->field_18_friction.mValue);
                         ImGui::Value("Obj3C field_1C", obj_3c->field_1C_z_accel.mValue);
 

@@ -72,10 +72,10 @@ class PoliceCrew
     char_type field_6_unused;
     char_type field_7_unused;
     Fix16 field_8_criminal_distance;
-    Fix16 field_C;
+    Fix16 field_C_unused;
     EmergencyCrew* field_10_subObj;
     PolicePursuitTarget* field_14_pPursuitTarget; // Pursuit of one wanted criminal by police crews
-    s16 field_18;
+    s16 field_18_unused;
     char_type field_1A_unused;
     char_type field_1B_unused;
     s32 field_1C_used;
@@ -83,11 +83,11 @@ class PoliceCrew
     s32 field_24_state;
     char_type field_28_use_car;
     char_type field_29_bCountedInPoliceCount;
-    s16 field_2A;
+    s16 field_2A_unused;
     s16 field_2C_unused;
     char_type field_2E_unused;
     char_type field_2F_unused;
-    s32 field_30;
+    s32 field_30_prev_target_ped;
     char_type field_34_is_dismissed;
     u8 field_35_fast_target_counter;
     char_type field_36_unused;
@@ -102,7 +102,7 @@ class PolicePursuitTarget  // Pursuit of one wanted criminal by police crews
     s32 field_4_wanted_level;
     s32 field_8_state; // pursuit_state
     u16 field_C_timer;
-    char_type field_E;
+    char_type field_E_block_counter;
     char_type field_F_unused;
     Fix16 field_10_x;
     Fix16 field_14_y;
@@ -114,12 +114,12 @@ class PolicePursuitTarget  // Pursuit of one wanted criminal by police crews
     PoliceCrew* field_20_crews[6];
     s32 field_38_unused;
     s32 field_3C_unused;
-    s32 field_40;
+    s32 field_40_unused;
     s32 field_44_unused;
     s32 field_48_unused;
     s32 field_4C_unused;
     s32 field_50_unused;
-    s32 field_54;
+    s32 field_54_unused;
     s32 field_58_barrier_1_id;
     s32 field_5C_barrier_2_id;
     s32 field_60_barrier_3_id;

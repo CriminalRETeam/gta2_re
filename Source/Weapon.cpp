@@ -90,8 +90,8 @@ Weapon::Weapon()
     field_4_bTargetHit = 0;
     mpNext = 0;
     field_1C_idx = 0;
-    field_10 = 0;
-    field_8 = 0;
+    field_10_unused = 0;
+    field_8_unused = 0;
     field_C_unused = -1;
     field_20 = 0;
     field_21 = 0;
@@ -105,7 +105,7 @@ Weapon::~Weapon()
     field_24_pPed = 0;
     mpNext = 0;
     field_14_car = 0;
-    field_8 = 0;
+    field_8_unused = 0;
     if (field_28_pSound)
     {
         gRoot_sound_66B038.DestroySoundObj_40FE60(field_28_pSound);
@@ -123,7 +123,7 @@ void Weapon::init_5DCD90()
     field_2_reload_timer = 0;
     field_4_bTargetHit = 0;
     field_21 = 0;
-    field_8 = 0;
+    field_8_unused = 0;
     field_C_unused = -1;
     field_20 = 0;
     field_2C_shot_fired = 0;
@@ -138,7 +138,7 @@ void Weapon::PoolDeallocate()
 {
     init_5DCD90();
 
-    field_8 = 0;
+    field_8_unused = 0;
 
     if (field_28_pSound)
     {

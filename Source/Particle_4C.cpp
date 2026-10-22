@@ -1884,7 +1884,7 @@ void Particle_4C::PoolAllocate()
 {
     field_8_speed_x = 0;
     field_C_speed_y = 0;
-    field_10 = 0;
+    field_10_unused = 0;
     field_40_pExplosion = 0;
     field_4_bf.bDriverAttacking = false;
 }

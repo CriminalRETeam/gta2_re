@@ -111,9 +111,9 @@ class Char
     Fix16 field_4C_conveyor_dx;
     Fix16 field_50_conveyor_dy;
     s8 field_54_jump_scale_counter;
-    u8 field_55;
+    u8 field_55_next_tile_timer;
     s8 field_56_unused;
-    s8 field_57;
+    s8 field_57_unused;
     union
     {
         u32 field_58_flags;
@@ -147,7 +147,7 @@ class Char
     Fix16 field_94_fall_z_speed;
     Fix16_Point_POD field_98_velocity_vector;
     //Fix16 field_9C;
-    s8 field_A0;
+    s8 field_A0_force_top_layer;
     s8 field_A1_unused;
     s8 field_A2_unused;
     s8 field_A3_unused;

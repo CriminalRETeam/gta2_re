@@ -26,7 +26,7 @@ class Generator
     u32 field_18_cycle;
     u16 field_1C_ammo;
     u16 field_1E_spawns_left;
-    char_type field_20;
+    char_type field_20_unused;
     char_type field_21_spawn_mode;
     char_type field_22_unused;
     char_type field_23_unused;

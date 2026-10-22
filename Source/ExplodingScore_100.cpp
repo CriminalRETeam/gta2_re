@@ -104,7 +104,7 @@ ExplodingScore::ExplodingScore()
         field_4_digits[i] = 0;
     }
     field_36_alpha = 0;
-    field_38 = 0;
+    field_38_explode_counter = 0;
     field_3C_x_offset_mult = 0;
     field_40_y_offset_mult = 0;
     field_4C_score = 0;
@@ -241,7 +241,7 @@ void ExplodingScore::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 sc
     this->field_34_palette = gExplodingScorePool->NextPalette_596860();
 
     this->field_36_alpha = 25;
-    this->field_38 = 2;
+    this->field_38_explode_counter = 2;
     this->field_3C_x_offset_mult = 1;
     this->field_40_y_offset_mult = 1;
 }
@@ -363,7 +363,7 @@ void ExplodingScore::DrawNumbers_596C90()
 MATCH_FUNC(0x5970c0)
 char_type ExplodingScore::PoolUpdate()
 {
-    if (field_38 < 0)
+    if (field_38_explode_counter < 0)
     {
         field_3C_x_offset_mult++;
         field_40_y_offset_mult++;
@@ -371,7 +371,7 @@ char_type ExplodingScore::PoolUpdate()
         if (field_36_alpha > 2u)
         {
             field_36_alpha -= 2;
-            field_38--;
+            field_38_explode_counter--;
             return 0;
         }
         else
@@ -383,7 +383,7 @@ char_type ExplodingScore::PoolUpdate()
     }
     else
     {
-        field_38--;
+        field_38_explode_counter--;
         return 0;
     }
 }
@@ -414,11 +414,11 @@ void ExplodingScore::DrawSingleNumber_597100(s32 number_to_draw, s32 xpos_sub)
     Fix16 base_scale;
     s32 x_off;
     s32 y_off;
-    if (field_38 < 0) // scale factor?
+    if (field_38_explode_counter < 0)
     {
         x_off = this->field_3C_x_offset_mult * (x_base - xpos_sub);
         y_off = -7 * this->field_40_y_offset_mult;
-        base_scale = Fix16(-field_38);
+        base_scale = Fix16(-field_38_explode_counter);
     }
     else
     {

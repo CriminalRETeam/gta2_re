@@ -40,10 +40,10 @@ class Particle_4C
     };
     Fix16 field_8_speed_x;
     Fix16 field_C_speed_y;
-    Fix16 field_10;
+    Fix16 field_10_unused;
     Fix16 field_14_additional_speed_x;
     Fix16 field_18_additional_speed_y;
-    Fix16 field_1C;
+    Fix16 field_1C_unused;
     Fix16 field_20_speed;
     Ang16 field_24_angle;
     s16 field_26_unused;

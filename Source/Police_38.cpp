@@ -40,20 +40,20 @@ void PoliceCrew::Init_5709C0()
     field_2_targ_x = 0;
     field_3_targ_y = 0;
     field_4_targ_z = 0;
-    field_18 = 0;
+    field_18_unused = 0;
     field_1C_used = 0;
     field_1A_unused = 0;
     field_10_subObj = 0;
     field_24_state = police_crew_state::none_0;
     field_28_use_car = 0;
     field_8_criminal_distance = kFpZero_6FECE8;
-    field_C = kFpZero_6FECE8;
+    field_C_unused = kFpZero_6FECE8;
     field_14_pPursuitTarget = 0;
     field_1A_unused = 0;
     field_29_bCountedInPoliceCount = 0;
-    field_2A = 0;
+    field_2A_unused = 0;
     field_2C_unused = 0;
-    field_30 = 0;
+    field_30_prev_target_ped = 0;
     field_34_is_dismissed = 0;
 }
 
@@ -215,7 +215,7 @@ void PoliceCrew::SpawnPoliceInCar_570BF0()
     pGroup->add_ped_leader_4C9B10(pCopLeader);
     pGroup->SetCounts_433360(1);
     pGroup->add_ped_to_list_4C9B30(pCopSupporter, 0);
-    pGroup->field_0 = 0;
+    pGroup->field_0_remove_dead_members = 0;
     field_10_subObj->field_4_ped = pCopLeader;
     field_10_subObj->field_28_state = crew_state::update_6;
     field_10_subObj->field_0_car->SetDriverPedType_421560(ped_type::script_created_5);
@@ -261,7 +261,7 @@ void PoliceCrew::SpawnSWAT_570E30()
 
         pSwatGroup->add_ped_to_list_4C9B30(pSwatMember, i);
     }
-    pSwatGroup->field_0 = 0;
+    pSwatGroup->field_0_remove_dead_members = 0;
     field_10_subObj->field_4_ped = pSwatLeader;
     field_10_subObj->field_28_state = crew_state::update_6;
     field_10_subObj->field_0_car->SetDriverPedType_421560(ped_type::script_created_5);
@@ -1052,7 +1052,7 @@ void PoliceCrew::State5_PursueOrChase_572920()
                                 field_35_fast_target_counter = 0;
                             }
                         }
-                        else if (pPed->GetInternalTargetPed_403AF0() == (Ped*)field_30 && pPed->GetInternalTargetPed_403AF0())
+                        else if (pPed->GetInternalTargetPed_403AF0() == (Ped*)field_30_prev_target_ped && pPed->GetInternalTargetPed_403AF0())
                         {
                             pPed->SetInternalTargetPed_403AE0(field_14_pPursuitTarget->field_0_criminal_ped);
                         }
@@ -1073,7 +1073,7 @@ void PoliceCrew::State5_PursueOrChase_572920()
                     {
                         if (pPed->get_objective_target_ped_403AD0() == pPed->GetInternalTargetPed_403AF0())
                         {
-                            field_30 = (s32)pPed->get_objective_target_ped_403AD0();
+                            field_30_prev_target_ped = (s32)pPed->get_objective_target_ped_403AD0();
                             gCurrentCrewPed_6FEDDC->SetInternalTargetPed_403AE0(field_14_pPursuitTarget->field_0_criminal_ped);
                         }
                         gCurrentCrewPed_6FEDDC->set_objective_target_ped_403AC0(field_14_pPursuitTarget->field_0_criminal_ped);
@@ -1694,7 +1694,7 @@ void PoliceCrew::sub_575310()
         {
                 pCar->field_5C_AI->field_24_bf.bAIHalted = true;
                 gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::wait_in_car_27);
-                field_14_pPursuitTarget->field_E += field_10_subObj->field_0_car->field_60_pChaseTask->field_3C_block_counter;
+                field_14_pPursuitTarget->field_E_block_counter += field_10_subObj->field_0_car->field_60_pChaseTask->field_3C_block_counter;
                 if (field_10_subObj->field_0_car->field_60_pChaseTask)
                 {
                     gCarChaseTaskTable_678E30->FreeEntry_474CC0(field_10_subObj->field_0_car->field_60_pChaseTask);
@@ -1716,9 +1716,9 @@ void PoliceCrew::sub_575310()
                 break;
         }
 
-        if ((u8)field_14_pPursuitTarget->field_E > 0)
+        if ((u8)field_14_pPursuitTarget->field_E_block_counter > 0)
         {
-            field_10_subObj->field_0_car->field_60_pChaseTask->field_3C_block_counter = field_14_pPursuitTarget->field_E;
+            field_10_subObj->field_0_car->field_60_pChaseTask->field_3C_block_counter = field_14_pPursuitTarget->field_E_block_counter;
         }
 
         if (dist < kFpThree_6FECF4 && field_10_subObj->field_0_car->GetVelocity_43A4C0() < kFpPoint03_6FEDE0 &&

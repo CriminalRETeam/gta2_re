@@ -326,7 +326,7 @@ bool AmbulanceTask::SpawnParamedicCrew_4FA820()
     pGroup->add_ped_leader_4C9B10(pPed1);
     pGroup->SetCounts_433360(1);
     pGroup->add_ped_to_list_4C9B30(pPed2, 0);
-    pGroup->field_0 = 0;
+    pGroup->field_0_remove_dead_members = 0;
     
     field_4_paramedics_crew->field_4_ped = pPed1;
     field_4_paramedics_crew->field_28_state = crew_state::update_6;

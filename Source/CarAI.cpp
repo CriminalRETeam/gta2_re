@@ -5303,7 +5303,7 @@ CarAI::CarAI()
     this->field_14_speed = kF16Zero_677B90;
     this->field_18_target_speed = kDefaultTargetSpeed_677CB4;
     this->field_1C_acceleration = kDefaultAcceleration_6779A4;
-    this->field_20 = 0;
+    this->field_20_unused = 0;
     this->field_56_route_pos = 0;
     this->field_28_route_idx = -1;
     this->field_29_pad = 0;
@@ -5348,7 +5348,7 @@ void CarAI::PoolAllocate()
     this->field_14_speed = kF16Zero_677B90;
     this->field_18_target_speed = kDefaultTargetSpeed_677CB4;
     this->field_1C_acceleration = kDefaultAcceleration_6779A4;
-    this->field_20 = 0;
+    this->field_20_unused = 0;
     this->field_56_route_pos = 0;
     this->field_28_route_idx = -1;
     this->field_29_pad = 0;

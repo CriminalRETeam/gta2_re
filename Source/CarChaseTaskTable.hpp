@@ -30,7 +30,7 @@ class CarChaseTask
     char_type field_21_unused;
     char_type field_22_following_route; // driving along a route (junction shortcuts), cleared when the route is cancelled
     char_type field_23_unused;
-    char_type field_24;
+    char_type field_24_unused;
     char_type field_25_unused;
     char_type field_26_route_finished;  // the route ended, Ped completes the goto_position objective
     char_type field_27_pad[3];

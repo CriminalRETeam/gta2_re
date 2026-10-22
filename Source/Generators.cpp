@@ -133,7 +133,7 @@ void Generator::Init_4C1C70(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 generator_
     field_12_min_delay = min_delay;
     field_14_max_delay = max_delay;
     field_18_cycle = gpRng_67AB34->get_cur_rng_41CFE0() + 1;
-    field_20 = 1;
+    field_20_unused = 1;
     field_1E_spawns_left = 0;
     field_1C_ammo = 0;
     field_24_obj = NULL;

@@ -154,7 +154,7 @@ class Door
         s32 field_10_model_id; // Active when field_20_open_type is door_open_type::one_model
     };
     s32 field_14_target_id;
-    s32 field_18;
+    s32 field_18_unused;
     s16 field_1C_close_delay;
     u16 field_1E_close_timer;
     s32 field_20_open_type;

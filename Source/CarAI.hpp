@@ -90,7 +90,7 @@ class CarAI
     Fix16 field_14_speed;
     Fix16 field_18_target_speed;
     Fix16 field_1C_acceleration;
-    s32 field_20;
+    s32 field_20_unused;
 
     union
     {

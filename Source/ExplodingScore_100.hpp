@@ -25,7 +25,7 @@ class ExplodingScore
     s16 field_34_palette;
     char_type field_36_alpha; // draw figure param
     char_type field_37_unused; // pad ?
-    s32 field_38; // scale factor?
+    s32 field_38_explode_counter;
     s32 field_3C_x_offset_mult; // xoff ?
     s32 field_40_y_offset_mult; // yoff ?
     // NOTE: Used by a template so the name maters

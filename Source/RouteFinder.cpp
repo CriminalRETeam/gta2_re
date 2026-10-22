@@ -265,7 +265,7 @@ void RouteFinder::Load_RGEN_588B30()
     File::Global_Read_4A71C0(field_8_junctions, 0x2210);
     File::Global_Read_4A71C0(this->field_A830_horz_segments, 0x1108);
     File::Global_Read_4A71C0(this->field_B938_vert_segments, 0x1108);
-    File::Global_Read_4A71C0(&this->field_4, 2);
+    File::Global_Read_4A71C0(&this->field_4_unused, 2);
     File::Global_Read_4A71C0(&this->field_CC62_horz_segment_count, 2);
     File::Global_Read_4A71C0(&this->field_CC64_vert_segment_count, 2);
     this->field_0_route_count = 0;
@@ -1156,7 +1156,7 @@ RouteFinder::RouteFinder()
 {
     field_0_route_count = 0;
     field_2 = 0;
-    field_4 = 0;
+    field_4_unused = 0;
     memset(field_8_junctions, 0, sizeof(field_8_junctions));
     memset(field_2218_routes, 0, sizeof(field_2218_routes));
     field_8618_idx = 0;

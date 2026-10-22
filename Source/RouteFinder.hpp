@@ -139,7 +139,7 @@ class RouteFinder
     u16 field_0_route_count;
     u8 field_2;
     char_type field_3_unused;
-    s16 field_4;
+    s16 field_4_unused;
     s16 field_6_unused;
     Junction field_8_junctions[545];
     JunctionRoute field_2218_routes[50];
