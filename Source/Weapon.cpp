@@ -293,7 +293,7 @@ void Weapon::flamethrower_5DD0F0()
     {
         set_field_2C_4CCA80(1);
         bAllowFlameSegment_706D60 = 0;
-        Weapon::spawn_bullet_5DCF60(154, xpos, ypos, cam_z, ped_rot, ped_pos_maybe);
+        Weapon::spawn_bullet_5DCF60(objects::invisible_bullet_154, xpos, ypos, cam_z, ped_rot, ped_pos_maybe);
         if (bAllowFlameSegment_706D60)
         {
             gParticle_8_6FD5E8->EmitFlameStreamSegment_53F4C0(field_24_pPed->field_168_game_object->field_80_sprite_ptr);
@@ -421,7 +421,7 @@ void Weapon::pistol_5DD860()
         }
         else
         {
-            spawn_bullet_5DCF60(154,
+            spawn_bullet_5DCF60(objects::invisible_bullet_154,
                                 field_24_pPed->get_cam_x(),
                                 field_24_pPed->get_cam_y(),
                                 field_24_pPed->get_cam_z(),
@@ -494,8 +494,8 @@ void Weapon::dual_pistol_5DDA70()
         }
         else
         {
-            Weapon::spawn_bullet_5DCF60(objects::flamethrower_fire_154, point_x, point_y, z, ped_rotation - kAng12_706D5E, vector);
-            Weapon::spawn_bullet_5DCF60(objects::flamethrower_fire_154, point_y, point_y, z, ped_rotation + kAng12_706D5E, vector);
+            Weapon::spawn_bullet_5DCF60(objects::invisible_bullet_154, point_x, point_y, z, ped_rotation - kAng12_706D5E, vector);
+            Weapon::spawn_bullet_5DCF60(objects::invisible_bullet_154, point_y, point_y, z, ped_rotation + kAng12_706D5E, vector);
             field_2_reload_timer = 5;
         }
         Weapon::ApplyFastReload_5DCF40();
@@ -553,12 +553,12 @@ void Weapon::smg_5DDD20()
         }
         else
         {
-            Weapon::spawn_bullet_5DCF60(154,
-                                           field_24_pPed->get_cam_x(),
-                                           field_24_pPed->get_cam_y(),
-                                           field_24_pPed->get_cam_z(),
-                                           field_24_pPed->GetAimAngle_4CCA90(),
-                                           field_24_pPed->GetVelocityVector_45B520());
+            Weapon::spawn_bullet_5DCF60(objects::invisible_bullet_154,
+                                        field_24_pPed->get_cam_x(),
+                                        field_24_pPed->get_cam_y(),
+                                        field_24_pPed->get_cam_z(),
+                                        field_24_pPed->GetAimAngle_4CCA90(),
+                                        field_24_pPed->GetVelocityVector_45B520());
             field_2_reload_timer = 1;
         }
         Weapon::ApplyFastReload_5DCF40();
@@ -586,7 +586,7 @@ void Weapon::throwable_5DDFC0(s32 obj_idx, s32 throw_strength, s32 throw_charge)
             {
                 if (!field_24_pPed->PedTypeIs_45EDE0(ped_type::player_2) && !field_20)
                 {
-                    spawn_bullet_5DCF60(objects::object_159,
+                    spawn_bullet_5DCF60(objects::invisible_rocket_159,
                                         field_24_pPed->get_cam_x(),
                                         field_24_pPed->get_cam_y(),
                                         field_24_pPed->get_cam_z(),
@@ -698,7 +698,7 @@ void Weapon::throwable_5DDFC0(s32 obj_idx, s32 throw_strength, s32 throw_charge)
             }
             else
             {
-                spawn_bullet_5DCF60(objects::object_159,
+                spawn_bullet_5DCF60(objects::invisible_rocket_159,
                                     field_24_pPed->get_cam_x(),
                                     field_24_pPed->get_cam_y(),
                                     field_24_pPed->get_cam_z(),
@@ -1345,7 +1345,7 @@ void Weapon::electro_batton_5E0740()
             }
             else
             {
-                spawn_bullet_5DCF60(154,
+                spawn_bullet_5DCF60(objects::invisible_bullet_154,
                                     field_24_pPed->get_cam_x(),
                                     field_24_pPed->get_cam_y(),
                                     field_24_pPed->get_cam_z(),
@@ -1530,8 +1530,8 @@ void Weapon::tank_main_gun_5E10E0()
     if (field_2_reload_timer == 0)
     {
         field_24_pPed = field_14_car->GetDriver_4118B0();
-        cannon_angle = field_14_car->field_0_attachments.GetSpriteForModel_5A6A50(148)
-                           ->field_0_pSprite->field_0_rotation;
+        cannon_angle =
+            field_14_car->field_0_attachments.GetSpriteForModel_5A6A50(objects::tank_cannon_148)->field_0_pSprite->field_0_rotation;
         cannon_pos.SetXY_432860(Fix16(0), gTankCannonLength_706E20);
         {
             // RotateByAngle_MixOOL_40F6B0 written out, y * sin with the left-wide multiply
@@ -1579,12 +1579,12 @@ void Weapon::tank_main_gun_5E10E0()
         }
         else
         {
-            Weapon::spawn_bullet_5DCF60(objects::object_159,
-                                           cannon_pos.x,
-                                           cannon_pos.y,
-                                           field_14_car->field_50_car_sprite->field_1C_zpos,
-                                           cannon_angle,
-                                           velocity);
+            Weapon::spawn_bullet_5DCF60(objects::invisible_rocket_159,
+                                        cannon_pos.x,
+                                        cannon_pos.y,
+                                        field_14_car->field_50_car_sprite->field_1C_zpos,
+                                        cannon_angle,
+                                        velocity);
             field_2_reload_timer = 5;
         }
         Weapon::ApplyFastReload_5DCF40();
@@ -1651,7 +1651,12 @@ void Weapon::army_gun_jeep_5E13E0()
         }
         else
         {
-            spawn_bullet_5DCF60(154, bullet_pos.x, bullet_pos.y, field_14_car->field_50_car_sprite->field_1C_zpos, gun_ang, muzzle_vel);
+            spawn_bullet_5DCF60(objects::invisible_bullet_154,
+                                bullet_pos.x,
+                                bullet_pos.y,
+                                field_14_car->field_50_car_sprite->field_1C_zpos,
+                                gun_ang,
+                                muzzle_vel);
             field_2_reload_timer = 1;
         }
         ApplyFastReload_5DCF40();
@@ -1802,8 +1807,8 @@ void Weapon::car_smg_5E2940()
         else
         {
             Ang16 tmp = sprite_ang;
-            spawn_bullet_5DCF60(objects::flamethrower_fire_154, left.x, left.y, pCarSprite->field_1C_zpos, tmp, left_point_velocity);
-            spawn_bullet_5DCF60(objects::flamethrower_fire_154,
+            spawn_bullet_5DCF60(objects::invisible_bullet_154, left.x, left.y, pCarSprite->field_1C_zpos, tmp, left_point_velocity);
+            spawn_bullet_5DCF60(objects::invisible_bullet_154,
                                 right.x,
                                 right.y,
                                 pCarSprite->field_1C_zpos,
@@ -2004,7 +2009,7 @@ void Weapon::rocket_5E3850()
             {
                 if (!field_20)
                 {
-                    spawn_bullet_5DCF60(159,
+                    spawn_bullet_5DCF60(objects::invisible_rocket_159,
                                         field_24_pPed->get_cam_x(),
                                         field_24_pPed->get_cam_y(),
                                         field_24_pPed->get_cam_z(),
@@ -2045,7 +2050,7 @@ void Weapon::rocket_5E3850()
         }
         else
         {
-            spawn_bullet_5DCF60(159,
+            spawn_bullet_5DCF60(objects::invisible_rocket_159,
                                 field_24_pPed->get_cam_x(),
                                 field_24_pPed->get_cam_y(),
                                 field_24_pPed->get_cam_z(),

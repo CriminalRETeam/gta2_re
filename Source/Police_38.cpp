@@ -2692,7 +2692,8 @@ char_type PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientat
                                 pDriver->SetPedType_403920(ped_type::script_created_5);
                                 pDriver->set_occupation_403970(ped_ocupation_enum::road_block_tank_man);
                                 pDriver->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
-                                pCar->field_0_attachments.GetSpriteForModel_5A6A50(148)->field_10_offset_rot = kAng90_6FEB74;
+                                pCar->field_0_attachments.GetSpriteForModel_5A6A50(objects::tank_cannon_148)->field_10_offset_rot =
+                                    kAng90_6FEB74;
                             }
                             break;
                     }

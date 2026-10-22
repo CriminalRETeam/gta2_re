@@ -30,6 +30,9 @@ marked unlisted addresses into `target_extra.json`) before trusting the marker.
   Rename such pads (`field_7A_pad`) instead of deleting them.
 - Deleting the unused `ped_bit_index` enum (32 names) from `ped_flags.hpp` hits the same two functions once
   `ped_flag_mask` was already gone, so it stays, unused, with a comment.
+- `enums.hpp` has no slack either way: one name more or less there changes `ImGuiDebugDraw` (no marker, but the
+  exe is no longer byte-identical), and one more also changes `Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0`.
+  Renames are safe; new names go in their own header, like `car_shop_type.hpp`.
 - The fix is to keep the enum out of every header `MapRenderer.cpp` includes: `ped_graphic_type.hpp` is a
   small header included only by the .cpp files that use it.
 After adding any enum or constants to a widely included header, run the whole `build.py` (not just

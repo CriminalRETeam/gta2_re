@@ -436,7 +436,7 @@ void ParticleManager::EmitFireTruckSprayParticle_53FAE0(Sprite* pSprite)
     {
         if (!field_4_water_hit_obj)
         {
-            field_4_water_hit_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::maybe_bullet_on_fire_198, 0, 0, 0, kAngZero_6FD5D4);
+            field_4_water_hit_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::water_hitting_198, 0, 0, 0, kAngZero_6FD5D4);
         }
         vector.x = Fix16(0);
         vector.y = Fix16(0);

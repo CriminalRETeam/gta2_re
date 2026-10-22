@@ -874,9 +874,9 @@ char_type sound_obj::SelectObjectImpactSound_413120(CollisionEvent* pEvent, s32 
     // The 110 case keeps its own copy after the if, which VC6 tail-merges back into the 281/282 block.
     s32 samp_idx;
 
-    if (pEvent->field_18_object_model <= 110)
+    if (pEvent->field_18_object_model <= objects::ped_pushed_110)
     {
-        if (pEvent->field_18_object_model == 110)
+        if (pEvent->field_18_object_model == objects::ped_pushed_110)
         {
             // 110 shares the code of models 182 and 183
             goto case_110;
@@ -1129,12 +1129,12 @@ char_type sound_obj::Type6_9_413540(CollisionEvent* pEvent)
         case 61:
         case 62:
         case 63:
-        case 110:
-        case objects::moving_collect_27_123:
-        case objects::car_stop_155:
-        case objects::big_white_skid_156:
-        case objects::medium_white_skid_157:
-        case objects::small_white_skid_158:
+        case objects::ped_pushed_110:
+        case objects::moving_bush_123:
+        case objects::moving_cone_155:
+        case objects::moving_blaster_156:
+        case objects::moving_bin_157:
+        case objects::moving_bin_lid_158:
         case objects::diagonal_wall_collision_obj_166:
             return SelectObjectImpactSound_413120(pEvent, 9);
 

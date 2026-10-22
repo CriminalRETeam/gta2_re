@@ -2038,7 +2038,7 @@ char_type Ped::HandlePedHitByObject_45D000(Object* pTargetPed)
     Ped* pBlamedPed = NULL;
 
     if ((field_278_ped_state_1 == ped_state_1::immobilized_8 ||
-         field_278_ped_state_1 == ped_state_1::dead_9 && pTargetPed->field_18_model != objects::maybe_bullet_on_fire_198) &&
+         field_278_ped_state_1 == ped_state_1::dead_9 && pTargetPed->field_18_model != objects::water_hitting_198) &&
         field_27C_ped_state_2 != ped_state_2::lying_on_floor_22)
     {
         return false;
@@ -2146,7 +2146,7 @@ char_type Ped::HandlePedHitByObject_45D000(Object* pTargetPed)
             Ped::SetOnFire();
             return true;
 
-        case objects::maybe_bullet_on_fire_198:
+        case objects::water_hitting_198:
             Ped::PutOutFire();
             angle = ComputeShortestAngleDelta_4056C0(field_168_game_object->field_80_sprite_ptr->field_0_rotation, pTargetPed->field_4_sprite->field_0_rotation);
             if (angle > kAng90_6784B0)
@@ -2349,11 +2349,19 @@ void Ped::SpawnWeaponOnDeath_45E080()
                 switch (this->field_170_selected_weapon->field_1C_idx)
                 {
                     case weapon_type::pistol:
-                        pWeaponObj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(200, field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, gDummyPedAng_6787A8);
+                        pWeaponObj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::pistol_weapon_200,
+                                                                             field_1AC_cam.x,
+                                                                             field_1AC_cam.y,
+                                                                             field_1AC_cam.z,
+                                                                             gDummyPedAng_6787A8);
                         break;
 
                     case weapon_type::smg:
-                        pWeaponObj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(201, field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, gDummyPedAng_6787A8);
+                        pWeaponObj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::machine_gun_weapon_201,
+                                                                             field_1AC_cam.x,
+                                                                             field_1AC_cam.y,
+                                                                             field_1AC_cam.z,
+                                                                             gDummyPedAng_6787A8);
                         break;
 
                     case weapon_type::rocket:
@@ -2365,7 +2373,11 @@ void Ped::SpawnWeaponOnDeath_45E080()
                         break;
 
                     case weapon_type::molotov:
-                        pWeaponObj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(204, field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, gDummyPedAng_6787A8);
+                        pWeaponObj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::molotov_weapon_204,
+                                                                             field_1AC_cam.x,
+                                                                             field_1AC_cam.y,
+                                                                             field_1AC_cam.z,
+                                                                             gDummyPedAng_6787A8);
                         break;
 
                     case weapon_type::grenade:
@@ -2373,15 +2385,27 @@ void Ped::SpawnWeaponOnDeath_45E080()
                         break;
 
                     case weapon_type::shotgun:
-                        pWeaponObj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(206, field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, gDummyPedAng_6787A8);
+                        pWeaponObj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::shotgun_weapon_206,
+                                                                             field_1AC_cam.x,
+                                                                             field_1AC_cam.y,
+                                                                             field_1AC_cam.z,
+                                                                             gDummyPedAng_6787A8);
                         break;
 
                     case weapon_type::electro_batton:
-                        pWeaponObj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(200, field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, gDummyPedAng_6787A8);
+                        pWeaponObj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::pistol_weapon_200,
+                                                                             field_1AC_cam.x,
+                                                                             field_1AC_cam.y,
+                                                                             field_1AC_cam.z,
+                                                                             gDummyPedAng_6787A8);
                         break;
 
                     case weapon_type::flamethrower:
-                        pWeaponObj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(208, field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, gDummyPedAng_6787A8);
+                        pWeaponObj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::flamethrower_weapon_208,
+                                                                             field_1AC_cam.x,
+                                                                             field_1AC_cam.y,
+                                                                             field_1AC_cam.z,
+                                                                             gDummyPedAng_6787A8);
                         break;
 
                     case weapon_type::silence_smg:

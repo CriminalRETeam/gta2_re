@@ -334,7 +334,8 @@ bool Object::SelectCollisionSprite_522460(Sprite* pProbe)
         return 0;
     }
 
-    if (pSprite->field_8_object_2C_ptr->field_18_model == objects::diagonal_wall_collision_obj_166 || pSprite->field_8_object_2C_ptr->field_18_model == objects::door_unknown_169)
+    if (pSprite->field_8_object_2C_ptr->field_18_model == objects::diagonal_wall_collision_obj_166 ||
+        pSprite->field_8_object_2C_ptr->field_18_model == objects::door_collision_obj_169)
     {
         gObject2C_HitWallOrDoor_6F8F94 = 1;
     }
@@ -1409,7 +1410,7 @@ void Object::OnAttachedSpriteDestroyed_525100()
     const s32 behavior = field_8_definition->field_34_behavior_type;
     if (behavior >= object_behavior_type::static_object_0 && behavior <= object_behavior_type::static_collision_check_1)
     {
-        if (field_18_model != objects::small_brown_skid_148)
+        if (field_18_model != objects::tank_cannon_148)
         {
             RequestRemoval_5290A0();
         }
@@ -1479,7 +1480,7 @@ char Object::ShouldCollideWithSprite_525370(Sprite* pSprite)
         case objects::conveyor_139:
             break;
 
-        case objects::door_unknown_169:
+        case objects::door_collision_obj_169:
             if (pSprite)
             {
                 return gDoor_4D4_67BD2C->CheckDoorAccess_49D3C0(pSprite, this->get_field_26_420FF0());
@@ -2680,13 +2681,13 @@ void Object::ProcessObjectExplosionImpact_528A20(Object* pObj)
             break;
         }
 
-        case objects::flamethrower_fire_154:
-        case objects::object_159:
+        case objects::invisible_bullet_154:
+        case objects::invisible_rocket_159:
         case objects::shotgun_bullet_192:
         case objects::tanktop_193:
         case objects::fire_hitting_194:
         case objects::object_195:
-        case objects::maybe_bullet_on_fire_198:
+        case objects::water_hitting_198:
         case objects::object_199:
         case objects::machine_gun_bullet_254:
         case objects::pistol_bullet_265:
@@ -2750,13 +2751,13 @@ void Object::HandleImpactNoSprite_528BA0()
             break;
         }
 
-        case objects::flamethrower_fire_154:
-        case objects::object_159:
+        case objects::invisible_bullet_154:
+        case objects::invisible_rocket_159:
         case objects::shotgun_bullet_192:
         case objects::tanktop_193:
         case objects::fire_hitting_194:
         case objects::object_195:
-        case objects::maybe_bullet_on_fire_198:
+        case objects::water_hitting_198:
         case objects::object_199:
         case objects::electrobaton_bullet_277:
             break;
@@ -3312,7 +3313,7 @@ Object* Object_5C::NewWithPedRefIdx_5299F0(s32 object_type, u32 ped_ref_idx, Fix
 MATCH_FUNC(0x529a40)
 Object* Object_5C::NewLight_529A40(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity)
 {
-    Object* pNewObj = CreateObject_529C00(165, xpos, ypos, zpos, kZeroAng_6F8F68, 0);
+    Object* pNewObj = CreateObject_529C00(objects::light_165, xpos, ypos, zpos, kZeroAng_6F8F68, 0);
     if (pNewObj)
     {
         pNewObj->field_C_pAny.pLight->SetColourRadiusIntensity_482D60(argb, radius, intensity);
@@ -3342,7 +3343,7 @@ Object* Object_5C::NewFlashingLight_529B20(Fix16 xpos,
                                              u8 off_time,
                                              u8 shape)
 {
-    Object* pNewObj = CreateObject_529C00(165, xpos, ypos, zpos, kZeroAng_6F8F68, 0);
+    Object* pNewObj = CreateObject_529C00(objects::light_165, xpos, ypos, zpos, kZeroAng_6F8F68, 0);
     if (pNewObj)
     {
         pNewObj->field_C_pAny.pLight->SetColourRadiusIntensity_482D60(argb, radius, intensity);

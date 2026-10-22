@@ -1029,7 +1029,9 @@ void PlayerScoreTracker::UpdateAccuracyCount_5934F0(u32 event, s32 weapon_model,
         }
     }
 
-    if (weapon_model == objects::fire_hitting_194 || weapon_model == objects::maybe_bullet_on_fire_198 || weapon_model == objects::flamethrower_fire_154 || weapon_model == objects::tanktop_193 || weapon_model == objects::object_195 || weapon_model == objects::object_159 || weapon_model == objects::object_199 || event == accuracy_event::fire_ended_0 ||
+    if (weapon_model == objects::fire_hitting_194 || weapon_model == objects::water_hitting_198 ||
+        weapon_model == objects::invisible_bullet_154 || weapon_model == objects::tanktop_193 || weapon_model == objects::object_195 ||
+        weapon_model == objects::invisible_rocket_159 || weapon_model == objects::object_199 || event == accuracy_event::fire_ended_0 ||
         event == accuracy_event::weapon_hit_1 || event == accuracy_event::hit_other_ped_3)
     {
         field_198_accuracy_count = 0;

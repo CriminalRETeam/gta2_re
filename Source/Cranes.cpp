@@ -837,7 +837,7 @@ void Crane::InitCrane_4803B0(Fix16 x_pos, Fix16 y_pos, char_type obj_id)
     field_34_part_obj_1 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_unknown_134, x_pos, y_pos, field_80_ground_z, kAngZero_679FC4);
     field_38_part_obj_2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_unknown_134, x_pos, y_pos, field_80_ground_z, kAngZero_679FC4);
     field_3C_part_obj_3 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_unknown_134, x_pos, y_pos, field_80_ground_z, kAngZero_679FC4);
-    field_40_part_obj_4 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(252, x_pos, y_pos, field_80_ground_z, kAngZero_679FC4);
+    field_40_part_obj_4 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_arm_252, x_pos, y_pos, field_80_ground_z, kAngZero_679FC4);
     field_44_part_obj_5 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(260, x_pos, y_pos, field_80_ground_z, kAngZero_679FC4);
     field_48_part_obj_6 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(261, x_pos, y_pos, field_80_ground_z, kAngZero_679FC4);
     field_4C_part_obj_7 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(262, x_pos, y_pos, field_80_ground_z, kAngZero_679FC4);

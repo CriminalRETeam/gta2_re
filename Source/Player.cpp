@@ -1,4 +1,5 @@
 #include "Player.hpp"
+#include "car_shop_type.hpp"
 #include "hud_message_priority.hpp"
 #include "voice_line.hpp"
 #include "InputRecorder_67F8B0.hpp"
@@ -108,22 +109,22 @@ DEFINE_GLOBAL(s16, gTestRouteIdx_675F14, 0x675F14);
 DEFINE_GLOBAL(Car*, gTestFireCar_675C30, 0x675C30);
 
 MATCH_FUNC(0x443CB0)
-EXPORT s32 Player::ObjectTypeToWeaponType_443CB0(u8 object_type)
+EXPORT s32 Player::ObjectTypeToWeaponType_443CB0(u8 shop_type)
 {
     s32 weapon_kind;
-    switch (object_type)
+    switch (shop_type)
     {
-        case objects::shop_car_mines_252:
+        case car_shop_type::mines_252:
             weapon_kind = weapon_type::car_mines;
             break;
-        case objects::shop_car_oil_stain_251:
+        case car_shop_type::oil_stain_251:
             weapon_kind = weapon_type::oil_stain;
             break;
-        case objects::shop_car_smg_250:
+        case car_shop_type::car_smg_250:
             weapon_kind = weapon_type::car_smg;
             break;
-        case 253:
-        case objects::machine_gun_bullet_254:
+        case car_shop_type::change_plates_253:
+        case car_shop_type::car_bomb_254:
             weapon_kind = weapon_type::car_bomb;
             break;
         default:

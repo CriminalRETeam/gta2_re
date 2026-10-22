@@ -668,7 +668,7 @@ EXPORT void __stdcall NoRefs_sub_5B1170()
     gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::cone_3, 106, 180, 2, kAng0_704500);
     gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::footy_13, 107, 180, 2, kAng0_704500);
     gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::invisible_powergen_283, 108, 180, 2, kAng0_704500);
-    gObject_5C_6F8F84->NewPhysicsObj_5299B0(200, 105, 179, 2, kAng0_704500);
+    gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::pistol_weapon_200, 105, 179, 2, kAng0_704500);
     gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::machine_gun_weapon_201, 106, 179, 2, kAng0_704500);
     gObject_5C_6F8F84->NewPhysicsObj_5299B0(202, 107, 179, 2, kAng0_704500);
     gObject_5C_6F8F84->NewPhysicsObj_5299B0(203, 108, 179, 2, kAng0_704500);
@@ -765,7 +765,7 @@ static const char* ObjectIdToString(s32 id)
         case objects::road_skidmark_120: return "road_skidmark_120";
         case objects::moving_collect_25_121: return "moving_collect_25_121";
         case objects::pedestrian_crossing_marker_122: return "pedestrian_crossing_marker_122";
-        case objects::moving_collect_27_123: return "moving_collect_27_123";
+        case objects::moving_bush_123: return "moving_collect_27_123";
         case objects::moving_collect_28_124: return "moving_collect_28_124";
         case objects::moving_collect_29_125: return "moving_collect_29_125";
         case objects::moving_collect_30_126: return "moving_collect_30_126";
@@ -791,26 +791,26 @@ static const char* ObjectIdToString(s32 id)
         case objects::particle_system_145: return "particle_system_145";
         case objects::firejet_146: return "firejet_146";
         case objects::object_147: return "object_147";
-        case objects::small_brown_skid_148: return "small_brown_skid_148";
-        case objects::small_grey_skid_149: return "small_grey_skid_149";
+        case objects::tank_cannon_148: return "small_brown_skid_148";
+        case objects::tv_antenna_149: return "small_grey_skid_149";
         case objects::crusher_piston_base_150: return "crusher_piston_base_150";
         case objects::medium_brown_skid_151: return "medium_brown_skid_151";
         case objects::medium_grey_skid_152: return "medium_grey_skid_152";
         case objects::medium_red_skid_153: return "medium_red_skid_153";
-        case objects::flamethrower_fire_154: return "flamethrower_fire_154";
-        case objects::car_stop_155: return "car_stop_155";
-        case objects::big_white_skid_156: return "big_white_skid_156";
-        case objects::medium_white_skid_157: return "medium_white_skid_157";
-        case objects::small_white_skid_158: return "small_white_skid_158";
-        case objects::object_159: return "object_159";
+        case objects::invisible_bullet_154: return "flamethrower_fire_154";
+        case objects::moving_cone_155: return "car_stop_155";
+        case objects::moving_blaster_156: return "big_white_skid_156";
+        case objects::moving_bin_157: return "medium_white_skid_157";
+        case objects::moving_bin_lid_158: return "small_white_skid_158";
+        case objects::invisible_rocket_159: return "object_159";
         case objects::rocket_160: return "rocket_160";
         case objects::savepoint_161: return "savepoint_161";
         case objects::car_shop_162: return "car_shop_162";
         case objects::busy_car_shop_163: return "busy_car_shop_163";
         case objects::blue_phone_164: return "blue_phone_164";
-        case objects::maybe_train_headlight_165: return "maybe_train_headlight_165";
+        case objects::light_165: return "maybe_train_headlight_165";
         case objects::diagonal_wall_collision_obj_166: return "diagonal_wall_collision_obj_166";
-        case objects::maybe_door_trigger_167: return "maybe_door_trigger_167";
+        case objects::door_trigger_167: return "maybe_door_trigger_167";
 
         case objects::huge_red_skid_189: return "huge_red_skid_189";
         case objects::huge_white_skid_190: return "huge_white_skid_190";
@@ -821,9 +821,9 @@ static const char* ObjectIdToString(s32 id)
         case objects::object_195: return "object_195";
         case objects::animating_rubbish_196: return "animating_rubbish_196";
         case objects::fire_197: return "ped_like_fire_197";
-        case objects::maybe_bullet_on_fire_198: return "maybe_bullet_on_fire_198";
+        case objects::water_hitting_198: return "maybe_bullet_on_fire_198";
         case objects::object_199: return "object_199";
-        case objects::remote_200: return "remote_200";
+        case objects::pistol_weapon_200: return "remote_200";
 
         case objects::secret_token_266: return "secret_token_266";
 

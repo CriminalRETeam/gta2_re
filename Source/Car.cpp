@@ -1,6 +1,7 @@
 #include "Car.hpp"
 #include "explosion_type.hpp"
 #include "ped_death_cause.hpp"
+#include "car_shop_type.hpp"
 #include "car_despawn_status.hpp"
 #include "car_door_state.hpp"
 #include "CarAI.hpp"
@@ -3336,7 +3337,7 @@ void Car::UpdateRoofLights_43C500()
     {
         field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BottomRightRoofLight_16);
 
-        Object* pObj_165 = field_0_attachments.FindObject2CByModel_5A6A90(165);
+        Object* pObj_165 = field_0_attachments.FindObject2CByModel_5A6A90(objects::light_165);
         pObj_165->UpdateLight_527A30();
     }
 
@@ -3352,7 +3353,7 @@ void Car::ResetRoofLights_43C650()
 {
     field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::BottomRightRoofLight_16);
 
-    Object* pObj1 = field_0_attachments.FindObject2CByModel_5A6A90(165);
+    Object* pObj1 = field_0_attachments.FindObject2CByModel_5A6A90(objects::light_165);
     if (pObj1)
     {
         pObj1->TurnOffLight_527990();
@@ -4165,7 +4166,7 @@ char_type Car::OnObjectTouched_43EA60(Object* pObj)
             }
             break;
 
-        case objects::maybe_door_trigger_167: // try open door? for garage?
+        case objects::door_trigger_167:
             gDoor_4D4_67BD2C->TryOpenDoorForCar_49D340(this, pObj->get_field_26_420FF0());
             break;
 
@@ -4182,8 +4183,8 @@ char_type __stdcall IsNoKillCreditObject_48E720(s32 model)
     char_type result;
     switch (model)
     {
-        case 154:
-        case 159:
+        case objects::invisible_bullet_154:
+        case objects::invisible_rocket_159:
         case objects::tanktop_193:
         case 195:
         case 199:
@@ -4237,8 +4238,8 @@ s32 __stdcall GetDeathCauseForObjectModel_48E780(s32 model)
                 return ped_death_cause::fire_13;
             case objects::fire_hitting_194:
                 return ped_death_cause::fire_hit_14;
-            case 198:
-            case objects::shop_car_oil_stain_251:
+            case objects::water_hitting_198:
+            case 251:
                 return ped_death_cause::burning_20;
         }
     }
@@ -4282,8 +4283,8 @@ char_type Car::HandleCarHitByObject_43F130(Object* pObj)
             pFoundPed->HandleShootingAtCar_46FC90(this, pObj->field_18_model);
         }
 
-        if (pObj->field_18_model == objects::flamethrower_fire_154 || pObj->field_18_model == 193 ||
-            pObj->field_18_model == objects::object_195 || pObj->field_18_model == objects::object_159 ||
+        if (pObj->field_18_model == objects::invisible_bullet_154 || pObj->field_18_model == 193 ||
+            pObj->field_18_model == objects::object_195 || pObj->field_18_model == objects::invisible_rocket_159 ||
             pObj->field_18_model == objects::object_199)
         {
             return 1;
@@ -4295,7 +4296,7 @@ char_type Car::HandleCarHitByObject_43F130(Object* pObj)
         return 0;
     }
 
-    if (pObj->field_18_model != 198 && !IsNoKillCreditObject_48E720(pObj->field_18_model))
+    if (pObj->field_18_model != objects::water_hitting_198 && !IsNoKillCreditObject_48E720(pObj->field_18_model))
     {
         if (pFoundPed)
         {
@@ -4391,7 +4392,7 @@ char_type Car::HandleCarHitByObject_43F130(Object* pObj)
                                                            impact_vec);
             break;
 
-        case objects::maybe_bullet_on_fire_198:
+        case objects::water_hitting_198:
             field_0_attachments.CleanupSpriteList_5A7080();
             break;
 
@@ -4408,7 +4409,7 @@ char_type Car::HandleCarHitByObject_43F130(Object* pObj)
             break;
     }
 
-    if (pObj->field_18_model != 198 && damage > 0)
+    if (pObj->field_18_model != objects::water_hitting_198 && damage > 0)
     {
         if (pFoundPed && pFoundPed->PedTypeIs_45EDE0(ped_type::player_2))
         {
@@ -4610,7 +4611,7 @@ MATCH_FUNC(0x440b10)
 void Car::PutTankCannonOnRoof_440B10()
 {
     Object* p2C =
-        gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::small_brown_skid_148, gFix16_6777CC, gFix16_6777CC, gFix16_6777CC, kAngZero_67791C);
+        gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::tank_cannon_148, gFix16_6777CC, gFix16_6777CC, gFix16_6777CC, kAngZero_67791C);
     field_50_car_sprite->AttachSprite_5A3100(p2C->field_4_sprite, gFix16_6777CC, kTankCannonOffsetY_6772A4, kAngZero_67791C);
 }
 
@@ -4624,7 +4625,8 @@ void Car::PutMachineGunOnRoof_440B60()
 MATCH_FUNC(0x440bb0)
 void Car::PutTV_Antenna_440BB0()
 {
-    Object* pNewObj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(149, gFix16_6777CC, gFix16_6777CC, gFix16_6777CC, kAngZero_67791C);
+    Object* pNewObj =
+        gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::tv_antenna_149, gFix16_6777CC, gFix16_6777CC, gFix16_6777CC, kAngZero_67791C);
     field_50_car_sprite->AttachSprite_5A3100(pNewObj->field_4_sprite, gFix16_6777CC, kTvAntennaOffsetY_6778A0, GetRadioTowerAngle_442520());
 }
 
@@ -4641,7 +4643,7 @@ char_type Car::RotateRoofObjectTowardTarget_440C10(Ang16 targetAngle)
     }
     else if (IsTank_411900())
     {
-        pFound = field_0_attachments.GetSpriteForModel_5A6A50(148);
+        pFound = field_0_attachments.GetSpriteForModel_5A6A50(objects::tank_cannon_148);
         ang = pFound->field_0_pSprite->field_0_rotation;
     }
     else if (IsGunJeep_411910())
@@ -4705,7 +4707,7 @@ char_type Car::HandleRoofTurretRotation_440D90(char_type left_on)
 
     if (field_84_car_info_idx == car_model_enum::TANK)
     {
-        AttachedSprite* pSprite = field_0_attachments.GetSpriteForModel_5A6A50(148);
+        AttachedSprite* pSprite = field_0_attachments.GetSpriteForModel_5A6A50(objects::tank_cannon_148);
         if (left_on)
         {
             compound_add_41FA70(pSprite->field_10_offset_rot, kTankTurretRotSpeed_677352);
@@ -5768,7 +5770,7 @@ void Car::ManageTVAntenna_4425D0()
     Ang16 towerAng;
     Fix16 zero;
     Fix16 spriteAngFp;
-    AttachedSprite* pSprite = field_0_attachments.GetSpriteForModel_5A6A50(149);
+    AttachedSprite* pSprite = field_0_attachments.GetSpriteForModel_5A6A50(objects::tv_antenna_149);
     if (pSprite)
     {
         towerAng = GetRadioTowerAngle_442520();
@@ -5920,7 +5922,7 @@ void Car::TryHitchTrailer_442810()
 MATCH_FUNC(0x442d10)
 void Car::LightUpdate_442D10()
 {
-    AttachedSprite* p18 = field_0_attachments.GetSpriteForModel_5A6A50(165);
+    AttachedSprite* p18 = field_0_attachments.GetSpriteForModel_5A6A50(objects::light_165);
     if (p18)
     {
         Sprite* pSprite = p18->field_0_pSprite;
@@ -6472,7 +6474,7 @@ void Car::ResprayOrChangePlates(u8 remap)
     {
         if (pPlayer->IsUser_41DC70())
         {
-            if (remap == 0xFD) // clean plates only
+            if (remap == car_shop_type::change_plates_253) // clean plates only
             {
                 gHud_2B00_706620->field_DC_brief.SetHudBrief_5D3F10(1, "cdone", cost);
             }
@@ -6482,7 +6484,7 @@ void Car::ResprayOrChangePlates(u8 remap)
             }
         }
 
-        if (remap != 0xFD) // respray
+        if (remap != car_shop_type::change_plates_253) // respray
         {
             SetCarRemap(remap);
             field_0_attachments.ClearGangIconSprite_5A7110();
@@ -6515,7 +6517,7 @@ void Car::ResprayOrCleanPlates(u8 remap)
         }
         else
         {
-            ResprayOrChangePlates(0xFD); // change plates
+            ResprayOrChangePlates(car_shop_type::change_plates_253);
         }
     }
     else if (GetDriverPlayer_421870()->IsUser_41DC70())
@@ -6531,7 +6533,7 @@ void Car::HandleShops_443C40(Object* pObj)
     if (HasPlayerDriver_4215C0() && pObj->field_18_model == objects::car_shop_130)
     {
         const u8 idx = pObj->get_field_26_420FF0();
-        if (idx >= objects::shop_car_smg_250 && (idx <= objects::shop_car_mines_252 || idx == objects::machine_gun_bullet_254))
+        if (idx >= car_shop_type::car_smg_250 && (idx <= car_shop_type::mines_252 || idx == car_shop_type::car_bomb_254))
         {
             Car::BuyCarWeapon_4438C0(GetDriverPlayer_421870()->ObjectTypeToWeaponType_443CB0(idx));
         }
