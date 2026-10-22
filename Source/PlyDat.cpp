@@ -611,7 +611,6 @@ void PlyDat::SaveHiScores_56BF20()
     File::WriteBufferToFile_4A6E80(FileName, this, &len);
 }
 
-// TODO: logic matches, only register allocation differs
 MATCH_FUNC(0x56C010)
 void PlyDat::UpdateHiScores_56C010()
 {

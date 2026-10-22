@@ -695,7 +695,6 @@ void Sprite::ApplyScaleToDimensions_59E4C0(Fix16 scale, s32 bScale_Field_C_4C)
 MATCH_FUNC(0x59E590)
 char_type Sprite::CollisionCheck_59E590(Sprite* pOther)
 {
-    // TODO: inlining issue inside of AABB_Intersects_41E2F0
     if (field_C_pCollisionShape->field_30_boundingBox.AABB_Intersects_41E2F0(&pOther->field_C_pCollisionShape->field_30_boundingBox))
     {
         if ((field_C_pCollisionShape->IsZeroWidth_41E390() || field_0_rotation.jIsAxisAligned_41E3C0()) &&

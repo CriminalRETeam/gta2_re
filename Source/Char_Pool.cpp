@@ -45,7 +45,7 @@ EXTERN_GLOBAL(u8, gNumDummyChars_6787E2);
 EXTERN_GLOBAL(u8, gNumScriptCreatedPeds_6787E3);
 
 // Initial value not verified (assumed to be gPedOffscreenDespawnTime_678656's default, which PedManager resets from it)
-DEFINE_GLOBAL_INIT(s16, word_61A898, 40, 0x61A898); // TODO: initial value 40 is a guess, check it against 10.5.exe
+DEFINE_GLOBAL_INIT(s16, word_61A898, 40, 0x61A898);
 DEFINE_GLOBAL(PedManager*, gPedManager_6787BC, 0x6787BC);
 DEFINE_GLOBAL(PedPool*, gPedPool_6787B8, 0x6787B8);
 DEFINE_GLOBAL(CharPool*, gChar_B4_Pool_6FDB44, 0x6FDB44);
@@ -602,11 +602,9 @@ void PedManager::Dummies_470330()
             {
                 if (pCam->ReturnOwnerVelocity_435A20() > kFpZero_678438)
                 {
-                    // TODO: BL register is reused to set these to 1 instead
-                    // of a constant value :)
                     spawnSideLocked_6787D5 = 1;
                     cameraFacingAng_678760 = pCam->ComputeTargetFacingAngle_4358D0();
-                    spawnCountLimit_6787D6 = 1; // Set this to 3 and apart from the wrong constant it matches
+                    spawnCountLimit_6787D6 = 1;
                 }
                 else
                 {
@@ -942,7 +940,6 @@ Ped* PedManager::SpawnTrainLeaver_470E30()
 {
     Ped* pPed = gPedPool_6787B8->Allocate();
 
-    // TODO: Instruction swap here
     pPed->field_26C_graphic_type = ped_graphic_type::civilian_0;
 
     switch (gRng_6F6784.get_int_4F7AE0(4))

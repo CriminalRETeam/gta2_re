@@ -4556,7 +4556,7 @@ void Car::AssignDriver_4406E0(Ped* pPed)
     }
     else
     {
-        field_95_player_ped_id = 0; // TODO: field_95_ped_id rename
+        field_95_player_ped_id = 0;
     }
 }
 

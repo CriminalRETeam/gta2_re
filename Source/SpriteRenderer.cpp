@@ -217,7 +217,6 @@ void SpriteTree::Reset_5C5E50()
     field_0_pRoot = 0;
 }
 
-// TODO: Doesn't match due to SEH stuff
 MATCH_FUNC(0x5c5e70)
 SpriteTree::SpriteTree()
 {

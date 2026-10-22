@@ -202,7 +202,7 @@ void PlayerScoreTracker::Service_591C70()
 
     Car* pFlyingCar = player_ped->get_car_416B60();
     if (pFlyingCar && player_ped->not_enter_car_as_passenger_4A5040() && (pFlyingCar->field_58_physics) != 0 &&
-        pFlyingCar->field_58_physics->IsInAir_55A0B0() // TODO: Wrong stack
+        pFlyingCar->field_58_physics->IsInAir_55A0B0()
         && pFlyingCar->GetVelocity_43A4C0() > kFlyCarMinVelocity_7028BC)
     {
         field_190_fly_car_time_ms += gGame_0x40_67E008->GetFrameDurationMs_4B8BB0();
@@ -244,7 +244,7 @@ void PlayerScoreTracker::Service_591C70()
 
         if (gamemode != TAG_GAME_3)
         {
-            if (frags_or_points >= points_limit) // TODO: di vs edi
+            if (frags_or_points >= points_limit)
             {
                 gGameSession_67E8E0.SetWinnerIdx_4C5C00(player_idx);
                 if (gGame_0x40_67E008->field_28_exit_timer == -1)

@@ -1044,7 +1044,6 @@ NetUi::~NetUi()
     }
 }
 
-// TODO: Make a scratch
 MATCH_FUNC(0x519bd0)
 s32 NetUi::ShowNetworkUiBlocking_519BD0(HINSTANCE hInstance)
 {

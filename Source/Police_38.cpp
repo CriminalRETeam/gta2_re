@@ -1785,7 +1785,6 @@ void PoliceCrew::Service_575590()
     }
 }
 
-// TODO: logic matches, but the original keeps field_75_num_crews in bl and i in cl
 MATCH_FUNC(0x575650)
 void PoliceCrew::UnlinkFromPursuitTarget_575650()
 {

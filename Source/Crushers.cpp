@@ -17,7 +17,7 @@
 
 DEFINE_GLOBAL(CrusherPool*, gCrusherPool_94_67A830, 0x67A830);
 
-// TODO: Name and init these to the correct values
+// TODO: name kCrusher_67A810
 DEFINE_GLOBAL_INIT(Fix16, kCrusherOpenDist_67A7D0, Fix16(0x3C00, 0), 0x67A7D0);
 DEFINE_GLOBAL_INIT(Fix16, kCrusherClosedDist_67A4E4, Fix16(0x2400, 0), 0x67A4E4);
 DEFINE_GLOBAL_INIT(Fix16, kCrusherPistonBaseDist_67A664, Fix16(0x4800, 0), 0x67A664);
