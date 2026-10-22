@@ -15,32 +15,33 @@
 
 DEFINE_GLOBAL(PublicTransport*, gPublicTransport_181C_6FF1D4, 0x6FF1D4);
 DEFINE_GLOBAL(TrainStationList, gTrainStationList_6FEE68, 0x6FEE68);
+DEFINE_GLOBAL(TrainStopCount, gTrainStopCount_6FEFFC, 0x6FEFFC); // name sets a 4-aligned .bss offset: InitStationsLinkedList_5793E0 reads it as a dword
 DEFINE_GLOBAL(u8, gStationCount_6FF1CC, 0x6FF1CC);
 DEFINE_GLOBAL(u8, gTargetCarDoor_6FF1D8, 0x6FF1D8);
 DEFINE_GLOBAL_INIT(Fix16, kFpZero_6FF078, 0, 0x6FF078);
 DEFINE_GLOBAL_INIT(Fix16_Point, kZeroPoint_6FF150, Fix16_Point(Fix16(0), Fix16(0)), 0x6FF150);
 DEFINE_GLOBAL(u8, gNameCompareLen_6FF158, 0x6FF158);
-DEFINE_GLOBAL(u8, gBusSpawned_6FF1CD, 0x6FF1CD);
-DEFINE_GLOBAL(s32, gBusSpawnCooldown_6FF1D0, 0x6FF1D0);
+// Keep their old names: the names set their .bss offsets, which SetupTrainAndBusStops_5794B0 depends on (docs/matching_quirks.md)
+DEFINE_GLOBAL(u8, byte_6FF1CD, 0x6FF1CD);
+DEFINE_GLOBAL(s32, dword_6FF1D0, 0x6FF1D0);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne_6FF07C, Fix16(1), 0x6FF07C);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint05_6FF04C, Fix16(0x333, 0), 0x6FF04C);
 
-Fix16 kFpHalf_6FEEE8 = Fix16(0.5); //DEFINE_GLOBAL_INIT(Fix16, kFpHalf_6FEEE8, Fix16(0.5), 0x6FEEE8);
-Ang16 kAng0_6FF1BC = Ang16(0); //DEFINE_GLOBAL_INIT(Ang16, kAng0_6FF1BC, Ang16(0), 0x6FF1BC);
+DEFINE_GLOBAL_INIT(Fix16, kFpHalf_6FEEE8, Fix16(0.5), 0x6FEEE8);
+DEFINE_GLOBAL_INIT(Ang16, kAng0_6FF1BC, Ang16(0), 0x6FF1BC);
 
-// Train spawning values. 
-// TrainStationList dword_6FEE68 is allocating too much space, so these globals crash standalone. TODO: fix TrainStationList struct
-Fix16 dword_6FEF88 = Fix16(0.5); //DEFINE_GLOBAL_INIT(Fix16, dword_6FEF88, Fix16(0.5), 0x6FEF88); // offset into the stop block
-Fix16 dword_6FF088 = Fix16(4); // DEFINE_GLOBAL_INIT(Fix16, dword_6FF088, Fix16(4), 0x6FF088); // wagon spacing along x
-Fix16 dword_6FF080 = Fix16(2); // DEFINE_GLOBAL_INIT(Fix16, dword_6FF080, Fix16(2), 0x6FF080); // wagon spacing along y
-Ang16 word_6FEFFE = Ang16(1080); // DEFINE_GLOBAL_INIT(Ang16, word_6FEFFE, Ang16(1080), 0x6FEFFE);
-Ang16 word_6FEF04 = Ang16(360); // DEFINE_GLOBAL_INIT(Ang16, word_6FEF04, Ang16(360), 0x6FEF04);
-Ang16 word_6FEFD6 = Ang16(720); // DEFINE_GLOBAL_INIT(Ang16, word_6FEFD6, Ang16(720), 0x6FEFD6);
+// Train spawning values
+DEFINE_GLOBAL_INIT(Fix16, dword_6FEF88, Fix16(0.5), 0x6FEF88); // offset into the stop block
+DEFINE_GLOBAL_INIT(Fix16, dword_6FF088, Fix16(4), 0x6FF088); // wagon spacing along x
+DEFINE_GLOBAL_INIT(Fix16, dword_6FF080, Fix16(2), 0x6FF080); // wagon spacing along y
+DEFINE_GLOBAL_INIT(Ang16, word_6FEFFE, Ang16(1080), 0x6FEFFE);
+DEFINE_GLOBAL_INIT(Ang16, word_6FEF04, Ang16(360), 0x6FEF04);
+DEFINE_GLOBAL_INIT(Ang16, word_6FEFD6, Ang16(720), 0x6FEFD6);
 
-Fix16 kTrainSpeedState0_6FEEE0 = Fix16(0x1333, 0); //DEFINE_GLOBAL_INIT(Fix16, kTrainSpeedState0_6FEEE0, Fix16(0x1333, 0), 0x6FEEE0);
-Fix16 kTrainSpeedState1And3_6FEED4 = Fix16(0x666, 0); //DEFINE_GLOBAL_INIT(Fix16, kTrainSpeedState1And3_6FEED4, Fix16(0x666, 0), 0x6FEED4);
-Fix16 kTrainSpeedState4_6FEEDC = Fix16(0xCCC, 0); //DEFINE_GLOBAL_INIT(Fix16, kTrainSpeedState4_6FEEDC, Fix16(0xCCC, 0), 0x6FEEDC);
-Fix16 kTrainSpeedState5_6FEEE4 = Fix16(0x1999, 0); //DEFINE_GLOBAL_INIT(Fix16, kTrainSpeedState5_6FEEE4, Fix16(0x1999, 0), 0x6FEEE4);
+DEFINE_GLOBAL_INIT(Fix16, kTrainSpeedState0_6FEEE0, Fix16(0x1333, 0), 0x6FEEE0);
+DEFINE_GLOBAL_INIT(Fix16, kTrainSpeedState1And3_6FEED4, Fix16(0x666, 0), 0x6FEED4);
+DEFINE_GLOBAL_INIT(Fix16, kTrainSpeedState4_6FEEDC, Fix16(0xCCC, 0), 0x6FEEDC);
+DEFINE_GLOBAL_INIT(Fix16, kTrainSpeedState5_6FEEE4, Fix16(0x1999, 0), 0x6FEEE4);
 
 MATCH_FUNC(0x577E20)
 char __stdcall HasBlockGreenArrowAtDirection_577E20(s32 direction, gmp_block_info* param_2)
@@ -839,7 +840,7 @@ void PublicTransport::InitStationsLinkedList_5793E0()
     if (!bSkip_trains_67D550)
     {
         u16 idx = 0;
-        for (; idx < gTrainStationList_6FEE68.field_194_count - 1; idx++)
+        for (; idx < gTrainStopCount_6FEFFC.field_0_count - 1; idx++)
         {
             gTrainStationList_6FEE68.field_0_list[idx]->field_20_next_station = gTrainStationList_6FEE68.field_0_list[idx + 1];
         }
@@ -876,8 +877,8 @@ MATCH_FUNC(0x5794b0)
 void PublicTransport::SetupTrainAndBusStops_5794B0()
 {
     char Buffer[8];
-    gBusSpawned_6FF1CD = 0;
-    gBusSpawnCooldown_6FF1D0 = 0;
+    byte_6FF1CD = 0;
+    dword_6FF1D0 = 0;
     if (!bSkip_trains_67D550)
     {
         for (u8 station_zone_kind = 0; station_zone_kind < 5; station_zone_kind++)
@@ -906,7 +907,7 @@ void PublicTransport::SetupTrainAndBusStops_5794B0()
             {
                 gTrainStationList_6FEE68.field_0_list[k] = NULL;
             }
-            gTrainStationList_6FEE68.field_194_count = 0;
+            gTrainStopCount_6FEFFC.field_0_count = 0;
 
             gmp_map_zone* i;
             for (i = gMap_0x370_6F6268->GetFirstZoneOfType_4DF1D0(gmp_zone_type_enum::railway_station_platform); i != NULL;
@@ -943,10 +944,10 @@ void PublicTransport::SetupTrainAndBusStops_5794B0()
                         default:
                             break;
                     }
-                    ++gTrainStationList_6FEE68.field_194_count;
+                    ++gTrainStopCount_6FEFFC.field_0_count;
                 }
             }
-            if (gTrainStationList_6FEE68.field_194_count > 0)
+            if (gTrainStopCount_6FEFFC.field_0_count > 0)
             {
                 PublicTransport::InitStationsLinkedList_5793E0();
             }
@@ -1228,11 +1229,11 @@ void PublicTransport::BusesService_579CA0()
     {
         u16 i;
         s32 found_z;
-        if (gBusSpawnCooldown_6FF1D0 || gBusSpawned_6FF1CD || !gCarManager_6C_677930->CanAllocateCarOfKind_446930(car_kind::recycled_1))
+        if (dword_6FF1D0 || byte_6FF1CD || !gCarManager_6C_677930->CanAllocateCarOfKind_446930(car_kind::recycled_1))
         {
-            if (--gBusSpawnCooldown_6FF1D0 < 0)
+            if (--dword_6FF1D0 < 0)
             {
-                gBusSpawnCooldown_6FF1D0 = 0;
+                dword_6FF1D0 = 0;
             }
         }
         else
@@ -1318,13 +1319,13 @@ void PublicTransport::BusesService_579CA0()
                     field_17C0_bus.field_C_carriages[0]->InitCarAIControl_440590();
                     field_17C0_bus.field_C_carriages[0]->StartEngine_426E00();
 
-                    gBusSpawned_6FF1CD = 1;
+                    byte_6FF1CD = 1;
                     field_17C0_bus.field_48_stop_phase = 0;
                     field_17C0_bus.field_56_passenger_count = 0;
                     field_17C0_bus.field_C_carriages[0]->IncrementCarStats_443D70(1);
                 }
             }
-            gBusSpawnCooldown_6FF1D0 = 200;
+            dword_6FF1D0 = 200;
         }
 
         pBusCar = field_17C0_bus.field_C_carriages[0];
@@ -1378,8 +1379,8 @@ void PublicTransport::BusesService_579CA0()
             {
                 field_17C0_bus.field_C_carriages[0]->MarkForDespawn_421470();
                 field_17C0_bus.field_C_carriages[0] = 0;
-                gBusSpawned_6FF1CD = 0;
-                gBusSpawnCooldown_6FF1D0 = 100;
+                byte_6FF1CD = 0;
+                dword_6FF1D0 = 100;
             }
             else
             {
@@ -1387,8 +1388,8 @@ void PublicTransport::BusesService_579CA0()
                     field_17C0_bus.field_C_carriages[0]->field_74_damage == 32000)
                 {
                     field_17C0_bus.field_C_carriages[0] = 0;
-                    gBusSpawned_6FF1CD = 0;
-                    gBusSpawnCooldown_6FF1D0 = 0;
+                    byte_6FF1CD = 0;
+                    dword_6FF1D0 = 0;
                 }
                 else
                 {

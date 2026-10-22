@@ -315,9 +315,7 @@ EXPORT s32 IsFullScreen_5D98D0()
     return gVidSys_7071D0->field_40_full_screen;
 }
 
-// OBS: keep ErrorLog functions disabled for now. 
-// Any changes on it must be tested before pulling a request. Run decomp_main.exe and check that your changes won't make it crash.
-WIP_FUNC(0x5D9910)
+MATCH_FUNC(0x5D9910)
 EXPORT s32 __stdcall SetGamma_5D9910(s32 gamma)
 {
     f32 gamma_f = gamma * 0.1;
@@ -325,7 +323,7 @@ EXPORT s32 __stdcall SetGamma_5D9910(s32 gamma)
     {
         s32 result = pVid_SetGamma(gVidSys_7071D0, gamma_f, gamma_f, gamma_f);
         sprintf(gTmpBuffer_67C598, "gammma(%d) : %d", gamma, result);
-        //gErrorLog_67C530.Write_4D9620(gTmpBuffer_67C598);
+        gErrorLog_67C530.Write_4D9620(gTmpBuffer_67C598);
         return result;
     }
     return gamma;
@@ -1501,7 +1499,7 @@ bool Frontend::pre_intro_bik_exists_4B6030()
 
 // TODO: the contents of these strings aren't known, only their addresses
 DEFINE_GLOBAL_ARRAY_INIT(char_type, gBikDataDir_620454, 8, 0x620454, "data\\");
-DEFINE_GLOBAL_ARRAY_INIT(char_type, gBikDriveDataDir_62045C, 8, 0x62045C, ":\\data\\");
+DEFINE_GLOBAL_ARRAY_INIT(char_type, gBikDriveDataDir_62045C, 4, 0x62045C, ":\\");
 DEFINE_GLOBAL_ARRAY_INIT(char_type, gIntroBikName_5FE76C, 16, 0x5FE76C, "movie\\intro.bik");
 DEFINE_GLOBAL_ARRAY_INIT(char_type, gPreIntroBikName_5FE77C, 20, 0x5FE77C, "movie\\preintro.bik");
 DEFINE_GLOBAL_ARRAY(char_type, gIntroBikPath_67DA84, 256, 0x67DA84);

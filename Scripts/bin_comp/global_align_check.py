@@ -6,8 +6,9 @@ the same TU into a 4-byte stack slot with a 32-bit move when it knows the addres
 (`mov eax, DWORD PTR g; mov [esp+x], eax` instead of `mov ax, WORD PTR g; mov [esp+x], ax`). It knows the address
 from the global's offset in the object's .bss/.data. A TU's uninitialized and constructor-initialized globals are laid
 out in .bss in the order of C1XX's symbol hash (bucket_key() below), not by declaration. So renaming any global defined
-in a TU can move the others and change code (docs/matching_quirks.md, "Even a global's name can change code"). Bytes
-are never widened, and globals defined in another TU (extern) never are.
+in a TU can move the others and change code (docs/matching_quirks.md, "Even a global's name can change code"). Byte
+copies are never widened (zero-extended byte reads are, but this script doesn't check them), and globals defined in
+another TU (extern) never are.
 
 The original address comes from the `_gRef_<name>_0x<addr>` symbol that DEFINE_GLOBAL emits.
 

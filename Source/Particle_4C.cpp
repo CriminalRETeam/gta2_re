@@ -34,8 +34,9 @@ EXTERN_GLOBAL(Fix16, kFpMinusNineThirtySeconds_6FD4CC);
 EXTERN_GLOBAL(Fix16, kFpOne64th_6FD328);
 
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint05_6FD46C, Fix16(0x333, 0), 0x6FD46C);
-DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6FD554, kFpOne64th_6FD448, 0x6FD554);
-DEFINE_GLOBAL_INIT(Fix16, kMaxZ_6FD28C, kFP16Eight_6FD4C0 - kFpOne64th_6FD554, 0x6FD28C);
+// Literal values: the globals they come from are in Explosion.cpp, whose initializers run after this TU's
+DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6FD554, Fix16(0x100, 0), 0x6FD554);
+DEFINE_GLOBAL_INIT(Fix16, kMaxZ_6FD28C, Fix16(0x1FF00, 0), 0x6FD28C); // 8 - 1/64
 //DEFINE_GLOBAL(Fix16_Point, gParticlePosX_6FD388, 0x6FD388);
 
 DEFINE_GLOBAL(Fix16, gParticlePosX_6FD388, 0x6FD388);

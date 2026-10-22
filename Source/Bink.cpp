@@ -6,7 +6,8 @@ DEFINE_GLOBAL(BINKBUFFER*, gBinkBufferSlot2_6F80C4, 0x6F80C4);
 DEFINE_GLOBAL(BINKBUFFER*, gBinkBufferSlot1_6F8170, 0x6F8170);
 DEFINE_GLOBAL(char_type, gBinkDDState_6F83FE, 0x6F83FE);
 DEFINE_GLOBAL(char_type, gBinkActiveSlot_6F83FF, 0x6F83FF);
-DEFINE_GLOBAL(s32, gBinkSummary_6F8250, 0x6F8250);
+// BinkGetSummary writes a 0x78-byte summary here (the next global the original uses is at 0x6F82C8)
+DEFINE_GLOBAL_ARRAY(u32, gBinkSummary_6F8250, 30, 0x6F8250);
 DEFINE_GLOBAL(s32, gBinkPixelFormat_6F81B0, 0x6F81B0);
 
 // 9.6f 0x481DF0

@@ -1769,6 +1769,16 @@ in a different TU than its users always gives them; when it widens, the global h
 offset, which a name (its bucket), an `= 0` initializer (run 2) or a neighbour's name gives. Run the checker after
 renames.
 
+Bytes widen too when zero-extended to `int`: a `u8` global defined in the TU at a 4-aligned `.bss` offset is read
+as `mov g,%eax; and $0xFF,%eax`, elsewhere as `xor %eax,%eax; mov g,%al` (`gTrainStopCount_6FEFFC` in
+`InitStationsLinkedList_5793E0`, whose name was picked for its bucket; `gNameCompareLen_6FF158` in
+`SetupTrainAndBusStops_5794B0`). The checker only looks at 16-bit globals.
+
+**A struct global and a plain one allocate registers differently.** `SetupTrainAndBusStops_5794B0` keeps 0 in
+`%ebp` (and `this` on the stack) only when the station list and its count are struct globals
+(`TrainStationList`, `TrainStopCount`); as a plain array and a plain `u8`, with the same code otherwise, it
+puts `this` in `%ebp` and uses immediate zeros. One wrapper alone is not enough.
+
 **Two different callees for the same constructor mean two types.** If the original calls one
 `Fix16` constructor twice and you call two, an argument has the wrong type (a `u16` position
 that went through `Fix16(u16)` instead of `Fix16(s32)`, `DrawChatMessages_5D16B0`).

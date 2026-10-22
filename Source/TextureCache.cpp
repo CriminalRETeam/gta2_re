@@ -180,7 +180,7 @@ s16 TextureCache::RegisterDigits_5B9220(u16 num_of_digits, u16 palette)
     return og_idx;
 }
 
-WIP_FUNC(0x5B92E0)
+MATCH_FUNC(0x5B92E0)
 void TextureCache::ReadTextures_5B92E0()
 {
     if (gGtx_0x106C_703DD4->has_tiles_4C2EE0())
@@ -189,12 +189,6 @@ void TextureCache::ReadTextures_5B92E0()
         STexture** p = field_0_tile_textures;
         for (u16 i = 0; i < GTA2_COUNTOF(field_0_tile_textures); i++, p++)
         {
-            // Not in the original: guards its out-of-range tile read, which crashes standalone. This guard is
-            // the only difference from 10.5; without it the function matches (see docs/match_attempts.md).
-            if (i > 992) // avoid original bug crashing standalone
-            {
-                return;
-            }
             // 64 256x256 pages of 64x64 8 bit tiles
             *p = pgbh_RegisterTexture(64, 64, gGtx_0x106C_703DD4->get_tile_4C2EB0(i), gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(i), 0);
         }
