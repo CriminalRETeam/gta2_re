@@ -536,7 +536,7 @@ MATCH_FUNC(0x503f80)
 void ScriptThread::SCRCMD_PARKED_CAR_DECSET_503F80(SCR_POINTER* pCmd)
 {
     ScriptThread::SCRCMD_CAR_DECSET_503BC0((SCR_CAR_DATA_DEC*)pCmd, pCmd);
-    (pCmd->field_8_car)->ReassignCarStats_443EB0(9);
+    (pCmd->field_8_car)->ReassignCarStats_443EB0(car_kind::parked_car_9);
     Car* pCar = pCmd->field_8_car;
     pCar->field_7C_ped_type = ped_type::special_ped_4;
     pCar->field_76_last_seen_timer = 0;

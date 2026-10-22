@@ -249,7 +249,7 @@ EXPORT void __stdcall SpawnTestGroup_46DD70(char_type remap, u8 count)
     gLastTestPed_6787E8->set_health_4039A0(100);
     gLastTestPed_6787E8->SetPedClass_433BC0(ped_class::gang_member_1);
     pGroup->add_ped_to_end_of_list_4C8F90(gLastTestPed_6787E8);
-    gLastTestPed_6787E8->ForceWeapon_46F600(0);
+    gLastTestPed_6787E8->ForceWeapon_46F600(weapon_type::pistol);
 
     for (u8 i = 1; i < count; i++)
     {
@@ -263,7 +263,7 @@ EXPORT void __stdcall SpawnTestGroup_46DD70(char_type remap, u8 count)
         pPed->set_health_4039A0(100);
         pPed->SetPedClass_433BC0(ped_class::gang_member_1);
         pGroup->add_ped_to_end_of_list_4C8F90(pPed);
-        pPed->ForceWeapon_46F600(0);
+        pPed->ForceWeapon_46F600(weapon_type::pistol);
     }
 }
 

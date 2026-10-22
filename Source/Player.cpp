@@ -2865,7 +2865,7 @@ void Player::ApplyCheats_56A490()
     if (byte_67D56B)
     {
         Player::CollectPowerUp_564D60(power_up_indices::JailCard_4);
-        Player::AddWeaponWithAmmo_564960(1, 50u);
+        Player::AddWeaponWithAmmo_564960(weapon_type::smg, 50u);
         for (Gang* pIter2 = gGangPool_CA8_67E274->FirstGang_4BECA0(); pIter2; pIter2 = gGangPool_CA8_67E274->NextGang_4BECE0())
         {
             pIter2->SetRespect_4BEE30(field_2E_idx, 80);
