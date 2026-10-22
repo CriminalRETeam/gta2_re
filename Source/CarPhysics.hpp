@@ -154,7 +154,7 @@ class CarPhysics
         return GetTrailerAwareTurnRatio_55A100() * turn_direction * scale;
     }
     EXPORT char_type IsFootBrakeOn_55A150();
-    EXPORT char_type IsAccelerationOrReverseOn_55A180();
+    EXPORT bool IsAccelerationOrReverseOn_55A180();
     EXPORT void SetVelocityTowardTarget_55A1D0(Fix16 targetX, Fix16 targetY, Fix16 targetAngle, s32* rotationMode);
     EXPORT void restore_saved_physics_state_55A400();
     EXPORT void save_physics_state_55A4B0();
@@ -176,8 +176,8 @@ class CarPhysics
     EXPORT void EmitImpactParticles_55B7E0(u8 apply_to_corners_mask);
     EXPORT char_type ProcessGroundCollisionAndSurfaceType_55B970(char_type* check_mask);
     EXPORT void ProcessGroundCollisionAndEmitImpactParticles_55BFE0();
-    EXPORT char_type TestCollision_55C150();
-    EXPORT char_type SweepTestMovementForCollision_55C3B0(Fix16* outHitStep, Fix16* outNoHitStep);
+    EXPORT bool TestCollision_55C150();
+    EXPORT bool SweepTestMovementForCollision_55C3B0(Fix16* outHitStep, Fix16* outNoHitStep);
     EXPORT void BinarySearchCollisionTime_55C560(Fix16& low, Fix16& high);
     EXPORT void HandleMapBoundaryCollisionY_55C5C0(Fix16_Point& pPoint, Ang16 angle);
     EXPORT void HandleMapBoundaryCollisionX_55C820(Fix16_Point& pPoint, Ang16 angle);
@@ -191,7 +191,7 @@ class CarPhysics
     EXPORT void ApplyVerticalEdgeNudge_55EC30();
     EXPORT void ApplyHorizontalEdgeNudge_55EF20();
     EXPORT void ApplyTurningForce_55F020();
-    EXPORT char_type ApplyMovementCommand_55F240();
+    EXPORT bool ApplyMovementCommand_55F240();
     EXPORT char_type ProcessCollisionAndClampVelocity_55F280();
     EXPORT void StepPhysics_55F330();
     EXPORT char_type CheckPendingCollision_55F360();
@@ -319,7 +319,7 @@ class CarPhysics
         HandleObjectCollision_5606C0(pObj, damage_area);
     }
     EXPORT void ApplyInputsAndIntegratePhysics_562F30();
-    EXPORT char_type UpdateLastMovementTimer_562FA0();
+    EXPORT bool UpdateLastMovementTimer_562FA0();
     EXPORT bool ProcessCarPhysicsStateMachine_562FE0();
     EXPORT void UpdateCp1FromCm1_563280();
     EXPORT void UpdateCenterOfMassPoint_563350();

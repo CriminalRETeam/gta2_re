@@ -691,7 +691,7 @@ u32 CarManager::SelectTrafficCarModel_444AB0(Player* pPlayer, gmp_zone_info* pZo
 
 // No callers. Five ignored arguments.
 MATCH_FUNC(0x444CE0)
-char_type CarManager::NoRefs_444CE0(s32 a1, s32 a2, s32 a3, s32 a4, s32 a5)
+bool CarManager::NoRefs_444CE0(s32 a1, s32 a2, s32 a3, s32 a4, s32 a5)
 {
     return 1;
 }
@@ -2601,7 +2601,7 @@ void Car::HaltAIDriving_43AF60()
 }
 
 MATCH_FUNC(0x43afe0)
-char_type Car::IsDoorAccessible_43AFE0(u8 target_door)
+bool Car::IsDoorAccessible_43AFE0(u8 target_door)
 {
     Fix16 y;
     Fix16 x;
@@ -4267,7 +4267,7 @@ s32 __stdcall GetDamageMultiplier_45CF90(Ped* pPed)
 // get_x_y/operator+/operator- calls, so their bodies weren't compiled yet: the *Late* aliases are defined at
 // the end of this file (see "An inline defined after its callers" in docs/matching_quirks.md).
 MATCH_FUNC(0x43f130)
-char_type Car::HandleCarHitByObject_43F130(Object* pObj)
+bool Car::HandleCarHitByObject_43F130(Object* pObj)
 {
     s16 damage = 0;
     Ped* pFoundPed = 0;
@@ -4631,7 +4631,7 @@ void Car::PutTV_Antenna_440BB0()
 }
 
 MATCH_FUNC(0x440c10)
-char_type Car::RotateRoofObjectTowardTarget_440C10(Ang16 targetAngle)
+bool Car::RotateRoofObjectTowardTarget_440C10(Ang16 targetAngle)
 {
     AttachedSprite* pFound = 0;
     Ang16 ang = 0;
@@ -4685,7 +4685,7 @@ static inline Ang16& compound_subtract_41FA90(Ang16& a, const Ang16& b)
 }
 
 MATCH_FUNC(0x440d90)
-char_type Car::HandleRoofTurretRotation_440D90(char_type left_on)
+bool Car::HandleRoofTurretRotation_440D90(char_type left_on)
 {
     // 9.6f joins the three models into one +=/-= pair. Here field_B8 is set in both branches (a
     // single store after the if/else keeps the angle in %di across the second Normalize loop)
@@ -5251,7 +5251,7 @@ void Car::DeAllocateCarPhysics_441A10()
 }
 
 MATCH_FUNC(0x441a40)
-char_type Car::AreAllDoorsClosed_441A40()
+bool Car::AreAllDoorsClosed_441A40()
 {
     u32 i = 0;
     do
@@ -5546,7 +5546,7 @@ void Car::ServicePhysics_442190()
 }
 
 MATCH_FUNC(0x4421b0)
-char_type Car::IsMissionRelated_4421B0()
+bool Car::IsMissionRelated_4421B0()
 {
     if (field_A0_car_kind != car_kind::mission_car_8 && field_7C_ped_type != ped_type::script_created_5 && !field_4_passengers_list.HasScriptCreatedPed_471710())
     {
@@ -5636,7 +5636,7 @@ void Car::ManageDespawning_442310()
 }
 
 MATCH_FUNC(0x4424c0)
-char_type Car::UpdateCarDespawnStatus_4424C0()
+bool Car::UpdateCarDespawnStatus_4424C0()
 {
     switch (field_88_despawn_status)
     {
@@ -5952,7 +5952,7 @@ static inline void SetPrism(Fix16_Rect& rect, Fix16 left, Fix16 right, Fix16 top
 }
 
 MATCH_FUNC(0x442d70)
-char_type Car::TrainUpdate_442D70()
+bool Car::TrainUpdate_442D70()
 {
     u8 train_car_idx_ = 0;
     Fix16 player_x;
@@ -6092,7 +6092,7 @@ char_type Car::TrainUpdate_442D70()
 }
 
 MATCH_FUNC(0x443130)
-char_type Car::TrailerUpdate_443130()
+bool Car::TrailerUpdate_443130()
 {
     const s32 state = field_64_pTrailer->Update_408220();
     switch (state)
@@ -7031,7 +7031,7 @@ void Trailer::DeAllocateCarPhysics_4081B0()
 }
 
 MATCH_FUNC(0x4081d0)
-char_type Trailer::ExplodeBothIfOneDestroyed_4081D0()
+bool Trailer::ExplodeBothIfOneDestroyed_4081D0()
 {
     if (field_8_truck_cab->field_74_damage == 32001)
     {
@@ -7405,7 +7405,7 @@ Fix16 TrafficSpawner::GetRandomTrafficSpeed_583750(Fix16 max_speed, u8* pOut)
 
 // 9.6f 0x4B34E0
 MATCH_FUNC(0x582480)
-char_type TrafficSpawner::SpawnTrafficCar_582480(s32 spawn_type, s32 arrow_direction, s32 blocked_direction)
+bool TrafficSpawner::SpawnTrafficCar_582480(s32 spawn_type, s32 arrow_direction, s32 blocked_direction)
 {
     char_type x_step = 0;
     char_type y_step = 0;
@@ -7878,7 +7878,7 @@ char_type TrafficSpawner::SpawnTrafficCar_582480(s32 spawn_type, s32 arrow_direc
 }
 
 MATCH_FUNC(0x583870)
-char_type TrafficSpawner::IsFlatRoadAt_583870(Fix16 xpos, Fix16 ypos)
+bool TrafficSpawner::IsFlatRoadAt_583870(Fix16 xpos, Fix16 ypos)
 {
     if (xpos > kFpZero_6FF774 && ypos > kFpZero_6FF774 && xpos < kFp255_6FF558 && ypos < kFp255_6FF558)
     {

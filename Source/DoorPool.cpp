@@ -318,7 +318,7 @@ Door* DoorPool::GetNextFreeDoor_49D3A0()
 
 // https://decomp.me/scratch/dGqMg
 MATCH_FUNC(0x49d3c0)
-char_type DoorPool::CheckDoorAccess_49D3C0(Sprite* pSprite, u8 door_idx)
+bool DoorPool::CheckDoorAccess_49D3C0(Sprite* pSprite, u8 door_idx)
 {
     Car* pCar = pSprite->AsCar_40FEB0();
     if (pCar)

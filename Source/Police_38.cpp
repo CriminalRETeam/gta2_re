@@ -2492,7 +2492,7 @@ DEFINE_GLOBAL_INIT(u8, gRoadblockLaneHasGuard_624FBD, 1, 0x624FBD); // the next 
 // 9.6f (built with /Ob0, so they were never inline helpers). As inline helpers they used up VC6's
 // inline budget and the x branch's Ang16 Normalize went out of line.
 MATCH_FUNC(0x575ff0)
-char_type PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
+bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
 {
     Car* pCar = 0;
     u8 bEdge;

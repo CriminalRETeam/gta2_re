@@ -449,7 +449,7 @@ void Door::UpdateAutoClose_49CD90()
 }
 
 MATCH_FUNC(0x49ce90)
-char_type Door::Service_49CE90()
+bool Door::Service_49CE90()
 {
     if (field_2D_play_open_sound)
     {

@@ -377,7 +377,7 @@ Firefighter* FirefighterPool::New28_4A8800()
 }
 
 MATCH_FUNC(0x4a8820)
-char_type FirefighterPool::TryDispatchFirefightersToCar_4A8820(Car* pCar)
+bool FirefighterPool::TryDispatchFirefightersToCar_4A8820(Car* pCar)
 {
     if (!pCar)
     {
@@ -406,7 +406,7 @@ char_type FirefighterPool::TryDispatchFirefightersToCar_4A8820(Car* pCar)
 }
 
 MATCH_FUNC(0x4A8890)
-char_type FirefighterPool::IsFireEngineSentToCar_4A8890(Car* pFireEngine, Car* pTargetCar)
+bool FirefighterPool::IsFireEngineSentToCar_4A8890(Car* pFireEngine, Car* pTargetCar)
 {
     u8 i = 0;
     Firefighter* p = field_0_firefighters;

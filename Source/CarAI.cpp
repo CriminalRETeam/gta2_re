@@ -420,7 +420,7 @@ bool CarAI::GoToBlock_447CA0(u8 x, u8 y, u8 z, s32 arrow_type)
 }
 
 MATCH_FUNC(0x447d40)
-char_type CarAI::TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBlock)
+bool CarAI::TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBlock)
 {
     Ang16 angle = this->field_10_angle;
 

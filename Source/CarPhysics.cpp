@@ -628,7 +628,7 @@ char_type CarPhysics::IsFootBrakeOn_55A150()
 }
 
 MATCH_FUNC(0x55a180)
-char_type CarPhysics::IsAccelerationOrReverseOn_55A180()
+bool CarPhysics::IsAccelerationOrReverseOn_55A180()
 {
     Trailer* pTrailer = field_5C_pCar->field_64_pTrailer;
     if (pTrailer)
@@ -1453,7 +1453,7 @@ void CarPhysics::ProcessGroundCollisionAndEmitImpactParticles_55BFE0()
 }
 
 MATCH_FUNC(0x55c150)
-char_type CarPhysics::TestCollision_55C150()
+bool CarPhysics::TestCollision_55C150()
 {
     Sprite* pCarSprite = this->field_5C_pCar->field_50_car_sprite;
     if (!pCarSprite->CheckSpriteMovementRegion_5A2500() && !pCarSprite->QuerySpriteCollision_59E7D0(0))
@@ -1478,7 +1478,7 @@ char_type CarPhysics::TestCollision_55C150()
 
 // https://decomp.me/scratch/Mht60 stack size issue remaining
 MATCH_FUNC(0x55c3b0)
-char_type CarPhysics::SweepTestMovementForCollision_55C3B0(Fix16* outHitStep, Fix16* outNoHitStep)
+bool CarPhysics::SweepTestMovementForCollision_55C3B0(Fix16* outHitStep, Fix16* outNoHitStep)
 {
     save_state_55A600();
 
@@ -2118,7 +2118,7 @@ void CarPhysics::ApplyTurningForce_55F020()
 }
 
 MATCH_FUNC(0x55f240)
-char_type CarPhysics::ApplyMovementCommand_55F240()
+bool CarPhysics::ApplyMovementCommand_55F240()
 {
     switch (gCollisionTarget_679188.field_0_type)
     {
@@ -3649,7 +3649,7 @@ void CarPhysics::ApplyInputsAndIntegratePhysics_562F30()
 }
 
 MATCH_FUNC(0x562fa0)
-char_type CarPhysics::UpdateLastMovementTimer_562FA0()
+bool CarPhysics::UpdateLastMovementTimer_562FA0()
 {
     if (IsNotMoving_5599D0())
     {

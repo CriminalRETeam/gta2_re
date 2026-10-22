@@ -142,7 +142,7 @@ class DoorPool
     EXPORT void TryOpenDoorForCar_49D340(Car* pCar, u8 door_idx);
     EXPORT void TryOpenDoorForPed_49D370(Ped* pPed, u8 idx);
     EXPORT Door* GetNextFreeDoor_49D3A0();
-    EXPORT char_type CheckDoorAccess_49D3C0(Sprite* pSprite, u8 door_idx);
+    EXPORT bool CheckDoorAccess_49D3C0(Sprite* pSprite, u8 door_idx);
     EXPORT void DoorsService_49D460();
     EXPORT DoorPool();
     EXPORT ~DoorPool();

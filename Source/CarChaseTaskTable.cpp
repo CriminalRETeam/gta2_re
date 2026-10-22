@@ -229,7 +229,7 @@ bool CarChaseTaskTable::HasPursuerAlongside_474BC0(Ped* pPed)
 }
 
 MATCH_FUNC(0x474c30)
-char_type CarChaseTaskTable::HasPursuerChoosingSide_474C30(Ped* pPed)
+bool CarChaseTaskTable::HasPursuerChoosingSide_474C30(Ped* pPed)
 {
     for (u8 i = 0; i < k_max_entries; i++)
     {
