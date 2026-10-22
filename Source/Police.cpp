@@ -35,7 +35,7 @@ Police::~Police()
 MATCH_FUNC(0x56f400)
 void Police::Init_56F400()
 {
-    field_0 = 1;
+    field_0_unused = 1;
     for (s32 i = 0; i < MAX_PURSUIT_TARGETS; i++)
     {
         field_464_pursuit_targets[i].field_0_criminal_ped = NULL;

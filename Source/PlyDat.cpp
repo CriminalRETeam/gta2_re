@@ -671,18 +671,18 @@ void PlyDat::UpdateHiScores_56C010()
 MATCH_FUNC(0x56C170)
 void PlyDat::BuildMergedHiScores_56C170()
 {
-    field_25B0.Init_56B520();
+    field_25B0_merged_scores.Init_56B520();
     ScoreTableLine* pLine = field_24C0_alt_scores.field_0_score_table_line;
     for (s32 k10 = 0; k10 < 10; k10++)
     {
-        field_25B0.InsertScore_56B550(pLine->field_0_player_name, pLine->field_14_score);
+        field_25B0_merged_scores.InsertScore_56B550(pLine->field_0_player_name, pLine->field_14_score);
         ++pLine;
     }
 
     for (s32 k8 = 0; k8 < 8; k8++)
     {
         PlySlot* pSlot = &field_26A0_plyr_stats[k8];
-        field_25B0.InsertScore_56B550(pSlot->field_90_strPlayerName, pSlot->GetTotalLatestScore_56B680());
+        field_25B0_merged_scores.InsertScore_56B550(pSlot->field_90_strPlayerName, pSlot->GetTotalLatestScore_56B680());
     }
 }
 

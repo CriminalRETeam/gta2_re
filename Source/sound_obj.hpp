@@ -35,7 +35,7 @@ struct SoundPosEntry
     //char_type field_5;
     //char_type field_6;
     //char_type field_7;
-    s16 field_8;
+    s16 field_8_unused;
     u8 field_A_horn_pattern_idx;
     char_type field_B_unused;
 };
@@ -46,7 +46,7 @@ struct AudioEntity
     char_type field_0_bUsed;
     u8 field_1_age;
     char_type field_2_unused;
-    char_type field_3;
+    char_type field_3_unused;
     SoundObject* field_4_pObj;
     SoundPosEntry* field_8_pAlloc;
 };
@@ -57,7 +57,7 @@ struct SoundEntry
     char_type field_0_fifth_frame_flag;
     char_type field_1_unused;
     char_type field_2_unused;
-    char_type field_3;
+    char_type field_3_unused;
     s32 field_4_entity_idx;
     SoundObject field_8;
     s32 field_18;
@@ -69,7 +69,7 @@ struct RadioStationEmitter
     u8 field_0_bUsed;
     u8 field_1_unused;
     u8 field_2_unused;
-    u8 field_3;
+    u8 field_3_unused;
     
     Fix16 field_4_xpos;
     Fix16 field_8_ypos;
@@ -152,15 +152,15 @@ class sound_obj
     s32 field_4_speed_of_sound;
     u8 field_8_frames_per_second;
     char_type field_9_unused;
-    char_type field_A;
+    char_type field_A_unused;
     char_type field_B_unused;
-    s32 field_C;
+    s32 field_C_doppler_divisor;
     u8 field_10_nActiveSamples;
     char_type field_11_unused;
-    char_type field_12;
+    char_type field_12_unused;
     char_type field_13_unused;
     s32 field_14_sample_rate;
-    char_type field_18;
+    char_type field_18_unused;
     char_type field_19_unused;
     char_type field_1A_bDoubleVolume;
     char_type field_1B_unused;
@@ -168,7 +168,7 @@ class sound_obj
     char_type field_1D_b3d_sound;
     char_type field_1E_unused;
     char_type field_1F_unused;
-    s32 field_20;
+    s32 field_20_unused;
     u8 field_24_sfx_vol;
     u8 field_25_cdVol;
     char_type field_26_unused;
@@ -210,7 +210,7 @@ class sound_obj
     AudioEntity field_147C_audio_entities[1020];
     u32 field_444C_AudioEntityOrderList[1020];
     u32 field_543C_444C_nAudioEntitiesCount;
-    s32 field_5440;
+    s32 field_5440_unused;
     s32 field_5444_unused;
     u32 field_5448_m_FrameCounter;
     SoundEntry field_544C[5]; // RadioStationEmitter instead of SoundEntry ?

@@ -41,7 +41,7 @@ class InputDevices
     EXPORT void AddKeyToInputBits_498C80(s32* pInputBits, DIDEVICEOBJECTDATA* device_data_keys);
     EXPORT void read_input_device_498DA0(s32* input_bits, u8 bApplyKeyboardControls);
 
-    u8 field_0;
+    u8 field_0_unused;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(InputDevices, 0x1);
 #pragma pack(pop)

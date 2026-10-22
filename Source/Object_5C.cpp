@@ -122,7 +122,7 @@ Object::Object()
     field_26_ped_ref_idx = 99;
     field_20_pool_list_state = object_pool_state::none_0;
     field_27_thread_trigger_idx = 0;
-    field_28 = -51;
+    field_28_unused = -51;
     field_1C_has_explosion = 0;
 }
 
@@ -1501,7 +1501,7 @@ char Object::ShouldCollideWithSprite_525370(Sprite* pSprite)
             }
             // Fall through
         default:
-            if (gCollisionCounters_6791FC->field_8_bUnknown == 1)
+            if (gCollisionCounters_6791FC->field_8_bDoorAccessCheck == 1)
             {
                 if (CanBePushed_482C90())
                 {
@@ -3684,9 +3684,9 @@ void Object_5C::SaveObjects_52A500(SavedObjectData* pData)
     {
         if (pObj->field_18_model && pObj->IsPickup_421060())
         {
-            pData->field_0_obj_x[0][saved_count].field_0 = pObj->GetX_4340D0();
-            pData->field_0_obj_x[1][saved_count].field_0 = pObj->GetY_4340E0();
-            pData->field_0_obj_x[2][saved_count].field_0 = pObj->GetZ_4340F0();
+            pData->field_0_obj_x[0][saved_count].field_0_value = pObj->GetX_4340D0();
+            pData->field_0_obj_x[1][saved_count].field_0_value = pObj->GetY_4340E0();
+            pData->field_0_obj_x[2][saved_count].field_0_value = pObj->GetZ_4340F0();
             pData->field_F0_model[saved_count] = pObj->field_18_model;
             pData->field_118_ped_ref_idx[saved_count] = pObj->field_26_ped_ref_idx;
             saved_count++;
@@ -3710,13 +3710,13 @@ void Object_5C::RestoreObjects_52A590(SavedObjectData* pData)
     s32 i = 19;
     while (i >= 0)
     {
-        if (pData->field_0_obj_x[0][19 - i].field_0 != kFpZero_6F8E10 &&
-            pData->field_0_obj_x[1][19 - i].field_0 != kFpZero_6F8E10) // x and y not zero?
+        if (pData->field_0_obj_x[0][19 - i].field_0_value != kFpZero_6F8E10 &&
+            pData->field_0_obj_x[1][19 - i].field_0_value != kFpZero_6F8E10) // x and y not zero?
         {
             Object* pNewObj = NewPhysicsObj_5299B0(*pModel,
-                                                      pData->field_0_obj_x[0][19 - i].field_0, // x?
-                                                      pData->field_0_obj_x[1][19 - i].field_0,
-                                                      pData->field_0_obj_x[2][19 - i].field_0, // z?
+                                                      pData->field_0_obj_x[0][19 - i].field_0_value, // x?
+                                                      pData->field_0_obj_x[1][19 - i].field_0_value,
+                                                      pData->field_0_obj_x[2][19 - i].field_0_value, // z?
                                                       kZeroAng_6F8F68);
             pNewObj->set_field_26(*pPedRefIdx);
         }

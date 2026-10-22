@@ -3459,7 +3459,7 @@ sound_obj::sound_obj()
     field_0_bSoundInitialized = 0;
     field_4_speed_of_sound = 81920;
     field_8_frames_per_second = 30;
-    field_C = 491520;
+    field_C_doppler_divisor = 491520;
     field_2_service_enabled = 1;
     field_24_sfx_vol = 127;
     field_25_cdVol = 127;
@@ -3486,10 +3486,10 @@ sound_obj::sound_obj()
     field_1C_samp_count = 0;
     field_10_nActiveSamples = 0;
     field_5444_unused = 0;
-    field_5440 = 0;
+    field_5440_unused = 0;
     field_1D_b3d_sound = 0;
     field_14_sample_rate = 22050;
-    field_18 = 1;
+    field_18_unused = 1;
     field_19_unused = 1;
     field_1_isPaused = 0;
     field_1A_bDoubleVolume = 1;
@@ -3513,7 +3513,7 @@ void sound_obj::Init_419E10()
     if (!field_0_bSoundInitialized)
     {
         null_412240();
-        field_0_bSoundInitialized = gSampManager_6FFF00.SoundInit_58D6C0(&field_5440);
+        field_0_bSoundInitialized = gSampManager_6FFF00.SoundInit_58D6C0(&field_5440_unused);
         if (field_0_bSoundInitialized)
         {
             field_1D_b3d_sound = 0;
@@ -3609,7 +3609,7 @@ s32 sound_obj::AddSoundObject_419FA0(SoundObject* pTuring)
                                 SoundPosEntry* pNewObj = new SoundPosEntry();
                                 field_147C_audio_entities[idx].field_8_pAlloc = pNewObj;
                                 pNewObj->field_0_x = kFpZero_674CD8;
-                                pNewObj->field_8 = 0;
+                                pNewObj->field_8_unused = 0;
                                 pNewObj->field_A_horn_pattern_idx = 0;
                                 break;
                         }
@@ -3927,12 +3927,12 @@ s32 sound_obj::AdjustPlaybackRate_41A580(s32 snd_rate, Fix16 xpos, Fix16 ypos, F
             return snd_rate;
         }
 
-        // zpos is converted from an integer (shl $0xE) and field_C is already fixed point
+        // zpos is converted from an integer (shl $0xE) and field_C_doppler_divisor is already fixed point
         // q and rate are assigned, not initialised: that keeps them as register locals
         // (q moved to ecx before the imul, snd_rate << 14 held in esi across the divide)
         Fix16 q;
         q = Fix16(zpos.mValue) / kFp100_674E18;
-        s32 relative_speed = (((ypos - xpos) * q) / Fix16(field_C, 0)).mValue;
+        s32 relative_speed = (((ypos - xpos) * q) / Fix16(field_C_doppler_divisor, 0)).mValue;
         s32 a = relative_speed > 0 ? relative_speed : -relative_speed;
         if (a >= field_4_speed_of_sound)
         {

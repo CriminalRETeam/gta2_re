@@ -59,7 +59,7 @@ class CollisionCounters
     EXPORT ~CollisionCounters();
     s32 field_0_test_count;
     s32 field_4_query_id;
-    s32 field_8_bUnknown;
+    s32 field_8_bDoorAccessCheck;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(CollisionCounters, 0xC);
 

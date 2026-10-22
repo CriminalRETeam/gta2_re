@@ -20,7 +20,7 @@ CollisionCounters::CollisionCounters()
     field_0_test_count = 0;
     field_4_query_id = 0;
     
-    field_8_bUnknown = 0;
+    field_8_bDoorAccessCheck = 0;
 
     gGridSpriteLink_Pool_679200 = new GridSpriteLink_Pool();
     if (!gGridSpriteLink_Pool_679200)

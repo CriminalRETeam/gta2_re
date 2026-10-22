@@ -280,7 +280,7 @@ struct SCR_CRANE_TARGET_DEC : SCR_CMD_HEADER
     u16 field_1A_home_cranetype; // "first" or "second"
     SCR_XY_f field_1C_target_pos;
     u16 field_24_target_rotation;
-    u16 field_26_unk6;
+    u16 field_26_unused;
 };
 
 struct SCR_CRANE_BASIC_DEC : SCR_CMD_HEADER
@@ -370,7 +370,7 @@ struct SCR_START_BONUS : SCR_CMD_HEADER
     u8 field_A_subtype;
     s8 field_B_remap;
     s8 field_C_target_count;
-    u8 field_D;
+    u8 field_D_bExclusive;
     u16 field_E_id;
     u16 field_10_time_limit;
     s16 field_12_alt_car_model;
@@ -486,7 +486,7 @@ struct SCR_LEVEL_END_ARROW2 : SCR_CMD_HEADER
 struct SCR_IS_CAR_IN_BLOCK : SCR_CMD_HEADER
 {
     u16 field_8_varname;
-    u16 field_A_unk2;
+    u16 field_A_unused;
     SCR_XYZ_f field_C_pos;
 };
 
@@ -518,7 +518,7 @@ struct SCR_CHECK_CURRENT_WEAPON : SCR_CMD_HEADER
 
 struct SCR_DECLARE_POLICELEVEL : SCR_CMD_HEADER
 {
-    u16 field_8;
+    u16 field_8_unused;
     u16 field_A_wanted_level;
 };
 
@@ -578,7 +578,7 @@ struct SCR_CHECK_WEAPONHIT : SCR_CMD_HEADER
 
 struct SCR_FINISH_LEVEL : SCR_CMD_HEADER
 {
-    u16 field_8;
+    u16 field_8_unused;
     s16 field_A_bonus_type;
 };
 
@@ -613,7 +613,7 @@ struct SCR_CHECK_CAR_SPEED : SCR_CMD_HEADER
 struct SCR_MAP_SET_ZONE_INFO : SCR_CMD_HEADER
 {
     u16 field_8_zone_idx;
-    u16 field_A_unknown;
+    u16 field_A_unused;
     u16 field_C_value;
 };
 
@@ -624,7 +624,7 @@ struct SCR_START_BASIC_KF_TEMPLATE : SCR_CMD_HEADER
     u16 field_C_objname;
     u16 field_E_playername;
     u16 field_10_weapon;
-    u16 field_12_unk2;
+    u16 field_12_unused;
 };
 
 struct SCR_DO_BASIC_KF_TEMPLATE : SCR_CMD_HEADER
@@ -688,7 +688,7 @@ struct SCR_PUT_CAR_ON_TRAILER : SCR_CMD_HEADER
 struct SCR_CREATE_LIGHT : SCR_CMD_HEADER
 {
     u16 field_8_light_idx;
-    u16 field_A_unknown;
+    u16 field_A_unused;
     Fix16 field_C_xpos;
     Fix16 field_10_ypos;
     Fix16 field_14_zpos;
@@ -713,7 +713,7 @@ struct SCR_ANSWER_PHONE : SCR_CMD_HEADER
 struct SCR_ADD_PATROL_POINT : SCR_CMD_HEADER
 {
     u16 field_8_varname;
-    u16 field_A_unk3;
+    u16 field_A_unused;
     SCR_XYZ_f field_C_pos;
 };
 
@@ -783,7 +783,7 @@ struct SCR_CHANGE_LIGHT_RADIUS : SCR_CMD_HEADER
 struct SCR_DO_SAVE_GAME : SCR_CMD_HEADER
 {
     u16 field_8_triggername;
-    u16 field_A_unk2;
+    u16 field_A_unused;
     SCR_Rect_f field_C_rect;
 };
 
@@ -814,7 +814,7 @@ struct SCR_OPERATE_INT_AND_COUNTER : SCR_CMD_HEADER
 struct SCR_POINT_ARROW_AT : SCR_CMD_HEADER
 {
     u16 field_8_target_entity_idx;
-    u16 field_A_unknown;
+    u16 field_A_unused;
     u16 field_C_arrow_idx;
 };
 
@@ -1150,7 +1150,7 @@ class ScriptThread
 
     ScriptThread* mpNext;
     u16 field_4_next_cmd;
-    char_type field_6;
+    char_type field_6_flags;
     char_type field_7_unused;
     s32 field_8_cond_result;
     char_type field_C_cmd_initialised;

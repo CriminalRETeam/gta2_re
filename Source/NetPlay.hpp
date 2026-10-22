@@ -162,7 +162,7 @@ struct Network_InputPacket
     s32 field_C_len;
     u8 field_10_used;
     char_type field_11_game_tick; // mod 256
-    char field_12;
+    char field_12_unused;
     char field_13_unused;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Network_InputPacket, 0x14);

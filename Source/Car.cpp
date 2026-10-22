@@ -2477,7 +2477,7 @@ char_type Car::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
     }
     else
     {
-        if (gCollisionCounters_6791FC->field_8_bUnknown == 1)
+        if (gCollisionCounters_6791FC->field_8_bDoorAccessCheck == 1)
         {
             pTrailer = this->field_64_pTrailer;
             if (pTrailer)
@@ -2616,16 +2616,16 @@ char_type Car::IsDoorAccessible_43AFE0(u8 target_door)
         byte_6F8EDC = 1;
         fr.ComputeCollisionPrism_4204D0(x, y, kFpPoint2_6772CC, field_50_car_sprite->field_1C_zpos);
         fr.ExpandToIncludePoint_59DEE0(field_50_car_sprite->field_14_xy.x, field_50_car_sprite->field_14_xy.y);
-        gCollisionCounters_6791FC->field_8_bUnknown = 1;
+        gCollisionCounters_6791FC->field_8_bDoorAccessCheck = 1;
         if (!fr.IsRectBlockedByMap_59DE80() &&
             !gSpriteGrid_1_679208->CheckRectForCollisions_477F60(&fr, 1, 3, field_50_car_sprite) && !gMap_0x370_6F6268->RectHitsDiagonalWall_4E11E0(&fr))
         {
-            gCollisionCounters_6791FC->field_8_bUnknown = 0;
+            gCollisionCounters_6791FC->field_8_bDoorAccessCheck = 0;
             byte_6F8EDC = 0;
             return 1;
         }
         byte_6F8EDC = 0;
-        gCollisionCounters_6791FC->field_8_bUnknown = 0;
+        gCollisionCounters_6791FC->field_8_bDoorAccessCheck = 0;
     }
     return 0;
 }

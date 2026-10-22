@@ -39,13 +39,13 @@ AmbulanceService::~AmbulanceService()
 MATCH_FUNC(0x4fa310)
 void AmbulanceService::init_4FA310()
 {
-    field_0 = 1;
+    field_0_unused = 1;
     field_1_corpse_count = 0;
     field_4_patient_queue.ClearList_420E90();
 
     for (s32 i = 0; i < 25; i++)
     {
-        field_8_unused_slots[i].field_0 = 0;
+        field_8_unused_slots[i].field_0_unused = 0;
         field_8_unused_slots[i].field_4_unused = 0;
     }
 }

@@ -20,7 +20,7 @@ class Hud_PlayerNames
 {
   public:
     EXPORT void DrawPlayerNames_5CFE40();
-    s32 field_0;
+    s32 field_0_unused;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Hud_PlayerNames, 0x4);
 
@@ -126,7 +126,7 @@ class Hud_PlayerStats
   public:
     EXPORT void DrawPlayerStats_5D5C80();
     EXPORT void UpdateRollingDigits_5D6290();
-    s32 field_0;
+    s32 field_0_unused;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Hud_PlayerStats, 0x4);
 
@@ -153,7 +153,7 @@ class Hud_Health
 {
   public:
     EXPORT void DrawHealth_5D0260();
-    s32 field_0;
+    s32 field_0_unused;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Hud_Health, 0x4);
 
@@ -489,7 +489,7 @@ class Hud_ArrowTargets
     s32 field_28_arrow_colour;
     s16 field_2C_arrow_sprt_idx;
     u8 field_2E_target_swap_timer;
-    Hud_ArrowGangInfo field_10;
+    Hud_ArrowGangInfo field_10_gang_info;
     ArrowTrace field_18_primary_target;
     ArrowTrace field_3C_secondary_target;
     ArrowTrace* field_60_curr_target;
@@ -532,7 +532,7 @@ class Hud_Arrow
     // 9.6f inline 0x4C7050
     inline bool IsVisible_4C7050()
     {
-        if (field_18_targets.field_10.field_5_is_visible)
+        if (field_18_targets.field_10_gang_info.field_5_is_visible)
         {
             return true;
         }

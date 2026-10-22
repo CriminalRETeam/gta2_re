@@ -69,7 +69,7 @@ struct PlyDat
     HighScoreTable field_1890_stage_scores[3][4];
     HighScoreTable field_23D0_total_scores;
     HighScoreTable field_24C0_alt_scores;
-    HighScoreTable field_25B0;
+    HighScoreTable field_25B0_merged_scores;
     PlySlot field_26A0_plyr_stats[8];
 
     EXPORT PlyDat();

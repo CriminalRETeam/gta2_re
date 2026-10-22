@@ -1714,7 +1714,7 @@ void CC ImGuiDebugDraw()
             {
                 ImGui::Text("field_0_test_count %d", gCollisionCounters_6791FC->field_0_test_count);
                 ImGui::Text("field_4_query_id %d", gCollisionCounters_6791FC->field_4_query_id);
-                ImGui::Text("field_8_bUnknown %d", gCollisionCounters_6791FC->field_8_bUnknown);
+                ImGui::Text("field_8_bUnknown %d", gCollisionCounters_6791FC->field_8_bDoorAccessCheck);
             }
             ImGui::TreePop();
         }
@@ -2485,7 +2485,7 @@ void CC ImGuiDebugDraw()
                         ImGui::SliderS16("Rotation", &pArrow->field_8_rotation.rValue, 0, 1439);
 
                         Hud_ArrowTargets* g20 = &pArrow->field_18_targets;
-                        Hud_ArrowGangInfo* g30 = &g20->field_10;
+                        Hud_ArrowGangInfo* g30 = &g20->field_10_gang_info;
                         ImGui::Input_char_type("Hud_ArrowGangInfo f5", &g30->field_5_is_visible, 1, 1);
                         ImGui::Input_char_type("Hud_ArrowGangInfo f6", &g30->field_6_in_use, 1, 1);
 
@@ -2792,7 +2792,7 @@ void CC ImGuiDebugDraw()
                 for (i = 0; i < 25; i++)
                 {
                     PatientSlot& j8 = gAmbulance_110_6F70A8->field_8_unused_slots[i];
-                    ImGui::Value("field_0", j8.field_0);
+                    ImGui::Value("field_0", j8.field_0_unused);
                     ImGui::Value("field_4_unused", j8.field_4_unused);
                 }
 
@@ -3246,7 +3246,7 @@ void CC ImGuiDebugDraw()
                     ImGui::Value("field_6A_font_type", pOptionEntry->field_6A_font_type);
                     ImGui::Value("field_6C_palette", pOptionEntry->field_6C_palette);
                     ImGui::Value("field_6E_horizontal_selected_idx", pOptionEntry->field_6E_horizontal_selected_idx);
-                    ImGui::Value("field_70", pOptionEntry->field_70);
+                    ImGui::Value("field_70", pOptionEntry->field_70_unused);
 
                     ImGui::Text(pOptionEntry->field_72_horizontal_idx_enabled);
 
@@ -3286,7 +3286,7 @@ void CC ImGuiDebugDraw()
 
                     MenuOption* menu_option = &pMenuPage->field_B8A_option_states[option_idx];
 
-                    ImGui::SliderS16("field_0", &menu_option->field_0, 0, 1000);
+                    ImGui::SliderS16("field_0", &menu_option->field_0_unused, 0, 1000);
                     ImGui::SliderS16("field_2_unused", &menu_option->field_2_unused, 0, 700);
 
                     ImGui::Input_char_type("field_4_is_option_unlocked", &menu_option->field_4_is_option_unlocked, 1, 1);
@@ -3445,7 +3445,7 @@ void CC ImGuiDebugDraw()
                         pTable = &gPlyDat_6FEAC0->field_24C0_alt_scores;
                         break;
                     case 3:
-                        pTable = &gPlyDat_6FEAC0->field_25B0;
+                        pTable = &gPlyDat_6FEAC0->field_25B0_merged_scores;
                         break;
                     default:
                         break;

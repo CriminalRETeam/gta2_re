@@ -725,7 +725,7 @@ class AttachedSprite
     Fix16 field_8_offset_x; // NOTE: Fix16_Point here breaks match of UpdateAttached_5A6910
     Fix16 field_C_offset_y;
     Ang16 field_10_offset_rot;
-    s16 field_12;
+    s16 field_12_unused;
     s32 field_14_rng;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(AttachedSprite, 0x18);

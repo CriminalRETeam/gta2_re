@@ -528,7 +528,7 @@ GTA2_ASSERT_SIZEOF_ALWAYS(SavedPlayerStats, 0x90);
 struct SavedFix16
 {
     // Compiler (?) generated ctor in 9.6f at 0x403770
-    Fix16 field_0;
+    Fix16 field_0_value;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SavedFix16, 0x4);
 
@@ -554,7 +554,7 @@ struct SavedCarInfo
     s16 field_2A_damage[3];
     u32 field_30_damaged_areas[3];
     u16 field_3C_car_model[3];
-    s16 field_42_maybe_pad;
+    s16 field_42_pad;
 };
 
 struct SavedScriptCounter

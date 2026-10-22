@@ -1709,7 +1709,7 @@ void ScriptThread::SCRCMD_CREATE_THREAD_506A00()
     ScriptThread* pScriptThread = ScriptThread::SpawnThread_511960(pCmd->field_8_unsigned_1);
     pThread->field_8_script_thread = pScriptThread;
     pThread->field_C_thread_id = pScriptThread->field_11A_thread_id;
-    pScriptThread->InitThread_511930(field_6, pCmd->field_8_unsigned_1);
+    pScriptThread->InitThread_511930(field_6_flags, pCmd->field_8_unsigned_1);
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }
 
@@ -5384,7 +5384,7 @@ void ScriptThread::StartBonus_50DF10()
             break;
     }
 
-    s8 f24 = pCmd->field_D != 1 ? 2 : 1;
+    s8 f24 = pCmd->field_D_bExclusive != 1 ? 2 : 1;
 
     if (pCmd->field_12_alt_car_model >= 0)
     {
@@ -7683,7 +7683,7 @@ MATCH_FUNC(0x511930)
 void ScriptThread::InitThread_511930(char_type flags, u16 levelStart)
 {
     field_4_next_cmd = levelStart;
-    field_6 = flags;
+    field_6_flags = flags;
     field_E_phone_timer = 0;
     field_C_cmd_initialised = 0;
     field_12_exec_flag = 0;
@@ -7695,7 +7695,7 @@ MATCH_FUNC(0x511960)
 ScriptThread* ScriptThread::SpawnThread_511960(u16 levelStart)
 {
     ScriptThread* pNewThread = miss2_0x11C_Pool_6F8064->Allocate_4767A0();
-    pNewThread->InitThread_511930(field_6, levelStart);
+    pNewThread->InitThread_511930(field_6_flags, levelStart);
     return pNewThread;
 }
 
@@ -7714,7 +7714,7 @@ ScriptThread::ScriptThread()
     mpNext = 0;
     field_114_gosub_stack = new ScriptGosubStack();
     field_4_next_cmd = 0;
-    field_6 = 0;
+    field_6_flags = 0;
     field_8_cond_result = false;
     field_C_cmd_initialised = 0;
     field_E_phone_timer = 0;

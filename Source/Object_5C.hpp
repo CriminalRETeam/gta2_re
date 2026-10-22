@@ -360,9 +360,9 @@ class Object
     u8 field_25_removal_state;
     u8 field_26_ped_ref_idx; // Seems to be a generic index. Sometimes it's the current idx of its object type. For many objects, it's unused (equal to 99).
     char_type field_27_thread_trigger_idx;
-    char_type field_28;
+    char_type field_28_unused;
     char_type field_29_unused;
-    char_type field_2A;
+    char_type field_2A_unused;
     char_type field_2B_unused;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Object, 0x2C);

@@ -551,7 +551,7 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
     {
         // One chained assignment: the slot index pushed to SetPlySlotIdx is a byte temp of the call result
         // (`mov %al,%cl; push %ecx`), which an s16 local gives as `push %eax`
-        gGameSession_67E8E0.SetPlySlotIdx_4C5920(field_136_menu_pages_array[1].field_4_options_array[0].field_70 =
+        gGameSession_67E8E0.SetPlySlotIdx_4C5920(field_136_menu_pages_array[1].field_4_options_array[0].field_70_unused =
                                                      field_136_menu_pages_array[1].field_4_options_array[0].field_6E_horizontal_selected_idx =
                                                          gRegistry_6FF968.Get_Player_Setting_587810("plyrslot"));
         UpdateMenuForCurrPlayer_4B42E0();
@@ -1293,7 +1293,7 @@ void Frontend::DrawMenu_4AD140()
                              0x12Cu,
                              line_height,
                              1,
-                             field_128,
+                             field_128_play_menu_score_font,
                              0xFFFF,
                              2);
     }
@@ -1387,7 +1387,7 @@ void Frontend::DrawMenu_4AD140()
         wcscpy(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("entrnam"));
         x_pos = 0x15Eu;
         y_pos = gText_0x14_704DFC->field_10_lang_code != 'j' ? 12 : 16;
-        DrawText_4B87A0(tmpBuff_67BD9C, x_pos, y_pos, field_126, 1);
+        DrawText_4B87A0(tmpBuff_67BD9C, x_pos, y_pos, field_126_heading_font, 1);
     }
     if (field_110_state == FrontendState::User_Typing_Password_5 && field_114_cursor_blink)
     {
@@ -1413,7 +1413,7 @@ void Frontend::DrawCredits_4B7AE0()
         switch (pLine->field_6_string_category)
         {
             case credits_line_category::normal_0: // normal string: white
-                font_type = field_11E;
+                font_type = field_11E_text_font;
                 draw_kind = 2;
                 palette = 0;
                 break;
@@ -2798,7 +2798,7 @@ void Frontend::ContinueToNextStage_4B8020()
 MATCH_FUNC(0x4B7D60)
 void Frontend::DrawBonusRating_4B7D60()
 {
-    u16 font_type = field_11E;
+    u16 font_type = field_11E_text_font;
     char_type text_id[12];
     wchar_t text[256];
     GetLineSpacingFromFontType_5D7700_inlined(font_type);
@@ -2944,7 +2944,7 @@ void Frontend::DrawDeletePlayerDialog_4ADDE0()
         case 1:
         {
             u16 ypos = gText_0x14_704DFC->field_10_lang_code != 'j' ? 12 : 16;
-            DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("clrchar"), (u16)275, ypos, field_126, 1);
+            DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("clrchar"), (u16)275, ypos, field_126_heading_font, 1);
             break;
         }
     }
@@ -3482,28 +3482,28 @@ void Frontend::SetFontTypes_4AF0E0()
     if (gText_0x14_704DFC->field_10_lang_code == 'j')
     {
         this->field_11C_normal_font = 101;
-        this->field_11E = 101;
+        this->field_11E_text_font = 101;
         this->field_120_selected_font = 102;
         this->field_122_unused = 101;
         this->field_124_font_type = 101;
-        this->field_126 = 101;
-        this->field_128 = 101;
+        this->field_126_heading_font = 101;
+        this->field_128_play_menu_score_font = 101;
         this->field_12A_score_font = 101;
-        this->field_12C = 106;
+        this->field_12C_area_complete_font = 106;
         this->field_12E_unused = 102;
         this->field_130_title_font = 201;
     }
     else
     {
         this->field_11C_normal_font = gFrontendNormalFont_703D0C;
-        this->field_11E = gFrontendNormalFont_703D0C;
+        this->field_11E_text_font = gFrontendNormalFont_703D0C;
         this->field_120_selected_font = gFrontendSelectedFont_703C16;
         this->field_122_unused = word_703C8C;
         this->field_124_font_type = font_type_703C14;
-        this->field_126 = word_703C3C;
-        this->field_128 = word_703C8A;
+        this->field_126_heading_font = word_703C3C;
+        this->field_128_play_menu_score_font = word_703C8A;
         this->field_12A_score_font = gFrontendScoreFont_703BE2;
-        this->field_12C = word_703B88;
+        this->field_12C_area_complete_font = word_703B88;
         this->field_12E_unused = word_703DAC;
         this->field_130_title_font = word_703B9C;
     }
@@ -3537,11 +3537,11 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     pPage->field_4_options_array[2].field_4_y_pos = 290;
     wcsncpy(pPage->field_4_options_array[2].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("quit"), 0x32u);
     pPage->field_4_options_array[2].field_80_menu_page_target = 9;
-    pPage->field_B8A_option_states[0].field_0 = 280;
+    pPage->field_B8A_option_states[0].field_0_unused = 280;
     pPage->field_B8A_option_states[0].field_2_unused = 258;
-    pPage->field_B8A_option_states[1].field_0 = 280;
+    pPage->field_B8A_option_states[1].field_0_unused = 280;
     pPage->field_B8A_option_states[1].field_2_unused = 278;
-    pPage->field_B8A_option_states[2].field_0 = 280;
+    pPage->field_B8A_option_states[2].field_0_unused = 280;
     pPage->field_B8A_option_states[2].field_2_unused = 298;
     pPage->field_BC6_current_option_idx = 0;
     pPage->field_BC8_default_option_idx = 0;
@@ -3554,7 +3554,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             gText_0x14_704DFC->Find_5B5F90("charctr"),
             0x32u);
     pPage->field_4_options_array[0].field_6E_horizontal_selected_idx = 0;
-    pPage->field_4_options_array[0].field_70 = 0;
+    pPage->field_4_options_array[0].field_70_unused = 0;
     pPage->field_4_options_array[0].field_7E_horizontal_max_idx = 7;
 
     u16 enabled_idx = 0;
@@ -3591,15 +3591,15 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             gText_0x14_704DFC->Find_5B5F90("bonslev"),
             0x32u);
     pPage->field_4_options_array[4].field_80_menu_page_target = 265;
-    pPage->field_B8A_option_states[0].field_0 = 280;
+    pPage->field_B8A_option_states[0].field_0_unused = 280;
     pPage->field_B8A_option_states[0].field_2_unused = 218;
-    pPage->field_B8A_option_states[1].field_0 = 280;
+    pPage->field_B8A_option_states[1].field_0_unused = 280;
     pPage->field_B8A_option_states[1].field_2_unused = 238;
-    pPage->field_B8A_option_states[2].field_0 = 280;
+    pPage->field_B8A_option_states[2].field_0_unused = 280;
     pPage->field_B8A_option_states[2].field_2_unused = 258;
-    pPage->field_B8A_option_states[3].field_0 = 280;
+    pPage->field_B8A_option_states[3].field_0_unused = 280;
     pPage->field_B8A_option_states[3].field_2_unused = 278;
-    pPage->field_B8A_option_states[4].field_0 = 280;
+    pPage->field_B8A_option_states[4].field_0_unused = 280;
     pPage->field_B8A_option_states[4].field_2_unused = 358;
     pPage->field_BC6_current_option_idx = 3;
     pPage->field_BC8_default_option_idx = 3;
@@ -3689,11 +3689,11 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
                              pPage->field_4_options_array[2].field_6A_font_type,
                              320);
     pPage->field_4_options_array[2].field_80_menu_page_target = 0;
-    pPage->field_B8A_option_states[0].field_0 = 150;
+    pPage->field_B8A_option_states[0].field_0_unused = 150;
     pPage->field_B8A_option_states[0].field_2_unused = 400;
-    pPage->field_B8A_option_states[1].field_0 = 150;
+    pPage->field_B8A_option_states[1].field_0_unused = 150;
     pPage->field_B8A_option_states[1].field_2_unused = 420;
-    pPage->field_B8A_option_states[2].field_0 = 150;
+    pPage->field_B8A_option_states[2].field_0_unused = 150;
     pPage->field_B8A_option_states[2].field_2_unused = 440;
     pPage->field_BC6_current_option_idx = 0;
     pPage->field_BC8_default_option_idx = 0;
@@ -3738,11 +3738,11 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
                              pPage->field_4_options_array[2].field_6A_font_type,
                              320);
     pPage->field_4_options_array[2].field_80_menu_page_target = 0;
-    pPage->field_B8A_option_states[0].field_0 = 150;
+    pPage->field_B8A_option_states[0].field_0_unused = 150;
     pPage->field_B8A_option_states[0].field_2_unused = 400;
-    pPage->field_B8A_option_states[1].field_0 = 150;
+    pPage->field_B8A_option_states[1].field_0_unused = 150;
     pPage->field_B8A_option_states[1].field_2_unused = 420;
-    pPage->field_B8A_option_states[2].field_0 = 150;
+    pPage->field_B8A_option_states[2].field_0_unused = 150;
     pPage->field_B8A_option_states[2].field_2_unused = 440;
     pPage->field_BC6_current_option_idx = 0;
     pPage->field_BC8_default_option_idx = 0;
@@ -3755,7 +3755,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     wcsncpy(pPage->field_518_elements_array[0].field_6_element_name_str,
             gText_0x14_704DFC->Find_5B5F90("cmpltd"),
             0x32u);
-    pPage->field_518_elements_array[0].field_6A_font_type = field_12C;
+    pPage->field_518_elements_array[0].field_6A_font_type = field_12C_area_complete_font;
     pPage->field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
     pPage->field_4_options_array[0].field_4_y_pos = 365;
     wcsncpy(pPage->field_4_options_array[0].field_6_option_name_str,
@@ -3806,15 +3806,15 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
                              pPage->field_4_options_array[4].field_6A_font_type,
                              320);
     pPage->field_4_options_array[4].field_80_menu_page_target = 0;
-    pPage->field_B8A_option_states[0].field_0 = 150;
+    pPage->field_B8A_option_states[0].field_0_unused = 150;
     pPage->field_B8A_option_states[0].field_2_unused = 373;
-    pPage->field_B8A_option_states[1].field_0 = 150;
+    pPage->field_B8A_option_states[1].field_0_unused = 150;
     pPage->field_B8A_option_states[1].field_2_unused = 393;
-    pPage->field_B8A_option_states[2].field_0 = 150;
+    pPage->field_B8A_option_states[2].field_0_unused = 150;
     pPage->field_B8A_option_states[2].field_2_unused = 413;
-    pPage->field_B8A_option_states[3].field_0 = 150;
+    pPage->field_B8A_option_states[3].field_0_unused = 150;
     pPage->field_B8A_option_states[3].field_2_unused = 433;
-    pPage->field_B8A_option_states[4].field_0 = 150;
+    pPage->field_B8A_option_states[4].field_0_unused = 150;
     pPage->field_B8A_option_states[4].field_2_unused = 453;
     pPage->field_BC6_current_option_idx = 0;
     pPage->field_BC8_default_option_idx = 0;
@@ -3838,7 +3838,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             gText_0x14_704DFC->Find_5B5F90("mainmen"),
             0x32u);
     pPage->field_4_options_array[0].field_80_menu_page_target = 0;
-    pPage->field_B8A_option_states[0].field_0 = 160;
+    pPage->field_B8A_option_states[0].field_0_unused = 160;
     pPage->field_B8A_option_states[0].field_2_unused = 418;
     pPage->field_BC6_current_option_idx = 0;
     pPage->field_BC8_default_option_idx = 0;
@@ -3849,7 +3849,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     pPage->field_4_options_array[0].field_2_x_pos = 300;
     pPage->field_4_options_array[0].field_4_y_pos = 155;
     pPage->field_4_options_array[0].field_6E_horizontal_selected_idx = 0;
-    pPage->field_4_options_array[0].field_70 = 0;
+    pPage->field_4_options_array[0].field_70_unused = 0;
     pPage->field_4_options_array[0].field_7E_horizontal_max_idx = 11;
 
     u16 enabled_idx2 = 0;
@@ -3858,7 +3858,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
         pPage->field_4_options_array[0].field_72_horizontal_idx_enabled[enabled_idx2++] = 1;
     } while (enabled_idx2 <= pPage->field_4_options_array[0].field_7E_horizontal_max_idx);
 
-    pPage->field_B8A_option_states[0].field_0 = 280;
+    pPage->field_B8A_option_states[0].field_0_unused = 280;
     pPage->field_B8A_option_states[0].field_2_unused = 163;
     pPage->field_BC6_current_option_idx = 0;
     pPage->field_BC8_default_option_idx = 0;
@@ -3884,7 +3884,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     wcsncpy(pPage->field_518_elements_array[4].field_6_element_name_str,
             gText_0x14_704DFC->Find_5B5F90("hi_scre"),
             0x32u);
-    pPage->field_518_elements_array[4].field_6A_font_type = field_126;
+    pPage->field_518_elements_array[4].field_6A_font_type = field_126_heading_font;
     pPage = &field_136_menu_pages_array[6];
     pPage->field_0_number_of_options = 3;
     pPage->field_2_number_of_elements = 3;
@@ -3937,11 +3937,11 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
                              pPage->field_4_options_array[2].field_6A_font_type,
                              320);
     pPage->field_4_options_array[2].field_80_menu_page_target = 0;
-    pPage->field_B8A_option_states[0].field_0 = 150;
+    pPage->field_B8A_option_states[0].field_0_unused = 150;
     pPage->field_B8A_option_states[0].field_2_unused = 348;
-    pPage->field_B8A_option_states[1].field_0 = 150;
+    pPage->field_B8A_option_states[1].field_0_unused = 150;
     pPage->field_B8A_option_states[1].field_2_unused = 368;
-    pPage->field_B8A_option_states[2].field_0 = 150;
+    pPage->field_B8A_option_states[2].field_0_unused = 150;
     pPage->field_B8A_option_states[2].field_2_unused = 388;
     pPage->field_BC6_current_option_idx = 0;
     pPage->field_BC8_default_option_idx = 0;
@@ -4012,7 +4012,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
                    pPage->field_4_options_array[0].field_6A_font_type,
                    320);
     pPage->field_4_options_array[0].field_80_menu_page_target = 258;
-    pPage->field_B8A_option_states[0].field_0 = 180;
+    pPage->field_B8A_option_states[0].field_0_unused = 180;
     pPage->field_B8A_option_states[0].field_2_unused = 438;
     pPage->field_BC6_current_option_idx = 0;
     pPage->field_BC8_default_option_idx = 0;
@@ -4026,7 +4026,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             gText_0x14_704DFC->Find_5B5F90("mainmen"),
             0x32u);
     pPage->field_4_options_array[0].field_80_menu_page_target = 0;
-    pPage->field_B8A_option_states[0].field_0 = 180;
+    pPage->field_B8A_option_states[0].field_0_unused = 180;
     pPage->field_B8A_option_states[0].field_2_unused = 288;
     pPage->field_BC6_current_option_idx = 0;
     pPage->field_BC8_default_option_idx = 0;
@@ -4050,7 +4050,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             gText_0x14_704DFC->Find_5B5F90("mainmen"),
             0x32u);
     pPage->field_4_options_array[0].field_80_menu_page_target = 0;
-    pPage->field_B8A_option_states[0].field_0 = 160;
+    pPage->field_B8A_option_states[0].field_0_unused = 160;
     pPage->field_B8A_option_states[0].field_2_unused = 418;
     pPage->field_BC6_current_option_idx = 0;
     pPage->field_BC8_default_option_idx = 0;
@@ -4089,7 +4089,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     wcsncpy(pPage->field_518_elements_array[4].field_6_element_name_str,
             gText_0x14_704DFC->Find_5B5F90("score"),
             0x32u);
-    pPage->field_B8A_option_states[0].field_0 = 150;
+    pPage->field_B8A_option_states[0].field_0_unused = 150;
     pPage->field_B8A_option_states[0].field_2_unused = 348; //  TODO: check for wrong var
     pPage->field_BC6_current_option_idx = 0;
     pPage->field_BC8_default_option_idx = 0;
@@ -5206,7 +5206,7 @@ MenuItem::MenuItem()
     field_2_x_pos = 0;
     field_4_y_pos = 0;
     field_6E_horizontal_selected_idx = 0;
-    field_70 = 0;
+    field_70_unused = 0;
 
     for (s32 i = 0; i < GTA2_COUNTOF(field_72_horizontal_idx_enabled); i++) // or is it a u32 ??
     {
@@ -5228,7 +5228,7 @@ MenuItem::~MenuItem()
     field_6A_font_type = -1;
     field_6C_palette = -1;
     field_6E_horizontal_selected_idx = 0;
-    field_70 = 0;
+    field_70_unused = 0;
     field_7E_horizontal_max_idx = 0;
     field_80_menu_page_target = 0;
 }
@@ -5311,7 +5311,7 @@ bool MenuItem::SelectPrevHorizontalIdx_4B6390()
 MATCH_FUNC(0x4B6260)
 MenuOption::MenuOption()
 {
-    field_0 = 0;
+    field_0_unused = 0;
     field_2_unused = 0;
     field_4_is_option_unlocked = 1;
 }
@@ -5319,7 +5319,7 @@ MenuOption::MenuOption()
 MATCH_FUNC(0x4B6280)
 MenuOption::~MenuOption()
 {
-    field_0 = 0;
+    field_0_unused = 0;
     field_2_unused = 0;
     field_4_is_option_unlocked = 1;
 }

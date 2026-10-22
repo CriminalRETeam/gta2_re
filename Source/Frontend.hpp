@@ -95,7 +95,7 @@ struct MenuItem
     u16 field_6A_font_type;
     u16 field_6C_palette;
     u16 field_6E_horizontal_selected_idx;
-    s16 field_70;
+    s16 field_70_unused;
     char_type field_72_horizontal_idx_enabled[12];
     u16 field_7E_horizontal_max_idx;
     s16 field_80_menu_page_target;
@@ -111,7 +111,7 @@ struct MenuOption
 
     EXPORT ~MenuOption();
 
-    s16 field_0;
+    s16 field_0_unused;
     s16 field_2_unused;
     char_type field_4_is_option_unlocked;   // this control if the menu selection will skip a option or not
     char_type field_5_unused;
@@ -244,14 +244,14 @@ struct Frontend
     s32 field_114_cursor_blink;
     s32 field_118_cursor_blink_timer;
     u16 field_11C_normal_font;
-    s16 field_11E;
+    s16 field_11E_text_font;
     s16 field_120_selected_font;
     s16 field_122_unused;
     u16 field_124_font_type;
-    s16 field_126;
-    s16 field_128;
+    s16 field_126_heading_font;
+    s16 field_128_play_menu_score_font;
     s16 field_12A_score_font;
-    s16 field_12C;
+    s16 field_12C_area_complete_font;
     s16 field_12E_unused;
     s16 field_130_title_font;
     u16 field_132_f136_idx;
