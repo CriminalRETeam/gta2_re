@@ -1910,7 +1910,7 @@ char Map_0x370::IsTileBlockedForSprite_4E1E00(s32 regionLeft,
     gCurrentBlockSlope_6F5EC8 = &gGmpSlopes_6F5BA8[pBlock->field_B_slope_type >> 2];
     if (!gCurrentBlockSlope_6F5EC8->field_0_gradient_direction || gCurrentBlockSlope_6F5EC8->field_2_gradient_level)
     {
-        gradient_direction = 0;
+        gradient_direction = NO_GRADIENT_SLOPE_0;
     }
     else
     {
@@ -1938,7 +1938,7 @@ char Map_0x370::IsTileBlockedForSprite_4E1E00(s32 regionLeft,
     // North (y - 1)
     if (regionTop < tileY)
     {
-        if (gradient_direction == 1)
+        if (gradient_direction == NORTH_1)
         {
             if (gBlockAbove_6F6054 && ((u16)gFaceCollisionMask_6F6002 & gBlockAbove_6F6054->field_4_top) != 0)
             {
@@ -1949,7 +1949,8 @@ char Map_0x370::IsTileBlockedForSprite_4E1E00(s32 regionLeft,
             }
         }
         else if (((u16)gFaceCollisionMask_6F6002 & gBlockInfo0_6F5EB0->field_4_top) != 0 &&
-                 gCurrentBlockSlope_6F5EC8->field_0_gradient_direction != 3 && gCurrentBlockSlope_6F5EC8->field_0_gradient_direction != 4)
+                 gCurrentBlockSlope_6F5EC8->field_0_gradient_direction != WEST_3 &&
+                 gCurrentBlockSlope_6F5EC8->field_0_gradient_direction != EAST_4)
         {
             if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970((u32)tileX, tileX + 1, tileY))
             {
@@ -1974,7 +1975,7 @@ char Map_0x370::IsTileBlockedForSprite_4E1E00(s32 regionLeft,
     // South (y + 1)
     if (regionBottom > tileY)
     {
-        if (gradient_direction == 2)
+        if (gradient_direction == SOUTH_2)
         {
             if (gBlockAbove_6F6054 && ((u16)gFaceCollisionMask_6F6002 & gBlockAbove_6F6054->field_6_bottom) != 0)
             {
@@ -1985,7 +1986,8 @@ char Map_0x370::IsTileBlockedForSprite_4E1E00(s32 regionLeft,
             }
         }
         else if (((u16)gFaceCollisionMask_6F6002 & gBlockInfo0_6F5EB0->field_6_bottom) != 0 &&
-                 gCurrentBlockSlope_6F5EC8->field_0_gradient_direction != 3 && gCurrentBlockSlope_6F5EC8->field_0_gradient_direction != 4)
+                 gCurrentBlockSlope_6F5EC8->field_0_gradient_direction != WEST_3 &&
+                 gCurrentBlockSlope_6F5EC8->field_0_gradient_direction != EAST_4)
         {
             if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970((u32)tileX, tileX + 1, tileY + 1))
             {
@@ -2010,7 +2012,7 @@ char Map_0x370::IsTileBlockedForSprite_4E1E00(s32 regionLeft,
     // West (x - 1) and the north west / south west corners
     if (regionLeft < tileX)
     {
-        if (gradient_direction == 3)
+        if (gradient_direction == WEST_3)
         {
             if (gBlockAbove_6F6054 && ((u16)gFaceCollisionMask_6F6002 & gBlockAbove_6F6054->field_0_left) != 0)
             {
@@ -2021,7 +2023,8 @@ char Map_0x370::IsTileBlockedForSprite_4E1E00(s32 regionLeft,
             }
         }
         else if (((u16)gFaceCollisionMask_6F6002 & gBlockInfo0_6F5EB0->field_0_left) != 0 &&
-                 gCurrentBlockSlope_6F5EC8->field_0_gradient_direction != 1 && gCurrentBlockSlope_6F5EC8->field_0_gradient_direction != 2)
+                 gCurrentBlockSlope_6F5EC8->field_0_gradient_direction != NORTH_1 &&
+                 gCurrentBlockSlope_6F5EC8->field_0_gradient_direction != SOUTH_2)
         {
             if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine_5A0EF0((u32)tileY, tileY + 1, tileX))
             {
@@ -2044,8 +2047,9 @@ char Map_0x370::IsTileBlockedForSprite_4E1E00(s32 regionLeft,
 
         if (regionTop < tileY)
         {
-            if (gNorthBlock_6F606C && gWestTileZ_6F5BA0 <= gNorthTileZ_6F5FAC && ((u16)gFaceCollisionMask_6F6002 & gNorthBlock_6F606C->field_0_left) != 0 &&
-                gNorthSlope_6F6084->field_0_gradient_direction != 1 && gNorthSlope_6F6084->field_0_gradient_direction != 2)
+            if (gNorthBlock_6F606C && gWestTileZ_6F5BA0 <= gNorthTileZ_6F5FAC &&
+                ((u16)gFaceCollisionMask_6F6002 & gNorthBlock_6F606C->field_0_left) != 0 &&
+                gNorthSlope_6F6084->field_0_gradient_direction != NORTH_1 && gNorthSlope_6F6084->field_0_gradient_direction != SOUTH_2)
             {
                 if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine_5A0EF0(tileY - 1, (u32)tileY, tileX))
                 {
@@ -2053,8 +2057,9 @@ char Map_0x370::IsTileBlockedForSprite_4E1E00(s32 regionLeft,
                 }
             }
 
-            if (gWestBlock_6F6078 && gNorthTileZ_6F5FAC <= gWestTileZ_6F5BA0 && ((u16)gFaceCollisionMask_6F6002 & gWestBlock_6F6078->field_4_top) != 0 &&
-                gWestSlope_6F608C->field_0_gradient_direction != 3 && gWestSlope_6F608C->field_0_gradient_direction != 4)
+            if (gWestBlock_6F6078 && gNorthTileZ_6F5FAC <= gWestTileZ_6F5BA0 &&
+                ((u16)gFaceCollisionMask_6F6002 & gWestBlock_6F6078->field_4_top) != 0 &&
+                gWestSlope_6F608C->field_0_gradient_direction != WEST_3 && gWestSlope_6F608C->field_0_gradient_direction != EAST_4)
             {
                 if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(tileX - 1, (u32)tileX, tileY))
                 {
@@ -2084,8 +2089,9 @@ char Map_0x370::IsTileBlockedForSprite_4E1E00(s32 regionLeft,
 
         if (regionBottom > tileY)
         {
-            if (gSouthBlock_6F6070 && gWestTileZ_6F5BA0 <= gSouthTileZ_6F6248 && ((u16)gFaceCollisionMask_6F6002 & gSouthBlock_6F6070->field_0_left) != 0 &&
-                gSouthSlope_6F6088->field_0_gradient_direction != 1 && gSouthSlope_6F6088->field_0_gradient_direction != 2)
+            if (gSouthBlock_6F6070 && gWestTileZ_6F5BA0 <= gSouthTileZ_6F6248 &&
+                ((u16)gFaceCollisionMask_6F6002 & gSouthBlock_6F6070->field_0_left) != 0 &&
+                gSouthSlope_6F6088->field_0_gradient_direction != NORTH_1 && gSouthSlope_6F6088->field_0_gradient_direction != SOUTH_2)
             {
                 if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine_5A0EF0(tileY + 1, tileY + 2, tileX))
                 {
@@ -2093,8 +2099,9 @@ char Map_0x370::IsTileBlockedForSprite_4E1E00(s32 regionLeft,
                 }
             }
 
-            if (gWestBlock_6F6078 && gSouthTileZ_6F6248 <= gWestTileZ_6F5BA0 && ((u16)gFaceCollisionMask_6F6002 & gWestBlock_6F6078->field_6_bottom) != 0 &&
-                gWestSlope_6F608C->field_0_gradient_direction != 3 && gWestSlope_6F608C->field_0_gradient_direction != 4)
+            if (gWestBlock_6F6078 && gSouthTileZ_6F6248 <= gWestTileZ_6F5BA0 &&
+                ((u16)gFaceCollisionMask_6F6002 & gWestBlock_6F6078->field_6_bottom) != 0 &&
+                gWestSlope_6F608C->field_0_gradient_direction != WEST_3 && gWestSlope_6F608C->field_0_gradient_direction != EAST_4)
             {
                 if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(tileX - 1, (u32)tileX, tileY + 1))
                 {
@@ -2126,7 +2133,7 @@ char Map_0x370::IsTileBlockedForSprite_4E1E00(s32 regionLeft,
     // East (x + 1) and the north east / south east corners
     if (regionRight > tileX)
     {
-        if (gradient_direction == 4)
+        if (gradient_direction == EAST_4)
         {
             if (gBlockAbove_6F6054 && ((u16)gFaceCollisionMask_6F6002 & gBlockAbove_6F6054->field_2_right) != 0)
             {
@@ -2137,7 +2144,8 @@ char Map_0x370::IsTileBlockedForSprite_4E1E00(s32 regionLeft,
             }
         }
         else if (((u16)gFaceCollisionMask_6F6002 & gBlockInfo0_6F5EB0->field_2_right) != 0 &&
-                 gCurrentBlockSlope_6F5EC8->field_0_gradient_direction != 1 && gCurrentBlockSlope_6F5EC8->field_0_gradient_direction != 2)
+                 gCurrentBlockSlope_6F5EC8->field_0_gradient_direction != NORTH_1 &&
+                 gCurrentBlockSlope_6F5EC8->field_0_gradient_direction != SOUTH_2)
         {
             if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine_5A0EF0((u32)tileY, tileY + 1, tileX + 1))
             {
@@ -2160,8 +2168,9 @@ char Map_0x370::IsTileBlockedForSprite_4E1E00(s32 regionLeft,
 
         if (regionTop < tileY)
         {
-            if (gNorthBlock_6F606C && gEastTileZ_6F620C <= gNorthTileZ_6F5FAC && ((u16)gFaceCollisionMask_6F6002 & gNorthBlock_6F606C->field_2_right) != 0 &&
-                gNorthSlope_6F6084->field_0_gradient_direction != 1 && gNorthSlope_6F6084->field_0_gradient_direction != 2)
+            if (gNorthBlock_6F606C && gEastTileZ_6F620C <= gNorthTileZ_6F5FAC &&
+                ((u16)gFaceCollisionMask_6F6002 & gNorthBlock_6F606C->field_2_right) != 0 &&
+                gNorthSlope_6F6084->field_0_gradient_direction != NORTH_1 && gNorthSlope_6F6084->field_0_gradient_direction != SOUTH_2)
             {
                 if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine_5A0EF0(tileY - 1, (u32)tileY, tileX + 1))
                 {
@@ -2169,8 +2178,9 @@ char Map_0x370::IsTileBlockedForSprite_4E1E00(s32 regionLeft,
                 }
             }
 
-            if (gEastBlock_6F6060 && gNorthTileZ_6F5FAC <= gEastTileZ_6F620C && ((u16)gFaceCollisionMask_6F6002 & gEastBlock_6F6060->field_4_top) != 0 &&
-                gEastSlope_6F6080->field_0_gradient_direction != 3 && gEastSlope_6F6080->field_0_gradient_direction != 4)
+            if (gEastBlock_6F6060 && gNorthTileZ_6F5FAC <= gEastTileZ_6F620C &&
+                ((u16)gFaceCollisionMask_6F6002 & gEastBlock_6F6060->field_4_top) != 0 &&
+                gEastSlope_6F6080->field_0_gradient_direction != WEST_3 && gEastSlope_6F6080->field_0_gradient_direction != EAST_4)
             {
                 if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(tileX + 1, tileX + 2, tileY))
                 {
@@ -2200,8 +2210,9 @@ char Map_0x370::IsTileBlockedForSprite_4E1E00(s32 regionLeft,
 
         if (regionBottom > tileY)
         {
-            if (gSouthBlock_6F6070 && gEastTileZ_6F620C <= gSouthTileZ_6F6248 && ((u16)gFaceCollisionMask_6F6002 & gSouthBlock_6F6070->field_2_right) != 0 &&
-                gSouthSlope_6F6088->field_0_gradient_direction != 1 && gSouthSlope_6F6088->field_0_gradient_direction != 2)
+            if (gSouthBlock_6F6070 && gEastTileZ_6F620C <= gSouthTileZ_6F6248 &&
+                ((u16)gFaceCollisionMask_6F6002 & gSouthBlock_6F6070->field_2_right) != 0 &&
+                gSouthSlope_6F6088->field_0_gradient_direction != NORTH_1 && gSouthSlope_6F6088->field_0_gradient_direction != SOUTH_2)
             {
                 if (!gSprite_6F61E8 || gSprite_6F61E8->HitTestVerticalLine_5A0EF0(tileY + 1, tileY + 2, tileX + 1))
                 {
@@ -2209,8 +2220,9 @@ char Map_0x370::IsTileBlockedForSprite_4E1E00(s32 regionLeft,
                 }
             }
 
-            if (gEastBlock_6F6060 && gSouthTileZ_6F6248 <= gEastTileZ_6F620C && ((u16)gFaceCollisionMask_6F6002 & gEastBlock_6F6060->field_6_bottom) != 0 &&
-                gEastSlope_6F6080->field_0_gradient_direction != 3 && gEastSlope_6F6080->field_0_gradient_direction != 4)
+            if (gEastBlock_6F6060 && gSouthTileZ_6F6248 <= gEastTileZ_6F620C &&
+                ((u16)gFaceCollisionMask_6F6002 & gEastBlock_6F6060->field_6_bottom) != 0 &&
+                gEastSlope_6F6080->field_0_gradient_direction != WEST_3 && gEastSlope_6F6080->field_0_gradient_direction != EAST_4)
             {
                 if (!gSprite_6F61E8 || gSprite_6F61E8->CheckBBoxScanlineIntersection_5A0970(tileX + 1, tileX + 2, tileY + 1))
                 {
@@ -3135,7 +3147,7 @@ u8 Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(Fix16 x_pos, Fix16 y_pos, Fix16& z_
 
             switch (gCurrentBlockSlope_6F5EC8->field_0_gradient_direction)
             {
-                case 0:
+                case NO_GRADIENT_SLOPE_0:
                     return 0;
                 case NORTH_1:
                     grad_pos = kFpOne_6F6110 - y_pos.GetFracValue();
@@ -3333,7 +3345,7 @@ s16 Map_0x370::ClassifyArrowOnSlope_4E6190(Fix16 x, Fix16 y, Fix16 z, s32 arrow_
     bool bMatched = false;
     switch (gCurrentBlockSlope_6F5EC8->field_0_gradient_direction)
     {
-        case 1:
+        case NORTH_1:
             switch (arrow_dir)
             {
                 case 1:
@@ -3346,7 +3358,7 @@ s16 Map_0x370::ClassifyArrowOnSlope_4E6190(Fix16 x, Fix16 y, Fix16 z, s32 arrow_
                     break;
             }
             break;
-        case 2:
+        case SOUTH_2:
             switch (arrow_dir)
             {
                 case 1:
@@ -3359,7 +3371,7 @@ s16 Map_0x370::ClassifyArrowOnSlope_4E6190(Fix16 x, Fix16 y, Fix16 z, s32 arrow_
                     break;
             }
             break;
-        case 3:
+        case WEST_3:
             switch (arrow_dir)
             {
                 case 3:
@@ -3368,7 +3380,7 @@ s16 Map_0x370::ClassifyArrowOnSlope_4E6190(Fix16 x, Fix16 y, Fix16 z, s32 arrow_
                     return bReverse ? 2 : 3;
             }
             break;
-        case 4:
+        case EAST_4:
             switch (arrow_dir)
             {
                 case 3:
@@ -4473,7 +4485,8 @@ void Map_0x370::do_process_loaded_zone_data_4E8E30()
     for (u16 zoneIdx = 0; zoneIdx < zonesSize; zoneIdx++)
     {
         gmp_map_zone* zone1 = GetZone_4DFB30(zoneIdx);
-        if (zone1->field_0_zone_type != 10 && zone1->field_0_zone_type != 1 && zone1->field_0_zone_type != 15)
+        if (zone1->field_0_zone_type != Information_10 && zone1->field_0_zone_type != Navigation_1 &&
+            zone1->field_0_zone_type != Local_Navigation_15)
         {
             field_330_pZoneArray[zoneIdx] = 0;
             continue;

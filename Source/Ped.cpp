@@ -2775,7 +2775,7 @@ void Ped::EnterPublicTransport_45EE70()
         {
             if (!bSkip_buses_67D558)
             {
-                if (gRng_6F6784.get_int_4F7AE0(100) > 90 && gNumberBusCustomers_6787D3 < 5 && pZoneIter->field_0_zone_type == 7 &&
+                if (gRng_6F6784.get_int_4F7AE0(100) > 90 && gNumberBusCustomers_6787D3 < 5 && pZoneIter->field_0_zone_type == Bus_Stop_7 &&
                     !gPublicTransport_181C_6FF1D4->is_bus_full_579AF0())
                 {
                     if (field_25C_internal_objective != objectives_enum::enter_train_37 && field_25C_internal_objective != objectives_enum::leave_train_38 && this->field_278_ped_state_1 == ped_state_1::walking_0)

@@ -4162,11 +4162,11 @@ void ScriptThread::SCRCMD_IS_CHAR_IN_ZONE_50BF40()
     else
     {
         pZone1 = gMap_0x370_6F6268->GetZoneAtPosOfType_4DF4D0(pPointer->field_8_char->get_cam_x().ToInt(),
-                                                                pPointer->field_8_char->get_cam_y().ToInt(),
-                                                                16);
+                                                              pPointer->field_8_char->get_cam_y().ToInt(),
+                                                              Restart_16);
         pZone2 = gMap_0x370_6F6268->GetZoneAtPosOfType_4DF4D0(pPointer->field_8_char->get_cam_x().ToInt(),
-                                                                pPointer->field_8_char->get_cam_y().ToInt(),
-                                                                1);
+                                                              pPointer->field_8_char->get_cam_y().ToInt(),
+                                                              Navigation_1);
     }
 
     if ((pZone1 && !_strnicmp(pZone1->field_6_name, (const char*)&pStrEntry[1], pZone1->field_5_name_length)) ||

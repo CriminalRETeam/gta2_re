@@ -2977,10 +2977,10 @@ void CC ImGuiDebugDraw()
                 gPathFinder_6FDEF0->field_25_xpos = xpos;
                 gPathFinder_6FDEF0->field_26_ypos = ypos;
                 gPathFinder_6FDEF0->field_27_zpos = zpos;
-                ImGui::Value("PathFinder Direction 1", gPathFinder_6FDEF0->CanMoveInDirection_554080(1));
-                ImGui::Value("PathFinder Direction 2", gPathFinder_6FDEF0->CanMoveInDirection_554080(2));
-                ImGui::Value("PathFinder Direction 3", gPathFinder_6FDEF0->CanMoveInDirection_554080(3));
-                ImGui::Value("PathFinder Direction 4", gPathFinder_6FDEF0->CanMoveInDirection_554080(4));
+                ImGui::Value("PathFinder Direction 1", gPathFinder_6FDEF0->CanMoveInDirection_554080(path_direction::up_1));
+                ImGui::Value("PathFinder Direction 2", gPathFinder_6FDEF0->CanMoveInDirection_554080(path_direction::down_2));
+                ImGui::Value("PathFinder Direction 3", gPathFinder_6FDEF0->CanMoveInDirection_554080(path_direction::right_3));
+                ImGui::Value("PathFinder Direction 4", gPathFinder_6FDEF0->CanMoveInDirection_554080(path_direction::left_4));
             }
             
             u8 bRet;

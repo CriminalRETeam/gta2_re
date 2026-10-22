@@ -5185,8 +5185,8 @@ void Char::ChooseNextMovementTile_551400()
     s32 saved_direction = gCharB4_PathDirection_623F44;
     switch (gCharB4_PathDirection_623F44)
     {
-        case 1:
-        case 2:
+        case path_direction::up_1:
+        case path_direction::down_2:
             if (field_7C_pPed->GetMoveTargetX_492CE0() <= gCharB4_Saved_Xpos_6FD7F8)
             {
                 gAng16_AngleOfCollision_6FD808 = kAng90_6FDA64;
@@ -5248,8 +5248,8 @@ void Char::ChooseNextMovementTile_551400()
             }
             break;
 
-        case 3:
-        case 4:
+        case path_direction::right_3:
+        case path_direction::left_4:
 
             if (field_7C_pPed->GetMoveTargetY_492CF0() <= gCharB4_Saved_Ypos_6FD800)
             {
@@ -5319,8 +5319,8 @@ void Char::SelectNextTileFast_5516F0()
     s32 saved_direction = gCharB4_PathDirection_623F44;
     switch (gCharB4_PathDirection_623F44)
     {
-        case 1:
-        case 2:
+        case path_direction::up_1:
+        case path_direction::down_2:
             if (field_7C_pPed->GetMoveTargetX_492CE0() >= gCharB4_Saved_Xpos_6FD7F8)
             {
                 gAng16_AngleOfCollision_6FD808 = kAng90_6FDA64;
@@ -5374,8 +5374,8 @@ void Char::SelectNextTileFast_5516F0()
             }
             break;
 
-        case 3:
-        case 4:
+        case path_direction::right_3:
+        case path_direction::left_4:
 
             if (field_7C_pPed->GetMoveTargetY_492CF0() >= gCharB4_Saved_Ypos_6FD800)
             {
