@@ -1478,7 +1478,7 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
         Ang16 car_angle;
         Fix16_Point offset;
         Fix16_Point attach;
-        AttachedSprite* pGun = pCar->field_0_attachments.GetSpriteForModel_5A6A50(114);
+        AttachedSprite* pGun = pCar->field_0_attachments.GetSpriteForModel_5A6A50(objects::water_cannon_114);
         if (pGun)
         {
             car_angle = pGun->field_0_pSprite->field_0_rotation + kAng180_6FD3EE;

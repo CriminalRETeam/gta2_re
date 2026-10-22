@@ -1415,7 +1415,7 @@ void Weapon::fire_truck_flamethrower_5E0B10()
     Ped* pDriver = field_14_car->field_54_driver;
     field_24_pPed = pDriver;
 
-    pTurret = field_14_car->field_0_attachments.GetSpriteForModel_5A6A50(114);
+    pTurret = field_14_car->field_0_attachments.GetSpriteForModel_5A6A50(objects::water_cannon_114);
     if (pTurret)
     {
         gun_ang = pTurret->field_0_pSprite->field_0_rotation + kAng180_706DFA;
@@ -1466,7 +1466,7 @@ void Weapon::fire_truck_gun_5E0E70()
 
     field_24_pPed = field_14_car->GetDriver_4118B0();
 
-    AttachedSprite* pTurret = field_14_car->field_0_attachments.GetSpriteForModel_5A6A50(114);
+    AttachedSprite* pTurret = field_14_car->field_0_attachments.GetSpriteForModel_5A6A50(objects::water_cannon_114);
     gun_ang = pTurret->field_0_pSprite->field_0_rotation + kAng180_706DFA;
 
     bullet_pos.SetXY_432860(Fix16(0), kFpSevenThirtySeconds_706CDC);

@@ -382,7 +382,7 @@ void ParticleManager::EmitFlameStreamSegment_53F4C0(Sprite* pSprt)
                 Char* pPed = pSprt->field_8_char_b4_ptr;
                 if (pSprt->field_30_sprite_type_enum == sprite_types_enum::car_2)
                 {
-                    AttachedSprite* pSprt18 = pCar->field_0_attachments.GetSpriteForModel_5A6A50(114);
+                    AttachedSprite* pSprt18 = pCar->field_0_attachments.GetSpriteForModel_5A6A50(objects::water_cannon_114);
                     if (pSprt18)
                     {
                         angle = pSprt18->field_0_pSprite->field_0_rotation + kAng180_6FD3EE;
@@ -461,7 +461,7 @@ void ParticleManager::EmitFireTruckSprayParticle_53FAE0(Sprite* pSprite)
             if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car_2)
             {
                 Car* pCar = pSprite->field_8_car_bc_ptr;
-                AttachedSprite* pGun = pCar->field_0_attachments.GetSpriteForModel_5A6A50(114);
+                AttachedSprite* pGun = pCar->field_0_attachments.GetSpriteForModel_5A6A50(objects::water_cannon_114);
                 if (pGun)
                 {
                     angle = pGun->field_0_pSprite->field_0_rotation + kAng180_6FD3EE;

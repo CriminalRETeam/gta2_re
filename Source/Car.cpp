@@ -4638,7 +4638,7 @@ char_type Car::RotateRoofObjectTowardTarget_440C10(Ang16 targetAngle)
 
     if (IsFireTruck_4118F0())
     {
-        pFound = field_0_attachments.GetSpriteForModel_5A6A50(114);
+        pFound = field_0_attachments.GetSpriteForModel_5A6A50(objects::water_cannon_114);
         ang = pFound->field_0_pSprite->field_0_rotation + kAng180_677326;
     }
     else if (IsTank_411900())
@@ -4691,7 +4691,7 @@ char_type Car::HandleRoofTurretRotation_440D90(char_type left_on)
     // single store after the if/else keeps the angle in %di across the second Normalize loop)
     if (field_84_car_info_idx == car_model_enum::FIRETRUK)
     {
-        AttachedSprite* pSprite = field_0_attachments.GetSpriteForModel_5A6A50(114);
+        AttachedSprite* pSprite = field_0_attachments.GetSpriteForModel_5A6A50(objects::water_cannon_114);
         if (left_on)
         {
             compound_add_41FA70(pSprite->field_10_offset_rot, kFireTruckCannonRotSpeed_6771C0);

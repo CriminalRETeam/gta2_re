@@ -8840,7 +8840,7 @@ void Ped::FollowCarOnFootWithOffset_46A350()
 MATCH_FUNC(0x46a530)
 void Ped::FireAtObject_46A530()
 {
-    AttachedSprite* pSprite_148 = field_16C_car->field_0_attachments.GetSpriteForModel_5A6A50(148);
+    AttachedSprite* pSprite_148 = field_16C_car->field_0_attachments.GetSpriteForModel_5A6A50(objects::tank_cannon_148);
     Sprite* pSprite_18 = pSprite_148->field_0_pSprite;
     Fix16 x_v = pSprite_18->field_14_xy.x;
     Fix16 y_v = pSprite_18->field_14_xy.y;
@@ -8872,7 +8872,7 @@ void Ped::FireAtPlayer_46A5E0()
     Ped* pPlayerPed = gGame_0x40_67E008->field_38_local_player->field_2C4_player_ped;
     if (!pPlayerPed->IsInvisibleOnFoot_433DA0())
     {
-        Sprite* pSprite_148 = field_16C_car->field_0_attachments.GetSpriteForModel_5A6A50(148)->field_0_pSprite;
+        Sprite* pSprite_148 = field_16C_car->field_0_attachments.GetSpriteForModel_5A6A50(objects::tank_cannon_148)->field_0_pSprite;
         Fix16 x = pSprite_148->field_14_xy.x;
         Fix16 y = pSprite_148->field_14_xy.y;
         Ang16 aim_angle;
@@ -8902,7 +8902,7 @@ void Ped::AimVehicleTurretStateMachine_46A6D0()
     }
     else
     {
-        AttachedSprite* p18 = field_16C_car->field_0_attachments.GetSpriteForModel_5A6A50(114);
+        AttachedSprite* p18 = field_16C_car->field_0_attachments.GetSpriteForModel_5A6A50(objects::water_cannon_114);
         field_21C_bf.bUseCarWeapon = true;
 
         Fix16 x = p18->field_0_pSprite->field_14_xy.x;
@@ -11894,11 +11894,11 @@ void Ped::AimRoofGun_470050()
     AttachedSprite* pHit = 0;
     if (field_16C_car->IsFireTruck_4118F0())
     {
-        pHit = field_16C_car->field_0_attachments.GetSpriteForModel_5A6A50(114);
+        pHit = field_16C_car->field_0_attachments.GetSpriteForModel_5A6A50(objects::water_cannon_114);
     }
     else if (field_16C_car->IsTank_411900())
     {
-        pHit = field_16C_car->field_0_attachments.GetSpriteForModel_5A6A50(148);
+        pHit = field_16C_car->field_0_attachments.GetSpriteForModel_5A6A50(objects::tank_cannon_148);
     }
     else if (field_16C_car->IsGunJeep_411910())
     {

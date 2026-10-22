@@ -1785,7 +1785,7 @@ char_type sound_obj::Type_11_414EE0(sound_0x68* pSound)
 MATCH_FUNC(0x414F90)
 void sound_obj::HandleCarBurningSound_414F90(Sound_Params* pParams)
 {
-    if (pParams->field_0_pObj->field_8_car_bc_ptr->field_0_attachments.GetSpriteForModel_5A6A50(132))
+    if (pParams->field_0_pObj->field_8_car_bc_ptr->field_0_attachments.GetSpriteForModel_5A6A50(objects::car_bomb_132))
     {
         if (CalculateDistance_419020(Fix16(25)))
         {

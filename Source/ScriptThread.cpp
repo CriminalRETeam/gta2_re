@@ -4735,7 +4735,7 @@ void ScriptThread::SCRCMD_CHECK_CAR_DRIVER_50CB70()
         case SCRCMD_CARBOMB_ACTIVE:
         {
             Car* pCar = pPointer->field_8_car;
-            if (pCar->field_0_attachments.GetSpriteForModel_5A6A50(132) != NULL)
+            if (pCar->field_0_attachments.GetSpriteForModel_5A6A50(objects::car_bomb_132) != NULL)
             {
                 field_8_cond_result = true;
             }
