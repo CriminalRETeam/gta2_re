@@ -2974,7 +2974,7 @@ static inline Fix16 __stdcall MaxAbsDistanceRawY_451980(Fix16& x1, Fix16& y1, Fi
     return result;
 }
 
-// 9.6f sub_42D820
+// Inlined in 9.6f sub_42D820 (UpdateStateMachine_44E560)
 static inline s32 __stdcall GetOppositeFace_42A660(const s32& face)
 {
     switch (face)
