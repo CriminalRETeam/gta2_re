@@ -8,6 +8,16 @@
 #include "KanjiFont.hpp"
 #include "TextureCache.hpp"
 
+// gbh_DrawQuad flags, named as in GTA2Hax's d3ddll
+namespace quad_flag
+{
+enum
+{
+    fit_to_texture = 0x10000,
+    texture_filtering = 0x20000,
+};
+} // namespace quad_flag
+
 DEFINE_GLOBAL_INIT(Fix16, kFpOne_706A6C, Fix16(1), 0x706A6C);
 DEFINE_GLOBAL_INIT(Ang16, kAngZero_706C3C, Ang16(0), 0x706C3C);
 DEFINE_GLOBAL(QuadVerts, gQuadVerts_706B88, 0x706B88);
@@ -171,10 +181,10 @@ void __stdcall DrawFigure_5D7EC0(s32 sprite_type,
 
     u32 flags;
 
-    flags = (scale == kFpOne_706A6C && rotation == kAngZero_706C3C) ? 0x10000 : 0;
+    flags = (scale == kFpOne_706A6C && rotation == kAngZero_706C3C) ? quad_flag::fit_to_texture : 0;
     if (!bNoTextureFiltering)
     {
-        flags |= 0x20000u;
+        flags |= quad_flag::texture_filtering;
     }
 
     point.SetXY_432860(-half_w, -half_h);
@@ -274,7 +284,7 @@ void __stdcall DrawTexture_5D8470(STexture* pTexture,
     Fix16 half_h;
     if (scale == kFpOne_706A6C && rotation == kAngZero_706C3C)
     {
-        flags = 0x10000;
+        flags = quad_flag::fit_to_texture;
     }
     else
     {
@@ -333,7 +343,7 @@ void __stdcall DrawTexture_5D8470(STexture* pTexture,
     gQuadVerts_706B88.field_0_verts[2].v = v;
     gQuadVerts_706B88.field_0_verts[3].v = v;
 
-    pgbh_DrawQuad(flags | CalcQuadFlags_5D83E0(alpha_value, alpha_flag) | 0x20000, pTexture, gQuadVerts_706B88.field_0_verts, 255);
+    pgbh_DrawQuad(flags | CalcQuadFlags_5D83E0(alpha_value, alpha_flag) | quad_flag::texture_filtering, pTexture, gQuadVerts_706B88.field_0_verts, 255);
 }
 
 MATCH_FUNC(0x5D8940)
@@ -364,7 +374,7 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
                                s32 alpha_value,
                                u8 flags)
 {
-    s32 new_Flags = CalcQuadFlags_5D83E0(alpha_value, flags) | 0x20000;
+    s32 new_Flags = CalcQuadFlags_5D83E0(alpha_value, flags) | quad_flag::texture_filtering;
 
     // The original walks a copy of pText (it reuses pText's stack slot as a float temp)
     const wchar_t* pIter = pText;
@@ -382,7 +392,7 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
 
     if (scale_fp == kFpOne_706A6C)
     {
-        new_Flags = new_Flags | 0x10000;
+        new_Flags = new_Flags | quad_flag::fit_to_texture;
     }
 
     if (font_type >= 101u)
