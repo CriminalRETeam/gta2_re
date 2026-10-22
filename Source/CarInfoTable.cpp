@@ -663,8 +663,8 @@ void CarInfoTable::LoadModelPhysics_4546D0()
 
     for (u32 i = 0; i < number_of_cars; i++)
     {
-        ModelPhysics* pMVar5 = &field_804_raw_data[i];
-        field_404_model_physics_array[pMVar5->field_0_model] = pMVar5;
+        ModelPhysics* pPhysics = &field_804_raw_data[i];
+        field_404_model_physics_array[pPhysics->field_0_model] = pPhysics;
     }
 }
 

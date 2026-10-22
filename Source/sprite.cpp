@@ -280,12 +280,12 @@ void SpriteMaskCache::InvalidateMasksBySpriteIdx_48F6E0(u16* sprite_idx)
 MATCH_FUNC(0x48f710)
 void SpriteMaskCache::InvalidateAllMasks_48F710()
 {
-    SpriteMask* psVar1 = field_0_masks;
+    SpriteMask* pMask = field_0_masks;
     s32 remaining = 0x30;
     do
     {
-        psVar1->Invalidate_44AF70();
-        psVar1++;
+        pMask->Invalidate_44AF70();
+        pMask++;
         remaining--;
     } while (remaining != 0);
 }
@@ -300,27 +300,27 @@ SpriteMaskCache::SpriteMaskCache()
 
     // By the way this is later used, it seems to be an array of a structure of size 0x40.
     // For now, it's a s32* as it make the code to match.
-    u8* pvVar2 = (u8*)Memory::Aligned_malloc_4FE510(0x40000, (void**)(&field_3C8_unaligned_alloc));
-    field_3C4_aligned_buffer = pvVar2;
+    u8* pPixels = (u8*)Memory::Aligned_malloc_4FE510(0x40000, (void**)(&field_3C8_unaligned_alloc));
+    field_3C4_aligned_buffer = pPixels;
 
     SpriteMask* tmp = field_0_masks;
-    for (row = 8; row != 0; row--, pvVar2 += 0x4000, tmp += 4)
+    for (row = 8; row != 0; row--, pPixels += 0x4000, tmp += 4)
     {
-        tmp[0].field_0_pixels = pvVar2;
-        tmp[1].field_0_pixels = (pvVar2 + 0x40);
-        tmp[2].field_0_pixels = (pvVar2 + 0x80);
-        tmp[3].field_0_pixels = (pvVar2 + 0xC0);
+        tmp[0].field_0_pixels = pPixels;
+        tmp[1].field_0_pixels = (pPixels + 0x40);
+        tmp[2].field_0_pixels = (pPixels + 0x80);
+        tmp[3].field_0_pixels = (pPixels + 0xC0);
     }
 
     tmp = field_0_masks + 33;
-    for (row = 4; row != 0; row--, pvVar2 += 0x8000, tmp += 4)
+    for (row = 4; row != 0; row--, pPixels += 0x8000, tmp += 4)
     {
         // I don't know why this one starts at -1...
         // Maybe an artifact of the decompilation
-        tmp[-1].field_0_pixels = pvVar2;
-        tmp[0].field_0_pixels = (pvVar2 + 0x40);
-        tmp[1].field_0_pixels = (pvVar2 + 0x80);
-        tmp[2].field_0_pixels = (pvVar2 + 0xC0);
+        tmp[-1].field_0_pixels = pPixels;
+        tmp[0].field_0_pixels = (pPixels + 0x40);
+        tmp[1].field_0_pixels = (pPixels + 0x80);
+        tmp[2].field_0_pixels = (pPixels + 0xC0);
     }
 
     for (u16 mask_idx = 0; mask_idx < 48; mask_idx++)

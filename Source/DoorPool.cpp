@@ -127,12 +127,12 @@ DoorData* DoorPool::AllocDoorData_49CF10(u8 gr_id, char_type x, char_type y, cha
 MATCH_FUNC(0x49cf50)
 Door* DoorPool::RegisterSingleDoorNoCheck_49CF50(u8 gr_id, u8 x, u8 y, u8 z, u32 face, u8 flip, u8 reversed)
 {
-    Door* pDVar1 = GetNextFreeDoor_49D3A0();
+    Door* pDoor = GetNextFreeDoor_49D3A0();
     field_4D0_count++;
-    pDVar1->field_2A_bDoFlip = flip;
-    pDVar1->field_2B_bReversed = reversed;
-    pDVar1->InitSingleNoCheck_49C8D0(field_4D0_count + -1, gr_id, x, y, z, face);
-    return pDVar1;
+    pDoor->field_2A_bDoFlip = flip;
+    pDoor->field_2B_bReversed = reversed;
+    pDoor->InitSingleNoCheck_49C8D0(field_4D0_count + -1, gr_id, x, y, z, face);
+    return pDoor;
 }
 
 // 9.6f 0x44D430 ?
@@ -276,26 +276,26 @@ inline bool Door_38_inline_unknown(Door* pDoor)
 MATCH_FUNC(0x49d2d0)
 void DoorPool::RegisterDoorInfo_49D2D0(s16 start_frame, s16 end_frame, char_type speed)
 {
-    DoorAnimInfo* psVar3 = &gDoorAnimInfo_67BB38[0];
+    DoorAnimInfo* pAnimInfo = &gDoorAnimInfo_67BB38[0];
     u8 idx = 0;
     do
     {
-        if (psVar3->field_0_start_frame == 0 && psVar3->field_2_end_frame == 0)
+        if (pAnimInfo->field_0_start_frame == 0 && pAnimInfo->field_2_end_frame == 0)
         {
             break;
         }
-        psVar3++;
+        pAnimInfo++;
         idx++;
     } while (idx < 5);
 
-    psVar3->field_0_start_frame = start_frame;
-    psVar3->field_2_end_frame = end_frame;
-    psVar3->field_8_speed = speed;
+    pAnimInfo->field_0_start_frame = start_frame;
+    pAnimInfo->field_2_end_frame = end_frame;
+    pAnimInfo->field_8_speed = speed;
     s16 reserved_tile_idx = gGtx_0x106C_703DD4->GetFirstFreeReservedTileIdx_5AA890();
-    psVar3->field_4_internal_tile_idx = reserved_tile_idx;
-    gGtx_0x106C_703DD4->SetTileRemap_5AA930(reserved_tile_idx, psVar3->field_0_start_frame);
+    pAnimInfo->field_4_internal_tile_idx = reserved_tile_idx;
+    gGtx_0x106C_703DD4->SetTileRemap_5AA930(reserved_tile_idx, pAnimInfo->field_0_start_frame);
     reserved_tile_idx = gGtx_0x106C_703DD4->GetFirstFreeReservedTileIdx_5AA890();
-    psVar3->field_6_open_internal_tile_idx = reserved_tile_idx;
+    pAnimInfo->field_6_open_internal_tile_idx = reserved_tile_idx;
 }
 
 MATCH_FUNC(0x49d340)
