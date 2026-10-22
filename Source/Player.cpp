@@ -1911,7 +1911,7 @@ void Player::Busted_5679E0()
                 field_90_game_camera.SetSmoothFollow_475B60();
                 field_2C8_aux_ped->field_210_shock_counter = 0;
                 field_2C8_aux_ped->field_210_shock_counter = 0;
-                field_2C8_aux_ped->field_20A_wanted_points = 0;
+                field_2C8_aux_ped->field_20A_wanted_points = cop_level_ped_enum::cop_0_stars;
                 field_2C8_aux_ped->Deallocate_45EB60();
                 field_2C8_aux_ped = 0;
                 field_2D0_aux_cam_active = 0;

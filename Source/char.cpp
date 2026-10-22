@@ -1035,7 +1035,7 @@ void Char::UpdateAnimState_546360()
                                     pCar->field_84_car_info_idx == car_model_enum::TANK)
                                 {
                                     pDriver->field_26C_graphic_type = ped_graphic_type::cop_2;
-                                    pDriver->set_remap_433B90(4);
+                                    pDriver->set_remap_433B90(ped_remap_enum::ped_remap_army);
                                 }
                                 pDriver->SetStolenCar_492CB0(pCar);
                                 pDriver->field_180_car_thief = field_7C_pPed;
@@ -1051,7 +1051,7 @@ void Char::UpdateAnimState_546360()
                                 if (field_7C_pPed->field_20A_wanted_points < 600)
                                 {
                                     gPolice_7B8_6FEE40->RegisterCriminal_56F940(field_7C_pPed);
-                                    field_7C_pPed->field_20A_wanted_points = 600;
+                                    field_7C_pPed->field_20A_wanted_points = cop_level_ped_enum::cop_1_stars;
                                 }
                                 gPolice_7B8_6FEE40->UpdateLastSeenCoordsForCriminal_5708C0(field_7C_pPed);
                                 if (pDriver->get_objective_403A80() == objectives_enum::objective_43)

@@ -211,10 +211,10 @@ void Firefighter::Update_4A81F0()
                 {
                     switch (field_20_ped->GetObjectiveStatus_450CB0())
                     {
-                        case 1:
+                        case objective_status::passed_1:
                             field_8_state = firefighter_state::arrived_3;
                             break;
-                        case 2:
+                        case objective_status::failed_2:
                             field_8_state = firefighter_state::abort_6;
                             break;
                     }
@@ -240,11 +240,11 @@ void Firefighter::Update_4A81F0()
             {
                 switch (field_20_ped->GetObjectiveStatus_450CB0())
                 {
-                    case 1:
+                    case objective_status::passed_1:
                         field_20_ped->SetObjective(objectives_enum::no_obj_0);
                         field_8_state = firefighter_state::finished_5;
                         break;
-                    case 2:
+                    case objective_status::failed_2:
                         field_20_ped->SetObjective(objectives_enum::no_obj_0);
                         field_8_state = firefighter_state::finished_5;
                         break;

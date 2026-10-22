@@ -205,7 +205,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
         pPed->ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
         pPed->SetPedType_403920(ped_type::dummy_3);
         pPed->SetOffscreenCounter_433B80(1);
-        pPed->set_remap_433B90(3);
+        pPed->set_remap_433B90(ped_remap_enum::ped_remap_yellow_police);
 
         switch (kind)
         {
@@ -219,7 +219,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
                 pPed->SetPedClass_433BC0(ped_class::mugger_or_car_thief_2);
                 pPed->set_objective_timer_433C80(40);
                 pPed->SetPedType_403920(ped_type::special_ped_4);
-                pPed->set_remap_433B90(17);
+                pPed->set_remap_433B90(ped_remap_enum::ped_remap_mugger);
                 pPed->field_288_threat_search = threat_search_enum::area_2;
                 pPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
                 pPed->field_26C_graphic_type = ped_graphic_type::civilian_0;
@@ -238,7 +238,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
                 //LOBYTE(v13) = v13 | 8;
                 pPed->set_occupation_403970(ped_ocupation_enum::car_thief);
                 pPed->SetPedType_403920(ped_type::dummy_with_occupation_6);
-                pPed->set_remap_433B90(15);
+                pPed->set_remap_433B90(ped_remap_enum::ped_remap_green_shorts);
                 pPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
                 pPed->field_26C_graphic_type = ped_graphic_type::civilian_0;
                 //pPed->field_21C = v13;
@@ -273,7 +273,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
                         {
                             if (!gRng_6F6784.get_int_4F7AE0(2))
                             {
-                                pPed->set_remap_433B90(6);
+                                pPed->set_remap_433B90(ped_remap_enum::ped_remap_blond_head_redneck);
                             }
                         }
                         pPed->field_26C_graphic_type = ped_graphic_type::character_1;
@@ -303,7 +303,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
                         {
                             if (!gRng_6F6784.get_int_4F7AE0(2))
                             {
-                                pPed->set_remap_433B90(6);
+                                pPed->set_remap_433B90(ped_remap_enum::ped_remap_blond_head_redneck);
                             }
                         }
                     }
@@ -319,19 +319,19 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
                     switch (gRng_6F6784.get_int_4F7AE0(4))
                     {
                         case 0:
-                            pPed->set_remap_433B90(18);
+                            pPed->set_remap_433B90(ped_remap_enum::ped_remap_blue_dummy);
                             break;
 
                         case 1:
-                            pPed->set_remap_433B90(19);
+                            pPed->set_remap_433B90(ped_remap_enum::ped_remap_light_blue_dummy);
                             break;
 
                         case 2:
-                            pPed->set_remap_433B90(20);
+                            pPed->set_remap_433B90(ped_remap_enum::ped_remap_tshirt_and_shorts_dummy);
                             break;
 
                         default:
-                            pPed->set_remap_433B90(21);
+                            pPed->set_remap_433B90(ped_remap_enum::ped_remap_short_sleeve);
                             break;
                     }
                 }
@@ -393,7 +393,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
 
                     if (gCheatNakedPeds_67D5E8)
                     {
-                        pPed->set_remap_433B90(26);
+                        pPed->set_remap_433B90(ped_remap_enum::ped_remap_naked_dummy);
                     }
                     else
                     {
@@ -743,7 +743,7 @@ PedManager::PedManager()
     byte_6787D4 = 0;
     spawnSideLocked_6787D5 = 0;
     spawnCountLimit_6787D6 = 0;
-    gTargetSearchMode_6787D7 = 0;
+    gTargetSearchMode_6787D7 = threat_search_enum::no_threats_0;
     byte_61A8A0 = 1;
     byte_61A8A1 = 1;
     byte_6787D8 = 0;
@@ -863,7 +863,7 @@ Ped* PedManager::SpawnGangDriver_470BA0(Car* pCar, Gang* pGang)
     {
         if (!gRng_6F6784.get_int_4F7AE0(2))
         {
-            pNewPed->set_remap_433B90(6);
+            pNewPed->set_remap_433B90(ped_remap_enum::ped_remap_blond_head_redneck);
         }
     }
     pNewPed->field_26C_graphic_type = ped_graphic_type::character_1;
@@ -908,17 +908,17 @@ Ped* PedManager::SpawnRunAwayGuy_470D60()
     switch (rng_val)
     {
         default:
-            pPed->set_remap_433B90(21);
+            pPed->set_remap_433B90(ped_remap_enum::ped_remap_short_sleeve);
             break;
         case 1:
-            pPed->set_remap_433B90(19);
+            pPed->set_remap_433B90(ped_remap_enum::ped_remap_light_blue_dummy);
             break;
         case 0:
-            pPed->set_remap_433B90(18);
+            pPed->set_remap_433B90(ped_remap_enum::ped_remap_blue_dummy);
             break;
 
         case 2:
-            pPed->set_remap_433B90(20);
+            pPed->set_remap_433B90(ped_remap_enum::ped_remap_tshirt_and_shorts_dummy);
             break;
     }
 
@@ -945,16 +945,16 @@ Ped* PedManager::SpawnTrainLeaver_470E30()
     switch (gRng_6F6784.get_int_4F7AE0(4))
     {
         case 0:
-            pPed->set_remap_433B90(18);
+            pPed->set_remap_433B90(ped_remap_enum::ped_remap_blue_dummy);
             break;
         case 1:
-            pPed->set_remap_433B90(19);
+            pPed->set_remap_433B90(ped_remap_enum::ped_remap_light_blue_dummy);
             break;
         case 2:
-            pPed->set_remap_433B90(20);
+            pPed->set_remap_433B90(ped_remap_enum::ped_remap_tshirt_and_shorts_dummy);
             break;
         default:
-            pPed->set_remap_433B90(21);
+            pPed->set_remap_433B90(ped_remap_enum::ped_remap_short_sleeve);
             break;
     }
 

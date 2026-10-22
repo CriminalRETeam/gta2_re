@@ -3833,7 +3833,7 @@ void Car::HandleCarExplosion_43D840(s32 type)
                         {
                             if (pExploder->field_20A_wanted_points < 600)
                             {
-                                pExploder->field_20A_wanted_points = 600;
+                                pExploder->field_20A_wanted_points = cop_level_ped_enum::cop_1_stars;
                             }
                             else
                             {
@@ -4039,7 +4039,7 @@ void Car::DestroyWhileSinking_43DD60()
                         {
                             if (pPed->field_20A_wanted_points < 600)
                             {
-                                pPed->field_20A_wanted_points = 600;
+                                pPed->field_20A_wanted_points = cop_level_ped_enum::cop_1_stars;
                             }
                             else
                             {
@@ -6494,7 +6494,7 @@ void Car::ResprayOrChangePlates(u8 remap)
         }
 
         pPlayer->field_2D4_scores.AddCash_592620(-cost);
-        this->field_54_driver->field_20A_wanted_points = 0;
+        this->field_54_driver->field_20A_wanted_points = cop_level_ped_enum::cop_0_stars;
         RemoveAllDamage();
     }
     else
@@ -6656,7 +6656,7 @@ void Car::UpdateExploderTimer_444020()
         if (field_94_exploder_timer == 0)
         {
             field_70_exploder_ped_id = 0;
-            field_90_death_cause = 0;
+            field_90_death_cause = ped_death_cause::none_0;
         }
     }
 }
@@ -6758,7 +6758,7 @@ void Car::PoolAllocate()
     this->field_8D_car_thread_flags = 0;
     this->field_60_pChaseTask = 0;
     this->field_70_exploder_ped_id = 0;
-    this->field_90_death_cause = 0;
+    this->field_90_death_cause = ped_death_cause::none_0;
     this->field_94_exploder_timer = 0;
     this->field_95_player_ped_id = 0;
     //v3 = kFP16One_6777D0;
@@ -6844,7 +6844,7 @@ Car::Car()
     field_A0_car_kind = 0;
     field_8D_car_thread_flags = 0;
     field_70_exploder_ped_id = 0;
-    field_90_death_cause = 0;
+    field_90_death_cause = ped_death_cause::none_0;
     field_94_exploder_timer = 0;
     field_95_player_ped_id = 0;
     field_68_scale.mValue = 0x4000;

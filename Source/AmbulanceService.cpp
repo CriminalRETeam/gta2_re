@@ -304,7 +304,7 @@ bool AmbulanceTask::SpawnParamedicCrew_4FA820()
     pPed1->field_1E4_objective_target_z = this->field_2_target_z << 14;
     pPed1->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
     pPed1->field_288_threat_search = threat_search_enum::no_threats_0;
-    pPed1->set_remap_433B90(16);
+    pPed1->set_remap_433B90(ped_remap_enum::ped_remap_medic);
     pPed1->field_26C_graphic_type = ped_graphic_type::civilian_0;
     pPed1->field_1F8_run_speed = gParamedicRunSpeed_6F6DD4;
 
@@ -319,7 +319,7 @@ bool AmbulanceTask::SpawnParamedicCrew_4FA820()
     pPed2->set_occupation_403970(ped_ocupation_enum::paramedic_23);
     pPed2->SetJumpOverMode_433BB0(ped_jump_over_mode::can_jump_2);
     pPed2->SetObjective(objectives_enum::no_obj_0);
-    pPed2->set_remap_433B90(16);
+    pPed2->set_remap_433B90(ped_remap_enum::ped_remap_medic);
     pPed2->field_26C_graphic_type = ped_graphic_type::civilian_0;
     pPed2->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
     pPed2->field_288_threat_search = threat_search_enum::no_threats_0;
@@ -465,7 +465,7 @@ void AmbulanceTask::HandleObjectiveState_4FAAC0()
                     {
                         bBusy = 0;
                     }
-                    if (gParamedicCrewPed_6F6D60->GetObjectiveStatus_450CB0() == 1)
+                    if (gParamedicCrewPed_6F6D60->GetObjectiveStatus_450CB0() == objective_status::passed_1)
                     {
                         pCar->HaltAIDriving_43AF60();
                         field_4_paramedics_crew->field_28_state = crew_state::update_6;
@@ -574,7 +574,7 @@ void AmbulanceTask::HandleObjectiveState_4FAAC0()
                         gParamedicCrewPed_6F6D60->SetObjective(objectives_enum::leave_car_36);
                         bBusy = 1;
                         gParamedicCrewPed_6F6D60->SetTargetObjectiveCar(field_4_paramedics_crew->field_0_car);
-                        gParamedicCrewPed_6F6D60->SetPedType_403920(4);
+                        gParamedicCrewPed_6F6D60->SetPedType_403920(ped_type::special_ped_4);
                     }
                     else
                     {
@@ -650,7 +650,7 @@ void AmbulanceTask::HandleObjectiveState_4FAAC0()
                             pVictim->field_1DC_objective_target_x = pVictim->get_cam_x();
                             pVictim->field_1E0_objective_target_y = pVictim->get_cam_y();
                             pVictim->field_1E4_objective_target_z = pVictim->get_cam_z();
-                            pVictim->SetPedType_403920(3);
+                            pVictim->SetPedType_403920(ped_type::dummy_3);
                             pVictim->set_occupation_403970(ped_ocupation_enum::dummy);
                             pVictim->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
                         }

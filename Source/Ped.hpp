@@ -715,7 +715,7 @@ class Ped
     // 9.6f 0x420B80
     inline void ClearWantedPoints_420B80()
     {
-        field_20A_wanted_points = 0;
+        field_20A_wanted_points = cop_level_ped_enum::cop_0_stars;
     }
 
     // 9.6f 0x472FD0
