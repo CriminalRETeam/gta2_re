@@ -1827,9 +1827,9 @@ void Weapon::car_smg_5E2940()
 }
 
 MATCH_FUNC(0x5e33c0)
-char_type Weapon::CanFireWhileHeld_5E33C0()
+bool Weapon::CanFireWhileHeld_5E33C0()
 {
-    char result;
+    bool result;
     switch (this->field_1C_idx)
     {
         case weapon_type::car_bomb:
@@ -2072,9 +2072,9 @@ void Weapon::rocket_5E3850()
 }
 
 MATCH_FUNC(0x5e3bd0)
-char_type Weapon::IsExplosiveWeapon_5E3BD0()
+bool Weapon::IsExplosiveWeapon_5E3BD0()
 {
-    char result;
+    bool result;
     switch (this->field_1C_idx)
     {
         case weapon_type::rocket:

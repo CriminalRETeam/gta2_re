@@ -40,7 +40,7 @@ class Registry
 
     EXPORT void null_587290();
 
-    EXPORT char_type Set_Binary_5872A0(HKEY hKey, const char_type* base_name, BYTE* lpData, u32 Data);
+    EXPORT bool Set_Binary_5872A0(HKEY hKey, const char_type* base_name, BYTE* lpData, u32 Data);
 
     EXPORT bool Get_Binary_587340(HKEY hKey, const char_type* keyPath, s32 value, LPBYTE lpData);
 
@@ -54,7 +54,7 @@ class Registry
 
     EXPORT static s32 __stdcall Set_WString_Value_5875E0(HKEY hKey, const char_type* keyPath, const wchar_t* pStr);
 
-    EXPORT char_type Network_Setting_Exists_587620(const char_type* lpValueName);
+    EXPORT bool Network_Setting_Exists_587620(const char_type* lpValueName);
 
     EXPORT s32 Get_Network_Setting_587690(const char_type* lpValueName, s32 value);
 

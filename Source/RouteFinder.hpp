@@ -108,7 +108,7 @@ class RouteFinder
     EXPORT void Load_RGEN_588B30();
     EXPORT void Reset_588C60();
     EXPORT bool HasBlockDesiredArrow_588CA0(gmp_block_info* block, s32 arrow_type, u8 direction);
-    EXPORT char_type HasBlockArrowInRoadDirection_588DE0(gmp_block_info* pBlock, s32 arrow_type, s32 road_direction);
+    EXPORT bool HasBlockArrowInRoadDirection_588DE0(gmp_block_info* pBlock, s32 arrow_type, s32 road_direction);
     EXPORT u16 FindHorzSegmentJunction_588E60(u8 x, u8 y, u8 z, char_type bIsDest, s32 arrow_type);
     EXPORT u16 FindVertSegmentJunction_588F30(u8 x, u8 y, u8 z, char_type bIsDest, s32 arrow_type);
     EXPORT u16 FindSegmentJunction_589000(u8 x_coord, u8 y_coord, u8 z_coord, char_type bIsDest, s32 arrow_type);
@@ -126,7 +126,7 @@ class RouteFinder
     EXPORT bool ExpandNodeUnlessOffScreen_589BB0(RouteSearchNode* pRoute, s32 arrow_type);
     EXPORT RouteSearchNode* GetFirstUnexpandedNode_589E00();
     EXPORT char_type SearchToDest_589E20(s32 arrow_type);
-    EXPORT char_type SearchUntilOffScreen_589E70(s32 arrow_type);
+    EXPORT bool SearchUntilOffScreen_589E70(s32 arrow_type);
     EXPORT s16 StoreRoute_589EB0();
     EXPORT s16 StoreRouteReversed_589F70();
     EXPORT void DebugPrintRoute_58A020(char_type junc_idx);

@@ -19,7 +19,7 @@ class cSampleManager
   public:
     EXPORT cSampleManager();
 
-    EXPORT char_type DisableA3DSplash_58D620();
+    EXPORT bool DisableA3DSplash_58D620();
 
     EXPORT bool SoundInit_58D6C0(s32* a2);
 

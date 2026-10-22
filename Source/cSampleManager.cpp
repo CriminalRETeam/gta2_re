@@ -191,9 +191,9 @@ cSampleManager::cSampleManager()
 #pragma warning(push)
 #pragma warning(disable : 4700)
 MATCH_FUNC(0x58D620)
-char_type cSampleManager::DisableA3DSplash_58D620()
+bool cSampleManager::DisableA3DSplash_58D620()
 {
-    char_type bOk;
+    bool bOk;
     DWORD data;
     HKEY hKey;
     DWORD disposition;

@@ -223,7 +223,7 @@ class Player
     EXPORT Weapon* GetCurrPlayerWeapon_5648F0();
     EXPORT void SetWeapon_564910(Weapon* pWeapon);
     EXPORT bool HasAnyAmmo_564940();
-    EXPORT char_type AddWeaponWithAmmo_564960(s32 weapon_kind, u8 ammo);
+    EXPORT bool AddWeaponWithAmmo_564960(s32 weapon_kind, u8 ammo);
     EXPORT void SelectNextOrPrevWeapon_5649D0(char_type go_forwards, char_type go_backwards);
     EXPORT void LoadCarWeapons_564AD0(Car* pCar);
     EXPORT void ClearCarWeapons_564B60();

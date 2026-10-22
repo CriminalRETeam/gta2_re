@@ -2355,14 +2355,14 @@ bool Car::IsThreatToSearchingPed_43AAE0()
 }
 
 MATCH_FUNC(0x43aaf0)
-char_type Car::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
+bool Car::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
 {
 
     s32 sprite_type; // eax
     Car* cBC; // edi
     u16 our_flags; // dx
     u16 their_flags; // cx
-    char_type bUnknown; // bl
+    bool bUnknown; // bl
     s32 f_88; // eax
     Object* o2c; // ecx
     ObjectDefinition* pDefinition; // edx
@@ -4071,9 +4071,9 @@ void Car::DestroyWhileSinking_43DD60()
 }
 
 MATCH_FUNC(0x43e560)
-char_type Car::ManageDrowning_43E560()
+bool Car::ManageDrowning_43E560()
 {
-    char_type ret = field_58_physics->IsDrowning_421100();
+    bool ret = field_58_physics->IsDrowning_421100();
     if (ret)
     {
         if (this->field_94_exploder_timer > 0)
@@ -4178,9 +4178,9 @@ char_type Car::OnObjectTouched_43EA60(Object* pObj)
 
 // TODO: move
 MATCH_FUNC(0x48E720)
-char_type __stdcall IsNoKillCreditObject_48E720(s32 model)
+bool __stdcall IsNoKillCreditObject_48E720(s32 model)
 {
-    char_type result;
+    bool result;
     switch (model)
     {
         case objects::invisible_bullet_154:

@@ -1911,10 +1911,10 @@ void CarPhysics::DoSkidmarks_55E260()
 }
 
 MATCH_FUNC(0x55e470)
-char_type CarPhysics::StepMovementAndCollisions_55E470()
+bool CarPhysics::StepMovementAndCollisions_55E470()
 {
     s32 sprites_array_idx = 0;
-    char_type ret_val = 0;
+    bool ret_val = 0;
     s32 k2Counter = 2;
 
     Sprite* sprites_array[4];
@@ -1973,11 +1973,11 @@ char_type CarPhysics::StepMovementAndCollisions_55E470()
 }
 
 MATCH_FUNC(0x55eb80)
-char_type CarPhysics::CheckAndHandleCarAndTrailerCollisions_55EB80()
+bool CarPhysics::CheckAndHandleCarAndTrailerCollisions_55EB80()
 {
     gCarManager_6C_677930->field_68_object_hit_active = 0;
 
-    char_type bCollision = gSpriteGrid_2_67920C->CheckAndHandleCollisionInStrips_477BD0(field_5C_pCar->field_50_car_sprite);
+    bool bCollision = gSpriteGrid_2_67920C->CheckAndHandleCollisionInStrips_477BD0(field_5C_pCar->field_50_car_sprite);
     Trailer* pTrailer = field_5C_pCar->field_64_pTrailer;
     if (pTrailer)
     {

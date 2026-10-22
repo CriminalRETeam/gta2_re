@@ -246,7 +246,7 @@ struct NetPlay
     EXPORT u32 GetOldestBufferedPacket_521770(Network_8* pOut, char_type* pSeq, u32* pPlayerId);
     EXPORT void ResolvePlayerInput_521820(s32** ppData, s32 idx);
     EXPORT void Remove_521870(s32 idx);
-    EXPORT char_type ReceiveGameMessage_521890(Network_8* pOut, s32* pPlayerIdx, u32* packet_subtype);
+    EXPORT bool ReceiveGameMessage_521890(Network_8* pOut, s32* pPlayerIdx, u32* packet_subtype);
     EXPORT void SendToAll_521B20(Network_8* pSendData);
     EXPORT s32 NoRefs_Send_521BE0(Network_8* pSendData, s32 tick_delay);
     EXPORT s32 NoRefs_Send_521C80(s32 pSendData);

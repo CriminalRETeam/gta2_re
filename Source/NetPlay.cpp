@@ -2135,9 +2135,9 @@ void NetPlay::Remove_521870(s32 idx)
 }
 
 MATCH_FUNC(0x521890)
-char_type NetPlay::ReceiveGameMessage_521890(Network_8* pOut, s32* pPlayerIdx, u32* packet_subtype)
+bool NetPlay::ReceiveGameMessage_521890(Network_8* pOut, s32* pPlayerIdx, u32* packet_subtype)
 {
-    char_type bGotMessage;
+    bool bGotMessage;
     char_type bCheckBuffered;
     char_type receivedTick;
     s32 pData;

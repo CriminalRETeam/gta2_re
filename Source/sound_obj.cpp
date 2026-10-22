@@ -595,9 +595,9 @@ void sound_obj::ProcessCar_412B80(Sound_Params* pParams)
 }
 
 MATCH_FUNC(0x412C90)
-char_type sound_obj::Type6_412C90(CollisionEvent* pEvent, u8 base_sample)
+bool sound_obj::Type6_412C90(CollisionEvent* pEvent, u8 base_sample)
 {
-    char_type result;
+    bool result;
 
     switch (pEvent->field_0_type)
     {

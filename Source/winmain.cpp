@@ -2546,9 +2546,9 @@ EXPORT void __stdcall Shutdown_4DA740()
 }
 
 MATCH_FUNC(0x5E5A30)
-EXPORT char_type __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
+EXPORT bool __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
 {
-    char_type bRet = 1;
+    bool bRet = 1;
     gGameSession_67E8E0.init_4C5AF0();
     if (bStartNetworkGame_7081F0)
     {

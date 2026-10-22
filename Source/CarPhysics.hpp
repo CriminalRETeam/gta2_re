@@ -186,8 +186,8 @@ class CarPhysics
     EXPORT void SpawnSkidSegment_55D200(s32 box_idx, Fix16_Point arg_4, s32 surface);
     EXPORT void UpdateWheelSkidEffects_55DC00();
     EXPORT void DoSkidmarks_55E260();
-    EXPORT char_type StepMovementAndCollisions_55E470();
-    EXPORT char_type CheckAndHandleCarAndTrailerCollisions_55EB80();
+    EXPORT bool StepMovementAndCollisions_55E470();
+    EXPORT bool CheckAndHandleCarAndTrailerCollisions_55EB80();
     EXPORT void ApplyVerticalEdgeNudge_55EC30();
     EXPORT void ApplyHorizontalEdgeNudge_55EF20();
     EXPORT void ApplyTurningForce_55F020();

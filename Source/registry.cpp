@@ -399,10 +399,10 @@ void Registry::null_587290()
 }
 
 MATCH_FUNC(0x5872A0)
-char_type Registry::Set_Binary_5872A0(HKEY hKey, const char_type* base_name, BYTE* lpData, u32 Data)
+bool Registry::Set_Binary_5872A0(HKEY hKey, const char_type* base_name, BYTE* lpData, u32 Data)
 {
     char_type Buffer[260];
-    char_type ret = 0;
+    bool ret = 0;
 
     sprintf(Buffer, "%ss", base_name);
     if (RegSetValueExA(hKey, Buffer, 0, REG_DWORD, reinterpret_cast<const BYTE*>(&Data), sizeof(DWORD)) == ERROR_SUCCESS)
@@ -499,12 +499,12 @@ s32 __stdcall Registry::Set_WString_Value_5875E0(HKEY hKey, const char_type* key
 }
 
 MATCH_FUNC(0x587620)
-char_type Registry::Network_Setting_Exists_587620(const char_type* lpValueName)
+bool Registry::Network_Setting_Exists_587620(const char_type* lpValueName)
 {
     HKEY hKey;
     u32 Data;
     DWORD cbData;
-    char_type ret = 0;
+    bool ret = 0;
     if (CreateNetworkRoot_587420(&hKey))
     {
         cbData = sizeof(DWORD);

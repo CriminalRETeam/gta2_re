@@ -411,10 +411,10 @@ bool RouteFinder::HasBlockDesiredArrow_588CA0(gmp_block_info* block, s32 arrow_t
 }
 
 MATCH_FUNC(0x588de0)
-char_type RouteFinder::HasBlockArrowInRoadDirection_588DE0(gmp_block_info* pBlock, s32 arrow_type, s32 road_direction)
+bool RouteFinder::HasBlockArrowInRoadDirection_588DE0(gmp_block_info* pBlock, s32 arrow_type, s32 road_direction)
 {
 
-    char_type result = 0;
+    bool result = 0;
     switch (road_direction)
     {
         case road_direction::up_1:
@@ -986,9 +986,9 @@ char_type RouteFinder::SearchToDest_589E20(s32 arrow_type)
 }
 
 MATCH_FUNC(0x589e70)
-char_type RouteFinder::SearchUntilOffScreen_589E70(s32 arrow_type)
+bool RouteFinder::SearchUntilOffScreen_589E70(s32 arrow_type)
 {
-    char result;
+    bool result;
     RouteSearchNode* pNode;
 
     result = '\0';

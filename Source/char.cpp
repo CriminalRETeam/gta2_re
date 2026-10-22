@@ -2479,14 +2479,14 @@ void Char::HandleGenericCollision_54A530(Car* pCar, Object* pObj, Char* pChar)
 
 // https://decomp.me/scratch/aRlEV
 MATCH_FUNC(0x54b8f0)
-char_type Char::ContinueMovementAfterCollision_54B8F0()
+bool Char::ContinueMovementAfterCollision_54B8F0()
 {
     Fix16 x_vec;
     Fix16 y_vec = kFP16Zero_6FD9E4;
     // Every path past the early return leaves through `done`: the original pushes ebx/ebp/edi only
     // after the Jumping_15 check, which needs a single exit block (separate returns keep the pushes
     // at entry). bMoved stays in memory, as in the original.
-    char_type bMoved = false;
+    bool bMoved = false;
     if (field_10_char_state == Char_B4_state::Jumping_15)
     {
         return 1;
@@ -2691,7 +2691,7 @@ void Char::SnapRotationToFace_54C090()
 }
 
 MATCH_FUNC(0x54c1a0)
-char_type Char::CanMoveOntoSlope_54C1A0(s32 path_direction)
+bool Char::CanMoveOntoSlope_54C1A0(s32 path_direction)
 {
     u8 slope_type = 0;
     char_type bUnknown = 0;
@@ -2738,7 +2738,7 @@ char_type Char::CanMoveOntoSlope_54C1A0(s32 path_direction)
     }
 
     Fix16 zpos_frac;
-    char_type result;
+    bool result;
 
     switch (slope_type)
     {

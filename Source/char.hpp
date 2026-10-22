@@ -356,9 +356,9 @@ class Char
     EXPORT void HandleObjectCollision_548840(Object* pObj);
     EXPORT void HandlePedCollision_548BD0(Char* pOther);
     EXPORT void HandleGenericCollision_54A530(Car* pCar, Object* pObj, Char* pChar);
-    EXPORT char_type ContinueMovementAfterCollision_54B8F0();
+    EXPORT bool ContinueMovementAfterCollision_54B8F0();
     EXPORT void SnapRotationToFace_54C090();
-    EXPORT char_type CanMoveOntoSlope_54C1A0(s32 path_direction);
+    EXPORT bool CanMoveOntoSlope_54C1A0(s32 path_direction);
     inline void SetTurnTarget_492400(Ang16 target_rotation);
     EXPORT void TurnToFreeAdjacentFace_54C3E0();
     EXPORT char_type CanMoveToTile_54C500(char_type x, char_type y);

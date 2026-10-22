@@ -362,10 +362,10 @@ bool Player::HasAnyAmmo_564940()
 }
 
 MATCH_FUNC(0x564960)
-char_type Player::AddWeaponWithAmmo_564960(s32 weapon_kind, u8 ammo)
+bool Player::AddWeaponWithAmmo_564960(s32 weapon_kind, u8 ammo)
 {
     bool bHasAnyAmmo;
-    char bAmmoAdded;
+    bool bAmmoAdded;
 
     if (GetPlayerPed_4A5130()->get_car_416B60())
     {

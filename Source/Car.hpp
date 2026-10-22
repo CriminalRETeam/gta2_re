@@ -523,7 +523,7 @@ class Car
     EXPORT void StartLightFlashing_43CAC0();
     EXPORT void Deactivate_43AA60();
     EXPORT bool IsThreatToSearchingPed_43AAE0();
-    EXPORT char_type CanCarCollideWithSprite_43AAF0(Sprite* pSprite);
+    EXPORT bool CanCarCollideWithSprite_43AAF0(Sprite* pSprite);
     EXPORT void ProcessCarToCarImpact_43ADC0(Sprite* pSprite);
     EXPORT bool CanExitCar_43AF10();
     EXPORT void ResumeAIDriving_43AF40();
@@ -588,7 +588,7 @@ class Car
     EXPORT bool CarShrinkSprite_43DC80(s32 xoff, s32 yoff);
     EXPORT bool IsBeingCrushed_43DD50();
     EXPORT void DestroyWhileSinking_43DD60();
-    EXPORT char_type ManageDrowning_43E560();
+    EXPORT bool ManageDrowning_43E560();
     EXPORT Car* GetCabOrSelf_43E8D0();
     EXPORT Ped* GetEffectiveDriver_43E990();
     EXPORT char_type OnObjectTouched_43EA60(Object* pObj);
@@ -1490,4 +1490,4 @@ EXTERN_GLOBAL(char_type, gbRngRemapTableDone_679C0A);
 // TODO: move
 EXPORT s32 __stdcall GetDamageMultiplier_45CF90(Ped* pPed);
 EXPORT s32 __stdcall GetDeathCauseForObjectModel_48E780(s32 model);
-EXPORT char_type __stdcall IsNoKillCreditObject_48E720(s32 model);
+EXPORT bool __stdcall IsNoKillCreditObject_48E720(s32 model);

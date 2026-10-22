@@ -286,7 +286,7 @@ class sound_obj
     EXPORT void ProcessType8_Crane_412820(s32 idx);
     EXPORT void ProcessType9_Crusher_412A60(s32 idx);
     EXPORT void ProcessCar_412B80(Sound_Params* pType2Entity);
-    EXPORT char_type Type6_412C90(CollisionEvent* pEvent, u8 base_sample);
+    EXPORT bool Type6_412C90(CollisionEvent* pEvent, u8 base_sample);
     EXPORT bool SelectObjectImpactSound_1_10_412D30(CollisionEvent* pEvent);
     EXPORT bool Type6_2_412D40(u8 roll);
     EXPORT void Type6_Play_412D90(s32 model);
