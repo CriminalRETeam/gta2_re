@@ -2779,8 +2779,9 @@ tried are in the WIP status report.
   - A debug or edit-and-continue build is ruled out: the target has no frame pointer and keeps
     values in registers, and VC6 rejects `/O2` with `/ZI` (D2016).
 
-  It may be from a library built with another compiler version (the loader macro also appears
-  in gbh_graphics.cpp, which builds with `/Od /ZI`).
+  It comes from a prebuilt DMA library built with another compiler (the 8830 compiler of the Rich header; the
+  level editor's copy of the loader is a VC5 build), so it stays `WIP_FUNC`. See "A merged-into cross-jump
+  target accepts one-instruction matches" and `docs/match_attempts.md`.
 - (Explained) The empty `Fix16_Point_POD()` default ctor called out of line
   (`??0Fix16_Point_POD@@QAE@XZ`) for points declared at the top of big functions came from
   `Fix16_Point` deriving from `Fix16_Point_POD`: the base ctor was a nested site that only got

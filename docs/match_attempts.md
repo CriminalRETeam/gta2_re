@@ -6391,3 +6391,18 @@ right; only which `return -1` tails are kept differs, and the reason is the comp
   VC7 13.00.9466 (`Scripts/compile_vc7.sh` flags, then `/O2`, `/O1`, `/Ox`, `/Os /Oy`, `/O2 /Oy-`) scores 1608,
   1160, 462, 1412, 575: `/Ox` keeps the 10.5 register picks but lays the error blocks after the function body.
   The library was built with that 8830 compiler, which the project does not have.
+
+### Oct 22: the level editor's `dllload.lib`, and the conclusion
+
+- The GTA2 level editor ships `dllload.lib`: one object, `Debug/dllload.obj` (Apr 13 1999), the loader of the editor's
+  3DMA, Polygon and Cache DLLs. It uses the same `load_gbh_func` macro and the same strings ("Can't Find Function
+  Called %s", "Error Patching DLL Function"), but it is a debug build (`__chkstk`, ebp frames), so it gives no
+  target code. Its `S_COMPILE` record says C (not C++), Pentium, compiler 11.00 (VC5).
+- So DMA compiled this loader outside the games' builds, with whatever compiler the tool used: VC5 for the editor,
+  the 8830 C++ compiler of the Rich header for 10.5 and 9.6f.
+- Every compiler we have gives the same code for a standalone copy, as C and as C++, `/O2 /G5`: VC6 RTM, SP3, SP4,
+  SP5, SP6 and VC7 13.00.9466. A `goto fail` to one shared failure block is not the source either: VC6 then moves
+  the `sprintf` into the shared tail too, where the original keeps one per site.
+
+Conclusion: the source is right and the function stays `WIP_FUNC`. Matching it needs the 8830 compiler (or a
+`--noacc` C2) for this one function, built apart like DMA's library; it says nothing new about the game.
