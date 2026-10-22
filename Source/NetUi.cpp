@@ -2098,7 +2098,7 @@ void NetUi::cb_SavePlayerName_51BC00(NetUi* pThis)
     char String[260];
     wchar_t Dest[260];
 
-    GetDlgItemTextA(pThis->Get_2031C_HWND_519E20(), 1004, String, GTA2_COUNTOF(String)); // TODO: control constants
+    GetDlgItemTextA(pThis->Get_2031C_HWND_519E20(), TEXTBOX_PLAYER_NAME_1004, String, GTA2_COUNTOF(String));
     GetString_519A50(Dest, String, GTA2_COUNTOF(String));
     pThis->SetPlayNameAndSaveToRegistry_51BD40(Dest, String);
     pThis->SetEndDialog_51BC70(1);
@@ -2163,7 +2163,7 @@ void NetUi::SetPlayNameAndSaveToRegistry_51BD40(const wchar_t* pPlayerNameW, con
         RegSetValueExA(hKey,
                        "PlayerName",
                        0,
-                       1u, // TODO: constant
+                       REG_SZ,
                        reinterpret_cast<const u8*>(pPlayerNameA),
                        strlen(pPlayerNameA) + 1); // +1 so the NULL is also written
         RegCloseKey(hKey);

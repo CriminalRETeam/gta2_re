@@ -106,7 +106,7 @@ class Object
     EXPORT void TickObject_5283C0(s32 obj_type);
     EXPORT char_type OnObjectTouched_5288B0(Sprite* pSprite);
     EXPORT void HandleWaterDeath_528900();
-    EXPORT static s32 __stdcall GetExplosionTypeForWallSide_528E00(s32 wall_side); // TODO: Check if thiscall
+    EXPORT static s32 __stdcall GetExplosionTypeForWallSide_528E00(s32 wall_side);
     EXPORT bool HandleObjectHitIfExplosive_528960(Object* pOther);
     EXPORT char_type HandleObjectHit_528990(Sprite* pSprite);
     EXPORT void ProcessObjectExplosionImpact_528A20(Object* pObj);

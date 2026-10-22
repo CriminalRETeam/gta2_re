@@ -1325,7 +1325,7 @@ class Car
 
     SpriteList field_0_attachments;
     Ped_List field_4_passengers_list;
-    DamageAreaFlags field_8_damaged_areas; // TODO: check if it's a bitset
+    DamageAreaFlags field_8_damaged_areas;
     Car_Door field_C_doors[4];
     Car* mpNext;
     Sprite* field_50_car_sprite;

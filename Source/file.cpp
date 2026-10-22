@@ -202,7 +202,7 @@ void __stdcall File::AppendBufferToFile_4A6F50(const char_type* FileName, void* 
         FatalError_4A38C0(Gta2Error::WritingZeroBytesToFile, "C:\\Splitting\\Gta2\\Source\\File.cpp", 261);
     }
 
-    FILE* hFile = crt::fopen(FileName, "ab"); // TODO: check
+    FILE* hFile = crt::fopen(FileName, "ab");
     if (!hFile)
     {
         FatalError_4A38C0(Gta2Error::FreeloaderEpisodeUnknown, "C:\\Splitting\\Gta2\\Source\\File.cpp", 264);
