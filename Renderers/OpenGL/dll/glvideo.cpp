@@ -144,13 +144,12 @@ EXPORT s32 __stdcall Vid_SetMode(SVideo* pVideo, HWND hWnd, s32 modeId)
     return 0;
 }
 
-// Scroll Lock (unused by the game) toggles faithful rendering and the ini options. Polled here so the
-// game's DirectInput keyboard is left alone.
-// Enhancement: Scroll Lock switches between the faithful renderer and the gta2gl.ini options.
+// Enhancement: F12 switches between the faithful renderer and the gta2gl.ini options. Not a lock key (wine
+// resyncs those), and the game only reads it with the do_debug_keys debug setting.
 static void PollToggleKey(VidSystem* pSys, HWND hWnd)
 {
     static bool sWasDown;
-    const bool down = (GetAsyncKeyState(VK_SCROLL) & 0x8000) != 0 && GetForegroundWindow() == hWnd;
+    const bool down = (GetAsyncKeyState(VK_F12) & 0x8000) != 0 && GetForegroundWindow() == hWnd;
     if (down && !sWasDown)
     {
         pSys->ToggleFaithful();

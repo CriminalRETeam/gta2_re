@@ -62,7 +62,7 @@ bloom = 0.5              ; 0..1, glow of additive draws (fire, explosions, light
 per_pixel_lighting = 1   ; the level's lights evaluated per pixel with the original's formula
 ```
 
-The file is re-read while the game runs. **Scroll Lock** switches between the faithful renderer and
+The file is re-read while the game runs. **F12** switches between the faithful renderer and
 these options. Environment variables override the file: `GTA2GL_TRUECOLOR`, `GTA2GL_BLOOM`,
 `GTA2GL_PPL`. The code is in `core/gl_enhanced.cpp`, `core/options.*` and the places marked
 "enhancement".
@@ -70,8 +70,8 @@ these options. Environment variables override the file: `GTA2GL_TRUECOLOR`, `GTA
 ## Keyboard under wine
 
 Under wine on XWayland, wine's lock key resync can be blocked by DirectInput's keyboard hook and is then
-retried on every key, filling the keyboard buffer with NumLock or Scroll Lock pairs (Scroll Lock is on after
-switching to the faithful renderer). GTA2 reads one buffered keyboard event per frame, so held keys kept
+retried on every key, filling the keyboard buffer with NumLock or Scroll Lock pairs whenever their state differs
+from the desktop's. GTA2 reads one buffered keyboard event per frame, so held keys kept
 acting after release. `glvideo.dll` drops NumLock and Scroll Lock events from the game's keyboard reads
 (`dll/dinput_hook.cpp`); `GTA2GL_KEEP_LOCK_KEYS=1` turns that off.
 
@@ -84,7 +84,7 @@ Used to compare with DMA's renderer; all inactive unless their variable is set.
 | `GTA2GL_CAPTURE=<dir>,<frame>,<a>-<b>,...` | write those frames (Vid_FlipBuffers count) as BMP |
 | `GTA2GL_CMDLOG=<dir>,<frames>` | log every gbh call and the primitives it produced |
 | `GTA2GL_INPUT=<frame>:<dik>[:<held>],...` | feed DirectInput key events at fixed frames |
-| `GTA2GL_TOGGLE_AT=<frame>,...` | press the Scroll Lock switch at those frames |
+| `GTA2GL_TOGGLE_AT=<frame>,...` | press the F12 switch at those frames |
 | `GTA2GL_KEYLOG=<file>` | log every keyboard event the game reads and the backlog left |
 | `GTA2GL_STATS=<n>` | log fps, draw calls, uploads and frame times every n frames |
 

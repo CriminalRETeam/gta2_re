@@ -1,5 +1,5 @@
 ; gta2gl.ini: optional enhancements of the GL renderer. Copy next to glvideo.dll as gta2gl.ini.
-; Re-read while the game runs (checked once per second). Scroll Lock toggles between these
+; Re-read while the game runs (checked once per second). F12 toggles between these
 ; options and the faithful renderer. Without the file (or with every value 0) the output is
 ; the faithful one.
 [graphics]
