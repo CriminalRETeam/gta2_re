@@ -674,7 +674,7 @@ void ScriptThread::SCRCMD_CONVEYOR_DECSET1_2_5043A0(SCR_CONVEYOR* pCmd, SCR_POIN
         pCmd->field_C_rect.field_0_pos.field_8_z = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(pCmd->field_C_rect.field_0_pos.field_0_x,
                                                                                                  pCmd->field_C_rect.field_0_pos.field_4_y);
     }
-    pPointer->field_8_obj = gObject_5C_6F8F84->NewTouchPoint_529950(139,
+    pPointer->field_8_obj = gObject_5C_6F8F84->NewTouchPoint_529950(objects::conveyor_139,
                                                                     pCmd->field_C_rect.field_0_pos.field_0_x,
                                                                     pCmd->field_C_rect.field_0_pos.field_4_y,
                                                                     pCmd->field_C_rect.field_0_pos.field_8_z,
@@ -721,7 +721,7 @@ void ScriptThread::SCRCMD_DESTRUCTOR_DECSET_504530(SCR_DESTRUCTOR* pCmd, SCR_POI
                                                                                                  pCmd->field_C_rect.field_0_pos.field_4_y);
     }
 
-    pPointer->field_8_obj = gObject_5C_6F8F84->NewTouchPoint_529950(141,
+    pPointer->field_8_obj = gObject_5C_6F8F84->NewTouchPoint_529950(objects::destructor_141,
                                                                     pCmd->field_C_rect.field_0_pos.field_0_x,
                                                                     pCmd->field_C_rect.field_0_pos.field_4_y,
                                                                     pCmd->field_C_rect.field_0_pos.field_8_z,

@@ -4184,7 +4184,7 @@ char_type __stdcall IsNoKillCreditObject_48E720(s32 model)
     {
         case 154:
         case 159:
-        case 193:
+        case objects::tanktop_193:
         case 195:
         case 199:
             result = 1;
@@ -4202,22 +4202,22 @@ s32 __stdcall GetDeathCauseForObjectModel_48E780(s32 model)
 {
     if (model <= 192)
     {
-        if (model != 192)
+        if (model != objects::shotgun_bullet_192)
         {
             switch (model)
             {
-                case 132:
+                case objects::moving_collect_36_132:
                     return ped_death_cause::bomb_12;
                 case 182:
-                case 183:
+                case objects::grenade_obj_183:
                     return ped_death_cause::grenade_15;
-                case 138:
+                case objects::moving_molotov_138:
                     return ped_death_cause::molotov_16;
-                case 128:
+                case objects::rocket_bullet_128:
                     return ped_death_cause::rocket_bullet_17;
-                case 160:
+                case objects::rocket_160:
                     return ped_death_cause::rocket_18;
-                case 10:
+                case objects::mine_10:
                     return ped_death_cause::unknown_21;
             }
         }
@@ -4230,15 +4230,15 @@ s32 __stdcall GetDeathCauseForObjectModel_48E780(s32 model)
     {
         switch (model)
         {
-            case 254:
-            case 265:
+            case objects::machine_gun_bullet_254:
+            case objects::pistol_bullet_265:
                 return ped_death_cause::bullet_11;
-            case 197:
+            case objects::fire_197:
                 return ped_death_cause::fire_13;
-            case 194:
+            case objects::fire_hitting_194:
                 return ped_death_cause::fire_hit_14;
             case 198:
-            case 251:
+            case objects::shop_car_oil_stain_251:
                 return ped_death_cause::burning_20;
         }
     }

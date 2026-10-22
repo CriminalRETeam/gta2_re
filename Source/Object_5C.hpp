@@ -293,7 +293,7 @@ class Object
 
     bool IsFlameObject_4BE830()
     {
-        if (this->field_18_model == 197)
+        if (this->field_18_model == objects::fire_197)
         {
             return 1;
         }

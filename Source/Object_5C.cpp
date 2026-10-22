@@ -3230,16 +3230,16 @@ Object_5C::~Object_5C()
 MATCH_FUNC(0x5297f0)
 void Object_5C::CreateDiagonalWallObjects_5297F0()
 {
-    field_0_diagonal_wall_ang315 = Object_5C::NewPhysicsObj_5299B0(0xA6, 0, 0, 0, kAng315_6F8D8C);
+    field_0_diagonal_wall_ang315 = Object_5C::NewPhysicsObj_5299B0(objects::diagonal_wall_collision_obj_166, 0, 0, 0, kAng315_6F8D8C);
     field_0_diagonal_wall_ang315->set_field_26(45);
 
-    field_4_diagonal_wall_ang135 = Object_5C::NewPhysicsObj_5299B0(0xA6, 0, 0, 0, kAng135_6F8D80);
+    field_4_diagonal_wall_ang135 = Object_5C::NewPhysicsObj_5299B0(objects::diagonal_wall_collision_obj_166, 0, 0, 0, kAng135_6F8D80);
     field_4_diagonal_wall_ang135->set_field_26(48);
 
-    field_8_diagonal_wall_ang225 = Object_5C::NewPhysicsObj_5299B0(0xA6, 0, 0, 0, kAng225_6F8D54);
+    field_8_diagonal_wall_ang225 = Object_5C::NewPhysicsObj_5299B0(objects::diagonal_wall_collision_obj_166, 0, 0, 0, kAng225_6F8D54);
     field_8_diagonal_wall_ang225->set_field_26(46);
 
-    field_C_diagonal_wall_ang45 = Object_5C::NewPhysicsObj_5299B0(0xA6, 0, 0, 0, kAng45_6F8CD0);
+    field_C_diagonal_wall_ang45 = Object_5C::NewPhysicsObj_5299B0(objects::diagonal_wall_collision_obj_166, 0, 0, 0, kAng45_6F8CD0);
     field_C_diagonal_wall_ang45->set_field_26(47);
 }
 

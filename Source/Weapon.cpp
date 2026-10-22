@@ -526,12 +526,12 @@ void Weapon::smg_5DDD20()
 
             point = point.Add_40AC50(field_24_pPed->GetVelocityVector_45B520());
 
-            if (Weapon::spawn_bullet_5DCF60(254,
-                                               field_24_pPed->get_cam_x() + point.x,
-                                               field_24_pPed->get_cam_y() + point.y,
-                                               field_24_pPed->get_cam_z(),
-                                               AimAngle,
-                                               field_24_pPed->GetVelocityVector_45B520()))
+            if (Weapon::spawn_bullet_5DCF60(objects::machine_gun_bullet_254,
+                                            field_24_pPed->get_cam_x() + point.x,
+                                            field_24_pPed->get_cam_y() + point.y,
+                                            field_24_pPed->get_cam_z(),
+                                            AimAngle,
+                                            field_24_pPed->GetVelocityVector_45B520()))
             {
                 if (field_24_pPed->PedTypeIs_45EDE0(ped_type::player_2))
                 {
@@ -1331,12 +1331,12 @@ void Weapon::electro_batton_5E0740()
             field_2C_shot_fired = 1;
             if (!field_4_bTargetHit)
             {
-                Object* pBullet = spawn_bullet_5DCF60(277,
-                                                         field_24_pPed->get_cam_x(),
-                                                         field_24_pPed->get_cam_y(),
-                                                         field_24_pPed->get_cam_z(),
-                                                         field_24_pPed->GetAimAngle_4CCA90(),
-                                                         field_24_pPed->GetVelocityVector_45B520());
+                Object* pBullet = spawn_bullet_5DCF60(objects::electrobaton_bullet_277,
+                                                      field_24_pPed->get_cam_x(),
+                                                      field_24_pPed->get_cam_y(),
+                                                      field_24_pPed->get_cam_z(),
+                                                      field_24_pPed->GetAimAngle_4CCA90(),
+                                                      field_24_pPed->GetVelocityVector_45B520());
                 if (pBullet && field_24_pPed->PedTypeIs_45EDE0(ped_type::player_2))
                 {
                     decrement_ammo_4CCA30();
@@ -1629,7 +1629,12 @@ void Weapon::army_gun_jeep_5E13E0()
 
         if (!field_4_bTargetHit)
         {
-            if (spawn_bullet_5DCF60(254, bullet_pos.x, bullet_pos.y, field_14_car->field_50_car_sprite->field_1C_zpos, gun_ang, muzzle_vel))
+            if (spawn_bullet_5DCF60(objects::machine_gun_bullet_254,
+                                    bullet_pos.x,
+                                    bullet_pos.y,
+                                    field_14_car->field_50_car_sprite->field_1C_zpos,
+                                    gun_ang,
+                                    muzzle_vel))
             {
                 if (field_24_pPed->PedTypeIs_45EDE0(ped_type::player_2) && !is_infinite_ammo_4A4FA0())
                 {
@@ -1688,7 +1693,7 @@ void Weapon::oil_stain_5E1DC0()
     Fix16 found_z;
     if (gMap_0x370_6F6268->CanPlaceOilOrMine_4E5480(vector.x, vector.y, zpos_lower, zpos_upper, &found_z))
     {
-        gObject_5C_6F8F84->NewPhysicsObj_5299B0(8, vector.x, vector.y, found_z, pSprt->field_0_rotation);
+        gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::animating_oil_8, vector.x, vector.y, found_z, pSprt->field_0_rotation);
         decrement_ammo_4CCA30();
         set_field_2C_4CCA80(1);
     }
@@ -1721,7 +1726,7 @@ void Weapon::car_mine_5E2550()
     Fix16 newZ;
     if (gMap_0x370_6F6268->CanPlaceOilOrMine_4E5480(p.x, p.y, z_low, z_high, &newZ))
     {
-        Object* pMine = gObject_5C_6F8F84->NewPhysicsObj_5299B0(10, p.x, p.y, newZ, Sprite_440840->field_0_rotation);
+        Object* pMine = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::mine_10, p.x, p.y, newZ, Sprite_440840->field_0_rotation);
         pMine->SetDamageOwner_529080(field_24_pPed->field_267_ped_ref_idx);
 
         decrement_ammo_4CCA30(); // NOTE: Didn't get inlined without __forceinline here, wtf??
@@ -1988,7 +1993,7 @@ void Weapon::rocket_5E3850()
             Object* pBullet;
             if (field_24_pPed->PedTypeIs_45EDE0(ped_type::player_2))
             {
-                pBullet = spawn_bullet_5DCF60(128,
+                pBullet = spawn_bullet_5DCF60(objects::rocket_bullet_128,
                                               field_24_pPed->get_cam_x(),
                                               field_24_pPed->get_cam_y(),
                                               field_24_pPed->get_cam_z(),
@@ -2010,7 +2015,7 @@ void Weapon::rocket_5E3850()
                     return;
                 }
 
-                pBullet = spawn_bullet_5DCF60(128,
+                pBullet = spawn_bullet_5DCF60(objects::rocket_bullet_128,
                                               field_24_pPed->get_cam_x(),
                                               field_24_pPed->get_cam_y(),
                                               field_24_pPed->get_cam_z(),

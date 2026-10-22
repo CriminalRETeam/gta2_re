@@ -406,7 +406,7 @@ MATCH_FUNC(0x545430)
 void Char::DrawFlamesAndStartScreamTimer_545430()
 {
     // Spawn fire
-    Object* p2C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(197, 0, 0, 0, kAng0_6FDB34); // ped_like_fire_197 ?? but its actually fire
+    Object* p2C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::fire_197, 0, 0, 0, kAng0_6FDB34);
     field_80_sprite_ptr->AttachSprite_5A3100(p2C->field_4_sprite, 0, 0, kAng0_6FDB34);
     field_B0_scream_timer = 10; // Start screaming timer
 }

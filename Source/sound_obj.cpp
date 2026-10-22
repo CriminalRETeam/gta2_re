@@ -884,43 +884,43 @@ char_type sound_obj::SelectObjectImpactSound_413120(CollisionEvent* pEvent, s32 
 
         switch (pEvent->field_18_object_model)
         {
-            case 1:
-            case 18:
+            case objects::bin_lid_1:
+            case objects::hydrant_lid_18:
                 field_30_sQueueSample.field_14_samp_idx = 55;
                 field_30_sQueueSample.field_18_bIs2D = 0;
                 field_30_sQueueSample.field_20_rate = field_1454_anRandomTable[0] % 2000 + 23000;
                 return 1;
 
-            case 7:
+            case objects::bin_7:
                 field_30_sQueueSample.field_14_samp_idx = 55;
                 goto rate_20000;
 
-            case 16:
-            case 25:
+            case objects::oildrum_16:
+            case objects::tower_25:
             case 62:
                 field_30_sQueueSample.field_14_samp_idx = 55;
                 field_30_sQueueSample.field_18_bIs2D = 0;
                 field_30_sQueueSample.field_20_rate = field_1454_anRandomTable[0] % 2000 + 15000;
                 return 1;
 
-            case 4:
-            case 23:
+            case objects::boxes_4:
+            case objects::package_23:
             case 44:
                 field_30_sQueueSample.field_14_samp_idx = 54;
                 // Shares the rate code of the next group, VC6 doesn't merge case tails by itself
                 goto rate_17000;
 
-            case 6:
+            case objects::rubbish_6:
                 field_30_sQueueSample.field_14_samp_idx = 52;
                 field_30_sQueueSample.field_18_bIs2D = 0;
                 field_30_sQueueSample.field_20_rate = field_1454_anRandomTable[0] % 600 + 16000;
                 return 1;
 
-            case 3:
-            case 5:
-            case 11:
-            case 13:
-            case 17:
+            case objects::cone_3:
+            case objects::blaster_5:
+            case objects::bush_11:
+            case objects::footy_13:
+            case objects::tyre_17:
             case 53:
             case 54:
             case 55:
@@ -930,8 +930,8 @@ char_type sound_obj::SelectObjectImpactSound_413120(CollisionEvent* pEvent, s32 
                 field_30_sQueueSample.field_20_rate = field_1454_anRandomTable[0] % 2000 + 17000;
                 return 1;
 
-            case 21:
-            case 22:
+            case objects::roadblock_21:
+            case objects::bench_22:
             case 46:
             case 48:
                 field_30_sQueueSample.field_14_samp_idx = 53;
@@ -939,18 +939,18 @@ char_type sound_obj::SelectObjectImpactSound_413120(CollisionEvent* pEvent, s32 
                 field_30_sQueueSample.field_20_rate = field_1454_anRandomTable[0] % 1000 + 15500;
                 return 1;
 
-            case 12:
-            case 14:
+            case objects::crate_12:
+            case objects::hardbox_14:
             case 58:
                 field_30_sQueueSample.field_14_samp_idx = 53;
                 field_30_sQueueSample.field_18_bIs2D = 0;
                 field_30_sQueueSample.field_20_rate = field_1454_anRandomTable[0] % 2000 + 18000;
                 return 1;
 
-            case 2:
-            case 15:
-            case 19:
-            case 20:
+            case objects::bollard_2:
+            case objects::newsdis_15:
+            case objects::hydrant_19:
+            case objects::hydrant_unlid_20:
             case 60:
                 // Same code as 281/282
                 goto samp_37;
@@ -962,9 +962,9 @@ char_type sound_obj::SelectObjectImpactSound_413120(CollisionEvent* pEvent, s32 
 
     switch (pEvent->field_18_object_model)
     {
-        case 166:
+        case objects::diagonal_wall_collision_obj_166:
         case 169:
-        case 294:
+        case objects::tunnel_blocker_294:
         {
             field_30_sQueueSample.field_14_samp_idx = 37;
             s32 rate = RandomDisplacement_41A650(37) + gSampManager_6FFF00.GetPlayBackRate_58DBF0(37);
@@ -973,14 +973,14 @@ char_type sound_obj::SelectObjectImpactSound_413120(CollisionEvent* pEvent, s32 
             return 1;
         }
 
-        case 281:
-        case 282:
+        case objects::power_generator_281:
+        case objects::destroyed_powergen_282:
         samp_37:
             field_30_sQueueSample.field_14_samp_idx = 37;
             goto rate_20000;
 
         case 182:
-        case 183:
+        case objects::grenade_obj_183:
         case_110:
             if (interactionType == 1)
             {
@@ -1024,9 +1024,9 @@ char_type sound_obj::SelectObjectImpactSound_413120(CollisionEvent* pEvent, s32 
             field_30_sQueueSample.field_14_samp_idx = 37;
             goto rate_20000;
 
-        case 192:
-        case 254:
-        case 265:
+        case objects::shotgun_bullet_192:
+        case objects::machine_gun_bullet_254:
+        case objects::pistol_bullet_265:
             switch (interactionType)
             {
                 case 3:
@@ -1056,7 +1056,7 @@ char_type sound_obj::SelectObjectImpactSound_413120(CollisionEvent* pEvent, s32 
             field_30_sQueueSample.field_18_bIs2D = 1;
             return 1;
 
-        case 266:
+        case objects::secret_token_266:
             field_30_sQueueSample.field_14_samp_idx = 34;
             field_30_sQueueSample.field_20_rate = gSampManager_6FFF00.GetPlayBackRate_58DBF0(34);
             field_30_sQueueSample.field_18_bIs2D = 1;
@@ -1079,38 +1079,38 @@ char_type sound_obj::Type6_9_413540(CollisionEvent* pEvent)
     {
         case 169:
         case 182:
-        case 183:
-        case 192:
-        case 254:
-        case 265:
-        case 281:
-        case 282:
-        case 286:
-        case 294:
+        case objects::grenade_obj_183:
+        case objects::shotgun_bullet_192:
+        case objects::machine_gun_bullet_254:
+        case objects::pistol_bullet_265:
+        case objects::power_generator_281:
+        case objects::destroyed_powergen_282:
+        case objects::kill_frenzy_icon_286:
+        case objects::tunnel_blocker_294:
         case 295:
             return SelectObjectImpactSound_413120(pEvent, 9);
 
-        case 1:
-        case 2:
-        case 3:
-        case 4:
-        case 5:
-        case 6:
-        case 7:
-        case 11:
-        case 12:
-        case 13:
-        case 14:
-        case 15:
-        case 16:
-        case 17:
-        case 18:
-        case 19:
-        case 20:
-        case 21:
-        case 22:
-        case 23:
-        case 25:
+        case objects::bin_lid_1:
+        case objects::bollard_2:
+        case objects::cone_3:
+        case objects::boxes_4:
+        case objects::blaster_5:
+        case objects::rubbish_6:
+        case objects::bin_7:
+        case objects::bush_11:
+        case objects::crate_12:
+        case objects::footy_13:
+        case objects::hardbox_14:
+        case objects::newsdis_15:
+        case objects::oildrum_16:
+        case objects::tyre_17:
+        case objects::hydrant_lid_18:
+        case objects::hydrant_19:
+        case objects::hydrant_unlid_20:
+        case objects::roadblock_21:
+        case objects::bench_22:
+        case objects::package_23:
+        case objects::tower_25:
         case 43:
         case 44:
         case 45:
@@ -1130,12 +1130,12 @@ char_type sound_obj::Type6_9_413540(CollisionEvent* pEvent)
         case 62:
         case 63:
         case 110:
-        case 123:
-        case 155:
-        case 156:
-        case 157:
-        case 158:
-        case 166:
+        case objects::moving_collect_27_123:
+        case objects::car_stop_155:
+        case objects::big_white_skid_156:
+        case objects::medium_white_skid_157:
+        case objects::small_white_skid_158:
+        case objects::diagonal_wall_collision_obj_166:
             return SelectObjectImpactSound_413120(pEvent, 9);
 
         default:
@@ -1302,7 +1302,9 @@ char_type sound_obj::Type6_413A10(CollisionEvent* pEvent)
             break;
 
         case collision_event_type::car_object_3:
-            if (pEvent->field_18_object_model == 192 || pEvent->field_18_object_model == 254 || pEvent->field_18_object_model == 265)
+            if (pEvent->field_18_object_model == objects::shotgun_bullet_192 ||
+                pEvent->field_18_object_model == objects::machine_gun_bullet_254 ||
+                pEvent->field_18_object_model == objects::pistol_bullet_265)
             {
                 return 37;
             }

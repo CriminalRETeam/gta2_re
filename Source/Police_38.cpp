@@ -2735,16 +2735,16 @@ char_type PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientat
             {
                 if (gRoadblockLaneHasBarriers_624FBC)
                 {
-                    Object* pBarrier1 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(21,
-                                                                                   Fix16(x_start) + kFpPoint2_6FEB50,
-                                                                                   Fix16(y_start + lane) + kFpHalf_6FEBF4,
-                                                                                   z,
-                                                                                   kAng90_6FEB74);
-                    Object* pBarrier2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(21,
-                                                                                   Fix16(x_start) + kFpPoint8_6FEB68,
-                                                                                   Fix16(y_start + lane) + kFpHalf_6FEBF4,
-                                                                                   z,
-                                                                                   kAng90_6FEB74);
+                    Object* pBarrier1 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::roadblock_21,
+                                                                                Fix16(x_start) + kFpPoint2_6FEB50,
+                                                                                Fix16(y_start + lane) + kFpHalf_6FEBF4,
+                                                                                z,
+                                                                                kAng90_6FEB74);
+                    Object* pBarrier2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::roadblock_21,
+                                                                                Fix16(x_start) + kFpPoint8_6FEB68,
+                                                                                Fix16(y_start + lane) + kFpHalf_6FEBF4,
+                                                                                z,
+                                                                                kAng90_6FEB74);
                     if (!field_28_barrier_1)
                     {
                         field_28_barrier_1 = pBarrier1;
@@ -3045,16 +3045,16 @@ char_type PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientat
             {
                 if (gRoadblockLaneHasBarriers_624FBC)
                 {
-                    Object* pBarrier1 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(21,
-                                                                                   Fix16(x_start + lane) + kFpHalf_6FEBF4,
-                                                                                   Fix16(y_start) + kFpPoint2_6FEB50,
-                                                                                   z,
-                                                                                   kAng0_6FEE30);
-                    Object* pBarrier2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(21,
-                                                                                   Fix16(x_start + lane) + kFpHalf_6FEBF4,
-                                                                                   Fix16(y_start) + kFpPoint8_6FEB68,
-                                                                                   z,
-                                                                                   kAng0_6FEE30);
+                    Object* pBarrier1 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::roadblock_21,
+                                                                                Fix16(x_start + lane) + kFpHalf_6FEBF4,
+                                                                                Fix16(y_start) + kFpPoint2_6FEB50,
+                                                                                z,
+                                                                                kAng0_6FEE30);
+                    Object* pBarrier2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::roadblock_21,
+                                                                                Fix16(x_start + lane) + kFpHalf_6FEBF4,
+                                                                                Fix16(y_start) + kFpPoint8_6FEB68,
+                                                                                z,
+                                                                                kAng0_6FEE30);
                     if (!field_28_barrier_1)
                     {
                         field_28_barrier_1 = pBarrier1;
