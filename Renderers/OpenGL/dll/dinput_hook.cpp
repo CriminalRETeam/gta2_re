@@ -1,5 +1,5 @@
 // Hooks GetDeviceData and GetDeviceState in the DirectInput keyboard vtable (shared by the game's device).
-// Always: drops NumLock events (see gDropNumLock). Test tools: GTA2GL_INPUT=<frame>:<dik>[:<frames held>],...
+// Always: drops NumLock and Scroll Lock events (see gDropLockKeys). Test tools: GTA2GL_INPUT=<frame>:<dik>[:<frames held>],...
 // feeds keys at those Vid_FlipBuffers counts (dik in hex or decimal); GTA2GL_KEYLOG=<file> logs what the game reads.
 #define DIRECTINPUT_VERSION 0x0700
 #include "dinput_hook.hpp"
@@ -30,9 +30,14 @@ std::vector<KeyEvent> gEvents; // sorted by frame
 size_t gNext;
 const unsigned* gFrameCounter;
 FILE* gKeyLog; // GTA2GL_KEYLOG=<file>: every keyboard event the game reads, with the backlog left
-// Wine on XWayland can flood the keyboard buffer with NumLock pairs; GTA2 reads one event per frame, so
-// they delay every real key. GTA2 has no use for NumLock. Opt-out: GTA2GL_KEEP_NUMLOCK=1.
-bool gDropNumLock;
+// Wine on XWayland can flood the keyboard buffer with NumLock or Scroll Lock pairs; GTA2 reads one event per
+// frame, so they delay every real key. GTA2 uses neither key. Opt-out: GTA2GL_KEEP_LOCK_KEYS=1.
+bool gDropLockKeys;
+
+bool IsDroppedKey(DWORD dik)
+{
+    return gDropLockKeys && (dik == DIK_NUMLOCK || dik == DIK_SCROLL);
+}
 DWORD gSequence = 1;
 
 HRESULT ReadKeyboard(IDirectInputDeviceA* pDev, DWORD cbObjectData, LPDIDEVICEOBJECTDATA rgdod, LPDWORD pdwInOut, DWORD dwFlags);
@@ -126,8 +131,17 @@ HRESULT ReadKeyboard(IDirectInputDeviceA* pDev, DWORD cbObjectData, LPDIDEVICEOB
 {
     const DWORD requested = (pdwInOut && rgdod && !(dwFlags & DIGDD_PEEK)) ? *pdwInOut : 0;
     HRESULT hr = gRealGetDeviceData(pDev, cbObjectData, rgdod, pdwInOut, dwFlags);
-    for (int i = 0; i < 256 && gDropNumLock && requested == 1 && SUCCEEDED(hr) && *pdwInOut == 1 && rgdod->dwOfs == DIK_NUMLOCK; i++)
+    for (int i = 0; i < 256 && requested == 1 && SUCCEEDED(hr) && *pdwInOut == 1 && IsDroppedKey(rgdod->dwOfs); i++)
     {
+        if (gKeyLog)
+        {
+            fprintf(gKeyLog,
+                    "%u frame %u dropped %02x %s\n",
+                    (unsigned)GetTickCount(),
+                    gFrameCounter ? *gFrameCounter : 0,
+                    (unsigned)rgdod->dwOfs,
+                    (rgdod->dwData & 0x80) ? "down" : "up");
+        }
         *pdwInOut = 1;
         hr = gRealGetDeviceData(pDev, cbObjectData, rgdod, pdwInOut, dwFlags);
     }
@@ -227,8 +241,8 @@ void InstallDInputHook(const unsigned* pFrameCounter)
 {
     const char* env = getenv("GTA2GL_INPUT");
     const char* keyLog = getenv("GTA2GL_KEYLOG");
-    gDropNumLock = getenv("GTA2GL_KEEP_NUMLOCK") == NULL;
-    if (((!env || !*env) && (!keyLog || !*keyLog) && !gDropNumLock) || gRealGetDeviceData)
+    gDropLockKeys = getenv("GTA2GL_KEEP_LOCK_KEYS") == NULL;
+    if (((!env || !*env) && (!keyLog || !*keyLog) && !gDropLockKeys) || gRealGetDeviceData)
     {
         return;
     }

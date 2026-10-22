@@ -69,10 +69,11 @@ these options. Environment variables override the file: `GTA2GL_TRUECOLOR`, `GTA
 
 ## Keyboard under wine
 
-Under wine on XWayland, wine's NumLock resync can be blocked by DirectInput's keyboard hook and is
-then retried on every key, filling the keyboard buffer with NumLock pairs. GTA2 reads one buffered
-keyboard event per frame, so held keys kept acting after release. `glvideo.dll` drops NumLock events
-from the game's keyboard reads (`dll/dinput_hook.cpp`); `GTA2GL_KEEP_NUMLOCK=1` turns that off.
+Under wine on XWayland, wine's lock key resync can be blocked by DirectInput's keyboard hook and is then
+retried on every key, filling the keyboard buffer with NumLock or Scroll Lock pairs (Scroll Lock is on after
+switching to the faithful renderer). GTA2 reads one buffered keyboard event per frame, so held keys kept
+acting after release. `glvideo.dll` drops NumLock and Scroll Lock events from the game's keyboard reads
+(`dll/dinput_hook.cpp`); `GTA2GL_KEEP_LOCK_KEYS=1` turns that off.
 
 ## Development tools
 
