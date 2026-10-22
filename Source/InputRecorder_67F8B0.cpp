@@ -167,7 +167,6 @@ EXPORT BOOL CALLBACK DirectInputDeviceEnumCallBack_498910(LPCDIDEVICEINSTANCEA l
     return DIENUM_STOP;
 }
 
-// TODO: the debug strings are guesses, only code is compared
 MATCH_FUNC(0x4989C0)
 void InputDevices_1::set_game_pad_device_properties_4989C0()
 {
@@ -210,14 +209,14 @@ void InputDevices_1::set_game_pad_device_properties_4989C0()
         range.diph.dwObj = DIJOFS_X;
         if (FAILED(gGamePadDevice_67B6C0->SetProperty(DIPROP_RANGE, &range.diph)))
         {
-            OutputDebugStringA("Failed to set the x axis range\n");
+            OutputDebugStringA("SetProperty(RANGE, X-Axis) failed.\n");
             return;
         }
 
         range.diph.dwObj = DIJOFS_Y;
         if (FAILED(gGamePadDevice_67B6C0->SetProperty(DIPROP_RANGE, &range.diph)))
         {
-            OutputDebugStringA("Failed to set the y axis range\n");
+            OutputDebugStringA("SetProperty(RANGE, Y-Axis) failed.\n");
             return;
         }
 
@@ -228,14 +227,14 @@ void InputDevices_1::set_game_pad_device_properties_4989C0()
         prop.diph.dwObj = DIJOFS_X;
         if (FAILED(gGamePadDevice_67B6C0->SetProperty(DIPROP_DEADZONE, &prop.diph)))
         {
-            OutputDebugStringA("Failed to set the x axis dead zone\n");
+            OutputDebugStringA("SetProperty(DEADZONE, X-Axis) failed.\n");
             return;
         }
 
         prop.diph.dwObj = DIJOFS_Y;
         if (FAILED(gGamePadDevice_67B6C0->SetProperty(DIPROP_DEADZONE, &prop.diph)))
         {
-            OutputDebugStringA("Failed to set the y axis dead zone\n");
+            OutputDebugStringA("SetProperty(DEADZONE, Y-Axis) failed.\n");
             return;
         }
 
@@ -589,11 +588,11 @@ void InputDevices_1::read_input_device_498DA0(s32* input_bits, u8 bUnknown)
                 {
                     if (gKeyboardDeviceData_67B610.dwData & 0x80)
                     {
-                        sprintf(gTmpBuffer_67C598, "%d: KEY OFF: %d", gpRng_67AB34->get_cur_rng_41CFE0(), gKeyboardDeviceData_67B610.dwOfs);
+                        sprintf(gTmpBuffer_67C598, "%d: KEY ON : %d", gpRng_67AB34->get_cur_rng_41CFE0(), gKeyboardDeviceData_67B610.dwOfs);
                     }
                     else
                     {
-                        sprintf(gTmpBuffer_67C598, "%d: KEY ON : %d", gpRng_67AB34->get_cur_rng_41CFE0(), gKeyboardDeviceData_67B610.dwOfs);
+                        sprintf(gTmpBuffer_67C598, "%d: KEY OFF: %d", gpRng_67AB34->get_cur_rng_41CFE0(), gKeyboardDeviceData_67B610.dwOfs);
                     }
                 }
             }
