@@ -21,17 +21,17 @@ class cSampleManager
 
     EXPORT char_type DisableA3DSplash_58D620();
 
-    EXPORT char_type SoundInit_58D6C0(s32* a2);
+    EXPORT bool SoundInit_58D6C0(s32* a2);
 
-    EXPORT char_type OpenDigitalDriver_58D720(char_type bFlag, char_type bStereo, s32 sampleRate);
+    EXPORT bool OpenDigitalDriver_58D720(char_type bFlag, char_type bStereo, s32 sampleRate);
 
     // todo: order
 
-    EXPORT char_type AllocSamples_58D9F0(s32 a2);
+    EXPORT bool AllocSamples_58D9F0(s32 a2);
 
     EXPORT void PlaySampleRange_58E8C0(u32 idx, u32 end_idx);
 
-    EXPORT char_type Init3DProvider_58D820(BYTE* pMaxSamples);
+    EXPORT bool Init3DProvider_58D820(BYTE* pMaxSamples);
 
     EXPORT void Reset3DSamples_58D960();
 
@@ -94,7 +94,7 @@ class cSampleManager
     EXPORT u8 Get3DSampleCount_58E000();
     EXPORT void SetEaxEnvironment_58E010(s32 env_idx);
 
-    EXPORT char_type Open3DProvider_58E140(s32 envIdx);
+    EXPORT bool Open3DProvider_58E140(s32 envIdx);
 
     // todo order
     EXPORT void Close3DProvider_58E1C0();
@@ -142,7 +142,7 @@ class cSampleManager
 
     EXPORT void EndSample_58E960();
 
-    EXPORT char_type LoadWavSdtData_58E980(const char_type* pRawOrSdtName);
+    EXPORT bool LoadWavSdtData_58E980(const char_type* pRawOrSdtName);
 
     EXPORT BYTE Reacquire_58E2A0();
 

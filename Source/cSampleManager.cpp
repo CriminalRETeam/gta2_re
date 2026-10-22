@@ -221,7 +221,7 @@ char_type cSampleManager::DisableA3DSplash_58D620()
 #pragma warning(pop)
 
 MATCH_FUNC(0x58D6C0)
-char_type cSampleManager::SoundInit_58D6C0(s32* a2)
+bool cSampleManager::SoundInit_58D6C0(s32* a2)
 {
     AIL_startup();
 
@@ -244,7 +244,7 @@ char_type cSampleManager::SoundInit_58D6C0(s32* a2)
 }
 
 MATCH_FUNC(0x58D720)
-char_type cSampleManager::OpenDigitalDriver_58D720(char_type bFlag, char_type bStereo, s32 sampleRate)
+bool cSampleManager::OpenDigitalDriver_58D720(char_type bFlag, char_type bStereo, s32 sampleRate)
 {
     struct lol
     {
@@ -306,7 +306,7 @@ char_type cSampleManager::OpenDigitalDriver_58D720(char_type bFlag, char_type bS
 }
 
 MATCH_FUNC(0x58D820)
-char_type cSampleManager::Init3DProvider_58D820(BYTE* pMaxSamples)
+bool cSampleManager::Init3DProvider_58D820(BYTE* pMaxSamples)
 {
     Terminate_58DAE0();
     Reset3DSamples_58D960();
@@ -401,7 +401,7 @@ void cSampleManager::Reset3DSamples_58D960()
 }
 
 MATCH_FUNC(0x58D9F0)
-char_type cSampleManager::AllocSamples_58D9F0(s32 a2)
+bool cSampleManager::AllocSamples_58D9F0(s32 a2)
 {
     Terminate_58DAE0();
     Reset3DSamples_58D960();
@@ -749,7 +749,7 @@ void cSampleManager::SetEaxEnvironment_58E010(s32 env_idx)
 }
 
 MATCH_FUNC(0x58E140)
-char_type cSampleManager::Open3DProvider_58E140(s32 envIdx)
+bool cSampleManager::Open3DProvider_58E140(s32 envIdx)
 {
     field_26B4_3d_provider_idx = envIdx;
     if (envIdx != -1)
@@ -1122,7 +1122,7 @@ void cSampleManager::EndSample_58E960()
 }
 
 MATCH_FUNC(0x58E980)
-char_type cSampleManager::LoadWavSdtData_58E980(const char_type* pRawOrSdtName)
+bool cSampleManager::LoadWavSdtData_58E980(const char_type* pRawOrSdtName)
 {
     FILE* hRawFile; // eax
     FILE* hRawFile_; // esi
