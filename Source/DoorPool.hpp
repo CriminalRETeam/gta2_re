@@ -11,6 +11,16 @@ class SpriteShape;
 class Ped;
 class Car;
 
+// DoorData::field_0_state
+namespace door_state
+{
+enum
+{
+    closed_1 = 1,
+    open_2 = 2,
+};
+} // namespace door_state
+
 class DoorData // Contains only position, face and DoorInfo id
 {
   public:
@@ -47,7 +57,7 @@ GTA2_ASSERT_SIZEOF_ALWAYS(DoorData, 0x10);
 
 inline bool Door::IsOpen_44C860()
 {
-    return field_0_primary_door_data->field_0_state == 2;
+    return field_0_primary_door_data->field_0_state == door_state::open_2;
 }
 
 inline void Door::CloseDoors_476A30()

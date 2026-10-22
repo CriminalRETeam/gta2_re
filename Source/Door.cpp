@@ -164,7 +164,7 @@ void Door::Open_49C840()
     DoorData* this_00 = this->field_0_primary_door_data;
     if (this_00 != NULL)
     {
-        if (this_00->field_0_state != 2)
+        if (this_00->field_0_state != door_state::open_2)
         {
             this->field_2D_play_open_sound = 1;
         }
@@ -394,7 +394,7 @@ void Door::UpdateAutoClose_49CD90()
 {
     if (field_29_bAuto != 0)
     {
-        if ((field_0_primary_door_data != NULL && field_0_primary_door_data->field_0_state == 2) || (field_4_secondary_door_data != NULL && field_4_secondary_door_data->field_0_state == 2))
+        if ((field_0_primary_door_data != NULL && field_0_primary_door_data->field_0_state == door_state::open_2) || (field_4_secondary_door_data != NULL && field_4_secondary_door_data->field_0_state == door_state::open_2))
         {
             if (field_24_close_type != door_close_type::close_never && field_24_close_type != door_close_type::unknown1)
             {

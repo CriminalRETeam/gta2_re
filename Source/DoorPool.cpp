@@ -33,7 +33,7 @@ void DoorData::Init_49C340(u8 id, u8 x, u8 y, u8 z, u32 face, u8 bDoFlip)
 
     this->field_8_face = face;
     this->field_7_gr_id = id;
-    this->field_0_state = 1;
+    this->field_0_state = door_state::closed_1;
 
     const u8& anim_id = id;
     DoorAnimInfo* pInfo = &gDoorAnimInfo_67BB38[anim_id];
@@ -84,9 +84,9 @@ MATCH_FUNC(0x49c4e0)
 void DoorData::Open_49C4E0(u8 bFlip)
 {
     DoorAnimInfo* tmp = &gDoorAnimInfo_67BB38[field_7_gr_id];
-    if (field_0_state != 2)
+    if (field_0_state != door_state::open_2)
     {
-        field_0_state = 2;
+        field_0_state = door_state::open_2;
         s16 tile_idx = tmp->field_6_open_internal_tile_idx | block_face::flat;
         if (bFlip)
         {
@@ -102,9 +102,9 @@ MATCH_FUNC(0x49c590)
 void DoorData::Close_49C590(u8 bDoFlip)
 {
     DoorAnimInfo* tmp = &gDoorAnimInfo_67BB38[field_7_gr_id];
-    if (field_0_state != 1)
+    if (field_0_state != door_state::closed_1)
     {
-        field_0_state = 1;
+        field_0_state = door_state::closed_1;
         s16 block_side_word = tmp->field_4_internal_tile_idx | (block_face::wall | block_face::bullet_wall | block_face::flat);
         if (bDoFlip)
         {

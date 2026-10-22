@@ -2,6 +2,7 @@
 #include "explosion_type.hpp"
 #include "ped_death_cause.hpp"
 #include "car_despawn_status.hpp"
+#include "car_door_state.hpp"
 #include "CarAI.hpp"
 #include "CarInfoTable.hpp"
 #include "CarPhysics.hpp"
@@ -5253,7 +5254,7 @@ char_type Car::AreAllDoorsClosed_441A40()
     u32 i = 0;
     do
     {
-        if (field_C_doors[i].field_4_state != 0 && field_C_doors[i].field_4_state != 6)
+        if (field_C_doors[i].field_4_state != car_door_state::inactive_0 && field_C_doors[i].field_4_state != car_door_state::closed_6)
         {
             return 0;
         }
