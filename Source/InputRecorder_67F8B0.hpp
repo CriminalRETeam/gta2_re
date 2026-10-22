@@ -75,6 +75,13 @@ class InputRecorder_67F8B0
         k_max_records = 40000
     };
 
+    EXPORT InputRecorder_67F8B0();
+
+    ~InputRecorder_67F8B0()
+    {
+        Shutdown_4CEA00();
+    }
+
     EXPORT void StaticShutdown_4CDCD0(); // static dtor
     EXPORT void clear_inputs_4CDCE0();
     EXPORT void set_input_4CDCF0(s32 mask_idx);

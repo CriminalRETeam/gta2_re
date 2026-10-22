@@ -626,6 +626,21 @@ void InputRecorder_67F8B0::clear_input_4CDD10(s32 mask_idx)
     field_4_input_bits &= ~field_8_input_masks[mask_idx];
 }
 
+MATCH_FUNC(0x4cdd30)
+InputRecorder_67F8B0::InputRecorder_67F8B0()
+{
+    field_0_bShutDown = false;
+    field_4_input_bits = 0;
+    field_75344_bInputEnabled = true;
+    field_38_replay_state = Disabled_2;
+    field_75345_attract_idx = 0;
+    memset(field_8_input_masks, 0, sizeof(field_8_input_masks));
+    memset(field_3C_rec_buff, 0, sizeof(field_3C_rec_buff));
+    field_7533C_used_recs_count = 205;
+    field_75340_rec_buf_idx = 205;
+    VerifyAttractFilesExist_4CE650();
+}
+
 MATCH_FUNC(0x4cdd80)
 bool InputRecorder_67F8B0::should_ignore_input_4CDD80(s32 dinput_key)
 {

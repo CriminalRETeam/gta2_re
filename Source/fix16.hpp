@@ -517,4 +517,3 @@ EXPORT s32 __stdcall sub_405E80(Fix16* pTarget, Fix16* pCur);
 EXTERN_GLOBAL_ARRAY(Fix16, gSin_table_667A80, 1440);
 EXTERN_GLOBAL_ARRAY(Fix16, gCos_table_669260, 1440);
 
-EXPORT void Init_trigonometry_tables();

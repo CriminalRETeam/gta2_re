@@ -17,20 +17,7 @@ enum
 
 struct PixelsToFix16Table
 {
-    
-    PixelsToFix16Table()
-    {
-        Init_4F79F0();
-    }
-
-    // 10.5 0x4F79F0
-    void Init_4F79F0()
-    {
-        for (s32 i = 0; i < 256; i++)
-        {
-            list[i] = Fix16(i) / 64;
-        }
-    }
+    EXPORT PixelsToFix16Table();
 
     Fix16 SignedPixelsToFix16_41FE70(const s8& var)
     {
