@@ -1232,7 +1232,7 @@ static void HooksDebug()
 
 void BootMap(char* mapName, char* styName, char* scrName)
 {
-    if (gFrontend_67DC84 && gFrontend_67DC84->field_110_state == FrontendState::Unknown_1)
+    if (gFrontend_67DC84 && gFrontend_67DC84->field_110_state == FrontendState::Menu_Navigation_1)
     {
         char fullPath[256];
 

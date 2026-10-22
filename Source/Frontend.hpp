@@ -153,11 +153,11 @@ namespace FrontendState
 {
 enum FrontendState
 {
-    Unknown_1 = 1,
+    Menu_Navigation_1 = 1,
     Booting_Map_2 = 2,
     User_Typing_New_Player_Name_3 = 3,
-    Unknown_4 = 4,
-    Unknown_5 = 5,
+    Delete_Player_Dialog_4 = 4,
+    User_Typing_Password_5 = 5,
 };
 } // namespace FrontendState
 

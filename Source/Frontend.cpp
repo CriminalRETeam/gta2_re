@@ -433,7 +433,7 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
 
     if (menu_page_idx == MENUPAGE_PARENTAL_CONTROL)
     {
-        field_110_state = 5;
+        field_110_state = FrontendState::User_Typing_Password_5;
         field_C9CA_password_length = 0;
         field_C9CB_wrong_password_shown = 0;
         StripPasswordToCurrLength_4B8530();
@@ -1172,7 +1172,7 @@ void Frontend::DrawMenu_4AD140()
                     {
                         pMenuPage->field_518_elements_array[8].field_6_geometric_shape_type = 1;
                         pMenuPage->field_518_elements_array[9].field_6_geometric_shape_type = 2;
-                        if (field_110_state != 3)
+                        if (field_110_state != FrontendState::User_Typing_New_Player_Name_3)
                         {
                             pMenuPage->field_518_elements_array[8].field_1_is_it_displayed = true;
                             pMenuPage->field_518_elements_array[9].field_1_is_it_displayed = true;
@@ -1389,7 +1389,7 @@ void Frontend::DrawMenu_4AD140()
         y_pos = gText_0x14_704DFC->field_10_lang_code != 'j' ? 12 : 16;
         DrawText_4B87A0(tmpBuff_67BD9C, x_pos, y_pos, field_126, 1);
     }
-    if (field_110_state == 5 && field_114_cursor_blink) //  change current player name
+    if (field_110_state == FrontendState::User_Typing_Password_5 && field_114_cursor_blink)
     {
         x_pos = pMenuPage->field_518_elements_array[4].field_2_xpos + Frontend::GetMaxTextWidth_5D8990(field_C9B8_password, field_11C_normal_font);
         y_pos = pMenuPage->field_518_elements_array[4].field_4_ypos;
@@ -1591,11 +1591,11 @@ void Frontend::Update_4AEC00()
             HandlePlayerNameTyping_4B2F60();
             break;
 
-        case FrontendState::Unknown_5:
+        case FrontendState::User_Typing_Password_5:
             HandlePasswordTyping_4B8280();
             break;
 
-        case FrontendState::Unknown_1:
+        case FrontendState::Menu_Navigation_1:
             if (field_132_f136_idx == MENUPAGE_CREDITS)
             {
                 snd1_67D818.field_4_bStatus = 1;
@@ -1612,7 +1612,7 @@ void Frontend::Update_4AEC00()
             SetWinMainStateToBootMap_4AE990();
             break;
 
-        case FrontendState::Unknown_4:
+        case FrontendState::Delete_Player_Dialog_4:
             HandleDeletePlayerDialog_4AE9A0();
             break;
 
@@ -1680,7 +1680,7 @@ MATCH_FUNC(0x4B6780)
 void Frontend::UpdateMenuScreen_4B6780()
 {
     MenuPage* pMenuPage = &field_136_menu_pages_array[field_132_f136_idx];
-    if (field_110_state != 2)
+    if (field_110_state != FrontendState::Booting_Map_2)
     {
         if (field_132_f136_idx == MENUPAGE_START_MENU)
         {
@@ -2070,7 +2070,7 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
     }
     if (field_C9D2_delete_pressed && field_132_f136_idx == MENUPAGE_PLAY && !pMenuPage->field_BC6_current_option_idx)
     {
-        field_110_state = 4;
+        field_110_state = FrontendState::Delete_Player_Dialog_4;
         field_EE0A_dialog_cursor_ypos = 190;
         field_EE0C_dialog_type = 1;
         snd1_67D818.field_0_object_type = 8;
@@ -2122,7 +2122,7 @@ void Frontend::HandlePlayerNameTyping_4B2F60()
 
         if (input == DIK_RETURN)
         {
-            field_110_state = 1;
+            field_110_state = FrontendState::Menu_Navigation_1;
             Frontend::StripPlayerNameToCurrLength_4B42B0();
             Frontend::SaveAndUpdatePlayerName_4B4230();
             field_136_menu_pages_array[1].field_BC6_current_option_idx = 0;
@@ -2143,7 +2143,7 @@ void Frontend::HandlePlayerNameTyping_4B2F60()
         }
         else if (input == DIK_ESCAPE)
         {
-            field_110_state = 1;
+            field_110_state = FrontendState::Menu_Navigation_1;
             Frontend::StripPlayerNameToCurrLength_4B42B0();
             field_136_menu_pages_array[1].field_BC6_current_option_idx = 0;
             snd1_67D818.field_0_object_type = 6;
@@ -2215,7 +2215,7 @@ void Frontend::HandleDeletePlayerDialog_4AE9A0()
             {
                 case 1:
                     Frontend::DeleteCurrentPlayer_4B4410();
-                    field_110_state = FrontendState::Unknown_1;
+                    field_110_state = FrontendState::Menu_Navigation_1;
                     break;
                 default:
                     FatalError_4A38C0(Gta2Error::InvalidCase, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 1934);
@@ -2223,14 +2223,14 @@ void Frontend::HandleDeletePlayerDialog_4AE9A0()
         }
         if (cursor_y == 230)
         {
-            field_110_state = FrontendState::Unknown_1;
+            field_110_state = FrontendState::Menu_Navigation_1;
         }
         snd1_67D818.field_0_object_type = 5;
     }
 
     if (field_C9D1_escape_pressed)
     {
-        field_110_state = 1;
+        field_110_state = FrontendState::Menu_Navigation_1;
         snd1_67D818.field_0_object_type = 6;
     }
     if (field_C9CE_up_pressed)
@@ -2365,7 +2365,7 @@ void Frontend::HandlePasswordTyping_4B8280()
 
         if (key_scan == DIK_RETURN)
         {
-            field_110_state = 1;
+            field_110_state = FrontendState::Menu_Navigation_1;
             Frontend::StripPasswordToCurrLength_4B8530();
             Frontend::CheckPassword_4B8560();
             snd1_67D818.field_0_object_type = 5;
@@ -2381,7 +2381,7 @@ void Frontend::HandlePasswordTyping_4B8280()
         }
         else if (key_scan == DIK_ESCAPE)
         {
-            field_110_state = 1;
+            field_110_state = FrontendState::Menu_Navigation_1;
             Frontend::StripPasswordToCurrLength_4B8530();
             Frontend::ChangeMenuPage_4B3170(9);
             snd1_67D818.field_0_object_type = 6;
@@ -2741,7 +2741,7 @@ void Frontend::CheckPassword_4B8560()
     }
     else
     {
-        field_110_state = 5;
+        field_110_state = FrontendState::User_Typing_Password_5;
         field_C9CA_password_length = 0;
 
         StripPasswordToCurrLength_4B8530();
@@ -2982,13 +2982,13 @@ void Frontend::DrawCurrentState_4ADF50()
 {
     switch (field_110_state)
     {
-        case 4:
+        case FrontendState::Delete_Player_Dialog_4:
             DrawDeletePlayerDialog_4ADDE0();
             break;
 
-        case 1:
-        case 3:
-        case 5:
+        case FrontendState::Menu_Navigation_1:
+        case FrontendState::User_Typing_New_Player_Name_3:
+        case FrontendState::User_Typing_Password_5:
             if (field_132_f136_idx == MENUPAGE_CREDITS)
             {
                 DrawCredits_4B7AE0();
@@ -2999,7 +2999,7 @@ void Frontend::DrawCurrentState_4ADF50()
             }
             break;
 
-        case 2:
+        case FrontendState::Booting_Map_2:
             DrawLoading_4AD0D0();
             break;
 
@@ -3303,7 +3303,7 @@ Frontend::Frontend()
         gKanjiFont_6F5168->InitGlyphCaches_4D2B40();
     }
 
-    field_110_state = 1;
+    field_110_state = FrontendState::Menu_Navigation_1;
     field_114_cursor_blink = 0;
     field_118_cursor_blink_timer = 0;
     field_C9D5_up_key_down = 0;
