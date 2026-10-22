@@ -9,7 +9,7 @@
 DEFINE_GLOBAL(CollisionSoundQueue*, gCollisionSoundQueue_66AFE0, 0x66AFE0);
 DEFINE_GLOBAL(CollisionTarget, gCollisionTarget_679188, 0x679188);
 DEFINE_GLOBAL(Fix16, kFpZero_66AE98, 0x66AE98);
-DEFINE_GLOBAL_INIT(Fix16, kFpOne_66AE9C, Fix16(0x4000, 0), 0x66AE9C);
+DEFINE_GLOBAL_INIT(Fix16, kFpOne_66AE9C, Fix16(1), 0x66AE9C);
 
 MATCH_FUNC(0x40B870)
 void CollisionEvent::SetPosition_40B870(Fix16 x, Fix16 y, Fix16 z)
