@@ -2073,7 +2073,7 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
                 {
                     Bink::CloseSlot1_513340();
                     Bink::CloseSlot2_513390();
-                    gFrontend_67DC84->ChangeMenuPage_4B3170(0);
+                    gFrontend_67DC84->ChangeMenuPage_4B3170(MENUPAGE_START_MENU);
                 }
 
                 if (gVidSys_7071D0)

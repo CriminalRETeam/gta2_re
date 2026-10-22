@@ -6802,7 +6802,8 @@ Sprite* Ped::ResetAnimAndFindNearestSprite_467280()
     pB4->field_68_animation_frame = 0;
 
     this->field_216_health = 50;
-    return gSpriteGrid_1_679208->FindCollidingSpritePreferType_477E60(this->field_168_game_object->field_80_sprite_ptr, 2);
+    return gSpriteGrid_1_679208->FindCollidingSpritePreferType_477E60(this->field_168_game_object->field_80_sprite_ptr,
+                                                                      sprite_types_enum::car_2);
 }
 
 // https://decomp.me/scratch/ec0hn
@@ -9470,7 +9471,8 @@ void Ped::MeleeAttackStateMachine_46B670()
         field_21C_bf.bAttacking = true;
         if (field_27C_ped_state_2 == ped_state_2::Unknown_9)
         {
-            Sprite* pNearestSprt = gSpriteGrid_1_679208->FindCollidingSpritePreferType_477E60(field_168_game_object->field_80_sprite_ptr, 2);
+            Sprite* pNearestSprt = gSpriteGrid_1_679208->FindCollidingSpritePreferType_477E60(field_168_game_object->field_80_sprite_ptr,
+                                                                                              sprite_types_enum::car_2);
             if (pNearestSprt && pNearestSprt->GetType_416B40() == sprite_types_enum::car_2)
             {
                 field_278_ped_state_1 = ped_state_1::immobilized_8;

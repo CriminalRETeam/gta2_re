@@ -2205,7 +2205,7 @@ char_type CarPhysics::CheckPendingCollision_55F360()
     if ((this->field_5C_pCar->field_78_flags & car_flag::Crushing))
     {
         gCarManager_6C_677930->field_60_impact_mode = 1;
-        if (gSpriteGrid_1_679208->CheckAndHandleAllCollisionsForSprite_477C30(field_5C_pCar->field_50_car_sprite, 2))
+        if (gSpriteGrid_1_679208->CheckAndHandleAllCollisionsForSprite_477C30(field_5C_pCar->field_50_car_sprite, sprite_types_enum::car_2))
         {
             return 1;
         }

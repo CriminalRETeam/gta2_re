@@ -1388,7 +1388,7 @@ MATCH_FUNC(0x5342f0)
 void ObjectDefinitions::ClearColour1PixelsOfDefinitionSprite_5342F0(s32 idx)
 {
     ObjectDefinition* pDef = GetObjectDefinition_534360(idx);
-    u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(4, pDef->field_1E_base_sprite_idx);
+    u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::code_obj1_4, pDef->field_1E_base_sprite_idx);
     sprite_index* psprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
     psprite_index->ClearPixelsOfColour_5ABAA0(1);
 }

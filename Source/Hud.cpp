@@ -299,18 +299,50 @@ void Hud_GangRespectBars::DrawGangRespectBars_5CFA70()
         s8 respect = pGang->GetRespectForPlayer_4BEEF0(PlayerIdx);
 
         s32 arrow_colour = pGang->field_138_arrow_colour - 1;
-        DrawFigureScaled_5D7670(6, arrow_colour + 64, 16, (u32)(ypos + 2), kAngZero_706610, 2, 0, 0, 0);
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6,
+                                arrow_colour + 64,
+                                16,
+                                (u32)(ypos + 2),
+                                kAngZero_706610,
+                                palette_types_enum::sprites_2,
+                                0,
+                                0,
+                                0);
 
-        DrawFigureScaled_5D7670(6, arrow_colour + 78, 64u, (u32)(ypos + 2), kAngZero_706610, 2, 0, 0, 0);
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6,
+                                arrow_colour + 78,
+                                64u,
+                                (u32)(ypos + 2),
+                                kAngZero_706610,
+                                palette_types_enum::sprites_2,
+                                0,
+                                0,
+                                0);
 
-        DrawFigureScaled_5D7670(6, arrow_colour + 71, 64u, ypos + 1, kAngZero_706610, 2, 0, 0, 0);
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6,
+                                arrow_colour + 71,
+                                64u,
+                                ypos + 1,
+                                kAngZero_706610,
+                                palette_types_enum::sprites_2,
+                                0,
+                                0,
+                                0);
 
         // Draw positive respect
         s32 respect_i = respect;
         s32 curr_bar_respect = 20;
         for (s32 i = 69; i <= 84 && respect_i >= curr_bar_respect; i += 5)
         {
-            DrawFigureScaled_5D7670(6, arrow_colour + 71, (u32)i, ypos + 1, kAngZero_706610, 2, 0, 0, 0);
+            DrawFigureScaled_5D7670(sprite_types_enum::user_6,
+                                    arrow_colour + 71,
+                                    (u32)i,
+                                    ypos + 1,
+                                    kAngZero_706610,
+                                    palette_types_enum::sprites_2,
+                                    0,
+                                    0,
+                                    0);
             curr_bar_respect += 20;
         }
 
@@ -318,7 +350,15 @@ void Hud_GangRespectBars::DrawGangRespectBars_5CFA70()
         curr_bar_respect = -20;
         for (s32 j = 59; j >= 44 && respect_i <= curr_bar_respect; j -= 5)
         {
-            DrawFigureScaled_5D7670(6, arrow_colour + 71, (u32)j, ypos + 1, kAngZero_706610, 2, 0, 0, 0);
+            DrawFigureScaled_5D7670(sprite_types_enum::user_6,
+                                    arrow_colour + 71,
+                                    (u32)j,
+                                    ypos + 1,
+                                    kAngZero_706610,
+                                    palette_types_enum::sprites_2,
+                                    0,
+                                    0,
+                                    0);
             curr_bar_respect -= 20;
         }
 
@@ -326,34 +366,58 @@ void Hud_GangRespectBars::DrawGangRespectBars_5CFA70()
         {
             if (respect > -100 || !bPlusSignDark)
             {
-                DrawFigureScaled_5D7670(6, 2 * arrow_colour + 50, 34, ypos + 1, kAngZero_706610, 2, 0, 0, 0);
+                DrawFigureScaled_5D7670(sprite_types_enum::user_6,
+                                        2 * arrow_colour + 50,
+                                        34,
+                                        ypos + 1,
+                                        kAngZero_706610,
+                                        palette_types_enum::sprites_2,
+                                        0,
+                                        0,
+                                        0);
             }
         }
         else
         {
             if (respect < 100 || !bPlusSignDark)
             {
-                DrawFigureScaled_5D7670(6, 2 * arrow_colour + 51, 93, ypos + 1, kAngZero_706610, 2, 0, 0, 0);
+                DrawFigureScaled_5D7670(sprite_types_enum::user_6,
+                                        2 * arrow_colour + 51,
+                                        93,
+                                        ypos + 1,
+                                        kAngZero_706610,
+                                        palette_types_enum::sprites_2,
+                                        0,
+                                        0,
+                                        0);
             }
 
             // green mission respect
             // Always true here, but the original re-tests it on this path (written this way VC6 keeps the test)
             if (-19 <= respect)
             {
-                DrawFigureScaled_5D7670(6, 46, 64u, ypos + 9, kAngZero_706610, 2, 0, 0, 0);
+                DrawFigureScaled_5D7670(sprite_types_enum::user_6,
+                                        46,
+                                        64u,
+                                        ypos + 9,
+                                        kAngZero_706610,
+                                        palette_types_enum::sprites_2,
+                                        0,
+                                        0,
+                                        0);
             }
         }
 
         // yellow mission respect
         if (respect >= 40)
         {
-            DrawFigureScaled_5D7670(6, 47, 74, ypos + 9, kAngZero_706610, 2, 0, 0, 0);
+            DrawFigureScaled_5D7670(sprite_types_enum::user_6, 47, 74, ypos + 9, kAngZero_706610, palette_types_enum::sprites_2, 0, 0, 0);
         }
 
         // red mission respect
         if (respect >= 80)
         {
-            DrawFigureScaled_5D7670(6, 48, 84, ypos + 9, kAngZero_706610, 2, 0, 0, 0);
+            DrawFigureScaled_5D7670(sprite_types_enum::user_6, 48, 84, ypos + 9, kAngZero_706610, palette_types_enum::sprites_2, 0, 0, 0);
         }
 
         // debug stuff
@@ -361,7 +425,7 @@ void Hud_GangRespectBars::DrawGangRespectBars_5CFA70()
         {
             s32 text_palette = (respect >= 0) + 5;
             swprintf(tmpBuff_67BD9C, L"%d", respect);
-            DrawText_5D7720(tmpBuff_67BD9C, 64u, ypos - 6, gDebugFont_706600, 8, text_palette, 0, 0);
+            DrawText_5D7720(tmpBuff_67BD9C, 64u, ypos - 6, gDebugFont_706600, palette_types_enum::font_remaps_8, text_palette, 0, 0);
         }
     }
 }
@@ -515,7 +579,7 @@ void Hud_Health::DrawHealth_5D0260()
     // Draw complete hearts
     for (s32 complete_hearts = half_hearts / 2; complete_hearts > 0; complete_hearts--, xpos += 20)
     {
-        DrawFigureScaled_5D7670(6, 113, xpos, (u32)34, kAngZero_706610, 2, 0, 0, 0);
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 113, xpos, (u32)34, kAngZero_706610, palette_types_enum::sprites_2, 0, 0, 0);
     }
 
     // Draw half heart
@@ -525,14 +589,14 @@ void Hud_Health::DrawHealth_5D0260()
         {
             xpos -= 2;
         }
-        DrawFigureScaled_5D7670(6, 114, xpos, (u32)34, kAngZero_706610, 2, 0, 0, 0);
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 114, xpos, (u32)34, kAngZero_706610, palette_types_enum::sprites_2, 0, 0, 0);
     }
 
     // Draw debug stuff
     if (bDo_show_instruments_67D64C)
     {
         swprintf(tmpBuff_67BD9C, L"%d%%", health);
-        DrawText_5D7720(tmpBuff_67BD9C, (u32)551, (u32)34, gDebugFont_706600, 2, 0, 0, 0);
+        DrawText_5D7720(tmpBuff_67BD9C, (u32)551, (u32)34, gDebugFont_706600, palette_types_enum::sprites_2, 0, 0, 0);
     }
 }
 
@@ -1340,17 +1404,38 @@ void Hud_QuitMessage::DrawQuitMessage_5D1430()
         s32 line_spacing_added = CountLineSpacing_5D8940(pQuitText, word_7064D8);
         s32 line2_ypos = ((3 * (160 - line_spacing_added)) / 2);
 
-        DrawText_5D7720(pQuitText, (u32)((640 - max_text_width) / 2), line2_ypos - line_spacing_added, word_7064D8, 2, 0, 0, 0);
+        DrawText_5D7720(pQuitText,
+                        (u32)((640 - max_text_width) / 2),
+                        line2_ypos - line_spacing_added,
+                        word_7064D8,
+                        palette_types_enum::sprites_2,
+                        0,
+                        0,
+                        0);
 
         wchar_t* pQuitText2 = gText_0x14_704DFC->Find_5B5F90("quit2");
         s32 max_text_width_2 = Frontend::GetMaxTextWidth_5D8990(pQuitText2, word_7064D8);
 
-        DrawText_5D7720(pQuitText2, (u32)((640 - max_text_width_2) / 2), (u32)line2_ypos, word_7064D8, 2, 0, 0, 0);
+        DrawText_5D7720(pQuitText2,
+                        (u32)((640 - max_text_width_2) / 2),
+                        (u32)line2_ypos,
+                        word_7064D8,
+                        palette_types_enum::sprites_2,
+                        0,
+                        0,
+                        0);
 
         wchar_t* pQuitText3 = gText_0x14_704DFC->Find_5B5F90("quit3");
         s32 max_text_width_3 = Frontend::GetMaxTextWidth_5D8990(pQuitText3, word_7064D8);
 
-        DrawText_5D7720(pQuitText3, (u32)((640 - max_text_width_3) / 2), line2_ypos + line_spacing_added, word_7064D8, 2, 0, 0, 0);
+        DrawText_5D7720(pQuitText3,
+                        (u32)((640 - max_text_width_3) / 2),
+                        line2_ypos + line_spacing_added,
+                        word_7064D8,
+                        palette_types_enum::sprites_2,
+                        0,
+                        0,
+                        0);
     }
 }
 
@@ -1506,7 +1591,7 @@ void Hud_Message::DrawMessage_5D1940()
 {
     if (field_0_time_to_show)
     {
-        DrawText_5D7720(&field_2_str[100], field_1BC_xpos, field_1C0_ypos, gMessageFont_7062F0, 2, 0, 0, 0);
+        DrawText_5D7720(&field_2_str[100], field_1BC_xpos, field_1C0_ypos, gMessageFont_7062F0, palette_types_enum::sprites_2, 0, 0, 0);
     }
 }
 
@@ -2218,15 +2303,15 @@ void Hud_Brief::DrawBrief_5D3B80()
 {
     if (field_6F8_curr_briefs)
     {
-        DrawFigureScaled_5D7670(6, // type
-                   field_50C_face_variant + 3 * field_502_face_idx + 16,
-                   (32), // x
-                   (443), // y
-                   kAngZero_706610, // rot
-                   palette_types_enum::sprites_2,
-                   0,
-                   0,
-                   0);
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6,
+                                field_50C_face_variant + 3 * field_502_face_idx + 16,
+                                (32), // x
+                                (443), // y
+                                kAngZero_706610, // rot
+                                palette_types_enum::sprites_2,
+                                0,
+                                0,
+                                0);
 
         // u32: converts with the Fix16(u32) constructor, whose out-of-line copy is 0x4926F0
         u32 first_line_ypos = 480 - GetLineSpacingFromFontType_5D7700_inlined(gBriefFont_7065C4) * field_508_num_lines;
@@ -2442,14 +2527,54 @@ void Hud_CarName::DrawCarName_5D4A10()
         u32 sprite_w = get_sprite_width_4C7220(11);
         if (field_44_text_width > (s32)(sprite_w * 2 - 10))
         {
-            DrawFigureScaled_5D7670(6, 13, 320 + sprite_w, (u32)field_48_ypos, kAngZero_706610, 2, 0, 0, 0);
-            DrawFigureScaled_5D7670(6, 12, 320, (u32)field_48_ypos, kAngZero_706610, 2, 0, 0, 0);
-            DrawFigureScaled_5D7670(6, 11, 320 - sprite_w, (u32)field_48_ypos, kAngZero_706610, 2, 0, 0, 0);
+            DrawFigureScaled_5D7670(sprite_types_enum::user_6,
+                                    13,
+                                    320 + sprite_w,
+                                    (u32)field_48_ypos,
+                                    kAngZero_706610,
+                                    palette_types_enum::sprites_2,
+                                    0,
+                                    0,
+                                    0);
+            DrawFigureScaled_5D7670(sprite_types_enum::user_6,
+                                    12,
+                                    320,
+                                    (u32)field_48_ypos,
+                                    kAngZero_706610,
+                                    palette_types_enum::sprites_2,
+                                    0,
+                                    0,
+                                    0);
+            DrawFigureScaled_5D7670(sprite_types_enum::user_6,
+                                    11,
+                                    320 - sprite_w,
+                                    (u32)field_48_ypos,
+                                    kAngZero_706610,
+                                    palette_types_enum::sprites_2,
+                                    0,
+                                    0,
+                                    0);
         }
         else
         {
-            DrawFigureScaled_5D7670(6, 11, 320 - ((s32)sprite_w / 2), (u32)field_48_ypos, kAngZero_706610, 2, 0, 0, 0);
-            DrawFigureScaled_5D7670(6, 13, 320 + ((s32)sprite_w / 2), (u32)field_48_ypos, kAngZero_706610, 2, 0, 0, 0);
+            DrawFigureScaled_5D7670(sprite_types_enum::user_6,
+                                    11,
+                                    320 - ((s32)sprite_w / 2),
+                                    (u32)field_48_ypos,
+                                    kAngZero_706610,
+                                    palette_types_enum::sprites_2,
+                                    0,
+                                    0,
+                                    0);
+            DrawFigureScaled_5D7670(sprite_types_enum::user_6,
+                                    13,
+                                    320 + ((s32)sprite_w / 2),
+                                    (u32)field_48_ypos,
+                                    kAngZero_706610,
+                                    palette_types_enum::sprites_2,
+                                    0,
+                                    0,
+                                    0);
         }
 
         DrawTextScaled_5D77A0(field_2_car_name, ((640 - field_44_text_width) / 2), (field_48_ypos - GetLineSpacingFromFontType_5D7700(gCarNameFont_706508) / 2), gCarNameFont_706508);
@@ -2516,7 +2641,7 @@ void Hud_PickupText::Draw_5D5420()
 {
     if (field_0_timer)
     {
-        DrawText_5D7720(field_2_str, (640 - field_84_text_width) / 2, 32, word_7064B8, 8, 5, 0, 0);
+        DrawText_5D7720(field_2_str, (640 - field_84_text_width) / 2, 32, word_7064B8, palette_types_enum::font_remaps_8, 5, 0, 0);
     }
 }
 
@@ -2560,7 +2685,14 @@ void Hud_MpMessage::Draw_5D56D0()
 {
     if (this->field_0_timer)
     {
-        DrawText_5D7720(this->field_2_str, (u32)((640 - this->field_CC_text_width) / 2), (u32)16, word_7064D8, 8, 5, 0, 0);
+        DrawText_5D7720(this->field_2_str,
+                        (u32)((640 - this->field_CC_text_width) / 2),
+                        (u32)16,
+                        word_7064D8,
+                        palette_types_enum::font_remaps_8,
+                        5,
+                        0,
+                        0);
     }
 }
 
@@ -2633,19 +2765,51 @@ void Hud_MapZone::DrawZoneName_5D5900()
     {
         s32 width = get_sprite_width_4C7220(159);
 
-        DrawFigureScaled_5D7670(6, 159, (u32)(320 - (width / 2) - width), (u32)27, kAngZero_706610, 2, 0, field_90_alpha_flag, field_94_transparency);
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6,
+                                159,
+                                (u32)(320 - (width / 2) - width),
+                                (u32)27,
+                                kAngZero_706610,
+                                palette_types_enum::sprites_2,
+                                0,
+                                field_90_alpha_flag,
+                                field_94_transparency);
 
-        DrawFigureScaled_5D7670(6, 160, 320 - (width / 2), (u32)27, kAngZero_706610, 2, 0, field_90_alpha_flag, field_94_transparency);
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6,
+                                160,
+                                320 - (width / 2),
+                                (u32)27,
+                                kAngZero_706610,
+                                palette_types_enum::sprites_2,
+                                0,
+                                field_90_alpha_flag,
+                                field_94_transparency);
 
-        DrawFigureScaled_5D7670(6, 161, (width / 2) + 320, (u32)27, kAngZero_706610, 2, 0, field_90_alpha_flag, field_94_transparency);
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6,
+                                161,
+                                (width / 2) + 320,
+                                (u32)27,
+                                kAngZero_706610,
+                                palette_types_enum::sprites_2,
+                                0,
+                                field_90_alpha_flag,
+                                field_94_transparency);
 
-        DrawFigureScaled_5D7670(6, 162, (u32)((width / 2) + width + 320), (u32)27, kAngZero_706610, 2, 0, field_90_alpha_flag, field_94_transparency);
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6,
+                                162,
+                                (u32)((width / 2) + width + 320),
+                                (u32)27,
+                                kAngZero_706610,
+                                palette_types_enum::sprites_2,
+                                0,
+                                field_90_alpha_flag,
+                                field_94_transparency);
 
         DrawText_5D7720(field_2_wstr,
                         (640 - field_84_text_width) / 2,
                         27 - (GetLineSpacingFromFontType_5D7700(gZoneNameFont_706618) / 2),
                         gZoneNameFont_706618,
-                        2,
+                        palette_types_enum::sprites_2,
                         0,
                         field_90_alpha_flag,
                         field_94_transparency);
@@ -2789,17 +2953,41 @@ void Hud_PlayerStats::DrawPlayerStats_5D5C80()
 
     if (bStartNetworkGame_7081F0)
     {
-        DrawFigureScaled_5D7670(6, 16, dolar_sign_xpos - 8, 14, kAngZero_706610, pPlayer->field_78C_hud_palette_type, pPlayer->field_790_hud_palette, 0, 0);
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6,
+                                16,
+                                dolar_sign_xpos - 8,
+                                14,
+                                kAngZero_706610,
+                                pPlayer->field_78C_hud_palette_type,
+                                pPlayer->field_790_hud_palette,
+                                0,
+                                0);
     }
     else
     {
         if (pPlayer->field_60_finish_score_reached == 0)
         {
-            DrawFigureScaled_5D7670(6, 16, dolar_sign_xpos - 8, 14, kAngZero_706610, 2, 0, 0, 0); // default color
+            DrawFigureScaled_5D7670(sprite_types_enum::user_6,
+                                    16,
+                                    dolar_sign_xpos - 8,
+                                    14,
+                                    kAngZero_706610,
+                                    palette_types_enum::sprites_2,
+                                    0,
+                                    0,
+                                    0); // default color
         }
         else
         {
-            DrawFigureScaled_5D7670(6, 16, dolar_sign_xpos - 8, 14, kAngZero_706610, 7, 6, 0, 0); // red color
+            DrawFigureScaled_5D7670(sprite_types_enum::user_6,
+                                    16,
+                                    dolar_sign_xpos - 8,
+                                    14,
+                                    kAngZero_706610,
+                                    palette_types_enum::user_remaps_7,
+                                    6,
+                                    0,
+                                    0); // red color
         }
     }
 
@@ -2832,7 +3020,15 @@ void Hud_PlayerStats::DrawPlayerStats_5D5C80()
                 RollingDigitCounter* pMultiScoreDigits = pMultiPlayer->field_2D4_scores.GetScoreDigits_592360();
                 s32 score_end_xpos = pMultiScoreDigits->DrawDigitsLeftAligned_492430(16, ypos);
 
-                DrawFigureScaled_5D7670(6, 16, 8, ypos + 10, kAngZero_706610, pMultiPlayer->field_78C_hud_palette_type, pMultiPlayer->field_790_hud_palette, 0, 0);
+                DrawFigureScaled_5D7670(sprite_types_enum::user_6,
+                                        16,
+                                        8,
+                                        ypos + 10,
+                                        kAngZero_706610,
+                                        pMultiPlayer->field_78C_hud_palette_type,
+                                        pMultiPlayer->field_790_hud_palette,
+                                        0,
+                                        0);
 
                 if (IsTagGame_434B20())
                 {
@@ -2856,10 +3052,18 @@ void Hud_PlayerStats::DrawPlayerStats_5D5C80()
     else
     {
         s32 lives_xpos = pPlayer->field_684_lives.DrawDigitsRightAligned_492260(523, 28);
-        DrawFigureScaled_5D7670(6, 17, lives_xpos - 7, 32, kAngZero_706610, 2, 0, 0, 0);
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 17, lives_xpos - 7, 32, kAngZero_706610, palette_types_enum::sprites_2, 0, 0, 0);
 
         s32 multiplier_xpos = pPlayer->field_6BC_multipliers.DrawDigitsRightAligned_492260(523, 11);
-        DrawFigureScaled_5D7670(6, 18, multiplier_xpos - 7, 18, kAngZero_706610, 2, 0, 0, 0);
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6,
+                                18,
+                                multiplier_xpos - 7,
+                                18,
+                                kAngZero_706610,
+                                palette_types_enum::sprites_2,
+                                0,
+                                0,
+                                0);
     }
 }
 
@@ -2871,7 +3075,15 @@ void __stdcall DrawAmmo_5D6060(s16 ammo_idx, u8 ammo_count)
         s32 width = get_sprite_width_4C7220(ammo_idx + 85);
         s32 height = get_sprite_height_4C7250(ammo_idx + 85);
 
-        DrawFigureScaled_5D7670(6, ammo_idx + 85, 638 - width / 2, height / 2 + 44, kAngZero_706610, 2, 0, 0, 0);
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6,
+                                ammo_idx + 85,
+                                638 - width / 2,
+                                height / 2 + 44,
+                                kAngZero_706610,
+                                palette_types_enum::sprites_2,
+                                0,
+                                0,
+                                0);
 
         if (ammo_idx != 21 && ammo_idx != 20)
         {
@@ -2883,7 +3095,14 @@ void __stdcall DrawAmmo_5D6060(s16 ammo_idx, u8 ammo_count)
             {
                 swprintf(tmpBuff_67BD9C, L"%d", ammo_count);
             }
-            DrawText_5D7720(tmpBuff_67BD9C, (u32)(638 - Frontend::GetMaxTextWidth_5D8990(tmpBuff_67BD9C, gPlayerStatsFont_70646C)), 82, gPlayerStatsFont_70646C, 8, 6, 0, 0);
+            DrawText_5D7720(tmpBuff_67BD9C,
+                            (u32)(638 - Frontend::GetMaxTextWidth_5D8990(tmpBuff_67BD9C, gPlayerStatsFont_70646C)),
+                            82,
+                            gPlayerStatsFont_70646C,
+                            palette_types_enum::font_remaps_8,
+                            6,
+                            0,
+                            0);
         }
     }
 }
@@ -2901,7 +3120,15 @@ s32 __stdcall DrawPlayerStatsHelper_5D61A0(s32 powerup_idx, s32 base_xpos, u16 o
 {
     u16 sprite_idx = GetPowerupSpriteIndex_5D61A0(gGtx_0x106C_703DD4, powerup_idx + 141);
     s32 width = gGtx_0x106C_703DD4->get_sprite_width_420220(sprite_idx);
-    DrawFigureScaled_5D7670(6, powerup_idx + 141, base_xpos - (width / 2), 117, kAngZero_706610, 2, 0, 0, 0);
+    DrawFigureScaled_5D7670(sprite_types_enum::user_6,
+                            powerup_idx + 141,
+                            base_xpos - (width / 2),
+                            117,
+                            kAngZero_706610,
+                            palette_types_enum::sprites_2,
+                            0,
+                            0,
+                            0);
 
     if (powerup_idx == power_up_indices::Armor_3)
     {
@@ -2909,7 +3136,14 @@ s32 __stdcall DrawPlayerStatsHelper_5D61A0(s32 powerup_idx, s32 base_xpos, u16 o
         // The x goes through the Fix16(u32) constructor (out-of-line copy 0x4926F0). The offset is
         // computed before the y constructor call, so it is a local
         s32 x_offset = optional_number < 10 ? 18 : 22;
-        DrawText_5D7720(tmpBuff_67BD9C, (u32)(base_xpos - x_offset), 127, gPlayerStatsFont_70646C, 8, 6, 0, 0);
+        DrawText_5D7720(tmpBuff_67BD9C,
+                        (u32)(base_xpos - x_offset),
+                        127,
+                        gPlayerStatsFont_70646C,
+                        palette_types_enum::font_remaps_8,
+                        6,
+                        0,
+                        0);
     }
     return base_xpos - width;
 }
@@ -2997,9 +3231,9 @@ void Hud_PauseScreen::DrawPause_5D63B0()
     u16 sprite_pal = 0;
     if (gGame_0x40_67E008->IsPaused_416BC0() && !gGame_0x40_67E008->field_38_local_player->field_78A_show_quit_message)
     {
-        DrawFigureScaled_5D7670(6, 134, 227, 180, kAngZero_706610, 2, 0, 0, 0);
-        DrawFigureScaled_5D7670(6, 136, 320, 180, kAngZero_706610, 2, 0, 0, 0);
-        DrawFigureScaled_5D7670(6, 135, 413, 180, kAngZero_706610, 2, 0, 0, 0);
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 134, 227, 180, kAngZero_706610, palette_types_enum::sprites_2, 0, 0, 0);
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 136, 320, 180, kAngZero_706610, palette_types_enum::sprites_2, 0, 0, 0);
+        DrawFigureScaled_5D7670(sprite_types_enum::user_6, 135, 413, 180, kAngZero_706610, palette_types_enum::sprites_2, 0, 0, 0);
 
         wchar_t* pWMessage = gText_0x14_704DFC->Find_5B5F90("pause");
         s32 max_width = Frontend::GetMaxTextWidth_5D8990(pWMessage, gPauseFont_7063F8);
@@ -3007,7 +3241,7 @@ void Hud_PauseScreen::DrawPause_5D63B0()
         // u32: converts with the Fix16(u32) constructor, whose out-of-line copy is 0x4926F0
         u32 y_offset = (gText_0x14_704DFC->field_10_lang_code != 'j') ? 158 : 164;
 
-        DrawText_5D7720(pWMessage, (640 - max_width) / 2, y_offset, gPauseFont_7063F8, 2, 0, 0, 0);
+        DrawText_5D7720(pWMessage, (640 - max_width) / 2, y_offset, gPauseFont_7063F8, palette_types_enum::sprites_2, 0, 0, 0);
 
         if (!gGameSession_67E8E0.IsBonusStage_4C59A0())
         {
@@ -3130,7 +3364,15 @@ void Hud_PauseScreen::DrawPause_5D63B0()
                 u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_type, sprite_pal);
                 s32 icon_width = gGtx_0x106C_703DD4->get_sprite_width_420220(sprite_idx) + 10;
                 text_xpos = (640 - icon_width - max_width_2) / 2;
-                DrawFigureScaled_5D7670(sprite_type, sprite_pal, text_xpos + icon_width / 2, 235, kAngZero_706610, 2, 0, 0, 0);
+                DrawFigureScaled_5D7670(sprite_type,
+                                        sprite_pal,
+                                        text_xpos + icon_width / 2,
+                                        235,
+                                        kAngZero_706610,
+                                        palette_types_enum::sprites_2,
+                                        0,
+                                        0,
+                                        0);
                 text_xpos += icon_width;
             }
             else
@@ -3138,7 +3380,7 @@ void Hud_PauseScreen::DrawPause_5D63B0()
                 text_xpos = (640 - max_width_2) / 2;
             }
             // (u32): Fix16(u32) constructor (0x4926F0), the 220 goes through Fix16(s32) (0x4369F0)
-            DrawText_5D7720(tmpBuff_67BD9C, (u32)text_xpos, 220, word_7064D8, 8, 6, 0, 0);
+            DrawText_5D7720(tmpBuff_67BD9C, (u32)text_xpos, 220, word_7064D8, palette_types_enum::font_remaps_8, 6, 0, 0);
         }
     }
 }

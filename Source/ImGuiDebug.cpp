@@ -502,7 +502,8 @@ EXPORT void __stdcall NoRefs_sub_5B1170()
 {
     gmp_block_info block;
     gGtx_0x106C_703DD4->get_sprite_index_5AA440(
-        gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(7, gGtx_0x106C_703DD4->GetSpriteIdxFromFont_5AA710(word_703C3E, 0)));
+        gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::font_7,
+                                                      gGtx_0x106C_703DD4->GetSpriteIdxFromFont_5AA710(word_703C3E, 0)));
     block.field_A_arrows = 0;
     block.field_0_left = 7206;
     block.field_2_right = 7206;

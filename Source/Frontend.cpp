@@ -2383,7 +2383,7 @@ void Frontend::HandlePasswordTyping_4B8280()
         {
             field_110_state = FrontendState::Menu_Navigation_1;
             Frontend::StripPasswordToCurrLength_4B8530();
-            Frontend::ChangeMenuPage_4B3170(9);
+            Frontend::ChangeMenuPage_4B3170(MENUPAGE_CREDITS);
             snd1_67D818.field_0_object_type = 6;
         }
         else if (key_scan == 256)
@@ -3321,7 +3321,7 @@ Frontend::Frontend()
 
     field_C9DC_next_frame_time = timeGetTime();
     field_C9E0_updates_since_render = 0;
-    field_132_f136_idx = 0;
+    field_132_f136_idx = MENUPAGE_START_MENU;
     field_C9E4_last_input_time = 0;
 
     SetupMenuStringsOptionsElements_4B0220();
