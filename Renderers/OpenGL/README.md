@@ -34,7 +34,15 @@ Copy `glvideo.dll` and `glrender.dll` next to the game exe (keep DMA's DLLs), th
 | `videoname` | `glvideo.dll` | `dmavideo.dll` |
 | `do_play_movie` | `0` (movies are not supported) | `1` |
 
-Under wine: `wine reg add 'HKLM\SOFTWARE\DMA Design Ltd\GTA2\Screen' /v rendername /t REG_SZ /d glrender.dll /reg:32 /f`.
+From a command prompt run as administrator (under wine, in `wine cmd`); `/reg:32` also picks
+`WOW6432Node` on 64-bit Windows:
+
+```bat
+set K="HKLM\SOFTWARE\DMA Design Ltd\GTA2\Screen"
+reg add %K% /reg:32 /f /v rendername /d glrender.dll & reg add %K% /reg:32 /f /v videoname /d glvideo.dll & reg add %K% /reg:32 /f /v do_play_movie /t REG_DWORD /d 0
+```
+
+Back to DMA's renderer: the same with `d3ddll.dll`, `dmavideo.dll` and `do_play_movie` 1.
 
 The resolution is the game's own setting, `full_width`/`full_height` in the same key (`start_mode`
 1 is full screen, 0 windowed). Modes offered: 640x480, 800x600, 1024x768, 1280x960, 1280x1024,
