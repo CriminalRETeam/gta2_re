@@ -6792,8 +6792,8 @@ char_type Ped::FindUsableCarDoor_467090()
 MATCH_FUNC(0x467280)
 Sprite* Ped::ResetAnimAndFindNearestSprite_467280()
 {
-    this->field_168_game_object->field_8_ped_state_1 = 0;
-    this->field_168_game_object->field_C_ped_state_2 = 0;
+    this->field_168_game_object->field_8_ped_state_1 = ped_state_1::walking_0;
+    this->field_168_game_object->field_C_ped_state_2 = ped_state_2::ped2_walking_0;
     this->field_168_game_object->field_10_char_state = 1;
 
     Char* pB4 = this->field_168_game_object;
@@ -7432,7 +7432,7 @@ void Ped::WaitOnFootAtTarget_468040()
 
     if (!byte_61A8A3)
     {
-        bUnknown = this->field_168_game_object->GetCharState_433A80() == 15 && !this->field_21C_bf.bPanicking;
+        bUnknown = this->field_168_game_object->GetCharState_433A80() == Char_B4_state::Jumping_15 && !this->field_21C_bf.bPanicking;
     }
 
     if (field_224_bf.bWaitingOnTarget && this->field_21C_bf.bPanicking)
@@ -7447,7 +7447,7 @@ void Ped::WaitOnFootAtTarget_468040()
             gDistanceToTarget_678750 <= kFpThreeSixteenths_678780 &&
                 abs_sub_less_than_epislon_45AE40(this->field_1AC_cam.z, this->field_1E4_objective_target_z))
         {
-            if (field_168_game_object->GetCharState_433A80() != 15)
+            if (field_168_game_object->GetCharState_433A80() != Char_B4_state::Jumping_15)
             {
                 if (this->field_224_bf.bWaitingOnTarget)
                 {
@@ -7464,7 +7464,7 @@ void Ped::WaitOnFootAtTarget_468040()
         }
         else
         {
-            if (field_168_game_object->GetCharState_433A80() != 15)
+            if (field_168_game_object->GetCharState_433A80() != Char_B4_state::Jumping_15)
             {
                 if (gDistanceToTarget_678750 > kFpThreeEighths_67878C)
                 {
@@ -7957,7 +7957,7 @@ void Ped::UpdateFollowPedObjective_468E80()
     {
         if (!byte_61A8A3)
         {
-            bUnknown2 = this->field_168_game_object->GetCharState_433A80() == 15 && !this->field_21C_bf.bPanicking;
+            bUnknown2 = this->field_168_game_object->GetCharState_433A80() == Char_B4_state::Jumping_15 && !this->field_21C_bf.bPanicking;
         }
 
         if (field_224_bf.bWaitingOnTarget && (this->field_21C_bf.bPanicking || this->field_260_wait_counter > 0xC8u))
@@ -7972,7 +7972,7 @@ void Ped::UpdateFollowPedObjective_468E80()
                 gDistanceToTarget_678750 <= kFpThreeSixteenths_678780 &&
                     abs_sub_less_than_epislon_45AE40(this->field_1AC_cam.z, objective_target_ped->get_cam_z()))
             {
-                if (field_168_game_object->GetCharState_433A80() != 15)
+                if (field_168_game_object->GetCharState_433A80() != Char_B4_state::Jumping_15)
                 {
                     if (this->field_224_bf.bWaitingOnTarget)
                     {
@@ -7990,7 +7990,7 @@ void Ped::UpdateFollowPedObjective_468E80()
             }
             else
             {
-                if (field_168_game_object->GetCharState_433A80() != 15)
+                if (field_168_game_object->GetCharState_433A80() != Char_B4_state::Jumping_15)
                 {
                     if (!this->field_218_objective_timer)
                     {
@@ -8470,7 +8470,7 @@ void Ped::GuardSpot_469BF0()
 
     if (!byte_61A8A3)
     {
-        bUnknown = this->field_168_game_object->GetCharState_433A80() == 15 && !field_21C_bf.bPanicking;
+        bUnknown = this->field_168_game_object->GetCharState_433A80() == Char_B4_state::Jumping_15 && !field_21C_bf.bPanicking;
     }
 
     if (field_224_bf.bWaitingOnTarget && (field_21C_bf.bPanicking || this->field_260_wait_counter > 200u))
@@ -8485,7 +8485,7 @@ void Ped::GuardSpot_469BF0()
             gDistanceToTarget_678750 <= kFpThreeSixteenths_678780 &&
                 abs_sub_less_than_epislon_45AE40(this->field_1AC_cam.z, this->field_1E4_objective_target_z))
         {
-            if (this->field_168_game_object->GetCharState_433A80() != 15)
+            if (this->field_168_game_object->GetCharState_433A80() != Char_B4_state::Jumping_15)
             {
                 if (field_224_bf.bWaitingOnTarget)
                 {
@@ -8509,7 +8509,7 @@ void Ped::GuardSpot_469BF0()
         }
         else
         {
-            if (field_168_game_object->GetCharState_433A80() != 15)
+            if (field_168_game_object->GetCharState_433A80() != Char_B4_state::Jumping_15)
             {
                 field_168_game_object->SetVelocity_433920(this->field_1F4_walk_speed);
                 UpdateMovementTowardsTarget_4672E0(gDistanceToTarget_678750, ped_move_target_type::objective_target_pos_4);
@@ -9256,7 +9256,7 @@ void Ped::ChaseTargetStateMachine_46B170()
         {
             if (gDistanceToTarget_678750 < kFpOneEighth_6784E8)
             {
-                if (field_168_game_object->GetCharState_433A80() != 15)
+                if (field_168_game_object->GetCharState_433A80() != Char_B4_state::Jumping_15)
                 {
                     Ped::ChangeNextPedState1_45C500(ped_state_1::standing_still_7);
                     Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_staying_14);
@@ -9829,7 +9829,7 @@ void Ped::EnterCarStateMachine_46BDC0()
 
         if (field_154_target_to_enter->GetDriver_4118B0())
         {
-            if (field_168_game_object->field_6C_animation_state == 6)
+            if (field_168_game_object->field_6C_animation_state == Char_Anim_state::Entering_Car_6)
             {
                 if (field_168_game_object->field_68_animation_frame == 2 && is_player_41B0A0() &&
                     !field_154_target_to_enter->CanBeEnteredByPed_4451E0(this))
@@ -10016,7 +10016,7 @@ void Ped::ExitCarStateMachine_46C250()
         }
 
         if (this->field_27C_ped_state_2 != ped_state_2::ped2_getting_out_a_car_7 &&
-            this->field_168_game_object->field_6C_animation_state != 7)
+            this->field_168_game_object->field_6C_animation_state != Char_Anim_state::Exiting_Car_7)
         {
             this->field_226_internal_objective_status = 1;
             if (field_164_ped_group)
@@ -10462,7 +10462,7 @@ void Ped::FollowCarOnFoot_46D300()
     {
         if (gDistanceToTarget_678750 <= kFpQuarter_678788)
         {
-            if (this->field_168_game_object->GetCharState_433A80() != 15)
+            if (this->field_168_game_object->GetCharState_433A80() != Char_B4_state::Jumping_15)
             {
                 if (gDistanceToTarget_678750 < kFpOneEighth_6784E8)
                 {
@@ -10737,7 +10737,7 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
                 {
                     if (gDistanceToTarget_678750 < kFpHalf_67853C)
                     {
-                        if (field_168_game_object->GetCharState_433A80() != 15) // jumping
+                        if (field_168_game_object->GetCharState_433A80() != Char_B4_state::Jumping_15)
                         {
                             Ped::ChangeNextPedState1_45C500(ped_state_1::standing_still_7); // line 5b5
                             Ped::ChangeNextPedState2_45C540(11);
@@ -10754,7 +10754,7 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
                         return;
                     }
                 }
-                else if (field_168_game_object->GetCharState_433A80() != 15) // line 5fe
+                else if (field_168_game_object->GetCharState_433A80() != Char_B4_state::Jumping_15) // line 5fe
                 {
                     Ped::ChangeNextPedState1_45C500(ped_state_1::standing_still_7);
                     Ped::ChangeNextPedState2_45C540(11);
