@@ -36,7 +36,7 @@ bool Registry::Open_Sound_Root_586A00(PHKEY phkResult)
 }
 
 MATCH_FUNC(0x586A70)
-bool Registry::Get_Sound_Settting_586A70(const char_type* lpValueName)
+bool Registry::Sound_Setting_Exists_586A70(const char_type* lpValueName)
 {
     HKEY hKey;
     DWORD cbData;
@@ -60,7 +60,7 @@ bool Registry::Get_Sound_Settting_586A70(const char_type* lpValueName)
 }
 
 MATCH_FUNC(0x586AE0)
-s32 Registry::Set_Sound_Setting_586AE0(const char_type* lpValueName, s32 value)
+s32 Registry::Get_Sound_Setting_586AE0(const char_type* lpValueName, s32 value)
 {
     HKEY hKey;
     Open_Sound_Root_586A00(&hKey);
@@ -216,7 +216,7 @@ char_type Registry::Open_Screen_Root_586DB0(PHKEY phkResult)
 }
 
 MATCH_FUNC(0x586E20)
-bool Registry::Get_Debug_Setting_586E20(const char_type* lpValueName)
+bool Registry::Debug_Setting_Exists_586E20(const char_type* lpValueName)
 {
     bool bRead = false;
     HKEY hKey;
@@ -276,7 +276,7 @@ void Registry::Get_Option_586F00(const char_type* lpValueName, BYTE* pBuffer, s3
 }
 
 MATCH_FUNC(0x586F70)
-s32 Registry::Set_Option_586F70(const char_type* lpValueName, s32 value)
+s32 Registry::Get_Option_Int_586F70(const char_type* lpValueName, s32 value)
 {
     HKEY hKey;
     DWORD Data;
@@ -303,7 +303,7 @@ s32 Registry::Set_Option_586F70(const char_type* lpValueName, s32 value)
 }
 
 MATCH_FUNC(0x587010)
-s32 Registry::Set_Control_Setting_587010(s32 control_idx, s32 value)
+s32 Registry::Get_Control_Setting_587010(s32 control_idx, s32 value)
 {
     HKEY hKey;
     DWORD Data;
@@ -373,7 +373,7 @@ void Registry::Set_Screen_Setting_587170(const char_type* lpValueName, s32 Data)
 }
 
 MATCH_FUNC(0x5871E0)
-void Registry::Set_Screen_Setting_5871E0(const char_type* lpValueName, BYTE* lpData, u16 maxLen)
+void Registry::Get_Screen_String_5871E0(const char_type* lpValueName, BYTE* lpData, u16 maxLen)
 {
     HKEY hKey; // [esp+8h] [ebp-8h] BYREF
     DWORD cbData; // [esp+Ch] [ebp-4h] BYREF
@@ -433,7 +433,7 @@ bool Registry::Get_Binary_587340(HKEY hKey, const char_type* keyPath, s32 value,
 }
 
 MATCH_FUNC(0x5873E0)
-s32 Registry::Get_Int_5873E0(HKEY hKey, const char_type* subKey)
+s32 Registry::Get_Binary_Size_5873E0(HKEY hKey, const char_type* subKey)
 {
     char_type keyPath[260];
     sprintf(keyPath, "%ss", subKey);
@@ -475,7 +475,7 @@ MATCH_FUNC(0x5875A0)
 s32 __stdcall Registry::Get_Binary_Value_5875A0(HKEY hKey, const char_type* keyPath, LPBYTE lpData)
 {
     s32 ret = 0;
-    s32 size = gRegistry_6FF968.Get_Int_5873E0(hKey, keyPath);
+    s32 size = gRegistry_6FF968.Get_Binary_Size_5873E0(hKey, keyPath);
     if (size)
     {
         if (gRegistry_6FF968.Get_Binary_587340(hKey, keyPath, size, lpData))
@@ -522,7 +522,7 @@ char_type Registry::Network_Setting_Exists_587620(const char_type* lpValueName)
 }
 
 MATCH_FUNC(0x587690)
-s32 Registry::Set_Network_Setting_587690(const char_type* lpValueName, s32 value)
+s32 Registry::Get_Network_Setting_587690(const char_type* lpValueName, s32 value)
 {
     HKEY hKey;
     CreateNetworkRoot_587420(&hKey);
@@ -588,7 +588,7 @@ char_type Registry::Open_Player_Root_5877A0(PHKEY phkResult)
 }
 
 MATCH_FUNC(0x587810)
-DWORD Registry::Create_Player_Setting_587810(const char_type* lpValueName)
+DWORD Registry::Get_Player_Setting_587810(const char_type* lpValueName)
 {
     HKEY hKey;
     DWORD Data;

@@ -1,6 +1,6 @@
 #include "Fix16_Rect.hpp"
 #include "map_0x370.hpp"
-#include "SpriteGrid_400.hpp"
+#include "SpriteGrid.hpp"
 #include "sprite.hpp"
 
 DEFINE_GLOBAL_INIT(Fix16, kSmallWidthEpslion_703450, Fix16(0xCCC, 0), 0x703450);
@@ -35,13 +35,13 @@ bool Fix16_Rect::IntersectsSpriteRenderingRect_59DDF0(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x59de80)
-char_type Fix16_Rect::CanRectEnterMovementRegion_59DE80()
+char_type Fix16_Rect::IsRectBlockedByMap_59DE80()
 {
     DoSetCurrentRect_59DD60();
     s32 x = ((this->field_0_left + this->field_4_right) / 2).ToInt();
     s32 y = ((this->field_8_top + this->field_C_bottom) / 2).ToInt();
     s32 z = ((this->field_10_low_z + this->field_14_high_z) / 2).ToInt();
-    return gMap_0x370_6F6268->CanSpriteEnterMovementRegion_4E4460(x, y, z, 0, 1024);
+    return gMap_0x370_6F6268->IsMovementRegionBlocked_4E4460(x, y, z, 0, 1024);
 }
 
 MATCH_FUNC(0x59dee0)

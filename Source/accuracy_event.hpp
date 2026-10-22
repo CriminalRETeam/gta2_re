@@ -1,6 +1,6 @@
 #pragma once
 
-// First argument of PlayerScoreTracker_36C::UpdateAccuracyCount_5934F0 (stored in field_194_last_accuracy_event).
+// First argument of PlayerScoreTracker::UpdateAccuracyCount_5934F0 (stored in field_194_last_accuracy_event).
 // Kept in its own header, like car_despawn_status.hpp, so that the enum does not land in a header many TUs share.
 namespace accuracy_event
 {

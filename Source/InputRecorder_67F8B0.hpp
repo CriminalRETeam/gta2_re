@@ -22,13 +22,13 @@ enum ReplayState
 #pragma pack(push)
 #pragma pack(1)
 // DirectInput keyboard and game pads (the object has no data of its own)
-class InputDevices_1
+class InputDevices
 {
   public:
     // TODO: Probably this call
     EXPORT void __stdcall free_input_devices_4987A0();
 
-    EXPORT void read_keyboard_and_gamepad_498CC0();
+    EXPORT void flush_keyboard_and_gamepad_498CC0();
 
     EXPORT void get_registry_controls_498C00();
     EXPORT bool game_pads_init_498BA0();
@@ -39,22 +39,24 @@ class InputDevices_1
     EXPORT bool acquire_input_device_498730(struct IDirectInputDeviceA* pGamePadDevice);
     EXPORT bool game_pad_read_498D20();
     EXPORT void AddKeyToInputBits_498C80(s32* pInputBits, DIDEVICEOBJECTDATA* device_data_keys);
-    EXPORT void read_input_device_498DA0(s32* input_bits, u8 bUnknown);
+    EXPORT void read_input_device_498DA0(s32* input_bits, u8 bApplyKeyboardControls);
 
-    u8 field_0;
+    u8 field_0_unused;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(InputDevices, 0x1);
 #pragma pack(pop)
 
 // One recorded input change: the rng index it happened at, the input bits and the random number
-struct InputRecord_C
+struct InputRecord
 {
     s32 field_0_rng_idx;
     s32 field_4_inputs;
     s32 field_8_rng_rnd;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(InputRecord, 0xC);
 
 // The text header at the start of a replay file
-struct ReplayHeader_10C
+struct ReplayHeader
 {
     char_type field_0_version[8];
     char_type field_8_date[30];
@@ -65,6 +67,7 @@ struct ReplayHeader_10C
     char_type field_BC_debug_str[40];
     char_type field_E4_flags[40];
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(ReplayHeader, 0x10C);
 
 // Reads the inputs (get_input_bits_4CEAC0) and records / plays back replays
 class InputRecorder_67F8B0
@@ -87,7 +90,7 @@ class InputRecorder_67F8B0
     EXPORT void set_input_4CDCF0(s32 mask_idx);
     EXPORT void clear_input_4CDD10(s32 mask_idx);
     EXPORT bool should_ignore_input_4CDD80(s32 dinput_key);
-    EXPORT bool should_ignore_input_4CDDF0(s32 dinput_key);
+    EXPORT bool should_record_input_4CDDF0(s32 dinput_key);
     EXPORT void save_replay_record_4CDE20(u32 inputs);
     EXPORT void SaveReplay_4CDED0();
     EXPORT void modify_inputs_4CDF30(s32 match_mask);
@@ -102,7 +105,7 @@ class InputRecorder_67F8B0
     EXPORT u32 get_input_bits_4CEAC0();
     EXPORT void save_replay_inputs_4CED00(s32 input_old, s32 input_new);
     EXPORT void DisplayInputBits_4CED90();
-    EXPORT bool RecOrPlayBackState_4CEDF0();
+    EXPORT bool IsPlayingBack_4CEDF0();
     EXPORT void ShowInput_4CEE10();
 
     // 9.6f 0x44AA60
@@ -131,7 +134,7 @@ class InputRecorder_67F8B0
     s32 field_4_input_bits;
     s32 field_8_input_masks[12];
     s32 field_38_replay_state;
-    InputRecord_C field_3C_rec_buff[k_max_records];
+    InputRecord field_3C_rec_buff[k_max_records];
     s32 field_7533C_used_recs_count;
     u32 field_75340_rec_buf_idx;
     // front end input on/off ??
@@ -141,4 +144,4 @@ class InputRecorder_67F8B0
 
 EXTERN_GLOBAL(InputRecorder_67F8B0, gInputRecorder_67F8B0);
 
-EXTERN_GLOBAL(InputDevices_1*, gInputDevices_67B990);
+EXTERN_GLOBAL(InputDevices*, gInputDevices_67B990);

@@ -33,7 +33,7 @@ EXTERN_GLOBAL(bool, bDo_show_horn_67D4F2);
 EXTERN_GLOBAL(bool, bIgnore_replay_header_67D4F3);
 EXTERN_GLOBAL(bool, bPlay_replay_67D4F4);
 EXTERN_GLOBAL(bool, bDont_get_car_back_67D4F5);
-EXTERN_GLOBAL(bool, gCheatUnknown_67D4F6);
+EXTERN_GLOBAL(bool, gCheatUnlimitedJailCard_67D4F6);
 EXTERN_GLOBAL(bool, gCheatUnlimitedElectroGun_67D4F7);
 EXTERN_GLOBAL(bool, bDo_test_67D4F8);
 EXTERN_GLOBAL(bool, bSkip_police_67D4F9);

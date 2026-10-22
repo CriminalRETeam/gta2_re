@@ -1,6 +1,6 @@
 #pragma once
 
-// Car_BC::field_88_despawn_status (stored as s32). Kept in its own header, like ped_graphic_type.hpp, so
+// Car::field_88_despawn_status (stored as s32). Kept in its own header, like ped_graphic_type.hpp, so
 // that the enum does not land in a header many TUs share.
 namespace car_despawn_status
 {

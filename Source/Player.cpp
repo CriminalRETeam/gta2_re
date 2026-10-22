@@ -1,43 +1,45 @@
 #include "Player.hpp"
+#include "car_shop_type.hpp"
 #include "hud_message_priority.hpp"
 #include "voice_line.hpp"
 #include "InputRecorder_67F8B0.hpp"
-#include "CarPhysics_B0.hpp"
-#include "Car_BC.hpp"
+#include "input_bits.hpp"
+#include "CarPhysics.hpp"
+#include "Car.hpp"
 #include "RouteFinder.hpp"
 #include "Firefighters.hpp"
-#include "CarAI_78.hpp"
+#include "CarAI.hpp"
 #include "Char_Pool.hpp"
 #include "Frontend.hpp"
 #include "Function.hpp"
-#include "Game_0x40.hpp"
+#include "Game.hpp"
 #include "Gang.hpp"
 #include "Globals.hpp"
 #include "Hud.hpp"
 #include "NetPlay.hpp"
 #include "Ped.hpp"
 #include "PedGroup.hpp"
-#include "Police_7B8.hpp"
-#include "Weapon_30.hpp"
-#include "Weapon_8.hpp"
+#include "Police.hpp"
+#include "Weapon.hpp"
+#include "WeaponManager.hpp"
 #include "debug.hpp"
 #include "error.hpp"
-#include "ScriptManager_C1EA8.hpp"
-#include "SoundObject_10.hpp"
-#include "GameSession_578.hpp"
+#include "ScriptManager.hpp"
+#include "SoundObject.hpp"
+#include "GameSession.hpp"
 #include "map_0x370.hpp"
 #include "registry.hpp"
 #include "rng.hpp"
 #include "root_sound.hpp"
-#include "text_0x14.hpp"
+#include "TextTable.hpp"
 #include "winmain.hpp"
-#include "TagGame_28.hpp"
-#include "PlayerCrimeStats_3C.hpp"
+#include "TagGame.hpp"
+#include "PlayerCrimeStats.hpp"
 #include <DINPUT.H>
 
 // Forward declarations: the functions below are in address order
 EXTERN_GLOBAL(s16, gTestRouteIdx_675F14);
-EXTERN_GLOBAL(Car_BC*, gTestFireCar_675C30);
+EXTERN_GLOBAL(Car*, gTestFireCar_675C30);
 
 EXTERN_GLOBAL(bool, gCheatUnlimitedFlameThrower_67D6CC);
 EXTERN_GLOBAL(bool, gCheatInvisibility_67D539);
@@ -48,7 +50,7 @@ DEFINE_GLOBAL_INIT(Fix16, kTwo_6FE618, Fix16(2), 0x6FE618);
 DEFINE_GLOBAL_INIT(Fix16, kZero_6FE41C, kZero_6FE610, 0x6FE41C);
 DEFINE_GLOBAL_INIT(Ang16, kAngZero_6FE754, Ang16(0), 0x6FE754);
 DEFINE_GLOBAL_INIT(Ang16, kJumpTurnAccel_6FE74C, Ang16(4), 0x6FE74C);
-DEFINE_GLOBAL_INIT(Ang16, word_6FE750, Ang16(12), 0x6FE750);
+DEFINE_GLOBAL_INIT(Ang16, kAng3_6FE750, Ang16(12), 0x6FE750);
 DEFINE_GLOBAL_INIT(Ang16, kAttackTurnAccel_6FE488, Ang16(12), 0x6FE488);
 DEFINE_GLOBAL_INIT(Ang16, kMaxJumpTurnSpeed_6FE450, Ang16(24), 0x6FE450);
 DEFINE_GLOBAL_INIT(Ang16, kMaxTurnSpeed_6FE700, Ang16(48), 0x6FE700);
@@ -63,8 +65,8 @@ struct UnknownDebugClass
 DEFINE_GLOBAL(UnknownDebugClass*, dword_7044A0, 0x7044A0);
 DEFINE_GLOBAL(UnknownDebugClass*, dword_675F74, 0x675F74);
 
-DEFINE_GLOBAL(Hud_Arrow_7C*, gTestArrow_70416C, 0x70416C);
-DEFINE_GLOBAL(Car_BC*, gTestArrowCar_7043F0, 0x7043F0);
+DEFINE_GLOBAL(Hud_Arrow*, gTestArrow_70416C, 0x70416C);
+DEFINE_GLOBAL(Car*, gTestArrowCar_7043F0, 0x7043F0);
 DEFINE_GLOBAL(s32, gTestTimer_7042D8, 0x7042D8);
 
 MATCH_FUNC(0x42D870)
@@ -79,7 +81,7 @@ void UnknownDebugClass::DoBrianTest_42D870(u16 action)
             gGame_0x40_67E008->ExitGameNoBonus_4B8C00(0, GameExitType::GameOverRIP_3);
             break;
         case 9:
-            gScriptManager_6F8060->SaveGame_511E10(gGameSession_67E8E0.GetDebugStr_4C5970());
+            gScriptManager_6F8060->SaveGame_511E10(gGameSession_67E8E0.GetSaveFileName_4C5970());
             break;
         case 6:
             gTestRouteIdx_675F14 = gRouteFinder_6FFDC8->DoStartRoute_58A0D0(3, 3, 1, 0xD5, 0xAB, 1, 1);
@@ -93,7 +95,7 @@ void UnknownDebugClass::DoBrianTest_42D870(u16 action)
             {
                 pPed->field_16C_car->GoToBlockTest_441030(3, 3, 1, 1);
                 pPed->field_16C_car->InitCarAIControl_440590();
-                gRouteFinder_6FFDC8->DebugPrintRoute_58A020(pPed->field_16C_car->field_5C_AI->field_28_junc_idx);
+                gRouteFinder_6FFDC8->DebugPrintRoute_58A020(pPed->field_16C_car->field_5C_AI->field_28_route_idx);
             }
             break;
         }
@@ -104,25 +106,25 @@ void UnknownDebugClass::DoBrianTest_42D870(u16 action)
 }
 
 DEFINE_GLOBAL(s16, gTestRouteIdx_675F14, 0x675F14);
-DEFINE_GLOBAL(Car_BC*, gTestFireCar_675C30, 0x675C30);
+DEFINE_GLOBAL(Car*, gTestFireCar_675C30, 0x675C30);
 
 MATCH_FUNC(0x443CB0)
-EXPORT s32 Player::ObjectTypeToWeaponType_443CB0(u8 object_type)
+EXPORT s32 Player::ObjectTypeToWeaponType_443CB0(u8 shop_type)
 {
     s32 weapon_kind;
-    switch (object_type)
+    switch (shop_type)
     {
-        case objects::shop_car_mines_252:
+        case car_shop_type::mines_252:
             weapon_kind = weapon_type::car_mines;
             break;
-        case objects::shop_car_oil_stain_251:
+        case car_shop_type::oil_stain_251:
             weapon_kind = weapon_type::oil_stain;
             break;
-        case objects::shop_car_smg_250:
+        case car_shop_type::car_smg_250:
             weapon_kind = weapon_type::car_smg;
             break;
-        case 253:
-        case objects::machine_gun_bullet_254:
+        case car_shop_type::change_plates_253:
+        case car_shop_type::car_bomb_254:
             weapon_kind = weapon_type::car_bomb;
             break;
         default:
@@ -139,9 +141,9 @@ u8 Player::GetIdx_4881E0()
 }
 
 MATCH_FUNC(0x5645B0)
-void Player::AddCarToHistory_5645B0(Car_BC* pNewCar)
+void Player::AddCarToHistory_5645B0(Car* pNewCar)
 {
-    Car_BC** pIter = field_54_car_history;
+    Car** pIter = field_54_car_history;
     if (!bStartNetworkGame_7081F0)
     {
         u8 i = PromoteCarInHistory_564610(pNewCar, false);
@@ -171,9 +173,9 @@ void Player::AddCarToHistory_5645B0(Car_BC* pNewCar)
 }
 
 MATCH_FUNC(0x564610)
-bool Player::PromoteCarInHistory_564610(Car_BC* pCar, bool dont_modify)
+bool Player::PromoteCarInHistory_564610(Car* pCar, bool dont_modify)
 {
-    Car_BC** ppCarIter = &field_54_car_history[1];
+    Car** ppCarIter = &field_54_car_history[1];
     if (!bStartNetworkGame_7081F0)
     {
         if (pCar == field_54_car_history[2]) // check 2
@@ -185,7 +187,7 @@ bool Player::PromoteCarInHistory_564610(Car_BC* pCar, bool dont_modify)
         {
             if (*ppCarIter == pCar)
             {
-                Car_BC** pCarValue = ppCarIter + 1;
+                Car** pCarValue = ppCarIter + 1;
                 if (count < 2)
                 {
                     // shift the array
@@ -212,9 +214,9 @@ bool Player::PromoteCarInHistory_564610(Car_BC* pCar, bool dont_modify)
 }
 
 MATCH_FUNC(0x564680)
-void Player::PushCarInfo_564680(Car_BC* pCar)
+void Player::RemoveCarFromHistory_564680(Car* pCar)
 {
-    Car_BC** pIter = field_54_car_history;
+    Car** pIter = field_54_car_history;
     if (!bStartNetworkGame_7081F0)
     {
         u8 idx;
@@ -232,7 +234,7 @@ void Player::PushCarInfo_564680(Car_BC* pCar)
             }
         }
 
-        Car_BC** pCurrent = &field_54_car_history[idx];
+        Car** pCurrent = &field_54_car_history[idx];
         if (*pCurrent == *pIter)
         {
             *pCurrent = 0;
@@ -241,11 +243,11 @@ void Player::PushCarInfo_564680(Car_BC* pCar)
 }
 
 MATCH_FUNC(0x564710)
-void Player::SetKFCarWeapon_564710(Car_BC* pCar, s32 weapon_kind)
+void Player::SetKFCarWeapon_564710(Car* pCar, s32 weapon_kind)
 {
     this->field_18_pre_kf_weapon_kind = this->field_788_curr_weapon_idx;
 
-    Weapon_30* pWeapon = gWeapon_8_707018->find_5E3D20(pCar, weapon_kind);
+    Weapon* pWeapon = gWeapon_8_707018->find_5E3D20(pCar, weapon_kind);
     if (pWeapon)
     {
         this->field_1A_pre_kf_ammo = pWeapon->get_ammo_4A4FE0();
@@ -293,7 +295,7 @@ void Player::ClearKFWeapon_5647D0()
         {
             if (field_20_kf_car->field_6C_car_id == this->field_24_kf_car_id)
             {
-                Weapon_30* pWeapon = gWeapon_8_707018->find_5E3D20(field_20_kf_car, this->field_1C_kf_weapon_kind);
+                Weapon* pWeapon = gWeapon_8_707018->find_5E3D20(field_20_kf_car, this->field_1C_kf_weapon_kind);
                 pWeapon->SetAmmo_4A4FF0(this->field_1A_pre_kf_ammo);
                 if (!this->field_1A_pre_kf_ammo)
                 {
@@ -330,13 +332,13 @@ void Player::ClearKFWeapon_5647D0()
 }
 
 MATCH_FUNC(0x5648F0)
-Weapon_30* Player::GetCurrPlayerWeapon_5648F0()
+Weapon* Player::GetCurrPlayerWeapon_5648F0()
 {
     return field_788_curr_weapon_idx == -1 ? NULL : field_718_weapons[field_788_curr_weapon_idx];
 }
 
 MATCH_FUNC(0x564910)
-void Player::SetWeapon_564910(Weapon_30* pWeapon)
+void Player::SetWeapon_564910(Weapon* pWeapon)
 {
     s16 idx = pWeapon->field_1C_idx;
     this->field_718_weapons[idx] = pWeapon;
@@ -411,7 +413,7 @@ void Player::SelectNextOrPrevWeapon_5649D0(char_type go_forwards, char_type go_b
             field_788_curr_weapon_idx = 0;
         }
 
-        Weapon_30* pWeapon;
+        Weapon* pWeapon;
 
         if (go_forwards)
         {
@@ -484,12 +486,12 @@ void Player::SelectNextOrPrevWeapon_5649D0(char_type go_forwards, char_type go_b
 }
 
 MATCH_FUNC(0x564AD0)
-void Player::LoadCarWeapons_564AD0(Car_BC* pCar)
+void Player::LoadCarWeapons_564AD0(Car* pCar)
 {
     s16 last_weapon_kind = -1;
     for (s32 weapon_kind = 15; weapon_kind < 28; weapon_kind++)
     {
-        Weapon_30* pWeapon = gWeapon_8_707018->find_5E3D20(pCar, weapon_kind);
+        Weapon* pWeapon = gWeapon_8_707018->find_5E3D20(pCar, weapon_kind);
         field_718_weapons[weapon_kind] = pWeapon;
         if (pWeapon)
         {
@@ -561,7 +563,7 @@ MATCH_FUNC(0x564C50)
 void Player::RemovePlayerWeapons_564C50()
 {
     s32 i = 15;
-    Weapon_30* pWeapon = this->field_718_weapons[0];
+    Weapon* pWeapon = this->field_718_weapons[0];
     do
     {
         if ((!gCheatUnlimitedElectroGun_67D4F7 || pWeapon->field_1C_idx != weapon_type::shocker) &&
@@ -569,7 +571,7 @@ void Player::RemovePlayerWeapons_564C50()
         {
             if (pWeapon->HasAmmo_4A4F80())
             {
-                pWeapon->add_ammo_5DCE20(0);
+                pWeapon->set_ammo_clips_5DCE20(0);
             }
         }
         ++pWeapon;
@@ -794,7 +796,7 @@ void Player::tick_down_powerups_565070()
 }
 
 MATCH_FUNC(0x5651F0)
-void Player::RestorePowerUpsFromSave_5651F0(SavedPlayerStats_90* pSave)
+void Player::RestorePowerUpsFromSave_5651F0(SavedPlayerStats* pSave)
 {
     for (u8 idx = 0; idx < 17; idx++)
     {
@@ -832,7 +834,7 @@ void Player::TeleportToDebugCam_565310()
 MATCH_FUNC(0x5653E0)
 void Player::DebugWatchNearestCar_5653E0()
 {
-    Car_BC* pCar = gCarManager_6C_677930->GetNearestEnterableCarFromCoord_444FA0(field_14C_view_camera.field_98_cur_pos.field_0_x,
+    Car* pCar = gCarManager_6C_677930->GetNearestEnterableCarFromCoord_444FA0(field_14C_view_camera.field_98_cur_pos.field_0_x,
                                                                           field_14C_view_camera.field_98_cur_pos.field_4_y,
                                                                           field_14C_view_camera.field_98_cur_pos.field_8_z,
                                                                           0);
@@ -858,7 +860,7 @@ void Player::InitPlayerPed_565490(Ped* pPed)
     field_2C_death_countdown = 0;
     field_2C4_player_ped = pPed;
     field_8_turn_speed = kAngZero_6FE754;
-    field_A_turn_accel = kJumpTurnAccel_6FE74C + (word_6FE750 + kJumpTurnAccel_6FE74C);
+    field_A_turn_accel = kJumpTurnAccel_6FE74C + (kAng3_6FE750 + kJumpTurnAccel_6FE74C);
     field_C_move_direction = kZero_6FE610;
     field_10_unused = 0;
     field_680_traffic_spawn_counter = 0;
@@ -897,7 +899,7 @@ void Player::SetInputs_565740(u32 inputs)
 MATCH_FUNC(0x565770)
 void Player::IncrementGangRespectFromDebugKeys_565770(u8 count)
 {
-    Gang_144* pZone = gGangPool_CA8_67E274->FirstGang_4BECA0();
+    Gang* pZone = gGangPool_CA8_67E274->FirstGang_4BECA0();
     for (u8 i = count; i > 0; i--)
     {
         pZone = gGangPool_CA8_67E274->NextGang_4BECE0();
@@ -929,7 +931,7 @@ void Player::Hud_Controls_565890(u16 action)
 {
     s32 vol;
 
-    if (!gHud_2B00_706620->IsBusy_5D6C20(action, this))
+    if (!gHud_2B00_706620->HandleInputKey_5D6C20(action, this))
     {
         switch (action)
         {
@@ -949,8 +951,8 @@ void Player::Hud_Controls_565890(u16 action)
             case DIK_HOME:
                 if (bDo_debug_keys_67D6CF)
                 {
-                    field_90_game_camera.ReturnToDefaultZoom_435830();
-                    field_208_aux_game_camera.ReturnToDefaultZoom_435830();
+                    field_90_game_camera.ResetElevation_435830();
+                    field_208_aux_game_camera.ResetElevation_435830();
                 }
                 break;
             case DIK_NEXT:
@@ -1262,69 +1264,69 @@ void Player::CharacterControls_566520()
 {
     int input = this->field_4_inputs;
 
-    // up arrow 0x1
-    bool forwardGas = (input & 1) == 1;
+    // up arrow
+    bool forwardGas = (input & input_bit::Forward) == input_bit::Forward;
     bool same = (forwardGas == this->field_78_now_forward_pressed);
-    this->field_8B_was_forward_pressed = !same;
+    this->field_8B_forward_changed = !same;
     this->field_78_now_forward_pressed = forwardGas;
 
-    // down arrow 0x2
-    bool footBrake = (input & 2) == 2;
+    // down arrow
+    bool footBrake = (input & input_bit::Backward) == input_bit::Backward;
     same = (footBrake == this->field_79_now_down_pressed);
-    this->field_8C_was_down_pressed = !same;
+    this->field_8C_down_changed = !same;
     this->field_79_now_down_pressed = footBrake;
 
-    // left arrow 0x4
-    // right arrow 0x8
-    this->field_7A_now_left_pressed = (input & 4) == 4;
-    this->field_7B_now_right_pressed = (input & 8) == 8;
+    // left arrow
+    // right arrow
+    this->field_7A_now_left_pressed = (input & input_bit::Left) == input_bit::Left;
+    this->field_7B_now_right_pressed = (input & input_bit::Right) == input_bit::Right;
 
-    // ctrl 0x10 (attack)
-    const bool ctrl10 = (input & 0x10) == 0x10;
+    // ctrl (attack)
+    const bool ctrl10 = (input & input_bit::Attack) == input_bit::Attack;
     same = (ctrl10 == this->field_7C_now_attack_pressed);
-    this->field_8D_was_attack_pressed = !same;
+    this->field_8D_attack_changed = !same;
     this->field_7C_now_attack_pressed = ctrl10;
 
-    // space 0x40 (handbrake, jump)
+    // space (handbrake, jump)
     const bool prevHandBrake = this->field_7E_now_hand_brake_or_jump_pressed;
-    const bool handBrake = (input & 0x40) == 0x40;
+    const bool handBrake = (input & input_bit::HandbrakeJump) == input_bit::HandbrakeJump;
     this->field_7E_now_hand_brake_or_jump_pressed = handBrake;
-    this->field_8A_was_hand_brake_or_jump_pressed = (handBrake != prevHandBrake);
+    this->field_8A_hand_brake_or_jump_changed = (handBrake != prevHandBrake);
 
-    // enter 0x20 (enter/exit car)
+    // enter (enter/exit car)
     const bool prev20 = this->field_7D_now_enter_exit_pressed;
-    const bool ctrl20 = (input & 0x20) == 0x20;
+    const bool ctrl20 = (input & input_bit::EnterExit) == input_bit::EnterExit;
     this->field_7D_now_enter_exit_pressed = ctrl20;
-    this->field_89_was_enter_exit_pressed = (ctrl20 != prev20);
+    this->field_89_enter_exit_changed = (ctrl20 != prev20);
 
-    // y 0x80 (prev weapon)
+    // y (prev weapon)
     const bool prev80 = this->field_7F_now_prev_weapon_pressed;
-    const bool ctrl80 = (input & 0x80) == 0x80;
+    const bool ctrl80 = (input & input_bit::PrevWeapon) == input_bit::PrevWeapon;
     this->field_7F_now_prev_weapon_pressed = ctrl80;
-    this->field_88_was_prev_weapon_pressed = (ctrl80 != prev80);
+    this->field_88_prev_weapon_changed = (ctrl80 != prev80);
 
-    // x 0x100 (next weapon)
+    // x (next weapon)
     const bool prev100 = this->field_80_now_next_weapon_pressed;
-    this->field_80_now_next_weapon_pressed = (input & 0x100) == 0x100;
-    this->field_87_was_next_weapon_pressed = (field_80_now_next_weapon_pressed != prev100);
+    this->field_80_now_next_weapon_pressed = (input & input_bit::NextWeapon) == input_bit::NextWeapon;
+    this->field_87_next_weapon_changed = (field_80_now_next_weapon_pressed != prev100);
 
-    // tab 0x200  (hold for turret movement, horn, siren, burp, fart on press)
+    // tab (hold for turret movement, horn, siren, burp, fart on press)
     const bool prev200 = this->field_81_now_special_1_pressed;
-    bool ctrl200 = (input & 0x200) == 0x200;
+    bool ctrl200 = (input & input_bit::Special1) == input_bit::Special1;
     this->field_81_now_special_1_pressed = ctrl200;
-    this->field_84_was_special_1_pressed = (ctrl200 != prev200);
+    this->field_84_special_1_changed = (ctrl200 != prev200);
 
-    // alt 0x400 (special2, hold for camera pan)
-    const bool ctrl400 = (input & 0x400) == 0x400;
+    // alt (special2, hold for camera pan)
+    const bool ctrl400 = (input & input_bit::Special2) == input_bit::Special2;
     same = (ctrl400 == this->field_82_now_special_2_pressed);
-    this->field_85_was_special_2_pressed = !same;
+    this->field_85_special_2_changed = !same;
     this->field_82_now_special_2_pressed = ctrl400;
 
-    // right shift 0x800 (special 3??)
+    // right shift (special 3??)
     const bool prev800 = this->field_83_now_special_3_pressed;
-    bool ctrl800 = (input & 0x800) == 0x800;
+    bool ctrl800 = (input & input_bit::Special3) == input_bit::Special3;
     this->field_83_now_special_3_pressed = ctrl800;
-    this->field_86_was_special_3_pressed = (ctrl800 != prev800);
+    this->field_86_special_3_changed = (ctrl800 != prev800);
 }
 
 MATCH_FUNC(0x566820)
@@ -1334,10 +1336,10 @@ void Player::ControlInputs_566820()
 
     if (field_4_inputs)
     {
-        const u16 dxKey = (field_4_inputs >> 12) & 0x1FF;
+        const u16 dxKey = (field_4_inputs >> input_bit::KeyShift) & input_bit::KeyMask;
         if (dxKey != 0)
         {
-            if ((field_4_inputs & 0x200000) != 0)
+            if ((field_4_inputs & input_bit::KeyDown) != 0)
             {
                 Hud_Controls_565890(dxKey);
             }
@@ -1354,7 +1356,7 @@ MATCH_FUNC(0x5668D0)
 void Player::HandleControls_5668D0(Ped* pPed)
 {
     bool bNoPed = (pPed == NULL);
-    Car_BC* pPedCar = pPed->get_car_416B60();
+    Car* pPedCar = pPed->get_car_416B60();
 
     if (bNoPed)
     {
@@ -1364,13 +1366,13 @@ void Player::HandleControls_5668D0(Ped* pPed)
     {
         return;
     }
-    if (field_7D_now_enter_exit_pressed && field_89_was_enter_exit_pressed)
+    if (field_7D_now_enter_exit_pressed && field_89_enter_exit_changed)
     {
         if (!pPedCar)
         {
             if (pPed->get_objective_403A80() != objectives_enum::leave_car_36)
             {
-                Car_BC* pCar = gCarManager_6C_677930->GetNearestFrontVehicle_445210(pPed->field_168_game_object->field_80_sprite_ptr, 3u);
+                Car* pCar = gCarManager_6C_677930->GetNearestFrontVehicle_445210(pPed->field_168_game_object->field_80_sprite_ptr, 3u);
                 if (pCar)
                 {
                     pPed->SetObjective2_463830(objectives_enum::no_obj_0);
@@ -1440,7 +1442,7 @@ void Player::HandleControls_5668D0(Ped* pPed)
     }
     else
     {
-        if (!field_8D_was_attack_pressed)
+        if (!field_8D_attack_changed)
         {
             if (field_788_curr_weapon_idx == -1)
             {
@@ -1448,7 +1450,7 @@ void Player::HandleControls_5668D0(Ped* pPed)
             }
             else
             {
-                bNoPed = field_718_weapons[field_788_curr_weapon_idx]->sub_5E33C0() == 0;
+                bNoPed = field_718_weapons[field_788_curr_weapon_idx]->CanFireWhileHeld_5E33C0() == 0;
                 if (!bNoPed)
                 {
                     pPed->SetAttacking_4A5010();
@@ -1486,7 +1488,7 @@ void Player::HandleControls_5668D0(Ped* pPed)
 }
 
 MATCH_FUNC(0x566C30)
-void Player::DoCarControlInputs_566C30(Car_BC* pCar)
+void Player::DoCarControlInputs_566C30(Car* pCar)
 {
     char bAttackPressed;
 
@@ -1506,7 +1508,7 @@ void Player::DoCarControlInputs_566C30(Car_BC* pCar)
                                  this->field_7B_now_right_pressed,
                                  this->field_7E_now_hand_brake_or_jump_pressed,
                                  this->field_81_now_special_1_pressed,
-                                 this->field_84_was_special_1_pressed,
+                                 this->field_84_special_1_changed,
                                  bAttackPressed);
 }
 
@@ -1600,7 +1602,7 @@ void Player::DoPedControlInputs_566C80(Ped* pPed)
     }
 
     // --- Jump / handbrake ---
-    if (field_7E_now_hand_brake_or_jump_pressed == 1 && field_8A_was_hand_brake_or_jump_pressed)
+    if (field_7E_now_hand_brake_or_jump_pressed == 1 && field_8A_hand_brake_or_jump_changed)
     {
         if (pPed->field_168_game_object && pPed->field_168_game_object->GetCharState_433A80() != Char_B4_state::Jumping_15 &&
             pPed->field_21C_bf.bLeftVehicle == 0)
@@ -1612,9 +1614,9 @@ void Player::DoPedControlInputs_566C80(Ped* pPed)
     // --- Special action ---
     if (pPed->field_168_game_object)
     {
-        if (field_81_now_special_1_pressed && field_84_was_special_1_pressed && !field_7C_now_attack_pressed)
+        if (field_81_now_special_1_pressed && field_84_special_1_changed && !field_7C_now_attack_pressed)
         {
-            pPed->SetVoiceEvent_IfBit24Clear_433DD0(20);
+            pPed->SetVoiceEventIfNotOnFire_433DD0(20);
         }
     }
 }
@@ -1625,11 +1627,11 @@ void Player::ShowDebugInfo_566EE0(char_type skip)
     if (!skip)
     {
         Ped* pPed = GetPlayerPed_4A5130();
-        Car_BC* pCar = pPed->get_car_416B60();
+        Car* pCar = pPed->get_car_416B60();
 
         if (pCar)
         {
-            CarPhysics_B0* pPhysics = pCar->field_58_physics;
+            CarPhysics* pPhysics = pCar->field_58_physics;
             if (pPhysics)
             {
                 pPhysics->ShowPhysicsDebug_559430();
@@ -1861,7 +1863,7 @@ void Player::Busted_5679E0()
         field_2C8_aux_ped->field_267_ped_ref_idx = 0;
         gPolice_7B8_6FEE40->SetArrestedPed_56F8E0(field_2C4_player_ped, field_2C8_aux_ped);
         field_68_camera_mode = 2;
-        memcpy(&field_208_aux_game_camera, &field_90_game_camera, sizeof(Camera_0xBC));
+        memcpy(&field_208_aux_game_camera, &field_90_game_camera, sizeof(Camera));
         field_2D0_aux_cam_active = 1;
         Player::RespawnPlayer_5670B0();
         field_2C4_player_ped->field_210_shock_counter = 0;
@@ -1885,7 +1887,7 @@ void Player::Busted_5679E0()
                 Player::ClearKFWeapon_5647D0();
                 if (HasPowerUp_434920(power_up_indices::JailCard_4))
                 {
-                    if (!gCheatUnknown_67D4F6)
+                    if (!gCheatUnlimitedJailCard_67D4F6)
                     {
                         DecPowerUp_434940(power_up_indices::JailCard_4);
                     }
@@ -1910,7 +1912,7 @@ void Player::Busted_5679E0()
                 field_90_game_camera.SetSmoothFollow_475B60();
                 field_2C8_aux_ped->field_210_shock_counter = 0;
                 field_2C8_aux_ped->field_210_shock_counter = 0;
-                field_2C8_aux_ped->field_20A_wanted_points = 0;
+                field_2C8_aux_ped->field_20A_wanted_points = cop_level_ped_enum::cop_0_stars;
                 field_2C8_aux_ped->Deallocate_45EB60();
                 field_2C8_aux_ped = 0;
                 field_2D0_aux_cam_active = 0;
@@ -1947,7 +1949,7 @@ void Player::UpdateCurrentZones_568520()
 MATCH_FUNC(0x568630)
 void Player::UpdateSoundListener_568630()
 {
-    SoundObject_10* pSoundObj = field_4C_sound_obj;
+    SoundObject* pSoundObj = field_4C_sound_obj;
     if (pSoundObj)
     {
         pSoundObj->field_C_pAny.pCamera_0xBC = &field_14C_view_camera;
@@ -1971,7 +1973,7 @@ void Player::HandleDebugZoom_568670()
 }
 
 MATCH_FUNC(0x5686D0)
-void Player::UpdateCamera_5686D0(Camera_0xBC* pCam)
+void Player::UpdateCamera_5686D0(Camera* pCam)
 {
     // Camera panning
     if (this->field_82_now_special_2_pressed)
@@ -1984,8 +1986,8 @@ void Player::UpdateCamera_5686D0(Camera_0xBC* pCam)
         this->field_7B_now_right_pressed = 0;
         this->field_78_now_forward_pressed = 0;
         this->field_79_now_down_pressed = 0;
-        this->field_8B_was_forward_pressed = 0;
-        this->field_8C_was_down_pressed = 0;
+        this->field_8B_forward_changed = 0;
+        this->field_8C_down_changed = 0;
     }
     else
     {
@@ -2013,9 +2015,9 @@ MATCH_FUNC(0x5687F0)
 void Player::Service_5687F0()
 {
     const bool bNowEnterExitPressed = this->field_7D_now_enter_exit_pressed;
-    const bool bWasEnterExitPressed = this->field_89_was_enter_exit_pressed;
+    const bool bWasEnterExitPressed = this->field_89_enter_exit_changed;
     const bool bNowSpecial_1_Pressed = this->field_81_now_special_1_pressed;
-    const bool bWasSpecial_1_Pressed = this->field_84_was_special_1_pressed;
+    const bool bWasSpecial_1_Pressed = this->field_84_special_1_changed;
 
     if (field_680_traffic_spawn_counter < 100u)
     {
@@ -2028,14 +2030,14 @@ void Player::Service_5687F0()
     if (this->field_30_disable_enter_vehicles)
     {
         this->field_7D_now_enter_exit_pressed = 0;
-        this->field_89_was_enter_exit_pressed = 0;
+        this->field_89_enter_exit_changed = 0;
     }
 
     field_2D4_scores.Service_591C70();
     field_644_crime_stats.Service_484F20();
 
-    Player::SelectNextOrPrevWeapon_5649D0(this->field_87_was_next_weapon_pressed && this->field_80_now_next_weapon_pressed,
-                                          this->field_88_was_prev_weapon_pressed && this->field_7F_now_prev_weapon_pressed);
+    Player::SelectNextOrPrevWeapon_5649D0(this->field_87_next_weapon_changed && this->field_80_now_next_weapon_pressed,
+                                          this->field_88_prev_weapon_changed && this->field_7F_now_prev_weapon_pressed);
 
     if (this->field_8F_block_attack)
     {
@@ -2102,7 +2104,7 @@ void Player::Service_5687F0()
 
         case 2:
             this->field_7D_now_enter_exit_pressed = 0;
-            this->field_89_was_enter_exit_pressed = 0;
+            this->field_89_enter_exit_changed = 0;
 
             Player::UpdateCamera_5686D0(&this->field_208_aux_game_camera);
 
@@ -2194,17 +2196,17 @@ void Player::Service_5687F0()
         }
     }
     this->field_7D_now_enter_exit_pressed = bNowEnterExitPressed;
-    this->field_89_was_enter_exit_pressed = bWasEnterExitPressed;
+    this->field_89_enter_exit_changed = bWasEnterExitPressed;
     this->field_81_now_special_1_pressed = bNowSpecial_1_Pressed;
-    this->field_84_was_special_1_pressed = bWasSpecial_1_Pressed;
+    this->field_84_special_1_changed = bWasSpecial_1_Pressed;
     Player::SetScoreTextColour_569C20();
 }
 
 MATCH_FUNC(0x569410)
 void Player::UpdatePaused_569410()
 {
-    Camera_0xBC* pCam;
-    Camera_0xBC* pCam2;
+    Camera* pCam;
+    Camera* pCam2;
 
     Player::ShowDebugInfo_566EE0(1);
     switch (field_68_camera_mode)
@@ -2260,7 +2262,7 @@ void Player::UpdatePaused_569410()
 MATCH_FUNC(0x569530)
 void Player::EndRemoteControl_569530()
 {
-    Car_BC* pCar = field_2C8_aux_ped->get_car_416B60();
+    Car* pCar = field_2C8_aux_ped->get_car_416B60();
     if (pCar->field_54_driver)
     {
         pCar->ClearDriver_4407F0();
@@ -2297,7 +2299,7 @@ void Player::ResetAuxCamera_5695A0()
 }
 
 MATCH_FUNC(0x569600)
-void Player::StartRemoteControl_569600(Car_BC* pCar)
+void Player::StartRemoteControl_569600(Car* pCar)
 {
     field_2C8_aux_ped = gPedManager_6787BC->SpawnDriver_470B00(pCar);
     field_2C8_aux_ped->SetPedType_403920(ped_type::player_2);
@@ -2316,7 +2318,7 @@ void Player::StartRemoteControl_569600(Car_BC* pCar)
 }
 
 MATCH_FUNC(0x5696D0)
-void Player::WatchCar_5696D0(Car_BC* pCar)
+void Player::WatchCar_5696D0(Car* pCar)
 {
     if (!field_2D0_aux_cam_active && !field_2C8_aux_ped && !field_2CC_watched_car)
     {
@@ -2350,7 +2352,7 @@ void Player::GetPosU8_569840(u8& x, u8& y, u8& z)
     }
     else
     {
-        Camera_0xBC* pCam;
+        Camera* pCam;
         if (field_68_camera_mode == 2 || field_68_camera_mode == 3)
         {
             pCam = &field_208_aux_game_camera;
@@ -2366,7 +2368,7 @@ void Player::GetPosU8_569840(u8& x, u8& y, u8& z)
 }
 
 MATCH_FUNC(0x5698E0)
-Car_BC* Player::GetPlayerCar_5698E0()
+Car* Player::GetPlayerCar_5698E0()
 {
     Ped* pPed;
     if (field_68_camera_mode == 2 || field_68_camera_mode == 3)
@@ -2380,7 +2382,7 @@ Car_BC* Player::GetPlayerCar_5698E0()
 
     if (pPed)
     {
-        Car_BC* pCar = pPed->field_16C_car;
+        Car* pCar = pPed->field_16C_car;
         if (!pCar)
         {
             pCar = pPed->GetCarBeingEnteredOrExited_45BBF0();
@@ -2396,7 +2398,7 @@ void Player::get_pos_569920(Fix16* out_x, Fix16* out_y, Fix16* out_z)
     Ped* pPed = GetActivePed_4A5150();
     if (pPed)
     {
-        Car_BC* pCar = pPed->GetCarBeingEnteredOrExited_45BBF0();
+        Car* pCar = pPed->GetCarBeingEnteredOrExited_45BBF0();
         if (pCar)
         {
             *out_x = pCar->GetX_41E430();
@@ -2412,7 +2414,7 @@ void Player::get_pos_569920(Fix16* out_x, Fix16* out_y, Fix16* out_z)
     }
     else
     {
-        Camera_0xBC* pCam = get_camera_434900();
+        Camera* pCam = get_camera_434900();
         *out_x = pCam->field_98_cur_pos.field_0_x;
         *out_y = pCam->field_98_cur_pos.field_4_y;
         *out_z = pCam->field_98_cur_pos.field_8_z + kTwo_6FE618;
@@ -2598,7 +2600,7 @@ void Player::DebugToggleRemoteControl_569E70()
         Fix16 ypos;
         Fix16 xpos;
         Player::get_pos_569920(&xpos, &ypos, &zpos);
-        Car_BC* pCar = gCarManager_6C_677930->GetNearestCarFromCoord_444F80(xpos, ypos, zpos, 0);
+        Car* pCar = gCarManager_6C_677930->GetNearestCarFromCoord_444F80(xpos, ypos, zpos, 0);
         if (pCar)
         {
             Player::DisableInputs_569F40();
@@ -2656,7 +2658,7 @@ void Player::DisableInputs_569F40()
     {
         pPed->ClearAttacking_403A40();
 
-        Car_BC* pCar = pPed->get_car_416B60();
+        Car* pCar = pPed->get_car_416B60();
         if (pCar)
         {
             if (pPed->not_enter_car_as_passenger_4A5040())
@@ -2720,25 +2722,25 @@ void Player::RestoreCarsFromSave_56A0F0()
 {
     for (u8 i = 0; i < 3; i++)
     {
-        if (gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_0_x[i].field_0 > kZero_6FE610 &&
-            gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_C_y[i].field_0 > kZero_6FE610)
+        if (gGameSave_6F78C8.field_E4_car_and_script_data.field_0_saved_cars.field_0_x[i].field_0_value > kZero_6FE610 &&
+            gGameSave_6F78C8.field_E4_car_and_script_data.field_0_saved_cars.field_C_y[i].field_0_value > kZero_6FE610)
         {
-            Car_BC* pNewCar = gCarManager_6C_677930->SpawnCar_426E10(gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_0_x[i].field_0,
-                                                                gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_C_y[i].field_0,
-                                                                gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_18_z[i].field_0,
-                                                                gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_24_ang[i],
-                                                                gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_3C_car_model[i],
+            Car* pNewCar = gCarManager_6C_677930->SpawnCar_426E10(gGameSave_6F78C8.field_E4_car_and_script_data.field_0_saved_cars.field_0_x[i].field_0_value,
+                                                                gGameSave_6F78C8.field_E4_car_and_script_data.field_0_saved_cars.field_C_y[i].field_0_value,
+                                                                gGameSave_6F78C8.field_E4_car_and_script_data.field_0_saved_cars.field_18_z[i].field_0_value,
+                                                                gGameSave_6F78C8.field_E4_car_and_script_data.field_0_saved_cars.field_24_ang[i],
+                                                                gGameSave_6F78C8.field_E4_car_and_script_data.field_0_saved_cars.field_3C_car_model[i],
                                                                 kOne_6FE614);
             AddCarToHistory_5645B0(pNewCar);
-            pNewCar->field_8_damaged_areas.m_var = gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_30_damaged_areas[i];
-            pNewCar->SetDamage_4A51B0(gGameSave_6F78C8.field_E4_car_and_script_data.field_0.field_2A_damage[i]);
+            pNewCar->field_8_damaged_areas.m_var = gGameSave_6F78C8.field_E4_car_and_script_data.field_0_saved_cars.field_30_damaged_areas[i];
+            pNewCar->SetDamage_4A51B0(gGameSave_6F78C8.field_E4_car_and_script_data.field_0_saved_cars.field_2A_damage[i]);
         }
     }
-    memset(&gGameSave_6F78C8.field_E4_car_and_script_data.field_0, 0, 68u);
+    memset(&gGameSave_6F78C8.field_E4_car_and_script_data.field_0_saved_cars, 0, 68u);
 }
 
 MATCH_FUNC(0x56A1A0)
-void Player::CopyPlayerDataToSave_56A1A0(SavedPlayerStats_90* pSave)
+void Player::CopyPlayerDataToSave_56A1A0(SavedPlayerStats* pSave)
 {
     pSave->field_0_x = field_2C4_player_ped->get_cam_x();
     pSave->field_4_y = field_2C4_player_ped->get_cam_y();
@@ -2754,7 +2756,7 @@ void Player::CopyPlayerDataToSave_56A1A0(SavedPlayerStats_90* pSave)
 
     for (u8 gang_idx = 0; gang_idx < 10; gang_idx++)
     {
-        Gang_144* pGang = gGangPool_CA8_67E274->GangByIdx_4BF1C0(gang_idx);
+        Gang* pGang = gGangPool_CA8_67E274->GangByIdx_4BF1C0(gang_idx);
         pSave->field_75_gang_respect[gang_idx] = pGang->GetRespectForPlayer_4BEEF0(field_2E_idx);
     }
 
@@ -2772,7 +2774,7 @@ void Player::CopyPlayerDataToSave_56A1A0(SavedPlayerStats_90* pSave)
 }
 
 MATCH_FUNC(0x56A310)
-void Player::UpdateGameFromSave_56A310(SavedPlayerStats_90* pSave)
+void Player::UpdateGameFromSave_56A310(SavedPlayerStats* pSave)
 {
     field_684_lives.SetValueClamped_4A50B0(pSave->field_80_lives);
     field_6BC_multipliers.SetValueClamped_4A50B0(pSave->field_14_multipliers);
@@ -2786,13 +2788,13 @@ void Player::UpdateGameFromSave_56A310(SavedPlayerStats_90* pSave)
 
     for (u8 gang_idx = 0; gang_idx < 10; gang_idx++)
     {
-        Gang_144* pGang = gGangPool_CA8_67E274->GangByIdx_4BF1C0(gang_idx);
+        Gang* pGang = gGangPool_CA8_67E274->GangByIdx_4BF1C0(gang_idx);
         pGang->SetRespect_4BEE30(field_2E_idx, pSave->field_75_gang_respect[gang_idx]);
     }
 
     for (u16 weapon_idx = 0; weapon_idx < 15; weapon_idx++)
     {
-        field_718_weapons[weapon_idx]->add_ammo_5DCE20(pSave->field_66_weapon_ammo[weapon_idx]);
+        field_718_weapons[weapon_idx]->set_ammo_clips_5DCE20(pSave->field_66_weapon_ammo[weapon_idx]);
     }
 
     for (u16 crime_idx = 0; crime_idx < crime_stats_type::count_10; crime_idx++)
@@ -2827,7 +2829,7 @@ void Player::ApplyCheats_56A490()
     }
     if (gCheatAllGangMaxRespect_67D587)
     {
-        for (Gang_144* pIter = gGangPool_CA8_67E274->FirstGang_4BECA0(); pIter; pIter = gGangPool_CA8_67E274->NextGang_4BECE0())
+        for (Gang* pIter = gGangPool_CA8_67E274->FirstGang_4BECA0(); pIter; pIter = gGangPool_CA8_67E274->NextGang_4BECE0())
         {
             pIter->SetRespect_4BEE30(field_2E_idx, 100);
         }
@@ -2846,7 +2848,7 @@ void Player::ApplyCheats_56A490()
         gPedManager_6787BC->field_7_make_all_muggers = true;
     }
 
-    if (gCheatUnknown_67D4F6)
+    if (gCheatUnlimitedJailCard_67D4F6)
     {
         Player::CollectPowerUp_564D60(power_up_indices::JailCard_4);
     }
@@ -2864,8 +2866,8 @@ void Player::ApplyCheats_56A490()
     if (byte_67D56B)
     {
         Player::CollectPowerUp_564D60(power_up_indices::JailCard_4);
-        Player::AddWeaponWithAmmo_564960(1, 50u);
-        for (Gang_144* pIter2 = gGangPool_CA8_67E274->FirstGang_4BECA0(); pIter2; pIter2 = gGangPool_CA8_67E274->NextGang_4BECE0())
+        Player::AddWeaponWithAmmo_564960(weapon_type::smg, 50u);
+        for (Gang* pIter2 = gGangPool_CA8_67E274->FirstGang_4BECA0(); pIter2; pIter2 = gGangPool_CA8_67E274->NextGang_4BECE0())
         {
             pIter2->SetRespect_4BEE30(field_2E_idx, 80);
         }
@@ -2888,14 +2890,14 @@ void Player::ClearInputs_56A6D0()
     field_82_now_special_2_pressed = 0;
     field_83_now_special_3_pressed = 0;
 
-    field_84_was_special_1_pressed = 0;
-    field_88_was_prev_weapon_pressed = 0;
-    field_87_was_next_weapon_pressed = 0;
-    field_89_was_enter_exit_pressed = 0;
-    field_8D_was_attack_pressed = 0;
-    field_8A_was_hand_brake_or_jump_pressed = 0;
-    field_8B_was_forward_pressed = 0;
-    field_8C_was_down_pressed = 0;
+    field_84_special_1_changed = 0;
+    field_88_prev_weapon_changed = 0;
+    field_87_next_weapon_changed = 0;
+    field_89_enter_exit_changed = 0;
+    field_8D_attack_changed = 0;
+    field_8A_hand_brake_or_jump_changed = 0;
+    field_8B_forward_changed = 0;
+    field_8C_down_changed = 0;
 }
 
 // https://decomp.me/scratch/OMzHk early %ecx load
@@ -2984,11 +2986,11 @@ Player::~Player()
     }
 
     /*
-	PlayerCrimeStats_3C::dtor_484EE0(&field_644_crime_stats);
-	BonusTracker_1C0::dtor_431DF0(&field_2D4_unk.field_1A8_bonuses);
-	Camera_0xBC::dtor_4369E0(&field_208_aux_game_camera);
-	Camera_0xBC::dtor_4369E0(&field_14C_view_camera);
-	Camera_0xBC::dtor_4369E0(&field_90_game_camera);
+	PlayerCrimeStats::dtor_484EE0(&field_644_crime_stats);
+	BonusTracker::dtor_431DF0(&field_2D4_unk.field_1A8_bonuses);
+	Camera::dtor_4369E0(&field_208_aux_game_camera);
+	Camera::dtor_4369E0(&field_14C_view_camera);
+	Camera::dtor_4369E0(&field_90_game_camera);
 	*/
 }
 

@@ -7,8 +7,8 @@
 #include <windows.h>
 
 struct naughty_sinoussi_0x800;
-class Game_0x40;
-class Network_20324;
+class Game;
+class NetUi;
 
 #pragma pack(push,1)
 class PacketHeader
@@ -18,13 +18,14 @@ class PacketHeader
     s32 field_4_sub_type;
 };
 
-class Packet_Ping_C
+class Packet_Ping
 {
   public:
     s32 field_0_sender_player_id;
     s32 field_4_receiver_player_id;
     s32 field_8_time;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Packet_Ping, 0xC);
 
 class Standard_Packet
 {
@@ -64,7 +65,7 @@ struct Network_Data
 {
     u8 field_0;
     u8 field_1_tick;
-    u8 field_2_unused;
+    u8 field_2_msg_size; // field_4_length + 2
     u8 field_3_type;
     u8 field_4_length;
     void* field_5_data;
@@ -110,10 +111,11 @@ struct Network_PlayerPing
     s32 field_208_avg_ping;
 };
 
-struct Network_4
+struct Network_IpAddress
 {
     wchar_t* field_0_allocated_str;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Network_IpAddress, 0x4);
 
 struct Network_8
 {
@@ -121,44 +123,49 @@ struct Network_8
     s32 field_4_len;
 };
 
-struct Network_18
+struct Network_ConnectionList
 {
     EnumeratedConnection* field_0_enumed_connections;
-    Network_4* field_4_d_array_8_entries;
+    Network_IpAddress* field_4_d_array_8_entries;
     u32 field_8_connections_count;
     u32 field_C_f4_d_array_count;
     s32 field_10_enum_success;
     s32 field_14_dplay_success;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Network_ConnectionList, 0x18);
 
-struct Network_504
+struct Network_SessionList
 {
     DPSESSIONDESC2 field_C4_sessions[16];
     u32 field_5C4_session_count;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Network_SessionList, 0x504);
 
-struct Network_Buffer_8
+struct Network_Buffer
 {
-    void* field_0;
+    void* field_0_data;
     s32 field_4_len;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Network_Buffer, 0x8);
 
-struct Network_InputData_0x8
+struct Network_InputData
 {
     u32 field_0_Inputs;
     u32 field_4_rng;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Network_InputData, 0x8);
 
-struct Network_14
+struct Network_InputPacket
 {
-    Network_InputData_0x8 field_0_inputs;
+    Network_InputData field_0_inputs;
     s32 field_8_id;
     s32 field_C_len;
     u8 field_10_used;
     char_type field_11_game_tick; // mod 256
-    char field_12;
+    char field_12_unused;
     char field_13_unused;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Network_InputPacket, 0x14);
 
 struct PacketHandlerSlot
 {
@@ -179,7 +186,7 @@ struct NetPlay
                                          const DPNAME* lpName,
                                          unsigned long dwFlags,
                                          void* lpContext);
-    EXPORT s32 SetProtoAndConnection_51DAE0(GUID* pProtocolGuid, Network_Buffer_8* pUseThisConnection);
+    EXPORT s32 SetProtoAndConnection_51DAE0(GUID* pProtocolGuid, Network_Buffer* pUseThisConnection);
     EXPORT void DirectPlayDestroy_51DC90();
     EXPORT s32 DirectPlayCreate_51DCD0();
     EXPORT s32 DirectPlayCreate_51DED0();
@@ -194,18 +201,18 @@ struct NetPlay
     EXPORT u32 AddPlayer_51E9C0(Network_8* pData, s32 player_id, DPNAME name, Network_Game_Session* pStru);
     EXPORT static s32 __stdcall EnumSessions_cb_51EAE0(DPSESSIONDESC2* lpThisSD, s32 lpDwTimeOut, char_type dwFlags, NetPlay* lpContext);
     EXPORT s32 AddEnumeratedSession_51EB00(DPSESSIONDESC2* pSession);
-    EXPORT void Set15_51ECD0(s32 pFunc, Network_20324* pParam);
+    EXPORT void Set15_51ECD0(s32 pFunc, NetUi* pParam);
     EXPORT void NetworkTick_51ED00();
     EXPORT s32 SendPing_51EF60();
     EXPORT char_type Receive_51F010(s32* pOutData, s32* pOutDataLen, unsigned long* recvId, unsigned long* senderId);
-    EXPORT void SendOrReceivePacket_51F0D0(void* pPacket, s32 packetLen, s32 recvId, s32 bSendOrRecv);
-    EXPORT void ProcessPingOrHandshakeSend_51F110(void* pPacket, s32 packetLen, s32 recvId, s32 sendFlag);
-    EXPORT s32 CalcPacketLen_51F210(s32 pPacket, u32 packetLen); // Also converts enums back
+    EXPORT void DispatchReceivedMessage_51F0D0(void* pPacket, s32 packetLen, s32 recvId, s32 bSendOrRecv);
+    EXPORT void OnPlayerMessage_51F110(void* pPacket, s32 packetLen, s32 recvId, s32 sendFlag);
+    EXPORT s32 DecodeReceivedPacket_51F210(s32 pPacket, u32 packetLen); // Also converts enums back
     EXPORT void MakeSendData_51F420(Packet_SubType_3* pPacket, s32* pData, u32* pDataLen); // Format data before using IDirectPlay3::Send
     EXPORT void OnPacketReceived_51F870(void* pPacket, s32 packetLen, s32 recvId, s32 sendFlag);
     EXPORT s32 MovePlayerToGroup_520040(s32 toFind, Network_Game_Session* pStru, Network_Game_Session* pDst, u32* pOutIdx);
     EXPORT void FreePlayerSlot_5201A0(s32 idx, Network_Game_Session* pStru);
-    EXPORT void ProcessIncomingPacket_520230(s32 idx, u32 pUnknown);
+    EXPORT void InvokeCallback_520230(s32 idx, u32 event_data);
     EXPORT void Set6_520530(void* pFunc, void* pParam);
     EXPORT s32 JoinSession_520570(u32 session_idx, wchar_t* pPlayerName, Network_8* pPlayerData, Network_8* pOutGroupData);
     EXPORT static s32 __stdcall EnumGroups_cb_520C20(s32 group_id, s32 callback_type, s32 pName, char_type flags, NetPlay* pContext);
@@ -229,15 +236,15 @@ struct NetPlay
     EXPORT void Set27SavePlayerName_5211F0(s32 pCallback, s32 pContext);
     EXPORT void DisableJoining_521220();
     EXPORT s32 IsUserHost_5212E0();
-    EXPORT void SetExitGameCallBack_521330(s32 pFunc, Game_0x40* pGame);
-    EXPORT s32 GetMaxPlayers_521350();
+    EXPORT void SetExitGameCallBack_521330(s32 pFunc, Game* pGame);
+    EXPORT s32 CountActivePlayers_521350();
     EXPORT void SendAcknowledgment_521370();
     EXPORT bool WaitForPlayersSync_5213E0();
     EXPORT s32 CopyConnection_5215B0(u32 idx, u32* ppConnection, size_t* pLen);
     EXPORT s32 SendToPlayer_521630(Network_8* pSendData, s32 player_idx, char_type delayed_ticks);
     EXPORT void Add_5216E0(Network_8* pData, s32 id, char_type game_tick);
-    EXPORT u32 GetLatestPacket_521770(Network_8* pOut, char_type* pSeq, u32* pPlayerId);
-    EXPORT void sub_521820(s32** ppData, s32 idx);
+    EXPORT u32 GetOldestBufferedPacket_521770(Network_8* pOut, char_type* pSeq, u32* pPlayerId);
+    EXPORT void ResolvePlayerInput_521820(s32** ppData, s32 idx);
     EXPORT void Remove_521870(s32 idx);
     EXPORT char_type ReceiveGameMessage_521890(Network_8* pOut, s32* pPlayerIdx, u32* packet_subtype);
     EXPORT void SendToAll_521B20(Network_8* pSendData);
@@ -272,10 +279,10 @@ struct NetPlay
     s32 field_24_unused;
     s32 field_28_unused;
     s32 field_2C_ptrs;
-    Network_18 field_30_enumed_connections;
+    Network_ConnectionList field_30_enumed_connections;
     s32 field_48_net_state;
     PacketHandlerSlot field_4C_func_ptrs_and_params[10];
-    Network_504 field_C4_sessions;
+    Network_SessionList field_C4_sessions;
     s32 field_5C8_not_used;
     s32 field_5CC_bIsHost;
     s32 field_5D0_player_og_idx; // Only set for the host, but it's not used
@@ -296,7 +303,7 @@ struct NetPlay
     char field_8F2_unused;
     char field_8F3_unused;
     s32 field_8F4_time_diff;
-    Network_14 field_8F8_packets[48];
+    Network_InputPacket field_8F8_packets[48];
     s32 field_CB8_count;
 };
 

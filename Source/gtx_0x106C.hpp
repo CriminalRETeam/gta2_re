@@ -73,7 +73,7 @@ struct door_info
     char_type rx, ry;
 };
 
-// car_info::info_flags bits (from how Car_BC uses them)
+// car_info::info_flags bits (from how Car uses them)
 namespace car_info_flag
 {
 enum
@@ -130,7 +130,7 @@ class car_info
     }
 
     // Like IsTruckCab_41FEA0; going through a car_info method keeps the check a plain branch in
-    // Car_BC::CanBeLiftedByCrane_447F00 (a direct `(flags & 0x10) == 0x10` there gives a sete)
+    // Car::CanBeLiftedByCrane_447F00 (a direct `(flags & 0x10) == 0x10` there gives a sete)
     bool IsTrailer() const
     {
         return (this->info_flags & car_info_flag::trailer) == car_info_flag::trailer;
@@ -211,7 +211,7 @@ class gtx_0x106C
   public:
     inline bool IsRemappedWaterTile_49E540(u16 spec_idx)
     {
-        if (field_6C_spec[spec_idx] == 4 && IsTileRemapped_5AA850(spec_idx))
+        if (field_6C_spec[spec_idx] == spec_surface_type_enum::spec_water && IsTileRemapped_5AA850(spec_idx))
         {
             return true;
         }
@@ -230,17 +230,17 @@ class gtx_0x106C
     // 9.6f 0x462FB0
     inline bool IsWaterTile_462FB0(u16 spec_idx)
     {
-        return field_6C_spec[spec_idx] == 4;
+        return field_6C_spec[spec_idx] == spec_surface_type_enum::spec_water;
     }
 
     // 9.6f 0x42A810
     inline bool IsRoadTile_42A810(u16 spec_idx)
     {
-        return field_6C_spec[spec_idx] == 3;
+        return field_6C_spec[spec_idx] == spec_surface_type_enum::spec_road_special;
     }
 
     // 9.6f 0x462FD0
-    inline s32 sub_462FD0(u16 spec_idx)
+    inline s32 GetSpecIgnoringRoadJunction_462FD0(u16 spec_idx)
     {
         s32 result = field_6C_spec[spec_idx];
         if (result == 3)
@@ -251,9 +251,9 @@ class gtx_0x106C
     }
 
     // 9.6f 0x49E570
-    inline bool sub_49E570(u16 spec_idx)
+    inline bool IsUnremappedWaterTile_49E570(u16 spec_idx)
     {
-        if (field_6C_spec[spec_idx] == 4 && !IsTileRemapped_5AA850(spec_idx))
+        if (field_6C_spec[spec_idx] == spec_surface_type_enum::spec_water && !IsTileRemapped_5AA850(spec_idx))
         {
             return true;
         }
@@ -284,7 +284,7 @@ class gtx_0x106C
 
     EXPORT car_info* get_car_info_5AA3B0(u8 idx);
 
-    EXPORT BYTE* get_car_remap_5AA3D0(u8 idx);
+    EXPORT BYTE* get_car_door_data_5AA3D0(u8 idx);
 
     EXPORT sprite_delta* get_delta_5AA3F0(u16 sprite_idx, u8 delta_idx);
 
@@ -362,7 +362,7 @@ class gtx_0x106C
 
     EXPORT void load_font_base_5AB0F0(u32 fonb_chunk_size);
 
-    EXPORT static u16 __stdcall ConvertToVirtualOffsets_5AB1A0(u16* pOffsets, u32 offsetsCount);
+    EXPORT static u16 __stdcall SumCounts_5AB1A0(u16* pOffsets, u32 offsetsCount);
 
     EXPORT static void __stdcall ConvertToVirtualOffsets_5AB1C0(u16* pBuffer, u32 len);
 
@@ -427,12 +427,12 @@ class gtx_0x106C
     object_info* field_24_map_object_info;
     palette_index* field_28_palette_index;
     void* field_2C_physical_palettes;
-    void* field_30_physical_palettes_size;
+    void* field_30_physical_palettes_unaligned;
     BYTE* field_34_sprite_graphics;
     void* field_38_sprite_graphics_unaligned;
     u8* field_3C_tiles;
     tile_array* field_40_tile;
-    void* field_44_aligned_tiles_size;
+    void* field_44_tiles_unaligned;
     delta_store_entry* field_48_delta_store;
     delta_entry* field_4C_delta_index;
     void* field_50_delta_buffer;
@@ -455,10 +455,10 @@ inline s32 __stdcall GetSpaceWidth_4C23D0(u16 font_type)
     return (u16)gGtx_0x106C_703DD4->GetSpaceCharWidth_5AA7B0(&font_type);
 }
 
-EXTERN_GLOBAL(s16, word_703D98);
+EXTERN_GLOBAL(s16, gStyleCarNameFont_703D98);
 EXTERN_GLOBAL(s16, word_703BAA);
-EXTERN_GLOBAL(s16, word_703C9C);
-EXTERN_GLOBAL(s16, word_703D9C);
-EXTERN_GLOBAL(s16, word_703DA4);
+EXTERN_GLOBAL(s16, gStyleZoneNameFont_703C9C);
+EXTERN_GLOBAL(s16, gStyleMessageFont_703D9C);
+EXTERN_GLOBAL(s16, gStylePauseFont_703DA4);
 EXTERN_GLOBAL(s16, word_703C3E);
 EXTERN_GLOBAL(s16, word_703D9A);

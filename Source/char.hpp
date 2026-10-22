@@ -10,7 +10,7 @@
 
 class Sprite_3C;
 class Ped;
-class Car_BC;
+class Car;
 class Sprite;
 
 EXTERN_GLOBAL(Fix16, kFpOne256th_678620);
@@ -19,15 +19,15 @@ EXTERN_GLOBAL(Fix16, gCharB4_Saved_Ypos_6FD800);
 EXTERN_GLOBAL(Fix16, gCharB4_Saved_Zpos_6FD7FC);
 EXTERN_GLOBAL(Fix16, kFpOne128th_6784BC);
 
-EXTERN_GLOBAL(Ang16, word_6FD940);
-EXTERN_GLOBAL(Ang16, word_6FD8F8);
+EXTERN_GLOBAL(Ang16, kAng16_6FD940);
+EXTERN_GLOBAL(Ang16, kAng344_6FD8F8);
 
 EXPORT void __stdcall UnpackSignedNibbles_529050(u8 packed, s8* pX, s8* pY);
 EXPORT Ang16 __stdcall ComputeShortestAngleDelta_4056C0(Ang16& angle1, Ang16& angle2);
 
-// SpriteList_4 with a (trivial) destructor: the original Char_B4 ctor has an EH frame for this member,
-// while other owners of a SpriteList_4 (Car_BC, Object_5C, Weapon_8) have none.
-class SpriteList_4_dtor : public SpriteList_4
+// SpriteList with a (trivial) destructor: the original Char ctor has an EH frame for this member,
+// while other owners of a SpriteList (Car, Object_5C, WeaponManager) have none.
+class SpriteList_4_dtor : public SpriteList
 {
   public:
     ~SpriteList_4_dtor()
@@ -35,7 +35,7 @@ class SpriteList_4_dtor : public SpriteList_4
     }
 };
 
-class Char_B4
+class Char
 {
   public:
     // 9.6f 0x41B080
@@ -87,10 +87,10 @@ class Char_B4
     s8 field_17_unused;
     void* field_18_collided_entity;
     void* field_1C_prev_collided_entity;
-    s32 field_20;
+    s32 field_20_collided_entity_type;
     s32 field_24;
-    Ang16 field_28;
-    Ang16 field_2A;
+    Ang16 field_28_slide_rotation;
+    Ang16 field_2A_slide_turn;
     Ang16 field_2C_ang;
     s8 field_2E_unused;
     s8 field_2F_unused;
@@ -111,15 +111,15 @@ class Char_B4
     Fix16 field_4C_conveyor_dx;
     Fix16 field_50_conveyor_dy;
     s8 field_54_jump_scale_counter;
-    u8 field_55;
+    u8 field_55_next_tile_timer;
     s8 field_56_unused;
-    s8 field_57;
+    s8 field_57_unused;
     union
     {
         u32 field_58_flags;
         CharB4Flags32 field_58_flags_bf;
     };
-    u8 field_5C;
+    u8 field_5C_jump_over_timer;
     s8 field_5D_unused;
     s8 field_5E_unused;
     s8 field_5F_unused;
@@ -127,27 +127,27 @@ class Char_B4
     s32 field_64_unused;
     u8 field_68_animation_frame;
     s8 field_69_is_colliding_with_sprite;
-    u8 field_6A;
+    u8 field_6A_repulsion_timer;
     s8 field_6b_unused;
     s32 field_6C_animation_state;
     s8 field_70_frame_timer;
     s8 field_71_frame_delay;
     u8 field_72_next_tile_x;
     u8 field_73_next_tile_y;
-    Ang16 field_74;
+    Ang16 field_74_repulsion_rotation;
     s8 field_76_unused;
     s8 field_77_unused;
-    Char_B4* mpNext;
+    Char* mpNext;
     Ped* field_7C_pPed;
     Sprite* field_80_sprite_ptr; // TODO: Or sprite_3c, are they the same type ??
-    Car_BC* field_84_target_car;
+    Car* field_84_target_car;
     SpriteList_4_dtor field_88_obj_2c;
     Fix16 field_8C_jump_base_z;
     Fix16 field_90_fall_speed;
     Fix16 field_94_fall_z_speed;
     Fix16_Point_POD field_98_velocity_vector;
     //Fix16 field_9C;
-    s8 field_A0;
+    s8 field_A0_force_top_layer;
     s8 field_A1_unused;
     s8 field_A2_unused;
     s8 field_A3_unused;
@@ -221,13 +221,13 @@ class Char_B4
         }
     }
 
-    inline void SetMaxSpeed_433920(Fix16 max_speed)
+    inline void SetVelocity_433920(Fix16 max_speed)
     {
         field_38_velocity = max_speed;
     }
 
     // strange, the same 9.6f func but Ped::ChaseTargetStateMachine_46B170 only matches if it pass by ref
-    inline void SetMaxSpeedByRef_433920(Fix16& max_speed)
+    inline void SetVelocityByRef_433920(Fix16& max_speed)
     {
         field_38_velocity = max_speed;
     }
@@ -250,7 +250,7 @@ class Char_B4
     inline void sub_4923D0()
     {
         field_40_rotation.SnapToAng4_405640();
-        field_40_rotation += word_6FD940;
+        field_40_rotation += kAng16_6FD940;
         field_10_char_state = 9;
         field_46_timer = 10;
     }
@@ -258,7 +258,7 @@ class Char_B4
     inline void sub_4923A0()
     {
         field_40_rotation.SnapToAng4_405640();
-        field_40_rotation += word_6FD8F8;
+        field_40_rotation += kAng344_6FD8F8;
         field_10_char_state = 8;
         field_46_timer = 10;
     }
@@ -280,12 +280,12 @@ class Char_B4
     }
 
     // 9.6f 0x403900
-    inline Car_BC* Get_F84_403900()
+    inline Car* Get_F84_403900()
     {
         return field_84_target_car;
     }
 
-    inline void Set_F84_433900(Car_BC* pCar)
+    inline void Set_F84_433900(Car* pCar)
     {
         field_84_target_car = pCar;
     }
@@ -314,8 +314,8 @@ class Char_B4
         return false;
     }
 
-    Char_B4();
-    ~Char_B4();
+    Char();
+    ~Char();
 
     EXPORT void PoolAllocate();
     EXPORT void PoolDeallocate();
@@ -324,7 +324,7 @@ class Char_B4
     EXPORT void DrawFlamesAndStartScreamTimer_545430();
     EXPORT bool HasShadows_5451C0();
 
-    EXPORT Fix16_Point sub_545580();
+    EXPORT Fix16_Point GetRunVelocity_545580();
     EXPORT void SetRemap_46DD50(u8 remap);
 
     // Inlined copy of SetRemap_46DD50
@@ -353,24 +353,24 @@ class Char_B4
     EXPORT void UpdateAnimState_546360();
     EXPORT void ManageZCoordAndSlopes_548590();
     EXPORT void DispatchCollision_548670(char_type bFlag);
-    EXPORT void HandleObjectCollision_548840(Object_2C* pObj);
-    EXPORT void HandlePedCollision_548BD0(Char_B4* pOther);
-    EXPORT void HandleGenericCollision_54A530(Car_BC* pCar, Object_2C* pObj, Char_B4* pChar);
+    EXPORT void HandleObjectCollision_548840(Object* pObj);
+    EXPORT void HandlePedCollision_548BD0(Char* pOther);
+    EXPORT void HandleGenericCollision_54A530(Car* pCar, Object* pObj, Char* pChar);
     EXPORT char_type ContinueMovementAfterCollision_54B8F0();
-    EXPORT void sub_54C090();
+    EXPORT void SnapRotationToFace_54C090();
     EXPORT char_type CanMoveOntoSlope_54C1A0(s32 path_direction);
     inline void SetTurnTarget_492400(Ang16 target_rotation);
-    EXPORT void sub_54C3E0();
+    EXPORT void TurnToFreeAdjacentFace_54C3E0();
     EXPORT char_type CanMoveToTile_54C500(char_type x, char_type y);
     EXPORT void SelectRandomIdleBehavior_54C580();
     EXPORT void ApplyRandomRotationJitter_54C6C0();
     EXPORT void TickMovementStateMachine_54C900();
     EXPORT void TurnTowardsAngle_54CAE0();
     EXPORT void ApplyMovement_54CC40();
-    EXPORT void sub_54DD70();
+    EXPORT void CheckCollisionsAndUpdateAnim_54DD70();
     EXPORT void state_0_54DDF0();
     EXPORT bool CanStepForwardWithRegionCheck_54ECB0(s32 direction);
-    EXPORT bool CanStepDiagonal_54EF60(char_type target_x, char_type target_y);
+    EXPORT bool CanStepToTile_54EF60(char_type target_x, char_type target_y);
     EXPORT bool CanStepForward_54FEC0(s32 direction);
     EXPORT bool CanReachTile_550090(u8 xpos, u8 ypos);
     EXPORT void state_1_5504F0();
@@ -379,7 +379,7 @@ class Char_B4
     EXPORT void ChooseNextMovementTile_551400();
     EXPORT void SelectNextTileFast_5516F0();
     //EXPORT void state_1_5504F0();
-    EXPORT void state_1_5519F0();
+    EXPORT void state_2_5519F0();
     EXPORT void state_3_551A00();
     EXPORT void state_4_551B30();
     EXPORT void state_5_551BB0();
@@ -390,14 +390,15 @@ class Char_B4
     EXPORT bool IsNearTileCentre_5532C0();
     EXPORT char_type IsThreatToSearchingPed_553330();
     EXPORT bool ShouldCollideWithSprite_553340(Sprite* pSprite);
-    EXPORT bool PhoneTouched_5535B0(Object_2C* p2c);
-    EXPORT char_type OnObjectTouched_553640(Object_2C* p2c);
-    EXPORT char_type HandlePedObjectHit_5537F0(Object_2C* p2c);
-    EXPORT void HandleCarImpact_5538A0(Car_BC* pCar, u8 bUnknown, Fix16 x, Fix16 y);
+    EXPORT bool PhoneTouched_5535B0(Object* p2c);
+    EXPORT char_type OnObjectTouched_553640(Object* p2c);
+    EXPORT char_type HandlePedObjectHit_5537F0(Object* p2c);
+    EXPORT void HandleCarImpact_5538A0(Car* pCar, u8 bUnknown, Fix16 x, Fix16 y);
     EXPORT void HandleGenericImpact_553E00(Ang16 ang, Fix16 impact_x, Fix16 impact_z, char_type impact_type);
 
     EXPORT void nullsub_28();
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Char, 0xB4);
 
 EXPORT void __stdcall ResetCharUpdateGlobals_544F70();
 EXPORT void __stdcall ResetCharStatics_553F90();

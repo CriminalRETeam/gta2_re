@@ -6,7 +6,7 @@
 #include "gtx_0x106C.hpp"
 #include <windows.h>
 
-class Gang_144;
+class Gang;
 class Sprite;
 class Fix16_Rect;
 
@@ -331,7 +331,7 @@ EXTERN_GLOBAL(Fix16, kGradientScaleSize8_6F6214);
 
 EXTERN_GLOBAL(Fix16, kFpZero_6F610C);
 extern Fix16 kFpOne_6F6110;
-EXTERN_GLOBAL(Ang16, word_6F603E);
+EXTERN_GLOBAL(Ang16, kAng180_6F603E);
 EXPORT Ang16 __stdcall ReturnAngleFromRoadDirection_4F7940(s32& road_direction);
 
 // Slope byte tests. 9.6f (inlining off) has no functions for these, so the original wrote them inline.
@@ -418,7 +418,7 @@ class Map_0x370
 
     EXPORT gmp_map_zone* GetZone_4DFB30(u16 zone_idx);
 
-    EXPORT Gang_144* GetGangAtCoords_4DFB50(Fix16 x, Fix16 y);
+    EXPORT Gang* GetGangAtCoords_4DFB50(Fix16 x, Fix16 y);
 
     EXPORT void SpawnMapObjects_4DFB90();
     EXPORT void AllocZones_4DFCA0();
@@ -434,17 +434,17 @@ class Map_0x370
     EXPORT s32 GetTopEdgeSpec_4E0000(Fix16 x_pos, Fix16 y_pos, Fix16 z_pos);
     EXPORT s32 GetBlockSpec_4E00A0(Fix16 x, Fix16 y, Fix16 z);
 
-    // 9.6f 0x49EBE0, inlined in 10.5; defined in CarPhysics_B0.cpp (ProcessGroundCollisionAndSurfaceType_55B970)
+    // 9.6f 0x49EBE0, inlined in 10.5; defined in CarPhysics.cpp (ProcessGroundCollisionAndSurfaceType_55B970)
     inline u8 GetBlockSurfaceType_49EBE0(s32 x, s32 y, s32 z, u8* pGradientSize, u8* pGradientLevel);
     EXPORT char_type TakeBlockedByTerrain_4E0110();
     EXPORT char_type TakeLowerBlockHasArrows_4E0120();
-    EXPORT bool CanMoveOntoSlopeTile_4E0130(s32 x, s32 y, s32 z, s32 path_direction, u8* pSlopeZDelta, char_type bReportStepUp);
+    EXPORT bool IsMoveOntoSlopeTileBlocked_4E0130(s32 x, s32 y, s32 z, s32 path_direction, u8* pSlopeZDelta, char_type bReportStepUp);
     EXPORT char_type RectHitsDiagonalWall_4E11E0(Fix16_Rect* pRect);
     EXPORT bool SpriteHitsDiagonalWall_4E1520(s32 z_pos);
     EXPORT bool HasWallInArea_4E18A0(s32 x_min, s32 x_max, s32 y_min, s32 y_max, s32 z);
     EXPORT bool SpriteHitsBlockFacesInArea_4E1A30(s32 x_min, s32 x_max, s32 y_min, s32 y_max, s32 z);
-    EXPORT char_type CanSpriteEnterTile_4E1E00(s32 regionLeft, s32 regionRight, s32 regionTop, s32 regionBottom, s32 tileX, s32 tileY, s32 zLevel);
-    EXPORT char_type CanSpriteEnterMovementRegion_4E4460(s32 tile_x, s32 tile_y, s32 tile_z, Sprite* pSprite, s16 collision_mask);
+    EXPORT char_type IsTileBlockedForSprite_4E1E00(s32 regionLeft, s32 regionRight, s32 regionTop, s32 regionBottom, s32 tileX, s32 tileY, s32 zLevel);
+    EXPORT char_type IsMovementRegionBlocked_4E4460(s32 tile_x, s32 tile_y, s32 tile_z, Sprite* pSprite, s16 collision_mask);
     EXPORT char_type CheckSlopeTopInSpriteGrid_4E4630(Fix16 z_pos);
     EXPORT bool SlopeBordersFlatInSpriteGrid_4E4770(Fix16 z_pos);
     EXPORT char_type AllBlocksInRectHaveSlopeBits_4E4820(Fix16_Rect* pRect, u8 slope_bits);
@@ -461,7 +461,7 @@ class Map_0x370
     EXPORT bool IsZOnGround_4E5170(Fix16 x, Fix16 y, Fix16 z);
     EXPORT char_type GetSurfaceTypeBelowCoord_4E52A0(Fix16 x, Fix16 y, Fix16 z);
     EXPORT bool CheckZCollisionAtCoord_4E5300(Fix16 x, Fix16 y, Fix16 z, Fix16 second_z);
-    EXPORT bool CanPlaceOilOrMine_4E5480(Fix16 x, Fix16 y, Fix16 z, Fix16 unk_z_coord, Fix16* found_z);
+    EXPORT bool CanPlaceOilOrMine_4E5480(Fix16 x, Fix16 y, Fix16 z, Fix16 z_high, Fix16* found_z);
     EXPORT char_type IsProbePathClear_4E5640(Fix16 width, Fix16 height, Fix16 depth, Fix16 from_x, Fix16 from_y, Fix16 from_z, Fix16 to_x, Fix16 to_y, Fix16 to_z);
     EXPORT Fix16 FindGroundZForCoord_4E5B60(Fix16 x_pos, Fix16 y_pos);
     EXPORT u8 UpdateZFromSlopeAtCoord_4E5BF0(Fix16 x_pos, Fix16 y_pos, Fix16& z_pos);
@@ -638,7 +638,7 @@ class Map_0x370
         return false;
     }
 
-    // Like IsBlockPavementTypeInlined_433530 but via GetBlockOrNull_452980 (TrafficLight_20::Init_5C1D00)
+    // Like IsBlockPavementTypeInlined_433530 but via GetBlockOrNull_452980 (TrafficLight::Init_5C1D00)
     inline bool IsBlockPavementTypeAt_452980(u8 x, u8 y, u8 z)
     {
         gmp_block_info* pBlock = GetBlockOrNull_452980(x, y, z);
@@ -713,7 +713,7 @@ class Map_0x370
         return pBlock && pBlock->field_A_arrows;
     }
 
-    inline void Clear_F36E_492130()
+    inline void ClearBlockedByTerrain_492130()
     {
         field_36E_bBlockedByTerrain = 0;
     }
@@ -797,7 +797,7 @@ class Map_0x370
     gmp_map_zone* field_328_pZoneData;
     gmp_zone_list* field_32C_pZones;
     BYTE* field_330_pZoneArray;
-    gmp_zone_info* field_334_pUnknownZoneData;
+    gmp_zone_info* field_334_pZoneInfo;
     gmp_map_object* field_338_pMapObjects;
     gmp_map_light* field_33C_pLightData;
     gmp_tile_animation* field_340_pTileAnimData;

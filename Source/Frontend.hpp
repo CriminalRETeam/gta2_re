@@ -2,9 +2,9 @@
 
 #include "Function.hpp"
 #include "multiplayer_game_type.hpp"
-#include "CreditsLine_6C.hpp"
-#include "CreditsText_FD22.hpp"
-#include "TagGame_28.hpp"
+#include "CreditsLine.hpp"
+#include "CreditsText.hpp"
+#include "TagGame.hpp"
 #include <windows.h>
 
 #ifndef DIRECTINPUT_VERSION
@@ -15,11 +15,11 @@
 
 class Player;
 class Ang16;
-struct ScoreTableLine_18;
+struct ScoreTableLine;
 
 #pragma pack(push)
 #pragma pack(1)
-struct SaveSlotInfo_52
+struct SaveSlotInfo
 {
     char_type field_0_map_name[25];
     char_type field_19_style_name[25];
@@ -30,29 +30,31 @@ struct SaveSlotInfo_52
     short field_4E_unused;
     s16 field_50_unused;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(SaveSlotInfo, 0x52);
 #pragma pack(pop)
 
 // todo: move
-struct SaveSlotSummary_4
+struct SaveSlotSummary
 {
     char_type field_0_save_exists;
     char_type field_1_last_saved_stage;
     char_type field_2_last_saved_bonus_stage_code;
     char_type field_3_last_saved_is_bonus;
 
-    EXPORT SaveSlotSummary_4();
+    EXPORT SaveSlotSummary();
 
-    EXPORT ~SaveSlotSummary_4();
+    EXPORT ~SaveSlotSummary();
 
     EXPORT void LoadPlySlotSvg_4B6480(const char_type* FileName);
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(SaveSlotSummary, 0x4);
 
 // todo: move
-struct menu_element_0x6E
+struct MenuElement
 {
-    EXPORT menu_element_0x6E();
+    EXPORT MenuElement();
 
-    EXPORT ~menu_element_0x6E();
+    EXPORT ~MenuElement();
 
     u8 field_0_element_type;
     char_type field_1_is_it_displayed;
@@ -69,16 +71,17 @@ struct menu_element_0x6E
         u16 field_6_geometric_shape_type; // if field_0_element_type == GEOMETRIC_SHAPE_3
     };
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(MenuElement, 0x6E);
 
 // todo: move
 #pragma pack(push)
 #pragma pack(1)
-struct menu_option_0x82
+struct MenuItem
 {
   public:
-    EXPORT menu_option_0x82();
+    EXPORT MenuItem();
 
-    EXPORT ~menu_option_0x82();
+    EXPORT ~MenuItem();
 
     EXPORT bool SelectNextHorizontalIdx_4B6330();
 
@@ -92,33 +95,35 @@ struct menu_option_0x82
     u16 field_6A_font_type;
     u16 field_6C_palette;
     u16 field_6E_horizontal_selected_idx;
-    s16 field_70;
+    s16 field_70_unused;
     char_type field_72_horizontal_idx_enabled[12];
     u16 field_7E_horizontal_max_idx;
     s16 field_80_menu_page_target;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(MenuItem, 0x82);
 #pragma pack(pop)
 
 // todo: move
-struct MenuOption_6
+struct MenuOption
 {
   public:
-    EXPORT MenuOption_6();
+    EXPORT MenuOption();
 
-    EXPORT ~MenuOption_6();
+    EXPORT ~MenuOption();
 
-    s16 field_0;
+    s16 field_0_unused;
     s16 field_2_unused;
     char_type field_4_is_option_unlocked;   // this control if the menu selection will skip a option or not
     char_type field_5_unused;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(MenuOption, 0x6);
 
 // todo: move
-struct MenuPage_0xBCA
+struct MenuPage
 {
-    EXPORT MenuPage_0xBCA();
+    EXPORT MenuPage();
 
-    EXPORT ~MenuPage_0xBCA();
+    EXPORT ~MenuPage();
 
     EXPORT bool SelectPrevOption_4B61B0();
 
@@ -126,14 +131,15 @@ struct MenuPage_0xBCA
 
     u16 field_0_number_of_options;
     u16 field_2_number_of_elements;
-    menu_option_0x82 field_4_options_array[10];
-    menu_element_0x6E field_518_elements_array[15];
-    MenuOption_6 field_B8A[10];
+    MenuItem field_4_options_array[10];
+    MenuElement field_518_elements_array[15];
+    MenuOption field_B8A_option_states[10];
     u16 field_BC6_current_option_idx;
     s16 field_BC8_default_option_idx;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(MenuPage, 0xBCA);
 
-struct PlySlot_A4;
+struct PlySlot;
 
 enum WinMainState
 {
@@ -147,11 +153,11 @@ namespace FrontendState
 {
 enum FrontendState
 {
-    Unknown_1 = 1,
+    Menu_Navigation_1 = 1,
     Booting_Map_2 = 2,
     User_Typing_New_Player_Name_3 = 3,
-    Unknown_4 = 4,
-    Unknown_5 = 5,
+    Delete_Player_Dialog_4 = 4,
+    User_Typing_Password_5 = 5,
 };
 } // namespace FrontendState
 
@@ -219,9 +225,9 @@ enum ElementType
 
 struct MainBlockStrings
 {
-    char field_0_debug_str[256];
-    char field_100_map_name[256];
-    char field_200_sty_name[256];
+    char field_0_gmp_name[256];
+    char field_100_sty_name[256];
+    char field_200_scr_name[256];
 };
 
 struct Frontend
@@ -230,7 +236,7 @@ struct Frontend
     LPDIRECTINPUTDEVICEA field_4_pKeyboardDevice;
     char_type field_8_keys[256];
     s32 field_108_winmain_next_state;
-    char_type field_10C_bKeyboardAcquired;
+    char_type field_10C_bKeyboardAcquireFailed;
     char_type field_10D_bInputEnabled;
     char_type field_10E_unused;
     char_type field_10F_unused;
@@ -238,19 +244,19 @@ struct Frontend
     s32 field_114_cursor_blink;
     s32 field_118_cursor_blink_timer;
     u16 field_11C_normal_font;
-    s16 field_11E;
+    s16 field_11E_text_font;
     s16 field_120_selected_font;
     s16 field_122_unused;
     u16 field_124_font_type;
-    s16 field_126;
-    s16 field_128;
+    s16 field_126_heading_font;
+    s16 field_128_play_menu_score_font;
     s16 field_12A_score_font;
-    s16 field_12C;
+    s16 field_12C_area_complete_font;
     s16 field_12E_unused;
-    s16 field_130;
+    s16 field_130_title_font;
     u16 field_132_f136_idx;
     s16 field_134_unused;
-    MenuPage_0xBCA field_136_menu_pages_array[17];
+    MenuPage field_136_menu_pages_array[17];
     wchar_t field_C9A0_curr_plyr_name[9];
     u8 field_C9B2_curr_plyr_name_length;
     char_type field_C9B3_key_held;
@@ -284,13 +290,13 @@ struct Frontend
     char_type field_C9E3_unused;
     s32 field_C9E4_last_input_time;
     MainBlockStrings field_C9E8_blocks[3][4];
-    SaveSlotSummary_4 field_EDE8_plySlots[8];
+    SaveSlotSummary field_EDE8_plySlots[8];
     char_type field_EE08_menu_screen;
     char_type field_EE09_unused;
     u16 field_EE0A_dialog_cursor_ypos;
     u8 field_EE0C_dialog_type;
     u8 field_EE0D_hiscore_table_idx;
-    CreditsText_FD22 field_EE0E_credits;
+    CreditsText field_EE0E_credits;
     u16 field_1EB30_credits_scroll_timer;
     s16 field_1EB32_unused;
     Fix16 field_1EB34_credits_ypos;
@@ -352,7 +358,7 @@ struct Frontend
 
     EXPORT void DeleteCurrentPlayer_4B4410();
 
-    EXPORT PlySlot_A4* GetCurrPlayerStats_4B43E0();
+    EXPORT PlySlot* GetCurrPlayerStats_4B43E0();
 
     EXPORT void UpdateMenuForCurrPlayer_4B42E0();
 
@@ -362,9 +368,9 @@ struct Frontend
 
     EXPORT void LoadCurrPlayerName_4B4280();
 
-    EXPORT u8 GetPrevUnlockedStageIndex_4B77B0(PlySlot_A4* pStats);
+    EXPORT u8 GetLastUnlockedMainStage_4B77B0(PlySlot* pStats);
 
-    EXPORT u8 GetPrevUnlockedStageBonusCode_4B7800(PlySlot_A4* pStats);
+    EXPORT u8 GetLastUnlockedBonusStageCode_4B7800(PlySlot* pStats);
 
     EXPORT void StripPasswordToCurrLength_4B8530();
 
@@ -373,7 +379,7 @@ struct Frontend
     EXPORT void ContinueToNextStage_4B8020();
 
     EXPORT void DrawBonusRating_4B7D60();
-    EXPORT int sub_4B7E10(u8 str_id_idx, u16 text_xpos, u16 text_ypos, u16 fontType, s32 palette);
+    EXPORT int DrawKeyHint_4B7E10(u8 str_id_idx, u16 text_xpos, u16 text_ypos, u16 fontType, s32 palette);
 
     EXPORT char_type AreAllStagesUnlocked_4B7FB0();
 
@@ -459,7 +465,7 @@ struct Frontend
 
     EXPORT bool ChangeMainStageToNext_4B7200();
 
-    EXPORT void sub_4B4EC0();
+    EXPORT void LoadMapFilenamesFromSvg_4B4EC0();
 
     EXPORT s32 Run_4AEDB0();
 
@@ -481,7 +487,7 @@ struct Frontend
 
     EXPORT void DrawTextFixedWidth_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 font_type, u16 palette, u16 scale, u16 char_width, u8 pStr);
 
-    EXPORT void Frontend::DrawScoreTable_4B5430(ScoreTableLine_18* pStrings,
+    EXPORT void Frontend::DrawScoreTable_4B5430(ScoreTableLine* pStrings,
                            u16 text_xpos,
                            u16 text_ypos,
                            u16 num_entries,
@@ -516,15 +522,15 @@ EXTERN_GLOBAL(short, font_type_703C14);
 
 EXTERN_GLOBAL(s16, word_703C3C);
 
-EXTERN_GLOBAL(s16, word_703D0C);
+EXTERN_GLOBAL(s16, gFrontendNormalFont_703D0C);
 
-EXTERN_GLOBAL(s16, word_703C16);
+EXTERN_GLOBAL(s16, gFrontendSelectedFont_703C16);
 
 EXTERN_GLOBAL(s16, word_703C8C);
 
 EXTERN_GLOBAL(s16, word_703C8A);
 
-EXTERN_GLOBAL(s16, word_703BE2);
+EXTERN_GLOBAL(s16, gFrontendScoreFont_703BE2);
 
 EXTERN_GLOBAL(s16, word_703B88);
 
@@ -543,7 +549,7 @@ EXTERN_GLOBAL(bool, gCheatGetBasicWeaponsMaxAmmo_67D545);
 EXTERN_GLOBAL(bool, gCheatGet99Lives_67D4F1);
 EXTERN_GLOBAL(bool, gCheatGetPlayerPoints_67D4C8);
 EXTERN_GLOBAL(bool, gCheatUnlimitedFlameThrower_67D6CC);
-EXTERN_GLOBAL(bool, gCheatUnknown_67D4F6);
+EXTERN_GLOBAL(bool, gCheatUnlimitedJailCard_67D4F6);
 EXTERN_GLOBAL(bool, gCheatGet10MillionMoney_67D6CE);
 EXTERN_GLOBAL(bool, gCheat10xMultiplier_67D589);
 EXTERN_GLOBAL(bool, gCheatUnlockThreeLevels_67D6CB);

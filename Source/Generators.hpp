@@ -4,9 +4,9 @@
 #include "ang16.hpp"
 #include "fix16.hpp"
 
-class Object_2C;
+class Object;
 
-class Generator_2C
+class Generator
 {
   public:
     EXPORT void Activate_4C1A70();
@@ -25,23 +25,24 @@ class Generator_2C
     s16 field_16_unused;
     u32 field_18_cycle;
     u16 field_1C_ammo;
-    u16 field_1E_kill_timer;
-    char_type field_20;
-    char_type field_21;
+    u16 field_1E_spawns_left;
+    char_type field_20_unused;
+    char_type field_21_spawn_mode;
     char_type field_22_unused;
     char_type field_23_unused;
-    Object_2C* field_24_obj;
+    Object* field_24_obj;
     s32 field_28_id;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Generator, 0x2C);
 
-class GeneratorPool_14AC
+class GeneratorPool
 {
   public:
-    EXPORT void sub_4C1CD0();
+    EXPORT void FinalizeAfterScriptLoad_4C1CD0();
     EXPORT void GeneratorsService_4C1D70();
-    EXPORT Generator_2C* CreateGenerator_4C1DC0(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 type, s16 min_delay, s16 max_delay);
-    EXPORT GeneratorPool_14AC();
-    Generator_2C field_0_pool[120];
+    EXPORT Generator* CreateGenerator_4C1DC0(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 type, s16 min_delay, s16 max_delay);
+    EXPORT GeneratorPool();
+    Generator field_0_pool[120];
     s32 field_14A0_count;
     s32 field_14A4_kill_count;
     u8 field_14A8_count_d3;
@@ -49,5 +50,6 @@ class GeneratorPool_14AC
     char_type field_14AA_unused;
     char_type field_14AB_unused;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(GeneratorPool, 0x14AC);
 
-EXTERN_GLOBAL(GeneratorPool_14AC*, gGeneratorPool_14AC_67E5D0);
+EXTERN_GLOBAL(GeneratorPool*, gGeneratorPool_14AC_67E5D0);

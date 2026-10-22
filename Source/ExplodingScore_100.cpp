@@ -1,20 +1,20 @@
 #include "ExplodingScore_100.hpp"
 #include "Camera.hpp"
-#include "Game_0x40.hpp"
+#include "Game.hpp"
 #include "Globals.hpp"
 #include "Player.hpp"
 #include <memory.h>
 
 DEFINE_GLOBAL(ExplodingScorePool*, gExplodingScorePool, 0x702F34);
 
-DEFINE_GLOBAL_INIT(Fix16, dword_702C6C, Fix16(0x280000, 0), 0x702C6C); // 0x2800000000LL / dword_702DF0
-DEFINE_GLOBAL_INIT(Fix16, dword_702BC4, Fix16(0x3FC000, 0), 0x702BC4); // 0x3FC000
-DEFINE_GLOBAL_INIT(Fix16, dword_702F10, Fix16(0x780000, 0), 0x702F10); // 0xA00000 - dword_702C6C
-DEFINE_GLOBAL_INIT(Fix16, dword_702C74, Fix16(0x1E0000, 0), 0x702C74); // 0x1E00000000LL / dword_702DF0
-DEFINE_GLOBAL_INIT(Fix16, dword_702C08, Fix16(0x5A0000, 0), 0x702C08); // 0x780000 - dword_702C74
+DEFINE_GLOBAL_INIT(Fix16, kFp160_702C6C, Fix16(160), 0x702C6C); // 0x2800000000LL / dword_702DF0
+DEFINE_GLOBAL_INIT(Fix16, kFp255_702BC4, Fix16(255), 0x702BC4);
+DEFINE_GLOBAL_INIT(Fix16, kFp480_702F10, Fix16(480), 0x702F10); // 0xA00000 - kFp160_702C6C
+DEFINE_GLOBAL_INIT(Fix16, kFp120_702C74, Fix16(120), 0x702C74); // 0x1E00000000LL / dword_702DF0
+DEFINE_GLOBAL_INIT(Fix16, kFp360_702C08, Fix16(360), 0x702C08); // 0x780000 - kFp120_702C74
 
-DEFINE_GLOBAL(Fix16, dword_702DE0, 0x702DE0);
-DEFINE_GLOBAL(Ang16, word_702F24, 0x702F24);
+DEFINE_GLOBAL(Fix16, kFpZero_702DE0, 0x702DE0);
+DEFINE_GLOBAL(Ang16, kAng0_702F24, 0x702F24);
 
 MATCH_FUNC(0x5967e0)
 ExplodingScorePool::ExplodingScorePool()
@@ -50,7 +50,7 @@ void ExplodingScorePool::PushScore_596890(Fix16 xpos, Fix16 ypos, Fix16 zpos, u3
 {
     if (this->field_2_free_scores == 0)
     {
-        ExplodingScore_50* pIter = field_4_pool.GetFirstUsed_4B8FD0();
+        ExplodingScore* pIter = field_4_pool.GetFirstUsed_4B8FD0();
         while (pIter)
         {
             if (pIter->field_4C_score >= score)
@@ -68,7 +68,7 @@ void ExplodingScorePool::PushScore_596890(Fix16 xpos, Fix16 ypos, Fix16 zpos, u3
 
     if (this->field_2_free_scores > 0)
     {
-        ExplodingScore_50* pNew = field_4_pool.Allocate();
+        ExplodingScore* pNew = field_4_pool.Allocate();
         if (pNew)
         {
             --this->field_2_free_scores;
@@ -87,7 +87,7 @@ MATCH_FUNC(0x5969e0)
 void ExplodingScorePool::DrawExplodingScores_5969E0()
 {
     // TODO: Would there have been an iterator object ??
-    ExplodingScore_50* pIter = field_4_pool.GetFirstUsed_4B8FD0();
+    ExplodingScore* pIter = field_4_pool.GetFirstUsed_4B8FD0();
     while (pIter)
     {
         pIter->DrawNumbers_596C90();
@@ -96,17 +96,17 @@ void ExplodingScorePool::DrawExplodingScores_5969E0()
 }
 
 MATCH_FUNC(0x596a00)
-ExplodingScore_50::ExplodingScore_50()
+ExplodingScore::ExplodingScore()
 {
-    field_0_numbers_count = 0;
+    field_0_highest_digit_idx = 0;
     for (s32 i = 0; i < 9; i++)
     {
         field_4_digits[i] = 0;
     }
-    field_36 = 0;
-    field_38 = 0;
-    field_3C = 0;
-    field_40 = 0;
+    field_36_alpha = 0;
+    field_38_explode_counter = 0;
+    field_3C_x_offset_mult = 0;
+    field_40_y_offset_mult = 0;
     field_4C_score = 0;
     field_48_unused = 0;
     mpNext = 0;
@@ -114,23 +114,23 @@ ExplodingScore_50::ExplodingScore_50()
 }
 
 MATCH_FUNC(0x596a40)
-ExplodingScore_50::~ExplodingScore_50()
+ExplodingScore::~ExplodingScore()
 {
     mpNext = 0;
 }
 
 MATCH_FUNC(0x596a50)
-void ExplodingScore_50::PoolAllocate()
+void ExplodingScore::PoolAllocate()
 {
 }
 
 MATCH_FUNC(0x596a60)
-void ExplodingScore_50::PoolDeallocate()
+void ExplodingScore::PoolDeallocate()
 {
 }
 
 MATCH_FUNC(0x596a70)
-void ExplodingScore_50::ClearNumbersArrayFrom_596A70(s32 start_idx)
+void ExplodingScore::ClearNumbersArrayFrom_596A70(s32 start_idx)
 {
     for (u32 i = start_idx; i > 0; i--)
     {
@@ -139,16 +139,16 @@ void ExplodingScore_50::ClearNumbersArrayFrom_596A70(s32 start_idx)
 }
 
 MATCH_FUNC(0x596a90)
-void ExplodingScore_50::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 score)
+void ExplodingScore::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 score)
 {
     u32 tmpScore = score;
 
     this->field_4C_score = score;
-    this->field_0_numbers_count = 0;
+    this->field_0_highest_digit_idx = 0;
 
     if (score >= 100000000)
     {
-        this->field_0_numbers_count = 8;
+        this->field_0_highest_digit_idx = 8;
         this->field_4_digits[8] = score / 100000000;
         ClearNumbersArrayFrom_596A70(7);
         tmpScore = score % 100000000;
@@ -156,9 +156,9 @@ void ExplodingScore_50::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32
 
     if (tmpScore >= 10000000)
     {
-        if (!this->field_0_numbers_count)
+        if (!this->field_0_highest_digit_idx)
         {
-            this->field_0_numbers_count = 7;
+            this->field_0_highest_digit_idx = 7;
         }
         this->field_4_digits[7] = tmpScore / 10000000;
         ClearNumbersArrayFrom_596A70(6);
@@ -167,9 +167,9 @@ void ExplodingScore_50::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32
 
     if (tmpScore >= 1000000)
     {
-        if (!this->field_0_numbers_count)
+        if (!this->field_0_highest_digit_idx)
         {
-            this->field_0_numbers_count = 6;
+            this->field_0_highest_digit_idx = 6;
         }
         this->field_4_digits[6] = tmpScore / 1000000;
         ClearNumbersArrayFrom_596A70(5);
@@ -178,9 +178,9 @@ void ExplodingScore_50::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32
 
     if (tmpScore >= 100000)
     {
-        if (!this->field_0_numbers_count)
+        if (!this->field_0_highest_digit_idx)
         {
-            this->field_0_numbers_count = 5;
+            this->field_0_highest_digit_idx = 5;
         }
         this->field_4_digits[5] = tmpScore / 100000;
         ClearNumbersArrayFrom_596A70(4);
@@ -189,9 +189,9 @@ void ExplodingScore_50::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32
 
     if (tmpScore >= 10000)
     {
-        if (!this->field_0_numbers_count)
+        if (!this->field_0_highest_digit_idx)
         {
-            this->field_0_numbers_count = 4;
+            this->field_0_highest_digit_idx = 4;
         }
         this->field_4_digits[4] = tmpScore / 10000;
         ClearNumbersArrayFrom_596A70(3);
@@ -200,9 +200,9 @@ void ExplodingScore_50::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32
 
     if (tmpScore >= 1000)
     {
-        if (!this->field_0_numbers_count)
+        if (!this->field_0_highest_digit_idx)
         {
-            this->field_0_numbers_count = 3;
+            this->field_0_highest_digit_idx = 3;
         }
         this->field_4_digits[3] = tmpScore / 1000;
         ClearNumbersArrayFrom_596A70(2);
@@ -211,9 +211,9 @@ void ExplodingScore_50::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32
 
     if (tmpScore >= 100)
     {
-        if (!this->field_0_numbers_count)
+        if (!this->field_0_highest_digit_idx)
         {
-            this->field_0_numbers_count = 2;
+            this->field_0_highest_digit_idx = 2;
         }
         this->field_4_digits[2] = tmpScore / 100;
         ClearNumbersArrayFrom_596A70(1);
@@ -222,9 +222,9 @@ void ExplodingScore_50::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32
 
     if (tmpScore >= 10)
     {
-        if (!this->field_0_numbers_count)
+        if (!this->field_0_highest_digit_idx)
         {
-            this->field_0_numbers_count = 1;
+            this->field_0_highest_digit_idx = 1;
         }
         this->field_4_digits[1] = tmpScore / 10;
         this->field_4_digits[0] = tmpScore % 10;
@@ -240,48 +240,48 @@ void ExplodingScore_50::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32
 
     this->field_34_palette = gExplodingScorePool->NextPalette_596860();
 
-    this->field_36 = 25;
-    this->field_38 = 2;
-    this->field_3C = 1;
-    this->field_40 = 1;
+    this->field_36_alpha = 25;
+    this->field_38_explode_counter = 2;
+    this->field_3C_x_offset_mult = 1;
+    this->field_40_y_offset_mult = 1;
 }
 
 MATCH_FUNC(0x596c90)
-void ExplodingScore_50::DrawNumbers_596C90()
+void ExplodingScore::DrawNumbers_596C90()
 {
     Fix16 screen_x;
     Fix16 screen_y;
     Fix16 x_delta;
     Fix16 y_delta;
-    Camera_0xBC* pCamera = &gGame_0x40_67E008->field_38_local_player->field_14C_view_camera;
+    Camera* pCamera = &gGame_0x40_67E008->field_38_local_player->field_14C_view_camera;
     pCamera->ProjectWorldToScreen_OutOfLine_4B90E0(field_28_x, field_2C_y, field_30_z, &screen_x, &screen_y);
-    if (screen_x < dword_702C6C)
+    if (screen_x < kFp160_702C6C)
     {
-        screen_x = dword_702C6C - screen_x;
-        x_delta = screen_x / dword_702BC4;
+        screen_x = kFp160_702C6C - screen_x;
+        x_delta = screen_x / kFp255_702BC4;
         field_28_x += x_delta;
     }
-    else if (screen_x > dword_702F10)
+    else if (screen_x > kFp480_702F10)
     {
-        screen_x = dword_702F10 - screen_x;
-        x_delta = screen_x / dword_702BC4;
+        screen_x = kFp480_702F10 - screen_x;
+        x_delta = screen_x / kFp255_702BC4;
         field_28_x += x_delta;
     }
 
-    if (screen_y < dword_702C74)
+    if (screen_y < kFp120_702C74)
     {
-        screen_y = dword_702C74 - screen_y;
-        y_delta = screen_y / dword_702BC4;
+        screen_y = kFp120_702C74 - screen_y;
+        y_delta = screen_y / kFp255_702BC4;
         field_2C_y += y_delta;
     }
-    else if (screen_y > dword_702C08)
+    else if (screen_y > kFp360_702C08)
     {
-        screen_y = dword_702C08 - screen_y;
-        y_delta = screen_y / dword_702BC4;
+        screen_y = kFp360_702C08 - screen_y;
+        y_delta = screen_y / kFp255_702BC4;
         field_2C_y += y_delta;
     }
 
-    switch (this->field_0_numbers_count)
+    switch (this->field_0_highest_digit_idx)
     {
         case 0:
             DrawSingleNumber_597100(this->field_4_digits[0], 10);
@@ -361,39 +361,39 @@ void ExplodingScore_50::DrawNumbers_596C90()
 }
 
 MATCH_FUNC(0x5970c0)
-char_type ExplodingScore_50::PoolUpdate()
+char_type ExplodingScore::PoolUpdate()
 {
-    if (field_38 < 0)
+    if (field_38_explode_counter < 0)
     {
-        field_3C++;
-        field_40++;
+        field_3C_x_offset_mult++;
+        field_40_y_offset_mult++;
 
-        if (field_36 > 2u)
+        if (field_36_alpha > 2u)
         {
-            field_36 -= 2;
-            field_38--;
+            field_36_alpha -= 2;
+            field_38_explode_counter--;
             return 0;
         }
         else
         {
-            field_36 = 0;
+            field_36_alpha = 0;
             gExplodingScorePool->IncrementFreeScores_596880();
             return 1;
         }
     }
     else
     {
-        field_38--;
+        field_38_explode_counter--;
         return 0;
     }
 }
 
 // 9.6f 0x4B92B0
 MATCH_FUNC(0x597100)
-void ExplodingScore_50::DrawSingleNumber_597100(s32 number_to_draw, s32 xpos_sub)
+void ExplodingScore::DrawSingleNumber_597100(s32 number_to_draw, s32 xpos_sub)
 {
 
-    Camera_0xBC* pCam = &gGame_0x40_67E008->field_38_local_player->field_14C_view_camera;
+    Camera* pCam = &gGame_0x40_67E008->field_38_local_player->field_14C_view_camera;
 
     Fix16 proj_x;
     Fix16 proj_y;
@@ -414,27 +414,27 @@ void ExplodingScore_50::DrawSingleNumber_597100(s32 number_to_draw, s32 xpos_sub
     Fix16 base_scale;
     s32 x_off;
     s32 y_off;
-    if (field_38 < 0) // scale factor?
+    if (field_38_explode_counter < 0)
     {
-        x_off = this->field_3C * (x_base - xpos_sub);
-        y_off = -7 * this->field_40;
-        base_scale = Fix16(-field_38);
+        x_off = this->field_3C_x_offset_mult * (x_base - xpos_sub);
+        y_off = -7 * this->field_40_y_offset_mult;
+        base_scale = Fix16(-field_38_explode_counter);
     }
     else
     {
         x_off = x_base - xpos_sub;
         y_off = -7;
-        base_scale = dword_702DE4;
+        base_scale = kFpOne_702DE4;
     }
 
     Fix16 x_to_use = proj_x + Fix16(x_off);
     Fix16 y_to_use = proj_y + Fix16(y_off);
 
-    if (x_to_use >= dword_702DE0)
+    if (x_to_use >= kFpZero_702DE0)
     {
         if (x_to_use <= Fix16(640))
         {
-            if (y_to_use >= dword_702DE0)
+            if (y_to_use >= kFpZero_702DE0)
             {
                 if (y_to_use <= Fix16(480))
                 {
@@ -444,12 +444,12 @@ void ExplodingScore_50::DrawSingleNumber_597100(s32 number_to_draw, s32 xpos_sub
                                       number_to_draw + 163, // pal
                                       x_to_use, // x
                                       y_to_use, // y
-                                      word_702F24, // rot
+                                      kAng0_702F24, // rot
                                       finalScale, // scale
                                       drawKind, // drawkind
                                       this->field_34_palette,
                                       1,
-                                      this->field_36,
+                                      this->field_36_alpha,
                                       1);
                 }
             }

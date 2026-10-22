@@ -16,13 +16,13 @@
 void __stdcall ClearPixelsOfColourInRow_5ABAE0(u8* pData, int width, u8 clear_target);
 
 DEFINE_GLOBAL(gtx_0x106C*, gGtx_0x106C_703DD4, 0x703DD4);
-DEFINE_GLOBAL(s16, word_703D9C, 0x703D9C);
+DEFINE_GLOBAL(s16, gStyleMessageFont_703D9C, 0x703D9C);
 DEFINE_GLOBAL(s16, word_703D9A, 0x703D9A);
 DEFINE_GLOBAL(s16, word_703C3E, 0x703C3E);
-DEFINE_GLOBAL(s16, word_703DA4, 0x703DA4);
+DEFINE_GLOBAL(s16, gStylePauseFont_703DA4, 0x703DA4);
 DEFINE_GLOBAL(s16, word_703BAA, 0x703BAA);
-DEFINE_GLOBAL(s16, word_703D98, 0x703D98);
-DEFINE_GLOBAL(s16, word_703C9C, 0x703C9C);
+DEFINE_GLOBAL(s16, gStyleCarNameFont_703D98, 0x703D98);
+DEFINE_GLOBAL(s16, gStyleZoneNameFont_703C9C, 0x703C9C);
 
 MATCH_FUNC(0x5AA3B0)
 car_info* gtx_0x106C::get_car_info_5AA3B0(u8 idx)
@@ -31,7 +31,7 @@ car_info* gtx_0x106C::get_car_info_5AA3B0(u8 idx)
 }
 
 MATCH_FUNC(0x5AA3D0)
-BYTE* gtx_0x106C::get_car_remap_5AA3D0(u8 idx)
+BYTE* gtx_0x106C::get_car_door_data_5AA3D0(u8 idx)
 {
     car_info* pCarInfo = field_5C_cari->field_0_car_info[idx];
     return &pCarInfo->remap[pCarInfo->num_remaps];
@@ -652,7 +652,7 @@ void gtx_0x106C::load_delta_store_5AADD0(u32 dels_chunk_size)
 MATCH_FUNC(0x5AADF0)
 void gtx_0x106C::load_tiles_5AADF0(u32 tile_chunk_len)
 {
-    field_3C_tiles = (u8*)Memory::Aligned_malloc_4FE510(tile_chunk_len, &field_44_aligned_tiles_size);
+    field_3C_tiles = (u8*)Memory::Aligned_malloc_4FE510(tile_chunk_len, &field_44_tiles_unaligned);
     File::Global_Read_4A71C0(field_3C_tiles, tile_chunk_len);
     InitTileMapping_5AA950();
 }
@@ -679,7 +679,7 @@ void gtx_0x106C::load_sprite_graphics_5AAE40(u32 sprg_chunk_len)
 MATCH_FUNC(0x5AAE70)
 void gtx_0x106C::load_physical_palettes_5AAE70(u32 ppal_chunk_size)
 {
-    field_2C_physical_palettes = Memory::Aligned_malloc_4FE510(ppal_chunk_size, &field_30_physical_palettes_size);
+    field_2C_physical_palettes = Memory::Aligned_malloc_4FE510(ppal_chunk_size, &field_30_physical_palettes_unaligned);
     File::Global_Read_4A71C0(field_2C_physical_palettes, ppal_chunk_size);
     field_8_physical_palettes_len = ppal_chunk_size >> 10;
 }
@@ -735,33 +735,33 @@ void gtx_0x106C::InitFontTypes_5AAFE0(u16 fontCount)
 {
     if (fontCount == 14)
     {
-        word_703D9C = 0;
+        gStyleMessageFont_703D9C = 0;
         word_703C3E = 1;
         word_703D9A = 2;
-        word_703DA4 = 3;
-        word_703D0C = 4;
-        word_703C16 = 5;
+        gStylePauseFont_703DA4 = 3;
+        gFrontendNormalFont_703D0C = 4;
+        gFrontendSelectedFont_703C16 = 5;
         word_703C8C = 6;
         font_type_703C14 = 7;
         word_703C3C = 8;
         word_703C8A = 9;
-        word_703BE2 = 10;
+        gFrontendScoreFont_703BE2 = 10;
         word_703B88 = 11;
         word_703DAC = 12;
         word_703B9C = 13;
         word_703BAA = 99;
-        word_703D98 = 99;
-        word_703C9C = 99;
+        gStyleCarNameFont_703D98 = 99;
+        gStyleZoneNameFont_703C9C = 99;
     }
     else if (fontCount == 7)
     {
-        word_703D9C = 0;
+        gStyleMessageFont_703D9C = 0;
         word_703BAA = 1;
-        word_703D98 = 2;
+        gStyleCarNameFont_703D98 = 2;
         word_703C3E = 3;
         word_703D9A = 4;
-        word_703C9C = 5;
-        word_703DA4 = 6;
+        gStyleZoneNameFont_703C9C = 5;
+        gStylePauseFont_703DA4 = 6;
     }
     else
     {
@@ -786,7 +786,7 @@ void gtx_0x106C::load_font_base_5AB0F0(u32 fonb_chunk_size)
         FatalError_4A38C0(Gta2Error::InvalidChunkSize, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1271, fonb_chunk_size);
     }
 
-    field_2_font_base_total = ConvertToVirtualOffsets_5AB1A0(field_1C_font_base->field_2_base, field_1C_font_base->field_0_font_count);
+    field_2_font_base_total = SumCounts_5AB1A0(field_1C_font_base->field_2_base, field_1C_font_base->field_0_font_count);
 
     ConvertToVirtualOffsets_5AB1C0(field_1C_font_base->field_2_base, field_1C_font_base->field_0_font_count);
 
@@ -794,7 +794,7 @@ void gtx_0x106C::load_font_base_5AB0F0(u32 fonb_chunk_size)
 }
 
 MATCH_FUNC(0x5AB1A0)
-u16 __stdcall gtx_0x106C::ConvertToVirtualOffsets_5AB1A0(u16* pOffsets, u32 offsetsCount)
+u16 __stdcall gtx_0x106C::SumCounts_5AB1A0(u16* pOffsets, u32 offsetsCount)
 {
     u16 total = 0;
     while (offsetsCount > 0) // jbe vs jz due to missing > 0 and signed vs unsigned
@@ -878,7 +878,7 @@ void gtx_0x106C::load_palete_base_5AB2C0(u32 palette_base_chunk_len)
 
     *field_C_palette_base2 = *field_10_palette_base1;
 
-    field_0_totalPalBase = ConvertToVirtualOffsets_5AB1A0(&field_C_palette_base2->field_0_tile, 8);
+    field_0_totalPalBase = SumCounts_5AB1A0(&field_C_palette_base2->field_0_tile, 8);
     ConvertToVirtualOffsets_5AB1C0(&field_C_palette_base2->field_0_tile, 8);
 }
 
@@ -1065,9 +1065,9 @@ gtx_0x106C::gtx_0x106C()
     field_6_map_object_info_len = 0;
     field_28_palette_index = 0;
     field_2C_physical_palettes = 0;
-    field_30_physical_palettes_size = 0;
+    field_30_physical_palettes_unaligned = 0;
     field_3C_tiles = 0;
-    field_44_aligned_tiles_size = 0;
+    field_44_tiles_unaligned = 0;
     field_34_sprite_graphics = 0;
     field_38_sprite_graphics_unaligned = 0;
     field_48_delta_store = 0;
@@ -1150,22 +1150,22 @@ gtx_0x106C::~gtx_0x106C()
     local_field_28_palette_index = field_28_palette_index;
     field_24_map_object_info = 0;
     delete (local_field_28_palette_index);
-    local_field_30_physical_palettes_size = (void*)field_30_physical_palettes_size;
+    local_field_30_physical_palettes_size = (void*)field_30_physical_palettes_unaligned;
     field_28_palette_index = 0;
     if (local_field_30_physical_palettes_size)
     {
         crt::free(local_field_30_physical_palettes_size);
     }
-    local_field_44_aligned_tiles_size = (void*)field_44_aligned_tiles_size;
+    local_field_44_aligned_tiles_size = (void*)field_44_tiles_unaligned;
     field_2C_physical_palettes = 0;
-    field_30_physical_palettes_size = 0;
+    field_30_physical_palettes_unaligned = 0;
     if (local_field_44_aligned_tiles_size)
     {
         crt::free(local_field_44_aligned_tiles_size);
     }
     pUnaligned = (void*)field_38_sprite_graphics_unaligned;
     field_3C_tiles = 0;
-    field_44_aligned_tiles_size = 0;
+    field_44_tiles_unaligned = 0;
     if (pUnaligned)
     {
         crt::free(pUnaligned);

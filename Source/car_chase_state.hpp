@@ -1,6 +1,6 @@
 #pragma once
 
-// CarChaseTask_40::field_C_chase_state: what a chasing car (police) is doing to box in the car of the target ped.
+// CarChaseTask::field_C_chase_state: what a chasing car (police) is doing to box in the car of the target ped.
 // Left / right are as seen by the chasing car. Pairs (6/7, 8/9, 10/11) are the left and right version of a state.
 // Kept in its own header so that the enum does not land in a header many TUs share.
 namespace car_chase_state
@@ -26,7 +26,7 @@ enum
 };
 } // namespace car_chase_state
 
-// CarChaseTask_40::field_8_task_type
+// CarChaseTask::field_8_task_type
 namespace car_task_type
 {
 enum

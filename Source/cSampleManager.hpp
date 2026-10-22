@@ -3,7 +3,7 @@
 #include "3rdParty/mss.h"
 #include "Function.hpp"
 
-struct sdt_entry_0x18
+struct SdtEntry
 {
     s32 field_0_offset;
     s32 field_4_sample_length;
@@ -12,6 +12,7 @@ struct sdt_entry_0x18
     s32 field_10_loop_start;
     s32 field_14_loop_end; // -1 = end of sample
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(SdtEntry, 0x18);
 
 class cSampleManager
 {
@@ -42,7 +43,7 @@ class cSampleManager
 
     EXPORT void Shutdown_58DB30();
 
-    EXPORT s32 GetPlayBackRateIdx_58DBF0(s32 idx);
+    EXPORT s32 GetPlayBackRate_58DBF0(s32 idx);
 
     EXPORT s32 GetRandomDisplacement_58DC10(s32 idx);
 
@@ -50,7 +51,7 @@ class cSampleManager
 
     EXPORT s32 GetLoopEnd_58DC50(s32 sample_idx);
 
-    EXPORT s32 GetSampleLength_maybe_58DC70(s32 sample_idx);
+    EXPORT s32 GetSampleLength_58DC70(s32 sample_idx);
 
     EXPORT void InitialiseChannel_58DC90(s32 channel, s32 sample_idx);
 
@@ -150,7 +151,7 @@ class cSampleManager
     HDIGDRIVER field_0_hDriver;
     char_type field_4_gtaAudioDriveLetter;
     char_type field_5_str[80];
-    bool field_55_bMusicLoaded;
+    bool field_55_bMusicFound;
     short field_56_pad;
     HSAMPLE field_58_hSamples[16];
     HSAMPLE field_98_hSample;
@@ -159,7 +160,7 @@ class cSampleManager
     char_type field_A5_pad;
     char_type field_A6_pad;
     char_type field_A7_pad;
-    sdt_entry_0x18 field_A8_sdt_entries[320];
+    SdtEntry field_A8_sdt_entries[320];
     void* field_1EA8_pAudioBuffer1;
     void* field_1EAC_pAudioBuffer2;
     u8 field_1EB0_count_samples;
@@ -168,7 +169,7 @@ class cSampleManager
     char_type field_1EB3_pad;
     HPROVIDER field_1EB4_h3dProvider[256];
     char_type* field_22B4_str[256];
-    HPROVIDER field_26B4_env_idx;
+    HPROVIDER field_26B4_3d_provider_idx;
     s32 field_26B8_bEaxSupported;
     s32 field_26BC_eax_environment;
     s32 field_26C0_3d_provider;
@@ -177,7 +178,7 @@ class cSampleManager
     f32 field_2708_float;
     f32 field_270C_float;
     s32 field_2710_3d_provider_count;
-    char_type field_2714_bUnknown;
+    char_type field_2714_is_stereo;
     char_type field_2715_pad;
     char_type field_2716_pad;
     char_type field_2717_pad;

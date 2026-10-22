@@ -222,7 +222,7 @@ both runs are sunk and `tail` stays first.
 
 ```bash
 venv/bin/python3 Scripts/flowopt/ildump.py && venv/bin/python3 Scripts/flowopt/sinklog.py
-X87_C2=sinklog X87_OUT=/tmp/sk Scripts/x87_sched/sched.sh -l Source/Explosion_30.cpp
+X87_C2=sinklog X87_OUT=/tmp/sk Scripts/x87_sched/sched.sh -l Source/Explosion.cpp
 #   @SINK run a8f8/44..a8f8/44 after 2ed0/43    (ExplosionPool_7A8::FreeLowestPriority_543690: the in-loop return, index 44)
 #   @SINKCMP blk 6e7c/48 runidx 44              (the final tail, index 48: 44 < 48)
 #   @SINKINS before 6e7c/48                     (so the return is generated before the final tail)

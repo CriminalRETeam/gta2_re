@@ -94,7 +94,6 @@ Fix16_Point Fix16_Point::operator/(const s32& divisor)
 MATCH_FUNC(0x5605E0)
 Fix16_Point Fix16_Point::Rotate90CCW_5605E0()
 {
-    // TODO: Mov instruction is encoded wrongly ??
     return Fix16_Point(-y, x);
 }
 

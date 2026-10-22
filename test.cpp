@@ -3,17 +3,17 @@
 #include "Source/gtx_0x106C.hpp"
 #include "Source/registry.hpp"
 #include "Source/file.hpp"
-#include "Source/FpsCounter_54.hpp"
-#include "source/GameSession_578.hpp"
+#include "Source/FpsCounter.hpp"
+#include "source/GameSession.hpp"
 #include "Source/winmain.hpp"
-#include "Source/text_0x14.hpp"
+#include "Source/TextTable.hpp"
 #include "Source/GlobalsRegistry.hpp"
 #include "Source/gbh_graphics.hpp"
-#include "Source/ProfilerTimer_C.hpp"
-#include "Source/FpsCounter_54.hpp"
+#include "Source/ProfilerTimer.hpp"
+#include "Source/FpsCounter.hpp"
 #include "Source/cSampleManager.hpp"
 #include "Source/map_0x370.hpp"
-#include "Source/ScriptManager_C1EA8.hpp"
+#include "Source/ScriptManager.hpp"
 #include "Globals.hpp"
 
 #pragma comment(lib, "Winmm.lib")
@@ -36,7 +36,7 @@ void test_file()
     File::Global_Seek_4A7140(0);
     File::File_Error_4A7190(0, 0, 0);
     File::Global_Read_4A71C0(0, 0);
-    File::GetRemainderSize_4A7250(0, 0);
+    File::Global_ReadRemainder_4A7250(0, 0);
     File::SkipWhitespace_4A7340(0);
 }
 
@@ -44,7 +44,7 @@ void test_gtx_0x106C()
 {
     gtx_0x106C c;
     c.get_car_info_5AA3B0(0);
-    c.get_car_remap_5AA3D0(0);
+    c.get_car_door_data_5AA3D0(0);
     c.get_sprite_index_5AA440(0);
     c.GetSpriteTrueIndex_5AA460(0, 0);
     c.GetSpriteBaseOfType_5AA4F0(0);
@@ -81,7 +81,7 @@ void test_gtx_0x106C()
     c.load_sprite_index_5AAF80(0);
     c.InitFontTypes_5AAFE0(0);
     c.load_font_base_5AB0F0(0);
-    c.ConvertToVirtualOffsets_5AB1A0(0, 0);
+    c.SumCounts_5AB1A0(0, 0);
     c.ConvertToVirtualOffsets_5AB1C0(0, 0);
     c.load_sprite_base_5AB210(0);
     c.load_palete_base_5AB2C0(0);
@@ -97,13 +97,13 @@ void test_gtx_0x106C()
 void test_registry()
 {
     gRegistry_6FF968.Open_Sound_Root_586A00(NULL);
-    gRegistry_6FF968.Get_Sound_Settting_586A70("lol");
-    gRegistry_6FF968.Set_Sound_Setting_586AE0("lol", 5);
+    gRegistry_6FF968.Sound_Setting_Exists_586A70("lol");
+    gRegistry_6FF968.Get_Sound_Setting_586AE0("lol", 5);
 }
 
 void test_GameSession_578()
 {
-    GameSession_578 c;
+    GameSession c;
     c.SetPlySlotIdx_4C5920(0);
 }
 
@@ -115,7 +115,7 @@ void test_winmain()
 
 void test_text_0x14()
 {
-    text_0x14 t;
+    TextTable t;
 }
 
 void test_gbh_graphics()
@@ -125,13 +125,13 @@ void test_gbh_graphics()
 
 void test_ProfilerTimer_C()
 {
-    ProfilerTimer_C t;
+    ProfilerTimer t;
     t.AccumulateElapsed_5BEBF0();
 }
 
 void test_FpsCounter_54()
 {
-    FpsCounter_54 t;
+    FpsCounter t;
     t.UpdateFpsCounters_5BECF0(0, 0);
 }
 
@@ -149,7 +149,7 @@ void test_Map_0x370()
 
 void test_ScriptManager_C1EA8()
 {
-    ScriptManager_C1EA8 t;
+    ScriptManager t;
     t.Load_512330("lol.scr");
 }
 

@@ -4,7 +4,7 @@
 
 class Ped;
 
-class Car_Door_10
+class Car_Door
 {
   public:
     // 9.6f 0x4341B0
@@ -15,12 +15,12 @@ class Car_Door_10
 
     EXPORT void AnimateOpening_439CD0(u32* pRet);
     EXPORT void AnimateClosing_439D40(u32* pDeltaMask);
-    EXPORT void Service_439DA0(u32* a3a);
+    EXPORT void Service_439DA0(u32* pDeltaMask);
     EXPORT void Init_439E40(u8 door_idx);
     EXPORT void Open_439E60();
     EXPORT void Close_439EA0();
-    EXPORT Car_Door_10(); // 447330
-    EXPORT ~Car_Door_10(); // 447350
+    EXPORT Car_Door(); // 447330
+    EXPORT ~Car_Door(); // 447350
 
     // 9.6f 0x421360
     inline bool IsStateActive_421360()
@@ -63,4 +63,4 @@ class Car_Door_10
     s8 field_E_unused;
     s8 field_F_unused;
 };
-GTA2_ASSERT_SIZEOF_ALWAYS(Car_Door_10, 0x10)
+GTA2_ASSERT_SIZEOF_ALWAYS(Car_Door, 0x10)

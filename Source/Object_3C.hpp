@@ -5,18 +5,18 @@
 #include "ang16.hpp"
 #include "fix16.hpp"
 
-EXTERN_GLOBAL(u32, gObj3C_id_6F8E54);
+EXTERN_GLOBAL(u32, gObj3C_live_count_6F8E54);
 EXTERN_GLOBAL(u32, gObj3C_dealloc_count_6F8F0C);
 EXTERN_GLOBAL(Ang16, kZeroAng_6F8F68);
 
 class Sprite;
-class AttachedSprite_18;
-class Object_2C;
+class AttachedSprite;
+class Object;
 
-class SpriteList_4
+class SpriteList
 {
   public:
-    SpriteList_4() // 424620 inline
+    SpriteList() // 424620 inline
     {
         ResetHead_4207E0();
     }
@@ -26,24 +26,24 @@ class SpriteList_4
         field_0_p18 = 0;
     }
 
-    EXPORT AttachedSprite_18* GetSpriteForModel_5A6A50(s32 obj_type);
-    EXPORT Object_2C* FindObject2CByModel_5A6A90(s32 obj_type);
-    EXPORT AttachedSprite_18* FindFirstActiveObject_5A6AD0();
+    EXPORT AttachedSprite* GetSpriteForModel_5A6A50(s32 obj_type);
+    EXPORT Object* FindObject2CByModel_5A6A90(s32 obj_type);
+    EXPORT AttachedSprite* FindFirstFireExplosion_5A6AD0();
     EXPORT void RemoveSprite_5A6B10(Sprite* toFind);
     EXPORT void RemoveSpriteSafe_5A6B60(Sprite* toFind);
-    EXPORT void sub_5A6BB0();
-    EXPORT void sub_5A6BD0();
+    EXPORT void DestroyAllAttached_5A6BB0();
+    EXPORT void SinkAllAttachedCars_5A6BD0();
     EXPORT void DispatchCarImpactEvents_5A6BF0(Sprite* pSprite);
     EXPORT char_type TagSpriteWithRng_5A6C10(Sprite* toFind);
-    EXPORT void RemoveByRngValue_5A6C40(s32 toFind);
+    EXPORT void RemoveAllExceptRngValue_5A6C40(s32 toFind);
     EXPORT Sprite* FirstSpriteOfType_5A6CA0(s32 sprite_type);
     EXPORT void AddSprite_5A6CD0(Sprite* pSprite);
-    EXPORT void PushImpactEvent_5A6D00(Sprite* pSprite1, Fix16 x, Fix16 y, Ang16 angle);
+    EXPORT void PushAttachedSprite_5A6D00(Sprite* pSprite1, Fix16 x, Fix16 y, Ang16 angle);
     EXPORT void PushSprite_5A6D40(Sprite* pToFind);
     EXPORT char_type SpriteExists_5A6D80(Sprite* pToFind);
     EXPORT Sprite* PopFrontSprite_5A6DA0();
     EXPORT Sprite* PopBackSprite_5A6DC0();
-    EXPORT AttachedSprite_18* ClearList_5A6E10();
+    EXPORT AttachedSprite* ClearList_5A6E10();
     EXPORT Sprite* FindClosestSprite_5A6E40(Fix16 xOff, Fix16 yOff);
     EXPORT Sprite* TakeClosestSprite_5A6EA0(Fix16 xpos, Fix16 ypos);
 
@@ -52,14 +52,15 @@ class SpriteList_4
     EXPORT void CleanupSpriteList_5A7080();
     EXPORT void ClearGangIconSprite_5A7110();
     EXPORT s32 GetGangIdxFromSpriteIfAny_5A71A0();
-    EXPORT void sub_5A71F0();
+    EXPORT void ExpireAttachedFlames_5A71F0();
     EXPORT void PruneNonCollidingSprites_5A7240(Sprite* pSprite);
-    EXPORT void PropagateMaxZLayer_5A72B0(Sprite* pSprite, char_type bUnknown);
-    EXPORT char_type sub_5A7310();
+    EXPORT void PropagateMaxZLayer_5A72B0(Sprite* pSprite, char_type bAlsoSetSprite);
+    EXPORT char_type AnySpriteHasSlopeTopInFootprint_5A7310();
 
   public:
-    AttachedSprite_18* field_0_p18;
+    AttachedSprite* field_0_p18;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(SpriteList, 0x4);
 
 class Object_3C
 {
@@ -70,14 +71,14 @@ class Object_3C
     // 9.6f 0x482B20
     void PoolAllocate()
     {
-        ++gObj3C_id_6F8E54;
+        ++gObj3C_live_count_6F8E54;
         field_C_speed = 0;
         field_4_angle = kZeroAng_6F8F68;
         field_18_friction = Fix16(0);
         field_28_next_definition_timer = 0;
         field_38_conveyor_speed = 0;
         field_34 = 2;
-        field_24 = 0;
+        field_24_unused = 0;
         field_2F_bOnSlope = 0;
         field_30_bSkipAnim = 0;
     }
@@ -85,7 +86,7 @@ class Object_3C
     // 9.6f 0x482B80
     void PoolDeallocate()
     {
-        --gObj3C_id_6F8E54;
+        --gObj3C_live_count_6F8E54;
         ++gObj3C_dealloc_count_6F8F0C;
     }
 
@@ -109,17 +110,17 @@ class Object_3C
 
     EXPORT void GetMovementSpeedAndAngle_521FD0(Fix16& Speed, Ang16& Angle);
 
-    SpriteList_4 field_0;
+    SpriteList field_0_attached_sprites;
     Ang16 field_4_angle;
     s16 field_6_unused;
     Object_3C* mpNext;
     Fix16 field_C_speed;
     Fix16 field_10_z_speed;
-    Fix16 field_14;
+    Fix16 field_14_saved_speed;
     Fix16 field_18_friction;
     Fix16 field_1C_z_accel;
     s32 field_20_obj2c_id;
-    s32 field_24;
+    s32 field_24_unused;
     s16 field_28_next_definition_timer;
     s16 field_2A_bAirborne;
     s16 field_2C_unused;
@@ -135,4 +136,4 @@ class Object_3C
     char_type field_3B_unused;
 };
 
-EXTERN_GLOBAL(SpriteList_4, stru_67727C);
+EXTERN_GLOBAL(SpriteList, stru_67727C);

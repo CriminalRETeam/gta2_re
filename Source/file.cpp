@@ -11,7 +11,7 @@
 DEFINE_GLOBAL(s32, gbGlobalFileOpen_67D160, 0x67D160);
 DEFINE_GLOBAL(FILE*, ghFile_67CFEC, 0x67CFEC);
 DEFINE_GLOBAL_INIT(u16, gCdCheckFileCount_6252E0, 22, 0x6252E0);
-DEFINE_GLOBAL_ARRAY_INIT(CdCheckFile_84, gCdCheckFiles_6252E8, 22, 0x6252E8, {"GTAudio\\1.wav" COMMA 31971388u} COMMA {"GTAudio\\10.wav" COMMA 15985724u} COMMA {"GTAudio\\101A.wav" COMMA 9838652u} COMMA {"GTAudio\\10a.wav" COMMA 7992892u} COMMA {"GTAudio\\11.wav" COMMA 15985724u} COMMA {"GTAudio\\11a.wav" COMMA 7992892u} COMMA {"GTAudio\\12.wav" COMMA 16932924u} COMMA {"GTAudio\\2.wav" COMMA 15985724u} COMMA {"GTAudio\\3.wav" COMMA 15985724u} COMMA {"GTAudio\\4.wav" COMMA 15985724u} COMMA {"GTAudio\\5.wav" COMMA 15985724u} COMMA {"GTAudio\\5a.wav" COMMA 7992892u} COMMA {"GTAudio\\6.wav" COMMA 15985724u} COMMA {"GTAudio\\6a.wav" COMMA 7992892u} COMMA {"GTAudio\\7.wav" COMMA 16003132u} COMMA {"GTAudio\\7a.wav" COMMA 7992892u} COMMA {"GTAudio\\8.wav" COMMA 15985724u} COMMA {"GTAudio\\8a.wav" COMMA 7992892u} COMMA {"GTAudio\\9.wav" COMMA 15985724u} COMMA {"GTAudio\\9a.wav" COMMA 7992892u} COMMA {"GTAudio\\A.wav" COMMA 23026196u} COMMA {"GTAudio\\D.wav" COMMA 6532888u});
+DEFINE_GLOBAL_ARRAY_INIT(CdCheckFile, gCdCheckFiles_6252E8, 22, 0x6252E8, {"GTAudio\\1.wav" COMMA 31971388u} COMMA {"GTAudio\\10.wav" COMMA 15985724u} COMMA {"GTAudio\\101A.wav" COMMA 9838652u} COMMA {"GTAudio\\10a.wav" COMMA 7992892u} COMMA {"GTAudio\\11.wav" COMMA 15985724u} COMMA {"GTAudio\\11a.wav" COMMA 7992892u} COMMA {"GTAudio\\12.wav" COMMA 16932924u} COMMA {"GTAudio\\2.wav" COMMA 15985724u} COMMA {"GTAudio\\3.wav" COMMA 15985724u} COMMA {"GTAudio\\4.wav" COMMA 15985724u} COMMA {"GTAudio\\5.wav" COMMA 15985724u} COMMA {"GTAudio\\5a.wav" COMMA 7992892u} COMMA {"GTAudio\\6.wav" COMMA 15985724u} COMMA {"GTAudio\\6a.wav" COMMA 7992892u} COMMA {"GTAudio\\7.wav" COMMA 16003132u} COMMA {"GTAudio\\7a.wav" COMMA 7992892u} COMMA {"GTAudio\\8.wav" COMMA 15985724u} COMMA {"GTAudio\\8a.wav" COMMA 7992892u} COMMA {"GTAudio\\9.wav" COMMA 15985724u} COMMA {"GTAudio\\9a.wav" COMMA 7992892u} COMMA {"GTAudio\\A.wav" COMMA 23026196u} COMMA {"GTAudio\\D.wav" COMMA 6532888u});
 
 MATCH_FUNC(0x4A6B10)
 s32 __stdcall File::GetFileSize_4A6B10(FILE* Stream)
@@ -202,7 +202,7 @@ void __stdcall File::AppendBufferToFile_4A6F50(const char_type* FileName, void* 
         FatalError_4A38C0(Gta2Error::WritingZeroBytesToFile, "C:\\Splitting\\Gta2\\Source\\File.cpp", 261);
     }
 
-    FILE* hFile = crt::fopen(FileName, "ab"); // TODO: check
+    FILE* hFile = crt::fopen(FileName, "ab");
     if (!hFile)
     {
         FatalError_4A38C0(Gta2Error::FreeloaderEpisodeUnknown, "C:\\Splitting\\Gta2\\Source\\File.cpp", 264);
@@ -326,7 +326,7 @@ bool __stdcall File::Global_Read_4A7210(void* Buffer, u32* pSize)
 }
 
 MATCH_FUNC(0x4A7250)
-size_t __stdcall File::GetRemainderSize_4A7250(void* Buffer, u32* pMaxFileSize)
+size_t __stdcall File::Global_ReadRemainder_4A7250(void* Buffer, u32* pMaxFileSize)
 {
     if (!gbGlobalFileOpen_67D160)
     {

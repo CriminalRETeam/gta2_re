@@ -4,7 +4,7 @@
 
 struct gmp_block_info;
 
-class Link_2
+class Link
 {
   public:
     // 9.6f 0x40CE90
@@ -37,11 +37,12 @@ class Link_2
 
     u16 field_0;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Link, 0x2);
 
-class Junction_10
+class Junction
 {
   public:
-    EXPORT char_type sub_588580(s32 arrow_type);
+    EXPORT char_type IsUsableWithArrowType_588580(s32 arrow_type);
     EXPORT u16 GetDirectionToJunction_5885C0(u16 junction_idx);
 
     // 9.6f 0x40CEE0
@@ -50,48 +51,52 @@ class Junction_10
         return x >= field_C_min_x && x <= field_E_max_x && y >= field_D_min_y && y <= field_F_max_y;
     }
 
-    Link_2 field_0_n;
-    Link_2 field_2_s;
-    Link_2 field_4_e;
-    Link_2 field_6_w;
+    Link field_0_n;
+    Link field_2_s;
+    Link field_4_e;
+    Link field_6_w;
     s32 field_8_type;
     u8 field_C_min_x;
     u8 field_D_min_y;
     u8 field_E_max_x;
     u8 field_F_max_y;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(Junction, 0x10);
 
-struct JunctionSegment_0x8
+struct JunctionSegment
 {
     inline bool ContainsPoint_40CF20(s16 x, s16 y)
     {
-        return x >= field_4_min_x && x <= field_6_max_x && y >= field_5_min_y && y <= field_7_min_y;
+        return x >= field_4_min_x && x <= field_6_max_x && y >= field_5_min_y && y <= field_7_max_y;
     }
     u16 field_0_junction_num1;
     u16 field_2_junction_num2;
     u8 field_4_min_x;
     u8 field_5_min_y;
     u8 field_6_max_x;
-    u8 field_7_min_y;
+    u8 field_7_max_y;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(JunctionSegment, 0x8);
 
-class RouteFinder_10
+class RouteSearchNode
 {
   public:
-    EXPORT RouteFinder_10();
+    EXPORT RouteSearchNode();
     u16 field_0_idx;
     u16 field_2_cost;
     s16 field_4_expanded;
     s16 field_6_unused;
-    RouteFinder_10* field_8_pParent;
-    RouteFinder_10* field_C_pNext;
+    RouteSearchNode* field_8_pParent;
+    RouteSearchNode* field_C_pNext;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(RouteSearchNode, 0x10);
 
-class RouteFinder_200
+class JunctionRoute
 {
   public:
     u16 field_0_junctions[256];
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(JunctionRoute, 0x200);
 
 class RouteFinder
 {
@@ -103,47 +108,47 @@ class RouteFinder
     EXPORT void Load_RGEN_588B30();
     EXPORT void Reset_588C60();
     EXPORT bool HasBlockDesiredArrow_588CA0(gmp_block_info* block, s32 arrow_type, u8 direction);
-    EXPORT char_type sub_588DE0(gmp_block_info* pBlock, s32 arrow_type, s32 road_direction);
+    EXPORT char_type HasBlockArrowInRoadDirection_588DE0(gmp_block_info* pBlock, s32 arrow_type, s32 road_direction);
     EXPORT u16 FindHorzSegmentJunction_588E60(u8 x, u8 y, u8 z, char_type bIsDest, s32 arrow_type);
     EXPORT u16 FindVertSegmentJunction_588F30(u8 x, u8 y, u8 z, char_type bIsDest, s32 arrow_type);
     EXPORT u16 FindSegmentJunction_589000(u8 x_coord, u8 y_coord, u8 z_coord, char_type bIsDest, s32 arrow_type);
     EXPORT void FindArrowBlockInJunction_5890D0(u16 junction_idx, s32 direction, u8* xpos, u8* ypos);
     EXPORT s32 NoRefs_589210(u8 x, u8 y, s32 a4, u8 direction, s32 a6, u16 junction_idx);
-    EXPORT RouteFinder_10* NewChildNode_5892F0(RouteFinder_10* pRoute, u16 idx, s16 step_cost);
-    EXPORT RouteFinder_10* NewStartNode_589390(u16 junction_idx);
-    EXPORT void InsertIntoOpenList_589420(RouteFinder_10* pRoute);
+    EXPORT RouteSearchNode* NewChildNode_5892F0(RouteSearchNode* pRoute, u16 idx, s16 step_cost);
+    EXPORT RouteSearchNode* NewStartNode_589390(u16 junction_idx);
+    EXPORT void InsertIntoOpenList_589420(RouteSearchNode* pRoute);
     EXPORT char_type InitSearch_589480(u8 start_x, u8 start_y, u8 start_z, u8 dest_x, u8 dest_y, u8 dest_z, s32 arrow_type);
-    EXPORT char_type sub_5895C0(u8 x, u8 y, u8 z, s32 arrow_type, s32 direction);
+    EXPORT char_type InitSearchWithDirection_5895C0(u8 x, u8 y, u8 z, s32 arrow_type, s32 direction);
     EXPORT void CancelRoute_589930(s16 idx);
     EXPORT s16 GetFreeRouteIdx_589960();
-    EXPORT u16 AddChildNode_589990(RouteFinder_10* pRoute, u16 junction_idx, s16 step_cost);
-    EXPORT bool sub_5899C0(RouteFinder_10* pNode, s32 arrow_type);
-    EXPORT char_type sub_589BB0(RouteFinder_10* pRoute, s32 arrow_type);
-    EXPORT RouteFinder_10* GetFirstUnexpandedNode_589E00();
-    EXPORT char_type sub_589E20(s32 arrow_type);
-    EXPORT char_type sub_589E70(s32 arrow_type);
-    EXPORT s16 sub_589EB0();
-    EXPORT s16 sub_589F70();
+    EXPORT u16 AddChildNode_589990(RouteSearchNode* pRoute, u16 junction_idx, s16 step_cost);
+    EXPORT bool ExpandNode_5899C0(RouteSearchNode* pNode, s32 arrow_type);
+    EXPORT char_type ExpandNodeUnlessOffScreen_589BB0(RouteSearchNode* pRoute, s32 arrow_type);
+    EXPORT RouteSearchNode* GetFirstUnexpandedNode_589E00();
+    EXPORT char_type SearchToDest_589E20(s32 arrow_type);
+    EXPORT char_type SearchUntilOffScreen_589E70(s32 arrow_type);
+    EXPORT s16 StoreRoute_589EB0();
+    EXPORT s16 StoreRouteReversed_589F70();
     EXPORT void DebugPrintRoute_58A020(char_type junc_idx);
-    EXPORT Junction_10* GetJunction_58A0B0(u16 jIdx);
+    EXPORT Junction* GetJunction_58A0B0(u16 jIdx);
     EXPORT s16 DoStartRoute_58A0D0(u8 x1, u8 y1, u8 z1, u8 x2, u8 y2, u8 z2, s32 arrow_type);
-    EXPORT s16 sub_58A130(u8 x, s16 y, u8 z, u8* pRouteLength, s32 arrow_type, s32 direction);
+    EXPORT s16 FindOffScreenRoute_58A130(u8 x, s16 y, u8 z, u8* pRouteLength, s32 arrow_type, s32 direction);
     EXPORT u16 StartRoute_58A190(u8 x1, u8 y1, u8 z1, u8 x2, u8 y2, u8 z2, s32 arrow_type);
     EXPORT RouteFinder();
 
     u16 field_0_route_count;
     u8 field_2;
     char_type field_3_unused;
-    s16 field_4;
+    s16 field_4_unused;
     s16 field_6_unused;
-    Junction_10 field_8_junctions[545];
-    RouteFinder_200 field_2218_routes[50];
+    Junction field_8_junctions[545];
+    JunctionRoute field_2218_routes[50];
     u16 field_8618_idx;
     u16 field_861A_dest_idx;
-    RouteFinder_10 field_861C_nodes[545];
-    RouteFinder_10* field_A82C_open_list;
-    JunctionSegment_0x8 field_A830_horz_segments[545];
-    JunctionSegment_0x8 field_B938_vert_segments[545];
+    RouteSearchNode field_861C_nodes[545];
+    RouteSearchNode* field_A82C_open_list;
+    JunctionSegment field_A830_horz_segments[545];
+    JunctionSegment field_B938_vert_segments[545];
     char_type field_CA40_visited[545];
     u16 field_CC62_horz_segment_count;
     u16 field_CC64_vert_segment_count;

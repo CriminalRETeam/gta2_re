@@ -21,7 +21,7 @@ void __stdcall Input::DirectInputCreate_4986D0(HINSTANCE hInstance)
     // VC6-compatible path
     if (DirectInputCreateA(hInstance, 1792, &gpDInput_67B804, 0) < 0)
     {
-        FatalError_4A38C0(8, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 129);
+        FatalError_4A38C0(Gta2Error::DirectInputInitFail, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 129);
     }
     #else
     #pragma comment(lib, "DInput8.lib")

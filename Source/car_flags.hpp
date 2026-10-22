@@ -2,7 +2,7 @@
 
 #include "types.hpp"
 
-// Car_BC::field_78_flags masks. Flags named FlagN are used but their meaning is not understood yet. Car_BC::IsFlagSet_411930
+// Car::field_78_flags masks. Flags named FlagN are used but their meaning is not understood yet. Car::IsFlagSet_411930
 // and AddFlags_421890 (9.6f inlines) take the mask as an argument, so the original treats this as a plain flag word.
 namespace car_flag
 {
@@ -32,7 +32,7 @@ enum
 // (it was either a bitfield or a mask word, like field_78 whose IsFlagSet/AddFlags helpers take masks). Decide which one
 // field_A4 / field_A6 really are and drop the other form. See docs/matching_quirks.md.
 
-// Car_BC::field_A6_bf (aliases field_A6_turn_flags).
+// Car::field_A6_bf (aliases field_A6_turn_flags).
 struct CarTurnFlags8
 {
     u8 bTurnRight : 1; // bit 0
@@ -45,7 +45,7 @@ struct CarTurnFlags8
     u8 bFlag7 : 1; // bit 7
 };
 
-// Car_BC::field_A4_bf (aliases field_A4_light_flags).
+// Car::field_A4_bf (aliases field_A4_light_flags).
 struct CarLightFlags8
 {
     u8 bBrakeLights : 1; // bit 0

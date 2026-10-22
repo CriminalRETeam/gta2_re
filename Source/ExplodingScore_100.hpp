@@ -4,11 +4,11 @@
 #include "Function.hpp"
 #include "Pool.hpp"
 
-class ExplodingScore_50
+class ExplodingScore
 {
   public:
-    EXPORT ExplodingScore_50();
-    EXPORT ~ExplodingScore_50();
+    EXPORT ExplodingScore();
+    EXPORT ~ExplodingScore();
     EXPORT void PoolAllocate();
     EXPORT void PoolDeallocate();
     EXPORT void ClearNumbersArrayFrom_596A70(s32 start_idx);
@@ -17,23 +17,24 @@ class ExplodingScore_50
     EXPORT char_type PoolUpdate();
     EXPORT void DrawSingleNumber_597100(s32 number_to_draw, s32 xpos_sub);
 
-    s32 field_0_numbers_count;
+    s32 field_0_highest_digit_idx;
     s32 field_4_digits[9]; // Number components
     Fix16 field_28_x;
     Fix16 field_2C_y;
     Fix16 field_30_z;
     s16 field_34_palette;
-    char_type field_36; // draw figure param
+    char_type field_36_alpha; // draw figure param
     char_type field_37_unused; // pad ?
-    s32 field_38; // scale factor?
-    s32 field_3C; // xoff ?
-    s32 field_40; // yoff ?
+    s32 field_38_explode_counter;
+    s32 field_3C_x_offset_mult; // xoff ?
+    s32 field_40_y_offset_mult; // yoff ?
     // NOTE: Used by a template so the name maters
-    ExplodingScore_50* mpNext;
+    ExplodingScore* mpNext;
     s16 field_48_unused; // set to 0, never used ??
     s16 field_4A_unused; // pad?
     s32 field_4C_score;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(ExplodingScore, 0x50);
 
 class ExplodingScorePool
 {
@@ -52,7 +53,7 @@ class ExplodingScorePool
     // NOTE: Nearly all other pools start at offset 0, this object is some 
     // suggestion its composition and not inheritance unless this object 
     // has an additional unknown base that been melted by the compiler :']
-    Pool<ExplodingScore_50, 3> field_4_pool;
+    Pool<ExplodingScore, 3> field_4_pool;
 };
 
 EXTERN_GLOBAL(ExplodingScorePool*, gExplodingScorePool);

@@ -1,41 +1,41 @@
 #pragma once
 
 #include "Function.hpp"
-#include "SoundObject_10.hpp"
+#include "SoundObject.hpp"
 #include "fix16.hpp"
 #include <windows.h>
 
 class root_sound
 {
   public:
-    SoundObject_10* field_0_pFreeList;
-    SoundObject_10 field_4_pool[999 + 1];
+    SoundObject* field_0_pFreeList;
+    SoundObject field_4_pool[999 + 1];
 
-    SoundObject_10* DestroySoundObj_40FE60(SoundObject_10* pSoundObj) // inline
+    SoundObject* DestroySoundObj_40FE60(SoundObject* pSoundObj) // inline
     {
         pSoundObj->Release_40EF20();
-        SoundObject_10* result = field_0_pFreeList;
+        SoundObject* result = field_0_pFreeList;
         pSoundObj->field_C_pAny.pNextFree = field_0_pFreeList;
         field_0_pFreeList = pSoundObj;
         return result;
     }
 
     // 9.6f 0x410730
-    inline SoundObject_10* PopFree_410730()
+    inline SoundObject* PopFree_410730()
     {
-        SoundObject_10* pCurrent = field_0_pFreeList;
+        SoundObject* pCurrent = field_0_pFreeList;
         field_0_pFreeList = pCurrent->field_C_pAny.pNextFree;
-        pCurrent->field_8_sound_entry = 0; // TODO: 9.6f calls SoundObject_10::sub_4106D0 (not dumped)
+        pCurrent->field_8_sound_entry = 0; // TODO: 9.6f calls SoundObject::sub_4106D0 (not dumped)
         return pCurrent;
     }
 
-    EXPORT SoundObject_10* CreateSoundObject_40EF40(void* pObject, s32 objectType);
+    EXPORT SoundObject* CreateSoundObject_40EF40(void* pObject, s32 objectType);
 
     EXPORT void Init_40EF80();
 
     EXPORT void Service_40EFA0();
 
-    EXPORT s32 AddSoundObject_40EFB0(SoundObject_10* pSoundObj);
+    EXPORT s32 AddSoundObject_40EFB0(SoundObject* pSoundObj);
 
     EXPORT void FreeSoundEntry_40EFD0(s32 sound_entry);
 

@@ -77,7 +77,7 @@ class Ang16
     }
 
     // operator+ with the normalizing constructor called out of line (AssignNormalized_409300), for
-    // functions that ran out of inline expansions (Explosion_30::EmitBuildingDebris_22_23_24_25_542E30)
+    // functions that ran out of inline expansions (Explosion::EmitBuildingDebris_22_23_24_25_542E30)
     Ang16 Add_ool(const Ang16& rhs)
     {
         s16 value = rValue + rhs.rValue;
@@ -91,7 +91,7 @@ class Ang16
         return Ang16(value, 0);
     }
 
-    // 9.6f 0x49E240, defined in CarPhysics_B0.cpp
+    // 9.6f 0x49E240, defined in CarPhysics.cpp
     inline wchar_t* ThetaText_49E240();
 
     Ang16 operator-()
@@ -236,7 +236,7 @@ class Ang16
 
     // The out-of-line copy of Ang16(Fix16& value, u8) (9.6f 0x401C40). A real constructor, not a
     // method: when it is called out of line its 0 argument is pushed before the Fix16 argument is
-    // evaluated (Particle_8::EmitImpactParticles_53FE40). Also used by miss2_0x11C::SCRCMD_CRANE_5041C0.
+    // evaluated (ParticleManager::EmitImpactParticles_53FE40). Also used by ScriptThread::SCRCMD_CRANE_5041C0.
     EXPORT Ang16(Fix16* value, s32 not_used);
 
     inline static Fix16 __stdcall cosine_40F520(const Ang16& angle)
@@ -266,7 +266,7 @@ class Ang16
     }
 
     // Reverse of above func
-    // OBS: INLINE_MODE required to match Char_B4::ApplyRandomRotationJitter_54C6C0
+    // OBS: INLINE_MODE required to match Char::ApplyRandomRotationJitter_54C6C0
     INLINE_MODE static Ang16 __stdcall Fix16_To_Ang16_inlined_40F540(const Fix16& input)
     {
         return Ang16(input.GetRaw_40F4B0() / 71, 0);
@@ -338,14 +338,14 @@ class Ang16
 
     // MultiplyByFix16_401CB0 with the multiply and the Fix16* constructor out of line. The product
     // goes straight into the constructor call, so its 0 argument is pushed before the multiply
-    // (Particle_8::EmitImpactParticles_53FE40)
+    // (ParticleManager::EmitImpactParticles_53FE40)
     Ang16 MultiplyByFix16_401CB0_out_of_line(const Fix16& factor)
     {
         return Ang16((Fix16*)&(const Fix16&)Fix16(rValue).Multiply_408680(factor), 0);
     }
 
     // MultiplyByFix16_401CB0 with the multiply inline and the Fix16* constructor out of line
-    // (Particle_8::EmitWaterSplash_53F060)
+    // (ParticleManager::EmitWaterSplash_53F060)
     Ang16 MultiplyByFix16_401CB0_ctor_ool(const Fix16& factor)
     {
         Fix16 tmp = Fix16(rValue) * factor;
@@ -377,7 +377,7 @@ class Ang16
 #pragma warning(disable : 4101)
 inline void __stdcall Ang16::PolarToCartesian_41FC20(Ang16& angle, Fix16& radius, Fix16& ret1, Fix16& ret2)
 {
-    // Never read: its optimizer entry is needed by CarAI_78::UpdateStateMachine_44E560 (docs/match_attempts.md)
+    // Never read: its optimizer entry is needed by CarAI::UpdateStateMachine_44E560 (docs/match_attempts.md)
     s32 unused;
     ret1 = Ang16::sine_40F500(angle) * radius;
     ret2 = Ang16::cosine_40F520(angle) * radius;

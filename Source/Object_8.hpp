@@ -15,7 +15,7 @@ class Object_8
     {
         gObj8_count_6F8F18++;
         field_6_frame_counter = 0;
-        field_7_anim_speed_counter = 0;
+        field_7_frame_idx = 0;
         field_4_timer = 0;
     }
 
@@ -29,5 +29,5 @@ class Object_8
     Object_8* mpNext;
     s16 field_4_timer;
     u8 field_6_frame_counter;
-    u8 field_7_anim_speed_counter;
+    u8 field_7_frame_idx;
 };

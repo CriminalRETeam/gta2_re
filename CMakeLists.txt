@@ -44,12 +44,12 @@ set(gta2_lib_src
   Source/3rdParty/mss.h
   Source/types.hpp
   Source/winmain.cpp
-  Source/ScriptManager_C1EA8.hpp
-  Source/ScriptManager_C1EA8.cpp
+  Source/ScriptManager.hpp
+  Source/ScriptManager.cpp
   Source/map_0x370.hpp
   Source/map_0x370.cpp
-  Source/Light_28.hpp
-  Source/Light_28.cpp
+  Source/Light.hpp
+  Source/Light.cpp
   Source/BitSet32.hpp
   Source/fix16.hpp
   Source/fix16.cpp
@@ -60,8 +60,8 @@ set(gta2_lib_src
   Source/memory.hpp
   Source/memory.cpp
   Source/chunk.hpp
-  Source/keybrd_0x204.hpp
-  Source/keybrd_0x204.cpp
+  Source/KeyboardLayout.hpp
+  Source/KeyboardLayout.cpp
   Source/debug.hpp
   Source/debug.cpp
   Source/cSampleManager.hpp
@@ -70,43 +70,43 @@ set(gta2_lib_src
   Source/sound_obj.cpp
   Source/dma_video.hpp
   Source/dma_video.cpp
-  Source/KanjiFont_8EC.hpp
-  Source/KanjiFont_8EC.cpp
-  Source/TextureCache_15D8.hpp
-  Source/TextureCache_15D8.cpp
+  Source/KanjiFont.hpp
+  Source/KanjiFont.cpp
+  Source/TextureCache.hpp
+  Source/TextureCache.cpp
   Source/Draw.hpp
   Source/Draw.cpp
   Source/Bink.hpp
   Source/Bink.cpp
   Source/gbh_graphics.hpp
   Source/gbh_graphics.cpp
-  Source/text_0x14.hpp
-  Source/text_0x14.cpp
+  Source/TextTable.hpp
+  Source/TextTable.cpp
   Source/root_sound.hpp
   Source/root_sound.cpp
   Source/Player.hpp
   Source/Player.cpp
   Source/Frontend.hpp
   Source/Frontend.cpp
-  Source/Game_0x40.hpp
-  Source/Game_0x40.cpp
-  Source/PlyDat_2BC0.hpp
-  Source/PlyDat_2BC0.cpp
+  Source/Game.hpp
+  Source/Game.cpp
+  Source/PlyDat.hpp
+  Source/PlyDat.cpp
   Source/NetPlay.hpp
   Source/NetPlay.cpp
   Source/network_data.hpp
   Source/input.hpp
   Source/input.cpp
-  Source/GameSession_578.hpp
-  Source/GameSession_578.cpp
+  Source/GameSession.hpp
+  Source/GameSession.cpp
   Source/registry.hpp
   Source/registry.cpp
   Source/file.hpp
   Source/file.cpp
-  Source/FpsCounter_54.hpp
-  Source/FpsCounter_54.cpp
-  Source/ProfilerTimer_C.hpp
-  Source/ProfilerTimer_C.cpp
+  Source/FpsCounter.hpp
+  Source/FpsCounter.cpp
+  Source/ProfilerTimer.hpp
+  Source/ProfilerTimer.cpp
   Source/gtx_0x106C.hpp
   Source/gtx_0x106C.cpp
   Source/Function.hpp
@@ -115,36 +115,36 @@ set(gta2_lib_src
   Source/Camera.cpp
   Source/Ped.hpp
   Source/Ped.cpp
-  Source/Car_BC.hpp
-  Source/Car_BC.cpp
-  Source/CarAI_78.hpp
-  Source/CarAI_78.cpp
+  Source/Car.hpp
+  Source/Car.cpp
+  Source/CarAI.hpp
+  Source/CarAI.cpp
   Source/Car_10.hpp
   Source/Car_10.cpp
   Source/Fix16_Rect.hpp
   Source/Fix16_Rect.cpp
   Source/Fix16_Point.hpp
   Source/Fix16_Point.cpp
-  Source/Ped_List_4.hpp
-  Source/Ped_List_4.cpp
-  Source/PlayerCrimeStats_3C.hpp
-  Source/PlayerCrimeStats_3C.cpp
-  Source/SoundObject_10.hpp
-  Source/SoundObject_10.cpp
-  Source/BonusTracker_1C0.hpp
-  Source/BonusTracker_1C0.cpp
+  Source/Ped_List.hpp
+  Source/Ped_List.cpp
+  Source/PlayerCrimeStats.hpp
+  Source/PlayerCrimeStats.cpp
+  Source/SoundObject.hpp
+  Source/SoundObject.cpp
+  Source/BonusTracker.hpp
+  Source/BonusTracker.cpp
   Source/Gang.hpp
   Source/Gang.cpp
-  Source/TagGame_28.hpp
-  Source/TagGame_28.cpp
-  Source/CreditsText_FD22.hpp
-  Source/CreditsText_FD22.cpp
-  Source/CreditsLine_6C.hpp
-  Source/CreditsLine_6C.cpp
-  Source/miss2_0x11C.hpp
-  Source/miss2_0x11C.cpp
-  Source/miss2_8.hpp
-  Source/miss2_8.cpp
+  Source/TagGame.hpp
+  Source/TagGame.cpp
+  Source/CreditsText.hpp
+  Source/CreditsText.cpp
+  Source/CreditsLine.hpp
+  Source/CreditsLine.cpp
+  Source/ScriptThread.hpp
+  Source/ScriptThread.cpp
+  Source/ScriptGosubStack.hpp
+  Source/ScriptGosubStack.cpp
   Source/miss2_xyz.hpp
   Source/InputRecorder_67F8B0.hpp
   Source/InputRecorder_67F8B0.cpp
@@ -152,12 +152,12 @@ set(gta2_lib_src
   Source/Hud.cpp
   Source/MapRenderer.hpp
   Source/MapRenderer.cpp
-  Source/SpriteRenderer_1C.hpp
-  Source/SpriteRenderer_1C.cpp
-  Source/Mike_A80.hpp
-  Source/Mike_A80.cpp
-  Source/ScriptStackFramePool_25C.hpp
-  Source/ScriptStackFramePool_25C.cpp
+  Source/SpriteRenderer.hpp
+  Source/SpriteRenderer.cpp
+  Source/FrameProfiler.hpp
+  Source/FrameProfiler.cpp
+  Source/ScriptStackFramePool.hpp
+  Source/ScriptStackFramePool.cpp
   Source/sprite.hpp
   Source/sprite.cpp
   Source/char.hpp
@@ -166,79 +166,79 @@ set(gta2_lib_src
   Source/Char_Pool.cpp
   Source/collide.hpp
   Source/collide.cpp
-  Source/ObjectDefinitions_8CA8.hpp
-  Source/ObjectDefinitions_8CA8.cpp
+  Source/ObjectDefinitions.hpp
+  Source/ObjectDefinitions.cpp
   Source/Object_5C.hpp
   Source/Object_5C.cpp
-  Source/PedRefTable_7F8.hpp
-  Source/PedRefTable_7F8.cpp
-  Source/TileAnim_2.hpp
-  Source/TileAnim_2.cpp
-  Source/Weapon_8.hpp
-  Source/Weapon_8.cpp
-  Source/Door_4D4.hpp
-  Source/Door_4D4.cpp
-  Source/Ambulance_110.hpp
-  Source/Ambulance_110.cpp
+  Source/PedRefTable.hpp
+  Source/PedRefTable.cpp
+  Source/TileAnimManager.hpp
+  Source/TileAnimManager.cpp
+  Source/WeaponManager.hpp
+  Source/WeaponManager.cpp
+  Source/DoorPool.hpp
+  Source/DoorPool.cpp
+  Source/AmbulanceService.hpp
+  Source/AmbulanceService.cpp
   Source/PublicTransport.hpp
   Source/PublicTransport.cpp
-  Source/Taxi_4.hpp
-  Source/Taxi_4.cpp
-  Source/TrafficLights_194.hpp
-  Source/TrafficLights_194.cpp
+  Source/TaxiList.hpp
+  Source/TaxiList.cpp
+  Source/TrafficLights.hpp
+  Source/TrafficLights.cpp
   Source/RouteFinder.hpp
   Source/RouteFinder.cpp
-  Source/PatrolRoutePool_1D7E.hpp
-  Source/PatrolRoutePool_1D7E.cpp
-  Source/PathFinder_2FD4.hpp
-  Source/PathFinder_2FD4.cpp
-  Source/CarInfo_808.hpp
-  Source/CarInfo_808.cpp
-  Source/Particle_8.hpp
-  Source/Particle_8.cpp
-  Source/Explosion_30.hpp
-  Source/Explosion_30.cpp
+  Source/PatrolRoutePool.hpp
+  Source/PatrolRoutePool.cpp
+  Source/PathFinder.hpp
+  Source/PathFinder.cpp
+  Source/CarInfoTable.hpp
+  Source/CarInfoTable.cpp
+  Source/ParticleManager.hpp
+  Source/ParticleManager.cpp
+  Source/Explosion.hpp
+  Source/Explosion.cpp
   Source/Cranes.hpp
   Source/Cranes.cpp
   Source/Crushers.hpp
   Source/Crushers.cpp
   Source/Generators.hpp
   Source/Generators.cpp
-  Source/EmergencyCrewPool_1E0.hpp
-  Source/EmergencyCrewPool_1E0.cpp
-  Source/Police_7B8.hpp
-  Source/Police_7B8.cpp
-  Source/Light_1D4CC.hpp
-  Source/Light_1D4CC.cpp
-  Source/Garage_48.hpp
-  Source/Garage_48.cpp
-  Source/CarChaseTaskTable_500.hpp
-  Source/CarChaseTaskTable_500.cpp
+  Source/EmergencyCrewPool.hpp
+  Source/EmergencyCrewPool.cpp
+  Source/Police.hpp
+  Source/Police.cpp
+  Source/LightPool.hpp
+  Source/LightPool.cpp
+  Source/Garage.hpp
+  Source/Garage.cpp
+  Source/CarChaseTaskTable.hpp
+  Source/CarChaseTaskTable.cpp
   Source/ExplodingScore_100.hpp
   Source/ExplodingScore_100.cpp
-  Source/CrimeReportQueue_CC.hpp
-  Source/CrimeReportQueue_CC.cpp
+  Source/CrimeReportQueue.hpp
+  Source/CrimeReportQueue.cpp
   Source/Firefighters.hpp
   Source/Firefighters.cpp
-  Source/CollisionSoundQueue_C88.hpp
-  Source/CollisionSoundQueue_C88.cpp
-  Source/SpriteGrid_400.hpp
-  Source/SpriteGrid_400.cpp
-  Source/Network_20324.hpp
-  Source/Network_20324.cpp
+  Source/CollisionSoundQueue.hpp
+  Source/CollisionSoundQueue.cpp
+  Source/SpriteGrid.hpp
+  Source/SpriteGrid.cpp
+  Source/NetUi.hpp
+  Source/NetUi.cpp
   Source/PedGroup.hpp
   Source/PedGroup.cpp
   Source/rng.hpp
   Source/rng.cpp
-  Source/PlayerScoreTracker_36C.hpp
-  Source/PlayerScoreTracker_36C.cpp
-  Source/RollingDigitCounter_38.hpp
-  Source/RollingDigitCounter_38.cpp
+  Source/PlayerScoreTracker.hpp
+  Source/PlayerScoreTracker.cpp
+  Source/RollingDigitCounter.hpp
+  Source/RollingDigitCounter.cpp
   Source/enums.hpp
-  Source/CarPhysics_B0.hpp
-  Source/CarPhysics_B0.cpp
-  Source/Miss2_25C.hpp
-  Source/Miss2_25C.cpp
+  Source/CarPhysics.hpp
+  Source/CarPhysics.cpp
+  Source/MissionCleanupList.hpp
+  Source/MissionCleanupList.cpp
   Source/Object_8.hpp
   Source/Object_8.cpp
   Source/Object_8_Pool.hpp
@@ -247,16 +247,16 @@ set(gta2_lib_src
   Source/Object_3C_Pool.cpp
   Source/Object_3C.hpp
   Source/Object_3C.cpp
-  Source/Object_2C_Pool.hpp
-  Source/Object_2C_Pool.cpp
+  Source/ObjectPool.hpp
+  Source/ObjectPool.cpp
   Source/Particle_4C.hpp
   Source/Particle_4C.cpp
   Source/Police_38.hpp
   Source/Police_38.cpp
-  Source/Door_38.hpp
-  Source/Door_38.cpp
-  Source/Weapon_30.hpp
-  Source/Weapon_30.cpp
+  Source/Door.hpp
+  Source/Door.cpp
+  Source/Weapon.hpp
+  Source/Weapon.cpp
   Source/ImGuiDebug.hpp
   Source/ImGuiDebug.cpp
 )

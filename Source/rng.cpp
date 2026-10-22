@@ -1,5 +1,5 @@
 #include "rng.hpp"
-#include "CarInfo_808.hpp"
+#include "CarInfoTable.hpp"
 #include "Globals.hpp"
 #include "debug.hpp"
 #include "error.hpp"

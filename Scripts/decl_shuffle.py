@@ -7,7 +7,7 @@ reorder_saves rarely picks a full shuffle, so this tries random shuffles of the 
 declaration lines and keeps the best score. It took text_0x14::InsertLineBreaksAndGetNumLines
 from 232 to 56 before the permuter found the rest.
 
-    python3 Scripts/decl_shuffle.py Source/text_0x14.cpp InsertLineBreaksAndGetNumLines_5B5BC0 5b5bc0 [-n 300] [--seed 1]
+    python3 Scripts/decl_shuffle.py Source/TextTable.cpp InsertLineBreaksAndGetNumLines_5B5BC0 5b5bc0 [-n 300] [--seed 1]
 
 The declaration run is the block of lines right after the function's opening brace that look
 like declarations (end in ';', no '(' except in an initializer, not a statement keyword). The

@@ -20,15 +20,15 @@ EXTERN_GLOBAL(Fix16, gFix16_7035C0);
 EXPORT bool __stdcall ComputeScanlineIntersectionX_4F77D0(Fix16& minX, Fix16& minY, Fix16& scanLineX, Fix16_Point& p0, Fix16_Point& p1);
 EXPORT char_type __stdcall ComputeScanlineIntersectionY_4F76A0(Fix16& minX, Fix16& minY, Fix16& scanLineY, Fix16_Point& p0, Fix16_Point& p1);
 
-class Car_BC;
-class Char_B4;
-class Object_2C;
-class SoundObject_10;
+class Car;
+class Char;
+class Object;
+class SoundObject;
 class Ped;
 
-EXPORT void __stdcall sub_5A5690(Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16* pOut2);
+EXPORT void __stdcall ProjectWorldToScreen_5A5690(Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16* pOut2);
 
-class SpriteShape_4C
+class SpriteShape
 {
   public:
     EXPORT s32 PoolAllocate();
@@ -44,7 +44,7 @@ class SpriteShape_4C
     // until its put back ??
     void SetCollisionId_446920(u32 id)
     {
-        this->mpNext = (SpriteShape_4C*)id;
+        this->mpNext = (SpriteShape*)id;
     }
 
     bool CollisionIdIs_446930(u32 id)
@@ -124,7 +124,7 @@ class SpriteShape_4C
         field_4_height -= amount;
     }
 
-    void CopyDimensions_447DF0(SpriteShape_4C* pOther)
+    void CopyDimensions_447DF0(SpriteShape* pOther)
     {
         this->field_0_width = pOther->field_0_width;
         this->field_4_height = pOther->field_4_height;
@@ -168,20 +168,21 @@ class SpriteShape_4C
     EXPORT void UpdateRotatedBoundingBox_5A3550(Fix16 x, Fix16 y, Fix16 z, Ang16 ang);
     EXPORT void DrawCollisionBox_5A4DA0(Fix16 zpos);
 
-    EXPORT SpriteShape_4C();
-    EXPORT ~SpriteShape_4C();
+    EXPORT SpriteShape();
+    EXPORT ~SpriteShape();
 
     Fix16 field_0_width;
     Fix16 field_4_height;
     Fix16 field_8_depth;
     Fix16_Point field_C_corners[4];
-    SpriteShape_4C* mpNext;
+    SpriteShape* mpNext;
     Fix16_Rect field_30_boundingBox;
     bool field_48_bbox_up_to_date;
     char_type field_49_unused;
     char_type field_4A_unused;
     char_type field_4B_unused;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(SpriteShape, 0x4C);
 
 class Sprite
 {
@@ -202,28 +203,28 @@ class Sprite
     EXPORT Fix16_Point GetBoundingBoxCorner_562450(s32 idx);
 
     EXPORT Fix16_Point get_x_y_443580();
-    // 9.6f 0x4207B0, out-of-line copy get_x_y_443580 (emitted by Car_BC.cpp). Returns a Fix16_Point by
+    // 9.6f 0x4207B0, out-of-line copy get_x_y_443580 (emitted by Car.cpp). Returns a Fix16_Point by
     // value, so VC6 charges it to the caller's inline budget and then calls the copy.
     inline Fix16_Point get_x_y()
     {
         return Fix16_Point(field_14_xy.x, field_14_xy.y);
     }
-    // get_x_y with its body defined at the end of Car_BC.cpp (Car_BC::HandleCarHitByObject_43F130)
+    // get_x_y with its body defined at the end of Car.cpp (Car::HandleCarHitByObject_43F130)
     inline Fix16_Point get_x_y_late_443580();
     EXPORT void set_xyz_lazy_451950(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT void setxy_lazy_54EC80(Fix16 xpos, Fix16 ypos);
-    EXPORT bool IsControlledByActivePlayer_59E170();
+    EXPORT bool IsControlledByRemotePlayer_59E170();
     EXPORT Ped* GetPed_59E1B0();
     EXPORT s32 IsOnWater_59E1D0();
     EXPORT u8 GetWaterCornerMask_59E250();
     EXPORT void CopyCollisionShapeToVisual_59E2E0();
     EXPORT void CopyVisualShapeToCollision_59E300();
     EXPORT void IncreaseZoom_59E320(char_type delta);
-    EXPORT bool ShrinkSprite_59E390(Fix16 xoff, Fix16 yoff, s32 bUnknown);
+    EXPORT bool ShrinkSprite_59E390(Fix16 xoff, Fix16 yoff, s32 bShrinkCollisionShape);
     EXPORT void ApplyScaleToDimensions_59E4C0(Fix16 scale, s32 bScale_Field_C_4C);
     EXPORT char_type CollisionCheck_59E590(Sprite* pOther);
     EXPORT char_type CheckDirectionalSliceCollision_59E680(Fix16 sliceLen, Sprite* pSprite);
-    EXPORT void ResetZCollisionAndDebugBoxes_59E7B0();
+    EXPORT void InvalidateZColAndBBoxes_59E7B0();
     EXPORT Sprite* QuerySpriteCollision_59E7D0(s32 sprite_type);
     EXPORT char_type IsThreatToSearchingPed_59E830();
     EXPORT char_type ShouldCollideWithSprite_59E850(Sprite* pSprite);
@@ -246,19 +247,19 @@ class Sprite
     EXPORT char_type CollisionCheck_5A0320(Fix16* pXY1, Fix16* pXY2, u8* pCollisionIdx1, u8* pCollisionIdx2);
     EXPORT bool RotatedRectCollisionSAT_5A0380(Sprite* pOther);
     EXPORT char_type CheckBBoxScanlineIntersection_5A0970(Fix16 scanXMin, Fix16 scanXMax, Fix16 scanY);
-    EXPORT bool GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 line_y, Fix16_Point& point, u8& a4);
+    EXPORT bool GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 line_y, Fix16_Point& point, u8& nearest_corner_idx);
     EXPORT char_type HitTestVerticalLine_5A0EF0(Fix16 x, Fix16 y1, Fix16 y2);
-    EXPORT bool GetNearestVerticalEdgeToCoordinate_5A1030(Fix16 line_x, Fix16_Point& point, u8& a4);
+    EXPORT bool GetNearestVerticalEdgeToCoordinate_5A1030(Fix16 line_x, Fix16_Point& point, u8& nearest_corner_idx);
     EXPORT bool PointInsideRotatedBounds_5A1490(Fix16_Point& point1, Fix16_Point& point2);
-    EXPORT char_type sub_5A19C0();
-    EXPORT char sub_5A1A60();
+    EXPORT char_type IsStraddlingSlopeAndFlat_5A19C0();
+    EXPORT char CheckSlopeTopInFootprint_5A1A60();
     EXPORT void ResolveZOrder_5A1B30(Sprite* pOther);
     EXPORT char_type ComputeZLayer_5A1BD0();
     EXPORT char_type CheckCornerZCollisions_5A1CA0(u32* pCount);
     EXPORT char_type IsTouchingSlopeBlock_5A1EB0();
     EXPORT char_type CheckMapZCollision_5A21F0();
     EXPORT Fix16 MinDistanceToAnySpriteBBoxCorner_5A22B0(Sprite* pOther);
-    EXPORT char_type sub_5A2440();
+    EXPORT char_type CheckBulletWallCollision_5A2440();
     EXPORT char_type CheckSpriteMovementRegion_5A2500();
     EXPORT Ang16 GetNegatedAngle_5A26E0();
     EXPORT Fix16_Point FindCollisionIntersectionPoint_5A2710(Sprite* pOther,
@@ -273,7 +274,7 @@ class Sprite
     EXPORT void ResolveCollisionWithCarPedOrObject_5A2A30();
     EXPORT void PoolAllocate();
     EXPORT void PoolDeallocate();
-    EXPORT void DispatchCollisionEvent_5A3100(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 ang);
+    EXPORT void AttachSprite_5A3100(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 ang);
 
     EXPORT void set_angle_4833B0(Ang16 ang);
 
@@ -337,7 +338,7 @@ class Sprite
     }
 
     // FUNCTION: 96f 0x40feb0
-    Car_BC* AsCar_40FEB0()
+    Car* AsCar_40FEB0()
     {
         if (field_30_sprite_type_enum == sprite_types_enum::car_2)
         {
@@ -349,7 +350,7 @@ class Sprite
         }
     }
 
-    Char_B4* AsCharB4_40FEA0()
+    Char* AsCharB4_40FEA0()
     {
         if (field_30_sprite_type_enum == sprite_types_enum::ped_3)
         {
@@ -381,7 +382,7 @@ class Sprite
         return field_30_sprite_type_enum == sprite_types_enum::code_obj1_4 || field_30_sprite_type_enum == sprite_types_enum::map_obj_5 || field_30_sprite_type_enum == sprite_types_enum::object_1;
     }
 
-    Object_2C* AsObject2C_40FEC0()
+    Object* AsObject2C_40FEC0()
     {
         if (IsObject2CType_40FE80())
         {
@@ -445,16 +446,16 @@ class Sprite
     Ang16 field_0_rotation;
     s8 field_2_pad;
     s8 field_3_pad;
-    SpriteShape_4C* field_4_pVisualShape;
+    SpriteShape* field_4_pVisualShape;
     // Only one field is enable at the same time.
     // The field that is enabled is decided by field_30_sprite_type_enum
     // The following list may not be complete.
     // At this moment, it comes from the functions(version 9.6f) at 4b9a10, 4b9a30, 4b9d50
     union
     {
-        Car_BC* field_8_car_bc_ptr; // field_30_sprite_type_enum == sprite_types_enum::car
-        Char_B4* field_8_char_b4_ptr; // field_30_sprite_type_enum == sprite_types_enum::ped
-        Object_2C* field_8_object_2C_ptr; // field_30_sprite_type_enum == sprite_types_enum::map_obj or code_obj1 or unknown_1
+        Car* field_8_car_bc_ptr; // field_30_sprite_type_enum == sprite_types_enum::car
+        Char* field_8_char_b4_ptr; // field_30_sprite_type_enum == sprite_types_enum::ped
+        Object* field_8_object_2C_ptr; // field_30_sprite_type_enum == sprite_types_enum::map_obj or code_obj1 or unknown_1
         Sprite* field_8_pSprite;
         class Object_5C* field_8_o5C;
     };
@@ -464,10 +465,10 @@ class Sprite
     union
     {
         Sprite* mpNext;
-        SpriteShape_4C* field_C_pCollisionShape;
+        SpriteShape* field_C_pCollisionShape;
         class Object_5C* field_C_o5c;
     };
-    SoundObject_10* field_10_sound;
+    SoundObject* field_10_sound;
 
     void SetType_4206F0(s32 sprite_type)
     {
@@ -475,12 +476,12 @@ class Sprite
         SetDefaultDrawLayerBySpriteType_59E960(); // Update field_28
     }
 
-    void SetObject2C_482A30(Object_2C* pObject)
+    void SetObject2C_482A30(Object* pObject)
     {
         this->field_8_object_2C_ptr = pObject;
     }
 
-    void SetCar_420710(Car_BC* pCar)
+    void SetCar_420710(Car* pCar)
     {
         this->field_8_car_bc_ptr = pCar;
     }
@@ -508,7 +509,7 @@ class Sprite
     void SetDimensions_482A40(Fix16 w, Fix16 h, Fix16 depth)
     {
         field_C_pCollisionShape->SetDimensions_482980(w, h, depth);
-        ResetZCollisionAndDebugBoxes_59E7B0();
+        InvalidateZColAndBBoxes_59E7B0();
     }
 
     // 9.6f 0x433800
@@ -529,7 +530,7 @@ class Sprite
         if (ang != field_0_rotation)
         {
             field_0_rotation = ang;
-            ResetZCollisionAndDebugBoxes_59E7B0();
+            InvalidateZColAndBBoxes_59E7B0();
         }
     }
 
@@ -541,12 +542,12 @@ class Sprite
             field_14_xy.x = xpos;
             field_14_xy.y = ypos;
             field_1C_zpos = zpos;
-            ResetZCollisionAndDebugBoxes_59E7B0();
+            InvalidateZColAndBBoxes_59E7B0();
         }
     }
 
     // 9.6f inline 0x420600
-    // OBS: INLINE_MODE required to match Crane_15C::UpdateCraneSprites_47FE10
+    // OBS: INLINE_MODE required to match Crane::UpdateCraneSprites_47FE10
     INLINE_MODE void set_xyz_lazy_inlined_420600(Fix16 xpos, Fix16 ypos, Fix16 zpos)
     {
         if (field_14_xy.x != xpos || field_14_xy.y != ypos || field_1C_zpos != zpos)
@@ -554,7 +555,7 @@ class Sprite
             field_14_xy.x = xpos;
             field_14_xy.y = ypos;
             field_1C_zpos = zpos;
-            ResetZCollisionAndDebugBoxes_59E7B0();
+            InvalidateZColAndBBoxes_59E7B0();
         }
     }
 
@@ -565,7 +566,7 @@ class Sprite
         {
             field_14_xy.x = x_target;
             field_14_xy.y = y_target;
-            ResetZCollisionAndDebugBoxes_59E7B0();
+            InvalidateZColAndBBoxes_59E7B0();
         }
     }
 
@@ -575,7 +576,7 @@ class Sprite
         if (field_1C_zpos != zpos)
         {
             field_1C_zpos = zpos;
-            ResetZCollisionAndDebugBoxes_59E7B0();
+            InvalidateZColAndBBoxes_59E7B0();
         }
     }
 
@@ -606,7 +607,7 @@ class Sprite
     s16 field_24_remap;
     char_type field_26_pad;
     char_type field_27_pad;
-    s32 field_28_draw_layer; // draw order tie-break among sprites at the same z (SpriteTree_4::AddSprite_5C5CF0); > 9 sorts by z
+    s32 field_28_draw_layer; // draw order tie-break among sprites at the same z (SpriteTree::AddSprite_5C5CF0); > 9 sorts by z
     union
     {
         u8 field_2C_flags;
@@ -623,7 +624,7 @@ class Sprite
     char_type field_3B_unused;
 };
 
-class SpriteMask_14
+class SpriteMask
 {
   public:
     EXPORT void MarkUsed_48F5A0();
@@ -631,12 +632,12 @@ class SpriteMask_14
     EXPORT void ClearMask_48F5C0(u8 xCount, u8 yCount);
 
     // 9.6f 0x44af30
-    EXPORT SpriteMask_14()
+    EXPORT SpriteMask()
     {
         field_C_last_used = 0;
         field_8_delta_mask = 0;
         field_4_sprite_idx = -1;
-        field_12 = 0;
+        field_12_palette = 0;
     }
 
     // 9.6f 0x44AF70
@@ -649,7 +650,7 @@ class SpriteMask_14
     {
         field_4_sprite_idx = sprite_idx;
         field_8_delta_mask = delta_mask;
-        field_12 = palette;
+        field_12_palette = palette;
     }
 
     u8* field_0_pixels;
@@ -659,29 +660,31 @@ class SpriteMask_14
     s32 field_8_delta_mask;
     s32 field_C_last_used;
     u16 field_10_idx;
-    u16 field_12;
+    u16 field_12_palette;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(SpriteMask, 0x14);
 
-class SpriteMaskCache_3CC
+class SpriteMaskCache
 {
   public:
-    EXPORT SpriteMask_14* FindCachedMask_48F600(u16& sprite_idx, u32* pFlag, u32* pDeltaMask, const u16* pExtra);
-    EXPORT SpriteMask_14* FindLeastRecentlyUsed_48F690(u32* pKey);
-    EXPORT void InvalidateMasksByType_48F6E0(u16* sprite_idx);
+    EXPORT SpriteMask* FindCachedMask_48F600(u16& sprite_idx, u32* pFlag, u32* pDeltaMask, const u16* pExtra);
+    EXPORT SpriteMask* FindLeastRecentlyUsed_48F690(u32* pKey);
+    EXPORT void InvalidateMasksBySpriteIdx_48F6E0(u16* sprite_idx);
     EXPORT void InvalidateAllMasks_48F710();
-    EXPORT SpriteMaskCache_3CC();
-    EXPORT ~SpriteMaskCache_3CC();
+    EXPORT SpriteMaskCache();
+    EXPORT ~SpriteMaskCache();
 
     u8* GetMaskPixels(u16 idx)
     {
         return field_0_masks[idx].field_0_pixels;
     }
 
-    SpriteMask_14 field_0_masks[48];
+    SpriteMask field_0_masks[48];
     s32 field_3C0_use_counter;
     u8* field_3C4_aligned_buffer;
     s32* field_3C8_unaligned_alloc;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(SpriteMaskCache, 0x3CC);
 
 class SpriteManager_8
 {
@@ -695,11 +698,11 @@ class SpriteManager_8
     s16 field_6_unused;
 };
 
-class AttachedSprite_18
+class AttachedSprite
 {
   public:
-    EXPORT ~AttachedSprite_18();
-    EXPORT AttachedSprite_18();
+    EXPORT ~AttachedSprite();
+    EXPORT AttachedSprite();
 
     void PoolAllocate()
     {
@@ -718,13 +721,14 @@ class AttachedSprite_18
     EXPORT bool UpdateAttached_5A6910(Sprite* pSprite);
 
     Sprite* field_0_pSprite;
-    AttachedSprite_18* mpNext;
-    Fix16 field_6_offset_x; // NOTE: Fix16_Point here breaks match of UpdateAttached_5A6910
-    Fix16 field_8_offset_y;
+    AttachedSprite* mpNext;
+    Fix16 field_8_offset_x; // NOTE: Fix16_Point here breaks match of UpdateAttached_5A6910
+    Fix16 field_C_offset_y;
     Ang16 field_10_offset_rot;
-    s16 field_12;
+    s16 field_12_unused;
     s32 field_14_rng;
 };
+GTA2_ASSERT_SIZEOF_ALWAYS(AttachedSprite, 0x18);
 
 class AttachedSpritePool
 {
@@ -736,17 +740,17 @@ class AttachedSpritePool
 
     EXPORT ~AttachedSpritePool();
 
-    AttachedSprite_18* Allocate()
+    AttachedSprite* Allocate()
     {
         return field_0_pool.Allocate();
     }
 
-    void DeAllocate(AttachedSprite_18* pItem)
+    void DeAllocate(AttachedSprite* pItem)
     {
         field_0_pool.DeAllocate(pItem);
     }
 
-    PoolBasic<AttachedSprite_18, 300> field_0_pool;
+    PoolBasic<AttachedSprite, 300> field_0_pool;
 };
 
 class SpriteShapePool
@@ -760,18 +764,18 @@ class SpriteShapePool
     ~SpriteShapePool();
 
     // TODO: Get 9.6f inline addr
-    void Remove(SpriteShape_4C* pToRemove)
+    void Remove(SpriteShape* pToRemove)
     {
         field_0_pool.DeAllocate(pToRemove);
     }
 
     // TODO: Get 9.6f inline addr
-    SpriteShape_4C* Allocate()
+    SpriteShape* Allocate()
     {
         return field_0_pool.Allocate();
     }
 
-    PoolBasic<SpriteShape_4C, 5031> field_0_pool;
+    PoolBasic<SpriteShape, 5031> field_0_pool;
 };
 
 class SpritePool
@@ -812,7 +816,7 @@ EXTERN_GLOBAL(SpritePool*, gSpritePool_703818);
 
 EXTERN_GLOBAL(SpriteShapePool*, gSpriteShapePool_70381C);
 
-EXTERN_GLOBAL(SpriteMaskCache_3CC*, gSpriteMaskCache_67AF1C);
+EXTERN_GLOBAL(SpriteMaskCache*, gSpriteMaskCache_67AF1C);
 
 EXTERN_GLOBAL(AttachedSpritePool*, gAttachedSpritePool_703B80);
 

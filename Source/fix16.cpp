@@ -7,7 +7,6 @@
 DEFINE_GLOBAL_ARRAY(Fix16, gSin_table_667A80, 1440, 0x667A80);
 DEFINE_GLOBAL_ARRAY(Fix16, gCos_table_669260, 1440, 0x669260);
 
-// TODO: hmm, shouldn't this be 360 entries ??
 DEFINE_GLOBAL_ARRAY(Fix16, gTanTable_6663C8, 1440, 0x6663C8);
 DEFINE_GLOBAL_INIT(Fix16, kFPZero_6691B0, Fix16(0), 0x6691B0);
 DEFINE_GLOBAL_INIT(Ang16, kAngZero_66A920, Ang16(0), 0x66A920);
@@ -62,7 +61,7 @@ Fix16& Fix16::DivideAssign_539F90(const Fix16& rhs)
     return *this;
 }
 
-// Out-of-line copy of operator/(const s32&) (20 bytes, called by Particle_8::EmitImpactParticles_53FE40)
+// Out-of-line copy of operator/(const s32&) (20 bytes, called by ParticleManager::EmitImpactParticles_53FE40)
 MATCH_FUNC(0x53E860)
 Fix16 Fix16::DivideInt_53E860(const s32& in) const
 {
@@ -220,7 +219,7 @@ EXTERN_GLOBAL(Fix16, kAngFix16HalfCircle_6691EC);
 // Turns the angle `cur` toward `*pTarget` by at most `*pSpeed`, the short way round, and wraps the
 // result into [0, 2pi). Called by Trailer::UpdateTrailerAlignment_407CE0.
 MATCH_FUNC(0x405DA0)
-EXPORT Fix16 __stdcall sub_405DA0(Fix16 cur, Fix16* pTarget, Fix16* pSpeed)
+EXPORT Fix16 __stdcall TurnAngleToward_405DA0(Fix16 cur, Fix16* pTarget, Fix16* pSpeed)
 {
     if (*pTarget - cur > kAngFix16HalfCircle_6691EC)
     {
@@ -259,36 +258,36 @@ EXPORT Fix16 __stdcall sub_405DA0(Fix16 cur, Fix16* pTarget, Fix16* pSpeed)
     return result;
 }
 
-DEFINE_GLOBAL_INIT(Fix16, dword_66A924, Fix16(0x11C, 0), 0x66A924);
-DEFINE_GLOBAL_INIT(Fix16, dword_669140, Fix16(0x63D8, 0), 0x669140);
-DEFINE_GLOBAL_INIT(Fix16, dword_6691FC, Fix16(0x12B88, 0), 0x6691FC);
+DEFINE_GLOBAL_INIT(Fix16, kAngFix16OneDegree_66A924, Fix16(0x11C, 0), 0x66A924);
+DEFINE_GLOBAL_INIT(Fix16, kAngFix16QuarterCircle_669140, Fix16(0x63D8, 0), 0x669140);
+DEFINE_GLOBAL_INIT(Fix16, kAngFix16ThreeQuarterCircle_6691FC, Fix16(0x12B88, 0), 0x6691FC);
 
-// Is `*a` within dword_66A924 of `*b`, directly or one turn (kAngFix16FullCircle_66A8E4) either way.
+// Is `*a` within kAngFix16OneDegree_66A924 of `*b`, directly or one turn (kAngFix16FullCircle_66A8E4) either way.
 MATCH_FUNC(0x405E20)
-EXPORT s32 __stdcall sub_405E20(Fix16* a, Fix16* b)
+EXPORT s32 __stdcall IsAngleWithinTolerance_405E20(Fix16* a, Fix16* b)
 {
-    if ((*a > *b - dword_66A924 && *a < *b + dword_66A924) ||
-        (*a > *b - kAngFix16FullCircle_66A8E4 - dword_66A924 && *a < *b - kAngFix16FullCircle_66A8E4 + dword_66A924) ||
-        (*a > *b - dword_66A924 + kAngFix16FullCircle_66A8E4 && *a < *b + kAngFix16FullCircle_66A8E4 + dword_66A924))
+    if ((*a > *b - kAngFix16OneDegree_66A924 && *a < *b + kAngFix16OneDegree_66A924) ||
+        (*a > *b - kAngFix16FullCircle_66A8E4 - kAngFix16OneDegree_66A924 && *a < *b - kAngFix16FullCircle_66A8E4 + kAngFix16OneDegree_66A924) ||
+        (*a > *b - kAngFix16OneDegree_66A924 + kAngFix16FullCircle_66A8E4 && *a < *b + kAngFix16FullCircle_66A8E4 + kAngFix16OneDegree_66A924))
     {
         return 1;
     }
     return 0;
 }
 
-// Clamps the angle `*pCur` into the window of +-dword_669140 around `*pTarget`, allowing for the
+// Clamps the angle `*pCur` into the window of +-kAngFix16QuarterCircle_669140 around `*pTarget`, allowing for the
 // wrap at 0 / 2pi, and returns whether it ends up on either edge. Called by
 // Trailer::UpdateTrailerAlignment_407CE0.
 MATCH_FUNC(0x405E80)
-EXPORT s32 __stdcall sub_405E80(Fix16* pTarget, Fix16* pCur)
+EXPORT s32 __stdcall ClampAngleAroundTarget_405E80(Fix16* pTarget, Fix16* pCur)
 {
     Fix16 lo;
     Fix16 hi;
-    if (*pTarget < dword_669140)
+    if (*pTarget < kAngFix16QuarterCircle_669140)
     {
-        lo = dword_6691FC + *pTarget;
-        hi = *pTarget + dword_669140;
-        if (*pCur > lo - dword_669140 && *pCur < lo)
+        lo = kAngFix16ThreeQuarterCircle_6691FC + *pTarget;
+        hi = *pTarget + kAngFix16QuarterCircle_669140;
+        if (*pCur > lo - kAngFix16QuarterCircle_669140 && *pCur < lo)
         {
             *pCur = lo;
         }
@@ -299,9 +298,9 @@ EXPORT s32 __stdcall sub_405E80(Fix16* pTarget, Fix16* pCur)
     }
     else if (*pTarget < kAngFix16HalfCircle_6691EC)
     {
-        lo = *pTarget - dword_669140;
-        hi = *pTarget + dword_669140;
-        if (*pCur < lo || *pCur > hi + dword_669140)
+        lo = *pTarget - kAngFix16QuarterCircle_669140;
+        hi = *pTarget + kAngFix16QuarterCircle_669140;
+        if (*pCur < lo || *pCur > hi + kAngFix16QuarterCircle_669140)
         {
             *pCur = lo;
         }
@@ -310,11 +309,11 @@ EXPORT s32 __stdcall sub_405E80(Fix16* pTarget, Fix16* pCur)
             *pCur = hi;
         }
     }
-    else if (*pTarget < dword_6691FC)
+    else if (*pTarget < kAngFix16ThreeQuarterCircle_6691FC)
     {
-        lo = *pTarget - dword_669140;
-        hi = *pTarget + dword_669140;
-        if (*pCur < hi - dword_6691FC || *pCur > hi)
+        lo = *pTarget - kAngFix16QuarterCircle_669140;
+        hi = *pTarget + kAngFix16QuarterCircle_669140;
+        if (*pCur < hi - kAngFix16ThreeQuarterCircle_6691FC || *pCur > hi)
         {
             *pCur = hi;
         }
@@ -325,9 +324,9 @@ EXPORT s32 __stdcall sub_405E80(Fix16* pTarget, Fix16* pCur)
     }
     else
     {
-        lo = *pTarget - dword_669140;
-        hi = *pTarget - dword_6691FC;
-        if (*pCur > hi && *pCur < hi + dword_669140)
+        lo = *pTarget - kAngFix16QuarterCircle_669140;
+        hi = *pTarget - kAngFix16ThreeQuarterCircle_6691FC;
+        if (*pCur > hi && *pCur < hi + kAngFix16QuarterCircle_669140)
         {
             *pCur = hi;
         }
@@ -337,7 +336,7 @@ EXPORT s32 __stdcall sub_405E80(Fix16* pTarget, Fix16* pCur)
         }
     }
 
-    if ((u8)sub_405E20(pCur, &lo) || (u8)sub_405E20(pCur, &hi))
+    if ((u8)IsAngleWithinTolerance_405E20(pCur, &lo) || (u8)IsAngleWithinTolerance_405E20(pCur, &hi))
     {
         return 1;
     }

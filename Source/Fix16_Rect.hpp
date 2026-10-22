@@ -57,7 +57,7 @@ class Fix16_Rect
         this->field_14_high_z = z + FIX16_RECT_HALF_HEIGHT;
     }
 
-    // Unused since sub_5DF270 calls ComputeCollisionPrism_4204D0 with FIX16_RECT_HALF_HEIGHT. Kept because removing
+    // Unused since ShockPedsAroundSprite_5DF270 calls ComputeCollisionPrism_4204D0 with FIX16_RECT_HALF_HEIGHT. Kept because removing
     // an unused inline can move code in other TUs (docs/matching_quirks.md).
     void ComputeShockPrism(Fix16 x, Fix16 y, Fix16 offset, Fix16 z, const Fix16& half_z)
     {
@@ -134,15 +134,15 @@ class Fix16_Rect
 
     EXPORT void DoSetCurrentRect_59DD60();
     EXPORT bool IntersectsSpriteRenderingRect_59DDF0(Sprite* pSprite);
-    EXPORT char_type CanRectEnterMovementRegion_59DE80();
+    EXPORT char_type IsRectBlockedByMap_59DE80();
     EXPORT void ExpandToIncludePoint_59DEE0(Fix16 x, Fix16 y);
     EXPORT bool RectOverlapsZone_59DF20(u8 zone_type);
     EXPORT bool EveryTileMatchesArrowType_59DFB0(s32 arrow_type);
 
     // 9.6f 0x4B9FD0
-    inline bool IsPointInRect_4B9FD0(Fix16_Point* a2)
+    inline bool IsPointInRect_4B9FD0(Fix16_Point* pPoint)
     {
-        return Fix16::IsBetween_4B9E10(field_0_left, field_4_right, a2->x) && Fix16::IsBetween_4B9E10(field_8_top, field_C_bottom, a2->y);
+        return Fix16::IsBetween_4B9E10(field_0_left, field_4_right, pPoint->x) && Fix16::IsBetween_4B9E10(field_8_top, field_C_bottom, pPoint->y);
     }
 
     // 9.6f 0x41E2F0

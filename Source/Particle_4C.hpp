@@ -5,7 +5,7 @@
 #include "ang16.hpp"
 
 class Sprite;
-class Explosion_30;
+class Explosion;
 
 class Particle_4C
 {
@@ -40,22 +40,22 @@ class Particle_4C
     };
     Fix16 field_8_speed_x;
     Fix16 field_C_speed_y;
-    Fix16 field_10;
+    Fix16 field_10_unused;
     Fix16 field_14_additional_speed_x;
     Fix16 field_18_additional_speed_y;
-    Fix16 field_1C;
+    Fix16 field_1C_unused;
     Fix16 field_20_speed;
     Ang16 field_24_angle;
     s16 field_26_unused;
     Sprite* field_28_pSprite;
     u16 field_2C_counter;
-    u16 field_2E;
-    Sprite* field_30_pNext;
+    u16 field_2E_initial_counter;
+    Sprite* field_30_pOwnSprite;
     s32 field_34_unused;
     s32 field_38_state;
     Particle_4C* mpNext; // 0x3C
-    Explosion_30* field_40_pExplosion;
-    s16 field_44;
+    Explosion* field_40_pExplosion;
+    s16 field_44_explosion_id;
     u8 field_46_sub_state;
     char_type field_47_unused;
     u8 field_48_timer;

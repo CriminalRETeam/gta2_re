@@ -20,7 +20,7 @@ entry under "Still unexplained") for the details behind each point.
   without changing the matched functions. A global limit of 69 changes `set_shading_lev_4E9DB0`, so the
   nodes are not spread evenly over the TU.
 - Matched along the way: `Set_UV_4F4190` (f32 locals instead of `ToFloat()`: one more no-op node),
-  `Mike_A80::sub_4FFD90` (a repeated `630 - fx` that VC6 CSEs; a ternary clamp).
+  `FrameProfiler::DrawProfileHistory_4FFD90` (a repeated `630 - fx` that VC6 CSEs; a ternary clamp).
 
 ## What is known
 
@@ -56,7 +56,7 @@ Scored with `score.py` over all 30 MapRenderer WIPs (differing lines, lower is b
 | Change | Total | Notes |
 |---|---|---|
 | Top/Bottom/ProjectVert as members of another struct, called through a global instance | 1293 | 4EA390 -67, 4EAF40 -63, 4EBA60 -27, 4ED290 -55, nothing worse, cluster unchanged |
-| local `Camera_0xBC*` in Top | 1411 | 4EAF40 -67, 4ED290 -60, 4EBA60 +32 |
+| local `Camera*` in Top | 1411 | 4EAF40 -67, 4ED290 -60, 4EBA60 +32 |
 | `(f32)(y * scale)` or an f32 local for the Top y product | 1417-1426 | cluster -12, 7 functions worse |
 | inline MapRenderer members (`inline void MapRenderer::ProjectVertTop_46BD40`) | 1467 | 4EA390 -45, cluster +5 |
 | static/extern/`__stdcall` inline free helpers, `__forceinline` | 1505 | no change |

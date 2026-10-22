@@ -103,8 +103,8 @@ Keep the baseline outside the repo, or under the git-ignored `build_vc6/`.
 ### Sanity-check the verifier
 
 Before trusting a green run, break a known match and confirm the run turns red. For
-example, in `Source/Camera.cpp`, `Camera_0xBC::sub_4357F0`, change `<` to `<=`. Both
-`build.py` (`FAIL!`) and `compare_builds.py` (`CHANGED: Camera_0xBC::sub_4357F0`) must
+example, in `Source/Camera.cpp`, `Camera::IncreaseElevation_4357F0`, change `<` to `<=`. Both
+`build.py` (`FAIL!`) and `compare_builds.py` (`CHANGED: Camera::IncreaseElevation_4357F0`) must
 report that function and only that one. Revert afterwards.
 
 ## Implementing functions without the original exe
@@ -192,7 +192,7 @@ that is much harder to read.
    ```bash
    objdiff-cli diff -1 Scripts/asm/Camera.cpp.obj \
                     -2 build_vc6/CMakeFiles/gta2_lib.dir/Source/Camera.cpp.obj \
-                    '?sub_4357F0@Camera_0xBC@@QAEXXZ'
+                    '?IncreaseElevation_4357F0@Camera@@QAEXXZ'
    ```
    Without `-o` this opens the interactive TUI. `-o - --format json-pretty` gives
    one-shot output. Mangled names come from `nm -C <obj>`.
@@ -203,8 +203,9 @@ with `/TP /O2 /GX /EHsc`.
 
 ## Layout
 
-- `Source/`: reimplemented game code (one class per `.cpp`/`.hpp`, named after the
-  original class and its size, for example `Camera_0xBC`).
+- `Source/`: reimplemented game code (one class per `.cpp`/`.hpp`). Each class's size is
+  checked by a `GTA2_ASSERT_SIZEOF_ALWAYS(Class, 0xSIZE)` after its definition. A few classes
+  keep the older `<Name>_<size>` form because renaming them changes VC6's code.
 - `Source/Function.hpp`: `MATCH_FUNC`/`WIP_FUNC`/`STUB_FUNC` and global definition macros.
 - `Scripts/bin_comp/`: verification scripts. `og_function_data_v105.csv` holds the
   original function addresses, offsets and sizes.

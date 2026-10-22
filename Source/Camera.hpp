@@ -1,21 +1,21 @@
 #pragma once
 
-#include "Car_BC.hpp"
+#include "Car.hpp"
 #include "Function.hpp"
 #include "fix16.hpp"
 
 class Sprite;
-class Car_BC;
+class Car;
 class Ped;
 
-EXTERN_GLOBAL(Fix16, dword_676840);
+EXTERN_GLOBAL(Fix16, kFpEight_676840);
 
 EXTERN_GLOBAL(Fix16, kZero_676818);
 
 EXTERN_GLOBAL(Fix16, kOne_67681C);
 
-EXTERN_GLOBAL(Fix16, dword_702E04);
-EXTERN_GLOBAL(Fix16, dword_702DE4);
+EXTERN_GLOBAL(Fix16, kFpEight_702E04);
+EXTERN_GLOBAL(Fix16, kFpOne_702DE4);
 
 namespace camera_follow_mode
 {
@@ -43,7 +43,7 @@ struct WorldRect
     Fix16 field_C_bottom;
 };
 
-class Camera_0xBC
+class Camera
 {
   public:
     // 9.6f 0x416B70
@@ -57,43 +57,43 @@ class Camera_0xBC
     EXPORT void SavePrevCamPos_4357B0();
     EXPORT void IncreaseElevation_4357F0();
     EXPORT void DecreaseElevation_435810();
-    EXPORT void ReturnToDefaultZoom_435830();
+    EXPORT void ResetElevation_435830();
     EXPORT void ClampTargetZ_435840();
-    EXPORT void ApplyMovementDeltaFrom_435860(Camera_0xBC* pCamera);
+    EXPORT void ApplyMovementDeltaFrom_435860(Camera* pCamera);
     EXPORT Ang16 ComputeTargetFacingAngle_4358D0();
     EXPORT Fix16 ReturnOwnerVelocity_435A20();
     EXPORT s32 IsCoordsPosVisible_435A70(Fix16 x, Fix16 y, Fix16 z);
     EXPORT void UpdateBoundaries_435B90();
     EXPORT void MoveTarget_435D20(char_type move_north, char_type move_south, char_type move_west, char_type move_east, char_type zoom_in, char_type zoom_out);
     EXPORT void ResetCameraSmoothing_435DD0();
-    EXPORT void AccumulateSuspicionOnDriver_435F90(Car_BC* pCar);
+    EXPORT void AccumulateSuspicionOnDriver_435F90(Car* pCar);
     EXPORT void Update_435FF0();
     EXPORT void RefreshBoundaries_436110();
     EXPORT void SetShake_436120(Fix16 amount);
     EXPORT void ApplyShake_436140();
     EXPORT void SetScreenSize_4361B0(u32 width, u32 height);
-    EXPORT void ApplyCarVelocityCameraOffset_436200(Car_BC* pCar, Fix16* pOutX, Fix16* pOutY, Fix16* pOutZ);
-    EXPORT void UpdateFollowCarCamera_4364A0(Car_BC* pCar);
+    EXPORT void ApplyCarVelocityCameraOffset_436200(Car* pCar, Fix16* pOutX, Fix16* pOutY, Fix16* pOutZ);
+    EXPORT void UpdateFollowCarCamera_4364A0(Car* pCar);
     EXPORT void UpdateFollowPedCamera_436540(Ped* pPed);
     EXPORT void HandlePanning_436710(char_type forward_gas_on, char_type foot_brake_on, char_type left_on, char_type right_on);
     EXPORT void ResetPanning_436830();
-    EXPORT void ApplyZOffsetToScreenPosition_436860(Ped* pPed, Fix16& x_pos, Fix16& y_pos, Fix16 z_pos);
-    EXPORT Camera_0xBC(); // 4368E0
-    EXPORT ~Camera_0xBC(); // empty 4369E0
+    EXPORT void ApplyPanOffset_436860(Ped* pPed, Fix16& x_pos, Fix16& y_pos, Fix16 z_pos);
+    EXPORT Camera(); // 4368E0
+    EXPORT ~Camera(); // empty 4369E0
     EXPORT void SetTarget_4397D0(Fix16 x, Fix16 y, Fix16 z, Fix16 zoom);
     EXPORT bool IsPointInBoundaries_58CF10(Fix16 x, Fix16 y);
 
     void ProjectWorldToScreen_4B90E0(Fix16 x, Fix16 y, Fix16 z, Fix16* pOutX, Fix16* pOutY)
     {
-        Fix16 scale = dword_702DE4 / ((dword_702E04 - z) + field_98_cur_pos.field_8_z);
+        Fix16 scale = kFpOne_702DE4 / ((kFpEight_702E04 - z) + field_98_cur_pos.field_8_z);
         *pOutX = (((x - field_98_cur_pos.field_0_x) * field_60_screen_scale.x) * scale) + Fix16(field_70_screen_px_center_x);
         *pOutY = (((y - field_98_cur_pos.field_4_y) * field_60_screen_scale.x) * scale) + Fix16(field_74_screen_px_center_y);
     }
 
-    // ProjectWorldToScreen_4B90E0 with the out-of-line Fix16 helpers (ExplodingScore_50::DrawNumbers_596C90)
+    // ProjectWorldToScreen_4B90E0 with the out-of-line Fix16 helpers (ExplodingScore::DrawNumbers_596C90)
     void ProjectWorldToScreen_OutOfLine_4B90E0(Fix16 x, Fix16 y, Fix16 z, Fix16* pOutX, Fix16* pOutY)
     {
-        Fix16 scale = dword_702DE4.Divide_436A20((field_98_cur_pos.field_8_z - z) + dword_702E04);
+        Fix16 scale = kFpOne_702DE4.Divide_436A20((field_98_cur_pos.field_8_z - z) + kFpEight_702E04);
 
         *pOutX = (x.Subtract_436A00(field_98_cur_pos.field_0_x).Multiply_408680(field_60_screen_scale.x).Multiply_408680(scale))
                      .Add_408660(Fix16(field_70_screen_px_center_x));
@@ -118,7 +118,7 @@ class Camera_0xBC
     {
         Fix16_Point_POD tmp;
         Fix16 u = field_98_cur_pos.field_8_z - z;
-        Fix16 t(kOne_67681C / Fix16(u.mValue + dword_676840.mValue, 0));
+        Fix16 t(kOne_67681C / Fix16(u.mValue + kFpEight_676840.mValue, 0));
 
         tmp.x = (((x - field_98_cur_pos.field_0_x) * field_60_screen_scale.y) * t) + Fix16(320);
         tmp.y = (((y - field_98_cur_pos.field_4_y) * field_60_screen_scale.y) * t) + Fix16(240);
@@ -190,7 +190,7 @@ class Camera_0xBC
     WorldRect field_20_padded_view_bounds;
     Fix16 field_30_shake_amount;
     Ped* field_34_target_ped;
-    Car_BC* field_38_target_car;
+    Car* field_38_target_car;
     s32 field_3C_follow_mode;
     Fix16 field_40_target_elevation;
     u8 field_44_suspicion;
@@ -214,8 +214,8 @@ class Camera_0xBC
     Fix16 field_A8_ui_scale;
     CameraPos field_AC_cam_velocity;
 };
-GTA2_ASSERT_SIZEOF_ALWAYS(Camera_0xBC, 0xBC)
+GTA2_ASSERT_SIZEOF_ALWAYS(Camera, 0xBC)
 
-EXTERN_GLOBAL(Camera_0xBC*, gViewCamera_676978);
+EXTERN_GLOBAL(Camera*, gViewCamera_676978);
 
-extern inline Fix16 Max_41E130(Fix16 a1, Fix16 a2);
+extern inline Fix16 Max_41E130(Fix16 a, Fix16 b);
