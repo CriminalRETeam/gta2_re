@@ -530,9 +530,9 @@ void CarManager::DistributeCarsByRating_444980()
     {
         if (gGtx_0x106C_703DD4->does_car_exist((u8)i))
         {
-            if (bStartNetworkGame_7081F0 || gGtx_0x106C_703DD4->IsCarModelInRecycleList_5AB380((u8)i))
+            if (bStartNetworkGame_7081F0 || gGtx_0x106C_703DD4->IsCarModelInRecycleList_5AB380(static_cast<u8>(i)))
             {
-                car_info* pInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0((u8)i);
+                car_info* pInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(static_cast<u8>(i));
 
                 if (pInfo->rating != 99)
                 {
@@ -1303,7 +1303,7 @@ Car* CarManager::SpawnCarOnRoadNetwork_4458B0(Fix16 xpos, Fix16 ypos, s32 road_d
                         pCar->field_5C_AI = gCarAI_78_Pool_677CF8->Allocate();
                     }
                     pCar->field_5C_AI->SetCar_453BF0(pCar);
-                    pCar->field_5C_AI->field_28_route_idx = (char_type)route_idx;
+                    pCar->field_5C_AI->field_28_route_idx = static_cast<char_type>(route_idx);
                     return pCar;
                 }
             }
@@ -1588,7 +1588,7 @@ void CarManager::EnableFreeShoppingIfAllKFsPassed_446760()
         const u32 total_secrets = gScriptManager_6F8060->field_318_total_secrets;
         if (total_secrets > 0)
         {
-            if (!this->field_69_do_free_shopping && (u32)*pSecretsPassed >= total_secrets)
+            if (!this->field_69_do_free_shopping && static_cast<u32>(*pSecretsPassed) >= total_secrets)
             {
                 this->field_69_do_free_shopping = 1;
             }
@@ -3825,7 +3825,7 @@ void Car::HandleCarExplosion_43D840(s32 type)
                     s16 zone_idx = gGangPool_CA8_67E274->FindGangByCarModel_4BF2F0(this->field_84_car_info_idx);
                     if (zone_idx != -1)
                     {
-                        pZone = gGangPool_CA8_67E274->GangByIdx_4BF1C0((u8)zone_idx);
+                        pZone = gGangPool_CA8_67E274->GangByIdx_4BF1C0(static_cast<u8>(zone_idx));
                         pZone->ApplyKillRespectChange_4BEF70(pExploder->field_15C_player->get_idx_4219D0(), 1u);
                     }
                     if (pExploder->is_player_41B0A0())
@@ -4031,7 +4031,7 @@ void Car::DestroyWhileSinking_43DD60()
                     s16 gang_idx = gGangPool_CA8_67E274->FindGangByCarModel_4BF2F0(this->field_84_car_info_idx);
                     if (gang_idx != -1)
                     {
-                        pGang = gGangPool_CA8_67E274->GangByIdx_4BF1C0((u8)gang_idx);
+                        pGang = gGangPool_CA8_67E274->GangByIdx_4BF1C0(static_cast<u8>(gang_idx));
                         pGang->ApplyKillRespectChange_4BEF70(pPed->field_15C_player->get_idx_4219D0(), 1u);
                     }
                     if (pPed->is_player_41B0A0())
@@ -7551,7 +7551,7 @@ char_type TrafficSpawner::SpawnTrafficCar_582480(s32 spawn_type, s32 arrow_direc
                     s32 car_model;
                     u16 car_kind;
                     u8 rng_val;
-                    if (gPolice_7B8_6FEE40->field_654_max_wanted_level < 1 || (rng_val = (u8)gRng_6F6784.get_int_4F7AE0(40), rng_val <= 20u) ||
+                    if (gPolice_7B8_6FEE40->field_654_max_wanted_level < 1 || (rng_val = static_cast<u8>(gRng_6F6784.get_int_4F7AE0(40)), rng_val <= 20u) ||
                         rng_val >= 30u)
                     {
                         car_model = gCarManager_6C_677930->SelectTrafficCarModel_444AB0(field_C_player, field_10_zone, gTrafficDensityScale_6FF7E8, &car_kind);
