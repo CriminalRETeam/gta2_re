@@ -1437,7 +1437,7 @@ void __stdcall NetUi::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s32 notif
 
         case 1027:
         {
-            LRESULT state = SendDlgItemMessageA(hDlg, CHECKBOX_POLICE_ENABLED_1027, BM_GETCHECK, 0, 0);
+            LRESULT state = SendDlgItemMessageA(hDlg, CHECKBOX_POLICE_ENABLED_1027, BM_GETSTATE, 0, 0);
             NetUi* pThis = (NetUi*)GetWindowLongA(hDlg, 8);
             if ((state & 3) == BST_CHECKED)
             {
@@ -2177,7 +2177,7 @@ LRESULT __stdcall NetUi::subclass_proc_51BDD0(HWND hWnd, UINT Msg, WPARAM wParam
     if (parentHwnd)
     {
         NetUi* pThis = (NetUi*)GetWindowLongA(parentHwnd, 8);
-        if (Msg == WM_KEYUP && wParam == VK_RETURN && (lParam & (KF_ALTDOWN << 16)) == 0)
+        if (Msg == WM_KEYUP && wParam == VK_RETURN && (lParam & (KF_MENUMODE << 16)) == 0)
         {
             switch (pThis->Get_20310_showing_window_idx_51ACC0())
             {
