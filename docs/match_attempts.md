@@ -4765,7 +4765,7 @@ Analysis (9.6f 0x472110 disassembled from 9.6f.exe, VC7, not inlined, for shape 
   has prio 202 and takes ebp, so the column width (`layer_column_width`, ebp in the original) is spilled to
   0x28 in ours. The original's CSE temp is spilled, which means its web is live through the gZCoordFp block
   without a reference there: in the original, `gZCoordFp_6F6518 = Fix16(zLayer)` does not reuse the top's
-  shl (it reloads zLayer and shifts again), and only `unk_Z_Factor` reads the slot. Ours CSEs gZCoordFp with
+  shl (it reloads zLayer and shifts again), and only `depth_bottom` reads the slot. Ours CSEs gZCoordFp with
   the top value. Every spelling of gZCoordFp tried still CSEs (see below), so this is the open point.
 
 Tried, all 154 or worse (quick_score, same main tree):

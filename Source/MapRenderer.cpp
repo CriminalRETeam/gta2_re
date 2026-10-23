@@ -592,9 +592,9 @@ void MapRenderer::DrawLeftSide_4EA390(u16& left_word)
                 }
                 else
                 {
-                    Fix16 unknown_z = Fix16((gGradientSize_6F6480 - gGradientLevel_6F647C)) / gGradientSize_6F6480;
-                    gVertProjector.ProjectVert_46BC70(gXCoord_6F63AC, gYCoord_6F63B8, gZCoordFp_6F6518 + unknown_z, &gTileVerts_6F65A8[1]);
-                    gTileVerts_6F65A8[1].v = 63.999901f - (unknown_z * kTileTexSize_6F6548).ToFloat();
+                    Fix16 slope_z_1 = Fix16((gGradientSize_6F6480 - gGradientLevel_6F647C)) / gGradientSize_6F6480;
+                    gVertProjector.ProjectVert_46BC70(gXCoord_6F63AC, gYCoord_6F63B8, gZCoordFp_6F6518 + slope_z_1, &gTileVerts_6F65A8[1]);
+                    gTileVerts_6F65A8[1].v = 63.999901f - (slope_z_1 * kTileTexSize_6F6548).ToFloat();
                 }
 
                 if (gTileVerts_6F65A8[0].x > gTileVerts_6F65A8[1].x)
@@ -611,9 +611,9 @@ void MapRenderer::DrawLeftSide_4EA390(u16& left_word)
                 }
                 else
                 {
-                    Fix16 unknown_z_2 = Fix16((gGradientSize_6F6480 - gGradientLevel_6F647C - 1)) / gGradientSize_6F6480;
-                    gVertProjector.ProjectVert_46BC70(gXCoord_6F63AC, gYCoord_6F63B8 + kZeroOnePoint_6F6484.y, gZCoordFp_6F6518 + unknown_z_2, &gTileVerts_6F65A8[2]);
-                    gTileVerts_6F65A8[2].v = 63.999901f - (unknown_z_2 * kTileTexSize_6F6548).ToFloat();
+                    Fix16 slope_z_2 = Fix16((gGradientSize_6F6480 - gGradientLevel_6F647C - 1)) / gGradientSize_6F6480;
+                    gVertProjector.ProjectVert_46BC70(gXCoord_6F63AC, gYCoord_6F63B8 + kZeroOnePoint_6F6484.y, gZCoordFp_6F6518 + slope_z_2, &gTileVerts_6F65A8[2]);
+                    gTileVerts_6F65A8[2].v = 63.999901f - (slope_z_2 * kTileTexSize_6F6548).ToFloat();
                 }
 
                 // now set u
@@ -645,9 +645,9 @@ void MapRenderer::DrawLeftSide_4EA390(u16& left_word)
                 }
                 else
                 {
-                    Fix16 unknown_z_3 = Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C) / gGradientSize_6F6480;
-                    gVertProjector.ProjectVert_46BC70(gXCoord_6F63AC, gYCoord_6F63B8 + kZeroOnePoint_6F6484.y, gZCoordFp_6F6518 + unknown_z_3, &gTileVerts_6F65A8[2]);
-                    gTileVerts_6F65A8[2].v = 63.999901f - (unknown_z_3 * kTileTexSize_6F6548).ToFloat();
+                    Fix16 slope_z_3 = Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C) / gGradientSize_6F6480;
+                    gVertProjector.ProjectVert_46BC70(gXCoord_6F63AC, gYCoord_6F63B8 + kZeroOnePoint_6F6484.y, gZCoordFp_6F6518 + slope_z_3, &gTileVerts_6F65A8[2]);
+                    gTileVerts_6F65A8[2].v = 63.999901f - (slope_z_3 * kTileTexSize_6F6548).ToFloat();
                 }
 
                 if (gTileVerts_6F65A8[3].x > gTileVerts_6F65A8[2].x)
@@ -663,9 +663,9 @@ void MapRenderer::DrawLeftSide_4EA390(u16& left_word)
                 }
                 else
                 {
-                    Fix16 unknown_z_4 = Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C - 1) / gGradientSize_6F6480;
-                    gVertProjector.ProjectVert_46BC70(gXCoord_6F63AC, gYCoord_6F63B8, gZCoordFp_6F6518 + unknown_z_4, &gTileVerts_6F65A8[1]);
-                    gTileVerts_6F65A8[1].v = 63.999901f - (unknown_z_4 * kTileTexSize_6F6548).ToFloat();
+                    Fix16 slope_z_4 = Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C - 1) / gGradientSize_6F6480;
+                    gVertProjector.ProjectVert_46BC70(gXCoord_6F63AC, gYCoord_6F63B8, gZCoordFp_6F6518 + slope_z_4, &gTileVerts_6F65A8[1]);
+                    gTileVerts_6F65A8[1].v = 63.999901f - (slope_z_4 * kTileTexSize_6F6548).ToFloat();
                 }
                 // now set u
                 gTileDrawFlags_6F6560 = 16389;
@@ -757,7 +757,7 @@ void MapRenderer::DrawRightSide_4EAF40(u16& right_word)
 {
     // Declared up front and assigned later: VC6 numbers it before gZCoordFp_6F6518, so the z sum for
     // the out-of-line ProjectVert_4EB940 is `add %esi,%ecx` into the gZ load (like the original), not a `lea`
-    Fix16 unknown_z_4;
+    Fix16 slope_z_4;
     if (!bSkip_right_67D4E4)
     {
         switch (gCurrentSlope_6F646C.field_0_gradient_direction)
@@ -772,9 +772,9 @@ void MapRenderer::DrawRightSide_4EAF40(u16& right_word)
                 }
                 else
                 {
-                    Fix16 unknown_z = Fix16((gGradientSize_6F6480 - gGradientLevel_6F647C)) / gGradientSize_6F6480;
-                    gVertProjector.ProjectVert_46BC70(gXCoord_6F63AC + kZeroOnePoint_6F6484.y, gYCoord_6F63B8, gZCoordFp_6F6518 + unknown_z, &gTileVerts_6F65A8[0]);
-                    gTileVerts_6F65A8[0].v = 63.999901f - (unknown_z * kTileTexSize_6F6548).ToFloat();
+                    Fix16 slope_z_1 = Fix16((gGradientSize_6F6480 - gGradientLevel_6F647C)) / gGradientSize_6F6480;
+                    gVertProjector.ProjectVert_46BC70(gXCoord_6F63AC + kZeroOnePoint_6F6484.y, gYCoord_6F63B8, gZCoordFp_6F6518 + slope_z_1, &gTileVerts_6F65A8[0]);
+                    gTileVerts_6F65A8[0].v = 63.999901f - (slope_z_1 * kTileTexSize_6F6548).ToFloat();
                 }
 
                 if (gTileVerts_6F65A8[0].x > gTileVerts_6F65A8[1].x)
@@ -791,12 +791,12 @@ void MapRenderer::DrawRightSide_4EAF40(u16& right_word)
                 }
                 else
                 {
-                    Fix16 unknown_z_2 = Fix16((gGradientSize_6F6480 - gGradientLevel_6F647C - 1)) / gGradientSize_6F6480;
+                    Fix16 slope_z_2 = Fix16((gGradientSize_6F6480 - gGradientLevel_6F647C - 1)) / gGradientSize_6F6480;
                     gVertProjector.ProjectVert_46BC70(gXCoord_6F63AC + kZeroOnePoint_6F6484.y,
                                gYCoord_6F63B8 + kZeroOnePoint_6F6484.y,
-                               gZCoordFp_6F6518 + unknown_z_2,
+                               gZCoordFp_6F6518 + slope_z_2,
                                &gTileVerts_6F65A8[3]);
-                    gTileVerts_6F65A8[3].v = 63.999901f - (unknown_z_2 * kTileTexSize_6F6548).ToFloat();
+                    gTileVerts_6F65A8[3].v = 63.999901f - (slope_z_2 * kTileTexSize_6F6548).ToFloat();
                 }
 
                 // now set u
@@ -829,12 +829,12 @@ void MapRenderer::DrawRightSide_4EAF40(u16& right_word)
                 }
                 else
                 {
-                    Fix16 unknown_z_3 = Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C) / gGradientSize_6F6480;
+                    Fix16 slope_z_3 = Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C) / gGradientSize_6F6480;
                     gVertProjector.ProjectVert_46BC70(gXCoord_6F63AC + kZeroOnePoint_6F6484.y,
                                gYCoord_6F63B8 + kZeroOnePoint_6F6484.y,
-                               gZCoordFp_6F6518 + unknown_z_3,
+                               gZCoordFp_6F6518 + slope_z_3,
                                &gTileVerts_6F65A8[3]);
-                    gTileVerts_6F65A8[3].v = 63.999901f - (unknown_z_3 * kTileTexSize_6F6548).ToFloat();
+                    gTileVerts_6F65A8[3].v = 63.999901f - (slope_z_3 * kTileTexSize_6F6548).ToFloat();
                 }
 
                 if (gTileVerts_6F65A8[3].x > gTileVerts_6F65A8[2].x)
@@ -850,9 +850,9 @@ void MapRenderer::DrawRightSide_4EAF40(u16& right_word)
                 }
                 else
                 {
-                    unknown_z_4 = Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C - 1) / gGradientSize_6F6480;
-                    ProjectVert_4EB940(gXCoord_6F63AC + kZeroOnePoint_6F6484.y, gYCoord_6F63B8, gZCoordFp_6F6518 + unknown_z_4, &gTileVerts_6F65A8[0]);
-                    gTileVerts_6F65A8[0].v = 63.999901f - (unknown_z_4 * kTileTexSize_6F6548).ToFloat();
+                    slope_z_4 = Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C - 1) / gGradientSize_6F6480;
+                    ProjectVert_4EB940(gXCoord_6F63AC + kZeroOnePoint_6F6484.y, gYCoord_6F63B8, gZCoordFp_6F6518 + slope_z_4, &gTileVerts_6F65A8[0]);
+                    gTileVerts_6F65A8[0].v = 63.999901f - (slope_z_4 * kTileTexSize_6F6548).ToFloat();
                 }
                 // now set u
                 gTileDrawFlags_6F6560 = 16389;
@@ -934,9 +934,9 @@ void MapRenderer::DrawTopSide_4EBA60(u16& top_word)
                 }
                 else
                 {
-                    Fix16 unk_z_1 = Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C) / gGradientSize_6F6480;
-                    gVertProjector.ProjectVert_46BC70(gXCoord_6F63AC, gYCoord_6F63B8, gZCoordFp_6F6518 + unk_z_1, &gTileVerts_6F65A8[3]);
-                    gTileVerts_6F65A8[3].v = 63.999901f - (unk_z_1 * kTileTexSize_6F6548).ToFloat();
+                    Fix16 slope_z_1 = Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C) / gGradientSize_6F6480;
+                    gVertProjector.ProjectVert_46BC70(gXCoord_6F63AC, gYCoord_6F63B8, gZCoordFp_6F6518 + slope_z_1, &gTileVerts_6F65A8[3]);
+                    gTileVerts_6F65A8[3].v = 63.999901f - (slope_z_1 * kTileTexSize_6F6548).ToFloat();
                 }
 
                 if (gTileVerts_6F65A8[0].y > gTileVerts_6F65A8[3].y)
@@ -953,9 +953,9 @@ void MapRenderer::DrawTopSide_4EBA60(u16& top_word)
                 }
                 else
                 {
-                    Fix16 unk_z_2 = Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C - 1) / gGradientSize_6F6480;
-                    gVertProjector.ProjectVert_46BC70(gXCoord_6F63AC + kZeroOnePoint_6F6484.y, gYCoord_6F63B8, gZCoordFp_6F6518 + unk_z_2, &gTileVerts_6F65A8[2]);
-                    gTileVerts_6F65A8[2].v = 63.999901f - (unk_z_2 * kTileTexSize_6F6548).ToFloat();
+                    Fix16 slope_z_2 = Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C - 1) / gGradientSize_6F6480;
+                    gVertProjector.ProjectVert_46BC70(gXCoord_6F63AC + kZeroOnePoint_6F6484.y, gYCoord_6F63B8, gZCoordFp_6F6518 + slope_z_2, &gTileVerts_6F65A8[2]);
+                    gTileVerts_6F65A8[2].v = 63.999901f - (slope_z_2 * kTileTexSize_6F6548).ToFloat();
                 }
                 gTileDrawFlags_6F6560 = 16389;
                 if ((*(((u8*)&top_word) + 1) & 0x20) != 0)
@@ -985,9 +985,9 @@ void MapRenderer::DrawTopSide_4EBA60(u16& top_word)
                 }
                 else
                 {
-                    Fix16 unk_z_3 = Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C) / gGradientSize_6F6480;
-                    gVertProjector.ProjectVert_46BC70(gXCoord_6F63AC + kZeroOnePoint_6F6484.y, gYCoord_6F63B8, gZCoordFp_6F6518 + unk_z_3, &gTileVerts_6F65A8[2]);
-                    gTileVerts_6F65A8[2].v = 63.999901f - (unk_z_3 * kTileTexSize_6F6548).ToFloat();
+                    Fix16 slope_z_3 = Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C) / gGradientSize_6F6480;
+                    gVertProjector.ProjectVert_46BC70(gXCoord_6F63AC + kZeroOnePoint_6F6484.y, gYCoord_6F63B8, gZCoordFp_6F6518 + slope_z_3, &gTileVerts_6F65A8[2]);
+                    gTileVerts_6F65A8[2].v = 63.999901f - (slope_z_3 * kTileTexSize_6F6548).ToFloat();
                 }
 
                 gVertProjector.ProjectVertBottom_46BDF0(gXCoord_6F63AC + kZeroOnePoint_6F6484.y, gYCoord_6F63B8, &gTileVerts_6F65A8[1]);
@@ -1006,9 +1006,9 @@ void MapRenderer::DrawTopSide_4EBA60(u16& top_word)
                 }
                 else
                 {
-                    Fix16 unk_z_4 = Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C - 1) / gGradientSize_6F6480;
-                    gVertProjector.ProjectVert_46BC70(gXCoord_6F63AC, gYCoord_6F63B8, gZCoordFp_6F6518 + unk_z_4, &gTileVerts_6F65A8[3]);
-                    gTileVerts_6F65A8[3].v = 63.999901f - (unk_z_4 * kTileTexSize_6F6548).ToFloat();
+                    Fix16 slope_z_4 = Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C - 1) / gGradientSize_6F6480;
+                    gVertProjector.ProjectVert_46BC70(gXCoord_6F63AC, gYCoord_6F63B8, gZCoordFp_6F6518 + slope_z_4, &gTileVerts_6F65A8[3]);
+                    gTileVerts_6F65A8[3].v = 63.999901f - (slope_z_4 * kTileTexSize_6F6548).ToFloat();
                 }
 
                 gTileDrawFlags_6F6560 = 16389;
@@ -1183,7 +1183,7 @@ void MapRenderer::draw_bottom_4ED290(u16& bottom_word)
 {
     // See DrawRightSide_4EAF40: declared up front for the operand order of the z sum. That raises the
     // inline budget; `if (texture_idx)` below takes it back so the default case's operator+ stays out of line
-    Fix16 z_unk_4;
+    Fix16 slope_z_4;
     if (!bSkip_bottom_67D4E7)
     {
         switch (gCurrentSlope_6F646C.field_0_gradient_direction)
@@ -1198,12 +1198,12 @@ void MapRenderer::draw_bottom_4ED290(u16& bottom_word)
                 }
                 else
                 {
-                    Fix16 z_unk_1 = Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C) / gGradientSize_6F6480;
+                    Fix16 slope_z_1 = Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C) / gGradientSize_6F6480;
                     gVertProjector.ProjectVert_46BC70(gXCoord_6F63AC,
                               gYCoord_6F63B8 + kZeroOnePoint_6F6484.y,
-                              gZCoordFp_6F6518 + z_unk_1,
+                              gZCoordFp_6F6518 + slope_z_1,
                               &gTileVerts_6F65A8[0]);
-                    gTileVerts_6F65A8[0].v = 63.999901f - (z_unk_1 * kTileTexSize_6F6548).ToFloat();
+                    gTileVerts_6F65A8[0].v = 63.999901f - (slope_z_1 * kTileTexSize_6F6548).ToFloat();
                 }
 
                 if ( gTileVerts_6F65A8[0].y > gTileVerts_6F65A8[3].y )
@@ -1222,12 +1222,12 @@ void MapRenderer::draw_bottom_4ED290(u16& bottom_word)
                 }
                 else
                 {
-                    Fix16 z_unk_2 = Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C - 1) / gGradientSize_6F6480;
+                    Fix16 slope_z_2 = Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C - 1) / gGradientSize_6F6480;
                     gVertProjector.ProjectVert_46BC70(gXCoord_6F63AC + kZeroOnePoint_6F6484.y, 
                                gYCoord_6F63B8 + kZeroOnePoint_6F6484.y,
-                               gZCoordFp_6F6518 + z_unk_2,
+                               gZCoordFp_6F6518 + slope_z_2,
                                &gTileVerts_6F65A8[1]);
-                    gTileVerts_6F65A8[1].v = 63.999901f - (z_unk_2 * kTileTexSize_6F6548).ToFloat();
+                    gTileVerts_6F65A8[1].v = 63.999901f - (slope_z_2 * kTileTexSize_6F6548).ToFloat();
                 }
 
                 gTileDrawFlags_6F6560 = 16389;
@@ -1264,12 +1264,12 @@ void MapRenderer::draw_bottom_4ED290(u16& bottom_word)
                 }
                 else
                 {
-                    Fix16 z_unk_3 = Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C) / gGradientSize_6F6480;
+                    Fix16 slope_z_3 = Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C) / gGradientSize_6F6480;
                     gVertProjector.ProjectVert_46BC70(gXCoord_6F63AC + kZeroOnePoint_6F6484.y, 
                               gYCoord_6F63B8 + kZeroOnePoint_6F6484.y,
-                              gZCoordFp_6F6518 + z_unk_3,
+                              gZCoordFp_6F6518 + slope_z_3,
                               &gTileVerts_6F65A8[1]);
-                    gTileVerts_6F65A8[1].v = 63.999901f - (z_unk_3 * kTileTexSize_6F6548).ToFloat();
+                    gTileVerts_6F65A8[1].v = 63.999901f - (slope_z_3 * kTileTexSize_6F6548).ToFloat();
                 }
 
                 if (gTileVerts_6F65A8[1].y > gTileVerts_6F65A8[2].y)
@@ -1286,12 +1286,12 @@ void MapRenderer::draw_bottom_4ED290(u16& bottom_word)
                 }
                 else
                 {
-                    z_unk_4 = Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C - 1) / gGradientSize_6F6480;
+                    slope_z_4 = Fix16(gGradientSize_6F6480 - gGradientLevel_6F647C - 1) / gGradientSize_6F6480;
                     ProjectVert_4EB940(gXCoord_6F63AC, 
                                gYCoord_6F63B8 + kZeroOnePoint_6F6484.y,
-                               gZCoordFp_6F6518 + z_unk_4,
+                               gZCoordFp_6F6518 + slope_z_4,
                                &gTileVerts_6F65A8[0]);
-                    gTileVerts_6F65A8[0].v = 63.999901f - (z_unk_4 * kTileTexSize_6F6548).ToFloat();
+                    gTileVerts_6F65A8[0].v = 63.999901f - (slope_z_4 * kTileTexSize_6F6548).ToFloat();
                 }
                 gTileDrawFlags_6F6560 = 16389;
                 if ((*(((u8*)&bottom_word) + 1) & 0x20) != 0)
@@ -3586,35 +3586,35 @@ void MapRenderer::Draw_4F6A20()
             // A multiply, not Fix16(zLayer): VC6 must not reuse the shift of the first Fix16(zLayer) here
             gZCoordFp_6F6518 = Fix16(zLayer * 16384, 0);
 
-            Fix16 unk_Z_Factor = gViewCamera_676978->field_98_cur_pos.field_8_z - Fix16(zLayer) + Fix16(8);
-            Fix16 unknown_1;
-            if (unk_Z_Factor == kZeroOnePoint_6F6484.x)
+            Fix16 depth_bottom = gViewCamera_676978->field_98_cur_pos.field_8_z - Fix16(zLayer) + Fix16(8);
+            Fix16 inv_depth_bottom;
+            if (depth_bottom == kZeroOnePoint_6F6484.x)
             {
-                unknown_1 = kZeroOnePoint_6F6484.x;
+                inv_depth_bottom = kZeroOnePoint_6F6484.x;
             }
             else
             {
-                unknown_1 = kZeroOnePoint_6F6484.y / unk_Z_Factor;
+                inv_depth_bottom = kZeroOnePoint_6F6484.y / depth_bottom;
             }
 
-            gInvDepthBottom_6F6318 = unknown_1;
-            gScreenScaleBottom_6F633C = unknown_1 * gViewCamera_676978->field_60_screen_scale.x;
+            gInvDepthBottom_6F6318 = inv_depth_bottom;
+            gScreenScaleBottom_6F633C = inv_depth_bottom * gViewCamera_676978->field_60_screen_scale.x;
             s32 top_layer = zLayer + 1;
             gZCoordTop_6F62B0 = top_layer;
 
-            Fix16 unknown_2;
-            Fix16 unk_Z_Factor_2 = gViewCamera_676978->field_98_cur_pos.field_8_z - Fix16(top_layer) + Fix16(8);
-            if (unk_Z_Factor_2 == kZeroOnePoint_6F6484.x)
+            Fix16 inv_depth_top;
+            Fix16 depth_top = gViewCamera_676978->field_98_cur_pos.field_8_z - Fix16(top_layer) + Fix16(8);
+            if (depth_top == kZeroOnePoint_6F6484.x)
             {
-                unknown_2 = kZeroOnePoint_6F6484.x;
+                inv_depth_top = kZeroOnePoint_6F6484.x;
             }
             else
             {
-                unknown_2 = kZeroOnePoint_6F6484.y / unk_Z_Factor_2;
+                inv_depth_top = kZeroOnePoint_6F6484.y / depth_top;
             }
 
-            gInvDepthTop_6F656C = unknown_2;
-            gScreenScaleTop_6F628C = unknown_2 * gViewCamera_676978->field_60_screen_scale.x;
+            gInvDepthTop_6F656C = inv_depth_top;
+            gScreenScaleTop_6F628C = inv_depth_top * gViewCamera_676978->field_60_screen_scale.x;
 
             // if zLayer = 0, reset lights
             if (zLayer == 0 && gLighting_626A09)
