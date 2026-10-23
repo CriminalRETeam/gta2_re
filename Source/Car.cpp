@@ -766,11 +766,11 @@ bool Car::TrySnapCarToNearestDrivableRoadAndDriveForward_445EC0(Fix16 xpos, Fix1
 {
 
     s32 time_out_counter = 0;
-    s32 zTmpInt = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(xpos, ypos).ToInt();
+    s32 search_z = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(xpos, ypos).ToInt();
     while (1)
     {
-        gmp_block_info* pBlock = gMap_0x370_6F6268->FindNonAirBlockAtOrBelowZ_4E4CB0(xpos.ToInt(), ypos.ToInt(), zTmpInt);
-        ++zTmpInt;
+        gmp_block_info* pBlock = gMap_0x370_6F6268->FindNonAirBlockAtOrBelowZ_4E4CB0(xpos.ToInt(), ypos.ToInt(), search_z);
+        ++search_z;
         if (pBlock)
         {
             if (GET_BLOCK_TYPE(pBlock->field_B_slope_type) == ROAD)
@@ -801,7 +801,7 @@ bool Car::TrySnapCarToNearestDrivableRoadAndDriveForward_445EC0(Fix16 xpos, Fix1
 
                 if (!gGame_0x40_67E008->IsPointOnScreen_4B9A80(xpos, ypos))
                 {
-                    Fix16 pos_z = gMap_0x370_6F6268->FindGroundZBelowCoord_4E4D40(xpos, ypos, zTmpInt);
+                    Fix16 pos_z = gMap_0x370_6F6268->FindGroundZBelowCoord_4E4D40(xpos, ypos, search_z);
                     car_info* pInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx);
                     Fix16 w_val = gPixelsToFix16_6F6850.list[pInfo->w];
                     Fix16 h_val = gPixelsToFix16_6F6850.list[pInfo->h];
@@ -845,7 +845,7 @@ bool Car::TrySnapCarToNearestDrivableRoadAndDriveForward_445EC0(Fix16 xpos, Fix1
                 break;
         }
 
-        if (xpos < gFix16_6777CC || xpos > kFp255_676D98 || ypos < gFix16_6777CC || ypos > kFp255_676D98 || zTmpInt < 0 || zTmpInt > 7)
+        if (xpos < gFix16_6777CC || xpos > kFp255_676D98 || ypos < gFix16_6777CC || ypos > kFp255_676D98 || search_z < 0 || search_z > 7)
         {
             time_out_counter = 200;
         }
@@ -2362,8 +2362,8 @@ bool Car::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
     Car* pCar; // edi
     u16 our_flags; // dx
     u16 their_flags; // cx
-    bool bUnknown; // bl
-    s32 f_88; // eax
+    bool bCanCollide; // bl
+    s32 despawn_status; // eax
     Object* pObject; // ecx
     ObjectDefinition* pDefinition; // edx
     s32 phi_type; // eax
@@ -2420,16 +2420,16 @@ bool Car::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
                     return 1;
                 }
 
-                bUnknown = pSprite->CheckDirectionalSliceCollision_59E680(kFpFiveEighths_6778C8, this->field_50_car_sprite);
+                bCanCollide = pSprite->CheckDirectionalSliceCollision_59E680(kFpFiveEighths_6778C8, this->field_50_car_sprite);
                 if (!HasSpriteZoom_43A230() && this->field_74_damage != 32001)
                 {
-                    f_88 = this->field_88_despawn_status;
-                    if (f_88 != car_despawn_status::despawn_pending_2 && f_88 != car_despawn_status::marked_for_despawn_4 && f_88 != car_despawn_status::despawn_soon_3 && f_88 != car_despawn_status::despawning_5)
+                    despawn_status = this->field_88_despawn_status;
+                    if (despawn_status != car_despawn_status::despawn_pending_2 && despawn_status != car_despawn_status::marked_for_despawn_4 && despawn_status != car_despawn_status::despawn_soon_3 && despawn_status != car_despawn_status::despawning_5)
                     {
                         stru_67727C.PushSprite_5A6D40(this->field_50_car_sprite);
                     }
                 }
-                return bUnknown;
+                return bCanCollide;
             }
         }
 
@@ -3762,7 +3762,7 @@ MATCH_FUNC(0x43d840)
 void Car::HandleCarExplosion_43D840(s32 type)
 {
     char bOcc2; // bl
-    s32 g6C_f_58; // eax
+    s32 model_to_check; // eax
     Ped* pExploder; // eax
     Gang* pZone; // eax
 
@@ -3796,8 +3796,8 @@ void Car::HandleCarExplosion_43D840(s32 type)
 
         field_0_attachments.DestroyAllAttached_5A6BB0();
 
-        g6C_f_58 = gCarManager_6C_677930->field_58_model_to_check_destroy;
-        if (g6C_f_58 != 87 && g6C_f_58 == this->field_84_car_info_idx)
+        model_to_check = gCarManager_6C_677930->field_58_model_to_check_destroy;
+        if (model_to_check != 87 && model_to_check == this->field_84_car_info_idx)
         {
             gCarManager_6C_677930->field_5C_model_check_destroyed = 1;
         }
@@ -3982,15 +3982,15 @@ bool Car::IsBeingCrushed_43DD50()
 MATCH_FUNC(0x43dd60)
 void Car::DestroyWhileSinking_43DD60()
 {
-    bool bUnknown; // bl
+    bool bOcc2; // bl
     Ped* field_54_driver; // eax
     s32 exploder_ped_id; // eax
     Ped* pExploderPed; // eax
     Ped* pPed; // edi
     Gang* pGang; // eax
-    s32 f58; // eax
+    s32 model_to_check; // eax
 
-    bUnknown = 0;
+    bOcc2 = 0;
 
     StopMovement_43DBD0();
     field_50_car_sprite->IncreaseZoom_59E320(1);
@@ -4003,7 +4003,7 @@ void Car::DestroyWhileSinking_43DD60()
         {
             if (field_54_driver->get_occupation_403980() == ped_ocupation_enum::unknown_2)
             {
-                bUnknown = 1;
+                bOcc2 = 1;
             }
         }
         exploder_ped_id = this->field_70_exploder_ped_id;
@@ -4023,7 +4023,7 @@ void Car::DestroyWhileSinking_43DD60()
                     else
                     {
                         pPed->field_15C_player->field_2D4_scores.AwardCarDestroyedScore_592DD0(this, pPed);
-                        if (bUnknown)
+                        if (bOcc2)
                         {
                             pPed->field_15C_player->field_2D4_scores.AddCashWithMultiplier_593220();
                         }
@@ -4052,8 +4052,8 @@ void Car::DestroyWhileSinking_43DD60()
             }
         }
 
-        f58 = gCarManager_6C_677930->field_58_model_to_check_destroy;
-        if (f58 != 87 && f58 == this->field_84_car_info_idx)
+        model_to_check = gCarManager_6C_677930->field_58_model_to_check_destroy;
+        if (model_to_check != 87 && model_to_check == this->field_84_car_info_idx)
         {
             gCarManager_6C_677930->field_5C_model_check_destroyed = 1;
         }
@@ -5077,7 +5077,7 @@ Fix16_Rect Car::GetOrientedHalfExtentsRect_441600()
 MATCH_FUNC(0x4416d0)
 void Car::TryHonkHorn_4416D0(s32 horn_mode)
 {
-    char bUnknown = 0;
+    char bHornStarted = 0;
     if (field_A8_horn_cooldown > 0)
     {
         field_A8_horn_cooldown--;
@@ -5097,7 +5097,7 @@ void Car::TryHonkHorn_4416D0(s32 horn_mode)
                 {
                     this->field_AC_sound_event = 2;
                 }
-                bUnknown = 1;
+                bHornStarted = 1;
                 this->field_A8_horn_cooldown = -1;
             }
         }
@@ -5109,7 +5109,7 @@ void Car::TryHonkHorn_4416D0(s32 horn_mode)
         {
             this->field_A7_horn = 45;
         }
-        else if (!this->field_A8_horn_cooldown || bUnknown)
+        else if (!this->field_A8_horn_cooldown || bHornStarted)
         {
             if (field_84_car_info_idx == car_model_enum::FIRETRUK || field_84_car_info_idx == car_model_enum::COPCAR ||
                 field_84_car_info_idx == car_model_enum::MEDICAR || field_84_car_info_idx == car_model_enum::SWATVAN ||
@@ -6237,9 +6237,9 @@ bool Car::UpdateAttachedToSprite_443360(Sprite* pSprite, Fix16 x, Fix16 y, Ang16
     }
 
     field_50_car_sprite->set_xyz_lazy_420600(sprite_x, sprite_y, pSprite->field_1C_zpos);
-    Ang16 tmp = pSprite->field_0_rotation;
-    tmp += rot;
-    field_50_car_sprite->set_ang_lazy_420690(tmp);
+    Ang16 new_rotation = pSprite->field_0_rotation;
+    new_rotation += rot;
+    field_50_car_sprite->set_ang_lazy_420690(new_rotation);
 
     switch (pSprite->field_30_sprite_type_enum)
     {
@@ -7072,7 +7072,7 @@ s32 Trailer::Update_408220()
     }
     else
     {
-        const char_type bUnknown = ServicePhysics_408140();
+        const char_type bCabDrowning = ServicePhysics_408140();
         if (field_8_truck_cab->field_50_car_sprite->field_1C_zpos != kFpZero_66AB38)
         {
             if (field_C_trailer_car->field_50_car_sprite->field_1C_zpos != kFpZero_66AB38)
@@ -7104,7 +7104,7 @@ s32 Trailer::Update_408220()
             field_C_trailer_car->field_0_attachments.PropagateMaxZLayer_5A72B0(field_C_trailer_car->field_50_car_sprite, 0);
         }
 
-        if (ExplodeBothIfOneDestroyed_4081D0() || bUnknown)
+        if (ExplodeBothIfOneDestroyed_4081D0() || bCabDrowning)
         {
             return 2;
         }
