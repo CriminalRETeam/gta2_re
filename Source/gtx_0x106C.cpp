@@ -780,8 +780,8 @@ void gtx_0x106C::load_font_base_5AB0F0(u32 fonb_chunk_size)
     field_1C_font_base = (font_base*)Memory::malloc_4FE4D0(fonb_chunk_size);
     File::Global_Read_4A71C0(field_1C_font_base, fonb_chunk_size);
 
-    u16 fountCount = field_1C_font_base->field_0_font_count;
-    if (fonb_chunk_size != (u32)((fountCount * 2) + 2))
+    u32 fountCount = field_1C_font_base->field_0_font_count;
+    if (fonb_chunk_size != (fountCount * 2) + 2)
     {
         FatalError_4A38C0(Gta2Error::InvalidChunkSize, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1271, fonb_chunk_size);
     }
