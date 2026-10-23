@@ -1685,7 +1685,7 @@ static inline Ang16 TurnBy16Deg_548BD0(Ang16 angle)
 MATCH_FUNC(0x548670)
 void Char::DispatchCollision_548670(char_type bFlag)
 {
-    u8 bUnknown; // bl
+    u8 bUnknown;
     if (this->field_69_is_colliding_with_sprite == 1 && this->field_20_collided_entity_type && this->field_24 != 3)
     {
         bUnknown = 1;
@@ -6395,7 +6395,7 @@ bool Char::IsThreatToSearchingPed_553330()
 MATCH_FUNC(0x553340)
 bool Char::ShouldCollideWithSprite_553340(Sprite* pSprite)
 {
-    Ped* pPed; // eax
+    Ped* pPed;
 
     if (pSprite)
     {

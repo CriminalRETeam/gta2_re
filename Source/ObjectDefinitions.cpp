@@ -397,7 +397,7 @@ s32 kFp255_6F8FA4 = 0x3FC000;
 MATCH_FUNC(0x5331a0)
 void ObjectDefinition::ApplyDefinitionToSprite_5331A0(Sprite* pSprite)
 {
-    s32 bucket_category; // eax
+    s32 bucket_category;
 
     pSprite->SetType_4206F0(this->field_28_sprite_type);
     pSprite->set_id_lazy_4206C0(this->field_1E_base_sprite_idx);

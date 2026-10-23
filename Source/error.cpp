@@ -196,7 +196,7 @@ EXPORT const char_type* __stdcall SourceFileNameFromPath_4A07A0(const char_type*
 MATCH_FUNC(0x4A07C0)
 EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, ...)
 {
-    va_list va; // [esp+94h] [ebp+34h] BYREF
+    va_list va;
 
     va_start(va, lineNo);
 

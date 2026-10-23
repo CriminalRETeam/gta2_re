@@ -25,7 +25,7 @@ MATCH_FUNC(0x49c340)
 void DoorData::Init_49C340(u8 id, u8 x, u8 y, u8 z, u32 face, u8 bDoFlip)
 {
 
-    gmp_block_info blockData; // [esp+10h] [ebp-Ch] BYREF
+    gmp_block_info blockData;
 
     this->field_4_x = x;
     this->field_5_y = y;

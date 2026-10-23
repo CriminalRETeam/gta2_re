@@ -4777,12 +4777,12 @@ Map_0x370::Map_0x370()
     field_35C_column_word_extra = 0;
     field_360_column_words = 0;
     field_364_cur_zone_idx = 0xFFFF; // 0xFFFF literal
-    field_368_zone_type = 0xff; // dl
+    field_368_zone_type = 0xff;
     field_36A_zone_x = 0;
     field_36B_zone_y = 0;
     field_36C_bMatchPos = 0;
     field_366_unused = 0;
-    field_369_unused = 0xff; // dl
+    field_369_unused = 0xff;
     field_36D_unused = 0;
     field_36E_bBlockedByTerrain = 0;
     field_36F_bLowerBlockHasArrows = 0;

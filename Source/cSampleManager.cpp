@@ -248,7 +248,7 @@ bool cSampleManager::OpenDigitalDriver_58D720(char_type bFlag, char_type bStereo
 {
     struct lol
     {
-        WAVEFORMAT waveFormat; // [esp+Ch] [ebp-10h] BYREF
+        WAVEFORMAT waveFormat;
         s16 t;
     };
     lol l;
@@ -632,7 +632,7 @@ bool cSampleManager::InitialiseChannel3D_58DDF0(s32 channel, s32 nSfx, s32 rate)
     if (field_26C4_3d_sample[channel] && field_A4_bLoaded)
     {
 
-        AILSOUNDINFO soundInfo; // [esp+0h] [ebp-24h] BYREF
+        AILSOUNDINFO soundInfo;
         soundInfo.format = WAVE_FORMAT_PCM;
         soundInfo.data_ptr = ((BYTE*)field_1EAC_pAudioBuffer2 + field_A8_sdt_entries[nSfx].field_0_offset);
         soundInfo.channels = 1;
@@ -1124,12 +1124,12 @@ void cSampleManager::EndSample_58E960()
 MATCH_FUNC(0x58E980)
 bool cSampleManager::LoadWavSdtData_58E980(const char_type* pRawOrSdtName)
 {
-    FILE* hRawFile; // eax
-    FILE* hRawFile_; // esi
-    u32 rawFileSize; // edi
-    FILE* hSdtFile; // edi
-    char_type rawName[80]; // [esp+10h] [ebp-A0h] BYREF
-    char_type sdtName[80]; // [esp+60h] [ebp-50h] BYREF
+    FILE* hRawFile;
+    FILE* hRawFile_;
+    u32 rawFileSize;
+    FILE* hSdtFile;
+    char_type rawName[80];
+    char_type sdtName[80];
 
     field_A4_bLoaded = 0;
     strcpy(rawName, "data\\audio\\");

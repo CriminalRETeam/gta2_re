@@ -1564,7 +1564,7 @@ MATCH_FUNC(0x45caa0)
 void Ped::HandleClosePedInteraction_45CAA0()
 {
 
-    PedGroup* pNearPedGroup; // eax
+    PedGroup* pNearPedGroup;
     s16 rng; // bp
 
     Ped* pNearPed_ = FindNearbyPed_466FB0();
@@ -2338,7 +2338,7 @@ bool Ped::HandlePickupCollision_45DE80(Object* pPickUp)
 MATCH_FUNC(0x45e080)
 void Ped::SpawnWeaponOnDeath_45E080()
 {
-    Object* pWeaponObj; // eax
+    Object* pWeaponObj;
 
     if (this->field_224_bf.bDropsWeaponOnDeath && !this->field_16C_car)
     {
@@ -2928,10 +2928,10 @@ MATCH_FUNC(0x45ff60)
 void Ped::CarThief_AI_45FF60()
 {
 
-    Car* pNearestSteal; // eax
-    Car* pNearestSteal_; // edi
-    Car* pCar_; // ecx
-    Car* pCar; // eax
+    Car* pNearestSteal;
+    Car* pNearestSteal_;
+    Car* pCar_;
+    Car* pCar;
     Fix16 xd;
     Fix16 yd;
 
@@ -4660,7 +4660,7 @@ void Ped::SetStatesForObjective_4633E0(char_type bMainObj)
 MATCH_FUNC(0x463570)
 void Ped::SetObjective(s32 objective, s16 objective_timer)
 {
-    PatrolRoute* pPatrolRoute_96; // eax
+    PatrolRoute* pPatrolRoute_96;
     PatrolPoint* pPoint;
 
     if (this->field_278_ped_state_1 != ped_state_1::dead_9 || objective == objectives_enum::objective_28)
@@ -10895,14 +10895,14 @@ static inline void ComputeRecruitPrism(Fix16_Rect& r, Fix16 x, Fix16 y, Fix16 of
 MATCH_FUNC(0x46e080)
 void Ped::RecruitNearbyPeds_46E080(s32 desiredCount, Fix16 searchRadius)
 {
-    PedGroup* pGroup_; // ecx
-    s32 maxCount; // ebx
-    Sprite* pNearest; // eax
-    Char* pChar; // eax
-    Ped* pPed; // edi
-    PedGroup* pGroup; // ecx
-    SpriteList collision_list; // [esp+8h] [ebp-1Ch] BYREF
-    Fix16_Rect rect; // [esp+Ch] [ebp-18h] BYREF
+    PedGroup* pGroup_;
+    s32 maxCount;
+    Sprite* pNearest;
+    Char* pChar;
+    Ped* pPed;
+    PedGroup* pGroup;
+    SpriteList collision_list;
+    Fix16_Rect rect;
 
     pGroup_ = this->field_164_ped_group;
     if (pGroup_)
@@ -11471,12 +11471,12 @@ MATCH_FUNC(0x46f720)
 void Ped::UpdateStatsForKiller_46F720()
 {
 
-    s32 ped_id; // eax
-    Ped* pKillerPed; // eax
-    Player* pPlayerIter; // edi
-    Ped* pPlayerPed; // eax
-    Ped* pPedKiller; // ecx
-    PedGroup* pGroup; // ecx
+    s32 ped_id;
+    Ped* pKillerPed;
+    Player* pPlayerIter;
+    Ped* pPlayerPed;
+    Ped* pPedKiller;
+    PedGroup* pGroup;
 
     ped_id = this->field_204_killer_id;
     this->field_1A8_ped_killer = 0;

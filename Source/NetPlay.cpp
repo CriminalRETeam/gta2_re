@@ -1806,8 +1806,8 @@ s32 NetPlay::DeletePlayerFromGroup_521000(u32 idx)
 MATCH_FUNC(0x521060)
 s32 NetPlay::SendChatMessage_521060(wchar_t* pMsg, s32 idx_always_m1)
 {
-    s32 id_to; // edx
-    DPCHAT chatMsg; // [esp+0h] [ebp-Ch] BYREF
+    s32 id_to;
+    DPCHAT chatMsg;
     memset(&chatMsg, 0, sizeof(chatMsg));
 
     chatMsg.dwSize = sizeof(DPCHAT);

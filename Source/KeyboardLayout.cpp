@@ -173,9 +173,9 @@ void KeyboardLayout::RecreateIfLayoutChanged_4D5FD0()
 MATCH_FUNC(0x4D6000)
 s32 __stdcall KeyboardLayout::GetLayout_4D6000()
 {
-    s32 result; // eax
-    char_type Buffer[4]; // [esp+0h] [ebp-14h] BYREF
-    char_type pwszKLID[KL_NAMELENGTH]; // [esp+8h] [ebp-Ch] BYREF
+    s32 result;
+    char_type Buffer[4];
+    char_type pwszKLID[KL_NAMELENGTH];
 
     memcpy(Buffer, kTwoSpacesStr_620D2C, sizeof(Buffer));
 

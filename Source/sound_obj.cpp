@@ -1431,10 +1431,10 @@ MATCH_FUNC(0x413D10)
 void sound_obj::HandleAICarHornBeep_413D10(Sound_Params* pParams)
 {
 
-    Car* pCar; // eax
-    s32 sound_event; // ecx
-    s32 samp_idx; // edx
-    u8 emit_vol; // bl
+    Car* pCar;
+    s32 sound_event;
+    s32 samp_idx;
+    u8 emit_vol;
 
     pCar = pParams->field_0_pObj->field_8_car_bc_ptr;
     sound_event = pCar->TakeSoundEvent_411950();
@@ -6579,13 +6579,13 @@ u32 sound_obj::GetCopRadioZoneIndex_427400(u8 x, u8 y, gmp_map_zone** ppZone)
 MATCH_FUNC(0x42A500)
 void sound_obj::ProcessType7_Weapon_42A500(s32 idx)
 {
-    Weapon* pWeapon; // ecx
-    char weapon_f2C; // al
-    s32 samp_idx; // edi
-    char bSetF30; // al
-    u8 vol; // [esp+Ch] [ebp-Ch]
-    int rate_adjust; // [esp+10h] [ebp-8h]
-    char bHasSolidAbove; // [esp+1Ch] [ebp+4h]
+    Weapon* pWeapon;
+    char weapon_f2C;
+    s32 samp_idx;
+    char bSetF30;
+    u8 vol;
+    int rate_adjust;
+    char bHasSolidAbove;
 
     vol = 40;
     rate_adjust = 0;

@@ -2016,7 +2016,7 @@ s32 __stdcall Object::GetExplosionTypeForItemDefinition_526830(s32 type)
 MATCH_FUNC(0x526b40)
 void Object::InheritMotionFromSprite_526B40(Sprite* pSprite)
 {
-    Object_3C* pObject3C; // eax
+    Object_3C* pObject3C;
 
     switch (pSprite->GetType_416B40())
     {
@@ -2697,7 +2697,7 @@ void Object::ProcessObjectExplosionImpact_528A20(Object* pObj)
             return;
     }
 
-    Ped* pPed; // eax
+    Ped* pPed;
     s32 pedId = gPedRefTable_7F8_703398->GetPedId_420F10(get_field_26_420FF0());
     if (pedId)
     {
@@ -2780,7 +2780,7 @@ void Object::HandleImpactNoSprite_528BA0()
 MATCH_FUNC(0x528E00)
 s32 __stdcall Object::GetExplosionTypeForWallSide_528E00(s32 wall_side)
 {
-    int result; // eax
+    int result;
 
     switch (wall_side)
     {
@@ -3386,7 +3386,7 @@ Object* Object_5C::CreateObject_529C00(int object_type, Fix16 xpos, Fix16 ypos, 
         field_10_limited_object_count++;
     }
 
-    Object* pNewObject; // esi
+    Object* pNewObject;
     if (pDefinition->field_61_in_pool_list)
     {
         pNewObject = gObject_2C_Pool_6F8F80->Allocate();
@@ -3441,7 +3441,7 @@ Object* Object_5C::CreateObject_529C00(int object_type, Fix16 xpos, Fix16 ypos, 
 
         case object_behavior_type::explosion_5:
         {
-            Explosion* pNew30; // eax
+            Explosion* pNew30;
             pNew30 = gExplosionPool_7A8_6FD5F0->Allocate_543800();
             pNewObject->field_C_pAny.pExplosion = pNew30;
             if (pNew30)
@@ -3459,7 +3459,7 @@ Object* Object_5C::CreateObject_529C00(int object_type, Fix16 xpos, Fix16 ypos, 
         case object_behavior_type::animated_2:
         case object_behavior_type::pickup_animated_8:
         {
-            Object_8* pNew8; // eax
+            Object_8* pNew8;
             pNew8 = gObject_8_Pool_6F8F78->Allocate();
             pNewObject->field_C_pAny.o8 = pNew8;
             pNewObject->field_C_pAny.o8->field_7_frame_idx = 0;
@@ -3471,7 +3471,7 @@ Object* Object_5C::CreateObject_529C00(int object_type, Fix16 xpos, Fix16 ypos, 
         case object_behavior_type::physics_3:
         case object_behavior_type::pickup_physics_7:
         {
-            Object_3C* pNew3C; // eax
+            Object_3C* pNew3C;
             pNew3C = gObject_3C_Pool_6F8F7C->Allocate();
             pNewObject->field_10_obj_3c = pNew3C;
             pNew3C->field_20_obj2c_id = pNewObject->field_14_id;
@@ -3487,7 +3487,7 @@ Object* Object_5C::CreateObject_529C00(int object_type, Fix16 xpos, Fix16 ypos, 
         case object_behavior_type::physics_animated_4:
         case object_behavior_type::pickup_physics_animated_9:
         {
-            Object_3C* pNew3C; // eax
+            Object_3C* pNew3C;
             pNew3C = gObject_3C_Pool_6F8F7C->Allocate();
             pNewObject->field_10_obj_3c = pNew3C;
             pNew3C->field_20_obj2c_id = pNewObject->field_14_id;
@@ -3498,7 +3498,7 @@ Object* Object_5C::CreateObject_529C00(int object_type, Fix16 xpos, Fix16 ypos, 
             pNewObject->field_10_obj_3c->field_4_angle = rotation;
             pNewObject->field_10_obj_3c->field_28_next_definition_timer = pNewObject->field_8_definition->field_65_next_definition_timer;
 
-            Object_8* pNew8; // eax
+            Object_8* pNew8;
             pNew8 = gObject_8_Pool_6F8F78->Allocate();
             pNewObject->field_C_pAny.o8 = pNew8;
             pNewObject->field_C_pAny.o8->field_7_frame_idx = 0;

@@ -375,8 +375,8 @@ void Registry::Set_Screen_Setting_587170(const char_type* lpValueName, s32 Data)
 MATCH_FUNC(0x5871E0)
 void Registry::Get_Screen_String_5871E0(const char_type* lpValueName, BYTE* lpData, u16 maxLen)
 {
-    HKEY hKey; // [esp+8h] [ebp-8h] BYREF
-    DWORD cbData; // [esp+Ch] [ebp-4h] BYREF
+    HKEY hKey;
+    DWORD cbData;
 
     Open_Screen_Root_586DB0(&hKey);
 
@@ -419,7 +419,7 @@ bool Registry::Set_Binary_5872A0(HKEY hKey, const char_type* base_name, BYTE* lp
 MATCH_FUNC(0x587340)
 bool Registry::Get_Binary_587340(HKEY hKey, const char_type* keyPath, s32 value, LPBYTE lpData)
 {
-    char_type ValueName[260]; // [esp+14h] [ebp-104h] BYREF
+    char_type ValueName[260];
     bool ret = false;
 
     sprintf(ValueName, "%ss", keyPath);

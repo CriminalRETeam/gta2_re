@@ -529,8 +529,8 @@ bool PathFinder::ComputePath_554AB0(s32 ped_id,
                                         s32 angle_face,
                                         u8* pOutPathFailCount)
 {
-    PathNode* pBestNode; // eax
-    PathNode* pCell; // ecx
+    PathNode* pBestNode;
+    PathNode* pCell;
     u8 yCoord;
     u8 idx1;
     u8 idx2;
