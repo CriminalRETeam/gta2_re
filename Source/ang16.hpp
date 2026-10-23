@@ -30,6 +30,7 @@ class Ang16
         return rValue <= other.rValue;
     }
 
+    // 9.6f 0x41CFF0
     s32 operator!=(const Ang16& other)
     {
         return rValue != other.rValue;

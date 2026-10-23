@@ -35,8 +35,6 @@ target_compile_definitions(binkw32 PRIVATE BUILD_BINK)
 # to the actual executable data/vars
 set(gta2_lib_src
   Source/Pool.hpp
-  Source/angle.cpp
-  Source/angle.hpp
   Source/crt_stubs.cpp
   Source/crt_stubs.hpp
   Source/Globals.cpp
