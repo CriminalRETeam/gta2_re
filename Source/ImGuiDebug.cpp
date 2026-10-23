@@ -78,10 +78,10 @@ void wchar_to_char(wchar_t* wchar, char* out, u8 size)
     u16 i = 0;
     for (; wchar[i]; i++)
     {
-        out[(s8)i] = (char)wchar[i];
+        out[static_cast<s8>(i)] = static_cast<char>(wchar[i]);
     }
     // clear remaining slots
-    for (s8 j = (s8)i; j < size; j++)
+    for (s8 j = static_cast<s8>(i); j < size; j++)
     {
         out[j] = 0;
     }
@@ -1476,7 +1476,7 @@ void CC ImGuiDebugDraw()
             while (pCarIter)
             {
                 char buffer[128];
-                sprintf(buffer, "Car %S %X", pCarIter->GetCarStr_439F80(), (u32)pCarIter);
+                sprintf(buffer, "Car %S %X", pCarIter->GetCarStr_439F80(), reinterpret_cast<u32>(pCarIter));
                 if (ImGui::TreeNode(buffer))
                 {
 

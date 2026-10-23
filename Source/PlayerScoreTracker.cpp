@@ -306,7 +306,7 @@ void PlayerScoreTracker::ResetCarModelFlags_592380(char_type bits)
     {
         for (u16 i = 0; i < GTA2_COUNTOF(field_8C_car_model_flags); i++)
         {
-            if (gGtx_0x106C_703DD4->does_car_exist((u8)i) && gGtx_0x106C_703DD4->IsCarModelInRecycleList_5AB380((u8)i))
+            if (gGtx_0x106C_703DD4->does_car_exist(static_cast<u8>(i)) && gGtx_0x106C_703DD4->IsCarModelInRecycleList_5AB380(static_cast<u8>(i)))
             {
                 field_8C_car_model_flags[i] &= ~car_model_flag::stolen_1;
             }
@@ -321,9 +321,9 @@ void PlayerScoreTracker::ResetCarModelFlags_592380(char_type bits)
     {
         for (u16 i = 0; i < GTA2_COUNTOF(field_8C_car_model_flags); i++)
         {
-            if (gGtx_0x106C_703DD4->does_car_exist((u8)i) && gGtx_0x106C_703DD4->IsCarModelInRecycleList_5AB380((u8)i))
+            if (gGtx_0x106C_703DD4->does_car_exist(static_cast<u8>(i)) && gGtx_0x106C_703DD4->IsCarModelInRecycleList_5AB380(static_cast<u8>(i)))
             {
-                const u8 wreck = gGtx_0x106C_703DD4->get_car_info_5AA3B0((u8)i)->wreck;
+                const u8 wreck = gGtx_0x106C_703DD4->get_car_info_5AA3B0(static_cast<u8>(i))->wreck;
 
                 if (wreck == car_wreck::none_99)
                 {

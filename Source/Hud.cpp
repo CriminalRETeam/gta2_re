@@ -1506,11 +1506,11 @@ void Hud_ChatInput::DrawChatMessages_5D16B0()
             {
                 if ((gpRng_67AB34->get_cur_rng_41CFE0() & 7u) < 4)
                 {
-                    swprintf(tmpBuff_67BD9C, L"%s:%s_", pPlayerIter->field_83C_player_name, (wchar_t*)pPlayerIter->field_796_chat_text);
+                    swprintf(tmpBuff_67BD9C, L"%s:%s_", pPlayerIter->field_83C_player_name, reinterpret_cast<wchar_t*>(pPlayerIter->field_796_chat_text));
                 }
                 else
                 {
-                    swprintf(tmpBuff_67BD9C, L"%s:%s ", pPlayerIter->field_83C_player_name, (wchar_t*)pPlayerIter->field_796_chat_text);
+                    swprintf(tmpBuff_67BD9C, L"%s:%s ", pPlayerIter->field_83C_player_name, reinterpret_cast<wchar_t*>(pPlayerIter->field_796_chat_text));
                 }
                 s32 max_text_width = Frontend::GetMaxTextWidth_5D8990(tmpBuff_67BD9C, word_70643E);
                 s32 start_xpos;

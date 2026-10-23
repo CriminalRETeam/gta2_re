@@ -72,7 +72,7 @@ EXPORT void Generator::SpawnObject_4C1B10()
                 {
                     if (field_1C_ammo > 0)
                     {
-                        pObj->field_26_ped_ref_idx = (u8)field_1C_ammo;
+                        pObj->field_26_ped_ref_idx = static_cast<u8>(field_1C_ammo);
                     }
                 }
                 field_24_obj = pObj;
@@ -95,7 +95,7 @@ EXPORT void Generator::SpawnObject_4C1B10()
             {
                 if (field_1C_ammo > 0)
                 {
-                    pObj->field_26_ped_ref_idx = (u8)field_1C_ammo;
+                    pObj->field_26_ped_ref_idx = static_cast<u8>(field_1C_ammo);
                 }
             }
             field_24_obj = pObj;
@@ -113,7 +113,7 @@ EXPORT void Generator::SpawnObject_4C1B10()
 MATCH_FUNC(0x4c1c50)
 void Generator::Service_4C1C50()
 {
-    if ((u32)gpRng_67AB34->get_cur_rng_41CFE0() >= field_18_cycle)
+    if (static_cast<u32>(gpRng_67AB34->get_cur_rng_41CFE0()) >= field_18_cycle)
     {
         if (field_1E_spawns_left > 0)
         {

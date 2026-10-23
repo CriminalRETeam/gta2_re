@@ -1133,7 +1133,7 @@ s16 RouteFinder::DoStartRoute_58A0D0(u8 x1, u8 y1, u8 z1, u8 x2, u8 y2, u8 z2, s
 MATCH_FUNC(0x58a130)
 s16 RouteFinder::FindOffScreenRoute_58A130(u8 x, s16 y, u8 z, u8* pRouteLength, s32 arrow_type, s32 direction)
 {
-    if (InitSearchWithDirection_5895C0(x, (u8)y, z, arrow_type, direction))
+    if (InitSearchWithDirection_5895C0(x, static_cast<u8>(y), z, arrow_type, direction))
     {
         if (SearchUntilOffScreen_589E70(arrow_type))
         {

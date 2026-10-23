@@ -395,7 +395,7 @@ void UpdateGameScreenSize_5D8E00()
         }
         else
         {
-            if ((u32)gCachedScreenDimension_706C58 != gVidSys_7071D0->field_4C_rect_bottom)
+            if (static_cast<u32>(gCachedScreenDimension_706C58) != gVidSys_7071D0->field_4C_rect_bottom)
             {
                 gGame_0x40_67E008->SetScreenSize_4B8E00(gVidSys_7071D0->field_48_rect_right, gVidSys_7071D0->field_4C_rect_bottom);
             }

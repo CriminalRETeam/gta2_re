@@ -355,7 +355,7 @@ s8 GangPool::FindGangByCarModel_4BF2F0(s32 car_model)
 {
     for (u8 i = 0; i < 10; i++)
     {
-        if (GangByIdx_4BF1C0(i)->field_13C_gang_car_model == (u32)car_model)
+        if (GangByIdx_4BF1C0(i)->field_13C_gang_car_model == static_cast<u32>(car_model))
         {
             return i;
         }

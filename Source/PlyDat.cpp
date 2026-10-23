@@ -176,12 +176,12 @@ char_type HighScoreTable::InsertScore_56B550(const wchar_t* pFindStr, s32 findSc
     u16 startIdx = 10;
     for (s16 i = 9; i != -1; --i)
     {
-        if ((u32)findScore > field_0_score_table_line[i].field_14_score)
+        if (static_cast<u32>(findScore) > field_0_score_table_line[i].field_14_score)
         {
             startIdx = i;
         }
 
-        if ((u32)findScore == field_0_score_table_line[i].field_14_score &&
+        if (static_cast<u32>(findScore) == field_0_score_table_line[i].field_14_score &&
             wcscmp(pFindStr, field_0_score_table_line[i].field_0_player_name) == 0)
         {
             return 0;

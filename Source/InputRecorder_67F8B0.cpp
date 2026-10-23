@@ -454,7 +454,7 @@ void InputDevices::read_input_device_498DA0(s32* input_bits, u8 bApplyKeyboardCo
                     // Reset for every input, so only the last binding (input 11) counts
                     bHandled = false;
                     if (kbResult == 0 && gControlDeviceType_67B91C[input] == 0 &&
-                        (u32)gPlayerControlsBinding_67B6E8[input] == gKeyboardDeviceData_67B610.dwOfs)
+                        static_cast<u32>(gPlayerControlsBinding_67B6E8[input]) == gKeyboardDeviceData_67B610.dwOfs)
                     {
                         // Keyboard binding
                         bHandled = true;
@@ -1039,11 +1039,11 @@ u32 InputRecorder_67F8B0::get_input_bits_4CEAC0()
     switch (replay_state)
     {
         case Playback_1:
-            if ((u32)gpRng_67AB34->get_cur_rng_41CFE0() >= (u32)field_3C_rec_buff[field_75340_rec_buf_idx].field_0_rng_idx)
+            if (static_cast<u32>(gpRng_67AB34->get_cur_rng_41CFE0()) >= static_cast<u32>(field_3C_rec_buff[field_75340_rec_buf_idx].field_0_rng_idx))
             {
                 inputs = field_3C_rec_buff[field_75340_rec_buf_idx].field_4_inputs;
                 field_75340_rec_buf_idx++;
-                if (field_75340_rec_buf_idx >= (u32)field_7533C_used_recs_count)
+                if (field_75340_rec_buf_idx >= static_cast<u32>(field_7533C_used_recs_count))
                 {
                     if (bDo_exit_after_replay_67D6E4)
                     {
@@ -1085,11 +1085,11 @@ u32 InputRecorder_67F8B0::get_input_bits_4CEAC0()
             break;
 
         case Attract_3:
-            if ((u32)gpRng_67AB34->get_cur_rng_41CFE0() >= (u32)field_3C_rec_buff[field_75340_rec_buf_idx].field_0_rng_idx)
+            if (static_cast<u32>(gpRng_67AB34->get_cur_rng_41CFE0()) >= static_cast<u32>(field_3C_rec_buff[field_75340_rec_buf_idx].field_0_rng_idx))
             {
                 inputs = field_3C_rec_buff[field_75340_rec_buf_idx].field_4_inputs;
                 field_75340_rec_buf_idx++;
-                if (field_75340_rec_buf_idx >= (u32)field_7533C_used_recs_count)
+                if (field_75340_rec_buf_idx >= static_cast<u32>(field_7533C_used_recs_count))
                 {
                     gGame_0x40_67E008->ExitGameNoBonus_4B8C00(0, GameExitType::ReplayExit_6);
                 }
