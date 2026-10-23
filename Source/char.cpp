@@ -4621,8 +4621,8 @@ void Char::state_1_5504F0()
     Ang16 next_rotation;
     char bSnapRotation;
     char bMoved;
-    Fix16 pMaybeX_FP16;
-    Fix16 pMaybeY_FP16;
+    Fix16 probe_x;
+    Fix16 probe_y;
 
     Ang16 desired_angle;
     Ang16 target_rotation;
@@ -4867,16 +4867,16 @@ LABEL_65:
                     angle = target_rotation;
                 }
             }
-            Ang16::PolarToCartesian_41FC20(target_rotation, kFP16Half_6FD8E4, pMaybeX_FP16, pMaybeY_FP16);
+            Ang16::PolarToCartesian_41FC20(target_rotation, kFP16Half_6FD8E4, probe_x, probe_y);
         }
         else
         {
-            Ang16::PolarToCartesian_41FC20(target_rotation, kFP16Quarter_6FD828, pMaybeX_FP16, pMaybeY_FP16);
+            Ang16::PolarToCartesian_41FC20(target_rotation, kFP16Quarter_6FD828, probe_x, probe_y);
         }
-        pMaybeX_FP16 += gCharB4_Saved_Xpos_6FD7F8;
-        pMaybeY_FP16 += gCharB4_Saved_Ypos_6FD800;
-        x_u8 = pMaybeX_FP16.ToUInt8();
-        y_u8 = pMaybeY_FP16.ToUInt8();
+        probe_x += gCharB4_Saved_Xpos_6FD7F8;
+        probe_y += gCharB4_Saved_Ypos_6FD800;
+        x_u8 = probe_x.ToUInt8();
+        y_u8 = probe_y.ToUInt8();
         if (unk_xpos != x_u8 || unk_ypos != y_u8)
         {
             Char::ManageZCoordAndSlopes_548590();

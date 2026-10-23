@@ -274,7 +274,7 @@ void Weapon::flamethrower_5DD0F0()
 {
     Ang16 ped_rot;
     Fix16_Point cartesian_offset;
-    Fix16_Point ped_pos_maybe;
+    Fix16_Point ped_velocity;
 
     Fix16 cam_x = field_24_pPed->get_cam_x();
     Fix16 cam_y = field_24_pPed->get_cam_y();
@@ -282,7 +282,7 @@ void Weapon::flamethrower_5DD0F0()
 
     ped_rot = field_24_pPed->GetRotation();
 
-    ped_pos_maybe = field_24_pPed->GetVelocityVector_45B520();
+    ped_velocity = field_24_pPed->GetVelocityVector_45B520();
 
     cartesian_offset.FromPolar_41E210(kFP16Quarter_706CF4, ped_rot);
 
@@ -293,7 +293,7 @@ void Weapon::flamethrower_5DD0F0()
     {
         set_field_2C_4CCA80(1);
         bAllowFlameSegment_706D60 = 0;
-        Weapon::spawn_bullet_5DCF60(objects::invisible_bullet_154, xpos, ypos, cam_z, ped_rot, ped_pos_maybe);
+        Weapon::spawn_bullet_5DCF60(objects::invisible_bullet_154, xpos, ypos, cam_z, ped_rot, ped_velocity);
         if (bAllowFlameSegment_706D60)
         {
             gParticle_8_6FD5E8->EmitFlameStreamSegment_53F4C0(field_24_pPed->field_168_game_object->field_80_sprite_ptr);
@@ -311,7 +311,7 @@ void Weapon::flamethrower_5DD0F0()
     }
     else
     {
-        Weapon::spawn_bullet_5DCF60(195, cam_x, cam_y, cam_z, ped_rot, ped_pos_maybe);
+        Weapon::spawn_bullet_5DCF60(195, cam_x, cam_y, cam_z, ped_rot, ped_velocity);
     }
 }
 
