@@ -46,6 +46,15 @@ def matching_funcs(new_data_path):
     return ret
 
 
+def validate_matching_funcs(funcs, og_sizes, description):
+    if not funcs:
+        raise ValueError(f"{description} has no MATCH_FUNC functions; nothing was verified")
+    missing = sorted(set(funcs) - set(og_sizes))
+    if missing:
+        addresses = ", ".join(hex(addr) for addr in missing)
+        raise ValueError(f"{description} MATCH_FUNC missing from og_function_data_v105.csv: {addresses}")
+
+
 def func_asm(exe, offset, size):
     func_bytes = compare_function.get_bytes_from_file(exe, offset, size)
     return post_process_asm.post_process_asm(compare_function.dism_func(func_bytes))
@@ -60,6 +69,17 @@ def main():
     base_exe = os.path.join(args.baseline_dir, "decomp_main.exe")
     base_data = os.path.join(args.baseline_dir, "new_data.json")
 
+    og_sizes = load_og_sizes()
+    cur_funcs = matching_funcs(NEW_DATA)
+    try:
+        validate_matching_funcs(cur_funcs, og_sizes, "Current build")
+        if not args.save:
+            base_funcs = matching_funcs(base_data)
+            validate_matching_funcs(base_funcs, og_sizes, "Baseline build")
+    except ValueError as error:
+        print(f"Verification error: {error}", file=sys.stderr)
+        return 1
+
     if args.save:
         os.makedirs(args.baseline_dir, exist_ok=True)
         shutil.copy2(NEW_EXE, base_exe)
@@ -67,16 +87,10 @@ def main():
         print(f"Saved baseline to {args.baseline_dir}")
         return 0
 
-    og_sizes = load_og_sizes()
-    base_funcs = matching_funcs(base_data)
-    cur_funcs = matching_funcs(NEW_DATA)
-
     changed = []
     removed = []
     for og_addr, base_fo in sorted(base_funcs.items()):
-        name, size = og_sizes.get(og_addr, (hex(og_addr), None))
-        if size is None:
-            continue
+        name, size = og_sizes[og_addr]
         if og_addr not in cur_funcs:
             removed.append(name)
             continue
