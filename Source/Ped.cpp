@@ -5322,7 +5322,7 @@ void Ped::CalcApproachPointNearTargetPed_4645B0()
     }
 
     // Comma form here and in the switch: braces would grow the caller size the inline budget is computed from
-    if (field_164_ped_group && (u32)field_204_killer_id == field_164_ped_group->field_2C_ped_leader->get_id() &&
+    if (field_164_ped_group && static_cast<u32>(field_204_killer_id) == field_164_ped_group->field_2C_ped_leader->get_id() &&
         field_164_ped_group->field_2C_ped_leader->field_21C_bf.bAttacking)
         bUnk = true, field_264_killer_id_timer = 50;
 
@@ -9884,7 +9884,7 @@ void Ped::EnterCarStateMachine_46BDC0()
                             if (gang_car_model != -1)
                             {
                                 // Well now they hate you a bit
-                                Gang* pGang = gGangPool_CA8_67E274->GangByIdx_4BF1C0((u8)gang_car_model);
+                                Gang* pGang = gGangPool_CA8_67E274->GangByIdx_4BF1C0(static_cast<u8>(gang_car_model));
                                 pGang->ApplyKillRespectChange_4BEF70(this->field_15C_player->get_idx_4219D0(), 1u);
                             }
                         }
@@ -11250,16 +11250,16 @@ void Ped::ApplyAimJitter_46F1E0(Weapon* pWeapon)
             if (GetPedVelocity_45C920() == kFpZero_678660)
             {
                 max_still = 3;
-                rng_val = (u8)gRng_6F6784.get_int_4F7AE0(max_still);
+                rng_val = static_cast<u8>(gRng_6F6784.get_int_4F7AE0(max_still));
             }
             else
             {
                 max_moving = 5;
-                rng_val = (u8)gRng_6F6784.get_int_4F7AE0(max_moving);
+                rng_val = static_cast<u8>(gRng_6F6784.get_int_4F7AE0(max_moving));
                 if (rng_val == 0)
                 {
                     max_moving_retry = 5;
-                    rng_val = (u8)gRng_6F6784.get_int_4F7AE0(max_moving_retry);
+                    rng_val = static_cast<u8>(gRng_6F6784.get_int_4F7AE0(max_moving_retry));
                 }
             }
         }
