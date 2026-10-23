@@ -92,7 +92,8 @@ char* __stdcall CarInfoTable::SetErr_430AC0(s32 error_code)
 {
     if (error_code > 0 || error_code < -GTA2_COUNTOF_S(error_table_61A6D4) + 1)
     {
-        // The original fallback is -13, one past this table; preserve that quirk.
+        // The original uses -13 despite having only 13 entries (indices 0..12).
+        // The following DWORD is string data ("Unkn"), not another message pointer.
         error_code = -GTA2_COUNTOF(error_table_61A6D4);
     }
 

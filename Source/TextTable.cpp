@@ -27,25 +27,12 @@ const wchar_t word_626590[256] = {
     220u, 221u, 222u, 223u, 224u, 225u, 226u, 227u, 228u, 229u, 230u, 231u, 232u, 233u, 234u, 235u, 236u, 237u, 238u, 239u, 240u, 241u,
     242u, 243u, 244u, 245u, 246u, 247u, 248u, 249u, 250u, 251u, 252u, 253u, 254u, 255u};
 
-// The original uppercase lookup indexes this base with 0x80-0xFF, reaching the
-// adjacent data at 0x626590. Include it here so linking does not change the lookup.
-const s16 kExtendedRussianCharMap_626490[256] = {
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 177, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 210, 0, 0, 0, 0, 0, 0, 0,
-    193, 208, 192, 184, 198, 182, 199, 187, 205, 178, 181, 197, 204, 183, 196, 194,
-    195, 203, 206, 180, 190, 188, 179, 202, 185, 186, 189, 191, 207, 200, 209, 201,
-    226, 241, 225, 217, 231, 215, 232, 220, 238, 211, 214, 230, 237, 216, 229, 227,
-    228, 236, 239, 213, 223, 221, 212, 235, 218, 219, 222, 224, 240, 233, 242, 234,
-    128u, 129u, 130u, 131u, 132u, 133u, 134u, 135u, 136u, 137u, 138u, 139u, 140u, 141u, 142u, 143u,
-    144u, 145u, 146u, 147u, 148u, 149u, 150u, 128u, 129u, 130u, 131u, 132u, 133u, 134u, 135u, 136u,
-    137u, 138u, 139u, 140u, 141u, 142u, 143u, 144u, 145u, 146u, 147u, 148u, 149u, 173u, 173u, 175u,
-    176u, 177u, 178u, 179u, 180u, 181u, 182u, 183u, 184u, 185u, 186u, 187u, 188u, 189u, 190u, 191u,
-    192u, 193u, 194u, 195u, 196u, 197u, 198u, 199u, 200u, 201u, 202u, 203u, 204u, 205u, 206u, 207u,
-    208u, 209u, 177u, 178u, 179u, 180u, 181u, 182u, 183u, 184u, 185u, 186u, 187u, 188u, 189u, 190u,
-    191u, 192u, 193u, 194u, 195u, 196u, 197u, 198u, 199u, 200u, 201u, 202u, 203u, 204u, 205u, 206u,
-    207u, 208u, 209u, 243u, 244u, 245u, 246u, 247u, 248u, 249u, 250u, 251u, 252u, 253u, 254u, 255u};
+const s16 kExtendedRussianCharMap_626490[128] = {0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,
+                        0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   177, 0,   0,   0,
+                        0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   210, 0,   0,   0,   0,   0,   0,   0,   193, 208,
+                        192, 184, 198, 182, 199, 187, 205, 178, 181, 197, 204, 183, 196, 194, 195, 203, 206, 180, 190, 188, 179, 202,
+                        185, 186, 189, 191, 207, 200, 209, 201, 226, 241, 225, 217, 231, 215, 232, 220, 238, 211, 214, 230, 237, 216,
+                        229, 227, 228, 236, 239, 213, 223, 221, 212, 235, 218, 219, 222, 224, 240, 233, 242, 234};
 
 // Extended characters 128-255, corresponding to original data at 0x626390.
 static const u16 kExtendedWesternCharMap[128] = {
@@ -178,7 +165,8 @@ void text_tdat::TDAT_Load_5B5A80(u32 size)
 MATCH_FUNC(0x5B5AD0)
 u16 TextTable::ToUpper_5B5AD0(wchar_t ch)
 {
-    // The uppercase tables include the prefix for raw character indices 0x80-0xFF.
+    // The original uppercase data uses word_626590[0..127] for 'g'/'i'/'r'/'s'
+    // and word_626590[128..255] for French. Index both halves explicitly.
     switch (field_10_lang_code)
     {
         case 'e':
@@ -209,7 +197,7 @@ u16 TextTable::ToUpper_5B5AD0(wchar_t ch)
             }
             if (ch >= 0x80 && ch <= 0xFF)
             {
-                return kExtendedRussianCharMap_626490[ch];
+                return word_626590[ch - 128];
             }
             break;
     }
