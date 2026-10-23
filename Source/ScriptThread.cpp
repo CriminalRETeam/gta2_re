@@ -4165,7 +4165,7 @@ void ScriptThread::SCRCMD_IS_CHAR_IN_ZONE_50BF40()
     {
         pZone1 = gMap_0x370_6F6268->GetZoneAtPosOfType_4DF4D0(pPointer->field_8_char->get_cam_x().ToInt(),
                                                               pPointer->field_8_char->get_cam_y().ToInt(),
-                                                              Restart_16);
+                                                              Local_Navigation_15);
         pZone2 = gMap_0x370_6F6268->GetZoneAtPosOfType_4DF4D0(pPointer->field_8_char->get_cam_x().ToInt(),
                                                               pPointer->field_8_char->get_cam_y().ToInt(),
                                                               Navigation_1);
