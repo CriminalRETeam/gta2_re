@@ -70,23 +70,59 @@ class Pe:
 
 def load():
     nd = json.load(open('new_data.json'))
-    sym = {}  # mangled name -> build address
+    sym = {}  # mangled name -> all build addresses, including repeated static labels
     for line in open(ROOT + '/build_vc6/output.map', errors='replace'):
         p = line.split()
         if len(p) >= 3 and re.match(r'^[0-9a-f]{4}:[0-9a-f]{8}$', p[0]) and re.match(r'^[0-9a-f]{8}$', p[2]):
-            sym[p[1]] = int(p[2], 16)
-    # build address -> original address, for everything with a known original
-    known = {}
+            sym.setdefault(p[1], set()).add(int(p[2], 16))
+    functions = [f for f in nd['functions'] if f.get('og_addr', '?').startswith('0x')]
+    required = {v['mangled_name'] for v in nd['variables']}
+    required.update(f['mangled_name'] for f in functions if f.get('mangled_name'))
+    conflicts = []
+    for name in sorted(required.intersection(sym)):
+        addresses = sym.get(name, set())
+        if len(addresses) > 1:
+            conflicts.append('Referenced symbol %s has multiple MAP addresses: %s' %
+                             (name, ', '.join(hex(a) for a in sorted(addresses))))
+
+    # Explicit registrations outrank inferred suffixes, but cannot contradict each other.
+    explicit = {}
     for v in nd['variables']:
-        if v['mangled_name'] in sym:
-            known[sym[v['mangled_name']]] = int(v['og_address'], 16)
-    for name, addr in sym.items():
+        addresses = sym.get(v['mangled_name'], set())
+        if len(addresses) == 1:
+            explicit.setdefault(next(iter(addresses)), set()).add(int(v['og_address'], 16))
+    for f in functions:
+        address, original = int(f['func_va'], 16), int(f['og_addr'], 16)
+        addresses = sym.get(f.get('mangled_name'), set())
+        if len(addresses) == 1 and address not in addresses:
+            conflicts.append('Function %s metadata address %s disagrees with MAP address %s' %
+                             (f['mangled_name'], hex(address), hex(next(iter(addresses)))))
+        explicit.setdefault(address, set()).add(original)
+    for address, originals in explicit.items():
+        if len(originals) > 1:
+            conflicts.append('Conflicting explicit identities at %s: %s' %
+                             (hex(address), ', '.join(hex(a) for a in sorted(originals))))
+
+    inferred = {}
+    for name, addresses in sym.items():
         m = re.search(r'_([0-9A-Fa-f]{6})@', name)
-        if m and addr not in known and 0x400000 <= int(m.group(1), 16) < 0x800000:
-            known[addr] = int(m.group(1), 16)
-    for f in nd['functions']:
-        if f.get('og_addr', '?').startswith('0x'):
-            known[int(f['func_va'], 16)] = int(f['og_addr'], 16)
+        if m and 0x400000 <= int(m.group(1), 16) < 0x800000:
+            if len(addresses) > 1:
+                if any(address not in explicit for address in addresses):
+                    conflicts.append('Inferred symbol %s has multiple MAP addresses: %s' %
+                                     (name, ', '.join(hex(a) for a in sorted(addresses))))
+                continue
+            for address in addresses:
+                if address not in explicit:
+                    inferred.setdefault(address, set()).add(int(m.group(1), 16))
+    for address, originals in inferred.items():
+        if len(originals) > 1:
+            conflicts.append('Conflicting inferred identities at %s: %s' %
+                             (hex(address), ', '.join(hex(a) for a in sorted(originals))))
+    if conflicts:
+        raise ValueError('Reference identity conflicts: ' + '; '.join(sorted(conflicts)))
+    known = {address: next(iter(originals)) for address, originals in explicit.items()}
+    known.update((address, next(iter(originals))) for address, originals in inferred.items())
     return nd, known
 
 
