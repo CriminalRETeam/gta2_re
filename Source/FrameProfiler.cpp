@@ -178,16 +178,16 @@ void FrameProfiler::StartProfileTimer_4FF990(u32 idx)
     switch (idx)
     {
         case 0:
-            m81.field_0_start_time = timeGetTime();
+            m81.field_0_start_time = GetTickCount();
             break;
         case 1:
-            m82.field_0_start_time = timeGetTime();
+            m82.field_0_start_time = GetTickCount();
             break;
         case 2:
-            m84.field_0_start_time = timeGetTime();
+            m84.field_0_start_time = GetTickCount();
             break;
         case 3:
-            m85.field_0_start_time = timeGetTime();
+            m85.field_0_start_time = GetTickCount();
             break;
     }
 }
@@ -198,16 +198,16 @@ void FrameProfiler::StopProfileTimer_4FF9F0(u32 idx)
     switch (idx)
     {
         case 0:
-            m81.field_4_end_time = timeGetTime();
+            m81.field_4_end_time = GetTickCount();
             break;
         case 1:
-            m82.field_4_end_time = timeGetTime();
+            m82.field_4_end_time = GetTickCount();
             break;
         case 2:
-            m84.field_4_end_time = timeGetTime();
+            m84.field_4_end_time = GetTickCount();
             break;
         case 3:
-            m85.field_4_end_time = timeGetTime();
+            m85.field_4_end_time = GetTickCount();
             break;
     }
 }
