@@ -1219,26 +1219,26 @@ MATCH_FUNC(0x55b4f0)
 void CarPhysics::UpdateZPosition_55B4F0(Fix16 dt)
 {
     Fix16 slope_y;
-    Fix16 zCoordTmp;
-    zCoordTmp = gMap_0x370_6F6268->GetRailwayZCoordAtXY_4E6510(this->field_38_cp1.x, this->field_38_cp1.y);
-    if (zCoordTmp == kFP16Zero_6FE20C)
+    Fix16 new_z;
+    new_z = gMap_0x370_6F6268->GetRailwayZCoordAtXY_4E6510(this->field_38_cp1.x, this->field_38_cp1.y);
+    if (new_z == kFP16Zero_6FE20C)
     {
-        zCoordTmp = kFpOne_6FE210;
+        new_z = kFpOne_6FE210;
     }
 
-    if (zCoordTmp >= field_6C_cp3 + kFP16Half_6FE0C0)
+    if (new_z >= field_6C_cp3 + kFP16Half_6FE0C0)
     {
-        zCoordTmp = gMap_0x370_6F6268->GetRailwayZBelowCoord_4E6400(field_38_cp1.x, field_38_cp1.y, zCoordTmp - kFpOne_6FE210);
-        if (zCoordTmp >= field_6C_cp3 + kFpOne_6FE210)
+        new_z = gMap_0x370_6F6268->GetRailwayZBelowCoord_4E6400(field_38_cp1.x, field_38_cp1.y, new_z - kFpOne_6FE210);
+        if (new_z >= field_6C_cp3 + kFpOne_6FE210)
         {
-            zCoordTmp = this->field_6C_cp3;
+            new_z = this->field_6C_cp3;
         }
     }
 
-    if (zCoordTmp <= field_6C_cp3 - kFP16Half_6FE0C0)
+    if (new_z <= field_6C_cp3 - kFP16Half_6FE0C0)
     {
         this->field_68_air_z_vel = ComputeSlopeCorrection_55AB50(&slope_y);
-        zCoordTmp = field_6C_cp3 + field_68_air_z_vel;
+        new_z = field_6C_cp3 + field_68_air_z_vel;
         if (dt != kFP16Zero_6FE20C)
         {
             field_68_air_z_vel /= dt;
@@ -1246,22 +1246,22 @@ void CarPhysics::UpdateZPosition_55B4F0(Fix16 dt)
     }
     else
     {
-        if (zCoordTmp < field_6C_cp3)
+        if (new_z < field_6C_cp3)
         {
             UpdateSpriteFromPhysics_563670();
 
             field_5C_pCar->field_50_car_sprite->set_xyz_lazy_420600(field_5C_pCar->field_50_car_sprite->field_14_xy.x,
                                                                     field_5C_pCar->field_50_car_sprite->field_14_xy.y,
-                                                                    zCoordTmp);
+                                                                    new_z);
 
             if (field_5C_pCar->field_50_car_sprite->CheckSpriteMovementRegion_5A2500())
             {
-                zCoordTmp = this->field_6C_cp3;
+                new_z = this->field_6C_cp3;
             }
         }
     }
 
-    this->field_70_z_vel = zCoordTmp - this->field_6C_cp3;
+    this->field_70_z_vel = new_z - this->field_6C_cp3;
     this->field_6C_cp3 += field_70_z_vel;
     if (dt != kFP16Zero_6FE20C)
     {
@@ -2400,8 +2400,8 @@ Fix16 CarPhysics::ApplyImpactForcesAndDamage_55FA60(Fix16_Point& PointOfForce, F
         {
             if (!field_5C_pCar->IsDrivenByPlayer_4118D0())
             {
-                Fix16 MaybeVelocity = get_car_velocity_4211C0();
-                if (MaybeVelocity <= kFpPoint05_6FE1D4 || field_92_is_hand_brake_on)
+                Fix16 CarSpeed = get_car_velocity_4211C0();
+                if (CarSpeed <= kFpPoint05_6FE1D4 || field_92_is_hand_brake_on)
                 {
                     NewImpulse = (Impulse / kFP16Three_6FE218);
                 }
@@ -2891,8 +2891,8 @@ void CarPhysics::ApplyMovementStep_560F20(Fix16 time_scale)
     if (dt != kFP16Zero_6FE20C)
     {
         // 9.6f: Ang16::Fix16_To_Ang16_40F540, written out so Normalize is inlined on a register
-        Ang16 tmp((s16)((dt * field_74_ang_vel_rad).GetRaw_40F4B0() / 71), (u8)0);
-        this->field_58_theta = Ang16(field_58_theta.rValue + tmp.rValue).Normalized_406C20();
+        Ang16 delta_theta((s16)((dt * field_74_ang_vel_rad).GetRaw_40F4B0() / 71), (u8)0);
+        this->field_58_theta = Ang16(field_58_theta.rValue + delta_theta.rValue).Normalized_406C20();
 
         // 9.6f: Fix16_Point operator+= (0x40F680, inlined)
         this->field_30_cm1 += (field_40_linvel_1 * dt);
