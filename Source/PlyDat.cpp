@@ -375,7 +375,7 @@ void PlyDat::LoadPlySlotDat_56B990(u16 slotIdx)
 {
     char_type FileName[356];
 
-    PlySlot* pTmp = &field_26A0_plyr_stats[slotIdx];
+    PlySlot* pSlot = &field_26A0_plyr_stats[slotIdx];
 
     GetPlySlotDatName_56B8A0(slotIdx, FileName);
     File::Global_Open_4A7060(FileName);
@@ -383,7 +383,7 @@ void PlyDat::LoadPlySlotDat_56B990(u16 slotIdx)
     for (s32 i = 0; i < 9; i++)
     {
         u32 len_read = 2;
-        File::Global_Read_4A71C0(&pTmp->field_90_strPlayerName[i], len_read);
+        File::Global_Read_4A71C0(&pSlot->field_90_strPlayerName[i], len_read);
     }
 
     for (s32 k = 0; k < 3; k++)
