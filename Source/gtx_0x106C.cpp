@@ -366,7 +366,7 @@ void gtx_0x106C::BuildCarInfoContainer_5AA9A0(s32 chunk_size)
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\style.cpp", 821);
     }
 
-    while (total_len < chunk_size)
+    while (total_len < (u32)chunk_size)
     {
         if (idx >= 256)
         {
@@ -455,7 +455,7 @@ void gtx_0x106C::SetDeltaDataPtrs_5AABF0()
     s32 size;
     delta_entry* i = (delta_entry*)field_50_delta_buffer;
 
-    for (u32 offset = 0; offset < field_60_delta_len; offset += size)
+    for (u32 offset = 0; offset < (u32)field_60_delta_len; offset += size)
     {
         for (u32 delta_idx = 0; delta_idx < i->field_2_delta_count; delta_idx++)
         {
@@ -781,7 +781,7 @@ void gtx_0x106C::load_font_base_5AB0F0(u32 fonb_chunk_size)
     File::Global_Read_4A71C0(field_1C_font_base, fonb_chunk_size);
 
     u16 fountCount = field_1C_font_base->field_0_font_count;
-    if (fonb_chunk_size != (fountCount * 2) + 2)
+    if (fonb_chunk_size != (u32)((fountCount * 2) + 2))
     {
         FatalError_4A38C0(Gta2Error::InvalidChunkSize, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1271, fonb_chunk_size);
     }
