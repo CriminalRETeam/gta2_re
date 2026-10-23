@@ -645,7 +645,7 @@ bool PoliceCrew::CanTrackCriminal_572210()
 MATCH_FUNC(0x572340)
 void PoliceCrew::State3_AlertedSearch_572340()
 {
-    u8 bUnk = true;
+    u8 bSpawned = true;
     u8 idx = 0;
     byte_6FEB48 = 1;
 
@@ -687,7 +687,7 @@ void PoliceCrew::State3_AlertedSearch_572340()
     }
     else
     {
-        bUnk = false;
+        bSpawned = false;
         if (field_10_subObj->field_18_spawn_delay == -80)
         {
             field_24_state = police_crew_state::shutdown_6;
@@ -697,7 +697,7 @@ void PoliceCrew::State3_AlertedSearch_572340()
 
     if (field_24_state != police_crew_state::shutdown_6)
     {
-        if (bUnk)
+        if (bSpawned)
         {
             Ped* pPed = field_10_subObj->field_4_ped;
             gCurrentCrewPed_6FEDDC = pPed;
@@ -847,7 +847,7 @@ static inline Fix16 MaxAbsDistance_572920(Fix16& x1, Fix16& y1, Fix16& x2, Fix16
 MATCH_FUNC(0x572920)
 void PoliceCrew::State5_PursueOrChase_572920()
 {
-    u8 bUnk = true;
+    u8 bSpawned = true;
     u8 bChaseOnFoot = false;
     u8 idx = 0;
 
@@ -904,7 +904,7 @@ void PoliceCrew::State5_PursueOrChase_572920()
         }
         else
         {
-            bUnk = false;
+            bSpawned = false;
             if (field_10_subObj->field_18_spawn_delay == -80)
             {
                 field_24_state = police_crew_state::shutdown_6;
@@ -912,7 +912,7 @@ void PoliceCrew::State5_PursueOrChase_572920()
             }
         }
     }
-    if (field_24_state == police_crew_state::shutdown_6 || !bUnk)
+    if (field_24_state == police_crew_state::shutdown_6 || !bSpawned)
     {
         return;
     }
@@ -1456,18 +1456,18 @@ void PoliceCrew::State6_ShutDown_574720()
 MATCH_FUNC(0x574f10)
 void PoliceCrew::State1_Patrol_574F10()
 {
-    Car* pCarUnk;
+    Car* pCrewCar;
 
     byte_6FEB48 = 1;
     u8 idx = 0;
 
-    if (field_10_subObj->field_24_phase == crew_phase::finished_2 || !field_10_subObj->field_24_phase || (pCarUnk = field_10_subObj->field_0_car, pCarUnk->field_76_last_seen_timer > 80))
+    if (field_10_subObj->field_24_phase == crew_phase::finished_2 || !field_10_subObj->field_24_phase || (pCrewCar = field_10_subObj->field_0_car, pCrewCar->field_76_last_seen_timer > 80))
     {
         field_24_state = police_crew_state::shutdown_6;
     }
     else
     {
-        pCarUnk->ClearAIHalted_421550();
+        pCrewCar->ClearAIHalted_421550();
         if (field_10_subObj->field_28_state == crew_state::update_6)
         {
             PoliceCrew::HandleShutdownAndDespawn_5720C0();
@@ -1753,12 +1753,12 @@ void PoliceCrew::Service_575590()
             PedGroup* pGroup = field_10_subObj->field_8_group;
             if (pGroup)
             {
-                Ped* pUnkPed = pGroup->field_4_ped_list[0];
-                if (pUnkPed)
+                Ped* pNewLeader = pGroup->field_4_ped_list[0];
+                if (pNewLeader)
                 {
-                    pGroup->RemovePed_4C9970(pUnkPed);
-                    field_10_subObj->field_8_group->add_ped_leader_4C9B10(pUnkPed);
-                    field_10_subObj->field_4_ped = pUnkPed;
+                    pGroup->RemovePed_4C9970(pNewLeader);
+                    field_10_subObj->field_8_group->add_ped_leader_4C9B10(pNewLeader);
+                    field_10_subObj->field_4_ped = pNewLeader;
                 }
             }
         }
