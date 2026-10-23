@@ -1679,6 +1679,7 @@ void Frontend::read_menu_input_4AFEB0()
 MATCH_FUNC(0x4B6780)
 void Frontend::UpdateMenuScreen_4B6780()
 {
+    // Change background image according to the current page or options
     MenuPage* pMenuPage = &field_136_menu_pages_array[field_132_f136_idx];
     if (field_110_state != FrontendState::Booting_Map_2)
     {
@@ -1832,6 +1833,8 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
     pMenuPage = &field_136_menu_pages_array[field_132_f136_idx];
     pMenuPageSaved = pMenuPage;
     pStats = GetCurrPlayerStats_4B43E0();
+
+    // Set what happens when the user presses ENTER
     if (field_C9D0_return_pressed)
     {
         MenuItem* pOption = &pMenuPage->field_4_options_array[pMenuPage->field_BC6_current_option_idx];
@@ -1946,6 +1949,7 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
         }
     }
 
+    // Set what happens if the user presses ESC
     if (field_C9D1_escape_pressed)
     {
         switch (field_132_f136_idx)
@@ -1973,16 +1977,19 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
         snd1_67D818.field_0_object_type = 6;
     }
 
+    // Move selection UP and emit sound
     if (field_C9CE_up_pressed && pMenuPage->SelectPrevOption_4B61B0())
     {
         snd1_67D818.field_0_object_type = 1;
     }
 
+    // Move selection DOWN and emit sound
     if (field_C9CF_down_pressed && pMenuPage->SelectNextOption_4B6200())
     {
         snd1_67D818.field_0_object_type = 2;
     }
 
+    // Set what happens if the player press the left arrow.
     if (field_C9CC_left_pressed)
     {
         current_option_idx = pMenuPage->field_BC6_current_option_idx;
@@ -2026,7 +2033,7 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
             }
         }
     }
-    else if (field_C9CD_right_pressed)
+    else if (field_C9CD_right_pressed) // Set what happens if the player press the right arrow.
     {
         option_idx = pMenuPage->field_BC6_current_option_idx;
         pOption_next = &pMenuPage->field_4_options_array[option_idx];
@@ -3511,7 +3518,7 @@ void Frontend::SetFontTypes_4AF0E0()
 MATCH_FUNC(0x4B0220)
 void Frontend::SetupMenuStringsOptionsElements_4B0220()
 {
-    // local_4 = (-(ushort)(cVar1 != 'j') & 0xfffc) + 0x10;
+    // Setup all menu pages, options and elements
 
     MenuPage* pPage;
     s32 line_height = gText_0x14_704DFC->field_10_lang_code != 'j' ? 12 : 16;
@@ -4522,6 +4529,7 @@ void Frontend::DrawTextFixedWidth_4B78B0(wchar_t* pString, u16 text_xpos, u16 te
 MATCH_FUNC(0x4B55F0)
 void Frontend::DrawMultiplayerScores_4B55F0()
 {
+    // Draw page containing the match results according to the game mode
     s8 game_mode = gGameSession_67E8E0.GetMultiplayerGamemode_4C5BC0();
     u8 max_players = gGameSession_67E8E0.GetMaxPlayers_4C5BF0();
     u8 user_idx = gGameSession_67E8E0.GetUserPlayerIdx_4C5BE0();
