@@ -273,10 +273,10 @@ void ScriptThread::EndCmd_503670()
 MATCH_FUNC(0x503680)
 void ScriptThread::SCRCMD_OBJ_DECSET_2D_3D_503680(SCR_OBJ_DATA* pCmd, SCR_POINTER* pPointer)
 {
-    if (pCmd->field_C_pos.field_8_z == kFp255_6F7570)
+    if (pCmd->field_C_pos.z == kFp255_6F7570)
     {
-        pCmd->field_C_pos.field_8_z =
-            gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(pCmd->field_C_pos.field_0_x, pCmd->field_C_pos.field_4_y);
+        pCmd->field_C_pos.z =
+            gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(pCmd->field_C_pos.x, pCmd->field_C_pos.y);
     }
 
     if (pCmd->field_18_obj_id < 0xC8u || pCmd->field_18_obj_id > 0xF4u)
@@ -284,9 +284,9 @@ void ScriptThread::SCRCMD_OBJ_DECSET_2D_3D_503680(SCR_OBJ_DATA* pCmd, SCR_POINTE
         Ang16 rotation = kDegreesToAng16_6F8044.MultiplyByFix16_401CB0(Fix16((u16)pCmd->field_1A_rot.rValue));
 
         pPointer->field_8_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(pCmd->field_18_obj_id,
-                                                                        pCmd->field_C_pos.field_0_x,
-                                                                        pCmd->field_C_pos.field_4_y,
-                                                                        pCmd->field_C_pos.field_8_z,
+                                                                        pCmd->field_C_pos.x,
+                                                                        pCmd->field_C_pos.y,
+                                                                        pCmd->field_C_pos.z,
                                                                         rotation);
     }
     else
@@ -294,9 +294,9 @@ void ScriptThread::SCRCMD_OBJ_DECSET_2D_3D_503680(SCR_OBJ_DATA* pCmd, SCR_POINTE
         Ang16 rotation = kDegreesToAng16_6F8044.MultiplyByFix16_401CB0(Fix16((u16)pCmd->field_1A_rot.rValue));
 
         pPointer->field_8_obj = gObject_5C_6F8F84->NewPhysicsObjUnlessBlocked_529BC0(pCmd->field_18_obj_id,
-                                                              pCmd->field_C_pos.field_0_x,
-                                                              pCmd->field_C_pos.field_4_y,
-                                                              pCmd->field_C_pos.field_8_z,
+                                                              pCmd->field_C_pos.x,
+                                                              pCmd->field_C_pos.y,
+                                                              pCmd->field_C_pos.z,
                                                               rotation);
     }
 
@@ -320,10 +320,10 @@ void ScriptThread::SCRCMD_OBJ_DECSET_2D_3D_503680(SCR_OBJ_DATA* pCmd, SCR_POINTE
 MATCH_FUNC(0x5038d0)
 void ScriptThread::SCRCMD_OBJ_DECSET_5038D0(SCR_OBJ_DATA* pCmd, SCR_POINTER* pPointer)
 {
-    if (pCmd->field_C_pos.field_8_z == kFp255_6F7570)
+    if (pCmd->field_C_pos.z == kFp255_6F7570)
     {
-        pCmd->field_C_pos.field_8_z =
-            gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(pCmd->field_C_pos.field_0_x, pCmd->field_C_pos.field_4_y);
+        pCmd->field_C_pos.z =
+            gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(pCmd->field_C_pos.x, pCmd->field_C_pos.y);
     }
 
     if (pCmd->field_18_obj_id < 0xC8u || pCmd->field_18_obj_id > 0xF4u)
@@ -333,9 +333,9 @@ void ScriptThread::SCRCMD_OBJ_DECSET_5038D0(SCR_OBJ_DATA* pCmd, SCR_POINTER* pPo
         rotation.Normalize_406C20();
 
         pPointer->field_8_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(pCmd->field_18_obj_id,
-                                                                        pCmd->field_C_pos.field_0_x,
-                                                                        pCmd->field_C_pos.field_4_y,
-                                                                        pCmd->field_C_pos.field_8_z,
+                                                                        pCmd->field_C_pos.x,
+                                                                        pCmd->field_C_pos.y,
+                                                                        pCmd->field_C_pos.z,
                                                                         rotation);
     }
     else
@@ -345,9 +345,9 @@ void ScriptThread::SCRCMD_OBJ_DECSET_5038D0(SCR_OBJ_DATA* pCmd, SCR_POINTER* pPo
         rotation.Normalize_406C20();
 
         pPointer->field_8_obj = gObject_5C_6F8F84->NewPhysicsObjUnlessBlocked_529BC0(pCmd->field_18_obj_id,
-                                                              pCmd->field_C_pos.field_0_x,
-                                                              pCmd->field_C_pos.field_4_y,
-                                                              pCmd->field_C_pos.field_8_z,
+                                                              pCmd->field_C_pos.x,
+                                                              pCmd->field_C_pos.y,
+                                                              pCmd->field_C_pos.z,
                                                               rotation);
     }
 
@@ -394,18 +394,18 @@ void ScriptThread::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
         }
         else
         {
-            if (pCmd->field_C_pos.field_8_z == kFp255_6F7570) //  kFp255_6F7570 is 255.0
+            if (pCmd->field_C_pos.z == kFp255_6F7570) //  kFp255_6F7570 is 255.0
             {
                 //  Calculate the real Z position at (X,Y) based on the map
-                pCmd->field_C_pos.field_8_z =
-                    gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(pCmd->field_C_pos.field_0_x, pCmd->field_C_pos.field_4_y);
+                pCmd->field_C_pos.z =
+                    gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(pCmd->field_C_pos.x, pCmd->field_C_pos.y);
             }
 
             Ang16 rotation = kDegreesToAng16_6F8044.MultiplyByFix16_401CB0(Fix16((u16)pCmd->field_18_rot.rValue));
 
-            pPed = gPedManager_6787BC->SpawnPedAt(pCmd->field_C_pos.field_0_x,
-                                                  pCmd->field_C_pos.field_4_y,
-                                                  pCmd->field_C_pos.field_8_z,
+            pPed = gPedManager_6787BC->SpawnPedAt(pCmd->field_C_pos.x,
+                                                  pCmd->field_C_pos.y,
+                                                  pCmd->field_C_pos.z,
                                                   pCmd->field_1A_remap,
                                                   rotation);
         }
@@ -431,20 +431,20 @@ void ScriptThread::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
 MATCH_FUNC(0x503bc0)
 void ScriptThread::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER* pPointer)
 {
-    if (pCmd->field_C_pos.field_8_z == kFp255_6F7570) //  255.0
+    if (pCmd->field_C_pos.z == kFp255_6F7570) //  255.0
     {
         Fix16 temp_z;
-        pCmd->field_C_pos.field_8_z =
-            gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(pCmd->field_C_pos.field_0_x, pCmd->field_C_pos.field_4_y);
+        pCmd->field_C_pos.z =
+            gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(pCmd->field_C_pos.x, pCmd->field_C_pos.y);
     }
     if (pCmd->field_1E_trailer_id == -1) //  No trailers
     {
         Ang16 rotation;
         rotation.ConvertAndMultiply(&kDegreesToAng16_6F8044, &pCmd->field_18_rot);
         rotation.Normalize_406C20();
-        pPointer->field_8_car = gCarManager_6C_677930->SpawnCar_426E10(pCmd->field_C_pos.field_0_x,
-                                                                pCmd->field_C_pos.field_4_y,
-                                                                pCmd->field_C_pos.field_8_z,
+        pPointer->field_8_car = gCarManager_6C_677930->SpawnCar_426E10(pCmd->field_C_pos.x,
+                                                                pCmd->field_C_pos.y,
+                                                                pCmd->field_C_pos.z,
                                                                 rotation,
                                                                 pCmd->field_1C_car_id);
     }
@@ -453,9 +453,9 @@ void ScriptThread::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER*
         Ang16 rotation;
         rotation.ConvertAndMultiply(&kDegreesToAng16_6F8044, &pCmd->field_18_rot);
         rotation.Normalize_406C20();
-        pPointer->field_8_car = gCarManager_6C_677930->SpawnCar_4764A0(pCmd->field_C_pos.field_0_x,
-                                                                pCmd->field_C_pos.field_4_y,
-                                                                pCmd->field_C_pos.field_8_z,
+        pPointer->field_8_car = gCarManager_6C_677930->SpawnCar_4764A0(pCmd->field_C_pos.x,
+                                                                pCmd->field_C_pos.y,
+                                                                pCmd->field_C_pos.z,
                                                                 rotation,
                                                                 pCmd->field_1C_car_id);
         if (pPointer->field_8_car != NULL)
@@ -474,9 +474,9 @@ void ScriptThread::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER*
             rotation.ConvertAndMultiply(&kDegreesToAng16_6F8044, &pCmd->field_18_rot);
             rotation.Normalize();
 
-            pPointer->field_8_car = gCarManager_6C_677930->SpawnCar_426E10(pCmd->field_C_pos.field_0_x,
-                                                                    pCmd->field_C_pos.field_4_y,
-                                                                    pCmd->field_C_pos.field_8_z,
+            pPointer->field_8_car = gCarManager_6C_677930->SpawnCar_426E10(pCmd->field_C_pos.x,
+                                                                    pCmd->field_C_pos.y,
+                                                                    pCmd->field_C_pos.z,
                                                                     rotation,
                                                                     pCmd->field_1C_car_id);
             pPointer->field_8_car->field_50_car_sprite->AttachSprite_5A3100(pTrailerCar->field_50_car_sprite,
@@ -491,8 +491,8 @@ void ScriptThread::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER*
             rotation.ConvertAndMultiply(&kDegreesToAng16_6F8044, &pCmd->field_18_rot);
             rotation.Normalize();
 
-            Trailer* pTrailer = gCarManager_6C_677930->SpawnCabAndTrailer_446530(pCmd->field_C_pos.field_0_x,
-                                                                          pCmd->field_C_pos.field_4_y,
+            Trailer* pTrailer = gCarManager_6C_677930->SpawnCabAndTrailer_446530(pCmd->field_C_pos.x,
+                                                                          pCmd->field_C_pos.y,
                                                                           rotation,
                                                                           pCmd->field_1C_car_id,
                                                                           pCmd->field_1E_trailer_id);
@@ -547,18 +547,18 @@ void ScriptThread::SCRCMD_CHAR_DECSET_2D_3D_503FB0(SCR_CHAR_DATA_DEC* pCmd, SCR_
 {
     Ped* pPed;
 
-    if (pCmd->field_C_pos.field_8_z == kFp255_6F7570)
+    if (pCmd->field_C_pos.z == kFp255_6F7570)
     {
         Fix16 temp_z;
-        pCmd->field_C_pos.field_8_z =
-            gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(pCmd->field_C_pos.field_0_x, pCmd->field_C_pos.field_4_y);
+        pCmd->field_C_pos.z =
+            gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(pCmd->field_C_pos.x, pCmd->field_C_pos.y);
     }
 
     Ang16 rotation = kDegreesToAng16_6F8044.MultiplyByFix16_401CB0(Fix16((u16)pCmd->field_18_rot.rValue));
 
-    pPed = gPedManager_6787BC->SpawnPedAt(pCmd->field_C_pos.field_0_x,
-                                          pCmd->field_C_pos.field_4_y,
-                                          pCmd->field_C_pos.field_8_z,
+    pPed = gPedManager_6787BC->SpawnPedAt(pCmd->field_C_pos.x,
+                                          pCmd->field_C_pos.y,
+                                          pCmd->field_C_pos.z,
                                           (u8)pCmd->field_1A_remap,
                                           rotation);
     pPointer->field_8_char = pPed;
@@ -668,16 +668,16 @@ void ScriptThread::SCRCMD_CRANE_5041C0(SCR_CRANE_TARGET_DEC* pTargetCmd, SCR_CRA
 MATCH_FUNC(0x5043a0)
 void ScriptThread::SCRCMD_CONVEYOR_DECSET1_2_5043A0(SCR_CONVEYOR* pCmd, SCR_POINTER* pPointer)
 {
-    if (pCmd->field_C_rect.field_0_pos.field_8_z == kFp255_6F7570)
+    if (pCmd->field_C_rect.field_0_pos.z == kFp255_6F7570)
     {
         Fix16 temp_z;
-        pCmd->field_C_rect.field_0_pos.field_8_z = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(pCmd->field_C_rect.field_0_pos.field_0_x,
-                                                                                                 pCmd->field_C_rect.field_0_pos.field_4_y);
+        pCmd->field_C_rect.field_0_pos.z = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(pCmd->field_C_rect.field_0_pos.x,
+                                                                                                 pCmd->field_C_rect.field_0_pos.y);
     }
     pPointer->field_8_obj = gObject_5C_6F8F84->NewTouchPoint_529950(objects::conveyor_139,
-                                                                    pCmd->field_C_rect.field_0_pos.field_0_x,
-                                                                    pCmd->field_C_rect.field_0_pos.field_4_y,
-                                                                    pCmd->field_C_rect.field_0_pos.field_8_z,
+                                                                    pCmd->field_C_rect.field_0_pos.x,
+                                                                    pCmd->field_C_rect.field_0_pos.y,
+                                                                    pCmd->field_C_rect.field_0_pos.z,
                                                                     kAngZero_6F804C,
                                                                     pCmd->field_C_rect.field_C_size.field_0_x,
                                                                     pCmd->field_C_rect.field_C_size.field_4_y,
@@ -689,18 +689,18 @@ void ScriptThread::SCRCMD_CONVEYOR_DECSET1_2_5043A0(SCR_CONVEYOR* pCmd, SCR_POIN
 MATCH_FUNC(0x504420)
 void ScriptThread::SCRCMD_GENERATOR_DECSET_504420(SCR_GENERATOR* pCmd, SCR_POINTER* pPointer)
 {
-    if (pCmd->field_C_pos.field_8_z == kFp255_6F7570)
+    if (pCmd->field_C_pos.z == kFp255_6F7570)
     {
         Fix16 temp_z;
-        pCmd->field_C_pos.field_8_z =
-            gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(pCmd->field_C_pos.field_0_x, pCmd->field_C_pos.field_4_y);
+        pCmd->field_C_pos.z =
+            gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(pCmd->field_C_pos.x, pCmd->field_C_pos.y);
     }
 
     Ang16 rotation = kDegreesToAng16_6F8044.MultiplyByFix16_401CB0(Fix16((u16)pCmd->field_18_rot.rValue));
 
-    pPointer->field_8_generator = gGeneratorPool_14AC_67E5D0->CreateGenerator_4C1DC0(pCmd->field_C_pos.field_0_x,
-                                                                                     pCmd->field_C_pos.field_4_y,
-                                                                                     pCmd->field_C_pos.field_8_z,
+    pPointer->field_8_generator = gGeneratorPool_14AC_67E5D0->CreateGenerator_4C1DC0(pCmd->field_C_pos.x,
+                                                                                     pCmd->field_C_pos.y,
+                                                                                     pCmd->field_C_pos.z,
                                                                                      rotation,
                                                                                      pCmd->field_1A_obj_id,
                                                                                      pCmd->field_1C_mindelay,
@@ -714,17 +714,17 @@ void ScriptThread::SCRCMD_GENERATOR_DECSET_504420(SCR_GENERATOR* pCmd, SCR_POINT
 MATCH_FUNC(0x504530)
 void ScriptThread::SCRCMD_DESTRUCTOR_DECSET_504530(SCR_DESTRUCTOR* pCmd, SCR_POINTER* pPointer)
 {
-    if (pCmd->field_C_rect.field_0_pos.field_8_z == kFp255_6F7570)
+    if (pCmd->field_C_rect.field_0_pos.z == kFp255_6F7570)
     {
         Fix16 temp_z;
-        pCmd->field_C_rect.field_0_pos.field_8_z = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(pCmd->field_C_rect.field_0_pos.field_0_x,
-                                                                                                 pCmd->field_C_rect.field_0_pos.field_4_y);
+        pCmd->field_C_rect.field_0_pos.z = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(pCmd->field_C_rect.field_0_pos.x,
+                                                                                                 pCmd->field_C_rect.field_0_pos.y);
     }
 
     pPointer->field_8_obj = gObject_5C_6F8F84->NewTouchPoint_529950(objects::destructor_141,
-                                                                    pCmd->field_C_rect.field_0_pos.field_0_x,
-                                                                    pCmd->field_C_rect.field_0_pos.field_4_y,
-                                                                    pCmd->field_C_rect.field_0_pos.field_8_z,
+                                                                    pCmd->field_C_rect.field_0_pos.x,
+                                                                    pCmd->field_C_rect.field_0_pos.y,
+                                                                    pCmd->field_C_rect.field_0_pos.z,
                                                                     kAngZero_6F804C,
                                                                     pCmd->field_C_rect.field_C_size.field_0_x,
                                                                     pCmd->field_C_rect.field_C_size.field_4_y,
@@ -837,14 +837,14 @@ void ScriptThread::SCRCMD_SET_GANG_INFO1_504830(SCR_SET_GANG_INFO* pCmd)
     pZone->SetGangCarModel_4758E0(pCmd->field_1C_car_model);
     pZone->SetGangCarRemap_4758F0(pCmd->field_1E_car_remap);
 
-    if (pCmd->field_10_pos.field_8_z == kFp255_6F7570)
+    if (pCmd->field_10_pos.z == kFp255_6F7570)
     {
         Fix16 temp_z;
-        pCmd->field_10_pos.field_8_z =
-            gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(pCmd->field_10_pos.field_0_x, pCmd->field_10_pos.field_4_y);
+        pCmd->field_10_pos.z =
+            gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(pCmd->field_10_pos.x, pCmd->field_10_pos.y);
     }
 
-    pZone->SetInfoPhonePos_475910(pCmd->field_10_pos.field_0_x, pCmd->field_10_pos.field_4_y, pCmd->field_10_pos.field_8_z);
+    pZone->SetInfoPhonePos_475910(pCmd->field_10_pos.x, pCmd->field_10_pos.y, pCmd->field_10_pos.z);
 
     pZone->SetKillRespectChange_475950(pCmd->field_F_kill_respect_change);
     gGangPool_CA8_67E274->SwapGangSlots_4BF230(pZone, gScriptManager_6F8060->field_354_next_gang_idx);
@@ -885,9 +885,9 @@ void ScriptThread::SCRCMD_DOOR_DECLARE_D1_S1_504970(SCR_DOOR_DATA_DEC* pCmd)
                                                                         pCmd->field_C_block.field_1_y,
                                                                         pCmd->field_C_block.field_2_z,
                                                                         pCmd->field_F_face,
-                                                                        pCmd->field_14_check.field_0_pos.field_0_x,
-                                                                        pCmd->field_14_check.field_0_pos.field_4_y,
-                                                                        pCmd->field_14_check.field_0_pos.field_8_z,
+                                                                        pCmd->field_14_check.field_0_pos.x,
+                                                                        pCmd->field_14_check.field_0_pos.y,
+                                                                        pCmd->field_14_check.field_0_pos.z,
                                                                         pCmd->field_14_check.field_C_size.field_0_x,
                                                                         pCmd->field_14_check.field_C_size.field_4_y,
                                                                         pCmd->field_28_flip,
@@ -913,9 +913,9 @@ void ScriptThread::SCRCMD_DOOR_DECLARE_D1_S1_504970(SCR_DOOR_DATA_DEC* pCmd)
                                                                         pCmd->field_C_block.field_1_y,
                                                                         pCmd->field_C_block.field_2_z,
                                                                         pCmd->field_F_face,
-                                                                        pCmd->field_14_check.field_0_pos.field_0_x,
-                                                                        pCmd->field_14_check.field_0_pos.field_4_y,
-                                                                        pCmd->field_14_check.field_0_pos.field_8_z,
+                                                                        pCmd->field_14_check.field_0_pos.x,
+                                                                        pCmd->field_14_check.field_0_pos.y,
+                                                                        pCmd->field_14_check.field_0_pos.z,
                                                                         pCmd->field_14_check.field_C_size.field_0_x,
                                                                         pCmd->field_14_check.field_C_size.field_4_y,
                                                                         pCmd->field_28_flip,
@@ -1010,9 +1010,9 @@ void ScriptThread::SCRCMD_DOOR_DECLARE_D2_S2_504B80(SCR_DOOR_DATA_DEC* pCmd)
                                                                         pCmd->field_C_block.field_1_y,
                                                                         pCmd->field_C_block.field_2_z,
                                                                         pCmd->field_F_face,
-                                                                        pCmd->field_14_check.field_0_pos.field_0_x,
-                                                                        pCmd->field_14_check.field_0_pos.field_4_y,
-                                                                        pCmd->field_14_check.field_0_pos.field_8_z,
+                                                                        pCmd->field_14_check.field_0_pos.x,
+                                                                        pCmd->field_14_check.field_0_pos.y,
+                                                                        pCmd->field_14_check.field_0_pos.z,
                                                                         pCmd->field_14_check.field_C_size.field_0_x,
                                                                         pCmd->field_14_check.field_C_size.field_4_y,
                                                                         pCmd->field_28_flip,
@@ -1038,9 +1038,9 @@ void ScriptThread::SCRCMD_DOOR_DECLARE_D2_S2_504B80(SCR_DOOR_DATA_DEC* pCmd)
                                                                         pCmd->field_C_block.field_1_y,
                                                                         pCmd->field_C_block.field_2_z,
                                                                         pCmd->field_F_face,
-                                                                        pCmd->field_14_check.field_0_pos.field_0_x,
-                                                                        pCmd->field_14_check.field_0_pos.field_4_y,
-                                                                        pCmd->field_14_check.field_0_pos.field_8_z,
+                                                                        pCmd->field_14_check.field_0_pos.x,
+                                                                        pCmd->field_14_check.field_0_pos.y,
+                                                                        pCmd->field_14_check.field_0_pos.z,
                                                                         pCmd->field_14_check.field_C_size.field_0_x,
                                                                         pCmd->field_14_check.field_C_size.field_4_y,
                                                                         pCmd->field_28_flip,
@@ -1235,17 +1235,17 @@ void ScriptThread::SCRCMD_SOUND_DECSET_505340(SCR_SOUND_DECSET* pCmd, SCR_POINTE
     {
         pPointer->field_8_obj = gObject_5C_6F8F84->NewWithPedRefIdx_5299F0(objects::sound_object_type_1_278,
                                                               pCmd->field_18_sound_id,
-                                                              pCmd->field_C_pos.field_0_x,
-                                                              pCmd->field_C_pos.field_4_y,
-                                                              pCmd->field_C_pos.field_8_z);
+                                                              pCmd->field_C_pos.x,
+                                                              pCmd->field_C_pos.y,
+                                                              pCmd->field_C_pos.z);
     }
     else
     {
         pPointer->field_8_obj = gObject_5C_6F8F84->NewWithPedRefIdx_5299F0(objects::sound_object_type_2_279,
                                                               pCmd->field_18_sound_id,
-                                                              pCmd->field_C_pos.field_0_x,
-                                                              pCmd->field_C_pos.field_4_y,
-                                                              pCmd->field_C_pos.field_8_z);
+                                                              pCmd->field_C_pos.x,
+                                                              pCmd->field_C_pos.y,
+                                                              pCmd->field_C_pos.z);
     }
 }
 
@@ -2247,7 +2247,7 @@ void ScriptThread::SCRCMD_POINT_ARROW_3D_508550() //  SCRCMD_POINT_ARROW_3D and 
         pPointer->field_8_arrow = gHud_2B00_706620->field_1F18_arrows.AllocArrow_5D1050();
     }
 
-    pPointer->field_8_arrow->SetArrowAim_476840(pCmd->field_8_pos.field_0_x, pCmd->field_8_pos.field_4_y, pCmd->field_8_pos.field_8_z);
+    pPointer->field_8_arrow->SetArrowAim_476840(pCmd->field_8_pos.x, pCmd->field_8_pos.y, pCmd->field_8_pos.z);
 
     if (gBasePtr_6F8070->field_2_type == SCRCMD_LEVEL_END_ARROW2)
     {
@@ -2303,9 +2303,9 @@ void ScriptThread::SCRCMD_POINT_ARROW_AT_5086F0()
             break;
 
         case 5: // conveyor
-            pArrowPtr->field_8_arrow->SetArrowAim_476840(((SCR_CONVEYOR*)pEntityPtr)->field_C_rect.field_0_pos.field_0_x,
-                                                         ((SCR_CONVEYOR*)pEntityPtr)->field_C_rect.field_0_pos.field_4_y,
-                                                         ((SCR_CONVEYOR*)pEntityPtr)->field_C_rect.field_0_pos.field_8_z);
+            pArrowPtr->field_8_arrow->SetArrowAim_476840(((SCR_CONVEYOR*)pEntityPtr)->field_C_rect.field_0_pos.x,
+                                                         ((SCR_CONVEYOR*)pEntityPtr)->field_C_rect.field_0_pos.y,
+                                                         ((SCR_CONVEYOR*)pEntityPtr)->field_C_rect.field_0_pos.z);
             break;
 
         default:
@@ -2652,11 +2652,11 @@ void ScriptThread::SCRCMD_IS_CAR_IN_BLOCK_509990()
 {
     SCR_IS_CAR_IN_BLOCK* pCmd = (SCR_IS_CAR_IN_BLOCK*)gBasePtr_6F8070;
     SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
-    if (pCmd->field_C_pos.field_8_z == kFp255_6F7570)
+    if (pCmd->field_C_pos.z == kFp255_6F7570)
     {
         Fix16 temp_z;
-        pCmd->field_C_pos.field_8_z =
-            gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(pCmd->field_C_pos.field_0_x, pCmd->field_C_pos.field_4_y);
+        pCmd->field_C_pos.z =
+            gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(pCmd->field_C_pos.x, pCmd->field_C_pos.y);
     }
 
     Car* pCar = pPointer->field_8_car;
@@ -2680,13 +2680,13 @@ void ScriptThread::SCRCMD_CAR_IN_AREA_509A70()
 
     Fix16 height = pCmd->field_C_rect.field_C_size.field_4_y;
     Fix16 width = pCmd->field_C_rect.field_C_size.field_0_x;
-    Fix16 top = pCmd->field_C_rect.field_0_pos.field_4_y - height / kFpTwo_6F77C8;
-    Fix16 left = pCmd->field_C_rect.field_0_pos.field_0_x - width / kFpTwo_6F77C8;
+    Fix16 top = pCmd->field_C_rect.field_0_pos.y - height / kFpTwo_6F77C8;
+    Fix16 left = pCmd->field_C_rect.field_0_pos.x - width / kFpTwo_6F77C8;
 
     gScriptManager_6F8060->field_2F8_area_rect.SetFromPosSize_463710(left, top, width, height);
 
-    Fix16 hz = kFpHalf_6F75F0 + pCmd->field_C_rect.field_0_pos.field_8_z;
-    Fix16 lz = pCmd->field_C_rect.field_0_pos.field_8_z - kFpHalf_6F75F0;
+    Fix16 hz = kFpHalf_6F75F0 + pCmd->field_C_rect.field_0_pos.z;
+    Fix16 lz = pCmd->field_C_rect.field_0_pos.z - kFpHalf_6F75F0;
     gScriptManager_6F8060->field_2F8_area_rect.SetHiLowZ_41E370(lz, hz);
 
     if (pPointer->field_8_car != NULL && pPointer->field_8_car->field_88_despawn_status != car_despawn_status::despawned_6 &&
@@ -2858,33 +2858,33 @@ void ScriptThread::SCRCMD_EXPLODE_509ED0()
     switch (gBasePtr_6F8070->field_2_type)
     {
         case SCRCMD_EXPLODE_NO_RING2:
-            gObject_5C_6F8F84->CreateExplosion_52A3D0(pCmd->field_8_pos.field_0_x,
-                                                      pCmd->field_8_pos.field_4_y,
-                                                      pCmd->field_8_pos.field_8_z,
+            gObject_5C_6F8F84->CreateExplosion_52A3D0(pCmd->field_8_pos.x,
+                                                      pCmd->field_8_pos.y,
+                                                      pCmd->field_8_pos.z,
                                                       kAngZero_6F804C,
                                                       explosion_type::no_ring_32,
                                                       0);
             break;
         case SCRCMD_EXPLODE_SMALL2:
-            gObject_5C_6F8F84->CreateExplosion_52A3D0(pCmd->field_8_pos.field_0_x,
-                                                      pCmd->field_8_pos.field_4_y,
-                                                      pCmd->field_8_pos.field_8_z,
+            gObject_5C_6F8F84->CreateExplosion_52A3D0(pCmd->field_8_pos.x,
+                                                      pCmd->field_8_pos.y,
+                                                      pCmd->field_8_pos.z,
                                                       kAngZero_6F804C,
                                                       explosion_type::small_18,
                                                       0);
             break;
         case SCRCMD_EXPLODE:
-            gObject_5C_6F8F84->CreateExplosion_52A3D0(pCmd->field_8_pos.field_0_x,
-                                                      pCmd->field_8_pos.field_4_y,
-                                                      pCmd->field_8_pos.field_8_z,
+            gObject_5C_6F8F84->CreateExplosion_52A3D0(pCmd->field_8_pos.x,
+                                                      pCmd->field_8_pos.y,
+                                                      pCmd->field_8_pos.z,
                                                       kAngZero_6F804C,
                                                       explosion_type::item_19,
                                                       0);
             break;
         case SCRCMD_EXPLODE_LARGE2:
-            gObject_5C_6F8F84->CreateExplosion_52A3D0(pCmd->field_8_pos.field_0_x,
-                                                      pCmd->field_8_pos.field_4_y,
-                                                      pCmd->field_8_pos.field_8_z,
+            gObject_5C_6F8F84->CreateExplosion_52A3D0(pCmd->field_8_pos.x,
+                                                      pCmd->field_8_pos.y,
+                                                      pCmd->field_8_pos.z,
                                                       kAngZero_6F804C,
                                                       explosion_type::large_20,
                                                       0);
@@ -2900,33 +2900,33 @@ void ScriptThread::SCRCMD_EXPLODE_BUILDING_509F60()
     switch (pCmd->field_14_face)
     {
         case 1:
-            gObject_5C_6F8F84->CreateExplosion_52A3D0(pCmd->field_8_pos.field_0_x,
-                                                      pCmd->field_8_pos.field_4_y,
-                                                      pCmd->field_8_pos.field_8_z,
+            gObject_5C_6F8F84->CreateExplosion_52A3D0(pCmd->field_8_pos.x,
+                                                      pCmd->field_8_pos.y,
+                                                      pCmd->field_8_pos.z,
                                                       kAngZero_6F804C,
                                                       explosion_type::building_225_23,
                                                       0);
             break;
         case 2:
-            gObject_5C_6F8F84->CreateExplosion_52A3D0(pCmd->field_8_pos.field_0_x,
-                                                      pCmd->field_8_pos.field_4_y,
-                                                      pCmd->field_8_pos.field_8_z,
+            gObject_5C_6F8F84->CreateExplosion_52A3D0(pCmd->field_8_pos.x,
+                                                      pCmd->field_8_pos.y,
+                                                      pCmd->field_8_pos.z,
                                                       kAngZero_6F804C,
                                                       explosion_type::building_45_22,
                                                       0);
             break;
         case 3:
-            gObject_5C_6F8F84->CreateExplosion_52A3D0(pCmd->field_8_pos.field_0_x,
-                                                      pCmd->field_8_pos.field_4_y,
-                                                      pCmd->field_8_pos.field_8_z,
+            gObject_5C_6F8F84->CreateExplosion_52A3D0(pCmd->field_8_pos.x,
+                                                      pCmd->field_8_pos.y,
+                                                      pCmd->field_8_pos.z,
                                                       kAngZero_6F804C,
                                                       explosion_type::building_135_24,
                                                       0);
             break;
         case 4:
-            gObject_5C_6F8F84->CreateExplosion_52A3D0(pCmd->field_8_pos.field_0_x,
-                                                      pCmd->field_8_pos.field_4_y,
-                                                      pCmd->field_8_pos.field_8_z,
+            gObject_5C_6F8F84->CreateExplosion_52A3D0(pCmd->field_8_pos.x,
+                                                      pCmd->field_8_pos.y,
+                                                      pCmd->field_8_pos.z,
                                                       kAngZero_6F804C,
                                                       explosion_type::building_315_25,
                                                       0);
@@ -2954,9 +2954,9 @@ void ScriptThread::Locate_509FD0()
         Fix16 height = pCmd->field_C_rect.field_C_size.field_4_y / kFpTwo_6F77C8;
         field_8_cond_result = false;
 
-        if (pedX >= pCmd->field_C_rect.field_0_pos.field_0_x - width && pedX <= pCmd->field_C_rect.field_0_pos.field_0_x + width &&
-            pedY >= pCmd->field_C_rect.field_0_pos.field_4_y - height && pedY <= pCmd->field_C_rect.field_0_pos.field_4_y + height &&
-            pedZ.ToUInt8() == pCmd->field_C_rect.field_0_pos.field_8_z.ToUInt8())
+        if (pedX >= pCmd->field_C_rect.field_0_pos.x - width && pedX <= pCmd->field_C_rect.field_0_pos.x + width &&
+            pedY >= pCmd->field_C_rect.field_0_pos.y - height && pedY <= pCmd->field_C_rect.field_0_pos.y + height &&
+            pedZ.ToUInt8() == pCmd->field_C_rect.field_0_pos.z.ToUInt8())
         {
             switch (gBasePtr_6F8070->field_2_type)
             {
@@ -3089,9 +3089,9 @@ void ScriptThread::SCRCMD_SET_CHAR_OBJ3_50A3E0()
 
     if (pPointer->field_8_char)
     {
-        (pPointer->field_8_char)->field_1DC_objective_target_x = pCmd->field_C_pos.field_0_x.mValue; //  TODO: May be Fix16 in the original
-        (pPointer->field_8_char)->field_1E0_objective_target_y = pCmd->field_C_pos.field_4_y.mValue;
-        (pPointer->field_8_char)->field_1E4_objective_target_z = pCmd->field_C_pos.field_8_z.mValue;
+        (pPointer->field_8_char)->field_1DC_objective_target_x = pCmd->field_C_pos.x.mValue; //  TODO: May be Fix16 in the original
+        (pPointer->field_8_char)->field_1E0_objective_target_y = pCmd->field_C_pos.y.mValue;
+        (pPointer->field_8_char)->field_1E4_objective_target_z = pCmd->field_C_pos.z.mValue;
 
         (pPointer->field_8_char)->field_21C_bf.bScheduledForRemoval = false; // TODO: Maybe BitSet32
     }
@@ -3574,9 +3574,9 @@ void ScriptThread::SCRCMD_ADD_PATROL_POINT_50B0E0()
         {
             pPed->SetObjective(objectives_enum::patrol_on_foot_42);
         }
-        pPointer->field_8_char->PushPatrolPoint_4702A0(pCmd->field_C_pos.field_0_x.ToInt(),
-                                                       pCmd->field_C_pos.field_4_y.ToInt(),
-                                                       pCmd->field_C_pos.field_8_z.ToInt());
+        pPointer->field_8_char->PushPatrolPoint_4702A0(pCmd->field_C_pos.x.ToInt(),
+                                                       pCmd->field_C_pos.y.ToInt(),
+                                                       pCmd->field_C_pos.z.ToInt());
     }
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }
@@ -3990,9 +3990,9 @@ void ScriptThread::SCRCMD_SEND_CAR_TO_BLOCK_50BB80()
 {
     SCR_CAR_DATA_DEC* pCmd = (SCR_CAR_DATA_DEC*)gBasePtr_6F8070;
     SCR_POINTER* pScrPtr = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_car_idx);
-    pScrPtr->field_8_car->GotoBlock_441080(pCmd->field_C_pos.field_0_x.ToUInt8(),
-                                           pCmd->field_C_pos.field_4_y.ToUInt8(),
-                                           pCmd->field_C_pos.field_8_z.ToUInt8(),
+    pScrPtr->field_8_car->GotoBlock_441080(pCmd->field_C_pos.x.ToUInt8(),
+                                           pCmd->field_C_pos.y.ToUInt8(),
+                                           pCmd->field_C_pos.z.ToUInt8(),
                                            1);
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }
@@ -5091,10 +5091,10 @@ void ScriptThread::SCRCMD_DO_SAVE_GAME_50D3C0()
         SCR_DO_SAVE_GAME* pCmd = (SCR_DO_SAVE_GAME*)gBasePtr_6F8070;
 
         // This doesn't look right, but it matches. Might be a missing parens bug in the OG game?
-        if (pPlayerPed->get_cam_x() < pCmd->field_C_rect.field_0_pos.field_0_x - pCmd->field_C_rect.field_C_size.field_0_x ||
-            pPlayerPed->get_cam_x() > pCmd->field_C_rect.field_0_pos.field_0_x + pCmd->field_C_rect.field_C_size.field_0_x &&
-                pPlayerPed->get_cam_y() < pCmd->field_C_rect.field_0_pos.field_4_y - pCmd->field_C_rect.field_C_size.field_4_y ||
-            pPlayerPed->get_cam_y() > pCmd->field_C_rect.field_0_pos.field_4_y + pCmd->field_C_rect.field_C_size.field_4_y)
+        if (pPlayerPed->get_cam_x() < pCmd->field_C_rect.field_0_pos.x - pCmd->field_C_rect.field_C_size.field_0_x ||
+            pPlayerPed->get_cam_x() > pCmd->field_C_rect.field_0_pos.x + pCmd->field_C_rect.field_C_size.field_0_x &&
+                pPlayerPed->get_cam_y() < pCmd->field_C_rect.field_0_pos.y - pCmd->field_C_rect.field_C_size.field_4_y ||
+            pPlayerPed->get_cam_y() > pCmd->field_C_rect.field_0_pos.y + pCmd->field_C_rect.field_C_size.field_4_y)
         {
             ScriptThread::EnableThread_50A9E0(pCmd->field_8_triggername);
             ScriptThread::Next_503620(gBasePtr_6F8070);
@@ -6117,7 +6117,7 @@ void ScriptThread::SCRCMD_WARP_CHAR_50F270() // WARP_FROM_CAR_TO_POINT
 
     if (pPed != NULL)
     {
-        pPed->StartPedWalking_470200(pCmd->field_C_pos.field_0_x, pCmd->field_C_pos.field_4_y, pCmd->field_C_pos.field_8_z);
+        pPed->StartPedWalking_470200(pCmd->field_C_pos.x, pCmd->field_C_pos.y, pCmd->field_C_pos.z);
 
         Ang16 rotation = kDegreesToAng16_6F8044 * pCmd->field_A_rotation;
         rotation.Normalize();
@@ -6517,11 +6517,11 @@ void ScriptThread::GroupInArea_50FC60()
         for (u16 i = 0; i < pGroup->field_34_count; i++)
         {
             Fix16 charX = pMember->field_1AC_cam.x;
-            Fix16 centerX = pCmd->field_C_rect.field_0_pos.field_0_x;
+            Fix16 centerX = pCmd->field_C_rect.field_0_pos.x;
             Fix16 centerY, charY;
 
             if (charX >= centerX - halfwidth && charX <= centerX + halfwidth &&
-                (centerY = pCmd->field_C_rect.field_0_pos.field_4_y, charY = pMember->field_1AC_cam.y, charY >= centerY - halfheight) &&
+                (centerY = pCmd->field_C_rect.field_0_pos.y, charY = pMember->field_1AC_cam.y, charY >= centerY - halfheight) &&
                 charY <= centerY + halfheight)
             {
                 field_8_cond_result = true;
@@ -6538,11 +6538,11 @@ void ScriptThread::GroupInArea_50FC60()
 
     Ped* pLeader = pGroup->field_2C_ped_leader;
     Fix16 leaderX = pLeader->field_1AC_cam.x;
-    Fix16 centerX = pCmd->field_C_rect.field_0_pos.field_0_x;
+    Fix16 centerX = pCmd->field_C_rect.field_0_pos.x;
     Fix16 centerY, leaderY;
 
     if (leaderX >= centerX - halfwidth && leaderX <= centerX + halfwidth &&
-        (centerY = pCmd->field_C_rect.field_0_pos.field_4_y, leaderY = pLeader->field_1AC_cam.y, leaderY >= centerY - halfheight) &&
+        (centerY = pCmd->field_C_rect.field_0_pos.y, leaderY = pLeader->field_1AC_cam.y, leaderY >= centerY - halfheight) &&
         leaderY <= centerY + halfheight)
     {
         field_8_cond_result = true;

@@ -3,7 +3,7 @@
 #include "particle_flags.hpp"
 #include "Function.hpp"
 #include "ang16.hpp"
-#include "Fix16_Point.hpp"
+#include "Fix16_Vec.hpp"
 
 class Sprite;
 class Explosion;

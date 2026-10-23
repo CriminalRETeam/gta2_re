@@ -125,6 +125,7 @@ set(gta2_lib_src
   Source/Fix16_Rect.cpp
   Source/Fix16_Point.hpp
   Source/Fix16_Point.cpp
+  Source/Fix16_Vec.hpp
   Source/Ped_List.hpp
   Source/Ped_List.cpp
   Source/PlayerCrimeStats.hpp
