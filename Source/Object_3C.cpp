@@ -24,13 +24,13 @@ void Object_3C::GetMovementSpeedAndAngle_521FD0(Fix16& Speed, Ang16& Angle)
     s8 x_related;
     s8 y_related;
     Fix16_Point point;
-    Fix16_Point unk;
+    Fix16_Point conveyor_vel;
     if (field_38_conveyor_speed)
     {
         UnpackSignedNibbles_529050(field_38_conveyor_speed, &x_related, &y_related);
-        unk.x = kFpOne64th_6F8ECC * x_related;
-        unk.y = kFpOne64th_6F8ECC * y_related;
-        point = unk + GetSpeedVector_482BA0();
+        conveyor_vel.x = kFpOne64th_6F8ECC * x_related;
+        conveyor_vel.y = kFpOne64th_6F8ECC * y_related;
+        point = conveyor_vel + GetSpeedVector_482BA0();
 
         Speed = point.GetLength_41E260();
         Angle = point.atan2_40F790();
