@@ -4354,10 +4354,10 @@ void Map_0x370::ChangeBlock_4E8620(s32 x, s32 y, s32 z, s32 info_type_to_set, u1
             gBlockInfo0_6F5EB0->field_8_lid = info_value;
             break;
         case 6:
-            gBlockInfo0_6F5EB0->field_B_slope_type = info_value;
+            gBlockInfo0_6F5EB0->field_B_slope_type = (u8)info_value;
             break;
         case 7:
-            gBlockInfo0_6F5EB0->field_A_arrows = info_value;
+            gBlockInfo0_6F5EB0->field_A_arrows = (u8)info_value;
             break;
         default:
             return;
@@ -4510,7 +4510,7 @@ void Map_0x370::do_process_loaded_zone_data_4E8E30()
 
         if (!done)
         {
-            field_330_pZoneArray[zoneIdx] = ++zone_count;
+            field_330_pZoneArray[zoneIdx] = (u8)++zone_count;
         }
     }
 
