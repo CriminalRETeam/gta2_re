@@ -492,6 +492,11 @@ A zero-extended `u16` shows it as `mov %ecx, g; and $0xFFFF,%ecx` (definition in
 original's `xor %ecx,%ecx; mov g,%cx` (`gCdCheckFileCount_6252E0`, defined in `file.cpp` for the
 `CheckCdFile_4B80F0` copies in `Frontend.cpp`).
 
+**A masked `!=` compiles to the xor the decompiler shows.** VC6 emits `xor; test $mask` for
+`(a & mask) != (b & mask)`, so IDA's `((a ^ b) & mask) != 0` can be written as the comparison. Keep any
+byte casts the xor form had: `CanCarCollideWithSprite_43AAF0` matches with `((u8)a & m) != ((u8)b & m)` and
+gets other registers without them (`save_replay_inputs_4CED00` needed no cast).
+
 **`cmp $0xFFFF,%di` with a 16-bit immediate means a `u16` compared with `0xFFFF`.** `s16 x; x != -1`
 encodes the constant as a sign-extended byte (`66 83 ff ff`, 4 bytes); `u16 x; x != 0xFFFF` uses the
 full imm16 (`66 81 ff ff ff`, 5 bytes). Both disassemble to the same text, so the only visible symptom
