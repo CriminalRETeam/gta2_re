@@ -3667,9 +3667,9 @@ void Ped::UpdateFacingAngle_461A60()
                         // conversion written out and the subtraction split to inline like the original
                         jitter.rValue = (kFpOne64th_6784C4 * Fix16(gRng_6F6784.get_int_4F7AE0(45))).GetRaw_40F4B0() / 71;
                         jitter.Normalize();
-                        Ang16 tmp = field_130_target_facing_angle - kAng90_6784B0;
-                        tmp = tmp - jitter;
-                        this->field_168_game_object->field_74_repulsion_rotation = tmp;
+                        Ang16 repulsion_angle = field_130_target_facing_angle - kAng90_6784B0;
+                        repulsion_angle = repulsion_angle - jitter;
+                        this->field_168_game_object->field_74_repulsion_rotation = repulsion_angle;
                     }
                 }
                 else if (GetPedVelocity_45C920() < kFpZero_678660)
@@ -4208,16 +4208,16 @@ bool Ped::StateMachineTick_4626B0()
             this->field_212_electrocution_threshold = 100;
             if (this->field_168_game_object)
             {
-                u16 f20E = ++this->field_20E_offscreen_counter;
+                u16 offscreen_counter = ++this->field_20E_offscreen_counter;
                 if (this->field_278_ped_state_1 == ped_state_1::flee_or_running_1)
                 {
-                    if (f20E == 200)
+                    if (offscreen_counter == 200)
                     {
                         Ped::Deallocate_45EB60();
                         return 0;
                     }
                 }
-                else if (f20E >= gPedOffscreenDespawnTime_678656)
+                else if (offscreen_counter >= gPedOffscreenDespawnTime_678656)
                 {
                     Ped::Deallocate_45EB60();
                     return 0;
@@ -5097,7 +5097,7 @@ void Ped::ProcessMainObjective_463AA0()
 MATCH_FUNC(0x463fb0)
 void Ped::ProcessInternalObjective_463FB0()
 {
-    Ang16 UnkAng(0);
+    Ang16 door_angle(0);
 
     if (field_226_internal_objective_status == 2)
     {
@@ -5156,7 +5156,7 @@ void Ped::ProcessInternalObjective_463FB0()
                                               field_24C_target_car_door,
                                               this->field_1C4_move_target_x,
                                               this->field_1C8_move_target_y,
-                                              UnkAng);
+                                              door_angle);
                 this->field_1CC_move_target_z = this->field_154_target_to_enter->field_50_car_sprite->field_1C_zpos;
             }
             else
@@ -7960,17 +7960,17 @@ void Ped::GotoAreaOnFoot_468DE0()
 MATCH_FUNC(0x468e80)
 void Ped::UpdateFollowPedObjective_468E80()
 {
-    u8 bUnknown1 = 0;
+    u8 bTargetDead = 0;
     u8 bUnknown2 = 1;
 
     Ped* objective_target_ped = this->field_148_objective_target_ped;
     if (objective_target_ped->GetPedState_403990() == ped_state_1::dead_9 &&
         objective_target_ped->get_objective_403A80() != objectives_enum::objective_28)
     {
-        bUnknown1 = 1;
+        bTargetDead = 1;
     }
 
-    if (!objective_target_ped->IsActive_433B40() || bUnknown1)
+    if (!objective_target_ped->IsActive_433B40() || bTargetDead)
     {
         this->field_225_objective_status = objective_status::failed_2;
     }
@@ -9127,7 +9127,7 @@ void Ped::CheckFollowTargetPedStillValid_46AB50()
 MATCH_FUNC(0x46ac20)
 void Ped::FollowTargetStateMachine_46AC20()
 {
-    bool bUnknown = false;
+    bool bTargetOrLeaderMoving = false;
     if (field_14C_internal_target_ped->isDead_403B60() || !field_14C_internal_target_ped->IsActive_433B40())
     {
         field_226_internal_objective_status = 0;
@@ -9138,12 +9138,12 @@ void Ped::FollowTargetStateMachine_46AC20()
     {
         if (field_14C_internal_target_ped->field_168_game_object->GetCharState_433A80() == Char_B4_state::Jumping_15)
         {
-            bUnknown = true;
+            bTargetOrLeaderMoving = true;
         }
     }
     if (field_14C_internal_target_ped->GetPedVelocity_45C920() != kFpZero_678660)
     {
-        bUnknown = true;
+        bTargetOrLeaderMoving = true;
     }
     if (field_164_ped_group)
     {
@@ -9151,12 +9151,12 @@ void Ped::FollowTargetStateMachine_46AC20()
         {
             if (field_164_ped_group->field_2C_ped_leader->GetPedVelocity_45C920() != kFpZero_678660)
             {
-                bUnknown = true;
+                bTargetOrLeaderMoving = true;
             }
         }
     }
 
-    if (field_14C_internal_target_ped->field_25C_internal_objective == objectives_enum::objective_18 || bUnknown)
+    if (field_14C_internal_target_ped->field_25C_internal_objective == objectives_enum::objective_18 || bTargetOrLeaderMoving)
     {
         field_224_bf.bWaitingOnTarget = false;
     }
@@ -9889,7 +9889,7 @@ void Ped::EnterCarStateMachine_46BDC0()
 MATCH_FUNC(0x46c250)
 void Ped::ExitCarStateMachine_46C250()
 {
-    bool bUnknown = 0;
+    bool bDoorFound = 0;
     // Shared by both door paths; the z temporaries are block scoped (this gives the frame layout)
     Fix16 char_x;
     Fix16 char_y;
@@ -9963,7 +9963,7 @@ void Ped::ExitCarStateMachine_46C250()
         {
             if (FindUsableCarDoor_467090())
             {
-                bUnknown = 1;
+                bDoorFound = 1;
                 Car_Door* pDoor = field_154_target_to_enter->GetDoor(field_24C_target_car_door);
                 if (!pDoor->get_pObj_4341B0() || this->field_25C_internal_objective == objectives_enum::leave_train_38)
                 {
@@ -10032,7 +10032,7 @@ void Ped::ExitCarStateMachine_46C250()
             field_168_game_object->field_6C_animation_state = 2;
             this->field_168_game_object->field_68_animation_frame = 0;
         }
-        else if (!FindUsableCarDoor_467090() && !bUnknown)
+        else if (!FindUsableCarDoor_467090() && !bDoorFound)
         {
             DoJump_433C40();
         }
