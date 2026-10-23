@@ -226,11 +226,11 @@ SpriteMask* SpriteMaskCache::FindCachedMask_48F600(u16& sprite_idx, u32* pFlag, 
         s32 sprite_idx_copy = sprite_idx;
         if (pIter->field_4_sprite_idx == sprite_idx_copy && pIter->field_12_palette == *pExtra)
         {
-            if ((u32)pIter->field_8_delta_mask == *pDeltaMask)
+            if (static_cast<u32>(pIter->field_8_delta_mask) == *pDeltaMask)
             {
                 return pIter;
             }
-            if ((u32)pIter->field_8_delta_mask < *pDeltaMask && (pIter->field_8_delta_mask | (*pDeltaMask - pIter->field_8_delta_mask)) == *pDeltaMask)
+            if (static_cast<u32>(pIter->field_8_delta_mask) < *pDeltaMask && (pIter->field_8_delta_mask | (*pDeltaMask - pIter->field_8_delta_mask)) == *pDeltaMask)
             {
                 pSprt = pIter;
             }
@@ -260,7 +260,7 @@ SpriteMask* SpriteMaskCache::FindLeastRecentlyUsed_48F690(u32* pKey)
     s32 count = start_idx;
     for (SpriteMask* pIter = &field_0_masks[start_idx]; count < final_idx; count++, ++pIter)
     {
-        if ((u32)pIter->field_C_last_used < min_value)
+        if (static_cast<u32>(pIter->field_C_last_used) < min_value)
         {
             min_value = pIter->field_C_last_used;
             pSprt = pIter;
@@ -393,7 +393,7 @@ s16 DamageAreaFlags::Delta_48F8B0(u16& sprite_idx, u8& bRet, const u16& palette,
     SpriteMask* pSprt14 = gSpriteMaskCache_67AF1C->FindCachedMask_48F600(sprite_idx, &bUnk, &m_var, &palette);
     if (pSprt14)
     {
-        if ((u32)pSprt14->field_8_delta_mask < m_var)
+        if (static_cast<u32>(pSprt14->field_8_delta_mask) < m_var)
         {
             bRet = 1;
             u32 sub = m_var - pSprt14->field_8_delta_mask;
