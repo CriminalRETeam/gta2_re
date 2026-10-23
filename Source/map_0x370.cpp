@@ -721,7 +721,7 @@ MATCH_FUNC(0x4DFB90)
 void Map_0x370::SpawnMapObjects_4DFB90()
 {
     gmp_map_object* pMapObjects = field_338_pMapObjects;
-    for (u32 i = 0; i < this->field_344_map_object_count; i++, ++pMapObjects)
+    for (u32 i = 0; i < (u32)this->field_344_map_object_count; i++, ++pMapObjects)
     {
         Fix16 x_pos = Fix16::ctor_462ED0(pMapObjects->field_0_x);
         Fix16 y_pos = Fix16::ctor_462ED0(pMapObjects->field_2_y);
@@ -758,7 +758,7 @@ void Map_0x370::UpdateLights_4DFCD0()
 
     gmp_map_light* pMapLight = &field_33C_pLightData[0];
 
-    for (u32 light_idx = 0; light_idx < field_348_num_lights; light_idx++, ++pMapLight)
+    for (u32 light_idx = 0; light_idx < (u32)field_348_num_lights; light_idx++, ++pMapLight)
     {
         Fix16 xpos = Fix16::ctor_462ED0(pMapLight->field_4_x);
         Fix16 ypos = Fix16::ctor_462ED0(pMapLight->field_6_y);
@@ -4098,7 +4098,7 @@ MATCH_FUNC(0x4E80A0)
 void gmp_compressed_map_32::ApplyDmapInfos_4E80A0(DmapInfoList* pMapSub)
 {
     u32 j = 0;
-    for (u32 i = 0; i < pMapSub->field_320_max_idx; i++, j++)
+    for (u32 i = 0; i < (u32)pMapSub->field_320_max_idx; i++, j++)
     {
         u32 x = pMapSub->field_0_dmap_infos[j].field_4_x;
         u32 y = pMapSub->field_0_dmap_infos[j].field_5_y;
@@ -4137,7 +4137,7 @@ s32 Map_0x370::AddBlock_4E8140(gmp_block_info* pBlockInfo)
 MATCH_FUNC(0x4E8180)
 s32 Map_0x370::CloneOriginalBlock_4E8180(u32 read_block_idx)
 {
-    if (read_block_idx < this->field_34C_num_blocks)
+    if (read_block_idx < (u32)this->field_34C_num_blocks)
     {
         s32 old_num_blocks = this->field_354_num_blocks;
         this->field_354_num_blocks = old_num_blocks + 1;
@@ -4152,7 +4152,7 @@ s32 Map_0x370::CloneOriginalColumn_4E81D0(u32 column_idx)
 {
     s32 idx = column_idx;
 
-    if (column_idx < field_358_column_words)
+    if (column_idx < (u32)field_358_column_words)
     {
         gmp_col_info* pColumn = (gmp_col_info*)&field_0_pDmap->field_40008_pColumn[column_idx];
         s32 len = pColumn->field_0_height - pColumn->field_1_offset + 1;
@@ -4223,7 +4223,7 @@ s32 Map_0x370::CloneColumnWithoutBlock_4E8370(u32 column_idx, s32 z, char_type b
         return -1;
     }
 
-    if (column_idx < field_358_column_words)
+    if (column_idx < (u32)field_358_column_words)
     {
         // new_idx/pNew are computed once before the bDropAbove test (that gives the original's load order ahead of
         // `mov bDropAbove,%al; test`); the bDropAbove arms each update field_360 and join at one return (see below).
@@ -4373,7 +4373,7 @@ void Map_0x370::AddNewBlock_4E87C0(s32 x, s32 y, s32 z, gmp_block_info* pBlockDa
     gmp_col_info* pColumn = (gmp_col_info*)&field_0_pDmap->field_40008_pColumn[column_idx];
     u32 block_id = pColumn->field_4_blockd[z - pColumn->field_1_offset];
 
-    if (block_id < field_34C_num_blocks)
+    if (block_id < (u32)field_34C_num_blocks)
     {
         pColumn->field_4_blockd[z - pColumn->field_1_offset] = Map_0x370::AddBlock_4E8140(pBlockData);
     }
@@ -4401,7 +4401,7 @@ void Map_0x370::LowerColumn_4E8A10(s32 x_pos, s32 y_pos)
     gmp_col_info* pColumn = reinterpret_cast<gmp_col_info*>(&field_0_pDmap->field_40008_pColumn[column_idx]);
     if (pColumn->field_1_offset == pColumn->field_0_height - 1 && pColumn->field_1_offset)
     {
-        if (column_idx < field_358_column_words)
+        if (column_idx < (u32)field_358_column_words)
         {
             // Note: decrements the new column's height, not a copy of pColumn's
             gmp_col_info* pNew = reinterpret_cast<gmp_col_info*>(&field_0_pDmap->field_40008_pColumn[field_360_column_words]);
@@ -4587,7 +4587,7 @@ void Map_0x370::load_mobj_4E91A0(size_t len)
     field_338_pMapObjects = pData;
     File::Global_Read_4A71C0(pData, len);
     field_344_map_object_count = len / 6;
-    if (6 * field_344_map_object_count != len)
+    if ((u32)(6 * field_344_map_object_count) != len)
     {
         FatalError_4A38C0(Gta2Error::InvalidMapObjectData, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6024);
     }
@@ -4600,7 +4600,7 @@ void Map_0x370::load_lght_4E9200(size_t size)
     field_33C_pLightData = pData;
     File::Global_Read_4A71C0(pData, size);
     field_348_num_lights = size >> 4;
-    if (16 * field_348_num_lights != size)
+    if ((u32)(16 * field_348_num_lights) != size)
     {
         FatalError_4A38C0(Gta2Error::InvalidMapLightData, "C:\\Splitting\\Gta2\\Source\\map.cpp", 6046);
     }
