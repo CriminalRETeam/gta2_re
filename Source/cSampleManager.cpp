@@ -468,7 +468,7 @@ void cSampleManager::Shutdown_58DB30()
             {
                 if (field_9C_hStreams[0])
                 {
-                    const u8 curVol = (u8)AIL_stream_volume(field_9C_hStreams[0]);
+                    const u8 curVol = static_cast<u8>(AIL_stream_volume(field_9C_hStreams[0]));
                     if (curVol > 0)
                     {
                         s32 volL = curVol;
@@ -907,7 +907,7 @@ void cSampleManager::FadeOut_58E490()
 {
     if (field_55_bMusicFound && field_9C_hStreams[0])
     {
-        u8 cur_vol = (u8)AIL_stream_volume(field_9C_hStreams[0]);
+        u8 cur_vol = static_cast<u8>(AIL_stream_volume(field_9C_hStreams[0]));
         if (cur_vol > 0)
         {
             u32 volL = cur_vol;

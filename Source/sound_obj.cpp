@@ -4329,8 +4329,8 @@ void sound_obj::ProcessActiveQueues_41AB80()
                 // The original passes 0 for y and -y for z (z is computed but unused)
                 gSampManager_6FFF00.SetChannel3DPosition_58DEA0(j, x, 0.0f, -y);
                 gSampManager_6FFF00.SetChannel3DDistances_58DED0(j,
-                                                                 (f32)(u32)sample.field_64_max_distance,
-                                                                 (f32)((u32)sample.field_64_max_distance >> 2));
+                                                                 static_cast<f32>(static_cast<u32>(sample.field_64_max_distance)),
+                                                                 static_cast<f32>(static_cast<u32>(sample.field_64_max_distance) >> 2));
                 break;
             }
 
@@ -4431,8 +4431,8 @@ void sound_obj::ProcessActiveQueues_41AB80()
 
                 gSampManager_6FFF00.SetChannel3DPosition_58DEA0(j, x, 0.0f, -y);
                 gSampManager_6FFF00.SetChannel3DDistances_58DED0(j,
-                                                                 (f32)(u32)active.field_64_max_distance,
-                                                                 (f32)((u32)active.field_64_max_distance >> 2));
+                                                                 static_cast<f32>(static_cast<u32>(active.field_64_max_distance)),
+                                                                 static_cast<f32>(static_cast<u32>(active.field_64_max_distance) >> 2));
                 gSampManager_6FFF00.StartChannel3D_58DFA0(j);
             }
             else
@@ -7027,11 +7027,11 @@ void sound_obj::UpdateCarRadioAudio_57E220()
             {
                 u32 tune_rate = gSampManager_6FFF00.GetPlayBackRate_58DBF0(138);
                 tune_rate += (tune_rate >> 6) * RadioEmitter(field_54F7_active_emitter_idx[0] + 1).field_C_station_idx;
-                if (tune_rate > (u32)(gCarRadioTuneRate_625014 + 90))
+                if (tune_rate > static_cast<u32>(gCarRadioTuneRate_625014 + 90))
                 {
                     tune_rate = gCarRadioTuneRate_625014 + 90;
                 }
-                else if (tune_rate < (u32)(gCarRadioTuneRate_625014 - 90))
+                else if (tune_rate < static_cast<u32>(gCarRadioTuneRate_625014 - 90))
                 {
                     tune_rate = gCarRadioTuneRate_625014 - 90;
                 }
@@ -7594,7 +7594,7 @@ u8 sound_obj::FindEmitterByStation_57F050(s32 status)
     for (u8 i = 0; i < 5; i++)
     {
         // TODO: Structure is wrong, maybe field_544C starts earlier or later?
-        if (*(u32*)&field_544C[i + 1].field_8.field_4_bStatus == (u32)status)
+        if (*reinterpret_cast<u32*>(&field_544C[i + 1].field_8.field_4_bStatus) == static_cast<u32>(status))
         {
             return i;
         }
