@@ -116,14 +116,14 @@ class Camera
     // FUNCTION: 96f 0x40cfc0
     inline Fix16_Point_POD WorldToScreen_40CFC0(Fix16 x, Fix16 y, Fix16 z)
     {
-        Fix16_Point_POD tmp;
+        Fix16_Point_POD screen_pos;
         Fix16 u = field_98_cur_pos.field_8_z - z;
         Fix16 t(kOne_67681C / Fix16(u.mValue + kFpEight_676840.mValue, 0));
 
-        tmp.x = (((x - field_98_cur_pos.field_0_x) * field_60_screen_scale.y) * t) + Fix16(320);
-        tmp.y = (((y - field_98_cur_pos.field_4_y) * field_60_screen_scale.y) * t) + Fix16(240);
+        screen_pos.x = (((x - field_98_cur_pos.field_0_x) * field_60_screen_scale.y) * t) + Fix16(320);
+        screen_pos.y = (((y - field_98_cur_pos.field_4_y) * field_60_screen_scale.y) * t) + Fix16(240);
 
-        return tmp;
+        return screen_pos;
     }
 
     // 9.6f 0x45AEA0
