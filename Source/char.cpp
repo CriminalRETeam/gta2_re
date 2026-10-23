@@ -2649,11 +2649,11 @@ void Char::SnapRotationToFace_54C090()
             case 1:
                 bPastHalf = field_40_rotation > kAng180_6FD8E8;
                 break;
-            case 3:
-                bPastHalf = field_40_rotation > word_6FDB3C;
+            case 3: // 10.5.exe's jump table: face 3 compares with 90 degrees, face 2 with word_6FDB3C
+                bPastHalf = field_40_rotation > kAng90_6FDA64;
                 break;
             case 2:
-                bPastHalf = field_40_rotation > kAng90_6FDA64;
+                bPastHalf = field_40_rotation > word_6FDB3C;
                 break;
             case 4:
                 bPastHalf = field_40_rotation > kAng270_6FD904;

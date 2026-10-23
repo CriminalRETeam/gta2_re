@@ -65,6 +65,17 @@ this). Examples it would not catch on its own: `Player::Hud_Controls_565890` cal
 `DoBrianTest_42D870` on the wrong global object, and `Car::DetachTrailer_442760` pushed
 onto the pool's free list instead of the active list.
 
+**Jump table data isn't compared either.** The tables after the code (and the byte index tables of
+merged cases) are left out, so a `case` label that sends a value to the wrong block still matches.
+`Ped::Deallocate_45EB60` had `case guard` (28) on the walking-cop counter, where the original's index table
+sends 29 (`walking_guard_29`) there; the port branch's replay state check found it as a game
+difference. When a switch's case values are guesses, read the tables (`objdump -s` at the table address).
+`Scripts/bin_comp/check_match_refs.py` does that for every MATCH function after a build: same globals and
+callees at the same instructions (mapped to 10.5.exe addresses), and the same block for each switch value.
+Its first run found eight such functions, among them swapped `<`/`>` in two script compare ops
+(`ScriptThread::SCRCMD_I_OP_S_507110`) and two constants swapped between cases (`Char::sub_54C090`).
+Run it before promoting a function with a switch or similar-looking globals.
+
 **Forward `jmp` targets inside the function are renamed too.** A `jmp` into the middle of another block
 (a cross-jump) shows as `jmp stable_name_N`, so a candidate that jumps into the *wrong* identical-looking
 block still scores 0. In `sound_obj::ProcessOtherObjects_41F520`, giving the fire case volume 85 made VC6

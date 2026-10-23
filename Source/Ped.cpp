@@ -2629,7 +2629,7 @@ void Ped::Deallocate_45EB60()
                 --gNumberElvisLeadersSpawned_6787CC;
             }
             break;
-        case ped_ocupation_enum::guard:
+        case ped_ocupation_enum::walking_guard_29:
             --gNumberWalkingCopsSpawned_6787CD;
             break;
         case ped_ocupation_enum::armed_gang_member_19:
