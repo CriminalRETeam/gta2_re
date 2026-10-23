@@ -70,7 +70,7 @@ class Object
     EXPORT void SetConveyorPush_5226A0(char_type conveyor_speed);
     EXPORT void ResolveCollisionWithObject_522710(Object* pObj, Fix16_Point* pPoint);
     EXPORT void ResolveCollisionWithPed_5229B0(Char* pChar, Fix16_Point* pPoint, u8 not_used);
-    EXPORT void ResolveCollisionWithWorld_522B20(Fix16_Point* f18, Fix16_Point* pPoint, Fix16_Point* speed);
+    EXPORT void ResolveCollisionWithWorld_522B20(Fix16_Point* pCollisionPoint, Fix16_Point* pPoint, Fix16_Point* speed);
     EXPORT void ResolveCollisionWithHorizontalEdge_522BE0(Fix16_Point* pPoint);
     EXPORT void ResolveCollisionWithVerticalEdge_522D00(Fix16_Point* pPoint);
     EXPORT void HandleCollision_522E10(Fix16_Point* pPoint);
@@ -183,9 +183,9 @@ class Object
 
     bool CanBePushed_482C90() // matched
     {
-        s32 f34 = field_8_definition->field_34_behavior_type;
-        if (f34 == object_behavior_type::physics_3 || f34 == object_behavior_type::physics_animated_4 ||
-            ((f34 == object_behavior_type::static_object_0 || f34 == object_behavior_type::static_collision_check_1 || f34 == object_behavior_type::animated_2) && field_8_definition->field_44_touch_behavior == 2))
+        s32 behavior_type = field_8_definition->field_34_behavior_type;
+        if (behavior_type == object_behavior_type::physics_3 || behavior_type == object_behavior_type::physics_animated_4 ||
+            ((behavior_type == object_behavior_type::static_object_0 || behavior_type == object_behavior_type::static_collision_check_1 || behavior_type == object_behavior_type::animated_2) && field_8_definition->field_44_touch_behavior == 2))
         {
             return true;
         }

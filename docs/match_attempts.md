@@ -1402,7 +1402,7 @@ Each was a few asm lines away from the original. What is left and what was tried
 - `UpdateStatsForKiller_46F720`: closer 14->4. test the loop pointer after the loop instead of a flag. Left: one register in the group-respect branch
 - `HandleCollision_522E10`: closer 17->16. ResolveCollisionWithPed_5229B0's third param is u8. Left: the original sends both arms of the inlined As2C check into one shared call
 - `AdjustPlaybackRate_41A580`: closer 43->39. fixed-point maths follows the asm now. Left: this/difference register swap throughout
-- `ResolveCollisionWithWorld_522B20`: closer 48->41. bug fix: the collision point is *f18 (was an uninitialised local); Divide_442CB0. Left: EH state numbering
+- `ResolveCollisionWithWorld_522B20`: closer 48->41. bug fix: the collision point is *pCollisionPoint (was an uninitialised local); Divide_442CB0. Left: EH state numbering
 - `EnumAddress_cb_51E030`: no change. late ebp push
 - `GetZoneOfTypeNearestCentre_4DF3E0`: no change. by-value abs/max helpers didn't help
 - `UnlinkFromPursuitTarget_575650`: no change. switch value clobber (add $-3) vs our lea

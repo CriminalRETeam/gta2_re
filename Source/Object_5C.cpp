@@ -132,12 +132,12 @@ void Object::PoolDeallocate()
     this->field_18_model = 0;
 
     // TODO: Local required, inline?
-    const s32 f5C = field_8_definition->field_5C_instance_limit_kind;
-    if (f5C == 2)
+    const s32 limit_kind = field_8_definition->field_5C_instance_limit_kind;
+    if (limit_kind == 2)
     {
         --gObject_5C_6F8F84->field_10_limited_object_count;
     }
-    else if (f5C == 3)
+    else if (limit_kind == 3)
     {
         --gObject_5C_6F8F84->field_14_listed_sprite_count;
         gObject_5C_6F8F84->field_1C_sprite_list.RemoveSpriteSafe_5A6B60(this->field_4_sprite);
@@ -499,14 +499,14 @@ void Object::ResolveCollisionWithPed_5229B0(Char* pChar, Fix16_Point* pPoint, u8
 }
 
 MATCH_FUNC(0x522b20)
-void Object::ResolveCollisionWithWorld_522B20(Fix16_Point* f18, Fix16_Point* pPoint, Fix16_Point* speed)
+void Object::ResolveCollisionWithWorld_522B20(Fix16_Point* pCollisionPoint, Fix16_Point* pPoint, Fix16_Point* speed)
 {
     // GetXY_52AE70() is a temporary argument, not a local: that gives the original EH states (0, 2, 3) and frame
     Fix16_Point impulse = ComputeCollisionImpulse_55F3B0(GetMass_482C80(),
                                                         kFP16MinusOne_6F8BE8,
                                                         *speed,
                                                         *pPoint,
-                                                        *f18,
+                                                        *pCollisionPoint,
                                                         GetXY_52AE70(),
                                                         gZeroVector_6F8EF0,
                                                         kFP16One_6F8D38,
@@ -759,16 +759,16 @@ void Object::HandleCollisionOutcome_523440(Fix16_Point point, char_type bHitFloo
 MATCH_FUNC(0x5235b0)
 bool Object::HandleSpriteGroundAndCollision_5235B0(Sprite* pSprite, Fix16_Point* pPoint, u8* pHit, Fix16 found_z)
 {
-    Fix16 temp_z;
+    Fix16 ground_z;
     bool bOnGround;
     field_10_obj_3c->field_2A_bAirborne = 0;
     if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(pSprite->field_14_xy.x.ToInt(), pSprite->field_14_xy.y.ToInt(), pSprite->field_1C_zpos.ToInt()))
     {
-        temp_z = gMap_0x370_6F6268->GetGroundZBelowCoordEx_4E5050(pSprite->field_14_xy.x, pSprite->field_14_xy.y, pSprite->field_1C_zpos, bOnGround);
+        ground_z = gMap_0x370_6F6268->GetGroundZBelowCoordEx_4E5050(pSprite->field_14_xy.x, pSprite->field_14_xy.y, pSprite->field_1C_zpos, bOnGround);
 
         if (!bOnGround)
         {
-            if (temp_z < pSprite->field_1C_zpos)
+            if (ground_z < pSprite->field_1C_zpos)
             {
                 Sprite_UpdateZFromSlopeAndTile_522FA0(pSprite);
                 field_10_obj_3c->field_10_z_speed = kObjectGravity_6F8DA8;
@@ -1032,11 +1032,11 @@ void Object::IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 angle)
 {
     // Declaration order matters: the scalars are initialised before the two points are
     // constructed (EH state 1 is set after the byte stores)
-    Ang16 unk_angle(0);
+    Ang16 prev_rotation(0);
     Fix16 mov_speed_copy = mov_speed;
     u8 bHitSomething = 0;
-    u8 bUnk2 = 0;
-    u8 bUnk = false;
+    u8 bHitBlockAtZ = 0;
+    u8 bHitWall = false;
     char_type bHandled = 0;
     Fix16_Point point;
     Fix16_Point point2;
@@ -1065,12 +1065,12 @@ void Object::IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 angle)
             field_10_obj_3c->field_2F_bOnSlope = false;
         }
         Fix16 radius;
-        Fix16 unk_z;
+        Fix16 step_dz;
         if (mov_speed_copy != kFpZero_6F8E10)
         {
             step_count = mov_speed_copy / field_8_definition->field_C_min_size;
             radius = mov_speed_copy / step_count;
-            unk_z = field_10_obj_3c->field_10_z_speed / step_count;
+            step_dz = field_10_obj_3c->field_10_z_speed / step_count;
         }
         else
         {
@@ -1082,11 +1082,11 @@ void Object::IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 angle)
         {
             step_count = kFP16One_6F8E14;
             radius = mov_speed_copy;
-            unk_z = field_10_obj_3c->field_10_z_speed;
+            step_dz = field_10_obj_3c->field_10_z_speed;
         }
 
-        Fix16 unk_x;
-        Fix16 unk_y;
+        Fix16 step_dx;
+        Fix16 step_dy;
         Fix16 prev_x;
         Fix16 prev_y;
         Fix16 prev_z;
@@ -1094,7 +1094,7 @@ void Object::IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 angle)
             // The original passes a block-scoped copy of radius (9.6f copies it too); its slot is
             // shared with tmp_radius below
             Fix16 r = radius;
-            Ang16::PolarToCartesian_41FC20(angle, r, unk_x, unk_y);
+            Ang16::PolarToCartesian_41FC20(angle, r, step_dx, step_dy);
         }
 
         for (u8 i = 1; i <= step_count.ToInt(); i++)
@@ -1102,22 +1102,22 @@ void Object::IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 angle)
             prev_x = pSprt->field_14_xy.x;
             prev_y = pSprt->field_14_xy.y;
             prev_z = pSprt->field_1C_zpos;
-            unk_angle = pSprt->field_0_rotation;
+            prev_rotation = pSprt->field_0_rotation;
             Fix16 found_z;
             found_z = gMap_0x370_6F6268->FindGroundZBelowCoord_4E4D40(pSprt->field_14_xy.x, pSprt->field_14_xy.y, pSprt->field_1C_zpos);
-            pSprt->set_xyz_lazy_420600(pSprt->field_14_xy.x + unk_x, pSprt->field_14_xy.y + unk_y, pSprt->field_1C_zpos + unk_z);
+            pSprt->set_xyz_lazy_420600(pSprt->field_14_xy.x + step_dx, pSprt->field_14_xy.y + step_dy, pSprt->field_1C_zpos + step_dz);
             pSprt->set_ang_lazy_420690(angle);
-            if (unk_z == kFpZero_6F8E10)
+            if (step_dz == kFpZero_6F8E10)
             {
-                bHandled = Object::HandleSpriteGroundAndCollision_5235B0(pSprt, &point, &bUnk, found_z);
+                bHandled = Object::HandleSpriteGroundAndCollision_5235B0(pSprt, &point, &bHitWall, found_z);
             }
-            else if (unk_z > kFpZero_6F8E10)
+            else if (step_dz > kFpZero_6F8E10)
             {
-                bHandled = Object::HandleSpriteGroundAndCollisionSimple_523770(pSprt, &point, &bUnk, &bUnk2);
+                bHandled = Object::HandleSpriteGroundAndCollisionSimple_523770(pSprt, &point, &bHitWall, &bHitBlockAtZ);
             }
             else
             {
-                bHandled = Object::HandleSpriteZCollision_5238B0(pSprt, &point, &bUnk, &bHitSomething, found_z);
+                bHandled = Object::HandleSpriteZCollision_5238B0(pSprt, &point, &bHitWall, &bHitSomething, found_z);
             }
         } // end for
 
@@ -1138,7 +1138,7 @@ void Object::IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 angle)
                 }
                 gCollisionSoundQueue_66AFE0->AddFloorCollision_40BC40(field_4_sprite);
             }
-            else if (bUnk2)
+            else if (bHitBlockAtZ)
             {
                 gCollisionSoundQueue_66AFE0->AddBlockCollision_40BD10(field_4_sprite);
             }
@@ -1148,51 +1148,51 @@ void Object::IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 angle)
             gObj2C_LastValidX_6F8F00 = prev_x;
             gObj2C_LastValidY_6F8EF8 = prev_y;
             gObj2C_LastValidZ_6F8EFC = prev_z;
-            gObj2C_LastValidAng_6F8D1C = unk_angle;
+            gObj2C_LastValidAng_6F8D1C = prev_rotation;
             Fix16 tmp_radius = radius;
             pSprt->set_xyz_lazy_420600(gObj2C_LastValidX_6F8F00, gObj2C_LastValidY_6F8EF8, gObj2C_LastValidZ_6F8EFC);
-            pSprt->set_ang_lazy_420690(unk_angle);
+            pSprt->set_ang_lazy_420690(prev_rotation);
             Object::Sprite_UpdateZFromSlopeAndTile_522FA0(pSprt);
-            bool bUnk7;
+            bool bLastStepClear;
 
             for (s32 j = 0; j < 3; j++)
             {
                 tmp_radius = tmp_radius / 2;
-                Ang16::PolarToCartesian_41FC20(angle, tmp_radius, unk_x, unk_y);
-                pSprt->set_xyz_lazy_420600(pSprt->field_14_xy.x + unk_x, pSprt->field_14_xy.y + unk_y, pSprt->field_1C_zpos);
+                Ang16::PolarToCartesian_41FC20(angle, tmp_radius, step_dx, step_dy);
+                pSprt->set_xyz_lazy_420600(pSprt->field_14_xy.x + step_dx, pSprt->field_14_xy.y + step_dy, pSprt->field_1C_zpos);
                 pSprt->set_ang_lazy_420690(angle);
                 Object::Sprite_UpdateZFromSlopeAndTile_522FA0(pSprt);
-                bool bUnk5 = false;
+                bool bHitSprite = false;
                 if (field_10_obj_3c->field_34 == 2 && Object::SelectCollisionSprite_522460(pSprt))
                 {
-                    bUnk5 = true;
+                    bHitSprite = true;
                 }
-                if (pSprt->CheckSpriteMovementRegion_5A2500() || bUnk5)
+                if (pSprt->CheckSpriteMovementRegion_5A2500() || bHitSprite)
                 {
                     point = pSprt->get_x_y_443580();
                     pSprt->set_xyz_lazy_420600(gObj2C_LastValidX_6F8F00, gObj2C_LastValidY_6F8EF8, gObj2C_LastValidZ_6F8EFC);
                     pSprt->set_ang_lazy_420690(gObj2C_LastValidAng_6F8D1C);
-                    bUnk7 = false;
+                    bLastStepClear = false;
                 }
                 else
                 {
-                    bUnk7 = true;
+                    bLastStepClear = true;
                     gObj2C_LastValidX_6F8F00 = pSprt->field_14_xy.x;
                     gObj2C_LastValidY_6F8EF8 = pSprt->field_14_xy.y;
                     gObj2C_LastValidZ_6F8EFC = pSprt->field_1C_zpos;
                     gObj2C_LastValidAng_6F8D1C = pSprt->field_0_rotation;
                 }
             }
-            if (!bUnk7)
+            if (!bLastStepClear)
             {
                 pSprt->set_xyz_lazy_420600(gObj2C_LastValidX_6F8F00, gObj2C_LastValidY_6F8EF8, gObj2C_LastValidZ_6F8EFC);
                 pSprt->set_ang_lazy_420690(gObj2C_LastValidAng_6F8D1C);
             }
             field_4_sprite->set_xyz_lazy_420600(pSprt->field_14_xy.x, pSprt->field_14_xy.y, pSprt->field_1C_zpos);
             field_4_sprite->set_ang_lazy_420690(pSprt->field_0_rotation);
-            if (bHitSomething || bUnk || bUnk2)
+            if (bHitSomething || bHitWall || bHitBlockAtZ)
             {
-                Object::HandleCollisionOutcome_523440(point, bHitSomething, bUnk2);
+                Object::HandleCollisionOutcome_523440(point, bHitSomething, bHitBlockAtZ);
             }
         }
 
@@ -2447,19 +2447,19 @@ void Object::TickObject_5283C0(s32 obj_type)
                                 }
                             }
 
-                            u8 bUnknown;
+                            u8 bNewObj8;
                             if (this->field_C_pAny.o8)
                             {
-                                bUnknown = 0;
+                                bNewObj8 = 0;
                             }
                             else
                             {
-                                bUnknown = 1;
+                                bNewObj8 = 1;
                                 Object_8* pNewObj8 = gObject_8_Pool_6F8F78->Allocate();
                                 this->field_C_pAny.o8 = pNewObj8;
                             }
 
-                            if (pDefinition->field_65_next_definition_timer != field_8_definition->field_65_next_definition_timer || bUnknown)
+                            if (pDefinition->field_65_next_definition_timer != field_8_definition->field_65_next_definition_timer || bNewObj8)
                             {
                                 this->field_C_pAny.o8->field_4_timer = pDefinition->field_65_next_definition_timer;
                                 this->field_C_pAny.o8->field_7_frame_idx = 0;
@@ -2488,19 +2488,19 @@ void Object::TickObject_5283C0(s32 obj_type)
                                 pNew3C->field_20_obj2c_id = field_14_id;
                             }
 
-                            u8 bUnknown2;
+                            u8 bNewObj8;
                             if (this->field_C_pAny.o8)
                             {
-                                bUnknown2 = 0;
+                                bNewObj8 = 0;
                             }
                             else
                             {
-                                bUnknown2 = 1;
+                                bNewObj8 = 1;
                                 Object_8* pNewObj8 = gObject_8_Pool_6F8F78->Allocate();
                                 this->field_C_pAny.o8 = pNewObj8;
                             }
 
-                            if (pDefinition->field_65_next_definition_timer != field_8_definition->field_65_next_definition_timer || bUnknown2)
+                            if (pDefinition->field_65_next_definition_timer != field_8_definition->field_65_next_definition_timer || bNewObj8)
                             {
                                 this->field_C_pAny.o8->field_4_timer = pDefinition->field_65_next_definition_timer;
                                 this->field_C_pAny.o8->field_7_frame_idx = 0;
@@ -3355,12 +3355,12 @@ Object* Object_5C::NewFlashingLight_529B20(Fix16 xpos,
 MATCH_FUNC(0x529bc0)
 Object* Object_5C::NewPhysicsObjUnlessBlocked_529BC0(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation)
 {
-    Object* tmp = CreateObject_529C00(object_type, xpos, ypos, zpos, rotation, 1);
-    if (tmp)
+    Object* pNewObj = CreateObject_529C00(object_type, xpos, ypos, zpos, rotation, 1);
+    if (pNewObj)
     {
-        tmp->AssignToBucket_527AE0();
+        pNewObj->AssignToBucket_527AE0();
     }
-    return tmp;
+    return pNewObj;
 }
 
 // 9.6f 0x484E00
