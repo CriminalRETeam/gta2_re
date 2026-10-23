@@ -444,8 +444,6 @@ class Sprite
     }
 
     Ang16 field_0_rotation;
-    s8 field_2_pad;
-    s8 field_3_pad;
     SpriteShape* field_4_pVisualShape;
     // Only one field is enable at the same time.
     // The field that is enabled is decided by field_30_sprite_type_enum
@@ -605,17 +603,12 @@ class Sprite
     s16 field_20_instance_id; // unique per live sprite (SpriteManager id_base counter)
     s16 field_22_type_sprite_idx; // sprite number within its sprite type, looked up with GetSpriteTrueIndex_5AA460
     s16 field_24_remap;
-    char_type field_26_pad;
-    char_type field_27_pad;
     s32 field_28_draw_layer; // draw order tie-break among sprites at the same z (SpriteTree::AddSprite_5C5CF0); > 9 sorts by z
     union
     {
         u8 field_2C_flags;
         SpriteFlags8 field_2C_bf;
     };
-    char_type field_2D_pad;
-    char_type field_2E_pad;
-    char_type field_2F_pad;
     s32 field_30_sprite_type_enum; // Uses the enum defined in the namespace sprite_types_enum
     s32 field_34_palette_type; // remap type?
     char_type field_38_zoom;
