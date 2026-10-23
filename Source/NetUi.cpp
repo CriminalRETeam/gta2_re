@@ -1739,7 +1739,7 @@ void NetUi::PopulateMainUI_51AFA0()
     SendDlgItemMessageA(field_2031C_dlg_hwnd, LISTVIEW_JOINED_PLAYERS_1050, 0x101B, 1u, (LPARAM)columnInfo);
     SendDlgItemMessageA(field_2031C_dlg_hwnd, LISTVIEW_JOINED_PLAYERS_1050, 0x101E, 1u, 65534);
 
-    for (u32 map_idx = 0; map_idx < (u32)field_1FD64_total_map_count; map_idx++)
+    for (u32 map_idx = 0; map_idx < static_cast<u32>(field_1FD64_total_map_count); map_idx++)
     {
         LRESULT item_idx = SendDlgItemMessageA(field_2031C_dlg_hwnd, 1026, CB_ADDSTRING, 0, (LPARAM)field_4_maps[map_idx].field_30C_description);
         SendDlgItemMessageA(field_2031C_dlg_hwnd, 1026, CB_SETITEMDATA, item_idx, map_idx);
@@ -1940,7 +1940,7 @@ void NetUi::ApplyHostGameSettings_51B810(const char_type* pData)
         u32 i = 0;
         while (1)
         {
-            if (i >= (u32)field_1FD64_total_map_count)
+            if (i >= static_cast<u32>(field_1FD64_total_map_count))
             {
                 break;
             }
@@ -2347,7 +2347,7 @@ MATCH_FUNC(0x51c830)
 void NetUi::LoadGameSettingsFromRegistry_51C830()
 {
     field_20088_game_settings.field_2018C_map_idx = gRegistry_6FF968.Get_Network_Setting_587690("map_index", 0);
-    if (field_20088_game_settings.field_2018C_map_idx >= (u32)field_1FD64_total_map_count)
+    if (field_20088_game_settings.field_2018C_map_idx >= static_cast<u32>(field_1FD64_total_map_count))
     {
         field_20088_game_settings.field_2018C_map_idx = 0;
     }
