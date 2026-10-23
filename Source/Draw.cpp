@@ -427,7 +427,7 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
         else if (text_char == L'#')
         {
             // swap palettes
-            if (curr_palette_type == og_palette_type && curr_palette == og_palette)
+            if (curr_palette_type == (u32)og_palette_type && curr_palette == og_palette)
             {
                 curr_palette_type = palette_types_enum::font_remaps_8;
                 curr_palette = font_type < 0x65u ? 0 : 5;

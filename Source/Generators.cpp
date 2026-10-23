@@ -113,7 +113,7 @@ EXPORT void Generator::SpawnObject_4C1B10()
 MATCH_FUNC(0x4c1c50)
 void Generator::Service_4C1C50()
 {
-    if (gpRng_67AB34->get_cur_rng_41CFE0() >= field_18_cycle)
+    if ((u32)gpRng_67AB34->get_cur_rng_41CFE0() >= field_18_cycle)
     {
         if (field_1E_spawns_left > 0)
         {

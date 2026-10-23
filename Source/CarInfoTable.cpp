@@ -369,7 +369,7 @@ MATCH_FUNC(0x430e60)
 s32 __stdcall CarInfoTable::PushData_430E60(void* pSrc, u32 size)
 {
     processed_output_676250 += size;
-    if (processed_output_676250 > modelPhyArrLen_675F90)
+    if (processed_output_676250 > (u32)modelPhyArrLen_675F90)
     {
         return -12;
     }
