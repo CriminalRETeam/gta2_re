@@ -70,7 +70,7 @@ void __stdcall DrawFigureScaled_5D7670(s32 sprite_type, s16 sprite_idx, Fix16 x_
 MATCH_FUNC(0x5D7700)
 s32 __stdcall GetLineSpacingFromFontType_5D7700(u16 font_type)
 {
-    return (u16)gGtx_0x106C_703DD4->GetLineSpacing_5AA800(&font_type);
+    return static_cast<u16>(gGtx_0x106C_703DD4->GetLineSpacing_5AA800(&font_type));
 }
 
 MATCH_FUNC(0x5D7720)
@@ -116,7 +116,7 @@ void __stdcall ConvertColourBanks_5D7CC0()
     if (gGtx_0x106C_703DD4 && gGtx_0x106C_703DD4->field_6A_palettes_converted == 0)
     {
         s32 phys_pal_len = gGtx_0x106C_703DD4->get_physical_palettes_len_5AA900();
-        u32 max_idx = (u32)phys_pal_len / 64;
+        u32 max_idx = static_cast<u32>(phys_pal_len) / 64;
 
         if (phys_pal_len % 64 != 0)
         {
@@ -134,7 +134,7 @@ MATCH_FUNC(0x5D7D30)
 void __stdcall MakeScreenTableAndSetWindow_5D7D30()
 {
     pVid_GetSurface(gVidSys_7071D0);
-    pMakeScreenTable((int)gVidSys_7071D0->field_50_surface_pixels_ptr,
+    pMakeScreenTable(reinterpret_cast<int>(gVidSys_7071D0->field_50_surface_pixels_ptr),
                      gVidSys_7071D0->field_54_surface_pixels_pitch,
                      gVidSys_7071D0->field_4C_rect_bottom);
 
@@ -149,7 +149,7 @@ void __stdcall MakeScreenTableAndSetWindow_5D7D30()
         gWindowBottom_70679C = gVidSys_7071D0->field_4C_rect_bottom - 1;
     }
 
-    pgbh_SetWindow(0, 0, (f32)gWindowRight_70675C, (f32)gWindowBottom_70679C);
+    pgbh_SetWindow(0, 0, static_cast<f32>(gWindowRight_70675C), static_cast<f32>(gWindowBottom_70679C));
 }
 
 // https://decomp.me/scratch/Zmms7
@@ -385,7 +385,7 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
     Fix16 cur_xpos = xpos_fp;
 
     Fix16 spaceWidth = scale_fp * gGtx_0x106C_703DD4->GetSpaceCharWidth_5AA7B0(&font_type);
-    Fix16 lineHeight = scale_fp * (u16)gGtx_0x106C_703DD4->GetLineSpacing_5AA800(&font_type);
+    Fix16 lineHeight = scale_fp * static_cast<u16>(gGtx_0x106C_703DD4->GetLineSpacing_5AA800(&font_type));
 
     u16 curr_palette = og_palette;
     s32 curr_palette_type = og_palette_type;

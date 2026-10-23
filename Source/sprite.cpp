@@ -96,9 +96,9 @@ static inline void ProjectWorldPointToScreen_4BA4D0(Fix16_Point& point, Vert* pV
     SaveUnprojectedVertex_4B9990(point.x.ToFloat(), point.y.ToFloat(), zpos.ToFloat(), pVert);
     pVert->z = 1.0 / (gViewCamera_676978->field_98_cur_pos.field_8_z.ToFloat() + (8.0 - zpos.ToFloat()));
     pVert->x = ((((gViewCamera_676978->field_60_screen_scale.x.ToFloat())) * (((point.x.ToFloat()) - (gViewCamera_676978->field_98_cur_pos.field_0_x.ToFloat())))) * (pVert->z)) +
-        (u32)gViewCamera_676978->field_70_screen_px_center_x;
+        static_cast<u32>(gViewCamera_676978->field_70_screen_px_center_x);
     pVert->y = (((((gViewCamera_676978->field_60_screen_scale.x.ToFloat())) * ((point.y.ToFloat() - (gViewCamera_676978->field_98_cur_pos.field_4_y.ToFloat())))) * (pVert->z)) +
-        (u32)gViewCamera_676978->field_74_screen_px_center_y);
+        static_cast<u32>(gViewCamera_676978->field_74_screen_px_center_y));
 }
 #pragma warning(pop)
 
@@ -117,9 +117,9 @@ static inline void ProjectWorldPointToScreen_First_4BA4D0(Fix16_Point& point, Ve
     SaveUnprojectedVertex_4B9990((Fix16ToFloat_Paren(point.x)), (point.y.ToFloat()), zpos.ToFloat(), pVert);
     pVert->z = 1.0 / (gViewCamera_676978->field_98_cur_pos.field_8_z.ToFloat() + (8.0 - zpos.ToFloat()));
     pVert->x = ((((gViewCamera_676978->field_60_screen_scale.x.ToFloat())) * (((point.x.ToFloat()) - (gViewCamera_676978->field_98_cur_pos.field_0_x.ToFloat())))) * (pVert->z)) +
-        (u32)gViewCamera_676978->field_70_screen_px_center_x;
+        static_cast<u32>(gViewCamera_676978->field_70_screen_px_center_x);
     pVert->y = ((gViewCamera_676978->field_60_screen_scale.x.ToFloat())) * ((point.y.ToFloat() - (gViewCamera_676978->field_98_cur_pos.field_4_y.ToFloat()))) * pVert->z +
-        (u32)gViewCamera_676978->field_74_screen_px_center_y;
+        static_cast<u32>(gViewCamera_676978->field_74_screen_px_center_y);
 }
 #pragma warning(pop)
 
@@ -305,7 +305,7 @@ SpriteMaskCache::SpriteMaskCache()
 
     // By the way this is later used, it seems to be an array of a structure of size 0x40.
     // For now, it's a s32* as it make the code to match.
-    u8* pPixels = (u8*)Memory::Aligned_malloc_4FE510(0x40000, (void**)(&field_3C8_unaligned_alloc));
+    u8* pPixels = static_cast<u8*>(Memory::Aligned_malloc_4FE510(0x40000, reinterpret_cast<void**>(&field_3C8_unaligned_alloc)));
     field_3C4_aligned_buffer = pPixels;
 
     SpriteMask* tmp = field_0_masks;
@@ -397,7 +397,7 @@ s16 DamageAreaFlags::Delta_48F8B0(u16& sprite_idx, u8& bRet, const u16& palette,
         {
             bRet = 1;
             u32 sub = m_var - pSprt14->field_8_delta_mask;
-            Delta_48F820(sprite_idx, (u8*)pSprt14->field_0_pixels, sub, sprite_index_5AA440->field_4_width);
+            Delta_48F820(sprite_idx, static_cast<u8*>(pSprt14->field_0_pixels), sub, sprite_index_5AA440->field_4_width);
             pSprt14->SetKey_44AF50(sprite_idx, m_var, palette);
         }
         else
@@ -418,7 +418,7 @@ s16 DamageAreaFlags::Delta_48F8B0(u16& sprite_idx, u8& bRet, const u16& palette,
             pSprt14->ClearMask_48F5C0(sprite_index_5AA440->field_4_width, sprite_index_5AA440->field_5_height);
         }
         
-        Delta_48F820(sprite_idx, (u8*)pSprt14->field_0_pixels, m_var, sprite_index_5AA440->field_4_width);
+        Delta_48F820(sprite_idx, static_cast<u8*>(pSprt14->field_0_pixels), m_var, sprite_index_5AA440->field_4_width);
         pSprt14->SetKey_44AF50(sprite_idx, m_var, palette);
     }
     
@@ -617,7 +617,7 @@ void Sprite::IncreaseZoom_59E320(char_type delta)
     u32 field_4_width = sprite_index_5AA440->field_4_width;
 
     s32 result;
-    if ((s32)(field_4_width & 0xFFFFFFFE) < (s32)(field_5_height & 0xFFFFFFFE))
+    if (static_cast<s32>(field_4_width & 0xFFFFFFFE) < static_cast<s32>(field_5_height & 0xFFFFFFFE))
     {
         result = field_4_width >> 1;
     }
@@ -1005,9 +1005,9 @@ void Sprite::ShowId_59EB30(f32& x, f32& y)
         if (pCar)
         {
             Fix16 xpos;
-            xpos = Fix16((s32)((x / (f32)(u32)window_width_706630) * 640.0f));
+            xpos = Fix16(static_cast<s32>((x / static_cast<f32>(static_cast<u32>(window_width_706630))) * 640.0f));
             Fix16 ypos;
-            ypos = Fix16((s32)((y / (f32)(u32)window_height_706B50) * 480.0f));
+            ypos = Fix16(static_cast<s32>((y / static_cast<f32>(static_cast<u32>(window_height_706B50))) * 480.0f));
             swprintf(tmpBuff_67BD9C, L"%d", pCar->field_6C_car_id);
             DrawTextScaled_4BA2C0(tmpBuff_67BD9C, xpos, ypos, word_703BAA);
         }
@@ -1017,9 +1017,9 @@ void Sprite::ShowId_59EB30(f32& x, f32& y)
             if (pB4)
             {
                 Fix16 xpos;
-            xpos = Fix16((s32)((x / (f32)(u32)window_width_706630) * 640.0f));
+            xpos = Fix16(static_cast<s32>((x / static_cast<f32>(static_cast<u32>(window_width_706630))) * 640.0f));
                 Fix16 ypos;
-            ypos = Fix16((s32)((y / (f32)(u32)window_height_706B50) * 480.0f));
+            ypos = Fix16(static_cast<s32>((y / static_cast<f32>(static_cast<u32>(window_height_706B50))) * 480.0f));
                 swprintf(tmpBuff_67BD9C, L"%d", pB4->field_7C_pPed->field_200_id);
                 s32 palette_type = 2;
                 DrawText_5D8A10(tmpBuff_67BD9C,
@@ -1041,9 +1041,9 @@ void Sprite::ShowId_59EB30(f32& x, f32& y)
         if (pObj)
         {
             Fix16 xpos;
-            xpos = Fix16((s32)((x / (f32)(u32)window_width_706630) * 640.0f));
+            xpos = Fix16(static_cast<s32>((x / static_cast<f32>(static_cast<u32>(window_width_706630))) * 640.0f));
             Fix16 ypos;
-            ypos = Fix16((s32)((y / (f32)(u32)window_height_706B50) * 480.0f));
+            ypos = Fix16(static_cast<s32>((y / static_cast<f32>(static_cast<u32>(window_height_706B50))) * 480.0f));
             swprintf(tmpBuff_67BD9C, L"%d:%d", pObj->field_18_model, pObj->field_14_id);
             s32 palette_type = 2;
             DrawText_5D8A10(tmpBuff_67BD9C,
@@ -1069,8 +1069,8 @@ void Sprite::ShowHorn_59EE40(f32& x, f32& y)
         Car* pCar = AsCar_40FEB0();
         if (pCar)
         {
-            Fix16 xpos((s32)((x / (f32)(u32)window_width_706630) * 640.0f));
-            Fix16 ypos((s32)((y / (f32)(u32)window_height_706B50) * 480.0f));
+            Fix16 xpos(static_cast<s32>((x / static_cast<f32>(static_cast<u32>(window_width_706630))) * 640.0f));
+            Fix16 ypos(static_cast<s32>((y / static_cast<f32>(static_cast<u32>(window_height_706B50))) * 480.0f));
 
             if (pCar->IsEmittingHorn_411970())
             {
@@ -1117,7 +1117,7 @@ void Sprite::Draw_59EFF0()
         {
             return;
         }
-        pSpriteIndex->field_0_pData = &pSpriteIndex2->field_0_pData[257 * (u8)field_38_zoom];
+        pSpriteIndex->field_0_pData = &pSpriteIndex2->field_0_pData[257 * static_cast<u8>(field_38_zoom)];
         pal = Sprite::GetTruePalette_59EAA0();
         pTexture = gTextureCache_15D8_705064->SetSharedTextureData_5B9710(pSpriteIndex->field_4_width,
                                                          pSpriteIndex->field_5_height,
@@ -2562,20 +2562,20 @@ void SpriteShape::DrawCollisionBox_5A4DA0(Fix16 zpos)
         ProjectToScreen_5A5690(field_30_boundingBox.get_right_45ADA0(), field_30_boundingBox.get_top_45ADD0(), zpos, &x2, &y2);
         ProjectToScreen_5A5690(field_30_boundingBox.get_right_45ADA0(), field_30_boundingBox.get_bottom_45ADC0(), zpos, &x3, &y3);
         ProjectToScreen_5A5690(field_30_boundingBox.get_left_45ADB0(), field_30_boundingBox.get_bottom_45ADC0(), zpos, &x4, &y4);
-        DrawDebugLine_5D7DD0((s16)x1.ToInt(), (s16)y1.ToInt(), (s16)x2.ToInt(), (s16)y2.ToInt(), gDebugColour_626260);
-        DrawDebugLine_5D7DD0((s16)x2.ToInt(), (s16)y2.ToInt(), (s16)x3.ToInt(), (s16)y3.ToInt(), gDebugColour_626260);
-        DrawDebugLine_5D7DD0((s16)x3.ToInt(), (s16)y3.ToInt(), (s16)x4.ToInt(), (s16)y4.ToInt(), gDebugColour_626260);
-        DrawDebugLine_5D7DD0((s16)x4.ToInt(), (s16)y4.ToInt(), (s16)x1.ToInt(), (s16)y1.ToInt(), gDebugColour_626260);
+        DrawDebugLine_5D7DD0(static_cast<s16>(x1.ToInt()), static_cast<s16>(y1.ToInt()), static_cast<s16>(x2.ToInt()), static_cast<s16>(y2.ToInt()), gDebugColour_626260);
+        DrawDebugLine_5D7DD0(static_cast<s16>(x2.ToInt()), static_cast<s16>(y2.ToInt()), static_cast<s16>(x3.ToInt()), static_cast<s16>(y3.ToInt()), gDebugColour_626260);
+        DrawDebugLine_5D7DD0(static_cast<s16>(x3.ToInt()), static_cast<s16>(y3.ToInt()), static_cast<s16>(x4.ToInt()), static_cast<s16>(y4.ToInt()), gDebugColour_626260);
+        DrawDebugLine_5D7DD0(static_cast<s16>(x4.ToInt()), static_cast<s16>(y4.ToInt()), static_cast<s16>(x1.ToInt()), static_cast<s16>(y1.ToInt()), gDebugColour_626260);
 
         gDebugColour_626260 = 0xFFFF;
         ProjectToScreen_5A5690(field_C_corners[0].x, field_C_corners[0].y, zpos, &x1, &y1);
         ProjectToScreen_5A5690(field_C_corners[1].x, field_C_corners[1].y, zpos, &x2, &y2);
         ProjectToScreen_5A5690(field_C_corners[2].x, field_C_corners[2].y, zpos, &x3, &y3);
         ProjectWorldToScreen_5A5690(field_C_corners[3].x, field_C_corners[3].y, zpos, &x4, &y4);
-        DrawDebugLine_5D7DD0((s16)x1.ToInt(), (s16)y1.ToInt(), (s16)x2.ToInt(), (s16)y2.ToInt(), gDebugColour_626260);
-        DrawDebugLine_5D7DD0((s16)x2.ToInt(), (s16)y2.ToInt(), (s16)x3.ToInt(), (s16)y3.ToInt(), gDebugColour_626260);
-        DrawDebugLine_5D7DD0((s16)x3.ToInt(), (s16)y3.ToInt(), (s16)x4.ToInt(), (s16)y4.ToInt(), gDebugColour_626260);
-        DrawDebugLine_5D7DD0((s16)x4.ToInt(), (s16)y4.ToInt(), (s16)x1.ToInt(), (s16)y1.ToInt(), gDebugColour_626260);
+        DrawDebugLine_5D7DD0(static_cast<s16>(x1.ToInt()), static_cast<s16>(y1.ToInt()), static_cast<s16>(x2.ToInt()), static_cast<s16>(y2.ToInt()), gDebugColour_626260);
+        DrawDebugLine_5D7DD0(static_cast<s16>(x2.ToInt()), static_cast<s16>(y2.ToInt()), static_cast<s16>(x3.ToInt()), static_cast<s16>(y3.ToInt()), gDebugColour_626260);
+        DrawDebugLine_5D7DD0(static_cast<s16>(x3.ToInt()), static_cast<s16>(y3.ToInt()), static_cast<s16>(x4.ToInt()), static_cast<s16>(y4.ToInt()), gDebugColour_626260);
+        DrawDebugLine_5D7DD0(static_cast<s16>(x4.ToInt()), static_cast<s16>(y4.ToInt()), static_cast<s16>(x1.ToInt()), static_cast<s16>(y1.ToInt()), gDebugColour_626260);
     }
 }
 

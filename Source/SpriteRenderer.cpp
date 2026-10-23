@@ -94,7 +94,7 @@ EXPORT s32 get_rdtsc_5BEE90()
 MATCH_FUNC(0x5BEED0)
 EXPORT s32 __stdcall ConvertCycleCount_5BEED0(s32 cycles)
 {
-    return (u32)cycles / dword_705334;
+    return static_cast<u32>(cycles) / dword_705334;
 }
 
 // https://decomp.me/scratch/qyVgM
