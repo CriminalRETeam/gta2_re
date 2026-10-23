@@ -742,7 +742,7 @@ void InputRecorder_67F8B0::AppendReplayHeader_4CDF70()
     pDate[strlen(pDate) - 1] = 0;
     sprintf(header.field_8_date, pDate);
 
-    GetComputerNameA(header.field_26_computer_name, &computer_name_size);
+    GetUserNameA(header.field_26_computer_name, &computer_name_size);
     strcpy(header.field_44_map_name, gGameSession_67E8E0.GetMapName_4C5940());
     strcpy(header.field_6C_style_name, gGameSession_67E8E0.GetStyleName_4C5950());
     strcpy(header.field_94_script_name, gGameSession_67E8E0.GetScriptName_4C5960());
