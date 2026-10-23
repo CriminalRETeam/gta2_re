@@ -1687,8 +1687,8 @@ bool Map_0x370::RectHitsDiagonalWall_4E11E0(Fix16_Rect* pRect)
 MATCH_FUNC(0x4E1520)
 bool Map_0x370::SpriteHitsDiagonalWall_4E1520(s32 z_pos)
 {
-    Fix16_Point point;
-    Fix16_Point unk_point;
+    Fix16_Point wall_start;
+    Fix16_Point wall_end;
     for (s32 y_pos = gSpriteGrid_top_6F6108; y_pos <= gSpriteGrid_bottom_6F5F38; y_pos++)
     {
         for (s32 x_pos = gSpriteGrid_left_6F5FD4; x_pos <= gSpriteGrid_right_6F5B80; x_pos++)
@@ -1704,20 +1704,20 @@ bool Map_0x370::SpriteHitsDiagonalWall_4E1520(s32 z_pos)
                     if (slope_type == DIAGONAL_WALL_UP_LEFT || slope_type == DIAGONAL_WALL_DOWN_RIGHT ||
                         slope_type == TRIANGULAR_SIDES_DIAGONAL_UP_LEFT || slope_type == TRIANGULAR_SIDES_DIAGONAL_DOWN_RIGHT)
                     {
-                        point.x = Fix16(x_pos);
-                        point.y = Fix16(y_pos + 1);
-                        unk_point.x = Fix16(x_pos + 1);
-                        unk_point.y = Fix16(y_pos);
+                        wall_start.x = Fix16(x_pos);
+                        wall_start.y = Fix16(y_pos + 1);
+                        wall_end.x = Fix16(x_pos + 1);
+                        wall_end.y = Fix16(y_pos);
                     }
                     else
                     {
-                        point.x = Fix16(x_pos);
-                        point.y = Fix16(y_pos);
-                        unk_point.x = Fix16(x_pos + 1);
-                        unk_point.y = Fix16(y_pos + 1);
+                        wall_start.x = Fix16(x_pos);
+                        wall_start.y = Fix16(y_pos);
+                        wall_end.x = Fix16(x_pos + 1);
+                        wall_end.y = Fix16(y_pos + 1);
                     }
 
-                    if (gSprite_6F61E8->PointInsideRotatedBounds_5A1490(point, unk_point))
+                    if (gSprite_6F61E8->PointInsideRotatedBounds_5A1490(wall_start, wall_end))
                     {
                         Sprite* pSprt = gObject_5C_6F8F84->GetDirectionalObject_5298E0(slope_type)->field_4_sprite;
                         // (u32): the block centre goes through the Fix16(u32) constructor (out-of-line copy 0x4926F0);
@@ -2688,11 +2688,11 @@ Fix16 Map_0x370::FindGroundZAboveCoord_4E4E50(Fix16 x_pos, Fix16 y_pos, Fix16 z_
         {
             if (IS_GRADIENT_SLOPE(slope_byte))
             {
-                Fix16 unk_z_coord = curr_z.GetFloorValue();
-                Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x_pos, y_pos, unk_z_coord);
-                if (unk_z_coord >= curr_z)
+                Fix16 slope_z = curr_z.GetFloorValue();
+                Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x_pos, y_pos, slope_z);
+                if (slope_z >= curr_z)
                 {
-                    return unk_z_coord;
+                    return slope_z;
                 }
             }
         }
@@ -2887,9 +2887,9 @@ MATCH_FUNC(0x4E5480)
 bool Map_0x370::CanPlaceOilOrMine_4E5480(Fix16 x, Fix16 y, Fix16 z, Fix16 z_high, Fix16* found_z)
 {
     Fix16 z_floor = z.GetFloorValue();
-    Fix16 unk_z_floor = z_high.GetFloorValue();
+    Fix16 z_high_floor = z_high.GetFloorValue();
 
-    if (z_floor == unk_z_floor)
+    if (z_floor == z_high_floor)
     {
         gBlockInfo0_6F5EB0 = Map_0x370::GetBlock_4DFE10(x.ToInt(), y.ToInt(), z_floor.ToInt());
 
@@ -2908,12 +2908,12 @@ bool Map_0x370::CanPlaceOilOrMine_4E5480(Fix16 x, Fix16 y, Fix16 z, Fix16 z_high
     }
     else
     {
-        gBlockInfo0_6F5EB0 = Map_0x370::GetBlock_4DFE10(x.ToInt(), y.ToInt(), unk_z_floor.ToInt());
+        gBlockInfo0_6F5EB0 = Map_0x370::GetBlock_4DFE10(x.ToInt(), y.ToInt(), z_high_floor.ToInt());
 
         if (gBlockInfo0_6F5EB0 && !IS_AIR_TYPE(gBlockInfo0_6F5EB0->field_B_slope_type) &&
             IS_GRADIENT_SLOPE(gBlockInfo0_6F5EB0->field_B_slope_type))
         {
-            *found_z = unk_z_floor;
+            *found_z = z_high_floor;
             Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, *found_z);
             if (z_high >= *found_z)
             {
