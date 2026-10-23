@@ -5,9 +5,9 @@ values to the same blocks (jump tables and the byte index tables of merged cases
 
 compare_all_functions.py renames absolute addresses to stable_name_N in order of first use and leaves
 out jump tables, so a wrong `case` label, two swapped constants or a call to the wrong function still
-"match". Found this way: Ped::Deallocate_45EB60 (case 28 for 29), Char_B4::sub_54C090 (two constants
-swapped between cases), Car_BC::IsAreaDamaged_43D1C0, the script compares SCRCMD_I_OP_S/S_OP_S,
-Network_20324::SetSetting_51B9C0 and sound_obj::HandleTruckCorneringAudio_417FD0 (case labels).
+"match". Found this way: Ped::Deallocate_45EB60 (case 28 for 29), Char::sub_54C090 (two constants
+swapped between cases), Car::IsAreaDamaged_43D1C0, the script compares SCRCMD_I_OP_S/S_OP_S,
+NetUi::SetSetting_51B9C0 and sound_obj::HandleTruckCorneringAudio_417FD0 (case labels).
 
 Switch blocks laid out in another order pass when each value's block does the same (calls and globals
 mapped to 10.5.exe's). Differences reviewed as equivalent are in REVIEWED and left out; check a new one
