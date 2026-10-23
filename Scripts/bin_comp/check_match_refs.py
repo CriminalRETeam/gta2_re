@@ -18,9 +18,12 @@ their DEFINE_GLOBAL address or _ADDRESS name suffix, functions by their marker);
 no original for (strings, float constants, vtables, ...) is not checked.
 
 Usage (from Scripts/bin_comp, after build.py): python3 check_match_refs.py [address ...]
-Exit code 1 when something differs.
+Exit code 1 when something differs. Optional --numeric-json PATH writes a diagnostic
+for differing non-address immediates hidden by normalization; its candidates do not
+change that exit status. The JSON records input hashes and explicit coverage limits.
 """
-import bisect, json, re, struct, sys
+import argparse, bisect, collections, hashlib, json, re, struct, sys
+from pathlib import Path
 import compare_function, post_process_asm
 from iced_x86 import Decoder, FlowControl, Mnemonic, OpKind
 
@@ -51,6 +54,7 @@ class Pe:
         nsec = struct.unpack_from('<H', self.data, pe + 6)[0]
         optsize = struct.unpack_from('<H', self.data, pe + 20)[0]
         self.base = struct.unpack_from('<I', self.data, pe + 24 + 28)[0]
+        self.image_size = struct.unpack_from('<I', self.data, pe + 24 + 56)[0]
         self.secs = []
         for i in range(nsec):
             off = pe + 24 + optsize + i * 40
@@ -227,7 +231,130 @@ def same_as_build(og, new, sizes, a, b):
     return pa == pb
 
 
+
+NUMERIC_KINDS = (OpKind.IMMEDIATE8, OpKind.IMMEDIATE16, OpKind.IMMEDIATE32,
+                 OpKind.IMMEDIATE8TO16, OpKind.IMMEDIATE8TO32)
+
+
+def numeric_bytes(pe, va, size):
+    """Require one complete file-backed range; Pe.read's virtual zero fill is not evidence."""
+    if size > 0:
+        for start, _, raw, rawsize in pe.secs:
+            offset = va - start
+            if 0 <= offset and offset + size <= rawsize and raw + offset + size <= len(pe.data):
+                return pe.data[raw + offset:raw + offset + size]
+    return None
+
+
+def numeric_reachable(insns):
+    """Syntactic overapproximation: both direct conditional edges, calls only fall through."""
+    at = {i.ip: i for i in insns}
+    pending, seen = [insns[0].ip], set()
+    while pending:
+        address = pending.pop()
+        if address in seen or address not in at:
+            continue
+        seen.add(address)
+        i = at[address]
+        if i.flow_control in (FlowControl.RETURN, FlowControl.INTERRUPT,
+                              FlowControl.EXCEPTION, FlowControl.INDIRECT_BRANCH):
+            continue
+        if i.flow_control in (FlowControl.CONDITIONAL_BRANCH, FlowControl.UNCONDITIONAL_BRANCH):
+            if i.op0_kind == OpKind.NEAR_BRANCH32:
+                pending.append(i.near_branch_target)
+            if i.flow_control == FlowControl.UNCONDITIONAL_BRANCH:
+                continue
+        pending.append(i.next_ip)
+    return seen
+
+
+def numeric_operands(og, new, oa, na, size):
+    """Review candidates, not a verdict: aligned normalized-equal x86 and non-image values only."""
+    stats = collections.Counter(functions_considered=1)
+    left, right = numeric_bytes(og, oa, size), numeric_bytes(new, na, size)
+    if left is None or right is None:
+        stats['incomplete_file_backing_excluded'] += 1
+        return [], stats
+    a, b = list(Decoder(32, left, ip=oa)), list(Decoder(32, right, ip=na))
+    if not a or any(i.is_invalid for i in a + b):
+        stats['invalid_decode_excluded'] += 1
+        return [], stats
+    norm = lambda code: post_process_asm.post_process_asm(compare_function.dism_func(code))
+    if norm(left) != norm(right):
+        stats['normalization_unequal_excluded'] += 1
+        return [], stats
+    if len(a) != len(b) or any(x.code != y.code or x.op_count != y.op_count or
+            any(x.op_kind(o) != y.op_kind(o) for o in range(x.op_count)) for x, y in zip(a, b)):
+        stats['instruction_alignment_excluded'] += 1
+        return [], stats
+    stats['functions_aligned'] += 1
+    live_a, live_b = numeric_reachable(a), numeric_reachable(b)
+    # Include headers and gaps in these spans to conservatively exclude address-shaped values.
+    spans = [(p.base, p.base + p.image_size) for p in (og, new)]
+    records = []
+    for index, (x, y) in enumerate(zip(a, b)):
+        if x.ip not in live_a or y.ip not in live_b:
+            stats['unreached_instruction_pairs_excluded'] += 1
+            continue
+        for operand in range(x.op_count):
+            if x.op_kind(operand) not in NUMERIC_KINDS:
+                continue
+            stats['immediate_operand_pairs_reached'] += 1
+            xo, yo = x.immediate(operand) & 0xFFFFFFFF, y.immediate(operand) & 0xFFFFFFFF
+            if any(lo <= value < hi for value in (xo, yo) for lo, hi in spans):
+                stats['image_span_operand_pairs_excluded'] += 1
+                continue
+            stats['non_image_operand_pairs_compared'] += 1
+            if xo != yo:
+                records.append({'original_function': hex(oa), 'compiled_function': hex(na),
+                    'instruction_index': index, 'operand_index': operand,
+                    'original_instruction': hex(x.ip), 'compiled_instruction': hex(y.ip),
+                    'original_bytes': left[x.ip - oa:x.next_ip - oa].hex(),
+                    'compiled_bytes': right[y.ip - na:y.next_ip - na].hex(),
+                    'original_asm': str(x), 'compiled_asm': str(y),
+                    'original_value_u32': hex(xo), 'compiled_value_u32': hex(yo)})
+    return records, stats
+
+
+def numeric_report(nd, og, new, sizes, only):
+    records, stats, seen = [], collections.Counter(), set()
+    for f in nd['functions']:
+        if f.get('func_status') != '0x1' or not f.get('og_addr', '?').startswith('0x'):
+            continue
+        oa, na = int(f['og_addr'], 16), int(f['func_va'], 16)
+        if only and oa not in only:
+            continue
+        if (oa, na) in seen:
+            stats['duplicate_function_pairs_excluded'] += 1
+            continue
+        seen.add((oa, na))
+        if oa not in sizes:
+            stats['missing_original_size_excluded'] += 1
+            continue
+        found, counts = numeric_operands(og, new, oa, na, sizes[oa][1])
+        for row in found:
+            row['function_name'] = sizes[oa][0]
+        records.extend(found)
+        stats.update(counts)
+    records.sort(key=lambda r: (int(r['original_function'], 16), r['instruction_index'], r['operand_index']))
+    paths = {'original': OG, 'compiled': NEW, 'metadata': 'new_data.json',
+             'function_csv': 'og_function_data_v105.csv', 'map': ROOT + '/build_vc6/output.map'}
+    return {'format_version': 1, 'diagnostic_only': True, 'candidate_count': len(records),
+        'scope': 'Normalized-equal, aligned 32-bit x86; complete file-backed function ranges; direct local control flow only. '
+                 'Both conditional edges and call fallthrough are an overapproximation; branch conditions and callees are not executed. '
+                 'Switch/opaque targets, image-span values and other operand kinds are excluded. Unknown runtime pointers can be candidates. '
+                 'Differing numeric operands require review and do not change the reference-check verdict.',
+        'input_sha256': {name: hashlib.sha256(Path(path).read_bytes()).hexdigest() for name, path in paths.items()},
+        'implementation_sha256': {Path(path).name: hashlib.sha256(Path(path).read_bytes()).hexdigest()
+            for path in (__file__, compare_function.__file__, post_process_asm.__file__)},
+        'stats': dict(stats), 'candidates': records}
+
+
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("addresses", nargs="*", type=lambda value: int(value, 16))
+    parser.add_argument("--numeric-json", type=Path, help="write optional non-image immediate evidence; findings do not change the verdict")
+    args = parser.parse_args()
     nd, known = load()
     og, new = Pe(OG), Pe(NEW)
     sizes = {}
@@ -236,7 +363,7 @@ def main():
         if len(p) >= 4 and p[1].startswith('0x'):
             sizes[int(p[1], 16)] = (p[0], int(p[3], 16))
     known_sorted = sorted(known)
-    only = {int(a, 16) for a in sys.argv[1:]}
+    only = set(args.addresses)
     bad = 0
     checked = 0
     for f in nd['functions']:
@@ -307,6 +434,10 @@ def main():
             for p in problems[:10]:
                 print('   ' + p)
     print('%d MATCH functions checked, %d differ' % (checked, bad))
+    if args.numeric_json is not None:
+        report = numeric_report(nd, og, new, sizes, only)
+        args.numeric_json.write_text(json.dumps(report, indent=2, sort_keys=True) + '\n')
+        print('Numeric diagnostic: %d operand candidates; wrote %s' % (report['candidate_count'], args.numeric_json))
     sys.exit(1 if bad else 0)
 
 
