@@ -22,7 +22,7 @@ Exit code 1 when something differs.
 """
 import bisect, json, re, struct, sys
 import compare_function, post_process_asm
-from iced_x86 import Decoder, FlowControl, Mnemonic, OpKind
+from iced_x86 import Code, Decoder, FlowControl, MemorySizeExt, Mnemonic, OpKind, Register
 
 ROOT = '../..'
 # Differences that do the same as 10.5.exe (reviewed by reading both)
@@ -148,22 +148,49 @@ def table_len(insns, k):
 
 
 def switch_map(pe, insns, k, start, size):
-    """For the jmp [table + reg*4] at insns[k]: the block offset each switch index reaches."""
+    """Map a supported table to backed, valid local instruction starts, or decline its evidence.
+
+    The existing nearest-CMP length heuristic is retained; this does not prove guard dominance.
+    """
+    code = equivalence_bytes(pe, start, size)
+    if code is None:
+        return None
+    insns = list(Decoder(32, code, ip=start))
+    if not 0 <= k < len(insns):
+        return None
     jmp = insns[k]
-    def entry(e):
-        raw = pe.read(jmp.memory_displacement + 4 * e, 4)
-        return struct.unpack('<I', raw)[0] - start if raw else None
+    if jmp.code != Code.JMP_RM32 or jmp.op0_kind != OpKind.MEMORY or \
+            jmp.memory_base != Register.NONE or jmp.memory_index == Register.NONE or \
+            jmp.memory_index_scale != 4 or MemorySizeExt.size(jmp.memory_size) != 4 or \
+            jmp.segment_prefix != Register.NONE:
+        return None
     n = table_len(insns, k)
     if not n or n > 1024:
         return None
+    entries = list(range(n))
     for j in range(k - 1, max(-1, k - 4), -1):  # a byte index table first: mov dl, [idx + eax]
         i = insns[j]
         one_reg = (i.memory_index != 0) != (i.memory_base != 0)  # [table + reg], either encoding
         if i.op_count == 2 and i.op1_kind == OpKind.MEMORY and one_reg and i.memory_index_scale == 1 and \
                 i.memory_displacement >= pe.base:
-            idx = pe.read(i.memory_displacement, n)
-            return [entry(b) for b in idx] if idx else None
-    return [entry(e) for e in range(n)]
+            low_byte = {Register.EAX: Register.AL, Register.ECX: Register.CL,
+                        Register.EDX: Register.DL, Register.EBX: Register.BL}.get(jmp.memory_index)
+            if i.mnemonic != Mnemonic.MOV or i.op0_kind != OpKind.REGISTER or i.op0_register != low_byte or \
+                    MemorySizeExt.size(i.memory_size) != 1 or i.segment_prefix != Register.NONE:
+                return None  # Unsupported legacy candidates must not fall through to direct-table inference.
+            idx = pe.read_backed(i.memory_displacement, n)
+            if idx is None:
+                return None
+            entries = list(idx)
+            break
+    raw = pe.read_backed(jmp.memory_displacement, 4 * (max(entries) + 1))
+    if raw is None:
+        return None
+    targets = [struct.unpack_from('<I', raw, 4 * entry)[0] for entry in entries]
+    boundaries = {i.ip for i in insns}
+    if any(target not in boundaries for target in targets):
+        return None
+    return [target - start for target in targets]
 
 
 def block_sig(insns, start, off, mapaddr):
