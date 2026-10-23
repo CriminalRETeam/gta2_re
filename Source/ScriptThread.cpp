@@ -406,7 +406,7 @@ void ScriptThread::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
             pPed = gPedManager_6787BC->SpawnPedAt(pCmd->field_C_pos.field_0_x,
                                                   pCmd->field_C_pos.field_4_y,
                                                   pCmd->field_C_pos.field_8_z,
-                                                  pCmd->field_1A_remap,
+                                                  (u8)pCmd->field_1A_remap,
                                                   rotation);
         }
 
@@ -510,7 +510,7 @@ void ScriptThread::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER*
     {
         if (pCmd->field_1A_remap != -1)
         {
-            pPointer->field_8_car->SetCarRemap(pCmd->field_1A_remap);
+            pPointer->field_8_car->SetCarRemap((u8)pCmd->field_1A_remap);
         }
 
         Car* pCar = pPointer->field_8_car;
@@ -835,7 +835,7 @@ void ScriptThread::SCRCMD_SET_GANG_INFO1_504830(SCR_SET_GANG_INFO* pCmd)
 
     pZone->SetArrowColour_475940(pCmd->field_E_arrow_id);
     pZone->SetGangCarModel_4758E0(pCmd->field_1C_car_model);
-    pZone->SetGangCarRemap_4758F0(pCmd->field_1E_car_remap);
+    pZone->SetGangCarRemap_4758F0((char_type)pCmd->field_1E_car_remap);
 
     if (pCmd->field_10_pos.field_8_z == kFp255_6F7570)
     {
@@ -860,7 +860,7 @@ void ScriptThread::SCRCMD_SET_GANG_INFO1_504830(SCR_SET_GANG_INFO* pCmd)
 MATCH_FUNC(0x504950)
 void ScriptThread::SCRCMD_SET_DOOR_INFO_504950(SCR_FOUR_PARAMS* pCmd)
 {
-    gDoor_4D4_67BD2C->RegisterDoorInfo_49D2D0(pCmd->field_8_unsigned_1, pCmd->field_A_unsigned_2, pCmd->field_C_unsigned_3);
+    gDoor_4D4_67BD2C->RegisterDoorInfo_49D2D0(pCmd->field_8_unsigned_1, pCmd->field_A_unsigned_2, (char_type)pCmd->field_C_unsigned_3);
 }
 
 MATCH_FUNC(0x504970)
@@ -1220,12 +1220,12 @@ void ScriptThread::CRCMD_SET_TRAIN_STATIONS_505210(SCR_TWO_PARAMS* pCmd)
 MATCH_FUNC(0x5052c0)
 void ScriptThread::SCRCMD_DECLARE_POLICE_5052C0(SCR_DECLARE_POLICELEVEL* pCmd)
 {
-    u8 max_wanted_level = pCmd->field_A_wanted_level;
+    u8 max_wanted_level = (u8)pCmd->field_A_wanted_level;
     if (max_wanted_level == 0)
     {
         bSkip_police_67D4F9 = 0;
     }
-    gPolice_7B8_6FEE40->field_660_max_wanted_stars = pCmd->field_A_wanted_level; // max_wanted_level
+    gPolice_7B8_6FEE40->field_660_max_wanted_stars = (u8)pCmd->field_A_wanted_level; // max_wanted_level
 }
 
 MATCH_FUNC(0x505340)
@@ -2388,7 +2388,7 @@ MATCH_FUNC(0x5093c0)
 void ScriptThread::SCRCMD_DISPLAY_MESSAGE_5093C0()
 {
     SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
-    u8 type = ((SCR_TWO_PARAMS*)gBasePtr_6F8070)->field_A_unsigned_2;
+    u8 type = (u8)((SCR_TWO_PARAMS*)gBasePtr_6F8070)->field_A_unsigned_2;
     if (type == 1)
     {
         gRoot_sound_66B038.PlayVoice_40F090(voice_line::jobcomplete_22);
@@ -2636,7 +2636,7 @@ void ScriptThread::SCRCMD_GIVE_WEAPON_5098E0()
         }
         else
         {
-            pPointer->field_8_char->AddWeaponWithAmmo_45DD30(pCmd4->field_A_signed_2, pCmd4->field_C_signed_3);
+            pPointer->field_8_char->AddWeaponWithAmmo_45DD30(pCmd4->field_A_signed_2, (char_type)pCmd4->field_C_signed_3);
         }
     }
     else
@@ -3143,7 +3143,7 @@ void ScriptThread::SCRCMD_CHANGE_CAR_REMAP_50A570()
     SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
     if (pCmd->field_A_unsigned_2 != 0xFFu) //  field_A_unsigned_2 = remap
     {
-        pPointer->field_8_car->SetCarRemap(pCmd->field_A_unsigned_2);
+        pPointer->field_8_car->SetCarRemap((u8)pCmd->field_A_unsigned_2);
     }
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }
@@ -3156,7 +3156,7 @@ void ScriptThread::SCRCMD_CHANGE_CHAR_REMAP_50A5B0()
 
     if (pPointer->field_8_char)
     {
-        pPointer->field_8_char->SetRemap_433C10(pCmd->field_A_unsigned_2);
+        pPointer->field_8_char->SetRemap_433C10((u8)pCmd->field_A_unsigned_2);
     }
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }
@@ -3459,7 +3459,7 @@ void ScriptThread::SCRCMD_SET_GANG_KILL_REACTION_50AC20()
                           (u16)gBasePtr_6F8070->field_0_cmd_this);
     }
     Gang* pGang_2 = gGangPool_CA8_67E274->FindGangByName_4BF100(gang_2_str->get_name());
-    pGang_1->SetGangKillReaction_4BEF50(pGang_2->field_1_gang_idx, pCmd->field_A_unsigned_2);
+    pGang_1->SetGangKillReaction_4BEF50(pGang_2->field_1_gang_idx, (char_type)pCmd->field_A_unsigned_2);
     pGang_1->SetKillAffectsRespect_475900(1);
     pGang_2->SetKillAffectsRespect_475900(1);
     ScriptThread::Next_503620(gBasePtr_6F8070);
@@ -4006,7 +4006,7 @@ void ScriptThread::SCRCMD_THREAT_SEARCH_REACT_ADD_GROUP_50BBD0()
     switch (gBasePtr_6F8070->field_2_type)
     {
         case SCRCMD_ADD_GROUP:
-            pScrPtr->field_8_char->SpawnPedGroupFollowers_46E200(pCmd->field_A_objective);
+            pScrPtr->field_8_char->SpawnPedGroupFollowers_46E200((u8)pCmd->field_A_objective);
             break;
         case SCRCMD_SET_THREAT_REACT:
             pScrPtr->field_8_char->field_28C_threat_reaction = pCmd->field_A_objective;
@@ -4045,7 +4045,7 @@ void ScriptThread::SCRCMD_SET_MIN_ALIVE_50BCD0()
     SCR_CHAR_OBJECTIVE* pCmd = (SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070;
     SCR_POINTER* pPointer =
         (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(((SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070)->field_8_char_idx);
-    pPointer->field_8_char->field_164_ped_group->field_35_unused = pCmd->field_A_objective;
+    pPointer->field_8_char->field_164_ped_group->field_35_unused = (char_type)pCmd->field_A_objective;
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }
 
@@ -5157,7 +5157,7 @@ void ScriptThread::SCRCMD_CHANGE_INTENSITY_50D870()
     SCR_CHANGE_LIGHT_INTENSITY* pCmd = (SCR_CHANGE_LIGHT_INTENSITY*)gBasePtr_6F8070;
     SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
 
-    pPointer->field_8_light->SetIntensity_476AE0(pCmd->field_A_intensity);
+    pPointer->field_8_light->SetIntensity_476AE0((u8)pCmd->field_A_intensity);
 
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }
@@ -5536,7 +5536,7 @@ void ScriptThread::SCRCMD_SET_CAR_GRAPHIC_50E460()
     SCR_SET_CAR_GRAPHIC* pCmd = (SCR_SET_CAR_GRAPHIC*)gBasePtr_6F8070;
     SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
 
-    pPointer->field_8_car->SetCarGraphic_43CDF0(pCmd->field_C_number); // set the number on the top of the car
+    pPointer->field_8_car->SetCarGraphic_43CDF0((char_type)pCmd->field_C_number); // set the number on the top of the car
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }
 
@@ -5801,13 +5801,13 @@ void ScriptThread::SCRCMD_CHECK_WEAPONHIT_50EB00()
 
     if (!pCmd->field_A_status)
     {
-        gScriptManager_6F8060->TestAndRecordWeaponHit_512AF0(pPointer->field_8_char->get_id(), pCmd->field_C_weapon, 1);
+        gScriptManager_6F8060->TestAndRecordWeaponHit_512AF0(pPointer->field_8_char->get_id(), (char_type)pCmd->field_C_weapon, 1);
         field_8_cond_result = false;
         pCmd->field_A_status = 1;
     }
     else
     {
-        if (gScriptManager_6F8060->IsWeaponHitRecorded_512C70(pPointer->field_8_char->get_id(), pCmd->field_C_weapon, 1))
+        if (gScriptManager_6F8060->IsWeaponHitRecorded_512C70(pPointer->field_8_char->get_id(), (char_type)pCmd->field_C_weapon, 1))
         {
             field_8_cond_result = true;
             gScriptManager_6F8060->ClearWeaponHitFlag_512BA0(pPointer->field_8_char->get_id(), 1);
@@ -5832,13 +5832,13 @@ void ScriptThread::SCRCMD_WEAP_HIT_CAR_50EBD0()
         char hit;
         if (gBasePtr_6F8070->field_2_type == SCRCMD_WEAP_HIT_CAR)
         {
-            hit = gScriptManager_6F8060->TestAndRecordWeaponHit_512AF0(pPointer->field_8_car->field_6C_car_id, pCmd->field_C_weapon, 0);
+            hit = gScriptManager_6F8060->TestAndRecordWeaponHit_512AF0(pPointer->field_8_car->field_6C_car_id, (char_type)pCmd->field_C_weapon, 0);
         }
         else
         {
             hit = gScriptManager_6F8060->TestAndRecordWeaponHit_512AF0(pPointer->field_8_car->field_6C_car_id, 23, 0);
         }
-        if (hit && gScriptManager_6F8060->IsWeaponHitRecorded_512C70(pPointer->field_8_car->field_6C_car_id, pCmd->field_C_weapon, 0))
+        if (hit && gScriptManager_6F8060->IsWeaponHitRecorded_512C70(pPointer->field_8_car->field_6C_car_id, (char_type)pCmd->field_C_weapon, 0))
         {
             field_8_cond_result = true;
             pCmd->field_A_status = 0;
@@ -5851,7 +5851,7 @@ void ScriptThread::SCRCMD_WEAP_HIT_CAR_50EBD0()
     }
     else
     {
-        if (gScriptManager_6F8060->IsWeaponHitRecorded_512C70(pPointer->field_8_car->field_6C_car_id, pCmd->field_C_weapon, 0))
+        if (gScriptManager_6F8060->IsWeaponHitRecorded_512C70(pPointer->field_8_car->field_6C_car_id, (char_type)pCmd->field_C_weapon, 0))
         {
             field_8_cond_result = true;
             pCmd->field_A_status = 0;
@@ -6215,7 +6215,7 @@ void ScriptThread::SCRCMD_PED_GRAPHIC_50F550()
     if (pPointer->field_8_char != NULL)
     {
         pPointer->field_8_char->field_26C_graphic_type = pCmd->field_C_graphic_type;
-        pPointer->field_8_char->field_244_remap = pCmd->field_A_remap;
+        pPointer->field_8_char->field_244_remap = (char_type)pCmd->field_A_remap;
     }
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }
@@ -6403,7 +6403,7 @@ void ScriptThread::SCRCMD_KILL_CHAR_50FA00()
 MATCH_FUNC(0x50fa40)
 void ScriptThread::SCRCMD_SET_SHADING_LEV_50FA40()
 {
-    gpMapRenderer_6F66E4->set_shading_lev_4E9DB0(((SCR_CMD_HEADER*)gBasePtr_6F8070)[1].field_2_type);
+    gpMapRenderer_6F66E4->set_shading_lev_4E9DB0((u8)((SCR_CMD_HEADER*)gBasePtr_6F8070)[1].field_2_type);
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }
 
@@ -6678,7 +6678,7 @@ void ScriptThread::SCRCMD_START_BASIC_KF_510100() // START_BASIC_KF_TEMPLATE
         sprintf(gTmpBuffer_67C598, "%d", pCmd->field_A_brief_id);
         gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
         SCR_POINTER* pPlayerPedPtr = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_E_playername);
-        u8 weapon_idx = pCmd->field_10_weapon;
+        u8 weapon_idx = (u8)pCmd->field_10_weapon;
         if (weapon_idx < weapon_type::car_bomb || weapon_idx > 27)
         {
             // Ped weapons
