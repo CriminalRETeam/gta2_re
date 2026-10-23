@@ -1019,7 +1019,7 @@ Ped* PedManager::PedById(s32 pedId)
 {
     for (Ped* pPedIter = gPedPool_6787B8->GetFirstPed_435530(); pPedIter; pPedIter = pPedIter->mpNext)
     {
-        if (pPedIter->field_200_id == pedId)
+        if (pPedIter->field_200_id == (u32)pedId)
         {
             return pPedIter;
         }

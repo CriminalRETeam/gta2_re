@@ -68,7 +68,7 @@ void MissionCleanupList::MissionCleanUp_502DC0()
                     }
                     break;
                 case 3:
-                    if (pIter->field_0_ped->field_200_id == pIter->field_8_entity_id)
+                    if (pIter->field_0_ped->field_200_id == (u32)pIter->field_8_entity_id)
                     {
                         PedGroup* pPedGroup = pIter->field_0_ped->field_164_ped_group;
                         if (pPedGroup)

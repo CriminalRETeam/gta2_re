@@ -5319,7 +5319,7 @@ void Ped::CalcApproachPointNearTargetPed_4645B0()
     }
 
     // Comma form here and in the switch: braces would grow the caller size the inline budget is computed from
-    if (field_164_ped_group && field_204_killer_id == field_164_ped_group->field_2C_ped_leader->get_id() &&
+    if (field_164_ped_group && (u32)field_204_killer_id == field_164_ped_group->field_2C_ped_leader->get_id() &&
         field_164_ped_group->field_2C_ped_leader->field_21C_bf.bAttacking)
         bUnk = true, field_264_killer_id_timer = 50;
 
