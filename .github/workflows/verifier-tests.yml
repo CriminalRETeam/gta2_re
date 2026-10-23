@@ -1,0 +1,39 @@
+name: Verifier unit tests
+
+'on':
+  pull_request:
+    paths:
+      - 'Scripts/bin_comp/**'
+      - 'requirements.txt'
+      - '.github/workflows/verifier-tests.yml'
+  push:
+    branches: [master]
+    paths:
+      - 'Scripts/bin_comp/**'
+      - 'requirements.txt'
+      - '.github/workflows/verifier-tests.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  verifier-tests:
+    name: Verifier tests (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 5
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Python dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Run synthetic verifier tests
+        run: python -m unittest discover -s Scripts/bin_comp -p "test_*.py" -v
