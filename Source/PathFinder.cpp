@@ -872,7 +872,7 @@ LABEL_35:
                 pPatrolPoint_2->field_0_x = 0;
                 pPatrolPoint_2->field_1_y = 0;
                 pPatrolPoint_2->field_2_z = 0;
-                *pOutPathFailCount = field_C_node_count;
+                *pOutPathFailCount = (u8)field_C_node_count;
                 field_2FD0_bTimedOut = 1;
                 field_38_bComputePathInProgress = 0;
                 field_2FD1_time_out_counter = 0;

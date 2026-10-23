@@ -406,7 +406,7 @@ void Train::UpdatePassengerAI_578390()
                     {
                         if (this->field_54_passenger_timer <= 0)
                         {
-                            for (gTargetCarDoor_6FF1D8 = gRng_6F6784.get_int_4F7AE0(4); gTargetCarDoor_6FF1D8 < (u8)(*pTrainCar)->GetDoorCount_43B360();
+                            for (gTargetCarDoor_6FF1D8 = (u8)gRng_6F6784.get_int_4F7AE0(4); gTargetCarDoor_6FF1D8 < (u8)(*pTrainCar)->GetDoorCount_43B360();
                                  gTargetCarDoor_6FF1D8++)
                             {
                                 if ((*pTrainCar)->IsStoppedWithPavementAtDoor_43B140(gTargetCarDoor_6FF1D8) && this->field_56_passenger_count > 0)

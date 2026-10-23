@@ -72,7 +72,7 @@ EXPORT void Generator::SpawnObject_4C1B10()
                 {
                     if (field_1C_ammo > 0)
                     {
-                        pObj->field_26_ped_ref_idx = field_1C_ammo;
+                        pObj->field_26_ped_ref_idx = (u8)field_1C_ammo;
                     }
                 }
                 field_24_obj = pObj;
@@ -95,7 +95,7 @@ EXPORT void Generator::SpawnObject_4C1B10()
             {
                 if (field_1C_ammo > 0)
                 {
-                    pObj->field_26_ped_ref_idx = field_1C_ammo;
+                    pObj->field_26_ped_ref_idx = (u8)field_1C_ammo;
                 }
             }
             field_24_obj = pObj;
