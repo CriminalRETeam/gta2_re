@@ -905,10 +905,10 @@ void InputRecorder_67F8B0::input_init_replay_4CE740(HINSTANCE hInstance)
     LoadReplayHeader_4CE380(0);
 
     u32 bufLen = sizeof(field_3C_rec_buff);
-    const s32 remainderSize = File::Global_ReadRemainder_4A7250(this->field_3C_rec_buff, &bufLen);
+    const u32 remainderSize = File::Global_ReadRemainder_4A7250(this->field_3C_rec_buff, &bufLen);
     File::Global_Close_4A70C0();
     this->field_7533C_used_recs_count = remainderSize / sizeof(InputRecord);
-    if (sizeof(InputRecord) * (remainderSize / sizeof(InputRecord)) != (u32)remainderSize)
+    if (sizeof(InputRecord) * (remainderSize / sizeof(InputRecord)) != remainderSize)
     {
         FatalError_4A38C0(Gta2Error::ReplayFileTooLarge, "C:\\Splitting\\Gta2\\Source\\input.cpp", 616, remainderSize);
     }
@@ -1027,7 +1027,7 @@ MATCH_FUNC(0x4ceac0)
 u32 InputRecorder_67F8B0::get_input_bits_4CEAC0()
 {
     s32 inputs;
-    s32 saved_input = field_4_input_bits;
+    u32 saved_input = field_4_input_bits;
     u32* control_status = (u32*)&field_4_input_bits;
     InputRecorder_67F8B0::clear_inputs_4CDCE0();
 
@@ -1145,7 +1145,7 @@ u32 InputRecorder_67F8B0::get_input_bits_4CEAC0()
 
     if (bLog_input_67D4CC)
     {
-        if (*control_status != (u32)saved_input)
+        if (*control_status != saved_input)
         {
             sprintf(gTmpBuffer_67C598, "%d: control_status = %d", gpRng_67AB34->get_cur_rng_41CFE0(), *control_status);
             gFile_67C530.Write_4D9620(gTmpBuffer_67C598);
