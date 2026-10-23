@@ -604,7 +604,6 @@ struct WeaponCheckTable
     s8 field_4_weapon_idx;
     s8 field_5_hit_projectile_type;
     s8 field_6_flags;
-    s8 field_7_pad;
 };
 
 // Loads the mission scripts (.scr) and runs the script threads, also fills / reads the savegame script data
