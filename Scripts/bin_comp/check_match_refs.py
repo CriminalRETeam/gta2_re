@@ -64,6 +64,15 @@ class Pe:
                 return self.data[raw + o:raw + min(o + n, rawsize)].ljust(n, b'\0') if o < rawsize else b'\0' * n
         return None
 
+    def read_backed(self, va, n):
+        """Optional equivalence witnesses require one complete file-backed range."""
+        if n > 0:
+            for start, _, raw, rawsize in self.secs:
+                offset = va - start
+                if 0 <= offset and offset + n <= rawsize and raw + offset + n <= len(self.data):
+                    return self.data[raw + offset:raw + offset + n]
+        return None
+
     def inside(self, va):
         return any(s <= va < s + n for s, n, _, _ in self.secs)
 
@@ -184,14 +193,24 @@ def block_sig(insns, start, off, mapaddr):
     return out
 
 
+def equivalence_bytes(pe, address, size):
+    code = pe.read_backed(address, size)
+    if code is None or any(i.is_invalid for i in Decoder(32, code)):
+        return None
+    return code
+
+
 def same_code(og, sizes, a, b):
     """Two functions of 10.5.exe with the same code (an operator and its COMDAT copy): calling either is fine."""
     if a not in sizes or b not in sizes or sizes[a][1] != sizes[b][1]:
         return False
+    left, right = equivalence_bytes(og, a, sizes[a][1]), equivalence_bytes(og, b, sizes[b][1])
+    if left is None or right is None:
+        return False  # Missing/invalid bytes cannot establish an alias witness.
     # the same instructions, with relative branches compared by where they land (calls by target)
-    key = lambda f: [(i.code, i.near_branch_target if i.flow_control == FlowControl.CALL else
-                      i.near_branch_target - f if i.op0_kind == OpKind.NEAR_BRANCH32 else str(i)) for i in decode(og, f, sizes[f][1])]
-    return key(a) == key(b)
+    key = lambda code, f: [(i.code, i.near_branch_target if i.flow_control == FlowControl.CALL else
+                      i.near_branch_target - f if i.op0_kind == OpKind.NEAR_BRANCH32 else str(i)) for i in Decoder(32, code, ip=f)]
+    return key(left, a) == key(right, b)
 
 
 def same_as_build(og, new, sizes, a, b):
@@ -200,8 +219,11 @@ def same_as_build(og, new, sizes, a, b):
     if a not in sizes:
         return False
     n = sizes[a][1]
-    pa = post_process_asm.post_process_asm(compare_function.dism_func(og.read(a, n)))
-    pb = post_process_asm.post_process_asm(compare_function.dism_func(new.read(b, n)))
+    left, right = equivalence_bytes(og, a, n), equivalence_bytes(new, b, n)
+    if left is None or right is None:
+        return False  # An inconclusive optional witness must not waive a discrepancy.
+    pa = post_process_asm.post_process_asm(compare_function.dism_func(left))
+    pb = post_process_asm.post_process_asm(compare_function.dism_func(right))
     return pa == pb
 
 
