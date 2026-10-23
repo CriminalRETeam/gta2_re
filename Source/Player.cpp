@@ -2498,7 +2498,7 @@ void Player::SetScoreTextColour_569C20()
         if (field_60_finish_score_reached == 0)
         {
             u32 score = field_2D4_scores.GetScore_592370();
-            if (score >= gScriptManager_6F8060->field_310_finish_score)
+            if (score >= (u32)gScriptManager_6F8060->field_310_finish_score)
             {
                 field_60_finish_score_reached = 1;
                 // Red when map "beaten"
@@ -2508,7 +2508,7 @@ void Player::SetScoreTextColour_569C20()
         else
         {
             u32 score = field_2D4_scores.GetScore_592370();
-            if (score < gScriptManager_6F8060->field_310_finish_score)
+            if (score < (u32)gScriptManager_6F8060->field_310_finish_score)
             {
                 field_60_finish_score_reached = 0;
                 field_2D4_scores.GetScoreDigits_592360()->ColorDigits_4921F0(palette_types_enum::sprites_2, 0);
