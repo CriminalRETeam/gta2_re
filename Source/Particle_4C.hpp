@@ -3,6 +3,7 @@
 #include "particle_flags.hpp"
 #include "Function.hpp"
 #include "ang16.hpp"
+#include "Fix16_Point.hpp"
 
 class Sprite;
 class Explosion;
@@ -38,12 +39,8 @@ class Particle_4C
         s32 field_4_flags;
         ParticleFlags32 field_4_bf;
     };
-    Fix16 field_8_speed_x;
-    Fix16 field_C_speed_y;
-    Fix16 field_10_unused;
-    Fix16 field_14_additional_speed_x;
-    Fix16 field_18_additional_speed_y;
-    Fix16 field_1C_unused;
+    Fix16_Vec field_8_speed;
+    Fix16_Vec field_14_additional_speed;
     Fix16 field_20_speed;
     Ang16 field_24_angle;
     s16 field_26_unused;

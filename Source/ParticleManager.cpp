@@ -60,18 +60,18 @@ void ParticleManager::ParticlesService_53E320()
 }
 
 MATCH_FUNC(0x53E3C0)
-Particle_4C* ParticleManager::New_53E3C0(Fix16 speed_x, Fix16 speed_y, Fix16 field_10_value, Fix16 additional_speed_x, Fix16 additional_speed_y, Fix16 field_1C_value)
+Particle_4C* ParticleManager::New_53E3C0(Fix16 speed_x, Fix16 speed_y, Fix16 speed_z, Fix16 additional_speed_x, Fix16 additional_speed_y, Fix16 additional_speed_z)
 {
     Particle_4C* pNewParticle = 0;
     if (gParticle_4C_Pool_6FD5E4->has_pStart_48A8F0() && gSpritePool_703818->has_free_48A8D0())
     {
         pNewParticle = gParticle_4C_Pool_6FD5E4->Allocate();
-        pNewParticle->field_8_speed_x = speed_x;
-        pNewParticle->field_C_speed_y = speed_y;
-        pNewParticle->field_10_unused = field_10_value;
-        pNewParticle->field_14_additional_speed_x = additional_speed_x;
-        pNewParticle->field_18_additional_speed_y = additional_speed_y;
-        pNewParticle->field_1C_unused = field_1C_value;
+        pNewParticle->field_8_speed.x = speed_x;
+        pNewParticle->field_8_speed.y = speed_y;
+        pNewParticle->field_8_speed.z = speed_z;
+        pNewParticle->field_14_additional_speed.x = additional_speed_x;
+        pNewParticle->field_14_additional_speed.y = additional_speed_y;
+        pNewParticle->field_14_additional_speed.z = additional_speed_z;
         pNewParticle->field_0_id = gParticleInstCount_6FD5F4;
         pNewParticle->field_30_pOwnSprite = gSpritePool_703818->get_new_sprite();
         ++gParticleInstCount_6FD5F4;

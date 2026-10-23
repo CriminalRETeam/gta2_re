@@ -164,14 +164,14 @@ bool Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
             vector.y = old_x.Negate_4086A0().Multiply_408680(sin).Add_408660(vector.y.Multiply_408680(cos));
         }
 
-        field_14_additional_speed_x = vector.x;
-        field_18_additional_speed_y = vector.y;
+        field_14_additional_speed.x = vector.x;
+        field_14_additional_speed.y = vector.y;
 
-        field_8_speed_x = field_14_additional_speed_x + rng_1;
-        field_C_speed_y = field_18_additional_speed_y + rng_2;
+        field_8_speed.x = field_14_additional_speed.x + rng_1;
+        field_8_speed.y = field_14_additional_speed.y + rng_2;
 
-        pos_x = pos_x + field_8_speed_x;
-        pos_y = pos_y + field_C_speed_y;
+        pos_x = pos_x + field_8_speed.x;
+        pos_y = pos_y + field_8_speed.y;
         gParticlePosX_6FD388 = pos_x;
         gParticlePosY_6FD38C = pos_y;
         if (gParticlePosX_6FD388 > kFP16One_6FD4A0 && gParticlePosX_6FD388 < kFp255_6FD280 - kFP16One_6FD4A0 && gParticlePosY_6FD38C > kFP16One_6FD4A0 &&
@@ -296,8 +296,8 @@ bool Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
     }
 
     dir.RotateByAngle_40F6B0(field_24_angle);
-    field_14_additional_speed_x = dir.x;
-    field_18_additional_speed_y = dir.y;
+    field_14_additional_speed.x = dir.x;
+    field_14_additional_speed.y = dir.y;
 
     jitter_x = 0;
     jitter_y = 0;
@@ -311,10 +311,10 @@ bool Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
         jitter_y = ry / 100;
     }
 
-    field_8_speed_x = field_14_additional_speed_x + off_x + jitter_x;
-    field_C_speed_y = field_18_additional_speed_y + off_y + jitter_y;
-    xpos += field_8_speed_x;
-    ypos += field_C_speed_y;
+    field_8_speed.x = field_14_additional_speed.x + off_x + jitter_x;
+    field_8_speed.y = field_14_additional_speed.y + off_y + jitter_y;
+    xpos += field_8_speed.x;
+    ypos += field_8_speed.y;
     gParticlePosX_6FD388 = xpos;
     gParticlePosY_6FD38C = ypos;
 
@@ -580,18 +580,18 @@ bool Particle_4C::UpdateDirectedBurstSweep_state_4_539040()
             }
 
             dir.RotateByAngle_40F6B0(field_24_angle);
-            field_14_additional_speed_x = dir.x;
-            field_18_additional_speed_y = dir.y;
+            field_14_additional_speed.x = dir.x;
+            field_14_additional_speed.y = dir.y;
 
             jitter_x = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1);
             jitter_x = jitter_x / 30;
             jitter_y = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1);
             jitter_y = jitter_y / 30;
 
-            field_8_speed_x = field_14_additional_speed_x + off_x + jitter_x;
-            field_C_speed_y = field_18_additional_speed_y + off_y + jitter_y;
-            xpos = xpos + field_8_speed_x;
-            ypos = ypos + field_C_speed_y;
+            field_8_speed.x = field_14_additional_speed.x + off_x + jitter_x;
+            field_8_speed.y = field_14_additional_speed.y + off_y + jitter_y;
+            xpos = xpos + field_8_speed.x;
+            ypos = ypos + field_8_speed.y;
             gParticlePosX_6FD388 = xpos;
             gParticlePosY_6FD38C = ypos;
 
@@ -689,18 +689,18 @@ bool Particle_4C::UpdateDirectedBurst_state_13_14_36_539480()
             }
 
             dir.RotateByAngle_40F6B0(field_24_angle);
-            field_14_additional_speed_x = dir.x;
-            field_18_additional_speed_y = dir.y;
+            field_14_additional_speed.x = dir.x;
+            field_14_additional_speed.y = dir.y;
 
             jitter_x = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1);
             jitter_x = jitter_x / 50;
             jitter_y = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1);
             jitter_y = jitter_y / 50;
 
-            field_8_speed_x = field_14_additional_speed_x + off_x + jitter_x;
-            field_C_speed_y = field_18_additional_speed_y + off_y + jitter_y;
-            xpos = xpos + field_8_speed_x;
-            ypos = ypos + field_C_speed_y;
+            field_8_speed.x = field_14_additional_speed.x + off_x + jitter_x;
+            field_8_speed.y = field_14_additional_speed.y + off_y + jitter_y;
+            xpos = xpos + field_8_speed.x;
+            ypos = ypos + field_8_speed.y;
             gParticlePosX_6FD388 = xpos;
             gParticlePosY_6FD38C = ypos;
 
@@ -879,8 +879,8 @@ bool Particle_4C::UpdateCircularBurst_state_5_539890()
         dir.x = (dir.x * cos).Add_408660(dir.y * sin);
         dir.y = old_x.Negate_4086A0().Multiply_408680(sin).Add_408660(dir.y.Multiply_408680(cos));
     }
-    field_14_additional_speed_x = dir.x;
-    field_18_additional_speed_y = dir.y;
+    field_14_additional_speed.x = dir.x;
+    field_14_additional_speed.y = dir.y;
 
     Fix16 jitter_x = 0;
     jitter_y = 0;
@@ -894,10 +894,10 @@ bool Particle_4C::UpdateCircularBurst_state_5_539890()
         jitter_y = ry / 100;
     }
 
-    field_8_speed_x = field_14_additional_speed_x + jitter_x;
-    field_C_speed_y = field_18_additional_speed_y + off_y + jitter_y;
-    xpos += field_8_speed_x;
-    ypos += field_C_speed_y;
+    field_8_speed.x = field_14_additional_speed.x + jitter_x;
+    field_8_speed.y = field_14_additional_speed.y + off_y + jitter_y;
+    xpos += field_8_speed.x;
+    ypos += field_8_speed.y;
     gParticlePosX_6FD388 = xpos;
     gParticlePosY_6FD38C = ypos;
 
@@ -1092,19 +1092,19 @@ bool Particle_4C::UpdateSimpleBallisticMotion_state_1_53ABA0()
 
     if (field_2C_counter > this->field_2E_initial_counter >> 1)
     {
-        this->field_8_speed_x = this->field_14_additional_speed_x + this->field_8_speed_x;
-        this->field_C_speed_y = this->field_18_additional_speed_y + field_C_speed_y;
+        this->field_8_speed.x = this->field_14_additional_speed.x + this->field_8_speed.x;
+        this->field_8_speed.y = this->field_14_additional_speed.y + field_8_speed.y;
         new_z = field_30_pOwnSprite->field_1C_zpos + z;
     }
     else
     {
-        this->field_8_speed_x = this->field_14_additional_speed_x + this->field_8_speed_x;
-        this->field_C_speed_y = this->field_18_additional_speed_y + field_C_speed_y;
+        this->field_8_speed.x = this->field_14_additional_speed.x + this->field_8_speed.x;
+        this->field_8_speed.y = this->field_14_additional_speed.y + field_8_speed.y;
         new_z = field_30_pOwnSprite->field_1C_zpos - z;
     }
 
-    gParticlePosX_6FD388 = x + field_8_speed_x + field_30_pOwnSprite->field_14_xy.x;
-    gParticlePosY_6FD38C = y + field_C_speed_y + field_30_pOwnSprite->field_14_xy.y;
+    gParticlePosX_6FD388 = x + field_8_speed.x + field_30_pOwnSprite->field_14_xy.x;
+    gParticlePosY_6FD38C = y + field_8_speed.y + field_30_pOwnSprite->field_14_xy.y;
     if (new_z > kMaxZ_6FD28C)
     {
         new_z = kMaxZ_6FD28C;
@@ -1135,18 +1135,18 @@ bool Particle_4C::UpdateLargeBallisticDebris_state_35_53AE60()
     Fix16 zpos;
     if (field_2C_counter > (field_2E_initial_counter >> 1))
     {
-        field_8_speed_x = field_8_speed_x + field_14_additional_speed_x;
-        field_C_speed_y = field_C_speed_y + field_18_additional_speed_y;
+        field_8_speed.x = field_8_speed.x + field_14_additional_speed.x;
+        field_8_speed.y = field_8_speed.y + field_14_additional_speed.y;
         zpos = field_30_pOwnSprite->field_1C_zpos + z_offset;
     }
     else
     {
-        field_8_speed_x = field_8_speed_x + field_14_additional_speed_x;
-        field_C_speed_y = field_C_speed_y + field_18_additional_speed_y;
+        field_8_speed.x = field_8_speed.x + field_14_additional_speed.x;
+        field_8_speed.y = field_8_speed.y + field_14_additional_speed.y;
         zpos = field_30_pOwnSprite->field_1C_zpos - z_offset;
     }
-    gParticlePosX_6FD388 = field_30_pOwnSprite->field_14_xy.x + field_8_speed_x + x;
-    gParticlePosY_6FD38C = field_30_pOwnSprite->field_14_xy.y + field_C_speed_y + y;
+    gParticlePosX_6FD388 = field_30_pOwnSprite->field_14_xy.x + field_8_speed.x + x;
+    gParticlePosY_6FD38C = field_30_pOwnSprite->field_14_xy.y + field_8_speed.y + y;
 
     if (zpos > kMaxZ_6FD28C)
     {
@@ -1183,18 +1183,18 @@ bool Particle_4C::UpdateDebrisArc_state_7_53B1A0()
     Fix16 zpos;
     if (field_2C_counter > (field_2E_initial_counter >> 1))
     {
-        field_8_speed_x = field_8_speed_x + field_14_additional_speed_x;
-        field_C_speed_y = field_C_speed_y + field_18_additional_speed_y;
+        field_8_speed.x = field_8_speed.x + field_14_additional_speed.x;
+        field_8_speed.y = field_8_speed.y + field_14_additional_speed.y;
         zpos = field_30_pOwnSprite->field_1C_zpos + z_offset;
     }
     else
     {
-        field_8_speed_x = field_8_speed_x + field_14_additional_speed_x;
-        field_C_speed_y = field_C_speed_y + field_18_additional_speed_y;
+        field_8_speed.x = field_8_speed.x + field_14_additional_speed.x;
+        field_8_speed.y = field_8_speed.y + field_14_additional_speed.y;
         zpos = field_30_pOwnSprite->field_1C_zpos - z_offset;
     }
-    gParticlePosX_6FD388 = x + field_8_speed_x + field_30_pOwnSprite->field_14_xy.x;
-    gParticlePosY_6FD38C = y + field_C_speed_y + field_30_pOwnSprite->field_14_xy.y;
+    gParticlePosX_6FD388 = x + field_8_speed.x + field_30_pOwnSprite->field_14_xy.x;
+    gParticlePosY_6FD38C = y + field_8_speed.y + field_30_pOwnSprite->field_14_xy.y;
 
     switch (field_2C_counter)
     {
@@ -1882,9 +1882,9 @@ char_type Particle_4C::PoolUpdate()
 MATCH_FUNC(0x53e2c0)
 void Particle_4C::PoolAllocate()
 {
-    field_8_speed_x = 0;
-    field_C_speed_y = 0;
-    field_10_unused = 0;
+    field_8_speed.x = 0;
+    field_8_speed.y = 0;
+    field_8_speed.z = 0;
     field_40_pExplosion = 0;
     field_4_bf.bDriverAttacking = false;
 }
