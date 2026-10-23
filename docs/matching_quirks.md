@@ -98,6 +98,14 @@ handled. A `target_asm.json` dumped before that fix still has the old `pp` text,
 `sound_obj::Release_41A290` and `Char::IsThreatToSearchingPed_553330` were real matches and
 now have rows.
 
+**EH unwind funclets are not verified, and a local's name can move them.** In
+`Object::IntegrateMovementAndCollisions_523BF0`, renaming the `Ang16` declared first (`unk_angle`) to
+`prev_angle`, `last_angle` or `a` moved the unused `Fix16_Point point2` from `-0x1c(%ebp)` to `-0x20(%ebp)`;
+`prev_rotation`, `saved_angle` or `angle0` keep it. The body never touches point2, so only the `lea` in its
+unwind funclet (after the CRT in `.text`) changes, and neither the verifier nor `compare_builds.py` looks there;
+a byte compare of the whole exe does. The unwind maps already differ there: for EH states 0 and 1 the
+original destroys `-0x44` then `-0x14`, ours `-0x14` then `-0x1c`.
+
 **Calls to unnamed operator copies are fine, mixing them is not.** The verifier (and
 `permuter_score.py`) names call targets per function by first use, so a call to the COMDAT copy of an
 inline (`??DFix16`, `??0Fix16@@QAE@H@Z`, `?Normalize@Ang16`) where the original calls `0x408680`,
