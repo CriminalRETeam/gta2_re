@@ -268,7 +268,7 @@ s32 Map_0x370::FindZoneIdxByName_4DF050(const char_type* pZoneName, BYTE zone_na
 MATCH_FUNC(0x4DF0F0)
 gmp_map_zone* Map_0x370::GetNextZoneOfTypeRoundRobin_4DF0F0(u8 zone_type)
 {
-    static short sLastIdx_6F626C;
+    static short sLastIdx_6F626C; // the turn, one for every zone type: a call for one type moves it on for the others too
 
     s16 zone_stack[40];
 

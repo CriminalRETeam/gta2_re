@@ -2716,7 +2716,7 @@ void Ped::Deallocate_45EB60()
     {
         if (!field_248_enter_car_as_passenger)
         {
-            field_16C_car->field_54_driver = 0;
+            field_16C_car->field_54_driver = 0; // whether or not this ped is the car's driver
             if (field_238_ped_type == ped_type::script_created_5)
             {
                 if (field_16C_car->GetCarKind_4343B0() == 1)
