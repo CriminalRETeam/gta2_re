@@ -83,10 +83,8 @@ class CarAI
     char_type field_8_maneuver_active;
     char_type field_9_probe_x;
     char_type field_A_probe_y;
-    char_type field_B_pad;
     CarAI* mpNext;
     Ang16 field_10_angle;
-    s16 field_12_pad;
     Fix16 field_14_speed;
     Fix16 field_18_target_speed;
     Fix16 field_1C_acceleration;
@@ -107,9 +105,6 @@ class CarAI
     char_type field_2E_arrow_cur;
     char_type field_2F_arrow_end;
     u8 field_30_forced_stop_timer;
-    char_type field_31_pad;
-    char_type field_32_pad;
-    char_type field_33_pad;
     s32 field_34_unused;
     s32 field_38_junction_turn_direction;
     s32 field_3C_seeking_road;
