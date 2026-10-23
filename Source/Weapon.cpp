@@ -334,11 +334,11 @@ void Weapon::shotgun_5DD290()
         set_field_2C_4CCA80(1);
         if (!field_4_bTargetHit)
         {
-            Object* pBullet_1 = Weapon::spawn_bullet_5DCF60(objects::shotgun_bullet_192, x, y, z, Ang16(kAng12_706D5E.rValue + ped_rotation.rValue, (u8)0), vector);
-            Object* pBullet_2 = Weapon::spawn_bullet_5DCF60(objects::shotgun_bullet_192, x, y, z, Ang16(word_707002.rValue + ped_rotation.rValue, (u8)0), vector);
+            Object* pBullet_1 = Weapon::spawn_bullet_5DCF60(objects::shotgun_bullet_192, x, y, z, Ang16(kAng12_706D5E.rValue + ped_rotation.rValue, static_cast<u8>(0)), vector);
+            Object* pBullet_2 = Weapon::spawn_bullet_5DCF60(objects::shotgun_bullet_192, x, y, z, Ang16(word_707002.rValue + ped_rotation.rValue, static_cast<u8>(0)), vector);
             Object* pBullet_3 = Weapon::spawn_bullet_5DCF60(objects::shotgun_bullet_192, x, y, z, ped_rotation, vector);
-            Object* pBullet_4 = Weapon::spawn_bullet_5DCF60(objects::shotgun_bullet_192, x, y, z, Ang16(ped_rotation.rValue - word_707002.rValue, (u8)0), vector);
-            Object* pBullet_5 = Weapon::spawn_bullet_5DCF60(objects::shotgun_bullet_192, x, y, z, Ang16(ped_rotation.rValue - kAng12_706D5E.rValue, (u8)0), vector);
+            Object* pBullet_4 = Weapon::spawn_bullet_5DCF60(objects::shotgun_bullet_192, x, y, z, Ang16(ped_rotation.rValue - word_707002.rValue, static_cast<u8>(0)), vector);
+            Object* pBullet_5 = Weapon::spawn_bullet_5DCF60(objects::shotgun_bullet_192, x, y, z, Ang16(ped_rotation.rValue - kAng12_706D5E.rValue, static_cast<u8>(0)), vector);
             if ((pBullet_1 || pBullet_2 || pBullet_3 || pBullet_4 || pBullet_5) && field_24_pPed->PedTypeIs_45EDE0(ped_type::player_2))
             {
                 decrement_ammo_4CCA30();
@@ -355,9 +355,9 @@ void Weapon::shotgun_5DD290()
         else
         {
             Weapon::spawn_bullet_5DCF60(objects::tanktop_193, x, y, z, kAng24_706D5C + ped_rotation, vector);
-            Weapon::spawn_bullet_5DCF60(objects::tanktop_193, x, y, z, Ang16(kAng12_706D5E.rValue + ped_rotation.rValue, (u8)0), vector);
+            Weapon::spawn_bullet_5DCF60(objects::tanktop_193, x, y, z, Ang16(kAng12_706D5E.rValue + ped_rotation.rValue, static_cast<u8>(0)), vector);
             Weapon::spawn_bullet_5DCF60(objects::tanktop_193, x, y, z, ped_rotation, vector);
-            Weapon::spawn_bullet_5DCF60(objects::tanktop_193, x, y, z, Ang16(ped_rotation.rValue - kAng12_706D5E.rValue, (u8)0), vector);
+            Weapon::spawn_bullet_5DCF60(objects::tanktop_193, x, y, z, Ang16(ped_rotation.rValue - kAng12_706D5E.rValue, static_cast<u8>(0)), vector);
             Weapon::spawn_bullet_5DCF60(objects::tanktop_193, x, y, z, Ang16(ped_rotation.rValue - kAng24_706D5C.rValue).Normalized_406C20(), vector);
             field_2_reload_timer = 5;
         }
@@ -942,7 +942,7 @@ void __stdcall DrawElectricArc_5DE910(Fix16_Point_POD start_pos, Fix16_Point& en
         // temporary (a named local moves the frame slots) and `-=` evaluates the half first.
         u16 spread = (gRng_6F6784.get_int_4F7AE0(4) + 1) * 32;
         Ang16 jitter = Ang16::Fix16_To_Ang16_ool_40F540(
-            (Fix16(gRng_6F6784.get_int_4F7AE0(spread)) -= Fix16((u16)(spread >> 1))) * kFpOne64th_706D34);
+            (Fix16(gRng_6F6784.get_int_4F7AE0(spread)) -= Fix16(static_cast<u16>(spread >> 1))) * kFpOne64th_706D34);
 
         step.x = seg_len.Multiply_408680(Ang16::sine_40F500(angle));
         step.y = seg_len.Multiply_408680(Ang16::cosine_40F520(angle));
@@ -1496,7 +1496,7 @@ void Weapon::fire_truck_gun_5E0E70()
 // (tank_main_gun_5E10E0, army_gun_jeep_5E13E0)
 static inline Fix16 MultiplyLeftWide(const Fix16& a, const Fix16& b)
 {
-    return Fix16((s32)(((__int64)a.mValue * b.mValue) >> 14), 0);
+    return Fix16(static_cast<s32>((static_cast<__int64>(a.mValue) * b.mValue) >> 14), 0);
 }
 
 // Fix16 sum as a free function: the sum lands in ecx (operator+ gives eax)
