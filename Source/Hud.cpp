@@ -2932,8 +2932,8 @@ void Hud_PlayerStats::DrawPlayerStats_5D5C80()
     }
     else
     {
-        u8 unk = pPlayer->field_718_weapons[ammo_idx]->get_ammo_4A4FB0();
-        DrawAmmo_5D6060(ammo_idx, unk);
+        u8 ammo = pPlayer->field_718_weapons[ammo_idx]->get_ammo_4A4FB0();
+        DrawAmmo_5D6060(ammo_idx, ammo);
     }
 
     s32 powerup_xpos = 639;
@@ -3002,8 +3002,8 @@ void Hud_PlayerStats::DrawPlayerStats_5D5C80()
                      gTagGame_6F8450.GetPlayerTime_4C7380(pPlayer) / 60,
                      gTagGame_6F8450.GetPlayerTime_4C7380(pPlayer) % 60);
 
-            const s32 unknownn = (pPlayer->field_78C_hud_palette_type != 7) ? 2 : 8;
-            DrawText_5D7720(Buffer, 420, 4, word_703BAA, unknownn, pPlayer->field_790_hud_palette - 1, 0, 0);
+            const s32 text_palette_type = (pPlayer->field_78C_hud_palette_type != 7) ? 2 : 8;
+            DrawText_5D7720(Buffer, 420, 4, word_703BAA, text_palette_type, pPlayer->field_790_hud_palette - 1, 0, 0);
         }
         else
         {
@@ -3037,8 +3037,8 @@ void Hud_PlayerStats::DrawPlayerStats_5D5C80()
                              gTagGame_6F8450.GetPlayerTime_4C7380(pMultiPlayer) / 60,
                              gTagGame_6F8450.GetPlayerTime_4C7380(pMultiPlayer) % 60);
 
-                    const s32 very_unknown = (pMultiPlayer->field_78C_hud_palette_type != 7) ? 2 : 8;
-                    DrawText_5D7720(Buffer, score_end_xpos + 20, (u32)ypos, word_703BAA, very_unknown, pMultiPlayer->field_790_hud_palette - 1, 0, 0);
+                    const s32 text_palette_type = (pMultiPlayer->field_78C_hud_palette_type != 7) ? 2 : 8;
+                    DrawText_5D7720(Buffer, score_end_xpos + 20, (u32)ypos, word_703BAA, text_palette_type, pMultiPlayer->field_790_hud_palette - 1, 0, 0);
                 }
                 else
                 {
