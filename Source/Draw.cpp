@@ -262,7 +262,7 @@ s32 __stdcall CalcQuadFlags_5D83E0(s32 mode, u8 alpha)
 // Free inline (size <= 40), so it doesn't touch the inline budget.
 static inline f32 Fix16ToF32_Rounded(const Fix16& v)
 {
-    f32 f = v.mValue;
+    f32 f = (f32)v.mValue;
     return (f / 16384.0f);
 }
 
