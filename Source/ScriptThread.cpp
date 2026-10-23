@@ -6195,7 +6195,7 @@ void ScriptThread::SCRCMD_CHECK_OBJ_MODEL_50F4D0()
     Object* pObj = pPointer->field_8_obj;
     u32 model_idx = pCmd->field_C_u32;
 
-    if (pObj != NULL && pObj->field_18_model == model_idx)
+    if (pObj != NULL && (u32)pObj->field_18_model == model_idx)
     {
         field_8_cond_result = true;
     }
@@ -6644,7 +6644,7 @@ void ScriptThread::SCRCMD_CHECK_CURRENT_WEAPON_510090()
 
     Weapon* pWeapon = pPointer->field_8_char->field_15C_player->GetCurrPlayerWeapon_5648F0();
 
-    if (pWeapon != NULL && pWeapon->field_1C_idx == pCmd->field_C_weapon_idx)
+    if (pWeapon != NULL && (u32)pWeapon->field_1C_idx == pCmd->field_C_weapon_idx)
     {
         field_8_cond_result = true;
     }
