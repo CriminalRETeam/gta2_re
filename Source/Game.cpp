@@ -381,8 +381,8 @@ void Game::ShowDebugOverlay_4B9270()
 
     if (field_30_fast_forward)
     {
-        Hud_TextEntry* pC4 = gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(L"FF", 0, 440, gDebugFont_706600, 1);
-        pC4->SetDrawKind8_45AFD0(6);
+        Hud_TextEntry* pTextEntry = gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(L"FF", 0, 440, gDebugFont_706600, 1);
+        pTextEntry->SetDrawKind8_45AFD0(6);
     }
 }
 

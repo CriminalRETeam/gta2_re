@@ -234,18 +234,18 @@ Object* Weapon::spawn_bullet_5DCF60(s32 bullet_type, Fix16 xpos, Fix16 ypos, Fix
     Fix16 probe_x;
     Fix16 probe_y;
 
-    Sprite* p5CSprite = gObject_5C_6F8F84->field_58_collision_probe_sprite;
+    Sprite* pProbeSprite = gObject_5C_6F8F84->field_58_collision_probe_sprite;
     Object* pNewBullet = gObject_5C_6F8F84->NewPhysicsObj_5299B0(bullet_type, xpos, ypos, zpos, rot);
 
     probe_x = field_24_pPed->get_cam_x() + (xpos - field_24_pPed->get_cam_x()) / kFP16Two_706EC0;
     probe_y = field_24_pPed->get_cam_y() + (ypos - field_24_pPed->get_cam_y()) / kFP16Two_706EC0;
-    p5CSprite->set_xyz_lazy_420600(probe_x, probe_y, zpos);
+    pProbeSprite->set_xyz_lazy_420600(probe_x, probe_y, zpos);
 
-    p5CSprite->set_ang_lazy_420690(pNewBullet->field_4_sprite->field_0_rotation);
+    pProbeSprite->set_ang_lazy_420690(pNewBullet->field_4_sprite->field_0_rotation);
 
-    p5CSprite->AllocCollisionShape_59F950(pNewBullet->field_8_definition->field_0_width, kFP16Quarter_706CF4, pNewBullet->field_8_definition->field_8_depth);
-    p5CSprite->SetType_4206F0(pNewBullet->field_4_sprite->GetType_416B40());
-    p5CSprite->SetObject2C_482A30(pNewBullet->field_4_sprite->field_8_object_2C_ptr);
+    pProbeSprite->AllocCollisionShape_59F950(pNewBullet->field_8_definition->field_0_width, kFP16Quarter_706CF4, pNewBullet->field_8_definition->field_8_depth);
+    pProbeSprite->SetType_4206F0(pNewBullet->field_4_sprite->GetType_416B40());
+    pProbeSprite->SetObject2C_482A30(pNewBullet->field_4_sprite->field_8_object_2C_ptr);
 
     pNewBullet->SetDamageOwner_529080(field_24_pPed->get_ped_ref_idx_420B50());
 
@@ -254,7 +254,7 @@ Object* Weapon::spawn_bullet_5DCF60(s32 bullet_type, Fix16 xpos, Fix16 ypos, Fix
         pNewBullet->SetSpriteIdxOffset_5290C0(field_24_pPed->GetBulletSpriteOffset_45BE30());
     }
 
-    if (p5CSprite->CheckSpriteMovementRegion_5A2500())
+    if (pProbeSprite->CheckSpriteMovementRegion_5A2500())
     {
         pNewBullet->RequestRemoval_5290A0();
         pNewBullet = NULL;
@@ -1059,8 +1059,8 @@ void __stdcall ShockPedsAroundSprite_5DF270(Sprite* pSprite, Fix16 search_size, 
 
         while (pHit)
         {
-            Char* pB4 = pHit->AsCharB4_40FEA0();
-            if (pB4)
+            Char* pChar = pHit->AsCharB4_40FEA0();
+            if (pChar)
             {
                 char_type bOutside;
                 if (bCheckAngle)
@@ -1081,7 +1081,7 @@ void __stdcall ShockPedsAroundSprite_5DF270(Sprite* pSprite, Fix16 search_size, 
                 }
 
                 // The result is unused
-                MaxAbsDistance_5DF270(pAttacker->get_cam_x(), pAttacker->get_cam_y(), pB4->field_80_sprite_ptr->field_14_xy.x, pB4->field_80_sprite_ptr->field_14_xy.y);
+                MaxAbsDistance_5DF270(pAttacker->get_cam_x(), pAttacker->get_cam_y(), pChar->field_80_sprite_ptr->field_14_xy.x, pChar->field_80_sprite_ptr->field_14_xy.y);
 
                 if (bOutside)
                 {
@@ -1095,10 +1095,10 @@ void __stdcall ShockPedsAroundSprite_5DF270(Sprite* pSprite, Fix16 search_size, 
                                                       pHit->field_14_xy.y,
                                                       pHit->field_1C_zpos))
                     {
-                        pB4->field_7C_pPed->SetAttacker_433BF0(pAttacker);
-                        pB4->field_7C_pPed->field_204_killer_id = pAttacker->field_200_id;
-                        pB4->field_7C_pPed->field_290_death_cause = ped_death_cause::rocket_18;
-                        pB4->field_7C_pPed->field_264_killer_id_timer = 50;
+                        pChar->field_7C_pPed->SetAttacker_433BF0(pAttacker);
+                        pChar->field_7C_pPed->field_204_killer_id = pAttacker->field_200_id;
+                        pChar->field_7C_pPed->field_290_death_cause = ped_death_cause::rocket_18;
+                        pChar->field_7C_pPed->field_264_killer_id_timer = 50;
                         if (!bShockAllPeds)
                         {
                             Fix16 z;
@@ -1111,7 +1111,7 @@ void __stdcall ShockPedsAroundSprite_5DF270(Sprite* pSprite, Fix16 search_size, 
                                 z = zpos;
                             }
                             DrawElectricArc_5DE910(pSprite->get_x_y(), pHit->get_x_y(), z);
-                            pB4->field_7C_pPed->field_210_shock_counter += 3;
+                            pChar->field_7C_pPed->field_210_shock_counter += 3;
                             if (pAttacker->field_170_selected_weapon)
                             {
                                 pAttacker->field_170_selected_weapon->SetTargetHit_433810(0);
@@ -1131,7 +1131,7 @@ void __stdcall ShockPedsAroundSprite_5DF270(Sprite* pSprite, Fix16 search_size, 
                                 z = zpos;
                             }
                             DrawElectricArc_5DE910(pSprite->get_x_y(), pHit->get_x_y(), z);
-                            pB4->field_7C_pPed->TakeDamage(3);
+                            pChar->field_7C_pPed->TakeDamage(3);
                         }
                     }
                 }

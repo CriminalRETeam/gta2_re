@@ -1186,8 +1186,8 @@ void sound_obj::ProcessType6_CollisionSoundQueue_413760(s32 idx)
     char_type nearest_idx = -1;
     u8 emittingVol = 0;
 
-    CollisionSoundQueue* p88 = field_147C_audio_entities[idx].field_4_pObj->field_C_pAny.pCollisionSoundQueue;
-    if (!p88)
+    CollisionSoundQueue* pQueue = field_147C_audio_entities[idx].field_4_pObj->field_C_pAny.pCollisionSoundQueue;
+    if (!pQueue)
     {
         return;
     }
@@ -1195,9 +1195,9 @@ void sound_obj::ProcessType6_CollisionSoundQueue_413760(s32 idx)
     this->field_30_sQueueSample.field_5C = 0;
     this->field_30_sQueueSample.field_0_EntityIndex = idx;
 
-    for (u8 event_idx = 0; event_idx < p88->field_C84_count; event_idx++)
+    for (u8 event_idx = 0; event_idx < pQueue->field_C84_count; event_idx++)
     {
-        CollisionEvent* pEvent = &p88->field_4_events[event_idx];
+        CollisionEvent* pEvent = &pQueue->field_4_events[event_idx];
         u8 base_sample = Type6_413A10(pEvent);
         if (Type6_412C90(pEvent, base_sample))
         {
@@ -1230,9 +1230,9 @@ void sound_obj::ProcessType6_CollisionSoundQueue_413760(s32 idx)
 
             if (base_sample > 0)
             {
-                this->field_30_sQueueSample.field_8_obj.field_0_x = p88->field_4_events[event_idx].field_4_x;
-                this->field_30_sQueueSample.field_8_obj.field_4_y = p88->field_4_events[event_idx].field_8_y;
-                this->field_30_sQueueSample.field_8_obj.field_8_z = p88->field_4_events[event_idx].field_C_z;
+                this->field_30_sQueueSample.field_8_obj.field_0_x = pQueue->field_4_events[event_idx].field_4_x;
+                this->field_30_sQueueSample.field_8_obj.field_4_y = pQueue->field_4_events[event_idx].field_8_y;
+                this->field_30_sQueueSample.field_8_obj.field_8_z = pQueue->field_4_events[event_idx].field_C_z;
                 this->field_28_dist_related = ComputeEmitterDistanceSquared_4190B0();
                 this->field_2C_distCalculated = 0;
                 if (CalculateDistance_419020(Fix16(25)))
@@ -1258,9 +1258,9 @@ void sound_obj::ProcessType6_CollisionSoundQueue_413760(s32 idx)
         return;
     }
 
-    this->field_30_sQueueSample.field_8_obj.field_0_x = p88->field_4_events[nearest_idx].field_4_x;
-    this->field_30_sQueueSample.field_8_obj.field_4_y = p88->field_4_events[nearest_idx].field_8_y;
-    this->field_30_sQueueSample.field_8_obj.field_8_z = p88->field_4_events[nearest_idx].field_C_z;
+    this->field_30_sQueueSample.field_8_obj.field_0_x = pQueue->field_4_events[nearest_idx].field_4_x;
+    this->field_30_sQueueSample.field_8_obj.field_4_y = pQueue->field_4_events[nearest_idx].field_8_y;
+    this->field_30_sQueueSample.field_8_obj.field_8_z = pQueue->field_4_events[nearest_idx].field_C_z;
     this->field_30_sQueueSample.field_24_nVolume = vol;
     this->field_30_sQueueSample.field_28_distance = distance;
     this->field_30_sQueueSample.field_60_nEmittingVolume = emittingVol;
@@ -1396,11 +1396,11 @@ void sound_obj::ProcessTank_413BF0(Sound_Params* pParams, SoundPosEntry* pAlloc)
 MATCH_FUNC(0x413C50)
 void sound_obj::ProcessOtherCarTypes_413C50(Sound_Params* pParams, SoundPosEntry* pAlloc)
 {
-    Car* cBC = pParams->field_0_pObj->field_8_car_bc_ptr;
-    pAlloc->field_4 = (u32)cBC; // TODO: Likely another union??
-    if (cBC->field_68_scale != kFpOne_66F3F4)
+    Car* pCar = pParams->field_0_pObj->field_8_car_bc_ptr;
+    pAlloc->field_4 = (u32)pCar; // TODO: Likely another union??
+    if (pCar->field_68_scale != kFpOne_66F3F4)
     {
-        if (cBC->field_58_physics)
+        if (pCar->field_58_physics)
         {
             HandleCarEngineSound_4157C0(pParams);
         }
@@ -2658,12 +2658,12 @@ s32 sound_obj::get_samp_idx_for_car_417D70(Car* pCar, bool bDoorOpening, bool bT
 MATCH_FUNC(0x417E30)
 void sound_obj::HandleHeavyVehicleStopSound_417E30(Sound_Params* pParams, SoundPosEntry* pAlloc)
 {
-    Car* cBC = pParams->field_0_pObj->field_8_car_bc_ptr;
+    Car* pCar = pParams->field_0_pObj->field_8_car_bc_ptr;
     Fix16 car_speed;
-    car_speed = cBC->GetCarLinearSpeed_43A240();
+    car_speed = pCar->GetCarLinearSpeed_43A240();
     if (pAlloc->field_0_last_speed > kFpZero_66F3F0 && car_speed == kFpZero_66F3F0)
     {
-        if (IsHeavyTruckOrBus_417F40(cBC->GetCarInfoIdx_411940()))
+        if (IsHeavyTruckOrBus_417F40(pCar->GetCarInfoIdx_411940()))
         {
             if (CalculateDistance_419020(Fix16(25)))
             {
@@ -5510,20 +5510,20 @@ void sound_obj::ProcessPed_422B70(Sound_Params* pType3Entity)
     s32 rate;
     u8 vol;
     s32 max_dist;
-    Char* pB4;
+    Char* pChar;
 
-    pB4 = pType3Entity->field_0_pObj->field_8_char_b4_ptr;
-    if (pB4->field_7C_pPed)
+    pChar = pType3Entity->field_0_pObj->field_8_char_b4_ptr;
+    if (pChar->field_7C_pPed)
     {
-        if (!gGame_0x40_67E008->field_38_local_player->GetPlayerCar_5698E0() && pB4->get_velocity_41B080() > kFpZero_675220)
+        if (!gGame_0x40_67E008->field_38_local_player->GetPlayerCar_5698E0() && pChar->get_velocity_41B080() > kFpZero_675220)
         {
-            animation_state = pB4->field_6C_animation_state;
+            animation_state = pChar->field_6C_animation_state;
             if (animation_state == 4 || animation_state == 1 || animation_state == 0)
             {
-                animation_frame = pB4->field_68_animation_frame;
-                if ((animation_frame == 1 || animation_frame == 5) && (((s32)pB4 + this->field_5448_m_FrameCounter) & 1) != 0)
+                animation_frame = pChar->field_68_animation_frame;
+                if ((animation_frame == 1 || animation_frame == 5) && (((s32)pChar + this->field_5448_m_FrameCounter) & 1) != 0)
                 {
-                    switch (pB4->field_7C_pPed->field_254_block_spec)
+                    switch (pChar->field_7C_pPed->field_254_block_spec)
                     {
                         case 2:
                         case 0xA:
@@ -5548,7 +5548,7 @@ void sound_obj::ProcessPed_422B70(Sound_Params* pType3Entity)
                         play_footstep:
                             if (CalculateDistance_419020(Fix16(4)))
                             {
-                                if (!pB4->field_6C_animation_state)
+                                if (!pChar->field_6C_animation_state)
                                 {
                                     max_dist = 30;
                                     vol = 5;
@@ -5570,7 +5570,7 @@ void sound_obj::ProcessPed_422B70(Sound_Params* pType3Entity)
                                     base_rate = playback_rate + RandomDisplacement_41A650(field_30_sQueueSample.field_14_samp_idx);
                                     this->field_30_sQueueSample.field_58_type = 20;
                                     this->field_30_sQueueSample.field_20_rate = base_rate;
-                                    if (!pB4->field_68_animation_frame)
+                                    if (!pChar->field_68_animation_frame)
                                     {
                                         this->field_30_sQueueSample.field_4_SampleIndex = 0;
                                     }
@@ -5596,12 +5596,12 @@ void sound_obj::ProcessPed_422B70(Sound_Params* pType3Entity)
             }
         }
 
-        f_B0 = pB4->field_B0_scream_timer;
+        f_B0 = pChar->field_B0_scream_timer;
         if (f_B0 > -1)
         {
             if (f_B0 > 0)
             {
-                pB4->field_B0_scream_timer = f_B0 - 1;
+                pChar->field_B0_scream_timer = f_B0 - 1;
             }
             else
             {
@@ -5627,11 +5627,11 @@ void sound_obj::ProcessPed_422B70(Sound_Params* pType3Entity)
                         sound_obj::AddSampleToRequestedQueue_41A850();
                     }
                 }
-                pB4->field_B0_scream_timer = this->field_1454_anRandomTable[3] % 0x1Eu + 20;
+                pChar->field_B0_scream_timer = this->field_1454_anRandomTable[3] % 0x1Eu + 20;
             }
         }
 
-        switch (pB4->get_ped_state_2_41B090())
+        switch (pChar->get_ped_state_2_41B090())
         {
             case ped_state_2::electrocuted_27:
                 samp_idx_ = 58;
@@ -5645,7 +5645,7 @@ void sound_obj::ProcessPed_422B70(Sound_Params* pType3Entity)
                 break;
 
             case ped_state_2::Unknown_26:
-                if (!pB4->field_7C_pPed->is_player_41B0A0() && (this->field_30_sQueueSample.field_0_EntityIndex & 1) != 0)
+                if (!pChar->field_7C_pPed->is_player_41B0A0() && (this->field_30_sQueueSample.field_0_EntityIndex & 1) != 0)
                 {
                     return;
                 }
@@ -5730,8 +5730,8 @@ DEFINE_GLOBAL(u8, byte_6751E4, 0x6751E4);
 MATCH_FUNC(0x423080)
 void sound_obj::HandlePedVoiceEvent_423080(Sound_Params* pParams)
 {
-    Char* pB4 = pParams->field_0_pObj->field_8_char_b4_ptr;
-    Ped* pPed = pB4->field_7C_pPed;
+    Char* pChar = pParams->field_0_pObj->field_8_char_b4_ptr;
+    Ped* pPed = pChar->field_7C_pPed;
     s32 voice = pPed->TakeVoiceEvent_41B0B0();
     char_type bTank;
     s32 samp = 321;
@@ -5881,7 +5881,7 @@ void sound_obj::HandlePedVoiceEvent_423080(Sound_Params* pParams)
 
     if (voice == 26)
     {
-        switch (pB4->field_7C_pPed->field_254_block_spec)
+        switch (pChar->field_7C_pPed->field_254_block_spec)
         {
             case 2:
             case 10:

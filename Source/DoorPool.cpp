@@ -335,13 +335,13 @@ bool DoorPool::CheckDoorAccess_49D3C0(Sprite* pSprite, u8 door_idx)
         return 0;
     }
 
-    Char* pB4 = pSprite->AsCharB4_40FEA0();
-    if (pB4)
+    Char* pChar = pSprite->AsCharB4_40FEA0();
+    if (pChar)
     {
         if (!IsDoorOpenWithoutAutoClose(&field_0_doors[door_idx]))
         {
             // 9.6f: Char::get_ped_433A20 (inlined, using it changes the code)
-            if (!field_0_doors[door_idx].CanOpenForPed_49C7F0(pB4->field_7C_pPed))
+            if (!field_0_doors[door_idx].CanOpenForPed_49C7F0(pChar->field_7C_pPed))
             {
                 return 1;
             }

@@ -406,8 +406,8 @@ MATCH_FUNC(0x545430)
 void Char::DrawFlamesAndStartScreamTimer_545430()
 {
     // Spawn fire
-    Object* p2C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::fire_197, 0, 0, 0, kAng0_6FDB34);
-    field_80_sprite_ptr->AttachSprite_5A3100(p2C->field_4_sprite, 0, 0, kAng0_6FDB34);
+    Object* pObject = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::fire_197, 0, 0, 0, kAng0_6FDB34);
+    field_80_sprite_ptr->AttachSprite_5A3100(pObject->field_4_sprite, 0, 0, kAng0_6FDB34);
     field_B0_scream_timer = 10; // Start screaming timer
 }
 
@@ -6478,12 +6478,12 @@ bool Char::ShouldCollideWithSprite_553340(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x5535B0)
-bool Char::PhoneTouched_5535B0(Object* p2c)
+bool Char::PhoneTouched_5535B0(Object* pObject)
 {
     Ped* pPed = field_7C_pPed;
     if (pPed->field_15C_player)
     {
-        return gScriptManager_6F8060->AnswerPhone_5129F0(pPed->get_id(), p2c->field_14_id);
+        return gScriptManager_6F8060->AnswerPhone_5129F0(pPed->get_id(), pObject->field_14_id);
     }
     else
     {
@@ -6492,41 +6492,41 @@ bool Char::PhoneTouched_5535B0(Object* p2c)
 }
 
 MATCH_FUNC(0x553640)
-bool Char::OnObjectTouched_553640(Object* p2c)
+bool Char::OnObjectTouched_553640(Object* pObject)
 {
     s8 conveyor_x;
     s8 conveyor_y;
 
-    if (p2c->IsPickup_421060())
+    if (pObject->IsPickup_421060())
     {
-        return get_ped_433A20()->HandlePickupCollision_45DE80(p2c);
+        return get_ped_433A20()->HandlePickupCollision_45DE80(pObject);
     }
 
-    switch (p2c->field_18_model)
+    switch (pObject->field_18_model)
     {
         case objects::secret_token_266: 
-            return get_ped_433A20()->HandlePickupCollision_45DE80(p2c);
+            return get_ped_433A20()->HandlePickupCollision_45DE80(pObject);
 
         case 257:
         case objects::ped_crossing_trigger_258:
             if (field_8_ped_state_1 != ped_state_1::dead_9 && field_8_ped_state_1 != ped_state_1::immobilized_8)
             {
-                get_ped_433A20()->HandlePedCrossingTrigger_45CF20(p2c);
+                get_ped_433A20()->HandlePedCrossingTrigger_45CF20(pObject);
             }
             break;
 
         case objects::savepoint_161:
-            gCarThreadTriggers_214_705F20->CheckThreadTrigger_5C8780(p2c->field_27_thread_trigger_idx, this->field_80_sprite_ptr);
+            gCarThreadTriggers_214_705F20->CheckThreadTrigger_5C8780(pObject->field_27_thread_trigger_idx, this->field_80_sprite_ptr);
             break;
 
         case objects::blue_phone_164:
         case objects::red_phone_177:
         case objects::yellow_phone_179:
         case objects::green_phone_181:
-            return PhoneTouched_5535B0(p2c);
+            return PhoneTouched_5535B0(pObject);
 
         case objects::door_trigger_167:
-            gDoor_4D4_67BD2C->TryOpenDoorForPed_49D370(get_ped_433A20(), p2c->get_field_26_420FF0());
+            gDoor_4D4_67BD2C->TryOpenDoorForPed_49D370(get_ped_433A20(), pObject->get_field_26_420FF0());
             break;
 
         case objects::destructor_141:
@@ -6534,7 +6534,7 @@ bool Char::OnObjectTouched_553640(Object* p2c)
             break;
 
         case objects::conveyor_139:
-            p2c->GetConveyorDirection_493090(&conveyor_x, &conveyor_y); // TODO: Ang8 or something ???
+            pObject->GetConveyorDirection_493090(&conveyor_x, &conveyor_y); // TODO: Ang8 or something ???
             this->field_4C_conveyor_dx = kFpOne64th_6FDA9C * conveyor_x;
             this->field_50_conveyor_dy = kFpOne64th_6FDA9C * conveyor_y;
             break;
@@ -6546,11 +6546,11 @@ bool Char::OnObjectTouched_553640(Object* p2c)
 }
 
 MATCH_FUNC(0x5537F0)
-bool Char::HandlePedObjectHit_5537F0(Object* p2c)
+bool Char::HandlePedObjectHit_5537F0(Object* pObject)
 {
-    const u8 idx = p2c->get_field_26_420FF0();
+    const u8 idx = pObject->get_field_26_420FF0();
     const s32 pedId = gPedRefTable_7F8_703398->GetPedId_420F10(idx);
-    if (p2c->field_18_model == objects::rocket_bullet_128 || p2c->field_18_model == objects::moving_molotov_138 || p2c->field_18_model == objects::mine_10 && !gCharB4_HitByMine_6FDB59)
+    if (pObject->field_18_model == objects::rocket_bullet_128 || pObject->field_18_model == objects::moving_molotov_138 || pObject->field_18_model == objects::mine_10 && !gCharB4_HitByMine_6FDB59)
     {
         gObject_5C_6F8F84->CreateExplosion_52A3D0(field_80_sprite_ptr->field_14_xy.x,
                                                   field_80_sprite_ptr->field_14_xy.y,
@@ -6558,15 +6558,15 @@ bool Char::HandlePedObjectHit_5537F0(Object* p2c)
                                                   kAng0_6FDB34,
                                                   explosion_type::small_18,
                                                   pedId);
-        if (p2c->field_18_model == objects::mine_10)
+        if (pObject->field_18_model == objects::mine_10)
         {
             gCharB4_HitByMine_6FDB59 = 1;
         }
     }
 
-    if (p2c->get_field_26_420FF0() != field_7C_pPed->get_ped_ref_idx_420B50())
+    if (pObject->get_field_26_420FF0() != field_7C_pPed->get_ped_ref_idx_420B50())
     {
-        return field_7C_pPed->HandlePedHitByObject_45D000(p2c);
+        return field_7C_pPed->HandlePedHitByObject_45D000(pObject);
     }
     else
     {

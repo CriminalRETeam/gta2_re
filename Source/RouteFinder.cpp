@@ -974,12 +974,12 @@ char_type RouteFinder::SearchToDest_589E20(s32 arrow_type)
                 break;
             }
 
-            RouteSearchNode* p10 = GetFirstUnexpandedNode_589E00();
-            if (!p10)
+            RouteSearchNode* pNode = GetFirstUnexpandedNode_589E00();
+            if (!pNode)
             {
                 break;
             }
-            bRet = ExpandNode_5899C0(p10, arrow_type);
+            bRet = ExpandNode_5899C0(pNode, arrow_type);
         }
     }
     return bRet;

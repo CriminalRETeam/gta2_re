@@ -319,8 +319,8 @@ void force_link()
     Fix16_Rect car14_18;
     car14_18.DoSetCurrentRect_59DD60();
 
-    Particle_4C p4C;
-    p4C.PoolAllocate();
+    Particle_4C particle;
+    particle.PoolAllocate();
 }
 
 DEFINE_GLOBAL(HINSTANCE, gHInstance_708220, 0x708220);

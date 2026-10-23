@@ -1031,8 +1031,8 @@ bool Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
     }
     else
     {
-        Char* pB4 = field_28_pSprite->AsCharB4_40FEA0();
-        if (!pB4 || !pB4->field_7C_pPed || !pB4->field_7C_pPed->field_21C_bf.bActive)
+        Char* pChar = field_28_pSprite->AsCharB4_40FEA0();
+        if (!pChar || !pChar->field_7C_pPed || !pChar->field_7C_pPed->field_21C_bf.bActive)
         {
             return true;
         }
@@ -1042,7 +1042,7 @@ bool Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
             return true;
         }
 
-        if (!pB4->field_58_flags_bf.bReverseVelocity)
+        if (!pChar->field_58_flags_bf.bReverseVelocity)
         {
             offset.x = -kFpPoint05_6FD46C;
             offset.y = kFpPoint3_6FD2F4;
@@ -1053,7 +1053,7 @@ bool Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
             offset.y = kFpPoint4_6FD2F8;
         }
         offset.RotateByAngle_OneMulInline_40F6B0(field_28_pSprite->field_0_rotation);
-        offset = offset.Add_40AC50(pB4->field_98_velocity_vector);
+        offset = offset.Add_40AC50(pChar->field_98_velocity_vector);
 
         field_30_pOwnSprite->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_base_sprite_idx + field_46_sub_state + 197);
         field_30_pOwnSprite->field_2C_flags = 0xA2;
@@ -1274,9 +1274,9 @@ bool Particle_4C::UpdateAttachedEmitter_state_9_10_53B670()
         return true;
     }
 
-    Char* pB4 = pSprite->field_8_char_b4_ptr;
+    Char* pChar = pSprite->field_8_char_b4_ptr;
 
-    Ped* pPed = pB4->get_ped_433A20();
+    Ped* pPed = pChar->get_ped_433A20();
     if (!pPed || !pPed->IsActive_433B40())
     {
         return true;
@@ -1284,12 +1284,12 @@ bool Particle_4C::UpdateAttachedEmitter_state_9_10_53B670()
 
     if (field_38_state == 9)
     {
-        if (pB4->field_6C_animation_state != 2)
+        if (pChar->field_6C_animation_state != 2)
         {
             return true;
         }
         field_30_pOwnSprite->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_base_sprite_idx + 3);
-        if (pB4->field_68_animation_frame != 5)
+        if (pChar->field_68_animation_frame != 5)
         {
             gParticle_8_6FD5E8->SpawnCigaretteSmokePuff_5406B0(field_28_pSprite, 0);
         }
@@ -1394,7 +1394,7 @@ bool Particle_4C::UpdateBurstAnimation_state_29_30_53B9F0()
 MATCH_FUNC(0x53bac0)
 bool Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
 {
-    Char* pB4 = NULL;
+    Char* pChar = NULL;
     Car* pCar = NULL;
     Ang16 spread;
     // Declaration order sets C2's symbol numbers: the vel + d operand order and the ypos/xpos reloads depend on it
@@ -1438,12 +1438,12 @@ bool Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
             return true;
 
         case sprite_types_enum::ped_3:
-            pB4 = pTarget->field_8_char_b4_ptr;
-            if (!pB4 || !pB4->field_7C_pPed || !pB4->field_7C_pPed->IsActive_433B40())
+            pChar = pTarget->field_8_char_b4_ptr;
+            if (!pChar || !pChar->field_7C_pPed || !pChar->field_7C_pPed->IsActive_433B40())
             {
                 return true;
             }
-            if (!pB4->field_7C_pPed->field_21C_bf.bAttacking)
+            if (!pChar->field_7C_pPed->field_21C_bf.bAttacking)
             {
                 field_4_bf.bDriverAttacking = false;
             }
@@ -1469,9 +1469,9 @@ bool Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
 
     spread = Ang16::Fix16_To_Ang16_40F540(kFpOne64th_6FD328 * (Fix16(field_46_sub_state) + Fix16(gRng_6F6784.get_int_4F7AE0((s16)field_46_sub_state)) - kFpFour_6FD4AC));
 
-    if (pB4)
+    if (pChar)
     {
-        vel = pB4->field_7C_pPed->GetVelocityVector_45B520();
+        vel = pChar->field_7C_pPed->GetVelocityVector_45B520();
     }
     else
     {
@@ -1543,9 +1543,9 @@ bool Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
                         field_46_sub_state = 10;
                     }
                     gParticle_8_6FD5E8->field_0_fire_hit_obj->field_4_sprite->set_xyz_lazy_420600(xpos, ypos, zpos);
-                    if (pB4)
+                    if (pChar)
                     {
-                        gParticle_8_6FD5E8->field_0_fire_hit_obj->SetDamageOwner_529080(pB4->field_7C_pPed->get_ped_ref_idx_420B50());
+                        gParticle_8_6FD5E8->field_0_fire_hit_obj->SetDamageOwner_529080(pChar->field_7C_pPed->get_ped_ref_idx_420B50());
                     }
                     else if (pCar)
                     {
@@ -1565,9 +1565,9 @@ bool Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
                         gParticle_8_6FD5E8->EmitWaterSplash_53F060(xpos, ypos, zpos, angle, 0);
                     }
                     gParticle_8_6FD5E8->field_4_water_hit_obj->field_4_sprite->set_xyz_lazy_420600(xpos, ypos, zpos);
-                    if (pB4)
+                    if (pChar)
                     {
-                        gParticle_8_6FD5E8->field_4_water_hit_obj->SetDamageOwner_529080(pB4->field_7C_pPed->get_ped_ref_idx_420B50());
+                        gParticle_8_6FD5E8->field_4_water_hit_obj->SetDamageOwner_529080(pChar->field_7C_pPed->get_ped_ref_idx_420B50());
                     }
                     else if (pCar)
                     {

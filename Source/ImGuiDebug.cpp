@@ -276,9 +276,9 @@ static void GetPlayerPos(Fix16& xpos, Fix16& ypos, Fix16& zpos)
     }
 }
 
-static void ShowRectAndPointsForSprite4C(SpriteShape* p4C)
+static void ShowRectAndPointsForSprite4C(SpriteShape* pShape)
 {
-    Fix16_Rect rect = p4C->field_30_boundingBox;
+    Fix16_Rect rect = pShape->field_30_boundingBox;
     if (ImGui::TreeNode("bounding box"))
     {
         ImGui::Value("Left", rect.field_0_left.ToFloat(), "%.2f");
@@ -292,14 +292,14 @@ static void ShowRectAndPointsForSprite4C(SpriteShape* p4C)
 
     if (ImGui::TreeNode("rendering rect"))
     {
-        ImGui::Value("0 x:", p4C->field_C_corners[0].x.ToFloat(), "%.2f");
-        ImGui::Value("0 y:", p4C->field_C_corners[0].y.ToFloat(), "%.2f");
-        ImGui::Value("1 x:", p4C->field_C_corners[1].x.ToFloat(), "%.2f");
-        ImGui::Value("1 y:", p4C->field_C_corners[1].y.ToFloat(), "%.2f");
-        ImGui::Value("2 x:", p4C->field_C_corners[2].x.ToFloat(), "%.2f");
-        ImGui::Value("2 y:", p4C->field_C_corners[2].y.ToFloat(), "%.2f");
-        ImGui::Value("3 x:", p4C->field_C_corners[3].x.ToFloat(), "%.2f");
-        ImGui::Value("3 y:", p4C->field_C_corners[3].y.ToFloat(), "%.2f");
+        ImGui::Value("0 x:", pShape->field_C_corners[0].x.ToFloat(), "%.2f");
+        ImGui::Value("0 y:", pShape->field_C_corners[0].y.ToFloat(), "%.2f");
+        ImGui::Value("1 x:", pShape->field_C_corners[1].x.ToFloat(), "%.2f");
+        ImGui::Value("1 y:", pShape->field_C_corners[1].y.ToFloat(), "%.2f");
+        ImGui::Value("2 x:", pShape->field_C_corners[2].x.ToFloat(), "%.2f");
+        ImGui::Value("2 y:", pShape->field_C_corners[2].y.ToFloat(), "%.2f");
+        ImGui::Value("3 x:", pShape->field_C_corners[3].x.ToFloat(), "%.2f");
+        ImGui::Value("3 y:", pShape->field_C_corners[3].y.ToFloat(), "%.2f");
         ImGui::TreePop();
     }
 }
@@ -2281,10 +2281,10 @@ void CC ImGuiDebugDraw()
                                 if (ImGui::TreeNode("Sprite"))
                                 {
                                     ImGui::Input_char_type("Sprt F38", &pSprt->field_38_zoom, 1, 1);
-                                    SpriteShape* p4C = pSprt->field_4_pVisualShape;
-                                    if (p4C)
+                                    SpriteShape* pShape = pSprt->field_4_pVisualShape;
+                                    if (pShape)
                                     {
-                                        ShowRectAndPointsForSprite4C(p4C);
+                                        ShowRectAndPointsForSprite4C(pShape);
                                     }
                                     ImGui::TreePop();
                                 }
@@ -2935,10 +2935,10 @@ void CC ImGuiDebugDraw()
                     
                     for (u32 idx2 = 0; idx2 < GTA2_COUNTOF(gPolice_7B8_6FEE40->field_464_pursuit_targets); idx2++)
                     {
-                        PolicePursuitTarget* p7C = &gPolice_7B8_6FEE40->field_464_pursuit_targets[idx2];
-                        if (p7C && p7C->field_18_z != kFP16Zero_6FE20C)
+                        PolicePursuitTarget* pTarget = &gPolice_7B8_6FEE40->field_464_pursuit_targets[idx2];
+                        if (pTarget && pTarget->field_18_z != kFP16Zero_6FE20C)
                         {
-                            swprintf(tmpBuff_67BD9C, L"P7C target coords (%.1f, %.1f, %.1f)", p7C->field_10_x.ToFloat(), p7C->field_14_y.ToFloat(), p7C->field_18_z.ToFloat());
+                            swprintf(tmpBuff_67BD9C, L"P7C target coords (%.1f, %.1f, %.1f)", pTarget->field_10_x.ToFloat(), pTarget->field_14_y.ToFloat(), pTarget->field_18_z.ToFloat());
                             DisplayWideTextAtScreenCoords(tmpBuff_67BD9C, 0, ypos);
                             ypos += 16;
                         }

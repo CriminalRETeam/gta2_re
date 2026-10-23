@@ -1002,10 +1002,10 @@ void Ped::PutOutFire()
 {
     if (this->field_21C_bf.bOnFire)
     {
-        Char* pB4 = this->field_168_game_object;
-        if (pB4)
+        Char* pChar = this->field_168_game_object;
+        if (pChar)
         {
-            pB4->RemoveFireSprites_5454B0();
+            pChar->RemoveFireSprites_5454B0();
         }
         this->field_21C_bf.bOnFire = false;
     }
@@ -1065,10 +1065,10 @@ void Ped::DrawFlamesAndStartScreamTimer()
 {
     if (field_21C_bf.bOnFire)
     {
-        Char* pB4 = field_168_game_object;
-        if (pB4)
+        Char* pChar = field_168_game_object;
+        if (pChar)
         {
-            pB4->DrawFlamesAndStartScreamTimer_545430();
+            pChar->DrawFlamesAndStartScreamTimer_545430();
         }
     }
 }
@@ -1084,10 +1084,10 @@ MATCH_FUNC(0x45bfe0)
 void Ped::SetVisible()
 {
     this->field_21C_bf.bInvisible = false;
-    Char* pB4 = this->field_168_game_object;
-    if (pB4)
+    Char* pChar = this->field_168_game_object;
+    if (pChar)
     {
-        pB4->field_80_sprite_ptr->field_2C_flags = 0; // make sprite opaque
+        pChar->field_80_sprite_ptr->field_2C_flags = 0; // make sprite opaque
     }
 }
 
@@ -1096,10 +1096,10 @@ void Ped::SetSpriteSemiTransIfInvisible()
 {
     if (this->field_21C_bf.bInvisible)
     {
-        Char* pB4 = this->field_168_game_object;
-        if (pB4)
+        Char* pChar = this->field_168_game_object;
+        if (pChar)
         {
-            pB4->field_80_sprite_ptr->field_2C_flags = 0x41; // make sprite semi transparent
+            pChar->field_80_sprite_ptr->field_2C_flags = 0x41; // make sprite semi transparent
         }
     }
 }
@@ -1115,10 +1115,10 @@ MATCH_FUNC(0x45c050)
 void Ped::ClearInvulnerable_45C050()
 {
     field_208_invulnerability = 0;
-    Char* pB4 = field_168_game_object;
-    if (pB4)
+    Char* pChar = field_168_game_object;
+    if (pChar)
     {
-        pB4->field_80_sprite_ptr->field_2C_bf.bNoLighting = false;
+        pChar->field_80_sprite_ptr->field_2C_bf.bNoLighting = false;
     }
 }
 
@@ -1127,10 +1127,10 @@ void Ped::SetSpriteFlagIfInvulnerable_45C070()
 {
     if (this->field_208_invulnerability == 9999)
     {
-        Char* pB4 = this->field_168_game_object;
-        if (pB4)
+        Char* pChar = this->field_168_game_object;
+        if (pChar)
         {
-            pB4->field_80_sprite_ptr->field_2C_bf.bNoLighting = true;
+            pChar->field_80_sprite_ptr->field_2C_bf.bNoLighting = true;
         }
     }
 }
@@ -1138,10 +1138,10 @@ void Ped::SetSpriteFlagIfInvulnerable_45C070()
 MATCH_FUNC(0x45c090)
 void Ped::RestoreCarOrPedHealth()
 {
-    Car* pBc = field_16C_car;
-    if (pBc)
+    Car* pCar = field_16C_car;
+    if (pCar)
     {
-        pBc->RemoveAllDamage();
+        pCar->RemoveAllDamage();
     }
     else if (field_278_ped_state_1 != ped_state1_enum::ped_wasted)
     {
@@ -1270,7 +1270,7 @@ void Ped::RespawnPed_45C350(gmp_map_zone* pZone)
 MATCH_FUNC(0x45c410)
 void Ped::ResetForPlayerRespawn_45C410()
 {
-    Char* pB4 = this->field_168_game_object;
+    Char* pChar = this->field_168_game_object;
     Player* pPlayer = this->field_15C_player;
 
     PutOutFire();
@@ -1278,13 +1278,13 @@ void Ped::ResetForPlayerRespawn_45C410()
     Reset_45AFC0();
 
     this->field_244_remap = remap;
-    this->field_168_game_object = pB4;
+    this->field_168_game_object = pChar;
 
     this->field_21C_bf.bActive = true;
 
-    this->field_1AC_cam.x = pB4->field_80_sprite_ptr->field_14_xy.x;
-    this->field_1AC_cam.y = pB4->field_80_sprite_ptr->field_14_xy.y;
-    this->field_1AC_cam.z = pB4->field_80_sprite_ptr->field_1C_zpos;
+    this->field_1AC_cam.x = pChar->field_80_sprite_ptr->field_14_xy.x;
+    this->field_1AC_cam.y = pChar->field_80_sprite_ptr->field_14_xy.y;
+    this->field_1AC_cam.z = pChar->field_80_sprite_ptr->field_1C_zpos;
 
     this->set_health_4039A0(100);
     this->SetPedType_403920(ped_type::player_2);
@@ -4264,15 +4264,15 @@ void Ped::UpdateCharB4_462B80()
         field_1AC_cam.x = field_168_game_object->get_sprite_xpos();
         field_1AC_cam.y = field_168_game_object->get_sprite_ypos();
         field_1AC_cam.z = field_168_game_object->get_sprite_zpos();
-        Char* pB4 = field_168_game_object;
-        field_12C_facing_angle = pB4->get_rotation_433A40();
+        Char* pChar = field_168_game_object;
+        field_12C_facing_angle = pChar->get_rotation_433A40();
 
         if (field_278_ped_state_1 == ped_state_1::in_car_10)
         {
-            field_16C_car = pB4->Get_F84_403900();
-            if (pB4->field_88_obj_2c.field_0_p18)
+            field_16C_car = pChar->Get_F84_403900();
+            if (pChar->field_88_obj_2c.field_0_p18)
             {
-                pB4->field_88_obj_2c.DestroyAllSprites_5A7010();
+                pChar->field_88_obj_2c.DestroyAllSprites_5A7010();
             }
             gChar_B4_Pool_6FDB44->DeAllocate(field_168_game_object);
 
@@ -6821,9 +6821,9 @@ Sprite* Ped::ResetAnimAndFindNearestSprite_467280()
     this->field_168_game_object->field_C_ped_state_2 = ped_state_2::ped2_walking_0;
     this->field_168_game_object->field_10_char_state = 1;
 
-    Char* pB4 = this->field_168_game_object;
-    pB4->field_6C_animation_state = 0;
-    pB4->field_68_animation_frame = 0;
+    Char* pChar = this->field_168_game_object;
+    pChar->field_6C_animation_state = 0;
+    pChar->field_68_animation_frame = 0;
 
     this->field_216_health = 50;
     return gSpriteGrid_1_679208->FindCollidingSpritePreferType_477E60(this->field_168_game_object->field_80_sprite_ptr,
@@ -8634,10 +8634,10 @@ void Ped::FollowPedInCar_469F30()
 MATCH_FUNC(0x469fc0)
 void Ped::WaitInCurrentCar_469FC0()
 {
-    Car* pBC = this->field_16C_car;
-    if (pBC)
+    Car* pCar = this->field_16C_car;
+    if (pCar)
     {
-        pBC->field_A6_bf.bAIHalted = true;
+        pCar->field_A6_bf.bAIHalted = true;
     }
     else
     {
@@ -8902,11 +8902,11 @@ void Ped::AimVehicleTurretStateMachine_46A6D0()
     }
     else
     {
-        AttachedSprite* p18 = field_16C_car->field_0_attachments.GetSpriteForModel_5A6A50(objects::water_cannon_114);
+        AttachedSprite* pAttached = field_16C_car->field_0_attachments.GetSpriteForModel_5A6A50(objects::water_cannon_114);
         field_21C_bf.bUseCarWeapon = true;
 
-        Fix16 x = p18->field_0_pSprite->field_14_xy.x;
-        Fix16 y = p18->field_0_pSprite->field_14_xy.y;
+        Fix16 x = pAttached->field_0_pSprite->field_14_xy.x;
+        Fix16 y = pAttached->field_0_pSprite->field_14_xy.y;
         Ang16 angle;
         angle = Fix16::atan2_fixed_405320(field_150_target_objective_car->field_50_car_sprite->field_14_xy.y - y,
                                           field_150_target_objective_car->field_50_car_sprite->field_14_xy.x - x);
@@ -9010,10 +9010,10 @@ void Ped::FleeOnFootTillSafe_46A8F0()
 {
     if (gDistanceToTarget_678750 > kFpSix_678520)
     {
-        Char* pB4 = field_168_game_object;
-        if (pB4)
+        Char* pChar = field_168_game_object;
+        if (pChar)
         {
-            if (field_258_objective || pB4->Get_F44_433A90() == 2)
+            if (field_258_objective || pChar->Get_F44_433A90() == 2)
             {
                 Ped::ChangeNextPedState1_45C500(ped_state_1::walking_0);
                 Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
@@ -9021,7 +9021,7 @@ void Ped::FleeOnFootTillSafe_46A8F0()
             }
             else
             {
-                pB4->SetVelocity_433920(get_max_speed_1F0());
+                pChar->SetVelocity_433920(get_max_speed_1F0());
             }
         }
         else
@@ -10362,7 +10362,7 @@ void Ped::EnterTrainStateMachine_46D0D0()
     Fix16 door_xd;
     Fix16 door_yd;
     Fix16 dist;
-    Char* pB4;
+    Char* pChar;
     bool found_door;
     u8 best_door;
     u8 door_idx;
@@ -10417,8 +10417,8 @@ void Ped::EnterTrainStateMachine_46D0D0()
             if (found_door == 1)
             {
                 field_24C_target_car_door = best_door;
-                pB4 = field_168_game_object;
-                pB4->field_38_velocity = pB4->field_3C_run_or_jump_speed;
+                pChar = field_168_game_object;
+                pChar->field_38_velocity = pChar->field_3C_run_or_jump_speed;
                 EnterCarStateMachine_46BDC0();
                 if (field_226_internal_objective_status == 1)
                 {
@@ -10840,10 +10840,10 @@ void Ped::AttackObject_46DB80()
 MATCH_FUNC(0x46df50)
 Sprite* Ped::GetSprite_46DF50()
 {
-    Car* pBC = this->field_16C_car;
-    if (pBC)
+    Car* pCar = this->field_16C_car;
+    if (pCar)
     {
-        return pBC->field_50_car_sprite;
+        return pCar->field_50_car_sprite;
     }
     else
     {
@@ -10898,7 +10898,7 @@ void Ped::RecruitNearbyPeds_46E080(s32 desiredCount, Fix16 searchRadius)
     PedGroup* pGroup_; // ecx
     s32 maxCount; // ebx
     Sprite* pNearest; // eax
-    Char* pB4; // eax
+    Char* pChar; // eax
     Ped* pPed; // edi
     PedGroup* pGroup; // ecx
     SpriteList collision_list; // [esp+8h] [ebp-1Ch] BYREF
@@ -10931,11 +10931,11 @@ void Ped::RecruitNearbyPeds_46E080(s32 desiredCount, Fix16 searchRadius)
         for (pNearest = collision_list.TakeClosestSprite_5A6EA0(this->field_1AC_cam.x, this->field_1AC_cam.y); pNearest;
              pNearest = collision_list.TakeClosestSprite_5A6EA0(this->field_1AC_cam.x, this->field_1AC_cam.y))
         {
-            pB4 = pNearest->AsCharB4_40FEA0();
+            pChar = pNearest->AsCharB4_40FEA0();
 
-            if (pB4)
+            if (pChar)
             {
-                pPed = pB4->get_ped_433A20();
+                pPed = pChar->get_ped_433A20();
                 if (pPed->CanBeRecruitedToGroup_46E020(this->field_164_ped_group))
                 {
                     pGroup = pPed->field_164_ped_group;
@@ -12026,10 +12026,10 @@ void Ped::PushPatrolPoint_4702A0(s8 x, s8 y, s8 z)
 MATCH_FUNC(0x470f00)
 s32 Ped::IsInTrain_470F00()
 {
-    Car* pBC = this->field_16C_car;
-    if (pBC)
+    Car* pCar = this->field_16C_car;
+    if (pCar)
     {
-        const s32 info_idx = pBC->field_84_car_info_idx;
+        const s32 info_idx = pCar->field_84_car_info_idx;
         if (info_idx == car_model_enum::TRAIN || info_idx == car_model_enum::TRAINCAB || info_idx == car_model_enum::TRAINFB || info_idx == car_model_enum::boxcar)
         {
             return 1;

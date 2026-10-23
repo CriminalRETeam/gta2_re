@@ -706,13 +706,13 @@ void CarPhysics::restore_saved_physics_state_55A400()
     Trailer* pTrailer = field_5C_pCar->field_64_pTrailer;
     if (pTrailer)
     {
-        CarPhysics* pB0 = pTrailer->field_C_trailer_car->field_58_physics;
-        pB0->field_30_cm1 = g_trailer_cm1_6FE068;
-        pB0->field_6C_cp3 = gTrailer_cp3_6FE1B4;
-        pB0->field_58_theta = gTrailer_theta_6FE018;
-        pB0->field_38_cp1 = gTrailer_cp1_6FE3A8;
-        pB0->field_70_z_vel = gTrailer_f70_6FE194;
-        pB0->field_68_air_z_vel = gTrailer_air_z_vel_6FE354;
+        CarPhysics* pPhysics = pTrailer->field_C_trailer_car->field_58_physics;
+        pPhysics->field_30_cm1 = g_trailer_cm1_6FE068;
+        pPhysics->field_6C_cp3 = gTrailer_cp3_6FE1B4;
+        pPhysics->field_58_theta = gTrailer_theta_6FE018;
+        pPhysics->field_38_cp1 = gTrailer_cp1_6FE3A8;
+        pPhysics->field_70_z_vel = gTrailer_f70_6FE194;
+        pPhysics->field_68_air_z_vel = gTrailer_air_z_vel_6FE354;
     }
 }
 
@@ -1670,15 +1670,15 @@ void CarPhysics::DispatchCollision_55CA70(Fix16_Point& point, Ang16 angle)
             }
             else
             {
-                Char* pB4 = gCollisionTarget_679188.field_20_pHitSprite->AsCharB4_40FEA0();
-                if (pB4)
+                Char* pChar = gCollisionTarget_679188.field_20_pHitSprite->AsCharB4_40FEA0();
+                if (pChar)
                 {
-                    ProcessPedImpact_560B40(pB4, hitType);
+                    ProcessPedImpact_560B40(pChar, hitType);
                 }
                 else
                 {
-                    Object* p2C = gCollisionTarget_679188.field_20_pHitSprite->AsObject2C_40FEC0();
-                    HandleObjectCollision_5606C0(p2C, gCollisionArea_6FDFC4);
+                    Object* pObject = gCollisionTarget_679188.field_20_pHitSprite->AsObject2C_40FEC0();
+                    HandleObjectCollision_5606C0(pObject, gCollisionArea_6FDFC4);
                 }
             }
             break;
@@ -2279,9 +2279,9 @@ void CarPhysics::ApplyForceWithTrailerRedirect_55F740(Fix16_Point* pPoint, Fix16
 
     if (field_5C_pCar->IsTrailerCar_421720())
     {
-        CarPhysics* pB0 = field_5C_pCar->field_64_pTrailer->field_8_truck_cab->field_58_physics;
-        pB0->SetCurrentCarInfoAndModelPhysics_562EF0();
-        pB0->ApplyForceAndIntegrate_55F7A0(pPoint, *pForce);
+        CarPhysics* pPhysics = field_5C_pCar->field_64_pTrailer->field_8_truck_cab->field_58_physics;
+        pPhysics->SetCurrentCarInfoAndModelPhysics_562EF0();
+        pPhysics->ApplyForceAndIntegrate_55F7A0(pPoint, *pForce);
         SetCurrentCarInfoAndModelPhysics_562EF0();
     }
     else
@@ -2696,21 +2696,21 @@ EXPORT Fix16 __stdcall DotProduct_560680(const Fix16_Point& Vector1, const Fix16
 
 // https://decomp.me/scratch/tc7DX
 MATCH_FUNC(0x5606c0)
-void CarPhysics::HandleObjectCollision_5606C0(Object* p2C, char_type damage_area)
+void CarPhysics::HandleObjectCollision_5606C0(Object* pObject, char_type damage_area)
 {
     Fix16_Point RelativeVelocity;
     Fix16_Point Impulse;
     Fix16_Point tmp;
-    Fix16_Point ObjPos = p2C->GetXY_52AE70();
+    Fix16_Point ObjPos = pObject->GetXY_52AE70();
     Fix16_Point arg0a;
     Fix16_Point CoM = ComputeCombinedCenterOfMass_559EC0();
     Fix16 CarMass = CalculateMass_559FF0();
     Fix16 ObjMass;
     stru_6FE1F0 = CoM - CollisionIntersectionPoint_6FE1A0;
-    if (p2C->CanBePushed_482C90())
+    if (pObject->CanBePushed_482C90())
     {
-        ObjMass = p2C->GetMass_482C80();
-        tmp = p2C->GetSpeedVector_52AE90();
+        ObjMass = pObject->GetMass_482C80();
+        tmp = pObject->GetSpeedVector_52AE90();
         RelativeVelocity = ComputeRelativePointVelocity_561130(&CollisionIntersectionPoint_6FE1A0) - tmp;
 
         Impulse = ComputeCollisionImpulse_55F3B0(CarMass,
@@ -2726,7 +2726,7 @@ void CarPhysics::HandleObjectCollision_5606C0(Object* p2C, char_type damage_area
 
         // Obj Reaction impulse
         tmp = Impulse.Negate_40ACB0().DivideInl_442CB0(ObjMass);
-        p2C->SetMovementVectorWithRandomState_522640(tmp);
+        pObject->SetMovementVectorWithRandomState_522640(tmp);
     }
     else
     {
@@ -2744,7 +2744,7 @@ void CarPhysics::HandleObjectCollision_5606C0(Object* p2C, char_type damage_area
                                                      kFP16Quarter_6FDFB8);
     }
 
-    if (field_98_surface_type == car_surface_type::air_surface_6 && p2C->field_4_sprite->field_1C_zpos != field_5C_pCar->field_50_car_sprite->field_1C_zpos)
+    if (field_98_surface_type == car_surface_type::air_surface_6 && pObject->field_4_sprite->field_1C_zpos != field_5C_pCar->field_50_car_sprite->field_1C_zpos)
     {
         field_68_air_z_vel = kFpPoint7_6FDFF4 * (-field_68_air_z_vel);
         if (Fix16::Abs(field_68_air_z_vel) < kFP16One32nd_6FE118)
@@ -2753,9 +2753,9 @@ void CarPhysics::HandleObjectCollision_5606C0(Object* p2C, char_type damage_area
         }
         arg0a = (CoM - ObjPos).NormalizeSafe_442AD0().DivideInl_55F9E0(10);
         AccumulateImpulse_55FC30(arg0a, 50);
-        if (p2C->CanBePushed_482C90())
+        if (pObject->CanBePushed_482C90())
         {
-            p2C->SetMovementVectorWithRandomState_522640(arg0a.Negate_40ACB0());
+            pObject->SetMovementVectorWithRandomState_522640(arg0a.Negate_40ACB0());
         }
         gCollisionDamage_6FE33C = (CarMass * Fix16::Abs_negate_out_of_line(field_70_z_vel)) * 50;
     }
@@ -2766,7 +2766,7 @@ void CarPhysics::HandleObjectCollision_5606C0(Object* p2C, char_type damage_area
 
     gCollisionDamage_6FE33C += ApplyImpactForcesAndDamage_55FA60(CollisionIntersectionPoint_6FE1A0, Impulse, 15);
     field_5C_pCar->ApplyImpactDamage_43D5D0(gCollisionDamage_6FE33C);
-    p2C->HandleImpact_528E50(field_5C_pCar->field_50_car_sprite);
+    pObject->HandleImpact_528E50(field_5C_pCar->field_50_car_sprite);
 
     if (gCollisionDamage_6FE33C > kFpPoint3_6FDFE4)
     {
@@ -2779,12 +2779,12 @@ void CarPhysics::HandleObjectCollision_5606C0(Object* p2C, char_type damage_area
 }
 
 MATCH_FUNC(0x560b40)
-void CarPhysics::ProcessPedImpact_560B40(Char* pCharB4, u8 hitType)
+void CarPhysics::ProcessPedImpact_560B40(Char* pChar, u8 hitType)
 {
     Fix16_Point impact_dir; // a local with a destructor: the original constructs 4 points up front (EH state 3)
     Fix16_Point pIntersection;
     Fix16_Point relativePointVel;
-    Fix16_Point sprite_xy(pCharB4->get_sprite_xpos(), pCharB4->get_sprite_ypos());
+    Fix16_Point sprite_xy(pChar->get_sprite_xpos(), pChar->get_sprite_ypos());
 
     Fix16_Point combinedCentreOfmass = ComputeCombinedCenterOfMass_559EC0();
     relativePointVel = ComputeRelativePointVelocity_561130(&CollisionIntersectionPoint_6FE1A0);
@@ -2803,7 +2803,7 @@ void CarPhysics::ProcessPedImpact_560B40(Char* pCharB4, u8 hitType)
                                                        kFP16One_6FE3DC);
 
     u8 bUnknown;
-    if (field_98_surface_type == car_surface_type::air_surface_6 && pCharB4->get_sprite_zpos() != field_5C_pCar->field_50_car_sprite->field_1C_zpos ||
+    if (field_98_surface_type == car_surface_type::air_surface_6 && pChar->get_sprite_zpos() != field_5C_pCar->field_50_car_sprite->field_1C_zpos ||
         hitType == 0)
     {
         bUnknown = 1;
@@ -2823,10 +2823,10 @@ void CarPhysics::ProcessPedImpact_560B40(Char* pCharB4, u8 hitType)
     Ped* pCarDriver = field_5C_pCar->field_54_driver;
     if (pCarDriver)
     {
-        pCharB4->field_7C_pPed->field_204_killer_id = pCarDriver->field_200_id;
-        pCharB4->field_7C_pPed->field_264_killer_id_timer = 50;
+        pChar->field_7C_pPed->field_204_killer_id = pCarDriver->field_200_id;
+        pChar->field_7C_pPed->field_264_killer_id_timer = 50;
 
-        Ped* pPed = pCharB4->field_7C_pPed;
+        Ped* pPed = pChar->field_7C_pPed;
         if (pPed->GetStolenCar_49EF40() == this->field_5C_pCar)
         {
             pPed->field_290_death_cause = ped_death_cause::run_over_by_stolen_car_3;
@@ -2854,10 +2854,10 @@ void CarPhysics::ProcessPedImpact_560B40(Char* pCharB4, u8 hitType)
                         Ped* pTruckCabDriver = pTruckCab->field_54_driver;
                         if (pTruckCabDriver)
                         {
-                            pCharB4->field_7C_pPed->field_204_killer_id = pTruckCabDriver->field_200_id;
-                            pCharB4->field_7C_pPed->field_264_killer_id_timer = 50;
+                            pChar->field_7C_pPed->field_204_killer_id = pTruckCabDriver->field_200_id;
+                            pChar->field_7C_pPed->field_264_killer_id_timer = 50;
 
-                            Ped* pPed = pCharB4->field_7C_pPed;
+                            Ped* pPed = pChar->field_7C_pPed;
                             if (pPed->GetStolenCar_49EF40() == this->field_5C_pCar->field_64_pTrailer->field_8_truck_cab)
                             {
                                 pPed->field_290_death_cause = ped_death_cause::run_over_by_stolen_car_3;
@@ -2873,7 +2873,7 @@ void CarPhysics::ProcessPedImpact_560B40(Char* pCharB4, u8 hitType)
         }
     }
 
-    pCharB4->HandleCarImpact_5538A0(pCar, bUnknown, impact_dir.x, impact_dir.y);
+    pChar->HandleCarImpact_5538A0(pCar, bUnknown, impact_dir.x, impact_dir.y);
 }
 
 MATCH_FUNC(0x560eb0)

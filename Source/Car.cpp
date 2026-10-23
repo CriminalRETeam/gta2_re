@@ -2359,46 +2359,46 @@ bool Car::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
 {
 
     s32 sprite_type; // eax
-    Car* cBC; // edi
+    Car* pCar; // edi
     u16 our_flags; // dx
     u16 their_flags; // cx
     bool bUnknown; // bl
     s32 f_88; // eax
-    Object* o2c; // ecx
+    Object* pObject; // ecx
     ObjectDefinition* pDefinition; // edx
     s32 phi_type; // eax
     s32 field_18_model; // eax
     Ped* pPed; // eax
-    Char* pB4; // eax
-    Ped* pB4Ped; // eax
+    Char* pChar; // eax
+    Ped* pCharPed; // eax
     Trailer* pTrailer; // eax
 
     if (pSprite)
     {
         if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car_2)
         {
-            cBC = pSprite->field_8_car_bc_ptr;
-            if (cBC)
+            pCar = pSprite->field_8_car_bc_ptr;
+            if (pCar)
             {
-                if (gPublicTransport_181C_6FF1D4->AreTrainsOnDifferentTracks_57B740(cBC, this))
+                if (gPublicTransport_181C_6FF1D4->AreTrainsOnDifferentTracks_57B740(pCar, this))
                 {
                     return 0;
                 }
 
                 our_flags = this->field_78_flags;
-                their_flags = cBC->field_78_flags;
+                their_flags = pCar->field_78_flags;
                 if ((((u8)their_flags ^ (u8)our_flags) & car_flag::Flag4) != 0)
                 {
                     return 0;
                 }
                 if ((their_flags & car_flag::Flag6) != 0 && this->field_74_damage == 32001 && (our_flags & car_flag::Flag6) == 0 ||
-                    (our_flags & car_flag::Flag6) != 0 && cBC->field_74_damage == 32001 && (their_flags & car_flag::Flag6) == 0)
+                    (our_flags & car_flag::Flag6) != 0 && pCar->field_74_damage == 32001 && (their_flags & car_flag::Flag6) == 0)
                 {
                     return 0;
                 }
                 if ((their_flags & car_flag::Crushing) != 0 && (gGtx_0x106C_703DD4->get_car_info_5AA3B0(this->field_84_car_info_idx)->info_flags_2 & car_info_flag2::heavy) != car_info_flag2::heavy ||
                     (this->field_78_flags & car_flag::Crushing) &&
-                        (gGtx_0x106C_703DD4->get_car_info_5AA3B0(cBC->field_84_car_info_idx)->info_flags_2 & car_info_flag2::heavy) != car_info_flag2::heavy)
+                        (gGtx_0x106C_703DD4->get_car_info_5AA3B0(pCar->field_84_car_info_idx)->info_flags_2 & car_info_flag2::heavy) != car_info_flag2::heavy)
                 {
                     return 0;
                 }
@@ -2408,14 +2408,14 @@ bool Car::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
                     return 1;
                 }
 
-                if ((gGtx_0x106C_703DD4->get_car_info_5AA3B0(this->field_84_car_info_idx)->info_flags & car_info_flag::truck_cab) == car_info_flag::truck_cab && !cBC->field_64_pTrailer &&
-                    (gGtx_0x106C_703DD4->get_car_info_5AA3B0(cBC->field_84_car_info_idx)->info_flags & car_info_flag::trailer) == car_info_flag::trailer)
+                if ((gGtx_0x106C_703DD4->get_car_info_5AA3B0(this->field_84_car_info_idx)->info_flags & car_info_flag::truck_cab) == car_info_flag::truck_cab && !pCar->field_64_pTrailer &&
+                    (gGtx_0x106C_703DD4->get_car_info_5AA3B0(pCar->field_84_car_info_idx)->info_flags & car_info_flag::trailer) == car_info_flag::trailer)
                 {
                     return field_50_car_sprite->CheckDirectionalSliceCollision_59E680(kFpFiveEighths_6778C8, pSprite);
                 }
 
                 if (this->field_64_pTrailer || (gGtx_0x106C_703DD4->get_car_info_5AA3B0(this->field_84_car_info_idx)->info_flags & car_info_flag::trailer) != car_info_flag::trailer ||
-                    cBC->field_64_pTrailer || (gGtx_0x106C_703DD4->get_car_info_5AA3B0(cBC->field_84_car_info_idx)->info_flags & car_info_flag::truck_cab) != car_info_flag::truck_cab)
+                    pCar->field_64_pTrailer || (gGtx_0x106C_703DD4->get_car_info_5AA3B0(pCar->field_84_car_info_idx)->info_flags & car_info_flag::truck_cab) != car_info_flag::truck_cab)
                 {
                     return 1;
                 }
@@ -2434,13 +2434,13 @@ bool Car::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
         }
 
         sprite_type = pSprite->field_30_sprite_type_enum;
-        if ((sprite_type == sprite_types_enum::code_obj1_4 || sprite_type == sprite_types_enum::map_obj_5 || sprite_type == sprite_types_enum::object_1) && (o2c = pSprite->field_8_object_2C_ptr) != 0)
+        if ((sprite_type == sprite_types_enum::code_obj1_4 || sprite_type == sprite_types_enum::map_obj_5 || sprite_type == sprite_types_enum::object_1) && (pObject = pSprite->field_8_object_2C_ptr) != 0)
         {
-            pDefinition = o2c->field_8_definition;
+            pDefinition = pObject->field_8_definition;
             phi_type = pDefinition->field_34_behavior_type;
             if (phi_type == object_behavior_type::pickup_6 || phi_type == object_behavior_type::pickup_physics_7 || phi_type == object_behavior_type::pickup_animated_8 ||
             phi_type == object_behavior_type::pickup_physics_animated_9 || phi_type == object_behavior_type::shop_10 || phi_type == object_behavior_type::static_collision_check_1 || phi_type == object_behavior_type::effect_only_12 ||
-                (field_18_model = o2c->field_18_model, field_18_model == 182) || field_18_model == objects::grenade_obj_183)
+                (field_18_model = pObject->field_18_model, field_18_model == 182) || field_18_model == objects::grenade_obj_183)
             {
                 if (pDefinition->field_40_collision_bucket_category == collision_bucket_category::sprite_grid_2_region_3)
                 {
@@ -2449,9 +2449,9 @@ bool Car::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
             }
             else
             {
-                if (gPedRefTable_7F8_703398->field_0_entries[o2c->field_26_ped_ref_idx].field_0_ped_id)
+                if (gPedRefTable_7F8_703398->field_0_entries[pObject->field_26_ped_ref_idx].field_0_ped_id)
                 {
-                    pPed = gPedManager_6787BC->PedById(gPedRefTable_7F8_703398->field_0_entries[o2c->field_26_ped_ref_idx].field_0_ped_id);
+                    pPed = gPedManager_6787BC->PedById(gPedRefTable_7F8_703398->field_0_entries[pObject->field_26_ped_ref_idx].field_0_ped_id);
                     if (pPed)
                     {
                         if (pPed->field_16C_car == this)
@@ -2464,11 +2464,11 @@ bool Car::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
         }
         else if (sprite_type == sprite_types_enum::ped_3)
         {
-            pB4 = pSprite->field_8_char_b4_ptr;
-            if (pB4)
+            pChar = pSprite->field_8_char_b4_ptr;
+            if (pChar)
             {
-                pB4Ped = pB4->field_7C_pPed;
-                if (pB4Ped->field_27C_ped_state_2 == ped_state_2::ped2_entering_a_car_6 && pB4Ped->field_154_target_to_enter == this)
+                pCharPed = pChar->field_7C_pPed;
+                if (pCharPed->field_27C_ped_state_2 == ped_state_2::ped2_entering_a_car_6 && pCharPed->field_154_target_to_enter == this)
                 {
                     return 0;
                 }
@@ -3282,8 +3282,8 @@ void Car::UpdateTopRightRoofLight_43C260()
     if (HasTopRoofLights_4216A0() && !field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDamage_1))
     {
         this->field_8_damaged_areas.set_bit(CarDeltaBitsEnum::TopRightRoofLight_18);
-        Object* p2C = field_0_attachments.FindObject2CByModel_5A6A90(172);
-        p2C->UpdateLight_527A30();
+        Object* pObject = field_0_attachments.FindObject2CByModel_5A6A90(172);
+        pObject->UpdateLight_527A30();
     }
 }
 
@@ -3401,19 +3401,19 @@ void Car::ResetBottomLeftRoofLight_43C840()
 
     if (field_84_car_info_idx != car_model_enum::EDSELFBI)
     {
-        Object* p2C = field_0_attachments.FindObject2CByModel_5A6A90(171);
-        if (p2C)
+        Object* pObject = field_0_attachments.FindObject2CByModel_5A6A90(171);
+        if (pObject)
         {
-            p2C->TurnOffLight_527990();
+            pObject->TurnOffLight_527990();
         }
     }
 
     if (field_84_car_info_idx == car_model_enum::SWATVAN || field_84_car_info_idx == car_model_enum::FIRETRUK)
     {
-        Object* p2C = field_0_attachments.FindObject2CByModel_5A6A90(173);
-        if (p2C)
+        Object* pObject = field_0_attachments.FindObject2CByModel_5A6A90(173);
+        if (pObject)
         {
-            p2C->TurnOffLight_527990();
+            pObject->TurnOffLight_527990();
         }
     }
 }
@@ -3738,10 +3738,10 @@ void Car::EmitExplosion_43D690(s32 type, Fix16 x, Fix16 y)
 {
     Fix16_Point unused; // EH frame with state 0 before the first call: the original has a destructible local
 
-    Object* p2C = gObject_5C_6F8F84->CreateExplosion_52A3D0(gFix16_6777CC, gFix16_6777CC, 2, kAngZero_67791C, type, field_70_exploder_ped_id);
-    if (p2C)
+    Object* pObject = gObject_5C_6F8F84->CreateExplosion_52A3D0(gFix16_6777CC, gFix16_6777CC, 2, kAngZero_67791C, type, field_70_exploder_ped_id);
+    if (pObject)
     {
-        field_50_car_sprite->AttachSprite_5A3100(p2C->field_4_sprite, x, y, kAngZero_67791C);
+        field_50_car_sprite->AttachSprite_5A3100(pObject->field_4_sprite, x, y, kAngZero_67791C);
     }
 }
 
@@ -3947,11 +3947,11 @@ bool Car::IsSpriteShrunk_43DC00()
     car_info* pInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx);
     if (field_74_damage == 32001)
     {
-        SpriteShape* pSprite4C = field_50_car_sprite->field_C_pCollisionShape;
+        SpriteShape* pShape = field_50_car_sprite->field_C_pCollisionShape;
         SpriteShape* pLen = field_50_car_sprite->field_4_pVisualShape;
-        Fix16 sprite4CWidth = pSprite4C->field_0_width;
+        Fix16 shapeWidth = pShape->field_0_width;
         Fix16 lenWidth = pLen->field_0_width;
-        return lenWidth != sprite4CWidth;
+        return lenWidth != shapeWidth;
     }
 
     u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::car_2, pInfo->sprite);
@@ -4602,17 +4602,17 @@ Sprite* Car::GetSprite_440840()
 MATCH_FUNC(0x440ac0)
 void Car::PutWaterCannonOnRoof_440AC0()
 {
-    Object* p2C =
+    Object* pObject =
         gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::water_cannon_114, gFix16_6777CC, gFix16_6777CC, gFix16_6777CC, kAngZero_67791C);
-    field_50_car_sprite->AttachSprite_5A3100(p2C->field_4_sprite, gFix16_6777CC, kWaterCannonOffsetY_6771F0, kAng180_677326);
+    field_50_car_sprite->AttachSprite_5A3100(pObject->field_4_sprite, gFix16_6777CC, kWaterCannonOffsetY_6771F0, kAng180_677326);
 }
 
 MATCH_FUNC(0x440b10)
 void Car::PutTankCannonOnRoof_440B10()
 {
-    Object* p2C =
+    Object* pObject =
         gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::tank_cannon_148, gFix16_6777CC, gFix16_6777CC, gFix16_6777CC, kAngZero_67791C);
-    field_50_car_sprite->AttachSprite_5A3100(p2C->field_4_sprite, gFix16_6777CC, kTankCannonOffsetY_6772A4, kAngZero_67791C);
+    field_50_car_sprite->AttachSprite_5A3100(pObject->field_4_sprite, gFix16_6777CC, kTankCannonOffsetY_6772A4, kAngZero_67791C);
 }
 
 MATCH_FUNC(0x440b60)
@@ -4756,7 +4756,7 @@ void Car::FireCarBomb_440F90(char_type instant_bomb)
     }
     else
     {
-        Object* pNew2C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::car_bomb_132,
+        Object* pNewObject = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::car_bomb_132,
                                                                     gFix16_6777CC,
                                                                     gFix16_6777CC,
                                                                     gFix16_6777CC,
@@ -4764,9 +4764,9 @@ void Car::FireCarBomb_440F90(char_type instant_bomb)
         Ped* pDriver = this->field_54_driver;
         if (pDriver)
         {
-            pNew2C->SetDamageOwner_529080(pDriver->get_ped_ref_idx_420B50());
+            pNewObject->SetDamageOwner_529080(pDriver->get_ped_ref_idx_420B50());
         }
-        field_50_car_sprite->AttachSprite_5A3100(pNew2C->field_4_sprite, gFix16_6777CC, gFix16_6777CC, kAngZero_67791C);
+        field_50_car_sprite->AttachSprite_5A3100(pNewObject->field_4_sprite, gFix16_6777CC, gFix16_6777CC, kAngZero_67791C);
     }
 }
 
@@ -5922,18 +5922,18 @@ void Car::TryHitchTrailer_442810()
 MATCH_FUNC(0x442d10)
 void Car::LightUpdate_442D10()
 {
-    AttachedSprite* p18 = field_0_attachments.GetSpriteForModel_5A6A50(objects::light_165);
-    if (p18)
+    AttachedSprite* pAttached = field_0_attachments.GetSpriteForModel_5A6A50(objects::light_165);
+    if (pAttached)
     {
-        Sprite* pSprite = p18->field_0_pSprite;
-        Object* o2c = pSprite->AsObject2C_40FEC0();
+        Sprite* pSprite = pAttached->field_0_pSprite;
+        Object* pObject = pSprite->AsObject2C_40FEC0();
         if (gMap_0x370_6F6268->CheckColumnHasSolidAbove_4E7FC0(pSprite->field_14_xy.x, pSprite->field_14_xy.y, pSprite->field_1C_zpos))
         {
-            o2c->TurnOffLight_527990();
+            pObject->TurnOffLight_527990();
         }
         else
         {
-            o2c->UpdateLight_527A30();
+            pObject->UpdateLight_527A30();
         }
     }
 }

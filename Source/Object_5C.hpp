@@ -69,7 +69,7 @@ class Object
     EXPORT void SetMovementVectorWithRandomState_522640(Fix16_Point& point);
     EXPORT void SetConveyorPush_5226A0(char_type conveyor_speed);
     EXPORT void ResolveCollisionWithObject_522710(Object* pObj, Fix16_Point* pPoint);
-    EXPORT void ResolveCollisionWithPed_5229B0(Char* pB4, Fix16_Point* pPoint, u8 not_used);
+    EXPORT void ResolveCollisionWithPed_5229B0(Char* pChar, Fix16_Point* pPoint, u8 not_used);
     EXPORT void ResolveCollisionWithWorld_522B20(Fix16_Point* f18, Fix16_Point* pPoint, Fix16_Point* speed);
     EXPORT void ResolveCollisionWithHorizontalEdge_522BE0(Fix16_Point* pPoint);
     EXPORT void ResolveCollisionWithVerticalEdge_522D00(Fix16_Point* pPoint);
@@ -419,7 +419,7 @@ class Object_5C
 
     EXPORT void SaveObjects_52A500(SavedObjectData* pData);
     EXPORT void RestoreObjects_52A590(SavedObjectData* pData);
-    EXPORT void RemoveAndFree_52A610(Object* p2C);
+    EXPORT void RemoveAndFree_52A610(Object* pObject);
 
     Object* field_0_diagonal_wall_ang315;
     Object* field_4_diagonal_wall_ang135;

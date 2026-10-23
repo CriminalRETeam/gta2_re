@@ -81,9 +81,9 @@ char_type TileAnim::PoolUpdate()
 MATCH_FUNC(0x5bc260)
 void TileAnimManager::AddAnim_5BC260(s16 base, s16 f0, s16 length, s16 frame_rate, s16 repeat)
 {
-    TileAnim* p18 = gTileAnimPool_7052C8->Allocate();
-    p18->Init_4C33F0(base, f0, length, frame_rate, repeat);
-    p18->Start_5BC1D0();
+    TileAnim* pAnim = gTileAnimPool_7052C8->Allocate();
+    pAnim->Init_4C33F0(base, f0, length, frame_rate, repeat);
+    pAnim->Start_5BC1D0();
 }
 
 MATCH_FUNC(0x5bc2c0)

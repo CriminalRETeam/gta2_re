@@ -146,9 +146,9 @@ class CarAIPool
     }
 
     // TODO: get 9.6f inline addr
-    void DeAllocate(CarAI* p78)
+    void DeAllocate(CarAI* pCarAI)
     {
-        field_0_pool.DeAllocate(p78);
+        field_0_pool.DeAllocate(pCarAI);
     }
 
     PoolBasic<CarAI, 306> field_0_pool;

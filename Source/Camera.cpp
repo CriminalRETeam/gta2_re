@@ -105,12 +105,12 @@ bool Camera::IsSpriteTheCameraSubject_4355D0(Sprite* pSprite)
     }
     else
     {
-        Char* pB4 = pSprite->AsCharB4_40FEA0();
-        if (pB4)
+        Char* pChar = pSprite->AsCharB4_40FEA0();
+        if (pChar)
         {
             if (field_34_target_ped)
             {
-                if (field_34_target_ped->field_168_game_object == pB4)
+                if (field_34_target_ped->field_168_game_object == pChar)
                 {
                     return true;
                 }
@@ -146,8 +146,8 @@ bool Camera::IsSpriteInView_435630(Sprite* pSprite, s32 wide_view)
         IntervalIntersectsRange_438FB0(rect.field_8_top, rect.field_C_bottom, pBox->field_8_top, pBox->field_C_bottom) &&
         IntervalIntersectsRange_438FB0(rect.field_10_low_z, rect.field_14_high_z, pBox->field_10_low_z, pBox->field_14_high_z))
     {
-        SpriteShape* p4C = pSprite->field_C_pCollisionShape;
-        if ((p4C->field_0_width == p4C->field_4_height && p4C->field_0_width <= kFpPoint2_676694) || pSprite->field_0_rotation.rValue == 0 ||
+        SpriteShape* pShape = pSprite->field_C_pCollisionShape;
+        if ((pShape->field_0_width == pShape->field_4_height && pShape->field_0_width <= kFpPoint2_676694) || pSprite->field_0_rotation.rValue == 0 ||
             pSprite->field_0_rotation == 360 || pSprite->field_0_rotation == 720 || pSprite->field_0_rotation == 1080 || pSprite->IntersectsRectSAT_59FB10(&rect) ||
             rect.IntersectsSpriteRenderingRect_59DDF0(pSprite))
         {
