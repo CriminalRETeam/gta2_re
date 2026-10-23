@@ -1356,7 +1356,7 @@ void ScriptThread::DisableThread_505790(u16 idx)
             if (pThreadC)
             {
                 pThreadC->field_0_ped_id = 0;
-                pThreadC->field_4_obj_f14 = 0;
+                pThreadC->field_4_target_id = 0;
                 pThreadC->field_8_cmd_line = 0;
                 --gScriptManager_6F8060->field_0_car_trigger_count;
             }
@@ -3624,7 +3624,7 @@ void ScriptThread::SCRCMD_CHECK_PHONE_50B230()
     SCR_ANSWER_PHONE* pThreadPtr = (SCR_ANSWER_PHONE*)gScriptManager_6F8060->GetBasePointer_512770(pHeader->field_8_cmd_line);
     if (pThreadPtr->field_12_answered == 1)
     {
-        gScriptManager_6F8060->RemovePhoneThread_512A70(pHeader->field_0_ped_id, pHeader->field_4_obj_f14);
+        gScriptManager_6F8060->RemovePhoneThread_512A70(pHeader->field_0_ped_id, pHeader->field_4_target_id);
         field_8_cond_result = true;
     }
     else
@@ -3673,7 +3673,7 @@ void ScriptThread::SCRCMD_STOP_PHONE_RING_50B360()
         ThreadTrigger* pHeader = gScriptManager_6F8060->FindPhoneThreadByObjId_512AD0(pObj->field_14_id);
         if (pHeader)
         {
-            gScriptManager_6F8060->RemovePhoneThread_512A70(pHeader->field_0_ped_id, pHeader->field_4_obj_f14);
+            gScriptManager_6F8060->RemovePhoneThread_512A70(pHeader->field_0_ped_id, pHeader->field_4_target_id);
         }
         pPointer->field_8_obj->PoolGiveAndQueueObjectType_5291E0(163);
     }
