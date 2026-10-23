@@ -1041,10 +1041,10 @@ DEFINE_GLOBAL(Network_PlayerInputs, gNetInputsHistory2_6F5798, 0x6F5798);
 
 // Re-sends our inputs of a previous frame to one player.
 MATCH_FUNC(0x4DA9B0)
-EXPORT void __stdcall NetSendOldInputs_4DA9B0(NetInputData* pInputs, s32 delayed_ticks, u8 player_idx)
+EXPORT void __stdcall NetSendOldInputs_4DA9B0(Network_InputData* pInputs, s32 delayed_ticks, u8 player_idx)
 {
     gInputSendData_6F5B18.field_0_data = pInputs;
-    gInputSendData_6F5B18.field_4_len = bDo_sync_check_67D6C1 ? sizeof(NetInputData) : sizeof(u32);
+    gInputSendData_6F5B18.field_4_len = bDo_sync_check_67D6C1 ? sizeof(Network_InputData) : sizeof(u32);
     gNetPlay_7071E8.SendToPlayer_521630(&gInputSendData_6F5B18, player_idx, delayed_ticks);
 }
 
