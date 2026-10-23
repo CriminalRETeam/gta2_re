@@ -3623,21 +3623,23 @@ void Car::DamageArea_43CF30(s32 damage_area)
 MATCH_FUNC(0x43d1c0)
 bool Car::IsAreaDamaged_43D1C0(s32 damage_area)
 {
+    // damage_area is the script's damage position (miss2_0x11C), not the bit: 10.5.exe's jump table sends
+    // 0 to the BottomRight test, 1 to BottomLeft, 2 to TopRight, 3 to TopLeft and 4 to the windshield
     switch (damage_area)
     {
-        case CarDeltaBitsEnum::BottomRightDamage_2:
+        case 0:
             return field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomRightDamage_2); // 4
 
-        case CarDeltaBitsEnum::BottomLeftDamage_3:
+        case 1:
             return field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomLeftDamage_3); // 8
 
-        case CarDeltaBitsEnum::TopRightDamage_1:
+        case 2:
             return field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDamage_1);
 
-        case CarDeltaBitsEnum::TopLeftDamage_0:
+        case 3:
             return field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopLeftDamage_0);
 
-        case CarDeltaBitsEnum::WindshieldDamage_4:
+        case 4:
             return field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::WindshieldDamage_4); // 10
 
         default:

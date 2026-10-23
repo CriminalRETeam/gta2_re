@@ -2027,12 +2027,12 @@ void NetUi::SetSetting_51B9C0(s32 setting, s32 value)
             }
             break;
 
-        case 4:
+        case 6: // 10.5.exe's jump table: 6 is the police flag, 4 the tick count
             field_20088_game_settings.field_201A0_police_on = value;
             gRegistry_6FF968.Set_Network_Setting_587730("police", value);
             break;
 
-        case 6:
+        case 4:
             field_20088_game_settings.field_2019C_tick_count = value;
             break;
 

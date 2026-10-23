@@ -1926,6 +1926,7 @@ void ScriptThread::SCRCMD_S_OP_S_506ED0()
     SCR_POINTER* pLeftOperand =
         (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index); // pCmd->field_8_left_counter_idx
     SCR_POINTER* pRightOperand = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_right_counter_idx);
+    // 10.5.exe's jump table: 2 is >, 3 >=, 4 < and 5 <= (GetOperationType_506BC0)
     switch (operation_type)
     {
         case 0:
@@ -1934,7 +1935,7 @@ void ScriptThread::SCRCMD_S_OP_S_506ED0()
         case 1:
             this->field_8_cond_result = pLeftOperand->field_8_counter - pRightOperand->field_8_counter;
             break;
-        case 2:
+        case 4:
             if (pLeftOperand->field_8_counter < pRightOperand->field_8_counter)
             {
                 field_8_cond_result = true;
@@ -1944,7 +1945,7 @@ void ScriptThread::SCRCMD_S_OP_S_506ED0()
                 field_8_cond_result = false;
             }
             break;
-        case 3:
+        case 5:
             if (pLeftOperand->field_8_counter <= pRightOperand->field_8_counter)
             {
                 field_8_cond_result = true;
@@ -1954,7 +1955,7 @@ void ScriptThread::SCRCMD_S_OP_S_506ED0()
                 field_8_cond_result = false;
             }
             break;
-        case 4:
+        case 2:
             if (pLeftOperand->field_8_counter > pRightOperand->field_8_counter)
             {
                 field_8_cond_result = true;
@@ -1964,7 +1965,7 @@ void ScriptThread::SCRCMD_S_OP_S_506ED0()
                 field_8_cond_result = false;
             }
             break;
-        case 5:
+        case 3:
             if (pLeftOperand->field_8_counter >= pRightOperand->field_8_counter)
             {
                 field_8_cond_result = true;
@@ -1998,6 +1999,7 @@ void ScriptThread::SCRCMD_I_OP_S_507110()
     SCR_POINTER* pOperand = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(
         ((SCR_CMD_HEADER*)gBasePtr_6F8070)[1].field_2_type); // pCmd->field_A_counter_idx
 
+    // 10.5.exe's jump table: 2 is >, 3 >=, 4 < and 5 <= (GetOperationType_506BC0)
     switch (operation_type)
     {
         case 0:
@@ -2006,7 +2008,7 @@ void ScriptThread::SCRCMD_I_OP_S_507110()
         case 1:
             this->field_8_cond_result = pCmd->field_8_value - pOperand->field_8_counter;
             break;
-        case 2:
+        case 4:
             if (pCmd->field_8_value < pOperand->field_8_counter)
             {
                 field_8_cond_result = true;
@@ -2016,7 +2018,7 @@ void ScriptThread::SCRCMD_I_OP_S_507110()
                 field_8_cond_result = false;
             }
             break;
-        case 3:
+        case 5:
             if (pCmd->field_8_value <= pOperand->field_8_counter)
             {
                 field_8_cond_result = true;
@@ -2026,7 +2028,7 @@ void ScriptThread::SCRCMD_I_OP_S_507110()
                 field_8_cond_result = false;
             }
             break;
-        case 4:
+        case 2:
             if (pCmd->field_8_value > pOperand->field_8_counter)
             {
                 field_8_cond_result = true;
@@ -2036,7 +2038,7 @@ void ScriptThread::SCRCMD_I_OP_S_507110()
                 field_8_cond_result = false;
             }
             break;
-        case 5:
+        case 3:
             if (pCmd->field_8_value >= pOperand->field_8_counter)
             {
                 field_8_cond_result = true;
