@@ -397,7 +397,7 @@ s32 kFp255_6F8FA4 = 0x3FC000;
 MATCH_FUNC(0x5331a0)
 void ObjectDefinition::ApplyDefinitionToSprite_5331A0(Sprite* pSprite)
 {
-    s32 f40; // eax
+    s32 bucket_category; // eax
 
     pSprite->SetType_4206F0(this->field_28_sprite_type);
     pSprite->set_id_lazy_4206C0(this->field_1E_base_sprite_idx);
@@ -410,8 +410,8 @@ void ObjectDefinition::ApplyDefinitionToSprite_5331A0(Sprite* pSprite)
         pSprite->SetRemap(this->field_1C_remap);
     }
 
-    f40 = this->field_40_collision_bucket_category;
-    if (f40 > 0 && (f40 <= 3 || f40 == 4))
+    bucket_category = this->field_40_collision_bucket_category;
+    if (bucket_category > 0 && (bucket_category <= 3 || bucket_category == 4))
     {
         pSprite->AllocCollisionShape_59F950(this->field_0_width, this->field_4_height, this->field_8_depth);
     }
@@ -876,213 +876,213 @@ void ObjectDefinitions::CreateCodeObjectDefinitions_533B30()
 MATCH_FUNC(0x533c90)
 void ObjectDefinitions::CloneRemappedDefinitions_533C90()
 {
-    ObjectDefinition* tmp;
-    tmp = CloneDefinition_534370(0x93, 0x90);
-    tmp->SetRemap_533110(4);
-    tmp = CloneDefinition_534370(0xfa, 0xfd);
-    tmp->SetRemap_533110(4);
-    tmp = CloneDefinition_534370(0x78, 0x79);
-    tmp->SetRemap_533110(4);
-    tmp = CloneDefinition_534370(0x75, 0x76);
-    tmp->SetRemap_533110(4);
-    tmp = CloneDefinition_534370(0x92, 0x90);
-    tmp->SetRemap_533110(3);
-    tmp = CloneDefinition_534370(0xf9, 0xfd);
-    tmp->SetRemap_533110(3);
-    tmp = CloneDefinition_534370(0x77, 0x79);
-    tmp->SetRemap_533110(3);
-    tmp = CloneDefinition_534370(0x74, 0x76);
-    tmp->SetRemap_533110(3);
-    tmp = CloneDefinition_534370(0x91, 0x90);
-    tmp->SetRemap_533110(5);
-    tmp->field_64_next_frame_max = 3;
+    ObjectDefinition* pDef;
+    pDef = CloneDefinition_534370(0x93, 0x90);
+    pDef->SetRemap_533110(4);
+    pDef = CloneDefinition_534370(0xfa, 0xfd);
+    pDef->SetRemap_533110(4);
+    pDef = CloneDefinition_534370(0x78, 0x79);
+    pDef->SetRemap_533110(4);
+    pDef = CloneDefinition_534370(0x75, 0x76);
+    pDef->SetRemap_533110(4);
+    pDef = CloneDefinition_534370(0x92, 0x90);
+    pDef->SetRemap_533110(3);
+    pDef = CloneDefinition_534370(0xf9, 0xfd);
+    pDef->SetRemap_533110(3);
+    pDef = CloneDefinition_534370(0x77, 0x79);
+    pDef->SetRemap_533110(3);
+    pDef = CloneDefinition_534370(0x74, 0x76);
+    pDef->SetRemap_533110(3);
+    pDef = CloneDefinition_534370(0x91, 0x90);
+    pDef->SetRemap_533110(5);
+    pDef->field_64_next_frame_max = 3;
 
-    tmp = CloneDefinition_534370(0x7c, 0xfd);
-    tmp->SetRemap_533110(5);
-    tmp->field_64_next_frame_max = 3;
-    tmp = CloneDefinition_534370(0x7d, 0x79);
-    tmp->SetRemap_533110(5);
-    tmp->field_64_next_frame_max = 3;
-    tmp = CloneDefinition_534370(0x7e, 0x76);
-    tmp->SetRemap_533110(5);
-    tmp->field_64_next_frame_max = 3;
+    pDef = CloneDefinition_534370(0x7c, 0xfd);
+    pDef->SetRemap_533110(5);
+    pDef->field_64_next_frame_max = 3;
+    pDef = CloneDefinition_534370(0x7d, 0x79);
+    pDef->SetRemap_533110(5);
+    pDef->field_64_next_frame_max = 3;
+    pDef = CloneDefinition_534370(0x7e, 0x76);
+    pDef->SetRemap_533110(5);
+    pDef->field_64_next_frame_max = 3;
 
-    tmp = CloneDefinition_534370(0x9a, 0xfe);
+    pDef = CloneDefinition_534370(0x9a, 0xfe);
     if (bDo_show_imaginary_67D588 == false)
     {
-        tmp->field_40_collision_bucket_category = collision_bucket_category::none_2;
+        pDef->field_40_collision_bucket_category = collision_bucket_category::none_2;
     }
     CloneDefinition_534370(0x109, 0xfe);
-    tmp = CloneDefinition_534370(0x9f, 0x80);
+    pDef = CloneDefinition_534370(0x9f, 0x80);
     if (bDo_show_imaginary_67D588 == false)
     {
-        tmp->field_40_collision_bucket_category = collision_bucket_category::none_2;
+        pDef->field_40_collision_bucket_category = collision_bucket_category::none_2;
     }
 
     CloneDefinition_534370(0x115, 0xfe);
-    tmp = CloneDefinition_534370(0x6e, 0x9b);
-    tmp->field_38 = 0x6e;
-    tmp->field_3C_next_definition_idx = 0x6e;
-    tmp->field_54_react_to_collisions_with = CollisionReaction::OnlyPeds_2;
-    tmp->SetDimensions_533060(kFpPoint2_6FC578, kFpPoint2_6FC578, kFpQuarter_6F8FAC);
-    tmp->field_18_mass = kFpHalf_6FC584;
+    pDef = CloneDefinition_534370(0x6e, 0x9b);
+    pDef->field_38 = 0x6e;
+    pDef->field_3C_next_definition_idx = 0x6e;
+    pDef->field_54_react_to_collisions_with = CollisionReaction::OnlyPeds_2;
+    pDef->SetDimensions_533060(kFpPoint2_6FC578, kFpPoint2_6FC578, kFpQuarter_6F8FAC);
+    pDef->field_18_mass = kFpHalf_6FC584;
     if (bDo_show_imaginary_67D588 == false)
     {
-        tmp->field_40_collision_bucket_category = collision_bucket_category::none_2;
+        pDef->field_40_collision_bucket_category = collision_bucket_category::none_2;
     }
     else
     {
-        tmp->field_40_collision_bucket_category = collision_bucket_category::sprite_grid_3_single_cell_1;
+        pDef->field_40_collision_bucket_category = collision_bucket_category::sprite_grid_3_single_cell_1;
     }
-    tmp->field_44_touch_behavior = 2;
-    tmp->field_58_uses_3d_movement = 1;
-    tmp->field_50_z_collision_response = 1;
+    pDef->field_44_touch_behavior = 2;
+    pDef->field_58_uses_3d_movement = 1;
+    pDef->field_50_z_collision_response = 1;
 
-    tmp = CloneDefinition_534370(0x7f, 0x9b);
-    tmp->field_38 = 0;
-    tmp->field_3C_next_definition_idx = 0;
-    tmp->field_54_react_to_collisions_with = CollisionReaction::OnlyPeds_2;
-    tmp->SetDimensions_533060((kFpOne64th_6FCEB0 * 8), (kFpOne64th_6FCEB0 * 8), kFpQuarter_6F8FAC);
-    tmp->field_18_mass = kFpHalf_6FC584;
+    pDef = CloneDefinition_534370(0x7f, 0x9b);
+    pDef->field_38 = 0;
+    pDef->field_3C_next_definition_idx = 0;
+    pDef->field_54_react_to_collisions_with = CollisionReaction::OnlyPeds_2;
+    pDef->SetDimensions_533060((kFpOne64th_6FCEB0 * 8), (kFpOne64th_6FCEB0 * 8), kFpQuarter_6F8FAC);
+    pDef->field_18_mass = kFpHalf_6FC584;
     if (bDo_show_imaginary_67D588 == '\0')
     {
-        tmp->field_40_collision_bucket_category = collision_bucket_category::none_2;
+        pDef->field_40_collision_bucket_category = collision_bucket_category::none_2;
     }
     else
     {
-        tmp->field_40_collision_bucket_category = collision_bucket_category::sprite_grid_3_single_cell_1;
+        pDef->field_40_collision_bucket_category = collision_bucket_category::sprite_grid_3_single_cell_1;
     }
-    tmp->field_44_touch_behavior = 2;
-    tmp->field_58_uses_3d_movement = 1;
-    tmp->field_50_z_collision_response = 1;
+    pDef->field_44_touch_behavior = 2;
+    pDef->field_58_uses_3d_movement = 1;
+    pDef->field_50_z_collision_response = 1;
 
-    tmp = CloneDefinition_534370(0xc1, 0xc0);
-    tmp->field_38 = 0;
-    tmp->field_3C_next_definition_idx = 0;
+    pDef = CloneDefinition_534370(0xc1, 0xc0);
+    pDef->field_38 = 0;
+    pDef->field_3C_next_definition_idx = 0;
     if (bDo_show_imaginary_67D588 == '\0')
     {
-        tmp->field_40_collision_bucket_category = collision_bucket_category::none_2;
+        pDef->field_40_collision_bucket_category = collision_bucket_category::none_2;
     }
 
-    tmp = CloneDefinition_534370(0xb9, 0xa3);
-    tmp->field_38 = 0xb8;
-    tmp->field_3C_next_definition_idx = 0xb8;
-    tmp->field_44_touch_behavior = 4;
-    tmp->field_40_collision_bucket_category = collision_bucket_category::sprite_grid_2_region_3;
-    tmp->field_61_in_pool_list = '\x01';
+    pDef = CloneDefinition_534370(0xb9, 0xa3);
+    pDef->field_38 = 0xb8;
+    pDef->field_3C_next_definition_idx = 0xb8;
+    pDef->field_44_touch_behavior = 4;
+    pDef->field_40_collision_bucket_category = collision_bucket_category::sprite_grid_2_region_3;
+    pDef->field_61_in_pool_list = '\x01';
 
-    tmp = CloneDefinition_534370(0xb8, 0xa3);
-    tmp->field_38 = 0xb9;
-    tmp->field_3C_next_definition_idx = 0xa4;
-    tmp->field_65_next_definition_timer = 'd';
-    tmp->field_61_in_pool_list = '\x01';
-    tmp->field_34_behavior_type = object_behavior_type::animated_2;
-    tmp->field_6C_num_frames = '\x01';
-    tmp->field_64_next_frame_max = '\x01';
-    tmp->field_40_collision_bucket_category = collision_bucket_category::sprite_grid_2_region_3;
-    tmp->field_44_touch_behavior = 5;
+    pDef = CloneDefinition_534370(0xb8, 0xa3);
+    pDef->field_38 = 0xb9;
+    pDef->field_3C_next_definition_idx = 0xa4;
+    pDef->field_65_next_definition_timer = 'd';
+    pDef->field_61_in_pool_list = '\x01';
+    pDef->field_34_behavior_type = object_behavior_type::animated_2;
+    pDef->field_6C_num_frames = '\x01';
+    pDef->field_64_next_frame_max = '\x01';
+    pDef->field_40_collision_bucket_category = collision_bucket_category::sprite_grid_2_region_3;
+    pDef->field_44_touch_behavior = 5;
 
-    tmp = CloneDefinition_534370(0xb0, 0xa3);
-    tmp->SetRemap_533110(1);
-    tmp->field_38 = 0xb1;
-    tmp->field_3C_next_definition_idx = 0xb1;
+    pDef = CloneDefinition_534370(0xb0, 0xa3);
+    pDef->SetRemap_533110(1);
+    pDef->field_38 = 0xb1;
+    pDef->field_3C_next_definition_idx = 0xb1;
     if (bDo_kill_phones_on_answer_67D6E8 != '\0')
     {
-        tmp = GetObjectDefinition_534360(0xa4);
-        tmp->field_38 = 0xae;
-        tmp->field_3C_next_definition_idx = 0xae;
+        pDef = GetObjectDefinition_534360(0xa4);
+        pDef->field_38 = 0xae;
+        pDef->field_3C_next_definition_idx = 0xae;
     }
-    tmp = CloneDefinition_534370(0xb1, 0xa4);
-    tmp->SetRemap_533110(1);
+    pDef = CloneDefinition_534370(0xb1, 0xa4);
+    pDef->SetRemap_533110(1);
     if (bDo_kill_phones_on_answer_67D6E8 == '\0')
     {
-        tmp->field_38 = 0xbb;
-        tmp->field_3C_next_definition_idx = 0xbb;
+        pDef->field_38 = 0xbb;
+        pDef->field_3C_next_definition_idx = 0xbb;
     }
 
-    tmp = CloneDefinition_534370(0xbb, 0xb9);
-    tmp->SetRemap_533110(1);
-    tmp->field_38 = 0xba;
-    tmp->field_3C_next_definition_idx = 0xba;
+    pDef = CloneDefinition_534370(0xbb, 0xb9);
+    pDef->SetRemap_533110(1);
+    pDef->field_38 = 0xba;
+    pDef->field_3C_next_definition_idx = 0xba;
 
-    tmp = CloneDefinition_534370(0xba, 0xb8);
-    tmp->SetRemap_533110(1);
-    tmp->field_38 = 0xbb;
-    tmp->field_3C_next_definition_idx = 0xb1;
+    pDef = CloneDefinition_534370(0xba, 0xb8);
+    pDef->SetRemap_533110(1);
+    pDef->field_38 = 0xbb;
+    pDef->field_3C_next_definition_idx = 0xb1;
 
-    tmp = CloneDefinition_534370(0xb2, 0xa3);
-    tmp->SetRemap_533110(2);
-    tmp->field_38 = 0xb3;
-    tmp->field_3C_next_definition_idx = 0xb3;
+    pDef = CloneDefinition_534370(0xb2, 0xa3);
+    pDef->SetRemap_533110(2);
+    pDef->field_38 = 0xb3;
+    pDef->field_3C_next_definition_idx = 0xb3;
 
-    tmp = CloneDefinition_534370(0xb3, 0xa4);
-    tmp->SetRemap_533110(2);
+    pDef = CloneDefinition_534370(0xb3, 0xa4);
+    pDef->SetRemap_533110(2);
     if (bDo_kill_phones_on_answer_67D6E8 == '\0')
     {
-        tmp->field_38 = 0xbd;
-        tmp->field_3C_next_definition_idx = 0xbd;
+        pDef->field_38 = 0xbd;
+        pDef->field_3C_next_definition_idx = 0xbd;
     }
-    tmp = CloneDefinition_534370(0xbd, 0xb9);
-    tmp->SetRemap_533110(2);
-    tmp->field_38 = 0xbc;
-    tmp->field_3C_next_definition_idx = 0xbc;
+    pDef = CloneDefinition_534370(0xbd, 0xb9);
+    pDef->SetRemap_533110(2);
+    pDef->field_38 = 0xbc;
+    pDef->field_3C_next_definition_idx = 0xbc;
 
-    tmp = CloneDefinition_534370(0xbc, 0xb8);
-    tmp->SetRemap_533110(2);
-    tmp->field_38 = 0xbd;
-    tmp->field_3C_next_definition_idx = 0xb3;
+    pDef = CloneDefinition_534370(0xbc, 0xb8);
+    pDef->SetRemap_533110(2);
+    pDef->field_38 = 0xbd;
+    pDef->field_3C_next_definition_idx = 0xb3;
 
-    tmp = CloneDefinition_534370(0xb4, 0xa3);
-    tmp->SetRemap_533110(0);
-    tmp->field_38 = 0xb5;
-    tmp->field_3C_next_definition_idx = 0xb5;
+    pDef = CloneDefinition_534370(0xb4, 0xa3);
+    pDef->SetRemap_533110(0);
+    pDef->field_38 = 0xb5;
+    pDef->field_3C_next_definition_idx = 0xb5;
 
-    tmp = CloneDefinition_534370(0xb5, 0xa4);
-    tmp->SetRemap_533110(0);
+    pDef = CloneDefinition_534370(0xb5, 0xa4);
+    pDef->SetRemap_533110(0);
     if (bDo_kill_phones_on_answer_67D6E8 == '\0')
     {
-        tmp->field_38 = 0xbf;
-        tmp->field_3C_next_definition_idx = 0xbf;
+        pDef->field_38 = 0xbf;
+        pDef->field_3C_next_definition_idx = 0xbf;
     }
 
-    tmp = CloneDefinition_534370(0xbf, 0xb9);
-    tmp->SetRemap_533110(0);
-    tmp->field_38 = 0xbe;
-    tmp->field_3C_next_definition_idx = 0xbe;
+    pDef = CloneDefinition_534370(0xbf, 0xb9);
+    pDef->SetRemap_533110(0);
+    pDef->field_38 = 0xbe;
+    pDef->field_3C_next_definition_idx = 0xbe;
 
-    tmp = CloneDefinition_534370(0xbe, 0xb8);
-    tmp->SetRemap_533110(0);
-    tmp->field_38 = 0xbf;
-    tmp->field_3C_next_definition_idx = 0xb5;
+    pDef = CloneDefinition_534370(0xbe, 0xb8);
+    pDef->SetRemap_533110(0);
+    pDef->field_38 = 0xbf;
+    pDef->field_3C_next_definition_idx = 0xb5;
 
-    tmp = CloneDefinition_534370(0xae, 0xa3);
-    tmp->field_44_touch_behavior = 0;
+    pDef = CloneDefinition_534370(0xae, 0xa3);
+    pDef->field_44_touch_behavior = 0;
 
-    tmp = CloneDefinition_534370(0xb6, 0xb7);
-    tmp->field_38 = 0xb7;
-    tmp->field_34_behavior_type = object_behavior_type::animated_2;
-    tmp->field_44_touch_behavior = 2;
+    pDef = CloneDefinition_534370(0xb6, 0xb7);
+    pDef->field_38 = 0xb7;
+    pDef->field_34_behavior_type = object_behavior_type::animated_2;
+    pDef->field_44_touch_behavior = 2;
 
-    tmp->field_14_friction = kFpZero_6FCE08;
-    tmp->field_10_speed = kFpZero_6FCE08;
-    tmp->field_4C = 0;
-    tmp->field_50_z_collision_response = 0;
-    tmp->field_64_next_frame_max = '\b';
-    tmp->OffsetBaseSpriteIdxAndSetNumFrames_533150(tmp->field_6C_num_frames - 1, 1);
+    pDef->field_14_friction = kFpZero_6FCE08;
+    pDef->field_10_speed = kFpZero_6FCE08;
+    pDef->field_4C = 0;
+    pDef->field_50_z_collision_response = 0;
+    pDef->field_64_next_frame_max = '\b';
+    pDef->OffsetBaseSpriteIdxAndSetNumFrames_533150(pDef->field_6C_num_frames - 1, 1);
 
     for(s32 def_idx = 200; def_idx - 200 <= 44; def_idx++)
     {
-        tmp = CloneDefinition_534370(def_idx - 0x88, def_idx);
-        tmp->field_38 = def_idx;
-        tmp->field_34_behavior_type = tmp->field_34_behavior_type == object_behavior_type::pickup_6 ? object_behavior_type::pickup_physics_7 : object_behavior_type::pickup_physics_animated_9;
-        tmp->field_14_friction = -kFpPoint01_6FCDD8;
-        tmp->field_4C = 1;
-        tmp->field_50_z_collision_response = 1;
-        tmp->field_61_in_pool_list = '\x01';
-        tmp->field_58_uses_3d_movement = 1;
-        tmp->field_40_collision_bucket_category = collision_bucket_category::sprite_grid_2_region_3;
-        tmp->field_18_mass = kFpPoint1_6F8FD8;
-        tmp->field_10_speed = kFpPoint02_6FCDE0;
+        pDef = CloneDefinition_534370(def_idx - 0x88, def_idx);
+        pDef->field_38 = def_idx;
+        pDef->field_34_behavior_type = pDef->field_34_behavior_type == object_behavior_type::pickup_6 ? object_behavior_type::pickup_physics_7 : object_behavior_type::pickup_physics_animated_9;
+        pDef->field_14_friction = -kFpPoint01_6FCDD8;
+        pDef->field_4C = 1;
+        pDef->field_50_z_collision_response = 1;
+        pDef->field_61_in_pool_list = '\x01';
+        pDef->field_58_uses_3d_movement = 1;
+        pDef->field_40_collision_bucket_category = collision_bucket_category::sprite_grid_2_region_3;
+        pDef->field_18_mass = kFpPoint1_6F8FD8;
+        pDef->field_10_speed = kFpPoint02_6FCDE0;
     }
 
     ClearColour1PixelsOfDefinitions287To293_534270();
