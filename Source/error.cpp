@@ -46,7 +46,7 @@ void ErrorLog::Open_4D9470(const char_type* path, s32 truncate_mode)
     }
 
 #if !defined(__clang__) && (_MSC_VER <= 1200)
-    ((ofstream&)field_0_ofstr).open(path, mode, filebuf::openprot);
+    static_cast<ofstream&>(field_0_ofstr).open(path, mode, filebuf::openprot);
 #endif
 
     log_timestamp_4D9540();
@@ -65,7 +65,7 @@ MATCH_FUNC(0x4D9690)
 EXPORT void __cdecl log_on_line_written_cb_4D9690(void* pStream)
 {
 #if !defined(__clang__) && (_MSC_VER <= 1200)
-    ((ostream_type*)pStream)->flush();
+    static_cast<ostream_type*>(pStream)->flush();
 #endif
 }
 
@@ -73,7 +73,7 @@ MATCH_FUNC(0x4D9620)
 void ErrorLog::Write_4D9620(const char_type* pMsg)
 {
 #if !defined(__clang__) && (_MSC_VER <= 1200)
-    ((ostream_type&)this->field_0_ofstr) << pMsg << endl << flush;
+    (static_cast<ostream_type&>(this->field_0_ofstr)) << pMsg << endl << flush;
 #endif
 }
 
@@ -81,7 +81,7 @@ MATCH_FUNC(0x4D9650)
 void ErrorLog::Write_Log_4D9650(const char_type* buffer)
 {
 #if !defined(__clang__) && (_MSC_VER <= 1200)
-    ((ostream_type&)this->field_0_ofstr) << buffer << flush;
+    (static_cast<ostream_type&>(this->field_0_ofstr)) << buffer << flush;
 #endif
 }
 
@@ -2028,7 +2028,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             sprintf(gTmpBuffer_67C598,
                     "%d models in %s but %d models in style",
                     reinterpret_cast<s32>(va_3),
-                    SourceFileNameFromPath_4A07A0((const char_type*)va_3),
+                    SourceFileNameFromPath_4A07A0(reinterpret_cast<const char_type*>(va_3)),
                     reinterpret_cast<s32>(va_3));
             break;
         }
@@ -2106,9 +2106,9 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
 
             Coord c;
 
-            c.x = *(int*)va_arg(va, s32*);
-            c.y = *(int*)va_arg(va, s32*);
-            c.z = *(int*)va_arg(va, s32*);
+            c.x = *static_cast<int*>(va_arg(va, s32*));
+            c.y = *static_cast<int*>(va_arg(va, s32*));
+            c.z = *static_cast<int*>(va_arg(va, s32*));
 
             sprintf(gTmpBuffer_67C598,
                     "Invalid x co-ord in sprite type %d at (%f,%f,%f)",
@@ -2124,9 +2124,9 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             s32 va_1 = va_arg(va, int);
 
             Coord c;
-            c.x = *(int*)va_arg(va, const char_type*);
-            c.y = *(int*)va_arg(va, s32*);
-            c.z = *(int*)va_arg(va, s32*);
+            c.x = *reinterpret_cast<const int*>(va_arg(va, const char_type*));
+            c.y = *static_cast<int*>(va_arg(va, s32*));
+            c.z = *static_cast<int*>(va_arg(va, s32*));
             sprintf(gTmpBuffer_67C598,
                     "Invalid y co-ord in sprite type %d at (%f,%f,%f)",
                     va_1,
@@ -2141,9 +2141,9 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             s32 va_1 = va_arg(va, int);
 
             Coord c;
-            c.x = *(int*)va_arg(va, const char_type*);
-            c.y = *(int*)va_arg(va, s32*);
-            c.z = *(int*)va_arg(va, s32*);
+            c.x = *reinterpret_cast<const int*>(va_arg(va, const char_type*));
+            c.y = *static_cast<int*>(va_arg(va, s32*));
+            c.z = *static_cast<int*>(va_arg(va, s32*));
             sprintf(gTmpBuffer_67C598,
                     "Invalid z co-ord in sprite type %d at (%f,%f,%f)",
                     va_1,
@@ -2158,8 +2158,8 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             const char_type* va_1 = va_arg(va, const char_type*);
 
             Coord2 c;
-            c.x = *(int*)va_arg(va, const char_type*);
-            c.y = *(int*)va_arg(va, s32*);
+            c.x = *reinterpret_cast<const int*>(va_arg(va, const char_type*));
+            c.y = *static_cast<int*>(va_arg(va, s32*));
             sprintf(gTmpBuffer_67C598, "Placing gang phone when no gang at: (%.4f, %.4f)", c.x.AsFloat(), c.y.AsFloat());
             break;
         }
@@ -2169,9 +2169,9 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             const char_type* va_1 = va_arg(va, const char_type*);
 
             Coord c;
-            c.x = *(int*)va_arg(va, const char_type*);
-            c.y = *(int*)va_arg(va, s32*);
-            c.z = *(int*)va_arg(va, s32*);
+            c.x = *reinterpret_cast<const int*>(va_arg(va, const char_type*));
+            c.y = *static_cast<int*>(va_arg(va, s32*));
+            c.z = *static_cast<int*>(va_arg(va, s32*));
             sprintf(gTmpBuffer_67C598, "Illegal coordinate: (%.4f, %.4f, %.4f)", c.x.AsFloat(), c.y.AsFloat(), c.z.AsFloat());
             break;
         }
@@ -2181,9 +2181,9 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             const char_type* va_1 = va_arg(va, const char_type*);
 
             Coord c;
-            c.x = *(int*)va_arg(va, const char_type*);
-            c.y = *(int*)va_arg(va, s32*);
-            c.z = *(int*)va_arg(va, s32*);
+            c.x = *reinterpret_cast<const int*>(va_arg(va, const char_type*));
+            c.y = *static_cast<int*>(va_arg(va, s32*));
+            c.z = *static_cast<int*>(va_arg(va, s32*));
             sprintf(gTmpBuffer_67C598, "Invalid diagonal block at (%.4f, %.4f, %.4f)", c.x.AsFloat(), c.y.AsFloat(), c.z.AsFloat());
             break;
         }
@@ -2192,9 +2192,9 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         {
             s32* va_1 = va_arg(va, s32*);
             Coord c;
-            c.x = *(int*)va_arg(va, s32*); // NOTE: No match without casting here
-            c.y = *(int*)va_arg(va, s32*);
-            c.z = *(int*)va_arg(va, s32*);
+            c.x = *static_cast<int*>(va_arg(va, s32*)); // NOTE: No match without casting here
+            c.y = *static_cast<int*>(va_arg(va, s32*));
+            c.z = *static_cast<int*>(va_arg(va, s32*));
             sprintf(gTmpBuffer_67C598,
                     "No direction arrow found in block (with slope!!). ( %f, %f, %f)",
                     c.x.AsFloat(),
