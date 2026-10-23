@@ -165,7 +165,7 @@ def parse_lib(lib_file_path):
             if len(hex_address) < 8:
                 print(f"warning: {var_name} has a weird address {hex_address}")
 
-            matches2 = re.findall(rf'\?{var_name}[0-9A-Za-z@_]+', content)
+            matches2 = re.findall(rf'\?{var_name}@[0-9A-Za-z@_]+', content)  # the @ ends the name: not a longer name's prefix
             for mangled_var_name in matches2:
                 variable_data.add(VariableData(var_name, mangled_var_name, hex_address))
 
