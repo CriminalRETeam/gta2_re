@@ -21,7 +21,7 @@ void ErrorLog::Open_4D9470(const char_type* path, s32 truncate_mode)
     u8* fileNameLen = new u8;
     if (fileNameLen)
     {
-        *fileNameLen = strlen(path);
+        *fileNameLen = (u8)strlen(path);
     }
     else
     {

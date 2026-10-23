@@ -1942,7 +1942,7 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
         {
             field_110_state = FrontendState::User_Typing_New_Player_Name_3;
             LoadCurrPlayerName_4B4280();
-            field_C9B2_curr_plyr_name_length = wcslen(field_C9A0_curr_plyr_name);
+            field_C9B2_curr_plyr_name_length = (u8)wcslen(field_C9A0_curr_plyr_name);
             StripPlayerNameToCurrLength_4B42B0();
             field_C9B3_key_held = 1;
             field_C9B4_last_key = DIK_RETURN;

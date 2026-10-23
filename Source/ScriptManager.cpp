@@ -532,7 +532,7 @@ void ScriptManager::LoadStringTbl_5121E0(u16 tableSize)
     while (total_str_length_ < tableSize)
     {
         pStringDataIter2->field_2_zone_idx = gMap_0x370_6F6268->FindZoneIdxByName_4DF050((char_type*)&pStringDataIter2[1],
-                                                                                        strlen((const char_type*)&pStringDataIter2[1]));
+                                                                                        (u8)strlen((const char_type*)&pStringDataIter2[1]));
         field_13350_pStringTbl->field_4_entries[str_count] = pStringDataIter2;
         s32 str_length_ = pStringDataIter2->field_8_length + 9;
         total_str_length_ += str_length_;
