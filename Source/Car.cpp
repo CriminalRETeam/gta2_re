@@ -3764,7 +3764,7 @@ void Car::HandleCarExplosion_43D840(s32 type)
     char bOcc2; // bl
     s32 model_to_check; // eax
     Ped* pExploder; // eax
-    Gang* pZone; // eax
+    Gang* pGang; // eax
 
     bOcc2 = 0;
     if (field_60_pChaseTask)
@@ -3822,11 +3822,11 @@ void Car::HandleCarExplosion_43D840(s32 type)
                             pExploder->field_15C_player->field_2D4_scores.AddCashWithMultiplier_593220();
                         }
                     }
-                    s16 zone_idx = gGangPool_CA8_67E274->FindGangByCarModel_4BF2F0(this->field_84_car_info_idx);
-                    if (zone_idx != -1)
+                    s16 gang_idx = gGangPool_CA8_67E274->FindGangByCarModel_4BF2F0(this->field_84_car_info_idx);
+                    if (gang_idx != -1)
                     {
-                        pZone = gGangPool_CA8_67E274->GangByIdx_4BF1C0(zone_idx);
-                        pZone->ApplyKillRespectChange_4BEF70(pExploder->field_15C_player->get_idx_4219D0(), 1u);
+                        pGang = gGangPool_CA8_67E274->GangByIdx_4BF1C0(gang_idx);
+                        pGang->ApplyKillRespectChange_4BEF70(pExploder->field_15C_player->get_idx_4219D0(), 1u);
                     }
                     if (pExploder->is_player_41B0A0())
                     {
