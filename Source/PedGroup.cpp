@@ -390,37 +390,37 @@ void PedGroup::DisbandGroupDueToAttack_4C94E0(Ped* pAttacker)
 MATCH_FUNC(0x4c9680)
 void PedGroup::PromoteMemberToLeader_4C9680(u8 idx)
 {
-    Ped* pTmp = gPedPool_6787B8->Allocate();
+    Ped* pSwapPed = gPedPool_6787B8->Allocate();
 
     Weapon* leaderWeapon = field_2C_ped_leader->field_170_selected_weapon;
     Weapon* memberWeapon = field_4_ped_list[idx]->field_170_selected_weapon;
     Weapon* leaderWeapon2 = field_2C_ped_leader->field_174_pWeapon;
     Weapon* memberWeapon2 = field_4_ped_list[idx]->field_174_pWeapon;
 
-    pTmp->CopyStatsFromPed_45B5B0(field_2C_ped_leader);
+    pSwapPed->CopyStatsFromPed_45B5B0(field_2C_ped_leader);
     field_2C_ped_leader->CopyStatsFromPed_45B5B0(field_4_ped_list[idx]);
     field_2C_ped_leader->field_170_selected_weapon = leaderWeapon;
     field_2C_ped_leader->field_174_pWeapon = leaderWeapon2;
 
-    field_2C_ped_leader->SetObjective(pTmp->get_objective_403A80(), pTmp->get_objective_timer_403B30());
-    field_2C_ped_leader->SetObjective2_463830(pTmp->GetInternalObjective_403A90(), pTmp->get_internal_objective_timer_403B20());
-    field_2C_ped_leader->set_objective_status_403B40(pTmp->GetObjectiveStatus_450CB0());
-    field_2C_ped_leader->SetInternalObjectiveStatus_403B50(pTmp->GetInternalObjectiveStatus_4039D0());
-    field_2C_ped_leader->set_objective_target_ped_403AC0(pTmp->get_objective_target_ped_403AD0());
-    field_2C_ped_leader->SetTargetObjectiveCar(pTmp->get_target_objective_car_403AB0());
-    field_2C_ped_leader->field_1A0_objective_target_object = pTmp->field_1A0_objective_target_object;
-    field_2C_ped_leader->field_1A4_internal_target_object = pTmp->field_1A4_internal_target_object;
-    field_2C_ped_leader->field_1DC_objective_target_x = pTmp->field_1DC_objective_target_x;
-    field_2C_ped_leader->field_1E0_objective_target_y = pTmp->field_1E0_objective_target_y;
-    field_2C_ped_leader->field_1E4_objective_target_z = pTmp->field_1E4_objective_target_z;
-    field_2C_ped_leader->SetInternalTargetPed_403AE0(pTmp->GetInternalTargetPed_403AF0());
-    field_2C_ped_leader->set_target_to_enter_403B00(pTmp->get_target_to_enter_403B10());
-    field_2C_ped_leader->field_1D0_internal_target_x = pTmp->field_1D0_internal_target_x;
-    field_2C_ped_leader->field_1D4_internal_target_y = pTmp->field_1D4_internal_target_y;
-    field_2C_ped_leader->field_1D8_internal_target_z = pTmp->field_1D8_internal_target_z;
+    field_2C_ped_leader->SetObjective(pSwapPed->get_objective_403A80(), pSwapPed->get_objective_timer_403B30());
+    field_2C_ped_leader->SetObjective2_463830(pSwapPed->GetInternalObjective_403A90(), pSwapPed->get_internal_objective_timer_403B20());
+    field_2C_ped_leader->set_objective_status_403B40(pSwapPed->GetObjectiveStatus_450CB0());
+    field_2C_ped_leader->SetInternalObjectiveStatus_403B50(pSwapPed->GetInternalObjectiveStatus_4039D0());
+    field_2C_ped_leader->set_objective_target_ped_403AC0(pSwapPed->get_objective_target_ped_403AD0());
+    field_2C_ped_leader->SetTargetObjectiveCar(pSwapPed->get_target_objective_car_403AB0());
+    field_2C_ped_leader->field_1A0_objective_target_object = pSwapPed->field_1A0_objective_target_object;
+    field_2C_ped_leader->field_1A4_internal_target_object = pSwapPed->field_1A4_internal_target_object;
+    field_2C_ped_leader->field_1DC_objective_target_x = pSwapPed->field_1DC_objective_target_x;
+    field_2C_ped_leader->field_1E0_objective_target_y = pSwapPed->field_1E0_objective_target_y;
+    field_2C_ped_leader->field_1E4_objective_target_z = pSwapPed->field_1E4_objective_target_z;
+    field_2C_ped_leader->SetInternalTargetPed_403AE0(pSwapPed->GetInternalTargetPed_403AF0());
+    field_2C_ped_leader->set_target_to_enter_403B00(pSwapPed->get_target_to_enter_403B10());
+    field_2C_ped_leader->field_1D0_internal_target_x = pSwapPed->field_1D0_internal_target_x;
+    field_2C_ped_leader->field_1D4_internal_target_y = pSwapPed->field_1D4_internal_target_y;
+    field_2C_ped_leader->field_1D8_internal_target_z = pSwapPed->field_1D8_internal_target_z;
     field_2C_ped_leader->field_23C_group_idx = 99;
-    field_2C_ped_leader->set_enter_car_as_passenger_4039B0(pTmp->get_enter_car_as_passenger_4039C0());
-    field_2C_ped_leader->set_target_car_door_403A70(pTmp->get_target_car_door_403A60());
+    field_2C_ped_leader->set_enter_car_as_passenger_4039B0(pSwapPed->get_enter_car_as_passenger_4039C0());
+    field_2C_ped_leader->set_target_car_door_403A70(pSwapPed->get_target_car_door_403A60());
 
     Ped* pLeader = field_2C_ped_leader;
     if (pLeader->field_168_game_object)
@@ -432,7 +432,7 @@ void PedGroup::PromoteMemberToLeader_4C9680(u8 idx)
         pLeader->set_enter_car_as_passenger_4039B0(1);
     }
 
-    field_4_ped_list[idx]->CopyStatsFromPed_45B5B0(pTmp);
+    field_4_ped_list[idx]->CopyStatsFromPed_45B5B0(pSwapPed);
     field_4_ped_list[idx]->field_23C_group_idx = idx;
     field_4_ped_list[idx]->field_170_selected_weapon = memberWeapon;
     field_4_ped_list[idx]->field_174_pWeapon = memberWeapon2;
@@ -465,18 +465,18 @@ void PedGroup::PromoteMemberToLeader_4C9680(u8 idx)
         field_2C_ped_leader->field_23C_group_idx = 99;
     }
 
-    if (pTmp->field_238_ped_type == ped_type::script_created_5)
+    if (pSwapPed->field_238_ped_type == ped_type::script_created_5)
     {
-        pTmp->PoolAllocate();
-        pTmp->field_21C_bf.bScheduledForRemoval = true;
+        pSwapPed->PoolAllocate();
+        pSwapPed->field_21C_bf.bScheduledForRemoval = true;
     }
     else
     {
-        pTmp->PoolAllocate();
+        pSwapPed->PoolAllocate();
     }
-    pTmp->set_health_4039A0(100);
-    pTmp->set_occupation_403970(ped_ocupation_enum::unknown_1);
-    pTmp->Kill_46F9D0();
+    pSwapPed->set_health_4039A0(100);
+    pSwapPed->set_occupation_403970(ped_ocupation_enum::unknown_1);
+    pSwapPed->Kill_46F9D0();
 }
 
 MATCH_FUNC(0x4c9970)
