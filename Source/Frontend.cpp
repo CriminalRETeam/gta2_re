@@ -803,16 +803,15 @@ void Frontend::InitSound_4B8680()
 MATCH_FUNC(0x4AEDB0)
 s32 Frontend::Run_4AEDB0()
 {
-    u32 Time; // eax
-    u16 local_field_132_f136_idx; // cx
-    //const char_type* v5; // eax
-    char_type* local_field_8_keys; // edi
-    s32 key_count; // ebx
-    s32 result; // eax
-    char_type* pKey; // ecx
-    s32 remaining; // edx
-    char_type frames; // al
-    HDIGDRIVER local_field_0_hDriver; // [esp-4h] [ebp-10h]
+    u32 Time;
+    u16 local_field_132_f136_idx;
+    char_type* local_field_8_keys;
+    s32 key_count;
+    s32 result;
+    char_type* pKey;
+    s32 remaining;
+    char_type frames;
+    HDIGDRIVER local_field_0_hDriver;
 
     Time = timeGetTime();
     local_field_132_f136_idx = field_132_f136_idx;
@@ -1813,19 +1812,19 @@ void Frontend::ManageCredits_4B7A10()
 MATCH_FUNC(0x4AE2D0)
 void Frontend::UpdatePageFromUserInput_4AE2D0()
 {
-    MenuPage* pMenuPage; // ebx
-    PlySlot* pStats; // ebp
-    u16 target_page_idx; // ax
-    u8 bonus_scan_idx; // bl
-    u8 main_stage_idx; // al
+    MenuPage* pMenuPage;
+    PlySlot* pStats;
+    u16 target_page_idx;
+    u8 bonus_scan_idx;
+    u8 main_stage_idx;
     u8 unused_idx;
-    u16 current_option_idx; // cx
-    MenuItem* pOption_prev; // edi
-    bool bWrapped_prev; // bl
-    u16 option_idx; // cx
-    MenuItem* pOption_next; // edi
-    bool bWrapped_next; // bl
-    MenuPage* pMenuPageSaved; // [esp+10h] [ebp-Ch]
+    u16 current_option_idx;
+    MenuItem* pOption_prev;
+    bool bWrapped_prev;
+    u16 option_idx;
+    MenuItem* pOption_next;
+    bool bWrapped_next;
+    MenuPage* pMenuPageSaved;
     u8 stage_main_idx;
     u8 stage_bonus_idx;
 
@@ -2898,10 +2897,10 @@ bool Frontend::AreAllStagesUnlocked_4B7FB0()
 MATCH_FUNC(0x4B4D00)
 void Frontend::LoadMapFilenames_4B4D00(u8 mainBlockIdx, u8 bonusBlockIdx)
 {
-    char fullPath[256]; // [esp+10h] [ebp-400h] BYREF
-    char debugStr[256]; // [esp+110h] [ebp-300h] BYREF
-    char mapName[256]; // [esp+210h] [ebp-200h] BYREF
-    char styName[256]; // [esp+310h] [ebp-100h] BYREF
+    char fullPath[256];
+    char debugStr[256];
+    char mapName[256];
+    char styName[256];
 
     LoadStringsFromStage_4B4C60(mainBlockIdx, bonusBlockIdx, debugStr, mapName, styName);
     gGameSession_67E8E0.SetSaveFileName_4C58D0("");
@@ -3083,8 +3082,8 @@ void Frontend::Render_4ADFB0()
 MATCH_FUNC(0x4B6E10)
 void Frontend::DrawBackground_4B6E10()
 {
-    BYTE tga_idx; // [esp+4h]
-    s32 ret;      // [esp+8h], second tga idx then the blit result
+    BYTE tga_idx;
+    s32 ret; // second tga idx then the blit result
 
     if (field_EE08_menu_screen == GameOver_13 || field_EE08_menu_screen == RedBar_16 || field_EE08_menu_screen == BlueBar_14 || field_EE08_menu_screen == Loading_15 ||
         field_EE08_menu_screen == HiScoresDisplay_12 || field_EE08_menu_screen == Credits_17)
@@ -4107,10 +4106,10 @@ struct SeqStageFiles
 MATCH_FUNC(0x4B4440)
 void Frontend::GetMainAndBonusStagesFromSeqFile_4B4440()
 {
-    u8* pBlock; // esi
-    char mainOrBonus[256]; // [esp+14h] [ebp-718h] BYREF
-    char seqFileName[256]; // [esp+414h] [ebp-318h] BYREF
-    _finddata_t findInfo; // [esp+514h] [ebp-218h] BYREF
+    u8* pBlock;
+    char mainOrBonus[256];
+    char seqFileName[256];
+    _finddata_t findInfo;
 
     long hFind = _findfirst("data\\*.seq", &findInfo);
     if (hFind == -1)
@@ -5288,7 +5287,7 @@ bool MenuItem::SelectPrevHorizontalIdx_4B6390()
 
         else
         {
-            --new_count; // add     eax, 0FFFFh
+            --new_count;
         }
 
         if (field_72_horizontal_idx_enabled[new_count])

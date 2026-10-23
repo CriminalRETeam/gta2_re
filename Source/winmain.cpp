@@ -570,10 +570,10 @@ EXPORT bool __stdcall SetWindowedMode_5D9510()
     UpdateWindow(gHwnd_707F04);
     ShowWindow(gHwnd_707F04, SW_SHOW);
 
-    struct tagRECT windowRect; // [esp+18h] [ebp-10h] BYREF
+    struct tagRECT windowRect;
     GetWindowRect(gHwnd_707F04, &windowRect);
 
-    struct tagRECT clientRect; // [esp+8h] [ebp-20h] BYREF
+    struct tagRECT clientRect;
     GetClientRect(gHwnd_707F04, &clientRect);
 
     if (!SetWindowPos(gHwnd_707F04,
@@ -1549,8 +1549,8 @@ MATCH_FUNC(0x4A0650)
 EXPORT void __stdcall GetDirectMusicVer_4A0650()
 {
     // todo
-    HMODULE hDMusic; // esi
-    IUnknown* pDMusic; // [esp+4h] [ebp-4h] BYREF
+    HMODULE hDMusic;
+    IUnknown* pDMusic;
 
     gDMusicVer_67BD32 = 0;
     hDMusic = LoadLibraryA("DMUSIC.DLL");
@@ -1571,19 +1571,19 @@ GUID IID_IDirectDrawSurface4_ = {0x0B2B8630, 0xAD35, 0x11D0, 0x8E, 0xA6, 0x00, 0
 MATCH_FUNC(0x4C4EC0)
 EXPORT void __stdcall GetDirectXVersion_4C4EC0(u32* pDXVer, u32* osKind)
 {
-    HMODULE hDInput; // eax
-    FARPROC pDirectInputCreateA; // ebx
-    HMODULE hDDraw; // eax
-    HRESULT(__stdcall * pDirectDrawCreate)(GUID*, LPDIRECTDRAW*, IUnknown*); // eax
-    HMODULE hDInput2; // eax
-    FARPROC pDirectInputCreateA_; // edi
-    LPDIRECTDRAW pDDraw; // [esp+54h] [ebp-114h] BYREF
-    LPDIRECTDRAWSURFACE pDSurface; // [esp+58h] [ebp-110h] BYREF
-    LPDIRECTDRAW pDraw2; // [esp+5Ch] [ebp-10Ch] BYREF
-    s32 pSurface2; // [esp+60h] [ebp-108h] BYREF
-    LPDIRECTDRAWSURFACE pDSurface4; // [esp+64h] [ebp-104h] BYREF
-    DDSURFACEDESC surfaceDesc; // [esp+68h] [ebp-100h] BYREF
-    struct _OSVERSIONINFOA osVersionInfo; // [esp+D4h] [ebp-94h] BYREF
+    HMODULE hDInput;
+    FARPROC pDirectInputCreateA;
+    HMODULE hDDraw;
+    HRESULT(__stdcall * pDirectDrawCreate)(GUID*, LPDIRECTDRAW*, IUnknown*);
+    HMODULE hDInput2;
+    FARPROC pDirectInputCreateA_;
+    LPDIRECTDRAW pDDraw;
+    LPDIRECTDRAWSURFACE pDSurface;
+    LPDIRECTDRAW pDraw2;
+    s32 pSurface2;
+    LPDIRECTDRAWSURFACE pDSurface4;
+    DDSURFACEDESC surfaceDesc;
+    struct _OSVERSIONINFOA osVersionInfo;
 
     pDDraw = 0;
     pDraw2 = 0;
@@ -1955,7 +1955,7 @@ EXPORT void Start_GTA2Manager_5E4DE0()
     }
     else
     {
-        LPARAM lParam; // [esp+4h] [ebp-4h]
+        LPARAM lParam;
         PostMessageA(gHwnd_707F04, WM_ACTIVATE, 0, lParam);
         if ((u32)ShellExecuteA(0, 0, "GTA2 Manager.EXE", 0, gWorkingDir_707F64, 1) <= 0x20)
         {
@@ -2346,12 +2346,12 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
     }
     else
     {
-        state = 0; //  xor     esi, esi
+        state = 0;
     }
 
     if (bIsFrench_67D53C)
     {
-        state = 14; // mov     esi, 0Eh
+        state = 14;
     }
 
     if (bStartNetworkGame_7081F0)
@@ -2363,7 +2363,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
 
     // Game loop
 
-    u8 bQuit = 0; //  %bl
+    u8 bQuit = 0;
 
     while (1)
     {
