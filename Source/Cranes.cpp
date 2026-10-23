@@ -584,15 +584,15 @@ void Crane::PickUpCar_47F930(Car* pCar)
                     if (pCar->CanBeLiftedByCrane_447F00())
                     {
                         Fix16 hook_radius;
-                        Fix16 angTmp;
+                        Fix16 hook_angle;
                         Sprite* pSprt = pCar->field_50_car_sprite;
-                        if (ComputeHookPolar_47F6C0(pSprt->get_x_y(), &hook_radius, &angTmp))
+                        if (ComputeHookPolar_47F6C0(pSprt->get_x_y(), &hook_radius, &hook_angle))
                         {
                             if (field_144_crane_mode != 1 || IsTarget1PositionClear_47EB00())
                             {
                                 if (field_68_pickup_car == 0 || pSprt == field_68_pickup_car)
                                 {
-                                    SetPickupCarTarget_47F2F0(hook_radius, angTmp, pSprt);
+                                    SetPickupCarTarget_47F2F0(hook_radius, hook_angle, pSprt);
                                 }
                             }
                         }
@@ -642,18 +642,18 @@ s32 Crane::MoveTowardsTargets_47FBA0()
         }
     }
 
-    bool bUnknown;
+    bool bLowerHook;
     Fix16 f_B8_hook_depth_target;
     if (this->field_90_hook_radius == this->field_B0_hook_radius_target &&
         this->field_8C_crane_angle == this->field_AC_crane_angle_target &&
         this->field_A0_hook_axial_angle == this->field_B4_hook_angle_target && this->field_14D_is_busy)
     {
-        bUnknown = 1;
+        bLowerHook = 1;
         f_B8_hook_depth_target = this->field_B8_hook_depth_target;
     }
     else
     {
-        bUnknown = 0;
+        bLowerHook = 0;
         f_B8_hook_depth_target = kZero_679E70;
     }
 
@@ -662,7 +662,7 @@ s32 Crane::MoveTowardsTargets_47FBA0()
     this->field_156_is_rotating = this->field_8C_crane_angle != this->field_AC_crane_angle_target;
     this->field_157_is_radius_changing = this->field_90_hook_radius != this->field_B0_hook_radius_target;
     this->field_158_is_hook_depth_changing = f_B8_hook_depth_target != field_84_hook_depth;
-    return bUnknown && field_84_hook_depth == f_B8_hook_depth_target;
+    return bLowerHook && field_84_hook_depth == f_B8_hook_depth_target;
 }
 
 MATCH_FUNC(0x47fd10)
