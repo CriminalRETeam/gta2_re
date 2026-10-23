@@ -2387,7 +2387,7 @@ bool Car::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
 
                 our_flags = this->field_78_flags;
                 their_flags = pCar->field_78_flags;
-                if ((((u8)their_flags ^ (u8)our_flags) & car_flag::Flag4) != 0)
+                if (((u8)their_flags & car_flag::Flag4) != ((u8)our_flags & car_flag::Flag4))
                 {
                     return 0;
                 }
