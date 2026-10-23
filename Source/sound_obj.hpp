@@ -180,9 +180,6 @@ class sound_obj
     char_type field_2F_unused;
     sound_0x68 field_30_sQueueSample;
     u8 field_98_nActiveSampleQueue;
-    char_type field_99_pad;
-    char_type field_9A_pad;
-    char_type field_9B_pad;
     sound_0x68 field_9C_asSamples[2][16];
     u8 field_D9C_abSampleQueueIndexTable[2][16];
     u8 field_DBC_SampleRequestQueuesStatus[2];
@@ -251,8 +248,6 @@ class sound_obj
     s32 field_5524_radio_word;
     u8 field_5528_idx15_cur;
     u8 field_5529_idx15;
-    char_type field_552A_pad;
-    char_type field_552B_pad;
     s32 field_552C_15array[15];
     char_type field_5568_crime_xpos;
     char_type field_5569_crime_ypos;
