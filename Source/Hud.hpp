@@ -249,7 +249,7 @@ class Hud_TextEntry
     inline void ClearAlpha_4C70E0()
     {
         field_B8_alpha = 0;
-        *(u8*)&field_BC_alpha_flag = 0; // byte store in both 9.6f and 10.5, the field is read as s32 elsewhere
+        *reinterpret_cast<u8*>(&field_BC_alpha_flag) = 0; // byte store in both 9.6f and 10.5, the field is read as s32 elsewhere
     }
 
     // 9.6f 0x45AFD0
