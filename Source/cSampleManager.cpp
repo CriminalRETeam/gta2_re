@@ -221,7 +221,7 @@ bool cSampleManager::DisableA3DSplash_58D620()
 #pragma warning(pop)
 
 MATCH_FUNC(0x58D6C0)
-bool cSampleManager::SoundInit_58D6C0(s32* a2)
+bool cSampleManager::SoundInit_58D6C0(s32* not_used)
 {
     AIL_startup();
 
@@ -401,7 +401,7 @@ void cSampleManager::Reset3DSamples_58D960()
 }
 
 MATCH_FUNC(0x58D9F0)
-bool cSampleManager::AllocSamples_58D9F0(s32 a2)
+bool cSampleManager::AllocSamples_58D9F0(s32 not_used)
 {
     Terminate_58DAE0();
     Reset3DSamples_58D960();

@@ -21,13 +21,13 @@ class cSampleManager
 
     EXPORT bool DisableA3DSplash_58D620();
 
-    EXPORT bool SoundInit_58D6C0(s32* a2);
+    EXPORT bool SoundInit_58D6C0(s32* not_used);
 
     EXPORT bool OpenDigitalDriver_58D720(char_type bFlag, char_type bStereo, s32 sampleRate);
 
     // todo: order
 
-    EXPORT bool AllocSamples_58D9F0(s32 a2);
+    EXPORT bool AllocSamples_58D9F0(s32 not_used);
 
     EXPORT void PlaySampleRange_58E8C0(u32 idx, u32 end_idx);
 
