@@ -1810,6 +1810,8 @@ void Frontend::ManageCredits_4B7A10()
     }
 }
 
+#pragma warning(push)
+#pragma warning(disable : 4101) // unused_idx is kept from the IDA locals list of the original
 MATCH_FUNC(0x4AE2D0)
 void Frontend::UpdatePageFromUserInput_4AE2D0()
 {
@@ -2082,6 +2084,7 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
         field_118_cursor_blink_timer = 2;
     }
 }
+#pragma warning(pop)
 
 MATCH_FUNC(0x4AE990)
 void Frontend::SetWinMainStateToBootMap_4AE990()
