@@ -9875,7 +9875,7 @@ void Ped::EnterCarStateMachine_46BDC0()
                             if (gang_car_model != -1)
                             {
                                 // Well now they hate you a bit
-                                Gang* pGang = gGangPool_CA8_67E274->GangByIdx_4BF1C0(gang_car_model);
+                                Gang* pGang = gGangPool_CA8_67E274->GangByIdx_4BF1C0((u8)gang_car_model);
                                 pGang->ApplyKillRespectChange_4BEF70(this->field_15C_player->get_idx_4219D0(), 1u);
                             }
                         }
@@ -11241,16 +11241,16 @@ void Ped::ApplyAimJitter_46F1E0(Weapon* pWeapon)
             if (GetPedVelocity_45C920() == kFpZero_678660)
             {
                 max_still = 3;
-                rng_val = gRng_6F6784.get_int_4F7AE0(max_still);
+                rng_val = (u8)gRng_6F6784.get_int_4F7AE0(max_still);
             }
             else
             {
                 max_moving = 5;
-                rng_val = gRng_6F6784.get_int_4F7AE0(max_moving);
+                rng_val = (u8)gRng_6F6784.get_int_4F7AE0(max_moving);
                 if (rng_val == 0)
                 {
                     max_moving_retry = 5;
-                    rng_val = gRng_6F6784.get_int_4F7AE0(max_moving_retry);
+                    rng_val = (u8)gRng_6F6784.get_int_4F7AE0(max_moving_retry);
                 }
             }
         }
