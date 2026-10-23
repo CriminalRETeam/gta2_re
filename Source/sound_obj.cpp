@@ -6588,7 +6588,7 @@ void sound_obj::ProcessType7_Weapon_42A500(s32 idx)
     rate_adjust = 0;
     pWeapon = field_147C_audio_entities[idx].field_4_pObj->field_C_pAny.pWeapon_30;
     this->field_30_sQueueSample.field_41_releasing_sound_flag = 2;
-    weapon_f2C = pWeapon->TakeF2C_41CC80();
+    weapon_f2C = pWeapon->TakeShotFired_41CC80();
     if (weapon_f2C)
     {
         if (pWeapon)

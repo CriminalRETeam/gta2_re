@@ -1077,7 +1077,7 @@ void Char::UpdateAnimState_546360()
                             field_7C_pPed->SetInternalObjectiveStatus_403B50(0);
                         }
                         pDriver->ChangeNextPedState1_45C500(ped_state_1::immobilized_8);
-                        pDriver->ChangeNextPedState2_45C540(ped_state_2::Unknown_17);
+                        pDriver->ChangeNextPedState2_45C540(ped_state_2::ped2_at_car_door_17);
                         pCar->ClearDriver_4407F0();
                         CarDoorAlignmentSolver_545AF0(8, pCar, field_7C_pPed->get_target_car_door_403A60(), newx, newy, field_40_rotation);
                         pDriver->AllocCharB4_45C830(
@@ -5849,7 +5849,7 @@ void Char::state_8_5520A0()
                     Set_F8_ped_state_1_433910(9);
                     field_C_ped_state_2 = 15;
                     field_7C_pPed->field_278_ped_state_1 = ped_state_1::dead_9;
-                    field_7C_pPed->field_27C_ped_state_2 = ped_state_2::Unknown_15;
+                    field_7C_pPed->field_27C_ped_state_2 = ped_state_2::ped2_dead_15;
                     return;
                 }
                 if (!field_7C_pPed->field_184_pObj2C->field_10_obj_3c)
@@ -5858,7 +5858,7 @@ void Char::state_8_5520A0()
                     Set_F8_ped_state_1_433910(9);
                     field_C_ped_state_2 = 15;
                     field_7C_pPed->field_278_ped_state_1 = ped_state_1::dead_9;
-                    field_7C_pPed->field_27C_ped_state_2 = ped_state_2::Unknown_15;
+                    field_7C_pPed->field_27C_ped_state_2 = ped_state_2::ped2_dead_15;
                     return;
                 }
                 if (!field_7C_pPed->field_184_pObj2C->field_4_sprite)
@@ -5867,7 +5867,7 @@ void Char::state_8_5520A0()
                     Set_F8_ped_state_1_433910(9);
                     field_C_ped_state_2 = 15;
                     field_7C_pPed->field_278_ped_state_1 = ped_state_1::dead_9;
-                    field_7C_pPed->field_27C_ped_state_2 = ped_state_2::Unknown_15;
+                    field_7C_pPed->field_27C_ped_state_2 = ped_state_2::ped2_dead_15;
                     return;
                 }
                 field_6C_animation_state = Char_Anim_state::Lethal_Fall_12;
@@ -5885,7 +5885,7 @@ void Char::state_8_5520A0()
                 field_4A = 300;
                 break;
 
-            case ped_state_2::Unknown_17:
+            case ped_state_2::ped2_at_car_door_17:
                 field_6C_animation_state = Char_Anim_state::Getting_pulled_out_of_car_8;
                 field_68_animation_frame = 0;
                 break;
@@ -5920,7 +5920,7 @@ void Char::state_8_5520A0()
                     // Ped sunk
                     field_7C_pPed->Kill_46F9D0();
                     field_7C_pPed->ChangeNextPedState1_45C500(ped_state_1::dead_9);
-                    field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::Unknown_15);
+                    field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::ped2_dead_15);
                     field_7C_pPed->RestorePreviousPedState_45C5A0();
                     field_80_sprite_ptr->set_z_lazy_420660(kFP16Zero_6FD9E4);
                     field_7C_pPed->field_224_bf.bDropsWeaponOnDeath = false;
@@ -5969,7 +5969,7 @@ void Char::state_8_5520A0()
 
                 break;
 
-            case ped_state_2::Unknown_17:
+            case ped_state_2::ped2_at_car_door_17:
                 if (!field_84_target_car->IsDoorAccessible_43AFE0(field_7C_pPed->field_24C_target_car_door))
                 {
                     field_68_animation_frame = 3;
@@ -6108,7 +6108,7 @@ void Char::state_8_5520A0()
                     Set_F8_ped_state_1_433910(9);
                     field_C_ped_state_2 = 15;
                     field_7C_pPed->field_278_ped_state_1 = ped_state_1::dead_9;
-                    field_7C_pPed->field_27C_ped_state_2 = ped_state_2::Unknown_15;
+                    field_7C_pPed->field_27C_ped_state_2 = ped_state_2::ped2_dead_15;
                     return;
                 }
                 if (field_7C_pPed->field_184_pObj2C->GetEffectiveSpeed_5290F0() == kFP16Zero_6FD9E4 || !field_4A)

@@ -5896,7 +5896,7 @@ void Car::TryHitchTrailer_442810()
                     else
                     {
                         pCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
-                        if (!pCar->field_58_physics->IsRngBelowDamage_421130())
+                        if (!pCar->field_58_physics->IsDamageWindowOpen_421130())
                         {
                             hitch_point = pCar->field_50_car_sprite->get_x_y_443580().AddInl_40AC50(offset.NormalizeSafe_442AD0().MultiplyInl_438FE0(kFpOne64th_677888));
                             {
