@@ -3293,7 +3293,7 @@ void Car::ResetTopRightRoofLight_43C310()
     if (HasTopRoofLights_4216A0() && !field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDamage_1))
     {
         this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopRightRoofLight_18);
-        Object* pLight = field_0_attachments.FindObject2CByModel_5A6A90(173);
+        Object* pLight = field_0_attachments.FindObject2CByModel_5A6A90(172);
         if (pLight)
         {
             pLight->TurnOffLight_527990();
