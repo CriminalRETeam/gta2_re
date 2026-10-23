@@ -521,13 +521,13 @@ s32 __stdcall CarInfoTable::StrToInt_431080(const char* pStr, s16* pOut)
 }
 
 MATCH_FUNC(0x440860)
-Fix16 PixelsToFix16Table::SignedPixelsToFix16_440860(s8 var)
+Fix16 PixelsToFix16Table::SignedPixelsToFix16_440860(s8 pixels)
 {
-    if (var < 0)
+    if (pixels < 0)
     {
-        return -list[-var];
+        return -list[-pixels];
     }
-    return list[var];
+    return list[pixels];
 }
 
 MATCH_FUNC(0x4542A0)
