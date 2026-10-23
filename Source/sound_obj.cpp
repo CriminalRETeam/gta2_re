@@ -4329,8 +4329,8 @@ void sound_obj::ProcessActiveQueues_41AB80()
                 // The original passes 0 for y and -y for z (z is computed but unused)
                 gSampManager_6FFF00.SetChannel3DPosition_58DEA0(j, x, 0.0f, -y);
                 gSampManager_6FFF00.SetChannel3DDistances_58DED0(j,
-                                                                 (u32)sample.field_64_max_distance,
-                                                                 (u32)sample.field_64_max_distance >> 2);
+                                                                 (f32)(u32)sample.field_64_max_distance,
+                                                                 (f32)((u32)sample.field_64_max_distance >> 2));
                 break;
             }
 
@@ -4431,8 +4431,8 @@ void sound_obj::ProcessActiveQueues_41AB80()
 
                 gSampManager_6FFF00.SetChannel3DPosition_58DEA0(j, x, 0.0f, -y);
                 gSampManager_6FFF00.SetChannel3DDistances_58DED0(j,
-                                                                 (u32)active.field_64_max_distance,
-                                                                 (u32)active.field_64_max_distance >> 2);
+                                                                 (f32)(u32)active.field_64_max_distance,
+                                                                 (f32)((u32)active.field_64_max_distance >> 2));
                 gSampManager_6FFF00.StartChannel3D_58DFA0(j);
             }
             else
