@@ -889,7 +889,7 @@ s32 Frontend::Run_4AEDB0()
             field_C9E4_last_input_time = Time;
         }
 
-        if (Time >= field_C9DC_next_frame_time || (field_C9E0_updates_since_render == 3))
+        if (Time >= (u32)field_C9DC_next_frame_time || (field_C9E0_updates_since_render == 3))
         {
             Update_4AEC00();
             frames = field_C9E0_updates_since_render + 1;
@@ -2309,7 +2309,7 @@ static __forceinline bool CheckCdFile()
                 FILE* hFile = crt::fopen(path, "rb");
                 if (hFile)
                 {
-                    if (File::GetFileSize_4A6B10(hFile) == gCdCheckFiles_6252E8[idx].field_80_size)
+                    if ((u32)File::GetFileSize_4A6B10(hFile) == gCdCheckFiles_6252E8[idx].field_80_size)
                     {
                         if (!crt::fclose(hFile))
                         {
@@ -3242,7 +3242,7 @@ void Frontend::Load_tga_4B6520(u16 idx)
         FatalError_4A38C0(Gta2Error::TargaMemoryAllocationError, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 6523);
     }
 
-    if (crt::fread(pAlloc, 1u, tgaArray_61F0C8[idx].field_80_len, hFile) != tgaArray_61F0C8[idx].field_80_len)
+    if (crt::fread(pAlloc, 1u, tgaArray_61F0C8[idx].field_80_len, hFile) != (u32)tgaArray_61F0C8[idx].field_80_len)
     {
         FatalError_4A38C0(Gta2Error::InvalidBackgroundImageSize, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 6529);
     }
