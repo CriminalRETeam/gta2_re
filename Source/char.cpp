@@ -2694,26 +2694,26 @@ MATCH_FUNC(0x54c1a0)
 bool Char::CanMoveOntoSlope_54C1A0(s32 path_direction)
 {
     u8 slope_type = 0;
-    char_type bUnknown = 0;
+    char_type bMayLeavePavement = 0;
     Fix16 x_fp = field_80_sprite_ptr->field_14_xy.x;
     Fix16 y_fp = field_80_sprite_ptr->field_14_xy.y;
     Fix16 zpos = field_80_sprite_ptr->field_1C_zpos;
-    s32 tmpZ = (zpos.ToInt()) - 1;
+    s32 check_z = (zpos.ToInt()) - 1;
     if (field_10_char_state == Char_B4_state::Jumping_15 || field_8_ped_state_1 == ped_state_1::dead_9 || field_7C_pPed->PedTypeIs_45EDE0(ped_type::player_2) ||
         field_7C_pPed->get_occupation_403980() == ped_ocupation_enum::drone)
     {
-        bUnknown = 1;
+        bMayLeavePavement = 1;
     }
     if ((field_58_flags & 1) == 1)
     {
-        tmpZ = zpos.ToInt();
+        check_z = zpos.ToInt();
     }
 
     s32 x = x_fp.ToInt();
     s32 y = y_fp.ToInt();
     s32 z = zpos.ToInt();
-    u8 bUnknown_2;
-    if (gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(x, y, z, path_direction, &bUnknown_2, 0))
+    u8 slope_z_delta;
+    if (gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(x, y, z, path_direction, &slope_z_delta, 0))
     {
         return 0;
     }
@@ -2722,16 +2722,16 @@ bool Char::CanMoveOntoSlope_54C1A0(s32 path_direction)
     switch (path_direction)
     {
         case path_direction::up_1:
-            slope_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(x_fp.ToInt(), y_fp.ToInt() - 1, tmpZ);
+            slope_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(x_fp.ToInt(), y_fp.ToInt() - 1, check_z);
             break;
         case path_direction::right_3:
-            slope_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(x_fp.ToInt() + 1, y_fp.ToInt(), tmpZ);
+            slope_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(x_fp.ToInt() + 1, y_fp.ToInt(), check_z);
             break;
         case path_direction::down_2:
-            slope_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(x_fp.ToInt(), y_fp.ToInt() + 1, tmpZ);
+            slope_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(x_fp.ToInt(), y_fp.ToInt() + 1, check_z);
             break;
         case path_direction::left_4:
-            slope_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(x_fp.ToInt() - 1, y_fp.ToInt(), tmpZ);
+            slope_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(x_fp.ToInt() - 1, y_fp.ToInt(), check_z);
             break;
         default:
             break;
@@ -2770,7 +2770,7 @@ bool Char::CanMoveOntoSlope_54C1A0(s32 path_direction)
             break;
         case ROAD:
         case FIELD:
-            if (bUnknown)
+            if (bMayLeavePavement)
             {
                 return true;
             }
@@ -3834,7 +3834,7 @@ LABEL_152:
 MATCH_FUNC(0x54ecb0)
 bool Char::CanStepForwardWithRegionCheck_54ECB0(s32 direction)
 {
-    u8 u8_unk;
+    u8 slope_z_delta;
 
     Fix16 xpos = field_80_sprite_ptr->field_14_xy.x;
     Fix16 ypos = field_80_sprite_ptr->field_14_xy.y;
@@ -3847,7 +3847,7 @@ bool Char::CanStepForwardWithRegionCheck_54ECB0(s32 direction)
     {
         new_zpos = zpos.ToInt();
     }
-    if (gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(xpos.ToInt(), ypos.ToInt(), zpos.ToInt(), direction, &u8_unk, 0))
+    if (gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(xpos.ToInt(), ypos.ToInt(), zpos.ToInt(), direction, &slope_z_delta, 0))
     {
         gCharB4_PathDirection_623F44 = direction;
         return 0;
@@ -3924,7 +3924,7 @@ bool Char::CanStepToTile_54EF60(char_type target_x, char_type target_y)
     Fix16 sprite_ypos = field_80_sprite_ptr->field_14_xy.y;
     Fix16 sprite_zpos = field_80_sprite_ptr->field_1C_zpos;
 
-    u8 old_f45 = field_45_slope_gradient_direction;
+    u8 old_slope_dir = field_45_slope_gradient_direction;
     byte_6FDB57 = 1;
     Fix16 xpos, ypos;
     Ang16::PolarToCartesian_41FC20(gAng16_AngleOfCollision_6FD808, gFP16_CollisionCheckRadius_6FDACC, xpos, ypos);
@@ -4049,7 +4049,7 @@ bool Char::CanStepToTile_54EF60(char_type target_x, char_type target_y)
                         gCharB4_PathDirection_623F44 = path_direction::down_2;
                     }
                 }
-                field_45_slope_gradient_direction = old_f45;
+                field_45_slope_gradient_direction = old_slope_dir;
             }
             else
             {
@@ -4124,7 +4124,7 @@ bool Char::CanStepToTile_54EF60(char_type target_x, char_type target_y)
                         gCharB4_PathDirection_623F44 = path_direction::down_2;
                     }
                 }
-                field_45_slope_gradient_direction = old_f45;
+                field_45_slope_gradient_direction = old_slope_dir;
                 return bCanStep;
             }
         }
@@ -4203,7 +4203,7 @@ bool Char::CanStepToTile_54EF60(char_type target_x, char_type target_y)
                         gCharB4_PathDirection_623F44 = path_direction::up_1;
                     }
                 }
-                field_45_slope_gradient_direction = old_f45;
+                field_45_slope_gradient_direction = old_slope_dir;
                 return bCanStep;
             }
             else
@@ -4277,7 +4277,7 @@ bool Char::CanStepToTile_54EF60(char_type target_x, char_type target_y)
                         gCharB4_PathDirection_623F44 = path_direction::down_2;
                     }
                 }
-                field_45_slope_gradient_direction = old_f45;
+                field_45_slope_gradient_direction = old_slope_dir;
                 return bCanStep;
             }
         }
