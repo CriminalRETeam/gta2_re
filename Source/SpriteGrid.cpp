@@ -654,7 +654,7 @@ MATCH_FUNC(0x478590)
 GridCell* SpriteGrid::GetFirstXCellInRow_478590(s32 y_pos)
 {
     GridCell* pIter;
-    s32 f0;
+    s32 cell_x;
 
     if (y_pos < 0 || y_pos > 255)
     {
@@ -662,12 +662,12 @@ GridCell* SpriteGrid::GetFirstXCellInRow_478590(s32 y_pos)
     }
     for (pIter = this->field_0_rows[y_pos]; pIter; pIter = pIter->mpNext)
     {
-        f0 = (u8)pIter->field_0_x;
-        if (f0 >= gSpriteGrid_left_6F5FD4)
+        cell_x = (u8)pIter->field_0_x;
+        if (cell_x >= gSpriteGrid_left_6F5FD4)
         {
             break;
         }
-        if (f0 > gSpriteGrid_right_6F5B80)
+        if (cell_x > gSpriteGrid_right_6F5B80)
         {
             return 0;
         }
