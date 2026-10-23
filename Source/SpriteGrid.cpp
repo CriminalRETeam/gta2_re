@@ -379,12 +379,12 @@ void SpriteGrid::CheckTileSpritesForClosestMatch_478060(GridSpriteLink* pSpriteL
 MATCH_FUNC(0x478160)
 void SpriteGrid::SearchTileColumnForClosestSprite_478160(u8 height)
 {
-    s32 y_pos = gSpriteGrid_start_y_679098;
+    u32 y_pos = gSpriteGrid_start_y_679098;
     if ((u32)gSpriteGrid_start_y_679098 < gSpriteGrid_start_y_679098 + (u32)height)
     {
         // Won't match without this redundant iter
         GridCell** pXItemIter = &this->field_0_rows[gSpriteGrid_start_y_679098];
-        while ((u32)y_pos < gSpriteGrid_start_y_679098 + (u32)height)
+        while (y_pos < gSpriteGrid_start_y_679098 + (u32)height)
         {
             CheckTileSpritesForClosestMatch_478060(GetCollideListAt_446820(gSpriteGrid_start_x_679090, y_pos));
             ++y_pos;
