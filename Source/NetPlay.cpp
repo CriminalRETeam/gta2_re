@@ -1237,10 +1237,10 @@ void NetPlay::OnPacketReceived_51F870(void* pPacket, s32 packetLen, s32 recvId, 
                 {
                     DPMSG_ADDPLAYERTOGROUP* pAdd = (DPMSG_ADDPLAYERTOGROUP*)pMsg;
                     s32 value;
-                    if (field_758_n2.field_0_group_id == pAdd->dpIdGroup &&
+                    if ((u32)field_758_n2.field_0_group_id == pAdd->dpIdGroup &&
                         MovePlayerToGroup_520040(pAdd->dpIdPlayer, &field_5E8_n1, &field_758_n2, (u32*)&value))
                     {
-                        if (field_5D8_player_id == pAdd->dpIdPlayer)
+                        if ((u32)field_5D8_player_id == pAdd->dpIdPlayer)
                         {
                             field_5D4_player_idx = value;
                         }
@@ -1265,9 +1265,9 @@ void NetPlay::OnPacketReceived_51F870(void* pPacket, s32 packetLen, s32 recvId, 
                 case DPSYS_DELETEPLAYERFROMGROUP:
                 {
                     DPMSG_DELETEPLAYERFROMGROUP* pDelete = (DPMSG_DELETEPLAYERFROMGROUP*)pMsg;
-                    if (pDelete->dpIdGroup == field_758_n2.field_0_group_id)
+                    if (pDelete->dpIdGroup == (u32)field_758_n2.field_0_group_id)
                     {
-                        if (field_5D8_player_id == pDelete->dpIdPlayer)
+                        if ((u32)field_5D8_player_id == pDelete->dpIdPlayer)
                         {
                             InvokeCallback_520230(1, 0);
                         }
@@ -1302,7 +1302,7 @@ void NetPlay::OnPacketReceived_51F870(void* pPacket, s32 packetLen, s32 recvId, 
                 case DPSYS_SETPLAYERORGROUPDATA:
                 {
                     DPMSG_SETPLAYERORGROUPDATA* pSetData = (DPMSG_SETPLAYERORGROUPDATA*)pMsg;
-                    if (pSetData->dwPlayerType == DPPLAYERTYPE_GROUP && pSetData->dpId == field_758_n2.field_0_group_id)
+                    if (pSetData->dwPlayerType == DPPLAYERTYPE_GROUP && pSetData->dpId == (u32)field_758_n2.field_0_group_id)
                     {
                         if (field_758_n2.field_118_game_settings)
                         {
@@ -1336,9 +1336,9 @@ void NetPlay::OnPacketReceived_51F870(void* pPacket, s32 packetLen, s32 recvId, 
                 case DPSYS_DELETEPLAYERFROMGROUP:
                 {
                     DPMSG_DELETEPLAYERFROMGROUP* pDelete = (DPMSG_DELETEPLAYERFROMGROUP*)pMsg;
-                    if (pDelete->dpIdGroup == field_758_n2.field_0_group_id)
+                    if (pDelete->dpIdGroup == (u32)field_758_n2.field_0_group_id)
                     {
-                        if (field_5D8_player_id == pDelete->dpIdPlayer)
+                        if ((u32)field_5D8_player_id == pDelete->dpIdPlayer)
                         {
                             s32 value = 2;
                             InvokeCallback_520230(4, (u32)&value);
@@ -1363,7 +1363,7 @@ void NetPlay::OnPacketReceived_51F870(void* pPacket, s32 packetLen, s32 recvId, 
                     switch (pDestroy->dwPlayerType)
                     {
                         case DPPLAYERTYPE_PLAYER:
-                            if (pDestroy->dpId == field_5D8_player_id)
+                            if (pDestroy->dpId == (u32)field_5D8_player_id)
                             {
                                 s32 value = 2;
                                 InvokeCallback_520230(4, (u32)&value);
@@ -1372,7 +1372,7 @@ void NetPlay::OnPacketReceived_51F870(void* pPacket, s32 packetLen, s32 recvId, 
                             break;
 
                         case DPPLAYERTYPE_GROUP:
-                            if (pDestroy->dpId == field_758_n2.field_0_group_id)
+                            if (pDestroy->dpId == (u32)field_758_n2.field_0_group_id)
                             {
                                 s32 value = 1;
                                 InvokeCallback_520230(4, (u32)&value);
@@ -1967,7 +1967,7 @@ bool NetPlay::WaitForPlayersSync_5213E0()
     u32 waitingForSync = 0;
     for (u32 i = 0; i < MAX_PLAYERS; i++)
     {
-        if (field_758_n2.field_10_players[i].field_0_in_use && i != GetPlayerIdx_409C40())
+        if (field_758_n2.field_10_players[i].field_0_in_use && i != (u32)GetPlayerIdx_409C40())
         {
             waitingForAck |= 1 << i;
             waitingForSync |= 1 << i;
