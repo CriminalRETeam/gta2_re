@@ -2737,6 +2737,7 @@ void sound_obj::HandleTruckCorneringAudio_417FD0(Sound_Params* pParams)
                 case car_model_enum::TOWTRUCK:
                 case car_model_enum::TRUKCAB1:
                 case car_model_enum::TRUKCAB2:
+                case car_model_enum::KRSNABUS: // 10.5.exe's index table: the bus too
                     if (CalculateDistance_419020(Fix16(25)))
                     {
                         if (VolCalc_419070(25, Fix16(5), pParams->field_5_bHasSolidAbove))
@@ -2752,10 +2753,6 @@ void sound_obj::HandleTruckCorneringAudio_417FD0(Sound_Params* pParams)
                             AddSampleToRequestedQueue_41A850();
                         }
                     }
-                    break;
-                case car_model_enum::KRSNABUS:
-                    // Dead store, but it keeps the switch range up to 86 as in the original
-                    slide_angle = 0;
                     break;
             }
         }
