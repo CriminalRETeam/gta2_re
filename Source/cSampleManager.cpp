@@ -639,8 +639,8 @@ bool cSampleManager::InitialiseChannel3D_58DDF0(s32 channel, s32 nSfx, s32 rate)
         soundInfo.data_len = field_A8_sdt_entries[nSfx].field_4_sample_length;
         soundInfo.rate = rate;
         soundInfo.bits = 8 * field_1EB1_bytes_per_sample;
-        u32 tmp = AIL_set_3D_sample_info(field_26C4_3d_sample[channel], &soundInfo);
-        return tmp != 0 ? true : false;
+        u32 ail_result = AIL_set_3D_sample_info(field_26C4_3d_sample[channel], &soundInfo);
+        return ail_result != 0 ? true : false;
     }
 
     return 0;
@@ -867,20 +867,20 @@ void cSampleManager::OpenStream_58E320(u32 stream_idx)
         {
             strcpy(wavPath, field_5_str);
             strcat(wavPath, dma_wav_5FF5D8[stream_idx]);
-            HSTREAM tmp = AIL_open_stream(field_0_hDriver, wavPath, 0);
-            field_9C_hStreams[0] = tmp;
-            if (tmp == 0)
+            HSTREAM hStream = AIL_open_stream(field_0_hDriver, wavPath, 0);
+            field_9C_hStreams[0] = hStream;
+            if (hStream == 0)
             {
                 if (stream_idx == 1)
                 {
                     strcpy(wavPath, field_5_str);
                     strcat(wavPath, dma_wav_5FF5D8[0]);
-                    tmp = AIL_open_stream(field_0_hDriver, wavPath, 0);
-                    field_9C_hStreams[0] = tmp;
+                    hStream = AIL_open_stream(field_0_hDriver, wavPath, 0);
+                    field_9C_hStreams[0] = hStream;
                 }
             }
 
-            if (tmp)
+            if (hStream)
             {
                 AIL_set_stream_loop_count(field_9C_hStreams[0], 0);
                 AIL_start_stream(field_9C_hStreams[0]);
