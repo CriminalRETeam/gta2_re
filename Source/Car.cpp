@@ -3623,18 +3623,19 @@ void Car::DamageArea_43CF30(s32 damage_area)
 MATCH_FUNC(0x43d1c0)
 bool Car::IsAreaDamaged_43D1C0(s32 damage_area)
 {
+    // Damage area indices differ from the bit positions in CarDeltaBitsEnum.
     switch (damage_area)
     {
-        case CarDeltaBitsEnum::BottomRightDamage_2:
+        case 0:
             return field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomRightDamage_2); // 4
 
-        case CarDeltaBitsEnum::BottomLeftDamage_3:
+        case 1:
             return field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomLeftDamage_3); // 8
 
-        case CarDeltaBitsEnum::TopRightDamage_1:
+        case 2:
             return field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDamage_1);
 
-        case CarDeltaBitsEnum::TopLeftDamage_0:
+        case 3:
             return field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopLeftDamage_0);
 
         case CarDeltaBitsEnum::WindshieldDamage_4:
