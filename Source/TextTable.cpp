@@ -125,19 +125,19 @@ bool TextTable::TKeyFind_5B59E0(const char_type* pIdStr)
 MATCH_FUNC(0x5B5A10)
 s32 __cdecl TextTable::TKeySearch_5B5A10(const void* a, const void* b)
 {
-    const char_type* pIdStr = (const char_type*)a;
-    const TextKeyEntry* pEntry = (const TextKeyEntry*)b;
-    return strcmp(pIdStr, (const char_type*)&pEntry->field_4_key); // TODO: ???
+    const char_type* pIdStr = static_cast<const char_type*>(a);
+    const TextKeyEntry* pEntry = static_cast<const TextKeyEntry*>(b);
+    return strcmp(pIdStr, reinterpret_cast<const char_type*>(&pEntry->field_4_key)); // TODO: ???
 }
 
 MATCH_FUNC(0x5B5A50)
 wchar_t* TextTable::TKeyFind_5B5A50(const char_type* pIdStr)
 {
-    TextKeyEntry* pFound = (TextKeyEntry*)bsearch(pIdStr, // key
+    TextKeyEntry* pFound = static_cast<TextKeyEntry*>(bsearch(pIdStr, // key
                                           field_0_tKey.field_0_tKey, // array
                                           field_0_tKey.field_4_tKey_count, // array count
                                           sizeof(TextKeyEntry), // element size
-                                          TKeySearch_5B5A10);
+                                          TKeySearch_5B5A10));
     if (!pFound)
     {
         return L" ";
@@ -218,7 +218,7 @@ wchar_t* TextTable::StrToUpper_5B5B80(wchar_t* pWideStr)
 // 9.6f 0x4539D0, file-local copy of GetCharWidth_4539D0 (Draw.hpp): including Draw.hpp changes this file's static init code
 static inline s32 __stdcall GetCharWidth_local_4539D0(u16 font_type, wchar_t chr)
 {
-    return (u16)gGtx_0x106C_703DD4->GetFontWidth_5AA760(&font_type, &chr);
+    return static_cast<u16>(gGtx_0x106C_703DD4->GetFontWidth_5AA760(&font_type, &chr));
 }
 
 // https://decomp.me/scratch/JzIDq

@@ -147,7 +147,7 @@ void GeneratorPool::FinalizeAfterScriptLoad_4C1CD0()
     s32 count = field_14A0_count;
     field_14A8_count_d3 = count / 3;
 
-    if (!(u8)(count / 3))
+    if (!static_cast<u8>(count / 3))
     {
         field_14A8_count_d3 = field_14A0_count;
     }

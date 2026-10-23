@@ -145,7 +145,7 @@ EXPORT BOOL CALLBACK DirectInputDeviceEnumCallBack_498910(LPCDIDEVICEINSTANCEA l
     LPDIRECTINPUTDEVICEA tempDevice;
     if (SUCCEEDED(gpDInput_67B804->CreateDevice(guidInstanceCopy, &tempDevice, 0)))
     {
-        const HRESULT hr = tempDevice->QueryInterface(IID_IDirectInputDevice2A, (LPVOID*)&gGamePadDevice_67B6C0);
+        const HRESULT hr = tempDevice->QueryInterface(IID_IDirectInputDevice2A, reinterpret_cast<LPVOID*>(&gGamePadDevice_67B6C0));
         tempDevice->Release();
 
         if (SUCCEEDED(hr))
@@ -291,7 +291,7 @@ void InputDevices::get_registry_controls_498C00()
     {
         const u32 setting = gRegistry_6FF968.Get_Control_Setting_587010(i, gDefaultControls_61A9E4[i]);
         gControlDeviceType_67B91C[i] = setting >> 15;
-        gPlayerControlsBinding_67B6E8[i] = (u8)setting;
+        gPlayerControlsBinding_67B6E8[i] = static_cast<u8>(setting);
     }
 }
 
@@ -383,7 +383,7 @@ void InputDevices::read_input_device_498DA0(s32* input_bits, u8 bApplyKeyboardCo
         memset(&gGamePadDeviceData_67B5B0, 0, sizeof(mini_device_obj_data));
         if (acquire_input_device_498730(gGamePadDevice_67B6C0))
         {
-            ((LPDIRECTINPUTDEVICE2A)gGamePadDevice_67B6C0)->Poll();
+            (static_cast<LPDIRECTINPUTDEVICE2A>(gGamePadDevice_67B6C0))->Poll();
         }
 
         while (game_pad_read_498D20() || bFirstPass)
@@ -408,7 +408,7 @@ void InputDevices::read_input_device_498DA0(s32* input_bits, u8 bApplyKeyboardCo
                 gDeviceDataCount_67B624 = 1;
                 gGamePadDevice_67B6C0->GetDeviceData(16, 0, &padItems, DIGDD_PEEK);
                 padResult = gGamePadDevice_67B6C0->GetDeviceData(16,
-                                                                 (DIDEVICEOBJECTDATA*)&gGamePadDeviceData_67B5B0,
+                                                                 reinterpret_cast<DIDEVICEOBJECTDATA*>(&gGamePadDeviceData_67B5B0),
                                                                  &gDeviceDataCount_67B624,
                                                                  0);
                 if (bLog_directinput_67D6C0 && gDeviceDataCount_67B624 > 0)
@@ -720,7 +720,7 @@ void InputRecorder_67F8B0::modify_inputs_4CDF30(s32 match_mask)
         }
     }
 
-    if ((s32)(match_mask & 0xFFFFF000) != 0)
+    if (static_cast<s32>(match_mask & 0xFFFFF000) != 0)
     {
         this->field_4_input_bits |= match_mask & 0xFFFFF000;
     }
@@ -1028,7 +1028,7 @@ u32 InputRecorder_67F8B0::get_input_bits_4CEAC0()
 {
     s32 inputs;
     u32 saved_input = field_4_input_bits;
-    u32* control_status = (u32*)&field_4_input_bits;
+    u32* control_status = reinterpret_cast<u32*>(&field_4_input_bits);
     InputRecorder_67F8B0::clear_inputs_4CDCE0();
 
     s32 replay_state = field_38_replay_state;
@@ -1077,7 +1077,7 @@ u32 InputRecorder_67F8B0::get_input_bits_4CEAC0()
                 if ((saved_input & input_bit::KeyBits) == 0 || (*control_status & input_bit::KeyBits) == 0)
                 {
                     *control_status = 0;
-                    gInputDevices_67B990->read_input_device_498DA0((s32*)control_status, 0);
+                    gInputDevices_67B990->read_input_device_498DA0(reinterpret_cast<s32*>(control_status), 0);
                     *control_status |= saved_input;
                     InputRecorder_67F8B0::replay_save_4CEA40(control_status);
                 }
@@ -1111,7 +1111,7 @@ u32 InputRecorder_67F8B0::get_input_bits_4CEAC0()
                 if ((saved_input & input_bit::KeyBits) == 0 || (*control_status & input_bit::KeyBits) == 0)
                 {
                     *control_status = 0;
-                    gInputDevices_67B990->read_input_device_498DA0((s32*)control_status, 0);
+                    gInputDevices_67B990->read_input_device_498DA0(reinterpret_cast<s32*>(control_status), 0);
                     if ((*control_status & 0xFFFFF000) != 0)
                     {
                         gGame_0x40_67E008->ExitGameNoBonus_4B8C00(0, GameExitType::ReplayExit_6);
@@ -1127,13 +1127,13 @@ u32 InputRecorder_67F8B0::get_input_bits_4CEAC0()
             {
                 if (!gGame_0x40_67E008->IsPaused_416BC0())
                 {
-                    gInputDevices_67B990->read_input_device_498DA0((s32*)control_status, 1);
+                    gInputDevices_67B990->read_input_device_498DA0(reinterpret_cast<s32*>(control_status), 1);
                     InputRecorder_67F8B0::save_replay_inputs_4CED00(*control_status, saved_input);
                 }
                 else
                 {
-                    gInputDevices_67B990->read_input_device_498DA0((s32*)control_status, 0);
-                    if (InputRecorder_67F8B0::should_record_input_4CDDF0(((u32)*control_status >> input_bit::KeyShift) & input_bit::KeyMask))
+                    gInputDevices_67B990->read_input_device_498DA0(reinterpret_cast<s32*>(control_status), 0);
+                    if (InputRecorder_67F8B0::should_record_input_4CDDF0((static_cast<u32>(*control_status) >> input_bit::KeyShift) & input_bit::KeyMask))
                     {
                         *control_status = remove_bit;
                     }

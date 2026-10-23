@@ -775,12 +775,12 @@ LABEL_35:
     field_8_pNode->field_3_ypos = yCoord;
     field_8_pNode->field_4_zpos = cur_z;
     field_C_node_count = 1;
-    pCell = &field_40_grid[(s16)(idx1 + 34 * idx2)];
+    pCell = &field_40_grid[static_cast<s16>(idx1 + 34 * idx2)];
     while (2)
     {
         if (pCell->field_0_idx1 == 1)
         {
-            if (abs(cur_z - (u8)pCell->field_4_zpos) < 1)
+            if (abs(cur_z - static_cast<u8>(pCell->field_4_zpos)) < 1)
             {
                 field_1B_direction = pCell->field_3_ypos;
                 new_z = pCell->field_4_zpos;

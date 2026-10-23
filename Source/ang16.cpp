@@ -80,7 +80,7 @@ Ang16* Ang16::AssignNormalized_409300(const s16& value, s32 not_used)
 MATCH_FUNC(0x409340)
 Ang16 Ang16::SubtractNormalized_409340(const Ang16& toSub)
 {
-    return Ang16(rValue - toSub.rValue, (u8)0);
+    return Ang16(rValue - toSub.rValue, static_cast<u8>(0));
 }
 
 MATCH_FUNC(0x4516B0)

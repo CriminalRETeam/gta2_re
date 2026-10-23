@@ -259,7 +259,7 @@ void ParticleManager::GunMuzzelFlash_53E970(Sprite* pSprite)
                 ped_offset.x = -kFpPoint03_6FD464;
                 ped_offset.y = kFpPoint02_6FD468 + kFpPoint1_6FD2E8;
                 ped_offset.RotateByAngle_40F6B0(pSprite->field_0_rotation);
-                ped_offset = ped_offset + *(Fix16_Point*)&pB4->field_98_velocity_vector;
+                ped_offset = ped_offset + *reinterpret_cast<Fix16_Point*>(&pB4->field_98_velocity_vector);
 
                 pParticle->field_30_pOwnSprite->set_ang_lazy_420690(pSprite->field_0_rotation);
                 pParticle->field_30_pOwnSprite->set_xyz_lazy_420600(pSprite->field_14_xy.x + ped_offset.x, pSprite->field_14_xy.y + ped_offset.y, zpos);
@@ -409,7 +409,7 @@ void ParticleManager::EmitFlameStreamSegment_53F4C0(Sprite* pSprt)
                     ped_offset.x = -kFpPoint03_6FD464;
                     ped_offset.y = kFpPoint02_6FD468 + kFpPoint1_6FD2E8;
                     ped_offset.RotateByAngle_40F6B0(pSprt->field_0_rotation);
-                    ped_offset = ped_offset + *(Fix16_Point*)&pPed->field_98_velocity_vector;
+                    ped_offset = ped_offset + *reinterpret_cast<Fix16_Point*>(&pPed->field_98_velocity_vector);
                     pParticle->field_30_pOwnSprite->set_ang_lazy_420690(pSprt->field_0_rotation);
                     pParticle->field_30_pOwnSprite->set_xyz_lazy_420600(pSprt->field_14_xy.x + ped_offset.x, pSprt->field_14_xy.y + ped_offset.y, zpos);
                 }
@@ -555,7 +555,7 @@ void ParticleManager::EmitElectricArcParticle(Fix16 xpos, Fix16 ypos, Fix16 zpos
 
         // The rng result is bound to a const s16& temporary: stored as a short and sign extended only after the
         // word is loaded (the word ends up as the imul's eax operand)
-        angle = kAng1_6FD5CC.MultiplyByFix16_401CB0(Fix16((const s16&)gRng_6F6784.get_int_4F7AE0(360)));
+        angle = kAng1_6FD5CC.MultiplyByFix16_401CB0(Fix16(static_cast<const s16&>(gRng_6F6784.get_int_4F7AE0(360))));
         // RotateByAngle_40F6B0, but x * cos, the y line and both sums use the out-of-line Fix16 operators
         {
             Fix16 sin = Ang16::sine_40F500(angle);

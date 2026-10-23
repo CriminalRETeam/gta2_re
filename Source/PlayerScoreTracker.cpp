@@ -259,12 +259,12 @@ void PlayerScoreTracker::Service_591C70()
     // Handle the previous LABEL_63 section
     const s32 cur_rng = gpRng_67AB34->get_cur_rng_41CFE0();
 
-    if ((u32)(gpRng_67AB34->get_cur_rng_41CFE0() - field_70_last_car_kill_time) > 15)
+    if (static_cast<u32>(gpRng_67AB34->get_cur_rng_41CFE0() - field_70_last_car_kill_time) > 15)
     {
         field_74_car_kill_combo = 1;
     }
 
-    if ((u32)(cur_rng - field_78_last_kill_time) > 15)
+    if (static_cast<u32>(cur_rng - field_78_last_kill_time) > 15)
     {
         field_75_score_mult = 1;
     }
@@ -463,7 +463,7 @@ void PlayerScoreTracker::AwardPedKilledScore_592660(Ped* pVictim, Ped* pKiller)
                              pZone);
 
     s32 rng = gpRng_67AB34->get_cur_rng_41CFE0();
-    if ((u32)(rng - field_78_last_kill_time) > 15)
+    if (static_cast<u32>(rng - field_78_last_kill_time) > 15)
     {
         field_7C_execution_count = 1;
     }
@@ -605,7 +605,7 @@ void PlayerScoreTracker::AwardPedKilledScore_592660(Ped* pVictim, Ped* pKiller)
         // Only the Elvis case has a score by now
         if (score)
         {
-            if ((u32)(rng - field_80_last_elvis_kill_time) > 15)
+            if (static_cast<u32>(rng - field_80_last_elvis_kill_time) > 15)
             {
                 field_84_num_elvis_killed = 1;
             }
@@ -786,7 +786,7 @@ void PlayerScoreTracker::AwardCarDestroyedScore_592DD0(Car* pCar, Ped* pKiller)
         pCar->IsFbiCar_411920())
     {
 
-        if ((unsigned int)(gpRng_67AB34->get_cur_rng_41CFE0() - field_1A0_last_emergency_car_kill_time) > 150)
+        if (static_cast<unsigned int>(gpRng_67AB34->get_cur_rng_41CFE0() - field_1A0_last_emergency_car_kill_time) > 150)
         {
             field_1A4_killed_cars_flags = emergency_car_kill_flag::none_0;
         }
