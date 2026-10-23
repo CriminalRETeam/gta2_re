@@ -858,7 +858,7 @@ void InputRecorder_67F8B0::VerifyAttractFilesExist_4CE650()
         if (hFind == -1)
         {
             strcpy(gErrStr_67C29C, attr1FilePath->field_0_path);
-            FatalError_4A38C0(0x1BE5, "C:\\Splitting\\Gta2\\Source\\input.cpp", 524);
+            FatalError_4A38C0(0x1B5E, "C:\\Splitting\\Gta2\\Source\\input.cpp", 524);
         }
         _findclose(hFind);
         ++attr1FilePath;

@@ -3236,7 +3236,7 @@ void ScriptThread::IsOnScreen_50A760()
         {
             if (!pPointer->field_8_car)
             {
-                FatalError_4A38C0(0x1376, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 1102, (u16)gBasePtr_6F8070->field_0_cmd_this);
+                FatalError_4A38C0(1102, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 0x1376, (u16)gBasePtr_6F8070->field_0_cmd_this);
             }
 
             Car* pCar = pPointer->field_8_car;
@@ -3261,7 +3261,7 @@ void ScriptThread::IsOnScreen_50A760()
         case 1: // char
             if (!pPointer->field_8_char)
             {
-                FatalError_4A38C0(0x1383, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 1103, (u16)gBasePtr_6F8070->field_0_cmd_this);
+                FatalError_4A38C0(1103, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 0x1383, (u16)gBasePtr_6F8070->field_0_cmd_this);
             }
 
             if (gBasePtr_6F8070->field_2_type == SCRCMD_IS_ITEM_ONSCREEN)
@@ -3277,7 +3277,7 @@ void ScriptThread::IsOnScreen_50A760()
         case 3: // obj
             if (!pPointer->field_8_obj)
             {
-                FatalError_4A38C0(0x138E, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 1104, (u16)gBasePtr_6F8070->field_0_cmd_this);
+                FatalError_4A38C0(1104, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 0x138E, (u16)gBasePtr_6F8070->field_0_cmd_this);
             }
 
             if (gBasePtr_6F8070->field_2_type == SCRCMD_IS_ITEM_ONSCREEN)
@@ -3293,7 +3293,7 @@ void ScriptThread::IsOnScreen_50A760()
         case 4: // crane
             if (!pPointer->field_8_crane)
             {
-                FatalError_4A38C0(0x1399, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 1108, (u16)gBasePtr_6F8070->field_0_cmd_this);
+                FatalError_4A38C0(1108, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 0x1399, (u16)gBasePtr_6F8070->field_0_cmd_this);
             }
 
             if (gBasePtr_6F8070->field_2_type == SCRCMD_IS_ITEM_ONSCREEN)
