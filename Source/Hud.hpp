@@ -508,7 +508,7 @@ class Hud_Arrow
     // 9.6f 0x4C6F20
     inline bool Is_radius_pos_0_4C6F20()
     {
-        return field_10_radius_pos == 0;
+        return (field_10_radius_pos == 0) != 0;
     }
 
     EXPORT void SetArrowColour_5D0510(s32 arrow_colour);

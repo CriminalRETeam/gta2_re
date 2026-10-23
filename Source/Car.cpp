@@ -3951,7 +3951,7 @@ bool Car::IsSpriteShrunk_43DC00()
         SpriteShape* pLen = field_50_car_sprite->field_4_pVisualShape;
         Fix16 sprite4CWidth = pSprite4C->field_0_width;
         Fix16 lenWidth = pLen->field_0_width;
-        return lenWidth != sprite4CWidth;
+        return (lenWidth != sprite4CWidth) != 0;
     }
 
     u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::car_2, pInfo->sprite);
