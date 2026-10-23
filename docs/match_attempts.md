@@ -4830,8 +4830,8 @@ root with `VC6_TOOLS`-free `patch_c2.X` set to a scratch dir, see `Scripts/regal
 - Top of function: the original keeps x in `ebx` (loaded at entry) and the masked y in `edi` (loaded first, shifted for
   the first ctor). Ours gives `ebx` to y and `ebp` to `this`, and the original spills `this` to 0x14. Frame 0x24 vs ours 0x28.
 - Tried (all 738 unless noted): explicit `Fix16(x), Fix16(y)` in the FindGround call (870), `Fix16(y, 0)` (1343),
-  `Fix16 zpos;` declared then assigned (1715), `s32 zi` / `(u8)` zTmp, `s32 yi = y` for the call, `u8 xs = x` for the
-  call, `u8 zTmp;` declared before the call, `zpos.ToInt() - 1` without the u8 cast, operand order `y + h - 1`,
+  `Fix16 zpos;` declared then assigned (1715), `s32 zi` / `(u8)` block_z, `s32 yi = y` for the call, `u8 xs = x` for the
+  call, `u8 block_z;` declared before the call, `zpos.ToInt() - 1` without the u8 cast, operand order `y + h - 1`,
   `w + x` / `x + w - 1` / `y + h` in the pavement and road-type calls. None lowers the score.
 - Not tried: the permuter (`/tmp/permute.lock` was held by another sweep, not waited on). A `this`-spill or
   parameter-priority change needs a structure that changes the register weights of x, y and `this` in the first block.
