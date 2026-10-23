@@ -1354,7 +1354,7 @@ Car* CarManager::SpawnCarAt_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rot
 
     car_info* pCarInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(car_info_idx);
 
-    Car* pCar; // esi
+    Car* pCar;
     if (pCarInfo->IsTruckCab_41FEA0())
     {
         // https://decomp.me/scratch/evRsU
@@ -2236,7 +2236,7 @@ void Car::DoBrakeAndHandbrake_43A970()
 MATCH_FUNC(0x43a9a0)
 void Car::SetDriver(Ped* pNewDriver)
 {
-    char hand_brake_on; // [esp+Ch] [ebp+4h]
+    char hand_brake_on;
     if (!pNewDriver)
     {
         CarPhysics* pCarPhysics = this->field_58_physics;
@@ -2358,20 +2358,20 @@ MATCH_FUNC(0x43aaf0)
 bool Car::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
 {
 
-    s32 sprite_type; // eax
-    Car* pCar; // edi
-    u16 our_flags; // dx
-    u16 their_flags; // cx
-    bool bCanCollide; // bl
-    s32 despawn_status; // eax
-    Object* pObject; // ecx
-    ObjectDefinition* pDefinition; // edx
-    s32 phi_type; // eax
-    s32 field_18_model; // eax
-    Ped* pPed; // eax
-    Char* pChar; // eax
-    Ped* pCharPed; // eax
-    Trailer* pTrailer; // eax
+    s32 sprite_type;
+    Car* pCar;
+    u16 our_flags;
+    u16 their_flags;
+    bool bCanCollide;
+    s32 despawn_status;
+    Object* pObject;
+    ObjectDefinition* pDefinition;
+    s32 phi_type;
+    s32 field_18_model;
+    Ped* pPed;
+    Char* pChar;
+    Ped* pCharPed;
+    Trailer* pTrailer;
 
     if (pSprite)
     {
@@ -3761,10 +3761,10 @@ void Car::TriggerExplosion_43D7B0(s32 type)
 MATCH_FUNC(0x43d840)
 void Car::HandleCarExplosion_43D840(s32 type)
 {
-    char bOcc2; // bl
-    s32 model_to_check; // eax
-    Ped* pExploder; // eax
-    Gang* pGang; // eax
+    char bOcc2;
+    s32 model_to_check;
+    Ped* pExploder;
+    Gang* pGang;
 
     bOcc2 = 0;
     if (field_60_pChaseTask)
@@ -3907,8 +3907,8 @@ s16 Car::AccumulateDamage_43DA90(s16 damage, const Fix16_Point* pVec)
 MATCH_FUNC(0x43db80)
 void Car::KillContainedPeds_43DB80()
 {
-    Ped* pDriver; // eax
-    CarPhysics* pPhysics; // eax
+    Ped* pDriver;
+    CarPhysics* pPhysics;
 
     pDriver = this->field_54_driver;
     if (pDriver)
@@ -3982,13 +3982,13 @@ bool Car::IsBeingCrushed_43DD50()
 MATCH_FUNC(0x43dd60)
 void Car::DestroyWhileSinking_43DD60()
 {
-    bool bOcc2; // bl
-    Ped* field_54_driver; // eax
-    s32 exploder_ped_id; // eax
-    Ped* pExploderPed; // eax
-    Ped* pPed; // edi
-    Gang* pGang; // eax
-    s32 model_to_check; // eax
+    bool bOcc2;
+    Ped* field_54_driver;
+    s32 exploder_ped_id;
+    Ped* pExploderPed;
+    Ped* pPed;
+    Gang* pGang;
+    s32 model_to_check;
 
     bOcc2 = 0;
 

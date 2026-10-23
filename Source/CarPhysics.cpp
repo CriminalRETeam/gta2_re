@@ -3672,8 +3672,8 @@ bool CarPhysics::UpdateLastMovementTimer_562FA0()
 MATCH_FUNC(0x562fe0)
 bool CarPhysics::ProcessCarPhysicsStateMachine_562FE0()
 {
-    char carModel; // al
-    char flag; // bl
+    char carModel;
+    char flag;
 
     SetCurrentCarInfoAndModelPhysics_562EF0();
     carModel = field_5C_pCar->GetCarModelForPhysics_43A850();
