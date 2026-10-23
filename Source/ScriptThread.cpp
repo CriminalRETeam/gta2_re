@@ -944,47 +944,47 @@ void ScriptThread::SCRCMD_DOOR_DECLARE_D1_S1_504970(SCR_DOOR_DATA_DEC* pCmd)
             break;
     }
 
-    Door* tmp;
-    u16 tmp1;
+    Door* pDoor;
+    u16 close_delay;
     switch (pCmd->field_12_close_type)
     {
         case SCR_DOOR_CLOSETYPES::close_never:
             pCmd->field_8_door->set_close_type(door_close_type::close_never);
-            tmp = pCmd->field_8_door;
-            tmp1 = pCmd->field_13_delay;
-            tmp->field_1C_close_delay = tmp1;
-            tmp->field_1E_close_timer = tmp1;
+            pDoor = pCmd->field_8_door;
+            close_delay = pCmd->field_13_delay;
+            pDoor->field_1C_close_delay = close_delay;
+            pDoor->field_1E_close_timer = close_delay;
             return;
             break;
         case SCR_DOOR_CLOSETYPES::close_time_delay:
             pCmd->field_8_door->set_close_type(door_close_type::close_time_delay);
-            tmp = pCmd->field_8_door;
-            tmp1 = pCmd->field_13_delay;
-            tmp->field_1C_close_delay = tmp1;
-            tmp->field_1E_close_timer = tmp1;
+            pDoor = pCmd->field_8_door;
+            close_delay = pCmd->field_13_delay;
+            pDoor->field_1C_close_delay = close_delay;
+            pDoor->field_1E_close_timer = close_delay;
             return;
             break;
         case SCR_DOOR_CLOSETYPES::close_when_clear:
             pCmd->field_8_door->set_close_type(door_close_type::close_when_clear);
-            tmp = pCmd->field_8_door;
-            tmp1 = pCmd->field_13_delay;
-            tmp->field_1C_close_delay = tmp1;
-            tmp->field_1E_close_timer = tmp1;
+            pDoor = pCmd->field_8_door;
+            close_delay = pCmd->field_13_delay;
+            pDoor->field_1C_close_delay = close_delay;
+            pDoor->field_1E_close_timer = close_delay;
             return;
             break;
         case SCR_DOOR_CLOSETYPES::close_when_open_rule_fails:
             pCmd->field_8_door->set_close_type(door_close_type::close_when_open_rule_fails);
-            tmp = pCmd->field_8_door;
-            tmp1 = pCmd->field_13_delay;
-            tmp->field_1C_close_delay = tmp1;
-            tmp->field_1E_close_timer = tmp1;
+            pDoor = pCmd->field_8_door;
+            close_delay = pCmd->field_13_delay;
+            pDoor->field_1C_close_delay = close_delay;
+            pDoor->field_1E_close_timer = close_delay;
             return;
             break;
     }
-    tmp = pCmd->field_8_door;
-    tmp1 = pCmd->field_13_delay;
-    tmp->field_1C_close_delay = tmp1;
-    tmp->field_1E_close_timer = tmp1;
+    pDoor = pCmd->field_8_door;
+    close_delay = pCmd->field_13_delay;
+    pDoor->field_1C_close_delay = close_delay;
+    pDoor->field_1E_close_timer = close_delay;
     // 9.6f: Door::set_close_delay (0x476A20, inlined, using it changes the code)
 }
 
@@ -1061,12 +1061,12 @@ void ScriptThread::SCRCMD_DOOR_DECLARE_D2_S2_504B80(SCR_DOOR_DATA_DEC* pCmd)
         case SCR_DOOR_OPENTYPES::one_car:
         case SCR_DOOR_OPENTYPES::any_player_one_car:
         {
-            SCR_POINTER* tmp = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_30_somename);
-            Car* ped_ptr = tmp->field_8_car;
+            SCR_POINTER* pTargetPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_30_somename);
+            Car* ped_ptr = pTargetPointer->field_8_car;
             if (ped_ptr != NULL)
             {
                 pCmd->field_8_door->set_open_details_car_bc(door_open_type::one_car, ped_ptr);
-                pCmd->field_8_door->set_target_id(tmp->field_8_car->field_6C_car_id);
+                pCmd->field_8_door->set_target_id(pTargetPointer->field_8_car->field_6C_car_id);
             }
             break;
         }
@@ -1077,12 +1077,12 @@ void ScriptThread::SCRCMD_DOOR_DECLARE_D2_S2_504B80(SCR_DOOR_DATA_DEC* pCmd)
 
         case SCR_DOOR_OPENTYPES::one_char_on_foot:
         {
-            SCR_POINTER* tmp = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_30_somename);
-            Ped* ped_ptr = tmp->field_8_char;
+            SCR_POINTER* pTargetPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_30_somename);
+            Ped* ped_ptr = pTargetPointer->field_8_char;
             if (ped_ptr != NULL)
             {
                 pCmd->field_8_door->set_open_details_ped(door_open_type::one_char_on_foot, ped_ptr);
-                pCmd->field_8_door->set_target_id(tmp->field_8_char->field_200_id);
+                pCmd->field_8_door->set_target_id(pTargetPointer->field_8_char->field_200_id);
             }
         }
         break;
@@ -1106,12 +1106,12 @@ void ScriptThread::SCRCMD_DOOR_DECLARE_D2_S2_504B80(SCR_DOOR_DATA_DEC* pCmd)
             pCmd->field_8_door->set_close_type(door_close_type::close_when_open_rule_fails);
             break;
     }
-    Door* tmp;
-    u16 tmp1;
-    tmp = pCmd->field_8_door;
-    tmp1 = pCmd->field_13_delay;
-    tmp->field_1C_close_delay = tmp1;
-    tmp->field_1E_close_timer = tmp1;
+    Door* pDoor;
+    u16 close_delay;
+    pDoor = pCmd->field_8_door;
+    close_delay = pCmd->field_13_delay;
+    pDoor->field_1C_close_delay = close_delay;
+    pDoor->field_1E_close_timer = close_delay;
     // 9.6f: Door::set_close_delay (0x476A20, inlined, using it changes the code)
 }
 
@@ -2838,9 +2838,9 @@ void ScriptThread::SCRCMD_IS_CHAR_STOPPED_509E70()
     SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
     Ped* pPed = pPointer->field_8_char;
 
-    Fix16 temp;
+    Fix16 velocity;
 
-    if (pPed != NULL && (temp = pPed->field_168_game_object->field_38_velocity, temp == kFpZero_6F77C0))
+    if (pPed != NULL && (velocity = pPed->field_168_game_object->field_38_velocity, velocity == kFpZero_6F77C0))
     {
         field_8_cond_result = true;
     }
@@ -5384,7 +5384,7 @@ void ScriptThread::StartBonus_50DF10()
             break;
     }
 
-    s8 f24 = pCmd->field_D_bExclusive != 1 ? 2 : 1;
+    s8 check_mode = pCmd->field_D_bExclusive != 1 ? 2 : 1;
 
     if (pCmd->field_12_alt_car_model >= 0)
     {
@@ -5405,7 +5405,7 @@ void ScriptThread::StartBonus_50DF10()
                                                                                                                    pCmd->field_1A_death_cause,
                                                                                                                    alt_car_model,
                                                                                                                    pCmd->field_10_time_limit,
-                                                                                                                   f24,
+                                                                                                                   check_mode,
                                                                                                                    pCmd->field_C_target_count,
                                                                                                                    pCmd->field_14_reward,
                                                                                                                    NULL);
@@ -6224,7 +6224,7 @@ MATCH_FUNC(0x50f5e0)
 void ScriptThread::SCRCMD_SET_CHAR_FLAGS_50F5E0()
 {
     SCR_SET_STATE* pCmd = (SCR_SET_STATE*)gBasePtr_6F8070;
-    Ped* pPed = ((SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(((SCR_SET_STATE*)gBasePtr_6F8070)->field_8_unk))->field_8_char;
+    Ped* pPed = ((SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(((SCR_SET_STATE*)gBasePtr_6F8070)->field_8_varname))->field_8_char;
 
     if (pPed)
     {
@@ -6442,9 +6442,9 @@ void ScriptThread::SCRCMD_STORE_BONUS_50FAF0()
     SCR_POINTER* pPointerBonus = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
     SCR_POINTER* pPointerCounter = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_counter_idx);
 
-    s32 bonus_unk = pPointerBonus->field_8_counter;
+    s32 bonus_rule_idx = pPointerBonus->field_8_counter;
 
-    if (bonus_unk != -3 && bonus_unk != -4)
+    if (bonus_rule_idx != -3 && bonus_rule_idx != -4)
     {
         pPointerCounter->field_8_counter =
             gGame_0x40_67E008->field_38_local_player->field_2D4_scores.field_1A8_bonuses.field_0_bonuses[pPointerBonus->field_8_index].field_26_progress_count;
