@@ -366,7 +366,7 @@ void gtx_0x106C::BuildCarInfoContainer_5AA9A0(s32 chunk_size)
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\style.cpp", 821);
     }
 
-    while (total_len < (u32)chunk_size)
+    while (total_len < static_cast<u32>(chunk_size))
     {
         if (idx >= 256)
         {
@@ -455,7 +455,7 @@ void gtx_0x106C::SetDeltaDataPtrs_5AABF0()
     s32 size;
     delta_entry* i = (delta_entry*)field_50_delta_buffer;
 
-    for (u32 offset = 0; offset < (u32)field_60_delta_len; offset += size)
+    for (u32 offset = 0; offset < static_cast<u32>(field_60_delta_len); offset += size)
     {
         for (u32 delta_idx = 0; delta_idx < i->field_2_delta_count; delta_idx++)
         {

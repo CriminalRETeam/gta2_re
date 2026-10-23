@@ -101,7 +101,7 @@ void TextTable::TDAT_Offsets2Strings_5B59B0(BYTE* pDat)
 {
     TextKeyEntry* ptKeyIter = field_0_tKey.field_0_tKey;
 
-    for (u32 idx = 0; idx < (u32)field_0_tKey.field_4_tKey_count; idx++)
+    for (u32 idx = 0; idx < static_cast<u32>(field_0_tKey.field_4_tKey_count); idx++)
     {
         // The raw file record is an offset, convert it to pos32 to the string data in the TDAT
         const s32 offsetInBytes = reinterpret_cast<int>(ptKeyIter->field_0_pwstr);
