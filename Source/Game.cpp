@@ -138,7 +138,7 @@ bool Game::UpdateExitTimer_4B8C20()
 MATCH_FUNC(0x4B8C40)
 void Game::LoadGameFiles_4B8C40()
 {
-    char_type tmp_array[256];
+    char_type gci_path[256];
 
     gText_0x14_704DFC->Load_5B5E90();
     if (bSkip_audio_67D6BE == false)
@@ -168,15 +168,15 @@ void Game::LoadGameFiles_4B8C40()
         gScriptManager_6F8060->LoadSave_511F80(debug_str);
     }
 
-    strcpy(tmp_array, "data\\");
+    strcpy(gci_path, "data\\");
     memset(gTmpBuffer_67C598, 0, sizeof(gTmpBuffer_67C598));
     gRegistry_6FF968.Get_Debug_Setting_586E90("carname", (LPBYTE)gTmpBuffer_67C598, 0x100);
 
-    strcat(tmp_array, gTmpBuffer_67C598);
+    strcat(gci_path, gTmpBuffer_67C598);
 
-    if (strcmp(tmp_array, "data\\"))
+    if (strcmp(gci_path, "data\\"))
     {
-        gCarInfo_808_678098->LoadFromGciFile_454A00(tmp_array);
+        gCarInfo_808_678098->LoadFromGciFile_454A00(gci_path);
     }
     else
     {
