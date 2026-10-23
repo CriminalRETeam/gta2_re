@@ -1688,6 +1688,8 @@ Fix16 __stdcall MaxAbsDistance_4614E0(Fix16& x1, Fix16& y1, Fix16& x2, Fix16& y2
 // calls 0x465D00) and into IsThreatToSearchingPed_4661F0 (search mode 1), so it has to be defined
 // before them. 0x465D00 is the out-of-line copy. IsInvisibleOnFoot_433DA0 is called here (not written
 // out as in the copy): 4661F0's nested budget (42) sends it out of line, 45D000's (71) inlines it.
+#pragma warning(push)
+#pragma warning(disable : 4102) // unreferenced labels kept: they name blocks of the original's control flow
 inline bool Ped::IsPedAThreat_Inline_465D00(Ped* pTargetPed)
 {
 
@@ -2028,6 +2030,7 @@ ret_true:
 ret_false:
     return 0;
 }
+#pragma warning(pop)
 
 // https://decomp.me/scratch/Yg4cw
 MATCH_FUNC(0x45d000)
@@ -5928,6 +5931,8 @@ Fix16 __stdcall MaxAbsDistance_4614E0(Fix16& x1, Fix16& y1, Fix16& x2, Fix16& y2
 }
 
 // https://decomp.me/scratch/Fh1iq
+#pragma warning(push)
+#pragma warning(disable : 4102) // unreferenced labels kept: they name blocks of the original's control flow
 MATCH_FUNC(0x465d00)
 bool Ped::IsPedAThreat_465D00(Ped* pTargetPed)
 {
@@ -6271,6 +6276,7 @@ ret_true:
 ret_false:
     return 0;
 }
+#pragma warning(pop)
 
 // The normalizing Ang16 ctor (out of line, AssignNormalized_409300) on a by-value parameter: the
 // original stores the 16-bit difference as a dword before the call (as Particle_4C's NormalizedAng)
@@ -6290,6 +6296,8 @@ static inline Ang16 SubAng16(const Ang16& lhs, const Ang16& rhs)
 // IsInvisibleOnFoot and MaxAbsDistance out of line. The angle and distance locals are at function scope
 // (9.6f default-constructs three Ang16 at the top): the original's 4-byte slots for the mode 4 and 5
 // differences never share with the mode 1 and 3 temporaries, and the 2-byte Ang16 temps stay 2 bytes.
+#pragma warning(push)
+#pragma warning(disable : 4102) // unreferenced labels kept: they name blocks of the original's control flow
 MATCH_FUNC(0x4661F0)
 char_type Ped::IsThreatToSearchingPed_4661F0()
 {
@@ -6542,6 +6550,7 @@ ret_true:
 ret_false:
     return 0;
 }
+#pragma warning(pop)
 
 MATCH_FUNC(0x466b90)
 Ped* Ped::FindBestTargetPed_Mode1_466B90(s32 max_x_check)
