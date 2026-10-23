@@ -6193,9 +6193,9 @@ void ScriptThread::SCRCMD_CHECK_OBJ_MODEL_50F4D0()
     SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
 
     Object* pObj = pPointer->field_8_obj;
-    u32 model_idx = pCmd->field_C_u32;
+    s32 model_idx = pCmd->field_C_u32;
 
-    if (pObj != NULL && (u32)pObj->field_18_model == model_idx)
+    if (pObj != NULL && pObj->field_18_model == model_idx)
     {
         field_8_cond_result = true;
     }
