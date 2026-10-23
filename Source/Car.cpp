@@ -582,7 +582,7 @@ void CarManager::DistributeCarsByRating_444980()
 MATCH_FUNC(0x444ab0)
 u32 CarManager::SelectTrafficCarModel_444AB0(Player* pPlayer, gmp_zone_info* pZoneInfo, Fix16 density_scale, u16* pOut)
 {
-    u32 result;
+    s32 result;
     Fix16 density_calc = Fix16(pZoneInfo->field_0_car_density) / Fix16(1000);
     if (density_calc == gFix16_6777CC)
     {
@@ -638,7 +638,7 @@ u32 CarManager::SelectTrafficCarModel_444AB0(Player* pPlayer, gmp_zone_info* pZo
                     {
                         field_9_good_car_idx = 0;
                     }
-                } while (result == (u32)field_C_suppressed_model);
+                } while (result == field_C_suppressed_model);
                 *pOut = 1;
             }
             else
@@ -652,7 +652,7 @@ u32 CarManager::SelectTrafficCarModel_444AB0(Player* pPlayer, gmp_zone_info* pZo
                         {
                             field_A_bad_car_idx = 0;
                         }
-                    } while (result == (u32)field_C_suppressed_model);
+                    } while (result == field_C_suppressed_model);
                     *pOut = 2;
                 }
                 else
@@ -678,7 +678,7 @@ u32 CarManager::SelectTrafficCarModel_444AB0(Player* pPlayer, gmp_zone_info* pZo
                                 {
                                     field_B_average_car_idx = 0;
                                 }
-                            } while (result == (u32)field_C_suppressed_model);
+                            } while (result == field_C_suppressed_model);
                             *pOut = 3;
                         }
                     }
