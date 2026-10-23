@@ -98,19 +98,19 @@ void KeyboardLayout::LoadKbCfg_4D5E00()
 
     for (s32 i = 0; i < 256; i++)
     {
-        wchar_t tmpBuffer[16];
-        ReadCfg_4D5DA0(hConfigFile, tmpBuffer);
-        if (tmpBuffer[0] == '~')
+        wchar_t token[16];
+        ReadCfg_4D5DA0(hConfigFile, token);
+        if (token[0] == '~')
         {
             field_0_keys[i] = 0;
         }
-        else if (tmpBuffer[0] != '`')
+        else if (token[0] != '`')
         {
             field_0_keys[i] = 0;
         }
         else
         {
-            field_0_keys[i] = tmpBuffer[1];
+            field_0_keys[i] = token[1];
         }
     }
 
