@@ -4517,8 +4517,8 @@ MATCH_FUNC(0x41B660)
 char_type sound_obj::ComputeEmittingVolume_41B660(u8 emittingVolume, u32 maxDistance, u32 distance)
 {
     const s32 minDistance = maxDistance / 4;
-    const s32 diffDistance = maxDistance - minDistance;
-    if (distance > (u32)diffDistance)
+    const u32 diffDistance = maxDistance - minDistance;
+    if (distance > diffDistance)
     {
         return (minDistance - (distance - diffDistance)) * emittingVolume / minDistance;
     }
