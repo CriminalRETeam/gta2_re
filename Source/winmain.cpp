@@ -70,7 +70,7 @@ DEFINE_GLOBAL(u32, gMatchStartTime_6F5A28, 0x6F5A28); // TODO: move
 DEFINE_GLOBAL(u32, gNetworkFrameCounter_6F5868, 0x6F5868); // TODO: move
 DEFINE_GLOBAL(u8, bRecordStartTime_6F593C, 0x6F593C); // TODO: move
 DEFINE_GLOBAL(Network_PlayerInputs, gCurrentNetInputs_6F57D8, 0x6F57D8); // TODO: move
-DEFINE_GLOBAL(Network_8, gInputSendData_6F5B18, 0x6F5B18); // TODO: move
+DEFINE_GLOBAL(Network_Buffer, gInputSendData_6F5B18, 0x6F5B18); // TODO: move
 DEFINE_GLOBAL(Network_PlayerInputs, gPrevNetInputs_6F5B28, 0x6F5B28); // TODO: move
 DEFINE_GLOBAL(ReceivedPacket*, gpInputBuffer_6F58C0, 0x6F58C0); // TODO: move
 DEFINE_GLOBAL(u32, gCurrentInputsBufferSize_6F58C4, 0x6F58C4); // TODO: move
@@ -1083,7 +1083,7 @@ EXPORT void Net_Receive_Players_Inputs_4DA9F0()
         // Wait a packet. If one was received, analyse its data and do something
         s32 player_idx;
         u32 packet_subtype;
-        if (gNetPlay_7071E8.ReceiveGameMessage_521890((Network_8*)&gpInputBuffer_6F58C0, &player_idx, &packet_subtype))
+        if (gNetPlay_7071E8.ReceiveGameMessage_521890((Network_Buffer*)&gpInputBuffer_6F58C0, &player_idx, &packet_subtype))
         {
             switch (packet_subtype)
             {
