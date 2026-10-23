@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
+#include "Game.hpp"
 
 #pragma pack(push, 1)
 // What each player sends at the start of a network game, so everyone can check they run the same

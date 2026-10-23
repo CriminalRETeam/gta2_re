@@ -3,6 +3,9 @@
 #include "Function.hpp"
 #include "fix16.hpp"
 
+// Maximum number of players in a (network) game
+#define MAX_PLAYERS 6
+
 class Player;
 class Sprite;
 class Car;
