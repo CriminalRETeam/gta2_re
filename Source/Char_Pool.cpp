@@ -397,7 +397,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
                     }
                     else
                     {
-                        u8 remap = gRng_6F6784.get_int_4F7AE0(25);
+                        u8 remap = (u8)gRng_6F6784.get_int_4F7AE0(25);
                         if (remap < 4u)
                         {
                             remap += 18;
@@ -651,11 +651,11 @@ void PedManager::PedsService_4703F0()
     {
         Dummies_470330();
     }
-    field_3_num_peds_updated = gNumPedsUpdated_6787E0;
+    field_3_num_peds_updated = (char_type)gNumPedsUpdated_6787E0;
     field_2_num_dummy_chars = gNumDummyChars_6787E2;
     field_4_num_script_created_peds = gNumScriptCreatedPeds_6787E3;
     field_5_fbi_army_count = gNumEmergencyPeds_6787E4;
-    field_6_num_peds_on_screen = gNumPedsOnScreen_6787EC;
+    field_6_num_peds_on_screen = (char_type)gNumPedsOnScreen_6787EC;
     if (gPolice_7B8_6FEE40)
     {
         gPolice_7B8_6FEE40->field_7AD_police_peds_in_range_screen = gNumPolicePedsInRangeScreen_6787EE;
