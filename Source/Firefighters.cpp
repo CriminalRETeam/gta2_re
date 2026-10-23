@@ -327,14 +327,14 @@ Firefighter* FirefighterPool::DispatchFirefighters_4A8620(Car* pCar, Fix16 xpos,
     {
         return NULL;
     }
-    s8 sUnk;
-    if (pCar->CountConsecutiveArrowBlocks_4410D0(kAng0_67D4B0, &sUnk, xpos_int, ypos_int) < 0 || sUnk <= 1)
+    s8 arrow_count;
+    if (pCar->CountConsecutiveArrowBlocks_4410D0(kAng0_67D4B0, &arrow_count, xpos_int, ypos_int) < 0 || arrow_count <= 1)
     {
-        if (pCar->CountConsecutiveArrowBlocks_4410D0(kAng90_67D208, &sUnk, xpos_int, ypos_int) < 0 || sUnk <= 1)
+        if (pCar->CountConsecutiveArrowBlocks_4410D0(kAng90_67D208, &arrow_count, xpos_int, ypos_int) < 0 || arrow_count <= 1)
         {
-            if (pCar->CountConsecutiveArrowBlocks_4410D0(kAng180_67D2D6, &sUnk, xpos_int, ypos_int) < 0 || sUnk <= 1)
+            if (pCar->CountConsecutiveArrowBlocks_4410D0(kAng180_67D2D6, &arrow_count, xpos_int, ypos_int) < 0 || arrow_count <= 1)
             {
-                if (pCar->CountConsecutiveArrowBlocks_4410D0(kAng270_67D2FC, &sUnk, xpos_int, ypos_int) < 0 || sUnk <= 1)
+                if (pCar->CountConsecutiveArrowBlocks_4410D0(kAng270_67D2FC, &arrow_count, xpos_int, ypos_int) < 0 || arrow_count <= 1)
                 {
                     return NULL;
                 }
@@ -383,8 +383,8 @@ bool FirefighterPool::TryDispatchFirefightersToCar_4A8820(Car* pCar)
     {
         return 0;
     }
-    const s32 f88 = pCar->field_88_despawn_status;
-    if (f88 == car_despawn_status::despawned_6 || f88 == car_despawn_status::deactivated_7 || f88 == car_despawn_status::despawning_5)
+    const s32 despawn_status = pCar->field_88_despawn_status;
+    if (despawn_status == car_despawn_status::despawned_6 || despawn_status == car_despawn_status::deactivated_7 || despawn_status == car_despawn_status::despawning_5)
     {
         return 0;
     }
