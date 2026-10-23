@@ -81,10 +81,10 @@ class DoorDataPool
     // inlined 0x44c830
     DoorData* Allocate()
     {
-        DoorData* tmp = field_0_pool.field_0_pHead;
-        field_0_pool.field_0_pHead = tmp->mpNext;
-        tmp->PoolAllocate();
-        return tmp;
+        DoorData* pNew = field_0_pool.field_0_pHead;
+        field_0_pool.field_0_pHead = pNew->mpNext;
+        pNew->PoolAllocate();
+        return pNew;
     }
 
     // TODO: Pools - figure out why this won't match (probably doesn't get inlined??)

@@ -83,45 +83,45 @@ void DoorData::Init_49C340(u8 id, u8 x, u8 y, u8 z, u32 face, u8 bDoFlip)
 MATCH_FUNC(0x49c4e0)
 void DoorData::Open_49C4E0(u8 bFlip)
 {
-    DoorAnimInfo* tmp = &gDoorAnimInfo_67BB38[field_7_gr_id];
+    DoorAnimInfo* pAnimInfo = &gDoorAnimInfo_67BB38[field_7_gr_id];
     if (field_0_state != door_state::open_2)
     {
         field_0_state = door_state::open_2;
-        s16 tile_idx = tmp->field_6_open_internal_tile_idx | block_face::flat;
+        s16 tile_idx = pAnimInfo->field_6_open_internal_tile_idx | block_face::flat;
         if (bFlip)
         {
             tile_idx |= block_face::flip;
         }
         gMap_0x370_6F6268->ChangeBlock_4E8620(field_4_x, field_5_y, field_6_z, field_8_face, tile_idx);
-        gMap_0x370_6F6268->ChangeBlock_4E8620(field_4_x, field_5_y, field_6_z, GetOppositeFace_4DEEB0(field_8_face), tmp->field_6_open_internal_tile_idx);
-        gTileAnim_2_7052C4->AddAnim_5BC260(tmp->field_6_open_internal_tile_idx, tmp->field_0_start_frame, tmp->field_2_end_frame, tmp->field_8_speed, 1);
+        gMap_0x370_6F6268->ChangeBlock_4E8620(field_4_x, field_5_y, field_6_z, GetOppositeFace_4DEEB0(field_8_face), pAnimInfo->field_6_open_internal_tile_idx);
+        gTileAnim_2_7052C4->AddAnim_5BC260(pAnimInfo->field_6_open_internal_tile_idx, pAnimInfo->field_0_start_frame, pAnimInfo->field_2_end_frame, pAnimInfo->field_8_speed, 1);
     }
 }
 
 MATCH_FUNC(0x49c590)
 void DoorData::Close_49C590(u8 bDoFlip)
 {
-    DoorAnimInfo* tmp = &gDoorAnimInfo_67BB38[field_7_gr_id];
+    DoorAnimInfo* pAnimInfo = &gDoorAnimInfo_67BB38[field_7_gr_id];
     if (field_0_state != door_state::closed_1)
     {
         field_0_state = door_state::closed_1;
-        s16 block_side_word = tmp->field_4_internal_tile_idx | (block_face::wall | block_face::bullet_wall | block_face::flat);
+        s16 block_side_word = pAnimInfo->field_4_internal_tile_idx | (block_face::wall | block_face::bullet_wall | block_face::flat);
         if (bDoFlip)
         {
             block_side_word |= block_face::flip;
         }
         gMap_0x370_6F6268->ChangeBlock_4E8620(field_4_x, field_5_y, field_6_z, field_8_face, block_side_word);
-        gMap_0x370_6F6268->ChangeBlock_4E8620(field_4_x, field_5_y, field_6_z, GetOppositeFace_4DEEB0(field_8_face), tmp->field_4_internal_tile_idx);
-        gTileAnim_2_7052C4->AddAnim_5BC260(tmp->field_4_internal_tile_idx, tmp->field_2_end_frame, tmp->field_0_start_frame, tmp->field_8_speed, 1);
+        gMap_0x370_6F6268->ChangeBlock_4E8620(field_4_x, field_5_y, field_6_z, GetOppositeFace_4DEEB0(field_8_face), pAnimInfo->field_4_internal_tile_idx);
+        gTileAnim_2_7052C4->AddAnim_5BC260(pAnimInfo->field_4_internal_tile_idx, pAnimInfo->field_2_end_frame, pAnimInfo->field_0_start_frame, pAnimInfo->field_8_speed, 1);
     }
 }
 
 MATCH_FUNC(0x49cf10)
 DoorData* DoorPool::AllocDoorData_49CF10(u8 gr_id, char_type x, char_type y, char_type z, s32 face, char_type bDoFlip)
 {
-    DoorData* tmp = gDoor_10_Pool_67BD28->Allocate();
-    tmp->Init_49C340(gr_id, x, y, z, face, bDoFlip);
-    return tmp;
+    DoorData* pDoorData = gDoor_10_Pool_67BD28->Allocate();
+    pDoorData->Init_49C340(gr_id, x, y, z, face, bDoFlip);
+    return pDoorData;
 }
 
 MATCH_FUNC(0x49cf50)
