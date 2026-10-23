@@ -798,7 +798,7 @@ void cSampleManager::Enum3DProviders_58E1F0()
             break;
         }
 
-        field_22B4_str[prov_counter] = (char_type*)operator new(0x50u);
+        field_22B4_str[prov_counter] = static_cast<char_type*>(operator new(0x50u));
         strcpy(field_22B4_str[prov_counter], pName);
 
         prov_counter++;

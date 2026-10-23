@@ -50,8 +50,8 @@ NetPlay::NetPlay()
     field_8F4_time_diff = 0;
     field_5E4_pDPlay3 = 0;
     field_5E0_pDPlayLobby2 = 0;
-    field_8E4_pReceivedDataBuffer = (s32)operator new(0x1800);
-    field_8E0_pSendDataBuffer = (s32)operator new(0x1800);
+    field_8E4_pReceivedDataBuffer = reinterpret_cast<s32>(operator new(0x1800));
+    field_8E0_pSendDataBuffer = reinterpret_cast<s32>(operator new(0x1800));
     memset(&field_C4_sessions, 0, sizeof(field_C4_sessions));
     memset(field_4C_func_ptrs_and_params, 0, sizeof(field_4C_func_ptrs_and_params));
     memset(&field_30_enumed_connections, 0, sizeof(field_30_enumed_connections));
@@ -668,7 +668,7 @@ s32 NetPlay::HostSession_51E7A0(wchar_t* pSessionName, wchar_t* pPlayerName, Net
             field_5D0_player_og_idx = field_5D4_player_idx = AddPlayer_51E9C0(pPlayerData, field_5D8_player_id, name, &field_5E8_n1);
 
             field_758_n2.field_11C_group_data_len = pGroupData->field_4_len;
-            field_758_n2.field_118_game_settings = (u8*)operator new(pGroupData->field_4_len);
+            field_758_n2.field_118_game_settings = static_cast<u8*>(operator new(pGroupData->field_4_len));
             if (field_758_n2.field_118_game_settings)
             {
                 memcpy(field_758_n2.field_118_game_settings, pGroupData->field_0_data, pGroupData->field_4_len);

@@ -1642,7 +1642,7 @@ EXPORT void __stdcall GetDirectXVersion_4C4EC0(u32* pDXVer, u32* osKind)
         return;
     }
 
-    pDirectDrawCreate = (HRESULT(__stdcall*)(GUID*, LPDIRECTDRAW*, IUnknown*))GetProcAddress(hDDraw, "DirectDrawCreate");
+    pDirectDrawCreate = reinterpret_cast<HRESULT(__stdcall*)(GUID*, LPDIRECTDRAW*, IUnknown*)>(GetProcAddress(hDDraw, "DirectDrawCreate"));
     if (!pDirectDrawCreate)
     {
         *pDXVer = 0;
