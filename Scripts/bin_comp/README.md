@@ -16,3 +16,36 @@ Compares a function from the og and recompiled binary to check if they appear to
 ## compare_all_functions.py
 Much like `compare_function.py` but will check all functions in `new_data.json` match that have been marked as matching.
 
+
+## Optional numeric evidence in check_match_refs.py
+
+From this directory after building, run:
+
+```sh
+python check_match_refs.py --numeric-json numeric.json
+python check_match_refs.py 0x430ac0 --numeric-json car-bound.json
+```
+
+The existing global/callee/switch verdict and exit status stay unchanged. The
+optional JSON adds review candidates for differing numeric operands hidden by
+normalization, including small pushed arguments and sign-extended bounds.
+It records raw instruction bytes, decoded operands, input/implementation hashes
+and coverage/exclusion counts, deterministically for unchanged inputs and tools.
+Numeric candidates do not become reference-check failures or prove a game bug.
+
+This diagnostic requires complete file-backed function bytes, normalized-equal
+assembly and identical instruction encodings/operand kinds. It excludes values
+inside either image's span, including headers/gaps, to avoid treating relocated
+addresses as numbers. Unknown runtime pointers can still become candidates.
+Traversal follows both direct conditional edges and call fallthrough, without
+executing branch conditions or callees; this is a syntactic overapproximation.
+It stops at indirect jumps and does not follow switch tables. Unreached pairs,
+invalid/truncated bytes and unsupported alignment are excluded and counted.
+The existing REVIEWED reference waivers are unchanged; numeric evidence is a
+separate review-only result. A clean numeric report is not an equivalence proof.
+
+Original-free regression tests:
+
+```sh
+python -m unittest discover -s . -p test_check_match_refs_numeric.py
+```
