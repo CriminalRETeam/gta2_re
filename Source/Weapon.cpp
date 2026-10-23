@@ -657,11 +657,11 @@ void Weapon::throwable_5DDFC0(s32 obj_idx, s32 throw_strength, s32 throw_charge)
                             {
                                 Object* pLightObj = gObject_5C_6F8F84->NewLight_529A40(94, 138, 2, 0xFF8000, 3, 255);
                                 pProjectile->field_4_sprite->AttachSprite_5A3100(pLightObj->field_4_sprite, 0, 0, kAngZero_707006);
-                                Object* pMaybeExplosionObj =
+                                Object* pExplosionObj =
                                     gObject_5C_6F8F84->CreateExplosion_52A3D0(Fix16(113), Fix16(145), 2, kAngZero_707006, explosion_type::molotov_fire_5, field_24_pPed->field_200_id);
-                                if (pMaybeExplosionObj)
+                                if (pExplosionObj)
                                 {
-                                    pProjectile->field_4_sprite->AttachSprite_5A3100(pMaybeExplosionObj->field_4_sprite, 0, 0, kAngZero_707006);
+                                    pProjectile->field_4_sprite->AttachSprite_5A3100(pExplosionObj->field_4_sprite, 0, 0, kAngZero_707006);
                                 }
                             }
                             else
@@ -1745,7 +1745,7 @@ MATCH_FUNC(0x5e2940)
 void Weapon::car_smg_5E2940()
 {
     // The original has a fifth destructible local up front (EH entry state 4), hence unused_5.
-    // Declaration order and the Ang16 copy below are needed to match. tmpx/tmpy are initialised where
+    // Declaration order and the Ang16 copy below are needed to match. gun_offset_x/gun_offset_y are initialised where
     // they are computed: declared up front and assigned, the caller is too big for the rotations'
     // inline budget (the first + of each RotateByAngle_40F6B0 is inlined, its other operators aren't).
     Ang16 sprite_ang;
@@ -1761,14 +1761,14 @@ void Weapon::car_smg_5E2940()
         Sprite* pCarSprite = field_14_car->field_50_car_sprite;
         sprite_ang = field_14_car->field_50_car_sprite->field_0_rotation;
 
-        Fix16 tmpx = kFpMinusThreeSixtyFourths_706DCC + field_14_car->GetCarWidth_48A930() / 2;
-        Fix16 tmpy = kFpOne64th_706FD0 + field_14_car->GetCarHeight_48A950() / 2;
+        Fix16 gun_offset_x = kFpMinusThreeSixtyFourths_706DCC + field_14_car->GetCarWidth_48A930() / 2;
+        Fix16 gun_offset_y = kFpOne64th_706FD0 + field_14_car->GetCarHeight_48A950() / 2;
 
-        left.SetXY_432860(tmpx, tmpy);
+        left.SetXY_432860(gun_offset_x, gun_offset_y);
         left.RotateByAngle_40F6B0(sprite_ang);
         left += pCarSprite->get_x_y_443580();
 
-        right.SetXY_432860(-tmpx, tmpy);
+        right.SetXY_432860(-gun_offset_x, gun_offset_y);
         right.RotateByAngle_40F6B0(sprite_ang);
         right += pCarSprite->get_x_y_443580();
 
