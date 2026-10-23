@@ -155,19 +155,72 @@ def parse_map(mapFilename, exeBytes):
 
     return [func.to_dict() for func in function_data]
 
+def archive_public_symbols(content):
+    # Read complete tokens from the first COFF linker member, without parsing
+    # the C++ decoration inside a symbol. Its count/offsets are big-endian:
+    # https://learn.microsoft.com/windows/win32/debug/pe-format#first-linker-member
+    if not content.startswith(b'!<arch>\n') or len(content) < 68:
+        raise ValueError('Expected a complete COFF archive header')
+    header = content[8:68]
+    if header[:16].rstrip() != b'/' or header[58:] != b'`\n':
+        raise ValueError('Expected the first COFF linker member')
+    try:
+        size = int(header[48:58])
+    except ValueError as error:
+        raise ValueError('Invalid COFF linker member size') from error
+    end = 68 + size
+    if size < 4 or end > len(content):
+        raise ValueError('Truncated COFF linker member')
+    count = int.from_bytes(content[68:72], 'big')
+    position = 72 + count * 4
+    if position > end:
+        raise ValueError('Truncated COFF symbol offset table')
+    symbols = set()
+    for _ in range(count):
+        stop = content.find(b'\0', position, end)
+        if stop < 0:
+            raise ValueError('Unterminated COFF public symbol')
+        if stop == position:
+            raise ValueError('Empty COFF public symbol')
+        symbols.add(content[position:stop])
+        position = stop + 1
+    if position != end:
+        raise ValueError('Unexpected trailing COFF linker member data')
+    return symbols
+
+
 def parse_lib(lib_file_path):
     variable_data = set() # use a set to prevent duplicates
     with open(lib_file_path, "rb") as lib_file:
-        content = lib_file.read().decode("utf-8", errors="ignore")
-        matches = re.findall(r'gRef_([A-Za-z0-9_]+)_(0x[0-9A-Fa-f]+)', content)
-        for match in matches:
-            var_name, hex_address = match
-            if len(hex_address) < 8:
-                print(f"warning: {var_name} has a weird address {hex_address}")
-
-            matches2 = re.findall(rf'\?{var_name}@[0-9A-Za-z@_]+', content)  # the @ ends the name: not a longer name's prefix
-            for mangled_var_name in matches2:
-                variable_data.add(VariableData(var_name, mangled_var_name, hex_address))
+        content = lib_file.read()
+    symbols_by_name = {}
+    for symbol in archive_public_symbols(content):
+        match = re.match(rb'\?([A-Za-z0-9_]+)@', symbol)
+        if match:
+            name = match[1].decode('ascii')
+            symbols_by_name.setdefault(name, set()).add(symbol)
+    registrations = {}
+    matches = re.findall(rb'gRef_([A-Za-z0-9_]+)_(0x[0-9A-Fa-f]+)', content)
+    for name_bytes, address_bytes in matches:
+        var_name = name_bytes.decode('ascii')
+        hex_address = address_bytes.decode('ascii')
+        registrations.setdefault(var_name, set()).add(hex_address)
+    for var_name, addresses in registrations.items():
+        if len({int(address, 16) for address in addresses}) != 1:
+            raise ValueError(f'Ambiguous original addresses for {var_name}')
+        symbols = symbols_by_name.get(var_name, set())
+        if len(symbols) > 1:
+            raise ValueError(f'Ambiguous decorated public names for {var_name}')
+        if not symbols:
+            continue # Preserve the existing omission of private C-style symbols.
+        try:
+            mangled_var_name = next(iter(symbols)).decode('ascii')
+        except UnicodeDecodeError as error:
+            raise ValueError(f'Non-ASCII decorated public name for {var_name}') from error
+        hex_address = min(addresses)
+        if len(hex_address) < 8:
+            print(f"warning: {var_name} has a weird address {hex_address}")
+        variable_data.add(VariableData(var_name, mangled_var_name, hex_address))
 
     return [var.to_dict() for var in variable_data]
 
