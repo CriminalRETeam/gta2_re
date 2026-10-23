@@ -224,10 +224,7 @@ void Hud_UnderRoofArrowMarker::Draw_5CF910()
     if (field_A_ped_under_solid)
     {
         const s32 drawtype = 2;
-        // get_camera_434900 written out: as an inline call it shifts the inline budget and the projection's
-    // operators no longer go out of line as in the original
-    Camera* pCamera;
-    Player* pPlayer = gGame_0x40_67E008->field_38_local_player;
+        Player* pPlayer = gGame_0x40_67E008->field_38_local_player;
         Camera* pCam;
         pCam = pPlayer->get_camera_434900();
 
@@ -240,10 +237,7 @@ void Hud_ShowCoords::ShowPlayerCoords_5CF970()
 {
     if (field_0_show_coords)
     {
-        // get_camera_434900 written out: as an inline call it shifts the inline budget and the projection's
-    // operators no longer go out of line as in the original
-    Camera* pCamera;
-    Player* pPlayer = gGame_0x40_67E008->field_38_local_player;
+        Player* pPlayer = gGame_0x40_67E008->field_38_local_player;
 
         Ped* pPed = pPlayer->GetActivePed_4A5150();
 
@@ -711,10 +705,7 @@ bool Hud_Arrow::CheckVisibility_5D0530()
             {
                 return false; // player is on mission, so do not display gang phone arrows
             }
-            // get_camera_434900 written out: as an inline call it shifts the inline budget and the projection's
-    // operators no longer go out of line as in the original
-    Camera* pCamera;
-    Player* pPlayer = gGame_0x40_67E008->field_38_local_player;
+            Player* pPlayer = gGame_0x40_67E008->field_38_local_player;
             Gang* pCurrLocationGang = pPlayer->get_gang_curr_location_4766D0();
             if (pCurrLocationGang)
             {
@@ -2920,9 +2911,6 @@ Hud_MapZone::Hud_MapZone()
 MATCH_FUNC(0x5d5c80)
 void Hud_PlayerStats::DrawPlayerStats_5D5C80()
 {
-    // get_camera_434900 written out: as an inline call it shifts the inline budget and the projection's
-    // operators no longer go out of line as in the original
-    Camera* pCamera;
     Player* pPlayer = gGame_0x40_67E008->field_38_local_player;
 
     s16 ammo_idx = pPlayer->field_788_curr_weapon_idx;
@@ -3162,9 +3150,6 @@ void Hud_PlayerStats::UpdateRollingDigits_5D6290()
         pLamarr2->UpdateRollingDigits_4925E0();
         pPlayerIter = gGame_0x40_67E008->IterateNextPlayer_4B9D10();
     }
-    // get_camera_434900 written out: as an inline call it shifts the inline budget and the projection's
-    // operators no longer go out of line as in the original
-    Camera* pCamera;
     Player* pPlayer = gGame_0x40_67E008->field_38_local_player;
     pPlayer->field_684_lives.UpdateRollingDigits_4925E0();
     pPlayer->field_6BC_multipliers.UpdateRollingDigits_4925E0();
