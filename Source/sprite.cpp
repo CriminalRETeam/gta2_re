@@ -302,24 +302,24 @@ SpriteMaskCache::SpriteMaskCache()
     u8* pPixels = (u8*)Memory::Aligned_malloc_4FE510(0x40000, (void**)(&field_3C8_unaligned_alloc));
     field_3C4_aligned_buffer = pPixels;
 
-    SpriteMask* tmp = field_0_masks;
-    for (row = 8; row != 0; row--, pPixels += 0x4000, tmp += 4)
+    SpriteMask* pMask = field_0_masks;
+    for (row = 8; row != 0; row--, pPixels += 0x4000, pMask += 4)
     {
-        tmp[0].field_0_pixels = pPixels;
-        tmp[1].field_0_pixels = (pPixels + 0x40);
-        tmp[2].field_0_pixels = (pPixels + 0x80);
-        tmp[3].field_0_pixels = (pPixels + 0xC0);
+        pMask[0].field_0_pixels = pPixels;
+        pMask[1].field_0_pixels = (pPixels + 0x40);
+        pMask[2].field_0_pixels = (pPixels + 0x80);
+        pMask[3].field_0_pixels = (pPixels + 0xC0);
     }
 
-    tmp = field_0_masks + 33;
-    for (row = 4; row != 0; row--, pPixels += 0x8000, tmp += 4)
+    pMask = field_0_masks + 33;
+    for (row = 4; row != 0; row--, pPixels += 0x8000, pMask += 4)
     {
         // I don't know why this one starts at -1...
         // Maybe an artifact of the decompilation
-        tmp[-1].field_0_pixels = pPixels;
-        tmp[0].field_0_pixels = (pPixels + 0x40);
-        tmp[1].field_0_pixels = (pPixels + 0x80);
-        tmp[2].field_0_pixels = (pPixels + 0xC0);
+        pMask[-1].field_0_pixels = pPixels;
+        pMask[0].field_0_pixels = (pPixels + 0x40);
+        pMask[1].field_0_pixels = (pPixels + 0x80);
+        pMask[2].field_0_pixels = (pPixels + 0xC0);
     }
 
     for (u16 mask_idx = 0; mask_idx < 48; mask_idx++)
@@ -342,11 +342,11 @@ SpriteMaskCache::~SpriteMaskCache()
 MATCH_FUNC(0x48F820)
 void DamageAreaFlags::Delta_48F820(u16& sprite_idx, u8* pArray, u32& delta_mask, u8& width)
 {
-    u32 unknown = delta_mask;
+    u32 remaining_mask = delta_mask;
     u32 delta_idx = 0;
-    for (u32 i = 1; unknown; i = i << 1, delta_idx++)
+    for (u32 i = 1; remaining_mask; i = i << 1, delta_idx++)
     {
-        if ((i & unknown) != 0)
+        if ((i & remaining_mask) != 0)
         {
             if (delta_idx >= 22)
             {
@@ -364,7 +364,7 @@ void DamageAreaFlags::Delta_48F820(u16& sprite_idx, u8* pArray, u32& delta_mask,
                     pDelta->Delta_5ABA00(pArray);
                 }
             }
-            unknown &= ~i;
+            remaining_mask &= ~i;
         }
     }
 }
@@ -383,8 +383,8 @@ s16 DamageAreaFlags::Delta_48F8B0(u16& sprite_idx, u8& bRet, const u16& palette,
         return -1;
     }
     sprite_index* sprite_index_5AA440 = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
-    u32 bUnk = sprite_index_5AA440->field_5_height > 0x40u;
-    SpriteMask* pSprt14 = gSpriteMaskCache_67AF1C->FindCachedMask_48F600(sprite_idx, &bUnk, &m_var, &palette);
+    u32 bLargeMask = sprite_index_5AA440->field_5_height > 0x40u;
+    SpriteMask* pSprt14 = gSpriteMaskCache_67AF1C->FindCachedMask_48F600(sprite_idx, &bLargeMask, &m_var, &palette);
     if (pSprt14)
     {
         if (pSprt14->field_8_delta_mask < m_var)
@@ -402,7 +402,7 @@ s16 DamageAreaFlags::Delta_48F8B0(u16& sprite_idx, u8& bRet, const u16& palette,
     else
     {
         bRet = 1;
-        pSprt14 = gSpriteMaskCache_67AF1C->FindLeastRecentlyUsed_48F690(&bUnk);
+        pSprt14 = gSpriteMaskCache_67AF1C->FindLeastRecentlyUsed_48F690(&bLargeMask);
         if (!bClearMask)
         {
             sprite_index_5AA440->CopyPixels_5ABB00(pSprt14->field_0_pixels);
@@ -634,8 +634,8 @@ bool Sprite::ShrinkSprite_59E390(Fix16 xoff, Fix16 yoff, s32 bShrinkCollisionSha
 
     Fix16 w_val;
     Fix16 h_val;
-    Fix16 f8_val;
-    field_4_pVisualShape->GetDimensions_4BA0F0(&w_val, &h_val, &f8_val);
+    Fix16 d_val;
+    field_4_pVisualShape->GetDimensions_4BA0F0(&w_val, &h_val, &d_val);
 
     bool bHOrWLimit = field_4_pVisualShape->ReduceWidthBy_4BA120(xoff);
     bHOrWLimit |= field_4_pVisualShape->ReduceHeightBy_4BA160(yoff);
@@ -644,13 +644,13 @@ bool Sprite::ShrinkSprite_59E390(Fix16 xoff, Fix16 yoff, s32 bShrinkCollisionSha
     {
         Fix16 w_val1;
         Fix16 h_val1;
-        Fix16 f8_val1;
-        field_C_pCollisionShape->GetDimensions_4BA0F0(&w_val1, &h_val1, &f8_val1);
+        Fix16 d_val1;
+        field_C_pCollisionShape->GetDimensions_4BA0F0(&w_val1, &h_val1, &d_val1);
 
         Fix16 w_val2;
         Fix16 h_val2;
-        Fix16 f8_val2;
-        field_4_pVisualShape->GetDimensions_4BA0F0(&w_val2, &h_val2, &f8_val2);
+        Fix16 d_val2;
+        field_4_pVisualShape->GetDimensions_4BA0F0(&w_val2, &h_val2, &d_val2);
 
         Fix16 new_w;
         if (w_val != gFix16_7035C0)
@@ -1171,17 +1171,17 @@ void Sprite::Draw_59EFF0()
             pCar->field_8_damaged_areas.ClearGlobalFlags_4BA340();
         }
         u8 bRet;
-        u16 unkDeltaRelated = pCar->field_8_damaged_areas.Delta_48F8B0(sprite_idx, bRet, Sprite::GetTruePalette_59EAA0(), false);
-        if (unkDeltaRelated != 0xFFFF)
+        u16 damage_mask_idx = pCar->field_8_damaged_areas.Delta_48F8B0(sprite_idx, bRet, Sprite::GetTruePalette_59EAA0(), false);
+        if (damage_mask_idx != 0xFFFF)
         {
             if (bRet)
             {
-                gTextureCache_15D8_705064->SetCarDamageTextureSizeAndPalette_5B96B0(unkDeltaRelated,
+                gTextureCache_15D8_705064->SetCarDamageTextureSizeAndPalette_5B96B0(damage_mask_idx,
                                                       pSpriteIndex->field_4_width,
                                                       pSpriteIndex->field_5_height,
                                                       Sprite::GetTruePalette_59EAA0());
             }
-            pTexture = gTextureCache_15D8_705064->GetCarDamageTexture_5B95D0(unkDeltaRelated);
+            pTexture = gTextureCache_15D8_705064->GetCarDamageTexture_5B95D0(damage_mask_idx);
         }
         pCar->field_8_damaged_areas.m_var = car_flags; // TODO: use CopyAll_4A51A0
     }
@@ -1237,17 +1237,17 @@ void Sprite::Draw_59EFF0()
         pCar->field_8_damaged_areas.MaskWithGlobalFlags_4BA330();
 
         u8 bRet;
-        u16 unkDeltaRelated = pCar->field_8_damaged_areas.Delta_48F8B0(sprite_idx, bRet, Sprite::GetTruePalette_59EAA0(), true);
-        if (unkDeltaRelated != 0xFFFF)
+        u16 damage_mask_idx = pCar->field_8_damaged_areas.Delta_48F8B0(sprite_idx, bRet, Sprite::GetTruePalette_59EAA0(), true);
+        if (damage_mask_idx != 0xFFFF)
         {
             if (bRet)
             {
-                gTextureCache_15D8_705064->SetCarDamageTextureSizeAndPalette_5B96B0(unkDeltaRelated,
+                gTextureCache_15D8_705064->SetCarDamageTextureSizeAndPalette_5B96B0(damage_mask_idx,
                                                       pSpriteIndex->field_4_width,
                                                       pSpriteIndex->field_5_height,
                                                       Sprite::GetTruePalette_59EAA0());
             }
-            pTexture = gTextureCache_15D8_705064->GetCarDamageTexture_5B95D0(unkDeltaRelated);
+            pTexture = gTextureCache_15D8_705064->GetCarDamageTexture_5B95D0(damage_mask_idx);
             SetUV_4B9BC0(u, v);
             pgbh_DrawQuad(128, pTexture, gTileVerts_7036D0, 255);
         }

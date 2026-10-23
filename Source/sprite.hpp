@@ -86,11 +86,11 @@ class SpriteShape
         }
     }
 
-    void GetDimensions_4BA0F0(Fix16* pOut, Fix16* pOutH, Fix16* pOutF8)
+    void GetDimensions_4BA0F0(Fix16* pOut, Fix16* pOutH, Fix16* pOutDepth)
     {
         *pOut = this->field_0_width;
         *pOutH = this->field_4_height;
-        *pOutF8 = this->field_8_depth;
+        *pOutDepth = this->field_8_depth;
     }
 
     Fix16 GetWidth_420590()
