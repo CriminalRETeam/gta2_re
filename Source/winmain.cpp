@@ -243,20 +243,20 @@ void force_link()
     lewin.ApplyCheats_56A490();
     lewin.ClearInputs_56A6D0();
 
-    Camera drawUnk;
-    drawUnk.SavePrevCamPos_4357B0();
-    drawUnk.IncreaseElevation_4357F0();
-    drawUnk.DecreaseElevation_435810();
-    drawUnk.ResetElevation_435830();
-    drawUnk.ClampTargetZ_435840();
-    drawUnk.ApplyMovementDeltaFrom_435860(0);
-    drawUnk.MoveTarget_435D20(1, 1, 1, 1, 1, 1);
-    drawUnk.ResetCameraSmoothing_435DD0();
-    drawUnk.RefreshBoundaries_436110();
-    drawUnk.SetShake_436120(1);
-    drawUnk.ResetPanning_436830();
-    drawUnk.SetTarget_4397D0(Fix16(), Fix16(), Fix16(), Fix16());
-    drawUnk.IsPointInBoundaries_58CF10(1, 1);
+    Camera camera;
+    camera.SavePrevCamPos_4357B0();
+    camera.IncreaseElevation_4357F0();
+    camera.DecreaseElevation_435810();
+    camera.ResetElevation_435830();
+    camera.ClampTargetZ_435840();
+    camera.ApplyMovementDeltaFrom_435860(0);
+    camera.MoveTarget_435D20(1, 1, 1, 1, 1, 1);
+    camera.ResetCameraSmoothing_435DD0();
+    camera.RefreshBoundaries_436110();
+    camera.SetShake_436120(1);
+    camera.ResetPanning_436830();
+    camera.SetTarget_4397D0(Fix16(), Fix16(), Fix16(), Fix16());
+    camera.IsPointInBoundaries_58CF10(1, 1);
 
     Ped cn;
     cn.SetRecentCrimeTimer_45B550();
