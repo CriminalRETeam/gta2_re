@@ -79,19 +79,19 @@ char_type TileAnim::PoolUpdate()
 }
 
 MATCH_FUNC(0x5bc260)
-void TileAnimManager::AddAnim_5BC260(s16 base, s16 f0, s16 length, s16 frame_rate, s16 repeat)
+void TileAnimManager::AddAnim_5BC260(s16 base, s16 start_frame, s16 length, s16 frame_rate, s16 repeat)
 {
     TileAnim* pAnim = gTileAnimPool_7052C8->Allocate();
-    pAnim->Init_4C33F0(base, f0, length, frame_rate, repeat);
+    pAnim->Init_4C33F0(base, start_frame, length, frame_rate, repeat);
     pAnim->Start_5BC1D0();
 }
 
 MATCH_FUNC(0x5bc2c0)
 void TileAnimManager::AddGmpAnim_5BC2C0(const gmp_tile_animation* pTileAnimation)
 {
-    TileAnim* tmp = gTileAnimPool_7052C8->Allocate();
-    tmp->InitFromGmpAnim_5BC190(pTileAnimation);
-    tmp->Start_5BC1D0();
+    TileAnim* pAnim = gTileAnimPool_7052C8->Allocate();
+    pAnim->InitFromGmpAnim_5BC190(pTileAnimation);
+    pAnim->Start_5BC1D0();
 }
 
 MATCH_FUNC(0x5bc300)
