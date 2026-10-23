@@ -181,7 +181,7 @@ Sprite* SpriteGrid::FindNearestSprite_SpiralSearch_477C90(s32 primary_sprite_typ
     Sprite* pCollisionSprite = gSpriteGrid_smallestDistSprite_678E40; // from previous call
     if (search_mode > 1 || !gSpriteGrid_smallestDistSprite_678E40)
     {
-        for (u32 ring_size = 2; ring_size <= 2 * max_rings; ring_size += 2)
+        for (u32 ring_size = 2; ring_size <= (u32)(2 * max_rings); ring_size += 2)
         {
             // LEFT COLUMN
             --gSpriteGrid_start_x_679090;
@@ -380,11 +380,11 @@ MATCH_FUNC(0x478160)
 void SpriteGrid::SearchTileColumnForClosestSprite_478160(u8 height)
 {
     s32 y_pos = gSpriteGrid_start_y_679098;
-    if (gSpriteGrid_start_y_679098 < gSpriteGrid_start_y_679098 + (u32)height)
+    if ((u32)gSpriteGrid_start_y_679098 < gSpriteGrid_start_y_679098 + (u32)height)
     {
         // Won't match without this redundant iter
         GridCell** pXItemIter = &this->field_0_rows[gSpriteGrid_start_y_679098];
-        while (y_pos < gSpriteGrid_start_y_679098 + (u32)height)
+        while ((u32)y_pos < gSpriteGrid_start_y_679098 + (u32)height)
         {
             CheckTileSpritesForClosestMatch_478060(GetCollideListAt_446820(gSpriteGrid_start_x_679090, y_pos));
             ++y_pos;
