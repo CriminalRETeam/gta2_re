@@ -833,11 +833,11 @@ static void ProjectXYZ_intoScreen(Fix16 xpos, Fix16 ypos, Fix16 zpos, Fix16& scr
     Fix16 zCalc = (kFpOne_7064C4) /
         (kFpEight_7064E8 + (pCam->field_98_cur_pos.field_8_z - zpos)); // kFpOne_7064C4 ??
 
-    Fix16 xTmp = pCam->field_60_screen_scale.x * (xpos - pCam->field_98_cur_pos.field_0_x);
-    screen_x = ((zCalc * xTmp)) + Fix16(320);
+    Fix16 scaled_x = pCam->field_60_screen_scale.x * (xpos - pCam->field_98_cur_pos.field_0_x);
+    screen_x = ((zCalc * scaled_x)) + Fix16(320);
 
-    Fix16 yTmp = (pCam->field_60_screen_scale.y * (ypos - pCam->field_98_cur_pos.field_4_y));
-    screen_y = ((zCalc * yTmp) + Fix16(240));
+    Fix16 scaled_y = (pCam->field_60_screen_scale.y * (ypos - pCam->field_98_cur_pos.field_4_y));
+    screen_y = ((zCalc * scaled_y) + Fix16(240));
 }
 
 // Draw Text with wchar_t
