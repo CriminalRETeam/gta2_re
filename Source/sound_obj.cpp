@@ -4518,7 +4518,7 @@ char_type sound_obj::ComputeEmittingVolume_41B660(u8 emittingVolume, u32 maxDist
 {
     const s32 minDistance = maxDistance / 4;
     const s32 diffDistance = maxDistance - minDistance;
-    if (distance > diffDistance)
+    if (distance > (u32)diffDistance)
     {
         return (minDistance - (distance - diffDistance)) * emittingVolume / minDistance;
     }
@@ -7027,11 +7027,11 @@ void sound_obj::UpdateCarRadioAudio_57E220()
             {
                 u32 tune_rate = gSampManager_6FFF00.GetPlayBackRate_58DBF0(138);
                 tune_rate += (tune_rate >> 6) * RadioEmitter(field_54F7_active_emitter_idx[0] + 1).field_C_station_idx;
-                if (tune_rate > gCarRadioTuneRate_625014 + 90)
+                if (tune_rate > (u32)(gCarRadioTuneRate_625014 + 90))
                 {
                     tune_rate = gCarRadioTuneRate_625014 + 90;
                 }
-                else if (tune_rate < gCarRadioTuneRate_625014 - 90)
+                else if (tune_rate < (u32)(gCarRadioTuneRate_625014 - 90))
                 {
                     tune_rate = gCarRadioTuneRate_625014 - 90;
                 }
@@ -7594,7 +7594,7 @@ u8 sound_obj::FindEmitterByStation_57F050(s32 status)
     for (u8 i = 0; i < 5; i++)
     {
         // TODO: Structure is wrong, maybe field_544C starts earlier or later?
-        if (*(u32*)&field_544C[i + 1].field_8.field_4_bStatus == status)
+        if (*(u32*)&field_544C[i + 1].field_8.field_4_bStatus == (u32)status)
         {
             return i;
         }
