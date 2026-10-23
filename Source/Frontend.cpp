@@ -551,9 +551,9 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
     {
         // One chained assignment: the slot index pushed to SetPlySlotIdx is a byte temp of the call result
         // (`mov %al,%cl; push %ecx`), which an s16 local gives as `push %eax`
-        gGameSession_67E8E0.SetPlySlotIdx_4C5920(field_136_menu_pages_array[1].field_4_options_array[0].field_70_unused =
+        gGameSession_67E8E0.SetPlySlotIdx_4C5920((char_type)(field_136_menu_pages_array[1].field_4_options_array[0].field_70_unused =
                                                      field_136_menu_pages_array[1].field_4_options_array[0].field_6E_horizontal_selected_idx =
-                                                         gRegistry_6FF968.Get_Player_Setting_587810("plyrslot"));
+                                                         (u16)gRegistry_6FF968.Get_Player_Setting_587810("plyrslot")));
         UpdateMenuForCurrPlayer_4B42E0();
     }
     else if (menu_page_idx == MENUPAGE_MULTIPLAYER_RESULTS)
@@ -1992,7 +1992,7 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
             bWrapped_prev = pOption_prev->SelectPrevHorizontalIdx_4B6390();
             if (field_132_f136_idx == MENUPAGE_PLAY && !pMenuPageSaved->field_BC6_current_option_idx)
             {
-                gGameSession_67E8E0.SetPlySlotIdx_4C5920(pOption_prev->field_6E_horizontal_selected_idx);
+                gGameSession_67E8E0.SetPlySlotIdx_4C5920((char_type)pOption_prev->field_6E_horizontal_selected_idx);
                 UpdateMenuForCurrPlayer_4B42E0();
                 gRegistry_6FF968.Set_Player_Setting_5878C0("plyrslot", pOption_prev->field_6E_horizontal_selected_idx);
                 if (bWrapped_prev)
@@ -2003,7 +2003,7 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
 
             if (field_132_f136_idx == MENUPAGE_VIEW_HIGH_SCORE && !pMenuPageSaved->field_BC6_current_option_idx)
             {
-                field_EE0D_hiscore_table_idx = pOption_prev->field_6E_horizontal_selected_idx;
+                field_EE0D_hiscore_table_idx = (u8)pOption_prev->field_6E_horizontal_selected_idx;
                 if (bWrapped_prev)
                 {
                     snd1_67D818.field_0_object_type = 3;
@@ -2035,7 +2035,7 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
             bWrapped_next = pOption_next->SelectNextHorizontalIdx_4B6330();
             if (field_132_f136_idx == MENUPAGE_PLAY && !pMenuPageSaved->field_BC6_current_option_idx)
             {
-                gGameSession_67E8E0.SetPlySlotIdx_4C5920(pOption_next->field_6E_horizontal_selected_idx);
+                gGameSession_67E8E0.SetPlySlotIdx_4C5920((char_type)pOption_next->field_6E_horizontal_selected_idx);
                 UpdateMenuForCurrPlayer_4B42E0();
                 gRegistry_6FF968.Set_Player_Setting_5878C0("plyrslot", pOption_next->field_6E_horizontal_selected_idx);
                 if (bWrapped_next)
@@ -2045,7 +2045,7 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
             }
             if (field_132_f136_idx == MENUPAGE_VIEW_HIGH_SCORE && !pMenuPageSaved->field_BC6_current_option_idx)
             {
-                field_EE0D_hiscore_table_idx = pOption_next->field_6E_horizontal_selected_idx;
+                field_EE0D_hiscore_table_idx = (u8)pOption_next->field_6E_horizontal_selected_idx;
                 if (bWrapped_next)
                 {
                     snd1_67D818.field_0_object_type = 4;
@@ -2295,7 +2295,7 @@ static __forceinline bool CheckCdFile()
 
     if (sum == 0x12209BDC)
     {
-        s16 idx = timeGetTime() % gCdCheckFileCount_6252E0;
+        s16 idx = (s16)(timeGetTime() % gCdCheckFileCount_6252E0);
         char_type drive[32];
         drive[0] = gRoot_sound_66B038.GetAudioDriveLetter_40F150();
         if (drive[0])
