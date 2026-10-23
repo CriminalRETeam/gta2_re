@@ -1008,14 +1008,14 @@ void Frontend::DrawMenu_4AD140()
         {
             u16 idx = pMenuPage->field_4_options_array[0].field_6E_horizontal_selected_idx;
             selected_option_idx = idx;
-            u16 unk_xpos =
+            u16 name_x_offset =
                 Frontend::GetMaxTextWidth_5D8990(gPlyDat_6FEAC0->field_26A0_plyr_stats[idx].field_90_strPlayerName, field_11C_normal_font) + 10;
 
-            if (unk_xpos == 10)
+            if (name_x_offset == 10)
             {
-                unk_xpos = Frontend::GetMaxTextWidth_5D8990(pMenuPage->field_4_options_array[0].field_6_option_name_str, field_11C_normal_font) + 40;
+                name_x_offset = Frontend::GetMaxTextWidth_5D8990(pMenuPage->field_4_options_array[0].field_6_option_name_str, field_11C_normal_font) + 40;
             }
-            pMenuPage->field_518_elements_array[9].field_2_xpos = unk_xpos + pMenuPage->field_4_options_array[0].field_2_x_pos;
+            pMenuPage->field_518_elements_array[9].field_2_xpos = name_x_offset + pMenuPage->field_4_options_array[0].field_2_x_pos;
         }
     }
 
@@ -1087,8 +1087,8 @@ void Frontend::DrawMenu_4AD140()
         }
         if (field_132_f136_idx == MENUPAGE_BONUS_AREA)
         {
-            s32 unk_offset = (3 * main_level_idx) + bonus_stage_idx + 64;
-            swprintf(tmpBuff_67BD9C, L"%s %c", gText_0x14_704DFC->Find_5B5F90("bonslev"), unk_offset);
+            s32 bonus_letter = (3 * main_level_idx) + bonus_stage_idx + 64;
+            swprintf(tmpBuff_67BD9C, L"%s %c", gText_0x14_704DFC->Find_5B5F90("bonslev"), bonus_letter);
             wcsncpy(pMenuPage->field_518_elements_array[0].field_6_element_name_str, tmpBuff_67BD9C, 0x32u);
             DrawBonusRating_4B7D60();
         }
@@ -2522,7 +2522,7 @@ void Frontend::SaveAndUpdatePlayerName_4B4230()
 MATCH_FUNC(0x4B3CC0)
 void Frontend::GetElementText_4B3CC0(u16 page_idx, u16 element_idx, wchar_t** ppText)
 {
-    MenuElement* temp = &field_136_menu_pages_array[page_idx].field_518_elements_array[element_idx];
+    MenuElement* pElement = &field_136_menu_pages_array[page_idx].field_518_elements_array[element_idx];
 
     if (page_idx == 14 && element_idx == 4)
     {
@@ -2530,7 +2530,7 @@ void Frontend::GetElementText_4B3CC0(u16 page_idx, u16 element_idx, wchar_t** pp
     }
     else if ((page_idx == 14 && element_idx != 4) || page_idx != 5 || element_idx != 1)
     {
-        swprintf(gTmpWideStr_67C7D8, L"%s", temp->field_6_element_name_str);
+        swprintf(gTmpWideStr_67C7D8, L"%s", pElement->field_6_element_name_str);
     }
     else if (field_EE0D_hiscore_table_idx < 3)
     {
@@ -5235,7 +5235,7 @@ MenuItem::~MenuItem()
 MATCH_FUNC(0x4B6330)
 bool MenuItem::SelectNextHorizontalIdx_4B6330()
 {
-    BYTE tmp = bIsLeftRightLoopEnabled_67DA80;
+    BYTE bLoopEnabled = bIsLeftRightLoopEnabled_67DA80;
     u16 old_count = field_6E_horizontal_selected_idx;
     u16 new_count = old_count;
     char_type bFound = 0;
@@ -5247,7 +5247,7 @@ bool MenuItem::SelectNextHorizontalIdx_4B6330()
         new_count++;
         if (new_count > field_7E_horizontal_max_idx)
         {
-            if (tmp)
+            if (bLoopEnabled)
             {
                 new_count = 0;
             }
