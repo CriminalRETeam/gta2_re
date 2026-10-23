@@ -1128,7 +1128,7 @@ void Frontend::DrawMenu_4AD140()
 
         if (pMenuOption->field_1_is_unlocked)
         {
-            if (pMenuOption->field_0_option_type == STRING_TEXT_2)
+            if (pMenuOption->field_0_option_type == HORIZONTAL_SELECTION_2)
             {
                 Frontend::GetOptionText_4B3AF0(field_132_f136_idx, option_idx, &wstr_array);
             }
@@ -1249,7 +1249,7 @@ void Frontend::DrawMenu_4AD140()
 
             if (((field_132_f136_idx == MENUPAGE_RESULTS_PLAYER_QUIT || field_132_f136_idx == MENUPAGE_DEAD) && option_idx == 0) || bForceSelect)
             {
-                if (pMenuOption->field_0_option_type == STRING_TEXT_2)
+                if (pMenuOption->field_0_option_type == HORIZONTAL_SELECTION_2)
                 {
                     Frontend::GetOptionText_4B3AF0(field_132_f136_idx, option_idx, &wstr_array);
                 }
@@ -1679,6 +1679,7 @@ void Frontend::read_menu_input_4AFEB0()
 MATCH_FUNC(0x4B6780)
 void Frontend::UpdateMenuScreen_4B6780()
 {
+    // Change background image according to the current page or options
     MenuPage* pMenuPage = &field_136_menu_pages_array[field_132_f136_idx];
     if (field_110_state != FrontendState::Booting_Map_2)
     {
@@ -1832,10 +1833,12 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
     pMenuPage = &field_136_menu_pages_array[field_132_f136_idx];
     pMenuPageSaved = pMenuPage;
     pStats = GetCurrPlayerStats_4B43E0();
+
+    // Set what happens when the user presses ENTER
     if (field_C9D0_return_pressed)
     {
         MenuItem* pOption = &pMenuPage->field_4_options_array[pMenuPage->field_BC6_current_option_idx];
-        if (pOption->field_0_option_type == STRING_TEXT_1)
+        if (pOption->field_0_option_type == ENTERABLE_1)
         {
             target_page_idx = pOption->field_80_menu_page_target;
             switch (target_page_idx)
@@ -1946,6 +1949,7 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
         }
     }
 
+    // Set what happens if the user presses ESC
     if (field_C9D1_escape_pressed)
     {
         switch (field_132_f136_idx)
@@ -1973,21 +1977,24 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
         snd1_67D818.field_0_object_type = 6;
     }
 
+    // Move selection UP and emit sound
     if (field_C9CE_up_pressed && pMenuPage->SelectPrevOption_4B61B0())
     {
         snd1_67D818.field_0_object_type = 1;
     }
 
+    // Move selection DOWN and emit sound
     if (field_C9CF_down_pressed && pMenuPage->SelectNextOption_4B6200())
     {
         snd1_67D818.field_0_object_type = 2;
     }
 
+    // Set what happens if the player press the left arrow.
     if (field_C9CC_left_pressed)
     {
         current_option_idx = pMenuPage->field_BC6_current_option_idx;
         pOption_prev = &pMenuPage->field_4_options_array[current_option_idx];
-        if (pOption_prev->field_0_option_type == STRING_TEXT_2)
+        if (pOption_prev->field_0_option_type == HORIZONTAL_SELECTION_2)
         {
             bWrapped_prev = pOption_prev->SelectPrevHorizontalIdx_4B6390();
             if (field_132_f136_idx == MENUPAGE_PLAY && !pMenuPageSaved->field_BC6_current_option_idx)
@@ -2026,11 +2033,11 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
             }
         }
     }
-    else if (field_C9CD_right_pressed)
+    else if (field_C9CD_right_pressed) // Set what happens if the player press the right arrow.
     {
         option_idx = pMenuPage->field_BC6_current_option_idx;
         pOption_next = &pMenuPage->field_4_options_array[option_idx];
-        if (pOption_next->field_0_option_type == STRING_TEXT_2)
+        if (pOption_next->field_0_option_type == HORIZONTAL_SELECTION_2)
         {
             bWrapped_next = pOption_next->SelectNextHorizontalIdx_4B6330();
             if (field_132_f136_idx == MENUPAGE_PLAY && !pMenuPageSaved->field_BC6_current_option_idx)
@@ -3511,7 +3518,7 @@ void Frontend::SetFontTypes_4AF0E0()
 MATCH_FUNC(0x4B0220)
 void Frontend::SetupMenuStringsOptionsElements_4B0220()
 {
-    // local_4 = (-(ushort)(cVar1 != 'j') & 0xfffc) + 0x10;
+    // Setup all menu pages, options and elements
 
     MenuPage* pPage;
     s32 line_height = gText_0x14_704DFC->field_10_lang_code != 'j' ? 12 : 16;
@@ -3519,19 +3526,19 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
 
     pPage = &field_136_menu_pages_array[0];
     pPage->field_0_number_of_options = 3;
-    pPage->field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[0].field_0_option_type = ENTERABLE_1;
     pPage->field_4_options_array[0].field_2_x_pos = 300;
     pPage->field_4_options_array[0].field_4_y_pos = 250;
     wcsncpy(pPage->field_4_options_array[0].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("play"), 0x32u);
     pPage->field_4_options_array[0].field_80_menu_page_target = 1;
-    pPage->field_4_options_array[1].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[1].field_0_option_type = ENTERABLE_1;
     pPage->field_4_options_array[1].field_2_x_pos = 300;
     pPage->field_4_options_array[1].field_4_y_pos = 270;
     wcsncpy(pPage->field_4_options_array[1].field_6_option_name_str,
             gText_0x14_704DFC->Find_5B5F90("options"),
             0x32u);
     pPage->field_4_options_array[1].field_80_menu_page_target = 257;
-    pPage->field_4_options_array[2].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[2].field_0_option_type = ENTERABLE_1;
     pPage->field_4_options_array[2].field_2_x_pos = 300;
     pPage->field_4_options_array[2].field_4_y_pos = 290;
     wcsncpy(pPage->field_4_options_array[2].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("quit"), 0x32u);
@@ -3546,7 +3553,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     pPage->field_BC8_default_option_idx = 0;
     pPage = &field_136_menu_pages_array[1];
     pPage->field_0_number_of_options = 5;
-    pPage->field_4_options_array[0].field_0_option_type = STRING_TEXT_2;
+    pPage->field_4_options_array[0].field_0_option_type = HORIZONTAL_SELECTION_2;
     pPage->field_4_options_array[0].field_2_x_pos = 300;
     pPage->field_4_options_array[0].field_4_y_pos = 210;
     wcsncpy(pPage->field_4_options_array[0].field_6_option_name_str,
@@ -3562,28 +3569,28 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
         pPage->field_4_options_array[0].field_72_horizontal_idx_enabled[enabled_idx++] = 1;
     } while (enabled_idx <= pPage->field_4_options_array[0].field_7E_horizontal_max_idx);
 
-    pPage->field_4_options_array[1].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[1].field_0_option_type = ENTERABLE_1;
     pPage->field_4_options_array[1].field_2_x_pos = 300;
     pPage->field_4_options_array[1].field_4_y_pos = 230;
     wcsncpy(pPage->field_4_options_array[1].field_6_option_name_str,
             gText_0x14_704DFC->Find_5B5F90("savepos"),
             0x32u);
     pPage->field_4_options_array[1].field_80_menu_page_target = 260;
-    pPage->field_4_options_array[2].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[2].field_0_option_type = ENTERABLE_1;
     pPage->field_4_options_array[2].field_2_x_pos = 300;
     pPage->field_4_options_array[2].field_4_y_pos = 250;
     wcsncpy(pPage->field_4_options_array[2].field_6_option_name_str,
             gText_0x14_704DFC->Find_5B5F90("hi_scre"),
             0x32u);
     pPage->field_4_options_array[2].field_80_menu_page_target = 5;
-    pPage->field_4_options_array[3].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[3].field_0_option_type = ENTERABLE_1;
     pPage->field_4_options_array[3].field_2_x_pos = 300;
     pPage->field_4_options_array[3].field_4_y_pos = 270;
     wcsncpy(pPage->field_4_options_array[3].field_6_option_name_str,
             gText_0x14_704DFC->Find_5B5F90("strtlev"),
             0x32u);
     pPage->field_4_options_array[3].field_80_menu_page_target = 264;
-    pPage->field_4_options_array[4].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[4].field_0_option_type = ENTERABLE_1;
     pPage->field_4_options_array[4].field_2_x_pos = 300;
     pPage->field_4_options_array[4].field_4_y_pos = 350;
     wcsncpy(pPage->field_4_options_array[4].field_6_option_name_str,
@@ -3658,7 +3665,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     wcscpy(pPage->field_518_elements_array[0].field_6_element_name_str, gText_0x14_704DFC->Find_5B5F90("plr_qut"));
     pPage->field_518_elements_array[0].field_6A_font_type = field_130_title_font;
     pPage->field_518_elements_array[0].field_6C_font_palette = 5;
-    pPage->field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[0].field_0_option_type = ENTERABLE_1;
     pPage->field_4_options_array[0].field_4_y_pos = 392;
     wcsncpy(pPage->field_4_options_array[0].field_6_option_name_str,
             gText_0x14_704DFC->Find_5B5F90("savepos"),
@@ -3668,7 +3675,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
                              pPage->field_4_options_array[0].field_6A_font_type,
                              320);
     pPage->field_4_options_array[0].field_80_menu_page_target = 260;
-    pPage->field_4_options_array[1].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[1].field_0_option_type = ENTERABLE_1;
     pPage->field_4_options_array[1].field_4_y_pos = 412;
     wcsncpy(pPage->field_4_options_array[1].field_6_option_name_str,
             gText_0x14_704DFC->Find_5B5F90("replay"),
@@ -3678,7 +3685,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
                              pPage->field_4_options_array[1].field_6A_font_type,
                              320);
     pPage->field_4_options_array[1].field_80_menu_page_target = 259;
-    pPage->field_4_options_array[2].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[2].field_0_option_type = ENTERABLE_1;
     pPage->field_4_options_array[2].field_4_y_pos = 432;
     wcsncpy(pPage->field_4_options_array[2].field_6_option_name_str,
             gText_0x14_704DFC->Find_5B5F90("mainmen"),
@@ -3707,7 +3714,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             0x32u);
     pPage->field_518_elements_array[0].field_6A_font_type = field_130_title_font;
     pPage->field_518_elements_array[0].field_6C_font_palette = 0;
-    pPage->field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[0].field_0_option_type = ENTERABLE_1;
     pPage->field_4_options_array[0].field_4_y_pos = 392;
     wcsncpy(pPage->field_4_options_array[0].field_6_option_name_str,
             gText_0x14_704DFC->Find_5B5F90("savepos"),
@@ -3717,7 +3724,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
                              pPage->field_4_options_array[0].field_6A_font_type,
                              320);
     pPage->field_4_options_array[0].field_80_menu_page_target = 260;
-    pPage->field_4_options_array[1].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[1].field_0_option_type = ENTERABLE_1;
     pPage->field_4_options_array[1].field_4_y_pos = 412;
     wcsncpy(pPage->field_4_options_array[1].field_6_option_name_str,
             gText_0x14_704DFC->Find_5B5F90("replay"),
@@ -3727,7 +3734,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
                              pPage->field_4_options_array[1].field_6A_font_type,
                              320);
     pPage->field_4_options_array[1].field_80_menu_page_target = 259;
-    pPage->field_4_options_array[2].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[2].field_0_option_type = ENTERABLE_1;
     pPage->field_4_options_array[2].field_4_y_pos = 432;
     wcsncpy(pPage->field_4_options_array[2].field_6_option_name_str,
             gText_0x14_704DFC->Find_5B5F90("mainmen"),
@@ -3755,7 +3762,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             gText_0x14_704DFC->Find_5B5F90("cmpltd"),
             0x32u);
     pPage->field_518_elements_array[0].field_6A_font_type = field_12C_area_complete_font;
-    pPage->field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[0].field_0_option_type = ENTERABLE_1;
     pPage->field_4_options_array[0].field_4_y_pos = 365;
     wcsncpy(pPage->field_4_options_array[0].field_6_option_name_str,
             gText_0x14_704DFC->Find_5B5F90("nxt_lvl"),
@@ -3765,7 +3772,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
                              pPage->field_4_options_array[0].field_6A_font_type,
                              320);
     pPage->field_4_options_array[0].field_80_menu_page_target = 261;
-    pPage->field_4_options_array[1].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[1].field_0_option_type = ENTERABLE_1;
     pPage->field_4_options_array[1].field_4_y_pos = 385;
     wcsncpy(pPage->field_4_options_array[1].field_6_option_name_str,
             gText_0x14_704DFC->Find_5B5F90("savepos"),
@@ -3775,7 +3782,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
                              pPage->field_4_options_array[1].field_6A_font_type,
                              320);
     pPage->field_4_options_array[1].field_80_menu_page_target = 260;
-    pPage->field_4_options_array[2].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[2].field_0_option_type = ENTERABLE_1;
     pPage->field_4_options_array[2].field_4_y_pos = 405;
     wcsncpy(pPage->field_4_options_array[2].field_6_option_name_str,
             gText_0x14_704DFC->Find_5B5F90("replay"),
@@ -3785,7 +3792,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
                              pPage->field_4_options_array[2].field_6A_font_type,
                              320);
     pPage->field_4_options_array[2].field_80_menu_page_target = 259;
-    pPage->field_4_options_array[3].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[3].field_0_option_type = ENTERABLE_1;
     pPage->field_4_options_array[3].field_4_y_pos = 425;
     wcsncpy(pPage->field_4_options_array[3].field_6_option_name_str,
             gText_0x14_704DFC->Find_5B5F90("contnue"),
@@ -3795,7 +3802,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
                              pPage->field_4_options_array[3].field_6A_font_type,
                              320);
     pPage->field_4_options_array[3].field_80_menu_page_target = 266;
-    pPage->field_4_options_array[4].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[4].field_0_option_type = ENTERABLE_1;
     pPage->field_4_options_array[4].field_4_y_pos = 445;
     wcsncpy(pPage->field_4_options_array[4].field_6_option_name_str,
             gText_0x14_704DFC->Find_5B5F90("mainmen"),
@@ -3830,7 +3837,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     pPage->field_518_elements_array[0].field_2_xpos =
         Frontend::GetCenteredXPos_4B0190(pPage->field_518_elements_array[0].field_6_element_name_str, title_font, 320);
     pPage->field_518_elements_array[0].field_6C_font_palette = 4;
-    pPage->field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[0].field_0_option_type = ENTERABLE_1;
     pPage->field_4_options_array[0].field_2_x_pos = 180;
     pPage->field_4_options_array[0].field_4_y_pos = 410;
     wcsncpy(pPage->field_4_options_array[0].field_6_option_name_str,
@@ -3844,7 +3851,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     pPage = &field_136_menu_pages_array[5];
     pPage->field_0_number_of_options = 1;
     pPage->field_2_number_of_elements = 5;
-    pPage->field_4_options_array[0].field_0_option_type = STRING_TEXT_2;
+    pPage->field_4_options_array[0].field_0_option_type = HORIZONTAL_SELECTION_2;
     pPage->field_4_options_array[0].field_2_x_pos = 300;
     pPage->field_4_options_array[0].field_4_y_pos = 155;
     pPage->field_4_options_array[0].field_6E_horizontal_selected_idx = 0;
@@ -3905,7 +3912,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     pPage->field_518_elements_array[2].field_2_xpos = 400;
     pPage->field_518_elements_array[2].field_4_ypos = 250;
     pPage->field_518_elements_array[2].field_6A_font_type = field_120_selected_font;
-    pPage->field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[0].field_0_option_type = ENTERABLE_1;
     pPage->field_4_options_array[0].field_4_y_pos = 340;
     wcsncpy(pPage->field_4_options_array[0].field_6_option_name_str,
             gText_0x14_704DFC->Find_5B5F90("repbons"),
@@ -3916,7 +3923,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
                              pPage->field_4_options_array[0].field_6A_font_type,
                              320);
     pPage->field_4_options_array[0].field_80_menu_page_target = 259;
-    pPage->field_4_options_array[1].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[1].field_0_option_type = ENTERABLE_1;
     pPage->field_4_options_array[1].field_4_y_pos = 360;
     wcsncpy(pPage->field_4_options_array[1].field_6_option_name_str,
             gText_0x14_704DFC->Find_5B5F90("nxt_lvl"),
@@ -3926,7 +3933,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
                              pPage->field_4_options_array[1].field_6A_font_type,
                              320);
     pPage->field_4_options_array[1].field_80_menu_page_target = 261;
-    pPage->field_4_options_array[2].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[2].field_0_option_type = ENTERABLE_1;
     pPage->field_4_options_array[2].field_4_y_pos = 380;
     wcsncpy(pPage->field_4_options_array[2].field_6_option_name_str,
             gText_0x14_704DFC->Find_5B5F90("mainmen"),
@@ -4003,7 +4010,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     pPage->field_518_elements_array[13].field_0_element_type = STRING_TEXT_1;
     pPage->field_518_elements_array[13].field_2_xpos = 30;
     pPage->field_518_elements_array[13].field_4_ypos = 150;
-    pPage->field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[0].field_0_option_type = ENTERABLE_1;
     pPage->field_4_options_array[0].field_4_y_pos = 430;
     wcsncpy(pPage->field_4_options_array[0].field_6_option_name_str, gText_0x14_704DFC->Find_5B5F90("quit"), 0x32u);
     pPage->field_4_options_array[0].field_2_x_pos =
@@ -4018,7 +4025,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     pPage = &field_136_menu_pages_array[8];
     pPage->field_0_number_of_options = 1;
     pPage->field_2_number_of_elements = 0;
-    pPage->field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[0].field_0_option_type = ENTERABLE_1;
     pPage->field_4_options_array[0].field_2_x_pos = 200;
     pPage->field_4_options_array[0].field_4_y_pos = 280;
     wcsncpy(pPage->field_4_options_array[0].field_6_option_name_str,
@@ -4042,7 +4049,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     pPage->field_518_elements_array[0].field_2_xpos =
         GetCenteredXPos_4B0190(pPage->field_518_elements_array[0].field_6_element_name_str, title_font2, 320);
     pPage->field_518_elements_array[0].field_6C_font_palette = 4;
-    pPage->field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[0].field_0_option_type = ENTERABLE_1;
     pPage->field_4_options_array[0].field_2_x_pos = 180;
     pPage->field_4_options_array[0].field_4_y_pos = 410;
     wcsncpy(pPage->field_4_options_array[0].field_6_option_name_str,
@@ -4056,7 +4063,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     pPage = &field_136_menu_pages_array[14];
     pPage->field_0_number_of_options = 1;
     pPage->field_2_number_of_elements = 5;
-    pPage->field_4_options_array[0].field_0_option_type = STRING_TEXT_1;
+    pPage->field_4_options_array[0].field_0_option_type = ENTERABLE_1;
     pPage->field_4_options_array[0].field_2_x_pos = 170;
     pPage->field_4_options_array[0].field_4_y_pos = 340;
     pPage->field_4_options_array[0].field_80_menu_page_target = 268;
@@ -4522,6 +4529,7 @@ void Frontend::DrawTextFixedWidth_4B78B0(wchar_t* pString, u16 text_xpos, u16 te
 MATCH_FUNC(0x4B55F0)
 void Frontend::DrawMultiplayerScores_4B55F0()
 {
+    // Draw page containing the match results according to the game mode
     s8 game_mode = gGameSession_67E8E0.GetMultiplayerGamemode_4C5BC0();
     u8 max_players = gGameSession_67E8E0.GetMaxPlayers_4C5BF0();
     u8 user_idx = gGameSession_67E8E0.GetUserPlayerIdx_4C5BE0();
@@ -5200,7 +5208,7 @@ MenuItem::MenuItem()
 {
     field_6A_font_type = -1;
     field_6C_palette = -1;
-    field_0_option_type = NULL_TYPE_0;
+    field_0_option_type = NO_TYPE_0;
     field_1_is_unlocked = 1;
     field_2_x_pos = 0;
     field_4_y_pos = 0;
@@ -5220,7 +5228,7 @@ MenuItem::MenuItem()
 MATCH_FUNC(0x4B62F0)
 MenuItem::~MenuItem()
 {
-    field_0_option_type = NULL_TYPE_0;
+    field_0_option_type = NO_TYPE_0;
     field_1_is_unlocked = 1;
     field_2_x_pos = 0;
     field_4_y_pos = 0;
