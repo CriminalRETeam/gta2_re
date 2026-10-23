@@ -89,7 +89,6 @@ class CarThreadTrigger
     s32 field_8_type;
     s32 field_C_action;
     u8 field_10_remap_rng;
-    u8 field_11_pad[3];
     s32 field_14_enable_state;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(CarThreadTrigger, 0x18);
