@@ -609,12 +609,12 @@ EXPORT char_type __stdcall SetWindowedMode_5D9510()
 MATCH_FUNC(0x5D8F70)
 EXPORT s32 ReadScreenSettings_5D8F70()
 {
-    const u32 full_width_old = full_width_706B5C;
-    const u32 window_width_old = window_width_706630;
-    const u32 full_height_old = full_height_706798;
+    const s32 full_width_old = full_width_706B5C;
+    const s32 window_width_old = window_width_706630;
+    const s32 full_height_old = full_height_706798;
     const s32 startMode_old = gStartMode_626A0C;
     const s32 trippleBuffer_old = bTrippleBuffer_706C54;
-    const u32 window_height_old = window_height_706B50;
+    const s32 window_height_old = window_height_706B50;
 
     if (bDoFrontEnd_626B68)
     {
@@ -646,12 +646,12 @@ EXPORT s32 ReadScreenSettings_5D8F70()
     {
         if (gStartMode_626A0C == 1)
         {
-            if ((u32)full_width_706B5C == full_width_old && (u32)full_height_706798 == full_height_old)
+            if (full_width_706B5C == full_width_old && full_height_706798 == full_height_old)
             {
                 return 0;
             }
         }
-        else if (gStartMode_626A0C || (u32)window_width_706630 == window_width_old && (u32)window_height_706B50 == window_height_old)
+        else if (gStartMode_626A0C || window_width_706630 == window_width_old && window_height_706B50 == window_height_old)
         {
             return 0;
         }
