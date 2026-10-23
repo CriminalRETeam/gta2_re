@@ -1456,8 +1456,8 @@ void NetPlay::InvokeCallback_520230(s32 idx, u32 event_data)
                 {
                     ((T3)field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)(
                         field_4C_func_ptrs_and_params[idx].field_4_param_context,
-                        *(s32*)(event_data + 0x1C),
-                        event_data + 0x24);
+                        *(s32*)(event_data + 0x1C), // Network_Player::field_1C_player_name
+                        event_data + 0x24); // Network_Player::field_24_pData
                 }
                 break;
             case 3:
