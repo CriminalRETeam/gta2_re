@@ -329,6 +329,23 @@ EXPORT s32 __stdcall SetGamma_5D9910(s32 gamma)
     return gamma;
 }
 
+MATCH_FUNC(0x5D9970)
+EXPORT void __stdcall ReapplySavedGamma_5D9970()
+{
+    const s32 gamma = gRegistry_6FF968.Get_Screen_Setting_5870D0("gamma", 10);
+    if (counter_706C4C > 0)
+    {
+        if (!SetGamma_5D9910(gamma))
+        {
+            counter_706C4C = 0;
+        }
+        else
+        {
+            --counter_706C4C;
+        }
+    }
+}
+
 DEFINE_GLOBAL(SoundObject, snd1_67D818, 0x67D818);
 DEFINE_GLOBAL(SoundObject, snd2_67D6F8, 0x67D6F8);
 
@@ -1561,22 +1578,6 @@ bool Frontend::intro_bik_exists_4B5FF0()
     return 1;
 }
 
-void sub_SetGamma()
-{
-    const s32 gammaVal = gRegistry_6FF968.Get_Screen_Setting_5870D0("gamma", 10);
-    if (counter_706C4C)
-    {
-        if (SetGamma_5D9910(gammaVal))
-        {
-            --counter_706C4C;
-        }
-        else
-        {
-            counter_706C4C = 0;
-        }
-    }
-}
-
 MATCH_FUNC(0x4AEC00)
 void Frontend::Update_4AEC00()
 {
@@ -1627,7 +1628,7 @@ void Frontend::Update_4AEC00()
 
     if (counter_706C4C > 0)
     {
-        sub_SetGamma();
+        ReapplySavedGamma_5D9970();
     }
 }
 

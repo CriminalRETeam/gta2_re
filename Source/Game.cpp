@@ -89,7 +89,7 @@ EXTERN_GLOBAL(char_type, gLighting_626A09);
 DEFINE_GLOBAL(Game*, gGame_0x40_67E008, 0x67E008);
 
 // TODO: move
-void sub_SetGamma();
+EXPORT void __stdcall ReapplySavedGamma_5D9970();
 
 MATCH_FUNC(0x4B8BB0)
 s32 Game::GetFrameDurationMs_4B8BB0()
@@ -437,23 +437,6 @@ void Game::UpdateAllPlayersControls_4B9380()
     }
 }
 
-//MATCH_FUNC(0x5D9970)
-static void SetGamma_5D9970() // TODO Function chunk of 0x4AEC00, 0x4B93C0 and 0x4B9410 - probably move elsewhere
-{
-    const s32 gamma = gRegistry_6FF968.Get_Screen_Setting_5870D0("gamma", 10u);
-    if (counter_706C4C)
-    {
-        if (SetGamma_5D9910(gamma))
-        {
-            --counter_706C4C;
-        }
-        else
-        {
-            counter_706C4C = 0;
-        }
-    }
-}
-
 MATCH_FUNC(0x4B93C0)
 void Game::UpdatePaused_4B93C0()
 {
@@ -473,7 +456,7 @@ void Game::UpdatePaused_4B93C0()
 
     if (counter_706C4C > 0)
     {
-        SetGamma_5D9970();
+        ReapplySavedGamma_5D9970();
     }
 }
 
@@ -566,7 +549,7 @@ void Game::UpdateGame_4B9410()
 
     if (counter_706C4C > 0)
     {
-        sub_SetGamma();
+        ReapplySavedGamma_5D9970();
     }
 }
 
