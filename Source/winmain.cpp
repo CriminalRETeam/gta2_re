@@ -355,7 +355,9 @@ DEFINE_GLOBAL_INIT(char_type, gLighting_626A09, 1, 0x626A09);
 
 DEFINE_GLOBAL(u32, gLightingDrawFlag_7068F4, 0x7068F4);
 DEFINE_GLOBAL(LPDIRECTINPUTDEVICEA, gMouseDevice_706C60, 0x706C60);
-DEFINE_GLOBAL(DIDATAFORMAT, gMouseDataFormat_601A84, 0x601A84);
+// The original mouse format uses the seven object records already recovered in Frontend.cpp.
+extern DIOBJECTDATAFORMAT gMouseObjectDataFormats_5EA3D0[7];
+DEFINE_GLOBAL_INIT(DIDATAFORMAT, gMouseDataFormat_601A84, {24u COMMA 16u COMMA DIDF_RELAXIS COMMA 16u COMMA 7u COMMA gMouseObjectDataFormats_5EA3D0}, 0x601A84);
 
 DEFINE_GLOBAL_INIT(u8, max_frame_rate_626A08, 1, 0x626A08);
 DEFINE_GLOBAL(u8, min_frame_rate_706C50, 0x706C50);

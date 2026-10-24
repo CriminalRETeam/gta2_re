@@ -2,10 +2,18 @@ from iced_x86 import *
 import post_process_asm
 from pathlib import Path
 
-def get_bytes_from_file(fileName, offset, len):
+def get_bytes_from_file(fileName, offset, length):
+    if offset < 0:
+        raise ValueError(f"Negative function offset {offset} in {fileName}")
+    if length <= 0:
+        raise ValueError(f"Function size must be positive in {fileName}: {length}")
     with open(fileName, mode='rb') as file: # b is important -> binary
         file.seek(offset)
-        return file.read(len)
+        data = file.read(length)
+    if len(data) != length:
+        raise ValueError(f"Short function read in {fileName} at {hex(offset)}: "
+                         f"expected {length} bytes, got {len(data)}")
+    return data
 
 def dism_func(func_bytes):
     decoder = Decoder(32, func_bytes)
@@ -13,6 +21,8 @@ def dism_func(func_bytes):
 
     asm = list()
     for instruction in decoder:
+        if instruction.is_invalid:
+            raise ValueError(f"Invalid x86 instruction at function offset {hex(instruction.ip)}")
         asm.append(formatter.format(instruction))
 
     asm_str = "\n".join(asm)

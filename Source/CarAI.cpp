@@ -1236,7 +1236,7 @@ void CarAI::ManageTrafficCarDirection_448CE0()
                         if (field_10_angle == kAng180_677ADE)
                         {
                             field_8_maneuver_active = 0;
-                            field_0_car->field_58_physics->field_8_total_damage_q = 0;
+                            field_0_car->field_58_physics->field_8_damaged_until_cycle = 0;
                             field_24_bf.bFlag10 = false;
                             field_24_bf.bFlag4 = true;
                         }
@@ -1344,7 +1344,7 @@ void CarAI::ManageTrafficCarDirection_448CE0()
                     {
                         if (field_10_angle == kAng0_677CE8 && field_70_nearest_entity == NULL)
                         {
-                            field_0_car->field_58_physics->field_8_total_damage_q = 0;
+                            field_0_car->field_58_physics->field_8_damaged_until_cycle = 0;
                             field_24_bf.bFlag10 = false;
                             field_24_bf.bFlag4 = true;
                             field_8_maneuver_active = 0;
@@ -1452,7 +1452,7 @@ void CarAI::ManageTrafficCarDirection_448CE0()
                     {
                         if (field_10_angle == kAng90_6779E4)
                         {
-                            field_0_car->field_58_physics->field_8_total_damage_q = 0;
+                            field_0_car->field_58_physics->field_8_damaged_until_cycle = 0;
                             field_24_bf.bFlag10 = false;
                             field_24_bf.bFlag4 = true;
                             field_8_maneuver_active = 0;
@@ -1562,7 +1562,7 @@ void CarAI::ManageTrafficCarDirection_448CE0()
                     {
                         if (field_10_angle == kAng270_677B08)
                         {
-                            field_0_car->field_58_physics->field_8_total_damage_q = 0;
+                            field_0_car->field_58_physics->field_8_damaged_until_cycle = 0;
                             field_24_bf.bFlag10 = false;
                             field_24_bf.bFlag4 = true;
                             field_8_maneuver_active = 0;

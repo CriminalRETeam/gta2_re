@@ -14,9 +14,7 @@ class CharPool
     {
     }
 
-    ~CharPool()
-    {
-    }
+    EXPORT ~CharPool();
 
     // inline 0x4355C0
     void DeAllocate(Char* pChar)

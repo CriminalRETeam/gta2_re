@@ -125,13 +125,13 @@ class Weapon
         }
     }
 
-    void set_field_2C_4CCA80(char_type new_value)
+    void SetShotFired_4CCA80(char_type new_value)
     {
         field_2C_shot_fired = new_value;
     }
 
     // 9.6f 0x41CC80
-    inline s8 TakeF2C_41CC80()
+    inline s8 TakeShotFired_41CC80()
     {
         s8 ret = field_2C_shot_fired;
         field_2C_shot_fired = 0;

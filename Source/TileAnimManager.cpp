@@ -113,7 +113,7 @@ TileAnimManager::TileAnimManager()
         gTileAnimPool_7052C8 = new TileAnimPool();
         if (gTileAnimPool_7052C8 == NULL)
         {
-            FatalError_4A38C0(Gta2Error::InvalidMapObjectData, "C:\\Splitting\\Gta2\\Source\\tileanim.cpp", 220);
+            FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\tileanim.cpp", 220);
         }
     }
     field_0_count = 1;

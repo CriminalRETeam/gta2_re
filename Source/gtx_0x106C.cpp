@@ -708,7 +708,7 @@ void gtx_0x106C::load_map_object_info_5AAF00(u32 obji_chunk_len)
     File::Global_Read_4A71C0(field_24_map_object_info, obji_chunk_len);
     if (obji_chunk_len / 2 >= 0x10000)
     {
-        FatalError_4A38C0(Gta2Error::InvalidNewTileNumber, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1177, obji_chunk_len / 2);
+        FatalError_4A38C0(Gta2Error::TooManyLoadedObjectInfos, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1177, obji_chunk_len / 2);
     }
 
     field_6_map_object_info_len = obji_chunk_len / 2;

@@ -459,9 +459,9 @@ enum
     Unknown_9 = 9,
     ped2_driving_10 = 10,
     ped2_staying_14 = 14,
-    Unknown_15 = 15,
+    ped2_dead_15 = 15, // with ped_state_1::dead_9 (Ped::Kill_46F9D0)
     Unknown_16 = 16,
-    Unknown_17 = 17,
+    ped2_at_car_door_17 = 17, // immobilized at a car door: a driver pulled out by a car-jacker (char.cpp), or a ped left without its car
     Unknown_18 = 18,
     falling_19 = 19,
     sinking_20 = 20,
@@ -473,7 +473,7 @@ enum
     Unknown_26 = 26,
     electrocuted_27 = 27,
     Unknown_28 = 28,
-    Unknown_29 = 29,
+    ped2_respawned_29 = 29, // Ped::RespawnPed_45C350; a player in it has its wanted level cleared
     Unknown_30 = 30,
 };
 // static_assert(sizeof(ped_state_2) == 0x4);
@@ -501,7 +501,7 @@ enum
     Jumping_15 = 15,
     Colliding_With_Car_27 = 27,
     Smoking_35 = 35,
-    Interacting_Car_Door_36 = 36,
+    Interacting_Car_Door_36 = 36, // also a new char's state (Char's constructor), which its first update makes 1
 };
 } // namespace Char_B4_state
 

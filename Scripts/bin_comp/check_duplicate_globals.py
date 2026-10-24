@@ -1,3 +1,4 @@
+import re
 import sys
 from pathlib import Path
 
@@ -14,43 +15,97 @@ class globals():
         self.source_file = source_file
         self.src_line_num = src_line_num
 
-upper_hex = lambda hex_str : hex_str[2:].upper()
 
-def get_uninit_global(line : str, filename : str, line_num : int):
+class GlobalParseError(ValueError):
+    pass
 
-    line = line.strip()
-    parenthesis_span = slice(line.find('(') + 1, line.rfind(')'))
-    arguments = line[parenthesis_span].split(",")
 
-    if len(arguments) > 3:
-        print(f"More than 3 arguments in DEFINE_GLOBAL: {arguments}")
-        sys.exit(2)
-    elif len(arguments) < 3:
-        print(f"Less than 3 arguments in DEFINE_GLOBAL: {arguments}")
-        sys.exit(2)
+def mask_comments_and_literals(text, filename):
+    """Keep source offsets/newlines while hiding tokens inside comments or quotes."""
+    clean = list(text)
+    code = list(text)
+    index = 0
 
-    global_type = arguments[0].strip()
-    global_name = arguments[1].strip()
-    global_address = int(upper_hex(arguments[2].strip()), 16)
+    def mask(chars, start, end):
+        for position in range(start, end):
+            if chars[position] != "\n":
+                chars[position] = " "
 
-    return globals(global_type, global_name, global_address, filename, line_num)
-    
-def get_inited_global(line : str, filename : str, line_num : int):
+    while index < len(text):
+        start = index
+        if text.startswith("//", index):
+            end = text.find("\n", index)
+            end = len(text) if end == -1 else end
+            mask(clean, start, end)
+            mask(code, start, end)
+        elif text.startswith("/*", index):
+            end = text.find("*/", index + 2)
+            if end == -1:
+                line = text.count("\n", 0, start) + 1
+                raise GlobalParseError(f"{filename}({line}): unterminated block comment")
+            end += 2
+            mask(clean, start, end)
+            mask(code, start, end)
+        elif text[index] in ('"', "'"):
+            quote = text[index]
+            end = index + 1
+            while end < len(text):
+                if text[end] == "\\":
+                    end += 2
+                elif text[end] == quote:
+                    end += 1
+                    break
+                else:
+                    end += 1
+            else:
+                line = text.count("\n", 0, start) + 1
+                raise GlobalParseError(f"{filename}({line}): unterminated quoted literal")
+            mask(code, start, end)
+        else:
+            index += 1
+            continue
+        index = end
+    return "".join(clean), "".join(code)
 
-    line = line.strip()
-    parenthesis_span = slice(line.find('(') + 1, line.rfind(')'))
 
-    arguments = line[parenthesis_span].split(",")
+def iter_globals(text, filename):
+    clean, code = mask_comments_and_literals(text, filename)
+    # Arrays remain deliberately excluded. Match whole macro names only.
+    macro_pattern = re.compile(r"\b(DEFINE_GLOBAL_INIT|DEFINE_GLOBAL)\s*\(")
+    position = 0
+    while match := macro_pattern.search(code, position):
+        macro = match[1]
+        line = text.count("\n", 0, match.start()) + 1
+        argument_start = match.end()
+        index = argument_start
+        depth = 1
+        arguments = []
+        while index < len(code) and depth:
+            char = code[index]
+            if char == "(":
+                depth += 1
+            elif char == ")":
+                depth -= 1
+                if depth == 0:
+                    arguments.append(clean[argument_start:index].strip())
+                    break
+            elif char == "," and depth == 1:
+                arguments.append(clean[argument_start:index].strip())
+                argument_start = index + 1
+            index += 1
+        if depth:
+            raise GlobalParseError(f"{filename}({line}): unterminated {macro} invocation")
 
-    global_type = arguments[0].strip()
-    global_name = arguments[1].strip()
-    global_address = int(upper_hex(arguments[-1].strip()), 16)
-    
-    return globals(global_type, global_name, global_address, filename, line_num)
+        expected = 4 if macro == "DEFINE_GLOBAL_INIT" else 3
+        if len(arguments) != expected or not all(arguments):
+            raise GlobalParseError(f"{filename}({line}): {macro} expects {expected} nonempty arguments, got {len(arguments)}")
+        if not re.fullmatch(r"0[xX][0-9a-fA-F]+", arguments[-1]):
+            raise GlobalParseError(f"{filename}({line}): invalid global address {arguments[-1]!r}")
+        yield globals(arguments[0], arguments[1], int(arguments[-1], 16), filename, line)
+        position = index + 1
 
 
 def main():
-
     if not SOURCE_FOLDER.exists():
         print(f"Path not found: {str(SOURCE_FOLDER)}")
         sys.exit(1)
@@ -64,39 +119,22 @@ def main():
         # exclude folders and other unwanted files  (no define globals in headers)
         # _tu_harness_tmp*.cpp: transient copies made by Scripts/tu_harness/tu.sh
         if path.endswith(".cpp") and not src_file.name.startswith("_tu_harness_tmp"):
-            
-            with open(path, "r") as file:
+            try:
+                declarations = list(iter_globals(src_file.read_text(), src_file.name))
+            except GlobalParseError as error:
+                print(error)
+                sys.exit(2)
 
-                line_num = 0
+            for curr_global in declarations:
+                duplicated = False
+                for global_iter in globals_list:
+                    if global_iter.address == curr_global.address or global_iter.name == curr_global.name:
+                        # duplicated global
+                        duplicated = True
+                        error_list.append((global_iter, curr_global))
 
-                for line in file:
-
-                    line_num += 1
-
-                    curr_global = None
-                    
-                    if "//" in line:    # remove comments
-                        line = line[: line.find("//")]
-                    
-                    if "DEFINE_GLOBAL_ARRAY" in line.upper():   # TODO: not implemented
-                        continue
-                    if "DEFINE_GLOBAL_INIT" in line.upper():
-                        curr_global = get_inited_global(line, src_file.name, line_num)
-                    elif "DEFINE_GLOBAL" in line.upper():
-                        curr_global = get_uninit_global(line, src_file.name, line_num)
-                    else:
-                        continue
-                    
-                    if curr_global is not None:
-                        duplicated = False
-                        for global_iter in globals_list:
-                            if global_iter.address == curr_global.address or global_iter.name == curr_global.name:
-                                # duplicated global
-                                duplicated = True
-                                error_list.append((global_iter, curr_global))
-                        
-                        if not duplicated:
-                            globals_list.append(curr_global)
+                if not duplicated:
+                    globals_list.append(curr_global)
 
     if len(error_list) == 0:
         sys.exit(0)

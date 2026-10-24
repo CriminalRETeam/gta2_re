@@ -8,7 +8,7 @@
 #include "winmain.hpp"
 
 DEFINE_GLOBAL(NetPlay, gNetPlay_7071E8, 0x7071E8);
-DEFINE_GLOBAL(GUID, kGta2_DP_Guid_5FE928, 0x5FE928);
+DEFINE_GLOBAL_INIT(GUID, kGta2_DP_Guid_5FE928, {0x561E8920 COMMA 0x5C70 COMMA 0x11D2 COMMA {0xAD COMMA 0x00 COMMA 0x00 COMMA 0xA0 COMMA 0xC9 COMMA 0xB6 COMMA 0x13 COMMA 0x98}}, 0x5FE928);
 DEFINE_GLOBAL_ARRAY(s32, gLastPlayerInputs_6F8A4C, 6, 0x6F8A4C);
 DEFINE_GLOBAL_ARRAY(char_type, byte_6F8A64, 24, 0x6F8A64);
 
@@ -1456,8 +1456,8 @@ void NetPlay::InvokeCallback_520230(s32 idx, u32 event_data)
                 {
                     ((T3)field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)(
                         field_4C_func_ptrs_and_params[idx].field_4_param_context,
-                        *(s32*)(event_data + 0x1C),
-                        event_data + 0x24);
+                        *(s32*)(event_data + 0x1C), // Network_Player::field_1C_player_name
+                        event_data + 0x24); // Network_Player::field_24_pData
                 }
                 break;
             case 3:

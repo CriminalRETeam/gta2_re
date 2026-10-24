@@ -337,7 +337,7 @@ class Player
     u8 field_0_is_user;
     char_type field_1_unused;
     char_type field_2_unused;
-    u32 field_4_inputs;
+    u32 field_4_inputs; // this tick's input bits (SetInputs_565740); zeroed once the tick has used them
     Ang16 field_8_turn_speed;
     Ang16 field_A_turn_accel;
     Fix16 field_C_move_direction;

@@ -193,9 +193,9 @@ DEFINE_GLOBAL_INIT(Fix16, kFP16Quarter_6FDFB8, kFP16Quarter_6FDFD4, 0x6FDFB8);
 inline void CarPhysics::AddDamage_49EF50(s32 damage)
 {
     u32 new_damage = gpRng_67AB34->get_cur_rng_41CFE0() + damage;
-    if (new_damage > field_8_total_damage_q)
+    if (new_damage > field_8_damaged_until_cycle)
     {
-        field_8_total_damage_q = new_damage;
+        field_8_damaged_until_cycle = new_damage;
     }
 }
 
@@ -2460,9 +2460,9 @@ void CarPhysics::AccumulateImpulse_55FC30(Fix16_Point& point, s32 base_dmg)
         ApplyImpulseWithTrailerRedirect_55FA10(&impulse);
 
         u32 rng_damage = base_dmg + gpRng_67AB34->get_cur_rng_41CFE0();
-        if (rng_damage > this->field_8_total_damage_q)
+        if (rng_damage > this->field_8_damaged_until_cycle)
         {
-            this->field_8_total_damage_q = rng_damage;
+            this->field_8_damaged_until_cycle = rng_damage;
         }
 
         if (!field_5C_pCar->IsDrivenByPlayer_4118D0())
@@ -3899,7 +3899,7 @@ void CarPhysics::Init_5637A0()
     field_10_last_skid_pos[2].reset();
     field_10_last_skid_pos[3].reset();
     field_8C_state = 1;
-    field_8_total_damage_q = 0;
+    field_8_damaged_until_cycle = 0;
     field_60_gas_pedal = kFpZero_6FE290;
     field_AC_drive_wheels_locked_q = 0;
     field_64_brake_pressure = kBrakePressureStart_6FE200;

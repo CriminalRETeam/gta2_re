@@ -1259,7 +1259,7 @@ void Ped::RespawnPed_45C350(gmp_map_zone* pZone)
     // TODO: missing inlines here, temp var shouldn't be needed
     SetRemap_433C10(get_remap_433BA0());
 
-    field_27C_ped_state_2 = ped_state_2::Unknown_29;
+    field_27C_ped_state_2 = ped_state_2::ped2_respawned_29;
     set_health_4039A0(100);
     field_208_invulnerability = 50;
 
@@ -1329,7 +1329,7 @@ void Ped::ChangeNextPedState2_45C540(s32 new_state)
     {
         field_27C_ped_state_2 = new_state; // just update, dont store previous
     }
-    else if (field_27C_ped_state_2 < ped_state_2::Unknown_17 || field_27C_ped_state_2 > ped_state_2::Unknown_28)
+    else if (field_27C_ped_state_2 < ped_state_2::ped2_at_car_door_17 || field_27C_ped_state_2 > ped_state_2::Unknown_28)
     {
         field_284_stored_ped_state_2 = field_27C_ped_state_2; // store previous state
         field_27C_ped_state_2 = new_state; // update
@@ -2629,7 +2629,7 @@ void Ped::Deallocate_45EB60()
                 --gNumberElvisLeadersSpawned_6787CC;
             }
             break;
-        case ped_ocupation_enum::guard:
+        case ped_ocupation_enum::walking_guard_29:
             --gNumberWalkingCopsSpawned_6787CD;
             break;
         case ped_ocupation_enum::armed_gang_member_19:
@@ -2716,7 +2716,7 @@ void Ped::Deallocate_45EB60()
     {
         if (!field_248_enter_car_as_passenger)
         {
-            field_16C_car->field_54_driver = 0;
+            field_16C_car->field_54_driver = 0; // whether or not this ped is the car's driver
             if (field_238_ped_type == ped_type::script_created_5)
             {
                 if (field_16C_car->GetCarKind_4343B0() == 1)
@@ -2729,7 +2729,7 @@ void Ped::Deallocate_45EB60()
     Ped::SetObjective(objectives_enum::no_obj_0);
     Ped::SetObjective2_463830(objectives_enum::no_obj_0);
     field_278_ped_state_1 = ped_state_1::dead_9;
-    field_27C_ped_state_2 = ped_state_2::Unknown_15;
+    field_27C_ped_state_2 = ped_state_2::ped2_dead_15;
 }
 
 MATCH_FUNC(0x45edc0)
@@ -3001,7 +3001,7 @@ void Ped::CarThief_AI_45FF60()
                     Kill_46F9D0();
                     return;
                 }
-                if (this->field_27C_ped_state_2 == ped_state_2::Unknown_17)
+                if (this->field_27C_ped_state_2 == ped_state_2::ped2_at_car_door_17)
                 {
                     SetObjective(objectives_enum::no_obj_0, 40);
                     SetObjective2_463830(objectives_enum::no_obj_0);
@@ -4432,7 +4432,7 @@ bool Ped::PoolUpdate()
                     }
                     else if (field_238_ped_type == ped_type::player_2 && field_200_id)
                     {
-                        if (field_27C_ped_state_2 == ped_state_2::Unknown_29)
+                        if (field_27C_ped_state_2 == ped_state_2::ped2_respawned_29)
                         {
                             field_20A_wanted_points = cop_level_ped_enum::cop_0_stars;
                         }
@@ -4452,7 +4452,7 @@ bool Ped::PoolUpdate()
                         Ped::SetObjective(objectives_enum::no_obj_0);
                         Ped::SetObjective2_463830(objectives_enum::no_obj_0);
                         field_278_ped_state_1 = ped_state_1::dead_9;
-                        field_27C_ped_state_2 = ped_state_2::Unknown_15;
+                        field_27C_ped_state_2 = ped_state_2::ped2_dead_15;
                     }
                     if (field_20E_offscreen_counter > 0xC8u && field_240_occupation != ped_ocupation_enum::paramedic_23 && field_238_ped_type != ped_type::script_created_5)
                     {
@@ -4649,7 +4649,7 @@ void Ped::SetStatesForObjective_4633E0(char_type bMainObj)
             break;
         case objectives_enum::objective_50:
             Ped::ChangeNextPedState1_45C500(ped_state_1::dead_9);
-            Ped::ChangeNextPedState2_45C540(ped_state_2::Unknown_15);
+            Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_dead_15);
             break;
         default:
             break;
@@ -4774,7 +4774,7 @@ void Ped::SetObjective(s32 objective, s16 objective_timer)
 
             case objectives_enum::objective_50:
                 ChangeNextPedState1_45C500(ped_state_1::dead_9);
-                ChangeNextPedState2_45C540(ped_state_2::Unknown_15);
+                ChangeNextPedState2_45C540(ped_state_2::ped2_dead_15);
                 break;
 
             default:
@@ -6755,7 +6755,7 @@ bool Ped::FindUsableCarDoor_467090()
             vel_to_check = kFpPoint1_678428;
         }
         if ((pTargetToEnter->GetVelocity_43A4C0() <= vel_to_check // car going slow enough?
-             || this->field_25C_internal_objective == objectives_enum::leave_car_36 || this->field_27C_ped_state_2 == ped_state_2::Unknown_17) &&
+             || this->field_25C_internal_objective == objectives_enum::leave_car_36 || this->field_27C_ped_state_2 == ped_state_2::ped2_at_car_door_17) &&
             !pTargetToEnter->IsDespawning_4215B0() && !pTargetToEnter->IsMaxDamage_40F890() &&
             (this->field_278_ped_state_1 == ped_state_1::exiting_car_4 || pTargetToEnter->IsDoorLockedForPed_43B2B0(this) != true) // can enter this car?
             && !pTargetToEnter->IsDeactivated_4214D0())
@@ -7669,7 +7669,7 @@ void Ped::LeaveTargetObjectiveCar_468820()
 {
     if (field_168_game_object)
     {
-        if (!field_150_target_objective_car && field_27C_ped_state_2 == ped_state_2::Unknown_17)
+        if (!field_150_target_objective_car && field_27C_ped_state_2 == ped_state_2::ped2_at_car_door_17)
         {
             field_225_objective_status = objective_status::passed_1;
         }
@@ -7874,7 +7874,7 @@ void Ped::LeaveCarThenStop_468BD0()
         {
             SetStateInitPending_433B50();
             field_278_ped_state_1 = ped_state_1::immobilized_8;
-            field_27C_ped_state_2 = ped_state_2::Unknown_17;
+            field_27C_ped_state_2 = ped_state_2::ped2_at_car_door_17;
             field_168_game_object->Set_F8_ped_state_1_433910(8);
             field_168_game_object->SetPedState2_433A50(17);
             field_16C_car = 0;
@@ -9495,7 +9495,7 @@ void Ped::MeleeAttackStateMachine_46B670()
             if (pNearestSprt && pNearestSprt->GetType_416B40() == sprite_types_enum::car_2)
             {
                 field_278_ped_state_1 = ped_state_1::immobilized_8;
-                field_27C_ped_state_2 = ped_state_2::Unknown_17;
+                field_27C_ped_state_2 = ped_state_2::ped2_at_car_door_17;
                 field_168_game_object->field_68_animation_frame = 3;
             }
             else
@@ -11604,12 +11604,12 @@ void Ped::Kill_46F9D0()
         if (field_27C_ped_state_2 == ped_state_2::lying_on_floor_22)
         {
             field_278_ped_state_1 = ped_state_1::dead_9;
-            field_27C_ped_state_2 = ped_state_2::Unknown_15;
+            field_27C_ped_state_2 = ped_state_2::ped2_dead_15;
         }
         else
         {
             Ped::ChangeNextPedState1_45C500(ped_state_1::dead_9);
-            Ped::ChangeNextPedState2_45C540(ped_state_2::Unknown_15);
+            Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_dead_15);
         }
 
         SetVoiceEventIfNotOnFire_433DD0(4);
@@ -11692,7 +11692,7 @@ void Ped::Kill_46F9D0()
             set_health_4039A0(0);
             field_20A_wanted_points = cop_level_ped_enum::cop_0_stars;
             field_21C_bf.bAttacking = false;
-            if (isDead_403B60() && field_27C_ped_state_2 == ped_state_2::Unknown_15)
+            if (isDead_403B60() && field_27C_ped_state_2 == ped_state_2::ped2_dead_15)
             {
                 SpawnWeaponOnDeath_45E080();
             }
