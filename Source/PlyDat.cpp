@@ -176,12 +176,12 @@ char_type HighScoreTable::InsertScore_56B550(const wchar_t* pFindStr, s32 findSc
     u16 startIdx = 10;
     for (s16 i = 9; i != -1; --i)
     {
-        if (findScore > field_0_score_table_line[i].field_14_score)
+        if (static_cast<u32>(findScore) > field_0_score_table_line[i].field_14_score)
         {
             startIdx = i;
         }
 
-        if (findScore == field_0_score_table_line[i].field_14_score &&
+        if (static_cast<u32>(findScore) == field_0_score_table_line[i].field_14_score &&
             wcscmp(pFindStr, field_0_score_table_line[i].field_0_player_name) == 0)
         {
             return 0;
@@ -312,7 +312,7 @@ PlyDat::PlyDat()
         field_1884_best_evasion_rating[i] = 0;
     }
 
-    for (u32 j = 0; (u16)j < 8; j++)
+    for (u32 j = 0; static_cast<u16>(j) < 8; j++)
     {
         if (PlySlotDatExists_56B940(j))
         {
@@ -413,7 +413,7 @@ void PlyDat::SavePlySlotDat_56BA60(s16 slotIdx)
 
     // The start of this object is reused as the buffer for the player slot .dat file
     memcpy(this,
-           field_26A0_plyr_stats[(u16)slotIdx].field_90_strPlayerName,
+           field_26A0_plyr_stats[static_cast<u16>(slotIdx)].field_90_strPlayerName,
            sizeof(field_26A0_plyr_stats[0].field_90_strPlayerName));
     len = sizeof(field_26A0_plyr_stats[0].field_90_strPlayerName);
 
@@ -424,13 +424,13 @@ void PlyDat::SavePlySlotDat_56BA60(s16 slotIdx)
     {
         for (s32 j = 0; j < 4; j++)
         {
-            *pDst = field_26A0_plyr_stats[(u16)slotIdx].field_0_plyr_stage_stats[k][j].field_0_is_stage_unlocked;
+            *pDst = field_26A0_plyr_stats[static_cast<u16>(slotIdx)].field_0_plyr_stage_stats[k][j].field_0_is_stage_unlocked;
             pDst++;
             len++;
-            *reinterpret_cast<u32*>(pDst) = field_26A0_plyr_stats[(u16)slotIdx].field_0_plyr_stage_stats[k][j].field_4_stage_best_score;
+            *reinterpret_cast<u32*>(pDst) = field_26A0_plyr_stats[static_cast<u16>(slotIdx)].field_0_plyr_stage_stats[k][j].field_4_stage_best_score;
             pDst += 4;
             len += 4;
-            *reinterpret_cast<s32*>(pDst) = field_26A0_plyr_stats[(u16)slotIdx].field_0_plyr_stage_stats[k][j].field_8_stage_latest_score;
+            *reinterpret_cast<s32*>(pDst) = field_26A0_plyr_stats[static_cast<u16>(slotIdx)].field_0_plyr_stage_stats[k][j].field_8_stage_latest_score;
             pDst += 4;
             len += 4;
         }
@@ -648,14 +648,14 @@ void PlyDat::UpdateHiScores_56C010()
         }
 
         const u32 value1 = gGameSession_67E8E0.GetCarDamageCost_4C5A80();
-        if (value1 > (u32)field_1878_best_car_damage_cost[map_num])
+        if (value1 > static_cast<u32>(field_1878_best_car_damage_cost[map_num]))
         {
             field_1878_best_car_damage_cost[map_num] = value1;
             bBestStatsChanged = 1;
         }
 
         const u32 value2 = gGameSession_67E8E0.GetEvasionRating_4C5AA0();
-        if (value2 > (u32)field_1884_best_evasion_rating[map_num])
+        if (value2 > static_cast<u32>(field_1884_best_evasion_rating[map_num]))
         {
             field_1884_best_evasion_rating[map_num] = value2;
             bBestStatsChanged = 1;

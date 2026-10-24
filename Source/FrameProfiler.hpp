@@ -100,7 +100,7 @@ class FrameProfiler
     {
         // right is 630 - fx + 1 rather than left + 1: VC6 keeps fx on the x87 stack for the second
         // use, then CSEs the whole (630 - fx) and pops the dead fx
-        f32 fx = x;
+        f32 fx = static_cast<f32>(x);
         f32 left = 630.0f - fx;
         f32 right = 630.0f - fx + 1.0f;
         sDrawFlatRect_4FF1C0(left, 478.0f - (value * 4), right, 478.0f, colour);

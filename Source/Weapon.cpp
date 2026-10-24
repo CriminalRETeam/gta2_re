@@ -291,7 +291,7 @@ void Weapon::flamethrower_5DD0F0()
 
     if (!field_4_bTargetHit)
     {
-        set_field_2C_4CCA80(1);
+        SetShotFired_4CCA80(1);
         bAllowFlameSegment_706D60 = 0;
         Weapon::spawn_bullet_5DCF60(objects::invisible_bullet_154, xpos, ypos, cam_z, ped_rot, ped_pos_maybe);
         if (bAllowFlameSegment_706D60)
@@ -331,14 +331,14 @@ void Weapon::shotgun_5DD290()
         Fix16 z = field_24_pPed->get_cam_z();
         ped_rotation = field_24_pPed->GetRotation();
         vector = field_24_pPed->GetVelocityVector_45B520();
-        set_field_2C_4CCA80(1);
+        SetShotFired_4CCA80(1);
         if (!field_4_bTargetHit)
         {
-            Object* pBullet_1 = Weapon::spawn_bullet_5DCF60(objects::shotgun_bullet_192, x, y, z, Ang16(kAng12_706D5E.rValue + ped_rotation.rValue, (u8)0), vector);
-            Object* pBullet_2 = Weapon::spawn_bullet_5DCF60(objects::shotgun_bullet_192, x, y, z, Ang16(word_707002.rValue + ped_rotation.rValue, (u8)0), vector);
+            Object* pBullet_1 = Weapon::spawn_bullet_5DCF60(objects::shotgun_bullet_192, x, y, z, Ang16(kAng12_706D5E.rValue + ped_rotation.rValue, static_cast<u8>(0)), vector);
+            Object* pBullet_2 = Weapon::spawn_bullet_5DCF60(objects::shotgun_bullet_192, x, y, z, Ang16(word_707002.rValue + ped_rotation.rValue, static_cast<u8>(0)), vector);
             Object* pBullet_3 = Weapon::spawn_bullet_5DCF60(objects::shotgun_bullet_192, x, y, z, ped_rotation, vector);
-            Object* pBullet_4 = Weapon::spawn_bullet_5DCF60(objects::shotgun_bullet_192, x, y, z, Ang16(ped_rotation.rValue - word_707002.rValue, (u8)0), vector);
-            Object* pBullet_5 = Weapon::spawn_bullet_5DCF60(objects::shotgun_bullet_192, x, y, z, Ang16(ped_rotation.rValue - kAng12_706D5E.rValue, (u8)0), vector);
+            Object* pBullet_4 = Weapon::spawn_bullet_5DCF60(objects::shotgun_bullet_192, x, y, z, Ang16(ped_rotation.rValue - word_707002.rValue, static_cast<u8>(0)), vector);
+            Object* pBullet_5 = Weapon::spawn_bullet_5DCF60(objects::shotgun_bullet_192, x, y, z, Ang16(ped_rotation.rValue - kAng12_706D5E.rValue, static_cast<u8>(0)), vector);
             if ((pBullet_1 || pBullet_2 || pBullet_3 || pBullet_4 || pBullet_5) && field_24_pPed->PedTypeIs_45EDE0(ped_type::player_2))
             {
                 decrement_ammo_4CCA30();
@@ -355,9 +355,9 @@ void Weapon::shotgun_5DD290()
         else
         {
             Weapon::spawn_bullet_5DCF60(objects::tanktop_193, x, y, z, kAng24_706D5C + ped_rotation, vector);
-            Weapon::spawn_bullet_5DCF60(objects::tanktop_193, x, y, z, Ang16(kAng12_706D5E.rValue + ped_rotation.rValue, (u8)0), vector);
+            Weapon::spawn_bullet_5DCF60(objects::tanktop_193, x, y, z, Ang16(kAng12_706D5E.rValue + ped_rotation.rValue, static_cast<u8>(0)), vector);
             Weapon::spawn_bullet_5DCF60(objects::tanktop_193, x, y, z, ped_rotation, vector);
-            Weapon::spawn_bullet_5DCF60(objects::tanktop_193, x, y, z, Ang16(ped_rotation.rValue - kAng12_706D5E.rValue, (u8)0), vector);
+            Weapon::spawn_bullet_5DCF60(objects::tanktop_193, x, y, z, Ang16(ped_rotation.rValue - kAng12_706D5E.rValue, static_cast<u8>(0)), vector);
             Weapon::spawn_bullet_5DCF60(objects::tanktop_193, x, y, z, Ang16(ped_rotation.rValue - kAng24_706D5C.rValue).Normalized_406C20(), vector);
             field_2_reload_timer = 5;
         }
@@ -388,7 +388,7 @@ void Weapon::pistol_5DD860()
 
     if (field_2_reload_timer == 0)
     {
-        set_field_2C_4CCA80(1);
+        SetShotFired_4CCA80(1);
         if (!field_4_bTargetHit) // first shot ??
         {
             const s32 bullet_type = field_24_pPed->PedTypeIs_45EDE0(ped_type::player_2) ? 265 : 254;
@@ -462,7 +462,7 @@ void Weapon::dual_pistol_5DDA70()
         Fix16 point_x = x + vector2.x;
         Fix16 point_y = y + vector2.y;
 
-        set_field_2C_4CCA80(1);
+        SetShotFired_4CCA80(1);
         if (!field_4_bTargetHit)
         {
             s32 weapon_bullet_model;
@@ -513,7 +513,7 @@ void Weapon::smg_5DDD20()
     Fix16_Point point;
     if (field_2_reload_timer == 0)
     {
-        set_field_2C_4CCA80(1);
+        SetShotFired_4CCA80(1);
         if (!field_4_bTargetHit)
         {
             Ang16 AimAngle;
@@ -581,7 +581,7 @@ void Weapon::throwable_5DDFC0(s32 obj_idx, s32 throw_strength, s32 throw_charge)
         field_21 = 0;
         if (field_2_reload_timer == 0)
         {
-            set_field_2C_4CCA80(1);
+            SetShotFired_4CCA80(1);
             if (!field_4_bTargetHit)
             {
                 if (!field_24_pPed->PedTypeIs_45EDE0(ped_type::player_2) && !field_20)
@@ -942,7 +942,7 @@ void __stdcall DrawElectricArc_5DE910(Fix16_Point_POD start_pos, Fix16_Point& en
         // temporary (a named local moves the frame slots) and `-=` evaluates the half first.
         u16 spread = (gRng_6F6784.get_int_4F7AE0(4) + 1) * 32;
         Ang16 jitter = Ang16::Fix16_To_Ang16_ool_40F540(
-            (Fix16(gRng_6F6784.get_int_4F7AE0(spread)) -= Fix16((u16)(spread >> 1))) * kFpOne64th_706D34);
+            (Fix16(gRng_6F6784.get_int_4F7AE0(spread)) -= Fix16(static_cast<u16>(spread >> 1))) * kFpOne64th_706D34);
 
         step.x = seg_len.Multiply_408680(Ang16::sine_40F500(angle));
         step.y = seg_len.Multiply_408680(Ang16::cosine_40F520(angle));
@@ -1297,7 +1297,7 @@ void Weapon::ChainShockTargets_5DFB60(u8 bFlag, Sprite* pSprite, Ang16 target_an
 
         if (bHit && !bFlag)
         {
-            set_field_2C_4CCA80(1);
+            SetShotFired_4CCA80(1);
             if (field_24_pPed->PedTypeIs_45EDE0(ped_type::player_2) && (gpRng_67AB34->get_cur_rng_41CFE0() & 1))
             {
                 DecreaseAmmo_4CCA60();
@@ -1384,7 +1384,7 @@ void Weapon::car_bomb_5E0AB0(char_type instant_bomb)
 {
     field_24_pPed = field_14_car->GetDriver_4118B0();
 
-    set_field_2C_4CCA80(1);
+    SetShotFired_4CCA80(1);
 
     decrement_ammo_4CCA30();
 
@@ -1439,7 +1439,7 @@ void Weapon::fire_truck_flamethrower_5E0B10()
 
     velocity = field_14_car->field_58_physics->GetPointVelocity_561350(&bullet_pos);
 
-    set_field_2C_4CCA80(1);
+    SetShotFired_4CCA80(1);
 
     if (!IsTargetHit_41CC70())
     {
@@ -1479,7 +1479,7 @@ void Weapon::fire_truck_gun_5E0E70()
 
     velocity = field_14_car->field_58_physics->GetPointVelocity_561350(&bullet_pos);
 
-    set_field_2C_4CCA80(1);
+    SetShotFired_4CCA80(1);
 
     if (!IsTargetHit_41CC70())
     {
@@ -1496,7 +1496,7 @@ void Weapon::fire_truck_gun_5E0E70()
 // (tank_main_gun_5E10E0, army_gun_jeep_5E13E0)
 static inline Fix16 MultiplyLeftWide(const Fix16& a, const Fix16& b)
 {
-    return Fix16((s32)(((__int64)a.mValue * b.mValue) >> 14), 0);
+    return Fix16(static_cast<s32>((static_cast<__int64>(a.mValue) * b.mValue) >> 14), 0);
 }
 
 // Fix16 sum as a free function: the sum lands in ecx (operator+ gives eax)
@@ -1555,7 +1555,7 @@ void Weapon::tank_main_gun_5E10E0()
         {
             velocity.reset();
         }
-        set_field_2C_4CCA80(1);
+        SetShotFired_4CCA80(1);
         if (!field_4_bTargetHit)
         {
             if (Weapon::spawn_bullet_5DCF60(objects::rocket_bullet_128,
@@ -1625,7 +1625,7 @@ void Weapon::army_gun_jeep_5E13E0()
 
         muzzle_vel = field_14_car->field_58_physics->GetPointVelocity_561350(&bullet_pos);
 
-        set_field_2C_4CCA80(1);
+        SetShotFired_4CCA80(1);
 
         if (!field_4_bTargetHit)
         {
@@ -1700,7 +1700,7 @@ void Weapon::oil_stain_5E1DC0()
     {
         gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::animating_oil_8, vector.x, vector.y, found_z, pSprt->field_0_rotation);
         decrement_ammo_4CCA30();
-        set_field_2C_4CCA80(1);
+        SetShotFired_4CCA80(1);
     }
 }
 
@@ -1735,7 +1735,7 @@ void Weapon::car_mine_5E2550()
         pMine->SetDamageOwner_529080(field_24_pPed->field_267_ped_ref_idx);
 
         decrement_ammo_4CCA30(); // NOTE: Didn't get inlined without __forceinline here, wtf??
-        set_field_2C_4CCA80(1);
+        SetShotFired_4CCA80(1);
     }
 }
 
@@ -1818,7 +1818,7 @@ void Weapon::car_smg_5E2940()
         }
 
         ApplyFastReload_5DCF40();
-        set_field_2C_4CCA80(1);
+        SetShotFired_4CCA80(1);
     }
     else
     {
@@ -1991,7 +1991,7 @@ void Weapon::rocket_5E3850()
 {
     if (field_2_reload_timer == 0)
     {
-        set_field_2C_4CCA80(1);
+        SetShotFired_4CCA80(1);
 
         if (!field_4_bTargetHit)
         {

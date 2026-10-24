@@ -36,7 +36,7 @@ u32 hexStringToU32(const std::string& hexStr)
     std::string s = trim(hexStr);
     if (s.size() >= 2 && (s.substr(0, 2) == "0x" || s.substr(0, 2) == "0X"))
         s = s.substr(2);
-    return (u32)strtoul(s.c_str(), NULL, 16);
+    return static_cast<u32>(strtoul(s.c_str(), NULL, 16));
 }
 
 // Extracts the value of a given key (assumed to be in quotes) from a JSON object string.

@@ -223,7 +223,7 @@ void ScriptThread::Log_5035D0()
 {
     if (gDo_miss_logging_67D6BC)
     {
-        sprintf(gTmpBuffer_67C598, "%d:\t\t%d ", gpRng_67AB34->get_cur_rng_41CFE0(), (s16)field_4_next_cmd);
+        sprintf(gTmpBuffer_67C598, "%d:\t\t%d ", gpRng_67AB34->get_cur_rng_41CFE0(), static_cast<s16>(field_4_next_cmd));
         gMiss2Log_6F7698.Write_Log_4D9650(gTmpBuffer_67C598);
     }
 }
@@ -239,7 +239,7 @@ void ScriptThread::StopThread_503610()
 MATCH_FUNC(0x503620)
 void ScriptThread::Next_503620(SCR_CMD_HEADER* pCmd)
 {
-    if ((u16)pCmd->field_4_cmd_next != 0xFFFF)
+    if (static_cast<u16>(pCmd->field_4_cmd_next) != 0xFFFF)
     { // FF FF (low endian) is the script terminator
         gPrevCmdIdx_6F806C = field_4_next_cmd;
         field_4_next_cmd = pCmd->field_4_cmd_next;
@@ -281,7 +281,7 @@ void ScriptThread::SCRCMD_OBJ_DECSET_2D_3D_503680(SCR_OBJ_DATA* pCmd, SCR_POINTE
 
     if (pCmd->field_18_obj_id < 0xC8u || pCmd->field_18_obj_id > 0xF4u)
     {
-        Ang16 rotation = kDegreesToAng16_6F8044.MultiplyByFix16_401CB0(Fix16((u16)pCmd->field_1A_rot.rValue));
+        Ang16 rotation = kDegreesToAng16_6F8044.MultiplyByFix16_401CB0(Fix16(static_cast<u16>(pCmd->field_1A_rot.rValue)));
 
         pPointer->field_8_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(pCmd->field_18_obj_id,
                                                                         pCmd->field_C_pos.field_0_x,
@@ -291,7 +291,7 @@ void ScriptThread::SCRCMD_OBJ_DECSET_2D_3D_503680(SCR_OBJ_DATA* pCmd, SCR_POINTE
     }
     else
     {
-        Ang16 rotation = kDegreesToAng16_6F8044.MultiplyByFix16_401CB0(Fix16((u16)pCmd->field_1A_rot.rValue));
+        Ang16 rotation = kDegreesToAng16_6F8044.MultiplyByFix16_401CB0(Fix16(static_cast<u16>(pCmd->field_1A_rot.rValue)));
 
         pPointer->field_8_obj = gObject_5C_6F8F84->NewPhysicsObjUnlessBlocked_529BC0(pCmd->field_18_obj_id,
                                                               pCmd->field_C_pos.field_0_x,
@@ -401,12 +401,12 @@ void ScriptThread::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
                     gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(pCmd->field_C_pos.field_0_x, pCmd->field_C_pos.field_4_y);
             }
 
-            Ang16 rotation = kDegreesToAng16_6F8044.MultiplyByFix16_401CB0(Fix16((u16)pCmd->field_18_rot.rValue));
+            Ang16 rotation = kDegreesToAng16_6F8044.MultiplyByFix16_401CB0(Fix16(static_cast<u16>(pCmd->field_18_rot.rValue)));
 
             pPed = gPedManager_6787BC->SpawnPedAt(pCmd->field_C_pos.field_0_x,
                                                   pCmd->field_C_pos.field_4_y,
                                                   pCmd->field_C_pos.field_8_z,
-                                                  pCmd->field_1A_remap,
+                                                  static_cast<u8>(pCmd->field_1A_remap),
                                                   rotation);
         }
 
@@ -510,7 +510,7 @@ void ScriptThread::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER*
     {
         if (pCmd->field_1A_remap != -1)
         {
-            pPointer->field_8_car->SetCarRemap(pCmd->field_1A_remap);
+            pPointer->field_8_car->SetCarRemap(static_cast<u8>(pCmd->field_1A_remap));
         }
 
         Car* pCar = pPointer->field_8_car;
@@ -520,7 +520,7 @@ void ScriptThread::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER*
         pPointer->field_8_car->IncrementCarStats_443D70(car_kind::mission_car_8);
         pPointer->field_8_car->field_50_car_sprite->ResolveCollisionWithCarPedOrObject_5A2A30();
 
-        if (pCmd->field_2_type >= (u32)SCRCMD_CREATE_GANG_CAR1 && pCmd->field_2_type <= (u32)SCRCMD_CREATE_GANG_CAR4)
+        if (pCmd->field_2_type >= static_cast<u32>(SCRCMD_CREATE_GANG_CAR1) && pCmd->field_2_type <= static_cast<u32>(SCRCMD_CREATE_GANG_CAR4))
         {
             s8 zone_idx = gGangPool_CA8_67E274->FindGangByCarModel_4BF2F0(pPointer->field_8_car->field_84_car_info_idx);
             if (zone_idx > -1)
@@ -535,7 +535,7 @@ void ScriptThread::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER*
 MATCH_FUNC(0x503f80)
 void ScriptThread::SCRCMD_PARKED_CAR_DECSET_503F80(SCR_POINTER* pCmd)
 {
-    ScriptThread::SCRCMD_CAR_DECSET_503BC0((SCR_CAR_DATA_DEC*)pCmd, pCmd);
+    ScriptThread::SCRCMD_CAR_DECSET_503BC0(reinterpret_cast<SCR_CAR_DATA_DEC*>(pCmd), pCmd);
     (pCmd->field_8_car)->ReassignCarStats_443EB0(car_kind::parked_car_9);
     Car* pCar = pCmd->field_8_car;
     pCar->field_7C_ped_type = ped_type::special_ped_4;
@@ -554,12 +554,12 @@ void ScriptThread::SCRCMD_CHAR_DECSET_2D_3D_503FB0(SCR_CHAR_DATA_DEC* pCmd, SCR_
             gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(pCmd->field_C_pos.field_0_x, pCmd->field_C_pos.field_4_y);
     }
 
-    Ang16 rotation = kDegreesToAng16_6F8044.MultiplyByFix16_401CB0(Fix16((u16)pCmd->field_18_rot.rValue));
+    Ang16 rotation = kDegreesToAng16_6F8044.MultiplyByFix16_401CB0(Fix16(static_cast<u16>(pCmd->field_18_rot.rValue)));
 
     pPed = gPedManager_6787BC->SpawnPedAt(pCmd->field_C_pos.field_0_x,
                                           pCmd->field_C_pos.field_4_y,
                                           pCmd->field_C_pos.field_8_z,
-                                          (u8)pCmd->field_1A_remap,
+                                          static_cast<u8>(pCmd->field_1A_remap),
                                           rotation);
     pPointer->field_8_char = pPed;
 
@@ -638,13 +638,13 @@ void ScriptThread::SCRCMD_CRANE_5041C0(SCR_CRANE_TARGET_DEC* pTargetCmd, SCR_CRA
     else if (pTargetCmd->field_2_type == SCRCMD_CRANE_BASIC_DEC)
     {
         Ang16 rotation;
-        rotation.ConvertAndMultiply(&kDegreesToAng16_6F8044, (Ang16*)&pBasicCmd->field_24_target_rotation);
+        rotation.ConvertAndMultiply(&kDegreesToAng16_6F8044, reinterpret_cast<Ang16*>(&pBasicCmd->field_24_target_rotation));
         rotation.Normalize_406C20();
         pBasicCmd->field_8_crane->SetTarget1_480900(pBasicCmd->field_1C_target_pos.field_0_x,
                                                                 pBasicCmd->field_1C_target_pos.field_4_y,
                                                                 rotation);
 
-        rotation.ConvertAndMultiply(&kDegreesToAng16_6F8044, (Ang16*)&pBasicCmd->field_26_second_rotation);
+        rotation.ConvertAndMultiply(&kDegreesToAng16_6F8044, reinterpret_cast<Ang16*>(&pBasicCmd->field_26_second_rotation));
         rotation.Normalize_406C20();
         pBasicCmd->field_8_crane->SetTarget2_480B60(pBasicCmd->field_28_second_pos.field_0_x,
                                                                 pBasicCmd->field_28_second_pos.field_4_y,
@@ -653,14 +653,14 @@ void ScriptThread::SCRCMD_CRANE_5041C0(SCR_CRANE_TARGET_DEC* pTargetCmd, SCR_CRA
 
     {
         Ang16 rotation;
-        rotation.ConvertAndMultiply(&kDegreesToAng16_6F8044, (Ang16*)&pTargetCmd->field_18_home_rotation);
+        rotation.ConvertAndMultiply(&kDegreesToAng16_6F8044, reinterpret_cast<Ang16*>(&pTargetCmd->field_18_home_rotation));
         rotation.Normalize_406C20();
         pBasicCmd->field_8_crane->SetHomeRotation_4768E0(rotation);
     }
 
     if (pTargetCmd->field_C_homecrane)
     {
-        SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pTargetCmd->field_C_homecrane);
+        SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pTargetCmd->field_C_homecrane));
         pBasicCmd->field_8_crane->SetHomeCrane_476900(pPointer->field_8_crane);
     }
 }
@@ -696,7 +696,7 @@ void ScriptThread::SCRCMD_GENERATOR_DECSET_504420(SCR_GENERATOR* pCmd, SCR_POINT
             gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(pCmd->field_C_pos.field_0_x, pCmd->field_C_pos.field_4_y);
     }
 
-    Ang16 rotation = kDegreesToAng16_6F8044.MultiplyByFix16_401CB0(Fix16((u16)pCmd->field_18_rot.rValue));
+    Ang16 rotation = kDegreesToAng16_6F8044.MultiplyByFix16_401CB0(Fix16(static_cast<u16>(pCmd->field_18_rot.rValue)));
 
     pPointer->field_8_generator = gGeneratorPool_14AC_67E5D0->CreateGenerator_4C1DC0(pCmd->field_C_pos.field_0_x,
                                                                                      pCmd->field_C_pos.field_4_y,
@@ -741,8 +741,8 @@ MATCH_FUNC(0x5045d0)
 void ScriptThread::SCRCMD_THREAD_DECLARE2_5045D0(SCR_THREAD* pThread, s16* pThreadIdx)
 {
     SCR_THREAD* pCmd = pThread;
-    SCR_POINTER* pParam1 = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_10_char_var_idx);
-    SCR_POINTER* pParam2 = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_12_car_or_phone_idx);
+    SCR_POINTER* pParam1 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_10_char_var_idx));
+    SCR_POINTER* pParam2 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_12_car_or_phone_idx));
 
     if (pParam1->field_8_char && pParam2->field_8_car)
     {
@@ -756,7 +756,7 @@ void ScriptThread::SCRCMD_THREAD_DECLARE3_504660(SCR_THREAD* pThread)
 {
     SCR_THREAD* pCmd = pThread;
 
-    if (((SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_10_char_idx))->field_8_char)
+    if (static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_10_char_idx))->field_8_char)
     {
         pCmd->field_15_trigger_idx = gCarThreadTriggers_214_705F20->AddThreadTrigger_5C86C0(4,
                                                      2,
@@ -773,7 +773,7 @@ void ScriptThread::SCRCMD_THREAD_DECLARE3_504660(SCR_THREAD* pThread)
 MATCH_FUNC(0x504710)
 void ScriptThread::SCRCMD_THREAD_DECLARE5_504710(SCR_CHAR_AREA_ANY* pCmd)
 {
-    if (((SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_24_char_idx))->field_8_char)
+    if (static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_24_char_idx))->field_8_char)
     {
         pCmd->field_27_flag = 1;
 
@@ -782,7 +782,7 @@ void ScriptThread::SCRCMD_THREAD_DECLARE5_504710(SCR_CHAR_AREA_ANY* pCmd)
             case SCRCMD_THREAD_DECLARE5:
                 pCmd->field_26_trigger_idx = gCarThreadTriggers_214_705F20->AddThreadTrigger_5C86C0(4,
                                                                     2,
-                                                                    (SCR_THREAD*)pCmd,
+                                                                    reinterpret_cast<SCR_THREAD*>(pCmd),
                                                                     pCmd->field_10_x,
                                                                     pCmd->field_14_y,
                                                                     pCmd->field_18_z,
@@ -793,7 +793,7 @@ void ScriptThread::SCRCMD_THREAD_DECLARE5_504710(SCR_CHAR_AREA_ANY* pCmd)
             case SCRCMD_CHAR_AREA_ANY_MEANS:
                 pCmd->field_26_trigger_idx = gCarThreadTriggers_214_705F20->AddThreadTrigger_5C86C0(3,
                                                                     2,
-                                                                    (SCR_THREAD*)pCmd,
+                                                                    reinterpret_cast<SCR_THREAD*>(pCmd),
                                                                     pCmd->field_10_x,
                                                                     pCmd->field_14_y,
                                                                     pCmd->field_18_z,
@@ -809,8 +809,8 @@ MATCH_FUNC(0x5047c0)
 void ScriptThread::SCRCMD_THREAD_DECLARE4_5047C0(SCR_THREAD* pThread, s16* pThreadIdx)
 {
     SCR_THREAD* pCmd = pThread;
-    SCR_POINTER* pParam1 = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_10_char_var_idx);
-    SCR_POINTER* pParam2 = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_12_car_or_phone_idx);
+    SCR_POINTER* pParam1 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_10_char_var_idx));
+    SCR_POINTER* pParam2 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_12_car_or_phone_idx));
 
     if (pParam1->field_8_char && pParam2->field_8_car)
     {
@@ -826,7 +826,7 @@ void ScriptThread::SCRCMD_SET_GANG_INFO1_504830(SCR_SET_GANG_INFO* pCmd)
 
     string_entry = gScriptManager_6F8060->FindStringById_503080(pCmd->field_8_gangname);
 
-    Gang* pZone = gGangPool_CA8_67E274->FindGangByName_4BF100((char*)&string_entry[1]);
+    Gang* pZone = gGangPool_CA8_67E274->FindGangByName_4BF100(reinterpret_cast<char*>(&string_entry[1]));
     pZone->SetRemap_4758A0(pCmd->field_A_remap);
 
     pZone->SetBasicWeapon_4758B0(pCmd->field_B_weapon1);
@@ -835,7 +835,7 @@ void ScriptThread::SCRCMD_SET_GANG_INFO1_504830(SCR_SET_GANG_INFO* pCmd)
 
     pZone->SetArrowColour_475940(pCmd->field_E_arrow_id);
     pZone->SetGangCarModel_4758E0(pCmd->field_1C_car_model);
-    pZone->SetGangCarRemap_4758F0(pCmd->field_1E_car_remap);
+    pZone->SetGangCarRemap_4758F0(static_cast<char_type>(pCmd->field_1E_car_remap));
 
     if (pCmd->field_10_pos.field_8_z == kFp255_6F7570)
     {
@@ -849,9 +849,9 @@ void ScriptThread::SCRCMD_SET_GANG_INFO1_504830(SCR_SET_GANG_INFO* pCmd)
     pZone->SetKillRespectChange_475950(pCmd->field_F_kill_respect_change);
     gGangPool_CA8_67E274->SwapGangSlots_4BF230(pZone, gScriptManager_6F8060->field_354_next_gang_idx);
     ++gScriptManager_6F8060->field_354_next_gang_idx;
-    Gang* pGang = gGangPool_CA8_67E274->FindGangByName_4BF100((char*)&string_entry[1]);
+    Gang* pGang = gGangPool_CA8_67E274->FindGangByName_4BF100(reinterpret_cast<char*>(&string_entry[1]));
 
-    if ((u8)pCmd->field_F_kill_respect_change > 0)
+    if (pCmd->field_F_kill_respect_change > 0)
     {
         gHud_2B00_706620->field_1F18_arrows.SetNewGangArrow_5D1310(pGang);
     }
@@ -860,7 +860,7 @@ void ScriptThread::SCRCMD_SET_GANG_INFO1_504830(SCR_SET_GANG_INFO* pCmd)
 MATCH_FUNC(0x504950)
 void ScriptThread::SCRCMD_SET_DOOR_INFO_504950(SCR_FOUR_PARAMS* pCmd)
 {
-    gDoor_4D4_67BD2C->RegisterDoorInfo_49D2D0(pCmd->field_8_unsigned_1, pCmd->field_A_unsigned_2, pCmd->field_C_unsigned_3);
+    gDoor_4D4_67BD2C->RegisterDoorInfo_49D2D0(pCmd->field_8_unsigned_1, pCmd->field_A_unsigned_2, static_cast<char_type>(pCmd->field_C_unsigned_3));
 }
 
 MATCH_FUNC(0x504970)
@@ -1061,7 +1061,7 @@ void ScriptThread::SCRCMD_DOOR_DECLARE_D2_S2_504B80(SCR_DOOR_DATA_DEC* pCmd)
         case SCR_DOOR_OPENTYPES::one_car:
         case SCR_DOOR_OPENTYPES::any_player_one_car:
         {
-            SCR_POINTER* tmp = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_30_somename);
+            SCR_POINTER* tmp = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_30_somename));
             Car* ped_ptr = tmp->field_8_car;
             if (ped_ptr != NULL)
             {
@@ -1077,7 +1077,7 @@ void ScriptThread::SCRCMD_DOOR_DECLARE_D2_S2_504B80(SCR_DOOR_DATA_DEC* pCmd)
 
         case SCR_DOOR_OPENTYPES::one_char_on_foot:
         {
-            SCR_POINTER* tmp = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_30_somename);
+            SCR_POINTER* tmp = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_30_somename));
             Ped* ped_ptr = tmp->field_8_char;
             if (ped_ptr != NULL)
             {
@@ -1121,7 +1121,7 @@ void ScriptThread::SCRCMD_DECLARE_MISSION_504DD0(SCR_TWO_PARAMS* pCmd)
     SCR_POINTER* pPointer;
 
     gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_unsigned_1); //  player pointer not used because missions are singleplayer
-    pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2);
+    pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2));
     if (pCmd->field_2_type == SCRCMD_DEC_GANG_1_FLAG)
     {
         gScriptManager_6F8060->field_348_gang_1_mission_flag = &pPointer->field_8_counter;
@@ -1165,7 +1165,7 @@ void ScriptThread::SCRCMD_SET_STATION_EMPTY_STATION_505030(SCR_SET_STATION* pCmd
     if (!bSkip_trains_67D550)
     {
         str_table_entry* StringById_503080 = gScriptManager_6F8060->FindStringById_503080(pCmd->field_8_platform);
-        gmp_map_zone* station_zone = gMap_0x370_6F6268->FindZoneByName_4DEFD0((const char*)&StringById_503080[1]);
+        gmp_map_zone* station_zone = gMap_0x370_6F6268->FindZoneByName_4DEFD0(reinterpret_cast<const char*>(&StringById_503080[1]));
         TrainStation* pStation = gPublicTransport_181C_6FF1D4->TrainStationForZone_57B4B0(station_zone);
 
         for (u8 wagon_idx = 0; wagon_idx < 10; wagon_idx++)
@@ -1210,22 +1210,22 @@ void ScriptThread::CRCMD_SET_TRAIN_STATIONS_505210(SCR_TWO_PARAMS* pCmd)
     if (!bSkip_trains_67D550)
     {
         StringById = gScriptManager_6F8060->FindStringById_503080(pCmd->field_8_unsigned_1);
-        const char* station_zone_name = (const char*)&StringById[1];
+        const char* station_zone_name = reinterpret_cast<const char*>(&StringById[1]);
         gmp_map_zone* station_zone = gMap_0x370_6F6268->FindZoneByName_4DEFD0(station_zone_name);
         TrainStation* pTrainStation = gPublicTransport_181C_6FF1D4->TrainStationForZone_57B4B0(station_zone);
-        pTrainStation->CalculateWagonCount_578820((u8*)&pCmd->field_A_unsigned_2); //  The parameter may be the train wagon array, not sure
+        pTrainStation->CalculateWagonCount_578820(reinterpret_cast<u8*>(&pCmd->field_A_unsigned_2)); //  The parameter may be the train wagon array, not sure
     }
 }
 
 MATCH_FUNC(0x5052c0)
 void ScriptThread::SCRCMD_DECLARE_POLICE_5052C0(SCR_DECLARE_POLICELEVEL* pCmd)
 {
-    u8 max_wanted_level = pCmd->field_A_wanted_level;
+    u8 max_wanted_level = static_cast<u8>(pCmd->field_A_wanted_level);
     if (max_wanted_level == 0)
     {
         bSkip_police_67D4F9 = 0;
     }
-    gPolice_7B8_6FEE40->field_660_max_wanted_stars = pCmd->field_A_wanted_level; // max_wanted_level
+    gPolice_7B8_6FEE40->field_660_max_wanted_stars = static_cast<u8>(pCmd->field_A_wanted_level); // max_wanted_level
 }
 
 MATCH_FUNC(0x505340)
@@ -1277,7 +1277,7 @@ void ScriptThread::SCRCMD_SET_MISSIONS_TOTAL_505430(SCR_TWO_PARAMS* pCmd)
 MATCH_FUNC(0x505580)
 void ScriptThread::SCRCMD_PASSED_FAILED_FLAGS_505580(SCR_TWO_PARAMS* pCmd)
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_unsigned_1);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_unsigned_1));
 
     switch (pCmd->field_2_type)
     {
@@ -1325,9 +1325,9 @@ void ScriptThread::DisableThread_505790(u16 idx)
     {
         case SCRCMD_THREAD_DECLARE4:
         {
-            SCR_THREAD* pThread = (SCR_THREAD*)pCmd;
-            SCR_POINTER* pParam1 = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pThread->field_10_char_var_idx);
-            SCR_POINTER* pParam2 = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pThread->field_12_car_or_phone_idx);
+            SCR_THREAD* pThread = static_cast<SCR_THREAD*>(pCmd);
+            SCR_POINTER* pParam1 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pThread->field_10_char_var_idx));
+            SCR_POINTER* pParam2 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pThread->field_12_car_or_phone_idx));
 
             if (pParam2->field_8_obj->IsAnimatedBehavior_475A80() && pParam2->field_8_obj->field_24_touched_result != 174)
             {
@@ -1338,17 +1338,17 @@ void ScriptThread::DisableThread_505790(u16 idx)
             break;
         }
         case SCRCMD_THREAD_DECLARE3:
-            gCarThreadTriggers_214_705F20->SetTriggerEnableState_4768C0(((SCR_THREAD*)pCmd)->field_15_trigger_idx, 2);
+            gCarThreadTriggers_214_705F20->SetTriggerEnableState_4768C0(static_cast<SCR_THREAD*>(pCmd)->field_15_trigger_idx, 2);
             break;
         case SCRCMD_THREAD_DECLARE5:
         case SCRCMD_CHAR_AREA_ANY_MEANS:
-            gCarThreadTriggers_214_705F20->SetTriggerEnableState_4768C0(((SCR_CHAR_AREA_ANY*)pCmd)->field_26_trigger_idx, 2);
+            gCarThreadTriggers_214_705F20->SetTriggerEnableState_4768C0(static_cast<SCR_CHAR_AREA_ANY*>(pCmd)->field_26_trigger_idx, 2);
             break;
         case SCRCMD_THREAD_DECLARE2:
         {
-            SCR_THREAD* pThread = (SCR_THREAD*)pCmd;
-            SCR_POINTER* pParam1 = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pThread->field_10_char_var_idx);
-            SCR_POINTER* pParam2 = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pThread->field_12_car_or_phone_idx);
+            SCR_THREAD* pThread = static_cast<SCR_THREAD*>(pCmd);
+            SCR_POINTER* pParam1 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pThread->field_10_char_var_idx));
+            SCR_POINTER* pParam2 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pThread->field_12_car_or_phone_idx));
 
             s32 charId = pParam1->field_8_char->get_id();
             ThreadTrigger* pThreadC = gScriptManager_6F8060->FindCarThread_5128A0(charId, pParam2->field_8_car->field_6C_car_id);
@@ -1376,11 +1376,11 @@ void ScriptThread::DeallocOrDeleteItem_505B10(u16 idx)
     SCR_POINTER* pLghtCmdPointer;
     SCR_DELETE_SOUND* pSoundCmdPointer;
 
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(idx);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(idx));
     switch (ScriptThread::GetEntityTypeOfCommand_503410(pPointer->field_2_type))
     {
         case 2:
-            pCarCmdPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(idx);
+            pCarCmdPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(idx));
             if (pCarCmdPointer->field_8_car)
             {
                 gScriptManager_6F8060->ClearWeaponHitFlag_512BA0(pCarCmdPointer->field_8_car->field_6C_car_id, 0);
@@ -1390,7 +1390,7 @@ void ScriptThread::DeallocOrDeleteItem_505B10(u16 idx)
             break;
 
         case 1:
-            pPedCmdPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(idx);
+            pPedCmdPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(idx));
             if (pPedCmdPointer->field_8_char)
             {
                 pPedCmdPointer->field_8_char->Deallocate_45EB60();
@@ -1399,7 +1399,7 @@ void ScriptThread::DeallocOrDeleteItem_505B10(u16 idx)
             break;
 
         case 3:
-            pObjCmdPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(idx);
+            pObjCmdPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(idx));
             if (pObjCmdPointer->field_8_obj)
             {
                 pObjCmdPointer->field_8_obj->Dealloc_5291B0();
@@ -1407,7 +1407,7 @@ void ScriptThread::DeallocOrDeleteItem_505B10(u16 idx)
             }
             break;
         case 8:
-            pLghtCmdPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(idx);
+            pLghtCmdPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(idx));
             if (pLghtCmdPointer->field_8_light)
             {
                 gLight_1D4CC_6F5520->DeallocLight_47F4F0(pLghtCmdPointer->field_8_light);
@@ -1416,12 +1416,12 @@ void ScriptThread::DeallocOrDeleteItem_505B10(u16 idx)
             break;
 
         case 9:
-            pSoundCmdPointer = (SCR_DELETE_SOUND*)gScriptManager_6F8060->GetBasePointer_512770(idx);
+            pSoundCmdPointer = static_cast<SCR_DELETE_SOUND*>(gScriptManager_6F8060->GetBasePointer_512770(idx));
             gRoot_sound_66B038.RemoveSound_40F050(pSoundCmdPointer->field_8_xpos, pSoundCmdPointer->field_C_ypos);
             break;
 
         case 10:
-            pObjCmdPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(idx);
+            pObjCmdPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(idx));
             if (pObjCmdPointer->field_8_obj)
             {
                 pObjCmdPointer->field_8_obj->Dealloc_5291B0();
@@ -1436,7 +1436,7 @@ void ScriptThread::DeallocOrDeleteItem_505B10(u16 idx)
 MATCH_FUNC(0x505ea0)
 s16 ScriptThread::GetBonusResult_505EA0(u16 idx)
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(idx);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(idx));
     s16 result = pPointer->field_8_counter;
     if (result != -3 && result != -4)
     {
@@ -1485,7 +1485,7 @@ void ScriptThread::SCRCMD_DEC_DEATH_BASE_506010(SCR_FOUR_PARAMS* pCmd)
 MATCH_FUNC(0x5060d0)
 void ScriptThread::SCRCMD_DO_CRANE_POWERUP_5060D0(SCR_DECLARE_CRANE_POWERUP* pCmd)
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_crane_idx);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_crane_idx));
     pPointer->field_8_crane->field_140_powerup_cmd = pCmd->field_0_cmd_this;
 }
 
@@ -1513,121 +1513,121 @@ void ScriptThread::ExecOpCode_5061C0()
             switch (pBasePtr->field_2_type)
             {
                 case SCRCMD_PLAYER_PED:
-                    ScriptThread::SCRCMD_PLAYER_PED_503A20((SCR_PLAYER_PED*)pBasePtr);
+                    ScriptThread::SCRCMD_PLAYER_PED_503A20(reinterpret_cast<SCR_PLAYER_PED*>(pBasePtr));
                     break;
                 case SCRCMD_CAR_DECSET_2D:
                 case SCRCMD_CAR_DECSET_3D:
                 case SCRCMD_CAR_DECSET_2D_STR:
                 case SCRCMD_CAR_DECSET_3D_STR:
-                    ScriptThread::SCRCMD_CAR_DECSET_503BC0((SCR_CAR_DATA_DEC*)pBasePtr, (SCR_POINTER*)pBasePtr);
+                    ScriptThread::SCRCMD_CAR_DECSET_503BC0(static_cast<SCR_CAR_DATA_DEC*>(pBasePtr), static_cast<SCR_POINTER*>(pBasePtr));
                     break;
                 case SCRCMD_CHAR_DECSET_2D:
                 case SCRCMD_CHAR_DECSET_3D:
-                    ScriptThread::SCRCMD_CHAR_DECSET_2D_3D_503FB0((SCR_CHAR_DATA_DEC*)pBasePtr, (SCR_POINTER*)pBasePtr);
+                    ScriptThread::SCRCMD_CHAR_DECSET_2D_3D_503FB0(static_cast<SCR_CHAR_DATA_DEC*>(pBasePtr), static_cast<SCR_POINTER*>(pBasePtr));
                     break;
                 case SCRCMD_OBJ_DECSET_2D:
                 case SCRCMD_OBJ_DECSET_3D:
-                    ScriptThread::SCRCMD_OBJ_DECSET_2D_3D_503680((SCR_OBJ_DATA*)pBasePtr, (SCR_POINTER*)pBasePtr);
+                    ScriptThread::SCRCMD_OBJ_DECSET_2D_3D_503680(static_cast<SCR_OBJ_DATA*>(pBasePtr), static_cast<SCR_POINTER*>(pBasePtr));
                     break;
                 case SCRCMD_OBJ_DECSET_2D_INT:
                 case SCRCMD_OBJ_DECSET_3D_INT:
                 case SCRCMD_OBJ_DECSET_2D_STR:
                 case SCRCMD_OBJ_DECSET_3D_STR:
-                    ScriptThread::SCRCMD_OBJ_DECSET_5038D0((SCR_OBJ_DATA*)pBasePtr, (SCR_POINTER*)pBasePtr);
+                    ScriptThread::SCRCMD_OBJ_DECSET_5038D0(static_cast<SCR_OBJ_DATA*>(pBasePtr), static_cast<SCR_POINTER*>(pBasePtr));
                     break;
                 case SCRCMD_MAP_ZONE_SET:
-                    ScriptThread::SCRCMD_MAP_ZONE_SET_504150((SCR_MAP_ZONE_SET*)pBasePtr);
+                    ScriptThread::SCRCMD_MAP_ZONE_SET_504150(static_cast<SCR_MAP_ZONE_SET*>(pBasePtr));
                     break;
                 case SCRCMD_ARROW_DEC:
-                    ScriptThread::SCRCMD_ARROW_DEC_5041B0((SCR_TWO_PARAMS*)pBasePtr);
+                    ScriptThread::SCRCMD_ARROW_DEC_5041B0(static_cast<SCR_TWO_PARAMS*>(pBasePtr));
                     break;
                 case SCRCMD_CRANE_BASIC_DEC:
                 case SCRCMD_CRANE_TARGET_DEC:
                 case SCRCMD_CRANE2TARGET_DEC:
-                    ScriptThread::SCRCMD_CRANE_5041C0((SCR_CRANE_TARGET_DEC*)pBasePtr, (SCR_CRANE_BASIC_DEC*)pBasePtr);
+                    ScriptThread::SCRCMD_CRANE_5041C0(static_cast<SCR_CRANE_TARGET_DEC*>(pBasePtr), static_cast<SCR_CRANE_BASIC_DEC*>(pBasePtr));
                     break;
                 case SCRCMD_CONVEYOR_DECSET1:
                 case SCRCMD_CONVEYOR_DECSET2:
-                    ScriptThread::SCRCMD_CONVEYOR_DECSET1_2_5043A0((SCR_CONVEYOR*)pBasePtr, (SCR_POINTER*)pBasePtr);
+                    ScriptThread::SCRCMD_CONVEYOR_DECSET1_2_5043A0(static_cast<SCR_CONVEYOR*>(pBasePtr), static_cast<SCR_POINTER*>(pBasePtr));
                     break;
                 case SCRCMD_GENERATOR_DECSET1:
                 case SCRCMD_GENERATOR_DECSET2:
                 case SCRCMD_GENERATOR_DECSET3:
                 case SCRCMD_GENERATOR_DECSET4:
-                    ScriptThread::SCRCMD_GENERATOR_DECSET_504420((SCR_GENERATOR*)pBasePtr, (SCR_POINTER*)pBasePtr);
+                    ScriptThread::SCRCMD_GENERATOR_DECSET_504420(static_cast<SCR_GENERATOR*>(pBasePtr), static_cast<SCR_POINTER*>(pBasePtr));
                     break;
                 case SCRCMD_DESTRUCTOR_DECSET1:
                 case SCRCMD_DESTRUCTOR_DECSET2:
-                    ScriptThread::SCRCMD_DESTRUCTOR_DECSET_504530((SCR_DESTRUCTOR*)pBasePtr, (SCR_POINTER*)pBasePtr);
+                    ScriptThread::SCRCMD_DESTRUCTOR_DECSET_504530(static_cast<SCR_DESTRUCTOR*>(pBasePtr), static_cast<SCR_POINTER*>(pBasePtr));
                     break;
                 case SCRCMD_THREAD_DECLARE2:
-                    ScriptThread::SCRCMD_THREAD_DECLARE2_5045D0((SCR_THREAD*)pBasePtr, &pBasePtr->field_0_cmd_this);
+                    ScriptThread::SCRCMD_THREAD_DECLARE2_5045D0(static_cast<SCR_THREAD*>(pBasePtr), &pBasePtr->field_0_cmd_this);
                     break;
                 case SCRCMD_THREAD_DECLARE4:
-                    ScriptThread::SCRCMD_THREAD_DECLARE4_5047C0((SCR_THREAD*)pBasePtr, &pBasePtr->field_0_cmd_this);
+                    ScriptThread::SCRCMD_THREAD_DECLARE4_5047C0(static_cast<SCR_THREAD*>(pBasePtr), &pBasePtr->field_0_cmd_this);
                     break;
                 case SCRCMD_THREAD_DECLARE3:
-                    ScriptThread::SCRCMD_THREAD_DECLARE3_504660((SCR_THREAD*)pBasePtr);
+                    ScriptThread::SCRCMD_THREAD_DECLARE3_504660(static_cast<SCR_THREAD*>(pBasePtr));
                     break;
                 case SCRCMD_SET_GANG_INFO1:
-                    ScriptThread::SCRCMD_SET_GANG_INFO1_504830((SCR_SET_GANG_INFO*)pBasePtr);
+                    ScriptThread::SCRCMD_SET_GANG_INFO1_504830(static_cast<SCR_SET_GANG_INFO*>(pBasePtr));
                     break;
                 case SCRCMD_SET_DOOR_INFO:
-                    ScriptThread::SCRCMD_SET_DOOR_INFO_504950((SCR_FOUR_PARAMS*)pBasePtr);
+                    ScriptThread::SCRCMD_SET_DOOR_INFO_504950(static_cast<SCR_FOUR_PARAMS*>(pBasePtr));
                     break;
                 case SCRCMD_CRUSHER_BASIC:
-                    ScriptThread::SCRCMD_CRUSHER_BASIC_5045A0((SCR_CRUSHER_BASIC*)pBasePtr, (SCR_POINTER*)pBasePtr);
+                    ScriptThread::SCRCMD_CRUSHER_BASIC_5045A0(static_cast<SCR_CRUSHER_BASIC*>(pBasePtr), static_cast<SCR_POINTER*>(pBasePtr));
                     break;
                 case SCRCMD_CHAR_AREA_ANY_MEANS:
                 case SCRCMD_THREAD_DECLARE5:
-                    ScriptThread::SCRCMD_THREAD_DECLARE5_504710((SCR_CHAR_AREA_ANY*)pBasePtr);
+                    ScriptThread::SCRCMD_THREAD_DECLARE5_504710(static_cast<SCR_CHAR_AREA_ANY*>(pBasePtr));
                     break;
                 case SCRCMD_DOOR_DECLARE_S1:
                 case SCRCMD_DOOR_DECLARE_D1:
-                    ScriptThread::SCRCMD_DOOR_DECLARE_D1_S1_504970((SCR_DOOR_DATA_DEC*)pBasePtr);
+                    ScriptThread::SCRCMD_DOOR_DECLARE_D1_S1_504970(static_cast<SCR_DOOR_DATA_DEC*>(pBasePtr));
                     break;
                 case SCRCMD_DOOR_DECLARE_S2:
                 case SCRCMD_DOOR_DECLARE_D2:
-                    ScriptThread::SCRCMD_DOOR_DECLARE_D2_S2_504B80((SCR_DOOR_DATA_DEC*)pBasePtr);
+                    ScriptThread::SCRCMD_DOOR_DECLARE_D2_S2_504B80(static_cast<SCR_DOOR_DATA_DEC*>(pBasePtr));
                     break;
                 case SCRCMD_DEC_GANG_1_FLAG:
                 case SCRCMD_DEC_GANG_2_FLAG:
                 case SCRCMD_DEC_GANG_3_FLAG:
                 case SCRCMD_DECLARE_MISSION:
-                    ScriptThread::SCRCMD_DECLARE_MISSION_504DD0((SCR_TWO_PARAMS*)pBasePtr);
+                    ScriptThread::SCRCMD_DECLARE_MISSION_504DD0(static_cast<SCR_TWO_PARAMS*>(pBasePtr));
                     break;
                 case SCRCMD_CREATE_LIGHT2:
                 case SCRCMD_LIGHT_DEC:
-                    ScriptThread::CreateLight_504EE0((SCR_CREATE_LIGHT*)pBasePtr, (SCR_POINTER*)pBasePtr);
+                    ScriptThread::CreateLight_504EE0(static_cast<SCR_CREATE_LIGHT*>(pBasePtr), static_cast<SCR_POINTER*>(pBasePtr));
                     break;
                 case SCRCMD_SET_STATION:
                 case SCRCMD_SET_EMPTY_STATION:
-                    ScriptThread::SCRCMD_SET_STATION_EMPTY_STATION_505030((SCR_SET_STATION*)pBasePtr);
+                    ScriptThread::SCRCMD_SET_STATION_EMPTY_STATION_505030(static_cast<SCR_SET_STATION*>(pBasePtr));
                     break;
                 case SCRCMD_RADIOSTATION_DEC:
-                    ScriptThread::SCRCMD_RADIOSTATION_DEC_5051D0((SCR_RADIOSTATION_DEC*)pBasePtr);
+                    ScriptThread::SCRCMD_RADIOSTATION_DEC_5051D0(static_cast<SCR_RADIOSTATION_DEC*>(pBasePtr));
                     break;
                 case SCRCMD_SET_STATION_4:
                 case SCRCMD_SET_STATION_3:
                 case SCRCMD_SET_STATION_2:
                 case SCRCMD_SET_STATION_1:
-                    ScriptThread::CRCMD_SET_TRAIN_STATIONS_505210((SCR_TWO_PARAMS*)pBasePtr);
+                    ScriptThread::CRCMD_SET_TRAIN_STATIONS_505210(static_cast<SCR_TWO_PARAMS*>(pBasePtr));
                     break;
                 case SCRCMD_DECLARE_POLICE:
-                    ScriptThread::SCRCMD_DECLARE_POLICE_5052C0((SCR_DECLARE_POLICELEVEL*)pBasePtr);
+                    ScriptThread::SCRCMD_DECLARE_POLICE_5052C0(static_cast<SCR_DECLARE_POLICELEVEL*>(pBasePtr));
                     break;
                 case SCRCMD_SOUND_DECSET:
-                    ScriptThread::SCRCMD_SOUND_DECSET_505340((SCR_SOUND_DECSET*)pBasePtr, (SCR_POINTER*)pBasePtr);
+                    ScriptThread::SCRCMD_SOUND_DECSET_505340(static_cast<SCR_SOUND_DECSET*>(pBasePtr), static_cast<SCR_POINTER*>(pBasePtr));
                     break;
                 case SCRCMD_FINISH_SCORE:
-                    ScriptThread::SCRCMD_FINISH_SCORE_505710((SCR_TWO_PARAMS*)pBasePtr);
+                    ScriptThread::SCRCMD_FINISH_SCORE_505710(static_cast<SCR_TWO_PARAMS*>(pBasePtr));
                     break;
                 case SCRCMD_TOTAL_MISSIONS:
                 case SCRCMD_TOTAL_SECRETS:
                 case SCRCMD_GANG_1_MISSION_TOTAL:
                 case SCRCMD_GANG_2_MISSION_TOTAL:
                 case SCRCMD_GANG_3_MISSION_TOTAL:
-                    ScriptThread::SCRCMD_SET_MISSIONS_TOTAL_505430((SCR_TWO_PARAMS*)pBasePtr);
+                    ScriptThread::SCRCMD_SET_MISSIONS_TOTAL_505430(static_cast<SCR_TWO_PARAMS*>(pBasePtr));
                     break;
                 case SCRCMD_PASSED_FLAG:
                 case SCRCMD_1_PASSED_FLAG:
@@ -1635,33 +1635,33 @@ void ScriptThread::ExecOpCode_5061C0()
                 case SCRCMD_3_PASSED_FLAG:
                 case SCRCMD_SECRETS_PASSED:
                 case SCRCMD_SECRETS_FAILED:
-                    ScriptThread::SCRCMD_PASSED_FAILED_FLAGS_505580((SCR_TWO_PARAMS*)pBasePtr);
+                    ScriptThread::SCRCMD_PASSED_FAILED_FLAGS_505580(static_cast<SCR_TWO_PARAMS*>(pBasePtr));
                     break;
                 case SCRCMD_DECLARE_CARLIST:
-                    ScriptThread::SCRCMD_DECLARE_CARLIST_505750((SCR_TWO_PARAMS*)pBasePtr);
+                    ScriptThread::SCRCMD_DECLARE_CARLIST_505750(static_cast<SCR_TWO_PARAMS*>(pBasePtr));
                     break;
                 case SCRCMD_DISPLAY_MESSAGE:
                 case SCRCMD_DISPLAY_BRIEF:
                 case SCRCMD_DISPLAY_BRIEF_NOW:
                 case SCRCMD_DISPLAY_BRIEF_SOON:
-                    ScriptThread::SCRCMD_DISPLAY_MESSAGES_505F50((SCR_TWO_PARAMS*)pBasePtr);
+                    ScriptThread::SCRCMD_DISPLAY_MESSAGES_505F50(static_cast<SCR_TWO_PARAMS*>(pBasePtr));
                     break;
                 case SCRCMD_PARKED_CAR_DECSET_2D:
                 case SCRCMD_PARKED_CAR_DECSET_3D:
                 case SCRCMD_PARKED_CAR_DECSET_2D_STR:
                 case SCRCMD_PARKED_CAR_DECSET_3D_STR:
-                    ScriptThread::SCRCMD_PARKED_CAR_DECSET_503F80((SCR_POINTER*)pBasePtr);
+                    ScriptThread::SCRCMD_PARKED_CAR_DECSET_503F80(static_cast<SCR_POINTER*>(pBasePtr));
                     break;
                 case SCRCMD_DEC_DEATH_BASE_1:
                 case SCRCMD_DEC_DEATH_BASE_2:
                 case SCRCMD_DEC_DEATH_BASE_3:
-                    ScriptThread::SCRCMD_DEC_DEATH_BASE_506010((SCR_FOUR_PARAMS*)pBasePtr);
+                    ScriptThread::SCRCMD_DEC_DEATH_BASE_506010(static_cast<SCR_FOUR_PARAMS*>(pBasePtr));
                     break;
                 case SCRCMD_DO_CRANE_POWERUP:
-                    ScriptThread::SCRCMD_DO_CRANE_POWERUP_5060D0((SCR_DECLARE_CRANE_POWERUP*)pBasePtr);
+                    ScriptThread::SCRCMD_DO_CRANE_POWERUP_5060D0(static_cast<SCR_DECLARE_CRANE_POWERUP*>(pBasePtr));
                     break;
                 case SCRCMD_START_BASIC_KF:
-                    ScriptThread::SCRCMD_START_BASIC_KF_506140((u16*)&pBasePtr->field_0_cmd_this);
+                    ScriptThread::SCRCMD_START_BASIC_KF_506140(reinterpret_cast<u16*>(&pBasePtr->field_0_cmd_this));
                     break;
                 case SCRCMD_OBJ_DEC:
                 case SCRCMD_COUNTER:
@@ -1703,8 +1703,8 @@ void ScriptThread::SCRCMD_LEVELEND_5069F0()
 MATCH_FUNC(0x506a00)
 void ScriptThread::SCRCMD_CREATE_THREAD_506A00()
 {
-    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
-    SCR_THREAD* pThread = (SCR_THREAD*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2);
+    SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070);
+    SCR_THREAD* pThread = static_cast<SCR_THREAD*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2));
 
     ScriptThread* pScriptThread = ScriptThread::SpawnThread_511960(pCmd->field_8_unsigned_1);
     pThread->field_8_script_thread = pScriptThread;
@@ -1716,7 +1716,7 @@ void ScriptThread::SCRCMD_CREATE_THREAD_506A00()
 MATCH_FUNC(0x506a60)
 void ScriptThread::SCRCMD_STOP_THREAD_506A60()
 {
-    SCR_THREAD* pThread = (SCR_THREAD*)gScriptManager_6F8060->GetBasePointer_512770(((SCR_CMD_HEADER*)gBasePtr_6F8070)[1].field_2_type);
+    SCR_THREAD* pThread = static_cast<SCR_THREAD*>(gScriptManager_6F8060->GetBasePointer_512770(static_cast<SCR_CMD_HEADER*>(gBasePtr_6F8070)[1].field_2_type));
     ScriptThread* pScriptThread;
     s16 threadId;
 
@@ -1755,7 +1755,7 @@ void ScriptThread::SCRCMD_IF_JUMP_506AF0()
     //  field_8_cond_result = 0  means the boolean opcode has returned false
 
     //  If it's a OR and boolean is true, or if it's a AND and boolean is false, jump
-    SCR_IF_JUMP* base_pointer = (SCR_IF_JUMP*)gBasePtr_6F8070;
+    SCR_IF_JUMP* base_pointer = reinterpret_cast<SCR_IF_JUMP*>(gBasePtr_6F8070);
 
     if ((base_pointer->is_or == 1 && field_8_cond_result) || (!base_pointer->is_or && !field_8_cond_result))
     {
@@ -1770,7 +1770,7 @@ void ScriptThread::SCRCMD_IF_JUMP_506AF0()
 MATCH_FUNC(0x506b30)
 void ScriptThread::SCRCMD_GOSUB_506B30()
 {
-    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070);
     ScriptStackFrame* pFrame = field_114_gosub_stack->AllocFrame_5031A0();
     pFrame->field_0_cond_result = field_8_cond_result;
     pFrame->field_4_return_cmd = gBasePtr_6F8070->field_4_cmd_next;
@@ -1844,9 +1844,9 @@ u8 ScriptThread::GetOperationType_506BC0(u32 opcode)
 MATCH_FUNC(0x506d60)
 void ScriptThread::SCRCMD_S_OP_I_506D60()
 {
-    SCR_OPERATE_COUNTER_AND_INT* pCmd = (SCR_OPERATE_COUNTER_AND_INT*)gBasePtr_6F8070;
+    SCR_OPERATE_COUNTER_AND_INT* pCmd = reinterpret_cast<SCR_OPERATE_COUNTER_AND_INT*>(gBasePtr_6F8070);
     u8 operation_type = ScriptThread::GetOperationType_506BC0(pCmd->field_2_type);
-    SCR_POINTER* pLeftOperand = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_counter_idx);
+    SCR_POINTER* pLeftOperand = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_counter_idx));
 
     switch (operation_type)
     {
@@ -1922,10 +1922,10 @@ MATCH_FUNC(0x506ed0)
 void ScriptThread::SCRCMD_S_OP_S_506ED0()
 {
     u8 operation_type = ScriptThread::GetOperationType_506BC0(gBasePtr_6F8070->field_2_type);
-    SCR_OPERATE_COUNTER_AND_COUNTER_2* pCmd = (SCR_OPERATE_COUNTER_AND_COUNTER_2*)gBasePtr_6F8070;
+    SCR_OPERATE_COUNTER_AND_COUNTER_2* pCmd = reinterpret_cast<SCR_OPERATE_COUNTER_AND_COUNTER_2*>(gBasePtr_6F8070);
     SCR_POINTER* pLeftOperand =
-        (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index); // pCmd->field_8_left_counter_idx
-    SCR_POINTER* pRightOperand = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_right_counter_idx);
+        static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index)); // pCmd->field_8_left_counter_idx
+    SCR_POINTER* pRightOperand = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_right_counter_idx));
     // 10.5.exe's jump table: 2 is >, 3 >=, 4 < and 5 <= (GetOperationType_506BC0)
     switch (operation_type)
     {
@@ -1995,9 +1995,9 @@ MATCH_FUNC(0x507110)
 void ScriptThread::SCRCMD_I_OP_S_507110()
 {
     u8 operation_type = ScriptThread::GetOperationType_506BC0(gBasePtr_6F8070->field_2_type);
-    SCR_OPERATE_INT_AND_COUNTER* pCmd = (SCR_OPERATE_INT_AND_COUNTER*)gBasePtr_6F8070;
-    SCR_POINTER* pOperand = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(
-        ((SCR_CMD_HEADER*)gBasePtr_6F8070)[1].field_2_type); // pCmd->field_A_counter_idx
+    SCR_OPERATE_INT_AND_COUNTER* pCmd = reinterpret_cast<SCR_OPERATE_INT_AND_COUNTER*>(gBasePtr_6F8070);
+    SCR_POINTER* pOperand = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(
+        static_cast<SCR_CMD_HEADER*>(gBasePtr_6F8070)[1].field_2_type)); // pCmd->field_A_counter_idx
 
     // 10.5.exe's jump table: 2 is >, 3 >=, 4 < and 5 <= (GetOperationType_506BC0)
     switch (operation_type)
@@ -2107,7 +2107,7 @@ void ScriptThread::SCRCMD_INCREMENT_507A70()
 {
     SCR_POINTER* pPointer;
 
-    pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
     ++pPointer->field_8_counter; //  Increment Counter
     ScriptThread::Next_503620(gBasePtr_6F8070);
@@ -2118,7 +2118,7 @@ void ScriptThread::SCRCMD_DECREMENT_507B50()
 {
     SCR_POINTER* pPointer;
 
-    pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
     --pPointer->field_8_counter; //  Decrement Counter
     ScriptThread::Next_503620(gBasePtr_6F8070);
@@ -2127,8 +2127,8 @@ void ScriptThread::SCRCMD_DECREMENT_507B50()
 MATCH_FUNC(0x507ce0)
 void ScriptThread::SCRCMD_CREATE_OBJ_507CE0()
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
-    SCR_OBJ_DATA* pObjData = (SCR_OBJ_DATA*)gBasePtr_6F8070;
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
+    SCR_OBJ_DATA* pObjData = reinterpret_cast<SCR_OBJ_DATA*>(gBasePtr_6F8070);
 
     switch (pObjData->field_2_type)
     {
@@ -2155,18 +2155,18 @@ void ScriptThread::SCRCMD_CREATE_OBJ_507CE0()
 MATCH_FUNC(0x507f80)
 void ScriptThread::SCRCMD_CREATE_CAR_507F80()
 {
-    SCR_CAR_DATA_DEC* pCmd = (SCR_CAR_DATA_DEC*)gBasePtr_6F8070;
+    SCR_CAR_DATA_DEC* pCmd = reinterpret_cast<SCR_CAR_DATA_DEC*>(gBasePtr_6F8070);
 
     //  TODO: gBasePtr_6F8070 may be an extended union of SCR_CMD_HEADER
-    Fix16* z_coord = (Fix16*)&((SCR_CMD_HEADER*)gBasePtr_6F8070)[2].field_4_cmd_next;
+    Fix16* z_coord = reinterpret_cast<Fix16*>(&static_cast<SCR_CMD_HEADER*>(gBasePtr_6F8070)[2].field_4_cmd_next);
 
     if (*z_coord == kFp255_6F7570)
     {
-        *z_coord = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(*(Fix16*)&((SCR_CMD_HEADER*)gBasePtr_6F8070)[1].field_4_cmd_next,
-                                                                 *(Fix16*)&((SCR_CMD_HEADER*)gBasePtr_6F8070)[2].field_0_cmd_this);
+        *z_coord = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(*reinterpret_cast<Fix16*>(&static_cast<SCR_CMD_HEADER*>(gBasePtr_6F8070)[1].field_4_cmd_next),
+                                                                 *reinterpret_cast<Fix16*>(&static_cast<SCR_CMD_HEADER*>(gBasePtr_6F8070)[2].field_0_cmd_this));
     }
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_car_idx);
-    ScriptThread::SCRCMD_CAR_DECSET_503BC0((SCR_CAR_DATA_DEC*)gBasePtr_6F8070, (SCR_POINTER*)pPointer);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_car_idx));
+    ScriptThread::SCRCMD_CAR_DECSET_503BC0(reinterpret_cast<SCR_CAR_DATA_DEC*>(gBasePtr_6F8070), pPointer);
     if (this->field_118_in_level_start == 0)
     {
         gMiss2_25C_6F805C->push_type_1_car_502F80(pPointer->field_8_car);
@@ -2177,7 +2177,7 @@ void ScriptThread::SCRCMD_CREATE_CAR_507F80()
 MATCH_FUNC(0x508220)
 void ScriptThread::SCRCMD_MAKE_CAR_DUMMY_508220()
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
     if (pPointer->field_8_car != NULL)
     {
@@ -2195,7 +2195,7 @@ void ScriptThread::SCRCMD_MAKE_CAR_DUMMY_508220()
 MATCH_FUNC(0x508280)
 void ScriptThread::SCRCMD_SET_DENSITY_508280()
 {
-    SCR_MAP_SET_ZONE_INFO* pCmd = (SCR_MAP_SET_ZONE_INFO*)gBasePtr_6F8070;
+    SCR_MAP_SET_ZONE_INFO* pCmd = reinterpret_cast<SCR_MAP_SET_ZONE_INFO*>(gBasePtr_6F8070);
     str_table_entry* pStrTable = gScriptManager_6F8060->FindStringById_503080(pCmd->field_8_zone_idx);
 
     switch (gBasePtr_6F8070->field_2_type)
@@ -2241,9 +2241,9 @@ void ScriptThread::SCRCMD_SET_DENSITY_508280()
 MATCH_FUNC(0x508550)
 void ScriptThread::SCRCMD_POINT_ARROW_3D_508550() //  SCRCMD_POINT_ARROW_3D and SCRCMD_LEVEL_END_ARROW2
 {
-    SCR_LEVEL_END_ARROW2* pCmd = (SCR_LEVEL_END_ARROW2*)gBasePtr_6F8070;
+    SCR_LEVEL_END_ARROW2* pCmd = reinterpret_cast<SCR_LEVEL_END_ARROW2*>(gBasePtr_6F8070);
     SCR_POINTER* pPointer =
-        (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(((SCR_CMD_HEADER*)gBasePtr_6F8070)[2].field_4_cmd_next);
+        static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(static_cast<SCR_CMD_HEADER*>(gBasePtr_6F8070)[2].field_4_cmd_next));
     if (pPointer->field_8_arrow == NULL)
     {
         pPointer->field_8_arrow = gHud_2B00_706620->field_1F18_arrows.AllocArrow_5D1050();
@@ -2261,11 +2261,11 @@ void ScriptThread::SCRCMD_POINT_ARROW_3D_508550() //  SCRCMD_POINT_ARROW_3D and 
 MATCH_FUNC(0x5086f0)
 void ScriptThread::SCRCMD_POINT_ARROW_AT_5086F0()
 {
-    SCR_POINT_ARROW_AT* pParams = (SCR_POINT_ARROW_AT*)gBasePtr_6F8070;
-    SCR_POINT_ARROW_AT* pCmd = (SCR_POINT_ARROW_AT*)gBasePtr_6F8070;
+    SCR_POINT_ARROW_AT* pParams = reinterpret_cast<SCR_POINT_ARROW_AT*>(gBasePtr_6F8070);
+    SCR_POINT_ARROW_AT* pCmd = reinterpret_cast<SCR_POINT_ARROW_AT*>(gBasePtr_6F8070);
 
-    SCR_POINTER* pArrowPtr = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pParams->field_C_arrow_idx);
-    SCR_ARROW_ENTITY* pEntityPtr = (SCR_ARROW_ENTITY*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_target_entity_idx);
+    SCR_POINTER* pArrowPtr = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pParams->field_C_arrow_idx));
+    SCR_ARROW_ENTITY* pEntityPtr = static_cast<SCR_ARROW_ENTITY*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_target_entity_idx));
 
     if (pArrowPtr->field_8_arrow == NULL)
     {
@@ -2299,15 +2299,15 @@ void ScriptThread::SCRCMD_POINT_ARROW_AT_5086F0()
         }
 
         case 4: // crane
-            pArrowPtr->field_8_arrow->SetArrowAim_476840(((SCR_CRANE_TARGET_DEC*)pEntityPtr)->field_10_pos.field_0_x,
-                                                         ((SCR_CRANE_TARGET_DEC*)pEntityPtr)->field_10_pos.field_4_y,
+            pArrowPtr->field_8_arrow->SetArrowAim_476840(reinterpret_cast<SCR_CRANE_TARGET_DEC*>(pEntityPtr)->field_10_pos.field_0_x,
+                                                         reinterpret_cast<SCR_CRANE_TARGET_DEC*>(pEntityPtr)->field_10_pos.field_4_y,
                                                          kFpOne_6F77C4);
             break;
 
         case 5: // conveyor
-            pArrowPtr->field_8_arrow->SetArrowAim_476840(((SCR_CONVEYOR*)pEntityPtr)->field_C_rect.field_0_pos.field_0_x,
-                                                         ((SCR_CONVEYOR*)pEntityPtr)->field_C_rect.field_0_pos.field_4_y,
-                                                         ((SCR_CONVEYOR*)pEntityPtr)->field_C_rect.field_0_pos.field_8_z);
+            pArrowPtr->field_8_arrow->SetArrowAim_476840(reinterpret_cast<SCR_CONVEYOR*>(pEntityPtr)->field_C_rect.field_0_pos.field_0_x,
+                                                         reinterpret_cast<SCR_CONVEYOR*>(pEntityPtr)->field_C_rect.field_0_pos.field_4_y,
+                                                         reinterpret_cast<SCR_CONVEYOR*>(pEntityPtr)->field_C_rect.field_0_pos.field_8_z);
             break;
 
         default:
@@ -2325,8 +2325,8 @@ void ScriptThread::SCRCMD_POINT_ARROW_AT_5086F0()
 MATCH_FUNC(0x508dc0)
 void ScriptThread::SCRCMD_ARROW_COLOUR_508DC0()
 {
-    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     if (pPointer->field_8_arrow == NULL)
     {
         pPointer->field_8_arrow = gHud_2B00_706620->field_1F18_arrows.AllocArrow_5D1050();
@@ -2338,7 +2338,7 @@ void ScriptThread::SCRCMD_ARROW_COLOUR_508DC0()
 MATCH_FUNC(0x508e80)
 void ScriptThread::SCRCMD_REMOVE_ARROW_508E80()
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     Hud_Arrow* pArrow = pPointer->field_8_arrow;
 
     if (pArrow != NULL)
@@ -2352,8 +2352,8 @@ void ScriptThread::SCRCMD_REMOVE_ARROW_508E80()
 MATCH_FUNC(0x508f00)
 void ScriptThread::SCRCMD_CHECK_CAR_DAMAGE_508F00()
 {
-    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     Car* pCar = pPointer->field_8_car;
     if (pCar->field_74_damage >= 320 * pCmd->field_A_signed_2)
     {
@@ -2369,8 +2369,8 @@ void ScriptThread::SCRCMD_CHECK_CAR_DAMAGE_508F00()
 MATCH_FUNC(0x509030)
 void ScriptThread::SCRCMD_CHECK_HEALTH_509030()
 {
-    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
     Ped* pPed = pPointer->field_8_char;
     s16 health_param = pCmd->field_A_signed_2;
@@ -2389,8 +2389,8 @@ void ScriptThread::SCRCMD_CHECK_HEALTH_509030()
 MATCH_FUNC(0x5093c0)
 void ScriptThread::SCRCMD_DISPLAY_MESSAGE_5093C0()
 {
-    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
-    u8 type = ((SCR_TWO_PARAMS*)gBasePtr_6F8070)->field_A_unsigned_2;
+    SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070);
+    u8 type = static_cast<u8>(reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070)->field_A_unsigned_2);
     if (type == 1)
     {
         gRoot_sound_66B038.PlayVoice_40F090(voice_line::jobcomplete_22);
@@ -2538,8 +2538,8 @@ void ScriptThread::SCRCMD_DISPLAY_MESSAGE_5093C0()
 MATCH_FUNC(0x5096e0)
 void ScriptThread::SCRCMD_DISPLAY_TIMER_5096E0()
 {
-    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
     pPointer->field_8_index = gHud_2B00_706620->field_620_pagers.CreateTimer_5D31F0(pCmd->field_A_signed_2);
     ScriptThread::Next_503620(gBasePtr_6F8070);
@@ -2548,8 +2548,8 @@ void ScriptThread::SCRCMD_DISPLAY_TIMER_5096E0()
 MATCH_FUNC(0x509730)
 void ScriptThread::SCRCMD_CREATE_CHAR_509730()
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
-    ScriptThread::SCRCMD_CHAR_DECSET_2D_3D_503FB0((SCR_CHAR_DATA_DEC*)gBasePtr_6F8070, pPointer);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
+    ScriptThread::SCRCMD_CHAR_DECSET_2D_3D_503FB0(reinterpret_cast<SCR_CHAR_DATA_DEC*>(gBasePtr_6F8070), pPointer);
     if (!field_118_in_level_start)
     {
         gMiss2_25C_6F805C->push_type_3_ped_502FB0(pPointer->field_8_char);
@@ -2560,8 +2560,8 @@ void ScriptThread::SCRCMD_CREATE_CHAR_509730()
 MATCH_FUNC(0x509790)
 void ScriptThread::SCRCMD_SET_CHAR_OCCUPATION_509790()
 {
-    SCR_FOUR_PARAMS* pCmd = (SCR_FOUR_PARAMS*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_FOUR_PARAMS* pCmd = reinterpret_cast<SCR_FOUR_PARAMS*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
     pPointer->field_8_char->field_240_occupation = pCmd->field_C_u32;
     ScriptThread::Next_503620(gBasePtr_6F8070);
@@ -2573,15 +2573,15 @@ void ScriptThread::SCRCMD_SET_CHAR_OBJ1_5097D0()
     SCR_POINTER* BasePointer_512770;
 
     BasePointer_512770 =
-        (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index); //  TODO: fix gBasePtr_6F8070
-    ScriptThread::SetCharObjective_504110((SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070, BasePointer_512770);
+        static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index)); //  TODO: fix gBasePtr_6F8070
+    ScriptThread::SetCharObjective_504110(reinterpret_cast<SCR_CHAR_OBJECTIVE*>(gBasePtr_6F8070), BasePointer_512770);
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x509810)
 void ScriptThread::SCRCMD_IS_CHAR_OBJ_PASS_509810()
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     Ped* pPed = pPointer->field_8_char;
 
     if (pPed != NULL)
@@ -2605,7 +2605,7 @@ void ScriptThread::SCRCMD_IS_CHAR_OBJ_PASS_509810()
 MATCH_FUNC(0x509880)
 void ScriptThread::SCRCMD_IS_CHAR_OBJ_FAIL_509880()
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     Ped* pPed = pPointer->field_8_char;
 
     if (pPed != NULL)
@@ -2626,9 +2626,9 @@ void ScriptThread::SCRCMD_IS_CHAR_OBJ_FAIL_509880()
 MATCH_FUNC(0x5098e0)
 void ScriptThread::SCRCMD_GIVE_WEAPON_5098E0()
 {
-    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
-    SCR_FOUR_PARAMS* pCmd4 = (SCR_FOUR_PARAMS*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070);
+    SCR_FOUR_PARAMS* pCmd4 = reinterpret_cast<SCR_FOUR_PARAMS*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
     if (ScriptThread::GetEntityTypeOfCommand_503410(pPointer->field_2_type) == 1)
     {
@@ -2638,7 +2638,7 @@ void ScriptThread::SCRCMD_GIVE_WEAPON_5098E0()
         }
         else
         {
-            pPointer->field_8_char->AddWeaponWithAmmo_45DD30(pCmd4->field_A_signed_2, pCmd4->field_C_signed_3);
+            pPointer->field_8_char->AddWeaponWithAmmo_45DD30(pCmd4->field_A_signed_2, static_cast<char_type>(pCmd4->field_C_signed_3));
         }
     }
     else
@@ -2652,8 +2652,8 @@ void ScriptThread::SCRCMD_GIVE_WEAPON_5098E0()
 MATCH_FUNC(0x509990)
 void ScriptThread::SCRCMD_IS_CAR_IN_BLOCK_509990()
 {
-    SCR_IS_CAR_IN_BLOCK* pCmd = (SCR_IS_CAR_IN_BLOCK*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_IS_CAR_IN_BLOCK* pCmd = reinterpret_cast<SCR_IS_CAR_IN_BLOCK*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     if (pCmd->field_C_pos.field_8_z == kFp255_6F7570)
     {
         Fix16 temp_z;
@@ -2677,8 +2677,8 @@ void ScriptThread::SCRCMD_IS_CAR_IN_BLOCK_509990()
 MATCH_FUNC(0x509a70)
 void ScriptThread::SCRCMD_CAR_IN_AREA_509A70()
 {
-    SCR_ONEVAR_RECT* pCmd = (SCR_ONEVAR_RECT*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_ONEVAR_RECT* pCmd = reinterpret_cast<SCR_ONEVAR_RECT*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
     Fix16 height = pCmd->field_C_rect.field_C_size.field_4_y;
     Fix16 width = pCmd->field_C_rect.field_C_size.field_0_x;
@@ -2710,7 +2710,7 @@ void ScriptThread::SCRCMD_HAS_CHAR_DIED_509BB0()
 {
     SCR_POINTER* pPointer;
 
-    pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
     if (pPointer->field_8_char && pPointer->field_8_char->field_278_ped_state_1 == ped_state_1::dead_9)
     {
@@ -2726,9 +2726,9 @@ void ScriptThread::SCRCMD_HAS_CHAR_DIED_509BB0()
 MATCH_FUNC(0x509c10)
 void ScriptThread::SCRCMD_IS_CHAR_IN_CAR_509C10()
 {
-    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
-    SCR_POINTER* pParam1 = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
-    SCR_POINTER* pParam2 = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2);
+    SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070);
+    SCR_POINTER* pParam1 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
+    SCR_POINTER* pParam2 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2));
 
     Ped* pPed = pParam1->field_8_char;
 
@@ -2749,8 +2749,8 @@ void ScriptThread::SCRCMD_IS_CHAR_IN_CAR_509C10()
 MATCH_FUNC(0x509c90)
 void ScriptThread::SCRCMD_IS_CHAR_IN_MODEL_509C90()
 {
-    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
-    SCR_POINTER* pParam1 = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070);
+    SCR_POINTER* pParam1 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
     Ped* pPed = pParam1->field_8_char;
 
@@ -2768,7 +2768,7 @@ void ScriptThread::SCRCMD_IS_CHAR_IN_MODEL_509C90()
 MATCH_FUNC(0x509d00)
 void ScriptThread::SCRCMD_IS_CHAR_IN_ANY_CAR_509D00()
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     Ped* pPed = pPointer->field_8_char;
 
     if (pPed != NULL && pPed->has_car_403B80())
@@ -2792,8 +2792,8 @@ void ScriptThread::SCRCMD_DELETE_ITEM_509D60()
 MATCH_FUNC(0x509d90)
 void ScriptThread::SCRCMD_ADD_SCORE_509D90()
 {
-    SCR_FOUR_PARAMS* pCmd = (SCR_FOUR_PARAMS*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_FOUR_PARAMS* pCmd = reinterpret_cast<SCR_FOUR_PARAMS*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
     Ped* pPed = pPointer->field_8_char;
 
@@ -2818,9 +2818,9 @@ void ScriptThread::SCRCMD_ADD_SCORE_509D90()
 MATCH_FUNC(0x509e00)
 void ScriptThread::SCRCMD_ADD_SCORE2_509E00()
 {
-    SCR_FOUR_PARAMS* pCmd = (SCR_FOUR_PARAMS*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
-    SCR_POINTER* pCounter = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_C_s32);
+    SCR_FOUR_PARAMS* pCmd = reinterpret_cast<SCR_FOUR_PARAMS*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
+    SCR_POINTER* pCounter = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_C_s32));
 
     Ped* pPed = pPointer->field_8_char;
 
@@ -2837,7 +2837,7 @@ void ScriptThread::SCRCMD_ADD_SCORE2_509E00()
 MATCH_FUNC(0x509e70)
 void ScriptThread::SCRCMD_IS_CHAR_STOPPED_509E70()
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     Ped* pPed = pPointer->field_8_char;
 
     Fix16 temp;
@@ -2856,7 +2856,7 @@ void ScriptThread::SCRCMD_IS_CHAR_STOPPED_509E70()
 MATCH_FUNC(0x509ed0)
 void ScriptThread::SCRCMD_EXPLODE_509ED0()
 {
-    SCR_EXPLODE* pCmd = (SCR_EXPLODE*)gBasePtr_6F8070;
+    SCR_EXPLODE* pCmd = reinterpret_cast<SCR_EXPLODE*>(gBasePtr_6F8070);
     switch (gBasePtr_6F8070->field_2_type)
     {
         case SCRCMD_EXPLODE_NO_RING2:
@@ -2898,7 +2898,7 @@ void ScriptThread::SCRCMD_EXPLODE_509ED0()
 MATCH_FUNC(0x509f60)
 void ScriptThread::SCRCMD_EXPLODE_BUILDING_509F60()
 {
-    SCR_EXPLODE_WALL* pCmd = (SCR_EXPLODE_WALL*)gBasePtr_6F8070;
+    SCR_EXPLODE_WALL* pCmd = reinterpret_cast<SCR_EXPLODE_WALL*>(gBasePtr_6F8070);
     switch (pCmd->field_14_face)
     {
         case 1:
@@ -2942,8 +2942,8 @@ void ScriptThread::SCRCMD_EXPLODE_BUILDING_509F60()
 MATCH_FUNC(0x509fd0)
 void ScriptThread::Locate_509FD0()
 {
-    SCR_ONEVAR_RECT* pCmd = (SCR_ONEVAR_RECT*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_varname);
+    SCR_ONEVAR_RECT* pCmd = reinterpret_cast<SCR_ONEVAR_RECT*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_varname));
     void* pObj;
     Fix16 vel;
 
@@ -3025,9 +3025,9 @@ void ScriptThread::Locate_509FD0()
 MATCH_FUNC(0x50a200)
 void ScriptThread::SCRCMD_SET_CHAR_OBJ2_50A200()
 {
-    SCR_CHAR_OBJECTIVE* pCmd = (SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
-    ScriptThread::SetCharObjective_504110((SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070, pPointer);
+    SCR_CHAR_OBJECTIVE* pCmd = reinterpret_cast<SCR_CHAR_OBJECTIVE*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
+    ScriptThread::SetCharObjective_504110(reinterpret_cast<SCR_CHAR_OBJECTIVE*>(gBasePtr_6F8070), pPointer);
 
     SCR_POINTER* pParam;
     switch (pCmd->field_A_objective)
@@ -3041,11 +3041,11 @@ void ScriptThread::SCRCMD_SET_CHAR_OBJ2_50A200()
         case objectives_enum::kill_char_any_means_19:
         case objectives_enum::kill_char_on_foot_20:
         case objectives_enum::punch_char_23:
-            pParam = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_C_second_item_idx);
+            pParam = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_C_second_item_idx));
             pPointer->field_8_char->set_objective_target_ped_403AC0(pParam->field_8_char);
             break;
         case objectives_enum::enter_car_as_driver_35:
-            pParam = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_C_second_item_idx);
+            pParam = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_C_second_item_idx));
             pPointer->field_8_char->SetTargetObjectiveCar(pParam->field_8_car);
             if (pCmd->field_E_variant == 1)
             {
@@ -3061,12 +3061,12 @@ void ScriptThread::SCRCMD_SET_CHAR_OBJ2_50A200()
         case objectives_enum::leave_car_36:
         case objectives_enum::follow_car_in_car_55:
         case objectives_enum::destroy_car_59:
-            pParam = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_C_second_item_idx);
+            pParam = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_C_second_item_idx));
             pPointer->field_8_char->SetTargetObjectiveCar(pParam->field_8_car);
             break;
         case objectives_enum::fire_at_object_from_vehicle_57:
         case objectives_enum::destroy_object_58:
-            pParam = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_C_second_item_idx);
+            pParam = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_C_second_item_idx));
             pPointer->field_8_char->field_1A0_objective_target_object = pParam->field_8_obj;
             break;
         default:
@@ -3085,9 +3085,9 @@ void ScriptThread::SCRCMD_SET_CHAR_OBJ3_50A3E0()
     SCR_CHAR_OBJ3* pCmd;
     SCR_POINTER* pPointer;
 
-    pCmd = (SCR_CHAR_OBJ3*)gBasePtr_6F8070;
-    pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
-    ScriptThread::SetCharObjective_504110((SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070, pPointer);
+    pCmd = reinterpret_cast<SCR_CHAR_OBJ3*>(gBasePtr_6F8070);
+    pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
+    ScriptThread::SetCharObjective_504110(reinterpret_cast<SCR_CHAR_OBJECTIVE*>(gBasePtr_6F8070), pPointer);
 
     if (pPointer->field_8_char)
     {
@@ -3106,12 +3106,12 @@ void ScriptThread::SCRCMD_SET_CHAR_OBJ_FOLLOW_50A460()
     SCR_CHAR_OBJECTIVE* pCmd;
     SCR_POINTER* pPointer;
 
-    pCmd = (SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070;
+    pCmd = reinterpret_cast<SCR_CHAR_OBJECTIVE*>(gBasePtr_6F8070);
     pPointer =
-        (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index); //  TODO: fix gBasePtr_6F8070 type
-    ScriptThread::SetCharObjective_504110((SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070, pPointer);
+        static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index)); //  TODO: fix gBasePtr_6F8070 type
+    ScriptThread::SetCharObjective_504110(reinterpret_cast<SCR_CHAR_OBJECTIVE*>(gBasePtr_6F8070), pPointer);
 
-    SCR_POINTER* pCarPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_C_car_idx);
+    SCR_POINTER* pCarPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_C_car_idx));
 
     if (pPointer->field_8_char)
     {
@@ -3141,11 +3141,11 @@ void ScriptThread::SCRCMD_SET_CHAR_OBJ_FOLLOW_50A460()
 MATCH_FUNC(0x50a570)
 void ScriptThread::SCRCMD_CHANGE_CAR_REMAP_50A570()
 {
-    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     if (pCmd->field_A_unsigned_2 != 0xFFu) //  field_A_unsigned_2 = remap
     {
-        pPointer->field_8_car->SetCarRemap(pCmd->field_A_unsigned_2);
+        pPointer->field_8_car->SetCarRemap(static_cast<u8>(pCmd->field_A_unsigned_2));
     }
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }
@@ -3153,12 +3153,12 @@ void ScriptThread::SCRCMD_CHANGE_CAR_REMAP_50A570()
 MATCH_FUNC(0x50a5b0)
 void ScriptThread::SCRCMD_CHANGE_CHAR_REMAP_50A5B0()
 {
-    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
     if (pPointer->field_8_char)
     {
-        pPointer->field_8_char->SetRemap_433C10(pCmd->field_A_unsigned_2);
+        pPointer->field_8_char->SetRemap_433C10(static_cast<u8>(pCmd->field_A_unsigned_2));
     }
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }
@@ -3166,13 +3166,13 @@ void ScriptThread::SCRCMD_CHANGE_CHAR_REMAP_50A5B0()
 MATCH_FUNC(0x50a610)
 void ScriptThread::SCRCMD_CHECK_CAR_MODEL_50A610()
 {
-    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
     Car* pCar = pPointer->field_8_car;
     s16 car_model_index = pCmd->field_A_signed_2;
 
-    if (pCar != NULL && (s8)pCar->field_84_car_info_idx == car_model_index)
+    if (pCar != NULL && static_cast<s8>(pCar->field_84_car_info_idx) == car_model_index)
     {
         field_8_cond_result = true;
     }
@@ -3186,13 +3186,13 @@ void ScriptThread::SCRCMD_CHECK_CAR_MODEL_50A610()
 MATCH_FUNC(0x50a670)
 void ScriptThread::SCRCMD_CHECK_CAR_REMAP_50A670()
 {
-    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
     Car* pCar = pPointer->field_8_car;
     s16 remap = pCmd->field_A_signed_2;
 
-    if (pCar != NULL && pCar->field_88_despawn_status != car_despawn_status::despawned_6 && (u16)pCar->field_50_car_sprite->field_24_remap == remap)
+    if (pCar != NULL && pCar->field_88_despawn_status != car_despawn_status::despawned_6 && static_cast<u16>(pCar->field_50_car_sprite->field_24_remap) == remap)
     {
         field_8_cond_result = true;
     }
@@ -3206,15 +3206,15 @@ void ScriptThread::SCRCMD_CHECK_CAR_REMAP_50A670()
 MATCH_FUNC(0x50a6e0)
 void ScriptThread::SCRCMD_CHECK_CAR_BOTH_50A6E0()
 {
-    SCR_FOUR_PARAMS* pCmd = (SCR_FOUR_PARAMS*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_FOUR_PARAMS* pCmd = reinterpret_cast<SCR_FOUR_PARAMS*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
     Car* pCar = pPointer->field_8_car;
     s16 car_model_idx = pCmd->field_A_signed_2;
     s16 remap = pCmd->field_C_signed_3;
 
-    if (pCar != NULL && pCar->field_88_despawn_status != car_despawn_status::despawned_6 && (s8)pCar->field_84_car_info_idx == car_model_idx &&
-        (u16)pCar->field_50_car_sprite->field_24_remap == remap)
+    if (pCar != NULL && pCar->field_88_despawn_status != car_despawn_status::despawned_6 && static_cast<s8>(pCar->field_84_car_info_idx) == car_model_idx &&
+        static_cast<u16>(pCar->field_50_car_sprite->field_24_remap) == remap)
     {
         field_8_cond_result = true;
     }
@@ -3228,7 +3228,7 @@ void ScriptThread::SCRCMD_CHECK_CAR_BOTH_50A6E0()
 MATCH_FUNC(0x50a760)
 void ScriptThread::IsOnScreen_50A760()
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
     s8 onScreen;
 
@@ -3238,7 +3238,7 @@ void ScriptThread::IsOnScreen_50A760()
         {
             if (!pPointer->field_8_car)
             {
-                FatalError_4A38C0(1102, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 0x1376, (u16)gBasePtr_6F8070->field_0_cmd_this);
+                FatalError_4A38C0(1102, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 0x1376, static_cast<u16>(gBasePtr_6F8070->field_0_cmd_this));
             }
 
             Car* pCar = pPointer->field_8_car;
@@ -3263,7 +3263,7 @@ void ScriptThread::IsOnScreen_50A760()
         case 1: // char
             if (!pPointer->field_8_char)
             {
-                FatalError_4A38C0(1103, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 0x1383, (u16)gBasePtr_6F8070->field_0_cmd_this);
+                FatalError_4A38C0(1103, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 0x1383, static_cast<u16>(gBasePtr_6F8070->field_0_cmd_this));
             }
 
             if (gBasePtr_6F8070->field_2_type == SCRCMD_IS_ITEM_ONSCREEN)
@@ -3279,7 +3279,7 @@ void ScriptThread::IsOnScreen_50A760()
         case 3: // obj
             if (!pPointer->field_8_obj)
             {
-                FatalError_4A38C0(1104, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 0x138E, (u16)gBasePtr_6F8070->field_0_cmd_this);
+                FatalError_4A38C0(1104, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 0x138E, static_cast<u16>(gBasePtr_6F8070->field_0_cmd_this));
             }
 
             if (gBasePtr_6F8070->field_2_type == SCRCMD_IS_ITEM_ONSCREEN)
@@ -3295,7 +3295,7 @@ void ScriptThread::IsOnScreen_50A760()
         case 4: // crane
             if (!pPointer->field_8_crane)
             {
-                FatalError_4A38C0(1108, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 0x1399, (u16)gBasePtr_6F8070->field_0_cmd_this);
+                FatalError_4A38C0(1108, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 0x1399, static_cast<u16>(gBasePtr_6F8070->field_0_cmd_this));
             }
 
             if (gBasePtr_6F8070->field_2_type == SCRCMD_IS_ITEM_ONSCREEN)
@@ -3330,11 +3330,11 @@ void ScriptThread::IsOnScreen_50A760()
 MATCH_FUNC(0x50a940)
 void ScriptThread::SCRCMD_DELAY_HERE_50A940()
 {
-    SCR_CMD_HEADER* pNextCmd = ((SCR_CMD_HEADER*)gBasePtr_6F8070) + 1; //  TODO: remove this hack
+    SCR_CMD_HEADER* pNextCmd = static_cast<SCR_CMD_HEADER*>(gBasePtr_6F8070) + 1; //  TODO: remove this hack
 
-    if ((s16)gBasePtr_6F8070->field_8_index == -1)
+    if (static_cast<s16>(gBasePtr_6F8070->field_8_index) == -1)
     {
-        pNextCmd->field_0_cmd_this = ((SCR_CMD_HEADER*)gBasePtr_6F8070)[1].field_2_type;
+        pNextCmd->field_0_cmd_this = static_cast<SCR_CMD_HEADER*>(gBasePtr_6F8070)[1].field_2_type;
     }
     else
     {
@@ -3351,11 +3351,11 @@ MATCH_FUNC(0x50a980)
 void ScriptThread::SCRCMD_DELAY_50A980()
 {
     s16 delay = gBasePtr_6F8070->field_8_index;
-    SCR_CMD_HEADER* pNextCmd = ((SCR_CMD_HEADER*)gBasePtr_6F8070) + 1; //  TODO: remove this hack
+    SCR_CMD_HEADER* pNextCmd = static_cast<SCR_CMD_HEADER*>(gBasePtr_6F8070) + 1; //  TODO: remove this hack
 
     if (delay == -1)
     {
-        pNextCmd->field_0_cmd_this = ((SCR_CMD_HEADER*)gBasePtr_6F8070)[1].field_2_type;
+        pNextCmd->field_0_cmd_this = static_cast<SCR_CMD_HEADER*>(gBasePtr_6F8070)[1].field_2_type;
         field_8_cond_result = true;
     }
     else
@@ -3382,11 +3382,11 @@ void ScriptThread::EnableThread_50A9E0(u16 idx)
     switch (pCmd->field_2_type)
     {
         case SCRCMD_THREAD_DECLARE2:
-            SCRCMD_THREAD_DECLARE2_5045D0((SCR_THREAD*)pCmd, (s16*)pCmd);
+            SCRCMD_THREAD_DECLARE2_5045D0(static_cast<SCR_THREAD*>(pCmd), reinterpret_cast<s16*>(pCmd));
             break;
         case SCRCMD_THREAD_DECLARE3:
         {
-            SCR_THREAD* pThread = (SCR_THREAD*)pCmd;
+            SCR_THREAD* pThread = static_cast<SCR_THREAD*>(pCmd);
 
             if (pThread->field_16_flag)
             {
@@ -3394,18 +3394,18 @@ void ScriptThread::EnableThread_50A9E0(u16 idx)
             }
             else
             {
-                SCRCMD_THREAD_DECLARE3_504660((SCR_THREAD*)pCmd);
+                SCRCMD_THREAD_DECLARE3_504660(static_cast<SCR_THREAD*>(pCmd));
             }
 
             break;
         }
         case SCRCMD_THREAD_DECLARE4:
-            SCRCMD_THREAD_DECLARE4_5047C0((SCR_THREAD*)pCmd, (s16*)pCmd);
+            SCRCMD_THREAD_DECLARE4_5047C0(static_cast<SCR_THREAD*>(pCmd), reinterpret_cast<s16*>(pCmd));
             break;
         case SCRCMD_THREAD_DECLARE5:
         case SCRCMD_CHAR_AREA_ANY_MEANS:
         {
-            SCR_CHAR_AREA_ANY* pAny = (SCR_CHAR_AREA_ANY*)pCmd;
+            SCR_CHAR_AREA_ANY* pAny = static_cast<SCR_CHAR_AREA_ANY*>(pCmd);
 
             if (pAny->field_27_flag)
             {
@@ -3442,14 +3442,14 @@ void ScriptThread::SCRCMD_SET_GANG_KILL_REACTION_50AC20()
 {
     str_table_entry* gang_1_str;
 
-    SCR_FOUR_PARAMS* pCmd = (SCR_FOUR_PARAMS*)gBasePtr_6F8070;
+    SCR_FOUR_PARAMS* pCmd = reinterpret_cast<SCR_FOUR_PARAMS*>(gBasePtr_6F8070);
     gang_1_str = gScriptManager_6F8060->FindStringById_503080(gBasePtr_6F8070->field_8_index);
     if (gang_1_str == NULL)
     {
         FatalError_4A38C0(Gta2Error::UnableToFindGangMatchingNameInSetGangRespect,
                           "C:\\Splitting\\Gta2\\Source\\miss2.cpp",
                           5217,
-                          (u16)gBasePtr_6F8070->field_0_cmd_this);
+                          static_cast<u16>(gBasePtr_6F8070->field_0_cmd_this));
     }
     Gang* pGang_1 = gGangPool_CA8_67E274->FindGangByName_4BF100(gang_1_str->get_name());
     str_table_entry* gang_2_str = gScriptManager_6F8060->FindStringById_503080(pCmd->field_C_unsigned_3);
@@ -3458,10 +3458,10 @@ void ScriptThread::SCRCMD_SET_GANG_KILL_REACTION_50AC20()
         FatalError_4A38C0(Gta2Error::UnableToFindGangMatchingNameInSetGangRespect2,
                           "C:\\Splitting\\Gta2\\Source\\miss2.cpp",
                           5223,
-                          (u16)gBasePtr_6F8070->field_0_cmd_this);
+                          static_cast<u16>(gBasePtr_6F8070->field_0_cmd_this));
     }
     Gang* pGang_2 = gGangPool_CA8_67E274->FindGangByName_4BF100(gang_2_str->get_name());
-    pGang_1->SetGangKillReaction_4BEF50(pGang_2->field_1_gang_idx, pCmd->field_A_unsigned_2);
+    pGang_1->SetGangKillReaction_4BEF50(pGang_2->field_1_gang_idx, static_cast<char_type>(pCmd->field_A_unsigned_2));
     pGang_1->SetKillAffectsRespect_475900(1);
     pGang_2->SetKillAffectsRespect_475900(1);
     ScriptThread::Next_503620(gBasePtr_6F8070);
@@ -3470,13 +3470,13 @@ void ScriptThread::SCRCMD_SET_GANG_KILL_REACTION_50AC20()
 MATCH_FUNC(0x50acf0)
 void ScriptThread::SCRCMD_CHANGE_RESPECT_50ACF0()
 {
-    SCR_FOUR_PARAMS* pCmd = (SCR_FOUR_PARAMS*)gBasePtr_6F8070;
+    SCR_FOUR_PARAMS* pCmd = reinterpret_cast<SCR_FOUR_PARAMS*>(gBasePtr_6F8070);
 
     str_table_entry* StringById_503080 = gScriptManager_6F8060->FindStringById_503080(gBasePtr_6F8070->field_8_index);
 
-    char* gang_zone_name = (char*)&StringById_503080[1];
+    char* gang_zone_name = reinterpret_cast<char*>(&StringById_503080[1]);
     Gang* pGang = gGangPool_CA8_67E274->FindGangByName_4BF100(gang_zone_name);
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_C_unsigned_3);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_C_unsigned_3));
 
     // pCmd->field_A_signed_2 = respect parameter
 
@@ -3484,7 +3484,7 @@ void ScriptThread::SCRCMD_CHANGE_RESPECT_50ACF0()
     {
         case SCRCMD_SET_CHAR_RESPECT:
 
-            pGang->SetRespect_4BEE30(pPointer->field_8_char->field_15C_player->get_idx_4219D0(), 20 * ((u8)pCmd->field_A_signed_2));
+            pGang->SetRespect_4BEE30(pPointer->field_8_char->field_15C_player->get_idx_4219D0(), 20 * static_cast<u8>(pCmd->field_A_signed_2));
             pGang->SetKillAffectsRespect_475900(1);
             break;
         case SCRCMD_CHANGE_RESPECT:
@@ -3498,7 +3498,7 @@ void ScriptThread::SCRCMD_CHANGE_RESPECT_50ACF0()
             }
             break;
         case SCRCMD_CHANGE_GANG_RESP:
-            pGang->ChangeRespectAndUpdate_4BF000(pPointer->field_8_char->field_15C_player->get_idx_4219D0(), 20 * ((u8)pCmd->field_A_signed_2));
+            pGang->ChangeRespectAndUpdate_4BF000(pPointer->field_8_char->field_15C_player->get_idx_4219D0(), 20 * static_cast<u8>(pCmd->field_A_signed_2));
             break;
     }
     ScriptThread::Next_503620(gBasePtr_6F8070);
@@ -3507,8 +3507,8 @@ void ScriptThread::SCRCMD_CHANGE_RESPECT_50ACF0()
 MATCH_FUNC(0x50aef0)
 void ScriptThread::RespectOperator_50AEF0()
 {
-    SCR_FOUR_PARAMS* pCmd = (SCR_FOUR_PARAMS*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_unsigned_1);
+    SCR_FOUR_PARAMS* pCmd = reinterpret_cast<SCR_FOUR_PARAMS*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_unsigned_1));
     str_table_entry* pStr = gScriptManager_6F8060->FindStringById_503080(pCmd->field_C_unsigned_3);
     Gang* pGang = gGangPool_CA8_67E274->FindGangByName_4BF100(pStr->get_name());
 
@@ -3567,8 +3567,8 @@ void ScriptThread::RespectOperator_50AEF0()
 MATCH_FUNC(0x50b0e0)
 void ScriptThread::SCRCMD_ADD_PATROL_POINT_50B0E0()
 {
-    SCR_ADD_PATROL_POINT* pCmd = (SCR_ADD_PATROL_POINT*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_ADD_PATROL_POINT* pCmd = reinterpret_cast<SCR_ADD_PATROL_POINT*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     Ped* pPed = pPointer->field_8_char;
     if (pPed)
     {
@@ -3586,7 +3586,7 @@ void ScriptThread::SCRCMD_ADD_PATROL_POINT_50B0E0()
 MATCH_FUNC(0x50b150)
 void ScriptThread::SCRCMD_SET_AMBIENT_50B150()
 {
-    SCR_SET_AMBIENT* pCmd = (SCR_SET_AMBIENT*)gBasePtr_6F8070;
+    SCR_SET_AMBIENT* pCmd = reinterpret_cast<SCR_SET_AMBIENT*>(gBasePtr_6F8070);
     gpMapRenderer_6F66E4->SetAmbientLevel_4E9D50(pCmd->field_8_level, pCmd->field_C_time);
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }
@@ -3594,9 +3594,9 @@ void ScriptThread::SCRCMD_SET_AMBIENT_50B150()
 MATCH_FUNC(0x50b180)
 void ScriptThread::SCRCMD_ANSWER_PHONE_50B180()
 {
-    SCR_ANSWER_PHONE* pCmd = (SCR_ANSWER_PHONE*)gBasePtr_6F8070;
-    SCR_POINTER* pPtrPed = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_C_ped_idx);
-    SCR_POINTER* pPtrObj = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_obj_idx);
+    SCR_ANSWER_PHONE* pCmd = reinterpret_cast<SCR_ANSWER_PHONE*>(gBasePtr_6F8070);
+    SCR_POINTER* pPtrPed = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_C_ped_idx));
+    SCR_POINTER* pPtrObj = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_obj_idx));
     Object* pPhoneObj = pPtrObj->field_8_obj;
     if (pPhoneObj && pPtrPed->field_8_char)
     {
@@ -3621,9 +3621,9 @@ void ScriptThread::SCRCMD_ANSWER_PHONE_50B180()
 MATCH_FUNC(0x50b230)
 void ScriptThread::SCRCMD_CHECK_PHONE_50B230()
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     ThreadTrigger* pHeader = gScriptManager_6F8060->FindPhoneThreadByObjId_512AD0(pPointer->field_8_obj->field_14_id);
-    SCR_ANSWER_PHONE* pThreadPtr = (SCR_ANSWER_PHONE*)gScriptManager_6F8060->GetBasePointer_512770(pHeader->field_8_cmd_line);
+    SCR_ANSWER_PHONE* pThreadPtr = static_cast<SCR_ANSWER_PHONE*>(gScriptManager_6F8060->GetBasePointer_512770(pHeader->field_8_cmd_line));
     if (pThreadPtr->field_12_answered == 1)
     {
         gScriptManager_6F8060->RemovePhoneThread_512A70(pHeader->field_0_ped_id, pHeader->field_4_obj_f14);
@@ -3639,12 +3639,12 @@ void ScriptThread::SCRCMD_CHECK_PHONE_50B230()
 MATCH_FUNC(0x50b2c0)
 void ScriptThread::SCRCMD_CHECK_PHONETIMER_50B2C0()
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     ThreadTrigger* pHeader = gScriptManager_6F8060->FindPhoneThreadByObjId_512AD0(pPointer->field_8_obj->field_14_id);
     if (pHeader)
     {
-        SCR_ANSWER_PHONE* pAnswer = (SCR_ANSWER_PHONE*)gScriptManager_6F8060->GetBasePointer_512770(pHeader->field_8_cmd_line);
-        if ((u16)field_E_phone_timer != 0xFFFF)
+        SCR_ANSWER_PHONE* pAnswer = static_cast<SCR_ANSWER_PHONE*>(gScriptManager_6F8060->GetBasePointer_512770(pHeader->field_8_cmd_line));
+        if (static_cast<u16>(field_E_phone_timer) != 0xFFFF)
         {
             if (field_E_phone_timer == 0 && pAnswer->field_12_answered == 0)
             {
@@ -3668,7 +3668,7 @@ void ScriptThread::SCRCMD_CHECK_PHONETIMER_50B2C0()
 MATCH_FUNC(0x50b360)
 void ScriptThread::SCRCMD_STOP_PHONE_RING_50B360()
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     Object* pObj = pPointer->field_8_obj;
     if (pObj)
     {
@@ -3685,7 +3685,7 @@ void ScriptThread::SCRCMD_STOP_PHONE_RING_50B360()
 MATCH_FUNC(0x50b3d0)
 void ScriptThread::SCRCMD_IS_CHAR_FIRE_ONSCREEN_50B3D0()
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     Ped* pPed = pPointer->field_8_char;
     if (pPed->GetAttacking_433CA0() && pPed->GetOffscreenCounter_4039F0() == 0 && pPed->field_170_selected_weapon)
     {
@@ -3701,7 +3701,7 @@ void ScriptThread::SCRCMD_IS_CHAR_FIRE_ONSCREEN_50B3D0()
 MATCH_FUNC(0x50b440)
 void ScriptThread::SCRCMD_CAR_DRIVE_AWAY_50B440()
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     pPointer->field_8_car->InitCarAIControl_440590();
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }
@@ -3709,9 +3709,9 @@ void ScriptThread::SCRCMD_CAR_DRIVE_AWAY_50B440()
 MATCH_FUNC(0x50b470)
 void ScriptThread::SCRCMD_GET_CAR_FROM_CRANE_50B470()
 {
-    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer1 = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(((SCR_CMD_HEADER*)gBasePtr_6F8070)[1].field_2_type);
-    SCR_POINTER* pPointer2 = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_unsigned_1);
+    SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer1 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(static_cast<SCR_CMD_HEADER*>(gBasePtr_6F8070)[1].field_2_type));
+    SCR_POINTER* pPointer2 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_unsigned_1));
     Crane* pCrane = pPointer1->field_8_crane;
 
     if (pCrane != NULL)
@@ -3736,9 +3736,9 @@ void ScriptThread::SCRCMD_GET_CAR_FROM_CRANE_50B470()
 MATCH_FUNC(0x50b4f0)
 void ScriptThread::SCRCMD_CHAR_TO_DRIVE_CAR_50B4F0()
 {
-    SCR_CHAR_ENTER_CAR* pCmd = (SCR_CHAR_ENTER_CAR*)gBasePtr_6F8070;
-    SCR_POINTER* pPtrPed = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
-    SCR_POINTER* pPtrCar = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_car_idx);
+    SCR_CHAR_ENTER_CAR* pCmd = reinterpret_cast<SCR_CHAR_ENTER_CAR*>(gBasePtr_6F8070);
+    SCR_POINTER* pPtrPed = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
+    SCR_POINTER* pPtrCar = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_car_idx));
 
     if (pPtrPed->field_8_char)
     {
@@ -3760,7 +3760,7 @@ void ScriptThread::SCRCMD_CHAR_TO_DRIVE_CAR_50B4F0()
 MATCH_FUNC(0x50b5a0)
 void ScriptThread::SCRCMD_DRIVER_OUT_CAR_50B5A0()
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     if (pPointer->field_8_char)
     {
         pPointer->field_8_char->SetObjective2_463830(objectives_enum::no_obj_0);
@@ -3773,7 +3773,7 @@ void ScriptThread::SCRCMD_DRIVER_OUT_CAR_50B5A0()
 MATCH_FUNC(0x50b600)
 void ScriptThread::SCRCMD_GIVE_DRIVER_BRAKE_50B600()
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     if (pPointer->field_8_car)
     {
         if (pPointer->field_8_car->GetDriver_4118B0() == NULL)
@@ -3791,14 +3791,14 @@ MATCH_FUNC(0x50b670)
 void ScriptThread::SCRCMD_SET_GANG_INFO1_50B670()
 {
     // mid-game change
-    ScriptThread::SCRCMD_SET_GANG_INFO1_504830((SCR_SET_GANG_INFO*)gBasePtr_6F8070);
+    ScriptThread::SCRCMD_SET_GANG_INFO1_504830(reinterpret_cast<SCR_SET_GANG_INFO*>(gBasePtr_6F8070));
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50b690)
 void ScriptThread::SCRCMD_CLEAR_TIMERS_50B690()
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
     if (pPointer->field_8_index != 0xFFFF)
     {
@@ -3811,8 +3811,8 @@ void ScriptThread::SCRCMD_CLEAR_TIMERS_50B690()
 MATCH_FUNC(0x50b6f0)
 void ScriptThread::SCRCMD_CHECK_SCORE_50B6F0()
 {
-    SCR_CHECK_SCORE_GREATER* pCmd = (SCR_CHECK_SCORE_GREATER*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_CHECK_SCORE_GREATER* pCmd = reinterpret_cast<SCR_CHECK_SCORE_GREATER*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     Ped* pPed = pPointer->field_8_char;
 
     if (pPed != NULL)
@@ -3832,15 +3832,15 @@ void ScriptThread::SCRCMD_CHECK_SCORE_50B6F0()
 MATCH_FUNC(0x50b760)
 void ScriptThread::SCRCMD_GET_SCORE_50B760()
 {
-    SCR_GET_SCORE* pCmd = (SCR_GET_SCORE*)gBasePtr_6F8070;
-    SCR_POINTER* pPtrPed = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
-    SCR_POINTER* pPtrCounter = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_counter_idx);
+    SCR_GET_SCORE* pCmd = reinterpret_cast<SCR_GET_SCORE*>(gBasePtr_6F8070);
+    SCR_POINTER* pPtrPed = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
+    SCR_POINTER* pPtrCounter = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_counter_idx));
 
     if (pPtrPed->field_8_char)
     {
         if (pPtrPed->field_8_char->is_player_41B0A0())
         {
-            pPtrCounter->field_8_counter = (u16)pPtrPed->field_8_char->field_15C_player->GetScore_421980();
+            pPtrCounter->field_8_counter = static_cast<u16>(pPtrPed->field_8_char->field_15C_player->GetScore_421980());
         }
     }
     ScriptThread::Next_503620(gBasePtr_6F8070);
@@ -3849,10 +3849,10 @@ void ScriptThread::SCRCMD_GET_SCORE_50B760()
 MATCH_FUNC(0x50b7d0)
 void ScriptThread::SCRCMD_IS_CHAR_IN_GANG_50B7D0()
 {
-    SCR_IS_CHAR_IN_GANG_ZONE* pCmd = (SCR_IS_CHAR_IN_GANG_ZONE*)gBasePtr_6F8070;
-    SCR_POINTER* BasePointer_512770 = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_IS_CHAR_IN_GANG_ZONE* pCmd = reinterpret_cast<SCR_IS_CHAR_IN_GANG_ZONE*>(gBasePtr_6F8070);
+    SCR_POINTER* BasePointer_512770 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     str_table_entry* StringById_503080 = gScriptManager_6F8060->FindStringById_503080(pCmd->field_A_gang_idx);
-    const char_type* GangName = (char*)&StringById_503080[1];
+    const char_type* GangName = reinterpret_cast<char*>(&StringById_503080[1]);
     Gang* pGang = gGangPool_CA8_67E274->FindGangByName_4BF100(GangName);
     Ped* pPed = BasePointer_512770->field_8_char;
     if (pPed->is_player_41B0A0())
@@ -3884,7 +3884,7 @@ void ScriptThread::SCRCMD_IS_CHAR_IN_GANG_50B7D0()
 MATCH_FUNC(0x50b8b0)
 void ScriptThread::SCRCMD_SET_NO_COLLIDE_50B8B0()
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     Car* pCar = pPointer->field_8_car;
 
     if (pCar)
@@ -3895,7 +3895,7 @@ void ScriptThread::SCRCMD_SET_NO_COLLIDE_50B8B0()
         }
         else if (gBasePtr_6F8070->field_2_type == SCRCMD_CLEAR_NO_COLLIDE)
         {
-            pCar->field_78_flags &= (u16)~car_flag::NoCollide;
+            pCar->field_78_flags &= static_cast<u16>(~car_flag::NoCollide);
         }
     }
 
@@ -3905,8 +3905,8 @@ void ScriptThread::SCRCMD_SET_NO_COLLIDE_50B8B0()
 MATCH_FUNC(0x50b910)
 void ScriptThread::SCRCMD_IS_CHAR_FIRING_AREA_50B910()
 {
-    SCR_ONEVAR_RECT* pCmd = (SCR_ONEVAR_RECT*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_ONEVAR_RECT* pCmd = reinterpret_cast<SCR_ONEVAR_RECT*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
     Ped* pPed = pPointer->field_8_char;
 
@@ -3924,8 +3924,8 @@ void ScriptThread::SCRCMD_IS_CHAR_FIRING_AREA_50B910()
 MATCH_FUNC(0x50b9c0)
 void ScriptThread::SCRCMD_GET_PASSENGER_NUM_50B9C0()
 {
-    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
     Car* pCar = pPointer->field_8_car;
 
@@ -3943,7 +3943,7 @@ void ScriptThread::SCRCMD_GET_PASSENGER_NUM_50B9C0()
 MATCH_FUNC(0x50ba30)
 void ScriptThread::SCRCMD_CLEAR_WANTED_LEVEL_50BA30()
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     pPointer->field_8_char->ClearWantedPoints_420B80();
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }
@@ -3951,8 +3951,8 @@ void ScriptThread::SCRCMD_CLEAR_WANTED_LEVEL_50BA30()
 MATCH_FUNC(0x50ba70)
 void ScriptThread::SCRCMD_ALT_WANTED_LEVEL_50BA70()
 {
-    SCR_CMD_ALTER_WANTED_LEVEL* kGlobal = (SCR_CMD_ALTER_WANTED_LEVEL*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_CMD_ALTER_WANTED_LEVEL* kGlobal = reinterpret_cast<SCR_CMD_ALTER_WANTED_LEVEL*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
     if (gBasePtr_6F8070->field_2_type == SCRCMD_ALTER_WANTED_LEVEL)
     {
@@ -3972,8 +3972,8 @@ void ScriptThread::SCRCMD_ALT_WANTED_LEVEL_50BA70()
 MATCH_FUNC(0x50bad0)
 void ScriptThread::SCRCMD_CAR_WRECK_IN_LOCATION_50BAD0()
 {
-    SCR_ONEVAR_RECT* pCmd = (SCR_ONEVAR_RECT*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_ONEVAR_RECT* pCmd = reinterpret_cast<SCR_ONEVAR_RECT*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     Car* pCar = pPointer->field_8_car;
 
     if ((pCar->field_74_damage >= 32000 || pCar->field_88_despawn_status == car_despawn_status::despawning_5) && pCar->IsWithinArea(&pCmd->field_C_rect))
@@ -3990,8 +3990,8 @@ void ScriptThread::SCRCMD_CAR_WRECK_IN_LOCATION_50BAD0()
 MATCH_FUNC(0x50bb80)
 void ScriptThread::SCRCMD_SEND_CAR_TO_BLOCK_50BB80()
 {
-    SCR_CAR_DATA_DEC* pCmd = (SCR_CAR_DATA_DEC*)gBasePtr_6F8070;
-    SCR_POINTER* pScrPtr = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_car_idx);
+    SCR_CAR_DATA_DEC* pCmd = reinterpret_cast<SCR_CAR_DATA_DEC*>(gBasePtr_6F8070);
+    SCR_POINTER* pScrPtr = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_car_idx));
     pScrPtr->field_8_car->GotoBlock_441080(pCmd->field_C_pos.field_0_x.ToUInt8(),
                                            pCmd->field_C_pos.field_4_y.ToUInt8(),
                                            pCmd->field_C_pos.field_8_z.ToUInt8(),
@@ -4002,13 +4002,13 @@ void ScriptThread::SCRCMD_SEND_CAR_TO_BLOCK_50BB80()
 MATCH_FUNC(0x50bbd0)
 void ScriptThread::SCRCMD_THREAT_SEARCH_REACT_ADD_GROUP_50BBD0()
 {
-    SCR_CHAR_OBJECTIVE* pCmd = (SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070;
-    SCR_POINTER* pScrPtr = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_char_idx);
+    SCR_CHAR_OBJECTIVE* pCmd = reinterpret_cast<SCR_CHAR_OBJECTIVE*>(gBasePtr_6F8070);
+    SCR_POINTER* pScrPtr = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_char_idx));
 
     switch (gBasePtr_6F8070->field_2_type)
     {
         case SCRCMD_ADD_GROUP:
-            pScrPtr->field_8_char->SpawnPedGroupFollowers_46E200(pCmd->field_A_objective);
+            pScrPtr->field_8_char->SpawnPedGroupFollowers_46E200(static_cast<u8>(pCmd->field_A_objective));
             break;
         case SCRCMD_SET_THREAT_REACT:
             pScrPtr->field_8_char->field_28C_threat_reaction = pCmd->field_A_objective;
@@ -4024,12 +4024,12 @@ void ScriptThread::SCRCMD_THREAT_SEARCH_REACT_ADD_GROUP_50BBD0()
 MATCH_FUNC(0x50bc60)
 void ScriptThread::SCRCMD_CHECK_NUM_ALIVE_50BC60()
 {
-    SCR_CHAR_OBJECTIVE* pCmd = (SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070;
+    SCR_CHAR_OBJECTIVE* pCmd = reinterpret_cast<SCR_CHAR_OBJECTIVE*>(gBasePtr_6F8070);
     SCR_POINTER* pScrPtr =
-        (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(((SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070)->field_8_char_idx);
+        static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(reinterpret_cast<SCR_CHAR_OBJECTIVE*>(gBasePtr_6F8070)->field_8_char_idx));
     PedGroup* pPedGroup = pScrPtr->field_8_char->field_164_ped_group;
 
-    if (pPedGroup != NULL && (s16)pPedGroup->field_34_count >= pCmd->field_A_objective)
+    if (pPedGroup != NULL && static_cast<s16>(pPedGroup->field_34_count) >= pCmd->field_A_objective)
     {
         field_8_cond_result = true;
     }
@@ -4044,10 +4044,10 @@ void ScriptThread::SCRCMD_CHECK_NUM_ALIVE_50BC60()
 MATCH_FUNC(0x50bcd0)
 void ScriptThread::SCRCMD_SET_MIN_ALIVE_50BCD0()
 {
-    SCR_CHAR_OBJECTIVE* pCmd = (SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070;
+    SCR_CHAR_OBJECTIVE* pCmd = reinterpret_cast<SCR_CHAR_OBJECTIVE*>(gBasePtr_6F8070);
     SCR_POINTER* pPointer =
-        (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(((SCR_CHAR_OBJECTIVE*)gBasePtr_6F8070)->field_8_char_idx);
-    pPointer->field_8_char->field_164_ped_group->field_35_unused = pCmd->field_A_objective;
+        static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(reinterpret_cast<SCR_CHAR_OBJECTIVE*>(gBasePtr_6F8070)->field_8_char_idx));
+    pPointer->field_8_char->field_164_ped_group->field_35_unused = static_cast<char_type>(pCmd->field_A_objective);
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }
 
@@ -4055,11 +4055,11 @@ void ScriptThread::SCRCMD_SET_MIN_ALIVE_50BCD0()
 MATCH_FUNC(0x50bd10)
 void ScriptThread::SCRCMD_CHAR_GROUP_50BD10()
 {
-    SCR_TWO_PARAMS* pParams = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
-    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    SCR_TWO_PARAMS* pParams = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070);
+    SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070);
 
-    SCR_POINTER* pPtr1 = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pParams->field_8_unsigned_1);
-    SCR_POINTER* pPtr2 = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2);
+    SCR_POINTER* pPtr1 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pParams->field_8_unsigned_1));
+    SCR_POINTER* pPtr2 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2));
 
     Ped* pChar = pPtr1->field_8_char;
     PedGroup* pGroup = pChar->GetGroup_475AF0();
@@ -4085,8 +4085,8 @@ void ScriptThread::SCRCMD_CHAR_GROUP_50BD10()
 MATCH_FUNC(0x50bdc0)
 void ScriptThread::SCRCMD_SET_COUNTER_50BDC0() // Set counter to a given constant value
 {
-    SCR_SET_COUNTER* pCmd = (SCR_SET_COUNTER*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_SET_COUNTER* pCmd = reinterpret_cast<SCR_SET_COUNTER*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     pPointer->field_8_counter = pCmd->field_A_value;
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }
@@ -4094,8 +4094,8 @@ void ScriptThread::SCRCMD_SET_COUNTER_50BDC0() // Set counter to a given constan
 MATCH_FUNC(0x50be00)
 void ScriptThread::SCRCMD_HAS_CAR_WEAPON_50BE00()
 {
-    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     s16 weapon_idx = pCmd->field_A_signed_2;
 
     if (gWeapon_8_707018->find_5E3D20(pPointer->field_8_car, weapon_idx))
@@ -4112,7 +4112,7 @@ void ScriptThread::SCRCMD_HAS_CAR_WEAPON_50BE00()
 MATCH_FUNC(0x50be70)
 void ScriptThread::SCRCMD_IS_CHAR_HORN_50BE70()
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     Ped* pPed = pPointer->field_8_char;
     Car* pCar = pPed->field_16C_car;
 
@@ -4130,11 +4130,11 @@ void ScriptThread::SCRCMD_IS_CHAR_HORN_50BE70()
 MATCH_FUNC(0x50bed0)
 void ScriptThread::SCRCMD_CHECK_MAX_PASS_50BED0()
 {
-    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     Car* pCar = pPointer->field_8_char->get_car_416B60();
 
-    if (pCar && (u8)pCar->GetMaxPassengers_440570() >= pCmd->field_A_signed_2)
+    if (pCar && static_cast<u8>(pCar->GetMaxPassengers_440570()) >= pCmd->field_A_signed_2)
     {
         field_8_cond_result = true;
     }
@@ -4148,8 +4148,8 @@ void ScriptThread::SCRCMD_CHECK_MAX_PASS_50BED0()
 MATCH_FUNC(0x50bf40)
 void ScriptThread::SCRCMD_IS_CHAR_IN_ZONE_50BF40()
 {
-    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     str_table_entry* pStrEntry = gScriptManager_6F8060->FindStringById_503080(pCmd->field_A_signed_2);
     Player* pPlayer = pPointer->field_8_char->field_15C_player;
 
@@ -4171,8 +4171,8 @@ void ScriptThread::SCRCMD_IS_CHAR_IN_ZONE_50BF40()
                                                               Navigation_1);
     }
 
-    if ((pZone1 && !_strnicmp(pZone1->field_6_name, (const char*)&pStrEntry[1], pZone1->field_5_name_length)) ||
-        (pZone2 && !_strnicmp(pZone2->field_6_name, (const char*)&pStrEntry[1], pZone2->field_5_name_length)))
+    if ((pZone1 && !_strnicmp(pZone1->field_6_name, reinterpret_cast<const char*>(&pStrEntry[1]), pZone1->field_5_name_length)) ||
+        (pZone2 && !_strnicmp(pZone2->field_6_name, reinterpret_cast<const char*>(&pStrEntry[1]), pZone2->field_5_name_length)))
     {
         field_8_cond_result = true;
     }
@@ -4188,7 +4188,7 @@ MATCH_FUNC(0x50c040)
 void ScriptThread::SCRCMD_SET_PHONE_DEAD_50C040()
 {
     u16* pIndex = &gBasePtr_6F8070->field_8_index;
-    SCR_POINTER* pScrPtr = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(*pIndex);
+    SCR_POINTER* pScrPtr = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(*pIndex));
 
     pScrPtr->field_8_obj->PoolGiveAndQueueObjectType_5291E0(174);
     gScriptManager_6F8060->RemovePhoneThreadByObjId_512AA0(pScrPtr->field_8_obj->field_14_id);
@@ -4211,9 +4211,9 @@ void ScriptThread::SCRCMD_SET_PHONE_DEAD_50C040()
 MATCH_FUNC(0x50c0e0)
 void ScriptThread::SCRCMD_IS_TRAILER_ATT_50C0E0()
 {
-    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
-    SCR_POINTER* pParam1 = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
-    SCR_POINTER* pParam2 = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2);
+    SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070);
+    SCR_POINTER* pParam1 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
+    SCR_POINTER* pParam2 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2));
 
     Car* pCar;
 
@@ -4249,9 +4249,9 @@ void ScriptThread::SCRCMD_IS_TRAILER_ATT_50C0E0()
 MATCH_FUNC(0x50c1b0)
 void ScriptThread::SCRCMD_IS_CAR_ON_TRAIL_50C1B0()
 {
-    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
-    SCR_POINTER* pCarPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
-    SCR_POINTER* pTrailerPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2);
+    SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070);
+    SCR_POINTER* pCarPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
+    SCR_POINTER* pTrailerPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2));
 
     //Sprite* pSprite = pTrailerPointer->field_8_sprite->FirstSpriteOfType_5A6CA0(2);
     Sprite* pSprite = pTrailerPointer->field_8_car->field_0_attachments.FirstSpriteOfType_5A6CA0(sprite_types_enum::car_2);
@@ -4273,7 +4273,7 @@ void ScriptThread::SCRCMD_IS_CAR_ON_TRAIL_50C1B0()
 MATCH_FUNC(0x50c230)
 void ScriptThread::SCRCMD_ENABLE_DISABLE_CRANE_50C230()
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     s16 type = gBasePtr_6F8070->field_2_type;
 
     if (type == SCRCMD_ENABLE_CRANE)
@@ -4290,7 +4290,7 @@ void ScriptThread::SCRCMD_ENABLE_DISABLE_CRANE_50C230()
 MATCH_FUNC(0x50c2a0)
 void ScriptThread::SCRCMD_CAR_GOT_DRIVER_50C2A0()
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     if (pPointer->field_8_car->field_54_driver)
     {
         field_8_cond_result = true;
@@ -4305,7 +4305,7 @@ void ScriptThread::SCRCMD_CAR_GOT_DRIVER_50C2A0()
 MATCH_FUNC(0x50c2f0)
 void ScriptThread::SCRCMD_SPOTTED_PLAYER_50C2F0()
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     if (pPointer->field_8_char->HasSpottedPlayer())
     {
         field_8_cond_result = true;
@@ -4320,9 +4320,9 @@ void ScriptThread::SCRCMD_SPOTTED_PLAYER_50C2F0()
 MATCH_FUNC(0x50c350)
 void ScriptThread::SCRCMD_GET_LAST_PUNCHED_50C350()
 {
-    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
-    SCR_POINTER* pCharTargetPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
-    SCR_POINTER* pCharPunchedPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2);
+    SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070);
+    SCR_POINTER* pCharTargetPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
+    SCR_POINTER* pCharPunchedPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2));
 
     pCharPunchedPointer->field_8_char = pCharTargetPointer->field_8_char->get_last_char_punched_475B10();
     pCharTargetPointer->field_8_char->clear_last_char_punched_475B40();
@@ -4333,7 +4333,7 @@ void ScriptThread::SCRCMD_GET_LAST_PUNCHED_50C350()
 MATCH_FUNC(0x50c3b0)
 void ScriptThread::SCRCMD_IS_CHAR_STUNNED_50C3B0()
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     Ped* pPed = pPointer->field_8_char;
 
     if (pPed->field_27C_ped_state_2 == ped_state_2::lying_on_floor_22 || pPed->field_216_health <= 25)
@@ -4350,7 +4350,7 @@ void ScriptThread::SCRCMD_IS_CHAR_STUNNED_50C3B0()
 MATCH_FUNC(0x50c410)
 void ScriptThread::SCRCMD_KILL_ALL_PASSENG_50C410()
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     pPointer->field_8_car->field_4_passengers_list.KillAndClearAllPeds_4715A0();
 
     if (gPublicTransport_181C_6FF1D4->is_bus_579AA0(pPointer->field_8_car))
@@ -4363,7 +4363,7 @@ void ScriptThread::SCRCMD_KILL_ALL_PASSENG_50C410()
 MATCH_FUNC(0x50c470)
 void ScriptThread::SCRCMD_IS_GROUP_IN_CAR_50C470()
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     Ped* pGroupLeader = pPointer->field_8_char;
     PedGroup* pGroup = pGroupLeader->field_164_ped_group;
 
@@ -4390,7 +4390,7 @@ void ScriptThread::SCRCMD_IS_GROUP_IN_CAR_50C470()
 MATCH_FUNC(0x50c4e0)
 void ScriptThread::SCRCMD_PUNCHED_SOMEONE_50C4E0()
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     if (pPointer->field_8_char->field_188_last_char_punched != NULL)
     {
         field_8_cond_result = true;
@@ -4405,11 +4405,11 @@ void ScriptThread::SCRCMD_PUNCHED_SOMEONE_50C4E0()
 MATCH_FUNC(0x50c540)
 void ScriptThread::SCRCMD_ADD_CHAR_TO_GANG_50C540()
 {
-    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     str_table_entry* StringById_503080 = gScriptManager_6F8060->FindStringById_503080(pCmd->field_A_unsigned_2);
 
-    char* gang_zone_name = (char*)&StringById_503080[1];
+    char* gang_zone_name = reinterpret_cast<char*>(&StringById_503080[1]);
 
     pPointer->field_8_char->field_17C_pGang = gGangPool_CA8_67E274->FindGangByName_4BF100(gang_zone_name);
 
@@ -4419,7 +4419,7 @@ void ScriptThread::SCRCMD_ADD_CHAR_TO_GANG_50C540()
 MATCH_FUNC(0x50c5a0)
 void ScriptThread::SCRCMD_EXPLODE_50C5A0()
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
     s32 type;
 
@@ -4465,7 +4465,7 @@ void ScriptThread::SCRCMD_EXPLODE_50C5A0()
         }
         case 4:
         {
-            SCR_CRANE_TARGET_DEC* pCrane = (SCR_CRANE_TARGET_DEC*)pPointer;
+            SCR_CRANE_TARGET_DEC* pCrane = reinterpret_cast<SCR_CRANE_TARGET_DEC*>(pPointer);
 
             gObject_5C_6F8F84->CreateExplosion_52A3D0(
                 pCrane->field_10_pos.field_0_x,
@@ -4485,9 +4485,9 @@ void ScriptThread::SCRCMD_EXPLODE_50C5A0()
 MATCH_FUNC(0x50c6f0)
 void ScriptThread::SCRCMD_PARK_50C6F0() // PARK and PARK_NO_RESPAWN
 {
-    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
-    SCR_POINTER* pParam1 = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
-    SCR_POINTER* pParam2 = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2);
+    SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070);
+    SCR_POINTER* pParam1 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
+    SCR_POINTER* pParam2 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2));
 
     gGarage_48_6FD26C->ParkCarAtDoor_534700(pParam1->field_8_car, pParam2->field_8_door);
     if (gBasePtr_6F8070->field_2_type == SCRCMD_PARK_NO_RESPAWN)
@@ -4500,9 +4500,9 @@ void ScriptThread::SCRCMD_PARK_50C6F0() // PARK and PARK_NO_RESPAWN
 MATCH_FUNC(0x50c760)
 void ScriptThread::SCRCMD_BEEN_PUNCHED_BY_50C760()
 {
-    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
-    SCR_POINTER* pPointerVictim = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
-    SCR_POINTER* pPointerAttacker = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2);
+    SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointerVictim = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
+    SCR_POINTER* pPointerAttacker = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2));
 
     if (pPointerAttacker->field_8_char->field_188_last_char_punched == pPointerVictim->field_8_char)
     {
@@ -4518,27 +4518,27 @@ void ScriptThread::SCRCMD_BEEN_PUNCHED_BY_50C760()
 MATCH_FUNC(0x50c7d0)
 void ScriptThread::SCRCMD_UPDATE_DOOR_50C7D0()
 {
-    SCR_UPDATE_DOOR* pCmd = (SCR_UPDATE_DOOR*)gBasePtr_6F8070;
-    SCR_POINTER* pDoorPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_door_idx);
+    SCR_UPDATE_DOOR* pCmd = reinterpret_cast<SCR_UPDATE_DOOR*>(gBasePtr_6F8070);
+    SCR_POINTER* pDoorPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_door_idx));
 
     SCR_POINTER* pTarget;
 
     switch (pDoorPointer->field_8_door->get_open_type_476A90())
     {
         case 5:
-            pTarget = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_target_idx);
+            pTarget = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_target_idx));
 
             pDoorPointer->field_8_door->set_open_details_ped(door_open_type::one_char_on_foot, pTarget->field_8_char);
             pDoorPointer->field_8_door->set_target_id(pTarget->field_8_char->field_200_id);
             break;
         case 3:
-            pTarget = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_target_idx);
+            pTarget = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_target_idx));
 
             pDoorPointer->field_8_door->set_open_details_car_bc(door_open_type::one_car, pTarget->field_8_car);
             pDoorPointer->field_8_door->set_target_id(pTarget->field_8_car->field_6C_car_id);
             break;
         case 6:
-            pTarget = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_target_idx);
+            pTarget = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_target_idx));
 
             pDoorPointer->field_8_door->set_open_details_car_bc(door_open_type::any_player_one_car, pTarget->field_8_car);
             pDoorPointer->field_8_door->set_target_id(pTarget->field_8_car->field_6C_car_id);
@@ -4550,7 +4550,7 @@ void ScriptThread::SCRCMD_UPDATE_DOOR_50C7D0()
 MATCH_FUNC(0x50c8a0)
 void ScriptThread::SCRCMD_DOOR_50C8A0()
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
     switch (gBasePtr_6F8070->field_2_type)
     {
@@ -4605,7 +4605,7 @@ void ScriptThread::SCRCMD_DOOR_50C8A0()
 MATCH_FUNC(0x50c990)
 void ScriptThread::SCRCMD_REMOVE_WEAPON_50C990()
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
     Ped* pPed = pPointer->field_8_char;
     Player* player = pPed->field_15C_player;
@@ -4624,7 +4624,7 @@ void ScriptThread::SCRCMD_REMOVE_WEAPON_50C990()
 MATCH_FUNC(0x50c9f0)
 void ScriptThread::SCRCMD_REMOVE_BLOCK_50C9F0()
 {
-    SCR_REMOVE_BLOCK* pCmd = (SCR_REMOVE_BLOCK*)gBasePtr_6F8070;
+    SCR_REMOVE_BLOCK* pCmd = reinterpret_cast<SCR_REMOVE_BLOCK*>(gBasePtr_6F8070);
 
     gMap_0x370_6F6268->RemoveBlock_4E8940(pCmd->field_8_pos.field_0_x,
                                           pCmd->field_8_pos.field_1_y,
@@ -4636,7 +4636,7 @@ void ScriptThread::SCRCMD_REMOVE_BLOCK_50C9F0()
 MATCH_FUNC(0x50ca30)
 void ScriptThread::SCRCMD_LOWER_LEVEL_50CA30()
 {
-    SCR_LOWER_LEVEL* pCmd = (SCR_LOWER_LEVEL*)gBasePtr_6F8070;
+    SCR_LOWER_LEVEL* pCmd = reinterpret_cast<SCR_LOWER_LEVEL*>(gBasePtr_6F8070);
 
     gMap_0x370_6F6268->LowerLevel_4E8B70(pCmd->field_8_min_pos.field_0_x,
                                          pCmd->field_A_max_pos.field_0_x,
@@ -4648,7 +4648,7 @@ void ScriptThread::SCRCMD_LOWER_LEVEL_50CA30()
 MATCH_FUNC(0x50ca70)
 void ScriptThread::SCRCMD_CHANGE_BLOCK_50CA70()
 {
-    SCR_CHANGE_BLOCK* pCmd = (SCR_CHANGE_BLOCK*)gBasePtr_6F8070;
+    SCR_CHANGE_BLOCK* pCmd = reinterpret_cast<SCR_CHANGE_BLOCK*>(gBasePtr_6F8070);
     gMap_0x370_6F6268->ChangeBlock_4E8620(pCmd->field_8_x,
                                           pCmd->field_9_y,
                                           pCmd->field_A_z,
@@ -4664,9 +4664,9 @@ void ScriptThread::SCRCMD_ADD_NEW_BLOCK_50CAB0()
 
     Block.init_44C840();
 
-    gMap_0x370_6F6268->AddNewBlock_4E87C0(((SCR_ADD_BLOCK*)gBasePtr_6F8070)->field_8_xpos,
-                                          ((SCR_ADD_BLOCK*)gBasePtr_6F8070)->field_9_ypos,
-                                          ((SCR_ADD_BLOCK*)gBasePtr_6F8070)->field_A_zpos,
+    gMap_0x370_6F6268->AddNewBlock_4E87C0(reinterpret_cast<SCR_ADD_BLOCK*>(gBasePtr_6F8070)->field_8_xpos,
+                                          reinterpret_cast<SCR_ADD_BLOCK*>(gBasePtr_6F8070)->field_9_ypos,
+                                          reinterpret_cast<SCR_ADD_BLOCK*>(gBasePtr_6F8070)->field_A_zpos,
                                           &Block);
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }
@@ -4674,7 +4674,7 @@ void ScriptThread::SCRCMD_ADD_NEW_BLOCK_50CAB0()
 MATCH_FUNC(0x50cb20)
 void ScriptThread::SCRCMD_ROAD_ON_OFF_50CB20()
 {
-    SCR_SWITCH_ROAD_ON_OFF* pCmd = (SCR_SWITCH_ROAD_ON_OFF*)gBasePtr_6F8070;
+    SCR_SWITCH_ROAD_ON_OFF* pCmd = reinterpret_cast<SCR_SWITCH_ROAD_ON_OFF*>(gBasePtr_6F8070);
 
     if (pCmd->field_B_status != 0)
     {
@@ -4690,7 +4690,7 @@ void ScriptThread::SCRCMD_ROAD_ON_OFF_50CB20()
 MATCH_FUNC(0x50cb70)
 void ScriptThread::SCRCMD_CHECK_CAR_DRIVER_50CB70()
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     field_8_cond_result = false;
 
     switch (gBasePtr_6F8070->field_2_type)
@@ -4767,8 +4767,8 @@ void ScriptThread::SCRCMD_CHECK_CAR_DRIVER_50CB70()
 MATCH_FUNC(0x50ccb0)
 void ScriptThread::SCRCMD_SWITCH_GENERATOR1_50CCB0()
 {
-    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
     u16 killTimer = pCmd->field_A_unsigned_2;
     Generator* pGen = pPointer->field_8_generator;
@@ -4792,8 +4792,8 @@ void ScriptThread::SCRCMD_SWITCH_GENERATOR1_50CCB0()
 MATCH_FUNC(0x50cd30)
 void ScriptThread::SCRCMD_SWITCH_GENERATOR3_50CD30()
 {
-    SCR_FOUR_PARAMS* pCmd = (SCR_FOUR_PARAMS*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_FOUR_PARAMS* pCmd = reinterpret_cast<SCR_FOUR_PARAMS*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     pPointer->field_8_generator->field_0_gen_type = pCmd->field_C_signed_3;
 
     Generator* pGen = pPointer->field_8_generator;
@@ -4821,8 +4821,8 @@ void ScriptThread::SCRCMD_CAR_DAMAGE_POS_50CDB0()
     SCR_TWO_PARAMS* pCmd;
     SCR_POINTER* pPointer;
 
-    pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
-    pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070);
+    pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
     if ((pPointer->field_8_car)->IsAreaDamaged_43D1C0(pCmd->field_A_signed_2)) // field_A_signed_2 = damage pos
     {
@@ -4862,17 +4862,17 @@ void ScriptThread::Gosub_50CE50(SCR_CMD_HEADER* pCmd, u16 cmd_idx)
 MATCH_FUNC(0x50ce90)
 void ScriptThread::SCRCMD_PHONE_TEMPLATE_50CE90()
 {
-    SCR_PHONE_TEMPLATE* pCmd = (SCR_PHONE_TEMPLATE*)gBasePtr_6F8070;
+    SCR_PHONE_TEMPLATE* pCmd = reinterpret_cast<SCR_PHONE_TEMPLATE*>(gBasePtr_6F8070);
 
-    SCR_POINTER* pPassedFlag = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_counter1);
-    SCR_POINTER* pFailedFlag = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_10_counter2);
-    SCR_POINTER* pOnMission0 = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_C_counter3b);
-    SCR_POINTER* pOnMission1 = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_12_counter3);
-    SCR_POINTER* pOnMission2 = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_14_counter4);
-    SCR_POINTER* pOnMission3 = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_16_counter5);
+    SCR_POINTER* pPassedFlag = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_counter1));
+    SCR_POINTER* pFailedFlag = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_10_counter2));
+    SCR_POINTER* pOnMission0 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_C_counter3b));
+    SCR_POINTER* pOnMission1 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_12_counter3));
+    SCR_POINTER* pOnMission2 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_14_counter4));
+    SCR_POINTER* pOnMission3 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_16_counter5));
 
     str_table_entry* pGangNameEntry = gScriptManager_6F8060->FindStringById_503080(pCmd->field_18_gangname);
-    char_type* gang_name = (char_type*)&pGangNameEntry[1];
+    char_type* gang_name = reinterpret_cast<char_type*>(&pGangNameEntry[1]);
     Gang* pGang = gGangPool_CA8_67E274->FindGangByName_4BF100(gang_name);
 
     s8 player_idx1;
@@ -4887,7 +4887,7 @@ void ScriptThread::SCRCMD_PHONE_TEMPLATE_50CE90()
         {
             gScriptManager_6F8060->field_C1E2E_death_arrest_flag = 0;
             str_table_entry* mission2_str_table = gScriptManager_6F8060->FindStringById_503080(pCmd->field_E_mission2);
-            char_type* mission2_name = (char_type*)&mission2_str_table[1];
+            char_type* mission2_name = reinterpret_cast<char_type*>(&mission2_str_table[1]);
             ScriptThread::launch_mission_5119A0(gBasePtr_6F8070, mission2_name);
             return;
         }
@@ -4912,7 +4912,7 @@ void ScriptThread::SCRCMD_PHONE_TEMPLATE_50CE90()
         {
             gScriptManager_6F8060->field_C1E2E_death_arrest_flag = 0;
             str_table_entry* mission2_str_table = gScriptManager_6F8060->FindStringById_503080(pCmd->field_E_mission2);
-            char_type* mission2_name = (char_type*)&mission2_str_table[1];
+            char_type* mission2_name = reinterpret_cast<char_type*>(&mission2_str_table[1]);
             ScriptThread::launch_mission_5119A0(gBasePtr_6F8070, mission2_name);
             return;
         }
@@ -4983,7 +4983,7 @@ void ScriptThread::SCRCMD_PHONE_TEMPLATE_50CE90()
     {
         gScriptManager_6F8060->field_C1E2E_death_arrest_flag = 0;
         str_table_entry* mission1_str_table = gScriptManager_6F8060->FindStringById_503080(pCmd->field_1C_mission1);
-        char_type* mission1_name = (char_type*)&mission1_str_table[1];
+        char_type* mission1_name = reinterpret_cast<char_type*>(&mission1_str_table[1]);
         ScriptThread::launch_mission_5119A0(gBasePtr_6F8070, mission1_name);
         return;
     }
@@ -5022,9 +5022,9 @@ void ScriptThread::SCRCMD_PHONE_TEMPLATE_50CE90()
 MATCH_FUNC(0x50d200)
 void ScriptThread::SCRCMD_REMOTE_CONTROL_50D200()
 {
-    SCR_REMOTE_CONTROL* pCmd = (SCR_REMOTE_CONTROL*)gBasePtr_6F8070;
-    SCR_POINTER* pPlayerPtr = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
-    SCR_POINTER* pCarPtr = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_car_idx);
+    SCR_REMOTE_CONTROL* pCmd = reinterpret_cast<SCR_REMOTE_CONTROL*>(gBasePtr_6F8070);
+    SCR_POINTER* pPlayerPtr = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
+    SCR_POINTER* pCarPtr = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_car_idx));
     pPlayerPtr->field_8_char->field_15C_player->DisableInputs_569F40();
     pPlayerPtr->field_8_char->field_15C_player->ResetAuxCamera_5695A0();
     pPlayerPtr->field_8_char->field_15C_player->StartRemoteControl_569600(pCarPtr->field_8_car);
@@ -5051,12 +5051,12 @@ void ScriptThread::SCRCMD_DO_SAVE_GAME_50D3C0()
 {
     if (field_C_cmd_initialised == false)
     {
-        SCR_DO_SAVE_GAME* pCmd = (SCR_DO_SAVE_GAME*)gBasePtr_6F8070;
+        SCR_DO_SAVE_GAME* pCmd = reinterpret_cast<SCR_DO_SAVE_GAME*>(gBasePtr_6F8070);
         ScriptThread::DisableThread_505790(pCmd->field_8_triggername);
 
-        if ((u32)gpRng_67AB34->get_cur_rng_41CFE0() > 0)
+        if (static_cast<u32>(gpRng_67AB34->get_cur_rng_41CFE0()) > 0)
         {
-            u32* mission_flag = (u32*)gScriptManager_6F8060->field_344_mission_flag;
+            u32* mission_flag = reinterpret_cast<u32*>(gScriptManager_6F8060->field_344_mission_flag);
             if (!mission_flag || *mission_flag)
             {
                 // It's in mission, so the player cannot save the game
@@ -5090,7 +5090,7 @@ void ScriptThread::SCRCMD_DO_SAVE_GAME_50D3C0()
     else
     {
         Ped* pPlayerPed = gGame_0x40_67E008->field_38_local_player->field_2C4_player_ped;
-        SCR_DO_SAVE_GAME* pCmd = (SCR_DO_SAVE_GAME*)gBasePtr_6F8070;
+        SCR_DO_SAVE_GAME* pCmd = reinterpret_cast<SCR_DO_SAVE_GAME*>(gBasePtr_6F8070);
 
         // This doesn't look right, but it matches. Might be a missing parens bug in the OG game?
         if (pPlayerPed->get_cam_x() < pCmd->field_C_rect.field_0_pos.field_0_x - pCmd->field_C_rect.field_C_size.field_0_x ||
@@ -5107,8 +5107,8 @@ void ScriptThread::SCRCMD_DO_SAVE_GAME_50D3C0()
 MATCH_FUNC(0x50d680)
 void ScriptThread::SCRCMD_CHANGE_CAR_LOCK_50D680()
 {
-    SCR_CHANGE_CAR_LOCK* pCmd = (SCR_CHANGE_CAR_LOCK*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_CHANGE_CAR_LOCK* pCmd = reinterpret_cast<SCR_CHANGE_CAR_LOCK*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
     Car* pCar;
 
@@ -5156,10 +5156,10 @@ void ScriptThread::SCRCMD_CHANGE_CAR_LOCK_50D680()
 MATCH_FUNC(0x50d870)
 void ScriptThread::SCRCMD_CHANGE_INTENSITY_50D870()
 {
-    SCR_CHANGE_LIGHT_INTENSITY* pCmd = (SCR_CHANGE_LIGHT_INTENSITY*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_CHANGE_LIGHT_INTENSITY* pCmd = reinterpret_cast<SCR_CHANGE_LIGHT_INTENSITY*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
-    pPointer->field_8_light->SetIntensity_476AE0(pCmd->field_A_intensity);
+    pPointer->field_8_light->SetIntensity_476AE0(static_cast<u8>(pCmd->field_A_intensity));
 
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }
@@ -5167,8 +5167,8 @@ void ScriptThread::SCRCMD_CHANGE_INTENSITY_50D870()
 MATCH_FUNC(0x50d900)
 void ScriptThread::SCRCMD_CHANGE_COLOUR_50D900()
 {
-    SCR_FOUR_PARAMS* pCmd = (SCR_FOUR_PARAMS*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_FOUR_PARAMS* pCmd = reinterpret_cast<SCR_FOUR_PARAMS*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
     u32 rgb = pCmd->field_C_u32;
     pPointer->field_8_light->field_10_argb = rgb;
@@ -5178,8 +5178,8 @@ void ScriptThread::SCRCMD_CHANGE_COLOUR_50D900()
 MATCH_FUNC(0x50d9a0)
 void ScriptThread::SCRCMD_CHANGE_RADIUS_50D9A0()
 {
-    SCR_CHANGE_LIGHT_RADIUS* pCmd = (SCR_CHANGE_LIGHT_RADIUS*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_CHANGE_LIGHT_RADIUS* pCmd = reinterpret_cast<SCR_CHANGE_LIGHT_RADIUS*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
     pPointer->field_8_light->field_0_intensity_radius.SetRadius_463F10(pCmd->field_A_radius);
 
@@ -5191,16 +5191,16 @@ void ScriptThread::SCRCMD_CREATE_LIGHT_50DA50() // CREATE_LIGHT1 or LIGHT_DECSET
 {
     //SCR_CREATE_LIGHT* pCmd = (SCR_CREATE_LIGHT*)gBasePtr_6F8070;
     SCR_POINTER* pPointer =
-        (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index); // pCmd->field_8_light_idx
-    ScriptThread::CreateLight_504EE0((SCR_CREATE_LIGHT*)gBasePtr_6F8070, pPointer);
+        static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index)); // pCmd->field_8_light_idx
+    ScriptThread::CreateLight_504EE0(reinterpret_cast<SCR_CREATE_LIGHT*>(gBasePtr_6F8070), pPointer);
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50db70)
 void ScriptThread::GetSetLivesAndMultiplier_50DB70()
 {
-    SCR_GET_NUM_LIVES_MULTIPLIERS* pCmd = (SCR_GET_NUM_LIVES_MULTIPLIERS*)gBasePtr_6F8070;
-    SCR_POINTER* pPlayerPtr = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_player_ped_idx);
+    SCR_GET_NUM_LIVES_MULTIPLIERS* pCmd = reinterpret_cast<SCR_GET_NUM_LIVES_MULTIPLIERS*>(gBasePtr_6F8070);
+    SCR_POINTER* pPlayerPtr = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_player_ped_idx));
 
     switch (pCmd->field_2_type)
     {
@@ -5254,10 +5254,10 @@ void ScriptThread::GetSetLivesAndMultiplier_50DB70()
 MATCH_FUNC(0x50dd00)
 void ScriptThread::SCRCMD_GET_LIVES_MULT_50DD00() // GET_NUM_LIVES or GET_NUM_MULT
 {
-    SCR_GET_NUM_LIVES_MULTIPLIERS* pCmd = (SCR_GET_NUM_LIVES_MULTIPLIERS*)gBasePtr_6F8070;
+    SCR_GET_NUM_LIVES_MULTIPLIERS* pCmd = reinterpret_cast<SCR_GET_NUM_LIVES_MULTIPLIERS*>(gBasePtr_6F8070);
     SCR_POINTER* pPlayerPtr =
-        (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index); // pCmd->field_8_player_ped_idx
-    SCR_POINTER* pCounterPtr = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_counter_idx);
+        static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index)); // pCmd->field_8_player_ped_idx
+    SCR_POINTER* pCounterPtr = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_counter_idx));
     if (gBasePtr_6F8070->field_2_type == SCRCMD_GET_NUM_LIVES)
     {
         pCounterPtr->field_8_counter = pPlayerPtr->field_8_char->field_15C_player->get_lives_4766C0();
@@ -5272,7 +5272,7 @@ void ScriptThread::SCRCMD_GET_LIVES_MULT_50DD00() // GET_NUM_LIVES or GET_NUM_MU
 MATCH_FUNC(0x50dd90)
 void ScriptThread::SCRCMD_SET_DIR_OF_TVVAN_50DD90()
 {
-    SCR_SET_DIR_OF_TVVAN* pCmd = (SCR_SET_DIR_OF_TVVAN*)gBasePtr_6F8070;
+    SCR_SET_DIR_OF_TVVAN* pCmd = reinterpret_cast<SCR_SET_DIR_OF_TVVAN*>(gBasePtr_6F8070);
 
     Fix16_Point point(pCmd->field_8_pos.field_0_x, pCmd->field_8_pos.field_4_y);
     gCarManager_6C_677930->field_4C_tv_van_dir = point;
@@ -5283,7 +5283,7 @@ void ScriptThread::SCRCMD_SET_DIR_OF_TVVAN_50DD90()
 MATCH_FUNC(0x50de00)
 void ScriptThread::SCRCMD_POINT_ONSCREEN_50DE00()
 {
-    SCR_IS_POINT_ON_SCREEN* pCmd = (SCR_IS_POINT_ON_SCREEN*)gBasePtr_6F8070;
+    SCR_IS_POINT_ON_SCREEN* pCmd = reinterpret_cast<SCR_IS_POINT_ON_SCREEN*>(gBasePtr_6F8070);
     if (gGame_0x40_67E008->IsPointOnScreen_4B9A80(pCmd->field_8_xpos, pCmd->field_C_ypos))
     {
         field_8_cond_result = true;
@@ -5298,7 +5298,7 @@ void ScriptThread::SCRCMD_POINT_ONSCREEN_50DE00()
 MATCH_FUNC(0x50de50)
 void ScriptThread::SCRCMD_CHAR_IN_AIR_50DE50()
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     Ped* pPed = pPointer->field_8_char;
 
     if (pPed->field_27C_ped_state_2 == ped_state_2::falling_19 && pPed->field_278_ped_state_1 == ped_state_1::immobilized_8)
@@ -5315,7 +5315,7 @@ void ScriptThread::SCRCMD_CHAR_IN_AIR_50DE50()
 MATCH_FUNC(0x50deb0)
 void ScriptThread::SCRCMD_CHAR_SUNK_50DEB0()
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     Ped* pPed = pPointer->field_8_char;
 
     if (pPed->field_27C_ped_state_2 == ped_state_2::sinking_20 && pPed->field_278_ped_state_1 == ped_state_1::immobilized_8)
@@ -5332,14 +5332,14 @@ void ScriptThread::SCRCMD_CHAR_SUNK_50DEB0()
 MATCH_FUNC(0x50df10)
 void ScriptThread::StartBonus_50DF10()
 {
-    SCR_START_BONUS* pCmd = (SCR_START_BONUS*)gBasePtr_6F8070;
+    SCR_START_BONUS* pCmd = reinterpret_cast<SCR_START_BONUS*>(gBasePtr_6F8070);
 
     s32 car_model = car_model_enum::none;
     s16 gang_idx = -1;
     s32 alt_car_model = car_model;
     s32 occupation = ped_ocupation_enum::no_occupation;
 
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_18_ptr);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_18_ptr));
 
     s32 flag;
 
@@ -5448,7 +5448,7 @@ void ScriptThread::SCRCMD_CHECK_BONUS_50E0B0()
 MATCH_FUNC(0x50e120)
 void ScriptThread::SCRCMD_SETUP_MODEL_CHECK_50E120()
 {
-    gCarManager_6C_677930->field_58_model_to_check_destroy = (u16)gBasePtr_6F8070->field_8_index;
+    gCarManager_6C_677930->field_58_model_to_check_destroy = gBasePtr_6F8070->field_8_index;
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }
 
@@ -5469,9 +5469,9 @@ void ScriptThread::SCRCMD_MODEL_CHECK_50E150()
 MATCH_FUNC(0x50e190)
 void ScriptThread::GetSpeed_50E190()
 {
-    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
-    SCR_POINTER* pParam2 = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2);
+    SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
+    SCR_POINTER* pParam2 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2));
 
     // 9.6f 0x47D070. The cases are in ascending order (the layout doesn't follow it): that order gives
     // the original's inline cut-offs, GetLength_41E260 inlined (with one Abs) for the char's car and
@@ -5515,8 +5515,8 @@ void ScriptThread::GetSpeed_50E190()
 MATCH_FUNC(0x50e360)
 void ScriptThread::SCRCMD_CHECK_CAR_SPEED_50E360()
 {
-    SCR_CHECK_CAR_SPEED* pCmd = (SCR_CHECK_CAR_SPEED*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_CHECK_CAR_SPEED* pCmd = reinterpret_cast<SCR_CHECK_CAR_SPEED*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
     if (pPointer->field_8_car->field_58_physics &&
         pPointer->field_8_car->field_58_physics->get_car_velocity_4211C0().get_value_4754D0() >
@@ -5535,17 +5535,17 @@ void ScriptThread::SCRCMD_CHECK_CAR_SPEED_50E360()
 MATCH_FUNC(0x50e460)
 void ScriptThread::SCRCMD_SET_CAR_GRAPHIC_50E460()
 {
-    SCR_SET_CAR_GRAPHIC* pCmd = (SCR_SET_CAR_GRAPHIC*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_SET_CAR_GRAPHIC* pCmd = reinterpret_cast<SCR_SET_CAR_GRAPHIC*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
-    pPointer->field_8_car->SetCarGraphic_43CDF0(pCmd->field_C_number); // set the number on the top of the car
+    pPointer->field_8_car->SetCarGraphic_43CDF0(static_cast<char_type>(pCmd->field_C_number)); // set the number on the top of the car
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50e4a0)
 void ScriptThread::SCRCMD_CHAR_ARRESTED_50E4A0()
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     if (pPointer->field_8_char->field_21C_bf.bBusted)
     {
         field_8_cond_result = true;
@@ -5560,12 +5560,12 @@ void ScriptThread::SCRCMD_CHAR_ARRESTED_50E4A0()
 MATCH_FUNC(0x50e4f0)
 void ScriptThread::SCRCMD_S_IS_S_OP_S_50E4F0()
 {
-    SCR_OPERATE_COUNTER_AND_COUNTER* pCmd = (SCR_OPERATE_COUNTER_AND_COUNTER*)gBasePtr_6F8070;
-    u8 type = ScriptThread::GetOperationType_506BC0((u16)gBasePtr_6F8070->field_2_type);
+    SCR_OPERATE_COUNTER_AND_COUNTER* pCmd = reinterpret_cast<SCR_OPERATE_COUNTER_AND_COUNTER*>(gBasePtr_6F8070);
+    u8 type = ScriptThread::GetOperationType_506BC0(gBasePtr_6F8070->field_2_type);
 
-    SCR_POINTER* pDestCounter = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_destination_counter_idx);
-    SCR_POINTER* pFirstOperand = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_first_operand_counter_idx);
-    SCR_POINTER* pSecondOperand = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_C_second_operand_counter_idx);
+    SCR_POINTER* pDestCounter = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_destination_counter_idx));
+    SCR_POINTER* pFirstOperand = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_first_operand_counter_idx));
+    SCR_POINTER* pSecondOperand = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_C_second_operand_counter_idx));
     switch (type)
     {
         case 0:
@@ -5592,9 +5592,9 @@ void ScriptThread::SCRCMD_S_IS_S_OP_S_50E4F0()
 MATCH_FUNC(0x50e610)
 void ScriptThread::SCRCMD_S_IS_S_OP_I_50E610()
 {
-    SCR_OPERATE_COUNTER_AND_OPERAND_INT* pCmd = (SCR_OPERATE_COUNTER_AND_OPERAND_INT*)gBasePtr_6F8070;
-    SCR_POINTER* pDestCounter = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_destination_counter_idx);
-    SCR_POINTER* pOperandCounter = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_operand_counter_idx);
+    SCR_OPERATE_COUNTER_AND_OPERAND_INT* pCmd = reinterpret_cast<SCR_OPERATE_COUNTER_AND_OPERAND_INT*>(gBasePtr_6F8070);
+    SCR_POINTER* pDestCounter = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_destination_counter_idx));
+    SCR_POINTER* pOperandCounter = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_operand_counter_idx));
 
     switch (ScriptThread::GetOperationType_506BC0(gBasePtr_6F8070->field_2_type))
     {
@@ -5622,8 +5622,8 @@ void ScriptThread::SCRCMD_S_IS_S_OP_I_50E610()
 MATCH_FUNC(0x50e730)
 void ScriptThread::SCRCMD_CHAR_DRIVE_AGGR_50E730()
 {
-    SCR_SET_CHAR_DRIVE_AGGR* pCmd = (SCR_SET_CHAR_DRIVE_AGGR*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_SET_CHAR_DRIVE_AGGR* pCmd = reinterpret_cast<SCR_SET_CHAR_DRIVE_AGGR*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
     pPointer->field_8_char->field_21C_bf.bDriveAggressively = pCmd->field_A_status;
     ScriptThread::Next_503620(gBasePtr_6F8070);
@@ -5632,8 +5632,8 @@ void ScriptThread::SCRCMD_CHAR_DRIVE_AGGR_50E730()
 MATCH_FUNC(0x50e780)
 void ScriptThread::SCRCMD_SET_SPEED_50E780()
 {
-    SCR_SET_RUN_SPEED* pCmd = (SCR_SET_RUN_SPEED*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_SET_RUN_SPEED* pCmd = reinterpret_cast<SCR_SET_RUN_SPEED*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     if (gBasePtr_6F8070->field_2_type == SCRCMD_SET_RUN_SPEED)
     {
         pPointer->field_8_char->field_1F0_max_speed = pCmd->field_A_value;
@@ -5648,7 +5648,7 @@ void ScriptThread::SCRCMD_SET_SPEED_50E780()
 MATCH_FUNC(0x50e7f0)
 void ScriptThread::SCRCMD_GIVE_CAR_ALARM_50E7F0()
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     pPointer->field_8_car->field_78_flags |= car_flag::CarAlarm;
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }
@@ -5656,8 +5656,8 @@ void ScriptThread::SCRCMD_GIVE_CAR_ALARM_50E7F0()
 MATCH_FUNC(0x50e820)
 void ScriptThread::SCRCMD_CAR_WEAPON_KIND_PROOF_50E820()
 {
-    SCR_SET_CAR_DAMAGE_PROOF* pCmd = (SCR_SET_CAR_DAMAGE_PROOF*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_SET_CAR_DAMAGE_PROOF* pCmd = reinterpret_cast<SCR_SET_CAR_DAMAGE_PROOF*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
     Car* pCar;
 
@@ -5671,7 +5671,7 @@ void ScriptThread::SCRCMD_CAR_WEAPON_KIND_PROOF_50E820()
             }
             else
             {
-                pCar->field_78_flags &= (u16)~car_flag::Bulletproof;
+                pCar->field_78_flags &= static_cast<u16>(~car_flag::Bulletproof);
             }
             break;
         case SCRCMD_CAR_ROCKETPROOF:
@@ -5682,7 +5682,7 @@ void ScriptThread::SCRCMD_CAR_WEAPON_KIND_PROOF_50E820()
             }
             else
             {
-                pCar->field_78_flags &= (u16)~car_flag::Rocketproof;
+                pCar->field_78_flags &= static_cast<u16>(~car_flag::Rocketproof);
             }
             break;
         case SCRCMD_CAR_FLAMEPROOF:
@@ -5693,7 +5693,7 @@ void ScriptThread::SCRCMD_CAR_WEAPON_KIND_PROOF_50E820()
             }
             else
             {
-                pCar->field_78_flags &= (u16)~car_flag::Flameproof;
+                pCar->field_78_flags &= static_cast<u16>(~car_flag::Flameproof);
             }
             break;
     }
@@ -5703,9 +5703,9 @@ void ScriptThread::SCRCMD_CAR_WEAPON_KIND_PROOF_50E820()
 MATCH_FUNC(0x50e900)
 void ScriptThread::SCRCMD_PUT_CAR_ON_TRAILER_50E900()
 {
-    SCR_PUT_CAR_ON_TRAILER* pCmd = (SCR_PUT_CAR_ON_TRAILER*)gBasePtr_6F8070;
-    SCR_POINTER* pCarPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
-    SCR_POINTER* pDstCarPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_trailer_car_idx);
+    SCR_PUT_CAR_ON_TRAILER* pCmd = reinterpret_cast<SCR_PUT_CAR_ON_TRAILER*>(gBasePtr_6F8070);
+    SCR_POINTER* pCarPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
+    SCR_POINTER* pDstCarPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_trailer_car_idx));
 
     Car* pDstCar = pDstCarPointer->field_8_car;
     if (pDstCar->field_88_despawn_status != car_despawn_status::despawned_6)
@@ -5741,8 +5741,8 @@ void ScriptThread::SCRCMD_CLEAR_BRIEFS_50E9A0()
 MATCH_FUNC(0x50e9e0)
 void ScriptThread::SCRCMD_CHECK_HEADS_50E9E0()
 {
-    SCR_CHECK_HEADS_GREATER* pCmd = (SCR_CHECK_HEADS_GREATER*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_CHECK_HEADS_GREATER* pCmd = reinterpret_cast<SCR_CHECK_HEADS_GREATER*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
     if (pPointer->field_8_char->get_wanted_star_count_46EF00() > pCmd->field_A_wanted_level)
     {
@@ -5758,7 +5758,7 @@ void ScriptThread::SCRCMD_CHECK_HEADS_50E9E0()
 MATCH_FUNC(0x50ea40)
 void ScriptThread::SCRCMD_FINISH_LEVEL_50EA40()
 {
-    SCR_FINISH_LEVEL* pCmd = (SCR_FINISH_LEVEL*)gBasePtr_6F8070;
+    SCR_FINISH_LEVEL* pCmd = reinterpret_cast<SCR_FINISH_LEVEL*>(gBasePtr_6F8070);
     char bonus_type;
     switch (pCmd->field_A_bonus_type)
     {
@@ -5798,18 +5798,18 @@ void ScriptThread::SCRCMD_FINISH_LEVEL_50EA40()
 MATCH_FUNC(0x50eb00)
 void ScriptThread::SCRCMD_CHECK_WEAPONHIT_50EB00()
 {
-    SCR_CHECK_WEAPONHIT* pCmd = (SCR_CHECK_WEAPONHIT*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_CHECK_WEAPONHIT* pCmd = reinterpret_cast<SCR_CHECK_WEAPONHIT*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
     if (!pCmd->field_A_status)
     {
-        gScriptManager_6F8060->TestAndRecordWeaponHit_512AF0(pPointer->field_8_char->get_id(), pCmd->field_C_weapon, 1);
+        gScriptManager_6F8060->TestAndRecordWeaponHit_512AF0(pPointer->field_8_char->get_id(), static_cast<char_type>(pCmd->field_C_weapon), 1);
         field_8_cond_result = false;
         pCmd->field_A_status = 1;
     }
     else
     {
-        if (gScriptManager_6F8060->IsWeaponHitRecorded_512C70(pPointer->field_8_char->get_id(), pCmd->field_C_weapon, 1))
+        if (gScriptManager_6F8060->IsWeaponHitRecorded_512C70(pPointer->field_8_char->get_id(), static_cast<char_type>(pCmd->field_C_weapon), 1))
         {
             field_8_cond_result = true;
             gScriptManager_6F8060->ClearWeaponHitFlag_512BA0(pPointer->field_8_char->get_id(), 1);
@@ -5826,21 +5826,21 @@ void ScriptThread::SCRCMD_CHECK_WEAPONHIT_50EB00()
 MATCH_FUNC(0x50ebd0)
 void ScriptThread::SCRCMD_WEAP_HIT_CAR_50EBD0()
 {
-    SCR_CHECK_WEAPONHIT* pCmd = (SCR_CHECK_WEAPONHIT*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_CHECK_WEAPONHIT* pCmd = reinterpret_cast<SCR_CHECK_WEAPONHIT*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
     if (!pCmd->field_A_status)
     {
         char hit;
         if (gBasePtr_6F8070->field_2_type == SCRCMD_WEAP_HIT_CAR)
         {
-            hit = gScriptManager_6F8060->TestAndRecordWeaponHit_512AF0(pPointer->field_8_car->field_6C_car_id, pCmd->field_C_weapon, 0);
+            hit = gScriptManager_6F8060->TestAndRecordWeaponHit_512AF0(pPointer->field_8_car->field_6C_car_id, static_cast<char_type>(pCmd->field_C_weapon), 0);
         }
         else
         {
             hit = gScriptManager_6F8060->TestAndRecordWeaponHit_512AF0(pPointer->field_8_car->field_6C_car_id, 23, 0);
         }
-        if (hit && gScriptManager_6F8060->IsWeaponHitRecorded_512C70(pPointer->field_8_car->field_6C_car_id, pCmd->field_C_weapon, 0))
+        if (hit && gScriptManager_6F8060->IsWeaponHitRecorded_512C70(pPointer->field_8_car->field_6C_car_id, static_cast<char_type>(pCmd->field_C_weapon), 0))
         {
             field_8_cond_result = true;
             pCmd->field_A_status = 0;
@@ -5853,7 +5853,7 @@ void ScriptThread::SCRCMD_WEAP_HIT_CAR_50EBD0()
     }
     else
     {
-        if (gScriptManager_6F8060->IsWeaponHitRecorded_512C70(pPointer->field_8_car->field_6C_car_id, pCmd->field_C_weapon, 0))
+        if (gScriptManager_6F8060->IsWeaponHitRecorded_512C70(pPointer->field_8_car->field_6C_car_id, static_cast<char_type>(pCmd->field_C_weapon), 0))
         {
             field_8_cond_result = true;
             pCmd->field_A_status = 0;
@@ -5869,7 +5869,7 @@ void ScriptThread::SCRCMD_WEAP_HIT_CAR_50EBD0()
 MATCH_FUNC(0x50ece0)
 void ScriptThread::SCRCMD_IS_CHAR_ON_FIRE_50ECE0()
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     if (pPointer->field_8_char->IsOnFire_475B50())
     {
         field_8_cond_result = true;
@@ -5899,15 +5899,15 @@ void ScriptThread::SCRCMD_BRIEF_ONSCREEN_50ED40()
 MATCH_FUNC(0x50ed80)
 void ScriptThread::SCRCMD_CREATE_SOUND_50ED80()
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
-    ScriptThread::SCRCMD_SOUND_DECSET_505340((SCR_SOUND_DECSET*)gBasePtr_6F8070, (SCR_POINTER*)pPointer);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
+    ScriptThread::SCRCMD_SOUND_DECSET_505340(reinterpret_cast<SCR_SOUND_DECSET*>(gBasePtr_6F8070), pPointer);
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50edc0)
 void ScriptThread::SCRCMD_DO_EASY_PHONE_50EDC0() //  EASY_PHONE_TEMPLATE
 {
-    SCR_PHONE_TEMPLATE* pCmd = (SCR_PHONE_TEMPLATE*)gBasePtr_6F8070;
+    SCR_PHONE_TEMPLATE* pCmd = reinterpret_cast<SCR_PHONE_TEMPLATE*>(gBasePtr_6F8070);
 
     SCR_POINTER* pParam3;
     SCR_POINTER* pParam4;
@@ -5915,13 +5915,13 @@ void ScriptThread::SCRCMD_DO_EASY_PHONE_50EDC0() //  EASY_PHONE_TEMPLATE
     SCR_POINTER* pParam1;
     SCR_POINTER* pParam2;
 
-    pParam1 = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_counter1);
-    pParam2 = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_10_counter2);
-    pParam3 = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_12_counter3);
-    pParam4 = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_14_counter4);
-    pParam5 = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_16_counter5);
+    pParam1 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_counter1));
+    pParam2 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_10_counter2));
+    pParam3 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_12_counter3));
+    pParam4 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_14_counter4));
+    pParam5 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_16_counter5));
     str_table_entry* StringById = gScriptManager_6F8060->FindStringById_503080(pCmd->field_18_gangname);
-    char_type* gang_name = (char_type*)&StringById[1];
+    char_type* gang_name = reinterpret_cast<char_type*>(&StringById[1]);
     Gang* pGang_zone = gGangPool_CA8_67E274->FindGangByName_4BF100(gang_name);
     if (pParam3->field_8_counter == 1) //  flag_on_[gang1]_mission == 1
     {
@@ -5971,7 +5971,7 @@ void ScriptThread::SCRCMD_DO_EASY_PHONE_50EDC0() //  EASY_PHONE_TEMPLATE
          pGang_zone->GetRespectForPlayer_4BEEF0(idx1) / 20 >= pCmd->field_1A_respect))
     {
         str_table_entry* mission1_str_table = gScriptManager_6F8060->FindStringById_503080(pCmd->field_1C_mission1);
-        char_type* mission1_name = (char_type*)&mission1_str_table[1];
+        char_type* mission1_name = reinterpret_cast<char_type*>(&mission1_str_table[1]);
         ScriptThread::launch_mission_5119A0(gBasePtr_6F8070, mission1_name); //  TODO: fix gBasePtr_6F8070 type
         return;
     }
@@ -6007,9 +6007,9 @@ void ScriptThread::SCRCMD_DO_EASY_PHONE_50EDC0() //  EASY_PHONE_TEMPLATE
 MATCH_FUNC(0x50f060)
 void ScriptThread::SCRCMD_CHAR_INTO_CAR_50F060()
 {
-    SCR_CHAR_INTO_CAR* pCmd = (SCR_CHAR_INTO_CAR*)gBasePtr_6F8070;
-    SCR_POINTER* pParam1 = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_char_idx);
-    SCR_POINTER* pParam2 = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_10_car_idx);
+    SCR_CHAR_INTO_CAR* pCmd = reinterpret_cast<SCR_CHAR_INTO_CAR*>(gBasePtr_6F8070);
+    SCR_POINTER* pParam1 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_char_idx));
+    SCR_POINTER* pParam2 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_10_car_idx));
 
     Ped* pNewPed = gPedManager_6787BC->AllocatePed_470F30();
     pParam1->field_8_char = pNewPed;
@@ -6051,12 +6051,12 @@ void ScriptThread::SCRCMD_CHAR_INTO_CAR_50F060()
 MATCH_FUNC(0x50f150)
 void ScriptThread::SCRCMD_DECIDE_POWERUP_50F150()
 {
-    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
-    SCR_POINTER* pParam1 = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
-    SCR_POINTER* pParam2 = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2);
+    SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070);
+    SCR_POINTER* pParam1 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
+    SCR_POINTER* pParam2 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2));
 
     Car* pCar = pParam1->field_8_car;
-    u8* pCarList = (u8*)gScriptManager_6F8060->field_340_car_list;
+    u8* pCarList = reinterpret_cast<u8*>(gScriptManager_6F8060->field_340_car_list);
 
     u16 i;
 
@@ -6098,13 +6098,13 @@ void ScriptThread::SCRCMD_DECIDE_POWERUP_50F150()
 MATCH_FUNC(0x50f220)
 void ScriptThread::SCRCMD_SUPPRESS_MODEL_50F220()
 {
-    if ((u16)gBasePtr_6F8070->field_8_index == 0xFFFFu) //  TODO: fix gBasePtr_6F8070
+    if (gBasePtr_6F8070->field_8_index == 0xFFFFu) //  TODO: fix gBasePtr_6F8070
     {
         gCarManager_6C_677930->field_C_suppressed_model = car_model_enum::none; //  No model suppressed
     }
     else
     {
-        gCarManager_6C_677930->field_C_suppressed_model = (u16)gBasePtr_6F8070->field_8_index;
+        gCarManager_6C_677930->field_C_suppressed_model = gBasePtr_6F8070->field_8_index;
     }
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }
@@ -6112,8 +6112,8 @@ void ScriptThread::SCRCMD_SUPPRESS_MODEL_50F220()
 MATCH_FUNC(0x50f270)
 void ScriptThread::SCRCMD_WARP_CHAR_50F270() // WARP_FROM_CAR_TO_POINT
 {
-    SCR_WARP_FROM_CAR* pCmd = (SCR_WARP_FROM_CAR*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_WARP_FROM_CAR* pCmd = reinterpret_cast<SCR_WARP_FROM_CAR*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     Ped* pPed = pPointer->field_8_char;
     Car* pCar = pPed->get_car_416B60();
 
@@ -6143,8 +6143,8 @@ void ScriptThread::SCRCMD_WARP_CHAR_50F270() // WARP_FROM_CAR_TO_POINT
 MATCH_FUNC(0x50f3d0)
 void ScriptThread::SCRCMD_SET_GROUP_TYPE_50F3D0()
 {
-    SCR_SET_GROUP_TYPE* pCmd = (SCR_SET_GROUP_TYPE*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_SET_GROUP_TYPE* pCmd = reinterpret_cast<SCR_SET_GROUP_TYPE*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     Ped* pPed = pPointer->field_8_char;
     PedGroup* pGroup = pPed->field_164_ped_group;
 
@@ -6158,7 +6158,7 @@ void ScriptThread::SCRCMD_SET_GROUP_TYPE_50F3D0()
 MATCH_FUNC(0x50f410)
 void ScriptThread::SCRCMD_CHAR_DO_NOTHING_50F410()
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     Ped* pPed = pPointer->field_8_char;
 
     if (pPed != NULL)
@@ -6171,12 +6171,12 @@ void ScriptThread::SCRCMD_CHAR_DO_NOTHING_50F410()
 MATCH_FUNC(0x50f450)
 void ScriptThread::SCRCMD_EMERG_LIGHTS_50F450()
 {
-    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
     if (pPointer->field_8_car->HasEmergencyLights_414F20())
     {
-        if ((u8)pCmd->field_A_unsigned_2 == 1)
+        if (static_cast<u8>(pCmd->field_A_unsigned_2) == 1)
         {
             pPointer->field_8_car->ActivateEmergencyLights_43C920(); //  activate sirens
         }
@@ -6191,11 +6191,11 @@ void ScriptThread::SCRCMD_EMERG_LIGHTS_50F450()
 MATCH_FUNC(0x50f4d0)
 void ScriptThread::SCRCMD_CHECK_OBJ_MODEL_50F4D0()
 {
-    SCR_FOUR_PARAMS* pCmd = (SCR_FOUR_PARAMS*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_FOUR_PARAMS* pCmd = reinterpret_cast<SCR_FOUR_PARAMS*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
     Object* pObj = pPointer->field_8_obj;
-    u32 model_idx = pCmd->field_C_u32;
+    s32 model_idx = pCmd->field_C_u32;
 
     if (pObj != NULL && pObj->field_18_model == model_idx)
     {
@@ -6211,13 +6211,13 @@ void ScriptThread::SCRCMD_CHECK_OBJ_MODEL_50F4D0()
 MATCH_FUNC(0x50f550)
 void ScriptThread::SCRCMD_PED_GRAPHIC_50F550()
 {
-    SCR_SET_CHAR_GRAPHIC_TYPE* pCmd = (SCR_SET_CHAR_GRAPHIC_TYPE*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_SET_CHAR_GRAPHIC_TYPE* pCmd = reinterpret_cast<SCR_SET_CHAR_GRAPHIC_TYPE*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
     if (pPointer->field_8_char != NULL)
     {
         pPointer->field_8_char->field_26C_graphic_type = pCmd->field_C_graphic_type;
-        pPointer->field_8_char->field_244_remap = pCmd->field_A_remap;
+        pPointer->field_8_char->field_244_remap = static_cast<char_type>(pCmd->field_A_remap);
     }
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }
@@ -6225,8 +6225,8 @@ void ScriptThread::SCRCMD_PED_GRAPHIC_50F550()
 MATCH_FUNC(0x50f5e0)
 void ScriptThread::SCRCMD_SET_CHAR_FLAGS_50F5E0()
 {
-    SCR_SET_STATE* pCmd = (SCR_SET_STATE*)gBasePtr_6F8070;
-    Ped* pPed = ((SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(((SCR_SET_STATE*)gBasePtr_6F8070)->field_8_unk))->field_8_char;
+    SCR_SET_STATE* pCmd = reinterpret_cast<SCR_SET_STATE*>(gBasePtr_6F8070);
+    Ped* pPed = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(reinterpret_cast<SCR_SET_STATE*>(gBasePtr_6F8070)->field_8_unk))->field_8_char;
 
     if (pPed)
     {
@@ -6277,7 +6277,7 @@ void ScriptThread::SCRCMD_SET_CHAR_FLAGS_50F5E0()
 MATCH_FUNC(0x50f770)
 void ScriptThread::SCRCMD_MAKE_MUGGERS_50F770()
 {
-    SCR_SET_STATE* pCmd = (SCR_SET_STATE*)gBasePtr_6F8070;
+    SCR_SET_STATE* pCmd = reinterpret_cast<SCR_SET_STATE*>(gBasePtr_6F8070);
     if (pCmd->field_A_status == 1)
     {
         gPedManager_6787BC->field_7_make_all_muggers = true;
@@ -6292,9 +6292,9 @@ void ScriptThread::SCRCMD_MAKE_MUGGERS_50F770()
 MATCH_FUNC(0x50f7b0)
 void ScriptThread::LocSecChar_50F7B0()
 {
-    SCR_LOC_SEC_CHAR* pCmd = (SCR_LOC_SEC_CHAR*)gBasePtr_6F8070;
-    SCR_POINTER* pChar1 = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_char1_idx);
-    SCR_POINTER* pChar2 = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_char2_idx);
+    SCR_LOC_SEC_CHAR* pCmd = reinterpret_cast<SCR_LOC_SEC_CHAR*>(gBasePtr_6F8070);
+    SCR_POINTER* pChar1 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_char1_idx));
+    SCR_POINTER* pChar2 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_char2_idx));
 
     Ped* pCenter = pChar2->field_8_char;
     Fix16 centerX = pCenter->field_1AC_cam.x;
@@ -6343,7 +6343,7 @@ void ScriptThread::LocSecChar_50F7B0()
 MATCH_FUNC(0x50f900)
 void ScriptThread::SCRCMD_STOP_CAR_DRIVE_50F900()
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     Car* pCar = pPointer->field_8_char->field_16C_car;
 
     if (pCar)
@@ -6356,7 +6356,7 @@ void ScriptThread::SCRCMD_STOP_CAR_DRIVE_50F900()
 MATCH_FUNC(0x50f940)
 void ScriptThread::SCRCMD_IS_BUS_FULL_50F940()
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     field_8_cond_result = false;
     Ped* pPed = pPointer->field_8_char;
 
@@ -6377,7 +6377,7 @@ void ScriptThread::SCRCMD_IS_BUS_FULL_50F940()
 MATCH_FUNC(0x50f9b0)
 void ScriptThread::SCRCMD_NO_CHARS_OFF_BUS_50F9B0()
 {
-    SCR_SET_STATE* pCmd = (SCR_SET_STATE*)gBasePtr_6F8070;
+    SCR_SET_STATE* pCmd = reinterpret_cast<SCR_SET_STATE*>(gBasePtr_6F8070);
     if (pCmd->field_A_status == 1)
     {
         gPublicTransport_181C_6FF1D4->field_1818_stop_getting_off_bus = true;
@@ -6392,7 +6392,7 @@ void ScriptThread::SCRCMD_NO_CHARS_OFF_BUS_50F9B0()
 MATCH_FUNC(0x50fa00)
 void ScriptThread::SCRCMD_KILL_CHAR_50FA00()
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     Ped* pPed = pPointer->field_8_char;
 
     if (pPed != NULL)
@@ -6405,15 +6405,15 @@ void ScriptThread::SCRCMD_KILL_CHAR_50FA00()
 MATCH_FUNC(0x50fa40)
 void ScriptThread::SCRCMD_SET_SHADING_LEV_50FA40()
 {
-    gpMapRenderer_6F66E4->set_shading_lev_4E9DB0(((SCR_CMD_HEADER*)gBasePtr_6F8070)[1].field_2_type);
+    gpMapRenderer_6F66E4->set_shading_lev_4E9DB0(static_cast<u8>(static_cast<SCR_CMD_HEADER*>(gBasePtr_6F8070)[1].field_2_type));
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x50fa70)
 void ScriptThread::SCRCMD_SET_CAR_JAMMED_50FA70()
 {
-    SCR_SET_CAR_JAMMED* pCmd = (SCR_SET_CAR_JAMMED*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_SET_CAR_JAMMED* pCmd = reinterpret_cast<SCR_SET_CAR_JAMMED*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     Car* pCar = pPointer->field_8_car;
 
     if (pCar)
@@ -6424,7 +6424,7 @@ void ScriptThread::SCRCMD_SET_CAR_JAMMED_50FA70()
         }
         else
         {
-            pCar->field_78_flags &= (u16)~car_flag::Flag12;
+            pCar->field_78_flags &= static_cast<u16>(~car_flag::Flag12);
         }
     }
     ScriptThread::Next_503620(gBasePtr_6F8070);
@@ -6440,9 +6440,9 @@ void ScriptThread::SCRCMD_FINISH_MISSION_50FAD0()
 MATCH_FUNC(0x50faf0)
 void ScriptThread::SCRCMD_STORE_BONUS_50FAF0()
 {
-    SCR_STORE_BONUS_COUNT* pCmd = (SCR_STORE_BONUS_COUNT*)gBasePtr_6F8070;
-    SCR_POINTER* pPointerBonus = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
-    SCR_POINTER* pPointerCounter = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_counter_idx);
+    SCR_STORE_BONUS_COUNT* pCmd = reinterpret_cast<SCR_STORE_BONUS_COUNT*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointerBonus = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
+    SCR_POINTER* pPointerCounter = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_counter_idx));
 
     s32 bonus_unk = pPointerBonus->field_8_counter;
 
@@ -6457,7 +6457,7 @@ void ScriptThread::SCRCMD_STORE_BONUS_50FAF0()
 MATCH_FUNC(0x50fb60)
 void ScriptThread::SCRCMD_SET_ENTER_STATUS_50FB60() // SCRCMD_SET_ENTER_STATUS and SCRCMD_SET_ALL_CONTROLS
 {
-    SCR_SET_PLAYER_CONTROLS* pCmd = (SCR_SET_PLAYER_CONTROLS*)gBasePtr_6F8070;
+    SCR_SET_PLAYER_CONTROLS* pCmd = reinterpret_cast<SCR_SET_PLAYER_CONTROLS*>(gBasePtr_6F8070);
 
     gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
 
@@ -6489,8 +6489,8 @@ void ScriptThread::SCRCMD_SET_ENTER_STATUS_50FB60() // SCRCMD_SET_ENTER_STATUS a
 MATCH_FUNC(0x50fc20)
 void ScriptThread::SCRCMD_SET_FAV_CAR_50FC20()
 {
-    SCR_SET_FAV_CAR* pCmd = (SCR_SET_FAV_CAR*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_SET_FAV_CAR* pCmd = reinterpret_cast<SCR_SET_FAV_CAR*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     Ped* pPed = pPointer->field_8_char;
 
     if (pPed != NULL)
@@ -6503,8 +6503,8 @@ void ScriptThread::SCRCMD_SET_FAV_CAR_50FC20()
 MATCH_FUNC(0x50fc60)
 void ScriptThread::GroupInArea_50FC60()
 {
-    SCR_ONEVAR_RECT* pCmd = (SCR_ONEVAR_RECT*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_ONEVAR_RECT* pCmd = reinterpret_cast<SCR_ONEVAR_RECT*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
     Fix16 halfwidth = pCmd->field_C_rect.field_C_size.field_0_x / kFpTwo_6F77C8;
     Fix16 halfheight = pCmd->field_C_rect.field_C_size.field_4_y / kFpTwo_6F77C8;
@@ -6560,8 +6560,8 @@ void ScriptThread::GroupInArea_50FC60()
 MATCH_FUNC(0x50fe00)
 void ScriptThread::SCRCMD_SET_KF_WEAPON_50FE00()
 {
-    SCR_SET_KF_WEAPON* pCmd = (SCR_SET_KF_WEAPON*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_SET_KF_WEAPON* pCmd = reinterpret_cast<SCR_SET_KF_WEAPON*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
     s32 weapon_idx = pCmd->field_C_weapon_idx;
 
@@ -6579,7 +6579,7 @@ void ScriptThread::SCRCMD_SET_KF_WEAPON_50FE00()
 MATCH_FUNC(0x50fed0)
 void ScriptThread::SCRCMD_CLEAR_KF_WEAPON_50FED0()
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     Player* pPlayer = pPointer->field_8_char->field_15C_player;
 
     pPlayer->ClearKFWeapon_5647D0(); // clear kill frenzy weapon
@@ -6589,9 +6589,9 @@ void ScriptThread::SCRCMD_CLEAR_KF_WEAPON_50FED0()
 MATCH_FUNC(0x50ff50)
 void ScriptThread::SCRCMD_ADD_ONSCREEN_COUNTER_50FF50()
 {
-    SCR_ADD_ONSCREEN_COUNTER* pCmd = (SCR_ADD_ONSCREEN_COUNTER*)gBasePtr_6F8070;
-    SCR_POINTER* pOnScreenCounter = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
-    SCR_POINTER* pCounter = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_counter_idx);
+    SCR_ADD_ONSCREEN_COUNTER* pCmd = reinterpret_cast<SCR_ADD_ONSCREEN_COUNTER*>(gBasePtr_6F8070);
+    SCR_POINTER* pOnScreenCounter = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
+    SCR_POINTER* pCounter = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_counter_idx));
 
     pOnScreenCounter->field_8_index = gHud_2B00_706620->field_620_pagers.AddOnScreenCounter_5D3220(&pCounter->field_8_counter);
     ScriptThread::Next_503620(gBasePtr_6F8070);
@@ -6600,7 +6600,7 @@ void ScriptThread::SCRCMD_ADD_ONSCREEN_COUNTER_50FF50()
 MATCH_FUNC(0x50ffb0)
 void ScriptThread::SCRCMD_CLEAR_COUNTER_50FFB0() // SCRCMD_CLEAR_COUNTER and SCRCMD_CLEAR_CLOCK_ONLY
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     u16 idx = pPointer->field_8_index;
 
     if (idx != 0xFFFF)
@@ -6620,14 +6620,14 @@ void ScriptThread::SCRCMD_CLEAR_COUNTER_50FFB0() // SCRCMD_CLEAR_COUNTER and SCR
 MATCH_FUNC(0x510030)
 void ScriptThread::SCRCMD_CHANGE_POLICE_510030()
 {
-    ScriptThread::SCRCMD_DECLARE_POLICE_5052C0((SCR_DECLARE_POLICELEVEL*)gBasePtr_6F8070);
+    ScriptThread::SCRCMD_DECLARE_POLICE_5052C0(reinterpret_cast<SCR_DECLARE_POLICELEVEL*>(gBasePtr_6F8070));
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x510050)
 void ScriptThread::SCRCMD_DESTROY_GROUP_510050()
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     Ped* pGroupLeader = pPointer->field_8_char;
     PedGroup* pGroup = pGroupLeader->field_164_ped_group;
 
@@ -6641,12 +6641,12 @@ void ScriptThread::SCRCMD_DESTROY_GROUP_510050()
 MATCH_FUNC(0x510090)
 void ScriptThread::SCRCMD_CHECK_CURRENT_WEAPON_510090()
 {
-    SCR_CHECK_CURRENT_WEAPON* pCmd = (SCR_CHECK_CURRENT_WEAPON*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_CHECK_CURRENT_WEAPON* pCmd = reinterpret_cast<SCR_CHECK_CURRENT_WEAPON*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
     Weapon* pWeapon = pPointer->field_8_char->field_15C_player->GetCurrPlayerWeapon_5648F0();
 
-    if (pWeapon != NULL && pWeapon->field_1C_idx == pCmd->field_C_weapon_idx)
+    if (pWeapon != NULL && static_cast<u32>(pWeapon->field_1C_idx) == pCmd->field_C_weapon_idx)
     {
         field_8_cond_result = true;
     }
@@ -6660,7 +6660,7 @@ void ScriptThread::SCRCMD_CHECK_CURRENT_WEAPON_510090()
 MATCH_FUNC(0x510100)
 void ScriptThread::SCRCMD_START_BASIC_KF_510100() // START_BASIC_KF_TEMPLATE
 {
-    SCR_START_BASIC_KF_TEMPLATE* pCmd = (SCR_START_BASIC_KF_TEMPLATE*)gBasePtr_6F8070;
+    SCR_START_BASIC_KF_TEMPLATE* pCmd = reinterpret_cast<SCR_START_BASIC_KF_TEMPLATE*>(gBasePtr_6F8070);
     if (gScriptManager_6F8060->get_field_C1E2D_475A30())
     {
         ScriptThread::EnableThread_50A9E0(pCmd->field_8_triggername);
@@ -6672,34 +6672,34 @@ void ScriptThread::SCRCMD_START_BASIC_KF_510100() // START_BASIC_KF_TEMPLATE
         ScriptThread::DisableThread_505790(pCmd->field_8_triggername);
         gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("kfstart"), hud_message_priority::important_3); // KILL FRENZY!
         gRoot_sound_66B038.PlayVoice_40F090(voice_line::killfrenzy_12); // KILL FRENZY voice
-        SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_C_objname); // Skull icon?
+        SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_C_objname)); // Skull icon?
         if (ScriptThread::GetEntityTypeOfCommand_503410(pPointer->field_2_type) == 3)
         {
             ScriptThread::DeallocOrDeleteItem_505B10(pCmd->field_C_objname); // Delete skull icon?
         }
         sprintf(gTmpBuffer_67C598, "%d", pCmd->field_A_brief_id);
         gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
-        SCR_POINTER* pPlayerPedPtr = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_E_playername);
-        u8 weapon_idx = pCmd->field_10_weapon;
+        SCR_POINTER* pPlayerPedPtr = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_E_playername));
+        u8 weapon_idx = static_cast<u8>(pCmd->field_10_weapon);
         if (weapon_idx < weapon_type::car_bomb || weapon_idx > 27)
         {
             // Ped weapons
             if (weapon_idx != 28)
             {
-                pPlayerPedPtr->field_8_char->field_15C_player->SetKFWeapon_564790((u8)pCmd->field_10_weapon);
+                pPlayerPedPtr->field_8_char->field_15C_player->SetKFWeapon_564790(static_cast<u8>(pCmd->field_10_weapon));
             }
         }
         else
         {
             // Car weapons
             pPlayerPedPtr->field_8_char->field_15C_player->SetKFCarWeapon_564710(pPlayerPedPtr->field_8_char->get_car_416B60(),
-                                                                                 (u8)pCmd->field_10_weapon);
+                                                                                 static_cast<u8>(pCmd->field_10_weapon));
         }
 
         u16* pBasicKF = gScriptManager_6F8060->field_C1E74_basic_kf;
         for (u16 idx = 0; idx < GTA2_COUNTOF(gScriptManager_6F8060->field_C1E74_basic_kf); idx++)
         {
-            if (*pBasicKF == (u16)gBasePtr_6F8070->field_0_cmd_this)
+            if (*pBasicKF == static_cast<u16>(gBasePtr_6F8070->field_0_cmd_this))
             {
                 gGameSave_6F78C8.field_E4_car_and_script_data.field_4C_started_basic_kf_mask |= 1 << idx;
                 break;
@@ -6715,15 +6715,15 @@ void ScriptThread::SCRCMD_DO_BASIC_KF_510280()
 {
     SCR_POINTER* pTimerIDPointer;
 
-    SCR_DO_BASIC_KF_TEMPLATE* pCmd = (SCR_DO_BASIC_KF_TEMPLATE*)gBasePtr_6F8070;
-    SCR_POINTER* pPlayerPedCmdPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_18_playername);
+    SCR_DO_BASIC_KF_TEMPLATE* pCmd = reinterpret_cast<SCR_DO_BASIC_KF_TEMPLATE*>(gBasePtr_6F8070);
+    SCR_POINTER* pPlayerPedCmdPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_18_playername));
 
     if (field_C_cmd_initialised == 0)
     {
-        pTimerIDPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_timername);
+        pTimerIDPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_timername));
         pTimerIDPointer->field_8_index = gHud_2B00_706620->field_620_pagers.CreateTimer_5D31F0(pCmd->field_C_time_limit);
-        SCR_POINTER* pOnScreenCounter = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_10_onscreenname);
-        SCR_POINTER* pCounter = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_12_countername);
+        SCR_POINTER* pOnScreenCounter = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_10_onscreenname));
+        SCR_POINTER* pCounter = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_12_countername));
         pOnScreenCounter->field_8_index = gHud_2B00_706620->field_620_pagers.AddOnScreenCounter_5D3220(&pCounter->field_8_counter);
         ++field_C_cmd_initialised;
     }
@@ -6731,8 +6731,8 @@ void ScriptThread::SCRCMD_DO_BASIC_KF_510280()
     {
         if (ScriptThread::GetBonusResult_505EA0(pCmd->field_8_bonusname) == -2)
         {
-            SCR_POINTER* pBonusType = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_bonusname);
-            SCR_POINTER* pCounter = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_12_countername);
+            SCR_POINTER* pBonusType = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_bonusname));
+            SCR_POINTER* pCounter = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_12_countername));
             pCounter->field_8_counter = pCmd->field_14_target_total -
                 gGame_0x40_67E008->field_38_local_player->field_2D4_scores.field_1A8_bonuses.GetProgressCount_476660(pBonusType->field_8_index);
 
@@ -6746,7 +6746,7 @@ void ScriptThread::SCRCMD_DO_BASIC_KF_510280()
         }
         else
         {
-            pTimerIDPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_timername);
+            pTimerIDPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_timername));
             if (pTimerIDPointer->field_8_index != 0xFFFF)
             {
                 gHud_2B00_706620->field_620_pagers.ClearPager_5D3280(pTimerIDPointer->field_8_index);
@@ -6793,15 +6793,15 @@ void ScriptThread::SCRCMD_DO_BASIC_KF_510280()
 MATCH_FUNC(0x510530)
 void ScriptThread::SCRCMD_SET_BONUS_RATING_510530()
 {
-    gGameSession_67E8E0.SetBonusRatingTextIdx_4C5AB0(((SCR_CMD_HEADER*)gBasePtr_6F8070)[1].field_2_type);
+    gGameSession_67E8E0.SetBonusRatingTextIdx_4C5AB0(static_cast<SCR_CMD_HEADER*>(gBasePtr_6F8070)[1].field_2_type);
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x510560)
 void ScriptThread::SCRCMD_ADD_TIME_510560()
 {
-    SCR_FOUR_PARAMS* pCmd = (SCR_FOUR_PARAMS*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_FOUR_PARAMS* pCmd = reinterpret_cast<SCR_FOUR_PARAMS*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
     gHud_2B00_706620->field_620_pagers.AddTime_5D32F0(pPointer->field_8_index, 30 * pCmd->field_C_u32);
     ScriptThread::Next_503620(gBasePtr_6F8070);
@@ -6810,7 +6810,7 @@ void ScriptThread::SCRCMD_ADD_TIME_510560()
 MATCH_FUNC(0x5105b0)
 void ScriptThread::SCRCMD_SET_MODEL_WANTED_5105B0()
 {
-    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
+    SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070);
     s16 model_idx = pCmd->field_A_signed_2;
 
     if (model_idx == -1)
@@ -6841,7 +6841,7 @@ void ScriptThread::SCRCMD_CHECK_DEATH_ARR_510600()
 MATCH_FUNC(0x510660)
 void ScriptThread::SCRCMD_FORCE_CLEANUP_510660()
 {
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
     if (ScriptThread::GetEntityTypeOfCommand_503410(pPointer->field_2_type) == 3)
     {
@@ -6883,7 +6883,7 @@ void ScriptThread::PreExecOpCode_5108D0()
     if (field_10_stopped != 1)
     {
         SCR_CMD_HEADER* pCmd = gScriptManager_6F8060->GetBasePointer_512770(field_4_next_cmd);
-        gBasePtr_6F8070 = (SCR_POINTER*)pCmd;
+        gBasePtr_6F8070 = static_cast<SCR_POINTER*>(pCmd);
         switch (pCmd->field_2_type)
         {
             case SCRCMD_LEVELSTART:
@@ -7737,8 +7737,8 @@ void ScriptThread::DisableBasicKfsFromSave_511CD0()
     {
         if ((1 << i) & gGameSave_6F78C8.field_E4_car_and_script_data.field_4C_started_basic_kf_mask)
         {
-            SCR_START_BASIC_KF_TEMPLATE* pPtr = (SCR_START_BASIC_KF_TEMPLATE*)gScriptManager_6F8060->GetBasePointer_512770(
-                gScriptManager_6F8060->field_C1E74_basic_kf[i]);
+            SCR_START_BASIC_KF_TEMPLATE* pPtr = static_cast<SCR_START_BASIC_KF_TEMPLATE*>(gScriptManager_6F8060->GetBasePointer_512770(
+                gScriptManager_6F8060->field_C1E74_basic_kf[i]));
             ScriptThread::DisableThread_505790(pPtr->field_8_triggername);
             ScriptThread::DeallocOrDeleteItem_505B10(pPtr->field_C_objname);
         }

@@ -5,28 +5,28 @@
 
 DEFINE_GLOBAL(SVideo*, gVidSys_7071D0, 0x7071D0);
 
-DEFINE_GLOBAL_INIT(T_Vid_GetVersion,     pVid_GetVersion,     (T_Vid_GetVersion)DMA_Video_Stub_5EB810,     0x626CF0);
-DEFINE_GLOBAL_INIT(T_Vid_Init_SYS,       pVid_Init_SYS,       (T_Vid_Init_SYS)DMA_Video_Stub_5EB810,       0x626CF4);
-DEFINE_GLOBAL_INIT(T_Vid_CheckMode,      pVid_CheckMode,      (T_Vid_CheckMode)DMA_Video_Stub_5EB810,      0x626CF8);
-DEFINE_GLOBAL_INIT(T_Vid_FindMode,       pVid_FindMode,       (T_Vid_FindMode)DMA_Video_Stub_5EB810,       0x626CFC);
-DEFINE_GLOBAL_INIT(T_Vid_FindFirstMode,  pVid_FindFirstMode,  (T_Vid_FindFirstMode)DMA_Video_Stub_5EB810,  0x626D00);
-DEFINE_GLOBAL_INIT(T_Vid_FindNextMode,   pVid_FindNextMode,   (T_Vid_FindNextMode)DMA_Video_Stub_5EB810,   0x626D04);
-DEFINE_GLOBAL_INIT(T_Vid_FindDevice,     pVid_FindDevice,     (T_Vid_FindDevice)DMA_Video_Stub_5EB810,     0x626D08);
-DEFINE_GLOBAL_INIT(T_Vid_SetDevice,      pVid_SetDevice,      (T_Vid_SetDevice)DMA_Video_Stub_5EB810,      0x626D0C);
-DEFINE_GLOBAL_INIT(T_Vid_CloseScreen,    pVid_CloseScreen,    (T_Vid_CloseScreen)DMA_Video_Stub_5EB810,    0x626D10);
-DEFINE_GLOBAL_INIT(T_Vid_SetMode,        pVid_SetMode,        (T_Vid_SetMode)DMA_Video_Stub_5EB810,        0x626D14);
-DEFINE_GLOBAL_INIT(T_Vid_FlipBuffers,    pVid_FlipBuffers,    (T_Vid_FlipBuffers)DMA_Video_Stub_5EB810,    0x626D18);
-DEFINE_GLOBAL_INIT(T_Vid_ReleaseSurface, pVid_ReleaseSurface, (T_Vid_ReleaseSurface)DMA_Video_Stub_5EB810, 0x626D1C);
-DEFINE_GLOBAL_INIT(T_Vid_GrabSurface,    pVid_GrabSurface,    (T_Vid_GrabSurface)DMA_Video_Stub_5EB810,    0x626D20);
-DEFINE_GLOBAL_INIT(T_Vid_ShutDown_SYS,   pVid_ShutDown_SYS,   (T_Vid_ShutDown_SYS)DMA_Video_Stub_5EB810,   0x626D24);
-DEFINE_GLOBAL_INIT(T_Vid_EnableWrites,   pVid_EnableWrites,   (T_Vid_EnableWrites)DMA_Video_Stub_5EB810,   0x626D28);
-DEFINE_GLOBAL_INIT(T_Vid_DisableWrites,  pVid_DisableWrites,  (T_Vid_DisableWrites)DMA_Video_Stub_5EB810,  0x626D2C);
-DEFINE_GLOBAL_INIT(T_Vid_GetSurface,     pVid_GetSurface,     (T_Vid_GetSurface)DMA_Video_Stub_5EB810,     0x626D30);
-DEFINE_GLOBAL_INIT(T_Vid_FreeSurface,    pVid_FreeSurface,    (T_Vid_FreeSurface)DMA_Video_Stub_5EB810,    0x626D34);
-DEFINE_GLOBAL_INIT(T_Vid_ClearScreen,    pVid_ClearScreen,    (T_Vid_ClearScreen)DMA_Video_Stub_5EB810,    0x626D38);
-DEFINE_GLOBAL_INIT(T_Vid_WindowProc,     pVid_WindowProc,     (T_Vid_WindowProc)DMA_Video_Stub_5EB810,     0x626D3C);
-DEFINE_GLOBAL_INIT(T_Vid_InitDLL,        pVid_InitDLL,        (T_Vid_InitDLL)DMA_Video_Stub_5EB810,        0x626D40);
-DEFINE_GLOBAL_INIT(T_Vid_SetGamma,       pVid_SetGamma,       (T_Vid_SetGamma)DMA_Video_Stub_5EB810,       0x626D44);
+DEFINE_GLOBAL_INIT(T_Vid_GetVersion,     pVid_GetVersion,     reinterpret_cast<T_Vid_GetVersion>(DMA_Video_Stub_5EB810),     0x626CF0);
+DEFINE_GLOBAL_INIT(T_Vid_Init_SYS,       pVid_Init_SYS,       reinterpret_cast<T_Vid_Init_SYS>(DMA_Video_Stub_5EB810),       0x626CF4);
+DEFINE_GLOBAL_INIT(T_Vid_CheckMode,      pVid_CheckMode,      reinterpret_cast<T_Vid_CheckMode>(DMA_Video_Stub_5EB810),      0x626CF8);
+DEFINE_GLOBAL_INIT(T_Vid_FindMode,       pVid_FindMode,       reinterpret_cast<T_Vid_FindMode>(DMA_Video_Stub_5EB810),       0x626CFC);
+DEFINE_GLOBAL_INIT(T_Vid_FindFirstMode,  pVid_FindFirstMode,  reinterpret_cast<T_Vid_FindFirstMode>(DMA_Video_Stub_5EB810),  0x626D00);
+DEFINE_GLOBAL_INIT(T_Vid_FindNextMode,   pVid_FindNextMode,   reinterpret_cast<T_Vid_FindNextMode>(DMA_Video_Stub_5EB810),   0x626D04);
+DEFINE_GLOBAL_INIT(T_Vid_FindDevice,     pVid_FindDevice,     reinterpret_cast<T_Vid_FindDevice>(DMA_Video_Stub_5EB810),     0x626D08);
+DEFINE_GLOBAL_INIT(T_Vid_SetDevice,      pVid_SetDevice,      reinterpret_cast<T_Vid_SetDevice>(DMA_Video_Stub_5EB810),      0x626D0C);
+DEFINE_GLOBAL_INIT(T_Vid_CloseScreen,    pVid_CloseScreen,    reinterpret_cast<T_Vid_CloseScreen>(DMA_Video_Stub_5EB810),    0x626D10);
+DEFINE_GLOBAL_INIT(T_Vid_SetMode,        pVid_SetMode,        reinterpret_cast<T_Vid_SetMode>(DMA_Video_Stub_5EB810),        0x626D14);
+DEFINE_GLOBAL_INIT(T_Vid_FlipBuffers,    pVid_FlipBuffers,    reinterpret_cast<T_Vid_FlipBuffers>(DMA_Video_Stub_5EB810),    0x626D18);
+DEFINE_GLOBAL_INIT(T_Vid_ReleaseSurface, pVid_ReleaseSurface, reinterpret_cast<T_Vid_ReleaseSurface>(DMA_Video_Stub_5EB810), 0x626D1C);
+DEFINE_GLOBAL_INIT(T_Vid_GrabSurface,    pVid_GrabSurface,    reinterpret_cast<T_Vid_GrabSurface>(DMA_Video_Stub_5EB810),    0x626D20);
+DEFINE_GLOBAL_INIT(T_Vid_ShutDown_SYS,   pVid_ShutDown_SYS,   reinterpret_cast<T_Vid_ShutDown_SYS>(DMA_Video_Stub_5EB810),   0x626D24);
+DEFINE_GLOBAL_INIT(T_Vid_EnableWrites,   pVid_EnableWrites,   reinterpret_cast<T_Vid_EnableWrites>(DMA_Video_Stub_5EB810),   0x626D28);
+DEFINE_GLOBAL_INIT(T_Vid_DisableWrites,  pVid_DisableWrites,  reinterpret_cast<T_Vid_DisableWrites>(DMA_Video_Stub_5EB810),  0x626D2C);
+DEFINE_GLOBAL_INIT(T_Vid_GetSurface,     pVid_GetSurface,     reinterpret_cast<T_Vid_GetSurface>(DMA_Video_Stub_5EB810),     0x626D30);
+DEFINE_GLOBAL_INIT(T_Vid_FreeSurface,    pVid_FreeSurface,    reinterpret_cast<T_Vid_FreeSurface>(DMA_Video_Stub_5EB810),    0x626D34);
+DEFINE_GLOBAL_INIT(T_Vid_ClearScreen,    pVid_ClearScreen,    reinterpret_cast<T_Vid_ClearScreen>(DMA_Video_Stub_5EB810),    0x626D38);
+DEFINE_GLOBAL_INIT(T_Vid_WindowProc,     pVid_WindowProc,     reinterpret_cast<T_Vid_WindowProc>(DMA_Video_Stub_5EB810),     0x626D3C);
+DEFINE_GLOBAL_INIT(T_Vid_InitDLL,        pVid_InitDLL,        reinterpret_cast<T_Vid_InitDLL>(DMA_Video_Stub_5EB810),        0x626D40);
+DEFINE_GLOBAL_INIT(T_Vid_SetGamma,       pVid_SetGamma,       reinterpret_cast<T_Vid_SetGamma>(DMA_Video_Stub_5EB810),       0x626D44);
 
 DEFINE_GLOBAL(HMODULE, hDmaVideoDll_7085E8, 0x7085E8);
 DEFINE_GLOBAL(SVideoFunctions, gVidFuncs_708600, 0x708600);
@@ -41,39 +41,39 @@ EXPORT void __stdcall DMA_Video_Stub_5EB810()
 MATCH_FUNC(0x5EB8C0)
 EXPORT void __stdcall DMA_Video_Unload_5EB8C0(SVideo* pVidSys)
 {
-    if (pVid_ShutDown_SYS != (T_Vid_ShutDown_SYS)DMA_Video_Stub_5EB810)
+    if (pVid_ShutDown_SYS != reinterpret_cast<T_Vid_ShutDown_SYS>(DMA_Video_Stub_5EB810))
     {
         pVid_ShutDown_SYS(pVidSys);
     }
 
     FreeLibrary(hDmaVideoDll_7085E8);
 
-    pVid_GetVersion = (T_Vid_GetVersion)DMA_Video_Stub_5EB810;
-    pVid_Init_SYS = (T_Vid_Init_SYS)DMA_Video_Stub_5EB810;
-    pVid_CheckMode = (T_Vid_CheckMode)DMA_Video_Stub_5EB810;
-    pVid_FindDevice = (T_Vid_FindDevice)DMA_Video_Stub_5EB810;
-    pVid_SetDevice = (T_Vid_SetDevice)DMA_Video_Stub_5EB810;
-    pVid_FindMode = (T_Vid_FindMode)DMA_Video_Stub_5EB810;
-    pVid_FindFirstMode = (T_Vid_FindFirstMode)DMA_Video_Stub_5EB810;
-    pVid_FindNextMode = (T_Vid_FindNextMode)DMA_Video_Stub_5EB810;
-    pVid_CloseScreen = (T_Vid_CloseScreen)DMA_Video_Stub_5EB810;
-    pVid_SetMode = (T_Vid_SetMode)DMA_Video_Stub_5EB810;
-    pVid_FlipBuffers = (T_Vid_FlipBuffers)DMA_Video_Stub_5EB810;
-    pVid_ReleaseSurface = (T_Vid_ReleaseSurface)DMA_Video_Stub_5EB810;
-    pVid_GrabSurface = (T_Vid_GrabSurface)DMA_Video_Stub_5EB810;
-    pVid_ShutDown_SYS = (T_Vid_ShutDown_SYS)DMA_Video_Stub_5EB810;
-    pVid_EnableWrites = (T_Vid_EnableWrites)DMA_Video_Stub_5EB810;
-    pVid_DisableWrites = (T_Vid_DisableWrites)DMA_Video_Stub_5EB810;
-    pVid_GetSurface = (T_Vid_GetSurface)DMA_Video_Stub_5EB810;
-    pVid_FreeSurface = (T_Vid_FreeSurface)DMA_Video_Stub_5EB810;
-    pVid_ClearScreen = (T_Vid_ClearScreen)DMA_Video_Stub_5EB810;
-    pVid_SetGamma = (T_Vid_SetGamma)DMA_Video_Stub_5EB810;
-    pVid_WindowProc = (T_Vid_WindowProc)DMA_Video_Stub_5EB810;
-    pVid_InitDLL = (T_Vid_InitDLL)DMA_Video_Stub_5EB810;
+    pVid_GetVersion = reinterpret_cast<T_Vid_GetVersion>(DMA_Video_Stub_5EB810);
+    pVid_Init_SYS = reinterpret_cast<T_Vid_Init_SYS>(DMA_Video_Stub_5EB810);
+    pVid_CheckMode = reinterpret_cast<T_Vid_CheckMode>(DMA_Video_Stub_5EB810);
+    pVid_FindDevice = reinterpret_cast<T_Vid_FindDevice>(DMA_Video_Stub_5EB810);
+    pVid_SetDevice = reinterpret_cast<T_Vid_SetDevice>(DMA_Video_Stub_5EB810);
+    pVid_FindMode = reinterpret_cast<T_Vid_FindMode>(DMA_Video_Stub_5EB810);
+    pVid_FindFirstMode = reinterpret_cast<T_Vid_FindFirstMode>(DMA_Video_Stub_5EB810);
+    pVid_FindNextMode = reinterpret_cast<T_Vid_FindNextMode>(DMA_Video_Stub_5EB810);
+    pVid_CloseScreen = reinterpret_cast<T_Vid_CloseScreen>(DMA_Video_Stub_5EB810);
+    pVid_SetMode = reinterpret_cast<T_Vid_SetMode>(DMA_Video_Stub_5EB810);
+    pVid_FlipBuffers = reinterpret_cast<T_Vid_FlipBuffers>(DMA_Video_Stub_5EB810);
+    pVid_ReleaseSurface = reinterpret_cast<T_Vid_ReleaseSurface>(DMA_Video_Stub_5EB810);
+    pVid_GrabSurface = reinterpret_cast<T_Vid_GrabSurface>(DMA_Video_Stub_5EB810);
+    pVid_ShutDown_SYS = reinterpret_cast<T_Vid_ShutDown_SYS>(DMA_Video_Stub_5EB810);
+    pVid_EnableWrites = reinterpret_cast<T_Vid_EnableWrites>(DMA_Video_Stub_5EB810);
+    pVid_DisableWrites = reinterpret_cast<T_Vid_DisableWrites>(DMA_Video_Stub_5EB810);
+    pVid_GetSurface = reinterpret_cast<T_Vid_GetSurface>(DMA_Video_Stub_5EB810);
+    pVid_FreeSurface = reinterpret_cast<T_Vid_FreeSurface>(DMA_Video_Stub_5EB810);
+    pVid_ClearScreen = reinterpret_cast<T_Vid_ClearScreen>(DMA_Video_Stub_5EB810);
+    pVid_SetGamma = reinterpret_cast<T_Vid_SetGamma>(DMA_Video_Stub_5EB810);
+    pVid_WindowProc = reinterpret_cast<T_Vid_WindowProc>(DMA_Video_Stub_5EB810);
+    pVid_InitDLL = reinterpret_cast<T_Vid_InitDLL>(DMA_Video_Stub_5EB810);
 }
 
 #define load_gbh_func(varName, varType, funcName)                      \
-    varName = (varType)GetProcAddress(hDmaVideoDll_7085E8, funcName); \
+    varName = reinterpret_cast<varType>(GetProcAddress(hDmaVideoDll_7085E8, funcName)); \
     if (!varName)                                                      \
     {                                                                  \
         char_type Text[120];                                           \

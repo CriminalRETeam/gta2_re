@@ -121,7 +121,7 @@ class InputRecorder_67F8B0
     // 9.6f 0x44C050
     inline bool IsInputSet_44C050(s32 mask_idx)
     {
-        return (u32)(field_4_input_bits & field_8_input_masks[mask_idx]) > 0;
+        return static_cast<u32>(field_4_input_bits & field_8_input_masks[mask_idx]) > 0;
     }
 
     // 9.6f 0x44AA80

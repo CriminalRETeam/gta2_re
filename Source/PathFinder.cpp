@@ -775,12 +775,12 @@ LABEL_35:
     field_8_pNode->field_3_ypos = yCoord;
     field_8_pNode->field_4_zpos = cur_z;
     field_C_node_count = 1;
-    pCell = &field_40_grid[(s16)(idx1 + 34 * idx2)];
+    pCell = &field_40_grid[static_cast<s16>(idx1 + 34 * idx2)];
     while (2)
     {
         if (pCell->field_0_idx1 == 1)
         {
-            if (abs(cur_z - (u8)pCell->field_4_zpos) < 1)
+            if (abs(cur_z - pCell->field_4_zpos) < 1)
             {
                 field_1B_direction = pCell->field_3_ypos;
                 new_z = pCell->field_4_zpos;
@@ -872,7 +872,7 @@ LABEL_35:
                 pPatrolPoint_2->field_0_x = 0;
                 pPatrolPoint_2->field_1_y = 0;
                 pPatrolPoint_2->field_2_z = 0;
-                *pOutPathFailCount = field_C_node_count;
+                *pOutPathFailCount = static_cast<u8>(field_C_node_count);
                 field_2FD0_bTimedOut = 1;
                 field_38_bComputePathInProgress = 0;
                 field_2FD1_time_out_counter = 0;

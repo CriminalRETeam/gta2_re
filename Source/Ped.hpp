@@ -677,7 +677,7 @@ class Ped
 
     inline void TriggerVoiceEventRateLimited_433E50()
     {
-        if ((u32)(gpRng_67AB34->get_cur_rng_41CFE0() - field_220_last_voice_rng) > 5)
+        if (static_cast<u32>(gpRng_67AB34->get_cur_rng_41CFE0() - field_220_last_voice_rng) > 5)
         {
             SetVoiceEventIfNotOnFire_433DD0(25);
             field_220_last_voice_rng = gpRng_67AB34->get_cur_rng_41CFE0();
