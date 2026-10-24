@@ -240,7 +240,7 @@ EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(u8 animPhase, Car* pCar, u8 
                 if (bUnk)
                 {
                     y_pos -= kFpPoint1_6FD824;
-                    switch (static_cast<u8>(animPhase))
+                    switch (animPhase)
                     {
                         case 0:
                             x_pos -= kFpPoint2_6FD82C;
@@ -271,7 +271,7 @@ EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(u8 animPhase, Car* pCar, u8 
             // VC6 threads the bFront/bUnk tests below away, but they set the block and register order
             if (bFront)
             {
-                switch (static_cast<u8>(animPhase))
+                switch (animPhase)
                 {
                     case 0:
                         y_pos += kFpPoint2_6FD82C;
@@ -300,7 +300,7 @@ EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(u8 animPhase, Car* pCar, u8 
             }
             else if (!bUnk)
             {
-                switch (static_cast<u8>(animPhase))
+                switch (animPhase)
                 {
                     case 0:
                         y_pos -= kFpPoint1_6FD824;
@@ -388,7 +388,7 @@ EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(u8 animPhase, Car* pCar, u8 
             if (bUnk)
             {
                 y_pos -= kFpPoint1_6FD824;
-                switch (static_cast<u8>(animPhase))
+                switch (animPhase)
                 {
                     case 0:
                         x_pos += kFpPoint2_6FD82C;
@@ -417,7 +417,7 @@ EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(u8 animPhase, Car* pCar, u8 
             }
             else
             {
-                switch (static_cast<u8>(animPhase))
+                switch (animPhase)
                 {
                     case 0:
                         y_pos -= kFpPoint1_6FD824;
@@ -1602,7 +1602,7 @@ void Ped::HandleClosePedInteraction_45CAA0()
                         {
                             pNearPed_->field_15C_player->AddScore_41DC40(-10);
                             this->field_229_mug_count++;
-                            if (static_cast<u8>(field_229_mug_count) > 9u)
+                            if (field_229_mug_count > 9u)
                             {
                                 this->field_226_internal_objective_status = 1;
                             }

@@ -780,7 +780,7 @@ LABEL_35:
     {
         if (pCell->field_0_idx1 == 1)
         {
-            if (abs(cur_z - static_cast<u8>(pCell->field_4_zpos)) < 1)
+            if (abs(cur_z - pCell->field_4_zpos) < 1)
             {
                 field_1B_direction = pCell->field_3_ypos;
                 new_z = pCell->field_4_zpos;

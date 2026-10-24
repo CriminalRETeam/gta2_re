@@ -1358,7 +1358,7 @@ char_type CarPhysics::ProcessGroundCollisionAndSurfaceType_55B970(char_type* che
                 mask_ = 1;
                 do
                 {
-                    if ((static_cast<u8>(mask_) & static_cast<u8>(*check_mask)) != mask_)
+                    if ((mask_ & static_cast<u8>(*check_mask)) != mask_)
                     {
                         // Temporaries chained: corner, corner - cm1, / 50, each with its own EH state
                         ApplyImpulseWithTrailerRedirect_55FA10(&pSprite->GetBoundingBoxCorner_562450(corner_idx_).Sub_40AC80(field_30_cm1).Divide_442CB0(Fix16(50)));

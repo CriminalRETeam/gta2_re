@@ -857,9 +857,9 @@ gmp_block_info* Map_0x370::GetBlockClamped_4DFEE0(s32 x_coord, s32 y_coord, s32 
     field_0_pDmap = this->field_0_pDmap;
     pColInfo = reinterpret_cast<gmp_col_info*>(&field_0_pDmap->field_40008_pColumn[*field_0_pDmap->get_base_42A830(y_coord, x_coord)]);
 
-    if (z_coord < static_cast<u8>(pColInfo->field_0_height))
+    if (z_coord < pColInfo->field_0_height)
     {
-        offset = static_cast<u8>(pColInfo->field_1_offset);
+        offset = pColInfo->field_1_offset;
         if (z_coord >= offset)
         {
             return &field_0_pDmap->field_4000C_block[pColInfo->field_4_blockd[z_coord - offset]];
@@ -4499,7 +4499,7 @@ void Map_0x370::do_process_loaded_zone_data_4E8E30()
             {
                 gmp_map_zone* zone2 = GetZone_4DFB30(src_idx);
                 if (zone1->field_5_name_length == zone2->field_5_name_length &&
-                    !strncmp(zone1->field_6_name, zone2->field_6_name, static_cast<u8>(zone1->field_5_name_length)))
+                    !strncmp(zone1->field_6_name, zone2->field_6_name, zone1->field_5_name_length))
                 {
                     field_330_pZoneArray[zoneIdx] = zone_char;
                     done = true;

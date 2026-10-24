@@ -466,7 +466,7 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
             }
         }
 
-        if (main_stage_idx == static_cast<u8>(field_1EB50_num_main_stages) - 1)
+        if (main_stage_idx == field_1EB50_num_main_stages - 1)
         {
             field_136_menu_pages_array[3].field_4_options_array[0].field_1_is_unlocked = 0;
             field_136_menu_pages_array[3].field_B8A_option_states[0].field_4_is_option_unlocked = 0;
@@ -494,7 +494,7 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
         gGameSession_67E8E0.DecodeStage_453A60(gGameSession_67E8E0.GetStage_4C5990(), &main_stage_idx, &bonus_stage_idx);
         swprintf(tmpBuff_67BD9C, L"%d", pStats->field_0_plyr_stage_stats[main_stage_idx][bonus_stage_idx].field_8_stage_latest_score);
         wcsncpy(field_136_menu_pages_array[6].field_518_elements_array[2].field_6_element_name_str, tmpBuff_67BD9C, 50);
-        if (gGameSession_67E8E0.IsStartedFromPlayBonusMenu_4C5AE0() || main_stage_idx >= static_cast<u8>(field_1EB50_num_main_stages) - 1 ||
+        if (gGameSession_67E8E0.IsStartedFromPlayBonusMenu_4C5AE0() || main_stage_idx >= field_1EB50_num_main_stages - 1 ||
             !pStats->field_0_plyr_stage_stats[main_stage_idx + 1][0].field_0_is_stage_unlocked)
         {
             field_136_menu_pages_array[6].field_4_options_array[1].field_1_is_unlocked = 0;

@@ -913,7 +913,7 @@ void PublicTransport::SetupTrainAndBusStops_5794B0()
             for (i = gMap_0x370_6F6268->GetFirstZoneOfType_4DF1D0(gmp_zone_type_enum::railway_station_platform); i != NULL;
                  i = gMap_0x370_6F6268->GetNextZone_4DF770())
             {
-                *static_cast<u8*>(&gNameCompareLen_6FF158) = 5; //LOBYTE(gNameCompareLen_6FF158) = 5; part of a object???????
+                gNameCompareLen_6FF158 = 5; //LOBYTE(gNameCompareLen_6FF158) = 5; part of a object???????
                 if (CompareNameChars_577E90(Buffer, i->field_6_name))
                 {
                     TrainStation* pStation = gPublicTransport_181C_6FF1D4->AllocateTrainStation_5787E0();

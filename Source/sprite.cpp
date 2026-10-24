@@ -391,7 +391,7 @@ s16 DamageAreaFlags::Delta_48F8B0(u16& sprite_idx, u8& bRet, const u16& palette,
         {
             bRet = 1;
             u32 sub = m_var - pSprt14->field_8_delta_mask;
-            Delta_48F820(sprite_idx, static_cast<u8*>(pSprt14->field_0_pixels), sub, sprite_index_5AA440->field_4_width);
+            Delta_48F820(sprite_idx, pSprt14->field_0_pixels, sub, sprite_index_5AA440->field_4_width);
             pSprt14->SetKey_44AF50(sprite_idx, m_var, palette);
         }
         else
@@ -412,7 +412,7 @@ s16 DamageAreaFlags::Delta_48F8B0(u16& sprite_idx, u8& bRet, const u16& palette,
             pSprt14->ClearMask_48F5C0(sprite_index_5AA440->field_4_width, sprite_index_5AA440->field_5_height);
         }
         
-        Delta_48F820(sprite_idx, static_cast<u8*>(pSprt14->field_0_pixels), m_var, sprite_index_5AA440->field_4_width);
+        Delta_48F820(sprite_idx, pSprt14->field_0_pixels, m_var, sprite_index_5AA440->field_4_width);
         pSprt14->SetKey_44AF50(sprite_idx, m_var, palette);
     }
     

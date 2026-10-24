@@ -2261,7 +2261,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
     u32 osKind;
     GetDirectXVersion_4C4EC0(&dxVer, &osKind);
 
-    if (static_cast<u32>(dxVer) < 0x601)
+    if (dxVer < 0x601)
     {
         ErrorMsgBox_5E4EC0("ERROR: Incorrect version of DirectX");
         ReleaseMutex(gMutex_707078);

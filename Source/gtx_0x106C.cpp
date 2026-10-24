@@ -207,7 +207,7 @@ MATCH_FUNC(0x5AA710)
 u16 gtx_0x106C::GetSpriteIdxFromFont_5AA710(u16 font_type, s16 offset)
 {
     u16 result = field_1C_font_base->field_2_base[font_type] + offset;
-    if (font_type == static_cast<u16>(field_1C_font_base->field_0_font_count) - 1)
+    if (font_type == field_1C_font_base->field_0_font_count - 1)
     {
         if (result >= field_2_font_base_total)
         {
@@ -236,7 +236,7 @@ u16 gtx_0x106C::GetFontWidth_5AA760(u16* font_type, wchar_t* pStr)
     else
     {
         // In this case letters have different widths
-        return this->field_20_sprite_index[static_cast<u16>(this->field_14_sprite_base2->field_A_font) + gtx_0x106C::GetSpriteIdxFromFont_5AA710(*font_type, *pStr - 33)]
+        return this->field_20_sprite_index[this->field_14_sprite_base2->field_A_font + gtx_0x106C::GetSpriteIdxFromFont_5AA710(*font_type, *pStr - 33)]
             .field_4_width;
     }
 }
@@ -461,7 +461,7 @@ void gtx_0x106C::SetDeltaDataPtrs_5AABF0()
         {
             *reinterpret_cast<u32*>(&i->field_4_delta[4 * delta_idx]) += *reinterpret_cast<u32*>(&field_48_delta_store); // TODO: fix me
         }
-        size = 8 * static_cast<u8>(i->field_2_delta_count) + 4;
+        size = 8 * i->field_2_delta_count + 4;
         i = reinterpret_cast<delta_entry*>(reinterpret_cast<char_type*>(i) + size);
     }
 }
@@ -725,9 +725,9 @@ void gtx_0x106C::load_sprite_index_5AAF80(u32 sprx_chunk_size)
     File::Global_Read_4A71C0(field_20_sprite_index, sprx_chunk_size);
     if ((sprx_chunk_size & ~7u) > 524280)
     {
-        FatalError_4A38C0(Gta2Error::TooManySprites, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1198, static_cast<u32>(sprx_chunk_size) >> 3);
+        FatalError_4A38C0(Gta2Error::TooManySprites, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1198, sprx_chunk_size >> 3);
     }
-    field_4_sprite_index_count = (static_cast<u32>(sprx_chunk_size) >> 3) + 1;
+    field_4_sprite_index_count = (sprx_chunk_size >> 3) + 1;
 }
 
 MATCH_FUNC(0x5AAFE0)
@@ -1150,20 +1150,20 @@ gtx_0x106C::~gtx_0x106C()
     local_field_28_palette_index = field_28_palette_index;
     field_24_map_object_info = 0;
     delete (local_field_28_palette_index);
-    local_field_30_physical_palettes_size = static_cast<void*>(field_30_physical_palettes_unaligned);
+    local_field_30_physical_palettes_size = field_30_physical_palettes_unaligned;
     field_28_palette_index = 0;
     if (local_field_30_physical_palettes_size)
     {
         crt::free(local_field_30_physical_palettes_size);
     }
-    local_field_44_aligned_tiles_size = static_cast<void*>(field_44_tiles_unaligned);
+    local_field_44_aligned_tiles_size = field_44_tiles_unaligned;
     field_2C_physical_palettes = 0;
     field_30_physical_palettes_unaligned = 0;
     if (local_field_44_aligned_tiles_size)
     {
         crt::free(local_field_44_aligned_tiles_size);
     }
-    pUnaligned = static_cast<void*>(field_38_sprite_graphics_unaligned);
+    pUnaligned = field_38_sprite_graphics_unaligned;
     field_3C_tiles = 0;
     field_44_tiles_unaligned = 0;
     if (pUnaligned)

@@ -3545,7 +3545,7 @@ MATCH_FUNC(0x52a210)
 char_type Object_5C::SetPendingDamageOwner_52A210(char_type owner)
 {
     // TODO: Why is it a byte here? enum ??
-    *static_cast<u8*>(&field_18_pending_damage_owner) = owner;
+    field_18_pending_damage_owner = owner;
     return owner;
 }
 

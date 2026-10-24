@@ -851,7 +851,7 @@ void ScriptThread::SCRCMD_SET_GANG_INFO1_504830(SCR_SET_GANG_INFO* pCmd)
     ++gScriptManager_6F8060->field_354_next_gang_idx;
     Gang* pGang = gGangPool_CA8_67E274->FindGangByName_4BF100(reinterpret_cast<char*>(&string_entry[1]));
 
-    if (static_cast<u8>(pCmd->field_F_kill_respect_change) > 0)
+    if (pCmd->field_F_kill_respect_change > 0)
     {
         gHud_2B00_706620->field_1F18_arrows.SetNewGangArrow_5D1310(pGang);
     }
@@ -2166,7 +2166,7 @@ void ScriptThread::SCRCMD_CREATE_CAR_507F80()
                                                                  *reinterpret_cast<Fix16*>(&static_cast<SCR_CMD_HEADER*>(gBasePtr_6F8070)[2].field_0_cmd_this));
     }
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_car_idx));
-    ScriptThread::SCRCMD_CAR_DECSET_503BC0(reinterpret_cast<SCR_CAR_DATA_DEC*>(gBasePtr_6F8070), static_cast<SCR_POINTER*>(pPointer));
+    ScriptThread::SCRCMD_CAR_DECSET_503BC0(reinterpret_cast<SCR_CAR_DATA_DEC*>(gBasePtr_6F8070), pPointer);
     if (this->field_118_in_level_start == 0)
     {
         gMiss2_25C_6F805C->push_type_1_car_502F80(pPointer->field_8_car);
@@ -5448,7 +5448,7 @@ void ScriptThread::SCRCMD_CHECK_BONUS_50E0B0()
 MATCH_FUNC(0x50e120)
 void ScriptThread::SCRCMD_SETUP_MODEL_CHECK_50E120()
 {
-    gCarManager_6C_677930->field_58_model_to_check_destroy = static_cast<u16>(gBasePtr_6F8070->field_8_index);
+    gCarManager_6C_677930->field_58_model_to_check_destroy = gBasePtr_6F8070->field_8_index;
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }
 
@@ -5561,7 +5561,7 @@ MATCH_FUNC(0x50e4f0)
 void ScriptThread::SCRCMD_S_IS_S_OP_S_50E4F0()
 {
     SCR_OPERATE_COUNTER_AND_COUNTER* pCmd = reinterpret_cast<SCR_OPERATE_COUNTER_AND_COUNTER*>(gBasePtr_6F8070);
-    u8 type = ScriptThread::GetOperationType_506BC0(static_cast<u16>(gBasePtr_6F8070->field_2_type));
+    u8 type = ScriptThread::GetOperationType_506BC0(gBasePtr_6F8070->field_2_type);
 
     SCR_POINTER* pDestCounter = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_destination_counter_idx));
     SCR_POINTER* pFirstOperand = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_first_operand_counter_idx));
@@ -5900,7 +5900,7 @@ MATCH_FUNC(0x50ed80)
 void ScriptThread::SCRCMD_CREATE_SOUND_50ED80()
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
-    ScriptThread::SCRCMD_SOUND_DECSET_505340(reinterpret_cast<SCR_SOUND_DECSET*>(gBasePtr_6F8070), static_cast<SCR_POINTER*>(pPointer));
+    ScriptThread::SCRCMD_SOUND_DECSET_505340(reinterpret_cast<SCR_SOUND_DECSET*>(gBasePtr_6F8070), pPointer);
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }
 
@@ -6098,13 +6098,13 @@ void ScriptThread::SCRCMD_DECIDE_POWERUP_50F150()
 MATCH_FUNC(0x50f220)
 void ScriptThread::SCRCMD_SUPPRESS_MODEL_50F220()
 {
-    if (static_cast<u16>(gBasePtr_6F8070->field_8_index) == 0xFFFFu) //  TODO: fix gBasePtr_6F8070
+    if (gBasePtr_6F8070->field_8_index == 0xFFFFu) //  TODO: fix gBasePtr_6F8070
     {
         gCarManager_6C_677930->field_C_suppressed_model = car_model_enum::none; //  No model suppressed
     }
     else
     {
-        gCarManager_6C_677930->field_C_suppressed_model = static_cast<u16>(gBasePtr_6F8070->field_8_index);
+        gCarManager_6C_677930->field_C_suppressed_model = gBasePtr_6F8070->field_8_index;
     }
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }

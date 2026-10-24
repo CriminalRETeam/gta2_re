@@ -5180,7 +5180,7 @@ void sound_obj::ProcessObject_Type12_41E850(Sound_Params* pParams)
             break;
     }
 
-    if (static_cast<u32>(field_30_sQueueSample.field_30_loop_count) > 0)
+    if (field_30_sQueueSample.field_30_loop_count > 0)
     {
         if (++byte_6751E4 == 255)
         {

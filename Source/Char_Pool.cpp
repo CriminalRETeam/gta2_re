@@ -531,26 +531,26 @@ void PedManager::SpawnDummies_46EB60(Camera* pCam)
         switch (gSpawnSide_6787C8)
         {
             case 0:
-                xpos = Fix16(static_cast<s16>(tileLeft));
-                ypos = Fix16(static_cast<s16>(tileTop) + gSpawnIndex_6787C9);
+                xpos = Fix16(tileLeft);
+                ypos = Fix16(tileTop + gSpawnIndex_6787C9);
                 rotation = gSpawnRotationLeft_6786E0;
                 break;
 
             case 1:
-                ypos = Fix16(static_cast<s16>(tileTop));
-                xpos = Fix16(static_cast<s16>(tileLeft) + gSpawnIndex_6787C9);
+                ypos = Fix16(tileTop);
+                xpos = Fix16(tileLeft + gSpawnIndex_6787C9);
                 rotation = gSpawnRotationTop_6787B0;
                 break;
 
             case 2:
-                xpos = Fix16(static_cast<s16>(tileRight));
-                ypos = Fix16(static_cast<s16>(tileTop) + gSpawnIndex_6787C9);
+                xpos = Fix16(tileRight);
+                ypos = Fix16(tileTop + gSpawnIndex_6787C9);
                 rotation = gSpawnRotationRight_678578;
                 break;
 
             case 3:
                 ypos = Fix16(static_cast<s16>(bottom));
-                xpos = Fix16(static_cast<s16>(tileLeft) + gSpawnIndex_6787C9);
+                xpos = Fix16(tileLeft + gSpawnIndex_6787C9);
                 rotation = gSpawnRotationBottom_678540;
                 break;
         }
