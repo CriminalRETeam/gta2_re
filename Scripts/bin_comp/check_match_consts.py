@@ -18,6 +18,11 @@ as check_match_refs.py does) is checked through ref_values.py:
   identical to 10.5.exe's (the callee's size from og_function_data_v105.csv, else up to its ret);
 - any other data the bytes up to the next map symbol (at most 1 KB), pointers in it compared the same way.
 
+It also checks what the normaliser renames that isn't an address: each jump inside the function must go
+to the same offset as 10.5.exe's (a cross-jump into the wrong copy of a block still matches), and each
+immediate must be the same number (`push 43EF0000h`, a float argument, or any `push` constant, is renamed
+like an address and only fails when it breaks the first-use numbering).
+
 Jump and index tables after the code are left to check_match_refs.py, the EH handler to check_match_eh.py.
 Differences reviewed as equivalent are in REVIEWED and left out; check a new one against 10.5.exe before
 adding it there.
@@ -28,7 +33,7 @@ Exit code 1 when something differs.
 import bisect
 import sys
 
-from iced_x86 import FlowControl, MemorySizeExt, Register
+from iced_x86 import MemorySizeExt, Register
 
 import check_match_eh
 import check_match_refs as cmr
@@ -73,9 +78,16 @@ def main():
         problems = []
         for x, y in zip(a, b):
             for kind, xo, yo, msize in ref_values.image_operands(x, y):
-                if xo == yo or not (og.inside(xo) and new.inside(yo)):
+                if xo == yo:
                     continue
-                if kind == 'branch' and (na <= yo < na + size or x.flow_control == FlowControl.CONDITIONAL_BRANCH):
+                if not (og.inside(xo) and new.inside(yo)):
+                    if kind != 'branch':
+                        problems.append('%x: %s 0x%x, the build 0x%x' % (x.ip - oa, 'immediate' if kind == 'imm' else
+                                                                         'displacement', xo, yo))
+                    continue
+                if kind == 'branch' and (oa <= xo < oa + size or na <= yo < na + size):
+                    if xo - oa != yo - na:
+                        problems.append('%x: jumps to +%x, the build to +%x' % (x.ip - oa, xo - oa, yo - na))
                     continue
                 if yo in handlers or yo in refs.known:
                     continue  # check_match_eh.py / check_match_refs.py
@@ -86,7 +98,8 @@ def main():
                     n = None  # indexed or address only: the whole object
                     if kind != 'branch' and yo not in refs.known and refs.symbol(yo)[0] != yo:
                         # biased by an index, or an end bound: the object can start before or after yo
-                        wants = biased_targets(refs, yo) if kind == 'mem' else [a for a in [refs.og_of(yo)] if a is not None]
+                        wants = biased_targets(refs, yo) if kind == 'mem' else \
+                            [a for a in [refs.og_of(yo)] if a is not None]
                         if xo in wants:
                             continue
                         if not wants:

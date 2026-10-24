@@ -108,11 +108,11 @@ def globals_to_compare(refs, og_emu):
     """(build address, 10.5.exe address, size, bytes up to 10.5.exe's next object, name) of each global."""
     names = dict((va, name) for va, name in refs.syms)
     declared = declared_sizes()
-    data = sorted((na, oa) for na, oa in refs.known.items() if not refs.new.is_code(na) and refs.new.inside(na)
+    data = sorted((oa, na) for na, oa in refs.known.items() if not refs.new.is_code(na) and refs.new.inside(na)
                   and refs.og.inside(oa) and not refs.og.is_code(oa))
     og_starts = sorted(set(refs.labels()[0]) | og_emu.write_starts)
     out = []
-    for na, oa in data:
+    for oa, na in data:
         name = names.get(na, '%x' % na)
         i = bisect.bisect_right(og_starts, oa)
         og_extent = og_starts[i] - oa if i < len(og_starts) else MAX_GLOBAL

@@ -245,6 +245,7 @@ def same_shape(og, new, a, b, xa, ya):
 class Refs:
     def __init__(self):
         self.nd, self.known = cmr.load()
+        self.nd['functions'].sort(key=lambda f: int(f['og_addr'], 16) if f.get('og_addr', '?').startswith('0x') else 0)
         self.og, self.new = Image(cmr.OG), Image(cmr.NEW)
         self.sizes = og_function_sizes()
         entries = map_entries()
@@ -430,7 +431,7 @@ class Refs:
 
 def image_operands(x, y):
     """(kind, 10.5 value, build value, operand size) for each operand pair of two paired instructions
-    that can hold an absolute address: memory displacements, 32-bit immediates and branch targets."""
+    that can hold an absolute address: memory displacements, immediates and branch targets."""
     out = []
     if x.op_count != y.op_count:
         return out
@@ -438,8 +439,8 @@ def image_operands(x, y):
         kx, ky = x.op_kind(o), y.op_kind(o)
         if kx == OpKind.MEMORY and ky == OpKind.MEMORY:
             out.append(('mem', x.memory_displacement, y.memory_displacement, x.memory_size))
-        elif kx == OpKind.IMMEDIATE32 and ky == OpKind.IMMEDIATE32:
-            out.append(('imm', x.immediate(o), y.immediate(o), None))
+        elif kx == ky and kx in (OpKind.IMMEDIATE8, OpKind.IMMEDIATE16, OpKind.IMMEDIATE32, OpKind.IMMEDIATE8TO32):
+            out.append(('imm', x.immediate(o) & 0xFFFFFFFF, y.immediate(o) & 0xFFFFFFFF, None))
         elif kx == OpKind.NEAR_BRANCH32 and ky == OpKind.NEAR_BRANCH32:
             out.append(('branch', x.near_branch_target, y.near_branch_target, None))
     return out
