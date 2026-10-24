@@ -484,7 +484,7 @@ void ScriptManager::StartLevelThread_512160()
 {
     if (!bSkip_mission_67D4E5)
     {
-        ScriptThread* pf_0 = miss2_0x11C_Pool_6F8064->Allocate_4767A0();
+        ScriptThread* pThread = miss2_0x11C_Pool_6F8064->Allocate_4767A0();
         SCR_CMD_HEADER* pLevelStart = FindCommandByType_512100(59, 0);
         if (!pLevelStart)
         {
@@ -493,8 +493,8 @@ void ScriptManager::StartLevelThread_512160()
                               12774); // No LEVELSTART declaration in scriptfile
             return;
         }
-        pf_0->ExecOpCode_5061C0();
-        pf_0->InitThread_511930(0, pLevelStart->field_0_cmd_this);
+        pThread->ExecOpCode_5061C0();
+        pThread->InitThread_511930(0, pLevelStart->field_0_cmd_this);
         gGame_0x40_67E008->IterateFirstPlayer_4B9CD0();
     }
 }

@@ -210,14 +210,14 @@ Door* DoorPool::RegisterSingleDoor_49D170(u8 gr_id,
                                              u8 flip,
                                              u8 reversed)
 {
-    Door* this_00 = GetNextFreeDoor_49D3A0();
+    Door* pDoor = GetNextFreeDoor_49D3A0();
     field_4D0_count++;
-    this_00->field_2A_bDoFlip = flip;
-    this_00->field_2B_bReversed = reversed;
-    this_00->AddDoorData_49CA50(gr_id, x, y, z, face);
-    this_00->InitSingle_49CAC0(this_00->field_0_primary_door_data, 1, field_4D0_count + -1, check_x, check_y, check_z, check_width, check_height);
+    pDoor->field_2A_bDoFlip = flip;
+    pDoor->field_2B_bReversed = reversed;
+    pDoor->AddDoorData_49CA50(gr_id, x, y, z, face);
+    pDoor->InitSingle_49CAC0(pDoor->field_0_primary_door_data, 1, field_4D0_count + -1, check_x, check_y, check_z, check_width, check_height);
 
-    return this_00;
+    return pDoor;
 }
 
 MATCH_FUNC(0x49d1f0)
@@ -234,10 +234,10 @@ Door* DoorPool::RegisterDoubleDoor_49D1F0(u8 gr_id,
                                              u8 flip,
                                              u8 reversed)
 {
-    Door* this_00 = GetNextFreeDoor_49D3A0();
+    Door* pDoor = GetNextFreeDoor_49D3A0();
     field_4D0_count++;
-    this_00->field_2A_bDoFlip = flip;
-    this_00->field_2B_bReversed = reversed;
+    pDoor->field_2A_bDoFlip = flip;
+    pDoor->field_2B_bReversed = reversed;
     reversed = x;
     flip = y;
     switch (face)
@@ -255,10 +255,10 @@ Door* DoorPool::RegisterDoubleDoor_49D1F0(u8 gr_id,
             reversed = x - 1;
             break;
     }
-    this_00->AddDoorData_49CA50(gr_id, x, y, z, face);
-    this_00->AddDoorData_49CA50(gr_id, reversed, flip, z, face);
-    this_00->InitDouble_49CC00(this_00->field_0_primary_door_data, 1, field_4D0_count - 1, check_x, check_y, check_z, check_width, check_height);
-    return this_00;
+    pDoor->AddDoorData_49CA50(gr_id, x, y, z, face);
+    pDoor->AddDoorData_49CA50(gr_id, reversed, flip, z, face);
+    pDoor->InitDouble_49CC00(pDoor->field_0_primary_door_data, 1, field_4D0_count - 1, check_x, check_y, check_z, check_width, check_height);
+    return pDoor;
 }
 
 inline bool IsDoorOpenWithoutAutoClose(Door* pDoor)

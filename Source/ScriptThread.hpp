@@ -1175,12 +1175,12 @@ class ScriptThreadPool
     // inlined
     ScriptThread* Allocate_4767A0()
     {
-        ScriptThread* pf_0 = field_0_pool.field_0_pStart;
-        field_0_pool.field_0_pStart = pf_0->mpNext;
-        pf_0->mpNext = field_0_pool.field_4_pPrev;
-        field_0_pool.field_4_pPrev = pf_0;
-        pf_0->PoolAllocate_5035B0();
-        return pf_0;
+        ScriptThread* pNew = field_0_pool.field_0_pStart;
+        field_0_pool.field_0_pStart = pNew->mpNext;
+        pNew->mpNext = field_0_pool.field_4_pPrev;
+        field_0_pool.field_4_pPrev = pNew;
+        pNew->PoolAllocate_5035B0();
+        return pNew;
     }
 
     // 9.6f inlined ctor 0x481310
