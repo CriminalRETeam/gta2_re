@@ -58,11 +58,12 @@ def biased_targets(refs, yo):
     return [a for a in out if a is not None]
 
 
-def main():
-    only = {int(a, 16) for a in sys.argv[1:]}
-    refs = ref_values.Refs()
+def find_differences(refs, only=()):
+    """(summary line, [{'address', 'name', 'details'}] of each MATCH function, or each one in only, that differs).
+    A detail repeated at another offset is listed once."""
     og, new = refs.og, refs.new
-    checked = bad = refs_checked = unchecked = 0
+    checked = refs_checked = unchecked = 0
+    found = []
     for f in refs.nd['functions']:
         if f.get('func_status') != '0x1' or not f.get('og_addr', '?').startswith('0x'):
             continue
@@ -110,16 +111,24 @@ def main():
                 if e:
                     problems.append('%x: %s' % (x.ip - oa, e))
         if problems:
-            bad += 1
-            print('%s (0x%x):' % (name, oa))
-            seen = []
+            seen, details = set(), []
             for p in problems:
                 if p.split(': ', 1)[1] not in seen:
-                    seen.append(p.split(': ', 1)[1])
-                    print('   ' + p)
-    print('%d MATCH functions checked, %d references without an original identity compared, %d left out '
-          '(no object start), %d functions differ' % (checked, refs_checked, unchecked, bad))
-    sys.exit(1 if bad else 0)
+                    seen.add(p.split(': ', 1)[1])
+                    details.append(p)
+            found.append({'address': oa, 'name': name, 'details': details})
+    return ('%d MATCH functions checked, %d references without an original identity compared, %d left out '
+            '(no object start), %d functions differ' % (checked, refs_checked, unchecked, len(found))), found
+
+
+def main():
+    summary, found = find_differences(ref_values.Refs(), {int(a, 16) for a in sys.argv[1:]})
+    for d in found:
+        print('%s (0x%x):' % (d['name'], d['address']))
+        for p in d['details']:
+            print('   ' + p)
+    print(summary)
+    sys.exit(1 if found else 0)
 
 
 if __name__ == '__main__':

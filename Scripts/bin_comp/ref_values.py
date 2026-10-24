@@ -264,6 +264,7 @@ class Refs:
         self.lib = {va: lib[name] for va, name in self.syms if name in lib}
         self.og_lib_names = {a: n for n, a in lib.items()}
         self.cache = {}
+        self.build_addresses = True  # False: build names without the address, which moves with any code change
 
     # names, for reports
     def og_name(self, xo):
@@ -276,12 +277,13 @@ class Refs:
         return '%x' % xo
 
     def new_name(self, yo):
+        address = '%x ' % yo if self.build_addresses else ''
         if yo in self.new.imports:
-            return '%x [%s]' % (yo, self.new.imports[yo])
+            return '%s[%s]' % (address, self.new.imports[yo])
         start, name, _ = self.symbol(yo)
         if name is None:
-            return '%x' % yo
-        return '%x %s%s' % (yo, name, '+0x%x' % (yo - start) if yo != start else '')
+            return address.strip() or '(no symbol)'
+        return '%s%s%s' % (address, name, '+0x%x' % (yo - start) if yo != start else '')
 
     def symbol(self, yo):
         """The build symbol (map or object file) at or before yo: (start, name, size). The size is the type size

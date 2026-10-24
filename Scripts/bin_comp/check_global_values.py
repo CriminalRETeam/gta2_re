@@ -128,16 +128,13 @@ def globals_to_compare(refs, og_emu):
     return out
 
 
-def main():
-    only = {int(a, 16) for a in sys.argv[1:]}
-    refs = ref_values.Refs()
+def find_differences(refs, only=()):
+    """(summary line, [{'address', 'name', 'size', 'details'}] of each global, or each one in only, that differs,
+    {'10.5.exe': [...], 'build': [...]} initialisers that failed in the emulator as (slot, function, error))."""
     og_emu, og_fails = startup_memory(ref_values.cmr.OG, ref_values.library_names())
     new_emu, new_fails = startup_memory(ref_values.cmr.NEW, refs.by_name)
-    for which, fails in (('10.5.exe', og_fails), ('build', new_fails)):
-        for slot, f, e in fails:
-            print('%s: initialiser %x (slot %x) failed in the emulator: %s' % (which, f, slot, e))
-
-    checked = bad = overlaps = 0
+    found = []
+    checked = overlaps = 0
     for na, oa, n, og_extent, name in globals_to_compare(refs, og_emu):
         if only and oa not in only or (oa in REVIEWED and not only):
             continue
@@ -145,7 +142,6 @@ def main():
         d = compare(refs, og_emu, new_emu, oa, na, n)
         if not d:
             continue
-        bad += 1
         k, why = d
         if why is None:
             w = n if n in (1, 2, 4, 8) else 4 if k % 4 == 0 and k + 4 <= n else 1
@@ -157,9 +153,20 @@ def main():
             init = og_emu.write_starts.get(oa + og_extent)
             why += ' (past %d bytes, where 10.5 has another %s)' % (
                 og_extent, 'object, written by its initialiser %x' % init if init else 'global')
-        print('%s (0x%x, %d bytes): +%d: %s' % (name, oa, n, k, why))
-    print('%d globals compared, %d differ (%d of them only where 10.5 has another object)' % (checked, bad, overlaps))
-    sys.exit(1 if bad else 0)
+        found.append({'address': oa, 'name': name, 'size': n, 'details': ['+%d: %s' % (k, why)]})
+    return ('%d globals compared, %d differ (%d of them only where 10.5 has another object)' %
+            (checked, len(found), overlaps)), found, {'10.5.exe': og_fails, 'build': new_fails}
+
+
+def main():
+    summary, found, fails = find_differences(ref_values.Refs(), {int(a, 16) for a in sys.argv[1:]})
+    for which in ('10.5.exe', 'build'):
+        for slot, f, e in fails[which]:
+            print('%s: initialiser %x (slot %x) failed in the emulator: %s' % (which, f, slot, e))
+    for d in found:
+        print('%s (0x%x, %d bytes): %s' % (d['name'], d['address'], d['size'], d['details'][0]))
+    print(summary)
+    sys.exit(1 if found else 0)
 
 
 if __name__ == '__main__':

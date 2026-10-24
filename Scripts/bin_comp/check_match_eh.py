@@ -183,7 +183,7 @@ def compare_eh(refs, frame_handler, oa, na, size):
     fx, jx = func_info(og, hx)
     fy, jy = func_info(new, hy)
     if fx is None or fy is None:
-        return ['EH handler not understood (10.5 %x, build %x)' % (hx, hy)], True
+        return ['EH handler not understood (10.5 %x, the build %s)' % (hx, refs.new_name(hy))], True
     problems = []
     if jx != OG_CXX_FRAME_HANDLER or jy != frame_handler:
         problems.append('frame handler: 10.5 %s, the build %s' % (refs.og_name(jx), refs.new_name(jy)))
@@ -231,13 +231,18 @@ def unwind_map_text(refs, pe, va, size, og):
     return '\n      '.join(lines)
 
 
-def main():
-    args = sys.argv[1:]
-    verbose = '-v' in args
-    only = {int(a, 16) for a in args if a != '-v'}
-    refs = ref_values.Refs()
+def print_difference(d):
+    print('%s (0x%x):' % (d['name'], d['address']))
+    for p in d['details'][:16]:
+        print('   ' + p)
+
+
+def find_differences(refs, only=(), verbose=False):
+    """(summary line, [{'address', 'name', 'details'}] of each MATCH function, or each one in only, that differs).
+    verbose prints the unwind map of every function checked."""
     frame_handler = refs.by_name.get('___CxxFrameHandler')
-    checked = with_eh = bad = 0
+    checked = with_eh = 0
+    found = []
     for f in refs.nd['functions']:
         if f.get('func_status') != '0x1' or not f.get('og_addr', '?').startswith('0x'):
             continue
@@ -249,15 +254,24 @@ def main():
         problems, has_eh = compare_eh(refs, frame_handler, oa, na, size)
         with_eh += has_eh
         if problems:
-            bad += 1
-            print('%s (0x%x):' % (name, oa))
-            for p in problems[:16]:
-                print('   ' + p)
+            found.append({'address': oa, 'name': name, 'details': problems})
+            if verbose:
+                print_difference(found[-1])
         if verbose and has_eh:
             print('%s (0x%x)\n   10.5:  %s\n   build: %s' % (name, oa, unwind_map_text(refs, refs.og, oa, size, True),
                                                        unwind_map_text(refs, refs.new, na, size, False)))
-    print('%d MATCH functions checked, %d with an EH frame, %d differ' % (checked, with_eh, bad))
-    sys.exit(1 if bad else 0)
+    return '%d MATCH functions checked, %d with an EH frame, %d differ' % (checked, with_eh, len(found)), found
+
+
+def main():
+    args = sys.argv[1:]
+    verbose = '-v' in args
+    summary, found = find_differences(ref_values.Refs(), {int(a, 16) for a in args if a != '-v'}, verbose)
+    if not verbose:
+        for d in found:
+            print_difference(d)
+    print(summary)
+    sys.exit(1 if found else 0)
 
 
 if __name__ == '__main__':
