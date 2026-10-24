@@ -11,16 +11,16 @@
 typedef bool (*TExportCb)(LPVOID, HMODULE, const char*);
 static void EnumExports(LPVOID pContext, HMODULE dllAlloc, TExportCb cb)
 {
-    PIMAGE_NT_HEADERS header = (PIMAGE_NT_HEADERS)((BYTE*)dllAlloc + ((PIMAGE_DOS_HEADER)dllAlloc)->e_lfanew);
+    PIMAGE_NT_HEADERS header = reinterpret_cast<PIMAGE_NT_HEADERS>(reinterpret_cast<BYTE*>(dllAlloc) + (reinterpret_cast<PIMAGE_DOS_HEADER>(dllAlloc))->e_lfanew);
     //assert(header->Signature == IMAGE_NT_SIGNATURE);
     //assert(header->OptionalHeader.NumberOfRvaAndSizes > 0);
     PIMAGE_EXPORT_DIRECTORY exports =
-        (PIMAGE_EXPORT_DIRECTORY)((BYTE*)dllAlloc + header->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_EXPORT].VirtualAddress);
+        reinterpret_cast<PIMAGE_EXPORT_DIRECTORY>(reinterpret_cast<BYTE*>(dllAlloc) + header->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_EXPORT].VirtualAddress);
     //assert(exports->AddressOfNames != 0);
-    BYTE** names = (BYTE**)((int)dllAlloc + exports->AddressOfNames);
+    BYTE** names = reinterpret_cast<BYTE**>(reinterpret_cast<int>(dllAlloc) + exports->AddressOfNames);
     for (int i = 0; i < exports->NumberOfNames; i++)
     {
-        char* pName = (char*)((BYTE*)dllAlloc + (int)names[i]);
+        char* pName = reinterpret_cast<char*>(reinterpret_cast<BYTE*>(dllAlloc) + reinterpret_cast<int>(names[i]));
         if (!cb(pContext, dllAlloc, pName))
         {
             return;
@@ -36,13 +36,13 @@ static void SetFuncField(T& toSet, Y value)
 
 static void RewriteImports(HMODULE hImports, GlobalsRegistry* pGlobals, FunctionCollector* pFunctions)
 {
-    const PIMAGE_DOS_HEADER lpImageDOSHeader = (PIMAGE_DOS_HEADER)hImports;
-    const PIMAGE_NT_HEADERS lpImageNTHeader = (PIMAGE_NT_HEADERS)((DWORD_PTR)lpImageDOSHeader + lpImageDOSHeader->e_lfanew);
-    const PIMAGE_SECTION_HEADER lpImageSectionHeader = (PIMAGE_SECTION_HEADER)((DWORD_PTR)lpImageNTHeader + 4 + sizeof(IMAGE_FILE_HEADER) +
+    const PIMAGE_DOS_HEADER lpImageDOSHeader = reinterpret_cast<PIMAGE_DOS_HEADER>(hImports);
+    const PIMAGE_NT_HEADERS lpImageNTHeader = reinterpret_cast<PIMAGE_NT_HEADERS>(reinterpret_cast<DWORD_PTR>(lpImageDOSHeader) + lpImageDOSHeader->e_lfanew);
+    const PIMAGE_SECTION_HEADER lpImageSectionHeader = reinterpret_cast<PIMAGE_SECTION_HEADER>(reinterpret_cast<DWORD_PTR>(lpImageNTHeader) + 4 + sizeof(IMAGE_FILE_HEADER) +
                                                                                lpImageNTHeader->FileHeader.SizeOfOptionalHeader);
 
     PIMAGE_IMPORT_DESCRIPTOR lpImageImportDescriptor =
-        (PIMAGE_IMPORT_DESCRIPTOR)((DWORD_PTR)hImports +
+        reinterpret_cast<PIMAGE_IMPORT_DESCRIPTOR>(reinterpret_cast<DWORD_PTR>(hImports) +
                                    lpImageNTHeader->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_IMPORT].VirtualAddress);
     if (lpImageImportDescriptor == NULL)
     {
@@ -52,13 +52,13 @@ static void RewriteImports(HMODULE hImports, GlobalsRegistry* pGlobals, Function
 
     while (lpImageImportDescriptor->Name != 0)
     {
-        const LPSTR lpLibraryName = (LPSTR)((DWORD_PTR)hImports + lpImageImportDescriptor->Name);
+        const LPSTR lpLibraryName = reinterpret_cast<LPSTR>(reinterpret_cast<DWORD_PTR>(hImports) + lpImageImportDescriptor->Name);
 
         printf("[+] Loading %s\n", lpLibraryName);
 
         if (stricmp(lpLibraryName, "gta2_dll_exports.dll") == 0)
         {
-            PIMAGE_THUNK_DATA lpThunkData = (PIMAGE_THUNK_DATA)((DWORD_PTR)hImports + lpImageImportDescriptor->FirstThunk);
+            PIMAGE_THUNK_DATA lpThunkData = reinterpret_cast<PIMAGE_THUNK_DATA>(reinterpret_cast<DWORD_PTR>(hImports) + lpImageImportDescriptor->FirstThunk);
             while (lpThunkData->u1.AddressOfData != 0)
             {
                 if (IMAGE_SNAP_BY_ORDINAL(lpThunkData->u1.Ordinal))
@@ -79,14 +79,14 @@ static void RewriteImports(HMODULE hImports, GlobalsRegistry* pGlobals, Function
                     bool replaced = false;
                     for (size_t i = 0; i < pGlobals->mGlobals.size(); i++)
                     {
-                        if ((void*)lpThunkData->u1.Function == pGlobals->mGlobals[i]->mVar)
+                        if (static_cast<void*>(lpThunkData->u1.Function) == pGlobals->mGlobals[i]->mVar)
                         {
                             DWORD functionAddress = pGlobals->mGlobals[i]->mOgAddr;
 
                             u32 len = pGlobals->mGlobals[i]->mSize;
 
-                            u8* pOgVar = (u8*)lpThunkData->u1.Function;
-                            u8* pNewVar = (u8*)functionAddress;
+                            u8* pOgVar = reinterpret_cast<u8*>(lpThunkData->u1.Function);
+                            u8* pNewVar = reinterpret_cast<u8*>(functionAddress);
 
                             if (memcmp(pOgVar, pNewVar, len) != 0)
                             {
@@ -97,14 +97,14 @@ static void RewriteImports(HMODULE hImports, GlobalsRegistry* pGlobals, Function
                                     break;
 
                                     case 2:
-                                    printf("Var 0x%X has wrong value [%04X:%04X]\n", functionAddress, *(u16*)pOgVar, *(u16*)pNewVar);
+                                    printf("Var 0x%X has wrong value [%04X:%04X]\n", functionAddress, *reinterpret_cast<u16*>(pOgVar), *reinterpret_cast<u16*>(pNewVar));
                                     break;
 
                                     case 4:
                                     // Filter out function pointer diffs
-                                    if (!pFunctions->IsOgFunctionAddr(*(u32*)pNewVar))
+                                    if (!pFunctions->IsOgFunctionAddr(*reinterpret_cast<u32*>(pNewVar)))
                                     {
-                                        printf("Var 0x%X has wrong value [%08X:%08X]\n", functionAddress, *(u32*)pOgVar, *(u32*)pNewVar);
+                                        printf("Var 0x%X has wrong value [%08X:%08X]\n", functionAddress, *reinterpret_cast<u32*>(pOgVar), *reinterpret_cast<u32*>(pNewVar));
                                     }
                                     break;
 
@@ -214,7 +214,7 @@ class GlobalVarCollector
         }
         else
         {
-            FARPROC varAddr = GetProcAddress((HINSTANCE)hDll, pName);
+            FARPROC varAddr = GetProcAddress(static_cast<HINSTANCE>(hDll), pName);
 
             GlobalVarCollector* hl = reinterpret_cast<GlobalVarCollector*>(pContext);
 
@@ -246,7 +246,7 @@ class GlobalVarCollector
     GlobalVarCollector(HMODULE hExports) : mGlobalsRegistry(NULL)
     {
         printf("Get globals registry %X\n", hExports);
-        TGetGlobalsRegistry pFnGlobalsRegistry = (TGetGlobalsRegistry)GetProcAddress(hExports, "GetGlobalsRegistry");
+        TGetGlobalsRegistry pFnGlobalsRegistry = reinterpret_cast<TGetGlobalsRegistry>(GetProcAddress(hExports, "GetGlobalsRegistry"));
         printf("Collect export entries %X\n", pFnGlobalsRegistry);
         mGlobalsRegistry = pFnGlobalsRegistry();
 
@@ -348,7 +348,7 @@ extern "C"
 
         FunctionCollector::HookEntry* hookEntry = it->second;
 
-        if (!DetourHelper::Detach(&(PVOID&)hookEntry->trampoline, hookEntry->detour))
+        if (!DetourHelper::Detach(&static_cast<PVOID&>(hookEntry->trampoline), hookEntry->detour))
         {
             printf("Remove failed\n");
         }
@@ -358,7 +358,7 @@ extern "C"
         hookEntry->target = old;
 
         hookEntry->trampoline = hookEntry->target;
-        if (!DetourHelper::Attach(&(PVOID&)hookEntry->trampoline, hookEntry->detour))
+        if (!DetourHelper::Attach(&static_cast<PVOID&>(hookEntry->trampoline), hookEntry->detour))
         {
             printf("Add failed\n");
         }
@@ -376,30 +376,30 @@ class HookLoader
     void crt_inits()
     {
         printf("Heap\n");
-        if (!((PT1)(0x5F116B))(0))
+        if (!(reinterpret_cast<PT1>(0x5F116B))(0))
         {
             printf("Heap failed!\n");
         }
         printf("Heap done\n");
 
         printf("_ioinit\n");
-        ((TP3)(0x5F0527))();
+        (reinterpret_cast<TP3>(0x5F0527))();
         printf("_ioinit done\n");
 
-        *(char**)0x7099E4 = GetCommandLineA();
+        *reinterpret_cast<char**>(0x7099E4) = GetCommandLineA();
 
-        *((char**)0x7082F8) = (char*)((TP2)(0x5F6D61))(); // __crtGetEnvironmentStringsA
+        *(reinterpret_cast<char**>(0x7082F8)) = reinterpret_cast<char*>((reinterpret_cast<TP2>(0x5F6D61))()); // __crtGetEnvironmentStringsA
 
         printf("_setargv\n");
-        ((TP2)(0x5F6B14))();
+        (reinterpret_cast<TP2>(0x5F6B14))();
         printf("_setargv done\n");
 
         printf("_setenvp\n");
-        ((TP3)(0x5F6A5B))();
+        (reinterpret_cast<TP3>(0x5F6A5B))();
         printf("_setenvp done\n");
 
         printf("_cinit\n");
-        ((TP3)(0x5EE16A))();
+        (reinterpret_cast<TP3>(0x5EE16A))();
         printf("_cinit done\n");
 
         // TODO: Bin off static init funcs that are impl'd
@@ -493,7 +493,7 @@ class HookLoader
                 }
 
                 hookEntry->trampoline =  hookEntry->target;
-                ok = DetourHelper::Attach(&(PVOID&)hookEntry->trampoline, hookEntry->detour);
+                ok = DetourHelper::Attach(&static_cast<PVOID&>(hookEntry->trampoline), hookEntry->detour);
 
                 if (!ok)
                 {
@@ -514,7 +514,7 @@ class HookLoader
 
         printf("GameMain = %X\n", pGameMain);
 
-        TGameMain pTypedGameMain = (TGameMain)pGameMain;
+        TGameMain pTypedGameMain = static_cast<TGameMain>(pGameMain);
         pTypedGameMain();
         printf("Game main returned\n");
     }

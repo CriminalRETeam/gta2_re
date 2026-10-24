@@ -53,7 +53,7 @@ void ExplodingScorePool::PushScore_596890(Fix16 xpos, Fix16 ypos, Fix16 zpos, u3
         ExplodingScore* pIter = field_4_pool.GetFirstUsed_4B8FD0();
         while (pIter)
         {
-            if (pIter->field_4C_score >= score)
+            if (static_cast<u32>(pIter->field_4C_score) >= score)
             {
                 pIter = pIter->mpNext;
             }

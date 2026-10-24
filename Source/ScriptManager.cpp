@@ -56,7 +56,7 @@ void MissionCleanupList::MissionCleanUp_502DC0()
 
     for (s32 i = 0; i < GTA2_COUNTOF(field_0_entries); i++)
     {
-        if ((u32*)pIter->field_0_car != NULL)
+        if (reinterpret_cast<u32*>(pIter->field_0_car) != NULL)
         {
             switch (pIter->field_4_type)
             {
@@ -68,7 +68,7 @@ void MissionCleanupList::MissionCleanUp_502DC0()
                     }
                     break;
                 case 3:
-                    if (pIter->field_0_ped->field_200_id == pIter->field_8_entity_id)
+                    if (pIter->field_0_ped->field_200_id == static_cast<u32>(pIter->field_8_entity_id))
                     {
                         PedGroup* pPedGroup = pIter->field_0_ped->field_164_ped_group;
                         if (pPedGroup)
@@ -128,7 +128,7 @@ str_table_entry* ScriptManager::StrEntryByString_5030B0(char_type* strToFind)
     str_table_entry* pEntry = field_13350_pStringTbl->field_4_entries[idx];
     while (pEntry)
     {
-        if (_strnicmp(strToFind, (const char*)&pEntry[1], pEntry->field_8_length) == 0) // string data is after the end of the structure
+        if (_strnicmp(strToFind, reinterpret_cast<const char*>(&pEntry[1]), pEntry->field_8_length) == 0) // string data is after the end of the structure
         {
             return pEntry;
         }
@@ -145,9 +145,9 @@ EXTERN_GLOBAL_ARRAY(u8, kDecidePowerupGenTypes_6212F0, 19);
 MATCH_FUNC(0x509180)
 void ScriptThread::SCRCMD_STORE_CAR_INFO_509180()
 {
-    SCR_TWO_PARAMS* pCmd = (SCR_TWO_PARAMS*)gBasePtr_6F8070;
-    SCR_POINTER* pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index);
-    SCR_POINTER* pParam2 = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2);
+    SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070);
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
+    SCR_POINTER* pParam2 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2));
     Ped* pChar = pPointer->field_8_char;
 
     if (pChar != NULL)
@@ -218,7 +218,7 @@ void ScriptThread::SCRCMD_STORE_CAR_INFO_509180()
 MATCH_FUNC(0x511A70)
 void ScriptManager::SetGeneratorTypeForCar_511A70(s32 car_model, Generator* pGen)
 {
-    u8* pList = (u8*)gScriptManager_6F8060->field_340_car_list;
+    u8* pList = reinterpret_cast<u8*>(gScriptManager_6F8060->field_340_car_list);
     u8 i;
     for (i = 0; i < 19; pList++, i++)
     {
@@ -250,11 +250,11 @@ void ScriptManager::SetGeneratorTypeForCar_511A70(s32 car_model, Generator* pGen
 MATCH_FUNC(0x511b10)
 char_type ScriptManager::AddCranePowerupTrigger_511B10(s16 idx)
 {
-    SCR_DECLARE_CRANE_POWERUP* pCmd = (SCR_DECLARE_CRANE_POWERUP*)GetBasePointer_512770(idx);
-    SCR_POINTER* pGenerator = (SCR_POINTER*)GetBasePointer_512770(pCmd->field_A_generator);
+    SCR_DECLARE_CRANE_POWERUP* pCmd = static_cast<SCR_DECLARE_CRANE_POWERUP*>(GetBasePointer_512770(idx));
+    SCR_POINTER* pGenerator = static_cast<SCR_POINTER*>(GetBasePointer_512770(pCmd->field_A_generator));
     return gCarThreadTriggers_214_705F20->AddThreadTrigger_5C86C0(1,
                                        3,
-                                       (SCR_THREAD*)pGenerator->field_8_generator,
+                                       reinterpret_cast<SCR_THREAD*>(pGenerator->field_8_generator),
                                        Fix16(pCmd->field_C_pos.field_0_x) + kFpHalf_6F75F0,
                                        Fix16(pCmd->field_C_pos.field_1_y) + kFpHalf_6F75F0,
                                        Fix16(pCmd->field_C_pos.field_2_z),
@@ -270,7 +270,7 @@ void ScriptManager::SaveScriptCounters_511B90()
     {
         if (field_46C_base_pointers[ptr])
         {
-            SCR_POINTER* pPointer = (SCR_POINTER*)GetBasePointer_512770(ptr);
+            SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(GetBasePointer_512770(ptr));
             if (pPointer->field_2_type == SCRCMD_COUNTER_SAVE || pPointer->field_2_type == SCRCMD_COUNTER_SET_SAVE)
             {
                 gGameSave_6F78C8.field_E4_car_and_script_data.field_50_script_counter[saved_counter_count].field_0_pointer =
@@ -300,7 +300,7 @@ void ScriptManager::LoadScriptCounters_511C30()
         SavedScriptCounter* pStruct = &gGameSave_6F78C8.field_E4_car_and_script_data.field_50_script_counter[saved_counter_idx];
         if (pStruct->field_0_pointer > 0)
         {
-            SCR_POINTER* pPointer = (SCR_POINTER*)GetBasePointer_512770(pStruct->field_0_pointer);
+            SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(GetBasePointer_512770(pStruct->field_0_pointer));
             pPointer->field_8_counter = pStruct->field_2_saved_value;
         }
     }
@@ -313,7 +313,7 @@ void ScriptManager::RestoreAnsweredPhones_511C60()
     {
         if (((1 << bit) & gGameSave_6F78C8.field_E4_car_and_script_data.field_48_flags) != 0)
         {
-            SCR_POINTER* pPointer = (SCR_POINTER*)GetBasePointer_512770(field_C1E32_phone_ids[bit]);
+            SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(GetBasePointer_512770(field_C1E32_phone_ids[bit]));
             pPointer->field_8_obj->PoolGiveAndQueueObjectType_5291E0(174);
             gScriptManager_6F8060->RemovePhoneThreadByObjId_512AA0(pPointer->field_8_obj->field_14_id);
         }
@@ -396,7 +396,7 @@ void ScriptManager::SaveGame_511E10(char_type* pFileName)
         File::AppendBufferToFile_4A6F50(pFileName, &mapSubBytes, &writeLen);
         if (mapSubBytes)
         {
-            File::AppendBufferToFile_4A6F50(pFileName, pMapSub, (unsigned int*)&mapSubBytes);
+            File::AppendBufferToFile_4A6F50(pFileName, pMapSub, reinterpret_cast<unsigned int*>(&mapSubBytes));
         }
     }
 }
@@ -411,7 +411,7 @@ void ScriptManager::LoadSave_511F80(char_type* pFileName)
     gmp_block_info* pBlockInfo;
     DmapInfoList* pMapSub;
 
-    gMap_0x370_6F6268->GetModifiedMapData_4E8CF0(&pColData, &colDataLen, &pBlockInfo, &blockInfoLen, &pMapSub, (s32*)&mapSubLen);
+    gMap_0x370_6F6268->GetModifiedMapData_4E8CF0(&pColData, &colDataLen, &pBlockInfo, &blockInfoLen, &pMapSub, reinterpret_cast<s32*>(&mapSubLen));
     File::Global_Open_4A7060(pFileName);
 
     File::Global_Read_4A71C0(&gGameSave_6F78C8, 0x748);
@@ -505,7 +505,7 @@ MATCH_FUNC(0x5121E0)
 void ScriptManager::LoadStringTbl_5121E0(u16 tableSize)
 {
     u32 total_str_length = 0;
-    BYTE* pStringDataIter1 = (BYTE*)field_1334C_strings;
+    BYTE* pStringDataIter1 = reinterpret_cast<BYTE*>(field_1334C_strings);
     while (total_str_length < tableSize)
     {
         s32 str_length = pStringDataIter1[8] + 9;
@@ -531,12 +531,12 @@ void ScriptManager::LoadStringTbl_5121E0(u16 tableSize)
     u32 total_str_length_ = 0;
     while (total_str_length_ < tableSize)
     {
-        pStringDataIter2->field_2_zone_idx = gMap_0x370_6F6268->FindZoneIdxByName_4DF050((char_type*)&pStringDataIter2[1],
-                                                                                        strlen((const char_type*)&pStringDataIter2[1]));
+        pStringDataIter2->field_2_zone_idx = gMap_0x370_6F6268->FindZoneIdxByName_4DF050(reinterpret_cast<char_type*>(&pStringDataIter2[1]),
+                                                                                        static_cast<u8>(strlen(reinterpret_cast<const char_type*>(&pStringDataIter2[1]))));
         field_13350_pStringTbl->field_4_entries[str_count] = pStringDataIter2;
         s32 str_length_ = pStringDataIter2->field_8_length + 9;
         total_str_length_ += str_length_;
-        pStringDataIter2 = (str_table_entry*)((char_type*)pStringDataIter2 + str_length_);
+        pStringDataIter2 = reinterpret_cast<str_table_entry*>(reinterpret_cast<char_type*>(pStringDataIter2) + str_length_);
         ++str_count;
     }
     field_13350_pStringTbl->field_0_string_count = str_count;
@@ -597,19 +597,19 @@ u16 ScriptManager::LoadMissionScript_512400(const char_type* String1, u16* pStar
     {
         u32 remainder;
         strcpy(gTmpBuffer_67C598, "data\\");
-        strcat(gTmpBuffer_67C598, (const char*)String1);
+        strcat(gTmpBuffer_67C598, static_cast<const char*>(String1));
         Error_SetName_4A0770(gTmpBuffer_67C598);
         File::Global_Open_4A7060(gTmpBuffer_67C598);
         File::Global_Read_4A71C0(&Buffer, 2);
         File::Global_Read_4A71C0(pStartCmd, 2);
         File::Global_Read_4A71C0(&remainder, 4);
-        File::Global_Read_4A71C0(&field_46C_base_pointers[(u16)Buffer], 0xC00);
-        File::Global_ReadRemainder_4A7250(&field_334C_script_data[field_46C_base_pointers[(u16)Buffer]], &remainder);
+        File::Global_Read_4A71C0(&field_46C_base_pointers[static_cast<u16>(Buffer)], 0xC00);
+        File::Global_ReadRemainder_4A7250(&field_334C_script_data[field_46C_base_pointers[static_cast<u16>(Buffer)]], &remainder);
         File::Global_Close_4A70C0();
     }
     else
     {
-        str_table_entry* pStrEntry = gScriptManager_6F8060->StrEntryByString_5030B0((char_type*)String1);
+        str_table_entry* pStrEntry = gScriptManager_6F8060->StrEntryByString_5030B0(const_cast<char_type*>(String1));
         u16 field_2_zone_idx = pStrEntry->field_2_zone_idx;
         Buffer = gScriptManager_6F8060->field_C1D72_mission_base_ptr_idx[field_2_zone_idx];
         *pStartCmd = gScriptManager_6F8060->field_C1D34_mission_start_cmd[field_2_zone_idx];
@@ -632,13 +632,13 @@ void ScriptManager::LoadSubScripts_5125F0()
     for (u16 i = 0; i < field_13350_pStringTbl->field_0_string_count; i++)
     {
         str_table_entry* pEntry = field_13350_pStringTbl->field_4_entries[i];
-        if ((u8)pEntry->field_4_type == 21)
+        if (static_cast<u8>(pEntry->field_4_type) == 21)
         {
             size_t length = strlen(pEntry->get_name());
 
-            ((char*)&pEntry->field_6)[length] = 'S';
-            ((char*)&pEntry->field_6)[length + 1] = 'C';
-            ((char*)&pEntry->field_6)[length + 2] = 'R';
+            reinterpret_cast<char*>(&pEntry->field_6)[length] = 'S';
+            reinterpret_cast<char*>(&pEntry->field_6)[length + 1] = 'C';
+            reinterpret_cast<char*>(&pEntry->field_6)[length + 2] = 'R';
 
             if (field_2F4_bPreloadMissionScripts == 1)
             {
@@ -672,7 +672,7 @@ SCR_CMD_HEADER* ScriptManager::GetBasePointer_512770(u16 idx)
     {
         return 0;
     }
-    return (SCR_CMD_HEADER*)&field_334C_script_data[field_46C_base_pointers[idx]];
+    return reinterpret_cast<SCR_CMD_HEADER*>(&field_334C_script_data[field_46C_base_pointers[idx]]);
 }
 
 MATCH_FUNC(0x5127a0)
@@ -733,7 +733,7 @@ bool ScriptManager::TriggerCarThread_512910(s32 ped_id, s32 obj_f14)
     ThreadTrigger* pThread = ScriptManager::FindCarThread_5128A0(ped_id, obj_f14);
     if (pThread)
     {
-        SCR_THREAD* pPtr = (SCR_THREAD*)GetBasePointer_512770(pThread->field_8_cmd_line);
+        SCR_THREAD* pPtr = static_cast<SCR_THREAD*>(GetBasePointer_512770(pThread->field_8_cmd_line));
         pPtr->field_8_script_thread = SpawnThread_5120C0(pPtr->field_E_thread_start_cmd, 0);
 
         if (pPtr->field_8_script_thread)
@@ -784,13 +784,13 @@ bool ScriptManager::AnswerPhone_5129F0(s32 ped_idx, s32 phone_idx)
     ThreadTrigger* pThrdHeader = ScriptManager::FindPhoneThread_512980(ped_idx, phone_idx);
     if (pThrdHeader)
     {
-        SCR_THREAD* pPtr = (SCR_THREAD*)GetBasePointer_512770(pThrdHeader->field_8_cmd_line);
+        SCR_THREAD* pPtr = static_cast<SCR_THREAD*>(GetBasePointer_512770(pThrdHeader->field_8_cmd_line));
         SCR_ANSWER_PHONE* pTriggerCmd;
 
         switch (pPtr->field_2_type)
         {
             case SCRCMD_ANSWER_PHONE:
-                pTriggerCmd = (SCR_ANSWER_PHONE*)pPtr;
+                pTriggerCmd = reinterpret_cast<SCR_ANSWER_PHONE*>(pPtr);
                 pTriggerCmd->field_12_answered = 1;
                 return 1;
             case SCRCMD_THREAD_DECLARE4:
@@ -1013,7 +1013,7 @@ ScriptManager::ScriptManager()
             miss2_0x11C_Pool_6F8064 = new ScriptThreadPool();
         }
     }
-    field_1334C_strings = (str_table_entry*)Memory::malloc_4FE4D0(0x1400u);
+    field_1334C_strings = static_cast<str_table_entry*>(Memory::malloc_4FE4D0(0x1400u));
     memset(field_35C_full_scr_file_name, 0, sizeof(field_35C_full_scr_file_name));
     memset(field_334C_script_data, 0, sizeof(field_334C_script_data));
     memset(field_46C_base_pointers, 0, sizeof(field_46C_base_pointers));

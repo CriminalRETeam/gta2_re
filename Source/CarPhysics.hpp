@@ -105,7 +105,7 @@ class CarPhysics
     // 9.6f 0x421130
     inline bool IsDamageWindowOpen_421130()
     {
-        return (u32)gpRng_67AB34->get_cur_rng_41CFE0() < field_8_damaged_until_cycle;
+        return static_cast<u32>(gpRng_67AB34->get_cur_rng_41CFE0()) < field_8_damaged_until_cycle;
     }
 
     // 9.6f 0x421260

@@ -204,13 +204,13 @@ char_type cSampleManager::DisableA3DSplash_58D620()
     }
 
     data = 0;
-    if (RegSetValueExA(hKey, "SplashScreen", 0, REG_DWORD, (const BYTE*)&data, 4u))
+    if (RegSetValueExA(hKey, "SplashScreen", 0, REG_DWORD, reinterpret_cast<const BYTE*>(&data), 4u))
     {
         bOk = 0;
     }
 
     data = 0;
-    if (RegSetValueExA(hKey, "SplashAudio", 0, REG_DWORD, (const BYTE*)&data, 4u))
+    if (RegSetValueExA(hKey, "SplashAudio", 0, REG_DWORD, reinterpret_cast<const BYTE*>(&data), 4u))
     {
         bOk = 0;
     }
@@ -266,10 +266,10 @@ char_type cSampleManager::OpenDigitalDriver_58D720(char_type bFlag, char_type bS
     l.waveFormat.nSamplesPerSec = sampleRate;
     l.waveFormat.nAvgBytesPerSec = 2 * sampleRate * field_1EB1_bytes_per_sample;
     l.waveFormat.wFormatTag = 1;
-    l.waveFormat.nBlockAlign = (unsigned __int8)(2 * field_1EB1_bytes_per_sample);
+    l.waveFormat.nBlockAlign = static_cast<unsigned __int8>(2 * field_1EB1_bytes_per_sample);
 
     // todo: not sure how/why this is here ??
-    l.t = (unsigned __int8)(8 * field_1EB1_bytes_per_sample);
+    l.t = static_cast<unsigned __int8>(8 * field_1EB1_bytes_per_sample);
 
     AIL_set_preference(1, 37); // DIG_MIXER_CHANNELS
     AIL_set_preference(15, 0); // DIG_USE_WAVEOUT
@@ -468,7 +468,7 @@ void cSampleManager::Shutdown_58DB30()
             {
                 if (field_9C_hStreams[0])
                 {
-                    const u8 curVol = AIL_stream_volume(field_9C_hStreams[0]);
+                    const u8 curVol = static_cast<u8>(AIL_stream_volume(field_9C_hStreams[0]));
                     if (curVol > 0)
                     {
                         s32 volL = curVol;
@@ -546,7 +546,7 @@ void cSampleManager::InitialiseChannel_58DC90(s32 channel, s32 sample_idx)
         if (field_A4_bLoaded)
         {
             AIL_set_sample_address(field_58_hSamples[channel],
-                                   (BYTE*)field_1EAC_pAudioBuffer2 + field_A8_sdt_entries[sample_idx].field_0_offset,
+                                   static_cast<BYTE*>(field_1EAC_pAudioBuffer2) + field_A8_sdt_entries[sample_idx].field_0_offset,
                                    field_A8_sdt_entries[sample_idx].field_4_sample_length);
         }
     }
@@ -634,7 +634,7 @@ bool cSampleManager::InitialiseChannel3D_58DDF0(s32 channel, s32 nSfx, s32 rate)
 
         AILSOUNDINFO soundInfo; // [esp+0h] [ebp-24h] BYREF
         soundInfo.format = WAVE_FORMAT_PCM;
-        soundInfo.data_ptr = ((BYTE*)field_1EAC_pAudioBuffer2 + field_A8_sdt_entries[nSfx].field_0_offset);
+        soundInfo.data_ptr = (static_cast<BYTE*>(field_1EAC_pAudioBuffer2) + field_A8_sdt_entries[nSfx].field_0_offset);
         soundInfo.channels = 1;
         soundInfo.data_len = field_A8_sdt_entries[nSfx].field_4_sample_length;
         soundInfo.rate = rate;
@@ -798,7 +798,7 @@ void cSampleManager::Enum3DProviders_58E1F0()
             break;
         }
 
-        field_22B4_str[prov_counter] = (char_type*)operator new(0x50u);
+        field_22B4_str[prov_counter] = static_cast<char_type*>(operator new(0x50u));
         strcpy(field_22B4_str[prov_counter], pName);
 
         prov_counter++;
@@ -907,7 +907,7 @@ void cSampleManager::FadeOut_58E490()
 {
     if (field_55_bMusicFound && field_9C_hStreams[0])
     {
-        u8 cur_vol = AIL_stream_volume(field_9C_hStreams[0]);
+        u8 cur_vol = static_cast<u8>(AIL_stream_volume(field_9C_hStreams[0]));
         if (cur_vol > 0)
         {
             u32 volL = cur_vol;
@@ -1068,7 +1068,7 @@ void cSampleManager::PlayAtIdx_58E7F0(s32 idx)
         if (field_A4_bLoaded)
         {
             AIL_set_sample_address(field_98_hSample,
-                                   (BYTE*)field_1EAC_pAudioBuffer2 + field_A8_sdt_entries[idx].field_0_offset,
+                                   static_cast<BYTE*>(field_1EAC_pAudioBuffer2) + field_A8_sdt_entries[idx].field_0_offset,
                                    field_A8_sdt_entries[idx].field_4_sample_length);
             AIL_set_sample_playback_rate(field_98_hSample, GetPlayBackRate_58DBF0(idx));
             AIL_set_sample_pan(field_98_hSample, 64);
@@ -1100,8 +1100,8 @@ void cSampleManager::PlaySampleRange_58E8C0(u32 idx, u32 end_idx)
     {
         if (field_A4_bLoaded)
         {
-            BYTE* start = (BYTE*)field_1EAC_pAudioBuffer2 + field_A8_sdt_entries[idx].field_0_offset;
-            BYTE* end = (BYTE*)field_1EAC_pAudioBuffer2 + field_A8_sdt_entries[end_idx].field_0_offset;
+            BYTE* start = static_cast<BYTE*>(field_1EAC_pAudioBuffer2) + field_A8_sdt_entries[idx].field_0_offset;
+            BYTE* end = static_cast<BYTE*>(field_1EAC_pAudioBuffer2) + field_A8_sdt_entries[end_idx].field_0_offset;
             AIL_set_sample_address(field_98_hSample, start, end - start);
 
             AIL_set_sample_playback_rate(field_98_hSample, 18050);

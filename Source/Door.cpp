@@ -147,7 +147,7 @@ bool Door::CanOpenForPed_49C7F0(Ped* pPed)
             {
                 if (pPed == field_10_ped)
                 {
-                    if (pPed->field_200_id == this->field_14_target_id)
+                    if (pPed->field_200_id == static_cast<u32>(this->field_14_target_id))
                     {
                         ret = true;
                     }

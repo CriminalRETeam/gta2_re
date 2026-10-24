@@ -176,7 +176,7 @@ void root_sound::DeinitializeAudio()
             }
         }
 
-        for (s32 j = 0; j < gSound_obj_66F680.field_543C_444C_nAudioEntitiesCount; j++)
+        for (u32 j = 0; j < gSound_obj_66F680.field_543C_444C_nAudioEntitiesCount; j++)
         {
             gSound_obj_66F680.field_147C_audio_entities[gSound_obj_66F680.field_444C_AudioEntityOrderList[j]].field_0_bUsed = 0;
             gSound_obj_66F680.field_444C_AudioEntityOrderList[j] = 0;
