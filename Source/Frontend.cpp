@@ -315,12 +315,10 @@ EXPORT s32 IsFullScreen_5D98D0()
     return gVidSys_7071D0->field_40_full_screen;
 }
 
-#pragma warning(push)
-#pragma warning(disable : 4244) // the double product stays implicit: an (f32) cast is an x87 node and reorders the dll_imports build
 MATCH_FUNC(0x5D9910)
 EXPORT s32 __stdcall SetGamma_5D9910(s32 gamma)
 {
-    f32 gamma_f = gamma * 0.1;
+    f32 gamma_f = static_cast<f32>(gamma * 0.1);
     if (gVidSys_7071D0)
     {
         s32 result = pVid_SetGamma(gVidSys_7071D0, gamma_f, gamma_f, gamma_f);
@@ -330,7 +328,6 @@ EXPORT s32 __stdcall SetGamma_5D9910(s32 gamma)
     }
     return gamma;
 }
-#pragma warning(pop)
 
 DEFINE_GLOBAL(SoundObject, snd1_67D818, 0x67D818);
 DEFINE_GLOBAL(SoundObject, snd2_67D6F8, 0x67D6F8);
