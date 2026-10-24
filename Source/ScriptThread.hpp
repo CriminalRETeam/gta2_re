@@ -39,7 +39,7 @@ struct SCR_PLAYER_PED
 {
     SCR_CMD_HEADER field_0_header;
     Ped* field_8_ped;
-    SCR_XYZ_f field_C_pos;
+    Fix16_Vec field_C_pos;
     Ang16 field_18_rot;
     s16 field_1A_remap;
 };
@@ -48,7 +48,7 @@ struct SCR_CAR_DATA_DEC : SCR_CMD_HEADER
 {
     u16 field_8_car_idx;
     u16 field_A_unused;
-    SCR_XYZ_f field_C_pos;
+    Fix16_Vec field_C_pos;
     Ang16 field_18_rot;
     s16 field_1A_remap;
     s16 field_1C_car_id;
@@ -58,7 +58,7 @@ struct SCR_CAR_DATA_DEC : SCR_CMD_HEADER
 struct SCR_CHAR_DATA_DEC : SCR_CMD_HEADER
 {
     Ped* field_8_char;
-    SCR_XYZ_f field_C_pos;
+    Fix16_Vec field_C_pos;
     Ang16 field_18_rot;
     s16 field_1A_remap;
     s16 field_1C_occupation;
@@ -68,7 +68,7 @@ struct SCR_CHAR_DATA_DEC : SCR_CMD_HEADER
 struct SCR_OBJ_DATA : SCR_CMD_HEADER
 {
     Object* field_8_obj;
-    SCR_XYZ_f field_C_pos;
+    Fix16_Vec field_C_pos;
     u16 field_18_obj_id;
     Ang16 field_1A_rot;
     u8 field_1C_value_shop_type;
@@ -227,17 +227,17 @@ struct SCR_CHAR_OBJ3 : SCR_CMD_HEADER
 {
     u16 field_8_char_idx;
     s16 field_A_objective;
-    SCR_XYZ_f field_C_pos; //  SCR_SET_CHAR_OBJ3
+    Fix16_Vec field_C_pos; //  SCR_SET_CHAR_OBJ3
 };
 
 struct SCR_EXPLODE : SCR_CMD_HEADER
 {
-    SCR_XYZ_f field_8_pos;
+    Fix16_Vec field_8_pos;
 };
 
 struct SCR_EXPLODE_WALL : SCR_CMD_HEADER
 {
-    SCR_XYZ_f field_8_pos;
+    Fix16_Vec field_8_pos;
     u8 field_14_face;
     u8 field_15_padding1;
     u16 field_16_padding2;
@@ -247,7 +247,7 @@ struct SCR_SOUND_DECSET : SCR_CMD_HEADER
 {
     u16 field_8_varname;
     u16 field_A_unused;
-    SCR_XYZ_f field_C_pos;
+    Fix16_Vec field_C_pos;
     u8 field_18_sound_id;
     u8 field_19_play_type;
     u16 field_1B_padding;
@@ -329,7 +329,7 @@ struct SCR_SET_GANG_INFO : SCR_CMD_HEADER
     u8 field_D_weapon3;
     u8 field_E_arrow_id;
     u8 field_F_kill_respect_change;
-    SCR_XYZ_f field_10_pos;
+    Fix16_Vec field_10_pos;
     u16 field_1C_car_model;
     s16 field_1E_car_remap;
 };
@@ -338,7 +338,7 @@ struct SCR_GENERATOR : SCR_CMD_HEADER
 {
     u16 field_8_unk2;
     u16 field_A_unk3;
-    SCR_XYZ_f field_C_pos;
+    Fix16_Vec field_C_pos;
     Ang16 field_18_rot;
     u16 field_1A_obj_id;
     u16 field_1C_mindelay;
@@ -478,7 +478,7 @@ struct SCR_SET_CHAR_GRAPHIC_TYPE : SCR_CMD_HEADER
 
 struct SCR_LEVEL_END_ARROW2 : SCR_CMD_HEADER
 {
-    SCR_XYZ_f field_8_pos;
+    Fix16_Vec field_8_pos;
     u16 field_14_arrowname;
     u16 field_16_padding;
 };
@@ -487,7 +487,7 @@ struct SCR_IS_CAR_IN_BLOCK : SCR_CMD_HEADER
 {
     u16 field_8_varname;
     u16 field_A_unused;
-    SCR_XYZ_f field_C_pos;
+    Fix16_Vec field_C_pos;
 };
 
 struct SCR_CHECK_SCORE_GREATER : SCR_CMD_HEADER
@@ -500,7 +500,7 @@ struct SCR_WARP_FROM_CAR : SCR_CMD_HEADER
 {
     u16 field_8_char_idx;
     Ang16 field_A_rotation;
-    SCR_XYZ_f field_C_pos;
+    Fix16_Vec field_C_pos;
 };
 
 struct SCR_SET_GROUP_TYPE : SCR_CMD_HEADER
@@ -556,7 +556,7 @@ struct SCR_STORE_BONUS_COUNT : SCR_CMD_HEADER
 
 struct SCR_SET_STATE : SCR_CMD_HEADER
 {
-    u16 field_8_unk;
+    u16 field_8_varname;
     u8 field_A_status;
 };
 
@@ -714,14 +714,14 @@ struct SCR_ADD_PATROL_POINT : SCR_CMD_HEADER
 {
     u16 field_8_varname;
     u16 field_A_unused;
-    SCR_XYZ_f field_C_pos;
+    Fix16_Vec field_C_pos;
 };
 
 struct SCR_CHAR_ENTER_CAR : SCR_CMD_HEADER
 {
     u16 field_8_ped_idx;
     u16 field_A_car_idx;
-    SCR_XYZ_f field_C_pos;
+    Fix16_Vec field_C_pos;
 };
 
 struct SCR_GET_SCORE : SCR_CMD_HEADER
@@ -830,7 +830,7 @@ struct SCR_ARROW_ENTITY : SCR_CMD_HEADER
 
 struct SCR_ARROW_XYZ : SCR_CMD_HEADER
 {
-    SCR_XYZ_f field_8_coord;
+    Fix16_Vec field_8_coord;
 };
 
 struct SCR_SET_COUNTER : SCR_CMD_HEADER

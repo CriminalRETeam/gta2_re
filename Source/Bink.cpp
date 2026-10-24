@@ -28,7 +28,7 @@ void __stdcall Bink::Reset_513210()
 }
 
 MATCH_FUNC(0x513240)
-char_type Bink::TickFrame_513240()
+bool Bink::TickFrame_513240()
 {
 
     BINK* hbink;

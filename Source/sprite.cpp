@@ -302,24 +302,24 @@ SpriteMaskCache::SpriteMaskCache()
     u8* pPixels = (u8*)Memory::Aligned_malloc_4FE510(0x40000, (void**)(&field_3C8_unaligned_alloc));
     field_3C4_aligned_buffer = pPixels;
 
-    SpriteMask* tmp = field_0_masks;
-    for (row = 8; row != 0; row--, pPixels += 0x4000, tmp += 4)
+    SpriteMask* pMask = field_0_masks;
+    for (row = 8; row != 0; row--, pPixels += 0x4000, pMask += 4)
     {
-        tmp[0].field_0_pixels = pPixels;
-        tmp[1].field_0_pixels = (pPixels + 0x40);
-        tmp[2].field_0_pixels = (pPixels + 0x80);
-        tmp[3].field_0_pixels = (pPixels + 0xC0);
+        pMask[0].field_0_pixels = pPixels;
+        pMask[1].field_0_pixels = (pPixels + 0x40);
+        pMask[2].field_0_pixels = (pPixels + 0x80);
+        pMask[3].field_0_pixels = (pPixels + 0xC0);
     }
 
-    tmp = field_0_masks + 33;
-    for (row = 4; row != 0; row--, pPixels += 0x8000, tmp += 4)
+    pMask = field_0_masks + 33;
+    for (row = 4; row != 0; row--, pPixels += 0x8000, pMask += 4)
     {
         // I don't know why this one starts at -1...
         // Maybe an artifact of the decompilation
-        tmp[-1].field_0_pixels = pPixels;
-        tmp[0].field_0_pixels = (pPixels + 0x40);
-        tmp[1].field_0_pixels = (pPixels + 0x80);
-        tmp[2].field_0_pixels = (pPixels + 0xC0);
+        pMask[-1].field_0_pixels = pPixels;
+        pMask[0].field_0_pixels = (pPixels + 0x40);
+        pMask[1].field_0_pixels = (pPixels + 0x80);
+        pMask[2].field_0_pixels = (pPixels + 0xC0);
     }
 
     for (u16 mask_idx = 0; mask_idx < 48; mask_idx++)
@@ -342,11 +342,11 @@ SpriteMaskCache::~SpriteMaskCache()
 MATCH_FUNC(0x48F820)
 void DamageAreaFlags::Delta_48F820(u16& sprite_idx, u8* pArray, u32& delta_mask, u8& width)
 {
-    u32 unknown = delta_mask;
+    u32 remaining_mask = delta_mask;
     u32 delta_idx = 0;
-    for (u32 i = 1; unknown; i = i << 1, delta_idx++)
+    for (u32 i = 1; remaining_mask; i = i << 1, delta_idx++)
     {
-        if ((i & unknown) != 0)
+        if ((i & remaining_mask) != 0)
         {
             if (delta_idx >= 22)
             {
@@ -364,7 +364,7 @@ void DamageAreaFlags::Delta_48F820(u16& sprite_idx, u8* pArray, u32& delta_mask,
                     pDelta->Delta_5ABA00(pArray);
                 }
             }
-            unknown &= ~i;
+            remaining_mask &= ~i;
         }
     }
 }
@@ -383,8 +383,8 @@ s16 DamageAreaFlags::Delta_48F8B0(u16& sprite_idx, u8& bRet, const u16& palette,
         return -1;
     }
     sprite_index* sprite_index_5AA440 = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
-    u32 bUnk = sprite_index_5AA440->field_5_height > 0x40u;
-    SpriteMask* pSprt14 = gSpriteMaskCache_67AF1C->FindCachedMask_48F600(sprite_idx, &bUnk, &m_var, &palette);
+    u32 bLargeMask = sprite_index_5AA440->field_5_height > 0x40u;
+    SpriteMask* pSprt14 = gSpriteMaskCache_67AF1C->FindCachedMask_48F600(sprite_idx, &bLargeMask, &m_var, &palette);
     if (pSprt14)
     {
         if (pSprt14->field_8_delta_mask < m_var)
@@ -402,7 +402,7 @@ s16 DamageAreaFlags::Delta_48F8B0(u16& sprite_idx, u8& bRet, const u16& palette,
     else
     {
         bRet = 1;
-        pSprt14 = gSpriteMaskCache_67AF1C->FindLeastRecentlyUsed_48F690(&bUnk);
+        pSprt14 = gSpriteMaskCache_67AF1C->FindLeastRecentlyUsed_48F690(&bLargeMask);
         if (!bClearMask)
         {
             sprite_index_5AA440->CopyPixels_5ABB00(pSprt14->field_0_pixels);
@@ -421,7 +421,7 @@ s16 DamageAreaFlags::Delta_48F8B0(u16& sprite_idx, u8& bRet, const u16& palette,
 }
 
 MATCH_FUNC(0x4F76A0)
-EXPORT char_type __stdcall ComputeScanlineIntersectionY_4F76A0(Fix16& minX, Fix16& minY, Fix16& scanLineY, Fix16_Point& p0, Fix16_Point& p1)
+EXPORT bool __stdcall ComputeScanlineIntersectionY_4F76A0(Fix16& minX, Fix16& minY, Fix16& scanLineY, Fix16_Point& p0, Fix16_Point& p1)
 {
 
     // Raw compares: with Fix16 operators VC6 runs out of inline budget and calls the Fix16_Point ctor
@@ -634,8 +634,8 @@ bool Sprite::ShrinkSprite_59E390(Fix16 xoff, Fix16 yoff, s32 bShrinkCollisionSha
 
     Fix16 w_val;
     Fix16 h_val;
-    Fix16 f8_val;
-    field_4_pVisualShape->GetDimensions_4BA0F0(&w_val, &h_val, &f8_val);
+    Fix16 d_val;
+    field_4_pVisualShape->GetDimensions_4BA0F0(&w_val, &h_val, &d_val);
 
     bool bHOrWLimit = field_4_pVisualShape->ReduceWidthBy_4BA120(xoff);
     bHOrWLimit |= field_4_pVisualShape->ReduceHeightBy_4BA160(yoff);
@@ -644,13 +644,13 @@ bool Sprite::ShrinkSprite_59E390(Fix16 xoff, Fix16 yoff, s32 bShrinkCollisionSha
     {
         Fix16 w_val1;
         Fix16 h_val1;
-        Fix16 f8_val1;
-        field_C_pCollisionShape->GetDimensions_4BA0F0(&w_val1, &h_val1, &f8_val1);
+        Fix16 d_val1;
+        field_C_pCollisionShape->GetDimensions_4BA0F0(&w_val1, &h_val1, &d_val1);
 
         Fix16 w_val2;
         Fix16 h_val2;
-        Fix16 f8_val2;
-        field_4_pVisualShape->GetDimensions_4BA0F0(&w_val2, &h_val2, &f8_val2);
+        Fix16 d_val2;
+        field_4_pVisualShape->GetDimensions_4BA0F0(&w_val2, &h_val2, &d_val2);
 
         Fix16 new_w;
         if (w_val != gFix16_7035C0)
@@ -692,7 +692,7 @@ void Sprite::ApplyScaleToDimensions_59E4C0(Fix16 scale, s32 bScale_Field_C_4C)
 
 // https://decomp.me/scratch/GIpfM
 MATCH_FUNC(0x59E590)
-char_type Sprite::CollisionCheck_59E590(Sprite* pOther)
+bool Sprite::CollisionCheck_59E590(Sprite* pOther)
 {
     if (field_C_pCollisionShape->field_30_boundingBox.AABB_Intersects_41E2F0(&pOther->field_C_pCollisionShape->field_30_boundingBox))
     {
@@ -714,7 +714,7 @@ char_type Sprite::CollisionCheck_59E590(Sprite* pOther)
 
 // 9.6f 0x4BDF20
 MATCH_FUNC(0x59E680)
-char_type Sprite::CheckDirectionalSliceCollision_59E680(Fix16 sliceLen, Sprite* pSprite)
+bool Sprite::CheckDirectionalSliceCollision_59E680(Fix16 sliceLen, Sprite* pSprite)
 {
     Fix16_Point point;
     point.FromPolar_41E210(-sliceLen / 2, pSprite->field_0_rotation);
@@ -776,7 +776,7 @@ Sprite* Sprite::QuerySpriteCollision_59E7D0(s32 sprite_type)
 // 9.6f inline
 
 MATCH_FUNC(0x59E830)
-char_type Sprite::IsThreatToSearchingPed_59E830()
+bool Sprite::IsThreatToSearchingPed_59E830()
 {
     switch (this->field_30_sprite_type_enum)
     {
@@ -1007,14 +1007,14 @@ void Sprite::ShowId_59EB30(f32& x, f32& y)
         }
         else
         {
-            Char* pB4 = AsCharB4_40FEA0();
-            if (pB4)
+            Char* pChar = AsCharB4_40FEA0();
+            if (pChar)
             {
                 Fix16 xpos;
             xpos = Fix16((s32)((x / (f32)(u32)window_width_706630) * 640.0f));
                 Fix16 ypos;
             ypos = Fix16((s32)((y / (f32)(u32)window_height_706B50) * 480.0f));
-                swprintf(tmpBuff_67BD9C, L"%d", pB4->field_7C_pPed->field_200_id);
+                swprintf(tmpBuff_67BD9C, L"%d", pChar->field_7C_pPed->field_200_id);
                 s32 palette_type = 2;
                 DrawText_5D8A10(tmpBuff_67BD9C,
                                 xpos * gViewCamera_676978->field_A8_ui_scale,
@@ -1171,17 +1171,17 @@ void Sprite::Draw_59EFF0()
             pCar->field_8_damaged_areas.ClearGlobalFlags_4BA340();
         }
         u8 bRet;
-        u16 unkDeltaRelated = pCar->field_8_damaged_areas.Delta_48F8B0(sprite_idx, bRet, Sprite::GetTruePalette_59EAA0(), false);
-        if (unkDeltaRelated != 0xFFFF)
+        u16 damage_mask_idx = pCar->field_8_damaged_areas.Delta_48F8B0(sprite_idx, bRet, Sprite::GetTruePalette_59EAA0(), false);
+        if (damage_mask_idx != 0xFFFF)
         {
             if (bRet)
             {
-                gTextureCache_15D8_705064->SetCarDamageTextureSizeAndPalette_5B96B0(unkDeltaRelated,
+                gTextureCache_15D8_705064->SetCarDamageTextureSizeAndPalette_5B96B0(damage_mask_idx,
                                                       pSpriteIndex->field_4_width,
                                                       pSpriteIndex->field_5_height,
                                                       Sprite::GetTruePalette_59EAA0());
             }
-            pTexture = gTextureCache_15D8_705064->GetCarDamageTexture_5B95D0(unkDeltaRelated);
+            pTexture = gTextureCache_15D8_705064->GetCarDamageTexture_5B95D0(damage_mask_idx);
         }
         pCar->field_8_damaged_areas.m_var = car_flags; // TODO: use CopyAll_4A51A0
     }
@@ -1237,17 +1237,17 @@ void Sprite::Draw_59EFF0()
         pCar->field_8_damaged_areas.MaskWithGlobalFlags_4BA330();
 
         u8 bRet;
-        u16 unkDeltaRelated = pCar->field_8_damaged_areas.Delta_48F8B0(sprite_idx, bRet, Sprite::GetTruePalette_59EAA0(), true);
-        if (unkDeltaRelated != 0xFFFF)
+        u16 damage_mask_idx = pCar->field_8_damaged_areas.Delta_48F8B0(sprite_idx, bRet, Sprite::GetTruePalette_59EAA0(), true);
+        if (damage_mask_idx != 0xFFFF)
         {
             if (bRet)
             {
-                gTextureCache_15D8_705064->SetCarDamageTextureSizeAndPalette_5B96B0(unkDeltaRelated,
+                gTextureCache_15D8_705064->SetCarDamageTextureSizeAndPalette_5B96B0(damage_mask_idx,
                                                       pSpriteIndex->field_4_width,
                                                       pSpriteIndex->field_5_height,
                                                       Sprite::GetTruePalette_59EAA0());
             }
-            pTexture = gTextureCache_15D8_705064->GetCarDamageTexture_5B95D0(unkDeltaRelated);
+            pTexture = gTextureCache_15D8_705064->GetCarDamageTexture_5B95D0(damage_mask_idx);
             SetUV_4B9BC0(u, v);
             pgbh_DrawQuad(128, pTexture, gTileVerts_7036D0, 255);
         }
@@ -1648,7 +1648,7 @@ bool Sprite::RotatedRectCollisionSAT_5A0380(Sprite* pOther)
 }
 
 MATCH_FUNC(0x5A0970)
-char_type Sprite::CheckBBoxScanlineIntersection_5A0970(Fix16 scanXMin, Fix16 scanXMax, Fix16 scanY)
+bool Sprite::CheckBBoxScanlineIntersection_5A0970(Fix16 scanXMin, Fix16 scanXMax, Fix16 scanY)
 {
     Fix16_Point* pBBox = field_C_pCollisionShape->field_C_corners;
     if (ComputeScanlineIntersectionY_4F76A0(scanXMin, scanXMax, scanY, pBBox[0], pBBox[1]) ||
@@ -1746,7 +1746,7 @@ bool Sprite::GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 line_y, Fix16_Poi
 }
 
 MATCH_FUNC(0x5A0EF0)
-char_type Sprite::HitTestVerticalLine_5A0EF0(Fix16 x, Fix16 y1, Fix16 y2)
+bool Sprite::HitTestVerticalLine_5A0EF0(Fix16 x, Fix16 y1, Fix16 y2)
 {
     Fix16_Point* pBBox = this->field_C_pCollisionShape->field_C_corners;
     if (ComputeScanlineIntersectionX_4F77D0(x, y1, y2, pBBox[0], pBBox[1]) ||
@@ -1877,7 +1877,7 @@ bool Sprite::PointInsideRotatedBounds_5A1490(Fix16_Point& point1, Fix16_Point& p
 }
 
 MATCH_FUNC(0x5a19c0)
-char_type Sprite::IsStraddlingSlopeAndFlat_5A19C0()
+bool Sprite::IsStraddlingSlopeAndFlat_5A19C0()
 {
     EnsureVisualShape_59F990();
 
@@ -1894,11 +1894,11 @@ char Sprite::CheckSlopeTopInFootprint_5A1A60()
 {
     EnsureVisualShape_59F990();
 
-    SpriteShape* p4C = this->field_4_pVisualShape;
+    SpriteShape* pShape = this->field_4_pVisualShape;
 
-    if (!p4C->field_48_bbox_up_to_date)
+    if (!pShape->field_48_bbox_up_to_date)
     {
-        p4C->UpdateRotatedBoundingBox_5A3550(this->field_14_xy.x, this->field_14_xy.y, this->field_1C_zpos, this->field_0_rotation);
+        pShape->UpdateRotatedBoundingBox_5A3550(this->field_14_xy.x, this->field_14_xy.y, this->field_1C_zpos, this->field_0_rotation);
     }
 
     field_4_pVisualShape->SetCurrentRect_5A4D90();
@@ -1947,17 +1947,17 @@ char_type Sprite::CheckCornerZCollisions_5A1CA0(u32* pCount)
 
     UpdateCollisionBoundsIfNeeded_59E9C0();
 
-    SpriteShape* p4C = field_C_pCollisionShape;
+    SpriteShape* pShape = field_C_pCollisionShape;
     // 9.6f: SpriteShape::GetDepth_492170 for the depth (inlined, using it changes the code)
-    Fix16 z_min = field_1C_zpos - (p4C->field_8_depth / 2);
-    Fix16 z_max = field_1C_zpos + (p4C->field_8_depth / 2);
+    Fix16 z_min = field_1C_zpos - (pShape->field_8_depth / 2);
+    Fix16 z_max = field_1C_zpos + (pShape->field_8_depth / 2);
 
     if (z_max > k_dword_7033C0)
     {
         z_max = k_dword_7033C0;
     }
 
-    if (gMap_0x370_6F6268->CheckZCollisionAtCoord_4E5300(p4C->field_C_corners[0].x, p4C->field_C_corners[0].y, z_min, z_max))
+    if (gMap_0x370_6F6268->CheckZCollisionAtCoord_4E5300(pShape->field_C_corners[0].x, pShape->field_C_corners[0].y, z_min, z_max))
     {
         flags = 1;
         *pCount = 1;
@@ -1968,19 +1968,19 @@ char_type Sprite::CheckCornerZCollisions_5A1CA0(u32* pCount)
         *pCount = 0;
     }
 
-    if (gMap_0x370_6F6268->CheckZCollisionAtCoord_4E5300(p4C->field_C_corners[1].x, p4C->field_C_corners[1].y, z_min, z_max))
+    if (gMap_0x370_6F6268->CheckZCollisionAtCoord_4E5300(pShape->field_C_corners[1].x, pShape->field_C_corners[1].y, z_min, z_max))
     {
         ++*pCount;
         flags |= 2u;
     }
 
-    if (gMap_0x370_6F6268->CheckZCollisionAtCoord_4E5300(p4C->field_C_corners[2].x, p4C->field_C_corners[2].y, z_min, z_max))
+    if (gMap_0x370_6F6268->CheckZCollisionAtCoord_4E5300(pShape->field_C_corners[2].x, pShape->field_C_corners[2].y, z_min, z_max))
     {
         ++*pCount;
         flags |= 4u;
     }
 
-    if (gMap_0x370_6F6268->CheckZCollisionAtCoord_4E5300(p4C->field_C_corners[3].x, p4C->field_C_corners[3].y, z_min, z_max))
+    if (gMap_0x370_6F6268->CheckZCollisionAtCoord_4E5300(pShape->field_C_corners[3].x, pShape->field_C_corners[3].y, z_min, z_max))
     {
         ++*pCount;
         flags |= 8;
@@ -1990,7 +1990,7 @@ char_type Sprite::CheckCornerZCollisions_5A1CA0(u32* pCount)
 }
 
 MATCH_FUNC(0x5A1EB0)
-char_type Sprite::IsTouchingSlopeBlock_5A1EB0()
+bool Sprite::IsTouchingSlopeBlock_5A1EB0()
 {
     s32 zpos_int = this->field_1C_zpos.ToInt();
 
@@ -2041,7 +2041,7 @@ char_type Sprite::IsTouchingSlopeBlock_5A1EB0()
 }
 
 MATCH_FUNC(0x5A21F0)
-char_type Sprite::CheckMapZCollision_5A21F0()
+bool Sprite::CheckMapZCollision_5A21F0()
 {
     Fix16 half = this->field_C_pCollisionShape->field_8_depth / 2; // which union type ??
     Fix16 zLow = field_1C_zpos - half;
@@ -2062,8 +2062,8 @@ Fix16 Sprite::MinDistanceToAnySpriteBBoxCorner_5A22B0(Sprite* pOther)
     s32 k4Counter = 4;
     do
     {
-        SpriteShape* p4C = pOther->field_C_pCollisionShape;
-        Fix16 d = Fix16::MaxAbsDistance_42A6B0(field_14_xy.x, field_14_xy.y, p4C->field_C_corners[box_idx].x, p4C->field_C_corners[box_idx].y);
+        SpriteShape* pShape = pOther->field_C_pCollisionShape;
+        Fix16 d = Fix16::MaxAbsDistance_42A6B0(field_14_xy.x, field_14_xy.y, pShape->field_C_corners[box_idx].x, pShape->field_C_corners[box_idx].y);
         if (d < xy_pos_max)
         {
             xy_pos_max = d;
@@ -2130,11 +2130,11 @@ char_type Sprite::CheckSpriteMovementRegion_5A2500()
     UpdateCollisionBoundsIfNeeded_59E9C0();
     field_C_pCollisionShape->SetCurrentRect_5A4D90();
 
-    Object* pObject2C = AsObject2C_40FEC0();
+    Object* pObject = AsObject2C_40FEC0();
     s16 val;
-    if (pObject2C)
+    if (pObject)
     {
-        val = pObject2C->GetMovementRegionSize_5222B0();
+        val = pObject->GetMovementRegionSize_5222B0();
     }
     else
     {
@@ -2280,8 +2280,8 @@ void Sprite::ResolveCollisionWithCarPedOrObject_5A2A30()
         }
         else if (pCurrent->GetType_416B40() == sprite_types_enum::ped_3)
         {
-            Char* pB4 = pCurrent->AsCharB4_40FEA0();
-            pB4->field_7C_pPed->Deallocate_45EB60();
+            Char* pChar = pCurrent->AsCharB4_40FEA0();
+            pChar->field_7C_pPed->Deallocate_45EB60();
         }
         else if (pCurrent->IsObject2CType_40FE80())
         {
@@ -2329,7 +2329,7 @@ void Sprite::PoolDeallocate()
 MATCH_FUNC(0x5a3100)
 void Sprite::AttachSprite_5A3100(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 ang)
 {
-    Object* o2c;
+    Object* pObject;
 
     switch (field_30_sprite_type_enum)
     {
@@ -2342,10 +2342,10 @@ void Sprite::AttachSprite_5A3100(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 ang)
         case sprite_types_enum::object_1: // sprite_type_1_Object_5C
         case sprite_types_enum::code_obj1_4: // sprite_type_4_Object_5C
         case sprite_types_enum::map_obj_5: // sprite_type_5_Object_5C
-            o2c = field_8_object_2C_ptr;
-            if (!o2c->field_10_obj_3c)
+            pObject = field_8_object_2C_ptr;
+            if (!pObject->field_10_obj_3c)
             {
-                o2c->EnsureObject3C_52A650();
+                pObject->EnsureObject3C_52A650();
             }
             field_8_object_2C_ptr->field_10_obj_3c->field_0_attached_sprites.PushAttachedSprite_5A6D00(pSprite, x, y, ang);
             break;
@@ -2738,32 +2738,32 @@ MATCH_FUNC(0x5A6910)
 bool AttachedSprite::UpdateAttached_5A6910(Sprite* pSprite)
 {
     bool bRet;
-    Object* o2c = field_0_pSprite->AsObject2C_40FEC0();
-    if (o2c)
+    Object* pObject = field_0_pSprite->AsObject2C_40FEC0();
+    if (pObject)
     {
-        bRet = o2c->UpdateMovementAndEffects_527070(pSprite, field_8_offset_x, field_C_offset_y, field_10_offset_rot);
+        bRet = pObject->UpdateMovementAndEffects_527070(pSprite, field_8_offset_x, field_C_offset_y, field_10_offset_rot);
         if (bRet)
         {
-            gObject_2C_Pool_6F8F80->DeAllocate(o2c);
+            gObject_2C_Pool_6F8F80->DeAllocate(pObject);
             return bRet;
         }
     }
     else
     {
-        Car* cBC = field_0_pSprite->AsCar_40FEB0();
-        if (cBC)
+        Car* pCar = field_0_pSprite->AsCar_40FEB0();
+        if (pCar)
         {
-            bRet = cBC->UpdateAttachedToSprite_443360(pSprite, field_8_offset_x, field_C_offset_y, field_10_offset_rot);
+            bRet = pCar->UpdateAttachedToSprite_443360(pSprite, field_8_offset_x, field_C_offset_y, field_10_offset_rot);
             if (bRet)
             {
-                gCar_BC_Pool_67792C->Remove(cBC);
+                gCar_BC_Pool_67792C->Remove(pCar);
             }
         }
         else
         {
-            Char* cB4 = field_0_pSprite->AsCharB4_40FEA0();
+            Char* pChar = field_0_pSprite->AsCharB4_40FEA0();
             bRet = 0;
-            cB4->Update_545720(kFP16Zero_703A38);
+            pChar->Update_545720(kFP16Zero_703A38);
         }
     }
     return bRet;
@@ -2772,17 +2772,17 @@ bool AttachedSprite::UpdateAttached_5A6910(Sprite* pSprite)
 MATCH_FUNC(0x5A69E0)
 void AttachedSprite::DestroyAttached_5A69E0()
 {
-    Object* pO2c = field_0_pSprite->AsObject2C_40FEC0();
-    if (pO2c)
+    Object* pObject = field_0_pSprite->AsObject2C_40FEC0();
+    if (pObject)
     {
-        pO2c->OnAttachedSpriteDestroyed_525100();
+        pObject->OnAttachedSpriteDestroyed_525100();
     }
     else
     {
-        Car* pBC = field_0_pSprite->AsCar_40FEB0();
-        if (pBC)
+        Car* pCar = field_0_pSprite->AsCar_40FEB0();
+        if (pCar)
         {
-            pBC->TriggerExplosion_43D7B0(explosion_type::item_19);
+            pCar->TriggerExplosion_43D7B0(explosion_type::item_19);
         }
     }
 }
@@ -2790,12 +2790,12 @@ void AttachedSprite::DestroyAttached_5A69E0()
 MATCH_FUNC(0x5A6A20)
 void AttachedSprite::SinkAttachedCar_5A6A20()
 {
-    Car* cBC = this->field_0_pSprite->AsCar_40FEB0();
-    if (cBC)
+    Car* pCar = this->field_0_pSprite->AsCar_40FEB0();
+    if (pCar)
     {
-        if (cBC->field_88_despawn_status != car_despawn_status::despawn_pending_2 && cBC->field_88_despawn_status != car_despawn_status::marked_for_despawn_4 && cBC->field_88_despawn_status != car_despawn_status::despawn_soon_3)
+        if (pCar->field_88_despawn_status != car_despawn_status::despawn_pending_2 && pCar->field_88_despawn_status != car_despawn_status::marked_for_despawn_4 && pCar->field_88_despawn_status != car_despawn_status::despawn_soon_3)
         {
-            cBC->DestroyWhileSinking_43DD60();
+            pCar->DestroyWhileSinking_43DD60();
         }
     }
 }

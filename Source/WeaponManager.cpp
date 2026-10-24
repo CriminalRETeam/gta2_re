@@ -76,9 +76,9 @@ Weapon* WeaponManager::find_5E3D20(Car* pCar, s32 weapon_kind)
 }
 
 MATCH_FUNC(0x5e3d50)
-char_type WeaponManager::allocate_5E3D50(s32 weapon_kind, u8 ammo, Car* pCar)
+bool WeaponManager::allocate_5E3D50(s32 weapon_kind, u8 ammo, Car* pCar)
 {
-    char_type bAddedAmmo;
+    bool bAddedAmmo;
 
     Weapon* pWeapon = find_5E3D20(pCar, weapon_kind);
     if (pWeapon)

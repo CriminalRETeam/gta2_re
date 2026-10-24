@@ -116,9 +116,9 @@ void SpriteGrid::DebugLogAll_477BA0()
 }
 
 MATCH_FUNC(0x477bd0)
-char_type SpriteGrid::CheckAndHandleCollisionInStrips_477BD0(Sprite* pSprite)
+bool SpriteGrid::CheckAndHandleCollisionInStrips_477BD0(Sprite* pSprite)
 {
-    char_type bHit = 0;
+    bool bHit = 0;
 
     gCollisionCounters_6791FC->field_4_query_id++; // TODO: Prob an inline
 
@@ -654,7 +654,7 @@ MATCH_FUNC(0x478590)
 GridCell* SpriteGrid::GetFirstXCellInRow_478590(s32 y_pos)
 {
     GridCell* pIter;
-    s32 f0;
+    s32 cell_x;
 
     if (y_pos < 0 || y_pos > 255)
     {
@@ -662,12 +662,12 @@ GridCell* SpriteGrid::GetFirstXCellInRow_478590(s32 y_pos)
     }
     for (pIter = this->field_0_rows[y_pos]; pIter; pIter = pIter->mpNext)
     {
-        f0 = (u8)pIter->field_0_x;
-        if (f0 >= gSpriteGrid_left_6F5FD4)
+        cell_x = (u8)pIter->field_0_x;
+        if (cell_x >= gSpriteGrid_left_6F5FD4)
         {
             break;
         }
-        if (f0 > gSpriteGrid_right_6F5B80)
+        if (cell_x > gSpriteGrid_right_6F5B80)
         {
             return 0;
         }
@@ -677,10 +677,10 @@ GridCell* SpriteGrid::GetFirstXCellInRow_478590(s32 y_pos)
 
 // https://decomp.me/scratch/me1ge
 MATCH_FUNC(0x4785d0)
-char_type SpriteGrid::CheckRowForRectCollisions_4785D0(u32 y_pos, Fix16_Rect* pRect)
+bool SpriteGrid::CheckRowForRectCollisions_4785D0(u32 y_pos, Fix16_Rect* pRect)
 {
     GridCell* pXItemIter = GetFirstXCellInRow_478590(y_pos);
-    char bRet = 0;
+    bool bRet = 0;
     while (pXItemIter)
     {
         if (pXItemIter->field_0_x > gSpriteGrid_right_6F5B80)
@@ -728,9 +728,9 @@ char_type SpriteGrid::CheckRowForRectCollisions_4785D0(u32 y_pos, Fix16_Rect* pR
 }
 
 MATCH_FUNC(0x478750)
-char_type SpriteGrid::CheckAndHandleCollisionsInStrip_478750(u32 y_pos, Sprite* pSprite)
+bool SpriteGrid::CheckAndHandleCollisionsInStrip_478750(u32 y_pos, Sprite* pSprite)
 {
-    char_type bRet = 0;
+    bool bRet = 0;
     GridCell* pIter = GetFirstXCellInRow_478590(y_pos);
     while (pIter)
     {

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
+#include "Game.hpp"
 #include "fix16.hpp"
 #include <wchar.h>
 

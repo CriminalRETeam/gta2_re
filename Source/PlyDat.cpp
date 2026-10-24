@@ -171,7 +171,7 @@ void HighScoreTable::Init_56B520()
 }
 
 MATCH_FUNC(0x56B550)
-char_type HighScoreTable::InsertScore_56B550(const wchar_t* pFindStr, s32 findScore)
+bool HighScoreTable::InsertScore_56B550(const wchar_t* pFindStr, s32 findScore)
 {
     u16 startIdx = 10;
     for (s16 i = 9; i != -1; --i)
@@ -355,7 +355,7 @@ void PlyDat::GetPlySlotDatName_56B8A0(u16 slot_idx, char_type* pName)
 }
 
 MATCH_FUNC(0x56B940)
-char_type PlyDat::PlySlotDatExists_56B940(s32 slot_idx)
+bool PlyDat::PlySlotDatExists_56B940(s32 slot_idx)
 {
     char_type FileName[356];
     GetPlySlotDatName_56B8A0(slot_idx, FileName);
@@ -375,7 +375,7 @@ void PlyDat::LoadPlySlotDat_56B990(u16 slotIdx)
 {
     char_type FileName[356];
 
-    PlySlot* pTmp = &field_26A0_plyr_stats[slotIdx];
+    PlySlot* pSlot = &field_26A0_plyr_stats[slotIdx];
 
     GetPlySlotDatName_56B8A0(slotIdx, FileName);
     File::Global_Open_4A7060(FileName);
@@ -383,7 +383,7 @@ void PlyDat::LoadPlySlotDat_56B990(u16 slotIdx)
     for (s32 i = 0; i < 9; i++)
     {
         u32 len_read = 2;
-        File::Global_Read_4A71C0(&pTmp->field_90_strPlayerName[i], len_read);
+        File::Global_Read_4A71C0(&pSlot->field_90_strPlayerName[i], len_read);
     }
 
     for (s32 k = 0; k < 3; k++)
@@ -500,7 +500,7 @@ void PlyDat::UnlockAllStages_56BC40()
 // =====================================================================
 
 MATCH_FUNC(0x56BCA0)
-char_type PlyDat::HiScoreHscExists_56BCA0()
+bool PlyDat::HiScoreHscExists_56BCA0()
 {
     char_type FileName[356];
     GetHiScoreHscFileName_56BCF0(FileName);

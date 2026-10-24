@@ -18,13 +18,13 @@ class Registry
 
     EXPORT void Clear_Or_Delete_Sound_Setting_586BF0(const char_type* lpValueName, char_type bClear);
 
-    EXPORT char_type Open_Debug_Root_586C60(PHKEY phkResult);
+    EXPORT bool Open_Debug_Root_586C60(PHKEY phkResult);
 
-    EXPORT char_type Open_Options_Root_586CD0(PHKEY phkResult);
+    EXPORT bool Open_Options_Root_586CD0(PHKEY phkResult);
 
-    EXPORT char_type Open_Control_Root_586D40(PHKEY phkResult);
+    EXPORT bool Open_Control_Root_586D40(PHKEY phkResult);
 
-    EXPORT char_type Open_Screen_Root_586DB0(PHKEY phkResult);
+    EXPORT bool Open_Screen_Root_586DB0(PHKEY phkResult);
 
     EXPORT bool Debug_Setting_Exists_586E20(const char_type* lpValueName);
 
@@ -40,13 +40,13 @@ class Registry
 
     EXPORT void null_587290();
 
-    EXPORT char_type Set_Binary_5872A0(HKEY hKey, const char_type* base_name, BYTE* lpData, u32 Data);
+    EXPORT bool Set_Binary_5872A0(HKEY hKey, const char_type* base_name, BYTE* lpData, u32 Data);
 
     EXPORT bool Get_Binary_587340(HKEY hKey, const char_type* keyPath, s32 value, LPBYTE lpData);
 
     EXPORT s32 Get_Binary_Size_5873E0(HKEY hKey, const char_type* subKey);
 
-    EXPORT char_type CreateNetworkRoot_587420(PHKEY phkResult);
+    EXPORT bool CreateNetworkRoot_587420(PHKEY phkResult);
 
     EXPORT DWORD Get_Int_Setting_5874E0(HKEY hKey, const char_type* lpValueName);
 
@@ -54,13 +54,13 @@ class Registry
 
     EXPORT static s32 __stdcall Set_WString_Value_5875E0(HKEY hKey, const char_type* keyPath, const wchar_t* pStr);
 
-    EXPORT char_type Network_Setting_Exists_587620(const char_type* lpValueName);
+    EXPORT bool Network_Setting_Exists_587620(const char_type* lpValueName);
 
     EXPORT s32 Get_Network_Setting_587690(const char_type* lpValueName, s32 value);
 
     EXPORT void Set_Network_Setting_587730(const char_type* lpValueName, BYTE Data);
 
-    EXPORT char_type Open_Player_Root_5877A0(PHKEY phkResult);
+    EXPORT bool Open_Player_Root_5877A0(PHKEY phkResult);
 
     EXPORT DWORD Get_Player_Setting_587810(const char_type* lpValueName);
 

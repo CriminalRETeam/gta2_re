@@ -46,12 +46,12 @@ class Fix16_Rect
     // 9.6f 0x4204D0
     void ComputeCollisionPrism_4204D0(Fix16 x, Fix16 y, Fix16 offset, Fix16 z)
     {
-        Fix16 tmp =  offset / 2;
+        Fix16 half_size =  offset / 2;
 
-        field_0_left = x - tmp;
-        field_4_right = x + tmp;
-        field_8_top = y - tmp;
-        field_C_bottom = y + tmp;
+        field_0_left = x - half_size;
+        field_4_right = x + half_size;
+        field_8_top = y - half_size;
+        field_C_bottom = y + half_size;
 
         this->field_10_low_z = z - FIX16_RECT_HALF_HEIGHT;
         this->field_14_high_z = z + FIX16_RECT_HALF_HEIGHT;

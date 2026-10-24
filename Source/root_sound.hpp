@@ -39,7 +39,7 @@ class root_sound
 
     EXPORT void FreeSoundEntry_40EFD0(s32 sound_entry);
 
-    EXPORT char_type LoadStyle_40EFF0(const char_type* pStyleName);
+    EXPORT bool LoadStyle_40EFF0(const char_type* pStyleName);
 
     EXPORT void InitMusicAndCopRadio_40F010();
 
@@ -65,7 +65,7 @@ class root_sound
 
     EXPORT char_type GetAudioDriveLetter_40F150();
 
-    EXPORT char_type Set3DSound_40F160(char_type b3dSound);
+    EXPORT bool Set3DSound_40F160(char_type b3dSound);
 
     EXPORT char_type Get3DSound_40F180();
 

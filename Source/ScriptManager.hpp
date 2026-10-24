@@ -492,7 +492,7 @@ class ThreadTrigger
 {
   public:
     s32 field_0_ped_id;
-    s32 field_4_obj_f14;
+    s32 field_4_target_id;
     u16 field_8_cmd_line;
     u16 field_A_unused;
 };
@@ -604,7 +604,6 @@ struct WeaponCheckTable
     s8 field_4_weapon_idx;
     s8 field_5_hit_projectile_type;
     s8 field_6_flags;
-    s8 field_7_pad;
 };
 
 // Loads the mission scripts (.scr) and runs the script threads, also fills / reads the savegame script data
@@ -673,16 +672,16 @@ class ScriptManager
     EXPORT void LoadSubScripts_5125F0();
     EXPORT SCR_CMD_HEADER* GetBasePointer_512770(u16 idx);
     EXPORT void ExecuteScriptThreads_5127A0();
-    EXPORT ThreadTrigger* FindCarThread_5128A0(s32 ped_id, s32 obj_f14);
-    EXPORT void AddCarThread_5128D0(s32 ped_id, s32 obj_f14, u16 cmd_line);
-    EXPORT bool TriggerCarThread_512910(s32 ped_id, s32 obj_f14);
-    EXPORT ThreadTrigger* FindPhoneThread_512980(s32 ped_id, s32 obj_f14);
-    EXPORT void AddPhoneThread_5129B0(s32 ped_id, s32 obj_f14, u16 cmd_line);
+    EXPORT ThreadTrigger* FindCarThread_5128A0(s32 ped_id, s32 car_id);
+    EXPORT void AddCarThread_5128D0(s32 ped_id, s32 car_id, u16 cmd_line);
+    EXPORT bool TriggerCarThread_512910(s32 ped_id, s32 car_id);
+    EXPORT ThreadTrigger* FindPhoneThread_512980(s32 ped_id, s32 obj_id);
+    EXPORT void AddPhoneThread_5129B0(s32 ped_id, s32 obj_id, u16 cmd_line);
     EXPORT bool AnswerPhone_5129F0(s32 ped_idx, s32 phone_idx);
-    EXPORT ThreadTrigger* RemovePhoneThread_512A70(s32 ped_id, s32 obj_f14);
-    EXPORT ThreadTrigger* RemovePhoneThreadByObjId_512AA0(s32 obj_f14);
-    EXPORT ThreadTrigger* FindPhoneThreadByObjId_512AD0(s32 obj_f14);
-    EXPORT char_type TestAndRecordWeaponHit_512AF0(s32 id, char_type weapon_idx, char_type bIsPed);
+    EXPORT ThreadTrigger* RemovePhoneThread_512A70(s32 ped_id, s32 obj_id);
+    EXPORT ThreadTrigger* RemovePhoneThreadByObjId_512AA0(s32 obj_id);
+    EXPORT ThreadTrigger* FindPhoneThreadByObjId_512AD0(s32 obj_id);
+    EXPORT bool TestAndRecordWeaponHit_512AF0(s32 id, char_type weapon_idx, char_type bIsPed);
     EXPORT void ClearWeaponHitFlag_512BA0(s32 id, char_type bIsPed);
     EXPORT void RecordWeaponHit_512C00(s32 entity_id, s32 projectile_model, char_type bIsPed);
     EXPORT bool IsWeaponHitRecorded_512C70(s32 id, char_type weapon_idx, char_type bIsPed);

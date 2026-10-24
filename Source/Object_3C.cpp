@@ -24,13 +24,13 @@ void Object_3C::GetMovementSpeedAndAngle_521FD0(Fix16& Speed, Ang16& Angle)
     s8 x_related;
     s8 y_related;
     Fix16_Point point;
-    Fix16_Point unk;
+    Fix16_Point conveyor_vel;
     if (field_38_conveyor_speed)
     {
         UnpackSignedNibbles_529050(field_38_conveyor_speed, &x_related, &y_related);
-        unk.x = kFpOne64th_6F8ECC * x_related;
-        unk.y = kFpOne64th_6F8ECC * y_related;
-        point = unk + GetSpeedVector_482BA0();
+        conveyor_vel.x = kFpOne64th_6F8ECC * x_related;
+        conveyor_vel.y = kFpOne64th_6F8ECC * y_related;
+        point = conveyor_vel + GetSpeedVector_482BA0();
 
         Speed = point.GetLength_41E260();
         Angle = point.atan2_40F790();
@@ -107,12 +107,12 @@ Object* SpriteList::FindObject2CByModel_5A6A90(s32 obj_type)
         if (sprite_type_enum == sprite_types_enum::code_obj1_4 || sprite_type_enum == sprite_types_enum::map_obj_5 ||
             sprite_type_enum == sprite_types_enum::object_1)
         {
-            Object* p2C = pIter->field_0_pSprite->field_8_object_2C_ptr;
-            if (p2C)
+            Object* pObject = pIter->field_0_pSprite->field_8_object_2C_ptr;
+            if (pObject)
             {
-                if (p2C->field_18_model == obj_type)
+                if (pObject->field_18_model == obj_type)
                 {
-                    return p2C;
+                    return pObject;
                 }
             }
         }
@@ -130,10 +130,10 @@ AttachedSprite* SpriteList::FindFirstFireExplosion_5A6AD0()
         const s32 sprite_type = pObjIter->field_0_pSprite->field_30_sprite_type_enum;
         if (sprite_type == sprite_types_enum::code_obj1_4 || sprite_type == sprite_types_enum::map_obj_5 || sprite_type == sprite_types_enum::object_1)
         {
-            Object* o2c = pObjIter->field_0_pSprite->field_8_object_2C_ptr;
-            if (o2c)
+            Object* pObject = pObjIter->field_0_pSprite->field_8_object_2C_ptr;
+            if (pObject)
             {
-                if (o2c->IsFireExplosion_525AC0())
+                if (pObject->IsFireExplosion_525AC0())
                 {
                     return pObjIter;
                 }
@@ -199,32 +199,32 @@ void SpriteList::RemoveSpriteSafe_5A6B60(Sprite* toFind)
 MATCH_FUNC(0x5a6bb0)
 void SpriteList::DestroyAllAttached_5A6BB0()
 {
-    for (AttachedSprite* p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->mpNext)
+    for (AttachedSprite* pIter = this->field_0_p18; pIter; pIter = pIter->mpNext)
     {
-        p18Iter->DestroyAttached_5A69E0();
+        pIter->DestroyAttached_5A69E0();
     }
 }
 
 MATCH_FUNC(0x5a6bd0)
 void SpriteList::SinkAllAttachedCars_5A6BD0()
 {
-    for (AttachedSprite* p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->mpNext)
+    for (AttachedSprite* pIter = this->field_0_p18; pIter; pIter = pIter->mpNext)
     {
-        p18Iter->SinkAttachedCar_5A6A20();
+        pIter->SinkAttachedCar_5A6A20();
     }
 }
 
 MATCH_FUNC(0x5a6bf0)
 void SpriteList::DispatchCarImpactEvents_5A6BF0(Sprite* pSprite)
 {
-    for (AttachedSprite* p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->mpNext)
+    for (AttachedSprite* pIter = this->field_0_p18; pIter; pIter = pIter->mpNext)
     {
-        p18Iter->field_0_pSprite->ProcessCarToCarImpactIfCar_59E910(pSprite);
+        pIter->field_0_pSprite->ProcessCarToCarImpactIfCar_59E910(pSprite);
     }
 }
 
 MATCH_FUNC(0x5a6c10)
-char_type SpriteList::TagSpriteWithRng_5A6C10(Sprite* toFind)
+bool SpriteList::TagSpriteWithRng_5A6C10(Sprite* toFind)
 {
     if (field_0_p18 != NULL)
     {
@@ -291,24 +291,24 @@ Sprite* SpriteList::FirstSpriteOfType_5A6CA0(s32 sprite_type)
 MATCH_FUNC(0x5a6cd0)
 void SpriteList::AddSprite_5A6CD0(Sprite* pSprite)
 {
-    AttachedSprite* p18 = gAttachedSpritePool_703B80->Allocate();
-    p18->field_0_pSprite = pSprite;
-    p18->mpNext = this->field_0_p18;
-    p18->field_8_offset_x = 0;
-    p18->field_C_offset_y = 0;
-    field_0_p18 = p18;
+    AttachedSprite* pAttached = gAttachedSpritePool_703B80->Allocate();
+    pAttached->field_0_pSprite = pSprite;
+    pAttached->mpNext = this->field_0_p18;
+    pAttached->field_8_offset_x = 0;
+    pAttached->field_C_offset_y = 0;
+    field_0_p18 = pAttached;
 }
 
 MATCH_FUNC(0x5a6d00)
 void SpriteList::PushAttachedSprite_5A6D00(Sprite* pSprite1, Fix16 x, Fix16 y, Ang16 angle)
 {
-    AttachedSprite* p18 = gAttachedSpritePool_703B80->Allocate();
-    p18->field_0_pSprite = pSprite1;
-    p18->mpNext = field_0_p18;
-    p18->field_8_offset_x = x;
-    p18->field_C_offset_y = y;
-    p18->field_10_offset_rot = angle;
-    field_0_p18 = p18;
+    AttachedSprite* pAttached = gAttachedSpritePool_703B80->Allocate();
+    pAttached->field_0_pSprite = pSprite1;
+    pAttached->mpNext = field_0_p18;
+    pAttached->field_8_offset_x = x;
+    pAttached->field_C_offset_y = y;
+    pAttached->field_10_offset_rot = angle;
+    field_0_p18 = pAttached;
 }
 
 MATCH_FUNC(0x5a6d40)
@@ -332,7 +332,7 @@ void SpriteList::PushSprite_5A6D40(Sprite* pToFind)
 }
 
 MATCH_FUNC(0x5a6d80)
-char_type SpriteList::SpriteExists_5A6D80(Sprite* pToFind)
+bool SpriteList::SpriteExists_5A6D80(Sprite* pToFind)
 {
     AttachedSprite* pIter = this->field_0_p18;
     while (pIter)
@@ -349,14 +349,14 @@ char_type SpriteList::SpriteExists_5A6D80(Sprite* pToFind)
 MATCH_FUNC(0x5a6da0)
 Sprite* SpriteList::PopFrontSprite_5A6DA0()
 {
-    AttachedSprite* p18 = this->field_0_p18;
+    AttachedSprite* pAttached = this->field_0_p18;
     if (!this->field_0_p18)
     {
         return 0;
     }
-    Sprite* pOld = p18->field_0_pSprite;
-    this->field_0_p18 = p18->mpNext;
-    gAttachedSpritePool_703B80->DeAllocate(p18);
+    Sprite* pOld = pAttached->field_0_pSprite;
+    this->field_0_p18 = pAttached->mpNext;
+    gAttachedSpritePool_703B80->DeAllocate(pAttached);
     return pOld;
 }
 
@@ -509,11 +509,11 @@ void SpriteList::PoolUpdate_5A6F70(Sprite* pSprite)
 MATCH_FUNC(0x5a7010)
 void SpriteList::DestroyAllSprites_5A7010()
 {
-    AttachedSprite* p18Iter = this->field_0_p18;
-    while (p18Iter)
+    AttachedSprite* pIter = this->field_0_p18;
+    while (pIter)
     {
-        Sprite* pSprite = p18Iter->field_0_pSprite;
-        switch (p18Iter->field_0_pSprite->GetType_416B40())
+        Sprite* pSprite = pIter->field_0_pSprite;
+        switch (pIter->field_0_pSprite->GetType_416B40())
         {
             case sprite_types_enum::car_2:
                 gCarManager_6C_677930->RemoveFromPoolAndCollision_446730(pSprite->field_8_car_bc_ptr);
@@ -526,7 +526,7 @@ void SpriteList::DestroyAllSprites_5A7010()
             default:
                 break;
         }
-        p18Iter = p18Iter->mpNext;
+        pIter = pIter->mpNext;
     }
     ClearList_5A6E10();
 }
@@ -576,16 +576,16 @@ void SpriteList::ClearGangIconSprite_5A7110()
 {
     AttachedSprite* pIter = this->field_0_p18;
     AttachedSprite* pLast = 0;
-    Object* p5C;
+    Object* pObject;
     if (pIter)
     {
         while (pIter)
         {
-            p5C = pIter->field_0_pSprite->AsObject2C_40FEC0();
-            if (p5C)
+            pObject = pIter->field_0_pSprite->AsObject2C_40FEC0();
+            if (pObject)
             {
                 // If it is car gang icon
-                if (p5C->IsGangIcon_4BE850())
+                if (pObject->IsGangIcon_4BE850())
                 {
                     break;
                 }
@@ -598,7 +598,7 @@ void SpriteList::ClearGangIconSprite_5A7110()
             }
         }
 
-        gObject_5C_6F8F84->RemoveAndFree_52A610(p5C);
+        gObject_5C_6F8F84->RemoveAndFree_52A610(pObject);
 
         if (pLast)
         {
@@ -615,13 +615,13 @@ void SpriteList::ClearGangIconSprite_5A7110()
 MATCH_FUNC(0x5a71a0)
 s32 SpriteList::GetGangIdxFromSpriteIfAny_5A71A0()
 {
-    AttachedSprite* p18Iter = this->field_0_p18;
-    while (p18Iter)
+    AttachedSprite* pIter = this->field_0_p18;
+    while (pIter)
     {
-        const s32 type = p18Iter->field_0_pSprite->field_30_sprite_type_enum;
+        const s32 type = pIter->field_0_pSprite->field_30_sprite_type_enum;
         if (type == sprite_types_enum::code_obj1_4 || type == sprite_types_enum::map_obj_5 || type == sprite_types_enum::object_1)
         {
-            Object* o5c = p18Iter->field_0_pSprite->field_8_object_2C_ptr;
+            Object* o5c = pIter->field_0_pSprite->field_8_object_2C_ptr;
             if (o5c)
             {
                 // If it is car gang icon
@@ -631,8 +631,8 @@ s32 SpriteList::GetGangIdxFromSpriteIfAny_5A71A0()
                 }
             }
         }
-        p18Iter = p18Iter->mpNext;
-        if (!p18Iter)
+        pIter = pIter->mpNext;
+        if (!pIter)
         {
             return 0;
         }
@@ -643,15 +643,15 @@ s32 SpriteList::GetGangIdxFromSpriteIfAny_5A71A0()
 MATCH_FUNC(0x5a71f0)
 void SpriteList::ExpireAttachedFlames_5A71F0()
 {
-    for (AttachedSprite* p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->mpNext)
+    for (AttachedSprite* pIter = this->field_0_p18; pIter; pIter = pIter->mpNext)
     {
-        const s32 type = p18Iter->field_0_pSprite->GetType_416B40();
+        const s32 type = pIter->field_0_pSprite->GetType_416B40();
         if (type == sprite_types_enum::object_1 || type > sprite_types_enum::ped_3 && type <= sprite_types_enum::map_obj_5)
         {
-            Object* o2c = p18Iter->field_0_pSprite->field_8_object_2C_ptr;
-            if (o2c->IsFlameObject_4BE830())
+            Object* pObject = pIter->field_0_pSprite->field_8_object_2C_ptr;
+            if (pObject->IsFlameObject_4BE830())
             {
-                p18Iter->field_0_pSprite->field_8_object_2C_ptr->field_C_pAny.pExplosion->field_1A_timer = 2;
+                pIter->field_0_pSprite->field_8_object_2C_ptr->field_C_pAny.pExplosion->field_1A_timer = 2;
             }
         }
     }
@@ -694,12 +694,12 @@ void SpriteList::PropagateMaxZLayer_5A72B0(Sprite* pSprite, char_type bAlsoSetSp
     char start_val = pSprite->ComputeZLayer_5A1BD0();
     char max_val = start_val;
 
-    AttachedSprite* p18Iter;
-    for (p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->mpNext)
+    AttachedSprite* pIter;
+    for (pIter = this->field_0_p18; pIter; pIter = pIter->mpNext)
     {
-        if (p18Iter->field_0_pSprite->IsTypeAbove1_446950()) // object_5c type
+        if (pIter->field_0_pSprite->IsTypeAbove1_446950()) // object_5c type
         {
-            const char_type cur_val = p18Iter->field_0_pSprite->ComputeZLayer_5A1BD0();
+            const char_type cur_val = pIter->field_0_pSprite->ComputeZLayer_5A1BD0();
             if (cur_val > max_val)
             {
                 max_val = cur_val;
@@ -712,19 +712,19 @@ void SpriteList::PropagateMaxZLayer_5A72B0(Sprite* pSprite, char_type bAlsoSetSp
         pSprite->set_z_col_4BA220(max_val);
     }
 
-    for (p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->mpNext)
+    for (pIter = this->field_0_p18; pIter; pIter = pIter->mpNext)
     {
-        p18Iter->field_0_pSprite->set_z_col_4BA220(max_val);
+        pIter->field_0_pSprite->set_z_col_4BA220(max_val);
     }
 }
 
 MATCH_FUNC(0x5a7310)
-char_type SpriteList::AnySpriteHasSlopeTopInFootprint_5A7310()
+bool SpriteList::AnySpriteHasSlopeTopInFootprint_5A7310()
 {
-    AttachedSprite* p18Iter;
-    for (p18Iter = this->field_0_p18; p18Iter; p18Iter = p18Iter->mpNext)
+    AttachedSprite* pIter;
+    for (pIter = this->field_0_p18; pIter; pIter = pIter->mpNext)
     {
-        if (p18Iter->field_0_pSprite->CheckSlopeTopInFootprint_5A1A60())
+        if (pIter->field_0_pSprite->CheckSlopeTopInFootprint_5A1A60())
         {
             return 1;
         }

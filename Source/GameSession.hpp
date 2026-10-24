@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Function.hpp"
+#include "Game.hpp"
 #include "multiplayer_game_type.hpp"
 #include <windows.h>
 

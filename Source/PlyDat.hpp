@@ -45,7 +45,7 @@ struct HighScoreTable
 
     EXPORT void Init_56B520();
 
-    EXPORT char_type InsertScore_56B550(const wchar_t* pFindStr, s32 findScore);
+    EXPORT bool InsertScore_56B550(const wchar_t* pFindStr, s32 findScore);
 
     ScoreTableLine field_0_score_table_line[10];
 };
@@ -82,11 +82,11 @@ struct PlyDat
 
     EXPORT void GetPlySlotDatName_56B8A0(u16 slot_idx, char_type* pName);
 
-    EXPORT char_type PlySlotDatExists_56B940(s32 slot_idx);
+    EXPORT bool PlySlotDatExists_56B940(s32 slot_idx);
 
     EXPORT void GetHiScoreHscFileName_56BCF0(char_type* pName);
 
-    EXPORT char_type HiScoreHscExists_56BCA0();
+    EXPORT bool HiScoreHscExists_56BCA0();
 
     EXPORT void LoadPlySlotDat_56B990(u16 slotIdx);
 

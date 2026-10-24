@@ -109,6 +109,14 @@ handled. A `target_asm.json` dumped before that fix still has the old `pp` text,
 `sound_obj::Release_41A290` and `Char::IsThreatToSearchingPed_553330` were real matches and
 now have rows.
 
+**EH unwind funclets are not verified, and a local's name can move them.** In
+`Object::IntegrateMovementAndCollisions_523BF0`, renaming the `Ang16` declared first (`unk_angle`) to
+`prev_angle`, `last_angle` or `a` moved the unused `Fix16_Point point2` from `-0x1c(%ebp)` to `-0x20(%ebp)`;
+`prev_rotation`, `saved_angle` or `angle0` keep it. The body never touches point2, so only the `lea` in its
+unwind funclet (after the CRT in `.text`) changes, and neither the verifier nor `compare_builds.py` looks there;
+a byte compare of the whole exe does. The unwind maps already differ there: for EH states 0 and 1 the
+original destroys `-0x44` then `-0x14`, ours `-0x14` then `-0x1c`.
+
 **Calls to unnamed operator copies are fine, mixing them is not.** The verifier (and
 `permuter_score.py`) names call targets per function by first use, so a call to the COMDAT copy of an
 inline (`??DFix16`, `??0Fix16@@QAE@H@Z`, `?Normalize@Ang16`) where the original calls `0x408680`,
@@ -495,14 +503,23 @@ A zero-extended `u16` shows it as `mov %ecx, g; and $0xFFFF,%ecx` (definition in
 original's `xor %ecx,%ecx; mov g,%cx` (`gCdCheckFileCount_6252E0`, defined in `file.cpp` for the
 `CheckCdFile_4B80F0` copies in `Frontend.cpp`).
 
+**A masked `!=` compiles to the xor the decompiler shows.** VC6 emits `xor; test $mask` for
+`(a & mask) != (b & mask)`, so IDA's `((a ^ b) & mask) != 0` can be written as the comparison. Keep any
+byte casts the xor form had: `CanCarCollideWithSprite_43AAF0` matches with `((u8)a & m) != ((u8)b & m)` and
+gets other registers without them (`save_replay_inputs_4CED00` needed no cast).
+
 **`cmp $0xFFFF,%di` with a 16-bit immediate means a `u16` compared with `0xFFFF`.** `s16 x; x != -1`
 encodes the constant as a sign-extended byte (`66 83 ff ff`, 4 bytes); `u16 x; x != 0xFFFF` uses the
 full imm16 (`66 81 ff ff ff`, 5 bytes). Both disassemble to the same text, so the only visible symptom
 is every later jump target off by one byte. Look at the raw bytes when that happens
 (`Sprite::Draw_59EFF0`, the two `Delta_48F8B0` results; `cmp $0xFFFF,%ax` is `66 3d ff ff` either way).
 
-**A flag returned with no `setne` is `char_type`, not `bool`.** If the original returns a
-`char` local as is, a `bool` return makes VC6 normalise it (`Ped::HandlePickupCollision_45DE80`).
+**A flag returned with no `setne` is a `char_type` local, or a `bool` one fed only by `bool` values.**
+Any `char` to `bool` conversion on the way (a `char` local returned as `bool`, or a `bool` local set
+from a `char_type` call) makes VC6 normalise the value: `Sprite::CheckSpriteMovementRegion_5A2500`
+changes with a `bool` flag because the flag comes from the `char_type` `IsMovementRegionBlocked_4E4460`.
+With a `bool` local whose sources are all `bool`, the code is the same as with `char_type` throughout
+(`Ped::HandlePickupCollision_45DE80`).
 
 **`int` and `long` compile the same; only the symbol changes.** Under VC6 both are 32 bits, and
 `int`/`long` (and `unsigned int`/`unsigned long`) give identical code for division, shifts,

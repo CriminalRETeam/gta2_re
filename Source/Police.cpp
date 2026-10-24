@@ -182,7 +182,7 @@ Ped* Police::SpawnRoadblockGuard_56F5C0(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang1
 MATCH_FUNC(0x56f6d0)
 void Police::DespawnCrewInCar_56F6D0(Car* pCar)
 {
-    u8 bUnknown = 0;
+    u8 bOutranked = 0;
 
     for (u8 idx = 0; idx < MAX_POLICE_CREWS; idx++)
     {
@@ -201,15 +201,15 @@ void Police::DespawnCrewInCar_56F6D0(Car* pCar)
 
                             if (pCrew->field_20_crew_kind == crew_kind::police_1)
                             {
-                                bUnknown = 1;
+                                bOutranked = 1;
                             }
                             if (pCrew->field_20_crew_kind == crew_kind::swat_2)
                             {
-                                bUnknown = 1;
+                                bOutranked = 1;
                             }
                             if (pCrew->field_20_crew_kind == crew_kind::fbi_3)
                             {
-                                bUnknown = 1;
+                                bOutranked = 1;
                             }
 
                             break;
@@ -218,18 +218,18 @@ void Police::DespawnCrewInCar_56F6D0(Car* pCar)
 
                             if (pCrew->field_20_crew_kind == crew_kind::police_1)
                             {
-                                bUnknown = 1;
+                                bOutranked = 1;
                             }
                             if (pCrew->field_20_crew_kind == crew_kind::swat_2)
                             {
-                                bUnknown = 1;
+                                bOutranked = 1;
                             }
                             break;
 
                         default:
                             return;
                     }
-                    if (!bUnknown)
+                    if (!bOutranked)
                     {
                         return;
                     }

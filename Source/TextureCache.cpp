@@ -40,20 +40,20 @@ void RemapTextureSet::LoadTextures_5B8F00()
     {
         u32 i = 0;
         sprite_index* pSpriteIndex;
-        u16 tmp;
-        u16 t2;
+        u16 true_pal;
+        u16 phys_pal;
         while (i < field_4_texture_count)
         {
             pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(i);
-            tmp = gGtx_0x106C_703DD4->GetTruePalette_5AA5F0(palette_types_enum::sprites_2, i);
-            t2 = gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(tmp);
+            true_pal = gGtx_0x106C_703DD4->GetTruePalette_5AA5F0(palette_types_enum::sprites_2, i);
+            phys_pal = gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(true_pal);
 
             field_0_pTextures[i++] = pgbh_RegisterTexture(
                 pSpriteIndex
                     ->field_4_width, // note: missing xor of register due to passing BYTE -> BYTE param instead of BYTE -> s32 param, xor clears up 24 bits
                 pSpriteIndex->field_5_height,
                 pSpriteIndex->field_0_pData,
-                t2, // pal idx
+                phys_pal, // pal idx
                 0);
         }
     }
