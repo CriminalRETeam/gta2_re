@@ -846,16 +846,16 @@ void SpriteGrid::DebugLog_478950(s32 x_pos, s32 y_pos)
         if (cell_x == x_pos)
         {
             sprintf(gTmpBuffer_67C598, "(%d,%d):", x_pos, y_pos);
-            gFile_67C530.Write_Log_4D9650(gTmpBuffer_67C598);
+            gErrorLog_67C530.Write_Log_4D9650(gTmpBuffer_67C598);
             for (GridSpriteLink* j = i->field_4_pSpriteLinks; j; j = j->mpNext)
             {
                 if (j->field_0_pSprite)
                 {
                     sprintf(gTmpBuffer_67C598, " %d", (u16)j->field_0_pSprite->field_20_instance_id);
-                    gFile_67C530.Write_Log_4D9650(gTmpBuffer_67C598);
+                    gErrorLog_67C530.Write_Log_4D9650(gTmpBuffer_67C598);
                 }
             }
-            gFile_67C530.Write_Log_4D9650("\n");
+            gErrorLog_67C530.Write_Log_4D9650("\n");
         }
     }
 }

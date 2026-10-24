@@ -922,7 +922,7 @@ void __stdcall ExitGameCallback_4DB0D0(Game* pGame, int reason)
 {
     char Buffer[260];
     sprintf(Buffer, "(ExitGameCallback)Called with reason - %d", reason);
-    gFile_67C530.Write_4D9620(Buffer);
+    gErrorLog_67C530.Write_4D9620(Buffer);
     pGame->ExitGameNoBonus_4B8C00(0, GameExitType::CloseGameImmediately_1);
 }
 

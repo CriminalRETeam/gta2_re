@@ -419,7 +419,7 @@ void InputDevices::read_input_device_498DA0(s32* input_bits, u8 bApplyKeyboardCo
                             padItems,
                             gGamePadDeviceData_67B5B0.dwOfs,
                             gGamePadDeviceData_67B5B0.dwData);
-                    gFile_67C530.Write_4D9620(gTmpBuffer_67C598);
+                    gErrorLog_67C530.Write_4D9620(gTmpBuffer_67C598);
                 }
             }
             else
@@ -1148,7 +1148,7 @@ u32 InputRecorder_67F8B0::get_input_bits_4CEAC0()
         if (*control_status != saved_input)
         {
             sprintf(gTmpBuffer_67C598, "%d: control_status = %d", gpRng_67AB34->get_cur_rng_41CFE0(), *control_status);
-            gFile_67C530.Write_4D9620(gTmpBuffer_67C598);
+            gErrorLog_67C530.Write_4D9620(gTmpBuffer_67C598);
         }
     }
     return *control_status;
