@@ -42,7 +42,7 @@ DEFINE_GLOBAL(Frontend*, gFrontend_67DC84, 0x67DC84);
 DEFINE_GLOBAL_INIT(u32, counter_706C4C, 0, 0x706C4C);
 DEFINE_GLOBAL_INIT(Fix16, kFpZero_67D930, Fix16(0, 0), 0x67D930);
 u16 gTableSize_61FF20 = 25; // Note is constant but can't be marked const
-DEFINE_GLOBAL_ARRAY(wchar_t, gEmptyWStr_67DC8C, 32, 0x67DC8C); // 67DCCC
+DEFINE_GLOBAL_ARRAY(wchar_t, gEmptyWStr_67DC8C, 2, 0x67DC8C);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne_67D9FC, Fix16(1), 0x67D9FC);
 DEFINE_GLOBAL(short, font_type_703C14, 0x703C14);
 DEFINE_GLOBAL(s16, word_703C3C, 0x703C3C);

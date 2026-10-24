@@ -751,7 +751,7 @@ EXTERN_GLOBAL(Hud*, gHud_2B00_706620);
 
 EXTERN_GLOBAL(s16, gDebugFont_706600);
 
-EXTERN_GLOBAL_ARRAY(char, gTmpGxtKey_67CE50, 264);
+EXTERN_GLOBAL_ARRAY(char, gTmpGxtKey_67CE50, 256);
 
 EXPORT s32 __stdcall GetPhoneTypeFromObjModel_5D1260(s32 phone_model_idx);
 EXPORT char_type* __stdcall get_phone_colour_5D12B0(s32 phone_type);

@@ -6,7 +6,7 @@
 #include "registry.hpp"
 
 DEFINE_GLOBAL(GameSession, gGameSession_67E8E0, 0x67E8E0);
-EXTERN_GLOBAL_ARRAY(wchar_t, gEmptyWStr_67DC8C, 32);
+EXTERN_GLOBAL_ARRAY(wchar_t, gEmptyWStr_67DC8C, 2);
 
 MATCH_FUNC(0x4C52D0)
 GameSession::GameSession()

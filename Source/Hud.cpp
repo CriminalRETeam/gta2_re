@@ -39,7 +39,7 @@ DEFINE_GLOBAL(u16, gPlayerNameFont_7062DC, 0x7062DC);
 // The chat font. Renaming it (for example to gChatFont_70643E) changes the code of
 // Hud_ChatInput::DrawChatMessages_5D16B0, so it keeps its old name.
 DEFINE_GLOBAL(u16, word_70643E, 0x70643E);
-DEFINE_GLOBAL_ARRAY(char, gTmpGxtKey_67CE50, 264, 0x67CE50);
+DEFINE_GLOBAL_ARRAY(char, gTmpGxtKey_67CE50, 256, 0x67CE50);
 DEFINE_GLOBAL(s16, word_7064D8, 0x7064D8);
 DEFINE_GLOBAL_INIT(Fix16, kFpZero_7064C0, 0, 0x7064C0);
 DEFINE_GLOBAL_INIT(Fix16, kArrowBaseRepositionSpeed_7063B0, Fix16(0x400, 0), 0x7063B0);
@@ -71,7 +71,7 @@ EXTERN_GLOBAL(char_type, gLighting_626A09);
 // TODO: move
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
 
-EXTERN_GLOBAL_ARRAY(wchar_t, gEmptyWStr_67DC8C, 32);
+EXTERN_GLOBAL_ARRAY(wchar_t, gEmptyWStr_67DC8C, 2);
 
 // 9.6f inline
 static inline void DrawFigureScaled_4C71B0(s32 type, s16 pal, Fix16 x_pos, Fix16 y_pos, const Ang16& rotation, const s32& drawkind, s16 palette, s32 alpha_value, u8 flags)
