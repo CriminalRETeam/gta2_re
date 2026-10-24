@@ -383,7 +383,7 @@ void InputDevices::read_input_device_498DA0(s32* input_bits, u8 bApplyKeyboardCo
         memset(&gGamePadDeviceData_67B5B0, 0, sizeof(mini_device_obj_data));
         if (acquire_input_device_498730(gGamePadDevice_67B6C0))
         {
-            (static_cast<LPDIRECTINPUTDEVICE2A>(gGamePadDevice_67B6C0))->Poll();
+            static_cast<LPDIRECTINPUTDEVICE2A>(gGamePadDevice_67B6C0)->Poll();
         }
 
         while (game_pad_read_498D20() || bFirstPass)

@@ -1447,14 +1447,14 @@ void NetPlay::InvokeCallback_520230(s32 idx, u32 event_data)
             case 1: // disconnect ?
                 if (field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)
                 {
-                    (static_cast<T1>(field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback))(
+                    static_cast<T1>(field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)(
                         field_4C_func_ptrs_and_params[idx].field_4_param_context);
                 }
                 break;
             case 2: // adding to listbox, player? session??
                 if (field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)
                 {
-                    (static_cast<T3>(field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback))(
+                    static_cast<T3>(field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)(
                         field_4C_func_ptrs_and_params[idx].field_4_param_context,
                         *reinterpret_cast<s32*>(event_data + 0x1C), // Network_Player::field_1C_player_name
                         event_data + 0x24); // Network_Player::field_24_pData
@@ -1467,7 +1467,7 @@ void NetPlay::InvokeCallback_520230(s32 idx, u32 event_data)
             case 8:
                 if (field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)
                 {
-                    (static_cast<T2>(field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback))(
+                    static_cast<T2>(field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)(
                         field_4C_func_ptrs_and_params[idx].field_4_param_context,
                         event_data); // a wchar_t* string?
                 }
@@ -1476,7 +1476,7 @@ void NetPlay::InvokeCallback_520230(s32 idx, u32 event_data)
                 // Exit game call back?
                 if (field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)
                 {
-                    (static_cast<T2>(field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback))(
+                    static_cast<T2>(field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)(
                         field_4C_func_ptrs_and_params[idx].field_4_param_context,
                         *reinterpret_cast<u32*>(event_data)); // s32* usually set to 2 ?
                 }
@@ -1486,7 +1486,7 @@ void NetPlay::InvokeCallback_520230(s32 idx, u32 event_data)
                 // set player name?
                 if (field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)
                 {
-                    (static_cast<T1>(field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback))(
+                    static_cast<T1>(field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)(
                         field_4C_func_ptrs_and_params[idx].field_4_param_context);
                 }
                 break;

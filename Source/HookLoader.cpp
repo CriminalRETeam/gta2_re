@@ -11,7 +11,7 @@
 typedef bool (*TExportCb)(LPVOID, HMODULE, const char*);
 static void EnumExports(LPVOID pContext, HMODULE dllAlloc, TExportCb cb)
 {
-    PIMAGE_NT_HEADERS header = reinterpret_cast<PIMAGE_NT_HEADERS>(reinterpret_cast<BYTE*>(dllAlloc) + (reinterpret_cast<PIMAGE_DOS_HEADER>(dllAlloc))->e_lfanew);
+    PIMAGE_NT_HEADERS header = reinterpret_cast<PIMAGE_NT_HEADERS>(reinterpret_cast<BYTE*>(dllAlloc) + reinterpret_cast<PIMAGE_DOS_HEADER>(dllAlloc)->e_lfanew);
     //assert(header->Signature == IMAGE_NT_SIGNATURE);
     //assert(header->OptionalHeader.NumberOfRvaAndSizes > 0);
     PIMAGE_EXPORT_DIRECTORY exports =
@@ -376,30 +376,30 @@ class HookLoader
     void crt_inits()
     {
         printf("Heap\n");
-        if (!(reinterpret_cast<PT1>(0x5F116B))(0))
+        if (!reinterpret_cast<PT1>(0x5F116B)(0))
         {
             printf("Heap failed!\n");
         }
         printf("Heap done\n");
 
         printf("_ioinit\n");
-        (reinterpret_cast<TP3>(0x5F0527))();
+        reinterpret_cast<TP3>(0x5F0527)();
         printf("_ioinit done\n");
 
         *reinterpret_cast<char**>(0x7099E4) = GetCommandLineA();
 
-        *(reinterpret_cast<char**>(0x7082F8)) = reinterpret_cast<char*>((reinterpret_cast<TP2>(0x5F6D61))()); // __crtGetEnvironmentStringsA
+        *reinterpret_cast<char**>(0x7082F8) = reinterpret_cast<char*>(reinterpret_cast<TP2>(0x5F6D61)()); // __crtGetEnvironmentStringsA
 
         printf("_setargv\n");
-        (reinterpret_cast<TP2>(0x5F6B14))();
+        reinterpret_cast<TP2>(0x5F6B14)();
         printf("_setargv done\n");
 
         printf("_setenvp\n");
-        (reinterpret_cast<TP3>(0x5F6A5B))();
+        reinterpret_cast<TP3>(0x5F6A5B)();
         printf("_setenvp done\n");
 
         printf("_cinit\n");
-        (reinterpret_cast<TP3>(0x5EE16A))();
+        reinterpret_cast<TP3>(0x5EE16A)();
         printf("_cinit done\n");
 
         // TODO: Bin off static init funcs that are impl'd

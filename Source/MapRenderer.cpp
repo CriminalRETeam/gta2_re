@@ -618,7 +618,7 @@ void MapRenderer::DrawLeftSide_4EA390(u16& left_word)
 
                 // now set u
                 gTileDrawFlags_6F6560 = 16389;
-                if ((*((reinterpret_cast<u8*>(&left_word)) + 1) & 0x20) != 0)
+                if ((*(reinterpret_cast<u8*>(&left_word) + 1) & 0x20) != 0)
                 {
                     gTileVerts_6F65A8[0].u = 63.999901f;
                     gTileVerts_6F65A8[1].u = 63.999901f;
@@ -669,7 +669,7 @@ void MapRenderer::DrawLeftSide_4EA390(u16& left_word)
                 }
                 // now set u
                 gTileDrawFlags_6F6560 = 16389;
-                if ((*((reinterpret_cast<u8*>(&left_word)) + 1) & 0x20) != 0)
+                if ((*(reinterpret_cast<u8*>(&left_word) + 1) & 0x20) != 0)
                 {
                     gTileVerts_6F65A8[0].u = 63.999901f;
                     gTileVerts_6F65A8[1].u = 63.999901f;
@@ -703,7 +703,7 @@ void MapRenderer::DrawLeftSide_4EA390(u16& left_word)
         u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(left_word & block_face::tile_idx_mask);
         if (texture_idx)
         {
-            if ((*((reinterpret_cast<u8*>(&left_word)) + 1) & 0x10) != 0)
+            if ((*(reinterpret_cast<u8*>(&left_word) + 1) & 0x10) != 0)
             {
                 gTileDrawFlags_6F6560 = gTileDrawFlags_6F6560 | 0x80;
             }
@@ -801,7 +801,7 @@ void MapRenderer::DrawRightSide_4EAF40(u16& right_word)
 
                 // now set u
                 gTileDrawFlags_6F6560 = 16389;
-                if ((*((reinterpret_cast<u8*>(&right_word)) + 1) & 0x20) != 0)
+                if ((*(reinterpret_cast<u8*>(&right_word) + 1) & 0x20) != 0)
                 {
                     gTileVerts_6F65A8[0].u = 0.0f;
                     gTileVerts_6F65A8[1].u = 0.0f;
@@ -856,7 +856,7 @@ void MapRenderer::DrawRightSide_4EAF40(u16& right_word)
                 }
                 // now set u
                 gTileDrawFlags_6F6560 = 16389;
-                if ((*((reinterpret_cast<u8*>(&right_word)) + 1) & 0x20) != 0)
+                if ((*(reinterpret_cast<u8*>(&right_word) + 1) & 0x20) != 0)
                 {
                     gTileVerts_6F65A8[0].u = 0.0f;
                     gTileVerts_6F65A8[1].u = 0.0f;
@@ -890,7 +890,7 @@ void MapRenderer::DrawRightSide_4EAF40(u16& right_word)
         u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(right_word & block_face::tile_idx_mask);
         if (texture_idx)
         {
-            if ((*((reinterpret_cast<u8*>(&right_word)) + 1) & 0x10) != 0)
+            if ((*(reinterpret_cast<u8*>(&right_word) + 1) & 0x10) != 0)
             {
                 gTileDrawFlags_6F6560 = gTileDrawFlags_6F6560 | 0x80;
             }
@@ -958,7 +958,7 @@ void MapRenderer::DrawTopSide_4EBA60(u16& top_word)
                     gTileVerts_6F65A8[2].v = 63.999901f - (unk_z_2 * kTileTexSize_6F6548).ToFloat();
                 }
                 gTileDrawFlags_6F6560 = 16389;
-                if ((*((reinterpret_cast<u8*>(&top_word)) + 1) & 0x20) != 0)
+                if ((*(reinterpret_cast<u8*>(&top_word) + 1) & 0x20) != 0)
                 {
                     gTileVerts_6F65A8[0].u = 0.0f;
                     gTileVerts_6F65A8[1].u = 63.999901f;
@@ -1012,7 +1012,7 @@ void MapRenderer::DrawTopSide_4EBA60(u16& top_word)
                 }
 
                 gTileDrawFlags_6F6560 = 16389;
-                if ((*((reinterpret_cast<u8*>(&top_word)) + 1) & 0x20) != 0)
+                if ((*(reinterpret_cast<u8*>(&top_word) + 1) & 0x20) != 0)
                 {
                     gTileVerts_6F65A8[0].u = 0.0f;
                     gTileVerts_6F65A8[1].u = 63.999901f;
@@ -1047,7 +1047,7 @@ void MapRenderer::DrawTopSide_4EBA60(u16& top_word)
         u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(top_word & block_face::tile_idx_mask);
         if (texture_idx != 0)
         {
-            if ((*((reinterpret_cast<u8*>(&top_word)) + 1) & 0x10) != 0)
+            if ((*(reinterpret_cast<u8*>(&top_word) + 1) & 0x10) != 0)
             {
                 gTileDrawFlags_6F6560 = gTileDrawFlags_6F6560 | 0x80;
             }
@@ -1231,7 +1231,7 @@ void MapRenderer::draw_bottom_4ED290(u16& bottom_word)
                 }
 
                 gTileDrawFlags_6F6560 = 16389;
-                if ((*((reinterpret_cast<u8*>(&bottom_word)) + 1) & 0x20) != 0)
+                if ((*(reinterpret_cast<u8*>(&bottom_word) + 1) & 0x20) != 0)
                 {
                     gTileVerts_6F65A8[0].u = 63.999901f;
                     gTileVerts_6F65A8[1].u = 0.0f;
@@ -1294,7 +1294,7 @@ void MapRenderer::draw_bottom_4ED290(u16& bottom_word)
                     gTileVerts_6F65A8[0].v = 63.999901f - (z_unk_4 * kTileTexSize_6F6548).ToFloat();
                 }
                 gTileDrawFlags_6F6560 = 16389;
-                if ((*((reinterpret_cast<u8*>(&bottom_word)) + 1) & 0x20) != 0)
+                if ((*(reinterpret_cast<u8*>(&bottom_word) + 1) & 0x20) != 0)
                 {
                     gTileVerts_6F65A8[0].u = 63.999901f;
                     gTileVerts_6F65A8[1].u = 0.0f;
@@ -1328,7 +1328,7 @@ void MapRenderer::draw_bottom_4ED290(u16& bottom_word)
         u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(bottom_word & block_face::tile_idx_mask);
         if (texture_idx)
         {
-            if ((*((reinterpret_cast<u8*>(&bottom_word)) + 1) & 0x10) != 0)
+            if ((*(reinterpret_cast<u8*>(&bottom_word) + 1) & 0x10) != 0)
             {
                 gTileDrawFlags_6F6560 = gTileDrawFlags_6F6560 | 0x80;
             }
@@ -2393,7 +2393,7 @@ void MapRenderer::draw_left_4F3C00(u16& side_word, Fix16& x_off, Fix16& y_off_a,
         {
             //BlockSideWord word = *(BlockSideWord*)&side_word;
             //if (word.flat)
-            if ((*((reinterpret_cast<u8*>(&side_word)) + 1) & 0x10) != 0)
+            if ((*(reinterpret_cast<u8*>(&side_word) + 1) & 0x10) != 0)
             {
                 gTileDrawFlags_6F6560 = gTileDrawFlags_6F6560 | 0x80;
             }
@@ -2500,7 +2500,7 @@ void MapRenderer::draw_right_4F4250(u16& side_word, Fix16& x_off, Fix16& y_off_a
         {
             //BlockSideWord word = *(BlockSideWord*)&side_word;
             //if (word.flat)
-            if ((*((reinterpret_cast<u8*>(&side_word)) + 1) & 0x10) != 0)
+            if ((*(reinterpret_cast<u8*>(&side_word) + 1) & 0x10) != 0)
             {
                 gTileDrawFlags_6F6560 = gTileDrawFlags_6F6560 | 0x80;
             }
@@ -2541,7 +2541,7 @@ void MapRenderer::draw_top_4F4600(u16& side_word, Fix16& x_off_a, Fix16& x_off_b
         {
             //BlockSideWord word = *(BlockSideWord*)&side_word;
             //if (word.flat)
-            if ((*((reinterpret_cast<u8*>(&side_word)) + 1) & 0x10) != 0)
+            if ((*(reinterpret_cast<u8*>(&side_word) + 1) & 0x10) != 0)
             {
                 gTileDrawFlags_6F6560 = gTileDrawFlags_6F6560 | 0x80;
             }
@@ -2582,7 +2582,7 @@ void MapRenderer::draw_bottom_4F49B0(u16& side_word, Fix16& x_off_a, Fix16& x_of
         {
             //BlockSideWord word = *(BlockSideWord*)&side_word;
             //if (word.flat)
-            if ((*((reinterpret_cast<u8*>(&side_word)) + 1) & 0x10) != 0)
+            if ((*(reinterpret_cast<u8*>(&side_word) + 1) & 0x10) != 0)
             {
                 gTileDrawFlags_6F6560 = gTileDrawFlags_6F6560 | 0x80;
             }

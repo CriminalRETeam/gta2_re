@@ -4707,11 +4707,11 @@ u16 Frontend::GetCenteredXPos_4B0190(wchar_t* pText, u16 fontType, s32 width)
     u16 half_width;
     if (fontType != 0xFFFF)
     {
-        half_width = (static_cast<u16>(GetMaxTextWidth_5D8990(pText, fontType))) / 2;
+        half_width = static_cast<u16>(GetMaxTextWidth_5D8990(pText, fontType)) / 2;
     }
     else
     {
-        half_width = (static_cast<u16>(GetMaxTextWidth_5D8990(pText, field_11C_normal_font))) / 2;
+        half_width = static_cast<u16>(GetMaxTextWidth_5D8990(pText, field_11C_normal_font)) / 2;
     }
     return width - half_width;
 }

@@ -3330,7 +3330,7 @@ void ScriptThread::IsOnScreen_50A760()
 MATCH_FUNC(0x50a940)
 void ScriptThread::SCRCMD_DELAY_HERE_50A940()
 {
-    SCR_CMD_HEADER* pNextCmd = (static_cast<SCR_CMD_HEADER*>(gBasePtr_6F8070)) + 1; //  TODO: remove this hack
+    SCR_CMD_HEADER* pNextCmd = static_cast<SCR_CMD_HEADER*>(gBasePtr_6F8070) + 1; //  TODO: remove this hack
 
     if (static_cast<s16>(gBasePtr_6F8070->field_8_index) == -1)
     {
@@ -3351,7 +3351,7 @@ MATCH_FUNC(0x50a980)
 void ScriptThread::SCRCMD_DELAY_50A980()
 {
     s16 delay = gBasePtr_6F8070->field_8_index;
-    SCR_CMD_HEADER* pNextCmd = (static_cast<SCR_CMD_HEADER*>(gBasePtr_6F8070)) + 1; //  TODO: remove this hack
+    SCR_CMD_HEADER* pNextCmd = static_cast<SCR_CMD_HEADER*>(gBasePtr_6F8070) + 1; //  TODO: remove this hack
 
     if (delay == -1)
     {
@@ -3484,7 +3484,7 @@ void ScriptThread::SCRCMD_CHANGE_RESPECT_50ACF0()
     {
         case SCRCMD_SET_CHAR_RESPECT:
 
-            pGang->SetRespect_4BEE30(pPointer->field_8_char->field_15C_player->get_idx_4219D0(), 20 * (static_cast<u8>(pCmd->field_A_signed_2)));
+            pGang->SetRespect_4BEE30(pPointer->field_8_char->field_15C_player->get_idx_4219D0(), 20 * static_cast<u8>(pCmd->field_A_signed_2));
             pGang->SetKillAffectsRespect_475900(1);
             break;
         case SCRCMD_CHANGE_RESPECT:
@@ -3498,7 +3498,7 @@ void ScriptThread::SCRCMD_CHANGE_RESPECT_50ACF0()
             }
             break;
         case SCRCMD_CHANGE_GANG_RESP:
-            pGang->ChangeRespectAndUpdate_4BF000(pPointer->field_8_char->field_15C_player->get_idx_4219D0(), 20 * (static_cast<u8>(pCmd->field_A_signed_2)));
+            pGang->ChangeRespectAndUpdate_4BF000(pPointer->field_8_char->field_15C_player->get_idx_4219D0(), 20 * static_cast<u8>(pCmd->field_A_signed_2));
             break;
     }
     ScriptThread::Next_503620(gBasePtr_6F8070);

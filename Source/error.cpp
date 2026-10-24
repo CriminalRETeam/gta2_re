@@ -73,7 +73,7 @@ MATCH_FUNC(0x4D9620)
 void ErrorLog::Write_4D9620(const char_type* pMsg)
 {
 #if !defined(__clang__) && (_MSC_VER <= 1200)
-    (static_cast<ostream_type&>(this->field_0_ofstr)) << pMsg << endl << flush;
+    static_cast<ostream_type&>(this->field_0_ofstr) << pMsg << endl << flush;
 #endif
 }
 
@@ -81,7 +81,7 @@ MATCH_FUNC(0x4D9650)
 void ErrorLog::Write_Log_4D9650(const char_type* buffer)
 {
 #if !defined(__clang__) && (_MSC_VER <= 1200)
-    (static_cast<ostream_type&>(this->field_0_ofstr)) << buffer << flush;
+    static_cast<ostream_type&>(this->field_0_ofstr) << buffer << flush;
 #endif
 }
 
