@@ -89,18 +89,15 @@ static inline void __stdcall SaveUnprojectedVertex_4B9990(f32 xCoord, f32 yCoord
 // 9.6f 0x4BA4D0 takes zpos by value (on the stack, ret $4); the body compiles to the 9.6f code with VC7.
 // The extra parentheses are x87 no-op nodes for VC6's scheduler (VC7 ignores them): they put the 81-node
 // window breaks of Sprite::Draw_59EFF0's four expansions where the original's are (Scripts/x87_sched).
-#pragma warning(push)
-#pragma warning(disable : 4244) // double to f32 left implicit: an (f32) cast is an x87 node and moves Draw_59EFF0's schedule
 static inline void ProjectWorldPointToScreen_4BA4D0(Fix16_Point& point, Vert* pVert, Fix16 zpos)
 {
     SaveUnprojectedVertex_4B9990(point.x.ToFloat(), point.y.ToFloat(), zpos.ToFloat(), pVert);
-    pVert->z = 1.0 / (gViewCamera_676978->field_98_cur_pos.field_8_z.ToFloat() + (8.0 - zpos.ToFloat()));
+    pVert->z = static_cast<f32>(1.0 / (gViewCamera_676978->field_98_cur_pos.field_8_z.ToFloat() + (8.0 - zpos.ToFloat())));
     pVert->x = ((((gViewCamera_676978->field_60_screen_scale.x.ToFloat())) * (((point.x.ToFloat()) - (gViewCamera_676978->field_98_cur_pos.field_0_x.ToFloat())))) * (pVert->z)) +
         static_cast<u32>(gViewCamera_676978->field_70_screen_px_center_x);
     pVert->y = (((((gViewCamera_676978->field_60_screen_scale.x.ToFloat())) * ((point.y.ToFloat() - (gViewCamera_676978->field_98_cur_pos.field_4_y.ToFloat())))) * (pVert->z)) +
         static_cast<u32>(gViewCamera_676978->field_74_screen_px_center_y));
 }
-#pragma warning(pop)
 
 static inline f32 Fix16ToFloat_Paren(const Fix16& v)
 {
@@ -110,18 +107,15 @@ static inline f32 Fix16ToFloat_Paren(const Fix16& v)
 // The first expansion in Draw_59EFF0: four more no-op nodes before the y line (point.x/point.y) and four
 // fewer in it, so the window break falls between the field_60 load and its fmul and the y line's fmulp
 // waits behind the centre store, as in the original (regsearch: window 9 limit 76, window 10 limit 84).
-#pragma warning(push)
-#pragma warning(disable : 4244) // double to f32 left implicit: an (f32) cast is an x87 node and moves Draw_59EFF0's schedule
 static inline void ProjectWorldPointToScreen_First_4BA4D0(Fix16_Point& point, Vert* pVert, Fix16 zpos)
 {
     SaveUnprojectedVertex_4B9990((Fix16ToFloat_Paren(point.x)), (point.y.ToFloat()), zpos.ToFloat(), pVert);
-    pVert->z = 1.0 / (gViewCamera_676978->field_98_cur_pos.field_8_z.ToFloat() + (8.0 - zpos.ToFloat()));
+    pVert->z = static_cast<f32>(1.0 / (gViewCamera_676978->field_98_cur_pos.field_8_z.ToFloat() + (8.0 - zpos.ToFloat())));
     pVert->x = ((((gViewCamera_676978->field_60_screen_scale.x.ToFloat())) * (((point.x.ToFloat()) - (gViewCamera_676978->field_98_cur_pos.field_0_x.ToFloat())))) * (pVert->z)) +
         static_cast<u32>(gViewCamera_676978->field_70_screen_px_center_x);
     pVert->y = ((gViewCamera_676978->field_60_screen_scale.x.ToFloat())) * ((point.y.ToFloat() - (gViewCamera_676978->field_98_cur_pos.field_4_y.ToFloat()))) * pVert->z +
         static_cast<u32>(gViewCamera_676978->field_74_screen_px_center_y);
 }
-#pragma warning(pop)
 
 // not exactly __fastcall but something similar... https://decomp.me/scratch/N5g2D
 static inline void __fastcall SetUV_4B9BC0(f32& u, f32& v)
