@@ -215,6 +215,13 @@ jobs:
         python3 vc6_setup.py
         python3 build.py
 
+    - name: Extra checks on Linux (report only)
+      continue-on-error: true
+      run: |
+        source venv/bin/activate
+        cd Scripts/bin_comp
+        python3 run_extra_checks.py
+
     - name: Upload artifacts on Linux
       uses: actions/upload-artifact@v4
       with:
