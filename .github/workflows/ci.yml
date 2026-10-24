@@ -221,3 +221,35 @@ jobs:
         name: linux_vc6_main_exe
         path: build_vc6/decomp_main.exe
         retention-days: 7
+
+    # ======================================
+    #      OpenGL renderer DLLs (MinGW)
+    # ======================================
+
+  build-opengl-renderer:
+    runs-on: ubuntu-latest
+    name: OpenGL_Renderer
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install MinGW and SDL2 headers
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y g++-mingw-w64-i686 libsdl2-dev libgl-dev
+
+    - name: Build and test
+      run: |
+        make -C Renderers/OpenGL
+        make -C Renderers/OpenGL test
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: opengl_renderer_dlls
+        path: |
+          Renderers/OpenGL/build/glrender.dll
+          Renderers/OpenGL/build/glvideo.dll
+          Renderers/OpenGL/gta2gl.ini.example
+        retention-days: 7
