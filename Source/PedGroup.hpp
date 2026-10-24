@@ -75,7 +75,7 @@ class PedGroup
     bool field_1_wait_for_members; // while set, UpdateFormation makes the leader wait (objective 9) for a member who has fallen too far behind
     char_type field_2_unused; // padding
     char_type field_3_unused; // padding
-    Ped* field_4_ped_list[9];
+    Ped* field_4_ped_list[9]; // the members, without gaps up to field_34_count: the loops over them don't check for NULL
     s32 field_28_unused;
     Ped* field_2C_ped_leader;
     s32 field_30_panicking; // UpdateFormation recomputes it as "the leader or a member is panicking"; GroupAttackPed_4C9B60, a leader in state 3/5/10 and the paramedics' revive step also set it. A dword in the original, so not a bool

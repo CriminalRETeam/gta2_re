@@ -1437,7 +1437,7 @@ void __stdcall NetUi::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s32 notif
 
         case 1027:
         {
-            LRESULT state = SendDlgItemMessageA(hDlg, CHECKBOX_POLICE_ENABLED_1027, BM_GETCHECK, 0, 0);
+            LRESULT state = SendDlgItemMessageA(hDlg, CHECKBOX_POLICE_ENABLED_1027, BM_GETSTATE, 0, 0);
             NetUi* pThis = reinterpret_cast<NetUi*>(GetWindowLongA(hDlg, 8));
             if ((state & 3) == BST_CHECKED)
             {
@@ -2027,12 +2027,12 @@ void NetUi::SetSetting_51B9C0(s32 setting, s32 value)
             }
             break;
 
-        case 4:
+        case 6: // 10.5.exe's jump table: 6 is the police flag, 4 the tick count
             field_20088_game_settings.field_201A0_police_on = value;
             gRegistry_6FF968.Set_Network_Setting_587730("police", value);
             break;
 
-        case 6:
+        case 4:
             field_20088_game_settings.field_2019C_tick_count = value;
             break;
 
@@ -2177,7 +2177,7 @@ LRESULT __stdcall NetUi::subclass_proc_51BDD0(HWND hWnd, UINT Msg, WPARAM wParam
     if (parentHwnd)
     {
         NetUi* pThis = reinterpret_cast<NetUi*>(GetWindowLongA(parentHwnd, 8));
-        if (Msg == WM_KEYUP && wParam == VK_RETURN && (lParam & (KF_ALTDOWN << 16)) == 0)
+        if (Msg == WM_KEYUP && wParam == VK_RETURN && (lParam & (KF_MENUMODE << 16)) == 0)
         {
             switch (pThis->Get_20310_showing_window_idx_51ACC0())
             {

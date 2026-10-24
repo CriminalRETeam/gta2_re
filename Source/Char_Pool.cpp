@@ -423,7 +423,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
         if (gSpriteGrid_1_679208->FindCollidingSpritePreferType_477E60(pPed->field_168_game_object->field_80_sprite_ptr, 0))
         {
             pPed->ChangeNextPedState1_45C500(ped_state_1::dead_9);
-            pPed->ChangeNextPedState2_45C540(ped_state_2::Unknown_15);
+            pPed->ChangeNextPedState2_45C540(ped_state_2::ped2_dead_15);
             pPed->Deallocate_45EB60();
             gSpriteGrid_1_679208->AddToRegionBuckets_477B20(pPed->field_168_game_object->field_80_sprite_ptr);
             return;
@@ -1025,6 +1025,12 @@ Ped* PedManager::PedById(s32 pedId)
         }
     }
     return NULL;
+}
+
+MATCH_FUNC(0x4710F0)
+CharPool::~CharPool()
+{
+    field_0_pool.field_0_pHead = 0;
 }
 
 MATCH_FUNC(0x471110)

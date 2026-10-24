@@ -103,9 +103,9 @@ class CarPhysics
     }
 
     // 9.6f 0x421130
-    inline bool IsRngBelowDamage_421130()
+    inline bool IsDamageWindowOpen_421130()
     {
-        return static_cast<u32>(gpRng_67AB34->get_cur_rng_41CFE0()) < field_8_total_damage_q;
+        return static_cast<u32>(gpRng_67AB34->get_cur_rng_41CFE0()) < field_8_damaged_until_cycle;
     }
 
     // 9.6f 0x421260
@@ -466,7 +466,7 @@ class CarPhysics
 
 
     Fix16_Point field_0_vel_read_only;
-    u32 field_8_total_damage_q;
+    u32 field_8_damaged_until_cycle; // the tick (gpRng_67AB34's cycle) plus the damage of the last impact: IsDamageWindowOpen_421130
     CarPhysics* mpNext;
     Fix16_Point field_10_last_skid_pos[4];
     Fix16_Point field_30_cm1;
