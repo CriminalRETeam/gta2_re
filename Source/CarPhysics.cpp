@@ -3268,7 +3268,7 @@ Fix16 CarPhysics::CalculateRearWheelForce_5620D0()
 
         if (field_92_is_hand_brake_on)
         {
-            if (field_A8_hand_brake_force != (char)0x80)
+            if (field_A8_hand_brake_force != '\x80')
             {
                 field_A8_hand_brake_force++;
             }
