@@ -220,7 +220,25 @@ jobs:
       run: |
         source venv/bin/activate
         cd Scripts/bin_comp
-        python3 run_extra_checks.py
+        set +e
+        python3 run_extra_checks.py | tee extra_checks.txt
+        status=${PIPESTATUS[0]}
+        {
+          echo "### Extra checks (report only)"
+          echo '```'
+          grep -E 'checked|compared' extra_checks.txt
+          echo '```'
+          echo '<details><summary>Full output</summary>'
+          echo
+          echo '```'
+          cat extra_checks.txt
+          echo '```'
+          echo '</details>'
+        } >> "$GITHUB_STEP_SUMMARY"
+        if [ $status -ne 0 ]; then
+          echo "::warning title=Extra checks::$(grep -E 'checked|compared' extra_checks.txt | grep -v ' 0 differ' | paste -sd ';' -)"
+        fi
+        exit $status
 
     - name: Upload artifacts on Linux
       uses: actions/upload-artifact@v4
