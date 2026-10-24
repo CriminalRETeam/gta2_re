@@ -1,0 +1,248 @@
+# Differences found by run_extra_checks.py that master still has (known, not fixed yet): see its docstring.
+# Each entry: the check, the original address and the name, then the details. Remove an entry when you fix it.
+# `python3 run_extra_checks.py --update-known` rewrites this file from a run; review the diff.
+
+eh 0x407ce0 Trailer::UpdateTrailerAlignment_407CE0
+    the same funclets on other states: the objects are constructed in another order
+    state 0: frame offset: 10.5 [lea ecx,[ebp-2Ch]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-24h]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 1: frame offset: 10.5 [lea ecx,[ebp-1Ch]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-2Ch]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 2: frame offset: 10.5 [lea ecx,[ebp-24h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-14h]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 3: frame offset: 10.5 [lea ecx,[ebp-14h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-1Ch]; jmp ??1Fix16_Point@@QAE@XZ]
+
+eh 0x408370 SpawnCabAndTrailerHelper_408370
+    the same funclets on other states: the objects are constructed in another order
+    state 1: frame offset: 10.5 [lea ecx,[ebp-14h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-1Ch]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 2: frame offset: 10.5 [lea ecx,[ebp-1Ch]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-14h]; jmp ??1Fix16_Point@@QAE@XZ]
+
+eh 0x4368e0 Camera::ctor_4368E0
+    state 0: immediate: 10.5 [mov ecx,[ebp-14h]; add ecx,48h; jmp 40ac40 Car_8::dtor_40AC40], the build [mov ecx,[ebp-14h]; add ecx,60h; jmp ??1Fix16_Point@@QAE@XZ]
+
+eh 0x43d690 Car::EmitExplosion_43D690
+    state 0: frame offset: 10.5 [lea ecx,[ebp+8]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-8]; jmp ??1Fix16_Point@@QAE@XZ]
+
+eh 0x442810 Car::TryHitchTrailer_442810
+    the same funclets on other states: the objects are constructed in another order
+    state 0: frame offset: 10.5 [lea ecx,[ebp-24h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-1Ch]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 1: frame offset: 10.5 [lea ecx,[ebp-1Ch]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-24h]; jmp ??1Fix16_Point@@QAE@XZ]
+
+eh 0x443710 Car::ApplyExplosionImpulse_443710
+    the same funclets on other states: the objects are constructed in another order
+    state 1: frame offset: 10.5 [lea ecx,[ebp-14h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-24h]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 2: frame offset: 10.5 [lea ecx,[ebp-24h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-14h]; jmp ??1Fix16_Point@@QAE@XZ]
+
+eh 0x521fd0 Object_3C::GetMovementSpeedAndAngle_521FD0
+    the same funclets on other states: the objects are constructed in another order
+    state 0: frame offset: 10.5 [lea ecx,[ebp-14h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-1Ch]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 1: frame offset: 10.5 [lea ecx,[ebp-1Ch]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-14h]; jmp ??1Fix16_Point@@QAE@XZ]
+
+eh 0x522710 Object::ResolveCollisionWithObject_522710
+    the same funclets on other states: the objects are constructed in another order
+    state 0: frame offset: 10.5 [lea ecx,[ebp-3Ch]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-4Ch]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 2: frame offset: 10.5 [lea ecx,[ebp-4Ch]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-3Ch]; jmp ??1Fix16_Point@@QAE@XZ]
+
+eh 0x5229b0 Object::ResolveCollisionWithPed_5229B0
+    the same funclets on other states: the objects are constructed in another order
+    state 0: frame offset: 10.5 [lea ecx,[ebp-44h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-24h]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 1: frame offset: 10.5 [lea ecx,[ebp-24h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-44h]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 2: frame offset: 10.5 [lea ecx,[ebp-34h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-3Ch]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 3: frame offset: 10.5 [lea ecx,[ebp-3Ch]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-34h]; jmp ??1Fix16_Point@@QAE@XZ]
+
+eh 0x522be0 Object::ResolveCollisionWithHorizontalEdge_522BE0
+    the same funclets on other states: the objects are constructed in another order
+    state 1: frame offset: 10.5 [lea ecx,[ebp-1Ch]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-2Ch]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 2: frame offset: 10.5 [lea ecx,[ebp-2Ch]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-1Ch]; jmp ??1Fix16_Point@@QAE@XZ]
+
+eh 0x522d00 Object::ResolveCollisionWithVerticalEdge_522D00
+    the same funclets on other states: the objects are constructed in another order
+    state 1: frame offset: 10.5 [lea ecx,[ebp-1Ch]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-2Ch]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 2: frame offset: 10.5 [lea ecx,[ebp-2Ch]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-1Ch]; jmp ??1Fix16_Point@@QAE@XZ]
+
+eh 0x523bf0 Object::IntegrateMovementAndCollisions_523BF0
+    state 0: frame offset: 10.5 [lea ecx,[ebp-44h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-14h]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 1: frame offset: 10.5 [lea ecx,[ebp-14h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-1Ch]; jmp ??1Fix16_Point@@QAE@XZ]
+
+eh 0x538ac0 Particle_4C::UpdateObjectBeamLink_state_38_538AC0
+    the same funclets on other states: the objects are constructed in another order
+    state 0: frame offset: 10.5 [lea ecx,[ebp-34h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-3Ch]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 1: frame offset: 10.5 [lea ecx,[ebp-3Ch]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-14h]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 2: frame offset: 10.5 [lea ecx,[ebp-14h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-34h]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 3: frame offset: 10.5 [lea ecx,[ebp-1Ch]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-24h]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 4: frame offset: 10.5 [lea ecx,[ebp-24h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-1Ch]; jmp ??1Fix16_Point@@QAE@XZ]
+
+eh 0x53a280 Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280
+    state 0: frame offset: 10.5 [lea ecx,[ebp-8]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-1Ch]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 1: frame offset: 10.5 [lea ecx,[ebp-14h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-18h]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 2: frame offset: 10.5 [lea ecx,[ebp-1Ch]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-14h]; jmp ??1Fix16_Point@@QAE@XZ]
+
+eh 0x53bac0 Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0
+    the same funclets on other states: the objects are constructed in another order
+    state 1: frame offset: 10.5 [lea ecx,[ebp-24h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-14h]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 2: frame offset: 10.5 [lea ecx,[ebp-14h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-24h]; jmp ??1Fix16_Point@@QAE@XZ]
+
+eh 0x53e970 ParticleManager::GunMuzzelFlash_53E970
+    state 1: frame offset: 10.5 [lea ecx,[ebp-1Ch]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-2Ch]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 2: frame offset: 10.5 [lea ecx,[ebp-30h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-18h]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 3: frame offset: 10.5 [lea ecx,[ebp-8]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-1Ch]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 4: frame offset: 10.5 [lea ecx,[ebp-1Ch]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-10h]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 5: frame offset: 10.5 [lea ecx,[ebp-60h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-2Ch]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 7: frame offset: 10.5 [lea ecx,[ebp-2Ch]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-5Ch]; jmp ??1Fix16_Point@@QAE@XZ]
+
+eh 0x53f4c0 ParticleManager::EmitFlameStreamSegment_53F4C0
+    the same funclets on other states: the objects are constructed in another order
+    state 3: frame offset: 10.5 [lea ecx,[ebp-14h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-24h]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 4: frame offset: 10.5 [lea ecx,[ebp-24h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-14h]; jmp ??1Fix16_Point@@QAE@XZ]
+
+eh 0x53fe40 ParticleManager::EmitImpactParticles_53FE40
+    state 1: frame offset: 10.5 [lea ecx,[ebp-0ACh]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-10h]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 2: frame offset: 10.5 [lea ecx,[ebp-20h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-0ACh]; jmp ??1Fix16_Point@@QAE@XZ]
+
+eh 0x544ff0 Char::ctor_544FF0
+    state 0: immediate: 10.5 [mov ecx,[ebp-10h]; add ecx,98h; jmp 40ac40 Car_8::dtor_40AC40], the build [mov ecx,[ebp-10h]; add ecx,88h; jmp ??1SpriteList_4_dtor@@QAE@XZ]
+
+eh 0x548840 Char::HandleObjectCollision_548840
+    state 0: frame offset: 10.5 [lea ecx,[ebp-38h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-1Ch]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 2: frame offset: 10.5 [lea ecx,[ebp-0Ch]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-8]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 3: frame offset: 10.5 [lea ecx,[ebp-24h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-18h]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 4: frame offset: 10.5 [lea ecx,[ebp-1Ch]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-2Ch]; jmp ??1Fix16_Point@@QAE@XZ]
+
+eh 0x55a1d0 CarPhysics::SetVelocityTowardTarget_55A1D0
+    the same funclets on other states: the objects are constructed in another order
+    state 1: frame offset: 10.5 [lea ecx,[ebp-14h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-24h]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 2: frame offset: 10.5 [lea ecx,[ebp-24h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-14h]; jmp ??1Fix16_Point@@QAE@XZ]
+
+eh 0x55b970 CarPhysics::ProcessGroundCollisionAndSurfaceType_55B970
+    state 0: frame offset: 10.5 [lea ecx,[ebp-8]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-30h]; jmp ??1Fix16_Point@@QAE@XZ]
+
+eh 0x55d200 CarPhysics::SpawnSkidSegment_55D200
+    the same funclets on other states: the objects are constructed in another order
+    state 1: frame offset: 10.5 [lea ecx,[ebp-14h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-1Ch]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 2: frame offset: 10.5 [lea ecx,[ebp-1Ch]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-14h]; jmp ??1Fix16_Point@@QAE@XZ]
+
+eh 0x55f3b0 ComputeCollisionImpulse_55F3B0
+    state 0: frame offset: 10.5 [lea ecx,[ebp-14h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-24h]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 2: frame offset: 10.5 [lea ecx,[ebp-24h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-1Ch]; jmp ??1Fix16_Point@@QAE@XZ]
+
+eh 0x55ff20 CarPhysics::HandleCarCollision_55FF20
+    the same funclets on other states: the objects are constructed in another order
+    state 0: frame offset: 10.5 [lea ecx,[ebp-3Ch]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-14h]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 1: frame offset: 10.5 [lea ecx,[ebp-24h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-1Ch]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 2: frame offset: 10.5 [lea ecx,[ebp-1Ch]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-24h]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 3: frame offset: 10.5 [lea ecx,[ebp-14h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-2Ch]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 5: frame offset: 10.5 [lea ecx,[ebp-2Ch]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-3Ch]; jmp ??1Fix16_Point@@QAE@XZ]
+
+eh 0x5606c0 CarPhysics::HandleObjectCollision_5606C0
+    the same funclets on other states: the objects are constructed in another order
+    state 0: frame offset: 10.5 [lea ecx,[ebp-44h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-54h]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 1: frame offset: 10.5 [lea ecx,[ebp-2Ch]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-44h]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 2: frame offset: 10.5 [lea ecx,[ebp-54h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-4Ch]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 4: frame offset: 10.5 [lea ecx,[ebp-4Ch]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-2Ch]; jmp ??1Fix16_Point@@QAE@XZ]
+
+eh 0x560b40 CarPhysics::ProcessPedImpact_560B40
+    the same funclets on other states: the objects are constructed in another order
+    state 0: frame offset: 10.5 [lea ecx,[ebp-2Ch]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-34h]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 1: frame offset: 10.5 [lea ecx,[ebp-14h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-2Ch]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 2: frame offset: 10.5 [lea ecx,[ebp-24h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-14h]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 3: frame offset: 10.5 [lea ecx,[ebp-34h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-24h]; jmp ??1Fix16_Point@@QAE@XZ]
+
+eh 0x561380 CarPhysics::ComputePointVelocity_561380
+    state 0: frame offset: 10.5 [lea ecx,[ebp-24h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-14h]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 1: frame offset: 10.5 [lea ecx,[ebp-14h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-1Ch]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 2: frame offset: 10.5 [lea ecx,[ebp-1Ch]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-18h]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 3: frame offset: 10.5 [lea ecx,[ebp-20h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-24h]; jmp ??1Fix16_Point@@QAE@XZ]
+
+eh 0x5615d0 CarPhysics::ApplyDriveForce_5615D0
+    the same funclets on other states: the objects are constructed in another order
+    state 0: frame offset: 10.5 [lea ecx,[ebp-14h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-1Ch]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 1: frame offset: 10.5 [lea ecx,[ebp-1Ch]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-14h]; jmp ??1Fix16_Point@@QAE@XZ]
+
+eh 0x5a2710 Sprite::FindCollisionIntersectionPoint_5A2710
+    state 0: frame offset: 10.5 [lea ecx,[ebp-0Ch]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-8]; jmp ??1Fix16_Point@@QAE@XZ]
+
+eh 0x5a3550 SpriteShape::UpdateRotatedBoundingBox_5A3550
+    the same funclets on other states: the objects are constructed in another order
+    state 0: frame offset: 10.5 [lea ecx,[ebp-1Ch]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-34h]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 1: frame offset: 10.5 [lea ecx,[ebp-34h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-2Ch]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 2: frame offset: 10.5 [lea ecx,[ebp-2Ch]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-24h]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 3: frame offset: 10.5 [lea ecx,[ebp-24h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-1Ch]; jmp ??1Fix16_Point@@QAE@XZ]
+
+eh 0x5dd0f0 Weapon::flamethrower_5DD0F0
+    the same funclets on other states: the objects are constructed in another order
+    state 0: frame offset: 10.5 [lea ecx,[ebp-1Ch]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-14h]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 1: frame offset: 10.5 [lea ecx,[ebp-14h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-1Ch]; jmp ??1Fix16_Point@@QAE@XZ]
+
+eh 0x5dd860 Weapon::pistol_5DD860
+    the same funclets on other states: the objects are constructed in another order
+    state 0: frame offset: 10.5 [lea ecx,[ebp-14h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-1Ch]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 1: frame offset: 10.5 [lea ecx,[ebp-1Ch]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-14h]; jmp ??1Fix16_Point@@QAE@XZ]
+
+eh 0x5dda70 Weapon::dual_pistol_5DDA70
+    state 0: frame offset: 10.5 [lea ecx,[ebp-14h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-24h]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 1: frame offset: 10.5 [lea ecx,[ebp-18h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-1Ch]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 2: frame offset: 10.5 [lea ecx,[ebp-38h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-14h]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 3: frame offset: 10.5 [lea ecx,[ebp-24h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-10h]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 4: frame offset: 10.5 [lea ecx,[ebp-1Ch]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-8]; jmp ??1Fix16_Point@@QAE@XZ]
+
+eh 0x5de910 DrawElectricArc_5DE910
+    state 0: frame offset: 10.5 [lea ecx,[ebp+4]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-0A0h]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 1: frame offset: 10.5 [lea ecx,[ebp-68h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-98h]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 2: frame offset: 10.5 [lea ecx,[ebp-4Ch]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-88h]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 3: frame offset: 10.5 [lea ecx,[ebp-3Ch]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-7Ch]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 4: frame offset: 10.5 [lea ecx,[ebp-98h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-70h]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 5: frame offset: 10.5 [lea ecx,[ebp-0A0h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-68h]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 7: frame offset: 10.5 [lea ecx,[ebp-64h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-4Ch]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 8: frame offset: 10.5 [lea ecx,[ebp-70h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-3Ch]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 9: frame offset: 10.5 [lea ecx,[ebp-88h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-28h]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 10: frame offset: 10.5 [lea ecx,[ebp-7Ch]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-10h]; jmp ??1Fix16_Point@@QAE@XZ]
+
+eh 0x5e2940 Weapon::car_smg_5E2940
+    state 0: frame offset: 10.5 [lea ecx,[ebp-18h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-0Ch]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 1: frame offset: 10.5 [lea ecx,[ebp-24h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-2Ch]; jmp ??1Fix16_Point@@QAE@XZ]
+    state 2: frame offset: 10.5 [lea ecx,[ebp-2Ch]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-24h]; jmp ??1Fix16_Point@@QAE@XZ]
+
+consts 0x430ac0 CarInfoTable::SetErr_430AC0
+    8: immediate 0xfffffff4, the build 0xfffffff2
+
+consts 0x4aec00 Frontend::Update_4AEC00
+    b1: code of 5d9970 and the build ?sub_SetGamma@@YAXXZ differs
+
+consts 0x4b5270 Frontend::DrawSavedStage_4B5270
+    84: code of 4ae970 Fix16::FromU16_4AE970 and the build ??0Fix16@@QAE@F@Z differs
+
+consts 0x4b7d60 Frontend::DrawBonusRating_4B7D60
+    7f: code of 4ae970 Fix16::FromU16_4AE970 and the build ??0Fix16@@QAE@H@Z differs
+
+consts 0x4b9410 Game::UpdateGame_4B9410
+    220: code of 5d9970 and the build ?sub_SetGamma@@YAXXZ differs
+
+consts 0x4c4ec0 GetDirectXVersion_4C4EC0
+    34f: 6019b4 holds 004e04dab269d011, the build _IID_IDirectDrawSurface2 holds 85588057ec6ecf11 (+0, 16 bytes)
+
+consts 0x4c8e60 PedGroup::DestroyGroupArray_4C8E60
+    e: code of 5edfd3 ??_M@YGXPAXIHP6EX0@Z@Z and the build ??_M@YGXPAXIHP6AX0@Z@Z differs
+
+consts 0x4da740 Shutdown_4DA740
+    32: code of 40ef90 and the build ?DeinitializeAudio@root_sound@@QAEXXZ differs
+
+consts 0x51e030 NetPlay::EnumAddress_cb_51E030
+    11: 600634 holds 00c2dcf6fea2d011, the build _DPAID_INet holds a04da5c4afe0cf11 (+0, 16 bytes)
+
+consts 0x5d1d00 Hud_TextEntry::Draw_5D1D00
+    33: code of 4ae970 Fix16::FromU16_4AE970 and the build ??0Fix16@@QAE@F@Z differs
+
+globals 0x5fe434 byte_5FE434
+    +2: 10.5 01, the build 00
+
+globals 0x67c530 gFile_67C530
+    +16: 10.5 0x2 (2, 0.0001 as Fix16), the build 0x0 (0, 0.0000 as Fix16)
+
+globals 0x67ce50 gTmpGxtKey_67CE50
+    +256: 10.5 0x824 (2084, 0.1272 as Fix16), the build 0x0 (0, 0.0000 as Fix16) (past 256 bytes, where 10.5 has another object, written by its initialiser 4a6270)
+
+globals 0x67dc8c gEmptyWStr_67DC8C
+    +13: 10.5 a0, the build 00 (past 12 bytes, where 10.5 has another object, written by its initialiser 4bc340)
+
+globals 0x67e8e0 gGameSession_67E8E0
+    +1090: 10.5 06, the build 00
+
+globals 0x707f64 gWorkingDir_707F64
+    +256: 10.5 0x63d8 (25560, 1.5601 as Fix16), the build 0x0 (0, 0.0000 as Fix16) (past 256 bytes, where 10.5 has another object, written by its initialiser 5e7900)

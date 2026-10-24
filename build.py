@@ -107,7 +107,7 @@ def main():
     parser.add_argument("--single_cpp", help="Build only n.cpp using cl.exe and produce n.obj using most common project flags", type=str)
     parser.add_argument("--cores", help="Limit cpu cores to build with (use all if not passed, else 1 if reccmp build)", type=int)
     parser.add_argument("--no_wip_logging", help="Build WIP/stub functions without the WIP_IMPLEMENTED/NOT_IMPLEMENTED logging code, so they can be compared with the original", action="store_true")
-    parser.add_argument("--extra_checks", help="After verifying, also run Scripts/bin_comp/run_extra_checks.py (EH data, constants, global values, references); fails the build on differences", action="store_true")
+    parser.add_argument("--extra_checks", help="After verifying, also run Scripts/bin_comp/run_extra_checks.py (EH data, constants, global values, references); fails the build on differences not in Scripts/bin_comp/extra_checks_known.txt", action="store_true")
 
     args = parser.parse_args()
 
@@ -147,7 +147,7 @@ def main():
         print("Build finished and verified successfully!")
 
         if args.extra_checks and not run_extra_checks():
-            print("Extra checks found differences!")
+            print("Extra checks found new differences!")
             sys.exit(1)
 
         if GTA2_ROOT is None:
