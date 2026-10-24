@@ -1582,7 +1582,7 @@ EXPORT void __stdcall GetDirectXVersion_4C4EC0(u32* pDXVer, u32* osKind)
     LPDIRECTDRAW pDDraw; // [esp+54h] [ebp-114h] BYREF
     LPDIRECTDRAWSURFACE pDSurface; // [esp+58h] [ebp-110h] BYREF
     LPDIRECTDRAW pDraw2; // [esp+5Ch] [ebp-10Ch] BYREF
-    s32 pSurface2; // [esp+60h] [ebp-108h] BYREF
+    s32 pSurface3; // [esp+60h] [ebp-108h] BYREF
     LPDIRECTDRAWSURFACE pDSurface4; // [esp+64h] [ebp-104h] BYREF
     DDSURFACEDESC surfaceDesc; // [esp+68h] [ebp-100h] BYREF
     struct _OSVERSIONINFOA osVersionInfo; // [esp+D4h] [ebp-94h] BYREF
@@ -1590,7 +1590,7 @@ EXPORT void __stdcall GetDirectXVersion_4C4EC0(u32* pDXVer, u32* osKind)
     pDDraw = 0;
     pDraw2 = 0;
     pDSurface = 0;
-    pSurface2 = 0;
+    pSurface3 = 0;
     pDSurface4 = 0;
     osVersionInfo.dwOSVersionInfoSize = sizeof(osVersionInfo);
 
@@ -1716,7 +1716,7 @@ EXPORT void __stdcall GetDirectXVersion_4C4EC0(u32* pDXVer, u32* osKind)
         return;
     }
 
-    if (pDSurface->QueryInterface(IID_IDirectDrawSurface2, (LPVOID*)&pSurface2) < 0)
+    if (pDSurface->QueryInterface(IID_IDirectDrawSurface3, (LPVOID*)&pSurface3) < 0)
     {
         pDDraw->Release();
         FreeLibrary(hDDraw);
