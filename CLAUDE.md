@@ -107,6 +107,18 @@ example, in `Source/Camera.cpp`, `Camera::IncreaseElevation_4357F0`, change `<` 
 `build.py` (`FAIL!`) and `compare_builds.py` (`CHANGED: Camera::IncreaseElevation_4357F0`) must
 report that function and only that one. Revert afterwards.
 
+### What the verifier doesn't see
+
+`compare_all_functions.py` only compares each function's own bytes, with absolute addresses
+renamed. `python3 build.py --extra_checks` (or `python3 run_extra_checks.py` in
+`Scripts/bin_comp` after a build, about 4 s) also runs the checks for what that hides:
+`check_match_refs.py` (same globals, callees and switch targets), `check_match_eh.py` (EH unwind
+data: which frame slot each state destroys, with which destructor), `check_match_consts.py`
+(float constants, strings, vtables, GUIDs, CRT callees, imports) and `check_global_values.py`
+(every global's value after static init, both exes' initialisers run under unicorn). Each has a
+`REVIEWED` list for differences checked as equivalent. CI runs them as a report only for now;
+`docs/verifier_gaps.md` lists what they found on master.
+
 ## Implementing functions without the original exe
 
 The "Dump target asm" workflow (push to `claude/target-asm-request`) writes the original asm
