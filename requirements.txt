@@ -1,3 +1,5 @@
 requests
 iced-x86
 pyclip
+pefile
+unicorn
