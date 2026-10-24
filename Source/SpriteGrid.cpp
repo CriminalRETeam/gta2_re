@@ -696,7 +696,6 @@ bool SpriteGrid::CheckRowForRectCollisions_4785D0(u32 y_pos, Fix16_Rect* pRect)
                 !pObj->field_0_pSprite->field_C_pCollisionShape->CollisionIdIs_446930(gCollisionCounters_6791FC->field_4_query_id) &&
                 field_0_pSprite->ShouldCollideWithSprite_59E850(0))
             {
-                //  83:    inc     %edx
                 gCollisionCounters_6791FC->field_0_test_count++;
 
                 Fix16_Rect* pBBox = &pObj->field_0_pSprite->field_C_pCollisionShape->field_30_boundingBox;

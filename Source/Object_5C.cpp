@@ -3410,7 +3410,7 @@ Object* Object_5C::CreateObject_529C00(int object_type, Fix16 xpos, Fix16 ypos, 
          (pDefinition->field_40_collision_bucket_category == collision_bucket_category::sprite_grid_2_region_3 &&
           gSpriteGrid_2_67920C->FindCollidingSpritePreferType_477E60(pNewObject->field_4_sprite, 0))))
     {
-        if (pNewObject->field_20_pool_list_state == object_pool_state::in_pool_list_1) // 154: ~> cmpl    $0x1,0x0(%ebp)
+        if (pNewObject->field_20_pool_list_state == object_pool_state::in_pool_list_1)
         {
             gObject_2C_Pool_6F8F80->FindAndDeAllocate(pNewObject);
         }
