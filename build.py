@@ -424,6 +424,7 @@ def verify():
     return dump_result.returncode == 0 and compare_result.returncode == 0
 
 def run_extra_checks():
+    sys.stdout.flush()
     python = sys.executable
     return subprocess.run(f"{python} run_extra_checks.py", cwd=BIN_COMP_DIRECTORY, shell=True).returncode == 0
 
