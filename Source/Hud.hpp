@@ -260,8 +260,8 @@ class Hud_TextEntry
     }
     wchar_t field_0_str_buf[82];
     s32 field_A4_display_time;
-    s16 field_A8_x;
-    s16 field_AA_y;
+    u16 field_A8_x;
+    u16 field_AA_y;
     s16 field_AC_fontType;
     s32 field_B0_drawKind;
     s16 field_B4_palette;

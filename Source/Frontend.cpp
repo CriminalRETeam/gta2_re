@@ -2815,7 +2815,7 @@ void Frontend::DrawBonusRating_4B7D60()
     {
         wchar_t* pRatingStr = gText_0x14_704DFC->Find_5B5F90(text_id);
         TextTable::InsertLineBreaksAndGetNumLines_5B5BC0(text, pRatingStr, 560, font_type);
-        DrawText_4B87A0(text, 40, 270, font_type, 1);
+        DrawText_4B87A0(text, (u16)40, (u16)270, font_type, 1);
     }
 }
 
@@ -4358,10 +4358,10 @@ void Frontend::DrawSavedStage_4B5270()
         gGameSession_67E8E0.DecodeStage_453A60(codified_stages, &main_stage, &bonus_stage);
     }
     swprintf(tmpBuff_67BD9C, L"%d", main_stage);
-    DrawText_4B87A0(tmpBuff_67BD9C, (s16)450, (s16)90, field_11C_normal_font, 1);
+    DrawText_4B87A0(tmpBuff_67BD9C, (u16)450, (u16)90, field_11C_normal_font, 1);
 
     swprintf(tmpBuff_67BD9C, L"%d", bonus_stage);
-    DrawText_4B87A0(tmpBuff_67BD9C, (s16)450, (s16)110, field_11C_normal_font, 1);
+    DrawText_4B87A0(tmpBuff_67BD9C, (u16)450, (u16)110, field_11C_normal_font, 1);
 }
 
 MATCH_FUNC(0x4B5370)
