@@ -1565,7 +1565,7 @@ void Ped::HandleClosePedInteraction_45CAA0()
 {
 
     PedGroup* pNearPedGroup;
-    s16 rng; // bp
+    s16 rng;
 
     Ped* pNearPed_ = FindNearbyPed_466FB0();
     if (pNearPed_)
