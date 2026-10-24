@@ -17,8 +17,8 @@ and what they found on master at d5724def (3426/3426 MATCH functions verified).
 | `check_duplicate_globals.py` (in `build.py`) | Two `DEFINE_GLOBAL`s at one address | Plain declarations named after an address (`ErrorLog gFile_67C530` next to `DEFINE_GLOBAL_INIT(ErrorLog, gErrorLog_67C530, ...)`) |
 | CI reccmp job | `reccmp-reccmp` HTML report of a RelWithDebInfo (`/Z7`) build, `reccmp-datacmp` (continue-on-error) | Doesn't fail the build; it is a different build from the one `build.py` verifies |
 
-`decomp_main.exe --check_vars_only` is run by the Windows CI job, but I could not find that option
-handled anywhere in `Source/`.
+`decomp_main.exe --check_vars_only` (handled in `test.cpp` at the repo root) runs the globals registry's
+`CheckVars()` and exits; it doesn't compare values with 10.5.exe.
 
 ## The new checks
 
@@ -165,6 +165,8 @@ declarations of two `Fix16_Point` locals in `CarPhysics::CalculateFrontWheelForc
 
 ## Limits
 
+- `check_match_consts.py` doesn't follow a callee reached by a tail `jmp`, so a jump into a wrong
+  copy of a function isn't reported (a SetGamma copy reached from `Game::UpdatePaused_4B93C0` was missed).
 - The checks pair instructions one to one; a function whose instruction count differs is left to
   the verifier.
 - Data with no symbol in the build and no reference from code isn't compared, nor are globals the

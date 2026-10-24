@@ -41,6 +41,7 @@ import ref_values
 
 # Differences that do the same as 10.5.exe (reviewed by reading both)
 REVIEWED = {
+    0x4c8e60: 'PedGroup::DestroyGroupArray_4C8E60: a stand-in for compiler-generated code; the real static destructor ($E2) calls the CRT ??_M as 10.5.exe does',
 }
 
 

@@ -217,9 +217,6 @@ consts 0x4b9410 Game::UpdateGame_4B9410
 consts 0x4c4ec0 GetDirectXVersion_4C4EC0
     34f: 6019b4 holds 004e04dab269d011, the build _IID_IDirectDrawSurface2 holds 85588057ec6ecf11 (+0, 16 bytes)
 
-consts 0x4c8e60 PedGroup::DestroyGroupArray_4C8E60
-    e: code of 5edfd3 ??_M@YGXPAXIHP6EX0@Z@Z and the build ??_M@YGXPAXIHP6AX0@Z@Z differs
-
 consts 0x4da740 Shutdown_4DA740
     32: code of 40ef90 and the build ?DeinitializeAudio@root_sound@@QAEXXZ differs
 
