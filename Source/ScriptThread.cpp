@@ -5831,7 +5831,7 @@ void ScriptThread::SCRCMD_WEAP_HIT_CAR_50EBD0()
 
     if (!pCmd->field_A_status)
     {
-        char hit;
+        bool hit;
         if (gBasePtr_6F8070->field_2_type == SCRCMD_WEAP_HIT_CAR)
         {
             hit = gScriptManager_6F8060->TestAndRecordWeaponHit_512AF0(pPointer->field_8_car->field_6C_car_id, pCmd->field_C_weapon, 0);

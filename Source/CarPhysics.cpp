@@ -2139,7 +2139,7 @@ bool CarPhysics::ApplyMovementCommand_55F240()
 MATCH_FUNC(0x55f280)
 char_type CarPhysics::ProcessCollisionAndClampVelocity_55F280()
 {
-    char_type movementApplied = 0;
+    bool movementApplied = false;
 
     Fix16_Point_POD cm1 = this->field_30_cm1;
 

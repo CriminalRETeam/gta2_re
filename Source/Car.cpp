@@ -5198,7 +5198,7 @@ void Car::HandleUserInput_4418D0(char_type forward_gas_on,
                                     char_type attack)
 {
     // A flag initialised to 0 (not a nested if) gives the original's 'cmp %bl,%al' on the call result
-    char_type bRotated = 0;
+    bool bRotated = false;
     this->field_B8_turret_rotated = 0;
 
     if (now_special_pressed && (left_on || right_on))

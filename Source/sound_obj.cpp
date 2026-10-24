@@ -5730,7 +5730,7 @@ void sound_obj::HandlePedVoiceEvent_423080(Sound_Params* pParams)
     Char* pChar = pParams->field_0_pObj->field_8_char_b4_ptr;
     Ped* pPed = pChar->field_7C_pPed;
     s32 voice = pPed->TakeVoiceEvent_41B0B0();
-    char_type bTank;
+    bool bTank;
     s32 samp = 321;
 
     if (!pPed->is_player_41B0A0())
@@ -6582,7 +6582,7 @@ void sound_obj::ProcessType7_Weapon_42A500(s32 idx)
     char bSetF30;
     u8 vol;
     int rate_adjust;
-    char bHasSolidAbove;
+    bool bHasSolidAbove;
 
     vol = 40;
     rate_adjust = 0;
