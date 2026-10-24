@@ -4660,7 +4660,7 @@ void Ped::SetStatesForObjective_4633E0(char_type bMainObj)
 MATCH_FUNC(0x463570)
 void Ped::SetObjective(s32 objective, s16 objective_timer)
 {
-    PatrolRoute* pPatrolRoute_96;
+    PatrolRoute* pPatrolRoute;
     PatrolPoint* pPoint;
 
     if (this->field_278_ped_state_1 != ped_state_1::dead_9 || objective == objectives_enum::objective_28)
@@ -4739,9 +4739,9 @@ void Ped::SetObjective(s32 objective, s16 objective_timer)
                 break;
 
             case objectives_enum::patrol_on_foot_42:
-                pPatrolRoute_96 = gPatrolRoutePool_6FD784->AllocPatrolList_543F10(&field_265_patrol_list_idx);
-                field_190_patrol_route = pPatrolRoute_96;
-                pPoint = pPatrolRoute_96->field_0_points;
+                pPatrolRoute = gPatrolRoutePool_6FD784->AllocPatrolList_543F10(&field_265_patrol_list_idx);
+                field_190_patrol_route = pPatrolRoute;
+                pPoint = pPatrolRoute->field_0_points;
                 while (pPoint->field_0_x)
                 {
                     pPoint->field_0_x = 0;

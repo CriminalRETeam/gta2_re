@@ -384,15 +384,15 @@ s16 DamageAreaFlags::Delta_48F8B0(u16& sprite_idx, u8& bRet, const u16& palette,
     }
     sprite_index* sprite_index_5AA440 = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
     u32 bLargeMask = sprite_index_5AA440->field_5_height > 0x40u;
-    SpriteMask* pSprt14 = gSpriteMaskCache_67AF1C->FindCachedMask_48F600(sprite_idx, &bLargeMask, &m_var, &palette);
-    if (pSprt14)
+    SpriteMask* pMask = gSpriteMaskCache_67AF1C->FindCachedMask_48F600(sprite_idx, &bLargeMask, &m_var, &palette);
+    if (pMask)
     {
-        if (pSprt14->field_8_delta_mask < m_var)
+        if (pMask->field_8_delta_mask < m_var)
         {
             bRet = 1;
-            u32 sub = m_var - pSprt14->field_8_delta_mask;
-            Delta_48F820(sprite_idx, (u8*)pSprt14->field_0_pixels, sub, sprite_index_5AA440->field_4_width);
-            pSprt14->SetKey_44AF50(sprite_idx, m_var, palette);
+            u32 sub = m_var - pMask->field_8_delta_mask;
+            Delta_48F820(sprite_idx, (u8*)pMask->field_0_pixels, sub, sprite_index_5AA440->field_4_width);
+            pMask->SetKey_44AF50(sprite_idx, m_var, palette);
         }
         else
         {
@@ -402,22 +402,22 @@ s16 DamageAreaFlags::Delta_48F8B0(u16& sprite_idx, u8& bRet, const u16& palette,
     else
     {
         bRet = 1;
-        pSprt14 = gSpriteMaskCache_67AF1C->FindLeastRecentlyUsed_48F690(&bLargeMask);
+        pMask = gSpriteMaskCache_67AF1C->FindLeastRecentlyUsed_48F690(&bLargeMask);
         if (!bClearMask)
         {
-            sprite_index_5AA440->CopyPixels_5ABB00(pSprt14->field_0_pixels);
+            sprite_index_5AA440->CopyPixels_5ABB00(pMask->field_0_pixels);
         }
         else
         {
-            pSprt14->ClearMask_48F5C0(sprite_index_5AA440->field_4_width, sprite_index_5AA440->field_5_height);
+            pMask->ClearMask_48F5C0(sprite_index_5AA440->field_4_width, sprite_index_5AA440->field_5_height);
         }
         
-        Delta_48F820(sprite_idx, (u8*)pSprt14->field_0_pixels, m_var, sprite_index_5AA440->field_4_width);
-        pSprt14->SetKey_44AF50(sprite_idx, m_var, palette);
+        Delta_48F820(sprite_idx, (u8*)pMask->field_0_pixels, m_var, sprite_index_5AA440->field_4_width);
+        pMask->SetKey_44AF50(sprite_idx, m_var, palette);
     }
     
-    pSprt14->MarkUsed_48F5A0();
-    return pSprt14->field_10_idx;
+    pMask->MarkUsed_48F5A0();
+    return pMask->field_10_idx;
 }
 
 MATCH_FUNC(0x4F76A0)

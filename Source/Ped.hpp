@@ -671,8 +671,8 @@ class Ped
     // by value, VC6 loads the argument before the Char and 9 callers stop matching.
     inline void SetRemap_433C10(const u8& remap)
     {
-        Char* p_B4 = field_168_game_object; // local necessary to match Ped::SetupFollower_46DF70
-        p_B4->SetRemap_Inline(remap);
+        Char* pChar = field_168_game_object; // local necessary to match Ped::SetupFollower_46DF70
+        pChar->SetRemap_Inline(remap);
     }
 
     inline void TriggerVoiceEventRateLimited_433E50()

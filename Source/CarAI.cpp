@@ -2799,15 +2799,15 @@ void CarAI::UpdateChase_44E0C0()
     u8 t_y;
     u8 t_z = 0;
     this->field_74_max_speed = this->field_0_car->field_54_driver->field_1F8_run_speed;
-    CarChaseTask* p60_ = field_0_car->field_60_pChaseTask;
+    CarChaseTask* pChaseTask = field_0_car->field_60_pChaseTask;
 
     Fix16 target_x;
     Fix16 target_y;
     Fix16 target_z;
 
-    if (p60_->field_8_task_type != car_task_type::goto_position_1)
+    if (pChaseTask->field_8_task_type != car_task_type::goto_position_1)
     {
-        gCurrCarAI_TargetCar_6779B0 = p60_->field_30_pTargetPed->field_16C_car;
+        gCurrCarAI_TargetCar_6779B0 = pChaseTask->field_30_pTargetPed->field_16C_car;
         target_x = this->field_0_car->field_60_pChaseTask->field_30_pTargetPed->get_cam_x();
         gCurrCarAI_TargetX_6779F0 = target_x;
         target_y = this->field_0_car->field_60_pChaseTask->field_30_pTargetPed->get_cam_y();
@@ -2816,7 +2816,7 @@ void CarAI::UpdateChase_44E0C0()
     }
     else
     {
-        target_x = p60_->field_14_target_x;
+        target_x = pChaseTask->field_14_target_x;
         gCurrCarAI_TargetX_6779F0 = target_x;
         target_y = this->field_0_car->field_60_pChaseTask->field_18_target_y;
         gCurrCarAI_TargetY_6779F4 = target_y;

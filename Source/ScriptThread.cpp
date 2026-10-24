@@ -1351,13 +1351,13 @@ void ScriptThread::DisableThread_505790(u16 idx)
             SCR_POINTER* pParam2 = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pThread->field_12_car_or_phone_idx);
 
             s32 charId = pParam1->field_8_char->get_id();
-            ThreadTrigger* pThreadC = gScriptManager_6F8060->FindCarThread_5128A0(charId, pParam2->field_8_car->field_6C_car_id);
+            ThreadTrigger* pTrigger = gScriptManager_6F8060->FindCarThread_5128A0(charId, pParam2->field_8_car->field_6C_car_id);
 
-            if (pThreadC)
+            if (pTrigger)
             {
-                pThreadC->field_0_ped_id = 0;
-                pThreadC->field_4_target_id = 0;
-                pThreadC->field_8_cmd_line = 0;
+                pTrigger->field_0_ped_id = 0;
+                pTrigger->field_4_target_id = 0;
+                pTrigger->field_8_cmd_line = 0;
                 --gScriptManager_6F8060->field_0_car_trigger_count;
             }
 

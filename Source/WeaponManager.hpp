@@ -61,13 +61,13 @@ class WeaponPool
 
     // TODO: This is probably a heavily inlined common iteration func
     // Remove/dealloc?
-    void DeAllocate_4A4F20(Weapon* pW30)
+    void DeAllocate_4A4F20(Weapon* pWeapon)
     {
         Weapon* pIter = this->field_0_pool.field_4_pPrev;
         Weapon* pLastIter = 0;
         while (pIter)
         {
-            if (pIter == pW30)
+            if (pIter == pWeapon)
             {
                 pIter->PoolDeallocate();
                 if (pLastIter)

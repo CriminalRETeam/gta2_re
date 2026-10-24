@@ -1026,9 +1026,9 @@ ScriptManager::ScriptManager()
     memset(field_27C_weapon_check_table, 0, sizeof(field_27C_weapon_check_table));
     memset(&gGameSave_6F78C8, 0, sizeof(gGameSave_6F78C8));
 
-    MissionCleanupList* pMiss2_25C = new MissionCleanupList();
-    gMiss2_25C_6F805C = pMiss2_25C;
-    if (!pMiss2_25C)
+    MissionCleanupList* pCleanupList = new MissionCleanupList();
+    gMiss2_25C_6F805C = pCleanupList;
+    if (!pCleanupList)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 13630);
     }

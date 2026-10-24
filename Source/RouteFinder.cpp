@@ -619,35 +619,35 @@ RouteSearchNode::RouteSearchNode()
 MATCH_FUNC(0x5892f0)
 RouteSearchNode* RouteFinder::NewChildNode_5892F0(RouteSearchNode* pRoute, u16 idx, s16 step_cost)
 {
-    RouteSearchNode* pNew10 = &this->field_861C_nodes[this->field_CC66_545_count++];
+    RouteSearchNode* pNode = &this->field_861C_nodes[this->field_CC66_545_count++];
 
     s32 dy = abs((u8)field_8_junctions[idx].field_D_min_y - (u8)field_8_junctions[field_861A_dest_idx].field_D_min_y);
     s32 dx = abs((u8)field_8_junctions[idx].field_C_min_x - (u8)field_8_junctions[field_861A_dest_idx].field_C_min_x);
     s16 dist = dy + dx;
     s16 cost = pRoute->field_2_cost + step_cost;
 
-    pNew10->field_0_idx = idx;
-    pNew10->field_2_cost = cost + dist;
-    pNew10->field_8_pParent = pRoute;
-    pNew10->field_C_pNext = 0;
+    pNode->field_0_idx = idx;
+    pNode->field_2_cost = cost + dist;
+    pNode->field_8_pParent = pRoute;
+    pNode->field_C_pNext = 0;
 
-    return pNew10;
+    return pNode;
 }
 
 MATCH_FUNC(0x589390)
 RouteSearchNode* RouteFinder::NewStartNode_589390(u16 junction_idx)
 {
-    RouteSearchNode* pNew10 = &field_861C_nodes[field_CC66_545_count++];
+    RouteSearchNode* pNode = &field_861C_nodes[field_CC66_545_count++];
     s32 distance = abs(field_8_junctions[junction_idx].field_C_min_x - field_8_junctions[field_861A_dest_idx].field_C_min_x) +
         abs(field_8_junctions[junction_idx].field_D_min_y - field_8_junctions[field_861A_dest_idx].field_D_min_y);
 
-    pNew10->field_2_cost = distance;
-    pNew10->field_0_idx = junction_idx;
-    pNew10->field_4_expanded = 0;
+    pNode->field_2_cost = distance;
+    pNode->field_0_idx = junction_idx;
+    pNode->field_4_expanded = 0;
     // field_6 is preserved by the original function.
-    pNew10->field_8_pParent = 0;
-    pNew10->field_C_pNext = 0;
-    return pNew10;
+    pNode->field_8_pParent = 0;
+    pNode->field_C_pNext = 0;
+    return pNode;
 }
 
 MATCH_FUNC(0x589420)

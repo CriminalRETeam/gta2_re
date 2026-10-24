@@ -2171,18 +2171,18 @@ bool Object::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 y, 
 MATCH_FUNC(0x527630)
 void Object::InitializeObject_527630(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation)
 {
-    ObjectDefinition* phi74 = gObjectDefinitions_6FCF00->GetObjectDefinition_534360(object_type);
-    field_8_definition = phi74;
+    ObjectDefinition* pDefinition = gObjectDefinitions_6FCF00->GetObjectDefinition_534360(object_type);
+    field_8_definition = pDefinition;
     field_18_model = object_type;
     field_24_touched_result = 0;
 
     if (field_4_sprite)
     {
-        phi74->ApplyDefinitionToSprite_5331A0(field_4_sprite);
+        pDefinition->ApplyDefinitionToSprite_5331A0(field_4_sprite);
     }
     else
     {
-        field_4_sprite = phi74->CreateSpriteFromDefinition_533170();
+        field_4_sprite = pDefinition->CreateSpriteFromDefinition_533170();
     }
 
     field_4_sprite->set_xyz_lazy_420600(xpos, ypos, zpos);
@@ -3441,10 +3441,10 @@ Object* Object_5C::CreateObject_529C00(int object_type, Fix16 xpos, Fix16 ypos, 
 
         case object_behavior_type::explosion_5:
         {
-            Explosion* pNew30;
-            pNew30 = gExplosionPool_7A8_6FD5F0->Allocate_543800();
-            pNewObject->field_C_pAny.pExplosion = pNew30;
-            if (pNew30)
+            Explosion* pExplosion;
+            pExplosion = gExplosionPool_7A8_6FD5F0->Allocate_543800();
+            pNewObject->field_C_pAny.pExplosion = pExplosion;
+            if (pExplosion)
             {
                 pNewObject->field_1C_has_explosion = 1;
             }
@@ -3594,7 +3594,7 @@ Object* Object_5C::CreateMovingObj_52A2C0(s32 object_type,
     if (pNewObj)
     {
         pNewObj->AssignToBucket_527AE0();
-        ObjectDefinition* pPhi74 = gObjectDefinitions_6FCF00->GetObjectDefinition_534360(object_type);
+        ObjectDefinition* pDefinition = gObjectDefinitions_6FCF00->GetObjectDefinition_534360(object_type);
         if (!pNewObj->field_10_obj_3c)
         {
             Object_3C* pObject3C = gObject_3C_Pool_6F8F7C->Allocate();
@@ -3611,7 +3611,7 @@ Object* Object_5C::CreateMovingObj_52A2C0(s32 object_type,
         pNewObj->field_10_obj_3c->field_1C_z_accel = kObjectGravity_6F8DA8;
         pNewObj->field_10_obj_3c->field_18_friction = friction;
         pNewObj->field_10_obj_3c->field_4_angle = move_angle;
-        pNewObj->field_10_obj_3c->field_28_next_definition_timer = pPhi74->field_65_next_definition_timer;
+        pNewObj->field_10_obj_3c->field_28_next_definition_timer = pDefinition->field_65_next_definition_timer;
         Object_3C* field_10_obj_3c = pNewObj->field_10_obj_3c;
         if (field_10_obj_3c->field_10_z_speed != kFpZero_6F8E10)
         {
