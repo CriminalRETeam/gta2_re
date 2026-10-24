@@ -616,7 +616,7 @@ void PlyDat::UpdateHiScores_56C010()
 {
     u8 map_num;
     u8 bonus_num;
-    char_type bBestStatsChanged = 0;
+    bool bBestStatsChanged = false;
 
     if (!gGameSession_67E8E0.IsBonusStage_4C59A0())
     {
@@ -630,9 +630,9 @@ void PlyDat::UpdateHiScores_56C010()
 
     PlySlot* pPlayerStats = &field_26A0_plyr_stats[gGameSession_67E8E0.GetPlySlotIdx_4C59B0()];
     s32 latest = pPlayerStats->field_0_plyr_stage_stats[map_num][bonus_num].field_8_stage_latest_score;
-    const char_type bNewStageScore =
+    const bool bNewStageScore =
         field_1890_stage_scores[map_num][bonus_num].InsertScore_56B550(pPlayerStats->field_90_strPlayerName, latest);
-    const char_type bNewTotalScore = field_23D0_total_scores.InsertScore_56B550(pPlayerStats->field_90_strPlayerName, pPlayerStats->GetTotalBestScore_56B6B0());
+    const bool bNewTotalScore = field_23D0_total_scores.InsertScore_56B550(pPlayerStats->field_90_strPlayerName, pPlayerStats->GetTotalBestScore_56B6B0());
 
     if (!bonus_num)
     {
@@ -643,7 +643,7 @@ void PlyDat::UpdateHiScores_56C010()
             if (value > *pBestStats)
             {
                 *pBestStats = value;
-                bBestStatsChanged = 1;
+                bBestStatsChanged = true;
             }
         }
 
@@ -651,14 +651,14 @@ void PlyDat::UpdateHiScores_56C010()
         if (value1 > (u32)field_1878_best_car_damage_cost[map_num])
         {
             field_1878_best_car_damage_cost[map_num] = value1;
-            bBestStatsChanged = 1;
+            bBestStatsChanged = true;
         }
 
         const u32 value2 = gGameSession_67E8E0.GetEvasionRating_4C5AA0();
         if (value2 > (u32)field_1884_best_evasion_rating[map_num])
         {
             field_1884_best_evasion_rating[map_num] = value2;
-            bBestStatsChanged = 1;
+            bBestStatsChanged = true;
         }
     }
 

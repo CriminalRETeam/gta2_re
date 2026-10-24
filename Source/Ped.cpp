@@ -6748,7 +6748,7 @@ bool Ped::FindUsableCarDoor_467090()
          this->field_258_objective == objectives_enum::leave_car_36) &&
             this->field_168_game_object && (pTargetToEnter = this->field_168_game_object->field_84_target_car) != 0)
     {
-        char_type isPedKind = IsLawEnforcement_45B4E0();
+        bool isPedKind = IsLawEnforcement_45B4E0();
         Fix16 vel_to_check = kFpPoint2_67856C;
         if (isPedKind)
         {
@@ -9776,7 +9776,7 @@ void Ped::EnterCarStateMachine_46BDC0()
     }
 
     this->field_168_game_object->Set_F84_433900(this->field_154_target_to_enter);
-    const char_type isPedKind = IsLawEnforcement_45B4E0();
+    const bool isPedKind = IsLawEnforcement_45B4E0();
     Fix16 vel_to_check = kFpPoint2_67856C;
     if (isPedKind)
     {

@@ -408,9 +408,9 @@ void sound_obj::ProcessType8_Crane_412820(s32 idx)
 
             this->field_30_sQueueSample.field_0_EntityIndex = idx;
             this->field_30_sQueueSample.field_5C = 0;
-            char_type bSolidAbove = gMap_0x370_6F6268->CheckColumnHasSolidAbove_4E7FC0(field_30_sQueueSample.field_8_obj.field_0_x,
-                                                                                         field_30_sQueueSample.field_8_obj.field_4_y,
-                                                                                         field_30_sQueueSample.field_8_obj.field_8_z);
+            bool bSolidAbove = gMap_0x370_6F6268->CheckColumnHasSolidAbove_4E7FC0(field_30_sQueueSample.field_8_obj.field_0_x,
+                                                                                    field_30_sQueueSample.field_8_obj.field_4_y,
+                                                                                    field_30_sQueueSample.field_8_obj.field_8_z);
             this->field_28_dist_related = ComputeEmitterDistanceSquared_4190B0();
             this->field_2C_distCalculated = 0;
             if (CalculateDistance_419020(Fix16(625)))
@@ -523,7 +523,7 @@ void sound_obj::ProcessType9_Crusher_412A60(s32 idx)
 
             this->field_30_sQueueSample.field_0_EntityIndex = idx;
             this->field_30_sQueueSample.field_5C = 0;
-            const char_type bSolidAbove = gMap_0x370_6F6268->CheckColumnHasSolidAbove_4E7FC0(x, y, z);
+            const bool bSolidAbove = gMap_0x370_6F6268->CheckColumnHasSolidAbove_4E7FC0(x, y, z);
             this->field_28_dist_related = ComputeEmitterDistanceSquared_4190B0();
             this->field_2C_distCalculated = 0;
             if (CalculateDistance_419020(Fix16(121)))

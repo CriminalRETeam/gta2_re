@@ -7065,7 +7065,7 @@ s32 Trailer::Update_408220()
         gSpriteGrid_1_679208->RemoveFromRegionBuckets_477B60(field_C_trailer_car->field_50_car_sprite);
     }
 
-    const char_type despawn_status = field_8_truck_cab->UpdateCarDespawnStatus_4424C0();
+    const bool despawn_status = field_8_truck_cab->UpdateCarDespawnStatus_4424C0();
     field_C_trailer_car->field_88_despawn_status = field_8_truck_cab->field_88_despawn_status;
     if (despawn_status)
     {
@@ -7074,7 +7074,7 @@ s32 Trailer::Update_408220()
     }
     else
     {
-        const char_type bCabDrowning = ServicePhysics_408140();
+        const bool bCabDrowning = ServicePhysics_408140();
         if (field_8_truck_cab->field_50_car_sprite->field_1C_zpos != kFpZero_66AB38)
         {
             if (field_C_trailer_car->field_50_car_sprite->field_1C_zpos != kFpZero_66AB38)
