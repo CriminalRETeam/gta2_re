@@ -25,9 +25,10 @@ marked unlisted addresses into `target_extra.json`) before trusting the marker.
   their own header and include it only from the `.cpp` files, so inline code in `Car.hpp` stays numeric.
 - So it looks like a symbol table / hash effect inside VC6 that depends on how many names a TU has, and
   only a function as fragile as that x87 one notices.
-- Removing padding fields from `Car` in `Car.hpp` (12 unused `char_type`/`s16` pads) hits the same two
-  `MapRenderer` functions, even though the layout is unchanged: the count of member names in the TU is what matters.
-  Rename such pads (`field_7A_pad`) instead of deleting them.
+- Removing padding fields from `Car` in `Car.hpp` (12 unused `char_type`/`s16` pads) hit the same two
+  `MapRenderer` functions, even though the layout was unchanged: the count of member names in the TU is what matters.
+  After later header changes the same removal only moved `ImGuiDebugDraw`, and the pads are gone; when a shared
+  header loses or gains names, check those two functions.
 - Deleting the unused `ped_bit_index` enum (32 names) from `ped_flags.hpp` hits the same two functions once
   `ped_flag_mask` was already gone, so it stays, unused, with a comment.
 - `enums.hpp` has no slack either way: one name more or less there changes `ImGuiDebugDraw` (no marker, but the

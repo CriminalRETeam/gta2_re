@@ -1339,23 +1339,16 @@ class Car
     s16 field_74_damage;
     s16 field_76_last_seen_timer;
     u16 field_78_flags; // car_flag masks
-    s16 field_7A_pad;
     s32 field_7C_ped_type;
     char_type field_80_abandoned;
-    char_type field_81_pad;
-    char_type field_82_pad;
-    char_type field_83_pad;
     s32 field_84_car_info_idx;
     s32 field_88_despawn_status; // car_despawn_status
     u8 field_8C_damage_level;
     char_type field_8D_car_thread_flags;
     char_type field_8E_flash_count;
-    char_type field_8F_pad;
     s32 field_90_death_cause;
     u8 field_94_exploder_timer;
     u8 field_95_player_ped_id;
-    char_type field_96_pad;
-    char_type field_97_pad;
     s32 field_98_door_lock;
     s32 field_9C_engine_status;
     s32 field_A0_car_kind; // police car, fire engine, mission car etc
@@ -1373,15 +1366,10 @@ class Car
     u8 field_A7_horn;
     u8 field_A8_horn_cooldown;
     char_type field_A9_wreck_countdown;
-    char_type field_AA_pad;
-    char_type field_AB_pad;
     s32 field_AC_sound_event;
     s32 field_B0_emitter_status;
     s32 field_B4_weapon_kind;
     char_type field_B8_turret_rotated;
-    char_type field_B9_pad;
-    char_type field_BA_pad;
-    char_type field_BB_pad;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Car, 0xBC)
 
