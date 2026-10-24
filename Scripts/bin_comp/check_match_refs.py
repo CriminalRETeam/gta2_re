@@ -227,7 +227,8 @@ def same_as_build(og, new, sizes, a, b):
     return pa == pb
 
 
-def main():
+def find_differences(only=()):
+    """(MATCH functions checked, [(name, original address, problems)]) for every MATCH function, or those in only."""
     nd, known = load()
     og, new = Pe(OG), Pe(NEW)
     sizes = {}
@@ -236,8 +237,7 @@ def main():
         if len(p) >= 4 and p[1].startswith('0x'):
             sizes[int(p[1], 16)] = (p[0], int(p[3], 16))
     known_sorted = sorted(known)
-    only = {int(a, 16) for a in sys.argv[1:]}
-    bad = 0
+    found = []
     checked = 0
     for f in nd['functions']:
         if f.get('func_status') != '0x1' or not f.get('og_addr', '?').startswith('0x'):
@@ -302,12 +302,18 @@ def main():
                     problems.append('%x: switch index -> block (10.5/build) differs: %s' % (x.ip - oa, ', '.join(diff[:12])))
         problems = [p for p in problems if 'switch' in p or int(p.split(':')[0], 16) not in permuted]
         if problems:
-            bad += 1
-            print('%s (0x%x):' % (name, oa))
-            for p in problems[:10]:
-                print('   ' + p)
-    print('%d MATCH functions checked, %d differ' % (checked, bad))
-    sys.exit(1 if bad else 0)
+            found.append((name, oa, problems))
+    return checked, found
+
+
+def main():
+    checked, found = find_differences({int(a, 16) for a in sys.argv[1:]})
+    for name, oa, problems in found:
+        print('%s (0x%x):' % (name, oa))
+        for p in problems[:10]:
+            print('   ' + p)
+    print('%d MATCH functions checked, %d differ' % (checked, len(found)))
+    sys.exit(1 if found else 0)
 
 
 if __name__ == '__main__':
