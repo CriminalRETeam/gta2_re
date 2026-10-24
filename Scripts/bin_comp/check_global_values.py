@@ -105,20 +105,25 @@ def compare(refs, og_emu, new_emu, oa, na, n):
 
 
 def globals_to_compare(refs, og_emu):
-    """(build address, 10.5.exe address, size, bytes up to 10.5.exe's next object, name) of each global."""
+    """(build address, 10.5.exe address, size, bytes up to 10.5.exe's next object, name) of each global.
+    A size the type doesn't give stops at the next address 10.5.exe's code uses, which can be a field;
+    10.5.exe's next object is the next mapped global or the lowest address an initialiser writes."""
     names = dict((va, name) for va, name in refs.syms)
     declared = declared_sizes()
     data = sorted((oa, na) for na, oa in refs.known.items() if not refs.new.is_code(na) and refs.new.inside(na)
                   and refs.og.inside(oa) and not refs.og.is_code(oa))
-    og_starts = sorted(set(refs.labels()[0]) | og_emu.write_starts)
+    og_labels = sorted(set(refs.labels()[0]) | set(og_emu.write_starts))
+    og_objects = sorted(set(oa for oa, _ in data) | set(og_emu.write_starts))
     out = []
     for oa, na in data:
         name = names.get(na, '%x' % na)
-        i = bisect.bisect_right(og_starts, oa)
-        og_extent = og_starts[i] - oa if i < len(og_starts) else MAX_GLOBAL
         n = ref_values.symbol_size(name) or declared.get(name.lstrip('?_').split('@@')[0])
         if n is None:
-            n = max(1, min(refs.symbol(na)[2], og_extent, MAX_GLOBAL))
+            i = bisect.bisect_right(og_labels, oa)
+            n = og_labels[i] - oa if i < len(og_labels) else MAX_GLOBAL
+            n = max(1, min(refs.symbol(na)[2], n, MAX_GLOBAL))
+        i = bisect.bisect_right(og_objects, oa)
+        og_extent = og_objects[i] - oa if i < len(og_objects) else MAX_GLOBAL
         out.append((na, oa, n, og_extent, name))
     return out
 
@@ -149,7 +154,9 @@ def main():
                                              describe(new_emu.read(na + start, w), w))
         if k >= og_extent:
             overlaps += 1
-            why += ' (past %d bytes, where 10.5 has another object)' % og_extent
+            init = og_emu.write_starts.get(oa + og_extent)
+            why += ' (past %d bytes, where 10.5 has another %s)' % (
+                og_extent, 'object, written by its initialiser %x' % init if init else 'global')
         print('%s (0x%x, %d bytes): +%d: %s' % (name, oa, n, k, why))
     print('%d globals compared, %d differ (%d of them only where 10.5 has another object)' % (checked, bad, overlaps))
     sys.exit(1 if bad else 0)

@@ -88,7 +88,7 @@ class Emu:
                 uc.mem_write(stub, b'\xc3')
                 self.stubs[stub] = imp.name.decode() if imp.name else '#%d' % imp.ordinal
         uc.hook_add(UC_HOOK_CODE, self._import, begin=STUBS, end=STUBS + 0xFFFF)
-        self.write_starts = set()  # the lowest image address each initialiser writes: where an object starts
+        self.write_starts = {}  # the lowest image address each initialiser writes (an object start): initialiser
         self.lowest = None
         uc.hook_add(UC_HOOK_MEM_WRITE, self._write, begin=self.base, end=self.base + self.size - 1)
 
@@ -188,7 +188,7 @@ class Emu:
             except UcError as e:
                 fails.append((slot, f, '%s at %x' % (e, self.uc.reg_read(UC_X86_REG_EIP))))
             if self.lowest is not None:
-                self.write_starts.add(self.lowest)
+                self.write_starts.setdefault(self.lowest, f)
         return fails
 
     def read(self, va, n):
