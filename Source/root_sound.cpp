@@ -29,6 +29,12 @@ void root_sound::Init_40EF80()
     gSound_obj_66F680.Init_419E10();
 }
 
+MATCH_FUNC(0x40EF90)
+void root_sound::DeinitializeAudio_40EF90()
+{
+    gSound_obj_66F680.DeinitializeAudio_419E50();
+}
+
 MATCH_FUNC(0x40EFA0)
 void root_sound::Service_40EFA0()
 {
@@ -155,36 +161,4 @@ MATCH_FUNC(0x411E60)
 root_sound::~root_sound()
 {
     field_0_pFreeList = 0;
-}
-
-// Somehow this function is inlined on Shutdown_4DA740, but in assembly it's a standalone function
-void root_sound::DeinitializeAudio()
-{
-    if (gSound_obj_66F680.field_0_bSoundInitialized)
-    {
-        gSound_obj_66F680.DeInitVocals_57EA10();
-        gSound_obj_66F680.RemoveVocalsEntity_418C60();
-        for (s32 i = 0; i < gSound_obj_66F680.field_10_nActiveSamples; ++i)
-        {
-            if (gSound_obj_66F680.field_1D_b3d_sound)
-            {
-                gSampManager_6FFF00.StopChannel3D_58DFC0(i);
-            }
-            else
-            {
-                gSampManager_6FFF00.StopChannel_58DDD0(i);
-            }
-        }
-
-        for (s32 j = 0; j < gSound_obj_66F680.field_543C_444C_nAudioEntitiesCount; j++)
-        {
-            gSound_obj_66F680.field_147C_audio_entities[gSound_obj_66F680.field_444C_AudioEntityOrderList[j]].field_0_bUsed = 0;
-            gSound_obj_66F680.field_444C_AudioEntityOrderList[j] = 0;
-        }
-        gSound_obj_66F680.field_543C_444C_nAudioEntitiesCount = 0;
-
-        gSound_obj_66F680.null_412250();
-        gSampManager_6FFF00.Shutdown_58DB30();
-        gSound_obj_66F680.field_0_bSoundInitialized = 0;
-    }
 }

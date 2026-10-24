@@ -2542,7 +2542,7 @@ EXPORT void __stdcall Shutdown_4DA740()
 
         if (!bSkip_audio_67D6BE)
         {
-            gRoot_sound_66B038.DeinitializeAudio();
+            gRoot_sound_66B038.DeinitializeAudio_40EF90();
         }
     }
 }

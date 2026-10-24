@@ -3522,6 +3522,38 @@ void sound_obj::Init_419E10()
     }
 }
 
+MATCH_FUNC(0x419E50)
+void sound_obj::DeinitializeAudio_419E50()
+{
+    if (field_0_bSoundInitialized)
+    {
+        DeInitVocals_57EA10();
+        RemoveVocalsEntity_418C60();
+        for (u32 i = 0; i < field_10_nActiveSamples; ++i)
+        {
+            if (field_1D_b3d_sound)
+            {
+                gSampManager_6FFF00.StopChannel3D_58DFC0(i);
+            }
+            else
+            {
+                gSampManager_6FFF00.StopChannel_58DDD0(i);
+            }
+        }
+
+        for (u32 j = 0; j < field_543C_444C_nAudioEntitiesCount; j++)
+        {
+            field_147C_audio_entities[field_444C_AudioEntityOrderList[j]].field_0_bUsed = 0;
+            field_444C_AudioEntityOrderList[j] = 0;
+        }
+        field_543C_444C_nAudioEntitiesCount = 0;
+
+        null_412250();
+        gSampManager_6FFF00.Shutdown_58DB30();
+        field_0_bSoundInitialized = 0;
+    }
+}
+
 MATCH_FUNC(0x419EF0)
 void sound_obj::Service_419EF0()
 {
