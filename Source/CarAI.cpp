@@ -162,8 +162,8 @@ void CarAI::PlanTurnAtNextJunction_447710()
     if (field_28_route_idx >= 0)
     {
         Junction* Junction_58A0B0 =
-            gRouteFinder_6FFDC8->GetJunction_58A0B0(gRouteFinder_6FFDC8->field_2218_routes[field_28_route_idx].field_0_junctions[(u16)this->field_56_route_pos]);
-        u16 next_junction_idx = gRouteFinder_6FFDC8->field_2218_routes[this->field_28_route_idx].field_0_junctions[(u16)this->field_56_route_pos + 1];
+            gRouteFinder_6FFDC8->GetJunction_58A0B0(gRouteFinder_6FFDC8->field_2218_routes[field_28_route_idx].field_0_junctions[static_cast<u16>(this->field_56_route_pos)]);
+        u16 next_junction_idx = gRouteFinder_6FFDC8->field_2218_routes[this->field_28_route_idx].field_0_junctions[static_cast<u16>(this->field_56_route_pos) + 1];
         if (next_junction_idx)
         {
             if (!this->field_24_bf.bFlag0)
@@ -294,8 +294,8 @@ void CarAI::DoShortcutsUsingJunctions_447970()
     u8 z = field_0_car->field_60_pChaseTask->field_1C_target_z.ToInt();
     if (field_28_route_idx > 0)
     {
-        u16 junc = gRouteFinder_6FFDC8->field_2218_routes[field_28_route_idx].field_0_junctions[(u16)field_56_route_pos];
-        if (!junc || x == (s16)gCurrCarAI_xpos_677C38.ToInt() && y == (s16)gCurrCarAI_ypos_677C30.ToInt())
+        u16 junc = gRouteFinder_6FFDC8->field_2218_routes[field_28_route_idx].field_0_junctions[static_cast<u16>(field_56_route_pos)];
+        if (!junc || x == static_cast<s16>(gCurrCarAI_xpos_677C38.ToInt()) && y == static_cast<s16>(gCurrCarAI_ypos_677C30.ToInt()))
         {
             gRouteFinder_6FFDC8->CancelRoute_589930(field_28_route_idx);
             this->field_28_route_idx = -1;
@@ -310,69 +310,69 @@ void CarAI::DoShortcutsUsingJunctions_447970()
             if (gRouteFinder_6FFDC8->IsPointInJunctionBounds_588AA0(
                     x,
                     y,
-                    gRouteFinder_6FFDC8->field_2218_routes[field_28_route_idx].field_0_junctions[(u16)field_56_route_pos],
-                    gRouteFinder_6FFDC8->field_2218_routes[field_28_route_idx].field_0_junctions[(u16)field_56_route_pos + 1]) &&
-                z == (s16)(field_0_car->field_50_car_sprite->field_1C_zpos - gF16fOne_677B94).ToInt())
+                    gRouteFinder_6FFDC8->field_2218_routes[field_28_route_idx].field_0_junctions[static_cast<u16>(field_56_route_pos)],
+                    gRouteFinder_6FFDC8->field_2218_routes[field_28_route_idx].field_0_junctions[static_cast<u16>(field_56_route_pos) + 1]) &&
+                z == static_cast<s16>((field_0_car->field_50_car_sprite->field_1C_zpos - gF16fOne_677B94).ToInt()))
             {
-                switch ((s16)pJunction->GetDirectionToJunction_5885C0(
-                    gRouteFinder_6FFDC8->field_2218_routes[field_28_route_idx].field_0_junctions[(u16)field_56_route_pos + 1]))
+                switch (static_cast<s16>(pJunction->GetDirectionToJunction_5885C0(
+                    gRouteFinder_6FFDC8->field_2218_routes[field_28_route_idx].field_0_junctions[static_cast<u16>(field_56_route_pos) + 1])))
                 {
                     case 1:
-                        if (y >= (u8)gCurrCarAI_ypos_677C30.ToInt())
+                        if (y >= static_cast<u8>(gCurrCarAI_ypos_677C30.ToInt()))
                         {
                             TurnAround_447970();
                             return;
                         }
-                        if (x > (u8)gCurrCarAI_xpos_677C38.ToInt())
+                        if (x > static_cast<u8>(gCurrCarAI_xpos_677C38.ToInt()))
                         {
                             field_24_bf.bFlag18 = true;
                         }
-                        else if (x < (u8)gCurrCarAI_xpos_677C38.ToInt())
+                        else if (x < static_cast<u8>(gCurrCarAI_xpos_677C38.ToInt()))
                         {
                             field_24_bf.bFlag19 = true;
                         }
                         break;
                     case 2:
-                        if (y <= (u8)gCurrCarAI_ypos_677C30.ToInt())
+                        if (y <= static_cast<u8>(gCurrCarAI_ypos_677C30.ToInt()))
                         {
                             TurnAround_447970();
                             return;
                         }
-                        if (x > (u8)gCurrCarAI_xpos_677C38.ToInt())
+                        if (x > static_cast<u8>(gCurrCarAI_xpos_677C38.ToInt()))
                         {
                             field_24_bf.bFlag18 = true;
                         }
-                        else if (x < (u8)gCurrCarAI_xpos_677C38.ToInt())
+                        else if (x < static_cast<u8>(gCurrCarAI_xpos_677C38.ToInt()))
                         {
                             field_24_bf.bFlag19 = true;
                         }
                         break;
                     case 3:
-                        if (x >= (u8)gCurrCarAI_xpos_677C38.ToInt())
+                        if (x >= static_cast<u8>(gCurrCarAI_xpos_677C38.ToInt()))
                         {
                             TurnAround_447970();
                             return;
                         }
-                        if (y > (u8)gCurrCarAI_ypos_677C30.ToInt())
+                        if (y > static_cast<u8>(gCurrCarAI_ypos_677C30.ToInt()))
                         {
                             field_24_bf.bFlag19 = true;
                         }
-                        else if (y < (u8)gCurrCarAI_ypos_677C30.ToInt())
+                        else if (y < static_cast<u8>(gCurrCarAI_ypos_677C30.ToInt()))
                         {
                             field_24_bf.bFlag18 = true;
                         }
                         break;
                     case 4:
-                        if (x <= (u8)gCurrCarAI_xpos_677C38.ToInt())
+                        if (x <= static_cast<u8>(gCurrCarAI_xpos_677C38.ToInt()))
                         {
                             TurnAround_447970();
                             return;
                         }
-                        if (y > (u8)gCurrCarAI_ypos_677C30.ToInt())
+                        if (y > static_cast<u8>(gCurrCarAI_ypos_677C30.ToInt()))
                         {
                             field_24_bf.bFlag18 = true;
                         }
-                        else if (y < (u8)gCurrCarAI_ypos_677C30.ToInt())
+                        else if (y < static_cast<u8>(gCurrCarAI_ypos_677C30.ToInt()))
                         {
                             field_24_bf.bFlag19 = true;
                         }
@@ -401,13 +401,13 @@ void CarAI::DoShortcutsUsingJunctions_447970()
 MATCH_FUNC(0x447ca0)
 bool CarAI::GoToBlock_447CA0(u8 x, u8 y, u8 z, s32 arrow_type)
 {
-    field_28_route_idx = gRouteFinder_6FFDC8->StartRoute_58A190(gCurrCarAI_xpos_677C38.ToInt(),
+    field_28_route_idx = static_cast<char_type>(gRouteFinder_6FFDC8->StartRoute_58A190(gCurrCarAI_xpos_677C38.ToInt(),
                                                                gCurrCarAI_ypos_677C30.ToInt(),
                                                                (gCurrCarAI_zpos_677C48 - gF16fOne_677B94).ToInt(),
                                                                x,
                                                                y,
                                                                z,
-                                                               arrow_type);
+                                                               arrow_type));
     if (field_28_route_idx > 0)
     {
         field_0_car->field_60_pChaseTask->field_14_target_x = Fix16(x);
@@ -682,8 +682,8 @@ void CarAI::BrakeForBlockedRoadAhead_4482C0()
 {
     Sprite* pProbe = gObject_5C_6F8F84->field_58_collision_probe_sprite;
     u8 probe_steps = 0;
-    Fix16 default_probe_x = Fix16((u8)gCurrCarAI_ProbeX_677A74.ToInt());
-    Fix16 default_probe_y = Fix16((u8)gCurrCarAI_ProbeY_677A80.ToInt());
+    Fix16 default_probe_x = Fix16(static_cast<u8>(gCurrCarAI_ProbeX_677A74.ToInt()));
+    Fix16 default_probe_y = Fix16(static_cast<u8>(gCurrCarAI_ProbeY_677A80.ToInt()));
     if (word_677CFC && !this->field_24_bf.bFlag17)
     {
         if (word_677CFC > 0)
@@ -748,8 +748,8 @@ void CarAI::BrakeForBlockedRoadAhead_4482C0()
         Fix16 probe_y;
         do
         {
-            probe_x = Fix16((u8)this->field_9_probe_x);
-            probe_y = Fix16((u8)this->field_A_probe_y);
+            probe_x = Fix16(static_cast<u8>(this->field_9_probe_x));
+            probe_y = Fix16(static_cast<u8>(this->field_A_probe_y));
             switch (this->field_4C_curr_direction)
             {
                 case car_ai_direction::north_1:
@@ -939,8 +939,8 @@ void CarAI::CheckRoadAhead_448770()
 
             if (this->field_0_car->IsTurnLeft_42AC30())
             {
-                Fix16 new_x = (u8)gCurrCarAI_ProbeX_677A74.ToInt();
-                Fix16 new_y = (u8)gCurrCarAI_ProbeY_677A80.ToInt();
+                Fix16 new_x = static_cast<u8>(gCurrCarAI_ProbeX_677A74.ToInt());
+                Fix16 new_y = static_cast<u8>(gCurrCarAI_ProbeY_677A80.ToInt());
 
                 switch (this->field_4C_curr_direction)
                 {
@@ -2035,7 +2035,7 @@ void CarAI::AlignToLaneCenter_44AF00()
                                                                     gCurrCarAI_ypos_677C30,
                                                                     gCurrCarAI_zpos_677C48);
 
-        if (count == (u8)this->field_2F_arrow_end)
+        if (count == static_cast<u8>(this->field_2F_arrow_end))
         {
             switch (this->field_4C_curr_direction)
             {
@@ -2184,7 +2184,7 @@ void CarAI::AlignToLaneCenter_44AF00()
                 this->field_24_bf.bFlag8 = false;
             }
         }
-        else if (count < (u8)this->field_2F_arrow_end)
+        else if (count < static_cast<u8>(this->field_2F_arrow_end))
         {
             // Move the sprite half a block to the right of the travel direction and check that it is free
             Fix16 x_off;
@@ -2881,7 +2881,7 @@ void CarAI::UpdateChase_44E0C0()
                 }
             }
         }
-        else if ((u16)p60->field_34_snap_timer > 0)
+        else if (static_cast<u16>(p60->field_34_snap_timer) > 0)
         {
             p60->field_34_snap_timer--;
         }
@@ -2905,7 +2905,7 @@ void CarAI::UpdateChase_44E0C0()
             pBlock = gMap_0x370_6F6268->GetBlock_4DFE10(gCurrCarAI_TargetX_6779F0.ToInt(), gCurrCarAI_TargetY_6779F4.ToInt(), maybe_z.ToInt());
         }
 
-        if (!pBlock || !(u8)gMap_0x370_6F6268->GetArrowDirectionFromBlock_4E5FC0(pBlock, 1))
+        if (!pBlock || !static_cast<u8>(gMap_0x370_6F6268->GetArrowDirectionFromBlock_4E5FC0(pBlock, 1)))
         {
             t_x = gCurrCarAI_TargetX_6779F0.ToInt();
             t_y = gCurrCarAI_TargetY_6779F4.ToInt();
@@ -3255,7 +3255,7 @@ void CarAI::UpdateStateMachine_44E560()
                         break;
                 }
 
-                if ((u16)pChase->field_2E_wait_counter < waitCount)
+                if (static_cast<u16>(pChase->field_2E_wait_counter) < waitCount)
                 {
                     ++pChase->field_2E_wait_counter;
                     field_0_car->field_50_car_sprite->set_xyz_lazy_420600(gCurrCarAI_TargetX_6779F0, gCurrCarAI_TargetY_6779F4, gCurrCarAI_zpos_677C48);
@@ -3381,7 +3381,7 @@ void CarAI::UpdateStateMachine_44E560()
                         break;
                 }
 
-                if ((u16)pChase->field_2E_wait_counter < waitCount)
+                if (static_cast<u16>(pChase->field_2E_wait_counter) < waitCount)
                 {
                     ++pChase->field_2E_wait_counter;
                     field_0_car->field_50_car_sprite->set_xyz_lazy_420600(gCurrCarAI_TargetX_6779F0, gCurrCarAI_TargetY_6779F4, gCurrCarAI_zpos_677C48);
@@ -3633,7 +3633,7 @@ void CarAI::UpdateStateMachine_44E560()
             case car_chase_state::follow_behind_0:
             case car_chase_state::follow_behind_2:
                 bOvertake = 0;
-                if ((u16)pChase->field_2A_settle_counter >= 10u)
+                if (static_cast<u16>(pChase->field_2A_settle_counter) >= 10u)
                 {
                     gCurrCarAI_TargetX_6779F0 = savedTargetX;
                     gCurrCarAI_TargetY_6779F4 = savedTargetY;
@@ -3699,7 +3699,7 @@ void CarAI::UpdateStateMachine_44E560()
                     pPhysics->field_93_is_forward_gas_on = 0;
                 }
 
-                if ((u16)pChase->field_2A_settle_counter < 10u)
+                if (static_cast<u16>(pChase->field_2A_settle_counter) < 10u)
                 {
                     pChase->field_2A_settle_counter++;
                 }
@@ -4052,7 +4052,7 @@ void CarAI::UpdateStateMachine_44E560()
     {
         if (this->field_0_car->field_60_pChaseTask != 0)
         {
-            if ((u16)pChase->field_2A_settle_counter > 0)
+            if (static_cast<u16>(pChase->field_2A_settle_counter) > 0)
             {
                 pChase->field_2A_settle_counter--;
             }

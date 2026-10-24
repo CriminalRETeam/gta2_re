@@ -103,8 +103,8 @@ EXPORT Ped* __stdcall SpawnPedChainGroupAt_46DB90(char_type remap, u8 number_fol
 MATCH_FUNC(0x46DB90)
 EXPORT Ped* __stdcall SpawnPedChainGroupAt_46DB90(char_type remap, u8 number_followers, Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
-    Fix16 xpos_adjusted = kFpPoint8_6784A0 + Fix16((u8)(xpos.ToInt()));
-    Fix16 ypos_adjusted = kFpPoint8_6784A0 + Fix16((u8)(ypos.ToInt()));
+    Fix16 xpos_adjusted = kFpPoint8_6784A0 + Fix16(static_cast<u8>(xpos.ToInt()));
+    Fix16 ypos_adjusted = kFpPoint8_6784A0 + Fix16(static_cast<u8>(ypos.ToInt()));
 
     Ped* pLeader = gPedPool_6787B8->Allocate();
     pLeader->field_240_occupation = ped_ocupation_enum::elvis_leader;
@@ -161,27 +161,27 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
 
     gmp_zone_info* pZone = gMap_0x370_6F6268->GetZoneInfoAt_4DF890(xpos.ToInt(), ypos.ToInt());
 
-    if (rng_val < (u16)pZone->field_C_mugger_ratio)
+    if (rng_val < static_cast<u16>(pZone->field_C_mugger_ratio))
     {
         kind = 1; // mugger
     }
-    else if (rng_val < (u16)pZone->field_C_mugger_ratio + (u16)pZone->field_E_carthief_ratio)
+    else if (rng_val < static_cast<u16>(pZone->field_C_mugger_ratio) + static_cast<u16>(pZone->field_E_carthief_ratio))
     {
         kind = 2; // car thief
     }
-    else if (rng_val < (u16)pZone->field_C_mugger_ratio + (u16)pZone->field_E_carthief_ratio + (u16)pZone->field_10_elvis_ratio)
+    else if (rng_val < static_cast<u16>(pZone->field_C_mugger_ratio) + static_cast<u16>(pZone->field_E_carthief_ratio) + static_cast<u16>(pZone->field_10_elvis_ratio))
     {
         // 1 in 50 chance of elvis
         kind = gRng_6F6784.get_int_4F7AE0(50) == 25 ? 3 : 0;
     }
-    else if (rng_val < (u16)pZone->field_C_mugger_ratio + (u16)pZone->field_E_carthief_ratio + (u16)pZone->field_10_elvis_ratio +
-                 (u16)pZone->field_12_gangchar_ratio)
+    else if (rng_val < static_cast<u16>(pZone->field_C_mugger_ratio) + static_cast<u16>(pZone->field_E_carthief_ratio) + static_cast<u16>(pZone->field_10_elvis_ratio) +
+                 static_cast<u16>(pZone->field_12_gangchar_ratio))
     {
         // Gang member, limited to 8
-        kind = (u8)gNumberArmedGangMembers_6787CE < 8u ? 4 : 0;
+        kind = static_cast<u8>(gNumberArmedGangMembers_6787CE) < 8u ? 4 : 0;
     }
-    else if (rng_val < (u16)pZone->field_C_mugger_ratio + (u16)pZone->field_E_carthief_ratio + (u16)pZone->field_10_elvis_ratio +
-                 (u16)pZone->field_12_gangchar_ratio + (u16)pZone->field_14_policeped_ratio)
+    else if (rng_val < static_cast<u16>(pZone->field_C_mugger_ratio) + static_cast<u16>(pZone->field_E_carthief_ratio) + static_cast<u16>(pZone->field_10_elvis_ratio) +
+                 static_cast<u16>(pZone->field_12_gangchar_ratio) + static_cast<u16>(pZone->field_14_policeped_ratio))
     {
         kind = 5;
     }
@@ -262,7 +262,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
                 if (pMapZone)
                 {
                     Gang* pGang = gGangPool_CA8_67E274->FindGangByName_4BF100(pMapZone->field_6_name);
-                    if ((u8)gNumberArmedGangMembers_6787CE < 4u)
+                    if (static_cast<u8>(gNumberArmedGangMembers_6787CE) < 4u)
                     {
                         ++gNumberArmedGangMembers_6787CE;
                         pPed->SetPedType_403920(ped_type::special_ped_4);
@@ -397,7 +397,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
                     }
                     else
                     {
-                        u8 remap = gRng_6F6784.get_int_4F7AE0(25);
+                        u8 remap = static_cast<u8>(gRng_6F6784.get_int_4F7AE0(25));
                         if (remap < 4u)
                         {
                             remap += 18;
@@ -456,7 +456,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
 
     } // End if
 
-    if ((u16)gSpawnCounter_6787C6 > 200u)
+    if (static_cast<u16>(gSpawnCounter_6787C6) > 200u)
     {
         gSpawnCounter_6787C6 = 0;
     }
@@ -531,26 +531,26 @@ void PedManager::SpawnDummies_46EB60(Camera* pCam)
         switch (gSpawnSide_6787C8)
         {
             case 0:
-                xpos = Fix16((s16)tileLeft);
-                ypos = Fix16((s16)tileTop + gSpawnIndex_6787C9);
+                xpos = Fix16(tileLeft);
+                ypos = Fix16(tileTop + gSpawnIndex_6787C9);
                 rotation = gSpawnRotationLeft_6786E0;
                 break;
 
             case 1:
-                ypos = Fix16((s16)tileTop);
-                xpos = Fix16((s16)tileLeft + gSpawnIndex_6787C9);
+                ypos = Fix16(tileTop);
+                xpos = Fix16(tileLeft + gSpawnIndex_6787C9);
                 rotation = gSpawnRotationTop_6787B0;
                 break;
 
             case 2:
-                xpos = Fix16((s16)tileRight);
-                ypos = Fix16((s16)tileTop + gSpawnIndex_6787C9);
+                xpos = Fix16(tileRight);
+                ypos = Fix16(tileTop + gSpawnIndex_6787C9);
                 rotation = gSpawnRotationRight_678578;
                 break;
 
             case 3:
-                ypos = Fix16((s16)bottom);
-                xpos = Fix16((s16)tileLeft + gSpawnIndex_6787C9);
+                ypos = Fix16(static_cast<s16>(bottom));
+                xpos = Fix16(tileLeft + gSpawnIndex_6787C9);
                 rotation = gSpawnRotationBottom_678540;
                 break;
         }
@@ -564,7 +564,7 @@ void PedManager::SpawnDummies_46EB60(Camera* pCam)
             ypos < kFp255_678414 - kFpOne_678664)
         {
             gmp_zone_info* pZoneInfo = gMap_0x370_6F6268->GetZoneInfoAt_4DF890(xpos.ToInt(), ypos.ToInt());
-            if ((u8)field_6_num_peds_on_screen < (u16)pZoneInfo->field_A_ped_density / 25)
+            if (static_cast<u8>(field_6_num_peds_on_screen) < static_cast<u16>(pZoneInfo->field_A_ped_density) / 25)
             {
                 if (gMap_0x370_6F6268->FindPavementBlockForCoord_4E4BB0(xpos.ToInt(), ypos.ToInt(), zpos))
                 {
@@ -573,7 +573,7 @@ void PedManager::SpawnDummies_46EB60(Camera* pCam)
                     pSprite->AllocCollisionShape_59F950(gDummyW_678530, gDummyH_678584, gDummyZ_67841C);
                     if (!gGame_0x40_67E008->IsPointOnScreen_4B9A80(pSprite->field_14_xy.x, pSprite->field_14_xy.y))
                     {
-                        if (!gMap_0x370_6F6268->IsSlopeB4ToD0At_433430((u8)(xpos.ToInt()), (u8)(ypos.ToInt()), (u8)zpos + 1))
+                        if (!gMap_0x370_6F6268->IsSlopeB4ToD0At_433430(static_cast<u8>(xpos.ToInt()), static_cast<u8>(ypos.ToInt()), static_cast<u8>(zpos) + 1))
                         {
                             SpawnPedestrianAt_46E380(xpos, ypos, Fix16(zpos + 1), rotation);
                         }
@@ -591,7 +591,7 @@ void PedManager::Dummies_470330()
     s16 max_dummies = gPedManager_6787BC->field_0_max_dummy_chars;
     if (gPolice_7B8_6FEE40->field_654_max_wanted_level > 3)
     {
-        max_dummies = (u16)max_dummies >> 1;
+        max_dummies = static_cast<u16>(max_dummies) >> 1;
     }
     if (gNumDummyChars_6787E2 < max_dummies)
     {
@@ -651,11 +651,11 @@ void PedManager::PedsService_4703F0()
     {
         Dummies_470330();
     }
-    field_3_num_peds_updated = gNumPedsUpdated_6787E0;
+    field_3_num_peds_updated = static_cast<char_type>(gNumPedsUpdated_6787E0);
     field_2_num_dummy_chars = gNumDummyChars_6787E2;
     field_4_num_script_created_peds = gNumScriptCreatedPeds_6787E3;
     field_5_fbi_army_count = gNumEmergencyPeds_6787E4;
-    field_6_num_peds_on_screen = gNumPedsOnScreen_6787EC;
+    field_6_num_peds_on_screen = static_cast<char_type>(gNumPedsOnScreen_6787EC);
     if (gPolice_7B8_6FEE40)
     {
         gPolice_7B8_6FEE40->field_7AD_police_peds_in_range_screen = gNumPolicePedsInRangeScreen_6787EE;
@@ -663,7 +663,7 @@ void PedManager::PedsService_4703F0()
     bThreateningPedAdded_6787EF = 0;
     if (bDo_iain_test_67D4E9)
     {
-        u16 num_peds = *(u32*)&gNumPedsOnScreen_6787EC; //  TODO: fix me
+        u16 num_peds = *reinterpret_cast<u32*>(&gNumPedsOnScreen_6787EC); //  TODO: fix me
         swprintf(tmpBuff_67BD9C, L"num peds on screen : %d",
                  num_peds); // num peds on screen : %d
         gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 64, gDebugFont_706600, 1);
@@ -672,7 +672,7 @@ void PedManager::PedsService_4703F0()
         {
             swprintf(tmpBuff_67BD9C,
                      L"num police peds in range screen : %d", // num police peds in range screen : %d
-                     (u8)gPolice_7B8_6FEE40->field_7AD_police_peds_in_range_screen);
+                     static_cast<u8>(gPolice_7B8_6FEE40->field_7AD_police_peds_in_range_screen));
             gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 80, gDebugFont_706600, 1);
         }
     }
@@ -1019,7 +1019,7 @@ Ped* PedManager::PedById(s32 pedId)
 {
     for (Ped* pPedIter = gPedPool_6787B8->GetFirstPed_435530(); pPedIter; pPedIter = pPedIter->mpNext)
     {
-        if (pPedIter->field_200_id == pedId)
+        if (pPedIter->field_200_id == static_cast<u32>(pedId))
         {
             return pPedIter;
         }

@@ -567,9 +567,9 @@ void Explosion::EmitExplosion_18_33_541D60()
 {
     if (gParticle_4C_Pool_6FD5E4->has_pStart_48A8F0())
     {
-        if ((u16)field_1A_timer > 0x52u)
+        if (field_1A_timer > 0x52u)
         {
-            if ((u16)field_1A_timer > 0x5Au)
+            if (field_1A_timer > 0x5Au)
             {
                 Fix16 radius;
                 radius = this->field_24_particle_spread * Fix16(gRng_6F6784.get_int_4F7AE0(8));

@@ -240,7 +240,7 @@ EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(u8 animPhase, Car* pCar, u8 
                 if (bUnk)
                 {
                     y_pos -= kFpPoint1_6FD824;
-                    switch ((u8)animPhase)
+                    switch (animPhase)
                     {
                         case 0:
                             x_pos -= kFpPoint2_6FD82C;
@@ -271,7 +271,7 @@ EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(u8 animPhase, Car* pCar, u8 
             // VC6 threads the bFront/bUnk tests below away, but they set the block and register order
             if (bFront)
             {
-                switch ((u8)animPhase)
+                switch (animPhase)
                 {
                     case 0:
                         y_pos += kFpPoint2_6FD82C;
@@ -300,7 +300,7 @@ EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(u8 animPhase, Car* pCar, u8 
             }
             else if (!bUnk)
             {
-                switch ((u8)animPhase)
+                switch (animPhase)
                 {
                     case 0:
                         y_pos -= kFpPoint1_6FD824;
@@ -388,7 +388,7 @@ EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(u8 animPhase, Car* pCar, u8 
             if (bUnk)
             {
                 y_pos -= kFpPoint1_6FD824;
-                switch ((u8)animPhase)
+                switch (animPhase)
                 {
                     case 0:
                         x_pos += kFpPoint2_6FD82C;
@@ -417,7 +417,7 @@ EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(u8 animPhase, Car* pCar, u8 
             }
             else
             {
-                switch ((u8)animPhase)
+                switch (animPhase)
                 {
                     case 0:
                         y_pos -= kFpPoint1_6FD824;
@@ -1602,7 +1602,7 @@ void Ped::HandleClosePedInteraction_45CAA0()
                         {
                             pNearPed_->field_15C_player->AddScore_41DC40(-10);
                             this->field_229_mug_count++;
-                            if ((u8)field_229_mug_count > 9u)
+                            if (field_229_mug_count > 9u)
                             {
                                 this->field_226_internal_objective_status = 1;
                             }
@@ -1848,7 +1848,7 @@ inline bool Ped::IsPedAThreat_Inline_465D00(Ped* pTargetPed)
                 }
             }
 
-        block_465F75:
+        // block_465F75:
             if (pTargetPed->IsActivePlayerPed_45EDC0() || pTargetPed->field_240_occupation == ped_ocupation_enum::empty)
             {
                 u8 player_idx = pTargetPed->field_15C_player->field_2E_idx;
@@ -1869,7 +1869,7 @@ inline bool Ped::IsPedAThreat_Inline_465D00(Ped* pTargetPed)
         }
     }
 
-no_my_gang:
+// no_my_gang:
     switch (this->field_240_occupation)
     {
         case ped_ocupation_enum::criminal_type_1:
@@ -1950,7 +1950,7 @@ block_466022:
         return 1;
     }
 
-block_4660FB:
+// block_4660FB:
 {
     s32 target_occupation = pTargetPed->field_240_occupation;
     switch (target_occupation)
@@ -2458,7 +2458,7 @@ void Ped::StartCrossingRoad_45E4A0()
         {
             direction = 0;
             max_north = 2;
-            if ((u8)gRng_6F6784.get_int_4F7AE0(max_north) > 0)
+            if (static_cast<u8>(gRng_6F6784.get_int_4F7AE0(max_north)) > 0)
             {
                 break;
             }
@@ -2468,7 +2468,7 @@ void Ped::StartCrossingRoad_45E4A0()
         {
             direction = 1;
             max_east = 2;
-            if ((u8)gRng_6F6784.get_int_4F7AE0(max_east) > 0)
+            if (static_cast<u8>(gRng_6F6784.get_int_4F7AE0(max_east)) > 0)
             {
                 break;
             }
@@ -2755,7 +2755,7 @@ bool Ped::PedTypeIs_45EDE0(s32 type)
 MATCH_FUNC(0x45ee00)
 void Ped::SetOccupation_45EE00(u32 occupation)
 {
-    if (field_240_occupation <= (u32)ped_ocupation_enum::bank_robber)
+    if (field_240_occupation <= static_cast<u32>(ped_ocupation_enum::bank_robber))
     {
         switch (field_240_occupation)
         {
@@ -4394,7 +4394,7 @@ bool Ped::PoolUpdate()
         SetStateInitPending_433B50();
     }
 
-    if ((u32)field_210_shock_counter > field_212_electrocution_threshold)
+    if (static_cast<u32>(field_210_shock_counter) > field_212_electrocution_threshold)
     {
         field_210_shock_counter = field_212_electrocution_threshold;
     }
@@ -5319,7 +5319,7 @@ void Ped::CalcApproachPointNearTargetPed_4645B0()
     }
 
     // Comma form here and in the switch: braces would grow the caller size the inline budget is computed from
-    if (field_164_ped_group && field_204_killer_id == field_164_ped_group->field_2C_ped_leader->get_id() &&
+    if (field_164_ped_group && static_cast<u32>(field_204_killer_id) == field_164_ped_group->field_2C_ped_leader->get_id() &&
         field_164_ped_group->field_2C_ped_leader->field_21C_bf.bAttacking)
         bUnk = true, field_264_killer_id_timer = 50;
 
@@ -6091,7 +6091,7 @@ bool Ped::IsPedAThreat_465D00(Ped* pTargetPed)
                 }
             }
 
-        block_465F75:
+        // block_465F75:
             if (pTargetPed->IsActivePlayerPed_45EDC0() || pTargetPed->field_240_occupation == ped_ocupation_enum::empty)
             {
                 u8 player_idx = pTargetPed->field_15C_player->get_idx_4219D0();
@@ -6112,7 +6112,7 @@ bool Ped::IsPedAThreat_465D00(Ped* pTargetPed)
         }
     }
 
-no_my_gang:
+// no_my_gang:
     switch (this->field_240_occupation)
     {
         case ped_ocupation_enum::criminal_type_1:
@@ -6193,7 +6193,7 @@ block_466022:
         return 1;
     }
 
-block_4660FB:
+// block_4660FB:
 {
     s32 target_occupation = pTargetPed->field_240_occupation;
     switch (target_occupation)
@@ -6466,7 +6466,7 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
                 }
             }
 
-            word_6784F0.rValue = *(s16*)&kAng90_6784B0;
+            word_6784F0.rValue = *reinterpret_cast<s16*>(&kAng90_6784B0);
 
             {
                 Ped* pS = gSearchingPed_6787DC;
@@ -6536,7 +6536,7 @@ char_type Ped::IsThreatToSearchingPed_4661F0()
 
     goto ret_false;
 
-ret_true:
+// ret_true:
     return 1;
 
 ret_false:
@@ -6763,7 +6763,7 @@ char_type Ped::FindUsableCarDoor_467090()
             u8 door = this->field_24C_target_car_door;
             if (!this->field_248_enter_car_as_passenger)
             {
-                for (; door < (u8)pTargetToEnter->GetDoorCount_43B360(); door++)
+                for (; door < static_cast<u8>(pTargetToEnter->GetDoorCount_43B360()); door++)
                 {
                     if (pTargetToEnter->IsDoorAccessible_43AFE0(door))
                     {
@@ -6783,7 +6783,7 @@ char_type Ped::FindUsableCarDoor_467090()
             }
             else
             {
-                for (; door < (u8)pTargetToEnter->GetDoorCount_43B360(); door++)
+                for (; door < static_cast<u8>(pTargetToEnter->GetDoorCount_43B360()); door++)
                 {
                     if (pTargetToEnter->IsDoorAccessible_43AFE0(door))
                     {
@@ -7570,8 +7570,8 @@ void Ped::GotoAreaInCar_468310()
                 }
             }
 
-            if ((u8)(this->field_1AC_cam.x.ToInt()) == (u8)(this->field_1DC_objective_target_x.ToInt()) &&
-                (u8)(this->field_1AC_cam.y.ToInt()) == (u8)(this->field_1E0_objective_target_y.ToInt()) &&
+            if (static_cast<u8>(this->field_1AC_cam.x.ToInt()) == static_cast<u8>(this->field_1DC_objective_target_x.ToInt()) &&
+                static_cast<u8>(this->field_1AC_cam.y.ToInt()) == static_cast<u8>(this->field_1E0_objective_target_y.ToInt()) &&
                 this->field_1AC_cam.z == this->field_1E4_objective_target_z)
             {
                 pCar_ = this->field_16C_car;
@@ -9341,7 +9341,7 @@ void Ped::PullDriverOutOfCarStateMachine_46B2F0()
         return;
     }
 
-    for (door_num = 0; door_num < (u8)pCar->GetDoorCount_43B360(); door_num++)
+    for (door_num = 0; door_num < static_cast<u8>(pCar->GetDoorCount_43B360()); door_num++)
     {
         if (pCar->IsDoorAccessible_43AFE0(door_num))
         {
@@ -9705,7 +9705,7 @@ char_type Ped::IsOtherPedEnteringAsDriver_46BD50(Car* pCar)
 {
     u8 new_door_idx = 0;
     u8 door_idx = 0;
-    while (new_door_idx < (u8)pCar->GetDoorCount_43B360())
+    while (new_door_idx < static_cast<u8>(pCar->GetDoorCount_43B360()))
     {
         Car_Door* pDoor = pCar->GetDoor(door_idx);
         if (pDoor)
@@ -9875,7 +9875,7 @@ void Ped::EnterCarStateMachine_46BDC0()
                             if (gang_car_model != -1)
                             {
                                 // Well now they hate you a bit
-                                Gang* pGang = gGangPool_CA8_67E274->GangByIdx_4BF1C0(gang_car_model);
+                                Gang* pGang = gGangPool_CA8_67E274->GangByIdx_4BF1C0(static_cast<u8>(gang_car_model));
                                 pGang->ApplyKillRespectChange_4BEF70(this->field_15C_player->get_idx_4219D0(), 1u);
                             }
                         }
@@ -10395,7 +10395,7 @@ void Ped::EnterTrainStateMachine_46D0D0()
             best_door = 0;
             new_door_idx = 0;
             door_idx = new_door_idx;
-            while (new_door_idx < (u8)field_154_target_to_enter->GetDoorCount_43B360())
+            while (new_door_idx < static_cast<u8>(field_154_target_to_enter->GetDoorCount_43B360()))
             {
                 if (field_154_target_to_enter->IsDoorAccessible_43AFE0(door_idx))
                 {
@@ -11241,16 +11241,16 @@ void Ped::ApplyAimJitter_46F1E0(Weapon* pWeapon)
             if (GetPedVelocity_45C920() == kFpZero_678660)
             {
                 max_still = 3;
-                rng_val = gRng_6F6784.get_int_4F7AE0(max_still);
+                rng_val = static_cast<u8>(gRng_6F6784.get_int_4F7AE0(max_still));
             }
             else
             {
                 max_moving = 5;
-                rng_val = gRng_6F6784.get_int_4F7AE0(max_moving);
+                rng_val = static_cast<u8>(gRng_6F6784.get_int_4F7AE0(max_moving));
                 if (rng_val == 0)
                 {
                     max_moving_retry = 5;
-                    rng_val = gRng_6F6784.get_int_4F7AE0(max_moving_retry);
+                    rng_val = static_cast<u8>(gRng_6F6784.get_int_4F7AE0(max_moving_retry));
                 }
             }
         }

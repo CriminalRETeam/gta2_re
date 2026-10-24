@@ -311,8 +311,8 @@ void CarPhysics::ShowPhysicsDebug_559430()
         swprintf(tmpBuff_67BD9C,
                  L"surface_mode = %d sbw = %d tpa = %d",
                  field_98_surface_type,
-                 (u8)field_AA_sbw,
-                 (u8)field_AB_tpa);
+                 static_cast<u8>(field_AA_sbw),
+                 static_cast<u8>(field_AB_tpa));
         gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 176, gDebugFont_706600, 1);
     }
 }
@@ -999,7 +999,7 @@ Fix16 CarPhysics::ComputeSlopeCorrection_55AB50(Fix16* pOutY)
     }
     lower = (x_val * slope_val);
     if (!this->field_A6_current_slope_left_tiles && lower > kFP16Zero_6FE20C &&
-            (u8)(this->field_6C_cp3.ToInt()) == this->field_A7_current_tile_z ||
+            static_cast<u8>(this->field_6C_cp3.ToInt()) == this->field_A7_current_tile_z ||
         this->field_AA_sbw && this->field_AB_tpa)
     {
         upper = kFpOne_6FE210 - (this->field_6C_cp3.GetFracValue());
@@ -1283,7 +1283,7 @@ void CarPhysics::EmitImpactParticles_55B7E0(u8 apply_to_corners_mask)
     u32 cornerCount;
 
     // The original tests only al: IsOnWater_59E1D0 returns a bool there.
-    if (!(u8)pCarSprite->IsOnWater_59E1D0() && !field_5C_pCar->IsMaxDamage_40F890())
+    if (!static_cast<u8>(pCarSprite->IsOnWater_59E1D0()) && !field_5C_pCar->IsMaxDamage_40F890())
     {
         if (apply_to_corners_mask == 0)
         {
@@ -1358,7 +1358,7 @@ char_type CarPhysics::ProcessGroundCollisionAndSurfaceType_55B970(char_type* che
                 mask_ = 1;
                 do
                 {
-                    if (((u8)mask_ & (u8)*check_mask) != mask_)
+                    if ((mask_ & static_cast<u8>(*check_mask)) != mask_)
                     {
                         // Temporaries chained: corner, corner - cm1, / 50, each with its own EH state
                         ApplyImpulseWithTrailerRedirect_55FA10(&pSprite->GetBoundingBoxCorner_562450(corner_idx_).Sub_40AC80(field_30_cm1).Divide_442CB0(Fix16(50)));
@@ -1392,7 +1392,7 @@ char_type CarPhysics::ProcessGroundCollisionAndSurfaceType_55B970(char_type* che
     if (surface_type != 5)
     {
         this->field_98_surface_type = surface_type;
-        this->field_A5_current_slope_length = (char)graident_size;
+        this->field_A5_current_slope_length = static_cast<char>(graident_size);
         this->field_A6_current_slope_left_tiles = gradient_level;
         this->field_A7_current_tile_z = cp3_int;
         if (surface_type == 7)
@@ -1426,13 +1426,13 @@ void CarPhysics::ProcessGroundCollisionAndEmitImpactParticles_55BFE0()
 {
     u8 corner_bits1;
     u8 corner_bits2;
-    char b1 = ProcessGroundCollisionAndSurfaceType_55B970((char*)&corner_bits1);
+    char b1 = ProcessGroundCollisionAndSurfaceType_55B970(reinterpret_cast<char*>(&corner_bits1));
     Trailer* pTrailer = this->field_5C_pCar->field_64_pTrailer;
     if (pTrailer)
     {
         CarPhysics* pPhysics = pTrailer->field_C_trailer_car->field_58_physics;
         pPhysics->SetCurrentCarInfoAndModelPhysics_562EF0();
-        char b2 = pPhysics->ProcessGroundCollisionAndSurfaceType_55B970((char*)&corner_bits2);
+        char b2 = pPhysics->ProcessGroundCollisionAndSurfaceType_55B970(reinterpret_cast<char*>(&corner_bits2));
         if (b2)
         {
             if (b1 || field_98_surface_type == car_surface_type::air_surface_6)
@@ -1729,12 +1729,12 @@ void CarPhysics::SpawnSkidSegment_55D200(s32 box_idx, Fix16_Point arg_4, s32 sur
     char_type map_ret = gMap_0x370_6F6268->GetSurfaceTypeBelowCoord_4E52A0(arg_4.x, arg_4.y, field_6C_cp3);
     if (map_ret == 5 || surface == 3 && map_ret != 7)
     {
-        Fix16_Point* pBoxCorner_ = &this->field_10_last_skid_pos[(u8)box_idx];
+        Fix16_Point* pBoxCorner_ = &this->field_10_last_skid_pos[static_cast<u8>(box_idx)];
         pBoxCorner_->clear_41E1E0();
     }
     else
     {
-        Fix16_Point* pBoxCorner = &this->field_10_last_skid_pos[(u8)box_idx];
+        Fix16_Point* pBoxCorner = &this->field_10_last_skid_pos[static_cast<u8>(box_idx)];
         if (!pBoxCorner->IsNull())
         {
             t = arg_4 - *pBoxCorner;
@@ -2209,7 +2209,7 @@ char_type CarPhysics::CheckPendingCollision_55F360()
         {
             return 1;
         }
-        this->field_5C_pCar->field_78_flags &= (u16)~car_flag::Crushing;
+        this->field_5C_pCar->field_78_flags &= static_cast<u16>(~car_flag::Crushing);
     }
     return 0;
 }
@@ -2891,7 +2891,7 @@ void CarPhysics::ApplyMovementStep_560F20(Fix16 time_scale)
     if (dt != kFP16Zero_6FE20C)
     {
         // 9.6f: Ang16::Fix16_To_Ang16_40F540, written out so Normalize is inlined on a register
-        Ang16 tmp((s16)((dt * field_74_ang_vel_rad).GetRaw_40F4B0() / 71), (u8)0);
+        Ang16 tmp(static_cast<s16>((dt * field_74_ang_vel_rad).GetRaw_40F4B0() / 71), static_cast<u8>(0));
         this->field_58_theta = Ang16(field_58_theta.rValue + tmp.rValue).Normalized_406C20();
 
         // 9.6f: Fix16_Point operator+= (0x40F680, inlined)
@@ -3076,7 +3076,7 @@ Fix16 CarPhysics::ComputeEngineTorque_561970()
                 else
                 {
                     // Gear 1. The original inlines this multiply, ours goes out of line (inline budget), so it's written out
-                    torque.mValue = (s32)((ComputeUndamagedThrottleTorque_49E8E0_ool().mValue * (__int64)gCarInfo_48_6FE258->field_34_gear1_multiplier.mValue) >> 14);
+                    torque.mValue = static_cast<s32>((ComputeUndamagedThrottleTorque_49E8E0_ool().mValue * static_cast<__int64>(gCarInfo_48_6FE258->field_34_gear1_multiplier.mValue)) >> 14);
                 }
             }
             else
@@ -3268,12 +3268,12 @@ Fix16 CarPhysics::CalculateRearWheelForce_5620D0()
 
         if (field_92_is_hand_brake_on)
         {
-            if (field_A8_hand_brake_force != (char)0x80)
+            if (field_A8_hand_brake_force != '\x80')
             {
                 field_A8_hand_brake_force++;
             }
             new_x = kFP16One_6FE3D0 * grip_scale * gCarInfo_48_6FE258->field_20_handbrake_slide_value;
-            brake_force3 = gCarInfo_48_6FE258->field_10_brake_friction * (s32)(u8)field_A8_hand_brake_force / 128;
+            brake_force3 = gCarInfo_48_6FE258->field_10_brake_friction * static_cast<s32>(static_cast<u8>(field_A8_hand_brake_force)) / 128;
         }
         else
         {
@@ -3361,8 +3361,8 @@ void CarPhysics::ApplyBrakePhysics_5624F0()
 // Fix16::operator*= with the product in a temporary (StabilizeVelocityAtSpeed_562910)
 static inline void MultiplyAssign_ProductTemp(Fix16& value, const Fix16& factor)
 {
-    __int64 product = (__int64)value.mValue * factor.mValue;
-    value.mValue = (s32)(product >> 14);
+    __int64 product = static_cast<__int64>(value.mValue) * factor.mValue;
+    value.mValue = static_cast<s32>(product >> 14);
 }
 
 // `a = a * b` through an inline `*=`-style wrapper. The multiply is past the inline budget, so it

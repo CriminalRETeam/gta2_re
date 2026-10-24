@@ -704,7 +704,7 @@ bool Object::TryStartSlide_5233A0(Fix16 value)
 MATCH_FUNC(0x523440)
 void Object::HandleCollisionOutcome_523440(Fix16_Point point, char_type bHitFloorBelow, char_type bHitBlockAtZ)
 {
-    if ((u8)field_4_sprite->IsOnWater_59E1D0())
+    if (static_cast<u8>(field_4_sprite->IsOnWater_59E1D0()))
     {
         this->field_10_obj_3c->field_C_speed = kFpZero_6F8E10;
         this->field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
@@ -1131,7 +1131,7 @@ void Object::IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 angle)
             field_4_sprite->set_ang_lazy_420690(pSprt->field_0_rotation);
             if (bHitSomething)
             {
-                if ((u8)field_4_sprite->IsOnWater_59E1D0())
+                if (static_cast<u8>(field_4_sprite->IsOnWater_59E1D0()))
                 {
                     field_10_obj_3c->field_C_speed = kFpZero_6F8E10;
                     field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
@@ -2010,7 +2010,7 @@ s32 __stdcall Object::GetExplosionTypeForItemDefinition_526830(s32 type)
             return 20;
     }
     // The original reloads type from its stack slot here instead of keeping it in a register
-    return *(volatile s32*)&type;
+    return *static_cast<volatile s32*>(&type);
 }
 
 MATCH_FUNC(0x526b40)
@@ -3545,7 +3545,7 @@ MATCH_FUNC(0x52a210)
 char_type Object_5C::SetPendingDamageOwner_52A210(char_type owner)
 {
     // TODO: Why is it a byte here? enum ??
-    *(u8*)&field_18_pending_damage_owner = owner;
+    field_18_pending_damage_owner = owner;
     return owner;
 }
 

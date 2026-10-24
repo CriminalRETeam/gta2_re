@@ -536,7 +536,7 @@ void Police::UpdatePursuitTargets_56FBD0()
         {
             if (!IsBeingPursued_56F800(pPursuitTarget->field_0_criminal_ped))
             {
-                if ((u16)pPursuitTarget->field_7A_wanted_timer >= 900)
+                if (static_cast<u16>(pPursuitTarget->field_7A_wanted_timer) >= 900)
                 {
                     pPursuitTarget->field_0_criminal_ped->ClearWantedPoints_420B80();
                     pPursuitTarget->field_0_criminal_ped->field_20A_wanted_points = cop_level_ped_enum::cop_0_stars;
@@ -1118,7 +1118,7 @@ void Police::TryCreateRoadblockAt_577370(u8 tileX, u8 tileY, s32 roadblock_type)
         bBothSides = true;
     }
 
-    u8 tileZ = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(tileX, (s32)tileY).ToUInt8();
+    u8 tileZ = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(tileX, static_cast<s32>(tileY)).ToUInt8();
 
     if (bBothSides)
     {

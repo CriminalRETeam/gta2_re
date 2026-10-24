@@ -18,7 +18,7 @@ class Gang
     // 9.6f 0x433B30
     inline bool DoesKillAffectRespect_433B30()
     {
-        return field_111_kill_affects_respect;
+        return field_111_kill_affects_respect != 0;
     }
 
     // 9.6f 0x4758A0
