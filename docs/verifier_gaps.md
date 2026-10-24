@@ -26,6 +26,14 @@ All run from `Scripts/bin_comp` after a build, exit with 1 on differences and ha
 for differences checked as equivalent. `run_extra_checks.py` runs `check_match_refs.py` and these
 three in about 4 s.
 
+`run_extra_checks.py` compares what they find with `Scripts/bin_comp/extra_checks_known.txt`, the
+findings below that master still has. It fails only on a new difference, or on a known one whose
+details changed (build addresses are left out of the details, so code moving elsewhere doesn't change
+them). A known one it no longer finds is reported as fixed: remove it from the list in the same change,
+or run `run_extra_checks.py --update-known` and review the diff. CI runs it after the Linux build with
+a notice when nothing is new, a warning per new difference and the lists in the job summary; it fails
+the job only once `EXTRA_CHECKS_BLOCKING` is set to 1 in `.github/workflows/ci.yml`.
+
 - `ref_values.py` (shared): what a build address stands for in 10.5.exe. Identities from
   `check_match_refs.load()`, file-local objects named after their address (`const` tables like
   `kDoorFirstDeltaIdx_61A808` are static, so the map doesn't list them: they are read from the
@@ -73,7 +81,8 @@ the same emulator, so the check doesn't need wine.
 
 ## Findings on master (d5724def)
 
-None of these is fixed here. Cross-checked by hand against 10.5.exe where marked.
+None of these is fixed here; they are the entries of `extra_checks_known.txt`. Cross-checked by hand
+against 10.5.exe where marked.
 
 ### EH data: 36 MATCH functions differ (174 have an EH frame)
 

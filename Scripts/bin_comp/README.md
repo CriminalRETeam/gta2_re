@@ -25,4 +25,6 @@ Much like `compare_function.py` but will check all functions in `new_data.json` 
 - `check_global_values.py`: every global with an original address, after both exes' static initialisers ran under unicorn (`static_init_emu.py`), compared byte for byte, pointers by what they point at.
 - `check_global_inits.py`: reads 10.5.exe's initialiser code for the store widths and simple `Fix16(n)`/`Ang16(n)` values of the `DEFINE_GLOBAL`s (no exit code, report only).
 
+`run_extra_checks.py` compares the results with `extra_checks_known.txt`, the differences master still has (known but not fixed, unlike `REVIEWED`). It exits with 1 only on a new difference or a known one whose details changed, and lists the known ones it no longer finds as fixed: remove them from the list in the same change, or run `python3 run_extra_checks.py --update-known` and review the diff. `--all` also lists the known ones still present; `--github` writes the CI annotations and job summary.
+
 `ref_values.py` is the shared part: it maps a build address to what it stands for in 10.5.exe (markers, `DEFINE_GLOBAL`s, `_ADDRESS` names, file-local objects found in the object files, `reccmp/library.csv`, import names).
