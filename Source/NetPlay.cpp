@@ -64,7 +64,7 @@ NetPlay::NetPlay()
 
     for (s32 j = 0; j < MAX_PLAYERS; j++)
     {
-        field_8C8_not_used[j] = (naughty_sinoussi_0x800*)operator new(0x800);
+        field_8C8_not_used[j] = static_cast<naughty_sinoussi_0x800*>(operator new(0x800));
     }
 }
 
@@ -649,7 +649,7 @@ s32 NetPlay::HostSession_51E7A0(wchar_t* pSessionName, wchar_t* pPlayerName, Net
         field_758_n2.field_120_session_desc.dwFlags = 0x8000; // DPSESSION_DIRECTPLAYPROTOCOL, not in this DPLAY.H
         field_758_n2.field_120_session_desc.guidApplication = kGta2_DP_Guid_5FE928;
         field_758_n2.field_120_session_desc.dwMaxPlayers = 6;
-        field_758_n2.field_120_session_desc.lpszSessionName = (LPWSTR)operator new(2 * wcslen(pSessionName) + 2);
+        field_758_n2.field_120_session_desc.lpszSessionName = static_cast<LPWSTR>(operator new(2 * wcslen(pSessionName) + 2));
         wcscpy(field_758_n2.field_120_session_desc.lpszSessionName, pSessionName);
 
         if (field_5E4_pDPlay3->Open(pDesc, DPOPEN_CREATE) >= 0)
@@ -716,17 +716,17 @@ u32 NetPlay::AddPlayer_51E9C0(Network_8* pData, s32 player_id, DPNAME name, Netw
 
                 if (wcslen(name.lpszShortName) < 15)
                 {
-                    pSession->field_10_players[i].field_1C_player_name = (wchar_t*)operator new(2 * wcslen(name.lpszShortName) + 2);
+                    pSession->field_10_players[i].field_1C_player_name = static_cast<wchar_t*>(operator new(2 * wcslen(name.lpszShortName) + 2));
                     wcscpy(pSession->field_10_players[i].field_1C_player_name, name.lpszShortName);
                 }
                 else
                 {
-                    pSession->field_10_players[i].field_1C_player_name = (wchar_t*)operator new(0x20);
+                    pSession->field_10_players[i].field_1C_player_name = static_cast<wchar_t*>(operator new(0x20));
                     wcsncpy(pSession->field_10_players[i].field_1C_player_name, name.lpszShortName, 15);
                     pSession->field_10_players[i].field_1C_player_name[15] = 0;
                 }
 
-                pSession->field_10_players[i].field_24_pData = (void*)operator new(pData->field_4_len);
+                pSession->field_10_players[i].field_24_pData = operator new(pData->field_4_len);
                 pSession->field_10_players[i].field_28_data_len = pData->field_4_len;
                 memcpy(pSession->field_10_players[i].field_24_pData, pData->field_0_data, pData->field_4_len);
                 pSession->field_10_players[i].field_0_in_use = 1;
@@ -858,7 +858,7 @@ void NetPlay::NetworkTick_51ED00()
                     names.field_40_count = field_C4_sessions.field_5C4_session_count;
                     for (i = 0; i < field_C4_sessions.field_5C4_session_count; i++)
                     {
-                        names.field_0_names[i] = (wchar_t*)operator new(2 * wcslen(field_C4_sessions.field_C4_sessions[i].lpszSessionName) + 2);
+                        names.field_0_names[i] = static_cast<wchar_t*>(operator new(2 * wcslen(field_C4_sessions.field_C4_sessions[i].lpszSessionName) + 2));
                         wcscpy(names.field_0_names[i], field_C4_sessions.field_C4_sessions[i].lpszSessionName);
                     }
 
@@ -1309,7 +1309,7 @@ void NetPlay::OnPacketReceived_51F870(void* pPacket, s32 packetLen, s32 recvId, 
                             operator delete(field_758_n2.field_118_game_settings);
                             field_758_n2.field_11C_group_data_len = 0;
                         }
-                        field_758_n2.field_118_game_settings = (u8*)operator new(pSetData->dwDataSize);
+                        field_758_n2.field_118_game_settings = static_cast<u8*>(operator new(pSetData->dwDataSize));
                         field_758_n2.field_11C_group_data_len = pSetData->dwDataSize;
                         memcpy(field_758_n2.field_118_game_settings, pSetData->lpData, pSetData->dwDataSize);
                         InvokeCallback_520230(8, reinterpret_cast<u32>(&field_758_n2.field_118_game_settings));
@@ -1524,7 +1524,7 @@ s32 NetPlay::JoinSession_520570(u32 session_idx, wchar_t* pPlayerName, Network_8
     field_758_n2.field_120_session_desc.guidApplication = field_C4_sessions.field_C4_sessions[session_idx].guidApplication;
     field_758_n2.field_120_session_desc.dwMaxPlayers = field_C4_sessions.field_C4_sessions[session_idx].dwMaxPlayers;
     field_758_n2.field_120_session_desc.dwCurrentPlayers = field_C4_sessions.field_C4_sessions[session_idx].dwCurrentPlayers;
-    field_758_n2.field_120_session_desc.lpszSessionName = (LPWSTR)operator new(2 * wcslen(field_C4_sessions.field_C4_sessions[session_idx].lpszSessionName) + 2);
+    field_758_n2.field_120_session_desc.lpszSessionName = static_cast<LPWSTR>(operator new(2 * wcslen(field_C4_sessions.field_C4_sessions[session_idx].lpszSessionName) + 2));
     wcscpy(field_758_n2.field_120_session_desc.lpszSessionName, field_C4_sessions.field_C4_sessions[session_idx].lpszSessionName);
 
     if (field_5E4_pDPlay3->Open(pDesc, DPOPEN_JOIN | DPOPEN_RETURNSTATUS))
@@ -1597,7 +1597,7 @@ s32 NetPlay::JoinSession_520570(u32 session_idx, wchar_t* pPlayerName, Network_8
                                                   0);
     if (hr == DPERR_BUFFERTOOSMALL)
     {
-        field_758_n2.field_118_game_settings = (u8*)operator new(field_758_n2.field_11C_group_data_len);
+        field_758_n2.field_118_game_settings = static_cast<u8*>(operator new(field_758_n2.field_11C_group_data_len));
         if (field_5E4_pDPlay3->GetGroupData(field_758_n2.field_0_group_id,
                                             field_758_n2.field_118_game_settings,
                                             reinterpret_cast<LPDWORD>(&field_758_n2.field_11C_group_data_len),
