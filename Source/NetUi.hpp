@@ -119,7 +119,7 @@ class NetUi
     EXPORT void LoadPlayerNameFromRegistry_51BC90();
     EXPORT void SetPlayNameAndSaveToRegistry_51BD40(const wchar_t* pPlayerNameW, const char* pPlayerNameA);
     EXPORT static LRESULT __stdcall subclass_proc_51BDD0(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
-    EXPORT void OnEnterPressed_51BEB0(s32 nIDDlgItem, s32 player_idx);
+    EXPORT void OnEnterPressed_51BEB0(s32 nIDDlgItem, s32 hmenu);
     EXPORT void EnumerateMaps_51BFA0();
     EXPORT static void __stdcall OnWmHScroll_51C630(HWND hWnd, HWND hTrackBar, s32 code, s32 pos);
     EXPORT void CopyGameSettings_51C7F0(NetworkGameSettings* pSettings);

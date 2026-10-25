@@ -1059,7 +1059,7 @@ NetUi::~NetUi()
 MATCH_FUNC(0x519bd0)
 s32 NetUi::ShowNetworkUiBlocking_519BD0(HINSTANCE hInstance)
 {
-    this->field_20320_hInstance = hInstance;
+    field_20320_hInstance = hInstance;
     gNetPlay_7071E8.Set15_51ECD0(reinterpret_cast<int>(NetUi::cb_FillSessionList_519D30), this);
     gNetPlay_7071E8.Set6_520530(static_cast<void*>(NetUi::cb_AddPlayerToList_519E30), static_cast<void*>(this));
     gNetPlay_7071E8.Set9_520E60(reinterpret_cast<int>(NetUi::cb_sub_51ACD0), reinterpret_cast<int>(this));
@@ -1068,7 +1068,7 @@ s32 NetUi::ShowNetworkUiBlocking_519BD0(HINSTANCE hInstance)
     gNetPlay_7071E8.Set21_5210D0(reinterpret_cast<int>(NetUi::cb_AddChatMessage_51B2F0), reinterpret_cast<int>(this));
     gNetPlay_7071E8.Set24_521140(reinterpret_cast<int>(NetUi::cb_sub_51B7E0), reinterpret_cast<int>(this));
     gNetPlay_7071E8.Set27SavePlayerName_5211F0(reinterpret_cast<int>(NetUi::cb_SavePlayerName_51BC00), reinterpret_cast<int>(this));
-    return DialogBoxParamA(this->field_20320_hInstance,
+    return DialogBoxParamA(field_20320_hInstance,
                            reinterpret_cast<LPCSTR>(103), // probably IDD_NETWORK_DIALOG
                            0,
                            NetUi::DialogFunc,
@@ -1352,7 +1352,7 @@ void __stdcall NetUi::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s32 notif
             break;
         }
 
-        case BUTTON_SEND_CHAT_MESSAGE_HOST_1023: // "Send" button
+        case BUTTON_SEND_CHAT_MESSAGE_HOST_1023: // "Send" host chat button
         {
             GetWindowLongA(hDlg, 8);
             GetDlgItemTextA(hDlg, TEXTFIELD_CHAT_HOST_1025, chatText, 127);
@@ -1373,7 +1373,7 @@ void __stdcall NetUi::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s32 notif
             NetUi* pThis = reinterpret_cast<NetUi*>(GetWindowLongA(hDlg, 8));
             pThis->SetPlayNameAndSaveToRegistry_51BD40(textW, playerName);
             gNetPlay_7071E8.DisableJoining_521220();
-            EndDialog(hDlg, 1);
+            EndDialog(hDlg, 1); // close lobby returning 1
             break;
         }
 
@@ -1409,7 +1409,7 @@ void __stdcall NetUi::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s32 notif
             }
             break;
 
-        case BUTTON_SEND_CHAT_MESSAGE_GUEST_1052: // "Send" button
+        case BUTTON_SEND_CHAT_MESSAGE_GUEST_1052: // "Send" guest chat button
         {
             NetUi* pThis = reinterpret_cast<NetUi*>(GetWindowLongA(hDlg, 8));
             GetDlgItemTextA(hDlg, TEXTFIELD_CHAT_GUEST_1053, chatText, 127);
@@ -1559,7 +1559,8 @@ void NetUi::CreateMainUi_51AA90(HWND hWndParent)
     SetWindowLongA(GetDlgItem(hWndParent, TEXTFIELD_CHAT_GUEST_1053), GWL_WNDPROC, reinterpret_cast<LONG>(NetUi::subclass_proc_51BDD0));
     SetWindowLongA(GetDlgItem(hWndParent, TEXTFIELD_CHAT_HOST_1025), GWL_WNDPROC, reinterpret_cast<LONG>(NetUi::subclass_proc_51BDD0));
 
-    SendDlgItemMessageA(hWndParent, TRACKBAR_GAME_SPEED_1031, TBM_SETRANGE, TRUE, MAKELONG(0, 2)); // set range of game speed slider: 0 to 2 (that is, 3 options)
+    // set range of game speed slider: 0 to 2 (that is, 3 options)
+    SendDlgItemMessageA(hWndParent, TRACKBAR_GAME_SPEED_1031, TBM_SETRANGE, TRUE, MAKELONG(0, 2)); 
 
     SetDlgItemTextA(hWndParent, LABEL_COPS_1028, GetString_519A00("netui14")); // "Cops"
     SetDlgItemTextA(hWndParent, LABEL_TIME_LIMIT_MINUTES_1037, GetString_519A00("netui21")); // "Time Limit (Minutes)"
@@ -2215,7 +2216,7 @@ LRESULT __stdcall NetUi::subclass_proc_51BDD0(HWND hWnd, UINT Msg, WPARAM wParam
 }
 
 MATCH_FUNC(0x51beb0)
-void NetUi::OnEnterPressed_51BEB0(s32 nIDDlgItem, s32 player_idx)
+void NetUi::OnEnterPressed_51BEB0(s32 nIDDlgItem, s32 hmenu)
 {
     char_type String[128];
     wchar_t Dest[260];
@@ -2223,7 +2224,7 @@ void NetUi::OnEnterPressed_51BEB0(s32 nIDDlgItem, s32 player_idx)
     NetUi::GetString_519A50(Dest, String, 260);
     gNetPlay_7071E8.SendChatMessage_521060(Dest, -1);
     SetDlgItemTextA(field_2031C_dlg_hwnd, nIDDlgItem, "");
-    NetUi::AppendChatMessage_51B4F0(player_idx, String);
+    NetUi::AppendChatMessage_51B4F0(hmenu, String);
 }
 
 // https://decomp.me/scratch/tQkqa
