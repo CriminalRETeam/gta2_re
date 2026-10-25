@@ -18,6 +18,10 @@ as check_match_refs.py does) is checked through ref_values.py:
   identical to 10.5.exe's (the callee's size from og_function_data_v105.csv, else up to its ret);
 - any other data the bytes up to the next map symbol (at most 1 KB), pointers in it compared the same way.
 
+An indexed access is compared from the first entry it can reach, as far as the bounds checks on every path to
+it tell (check_match_refs.index_range): `table[ch - 0x80]` after `cmp ax, 80h; jb` is `[eax*2 + table - 100h]`,
+and table - 0x100 can be any object, an import slot too.
+
 It also checks what the normaliser renames that isn't an address: each jump inside the function must go
 to the same offset as 10.5.exe's (a cross-jump into the wrong copy of a block still matches), and each
 immediate must be the same number (`push 43EF0000h`, a float argument, or any `push` constant, is renamed
@@ -78,10 +82,25 @@ def find_differences(refs, only=()):
         checked += 1
         handlers = {check_match_eh.eh_handler(og, oa, size), check_match_eh.eh_handler(new, na, size)}
         problems = []
-        for x, y in zip(a, b):
+        preds = []
+        for k, (x, y) in enumerate(zip(a, b)):
             for kind, xo, yo, msize in ref_values.image_operands(x, y):
                 if xo == yo:
                     continue
+                indexed = kind == 'mem' and (x.memory_index != Register.NONE or x.memory_base != Register.NONE)
+                n = MemorySizeExt.size(msize) if kind == 'mem' else 0
+                if indexed and og.inside(xo) and new.inside(yo):
+                    if not preds:
+                        preds = [cmr.predecessors(og, a, oa, size), cmr.predecessors(new, b, na, size)]
+                    span = cmr.index_range(a, k, preds[0])
+                    if span and span == cmr.index_range(b, k, preds[1]):
+                        # the bytes the index can reach, as the displacement can be biased (table - 0x100), up to
+                        # the next object as a bound from a type's width can go past the table
+                        scale = x.memory_index_scale if x.memory_index != Register.NONE else 1
+                        xr, yr = xo + span[0] * scale, yo + span[0] * scale
+                        if og.inside(xr) and new.inside(yr):
+                            xo, yo = xr, yr
+                            n, indexed = min((span[1] - span[0]) * scale + (n or scale), refs.extent(xo, yo)), False
                 if not (og.inside(xo) and new.inside(yo)):
                     if kind != 'branch':
                         problems.append('%x: %s 0x%x, the build 0x%x' % (x.ip - oa, 'immediate' if kind == 'imm' else
@@ -95,16 +114,17 @@ def find_differences(refs, only=()):
                     continue  # check_match_eh.py / check_match_refs.py
                 if kind == 'mem' and new.is_code(yo):
                     continue  # a jump or index table: check_match_refs.py
-                n = MemorySizeExt.size(msize) if kind == 'mem' else 0
-                if not n or kind == 'mem' and (x.memory_index != Register.NONE or x.memory_base != Register.NONE):
-                    n = None  # indexed or address only: the whole object
-                    if kind != 'branch' and yo not in refs.known and refs.symbol(yo)[0] != yo:
+                if not n or indexed:
+                    n = None  # indexed with no known bounds, or address only: the whole object
+                    # an indexed displacement can land on any symbol, an import slot too
+                    slot = indexed and (yo in new.imports or xo in og.imports)
+                    if kind != 'branch' and yo not in refs.known and (refs.symbol(yo)[0] != yo or slot):
                         # biased by an index, or an end bound: the object can start before or after yo
                         wants = biased_targets(refs, yo) if kind == 'mem' else \
                             [a for a in [refs.og_of(yo)] if a is not None]
                         if xo in wants:
                             continue
-                        if not wants:
+                        if not wants or slot:
                             unchecked += 1
                             continue
                 refs_checked += 1
