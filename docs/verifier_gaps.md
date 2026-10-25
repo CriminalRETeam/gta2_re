@@ -3,7 +3,7 @@
 `compare_all_functions.py` (the `build.py` verifier) says whether each `MATCH_FUNC` has the same
 instructions as 10.5.exe once absolute addresses are renamed. This page lists what that leaves
 unchecked, the checks added for it (`Scripts/bin_comp/run_extra_checks.py`, `build.py --extra_checks`),
-and what they found on master at d5724def (3426/3426 MATCH functions verified).
+and what they found on master at 5c33a937 (3426/3426 MATCH functions verified).
 
 ## What each existing tool checks
 
@@ -47,7 +47,10 @@ the job only once `EXTRA_CHECKS_BLOCKING` is set to 1 in `.github/workflows/ci.y
   only on other states it says so.
 - `check_match_consts.py`: each absolute operand without an identity, paired by instruction as in
   `check_match_refs.py`, compared by content; offsets into known globals; immediates the normaliser
-  renames although they aren't addresses; jumps inside the function by offset.
+  renames although they aren't addresses; jumps inside the function by offset. An indexed access is
+  compared from the first entry its bounds checks let it reach: `table[ch - 0x80]` after
+  `cmp ax, 80h; jb` is `[eax*2 + table - 100h]`, and `table - 0x100` can be any other object (an
+  import slot in `TextTable::ToUpper_5B5AD0`, the Russian table in `RemapExtendedChar_5B58D0`).
 - `check_global_values.py`: runs both exes' CRT startup (`_ioinit`, `__xi_a..__xi_z`,
   `__xc_a..__xc_z`) under unicorn (`static_init_emu.py`) and compares every global the build maps
   to a 10.5.exe address, byte for byte, pointers by what they point at. Sizes come from the mangled
@@ -79,7 +82,7 @@ process isn't a child of the launcher). Compared with the emulated startup:
 So the emulated values are the real ones apart from run dependent data, and both sides go through
 the same emulator, so the check doesn't need wine.
 
-## Findings on master (d5724def)
+## Findings on master (5c33a937)
 
 None of these is fixed here; they are the entries of `extra_checks_known.txt`. Cross-checked by hand
 against 10.5.exe where marked.
@@ -117,11 +120,10 @@ Another member destroyed in a constructor (2): `Camera::ctor_4368E0` (10.5.exe d
 `this+0x48`, the build `this+0x60`) and `Char::ctor_544FF0` (`this+0x98`, the build `this+0x88`):
 the member with a destructor is at another offset, or another member has one.
 
-### Constants and callees: 10 MATCH functions differ
+### Constants and callees: 9 MATCH functions differ
 
 | Function | Difference | Checked by hand |
 |---|---|---|
-| `CarInfoTable::SetErr_430AC0` | `cmp eax, -14` where 10.5.exe has `cmp eax, -12` (the error table bound) | objdump of both |
 | `Frontend::Update_4AEC00`, `Game::UpdateGame_4B9410` | call `sub_SetGamma`, whose code differs from 10.5.exe's 0x5D9970 (`je` for `jbe` after `test ecx, ecx`: the same result) | objdump of both |
 | `Frontend::DrawSavedStage_4B5270`, `Hud_TextEntry::Draw_5D1D00` | call `Fix16(s16)` (`movsx`) where 10.5.exe calls `Fix16::FromU16_4AE970` (`and ecx, 0FFFFh`) | objdump of both |
 | `Frontend::DrawBonusRating_4B7D60` | calls `Fix16(int)` where 10.5.exe calls `Fix16::FromU16_4AE970` | objdump of both |
@@ -130,8 +132,11 @@ the member with a destructor is at another offset, or another member has one.
 | `Shutdown_4DA740` | calls `root_sound::DeinitializeAudio` where 10.5.exe calls 0x40EF90 (`mov ecx, 66F680h; jmp 419E50h`, another object and function) | objdump of both |
 | `NetPlay::EnumAddress_cb_51E030` | compares with `DPAID_INet` where 10.5.exe compares with `DPAID_Modem` ({F6DCC200-A2FE-11D0-...}) | VC6 `DPLOBBY.H` |
 
+`CarInfoTable::SetErr_430AC0` (`cmp eax, -14` where 10.5.exe has `cmp eax, -12`, the error table
+bound) was found on d5724def too; #854 fixed it.
+
 Two references were left out because where the object starts is unknown (an end bound or a biased
-index with no object around it). 8601 references without an original identity were compared.
+index with no object around it). 8606 references without an original identity were compared.
 
 ### Global values: 6 of 1700 globals differ
 
@@ -158,6 +163,8 @@ In a throwaway worktree, with these changes the verifier still printed `[3426/34
 | `kDoorFirstDeltaIdx_61A808` `{7, 24, 11, 28}` to `{..., 29}` (a static `const` table) | `check_global_values.py` (`check_global_inits.py` doesn't see it) |
 | `kFpOne_67B434` `Fix16(1)` to `Fix16(2)` | `check_global_values.py` and `check_global_inits.py` |
 | in the built exe, the unwind funclet of `Car::GetHitchPoint_439FB0` patched from `lea ecx, [ebp-14h]` to `[ebp-18h]` | `check_match_eh.py`: `state 0: frame offset` |
+| in the built exe, entry 5 of `word_626590`, which `TextTable::ToUpper_5B5AD0` reads through `[eax*2 + word_626590 - 100h]` | `check_global_values.py`: `word_626590 +10`; `check_match_consts.py` leaves the table to it, as it has an identity |
+| in the built exe, entry 0x21 of `kExtendedWesternCharMap` (no identity), read through `[eax*2 + table - 100h]` where the build's displacement is the Russian table | `check_match_consts.py`: `RemapExtendedChar_5B58D0: 2a: 626390 holds b000..., the build _kExtendedWesternCharMap holds b100...` |
 
 Each check reported exactly the injected difference on top of the master findings. Swapping the
 declarations of two `Fix16_Point` locals in `CarPhysics::CalculateFrontWheelForce_561E50` and
@@ -167,6 +174,9 @@ declarations of two `Fix16_Point` locals in `CarPhysics::CalculateFrontWheelForc
 
 - `check_match_consts.py` doesn't follow a callee reached by a tail `jmp`, so a jump into a wrong
   copy of a function isn't reported (a SetGamma copy reached from `Game::UpdatePaused_4B93C0` was missed).
+- An indexed access whose bounds can't be derived (a register set by a load, a path around the
+  checks, two registers) is compared from its raw displacement, as the object there or the next
+  object with an identity; when that is an import slot, it is left out.
 - The checks pair instructions one to one; a function whose instruction count differs is left to
   the verifier.
 - Data with no symbol in the build and no reference from code isn't compared, nor are globals the
