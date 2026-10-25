@@ -41,7 +41,7 @@ struct Network_UI_Control_Data_Array
         data[0][2].field_0_windowParams.field_4_y = 320;
         data[0][2].field_0_windowParams.field_8_w = 100;
         data[0][2].field_0_windowParams.field_C_h = 30;
-        data[0][2].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(1002);
+        data[0][2].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(BUTTON_CREATE_GAME_1002);
         data[0][2].field_0_windowParams.field_14_style = 0x40010000;
         data[0][2].field_0_windowParams.field_18_exStyle = 0x0;
         strcpy(data[0][2].field_1C_window_class_name, "BUTTON");
@@ -341,7 +341,7 @@ struct Network_UI_Control_Data_Array
         data[1][2].field_0_windowParams.field_4_y = 170;
         data[1][2].field_0_windowParams.field_8_w = 100;
         data[1][2].field_0_windowParams.field_C_h = 30;
-        data[1][2].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(1020);
+        data[1][2].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(BUTTON_REJECT_PLAYER_1020);
         data[1][2].field_0_windowParams.field_14_style = 0x48030000;
         data[1][2].field_0_windowParams.field_18_exStyle = 0x0;
         strcpy(data[1][2].field_1C_window_class_name, "BUTTON");
@@ -351,7 +351,7 @@ struct Network_UI_Control_Data_Array
         data[1][3].field_0_windowParams.field_4_y = 210;
         data[1][3].field_0_windowParams.field_8_w = 100;
         data[1][3].field_0_windowParams.field_C_h = 30;
-        data[1][3].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(1021);
+        data[1][3].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(BUTTON_START_GAME_1021);
         data[1][3].field_0_windowParams.field_14_style = 0x48010000;
         data[1][3].field_0_windowParams.field_18_exStyle = 0x0;
         strcpy(data[1][3].field_1C_window_class_name, "BUTTON");
@@ -381,7 +381,7 @@ struct Network_UI_Control_Data_Array
         data[1][6].field_0_windowParams.field_4_y = 190;
         data[1][6].field_0_windowParams.field_8_w = 270;
         data[1][6].field_0_windowParams.field_C_h = 30;
-        data[1][6].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(1023);
+        data[1][6].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(BUTTON_SEND_CHAT_MESSAGE_HOST_1023);
         data[1][6].field_0_windowParams.field_14_style = 0x40010000;
         data[1][6].field_0_windowParams.field_18_exStyle = 0x0;
         strcpy(data[1][6].field_1C_window_class_name, "BUTTON");
@@ -391,7 +391,7 @@ struct Network_UI_Control_Data_Array
         data[1][7].field_0_windowParams.field_4_y = 230;
         data[1][7].field_0_windowParams.field_8_w = 270;
         data[1][7].field_0_windowParams.field_C_h = 130;
-        data[1][7].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(1026);
+        data[1][7].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(COMBO_MAP_LIST_1026);
         data[1][7].field_0_windowParams.field_14_style = 0x40210243;
         data[1][7].field_0_windowParams.field_18_exStyle = 0x0;
         strcpy(data[1][7].field_1C_window_class_name, "COMBOBOX");
@@ -411,7 +411,7 @@ struct Network_UI_Control_Data_Array
         data[1][9].field_0_windowParams.field_4_y = 300;
         data[1][9].field_0_windowParams.field_8_w = 200;
         data[1][9].field_0_windowParams.field_C_h = 30;
-        data[1][9].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(1031);
+        data[1][9].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(TRACKBAR_GAME_SPEED_1031);
         data[1][9].field_0_windowParams.field_14_style = 0x40000001;
         data[1][9].field_0_windowParams.field_18_exStyle = 0x0;
         strcpy(data[1][9].field_1C_window_class_name, "msctls_trackbar32");
@@ -431,7 +431,7 @@ struct Network_UI_Control_Data_Array
         data[1][11].field_0_windowParams.field_4_y = 290;
         data[1][11].field_0_windowParams.field_8_w = 130;
         data[1][11].field_0_windowParams.field_C_h = 130;
-        data[1][11].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(1036);
+        data[1][11].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(COMBO_GAME_TYPE_1036);
         data[1][11].field_0_windowParams.field_14_style = 0x40210243;
         data[1][11].field_0_windowParams.field_18_exStyle = 0x0;
         strcpy(data[1][11].field_1C_window_class_name, "COMBOBOX");
@@ -661,7 +661,7 @@ struct Network_UI_Control_Data_Array
         data[2][4].field_0_windowParams.field_4_y = 190;
         data[2][4].field_0_windowParams.field_8_w = 270;
         data[2][4].field_0_windowParams.field_C_h = 30;
-        data[2][4].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(1052);
+        data[2][4].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(BUTTON_SEND_CHAT_MESSAGE_GUEST_1052);
         data[2][4].field_0_windowParams.field_14_style = 0x40000000;
         data[2][4].field_0_windowParams.field_18_exStyle = 0x0;
         strcpy(data[2][4].field_1C_window_class_name, "BUTTON");
@@ -1317,7 +1317,7 @@ void __stdcall NetUi::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s32 notif
             break;
         }
 
-        case 1002: // "Create" button
+        case BUTTON_CREATE_GAME_1002: // "Create" button
         {
             NetUi* pThis = reinterpret_cast<NetUi*>(GetWindowLongA(hDlg, 8));
             NetworkGameSettings settings = pThis->field_20088_game_settings;
@@ -1340,7 +1340,7 @@ void __stdcall NetUi::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s32 notif
             break;
         }
 
-        case 1023: // "Send" button ?
+        case BUTTON_SEND_CHAT_MESSAGE_HOST_1023: // "Send" button
         {
             GetWindowLongA(hDlg, 8);
             GetDlgItemTextA(hDlg, 1025, chatText, 127);
@@ -1352,7 +1352,7 @@ void __stdcall NetUi::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s32 notif
             break;
         }
 
-        case 1021:
+        case BUTTON_START_GAME_1021: // "Start" button
         {
             gNetPlay_7071E8.NetworkTick_51ED00();
             Sleep(100);
@@ -1365,7 +1365,7 @@ void __stdcall NetUi::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s32 notif
             break;
         }
 
-        case 1020: // "Reject" button
+        case BUTTON_REJECT_PLAYER_1020: // "Reject" button
         {
             NetUi* pThis = reinterpret_cast<NetUi*>(GetWindowLongA(hDlg, 8));
             HWND hList = GetDlgItem(pThis->Get_2031C_HWND_519E20(), LISTVIEW_HOST_PLAYERS_1024);
@@ -1383,21 +1383,21 @@ void __stdcall NetUi::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s32 notif
             break;
         }
 
-        case 1026: // Map list
+        case COMBO_MAP_LIST_1026: // Map list
             switch (notify)
             {
                 case CBN_SELCHANGE:
                 {
                     NetUi* pThis = reinterpret_cast<NetUi*>(GetWindowLongA(hDlg, 8));
-                    LRESULT sel = SendDlgItemMessageA(hDlg, 1026, CB_GETCURSEL, 0, 0);
-                    pThis->SetSetting_51B9C0(1, SendDlgItemMessageA(hDlg, 1026, CB_GETITEMDATA, sel, 0));
+                    LRESULT sel = SendDlgItemMessageA(hDlg, COMBO_MAP_LIST_1026, CB_GETCURSEL, 0, 0);
+                    pThis->SetSetting_51B9C0(1, SendDlgItemMessageA(hDlg, COMBO_MAP_LIST_1026, CB_GETITEMDATA, sel, 0));
                     pThis->UpdateButtonsEnabledState_51CBC0();
                     break;
                 }
             }
             break;
 
-        case 1052: // "Send" again?
+        case BUTTON_SEND_CHAT_MESSAGE_GUEST_1052: // "Send" button
         {
             NetUi* pThis = reinterpret_cast<NetUi*>(GetWindowLongA(hDlg, 8));
             GetDlgItemTextA(hDlg, 1053, chatText, 127);
@@ -1408,7 +1408,7 @@ void __stdcall NetUi::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s32 notif
             break;
         }
 
-        case 1036: // Game type
+        case COMBO_GAME_TYPE_1036: // Game type
             switch (notify)
             {
                 case CBN_SELCHANGE:
@@ -1450,7 +1450,7 @@ void __stdcall NetUi::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s32 notif
             break;
         }
 
-        case 1031:
+        case TRACKBAR_GAME_SPEED_1031:
             if (notify == 4)
             {
                 MessageBoxA(0, "TB_THUMBPOSITION ", "", 0);
@@ -1547,7 +1547,7 @@ void NetUi::CreateMainUi_51AA90(HWND hWndParent)
     SetWindowLongA(GetDlgItem(hWndParent, 1053), GWL_WNDPROC, reinterpret_cast<LONG>(NetUi::subclass_proc_51BDD0));
     SetWindowLongA(GetDlgItem(hWndParent, 1025), GWL_WNDPROC, reinterpret_cast<LONG>(NetUi::subclass_proc_51BDD0));
 
-    SendDlgItemMessageA(hWndParent, 1031, 0x406, 0x1, 0x20000);
+    SendDlgItemMessageA(hWndParent, TRACKBAR_GAME_SPEED_1031, TBM_SETRANGE, TRUE, MAKELONG(0, 2)); // set range of game speed slider: 0 to 2 (that is, 3 options)
 
     SetDlgItemTextA(hWndParent, 1028, GetString_519A00("netui14")); // "Cops"
     SetDlgItemTextA(hWndParent, 1037, GetString_519A00("netui21")); // "Time Limit (Minutes)"
@@ -1741,8 +1741,8 @@ void NetUi::PopulateMainUI_51AFA0()
 
     for (u32 map_idx = 0; map_idx < static_cast<u32>(field_1FD64_total_map_count); map_idx++)
     {
-        LRESULT item_idx = SendDlgItemMessageA(field_2031C_dlg_hwnd, 1026, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(field_4_maps[map_idx].field_30C_description));
-        SendDlgItemMessageA(field_2031C_dlg_hwnd, 1026, CB_SETITEMDATA, item_idx, map_idx);
+        LRESULT item_idx = SendDlgItemMessageA(field_2031C_dlg_hwnd, COMBO_MAP_LIST_1026, CB_ADDSTRING, 0, reinterpret_cast<LPARAM>(field_4_maps[map_idx].field_30C_description));
+        SendDlgItemMessageA(field_2031C_dlg_hwnd, COMBO_MAP_LIST_1026, CB_SETITEMDATA, item_idx, map_idx);
     }
 
     LRESULT item_a = SendDlgItemMessageA(field_2031C_dlg_hwnd, COMBO_GAME_TYPE_1036, 323u, 0, reinterpret_cast<LPARAM>(GetString_519A00("netui19")));
@@ -1752,7 +1752,7 @@ void NetUi::PopulateMainUI_51AFA0()
     LRESULT item_c = SendDlgItemMessageA(field_2031C_dlg_hwnd, COMBO_GAME_TYPE_1036, 0x143u, 0, reinterpret_cast<LPARAM>(GetString_519A00("netui22")));
     SendDlgItemMessageA(field_2031C_dlg_hwnd, COMBO_GAME_TYPE_1036, CB_SETITEMDATA, item_c, 2);
     NetUi::LoadGameSettingsFromRegistry_51C830();
-    SendDlgItemMessageA(field_2031C_dlg_hwnd, 1026, CB_SETCURSEL, field_20088_game_settings.field_2018C_map_idx, 0);
+    SendDlgItemMessageA(field_2031C_dlg_hwnd, COMBO_MAP_LIST_1026, CB_SETCURSEL, field_20088_game_settings.field_2018C_map_idx, 0);
     SendDlgItemMessageA(field_2031C_dlg_hwnd, COMBO_GAME_TYPE_1036, CB_SETCURSEL, field_20088_game_settings.field_20198_game_type - 1, 0);
     NetUi::SetPlayerCountText_51CB30(field_4_maps[field_20088_game_settings.field_2018C_map_idx].field_514_player_count, field_2031C_dlg_hwnd);
     NetUi::SetPoliceEnabledCheckBox_51CCB0(field_20088_game_settings.field_201A0_police_on, field_2031C_dlg_hwnd);
@@ -2311,7 +2311,7 @@ MATCH_FUNC(0x51c630)
 void __stdcall NetUi::OnWmHScroll_51C630(HWND hWnd, HWND hTrackBar, s32 code, s32 pos)
 {
     NetUi* pThis = reinterpret_cast<NetUi*>(GetWindowLongA(hWnd, 8));
-    if (GetDlgCtrlID(hTrackBar) == 1031)
+    if (GetDlgCtrlID(hTrackBar) == TRACKBAR_GAME_SPEED_1031)
     {
         switch (code)
         {
@@ -2323,7 +2323,7 @@ void __stdcall NetUi::OnWmHScroll_51C630(HWND hWnd, HWND hTrackBar, s32 code, s3
             case 6:
             case 7:
             {
-                const int pos2 = SendDlgItemMessageA(hWnd, 1031, TBM_GETPOS, 0, 0);
+                const int pos2 = SendDlgItemMessageA(hWnd, TRACKBAR_GAME_SPEED_1031, TBM_GETPOS, 0, 0);
                 pThis->SetSetting_51B9C0(5, static_cast<s32>(pos2)); // set game speed
             }
             break;
@@ -2409,20 +2409,20 @@ void NetUi::UpdateButtonsEnabledState_51CBC0()
 {
     if (NetUi::GetCount_51BBD0() == field_4_maps[field_20088_game_settings.field_2018C_map_idx].field_514_player_count)
     {
-        EnableWindow(GetDlgItem(NetUi::Get_2031C_HWND_519E20(), 1021), true);
+        EnableWindow(GetDlgItem(NetUi::Get_2031C_HWND_519E20(), BUTTON_START_GAME_1021), true);
     }
     else
     {
-        EnableWindow(GetDlgItem(NetUi::Get_2031C_HWND_519E20(), 1021), false);
+        EnableWindow(GetDlgItem(NetUi::Get_2031C_HWND_519E20(), BUTTON_START_GAME_1021), false);
     }
 
     if (NetUi::GetCount_51BBD0() > 1)
     {
-        EnableWindow(GetDlgItem(NetUi::Get_2031C_HWND_519E20(), 1020), true);
+        EnableWindow(GetDlgItem(NetUi::Get_2031C_HWND_519E20(), BUTTON_REJECT_PLAYER_1020), true);
     }
     else
     {
-        EnableWindow(GetDlgItem(NetUi::Get_2031C_HWND_519E20(), 1020), false);
+        EnableWindow(GetDlgItem(NetUi::Get_2031C_HWND_519E20(), BUTTON_REJECT_PLAYER_1020), false);
     }
 }
 
@@ -2501,7 +2501,7 @@ void NetUi::SetFragsNumberAndLabel_51CDC0(s32 gameType, s32 fragLimit, HWND hDlg
 MATCH_FUNC(0x51cfc0)
 void NetUi::SetGameSpeedTextLabelAndSlider_51CFC0(LPARAM game_speed, HWND hDlg)
 {
-    SendDlgItemMessageA(hDlg, 1031, 0x405, 1u, game_speed); // 0x405 = TBM_SETPOS
+    SendDlgItemMessageA(hDlg, TRACKBAR_GAME_SPEED_1031, 0x405, 1u, game_speed); // 0x405 = TBM_SETPOS
 
     LPCSTR pText;
     switch (game_speed)
