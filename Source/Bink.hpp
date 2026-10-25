@@ -37,7 +37,7 @@ class Bink
 
     EXPORT static void ResetBufferOffset_513720();
 
-    EXPORT static char_type TickFrame_513240();
+    EXPORT static bool TickFrame_513240();
 
     EXPORT static char_type GetActiveSlot_513790();
 

@@ -12,6 +12,3 @@ typedef signed int s32;
 
 typedef float f32;
 typedef double f64;
-
-// Maximum number of players in a (network) game
-#define MAX_PLAYERS 6

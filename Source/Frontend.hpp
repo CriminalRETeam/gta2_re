@@ -183,7 +183,7 @@ enum MenuScreen
     Credits_17 = 17,
 };
 
-enum MenuPages // enum for field_132_f136_idx
+enum MenuPages // enum for field_132_current_page_idx
 {
     MENUPAGE_NONE = -1,
     MENUPAGE_START_MENU = 0,
@@ -245,8 +245,6 @@ struct Frontend
     s32 field_108_winmain_next_state;
     char_type field_10C_bKeyboardAcquireFailed;
     char_type field_10D_bInputEnabled;
-    char_type field_10E_unused;
-    char_type field_10F_unused;
     s32 field_110_state;
     s32 field_114_cursor_blink;
     s32 field_118_cursor_blink_timer;
@@ -261,7 +259,7 @@ struct Frontend
     s16 field_12C_area_complete_font;
     s16 field_12E_unused;
     s16 field_130_title_font;
-    u16 field_132_f136_idx;
+    u16 field_132_current_page_idx;
     s16 field_134_unused;
     MenuPage field_136_menu_pages_array[17];
     wchar_t field_C9A0_curr_plyr_name[9];
@@ -388,7 +386,7 @@ struct Frontend
     EXPORT void DrawBonusRating_4B7D60();
     EXPORT int DrawKeyHint_4B7E10(u8 str_id_idx, u16 text_xpos, u16 text_ypos, u16 fontType, s32 palette);
 
-    EXPORT char_type AreAllStagesUnlocked_4B7FB0();
+    EXPORT bool AreAllStagesUnlocked_4B7FB0();
 
     EXPORT void LoadMapFilenames_4B4D00(u8 mainBlockIdx, u8 bonusBlockIdx);
 
@@ -416,7 +414,7 @@ struct Frontend
 
     EXPORT void FreeImageTable_4B6750();
 
-    EXPORT char_type KeyBoard_GetKeyStates_4AFDD0();
+    EXPORT bool KeyBoard_GetKeyStates_4AFDD0();
 
     EXPORT void InitKeyBoardDevice_4AFBE0();
 
@@ -434,7 +432,7 @@ struct Frontend
 
     EXPORT void GetPlySlotSvgName_4B51D0(u8 idx, char_type* pStr);
 
-    EXPORT char_type PlySlotSvgExists_4B5370(u8 idx);
+    EXPORT bool PlySlotSvgExists_4B5370(u8 idx);
 
     EXPORT static void __stdcall SetInputEnabled_5E53C0(BYTE* pEnabled);
 
@@ -507,7 +505,7 @@ class FreeLoader
 {
   public:
     EXPORT static s32 __stdcall GetCityInstalled_4AE0F0();
-    EXPORT static char_type __stdcall CheckCityInstalled_4AE1F0(u8 city_idx);
+    EXPORT static bool __stdcall CheckCityInstalled_4AE1F0(u8 city_idx);
     EXPORT static void __cdecl MessageBox_4AE170(UINT uType, LPCSTR lpCaption, LPCSTR lpFormat, ...);
     EXPORT static LPCSTR __stdcall GetRegDword_4AE010(HKEY hKey, LPCSTR lpValueName, LPCSTR default_value);
 };

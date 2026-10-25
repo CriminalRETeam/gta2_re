@@ -23,7 +23,7 @@ void RemapTextureSet::Alloc_5B8E90(s16 sprite_count, s16 remaps_per_sprite, s32 
             field_10_bDoFree = 1;
             field_8_sprite_type = sprite_type;
             field_C_pal_type = pal_type;
-            field_0_pTextures = (STexture**)Memory::malloc_4FE4D0(sizeof(STexture*) * field_4_texture_count);
+            field_0_pTextures = static_cast<STexture**>(Memory::malloc_4FE4D0(sizeof(STexture*) * field_4_texture_count));
 
             for (u32 i = 0; i < field_4_texture_count; i++)
             {
@@ -40,20 +40,20 @@ void RemapTextureSet::LoadTextures_5B8F00()
     {
         u32 i = 0;
         sprite_index* pSpriteIndex;
-        u16 tmp;
-        u16 t2;
+        u16 true_pal;
+        u16 phys_pal;
         while (i < field_4_texture_count)
         {
             pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(i);
-            tmp = gGtx_0x106C_703DD4->GetTruePalette_5AA5F0(palette_types_enum::sprites_2, i);
-            t2 = gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(tmp);
+            true_pal = gGtx_0x106C_703DD4->GetTruePalette_5AA5F0(palette_types_enum::sprites_2, i);
+            phys_pal = gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(true_pal);
 
             field_0_pTextures[i++] = pgbh_RegisterTexture(
                 pSpriteIndex
                     ->field_4_width, // note: missing xor of register due to passing BYTE -> BYTE param instead of BYTE -> s32 param, xor clears up 24 bits
                 pSpriteIndex->field_5_height,
                 pSpriteIndex->field_0_pData,
-                t2, // pal idx
+                phys_pal, // pal idx
                 0);
         }
     }
@@ -109,7 +109,7 @@ STexture* RemapTextureSet::get_texture_5B90A0(s32 sprite_type, s16 sprite_idx)
 MATCH_FUNC(0x5B90D0)
 STexture* RemapTextureSet::GetRemappedTexture_5B90D0(s16 sprite_idx, s16 remap)
 {
-    return field_0_pTextures[(u16)(remap + (sprite_idx * field_6_remaps_per_sprite))];
+    return field_0_pTextures[static_cast<u16>(remap + (sprite_idx * field_6_remaps_per_sprite))];
 }
 
 MATCH_FUNC(0x5B90F0)
@@ -119,7 +119,7 @@ void TextureCache::LoadPals_5B90F0()
 
     for (u16 palId = 0; palId < field_15D6_pal_count; palId++)
     {
-        pgbh_RegisterPalette(palId, (DWORD*)gGtx_0x106C_703DD4->GetPalData_5AA6A0(palId));
+        pgbh_RegisterPalette(palId, reinterpret_cast<DWORD*>(gGtx_0x106C_703DD4->GetPalData_5AA6A0(palId)));
     }
 }
 
@@ -142,7 +142,7 @@ void TextureCache::LoadCarDamageTextures_5B9180()
         field_1000_bFreeCarDamageTextures = 1;
         u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::car_2, 0);
         u16 true_pal_idx = gGtx_0x106C_703DD4->GetTruePalette_5AA5F0(palette_types_enum::sprites_2, sprite_idx);
-        u16 pal_idx = (u16)gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(true_pal_idx);
+        u16 pal_idx = static_cast<u16>(gGtx_0x106C_703DD4->get_phys_pal_5AA6F0(true_pal_idx));
 
         for (u32 idx = 0; idx < 48; idx++)
         {

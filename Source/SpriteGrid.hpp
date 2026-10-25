@@ -61,7 +61,7 @@ class SpriteGrid
     EXPORT void AddToRegionBuckets_477B20(Sprite* pSprite);
     EXPORT void RemoveFromRegionBuckets_477B60(Sprite* pSprite);
     EXPORT void DebugLogAll_477BA0();
-    EXPORT char_type CheckAndHandleCollisionInStrips_477BD0(Sprite* pSprite);
+    EXPORT bool CheckAndHandleCollisionInStrips_477BD0(Sprite* pSprite);
     EXPORT bool CheckAndHandleAllCollisionsForSprite_477C30(Sprite* pSprite, s32 sprite_type_filter);
     EXPORT Sprite* FindNearestSprite_SpiralSearch_477C90(s32 primary_sprite_type,
                                                          s32 secondary_sprite_type,
@@ -96,8 +96,8 @@ class SpriteGrid
     EXPORT void AddToSingleBucket_478440(s32 x_pos, s32 y_pos, Sprite* pSprite);
     EXPORT void AddToRowBuckets_4784D0(s32 y_pos, Sprite* pSprite);
     EXPORT GridCell* GetFirstXCellInRow_478590(s32 y_pos);
-    EXPORT char_type CheckRowForRectCollisions_4785D0(u32 y_pos, Fix16_Rect* pRect);
-    EXPORT char_type CheckAndHandleCollisionsInStrip_478750(u32 y_pos, Sprite* pSprite);
+    EXPORT bool CheckRowForRectCollisions_4785D0(u32 y_pos, Fix16_Rect* pRect);
+    EXPORT bool CheckAndHandleCollisionsInStrip_478750(u32 y_pos, Sprite* pSprite);
     EXPORT bool CheckAndHandleRowCollisionsForSprite_4787E0(u32 y_pos, Sprite* pSprite);
     EXPORT Sprite* FindCollidingSpriteInRow_478880(u32 y_pos, Sprite* pSprite);
     EXPORT void DebugLog_478950(s32 x_pos, s32 y_pos);

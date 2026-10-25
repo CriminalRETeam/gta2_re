@@ -15,7 +15,7 @@ void LoadBeginSceneCBPtr();
 
 int __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd);
 
-EXPORT char __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance);
+EXPORT bool __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance);
 
 EXPORT void __stdcall GetGTA2Version_5E5D60(int* pVerMinor, int* pVerMajor);
 

@@ -47,7 +47,7 @@ class PathFinder
     EXPORT bool ProcessGridCell_5548C0();
     EXPORT void RestoreSavedPosition_554920();
     EXPORT s32 IsFirstInPathQueue_554A90(Ped* pPed);
-    EXPORT char_type ComputePath_554AB0(s32 ped_id,
+    EXPORT bool ComputePath_554AB0(s32 ped_id,
                                         Ped* pPed,
                                         u8 x_start,
                                         u8 y_start,

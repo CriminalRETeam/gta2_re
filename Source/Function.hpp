@@ -209,7 +209,7 @@ void __stdcall LogFuncAddr(u32 codeAddr, s32 mode);
 #endif
 
 #define GTA2_COUNTOF(x) (sizeof(x) / sizeof(*(x)))
-#define GTA2_COUNTOF_S(x) ((s32)GTA2_COUNTOF(x))
+#define GTA2_COUNTOF_S(x) (static_cast<s32>(GTA2_COUNTOF(x)))
 
 #define GTA2_DELETE_AND_NULL(x) \
     delete x;                   \

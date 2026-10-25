@@ -78,10 +78,10 @@ void wchar_to_char(wchar_t* wchar, char* out, u8 size)
     u16 i = 0;
     for (; wchar[i]; i++)
     {
-        out[(s8)i] = wchar[i];
+        out[static_cast<s8>(i)] = static_cast<char>(wchar[i]);
     }
     // clear remaining slots
-    for (s8 j = i; j < size; j++)
+    for (s8 j = static_cast<s8>(i); j < size; j++)
     {
         out[j] = 0;
     }
@@ -276,9 +276,9 @@ static void GetPlayerPos(Fix16& xpos, Fix16& ypos, Fix16& zpos)
     }
 }
 
-static void ShowRectAndPointsForSprite4C(SpriteShape* p4C)
+static void ShowRectAndPointsForSprite4C(SpriteShape* pShape)
 {
-    Fix16_Rect rect = p4C->field_30_boundingBox;
+    Fix16_Rect rect = pShape->field_30_boundingBox;
     if (ImGui::TreeNode("bounding box"))
     {
         ImGui::Value("Left", rect.field_0_left.ToFloat(), "%.2f");
@@ -292,14 +292,14 @@ static void ShowRectAndPointsForSprite4C(SpriteShape* p4C)
 
     if (ImGui::TreeNode("rendering rect"))
     {
-        ImGui::Value("0 x:", p4C->field_C_corners[0].x.ToFloat(), "%.2f");
-        ImGui::Value("0 y:", p4C->field_C_corners[0].y.ToFloat(), "%.2f");
-        ImGui::Value("1 x:", p4C->field_C_corners[1].x.ToFloat(), "%.2f");
-        ImGui::Value("1 y:", p4C->field_C_corners[1].y.ToFloat(), "%.2f");
-        ImGui::Value("2 x:", p4C->field_C_corners[2].x.ToFloat(), "%.2f");
-        ImGui::Value("2 y:", p4C->field_C_corners[2].y.ToFloat(), "%.2f");
-        ImGui::Value("3 x:", p4C->field_C_corners[3].x.ToFloat(), "%.2f");
-        ImGui::Value("3 y:", p4C->field_C_corners[3].y.ToFloat(), "%.2f");
+        ImGui::Value("0 x:", pShape->field_C_corners[0].x.ToFloat(), "%.2f");
+        ImGui::Value("0 y:", pShape->field_C_corners[0].y.ToFloat(), "%.2f");
+        ImGui::Value("1 x:", pShape->field_C_corners[1].x.ToFloat(), "%.2f");
+        ImGui::Value("1 y:", pShape->field_C_corners[1].y.ToFloat(), "%.2f");
+        ImGui::Value("2 x:", pShape->field_C_corners[2].x.ToFloat(), "%.2f");
+        ImGui::Value("2 y:", pShape->field_C_corners[2].y.ToFloat(), "%.2f");
+        ImGui::Value("3 x:", pShape->field_C_corners[3].x.ToFloat(), "%.2f");
+        ImGui::Value("3 y:", pShape->field_C_corners[3].y.ToFloat(), "%.2f");
         ImGui::TreePop();
     }
 }
@@ -833,11 +833,11 @@ static void ProjectXYZ_intoScreen(Fix16 xpos, Fix16 ypos, Fix16 zpos, Fix16& scr
     Fix16 zCalc = (kFpOne_7064C4) /
         (kFpEight_7064E8 + (pCam->field_98_cur_pos.field_8_z - zpos)); // kFpOne_7064C4 ??
 
-    Fix16 xTmp = pCam->field_60_screen_scale.x * (xpos - pCam->field_98_cur_pos.field_0_x);
-    screen_x = ((zCalc * xTmp)) + Fix16(320);
+    Fix16 scaled_x = pCam->field_60_screen_scale.x * (xpos - pCam->field_98_cur_pos.field_0_x);
+    screen_x = ((zCalc * scaled_x)) + Fix16(320);
 
-    Fix16 yTmp = (pCam->field_60_screen_scale.y * (ypos - pCam->field_98_cur_pos.field_4_y));
-    screen_y = ((zCalc * yTmp) + Fix16(240));
+    Fix16 scaled_y = (pCam->field_60_screen_scale.y * (ypos - pCam->field_98_cur_pos.field_4_y));
+    screen_y = ((zCalc * scaled_y) + Fix16(240));
 }
 
 // Draw Text with wchar_t
@@ -946,7 +946,7 @@ void LoadMapsFromData(Network_Enumerated_Map* pOut, u16& num_maps_loaded)
 
     u32 map_count = 0;
     HANDLE hFindFile = FindFirstFileA(FileName, &findFileData);
-    if (hFindFile != (HANDLE)-1)
+    if (hFindFile != reinterpret_cast<HANDLE>(-1))
     {
         map_count = 1;
         strcpy(enumerated_mmp_name[0].field_0_map_name, findFileData.cFileName);
@@ -969,12 +969,12 @@ void LoadMapsFromData(Network_Enumerated_Map* pOut, u16& num_maps_loaded)
         for (u32 i = 0; i < map_count; i++)
         {
             strcpy(FileName, "data\\");
-            strcat(FileName, (const char *)enumerated_mmp_name[i].field_0_map_name);
+            strcat(FileName, static_cast<const char *>(enumerated_mmp_name[i].field_0_map_name));
             GetPrivateProfileStringA(
                 "MapFiles",
                 "GMPFile",
                 "",
-                (LPSTR)(enumerated_mmp_name[i].field_0_map_name),
+                static_cast<LPSTR>(enumerated_mmp_name[i].field_0_map_name),
                 0x103u,
                 FileName
             );
@@ -982,7 +982,7 @@ void LoadMapsFromData(Network_Enumerated_Map* pOut, u16& num_maps_loaded)
                 "MapFiles",
                 "STYFile",
                 "",
-                (LPSTR)(enumerated_mmp_name[i].field_104_style_name),
+                static_cast<LPSTR>(enumerated_mmp_name[i].field_104_style_name),
                 0x103u,
                 FileName
             );
@@ -990,7 +990,7 @@ void LoadMapsFromData(Network_Enumerated_Map* pOut, u16& num_maps_loaded)
                 "MapFiles",
                 "SCRFile",
                 "",
-                (LPSTR)(enumerated_mmp_name[i].field_208_script_name),
+                static_cast<LPSTR>(enumerated_mmp_name[i].field_208_script_name),
                 0x103u,
                 FileName
             );
@@ -998,18 +998,18 @@ void LoadMapsFromData(Network_Enumerated_Map* pOut, u16& num_maps_loaded)
                 "MapFiles",
                 "Description",
                 "",
-                (LPSTR)(enumerated_mmp_name[i].field_30C_description),
+                static_cast<LPSTR>(enumerated_mmp_name[i].field_30C_description),
                 0x103u,
                 FileName
             );
             // Now check if the map exists
             _chdir("data");
-            if (GetFileAttributesA((LPCSTR)enumerated_mmp_name[i].field_0_map_name) != -1
-                && GetFileAttributesA((LPCSTR)enumerated_mmp_name[i].field_104_style_name) != -1
-                && GetFileAttributesA((LPCSTR)enumerated_mmp_name[i].field_208_script_name) != -1)
+            if (GetFileAttributesA(static_cast<LPCSTR>(enumerated_mmp_name[i].field_0_map_name)) != -1
+                && GetFileAttributesA(static_cast<LPCSTR>(enumerated_mmp_name[i].field_104_style_name)) != -1
+                && GetFileAttributesA(static_cast<LPCSTR>(enumerated_mmp_name[i].field_208_script_name)) != -1)
             {
                 memcpy(&pOut[total_map_count], &enumerated_mmp_name[i], sizeof(Network_Enumerated_Map));
-                strcpy(&mmp_maps_description[total_map_count][0], (const char*)&enumerated_mmp_name[i].field_30C_description);
+                strcpy(&mmp_maps_description[total_map_count][0], reinterpret_cast<const char*>(&enumerated_mmp_name[i].field_30C_description));
                 total_map_count++;
             }
             _chdir("..");
@@ -1476,7 +1476,7 @@ void CC ImGuiDebugDraw()
             while (pCarIter)
             {
                 char buffer[128];
-                sprintf(buffer, "Car %S %X", pCarIter->GetCarStr_439F80(), pCarIter);
+                sprintf(buffer, "Car %S %X", pCarIter->GetCarStr_439F80(), reinterpret_cast<u32>(pCarIter));
                 if (ImGui::TreeNode(buffer))
                 {
 
@@ -1663,7 +1663,7 @@ void CC ImGuiDebugDraw()
 
                     ImGui::SliderInt("gXCoord_6F63AC", &gXCoord_6F63AC.mValue, 0, 2000);
                     ImGui::SliderInt("gYCoord_6F63B8", &gYCoord_6F63B8.mValue, 0, 2000);
-                    ImGui::SliderInt("gZCoord_6F63E0", (int*)&gZCoord_6F63E0, 0, 2000);
+                    ImGui::SliderInt("gZCoord_6F63E0", reinterpret_cast<int*>(&gZCoord_6F63E0), 0, 2000);
                 }
 
                 if (ImGui::Button("PathFinder::FindNearbyTileMatchingSlopeType_5552B0"))
@@ -2250,7 +2250,7 @@ void CC ImGuiDebugDraw()
                                         ImGui::SliderInt("Skid Threshold", &pModelPhy->field_30_sked_threshold.mValue, 0, 10 * 16384);
                                         ImGui::SliderInt("Front Drive Bias", &pModelPhy->field_8_front_drive_bias.mValue, 0, 10 * 16384);
                                         ImGui::SliderInt("Front Mass Bias", &pModelPhy->field_C_front_mass_bias.mValue, 0, 10 * 16384);
-                                        ImGui::SliderS8("Turbo", (char_type*)&pModelPhy->field_1_turbo, 0, 10);
+                                        ImGui::SliderS8("Turbo", reinterpret_cast<char_type*>(&pModelPhy->field_1_turbo), 0, 10);
                                     }
                                     ImGui::TreePop();
                                 }
@@ -2281,10 +2281,10 @@ void CC ImGuiDebugDraw()
                                 if (ImGui::TreeNode("Sprite"))
                                 {
                                     ImGui::Input_char_type("Sprt F38", &pSprt->field_38_zoom, 1, 1);
-                                    SpriteShape* p4C = pSprt->field_4_pVisualShape;
-                                    if (p4C)
+                                    SpriteShape* pShape = pSprt->field_4_pVisualShape;
+                                    if (pShape)
                                     {
-                                        ShowRectAndPointsForSprite4C(p4C);
+                                        ShowRectAndPointsForSprite4C(pShape);
                                     }
                                     ImGui::TreePop();
                                 }
@@ -2322,8 +2322,8 @@ void CC ImGuiDebugDraw()
                         ImGui::InputInt("B4 F_10", &pPlayerPed->field_168_game_object->field_10_char_state, 1, 1);
                         ImGui::InputU8("B4 f_68", &pPlayerPed->field_168_game_object->field_68_animation_frame, 1, 1);
                         ImGui::InputInt("B4 f_6C", &pPlayerPed->field_168_game_object->field_6C_animation_state, 1, 1);
-                        ImGui::Input_char_type("B4 f_70", (char_type*)&pPlayerPed->field_168_game_object->field_70_frame_timer, 1, 1);
-                        ImGui::Input_char_type("B4 f_71", (char_type*)&pPlayerPed->field_168_game_object->field_71_frame_delay, 1, 1);
+                        ImGui::Input_char_type("B4 f_70", reinterpret_cast<char_type*>(&pPlayerPed->field_168_game_object->field_70_frame_timer), 1, 1);
+                        ImGui::Input_char_type("B4 f_71", reinterpret_cast<char_type*>(&pPlayerPed->field_168_game_object->field_71_frame_delay), 1, 1);
 
                         if (ImGui::TreeNode("Display CharB4 flags"))
                         {
@@ -2512,7 +2512,7 @@ void CC ImGuiDebugDraw()
                     }
 
                     static s32 v = 0;
-                    ImGui::InputInt("Timer num", (s32*)&v, 1, 1);
+                    ImGui::InputInt("Timer num", static_cast<s32*>(&v), 1, 1);
                     if (ImGui::Button("Stop timer") && v <= 3)
                     {
                         gHud_2B00_706620->field_620_pagers.ClearClockOnly_5D32D0(v);
@@ -2557,13 +2557,13 @@ void CC ImGuiDebugDraw()
 
                         if (ImGui::TreeNode("Try field_6FC_free_briefs as text"))
                         {
-                            ImGui::Text("Text: %s", (const char*)pHud_Brief_704->field_6FC_free_briefs);
+                            ImGui::Text("Text: %s", reinterpret_cast<const char*>(pHud_Brief_704->field_6FC_free_briefs));
                             ImGui::TreePop();
                         }
 
                         if (ImGui::TreeNode("Try field_700 as text"))
                         {
-                            ImGui::Text("Text: %s", (const char*)pHud_Brief_704->field_700_prev_briefs);
+                            ImGui::Text("Text: %s", reinterpret_cast<const char*>(pHud_Brief_704->field_700_prev_briefs));
                             ImGui::TreePop();
                         }
 
@@ -2574,7 +2574,7 @@ void CC ImGuiDebugDraw()
                             ImGui::Value("curr brief f_10", curr_brief->field_10_was_displayed);
                             if (ImGui::TreeNode("Try field_C as text"))
                             {
-                                ImGui::Text("Text: %s", (const char*)curr_brief->field_C_pNext);
+                                ImGui::Text("Text: %s", reinterpret_cast<const char*>(curr_brief->field_C_pNext));
                                 ImGui::TreePop();
                             }
                         }
@@ -2593,7 +2593,7 @@ void CC ImGuiDebugDraw()
                             {
                                 if (brief->field_C_pNext)
                                 {
-                                    ImGui::Text("Text: %s", (const char*)brief->field_C_pNext->field_0_brief_id_str);
+                                    ImGui::Text("Text: %s", static_cast<const char*>(brief->field_C_pNext->field_0_brief_id_str));
                                 }
                                 else
                                 {
@@ -2644,8 +2644,8 @@ void CC ImGuiDebugDraw()
             {
                 static s32 ped_state = 0;
                 static s32 move_state = 0;
-                ImGui::InputInt("Ped state", (s32*)&ped_state, 1, 1);
-                ImGui::InputInt("Move state", (s32*)&move_state, 1, 1);
+                ImGui::InputInt("Ped state", static_cast<s32*>(&ped_state), 1, 1);
+                ImGui::InputInt("Move state", static_cast<s32*>(&move_state), 1, 1);
                 
                 if (ImGui::Button("Apply states globally"))
                 {
@@ -2935,10 +2935,10 @@ void CC ImGuiDebugDraw()
                     
                     for (u32 idx2 = 0; idx2 < GTA2_COUNTOF(gPolice_7B8_6FEE40->field_464_pursuit_targets); idx2++)
                     {
-                        PolicePursuitTarget* p7C = &gPolice_7B8_6FEE40->field_464_pursuit_targets[idx2];
-                        if (p7C && p7C->field_18_z != kFP16Zero_6FE20C)
+                        PolicePursuitTarget* pTarget = &gPolice_7B8_6FEE40->field_464_pursuit_targets[idx2];
+                        if (pTarget && pTarget->field_18_z != kFP16Zero_6FE20C)
                         {
-                            swprintf(tmpBuff_67BD9C, L"P7C target coords (%.1f, %.1f, %.1f)", p7C->field_10_x.ToFloat(), p7C->field_14_y.ToFloat(), p7C->field_18_z.ToFloat());
+                            swprintf(tmpBuff_67BD9C, L"P7C target coords (%.1f, %.1f, %.1f)", pTarget->field_10_x.ToFloat(), pTarget->field_14_y.ToFloat(), pTarget->field_18_z.ToFloat());
                             DisplayWideTextAtScreenCoords(tmpBuff_67BD9C, 0, ypos);
                             ypos += 16;
                         }
@@ -3324,7 +3324,7 @@ void CC ImGuiDebugDraw()
             {
                 ImGui::Value("Total loaded maps", total_num_maps_loaded);
                 static int currentMapIndex = 0;
-                if (ImGui::Combo("Map", &currentMapIndex, (const char*)flat_char_array((char*)mmp_maps_description, total_num_maps_loaded), total_num_maps_loaded))
+                if (ImGui::Combo("Map", &currentMapIndex, static_cast<const char*>(flat_char_array(reinterpret_cast<char*>(mmp_maps_description), total_num_maps_loaded)), total_num_maps_loaded))
                 {
                     // Map selection changed
                 }

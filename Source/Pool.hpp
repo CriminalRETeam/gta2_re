@@ -92,12 +92,12 @@ class Pool
 
     PoolType* Allocate()
     {
-        PoolType* tmp = field_0_pStart;
-        field_0_pStart = tmp->mpNext;
-        tmp->mpNext = field_4_pPrev;
-        field_4_pPrev = tmp;
-        tmp->PoolAllocate();
-        return tmp;
+        PoolType* pNew = field_0_pStart;
+        field_0_pStart = pNew->mpNext;
+        pNew->mpNext = field_4_pPrev;
+        field_4_pPrev = pNew;
+        pNew->PoolAllocate();
+        return pNew;
     }
 
     // alloc_append_4254A0
@@ -129,11 +129,11 @@ class Pool
 
     PoolType* AllocateUntracked()
     {
-        PoolType* tmp = this->field_0_pStart;
-        this->field_0_pStart = tmp->mpNext;
-        tmp->mpNext = 0;
-        tmp->PoolAllocate();
-        return tmp;
+        PoolType* pNew = this->field_0_pStart;
+        this->field_0_pStart = pNew->mpNext;
+        pNew->mpNext = 0;
+        pNew->PoolAllocate();
+        return pNew;
     }
 
     void DeAllocate(PoolType* pItem)

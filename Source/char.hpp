@@ -356,12 +356,12 @@ class Char
     EXPORT void HandleObjectCollision_548840(Object* pObj);
     EXPORT void HandlePedCollision_548BD0(Char* pOther);
     EXPORT void HandleGenericCollision_54A530(Car* pCar, Object* pObj, Char* pChar);
-    EXPORT char_type ContinueMovementAfterCollision_54B8F0();
+    EXPORT bool ContinueMovementAfterCollision_54B8F0();
     EXPORT void SnapRotationToFace_54C090();
-    EXPORT char_type CanMoveOntoSlope_54C1A0(s32 path_direction);
+    EXPORT bool CanMoveOntoSlope_54C1A0(s32 path_direction);
     inline void SetTurnTarget_492400(Ang16 target_rotation);
     EXPORT void TurnToFreeAdjacentFace_54C3E0();
-    EXPORT char_type CanMoveToTile_54C500(char_type x, char_type y);
+    EXPORT bool CanMoveToTile_54C500(char_type x, char_type y);
     EXPORT void SelectRandomIdleBehavior_54C580();
     EXPORT void ApplyRandomRotationJitter_54C6C0();
     EXPORT void TickMovementStateMachine_54C900();
@@ -388,11 +388,11 @@ class Char
     EXPORT void state_9_552E90();
 
     EXPORT bool IsNearTileCentre_5532C0();
-    EXPORT char_type IsThreatToSearchingPed_553330();
+    EXPORT bool IsThreatToSearchingPed_553330();
     EXPORT bool ShouldCollideWithSprite_553340(Sprite* pSprite);
-    EXPORT bool PhoneTouched_5535B0(Object* p2c);
-    EXPORT char_type OnObjectTouched_553640(Object* p2c);
-    EXPORT char_type HandlePedObjectHit_5537F0(Object* p2c);
+    EXPORT bool PhoneTouched_5535B0(Object* pObject);
+    EXPORT bool OnObjectTouched_553640(Object* pObject);
+    EXPORT bool HandlePedObjectHit_5537F0(Object* pObject);
     EXPORT void HandleCarImpact_5538A0(Car* pCar, u8 bUnknown, Fix16 x, Fix16 y);
     EXPORT void HandleGenericImpact_553E00(Ang16 ang, Fix16 impact_x, Fix16 impact_z, char_type impact_type);
 

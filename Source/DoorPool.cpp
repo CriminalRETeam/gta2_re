@@ -25,7 +25,7 @@ MATCH_FUNC(0x49c340)
 void DoorData::Init_49C340(u8 id, u8 x, u8 y, u8 z, u32 face, u8 bDoFlip)
 {
 
-    gmp_block_info blockData; // [esp+10h] [ebp-Ch] BYREF
+    gmp_block_info blockData;
 
     this->field_4_x = x;
     this->field_5_y = y;
@@ -83,45 +83,45 @@ void DoorData::Init_49C340(u8 id, u8 x, u8 y, u8 z, u32 face, u8 bDoFlip)
 MATCH_FUNC(0x49c4e0)
 void DoorData::Open_49C4E0(u8 bFlip)
 {
-    DoorAnimInfo* tmp = &gDoorAnimInfo_67BB38[field_7_gr_id];
+    DoorAnimInfo* pAnimInfo = &gDoorAnimInfo_67BB38[field_7_gr_id];
     if (field_0_state != door_state::open_2)
     {
         field_0_state = door_state::open_2;
-        s16 tile_idx = tmp->field_6_open_internal_tile_idx | block_face::flat;
+        s16 tile_idx = pAnimInfo->field_6_open_internal_tile_idx | block_face::flat;
         if (bFlip)
         {
             tile_idx |= block_face::flip;
         }
         gMap_0x370_6F6268->ChangeBlock_4E8620(field_4_x, field_5_y, field_6_z, field_8_face, tile_idx);
-        gMap_0x370_6F6268->ChangeBlock_4E8620(field_4_x, field_5_y, field_6_z, GetOppositeFace_4DEEB0(field_8_face), tmp->field_6_open_internal_tile_idx);
-        gTileAnim_2_7052C4->AddAnim_5BC260(tmp->field_6_open_internal_tile_idx, tmp->field_0_start_frame, tmp->field_2_end_frame, tmp->field_8_speed, 1);
+        gMap_0x370_6F6268->ChangeBlock_4E8620(field_4_x, field_5_y, field_6_z, GetOppositeFace_4DEEB0(field_8_face), pAnimInfo->field_6_open_internal_tile_idx);
+        gTileAnim_2_7052C4->AddAnim_5BC260(pAnimInfo->field_6_open_internal_tile_idx, pAnimInfo->field_0_start_frame, pAnimInfo->field_2_end_frame, pAnimInfo->field_8_speed, 1);
     }
 }
 
 MATCH_FUNC(0x49c590)
 void DoorData::Close_49C590(u8 bDoFlip)
 {
-    DoorAnimInfo* tmp = &gDoorAnimInfo_67BB38[field_7_gr_id];
+    DoorAnimInfo* pAnimInfo = &gDoorAnimInfo_67BB38[field_7_gr_id];
     if (field_0_state != door_state::closed_1)
     {
         field_0_state = door_state::closed_1;
-        s16 block_side_word = tmp->field_4_internal_tile_idx | (block_face::wall | block_face::bullet_wall | block_face::flat);
+        s16 block_side_word = pAnimInfo->field_4_internal_tile_idx | (block_face::wall | block_face::bullet_wall | block_face::flat);
         if (bDoFlip)
         {
             block_side_word |= block_face::flip;
         }
         gMap_0x370_6F6268->ChangeBlock_4E8620(field_4_x, field_5_y, field_6_z, field_8_face, block_side_word);
-        gMap_0x370_6F6268->ChangeBlock_4E8620(field_4_x, field_5_y, field_6_z, GetOppositeFace_4DEEB0(field_8_face), tmp->field_4_internal_tile_idx);
-        gTileAnim_2_7052C4->AddAnim_5BC260(tmp->field_4_internal_tile_idx, tmp->field_2_end_frame, tmp->field_0_start_frame, tmp->field_8_speed, 1);
+        gMap_0x370_6F6268->ChangeBlock_4E8620(field_4_x, field_5_y, field_6_z, GetOppositeFace_4DEEB0(field_8_face), pAnimInfo->field_4_internal_tile_idx);
+        gTileAnim_2_7052C4->AddAnim_5BC260(pAnimInfo->field_4_internal_tile_idx, pAnimInfo->field_2_end_frame, pAnimInfo->field_0_start_frame, pAnimInfo->field_8_speed, 1);
     }
 }
 
 MATCH_FUNC(0x49cf10)
 DoorData* DoorPool::AllocDoorData_49CF10(u8 gr_id, char_type x, char_type y, char_type z, s32 face, char_type bDoFlip)
 {
-    DoorData* tmp = gDoor_10_Pool_67BD28->Allocate();
-    tmp->Init_49C340(gr_id, x, y, z, face, bDoFlip);
-    return tmp;
+    DoorData* pDoorData = gDoor_10_Pool_67BD28->Allocate();
+    pDoorData->Init_49C340(gr_id, x, y, z, face, bDoFlip);
+    return pDoorData;
 }
 
 MATCH_FUNC(0x49cf50)
@@ -210,14 +210,14 @@ Door* DoorPool::RegisterSingleDoor_49D170(u8 gr_id,
                                              u8 flip,
                                              u8 reversed)
 {
-    Door* this_00 = GetNextFreeDoor_49D3A0();
+    Door* pDoor = GetNextFreeDoor_49D3A0();
     field_4D0_count++;
-    this_00->field_2A_bDoFlip = flip;
-    this_00->field_2B_bReversed = reversed;
-    this_00->AddDoorData_49CA50(gr_id, x, y, z, face);
-    this_00->InitSingle_49CAC0(this_00->field_0_primary_door_data, 1, field_4D0_count + -1, check_x, check_y, check_z, check_width, check_height);
+    pDoor->field_2A_bDoFlip = flip;
+    pDoor->field_2B_bReversed = reversed;
+    pDoor->AddDoorData_49CA50(gr_id, x, y, z, face);
+    pDoor->InitSingle_49CAC0(pDoor->field_0_primary_door_data, 1, field_4D0_count + -1, check_x, check_y, check_z, check_width, check_height);
 
-    return this_00;
+    return pDoor;
 }
 
 MATCH_FUNC(0x49d1f0)
@@ -234,10 +234,10 @@ Door* DoorPool::RegisterDoubleDoor_49D1F0(u8 gr_id,
                                              u8 flip,
                                              u8 reversed)
 {
-    Door* this_00 = GetNextFreeDoor_49D3A0();
+    Door* pDoor = GetNextFreeDoor_49D3A0();
     field_4D0_count++;
-    this_00->field_2A_bDoFlip = flip;
-    this_00->field_2B_bReversed = reversed;
+    pDoor->field_2A_bDoFlip = flip;
+    pDoor->field_2B_bReversed = reversed;
     reversed = x;
     flip = y;
     switch (face)
@@ -255,10 +255,10 @@ Door* DoorPool::RegisterDoubleDoor_49D1F0(u8 gr_id,
             reversed = x - 1;
             break;
     }
-    this_00->AddDoorData_49CA50(gr_id, x, y, z, face);
-    this_00->AddDoorData_49CA50(gr_id, reversed, flip, z, face);
-    this_00->InitDouble_49CC00(this_00->field_0_primary_door_data, 1, field_4D0_count - 1, check_x, check_y, check_z, check_width, check_height);
-    return this_00;
+    pDoor->AddDoorData_49CA50(gr_id, x, y, z, face);
+    pDoor->AddDoorData_49CA50(gr_id, reversed, flip, z, face);
+    pDoor->InitDouble_49CC00(pDoor->field_0_primary_door_data, 1, field_4D0_count - 1, check_x, check_y, check_z, check_width, check_height);
+    return pDoor;
 }
 
 inline bool IsDoorOpenWithoutAutoClose(Door* pDoor)
@@ -318,7 +318,7 @@ Door* DoorPool::GetNextFreeDoor_49D3A0()
 
 // https://decomp.me/scratch/dGqMg
 MATCH_FUNC(0x49d3c0)
-char_type DoorPool::CheckDoorAccess_49D3C0(Sprite* pSprite, u8 door_idx)
+bool DoorPool::CheckDoorAccess_49D3C0(Sprite* pSprite, u8 door_idx)
 {
     Car* pCar = pSprite->AsCar_40FEB0();
     if (pCar)
@@ -335,13 +335,13 @@ char_type DoorPool::CheckDoorAccess_49D3C0(Sprite* pSprite, u8 door_idx)
         return 0;
     }
 
-    Char* pB4 = pSprite->AsCharB4_40FEA0();
-    if (pB4)
+    Char* pChar = pSprite->AsCharB4_40FEA0();
+    if (pChar)
     {
         if (!IsDoorOpenWithoutAutoClose(&field_0_doors[door_idx]))
         {
             // 9.6f: Char::get_ped_433A20 (inlined, using it changes the code)
-            if (!field_0_doors[door_idx].CanOpenForPed_49C7F0(pB4->field_7C_pPed))
+            if (!field_0_doors[door_idx].CanOpenForPed_49C7F0(pChar->field_7C_pPed))
             {
                 return 1;
             }

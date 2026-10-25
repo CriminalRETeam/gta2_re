@@ -58,11 +58,11 @@ char* __stdcall CarInfoTable::parse_gci_file_430A30(void* pGciData,
                                                    size_t modelPhyArrLen,
                                                    u32* next_position)
 {
-    input_data_676170 = (u8*)pGciData;
+    input_data_676170 = static_cast<u8*>(pGciData);
     line_number_676258 = 1;
     processedGciData_676260 = 0;
     gciDataLen_675F94 = gciDataLen;
-    modelPhyArrPtr_675F98 = (u8*)pModelPhyArr;
+    modelPhyArrPtr_675F98 = reinterpret_cast<u8*>(pModelPhyArr);
     processed_output_676250 = 0;
     modelPhyArrLen_675F90 = modelPhyArrLen;
 
@@ -92,7 +92,9 @@ char* __stdcall CarInfoTable::SetErr_430AC0(s32 error_code)
 {
     if (error_code > 0 || error_code < -GTA2_COUNTOF_S(error_table_61A6D4) + 1)
     {
-        error_code = -GTA2_COUNTOF(error_table_61A6D4);
+        // The original uses -13 despite having only 13 entries (indices 0..12).
+        // The following DWORD is string data ("Unkn"), not another message pointer.
+        error_code = -GTA2_COUNTOF_S(error_table_61A6D4);
     }
 
     sprintf(Buffer_675FD4, "%s at line %d", error_table_61A6D4[-error_code], line_number_676258);
@@ -140,7 +142,7 @@ s32 __stdcall CarInfoTable::ReadToken_430B10(char* pOut)
                          currentChar != '\r')
                 {
                     gTokenizerState_67626C = 2;
-                    pOut[i] = (char)currentChar;
+                    pOut[i] = static_cast<char>(currentChar);
                     i++;
                 }
                 break;
@@ -173,7 +175,7 @@ s32 __stdcall CarInfoTable::ReadToken_430B10(char* pOut)
                     gTokenizerState_67626C = 0;
                     return 0;
                 }
-                pOut[i] = (char)currentChar;
+                pOut[i] = static_cast<char>(currentChar);
                 i++;
 
                 break;
@@ -192,7 +194,7 @@ s32 __stdcall ParseTokenAndPush_430C70(char_type* pStr)
     s32 parsed_value;
     Fix16 fix16_num;
     s32 negated_value;
-    s16 tmp;
+    s16 parsed_short;
 
     char_type* pCurr = pStr;
     BOOL bHex = false;
@@ -249,18 +251,18 @@ s32 __stdcall ParseTokenAndPush_430C70(char_type* pStr)
                 case DataType::byte:
                     if (bHex == 1)
                     {
-                        error_ret = CarInfoTable::HexStr2Int_430F30(pCurr, &tmp);
+                        error_ret = CarInfoTable::HexStr2Int_430F30(pCurr, &parsed_short);
                     }
                     else
                     {
-                        error_ret = CarInfoTable::StrToInt_431080(pCurr, &tmp);
+                        error_ret = CarInfoTable::StrToInt_431080(pCurr, &parsed_short);
                     }
 
                     if (!error_ret)
                     {
                         if (bNegate)
                         {
-                            negated = (char)(-(char)tmp);
+                            negated = static_cast<char>(-static_cast<char>(parsed_short));
                             if (negated < -127)
                             {
                                 return -2;
@@ -269,11 +271,11 @@ s32 __stdcall ParseTokenAndPush_430C70(char_type* pStr)
                         }
                         else
                         {
-                            if ((u16)tmp > 0xFFu)
+                            if (static_cast<u16>(parsed_short) > 0xFFu)
                             {
                                 return -2;
                             }
-                            error_ret = CarInfoTable::PushData_430E60(&tmp, sizeof(BYTE));
+                            error_ret = CarInfoTable::PushData_430E60(&parsed_short, sizeof(BYTE));
                         }
                         // Shares the word case's tail; VC6 doesn't merge identical case tails by itself
                         goto check_push_result;
@@ -283,23 +285,23 @@ s32 __stdcall ParseTokenAndPush_430C70(char_type* pStr)
                 case DataType::word:
                     if (bHex == 1)
                     {
-                        error_ret = CarInfoTable::HexStr2Int_430F30(pCurr, &tmp);
+                        error_ret = CarInfoTable::HexStr2Int_430F30(pCurr, &parsed_short);
                     }
                     else
                     {
-                        error_ret = CarInfoTable::StrToInt_431080(pCurr, &tmp);
+                        error_ret = CarInfoTable::StrToInt_431080(pCurr, &parsed_short);
                     }
 
                     if (!error_ret)
                     {
                         if (bNegate)
                         {
-                            negated = -tmp;
+                            negated = -parsed_short;
                             error_ret = CarInfoTable::PushData_430E60(&negated, sizeof(WORD));
                         }
                         else
                         {
-                            error_ret = CarInfoTable::PushData_430E60(&tmp, sizeof(WORD));
+                            error_ret = CarInfoTable::PushData_430E60(&parsed_short, sizeof(WORD));
                         }
 
                     check_push_result:
@@ -324,7 +326,7 @@ s32 __stdcall ParseTokenAndPush_430C70(char_type* pStr)
                     {
                         if (bNegate)
                         {
-                            negated_value = -(s16)parsed_value;
+                            negated_value = -static_cast<s16>(parsed_value);
                             error_ret = CarInfoTable::PushData_430E60(&negated_value, sizeof(DWORD));
                         }
                         else
@@ -340,7 +342,7 @@ s32 __stdcall ParseTokenAndPush_430C70(char_type* pStr)
                     return error_ret;
 
                 case DataType::fix16_float:
-                    error_ret = CarInfoTable::FloatStrToFix16_431000((char*)pCurr, fix16_num);
+                    error_ret = CarInfoTable::FloatStrToFix16_431000(static_cast<char*>(pCurr), fix16_num);
 
                     if (!error_ret)
                     {
@@ -369,7 +371,7 @@ MATCH_FUNC(0x430e60)
 s32 __stdcall CarInfoTable::PushData_430E60(void* pSrc, u32 size)
 {
     processed_output_676250 += size;
-    if (processed_output_676250 > modelPhyArrLen_675F90)
+    if (processed_output_676250 > static_cast<u32>(modelPhyArrLen_675F90))
     {
         return -12;
     }
@@ -521,13 +523,13 @@ s32 __stdcall CarInfoTable::StrToInt_431080(const char* pStr, s16* pOut)
 }
 
 MATCH_FUNC(0x440860)
-Fix16 PixelsToFix16Table::SignedPixelsToFix16_440860(s8 var)
+Fix16 PixelsToFix16Table::SignedPixelsToFix16_440860(s8 pixels)
 {
-    if (var < 0)
+    if (pixels < 0)
     {
-        return -list[-var];
+        return -list[-pixels];
     }
-    return list[var];
+    return list[pixels];
 }
 
 MATCH_FUNC(0x4542A0)
@@ -540,7 +542,7 @@ void CarInfo_2C::CalculateCarInfo_4542A0(s32 idx)
     Fix16 max_speed;
     if (gear2_speed > gear3_speed || (max_speed = pModelPhysics->field_28_max_speed, gear3_speed > max_speed) || gear2_speed > max_speed)
     {
-        FatalError_4A38C0(0x3F6, "C:\\Splitting\\Gta2\\Source\\carinfo.cpp", 91, (u8)idx);
+        FatalError_4A38C0(0x3F6, "C:\\Splitting\\Gta2\\Source\\carinfo.cpp", 91, static_cast<u8>(idx));
     }
 
     s8 front_wheel_offset = pCarInfo->front_wheel_offset;

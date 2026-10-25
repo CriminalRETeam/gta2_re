@@ -567,9 +567,9 @@ void Explosion::EmitExplosion_18_33_541D60()
 {
     if (gParticle_4C_Pool_6FD5E4->has_pStart_48A8F0())
     {
-        if ((u16)field_1A_timer > 0x52u)
+        if (field_1A_timer > 0x52u)
         {
-            if ((u16)field_1A_timer > 0x5Au)
+            if (field_1A_timer > 0x5Au)
             {
                 Fix16 radius;
                 radius = this->field_24_particle_spread * Fix16(gRng_6F6784.get_int_4F7AE0(8));
@@ -942,7 +942,7 @@ void Explosion::EmitBuildingDebris_22_23_24_25_542E30(u8 direction_idx)
 }
 
 MATCH_FUNC(0x5434a0)
-char_type Explosion::Update_5434A0(Fix16 speed, Ang16 ang)
+bool Explosion::Update_5434A0(Fix16 speed, Ang16 ang)
 {
     u16 timer = this->field_1A_timer;
     if (timer != explosion_timer::forever_9999)

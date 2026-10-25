@@ -9,7 +9,7 @@ struct gmp_tile_animation;
 class TileAnimManager
 {
   public:
-    EXPORT void AddAnim_5BC260(s16 base, s16 f0, s16 length, s16 frame_rate, s16 repeat);
+    EXPORT void AddAnim_5BC260(s16 base, s16 start_frame, s16 length, s16 frame_rate, s16 repeat);
     EXPORT void AddGmpAnim_5BC2C0(const gmp_tile_animation* pTileAnimation);
     EXPORT void Empty_5BC300();
     EXPORT void UpdateTileAnimations_5BC310();
@@ -23,10 +23,10 @@ class TileAnim
 {
   public:
     // 9.6f 0x4C33F0
-    inline void Init_4C33F0(s16 base, s16 f0, s16 length, s16 frame_rate, s16 repeat)
+    inline void Init_4C33F0(s16 base, s16 start_frame, s16 length, s16 frame_rate, s16 repeat)
     {
         field_10_base = base;
-        field_0_start_frame = f0;
+        field_0_start_frame = start_frame;
         field_2_anim_length = length;
         field_4_frame_rate = frame_rate;
         field_6_repeat = repeat;

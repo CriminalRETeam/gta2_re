@@ -105,7 +105,7 @@ class CarPhysics
     // 9.6f 0x421130
     inline bool IsDamageWindowOpen_421130()
     {
-        return (u32)gpRng_67AB34->get_cur_rng_41CFE0() < field_8_damaged_until_cycle;
+        return static_cast<u32>(gpRng_67AB34->get_cur_rng_41CFE0()) < field_8_damaged_until_cycle;
     }
 
     // 9.6f 0x421260
@@ -154,7 +154,7 @@ class CarPhysics
         return GetTrailerAwareTurnRatio_55A100() * turn_direction * scale;
     }
     EXPORT char_type IsFootBrakeOn_55A150();
-    EXPORT char_type IsAccelerationOrReverseOn_55A180();
+    EXPORT bool IsAccelerationOrReverseOn_55A180();
     EXPORT void SetVelocityTowardTarget_55A1D0(Fix16 targetX, Fix16 targetY, Fix16 targetAngle, s32* rotationMode);
     EXPORT void restore_saved_physics_state_55A400();
     EXPORT void save_physics_state_55A4B0();
@@ -176,8 +176,8 @@ class CarPhysics
     EXPORT void EmitImpactParticles_55B7E0(u8 apply_to_corners_mask);
     EXPORT char_type ProcessGroundCollisionAndSurfaceType_55B970(char_type* check_mask);
     EXPORT void ProcessGroundCollisionAndEmitImpactParticles_55BFE0();
-    EXPORT char_type TestCollision_55C150();
-    EXPORT char_type SweepTestMovementForCollision_55C3B0(Fix16* outHitStep, Fix16* outNoHitStep);
+    EXPORT bool TestCollision_55C150();
+    EXPORT bool SweepTestMovementForCollision_55C3B0(Fix16* outHitStep, Fix16* outNoHitStep);
     EXPORT void BinarySearchCollisionTime_55C560(Fix16& low, Fix16& high);
     EXPORT void HandleMapBoundaryCollisionY_55C5C0(Fix16_Point& pPoint, Ang16 angle);
     EXPORT void HandleMapBoundaryCollisionX_55C820(Fix16_Point& pPoint, Ang16 angle);
@@ -186,12 +186,12 @@ class CarPhysics
     EXPORT void SpawnSkidSegment_55D200(s32 box_idx, Fix16_Point arg_4, s32 surface);
     EXPORT void UpdateWheelSkidEffects_55DC00();
     EXPORT void DoSkidmarks_55E260();
-    EXPORT char_type StepMovementAndCollisions_55E470();
-    EXPORT char_type CheckAndHandleCarAndTrailerCollisions_55EB80();
+    EXPORT bool StepMovementAndCollisions_55E470();
+    EXPORT bool CheckAndHandleCarAndTrailerCollisions_55EB80();
     EXPORT void ApplyVerticalEdgeNudge_55EC30();
     EXPORT void ApplyHorizontalEdgeNudge_55EF20();
     EXPORT void ApplyTurningForce_55F020();
-    EXPORT char_type ApplyMovementCommand_55F240();
+    EXPORT bool ApplyMovementCommand_55F240();
     EXPORT char_type ProcessCollisionAndClampVelocity_55F280();
     EXPORT void StepPhysics_55F330();
     EXPORT char_type CheckPendingCollision_55F360();
@@ -206,8 +206,8 @@ class CarPhysics
     EXPORT void AccumulateImpulse_55FC30(Fix16_Point& point, s32 base_dmg);
     EXPORT void HandleWorldCollision_55FD00(Fix16_Point& pHitPoint);
     EXPORT void HandleCarCollision_55FF20(Car* pOtherCar);
-    EXPORT void HandleObjectCollision_5606C0(Object* p2C, char_type damage_area);
-    EXPORT void ProcessPedImpact_560B40(Char* pCharB4, u8 hitType);
+    EXPORT void HandleObjectCollision_5606C0(Object* pObject, char_type damage_area);
+    EXPORT void ProcessPedImpact_560B40(Char* pChar, u8 hitType);
     EXPORT void UpdateLinearAndAngularAccel_560EB0();
     EXPORT void ApplyMovementStep_560F20(Fix16 time_scale);
     EXPORT void IntegrateAndClampVelocities_5610B0();
@@ -319,7 +319,7 @@ class CarPhysics
         HandleObjectCollision_5606C0(pObj, damage_area);
     }
     EXPORT void ApplyInputsAndIntegratePhysics_562F30();
-    EXPORT char_type UpdateLastMovementTimer_562FA0();
+    EXPORT bool UpdateLastMovementTimer_562FA0();
     EXPORT bool ProcessCarPhysicsStateMachine_562FE0();
     EXPORT void UpdateCp1FromCm1_563280();
     EXPORT void UpdateCenterOfMassPoint_563350();
@@ -338,7 +338,7 @@ class CarPhysics
     {
     }
 
-    EXPORT void SetCar_5638C0(Car* pBC);
+    EXPORT void SetCar_5638C0(Car* pCar);
     EXPORT CarPhysics();
 
     inline Fix16 GetLinearSpeed_4211A0()

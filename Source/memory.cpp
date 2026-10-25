@@ -33,5 +33,5 @@ void* __stdcall Memory::Aligned_malloc_4FE510(s32 requestedSize, void** pUnAlign
     }
 
     // Return aligned pointer
-    return (void*)(((u32)*pUnAlignedPtr + 0xFFFF) & 0xFFFF0000);
+    return reinterpret_cast<void*>((reinterpret_cast<u32>(*pUnAlignedPtr) + 0xFFFF) & 0xFFFF0000);
 }

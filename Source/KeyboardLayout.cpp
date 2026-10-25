@@ -98,19 +98,19 @@ void KeyboardLayout::LoadKbCfg_4D5E00()
 
     for (s32 i = 0; i < 256; i++)
     {
-        wchar_t tmpBuffer[16];
-        ReadCfg_4D5DA0(hConfigFile, tmpBuffer);
-        if (tmpBuffer[0] == '~')
+        wchar_t token[16];
+        ReadCfg_4D5DA0(hConfigFile, token);
+        if (token[0] == '~')
         {
             field_0_keys[i] = 0;
         }
-        else if (tmpBuffer[0] != '`')
+        else if (token[0] != '`')
         {
             field_0_keys[i] = 0;
         }
         else
         {
-            field_0_keys[i] = tmpBuffer[1];
+            field_0_keys[i] = token[1];
         }
     }
 
@@ -173,9 +173,9 @@ void KeyboardLayout::RecreateIfLayoutChanged_4D5FD0()
 MATCH_FUNC(0x4D6000)
 s32 __stdcall KeyboardLayout::GetLayout_4D6000()
 {
-    s32 result; // eax
-    char_type Buffer[4]; // [esp+0h] [ebp-14h] BYREF
-    char_type pwszKLID[KL_NAMELENGTH]; // [esp+8h] [ebp-Ch] BYREF
+    s32 result;
+    char_type Buffer[4];
+    char_type pwszKLID[KL_NAMELENGTH];
 
     memcpy(Buffer, kTwoSpacesStr_620D2C, sizeof(Buffer));
 
