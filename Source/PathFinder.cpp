@@ -268,16 +268,16 @@ char_type PathFinder::EvaluateGridCell_554640()
             if (field_22_zpos <= 8)
             {
                 field_1C_grid_idx = field_23_grid_x + 34 * field_24_grid_y;
-                PathNode* p8 = &field_40_grid[field_1C_grid_idx]; // 1122 len
-                if (p8->field_1_idx2 == 0)
+                PathNode* pNode = &field_40_grid[field_1C_grid_idx]; // 1122 len
+                if (pNode->field_1_idx2 == 0)
                 {
                     return 1;
                 }
-                if (p8->field_0_idx1 != 1 && p8->field_2_xpos != field_22_zpos)
+                if (pNode->field_0_idx1 != 1 && pNode->field_2_xpos != field_22_zpos)
                 {
-                    if (abs(p8->field_2_xpos - field_22_zpos) >= 1)
+                    if (abs(pNode->field_2_xpos - field_22_zpos) >= 1)
                     {
-                        p8->field_0_idx1 = 1;
+                        pNode->field_0_idx1 = 1;
                         return 1;
                     }
                 }
@@ -346,10 +346,10 @@ void PathFinder::AddGridCell_554710()
     }
 
     field_1C_grid_idx = field_23_grid_x + 34 * field_24_grid_y;
-    PathNode* p8 = &field_40_grid[field_1C_grid_idx];
-    if (field_40_grid[field_1C_grid_idx].field_0_idx1 == 1 && zpos == p8->field_2_xpos)
+    PathNode* pNode = &field_40_grid[field_1C_grid_idx];
+    if (field_40_grid[field_1C_grid_idx].field_0_idx1 == 1 && zpos == pNode->field_2_xpos)
     {
-        p8->field_0_idx1 = 0;
+        pNode->field_0_idx1 = 0;
     }
     else
     {
@@ -377,17 +377,17 @@ void PathFinder::AddGridCell_554710()
         ++field_8_pNode;
         ++field_C_node_count;
 
-        if (p8->field_0_idx1 == 1)
+        if (pNode->field_0_idx1 == 1)
         {
-            p8->field_3_ypos = field_1B_direction;
-            p8->field_4_zpos = zpos;
+            pNode->field_3_ypos = field_1B_direction;
+            pNode->field_4_zpos = zpos;
         }
         else
         {
-            p8->field_1_idx2 = field_1B_direction;
-            p8->field_2_xpos = zpos;
+            pNode->field_1_idx2 = field_1B_direction;
+            pNode->field_2_xpos = zpos;
         }
-        p8->field_6_cost = field_1E_current_cost + 1;
+        pNode->field_6_cost = field_1E_current_cost + 1;
 
         if (field_24_grid_y)
         {
@@ -518,7 +518,7 @@ s32 PathFinder::IsFirstInPathQueue_554A90(Ped* pPed)
 
 // https://decomp.me/scratch/Fr0bT
 MATCH_FUNC(0x554ab0)
-char_type PathFinder::ComputePath_554AB0(s32 ped_id,
+bool PathFinder::ComputePath_554AB0(s32 ped_id,
                                         Ped* pPed,
                                         u8 x_start,
                                         u8 y_start,
@@ -529,8 +529,8 @@ char_type PathFinder::ComputePath_554AB0(s32 ped_id,
                                         s32 angle_face,
                                         u8* pOutPathFailCount)
 {
-    PathNode* pBestNode; // eax
-    PathNode* pCell; // ecx
+    PathNode* pBestNode;
+    PathNode* pCell;
     u8 yCoord;
     u8 idx1;
     u8 idx2;

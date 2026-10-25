@@ -156,7 +156,7 @@ s16 gtx_0x106C::GetPaletteBaseOfType_5AA560(s32 palette_type)
 MATCH_FUNC(0x5AA5F0)
 s16 gtx_0x106C::GetTruePalette_5AA5F0(s32 palette_type, s16 pal)
 {
-    s16 result; // ax
+    s16 result;
 
     switch (palette_type)
     {
@@ -1090,24 +1090,24 @@ gtx_0x106C::gtx_0x106C()
 MATCH_FUNC(0x5AB8A0)
 gtx_0x106C::~gtx_0x106C()
 {
-    sprite_base* local_field_14_sprite_base2; // eax
-    sprite_base* local_field_18_sprite_base1; // ecx
-    palette_base* local_field_C_palette_base2; // edx
-    palette_base* local_field_10_palette_base1; // eax
-    font_base* local_field_1C_font_base; // eax
-    sprite_index* local_field_20_sprite_index; // eax
-    object_info* local_field_24_map_object_info; // eax
-    palette_index* local_field_28_palette_index; // ecx
-    void* local_field_30_physical_palettes_size; // eax
-    void* local_field_44_aligned_tiles_size; // eax
-    void* pUnaligned; // eax
-    delta_store_entry* local_field_48_delta_store; // eax
-    void* local_field_50_delta_buffer; // eax
-    void* local_field_58_car_info; // eax
-    car_info_container* local_field_5C_cari; // edx
-    delta_entry* local_field_4C_delta_index; // eax
-    void* local_field_54_del; // eax
-    tile_array* local_field_40_tile; // eax
+    sprite_base* local_field_14_sprite_base2;
+    sprite_base* local_field_18_sprite_base1;
+    palette_base* local_field_C_palette_base2;
+    palette_base* local_field_10_palette_base1;
+    font_base* local_field_1C_font_base;
+    sprite_index* local_field_20_sprite_index;
+    object_info* local_field_24_map_object_info;
+    palette_index* local_field_28_palette_index;
+    void* local_field_30_physical_palettes_size;
+    void* local_field_44_aligned_tiles_size;
+    void* pUnaligned;
+    delta_store_entry* local_field_48_delta_store;
+    void* local_field_50_delta_buffer;
+    void* local_field_58_car_info;
+    car_info_container* local_field_5C_cari;
+    delta_entry* local_field_4C_delta_index;
+    void* local_field_54_del;
+    tile_array* local_field_40_tile;
 
     if (field_64_car_recycling_info)
     {

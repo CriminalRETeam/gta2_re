@@ -66,7 +66,7 @@ DEFINE_GLOBAL_INIT(Fix16, kFpFour_6FD4AC, Fix16(4), 0x6FD4AC);
 
 // https://decomp.me/scratch/nKSYL
 MATCH_FUNC(0x538060)
-char_type Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
+bool Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
 {
     Fix16 rng_1;
     Fix16 rng_2;
@@ -164,14 +164,14 @@ char_type Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
             vector.y = old_x.Negate_4086A0().Multiply_408680(sin).Add_408660(vector.y.Multiply_408680(cos));
         }
 
-        field_14_additional_speed_x = vector.x;
-        field_18_additional_speed_y = vector.y;
+        field_14_additional_speed.x = vector.x;
+        field_14_additional_speed.y = vector.y;
 
-        field_8_speed_x = field_14_additional_speed_x + rng_1;
-        field_C_speed_y = field_18_additional_speed_y + rng_2;
+        field_8_speed.x = field_14_additional_speed.x + rng_1;
+        field_8_speed.y = field_14_additional_speed.y + rng_2;
 
-        pos_x = pos_x + field_8_speed_x;
-        pos_y = pos_y + field_C_speed_y;
+        pos_x = pos_x + field_8_speed.x;
+        pos_y = pos_y + field_8_speed.y;
         gParticlePosX_6FD388 = pos_x;
         gParticlePosY_6FD38C = pos_y;
         if (gParticlePosX_6FD388 > kFP16One_6FD4A0 && gParticlePosX_6FD388 < kFp255_6FD280 - kFP16One_6FD4A0 && gParticlePosY_6FD38C > kFP16One_6FD4A0 &&
@@ -190,7 +190,7 @@ char_type Particle_4C::UpdateFloatingParticle_state_6_15_16_17_538060()
 }
 
 MATCH_FUNC(0x5384c0)
-char_type Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
+bool Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
 {
     Fix16 jitter_x;
     Fix16 off_x = kFP16Zero_6FD49C;
@@ -296,8 +296,8 @@ char_type Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
     }
 
     dir.RotateByAngle_40F6B0(field_24_angle);
-    field_14_additional_speed_x = dir.x;
-    field_18_additional_speed_y = dir.y;
+    field_14_additional_speed.x = dir.x;
+    field_14_additional_speed.y = dir.y;
 
     jitter_x = 0;
     jitter_y = 0;
@@ -311,10 +311,10 @@ char_type Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
         jitter_y = ry / 100;
     }
 
-    field_8_speed_x = field_14_additional_speed_x + off_x + jitter_x;
-    field_C_speed_y = field_18_additional_speed_y + off_y + jitter_y;
-    xpos += field_8_speed_x;
-    ypos += field_C_speed_y;
+    field_8_speed.x = field_14_additional_speed.x + off_x + jitter_x;
+    field_8_speed.y = field_14_additional_speed.y + off_y + jitter_y;
+    xpos += field_8_speed.x;
+    ypos += field_8_speed.y;
     gParticlePosX_6FD388 = xpos;
     gParticlePosY_6FD38C = ypos;
 
@@ -369,7 +369,7 @@ char_type Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
 }
 
 MATCH_FUNC(0x538a40)
-char_type Particle_4C::UpdateBeamSegment_state_43_538A40()
+bool Particle_4C::UpdateBeamSegment_state_43_538A40()
 {
     gSpriteGrid_3_679210->Remove_477B00(this->field_30_pOwnSprite);
 
@@ -418,7 +418,7 @@ static inline Fix16 MaxValue_44E540(const Fix16& a, const Fix16& b)
 // each case is one SetFromPolar(radius, angle sum) call with both arguments as temporaries;
 // dst.SetXY(target) then dst += src (target declared ahead of src, else the x add's operands swap).
 MATCH_FUNC(0x538ac0)
-char_type Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
+bool Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
 {
     ++field_46_sub_state;
     Ang16 jitter;
@@ -511,7 +511,7 @@ char_type Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
 }
 
 MATCH_FUNC(0x539040)
-char_type Particle_4C::UpdateDirectedBurstSweep_state_4_539040()
+bool Particle_4C::UpdateDirectedBurstSweep_state_4_539040()
 {
     Fix16 jitter_x;
     Fix16 jitter_y;
@@ -580,18 +580,18 @@ char_type Particle_4C::UpdateDirectedBurstSweep_state_4_539040()
             }
 
             dir.RotateByAngle_40F6B0(field_24_angle);
-            field_14_additional_speed_x = dir.x;
-            field_18_additional_speed_y = dir.y;
+            field_14_additional_speed.x = dir.x;
+            field_14_additional_speed.y = dir.y;
 
             jitter_x = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1);
             jitter_x = jitter_x / 30;
             jitter_y = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1);
             jitter_y = jitter_y / 30;
 
-            field_8_speed_x = field_14_additional_speed_x + off_x + jitter_x;
-            field_C_speed_y = field_18_additional_speed_y + off_y + jitter_y;
-            xpos = xpos + field_8_speed_x;
-            ypos = ypos + field_C_speed_y;
+            field_8_speed.x = field_14_additional_speed.x + off_x + jitter_x;
+            field_8_speed.y = field_14_additional_speed.y + off_y + jitter_y;
+            xpos = xpos + field_8_speed.x;
+            ypos = ypos + field_8_speed.y;
             gParticlePosX_6FD388 = xpos;
             gParticlePosY_6FD38C = ypos;
 
@@ -620,7 +620,7 @@ char_type Particle_4C::UpdateDirectedBurstSweep_state_4_539040()
 }
 
 MATCH_FUNC(0x539480)
-char_type Particle_4C::UpdateDirectedBurst_state_13_14_36_539480()
+bool Particle_4C::UpdateDirectedBurst_state_13_14_36_539480()
 {
     Fix16 jitter_x;
     Fix16 jitter_y;
@@ -689,18 +689,18 @@ char_type Particle_4C::UpdateDirectedBurst_state_13_14_36_539480()
             }
 
             dir.RotateByAngle_40F6B0(field_24_angle);
-            field_14_additional_speed_x = dir.x;
-            field_18_additional_speed_y = dir.y;
+            field_14_additional_speed.x = dir.x;
+            field_14_additional_speed.y = dir.y;
 
             jitter_x = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1);
             jitter_x = jitter_x / 50;
             jitter_y = Fix16(gRng_6F6784.get_int_4F7AE0(3) - 1);
             jitter_y = jitter_y / 50;
 
-            field_8_speed_x = field_14_additional_speed_x + off_x + jitter_x;
-            field_C_speed_y = field_18_additional_speed_y + off_y + jitter_y;
-            xpos = xpos + field_8_speed_x;
-            ypos = ypos + field_C_speed_y;
+            field_8_speed.x = field_14_additional_speed.x + off_x + jitter_x;
+            field_8_speed.y = field_14_additional_speed.y + off_y + jitter_y;
+            xpos = xpos + field_8_speed.x;
+            ypos = ypos + field_8_speed.y;
             gParticlePosX_6FD388 = xpos;
             gParticlePosY_6FD38C = ypos;
 
@@ -729,7 +729,7 @@ char_type Particle_4C::UpdateDirectedBurst_state_13_14_36_539480()
 
 // https://decomp.me/scratch/2UJLM
 MATCH_FUNC(0x539890)
-char_type Particle_4C::UpdateCircularBurst_state_5_539890()
+bool Particle_4C::UpdateCircularBurst_state_5_539890()
 {
     char_type bJitter = 1;
     Fix16 jitter_y;
@@ -879,8 +879,8 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
         dir.x = (dir.x * cos).Add_408660(dir.y * sin);
         dir.y = old_x.Negate_4086A0().Multiply_408680(sin).Add_408660(dir.y.Multiply_408680(cos));
     }
-    field_14_additional_speed_x = dir.x;
-    field_18_additional_speed_y = dir.y;
+    field_14_additional_speed.x = dir.x;
+    field_14_additional_speed.y = dir.y;
 
     Fix16 jitter_x = 0;
     jitter_y = 0;
@@ -894,10 +894,10 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
         jitter_y = ry / 100;
     }
 
-    field_8_speed_x = field_14_additional_speed_x + jitter_x;
-    field_C_speed_y = field_18_additional_speed_y + off_y + jitter_y;
-    xpos += field_8_speed_x;
-    ypos += field_C_speed_y;
+    field_8_speed.x = field_14_additional_speed.x + jitter_x;
+    field_8_speed.y = field_14_additional_speed.y + off_y + jitter_y;
+    xpos += field_8_speed.x;
+    ypos += field_8_speed.y;
     gParticlePosX_6FD388 = xpos;
     gParticlePosY_6FD38C = ypos;
 
@@ -923,7 +923,7 @@ char_type Particle_4C::UpdateCircularBurst_state_5_539890()
 }
 
 MATCH_FUNC(0x53a180)
-char_type Particle_4C::UpdateStaticAnim_state_39_53A180()
+bool Particle_4C::UpdateStaticAnim_state_39_53A180()
 {
     gSpriteGrid_3_679210->Remove_477B00(this->field_30_pOwnSprite);
 
@@ -953,7 +953,7 @@ char_type Particle_4C::UpdateStaticAnim_state_39_53A180()
 
 // 9.6f 0x48BEE0: the car box is read through GetCarWidth_48A930/GetCarHeight_48A950 (puts this in edi)
 MATCH_FUNC(0x53a280)
-char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
+bool Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
 {
     Fix16_Point corner;
 
@@ -1031,8 +1031,8 @@ char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
     }
     else
     {
-        Char* pB4 = field_28_pSprite->AsCharB4_40FEA0();
-        if (!pB4 || !pB4->field_7C_pPed || !pB4->field_7C_pPed->field_21C_bf.bActive)
+        Char* pChar = field_28_pSprite->AsCharB4_40FEA0();
+        if (!pChar || !pChar->field_7C_pPed || !pChar->field_7C_pPed->field_21C_bf.bActive)
         {
             return true;
         }
@@ -1042,7 +1042,7 @@ char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
             return true;
         }
 
-        if (!pB4->field_58_flags_bf.bReverseVelocity)
+        if (!pChar->field_58_flags_bf.bReverseVelocity)
         {
             offset.x = -kFpPoint05_6FD46C;
             offset.y = kFpPoint3_6FD2F4;
@@ -1053,7 +1053,7 @@ char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
             offset.y = kFpPoint4_6FD2F8;
         }
         offset.RotateByAngle_OneMulInline_40F6B0(field_28_pSprite->field_0_rotation);
-        offset = offset.Add_40AC50(pB4->field_98_velocity_vector);
+        offset = offset.Add_40AC50(pChar->field_98_velocity_vector);
 
         field_30_pOwnSprite->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_base_sprite_idx + field_46_sub_state + 197);
         field_30_pOwnSprite->field_2C_flags = 0xA2;
@@ -1067,14 +1067,14 @@ char_type Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
 }
 
 MATCH_FUNC(0x53ab70)
-char_type Particle_4C::Empty_state_42_53AB70()
+bool Particle_4C::Empty_state_42_53AB70()
 {
     return 0;
 }
 
 // 9.6f 0x48C270
 MATCH_FUNC(0x53aba0)
-char_type Particle_4C::UpdateSimpleBallisticMotion_state_1_53ABA0()
+bool Particle_4C::UpdateSimpleBallisticMotion_state_1_53ABA0()
 {
 
     Fix16 z = kFpPoint05_6FD46C;
@@ -1092,19 +1092,19 @@ char_type Particle_4C::UpdateSimpleBallisticMotion_state_1_53ABA0()
 
     if (field_2C_counter > this->field_2E_initial_counter >> 1)
     {
-        this->field_8_speed_x = this->field_14_additional_speed_x + this->field_8_speed_x;
-        this->field_C_speed_y = this->field_18_additional_speed_y + field_C_speed_y;
+        this->field_8_speed.x = this->field_14_additional_speed.x + this->field_8_speed.x;
+        this->field_8_speed.y = this->field_14_additional_speed.y + field_8_speed.y;
         new_z = field_30_pOwnSprite->field_1C_zpos + z;
     }
     else
     {
-        this->field_8_speed_x = this->field_14_additional_speed_x + this->field_8_speed_x;
-        this->field_C_speed_y = this->field_18_additional_speed_y + field_C_speed_y;
+        this->field_8_speed.x = this->field_14_additional_speed.x + this->field_8_speed.x;
+        this->field_8_speed.y = this->field_14_additional_speed.y + field_8_speed.y;
         new_z = field_30_pOwnSprite->field_1C_zpos - z;
     }
 
-    gParticlePosX_6FD388 = x + field_8_speed_x + field_30_pOwnSprite->field_14_xy.x;
-    gParticlePosY_6FD38C = y + field_C_speed_y + field_30_pOwnSprite->field_14_xy.y;
+    gParticlePosX_6FD388 = x + field_8_speed.x + field_30_pOwnSprite->field_14_xy.x;
+    gParticlePosY_6FD38C = y + field_8_speed.y + field_30_pOwnSprite->field_14_xy.y;
     if (new_z > kMaxZ_6FD28C)
     {
         new_z = kMaxZ_6FD28C;
@@ -1118,7 +1118,7 @@ char_type Particle_4C::UpdateSimpleBallisticMotion_state_1_53ABA0()
 }
 
 MATCH_FUNC(0x53ae60)
-char_type Particle_4C::UpdateLargeBallisticDebris_state_35_53AE60()
+bool Particle_4C::UpdateLargeBallisticDebris_state_35_53AE60()
 {
     Fix16 z_offset = kFpPoint1_6FD2E8;
     Fix16 x = kFP16Zero_6FD49C;
@@ -1135,18 +1135,18 @@ char_type Particle_4C::UpdateLargeBallisticDebris_state_35_53AE60()
     Fix16 zpos;
     if (field_2C_counter > (field_2E_initial_counter >> 1))
     {
-        field_8_speed_x = field_8_speed_x + field_14_additional_speed_x;
-        field_C_speed_y = field_C_speed_y + field_18_additional_speed_y;
+        field_8_speed.x = field_8_speed.x + field_14_additional_speed.x;
+        field_8_speed.y = field_8_speed.y + field_14_additional_speed.y;
         zpos = field_30_pOwnSprite->field_1C_zpos + z_offset;
     }
     else
     {
-        field_8_speed_x = field_8_speed_x + field_14_additional_speed_x;
-        field_C_speed_y = field_C_speed_y + field_18_additional_speed_y;
+        field_8_speed.x = field_8_speed.x + field_14_additional_speed.x;
+        field_8_speed.y = field_8_speed.y + field_14_additional_speed.y;
         zpos = field_30_pOwnSprite->field_1C_zpos - z_offset;
     }
-    gParticlePosX_6FD388 = field_30_pOwnSprite->field_14_xy.x + field_8_speed_x + x;
-    gParticlePosY_6FD38C = field_30_pOwnSprite->field_14_xy.y + field_C_speed_y + y;
+    gParticlePosX_6FD388 = field_30_pOwnSprite->field_14_xy.x + field_8_speed.x + x;
+    gParticlePosY_6FD38C = field_30_pOwnSprite->field_14_xy.y + field_8_speed.y + y;
 
     if (zpos > kMaxZ_6FD28C)
     {
@@ -1160,7 +1160,7 @@ char_type Particle_4C::UpdateLargeBallisticDebris_state_35_53AE60()
 }
 
 MATCH_FUNC(0x53b170)
-char_type Particle_4C::Empty_state_44_53B170()
+bool Particle_4C::Empty_state_44_53B170()
 {
     return 0;
 }
@@ -1183,18 +1183,18 @@ bool Particle_4C::UpdateDebrisArc_state_7_53B1A0()
     Fix16 zpos;
     if (field_2C_counter > (field_2E_initial_counter >> 1))
     {
-        field_8_speed_x = field_8_speed_x + field_14_additional_speed_x;
-        field_C_speed_y = field_C_speed_y + field_18_additional_speed_y;
+        field_8_speed.x = field_8_speed.x + field_14_additional_speed.x;
+        field_8_speed.y = field_8_speed.y + field_14_additional_speed.y;
         zpos = field_30_pOwnSprite->field_1C_zpos + z_offset;
     }
     else
     {
-        field_8_speed_x = field_8_speed_x + field_14_additional_speed_x;
-        field_C_speed_y = field_C_speed_y + field_18_additional_speed_y;
+        field_8_speed.x = field_8_speed.x + field_14_additional_speed.x;
+        field_8_speed.y = field_8_speed.y + field_14_additional_speed.y;
         zpos = field_30_pOwnSprite->field_1C_zpos - z_offset;
     }
-    gParticlePosX_6FD388 = x + field_8_speed_x + field_30_pOwnSprite->field_14_xy.x;
-    gParticlePosY_6FD38C = y + field_C_speed_y + field_30_pOwnSprite->field_14_xy.y;
+    gParticlePosX_6FD388 = x + field_8_speed.x + field_30_pOwnSprite->field_14_xy.x;
+    gParticlePosY_6FD38C = y + field_8_speed.y + field_30_pOwnSprite->field_14_xy.y;
 
     switch (field_2C_counter)
     {
@@ -1227,7 +1227,7 @@ bool Particle_4C::UpdateDebrisArc_state_7_53B1A0()
 
 // 9.6f 0x48C790
 MATCH_FUNC(0x53b580)
-char_type Particle_4C::UpdateShortAnim_state_37_53B580()
+bool Particle_4C::UpdateShortAnim_state_37_53B580()
 {
     gSpriteGrid_3_679210->Remove_477B00(this->field_30_pOwnSprite);
 
@@ -1255,7 +1255,7 @@ char_type Particle_4C::UpdateShortAnim_state_37_53B580()
 }
 
 MATCH_FUNC(0x53b670)
-char_type Particle_4C::UpdateAttachedEmitter_state_9_10_53B670()
+bool Particle_4C::UpdateAttachedEmitter_state_9_10_53B670()
 {
     gSpriteGrid_3_679210->Remove_477B00(field_30_pOwnSprite);
     if (field_2C_counter == 0)
@@ -1274,9 +1274,9 @@ char_type Particle_4C::UpdateAttachedEmitter_state_9_10_53B670()
         return true;
     }
 
-    Char* pB4 = pSprite->field_8_char_b4_ptr;
+    Char* pChar = pSprite->field_8_char_b4_ptr;
 
-    Ped* pPed = pB4->get_ped_433A20();
+    Ped* pPed = pChar->get_ped_433A20();
     if (!pPed || !pPed->IsActive_433B40())
     {
         return true;
@@ -1284,12 +1284,12 @@ char_type Particle_4C::UpdateAttachedEmitter_state_9_10_53B670()
 
     if (field_38_state == 9)
     {
-        if (pB4->field_6C_animation_state != 2)
+        if (pChar->field_6C_animation_state != 2)
         {
             return true;
         }
         field_30_pOwnSprite->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_base_sprite_idx + 3);
-        if (pB4->field_68_animation_frame != 5)
+        if (pChar->field_68_animation_frame != 5)
         {
             gParticle_8_6FD5E8->SpawnCigaretteSmokePuff_5406B0(field_28_pSprite, 0);
         }
@@ -1344,7 +1344,7 @@ char_type Particle_4C::UpdateAttachedEmitter_state_9_10_53B670()
 }
 
 MATCH_FUNC(0x53b9f0)
-char_type Particle_4C::UpdateBurstAnimation_state_29_30_53B9F0()
+bool Particle_4C::UpdateBurstAnimation_state_29_30_53B9F0()
 {
     Fix16 scale_related;
     u8 idx;
@@ -1392,9 +1392,9 @@ char_type Particle_4C::UpdateBurstAnimation_state_29_30_53B9F0()
 }
 
 MATCH_FUNC(0x53bac0)
-char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
+bool Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
 {
-    Char* pB4 = NULL;
+    Char* pChar = NULL;
     Car* pCar = NULL;
     Ang16 spread;
     // Declaration order sets C2's symbol numbers: the vel + d operand order and the ypos/xpos reloads depend on it
@@ -1438,12 +1438,12 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
             return true;
 
         case sprite_types_enum::ped_3:
-            pB4 = pTarget->field_8_char_b4_ptr;
-            if (!pB4 || !pB4->field_7C_pPed || !pB4->field_7C_pPed->IsActive_433B40())
+            pChar = pTarget->field_8_char_b4_ptr;
+            if (!pChar || !pChar->field_7C_pPed || !pChar->field_7C_pPed->IsActive_433B40())
             {
                 return true;
             }
-            if (!pB4->field_7C_pPed->field_21C_bf.bAttacking)
+            if (!pChar->field_7C_pPed->field_21C_bf.bAttacking)
             {
                 field_4_bf.bDriverAttacking = false;
             }
@@ -1469,9 +1469,9 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
 
     spread = Ang16::Fix16_To_Ang16_40F540(kFpOne64th_6FD328 * (Fix16(field_46_sub_state) + Fix16(gRng_6F6784.get_int_4F7AE0(static_cast<s16>(field_46_sub_state))) - kFpFour_6FD4AC));
 
-    if (pB4)
+    if (pChar)
     {
-        vel = pB4->field_7C_pPed->GetVelocityVector_45B520();
+        vel = pChar->field_7C_pPed->GetVelocityVector_45B520();
     }
     else
     {
@@ -1543,9 +1543,9 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
                         field_46_sub_state = 10;
                     }
                     gParticle_8_6FD5E8->field_0_fire_hit_obj->field_4_sprite->set_xyz_lazy_420600(xpos, ypos, zpos);
-                    if (pB4)
+                    if (pChar)
                     {
-                        gParticle_8_6FD5E8->field_0_fire_hit_obj->SetDamageOwner_529080(pB4->field_7C_pPed->get_ped_ref_idx_420B50());
+                        gParticle_8_6FD5E8->field_0_fire_hit_obj->SetDamageOwner_529080(pChar->field_7C_pPed->get_ped_ref_idx_420B50());
                     }
                     else if (pCar)
                     {
@@ -1565,9 +1565,9 @@ char_type Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
                         gParticle_8_6FD5E8->EmitWaterSplash_53F060(xpos, ypos, zpos, angle, 0);
                     }
                     gParticle_8_6FD5E8->field_4_water_hit_obj->field_4_sprite->set_xyz_lazy_420600(xpos, ypos, zpos);
-                    if (pB4)
+                    if (pChar)
                     {
-                        gParticle_8_6FD5E8->field_4_water_hit_obj->SetDamageOwner_529080(pB4->field_7C_pPed->get_ped_ref_idx_420B50());
+                        gParticle_8_6FD5E8->field_4_water_hit_obj->SetDamageOwner_529080(pChar->field_7C_pPed->get_ped_ref_idx_420B50());
                     }
                     else if (pCar)
                     {
@@ -1882,9 +1882,9 @@ char_type Particle_4C::PoolUpdate()
 MATCH_FUNC(0x53e2c0)
 void Particle_4C::PoolAllocate()
 {
-    field_8_speed_x = 0;
-    field_C_speed_y = 0;
-    field_10_unused = 0;
+    field_8_speed.x = 0;
+    field_8_speed.y = 0;
+    field_8_speed.z = 0;
     field_40_pExplosion = 0;
     field_4_bf.bDriverAttacking = false;
 }

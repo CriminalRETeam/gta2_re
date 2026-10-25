@@ -3,6 +3,7 @@
 #include "Function.hpp"
 #include "ang16.hpp"
 #include "fix16.hpp"
+#include "Fix16_Vec.hpp"
 
 EXTERN_GLOBAL(Fix16, gFix16_6777CC);
 EXTERN_GLOBAL(Fix16, kFP16Zero_6FE20C);
@@ -644,8 +645,3 @@ inline Fix16_Point_POD& Fix16_Point_POD::operator+=(Fix16_Point& other)
     y += other.y;
     return *this;
 }
-
-struct Fix16_Vec
-{
-    Fix16 x, y, z;
-};

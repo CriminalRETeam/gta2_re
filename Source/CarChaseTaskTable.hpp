@@ -64,7 +64,7 @@ class CarChaseTaskTable
     EXPORT bool HasPursuerAlongsideRight_474AF0(Ped* pPed);
     EXPORT bool HasPursuerOnRight_474B50(Ped* pPed);
     EXPORT bool HasPursuerAlongside_474BC0(Ped* pPed);
-    EXPORT char_type HasPursuerChoosingSide_474C30(Ped* pPed);
+    EXPORT bool HasPursuerChoosingSide_474C30(Ped* pPed);
     EXPORT void FreeEntry_474CC0(CarChaseTask* pEntry);
     EXPORT CarChaseTaskTable();
     EXPORT ~CarChaseTaskTable();

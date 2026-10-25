@@ -38,7 +38,7 @@ class CrimeReportQueue
     EXPORT void dtor_484FD0();
     EXPORT void ReportCrimeForPed(u32 crime_type, Ped* pPed);
     EXPORT bool ShouldReportCarCrime_485090(Car* pCar, Player* pPlayer);
-    EXPORT bool ShouldReportCharCrime_4850F0(Char* pB4, Player* pPlayer);
+    EXPORT bool ShouldReportCharCrime_4850F0(Char* pChar, Player* pPlayer);
     EXPORT bool ShouldReportPedCrime_485140(Ped* pPed, Player* pPlayer);
 
     u16 field_0_write_idx;

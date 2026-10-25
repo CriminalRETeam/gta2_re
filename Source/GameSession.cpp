@@ -12,42 +12,42 @@ MATCH_FUNC(0x4C53D0)
 void GameSession::LoadDebugSettings_4C53D0()
 {
     char path[256];
-    char tmp[256];
+    char reg_value[256];
 
-    strcpy(tmp, "");
+    strcpy(reg_value, "");
     strcpy(path, "data\\");
-    gRegistry_6FF968.Get_Debug_Setting_586E90("mapname", reinterpret_cast<LPBYTE>(tmp), GTA2_COUNTOF(tmp));
-    strcat(path, tmp);
+    gRegistry_6FF968.Get_Debug_Setting_586E90("mapname", reinterpret_cast<LPBYTE>(reg_value), GTA2_COUNTOF(reg_value));
+    strcat(path, reg_value);
     if (strcmp(path, "data\\") == 0)
     {
         strcpy(path, "data\\jointmap.gmp");
     }
     gGameSession_67E8E0.SetMapName_4C5870(path);
 
-    strcpy(tmp, "");
+    strcpy(reg_value, "");
     strcpy(path, "data\\");
-    gRegistry_6FF968.Get_Debug_Setting_586E90("stylename", reinterpret_cast<LPBYTE>(tmp), GTA2_COUNTOF(tmp));
-    strcat(path, tmp);
+    gRegistry_6FF968.Get_Debug_Setting_586E90("stylename", reinterpret_cast<LPBYTE>(reg_value), GTA2_COUNTOF(reg_value));
+    strcat(path, reg_value);
     if (strcmp(path, "data\\") == 0)
     {
         strcpy(path, "data\\style.sty");
     }
     gGameSession_67E8E0.SetStyleName_4C5890(path);
 
-    strcpy(tmp, "");
+    strcpy(reg_value, "");
     strcpy(path, "data\\");
-    gRegistry_6FF968.Get_Debug_Setting_586E90("scriptname", reinterpret_cast<LPBYTE>(tmp), GTA2_COUNTOF(tmp));
-    strcat(path, tmp);
+    gRegistry_6FF968.Get_Debug_Setting_586E90("scriptname", reinterpret_cast<LPBYTE>(reg_value), GTA2_COUNTOF(reg_value));
+    strcat(path, reg_value);
     if (strcmp(path, "data\\") == 0)
     {
         strcpy(path, "data\\q.scr");
     }
     gGameSession_67E8E0.SetScriptName_4C58B0(path);
 
-    strcpy(tmp, "");
+    strcpy(reg_value, "");
     strcpy(path, "player\\");
-    gRegistry_6FF968.Get_Debug_Setting_586E90("savename", reinterpret_cast<LPBYTE>(tmp), GTA2_COUNTOF(tmp));
-    strcat(path, tmp);
+    gRegistry_6FF968.Get_Debug_Setting_586E90("savename", reinterpret_cast<LPBYTE>(reg_value), GTA2_COUNTOF(reg_value));
+    strcat(path, reg_value);
     if (strcmp(path, "player\\") == 0)
     {
         strcpy(path, "");

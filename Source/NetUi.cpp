@@ -1219,8 +1219,8 @@ void __stdcall NetUi::OnPaint_519FD0(HWND hWnd)
 MATCH_FUNC(0x519fe0)
 void __stdcall NetUi::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s32 notify)
 {
-    Network_8 groupData;
-    Network_8 playerData;
+    Network_Buffer groupData;
+    Network_Buffer playerData;
     s32 value;
     char_type chatText[128];
     char_type playerName[260];
@@ -2003,7 +2003,7 @@ void NetUi::ApplyHostGameSettings_51B810(const char_type* pData)
 MATCH_FUNC(0x51b9c0)
 void NetUi::SetSetting_51B9C0(s32 setting, s32 value)
 {
-    Network_8 data;
+    Network_Buffer data;
     char_type* pSpeedText;
 
     switch (setting)

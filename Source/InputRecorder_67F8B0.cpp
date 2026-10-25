@@ -1160,53 +1160,51 @@ void InputRecorder_67F8B0::save_replay_inputs_4CED00(s32 input_old, s32 input_ne
     u32 calc_inputs = 0;
     if (input_old != input_new)
     {
-        u32 xor_inputs = input_new ^ input_old;
-
-        if ((xor_inputs & 1) != 0)
+        if ((input_new & 1) != (input_old & 1))
         {
             calc_inputs |= 1u;
         }
-        if ((xor_inputs & 2) != 0)
+        if ((input_new & 2) != (input_old & 2))
         {
             calc_inputs |= 2u;
         }
-        if ((xor_inputs & 4) != 0)
+        if ((input_new & 4) != (input_old & 4))
         {
             calc_inputs |= 4u;
         }
-        if ((xor_inputs & 8) != 0)
+        if ((input_new & 8) != (input_old & 8))
         {
             calc_inputs |= 8u;
         }
-        if ((xor_inputs & 0x10) != 0)
+        if ((input_new & 0x10) != (input_old & 0x10))
         {
             calc_inputs |= 0x10u;
         }
-        if ((xor_inputs & 0x20) != 0)
+        if ((input_new & 0x20) != (input_old & 0x20))
         {
             calc_inputs |= 0x20u;
         }
-        if ((xor_inputs & 0x40) != 0)
+        if ((input_new & 0x40) != (input_old & 0x40))
         {
             calc_inputs |= 0x40u;
         }
-        if ((xor_inputs & 0x80u) != 0)
+        if ((input_new & 0x80u) != (input_old & 0x80u))
         {
             calc_inputs |= 0x80;
         }
-        if ((xor_inputs & 0x100) != 0)
+        if ((input_new & 0x100) != (input_old & 0x100))
         {
             calc_inputs |= 0x100;
         }
-        if ((xor_inputs & 0x200) != 0)
+        if ((input_new & 0x200) != (input_old & 0x200))
         {
             calc_inputs |= 0x200;
         }
-        if ((xor_inputs & 0x400) != 0)
+        if ((input_new & 0x400) != (input_old & 0x400))
         {
             calc_inputs |= 0x400;
         }
-        if ((xor_inputs & 0x800) != 0)
+        if ((input_new & 0x800) != (input_old & 0x800))
         {
             calc_inputs |= 0x800;
         }

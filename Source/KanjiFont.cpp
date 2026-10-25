@@ -52,7 +52,7 @@ void KanjiFont::Load_kanji_dat_4D2090()
     header.verify_type("KANJ");
     header.verify_version(100);
 
-    chunk_header chunkHeader; // [esp+10h] [ebp-8h] BYREF
+    chunk_header chunkHeader;
     for (readSize = sizeof(chunkHeader); File::Global_Read_4A7210(&chunkHeader, &readSize); readSize = sizeof(chunkHeader))
     {
         if (chunkHeader.field_4_size)

@@ -3,6 +3,7 @@
 #include "Globals.hpp"
 #include "enums.hpp"
 #include "fix16.hpp"
+#include "Fix16_Point.hpp"
 #include "winmain.hpp"
 #include <stdio.h>
 #include <time.h>
@@ -190,25 +191,12 @@ EXPORT const char_type* __stdcall SourceFileNameFromPath_4A07A0(const char_type*
     return result;
 }
 
-struct Coord
-{
-    Fix16 x;
-    Fix16 y;
-    Fix16 z;
-};
-
-struct Coord2
-{
-    Fix16 x;
-    Fix16 y;
-};
-
 #define err_a1_int(msg, arg) sprintf(gTmpBuffer_67C598, msg, arg);
 
 MATCH_FUNC(0x4A07C0)
 EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, ...)
 {
-    va_list va; // [esp+94h] [ebp+34h] BYREF
+    va_list va;
 
     va_start(va, lineNo);
 
@@ -1824,7 +1812,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
 
         case 2011:
         {
-            Coord2 c;
+            Fix16_Point_POD c;
             c.x = *va_arg(va, int*);
             c.y = *va_arg(va, int*);
             sprintf(gTmpBuffer_67C598, "Illegal coordinate: (%.4f, %.4f)", c.x.AsFloat(), c.y.AsFloat());
@@ -2104,7 +2092,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         {
             s32 va_1 = va_arg(va, int);
 
-            Coord c;
+            Fix16_Vec c;
 
             c.x = *static_cast<int*>(va_arg(va, s32*));
             c.y = *static_cast<int*>(va_arg(va, s32*));
@@ -2123,7 +2111,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         {
             s32 va_1 = va_arg(va, int);
 
-            Coord c;
+            Fix16_Vec c;
             c.x = *reinterpret_cast<const int*>(va_arg(va, const char_type*));
             c.y = *static_cast<int*>(va_arg(va, s32*));
             c.z = *static_cast<int*>(va_arg(va, s32*));
@@ -2140,7 +2128,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         {
             s32 va_1 = va_arg(va, int);
 
-            Coord c;
+            Fix16_Vec c;
             c.x = *reinterpret_cast<const int*>(va_arg(va, const char_type*));
             c.y = *static_cast<int*>(va_arg(va, s32*));
             c.z = *static_cast<int*>(va_arg(va, s32*));
@@ -2157,7 +2145,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         {
             const char_type* va_1 = va_arg(va, const char_type*);
 
-            Coord2 c;
+            Fix16_Point_POD c;
             c.x = *reinterpret_cast<const int*>(va_arg(va, const char_type*));
             c.y = *static_cast<int*>(va_arg(va, s32*));
             sprintf(gTmpBuffer_67C598, "Placing gang phone when no gang at: (%.4f, %.4f)", c.x.AsFloat(), c.y.AsFloat());
@@ -2168,7 +2156,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         {
             const char_type* va_1 = va_arg(va, const char_type*);
 
-            Coord c;
+            Fix16_Vec c;
             c.x = *reinterpret_cast<const int*>(va_arg(va, const char_type*));
             c.y = *static_cast<int*>(va_arg(va, s32*));
             c.z = *static_cast<int*>(va_arg(va, s32*));
@@ -2180,7 +2168,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         {
             const char_type* va_1 = va_arg(va, const char_type*);
 
-            Coord c;
+            Fix16_Vec c;
             c.x = *reinterpret_cast<const int*>(va_arg(va, const char_type*));
             c.y = *static_cast<int*>(va_arg(va, s32*));
             c.z = *static_cast<int*>(va_arg(va, s32*));
@@ -2191,7 +2179,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         case 4005:
         {
             s32* va_1 = va_arg(va, s32*);
-            Coord c;
+            Fix16_Vec c;
             c.x = *static_cast<int*>(va_arg(va, s32*)); // NOTE: No match without casting here
             c.y = *static_cast<int*>(va_arg(va, s32*));
             c.z = *static_cast<int*>(va_arg(va, s32*));

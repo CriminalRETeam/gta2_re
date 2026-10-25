@@ -715,7 +715,7 @@ void Ped::PoolAllocate()
 }
 
 MATCH_FUNC(0x45b4e0)
-char_type Ped::IsLawEnforcement_45B4E0()
+bool Ped::IsLawEnforcement_45B4E0()
 {
     switch (field_240_occupation)
     {
@@ -1002,10 +1002,10 @@ void Ped::PutOutFire()
 {
     if (this->field_21C_bf.bOnFire)
     {
-        Char* pB4 = this->field_168_game_object;
-        if (pB4)
+        Char* pChar = this->field_168_game_object;
+        if (pChar)
         {
-            pB4->RemoveFireSprites_5454B0();
+            pChar->RemoveFireSprites_5454B0();
         }
         this->field_21C_bf.bOnFire = false;
     }
@@ -1065,10 +1065,10 @@ void Ped::DrawFlamesAndStartScreamTimer()
 {
     if (field_21C_bf.bOnFire)
     {
-        Char* pB4 = field_168_game_object;
-        if (pB4)
+        Char* pChar = field_168_game_object;
+        if (pChar)
         {
-            pB4->DrawFlamesAndStartScreamTimer_545430();
+            pChar->DrawFlamesAndStartScreamTimer_545430();
         }
     }
 }
@@ -1084,10 +1084,10 @@ MATCH_FUNC(0x45bfe0)
 void Ped::SetVisible()
 {
     this->field_21C_bf.bInvisible = false;
-    Char* pB4 = this->field_168_game_object;
-    if (pB4)
+    Char* pChar = this->field_168_game_object;
+    if (pChar)
     {
-        pB4->field_80_sprite_ptr->field_2C_flags = 0; // make sprite opaque
+        pChar->field_80_sprite_ptr->field_2C_flags = 0; // make sprite opaque
     }
 }
 
@@ -1096,10 +1096,10 @@ void Ped::SetSpriteSemiTransIfInvisible()
 {
     if (this->field_21C_bf.bInvisible)
     {
-        Char* pB4 = this->field_168_game_object;
-        if (pB4)
+        Char* pChar = this->field_168_game_object;
+        if (pChar)
         {
-            pB4->field_80_sprite_ptr->field_2C_flags = 0x41; // make sprite semi transparent
+            pChar->field_80_sprite_ptr->field_2C_flags = 0x41; // make sprite semi transparent
         }
     }
 }
@@ -1115,10 +1115,10 @@ MATCH_FUNC(0x45c050)
 void Ped::ClearInvulnerable_45C050()
 {
     field_208_invulnerability = 0;
-    Char* pB4 = field_168_game_object;
-    if (pB4)
+    Char* pChar = field_168_game_object;
+    if (pChar)
     {
-        pB4->field_80_sprite_ptr->field_2C_bf.bNoLighting = false;
+        pChar->field_80_sprite_ptr->field_2C_bf.bNoLighting = false;
     }
 }
 
@@ -1127,10 +1127,10 @@ void Ped::SetSpriteFlagIfInvulnerable_45C070()
 {
     if (this->field_208_invulnerability == 9999)
     {
-        Char* pB4 = this->field_168_game_object;
-        if (pB4)
+        Char* pChar = this->field_168_game_object;
+        if (pChar)
         {
-            pB4->field_80_sprite_ptr->field_2C_bf.bNoLighting = true;
+            pChar->field_80_sprite_ptr->field_2C_bf.bNoLighting = true;
         }
     }
 }
@@ -1138,10 +1138,10 @@ void Ped::SetSpriteFlagIfInvulnerable_45C070()
 MATCH_FUNC(0x45c090)
 void Ped::RestoreCarOrPedHealth()
 {
-    Car* pBc = field_16C_car;
-    if (pBc)
+    Car* pCar = field_16C_car;
+    if (pCar)
     {
-        pBc->RemoveAllDamage();
+        pCar->RemoveAllDamage();
     }
     else if (field_278_ped_state_1 != ped_state1_enum::ped_wasted)
     {
@@ -1270,7 +1270,7 @@ void Ped::RespawnPed_45C350(gmp_map_zone* pZone)
 MATCH_FUNC(0x45c410)
 void Ped::ResetForPlayerRespawn_45C410()
 {
-    Char* pB4 = this->field_168_game_object;
+    Char* pChar = this->field_168_game_object;
     Player* pPlayer = this->field_15C_player;
 
     PutOutFire();
@@ -1278,13 +1278,13 @@ void Ped::ResetForPlayerRespawn_45C410()
     Reset_45AFC0();
 
     this->field_244_remap = remap;
-    this->field_168_game_object = pB4;
+    this->field_168_game_object = pChar;
 
     this->field_21C_bf.bActive = true;
 
-    this->field_1AC_cam.x = pB4->field_80_sprite_ptr->field_14_xy.x;
-    this->field_1AC_cam.y = pB4->field_80_sprite_ptr->field_14_xy.y;
-    this->field_1AC_cam.z = pB4->field_80_sprite_ptr->field_1C_zpos;
+    this->field_1AC_cam.x = pChar->field_80_sprite_ptr->field_14_xy.x;
+    this->field_1AC_cam.y = pChar->field_80_sprite_ptr->field_14_xy.y;
+    this->field_1AC_cam.z = pChar->field_80_sprite_ptr->field_1C_zpos;
 
     this->set_health_4039A0(100);
     this->SetPedType_403920(ped_type::player_2);
@@ -1449,7 +1449,7 @@ void Ped::EnterCarAsPassenger_45C7F0(Car* pCar)
 }
 
 MATCH_FUNC(0x45c830)
-char_type Ped::AllocCharB4_45C830(Fix16 xpos, Fix16 ypos, Fix16 zpos)
+bool Ped::AllocCharB4_45C830(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
     Char* pChar = gChar_B4_Pool_6FDB44->field_0_pool.Allocate();
 
@@ -1564,8 +1564,8 @@ MATCH_FUNC(0x45caa0)
 void Ped::HandleClosePedInteraction_45CAA0()
 {
 
-    PedGroup* pNearPedGroup; // eax
-    s16 rng; // bp
+    PedGroup* pNearPedGroup;
+    s16 rng;
 
     Ped* pNearPed_ = FindNearbyPed_466FB0();
     if (pNearPed_)
@@ -2031,7 +2031,7 @@ ret_false:
 
 // https://decomp.me/scratch/Yg4cw
 MATCH_FUNC(0x45d000)
-char_type Ped::HandlePedHitByObject_45D000(Object* pTargetPed)
+bool Ped::HandlePedHitByObject_45D000(Object* pTargetPed)
 {
 
     Ang16 angle;
@@ -2249,7 +2249,7 @@ char_type Ped::HandlePedHitByObject_45D000(Object* pTargetPed)
 }
 
 MATCH_FUNC(0x45dd30)
-char_type Ped::AddWeaponWithAmmo_45DD30(s32 weapon_kind, char_type ammo)
+bool Ped::AddWeaponWithAmmo_45DD30(s32 weapon_kind, char_type ammo)
 {
     if (ammo == 100) // max is 99, 100 means get default count
     {
@@ -2282,9 +2282,9 @@ char_type Ped::AddWeaponWithAmmo_45DD30(s32 weapon_kind, char_type ammo)
 }
 
 MATCH_FUNC(0x45de80)
-char_type Ped::HandlePickupCollision_45DE80(Object* pPickUp)
+bool Ped::HandlePickupCollision_45DE80(Object* pPickUp)
 {
-    char_type bCollected;
+    bool bCollected;
     if (this->field_238_ped_type != ped_type::player_2)
     {
         return 0;
@@ -2338,7 +2338,7 @@ char_type Ped::HandlePickupCollision_45DE80(Object* pPickUp)
 MATCH_FUNC(0x45e080)
 void Ped::SpawnWeaponOnDeath_45E080()
 {
-    Object* pWeaponObj; // eax
+    Object* pWeaponObj;
 
     if (this->field_224_bf.bDropsWeaponOnDeath && !this->field_16C_car)
     {
@@ -2733,7 +2733,7 @@ void Ped::Deallocate_45EB60()
 }
 
 MATCH_FUNC(0x45edc0)
-char_type Ped::IsActivePlayerPed_45EDC0()
+bool Ped::IsActivePlayerPed_45EDC0()
 {
     if (field_238_ped_type == ped_type::player_2)
     {
@@ -2928,10 +2928,10 @@ MATCH_FUNC(0x45ff60)
 void Ped::CarThief_AI_45FF60()
 {
 
-    Car* pNearestSteal; // eax
-    Car* pNearestSteal_; // edi
-    Car* pCar_; // ecx
-    Car* pCar; // eax
+    Car* pNearestSteal;
+    Car* pNearestSteal_;
+    Car* pCar_;
+    Car* pCar;
     Fix16 xd;
     Fix16 yd;
 
@@ -3667,9 +3667,9 @@ void Ped::UpdateFacingAngle_461A60()
                         // conversion written out and the subtraction split to inline like the original
                         jitter.rValue = (kFpOne64th_6784C4 * Fix16(gRng_6F6784.get_int_4F7AE0(45))).GetRaw_40F4B0() / 71;
                         jitter.Normalize();
-                        Ang16 tmp = field_130_target_facing_angle - kAng90_6784B0;
-                        tmp = tmp - jitter;
-                        this->field_168_game_object->field_74_repulsion_rotation = tmp;
+                        Ang16 repulsion_angle = field_130_target_facing_angle - kAng90_6784B0;
+                        repulsion_angle = repulsion_angle - jitter;
+                        this->field_168_game_object->field_74_repulsion_rotation = repulsion_angle;
                     }
                 }
                 else if (GetPedVelocity_45C920() < kFpZero_678660)
@@ -4036,7 +4036,7 @@ void Ped::UpdateOnScreenCounter_462620()
 }
 
 MATCH_FUNC(0x4626b0)
-char_type Ped::StateMachineTick_4626B0()
+bool Ped::StateMachineTick_4626B0()
 {
     switch (this->field_238_ped_type)
     {
@@ -4208,16 +4208,16 @@ char_type Ped::StateMachineTick_4626B0()
             this->field_212_electrocution_threshold = 100;
             if (this->field_168_game_object)
             {
-                u16 f20E = ++this->field_20E_offscreen_counter;
+                u16 offscreen_counter = ++this->field_20E_offscreen_counter;
                 if (this->field_278_ped_state_1 == ped_state_1::flee_or_running_1)
                 {
-                    if (f20E == 200)
+                    if (offscreen_counter == 200)
                     {
                         Ped::Deallocate_45EB60();
                         return 0;
                     }
                 }
-                else if (f20E >= gPedOffscreenDespawnTime_678656)
+                else if (offscreen_counter >= gPedOffscreenDespawnTime_678656)
                 {
                     Ped::Deallocate_45EB60();
                     return 0;
@@ -4264,15 +4264,15 @@ void Ped::UpdateCharB4_462B80()
         field_1AC_cam.x = field_168_game_object->get_sprite_xpos();
         field_1AC_cam.y = field_168_game_object->get_sprite_ypos();
         field_1AC_cam.z = field_168_game_object->get_sprite_zpos();
-        Char* pB4 = field_168_game_object;
-        field_12C_facing_angle = pB4->get_rotation_433A40();
+        Char* pChar = field_168_game_object;
+        field_12C_facing_angle = pChar->get_rotation_433A40();
 
         if (field_278_ped_state_1 == ped_state_1::in_car_10)
         {
-            field_16C_car = pB4->Get_F84_403900();
-            if (pB4->field_88_obj_2c.field_0_p18)
+            field_16C_car = pChar->Get_F84_403900();
+            if (pChar->field_88_obj_2c.field_0_p18)
             {
-                pB4->field_88_obj_2c.DestroyAllSprites_5A7010();
+                pChar->field_88_obj_2c.DestroyAllSprites_5A7010();
             }
             gChar_B4_Pool_6FDB44->DeAllocate(field_168_game_object);
 
@@ -4660,7 +4660,7 @@ void Ped::SetStatesForObjective_4633E0(char_type bMainObj)
 MATCH_FUNC(0x463570)
 void Ped::SetObjective(s32 objective, s16 objective_timer)
 {
-    PatrolRoute* pPatrolRoute_96; // eax
+    PatrolRoute* pPatrolRoute;
     PatrolPoint* pPoint;
 
     if (this->field_278_ped_state_1 != ped_state_1::dead_9 || objective == objectives_enum::objective_28)
@@ -4739,9 +4739,9 @@ void Ped::SetObjective(s32 objective, s16 objective_timer)
                 break;
 
             case objectives_enum::patrol_on_foot_42:
-                pPatrolRoute_96 = gPatrolRoutePool_6FD784->AllocPatrolList_543F10(&field_265_patrol_list_idx);
-                field_190_patrol_route = pPatrolRoute_96;
-                pPoint = pPatrolRoute_96->field_0_points;
+                pPatrolRoute = gPatrolRoutePool_6FD784->AllocPatrolList_543F10(&field_265_patrol_list_idx);
+                field_190_patrol_route = pPatrolRoute;
+                pPoint = pPatrolRoute->field_0_points;
                 while (pPoint->field_0_x)
                 {
                     pPoint->field_0_x = 0;
@@ -5097,7 +5097,7 @@ void Ped::ProcessMainObjective_463AA0()
 MATCH_FUNC(0x463fb0)
 void Ped::ProcessInternalObjective_463FB0()
 {
-    Ang16 UnkAng(0);
+    Ang16 door_angle(0);
 
     if (field_226_internal_objective_status == 2)
     {
@@ -5156,7 +5156,7 @@ void Ped::ProcessInternalObjective_463FB0()
                                               field_24C_target_car_door,
                                               this->field_1C4_move_target_x,
                                               this->field_1C8_move_target_y,
-                                              UnkAng);
+                                              door_angle);
                 this->field_1CC_move_target_z = this->field_154_target_to_enter->field_50_car_sprite->field_1C_zpos;
             }
             else
@@ -5901,7 +5901,7 @@ bool Ped::IsAttackingTargetPed_465CD0()
 
 // https://decomp.me/scratch/Fh1iq
 MATCH_FUNC(0x466b70)
-char_type Ped::IsInvisibleOnFoot_466B70()
+bool Ped::IsInvisibleOnFoot_466B70()
 {
     if (field_21C_bf.bInvisible && field_168_game_object != 0)
     {
@@ -6291,7 +6291,7 @@ static inline Ang16 SubAng16(const Ang16& lhs, const Ang16& rhs)
 // (9.6f default-constructs three Ang16 at the top): the original's 4-byte slots for the mode 4 and 5
 // differences never share with the mode 1 and 3 temporaries, and the 2-byte Ang16 temps stay 2 bytes.
 MATCH_FUNC(0x4661F0)
-char_type Ped::IsThreatToSearchingPed_4661F0()
+bool Ped::IsThreatToSearchingPed_4661F0()
 {
     Ang16 a;
     Ang16 rel;
@@ -6740,7 +6740,7 @@ Ped* Ped::GetLastProcessedPedOnFoot_467070()
 }
 
 MATCH_FUNC(0x467090)
-char_type Ped::FindUsableCarDoor_467090()
+bool Ped::FindUsableCarDoor_467090()
 {
     Car* pTargetToEnter = this->field_154_target_to_enter;
     if (pTargetToEnter ||
@@ -6748,7 +6748,7 @@ char_type Ped::FindUsableCarDoor_467090()
          this->field_258_objective == objectives_enum::leave_car_36) &&
             this->field_168_game_object && (pTargetToEnter = this->field_168_game_object->field_84_target_car) != 0)
     {
-        char_type isPedKind = IsLawEnforcement_45B4E0();
+        bool isPedKind = IsLawEnforcement_45B4E0();
         Fix16 vel_to_check = kFpPoint2_67856C;
         if (isPedKind)
         {
@@ -6821,9 +6821,9 @@ Sprite* Ped::ResetAnimAndFindNearestSprite_467280()
     this->field_168_game_object->field_C_ped_state_2 = ped_state_2::ped2_walking_0;
     this->field_168_game_object->field_10_char_state = 1;
 
-    Char* pB4 = this->field_168_game_object;
-    pB4->field_6C_animation_state = 0;
-    pB4->field_68_animation_frame = 0;
+    Char* pChar = this->field_168_game_object;
+    pChar->field_6C_animation_state = 0;
+    pChar->field_68_animation_frame = 0;
 
     this->field_216_health = 50;
     return gSpriteGrid_1_679208->FindCollidingSpritePreferType_477E60(this->field_168_game_object->field_80_sprite_ptr,
@@ -7960,17 +7960,17 @@ void Ped::GotoAreaOnFoot_468DE0()
 MATCH_FUNC(0x468e80)
 void Ped::UpdateFollowPedObjective_468E80()
 {
-    u8 bUnknown1 = 0;
+    u8 bTargetDead = 0;
     u8 bUnknown2 = 1;
 
     Ped* objective_target_ped = this->field_148_objective_target_ped;
     if (objective_target_ped->GetPedState_403990() == ped_state_1::dead_9 &&
         objective_target_ped->get_objective_403A80() != objectives_enum::objective_28)
     {
-        bUnknown1 = 1;
+        bTargetDead = 1;
     }
 
-    if (!objective_target_ped->IsActive_433B40() || bUnknown1)
+    if (!objective_target_ped->IsActive_433B40() || bTargetDead)
     {
         this->field_225_objective_status = objective_status::failed_2;
     }
@@ -8634,10 +8634,10 @@ void Ped::FollowPedInCar_469F30()
 MATCH_FUNC(0x469fc0)
 void Ped::WaitInCurrentCar_469FC0()
 {
-    Car* pBC = this->field_16C_car;
-    if (pBC)
+    Car* pCar = this->field_16C_car;
+    if (pCar)
     {
-        pBC->field_A6_bf.bAIHalted = true;
+        pCar->field_A6_bf.bAIHalted = true;
     }
     else
     {
@@ -8902,11 +8902,11 @@ void Ped::AimVehicleTurretStateMachine_46A6D0()
     }
     else
     {
-        AttachedSprite* p18 = field_16C_car->field_0_attachments.GetSpriteForModel_5A6A50(objects::water_cannon_114);
+        AttachedSprite* pAttached = field_16C_car->field_0_attachments.GetSpriteForModel_5A6A50(objects::water_cannon_114);
         field_21C_bf.bUseCarWeapon = true;
 
-        Fix16 x = p18->field_0_pSprite->field_14_xy.x;
-        Fix16 y = p18->field_0_pSprite->field_14_xy.y;
+        Fix16 x = pAttached->field_0_pSprite->field_14_xy.x;
+        Fix16 y = pAttached->field_0_pSprite->field_14_xy.y;
         Ang16 angle;
         angle = Fix16::atan2_fixed_405320(field_150_target_objective_car->field_50_car_sprite->field_14_xy.y - y,
                                           field_150_target_objective_car->field_50_car_sprite->field_14_xy.x - x);
@@ -9010,10 +9010,10 @@ void Ped::FleeOnFootTillSafe_46A8F0()
 {
     if (gDistanceToTarget_678750 > kFpSix_678520)
     {
-        Char* pB4 = field_168_game_object;
-        if (pB4)
+        Char* pChar = field_168_game_object;
+        if (pChar)
         {
-            if (field_258_objective || pB4->Get_F44_433A90() == 2)
+            if (field_258_objective || pChar->Get_F44_433A90() == 2)
             {
                 Ped::ChangeNextPedState1_45C500(ped_state_1::walking_0);
                 Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
@@ -9021,7 +9021,7 @@ void Ped::FleeOnFootTillSafe_46A8F0()
             }
             else
             {
-                pB4->SetVelocity_433920(get_max_speed_1F0());
+                pChar->SetVelocity_433920(get_max_speed_1F0());
             }
         }
         else
@@ -9127,7 +9127,7 @@ void Ped::CheckFollowTargetPedStillValid_46AB50()
 MATCH_FUNC(0x46ac20)
 void Ped::FollowTargetStateMachine_46AC20()
 {
-    bool bUnknown = false;
+    bool bTargetOrLeaderMoving = false;
     if (field_14C_internal_target_ped->isDead_403B60() || !field_14C_internal_target_ped->IsActive_433B40())
     {
         field_226_internal_objective_status = 0;
@@ -9138,12 +9138,12 @@ void Ped::FollowTargetStateMachine_46AC20()
     {
         if (field_14C_internal_target_ped->field_168_game_object->GetCharState_433A80() == Char_B4_state::Jumping_15)
         {
-            bUnknown = true;
+            bTargetOrLeaderMoving = true;
         }
     }
     if (field_14C_internal_target_ped->GetPedVelocity_45C920() != kFpZero_678660)
     {
-        bUnknown = true;
+        bTargetOrLeaderMoving = true;
     }
     if (field_164_ped_group)
     {
@@ -9151,12 +9151,12 @@ void Ped::FollowTargetStateMachine_46AC20()
         {
             if (field_164_ped_group->field_2C_ped_leader->GetPedVelocity_45C920() != kFpZero_678660)
             {
-                bUnknown = true;
+                bTargetOrLeaderMoving = true;
             }
         }
     }
 
-    if (field_14C_internal_target_ped->field_25C_internal_objective == objectives_enum::objective_18 || bUnknown)
+    if (field_14C_internal_target_ped->field_25C_internal_objective == objectives_enum::objective_18 || bTargetOrLeaderMoving)
     {
         field_224_bf.bWaitingOnTarget = false;
     }
@@ -9701,7 +9701,7 @@ void Ped::WaitOnFoot_46BD30()
 }
 
 MATCH_FUNC(0x46bd50)
-char_type Ped::IsOtherPedEnteringAsDriver_46BD50(Car* pCar)
+bool Ped::IsOtherPedEnteringAsDriver_46BD50(Car* pCar)
 {
     u8 new_door_idx = 0;
     u8 door_idx = 0;
@@ -9776,7 +9776,7 @@ void Ped::EnterCarStateMachine_46BDC0()
     }
 
     this->field_168_game_object->Set_F84_433900(this->field_154_target_to_enter);
-    const char_type isPedKind = IsLawEnforcement_45B4E0();
+    const bool isPedKind = IsLawEnforcement_45B4E0();
     Fix16 vel_to_check = kFpPoint2_67856C;
     if (isPedKind)
     {
@@ -9889,7 +9889,7 @@ void Ped::EnterCarStateMachine_46BDC0()
 MATCH_FUNC(0x46c250)
 void Ped::ExitCarStateMachine_46C250()
 {
-    bool bUnknown = 0;
+    bool bDoorFound = 0;
     // Shared by both door paths; the z temporaries are block scoped (this gives the frame layout)
     Fix16 char_x;
     Fix16 char_y;
@@ -9963,7 +9963,7 @@ void Ped::ExitCarStateMachine_46C250()
         {
             if (FindUsableCarDoor_467090())
             {
-                bUnknown = 1;
+                bDoorFound = 1;
                 Car_Door* pDoor = field_154_target_to_enter->GetDoor(field_24C_target_car_door);
                 if (!pDoor->get_pObj_4341B0() || this->field_25C_internal_objective == objectives_enum::leave_train_38)
                 {
@@ -10032,7 +10032,7 @@ void Ped::ExitCarStateMachine_46C250()
             field_168_game_object->field_6C_animation_state = 2;
             this->field_168_game_object->field_68_animation_frame = 0;
         }
-        else if (!FindUsableCarDoor_467090() && !bUnknown)
+        else if (!FindUsableCarDoor_467090() && !bDoorFound)
         {
             DoJump_433C40();
         }
@@ -10362,7 +10362,7 @@ void Ped::EnterTrainStateMachine_46D0D0()
     Fix16 door_xd;
     Fix16 door_yd;
     Fix16 dist;
-    Char* pB4;
+    Char* pChar;
     bool found_door;
     u8 best_door;
     u8 door_idx;
@@ -10417,8 +10417,8 @@ void Ped::EnterTrainStateMachine_46D0D0()
             if (found_door == 1)
             {
                 field_24C_target_car_door = best_door;
-                pB4 = field_168_game_object;
-                pB4->field_38_velocity = pB4->field_3C_run_or_jump_speed;
+                pChar = field_168_game_object;
+                pChar->field_38_velocity = pChar->field_3C_run_or_jump_speed;
                 EnterCarStateMachine_46BDC0();
                 if (field_226_internal_objective_status == 1)
                 {
@@ -10840,10 +10840,10 @@ void Ped::AttackObject_46DB80()
 MATCH_FUNC(0x46df50)
 Sprite* Ped::GetSprite_46DF50()
 {
-    Car* pBC = this->field_16C_car;
-    if (pBC)
+    Car* pCar = this->field_16C_car;
+    if (pCar)
     {
-        return pBC->field_50_car_sprite;
+        return pCar->field_50_car_sprite;
     }
     else
     {
@@ -10895,14 +10895,14 @@ static inline void ComputeRecruitPrism(Fix16_Rect& r, Fix16 x, Fix16 y, Fix16 of
 MATCH_FUNC(0x46e080)
 void Ped::RecruitNearbyPeds_46E080(s32 desiredCount, Fix16 searchRadius)
 {
-    PedGroup* pGroup_; // ecx
-    s32 maxCount; // ebx
-    Sprite* pNearest; // eax
-    Char* pB4; // eax
-    Ped* pPed; // edi
-    PedGroup* pGroup; // ecx
-    SpriteList collision_list; // [esp+8h] [ebp-1Ch] BYREF
-    Fix16_Rect rect; // [esp+Ch] [ebp-18h] BYREF
+    PedGroup* pGroup_;
+    s32 maxCount;
+    Sprite* pNearest;
+    Char* pChar;
+    Ped* pPed;
+    PedGroup* pGroup;
+    SpriteList collision_list;
+    Fix16_Rect rect;
 
     pGroup_ = this->field_164_ped_group;
     if (pGroup_)
@@ -10931,11 +10931,11 @@ void Ped::RecruitNearbyPeds_46E080(s32 desiredCount, Fix16 searchRadius)
         for (pNearest = collision_list.TakeClosestSprite_5A6EA0(this->field_1AC_cam.x, this->field_1AC_cam.y); pNearest;
              pNearest = collision_list.TakeClosestSprite_5A6EA0(this->field_1AC_cam.x, this->field_1AC_cam.y))
         {
-            pB4 = pNearest->AsCharB4_40FEA0();
+            pChar = pNearest->AsCharB4_40FEA0();
 
-            if (pB4)
+            if (pChar)
             {
-                pPed = pB4->get_ped_433A20();
+                pPed = pChar->get_ped_433A20();
                 if (pPed->CanBeRecruitedToGroup_46E020(this->field_164_ped_group))
                 {
                     pGroup = pPed->field_164_ped_group;
@@ -11471,12 +11471,12 @@ MATCH_FUNC(0x46f720)
 void Ped::UpdateStatsForKiller_46F720()
 {
 
-    s32 ped_id; // eax
-    Ped* pKillerPed; // eax
-    Player* pPlayerIter; // edi
-    Ped* pPlayerPed; // eax
-    Ped* pPedKiller; // ecx
-    PedGroup* pGroup; // ecx
+    s32 ped_id;
+    Ped* pKillerPed;
+    Player* pPlayerIter;
+    Ped* pPlayerPed;
+    Ped* pPedKiller;
+    PedGroup* pGroup;
 
     ped_id = this->field_204_killer_id;
     this->field_1A8_ped_killer = 0;
@@ -12026,10 +12026,10 @@ void Ped::PushPatrolPoint_4702A0(s8 x, s8 y, s8 z)
 MATCH_FUNC(0x470f00)
 s32 Ped::IsInTrain_470F00()
 {
-    Car* pBC = this->field_16C_car;
-    if (pBC)
+    Car* pCar = this->field_16C_car;
+    if (pCar)
     {
-        const s32 info_idx = pBC->field_84_car_info_idx;
+        const s32 info_idx = pCar->field_84_car_info_idx;
         if (info_idx == car_model_enum::TRAIN || info_idx == car_model_enum::TRAINCAB || info_idx == car_model_enum::TRAINFB || info_idx == car_model_enum::boxcar)
         {
             return 1;

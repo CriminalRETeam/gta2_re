@@ -141,7 +141,7 @@ void ExplodingScore::ClearNumbersArrayFrom_596A70(s32 start_idx)
 MATCH_FUNC(0x596a90)
 void ExplodingScore::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 score)
 {
-    u32 tmpScore = score;
+    u32 remaining_score = score;
 
     this->field_4C_score = score;
     this->field_0_highest_digit_idx = 0;
@@ -151,87 +151,87 @@ void ExplodingScore::InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 sc
         this->field_0_highest_digit_idx = 8;
         this->field_4_digits[8] = score / 100000000;
         ClearNumbersArrayFrom_596A70(7);
-        tmpScore = score % 100000000;
+        remaining_score = score % 100000000;
     }
 
-    if (tmpScore >= 10000000)
+    if (remaining_score >= 10000000)
     {
         if (!this->field_0_highest_digit_idx)
         {
             this->field_0_highest_digit_idx = 7;
         }
-        this->field_4_digits[7] = tmpScore / 10000000;
+        this->field_4_digits[7] = remaining_score / 10000000;
         ClearNumbersArrayFrom_596A70(6);
-        tmpScore %= 10000000u;
+        remaining_score %= 10000000u;
     }
 
-    if (tmpScore >= 1000000)
+    if (remaining_score >= 1000000)
     {
         if (!this->field_0_highest_digit_idx)
         {
             this->field_0_highest_digit_idx = 6;
         }
-        this->field_4_digits[6] = tmpScore / 1000000;
+        this->field_4_digits[6] = remaining_score / 1000000;
         ClearNumbersArrayFrom_596A70(5);
-        tmpScore %= 1000000u;
+        remaining_score %= 1000000u;
     }
 
-    if (tmpScore >= 100000)
+    if (remaining_score >= 100000)
     {
         if (!this->field_0_highest_digit_idx)
         {
             this->field_0_highest_digit_idx = 5;
         }
-        this->field_4_digits[5] = tmpScore / 100000;
+        this->field_4_digits[5] = remaining_score / 100000;
         ClearNumbersArrayFrom_596A70(4);
-        tmpScore %= 100000u;
+        remaining_score %= 100000u;
     }
 
-    if (tmpScore >= 10000)
+    if (remaining_score >= 10000)
     {
         if (!this->field_0_highest_digit_idx)
         {
             this->field_0_highest_digit_idx = 4;
         }
-        this->field_4_digits[4] = tmpScore / 10000;
+        this->field_4_digits[4] = remaining_score / 10000;
         ClearNumbersArrayFrom_596A70(3);
-        tmpScore %= 10000u;
+        remaining_score %= 10000u;
     }
 
-    if (tmpScore >= 1000)
+    if (remaining_score >= 1000)
     {
         if (!this->field_0_highest_digit_idx)
         {
             this->field_0_highest_digit_idx = 3;
         }
-        this->field_4_digits[3] = tmpScore / 1000;
+        this->field_4_digits[3] = remaining_score / 1000;
         ClearNumbersArrayFrom_596A70(2);
-        tmpScore %= 1000u;
+        remaining_score %= 1000u;
     }
 
-    if (tmpScore >= 100)
+    if (remaining_score >= 100)
     {
         if (!this->field_0_highest_digit_idx)
         {
             this->field_0_highest_digit_idx = 2;
         }
-        this->field_4_digits[2] = tmpScore / 100;
+        this->field_4_digits[2] = remaining_score / 100;
         ClearNumbersArrayFrom_596A70(1);
-        tmpScore %= 100u;
+        remaining_score %= 100u;
     }
 
-    if (tmpScore >= 10)
+    if (remaining_score >= 10)
     {
         if (!this->field_0_highest_digit_idx)
         {
             this->field_0_highest_digit_idx = 1;
         }
-        this->field_4_digits[1] = tmpScore / 10;
-        this->field_4_digits[0] = tmpScore % 10;
+        this->field_4_digits[1] = remaining_score / 10;
+        this->field_4_digits[0] = remaining_score % 10;
     }
     else
     {
-        this->field_4_digits[0] = tmpScore;
+        this->field_4_digits[0] = remaining_score;
     }
 
     this->field_28_x = xpos;

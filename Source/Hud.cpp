@@ -270,8 +270,8 @@ void Hud_ShowCoords::ShowPlayerCoords_5CF970()
                  pPed->get_cam_z().AsDouble(),
                  pZoneName);
 
-        Hud_TextEntry* pC4 = gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, -1, 16, word_7064B8, 1);
-        pC4->SetDrawKind8_45AFD0(0);
+        Hud_TextEntry* pTextEntry = gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, -1, 16, word_7064B8, 1);
+        pTextEntry->SetDrawKind8_45AFD0(0);
     }
 }
 
@@ -1316,12 +1316,12 @@ u8 __stdcall GetMinRespectForPhoneType_5D12E0(s32 phone_type)
 MATCH_FUNC(0x5d1310)
 void Hud_Arrow_7C_Array::SetNewGangArrow_5D1310(Gang* pZone)
 {
-    Hud_Arrow* p7C = AllocArrow_5D1050();
-    p7C->SetArrowColour_5D0510(4);
-    p7C->field_18_targets.field_10_gang_info.field_30_gang = pZone;
-    p7C->field_18_targets.field_2C_arrow_sprt_idx = pZone->field_138_arrow_colour;
-    p7C->field_18_targets.field_10_gang_info.field_34_min_respect = 0;
-    p7C->field_18_targets.field_18_primary_target.PointToInfoPhone_5D03C0(pZone);
+    Hud_Arrow* pArrow = AllocArrow_5D1050();
+    pArrow->SetArrowColour_5D0510(4);
+    pArrow->field_18_targets.field_10_gang_info.field_30_gang = pZone;
+    pArrow->field_18_targets.field_2C_arrow_sprt_idx = pZone->field_138_arrow_colour;
+    pArrow->field_18_targets.field_10_gang_info.field_34_min_respect = 0;
+    pArrow->field_18_targets.field_18_primary_target.PointToInfoPhone_5D03C0(pZone);
 }
 
 // ----------------------------------------------------
@@ -1339,13 +1339,13 @@ void Hud_Arrow_7C_Array::CreatePlayerArrows_5D1350()
             {
                 if (!pPlayerIter->field_0_is_user)
                 {
-                    Hud_Arrow* p7C = AllocArrow_5D1050();
-                    p7C->field_18_targets.field_18_primary_target.field_C_player = pPlayerIter;
-                    p7C->field_18_targets.field_18_primary_target.field_10_target_type = ArrowTargetType::Player_6;
+                    Hud_Arrow* pArrow = AllocArrow_5D1050();
+                    pArrow->field_18_targets.field_18_primary_target.field_C_player = pPlayerIter;
+                    pArrow->field_18_targets.field_18_primary_target.field_10_target_type = ArrowTargetType::Player_6;
                     Ped* pPlayerPed = pPlayerIter->field_2C4_player_ped;
                     if (pPlayerPed)
                     {
-                        p7C->SetPlayerArrowColour_5D0DC0(pPlayerPed);
+                        pArrow->SetPlayerArrowColour_5D0DC0(pPlayerPed);
                     }
                 }
             }
@@ -2920,8 +2920,8 @@ void Hud_PlayerStats::DrawPlayerStats_5D5C80()
     }
     else
     {
-        u8 unk = pPlayer->field_718_weapons[ammo_idx]->get_ammo_4A4FB0();
-        DrawAmmo_5D6060(ammo_idx, unk);
+        u8 ammo = pPlayer->field_718_weapons[ammo_idx]->get_ammo_4A4FB0();
+        DrawAmmo_5D6060(ammo_idx, ammo);
     }
 
     s32 powerup_xpos = 639;
@@ -2990,8 +2990,8 @@ void Hud_PlayerStats::DrawPlayerStats_5D5C80()
                      gTagGame_6F8450.GetPlayerTime_4C7380(pPlayer) / 60,
                      gTagGame_6F8450.GetPlayerTime_4C7380(pPlayer) % 60);
 
-            const s32 unknownn = (pPlayer->field_78C_hud_palette_type != 7) ? 2 : 8;
-            DrawText_5D7720(Buffer, 420, 4, word_703BAA, unknownn, pPlayer->field_790_hud_palette - 1, 0, 0);
+            const s32 text_palette_type = (pPlayer->field_78C_hud_palette_type != 7) ? 2 : 8;
+            DrawText_5D7720(Buffer, 420, 4, word_703BAA, text_palette_type, pPlayer->field_790_hud_palette - 1, 0, 0);
         }
         else
         {
@@ -3025,8 +3025,8 @@ void Hud_PlayerStats::DrawPlayerStats_5D5C80()
                              gTagGame_6F8450.GetPlayerTime_4C7380(pMultiPlayer) / 60,
                              gTagGame_6F8450.GetPlayerTime_4C7380(pMultiPlayer) % 60);
 
-                    const s32 very_unknown = (pMultiPlayer->field_78C_hud_palette_type != 7) ? 2 : 8;
-                    DrawText_5D7720(Buffer, score_end_xpos + 20, static_cast<u32>(ypos), word_703BAA, very_unknown, pMultiPlayer->field_790_hud_palette - 1, 0, 0);
+                    const s32 text_palette_type = (pMultiPlayer->field_78C_hud_palette_type != 7) ? 2 : 8;
+                    DrawText_5D7720(Buffer, score_end_xpos + 20, static_cast<u32>(ypos), word_703BAA, text_palette_type, pMultiPlayer->field_790_hud_palette - 1, 0, 0);
                 }
                 else
                 {

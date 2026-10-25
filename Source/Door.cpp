@@ -161,14 +161,14 @@ bool Door::CanOpenForPed_49C7F0(Ped* pPed)
 MATCH_FUNC(0x49c840)
 void Door::Open_49C840()
 {
-    DoorData* this_00 = this->field_0_primary_door_data;
-    if (this_00 != NULL)
+    DoorData* pDoorData = this->field_0_primary_door_data;
+    if (pDoorData != NULL)
     {
-        if (this_00->field_0_state != door_state::open_2)
+        if (pDoorData->field_0_state != door_state::open_2)
         {
             this->field_2D_play_open_sound = 1;
         }
-        this_00->Open_49C4E0(0);
+        pDoorData->Open_49C4E0(0);
     }
     if (this->field_4_secondary_door_data != NULL)
     {
@@ -449,7 +449,7 @@ void Door::UpdateAutoClose_49CD90()
 }
 
 MATCH_FUNC(0x49ce90)
-char_type Door::Service_49CE90()
+bool Door::Service_49CE90()
 {
     if (field_2D_play_open_sound)
     {

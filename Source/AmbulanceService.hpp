@@ -31,19 +31,15 @@ class AmbulanceTask
     u8 field_0_target_x; // pickup tile
     u8 field_1_target_y;
     u8 field_2_target_z;
-    char_type field_3_pad;
     EmergencyCrew* field_4_paramedics_crew;
     Ped* field_8_leader_patient; // the patient the leader is heading for or carrying
     Ped* field_C_member_patient; // same for the second paramedic
     Ped_List field_10_patients; // patients still to be picked up
     u8 field_14_patient_count;
-    u8 field_15_pad;
     s16 field_16_unused;
     s32 field_18_in_use;
     char_type field_1C_done; // set when no paramedic had anything left to do
     char_type field_1D_revive_ticks; // counts to 50 while the paramedic stands at the patient
-    char_type field_1E_pad;
-    char_type field_1F_pad;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(AmbulanceTask, 0x20);
 
@@ -65,8 +61,6 @@ class AmbulanceService
 
     char_type field_0_unused; // set to 1 by init_4FA310, never read
     u8 field_1_corpse_count;   // bodies waiting in field_4_patient_queue (an index into the slots below, once)
-    char_type field_2_pad;
-    char_type field_3_pad;
     Ped_List field_4_patient_queue;
     PatientSlot field_8_unused_slots[25];
     AmbulanceTask field_D0_tasks[2];

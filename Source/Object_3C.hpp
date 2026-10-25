@@ -34,13 +34,13 @@ class SpriteList
     EXPORT void DestroyAllAttached_5A6BB0();
     EXPORT void SinkAllAttachedCars_5A6BD0();
     EXPORT void DispatchCarImpactEvents_5A6BF0(Sprite* pSprite);
-    EXPORT char_type TagSpriteWithRng_5A6C10(Sprite* toFind);
+    EXPORT bool TagSpriteWithRng_5A6C10(Sprite* toFind);
     EXPORT void RemoveAllExceptRngValue_5A6C40(s32 toFind);
     EXPORT Sprite* FirstSpriteOfType_5A6CA0(s32 sprite_type);
     EXPORT void AddSprite_5A6CD0(Sprite* pSprite);
     EXPORT void PushAttachedSprite_5A6D00(Sprite* pSprite1, Fix16 x, Fix16 y, Ang16 angle);
     EXPORT void PushSprite_5A6D40(Sprite* pToFind);
-    EXPORT char_type SpriteExists_5A6D80(Sprite* pToFind);
+    EXPORT bool SpriteExists_5A6D80(Sprite* pToFind);
     EXPORT Sprite* PopFrontSprite_5A6DA0();
     EXPORT Sprite* PopBackSprite_5A6DC0();
     EXPORT AttachedSprite* ClearList_5A6E10();
@@ -55,7 +55,7 @@ class SpriteList
     EXPORT void ExpireAttachedFlames_5A71F0();
     EXPORT void PruneNonCollidingSprites_5A7240(Sprite* pSprite);
     EXPORT void PropagateMaxZLayer_5A72B0(Sprite* pSprite, char_type bAlsoSetSprite);
-    EXPORT char_type AnySpriteHasSlopeTopInFootprint_5A7310();
+    EXPORT bool AnySpriteHasSlopeTopInFootprint_5A7310();
 
   public:
     AttachedSprite* field_0_p18;

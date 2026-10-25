@@ -349,7 +349,7 @@ void Player::SetWeapon_564910(Weapon* pWeapon)
 }
 
 MATCH_FUNC(0x564940)
-char_type Player::HasAnyAmmo_564940()
+bool Player::HasAnyAmmo_564940()
 {
     for (s32 i = 0; i < 15; i++)
     {
@@ -362,10 +362,10 @@ char_type Player::HasAnyAmmo_564940()
 }
 
 MATCH_FUNC(0x564960)
-char_type Player::AddWeaponWithAmmo_564960(s32 weapon_kind, u8 ammo)
+bool Player::AddWeaponWithAmmo_564960(s32 weapon_kind, u8 ammo)
 {
     bool bHasAnyAmmo;
-    char bAmmoAdded;
+    bool bAmmoAdded;
 
     if (GetPlayerPed_4A5130()->get_car_416B60())
     {
@@ -630,7 +630,7 @@ void Player::ClearPowerUpsExceptJailCard_564CF0()
 }
 
 MATCH_FUNC(0x564D60)
-char_type Player::CollectPowerUp_564D60(s32 power_up_idx)
+bool Player::CollectPowerUp_564D60(s32 power_up_idx)
 {
     switch (power_up_idx)
     {
@@ -1516,7 +1516,7 @@ void Player::DoCarControlInputs_566C30(Car* pCar)
 MATCH_FUNC(0x566C80)
 void Player::DoPedControlInputs_566C80(Ped* pPed)
 {
-    Ang16 f_A = field_A_turn_accel;
+    Ang16 turn_accel = field_A_turn_accel;
 
     // clear flag
     pPed->field_21C_bf.bSpottedPlayer = 0;
@@ -1528,7 +1528,7 @@ void Player::DoPedControlInputs_566C80(Ped* pPed)
 
         if (field_7C_now_attack_pressed && !field_78_now_forward_pressed)
         {
-            f_A = kAttackTurnAccel_6FE488;
+            turn_accel = kAttackTurnAccel_6FE488;
         }
 
         if (field_64_jumping)
@@ -1541,7 +1541,7 @@ void Player::DoPedControlInputs_566C80(Ped* pPed)
         }
         else
         {
-            field_8_turn_speed = field_8_turn_speed - f_A;
+            field_8_turn_speed = field_8_turn_speed - turn_accel;
             if (field_8_turn_speed < -kMaxTurnSpeed_6FE700)
             {
                 field_8_turn_speed = -kMaxTurnSpeed_6FE700;
@@ -1556,23 +1556,23 @@ void Player::DoPedControlInputs_566C80(Ped* pPed)
 
         if (field_7C_now_attack_pressed && !field_78_now_forward_pressed)
         {
-            f_A = kAttackTurnAccel_6FE488;
+            turn_accel = kAttackTurnAccel_6FE488;
         }
 
         if (field_64_jumping)
         {
-            Ang16 tmp = field_8_turn_speed + kJumpTurnAccel_6FE74C;
-            field_8_turn_speed = tmp;
-            if (tmp > kMaxJumpTurnSpeed_6FE450)
+            Ang16 new_turn_speed = field_8_turn_speed + kJumpTurnAccel_6FE74C;
+            field_8_turn_speed = new_turn_speed;
+            if (new_turn_speed > kMaxJumpTurnSpeed_6FE450)
             {
                 field_8_turn_speed = kMaxJumpTurnSpeed_6FE450;
             }
         }
         else
         {
-            Ang16 tmp = field_8_turn_speed + f_A;
-            field_8_turn_speed = tmp;
-            if (tmp > kMaxTurnSpeed_6FE700)
+            Ang16 new_turn_speed = field_8_turn_speed + turn_accel;
+            field_8_turn_speed = new_turn_speed;
+            if (new_turn_speed > kMaxTurnSpeed_6FE700)
             {
                 field_8_turn_speed = kMaxTurnSpeed_6FE700;
             }

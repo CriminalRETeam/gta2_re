@@ -225,7 +225,7 @@ void PlayerScoreTracker::Service_591C70()
 
     if (bStartNetworkGame_7081F0)
     {
-        s32 frags_or_points; // edi
+        s32 frags_or_points;
         u8 player_idx = field_368_player->get_idx_4219D0();
         u8 gamemode = gGameSession_67E8E0.GetMultiplayerGamemode_4C5BC0();
         s32 points_limit = gGameSession_67E8E0.GetMultiplayerPointsLimit_4C5BD0();

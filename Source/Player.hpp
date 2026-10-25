@@ -222,8 +222,8 @@ class Player
     EXPORT void ClearKFWeapon_5647D0();
     EXPORT Weapon* GetCurrPlayerWeapon_5648F0();
     EXPORT void SetWeapon_564910(Weapon* pWeapon);
-    EXPORT char_type HasAnyAmmo_564940();
-    EXPORT char_type AddWeaponWithAmmo_564960(s32 weapon_kind, u8 ammo);
+    EXPORT bool HasAnyAmmo_564940();
+    EXPORT bool AddWeaponWithAmmo_564960(s32 weapon_kind, u8 ammo);
     EXPORT void SelectNextOrPrevWeapon_5649D0(char_type go_forwards, char_type go_backwards);
     EXPORT void LoadCarWeapons_564AD0(Car* pCar);
     EXPORT void ClearCarWeapons_564B60();
@@ -232,7 +232,7 @@ class Player
     EXPORT void RemovePlayerWeapons_564C50();
     EXPORT void ClearPowerUps_564CC0();
     EXPORT void ClearPowerUpsExceptJailCard_564CF0();
-    EXPORT char_type CollectPowerUp_564D60(s32 power_up_idx);
+    EXPORT bool CollectPowerUp_564D60(s32 power_up_idx);
     EXPORT void tick_down_powerups_565070();
     EXPORT void RestorePowerUpsFromSave_5651F0(SavedPlayerStats* pSave);
     EXPORT void TeleportToDebugCam_565310();
@@ -337,7 +337,6 @@ class Player
     u8 field_0_is_user;
     char_type field_1_unused;
     char_type field_2_unused;
-    char_type field_3_pad;
     u32 field_4_inputs; // this tick's input bits (SetInputs_565740); zeroed once the tick has used them
     Ang16 field_8_turn_speed;
     Ang16 field_A_turn_accel;
@@ -361,25 +360,17 @@ class Player
     char_type field_2F_disable_all_controls;
     char_type field_30_disable_enter_vehicles;
     char_type field_31_kf_weapon_mode;
-    char_type field_32_pad;
-    char_type field_33_pad;
     Gang* field_34_gang_curr_location;
     gmp_map_zone* field_38_local_navigation_zone;
     gmp_map_zone* field_3C_navigation_zone;
     gmp_map_zone* field_40_arrow_blocker_zone;
     s32 field_44_death_type;
     char_type field_48_dbg_cam_follow_player;
-    char_type field_49_pad;
-    char_type field_4A_pad;
-    char_type field_4B_pad;
     SoundObject* field_4C_sound_obj;
     s32 field_50_throw_charge;
     Car* field_54_car_history[3];
     s32 field_60_finish_score_reached;
     char_type field_64_jumping;
-    char_type field_65_pad;
-    char_type field_66_pad;
-    char_type field_67_pad;
     s32 field_68_camera_mode;
     s32 field_6C_in_debug_cam_mode;
     char_type field_70_dbg_cam_north;
@@ -426,14 +417,8 @@ class Player
     Ped* field_2C8_aux_ped;
     Car* field_2CC_watched_car;
     char_type field_2D0_aux_cam_active;
-    char_type field_2D1_pad;
-    char_type field_2D2_pad;
-    char_type field_2D3_pad;
     PlayerScoreTracker field_2D4_scores;
     char_type field_640_busted;
-    char_type field_641_pad;
-    char_type field_642_pad;
-    char_type field_643_pad;
     PlayerCrimeStats field_644_crime_stats;
     u16 field_680_traffic_spawn_counter;
     u16 field_682_traffic_spawn_threshold;
@@ -444,12 +429,10 @@ class Player
     Weapon* field_718_weapons[28];
     s16 field_788_curr_weapon_idx;
     char_type field_78A_show_quit_message;
-    char_type field_78B_pad;
     s32 field_78C_hud_palette_type; // Usage: 2 = default, 7 = multiplayer if using gang remap
     u16 field_790_hud_palette;
     s16 field_792_unused;
     char_type field_794_is_chatting;
-    char_type field_795_pad;
     s16 field_796_chat_text[79];
     s32 field_834_unused;
     s32 field_838_chat_text_idx;

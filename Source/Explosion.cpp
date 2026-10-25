@@ -942,7 +942,7 @@ void Explosion::EmitBuildingDebris_22_23_24_25_542E30(u8 direction_idx)
 }
 
 MATCH_FUNC(0x5434a0)
-char_type Explosion::Update_5434A0(Fix16 speed, Ang16 ang)
+bool Explosion::Update_5434A0(Fix16 speed, Ang16 ang)
 {
     u16 timer = this->field_1A_timer;
     if (timer != explosion_timer::forever_9999)

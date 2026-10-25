@@ -22,8 +22,5 @@ class ScriptGosubStack
 
     ScriptStackFrame* field_0_current;
     u8 field_4_count;
-    u8 field_5_pad;
-    u8 field_6_pad;
-    u8 field_7_pad;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(ScriptGosubStack, 0x8)

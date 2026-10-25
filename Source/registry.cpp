@@ -124,7 +124,7 @@ void Registry::Clear_Or_Delete_Sound_Setting_586BF0(const char_type* lpValueName
 }
 
 MATCH_FUNC(0x586C60)
-char_type Registry::Open_Debug_Root_586C60(PHKEY phkResult)
+bool Registry::Open_Debug_Root_586C60(PHKEY phkResult)
 {
     DWORD dwDisposition;
     if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SOFTWARE\\DMA Design Ltd\\GTA2\\Debug", 0, KEY_ALL_ACCESS, phkResult) != ERROR_SUCCESS)
@@ -147,7 +147,7 @@ char_type Registry::Open_Debug_Root_586C60(PHKEY phkResult)
 }
 
 MATCH_FUNC(0x586CD0)
-char_type Registry::Open_Options_Root_586CD0(PHKEY phkResult)
+bool Registry::Open_Options_Root_586CD0(PHKEY phkResult)
 {
     DWORD dwDisposition;
     if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SOFTWARE\\DMA Design Ltd\\GTA2\\Option", 0, KEY_ALL_ACCESS, phkResult) != ERROR_SUCCESS)
@@ -170,7 +170,7 @@ char_type Registry::Open_Options_Root_586CD0(PHKEY phkResult)
 }
 
 MATCH_FUNC(0x586D40)
-char_type Registry::Open_Control_Root_586D40(PHKEY phkResult)
+bool Registry::Open_Control_Root_586D40(PHKEY phkResult)
 {
     DWORD dwDisposition;
     if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SOFTWARE\\DMA Design Ltd\\GTA2\\Control", 0, KEY_ALL_ACCESS, phkResult) != ERROR_SUCCESS)
@@ -193,7 +193,7 @@ char_type Registry::Open_Control_Root_586D40(PHKEY phkResult)
 }
 
 MATCH_FUNC(0x586DB0)
-char_type Registry::Open_Screen_Root_586DB0(PHKEY phkResult)
+bool Registry::Open_Screen_Root_586DB0(PHKEY phkResult)
 {
     DWORD dwDisposition;
     if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SOFTWARE\\DMA Design Ltd\\GTA2\\Screen", 0, KEY_ALL_ACCESS, phkResult) != ERROR_SUCCESS)
@@ -375,8 +375,8 @@ void Registry::Set_Screen_Setting_587170(const char_type* lpValueName, s32 Data)
 MATCH_FUNC(0x5871E0)
 void Registry::Get_Screen_String_5871E0(const char_type* lpValueName, BYTE* lpData, u16 maxLen)
 {
-    HKEY hKey; // [esp+8h] [ebp-8h] BYREF
-    DWORD cbData; // [esp+Ch] [ebp-4h] BYREF
+    HKEY hKey;
+    DWORD cbData;
 
     Open_Screen_Root_586DB0(&hKey);
 
@@ -399,10 +399,10 @@ void Registry::null_587290()
 }
 
 MATCH_FUNC(0x5872A0)
-char_type Registry::Set_Binary_5872A0(HKEY hKey, const char_type* base_name, BYTE* lpData, u32 Data)
+bool Registry::Set_Binary_5872A0(HKEY hKey, const char_type* base_name, BYTE* lpData, u32 Data)
 {
     char_type Buffer[260];
-    char_type ret = 0;
+    bool ret = 0;
 
     sprintf(Buffer, "%ss", base_name);
     if (RegSetValueExA(hKey, Buffer, 0, REG_DWORD, reinterpret_cast<const BYTE*>(&Data), sizeof(DWORD)) == ERROR_SUCCESS)
@@ -419,7 +419,7 @@ char_type Registry::Set_Binary_5872A0(HKEY hKey, const char_type* base_name, BYT
 MATCH_FUNC(0x587340)
 bool Registry::Get_Binary_587340(HKEY hKey, const char_type* keyPath, s32 value, LPBYTE lpData)
 {
-    char_type ValueName[260]; // [esp+14h] [ebp-104h] BYREF
+    char_type ValueName[260];
     bool ret = false;
 
     sprintf(ValueName, "%ss", keyPath);
@@ -441,7 +441,7 @@ s32 Registry::Get_Binary_Size_5873E0(HKEY hKey, const char_type* subKey)
 }
 
 MATCH_FUNC(0x587420)
-char_type Registry::CreateNetworkRoot_587420(PHKEY phkResult)
+bool Registry::CreateNetworkRoot_587420(PHKEY phkResult)
 {
     DWORD dwDisposition;
     char_type SubKey[260];
@@ -499,12 +499,12 @@ s32 __stdcall Registry::Set_WString_Value_5875E0(HKEY hKey, const char_type* key
 }
 
 MATCH_FUNC(0x587620)
-char_type Registry::Network_Setting_Exists_587620(const char_type* lpValueName)
+bool Registry::Network_Setting_Exists_587620(const char_type* lpValueName)
 {
     HKEY hKey;
     u32 Data;
     DWORD cbData;
-    char_type ret = 0;
+    bool ret = 0;
     if (CreateNetworkRoot_587420(&hKey))
     {
         cbData = sizeof(DWORD);
@@ -565,7 +565,7 @@ void Registry::Set_Network_Setting_587730(const char_type* lpValueName, BYTE Dat
 }
 
 MATCH_FUNC(0x5877A0)
-char_type Registry::Open_Player_Root_5877A0(PHKEY phkResult)
+bool Registry::Open_Player_Root_5877A0(PHKEY phkResult)
 {
     if (RegOpenKeyExA(HKEY_LOCAL_MACHINE, "SOFTWARE\\DMA Design Ltd\\GTA2\\Player", 0, KEY_ALL_ACCESS, phkResult) != ERROR_SUCCESS)
     {

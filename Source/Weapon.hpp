@@ -53,7 +53,7 @@ class Weapon
     EXPORT void init_5DCD90();
     EXPORT void PoolDeallocate();
     EXPORT void set_ammo_clips_5DCE20(u8 clips);
-    EXPORT char_type add_ammo_capped_5DCE40(u8 to_add);
+    EXPORT bool add_ammo_capped_5DCE40(u8 to_add);
     EXPORT bool is_max_capacity_5DCEA0();
     EXPORT bool sub_5DCEF0();
     EXPORT void ApplyFastReload_5DCF40();
@@ -76,11 +76,11 @@ class Weapon
     EXPORT void oil_stain_5E1DC0();
     EXPORT void car_mine_5E2550();
     EXPORT void car_smg_5E2940();
-    EXPORT char_type CanFireWhileHeld_5E33C0();
+    EXPORT bool CanFireWhileHeld_5E33C0();
     EXPORT void ChuckThrowable_5E34B0();
     EXPORT void pull_trigger_5E3670();
     EXPORT void rocket_5E3850();
-    EXPORT char_type IsExplosiveWeapon_5E3BD0();
+    EXPORT bool IsExplosiveWeapon_5E3BD0();
     EXPORT void GetSoundPos_5E3F90(Fix16* pX, Fix16* pY, Fix16* pZ);
 
     // 9.6f inline 0x4A4FA0

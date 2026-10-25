@@ -19,18 +19,18 @@ struct PixelsToFix16Table
 {
     EXPORT PixelsToFix16Table();
 
-    Fix16 SignedPixelsToFix16_41FE70(const s8& var)
+    Fix16 SignedPixelsToFix16_41FE70(const s8& pixels)
     {
-        if (var < 0)
+        if (pixels < 0)
         {
-            return -list[-var];
+            return -list[-pixels];
         }
-        return list[var];
+        return list[pixels];
     }
 
     // This one won't match with a ref argument even though its the
     // same as the above function :')
-    EXPORT Fix16 SignedPixelsToFix16_440860(s8 var);
+    EXPORT Fix16 SignedPixelsToFix16_440860(s8 pixels);
 
     Fix16 list[256];
 };

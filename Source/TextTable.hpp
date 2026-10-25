@@ -67,7 +67,6 @@ class TextTable
     text_tkey field_0_tKey;
     text_tdat field_8_tDat;
     char_type field_10_lang_code;
-    char_type field_11_pad[3];
 
     EXPORT u16 RemapExtendedChar_5B58D0(u16 ch);
 

@@ -30,6 +30,7 @@ class Ang16
         return rValue <= other.rValue;
     }
 
+    // 9.6f 0x41CFF0
     s32 operator!=(const Ang16& other)
     {
         return rValue != other.rValue;
@@ -348,8 +349,8 @@ class Ang16
     // (ParticleManager::EmitWaterSplash_53F060)
     Ang16 MultiplyByFix16_401CB0_ctor_ool(const Fix16& factor)
     {
-        Fix16 tmp = Fix16(rValue) * factor;
-        return Ang16(&tmp, 0);
+        Fix16 product = Fix16(rValue) * factor;
+        return Ang16(&product, 0);
     }
 
     Fix16 divideBy_40E640(const Ang16& scale) const

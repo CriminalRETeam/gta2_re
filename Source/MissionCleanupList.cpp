@@ -71,12 +71,12 @@ void MissionCleanupList::push_type_2_502FF0(Object* pObj, char_type bForce)
 {
     if (bForce || pObj && ((pObj->GetModel_40FEF0() < 64) || pObj->GetModel_40FEF0() > 108) && (pObj->GetModel_40FEF0() < 200 || pObj->GetModel_40FEF0() > 244))
     {
-        MissionCleanupEntry* pC = allocate_next_502F60();
-        if (pC)
+        MissionCleanupEntry* pEntry = allocate_next_502F60();
+        if (pEntry)
         {
-            pC->field_0_obj = pObj;
-            pC->field_8_entity_id = pObj->field_14_id;
-            pC->field_4_type = 2;
+            pEntry->field_0_obj = pObj;
+            pEntry->field_8_entity_id = pObj->field_14_id;
+            pEntry->field_4_type = 2;
             field_258_count++;
         }
     }
@@ -85,13 +85,13 @@ void MissionCleanupList::push_type_2_502FF0(Object* pObj, char_type bForce)
 MATCH_FUNC(0x503050)
 void MissionCleanupList::push_type_2_503050(Object* pObj)
 {
-    MissionCleanupEntry* pC = allocate_next_502F60();
-    if (pC)
+    MissionCleanupEntry* pEntry = allocate_next_502F60();
+    if (pEntry)
     {
-        pC->field_0_obj = pObj;
+        pEntry->field_0_obj = pObj;
         const s32 entity_id = pObj->field_14_id;
-        pC->field_4_type = 2;
-        pC->field_8_entity_id = entity_id;
+        pEntry->field_4_type = 2;
+        pEntry->field_8_entity_id = entity_id;
         field_258_count++;
     }
 }

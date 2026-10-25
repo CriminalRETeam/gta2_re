@@ -171,7 +171,7 @@ void HighScoreTable::Init_56B520()
 }
 
 MATCH_FUNC(0x56B550)
-char_type HighScoreTable::InsertScore_56B550(const wchar_t* pFindStr, s32 findScore)
+bool HighScoreTable::InsertScore_56B550(const wchar_t* pFindStr, s32 findScore)
 {
     u16 startIdx = 10;
     for (s16 i = 9; i != -1; --i)
@@ -355,7 +355,7 @@ void PlyDat::GetPlySlotDatName_56B8A0(u16 slot_idx, char_type* pName)
 }
 
 MATCH_FUNC(0x56B940)
-char_type PlyDat::PlySlotDatExists_56B940(s32 slot_idx)
+bool PlyDat::PlySlotDatExists_56B940(s32 slot_idx)
 {
     char_type FileName[356];
     GetPlySlotDatName_56B8A0(slot_idx, FileName);
@@ -375,7 +375,7 @@ void PlyDat::LoadPlySlotDat_56B990(u16 slotIdx)
 {
     char_type FileName[356];
 
-    PlySlot* pTmp = &field_26A0_plyr_stats[slotIdx];
+    PlySlot* pSlot = &field_26A0_plyr_stats[slotIdx];
 
     GetPlySlotDatName_56B8A0(slotIdx, FileName);
     File::Global_Open_4A7060(FileName);
@@ -383,7 +383,7 @@ void PlyDat::LoadPlySlotDat_56B990(u16 slotIdx)
     for (s32 i = 0; i < 9; i++)
     {
         u32 len_read = 2;
-        File::Global_Read_4A71C0(&pTmp->field_90_strPlayerName[i], len_read);
+        File::Global_Read_4A71C0(&pSlot->field_90_strPlayerName[i], len_read);
     }
 
     for (s32 k = 0; k < 3; k++)
@@ -500,7 +500,7 @@ void PlyDat::UnlockAllStages_56BC40()
 // =====================================================================
 
 MATCH_FUNC(0x56BCA0)
-char_type PlyDat::HiScoreHscExists_56BCA0()
+bool PlyDat::HiScoreHscExists_56BCA0()
 {
     char_type FileName[356];
     GetHiScoreHscFileName_56BCF0(FileName);
@@ -616,7 +616,7 @@ void PlyDat::UpdateHiScores_56C010()
 {
     u8 map_num;
     u8 bonus_num;
-    char_type bBestStatsChanged = 0;
+    bool bBestStatsChanged = false;
 
     if (!gGameSession_67E8E0.IsBonusStage_4C59A0())
     {
@@ -630,9 +630,9 @@ void PlyDat::UpdateHiScores_56C010()
 
     PlySlot* pPlayerStats = &field_26A0_plyr_stats[gGameSession_67E8E0.GetPlySlotIdx_4C59B0()];
     s32 latest = pPlayerStats->field_0_plyr_stage_stats[map_num][bonus_num].field_8_stage_latest_score;
-    const char_type bNewStageScore =
+    const bool bNewStageScore =
         field_1890_stage_scores[map_num][bonus_num].InsertScore_56B550(pPlayerStats->field_90_strPlayerName, latest);
-    const char_type bNewTotalScore = field_23D0_total_scores.InsertScore_56B550(pPlayerStats->field_90_strPlayerName, pPlayerStats->GetTotalBestScore_56B6B0());
+    const bool bNewTotalScore = field_23D0_total_scores.InsertScore_56B550(pPlayerStats->field_90_strPlayerName, pPlayerStats->GetTotalBestScore_56B6B0());
 
     if (!bonus_num)
     {
@@ -643,7 +643,7 @@ void PlyDat::UpdateHiScores_56C010()
             if (value > *pBestStats)
             {
                 *pBestStats = value;
-                bBestStatsChanged = 1;
+                bBestStatsChanged = true;
             }
         }
 
@@ -651,14 +651,14 @@ void PlyDat::UpdateHiScores_56C010()
         if (value1 > static_cast<u32>(field_1878_best_car_damage_cost[map_num]))
         {
             field_1878_best_car_damage_cost[map_num] = value1;
-            bBestStatsChanged = 1;
+            bBestStatsChanged = true;
         }
 
         const u32 value2 = gGameSession_67E8E0.GetEvasionRating_4C5AA0();
         if (value2 > static_cast<u32>(field_1884_best_evasion_rating[map_num]))
         {
             field_1884_best_evasion_rating[map_num] = value2;
-            bBestStatsChanged = 1;
+            bBestStatsChanged = true;
         }
     }
 

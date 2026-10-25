@@ -17,9 +17,9 @@ class CharPool
     EXPORT ~CharPool();
 
     // inline 0x4355C0
-    void DeAllocate(Char* pB4)
+    void DeAllocate(Char* pChar)
     {
-        field_0_pool.DeAllocate(pB4);
+        field_0_pool.DeAllocate(pChar);
     }
 
     PoolBasic<Char, 400> field_0_pool;

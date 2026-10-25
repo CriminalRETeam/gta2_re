@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Function.hpp"
+#include "Game.hpp"
+#include "NetPlay.hpp"
 
 #pragma pack(push, 1)
 // What each player sends at the start of a network game, so everyone can check they run the same
@@ -21,34 +23,24 @@ struct SyncCheckData
 GTA2_ASSERT_SIZEOF_ALWAYS(SyncCheckData, 0x1F);
 
 
-struct NetInputData
-{
-    u32 field_0_Inputs;
-    u32 field_4_rng;
-};
 struct SPacket
 {
     u8 field_0_subtype;
     void* field_1_pData;
 };
-struct NetworkBuffer
-{
-    void* field_0;
-    s32 field_4_len;
-};
 
 struct Network_PlayerInputs
 {
-    NetInputData field_0_inputs[MAX_PLAYERS];
+    Network_InputData field_0_inputs[MAX_PLAYERS];
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Network_PlayerInputs, 0x30);
 
 //   TODO: unify all packets using unions
 union ReceivedPacket
 {
-    NetInputData input_data;
+    Network_InputData input_data;
     SPacket s_packet;
-    NetworkBuffer net_buffer;
+    Network_Buffer net_buffer;
 };
 #pragma pack(pop)
 

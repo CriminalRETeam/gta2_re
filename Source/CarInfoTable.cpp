@@ -192,7 +192,7 @@ s32 __stdcall ParseTokenAndPush_430C70(char_type* pStr)
     s32 parsed_value;
     Fix16 fix16_num;
     s32 negated_value;
-    s16 tmp;
+    s16 parsed_short;
 
     char_type* pCurr = pStr;
     BOOL bHex = false;
@@ -249,18 +249,18 @@ s32 __stdcall ParseTokenAndPush_430C70(char_type* pStr)
                 case DataType::byte:
                     if (bHex == 1)
                     {
-                        error_ret = CarInfoTable::HexStr2Int_430F30(pCurr, &tmp);
+                        error_ret = CarInfoTable::HexStr2Int_430F30(pCurr, &parsed_short);
                     }
                     else
                     {
-                        error_ret = CarInfoTable::StrToInt_431080(pCurr, &tmp);
+                        error_ret = CarInfoTable::StrToInt_431080(pCurr, &parsed_short);
                     }
 
                     if (!error_ret)
                     {
                         if (bNegate)
                         {
-                            negated = static_cast<char>(-static_cast<char>(tmp));
+                            negated = static_cast<char>(-static_cast<char>(parsed_short));
                             if (negated < -127)
                             {
                                 return -2;
@@ -269,11 +269,11 @@ s32 __stdcall ParseTokenAndPush_430C70(char_type* pStr)
                         }
                         else
                         {
-                            if (static_cast<u16>(tmp) > 0xFFu)
+                            if (static_cast<u16>(parsed_short) > 0xFFu)
                             {
                                 return -2;
                             }
-                            error_ret = CarInfoTable::PushData_430E60(&tmp, sizeof(BYTE));
+                            error_ret = CarInfoTable::PushData_430E60(&parsed_short, sizeof(BYTE));
                         }
                         // Shares the word case's tail; VC6 doesn't merge identical case tails by itself
                         goto check_push_result;
@@ -283,23 +283,23 @@ s32 __stdcall ParseTokenAndPush_430C70(char_type* pStr)
                 case DataType::word:
                     if (bHex == 1)
                     {
-                        error_ret = CarInfoTable::HexStr2Int_430F30(pCurr, &tmp);
+                        error_ret = CarInfoTable::HexStr2Int_430F30(pCurr, &parsed_short);
                     }
                     else
                     {
-                        error_ret = CarInfoTable::StrToInt_431080(pCurr, &tmp);
+                        error_ret = CarInfoTable::StrToInt_431080(pCurr, &parsed_short);
                     }
 
                     if (!error_ret)
                     {
                         if (bNegate)
                         {
-                            negated = -tmp;
+                            negated = -parsed_short;
                             error_ret = CarInfoTable::PushData_430E60(&negated, sizeof(WORD));
                         }
                         else
                         {
-                            error_ret = CarInfoTable::PushData_430E60(&tmp, sizeof(WORD));
+                            error_ret = CarInfoTable::PushData_430E60(&parsed_short, sizeof(WORD));
                         }
 
                     check_push_result:
@@ -521,13 +521,13 @@ s32 __stdcall CarInfoTable::StrToInt_431080(const char* pStr, s16* pOut)
 }
 
 MATCH_FUNC(0x440860)
-Fix16 PixelsToFix16Table::SignedPixelsToFix16_440860(s8 var)
+Fix16 PixelsToFix16Table::SignedPixelsToFix16_440860(s8 pixels)
 {
-    if (var < 0)
+    if (pixels < 0)
     {
-        return -list[-var];
+        return -list[-pixels];
     }
-    return list[var];
+    return list[pixels];
 }
 
 MATCH_FUNC(0x4542A0)
