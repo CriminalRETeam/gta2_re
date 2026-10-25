@@ -2096,12 +2096,10 @@ void Frontend::SetWinMainStateToBootMap_4AE990()
     field_108_winmain_next_state = Start_Game_3;
 }
 
-// It matches, but we need to get rid of goto's
-// https://decomp.me/scratch/LYZij
+// TODO: It matches, but we need to get rid of goto's (if possible)
 MATCH_FUNC(0x4B2F60)
 void Frontend::HandlePlayerNameTyping_4B2F60()
 {
-    //NOT_IMPLEMENTED;
     s16 scan_code;
     s16 input;
     u8* pKeys;
