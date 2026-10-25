@@ -199,9 +199,6 @@ eh 0x5e2940 Weapon::car_smg_5E2940
     state 1: frame offset: 10.5 [lea ecx,[ebp-24h]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-2Ch]; jmp ??1Fix16_Point@@QAE@XZ]
     state 2: frame offset: 10.5 [lea ecx,[ebp-2Ch]; jmp 40ac40 Car_8::dtor_40AC40], the build [lea ecx,[ebp-24h]; jmp ??1Fix16_Point@@QAE@XZ]
 
-consts 0x430ac0 CarInfoTable::SetErr_430AC0
-    8: immediate 0xfffffff4, the build 0xfffffff2
-
 consts 0x4aec00 Frontend::Update_4AEC00
     b1: code of 5d9970 and the build ?sub_SetGamma@@YAXXZ differs
 
