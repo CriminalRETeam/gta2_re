@@ -10,6 +10,13 @@ struct Network_ChatMessage;
 EXPORT char_type* __stdcall GetString_519A00(const char_type* Key);
 EXPORT void __stdcall WideToDbcs_519960(char_type* pDst, wchar_t* pSrc);
 
+enum Network_UI_Window
+{
+    NETWORK_MENU_0 = 0,
+    HOST_LOBBY_1 = 1,
+    GUEST_LOBBY_2 = 2,
+};
+
 enum Network_UI_Control_Ids
 {
     BUTTON_CREATE_GAME_1002 = 1002,
