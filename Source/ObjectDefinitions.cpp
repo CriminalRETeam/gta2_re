@@ -380,7 +380,7 @@ MATCH_FUNC(0x533150)
 void ObjectDefinition::OffsetBaseSpriteIdxAndSetNumFrames_533150(s16 sprite_idx_offset, s16 anim_speed)
 {
     field_1E_base_sprite_idx += sprite_idx_offset;
-    field_6C_num_frames = anim_speed;
+    field_6C_num_frames = static_cast<u8>(anim_speed);
 }
 
 MATCH_FUNC(0x533170)

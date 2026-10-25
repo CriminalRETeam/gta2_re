@@ -336,11 +336,11 @@ EXPORT Ang16 __stdcall ReturnAngleFromRoadDirection_4F7940(s32& road_direction);
 
 // Slope byte tests. 9.6f (inlining off) has no functions for these, so the original wrote them inline.
 // Bits 0-1 are the ground type (0 air, 1 road, 2 pavement, 3 field), bits 2-7 the slope index (0-63).
-#define GET_SLOPE_BITS(slope_byte) ((u8)((slope_byte) & 0xFCu)) // slope_byte with its first 2 bits cleared
-#define GET_SLOPE_IDX(slope_byte) ((u8)((slope_byte) >> 2))     // 0 to 63
+#define GET_SLOPE_BITS(slope_byte) (static_cast<u8>((slope_byte) & 0xFCu)) // slope_byte with its first 2 bits cleared
+#define GET_SLOPE_IDX(slope_byte) (static_cast<u8>((slope_byte) >> 2))     // 0 to 63
 #define IS_AIR_TYPE(slope_byte) (((slope_byte) & 3) == 0)
 #define IS_GRADIENT_SLOPE(slope_byte) (GET_SLOPE_BITS(slope_byte) > 0 && GET_SLOPE_BITS(slope_byte) < 0xB4u) // slope idx 1 to 44
-#define GET_BLOCK_TYPE(slope_byte) ((u8)((slope_byte) & 3))
+#define GET_BLOCK_TYPE(slope_byte) (static_cast<u8>((slope_byte) & 3))
 #define IS_SLOPE_IN_BLOCK_ABOVE(slope_byte) (GET_SLOPE_BITS(slope_byte) == 0xFC) // slope idx 63: the slope is in the block above
 #define IS_PARTIAL_BLOCK(slope) ((slope) >= 0xD4 && (slope) <= 0xF4)
 #define IS_TRIDIAGONAL_BLOCK(slope) ((slope) >= 0xC4 && (slope) <= 0xD0)

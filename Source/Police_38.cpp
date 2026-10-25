@@ -1052,7 +1052,7 @@ void PoliceCrew::State5_PursueOrChase_572920()
                                 field_35_fast_target_counter = 0;
                             }
                         }
-                        else if (pPed->GetInternalTargetPed_403AF0() == (Ped*)field_30_prev_target_ped && pPed->GetInternalTargetPed_403AF0())
+                        else if (pPed->GetInternalTargetPed_403AF0() == reinterpret_cast<Ped*>(field_30_prev_target_ped) && pPed->GetInternalTargetPed_403AF0())
                         {
                             pPed->SetInternalTargetPed_403AE0(field_14_pPursuitTarget->field_0_criminal_ped);
                         }
@@ -1073,7 +1073,7 @@ void PoliceCrew::State5_PursueOrChase_572920()
                     {
                         if (pPed->get_objective_target_ped_403AD0() == pPed->GetInternalTargetPed_403AF0())
                         {
-                            field_30_prev_target_ped = (s32)pPed->get_objective_target_ped_403AD0();
+                            field_30_prev_target_ped = reinterpret_cast<s32>(pPed->get_objective_target_ped_403AD0());
                             gCurrentCrewPed_6FEDDC->SetInternalTargetPed_403AE0(field_14_pPursuitTarget->field_0_criminal_ped);
                         }
                         gCurrentCrewPed_6FEDDC->set_objective_target_ped_403AC0(field_14_pPursuitTarget->field_0_criminal_ped);
@@ -1716,7 +1716,7 @@ void PoliceCrew::HandleChaseInCarObjective_575310()
                 break;
         }
 
-        if ((u8)field_14_pPursuitTarget->field_E_block_counter > 0)
+        if (static_cast<u8>(field_14_pPursuitTarget->field_E_block_counter) > 0)
         {
             field_10_subObj->field_0_car->field_60_pChaseTask->field_3C_block_counter = field_14_pPursuitTarget->field_E_block_counter;
         }

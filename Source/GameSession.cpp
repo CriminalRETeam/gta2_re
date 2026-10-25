@@ -16,7 +16,7 @@ void GameSession::LoadDebugSettings_4C53D0()
 
     strcpy(reg_value, "");
     strcpy(path, "data\\");
-    gRegistry_6FF968.Get_Debug_Setting_586E90("mapname", (LPBYTE)reg_value, GTA2_COUNTOF(reg_value));
+    gRegistry_6FF968.Get_Debug_Setting_586E90("mapname", reinterpret_cast<LPBYTE>(reg_value), GTA2_COUNTOF(reg_value));
     strcat(path, reg_value);
     if (strcmp(path, "data\\") == 0)
     {
@@ -26,7 +26,7 @@ void GameSession::LoadDebugSettings_4C53D0()
 
     strcpy(reg_value, "");
     strcpy(path, "data\\");
-    gRegistry_6FF968.Get_Debug_Setting_586E90("stylename", (LPBYTE)reg_value, GTA2_COUNTOF(reg_value));
+    gRegistry_6FF968.Get_Debug_Setting_586E90("stylename", reinterpret_cast<LPBYTE>(reg_value), GTA2_COUNTOF(reg_value));
     strcat(path, reg_value);
     if (strcmp(path, "data\\") == 0)
     {
@@ -36,7 +36,7 @@ void GameSession::LoadDebugSettings_4C53D0()
 
     strcpy(reg_value, "");
     strcpy(path, "data\\");
-    gRegistry_6FF968.Get_Debug_Setting_586E90("scriptname", (LPBYTE)reg_value, GTA2_COUNTOF(reg_value));
+    gRegistry_6FF968.Get_Debug_Setting_586E90("scriptname", reinterpret_cast<LPBYTE>(reg_value), GTA2_COUNTOF(reg_value));
     strcat(path, reg_value);
     if (strcmp(path, "data\\") == 0)
     {
@@ -46,7 +46,7 @@ void GameSession::LoadDebugSettings_4C53D0()
 
     strcpy(reg_value, "");
     strcpy(path, "player\\");
-    gRegistry_6FF968.Get_Debug_Setting_586E90("savename", (LPBYTE)reg_value, GTA2_COUNTOF(reg_value));
+    gRegistry_6FF968.Get_Debug_Setting_586E90("savename", reinterpret_cast<LPBYTE>(reg_value), GTA2_COUNTOF(reg_value));
     strcat(path, reg_value);
     if (strcmp(path, "player\\") == 0)
     {

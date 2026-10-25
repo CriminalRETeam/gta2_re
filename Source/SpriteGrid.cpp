@@ -181,7 +181,7 @@ Sprite* SpriteGrid::FindNearestSprite_SpiralSearch_477C90(s32 primary_sprite_typ
     Sprite* pCollisionSprite = gSpriteGrid_smallestDistSprite_678E40; // from previous call
     if (search_mode > 1 || !gSpriteGrid_smallestDistSprite_678E40)
     {
-        for (u32 ring_size = 2; ring_size <= 2 * max_rings; ring_size += 2)
+        for (u32 ring_size = 2; ring_size <= static_cast<u32>(2 * max_rings); ring_size += 2)
         {
             // LEFT COLUMN
             --gSpriteGrid_start_x_679090;
@@ -379,12 +379,12 @@ void SpriteGrid::CheckTileSpritesForClosestMatch_478060(GridSpriteLink* pSpriteL
 MATCH_FUNC(0x478160)
 void SpriteGrid::SearchTileColumnForClosestSprite_478160(u8 height)
 {
-    s32 y_pos = gSpriteGrid_start_y_679098;
-    if (gSpriteGrid_start_y_679098 < gSpriteGrid_start_y_679098 + (u32)height)
+    u32 y_pos = gSpriteGrid_start_y_679098;
+    if (static_cast<u32>(gSpriteGrid_start_y_679098) < gSpriteGrid_start_y_679098 + static_cast<u32>(height))
     {
         // Won't match without this redundant iter
         GridCell** pXItemIter = &this->field_0_rows[gSpriteGrid_start_y_679098];
-        while (y_pos < gSpriteGrid_start_y_679098 + (u32)height)
+        while (y_pos < gSpriteGrid_start_y_679098 + static_cast<u32>(height))
         {
             CheckTileSpritesForClosestMatch_478060(GetCollideListAt_446820(gSpriteGrid_start_x_679090, y_pos));
             ++y_pos;
@@ -662,7 +662,7 @@ GridCell* SpriteGrid::GetFirstXCellInRow_478590(s32 y_pos)
     }
     for (pIter = this->field_0_rows[y_pos]; pIter; pIter = pIter->mpNext)
     {
-        cell_x = (u8)pIter->field_0_x;
+        cell_x = static_cast<u8>(pIter->field_0_x);
         if (cell_x >= gSpriteGrid_left_6F5FD4)
         {
             break;
@@ -850,7 +850,7 @@ void SpriteGrid::DebugLog_478950(s32 x_pos, s32 y_pos)
             {
                 if (j->field_0_pSprite)
                 {
-                    sprintf(gTmpBuffer_67C598, " %d", (u16)j->field_0_pSprite->field_20_instance_id);
+                    sprintf(gTmpBuffer_67C598, " %d", static_cast<u16>(j->field_0_pSprite->field_20_instance_id));
                     gFile_67C530.Write_Log_4D9650(gTmpBuffer_67C598);
                 }
             }

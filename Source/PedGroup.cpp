@@ -359,7 +359,7 @@ void PedGroup::DisbandGroupDueToAttack_4C94E0(Ped* pAttacker)
 
         this->field_2C_ped_leader->ClearGroupAndGroupIdx_403A30();
 
-        for (char_type i_ = 0; i_ < (s32)this->field_34_count; i_++)
+        for (char_type i_ = 0; i_ < static_cast<s32>(this->field_34_count); i_++)
         {
             s32 i = i_;
             if (field_4_ped_list[i]->has_car_403B80())
@@ -882,7 +882,7 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
         }
     }
 
-    if (!(u8)IsLeaderPanicking_4CA3E0())
+    if (!static_cast<u8>(IsLeaderPanicking_4CA3E0()))
     {
         for (i = 0; i < field_34_count; i++)
         {

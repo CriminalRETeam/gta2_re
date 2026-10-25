@@ -73,9 +73,9 @@ class Fix16
     // The compiled-out asserts and the casts count in VC6's inline size: keep them (Scripts/usm_44e560/README.md)
     Fix16 operator-(const Fix16& in) const
     {
-        assert((__int64)mValue - in.mValue <= 0x7FFFFFFF);
-        assert((__int64)mValue - in.mValue >= -0x7FFFFFFF - 1);
-        return Fix16((s32)(mValue - in.mValue), 0);
+        assert(static_cast<__int64>(mValue) - in.mValue <= 0x7FFFFFFF);
+        assert(static_cast<__int64>(mValue) - in.mValue >= -0x7FFFFFFF - 1);
+        return Fix16(static_cast<s32>(mValue - in.mValue), 0);
     }
 
     Fix16& operator-=(const Fix16& other)
@@ -86,37 +86,37 @@ class Fix16
 
     Fix16 operator+(const Fix16& in)
     {
-        assert((__int64)mValue + in.mValue <= 0x7FFFFFFF);
-        assert((__int64)mValue + in.mValue >= -0x7FFFFFFF - 1);
-        return Fix16((s32)(mValue + in.mValue), 0);
+        assert(static_cast<__int64>(mValue) + in.mValue <= 0x7FFFFFFF);
+        assert(static_cast<__int64>(mValue) + in.mValue >= -0x7FFFFFFF - 1);
+        return Fix16(static_cast<s32>(mValue + in.mValue), 0);
     }
 
     Fix16& operator+=(const Fix16& other)
     {
-        assert((__int64)mValue + other.mValue <= 0x7FFFFFFF);
-        assert((__int64)mValue + other.mValue >= -0x7FFFFFFF - 1);
+        assert(static_cast<__int64>(mValue) + other.mValue <= 0x7FFFFFFF);
+        assert(static_cast<__int64>(mValue) + other.mValue >= -0x7FFFFFFF - 1);
         mValue += other.mValue;
         return *this;
     }
 
     Fix16 operator*(const Fix16& in) const
     {
-        assert(((mValue * (__int64)in.mValue) >> 14) <= 0x7FFFFFFF);
-        assert(((mValue * (__int64)in.mValue) >> 14) >= -0x7FFFFFFF - 1);
-        return Fix16((s32)(s32)((mValue * (__int64)in.mValue) >> 14), 0);
+        assert(((mValue * static_cast<__int64>(in.mValue)) >> 14) <= 0x7FFFFFFF);
+        assert(((mValue * static_cast<__int64>(in.mValue)) >> 14) >= -0x7FFFFFFF - 1);
+        return Fix16(static_cast<s32>(static_cast<s32>((mValue * static_cast<__int64>(in.mValue)) >> 14)), 0);
     }
 
     // 10.5 non inline addr is 0x539F90
     Fix16& operator/=(const Fix16& rhs)
     {
-        mValue = (s32)(((__int64)mValue << 14) / rhs.mValue);
+        mValue = static_cast<s32>((static_cast<__int64>(mValue) << 14) / rhs.mValue);
         return *this;
     }
 
     // 10.5 non inline addr is 0x562430
     Fix16& operator*=(const Fix16& rhs)
     {
-        mValue = (s32)((mValue * (__int64)rhs.mValue) >> 14);
+        mValue = static_cast<s32>((mValue * static_cast<__int64>(rhs.mValue)) >> 14);
         return *this;
     }
 
@@ -300,8 +300,8 @@ class Fix16
 
     inline s32 MultiplyInt64(Fix16 rhs)
     {
-        __int64 t = (mValue * (__int64)rhs.mValue) >> 14;
-        return (s32)t;
+        __int64 t = (mValue * static_cast<__int64>(rhs.mValue)) >> 14;
+        return static_cast<s32>(t);
     }
 
     //  inline sub_4B9E10 in 9.6f
@@ -392,7 +392,7 @@ class Fix16
     //MATCH_FUNC(0x436A20)
     Fix16 operator/(const Fix16& in)
     {
-        s32 value = (s32)(((__int64)mValue << 14) / in.mValue);
+        s32 value = static_cast<s32>((static_cast<__int64>(mValue) << 14) / in.mValue);
         return Fix16(value, 0);
     }
 

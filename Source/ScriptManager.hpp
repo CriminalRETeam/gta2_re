@@ -19,7 +19,7 @@ struct str_table_entry
 
     inline char* get_name()
     {
-        return (char*)&this[1];
+        return reinterpret_cast<char*>(&this[1]);
     }
 };
 #pragma pack(pop)

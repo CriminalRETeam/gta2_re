@@ -121,14 +121,14 @@ static std::vector<u8> ReadFileToVector(const char* fileName)
 
     // read the data:
     std::vector<u8> fileData(fileSize);
-    file.read((char*)&fileData[0], fileSize);
+    file.read(reinterpret_cast<char*>(&fileData[0]), fileSize);
     return fileData;
 }
 
 static void SaveVectorToFile(const std::vector<u8>& data, const char* fileName)
 {
     std::ofstream file(fileName, std::ios::binary);
-    file.write((const char*)&data[0], data.size());
+    file.write(reinterpret_cast<const char*>(&data[0]), data.size());
 }
 
 static const u32 kJmpOpCodeLen = 5;
@@ -167,10 +167,10 @@ static int PatchOgExecutableToLoadHooks()
     printf("Copying instructions\n");
     memcpy(&exeData[kOgWinMainFA], &functionInstructions[0], functionInstructions.size());
     
-    const u32 LoadLibraryA_offset = (const u8*)LoadLibraryA_Proxy - (const u8*)WinMain_Hooked_Start;
-    const u32 GetProcAddress_offset = (const u8*)GetProcAddress_Proxy - (const u8*)WinMain_Hooked_Start;
-    const u32 MessageBoxA_offset = (const u8*)MessageBoxA_Proxy - (const u8*)WinMain_Hooked_Start;
-    const u32 FreeLibrary_offset = (const u8*)FreeLibrary_Proxy - (const u8*)WinMain_Hooked_Start;
+    const u32 LoadLibraryA_offset = reinterpret_cast<const u8*>(LoadLibraryA_Proxy) - reinterpret_cast<const u8*>(WinMain_Hooked_Start);
+    const u32 GetProcAddress_offset = reinterpret_cast<const u8*>(GetProcAddress_Proxy) - reinterpret_cast<const u8*>(WinMain_Hooked_Start);
+    const u32 MessageBoxA_offset = reinterpret_cast<const u8*>(MessageBoxA_Proxy) - reinterpret_cast<const u8*>(WinMain_Hooked_Start);
+    const u32 FreeLibrary_offset = reinterpret_cast<const u8*>(FreeLibrary_Proxy) - reinterpret_cast<const u8*>(WinMain_Hooked_Start);
 
     // Check for conflicting offsets
     if (LoadLibraryA_offset == GetProcAddress_offset 

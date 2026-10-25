@@ -170,7 +170,7 @@ void Game::LoadGameFiles_4B8C40()
 
     strcpy(gci_path, "data\\");
     memset(gTmpBuffer_67C598, 0, sizeof(gTmpBuffer_67C598));
-    gRegistry_6FF968.Get_Debug_Setting_586E90("carname", (LPBYTE)gTmpBuffer_67C598, 0x100);
+    gRegistry_6FF968.Get_Debug_Setting_586E90("carname", reinterpret_cast<LPBYTE>(gTmpBuffer_67C598), 0x100);
 
     strcat(gci_path, gTmpBuffer_67C598);
 
@@ -348,13 +348,13 @@ void Game::ShowCounters_4B8FF0()
     swprintf(tmpBuff_67BD9C, L"cars:%d", gCar_BC_Pool_67792C->get_cars_count_45AD30());
     gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 96, gDebugFont_706600, 1);
 
-    swprintf(tmpBuff_67BD9C, L"dummy_chars : %d", (unsigned __int8)gPedManager_6787BC->field_2_num_dummy_chars);
+    swprintf(tmpBuff_67BD9C, L"dummy_chars : %d", static_cast<unsigned __int8>(gPedManager_6787BC->field_2_num_dummy_chars));
     gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 112, gDebugFont_706600, 1);
 
     Player* pLocalPlayer = gGame_0x40_67E008->field_38_local_player;
     if (pLocalPlayer)
     {
-        swprintf(tmpBuff_67BD9C, L"accuracy_count : %d", (unsigned __int8)pLocalPlayer->field_2D4_scores.get_accuracy_count_45B0A0());
+        swprintf(tmpBuff_67BD9C, L"accuracy_count : %d", static_cast<unsigned __int8>(pLocalPlayer->field_2D4_scores.get_accuracy_count_45B0A0()));
         gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 128, gDebugFont_706600, 1);
 
         swprintf(tmpBuff_67BD9C, L"reverse_count : %d", pLocalPlayer->field_2D4_scores.get_reverse_count_45B0B0());

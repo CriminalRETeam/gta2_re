@@ -215,7 +215,7 @@ class sound_obj
     // Radio emitters use indices 1..5
     inline RadioStationEmitter& RadioEmitter(s32 idx)
     {
-        return ((RadioStationEmitter*)field_544C)[idx];
+        return reinterpret_cast<RadioStationEmitter*>(field_544C)[idx];
     }
 
     char_type field_54D8_unused[5];

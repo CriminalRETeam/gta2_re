@@ -228,7 +228,7 @@ char_type CarThreadTriggers::AddThreadTrigger_5C86C0(const s32& type, const s32&
         {
             pIter->field_8_type = type;
             pIter->field_C_action = param;
-            pIter->field_0_pScriptCmd = (s32)pScriptThread;
+            pIter->field_0_pScriptCmd = reinterpret_cast<s32>(pScriptThread);
             pIter->field_14_enable_state = 1;
             pIter->field_4_O2C = gObject_5C_6F8F84->NewTouchPoint_529950(objects::savepoint_161,
                                                                          xpos,
@@ -306,7 +306,7 @@ void CarThreadTriggers::CheckThreadTrigger_5C8780(u8 idx, Sprite* pSprite)
             if (pSprite->GetType_416B40() == sprite_types_enum::car_2)
             {
                 pCar = pSprite->field_8_car_bc_ptr;
-                pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(((CarThreadTriggerCmd*)pEntry->field_0_pScriptCmd)->field_8_idx);
+                pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(reinterpret_cast<CarThreadTriggerCmd*>(pEntry->field_0_pScriptCmd)->field_8_idx));
                 if (pCar->field_6C_car_id == pPointer->field_8_car->field_6C_car_id)
                 {
                     pEntry->field_14_enable_state = 0;
@@ -318,18 +318,18 @@ void CarThreadTriggers::CheckThreadTrigger_5C8780(u8 idx, Sprite* pSprite)
             if (pSprite->GetType_416B40() == sprite_types_enum::ped_3)
             {
                 pPed = pSprite->AsCharB4_40FEA0()->get_ped_433A20();
-                pCmd = (CarThreadTriggerCmd*)pEntry->field_0_pScriptCmd;
+                pCmd = reinterpret_cast<CarThreadTriggerCmd*>(pEntry->field_0_pScriptCmd);
                 if (pCmd->field_2_type == SCRCMD_THREAD_DECLARE3)
                 {
-                    pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_10_idx);
+                    pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_10_idx));
                 }
                 else if (pCmd->field_2_type == SCRCMD_THREAD_DECLARE5)
                 {
-                    pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_24_idx);
+                    pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_24_idx));
                 }
                 else
                 {
-                    pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_idx);
+                    pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_idx));
                 }
                 if (pPed->get_id() == pPointer->field_8_char->get_id())
                 {
@@ -351,14 +351,14 @@ void CarThreadTriggers::CheckThreadTrigger_5C8780(u8 idx, Sprite* pSprite)
                 pPed = pSprite->AsCharB4_40FEA0()->get_ped_433A20();
                 if (pPed)
                 {
-                    pCmd = (CarThreadTriggerCmd*)pEntry->field_0_pScriptCmd;
+                    pCmd = reinterpret_cast<CarThreadTriggerCmd*>(pEntry->field_0_pScriptCmd);
                     if (pCmd->field_2_type == SCRCMD_CHAR_AREA_ANY_MEANS)
                     {
-                        pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_24_idx);
+                        pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_24_idx));
                     }
                     else
                     {
-                        pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_idx);
+                        pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_idx));
                     }
                     if (pPed->get_id() == pPointer->field_8_char->get_id())
                     {
@@ -372,14 +372,14 @@ void CarThreadTriggers::CheckThreadTrigger_5C8780(u8 idx, Sprite* pSprite)
                 pPed = pCar->GetDriver_4118B0();
                 if (pPed)
                 {
-                    pCmd = (CarThreadTriggerCmd*)pEntry->field_0_pScriptCmd;
+                    pCmd = reinterpret_cast<CarThreadTriggerCmd*>(pEntry->field_0_pScriptCmd);
                     if (pCmd->field_2_type == SCRCMD_CHAR_AREA_ANY_MEANS)
                     {
-                        pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_24_idx);
+                        pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_24_idx));
                     }
                     else
                     {
-                        pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_idx);
+                        pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_idx));
                     }
                     if (pPed->get_id() == pPointer->field_8_char->get_id())
                     {
@@ -396,7 +396,7 @@ void CarThreadTriggers::CheckThreadTrigger_5C8780(u8 idx, Sprite* pSprite)
                 pPed = pCar->GetDriver_4118B0();
                 if (pPed)
                 {
-                    pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(((CarThreadTriggerCmd*)pEntry->field_0_pScriptCmd)->field_8_idx);
+                    pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(reinterpret_cast<CarThreadTriggerCmd*>(pEntry->field_0_pScriptCmd)->field_8_idx));
                     if (pPed->get_id() == pPointer->field_8_char->get_id())
                     {
                         pEntry->field_14_enable_state = 0;
@@ -412,7 +412,7 @@ void CarThreadTriggers::CheckThreadTrigger_5C8780(u8 idx, Sprite* pSprite)
                 pPed = pSprite->AsCharB4_40FEA0()->get_ped_433A20();
                 if (pPed)
                 {
-                    pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(((CarThreadTriggerCmd*)pEntry->field_0_pScriptCmd)->field_8_idx);
+                    pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(reinterpret_cast<CarThreadTriggerCmd*>(pEntry->field_0_pScriptCmd)->field_8_idx));
                     if (pPed->GetGameObjectVelocity_433C20() == kZero_705DD8 &&
                         pPed->get_id() == pPointer->field_8_char->get_id())
                     {
@@ -428,7 +428,7 @@ void CarThreadTriggers::CheckThreadTrigger_5C8780(u8 idx, Sprite* pSprite)
                 pPed = pSprite->AsCharB4_40FEA0()->get_ped_433A20();
                 if (pPed)
                 {
-                    pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(((CarThreadTriggerCmd*)pEntry->field_0_pScriptCmd)->field_8_idx);
+                    pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(reinterpret_cast<CarThreadTriggerCmd*>(pEntry->field_0_pScriptCmd)->field_8_idx));
                     if (pPed->GetGameObjectVelocity_433C20() == kZero_705DD8 &&
                         pPed->get_id() == pPointer->field_8_char->get_id())
                     {
@@ -442,7 +442,7 @@ void CarThreadTriggers::CheckThreadTrigger_5C8780(u8 idx, Sprite* pSprite)
                 pPed = pCar->GetDriver_4118B0();
                 if (pPed)
                 {
-                    pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(((CarThreadTriggerCmd*)pEntry->field_0_pScriptCmd)->field_8_idx);
+                    pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(reinterpret_cast<CarThreadTriggerCmd*>(pEntry->field_0_pScriptCmd)->field_8_idx));
                     if (pPed->GetPedVelocity_45C920() == kZero_705DD8 &&
                         pPed->get_id() == pPointer->field_8_char->get_id())
                     {
@@ -459,7 +459,7 @@ void CarThreadTriggers::CheckThreadTrigger_5C8780(u8 idx, Sprite* pSprite)
                 pPed = pCar->GetDriver_4118B0();
                 if (pPed)
                 {
-                    pPointer = (SCR_POINTER*)gScriptManager_6F8060->GetBasePointer_512770(((CarThreadTriggerCmd*)pEntry->field_0_pScriptCmd)->field_8_idx);
+                    pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(reinterpret_cast<CarThreadTriggerCmd*>(pEntry->field_0_pScriptCmd)->field_8_idx));
                     if (pPed->GetPedVelocity_45C920() == kZero_705DD8 &&
                         pPed->get_id() == pPointer->field_8_char->get_id())
                     {
@@ -475,11 +475,11 @@ void CarThreadTriggers::CheckThreadTrigger_5C8780(u8 idx, Sprite* pSprite)
         switch (pEntry->field_C_action)
         {
             case 2:
-                pCmd = (CarThreadTriggerCmd*)pEntry->field_0_pScriptCmd;
+                pCmd = reinterpret_cast<CarThreadTriggerCmd*>(pEntry->field_0_pScriptCmd);
                 pCmd->field_8_thread = gScriptManager_6F8060->SpawnThread_5120C0(pCmd->field_E_thread_start_cmd, 0);
                 break;
             case 3:
-                gScriptManager_6F8060->SetGeneratorTypeForCar_511A70(pCar->field_84_car_info_idx, (Generator*)pEntry->field_0_pScriptCmd);
+                gScriptManager_6F8060->SetGeneratorTypeForCar_511A70(pCar->field_84_car_info_idx, reinterpret_cast<Generator*>(pEntry->field_0_pScriptCmd));
                 FreeTrigger_5C8680(pEntry->field_10_remap_rng);
                 break;
         }
@@ -528,11 +528,11 @@ void CarManager::DistributeCarsByRating_444980()
 
     for (; i < 256; i++)
     {
-        if (gGtx_0x106C_703DD4->does_car_exist((u8)i))
+        if (gGtx_0x106C_703DD4->does_car_exist(static_cast<u8>(i)))
         {
-            if (bStartNetworkGame_7081F0 || gGtx_0x106C_703DD4->IsCarModelInRecycleList_5AB380(i))
+            if (bStartNetworkGame_7081F0 || gGtx_0x106C_703DD4->IsCarModelInRecycleList_5AB380(static_cast<u8>(i)))
             {
-                car_info* pInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(i);
+                car_info* pInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(static_cast<u8>(i));
 
                 if (pInfo->rating != 99)
                 {
@@ -582,7 +582,7 @@ void CarManager::DistributeCarsByRating_444980()
 MATCH_FUNC(0x444ab0)
 u32 CarManager::SelectTrafficCarModel_444AB0(Player* pPlayer, gmp_zone_info* pZoneInfo, Fix16 density_scale, u16* pOut)
 {
-    u32 result;
+    s32 result;
     Fix16 density_calc = Fix16(pZoneInfo->field_0_car_density) / Fix16(1000);
     if (density_calc == gFix16_6777CC)
     {
@@ -598,7 +598,7 @@ u32 CarManager::SelectTrafficCarModel_444AB0(Player* pPlayer, gmp_zone_info* pZo
         }
 
         pPlayer->field_682_traffic_spawn_threshold = 100 - density;
-        if (pPlayer->field_680_traffic_spawn_counter < (u16)(100 - density))
+        if (pPlayer->field_680_traffic_spawn_counter < static_cast<u16>(100 - density))
         {
             *pOut = 0;
             return car_model_enum::none;
@@ -1141,7 +1141,7 @@ Car* CarManager::SpawnCarOnRoadNetwork_4458B0(Fix16 xpos, Fix16 ypos, s32 road_d
     s32 x_int = xpos.ToInt();
     s32 y_int = ypos.ToInt();
     gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x_int, y_int, &found_z);
-    s16 route_idx = (char_type)gRouteFinder_6FFDC8->FindOffScreenRoute_58A130(x_int, y_int, found_z, &unused, 1, road_direction);
+    s16 route_idx = static_cast<char_type>(gRouteFinder_6FFDC8->FindOffScreenRoute_58A130(x_int, y_int, found_z, &unused, 1, road_direction));
     if (route_idx <= 0)
     {
         return NULL;
@@ -1151,7 +1151,7 @@ Car* CarManager::SpawnCarOnRoadNetwork_4458B0(Fix16 xpos, Fix16 ypos, s32 road_d
     u16 junction_idx = gRouteFinder_6FFDC8->field_2218_routes[route_idx].field_0_junctions[0];
     u16 next_idx = gRouteFinder_6FFDC8->field_2218_routes[route_idx].field_0_junctions[1];
     s32 dir;
-    switch ((s16)pJunction->GetDirectionToJunction_5885C0(next_idx))
+    switch (static_cast<s16>(pJunction->GetDirectionToJunction_5885C0(next_idx)))
     {
         case 1:
             dir = road_direction::up_1;
@@ -1303,7 +1303,7 @@ Car* CarManager::SpawnCarOnRoadNetwork_4458B0(Fix16 xpos, Fix16 ypos, s32 road_d
                         pCar->field_5C_AI = gCarAI_78_Pool_677CF8->Allocate();
                     }
                     pCar->field_5C_AI->SetCar_453BF0(pCar);
-                    pCar->field_5C_AI->field_28_route_idx = route_idx;
+                    pCar->field_5C_AI->field_28_route_idx = static_cast<char_type>(route_idx);
                     return pCar;
                 }
             }
@@ -1588,7 +1588,7 @@ void CarManager::EnableFreeShoppingIfAllKFsPassed_446760()
         const u32 total_secrets = gScriptManager_6F8060->field_318_total_secrets;
         if (total_secrets > 0)
         {
-            if (!this->field_69_do_free_shopping && *pSecretsPassed >= total_secrets)
+            if (!this->field_69_do_free_shopping && static_cast<u32>(*pSecretsPassed) >= total_secrets)
             {
                 this->field_69_do_free_shopping = 1;
             }
@@ -2387,7 +2387,7 @@ bool Car::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
 
                 our_flags = this->field_78_flags;
                 their_flags = pCar->field_78_flags;
-                if (((u8)their_flags & car_flag::Flag4) != ((u8)our_flags & car_flag::Flag4))
+                if ((static_cast<u8>(their_flags) & car_flag::Flag4) != (static_cast<u8>(our_flags) & car_flag::Flag4))
                 {
                     return 0;
                 }
@@ -2737,7 +2737,7 @@ void Car::CloseAllDoors_43B3D0()
 MATCH_FUNC(0x43b420)
 void Car::GetDoorWorldPos_43B420(u8 door_idx, Fix16* pOutX, Fix16* pOutY)
 {
-    door_info* pDoor = (door_info*)(gGtx_0x106C_703DD4->get_car_door_data_5AA3D0(field_84_car_info_idx) + 1) + door_idx;
+    door_info* pDoor = reinterpret_cast<door_info*>(gGtx_0x106C_703DD4->get_car_door_data_5AA3D0(field_84_car_info_idx) + 1) + door_idx;
     Fix16 door_x = gPixelsToFix16_6F6850.SignedPixelsToFix16_41FE70(pDoor->rx);
     Fix16 door_y = gPixelsToFix16_6F6850.SignedPixelsToFix16_41FE70(pDoor->ry);
 
@@ -2758,7 +2758,7 @@ void Car::GetDoorWorldPos_43B420(u8 door_idx, Fix16* pOutX, Fix16* pOutY)
 MATCH_FUNC(0x43B540)
 bool Car::IsDoorOffsetLarge_43B540(u8 targetDoor)
 {
-    s8* array = (s8*)gGtx_0x106C_703DD4->get_car_door_data_5AA3D0(field_84_car_info_idx);
+    s8* array = reinterpret_cast<s8*>(gGtx_0x106C_703DD4->get_car_door_data_5AA3D0(field_84_car_info_idx));
     if (Fix16::Abs(gPixelsToFix16_6F6850.SignedPixelsToFix16_41FE70(array[2 * targetDoor + 1])) >= kFpOne_677908)
     {
         return true;
@@ -2951,7 +2951,7 @@ void Car::SpawnDamageFireEffect_43B870(s32 fire_size, const Fix16_Point* pPos)
 
     if (pPos->IsNull_420360())
     {
-        switch ((u8)fire_size)
+        switch (static_cast<u8>(fire_size))
         {
             case 1u: // small fire
                 y_hit = Get_rear_window_offset(pCarInfo);
@@ -3827,7 +3827,7 @@ void Car::HandleCarExplosion_43D840(s32 type)
                     s16 gang_idx = gGangPool_CA8_67E274->FindGangByCarModel_4BF2F0(this->field_84_car_info_idx);
                     if (gang_idx != -1)
                     {
-                        pGang = gGangPool_CA8_67E274->GangByIdx_4BF1C0(gang_idx);
+                        pGang = gGangPool_CA8_67E274->GangByIdx_4BF1C0(static_cast<u8>(gang_idx));
                         pGang->ApplyKillRespectChange_4BEF70(pExploder->field_15C_player->get_idx_4219D0(), 1u);
                     }
                     if (pExploder->is_player_41B0A0())
@@ -3953,7 +3953,7 @@ bool Car::IsSpriteShrunk_43DC00()
         SpriteShape* pLen = field_50_car_sprite->field_4_pVisualShape;
         Fix16 shapeWidth = pShape->field_0_width;
         Fix16 lenWidth = pLen->field_0_width;
-        return lenWidth != shapeWidth;
+        return (lenWidth != shapeWidth) != 0;
     }
 
     u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::car_2, pInfo->sprite);
@@ -4033,7 +4033,7 @@ void Car::DestroyWhileSinking_43DD60()
                     s16 gang_idx = gGangPool_CA8_67E274->FindGangByCarModel_4BF2F0(this->field_84_car_info_idx);
                     if (gang_idx != -1)
                     {
-                        pGang = gGangPool_CA8_67E274->GangByIdx_4BF1C0(gang_idx);
+                        pGang = gGangPool_CA8_67E274->GangByIdx_4BF1C0(static_cast<u8>(gang_idx));
                         pGang->ApplyKillRespectChange_4BEF70(pPed->field_15C_player->get_idx_4219D0(), 1u);
                     }
                     if (pPed->is_player_41B0A0())
@@ -5864,7 +5864,7 @@ void Car::TryHitchTrailer_442810()
         if (!pHitchSprite)
         {
             //goto LABEL_28;
-            this->field_78_flags &= (u16)~car_flag::TrailerDetached;
+            this->field_78_flags &= static_cast<u16>(~car_flag::TrailerDetached);
         }
         else
         {
@@ -7249,7 +7249,7 @@ void TrafficSpawner::MakeTrafficForCurrCamera_5832C0()
                 if (!SpawnTrafficCar_582480(1, 2, 0) && !SpawnTrafficCar_582480(2, 1, 0) && !SpawnTrafficCar_582480(4, 3, 0) &&
                     !SpawnTrafficCar_582480(3, 4, 0) && gPolice_7B8_6FEE40->field_654_max_wanted_level < 3)
                 {
-                    if ((u8)bOwnerMoving)
+                    if (static_cast<u8>(bOwnerMoving))
                     {
                         SpawnTrafficCarFacing_583260(angleFace);
                     }
@@ -7259,7 +7259,7 @@ void TrafficSpawner::MakeTrafficForCurrCamera_5832C0()
             case 1:
                 this->field_8_spawn_side = 0;
                 if (!SpawnTrafficCar_582480(2, 1, 0) && !SpawnTrafficCar_582480(4, 3, 0) && !SpawnTrafficCar_582480(3, 4, 0) &&
-                    (gPolice_7B8_6FEE40->field_654_max_wanted_level >= 3 || !(u8)bOwnerMoving || !SpawnTrafficCarFacing_583260(angleFace)))
+                    (gPolice_7B8_6FEE40->field_654_max_wanted_level >= 3 || !static_cast<u8>(bOwnerMoving) || !SpawnTrafficCarFacing_583260(angleFace)))
                 {
                     SpawnTrafficCar_582480(1, 2, 0);
                 }
@@ -7268,7 +7268,7 @@ void TrafficSpawner::MakeTrafficForCurrCamera_5832C0()
             case 2:
                 this->field_8_spawn_side = 1;
                 if (!SpawnTrafficCar_582480(4, 3, 0) && !SpawnTrafficCar_582480(3, 4, 0) &&
-                    (gPolice_7B8_6FEE40->field_654_max_wanted_level >= 3 || !(u8)bOwnerMoving || !SpawnTrafficCarFacing_583260(angleFace)) &&
+                    (gPolice_7B8_6FEE40->field_654_max_wanted_level >= 3 || !static_cast<u8>(bOwnerMoving) || !SpawnTrafficCarFacing_583260(angleFace)) &&
                     !SpawnTrafficCar_582480(1, 2, 0))
                 {
                     SpawnTrafficCar_582480(2, 1, 0);
@@ -7278,7 +7278,7 @@ void TrafficSpawner::MakeTrafficForCurrCamera_5832C0()
             case 3:
                 this->field_8_spawn_side = 0;
                 if (!SpawnTrafficCar_582480(3, 4, 0) &&
-                    (gPolice_7B8_6FEE40->field_654_max_wanted_level >= 3 || !(u8)bOwnerMoving || !SpawnTrafficCarFacing_583260(angleFace)) &&
+                    (gPolice_7B8_6FEE40->field_654_max_wanted_level >= 3 || !static_cast<u8>(bOwnerMoving) || !SpawnTrafficCarFacing_583260(angleFace)) &&
                     !SpawnTrafficCar_582480(1, 2, 0) && !TrafficSpawner::SpawnTrafficCar_582480(2, 1, 0))
                 {
                     SpawnTrafficCar_582480(4, 3, 0);
@@ -7287,7 +7287,7 @@ void TrafficSpawner::MakeTrafficForCurrCamera_5832C0()
 
             case 4:
                 field_8_spawn_side = 1;
-                if ((gPolice_7B8_6FEE40->field_654_max_wanted_level >= 3 || !(u8)bOwnerMoving || !SpawnTrafficCarFacing_583260(angleFace)) &&
+                if ((gPolice_7B8_6FEE40->field_654_max_wanted_level >= 3 || !static_cast<u8>(bOwnerMoving) || !SpawnTrafficCarFacing_583260(angleFace)) &&
                     !SpawnTrafficCar_582480(1, 2, 0) && !SpawnTrafficCar_582480(2, 1, 0) && !SpawnTrafficCar_582480(4, 3, 0))
                 {
                     SpawnTrafficCar_582480(3, 4, 0);
@@ -7553,7 +7553,7 @@ bool TrafficSpawner::SpawnTrafficCar_582480(s32 spawn_type, s32 arrow_direction,
                     s32 car_model;
                     u16 car_kind;
                     u8 rng_val;
-                    if (gPolice_7B8_6FEE40->field_654_max_wanted_level < 1 || (rng_val = gRng_6F6784.get_int_4F7AE0(40), rng_val <= 20u) ||
+                    if (gPolice_7B8_6FEE40->field_654_max_wanted_level < 1 || (rng_val = static_cast<u8>(gRng_6F6784.get_int_4F7AE0(40)), rng_val <= 20u) ||
                         rng_val >= 30u)
                     {
                         car_model = gCarManager_6C_677930->SelectTrafficCarModel_444AB0(field_C_player, field_10_zone, gTrafficDensityScale_6FF7E8, &car_kind);
@@ -7577,7 +7577,7 @@ bool TrafficSpawner::SpawnTrafficCar_582480(s32 spawn_type, s32 arrow_direction,
                     {
                         if (car_model == car_model_enum::COPCAR)
                         {
-                            if (gPolice_7B8_6FEE40->field_658_police_car_count >= (u8)gPolice_7B8_6FEE40->field_659_max_police_cars || bSkip_police_67D4F9)
+                            if (gPolice_7B8_6FEE40->field_658_police_car_count >= static_cast<u8>(gPolice_7B8_6FEE40->field_659_max_police_cars) || bSkip_police_67D4F9)
                             {
                                 car_model =
                                     gCarManager_6C_677930->SelectTrafficCarModel_444AB0(field_C_player, field_10_zone, gTrafficDensityScale_6FF7E8, &car_kind);
@@ -7735,13 +7735,13 @@ bool TrafficSpawner::SpawnTrafficCar_582480(s32 spawn_type, s32 arrow_direction,
                     Fix16 spawn_y;
                     if (speed_kind == 2)
                     {
-                        if ((u8)DAT_006FF8C4 > 2u)
+                        if (static_cast<u8>(DAT_006FF8C4) > 2u)
                         {
                             spawn_x = back_x;
                             spawn_y = back_y;
                             ResolveSpawnDirection_583930(2, road_len);
                         }
-                        else if ((u8)DAT_006FF8C4 > 0u)
+                        else if (static_cast<u8>(DAT_006FF8C4) > 0u)
                         {
                             spawn_x = mid_x;
                             spawn_y = mid_y;
@@ -7756,7 +7756,7 @@ bool TrafficSpawner::SpawnTrafficCar_582480(s32 spawn_type, s32 arrow_direction,
                     }
                     else if (speed_kind == 1)
                     {
-                        if ((u8)DAT_006FF8C4 > 1u)
+                        if (static_cast<u8>(DAT_006FF8C4) > 1u)
                         {
                             spawn_x = mid_x;
                             spawn_y = mid_y;

@@ -250,7 +250,7 @@ bool Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
         off_y = -kFpPoint01_6FD45C;
     }
 
-    switch ((u8)(field_2C_counter >> 2))
+    switch (static_cast<u8>(field_2C_counter >> 2))
     {
         case 2:
             if (gRng_6F6784.get_int_4F7AE0(2))
@@ -781,7 +781,7 @@ bool Particle_4C::UpdateCircularBurst_state_5_539890()
     Fix16 ypos = field_30_pOwnSprite->field_14_xy.y;
     Fix16 off_y = -kFpPoint01_6FD45C;
 
-    switch ((u8)(field_2C_counter >> 2))
+    switch (static_cast<u8>(field_2C_counter >> 2))
     {
         case 2:
             if (gRng_6F6784.get_int_4F7AE0(2))
@@ -1467,7 +1467,7 @@ bool Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
         }
     }
 
-    spread = Ang16::Fix16_To_Ang16_40F540(kFpOne64th_6FD328 * (Fix16(field_46_sub_state) + Fix16(gRng_6F6784.get_int_4F7AE0((s16)field_46_sub_state)) - kFpFour_6FD4AC));
+    spread = Ang16::Fix16_To_Ang16_40F540(kFpOne64th_6FD328 * (Fix16(field_46_sub_state) + Fix16(gRng_6F6784.get_int_4F7AE0(static_cast<s16>(field_46_sub_state))) - kFpFour_6FD4AC));
 
     if (pChar)
     {

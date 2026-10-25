@@ -69,9 +69,9 @@ s16 rng::get_int_4F7AE0(const s16& max_rnd)
         {
             this->field_0_rng = rand() % max_rnd;
         }
-        sprintf(gTmpBuffer_67C598, "%d: random (get_int) %d", gpRng_67AB34->get_cur_rng_41CFE0(), (s16)this->get_cur_rng_41CFE0());
+        sprintf(gTmpBuffer_67C598, "%d: random (get_int) %d", gpRng_67AB34->get_cur_rng_41CFE0(), static_cast<s16>(this->get_cur_rng_41CFE0()));
         gFile_67C530.Write_4D9620(gTmpBuffer_67C598);
-        return (s16)this->get_cur_rng_41CFE0();
+        return static_cast<s16>(this->get_cur_rng_41CFE0());
     }
     else
     {
@@ -99,9 +99,9 @@ u8 rng::get_uint8_4F7B70(const u8& max_rnd)
         {
             this->field_0_rng = rand() % max_rnd;
         }
-        sprintf(gTmpBuffer_67C598, "%d: random (get_uint8) %d", gpRng_67AB34->get_cur_rng_41CFE0(), (u8)field_0_rng);
+        sprintf(gTmpBuffer_67C598, "%d: random (get_uint8) %d", gpRng_67AB34->get_cur_rng_41CFE0(), static_cast<u8>(field_0_rng));
         gFile_67C530.Write_4D9620(gTmpBuffer_67C598);
-        return (u8)this->field_0_rng;
+        return static_cast<u8>(this->field_0_rng);
     }
     else
     {
