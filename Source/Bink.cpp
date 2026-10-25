@@ -135,7 +135,7 @@ void Bink::CloseSlot2_513390()
 MATCH_FUNC(0x5133E0)
 void __stdcall Bink::OpenSlot2_5133E0(const char_type* pFileName, HDIGDRIVER hDriver)
 {
-    BinkSetSoundSystem(static_cast<void*>(BinkOpenMiles), reinterpret_cast<s32>(hDriver));
+    BinkSetSoundSystem(reinterpret_cast<void*>(BinkOpenMiles), reinterpret_cast<s32>(hDriver));
     BinkSetIOSize(600000);
 
     gBinkHandleSlot2_6F83B0 = BinkOpen(pFileName, 0x4000000);
@@ -210,7 +210,7 @@ void __stdcall Bink::OpenSlot2_5133E0(const char_type* pFileName, HDIGDRIVER hDr
 MATCH_FUNC(0x513560)
 void __stdcall Bink::OpenSlot1_513560(const char_type* pFileName, HDIGDRIVER hDriver)
 {
-    BinkSetSoundSystem(static_cast<void*>(BinkOpenMiles), reinterpret_cast<s32>(hDriver));
+    BinkSetSoundSystem(reinterpret_cast<void*>(BinkOpenMiles), reinterpret_cast<s32>(hDriver));
     BinkSetIOSize(600000);
 
     gBinkHandleSlot1_6F8168 = BinkOpen(pFileName, 0x4000000);
