@@ -100,6 +100,8 @@ struct GameSession
         return field_444_game_time_limit;
     }
 
+    EXPORT GameSession();
+
     EXPORT void LoadDebugSettings_4C53D0();
 
     EXPORT char* SetMapName_4C5870(char_type* pName);

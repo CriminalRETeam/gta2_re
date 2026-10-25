@@ -358,7 +358,7 @@ BOOL NetPlay::EnumAddress_cb_51E030(const GUID& guidDataType, DWORD dwDataSize, 
 {
     LPCSTR pAddress = static_cast<LPCSTR>(lpData);
     BOOL bDone = FALSE;
-    if (guidDataType == DPAID_INet && dwDataSize)
+    if (guidDataType == DPAID_Modem && dwDataSize)
     {
         NetPlay* pThis = static_cast<NetPlay*>(lpContext);
         while (lstrlenA(pAddress))

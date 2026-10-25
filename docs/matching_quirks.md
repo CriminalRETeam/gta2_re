@@ -36,6 +36,9 @@ marked unlisted addresses into `target_extra.json`) before trusting the marker.
   Renames are safe; new names go in their own header, like `car_shop_type.hpp`.
 - The fix is to keep the enum out of every header `MapRenderer.cpp` includes: `ped_graphic_type.hpp` is a
   small header included only by the .cpp files that use it.
+- A member function added to `sound_obj` (whatever its name) changes `ImGuiDebugDraw` as well: a few loads of ImGui
+  import pointers swap registers and one block gets a jump and a load more. Members can't move to another header, so
+  `sound_obj::DeinitializeAudio_419E50` went in with that change.
 After adding any enum or constants to a widely included header, run the whole `build.py` (not just
 `--single_cpp`), and if a far-away function fails, move the addition into its own header.
 

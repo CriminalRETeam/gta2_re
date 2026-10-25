@@ -6,7 +6,33 @@
 #include "registry.hpp"
 
 DEFINE_GLOBAL(GameSession, gGameSession_67E8E0, 0x67E8E0);
-EXTERN_GLOBAL_ARRAY(wchar_t, gEmptyWStr_67DC8C, 32);
+EXTERN_GLOBAL_ARRAY(wchar_t, gEmptyWStr_67DC8C, 2);
+
+MATCH_FUNC(0x4C52D0)
+GameSession::GameSession()
+{
+    strcpy(field_0_map_name, "");
+    strcpy(field_100_style_name, "");
+    strcpy(field_200_script_name, "");
+    strcpy(field_300_save_file_name, "");
+    field_400_main_stage = 0;
+    field_401_stage = 0;
+    field_402_bonus_stage = 0;
+    field_403_player_slot_idx = 0;
+    field_404_level_finish_bonus_type = 0;
+
+    for (s32 i = 0; i < GTA2_COUNTOF(field_408_statistics); i++)
+    {
+        field_408_statistics[i] = 0;
+    }
+
+    field_430_car_damage_cost = 0;
+    field_434_evasion_rating = 0;
+    field_438_bonus_rating_text_idx = 0;
+    field_43A_bStartedFromPlayBonusMenu = 0;
+
+    init_4C5AF0();
+}
 
 MATCH_FUNC(0x4C53D0)
 void GameSession::LoadDebugSettings_4C53D0()
