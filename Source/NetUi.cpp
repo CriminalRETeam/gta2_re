@@ -321,7 +321,7 @@ struct Network_UI_Control_Data_Array
         data[1][0].field_0_windowParams.field_4_y = 10;
         data[1][0].field_0_windowParams.field_8_w = 210;
         data[1][0].field_0_windowParams.field_C_h = 130;
-        data[1][0].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(1024);
+        data[1][0].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(LISTVIEW_HOST_PLAYERS_1024);
         data[1][0].field_0_windowParams.field_14_style = 0x40008005;
         data[1][0].field_0_windowParams.field_18_exStyle = 0x200;
         strcpy(data[1][0].field_1C_window_class_name, "SysListView32");
@@ -331,7 +331,7 @@ struct Network_UI_Control_Data_Array
         data[1][1].field_0_windowParams.field_4_y = 10;
         data[1][1].field_0_windowParams.field_8_w = 270;
         data[1][1].field_0_windowParams.field_C_h = 130;
-        data[1][1].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(1022);
+        data[1][1].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(CHATBOX_HOST_1022);
         data[1][1].field_0_windowParams.field_14_style = 0x400018c4;
         data[1][1].field_0_windowParams.field_18_exStyle = 0x200;
         strcpy(data[1][1].field_1C_window_class_name, "EDIT");
@@ -361,7 +361,7 @@ struct Network_UI_Control_Data_Array
         data[1][4].field_0_windowParams.field_4_y = 250;
         data[1][4].field_0_windowParams.field_8_w = 100;
         data[1][4].field_0_windowParams.field_C_h = 30;
-        data[1][4].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(2);
+        data[1][4].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(IDCANCEL);
         data[1][4].field_0_windowParams.field_14_style = 0x40010000;
         data[1][4].field_0_windowParams.field_18_exStyle = 0x0;
         strcpy(data[1][4].field_1C_window_class_name, "BUTTON");
@@ -371,7 +371,7 @@ struct Network_UI_Control_Data_Array
         data[1][5].field_0_windowParams.field_4_y = 150;
         data[1][5].field_0_windowParams.field_8_w = 270;
         data[1][5].field_0_windowParams.field_C_h = 30;
-        data[1][5].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(1025);
+        data[1][5].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(TEXTFIELD_CHAT_HOST_1025);
         data[1][5].field_0_windowParams.field_14_style = 0x40031080;
         data[1][5].field_0_windowParams.field_18_exStyle = 0x200;
         strcpy(data[1][5].field_1C_window_class_name, "EDIT");
@@ -631,7 +631,7 @@ struct Network_UI_Control_Data_Array
         data[2][1].field_0_windowParams.field_4_y = 10;
         data[2][1].field_0_windowParams.field_8_w = 270;
         data[2][1].field_0_windowParams.field_C_h = 130;
-        data[2][1].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(1051);
+        data[2][1].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(CHATBOX_GUEST_1051);
         data[2][1].field_0_windowParams.field_14_style = 0x400018c4;
         data[2][1].field_0_windowParams.field_18_exStyle = 0x200;
         strcpy(data[2][1].field_1C_window_class_name, "EDIT");
@@ -651,7 +651,7 @@ struct Network_UI_Control_Data_Array
         data[2][3].field_0_windowParams.field_4_y = 150;
         data[2][3].field_0_windowParams.field_8_w = 270;
         data[2][3].field_0_windowParams.field_C_h = 30;
-        data[2][3].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(1053);
+        data[2][3].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(TEXTFIELD_CHAT_GUEST_1053);
         data[2][3].field_0_windowParams.field_14_style = 0x40000080;
         data[2][3].field_0_windowParams.field_18_exStyle = 0x200;
         strcpy(data[2][3].field_1C_window_class_name, "EDIT");
@@ -1300,16 +1300,16 @@ void __stdcall NetUi::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s32 notif
                 case 1:
                     gNetPlay_7071E8.Disconnect_520D10();
                     SendMessageA(GetDlgItem(hDlg, LISTVIEW_HOST_PLAYERS_1024), LVM_DELETEALLITEMS, 0, 0);
-                    SetDlgItemTextA(hDlg, 1025, "");
-                    SetDlgItemTextA(hDlg, 1022, "");
+                    SetDlgItemTextA(hDlg, TEXTFIELD_CHAT_HOST_1025, "");
+                    SetDlgItemTextA(hDlg, CHATBOX_HOST_1022, "");
                     pThis->ResetCount_51BBF0();
                     pThis->ShowSpecificWindow_51ABF0(0);
                     break;
                 case 2:
                     gNetPlay_7071E8.Disconnect_520D10();
                     SendMessageA(GetDlgItem(hDlg, LISTVIEW_JOINED_PLAYERS_1050), LVM_DELETEALLITEMS, 0, 0);
-                    SetDlgItemTextA(hDlg, 1053, "");
-                    SetDlgItemTextA(hDlg, 1051, "");
+                    SetDlgItemTextA(hDlg, TEXTFIELD_CHAT_GUEST_1053, "");
+                    SetDlgItemTextA(hDlg, CHATBOX_GUEST_1051, "");
                     pThis->ResetCount_51BBF0();
                     pThis->ShowSpecificWindow_51ABF0(0);
                     break;
@@ -1343,12 +1343,12 @@ void __stdcall NetUi::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s32 notif
         case BUTTON_SEND_CHAT_MESSAGE_HOST_1023: // "Send" button
         {
             GetWindowLongA(hDlg, 8);
-            GetDlgItemTextA(hDlg, 1025, chatText, 127);
+            GetDlgItemTextA(hDlg, TEXTFIELD_CHAT_HOST_1025, chatText, 127);
             NetUi::GetString_519A50(textW, chatText, 260);
             gNetPlay_7071E8.SendChatMessage_521060(textW, -1);
-            SetDlgItemTextA(hDlg, 1025, "");
+            SetDlgItemTextA(hDlg, TEXTFIELD_CHAT_HOST_1025, "");
             NetUi* pThis = reinterpret_cast<NetUi*>(GetWindowLongA(hDlg, 8));
-            pThis->AppendChatMessage_51B4F0(1022, chatText);
+            pThis->AppendChatMessage_51B4F0(CHATBOX_HOST_1022, chatText);
             break;
         }
 
@@ -1400,11 +1400,11 @@ void __stdcall NetUi::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s32 notif
         case BUTTON_SEND_CHAT_MESSAGE_GUEST_1052: // "Send" button
         {
             NetUi* pThis = reinterpret_cast<NetUi*>(GetWindowLongA(hDlg, 8));
-            GetDlgItemTextA(hDlg, 1053, chatText, 127);
+            GetDlgItemTextA(hDlg, TEXTFIELD_CHAT_GUEST_1053, chatText, 127);
             NetUi::GetString_519A50(textW, chatText, 260);
             gNetPlay_7071E8.SendChatMessage_521060(textW, -1);
-            SetDlgItemTextA(hDlg, 1053, "");
-            pThis->AppendChatMessage_51B4F0(1051, chatText);
+            SetDlgItemTextA(hDlg, TEXTFIELD_CHAT_GUEST_1053, "");
+            pThis->AppendChatMessage_51B4F0(CHATBOX_GUEST_1051, chatText);
             break;
         }
 
@@ -1542,10 +1542,10 @@ void NetUi::CreateMainUi_51AA90(HWND hWndParent)
     SetWindowTextA(hWndParent, GetString_519A00("netui08")); // "Network GTA2"
 
     // Subclass to handle enter key pressing
-    this->field_1FD70_old_proc = reinterpret_cast<WNDPROC>(GetWindowLongA(GetDlgItem(hWndParent, 1053), GWL_WNDPROC));
-    this->field_1FD74_old_proc = reinterpret_cast<WNDPROC>(GetWindowLongA(GetDlgItem(hWndParent, 1025), GWL_WNDPROC));
-    SetWindowLongA(GetDlgItem(hWndParent, 1053), GWL_WNDPROC, reinterpret_cast<LONG>(NetUi::subclass_proc_51BDD0));
-    SetWindowLongA(GetDlgItem(hWndParent, 1025), GWL_WNDPROC, reinterpret_cast<LONG>(NetUi::subclass_proc_51BDD0));
+    this->field_1FD70_old_proc = reinterpret_cast<WNDPROC>(GetWindowLongA(GetDlgItem(hWndParent, TEXTFIELD_CHAT_GUEST_1053), GWL_WNDPROC));
+    this->field_1FD74_old_proc = reinterpret_cast<WNDPROC>(GetWindowLongA(GetDlgItem(hWndParent, TEXTFIELD_CHAT_HOST_1025), GWL_WNDPROC));
+    SetWindowLongA(GetDlgItem(hWndParent, TEXTFIELD_CHAT_GUEST_1053), GWL_WNDPROC, reinterpret_cast<LONG>(NetUi::subclass_proc_51BDD0));
+    SetWindowLongA(GetDlgItem(hWndParent, TEXTFIELD_CHAT_HOST_1025), GWL_WNDPROC, reinterpret_cast<LONG>(NetUi::subclass_proc_51BDD0));
 
     SendDlgItemMessageA(hWndParent, TRACKBAR_GAME_SPEED_1031, TBM_SETRANGE, TRUE, MAKELONG(0, 2)); // set range of game speed slider: 0 to 2 (that is, 3 options)
 
@@ -1783,7 +1783,7 @@ LRESULT NetUi::cb_AddChatMessage_51B2F0(NetUi* pNetUi, Network_ChatMessage* pMsg
     {
         case 1:
         {
-            GetDlgItemTextA(pNetUi->Get_2031C_HWND_519E20(), 1022, text, 0x7FF);
+            GetDlgItemTextA(pNetUi->Get_2031C_HWND_519E20(), CHATBOX_HOST_1022, text, 0x7FF);
             if (strlen(text))
             {
                 sprintf(newText, "%s\r\n%s", text, line);
@@ -1792,14 +1792,14 @@ LRESULT NetUi::cb_AddChatMessage_51B2F0(NetUi* pNetUi, Network_ChatMessage* pMsg
             {
                 sprintf(newText, "%s", line);
             }
-            SetDlgItemTextA(pNetUi->Get_2031C_HWND_519E20(), 1022, newText);
-            LRESULT lineCount = SendDlgItemMessageA(pNetUi->Get_2031C_HWND_519E20(), 1022, EM_GETLINECOUNT, 0, 0);
-            return SendDlgItemMessageA(pNetUi->Get_2031C_HWND_519E20(), 1022, EM_LINESCROLL, 0, lineCount);
+            SetDlgItemTextA(pNetUi->Get_2031C_HWND_519E20(), CHATBOX_HOST_1022, newText);
+            LRESULT lineCount = SendDlgItemMessageA(pNetUi->Get_2031C_HWND_519E20(), CHATBOX_HOST_1022, EM_GETLINECOUNT, 0, 0);
+            return SendDlgItemMessageA(pNetUi->Get_2031C_HWND_519E20(), CHATBOX_HOST_1022, EM_LINESCROLL, 0, lineCount);
         }
 
         case 2:
         {
-            GetDlgItemTextA(pNetUi->Get_2031C_HWND_519E20(), 1051, text, 0x7FF);
+            GetDlgItemTextA(pNetUi->Get_2031C_HWND_519E20(), CHATBOX_GUEST_1051, text, 0x7FF);
             if (strlen(text))
             {
                 sprintf(newText, "%s\r\n%s", text, line);
@@ -1808,9 +1808,9 @@ LRESULT NetUi::cb_AddChatMessage_51B2F0(NetUi* pNetUi, Network_ChatMessage* pMsg
             {
                 sprintf(newText, "%s", line);
             }
-            SetDlgItemTextA(pNetUi->Get_2031C_HWND_519E20(), 1051, newText);
-            LRESULT lineCount = SendDlgItemMessageA(pNetUi->Get_2031C_HWND_519E20(), 1051, EM_GETLINECOUNT, 0, 0);
-            return SendDlgItemMessageA(pNetUi->Get_2031C_HWND_519E20(), 1051, EM_LINESCROLL, 0, lineCount);
+            SetDlgItemTextA(pNetUi->Get_2031C_HWND_519E20(), CHATBOX_GUEST_1051, newText);
+            LRESULT lineCount = SendDlgItemMessageA(pNetUi->Get_2031C_HWND_519E20(), CHATBOX_GUEST_1051, EM_GETLINECOUNT, 0, 0);
+            return SendDlgItemMessageA(pNetUi->Get_2031C_HWND_519E20(), CHATBOX_GUEST_1051, EM_LINESCROLL, 0, lineCount);
         }
     }
     // No return here in the original either
@@ -1843,7 +1843,7 @@ s32 NetUi::AppendChatMessage_51B4F0(s32 player_idx, const char_type* pMsg)
             {
                 // Keep only the last 10 lines
                 gChatLineCount_6F8A2C = 10;
-                s32 pos = GetWindowTextA(GetDlgItem(Get_2031C_HWND_519E20(), 1051), allText, sizeof(allText));
+                s32 pos = GetWindowTextA(GetDlgItem(Get_2031C_HWND_519E20(), CHATBOX_GUEST_1051), allText, sizeof(allText));
                 s32 lines = 0;
                 while (pos > 0 && lines < 10)
                 {
@@ -1853,10 +1853,10 @@ s32 NetUi::AppendChatMessage_51B4F0(s32 player_idx, const char_type* pMsg)
                     }
                     pos--;
                 }
-                SetWindowTextA(GetDlgItem(Get_2031C_HWND_519E20(), 1051), &allText[pos]);
+                SetWindowTextA(GetDlgItem(Get_2031C_HWND_519E20(), CHATBOX_GUEST_1051), &allText[pos]);
             }
 
-            GetDlgItemTextA(Get_2031C_HWND_519E20(), 1051, text, 0x7FF);
+            GetDlgItemTextA(Get_2031C_HWND_519E20(), CHATBOX_GUEST_1051, text, 0x7FF);
             if (strlen(text))
             {
                 sprintf(newText, "%s\r\n%s", text, line);
@@ -1865,9 +1865,9 @@ s32 NetUi::AppendChatMessage_51B4F0(s32 player_idx, const char_type* pMsg)
             {
                 sprintf(newText, "%s", line);
             }
-            SetDlgItemTextA(Get_2031C_HWND_519E20(), 1051, newText);
-            LRESULT lineCount = SendDlgItemMessageA(Get_2031C_HWND_519E20(), 1051, EM_GETLINECOUNT, 0, 0);
-            return SendDlgItemMessageA(Get_2031C_HWND_519E20(), 1051, EM_LINESCROLL, 0, lineCount);
+            SetDlgItemTextA(Get_2031C_HWND_519E20(), CHATBOX_GUEST_1051, newText);
+            LRESULT lineCount = SendDlgItemMessageA(Get_2031C_HWND_519E20(), CHATBOX_GUEST_1051, EM_GETLINECOUNT, 0, 0);
+            return SendDlgItemMessageA(Get_2031C_HWND_519E20(), CHATBOX_GUEST_1051, EM_LINESCROLL, 0, lineCount);
         }
 
         case 1:
@@ -1876,7 +1876,7 @@ s32 NetUi::AppendChatMessage_51B4F0(s32 player_idx, const char_type* pMsg)
             {
                 // Keep only the last 10 lines
                 gChatLineCount_6F8A2C = 10;
-                s32 pos = GetWindowTextA(GetDlgItem(Get_2031C_HWND_519E20(), 1022), allText, sizeof(allText));
+                s32 pos = GetWindowTextA(GetDlgItem(Get_2031C_HWND_519E20(), CHATBOX_HOST_1022), allText, sizeof(allText));
                 s32 lines = 0;
                 while (pos > 0 && lines < 10)
                 {
@@ -1886,10 +1886,10 @@ s32 NetUi::AppendChatMessage_51B4F0(s32 player_idx, const char_type* pMsg)
                     }
                     pos--;
                 }
-                SetWindowTextA(GetDlgItem(Get_2031C_HWND_519E20(), 1022), &allText[pos]);
+                SetWindowTextA(GetDlgItem(Get_2031C_HWND_519E20(), CHATBOX_HOST_1022), &allText[pos]);
             }
 
-            GetDlgItemTextA(Get_2031C_HWND_519E20(), 1022, text, 0x7FF);
+            GetDlgItemTextA(Get_2031C_HWND_519E20(), CHATBOX_HOST_1022, text, 0x7FF);
             if (strlen(text))
             {
                 sprintf(newText, "%s\r\n%s", text, line);
@@ -1898,9 +1898,9 @@ s32 NetUi::AppendChatMessage_51B4F0(s32 player_idx, const char_type* pMsg)
             {
                 sprintf(newText, "%s", line);
             }
-            SetDlgItemTextA(Get_2031C_HWND_519E20(), 1022, newText);
-            LRESULT lineCount = SendDlgItemMessageA(Get_2031C_HWND_519E20(), 1022, EM_GETLINECOUNT, 0, 0);
-            return SendDlgItemMessageA(Get_2031C_HWND_519E20(), 1022, EM_LINESCROLL, 0, lineCount);
+            SetDlgItemTextA(Get_2031C_HWND_519E20(), CHATBOX_HOST_1022, newText);
+            LRESULT lineCount = SendDlgItemMessageA(Get_2031C_HWND_519E20(), CHATBOX_HOST_1022, EM_GETLINECOUNT, 0, 0);
+            return SendDlgItemMessageA(Get_2031C_HWND_519E20(), CHATBOX_HOST_1022, EM_LINESCROLL, 0, lineCount);
         }
     }
     // No return here in the original either
@@ -1959,7 +1959,7 @@ void NetUi::ApplyHostGameSettings_51B810(const char_type* pData)
         sprintf(msg, "### ERROR ### \r\r\nDo Not Have Map %s", pSettings->field_20088_default_map);
         GetString_519A50(wmsg, msg, 260);
         gNetPlay_7071E8.SendChatMessage_521060(wmsg, -1);
-        AppendChatMessage_51B4F0(1022, msg);
+        AppendChatMessage_51B4F0(CHATBOX_HOST_1022, msg);
 
     map_done:
         switch (pSettings->field_20190_game_speed)
@@ -2182,11 +2182,11 @@ LRESULT __stdcall NetUi::subclass_proc_51BDD0(HWND hWnd, UINT Msg, WPARAM wParam
             switch (pThis->Get_20310_showing_window_idx_51ACC0())
             {
                 case 2:
-                    pThis->OnEnterPressed_51BEB0(1053, 1051);
+                    pThis->OnEnterPressed_51BEB0(TEXTFIELD_CHAT_GUEST_1053, CHATBOX_GUEST_1051);
                     break;
 
                 case 1:
-                    pThis->OnEnterPressed_51BEB0(1025, 1022);
+                    pThis->OnEnterPressed_51BEB0(TEXTFIELD_CHAT_HOST_1025, CHATBOX_HOST_1022);
                     break;
             }
         }
