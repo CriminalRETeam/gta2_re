@@ -341,10 +341,10 @@ bool AmbulanceTask::SpawnParamedicCrew_4FA820()
 MATCH_FUNC(0x4fa9d0)
 void AmbulanceTask::EvaluatePickupState_4FA9D0()
 {
-    bool bUnk = false;
+    bool bPhaseFinished = false;
     if (field_4_paramedics_crew->field_24_phase == crew_phase::finished_2)
     {
-        bUnk = true;
+        bPhaseFinished = true;
         if (!field_4_paramedics_crew->field_4_ped || field_4_paramedics_crew->field_4_ped->isDead_403B60())
         {
             field_4_paramedics_crew->field_28_state = crew_state::clean_up_5;
@@ -353,7 +353,7 @@ void AmbulanceTask::EvaluatePickupState_4FA9D0()
             return;
         }
     }
-    if (bUnk)
+    if (bPhaseFinished)
     {
         if (field_4_paramedics_crew->field_0_car)
         {

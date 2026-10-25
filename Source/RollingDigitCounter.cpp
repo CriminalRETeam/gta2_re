@@ -144,7 +144,7 @@ s32 RollingDigitCounter::DrawDigitsRightAligned_492260(s32 base_xpos, s32 base_y
 
             u16 v = field_28_sprite_h_calc * (kDigitAfterNine - curr_char) - offset;
             curr_xpos = (field_27_sprite_w >> 1) - field_27_sprite_w * (kNumDigits - idx) + base_xpos;
-            s32 ypos = base_ypos + (s8)height / 2;
+            s32 ypos = base_ypos + static_cast<s8>(height) / 2;
             DrawTextureScaled_495470(gTextureCache_15D8_705064->GetDigitTexture_5B95F0(idx + field_34_first_digit_texture_idx - field_2E_non_used_digits, v, height),
                        curr_xpos,
                        ypos,
@@ -205,7 +205,7 @@ s32 RollingDigitCounter::DrawDigitsLeftAligned_492430(s32 base_xpos, s32 base_yp
             }
 
             u16 v = field_28_sprite_h_calc * (kDigitAfterNine - field_9_shown_digits[idx]) - offset;
-            u32 ypos = base_ypos + (s8)height / 2;
+            u32 ypos = base_ypos + static_cast<s8>(height) / 2;
             DrawTextureScaled_495470(gTextureCache_15D8_705064->GetDigitTexture_5B95F0(idx + field_34_first_digit_texture_idx - field_2E_non_used_digits, v, height),
                        curr_xpos,
                        ypos,

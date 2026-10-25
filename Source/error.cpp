@@ -3,6 +3,7 @@
 #include "Globals.hpp"
 #include "enums.hpp"
 #include "fix16.hpp"
+#include "Fix16_Point.hpp"
 #include "winmain.hpp"
 #include <stdio.h>
 #include <time.h>
@@ -21,7 +22,7 @@ void ErrorLog::Open_4D9470(const char_type* path, s32 truncate_mode)
     u8* fileNameLen = new u8;
     if (fileNameLen)
     {
-        *fileNameLen = strlen(path);
+        *fileNameLen = static_cast<u8>(strlen(path));
     }
     else
     {
@@ -46,7 +47,7 @@ void ErrorLog::Open_4D9470(const char_type* path, s32 truncate_mode)
     }
 
 #if !defined(__clang__) && (_MSC_VER <= 1200)
-    ((ofstream&)field_0_ofstr).open(path, mode, filebuf::openprot);
+    static_cast<ofstream&>(field_0_ofstr).open(path, mode, filebuf::openprot);
 #endif
 
     log_timestamp_4D9540();
@@ -65,7 +66,7 @@ MATCH_FUNC(0x4D9690)
 EXPORT void __cdecl log_on_line_written_cb_4D9690(void* pStream)
 {
 #if !defined(__clang__) && (_MSC_VER <= 1200)
-    ((ostream_type*)pStream)->flush();
+    static_cast<ostream_type*>(pStream)->flush();
 #endif
 }
 
@@ -73,7 +74,7 @@ MATCH_FUNC(0x4D9620)
 void ErrorLog::Write_4D9620(const char_type* pMsg)
 {
 #if !defined(__clang__) && (_MSC_VER <= 1200)
-    ((ostream_type&)this->field_0_ofstr) << pMsg << endl << flush;
+    static_cast<ostream_type&>(this->field_0_ofstr) << pMsg << endl << flush;
 #endif
 }
 
@@ -81,7 +82,7 @@ MATCH_FUNC(0x4D9650)
 void ErrorLog::Write_Log_4D9650(const char_type* buffer)
 {
 #if !defined(__clang__) && (_MSC_VER <= 1200)
-    ((ostream_type&)this->field_0_ofstr) << buffer << flush;
+    static_cast<ostream_type&>(this->field_0_ofstr) << buffer << flush;
 #endif
 }
 
@@ -190,25 +191,12 @@ EXPORT const char_type* __stdcall SourceFileNameFromPath_4A07A0(const char_type*
     return result;
 }
 
-struct Coord
-{
-    Fix16 x;
-    Fix16 y;
-    Fix16 z;
-};
-
-struct Coord2
-{
-    Fix16 x;
-    Fix16 y;
-};
-
-#define err_a1_int(msg, arg) sprintf(gTmpBuffer_67C598, msg, va_1);
+#define err_a1_int(msg, arg) sprintf(gTmpBuffer_67C598, msg, arg);
 
 MATCH_FUNC(0x4A07C0)
 EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, ...)
 {
-    va_list va; // [esp+94h] [ebp+34h] BYREF
+    va_list va;
 
     va_start(va, lineNo);
 
@@ -837,70 +825,70 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
 
         case 1001:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             err_a1_int("Invalid car model : %d", va_1);
             break;
         }
 
         case 1002:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             err_a1_int("Sprite %d has multiple delta entries", va_1);
             break;
         }
 
         case 1003:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             err_a1_int("Too many sprites with deltas at %d", va_1);
             break;
         }
 
         case 1004:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             err_a1_int("Invalid absolute sprite number: %d", va_1);
             break;
         }
 
         case 1005:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             err_a1_int("Too many sprites at %d", va_1);
             break;
         }
 
         case 1006:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             err_a1_int("Invalid case : %d", va_1);
             break;
         }
 
         case 1007:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             err_a1_int("Invalid absolute virtual palette number: %d", va_1);
             break;
         }
 
         case 1008:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             err_a1_int("Invalid font number: %d", va_1);
             break;
         }
 
         case 1009:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             err_a1_int("Invalid tile number: %d", va_1);
             break;
         }
 
         case 1010:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             err_a1_int("Invalid new tile number: %d", va_1);
             break;
         }
@@ -914,21 +902,21 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
 
         case 1012:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             err_a1_int("Invalid physical palette number: %d", va_1);
             break;
         }
 
         case 1016:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             err_a1_int("Too many zones at %d (max is 999)", va_1);
             break;
         }
 
         case 1017:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             err_a1_int("Invalid zone number: %d", va_1);
             break;
         }
@@ -942,251 +930,251 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
 
         case 1014:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             err_a1_int("car model %d has invalid gear speeds in gci file", va_1);
             break;
         }
 
         case 1018:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             err_a1_int("Invalid map object number: %d", va_1);
             break;
         }
 
         case 1022:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "File too large: %s exceeds max size by %d bytes", gGlobalFileName_67C6AC, va_1);
             break;
         }
 
         case 1029:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Out of memory allocating %d bytes", va_1);
             break;
         }
 
         case 1033:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Invalid chunk size : %d", va_1);
             break;
         }
 
         case 1034:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
-            sprintf(gTmpBuffer_67C598, "Invalid switch in parameter list: %c", (char)va_1);
+            s32 va_1 = va_arg(va, int);
+            sprintf(gTmpBuffer_67C598, "Invalid switch in parameter list: %c", static_cast<char>(va_1));
             break;
         }
 
         case 1073:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Invalid line (info:%d)", va_1);
             break;
         }
 
         case 1035:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Replay File larger than maximum: size %d", va_1);
             break;
         }
 
         case 1036:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Invalid Videomode to search for: %d", va_1);
             break;
         }
 
         case 1037:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Failed to set fullscreen videomode: %d", va_1);
             break;
         }
 
         case 1020:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Too many loaded object infos at %d", va_1);
             break;
         }
 
         case 1023:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Too many players at %d", va_1);
             break;
         }
 
         case 1024:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Invalid player number : %d", va_1);
             break;
         }
 
         case 1025:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Invalid grid width : %d", va_1);
             break;
         }
 
         case 1026:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Invalid grid height : %d", va_1);
             break;
         }
 
         case 1027:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Invalid z coordinate : %d", va_1);
             break;
         }
 
         case 1028:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            u32 va_1 = va_arg(va, u32);
             sprintf(gTmpBuffer_67C598, "Event left unprocessed : %08X", va_1);
             break;
         }
 
         case 1040:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
-            sprintf(gTmpBuffer_67C598, "Out of space for list type %s", gListTypes_61AB70[(u32)va_1]);
+            u32 va_1 = va_arg(va, u32);
+            sprintf(gTmpBuffer_67C598, "Out of space for list type %s", gListTypes_61AB70[va_1]);
             break;
         }
 
         case 1039:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "No collision box in sprite %d", va_1);
             break;
         }
 
         case 1021:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Collision box invalid in sprite %d", va_1);
             break;
         }
 
         case 1041:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Invalid object model number : %d", va_1);
             break;
         }
 
         case 1042:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "object model number %d already added", va_1);
             break;
         }
 
         case 1043:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "no space for object model number %d", va_1);
             break;
         }
 
         case 1044:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "check walls slope size too big : %d", va_1);
             break;
         }
 
         case 1045:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Failed to create an object in scriptfile. Object type: %d", va_1);
             break;
         }
 
         case 1046:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Attempt to kill an already dead mission thread. Debug line %d", va_1);
             break;
         }
 
         case 1047:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Car model %d has too many doors", va_1);
             break;
         }
 
         case 1048:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
-            sprintf(gTmpBuffer_67C598, "Releasing null ptr in release_passive. List type %s", gListTypes_61AB70[(u32)va_1]);
+            u32 va_1 = va_arg(va, u32);
+            sprintf(gTmpBuffer_67C598, "Releasing null ptr in release_passive. List type %s", gListTypes_61AB70[va_1]);
             break;
         }
         case 1049:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
-            sprintf(gTmpBuffer_67C598, "Trying to 'pacify' a NULL list element. List type %s", gListTypes_61AB70[(u32)va_1]);
+            u32 va_1 = va_arg(va, u32);
+            sprintf(gTmpBuffer_67C598, "Trying to 'pacify' a NULL list element. List type %s", gListTypes_61AB70[va_1]);
             break;
         }
         case 1050:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Object back pointer missing in sprite %d", va_1);
             break;
         }
 
         case 1051:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "No rigid body in car ID %d", va_1);
             break;
         }
         case 1052:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "No free Sid for character %d", va_1);
             break;
         }
         case 1053:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Invalid door info number : %d", va_1);
             break;
         }
         case 1054:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Illegal Value for an angle: %d", va_1);
             break;
         }
         case 1055:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Invalid tile texture: %d", va_1);
             break;
         }
         case 1056:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Invalid cache number : %d", va_1);
             break;
         }
         case 1068:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Invalid score texture number : %d", va_1);
             break;
         }
@@ -1200,35 +1188,35 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
 
         case 1057:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Counter has out of bounds internal count: %d", va_1);
             break;
         }
 
         case 1058:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Out of range route id: %d", va_1);
             break;
         }
 
         case 1066:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Invalid score position: %d", va_1);
             break;
         }
 
         case 1067:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Invalid player ID: %d", va_1);
             break;
         }
 
         case 1069:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Too characters in score : %d", va_1);
             break;
         }
@@ -1249,112 +1237,112 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
 
         case 1076:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "car ID %d in collision with wall at safe position", va_1);
             break;
         }
 
         case 1080:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "object ID %d in collision with wall at safe position", va_1);
             break;
         }
 
         case 1077:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Illegal device code for this machine: %d", va_1);
             break;
         }
 
         case 1078:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
-            sprintf(gTmpBuffer_67C598, "Activating null ptr in activate. List type %s", gListTypes_61AB70[(u32)va_1]);
+            u32 va_1 = va_arg(va, u32);
+            sprintf(gTmpBuffer_67C598, "Activating null ptr in activate. List type %s", gListTypes_61AB70[va_1]);
             break;
         }
 
         case 1079:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
-            sprintf(gTmpBuffer_67C598, "Activating item twice. List type %s", gListTypes_61AB70[(u32)va_1]);
+            u32 va_1 = va_arg(va, u32);
+            sprintf(gTmpBuffer_67C598, "Activating item twice. List type %s", gListTypes_61AB70[va_1]);
             break;
         }
 
         case 1081:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Illegal index into turntable: %d", va_1);
             break;
         }
 
         case 1082:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Too many Y road segments. Num: %d", va_1);
             break;
         }
 
         case 1083:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Too many X road segments. Num: %d", va_1);
             break;
         }
         case 1084:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Invalid timer handle : %d", va_1);
             break;
         }
 
         case 1085:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Invalid arrow handle : %d", va_1);
             break;
         }
 
         case 1086:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Unallocated arrow handle : %d", va_1);
             break;
         }
 
         case 1090:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Car already doing routefind, but requested another. Car ID: %d", va_1);
             break;
         }
 
         case 1137:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
-            sprintf(gTmpBuffer_67C598, "Counter check failed for list type %s", gListTypes_61AB70[(DWORD)va_1]);
+            s32 va_1 = va_arg(va, int);
+            sprintf(gTmpBuffer_67C598, "Counter check failed for list type %s", gListTypes_61AB70[va_1]);
             break;
         }
 
         case 1107:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Car model %d has invalid style data", va_1);
             break;
         }
 
         case 1138:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
-            sprintf(gTmpBuffer_67C598, "Releasing twice in release_passive. List type %s", gListTypes_61AB70[(DWORD)va_1]);
+            s32 va_1 = va_arg(va, int);
+            sprintf(gTmpBuffer_67C598, "Releasing twice in release_passive. List type %s", gListTypes_61AB70[va_1]);
             break;
         }
 
         case 1139:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
-            sprintf(gTmpBuffer_67C598, "Releasing twice in release. List type %s", gListTypes_61AB70[(DWORD)va_1]);
+            s32 va_1 = va_arg(va, int);
+            sprintf(gTmpBuffer_67C598, "Releasing twice in release. List type %s", gListTypes_61AB70[va_1]);
             break;
         }
 
@@ -1366,266 +1354,266 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         }
         case 1096:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Too many symbols at %d (max is 999)", va_1);
             break;
         }
 
         case 1098:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Failed to create_a_character in script: uid: %d", va_1);
             break;
         }
 
         case 1099:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Failed to find a uid in script: uid: %d", va_1);
             break;
         }
 
         case 1100:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Illegal zone id in symbol table: %d", va_1);
             break;
         }
 
         case 1101:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Failed to create arrow in script: uid: %d", va_1);
             break;
         }
 
         case 1102:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Line accessing car that hasn't been created: uid: %d", va_1);
             break;
         }
 
         case 1103:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Line accessing character that hasn't been created: uid: %d", va_1);
             break;
         }
 
         case 1104:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Line accessing object that hasn't been created: uid: %d", va_1);
             break;
         }
 
         case 1110:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Line accessing counter that hasn't been created: uid: %d", va_1);
             break;
         }
 
         case 1111:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Line accessing character with no group when it should have group: uid: %d", va_1);
             break;
         }
 
         case 1106:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
-            sprintf(gTmpBuffer_67C598, "Line accessing trigger that hasn't been created: uid: %d", (int)va_1);
+            s32 va_1 = va_arg(va, int);
+            sprintf(gTmpBuffer_67C598, "Line accessing trigger that hasn't been created: uid: %d", va_1);
             break;
         }
 
         case 1108:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
-            sprintf(gTmpBuffer_67C598, "Line accessing crane that hasn't been created: uid: %d", (int)va_1);
+            s32 va_1 = va_arg(va, int);
+            sprintf(gTmpBuffer_67C598, "Line accessing crane that hasn't been created: uid: %d", va_1);
             break;
         }
 
         case 1109:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
-            sprintf(gTmpBuffer_67C598, "Line attempting to order driver out of car, but char isn't a driver!: %d", (int)va_1);
+            s32 va_1 = va_arg(va, int);
+            sprintf(gTmpBuffer_67C598, "Line attempting to order driver out of car, but char isn't a driver!: %d", va_1);
             break;
         }
 
         case 1112:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
-            sprintf(gTmpBuffer_67C598, "Line accessing arrow that hasn't been created: uid: %d", (int)va_1);
+            s32 va_1 = va_arg(va, int);
+            sprintf(gTmpBuffer_67C598, "Line accessing arrow that hasn't been created: uid: %d", va_1);
             break;
         }
 
         case 1113:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
-            sprintf(gTmpBuffer_67C598, "Attempting to do 'SET_GANG_INFO' on invalid gang name in script line: %d", (int)va_1);
+            s32 va_1 = va_arg(va, int);
+            sprintf(gTmpBuffer_67C598, "Attempting to do 'SET_GANG_INFO' on invalid gang name in script line: %d", va_1);
             break;
         }
 
         case 1114:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
-            sprintf(gTmpBuffer_67C598, "Failed to create a crane in script line: %d", (int)va_1);
+            s32 va_1 = va_arg(va, int);
+            sprintf(gTmpBuffer_67C598, "Failed to create a crane in script line: %d", va_1);
             break;
         }
 
         case 1115:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
-            sprintf(gTmpBuffer_67C598, "Failed to create a conveyor in script line: %d", (int)va_1);
+            s32 va_1 = va_arg(va, int);
+            sprintf(gTmpBuffer_67C598, "Failed to create a conveyor in script line: %d", va_1);
             break;
         }
 
         case 1116:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
-            sprintf(gTmpBuffer_67C598, "Failed to create a generator in script line: %d", (int)va_1);
+            s32 va_1 = va_arg(va, int);
+            sprintf(gTmpBuffer_67C598, "Failed to create a generator in script line: %d", va_1);
             break;
         }
 
         case 1117:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Failed to create a destructor in script line: %d", va_1);
             break;
         }
 
         case 1118:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Attempted to point arrow at a 'logical' item, not a physical item. Script line: %d", va_1);
             break;
         }
 
         case 1119:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Line accessing door that hasn't been created: uid: %d", va_1);
             break;
         }
 
         case 1120:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Failed to create a crusher in script line: %d", va_1);
             break;
         }
 
         case 1121:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Line accessing conveyor that hasn't been created: uid: %d", va_1);
             break;
         }
 
         case 1123:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Line accessing generator that hasn't been created: uid: %d", va_1);
             break;
         }
 
         case 1124:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Invalid special tile number : %d", va_1);
             break;
         }
 
         case 1125:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Repeated special tile number : %d", va_1);
             break;
         }
 
         case 1122:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Line accessing destructor that hasn't been created: uid: %d", va_1);
             break;
         }
 
         case 1126:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Checking phone in missionscript without executing ANSWER_PHONE: uid: %d", va_1);
             break;
         }
 
         case 1127:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "map has too many columns by %d words", va_1);
             break;
         }
 
         case 1129:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "map has %d blocks too many ", va_1);
             break;
         }
 
         case 1128:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "style file contains unexpected number of fonts %d", va_1);
             break;
         }
 
         case 1130:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Attempting 'is_item_onscreen' on an illegal type: uid: %d", va_1);
             break;
         }
 
         case 1131:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Unable to create car to place on top of trailer in script. uid: %d", va_1);
             break;
         }
 
         case 1132:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Unable to find zonename to 'setup' info for in script. uid: %d", va_1);
             break;
         }
 
         case 1133:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Unable to find zonename in 'set_gang_info' in script. uid: %d", va_1);
             break;
         }
 
         case 1134:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Unable to find zonename in 'set_station_info' in script. uid: %d", va_1);
             break;
         }
 
         case 1135:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Unable to find platform in 'set_station_info' in script. uid: %d", va_1);
             break;
         }
 
         case 1136:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598,
                     "Unable to find trainstation associated with platform in 'set_station_info' in script. uid: %d",
                     va_1);
@@ -1634,70 +1622,70 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
 
         case 1140:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Unable to find gang matching name of gangone in a 'set gang respect'. uid: %d", va_1);
             break;
         }
 
         case 1141:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Unable to find gang matching name of gangtwo in a 'set gang respect'. uid: %d", va_1);
             break;
         }
 
         case 1142:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Unable to find gangname in an 'alter gang respect'. uid: %d", va_1);
             break;
         }
 
         case 1143:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Trying to change gangrespect on a non-player controlled character. uid: %d", va_1);
             break;
         }
 
         case 1144:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Unable to find gang matching name in a 'check gang respect'. uid: %d", va_1);
             break;
         }
 
         case 1145:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Unable to find zone matching name in a 'is char in gangzone'. uid: %d", va_1);
             break;
         }
 
         case 1146:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Unable to find zone matching name in a 'is char in zone'. uid: %d", va_1);
             break;
         }
 
         case 1147:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Unable to find gang matching name in a 'add char to gang'. uid: %d", va_1);
             break;
         }
 
         case 1148:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Mission script is referring to a 'text id' that doesn't exist. ID: %d", va_1);
             break;
         }
 
         case 1400:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Error with 1 param: %d", va_1);
             break;
         }
@@ -1706,7 +1694,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         {
             s32 va_1 = va_arg(va, int);
             const char_type* va_2 = va_arg(va, const char_type*);
-            sprintf(gTmpBuffer_67C598, "Invalid relative sprite number %d in %s", va_2, va_2);
+            sprintf(gTmpBuffer_67C598, "Invalid relative sprite number %d in %s", reinterpret_cast<s32>(va_2), va_2);
             break;
         }
 
@@ -1714,14 +1702,14 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         {
             s32 va_1 = va_arg(va, int);
             const char_type* va_2 = va_arg(va, const char_type*);
-            sprintf(gTmpBuffer_67C598, "Invalid relative virtual palette number %d in %s", va_2, va_2);
+            sprintf(gTmpBuffer_67C598, "Invalid relative virtual palette number %d in %s", reinterpret_cast<s32>(va_2), va_2);
             break;
         }
 
         case 2003:
         {
             s32 va_1 = va_arg(va, int);
-            const char_type* va_2 = va_arg(va, const char_type*);
+            s32 va_2 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Invalid relative font sprite number %d in font %d", va_2, va_2);
             break;
         }
@@ -1729,7 +1717,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         case 2004:
         {
             s32 va_1 = va_arg(va, int);
-            const char_type* va_2 = va_arg(va, const char_type*);
+            s32 va_2 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Incorrect aspect ratio in screen mode : %d x %d", va_2, va_2);
             break;
         }
@@ -1737,55 +1725,55 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         case 2024:
         {
             s32 va_1 = va_arg(va, int);
-            const char_type* va_2 = va_arg(va, const char_type*);
-            sprintf(gTmpBuffer_67C598, "List type %s corrupted at grab at %d elements", gListTypes_61AB70[(DWORD)va_2], va_2);
+            s32 va_2 = va_arg(va, int);
+            sprintf(gTmpBuffer_67C598, "List type %s corrupted at grab at %d elements", gListTypes_61AB70[va_2], va_2);
             break;
         }
 
         case 2025:
         {
             s32 va_1 = va_arg(va, int);
-            const char_type* va_2 = va_arg(va, const char_type*);
-            sprintf(gTmpBuffer_67C598, "List type %s corrupted at release at %d elements", gListTypes_61AB70[(DWORD)va_2], va_2);
+            s32 va_2 = va_arg(va, int);
+            sprintf(gTmpBuffer_67C598, "List type %s corrupted at release at %d elements", gListTypes_61AB70[va_2], va_2);
             break;
         }
 
         case 2026:
         {
             s32 va_1 = va_arg(va, int);
-            const char_type* va_2 = va_arg(va, const char_type*);
-            sprintf(gTmpBuffer_67C598, "List type %s corrupted at traverse at %d elements", gListTypes_61AB70[(DWORD)va_2], va_2);
+            s32 va_2 = va_arg(va, int);
+            sprintf(gTmpBuffer_67C598, "List type %s corrupted at traverse at %d elements", gListTypes_61AB70[va_2], va_2);
             break;
         }
 
         case 2030:
         {
             s32 va_1 = va_arg(va, int);
-            const char_type* va_2 = va_arg(va, const char_type*);
-            sprintf(gTmpBuffer_67C598, "List type %s corrupted at activate at %d elements", gListTypes_61AB70[(DWORD)va_2], va_2);
+            s32 va_2 = va_arg(va, int);
+            sprintf(gTmpBuffer_67C598, "List type %s corrupted at activate at %d elements", gListTypes_61AB70[va_2], va_2);
             break;
         }
 
         case 2031:
         {
             s32 va_1 = va_arg(va, int);
-            const char_type* va_2 = va_arg(va, const char_type*);
-            sprintf(gTmpBuffer_67C598, "List type %s corrupted at pacify at %d elements", gListTypes_61AB70[(DWORD)va_2], va_2);
+            s32 va_2 = va_arg(va, int);
+            sprintf(gTmpBuffer_67C598, "List type %s corrupted at pacify at %d elements", gListTypes_61AB70[va_2], va_2);
             break;
         }
 
         case 2005:
         {
             s32 va_1 = va_arg(va, int);
-            const char_type* va_2 = va_arg(va, const char_type*);
-            sprintf(gTmpBuffer_67C598, "Can't delete element %d from list type %s", va_2, gListTypes_61AB70[(DWORD)va_2]);
+            s32 va_2 = va_arg(va, int);
+            sprintf(gTmpBuffer_67C598, "Can't delete element %d from list type %s", va_2, gListTypes_61AB70[va_2]);
             break;
         }
 
         case 2006:
         {
             s32 va_1 = va_arg(va, int);
-            const char_type* va_2 = va_arg(va, const char_type*);
+            s32 va_2 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "invalid zs in sprite %d : %d", va_2, va_2);
             break;
         }
@@ -1793,7 +1781,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         case 2007:
         {
             s32 va_1 = va_arg(va, int);
-            const char_type* va_2 = va_arg(va, const char_type*);
+            s32 va_2 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Door %d of car model %d too close", va_2, va_2);
             break;
         }
@@ -1801,7 +1789,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         case 2008:
         {
             s32 va_1 = va_arg(va, int);
-            const char_type* va_2 = va_arg(va, const char_type*);
+            s32 va_2 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Invalid sprite type %d number %d", va_2, va_2);
             break;
         }
@@ -1809,7 +1797,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         case 2009:
         {
             s32 va_1 = va_arg(va, int);
-            const char_type* va_2 = va_arg(va, const char_type*);
+            s32 va_2 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "traffic lights at (%d,%d) are too close to the edge of the world", va_2, va_2);
             break;
         }
@@ -1817,14 +1805,14 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         case 2010:
         {
             s32 va_1 = va_arg(va, int);
-            const char_type* va_2 = va_arg(va, const char_type*);
+            s32 va_2 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Invalid frame %d in object model %d", va_2, va_2);
             break;
         }
 
         case 2011:
         {
-            Coord2 c;
+            Fix16_Point_POD c;
             c.x = *va_arg(va, int*);
             c.y = *va_arg(va, int*);
             sprintf(gTmpBuffer_67C598, "Illegal coordinate: (%.4f, %.4f)", c.x.AsFloat(), c.y.AsFloat());
@@ -1835,7 +1823,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         case 2012:
         {
             s32 va_1 = va_arg(va, int);
-            const char_type* va_2 = va_arg(va, const char_type*);
+            s32 va_2 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Illegal good/bad ratio for car model choice: good %d, bad %d", va_2, va_2);
             break;
         }
@@ -1844,7 +1832,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         {
             s32 va_1 = va_arg(va, int);
             const char_type* va_2 = va_arg(va, const char_type*);
-            sprintf(gTmpBuffer_67C598, "model %d repeated in %s", va_2, SourceFileNameFromPath_4A07A0(va_2));
+            sprintf(gTmpBuffer_67C598, "model %d repeated in %s", reinterpret_cast<s32>(va_2), SourceFileNameFromPath_4A07A0(va_2));
             break;
         }
 
@@ -1856,7 +1844,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         {
             s32 va_1 = va_arg(va, int);
             const char_type* va_2 = va_arg(va, const char_type*);
-            sprintf(gTmpBuffer_67C598, "%s invalid size at %d bytes", SourceFileNameFromPath_4A07A0(va_2), va_2);
+            sprintf(gTmpBuffer_67C598, "%s invalid size at %d bytes", SourceFileNameFromPath_4A07A0(va_2), reinterpret_cast<s32>(va_2));
             break;
         }
 
@@ -1864,7 +1852,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         {
             s32 va_1 = va_arg(va, int);
             const char_type* va_2 = va_arg(va, const char_type*);
-            sprintf(gTmpBuffer_67C598, "car ID %d in collision with %s sprite at safe position", va_2, va_2);
+            sprintf(gTmpBuffer_67C598, "car ID %d in collision with %s sprite at safe position", reinterpret_cast<s32>(va_2), va_2);
             break;
         }
 
@@ -1872,14 +1860,14 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         {
             s32 va_1 = va_arg(va, int);
             const char_type* va_2 = va_arg(va, const char_type*);
-            sprintf(gTmpBuffer_67C598, "objecct ID %d in collision with %s sprite at safe position", va_2, va_2);
+            sprintf(gTmpBuffer_67C598, "objecct ID %d in collision with %s sprite at safe position", reinterpret_cast<s32>(va_2), va_2);
             break;
         }
 
         case 2017:
         {
             s32 va_1 = va_arg(va, int);
-            const char_type* va_2 = va_arg(va, const char_type*);
+            s32 va_2 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Invalid crane target : (%d,%d)", va_2, va_2);
             break;
         }
@@ -1887,7 +1875,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         case 2020:
         {
             s32 va_1 = va_arg(va, int);
-            const char_type* va_2 = va_arg(va, const char_type*);
+            s32 va_2 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Too many door infos declared in script: curr door: closedframe %d openframe %d", va_2, va_2);
             break;
         }
@@ -1895,7 +1883,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         case 2021:
         {
             s32 va_1 = va_arg(va, int);
-            const char_type* va_2 = va_arg(va, const char_type*);
+            s32 va_2 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Illegal Train Station (%d, %d): no entry zone", va_2, va_2);
             break;
         }
@@ -1903,7 +1891,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         case 2022:
         {
             s32 va_1 = va_arg(va, int);
-            const char_type* va_2 = va_arg(va, const char_type*);
+            s32 va_2 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Illegal Train Station (%d, %d): no exit zone", va_2, va_2);
             break;
         }
@@ -1911,7 +1899,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         case 2023:
         {
             s32 va_1 = va_arg(va, int);
-            const char_type* va_2 = va_arg(va, const char_type*);
+            s32 va_2 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Illegal Train Station (%d, %d): no stop zone", va_2, va_2);
             break;
         }
@@ -1919,7 +1907,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         case 2401:
         {
             s32 va_1 = va_arg(va, int);
-            const char_type* va_2 = va_arg(va, const char_type*);
+            s32 va_2 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Error with 2 param: %d,%d", va_2, va_2);
             break;
         }
@@ -1927,7 +1915,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         case 2027:
         {
             s32 va_1 = va_arg(va, int);
-            const char_type* va_2 = va_arg(va, const char_type*);
+            s32 va_2 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "incorrect replay version : %d.%d", va_2, va_2);
             break;
         }
@@ -1935,7 +1923,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         case 2028:
         {
             s32 va_1 = va_arg(va, int);
-            const char_type* va_2 = va_arg(va, const char_type*);
+            s32 va_2 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Sync error (random) remote=%d local=%d", va_2, va_2);
             break;
         }
@@ -1943,7 +1931,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         case 2029:
         {
             s32 va_1 = va_arg(va, int);
-            const char_type* va_2 = va_arg(va, const char_type*);
+            s32 va_2 = va_arg(va, int);
             sprintf(gTmpBuffer_67C598, "Sync error (mission) remote=%d local=%d", va_2, va_2);
             break;
         }
@@ -1953,7 +1941,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             s32 va_1 = va_arg(va, int);
             const char_type* va_2 = va_arg(va, const char_type*);
             s32* va_3 = va_arg(va, s32*);
-            sprintf(gTmpBuffer_67C598, "Videomode %dx%dx%d is not available", va_3, va_3, va_3);
+            sprintf(gTmpBuffer_67C598, "Videomode %dx%dx%d is not available", reinterpret_cast<s32>(va_3), reinterpret_cast<s32>(va_3), reinterpret_cast<s32>(va_3));
             break;
         }
 
@@ -1962,7 +1950,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             s32 va_1 = va_arg(va, int);
             const char_type* va_2 = va_arg(va, const char_type*);
             s32* va_3 = va_arg(va, s32*);
-            sprintf(gTmpBuffer_67C598, "Failed to set videomode %dx%dx%d", va_3, va_3, va_3);
+            sprintf(gTmpBuffer_67C598, "Failed to set videomode %dx%dx%d", reinterpret_cast<s32>(va_3), reinterpret_cast<s32>(va_3), reinterpret_cast<s32>(va_3));
             break;
         }
 
@@ -1971,7 +1959,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             s32 va_1 = va_arg(va, int);
             const char_type* va_2 = va_arg(va, const char_type*);
             s32* va_3 = va_arg(va, s32*);
-            sprintf(gTmpBuffer_67C598, "Can't delete sprite %d from collision list at : %d,%d", va_3, va_3, va_3);
+            sprintf(gTmpBuffer_67C598, "Can't delete sprite %d from collision list at : %d,%d", reinterpret_cast<s32>(va_3), reinterpret_cast<s32>(va_3), reinterpret_cast<s32>(va_3));
             break;
         }
 
@@ -1980,7 +1968,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             s32 va_1 = va_arg(va, int);
             const char_type* va_2 = va_arg(va, const char_type*);
             s32* va_3 = va_arg(va, s32*);
-            sprintf(gTmpBuffer_67C598, "Adding sprite %d to collision list twice at : %d,%d", va_3, va_3, va_3);
+            sprintf(gTmpBuffer_67C598, "Adding sprite %d to collision list twice at : %d,%d", reinterpret_cast<s32>(va_3), reinterpret_cast<s32>(va_3), reinterpret_cast<s32>(va_3));
             break;
         }
 
@@ -1989,7 +1977,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             s32 va_1 = va_arg(va, int);
             const char_type* va_2 = va_arg(va, const char_type*);
             s32* va_3 = va_arg(va, s32*);
-            sprintf(gTmpBuffer_67C598, "invalid map access : (%d,%d,%d)", va_3, va_3, va_3);
+            sprintf(gTmpBuffer_67C598, "invalid map access : (%d,%d,%d)", reinterpret_cast<s32>(va_3), reinterpret_cast<s32>(va_3), reinterpret_cast<s32>(va_3));
             break;
         }
 
@@ -1998,7 +1986,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             s32 va_1 = va_arg(va, int);
             const char_type* va_2 = va_arg(va, const char_type*);
             s32* va_3 = va_arg(va, s32*);
-            sprintf(gTmpBuffer_67C598, "invalid map change access : (%d,%d,%d)", va_3, va_3, va_3);
+            sprintf(gTmpBuffer_67C598, "invalid map change access : (%d,%d,%d)", reinterpret_cast<s32>(va_3), reinterpret_cast<s32>(va_3), reinterpret_cast<s32>(va_3));
             break;
         }
 
@@ -2007,7 +1995,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             s32 va_1 = va_arg(va, int);
             const char_type* va_2 = va_arg(va, const char_type*);
             s32* va_3 = va_arg(va, s32*);
-            sprintf(gTmpBuffer_67C598, "Invalid palette type %d for sprite type %d, number %d", va_3, va_3, va_3);
+            sprintf(gTmpBuffer_67C598, "Invalid palette type %d for sprite type %d, number %d", reinterpret_cast<s32>(va_3), reinterpret_cast<s32>(va_3), reinterpret_cast<s32>(va_3));
             break;
         }
 
@@ -2016,7 +2004,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             s32 va_1 = va_arg(va, int);
             const char_type* va_2 = va_arg(va, const char_type*);
             s32* va_3 = va_arg(va, s32*);
-            sprintf(gTmpBuffer_67C598, "Invalid sprite type %d number %d remap %d", va_3, va_3, va_3);
+            sprintf(gTmpBuffer_67C598, "Invalid sprite type %d number %d remap %d", reinterpret_cast<s32>(va_3), reinterpret_cast<s32>(va_3), reinterpret_cast<s32>(va_3));
             break;
         }
 
@@ -2027,9 +2015,9 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             s32* va_3 = va_arg(va, s32*);
             sprintf(gTmpBuffer_67C598,
                     "%d models in %s but %d models in style",
-                    va_3,
-                    SourceFileNameFromPath_4A07A0((const char_type*)va_3),
-                    va_3);
+                    reinterpret_cast<s32>(va_3),
+                    SourceFileNameFromPath_4A07A0(reinterpret_cast<const char_type*>(va_3)),
+                    reinterpret_cast<s32>(va_3));
             break;
         }
 
@@ -2038,7 +2026,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             s32 va_1 = va_arg(va, int);
             const char_type* va_2 = va_arg(va, const char_type*);
             s32* va_3 = va_arg(va, s32*);
-            sprintf(gTmpBuffer_67C598, "Invalid block in train code : (%d,%d,%d)", va_3, va_3, va_3);
+            sprintf(gTmpBuffer_67C598, "Invalid block in train code : (%d,%d,%d)", reinterpret_cast<s32>(va_3), reinterpret_cast<s32>(va_3), reinterpret_cast<s32>(va_3));
             break;
         }
 
@@ -2047,7 +2035,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             s32 va_1 = va_arg(va, int);
             const char_type* va_2 = va_arg(va, const char_type*);
             s32* va_3 = va_arg(va, s32*);
-            sprintf(gTmpBuffer_67C598, "Train on a block with incorrect arrow : (%d,%d,%d)", va_3, va_3, va_3);
+            sprintf(gTmpBuffer_67C598, "Train on a block with incorrect arrow : (%d,%d,%d)", reinterpret_cast<s32>(va_3), reinterpret_cast<s32>(va_3), reinterpret_cast<s32>(va_3));
             break;
         }
 
@@ -2056,7 +2044,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             s32 va_1 = va_arg(va, int);
             const char_type* va_2 = va_arg(va, const char_type*);
             s32* va_3 = va_arg(va, s32*);
-            sprintf(gTmpBuffer_67C598, "Attempting to disable road at illegal coordinates: check Z! ( %d, %d, %d)", va_3, va_3, va_3);
+            sprintf(gTmpBuffer_67C598, "Attempting to disable road at illegal coordinates: check Z! ( %d, %d, %d)", reinterpret_cast<s32>(va_3), reinterpret_cast<s32>(va_3), reinterpret_cast<s32>(va_3));
             break;
         }
 
@@ -2065,7 +2053,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             s32 va_1 = va_arg(va, int);
             const char_type* va_2 = va_arg(va, const char_type*);
             s32* va_3 = va_arg(va, s32*);
-            sprintf(gTmpBuffer_67C598, "Attempting to enable road at illegal coordinates: check Z! ( %d, %d, %d)", va_3, va_3, va_3);
+            sprintf(gTmpBuffer_67C598, "Attempting to enable road at illegal coordinates: check Z! ( %d, %d, %d)", reinterpret_cast<s32>(va_3), reinterpret_cast<s32>(va_3), reinterpret_cast<s32>(va_3));
             break;
         }
 
@@ -2074,7 +2062,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             s32 va_1 = va_arg(va, int);
             const char_type* va_2 = va_arg(va, const char_type*);
             s32* va_3 = va_arg(va, s32*);
-            sprintf(gTmpBuffer_67C598, "Illegal block for train creation. Coordinates: check stopzone! ( %d, %d, %d)", va_3, va_3, va_3);
+            sprintf(gTmpBuffer_67C598, "Illegal block for train creation. Coordinates: check stopzone! ( %d, %d, %d)", reinterpret_cast<s32>(va_3), reinterpret_cast<s32>(va_3), reinterpret_cast<s32>(va_3));
             break;
         }
 
@@ -2083,7 +2071,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             s32 va_1 = va_arg(va, int);
             const char_type* va_2 = va_arg(va, const char_type*);
             s32* va_3 = va_arg(va, s32*);
-            sprintf(gTmpBuffer_67C598, "Failed to create carriage at: (%d, %d, %d)", va_3, va_3, va_3);
+            sprintf(gTmpBuffer_67C598, "Failed to create carriage at: (%d, %d, %d)", reinterpret_cast<s32>(va_3), reinterpret_cast<s32>(va_3), reinterpret_cast<s32>(va_3));
             break;
         }
 
@@ -2094,21 +2082,21 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             s32* va_3 = va_arg(va, s32*);
             sprintf(gTmpBuffer_67C598,
                     "Error in set-up of park command. Walls intruding on the park's triggerspace! Door coords: (%d, %d, %d)",
-                    va_3,
-                    va_3,
-                    va_3);
+                    reinterpret_cast<s32>(va_3),
+                    reinterpret_cast<s32>(va_3),
+                    reinterpret_cast<s32>(va_3));
             break;
         }
 
         case 4001:
         {
-            s32* va_1 = va_arg(va, s32*);
+            s32 va_1 = va_arg(va, int);
 
-            Coord c;
+            Fix16_Vec c;
 
-            c.x = *(int*)va_arg(va, s32*);
-            c.y = *(int*)va_arg(va, s32*);
-            c.z = *(int*)va_arg(va, s32*);
+            c.x = *static_cast<int*>(va_arg(va, s32*));
+            c.y = *static_cast<int*>(va_arg(va, s32*));
+            c.z = *static_cast<int*>(va_arg(va, s32*));
 
             sprintf(gTmpBuffer_67C598,
                     "Invalid x co-ord in sprite type %d at (%f,%f,%f)",
@@ -2121,12 +2109,12 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
 
         case 4002:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
 
-            Coord c;
-            c.x = *(int*)va_arg(va, const char_type*);
-            c.y = *(int*)va_arg(va, s32*);
-            c.z = *(int*)va_arg(va, s32*);
+            Fix16_Vec c;
+            c.x = *reinterpret_cast<const int*>(va_arg(va, const char_type*));
+            c.y = *static_cast<int*>(va_arg(va, s32*));
+            c.z = *static_cast<int*>(va_arg(va, s32*));
             sprintf(gTmpBuffer_67C598,
                     "Invalid y co-ord in sprite type %d at (%f,%f,%f)",
                     va_1,
@@ -2138,12 +2126,12 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
 
         case 4003:
         {
-            const char_type* va_1 = va_arg(va, const char_type*);
+            s32 va_1 = va_arg(va, int);
 
-            Coord c;
-            c.x = *(int*)va_arg(va, const char_type*);
-            c.y = *(int*)va_arg(va, s32*);
-            c.z = *(int*)va_arg(va, s32*);
+            Fix16_Vec c;
+            c.x = *reinterpret_cast<const int*>(va_arg(va, const char_type*));
+            c.y = *static_cast<int*>(va_arg(va, s32*));
+            c.z = *static_cast<int*>(va_arg(va, s32*));
             sprintf(gTmpBuffer_67C598,
                     "Invalid z co-ord in sprite type %d at (%f,%f,%f)",
                     va_1,
@@ -2157,9 +2145,9 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         {
             const char_type* va_1 = va_arg(va, const char_type*);
 
-            Coord2 c;
-            c.x = *(int*)va_arg(va, const char_type*);
-            c.y = *(int*)va_arg(va, s32*);
+            Fix16_Point_POD c;
+            c.x = *reinterpret_cast<const int*>(va_arg(va, const char_type*));
+            c.y = *static_cast<int*>(va_arg(va, s32*));
             sprintf(gTmpBuffer_67C598, "Placing gang phone when no gang at: (%.4f, %.4f)", c.x.AsFloat(), c.y.AsFloat());
             break;
         }
@@ -2168,10 +2156,10 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         {
             const char_type* va_1 = va_arg(va, const char_type*);
 
-            Coord c;
-            c.x = *(int*)va_arg(va, const char_type*);
-            c.y = *(int*)va_arg(va, s32*);
-            c.z = *(int*)va_arg(va, s32*);
+            Fix16_Vec c;
+            c.x = *reinterpret_cast<const int*>(va_arg(va, const char_type*));
+            c.y = *static_cast<int*>(va_arg(va, s32*));
+            c.z = *static_cast<int*>(va_arg(va, s32*));
             sprintf(gTmpBuffer_67C598, "Illegal coordinate: (%.4f, %.4f, %.4f)", c.x.AsFloat(), c.y.AsFloat(), c.z.AsFloat());
             break;
         }
@@ -2180,10 +2168,10 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         {
             const char_type* va_1 = va_arg(va, const char_type*);
 
-            Coord c;
-            c.x = *(int*)va_arg(va, const char_type*);
-            c.y = *(int*)va_arg(va, s32*);
-            c.z = *(int*)va_arg(va, s32*);
+            Fix16_Vec c;
+            c.x = *reinterpret_cast<const int*>(va_arg(va, const char_type*));
+            c.y = *static_cast<int*>(va_arg(va, s32*));
+            c.z = *static_cast<int*>(va_arg(va, s32*));
             sprintf(gTmpBuffer_67C598, "Invalid diagonal block at (%.4f, %.4f, %.4f)", c.x.AsFloat(), c.y.AsFloat(), c.z.AsFloat());
             break;
         }
@@ -2191,10 +2179,10 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         case 4005:
         {
             s32* va_1 = va_arg(va, s32*);
-            Coord c;
-            c.x = *(int*)va_arg(va, s32*); // NOTE: No match without casting here
-            c.y = *(int*)va_arg(va, s32*);
-            c.z = *(int*)va_arg(va, s32*);
+            Fix16_Vec c;
+            c.x = *static_cast<int*>(va_arg(va, s32*)); // NOTE: No match without casting here
+            c.y = *static_cast<int*>(va_arg(va, s32*));
+            c.z = *static_cast<int*>(va_arg(va, s32*));
             sprintf(gTmpBuffer_67C598,
                     "No direction arrow found in block (with slope!!). ( %f, %f, %f)",
                     c.x.AsFloat(),

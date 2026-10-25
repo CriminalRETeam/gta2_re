@@ -3,6 +3,7 @@
 #include "Function.hpp"
 #include "ang16.hpp"
 #include "fix16.hpp"
+#include "Fix16_Vec.hpp"
 
 EXTERN_GLOBAL(Fix16, gFix16_6777CC);
 EXTERN_GLOBAL(Fix16, kFP16Zero_6FE20C);
@@ -73,7 +74,7 @@ struct Fix16_Point_POD
     // Same layout: a POD passed where a Fix16_Point is expected (a free inline site, like the other way)
     operator Fix16_Point&()
     {
-        return *(Fix16_Point*)this;
+        return *reinterpret_cast<Fix16_Point*>(this);
     }
 
     Fix16 x;
@@ -585,7 +586,7 @@ class Fix16_Point
         }
         else
         {
-            return Fix16::SquareRoot_436A70(x * x + Fix16((s32)((y.mValue * (__int64)y.mValue) >> 14), 0));
+            return Fix16::SquareRoot_436A70(x * x + Fix16(static_cast<s32>((y.mValue * static_cast<__int64>(y.mValue)) >> 14), 0));
         }
     }
 
@@ -631,7 +632,7 @@ class Fix16_Point
     // Same layout: a point sliced into a Fix16_Point_POD (one free inline site, see ShockPedsAroundSprite_5DF270)
     operator Fix16_Point_POD&()
     {
-        return *(Fix16_Point_POD*)this;
+        return *reinterpret_cast<Fix16_Point_POD*>(this);
     }
 
     Fix16 x;
@@ -644,8 +645,3 @@ inline Fix16_Point_POD& Fix16_Point_POD::operator+=(Fix16_Point& other)
     y += other.y;
     return *this;
 }
-
-struct Fix16_Vec
-{
-    Fix16 x, y, z;
-};

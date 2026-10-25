@@ -48,7 +48,7 @@ void root_sound::FreeSoundEntry_40EFD0(s32 sound_entry)
 }
 
 MATCH_FUNC(0x40EFF0)
-char_type root_sound::LoadStyle_40EFF0(const char_type* pStyleName)
+bool root_sound::LoadStyle_40EFF0(const char_type* pStyleName)
 {
     return gSound_obj_66F680.LoadStyle_41A1B0(pStyleName);
 }
@@ -126,7 +126,7 @@ char_type root_sound::GetAudioDriveLetter_40F150()
 }
 
 MATCH_FUNC(0x40F160)
-char_type root_sound::Set3DSound_40F160(char_type b3dSound)
+bool root_sound::Set3DSound_40F160(char_type b3dSound)
 {
     return gSound_obj_66F680.Set3DSound_41A2F0(b3dSound);
 }
@@ -176,7 +176,7 @@ void root_sound::DeinitializeAudio()
             }
         }
 
-        for (s32 j = 0; j < gSound_obj_66F680.field_543C_444C_nAudioEntitiesCount; j++)
+        for (u32 j = 0; j < gSound_obj_66F680.field_543C_444C_nAudioEntitiesCount; j++)
         {
             gSound_obj_66F680.field_147C_audio_entities[gSound_obj_66F680.field_444C_AudioEntityOrderList[j]].field_0_bUsed = 0;
             gSound_obj_66F680.field_444C_AudioEntityOrderList[j] = 0;

@@ -71,7 +71,7 @@ class Door
     EXPORT void InitSingle_49CAC0(DoorData* pDoorData, char_type bFlip, u8 obj_id, Fix16 trigger_x, Fix16 trigger_y, Fix16 trigger_z, Fix16 trigger_w, Fix16 trigger_h);
     EXPORT void InitDouble_49CC00(DoorData* pDoorData, char_type bFlip, u8 obj_id, Fix16 trigger_x, Fix16 trigger_y, Fix16 trigger_z, Fix16 trigger_w, Fix16 trigger_h);
     EXPORT void UpdateAutoClose_49CD90();
-    EXPORT char_type Service_49CE90();
+    EXPORT bool Service_49CE90();
     EXPORT void get_door_xyz_face_49CEE0(u8* pX, u8* pY, u8* pZ, u32* pFace);
     
     // 9.6f 0x44C860, defined in DoorPool.hpp (needs DoorData)

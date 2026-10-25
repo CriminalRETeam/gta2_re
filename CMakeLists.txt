@@ -35,8 +35,6 @@ target_compile_definitions(binkw32 PRIVATE BUILD_BINK)
 # to the actual executable data/vars
 set(gta2_lib_src
   Source/Pool.hpp
-  Source/angle.cpp
-  Source/angle.hpp
   Source/crt_stubs.cpp
   Source/crt_stubs.hpp
   Source/Globals.cpp
@@ -125,6 +123,7 @@ set(gta2_lib_src
   Source/Fix16_Rect.cpp
   Source/Fix16_Point.hpp
   Source/Fix16_Point.cpp
+  Source/Fix16_Vec.hpp
   Source/Ped_List.hpp
   Source/Ped_List.cpp
   Source/PlayerCrimeStats.hpp

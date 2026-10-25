@@ -21,7 +21,7 @@ class WeaponManager
     EXPORT void deallocate_5E3CB0(Weapon* pWeapon);
     EXPORT Weapon* allocate_5E3CE0(s32 weapon_kind, Car* pCar, u8 ammo);
     EXPORT Weapon* find_5E3D20(Car* pCar, s32 weapon_kind);
-    EXPORT char_type allocate_5E3D50(s32 weapon_kind, u8 ammo, Car* pCar);
+    EXPORT bool allocate_5E3D50(s32 weapon_kind, u8 ammo, Car* pCar);
     EXPORT void dealloc_car_weapon_5E3DF0(Car* pCar);
     EXPORT u8 get_max_ammo_capacity_5E3E70(s32 weapon_kind);
     EXPORT u8 get_defalt_ammo_5E3E80(s32 weapon_kind);
@@ -61,13 +61,13 @@ class WeaponPool
 
     // TODO: This is probably a heavily inlined common iteration func
     // Remove/dealloc?
-    void DeAllocate_4A4F20(Weapon* pW30)
+    void DeAllocate_4A4F20(Weapon* pWeapon)
     {
         Weapon* pIter = this->field_0_pool.field_4_pPrev;
         Weapon* pLastIter = 0;
         while (pIter)
         {
-            if (pIter == pW30)
+            if (pIter == pWeapon)
             {
                 pIter->PoolDeallocate();
                 if (pLastIter)

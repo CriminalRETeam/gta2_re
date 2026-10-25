@@ -159,7 +159,7 @@ class Ped
     EXPORT ~Ped(); // 45AF00
     EXPORT void Reset_45AFC0();
     EXPORT void PoolAllocate();
-    EXPORT char_type IsLawEnforcement_45B4E0();
+    EXPORT bool IsLawEnforcement_45B4E0();
     EXPORT Fix16_Point GetVelocityVector_45B520();
     EXPORT void SetRecentCrimeTimer_45B550();
     EXPORT void SetPlayer_45B560(Player* pPlayer, char_type bIsAuxPed);
@@ -194,7 +194,7 @@ class Ped
     EXPORT void SpawnPedInCar_45C730(Car* pCar);
     EXPORT void EnterCarByBackDoor_45C7A0(Car* pCar);
     EXPORT void EnterCarAsPassenger_45C7F0(Car* pCar);
-    EXPORT char_type AllocCharB4_45C830(Fix16 xpos, Fix16 ypos, Fix16 zpos);
+    EXPORT bool AllocCharB4_45C830(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT Ang16 GetTurnSpeed_45C900();
     EXPORT Fix16 GetPedVelocity_45C920();
     EXPORT Ang16 GetRotation();
@@ -203,14 +203,14 @@ class Ped
     EXPORT void HandleClosePedInteraction_45CAA0();
     EXPORT void TakeDamage(s16 damage);
     EXPORT void HandlePedCrossingTrigger_45CF20(Object* pObj);
-    EXPORT char_type HandlePedHitByObject_45D000(Object* pObj);
-    EXPORT char_type AddWeaponWithAmmo_45DD30(s32 weapon_kind, char_type ammo);
-    EXPORT char_type HandlePickupCollision_45DE80(Object* pPickUp);
+    EXPORT bool HandlePedHitByObject_45D000(Object* pObj);
+    EXPORT bool AddWeaponWithAmmo_45DD30(s32 weapon_kind, char_type ammo);
+    EXPORT bool HandlePickupCollision_45DE80(Object* pPickUp);
     EXPORT void SpawnWeaponOnDeath_45E080();
     EXPORT void StartCrossingRoad_45E4A0();
     EXPORT void DeallocateWithGroupCleanup_45EA00();
     EXPORT void Deallocate_45EB60();
-    EXPORT char_type IsActivePlayerPed_45EDC0();
+    EXPORT bool IsActivePlayerPed_45EDC0();
     EXPORT bool PedTypeIs_45EDE0(s32 type);
     EXPORT void SetOccupation_45EE00(u32 occupation);
     EXPORT void EnterPublicTransport_45EE70();
@@ -229,7 +229,7 @@ class Ped
     EXPORT void RemoveSecondaryWeapon_462550();
     EXPORT void ForceDoNothing_462590();
     EXPORT void UpdateOnScreenCounter_462620();
-    EXPORT char_type StateMachineTick_4626B0();
+    EXPORT bool StateMachineTick_4626B0();
     EXPORT void UpdateCharB4_462B80();
     EXPORT bool PoolUpdate();
     EXPORT void ProcessObjective_4632E0();
@@ -245,8 +245,8 @@ class Ped
     EXPORT bool IsAttackingTargetPed_465CD0();
     EXPORT bool IsPedAThreat_465D00(Ped* pTargetPed);
     inline bool IsPedAThreat_Inline_465D00(Ped* pTargetPed);
-    EXPORT char_type IsInvisibleOnFoot_466B70();
-    EXPORT char_type IsThreatToSearchingPed_4661F0();
+    EXPORT bool IsInvisibleOnFoot_466B70();
+    EXPORT bool IsThreatToSearchingPed_4661F0();
     EXPORT Ped* FindBestTargetPed_Mode1_466B90(s32 max_x_check);
     EXPORT Ped* FindBestTargetPed_Mode4_466BB0(s32 max_x_check);
     EXPORT Ped* FindBestTargetPed_Mode5_466BD0(s32 max_x_check);
@@ -255,7 +255,7 @@ class Ped
     EXPORT Ped* FindNearestPed_466F60(u8 max_x_check);
     EXPORT Ped* FindNearbyPed_466FB0();
     EXPORT Ped* GetLastProcessedPedOnFoot_467070();
-    EXPORT char_type FindUsableCarDoor_467090();
+    EXPORT bool FindUsableCarDoor_467090();
     EXPORT Sprite* ResetAnimAndFindNearestSprite_467280();
     EXPORT void UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type);
     EXPORT void FleeOnFootTillSafe_4678E0();
@@ -307,7 +307,7 @@ class Ped
     EXPORT void PullDriverOutOfCarStateMachine_46B2F0();
     EXPORT void MeleeAttackStateMachine_46B670();
     EXPORT void WaitOnFoot_46BD30();
-    EXPORT char_type IsOtherPedEnteringAsDriver_46BD50(Car* pCar);
+    EXPORT bool IsOtherPedEnteringAsDriver_46BD50(Car* pCar);
     EXPORT void EnterCarStateMachine_46BDC0();
     EXPORT void ExitCarStateMachine_46C250();
     EXPORT void WalkToTargetPoint_46C770();
@@ -532,10 +532,10 @@ class Ped
         Fix16 y_pos, z_pos;
         Fix16 height;
         Fix16 z_target;
-        return (x_pos >= rect->field_0_pos.field_0_x - width && x_pos <= rect->field_0_pos.field_0_x + width &&
-                (y_pos = field_1AC_cam.y, height = rect->field_C_size.field_4_y, y_pos >= rect->field_0_pos.field_4_y - height) &&
-                field_1AC_cam.y <= rect->field_0_pos.field_4_y + height &&
-                (z_pos = field_1AC_cam.z, z_target = rect->field_0_pos.field_8_z, z_pos.ToUInt8() == z_target.ToUInt8()));
+        return (x_pos >= rect->field_0_pos.x - width && x_pos <= rect->field_0_pos.x + width &&
+                (y_pos = field_1AC_cam.y, height = rect->field_C_size.field_4_y, y_pos >= rect->field_0_pos.y - height) &&
+                field_1AC_cam.y <= rect->field_0_pos.y + height &&
+                (z_pos = field_1AC_cam.z, z_target = rect->field_0_pos.z, z_pos.ToUInt8() == z_target.ToUInt8()));
     }
 
     inline s16 get_wanted_points_433DC0()
@@ -671,13 +671,13 @@ class Ped
     // by value, VC6 loads the argument before the Char and 9 callers stop matching.
     inline void SetRemap_433C10(const u8& remap)
     {
-        Char* p_B4 = field_168_game_object; // local necessary to match Ped::SetupFollower_46DF70
-        p_B4->SetRemap_Inline(remap);
+        Char* pChar = field_168_game_object; // local necessary to match Ped::SetupFollower_46DF70
+        pChar->SetRemap_Inline(remap);
     }
 
     inline void TriggerVoiceEventRateLimited_433E50()
     {
-        if ((u32)(gpRng_67AB34->get_cur_rng_41CFE0() - field_220_last_voice_rng) > 5)
+        if (static_cast<u32>(gpRng_67AB34->get_cur_rng_41CFE0() - field_220_last_voice_rng) > 5)
         {
             SetVoiceEventIfNotOnFire_433DD0(25);
             field_220_last_voice_rng = gpRng_67AB34->get_cur_rng_41CFE0();

@@ -227,12 +227,12 @@ bool CrimeReportQueue::ShouldReportCarCrime_485090(Car* pCar, Player* pPlayer)
 
 // https://decomp.me/scratch/KvTvv
 MATCH_FUNC(0x4850f0)
-bool CrimeReportQueue::ShouldReportCharCrime_4850F0(Char* pB4, Player* pPlayer)
+bool CrimeReportQueue::ShouldReportCharCrime_4850F0(Char* pChar, Player* pPlayer)
 {
     bool result = true;
     if (gCharB4_HitByMine_6FDB59)
     {
-        if (gGame_0x40_67E008->IsSpriteInPlayerBounds_4B9950(pB4->field_80_sprite_ptr, pPlayer->GetIdx_4881E0(), 0) == 0)
+        if (gGame_0x40_67E008->IsSpriteInPlayerBounds_4B9950(pChar->field_80_sprite_ptr, pPlayer->GetIdx_4881E0(), 0) == 0)
         {
             result = false;
         }
@@ -243,10 +243,10 @@ bool CrimeReportQueue::ShouldReportCharCrime_4850F0(Char* pB4, Player* pPlayer)
 MATCH_FUNC(0x485140)
 bool CrimeReportQueue::ShouldReportPedCrime_485140(Ped* pPed, Player* pPlayer)
 {
-    Char* pB4 = pPed->field_168_game_object;
-    if (pB4)
+    Char* pChar = pPed->field_168_game_object;
+    if (pChar)
     {
-        return ShouldReportCharCrime_4850F0(pB4, pPlayer);
+        return ShouldReportCharCrime_4850F0(pChar, pPlayer);
     }
     else
     {

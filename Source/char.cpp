@@ -406,8 +406,8 @@ MATCH_FUNC(0x545430)
 void Char::DrawFlamesAndStartScreamTimer_545430()
 {
     // Spawn fire
-    Object* p2C = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::fire_197, 0, 0, 0, kAng0_6FDB34);
-    field_80_sprite_ptr->AttachSprite_5A3100(p2C->field_4_sprite, 0, 0, kAng0_6FDB34);
+    Object* pObject = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::fire_197, 0, 0, 0, kAng0_6FDB34);
+    field_80_sprite_ptr->AttachSprite_5A3100(pObject->field_4_sprite, 0, 0, kAng0_6FDB34);
     field_B0_scream_timer = 10; // Start screaming timer
 }
 
@@ -715,7 +715,7 @@ void Char::UpdateAnimState_546360()
 
     if (field_7C_pPed->field_244_remap > -1)
     {
-        field_80_sprite_ptr->SetRemap((u8)field_7C_pPed->field_244_remap);
+        field_80_sprite_ptr->SetRemap(static_cast<u8>(field_7C_pPed->field_244_remap));
     }
     else
     {
@@ -765,7 +765,7 @@ void Char::UpdateAnimState_546360()
     {
         case 0:
         {
-            if ((u8)field_70_frame_timer > 2)
+            if (static_cast<u8>(field_70_frame_timer) > 2)
             {
                 field_68_animation_frame++;
                 if (field_68_animation_frame > 7)
@@ -796,7 +796,7 @@ void Char::UpdateAnimState_546360()
 
         case 1:
         {
-            if ((u8)field_70_frame_timer > 1)
+            if (static_cast<u8>(field_70_frame_timer) > 1)
             {
                 field_68_animation_frame++;
                 if (field_68_animation_frame > 7)
@@ -835,7 +835,7 @@ void Char::UpdateAnimState_546360()
                 u8 smoke_ofs;
                 if (field_10_char_state != Char_B4_state::Smoking_35)
                 {
-                    if ((u8)field_70_frame_timer > 8)
+                    if (static_cast<u8>(field_70_frame_timer) > 8)
                     {
                         field_68_animation_frame++;
                         if (field_68_animation_frame > 3)
@@ -863,7 +863,7 @@ void Char::UpdateAnimState_546360()
                     }
 
                     smoke_ofs = 4;
-                    if ((u8)field_70_frame_timer > limit)
+                    if (static_cast<u8>(field_70_frame_timer) > limit)
                     {
                         field_68_animation_frame++;
                         if (field_68_animation_frame > 7)
@@ -885,7 +885,7 @@ void Char::UpdateAnimState_546360()
         case 4:
             if (field_38_velocity > kZeroVelocity_6FD7C0)
             {
-                if ((u8)field_70_frame_timer > 2)
+                if (static_cast<u8>(field_70_frame_timer) > 2)
                 {
                     field_68_animation_frame++;
                     if (field_68_animation_frame > 7)
@@ -898,7 +898,7 @@ void Char::UpdateAnimState_546360()
             }
             else
             {
-                if ((u8)field_70_frame_timer > 2)
+                if (static_cast<u8>(field_70_frame_timer) > 2)
                 {
                     field_68_animation_frame++;
                     if (field_68_animation_frame > 7)
@@ -1133,7 +1133,7 @@ void Char::UpdateAnimState_546360()
                 field_40_rotation = TurnBy180Deg_546360(field_40_rotation);
             }
 
-            if ((u8)field_70_frame_timer > frame_limit)
+            if (static_cast<u8>(field_70_frame_timer) > frame_limit)
             {
                 field_68_animation_frame++;
                 field_70_frame_timer = 0;
@@ -1177,7 +1177,7 @@ void Char::UpdateAnimState_546360()
                                                                       field_80_sprite_ptr->field_14_xy.y.ToInt(),
                                                                       field_80_sprite_ptr->field_1C_zpos.ToInt() - 1);
             ManageZCoordAndSlopes_548590();
-            if ((u8)field_70_frame_timer > 2)
+            if (static_cast<u8>(field_70_frame_timer) > 2)
             {
                 field_70_frame_timer = 0;
                 field_68_animation_frame++;
@@ -1335,7 +1335,7 @@ void Char::UpdateAnimState_546360()
                     }
                     pDoor->set_ped_421380(0);
 
-                    if ((u8)IsOnWater_545570())
+                    if (static_cast<u8>(IsOnWater_545570()))
                     {
                         field_7C_pPed->PutOutFire();
                         DrownPed_5459E0();
@@ -1356,7 +1356,7 @@ void Char::UpdateAnimState_546360()
                 newy,
                 gMap_0x370_6F6268->FindGroundZAboveCoord_4E4E50(newx, newy, pCar->field_50_car_sprite->field_1C_zpos));
 
-            if ((u8)field_70_frame_timer > frame_limit)
+            if (static_cast<u8>(field_70_frame_timer) > frame_limit)
             {
                 field_68_animation_frame++;
                 field_70_frame_timer = 0;
@@ -1477,7 +1477,7 @@ void Char::UpdateAnimState_546360()
 
             field_54_jump_scale_counter++;
             s16 jumpId = field_68_animation_frame + baseId + 16;
-            if ((u8)field_70_frame_timer > (u8)field_71_frame_delay)
+            if (static_cast<u8>(field_70_frame_timer) > static_cast<u8>(field_71_frame_delay))
             {
                 field_70_frame_timer = 0;
                 field_68_animation_frame++;
@@ -1485,15 +1485,15 @@ void Char::UpdateAnimState_546360()
             field_80_sprite_ptr->set_id_lazy_4206C0(197);
             field_80_sprite_ptr->set_id_lazy_4206C0(jumpId);
 
-            if ((u8)field_54_jump_scale_counter < 12)
+            if (static_cast<u8>(field_54_jump_scale_counter) < 12)
             {
-                field_80_sprite_ptr->ApplyScaleToDimensions_59E4C0(kFP16One_6FD9E8 + Fix16((u8)field_54_jump_scale_counter) * kFpPoint03_6FD9A8,
+                field_80_sprite_ptr->ApplyScaleToDimensions_59E4C0(kFP16One_6FD9E8 + Fix16(static_cast<u8>(field_54_jump_scale_counter)) * kFpPoint03_6FD9A8,
                                                                    0);
             }
-            else if ((u8)field_54_jump_scale_counter < 24)
+            else if (static_cast<u8>(field_54_jump_scale_counter) < 24)
             {
                 field_80_sprite_ptr->ApplyScaleToDimensions_59E4C0(kFP16One_6FD9E8 +
-                                                                       Fix16(25 - (u8)field_54_jump_scale_counter) * kFpPoint03_6FD9A8,
+                                                                       Fix16(25 - static_cast<u8>(field_54_jump_scale_counter)) * kFpPoint03_6FD9A8,
                                                                    0);
             }
             return;
@@ -1530,7 +1530,7 @@ void Char::UpdateAnimState_546360()
                     break;
             }
 
-            if ((u8)field_70_frame_timer > (u8)field_71_frame_delay)
+            if (static_cast<u8>(field_70_frame_timer) > static_cast<u8>(field_71_frame_delay))
             {
                 if (field_68_animation_frame < 16)
                 {
@@ -1565,7 +1565,7 @@ void Char::UpdateAnimState_546360()
             break;
 
         case 15:
-            if ((u8)field_70_frame_timer > FrameDelay_546360(this))
+            if (static_cast<u8>(field_70_frame_timer) > FrameDelay_546360(this))
             {
                 field_68_animation_frame++;
                 if (field_68_animation_frame > 7)
@@ -1586,7 +1586,7 @@ void Char::UpdateAnimState_546360()
             break;
 
         case 16:
-            if ((u8)field_70_frame_timer > FrameDelay_546360(this))
+            if (static_cast<u8>(field_70_frame_timer) > FrameDelay_546360(this))
             {
                 field_68_animation_frame++;
                 if (field_68_animation_frame > 7)
@@ -1610,7 +1610,7 @@ void Char::UpdateAnimState_546360()
             break;
 
         case 17:
-            if ((u8)field_70_frame_timer > 3)
+            if (static_cast<u8>(field_70_frame_timer) > 3)
             {
                 field_68_animation_frame++;
                 if (field_68_animation_frame > 4)
@@ -1685,7 +1685,7 @@ static inline Ang16 TurnBy16Deg_548BD0(Ang16 angle)
 MATCH_FUNC(0x548670)
 void Char::DispatchCollision_548670(char_type bFlag)
 {
-    u8 bUnknown; // bl
+    u8 bUnknown;
     if (this->field_69_is_colliding_with_sprite == 1 && this->field_20_collided_entity_type && this->field_24 != 3)
     {
         bUnknown = 1;
@@ -1790,7 +1790,7 @@ static inline void PolarToCartesian_OutOfLineMul(Ang16& angle, const Fix16& radi
 static inline Ang16 AddAngles_ool_54B8F0(const Ang16& a, const Ang16& b)
 {
     s16 sum = a.rValue + b.rValue;
-    return Ang16((Ang16&)sum, 0);
+    return Ang16(reinterpret_cast<Ang16&>(sum), 0);
 }
 
 static inline bool CanJumpOver_54A530(Char* pThis, Char* pChar)
@@ -1886,11 +1886,11 @@ static inline Ang16& compound_add_41FA70(Ang16& a, const Ang16& b)
 // 9.6f 0x493040 (a Ped method there)
 static inline void CollideWithElvis_493040(Ped* pPed, Char* pChar)
 {
-    if ((s32)pChar != pPed->field_138_collided_char_b4)
+    if (reinterpret_cast<s32>(pChar) != pPed->field_138_collided_char_b4)
     {
-        pPed->field_138_collided_char_b4 = (s32)pChar;
+        pPed->field_138_collided_char_b4 = reinterpret_cast<s32>(pChar);
         pPed->field_224_bf.bCollidedWithPed = false;
-        pChar->field_7C_pPed->field_138_collided_char_b4 = (s32)pPed->field_168_game_object;
+        pChar->field_7C_pPed->field_138_collided_char_b4 = reinterpret_cast<s32>(pPed->field_168_game_object);
         pPed->SetVoiceEventIfNotOnFire_433DD0(ped_ocupation_enum::elvis);
     }
 }
@@ -1898,11 +1898,11 @@ static inline void CollideWithElvis_493040(Ped* pPed, Char* pChar)
 // 9.6f 0x493000 (a Ped method there)
 static inline void CollideWithPed_493000(Ped* pPed, Char* pOther)
 {
-    if ((s32)pOther != pPed->field_138_collided_char_b4)
+    if (reinterpret_cast<s32>(pOther) != pPed->field_138_collided_char_b4)
     {
-        pPed->field_138_collided_char_b4 = (s32)pOther;
+        pPed->field_138_collided_char_b4 = reinterpret_cast<s32>(pOther);
         pPed->field_224_bf.bCollidedWithPed = true;
-        pOther->field_7C_pPed->field_138_collided_char_b4 = (s32)pPed->field_168_game_object;
+        pOther->field_7C_pPed->field_138_collided_char_b4 = reinterpret_cast<s32>(pPed->field_168_game_object);
     }
 }
 
@@ -2479,14 +2479,14 @@ void Char::HandleGenericCollision_54A530(Car* pCar, Object* pObj, Char* pChar)
 
 // https://decomp.me/scratch/aRlEV
 MATCH_FUNC(0x54b8f0)
-char_type Char::ContinueMovementAfterCollision_54B8F0()
+bool Char::ContinueMovementAfterCollision_54B8F0()
 {
     Fix16 x_vec;
     Fix16 y_vec = kFP16Zero_6FD9E4;
     // Every path past the early return leaves through `done`: the original pushes ebx/ebp/edi only
     // after the Jumping_15 check, which needs a single exit block (separate returns keep the pushes
     // at entry). bMoved stays in memory, as in the original.
-    char_type bMoved = false;
+    bool bMoved = false;
     if (field_10_char_state == Char_B4_state::Jumping_15)
     {
         return 1;
@@ -2691,29 +2691,29 @@ void Char::SnapRotationToFace_54C090()
 }
 
 MATCH_FUNC(0x54c1a0)
-char_type Char::CanMoveOntoSlope_54C1A0(s32 path_direction)
+bool Char::CanMoveOntoSlope_54C1A0(s32 path_direction)
 {
     u8 slope_type = 0;
-    char_type bUnknown = 0;
+    char_type bMayLeavePavement = 0;
     Fix16 x_fp = field_80_sprite_ptr->field_14_xy.x;
     Fix16 y_fp = field_80_sprite_ptr->field_14_xy.y;
     Fix16 zpos = field_80_sprite_ptr->field_1C_zpos;
-    s32 tmpZ = (zpos.ToInt()) - 1;
+    s32 check_z = (zpos.ToInt()) - 1;
     if (field_10_char_state == Char_B4_state::Jumping_15 || field_8_ped_state_1 == ped_state_1::dead_9 || field_7C_pPed->PedTypeIs_45EDE0(ped_type::player_2) ||
         field_7C_pPed->get_occupation_403980() == ped_ocupation_enum::drone)
     {
-        bUnknown = 1;
+        bMayLeavePavement = 1;
     }
     if ((field_58_flags & 1) == 1)
     {
-        tmpZ = zpos.ToInt();
+        check_z = zpos.ToInt();
     }
 
     s32 x = x_fp.ToInt();
     s32 y = y_fp.ToInt();
     s32 z = zpos.ToInt();
-    u8 bUnknown_2;
-    if (gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(x, y, z, path_direction, &bUnknown_2, 0))
+    u8 slope_z_delta;
+    if (gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(x, y, z, path_direction, &slope_z_delta, 0))
     {
         return 0;
     }
@@ -2722,23 +2722,23 @@ char_type Char::CanMoveOntoSlope_54C1A0(s32 path_direction)
     switch (path_direction)
     {
         case path_direction::up_1:
-            slope_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(x_fp.ToInt(), y_fp.ToInt() - 1, tmpZ);
+            slope_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(x_fp.ToInt(), y_fp.ToInt() - 1, check_z);
             break;
         case path_direction::right_3:
-            slope_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(x_fp.ToInt() + 1, y_fp.ToInt(), tmpZ);
+            slope_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(x_fp.ToInt() + 1, y_fp.ToInt(), check_z);
             break;
         case path_direction::down_2:
-            slope_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(x_fp.ToInt(), y_fp.ToInt() + 1, tmpZ);
+            slope_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(x_fp.ToInt(), y_fp.ToInt() + 1, check_z);
             break;
         case path_direction::left_4:
-            slope_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(x_fp.ToInt() - 1, y_fp.ToInt(), tmpZ);
+            slope_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(x_fp.ToInt() - 1, y_fp.ToInt(), check_z);
             break;
         default:
             break;
     }
 
     Fix16 zpos_frac;
-    char_type result;
+    bool result;
 
     switch (slope_type)
     {
@@ -2770,7 +2770,7 @@ char_type Char::CanMoveOntoSlope_54C1A0(s32 path_direction)
             break;
         case ROAD:
         case FIELD:
-            if (bUnknown)
+            if (bMayLeavePavement)
             {
                 return true;
             }
@@ -2828,7 +2828,7 @@ void Char::TurnToFreeAdjacentFace_54C3E0()
 
 // 9.6f 0x495540
 MATCH_FUNC(0x54c500)
-char_type Char::CanMoveToTile_54C500(char_type x, char_type y)
+bool Char::CanMoveToTile_54C500(char_type x, char_type y)
 {
     Fix16 tx = field_80_sprite_ptr->field_14_xy.x;
     Fix16 ty = field_80_sprite_ptr->field_14_xy.y;
@@ -3408,7 +3408,7 @@ void Char::state_0_54DDF0()
             }
         }
     }
-    if ((u8)Char::IsOnWater_545570())
+    if (static_cast<u8>(Char::IsOnWater_545570()))
     {
         field_7C_pPed->PutOutFire();
         Char::DrownPed_5459E0();
@@ -3798,7 +3798,7 @@ LABEL_152:
                 Fix16 old_ypos = field_80_sprite_ptr->field_14_xy.y;
                 char_type tile_x = old_xpos.ToInt();
                 char_type tile_y = old_ypos.ToInt();
-                if ((char_type)gCharB4_Saved_Xpos_6FD7F8.ToInt() != tile_x || (char_type)gCharB4_Saved_Ypos_6FD800.ToInt() != tile_y)
+                if (static_cast<char_type>(gCharB4_Saved_Xpos_6FD7F8.ToInt()) != tile_x || static_cast<char_type>(gCharB4_Saved_Ypos_6FD800.ToInt()) != tile_y)
                 {
                     field_80_sprite_ptr->set_xyz_lazy_420600(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800, gCharB4_Saved_Zpos_6FD7FC);
 
@@ -3834,7 +3834,7 @@ LABEL_152:
 MATCH_FUNC(0x54ecb0)
 bool Char::CanStepForwardWithRegionCheck_54ECB0(s32 direction)
 {
-    u8 u8_unk;
+    u8 slope_z_delta;
 
     Fix16 xpos = field_80_sprite_ptr->field_14_xy.x;
     Fix16 ypos = field_80_sprite_ptr->field_14_xy.y;
@@ -3847,7 +3847,7 @@ bool Char::CanStepForwardWithRegionCheck_54ECB0(s32 direction)
     {
         new_zpos = zpos.ToInt();
     }
-    if (gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(xpos.ToInt(), ypos.ToInt(), zpos.ToInt(), direction, &u8_unk, 0))
+    if (gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(xpos.ToInt(), ypos.ToInt(), zpos.ToInt(), direction, &slope_z_delta, 0))
     {
         gCharB4_PathDirection_623F44 = direction;
         return 0;
@@ -3924,7 +3924,7 @@ bool Char::CanStepToTile_54EF60(char_type target_x, char_type target_y)
     Fix16 sprite_ypos = field_80_sprite_ptr->field_14_xy.y;
     Fix16 sprite_zpos = field_80_sprite_ptr->field_1C_zpos;
 
-    u8 old_f45 = field_45_slope_gradient_direction;
+    u8 old_slope_dir = field_45_slope_gradient_direction;
     byte_6FDB57 = 1;
     Fix16 xpos, ypos;
     Ang16::PolarToCartesian_41FC20(gAng16_AngleOfCollision_6FD808, gFP16_CollisionCheckRadius_6FDACC, xpos, ypos);
@@ -4049,7 +4049,7 @@ bool Char::CanStepToTile_54EF60(char_type target_x, char_type target_y)
                         gCharB4_PathDirection_623F44 = path_direction::down_2;
                     }
                 }
-                field_45_slope_gradient_direction = old_f45;
+                field_45_slope_gradient_direction = old_slope_dir;
             }
             else
             {
@@ -4124,7 +4124,7 @@ bool Char::CanStepToTile_54EF60(char_type target_x, char_type target_y)
                         gCharB4_PathDirection_623F44 = path_direction::down_2;
                     }
                 }
-                field_45_slope_gradient_direction = old_f45;
+                field_45_slope_gradient_direction = old_slope_dir;
                 return bCanStep;
             }
         }
@@ -4203,7 +4203,7 @@ bool Char::CanStepToTile_54EF60(char_type target_x, char_type target_y)
                         gCharB4_PathDirection_623F44 = path_direction::up_1;
                     }
                 }
-                field_45_slope_gradient_direction = old_f45;
+                field_45_slope_gradient_direction = old_slope_dir;
                 return bCanStep;
             }
             else
@@ -4277,7 +4277,7 @@ bool Char::CanStepToTile_54EF60(char_type target_x, char_type target_y)
                         gCharB4_PathDirection_623F44 = path_direction::down_2;
                     }
                 }
-                field_45_slope_gradient_direction = old_f45;
+                field_45_slope_gradient_direction = old_slope_dir;
                 return bCanStep;
             }
         }
@@ -4322,7 +4322,7 @@ bool Char::CanStepForward_54FEC0(s32 direction)
         check_z = zpos_int;
     }
 
-    if (gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(xpos.ToInt(), ypos.ToInt(), zpos_int, direction, (u8*)&slope_z_adjust, 0))
+    if (gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(xpos.ToInt(), ypos.ToInt(), zpos_int, direction, reinterpret_cast<u8*>(&slope_z_adjust), 0))
     {
         gCharB4_PathDirection_623F44 = direction;
         return false;
@@ -4621,8 +4621,8 @@ void Char::state_1_5504F0()
     Ang16 next_rotation;
     char bSnapRotation;
     char bMoved;
-    Fix16 pMaybeX_FP16;
-    Fix16 pMaybeY_FP16;
+    Fix16 probe_x;
+    Fix16 probe_y;
 
     Ang16 desired_angle;
     Ang16 target_rotation;
@@ -4683,7 +4683,7 @@ void Char::state_1_5504F0()
         }
     }
 
-    if ((u8)Char::IsOnWater_545570())
+    if (static_cast<u8>(Char::IsOnWater_545570()))
     {
         field_7C_pPed->PutOutFire();
         Char::DrownPed_5459E0();
@@ -4729,7 +4729,7 @@ void Char::state_1_5504F0()
     if (field_38_velocity < kFP16Zero_6FD9E4)
     {
         field_58_flags_bf.bReverseVelocity = true;
-        field_40_rotation = Ang16(field_40_rotation.rValue + kAng180_6FD936.rValue, (u8)0);
+        field_40_rotation = Ang16(field_40_rotation.rValue + kAng180_6FD936.rValue, static_cast<u8>(0));
         field_38_velocity = -field_38_velocity;
     }
     field_44_block_type = block_type;
@@ -4867,16 +4867,16 @@ LABEL_65:
                     angle = target_rotation;
                 }
             }
-            Ang16::PolarToCartesian_41FC20(target_rotation, kFP16Half_6FD8E4, pMaybeX_FP16, pMaybeY_FP16);
+            Ang16::PolarToCartesian_41FC20(target_rotation, kFP16Half_6FD8E4, probe_x, probe_y);
         }
         else
         {
-            Ang16::PolarToCartesian_41FC20(target_rotation, kFP16Quarter_6FD828, pMaybeX_FP16, pMaybeY_FP16);
+            Ang16::PolarToCartesian_41FC20(target_rotation, kFP16Quarter_6FD828, probe_x, probe_y);
         }
-        pMaybeX_FP16 += gCharB4_Saved_Xpos_6FD7F8;
-        pMaybeY_FP16 += gCharB4_Saved_Ypos_6FD800;
-        x_u8 = pMaybeX_FP16.ToUInt8();
-        y_u8 = pMaybeY_FP16.ToUInt8();
+        probe_x += gCharB4_Saved_Xpos_6FD7F8;
+        probe_y += gCharB4_Saved_Ypos_6FD800;
+        x_u8 = probe_x.ToUInt8();
+        y_u8 = probe_y.ToUInt8();
         if (unk_xpos != x_u8 || unk_ypos != y_u8)
         {
             Char::ManageZCoordAndSlopes_548590();
@@ -5018,7 +5018,7 @@ LABEL_65:
     }
     if (field_58_flags_bf.bReverseVelocity)
     {
-        field_40_rotation = Ang16(field_40_rotation.rValue + kAng180_6FD936.rValue, (u8)0);
+        field_40_rotation = Ang16(field_40_rotation.rValue + kAng180_6FD936.rValue, static_cast<u8>(0));
         field_38_velocity = -field_38_velocity;
     }
     Char::CheckCollisionsAndUpdateAnim_54DD70();
@@ -5519,7 +5519,7 @@ void Char::state_4_551B30()
         field_7C_pPed->ChangeNextPedState1_45C500(ped_state_1::walking_0);
         field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
     }
-    if ((u8)Char::IsOnWater_545570())
+    if (static_cast<u8>(Char::IsOnWater_545570()))
     {
         field_7C_pPed->PutOutFire();
         Char::DrownPed_5459E0();
@@ -5665,7 +5665,7 @@ void Char::state_7_551CB0()
             block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(gCharB4_Saved_Xpos_6FD7F8.ToInt(), gCharB4_Saved_Ypos_6FD800.ToInt(), gCharB4_Saved_Zpos_6FD7FC.ToInt());
         }
 
-        if ((u8)Char::IsOnWater_545570())
+        if (static_cast<u8>(Char::IsOnWater_545570()))
         {
             field_7C_pPed->PutOutFire();
             Char::DrownPed_5459E0();
@@ -6146,7 +6146,7 @@ void Char::state_8_5520A0()
                     field_7C_pPed->field_184_pObj2C->RequestRemoval_5290A0();
                     field_7C_pPed->field_184_pObj2C = 0;
                     Char::ManageZCoordAndSlopes_548590();
-                    if ((u8)Char::IsOnWater_545570())
+                    if (static_cast<u8>(Char::IsOnWater_545570()))
                     {
                         field_7C_pPed->PutOutFire();
                         Char::DrownPed_5459E0();
@@ -6224,7 +6224,7 @@ void Char::state_8_5520A0()
                 break;
         }
     }
-    if (field_7C_pPed->field_210_shock_counter < (u32)field_7C_pPed->field_212_electrocution_threshold)
+    if (field_7C_pPed->field_210_shock_counter < static_cast<u32>(field_7C_pPed->field_212_electrocution_threshold))
     {
         --field_48_lying_on_floor_timer;
     }
@@ -6386,7 +6386,7 @@ bool Char::IsNearTileCentre_5532C0()
 }
 
 MATCH_FUNC(0x553330)
-char_type Char::IsThreatToSearchingPed_553330()
+bool Char::IsThreatToSearchingPed_553330()
 {
     return field_7C_pPed->IsThreatToSearchingPed_4661F0();
 }
@@ -6395,7 +6395,7 @@ char_type Char::IsThreatToSearchingPed_553330()
 MATCH_FUNC(0x553340)
 bool Char::ShouldCollideWithSprite_553340(Sprite* pSprite)
 {
-    Ped* pPed; // eax
+    Ped* pPed;
 
     if (pSprite)
     {
@@ -6478,12 +6478,12 @@ bool Char::ShouldCollideWithSprite_553340(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x5535B0)
-bool Char::PhoneTouched_5535B0(Object* p2c)
+bool Char::PhoneTouched_5535B0(Object* pObject)
 {
     Ped* pPed = field_7C_pPed;
     if (pPed->field_15C_player)
     {
-        return gScriptManager_6F8060->AnswerPhone_5129F0(pPed->get_id(), p2c->field_14_id);
+        return gScriptManager_6F8060->AnswerPhone_5129F0(pPed->get_id(), pObject->field_14_id);
     }
     else
     {
@@ -6492,41 +6492,41 @@ bool Char::PhoneTouched_5535B0(Object* p2c)
 }
 
 MATCH_FUNC(0x553640)
-char_type Char::OnObjectTouched_553640(Object* p2c)
+bool Char::OnObjectTouched_553640(Object* pObject)
 {
     s8 conveyor_x;
     s8 conveyor_y;
 
-    if (p2c->IsPickup_421060())
+    if (pObject->IsPickup_421060())
     {
-        return get_ped_433A20()->HandlePickupCollision_45DE80(p2c);
+        return get_ped_433A20()->HandlePickupCollision_45DE80(pObject);
     }
 
-    switch (p2c->field_18_model)
+    switch (pObject->field_18_model)
     {
         case objects::secret_token_266: 
-            return get_ped_433A20()->HandlePickupCollision_45DE80(p2c);
+            return get_ped_433A20()->HandlePickupCollision_45DE80(pObject);
 
         case 257:
         case objects::ped_crossing_trigger_258:
             if (field_8_ped_state_1 != ped_state_1::dead_9 && field_8_ped_state_1 != ped_state_1::immobilized_8)
             {
-                get_ped_433A20()->HandlePedCrossingTrigger_45CF20(p2c);
+                get_ped_433A20()->HandlePedCrossingTrigger_45CF20(pObject);
             }
             break;
 
         case objects::savepoint_161:
-            gCarThreadTriggers_214_705F20->CheckThreadTrigger_5C8780(p2c->field_27_thread_trigger_idx, this->field_80_sprite_ptr);
+            gCarThreadTriggers_214_705F20->CheckThreadTrigger_5C8780(pObject->field_27_thread_trigger_idx, this->field_80_sprite_ptr);
             break;
 
         case objects::blue_phone_164:
         case objects::red_phone_177:
         case objects::yellow_phone_179:
         case objects::green_phone_181:
-            return PhoneTouched_5535B0(p2c);
+            return PhoneTouched_5535B0(pObject);
 
         case objects::door_trigger_167:
-            gDoor_4D4_67BD2C->TryOpenDoorForPed_49D370(get_ped_433A20(), p2c->get_field_26_420FF0());
+            gDoor_4D4_67BD2C->TryOpenDoorForPed_49D370(get_ped_433A20(), pObject->get_field_26_420FF0());
             break;
 
         case objects::destructor_141:
@@ -6534,7 +6534,7 @@ char_type Char::OnObjectTouched_553640(Object* p2c)
             break;
 
         case objects::conveyor_139:
-            p2c->GetConveyorDirection_493090(&conveyor_x, &conveyor_y); // TODO: Ang8 or something ???
+            pObject->GetConveyorDirection_493090(&conveyor_x, &conveyor_y); // TODO: Ang8 or something ???
             this->field_4C_conveyor_dx = kFpOne64th_6FDA9C * conveyor_x;
             this->field_50_conveyor_dy = kFpOne64th_6FDA9C * conveyor_y;
             break;
@@ -6546,11 +6546,11 @@ char_type Char::OnObjectTouched_553640(Object* p2c)
 }
 
 MATCH_FUNC(0x5537F0)
-char_type Char::HandlePedObjectHit_5537F0(Object* p2c)
+bool Char::HandlePedObjectHit_5537F0(Object* pObject)
 {
-    const u8 idx = p2c->get_field_26_420FF0();
+    const u8 idx = pObject->get_field_26_420FF0();
     const s32 pedId = gPedRefTable_7F8_703398->GetPedId_420F10(idx);
-    if (p2c->field_18_model == objects::rocket_bullet_128 || p2c->field_18_model == objects::moving_molotov_138 || p2c->field_18_model == objects::mine_10 && !gCharB4_HitByMine_6FDB59)
+    if (pObject->field_18_model == objects::rocket_bullet_128 || pObject->field_18_model == objects::moving_molotov_138 || pObject->field_18_model == objects::mine_10 && !gCharB4_HitByMine_6FDB59)
     {
         gObject_5C_6F8F84->CreateExplosion_52A3D0(field_80_sprite_ptr->field_14_xy.x,
                                                   field_80_sprite_ptr->field_14_xy.y,
@@ -6558,15 +6558,15 @@ char_type Char::HandlePedObjectHit_5537F0(Object* p2c)
                                                   kAng0_6FDB34,
                                                   explosion_type::small_18,
                                                   pedId);
-        if (p2c->field_18_model == objects::mine_10)
+        if (pObject->field_18_model == objects::mine_10)
         {
             gCharB4_HitByMine_6FDB59 = 1;
         }
     }
 
-    if (p2c->get_field_26_420FF0() != field_7C_pPed->get_ped_ref_idx_420B50())
+    if (pObject->get_field_26_420FF0() != field_7C_pPed->get_ped_ref_idx_420B50())
     {
-        return field_7C_pPed->HandlePedHitByObject_45D000(p2c);
+        return field_7C_pPed->HandlePedHitByObject_45D000(pObject);
     }
     else
     {

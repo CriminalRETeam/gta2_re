@@ -145,7 +145,7 @@ class PoliceRoadblock
     EXPORT void Reset_575710();
     EXPORT void Update_5757B0();
     EXPORT void RemoveRoadblock_575CA0();
-    EXPORT char_type CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation);
+    EXPORT bool CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation);
 
     EXPORT PoliceRoadblock();
     EXPORT ~PoliceRoadblock();

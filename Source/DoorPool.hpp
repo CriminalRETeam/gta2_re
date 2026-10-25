@@ -81,10 +81,10 @@ class DoorDataPool
     // inlined 0x44c830
     DoorData* Allocate()
     {
-        DoorData* tmp = field_0_pool.field_0_pHead;
-        field_0_pool.field_0_pHead = tmp->mpNext;
-        tmp->PoolAllocate();
-        return tmp;
+        DoorData* pNew = field_0_pool.field_0_pHead;
+        field_0_pool.field_0_pHead = pNew->mpNext;
+        pNew->PoolAllocate();
+        return pNew;
     }
 
     // TODO: Pools - figure out why this won't match (probably doesn't get inlined??)
@@ -142,7 +142,7 @@ class DoorPool
     EXPORT void TryOpenDoorForCar_49D340(Car* pCar, u8 door_idx);
     EXPORT void TryOpenDoorForPed_49D370(Ped* pPed, u8 idx);
     EXPORT Door* GetNextFreeDoor_49D3A0();
-    EXPORT char_type CheckDoorAccess_49D3C0(Sprite* pSprite, u8 door_idx);
+    EXPORT bool CheckDoorAccess_49D3C0(Sprite* pSprite, u8 door_idx);
     EXPORT void DoorsService_49D460();
     EXPORT DoorPool();
     EXPORT ~DoorPool();

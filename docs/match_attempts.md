@@ -1402,7 +1402,7 @@ Each was a few asm lines away from the original. What is left and what was tried
 - `UpdateStatsForKiller_46F720`: closer 14->4. test the loop pointer after the loop instead of a flag. Left: one register in the group-respect branch
 - `HandleCollision_522E10`: closer 17->16. ResolveCollisionWithPed_5229B0's third param is u8. Left: the original sends both arms of the inlined As2C check into one shared call
 - `AdjustPlaybackRate_41A580`: closer 43->39. fixed-point maths follows the asm now. Left: this/difference register swap throughout
-- `ResolveCollisionWithWorld_522B20`: closer 48->41. bug fix: the collision point is *f18 (was an uninitialised local); Divide_442CB0. Left: EH state numbering
+- `ResolveCollisionWithWorld_522B20`: closer 48->41. bug fix: the collision point is *pCollisionPoint (was an uninitialised local); Divide_442CB0. Left: EH state numbering
 - `EnumAddress_cb_51E030`: no change. late ebp push
 - `GetZoneOfTypeNearestCentre_4DF3E0`: no change. by-value abs/max helpers didn't help
 - `UnlinkFromPursuitTarget_575650`: no change. switch value clobber (add $-3) vs our lea
@@ -1442,7 +1442,7 @@ Each was a few asm lines away from the original. What is left and what was tried
 - `sub_4F76A0`: closer 96->~35. Left: original keeps a separate success store + jmp per branch, ours tail-merges
 - `sound_obj::ProcessOtherObjects_41F520`: closer (field_1_age u8, jle->jbe). Left: VC6 tail merging of identical case tails picks other blocks than the original
 - `DrawScoreTable_4B5430`: closer 0.729->0.978. palette s32, `y = ypos + 40*i`. Left: ebx/ebp load order and a temp slot
-- Matched (second part): `sound_obj::HandleAICarHornBeep_413D10` (`fAC > 2` first, rate as one expression), `Frontend::GetNextUnlockedBonusStage_4B7360`, `PedGroup::CoordinateGroupCarEntry_4C9F00` (9.6f inline IsSwatVanOrBankVan_403BC0), `InitializeGame_4DA4D0` (restored global resets, 14-byte memset), `Bink::OpenSlot1_513560` (if/else FatalError, missing 5/6/5 format case), `CarPhysics::ScarePedsOnDrivingFast_559C30`, `CarPhysics::HandleGravityOnSlope_55AA00` (Fix16_Point local, cases break to one call), `TrafficSpawner::GetRandomTrafficSpeed_583750` (Fable), `SpriteTree::ctor_5C5E70` (definition order)
+- Matched (second part): `sound_obj::HandleAICarHornBeep_413D10` (`sound_event > 2` first, rate as one expression), `Frontend::GetNextUnlockedBonusStage_4B7360`, `PedGroup::CoordinateGroupCarEntry_4C9F00` (9.6f inline IsSwatVanOrBankVan_403BC0), `InitializeGame_4DA4D0` (restored global resets, 14-byte memset), `Bink::OpenSlot1_513560` (if/else FatalError, missing 5/6/5 format case), `CarPhysics::ScarePedsOnDrivingFast_559C30`, `CarPhysics::HandleGravityOnSlope_55AA00` (Fix16_Point local, cases break to one call), `TrafficSpawner::GetRandomTrafficSpeed_583750` (Fable), `SpriteTree::ctor_5C5E70` (definition order)
 - `UpdateCarRadioAudio_57E220` (Fable): closer 6->1. Left: order of the 0x58 store in the 2nd sample
 - `EnforceGearSensitiveMaxSpeed_562D00`: 0.699->0.944 (atan2_40F790 in the inline). Left: shared store at the end of the y clamp
 - `GetLastUnlockedBonusStageCode_4B7800`: 0.312->0.530; `pistol_5DD860`: 0.721->0.931 (two Fix16_Point locals); `GetTaxiNear_457BF0`: 0.330->0.705 (MaxAbsDistance_42A6B0 calls Max_44E540); `GetPreviousUnlockedBonusStage_4B7120`: 0.239->0.432; `TurnTowardsAngle_54CAE0`: 71->61 (subtraction order fixed; original shares two add+normalize blocks)
@@ -1553,7 +1553,7 @@ Each was a few asm lines away from the original. What is left and what was tried
 - 0x579CA0 `PublicTransport::BusesService`: MATCH. Road type neighbour checks take u8 coords; North/East call `GetBlockOrNull_452980` while South/West inline `get_block_42A850`; u16 loop counter; the lead carriage is read again for the first driver check so the driver pointer is reloaded.
 - Batch AO (g5): 0x451980 `ReactToNearbyCar` 0.382->0.557 (`MaxAbsDistanceOOL_42A6B0`; the original tests `flag1` twice, so probably two `if (flag1)` blocks), 0x5D8470 `DrawTexture` 0.207->0.672 (one Fix16_Point up front for the EH frame, `| 0x20000` was missing; permuter supplied a store order), 0x5DF270 0.135->0.199 (`Fix16_Rect::ComputeShockPrism` by value, duplicated angle check). No change: 0x465270 (constant registers; permuter gains were noise or a dropped `else`).
 - Batches AP/AQ/AR (stopped early on the usage limit):
-  - 0x5E2940 `Weapon::car_smg`: 0.287->0.997 (4 diff lines) with `RotateByAngle_40F6B0_out_of_line` for both points. Only the EH entry state is left (original 4, ours 3): an unused `Fix16_Point` up front gives 4 but changes the inline `+` registers (0.925). Matched later (slow pass) with the permuter: an unused 5th `Fix16_Point` for EH state 4, `Ang16` declared first with `tmpx`/`tmpy` at function scope, and an `Ang16` copy temp before the first flamethrower spawn.
+  - 0x5E2940 `Weapon::car_smg`: 0.287->0.997 (4 diff lines) with `RotateByAngle_40F6B0_out_of_line` for both points. Only the EH entry state is left (original 4, ours 3): an unused `Fix16_Point` up front gives 4 but changes the inline `+` registers (0.925). Matched later (slow pass) with the permuter: an unused 5th `Fix16_Point` for EH state 4, `Ang16` declared first with `gun_offset_x`/`gun_offset_y` at function scope, and an `Ang16` copy temp before the first flamethrower spawn.
   - 0x460820 `Ped::TaxiCustomer_AI`: 0.230->0.824. `switch (objective)` cases 35, 31, 0; `MaxAbsDistanceByRef_42A6B0` in case 0 with `pSprite->GetXPos()` (permuter); branch inversions; `break` for shared-epilogue exits. Left: then-block placement (VC6 cross-jumps the duplicated `ResumeAIDriving_43AF40` tail) and three register choices.
   - 0x538AC0 `UpdateObjectBeamLink_state_38`: 0.147->0.426. Out-of-line `DivideAssign_539F90`/`Multiply_408680` freed enough inline budget that the `Fix16_Point_POD` ctors inline again; sixth point local up front (EH state 5).
   - 0x5538A0 `HandleCarImpact`: 0.135->0.536. Nested if/else in block order, file-local GetLength; `Ang16 tanVec; tanVec = ...` fixes the frame (permuter). Left: per-branch epilogue copies where the original shares one.
@@ -4765,7 +4765,7 @@ Analysis (9.6f 0x472110 disassembled from 9.6f.exe, VC7, not inlined, for shape 
   has prio 202 and takes ebp, so the column width (`layer_column_width`, ebp in the original) is spilled to
   0x28 in ours. The original's CSE temp is spilled, which means its web is live through the gZCoordFp block
   without a reference there: in the original, `gZCoordFp_6F6518 = Fix16(zLayer)` does not reuse the top's
-  shl (it reloads zLayer and shifts again), and only `unk_Z_Factor` reads the slot. Ours CSEs gZCoordFp with
+  shl (it reloads zLayer and shifts again), and only `depth_bottom` reads the slot. Ours CSEs gZCoordFp with
   the top value. Every spelling of gZCoordFp tried still CSEs (see below), so this is the open point.
 
 Tried, all 154 or worse (quick_score, same main tree):
@@ -4830,8 +4830,8 @@ root with `VC6_TOOLS`-free `patch_c2.X` set to a scratch dir, see `Scripts/regal
 - Top of function: the original keeps x in `ebx` (loaded at entry) and the masked y in `edi` (loaded first, shifted for
   the first ctor). Ours gives `ebx` to y and `ebp` to `this`, and the original spills `this` to 0x14. Frame 0x24 vs ours 0x28.
 - Tried (all 738 unless noted): explicit `Fix16(x), Fix16(y)` in the FindGround call (870), `Fix16(y, 0)` (1343),
-  `Fix16 zpos;` declared then assigned (1715), `s32 zi` / `(u8)` zTmp, `s32 yi = y` for the call, `u8 xs = x` for the
-  call, `u8 zTmp;` declared before the call, `zpos.ToInt() - 1` without the u8 cast, operand order `y + h - 1`,
+  `Fix16 zpos;` declared then assigned (1715), `s32 zi` / `(u8)` block_z, `s32 yi = y` for the call, `u8 xs = x` for the
+  call, `u8 block_z;` declared before the call, `zpos.ToInt() - 1` without the u8 cast, operand order `y + h - 1`,
   `w + x` / `x + w - 1` / `y + h` in the pavement and road-type calls. None lowers the score.
 - Not tried: the permuter (`/tmp/permute.lock` was held by another sweep, not waited on). A `this`-spill or
   parameter-priority change needs a structure that changes the register weights of x, y and `this` in the first block.

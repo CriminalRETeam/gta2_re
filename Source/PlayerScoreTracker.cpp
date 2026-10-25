@@ -225,7 +225,7 @@ void PlayerScoreTracker::Service_591C70()
 
     if (bStartNetworkGame_7081F0)
     {
-        s32 frags_or_points; // edi
+        s32 frags_or_points;
         u8 player_idx = field_368_player->get_idx_4219D0();
         u8 gamemode = gGameSession_67E8E0.GetMultiplayerGamemode_4C5BC0();
         s32 points_limit = gGameSession_67E8E0.GetMultiplayerPointsLimit_4C5BD0();
@@ -259,12 +259,12 @@ void PlayerScoreTracker::Service_591C70()
     // Handle the previous LABEL_63 section
     const s32 cur_rng = gpRng_67AB34->get_cur_rng_41CFE0();
 
-    if ((u32)(gpRng_67AB34->get_cur_rng_41CFE0() - field_70_last_car_kill_time) > 15)
+    if (static_cast<u32>(gpRng_67AB34->get_cur_rng_41CFE0() - field_70_last_car_kill_time) > 15)
     {
         field_74_car_kill_combo = 1;
     }
 
-    if ((u32)(cur_rng - field_78_last_kill_time) > 15)
+    if (static_cast<u32>(cur_rng - field_78_last_kill_time) > 15)
     {
         field_75_score_mult = 1;
     }
@@ -306,7 +306,7 @@ void PlayerScoreTracker::ResetCarModelFlags_592380(char_type bits)
     {
         for (u16 i = 0; i < GTA2_COUNTOF(field_8C_car_model_flags); i++)
         {
-            if (gGtx_0x106C_703DD4->does_car_exist(i) && gGtx_0x106C_703DD4->IsCarModelInRecycleList_5AB380(i))
+            if (gGtx_0x106C_703DD4->does_car_exist(static_cast<u8>(i)) && gGtx_0x106C_703DD4->IsCarModelInRecycleList_5AB380(static_cast<u8>(i)))
             {
                 field_8C_car_model_flags[i] &= ~car_model_flag::stolen_1;
             }
@@ -321,9 +321,9 @@ void PlayerScoreTracker::ResetCarModelFlags_592380(char_type bits)
     {
         for (u16 i = 0; i < GTA2_COUNTOF(field_8C_car_model_flags); i++)
         {
-            if (gGtx_0x106C_703DD4->does_car_exist(i) && gGtx_0x106C_703DD4->IsCarModelInRecycleList_5AB380(i))
+            if (gGtx_0x106C_703DD4->does_car_exist(static_cast<u8>(i)) && gGtx_0x106C_703DD4->IsCarModelInRecycleList_5AB380(static_cast<u8>(i)))
             {
-                const u8 wreck = gGtx_0x106C_703DD4->get_car_info_5AA3B0(i)->wreck;
+                const u8 wreck = gGtx_0x106C_703DD4->get_car_info_5AA3B0(static_cast<u8>(i))->wreck;
 
                 if (wreck == car_wreck::none_99)
                 {
@@ -463,7 +463,7 @@ void PlayerScoreTracker::AwardPedKilledScore_592660(Ped* pVictim, Ped* pKiller)
                              pZone);
 
     s32 rng = gpRng_67AB34->get_cur_rng_41CFE0();
-    if ((u32)(rng - field_78_last_kill_time) > 15)
+    if (static_cast<u32>(rng - field_78_last_kill_time) > 15)
     {
         field_7C_execution_count = 1;
     }
@@ -605,7 +605,7 @@ void PlayerScoreTracker::AwardPedKilledScore_592660(Ped* pVictim, Ped* pKiller)
         // Only the Elvis case has a score by now
         if (score)
         {
-            if ((u32)(rng - field_80_last_elvis_kill_time) > 15)
+            if (static_cast<u32>(rng - field_80_last_elvis_kill_time) > 15)
             {
                 field_84_num_elvis_killed = 1;
             }
@@ -786,7 +786,7 @@ void PlayerScoreTracker::AwardCarDestroyedScore_592DD0(Car* pCar, Ped* pKiller)
         pCar->IsFbiCar_411920())
     {
 
-        if ((unsigned int)(gpRng_67AB34->get_cur_rng_41CFE0() - field_1A0_last_emergency_car_kill_time) > 150)
+        if (static_cast<unsigned int>(gpRng_67AB34->get_cur_rng_41CFE0() - field_1A0_last_emergency_car_kill_time) > 150)
         {
             field_1A4_killed_cars_flags = emergency_car_kill_flag::none_0;
         }

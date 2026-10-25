@@ -27,7 +27,7 @@ MyStubLockit::~MyStubLockit()
 //#define DEBUG_ENABLED
 
 #ifndef INVALID_FILE_ATTRIBUTES
-    #define INVALID_FILE_ATTRIBUTES ((DWORD) - 1)
+    #define INVALID_FILE_ATTRIBUTES (static_cast<DWORD>(-1))
 #endif
 
 class Logger
@@ -404,7 +404,7 @@ class Preprocessor
         PROCESS_INFORMATION pi;
         ZeroMemory(&pi, sizeof(pi));
 
-        if (!CreateProcessA(NULL, (LPSTR)cmd.c_str(), NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi))
+        if (!CreateProcessA(NULL, const_cast<LPSTR>(cmd.c_str()), NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi))
         {
             mLogger.debug("clang-cl failed to launch.");
             return false;
@@ -461,7 +461,7 @@ class ClInvoker
         PROCESS_INFORMATION pi;
         ZeroMemory(&pi, sizeof(pi));
 
-        if (!CreateProcessA(NULL, (LPSTR)cmdLine.c_str(), NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi))
+        if (!CreateProcessA(NULL, const_cast<LPSTR>(cmdLine.c_str()), NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi))
         {
             printf("Failed to launch cl_real.exe\n");
             return false;

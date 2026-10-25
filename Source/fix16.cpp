@@ -24,7 +24,7 @@ Fix16 Fix16::Add_408660(const Fix16& rhs) const throw()
 MATCH_FUNC(0x408680)
 Fix16 Fix16::Multiply_408680(const Fix16& in) const throw()
 {
-    s32 value = (s32)((mValue * (__int64)in.mValue) >> 14);
+    s32 value = static_cast<s32>((mValue * static_cast<__int64>(in.mValue)) >> 14);
     return Fix16(value, 0);
 }
 
@@ -38,7 +38,7 @@ Fix16 Fix16::Subtract_436A00(const Fix16& in) const
 MATCH_FUNC(0x436A20)
 Fix16 Fix16::Divide_436A20(const Fix16& in) const
 {
-    s32 value = (s32)(((__int64)mValue << 14) / in.mValue);
+    s32 value = static_cast<s32>((static_cast<__int64>(mValue) << 14) / in.mValue);
     return Fix16(value, 0);
 }
 
@@ -57,7 +57,7 @@ s32 Fix16::IsGreater_451690(const Fix16& other) const
 MATCH_FUNC(0x539F90)
 Fix16& Fix16::DivideAssign_539F90(const Fix16& rhs)
 {
-    mValue = (s32)(((__int64)mValue << 14) / rhs.mValue);
+    mValue = static_cast<s32>((static_cast<__int64>(mValue) << 14) / rhs.mValue);
     return *this;
 }
 
@@ -79,7 +79,7 @@ Fix16 Fix16::MultiplyInt_561DB0(const s32& in) const
 MATCH_FUNC(0x562430)
 Fix16& Fix16::MultiplyAssign_562430(const Fix16& rhs)
 {
-    mValue = (s32)((mValue * (__int64)rhs.mValue) >> 14);
+    mValue = static_cast<s32>((mValue * static_cast<__int64>(rhs.mValue)) >> 14);
     return *this;
 }
 
@@ -135,12 +135,12 @@ Fix16 __stdcall Fix16::SquareRoot_436A70(Fix16& input)
 // 10.5 https://decomp.me/scratch/7a41K
 // 9.6f https://decomp.me/scratch/ZkUbq
 MATCH_FUNC(0x405320)
-Ang16 __stdcall Fix16::atan2_fixed_405320(Fix16& x, Fix16& y)
+Ang16 __stdcall Fix16::atan2_fixed_405320(Fix16& y, Fix16& x)
 {
     Ang16 table_angle;
-    if (y == kFPZero_6691B0)
+    if (x == kFPZero_6691B0)
     {
-        if (x >= kFPZero_6691B0)
+        if (y >= kFPZero_6691B0)
         {
             return kAngZero_66A920;
         }
@@ -149,9 +149,9 @@ Ang16 __stdcall Fix16::atan2_fixed_405320(Fix16& x, Fix16& y)
             return kAng180_669156;
         }
     }
-    else if (x == kFPZero_6691B0)
+    else if (y == kFPZero_6691B0)
     {
-        if (y > kFPZero_6691B0)
+        if (x > kFPZero_6691B0)
         {
             return kAng90_667A7C;
         }
@@ -162,11 +162,11 @@ Ang16 __stdcall Fix16::atan2_fixed_405320(Fix16& x, Fix16& y)
     }
     else
     {
-        table_angle = ArcTanLookup_405500(Fix16::Abs(x / y));
+        table_angle = ArcTanLookup_405500(Fix16::Abs(y / x));
 
-        if (x > kFPZero_6691B0)
+        if (y > kFPZero_6691B0)
         {
-            if (y > kFPZero_6691B0)
+            if (x > kFPZero_6691B0)
             {
                 return kAng90_667A7C - table_angle;
             }
@@ -184,7 +184,7 @@ Ang16 __stdcall Fix16::atan2_fixed_405320(Fix16& x, Fix16& y)
         }
         else
         {
-            if (y > kFPZero_6691B0)
+            if (x > kFPZero_6691B0)
             {
                 return kAng90_667A7C + table_angle;
             }
@@ -336,7 +336,7 @@ EXPORT s32 __stdcall ClampAngleAroundTarget_405E80(Fix16* pTarget, Fix16* pCur)
         }
     }
 
-    if ((u8)IsAngleWithinTolerance_405E20(pCur, &lo) || (u8)IsAngleWithinTolerance_405E20(pCur, &hi))
+    if (static_cast<u8>(IsAngleWithinTolerance_405E20(pCur, &lo)) || static_cast<u8>(IsAngleWithinTolerance_405E20(pCur, &hi)))
     {
         return 1;
     }

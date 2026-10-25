@@ -70,7 +70,7 @@ DEFINE_GLOBAL(u32, gMatchStartTime_6F5A28, 0x6F5A28); // TODO: move
 DEFINE_GLOBAL(u32, gNetworkFrameCounter_6F5868, 0x6F5868); // TODO: move
 DEFINE_GLOBAL(u8, bRecordStartTime_6F593C, 0x6F593C); // TODO: move
 DEFINE_GLOBAL(Network_PlayerInputs, gCurrentNetInputs_6F57D8, 0x6F57D8); // TODO: move
-DEFINE_GLOBAL(Network_8, gInputSendData_6F5B18, 0x6F5B18); // TODO: move
+DEFINE_GLOBAL(Network_Buffer, gInputSendData_6F5B18, 0x6F5B18); // TODO: move
 DEFINE_GLOBAL(Network_PlayerInputs, gPrevNetInputs_6F5B28, 0x6F5B28); // TODO: move
 DEFINE_GLOBAL(ReceivedPacket*, gpInputBuffer_6F58C0, 0x6F58C0); // TODO: move
 DEFINE_GLOBAL(u32, gCurrentInputsBufferSize_6F58C4, 0x6F58C4); // TODO: move
@@ -127,7 +127,7 @@ void LoadBeginSceneCBPtr()
 {
     static DllRaii hD3Ddll("d3ddll.dll"); // freed after WinMain return, only if this func is called
 
-    pBeginSceneCB = (T_gbh_SetBeginSceneCB)hD3Ddll.GetProcAddress("gbh_SetBeginSceneCB");
+    pBeginSceneCB = reinterpret_cast<T_gbh_SetBeginSceneCB>(hD3Ddll.GetProcAddress("gbh_SetBeginSceneCB"));
     if (!pBeginSceneCB)
     {
         printf("Using OG Render - no ImGui debug will function/display\n");
@@ -243,20 +243,20 @@ void force_link()
     lewin.ApplyCheats_56A490();
     lewin.ClearInputs_56A6D0();
 
-    Camera drawUnk;
-    drawUnk.SavePrevCamPos_4357B0();
-    drawUnk.IncreaseElevation_4357F0();
-    drawUnk.DecreaseElevation_435810();
-    drawUnk.ResetElevation_435830();
-    drawUnk.ClampTargetZ_435840();
-    drawUnk.ApplyMovementDeltaFrom_435860(0);
-    drawUnk.MoveTarget_435D20(1, 1, 1, 1, 1, 1);
-    drawUnk.ResetCameraSmoothing_435DD0();
-    drawUnk.RefreshBoundaries_436110();
-    drawUnk.SetShake_436120(1);
-    drawUnk.ResetPanning_436830();
-    drawUnk.SetTarget_4397D0(Fix16(), Fix16(), Fix16(), Fix16());
-    drawUnk.IsPointInBoundaries_58CF10(1, 1);
+    Camera camera;
+    camera.SavePrevCamPos_4357B0();
+    camera.IncreaseElevation_4357F0();
+    camera.DecreaseElevation_435810();
+    camera.ResetElevation_435830();
+    camera.ClampTargetZ_435840();
+    camera.ApplyMovementDeltaFrom_435860(0);
+    camera.MoveTarget_435D20(1, 1, 1, 1, 1, 1);
+    camera.ResetCameraSmoothing_435DD0();
+    camera.RefreshBoundaries_436110();
+    camera.SetShake_436120(1);
+    camera.ResetPanning_436830();
+    camera.SetTarget_4397D0(Fix16(), Fix16(), Fix16(), Fix16());
+    camera.IsPointInBoundaries_58CF10(1, 1);
 
     Ped cn;
     cn.SetRecentCrimeTimer_45B550();
@@ -319,8 +319,8 @@ void force_link()
     Fix16_Rect car14_18;
     car14_18.DoSetCurrentRect_59DD60();
 
-    Particle_4C p4C;
-    p4C.PoolAllocate();
+    Particle_4C particle;
+    particle.PoolAllocate();
 }
 
 DEFINE_GLOBAL(HINSTANCE, gHInstance_708220, 0x708220);
@@ -397,7 +397,7 @@ void UpdateGameScreenSize_5D8E00()
         }
         else
         {
-            if (gCachedScreenDimension_706C58 != gVidSys_7071D0->field_4C_rect_bottom)
+            if (static_cast<u32>(gCachedScreenDimension_706C58) != gVidSys_7071D0->field_4C_rect_bottom)
             {
                 gGame_0x40_67E008->SetScreenSize_4B8E00(gVidSys_7071D0->field_48_rect_right, gVidSys_7071D0->field_4C_rect_bottom);
             }
@@ -476,7 +476,7 @@ EXPORT void __stdcall HideCursor_5D94F0()
 
 // todo: move
 MATCH_FUNC(0x5D7BF0)
-EXPORT char_type Input_InitMouse_5D7BF0()
+EXPORT bool Input_InitMouse_5D7BF0()
 {
     // TODO: using the HR error checking macros doesn't match here, what did they do??
     if (!gpDInput_67B804 || gMouseDevice_706C60 || gpDInput_67B804->CreateDevice(GUID_SysMouse, &gMouseDevice_706C60, 0) ||
@@ -558,7 +558,7 @@ EXPORT void __stdcall ShowCursor_5D9660()
 // todo: move
 // __stdcall, not __cdecl: see GetLayout_4D6000 (the `push 0x316` goes before the rect loads)
 MATCH_FUNC(0x5D9510)
-EXPORT char_type __stdcall SetWindowedMode_5D9510()
+EXPORT bool __stdcall SetWindowedMode_5D9510()
 {
 
     if (!IsWindowedModeAvailable_5D92C0())
@@ -572,10 +572,10 @@ EXPORT char_type __stdcall SetWindowedMode_5D9510()
     UpdateWindow(gHwnd_707F04);
     ShowWindow(gHwnd_707F04, SW_SHOW);
 
-    struct tagRECT windowRect; // [esp+18h] [ebp-10h] BYREF
+    struct tagRECT windowRect;
     GetWindowRect(gHwnd_707F04, &windowRect);
 
-    struct tagRECT clientRect; // [esp+8h] [ebp-20h] BYREF
+    struct tagRECT clientRect;
     GetClientRect(gHwnd_707F04, &clientRect);
 
     if (!SetWindowPos(gHwnd_707F04,
@@ -611,12 +611,12 @@ EXPORT char_type __stdcall SetWindowedMode_5D9510()
 MATCH_FUNC(0x5D8F70)
 EXPORT s32 ReadScreenSettings_5D8F70()
 {
-    const u32 full_width_old = full_width_706B5C;
-    const u32 window_width_old = window_width_706630;
-    const u32 full_height_old = full_height_706798;
+    const s32 full_width_old = full_width_706B5C;
+    const s32 window_width_old = window_width_706630;
+    const s32 full_height_old = full_height_706798;
     const s32 startMode_old = gStartMode_626A0C;
     const s32 trippleBuffer_old = bTrippleBuffer_706C54;
-    const u32 window_height_old = window_height_706B50;
+    const s32 window_height_old = window_height_706B50;
 
     if (bDoFrontEnd_626B68)
     {
@@ -951,14 +951,14 @@ EXPORT void __stdcall InitializeGame_4DA4D0()
         ClearDebugFlags_4DB170();
 
         gGame_0x40_67E008 = new Game(gNetPlay_7071E8.CountActivePlayers_521350(), gNetPlay_7071E8.GetPlayerIdx_409C40());
-        gNetPlay_7071E8.SetExitGameCallBack_521330((int)ExitGameCallback_4DB0D0, gGame_0x40_67E008);
+        gNetPlay_7071E8.SetExitGameCallBack_521330(reinterpret_cast<int>(ExitGameCallback_4DB0D0), gGame_0x40_67E008);
 
         memset(&gCurrentNetInputs_6F57D8, 0, sizeof(gCurrentNetInputs_6F57D8));
         memset(&gPrevNetInputs_6F5B28, 0, sizeof(gPrevNetInputs_6F5B28));
 
         memset(byte_6F5AC8, 0, sizeof(byte_6F5AC8));
         gNetworkPlayerIdx_6F56C8 = gNetPlay_7071E8.GetPlayerIdx_409C40();
-        gpInputBuffer_6F58C0 = (ReceivedPacket*)&gCurrentNetInputs_6F57D8.field_0_inputs[0];
+        gpInputBuffer_6F58C0 = reinterpret_cast<ReceivedPacket*>(&gCurrentNetInputs_6F57D8.field_0_inputs[0]);
         gCurrentInputsBufferSize_6F58C4 = 48;
         dword_6F5B00 = 0;
         bRecordStartTime_6F593C = 1;
@@ -1006,7 +1006,7 @@ MATCH_FUNC(0x5D9690)
 EXPORT void __stdcall ApplyChangedScreenSettings_5D9690()
 {
     Init_FrameRateLightingAndExplodingScores_5D8EB0();
-    if ((u8)ReadScreenSettings_5D8F70() || bVideoModeResetPending_706C5D)
+    if (static_cast<u8>(ReadScreenSettings_5D8F70()) || bVideoModeResetPending_706C5D)
     {
         SetVideoModeFromSettings_5D92D0();
         OnVideoModeChanged_5D9680();
@@ -1043,10 +1043,10 @@ DEFINE_GLOBAL(Network_PlayerInputs, gNetInputsHistory2_6F5798, 0x6F5798);
 
 // Re-sends our inputs of a previous frame to one player.
 MATCH_FUNC(0x4DA9B0)
-EXPORT void __stdcall NetSendOldInputs_4DA9B0(NetInputData* pInputs, s32 delayed_ticks, u8 player_idx)
+EXPORT void __stdcall NetSendOldInputs_4DA9B0(Network_InputData* pInputs, s32 delayed_ticks, u8 player_idx)
 {
     gInputSendData_6F5B18.field_0_data = pInputs;
-    gInputSendData_6F5B18.field_4_len = bDo_sync_check_67D6C1 ? sizeof(NetInputData) : sizeof(u32);
+    gInputSendData_6F5B18.field_4_len = bDo_sync_check_67D6C1 ? sizeof(Network_InputData) : sizeof(u32);
     gNetPlay_7071E8.SendToPlayer_521630(&gInputSendData_6F5B18, player_idx, delayed_ticks);
 }
 
@@ -1085,7 +1085,7 @@ EXPORT void Net_Receive_Players_Inputs_4DA9F0()
         // Wait a packet. If one was received, analyse its data and do something
         s32 player_idx;
         u32 packet_subtype;
-        if (gNetPlay_7071E8.ReceiveGameMessage_521890((Network_8*)&gpInputBuffer_6F58C0, &player_idx, &packet_subtype))
+        if (gNetPlay_7071E8.ReceiveGameMessage_521890(reinterpret_cast<Network_Buffer*>(&gpInputBuffer_6F58C0), &player_idx, &packet_subtype))
         {
             switch (packet_subtype)
             {
@@ -1094,8 +1094,8 @@ EXPORT void Net_Receive_Players_Inputs_4DA9F0()
                     switch (gpInputBuffer_6F58C0->s_packet.field_0_subtype) // std_packet_subtype
                     {
                         case std_packet_subtype::GiveUp_1:
-                            waiting_bits &= ~(1 << (s32)gpInputBuffer_6F58C0->s_packet.field_1_pData);
-                            gNetDisconnectPlayersBits_6F56B8 |= 1 << (s32)gpInputBuffer_6F58C0->s_packet.field_1_pData;
+                            waiting_bits &= ~(1 << reinterpret_cast<s32>(gpInputBuffer_6F58C0->s_packet.field_1_pData));
+                            gNetDisconnectPlayersBits_6F56B8 |= 1 << reinterpret_cast<s32>(gpInputBuffer_6F58C0->s_packet.field_1_pData);
                             break;
                         case std_packet_subtype::PlayerQuit_2:
                             waiting_bits &= ~(1 << player_idx);
@@ -1185,7 +1185,7 @@ EXPORT s32 __stdcall FileByteSum_4DB120(FILE* hFile)
 MATCH_FUNC(0x4DB2E0)
 EXPORT void __stdcall MakeInitialSyncData_4DB2E0(u8* pSyncData)
 {
-    SyncCheckData* pData = (SyncCheckData*)pSyncData;
+    SyncCheckData* pData = reinterpret_cast<SyncCheckData*>(pSyncData);
     struct _stat st;
 
     memset(pData, 0, sizeof(SyncCheckData));
@@ -1246,8 +1246,8 @@ EXPORT void __stdcall FatalErrorMsg_4DB410(const char_type* pMsg)
 MATCH_FUNC(0x4DB440)
 EXPORT void __stdcall CompareRemotePlayers_4DB440(u8* pLocalSyncData, u8* pRemoteSyncData)
 {
-    SyncCheckData* pLocal = (SyncCheckData*)pLocalSyncData;
-    SyncCheckData* pRemote = (SyncCheckData*)pRemoteSyncData;
+    SyncCheckData* pLocal = reinterpret_cast<SyncCheckData*>(pLocalSyncData);
+    SyncCheckData* pRemote = reinterpret_cast<SyncCheckData*>(pRemoteSyncData);
     char_type msg[260];
     char_type name[260];
     wchar_t wname[260];
@@ -1551,14 +1551,14 @@ MATCH_FUNC(0x4A0650)
 EXPORT void __stdcall GetDirectMusicVer_4A0650()
 {
     // todo
-    HMODULE hDMusic; // esi
-    IUnknown* pDMusic; // [esp+4h] [ebp-4h] BYREF
+    HMODULE hDMusic;
+    IUnknown* pDMusic;
 
     gDMusicVer_67BD32 = 0;
     hDMusic = LoadLibraryA("DMUSIC.DLL");
     if (hDMusic)
     {
-        if (CoCreateInstance(IID_DirectMusic, 0, 1u, IDD_IDirectMusic, (LPVOID*)&pDMusic) >= 0)
+        if (CoCreateInstance(IID_DirectMusic, 0, 1u, IDD_IDirectMusic, reinterpret_cast<LPVOID*>(&pDMusic)) >= 0)
         {
             gDMusicVer_67BD32 = 0x601;
             pDMusic->Release();
@@ -1573,19 +1573,19 @@ GUID IID_IDirectDrawSurface4_ = {0x0B2B8630, 0xAD35, 0x11D0, 0x8E, 0xA6, 0x00, 0
 MATCH_FUNC(0x4C4EC0)
 EXPORT void __stdcall GetDirectXVersion_4C4EC0(u32* pDXVer, u32* osKind)
 {
-    HMODULE hDInput; // eax
-    FARPROC pDirectInputCreateA; // ebx
-    HMODULE hDDraw; // eax
-    HRESULT(__stdcall * pDirectDrawCreate)(GUID*, LPDIRECTDRAW*, IUnknown*); // eax
-    HMODULE hDInput2; // eax
-    FARPROC pDirectInputCreateA_; // edi
-    LPDIRECTDRAW pDDraw; // [esp+54h] [ebp-114h] BYREF
-    LPDIRECTDRAWSURFACE pDSurface; // [esp+58h] [ebp-110h] BYREF
-    LPDIRECTDRAW pDraw2; // [esp+5Ch] [ebp-10Ch] BYREF
-    s32 pSurface2; // [esp+60h] [ebp-108h] BYREF
-    LPDIRECTDRAWSURFACE pDSurface4; // [esp+64h] [ebp-104h] BYREF
-    DDSURFACEDESC surfaceDesc; // [esp+68h] [ebp-100h] BYREF
-    struct _OSVERSIONINFOA osVersionInfo; // [esp+D4h] [ebp-94h] BYREF
+    HMODULE hDInput;
+    FARPROC pDirectInputCreateA;
+    HMODULE hDDraw;
+    HRESULT(__stdcall * pDirectDrawCreate)(GUID*, LPDIRECTDRAW*, IUnknown*);
+    HMODULE hDInput2;
+    FARPROC pDirectInputCreateA_;
+    LPDIRECTDRAW pDDraw;
+    LPDIRECTDRAWSURFACE pDSurface;
+    LPDIRECTDRAW pDraw2;
+    s32 pSurface2;
+    LPDIRECTDRAWSURFACE pDSurface4;
+    DDSURFACEDESC surfaceDesc;
+    struct _OSVERSIONINFOA osVersionInfo;
 
     pDDraw = 0;
     pDraw2 = 0;
@@ -1644,7 +1644,7 @@ EXPORT void __stdcall GetDirectXVersion_4C4EC0(u32* pDXVer, u32* osKind)
         return;
     }
 
-    pDirectDrawCreate = (HRESULT(__stdcall*)(GUID*, LPDIRECTDRAW*, IUnknown*))GetProcAddress(hDDraw, "DirectDrawCreate");
+    pDirectDrawCreate = reinterpret_cast<HRESULT(__stdcall*)(GUID*, LPDIRECTDRAW*, IUnknown*)>(GetProcAddress(hDDraw, "DirectDrawCreate"));
     if (!pDirectDrawCreate)
     {
         *pDXVer = 0;
@@ -1664,7 +1664,7 @@ EXPORT void __stdcall GetDirectXVersion_4C4EC0(u32* pDXVer, u32* osKind)
     }
 
     *pDXVer = 0x100;
-    if (pDDraw->QueryInterface(IID_IDirectDraw2, (LPVOID*)&pDraw2) < 0)
+    if (pDDraw->QueryInterface(IID_IDirectDraw2, reinterpret_cast<LPVOID*>(&pDraw2)) < 0)
     {
         pDDraw->Release();
         FreeLibrary(hDDraw);
@@ -1716,7 +1716,7 @@ EXPORT void __stdcall GetDirectXVersion_4C4EC0(u32* pDXVer, u32* osKind)
         return;
     }
 
-    if (pDSurface->QueryInterface(IID_IDirectDrawSurface2, (LPVOID*)&pSurface2) < 0)
+    if (pDSurface->QueryInterface(IID_IDirectDrawSurface2, reinterpret_cast<LPVOID*>(&pSurface2)) < 0)
     {
         pDDraw->Release();
         FreeLibrary(hDDraw);
@@ -1725,7 +1725,7 @@ EXPORT void __stdcall GetDirectXVersion_4C4EC0(u32* pDXVer, u32* osKind)
 
     *pDXVer = 0x500;
 
-    if (pDSurface->QueryInterface(IID_IDirectDrawSurface4_, (LPVOID*)&pDSurface4) < 0)
+    if (pDSurface->QueryInterface(IID_IDirectDrawSurface4_, reinterpret_cast<LPVOID*>(&pDSurface4)) < 0)
     {
         pDDraw->Release();
         FreeLibrary(hDDraw);
@@ -1753,8 +1753,8 @@ EXPORT void __stdcall Video_Render_Inits_5D90E0()
     gVideodevice_70694C = gRegistry_6FF968.Get_Screen_Setting_5870D0("videodevice", 1);
     strcpy(gRenderDllName_7067F0, kDefaultDllNames_626A00[0]);
     strcpy(gVideoDllName_706654, kDefaultDllNames_626A00[1]);
-    gRegistry_6FF968.Get_Screen_String_5871E0("rendername", (BYTE*)gRenderDllName_7067F0, 0xFFu);
-    gRegistry_6FF968.Get_Screen_String_5871E0("videoname", (BYTE*)gVideoDllName_706654, 0xFFu);
+    gRegistry_6FF968.Get_Screen_String_5871E0("rendername", reinterpret_cast<BYTE*>(gRenderDllName_7067F0), 0xFFu);
+    gRegistry_6FF968.Get_Screen_String_5871E0("videoname", reinterpret_cast<BYTE*>(gVideoDllName_706654), 0xFFu);
 
     if (strcmp(gRenderDllName_7067F0, "softdll.dll") == 0)
     {
@@ -1948,7 +1948,7 @@ EXPORT void Start_GTA2Manager_5E4DE0()
         HWND hwndGta2Manager = FindWindowExA(0, 0, 0, "GTA2 Manager");
         if (hwndGta2Manager)
         {
-            PostMessageA(gHwnd_707F04, WM_ACTIVATE, 0, (LPARAM)hwndGta2Manager);
+            PostMessageA(gHwnd_707F04, WM_ACTIVATE, 0, reinterpret_cast<LPARAM>(hwndGta2Manager));
             if (!SetForegroundWindow(hwndGta2Manager))
             {
                 FatalError_4A38C0(Gta2Error::Gta2ManagerLaunchError, "C:\\Splitting\\Gta2\\Source\\winmain.cpp", 125);
@@ -1957,9 +1957,9 @@ EXPORT void Start_GTA2Manager_5E4DE0()
     }
     else
     {
-        LPARAM lParam; // [esp+4h] [ebp-4h]
+        LPARAM lParam;
         PostMessageA(gHwnd_707F04, WM_ACTIVATE, 0, lParam);
-        if ((u32)ShellExecuteA(0, 0, "GTA2 Manager.EXE", 0, gWorkingDir_707F64, 1) <= 0x20)
+        if (reinterpret_cast<u32>(ShellExecuteA(0, 0, "GTA2 Manager.EXE", 0, gWorkingDir_707F64, 1)) <= 0x20)
         {
             FatalError_4A38C0(Gta2Error::Gta2ManagerLaunchError, "C:\\Splitting\\Gta2\\Source\\winmain.cpp", 136);
         }
@@ -2046,7 +2046,7 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
                     Input_Read_498D10();
                 }
 
-                if (gVidSys_7071D0 && !(u8)Bink::IsUsingDDBuffer_513770())
+                if (gVidSys_7071D0 && !static_cast<u8>(Bink::IsUsingDDBuffer_513770()))
                 {
                     SetVideoModeFromSettings_5D92D0();
                     OnVideoModeChanged_5D9680();
@@ -2071,7 +2071,7 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
                 gRoot_sound_66B038.Set3DSound_40F160(0);
                 gRoot_sound_66B038.Release_40F130();
 
-                if (gFrontend_67DC84 && (u8)Bink::IsDDBufferOpen_513760())
+                if (gFrontend_67DC84 && static_cast<u8>(Bink::IsDDBufferOpen_513760()))
                 {
                     Bink::CloseSlot1_513340();
                     Bink::CloseSlot2_513390();
@@ -2091,7 +2091,7 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
             }
 
         case WM_ACTIVATE: // order ok
-            switch ((u8)wParam)
+            switch (static_cast<u8>(wParam))
             {
                 case WA_ACTIVE:
                 case WA_CLICKACTIVE:
@@ -2261,7 +2261,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
     u32 osKind;
     GetDirectXVersion_4C4EC0(&dxVer, &osKind);
 
-    if ((u32)dxVer < 0x601)
+    if (dxVer < 0x601)
     {
         ErrorMsgBox_5E4EC0("ERROR: Incorrect version of DirectX");
         ReleaseMutex(gMutex_707078);
@@ -2279,8 +2279,8 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
     WndClass.cbClsExtra = 0;
     WndClass.cbWndExtra = 0;
     WndClass.hInstance = hInstance;
-    WndClass.hIcon = LoadIconA(hInstance, (LPCSTR)0x65);
-    WndClass.hCursor = LoadCursorA(0, (LPCSTR)0x7F00);
+    WndClass.hIcon = LoadIconA(hInstance, reinterpret_cast<LPCSTR>(0x65));
+    WndClass.hCursor = LoadCursorA(0, reinterpret_cast<LPCSTR>(0x7F00));
     WndClass.hbrBackground = 0;
     WndClass.lpszMenuName = "WinMain";
     WndClass.lpszClassName = "WinMain";
@@ -2324,8 +2324,8 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
     }
     else
     {
-        gWindowX_706B60 = (int)(GetSystemMetrics(0) - window_w) / 2;
-        gWindowY_706B64 = (int)(GetSystemMetrics(1) - window_h) / 2;
+        gWindowX_706B60 = static_cast<int>(GetSystemMetrics(0) - window_w) / 2;
+        gWindowY_706B64 = static_cast<int>(GetSystemMetrics(1) - window_h) / 2;
     }
 
     if (!SetWindowPos(gHwnd_707F04, 0, gWindowX_706B60, gWindowY_706B64, window_w, window_h, 0x314u))
@@ -2348,12 +2348,12 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
     }
     else
     {
-        state = 0; //  xor     esi, esi
+        state = 0;
     }
 
     if (bIsFrench_67D53C)
     {
-        state = 14; // mov     esi, 0Eh
+        state = 14;
     }
 
     if (bStartNetworkGame_7081F0)
@@ -2365,7 +2365,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
 
     // Game loop
 
-    u8 bQuit = 0; //  %bl
+    u8 bQuit = 0;
 
     while (1)
     {
@@ -2548,9 +2548,9 @@ EXPORT void __stdcall Shutdown_4DA740()
 }
 
 MATCH_FUNC(0x5E5A30)
-EXPORT char_type __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
+EXPORT bool __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
 {
-    char_type bRet = 1;
+    bool bRet = 1;
     gGameSession_67E8E0.init_4C5AF0();
     if (bStartNetworkGame_7081F0)
     {
@@ -2571,7 +2571,7 @@ EXPORT char_type __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
         else
         {
             GUID protocolGuid;
-            if (!gRegistry_6FF968.Get_Binary_587340(hKey, "UseProtocol", sizeof(GUID), (LPBYTE)&protocolGuid))
+            if (!gRegistry_6FF968.Get_Binary_587340(hKey, "UseProtocol", sizeof(GUID), reinterpret_cast<LPBYTE>(&protocolGuid)))
             {
                 RegCloseKey(hKey);
                 return 0;
@@ -2580,7 +2580,7 @@ EXPORT char_type __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
             Network_Buffer connection;
             connection.field_4_len = gRegistry_6FF968.Get_Binary_Size_5873E0(hKey, "UseConnection");
             connection.field_0_data = operator new(connection.field_4_len);
-            if (!gRegistry_6FF968.Get_Binary_587340(hKey, "UseConnection", connection.field_4_len, (LPBYTE)connection.field_0_data))
+            if (!gRegistry_6FF968.Get_Binary_587340(hKey, "UseConnection", connection.field_4_len, static_cast<LPBYTE>(connection.field_0_data)))
             {
                 operator delete(connection.field_0_data);
                 RegCloseKey(hKey);
@@ -2602,7 +2602,7 @@ EXPORT char_type __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
                     return 0;
                 }
                 wchar_t modemNumber[128];
-                gRegistry_6FF968.Get_Binary_587340(hKey, "ModemNumber", len, (LPBYTE)modemNumber);
+                gRegistry_6FF968.Get_Binary_587340(hKey, "ModemNumber", len, reinterpret_cast<LPBYTE>(modemNumber));
                 gNetPlay_7071E8.field_5_modem_num = modemNumber[0] != 0;
             }
         }
