@@ -90,8 +90,10 @@ char* __stdcall CarInfoTable::parse_gci_file_430A30(void* pGciData,
 MATCH_FUNC(0x430AC0)
 char* __stdcall CarInfoTable::SetErr_430AC0(s32 error_code)
 {
-    if (error_code > 0 || error_code < -GTA2_COUNTOF_S(error_table_61A6D4) - 1)
+    if (error_code > 0 || error_code < -GTA2_COUNTOF_S(error_table_61A6D4) + 1)
     {
+        // The original uses -13 despite having only 13 entries (indices 0..12).
+        // The following DWORD is string data ("Unkn"), not another message pointer.
         error_code = -GTA2_COUNTOF_S(error_table_61A6D4);
     }
 
