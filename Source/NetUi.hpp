@@ -19,18 +19,24 @@ enum Network_UI_Window
 
 enum Network_UI_Control_Ids
 {
+    LISTBOX_ALL_NET_GAMES_1000 = 1000,
+    BUTTON_JOIN_GAME_1001 = 1001,
     BUTTON_CREATE_GAME_1002 = 1002,
+    LABEL_PLAYER_NAME_1003 = 1003,
     BUTTON_REJECT_PLAYER_1020 = 1020,
     BUTTON_START_GAME_1021 = 1021,
     CHATBOX_HOST_1022 = 1022,
     BUTTON_SEND_CHAT_MESSAGE_HOST_1023 = 1023,
     TEXTFIELD_CHAT_HOST_1025 = 1025,
     COMBO_MAP_LIST_1026 = 1026,
+    LABEL_COPS_1028 = 1028,
+    LABEL_PLAYERS_REQUIRED_1033 = 1033,
     COMBO_GAME_TYPE_1036 = 1036u,
     TEXTBOX_FRAG_LIMIT_NUMBER_1059 = 1059u,
     LABEL_FRAG_LIMIT_TEXT_1035 = 1035u,
     TRACKBAR_GAME_SPEED_1031 = 1031,
     LABEL_GAME_SPEED_TEXT_1032 = 1032u,
+    LABEL_TIME_LIMIT_MINUTES_1037 = 1037,
     TEXTBOX_GAME_TIME_LIMIT_1038 = 1038u,
     CHECKBOX_POLICE_ENABLED_1027 = 1027u,
     LISTVIEW_JOINED_PLAYERS_1050 = 1050u,
@@ -44,7 +50,7 @@ enum Network_UI_Control_Ids
     LABEL_JOINED_GAME_POLICE_ENABLED_1056 = 1056u,
     LISTBOX_UNKNOWN_1000 = 1000u,
     TEXTBOX_PLAYER_NAME_1004 = 1004u,
-    LABLE_GAME_SPEED_1055 = 1055u,
+    LABEL_GAME_SPEED_1055 = 1055u,
     LABEL_JOINED_GAME_MAP_1054 = 1054u,
 };
 
@@ -98,7 +104,7 @@ class NetUi
     EXPORT static s32 __stdcall cb_SetPlayerPing_51AE50(NetUi* pNetUi, Network_PlayerPing* pPing);
     EXPORT void PopulateMainUI_51AFA0();
     EXPORT static LRESULT __stdcall cb_AddChatMessage_51B2F0(NetUi* pNetUi, Network_ChatMessage* pMsg);
-    EXPORT s32 AppendChatMessage_51B4F0(s32 player_idx, const char_type* pMsg);
+    EXPORT s32 AppendChatMessage_51B4F0(s32 hmenu, const char_type* pMsg);
     EXPORT void SetPlayerNameText_51B7C0();
     EXPORT static void __stdcall cb_sub_51B7E0(NetUi* pNetUi, const char_type** ppData);
     EXPORT void ApplyHostGameSettings_51B810(const char_type* pData);

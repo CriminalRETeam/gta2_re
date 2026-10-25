@@ -23,7 +23,7 @@ struct Network_UI_Control_Data_Array
         data[NETWORK_MENU_0][0].field_0_windowParams.field_4_y = 10;
         data[NETWORK_MENU_0][0].field_0_windowParams.field_8_w = 300;
         data[NETWORK_MENU_0][0].field_0_windowParams.field_C_h = 300;
-        data[NETWORK_MENU_0][0].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(1000);
+        data[NETWORK_MENU_0][0].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(LISTBOX_ALL_NET_GAMES_1000);
         data[NETWORK_MENU_0][0].field_0_windowParams.field_14_style = 0x40010001;
         data[NETWORK_MENU_0][0].field_0_windowParams.field_18_exStyle = 0x200;
         strcpy(data[NETWORK_MENU_0][0].field_1C_window_class_name, "LISTBOX");
@@ -33,7 +33,7 @@ struct Network_UI_Control_Data_Array
         data[NETWORK_MENU_0][1].field_0_windowParams.field_4_y = 320;
         data[NETWORK_MENU_0][1].field_0_windowParams.field_8_w = 100;
         data[NETWORK_MENU_0][1].field_0_windowParams.field_C_h = 30;
-        data[NETWORK_MENU_0][1].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(1001);
+        data[NETWORK_MENU_0][1].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(BUTTON_JOIN_GAME_1001);
         data[NETWORK_MENU_0][1].field_0_windowParams.field_14_style = 0x48030001;
         data[NETWORK_MENU_0][1].field_0_windowParams.field_18_exStyle = 0x0;
         strcpy(data[NETWORK_MENU_0][1].field_1C_window_class_name, "BUTTON");
@@ -53,7 +53,7 @@ struct Network_UI_Control_Data_Array
         data[NETWORK_MENU_0][3].field_0_windowParams.field_4_y = 320;
         data[NETWORK_MENU_0][3].field_0_windowParams.field_8_w = 100;
         data[NETWORK_MENU_0][3].field_0_windowParams.field_C_h = 30;
-        data[NETWORK_MENU_0][3].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(2);
+        data[NETWORK_MENU_0][3].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(IDCANCEL);
         data[NETWORK_MENU_0][3].field_0_windowParams.field_14_style = 0x40010000;
         data[NETWORK_MENU_0][3].field_0_windowParams.field_18_exStyle = 0x0;
         strcpy(data[NETWORK_MENU_0][3].field_1C_window_class_name, "BUTTON");
@@ -63,7 +63,7 @@ struct Network_UI_Control_Data_Array
         data[NETWORK_MENU_0][4].field_0_windowParams.field_4_y = 10;
         data[NETWORK_MENU_0][4].field_0_windowParams.field_8_w = 50;
         data[NETWORK_MENU_0][4].field_0_windowParams.field_C_h = 30;
-        data[NETWORK_MENU_0][4].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(1003);
+        data[NETWORK_MENU_0][4].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(LABEL_PLAYER_NAME_1003);
         data[NETWORK_MENU_0][4].field_0_windowParams.field_14_style = 0x40000000;
         data[NETWORK_MENU_0][4].field_0_windowParams.field_18_exStyle = 0x0;
         strcpy(data[NETWORK_MENU_0][4].field_1C_window_class_name, "STATIC");
@@ -73,13 +73,13 @@ struct Network_UI_Control_Data_Array
         data[NETWORK_MENU_0][5].field_0_windowParams.field_4_y = 10;
         data[NETWORK_MENU_0][5].field_0_windowParams.field_8_w = 100;
         data[NETWORK_MENU_0][5].field_0_windowParams.field_C_h = 25;
-        data[NETWORK_MENU_0][5].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(1004);
+        data[NETWORK_MENU_0][5].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(TEXTBOX_PLAYER_NAME_1004);
         data[NETWORK_MENU_0][5].field_0_windowParams.field_14_style = 0x40010000;
         data[NETWORK_MENU_0][5].field_0_windowParams.field_18_exStyle = 0x200;
         strcpy(data[NETWORK_MENU_0][5].field_1C_window_class_name, "EDIT");
         strcpy(data[NETWORK_MENU_0][5].field_6C_gtx_string_name, "");
 
-        // Clear remaining array from windows 0:
+        // Clear remaining array for windows 0:
 
         data[NETWORK_MENU_0][6].field_0_windowParams.field_0_x = 0;
         data[NETWORK_MENU_0][6].field_0_windowParams.field_4_y = 0;
@@ -407,7 +407,7 @@ struct Network_UI_Control_Data_Array
         data[HOST_LOBBY_1][8].field_0_windowParams.field_4_y = 260;
         data[HOST_LOBBY_1][8].field_0_windowParams.field_8_w = 200;
         data[HOST_LOBBY_1][8].field_0_windowParams.field_C_h = 30;
-        data[HOST_LOBBY_1][8].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(1033);
+        data[HOST_LOBBY_1][8].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(LABEL_PLAYERS_REQUIRED_1033);
         data[HOST_LOBBY_1][8].field_0_windowParams.field_14_style = 0x40000000;
         data[HOST_LOBBY_1][8].field_0_windowParams.field_18_exStyle = 0x0;
         strcpy(data[HOST_LOBBY_1][8].field_1C_window_class_name, "STATIC");
@@ -427,7 +427,7 @@ struct Network_UI_Control_Data_Array
         data[HOST_LOBBY_1][10].field_0_windowParams.field_4_y = 340;
         data[HOST_LOBBY_1][10].field_0_windowParams.field_8_w = 200;
         data[HOST_LOBBY_1][10].field_0_windowParams.field_C_h = 30;
-        data[HOST_LOBBY_1][10].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(1032);
+        data[HOST_LOBBY_1][10].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(LABEL_GAME_SPEED_TEXT_1032);
         data[HOST_LOBBY_1][10].field_0_windowParams.field_14_style = 0x40000000;
         data[HOST_LOBBY_1][10].field_0_windowParams.field_18_exStyle = 0x0;
         strcpy(data[HOST_LOBBY_1][10].field_1C_window_class_name, "STATIC");
@@ -447,7 +447,7 @@ struct Network_UI_Control_Data_Array
         data[HOST_LOBBY_1][12].field_0_windowParams.field_4_y = 330;
         data[HOST_LOBBY_1][12].field_0_windowParams.field_8_w = 60;
         data[HOST_LOBBY_1][12].field_0_windowParams.field_C_h = 26;
-        data[HOST_LOBBY_1][12].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(1059);
+        data[HOST_LOBBY_1][12].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(TEXTBOX_FRAG_LIMIT_NUMBER_1059);
         data[HOST_LOBBY_1][12].field_0_windowParams.field_14_style = 0x40033000;
         data[HOST_LOBBY_1][12].field_0_windowParams.field_18_exStyle = 0x1200;
         strcpy(data[HOST_LOBBY_1][12].field_1C_window_class_name, "EDIT");
@@ -457,7 +457,7 @@ struct Network_UI_Control_Data_Array
         data[HOST_LOBBY_1][13].field_0_windowParams.field_4_y = 330;
         data[HOST_LOBBY_1][13].field_0_windowParams.field_8_w = 200;
         data[HOST_LOBBY_1][13].field_0_windowParams.field_C_h = 30;
-        data[HOST_LOBBY_1][13].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(1035);
+        data[HOST_LOBBY_1][13].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(LABEL_FRAG_LIMIT_TEXT_1035);
         data[HOST_LOBBY_1][13].field_0_windowParams.field_14_style = 0x40000000;
         data[HOST_LOBBY_1][13].field_0_windowParams.field_18_exStyle = 0x0;
         strcpy(data[HOST_LOBBY_1][13].field_1C_window_class_name, "STATIC");
@@ -467,7 +467,7 @@ struct Network_UI_Control_Data_Array
         data[HOST_LOBBY_1][14].field_0_windowParams.field_4_y = 370;
         data[HOST_LOBBY_1][14].field_0_windowParams.field_8_w = 60;
         data[HOST_LOBBY_1][14].field_0_windowParams.field_C_h = 26;
-        data[HOST_LOBBY_1][14].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(1038);
+        data[HOST_LOBBY_1][14].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(TEXTBOX_GAME_TIME_LIMIT_1038);
         data[HOST_LOBBY_1][14].field_0_windowParams.field_14_style = 0x40033000;
         data[HOST_LOBBY_1][14].field_0_windowParams.field_18_exStyle = 0x1200;
         strcpy(data[HOST_LOBBY_1][14].field_1C_window_class_name, "EDIT");
@@ -477,7 +477,7 @@ struct Network_UI_Control_Data_Array
         data[HOST_LOBBY_1][15].field_0_windowParams.field_4_y = 370;
         data[HOST_LOBBY_1][15].field_0_windowParams.field_8_w = 200;
         data[HOST_LOBBY_1][15].field_0_windowParams.field_C_h = 30;
-        data[HOST_LOBBY_1][15].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(1037);
+        data[HOST_LOBBY_1][15].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(LABEL_TIME_LIMIT_MINUTES_1037);
         data[HOST_LOBBY_1][15].field_0_windowParams.field_14_style = 0x40000000;
         data[HOST_LOBBY_1][15].field_0_windowParams.field_18_exStyle = 0x0;
         strcpy(data[HOST_LOBBY_1][15].field_1C_window_class_name, "STATIC");
@@ -487,7 +487,7 @@ struct Network_UI_Control_Data_Array
         data[HOST_LOBBY_1][16].field_0_windowParams.field_4_y = 400;
         data[HOST_LOBBY_1][16].field_0_windowParams.field_8_w = 20;
         data[HOST_LOBBY_1][16].field_0_windowParams.field_C_h = 30;
-        data[HOST_LOBBY_1][16].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(1027);
+        data[HOST_LOBBY_1][16].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(CHECKBOX_POLICE_ENABLED_1027);
         data[HOST_LOBBY_1][16].field_0_windowParams.field_14_style = 0x40000003;
         data[HOST_LOBBY_1][16].field_0_windowParams.field_18_exStyle = 0x0;
         strcpy(data[HOST_LOBBY_1][16].field_1C_window_class_name, "BUTTON");
@@ -497,13 +497,13 @@ struct Network_UI_Control_Data_Array
         data[HOST_LOBBY_1][17].field_0_windowParams.field_4_y = 405;
         data[HOST_LOBBY_1][17].field_0_windowParams.field_8_w = 200;
         data[HOST_LOBBY_1][17].field_0_windowParams.field_C_h = 30;
-        data[HOST_LOBBY_1][17].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(1028);
+        data[HOST_LOBBY_1][17].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(LABEL_COPS_1028);
         data[HOST_LOBBY_1][17].field_0_windowParams.field_14_style = 0x40000000;
         data[HOST_LOBBY_1][17].field_0_windowParams.field_18_exStyle = 0x0;
         strcpy(data[HOST_LOBBY_1][17].field_1C_window_class_name, "STATIC");
         strcpy(data[HOST_LOBBY_1][17].field_6C_gtx_string_name, "");
 
-        // Clear remaining array from windows 1:
+        // Clear remaining array for windows 1:
 
         data[HOST_LOBBY_1][18].field_0_windowParams.field_0_x = 0;
         data[HOST_LOBBY_1][18].field_0_windowParams.field_4_y = 0;
@@ -631,7 +631,7 @@ struct Network_UI_Control_Data_Array
         data[GUEST_LOBBY_2][0].field_0_windowParams.field_4_y = 10;
         data[GUEST_LOBBY_2][0].field_0_windowParams.field_8_w = 210;
         data[GUEST_LOBBY_2][0].field_0_windowParams.field_C_h = 130;
-        data[GUEST_LOBBY_2][0].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(1050);
+        data[GUEST_LOBBY_2][0].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(LISTVIEW_JOINED_PLAYERS_1050);
         data[GUEST_LOBBY_2][0].field_0_windowParams.field_14_style = 0x40008005;
         data[GUEST_LOBBY_2][0].field_0_windowParams.field_18_exStyle = 0x200;
         strcpy(data[GUEST_LOBBY_2][0].field_1C_window_class_name, "SysListView32");
@@ -651,7 +651,7 @@ struct Network_UI_Control_Data_Array
         data[GUEST_LOBBY_2][2].field_0_windowParams.field_4_y = 170;
         data[GUEST_LOBBY_2][2].field_0_windowParams.field_8_w = 150;
         data[GUEST_LOBBY_2][2].field_0_windowParams.field_C_h = 30;
-        data[GUEST_LOBBY_2][2].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(2);
+        data[GUEST_LOBBY_2][2].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(IDCANCEL);
         data[GUEST_LOBBY_2][2].field_0_windowParams.field_14_style = 0x40000000;
         data[GUEST_LOBBY_2][2].field_0_windowParams.field_18_exStyle = 0x0;
         strcpy(data[GUEST_LOBBY_2][2].field_1C_window_class_name, "BUTTON");
@@ -681,7 +681,7 @@ struct Network_UI_Control_Data_Array
         data[GUEST_LOBBY_2][5].field_0_windowParams.field_4_y = 230;
         data[GUEST_LOBBY_2][5].field_0_windowParams.field_8_w = 270;
         data[GUEST_LOBBY_2][5].field_0_windowParams.field_C_h = 30;
-        data[GUEST_LOBBY_2][5].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(1054);
+        data[GUEST_LOBBY_2][5].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(LABEL_JOINED_GAME_MAP_1054);
         data[GUEST_LOBBY_2][5].field_0_windowParams.field_14_style = 0x40000000;
         data[GUEST_LOBBY_2][5].field_0_windowParams.field_18_exStyle = 0x0;
         strcpy(data[GUEST_LOBBY_2][5].field_1C_window_class_name, "STATIC");
@@ -691,7 +691,7 @@ struct Network_UI_Control_Data_Array
         data[GUEST_LOBBY_2][6].field_0_windowParams.field_4_y = 260;
         data[GUEST_LOBBY_2][6].field_0_windowParams.field_8_w = 270;
         data[GUEST_LOBBY_2][6].field_0_windowParams.field_C_h = 30;
-        data[GUEST_LOBBY_2][6].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(1057);
+        data[GUEST_LOBBY_2][6].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(LABEL_JOINED_GAME_TYPE_1057);
         data[GUEST_LOBBY_2][6].field_0_windowParams.field_14_style = 0x40000000;
         data[GUEST_LOBBY_2][6].field_0_windowParams.field_18_exStyle = 0x0;
         strcpy(data[GUEST_LOBBY_2][6].field_1C_window_class_name, "STATIC");
@@ -701,7 +701,7 @@ struct Network_UI_Control_Data_Array
         data[GUEST_LOBBY_2][7].field_0_windowParams.field_4_y = 290;
         data[GUEST_LOBBY_2][7].field_0_windowParams.field_8_w = 270;
         data[GUEST_LOBBY_2][7].field_0_windowParams.field_C_h = 30;
-        data[GUEST_LOBBY_2][7].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(1058);
+        data[GUEST_LOBBY_2][7].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(LABEL_JOINED_GAME_FRAG_LIMIT_1058);
         data[GUEST_LOBBY_2][7].field_0_windowParams.field_14_style = 0x40000000;
         data[GUEST_LOBBY_2][7].field_0_windowParams.field_18_exStyle = 0x0;
         strcpy(data[GUEST_LOBBY_2][7].field_1C_window_class_name, "STATIC");
@@ -711,7 +711,7 @@ struct Network_UI_Control_Data_Array
         data[GUEST_LOBBY_2][8].field_0_windowParams.field_4_y = 320;
         data[GUEST_LOBBY_2][8].field_0_windowParams.field_8_w = 270;
         data[GUEST_LOBBY_2][8].field_0_windowParams.field_C_h = 30;
-        data[GUEST_LOBBY_2][8].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(1056);
+        data[GUEST_LOBBY_2][8].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(LABEL_JOINED_GAME_POLICE_ENABLED_1056);
         data[GUEST_LOBBY_2][8].field_0_windowParams.field_14_style = 0x40000000;
         data[GUEST_LOBBY_2][8].field_0_windowParams.field_18_exStyle = 0x0;
         strcpy(data[GUEST_LOBBY_2][8].field_1C_window_class_name, "STATIC");
@@ -721,7 +721,7 @@ struct Network_UI_Control_Data_Array
         data[GUEST_LOBBY_2][9].field_0_windowParams.field_4_y = 350;
         data[GUEST_LOBBY_2][9].field_0_windowParams.field_8_w = 270;
         data[GUEST_LOBBY_2][9].field_0_windowParams.field_C_h = 30;
-        data[GUEST_LOBBY_2][9].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(1055);
+        data[GUEST_LOBBY_2][9].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(LABEL_GAME_SPEED_1055);
         data[GUEST_LOBBY_2][9].field_0_windowParams.field_14_style = 0x40000000;
         data[GUEST_LOBBY_2][9].field_0_windowParams.field_18_exStyle = 0x0;
         strcpy(data[GUEST_LOBBY_2][9].field_1C_window_class_name, "STATIC");
@@ -731,13 +731,13 @@ struct Network_UI_Control_Data_Array
         data[GUEST_LOBBY_2][10].field_0_windowParams.field_4_y = 380;
         data[GUEST_LOBBY_2][10].field_0_windowParams.field_8_w = 270;
         data[GUEST_LOBBY_2][10].field_0_windowParams.field_C_h = 30;
-        data[GUEST_LOBBY_2][10].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(1060);
+        data[GUEST_LOBBY_2][10].field_0_windowParams.field_10_hMenu = reinterpret_cast<HMENU>(LABEL_JOINED_GAME_TIME_LIMIT_1060);
         data[GUEST_LOBBY_2][10].field_0_windowParams.field_14_style = 0x40000000;
         data[GUEST_LOBBY_2][10].field_0_windowParams.field_18_exStyle = 0x0;
         strcpy(data[GUEST_LOBBY_2][10].field_1C_window_class_name, "STATIC");
         strcpy(data[GUEST_LOBBY_2][10].field_6C_gtx_string_name, "");
 
-        // Clear remaining array from windows 2:
+        // Clear remaining array for windows 2:
 
         data[GUEST_LOBBY_2][11].field_0_windowParams.field_0_x = 0;
         data[GUEST_LOBBY_2][11].field_0_windowParams.field_4_y = 0;
@@ -1122,22 +1122,22 @@ s32 NetUi::cb_FillSessionList_519D30(NetUi* pThis, Network_NameList* pSessions)
 {
     char_type name[260];
 
-    SendDlgItemMessageA(pThis->Get_2031C_HWND_519E20(), 1000, LB_RESETCONTENT, 0, 0);
+    SendDlgItemMessageA(pThis->Get_2031C_HWND_519E20(), LISTBOX_ALL_NET_GAMES_1000, LB_RESETCONTENT, 0, 0);
     for (u32 i = 0; i < pSessions->field_40_count; i++)
     {
         wcstombs(name, pSessions->field_0_names[i], sizeof(name));
-        LRESULT item = SendDlgItemMessageA(pThis->Get_2031C_HWND_519E20(), 1000, LB_ADDSTRING, 0, reinterpret_cast<LPARAM>(name));
+        LRESULT item = SendDlgItemMessageA(pThis->Get_2031C_HWND_519E20(), LISTBOX_ALL_NET_GAMES_1000, LB_ADDSTRING, 0, reinterpret_cast<LPARAM>(name));
         if (item != LB_ERR && item != LB_ERRSPACE)
         {
-            SendDlgItemMessageA(pThis->Get_2031C_HWND_519E20(), 1000, LB_SETITEMDATA, item, i);
+            SendDlgItemMessageA(pThis->Get_2031C_HWND_519E20(), LISTBOX_ALL_NET_GAMES_1000, LB_SETITEMDATA, item, i);
         }
     }
 
     if (pSessions->field_40_count > 0 || gNetPlay_7071E8.field_4_bModem)
     {
-        return EnableWindow(GetDlgItem(pThis->Get_2031C_HWND_519E20(), 1001), TRUE);
+        return EnableWindow(GetDlgItem(pThis->Get_2031C_HWND_519E20(), BUTTON_JOIN_GAME_1001), TRUE);
     }
-    return EnableWindow(GetDlgItem(pThis->Get_2031C_HWND_519E20(), 1001), FALSE);
+    return EnableWindow(GetDlgItem(pThis->Get_2031C_HWND_519E20(), BUTTON_JOIN_GAME_1001), FALSE);
 }
 
 MATCH_FUNC(0x519e10)
@@ -1230,7 +1230,7 @@ void __stdcall NetUi::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s32 notif
 
     switch (id)
     {
-        case 1001: // "Join" button
+        case BUTTON_JOIN_GAME_1001: // "Join" button
             if (gNetPlay_7071E8.field_4_bModem)
             {
                 gNetPlay_7071E8.EnumSessions_51E650();
@@ -1239,7 +1239,7 @@ void __stdcall NetUi::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s32 notif
                 playerData.field_4_len = 0;
                 groupData.field_0_data = 0;
                 groupData.field_4_len = 0;
-                GetDlgItemTextA(hDlg, 1004, playerName, 259);
+                GetDlgItemTextA(hDlg, TEXTBOX_PLAYER_NAME_1004, playerName, 259);
                 NetUi::GetString_519A50(playerNameW, playerName, 260);
                 NetUi* pThis = reinterpret_cast<NetUi*>(GetWindowLongA(hDlg, 8));
                 pThis->SetPlayNameAndSaveToRegistry_51BD40(playerNameW, playerName);
@@ -1259,14 +1259,14 @@ void __stdcall NetUi::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s32 notif
                 playerData.field_4_len = 0;
                 groupData.field_0_data = 0;
                 groupData.field_4_len = 0;
-                GetDlgItemTextA(hDlg, 1004, playerName, 259);
+                GetDlgItemTextA(hDlg, TEXTBOX_PLAYER_NAME_1004, playerName, 259);
                 NetUi::GetString_519A50(playerNameW, playerName, 260);
                 NetUi* pThis = reinterpret_cast<NetUi*>(GetWindowLongA(hDlg, 8));
                 pThis->SetPlayNameAndSaveToRegistry_51BD40(playerNameW, playerName);
-                LRESULT sel = SendDlgItemMessageA(hDlg, 1000, LB_GETCURSEL, 0, 0);
+                LRESULT sel = SendDlgItemMessageA(hDlg, LISTBOX_ALL_NET_GAMES_1000, LB_GETCURSEL, 0, 0);
                 if (sel != -1)
                 {
-                    LRESULT idx = SendDlgItemMessageA(hDlg, 1000, LB_GETITEMDATA, sel, 0);
+                    LRESULT idx = SendDlgItemMessageA(hDlg, LISTBOX_ALL_NET_GAMES_1000, LB_GETITEMDATA, sel, 0);
                     if (gNetPlay_7071E8.JoinSession_520570(idx, playerNameW, &playerData, &groupData))
                     {
                         pThis->ApplyHostGameSettings_51B810(static_cast<const char_type*>(groupData.field_0_data));
@@ -1276,22 +1276,22 @@ void __stdcall NetUi::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s32 notif
             }
             break;
 
-        case 1000: // Double click on the network game session
-            if (notify == LBN_DBLCLK)
+        case LISTBOX_ALL_NET_GAMES_1000:
+            if (notify == LBN_DBLCLK)   // Double click on the network game session
             {
                 wchar_t playerNameW[260];
                 playerData.field_0_data = 0;
                 playerData.field_4_len = 0;
                 groupData.field_0_data = 0;
                 groupData.field_4_len = 0;
-                GetDlgItemTextA(hDlg, 1004, playerName, 259);
+                GetDlgItemTextA(hDlg, TEXTBOX_PLAYER_NAME_1004, playerName, 259);
                 NetUi::GetString_519A50(playerNameW, playerName, 260);
                 NetUi* pThis = reinterpret_cast<NetUi*>(GetWindowLongA(hDlg, 8));
                 pThis->SetPlayNameAndSaveToRegistry_51BD40(playerNameW, playerName);
-                LRESULT sel = SendDlgItemMessageA(hDlg, 1000, LB_GETCURSEL, 0, 0);
+                LRESULT sel = SendDlgItemMessageA(hDlg, LISTBOX_ALL_NET_GAMES_1000, LB_GETCURSEL, 0, 0);
                 if (sel != -1)
                 {
-                    LRESULT idx = SendDlgItemMessageA(hDlg, 1000, LB_GETITEMDATA, sel, 0);
+                    LRESULT idx = SendDlgItemMessageA(hDlg, LISTBOX_ALL_NET_GAMES_1000, LB_GETITEMDATA, sel, 0);
                     if (gNetPlay_7071E8.JoinSession_520570(idx, playerNameW, &playerData, &groupData))
                     {
                         pThis->ShowSpecificWindow_51ABF0(2);
@@ -1337,7 +1337,7 @@ void __stdcall NetUi::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s32 notif
             groupData.field_4_len = sizeof(NetworkGameSettings);
             playerData.field_0_data = 0;
             playerData.field_4_len = 0;
-            GetDlgItemTextA(hDlg, 1004, playerName, 259);
+            GetDlgItemTextA(hDlg, TEXTBOX_PLAYER_NAME_1004, playerName, 259);
             sprintf(sessionName, "%s's Game", playerName);
             NetUi::GetString_519A50(hostPlayerNameW, playerName, 260);
             NetUi::GetString_519A50(textW, sessionName, 260);
@@ -1368,7 +1368,7 @@ void __stdcall NetUi::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s32 notif
         {
             gNetPlay_7071E8.NetworkTick_51ED00();
             Sleep(100);
-            GetDlgItemTextA(hDlg, 1004, playerName, 260);
+            GetDlgItemTextA(hDlg, TEXTBOX_PLAYER_NAME_1004, playerName, 260);
             NetUi::GetString_519A50(textW, playerName, 260);
             NetUi* pThis = reinterpret_cast<NetUi*>(GetWindowLongA(hDlg, 8));
             pThis->SetPlayNameAndSaveToRegistry_51BD40(textW, playerName);
@@ -1434,10 +1434,10 @@ void __stdcall NetUi::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s32 notif
             }
             break;
 
-        case 1059: // Frags/Points to win
+        case TEXTBOX_FRAG_LIMIT_NUMBER_1059: // Frags/Points to win
             if (notify == EN_CHANGE)
             {
-                GetDlgItemTextA(hDlg, 1059, chatText, 127);
+                GetDlgItemTextA(hDlg, TEXTBOX_FRAG_LIMIT_NUMBER_1059, chatText, 127);
                 if (strlen(chatText))
                 {
                     sscanf(chatText, "%d", &value);
@@ -1447,7 +1447,7 @@ void __stdcall NetUi::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s32 notif
             }
             break;
 
-        case 1027:
+        case CHECKBOX_POLICE_ENABLED_1027:
         {
             LRESULT state = SendDlgItemMessageA(hDlg, CHECKBOX_POLICE_ENABLED_1027, BM_GETSTATE, 0, 0);
             NetUi* pThis = reinterpret_cast<NetUi*>(GetWindowLongA(hDlg, 8));
@@ -1469,10 +1469,10 @@ void __stdcall NetUi::OnWmCommand_519FE0(HWND hDlg, s32 id, HWND hCtl, s32 notif
             }
             break;
 
-        case 1038: // Game time limit
+        case TEXTBOX_GAME_TIME_LIMIT_1038: // Game time limit
             if (notify == EN_CHANGE)
             {
-                GetDlgItemTextA(hDlg, 1038, chatText, 127);
+                GetDlgItemTextA(hDlg, TEXTBOX_GAME_TIME_LIMIT_1038, chatText, 127);
                 if (strlen(chatText))
                 {
                     sscanf(chatText, "%d", &value);
@@ -1497,7 +1497,7 @@ void __stdcall NetUi::OnTimer_51A9D0(HWND hWnd, s32 timer_id)
 
         if (selIndex != LB_ERR)
         {
-            SendDlgItemMessageA(hWnd, 1000, LB_GETTEXT, selIndex, reinterpret_cast<LPARAM>(textBuf));
+            SendDlgItemMessageA(hWnd, LISTBOX_ALL_NET_GAMES_1000, LB_GETTEXT, selIndex, reinterpret_cast<LPARAM>(textBuf));
 
             hadSelection = 1;
         }
@@ -1506,11 +1506,11 @@ void __stdcall NetUi::OnTimer_51A9D0(HWND hWnd, s32 timer_id)
 
         if (hadSelection)
         {
-            SendDlgItemMessageA(hWnd, 1000, LB_SELECTSTRING, static_cast<WPARAM>(-1), reinterpret_cast<LPARAM>(textBuf));
+            SendDlgItemMessageA(hWnd, LISTBOX_ALL_NET_GAMES_1000, LB_SELECTSTRING, static_cast<WPARAM>(-1), reinterpret_cast<LPARAM>(textBuf));
         }
         else
         {
-            SendDlgItemMessageA(hWnd, 1000, LB_SETCURSEL, 0, 0);
+            SendDlgItemMessageA(hWnd, LISTBOX_ALL_NET_GAMES_1000, LB_SETCURSEL, 0, 0);
         }
     }
     else
@@ -1554,19 +1554,19 @@ void NetUi::CreateMainUi_51AA90(HWND hWndParent)
     SetWindowTextA(hWndParent, GetString_519A00("netui08")); // "Network GTA2"
 
     // Subclass to handle enter key pressing
-    this->field_1FD70_old_proc = reinterpret_cast<WNDPROC>(GetWindowLongA(GetDlgItem(hWndParent, TEXTFIELD_CHAT_GUEST_1053), GWL_WNDPROC));
-    this->field_1FD74_old_proc = reinterpret_cast<WNDPROC>(GetWindowLongA(GetDlgItem(hWndParent, TEXTFIELD_CHAT_HOST_1025), GWL_WNDPROC));
+    field_1FD70_old_proc = reinterpret_cast<WNDPROC>(GetWindowLongA(GetDlgItem(hWndParent, TEXTFIELD_CHAT_GUEST_1053), GWL_WNDPROC));
+    field_1FD74_old_proc = reinterpret_cast<WNDPROC>(GetWindowLongA(GetDlgItem(hWndParent, TEXTFIELD_CHAT_HOST_1025), GWL_WNDPROC));
     SetWindowLongA(GetDlgItem(hWndParent, TEXTFIELD_CHAT_GUEST_1053), GWL_WNDPROC, reinterpret_cast<LONG>(NetUi::subclass_proc_51BDD0));
     SetWindowLongA(GetDlgItem(hWndParent, TEXTFIELD_CHAT_HOST_1025), GWL_WNDPROC, reinterpret_cast<LONG>(NetUi::subclass_proc_51BDD0));
 
     SendDlgItemMessageA(hWndParent, TRACKBAR_GAME_SPEED_1031, TBM_SETRANGE, TRUE, MAKELONG(0, 2)); // set range of game speed slider: 0 to 2 (that is, 3 options)
 
-    SetDlgItemTextA(hWndParent, 1028, GetString_519A00("netui14")); // "Cops"
-    SetDlgItemTextA(hWndParent, 1037, GetString_519A00("netui21")); // "Time Limit (Minutes)"
+    SetDlgItemTextA(hWndParent, LABEL_COPS_1028, GetString_519A00("netui14")); // "Cops"
+    SetDlgItemTextA(hWndParent, LABEL_TIME_LIMIT_MINUTES_1037, GetString_519A00("netui21")); // "Time Limit (Minutes)"
     NetUi::SetPlayerCountText_51CB30(0, hWndParent);
     if (gNetPlay_7071E8.field_4_bModem)
     {
-        EnableWindow(GetDlgItem(hWndParent, 1001), 1);
+        EnableWindow(GetDlgItem(hWndParent, BUTTON_JOIN_GAME_1001), 1);
     }
 }
 
@@ -1833,7 +1833,7 @@ LRESULT NetUi::cb_AddChatMessage_51B2F0(NetUi* pNetUi, Network_ChatMessage* pMsg
 #pragma warning(disable : 4715) // not all control paths return a value
 #pragma warning(disable : 4700) // name is never filled in, as in the original
 MATCH_FUNC(0x51b4f0)
-s32 NetUi::AppendChatMessage_51B4F0(s32 player_idx, const char_type* pMsg)
+s32 NetUi::AppendChatMessage_51B4F0(s32 hmenu, const char_type* pMsg)
 {
     char_type line[260];
     char_type name[260];
@@ -1849,7 +1849,7 @@ s32 NetUi::AppendChatMessage_51B4F0(s32 player_idx, const char_type* pMsg)
 
     switch (field_20310_showing_specific_window_idx)
     {
-        case 2: // Guest
+        case GUEST_LOBBY_2: // Guest
         {
             if (gChatLineCount_6F8A2C >= 20)
             {
@@ -1882,7 +1882,7 @@ s32 NetUi::AppendChatMessage_51B4F0(s32 player_idx, const char_type* pMsg)
             return SendDlgItemMessageA(Get_2031C_HWND_519E20(), CHATBOX_GUEST_1051, EM_LINESCROLL, 0, lineCount);
         }
 
-        case 1: // Host
+        case HOST_LOBBY_1: // Host
         {
             if (gChatLineCount_6F8A2C >= 20)
             {
@@ -1986,7 +1986,7 @@ void NetUi::ApplyHostGameSettings_51B810(const char_type* pData)
                 pSpeedText = GetString_519A00("netui10");
                 break;
         }
-        SetDlgItemTextA(field_2031C_dlg_hwnd, LABLE_GAME_SPEED_1055, pSpeedText);
+        SetDlgItemTextA(field_2031C_dlg_hwnd, LABEL_GAME_SPEED_1055, pSpeedText);
 
         SetJoinedGamePoliceEnabledText_51CD30(field_20088_game_settings.field_201A0_police_on, field_2031C_dlg_hwnd);
         SetJoinedGameTypeAndFragLimitText_51D0C0(field_20088_game_settings.field_20198_game_type,
@@ -2413,7 +2413,7 @@ void NetUi::SetPlayerCountText_51CB30(s32 count, HWND hDlg)
     char String[260];
     const char* pStr = GetString_519A00("netui13");
     sprintf(String, "%s %d", pStr, count);
-    SetDlgItemTextA(hDlg, 1033, String);
+    SetDlgItemTextA(hDlg, LABEL_PLAYERS_REQUIRED_1033, String);
 }
 
 MATCH_FUNC(0x51cbc0)
