@@ -185,7 +185,48 @@ def write_exclusions(mapfile, out_dir, extra=()):
 # snapshot only loads into a process with the same heap layout, hence a fixed command line
 # length and a fixed environment for every run.
 CMDLINE_LENGTH = 1024
-ENV_KEYS = ("HOME", "PATH", "USER", "LOGNAME", "DISPLAY", "XAUTHORITY", "WINEPREFIX", "WINEARCH", "WINEDEBUG", "WINEDLLOVERRIDES", "LANG", "LC_ALL", "TMPDIR")
+ENV_KEYS = ("HOME", "PATH", "USER", "LOGNAME", "WINEPREFIX", "WINEARCH", "WINEDEBUG", "WINEDLLOVERRIDES", "LANG", "LC_ALL", "TMPDIR")
+
+
+XVFB_DISPLAY = ":99"  # fixed: the display name is part of the environment, whose size shifts the heap layout
+
+
+def find_xvfb():
+    for cand in (os.environ.get("BOT_XVFB"), shutil.which("Xvfb"), str(Path.home() / ".local/bin/Xvfb")):
+        if cand and Path(cand).exists():
+            return cand
+    return None
+
+
+class VirtualDisplay:
+    """Runs the game on a private Xvfb (the session's display may be locked and then blocks window
+    creation). BOT_USE_DISPLAY=1 uses $DISPLAY instead."""
+
+    def __init__(self):
+        self.proc = None
+        self.display = None
+
+    def __enter__(self):
+        if os.environ.get("BOT_USE_DISPLAY"):
+            self.display = os.environ.get("DISPLAY")
+            return self
+        xvfb = find_xvfb()
+        if not xvfb:
+            sys.exit("no Xvfb found: install xvfb, put the binary in ~/.local/bin or set BOT_XVFB (or BOT_USE_DISPLAY=1)")
+        if not Path("/tmp/.X11-unix/X" + XVFB_DISPLAY[1:]).exists():
+            self.proc = subprocess.Popen([xvfb, XVFB_DISPLAY, "-screen", "0", "800x600x24", "-nolisten", "tcp"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+            for _ in range(50):
+                if Path("/tmp/.X11-unix/X" + XVFB_DISPLAY[1:]).exists():
+                    break
+                time.sleep(0.1)
+        self.display = XVFB_DISPLAY
+        return self
+
+    def __exit__(self, *exc):
+        if self.proc:
+            self.proc.terminate()
+            self.proc.wait()
+
 
 
 def pad_args(bot_args):
@@ -199,19 +240,22 @@ def pad_args(bot_args):
     return args
 
 
-def run_game(root, bot_args, timeout=600, desktop=None, xvfb=None, log=None):
+def run_game(root, bot_args, timeout=600, desktop=None, log=None):
     """Runs decomp_main.exe under wine from the GTA2 dir. bot_args is a list like
     ['-bot=walk_test', '-bot_out=bot_out']. Returns the exit code."""
     env = {k: os.environ[k] for k in ENV_KEYS if k in os.environ}
     env.setdefault("WINEDEBUG", "-all")
+    with VirtualDisplay() as vd:
+        if vd.display:
+            env["DISPLAY"] = vd.display
+        return _run_game(root, bot_args, env, timeout, desktop, log)
+
+
+def _run_game(root, bot_args, env, timeout, desktop, log):
     cmd = ["wine"]
     if desktop:
         cmd += ["explorer", f"/desktop={desktop}"]
     cmd += [EXE_NAME] + pad_args(bot_args)
-    if xvfb is None:
-        xvfb = shutil.which("xvfb-run") is not None and not env.get("DISPLAY")
-    if xvfb:
-        cmd = ["xvfb-run", "-a", "-s", "-screen 0 1024x768x24"] + cmd
     print("+", " ".join(a if not a.startswith("-bot_pad=") else "-bot_pad=..." for a in cmd), "(cwd", str(root) + ")", flush=True)
     t0 = time.time()
     with open(log, "w") if log else open(os.devnull, "w") as out:

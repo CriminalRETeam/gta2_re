@@ -8,6 +8,7 @@
 
 class MemoryMap;
 class WorldModel;
+class NavFoot;
 class Snapshot;
 class Player;
 class Ped;
@@ -124,6 +125,12 @@ class Bot : public BotObject
     float mTargetX, mTargetY;
     bool mTargetIsArrow;
     Snapshot* mActionSnap;
+    NavFoot* mNav;
+    s32 mPathIdx;
+    s32 mPathProgressFrame;
+    s32 mRetries;
+    bool mPlanned;
+    void PlanPath(const char* why);
     s32 mActionStartFrame;
 
     // restore_check

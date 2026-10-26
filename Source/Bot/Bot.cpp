@@ -3,6 +3,7 @@
 #include "HeapTracker.hpp"
 #include "Snapshot.hpp"
 #include "WorldModel.hpp"
+#include "NavFoot.hpp"
 #include <math.h>
 #include <windows.h>
 #include <stdio.h>
@@ -89,6 +90,11 @@ Bot::Bot(const BotOptions& opts)
     , mTargetY(0)
     , mTargetIsArrow(false)
     , mActionSnap(NULL)
+    , mNav(NULL)
+    , mPathIdx(0)
+    , mPathProgressFrame(0)
+    , mRetries(0)
+    , mPlanned(false)
     , mActionStartFrame(0)
     , mRcState(RC_Warmup)
     , mRcCounter(0)
@@ -135,6 +141,7 @@ Bot::~Bot()
     delete mMap;
     delete mWorld;
     delete mActionSnap;
+    delete mNav;
 }
 
 void Bot::ApplyBootOverrides()
@@ -791,14 +798,26 @@ void Bot::StepWalkArrow()
             mWalkState = Walk_Done;
             return;
         }
-        if (tx != mTargetX || ty != mTargetY || is_arrow != mTargetIsArrow)
+        if (!mNav)
+        {
+            mNav = new NavFoot();
+        }
+        if (tx != mTargetX || ty != mTargetY || is_arrow != mTargetIsArrow || !mPlanned)
         {
             BotDecision("f=%d target %s (%.1f,%.1f) from (%.1f,%.1f)", mFrame, is_arrow ? "arrow" : "goto", tx, ty, pl.x, pl.y);
             mTargetX = tx;
             mTargetY = ty;
             mTargetIsArrow = is_arrow;
-            mBestDist = 1e9f;
-            mBestDistFrame = mFrame;
+            mNav->ClearBans();
+            mRetries = 0;
+            PlanPath("new target");
+            if (!mPlanned)
+            {
+                StuckReport("no_plan", "no path to the target on foot");
+                RequestExit("no plan");
+                mWalkState = Walk_Done;
+                return;
+            }
         }
 
         const float dx = tx - pl.x;
@@ -806,35 +825,83 @@ void Bot::StepWalkArrow()
         const float dist = sqrtf(dx * dx + dy * dy);
         if (dist < 1.5f)
         {
-            BotDecision("f=%d arrived at (%.1f,%.1f), dist %.2f", mFrame, tx, ty, dist);
+            BotDecision("f=%d arrived at (%.1f,%.1f), dist %.2f, %d retries", mFrame, tx, ty, dist, mRetries);
             char detail[128];
-            _snprintf(detail, sizeof(detail), "arrived at (%.1f,%.1f) in %d frames", tx, ty, mFrame - mActionStartFrame);
+            _snprintf(detail, sizeof(detail), "arrived at (%.1f,%.1f) in %d frames, %d retries", tx, ty, mFrame - mActionStartFrame, mRetries);
             WriteReport("PASS", detail);
             LogPlayer("arrived");
             RequestExit("arrived");
             mWalkState = Walk_Done;
             return;
         }
-        if (dist < mBestDist - 0.5f)
+
+        // Follow the path: skip to the node after the one the player stands on, advance when close
+        const s32 len = static_cast<s32>(mNav->PathLength());
+        const s32 px = static_cast<s32>(pl.x);
+        const s32 py = static_cast<s32>(pl.y);
+        for (s32 j = len - 1; j > mPathIdx; j--)
         {
-            mBestDist = dist;
-            mBestDistFrame = mFrame;
+            if (mNav->PathAt(j).x == px && mNav->PathAt(j).y == py)
+            {
+                mPathIdx = j + 1 < len ? j + 1 : len - 1;
+                mPathProgressFrame = mFrame;
+                break;
+            }
         }
-        else if (mFrame - mBestDistFrame > 150)
+        while (mPathIdx < len - 1)
         {
-            char detail[160];
-            _snprintf(detail, sizeof(detail), "no progress for 150 frames: dist %.1f (best %.1f) to (%.1f,%.1f)", dist, mBestDist, tx, ty);
-            StuckReport("no_progress", detail);
-            RequestExit("stuck");
-            mWalkState = Walk_Done;
+            const float wx = mNav->PathAt(mPathIdx).x + 0.5f - pl.x;
+            const float wy = mNav->PathAt(mPathIdx).y + 0.5f - pl.y;
+            if (wx * wx + wy * wy > 0.6f * 0.6f)
+            {
+                break;
+            }
+            mPathIdx++;
+            mPathProgressFrame = mFrame;
+        }
+
+        if (mFrame - mPathProgressFrame > 120)
+        {
+            const NavNode& blocked = mNav->PathAt(mPathIdx);
+            char detail[200];
+            _snprintf(detail, sizeof(detail), "no new waypoint for 120 frames at (%.1f,%.1f), waypoint %d/%d tile (%d,%d), dist %.1f to (%.1f,%.1f)", pl.x, pl.y, mPathIdx, len, blocked.x, blocked.y, dist, tx, ty);
+            if (mRetries >= 4 || !mActionSnap)
+            {
+                StuckReport("no_progress", detail);
+                RequestExit("stuck");
+                mWalkState = Walk_Done;
+                return;
+            }
+            mRetries++;
+            BotDecision("f=%d STUCK %s; retry %d: ban tile (%d,%d), restore the action start (f=%d) and replan", mFrame, detail, mRetries, blocked.x, blocked.y, mActionStartFrame);
+            mNav->Ban(blocked.x, blocked.y);
+            mActionSnap->Restore();
+            mWorld->Observe();
+            PlanPath("retry");
+            if (!mPlanned)
+            {
+                StuckReport("no_plan", "no path left after banning the blocked tiles");
+                RequestExit("no plan");
+                mWalkState = Walk_Done;
+            }
             return;
         }
 
-        const float want_rot = mHeadingSign * WrapDeg(HeadingDeg(dx, dy) - mHeadingOffset);
+        // Aim at the waypoint, at the real target for the last one
+        float aim_x = mNav->PathAt(mPathIdx).x + 0.5f;
+        float aim_y = mNav->PathAt(mPathIdx).y + 0.5f;
+        if (mPathIdx == len - 1)
+        {
+            aim_x = tx;
+            aim_y = ty;
+        }
+        const float ax = aim_x - pl.x;
+        const float ay = aim_y - pl.y;
+        const float want_rot = mHeadingSign * WrapDeg(HeadingDeg(ax, ay) - mHeadingOffset);
         const float err = WrapDeg(want_rot - pl.rot_deg);
         if ((mFrame - mActionStartFrame) % 10 == 0)
         {
-            mTrace.Printf("walk f=%d pos=%.2f,%.2f rot=%.0f want=%.0f err=%.0f dist=%.1f\n", mFrame, pl.x, pl.y, pl.rot_deg, want_rot, err, dist);
+            mTrace.Printf("walk f=%d pos=%.2f,%.2f rot=%.0f want=%.0f err=%.0f node=%d/%d dist=%.1f\n", mFrame, pl.x, pl.y, pl.rot_deg, want_rot, err, mPathIdx, len, dist);
         }
         if (fabsf(err) > 8.0f)
         {
@@ -844,5 +911,27 @@ void Bot::StepWalkArrow()
         {
             mInputBits |= input_bit::Forward;
         }
+    }
+}
+
+void Bot::PlanPath(const char* why)
+{
+    const WorldModel::PlayerInfo& pl = mWorld->player;
+    const u8 sx = static_cast<u8>(pl.x);
+    const u8 sy = static_cast<u8>(pl.y);
+    const u8 sz = static_cast<u8>(pl.z + 0.5f);
+    const u8 tx = static_cast<u8>(mTargetX);
+    const u8 ty = static_cast<u8>(mTargetY);
+    mPlanned = mNav->FindPath(sx, sy, sz, tx, ty);
+    mPathIdx = 0;
+    mPathProgressFrame = mFrame;
+    BotDecision("f=%d plan (%s) (%d,%d,%d)->(%d,%d): %s, %u tiles, %u explored, %u banned", mFrame, why, sx, sy, sz, tx, ty, mPlanned ? "found" : "NO PATH", mNav->PathLength(), mNav->Expanded(), mNav->BanCount());
+    if (mOpts.nav_dump)
+    {
+        char path[MAX_PATH];
+        char title[120];
+        _snprintf(title, sizeof(title), "nav f=%d %s", mFrame, why);
+        BotPath_Join(path, sizeof(path), mOpts.out_dir, "bot_nav.txt");
+        mNav->Dump(path, title);
     }
 }
