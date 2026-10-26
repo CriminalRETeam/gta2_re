@@ -554,19 +554,19 @@ void Char::Update_545720(Fix16 distance_to_target)
         switch (field_8_ped_state_1)
         {
             case ped_state_1::walking_0:
-                Char::state_0_54DDF0(); // Walking
+                Char::state_0_54DDF0();
                 break;
             case ped_state_1::flee_or_running_1:
-                Char::state_1_5504F0(); // Scared/Running
+                Char::state_1_5504F0();
                 break;
             case ped_state_1::findind_path_2:
-                Char::state_2_5519F0(); // Running (for cops?)
+                Char::state_2_5519F0();
                 break;
             case ped_state_1::entering_car_3:
-                Char::state_3_551A00(); // EnteringCar
+                Char::state_3_551A00();
                 break;
             case ped_state_1::exiting_car_4:
-                Char::state_4_551B30(); // ExitingCar
+                Char::state_4_551B30();
                 break;
             case 5:
                 Char::state_5_551BB0();
@@ -575,13 +575,13 @@ void Char::Update_545720(Fix16 distance_to_target)
                 nullsub_28();
                 break;
             case ped_state_1::standing_still_7:
-                Char::state_7_551CB0(); // Standing Still?
+                Char::state_7_551CB0();
                 break;
             case ped_state_1::immobilized_8:
-                Char::state_8_5520A0(); // Immobilized?
+                Char::state_8_5520A0();
                 break;
             case ped_state_1::dead_9:
-                Char::state_9_552E90(); // Dying?
+                Char::state_9_552E90();
                 break;
             default:
                 break;
@@ -610,12 +610,10 @@ void Char::Update_545720(Fix16 distance_to_target)
 
         if (field_58_flags_bf.bReverseVelocity)
         {
-            // clockwise?
             field_98_velocity_vector.SetFromPolar_41E210(-field_38_velocity, field_40_rotation);
         }
         else
         {
-            // anti-clockwise?
             field_98_velocity_vector.SetFromPolar_41E210(field_38_velocity, field_40_rotation);
         }
     }
@@ -662,7 +660,6 @@ void Char::DrownPed_5459E0()
 }
 
 // 9.6f 0x497DF0
-// By-value angle, as TurnBy16Deg_548BD0: the copy is what loads field_40 before adding kAng180
 // By-value angle, like TurnBy16Deg_548BD0: the copy makes VC6 load field_40 first and add kAng180
 static inline Ang16 TurnBy180Deg_546360(Ang16 a)
 {
@@ -1702,7 +1699,7 @@ void Char::DispatchCollision_548670(char_type bFlag)
         switch (pNearSprite->GetType_416B40())
         {
 
-            case sprite_types_enum::ped_3: // char_b4
+            case sprite_types_enum::ped_3:
                 if (bUnknown == byte_623F48)
                 {
                     this->field_18_collided_entity = NULL;
@@ -1717,10 +1714,10 @@ void Char::DispatchCollision_548670(char_type bFlag)
                 }
                 break;
 
-            case sprite_types_enum::car_2: // car
+            case sprite_types_enum::car_2:
             {
                 Sprite* pNearSprite2 = field_80_sprite_ptr->QuerySpriteCollision_59E7D0(1);
-                if (pNearSprite2->GetType_416B40() == sprite_types_enum::object_1) // object
+                if (pNearSprite2->GetType_416B40() == sprite_types_enum::object_1)
                 {
                     if (pNearSprite2->AsObject2C_40FEC0())
                     {
@@ -1737,7 +1734,7 @@ void Char::DispatchCollision_548670(char_type bFlag)
             }
             case sprite_types_enum::object_1:
             case sprite_types_enum::code_obj1_4:
-            case sprite_types_enum::map_obj_5: // object
+            case sprite_types_enum::map_obj_5:
                 Char::HandleObjectCollision_548840(pNearSprite->AsObject2C_40FEC0());
                 this->field_20_collided_entity_type = 3;
                 break;
@@ -1813,11 +1810,6 @@ static inline bool CanJumpOver_54A530(Char* pThis, Char* pChar)
 MATCH_FUNC(0x548840)
 void Char::HandleObjectCollision_548840(Object* pObj)
 {
-    //pObj_ = pObj;
-    //out3 = 0;
-    //v19 = 4;
-    //pPhi = pObj->field_8;
-    //phi_type = pPhi->field_34_type;
     Fix16_Point new_pos;
     Fix16_Point point;
     // Unused: the original enters with EH state 4, so three more Fix16_Point locals were constructed up front
@@ -1874,7 +1866,6 @@ void Char::HandleObjectCollision_548840(Object* pObj)
     }
 }
 
-// What happens when this ped walks into pOther, by the types of both peds (field_238)
 // 9.6f 0x41FA70
 static inline Ang16& compound_add_41FA70(Ang16& a, const Ang16& b)
 {
@@ -1906,6 +1897,7 @@ static inline void CollideWithPed_493000(Ped* pPed, Char* pOther)
     }
 }
 
+// What happens when this ped walks into pOther, by the types of both peds (field_238)
 MATCH_FUNC(0x548bd0)
 void Char::HandlePedCollision_548BD0(Char* pOther)
 {
@@ -3359,7 +3351,7 @@ void Char::state_0_54DDF0()
     bCanMove = 0;
     u8 bNoNewRotation = 1;
     Ang16 side_angle(0);
-    Ang16 new_rotation(0); //new_rotation = 0;
+    Ang16 new_rotation(0);
 
 
     u8 block_type;
@@ -3367,7 +3359,6 @@ void Char::state_0_54DDF0()
 
     if ((field_58_flags & 1) == 0 && gCharB4_Saved_Zpos_6FD7FC.GetFracValue() == kFP16Zero_6FD9E4)
     {
-        //goto LABEL_9;
         block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(gCharB4_Saved_Xpos_6FD7F8.ToInt(), gCharB4_Saved_Ypos_6FD800.ToInt(), gCharB4_Saved_Zpos_6FD7FC.ToInt() - 1);
         pBlock = gMap_0x370_6F6268->GetBlock_4DFE10(gCharB4_Saved_Xpos_6FD7F8.ToInt(), gCharB4_Saved_Ypos_6FD800.ToInt(), gCharB4_Saved_Zpos_6FD7FC.ToInt() - 1);
     }
@@ -3378,7 +3369,6 @@ void Char::state_0_54DDF0()
 
         if (pBlock == NULL || block_type == 0)
         {
-            //LABEL_9:
             block_type =
                 gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(gCharB4_Saved_Xpos_6FD7F8.ToInt(), gCharB4_Saved_Ypos_6FD800.ToInt(), gCharB4_Saved_Zpos_6FD7FC.ToInt() - 1);
             pBlock = gMap_0x370_6F6268->GetBlock_4DFE10(gCharB4_Saved_Xpos_6FD7F8.ToInt(), gCharB4_Saved_Ypos_6FD800.ToInt(), gCharB4_Saved_Zpos_6FD7FC.ToInt() - 1);
@@ -3387,12 +3377,10 @@ void Char::state_0_54DDF0()
 
     if (pBlock)
     {
-        // bit 0: standing on a slope
         field_58_flags_bf.bOnSlope = GET_SLOPE_BITS(pBlock->field_B_slope_type) != 0 && GET_SLOPE_BITS(pBlock->field_B_slope_type) != 0xFC;
         if (gGtx_0x106C_703DD4->IsElectrifiedFloorType_491F80(pBlock->field_8_lid & block_face::tile_idx_mask) &&
             field_10_char_state != Char_B4_state::Jumping_15)
         {
-            //if ((field_7C_pPed->field_21C & 0x8000000) == 0)
             if (!field_7C_pPed->field_21C_bf.bLeftVehicle)
             {
                 field_7C_pPed->field_210_shock_counter += 3;
@@ -3418,7 +3406,7 @@ void Char::state_0_54DDF0()
     Fix16 ret1;
     Fix16 ret2;
 
-    if (block_type == 0 && (field_58_flags & 1) == 0) // or !pBlock
+    if (block_type == 0 && (field_58_flags & 1) == 0)
     {
         // 10.5 has a separate copy for the non-player case, so this is a nested if, not one && chain
         if (field_7C_pPed->field_15C_player)
@@ -3436,7 +3424,6 @@ void Char::state_0_54DDF0()
         {
             Ang16::PolarToCartesian_41FC20(field_40_rotation, kFpThreeThirtySeconds_6FDAC8, ret1, ret2);
         }
-        // ......
 
         ret1 += gCharB4_Saved_Xpos_6FD7F8;
         ret2 += gCharB4_Saved_Ypos_6FD800;
@@ -3625,7 +3612,7 @@ void Char::state_0_54DDF0()
         if (this->field_69_is_colliding_with_sprite || this->field_10_char_state == Char_B4_state::Jumping_15)
         {
             bAllowStateChange = 0;
-            field_7C_pPed->field_21C_bf.bAttacking = 0; // TODO: Check it
+            field_7C_pPed->field_21C_bf.bAttacking = 0;
             byte_6FDB51 = 0;
             byte_6FDB52 = 0;
         }
@@ -3658,8 +3645,8 @@ void Char::state_0_54DDF0()
             {
                 switch (block_type)
                 {
-                    case ROAD: // 1
-                    case FIELD: // 3
+                    case ROAD:
+                    case FIELD:
                         if (field_7C_pPed->get_objective_403A80() == objectives_enum::no_obj_0 ||
                             field_7C_pPed->get_objective_403A80() == objectives_enum::objective_8)
                         {
@@ -3810,7 +3797,6 @@ after_move:
                     }
                     else
                     {
-                        // Line 507 on 9.6f IDA
                         field_80_sprite_ptr->set_xyz_lazy_420600(old_xpos, old_ypos, gCharB4_Saved_Zpos_6FD7FC);
                         gCharB4_GradientSlopeBelow_6FDB54 = gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(field_80_sprite_ptr->field_14_xy.x.ToInt(),
                                                                     field_80_sprite_ptr->field_14_xy.y.ToInt(),
@@ -3824,7 +3810,7 @@ after_move:
 
     if (!bNoNewRotation)
     {
-        field_40_rotation = new_rotation; //*p_field_40_rotation = new_rotation;
+        field_40_rotation = new_rotation;
     }
 
     Char::CheckCollisionsAndUpdateAnim_54DD70();
@@ -5615,8 +5601,6 @@ void Char::state_7_551CB0()
                     {
                         if (gPedManager_6787BC->PedById(field_7C_pPed->field_204_killer_id))
                         {
-                            // forget the last ped who harmed this ped after some time?
-                            // so in this case the death reason must be shocking if it happens
                             field_7C_pPed->field_290_death_cause = ped_death_cause::electrocuted_2;
                             field_7C_pPed->field_264_killer_id_timer = 50;
                         }
@@ -6023,7 +6007,7 @@ void Char::state_8_5520A0()
                     Ang16::PolarToCartesian_41FC20(field_40_rotation, field_90_fall_speed, fall_x, fall_y);
                     fall_x += gCharB4_Saved_Xpos_6FD7F8;
                     fall_y += gCharB4_Saved_Ypos_6FD800;
-                    if (Char::CanMoveToTile_54C500(fall_x.ToInt(), fall_y.ToInt())) // ToUInt8 ?????
+                    if (Char::CanMoveToTile_54C500(fall_x.ToInt(), fall_y.ToInt()))
                     {
                         field_80_sprite_ptr->set_xyz_lazy_420600(fall_x, fall_y, field_80_sprite_ptr->field_1C_zpos);
                     }
@@ -6046,7 +6030,7 @@ void Char::state_8_5520A0()
                     pNearestSprite = gSpriteGrid_1_679208->FindCollidingSpritePreferType_477E60(field_80_sprite_ptr, 0);
                     if (field_6C_animation_state == Char_Anim_state::Lethal_Fall_12)
                     {
-                        if (field_7C_pPed->field_21C_bf.bOnFire == false) //if ((v41 & 0x1000000) == 0)
+                        if (field_7C_pPed->field_21C_bf.bOnFire == false)
                         {
                             field_7C_pPed->field_250_voice_event = 27;
                         }
@@ -6534,7 +6518,7 @@ bool Char::OnObjectTouched_553640(Object* pObject)
             break;
 
         case objects::conveyor_139:
-            pObject->GetConveyorDirection_493090(&conveyor_x, &conveyor_y); // TODO: Ang8 or something ???
+            pObject->GetConveyorDirection_493090(&conveyor_x, &conveyor_y);
             this->field_4C_conveyor_dx = kFpOne64th_6FDA9C * conveyor_x;
             this->field_50_conveyor_dy = kFpOne64th_6FDA9C * conveyor_y;
             break;
@@ -6855,9 +6839,3 @@ EXPORT void Char::nullsub_28()
 {
     // State 6 deliberately does nothing in the original game.
 }
-
-//STUB_FUNC(0x5519f0)
-//void j_Char_B4::state_1_5504F0()
-//{
-//    NOT_IMPLEMENTED;
-//}

@@ -146,7 +146,6 @@ class Char
     Fix16 field_90_fall_speed;
     Fix16 field_94_fall_z_speed;
     Fix16_Point_POD field_98_velocity_vector;
-    //Fix16 field_9C;
     s8 field_A0_force_top_layer;
     s8 field_A1_unused;
     s8 field_A2_unused;
@@ -320,7 +319,6 @@ class Char
     EXPORT void PoolAllocate();
     EXPORT void PoolDeallocate();
 
-    // Function chunk
     EXPORT void DrawFlamesAndStartScreamTimer_545430();
     EXPORT bool HasShadows_5451C0();
 
@@ -378,7 +376,6 @@ class Char
     EXPORT bool CanStepInDirection_551350(Ang16 angle);
     EXPORT void ChooseNextMovementTile_551400();
     EXPORT void SelectNextTileFast_5516F0();
-    //EXPORT void state_1_5504F0();
     EXPORT void state_2_5519F0();
     EXPORT void state_3_551A00();
     EXPORT void state_4_551B30();
