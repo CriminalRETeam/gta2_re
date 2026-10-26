@@ -39,7 +39,7 @@ class Char
 {
   public:
     // 9.6f 0x41B080
-    inline Fix16 get_velocity_41B080()
+    inline Fix16 get_velocity_41B080() const
     {
         return field_38_velocity;
     }
@@ -57,13 +57,13 @@ class Char
     }
 
     // 9.6f 0x41B090
-    inline s32 get_ped_state_2_41B090()
+    inline s32 get_ped_state_2_41B090() const
     {
         return field_C_ped_state_2;
     }
 
     // 9.6f 0x4338D0
-    inline Sprite* get_sprite_ptr_4338D0()
+    inline Sprite* get_sprite_ptr_4338D0() const
     {
         return field_80_sprite_ptr;
     }
@@ -83,7 +83,7 @@ class Char
     s32 field_C_ped_state_2;
     s32 field_10_char_state;
     Ang16 field_14_target_rotation;
-    s8 field_16_state_init_pending;
+    bool field_16_state_init_pending;
     s8 field_17_unused;
     void* field_18_collided_entity;
     void* field_1C_prev_collided_entity;
@@ -139,15 +139,14 @@ class Char
     s8 field_77_unused;
     Char* mpNext;
     Ped* field_7C_pPed;
-    Sprite* field_80_sprite_ptr; // TODO: Or sprite_3c, are they the same type ??
+    Sprite* field_80_sprite_ptr;
     Car* field_84_target_car;
     SpriteList_4_dtor field_88_obj_2c;
     Fix16 field_8C_jump_base_z;
     Fix16 field_90_fall_speed;
     Fix16 field_94_fall_z_speed;
     Fix16_Point_POD field_98_velocity_vector;
-    //Fix16 field_9C;
-    s8 field_A0_force_top_layer;
+    bool field_A0_force_top_layer;
     s8 field_A1_unused;
     s8 field_A2_unused;
     s8 field_A3_unused;
@@ -157,7 +156,7 @@ class Char
     s32 field_B0_scream_timer;
 
     // 9.6f 0x48A4C0
-    inline s32 get_ped_state_1_48A4C0()
+    inline s32 get_ped_state_1_48A4C0() const
     {
         return field_8_ped_state_1;
     }
@@ -168,7 +167,7 @@ class Char
         field_8_ped_state_1 = ped_state;
     }
 
-    inline Ang16 get_rotation_433A40()
+    inline Ang16 get_rotation_433A40() const
     {
         return field_40_rotation;
     }
@@ -179,19 +178,19 @@ class Char
     }
 
     // 9.6f 0x4339C0
-    inline Fix16 get_sprite_xpos()
+    inline Fix16 get_sprite_xpos() const
     {
         return field_80_sprite_ptr->field_14_xy.x;
     }
 
     // 9.6f 0x4339E0
-    inline Fix16 get_sprite_ypos()
+    inline Fix16 get_sprite_ypos() const
     {
         return field_80_sprite_ptr->field_14_xy.y;
     }
 
     // 9.6f 0x433A00
-    inline Fix16 get_sprite_zpos()
+    inline Fix16 get_sprite_zpos() const
     {
         return field_80_sprite_ptr->field_1C_zpos;
     }
@@ -232,7 +231,7 @@ class Char
         field_38_velocity = max_speed;
     }
 
-    inline Ped* get_ped_433A20()
+    inline Ped* get_ped_433A20() const
     {
         return field_7C_pPed;
     }
@@ -263,7 +262,7 @@ class Char
         field_46_timer = 10;
     }
 
-    inline s32 GetCharState_433A80()
+    inline s32 GetCharState_433A80() const
     {
         return field_10_char_state;
     }
@@ -274,13 +273,13 @@ class Char
     }
 
     // 9.6f 0x433A90
-    inline s8 Get_F44_433A90()
+    inline s8 Get_F44_433A90() const
     {
         return field_44_block_type;
     }
 
     // 9.6f 0x403900
-    inline Car* Get_F84_403900()
+    inline Car* Get_F84_403900() const
     {
         return field_84_target_car;
     }
@@ -305,7 +304,7 @@ class Char
         field_40_rotation += ang;
     }
 
-    inline bool IsCollidingWithASprite_433AA0()
+    inline bool IsCollidingWithASprite_433AA0() const
     {
         if (field_69_is_colliding_with_sprite)
         {
@@ -320,11 +319,10 @@ class Char
     EXPORT void PoolAllocate();
     EXPORT void PoolDeallocate();
 
-    // Function chunk
     EXPORT void DrawFlamesAndStartScreamTimer_545430();
-    EXPORT bool HasShadows_5451C0();
+    EXPORT bool HasShadows_5451C0() const;
 
-    EXPORT Fix16_Point GetRunVelocity_545580();
+    EXPORT Fix16_Point GetRunVelocity_545580() const;
     EXPORT void SetRemap_46DD50(u8 remap);
 
     // Inlined copy of SetRemap_46DD50
@@ -340,16 +338,30 @@ class Char
     EXPORT void RemoveFireSprites_5454B0();
     EXPORT void DoJump_5454D0();
     EXPORT void Teleport_545530(Fix16 xpos, Fix16 ypos, Fix16 zpos);
-    EXPORT s32 IsOnWater_545570();
+
+  private:
+    EXPORT s32 IsOnWater_545570() const;
     EXPORT void KillPed_5455F0();
+
+  public:
     EXPORT void ClearCollisionState_545600();
-    EXPORT void GetTileFracX64_545640(Fix16 coord, s16* output);
-    EXPORT void GetTileFracY64_545670(Fix16 coord, s16* output);
+
+  private:
+    EXPORT void GetTileFracX64_545640(Fix16 coord, s16* output) const;
+    EXPORT void GetTileFracY64_545670(Fix16 coord, s16* output) const;
     EXPORT void InitSprite_5456A0();
-    EXPORT bool IsOnScreen_545700();
+
+  public:
+    EXPORT bool IsOnScreen_545700() const;
     EXPORT void Update_545720(Fix16 distance_to_target);
+
+  private:
     EXPORT void CheckAndHandleCollisions_5459C0();
+
+  public:
     EXPORT void DrownPed_5459E0();
+
+  private:
     EXPORT void UpdateAnimState_546360();
     EXPORT void ManageZCoordAndSlopes_548590();
     EXPORT void DispatchCollision_548670(char_type bFlag);
@@ -378,7 +390,6 @@ class Char
     EXPORT bool CanStepInDirection_551350(Ang16 angle);
     EXPORT void ChooseNextMovementTile_551400();
     EXPORT void SelectNextTileFast_5516F0();
-    //EXPORT void state_1_5504F0();
     EXPORT void state_2_5519F0();
     EXPORT void state_3_551A00();
     EXPORT void state_4_551B30();
@@ -387,15 +398,22 @@ class Char
     EXPORT void state_8_5520A0();
     EXPORT void state_9_552E90();
 
-    EXPORT bool IsNearTileCentre_5532C0();
-    EXPORT bool IsThreatToSearchingPed_553330();
-    EXPORT bool ShouldCollideWithSprite_553340(Sprite* pSprite);
+    EXPORT bool IsNearTileCentre_5532C0() const;
+
+  public:
+    EXPORT bool IsThreatToSearchingPed_553330() const;
+    EXPORT bool ShouldCollideWithSprite_553340(Sprite* pSprite) const;
+
+  private:
     EXPORT bool PhoneTouched_5535B0(Object* pObject);
+
+  public:
     EXPORT bool OnObjectTouched_553640(Object* pObject);
     EXPORT bool HandlePedObjectHit_5537F0(Object* pObject);
     EXPORT void HandleCarImpact_5538A0(Car* pCar, u8 bUnknown, Fix16 x, Fix16 y);
     EXPORT void HandleGenericImpact_553E00(Ang16 ang, Fix16 impact_x, Fix16 impact_z, char_type impact_type);
 
+  private:
     EXPORT void nullsub_28();
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Char, 0xB4);

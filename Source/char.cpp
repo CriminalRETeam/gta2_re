@@ -138,7 +138,6 @@ DEFINE_GLOBAL_INIT(Ang16, kAng45_6FD89C, Ang16(180), 0x6FD89C);
 DEFINE_GLOBAL_INIT(Fix16, kFpHalf_6FDAB0, kFP16Half_6FD8E4, 0x6FDAB0);
 
 EXTERN_GLOBAL(Ang16, kAng0_6FDB34);
-EXTERN_GLOBAL(Ped_List, gThreateningPedsList_678468);
 
 DEFINE_GLOBAL_INIT(Fix16, kFP16Half_6F67B0, Fix16(0x2000, 0), 0x6F67B0);
 DEFINE_GLOBAL_INIT(Fix16, kFpHalf_6FDB18, kFpOne64th_6FD868 * 32, 0x6FDB18);
@@ -244,9 +243,9 @@ Char::Char()
     field_C_ped_state_2 = ped_state_2::Unknown_28;
     field_10_char_state = Char_B4_state::Interacting_Car_Door_36;
     field_14_target_rotation = kAng0_6FDB34;
-    field_16_state_init_pending = 0;
-    field_18_collided_entity = 0;
-    field_1C_prev_collided_entity = 0;
+    field_16_state_init_pending = false;
+    field_18_collided_entity = NULL;
+    field_1C_prev_collided_entity = NULL;
     field_20_collided_entity_type = 0;
     field_24_slide_state = 3;
     field_28_slide_rotation = kAng0_6FDB34;
@@ -261,30 +260,30 @@ Char::Char()
     field_44_block_type = 0;
     field_45_slope_gradient_direction = 0;
     field_5C_jump_over_timer = 0;
-    field_46_timer = 0; // maybe field_46_shock_counter
+    field_46_timer = 0;
     field_48_lying_on_floor_timer = 0;
-    mpNext = 0;
-    field_7C_pPed = 0;
-    field_80_sprite_ptr = 0;
+    mpNext = NULL;
+    field_7C_pPed = NULL;
+    field_80_sprite_ptr = NULL;
     field_68_animation_frame = 0;
-    field_69_is_colliding_with_sprite = 0;
+    field_69_is_colliding_with_sprite = false;
     field_74_repulsion_rotation = kAng0_6FDB34;
     field_6A_repulsion_timer = 0;
-    field_84_target_car = 0;
-    field_58_flags_bf.bOnSlope = 0;
+    field_84_target_car = NULL;
+    field_58_flags_bf.bOnSlope = false;
     field_88_obj_2c.DestroyAllSprites_5A7010();
     field_8C_jump_base_z = kFP16Zero_6FD9E4;
-    field_58_flags_bf.bFlag2 = 0;
+    field_58_flags_bf.bFlag2 = false;
     field_6C_animation_state = 18;
     field_70_frame_timer = 0;
     field_71_frame_delay = 0;
     field_90_fall_speed = kFP16Zero_6FD9E4;
     field_94_fall_z_speed = kFP16Zero_6FD9E4;
-    field_58_flags_bf.bFlag1 = 0;
+    field_58_flags_bf.bFlag1 = false;
     field_98_velocity_vector.x = kFP16Zero_6FD9E4;
     field_98_velocity_vector.y = kFP16Zero_6FD9E4;
-    field_58_flags_bf.bReverseVelocity = 0;
-    field_58_flags_bf.bTeleported = 0;
+    field_58_flags_bf.bReverseVelocity = false;
+    field_58_flags_bf.bTeleported = false;
     field_A4_xpos = kFP16Zero_6FD9E4;
     field_A8_ypos = kFP16Zero_6FD9E4;
     field_AC_zpos = kFP16Zero_6FD9E4;
@@ -294,16 +293,16 @@ Char::Char()
 MATCH_FUNC(0x5451A0)
 Char::~Char()
 {
-    field_18_collided_entity = 0;
-    field_1C_prev_collided_entity = 0;
-    mpNext = 0;
-    field_7C_pPed = 0;
-    field_80_sprite_ptr = 0;
-    field_84_target_car = 0;
+    field_18_collided_entity = NULL;
+    field_1C_prev_collided_entity = NULL;
+    mpNext = NULL;
+    field_7C_pPed = NULL;
+    field_80_sprite_ptr = NULL;
+    field_84_target_car = NULL;
 }
 
 MATCH_FUNC(0x5451C0)
-bool Char::HasShadows_5451C0()
+bool Char::HasShadows_5451C0() const
 {
     if (field_8_ped_state_1 == ped_state_1::dead_9)
     {
@@ -331,9 +330,9 @@ void Char::PoolAllocate()
     field_C_ped_state_2 = ped_state_2::Unknown_28;
     field_10_char_state = Char_B4_state::Interacting_Car_Door_36;
     field_14_target_rotation = kAng0_6FDB34;
-    field_16_state_init_pending = 0;
-    field_18_collided_entity = 0;
-    field_1C_prev_collided_entity = 0;
+    field_16_state_init_pending = false;
+    field_18_collided_entity = NULL;
+    field_1C_prev_collided_entity = NULL;
     field_20_collided_entity_type = 0;
     field_24_slide_state = 3;
     field_28_slide_rotation = kAng0_6FDB34;
@@ -351,41 +350,41 @@ void Char::PoolAllocate()
     field_46_timer = 0;
     field_48_lying_on_floor_timer = 0;
     field_4A = 500;
-    mpNext = 0;
-    field_7C_pPed = 0;
+    mpNext = NULL;
+    field_7C_pPed = NULL;
     field_68_animation_frame = 0;
-    field_69_is_colliding_with_sprite = 0;
+    field_69_is_colliding_with_sprite = false;
     field_74_repulsion_rotation = kAng0_6FDB34;
     field_6A_repulsion_timer = 0;
-    field_84_target_car = 0;
-    field_58_flags_bf.bOnSlope = 0;
+    field_84_target_car = NULL;
+    field_58_flags_bf.bOnSlope = false;
     field_88_obj_2c.DestroyAllSprites_5A7010();
     field_8C_jump_base_z = kFP16Zero_6FD9E4;
-    field_58_flags_bf.bFlag2 = 0;
+    field_58_flags_bf.bFlag2 = false;
     field_6C_animation_state = 18;
     field_70_frame_timer = 0;
     field_71_frame_delay = 0;
     field_90_fall_speed = kFP16Zero_6FD9E4;
     field_94_fall_z_speed = kFP16Zero_6FD9E4;
-    field_58_flags_bf.bFlag1 = 0;
+    field_58_flags_bf.bFlag1 = false;
     field_98_velocity_vector.x = kFP16Zero_6FD9E4;
     field_98_velocity_vector.y = kFP16Zero_6FD9E4;
-    field_58_flags_bf.bTeleported = 0;
-    field_58_flags_bf.bReverseVelocity = 0;
+    field_58_flags_bf.bTeleported = false;
+    field_58_flags_bf.bReverseVelocity = false;
     field_A4_xpos = kFP16Zero_6FD9E4;
     field_A8_ypos = kFP16Zero_6FD9E4;
     field_AC_zpos = kFP16Zero_6FD9E4;
-    field_58_flags_bf.bFlag4 = 0;
+    field_58_flags_bf.bFlag4 = false;
     field_4C_conveyor_dx = kFP16Zero_6FD9E4;
     field_50_conveyor_dy = kFP16Zero_6FD9E4;
     field_72_next_tile_x = kFP16Zero_6FD9E4.ToInt();
     field_73_next_tile_y = kFP16Zero_6FD9E4.ToInt();
-    field_58_flags_bf.bFlag6 = 0;
-    field_58_flags_bf.bFlag7 = 0;
+    field_58_flags_bf.bFlag6 = false;
+    field_58_flags_bf.bFlag7 = false;
     field_60_unused = 0;
     field_64_unused = 0;
     field_55_next_tile_timer = 0;
-    field_A0_force_top_layer = 0;
+    field_A0_force_top_layer = false;
     field_B0_scream_timer = -1;
 }
 
@@ -453,14 +452,14 @@ void Char::Teleport_545530(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 }
 
 MATCH_FUNC(0x545570)
-s32 Char::IsOnWater_545570()
+s32 Char::IsOnWater_545570() const
 {
     return field_80_sprite_ptr->IsOnWater_59E1D0();
 }
 
 // 9.6f 0x493780
 MATCH_FUNC(0x545580)
-Fix16_Point Char::GetRunVelocity_545580()
+Fix16_Point Char::GetRunVelocity_545580() const
 {
     Fix16_Point p;
     p.FromPolar_41E210(-gRunOrJumpSpeed_6FD7D0, field_80_sprite_ptr->field_0_rotation);
@@ -476,11 +475,11 @@ void Char::KillPed_5455F0()
 MATCH_FUNC(0x545600)
 void Char::ClearCollisionState_545600()
 {
-    field_18_collided_entity = 0;
-    field_1C_prev_collided_entity = 0;
+    field_18_collided_entity = NULL;
+    field_1C_prev_collided_entity = NULL;
     field_20_collided_entity_type = 0;
     field_2C_ang = kAng0_6FDB34;
-    field_69_is_colliding_with_sprite = 0;
+    field_69_is_colliding_with_sprite = false;
     field_24_slide_state = 0;
     field_28_slide_rotation = kAng0_6FDB34;
     field_2A_slide_turn = kAng0_6FDB34;
@@ -488,13 +487,13 @@ void Char::ClearCollisionState_545600()
 }
 
 MATCH_FUNC(0x545640)
-void Char::GetTileFracX64_545640(Fix16 coord, s16* output)
+void Char::GetTileFracX64_545640(Fix16 coord, s16* output) const
 {
     *output = (coord.GetFracValue() * Fix16(64)).ToInt();
 }
 
 MATCH_FUNC(0x545670)
-void Char::GetTileFracY64_545670(Fix16 coord, s16* output)
+void Char::GetTileFracY64_545670(Fix16 coord, s16* output) const
 {
     *output = (coord.GetFracValue() * Fix16(64)).ToInt();
 }
@@ -502,7 +501,6 @@ void Char::GetTileFracY64_545670(Fix16 coord, s16* output)
 MATCH_FUNC(0x5456a0)
 void Char::InitSprite_5456A0()
 {
-    // TODO: maybe an inline here: temp var not needed
     Sprite* pFirst = gSpritePool_703818->get_new_sprite();
     field_80_sprite_ptr = pFirst;
     pFirst->SetType_4206F0(sprite_types_enum::ped_3);
@@ -512,7 +510,7 @@ void Char::InitSprite_5456A0()
 }
 
 MATCH_FUNC(0x545700)
-bool Char::IsOnScreen_545700()
+bool Char::IsOnScreen_545700() const
 {
     return gGame_0x40_67E008->IsSpriteInAnyPlayerBounds_4B97E0(this->field_80_sprite_ptr, kFP16Zero_6FD9E4) == 1;
 }
@@ -547,26 +545,26 @@ void Char::Update_545720(Fix16 distance_to_target)
     if (field_58_flags_bf.bTeleported)
     {
         field_80_sprite_ptr->set_xyz_lazy_420600(field_A4_xpos, field_A8_ypos, field_AC_zpos);
-        field_58_flags_bf.bTeleported = 0;
+        field_58_flags_bf.bTeleported = false;
     }
     else
     {
         switch (field_8_ped_state_1)
         {
             case ped_state_1::walking_0:
-                Char::state_0_54DDF0(); // Walking
+                Char::state_0_54DDF0();
                 break;
             case ped_state_1::flee_or_running_1:
-                Char::state_1_5504F0(); // Scared/Running
+                Char::state_1_5504F0();
                 break;
             case ped_state_1::findind_path_2:
-                Char::state_2_5519F0(); // Running (for cops?)
+                Char::state_2_5519F0();
                 break;
             case ped_state_1::entering_car_3:
-                Char::state_3_551A00(); // EnteringCar
+                Char::state_3_551A00();
                 break;
             case ped_state_1::exiting_car_4:
-                Char::state_4_551B30(); // ExitingCar
+                Char::state_4_551B30();
                 break;
             case ped_state_1::entering_train_5:
                 Char::state_5_551BB0();
@@ -575,13 +573,13 @@ void Char::Update_545720(Fix16 distance_to_target)
                 nullsub_28();
                 break;
             case ped_state_1::standing_still_7:
-                Char::state_7_551CB0(); // Standing Still?
+                Char::state_7_551CB0();
                 break;
             case ped_state_1::immobilized_8:
-                Char::state_8_5520A0(); // Immobilized?
+                Char::state_8_5520A0();
                 break;
             case ped_state_1::dead_9:
-                Char::state_9_552E90(); // Dying?
+                Char::state_9_552E90();
                 break;
             default:
                 break;
@@ -602,7 +600,7 @@ void Char::Update_545720(Fix16 distance_to_target)
         }
         else
         {
-            field_A0_force_top_layer = 0;
+            field_A0_force_top_layer = false;
         }
         Char::UpdateAnimState_546360();
 
@@ -610,12 +608,10 @@ void Char::Update_545720(Fix16 distance_to_target)
 
         if (field_58_flags_bf.bReverseVelocity)
         {
-            // clockwise?
             field_98_velocity_vector.SetFromPolar_41E210(-field_38_velocity, field_40_rotation);
         }
         else
         {
-            // anti-clockwise?
             field_98_velocity_vector.SetFromPolar_41E210(field_38_velocity, field_40_rotation);
         }
     }
@@ -642,7 +638,7 @@ void Char::DrownPed_5459E0()
 {
     field_7C_pPed->ChangeNextPedState1_45C500(ped_state_1::immobilized_8);
     field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::sinking_20);
-    field_16_state_init_pending = 1;
+    field_16_state_init_pending = true;
 
     gParticle_8_6FD5E8->EmitWaterSplash_53F060(field_80_sprite_ptr->field_14_xy.x,
                                                field_80_sprite_ptr->field_14_xy.y,
@@ -662,7 +658,6 @@ void Char::DrownPed_5459E0()
 }
 
 // 9.6f 0x497DF0
-// By-value angle, as TurnBy16Deg_548BD0: the copy is what loads field_40 before adding kAng180
 // By-value angle, like TurnBy16Deg_548BD0: the copy makes VC6 load field_40 first and add kAng180
 static inline Ang16 TurnBy180Deg_546360(Ang16 a)
 {
@@ -694,7 +689,7 @@ void Char::UpdateAnimState_546360()
 
     // Declared here, before the switch, to get the original stack layout
     u8 weapon_ofs = 0;
-    u8 bThrowWeapon = 0;
+    bool bThrowWeapon = false;
     s32 baseId;
 
     switch (field_7C_pPed->field_26C_graphic_type)
@@ -728,7 +723,7 @@ void Char::UpdateAnimState_546360()
             (field_7C_pPed->field_170_selected_weapon->field_1C_weapon_type == weapon_type::molotov ||
              field_7C_pPed->field_170_selected_weapon->field_1C_weapon_type == weapon_type::grenade))
         {
-            bThrowWeapon = 1;
+            bThrowWeapon = true;
         }
 
         if (field_7C_pPed->field_170_selected_weapon && !field_7C_pPed->field_21C_bf.bAttacking)
@@ -757,7 +752,7 @@ void Char::UpdateAnimState_546360()
              field_7C_pPed->field_170_selected_weapon->field_1C_weapon_type == weapon_type::grenade))
         {
             field_6C_animation_state = 4;
-            bThrowWeapon = 1;
+            bThrowWeapon = true;
         }
     }
 
@@ -950,7 +945,7 @@ void Char::UpdateAnimState_546360()
                 case 1:
                 case 2:
                 case 3:
-                    if (field_58_flags & 0x10)
+                    if (field_58_flags_bf.bFlag4)
                     {
                         frame_limit = 1;
                         CarDoorAlignmentSolver_545AF0(7 - field_68_animation_frame,
@@ -979,7 +974,7 @@ void Char::UpdateAnimState_546360()
                 case 5:
                 case 6:
                 case 7:
-                    if (field_58_flags & 0x10)
+                    if (field_58_flags_bf.bFlag4)
                     {
                         frame_limit = 1;
                         CarDoorAlignmentSolver_545AF0(7 - field_68_animation_frame,
@@ -1090,10 +1085,8 @@ void Char::UpdateAnimState_546360()
                         pDriver->field_168_game_object->SetPedState2_433A50(ped_state_2::ped2_at_car_door_17);
                         pDriver->field_168_game_object->field_84_target_car = pCar;
                         pDriver->field_168_game_object->field_80_sprite_ptr->SetDrawLayer_40F7B0(6);
-                        {
-                            pDriver->SetRemap_433C10(pDriver->get_remap_433BA0());
-                        }
-                        pDriver->field_16C_car = 0;
+                        pDriver->SetRemap_433C10(pDriver->get_remap_433BA0());
+                        pDriver->field_16C_car = NULL;
                         pDriver->SetStateInitPending_433B50();
                         if (!pDriver->is_player_41B0A0())
                         {
@@ -1128,7 +1121,7 @@ void Char::UpdateAnimState_546360()
                 newy,
                 gMap_0x370_6F6268->FindGroundZAboveCoord_4E4E50(newx, newy, pCar->field_50_car_sprite->field_1C_zpos));
 
-            if (field_58_flags & 0x10)
+            if (field_58_flags_bf.bFlag4)
             {
                 field_40_rotation = TurnBy180Deg_546360(field_40_rotation);
             }
@@ -1145,7 +1138,7 @@ void Char::UpdateAnimState_546360()
             else if (field_70_frame_timer == 5 && field_68_animation_frame == 0)
             {
                 Car_Door* pDoor = field_84_target_car->GetDoor(field_7C_pPed->get_target_car_door_403A60());
-                if (!(field_58_flags & 0x10))
+                if (!field_58_flags_bf.bFlag4)
                 {
                     pDoor->Open_439E60();
                     pDoor->set_ped_421380(field_7C_pPed);
@@ -1193,7 +1186,7 @@ void Char::UpdateAnimState_546360()
             switch (field_68_animation_frame)
             {
                 case 0:
-                    if (field_58_flags & 0x10)
+                    if (field_58_flags_bf.bFlag4)
                     {
                         field_84_target_car->GetDoor(field_7C_pPed->get_target_car_door_403A60())->Open_439E60();
                         newId = baseId + field_68_animation_frame;
@@ -1210,7 +1203,7 @@ void Char::UpdateAnimState_546360()
                     break;
 
                 case 1:
-                    if (field_58_flags & 0x10)
+                    if (field_58_flags_bf.bFlag4)
                     {
                         newId = baseId + field_68_animation_frame;
                         frame_limit = 0;
@@ -1226,7 +1219,7 @@ void Char::UpdateAnimState_546360()
                     break;
 
                 case 2:
-                    if (field_58_flags & 0x10)
+                    if (field_58_flags_bf.bFlag4)
                     {
                         newId = baseId + field_68_animation_frame;
                         frame_limit = 0;
@@ -1242,7 +1235,7 @@ void Char::UpdateAnimState_546360()
                     break;
 
                 case 3:
-                    if (field_58_flags & 0x10)
+                    if (field_58_flags_bf.bFlag4)
                     {
                         newId = baseId + field_68_animation_frame;
                         frame_limit = 0;
@@ -1258,7 +1251,7 @@ void Char::UpdateAnimState_546360()
                     break;
 
                 case 4:
-                    if (field_58_flags & 0x10)
+                    if (field_58_flags_bf.bFlag4)
                     {
                         newId = baseId + field_68_animation_frame;
                         frame_limit = 0;
@@ -1274,7 +1267,7 @@ void Char::UpdateAnimState_546360()
                     break;
 
                 case 5:
-                    if (field_58_flags & 0x10)
+                    if (field_58_flags_bf.bFlag4)
                     {
                         newId = baseId + field_68_animation_frame;
                         frame_limit = 0;
@@ -1290,7 +1283,7 @@ void Char::UpdateAnimState_546360()
                     break;
 
                 case 6:
-                    if (field_58_flags & 0x10)
+                    if (field_58_flags_bf.bFlag4)
                     {
                         newId = baseId + field_68_animation_frame;
                         frame_limit = 0;
@@ -1306,7 +1299,7 @@ void Char::UpdateAnimState_546360()
                     break;
 
                 case 7:
-                    if (field_58_flags & 0x10)
+                    if (field_58_flags_bf.bFlag4)
                     {
                         newId = baseId + field_68_animation_frame;
                         frame_limit = 0;
@@ -1329,11 +1322,11 @@ void Char::UpdateAnimState_546360()
                     field_C_ped_state_2 = ped_state_2::ped2_walking_0;
                     field_8_ped_state_1 = ped_state_1::walking_0;
                     Car_Door* pDoor = field_84_target_car->GetDoor(field_7C_pPed->get_target_car_door_403A60());
-                    if (!(field_58_flags & 0x10))
+                    if (!field_58_flags_bf.bFlag4)
                     {
                         pDoor->Close_439EA0();
                     }
-                    pDoor->set_ped_421380(0);
+                    pDoor->set_ped_421380(NULL);
 
                     if (static_cast<u8>(IsOnWater_545570()))
                     {
@@ -1368,7 +1361,7 @@ void Char::UpdateAnimState_546360()
             else if (field_70_frame_timer == 1 && field_68_animation_frame == 0)
             {
                 Car_Door* pDoor = field_84_target_car->GetDoor(field_7C_pPed->get_target_car_door_403A60());
-                if (!(field_58_flags & 0x10))
+                if (!field_58_flags_bf.bFlag4)
                 {
                     pDoor->Open_439E60();
                     pDoor->set_ped_421380(field_7C_pPed);
@@ -1456,7 +1449,7 @@ void Char::UpdateAnimState_546360()
                 case 4:
                     gCharB4_Saved_Zpos_6FD7FC += kFpPoint05_6FDAE4;
                     gCharB4_Saved_Zpos_6FD7FC = SnapZTo16_4F79B0(gCharB4_Saved_Zpos_6FD7FC);
-                    if (field_58_flags & 1)
+                    if (field_58_flags_bf.bOnSlope)
                     {
                         gCharB4_GradientSlopeBelow_6FDB54 = 0;
                     }
@@ -1467,7 +1460,7 @@ void Char::UpdateAnimState_546360()
                     field_54_jump_scale_counter = 0;
                     gCharB4_Saved_Zpos_6FD7FC += kFpPoint05_6FDAE4;
                     gCharB4_Saved_Zpos_6FD7FC = SnapZTo16_4F79B0(gCharB4_Saved_Zpos_6FD7FC);
-                    if (field_58_flags & 1)
+                    if (field_58_flags_bf.bOnSlope)
                     {
                         gCharB4_GradientSlopeBelow_6FDB54 = 0;
                     }
@@ -1702,25 +1695,25 @@ void Char::DispatchCollision_548670(char_type bFlag)
         switch (pNearSprite->GetType_416B40())
         {
 
-            case sprite_types_enum::ped_3: // char_b4
+            case sprite_types_enum::ped_3:
                 if (bUnknown == byte_623F48)
                 {
-                    this->field_18_collided_entity = 0;
+                    this->field_18_collided_entity = NULL;
                 }
                 else
                 {
                     if (field_7C_pPed->GetPedType_420B70() >= ped_type::player_2 && field_7C_pPed->field_238_ped_type <= ped_type::dummy_with_occupation_6)
                     {
                         Char::HandlePedCollision_548BD0(pNearSprite->AsCharB4_40FEA0());
-                        this->field_18_collided_entity = 0;
+                        this->field_18_collided_entity = NULL;
                     }
                 }
                 break;
 
-            case sprite_types_enum::car_2: // car
+            case sprite_types_enum::car_2:
             {
                 Sprite* pNearSprite2 = field_80_sprite_ptr->QuerySpriteCollision_59E7D0(sprite_types_enum::object_1);
-                if (pNearSprite2->GetType_416B40() == sprite_types_enum::object_1) // object
+                if (pNearSprite2->GetType_416B40() == sprite_types_enum::object_1)
                 {
                     if (pNearSprite2->AsObject2C_40FEC0())
                     {
@@ -1730,14 +1723,14 @@ void Char::DispatchCollision_548670(char_type bFlag)
                 }
                 else
                 {
-                    Char::HandleGenericCollision_54A530(pNearSprite->AsCar_40FEB0(), 0, 0);
+                    Char::HandleGenericCollision_54A530(pNearSprite->AsCar_40FEB0(), NULL, NULL);
                     this->field_20_collided_entity_type = 1;
                 }
                 break;
             }
             case sprite_types_enum::object_1:
             case sprite_types_enum::code_obj1_4:
-            case sprite_types_enum::map_obj_5: // object
+            case sprite_types_enum::map_obj_5:
                 Char::HandleObjectCollision_548840(pNearSprite->AsObject2C_40FEC0());
                 this->field_20_collided_entity_type = 3;
                 break;
@@ -1753,26 +1746,26 @@ void Char::DispatchCollision_548670(char_type bFlag)
             if (field_10_char_state == Char_B4_state::Colliding_With_Car_27)
             {
                 this->field_10_char_state = 1;
-                this->field_1C_prev_collided_entity = 0;
+                this->field_1C_prev_collided_entity = NULL;
                 this->field_20_collided_entity_type = 0;
-                this->field_18_collided_entity = 0;
+                this->field_18_collided_entity = NULL;
             }
             else
             {
-                this->field_18_collided_entity = 0;
+                this->field_18_collided_entity = NULL;
             }
         }
         else
         {
             this->field_10_char_state = 1;
-            this->field_18_collided_entity = 0;
+            this->field_18_collided_entity = NULL;
         }
 
         if (field_38_velocity == kZeroVelocity_6FD7C0 || field_7C_pPed->PedTypeIs_45EDE0(ped_type::player_2) && !this->field_8_ped_state_1)
         {
-            this->field_1C_prev_collided_entity = 0;
+            this->field_1C_prev_collided_entity = NULL;
             this->field_20_collided_entity_type = 0;
-            this->field_69_is_colliding_with_sprite = 0;
+            this->field_69_is_colliding_with_sprite = false;
             this->field_2A_slide_turn = kAng0_6FDB34;
         }
     }
@@ -1813,11 +1806,6 @@ static inline bool CanJumpOver_54A530(Char* pThis, Char* pChar)
 MATCH_FUNC(0x548840)
 void Char::HandleObjectCollision_548840(Object* pObj)
 {
-    //pObj_ = pObj;
-    //out3 = 0;
-    //v19 = 4;
-    //pPhi = pObj->field_8;
-    //phi_type = pPhi->field_34_type;
     Fix16_Point new_pos;
     Fix16_Point point;
     // Unused: the original enters with EH state 4, so three more Fix16_Point locals were constructed up front
@@ -1825,7 +1813,7 @@ void Char::HandleObjectCollision_548840(Object* pObj)
     u8 side_self;
     u8 out2;
     u8 out3 = 0;
-    bool bUnknown = 0;
+    bool bUnknown = false;
 
     s32 phi_type = pObj->field_8_definition->field_34_behavior_type;
 
@@ -1834,26 +1822,26 @@ void Char::HandleObjectCollision_548840(Object* pObj)
     {
         if (!pObj->CanBePushed_482C90())
         {
-            goto LABEL_28;
+            goto generic_collision;
         }
 
         if (field_7C_pPed->PedTypeIs_45EDE0(ped_type::player_2))
         {
             if (this->field_10_char_state == Char_B4_state::Jumping_15)
             {
-                goto LABEL_28;
+                goto generic_collision;
             }
         }
         else
         {
             if (pObj->field_8_definition->field_4C_collision_response == 3)
             {
-                bUnknown = 1;
+                bUnknown = true;
             }
 
             if (pObj->field_8_definition->field_4C_collision_response && !bUnknown)
             {
-                goto LABEL_28;
+                goto generic_collision;
             }
         }
 
@@ -1869,12 +1857,11 @@ void Char::HandleObjectCollision_548840(Object* pObj)
         }
         this->field_5C_jump_over_timer = 10;
 
-    LABEL_28:
-        HandleGenericCollision_54A530(0, pObj, 0);
+    generic_collision:
+        HandleGenericCollision_54A530(NULL, pObj, NULL);
     }
 }
 
-// What happens when this ped walks into pOther, by the types of both peds (field_238)
 // 9.6f 0x41FA70
 static inline Ang16& compound_add_41FA70(Ang16& a, const Ang16& b)
 {
@@ -1906,12 +1893,13 @@ static inline void CollideWithPed_493000(Ped* pPed, Char* pOther)
     }
 }
 
+// What happens when this ped walks into pOther, by the types of both peds (field_238)
 MATCH_FUNC(0x548bd0)
 void Char::HandlePedCollision_548BD0(Char* pOther)
 {
     s32 my_type = field_7C_pPed->GetPedType_420B70();
     s32 other_type = pOther->field_7C_pPed->GetPedType_420B70();
-    if (pOther->get_ped_state_1_48A4C0() == ped_state_1::dead_9 || pOther->get_ped_state_1_48A4C0() == ped_state_1::immobilized_8 || (field_58_flags & 0x80) || field_10_char_state == Char_B4_state::Jumping_15)
+    if (pOther->get_ped_state_1_48A4C0() == ped_state_1::dead_9 || pOther->get_ped_state_1_48A4C0() == ped_state_1::immobilized_8 || field_58_flags_bf.bFlag7 || field_10_char_state == Char_B4_state::Jumping_15)
     {
         return;
     }
@@ -2146,7 +2134,7 @@ void Char::HandleGenericCollision_54A530(Car* pCar, Object* pObj, Char* pChar)
 
     if (field_69_is_colliding_with_sprite == 0)
     {
-        if (pCar != 0)
+        if (pCar != NULL)
         {
             corner_ang = pCar->GetCornerAngle_4403A0();
             pSprt = pCar->field_50_car_sprite;
@@ -2156,7 +2144,7 @@ void Char::HandleGenericCollision_54A530(Car* pCar, Object* pObj, Char* pChar)
                 gCharCollisionNoJump_6FDB58 = 1;
             }
         }
-        else if (pObj != 0)
+        else if (pObj != NULL)
         {
             pSprt = pObj->field_4_sprite;
             Fix16 half_w;
@@ -2183,7 +2171,7 @@ void Char::HandleGenericCollision_54A530(Car* pCar, Object* pObj, Char* pChar)
             {
                 if (field_7C_pPed->PedTypeIs_45EDE0(ped_type::player_2) == 0)
                 {
-                    if (pChar == 0)
+                    if (pChar == NULL)
                     {
                         Char::DoJump_5454D0();
                     }
@@ -2243,13 +2231,13 @@ void Char::HandleGenericCollision_54A530(Car* pCar, Object* pObj, Char* pChar)
                     field_71_frame_delay = 2;
                     field_70_frame_timer = 0;
                 }
-                field_69_is_colliding_with_sprite = 0;
+                field_69_is_colliding_with_sprite = false;
 
-                if (pCar != 0)
+                if (pCar != NULL)
                 {
                     if (pCar->field_50_car_sprite->field_1C_zpos >= field_80_sprite_ptr->field_1C_zpos)
                     {
-                        field_A0_force_top_layer = 1;
+                        field_A0_force_top_layer = true;
                         field_80_sprite_ptr->ResolveZOrder_5A1B30(pCar->field_50_car_sprite);
                     }
                 }
@@ -2384,7 +2372,7 @@ void Char::HandleGenericCollision_54A530(Car* pCar, Object* pObj, Char* pChar)
                                                  field_80_sprite_ptr->field_1C_zpos);
         Char::DispatchCollision_548670(byte_623F48);
 
-        if (field_18_collided_entity != 0)
+        if (field_18_collided_entity != NULL)
         {
             switch (side)
             {
@@ -2413,12 +2401,12 @@ void Char::HandleGenericCollision_54A530(Car* pCar, Object* pObj, Char* pChar)
             }
         }
 
-        if (pCar != 0)
+        if (pCar != NULL)
         {
             field_1C_prev_collided_entity = pCar;
             field_18_collided_entity = pCar;
         }
-        else if (pObj != 0)
+        else if (pObj != NULL)
         {
             field_1C_prev_collided_entity = pObj;
             field_18_collided_entity = pObj;
@@ -2432,10 +2420,10 @@ void Char::HandleGenericCollision_54A530(Car* pCar, Object* pObj, Char* pChar)
     else
     {
         void* pAny = pCar;
-        if (pCar == 0)
+        if (pCar == NULL)
         {
             pAny = pObj;
-            if (pObj != 0)
+            if (pObj != NULL)
             {
                 if (pObj->field_4_sprite->field_C_pCollisionShape->GetDepth_492170() > kFP16Half_6FD8E4)
                 {
@@ -2448,7 +2436,7 @@ void Char::HandleGenericCollision_54A530(Car* pCar, Object* pObj, Char* pChar)
             }
         }
 
-        if (field_1C_prev_collided_entity == pAny || field_1C_prev_collided_entity == 0)
+        if (field_1C_prev_collided_entity == pAny || field_1C_prev_collided_entity == NULL)
         {
             if (field_10_char_state != Char_B4_state::Jumping_15)
             {
@@ -2489,7 +2477,7 @@ bool Char::ContinueMovementAfterCollision_54B8F0()
     bool bMoved = false;
     if (field_10_char_state == Char_B4_state::Jumping_15)
     {
-        return 1;
+        return true;
     }
 
     if (field_18_collided_entity)
@@ -2588,7 +2576,7 @@ bool Char::ContinueMovementAfterCollision_54B8F0()
         }
         else
         {
-            field_69_is_colliding_with_sprite = 0;
+            field_69_is_colliding_with_sprite = false;
             field_80_sprite_ptr->setxy_lazy_54EC80(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800);
             Ang16::PolarToCartesian_451730(field_40_rotation, field_38_velocity, x_vec, y_vec);
             field_80_sprite_ptr->set_xyz_lazy_451950(field_80_sprite_ptr->field_14_xy.x + x_vec,
@@ -2639,12 +2627,12 @@ MATCH_FUNC(0x54c090)
 void Char::SnapRotationToFace_54C090()
 {
 
-    s32 AngleFace_4F78F0 = Ang16::GetAngleFace_4F78F0(field_40_rotation);
-    if (!CanMoveOntoSlope_54C1A0(AngleFace_4F78F0))
+    s32 face = Ang16::GetAngleFace_4F78F0(field_40_rotation);
+    if (!CanMoveOntoSlope_54C1A0(face))
     {
         u8 bPastHalf;
         s32 new_dir;
-        switch (AngleFace_4F78F0)
+        switch (face)
         {
             case 1:
                 bPastHalf = field_40_rotation > kAng180_6FD8E8;
@@ -2660,7 +2648,7 @@ void Char::SnapRotationToFace_54C090()
                 break;
         }
 
-        switch (AngleFace_4F78F0)
+        switch (face)
         {
             case 1:
                 new_dir = bPastHalf ? 4 : 3;
@@ -2678,10 +2666,10 @@ void Char::SnapRotationToFace_54C090()
                 new_dir = 2;
                 break;
         }
-        AngleFace_4F78F0 = new_dir;
+        face = new_dir;
     }
 
-    field_40_rotation = ReturnAngleFromRoadDirection_4F7940(AngleFace_4F78F0);
+    field_40_rotation = ReturnAngleFromRoadDirection_4F7940(face);
 
     if (field_10_char_state != Char_B4_state::Jumping_15)
     {
@@ -2694,7 +2682,7 @@ MATCH_FUNC(0x54c1a0)
 bool Char::CanMoveOntoSlope_54C1A0(s32 path_direction)
 {
     u8 slope_type = 0;
-    char_type bMayLeavePavement = 0;
+    bool bMayLeavePavement = false;
     Fix16 x_fp = field_80_sprite_ptr->field_14_xy.x;
     Fix16 y_fp = field_80_sprite_ptr->field_14_xy.y;
     Fix16 zpos = field_80_sprite_ptr->field_1C_zpos;
@@ -2702,7 +2690,7 @@ bool Char::CanMoveOntoSlope_54C1A0(s32 path_direction)
     if (field_10_char_state == Char_B4_state::Jumping_15 || field_8_ped_state_1 == ped_state_1::dead_9 || field_7C_pPed->PedTypeIs_45EDE0(ped_type::player_2) ||
         field_7C_pPed->get_occupation_403980() == ped_ocupation_enum::drone)
     {
-        bMayLeavePavement = 1;
+        bMayLeavePavement = true;
     }
     if ((field_58_flags & 1) == 1)
     {
@@ -2715,7 +2703,7 @@ bool Char::CanMoveOntoSlope_54C1A0(s32 path_direction)
     u8 slope_z_delta;
     if (gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(x, y, z, path_direction, &slope_z_delta, 0))
     {
-        return 0;
+        return false;
     }
 
 
@@ -2745,7 +2733,7 @@ bool Char::CanMoveOntoSlope_54C1A0(s32 path_direction)
         case AIR:
             if ((field_58_flags & 1) != 1)
             {
-                return 0;
+                return false;
             }
             zpos_frac = zpos.GetFracValue();
 
@@ -2759,7 +2747,7 @@ bool Char::CanMoveOntoSlope_54C1A0(s32 path_direction)
 
             if (zpos_frac <= kFP16Half_6FD8E4)
             {
-                return 0;
+                return false;
             }
 
             field_58_flags &= ~1;
@@ -2777,9 +2765,9 @@ bool Char::CanMoveOntoSlope_54C1A0(s32 path_direction)
             return false;
         case PAVEMENT:
         case 4:
-            return 1;
+            return true;
         default:
-            return 0;
+            return false;
     }
     return result;
 }
@@ -2838,13 +2826,13 @@ bool Char::CanMoveToTile_54C500(char_type x, char_type y)
     // No movement
     if (dx == 0 && dy == 0)
     {
-        return 1;
+        return true;
     }
 
     // Diagonal movement not allowed
     if (dx != 0 && dy != 0)
     {
-        return 0;
+        return false;
     }
 
     // Pure horizontal
@@ -2921,7 +2909,7 @@ void Char::ApplyRandomRotationJitter_54C6C0()
     if (gRng_6F6784.get_int_4F7AE0(32) > 22)
     {
         Ang16 old_angle = field_42_rotation_jitter;
-        field_42_rotation_jitter = Ang16::Fix16_To_Ang16_inlined_40F540(kFpOne64th_6FD868 * (Fix16(gRng_6F6784.get_int_4F7AE0(16)) - kFP16Eight_6FDA08)); // INLINED_MODE required
+        field_42_rotation_jitter = Ang16::Fix16_To_Ang16_inlined_40F540(kFpOne64th_6FD868 * (Fix16(gRng_6F6784.get_int_4F7AE0(16)) - kFP16Eight_6FDA08));
         if (old_angle > kAng180_6FD936 && field_42_rotation_jitter > kAng180_6FD936)
         {
             field_42_rotation_jitter = -field_42_rotation_jitter;
@@ -3346,8 +3334,8 @@ static inline bool IsBlockTypeInRange_1_4(u8 block_type)
 MATCH_FUNC(0x54ddf0)
 void Char::state_0_54DDF0()
 {
-    char bCanMove;
-    char bAllowStateChange;
+    char_type bCanMove;
+    char_type bAllowStateChange;
     u8 bTileOk;
 
     byte_6FDB51 = 1;
@@ -3359,7 +3347,7 @@ void Char::state_0_54DDF0()
     bCanMove = 0;
     u8 bNoNewRotation = 1;
     Ang16 side_angle(0);
-    Ang16 new_rotation(0); //new_rotation = 0;
+    Ang16 new_rotation(0);
 
 
     u8 block_type;
@@ -3367,7 +3355,6 @@ void Char::state_0_54DDF0()
 
     if ((field_58_flags & 1) == 0 && gCharB4_Saved_Zpos_6FD7FC.GetFracValue() == kFP16Zero_6FD9E4)
     {
-        //goto LABEL_9;
         block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(gCharB4_Saved_Xpos_6FD7F8.ToInt(), gCharB4_Saved_Ypos_6FD800.ToInt(), gCharB4_Saved_Zpos_6FD7FC.ToInt() - 1);
         pBlock = gMap_0x370_6F6268->GetBlock_4DFE10(gCharB4_Saved_Xpos_6FD7F8.ToInt(), gCharB4_Saved_Ypos_6FD800.ToInt(), gCharB4_Saved_Zpos_6FD7FC.ToInt() - 1);
     }
@@ -3378,7 +3365,6 @@ void Char::state_0_54DDF0()
 
         if (pBlock == NULL || block_type == 0)
         {
-            //LABEL_9:
             block_type =
                 gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(gCharB4_Saved_Xpos_6FD7F8.ToInt(), gCharB4_Saved_Ypos_6FD800.ToInt(), gCharB4_Saved_Zpos_6FD7FC.ToInt() - 1);
             pBlock = gMap_0x370_6F6268->GetBlock_4DFE10(gCharB4_Saved_Xpos_6FD7F8.ToInt(), gCharB4_Saved_Ypos_6FD800.ToInt(), gCharB4_Saved_Zpos_6FD7FC.ToInt() - 1);
@@ -3387,19 +3373,17 @@ void Char::state_0_54DDF0()
 
     if (pBlock)
     {
-        // bit 0: standing on a slope
         field_58_flags_bf.bOnSlope = GET_SLOPE_BITS(pBlock->field_B_slope_type) != 0 && GET_SLOPE_BITS(pBlock->field_B_slope_type) != 0xFC;
         if (gGtx_0x106C_703DD4->IsElectrifiedFloorType_491F80(pBlock->field_8_lid & block_face::tile_idx_mask) &&
             field_10_char_state != Char_B4_state::Jumping_15)
         {
-            //if ((field_7C_pPed->field_21C & 0x8000000) == 0)
             if (!field_7C_pPed->field_21C_bf.bLeftVehicle)
             {
                 field_7C_pPed->field_210_shock_counter += 3;
-                s32 Leader_id = field_7C_pPed->field_204_killer_id;
-                if (Leader_id != 0)
+                s32 killer_id = field_7C_pPed->field_204_killer_id;
+                if (killer_id != 0)
                 {
-                    if (gPedManager_6787BC->PedById(Leader_id))
+                    if (gPedManager_6787BC->PedById(killer_id))
                     {
                         field_7C_pPed->field_290_death_cause = ped_death_cause::electrocuted_2;
                         field_7C_pPed->field_264_killer_id_timer = 50;
@@ -3418,7 +3402,7 @@ void Char::state_0_54DDF0()
     Fix16 ret1;
     Fix16 ret2;
 
-    if (block_type == 0 && (field_58_flags & 1) == 0) // or !pBlock
+    if (block_type == 0 && (field_58_flags & 1) == 0)
     {
         // 10.5 has a separate copy for the non-player case, so this is a nested if, not one && chain
         if (field_7C_pPed->field_15C_player)
@@ -3436,7 +3420,6 @@ void Char::state_0_54DDF0()
         {
             Ang16::PolarToCartesian_41FC20(field_40_rotation, kFpThreeThirtySeconds_6FDAC8, ret1, ret2);
         }
-        // ......
 
         ret1 += gCharB4_Saved_Xpos_6FD7F8;
         ret2 += gCharB4_Saved_Ypos_6FD800;
@@ -3456,7 +3439,7 @@ void Char::state_0_54DDF0()
             if (field_10_char_state != Char_B4_state::Jumping_15)
             {
                 // Ped is falling
-            LABEL_44:
+            start_falling:
                 field_6C_animation_state = Char_Anim_state::Normal_Fall_11;
                 field_68_animation_frame = 0;
                 field_7C_pPed->ChangeNextPedState1_45C500(ped_state_1::immobilized_8);
@@ -3474,17 +3457,17 @@ void Char::state_0_54DDF0()
                 field_94_fall_z_speed = kFP16Zero_6FD9E4;
                 if (field_38_velocity == kZeroVelocity_6FD7C0)
                 {
-                    field_16_state_init_pending = 1;
+                    field_16_state_init_pending = true;
                 }
                 Char::state_8_5520A0();
                 return;
             }
             // A jumping ped only starts falling once the jump is over
-            if (this->field_68_animation_frame == 7 || this->field_7C_pPed->field_21C_bf.bAttacking != 0)
+            if (this->field_68_animation_frame == 7 || this->field_7C_pPed->field_21C_bf.bAttacking)
             {
                 this->field_10_char_state = 1;
                 field_7C_pPed->ClearAttacking_403A40();
-                goto LABEL_44;
+                goto start_falling;
             }
         }
     }
@@ -3614,7 +3597,7 @@ void Char::state_0_54DDF0()
             }
         }
 
-        if (this->field_7C_pPed->field_21C_bf.bHitByAttacker != 0)
+        if (this->field_7C_pPed->field_21C_bf.bHitByAttacker)
         {
             this->field_38_velocity = k_CollisionRepulsionSpeed_6FD7BC;
         }
@@ -3625,7 +3608,7 @@ void Char::state_0_54DDF0()
         if (this->field_69_is_colliding_with_sprite || this->field_10_char_state == Char_B4_state::Jumping_15)
         {
             bAllowStateChange = 0;
-            field_7C_pPed->field_21C_bf.bAttacking = 0; // TODO: Check it
+            field_7C_pPed->field_21C_bf.bAttacking = false;
             byte_6FDB51 = 0;
             byte_6FDB52 = 0;
         }
@@ -3658,8 +3641,8 @@ void Char::state_0_54DDF0()
             {
                 switch (block_type)
                 {
-                    case ROAD: // 1
-                    case FIELD: // 3
+                    case ROAD:
+                    case FIELD:
                         if (field_7C_pPed->get_objective_403A80() == objectives_enum::no_obj_0 ||
                             field_7C_pPed->get_objective_403A80() == objectives_enum::objective_8)
                         {
@@ -3705,7 +3688,7 @@ void Char::state_0_54DDF0()
             {
                 Char::ApplyMovement_54CC40();
                 bCanMove = 0;
-                goto LABEL_152;
+                goto after_move;
             }
         }
         else
@@ -3760,12 +3743,10 @@ void Char::state_0_54DDF0()
             else
             {
                 Char::SnapRotationToFace_54C090();
-                goto LABEL_152;
+                goto after_move;
             }
         }
     }
-
-    field_80_sprite_ptr = this->field_80_sprite_ptr;
 
     Ang16::PolarToCartesian_41FC20(field_40_rotation, field_38_velocity, ret1, ret2);
     ret1 += field_4C_conveyor_dx;
@@ -3774,7 +3755,7 @@ void Char::state_0_54DDF0()
                                              field_80_sprite_ptr->field_14_xy.y + ret2,
                                              field_80_sprite_ptr->field_1C_zpos);
 
-LABEL_152:
+after_move:
     field_4C_conveyor_dx = kFP16Zero_6FD9E4;
     field_50_conveyor_dy = kFP16Zero_6FD9E4;
     if (bCanMove == 1 || (field_58_flags & 1) == 1)
@@ -3805,12 +3786,11 @@ LABEL_152:
                     field_45_slope_gradient_direction = gCharB4_Saved_SlopeGradDir_6FD7B0.ToInt();
                     if (!Char::CanReachTile_550090(tile_x, tile_y))
                     {
-                        field_69_is_colliding_with_sprite = 0;
+                        field_69_is_colliding_with_sprite = false;
                         field_5C_jump_over_timer = 10;
                     }
                     else
                     {
-                        // Line 507 on 9.6f IDA
                         field_80_sprite_ptr->set_xyz_lazy_420600(old_xpos, old_ypos, gCharB4_Saved_Zpos_6FD7FC);
                         gCharB4_GradientSlopeBelow_6FDB54 = gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(field_80_sprite_ptr->field_14_xy.x.ToInt(),
                                                                     field_80_sprite_ptr->field_14_xy.y.ToInt(),
@@ -3824,7 +3804,7 @@ LABEL_152:
 
     if (!bNoNewRotation)
     {
-        field_40_rotation = new_rotation; //*p_field_40_rotation = new_rotation;
+        field_40_rotation = new_rotation;
     }
 
     Char::CheckCollisionsAndUpdateAnim_54DD70();
@@ -3850,7 +3830,7 @@ bool Char::CanStepForwardWithRegionCheck_54ECB0(s32 direction)
     if (gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(xpos.ToInt(), ypos.ToInt(), zpos.ToInt(), direction, &slope_z_delta, 0))
     {
         gCharB4_PathDirection_623F44 = direction;
-        return 0;
+        return false;
     }
     if (byte_6FDB57)
     {
@@ -3862,7 +3842,7 @@ bool Char::CanStepForwardWithRegionCheck_54ECB0(s32 direction)
 
             field_80_sprite_ptr->set_xyz_lazy_420600(xpos, ypos, zpos);
             gMap_0x370_6F6268->ClearBlockedByTerrain_492130();
-            return 0;
+            return false;
         }
         field_80_sprite_ptr->set_xyz_lazy_420600(xpos, ypos, zpos);
         Char::ManageZCoordAndSlopes_548590();
@@ -3980,7 +3960,7 @@ bool Char::CanStepToTile_54EF60(char_type target_x, char_type target_y)
             {
                 bCanStep = true;
                 field_80_sprite_ptr->field_14_xy.x.subtract_one_491F00();
-                if (field_58_flags & 1)
+                if (field_58_flags_bf.bOnSlope)
                 {
                     field_80_sprite_ptr->field_1C_zpos =
                         gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(field_80_sprite_ptr->field_14_xy.x, field_80_sprite_ptr->field_14_xy.y);
@@ -3996,7 +3976,7 @@ bool Char::CanStepToTile_54EF60(char_type target_x, char_type target_y)
                 }
                 field_80_sprite_ptr->field_14_xy.x = sprite_xpos;
                 field_80_sprite_ptr->field_14_xy.y.subtract_one_491F00();
-                if (field_58_flags & 1)
+                if (field_58_flags_bf.bOnSlope)
                 {
                     field_80_sprite_ptr->field_1C_zpos =
                         gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(field_80_sprite_ptr->field_14_xy.x, field_80_sprite_ptr->field_14_xy.y);
@@ -4055,7 +4035,7 @@ bool Char::CanStepToTile_54EF60(char_type target_x, char_type target_y)
             {
                 bCanStep = true;
                 field_80_sprite_ptr->field_14_xy.x.subtract_one_491F00();
-                if (field_58_flags & 1)
+                if (field_58_flags_bf.bOnSlope)
                 {
                     field_80_sprite_ptr->field_1C_zpos =
                         gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(field_80_sprite_ptr->field_14_xy.x, field_80_sprite_ptr->field_14_xy.y);
@@ -4071,7 +4051,7 @@ bool Char::CanStepToTile_54EF60(char_type target_x, char_type target_y)
                 }
                 field_80_sprite_ptr->field_14_xy.x = sprite_xpos;
                 field_80_sprite_ptr->field_14_xy.y.add_one_491EF0();
-                if (field_58_flags & 1)
+                if (field_58_flags_bf.bOnSlope)
                 {
                     field_80_sprite_ptr->field_1C_zpos =
                         gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(field_80_sprite_ptr->field_14_xy.x, field_80_sprite_ptr->field_14_xy.y);
@@ -4134,7 +4114,7 @@ bool Char::CanStepToTile_54EF60(char_type target_x, char_type target_y)
             {
                 bCanStep = true;
                 field_80_sprite_ptr->field_14_xy.x.add_one_491EF0();
-                if (field_58_flags & 1)
+                if (field_58_flags_bf.bOnSlope)
                 {
                     field_80_sprite_ptr->field_1C_zpos =
                         gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(field_80_sprite_ptr->field_14_xy.x, field_80_sprite_ptr->field_14_xy.y);
@@ -4150,7 +4130,7 @@ bool Char::CanStepToTile_54EF60(char_type target_x, char_type target_y)
                 }
                 field_80_sprite_ptr->field_14_xy.x = sprite_xpos;
                 field_80_sprite_ptr->field_14_xy.y.subtract_one_491F00();
-                if (field_58_flags & 1)
+                if (field_58_flags_bf.bOnSlope)
                 {
                     field_80_sprite_ptr->field_1C_zpos =
                         gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(field_80_sprite_ptr->field_14_xy.x, field_80_sprite_ptr->field_14_xy.y);
@@ -4210,7 +4190,7 @@ bool Char::CanStepToTile_54EF60(char_type target_x, char_type target_y)
             {
                 bCanStep = true;
                 field_80_sprite_ptr->field_14_xy.x.add_one_491EF0();
-                if (field_58_flags & 1)
+                if (field_58_flags_bf.bOnSlope)
                 {
                     field_80_sprite_ptr->field_1C_zpos =
                         gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(field_80_sprite_ptr->field_14_xy.x, field_80_sprite_ptr->field_14_xy.y);
@@ -4311,9 +4291,9 @@ bool Char::CanStepForward_54FEC0(s32 direction)
 
     Fix16 xpos = field_80_sprite_ptr->field_14_xy.x;
     Fix16 ypos = field_80_sprite_ptr->field_14_xy.y;
-    Fix16 field_1C_zpos = field_80_sprite_ptr->field_1C_zpos;
+    Fix16 zpos = field_80_sprite_ptr->field_1C_zpos;
     s8 slope_z_adjust = 0;
-    s32 zpos_int = field_1C_zpos.ToInt();
+    s32 zpos_int = zpos.ToInt();
 
     s32 check_z = zpos_int - 1;
 
@@ -4361,7 +4341,7 @@ bool Char::CanStepForward_54FEC0(s32 direction)
 
     if ((field_58_flags & 1) == 1)
     {
-        z_frac = field_1C_zpos.GetFracValue();
+        z_frac = zpos.GetFracValue();
         if (z_frac < kFP16Half_6FD8E4)
         {
             field_58_flags &= ~1u;
@@ -4619,8 +4599,8 @@ void Char::state_1_5504F0()
     Ang16 prev_angle;
     Ang16 cur_rotation;
     Ang16 next_rotation;
-    char bSnapRotation;
-    char bMoved;
+    char_type bSnapRotation;
+    char_type bMoved;
     Fix16 probe_x;
     Fix16 probe_y;
 
@@ -4639,11 +4619,11 @@ void Char::state_1_5504F0()
     gCharB4_GradientSlopeBelow_6FDB54 = 0;
     gCharB4_Saved_TileX_6FDAD8 = gCharB4_Saved_Xpos_6FD7F8.ToUInt8();
     gCharB4_Saved_TileY_6FDAD9 = gCharB4_Saved_Ypos_6FD800.ToUInt8();
-    u8 unk_xpos = gCharB4_Saved_Xpos_6FD7F8.ToUInt8();
-    u8 unk_ypos = gCharB4_Saved_Ypos_6FD800.ToUInt8();
+    u8 start_tile_x = gCharB4_Saved_Xpos_6FD7F8.ToUInt8();
+    u8 start_tile_y = gCharB4_Saved_Ypos_6FD800.ToUInt8();
     u8 block_type;
     gmp_block_info* pBlock;
-    if (field_58_flags_bf.bOnSlope == false && gCharB4_Saved_Zpos_6FD7FC.GetFracValue() == kFP16Zero_6FD9E4 &&
+    if (!field_58_flags_bf.bOnSlope && gCharB4_Saved_Zpos_6FD7FC.GetFracValue() == kFP16Zero_6FD9E4 &&
         gCharB4_Saved_Zpos_6FD7FC > kFP16Zero_6FD9E4)
     {
         block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(gCharB4_Saved_Xpos_6FD7F8.ToInt(),
@@ -4668,7 +4648,7 @@ void Char::state_1_5504F0()
         field_58_flags_bf.bOnSlope = IsOnSlopeBlock(pBlock);
         if (gGtx_0x106C_703DD4->IsElectrifiedFloorType_491F80(pBlock->field_8_lid & block_face::tile_idx_mask) && field_10_char_state != Char_B4_state::Jumping_15)
         {
-            if (field_7C_pPed->field_21C_bf.bLeftVehicle == false)
+            if (!field_7C_pPed->field_21C_bf.bLeftVehicle)
             {
                 field_7C_pPed->field_210_shock_counter += 3;
                 if (field_7C_pPed->field_204_killer_id)
@@ -4690,7 +4670,7 @@ void Char::state_1_5504F0()
         return;
     }
 
-    if (!block_type && field_58_flags_bf.bOnSlope == false)
+    if (!block_type && !field_58_flags_bf.bOnSlope)
     {
         if (field_10_char_state != Char_B4_state::Jumping_15)
         {
@@ -4708,7 +4688,7 @@ void Char::state_1_5504F0()
             {
                 field_7C_pPed->ChangeNextPedState1_45C500(ped_state_1::immobilized_8);
                 field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::falling_19);
-                field_16_state_init_pending = 1;
+                field_16_state_init_pending = true;
                 return;
             }
         }
@@ -4734,7 +4714,7 @@ void Char::state_1_5504F0()
     }
     field_44_block_type = block_type;
 
-    if (field_58_flags_bf.bFlag6 != 0)
+    if (field_58_flags_bf.bFlag6)
     {
         desired_angle = field_40_rotation;
     }
@@ -4757,7 +4737,7 @@ void Char::state_1_5504F0()
             {
                 if (field_58_flags_bf.bFlag6)
                 {
-                    goto LABEL_65;
+                    goto skip_speed_setup;
                 }
                 if (!field_7C_pPed->field_224_bf.bWaitingOnTarget)
                 {
@@ -4770,7 +4750,7 @@ void Char::state_1_5504F0()
                 target_rotation = desired_angle;
             }
 
-            if (field_58_flags_bf.bFlag6 == false)
+            if (!field_58_flags_bf.bFlag6)
             {
                 if (field_7C_pPed->field_224_bf.bWaitingOnTarget)
                 {
@@ -4805,7 +4785,7 @@ void Char::state_1_5504F0()
         }
         bSnapRotation = 1;
     }
-LABEL_65:
+skip_speed_setup:
     if (field_55_next_tile_timer > 0)
     {
         field_55_next_tile_timer--;
@@ -4831,7 +4811,7 @@ LABEL_65:
                                       kFP16Half_6FD8E4 + Fix16(field_72_next_tile_x),
                                       kFP16Half_6FD8E4 + Fix16(field_73_next_tile_y)) < kFP16Quarter_6FD828)
             {
-                field_58_flags_bf.bFlag7 = 0;
+                field_58_flags_bf.bFlag7 = false;
             }
             else
             {
@@ -4846,7 +4826,7 @@ LABEL_65:
             {
                 if (field_C_ped_state_2 == ped_state_2::running_away_3)
                 {
-                    goto LABEL_82;
+                    goto long_probe;
                 }
                 prev_angle = field_74_repulsion_rotation;
                 cur_rotation = field_40_rotation;
@@ -4858,10 +4838,10 @@ LABEL_65:
         }
         if (field_C_ped_state_2 == ped_state_2::running_away_3)
         {
-        LABEL_82:
+        long_probe:
             if (field_55_next_tile_timer > 0)
             {
-                if (field_58_flags_bf.bFlag7 == false)
+                if (!field_58_flags_bf.bFlag7)
                 {
                     target_rotation = field_80_sprite_ptr->field_0_rotation;
                     angle = target_rotation;
@@ -4877,7 +4857,7 @@ LABEL_65:
         probe_y += gCharB4_Saved_Ypos_6FD800;
         x_u8 = probe_x.ToUInt8();
         y_u8 = probe_y.ToUInt8();
-        if (unk_xpos != x_u8 || unk_ypos != y_u8)
+        if (start_tile_x != x_u8 || start_tile_y != y_u8)
         {
             Char::ManageZCoordAndSlopes_548590();
 
@@ -4965,13 +4945,13 @@ LABEL_65:
                 field_45_slope_gradient_direction = gCharB4_Saved_SlopeGradDir_6FD7B0.ToUInt8();
                 if (!Char::CanReachTile_550090(x_u8, y_u8))
                 {
-                    field_69_is_colliding_with_sprite = 0;
+                    field_69_is_colliding_with_sprite = false;
                     field_5C_jump_over_timer = 10;
                     if (gCharCollisionNoJump_6FDB58)
                     {
-                        unk_ypos = 4;
-                        s16 int_4F7AE0 = gRng_6F6784.get_int_4F7AE0(4);
-                        switch (int_4F7AE0)
+                        start_tile_y = 4;
+                        s16 rnd = gRng_6F6784.get_int_4F7AE0(4);
+                        switch (rnd)
                         {
                             case 0:
                                 field_40_rotation = kAng0_6FDB34;
@@ -5006,7 +4986,7 @@ LABEL_65:
         }
         else
         {
-            field_69_is_colliding_with_sprite = 0;
+            field_69_is_colliding_with_sprite = false;
             field_2A_slide_turn = kAng0_6FDB34;
             field_5C_jump_over_timer = 10;
         }
@@ -5471,10 +5451,10 @@ void Char::state_3_551A00()
     else if (field_C_ped_state_2 == ped_state_2::ped2_entering_a_car_6)
     {
         field_10_char_state = Char_B4_state::Interacting_Car_Door_36;
-        Sprite* nearestSprt = gSpriteGrid_1_679208->FindCollidingSpritePreferType_477E60(field_80_sprite_ptr, sprite_types_enum::none_0);
-        if (!nearestSprt || nearestSprt->GetType_416B40() != sprite_types_enum::car_2 ||
-            (nearestSprt->field_8_car_bc_ptr == field_7C_pPed->get_target_to_enter_403B10()) ||
-            nearestSprt->field_8_car_bc_ptr->IsTrailerCar_421720() || field_7C_pPed->CloseDoorIfCarApproaching_45BD20(nearestSprt->field_8_car_bc_ptr))
+        Sprite* pNearestSprite = gSpriteGrid_1_679208->FindCollidingSpritePreferType_477E60(field_80_sprite_ptr, sprite_types_enum::none_0);
+        if (!pNearestSprite || pNearestSprite->GetType_416B40() != sprite_types_enum::car_2 ||
+            (pNearestSprite->field_8_car_bc_ptr == field_7C_pPed->get_target_to_enter_403B10()) ||
+            pNearestSprite->field_8_car_bc_ptr->IsTrailerCar_421720() || field_7C_pPed->CloseDoorIfCarApproaching_45BD20(pNearestSprite->field_8_car_bc_ptr))
         {
             if (field_6C_animation_state != Char_Anim_state::Entering_Car_6)
             {
@@ -5531,7 +5511,7 @@ void Char::state_5_551BB0()
 {
     if (field_C_ped_state_2 == ped_state_2::ped2_following_a_car_4)
     {
-        this->field_58_flags_bf.bFlag7 = 0;
+        this->field_58_flags_bf.bFlag7 = false;
 
         state_1_5504F0();
 
@@ -5608,15 +5588,13 @@ void Char::state_7_551CB0()
         {
             if (gGtx_0x106C_703DD4->IsElectrifiedFloorType_491F80(pBlockAtPos->field_8_lid & block_face::tile_idx_mask))
             {
-                if (field_7C_pPed->field_21C_bf.bLeftVehicle == false)
+                if (!field_7C_pPed->field_21C_bf.bLeftVehicle)
                 {
                     field_7C_pPed->field_210_shock_counter += 3;
                     if (field_7C_pPed->field_204_killer_id != 0)
                     {
                         if (gPedManager_6787BC->PedById(field_7C_pPed->field_204_killer_id))
                         {
-                            // forget the last ped who harmed this ped after some time?
-                            // so in this case the death reason must be shocking if it happens
                             field_7C_pPed->field_290_death_cause = ped_death_cause::electrocuted_2;
                             field_7C_pPed->field_264_killer_id_timer = 50;
                         }
@@ -5652,7 +5630,7 @@ void Char::state_7_551CB0()
     else
     {
         // Raw compares: the Fix16 operator== inlines push this function over VC6's inline budget
-        if (field_58_flags_bf.bOnSlope == false &&
+        if (!field_58_flags_bf.bOnSlope &&
             (gCharB4_Saved_Zpos_6FD7FC.mValue == kFP16One_6FD9E8.mValue || gCharB4_Saved_Zpos_6FD7FC.mValue == gFix16_Two_6FD9EC.mValue ||
              gCharB4_Saved_Zpos_6FD7FC.mValue == kFP16Three_6FD9F0.mValue || gCharB4_Saved_Zpos_6FD7FC.mValue == kFP16Four_6FD9F4.mValue ||
              gCharB4_Saved_Zpos_6FD7FC.mValue == kFP16Five_6FD9F8.mValue || gCharB4_Saved_Zpos_6FD7FC.mValue == kFP16Six_6FD9FC.mValue ||
@@ -5671,11 +5649,11 @@ void Char::state_7_551CB0()
             Char::DrownPed_5459E0();
             return;
         }
-        if (block_type == AIR && field_58_flags_bf.bOnSlope == false && field_10_char_state != Char_B4_state::Jumping_15)
+        if (block_type == AIR && !field_58_flags_bf.bOnSlope && field_10_char_state != Char_B4_state::Jumping_15)
         {
             field_7C_pPed->ChangeNextPedState1_45C500(ped_state_1::immobilized_8);
             field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::falling_19);
-            field_16_state_init_pending = 1;
+            field_16_state_init_pending = true;
             return;
         }
     }
@@ -5752,7 +5730,7 @@ void Char::state_8_5520A0()
     Fix16 nudge_y;
     Fix16 ground_z;
 
-    Sprite* NearestSpriteOfType_477E60;
+    Sprite* pNearestSprite;
     Fix16 fall_x;
     Fix16 fall_y;
     Sprite* pAttachSprite;
@@ -5768,7 +5746,7 @@ void Char::state_8_5520A0()
     field_7C_pPed->ClearAttacking_403A40();
     if (field_16_state_init_pending == 1)
     {
-        field_16_state_init_pending = 0;
+        field_16_state_init_pending = false;
         switch (field_C_ped_state_2)
         {
             case ped_state_2::lying_on_floor_22:
@@ -6017,13 +5995,13 @@ void Char::state_8_5520A0()
                 }
                 break;
             case ped_state_2::falling_19:
-                ground_z = gMap_0x370_6F6268->FindGroundZBelowCoord_4E4D40(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800, gCharB4_Saved_Zpos_6FD7FC); // TODO: fix Fix16 return
+                ground_z = gMap_0x370_6F6268->FindGroundZBelowCoord_4E4D40(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800, gCharB4_Saved_Zpos_6FD7FC);
                 if (gCharB4_Saved_Zpos_6FD7FC < ground_z || gCharB4_Saved_Zpos_6FD7FC >= ground_z + kFP16Eighth_6FDB04)
                 {
                     Ang16::PolarToCartesian_41FC20(field_40_rotation, field_90_fall_speed, fall_x, fall_y);
                     fall_x += gCharB4_Saved_Xpos_6FD7F8;
                     fall_y += gCharB4_Saved_Ypos_6FD800;
-                    if (Char::CanMoveToTile_54C500(fall_x.ToInt(), fall_y.ToInt())) // ToUInt8 ?????
+                    if (Char::CanMoveToTile_54C500(fall_x.ToInt(), fall_y.ToInt()))
                     {
                         field_80_sprite_ptr->set_xyz_lazy_420600(fall_x, fall_y, field_80_sprite_ptr->field_1C_zpos);
                     }
@@ -6043,14 +6021,14 @@ void Char::state_8_5520A0()
                     field_7C_pPed->RestorePreviousPedState_45C5A0();
                     Set_F8_ped_state_1_433910(field_7C_pPed->GetPedState_403990());
                     field_C_ped_state_2 = field_7C_pPed->GetPedState2_433B60();
-                    NearestSpriteOfType_477E60 = gSpriteGrid_1_679208->FindCollidingSpritePreferType_477E60(field_80_sprite_ptr, sprite_types_enum::none_0);
+                    pNearestSprite = gSpriteGrid_1_679208->FindCollidingSpritePreferType_477E60(field_80_sprite_ptr, sprite_types_enum::none_0);
                     if (field_6C_animation_state == Char_Anim_state::Lethal_Fall_12)
                     {
-                        if (field_7C_pPed->field_21C_bf.bOnFire == false) //if ((v41 & 0x1000000) == 0)
+                        if (!field_7C_pPed->field_21C_bf.bOnFire)
                         {
                             field_7C_pPed->field_250_voice_event = 27;
                         }
-                        if (NearestSpriteOfType_477E60)
+                        if (pNearestSprite)
                         {
                             field_7C_pPed->field_184_pObj2C = gObject_5C_6F8F84->NewMovingObj_52A240(objects::ped_pushed_110,
                                                                                                      field_80_sprite_ptr->field_14_xy.x,
@@ -6065,7 +6043,7 @@ void Char::state_8_5520A0()
                             field_7C_pPed->ChangeNextPedState1_45C500(ped_state_1::immobilized_8);
                             field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::knocked_fatal_26);
                             // 9.6f: Ped::SetStateInitPending_433B50 here and below (inlined, using it makes the diff worse)
-                            field_7C_pPed->field_168_game_object->field_16_state_init_pending = 1;
+                            field_7C_pPed->field_168_game_object->field_16_state_init_pending = true;
                             return;
                         }
 
@@ -6082,7 +6060,7 @@ void Char::state_8_5520A0()
                     else
                     {
                         field_7C_pPed->SetVoiceEventIfNotOnFire_433DD0(26);
-                        if (NearestSpriteOfType_477E60)
+                        if (pNearestSprite)
                         {
                             Char::DoJump_5454D0();
                         }
@@ -6123,7 +6101,7 @@ void Char::state_8_5520A0()
                         case ped_state_2::knocked_down_25:
                             field_7C_pPed->ChangeNextPedState1_45C500(ped_state_1::immobilized_8);
                             field_7C_pPed->field_27C_ped_state_2 = ped_state_2::lying_on_floor_22;
-                            field_7C_pPed->field_168_game_object->field_16_state_init_pending = 1;
+                            field_7C_pPed->field_168_game_object->field_16_state_init_pending = true;
                             Set_F8_ped_state_1_433910(ped_state_1::immobilized_8);
                             field_C_ped_state_2 = ped_state_2::lying_on_floor_22;
                             break;
@@ -6144,7 +6122,7 @@ void Char::state_8_5520A0()
                         field_80_sprite_ptr->SetDrawLayer_40F7B0(6);
                     }
                     field_7C_pPed->field_184_pObj2C->RequestRemoval_5290A0();
-                    field_7C_pPed->field_184_pObj2C = 0;
+                    field_7C_pPed->field_184_pObj2C = NULL;
                     Char::ManageZCoordAndSlopes_548590();
                     if (static_cast<u8>(Char::IsOnWater_545570()))
                     {
@@ -6283,13 +6261,13 @@ void Char::state_9_552E90()
                 break;
         }
 
-        field_16_state_init_pending = 0;
+        field_16_state_init_pending = false;
         if (field_7C_pPed->field_164_ped_group)
         {
             if (field_7C_pPed->field_164_ped_group->field_0_remove_dead_members)
             {
                 field_7C_pPed->field_164_ped_group->RemovePed_4C9970(field_7C_pPed);
-                field_7C_pPed->field_164_ped_group = 0;
+                field_7C_pPed->field_164_ped_group = NULL;
             }
         }
 
@@ -6372,13 +6350,13 @@ void Char::state_9_552E90()
 }
 
 MATCH_FUNC(0x5532C0)
-bool Char::IsNearTileCentre_5532C0()
+bool Char::IsNearTileCentre_5532C0() const
 {
-    s16 ret1 = 0;
-    s16 ret2 = 0;
-    Char::GetTileFracX64_545640(gCharB4_Saved_Xpos_6FD7F8, &ret1);
-    Char::GetTileFracY64_545670(gCharB4_Saved_Ypos_6FD800, &ret2);
-    if (ret1 > 20 && ret1 < 44 && ret2 > 20 && ret2 < 44)
+    s16 frac_x = 0;
+    s16 frac_y = 0;
+    Char::GetTileFracX64_545640(gCharB4_Saved_Xpos_6FD7F8, &frac_x);
+    Char::GetTileFracY64_545670(gCharB4_Saved_Ypos_6FD800, &frac_y);
+    if (frac_x > 20 && frac_x < 44 && frac_y > 20 && frac_y < 44)
     {
         return true;
     }
@@ -6386,14 +6364,14 @@ bool Char::IsNearTileCentre_5532C0()
 }
 
 MATCH_FUNC(0x553330)
-bool Char::IsThreatToSearchingPed_553330()
+bool Char::IsThreatToSearchingPed_553330() const
 {
     return field_7C_pPed->IsThreatToSearchingPed_4661F0();
 }
 
 // 9.6f 0x497480
 MATCH_FUNC(0x553340)
-bool Char::ShouldCollideWithSprite_553340(Sprite* pSprite)
+bool Char::ShouldCollideWithSprite_553340(Sprite* pSprite) const
 {
     Ped* pPed;
 
@@ -6415,12 +6393,12 @@ bool Char::ShouldCollideWithSprite_553340(Sprite* pSprite)
                     u8 idx = field_7C_pPed->get_ped_ref_idx_420B50();
                     if (pObj->IsOwnedByPedRef_4973E0(idx))
                     {
-                        return 0;
+                        return false;
                     }
 
                     if (pObj->IsSpriteGrid2Region3_4210B0())
                     {
-                        return 0;
+                        return false;
                     }
                 }
             }
@@ -6440,14 +6418,14 @@ bool Char::ShouldCollideWithSprite_553340(Sprite* pSprite)
         case ped_state_2::knocked_down_25:
         case ped_state_2::knocked_fatal_26:
         case ped_state_2::electrocuted_27:
-            return 0;
+            return false;
 
         case ped_state_2::carjack_opening_door_8:
-            if (pSprite == 0)
+            if (pSprite == NULL)
             {
-                return 1;
+                return true;
             }
-            return 0;
+            return false;
 
         case ped_state_2::lying_on_floor_22:
             break;
@@ -6457,7 +6435,7 @@ bool Char::ShouldCollideWithSprite_553340(Sprite* pSprite)
             if (pPed->GetPedState_403990() == ped_state_1::dead_9 &&
                 ((pPed->IsOnFire_475B50()) == 0 || !pSprite || !pSprite->IsObjectModelEqual_59E930(objects::water_hitting_198)))
             {
-                return 0;
+                return false;
             }
 
             if (this->field_10_char_state == Char_B4_state::Jumping_15 && pSprite)
@@ -6465,16 +6443,16 @@ bool Char::ShouldCollideWithSprite_553340(Sprite* pSprite)
                 switch (pSprite->GetType_416B40())
                 {
                     case sprite_types_enum::car_2:
-                        return 0;
+                        return false;
                     case sprite_types_enum::code_obj1_4:
                         break;
                     default:
-                        return 0;
+                        return false;
                 }
             }
             break;
     }
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x5535B0)
@@ -6487,7 +6465,7 @@ bool Char::PhoneTouched_5535B0(Object* pObject)
     }
     else
     {
-        return 0;
+        return false;
     }
 }
 
@@ -6534,7 +6512,7 @@ bool Char::OnObjectTouched_553640(Object* pObject)
             break;
 
         case objects::conveyor_139:
-            pObject->GetConveyorDirection_493090(&conveyor_x, &conveyor_y); // TODO: Ang8 or something ???
+            pObject->GetConveyorDirection_493090(&conveyor_x, &conveyor_y);
             this->field_4C_conveyor_dx = kFpOne64th_6FDA9C * conveyor_x;
             this->field_50_conveyor_dy = kFpOne64th_6FDA9C * conveyor_y;
             break;
@@ -6542,7 +6520,7 @@ bool Char::OnObjectTouched_553640(Object* pObject)
         default:
             break;
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x5537F0)
@@ -6570,7 +6548,7 @@ bool Char::HandlePedObjectHit_5537F0(Object* pObject)
     }
     else
     {
-        return 0;
+        return false;
     }
 }
 
@@ -6597,7 +6575,7 @@ MATCH_FUNC(0x5538A0)
                                            this->field_80_sprite_ptr->field_14_xy.x,    \
                                            this->field_80_sprite_ptr->field_14_xy.y,    \
                                            this->field_80_sprite_ptr->field_1C_zpos,    \
-                                           tanVec,                                      \
+                                           impact_angle,                                \
                                            this->field_80_sprite_ptr->field_0_rotation, \
                                            speed,                                       \
                                            -kFpPoint1_6FD824,                           \
@@ -6606,8 +6584,8 @@ void Char::HandleCarImpact_5538A0(Car* pCar, u8 bUnknown, Fix16 x, Fix16 y)
 {
     Fix16_Point p(x, y);
     Fix16 vecLen = GetLength_inline_5538A0(p);
-    Ang16 tanVec;
-    tanVec = p.atan2_40F790();
+    Ang16 impact_angle;
+    impact_angle = p.atan2_40F790();
 
     if (this->field_7C_pPed->field_208_invulnerability > 0)
     {
@@ -6661,7 +6639,7 @@ void Char::HandleCarImpact_5538A0(Car* pCar, u8 bUnknown, Fix16 x, Fix16 y)
             gParticle_8_6FD5E8->EmitBloodBurst_53E450(this->field_80_sprite_ptr->field_14_xy.x,
                                                       this->field_80_sprite_ptr->field_14_xy.y,
                                                       this->field_80_sprite_ptr->field_1C_zpos,
-                                                      tanVec);
+                                                      impact_angle);
         }
         else if (vecLen < kFpPoint3_6FD830)
         {
@@ -6697,7 +6675,7 @@ void Char::HandleCarImpact_5538A0(Car* pCar, u8 bUnknown, Fix16 x, Fix16 y)
                     gParticle_8_6FD5E8->EmitBloodBurst_53E450(this->field_80_sprite_ptr->field_14_xy.x,
                                                               this->field_80_sprite_ptr->field_14_xy.y,
                                                               this->field_80_sprite_ptr->field_1C_zpos,
-                                                              tanVec);
+                                                              impact_angle);
                 }
             }
             else
@@ -6732,7 +6710,7 @@ void Char::HandleCarImpact_5538A0(Car* pCar, u8 bUnknown, Fix16 x, Fix16 y)
                 gParticle_8_6FD5E8->EmitBloodBurst_53E450(this->field_80_sprite_ptr->field_14_xy.x,
                                                           this->field_80_sprite_ptr->field_14_xy.y,
                                                           this->field_80_sprite_ptr->field_1C_zpos,
-                                                          tanVec);
+                                                          impact_angle);
             }
         }
         else
@@ -6753,7 +6731,7 @@ void Char::HandleCarImpact_5538A0(Car* pCar, u8 bUnknown, Fix16 x, Fix16 y)
             gParticle_8_6FD5E8->EmitBloodBurst_53E450(this->field_80_sprite_ptr->field_14_xy.x,
                                                       this->field_80_sprite_ptr->field_14_xy.y,
                                                       this->field_80_sprite_ptr->field_1C_zpos,
-                                                      tanVec);
+                                                      impact_angle);
         }
     }
 }
@@ -6770,7 +6748,7 @@ void Char::HandleGenericImpact_553E00(Ang16 ang, Fix16 impact_x, Fix16 impact_z,
 
     if (field_7C_pPed->GetPedState_403990() != ped_state_1::dead_9)
     {
-        this->field_16_state_init_pending = 1;
+        this->field_16_state_init_pending = true;
         this->field_7C_pPed->field_184_pObj2C = gObject_5C_6F8F84->NewMovingObj_52A240(objects::ped_pushed_110,
                                                                                        field_80_sprite_ptr->field_14_xy.x,
                                                                                        field_80_sprite_ptr->field_14_xy.y,
@@ -6855,9 +6833,3 @@ EXPORT void Char::nullsub_28()
 {
     // State 6 deliberately does nothing in the original game.
 }
-
-//STUB_FUNC(0x5519f0)
-//void j_Char_B4::state_1_5504F0()
-//{
-//    NOT_IMPLEMENTED;
-//}
