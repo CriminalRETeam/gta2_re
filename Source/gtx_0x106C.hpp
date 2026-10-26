@@ -456,9 +456,9 @@ inline s32 __stdcall GetSpaceWidth_4C23D0(u16 font_type)
 }
 
 EXTERN_GLOBAL(s16, gStyleCarNameFont_703D98);
-EXTERN_GLOBAL(s16, word_703BAA);
+EXTERN_GLOBAL(s16, gStyleTextFont_703BAA);
 EXTERN_GLOBAL(s16, gStyleZoneNameFont_703C9C);
 EXTERN_GLOBAL(s16, gStyleMessageFont_703D9C);
 EXTERN_GLOBAL(s16, gStylePauseFont_703DA4);
-EXTERN_GLOBAL(s16, word_703C3E);
-EXTERN_GLOBAL(s16, word_703D9A);
+EXTERN_GLOBAL(s16, gKanjiSmallFont_703C3E);
+EXTERN_GLOBAL(s16, gKanjiLargeFont_703D9A);

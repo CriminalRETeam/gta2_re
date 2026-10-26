@@ -1003,7 +1003,7 @@ void Sprite::ShowId_59EB30(f32& x, f32& y)
             Fix16 ypos;
             ypos = Fix16(static_cast<s32>((y / static_cast<f32>(static_cast<u32>(window_height_706B50))) * 480.0f));
             swprintf(tmpBuff_67BD9C, L"%d", pCar->field_6C_car_id);
-            DrawTextScaled_4BA2C0(tmpBuff_67BD9C, xpos, ypos, word_703BAA);
+            DrawTextScaled_4BA2C0(tmpBuff_67BD9C, xpos, ypos, gStyleTextFont_703BAA);
         }
         else
         {
@@ -1019,7 +1019,7 @@ void Sprite::ShowId_59EB30(f32& x, f32& y)
                 DrawText_5D8A10(tmpBuff_67BD9C,
                                 xpos * gViewCamera_676978->field_A8_ui_scale,
                                 ypos * gViewCamera_676978->field_A8_ui_scale,
-                                word_703BAA,
+                                gStyleTextFont_703BAA,
                                 gViewCamera_676978->field_A8_ui_scale,
                                 palette_type,
                                 0,
@@ -1043,7 +1043,7 @@ void Sprite::ShowId_59EB30(f32& x, f32& y)
             DrawText_5D8A10(tmpBuff_67BD9C,
                             xpos * gViewCamera_676978->field_A8_ui_scale,
                             ypos * gViewCamera_676978->field_A8_ui_scale,
-                            word_703BAA,
+                            gStyleTextFont_703BAA,
                             gViewCamera_676978->field_A8_ui_scale,
                             palette_type,
                             0,
@@ -1068,7 +1068,7 @@ void Sprite::ShowHorn_59EE40(f32& x, f32& y)
 
             if (pCar->IsEmittingHorn_411970())
             {
-                DrawTextScaled_4BA2C0(L"H", xpos, ypos, word_703BAA);
+                DrawTextScaled_4BA2C0(L"H", xpos, ypos, gStyleTextFont_703BAA);
             }
 
             Ped* pDriver = pCar->field_54_driver;
@@ -1076,7 +1076,7 @@ void Sprite::ShowHorn_59EE40(f32& x, f32& y)
             {
                 if (gPolice_7B8_6FEE40->IsActivelyChased_56F880(pDriver))
                 {
-                    DrawTextScaled_4BA2C0(L"P", xpos, ypos, word_703BAA);
+                    DrawTextScaled_4BA2C0(L"P", xpos, ypos, gStyleTextFont_703BAA);
                 }
             }
         }

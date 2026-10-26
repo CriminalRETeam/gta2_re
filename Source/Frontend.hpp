@@ -525,7 +525,7 @@ EXPORT void __stdcall ConvertColourBanks_5D7CB0();
 
 EXTERN_GLOBAL(short, font_type_703C14);
 
-EXTERN_GLOBAL(s16, word_703C3C);
+EXTERN_GLOBAL(s16, gFrontendHeadingFont_703C3C);
 
 EXTERN_GLOBAL(s16, gFrontendNormalFont_703D0C);
 
@@ -533,15 +533,15 @@ EXTERN_GLOBAL(s16, gFrontendSelectedFont_703C16);
 
 EXTERN_GLOBAL(s16, word_703C8C);
 
-EXTERN_GLOBAL(s16, word_703C8A);
+EXTERN_GLOBAL(s16, gFrontendPlayMenuScoreFont_703C8A);
 
 EXTERN_GLOBAL(s16, gFrontendScoreFont_703BE2);
 
-EXTERN_GLOBAL(s16, word_703B88);
+EXTERN_GLOBAL(s16, gFrontendAreaCompleteFont_703B88);
 
 EXTERN_GLOBAL(s16, word_703DAC);
 
-EXTERN_GLOBAL(s16, word_703B9C);
+EXTERN_GLOBAL(s16, gFrontendTitleFont_703B9C);
 
 EXTERN_GLOBAL(u32, counter_706C4C);
 

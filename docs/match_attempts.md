@@ -5096,8 +5096,8 @@ Scores are `NO_PCH=1 quick_score.sh` lines. Only `Source/Frontend.cpp` changed (
   a local null-first/non-null-first helper, or the direct `get_block` call: 184-714, none changes the order. The
   unfolded `test %bl,%bl` needs the and-arm to fall into a join that tests a copy; all inline forms give it only
   with the non-null arm first.
-- Late finding on 4B0220, not kept (84 -> 244): the page 5 `elements[1].font = word_703C3C` statement is the decompiler's
-  `v34`: `s16 v34 = word_703C3C;` right after `elements[1].ypos = 185` and `... = v34` after the two 197 ypos stores gives
+- Late finding on 4B0220, not kept (84 -> 244): the page 5 `elements[1].font = gFrontendHeadingFont_703C3C` statement is the decompiler's
+  `v34`: `s16 v34 = gFrontendHeadingFont_703C3C;` right after `elements[1].ypos = 185` and `... = v34` after the two 197 ypos stores gives
   the original's IL (the global load before the ypos stores, the `v2` reload, then the font store: the block-local is
   NOT forward-substituted past the this-> stores, which may alias the global). What breaks is the colour order: v34 is a
   coloured range (prio 204 = 4 x 51 ranges in the block) and takes eax before the 0xC5 constant (ecx), v2's reload
