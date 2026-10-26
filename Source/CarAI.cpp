@@ -411,7 +411,7 @@ bool CarAI::GoToBlock_447CA0(u8 x, u8 y, u8 z, s32 arrow_type)
 }
 
 MATCH_FUNC(0x447d40)
-bool CarAI::TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBlock)
+bool CarAI::TrySetTargetDirectionFromArrows_447D40(const gmp_block_info* pBlock)
 {
     Ang16 angle = this->field_10_angle;
 
@@ -634,7 +634,7 @@ bool CarAI::TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBlock)
 }
 
 MATCH_FUNC(0x448270)
-bool CarAI::IsClockwiseTurning_448270()
+bool CarAI::IsClockwiseTurning_448270() const
 {
     switch (field_4C_curr_direction)
     {
@@ -4646,11 +4646,11 @@ void CarAI::ScanAheadForObstacles_452060()
                 return;
             }
 
-            CarPhysics* pPhysics_ = this->field_0_car->field_58_physics;
-            pPhysics_->field_95_is_coasting = 1;
-            pPhysics_->field_91_is_foot_brake_on = 0;
-            pPhysics_->field_94_is_backward_gas_on = 0;
-            pPhysics_->field_93_is_forward_gas_on = 0;
+            CarPhysics* pPhysics = this->field_0_car->field_58_physics;
+            pPhysics->field_95_is_coasting = 1;
+            pPhysics->field_91_is_foot_brake_on = 0;
+            pPhysics->field_94_is_backward_gas_on = 0;
+            pPhysics->field_93_is_forward_gas_on = 0;
             return;
         }
 
@@ -4680,11 +4680,11 @@ void CarAI::ScanAheadForObstacles_452060()
         }
         else if (gCurrCarAI_Velocity_677B00 > target_speed)
         {
-            CarPhysics* pPhysics_ = this->field_0_car->field_58_physics;
-            pPhysics_->field_95_is_coasting = 1;
-            pPhysics_->field_91_is_foot_brake_on = 0;
-            pPhysics_->field_94_is_backward_gas_on = 0;
-            pPhysics_->field_93_is_forward_gas_on = 0;
+            CarPhysics* pPhysics = this->field_0_car->field_58_physics;
+            pPhysics->field_95_is_coasting = 1;
+            pPhysics->field_91_is_foot_brake_on = 0;
+            pPhysics->field_94_is_backward_gas_on = 0;
+            pPhysics->field_93_is_forward_gas_on = 0;
         }
     }
     else
