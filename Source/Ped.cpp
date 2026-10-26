@@ -9698,7 +9698,6 @@ void Ped::EnterCarStateMachine_46BDC0()
             SetObjective2_463830(objectives_enum::no_obj_0);
             return;
         }
-        //goto LABEL_54;
         this->field_226_internal_objective_status = 2;
         return;
     }
@@ -9801,7 +9800,6 @@ void Ped::EnterCarStateMachine_46BDC0()
             {
                 pDoor->set_ped_421380(NULL);
             }
-            //LABEL_54:
             this->field_226_internal_objective_status = 2;
             return;
         }
@@ -10622,12 +10620,10 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
         if (field_266_path_point_count < 4 && gDistanceToTarget_678750 < attack_range && abs_sub_less_than_epislon_45AE40(field_1AC_cam.z, zpos) ||
             field_21C_bf.bFlag22 == true)
         {
-            // correct
-            if (pWeapon) // correct
+            if (pWeapon)
             {
-                if (pWeapon->IsTargetHit_41CC70() == 1) // correct
+                if (pWeapon->IsTargetHit_41CC70() == 1)
                 {
-                    // weapon->field_4 == 1
                     if (gDistanceToTarget_678750 < close_range && !field_168_game_object->IsCollidingWithASprite_433AA0())
                     {
                         Ped::ChangeNextPedState1_45C500(ped_state_1::flee_or_running_1);
@@ -10652,10 +10648,6 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
                         field_21C_bf.bAttacking = true;
                         field_168_game_object->RegulateVelocity_433970(field_1F0_max_speed);
                         return;
-                    }
-                    else
-                    {
-                        //goto GetBlockTypeAtCoord_420420
                     }
                 }
                 else
@@ -10692,7 +10684,6 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
                         }
                         return;
                     }
-                    // no else here
                 }
 
                 if (bThrownWeapon)
@@ -10742,7 +10733,7 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
                 }
                 else
                 {
-                    field_21C_bf.bAttacking = false; // something weird here
+                    field_21C_bf.bAttacking = false;
                     return;
                 }
             }
@@ -10865,7 +10856,6 @@ void Ped::RecruitNearbyPeds_46E080(s32 desiredCount, Fix16 searchRadius)
     if (pMyGroup)
     {
         maxCount = desiredCount;
-        // max(desiredCount, 9)
         if (desiredCount > 9)
         {
             maxCount = 9;
@@ -11326,7 +11316,7 @@ Weapon* Ped::ChooseAttackWeapon_46F490()
 
             if (gDistanceToTarget_678750 < kFpTwo_678658 + kFpOne_678798)
             {
-                ++gNumPolicePedsInRangeScreen_6787EE; // police peds in range screen
+                ++gNumPolicePedsInRangeScreen_6787EE;
             }
 
             if (gPolice_7B8_6FEE40->field_7AD_police_peds_in_range_screen < 2u)
@@ -11453,11 +11443,11 @@ void Ped::UpdateStatsForKiller_46F720()
                     }
                     else if (this->field_28C_threat_reaction == threat_reaction_enum::react_as_emergency_1)
                     {
-                        field_1A8_ped_killer->add_wanted_points_470160(500); // police?
+                        field_1A8_ped_killer->add_wanted_points_470160(500);
                     }
                     else
                     {
-                        field_1A8_ped_killer->add_wanted_points_470160(100); // normal ped?
+                        field_1A8_ped_killer->add_wanted_points_470160(100);
                     }
                 }
             }
