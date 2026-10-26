@@ -762,7 +762,7 @@ bool PathFinder::ComputePath_554AB0(s32 ped_id,
             {
                 goto trace_path;
             }
-        } // end while
+        }
     }
 
 trace_path:

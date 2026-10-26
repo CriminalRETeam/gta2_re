@@ -1994,7 +1994,7 @@ void CarAI::FollowRoadDirection_44A1F0()
                         }
                         return;
                     }
-                } // end for loop
+                }
             }
             else if (field_50_seek_road_turn == 3)
             {
