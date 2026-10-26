@@ -955,13 +955,13 @@ RouteSearchNode* RouteFinder::GetFirstUnexpandedNode_589E00()
 }
 
 MATCH_FUNC(0x589e20)
-char_type RouteFinder::SearchToDest_589E20(s32 arrow_type)
+bool RouteFinder::SearchToDest_589E20(s32 arrow_type)
 {
     bool bRet = false;
     RouteSearchNode* pOpenList = this->field_A82C_open_list;
     if (pOpenList->field_0_idx == this->field_861A_dest_idx)
     {
-        return 1;
+        return true;
     }
 
     if (pOpenList)
@@ -991,12 +991,12 @@ bool RouteFinder::SearchUntilOffScreen_589E70(s32 arrow_type)
     bool result;
     RouteSearchNode* pNode;
 
-    result = '\0';
+    result = false;
     if (this->field_A82C_open_list != NULL)
     {
         while (true)
         {
-            if (result != '\0')
+            if (result)
             {
                 break;
             }

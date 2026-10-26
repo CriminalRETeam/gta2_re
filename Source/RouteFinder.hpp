@@ -125,7 +125,7 @@ class RouteFinder
     EXPORT bool ExpandNode_5899C0(RouteSearchNode* pNode, s32 arrow_type);
     EXPORT bool ExpandNodeUnlessOffScreen_589BB0(RouteSearchNode* pRoute, s32 arrow_type);
     EXPORT RouteSearchNode* GetFirstUnexpandedNode_589E00();
-    EXPORT char_type SearchToDest_589E20(s32 arrow_type);
+    EXPORT bool SearchToDest_589E20(s32 arrow_type);
     EXPORT bool SearchUntilOffScreen_589E70(s32 arrow_type);
     EXPORT s16 StoreRoute_589EB0();
     EXPORT s16 StoreRouteReversed_589F70();
