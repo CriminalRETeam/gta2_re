@@ -127,19 +127,9 @@ u16 BonusTracker::FindMatchingRule_431EC0(u16 start_idx,
                                 s32 alt_car_model,
                                 gmp_map_zone* pZone)
 {
-    u16 i;
-    BonusRule* pBonus;
-    s16 bonus_type;
-    s32 bonus_occupation;
-    s32 bonus_car_model;
-    s16 bonus_gang_idx;
-    s16 bonus_remap;
-    s32 bonus_death_cause;
-    s32 bonus_alt_car_model;
-
-    for (i = start_idx; i < k_max_rules; i++)
+    for (u16 i = start_idx; i < k_max_rules; i++)
     {
-        pBonus = &this->field_0_bonuses[i];
+        BonusRule* pBonus = &field_0_bonuses[i];
         if (!pBonus->field_2A_bUsed)
         {
             continue;
@@ -148,27 +138,27 @@ u16 BonusTracker::FindMatchingRule_431EC0(u16 start_idx,
         {
             continue;
         }
-        bonus_type = pBonus->field_4_event_type;
+        const s16 bonus_type = pBonus->field_4_event_type;
         if (bonus_type != event_type && bonus_type != bonus_event_type::any_event)
         {
             continue;
         }
-        bonus_occupation = pBonus->field_C_occupation;
+        const s32 bonus_occupation = pBonus->field_C_occupation;
         if (bonus_occupation == occupation || bonus_occupation == ped_ocupation_enum::no_occupation || IsOccupationInGroup_432240(occupation, bonus_occupation))
         {
-            bonus_car_model = pBonus->field_8_car_model;
+            const s32 bonus_car_model = pBonus->field_8_car_model;
             if (bonus_car_model == car_model || bonus_car_model == car_model_enum::none || AreCarModelsEquivalent_432300(car_model, bonus_car_model))
             {
-                bonus_gang_idx = pBonus->field_10_gang_idx;
+                const s16 bonus_gang_idx = pBonus->field_10_gang_idx;
                 if (bonus_gang_idx == gang_idx || bonus_gang_idx == k_any_gang)
                 {
-                    bonus_remap = pBonus->field_12_remap;
+                    const s16 bonus_remap = pBonus->field_12_remap;
                     if (bonus_remap == remap || bonus_remap == k_any_remap)
                     {
-                        bonus_death_cause = pBonus->field_14_death_cause;
+                        const s32 bonus_death_cause = pBonus->field_14_death_cause;
                         if (bonus_death_cause == death_cause || bonus_death_cause == ped_death_cause::any_23 || IsDeathCauseInGroup_432170(death_cause, bonus_death_cause))
                         {
-                            bonus_alt_car_model = pBonus->field_18_alt_car_model;
+                            const s32 bonus_alt_car_model = pBonus->field_18_alt_car_model;
                             if ((bonus_alt_car_model == alt_car_model || bonus_alt_car_model == car_model_enum::none) && (pBonus->field_0_pZone == pZone || !pBonus->field_0_pZone))
                             {
                                 return i;
