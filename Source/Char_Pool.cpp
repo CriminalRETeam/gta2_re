@@ -1,4 +1,5 @@
 #include "Char_Pool.hpp"
+#include "ped_group_type.hpp"
 #include "ped_class.hpp"
 #include "ped_fire_mode.hpp"
 #include "Car.hpp"
@@ -110,7 +111,7 @@ EXPORT Ped* __stdcall SpawnPedChainGroupAt_46DB90(char_type remap, u8 number_fol
 
     PedGroup* pGroup = PedGroup::New_4CB0D0();
     pGroup->add_ped_leader_4C9B10(pLeader);
-    pGroup->field_38_group_type = 1;
+    pGroup->field_38_group_type = ped_group_type::chain_1;
     pGroup->field_36_count = number_followers;
     pGroup->field_34_count = number_followers;
 

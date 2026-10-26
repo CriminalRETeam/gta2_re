@@ -10,6 +10,7 @@
 #include "ped_death_cause.hpp"
 #include "char_b4_state_more.hpp"
 #include "ped_state_2_more.hpp"
+#include "ped_group_type.hpp"
 #include "accuracy_event.hpp"
 #include "AmbulanceService.hpp"
 #include "CarInfoTable.hpp"
@@ -3846,7 +3847,7 @@ void Ped::UpdateAI_462280()
                 {
                     field_164_ped_group->UpdateMemberAIState_4CA5E0(field_23C_group_idx);
                     byte_61A8A3 = 1;
-                    byte_6787C4 = field_164_ped_group->field_38_group_type != 1;
+                    byte_6787C4 = field_164_ped_group->field_38_group_type != ped_group_type::chain_1;
                 }
                 else
                 {
