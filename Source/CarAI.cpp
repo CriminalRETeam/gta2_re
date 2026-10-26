@@ -160,14 +160,14 @@ void CarAI::PlanTurnAtNextJunction_447710()
     s8 arrow_run_len = 0;
     if (field_28_route_idx >= 0)
     {
-        Junction* Junction_58A0B0 =
+        Junction* pJunction =
             gRouteFinder_6FFDC8->GetJunction_58A0B0(gRouteFinder_6FFDC8->field_2218_routes[field_28_route_idx].field_0_junctions[static_cast<u16>(this->field_56_route_pos)]);
         u16 next_junction_idx = gRouteFinder_6FFDC8->field_2218_routes[this->field_28_route_idx].field_0_junctions[static_cast<u16>(this->field_56_route_pos) + 1];
         if (next_junction_idx)
         {
             if (!this->field_24_bf.bFlag0)
             {
-                s16 turn_dir = Junction_58A0B0->GetDirectionToJunction_5885C0(next_junction_idx);
+                s16 turn_dir = pJunction->GetDirectionToJunction_5885C0(next_junction_idx);
                 switch (Ang16::GetAngleFace_4F78F0(this->field_10_angle))
                 {
                     case 1:
@@ -285,8 +285,8 @@ void CarAI::DoShortcutsUsingJunctions_447970()
     u8 z = field_0_car->field_60_pChaseTask->field_1C_target_z.ToInt();
     if (field_28_route_idx > 0)
     {
-        u16 junc = gRouteFinder_6FFDC8->field_2218_routes[field_28_route_idx].field_0_junctions[static_cast<u16>(field_56_route_pos)];
-        if (!junc || x == static_cast<s16>(gCurrCarAI_xpos_677C38.ToInt()) && y == static_cast<s16>(gCurrCarAI_ypos_677C30.ToInt()))
+        u16 junction_idx = gRouteFinder_6FFDC8->field_2218_routes[field_28_route_idx].field_0_junctions[static_cast<u16>(field_56_route_pos)];
+        if (!junction_idx || x == static_cast<s16>(gCurrCarAI_xpos_677C38.ToInt()) && y == static_cast<s16>(gCurrCarAI_ypos_677C30.ToInt()))
         {
             gRouteFinder_6FFDC8->CancelRoute_589930(field_28_route_idx);
             this->field_28_route_idx = -1;
@@ -295,7 +295,7 @@ void CarAI::DoShortcutsUsingJunctions_447970()
             return;
         }
 
-        Junction* pJunction = gRouteFinder_6FFDC8->GetJunction_58A0B0(junc);
+        Junction* pJunction = gRouteFinder_6FFDC8->GetJunction_58A0B0(junction_idx);
         if (x > 0)
         {
             if (gRouteFinder_6FFDC8->IsPointInJunctionBounds_588AA0(
@@ -710,15 +710,15 @@ void CarAI::BrakeForBlockedRoadAhead_4482C0()
                                                                   field_0_car->field_50_car_sprite->field_14_xy.y + dy,
                                                                   field_0_car->field_50_car_sprite->field_1C_zpos);
 
-            Sprite* NearestSpriteOfType_477E60 =
+            Sprite* pNearest =
                 gSpriteGrid_1_679208->FindCollidingSpritePreferType_477E60(this->field_0_car->field_50_car_sprite, 0);
-            this->field_70_nearest_entity = NearestSpriteOfType_477E60;
+            this->field_70_nearest_entity = pNearest;
 
-            if (NearestSpriteOfType_477E60)
+            if (pNearest)
             {
-                if (NearestSpriteOfType_477E60->GetType_416B40() == sprite_types_enum::car_2)
+                if (pNearest->GetType_416B40() == sprite_types_enum::car_2)
                 {
-                    CarAI* pYieldAI = NearestSpriteOfType_477E60->field_8_car_bc_ptr->field_5C_AI;
+                    CarAI* pYieldAI = pNearest->field_8_car_bc_ptr->field_5C_AI;
                     if (pYieldAI)
                     {
                         if (pYieldAI->field_6C_yield_to_car)
@@ -870,18 +870,18 @@ void CarAI::BrakeForBlockedRoadAhead_4482C0()
 MATCH_FUNC(0x448770)
 void CarAI::CheckRoadAhead_448770()
 {
-    Fix16 toUse = kF16Zero_677B90;
-    gmp_block_info* pBlock_ = NULL;
+    Fix16 probe_dist = kF16Zero_677B90;
+    gmp_block_info* pHalfAheadBlock = NULL;
     Sprite* pProbeSprite = gObject_5C_6F8F84->field_58_collision_probe_sprite;
     Sprite* pCarSprite = this->field_0_car->field_50_car_sprite;
-    gmp_block_info* pBlock_____ = NULL;
-    gmp_block_info* pBlock___ = NULL;
+    gmp_block_info* pFarBlock = NULL;
+    gmp_block_info* pProbeBlock = NULL;
 
     Fix16 sprite_x = pCarSprite->field_14_xy.x;
     Fix16 sprite_y = pCarSprite->field_14_xy.y;
 
-    Fix16 new_x_ = sprite_x;
-    Fix16 new_y_ = sprite_y;
+    Fix16 restore_x = sprite_x;
+    Fix16 restore_y = sprite_y;
 
     Fix16 x_off;
     Fix16 y_off;
@@ -892,14 +892,14 @@ void CarAI::CheckRoadAhead_448770()
 
     if (gCurrCarAI_ProbeX_677A74 > kF16Zero_677B90 && gCurrCarAI_ProbeY_677A80 > kF16Zero_677B90 && gCurrCarAI_ProbeX_677A74 < kFp255_677950 && gCurrCarAI_ProbeY_677A80 < kFp255_677950)
     {
-        pBlock_ = gMap_0x370_6F6268->GetBlock_4DFE10(gCurrCarAI_ProbeX_677A74.ToInt(), gCurrCarAI_ProbeY_677A80.ToInt(), field_0_car->field_50_car_sprite->field_1C_zpos.ToInt());
-        if (pBlock_ && IS_GRADIENT_SLOPE(pBlock_->field_B_slope_type)
-            && !IS_AIR_TYPE(pBlock_->field_B_slope_type))
+        pHalfAheadBlock = gMap_0x370_6F6268->GetBlock_4DFE10(gCurrCarAI_ProbeX_677A74.ToInt(), gCurrCarAI_ProbeY_677A80.ToInt(), field_0_car->field_50_car_sprite->field_1C_zpos.ToInt());
+        if (pHalfAheadBlock && IS_GRADIENT_SLOPE(pHalfAheadBlock->field_B_slope_type)
+            && !IS_AIR_TYPE(pHalfAheadBlock->field_B_slope_type))
         {
         }
         else
         {
-            pBlock_ = gMap_0x370_6F6268->GetBlock_4DFE10(gCurrCarAI_ProbeX_677A74.ToInt(),
+            pHalfAheadBlock = gMap_0x370_6F6268->GetBlock_4DFE10(gCurrCarAI_ProbeX_677A74.ToInt(),
                                                           gCurrCarAI_ProbeY_677A80.ToInt(),
                                                           (this->field_0_car->field_50_car_sprite->field_1C_zpos.ToInt()) - 1);
         }
@@ -907,21 +907,21 @@ void CarAI::CheckRoadAhead_448770()
 
     if (IsClockwiseTurning_448270())
     {
-        toUse = kFpPoint4_6779C8;
+        probe_dist = kFpPoint4_6779C8;
     }
     else
     {
-        toUse = kFpPoint8_6779D8;
+        probe_dist = kFpPoint8_6779D8;
     }
 
     if (gCurrCarAI_Velocity_677B00 < kFpPoint04_677B64)
     {
-        toUse = kFpPoint2_6779C0;
+        probe_dist = kFpPoint2_6779C0;
     }
 
-    if (pBlock_)
+    if (pHalfAheadBlock)
     {
-        if (gGtx_0x106C_703DD4->IsRoadTile_42A810(pBlock_->field_8_lid & block_face::tile_idx_mask) || this->field_24_bf.bFlag17)
+        if (gGtx_0x106C_703DD4->IsRoadTile_42A810(pHalfAheadBlock->field_8_lid & block_face::tile_idx_mask) || this->field_24_bf.bFlag17)
         {
             if (!gCurrCarAI_IsChasing_677BBC)
             {
@@ -959,10 +959,10 @@ void CarAI::CheckRoadAhead_448770()
                 pProbeSprite->set_ang_lazy_420690(kAng90_6779E4 + this->field_10_angle);
                 pProbeSprite->AllocCollisionShape_59F950(gF16fOne_677B94, kFpHalf_677A84, kFpPoint2_6779C0);
 
-                Sprite* pNearestSpriteOfType = gSpriteGrid_1_679208->FindCollidingSpritePreferType_477E60(pProbeSprite, 0);
-                if (pNearestSpriteOfType)
+                Sprite* pHit = gSpriteGrid_1_679208->FindCollidingSpritePreferType_477E60(pProbeSprite, 0);
+                if (pHit)
                 {
-                    if (pNearestSpriteOfType->GetType_416B40() == sprite_types_enum::car_2)
+                    if (pHit->GetType_416B40() == sprite_types_enum::car_2)
                     {
                         this->field_0_car->DoBrake_43A950();
                         this->field_8_maneuver_active = 0;
@@ -977,50 +977,50 @@ void CarAI::CheckRoadAhead_448770()
         }
     }
 
-    this->field_0_car->field_50_car_sprite->set_xyz_lazy_420600(new_x_, new_y_, field_0_car->field_50_car_sprite->field_1C_zpos);
+    this->field_0_car->field_50_car_sprite->set_xyz_lazy_420600(restore_x, restore_y, field_0_car->field_50_car_sprite->field_1C_zpos);
 
     field_0_car->field_50_car_sprite->set_ang_lazy_420690(this->field_10_angle);
 
-    Fix16 x_off_;
-    Fix16 y_off_;
-    Ang16::PolarToCartesian_41FC20(this->field_10_angle, toUse, x_off_, y_off_);
+    Fix16 probe_x_off;
+    Fix16 probe_y_off;
+    Ang16::PolarToCartesian_41FC20(this->field_10_angle, probe_dist, probe_x_off, probe_y_off);
 
-    gCurrCarAI_ProbeX_677A74 = this->field_0_car->field_50_car_sprite->field_14_xy.x + x_off_;
-    gCurrCarAI_ProbeY_677A80 = this->field_0_car->field_50_car_sprite->field_14_xy.y + y_off_;
+    gCurrCarAI_ProbeX_677A74 = this->field_0_car->field_50_car_sprite->field_14_xy.x + probe_x_off;
+    gCurrCarAI_ProbeY_677A80 = this->field_0_car->field_50_car_sprite->field_14_xy.y + probe_y_off;
 
     if (gCurrCarAI_ProbeX_677A74 > kF16Zero_677B90 && gCurrCarAI_ProbeY_677A80 > kF16Zero_677B90 && gCurrCarAI_ProbeX_677A74 < kFp255_677950 && gCurrCarAI_ProbeY_677A80 < kFp255_677950)
     {
-        pBlock___ = gMap_0x370_6F6268->GetBlock_4DFE10(gCurrCarAI_ProbeX_677A74.ToInt(), gCurrCarAI_ProbeY_677A80.ToInt(), field_0_car->field_50_car_sprite->field_1C_zpos.ToInt());
-        if (pBlock___ && IS_GRADIENT_SLOPE(pBlock___->field_B_slope_type)
-            && !IS_AIR_TYPE(pBlock___->field_B_slope_type))
+        pProbeBlock = gMap_0x370_6F6268->GetBlock_4DFE10(gCurrCarAI_ProbeX_677A74.ToInt(), gCurrCarAI_ProbeY_677A80.ToInt(), field_0_car->field_50_car_sprite->field_1C_zpos.ToInt());
+        if (pProbeBlock && IS_GRADIENT_SLOPE(pProbeBlock->field_B_slope_type)
+            && !IS_AIR_TYPE(pProbeBlock->field_B_slope_type))
         {
         }
         else
         {
-            pBlock___ = gMap_0x370_6F6268->GetBlock_4DFE10(gCurrCarAI_ProbeX_677A74.ToInt(),
+            pProbeBlock = gMap_0x370_6F6268->GetBlock_4DFE10(gCurrCarAI_ProbeX_677A74.ToInt(),
                                                             gCurrCarAI_ProbeY_677A80.ToInt(),
                                                             (this->field_0_car->field_50_car_sprite->field_1C_zpos.ToInt()) - 1);
         }
     }
 
-    Fix16 x_off__;
-    Fix16 y_off__;
-    Ang16::PolarToCartesian_41FC20(this->field_10_angle, kFpThree_677B9C, x_off__, y_off__);
+    Fix16 far_x_off;
+    Fix16 far_y_off;
+    Ang16::PolarToCartesian_41FC20(this->field_10_angle, kFpThree_677B9C, far_x_off, far_y_off);
 
-    gCurrCarAI_ProbeX_677A74 = this->field_0_car->field_50_car_sprite->field_14_xy.x + x_off__;
-    gCurrCarAI_ProbeY_677A80 = this->field_0_car->field_50_car_sprite->field_14_xy.y + y_off__;
+    gCurrCarAI_ProbeX_677A74 = this->field_0_car->field_50_car_sprite->field_14_xy.x + far_x_off;
+    gCurrCarAI_ProbeY_677A80 = this->field_0_car->field_50_car_sprite->field_14_xy.y + far_y_off;
 
     if (gCurrCarAI_ProbeX_677A74 > kF16Zero_677B90 && gCurrCarAI_ProbeY_677A80 > kF16Zero_677B90 && gCurrCarAI_ProbeX_677A74 < kFp255_677950 && gCurrCarAI_ProbeY_677A80 < kFp255_677950)
     {
-        pBlock_____ =
+        pFarBlock =
             gMap_0x370_6F6268->GetBlock_4DFE10(gCurrCarAI_ProbeX_677A74.ToInt(), gCurrCarAI_ProbeY_677A80.ToInt(), this->field_0_car->field_50_car_sprite->field_1C_zpos.ToInt());
-        if (pBlock_____ && IS_GRADIENT_SLOPE(pBlock_____->field_B_slope_type) &&
-            !IS_AIR_TYPE(pBlock_____->field_B_slope_type))
+        if (pFarBlock && IS_GRADIENT_SLOPE(pFarBlock->field_B_slope_type) &&
+            !IS_AIR_TYPE(pFarBlock->field_B_slope_type))
         {
         }
         else
         {
-            pBlock_____ = gMap_0x370_6F6268->GetBlock_4DFE10(gCurrCarAI_ProbeX_677A74.ToInt(),
+            pFarBlock = gMap_0x370_6F6268->GetBlock_4DFE10(gCurrCarAI_ProbeX_677A74.ToInt(),
                                                               gCurrCarAI_ProbeY_677A80.ToInt(),
                                                               (this->field_0_car->field_50_car_sprite->field_1C_zpos.ToInt()) - 1);
         }
@@ -1028,21 +1028,21 @@ void CarAI::CheckRoadAhead_448770()
 
     if (!bOnGradientSlope_677C90 && !this->field_8_maneuver_active)
     {
-        if (!pBlock___)
+        if (!pProbeBlock)
         {
             this->field_44_target_direction = car_ai_target_direction::go_straight_0;
         }
-        else if (TrySetTargetDirectionFromArrows_447D40(pBlock___))
+        else if (TrySetTargetDirectionFromArrows_447D40(pProbeBlock))
         {
             this->field_8_maneuver_active = 20;
             this->field_24_flags &= ~0xC000u;
             this->field_24_bf.bFlag7 = true;
         }
-        else if (!pBlock_____)
+        else if (!pFarBlock)
         {
             this->field_44_target_direction = car_ai_target_direction::go_straight_0;
         }
-        else if (TrySetTargetDirectionFromArrows_447D40(pBlock_____))
+        else if (TrySetTargetDirectionFromArrows_447D40(pFarBlock))
         {
             this->field_24_bf.bTargetSetFromArrows = true;
         }
@@ -2922,17 +2922,17 @@ void CarAI::UpdateChase_44E0C0()
             gCurrCarAI_TargetX_6779F0 = Fix16(t_x);
             gCurrCarAI_TargetY_6779F4 = Fix16(t_y);
             gCurrCarAI_TargetZ_6779F8 = Fix16(t_z);
-            gmp_block_info* pBlock_ = gMap_0x370_6F6268->GetBlock_4DFE10(gCurrCarAI_TargetX_6779F0.ToInt(), gCurrCarAI_TargetY_6779F4.ToInt(), gCurrCarAI_TargetZ_6779F8.ToInt());
+            gmp_block_info* pTargetBlock = gMap_0x370_6F6268->GetBlock_4DFE10(gCurrCarAI_TargetX_6779F0.ToInt(), gCurrCarAI_TargetY_6779F4.ToInt(), gCurrCarAI_TargetZ_6779F8.ToInt());
             target_block_z = gCurrCarAI_TargetZ_6779F8;
-            if (!(pBlock_ && IS_GRADIENT_SLOPE(pBlock_->field_B_slope_type) &&
-                  !IS_AIR_TYPE(pBlock_->field_B_slope_type)))
+            if (!(pTargetBlock && IS_GRADIENT_SLOPE(pTargetBlock->field_B_slope_type) &&
+                  !IS_AIR_TYPE(pTargetBlock->field_B_slope_type)))
             {
                 target_block_z = gCurrCarAI_TargetZ_6779F8 - gF16fOne_677B94;
-                pBlock_ = gMap_0x370_6F6268->GetBlock_4DFE10(gCurrCarAI_TargetX_6779F0.ToInt(), gCurrCarAI_TargetY_6779F4.ToInt(), target_block_z.ToInt());
+                pTargetBlock = gMap_0x370_6F6268->GetBlock_4DFE10(gCurrCarAI_TargetX_6779F0.ToInt(), gCurrCarAI_TargetY_6779F4.ToInt(), target_block_z.ToInt());
             }
-            if (pBlock_)
+            if (pTargetBlock)
             {
-                gMap_0x370_6F6268->GetArrowDirectionFromBlock_4E5FC0(pBlock_, true);
+                gMap_0x370_6F6268->GetArrowDirectionFromBlock_4E5FC0(pTargetBlock, true);
             }
         }
 
@@ -4065,7 +4065,7 @@ MATCH_FUNC(0x451980)
 void CarAI::ReactToNearbyCar_451980()
 {
     Fix16 near_dist = gF16fOne_677B94;
-    bool flag1 = false;
+    bool bNoBrake = false;
     u8 bEmergencyDriver = 0;
     Car* pCar = field_70_nearest_entity->field_8_car_bc_ptr;
 
@@ -4073,7 +4073,7 @@ void CarAI::ReactToNearbyCar_451980()
     {
         if (ComputeShortestAngleDelta_4056C0(pCar->field_50_car_sprite->field_0_rotation, field_0_car->field_50_car_sprite->field_0_rotation) > kAng90_6779E4)
         {
-            flag1 = true;
+            bNoBrake = true;
         }
     }
 
@@ -4097,7 +4097,7 @@ void CarAI::ReactToNearbyCar_451980()
     {
         if (gCurrCarAI_IsChasing_677BBC || field_24_bf.bFlag21)
         {
-            flag1 = 1;
+            bNoBrake = 1;
         }
         if (pCar->field_7C_ped_type == ped_type::player_2)
         {
@@ -4105,23 +4105,23 @@ void CarAI::ReactToNearbyCar_451980()
         }
         else if (ComputeShortestAngleDelta_4056C0(pCar->field_50_car_sprite->field_0_rotation, field_0_car->field_50_car_sprite->field_0_rotation) > kAng45_677A38)
         {
-            flag1 = 1;
+            bNoBrake = 1;
         }
         if (bEmergencyDriver)
         {
-            flag1 = 0;
+            bNoBrake = 0;
         }
     }
     else
     {
         if (dist_to_target > near_dist)
         {
-            flag1 = 1;
+            bNoBrake = 1;
             if (ComputeShortestAngleDelta_4056C0(pCar->field_50_car_sprite->field_0_rotation, field_0_car->field_50_car_sprite->field_0_rotation) > kAng90_6779E4)
             {
                 if (field_24_bf.bFlag21)
                 {
-                    flag1 = 1;
+                    bNoBrake = 1;
                 }
                 else
                 {
@@ -4173,7 +4173,7 @@ void CarAI::ReactToNearbyCar_451980()
             }
             else if (field_24_bf.bFlag21)
             {
-                flag1 = 1;
+                bNoBrake = 1;
             }
             else
             {
@@ -4185,7 +4185,7 @@ void CarAI::ReactToNearbyCar_451980()
         {
             if (field_24_bf.bFlag21)
             {
-                flag1 = 1;
+                bNoBrake = 1;
             }
             else
             {
@@ -4198,22 +4198,22 @@ void CarAI::ReactToNearbyCar_451980()
         {
             if (ComputeShortestAngleDelta_4056C0(pCar->field_50_car_sprite->field_0_rotation, field_0_car->field_50_car_sprite->field_0_rotation) > kAng90_6779E4)
             {
-                flag1 = 1;
+                bNoBrake = 1;
             }
 
             if ((field_24_flags & 0x20000) == 0x20000)
             {
-                flag1 = 1;
+                bNoBrake = 1;
             }
         }
     }
 
     if (field_24_bf.bFlag8)
     {
-        flag1 = true;
+        bNoBrake = true;
     }
 
-    if (flag1)
+    if (bNoBrake)
     {
         if (gCurrCarAI_IsChasing_677BBC)
         {
@@ -4264,7 +4264,7 @@ void CarAI::ReactToNearbyCar_451980()
                                     }
                                 }
 
-                                if (flag1)
+                                if (bNoBrake)
                                 {
                                     Ang16 our_heading;
                                     Ang16 their_heading;
@@ -4400,7 +4400,7 @@ void CarAI::ScanAheadForObstacles_452060()
         new_z = pCar->field_50_car_sprite->field_1C_zpos;
     }
 
-    Fix16 zpos_ = new_z;
+    Fix16 saved_z = new_z;
 
     Fix16 offset_x;
     Fix16 offset_y;
@@ -4443,11 +4443,11 @@ void CarAI::ScanAheadForObstacles_452060()
     {
         if (bOnGradientSlope_677C90)
         {
-            Fix16 new_y_5 = offset_y + field_0_car->field_50_car_sprite->field_14_xy.y;
-            Fix16 new_x_3 = offset_x + field_0_car->field_50_car_sprite->field_14_xy.x;
+            Fix16 probe_y = offset_y + field_0_car->field_50_car_sprite->field_14_xy.y;
+            Fix16 probe_x = offset_x + field_0_car->field_50_car_sprite->field_14_xy.x;
 
-            field_0_car->field_50_car_sprite->set_xyz_lazy_420600(new_x_3, new_y_5, zpos_ - gF16fOne_677B94);
-            new_z = zpos_;
+            field_0_car->field_50_car_sprite->set_xyz_lazy_420600(probe_x, probe_y, saved_z - gF16fOne_677B94);
+            new_z = saved_z;
             this->field_70_nearest_entity = gSpriteGrid_1_679208->FindCollidingSpritePreferType_477E60(this->field_0_car->field_50_car_sprite, 0);
         }
     }
@@ -5037,8 +5037,8 @@ MATCH_FUNC(0x453470)
 void CarAI::UpdateDriving_453470()
 {
     this->field_0_car->field_58_physics->SetHandBrakeOff_421260();
-    Fix16 t = field_0_car->field_58_physics->GetLinearSpeed_4211A0();
-    gCurrCarAI_Velocity_677B00 = t;
+    Fix16 speed = field_0_car->field_58_physics->GetLinearSpeed_4211A0();
+    gCurrCarAI_Velocity_677B00 = speed;
 
     if (this->field_0_car->field_80_abandoned)
     {
@@ -5188,42 +5188,42 @@ void CarAI::UpdateTrainMovement_453A40()
         track_dir = gMap_0x370_6F6268->AdvanceAlongRailwayChecked_4E7190(&xpos, &ypos, &zpos, this->field_14_speed);
     }
 
-    s32 AngleFace_4F78F0 = Ang16::GetAngleFace_4F78F0(field_10_angle);
+    s32 face = Ang16::GetAngleFace_4F78F0(field_10_angle);
     s32 cur_face = Ang16::GetAngleFace_4F78F0(field_10_angle);
     if (track_dir != cur_face)
     {
         switch (track_dir)
         {
             case road_direction::up_1:
-                rotation_mode = (AngleFace_4F78F0 != 3) + 1;
+                rotation_mode = (face != 3) + 1;
                 break;
             case road_direction::down_2:
-                rotation_mode = (AngleFace_4F78F0 == 3) + 1;
+                rotation_mode = (face == 3) + 1;
                 break;
             case road_direction::right_3:
-                rotation_mode = (AngleFace_4F78F0 != 2) + 1;
+                rotation_mode = (face != 2) + 1;
                 break;
             case road_direction::left_4:
-                rotation_mode = (AngleFace_4F78F0 == 2) + 1;
+                rotation_mode = (face == 2) + 1;
                 break;
             default:
                 break;
         }
     }
 
-    Fix16 i;
-    for (i = Ang16::Ang16_to_Fix16(ReturnAngleFromRoadDirection_4F7940(track_dir)); i < kF16Zero_677B90; i += kFpTwoPi_677C84)
+    Fix16 track_angle;
+    for (track_angle = Ang16::Ang16_to_Fix16(ReturnAngleFromRoadDirection_4F7940(track_dir)); track_angle < kF16Zero_677B90; track_angle += kFpTwoPi_677C84)
     {
         ;
     }
 
-    for (; i >= kFpTwoPi_677C84; i -= kFpTwoPi_677C84)
+    for (; track_angle >= kFpTwoPi_677C84; track_angle -= kFpTwoPi_677C84)
     {
         ;
     }
 
     UpdateSpeedTowardTarget_4539D0();
-    field_0_car->field_58_physics->SetVelocityTowardTarget_55A1D0(xpos, ypos, i, &rotation_mode);
+    field_0_car->field_58_physics->SetVelocityTowardTarget_55A1D0(xpos, ypos, track_angle, &rotation_mode);
 }
 
 MATCH_FUNC(0x453bb0)
