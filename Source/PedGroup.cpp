@@ -313,7 +313,7 @@ void PedGroup::DestroyGroup_4C93A0()
             }
             else
             {
-                if (pPed->has_car_403B80() == true)
+                if (pPed->has_car_403B80())
                 {
                     pPed->SetObjective2_463830(objectives_enum::no_obj_0);
                     (*ppSlot)->SetObjective(objectives_enum::objective_34);
@@ -736,7 +736,7 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
 
                 if (pMember->GetInternalObjective_403A90() != objectives_enum::enter_car_as_driver_35)
                 {
-                    pMember->field_21C_bf.bPanicking = 0;
+                    pMember->field_21C_bf.bPanicking = false;
                     if (field_2C_ped_leader->field_168_game_object)
                     {
                         pMember->SetObjective2_463830(objectives_enum::objective_18);
@@ -757,13 +757,13 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
                 u8 tries = 0;
                 gGroupMemberCarDoor_620838 = i + 1;
                 u8 maxDoor = pTargetCar->GetDoorCount_43B360() - 1;
-                char_type searching;
+                bool searching;
                 if (pTargetCar->IsSwatVanOrBankVan_403BC0())
                 {
                     gGroupMemberCarDoor_620838 = i + 2;
                     do
                     {
-                        searching = 1;
+                        searching = true;
                         do
                         {
                             if (gGroupMemberCarDoor_620838 > maxDoor)
@@ -774,7 +774,7 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
 
                         if (pTargetCar->IsDoorAccessible_43AFE0(gGroupMemberCarDoor_620838))
                         {
-                            searching = 0;
+                            searching = false;
                         }
                         else
                         {
@@ -800,7 +800,7 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
                 {
                     do
                     {
-                        searching = 1;
+                        searching = true;
                         do
                         {
                             if (gGroupMemberCarDoor_620838 > maxDoor)
@@ -811,7 +811,7 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
 
                         if (pTargetCar->IsDoorAccessible_43AFE0(gGroupMemberCarDoor_620838))
                         {
-                            searching = 0;
+                            searching = false;
                         }
                         else
                         {
@@ -934,7 +934,7 @@ Ped* PedGroup::FindFarthestMember_4CA3F0(Fix16* pFoundDistance)
 MATCH_FUNC(0x4ca4b0)
 void PedGroup::UpdateFormation_4CA4B0()
 {
-    if (!field_2C_ped_leader->field_16C_car && (field_2C_ped_leader->field_21C_bf.bLeftVehicle) == 0)
+    if (!field_2C_ped_leader->field_16C_car && !field_2C_ped_leader->field_21C_bf.bLeftVehicle)
     {
         for (u8 i = 0; i < field_34_count; i++)
         {
