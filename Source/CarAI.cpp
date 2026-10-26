@@ -29,7 +29,7 @@ DEFINE_GLOBAL_INIT(Fix16, kFpFour_677BA0, Fix16(4), 0x677BA0);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint02_677B5C, Fix16(0x147, 0), 0x677B5C);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint02_677AC4, kFpPoint02_677B5C, 0x677AC4);
 
-DEFINE_GLOBAL_INIT(Fix16, gF16fOne_677B94, Fix16(1), 0x677B94); // Value = 1.0 in float
+DEFINE_GLOBAL_INIT(Fix16, gF16fOne_677B94, Fix16(1), 0x677B94);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint1_6779B8, Fix16(0x666, 0), 0x6779B8);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint01_677B50, Fix16(163, 0), 0x677B50);
 DEFINE_GLOBAL_INIT(Fix16, kDefaultTargetSpeed_677CB4, kFpPoint1_6779B8, 0x677CB4);
@@ -107,7 +107,6 @@ DEFINE_GLOBAL_INIT(Ang16, word_677A3A, Ang16(128), 0x677A3A);
 EXTERN_GLOBAL(u16, word_677CFC);
 EXTERN_GLOBAL(u8, byte_6771DC);
 
-// TODO: Move
 MATCH_FUNC(0x447650)
 void __stdcall InitAIvars_447650()
 {
@@ -181,11 +180,9 @@ void CarAI::PlanTurnAtNextJunction_447710()
                                 this->field_24_bf.bTurnPlanned = true;
                                 break;
                             case 3:
-                                //goto LABEL_14;
                                 this->field_0_car->SetTurnRight_42AC70();
                                 break;
                             case 4:
-                                //goto LABEL_8;
                                 this->field_0_car->SetTurnLeft_42AC80();
                                 break;
                         }
@@ -201,11 +198,9 @@ void CarAI::PlanTurnAtNextJunction_447710()
                                 this->field_24_bf.bTurnPlanned = true;
                                 break;
                             case 3:
-                                //goto LABEL_8;
                                 this->field_0_car->SetTurnLeft_42AC80();
                                 break;
                             case 4:
-                                //goto LABEL_14;
                                 this->field_0_car->SetTurnRight_42AC70();
                                 break;
                         }
@@ -217,11 +212,9 @@ void CarAI::PlanTurnAtNextJunction_447710()
                         switch (turn_dir)
                         {
                             case 1:
-                                //goto LABEL_14;
                                 this->field_0_car->SetTurnRight_42AC70();
                                 break;
                             case 2:
-                                //goto LABEL_8;
                                 this->field_0_car->SetTurnLeft_42AC80();
                                 break;
                             case 3:
@@ -237,11 +230,9 @@ void CarAI::PlanTurnAtNextJunction_447710()
                         switch (turn_dir)
                         {
                             case 1:
-                                //LABEL_8:
                                 this->field_0_car->SetTurnLeft_42AC80();
                                 break;
                             case 2:
-                                //LABEL_14:
                                 this->field_0_car->SetTurnRight_42AC70();
                                 break;
                             case 4:
@@ -1792,17 +1783,14 @@ void CarAI::FollowRoadDirection_44A1F0()
                         field_0_car->field_58_physics->TurnClockwise_42ABA0();
                     }
                 }
-                //return;
             }
             else if (field_4C_curr_direction == car_ai_direction::east_3)
             {
                 field_0_car->field_58_physics->TurnClockwise_42ABA0();
-                //return;
             }
             else if (field_4C_curr_direction == car_ai_direction::south_2)
             {
                 field_0_car->field_58_physics->SetGoStraight_42ABB0();
-                //return;
             }
             else if (field_4C_curr_direction == car_ai_direction::north_1)
             {
@@ -4998,7 +4986,6 @@ void CarAI::UpdateDrivingAI_452DF0()
         UpdateStateMachine_44E560();
     }
 
-    //CarChaseTask* v15 = field_0->field_60;
     if (field_0_car->field_60_pChaseTask && field_0_car->field_60_pChaseTask->field_8_task_type == car_task_type::follow_ped_2)
     {
         gCurrCarAI_IsChasing_677BBC = 1;
@@ -5019,7 +5006,6 @@ void CarAI::UpdateDrivingAI_452DF0()
 
     if (field_28_route_idx > 0 && field_24_bf.bFlag4)
     {
-        //CarChaseTask* v19 = field_0->field_60;
         if (field_0_car->field_60_pChaseTask)
         {
             if (field_0_car->field_60_pChaseTask->field_22_following_route == 1)
@@ -5056,7 +5042,7 @@ void CarAI::UpdateDriving_453470()
 
     if (this->field_0_car->field_80_abandoned)
     {
-        this->field_0_car->SetAIHalted_421540(); // stop the vehicle
+        this->field_0_car->SetAIHalted_421540();
     }
 
     if (this->field_30_forced_stop_timer > 0)
@@ -5065,7 +5051,7 @@ void CarAI::UpdateDriving_453470()
 
         if (this->field_30_forced_stop_timer)
         {
-            this->field_0_car->SetAIHalted_421540(); // stop the vehicle
+            this->field_0_car->SetAIHalted_421540();
         }
         else
         {
@@ -5073,7 +5059,7 @@ void CarAI::UpdateDriving_453470()
         }
     }
 
-    if (this->field_0_car->IsAIHalted_42AC60()) // if the vehicle is forced to stop
+    if (this->field_0_car->IsAIHalted_42AC60())
     {
         if (this->field_24_bf.bAIHalted)
         {
@@ -5104,7 +5090,7 @@ void CarAI::UpdateDriving_453470()
     }
     else
     {
-        UpdateDrivingAI_452DF0(); // if the vehicle is free to go: do AI stuff
+        UpdateDrivingAI_452DF0();
     }
 }
 
