@@ -370,7 +370,7 @@ void ScriptManager::SaveGame_511E10(char_type* pFileName)
 
     {
         size_t writeLen = sizeof(SaveData);
-        File::WriteBufferToFile_4A6E80(pFileName, &gGameSave_6F78C8, &writeLen); // gTurkishDelight_748_664590
+        File::WriteBufferToFile_4A6E80(pFileName, &gGameSave_6F78C8, &writeLen);
     }
 
     {
