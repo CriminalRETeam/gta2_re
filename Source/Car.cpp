@@ -177,9 +177,6 @@ DEFINE_GLOBAL_INIT(car_rng_list, gGoodCarModels_677384, car_rng_list(Fix16(256, 
 DEFINE_GLOBAL_INIT(car_rng_list, gAverageCarModels_676DB4, car_rng_list(Fix16(512, 0)), 0x676DB4);
 DEFINE_GLOBAL_INIT(car_rng_list, gBadCarModels_676988, car_rng_list(Fix16(5)), 0x676988);
 
-//DEFINE_GLOBAL_ARRAY(s32, dword_676DB8, 256, 0x676DB8); // TODO: may be part of a struct
-//DEFINE_GLOBAL_ARRAY(s32, dword_67698C, 256, 0x67698C); // TODO: may be part of a struct
-
 DEFINE_GLOBAL_INIT(Fix16, kHitchPullDist_6772C0, kFpOne64th_677888 * 8, 0x6772C0);
 DEFINE_GLOBAL_INIT(Fix16, kHitchAttachDist_677900, kFpOne64th_677888 * 3, 0x677900);
 
@@ -950,7 +947,6 @@ Car* CarManager::GetNearestFrontVehicle_445210(Sprite* pSprite, u8 max_rings)
 
     if (pNearest)
     {
-        // Extract the car pointer first
         Car* pCar = pNearest->field_8_car_bc_ptr;
 
         if (pCar->IsTrain_421610())
@@ -1369,15 +1365,12 @@ Car* CarManager::SpawnCarAt_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rot
         pCar = gCar_BC_Pool_67792C->field_0_pool.Allocate();
     }
 
-    //pCar->PoolAllocate(); // PoolAllocate
-
     pCar->field_84_car_info_idx = car_info_idx;
     pCar->field_88_despawn_status = car_despawn_status::active_1;
 
     pCar->field_50_car_sprite = gSpritePool_703818->get_new_sprite();
     pCar->field_50_car_sprite->set_xyz_lazy_420600(xpos, ypos, zpos);
 
-    // Sprite* pCarSprite = pNewSprite;
     gMap_0x370_6F6268->UpdateZFromSlopeAtCoord_4E5BF0(pCar->field_50_car_sprite->field_14_xy.x,
                                                       pCar->field_50_car_sprite->field_14_xy.y,
                                                       pCar->field_50_car_sprite->field_1C_zpos);
@@ -1422,7 +1415,6 @@ Car* CarManager::SpawnCarAt_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rot
     {
         pCar->AddFlags_421890(car_flag::Jammed);
         pCar->PutTankCannonOnRoof_440B10();
-        //        pCar->field_78_flags |= 0x0508u;
         pCar->SetBulletproof_4218C0();
         pCar->SetFlameproof_4218D0();
         pCar->SetFlag3_4218A0();
@@ -1754,8 +1746,6 @@ CarManager::CarManager()
 
     // On version 9.6f this is call to a class method
     // that initialises the next two fields
-    //field_4C = 0;
-    //field_50_tv_van_dir = 0;
     field_4C_tv_van_dir.x = Fix16(0);
     field_4C_tv_van_dir.y = Fix16(0);
     field_54_spawn_block = 0;
@@ -2923,8 +2913,6 @@ bool Car::IsImmuneToExplosionType_43B850(s32 explosion_type)
     return ((field_78_flags & car_flag::Rocketproof) || (field_78_flags & car_flag::Flameproof)) && explosion_type != 20 ? true : false;
 }
 
-// 9.6f 0x4226C0
-
 // 9.6f 0x41FF40 (a car_info helper, inlined in 10.5): each inlined call gets its own return temp
 static inline Fix16 Get_front_window_offset(car_info* p)
 {
@@ -2940,6 +2928,7 @@ static inline Fix16 Get_half_width(car_info* p)
 {
     return kFpPoint4_677214 * gPixelsToFix16_6F6850.list[p->w];
 }
+// 9.6f 0x4226C0
 MATCH_FUNC(0x43b870)
 void Car::SpawnDamageFireEffect_43B870(s32 fire_size, const Fix16_Point* pPos)
 {
@@ -3566,7 +3555,6 @@ void Car::SetCarGraphic_43CDF0(char_type graphic_idx)
 
     if (graphic_idx != 10)
     {
-        // Hmm... bit annoying to make this clean
         this->field_8_damaged_areas.set_bit(graphic_idx + CarDeltaBitsEnum::TopRightDoor1_11);
     }
 }
@@ -3628,10 +3616,10 @@ bool Car::IsAreaDamaged_43D1C0(s32 damage_area)
     switch (damage_area)
     {
         case 0:
-            return field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomRightDamage_2); // 4
+            return field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomRightDamage_2);
 
         case 1:
-            return field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomLeftDamage_3); // 8
+            return field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomLeftDamage_3);
 
         case 2:
             return field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDamage_1);
@@ -3640,7 +3628,7 @@ bool Car::IsAreaDamaged_43D1C0(s32 damage_area)
             return field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopLeftDamage_0);
 
         case 4:
-            return field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::WindshieldDamage_4); // 10
+            return field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::WindshieldDamage_4);
 
         default:
             return false;
@@ -4374,7 +4362,6 @@ bool Car::HandleCarHitByObject_43F130(Object* pObj)
                     1600 * GetDamageMultiplier_45CF90(pFoundPed),
                     &((pObj->field_4_sprite->get_x_y_late_443580().AddLate_40AC50(field_50_car_sprite->get_x_y_late_443580())) * kFpHalf_677218));
             }
-            // Like 9.6f, 265 and default pass `offset`, which only the explosion cases set
             gParticle_8_6FD5E8->EmitImpactParticles_53FE40(pObj->field_4_sprite->field_14_xy.x,
                                                            pObj->field_4_sprite->field_14_xy.y,
                                                            pObj->field_4_sprite->field_1C_zpos,
@@ -4894,7 +4881,7 @@ void Car::CountDownToWreck_441360()
         field_A9_wreck_countdown--;
         if (field_A9_wreck_countdown == 0)
         {
-            TurnToWreck_4436A0(); // jmp to function chunk
+            TurnToWreck_4436A0();
         }
     }
 }
@@ -5642,7 +5629,7 @@ bool Car::UpdateCarDespawnStatus_4424C0()
 {
     switch (field_88_despawn_status)
     {
-        case car_despawn_status::despawn_soon_3: // Destructor?
+        case car_despawn_status::despawn_soon_3:
             field_88_despawn_status = car_despawn_status::despawning_5; // Despawn now
             return false;
 
@@ -5863,7 +5850,6 @@ void Car::TryHitchTrailer_442810()
             stru_67727C.FindClosestSprite_5A6E40(this->field_50_car_sprite->field_14_xy.x, this->field_50_car_sprite->field_14_xy.y);
         if (!pHitchSprite)
         {
-            //goto LABEL_28;
             this->field_78_flags &= static_cast<u16>(~car_flag::TrailerDetached);
         }
         else
@@ -5913,7 +5899,6 @@ void Car::TryHitchTrailer_442810()
             }
             else
             {
-                //LABEL_28:
                 this->field_78_flags &= ~1u;
             }
         }
@@ -6694,13 +6679,9 @@ u32 Car::GetEffectiveDriverPedId_444090()
     return pDriver->field_200_id;
 }
 
-/*
-OBS: it is not a switch case :)
-*/
 MATCH_FUNC(0x4441b0)
 void Car::SetSirens_4441B0()
 {
-    // car sirens?
     if (IsMediCar_421780())
     {
         Car::AttachLight_443F30(165, 0xFF2010, 10, 16);
@@ -6753,7 +6734,6 @@ void Car::PoolAllocate()
     this->field_A6_turn_flags = 0;
     this->field_80_abandoned = false;
     this->field_78_flags = 0;
-    //clear();
 
     this->field_0_attachments.DestroyAllSprites_5A7010();
 
@@ -6765,7 +6745,6 @@ void Car::PoolAllocate()
     this->field_90_death_cause = ped_death_cause::none_0;
     this->field_94_exploder_timer = 0;
     this->field_95_player_ped_id = 0;
-    //v3 = kFP16One_6777D0;
     this->field_68_scale = kFP16One_6777D0;
 
     this->field_8E_flash_count = 0;
@@ -7224,7 +7203,6 @@ void TrafficSpawner::MakeTrafficForCurrCamera_5832C0()
                 wanted_traffic_scale = kFpPoint4_6FF5D4;
                 break;
             default:
-                //wanted_traffic_scale = rng_; // random value ??
                 break;
         }
 

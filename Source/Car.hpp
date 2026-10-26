@@ -1008,7 +1008,7 @@ class Car
         {
             if (HasPopupHeadlights_421700())
             {
-                field_8_damaged_areas.set_bit(CarDeltaBitsEnum::TopRightDoor1_11); // set left rear door open/close frame 1 ????
+                field_8_damaged_areas.set_bit(CarDeltaBitsEnum::TopRightDoor1_11);
             }
             else
             {
@@ -1020,7 +1020,7 @@ class Car
         {
             if (HasPopupHeadlights_421700())
             {
-                field_8_damaged_areas.set_bit(CarDeltaBitsEnum::TopLeftDoor1_28); // set right rear door open/close frame 1 ????
+                field_8_damaged_areas.set_bit(CarDeltaBitsEnum::TopLeftDoor1_28);
             }
             else
             {
@@ -1242,7 +1242,6 @@ class Car
 
     inline bool IsEmittingHorn_411990()
     {
-        // Not sure what is going on here, seems to same as 0x411970 ??
         return field_A7_horn <= 0xF8u && field_A7_horn > 0;
     }
 
