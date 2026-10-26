@@ -2250,7 +2250,7 @@ void Car::SetDriver(Ped* pNewDriver)
 MATCH_FUNC(0x43a9f0)
 void Car::TriggerCarAlarm_43A9F0()
 {
-    if (!field_54_driver && ((field_78_flags & car_flag::CarAlarm)) && field_7C_ped_type != ped_type::player_2 && !field_A4_bf.bLightFlashing && field_74_damage != 32001)
+    if (!field_54_driver && ((field_78_flags & car_flag::CarAlarm)) && field_7C_ped_type != ped_type::player_2 && !field_A4_bf.bLightFlashing && !IsMaxDamage_40F890())
     {
         StartLightFlashing_43CAC0();
     }
@@ -2381,8 +2381,8 @@ bool Car::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
                 {
                     return false;
                 }
-                if ((their_flags & car_flag::Flag6) != 0 && this->field_74_damage == 32001 && (our_flags & car_flag::Flag6) == 0 ||
-                    (our_flags & car_flag::Flag6) != 0 && pCar->field_74_damage == 32001 && (their_flags & car_flag::Flag6) == 0)
+                if ((their_flags & car_flag::Flag6) != 0 && this->IsMaxDamage_40F890() && (our_flags & car_flag::Flag6) == 0 ||
+                    (our_flags & car_flag::Flag6) != 0 && pCar->IsMaxDamage_40F890() && (their_flags & car_flag::Flag6) == 0)
                 {
                     return false;
                 }
@@ -2411,7 +2411,7 @@ bool Car::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
                 }
 
                 bCanCollide = pSprite->CheckDirectionalSliceCollision_59E680(kFpFiveEighths_6778C8, this->field_50_car_sprite);
-                if (!HasSpriteZoom_43A230() && this->field_74_damage != 32001)
+                if (!HasSpriteZoom_43A230() && !this->IsMaxDamage_40F890())
                 {
                     despawn_status = this->field_88_despawn_status;
                     if (despawn_status != car_despawn_status::despawn_pending_2 && despawn_status != car_despawn_status::marked_for_despawn_4 && despawn_status != car_despawn_status::despawn_soon_3 && despawn_status != car_despawn_status::despawning_5)
@@ -3935,7 +3935,7 @@ MATCH_FUNC(0x43dc00)
 bool Car::IsSpriteShrunk_43DC00()
 {
     car_info* pInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx);
-    if (field_74_damage == 32001)
+    if (IsMaxDamage_40F890())
     {
         SpriteShape* pShape = field_50_car_sprite->field_C_pCollisionShape;
         SpriteShape* pVisualShape = field_50_car_sprite->field_4_pVisualShape;
@@ -5245,7 +5245,7 @@ bool Car::AreAllDoorsClosed_441A40()
     u32 i = 0;
     do
     {
-        if (field_C_doors[i].field_4_state != car_door_state::inactive_0 && field_C_doors[i].field_4_state != car_door_state::closed_6)
+        if (field_C_doors[i].IsStateActive_421360())
         {
             return false;
         }
@@ -7014,16 +7014,16 @@ void Trailer::DeAllocateCarPhysics_4081B0()
 MATCH_FUNC(0x4081d0)
 bool Trailer::ExplodeBothIfOneDestroyed_4081D0()
 {
-    if (field_8_truck_cab->field_74_damage == 32001)
+    if (field_8_truck_cab->IsMaxDamage_40F890())
     {
-        if (field_C_trailer_car->field_74_damage != 32001)
+        if (!field_C_trailer_car->IsMaxDamage_40F890())
         {
             field_C_trailer_car->field_74_damage = 32000;
             field_C_trailer_car->HandleCarExplosion_43D840(explosion_type::small_18);
         }
         return true;
     }
-    else if (field_C_trailer_car->field_74_damage == 32001)
+    else if (field_C_trailer_car->IsMaxDamage_40F890())
     {
         field_8_truck_cab->field_74_damage = 32000;
         field_8_truck_cab->HandleCarExplosion_43D840(explosion_type::small_18);
