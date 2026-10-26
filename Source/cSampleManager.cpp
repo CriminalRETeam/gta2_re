@@ -497,7 +497,7 @@ void cSampleManager::Shutdown_58DB30()
 }
 
 MATCH_FUNC(0x58DBF0)
-s32 cSampleManager::GetPlayBackRate_58DBF0(s32 idx)
+s32 cSampleManager::GetPlayBackRate_58DBF0(s32 idx) const
 {
     const s32 playBackRate = field_A8_sdt_entries[idx].field_8_playBackRate;
     if (playBackRate == 0)
@@ -508,25 +508,25 @@ s32 cSampleManager::GetPlayBackRate_58DBF0(s32 idx)
 }
 
 MATCH_FUNC(0x58DC10)
-s32 cSampleManager::GetRandomDisplacement_58DC10(s32 idx)
+s32 cSampleManager::GetRandomDisplacement_58DC10(s32 idx) const
 {
     return field_A8_sdt_entries[idx].field_C_random_displacement;
 }
 
 MATCH_FUNC(0x58DC30)
-s32 cSampleManager::GetLoopStart_58DC30(s32 sample_idx)
+s32 cSampleManager::GetLoopStart_58DC30(s32 sample_idx) const
 {
     return field_A8_sdt_entries[sample_idx].field_10_loop_start;
 }
 
 MATCH_FUNC(0x58DC50)
-s32 cSampleManager::GetLoopEnd_58DC50(s32 sample_idx)
+s32 cSampleManager::GetLoopEnd_58DC50(s32 sample_idx) const
 {
     return field_A8_sdt_entries[sample_idx].field_14_loop_end;
 }
 
 MATCH_FUNC(0x58DC70)
-s32 cSampleManager::GetSampleLength_58DC70(s32 sample_idx)
+s32 cSampleManager::GetSampleLength_58DC70(s32 sample_idx) const
 {
     return field_A8_sdt_entries[sample_idx].field_4_sample_length;
 }
@@ -591,7 +591,7 @@ void cSampleManager::SetChannelLoopCount_58DD60(s32 channel, s32 loopCount)
 }
 
 MATCH_FUNC(0x58DD80)
-bool cSampleManager::GetChannelUsedFlag_58DD80(s32 channel)
+bool cSampleManager::GetChannelUsedFlag_58DD80(s32 channel) const
 {
     if (field_58_hSamples[channel])
     {
@@ -694,7 +694,7 @@ void cSampleManager::SetChannel3DLoopCount_58DF50(s32 channel, s32 loop_count)
 }
 
 MATCH_FUNC(0x58DF70)
-bool cSampleManager::GetChannel3DUsedFlag_58DF70(s32 channel)
+bool cSampleManager::GetChannel3DUsedFlag_58DF70(s32 channel) const
 {
     if (field_26C4_3d_sample[channel])
     {
@@ -726,7 +726,7 @@ void cSampleManager::StopChannel3D_58DFC0(s32 samp_idx)
 }
 
 MATCH_FUNC(0x58E000)
-u8 cSampleManager::Get3DSampleCount_58E000()
+u8 cSampleManager::Get3DSampleCount_58E000() const
 {
     return field_1EB2_3d_samp_count;
 }
@@ -818,7 +818,7 @@ bool cSampleManager::Reacquire_58E2A0()
 const char_type dma_wav_5FF5D8[3][6] = {"d.wav", "m.wav", "a.wav"};
 
 MATCH_FUNC(0x58E2C0)
-bool cSampleManager::StreamStatus_58E2C0()
+bool cSampleManager::StreamStatus_58E2C0() const
 {
     if (field_55_bMusicFound)
     {
@@ -919,7 +919,7 @@ void cSampleManager::FadeOut_58E490()
 }
 
 MATCH_FUNC(0x58E500)
-bool cSampleManager::MusicFileExists_58E500()
+bool cSampleManager::MusicFileExists_58E500() const
 {
     return field_55_bMusicFound;
 }
@@ -1001,7 +1001,7 @@ void cSampleManager::SetVocalSpeed_58E700(s32 stream_idx, s32 playbackRate)
 }
 
 MATCH_FUNC(0x58E720)
-s32 cSampleManager::GetVocalSpeed_58E720(s32 stream_idx)
+s32 cSampleManager::GetVocalSpeed_58E720(s32 stream_idx) const
 {
     if (field_9C_hStreams[stream_idx])
     {
@@ -1023,7 +1023,7 @@ void cSampleManager::SetVocalPosMs_58E750(s32 stream_idx, s32 ms_pos)
 }
 
 MATCH_FUNC(0x58E770)
-s32 cSampleManager::GetVocalPosMs_58E770(long stream_idx)
+s32 cSampleManager::GetVocalPosMs_58E770(long stream_idx) const
 {
     if (field_9C_hStreams[stream_idx])
     {
@@ -1034,7 +1034,7 @@ s32 cSampleManager::GetVocalPosMs_58E770(long stream_idx)
 }
 
 MATCH_FUNC(0x58E7A0)
-s32 cSampleManager::GetVocalLengthMs_58E7A0(long stream_idx)
+s32 cSampleManager::GetVocalLengthMs_58E7A0(long stream_idx) const
 {
     if (field_9C_hStreams[stream_idx])
     {
@@ -1072,7 +1072,7 @@ void cSampleManager::PlayAtIdx_58E7F0(s32 idx)
 }
 
 MATCH_FUNC(0x58E880)
-bool cSampleManager::SampleNotDone_58E880()
+bool cSampleManager::SampleNotDone_58E880() const
 {
     return AIL_sample_status(field_98_hSample) != SMP_DONE ? true : false;
 }

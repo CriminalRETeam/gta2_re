@@ -43,15 +43,15 @@ class cSampleManager
 
     EXPORT void Shutdown_58DB30();
 
-    EXPORT s32 GetPlayBackRate_58DBF0(s32 idx);
+    EXPORT s32 GetPlayBackRate_58DBF0(s32 idx) const;
 
-    EXPORT s32 GetRandomDisplacement_58DC10(s32 idx);
+    EXPORT s32 GetRandomDisplacement_58DC10(s32 idx) const;
 
-    EXPORT s32 GetLoopStart_58DC30(s32 sample_idx);
+    EXPORT s32 GetLoopStart_58DC30(s32 sample_idx) const;
 
-    EXPORT s32 GetLoopEnd_58DC50(s32 sample_idx);
+    EXPORT s32 GetLoopEnd_58DC50(s32 sample_idx) const;
 
-    EXPORT s32 GetSampleLength_58DC70(s32 sample_idx);
+    EXPORT s32 GetSampleLength_58DC70(s32 sample_idx) const;
 
     EXPORT void InitialiseChannel_58DC90(s32 channel, s32 sample_idx);
 
@@ -65,7 +65,7 @@ class cSampleManager
 
     EXPORT void SetChannelLoopCount_58DD60(s32 channel, s32 loopCount);
 
-    EXPORT bool GetChannelUsedFlag_58DD80(s32 channel);
+    EXPORT bool GetChannelUsedFlag_58DD80(s32 channel) const;
 
     EXPORT void StartChannel_58DDB0(s32 channel);
 
@@ -85,13 +85,13 @@ class cSampleManager
 
     EXPORT void SetChannel3DLoopCount_58DF50(s32 channel, s32 loop_count);
 
-    EXPORT bool GetChannel3DUsedFlag_58DF70(s32 channel);
+    EXPORT bool GetChannel3DUsedFlag_58DF70(s32 channel) const;
 
     EXPORT void StartChannel3D_58DFA0(s32 samp_idx);
 
     EXPORT void StopChannel3D_58DFC0(s32 samp_idx);
 
-    EXPORT u8 Get3DSampleCount_58E000();
+    EXPORT u8 Get3DSampleCount_58E000() const;
     EXPORT void SetEaxEnvironment_58E010(s32 env_idx);
 
     EXPORT bool Open3DProvider_58E140(s32 envIdx);
@@ -104,7 +104,7 @@ class cSampleManager
 
     // order func
 
-    EXPORT bool StreamStatus_58E2C0();
+    EXPORT bool StreamStatus_58E2C0() const;
 
     EXPORT void StreamSetVolume_58E2F0(u8 vol);
 
@@ -114,7 +114,7 @@ class cSampleManager
 
     EXPORT void FadeOut_58E490();
 
-    EXPORT bool MusicFileExists_58E500();
+    EXPORT bool MusicFileExists_58E500() const;
 
     EXPORT void PlayVocal_58E510(s32 stream_idx, s32 voc_idx, bool bAppendA);
 
@@ -124,19 +124,19 @@ class cSampleManager
 
     EXPORT void SetVocalSpeed_58E700(s32 stream_idx, s32 playbackRate);
 
-    EXPORT s32 GetVocalSpeed_58E720(s32 stream_idx);
+    EXPORT s32 GetVocalSpeed_58E720(s32 stream_idx) const;
 
     EXPORT void SetVocalPosMs_58E750(s32 stream_idx, s32 ms_pos);
 
-    EXPORT s32 GetVocalPosMs_58E770(long stream_idx);
+    EXPORT s32 GetVocalPosMs_58E770(long stream_idx) const;
 
-    EXPORT s32 GetVocalLengthMs_58E7A0(long stream_idx);
+    EXPORT s32 GetVocalLengthMs_58E7A0(long stream_idx) const;
 
     EXPORT void SetSampleVol_58E7D0(u8 vol);
 
     EXPORT void PlayAtIdx_58E7F0(s32 idx);
 
-    EXPORT bool SampleNotDone_58E880();
+    EXPORT bool SampleNotDone_58E880() const;
     
     EXPORT void EndSample_58E8A0();
 
