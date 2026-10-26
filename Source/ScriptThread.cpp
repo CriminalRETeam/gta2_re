@@ -10,7 +10,6 @@
 #include "crane_home_target.hpp"
 #include "explosion_type.hpp"
 #include "hud_message_priority.hpp"
-#include "thread_trigger.hpp"
 #include "hud_brief_priority.hpp"
 #include "voice_line.hpp"
 #include "ScriptThread.hpp"

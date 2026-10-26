@@ -16,7 +16,6 @@
 #include "map_0x370.hpp"
 #include "memory.hpp"
 #include "ScriptThread.hpp"
-#include "thread_trigger.hpp"
 #include "Ped.hpp"
 #include "PedGroup.hpp"
 #include "PublicTransport.hpp"
