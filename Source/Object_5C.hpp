@@ -76,9 +76,9 @@ class Object
     EXPORT void HandleCollision_522E10(Fix16_Point* pPoint);
     EXPORT bool TryStartSlide_5233A0(Fix16 value);
     EXPORT void HandleCollisionOutcome_523440(Fix16_Point point, bool bHitFloorBelow, bool bHitBlockAtZ);
-    EXPORT bool HandleSpriteGroundAndCollision_5235B0(Sprite* pSprite, Fix16_Point* pPoint, bool* pHit, Fix16 found_z);
-    EXPORT bool HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite, Fix16_Point* pPoint, bool* pHit, bool* pHit2);
-    EXPORT bool HandleSpriteZCollision_5238B0(Sprite* pSprite, Fix16_Point* pPoint, bool* pHit, bool* pHit2, Fix16 found_z);
+    EXPORT bool HandleSpriteGroundAndCollision_5235B0(Sprite* pSprite, Fix16_Point* pPoint, bool* pHitWall, Fix16 found_z);
+    EXPORT bool HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite, Fix16_Point* pPoint, bool* pHitWall, bool* pHitBlockAtZ);
+    EXPORT bool HandleSpriteZCollision_5238B0(Sprite* pSprite, Fix16_Point* pPoint, bool* pHitWall, bool* pHitFloorBelow, Fix16 found_z);
     EXPORT void ComputeWallHitSide_524550();
     EXPORT void IntegrateHorizontalMovementAndCollisions_524630(Fix16 move_len, Ang16 move_angle);
     EXPORT void OnExplosionNearby_525190(u8 ped_ref_idx);
@@ -123,7 +123,7 @@ class Object
     EXPORT void RequestRemovalWhenOffScreen_5290B0();
     EXPORT void Dealloc_5291B0();
     EXPORT void PoolGiveAndMarkDone_5291D0();
-    EXPORT void PoolGiveAndQueueObjectType_5291E0(s32 bDone);
+    EXPORT void PoolGiveAndQueueObjectType_5291E0(s32 object_type);
     EXPORT bool IsNotModel_174_529200();
     EXPORT ~Object();
     EXPORT void EnsureObject3C_52A650();
@@ -168,8 +168,8 @@ class Object
 
     bool IsAnimatedBehavior_475A80()
     {
-        s32 t = this->field_8_definition->field_34_behavior_type;
-        return t == object_behavior_type::animated_2 || t == object_behavior_type::physics_animated_4 || t == object_behavior_type::pickup_animated_8 || t == object_behavior_type::pickup_physics_animated_9;
+        s32 behavior_type = this->field_8_definition->field_34_behavior_type;
+        return behavior_type == object_behavior_type::animated_2 || behavior_type == object_behavior_type::physics_animated_4 || behavior_type == object_behavior_type::pickup_animated_8 || behavior_type == object_behavior_type::pickup_physics_animated_9;
     }
 
     inline bool IsDestroyedPowergen_434140()
@@ -385,7 +385,7 @@ class Object_5C
     EXPORT Object* NewFlashingLight_529B20(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity, u8 on_time, u8 off_time, u8 shape);
     EXPORT Object* NewPhysicsObjUnlessBlocked_529BC0(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation);
     EXPORT Object* CreateObject_529C00(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, bool fail_if_blocked);
-    EXPORT char_type SetPendingDamageOwner_52A210(char_type owner);
+    EXPORT char_type SetPendingDamageOwner_52A210(char_type ped_ref_idx);
     EXPORT Object* NewMovingObj_52A240(s32 object_type,
                                         Fix16 xpos,
                                         Fix16 ypos,
