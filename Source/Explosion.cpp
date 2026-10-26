@@ -336,7 +336,7 @@ void Explosion::EmitFireTrail_5_541430(Ang16 ang, Fix16 speed)
 }
 
 MATCH_FUNC(0x541680)
-Fix16 Explosion::GetBlastRadius_541680()
+Fix16 Explosion::GetBlastRadius_541680() const
 {
     Fix16 radius;
     switch (this->field_10_type)
@@ -366,7 +366,7 @@ Fix16 Explosion::GetBlastRadius_541680()
 
 
 MATCH_FUNC(0x541710)
-Fix16 Explosion::GetBlastHeight_541710()
+Fix16 Explosion::GetBlastHeight_541710() const
 {
     Fix16 height;
     switch (this->field_10_type)
@@ -1000,7 +1000,7 @@ bool Explosion::Update_5434A0(Fix16 speed, Ang16 ang)
 }
 
 MATCH_FUNC(0x5435d0)
-bool Explosion::IsFireType_5435D0()
+bool Explosion::IsFireType_5435D0() const
 {
     switch (field_10_type)
     {
