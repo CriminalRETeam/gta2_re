@@ -312,14 +312,14 @@ class CarManager
     char_type field_56_unused;
     char_type field_57_unused;
     s32 field_58_model_to_check_destroy;
-    char_type field_5C_model_check_destroyed;
+    bool field_5C_model_check_destroyed;
     char_type field_5D_unused;
     char_type field_5E_unused;
     char_type field_5F_unused;
     s32 field_60_impact_mode;
     Fix16 field_64_zpos;
-    char_type field_68_object_hit_active;
-    char_type field_69_do_free_shopping;
+    bool field_68_object_hit_active;
+    bool field_69_do_free_shopping;
     char_type field_6A_unused;
     char_type field_6B_unused;
 };
@@ -1156,7 +1156,7 @@ class Car
     }
 
     // 9.6f 0x4119F0
-    inline char_type IsTurretRotated_4119F0()
+    inline bool IsTurretRotated_4119F0()
     {
         return field_B8_turret_rotated;
     }
@@ -1340,7 +1340,7 @@ class Car
     s16 field_76_last_seen_timer;
     u16 field_78_flags; // car_flag masks
     s32 field_7C_ped_type;
-    char_type field_80_abandoned;
+    bool field_80_abandoned;
     s32 field_84_car_info_idx;
     s32 field_88_despawn_status; // car_despawn_status
     u8 field_8C_damage_level;
@@ -1369,7 +1369,7 @@ class Car
     s32 field_AC_sound_event;
     s32 field_B0_emitter_status;
     s32 field_B4_weapon_kind;
-    char_type field_B8_turret_rotated;
+    bool field_B8_turret_rotated;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Car, 0xBC)
 

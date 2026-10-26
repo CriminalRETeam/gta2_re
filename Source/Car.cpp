@@ -489,7 +489,7 @@ void CarThreadTriggers::CheckThreadTrigger_5C8780(u8 idx, Sprite* pSprite)
 MATCH_FUNC(0x47bd00)
 CarRemapRng::CarRemapRng()
 {
-    if (gbRngRemapTableDone_679C0A == false)
+    if (!gbRngRemapTableDone_679C0A)
     {
         gbRngRemapTableDone_679C0A = true;
         for (u16 i = 0; i < 1000; i++)
@@ -1590,7 +1590,7 @@ void CarManager::EnableFreeShoppingIfAllKFsPassed_446760()
         {
             if (!this->field_69_do_free_shopping && static_cast<u32>(*pSecretsPassed) >= total_secrets)
             {
-                this->field_69_do_free_shopping = 1;
+                this->field_69_do_free_shopping = true;
             }
         }
     }
@@ -1761,7 +1761,7 @@ CarManager::CarManager()
     field_54_spawn_block = 0;
     field_55_visible_cars_count = 0;
     field_58_model_to_check_destroy = car_model_enum::none;
-    field_5C_model_check_destroyed = 0;
+    field_5C_model_check_destroyed = false;
     field_C_suppressed_model = car_model_enum::none;
     field_69_do_free_shopping = bDo_free_shopping_67D6CD;
 }
@@ -3801,7 +3801,7 @@ void Car::HandleCarExplosion_43D840(s32 type)
         model_to_check = gCarManager_6C_677930->field_58_model_to_check_destroy;
         if (model_to_check != 87 && model_to_check == this->field_84_car_info_idx)
         {
-            gCarManager_6C_677930->field_5C_model_check_destroyed = 1;
+            gCarManager_6C_677930->field_5C_model_check_destroyed = true;
         }
 
         if (this->field_70_exploder_ped_id)
@@ -4057,7 +4057,7 @@ void Car::DestroyWhileSinking_43DD60()
         model_to_check = gCarManager_6C_677930->field_58_model_to_check_destroy;
         if (model_to_check != 87 && model_to_check == this->field_84_car_info_idx)
         {
-            gCarManager_6C_677930->field_5C_model_check_destroyed = 1;
+            gCarManager_6C_677930->field_5C_model_check_destroyed = true;
         }
 
         AssignKillerToOccupants_43B770();
@@ -4337,7 +4337,7 @@ bool Car::HandleCarHitByObject_43F130(Object* pObj)
         case objects::mine_10:
             if (!gCarManager_6C_677930->field_68_object_hit_active)
             {
-                gCarManager_6C_677930->field_68_object_hit_active = 1;
+                gCarManager_6C_677930->field_68_object_hit_active = true;
 
                 if (!IsMaxDamage_40F890())
                 {
@@ -4697,12 +4697,12 @@ bool Car::HandleRoofTurretRotation_440D90(char_type left_on)
         if (left_on)
         {
             compound_add_41FA70(pSprite->field_10_offset_rot, kFireTruckCannonRotSpeed_6771C0);
-            this->field_B8_turret_rotated = 1;
+            this->field_B8_turret_rotated = true;
         }
         else
         {
             compound_subtract_41FA90(pSprite->field_10_offset_rot, kFireTruckCannonRotSpeed_6771C0);
-            this->field_B8_turret_rotated = 1;
+            this->field_B8_turret_rotated = true;
         }
         return true;
     }
@@ -4713,12 +4713,12 @@ bool Car::HandleRoofTurretRotation_440D90(char_type left_on)
         if (left_on)
         {
             compound_add_41FA70(pSprite->field_10_offset_rot, kTankTurretRotSpeed_677352);
-            this->field_B8_turret_rotated = 1;
+            this->field_B8_turret_rotated = true;
         }
         else
         {
             compound_subtract_41FA90(pSprite->field_10_offset_rot, kTankTurretRotSpeed_677352);
-            this->field_B8_turret_rotated = 1;
+            this->field_B8_turret_rotated = true;
         }
         return true;
     }
@@ -4729,12 +4729,12 @@ bool Car::HandleRoofTurretRotation_440D90(char_type left_on)
         if (left_on)
         {
             compound_add_41FA70(pSprite->field_10_offset_rot, kGunJeepTurretRotSpeed_677810);
-            this->field_B8_turret_rotated = 1;
+            this->field_B8_turret_rotated = true;
         }
         else
         {
             compound_subtract_41FA90(pSprite->field_10_offset_rot, kGunJeepTurretRotSpeed_677810);
-            this->field_B8_turret_rotated = 1;
+            this->field_B8_turret_rotated = true;
         }
         return true;
     }
@@ -5199,7 +5199,7 @@ void Car::HandleUserInput_4418D0(char_type forward_gas_on,
 {
     // A flag initialised to 0 (not a nested if) gives the original's 'cmp %bl,%al' on the call result
     bool bRotated = false;
-    this->field_B8_turret_rotated = 0;
+    this->field_B8_turret_rotated = false;
 
     if (now_special_pressed && (left_on || right_on))
     {
@@ -6751,7 +6751,7 @@ void Car::PoolAllocate()
     this->field_50_car_sprite = NULL;
     this->field_9C_engine_status = car_engine_status::off_1;
     this->field_A6_turn_flags = 0;
-    this->field_80_abandoned = 0;
+    this->field_80_abandoned = false;
     this->field_78_flags = 0;
     //clear();
 
@@ -6772,7 +6772,7 @@ void Car::PoolAllocate()
     this->field_A8_horn_cooldown = 0;
     this->field_A9_wreck_countdown = 0;
     this->field_B4_weapon_kind = 0;
-    this->field_B8_turret_rotated = 0;
+    this->field_B8_turret_rotated = false;
     this->field_B0_emitter_status = 0;
 }
 
@@ -6844,7 +6844,7 @@ Car::Car()
     field_78_flags = 0;
     this->field_0_attachments.DestroyAllSprites_5A7010();
     ClearHorn_421460();
-    field_80_abandoned = 0;
+    field_80_abandoned = false;
     field_A0_car_kind = car_kind::none_0;
     field_8D_car_thread_flags = 0;
     field_70_exploder_ped_id = 0;
