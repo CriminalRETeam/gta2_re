@@ -4188,8 +4188,8 @@ bool __stdcall IsNoKillCreditObject_48E720(s32 model)
         case objects::invisible_bullet_154:
         case objects::invisible_rocket_159:
         case objects::tanktop_193:
-        case 195:
-        case 199:
+        case objects::object_195:
+        case objects::object_199:
             result = 1;
             break;
         default:
