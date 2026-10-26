@@ -104,7 +104,7 @@ class RouteFinder
     EXPORT void ShowJunctionIds_588620();
     EXPORT void RoadOff_588810(u8 x, u8 y, u8 z);
     EXPORT void RoadOn_588950(u8 x, u8 y, u8 z);
-    EXPORT u16 IsPointInJunctionBounds_588AA0(u8 x, u8 y, u16 junc_idx1, u16 junc_idx2); // ret _BOOL2
+    EXPORT u16 IsPointInJunctionBounds_588AA0(u8 x, u8 y, u16 junc_idx1, u16 junc_idx2); // 0 or 1, but u16: a bool return changes the code
     EXPORT void Load_RGEN_588B30();
     EXPORT void Reset_588C60();
     EXPORT bool HasBlockDesiredArrow_588CA0(const gmp_block_info* block, s32 arrow_type, u8 direction) const;
