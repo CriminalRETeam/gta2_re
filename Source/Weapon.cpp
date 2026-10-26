@@ -77,18 +77,15 @@ DEFINE_GLOBAL_INIT(Ang16, word_707002, Ang16(24), 0x707002);
 DEFINE_GLOBAL_INIT(Ang16, kAng24_706D5C, Ang16(96), 0x706D5C);
 DEFINE_GLOBAL_INIT(Ang16, kAngZero_707006, Ang16(0), 0x707006);
 
-// TODO: move
-EXTERN_GLOBAL(CrimeReportQueue*, gCrimeReportQueue_67A4B8);
-
 MATCH_FUNC(0x5DCD10)
 Weapon::Weapon()
 {
     field_0_ammo = 0;
-    field_24_pPed = 0;
-    field_14_car = 0;
+    field_24_pPed = NULL;
+    field_14_car = NULL;
     field_2_reload_timer = 0;
     field_4_bTargetHit = 0;
-    mpNext = 0;
+    mpNext = NULL;
     field_1C_idx = 0;
     field_10_unused = 0;
     field_8_unused = 0;
@@ -96,28 +93,28 @@ Weapon::Weapon()
     field_20 = 0;
     field_21 = 0;
     field_2C_shot_fired = 0;
-    field_28_pSound = 0;
+    field_28_pSound = NULL;
 }
 
 MATCH_FUNC(0x5DCD50)
 Weapon::~Weapon()
 {
-    field_24_pPed = 0;
-    mpNext = 0;
-    field_14_car = 0;
+    field_24_pPed = NULL;
+    mpNext = NULL;
+    field_14_car = NULL;
     field_8_unused = 0;
     if (field_28_pSound)
     {
         gRoot_sound_66B038.DestroySoundObj_40FE60(field_28_pSound);
-        field_28_pSound = 0;
+        field_28_pSound = NULL;
     }
 }
 
 MATCH_FUNC(0x5DCD90)
 void Weapon::init_5DCD90()
 {
-    field_24_pPed = 0;
-    field_14_car = 0;
+    field_24_pPed = NULL;
+    field_14_car = NULL;
     field_1C_idx = 0;
     field_0_ammo = 0;
     field_2_reload_timer = 0;
@@ -143,7 +140,7 @@ void Weapon::PoolDeallocate()
     if (field_28_pSound)
     {
         gRoot_sound_66B038.DestroySoundObj_40FE60(field_28_pSound);
-        field_28_pSound = 0;
+        field_28_pSound = NULL;
     }
 }
 
@@ -159,13 +156,13 @@ bool Weapon::add_ammo_capped_5DCE40(u8 to_add)
     s32 cap_total = max_ammo_capacity_5FF75C[field_1C_idx] * 10;
     if (is_infinite_ammo_4A4FA0())
     {
-        return 0;
+        return false;
     }
 
     u16 cur_amount = field_0_ammo;
     if (cur_amount == cap_total)
     {
-        return 0;
+        return false;
     }
 
     s32 new_amount = cur_amount + (to_add * 10);
@@ -177,7 +174,7 @@ bool Weapon::add_ammo_capped_5DCE40(u8 to_add)
     {
         field_0_ammo = new_amount;
     }
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x5dcea0)
@@ -197,16 +194,16 @@ bool Weapon::sub_5DCEF0()
         case weapon_type::car_mines:
         case weapon_type::fire_truck_gun:
         case weapon_type::weapon_0x17:
-            result = 0;
+            result = false;
             break;
         case weapon_type::car_smg:
         case weapon_type::tank_main_gun:
         case weapon_type::fire_truck_flamethrower:
         case weapon_type::army_gun_jeep:
-            result = 1;
+            result = true;
             break;
         default:
-            result = field_24_pPed->field_16C_car == 0;
+            result = field_24_pPed->field_16C_car == NULL;
             break;
     }
     return result;
@@ -258,11 +255,11 @@ Object* Weapon::spawn_bullet_5DCF60(s32 bullet_type, Fix16 xpos, Fix16 ypos, Fix
     {
         pNewBullet->RequestRemoval_5290A0();
         pNewBullet = NULL;
-        bAllowFlameSegment_706D60 = 0;
+        bAllowFlameSegment_706D60 = false;
     }
     else
     {
-        bAllowFlameSegment_706D60 = 1;
+        bAllowFlameSegment_706D60 = true;
         pNewBullet->SetMovementVector_5224E0(speed);
     }
     return pNewBullet;
@@ -292,7 +289,7 @@ void Weapon::flamethrower_5DD0F0()
     if (!field_4_bTargetHit)
     {
         SetShotFired_4CCA80(1);
-        bAllowFlameSegment_706D60 = 0;
+        bAllowFlameSegment_706D60 = false;
         Weapon::spawn_bullet_5DCF60(objects::invisible_bullet_154, xpos, ypos, cam_z, ped_rot, ped_velocity);
         if (bAllowFlameSegment_706D60)
         {
@@ -389,7 +386,7 @@ void Weapon::pistol_5DD860()
     if (field_2_reload_timer == 0)
     {
         SetShotFired_4CCA80(1);
-        if (!field_4_bTargetHit) // first shot ??
+        if (!field_4_bTargetHit)
         {
             const s32 bullet_type = field_24_pPed->PedTypeIs_45EDE0(ped_type::player_2) ? 265 : 254;
 
@@ -574,7 +571,6 @@ MATCH_FUNC(0x5ddfc0)
 void Weapon::throwable_5DDFC0(s32 obj_idx, s32 throw_strength, s32 throw_charge)
 {
     Fix16_Point vector;
-    Object* pProjectile;
 
     if (throw_strength)
     {
@@ -632,8 +628,7 @@ void Weapon::throwable_5DDFC0(s32 obj_idx, s32 throw_strength, s32 throw_charge)
                         }
                         gObject_5C_6F8F84->SetPendingDamageOwner_52A210(field_24_pPed->get_ped_ref_idx_420B50());
 
-                        // field_24_pPed->GetAimAngle_4CCA90()
-                        pProjectile = gObject_5C_6F8F84->NewMovingObjUnlessBlocked_52A280(obj_idx,
+                        Object* pProjectile = gObject_5C_6F8F84->NewMovingObjUnlessBlocked_52A280(obj_idx,
                                                                                field_24_pPed->get_cam_x(),
                                                                                field_24_pPed->get_cam_y(),
                                                                                field_24_pPed->get_cam_z() + kFP16Half_706DA8,
@@ -666,7 +661,6 @@ void Weapon::throwable_5DDFC0(s32 obj_idx, s32 throw_strength, s32 throw_charge)
                             }
                             else
                             {
-                                // inline here: sub_434130
                                 pProjectile->SetO8Timer_434130((96 - throw_charge) / 8);
                             }
 
@@ -1062,22 +1056,22 @@ void __stdcall ShockPedsAroundSprite_5DF270(Sprite* pSprite, Fix16 search_size, 
             Char* pChar = pHit->AsCharB4_40FEA0();
             if (pChar)
             {
-                char_type bOutside;
+                bool bOutside;
                 if (bCheckAngle)
                 {
                     diff = Fix16::atan2_fixed_405320(pHit->field_14_xy.y - ypos, pHit->field_14_xy.x - xpos) - angle;
                     if (diff < kAng45_706D6C || diff > kAng315_706E28)
                     {
-                        bOutside = 1;
+                        bOutside = true;
                     }
                     else
                     {
-                        bOutside = 0;
+                        bOutside = false;
                     }
                 }
                 else
                 {
-                    bOutside = 1;
+                    bOutside = true;
                 }
 
                 // The result is unused
@@ -1137,14 +1131,14 @@ void __stdcall ShockPedsAroundSprite_5DF270(Sprite* pSprite, Fix16 search_size, 
                 }
                 else if (pAttacker->field_198_hit_target_ped)
                 {
-                    pAttacker->field_198_hit_target_ped = 0;
+                    pAttacker->field_198_hit_target_ped = NULL;
                 }
             }
             pHit = hits.TakeClosestSprite_5A6EA0(xpos, ypos);
         }
     }
 
-    pAttacker->field_198_hit_target_ped = 0;
+    pAttacker->field_198_hit_target_ped = NULL;
     if (pAttacker->field_170_selected_weapon)
     {
         pAttacker->field_170_selected_weapon->SetTargetHit_433810(1);
@@ -1152,10 +1146,10 @@ void __stdcall ShockPedsAroundSprite_5DF270(Sprite* pSprite, Fix16 search_size, 
 }
 
 MATCH_FUNC(0x5dfb60)
-void Weapon::ChainShockTargets_5DFB60(u8 bFlag, Sprite* pSprite, Ang16 target_angle)
+void Weapon::ChainShockTargets_5DFB60(u8 chain_depth, Sprite* pSprite, Ang16 target_angle)
 {
     SpriteList hits;
-    char_type bHit = 0;
+    bool bHit = false;
 
     // Both branches compute the four bounds into registers and share the stores.
     Fix16_Rect rect;
@@ -1163,7 +1157,7 @@ void Weapon::ChainShockTargets_5DFB60(u8 bFlag, Sprite* pSprite, Ang16 target_an
     Fix16 right;
     Fix16 top;
     Fix16 bottom;
-    if (!bFlag)
+    if (!chain_depth)
     {
         left = pSprite->field_14_xy.x - kFP16Two_706EC0;
         right = pSprite->field_14_xy.x + kFP16Two_706EC0;
@@ -1215,14 +1209,14 @@ void Weapon::ChainShockTargets_5DFB60(u8 bFlag, Sprite* pSprite, Ang16 target_an
                                                               pHit->field_14_xy.y,
                                                               pHit->field_1C_zpos))
                             {
-                                gElectroChainDepth_706C94 = bFlag;
+                                gElectroChainDepth_706C94 = chain_depth;
                                 DrawElectricArc_5DE910(pSprite->get_x_y(),
                                            pHit->get_x_y(),
                                            pHit->field_1C_zpos > pSprite->field_1C_zpos ? pHit->field_1C_zpos : pSprite->field_1C_zpos);
                                 gWeapon_8_707018->field_0_hit_sprites.PushSprite_5A6D40(pHit);
-                                if (bFlag < 1)
+                                if (chain_depth < 1)
                                 {
-                                    ChainShockTargets_5DFB60(bFlag + 1, pHit, angle);
+                                    ChainShockTargets_5DFB60(chain_depth + 1, pHit, angle);
                                 }
                                 pHit->field_8_char_b4_ptr->field_7C_pPed->SetAttacker_433BF0(field_24_pPed);
                                 pHit->field_8_char_b4_ptr->field_7C_pPed->field_204_killer_id = field_24_pPed->field_200_id;
@@ -1236,7 +1230,7 @@ void Weapon::ChainShockTargets_5DFB60(u8 bFlag, Sprite* pSprite, Ang16 target_an
                                 field_24_pPed->AddThreateningPedToList_46FC70();
                                 gScriptManager_6F8060->RecordWeaponHit_512C00(pHit->field_8_char_b4_ptr->field_7C_pPed->field_200_id, 160, 1);
                             }
-                            bHit = 1;
+                            bHit = true;
                         }
                     }
                     break;
@@ -1260,14 +1254,14 @@ void Weapon::ChainShockTargets_5DFB60(u8 bFlag, Sprite* pSprite, Ang16 target_an
                                                               pHit->field_14_xy.y,
                                                               pHit->field_1C_zpos))
                             {
-                                gElectroChainDepth_706C94 = bFlag;
+                                gElectroChainDepth_706C94 = chain_depth;
                                 DrawElectricArc_5DE910(pSprite->get_x_y(),
                                            pHit->get_x_y(),
                                            pHit->field_1C_zpos > pSprite->field_1C_zpos ? pHit->field_1C_zpos : pSprite->field_1C_zpos);
                                 gWeapon_8_707018->field_0_hit_sprites.PushSprite_5A6D40(pHit);
-                                if (bFlag < 1)
+                                if (chain_depth < 1)
                                 {
-                                    ChainShockTargets_5DFB60(bFlag + 1, pHit, angle);
+                                    ChainShockTargets_5DFB60(chain_depth + 1, pHit, angle);
                                 }
                                 if (!pHit->field_8_car_bc_ptr->IsFlameproof_425770())
                                 {
@@ -1287,7 +1281,7 @@ void Weapon::ChainShockTargets_5DFB60(u8 bFlag, Sprite* pSprite, Ang16 target_an
                                 }
                                 field_24_pPed->AddThreateningPedToList_46FC70();
                             }
-                            bHit = 1;
+                            bHit = true;
                             gScriptManager_6F8060->RecordWeaponHit_512C00(pHit->field_8_car_bc_ptr->field_6C_car_id, 160, 0);
                         }
                     }
@@ -1295,7 +1289,7 @@ void Weapon::ChainShockTargets_5DFB60(u8 bFlag, Sprite* pSprite, Ang16 target_an
             }
         } while (hits.field_0_p18);
 
-        if (bHit && !bFlag)
+        if (bHit && !chain_depth)
         {
             SetShotFired_4CCA80(1);
             if (field_24_pPed->PedTypeIs_45EDE0(ped_type::player_2) && (gpRng_67AB34->get_cur_rng_41CFE0() & 1))
@@ -1367,7 +1361,7 @@ void Weapon::electro_batton_5E0740()
             s32 target_state = field_24_pPed->field_198_hit_target_ped->field_278_ped_state_1;
             if (target_state >= 8 && target_state <= 9)
             {
-                field_24_pPed->field_198_hit_target_ped = 0;
+                field_24_pPed->field_198_hit_target_ped = NULL;
                 return;
             }
         }
@@ -1375,7 +1369,7 @@ void Weapon::electro_batton_5E0740()
     }
     else
     {
-        field_24_pPed->field_198_hit_target_ped = 0;
+        field_24_pPed->field_198_hit_target_ped = NULL;
     }
 }
 
@@ -1672,8 +1666,8 @@ MATCH_FUNC(0x5e1dc0)
 void Weapon::oil_stain_5E1DC0()
 {
     Fix16_Point vector;
-    Sprite* pSprt = field_14_car->GetSprite_440840();
-    vector.y = (-(pSprt->field_C_pCollisionShape->GetHeight_447E10() + kFpThreeEighths_706EB4)) / kFP16Two_706EC0;
+    Sprite* pCarSprite = field_14_car->GetSprite_440840();
+    vector.y = (-(pCarSprite->field_C_pCollisionShape->GetHeight_447E10() + kFpThreeEighths_706EB4)) / kFP16Two_706EC0;
 
     if (get_ammo_4A4FB0() % 2 != 0)
     {
@@ -1684,12 +1678,12 @@ void Weapon::oil_stain_5E1DC0()
         vector.x = kFpFiveThirtySeconds_706E6C;
     }
 
-    vector.RotateByAngle_40F6B0(pSprt->field_0_rotation);
-    vector += pSprt->get_x_y_443580();
+    vector.RotateByAngle_40F6B0(pCarSprite->field_0_rotation);
+    vector += pCarSprite->get_x_y_443580();
 
-    Fix16 half_depth = pSprt->field_C_pCollisionShape->GetDepth_492170() / 2;
-    Fix16 zpos_lower = pSprt->field_1C_zpos - half_depth;
-    Fix16 zpos_upper = pSprt->field_1C_zpos + half_depth;
+    Fix16 half_depth = pCarSprite->field_C_pCollisionShape->GetDepth_492170() / 2;
+    Fix16 zpos_lower = pCarSprite->field_1C_zpos - half_depth;
+    Fix16 zpos_upper = pCarSprite->field_1C_zpos + half_depth;
 
     if (zpos_upper >= kFpEight_706EDC)
     {
@@ -1698,7 +1692,7 @@ void Weapon::oil_stain_5E1DC0()
     Fix16 found_z;
     if (gMap_0x370_6F6268->CanPlaceOilOrMine_4E5480(vector.x, vector.y, zpos_lower, zpos_upper, &found_z))
     {
-        gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::animating_oil_8, vector.x, vector.y, found_z, pSprt->field_0_rotation);
+        gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::animating_oil_8, vector.x, vector.y, found_z, pCarSprite->field_0_rotation);
         decrement_ammo_4CCA30();
         SetShotFired_4CCA80(1);
     }
@@ -1711,18 +1705,18 @@ void Weapon::car_mine_5E2550()
 
     field_24_pPed = field_14_car->GetDriver_4118B0();
 
-    Sprite* Sprite_440840 = field_14_car->GetSprite_440840();
+    Sprite* pCarSprite = field_14_car->GetSprite_440840();
 
-    p.y = -(kFpOne64th_706FF4 + (kFpNineThirtySeconds_706FEC + Sprite_440840->field_C_pCollisionShape->GetHeight_447E10()) / kFP16Two_706EC0);
+    p.y = -(kFpOne64th_706FF4 + (kFpNineThirtySeconds_706FEC + pCarSprite->field_C_pCollisionShape->GetHeight_447E10()) / kFP16Two_706EC0);
     p.x = kFpZero_706EB8;
 
-    p.RotateByAngle_40F6B0(Sprite_440840->field_0_rotation);
+    p.RotateByAngle_40F6B0(pCarSprite->field_0_rotation);
 
-    p += Sprite_440840->get_x_y();
+    p += pCarSprite->get_x_y();
 
-    Fix16 half_depth = Sprite_440840->field_C_pCollisionShape->field_8_depth / 2;
-    Fix16 z_low = Sprite_440840->field_1C_zpos - half_depth;
-    Fix16 z_high = Sprite_440840->field_1C_zpos + half_depth;
+    Fix16 half_depth = pCarSprite->field_C_pCollisionShape->field_8_depth / 2;
+    Fix16 z_low = pCarSprite->field_1C_zpos - half_depth;
+    Fix16 z_high = pCarSprite->field_1C_zpos + half_depth;
     if (z_high >= kFpEight_706EDC)
     {
         z_high = kFpEight_706EDC - kFpOne64th_706F70;
@@ -1731,10 +1725,10 @@ void Weapon::car_mine_5E2550()
     Fix16 newZ;
     if (gMap_0x370_6F6268->CanPlaceOilOrMine_4E5480(p.x, p.y, z_low, z_high, &newZ))
     {
-        Object* pMine = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::mine_10, p.x, p.y, newZ, Sprite_440840->field_0_rotation);
+        Object* pMine = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::mine_10, p.x, p.y, newZ, pCarSprite->field_0_rotation);
         pMine->SetDamageOwner_529080(field_24_pPed->field_267_ped_ref_idx);
 
-        decrement_ammo_4CCA30(); // NOTE: Didn't get inlined without __forceinline here, wtf??
+        decrement_ammo_4CCA30();
         SetShotFired_4CCA80(1);
     }
 }
@@ -1837,10 +1831,10 @@ bool Weapon::CanFireWhileHeld_5E33C0()
         case weapon_type::car_mines:
         case weapon_type::tank_main_gun:
         case weapon_type::weapon_0x17:
-            result = 0;
+            result = false;
             break;
         default:
-            result = 1;
+            result = true;
             break;
     }
     return result;
@@ -1922,7 +1916,7 @@ void Weapon::pull_trigger_5E3670()
             break;
 
         case weapon_type::molotov:
-            if (field_24_pPed && (field_24_pPed->field_15C_player) != 0)
+            if (field_24_pPed && field_24_pPed->field_15C_player)
             {
                 field_24_pPed->field_15C_player->IncrementThrowCharge_4CCAB0();
             }
@@ -1933,7 +1927,7 @@ void Weapon::pull_trigger_5E3670()
             break;
 
         case weapon_type::grenade:
-            if (field_24_pPed && (field_24_pPed->field_15C_player) != 0)
+            if (field_24_pPed && field_24_pPed->field_15C_player)
             {
                 Player* p = field_24_pPed->field_15C_player;
                 p->IncrementThrowCharge_4CCAB0();
@@ -2082,10 +2076,10 @@ bool Weapon::IsExplosiveWeapon_5E3BD0()
         case weapon_type::car_bomb:
         case weapon_type::car_mines:
         case weapon_type::tank_main_gun:
-            result = 1;
+            result = true;
             break;
         default:
-            result = 0;
+            result = false;
             break;
     }
     return result;
