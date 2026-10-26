@@ -196,7 +196,7 @@ void sound_obj::ProcessEntity_4123A0(s32 id)
                 switch (field_147C_audio_entities[id].field_4_pObj->field_0_object_type)
                 {
                     case SoundObjectTypeEnum::Sprite_1:
-                        //case SoundObjectTypeEnum::Unknown_2:
+                        //case SoundObjectTypeEnum::Frontend_2:
                         //case SoundObjectTypeEnum::Unknown_3:
                         //case SoundObjectTypeEnum::Unknown_4:
                         ProcessType1_Sprite_412740(id);
@@ -225,7 +225,7 @@ void sound_obj::ProcessEntity_4123A0(s32 id)
             }
         }
 
-        if (field_147C_audio_entities[id].field_4_pObj->field_0_object_type == SoundObjectTypeEnum::Unknown_2)
+        if (field_147C_audio_entities[id].field_4_pObj->field_0_object_type == SoundObjectTypeEnum::Frontend_2)
         {
             ProcessType2_412490(id);
         }
@@ -3655,7 +3655,7 @@ s32 sound_obj::AddSoundObject_419FA0(SoundObject* pTuring)
                     break;
                 }
 
-                case SoundObjectTypeEnum::Unknown_2:
+                case SoundObjectTypeEnum::Frontend_2:
                 {
                     DeInitVocals_57EA10();
                     break;
@@ -3705,7 +3705,7 @@ void sound_obj::FreeSoundEntry_41A090(u32 idx)
             }
             // fall through
 
-        case SoundObjectTypeEnum::Unknown_2:
+        case SoundObjectTypeEnum::Frontend_2:
             field_3 = 0;
             gSampManager_6FFF00.FadeOut_58E490();
             break;
