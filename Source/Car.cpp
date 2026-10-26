@@ -1,6 +1,7 @@
 #include "Car.hpp"
 #include "car_shop_event.hpp"
 #include "car_thread_trigger.hpp"
+#include "car_impact_mode.hpp"
 #include "explosion_type.hpp"
 #include "ped_death_cause.hpp"
 #include "car_shop_type.hpp"
@@ -1743,7 +1744,7 @@ CarManager::CarManager()
     }
 
     field_64_zpos = gFix16_6777CC;
-    field_60_impact_mode = 0;
+    field_60_impact_mode = car_impact_mode::none_0;
     field_4_spare_driver = NULL;
     field_14_next_car_id = 1;
     field_9_good_car_idx = 0;
@@ -2472,7 +2473,7 @@ void Car::ProcessCarToCarImpact_43ADC0(Sprite* pSprite)
     {
         switch (gCarManager_6C_677930->field_60_impact_mode)
         {
-            case 1:
+            case car_impact_mode::crush_damage_1:
             {
                 if (!this->IsMaxDamage_40F890())
                 {
@@ -2523,7 +2524,7 @@ void Car::ProcessCarToCarImpact_43ADC0(Sprite* pSprite)
                 break;
             }
 
-            case 2:
+            case car_impact_mode::crush_max_z_2:
                 if (field_50_car_sprite->field_1C_zpos > gCarManager_6C_677930->field_64_zpos)
                 {
                     gCarManager_6C_677930->field_64_zpos = field_50_car_sprite->field_1C_zpos;
