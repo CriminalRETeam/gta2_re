@@ -37,7 +37,6 @@ DEFINE_GLOBAL_INIT(Fix16, kFpPoint05_6FD46C, Fix16(0x333, 0), 0x6FD46C);
 // Literal values: the globals they come from are in Explosion.cpp, whose initializers run after this TU's
 DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6FD554, Fix16(0x100, 0), 0x6FD554);
 DEFINE_GLOBAL_INIT(Fix16, kMaxZ_6FD28C, Fix16(0x1FF00, 0), 0x6FD28C); // 8 - 1/64
-//DEFINE_GLOBAL(Fix16_Point, gParticlePosX_6FD388, 0x6FD388);
 
 DEFINE_GLOBAL(Fix16, gParticlePosX_6FD388, 0x6FD388);
 DEFINE_GLOBAL(Fix16, gParticlePosY_6FD38C, 0x6FD38C);
@@ -196,7 +195,7 @@ bool Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
     Fix16 off_x = kFP16Zero_6FD49C;
     Fix16 jitter_y;
     Fix16 off_y = kFP16Zero_6FD49C;
-    char_type bJitter = 1;
+    bool bJitter = true;
     Fix16_Point dir(Fix16(0), Fix16(0));
 
     gSpriteGrid_3_679210->Remove_477B00(field_30_pOwnSprite);
@@ -260,7 +259,7 @@ bool Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
             field_30_pOwnSprite->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_base_sprite_idx + 102);
             dir.x = 0;
             dir.y = field_20_speed * kFpPoint6_6FD300;
-            bJitter = 0;
+            bJitter = false;
             break;
         case 3:
             field_30_pOwnSprite->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_base_sprite_idx + 101);
@@ -365,7 +364,7 @@ bool Particle_4C::UpdateDirectedProjectile_state_3_12_5384C0()
     {
         field_46_sub_state = 0;
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x538a40)
@@ -376,7 +375,7 @@ bool Particle_4C::UpdateBeamSegment_state_43_538A40()
     this->field_46_sub_state++;
     if (field_46_sub_state > 7u)
     {
-        return 1;
+        return true;
     }
 
     field_30_pOwnSprite->set_id_lazy_4206C0(field_46_sub_state + gObjectDefinitions_6FCF00->field_8CA4_def112_base_sprite_idx + 103);
@@ -384,7 +383,7 @@ bool Particle_4C::UpdateBeamSegment_state_43_538A40()
     this->field_30_pOwnSprite->SetBlendAndAlpha_4337D0(2, 20);
     this->field_30_pOwnSprite->SetNoLighting_4337F0();
     gSpriteGrid_3_679210->AddToSingleBucket_477AE0(this->field_30_pOwnSprite);
-    return 0;
+    return false;
 }
 
 // The normalizing Ang16 ctor (out of line, AssignNormalized_409300) on a by-value parameter: the
@@ -613,7 +612,7 @@ bool Particle_4C::UpdateDirectedBurstSweep_state_4_539040()
                 field_30_pOwnSprite->ResolveZOrder_5A1B30(field_40_pExplosion->field_14_pObj2C->field_4_sprite);
             }
             gSpriteGrid_3_679210->AddToSingleBucket_477AE0(field_30_pOwnSprite);
-            return 0;
+            return false;
         }
     }
     return true;
@@ -721,7 +720,7 @@ bool Particle_4C::UpdateDirectedBurst_state_13_14_36_539480()
                 field_30_pOwnSprite->ResolveZOrder_5A1B30(field_40_pExplosion->field_14_pObj2C->field_4_sprite);
             }
             gSpriteGrid_3_679210->AddToSingleBucket_477AE0(field_30_pOwnSprite);
-            return 0;
+            return false;
         }
     }
     return true;
@@ -731,7 +730,7 @@ bool Particle_4C::UpdateDirectedBurst_state_13_14_36_539480()
 MATCH_FUNC(0x539890)
 bool Particle_4C::UpdateCircularBurst_state_5_539890()
 {
-    char_type bJitter = 1;
+    bool bJitter = true;
     Fix16 jitter_y;
     Fix16_Point dir(Fix16(0), Fix16(0));
 
@@ -793,7 +792,7 @@ bool Particle_4C::UpdateCircularBurst_state_5_539890()
             field_30_pOwnSprite->ClearNoLighting_433800();
             dir.x = 0;
             dir.y = kFpPoint6_6FD300 * field_20_speed;
-            bJitter = 0;
+            bJitter = false;
             break;
         case 3:
             field_30_pOwnSprite->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_base_sprite_idx + 101);
@@ -823,7 +822,7 @@ bool Particle_4C::UpdateCircularBurst_state_5_539890()
                 ypos = pTarget->field_14_xy.y;
                 zpos = pTarget->field_1C_zpos;
             }
-            bJitter = 0;
+            bJitter = false;
             break;
         case 7:
             field_30_pOwnSprite->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_base_sprite_idx + 97);
@@ -836,7 +835,7 @@ bool Particle_4C::UpdateCircularBurst_state_5_539890()
                 ypos = pTarget->field_14_xy.y;
                 zpos = pTarget->field_1C_zpos;
             }
-            bJitter = 0;
+            bJitter = false;
             break;
         default:
             if (gRng_6F6784.get_int_4F7AE0(2))
@@ -846,7 +845,7 @@ bool Particle_4C::UpdateCircularBurst_state_5_539890()
             field_30_pOwnSprite->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_base_sprite_idx + 103);
             dir.x = 0;
             dir.y = field_20_speed / kFP16Two_6FD4A4;
-            bJitter = 0;
+            bJitter = false;
             if (gRng_6F6784.get_int_4F7AE0(7) == 4 && field_30_pOwnSprite->field_14_xy.x > kFP16One_6FD4A0 &&
                 field_30_pOwnSprite->field_14_xy.x < kFp255_6FD280 - kFP16One_6FD4A0 && field_30_pOwnSprite->field_14_xy.y > kFP16One_6FD4A0 &&
                 field_30_pOwnSprite->field_14_xy.y < kFp255_6FD280 - kFP16One_6FD4A0)
@@ -919,7 +918,7 @@ bool Particle_4C::UpdateCircularBurst_state_5_539890()
     {
         field_46_sub_state = 0;
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x53a180)
@@ -929,7 +928,7 @@ bool Particle_4C::UpdateStaticAnim_state_39_53A180()
 
     if (this->field_2C_counter == 0)
     {
-        return 1;
+        return true;
     }
 
     if (field_48_timer > 0)
@@ -948,7 +947,7 @@ bool Particle_4C::UpdateStaticAnim_state_39_53A180()
 
     field_30_pOwnSprite->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_base_sprite_idx + this->field_46_sub_state + 191);
     gSpriteGrid_3_679210->AddToSingleBucket_477AE0(this->field_30_pOwnSprite);
-    return 0;
+    return false;
 }
 
 // 9.6f 0x48BEE0: the car box is read through GetCarWidth_48A930/GetCarHeight_48A950 (puts this in edi)
@@ -1027,7 +1026,7 @@ bool Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
         field_30_pOwnSprite->set_xyz_lazy_420600(corner.x, corner.y, field_28_pSprite->field_1C_zpos);
         field_30_pOwnSprite->SetNoLighting_4337F0();
         gSpriteGrid_3_679210->AddToSingleBucket_477AE0(field_30_pOwnSprite);
-        return 0;
+        return false;
     }
     else
     {
@@ -1062,14 +1061,14 @@ bool Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
                                             field_28_pSprite->field_1C_zpos);
         field_30_pOwnSprite->SetNoLighting_4337F0();
         gSpriteGrid_3_679210->AddToSingleBucket_477AE0(field_30_pOwnSprite);
-        return 0;
+        return false;
     }
 }
 
 MATCH_FUNC(0x53ab70)
 bool Particle_4C::Empty_state_42_53AB70()
 {
-    return 0;
+    return false;
 }
 
 // 9.6f 0x48C270
@@ -1087,7 +1086,7 @@ bool Particle_4C::UpdateSimpleBallisticMotion_state_1_53ABA0()
 
     if (!field_2C_counter)
     {
-        return 1;
+        return true;
     }
 
     if (field_2C_counter > this->field_2E_initial_counter >> 1)
@@ -1114,7 +1113,7 @@ bool Particle_4C::UpdateSimpleBallisticMotion_state_1_53ABA0()
 
     gSpriteGrid_3_679210->AddToSingleBucket_477AE0(this->field_30_pOwnSprite);
 
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x53ae60)
@@ -1156,13 +1155,13 @@ bool Particle_4C::UpdateLargeBallisticDebris_state_35_53AE60()
     field_30_pOwnSprite->set_xyz_lazy_420600(gParticlePosX_6FD388, gParticlePosY_6FD38C, zpos);
     gSpriteGrid_3_679210->AddToSingleBucket_477AE0(field_30_pOwnSprite);
     field_30_pOwnSprite->field_2C_flags = 0xA2;
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x53b170)
 bool Particle_4C::Empty_state_44_53B170()
 {
-    return 0;
+    return false;
 }
 
 // https://decomp.me/scratch/fW2BZ
@@ -1235,7 +1234,7 @@ bool Particle_4C::UpdateShortAnim_state_37_53B580()
 
     if (field_46_sub_state == 5)
     {
-        return 1;
+        return true;
     }
 
     switch (field_46_sub_state)
@@ -1251,7 +1250,7 @@ bool Particle_4C::UpdateShortAnim_state_37_53B580()
 
     this->field_30_pOwnSprite->SetNoLighting_4337F0();
     gSpriteGrid_3_679210->AddToSingleBucket_477AE0(this->field_30_pOwnSprite);
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x53b670)
@@ -1340,7 +1339,7 @@ bool Particle_4C::UpdateAttachedEmitter_state_9_10_53B670()
     }
     field_30_pOwnSprite->set_xyz_lazy_420600(gParticlePosX_6FD388, gParticlePosY_6FD38C, zpos);
     gSpriteGrid_3_679210->AddToSingleBucket_477AE0(field_30_pOwnSprite);
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x53b9f0)
@@ -1562,7 +1561,7 @@ bool Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
                     field_30_pOwnSprite->set_xyz_lazy_420600(xpos, ypos, zpos + kFpPoint01_6FD45C);
                     if (!(gpRng_67AB34->get_cur_rng_41CFE0() & 1))
                     {
-                        gParticle_8_6FD5E8->EmitWaterSplash_53F060(xpos, ypos, zpos, angle, 0);
+                        gParticle_8_6FD5E8->EmitWaterSplash_53F060(xpos, ypos, zpos, angle, false);
                     }
                     gParticle_8_6FD5E8->field_4_water_hit_obj->field_4_sprite->set_xyz_lazy_420600(xpos, ypos, zpos);
                     if (pChar)
@@ -1607,13 +1606,13 @@ bool Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
         }
     }
     gSpriteGrid_3_679210->AddToSingleBucket_477AE0(field_30_pOwnSprite);
-    return 0;
+    return false;
 }
 
 // The frame-delay store is written twice (two if branches): VC6 counts the uses of the constant 1 before
 // merging the identical branches, and keeps it in bl for the stores and the return 1.
 MATCH_FUNC(0x53d260)
-char_type Particle_4C::PoolUpdate()
+bool Particle_4C::PoolUpdate()
 {
     s32 state = this->field_38_state;
     --this->field_2C_counter;
@@ -1641,7 +1640,7 @@ char_type Particle_4C::PoolUpdate()
                 gSpriteGrid_3_679210->Remove_477B00(this->field_30_pOwnSprite);
                 if (field_46_sub_state > 15u)
                 {
-                    return 1;
+                    return true;
                 }
 
                 field_30_pOwnSprite->set_id_lazy_4206C0(field_46_sub_state + gObjectDefinitions_6FCF00->field_8CA4_def112_base_sprite_idx + 20);
@@ -1655,7 +1654,7 @@ char_type Particle_4C::PoolUpdate()
                 gSpriteGrid_3_679210->AddToSingleBucket_477AE0(this->field_30_pOwnSprite);
                 if (this->field_46_sub_state == 2)
                 {
-                    this->field_30_pOwnSprite->field_2C_flags = 0xA2; // sub_4337D0
+                    this->field_30_pOwnSprite->SetBlendAndAlpha_4337D0(2, 20);
                 }
                 this->field_30_pOwnSprite->field_2C_bf.bNoLighting = true;
                 return false;
@@ -1684,7 +1683,7 @@ char_type Particle_4C::PoolUpdate()
                 gSpriteGrid_3_679210->Remove_477B00(this->field_30_pOwnSprite);
                 if (field_46_sub_state > 15u)
                 {
-                    return 1;
+                    return true;
                 }
 
                 field_30_pOwnSprite->set_id_lazy_4206C0(field_46_sub_state + gObjectDefinitions_6FCF00->field_8CA4_def112_base_sprite_idx + 20);
@@ -1726,7 +1725,7 @@ char_type Particle_4C::PoolUpdate()
                 gSpriteGrid_3_679210->Remove_477B00(this->field_30_pOwnSprite);
                 if (field_46_sub_state > 15u)
                 {
-                    return 1;
+                    return true;
                 }
 
                 field_30_pOwnSprite->set_id_lazy_4206C0(field_46_sub_state + gObjectDefinitions_6FCF00->field_8CA4_def112_base_sprite_idx + 56);
@@ -1741,7 +1740,7 @@ char_type Particle_4C::PoolUpdate()
                 gSpriteGrid_3_679210->AddToSingleBucket_477AE0(this->field_30_pOwnSprite);
                 if (this->field_46_sub_state == 2)
                 {
-                    this->field_30_pOwnSprite->field_2C_flags = -94;
+                    this->field_30_pOwnSprite->SetBlendAndAlpha_4337D0(2, 20);
                 }
 
                 field_30_pOwnSprite->field_2C_bf.bNoLighting = true;
@@ -1792,7 +1791,7 @@ char_type Particle_4C::PoolUpdate()
             }
 
             gSpriteGrid_3_679210->AddToSingleBucket_477AE0(this->field_30_pOwnSprite);
-            field_30_pOwnSprite->field_2C_flags = 82;
+            field_30_pOwnSprite->SetBlendAndAlpha_4337D0(2, 10);
             field_30_pOwnSprite->field_2C_bf.bNoLighting = true;
             return false;
 
@@ -1885,7 +1884,7 @@ void Particle_4C::PoolAllocate()
     field_8_speed.x = 0;
     field_8_speed.y = 0;
     field_8_speed.z = 0;
-    field_40_pExplosion = 0;
+    field_40_pExplosion = NULL;
     field_4_bf.bDriverAttacking = false;
 }
 
@@ -1897,6 +1896,6 @@ void Particle_4C::PoolDeallocate()
         field_30_pOwnSprite->ClearNoLighting_433800();
         field_30_pOwnSprite->SetBlendAndAlpha_4337D0(0, 0);
         gSpritePool_703818->remove(field_30_pOwnSprite);
-        field_30_pOwnSprite = 0;
+        field_30_pOwnSprite = NULL;
     }
 }

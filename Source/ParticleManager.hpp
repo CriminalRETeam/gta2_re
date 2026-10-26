@@ -8,7 +8,6 @@
 
 class Fix16;
 class Sprite;
-class Sprite;
 class Particle_4C;
 class Object;
 
@@ -21,7 +20,7 @@ class ParticleManager
     EXPORT void EmitBloodBurst_53E450(Fix16 x, Fix16 y, Fix16 z, Ang16 ang);
     EXPORT void SpawnBlood_53E880(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT void GunMuzzelFlash_53E970(Sprite* pSprite);
-    EXPORT void EmitWaterSplash_53F060(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, char_type bRandomRot);
+    EXPORT void EmitWaterSplash_53F060(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, bool bRandomRot);
     EXPORT void SpawnParticleSprite_5405D0(Sprite* pSprite);
     EXPORT void EmitElectricArcParticle(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 ang);
     EXPORT void SpawnCigaretteSmokePuff_5406B0(Sprite* pSprite, char_type bUnknown);

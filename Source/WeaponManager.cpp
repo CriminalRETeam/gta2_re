@@ -60,16 +60,15 @@ Weapon* WeaponManager::find_5E3D20(Car* pCar, s32 weapon_kind)
     Weapon* result = gWeapon_30_Pool_707014->get_next_4CC9B0();
     if (!result)
     {
-        return 0;
+        return NULL;
     }
 
-    // TODO: Can probably invert this
     while (result->field_14_car != pCar || result->field_1C_weapon_type != weapon_kind)
     {
         result = result->mpNext;
         if (!result)
         {
-            return 0;
+            return NULL;
         }
     }
     return result;
@@ -88,7 +87,7 @@ bool WeaponManager::allocate_5E3D50(s32 weapon_kind, u8 ammo, Car* pCar)
     else
     {
         pWeapon = allocate_5E3CE0(weapon_kind, pCar, ammo);
-        bAddedAmmo = 1;
+        bAddedAmmo = true;
     }
 
     if (bAddedAmmo)
@@ -132,13 +131,13 @@ void WeaponManager::dealloc_car_weapon_5E3DF0(Car* pCar)
 }
 
 MATCH_FUNC(0x5e3e70)
-u8 WeaponManager::get_max_ammo_capacity_5E3E70(s32 weapon_kind)
+u8 WeaponManager::get_max_ammo_capacity_5E3E70(s32 weapon_kind) const
 {
     return max_ammo_capacity_5FF75C[weapon_kind];
 }
 
 MATCH_FUNC(0x5e3e80)
-u8 WeaponManager::get_defalt_ammo_5E3E80(s32 weapon_kind)
+u8 WeaponManager::get_defalt_ammo_5E3E80(s32 weapon_kind) const
 {
     return default_ammo_5FF778[weapon_kind];
 }
