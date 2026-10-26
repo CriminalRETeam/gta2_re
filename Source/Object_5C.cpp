@@ -96,7 +96,7 @@ DEFINE_GLOBAL_INIT(Fix16, kFpPoint7_6F8C78, Fix16(0x2CCC, 0), 0x6F8C78);
 DEFINE_GLOBAL_INIT(Fix16, kObjectBounceRestitution_6F8DBC, kFpPoint7_6F8C78, 0x6F8DBC);
 
 // 9.6f 0x482C10
-inline bool Object::IsAnimFinished_482C10()
+inline bool Object::IsAnimFinished_482C10() const
 {
     return !field_C_pAny.o8->field_4_timer && !field_C_pAny.o8->field_7_frame_idx;
 }
@@ -158,7 +158,7 @@ void Object::PoolDeallocate()
 }
 
 MATCH_FUNC(0x522250)
-bool Object::IsSpriteOwnerPed_522250(Sprite* pSprite)
+bool Object::IsSpriteOwnerPed_522250(Sprite* pSprite) const
 {
     if (UsesParamAsPedRef_421080())
     {
@@ -182,7 +182,7 @@ bool Object::IsSpriteOwnerPed_522250(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x5222b0)
-s32 Object::GetMovementRegionSize_5222B0()
+s32 Object::GetMovementRegionSize_5222B0() const
 {
     return this->field_8_definition->field_68_uses_bullet_walls != 0 ? 2048 : 1024;
 }
@@ -259,7 +259,7 @@ void Object::PoolTake_522360()
 }
 
 MATCH_FUNC(0x5223c0)
-bool Object::ShouldCollideWith_5223C0(Sprite* pSprite)
+bool Object::ShouldCollideWith_5223C0(Sprite* pSprite) const
 {
     s32 sprite_type;
 
@@ -311,7 +311,7 @@ bool Object::ShouldCollideWith_5223C0(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x522430)
-bool Object::ShouldCollideWithSprite_522430(Sprite* pSprite)
+bool Object::ShouldCollideWithSprite_522430(Sprite* pSprite) const
 {
     return (pSprite && ShouldCollideWith_5223C0(pSprite) && !IsSpriteOwnerPed_522250(pSprite)) ? true : false;
 }
@@ -1440,7 +1440,7 @@ void Object::OnExplosionNearby_525190(u8 ped_ref_idx)
 
 // Turns traffic lights into collision objects so AI stops at red lights
 MATCH_FUNC(0x525290)
-bool Object::ShouldStopAtTrafficLight_525290(Sprite* pSprite)
+bool Object::ShouldStopAtTrafficLight_525290(Sprite* pSprite) const
 {
     Car* pCar = pSprite->AsCar_40FEB0();
     if (pCar)
@@ -1458,7 +1458,7 @@ bool Object::ShouldStopAtTrafficLight_525290(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x525370)
-char Object::ShouldCollideWithSprite_525370(Sprite* pSprite)
+char Object::ShouldCollideWithSprite_525370(Sprite* pSprite) const
 {
     switch (this->field_18_model)
     {
@@ -1648,7 +1648,7 @@ bool Object::DispatchFrameAction_525910()
 }
 
 MATCH_FUNC(0x525AC0)
-bool Object::IsFireExplosion_525AC0()
+bool Object::IsFireExplosion_525AC0() const
 {
     if (field_18_model == objects::explosion_113)
     {
@@ -2982,7 +2982,7 @@ void Object::SetSpriteIdxOffset_5290C0(u8 offset)
 }
 
 MATCH_FUNC(0x5290F0)
-Fix16 Object::GetEffectiveSpeed_5290F0()
+Fix16 Object::GetEffectiveSpeed_5290F0() const
 {
     if (field_10_obj_3c)
     {
@@ -3036,14 +3036,14 @@ void Object::PoolGiveAndQueueObjectType_5291E0(s32 object_type)
 }
 
 MATCH_FUNC(0x529200)
-bool Object::IsNotModel_174_529200()
+bool Object::IsNotModel_174_529200() const
 {
     return (field_18_model != 174) ? true : false;
 }
 
 // https://decomp.me/scratch/lXvKN
 MATCH_FUNC(0x529210)
-s32 Object::GetExplosionTypeForDiagonalWall_529210()
+s32 Object::GetExplosionTypeForDiagonalWall_529210() const
 {
     switch (field_26_ped_ref_idx)
     {
@@ -3058,7 +3058,7 @@ s32 Object::GetExplosionTypeForDiagonalWall_529210()
 }
 
 MATCH_FUNC(0x529240)
-s32 Object::GetMapBlockSoundSpec_529240()
+s32 Object::GetMapBlockSoundSpec_529240() const
 {
     s32 result;
     gmp_block_info* pBlockInfo =
@@ -3769,13 +3769,13 @@ Object::~Object()
 }
 
 MATCH_FUNC(0x52ae70)
-Fix16_Point Object::GetXY_52AE70()
+Fix16_Point Object::GetXY_52AE70() const
 {
     return field_4_sprite->get_x_y();
 }
 
 MATCH_FUNC(0x52ae90)
-Fix16_Point Object::GetSpeedVector_52AE90()
+Fix16_Point Object::GetSpeedVector_52AE90() const
 {
     if (field_10_obj_3c)
     {
