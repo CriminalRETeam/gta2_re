@@ -245,7 +245,7 @@ void sound_obj::ProcessType2_412490(s32 idx)
 
     if (pLinkedObj->field_4_bStatus)
     {
-        field_3 = 0;
+        field_3_bFirstMenuStream = 0;
         if (gSampManager_6FFF00.StreamStatus_58E2C0() || !gType2StreamStarted_66F540)
         {
             gSampManager_6FFF00.CloseStream_58E460();
@@ -256,7 +256,7 @@ void sound_obj::ProcessType2_412490(s32 idx)
     }
     else
     {
-        if (field_3)
+        if (field_3_bFirstMenuStream)
         {
             if (gSampManager_6FFF00.StreamStatus_58E2C0())
             {
@@ -3498,7 +3498,7 @@ sound_obj::sound_obj()
     field_5448_m_FrameCounter = 0;
     field_544C[0].field_0_fifth_frame_flag = false;
     field_544C[0].field_18 = 0;
-    field_3 = 1;
+    field_3_bFirstMenuStream = 1;
 }
 
 MATCH_FUNC(0x419E10)
@@ -3694,7 +3694,7 @@ void sound_obj::FreeSoundEntry_41A090(u32 idx)
             // fall through
 
         case SoundObjectTypeEnum::Frontend_2:
-            field_3 = 0;
+            field_3_bFirstMenuStream = 0;
             gSampManager_6FFF00.FadeOut_58E490();
             break;
     }
