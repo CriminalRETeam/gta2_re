@@ -740,7 +740,7 @@ static inline Fix16 BeamLength_5DE4F0(Fix16_Point& d)
     }
     else
     {
-        return Fix16::SquareRoot_436A70(d.x.Multiply_408680(d.x).Add_408660(d.y * d.y));
+        return Fix16::SquareRoot_436A70(d.x * d.x + d.y * d.y);
     }
 }
 
@@ -749,7 +749,7 @@ static inline Fix16 BeamLength_5DE4F0(Fix16_Point& d)
 static inline void BeamStep_5DE4F0(Ang16& angle, Fix16 radius, Fix16& ret1, Fix16& ret2)
 {
     ret1 = Ang16::sine_40F500(angle) * radius;
-    ret2 = Ang16::cosine_40F520(angle).Multiply_408680(radius);
+    ret2 = Ang16::cosine_40F520(angle) * radius;
 }
 
 // The direct field_1AC_cam.x read in `delta` (instead of get_cam_x()) drops one register candidate from the
