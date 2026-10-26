@@ -82,7 +82,7 @@ class RouteSearchNode
 {
   public:
     EXPORT RouteSearchNode();
-    u16 field_0_idx;
+    u16 field_0_junction_idx;
     u16 field_2_cost;
     s16 field_4_expanded;
     s16 field_6_unused;
@@ -143,7 +143,7 @@ class RouteFinder
     s16 field_6_unused;
     Junction field_8_junctions[545];
     JunctionRoute field_2218_routes[50];
-    u16 field_8618_idx;
+    u16 field_8618_start_idx;
     u16 field_861A_dest_idx;
     RouteSearchNode field_861C_nodes[545];
     RouteSearchNode* field_A82C_open_list;

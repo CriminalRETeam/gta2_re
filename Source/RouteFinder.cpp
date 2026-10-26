@@ -608,7 +608,7 @@ s32 RouteFinder::NoRefs_589210(u8 x, u8 y, s32 a4, u8 direction, s32 a6, u16 jun
 MATCH_FUNC(0x5892d0)
 RouteSearchNode::RouteSearchNode()
 {
-    field_0_idx = 0;
+    field_0_junction_idx = 0;
     field_2_cost = -1;
     field_4_expanded = 0;
     field_8_pParent = 0;
@@ -626,7 +626,7 @@ RouteSearchNode* RouteFinder::NewChildNode_5892F0(RouteSearchNode* pRoute, u16 i
     s16 dist = dy + dx;
     s16 cost = pRoute->field_2_cost + step_cost;
 
-    pNode->field_0_idx = idx;
+    pNode->field_0_junction_idx = idx;
     pNode->field_2_cost = cost + dist;
     pNode->field_8_pParent = pRoute;
     pNode->field_C_pNext = 0;
@@ -642,7 +642,7 @@ RouteSearchNode* RouteFinder::NewStartNode_589390(u16 junction_idx)
         abs(field_8_junctions[junction_idx].field_D_min_y - field_8_junctions[field_861A_dest_idx].field_D_min_y);
 
     pNode->field_2_cost = distance;
-    pNode->field_0_idx = junction_idx;
+    pNode->field_0_junction_idx = junction_idx;
     pNode->field_4_expanded = 0;
     // field_6 is preserved by the original function.
     pNode->field_8_pParent = 0;
@@ -653,7 +653,7 @@ RouteSearchNode* RouteFinder::NewStartNode_589390(u16 junction_idx)
 MATCH_FUNC(0x589420)
 void RouteFinder::InsertIntoOpenList_589420(RouteSearchNode* pRoute)
 {
-    field_CA40_visited[pRoute->field_0_idx] = 1;
+    field_CA40_visited[pRoute->field_0_junction_idx] = 1;
 
     if (pRoute->field_2_cost < field_A82C_open_list->field_2_cost)
     {
@@ -678,31 +678,31 @@ bool RouteFinder::InitSearch_589480(u8 start_x, u8 start_y, u8 start_z, u8 dest_
     memset(field_CA40_visited, 0, sizeof(field_CA40_visited));
     memset(field_861C_nodes, 0, sizeof(field_861C_nodes));
 
-    field_8618_idx = FindSegmentJunction_589000(start_x, start_y, start_z, 0, arrow_type);
-    if (field_8618_idx == 0)
+    field_8618_start_idx = FindSegmentJunction_589000(start_x, start_y, start_z, 0, arrow_type);
+    if (field_8618_start_idx == 0)
     {
-        field_8618_idx = FindSegmentJunction_589000(start_x, start_y, start_z, 1, arrow_type);
+        field_8618_start_idx = FindSegmentJunction_589000(start_x, start_y, start_z, 1, arrow_type);
     }
 
-    u16 initialIdx = field_8618_idx;
+    u16 initialIdx = field_8618_start_idx;
     Junction* pJunction = &field_8_junctions[initialIdx];
     if (start_x < pJunction->field_C_min_x || start_x > pJunction->field_E_max_x || start_y < pJunction->field_D_min_y || start_y > pJunction->field_F_max_y)
     {
-        field_8618_idx = FindSegmentJunction_589000(start_x, start_y, start_z, 1, arrow_type);
+        field_8618_start_idx = FindSegmentJunction_589000(start_x, start_y, start_z, 1, arrow_type);
     }
 
     field_861A_dest_idx = FindSegmentJunction_589000(dest_x, dest_y, dest_z, 1, arrow_type);
-    if (field_861A_dest_idx == field_8618_idx)
+    if (field_861A_dest_idx == field_8618_start_idx)
     {
-        field_8618_idx = initialIdx;
+        field_8618_start_idx = initialIdx;
     }
 
-    if (field_8618_idx != 0 && field_861A_dest_idx != 0)
+    if (field_8618_start_idx != 0 && field_861A_dest_idx != 0)
     {
-        NewStartNode_589390(field_8618_idx);
+        NewStartNode_589390(field_8618_start_idx);
         field_CA40_visited[0] = 1;
         field_A82C_open_list = field_861C_nodes;
-        field_CA40_visited[field_8618_idx] = 1;
+        field_CA40_visited[field_8618_start_idx] = 1;
         return 1;
     }
     return 0;
@@ -716,29 +716,29 @@ bool RouteFinder::InitSearchWithDirection_5895C0(u8 x, u8 y, u8 z, s32 arrow_typ
     RouteSearchNode* pStart = field_861C_nodes;
     memset(pStart, 0, sizeof(field_861C_nodes));
 
-    field_8618_idx = FindSegmentJunction_589000(x, y, z, 0, arrow_type);
-    if (field_8618_idx == 0)
+    field_8618_start_idx = FindSegmentJunction_589000(x, y, z, 0, arrow_type);
+    if (field_8618_start_idx == 0)
     {
-        field_8618_idx = FindSegmentJunction_589000(x, y, z, 1, arrow_type);
+        field_8618_start_idx = FindSegmentJunction_589000(x, y, z, 1, arrow_type);
     }
 
-    if (field_8618_idx != 0)
+    if (field_8618_start_idx != 0)
     {
-        Junction* pJunction = &field_8_junctions[field_8618_idx];
+        Junction* pJunction = &field_8_junctions[field_8618_start_idx];
         if (x < pJunction->field_C_min_x || x > pJunction->field_E_max_x || y < pJunction->field_D_min_y ||
             y > pJunction->field_F_max_y)
         {
-            field_8618_idx = FindSegmentJunction_589000(x, y, z, 1, arrow_type);
+            field_8618_start_idx = FindSegmentJunction_589000(x, y, z, 1, arrow_type);
         }
 
-        if (field_8618_idx != 0)
+        if (field_8618_start_idx != 0)
         {
-            NewStartNode_589390(field_8618_idx);
+            NewStartNode_589390(field_8618_start_idx);
             field_A82C_open_list = pStart;
             field_CA40_visited[0] = 1;
-            field_CA40_visited[field_8618_idx] = 1;
+            field_CA40_visited[field_8618_start_idx] = 1;
 
-            pJunction = &field_8_junctions[field_8618_idx];
+            pJunction = &field_8_junctions[field_8618_start_idx];
             u16 north = pJunction->field_0_n.GetIndex_0040CE90();
             u16 south = pJunction->field_2_s.GetIndex_0040CE90();
             u16 east = pJunction->field_4_e.GetIndex_0040CE90();
@@ -870,14 +870,14 @@ u16 RouteFinder::AddChildNode_589990(RouteSearchNode* pRoute, u16 junction_idx, 
 {
     RouteSearchNode* pChild = NewChildNode_5892F0(pRoute, junction_idx, step_cost);
     InsertIntoOpenList_589420(pChild);
-    return pChild->field_0_idx;
+    return pChild->field_0_junction_idx;
 }
 
 // Returns true if a neighbour of the node's junction that hasn't been visited yet completes the route
 MATCH_FUNC(0x5899c0)
 bool RouteFinder::ExpandNode_5899C0(RouteSearchNode* pNode, s32 arrow_type)
 {
-    Junction* pJunction = &field_8_junctions[pNode->field_0_idx];
+    Junction* pJunction = &field_8_junctions[pNode->field_0_junction_idx];
     u16 north = pJunction->field_0_n.GetIndex_0040CE90();
     u16 west = pJunction->field_6_w.GetIndex_0040CE90();
     u16 south = pJunction->field_2_s.GetIndex_0040CE90();
@@ -910,7 +910,7 @@ bool RouteFinder::ExpandNode_5899C0(RouteSearchNode* pNode, s32 arrow_type)
 MATCH_FUNC(0x589bb0)
 bool RouteFinder::ExpandNodeUnlessOffScreen_589BB0(RouteSearchNode* pRoute, s32 arrow_type)
 {
-    Junction* pJunction = &field_8_junctions[pRoute->field_0_idx];
+    Junction* pJunction = &field_8_junctions[pRoute->field_0_junction_idx];
     if (!gGame_0x40_67E008->IsPointOnScreen_4B9A80(pJunction->field_C_min_x, pJunction->field_D_min_y) &&
         !gGame_0x40_67E008->IsPointOnScreen_4B9A80(pJunction->field_E_max_x, pJunction->field_D_min_y) &&
         !gGame_0x40_67E008->IsPointOnScreen_4B9A80(pJunction->field_C_min_x, pJunction->field_F_max_y) &&
@@ -959,7 +959,7 @@ char_type RouteFinder::SearchToDest_589E20(s32 arrow_type)
 {
     bool bRet = false;
     RouteSearchNode* f_A82C = this->field_A82C_open_list;
-    if (f_A82C->field_0_idx == this->field_861A_dest_idx)
+    if (f_A82C->field_0_junction_idx == this->field_861A_dest_idx)
     {
         return 1;
     }
@@ -1041,7 +1041,7 @@ s16 RouteFinder::StoreRoute_589EB0()
     {
         do
         {
-            field_2218_routes[route_idx].field_0_junctions[--count] = pNode->field_0_idx;
+            field_2218_routes[route_idx].field_0_junctions[--count] = pNode->field_0_junction_idx;
             pNode = pNode->field_8_pParent;
         } while (pNode != NULL);
     }
@@ -1080,7 +1080,7 @@ s16 RouteFinder::StoreRouteReversed_589F70()
     {
         do
         {
-            field_2218_routes[route_idx].field_0_junctions[out_idx] = pNode->field_0_idx;
+            field_2218_routes[route_idx].field_0_junctions[out_idx] = pNode->field_0_junction_idx;
             pNode = pNode->field_8_pParent;
             out_idx++;
 
@@ -1159,7 +1159,7 @@ RouteFinder::RouteFinder()
     field_4_unused = 0;
     memset(field_8_junctions, 0, sizeof(field_8_junctions));
     memset(field_2218_routes, 0, sizeof(field_2218_routes));
-    field_8618_idx = 0;
+    field_8618_start_idx = 0;
     field_861A_dest_idx = 0;
     memset(field_861C_nodes, 0, sizeof(field_861C_nodes));
     field_A82C_open_list = 0;
