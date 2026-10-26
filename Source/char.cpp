@@ -691,7 +691,7 @@ void Char::UpdateAnimState_546360()
 
     // Declared here, before the switch, to get the original stack layout
     u8 weapon_ofs = 0;
-    u8 bThrowWeapon = 0;
+    bool bThrowWeapon = false;
     s32 baseId;
 
     switch (field_7C_pPed->field_26C_graphic_type)
@@ -725,7 +725,7 @@ void Char::UpdateAnimState_546360()
             (field_7C_pPed->field_170_selected_weapon->field_1C_idx == weapon_type::molotov ||
              field_7C_pPed->field_170_selected_weapon->field_1C_idx == weapon_type::grenade))
         {
-            bThrowWeapon = 1;
+            bThrowWeapon = true;
         }
 
         if (field_7C_pPed->field_170_selected_weapon && !field_7C_pPed->field_21C_bf.bAttacking)
@@ -754,7 +754,7 @@ void Char::UpdateAnimState_546360()
              field_7C_pPed->field_170_selected_weapon->field_1C_idx == weapon_type::grenade))
         {
             field_6C_animation_state = 4;
-            bThrowWeapon = 1;
+            bThrowWeapon = true;
         }
     }
 
@@ -2692,7 +2692,7 @@ bool Char::CanMoveOntoSlope_54C1A0(s32 path_direction)
     if (field_10_char_state == Char_B4_state::Jumping_15 || field_8_ped_state_1 == ped_state_1::dead_9 || field_7C_pPed->PedTypeIs_45EDE0(ped_type::player_2) ||
         field_7C_pPed->get_occupation_403980() == ped_ocupation_enum::drone)
     {
-        bMayLeavePavement = 1;
+        bMayLeavePavement = true;
     }
     if ((field_58_flags & 1) == 1)
     {
