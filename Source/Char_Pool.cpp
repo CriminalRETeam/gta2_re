@@ -480,14 +480,10 @@ void PedManager::SpawnDummies_46EB60(Camera* pCam)
 
     Sprite* pSprite = this->field_8_spawn_probe_sprite;
 
-    s16 tileLeft;
-    s16 tileRight;
-    s16 tileTop;
-    s16 bottom;
-    tileLeft = (pCam->field_78_view_bounds.field_0_left - kFpHalf_67853C).ToInt();
-    tileRight = (pCam->field_78_view_bounds.field_4_right + kFpHalf_67853C).ToInt();
-    tileTop = (pCam->field_78_view_bounds.field_8_top - kFpHalf_67853C).ToInt();
-    bottom = (pCam->field_78_view_bounds.field_C_bottom + kFpHalf_67853C).ToInt();
+    s16 tileLeft = (pCam->field_78_view_bounds.field_0_left - kFpHalf_67853C).ToInt();
+    s16 tileRight = (pCam->field_78_view_bounds.field_4_right + kFpHalf_67853C).ToInt();
+    s16 tileTop = (pCam->field_78_view_bounds.field_8_top - kFpHalf_67853C).ToInt();
+    s16 tileBottom = (pCam->field_78_view_bounds.field_C_bottom + kFpHalf_67853C).ToInt();
 
     s16 bound_max = 0;
 
@@ -516,7 +512,7 @@ void PedManager::SpawnDummies_46EB60(Camera* pCam)
         {
             case 0:
             case 2:
-                bound_max = bottom - tileTop;
+                bound_max = tileBottom - tileTop;
                 break;
             case 1:
             case 3:
@@ -557,7 +553,7 @@ void PedManager::SpawnDummies_46EB60(Camera* pCam)
                 break;
 
             case 3:
-                ypos = Fix16(static_cast<s16>(bottom));
+                ypos = Fix16(tileBottom);
                 xpos = Fix16(tileLeft + gSpawnIndex_6787C9);
                 rotation = gSpawnRotationBottom_678540;
                 break;
