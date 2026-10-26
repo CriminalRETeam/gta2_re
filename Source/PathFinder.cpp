@@ -46,8 +46,16 @@ DEFINE_GLOBAL(u8, gPathFinder_edge4_z_6FDBF4, 0x6FDBF4);
 DEFINE_GLOBAL(u8, gPathFinder_edge4_grid_x_6FDBF0, 0x6FDBF0);
 DEFINE_GLOBAL(u8, gPathFinder_edge4_grid_y_6FDBF1, 0x6FDBF1);
 
+// EvaluateGridCell_554640 results: skip the cell, add it, or the grid edge in the facing direction is reached
+enum
+{
+    k_cell_skip = 0,
+    k_cell_open = 1,
+    k_cell_edge_reached = 2,
+};
+
 MATCH_FUNC(0x554080)
-bool PathFinder::CanMoveInDirection_554080(s32 path_direction)
+bool PathFinder::CanMoveInDirection_554080(s32 path_direction) const
 {
     if (field_25_xpos > 1u && field_25_xpos < 254u && field_26_ypos > 1u && field_26_ypos < 254u)
     {
@@ -265,52 +273,52 @@ char_type PathFinder::EvaluateGridCell_554640()
                 PathNode* pNode = &field_40_grid[field_1C_grid_idx];
                 if (pNode->field_1_idx2 == 0)
                 {
-                    return 1;
+                    return k_cell_open;
                 }
                 if (pNode->field_0_idx1 != 1 && pNode->field_2_xpos != field_22_zpos)
                 {
                     if (abs(pNode->field_2_xpos - field_22_zpos) >= 1)
                     {
                         pNode->field_0_idx1 = 1;
-                        return 1;
+                        return k_cell_open;
                     }
                 }
-                return 0;
+                return k_cell_skip;
             }
         }
     }
     if (field_10_zStart != field_13_zEnd)
     {
-        return 0;
+        return k_cell_skip;
     }
     switch (gPathFinder_angle_face_6FDD38)
     {
         case path_direction::up_1:
             if (field_24_grid_y < 1)
             {
-                return 2;
+                return k_cell_edge_reached;
             }
             break;
         case path_direction::down_2:
             if (field_24_grid_y > 32)
             {
-                return 2;
+                return k_cell_edge_reached;
             }
             break;
         case path_direction::right_3:
             if (field_23_grid_x > 32)
             {
-                return 2;
+                return k_cell_edge_reached;
             }
             break;
         case path_direction::left_4:
             if (field_23_grid_x < 1)
             {
-                return 2;
+                return k_cell_edge_reached;
             }
             break;
     }
-    return 0;
+    return k_cell_skip;
 }
 
 // https://decomp.me/scratch/f8WDL
@@ -429,7 +437,7 @@ MATCH_FUNC(0x5548c0)
 bool PathFinder::ProcessGridCell_5548C0()
 {
     char_type cell_result = PathFinder::EvaluateGridCell_554640();
-    if (cell_result == 1)
+    if (cell_result == k_cell_open)
     {
         if (PathFinder::CanMoveToAdjacentTile_554110(field_20_xpos, field_21_ypos))
         {
@@ -444,7 +452,7 @@ bool PathFinder::ProcessGridCell_5548C0()
             }
         }
     }
-    else if (cell_result == 2)
+    else if (cell_result == k_cell_edge_reached)
     {
         field_18_bSearching = false;
         field_19_unused = 1;
@@ -505,7 +513,7 @@ void PathFinder::RestoreSavedPosition_554920()
 }
 
 MATCH_FUNC(0x554a90)
-s32 PathFinder::IsFirstInPathQueue_554A90(Ped* pPed)
+s32 PathFinder::IsFirstInPathQueue_554A90(Ped* pPed) const
 {
     return field_3C_ped_list.field_0_pFirstPed->field_0_char_ped == pPed;
 }
