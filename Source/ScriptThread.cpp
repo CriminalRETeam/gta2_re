@@ -5814,7 +5814,7 @@ void ScriptThread::SCRCMD_WEAP_HIT_CAR_50EBD0()
         }
         else
         {
-            hit = gScriptManager_6F8060->TestAndRecordWeaponHit_512AF0(pPointer->field_8_car->field_6C_car_id, 23, false);
+            hit = gScriptManager_6F8060->TestAndRecordWeaponHit_512AF0(pPointer->field_8_car->field_6C_car_id, weapon_type::weapon_0x17, false);
         }
         if (hit && gScriptManager_6F8060->IsWeaponHitRecorded_512C70(pPointer->field_8_car->field_6C_car_id, static_cast<char_type>(pCmd->field_C_weapon), false))
         {
