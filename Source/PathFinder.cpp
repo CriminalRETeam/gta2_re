@@ -613,7 +613,6 @@ bool PathFinder::ComputePath_554AB0(s32 ped_id,
     {
         while (1)
         {
-            j = 0;
             field_38_bComputePathInProgress = true;
             field_8_pNode = field_2350_nodes;
             pBestNode = field_2350_nodes;
