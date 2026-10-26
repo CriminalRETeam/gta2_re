@@ -1001,7 +1001,7 @@ void __stdcall ShockPedsAroundSprite_5DF270(Sprite* pSprite, Fix16 search_size, 
     Fix16_Rect rect;
     rect.ComputeCollisionPrism_4204D0(xpos, ypos, search_size, zpos);
 
-    if (gSpriteGrid_1_679208->CollectRectCollisions_477F30(&rect, 0, sprite_types_enum::none_0, pSprite, &hits))
+    if (gSpriteGrid_1_679208->CollectRectCollisions_477F30(&rect, false, sprite_types_enum::none_0, pSprite, &hits))
     {
         Sprite* pHit;
         if (pTargetSprite)
@@ -1178,7 +1178,7 @@ void Weapon::ChainShockTargets_5DFB60(u8 chain_depth, Sprite* pSprite, Ang16 tar
     // The original copies the returned point through the return pointer, as a struct assignment
     reinterpret_cast<Fix16_Point&>(stru_706E58) = field_24_pPed->GetVelocityVector_45B520();
 
-    if (gSpriteGrid_1_679208->CollectRectCollisions_477F30(&rect, 0, sprite_types_enum::none_0, pSprite, &hits) && hits.field_0_p18)
+    if (gSpriteGrid_1_679208->CollectRectCollisions_477F30(&rect, false, sprite_types_enum::none_0, pSprite, &hits) && hits.field_0_p18)
     {
         do
         {

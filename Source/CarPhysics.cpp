@@ -1972,7 +1972,7 @@ bool CarPhysics::StepMovementAndCollisions_55E470()
 MATCH_FUNC(0x55eb80)
 bool CarPhysics::CheckAndHandleCarAndTrailerCollisions_55EB80()
 {
-    gCarManager_6C_677930->field_68_object_hit_active = 0;
+    gCarManager_6C_677930->field_68_object_hit_active = false;
 
     bool bCollision = gSpriteGrid_2_67920C->CheckAndHandleCollisionInStrips_477BD0(field_5C_pCar->field_50_car_sprite);
     Trailer* pTrailer = field_5C_pCar->field_64_pTrailer;

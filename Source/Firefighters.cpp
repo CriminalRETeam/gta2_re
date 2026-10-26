@@ -323,7 +323,7 @@ Firefighter* FirefighterPool::DispatchFirefighters_4A8620(Car* pCar, Fix16 xpos,
     u8 xpos_int = xpos.ToUInt8();
     u8 ypos_int = ypos.ToUInt8();
     u8 zpos_int = (zpos + kFpHalf_67D1F0).ToUInt8();
-    if (gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &xpos_int, &ypos_int, &zpos_int, 0) != 1)
+    if (gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(ROAD, &xpos_int, &ypos_int, &zpos_int, false) != 1)
     {
         return NULL;
     }

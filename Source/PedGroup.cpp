@@ -698,7 +698,7 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
     Fix16 distance;
     Ped* pLeader = field_2C_ped_leader;
     s32 state = pLeader->GetPedState_403990();
-    if (state == 3 || state == 10 || state == 5)
+    if (state == ped_state_1::entering_car_3 || state == ped_state_1::in_car_10 || state == ped_state_1::entering_train_5)
     {
         field_30_panicking = 1;
         if (pLeader->GetPedState_403990() == ped_state_1::in_car_10 || pLeader->FindUsableCarDoor_467090())

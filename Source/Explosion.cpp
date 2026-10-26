@@ -438,7 +438,7 @@ void Explosion::ApplyBlastDamage_541850(u16 timerVal)
     rect.SetRect_41E350(left, right, top, bottom);
     rect.SetHiLowZ_41E370(z_low, z_high);
 
-    if (gSpriteGrid_1_679208->CollectRectCollisions_477F30(&rect, 0, sprite_types_enum::none_0, field_14_pObj2C->field_4_sprite, &collision_list))
+    if (gSpriteGrid_1_679208->CollectRectCollisions_477F30(&rect, false, sprite_types_enum::none_0, field_14_pObj2C->field_4_sprite, &collision_list))
     {
         while (collision_list.field_0_p18)
         {
@@ -513,7 +513,7 @@ void Explosion::ApplyBlastDamage_541850(u16 timerVal)
                                 {
                                     pCar->field_70_exploder_ped_id = exploder_ped_id;
                                 }
-                                pCar->field_90_death_cause = 4;
+                                pCar->field_90_death_cause = ped_death_cause::explosion_4;
                                 pCar->field_94_exploder_timer = 50;
                                 s16 damage = pCar->AccumulateDamage_43DA90(32000, &kZeroPoint_6FD570);
                                 if (pCar->field_70_exploder_ped_id)

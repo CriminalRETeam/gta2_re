@@ -949,7 +949,7 @@ Game::Game(u8 max_players, s8 player_idx)
     }
     Player* pPlayer = field_4_players[field_24_local_player_idx];
     field_38_local_player = pPlayer;
-    pPlayer->field_0_is_user = 1;
+    pPlayer->field_0_is_user = true;
     field_1C_draw_player = field_38_local_player;
 
     gpRng_67AB34 = new rng(); // inline
@@ -1249,7 +1249,7 @@ Game::Game(u8 max_players, s8 player_idx)
     field_21_camera_iter_idx = 0;
     field_22_aux_cam_iterated = false;
     field_0_game_state = GameState::Running_1;
-    gbRngRemapTableDone_679C0A = 0;
+    gbRngRemapTableDone_679C0A = false;
     field_20_player_iter_idx = 0;
     field_28_exit_timer = -1;
     field_30_fast_forward = false;

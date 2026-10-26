@@ -386,7 +386,7 @@ bool Police::DispatchNewCrewToPursuit_56FAA0(PolicePursuitTarget* pPursuitTarget
     u8 tileY = pPursuitTarget->field_14_y.ToInt();
     u8 tileZ = pPursuitTarget->field_18_z.ToInt();
 
-    if (gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &tileX, &tileY, &tileZ, 0))
+    if (gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(ROAD, &tileX, &tileY, &tileZ, false))
     {
         PoliceCrew* pNewPoliceCrew = Police::NewCrew_56F560();
         pNewPoliceCrew->field_1C_used = 1;
@@ -436,7 +436,7 @@ void Police::UpdatePursuitTargets_56FBD0()
         Ped* pCriminal = pPursuitTarget->field_0_criminal_ped;
         if (pCriminal->GetPedType_420B70() == ped_type::player_2 && pCriminal->field_21C_bf.bBusted == 1)
         {
-            pCriminal->field_15C_player->field_640_busted = 1;
+            pCriminal->field_15C_player->field_640_busted = true;
         }
 
         switch (pPursuitTarget->field_0_criminal_ped->get_wanted_star_count_46EF00())
@@ -964,7 +964,7 @@ bool Police::SpawnCrewInCar_5703E0(Car* pCar)
     pNewPedGroup->add_ped_leader_4C9B10(pNewPed1);
     pNewPedGroup->SetCounts_433360(1);
     pNewPedGroup->add_ped_to_list_4C9B30(pNewPed2, 0);
-    pNewPedGroup->field_0_remove_dead_members = 0;
+    pNewPedGroup->field_0_remove_dead_members = false;
     pEmergencyCrew->field_4_ped = pNewPed1;
     pEmergencyCrew->field_18_spawn_delay = 0;
     pEmergencyCrew->field_28_state = crew_state::update_6;

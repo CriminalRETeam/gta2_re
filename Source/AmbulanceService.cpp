@@ -166,7 +166,7 @@ void AmbulanceService::ProcessPatientQueue_4FA500()
         x = pPed->field_1AC_cam.x.ToInt();
         y = pPed->field_1AC_cam.y.ToInt();
         z = pPed->field_1AC_cam.z.ToInt();
-        if (!gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &x, &y, &z, 0))
+        if (!gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(ROAD, &x, &y, &z, false))
         {
             field_1_corpse_count--;
             pPed->SetObjective(objectives_enum::objective_50);
@@ -326,7 +326,7 @@ bool AmbulanceTask::SpawnParamedicCrew_4FA820()
     pGroup->add_ped_leader_4C9B10(pPed1);
     pGroup->SetCounts_433360(1);
     pGroup->add_ped_to_list_4C9B30(pPed2, 0);
-    pGroup->field_0_remove_dead_members = 0;
+    pGroup->field_0_remove_dead_members = false;
 
     field_4_paramedics_crew->field_4_ped = pPed1;
     field_4_paramedics_crew->field_28_state = crew_state::update_6;

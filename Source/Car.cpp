@@ -839,7 +839,7 @@ bool Car::TrySnapCarToNearestDrivableRoadAndDriveForward_445EC0(Fix16 xpos, Fix1
                     Fix16_Rect rect;
                     rect.SetRect_41E350(xpos - w_val, w_val + xpos, ypos - h_val, h_val + ypos);
                     rect.SetHiLowZ_41E370(pos_z - kFP16One_6777D0, kFP16One_6777D0 + pos_z);
-                    if (!gSpriteGrid_1_679208->CheckRectForCollisions_477F60(&rect, 0, sprite_types_enum::none_0, NULL) && !rect.IsRectBlockedByMap_59DE80())
+                    if (!gSpriteGrid_1_679208->CheckRectForCollisions_477F60(&rect, false, sprite_types_enum::none_0, NULL) && !rect.IsRectBlockedByMap_59DE80())
                     {
                         field_50_car_sprite->set_xyz_lazy_420600(xpos, ypos, pos_z);
 
@@ -1123,7 +1123,7 @@ Car* CarManager::SpawnBusAtValidRoadPosition_4453E0(Fix16 x, Fix16 y, s32 road_d
                 rect.SetRect_41E350(x - sprite_width, sprite_width + x, y - sprite_height, sprite_height + y);
                 rect.SetHiLowZ_41E370(ground_z - kFP16One_6777D0, ground_z + kFP16One_6777D0);
 
-                if (!gSpriteGrid_1_679208->CheckRectForCollisions_477F60(&rect, 0, sprite_types_enum::none_0, NULL) && !rect.IsRectBlockedByMap_59DE80() &&
+                if (!gSpriteGrid_1_679208->CheckRectForCollisions_477F60(&rect, false, sprite_types_enum::none_0, NULL) && !rect.IsRectBlockedByMap_59DE80() &&
                     !gGame_0x40_67E008->IsRectVisibleToAnyPlayer_4B9B10(&rect))
                 {
                     return CarManager::SpawnCar_426E10_v2(x, y, ground_z, ReturnAngleFromRoadDirection_4F7940(road_direction), car_model);
@@ -1321,7 +1321,7 @@ Car* CarManager::SpawnCarOnRoadNetwork_4458B0(Fix16 xpos, Fix16 ypos, s32 road_d
                 rect.SetRect_41E350(x - sprite_width, sprite_width + x, y - sprite_height, sprite_height + y);
                 rect.SetHiLowZ_41E370(ground_z - kFP16One_6777D0, ground_z + kFP16One_6777D0);
 
-                if (!gSpriteGrid_1_679208->CheckRectForCollisions_477F60(&rect, 0, sprite_types_enum::none_0, NULL) && !rect.IsRectBlockedByMap_59DE80() &&
+                if (!gSpriteGrid_1_679208->CheckRectForCollisions_477F60(&rect, false, sprite_types_enum::none_0, NULL) && !rect.IsRectBlockedByMap_59DE80() &&
                     !gGame_0x40_67E008->IsRectVisibleToAnyPlayer_4B9B10(&rect))
                 {
                     Car* pCar =
@@ -2241,7 +2241,7 @@ void Car::DoBrake_43A950()
     pCarPhysics->field_91_is_foot_brake_on = 1;
     pCarPhysics->field_93_is_forward_gas_on = 0;
     pCarPhysics->field_94_is_backward_gas_on = 0;
-    pCarPhysics->field_95_is_coasting = 0;
+    pCarPhysics->field_95_is_coasting = false;
 }
 
 MATCH_FUNC(0x43a970)
@@ -2252,7 +2252,7 @@ void Car::DoBrakeAndHandbrake_43A970()
     pCarPhysics->field_91_is_foot_brake_on = 1;
     pCarPhysics->field_93_is_forward_gas_on = 0;
     pCarPhysics->field_94_is_backward_gas_on = 0;
-    pCarPhysics->field_95_is_coasting = 0;
+    pCarPhysics->field_95_is_coasting = false;
 }
 
 MATCH_FUNC(0x43a9a0)
@@ -2586,7 +2586,7 @@ bool Car::IsDoorAccessible_43AFE0(u8 target_door)
         fr.ExpandToIncludePoint_59DEE0(field_50_car_sprite->field_14_xy.x, field_50_car_sprite->field_14_xy.y);
         gCollisionCounters_6791FC->field_8_bDoorAccessCheck = 1;
         if (!fr.IsRectBlockedByMap_59DE80() &&
-            !gSpriteGrid_1_679208->CheckRectForCollisions_477F60(&fr, 1, sprite_types_enum::ped_3, field_50_car_sprite) && !gMap_0x370_6F6268->RectHitsDiagonalWall_4E11E0(&fr))
+            !gSpriteGrid_1_679208->CheckRectForCollisions_477F60(&fr, true, sprite_types_enum::ped_3, field_50_car_sprite) && !gMap_0x370_6F6268->RectHitsDiagonalWall_4E11E0(&fr))
         {
             gCollisionCounters_6791FC->field_8_bDoorAccessCheck = 0;
             gDoorAccessCheckActive_6F8EDC = false;
@@ -5758,7 +5758,7 @@ bool Car::TrainUpdate_442D70()
                     FatalError_4A38C0(0x431, "C:\\Splitting\\Gta2\\Source\\car.cpp", 5458, 0);
             }
 
-            if (gSpriteGrid_1_679208->CheckRectForCollisions_477F60(&rect, 0, sprite_types_enum::none_0, this->field_50_car_sprite))
+            if (gSpriteGrid_1_679208->CheckRectForCollisions_477F60(&rect, false, sprite_types_enum::none_0, this->field_50_car_sprite))
             {
                 TryHonkHorn_4416D0(0);
             }
@@ -7508,7 +7508,7 @@ bool TrafficSpawner::SpawnTrafficCar_582480(s32 spawn_type, s32 arrow_direction,
 
                     if ((speed_kind == k_traffic_speed_fast && spawn_chance < 33u) || (speed_kind == k_traffic_speed_medium && spawn_chance < 67u) || speed_kind == k_traffic_speed_slow)
                     {
-                        if (!gSpriteGrid_1_679208->CheckRectForCollisions_477F60(field_4_rect, 0, sprite_types_enum::none_0, NULL) &&
+                        if (!gSpriteGrid_1_679208->CheckRectForCollisions_477F60(field_4_rect, false, sprite_types_enum::none_0, NULL) &&
                             !field_4_rect->IsRectBlockedByMap_59DE80() && !field_4_rect->RectOverlapsZone_59DF20(2))
                         {
                             Fix16 car_ypos = sy.GetFloorValue() + kFpHalf_6FF674;
