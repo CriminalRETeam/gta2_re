@@ -201,7 +201,7 @@ Ped* Ped_List::RemoveFirstPed_471320()
 // 9.6f calls MaxAbsDistance_42A6B0 here. By value, with the y difference first, VC6 keeps
 // both differences and the max in registers as the original does.
 MATCH_FUNC(0x471340)
-Ped* Ped_List::FindClosestActivePed_471340(Fix16 x, Fix16 y)
+Ped* Ped_List::FindClosestActivePed_471340(Fix16 x, Fix16 y) const
 {
     Fix16 closestDistance(99999);
     PedListNode* pIter = this->field_0_pFirstPed;
@@ -225,7 +225,7 @@ Ped* Ped_List::FindClosestActivePed_471340(Fix16 x, Fix16 y)
 
 // https://decomp.me/scratch/GJ2JR
 MATCH_FUNC(0x4713C0)
-Ped* Ped_List::FindClosestPedInViewCone_4713C0(Fix16 x, Fix16 y, Ang16 facing, Ang16 half_cone)
+Ped* Ped_List::FindClosestPedInViewCone_4713C0(Fix16 x, Fix16 y, Ang16 facing, Ang16 half_cone) const
 {
     Fix16 distance;
     Ang16 angle_diff;
@@ -318,7 +318,7 @@ void Ped_List::ForceTaxiPassengersToExit_471680()
 }
 
 MATCH_FUNC(0x4716b0)
-u16 Ped_List::GetPedsCount_4716B0()
+u16 Ped_List::GetPedsCount_4716B0() const
 {
     u16 passengerCount;
     PedListNode* pIter = field_0_pFirstPed;
@@ -341,7 +341,7 @@ void Ped_List::SyncPassengersWithCarState_4716D0(Car* pCar)
 }
 
 MATCH_FUNC(0x471710)
-bool Ped_List::HasScriptCreatedPed_471710()
+bool Ped_List::HasScriptCreatedPed_471710() const
 {
     PedListNode* pIter = field_0_pFirstPed;
     while (pIter)
