@@ -636,9 +636,9 @@ void ScriptManager::LoadSubScripts_5125F0()
         {
             size_t length = strlen(pEntry->get_name());
 
-            reinterpret_cast<char*>(&pEntry->field_6)[length] = 'S';
-            reinterpret_cast<char*>(&pEntry->field_6)[length + 1] = 'C';
-            reinterpret_cast<char*>(&pEntry->field_6)[length + 2] = 'R';
+            reinterpret_cast<char*>(&pEntry->field_6_padding)[length] = 'S';
+            reinterpret_cast<char*>(&pEntry->field_6_padding)[length + 1] = 'C';
+            reinterpret_cast<char*>(&pEntry->field_6_padding)[length + 2] = 'R';
 
             if (field_2F4_bPreloadMissionScripts == 1)
             {

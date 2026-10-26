@@ -14,7 +14,7 @@ struct str_table_entry
     s16 field_0_str_id;
     s16 field_2_zone_idx;
     s16 field_4_type;
-    s16 field_6;
+    s16 field_6_padding;
     u8 field_8_length;
 
     inline char* get_name()
