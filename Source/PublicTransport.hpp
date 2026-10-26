@@ -21,9 +21,9 @@ class Train
     EXPORT void OpenCarriageDoors_578360();
     EXPORT void UpdatePassengerAI_578390();
     EXPORT void ProcessTrainExplosionChain_578670();
-    char_type field_0_is_hijacked;
+    bool field_0_is_hijacked;
     char_type field_1_unused;
-    char_type field_2_passengers_fleeing;
+    bool field_2_passengers_fleeing;
     char_type field_3_unused;
     s16 field_4_wait_timer;
     char_type field_6_unused;

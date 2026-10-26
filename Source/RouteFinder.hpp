@@ -111,9 +111,9 @@ class RouteFinder
     EXPORT bool HasBlockArrowInRoadDirection_588DE0(const gmp_block_info* pBlock, s32 arrow_type, s32 road_direction) const;
 
   private:
-    EXPORT u16 FindHorzSegmentJunction_588E60(u8 x, u8 y, u8 z, char_type bIsDest, s32 arrow_type);
-    EXPORT u16 FindVertSegmentJunction_588F30(u8 x, u8 y, u8 z, char_type bIsDest, s32 arrow_type);
-    EXPORT u16 FindSegmentJunction_589000(u8 x_coord, u8 y_coord, u8 z_coord, char_type bIsDest, s32 arrow_type);
+    EXPORT u16 FindHorzSegmentJunction_588E60(u8 x, u8 y, u8 z, bool bIsDest, s32 arrow_type);
+    EXPORT u16 FindVertSegmentJunction_588F30(u8 x, u8 y, u8 z, bool bIsDest, s32 arrow_type);
+    EXPORT u16 FindSegmentJunction_589000(u8 x_coord, u8 y_coord, u8 z_coord, bool bIsDest, s32 arrow_type);
 
   public:
     EXPORT void FindArrowBlockInJunction_5890D0(u16 junction_idx, s32 direction, u8* xpos, u8* ypos);
