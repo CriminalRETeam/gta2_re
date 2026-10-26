@@ -80,7 +80,7 @@ void Police::Init_56F400()
     }
     field_7AC_roadblock_cooldown = 100;
     field_7AD_police_peds_in_range_screen = 0;
-    field_7B0_last_firing_emergency_ped = 0;
+    field_7B0_last_firing_emergency_ped = NULL;
     field_7B4_crew_ped_onscreen = false;
 }
 
@@ -169,7 +169,7 @@ Ped* Police::SpawnRoadblockGuard_56F5C0(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang1
             pCop->SetObjective(objectives_enum::guard_spot_24, 0);
             pCop->set_remap_433B90(ped_remap_enum::ped_remap_blue_police);
             pCop->field_26C_graphic_type = ped_graphic_type::cop_2;
-            pCop->field_170_selected_weapon = 0;
+            pCop->field_170_selected_weapon = NULL;
             pCop->GiveWeapon_46F650(weapon_type::pistol);
             pCop->set_health_4039A0(200);
             pCop->field_288_threat_search = threat_search_enum::area_2;
@@ -907,11 +907,11 @@ bool Police::SpawnCrewInCar_5703E0(Car* pCar)
             {
                 case cop_level_enum::none_0:
                 case cop_level_enum::police_1:
-                    pNewPed1->field_170_selected_weapon = 0;
+                    pNewPed1->field_170_selected_weapon = NULL;
                     pNewPed1->GiveWeapon_46F650(weapon_type::pistol);
                     pNewPed1->set_health_4039A0(50);
                     pNewPed1->field_1F0_max_speed = kFpOneSixteenth_6FEB0C * kFpPoint8_6FEB68;
-                    pNewPed2->field_170_selected_weapon = 0;
+                    pNewPed2->field_170_selected_weapon = NULL;
                     pNewPed2->GiveWeapon_46F650(weapon_type::pistol);
                     pNewPed2->set_health_4039A0(50);
                     pNewPed2->field_1F0_max_speed = kFpOneSixteenth_6FEB0C * kFpPoint8_6FEB68;

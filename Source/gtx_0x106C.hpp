@@ -263,7 +263,7 @@ class gtx_0x106C
     // inline
     bool has_tiles_4C2EE0() const
     {
-        return field_3C_tiles != 0;
+        return field_3C_tiles != NULL;
     }
 
     // inline

@@ -39,7 +39,7 @@ Gang* GangPool::FirstGang_4BECA0()
             return &field_0_gang_list[gGangIdx_6206B8];
         }
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x4bece0)
@@ -52,7 +52,7 @@ Gang* GangPool::NextGang_4BECE0()
             return &field_0_gang_list[gGangIdx_6206B8];
         }
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x4BED30)
@@ -273,7 +273,7 @@ Gang* GangPool::FindGangByName_4BF100(const char* pGangName)
             return &field_0_gang_list[i];
         }
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x4BF170);

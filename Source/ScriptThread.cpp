@@ -6126,7 +6126,7 @@ void ScriptThread::SCRCMD_WARP_CHAR_50F270() // WARP_FROM_CAR_TO_POINT
 
         pPointer->field_8_char->SetRotation_433C00(rotation);
         pCar->ClearDriver_4407F0();
-        pCar->field_54_driver = 0;
+        pCar->field_54_driver = NULL;
         gGame_0x40_67E008->field_38_local_player->DisableInputs_569F40();
         gGame_0x40_67E008->field_38_local_player->field_90_game_camera.UpdateFollowPedCamera_436540(pPointer->field_8_char);
 
@@ -7713,7 +7713,7 @@ void ScriptThread::launch_mission_5119A0(SCR_CMD_HEADER* BasePointer, char_type*
 MATCH_FUNC(0x511a00)
 ScriptThread::ScriptThread()
 {
-    mpNext = 0;
+    mpNext = NULL;
     field_114_gosub_stack = new ScriptGosubStack();
     field_4_next_cmd = 0;
     field_6_flags = 0;
@@ -7752,7 +7752,7 @@ ScriptThread::~ScriptThread()
     {
         GTA2_DELETE_AND_NULL(field_114_gosub_stack);
     }
-    mpNext = 0;
+    mpNext = NULL;
 }
 
 MATCH_FUNC(0x5131C0)

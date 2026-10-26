@@ -21,14 +21,14 @@ void CarChaseTask::ResetEntry_4747B0()
     field_23_unused = 1;
     field_24_unused = 0;
     field_25_unused = 0;
-    field_30_pTargetPed = 0;
+    field_30_pTargetPed = NULL;
     field_26_route_finished = 0;
     field_2A_settle_counter = 0;
     field_2C_side_counter = 0;
     field_2E_wait_counter = 0;
     field_C_chase_state = car_chase_state::follow_behind_0;
     field_34_snap_timer = 0;
-    field_4_pDriver = 0;
+    field_4_pDriver = NULL;
     field_38_unused = 0;
     field_3C_block_counter = 0;
 }
@@ -44,7 +44,7 @@ CarChaseTask* CarChaseTaskTable::AllocateEntry_474810()
             return &field_0_entries[i];
         }
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x474850)
@@ -78,7 +78,7 @@ Ped* CarChaseTaskTable::FindDriverInState_4748A0(s32 chase_state, Ped* pTargetPe
             return field_0_entries[i].field_4_pDriver;
         }
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x474920)

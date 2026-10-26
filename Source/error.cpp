@@ -26,7 +26,7 @@ void ErrorLog::Open_4D9470(const char_type* path, s32 truncate_mode)
     }
     else
     {
-        fileNameLen = 0;
+        fileNameLen = NULL;
     }
     this->field_3C_pLen = fileNameLen;
 
@@ -89,7 +89,7 @@ void ErrorLog::Write_Log_4D9650(const char_type* buffer)
 MATCH_FUNC(0x4D9540)
 EXPORT void ErrorLog::log_timestamp_4D9540()
 {
-    time_t curTime = time(0);
+    time_t curTime = time(NULL);
     char_type* buffer = ctime(&curTime);
     buffer[strlen(buffer) - 1] = 0; // remove the new line it  adds
     sprintf(gTmpBuffer_67C598, "\n------ %s ------", buffer);
@@ -120,7 +120,7 @@ void ErrorLog::log_intro_4D95A0()
     sprintf(gTmpBuffer_67C598, "Coop v%d.%d", gGTA2VersionMajor_708280, gGTA2VersionMinor_708284);
     Write_4D9620(gTmpBuffer_67C598);
 
-    time_t curTime = time(0);
+    time_t curTime = time(NULL);
     char_type* buffer = ctime(&curTime);
     buffer[strlen(buffer) - 1] = 0; // remove the new line it  adds
     sprintf(gTmpBuffer_67C598, "\n------ %s ------", buffer);
@@ -177,7 +177,7 @@ MATCH_FUNC(0x4A07A0)
 EXPORT const char_type* __stdcall SourceFileNameFromPath_4A07A0(const char_type* pPath)
 {
     // ecx was swapped with edx without using the local pIter
-    const char_type* result = 0;
+    const char_type* result = NULL;
     const char_type* pIter = pPath;
     while (*pIter)
     {

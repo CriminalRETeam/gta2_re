@@ -162,7 +162,7 @@ Sprite* SpriteGrid::FindNearestSprite_SpiralSearch_477C90(s32 primary_sprite_typ
     gSpriteGrid_exclude_sprite_678F40 = pExclude;
     gSpriteGrid_ped_678F64 = pExclude->GetPed_59E1B0();
     gSpriteGrid_smallestDistance_678E5C = Fix16(256);
-    gSpriteGrid_smallestDistSprite_678E40 = 0;
+    gSpriteGrid_smallestDistSprite_678E40 = NULL;
     gSpriteGrid_search_mode_678FD0 = search_mode;
 
     if (bUseSpriteZ == 1)
@@ -254,7 +254,7 @@ MATCH_FUNC(0x477e60)
 Sprite* SpriteGrid::FindCollidingSpritePreferType_477E60(Sprite* pSprite, s32 desired_sprite_type)
 {
     gSpriteGrid_preferred_type_678F60 = desired_sprite_type;
-    gSpriteGrid_smallestDistSprite_678E40 = 0;
+    gSpriteGrid_smallestDistSprite_678E40 = NULL;
 
     gCollisionCounters_6791FC->field_4_query_id++;
 
@@ -278,7 +278,7 @@ bool SpriteGrid::CollectRectCollisions_477F30(Fix16_Rect* pRect, char_type bDeep
 {
     gSpriteGrid_list_679214 = pOutList;
     bool bRet = SpriteGrid::CheckRectForCollisions_477F60(pRect, bDeepCheck, exclude_sprite_type, pExclude);
-    gSpriteGrid_list_679214 = 0;
+    gSpriteGrid_list_679214 = NULL;
     return bRet;
 }
 
@@ -302,12 +302,12 @@ bool SpriteGrid::CheckRectForCollisions_477F60(Fix16_Rect* pRect, char_type bDee
             }
             else
             {
-                SetSpriteToExclude_477E50(0);
+                SetSpriteToExclude_477E50(NULL);
                 return true;
             }
         }
     }
-    SetSpriteToExclude_477E50(0);
+    SetSpriteToExclude_477E50(NULL);
     return bRet;
 }
 
@@ -445,8 +445,8 @@ void SpriteGrid::AddToDrawList_478240(s32 left, s32 right, s32 top, s32 bottom)
 MATCH_FUNC(0x4782c0)
 void SpriteGrid::DoRemove_4782C0(s32 x_pos, s32 y_pos, Sprite* pToFind)
 {
-    GridCell* pFound = 0;
-    GridSpriteLink* pFoundCollideForX = 0;
+    GridCell* pFound = NULL;
+    GridSpriteLink* pFoundCollideForX = NULL;
 
     for (GridCell* pXIter = this->field_0_rows[y_pos]; pXIter; pXIter = pXIter->mpNext)
     {
@@ -495,13 +495,13 @@ MATCH_FUNC(0x478370)
 void SpriteGrid::RemoveFromRowBuckets_478370(s32 y_pos, Sprite* pSprite)
 {
     s32 x_pos = gSpriteGrid_left_6F5FD4;
-    GridCell* pLastXIter = 0;
+    GridCell* pLastXIter = NULL;
     for (GridCell* pXItemIter = this->field_0_rows[y_pos]; pXItemIter; pXItemIter = pXItemIter->mpNext)
     {
         if (pXItemIter->field_0_x == x_pos)
         {
             GridSpriteLink* pObj = pXItemIter->field_4_pSpriteLinks;
-            GridSpriteLink* pLast = 0;
+            GridSpriteLink* pLast = NULL;
             while (pObj)
             {
                 if (pObj->field_0_pSprite == pSprite)
@@ -542,7 +542,7 @@ void SpriteGrid::RemoveFromRowBuckets_478370(s32 y_pos, Sprite* pSprite)
                         return;
                     }
                     pObj = pXItemIter->field_4_pSpriteLinks;
-                    pLast = 0;
+                    pLast = NULL;
                 }
                 else
                 {
@@ -562,7 +562,7 @@ void SpriteGrid::AddToSingleBucket_478440(s32 x_pos, s32 y_pos, Sprite* pSprite)
 
     pNewCollide->field_0_pSprite = pSprite;
 
-    GridCell* pPrevCell = 0;
+    GridCell* pPrevCell = NULL;
     GridCell* pCell;
     for (pCell = this->field_0_rows[y_pos]; pCell; pCell = pCell->mpNext)
     {
@@ -594,7 +594,7 @@ void SpriteGrid::AddToSingleBucket_478440(s32 x_pos, s32 y_pos, Sprite* pSprite)
     pNewItem->mpNext = pCell;
     pNewItem->field_4_pSpriteLinks = pNewCollide;
     pNewItem->field_0_x = x_pos;
-    pNewCollide->mpNext = 0;
+    pNewCollide->mpNext = NULL;
 }
 
 MATCH_FUNC(0x4784d0)
@@ -602,7 +602,7 @@ void SpriteGrid::AddToRowBuckets_4784D0(s32 y_pos, Sprite* pSprite)
 {
     s32 purple_left = gSpriteGrid_left_6F5FD4;
     GridCell* pNewNext = this->field_0_rows[y_pos];
-    GridCell* purple_x = 0;
+    GridCell* purple_x = NULL;
     while (purple_left <= gSpriteGrid_right_6F5B80)
     {
         while (pNewNext)
@@ -642,7 +642,7 @@ void SpriteGrid::AddToRowBuckets_4784D0(s32 y_pos, Sprite* pSprite)
         pCell->mpNext = pNewNext;
         pCell->field_4_pSpriteLinks = pLink;
         pCell->field_0_x = purple_left;
-        pLink->mpNext = 0;
+        pLink->mpNext = NULL;
         pNewNext = pCell->mpNext;
         ++purple_left;
         purple_x = pCell;
@@ -658,7 +658,7 @@ GridCell* SpriteGrid::GetFirstXCellInRow_478590(s32 y_pos)
 
     if (y_pos < 0 || y_pos > 255)
     {
-        return 0;
+        return NULL;
     }
     for (pIter = this->field_0_rows[y_pos]; pIter; pIter = pIter->mpNext)
     {
@@ -669,7 +669,7 @@ GridCell* SpriteGrid::GetFirstXCellInRow_478590(s32 y_pos)
         }
         if (cell_x > gSpriteGrid_right_6F5B80)
         {
-            return 0;
+            return NULL;
         }
     }
     return pIter;
@@ -694,7 +694,7 @@ bool SpriteGrid::CheckRowForRectCollisions_4785D0(u32 y_pos, Fix16_Rect* pRect)
             if (!pObj->field_0_pSprite->TypeIs_446940(gSpriteGrid_exclude_types_678F88) &&
                 field_0_pSprite != gSpriteGrid_exclusion_sprite_678F84 &&
                 !pObj->field_0_pSprite->field_C_pCollisionShape->CollisionIdIs_446930(gCollisionCounters_6791FC->field_4_query_id) &&
-                field_0_pSprite->ShouldCollideWithSprite_59E850(0))
+                field_0_pSprite->ShouldCollideWithSprite_59E850(NULL))
             {
                 gCollisionCounters_6791FC->field_0_test_count++;
 
@@ -798,7 +798,7 @@ Sprite* SpriteGrid::FindCollidingSpriteInRow_478880(u32 y_pos, Sprite* pSprite)
     {
         if (pXItem->field_0_x > gSpriteGrid_right_6F5B80)
         {
-            return 0;
+            return NULL;
         }
 
         for (GridSpriteLink* pObj = pXItem->field_4_pSpriteLinks; pObj; pObj = pObj->mpNext)
@@ -828,7 +828,7 @@ Sprite* SpriteGrid::FindCollidingSpriteInRow_478880(u32 y_pos, Sprite* pSprite)
         }
         pXItem = pXItem->mpNext;
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x478950)
@@ -864,7 +864,7 @@ GridCell** SpriteGrid::Clear_4789F0()
 {
     for (u32 i = 0; i < GTA2_COUNTOF(field_0_rows); i++)
     {
-        field_0_rows[i] = 0;
+        field_0_rows[i] = NULL;
     }
     return field_0_rows;
 }

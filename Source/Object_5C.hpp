@@ -263,10 +263,10 @@ class Object
         field_14_id = gObj2C_id_623EC0++;
         field_25_removal_state = object_removal_state::none_0;
         field_26_ped_ref_idx = 99;
-        field_10_obj_3c = 0;
-        field_C_pAny.o8 = 0;
+        field_10_obj_3c = NULL;
+        field_C_pAny.o8 = NULL;
         field_1C_has_explosion = 0;
-        field_4_sprite = 0;
+        field_4_sprite = NULL;
         field_18_model = 0;
     }
 

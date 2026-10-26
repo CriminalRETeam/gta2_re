@@ -104,7 +104,7 @@ u8 Garage::ParkCarAtDoor_534700(Car* pCar, Door* pDoor)
     field_44_wait_ticks = 0;
     field_10_door = pDoor;
     field_C_state = garage_state::waiting_for_car_1;
-    field_14_driver = 0;
+    field_14_driver = NULL;
     field_3C_settle_ticks = 30;
     field_3D_in_position = 0;
     if (field_3E_park_ticket == 255)
@@ -368,9 +368,9 @@ void Garage::GaragesService_5349D0()
 MATCH_FUNC(0x534e80)
 Garage::Garage()
 {
-    field_0_parking_car = 0;
-    field_10_door = 0;
-    field_14_driver = 0;
+    field_0_parking_car = NULL;
+    field_10_door = NULL;
+    field_14_driver = NULL;
     field_C_state = garage_state::idle_0;
     field_28_push_dir.x = 0;
     field_28_push_dir.y = 0;
@@ -386,6 +386,6 @@ Garage::Garage()
     field_3E_park_ticket = 0;
     field_3F_no_respawn = 0;
     field_40_long_car = 0;
-    field_4_parked_car = 0;
+    field_4_parked_car = NULL;
     field_8_parked_car_id = 0;
 }

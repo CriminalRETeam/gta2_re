@@ -38,7 +38,7 @@ EmergencyCrew* EmergencyCrewPool::AllocateSlot_5CBB80()
             return &field_0_slots[i];
         }
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x5cbbd0)
@@ -258,7 +258,7 @@ void EmergencyCrew::UpdateStateMachine_5CBD50()
                 if (field_0_car->field_60_pChaseTask)
                 {
                     gCarChaseTaskTable_678E30->FreeEntry_474CC0(field_0_car->field_60_pChaseTask);
-                    field_0_car->field_60_pChaseTask = 0;
+                    field_0_car->field_60_pChaseTask = NULL;
                 }
                 field_0_car = NULL;
             }
@@ -324,7 +324,7 @@ void EmergencyCrew::UpdateStateMachine_5CBD50()
                     else
                     {
                         field_8_group->field_2C_ped_leader = field_8_group->field_4_ped_list[field_8_group->field_34_count];
-                        field_8_group->field_4_ped_list[field_8_group->field_34_count] = 0;
+                        field_8_group->field_4_ped_list[field_8_group->field_34_count] = NULL;
                         --field_8_group->field_36_count;
                         --field_8_group->field_34_count;
                         field_4_ped = field_8_group->field_2C_ped_leader;
@@ -419,7 +419,7 @@ void EmergencyCrew::UpdateStateMachine_5CBD50()
             if (field_0_car->field_60_pChaseTask)
             {
                 gCarChaseTaskTable_678E30->FreeEntry_474CC0(field_0_car->field_60_pChaseTask);
-                field_0_car->field_60_pChaseTask = 0;
+                field_0_car->field_60_pChaseTask = NULL;
             }
         }
         field_0_car = NULL;
@@ -509,7 +509,7 @@ void EmergencyCrew::CleanupExpiredEntities_5CC1C0()
                 if (field_0_car->field_60_pChaseTask)
                 {
                     gCarChaseTaskTable_678E30->FreeEntry_474CC0(field_0_car->field_60_pChaseTask); // something to do with car route
-                    field_0_car->field_60_pChaseTask = 0;
+                    field_0_car->field_60_pChaseTask = NULL;
                 }
             }
             field_0_car = NULL;

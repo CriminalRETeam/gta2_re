@@ -211,7 +211,7 @@ gmp_block_info* Map_0x370::GetBlockOrNull_452980(u8 x_coord, u8 y_coord, u8 z_co
         reinterpret_cast<gmp_col_info*>(&field_0_pDmap->field_40008_pColumn[*field_0_pDmap->get_base_42A830(y_coord, x_coord)]);
     if (z_coord >= pColData->field_0_height || z_coord < pColData->field_1_offset)
     {
-        return 0;
+        return NULL;
     }
     else
     {
@@ -333,12 +333,12 @@ gmp_map_zone* Map_0x370::GetNearestZoneOfType_4DF240(u8 xpos, u8 ypos, u8 zone_t
     Fix16 nearest_dist = kFp255_6F5B8C;
     Fix16 second_dist = kFp255_6F5B8C;
 
-    gmp_map_zone* pChosenZone = 0;
-    gmp_map_zone* pOtherZone = 0;
+    gmp_map_zone* pChosenZone = NULL;
+    gmp_map_zone* pOtherZone = NULL;
 
-    if (field_328_pZoneData == 0)
+    if (field_328_pZoneData == NULL)
     {
-        return 0;
+        return NULL;
     }
 
     s32 zone_idx;
@@ -402,12 +402,12 @@ gmp_map_zone* Map_0x370::GetZoneOfTypeNearestCentre_4DF3E0(u8 xpos, u8 ypos, u8 
 {
     // pBestZone declared before best_dist (prologue order) and ternary abs values (the compare uses the
     // dist copy, not diff_y)
-    gmp_map_zone* pBestZone = 0;
+    gmp_map_zone* pBestZone = NULL;
     Fix16 best_dist = kFp255_6F5B8C;
 
-    if (field_328_pZoneData == 0)
+    if (field_328_pZoneData == NULL)
     {
-        return 0;
+        return NULL;
     }
 
     for (s32 zone_idx = 0; zone_idx < field_32C_pZones->field_0_num_zones; zone_idx++)
@@ -537,7 +537,7 @@ gmp_zone_info* Map_0x370::GetCurrentZoneInfo_4DF840()
             return &field_334_pZoneInfo[zone_idx];
         }
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x4DF890)
@@ -713,7 +713,7 @@ Gang* Map_0x370::GetGangAtCoords_4DFB50(Fix16 x, Fix16 y)
     }
     else
     {
-        return 0;
+        return NULL;
     }
 }
 
@@ -793,7 +793,7 @@ gmp_block_info* Map_0x370::GetBlock_4DFE10(s32 x_coord, s32 y_coord, s32 z_coord
             return &field_0_pDmap->field_4000C_block[pCol->field_4_blockd[z_coord - offset]];
         }
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x4DFE60)
@@ -969,8 +969,8 @@ MATCH_FUNC(0x4E0130)
 bool Map_0x370::IsMoveOntoSlopeTileBlocked_4E0130(s32 x, s32 y, s32 z, s32 path_direction, u8* pSlopeZDelta, char_type bReportStepUp)
 {
     gmp_block_info* pBlock;
-    gmp_map_slope* pSlope = 0;
-    gmp_map_slope* pBaseSlope = 0;
+    gmp_map_slope* pSlope = NULL;
+    gmp_map_slope* pBaseSlope = NULL;
     gmp_block_info* pNext;
     gmp_block_info* pBelow;
     gmp_map_slope* pNextSlope;
@@ -1138,7 +1138,7 @@ bool Map_0x370::IsMoveOntoSlopeTileBlocked_4E0130(s32 x, s32 y, s32 z, s32 path_
             }
             else
             {
-                pBelow = 0;
+                pBelow = NULL;
             }
             field_36E_bBlockedByTerrain = 1;
             if (pBelow && pBelow->field_A_arrows)
@@ -1287,7 +1287,7 @@ bool Map_0x370::IsMoveOntoSlopeTileBlocked_4E0130(s32 x, s32 y, s32 z, s32 path_
             }
             else
             {
-                pBelow = 0;
+                pBelow = NULL;
             }
             field_36E_bBlockedByTerrain = 1;
             if (pBelow && pBelow->field_A_arrows)
@@ -1448,7 +1448,7 @@ bool Map_0x370::IsMoveOntoSlopeTileBlocked_4E0130(s32 x, s32 y, s32 z, s32 path_
             }
             else
             {
-                pBelow = 0;
+                pBelow = NULL;
             }
             field_36E_bBlockedByTerrain = 1;
             if (pBelow && pBelow->field_A_arrows)
@@ -1607,7 +1607,7 @@ bool Map_0x370::IsMoveOntoSlopeTileBlocked_4E0130(s32 x, s32 y, s32 z, s32 path_
             }
             else
             {
-                pBelow = 0;
+                pBelow = NULL;
             }
             field_36E_bBlockedByTerrain = 1;
             if (pBelow && pBelow->field_A_arrows)
@@ -2600,7 +2600,7 @@ gmp_block_info* Map_0x370::FindHighestBlockForCoord_4E4C30(s32 x, s32 y, s32* fo
             return gBlockInfo0_6F5EB0;
         }
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x4E4CB0)
@@ -2610,7 +2610,7 @@ gmp_block_info* Map_0x370::FindNonAirBlockAtOrBelowZ_4E4CB0(s32 x, s32 y, s32& z
 
     if (z < pColumn->field_1_offset)
     {
-        return 0;
+        return NULL;
     }
 
     s32 curr_z_pos = clamp_z_from_column(pColumn->field_0_height, pColumn->field_1_offset, z);
@@ -3418,7 +3418,7 @@ gmp_block_info* Map_0x370::FindRailwayAtCoord_4E62D0(s32 x, s32 y, s32& found_z)
             return gBlockInfo0_6F5EB0;
         }
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x4E6360)
@@ -4760,15 +4760,15 @@ void Map_0x370::LoadMap_4E95B0(const char_type* pGmpFileName)
 MATCH_FUNC(0x4E9660)
 Map_0x370::Map_0x370()
 {
-    field_328_pZoneData = 0;
-    field_32C_pZones = 0;
-    field_338_pMapObjects = 0;
+    field_328_pZoneData = NULL;
+    field_32C_pZones = NULL;
+    field_338_pMapObjects = NULL;
     field_344_map_object_count = 0;
-    field_0_pDmap = 0;
-    field_330_pZoneArray = 0;
-    field_334_pZoneInfo = 0;
-    field_340_pTileAnimData = 0;
-    field_33C_pLightData = 0;
+    field_0_pDmap = NULL;
+    field_330_pZoneArray = NULL;
+    field_334_pZoneInfo = NULL;
+    field_340_pTileAnimData = NULL;
+    field_33C_pLightData = NULL;
     field_348_num_lights = 0;
     field_350_num_blocks_extra = 0;
     field_34C_num_blocks = 0;
@@ -4805,25 +4805,25 @@ Map_0x370::~Map_0x370()
     {
         crt::free(field_33C_pLightData);
     }
-    field_33C_pLightData = 0;
+    field_33C_pLightData = NULL;
 
     if (field_328_pZoneData)
     {
         crt::free(field_328_pZoneData);
     }
-    field_328_pZoneData = 0;
+    field_328_pZoneData = NULL;
 
     if (field_32C_pZones)
     {
         crt::free(field_32C_pZones);
     }
-    field_32C_pZones = 0;
+    field_32C_pZones = NULL;
 
     if (field_338_pMapObjects)
     {
         crt::free(field_338_pMapObjects);
     }
-    field_338_pMapObjects = 0;
+    field_338_pMapObjects = NULL;
 
     if (field_0_pDmap)
     {
@@ -4831,13 +4831,13 @@ Map_0x370::~Map_0x370()
         {
             crt::free(field_0_pDmap->field_40008_pColumn);
         }
-        field_0_pDmap->field_40008_pColumn = 0;
+        field_0_pDmap->field_40008_pColumn = NULL;
 
         if (field_0_pDmap->field_4000C_block)
         {
             crt::free(field_0_pDmap->field_4000C_block);
         }
-        field_0_pDmap->field_4000C_block = 0;
+        field_0_pDmap->field_4000C_block = NULL;
 
         delete field_0_pDmap;
     }
@@ -4846,17 +4846,17 @@ Map_0x370::~Map_0x370()
     {
         crt::free(field_330_pZoneArray);
     }
-    field_330_pZoneArray = 0;
+    field_330_pZoneArray = NULL;
 
     if (field_334_pZoneInfo)
     {
         crt::free(field_334_pZoneInfo);
     }
-    field_334_pZoneInfo = 0;
+    field_334_pZoneInfo = NULL;
 
     if (field_340_pTileAnimData)
     {
         crt::free(field_340_pTileAnimData);
     }
-    field_340_pTileAnimData = 0;
+    field_340_pTileAnimData = NULL;
 }

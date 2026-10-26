@@ -46,7 +46,7 @@ bool Registry::Sound_Setting_Exists_586A70(const char_type* lpValueName)
     if (Open_Sound_Root_586A00(&hKey))
     {
         cbData = sizeof(DWORD);
-        if (::RegQueryValueExA(hKey, lpValueName, 0, 0, data, &cbData) == ERROR_SUCCESS)
+        if (::RegQueryValueExA(hKey, lpValueName, NULL, NULL, data, &cbData) == ERROR_SUCCESS)
         {
             settingReadOK = true;
         }
@@ -67,7 +67,7 @@ s32 Registry::Get_Sound_Setting_586AE0(const char_type* lpValueName, s32 value)
 
     DWORD cbData = sizeof(DWORD);
     DWORD data;
-    if (::RegQueryValueExA(hKey, lpValueName, 0, 0, reinterpret_cast<BYTE*>(&data), &cbData) != ERROR_SUCCESS)
+    if (::RegQueryValueExA(hKey, lpValueName, NULL, NULL, reinterpret_cast<BYTE*>(&data), &cbData) != ERROR_SUCCESS)
     {
         if (::RegSetValueExA(hKey, lpValueName, 0, REG_DWORD, reinterpret_cast<const BYTE*>(&value), sizeof(DWORD)) != ERROR_SUCCESS)
         {
@@ -135,7 +135,7 @@ bool Registry::Open_Debug_Root_586C60(PHKEY phkResult)
                             "", //byte_67DC88,
                             0,
                             KEY_ALL_ACCESS,
-                            0,
+                            NULL,
                             phkResult,
                             &dwDisposition) != ERROR_SUCCESS)
         {
@@ -158,7 +158,7 @@ bool Registry::Open_Options_Root_586CD0(PHKEY phkResult)
                             "", //byte_67DC88,
                             0,
                             KEY_ALL_ACCESS,
-                            0,
+                            NULL,
                             phkResult,
                             &dwDisposition) != ERROR_SUCCESS)
         {
@@ -181,7 +181,7 @@ bool Registry::Open_Control_Root_586D40(PHKEY phkResult)
                             "", //byte_67DC88,
                             0,
                             KEY_ALL_ACCESS,
-                            0,
+                            NULL,
                             phkResult,
                             &dwDisposition) != ERROR_SUCCESS)
         {
@@ -204,7 +204,7 @@ bool Registry::Open_Screen_Root_586DB0(PHKEY phkResult)
                             "", //byte_67DC88,
                             0,
                             KEY_ALL_ACCESS,
-                            0,
+                            NULL,
                             phkResult,
                             &dwDisposition))
         {
@@ -224,7 +224,7 @@ bool Registry::Debug_Setting_Exists_586E20(const char_type* lpValueName)
     if (Open_Debug_Root_586C60(&hKey))
     {
         DWORD cbData = sizeof(DWORD);
-        if (RegQueryValueExA(hKey, lpValueName, 0, 0, reinterpret_cast<BYTE*>(&Data), &cbData) == ERROR_SUCCESS)
+        if (RegQueryValueExA(hKey, lpValueName, NULL, NULL, reinterpret_cast<BYTE*>(&Data), &cbData) == ERROR_SUCCESS)
         {
             bRead = true;
         }
@@ -246,7 +246,7 @@ void Registry::Get_Debug_Setting_586E90(const char_type* lpValueName, LPBYTE lpD
     if (Open_Debug_Root_586C60(&hKey))
     {
         cbData = static_cast<u16>(data_size);
-        RegQueryValueExA(hKey, lpValueName, 0, 0, lpData, &cbData);
+        RegQueryValueExA(hKey, lpValueName, NULL, NULL, lpData, &cbData);
     }
 
     if (RegCloseKey(hKey) != ERROR_SUCCESS)
@@ -265,7 +265,7 @@ void Registry::Get_Option_586F00(const char_type* lpValueName, BYTE* pBuffer, s3
     if (Open_Options_Root_586CD0(&hKey))
     {
         cbData = static_cast<u16>(bufferSize);
-        RegQueryValueExA(hKey, lpValueName, 0, 0, pBuffer, &cbData);
+        RegQueryValueExA(hKey, lpValueName, NULL, NULL, pBuffer, &cbData);
     }
 
     // bug: closing key even if not opened
@@ -285,7 +285,7 @@ s32 Registry::Get_Option_Int_586F70(const char_type* lpValueName, s32 value)
 
     DWORD cbData = sizeof(DWORD);
 
-    if (RegQueryValueExA(hKey, lpValueName, 0, 0, reinterpret_cast<BYTE*>(&Data), &cbData) != ERROR_SUCCESS)
+    if (RegQueryValueExA(hKey, lpValueName, NULL, NULL, reinterpret_cast<BYTE*>(&Data), &cbData) != ERROR_SUCCESS)
     {
         if (RegSetValueExA(hKey, lpValueName, 0, REG_DWORD, reinterpret_cast<const BYTE*>(&value), sizeof(DWORD)) != ERROR_SUCCESS)
         {
@@ -313,7 +313,7 @@ s32 Registry::Get_Control_Setting_587010(s32 control_idx, s32 value)
     char_type ValueName[4];
     sprintf(ValueName, "%d", static_cast<BYTE>(control_idx));
 
-    if (RegQueryValueExA(hKey, ValueName, 0, 0, reinterpret_cast<BYTE*>(&Data), &cbData) != ERROR_SUCCESS)
+    if (RegQueryValueExA(hKey, ValueName, NULL, NULL, reinterpret_cast<BYTE*>(&Data), &cbData) != ERROR_SUCCESS)
     {
         if (RegSetValueExA(hKey, ValueName, 0, REG_DWORD, reinterpret_cast<const BYTE*>(&value), sizeof(DWORD)) != ERROR_SUCCESS)
         {
@@ -338,7 +338,7 @@ s32 Registry::Get_Screen_Setting_5870D0(const char_type* lpValueName, s32 defaul
 
     DWORD Data;
     DWORD cbData = sizeof(DWORD);
-    if (RegQueryValueExA(hKey, lpValueName, 0, 0, reinterpret_cast<BYTE*>(&Data), &cbData) != ERROR_SUCCESS)
+    if (RegQueryValueExA(hKey, lpValueName, NULL, NULL, reinterpret_cast<BYTE*>(&Data), &cbData) != ERROR_SUCCESS)
     {
         if (RegSetValueExA(hKey, lpValueName, 0, REG_DWORD, reinterpret_cast<const BYTE*>(&default_value), sizeof(DWORD)) != ERROR_SUCCESS)
         {
@@ -381,7 +381,7 @@ void Registry::Get_Screen_String_5871E0(const char_type* lpValueName, BYTE* lpDa
     Open_Screen_Root_586DB0(&hKey);
 
     cbData = maxLen;
-    if (RegQueryValueExA(hKey, lpValueName, 0, 0, lpData, &cbData) &&
+    if (RegQueryValueExA(hKey, lpValueName, NULL, NULL, lpData, &cbData) &&
         RegSetValueExA(hKey, lpValueName, 0, 1u, lpData, strlen(reinterpret_cast<const char_type*>(lpData)) + 1))
     {
         FatalError_4A38C0(Gta2Error::SetRegistryValueFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 781);
@@ -427,7 +427,7 @@ bool Registry::Get_Binary_587340(HKEY hKey, const char_type* keyPath, s32 value,
     if (v == static_cast<DWORD>(value))
     {
         sprintf(ValueName, "%sd", keyPath);
-        ret = RegQueryValueExA(hKey, ValueName, 0, 0, lpData, &v) == ERROR_SUCCESS;
+        ret = RegQueryValueExA(hKey, ValueName, NULL, NULL, lpData, &v) == ERROR_SUCCESS;
     }
     return ret;
 }
@@ -449,7 +449,7 @@ bool Registry::CreateNetworkRoot_587420(PHKEY phkResult)
     strcpy(SubKey, "SOFTWARE\\DMA Design Ltd\\GTA2");
     strcat(SubKey, "\\Network");
 
-    if (RegCreateKeyExA(kRegistryRootKey_625018, SubKey, 0, "", 0, KEY_ALL_ACCESS, 0, phkResult, &dwDisposition) != ERROR_SUCCESS)
+    if (RegCreateKeyExA(kRegistryRootKey_625018, SubKey, 0, "", 0, KEY_ALL_ACCESS, NULL, phkResult, &dwDisposition) != ERROR_SUCCESS)
     {
         FatalError_4A38C0(Gta2Error::CreateRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 910);
     }
@@ -462,10 +462,10 @@ DWORD Registry::Get_Int_Setting_5874E0(HKEY hKey, const char_type* lpValueName)
 {
     DWORD cbData = 4;
 
-    if (RegQueryValueExA(hKey, lpValueName, 0, reinterpret_cast<LPDWORD>(&hKey), reinterpret_cast<LPBYTE>(&lpValueName), &cbData) != ERROR_SUCCESS)
+    if (RegQueryValueExA(hKey, lpValueName, NULL, reinterpret_cast<LPDWORD>(&hKey), reinterpret_cast<LPBYTE>(&lpValueName), &cbData) != ERROR_SUCCESS)
     {
         // Zeroing the value instead of returning 0 keeps VC6 from going branchless
-        lpValueName = 0;
+        lpValueName = NULL;
     }
 
     return reinterpret_cast<DWORD>(lpValueName);
@@ -508,7 +508,7 @@ bool Registry::Network_Setting_Exists_587620(const char_type* lpValueName)
     if (CreateNetworkRoot_587420(&hKey))
     {
         cbData = sizeof(DWORD);
-        if (RegQueryValueExA(hKey, lpValueName, 0, 0, reinterpret_cast<BYTE*>(&Data), &cbData) == ERROR_SUCCESS)
+        if (RegQueryValueExA(hKey, lpValueName, NULL, NULL, reinterpret_cast<BYTE*>(&Data), &cbData) == ERROR_SUCCESS)
         {
             ret = true;
         }
@@ -529,7 +529,7 @@ s32 Registry::Get_Network_Setting_587690(const char_type* lpValueName, s32 value
 
     u32 Data;
     DWORD cbData = sizeof(DWORD);
-    if (RegQueryValueExA(hKey, lpValueName, 0, 0, reinterpret_cast<BYTE*>(&Data), &cbData) != ERROR_SUCCESS)
+    if (RegQueryValueExA(hKey, lpValueName, NULL, NULL, reinterpret_cast<BYTE*>(&Data), &cbData) != ERROR_SUCCESS)
     {
         if (RegSetValueExA(hKey, lpValueName, 0, REG_DWORD, reinterpret_cast<const BYTE*>(&value), sizeof(DWORD)) != ERROR_SUCCESS)
         {
@@ -576,7 +576,7 @@ bool Registry::Open_Player_Root_5877A0(PHKEY phkResult)
                             "",
                             0,
                             KEY_ALL_ACCESS,
-                            0,
+                            NULL,
                             phkResult,
                             &dwDisposition) != ERROR_SUCCESS)
         {
@@ -595,7 +595,7 @@ DWORD Registry::Get_Player_Setting_587810(const char_type* lpValueName)
     if (Open_Player_Root_5877A0(&hKey))
     {
         DWORD cbData = sizeof(DWORD);
-        if (RegQueryValueExA(hKey, lpValueName, 0, 0, reinterpret_cast<BYTE*>(&Data), &cbData) != ERROR_SUCCESS)
+        if (RegQueryValueExA(hKey, lpValueName, NULL, NULL, reinterpret_cast<BYTE*>(&Data), &cbData) != ERROR_SUCCESS)
         {
             Data = 0;
         }

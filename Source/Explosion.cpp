@@ -74,7 +74,7 @@ Explosion::Explosion()
     this->field_22_spawn_angle = 0;
     this->field_4_idx = 0;
     this->field_10_type = explosion_type::none_0;
-    this->field_14_pObj2C = 0;
+    this->field_14_pObj2C = NULL;
     this->field_18_particle_cooldown = 0;
     this->field_1A_timer = 0;
     this->field_8_speed = kFP16Zero_6FD49C;
@@ -83,7 +83,7 @@ Explosion::Explosion()
     this->field_24_particle_spread = kFP16Zero_6FD49C;
     this->field_28_blast_radius = kFP16Zero_6FD49C;
     this->field_C_angle = kAngZero_6FD5D4;
-    this->field_1C_pAttachedSprite = 0;
+    this->field_1C_pAttachedSprite = NULL;
     this->field_6_id = 0;
     this->field_2C_owner_ped_id = 0;
 }
@@ -91,8 +91,8 @@ Explosion::Explosion()
 MATCH_FUNC(0x540a10)
 Explosion::~Explosion()
 {
-    field_14_pObj2C = 0;
-    field_1C_pAttachedSprite = 0;
+    field_14_pObj2C = NULL;
+    field_1C_pAttachedSprite = NULL;
 }
 
 // No callers. Every few frames, a particle thrown in a random diagonal direction from the attached object
@@ -133,7 +133,7 @@ void Explosion::EmitRandomDiagonalParticle_540A40()
                                                            0);
                 break;
             default:
-                pParticle = 0;
+                pParticle = NULL;
                 break;
         }
 
@@ -1042,7 +1042,7 @@ void Explosion::Init_543650()
     this->field_24_particle_spread = 0;
     this->field_22_spawn_angle = kAngZero_6FD5D4;
     this->field_1A_timer = 200;
-    this->field_14_pObj2C = 0;
+    this->field_14_pObj2C = NULL;
     this->field_2C_owner_ped_id = 0;
     this->field_0_bIn20Pool = 0;
 }
@@ -1225,7 +1225,7 @@ Explosion* ExplosionPool::Allocate_543800()
             return &this->field_0_explosions[idx];
         }
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x5438b0)
@@ -1261,7 +1261,7 @@ Explosion* ExplosionPool_3D4::Allocate_543900()
             return &this->field_0_explosions[idx];
         }
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x543980)

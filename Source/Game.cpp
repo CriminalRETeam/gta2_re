@@ -869,7 +869,7 @@ Camera* Game::IterateNextPlayerCamera_4B9C50()
                 return &field_4_players[field_21_camera_iter_idx]->field_90_game_camera;
             }
         }
-        return 0;
+        return NULL;
     }
     else
     {
@@ -888,7 +888,7 @@ Player* Game::IterateFirstPlayer_4B9CD0()
             return field_4_players[field_20_player_iter_idx];
         }
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x4B9D10)
@@ -901,7 +901,7 @@ Player* Game::IterateNextPlayer_4B9D10()
             return field_4_players[field_20_player_iter_idx];
         }
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x4B9D60)
@@ -938,7 +938,7 @@ Game::Game(u8 max_players, s8 player_idx) // 4B9DE0
 
     for (s32 ii = 0; ii < GTA2_COUNTOF(field_4_players); ii++)
     {
-        field_4_players[ii] = 0;
+        field_4_players[ii] = NULL;
     }
 
     field_23_num_players = max_players;
@@ -1350,6 +1350,6 @@ Game::~Game()
         GTA2_DELETE_AND_NULL(gKanjiFont_6F5168);
     }
 
-    field_1C_draw_player = 0;
-    field_38_local_player = 0;
+    field_1C_draw_player = NULL;
+    field_38_local_player = NULL;
 }

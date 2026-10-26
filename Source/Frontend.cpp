@@ -84,7 +84,7 @@ MATCH_FUNC(0x4AE010)
 LPCSTR __stdcall FreeLoader::GetRegDword_4AE010(HKEY hKey, LPCSTR lpValueName, LPCSTR default_value)
 {
     DWORD Type = 4;
-    if (!RegQueryValueExA(hKey, lpValueName, 0, &Type, reinterpret_cast<LPBYTE>(&lpValueName), &Type) == 0)
+    if (!RegQueryValueExA(hKey, lpValueName, NULL, &Type, reinterpret_cast<LPBYTE>(&lpValueName), &Type) == 0)
     {
         return default_value;
     }
@@ -113,7 +113,7 @@ void __cdecl FreeLoader::MessageBox_4AE170(UINT uType, LPCSTR lpCaption, LPCSTR 
     wvsprintfA(Buffer, lpFormat, args);
     lstrcatA(Buffer, "\r\n");
     OutputDebugStringA(Buffer);
-    MessageBoxA(0, Buffer, lpCaption, uType);
+    MessageBoxA(NULL, Buffer, lpCaption, uType);
 }
 
 MATCH_FUNC(0x4AE1F0)
@@ -125,7 +125,7 @@ EXPORT bool __stdcall FreeLoader::CheckCityInstalled_4AE1F0(u8 city_idx)
         PostMessageA(gHwnd_707F04, WM_ACTIVATE, 0, 0);
         tagMSG Msg;
 
-        while (PeekMessageA(&Msg, 0, 0, 0, 1u))
+        while (PeekMessageA(&Msg, NULL, 0, 0, 1u))
         {
             TranslateMessage(&Msg);
             DispatchMessageA(&Msg);
@@ -134,7 +134,7 @@ EXPORT bool __stdcall FreeLoader::CheckCityInstalled_4AE1F0(u8 city_idx)
         HANDLE hMutex = OpenMutexA(0x1F0001u, 0, "WEBL_COOP_MUTEX");
         if (!hMutex)
         {
-            ShellExecuteA(0, 0, "WebLaunch.exe", 0, gWorkingDir_707F64, 1);
+            ShellExecuteA(NULL, NULL, "WebLaunch.exe", NULL, gWorkingDir_707F64, 1);
         }
         else
         {
@@ -2318,7 +2318,7 @@ static __forceinline bool CheckCdFile()
                     {
                         if (!crt::fclose(hFile))
                         {
-                            bool ok = crt::fopen(path, "wb") == 0;
+                            bool ok = crt::fopen(path, "wb") == NULL;
                             return ok;
                         }
                     }
@@ -3425,7 +3425,7 @@ void Frontend::FreeKeyBoardDevice_4AFD00()
     {
         field_4_pKeyboardDevice->Unacquire();
         field_4_pKeyboardDevice->Release();
-        field_4_pKeyboardDevice = 0;
+        field_4_pKeyboardDevice = NULL;
     }
 }
 
@@ -3460,9 +3460,9 @@ MATCH_FUNC(0x4AFBE0)
 void Frontend::InitKeyBoardDevice_4AFBE0()
 {
     field_0_pDInput = gpDInput_67B804;
-    field_4_pKeyboardDevice = 0;
+    field_4_pKeyboardDevice = NULL;
 
-    if (field_0_pDInput->CreateDevice(GUID_SysKeyboard, &field_4_pKeyboardDevice, 0) < 0)
+    if (field_0_pDInput->CreateDevice(GUID_SysKeyboard, &field_4_pKeyboardDevice, NULL) < 0)
     {
         FatalError_4A38C0(Gta2Error::DirectInputCreateFail, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2469);
     }

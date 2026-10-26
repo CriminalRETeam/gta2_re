@@ -324,7 +324,7 @@ void sound_obj::ProcessType2_412490(s32 idx)
 
     // Add first sample
     field_30_sQueueSample.field_0_EntityIndex = idx;
-    field_30_sQueueSample.field_5C = 0;
+    field_30_sQueueSample.field_5C = NULL;
     field_30_sQueueSample.field_18_bIs2D = 1;
     field_30_sQueueSample.field_8_obj.field_0_x = kFpZero_66F3F0;
     field_30_sQueueSample.field_8_obj.field_4_y = kFpZero_66F3F0;
@@ -377,7 +377,7 @@ void sound_obj::ProcessType1_Sprite_412740(s32 idx)
                                            &field_30_sQueueSample.field_8_obj.field_8_z);
 
         this->field_30_sQueueSample.field_0_EntityIndex = idx;
-        this->field_30_sQueueSample.field_5C = 0;
+        this->field_30_sQueueSample.field_5C = NULL;
 
         entity.field_5_bHasSolidAbove = gMap_0x370_6F6268->CheckColumnHasSolidAbove_4E7FC0(field_30_sQueueSample.field_8_obj.field_0_x,
                                                                                            field_30_sQueueSample.field_8_obj.field_4_y,
@@ -414,7 +414,7 @@ void sound_obj::ProcessType8_Crane_412820(s32 idx)
                                    &field_30_sQueueSample.field_8_obj.field_8_z);
 
             this->field_30_sQueueSample.field_0_EntityIndex = idx;
-            this->field_30_sQueueSample.field_5C = 0;
+            this->field_30_sQueueSample.field_5C = NULL;
             bool bSolidAbove = gMap_0x370_6F6268->CheckColumnHasSolidAbove_4E7FC0(field_30_sQueueSample.field_8_obj.field_0_x,
                                                                                     field_30_sQueueSample.field_8_obj.field_4_y,
                                                                                     field_30_sQueueSample.field_8_obj.field_8_z);
@@ -529,7 +529,7 @@ void sound_obj::ProcessType9_Crusher_412A60(s32 idx)
             this->field_30_sQueueSample.field_8_obj.field_8_z = z;
 
             this->field_30_sQueueSample.field_0_EntityIndex = idx;
-            this->field_30_sQueueSample.field_5C = 0;
+            this->field_30_sQueueSample.field_5C = NULL;
             const bool bSolidAbove = gMap_0x370_6F6268->CheckColumnHasSolidAbove_4E7FC0(x, y, z);
             this->field_28_dist_related = ComputeEmitterDistanceSquared_4190B0();
             this->field_2C_distCalculated = 0;
@@ -1199,7 +1199,7 @@ void sound_obj::ProcessType6_CollisionSoundQueue_413760(s32 idx)
         return;
     }
 
-    this->field_30_sQueueSample.field_5C = 0;
+    this->field_30_sQueueSample.field_5C = NULL;
     this->field_30_sQueueSample.field_0_EntityIndex = idx;
 
     for (u8 event_idx = 0; event_idx < pQueue->field_C84_count; event_idx++)
@@ -3169,7 +3169,7 @@ void sound_obj::ProcessType11_HudPager_418B60(s32 entity_idx)
 
             field_30_sQueueSample.field_14_samp_idx = 57;
             field_30_sQueueSample.field_0_EntityIndex = entity_idx;
-            field_30_sQueueSample.field_5C = 0;
+            field_30_sQueueSample.field_5C = NULL;
             field_30_sQueueSample.field_24_nVolume = vol;
             field_30_sQueueSample.field_60_nEmittingVolume = vol;
             field_30_sQueueSample.field_64_max_distance = 100;
@@ -3197,7 +3197,7 @@ void sound_obj::AddVocalsEntity_418C20()
     if (!field_544C[0].field_4_entity_idx)
     {
         SoundObject* pSoundObj = &field_544C[0].field_8;
-        field_544C[0].field_8.field_C_pAny.pAny = 0;
+        field_544C[0].field_8.field_C_pAny.pAny = NULL;
         field_544C[0].field_8.field_4_bStatus = 0;
         pSoundObj->field_0_object_type = 10;
         field_544C[0].field_4_entity_idx = AddSoundObject_419FA0(pSoundObj);
@@ -3712,7 +3712,7 @@ void sound_obj::FreeSoundEntry_41A090(u32 idx)
     }
 
     field_147C_audio_entities[idx].field_0_bUsed = 0;
-    field_147C_audio_entities[idx].field_4_pObj->field_C_pAny.pAny = 0;
+    field_147C_audio_entities[idx].field_4_pObj->field_C_pAny.pAny = NULL;
     field_147C_audio_entities[idx].field_1_age = 0;
 
     if (field_147C_audio_entities[idx].field_4_pObj->field_0_object_type == SoundObjectTypeEnum::Camera_0xBC_5)
@@ -4015,8 +4015,8 @@ void sound_obj::ResetEntry_41A6C0(s32 idx)
 {
     field_147C_audio_entities[idx].field_0_bUsed = 0;
     field_147C_audio_entities[idx].field_1_age = 0;
-    field_147C_audio_entities[idx].field_4_pObj = 0;
-    field_147C_audio_entities[idx].field_8_pAlloc = 0;
+    field_147C_audio_entities[idx].field_4_pObj = NULL;
+    field_147C_audio_entities[idx].field_8_pAlloc = NULL;
 }
 
 MATCH_FUNC(0x41A6F0)
@@ -4604,7 +4604,7 @@ void sound_obj::ClearActivateSamples_41B7A0()
         field_DC0_ActiveSamples[i].field_48_nCalculatedVolume = 0;
         field_DC0_ActiveSamples[i].field_4C_releasing_volume_divider = 0;
         field_DC0_ActiveSamples[i].field_50_volume_change = -1;
-        field_DC0_ActiveSamples[i].field_5C = 0;
+        field_DC0_ActiveSamples[i].field_5C = NULL;
     }
 }
 
@@ -6275,7 +6275,7 @@ MATCH_FUNC(0x426E10)
 void sound_obj::EnqueueRadioLocationPhrase_426E10(u8 xpos, u8 ypos)
 {
     char_type bQueuedYDirection = 0;
-    gmp_map_zone* pZone = 0;
+    gmp_map_zone* pZone = NULL;
     const u32 cop_zone = sound_obj::GetCopRadioZoneIndex_427400(xpos, ypos, &pZone);
     if (!cop_zone && !pZone)
     {
@@ -6587,7 +6587,7 @@ u32 sound_obj::GetCopRadioZoneIndex_427400(u8 x, u8 y, gmp_map_zone** ppZone)
 
     if (!*ppZone || (*ppZone)->field_5_name_length != 3 || (*ppZone)->field_6_name[0] != 'm')
     {
-        *ppZone = 0;
+        *ppZone = NULL;
         return 0;
     }
 
@@ -6608,7 +6608,7 @@ u32 sound_obj::GetCopRadioZoneIndex_427400(u8 x, u8 y, gmp_map_zone** ppZone)
             return result;
         }
     }
-    *ppZone = 0;
+    *ppZone = NULL;
     return 0;
 }
 
@@ -6689,7 +6689,7 @@ void sound_obj::ProcessType7_Weapon_42A500(s32 idx)
                                             &this->field_30_sQueueSample.field_8_obj.field_4_y,
                                             &this->field_30_sQueueSample.field_8_obj.field_8_z);
                 this->field_30_sQueueSample.field_0_EntityIndex = idx;
-                this->field_30_sQueueSample.field_5C = 0;
+                this->field_30_sQueueSample.field_5C = NULL;
                 bHasSolidAbove = gMap_0x370_6F6268->CheckColumnHasSolidAbove_4E7FC0(field_30_sQueueSample.field_8_obj.field_0_x,
                                                                                     field_30_sQueueSample.field_8_obj.field_4_y,
                                                                                     field_30_sQueueSample.field_8_obj.field_8_z);

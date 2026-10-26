@@ -25,7 +25,7 @@ void TaxiList::PopAll_457BC0()
         pIter = pIter->mpNext;
         gTaxi_4_Pool_6783F8->DeAllocate(pOldIter);
     }
-    this->field_0_pFirst = 0;
+    this->field_0_pFirst = NULL;
 }
 
 // https://decomp.me/scratch/tPr1q

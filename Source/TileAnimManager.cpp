@@ -143,10 +143,10 @@ TileAnim::TileAnim()
     field_6_repeat = 0;
     field_8_current_frame = 0;
     field_A_frame_timer = 0;
-    field_C_ptr = 0;
+    field_C_ptr = NULL;
     field_10_base = 0;
     field_12_idx = 0;
-    mpNext = 0;
+    mpNext = NULL;
 }
 
 MATCH_FUNC(0x5bebd0)

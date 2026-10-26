@@ -1885,7 +1885,7 @@ void Particle_4C::PoolAllocate()
     field_8_speed.x = 0;
     field_8_speed.y = 0;
     field_8_speed.z = 0;
-    field_40_pExplosion = 0;
+    field_40_pExplosion = NULL;
     field_4_bf.bDriverAttacking = false;
 }
 
@@ -1897,6 +1897,6 @@ void Particle_4C::PoolDeallocate()
         field_30_pOwnSprite->ClearNoLighting_433800();
         field_30_pOwnSprite->SetBlendAndAlpha_4337D0(0, 0);
         gSpritePool_703818->remove(field_30_pOwnSprite);
-        field_30_pOwnSprite = 0;
+        field_30_pOwnSprite = NULL;
     }
 }

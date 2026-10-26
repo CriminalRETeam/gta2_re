@@ -589,7 +589,7 @@ MATCH_FUNC(0x4364A0)
 void Camera::UpdateFollowCarCamera_4364A0(Car* pCar)
 {
 
-    this->field_34_target_ped = 0;
+    this->field_34_target_ped = NULL;
     this->field_38_target_car = pCar;
 
     if (pCar)
@@ -622,7 +622,7 @@ void Camera::UpdateFollowPedCamera_436540(Ped* pPed)
         Fix16 ypos;
         Fix16 zpos;
         Car* pCar = pPed->get_car_416B60();
-        if (pCar || (pCar_2 = pPed->GetCarBeingEnteredOrExited_45BBF0(), pCar_2 == 0))
+        if (pCar || (pCar_2 = pPed->GetCarBeingEnteredOrExited_45BBF0(), pCar_2 == NULL))
         {
             xpos = pPed->get_cam_x();
             ypos = pPed->get_cam_y();

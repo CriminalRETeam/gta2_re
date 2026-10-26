@@ -335,8 +335,8 @@ SpriteMaskCache::~SpriteMaskCache()
     {
         crt::free(this->field_3C8_unaligned_alloc);
     }
-    this->field_3C4_aligned_buffer = 0;
-    this->field_3C8_unaligned_alloc = 0;
+    this->field_3C4_aligned_buffer = NULL;
+    this->field_3C8_unaligned_alloc = NULL;
 }
 
 MATCH_FUNC(0x48F820)
@@ -533,13 +533,13 @@ bool Sprite::IsControlledByRemotePlayer_59E170()
 MATCH_FUNC(0x59E1B0)
 Ped* Sprite::GetPed_59E1B0()
 {
-    if (this->field_30_sprite_type_enum == sprite_types_enum::ped_3 && (this->field_8_char_b4_ptr) != 0)
+    if (this->field_30_sprite_type_enum == sprite_types_enum::ped_3 && (this->field_8_char_b4_ptr) != NULL)
     {
         return field_8_char_b4_ptr->field_7C_pPed;
     }
     else
     {
-        return 0;
+        return NULL;
     }
 }
 
@@ -1333,13 +1333,13 @@ void Sprite::FreeShapes_59FAD0()
     if (field_C_pCollisionShape)
     {
         gSpriteShapePool_70381C->Remove(field_C_pCollisionShape);
-        field_C_pCollisionShape = 0;
+        field_C_pCollisionShape = NULL;
     }
 
     if (field_4_pVisualShape)
     {
         gSpriteShapePool_70381C->Remove(field_4_pVisualShape);
-        field_4_pVisualShape = 0;
+        field_4_pVisualShape = NULL;
     }
 }
 
@@ -1661,7 +1661,7 @@ bool Sprite::CheckBBoxScanlineIntersection_5A0970(Fix16 scanXMin, Fix16 scanXMax
         gCollisionTarget_679188.field_4_hseg_x_min = scanXMin;
         gCollisionTarget_679188.field_8_hseg_x_max = scanXMax;
         gCollisionTarget_679188.field_18_hseg_y = scanY;
-        gCollisionTarget_679188.field_20_pHitSprite = 0;
+        gCollisionTarget_679188.field_20_pHitSprite = NULL;
         return true;
     }
     return false;
@@ -2246,7 +2246,7 @@ void Sprite::FreeSound_5A2A00()
     if (field_10_sound)
     {
         gRoot_sound_66B038.DestroySoundObj_40FE60(field_10_sound);
-        field_10_sound = 0;
+        field_10_sound = NULL;
     }
 }
 
@@ -2254,7 +2254,7 @@ MATCH_FUNC(0x5a2a30)
 void Sprite::ResolveCollisionWithCarPedOrObject_5A2A30()
 {
     SpriteList collisions;
-    collisions.field_0_p18 = 0;
+    collisions.field_0_p18 = NULL;
     gSpriteGrid_1_679208->CollectRectCollisions_477F30(&field_C_pCollisionShape->field_30_boundingBox, 0, 0, this, &collisions);
     for (AttachedSprite* pCollisionIter = collisions.field_0_p18; pCollisionIter; pCollisionIter = pCollisionIter->mpNext)
     {
@@ -2296,7 +2296,7 @@ void Sprite::PoolAllocate()
 {
     this->field_2C_flags = 0;
     this->field_28_draw_layer = 0;
-    this->field_8_car_bc_ptr = 0;
+    this->field_8_car_bc_ptr = NULL;
     this->field_14_xy.x = gFix16_7035C0;
     this->field_14_xy.y = gFix16_7035C0;
     this->field_1C_zpos = gFix16_7035C0;
@@ -2305,10 +2305,10 @@ void Sprite::PoolAllocate()
     this->field_22_type_sprite_idx = 0;
     this->field_24_remap = 0;
     this->field_34_palette_type = palette_types_enum::sprites_2;
-    this->field_C_pCollisionShape = 0;
-    this->field_4_pVisualShape = 0;
+    this->field_C_pCollisionShape = NULL;
+    this->field_4_pVisualShape = NULL;
     this->field_38_zoom = 0;
-    this->field_10_sound = 0;
+    this->field_10_sound = NULL;
 
     // TODO: Probably an inline
     this->field_20_instance_id = gSpriteManager_703820->field_4_id_base++;
@@ -2681,7 +2681,7 @@ SpriteManager_8::~SpriteManager_8()
     GTA2_DELETE_AND_NULL(gSpriteShapePool_70381C);
     GTA2_DELETE_AND_NULL(gSpriteMaskCache_67AF1C);
     GTA2_DELETE_AND_NULL(gAttachedSpritePool_703B80);
-    gSprite_703814 = 0;
+    gSprite_703814 = NULL;
 }
 
 MATCH_FUNC(0x5a5be0)

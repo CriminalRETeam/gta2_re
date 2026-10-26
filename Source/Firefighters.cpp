@@ -122,7 +122,7 @@ void Firefighter::deinit_4A81A0()
         if (pRoute)
         {
             gCarChaseTaskTable_678E30->FreeEntry_474CC0(pRoute);
-            this->field_1C_car->field_60_pChaseTask = 0;
+            this->field_1C_car->field_60_pChaseTask = NULL;
         }
     }
     Ped* pPed = this->field_20_ped;
@@ -266,7 +266,7 @@ void Firefighter::Update_4A81F0()
                 field_1C_car->DeactivateEmergencyLights_43C9D0();
                 if (field_1C_car->field_54_driver)
                 {
-                    field_1C_car->field_54_driver->SetTargetObjectiveCar(0);
+                    field_1C_car->field_54_driver->SetTargetObjectiveCar(NULL);
                     field_1C_car->field_54_driver->SetObjective(objectives_enum::no_obj_0);
                     field_1C_car->field_54_driver->ClearAttacking_403A40();
                 }
@@ -290,10 +290,10 @@ void Firefighter::init_4A85C0()
 MATCH_FUNC(0x4a85e0)
 void Firefighter::Reset_4A85E0()
 {
-    this->field_C_target_car = 0;
+    this->field_C_target_car = NULL;
     this->field_8_state = firefighter_state::idle_0;
     this->field_4_bActive = 0;
-    this->field_1C_car = 0;
+    this->field_1C_car = NULL;
 }
 
 MATCH_FUNC(0x4a85f0)
@@ -373,7 +373,7 @@ Firefighter* FirefighterPool::New28_4A8800()
         }
         p++;
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x4a8820)

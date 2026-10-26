@@ -69,7 +69,7 @@ bool InputDevices::acquire_input_device_498730(LPDIRECTINPUTDEVICEA pGamePadDevi
 
     gDeviceDataCount_67B624 = -1;
 
-    const HRESULT hr = pGamePadDevice->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), 0, &gDeviceDataCount_67B624, DIGDD_PEEK);
+    const HRESULT hr = pGamePadDevice->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), NULL, &gDeviceDataCount_67B624, DIGDD_PEEK);
     if (hr == DIERR_INPUTLOST || hr == DIERR_NOTACQUIRED)
     {
         return SUCCEEDED(pGamePadDevice->Acquire()) ? true : false;
@@ -86,14 +86,14 @@ void InputDevices::free_input_devices_4987A0()
         {
             gKeyboardDevice_67B5C0->Unacquire();
             gKeyboardDevice_67B5C0->Release();
-            gKeyboardDevice_67B5C0 = 0;
+            gKeyboardDevice_67B5C0 = NULL;
         }
 
         if (gGamePadDevice_67B6C0)
         {
             gGamePadDevice_67B6C0->Unacquire();
             gGamePadDevice_67B6C0->Release();
-            gGamePadDevice_67B6C0 = 0;
+            gGamePadDevice_67B6C0 = NULL;
         }
     }
 }
@@ -105,7 +105,7 @@ BOOL __stdcall InputDevices::make_input_devices_498800(HINSTANCE hInstance)
 
     gNeedKbAcquire_67B66C = false;
 
-    if (FAILED(gpDInput_67B804->CreateDevice(GUID_SysKeyboard, &gKeyboardDevice_67B5C0, 0)))
+    if (FAILED(gpDInput_67B804->CreateDevice(GUID_SysKeyboard, &gKeyboardDevice_67B5C0, NULL)))
     {
         FatalError_4A38C0(Gta2Error::DirectInputCreateFail, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 268);
     }
@@ -143,7 +143,7 @@ EXPORT BOOL CALLBACK DirectInputDeviceEnumCallBack_498910(LPCDIDEVICEINSTANCEA l
 {
     const GUID guidInstanceCopy = lpddi->guidInstance;
     LPDIRECTINPUTDEVICEA tempDevice;
-    if (SUCCEEDED(gpDInput_67B804->CreateDevice(guidInstanceCopy, &tempDevice, 0)))
+    if (SUCCEEDED(gpDInput_67B804->CreateDevice(guidInstanceCopy, &tempDevice, NULL)))
     {
         const HRESULT hr = tempDevice->QueryInterface(IID_IDirectInputDevice2A, reinterpret_cast<LPVOID*>(&gGamePadDevice_67B6C0));
         tempDevice->Release();
@@ -153,14 +153,14 @@ EXPORT BOOL CALLBACK DirectInputDeviceEnumCallBack_498910(LPCDIDEVICEINSTANCEA l
             if (FAILED(gGamePadDevice_67B6C0->SetCooperativeLevel(gHwnd_707F04, DISCL_EXCLUSIVE | DISCL_FOREGROUND)))
             {
                 gGamePadDevice_67B6C0->Release();
-                gGamePadDevice_67B6C0 = 0;
+                gGamePadDevice_67B6C0 = NULL;
                 return DIENUM_STOP;
             }
 
             if (FAILED(gGamePadDevice_67B6C0->SetDataFormat(&gInputDeviceFormat_601A6C)))
             {
                 gGamePadDevice_67B6C0->Release();
-                gGamePadDevice_67B6C0 = 0;
+                gGamePadDevice_67B6C0 = NULL;
                 return DIENUM_STOP;
             }
         }
@@ -251,7 +251,7 @@ bool InputDevices::game_pads_init_498BA0()
 #if defined(__clang__) || (_MSC_VER <= 1200)
     #pragma comment(lib, "DInput.lib")
         // VC6-compatible path
-        if (FAILED(DirectInputCreateA(gHInstance_708220, 0x700, &gpDInput_67B804, 0)))
+        if (FAILED(DirectInputCreateA(gHInstance_708220, 0x700, &gpDInput_67B804, NULL)))
         {
             return true;
         }
@@ -341,13 +341,13 @@ void InputDevices::flush_keyboard_and_gamepad_498CC0()
     gDeviceDataCount_67B624 = -1;
     if (gKeyboardDevice_67B5C0)
     {
-        gKeyboardDevice_67B5C0->GetDeviceData(16, 0, &gDeviceDataCount_67B624, 0);
+        gKeyboardDevice_67B5C0->GetDeviceData(16, NULL, &gDeviceDataCount_67B624, 0);
     }
 
     gDeviceDataCount_67B624 = -1;
     if (gGamePadDevice_67B6C0)
     {
-        gGamePadDevice_67B6C0->GetDeviceData(16, 0, &gDeviceDataCount_67B624, 0);
+        gGamePadDevice_67B6C0->GetDeviceData(16, NULL, &gDeviceDataCount_67B624, 0);
     }
 }
 
@@ -406,7 +406,7 @@ void InputDevices::read_input_device_498DA0(s32* input_bits, u8 bApplyKeyboardCo
             if (gGamePadDevice_67B6C0 && !gDeviceDataCount_67B624)
             {
                 gDeviceDataCount_67B624 = 1;
-                gGamePadDevice_67B6C0->GetDeviceData(16, 0, &padItems, DIGDD_PEEK);
+                gGamePadDevice_67B6C0->GetDeviceData(16, NULL, &padItems, DIGDD_PEEK);
                 padResult = gGamePadDevice_67B6C0->GetDeviceData(16,
                                                                  reinterpret_cast<DIDEVICEOBJECTDATA*>(&gGamePadDeviceData_67B5B0),
                                                                  &gDeviceDataCount_67B624,

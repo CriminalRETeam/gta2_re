@@ -214,7 +214,7 @@ MATCH_FUNC(0x5c5e50)
 void SpriteTree::Reset_5C5E50()
 {
     gSpriteTreeNodePool_705BBC->Reset_4C4B70();
-    field_0_pRoot = 0;
+    field_0_pRoot = NULL;
 }
 
 MATCH_FUNC(0x5c5e70)
@@ -242,7 +242,7 @@ SpriteTree::~SpriteTree()
         SpriteTreeNodePool* p = gSpriteTreeNodePool_705BBC;
         gSpriteTreeNodePool_705BBC->~SpriteTreeNodePool();
         operator delete(p);
-        gSpriteTreeNodePool_705BBC = 0;
+        gSpriteTreeNodePool_705BBC = NULL;
     }
 
     if (gSpriteTreeStack_705BC0)
@@ -256,7 +256,7 @@ SpriteTreeNodePool::SpriteTreeNodePool()
 {
     for (s32 i = 0; i < GTA2_COUNTOF(field_0_entries); i++)
     {
-        field_0_entries[i].field_0_pSprite = 0;
+        field_0_entries[i].field_0_pSprite = NULL;
     }
     Reset_4C4B70();
 }

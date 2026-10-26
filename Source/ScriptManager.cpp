@@ -49,7 +49,7 @@ void MissionCleanupList::MissionCleanUp_502DC0()
             {
                 gStoredCar_6F7560->MarkForDespawn_421470();
             }
-            gStoredCar_6F7560 = 0;
+            gStoredCar_6F7560 = NULL;
             gStoredCarId_6F78B4 = 0;
         }
     }
@@ -118,7 +118,7 @@ str_table_entry* ScriptManager::FindStringById_503080(s16 stringId)
         idx++;
         result = field_13350_pStringTbl->field_4_entries[idx];
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x5030b0)
@@ -135,7 +135,7 @@ str_table_entry* ScriptManager::StrEntryByString_5030B0(char_type* strToFind)
         idx++;
         pEntry = field_13350_pStringTbl->field_4_entries[idx];
     }
-    return 0;
+    return NULL;
 }
 
 EXTERN_GLOBAL_ARRAY(u8, kDecidePowerupGenTypes_6212F0, 19);
@@ -464,7 +464,7 @@ SCR_CMD_HEADER* ScriptManager::FindCommandByType_512100(u16 toFind, u16 startOff
 
     if (bSkip_mission_67D4E5)
     {
-        return 0;
+        return NULL;
     }
     for (idx = 0; idx < GTA2_COUNTOF_S(field_46C_base_pointers) - startOff; ++idx)
     {
@@ -476,7 +476,7 @@ SCR_CMD_HEADER* ScriptManager::FindCommandByType_512100(u16 toFind, u16 startOff
             }
         }
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x512160)
@@ -670,7 +670,7 @@ SCR_CMD_HEADER* ScriptManager::GetBasePointer_512770(u16 idx)
 {
     if (!field_46C_base_pointers[idx])
     {
-        return 0;
+        return NULL;
     }
     return reinterpret_cast<SCR_CMD_HEADER*>(&field_334C_script_data[field_46C_base_pointers[idx]]);
 }
@@ -1004,7 +1004,7 @@ bool ScriptManager::IsWeaponHitRecorded_512C70(s32 id, char_type weapon_idx, cha
 MATCH_FUNC(0x512ce0)
 ScriptManager::ScriptManager()
 {
-    field_13350_pStringTbl = 0;
+    field_13350_pStringTbl = NULL;
     if (!bSkip_mission_67D4E5)
     {
         memset(field_334C_script_data, 0, sizeof(field_334C_script_data));
@@ -1038,7 +1038,7 @@ ScriptManager::ScriptManager()
     memset(field_C1D34_mission_start_cmd, 0, sizeof(field_C1D34_mission_start_cmd));
     memset(field_C1D72_mission_base_ptr_idx, 0, sizeof(field_C1D72_mission_base_ptr_idx));
     memset(field_C1DB0_mission_script_data_len, 0, sizeof(field_C1DB0_mission_script_data_len));
-    field_344_mission_flag = 0;
+    field_344_mission_flag = NULL;
     field_2F4_bPreloadMissionScripts = 1;
     field_C1E2C_bLoadedFromSave = 0;
     field_310_finish_score = 0;
@@ -1047,16 +1047,16 @@ ScriptManager::ScriptManager()
     field_31C_gang_1_missions_total = 0;
     field_320_gang_2_missions_total = 0;
     field_324_gang_3_missions_total = 0;
-    field_328_passed_flag = 0;
-    field_32C_1_passed_flag = 0;
-    field_330_2_passed_flag = 0;
-    field_334_3_passed_flag = 0;
-    field_338_secrets_passed = 0;
-    field_33C_secrets_failed = 0;
-    field_340_car_list = 0;
-    field_348_gang_1_mission_flag = 0;
-    field_34C_gang_2_mission_flag = 0;
-    field_350_gang_3_mission_flag = 0;
+    field_328_passed_flag = NULL;
+    field_32C_1_passed_flag = NULL;
+    field_330_2_passed_flag = NULL;
+    field_334_3_passed_flag = NULL;
+    field_338_secrets_passed = NULL;
+    field_33C_secrets_failed = NULL;
+    field_340_car_list = NULL;
+    field_348_gang_1_mission_flag = NULL;
+    field_34C_gang_2_mission_flag = NULL;
+    field_350_gang_3_mission_flag = NULL;
     field_354_next_gang_idx = 0;
     field_C1E70_wanted_car_model = car_model_enum::none;
     field_356_gang_1_death_base = 0;

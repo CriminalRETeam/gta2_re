@@ -611,8 +611,8 @@ RouteSearchNode::RouteSearchNode()
     field_0_idx = 0;
     field_2_cost = -1;
     field_4_expanded = 0;
-    field_8_pParent = 0;
-    field_C_pNext = 0;
+    field_8_pParent = NULL;
+    field_C_pNext = NULL;
 }
 #pragma warning(pop)
 
@@ -629,7 +629,7 @@ RouteSearchNode* RouteFinder::NewChildNode_5892F0(RouteSearchNode* pRoute, u16 i
     pNode->field_0_idx = idx;
     pNode->field_2_cost = cost + dist;
     pNode->field_8_pParent = pRoute;
-    pNode->field_C_pNext = 0;
+    pNode->field_C_pNext = NULL;
 
     return pNode;
 }
@@ -645,8 +645,8 @@ RouteSearchNode* RouteFinder::NewStartNode_589390(u16 junction_idx)
     pNode->field_0_idx = junction_idx;
     pNode->field_4_expanded = 0;
     // field_6 is preserved by the original function.
-    pNode->field_8_pParent = 0;
-    pNode->field_C_pNext = 0;
+    pNode->field_8_pParent = NULL;
+    pNode->field_C_pNext = NULL;
     return pNode;
 }
 
@@ -992,7 +992,7 @@ bool RouteFinder::SearchUntilOffScreen_589E70(s32 arrow_type)
     RouteSearchNode* pNode;
 
     result = '\0';
-    if (this->field_A82C_open_list != 0)
+    if (this->field_A82C_open_list != NULL)
     {
         while (true)
         {
@@ -1162,7 +1162,7 @@ RouteFinder::RouteFinder()
     field_8618_idx = 0;
     field_861A_dest_idx = 0;
     memset(field_861C_nodes, 0, sizeof(field_861C_nodes));
-    field_A82C_open_list = 0;
+    field_A82C_open_list = NULL;
     memset(field_A830_horz_segments, 0, sizeof(field_A830_horz_segments));
     memset(field_B938_vert_segments, 0, sizeof(field_B938_vert_segments));
     memset(field_CA40_visited, 0, sizeof(field_CA40_visited));

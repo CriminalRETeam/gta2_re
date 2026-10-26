@@ -17,7 +17,7 @@ MissionCleanupList::MissionCleanupList() throw()
     field_258_count = 0;
     for (s32 i = 0; i < 50; i++)
     {
-        field_0_entries[i].field_0_obj = 0;
+        field_0_entries[i].field_0_obj = NULL;
         field_0_entries[i].field_8_entity_id = 0;
         field_0_entries[i].field_4_type = 0;
     }

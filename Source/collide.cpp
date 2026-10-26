@@ -52,7 +52,7 @@ CollisionCounters::CollisionCounters()
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\collide.cpp", 1424);
     }
 
-    gSpriteGrid_exclusion_sprite_678F84 = 0;
+    gSpriteGrid_exclusion_sprite_678F84 = NULL;
 }
 
 MATCH_FUNC(0x478bf0)
