@@ -213,25 +213,23 @@ void Gang::ChangeRespectAndUpdate_4BF000(u8 player_idx, char_type respect)
 
     for (u8 i = 0; i < 10; ++i)
     {
-        Gang* pGangFromIdx = gGangPool_CA8_67E274->GangByIdx_4BF1C0(i);
-        if (field_1_gang_idx != pGangFromIdx->field_1_gang_idx)
+        Gang* pGang = gGangPool_CA8_67E274->GangByIdx_4BF1C0(i);
+        if (field_1_gang_idx != pGang->field_1_gang_idx)
         {
-            if (pGangFromIdx->field_122_gang_kill_reaction[field_1_gang_idx])
+            if (pGang->field_122_gang_kill_reaction[field_1_gang_idx])
             {
                 if (respect > 0)
                 {
-                    pGangFromIdx->DecrementRespect_4BEEA0(player_idx, respect);
+                    pGang->DecrementRespect_4BEEA0(player_idx, respect);
                 }
                 else
                 {
-                    pGangFromIdx->IncrementRespect_4BEE50(player_idx, abs(respect));
+                    pGang->IncrementRespect_4BEE50(player_idx, abs(respect));
                 }
             }
         }
     }
 }
-
-// =====================
 
 MATCH_FUNC(0x4BF090);
 void Gang::SetName_4BF090(const char_type* pName, u8 nameLen)
@@ -309,9 +307,9 @@ void GangPool::AddGangForMapZone_4BF1E0(gmp_map_zone* pMapZone)
 }
 
 MATCH_FUNC(0x4BF210);
-s8 GangPool::GetGangIdxByName_4BF210(const char_type* gangName)
+s8 GangPool::GetGangIdxByName_4BF210(const char_type* pGangName)
 {
-    Gang* pGang = FindGangByName_4BF100(gangName);
+    Gang* pGang = FindGangByName_4BF100(pGangName);
     if (pGang)
     {
         return pGang->field_1_gang_idx;
