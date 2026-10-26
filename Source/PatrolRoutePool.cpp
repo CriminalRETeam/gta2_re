@@ -35,20 +35,20 @@ PatrolRoutePool::PatrolRoutePool()
 {
     for (s32 i = 0; i < GTA2_COUNTOF(field_1D4C_bUsed); i++)
     {
-        field_1D4C_bUsed[i] = 0;
+        field_1D4C_bUsed[i] = false;
     }
 }
 
 MATCH_FUNC(0x543f10)
-PatrolRoute* PatrolRoutePool::AllocPatrolList_543F10(u8* pRet)
+PatrolRoute* PatrolRoutePool::AllocPatrolList_543F10(u8* pRouteIdx)
 {
     for (u8 i = 0; i < GTA2_COUNTOF(field_1D4C_bUsed); i++)
     {
         if (!field_1D4C_bUsed[i])
         {
             field_0_routes[i].Init_543EC0();
-            *pRet = i;
-            field_1D4C_bUsed[i] = 1;
+            *pRouteIdx = i;
+            field_1D4C_bUsed[i] = true;
             return &field_0_routes[i];
         }
     }

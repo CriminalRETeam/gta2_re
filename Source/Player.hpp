@@ -49,13 +49,13 @@ class Player
 {
   public:
     // 9.6f 0x45B0C0
-    inline bool has_player_ped_45B0C0()
+    inline bool has_player_ped_45B0C0() const
     {
         return field_2C4_player_ped != NULL;
     }
 
     // 9.6f 0x4766D0
-    inline Gang* get_gang_curr_location_4766D0()
+    inline Gang* get_gang_curr_location_4766D0() const
     {
         return field_34_gang_curr_location;
     }
@@ -67,13 +67,13 @@ class Player
     }
 
     // 9.6f 0x4C7340
-    inline gmp_map_zone* get_arrow_blocker_zone_4C7340()
+    inline gmp_map_zone* get_arrow_blocker_zone_4C7340() const
     {
         return field_40_arrow_blocker_zone;
     }
 
     // 9.6f 0x434920
-    inline bool HasPowerUp_434920(s32 power_up_idx)
+    inline bool HasPowerUp_434920(s32 power_up_idx) const
     {
         return field_6F4_power_up_timers[power_up_idx] != 0;
     }
@@ -91,14 +91,14 @@ class Player
     }
 
     // 9.6f 0x476700
-    inline bool IsWastedOrBustedNotObjective54_476700()
+    inline bool IsWastedOrBustedNotObjective54_476700() const
     {
         Ped* pPed;
         return field_28_wasted_or_busted && field_2C_death_countdown == 2 && ((pPed = field_2C4_player_ped) == NULL || pPed->get_objective_403A80() != objectives_enum::call_police_car_54);
     }
 
     // 9.6f 0x476730
-    inline bool IsBustedObjective54_476730()
+    inline bool IsBustedObjective54_476730() const
     {
         Ped* pPed;
         return field_28_wasted_or_busted && field_2C_death_countdown == 2 && (pPed = field_2C4_player_ped) != NULL && pPed->get_objective_403A80() == objectives_enum::call_police_car_54;
@@ -117,7 +117,7 @@ class Player
     }
 
     // 9.6f 0x421980
-    inline s32 GetScore_421980()
+    inline s32 GetScore_421980() const
     {
         return field_2D4_scores.GetScore_592370();
     }
@@ -134,13 +134,13 @@ class Player
         field_2D4_scores.AddCash_592620(score * field_6BC_multipliers.field_0_value);
     }
 
-    inline Ped* GetCameraModePed()
+    inline Ped* GetCameraModePed() const
     {
         return field_68_camera_mode == 2 ? field_2C8_aux_ped : field_2C4_player_ped;
     }
 
     // 0x4CCAE0
-    s32 GetThrowCharge_4CCAE0()
+    s32 GetThrowCharge_4CCAE0() const
     {
         return field_50_throw_charge;
     }
@@ -160,7 +160,7 @@ class Player
         }
     }
 
-    s32 GetThrowStrength_4CCAD0()
+    s32 GetThrowStrength_4CCAD0() const
     {
         if (field_50_throw_charge <= 0x3C)
         {
@@ -172,18 +172,18 @@ class Player
         }
     }
 
-    inline bool GetInUse_461DB0()
+    inline bool GetInUse_461DB0() const
     {
         return field_8E_in_use;
     }
 
     // 9.6f inline 0x41D020
-    inline Ped* GetPlayerPed_41D020()
+    inline Ped* GetPlayerPed_41D020() const
     {
         return field_2C4_player_ped;
     }
 
-    bool IsThrowCharging_4CCB00()
+    bool IsThrowCharging_4CCB00() const
     {
         return this->field_50_throw_charge >= 0;
     }
@@ -199,7 +199,7 @@ class Player
     }
 
     // 9.6f 0x4A5100
-    bool IsRemoteControlActive_4A5100()
+    bool IsRemoteControlActive_4A5100() const
     {
         s32 occupation;
         if (!field_2D0_aux_cam_active || !field_2C8_aux_ped ||
@@ -224,7 +224,7 @@ class Player
     EXPORT void SetWeapon_564910(Weapon* pWeapon);
     EXPORT bool HasAnyAmmo_564940();
     EXPORT bool AddWeaponWithAmmo_564960(s32 weapon_kind, u8 ammo);
-    EXPORT void SelectNextOrPrevWeapon_5649D0(char_type go_forwards, char_type go_backwards);
+    EXPORT void SelectNextOrPrevWeapon_5649D0(bool go_forwards, bool go_backwards);
     EXPORT void LoadCarWeapons_564AD0(Car* pCar);
     EXPORT void ClearCarWeapons_564B60();
     EXPORT void CleanupEmptyAmmoWeapons_564B80();
@@ -249,7 +249,7 @@ class Player
     EXPORT void HandleControls_5668D0(Ped* pPed);
     EXPORT void DoCarControlInputs_566C30(Car* pCar);
     EXPORT void DoPedControlInputs_566C80(Ped* pPed);
-    EXPORT void ShowDebugInfo_566EE0(char_type skip);
+    EXPORT void ShowDebugInfo_566EE0(bool skip);
     EXPORT void RespawnPlayer_5670B0();
     EXPORT void Wasted_567130();
     EXPORT void UpdateAuxPedDeath_567850();
@@ -293,12 +293,12 @@ class Player
     // 0x56A940
     EXPORT ~Player();
 
-    inline u8 IsUser_41DC70()
+    inline bool IsUser_41DC70() const
     {
         return field_0_is_user;
     }
 
-    inline Ped* GetPlayerPed_4A5130()
+    inline Ped* GetPlayerPed_4A5130() const
     {
         if (field_68_camera_mode == 2)
         {
@@ -310,13 +310,13 @@ class Player
         }
     }
 
-    inline u8 get_idx_4219D0()
+    inline u8 get_idx_4219D0() const
     {
         return field_2E_player_idx;
     }
 
     // 9.6f 0x4A5150
-    inline Ped* GetActivePed_4A5150()
+    inline Ped* GetActivePed_4A5150() const
     {
         return (field_68_camera_mode == 2 || field_68_camera_mode == 3) ? field_2C8_aux_ped : field_2C4_player_ped;
     }
@@ -334,7 +334,7 @@ class Player
         }
     }
 
-    u8 field_0_is_user;
+    bool field_0_is_user;
     char_type field_1_unused;
     char_type field_2_unused;
     u32 field_4_inputs; // this tick's input bits (SetInputs_565740); zeroed once the tick has used them
@@ -351,36 +351,36 @@ class Player
     Car* field_20_kf_car;
     s32 field_24_kf_car_id;
 
-    char_type field_28_wasted_or_busted;
-    char_type field_29_aux_ped_dying;
+    bool field_28_wasted_or_busted;
+    bool field_29_aux_ped_dying;
     char_type field_2A_pad;
     char_type field_2B_pad;
     s16 field_2C_death_countdown;
-    u8 field_2E_player_idx;
-    char_type field_2F_disable_all_controls;
-    char_type field_30_disable_enter_vehicles;
-    char_type field_31_kf_weapon_mode;
+    u8 field_2E_idx;
+    bool field_2F_disable_all_controls;
+    bool field_30_disable_enter_vehicles;
+    bool field_31_kf_weapon_mode;
     Gang* field_34_gang_curr_location;
     gmp_map_zone* field_38_local_navigation_zone;
     gmp_map_zone* field_3C_navigation_zone;
     gmp_map_zone* field_40_arrow_blocker_zone;
     s32 field_44_death_type;
-    char_type field_48_dbg_cam_follow_player;
+    bool field_48_dbg_cam_follow_player;
     SoundObject* field_4C_sound_obj;
     s32 field_50_throw_charge;
     Car* field_54_car_history[3];
     s32 field_60_finish_score_reached;
-    char_type field_64_jumping;
+    bool field_64_jumping;
     s32 field_68_camera_mode;
     s32 field_6C_in_debug_cam_mode;
-    char_type field_70_dbg_cam_north;
-    char_type field_71_dbg_cam_south;
-    char_type field_72_dbg_cam_west;
-    char_type field_73_dbg_cam_east;
-    char_type field_74_dbg_cam_zooming_out;
-    char_type field_75_dbg_cam_zooming_in;
-    char_type field_76_dbg_zoom_in;
-    char_type field_77_dbg_zoom_out;
+    bool field_70_dbg_cam_north;
+    bool field_71_dbg_cam_south;
+    bool field_72_dbg_cam_west;
+    bool field_73_dbg_cam_east;
+    bool field_74_dbg_cam_zooming_out;
+    bool field_75_dbg_cam_zooming_in;
+    bool field_76_dbg_zoom_in;
+    bool field_77_dbg_zoom_out;
 
     // Current inputs state
     bool field_78_now_forward_pressed;
@@ -409,16 +409,16 @@ class Player
     bool field_8D_attack_changed;
 
     bool field_8E_in_use;
-    char_type field_8F_block_attack;
+    bool field_8F_block_attack;
     Camera field_90_game_camera;
     Camera field_14C_view_camera;
     Camera field_208_aux_game_camera;
     Ped* field_2C4_player_ped;
     Ped* field_2C8_aux_ped;
     Car* field_2CC_watched_car;
-    char_type field_2D0_aux_cam_active;
+    bool field_2D0_aux_cam_active;
     PlayerScoreTracker field_2D4_scores;
-    char_type field_640_busted;
+    bool field_640_busted;
     PlayerCrimeStats field_644_crime_stats;
     u16 field_680_traffic_spawn_counter;
     u16 field_682_traffic_spawn_threshold;
@@ -428,11 +428,11 @@ class Player
     s16 field_716_unused;
     Weapon* field_718_weapons[28];
     s16 field_788_curr_weapon_idx;
-    char_type field_78A_show_quit_message;
+    bool field_78A_show_quit_message;
     s32 field_78C_hud_palette_type; // Usage: 2 = default, 7 = multiplayer if using gang remap
     u16 field_790_hud_palette;
     s16 field_792_unused;
-    char_type field_794_is_chatting;
+    bool field_794_is_chatting;
     s16 field_796_chat_text[79];
     s32 field_834_unused;
     s32 field_838_chat_text_idx;

@@ -29,7 +29,7 @@ struct ProfileAverage
         field_0_samples.Clear();
     }
 
-    s32 Average()
+    s32 Average() const
     {
         return field_7C_sum / 30;
     }
@@ -71,8 +71,8 @@ struct ProfileStopwatch
         return elapsed;
     }
 
-    int field_0_start_time;
-    int field_4_end_time;
+    s32 field_0_start_time;
+    s32 field_4_end_time;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(ProfileStopwatch, 0x8);
 

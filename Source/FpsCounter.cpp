@@ -8,7 +8,6 @@
 
 DEFINE_GLOBAL(FpsCounter*, gFpsCounter_7055D4, 0x7055D4);
 
-// TODO
 EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 
 

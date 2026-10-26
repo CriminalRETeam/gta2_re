@@ -256,7 +256,6 @@ void PlayerScoreTracker::Service_591C70()
         }
     }
 
-    // Handle the previous LABEL_63 section
     const s32 cur_rng = gpRng_67AB34->get_cur_rng_41CFE0();
 
     if (static_cast<u32>(gpRng_67AB34->get_cur_rng_41CFE0() - field_70_last_car_kill_time) > 15)
@@ -294,7 +293,7 @@ RollingDigitCounter* PlayerScoreTracker::GetScoreDigits_592360()
 }
 
 MATCH_FUNC(0x592370)
-s32 PlayerScoreTracker::GetScore_592370()
+s32 PlayerScoreTracker::GetScore_592370() const
 {
     return field_0_money.field_0_value;
 }
@@ -786,7 +785,7 @@ void PlayerScoreTracker::AwardCarDestroyedScore_592DD0(Car* pCar, Ped* pKiller)
         pCar->IsFbiCar_411920())
     {
 
-        if (static_cast<unsigned int>(gpRng_67AB34->get_cur_rng_41CFE0() - field_1A0_last_emergency_car_kill_time) > 150)
+        if (static_cast<u32>(gpRng_67AB34->get_cur_rng_41CFE0() - field_1A0_last_emergency_car_kill_time) > 150)
         {
             field_1A4_killed_cars_flags = emergency_car_kill_flag::none_0;
         }
@@ -867,7 +866,7 @@ void PlayerScoreTracker::AwardCarDamageScore_593030(Car* pCar, s16 damage)
     u32 damage_u = damage;
     if (damage_u > 0)
     {
-        int base_score;
+        s32 base_score;
         if (damage_u < 300)
         {
             base_score = 1;
@@ -1049,7 +1048,7 @@ RollingDigitCounter* PlayerScoreTracker::GetMultiplayerFragDigits_5935B0()
 }
 
 MATCH_FUNC(0x5935c0)
-s32 PlayerScoreTracker::GetFrags_5935C0()
+s32 PlayerScoreTracker::GetFrags_5935C0() const
 {
     return field_38_multiplayer_frags.field_0_value;
 }

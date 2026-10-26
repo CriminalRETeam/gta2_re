@@ -42,34 +42,34 @@ class Game
     // 9.6f 0x4A4750
     inline void ToggleFastForward_4A4750()
     {
-        field_30_fast_forward = field_30_fast_forward == 0;
+        field_30_fast_forward = !field_30_fast_forward;
     }
 
     // 9.6f 0x416BC0
-    inline bool IsPaused_416BC0()
+    inline bool IsPaused_416BC0() const
     {
         return field_0_game_state == GameState::Paused_2;
     }
 
     // 9.6f 0x4B7590
-    inline bool IsExitTimerSet_4B7590()
+    inline bool IsExitTimerSet_4B7590() const
     {
         return field_28_exit_timer != -1;
     }
 
     // 9.6f 0x476790
-    inline u8 GetLocalPlayerIdx_476790()
+    inline u8 GetLocalPlayerIdx_476790() const
     {
         return field_24_local_player_idx;
     }
 
     // 9.6f 0x4D09C0
-    inline s32 GetExitType_4D09C0()
+    inline s32 GetExitType_4D09C0() const
     {
         return field_2C_game_exit_type;
     }
 
-    EXPORT s32 GetFrameDurationMs_4B8BB0();
+    EXPORT s32 GetFrameDurationMs_4B8BB0() const;
     EXPORT void ExitGame_4B8BD0(s32 new_timer, s32 exit_type, s8 bonus_type);
     EXPORT void ExitGameNoBonus_4B8C00(s32 new_timer, s32 exit_type);
     EXPORT bool UpdateExitTimer_4B8C20();
@@ -91,12 +91,12 @@ class Game
     EXPORT void ReinitAfterVideoModeChange_4B9720();
     EXPORT Player* GetFirstPlayerWithoutPed_4B9750();
     EXPORT void ShakeCamerasAtPos_4B9790(Fix16 amount, Fix16 x, Fix16 y);
-    EXPORT bool IsSpriteInAnyPlayerBounds_4B97E0(Sprite* pSprite, Fix16 margin);
-    EXPORT bool IsSpriteInBoundsOrFollowedByAnyPlayer_4B9830(Sprite* pSprite, Fix16 margin);
-    EXPORT bool IsSpriteInAnyPlayerView_4B9890(Sprite* pSprite, s32 wide_view);
-    EXPORT bool IsSpriteInPlayerView_4B98E0(Sprite* pSprite, u8 player_idx, s32 wide_view);
-    EXPORT bool IsSpriteInPlayerBounds_4B9950(Sprite* pSprite, u8 player_idx, Fix16 margin);
-    EXPORT bool IsSpriteCameraSubjectForPlayer_4B9A10(Sprite* pSprite, u8 player_idx);
+    EXPORT bool IsSpriteInAnyPlayerBounds_4B97E0(Sprite* pSprite, Fix16 margin) const;
+    EXPORT bool IsSpriteInBoundsOrFollowedByAnyPlayer_4B9830(Sprite* pSprite, Fix16 margin) const;
+    EXPORT bool IsSpriteInAnyPlayerView_4B9890(Sprite* pSprite, s32 wide_view) const;
+    EXPORT bool IsSpriteInPlayerView_4B98E0(Sprite* pSprite, u8 player_idx, s32 wide_view) const;
+    EXPORT bool IsSpriteInPlayerBounds_4B9950(Sprite* pSprite, u8 player_idx, Fix16 margin) const;
+    EXPORT bool IsSpriteCameraSubjectForPlayer_4B9A10(Sprite* pSprite, u8 player_idx) const;
     EXPORT bool IsPointOnScreen_4B9A80(Fix16 x, Fix16 y);
     EXPORT bool IsRectVisibleToAnyPlayer_4B9B10(Fix16_Rect* pBounds);
     EXPORT Camera* IteratePlayerCamera_4B9BC0();
@@ -108,7 +108,7 @@ class Game
     EXPORT Game(u8 max_players, s8 player_idx); // 4B9DE0
     EXPORT ~Game(); // 4BAE30
 
-    Player* GetPlayer_4219E0(u8 idx)
+    Player* GetPlayer_4219E0(u8 idx) const
     {
         return field_4_players[idx];
     }
