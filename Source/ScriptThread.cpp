@@ -1066,11 +1066,9 @@ void ScriptThread::SCRCMD_DOOR_DECLARE_D2_S2_504B80(SCR_DOOR_DATA_DEC* pCmd)
     switch (pCmd->field_11_open_type)
     {
         case SCR_DOOR_OPENTYPES::any_player:
-            //pCmd->field_8_door->field_20_open_type = 1;
             pCmd->field_8_door->set_field_20(door_open_type::any_player);
             break;
         case SCR_DOOR_OPENTYPES::any_car:
-            //pCmd->field_8_door->field_20_open_type = 2;
             pCmd->field_8_door->set_field_20(door_open_type::any_car);
             break;
         case SCR_DOOR_OPENTYPES::one_car:
@@ -5028,7 +5026,7 @@ void ScriptThread::SCRCMD_SAVE_GAME_50D340()
 MATCH_FUNC(0x50d3c0)
 void ScriptThread::SCRCMD_DO_SAVE_GAME_50D3C0()
 {
-    if (field_C_cmd_initialised == false)
+    if (!field_C_cmd_initialised)
     {
         SCR_DO_SAVE_GAME* pCmd = reinterpret_cast<SCR_DO_SAVE_GAME*>(gBasePtr_6F8070);
         ScriptThread::DisableThread_505790(pCmd->field_8_triggername);
@@ -6696,7 +6694,7 @@ void ScriptThread::SCRCMD_DO_BASIC_KF_510280()
     SCR_DO_BASIC_KF_TEMPLATE* pCmd = reinterpret_cast<SCR_DO_BASIC_KF_TEMPLATE*>(gBasePtr_6F8070);
     SCR_POINTER* pPlayerPedCmdPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_18_playername));
 
-    if (field_C_cmd_initialised == 0)
+    if (!field_C_cmd_initialised)
     {
         pTimerIDPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_timername));
         pTimerIDPointer->field_8_index = gHud_2B00_706620->field_620_pagers.CreateTimer_5D31F0(pCmd->field_C_time_limit);
@@ -7625,7 +7623,7 @@ bool ScriptThread::PoolUpdate()
         // field_6_return_value == 1  means it's in a WHILE_EXEC block
         if (pCmd->field_6_return_value == 1)
         {
-            while (1) // execute commands in the same frame
+            while (true) // execute commands in the same frame
             {
                 SCR_CMD_HEADER* pCurrentCmd = gScriptManager_6F8060->GetBasePointer_512770(field_4_next_cmd);
                 ScriptThread::PreExecOpCode_5108D0();
