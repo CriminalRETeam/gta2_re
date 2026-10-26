@@ -139,7 +139,7 @@ class Char
     s8 field_77_unused;
     Char* mpNext;
     Ped* field_7C_pPed;
-    Sprite* field_80_sprite_ptr; // TODO: Or sprite_3c, are they the same type ??
+    Sprite* field_80_sprite_ptr;
     Car* field_84_target_car;
     SpriteList_4_dtor field_88_obj_2c;
     Fix16 field_8C_jump_base_z;
