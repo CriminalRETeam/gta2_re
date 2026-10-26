@@ -851,7 +851,6 @@ enum
     unknown1 = 5,
     any_player_one_car = 6,
 };
-//static_assert(sizeof(SCR_DOOR_OPENTYPES) == 1)
 } // namespace SCR_DOOR_OPENTYPES
 
 namespace SCR_DOOR_CLOSETYPES
@@ -863,7 +862,6 @@ enum
     close_when_clear = 2,
     close_when_open_rule_fails = 3,
 };
-//static_assert(sizeof(SCR_DOOR_CLOSETYPES) == 1)
 } // namespace SCR_DOOR_CLOSETYPES
 
 namespace SCR_BONUSES
