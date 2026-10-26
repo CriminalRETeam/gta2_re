@@ -424,11 +424,11 @@ s32 __stdcall CarInfoTable::HexStr2Int_430EC0(const char* pStr, s32* pOut)
         s32 digit_value;
         if (currentChar < '0' || '9' < currentChar)
         {
-            digit_value = (currentChar - 0x37) * place_value;
+            digit_value = (currentChar - ('A' - 10)) * place_value;
         }
         else
         {
-            digit_value = (currentChar - 0x30) * place_value;
+            digit_value = (currentChar - '0') * place_value;
         }
 
         *pOut += digit_value;
@@ -456,11 +456,11 @@ s32 __stdcall CarInfoTable::HexStr2Int_430F30(const char* pStr, s16* pOut)
         s32 digit_value;
         if (currentChar < '0' || '9' < currentChar)
         {
-            digit_value = (currentChar - 0x37) * place_value;
+            digit_value = (currentChar - ('A' - 10)) * place_value;
         }
         else
         {
-            digit_value = (currentChar - 0x30) * place_value;
+            digit_value = (currentChar - '0') * place_value;
         }
 
         *pOut += digit_value;
@@ -485,7 +485,7 @@ s32 __stdcall CarInfoTable::StrToInt_430FA0(const char* pStr, s32* pOut)
             return k_gci_invalid_long_integer;
         }
 
-        s32 digit_value = (currentChar - 0x30) * place_value;
+        s32 digit_value = (currentChar - '0') * place_value;
         *pOut += digit_value;
         place_value = place_value * 10;
     }
@@ -516,7 +516,7 @@ s32 __stdcall CarInfoTable::FloatStrToFix16_431000(char* pStr, Fix16& out)
         }
         else
         {
-            out.mValue += (currentChar - 0x30) * decimal_divisor * 0x4000;
+            out.mValue += (currentChar - '0') * decimal_divisor * 0x4000;
             decimal_divisor = decimal_divisor * 10;
         }
     }
@@ -538,7 +538,7 @@ s32 __stdcall CarInfoTable::StrToInt_431080(const char* pStr, s16* pOut)
             return k_gci_invalid_integer;
         }
 
-        s32 digit_value = (currentChar - 0x30) * place_value;
+        s32 digit_value = (currentChar - '0') * place_value;
         *pOut += digit_value;
         place_value = place_value * 10;
     }
@@ -566,31 +566,11 @@ void CarInfo_2C::CalculateCarInfo_4542A0(s32 idx)
     Fix16 max_speed;
     if (gear2_speed > gear3_speed || (max_speed = pModelPhysics->field_28_max_speed, gear3_speed > max_speed) || gear2_speed > max_speed)
     {
-        FatalError_4A38C0(0x3F6, "C:\\Splitting\\Gta2\\Source\\carinfo.cpp", 91, static_cast<u8>(idx));
+        FatalError_4A38C0(Gta2Error::InvalidCarModelGearSpeeds, "C:\\Splitting\\Gta2\\Source\\carinfo.cpp", 91, static_cast<u8>(idx));
     }
 
-    s8 front_wheel_offset = pCarInfo->front_wheel_offset;
-    Fix16 new_front_wheel_offset;
-    if (front_wheel_offset < 0)
-    {
-        new_front_wheel_offset = -gPixelsToFix16_6F6850.list[-front_wheel_offset];
-    }
-    else
-    {
-        new_front_wheel_offset = gPixelsToFix16_6F6850.list[front_wheel_offset];
-    }
-    this->field_4_front_wheel_offset = new_front_wheel_offset;
-    s8 rear_wheel_offset = pCarInfo->rear_wheel_offset;
-    Fix16 new_rear_wheel_offset;
-    if (rear_wheel_offset < 0)
-    {
-        new_rear_wheel_offset = -gPixelsToFix16_6F6850.list[-rear_wheel_offset];
-    }
-    else
-    {
-        new_rear_wheel_offset = gPixelsToFix16_6F6850.list[rear_wheel_offset];
-    }
-    this->field_8_rear_wheel_offset = new_rear_wheel_offset;
+    this->field_4_front_wheel_offset = gPixelsToFix16_6F6850.SignedPixelsToFix16_41FE70(pCarInfo->front_wheel_offset);
+    this->field_8_rear_wheel_offset = gPixelsToFix16_6F6850.SignedPixelsToFix16_41FE70(pCarInfo->rear_wheel_offset);
     Fix16 com_offset_y;
     this->field_0_moment_of_inertia = ComputeCarMassAndInertia_454410(gPixelsToFix16_6F6850.list[pCarInfo->w],
                                                                       gPixelsToFix16_6F6850.list[pCarInfo->h],

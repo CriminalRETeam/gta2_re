@@ -28,8 +28,7 @@ struct PixelsToFix16Table
         return list[pixels];
     }
 
-    // This one won't match with a ref argument even though its the
-    // same as the above function :')
+    // Same as SignedPixelsToFix16_41FE70, but only matches with the argument by value
     EXPORT Fix16 SignedPixelsToFix16_440860(s8 pixels) const;
 
     Fix16 list[256];
