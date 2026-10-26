@@ -76,8 +76,10 @@ class PedListNodePool
 
 class PedManager
 {
-  public:
+  private:
     EXPORT void SpawnDummies_46EB60(Camera* pCam);
+
+  public:
     EXPORT void PedsService_4703F0();
     EXPORT PedManager();
     EXPORT ~PedManager();
@@ -92,8 +94,10 @@ class PedManager
     EXPORT void DoIanTest_471060(u16 key);
     EXPORT Ped* PedById(s32 pedId);
 
+  private:
     EXPORT void Dummies_470330();
 
+  public:
     s16 field_0_max_dummy_chars;
     char_type field_2_num_dummy_chars;
     char_type field_3_num_peds_updated;
