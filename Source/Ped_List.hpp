@@ -42,13 +42,13 @@ class Ped_List
     // inline
     void ClearList_420E90()
     {
-        field_0_pFirstPed = 0;
+        field_0_pFirstPed = NULL;
     }
 
     // 9.6f 0x420EA0
     bool IsEmpty_420EA0()
     {
-        return field_0_pFirstPed == 0;
+        return field_0_pFirstPed == NULL;
     }
 
     PedListNode* field_0_pFirstPed;
