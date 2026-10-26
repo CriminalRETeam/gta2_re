@@ -33,18 +33,25 @@ class PathFinder
     }
     EXPORT bool CanMoveInDirection_554080(s32 path_direction) const;
     EXPORT bool TestMoveToAdjacentTile_5540E0(u8 curr_xpos, u8 curr_ypos, u8 curr_zpos, u8 desired_xpos, u8 desired_ypos);
+
+  private:
     EXPORT bool CanMoveToAdjacentTile_554110(u8 desired_xpos, u8 desired_ypos);
     EXPORT void ClearGrid_5545C0();
     EXPORT void Init_5545E0();
 
+  public:
     ~PathFinder()
     {
     }
     EXPORT void RemovePed_554620(s32 ped_id);
+
+  private:
     EXPORT char_type EvaluateGridCell_554640();
     EXPORT void AddGridCell_554710();
     EXPORT bool ProcessGridCell_5548C0();
     EXPORT void RestoreSavedPosition_554920();
+
+  public:
     EXPORT s32 IsFirstInPathQueue_554A90(Ped* pPed) const;
     EXPORT bool ComputePath_554AB0(s32 ped_id,
                                         Ped* pPed,
