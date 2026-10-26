@@ -1,4 +1,5 @@
 #include "Garage.hpp"
+#include "block_side.hpp"
 #include "Globals.hpp"
 #include "Door.hpp"
 #include "DoorPool.hpp"
@@ -37,13 +38,13 @@ EXPORT Ang16 __stdcall GetHeadingForDoorFace_5345E0(s32 face)
 {
     switch (face)
     {
-        case 4:
+        case block_side::bottom_4:
             return kAng0_6FD25C;
-        case 2:
+        case block_side::right_2:
             return kAng90_6FCFB0;
-        case 3:
+        case block_side::top_3:
             return kAng180_6FD07E;
-        case 1:
+        case block_side::left_1:
             return kAng270_6FD0A4;
     }
     return kAng0_6FD25C;
@@ -142,7 +143,7 @@ u8 Garage::ParkCarAtDoor_534700(Car* pCar, Door* pDoor)
     // Fix16 pairs set with Fix16_Point_POD::SetXY_432860
     switch (field_38_door_face)
     {
-        case 1:
+        case block_side::left_1:
             if (field_10_door->IsDoubleDoor_489600())
             {
                 reinterpret_cast<Fix16_Point_POD*>(&field_18_park_x_min)->SetXY_432860(Fix16(x), Fix16(y) - w1 - kFpOne_6FD124);
@@ -154,7 +155,7 @@ u8 Garage::ParkCarAtDoor_534700(Car* pCar, Door* pDoor)
             reinterpret_cast<Fix16_Point_POD*>(&field_20_park_x_max)->SetXY_432860(Fix16(x) + kFpOne_6FD124 + w2, Fix16(y) + w1 + kFpOne_6FD124);
             reinterpret_cast<Fix16_Point_POD*>(&field_30_target_x)->SetXY_432860(Fix16(x) - kFpPoint8_6FD218, Fix16(y) + kFpHalf_6FCF98);
             break;
-        case 2:
+        case block_side::right_2:
             reinterpret_cast<Fix16_Point_POD*>(&field_18_park_x_min)->SetXY_432860(Fix16(x) - w2, Fix16(y) - w1);
             if (field_10_door->IsDoubleDoor_489600())
             {
@@ -166,7 +167,7 @@ u8 Garage::ParkCarAtDoor_534700(Car* pCar, Door* pDoor)
             }
             reinterpret_cast<Fix16_Point_POD*>(&field_30_target_x)->SetXY_432860(Fix16(x) + kFpOne_6FD124 + kFpPoint8_6FD218, Fix16(y) + kFpHalf_6FCF98);
             break;
-        case 3:
+        case block_side::top_3:
             reinterpret_cast<Fix16_Point_POD*>(&field_18_park_x_min)->SetXY_432860(Fix16(x) - w1, Fix16(y));
             if (field_10_door->IsDoubleDoor_489600())
             {
@@ -178,7 +179,7 @@ u8 Garage::ParkCarAtDoor_534700(Car* pCar, Door* pDoor)
             }
             reinterpret_cast<Fix16_Point_POD*>(&field_30_target_x)->SetXY_432860(Fix16(x) + kFpHalf_6FCF98, Fix16(y) - kFpPoint8_6FD218);
             break;
-        case 4:
+        case block_side::bottom_4:
             if (field_10_door->IsDoubleDoor_489600())
             {
                 reinterpret_cast<Fix16_Point_POD*>(&field_18_park_x_min)->SetXY_432860(Fix16(x) - kFpOne_6FD124 - w1, Fix16(y) - w2);
