@@ -582,7 +582,7 @@ Still different:
 ## FrameProfiler::DrawProfileHistory_4FFD90 (WIP, was STUB)
 
 Draws the profiler history as 1 pixel wide bars (5 per sample) at the bottom right of
-the screen. The 5th bar reads `field_758_ary` again, not `field_8E8_ary` (a bug in the
+the screen. The 5th bar reads `field_758_input_history` again, not `field_8E8_audio_history` (a bug in the
 original). Now `void`, nothing reads a result. Ratio 0.831.
 
 The bar is an inline helper `DrawProfileBar(x, value, colour)` (0.708 written out, 0.831

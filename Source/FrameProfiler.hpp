@@ -106,24 +106,24 @@ class FrameProfiler
         sDrawFlatRect_4FF1C0(left, 478.0f - (value * 4), right, 478.0f, colour);
     }
 
-    ProfileStopwatch m81;
-    ProfileStopwatch m82;
-    ProfileStopwatch m83;
-    ProfileStopwatch m84;
-    ProfileStopwatch m85;
+    ProfileStopwatch field_0_process_watch;
+    ProfileStopwatch field_8_draw_watch;
+    ProfileStopwatch field_10_unused_watch;
+    ProfileStopwatch field_18_input_watch;
+    ProfileStopwatch field_20_audio_watch;
 
-    ProfileAverage field_28_m80_1;
-    ProfileAverage field_A8_m80_2;
-    ProfileAverage field_128_m80_3;
-    ProfileAverage field_1A8_m80_4;
-    ProfileAverage field_228_m80_5;
+    ProfileAverage field_28_process_avg;
+    ProfileAverage field_A8_draw_avg;
+    ProfileAverage field_128_render_avg;
+    ProfileAverage field_1A8_input_avg;
+    ProfileAverage field_228_audio_avg;
 
-    s32 field_2A8_ary[100];
-    s32 field_438_ary[100];
-    s32 field_5C8_ary[100];
-    s32 field_758_ary[100];
-    s32 field_8E8_ary[100];
-    s32 field_A78_ary_idx;
+    s32 field_2A8_process_history[100];
+    s32 field_438_draw_history[100];
+    s32 field_5C8_render_history[100];
+    s32 field_758_input_history[100];
+    s32 field_8E8_audio_history[100];
+    s32 field_A78_history_idx;
     s32 field_A7C_count;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(FrameProfiler, 0xA80);
