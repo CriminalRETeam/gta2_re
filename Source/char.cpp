@@ -1846,12 +1846,12 @@ void Char::HandleObjectCollision_548840(Object* pObj)
         }
         else
         {
-            if (pObj->field_8_definition->field_4C == 3)
+            if (pObj->field_8_definition->field_4C_collision_response == 3)
             {
                 bUnknown = 1;
             }
 
-            if (pObj->field_8_definition->field_4C && !bUnknown)
+            if (pObj->field_8_definition->field_4C_collision_response && !bUnknown)
             {
                 goto LABEL_28;
             }

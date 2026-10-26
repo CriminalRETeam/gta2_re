@@ -365,7 +365,7 @@ void Object::SetMovementVectorWithRandomState_522640(Fix16_Point& point)
 {
     SetMovementVector_5224E0(point);
 
-    if (field_8_definition->field_4C == 3 && field_10_obj_3c->field_34 == 2)
+    if (field_8_definition->field_4C_collision_response == 3 && field_10_obj_3c->field_34 == 2)
     {
         const s16 rng = gRng_6F6784.get_int_4F7AE0(9);
         if (rng < 6)
@@ -711,7 +711,7 @@ void Object::HandleCollisionOutcome_523440(Fix16_Point point, char_type bHitFloo
         return;
     }
 
-    switch (this->field_8_definition->field_4C)
+    switch (this->field_8_definition->field_4C_collision_response)
     {
         case 4:
             if (gCollisionTarget_679188.field_20_pHitSprite)
@@ -1389,7 +1389,7 @@ LABEL_48:
     field_4_sprite->set_xyz_lazy_420600(pProbe->field_14_xy.x, pProbe->field_14_xy.y, pProbe->field_1C_zpos);
     field_4_sprite->set_ang_lazy_420690(pProbe->field_0_rotation);
 
-    switch (this->field_8_definition->field_4C)
+    switch (this->field_8_definition->field_4C_collision_response)
     {
         case 0:
         case 1:
@@ -1520,12 +1520,12 @@ char Object::ShouldCollideWithSprite_525370(Sprite* pSprite)
                 {
                     if (pSprite->GetType_416B40() != sprite_types_enum::ped_3)
                     {
-                        if (field_8_definition->field_4C == 3)
+                        if (field_8_definition->field_4C_collision_response == 3)
                         {
                             return 0;
                         }
 
-                        if (field_8_definition->field_4C == 0)
+                        if (field_8_definition->field_4C_collision_response == 0)
                         {
                             return 0;
                         }
@@ -1533,11 +1533,11 @@ char Object::ShouldCollideWithSprite_525370(Sprite* pSprite)
                 }
                 else
                 {
-                    if (field_8_definition->field_4C == 3)
+                    if (field_8_definition->field_4C_collision_response == 3)
                     {
                         return 0;
                     }
-                    if (field_8_definition->field_4C == 0)
+                    if (field_8_definition->field_4C_collision_response == 0)
                     {
                         return 0;
                     }
@@ -1621,7 +1621,7 @@ bool Object::DispatchFrameAction_525910()
             case 11:
                 if (field_24_touched_result == 1)
                 {
-                    TickObject_5283C0(field_8_definition->field_38);
+                    TickObject_5283C0(field_8_definition->field_38_impact_definition_idx);
                 }
                 else
                 {
@@ -1648,7 +1648,7 @@ bool Object::DispatchFrameAction_525910()
     }
     else if (field_8_definition->field_44_touch_behavior == 3 || field_8_definition->field_44_touch_behavior == 4)
     {
-        TickObject_5283C0(field_8_definition->field_38);
+        TickObject_5283C0(field_8_definition->field_38_impact_definition_idx);
         return true;
     }
 
@@ -1773,7 +1773,7 @@ void Object::UpdatePhysicsAndMovement_525B80()
             this->field_10_obj_3c->field_1C_z_accel = kFpZero_6F8E10;
             this->field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
 
-            TickObject_5283C0(field_8_definition->field_38);
+            TickObject_5283C0(field_8_definition->field_38_impact_definition_idx);
             if (UsesParamAsPedRef_421080())
             {
                 if (get_field_26_420FF0() > 0)
@@ -1851,7 +1851,7 @@ void Object::UpdatePhysicsMovementAndAnimation_525D90()
                         }
                     }
                 }
-                TickObject_5283C0(field_8_definition->field_38);
+                TickObject_5283C0(field_8_definition->field_38_impact_definition_idx);
             }
         }
     }
