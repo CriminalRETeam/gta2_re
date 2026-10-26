@@ -1077,7 +1077,7 @@ void ScriptThread::SCRCMD_DOOR_DECLARE_D2_S2_504B80(SCR_DOOR_DATA_DEC* pCmd)
         case SCR_DOOR_OPENTYPES::one_car:
         case SCR_DOOR_OPENTYPES::any_player_one_car:
         {
-            SCR_POINTER* pTargetPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_30_somename));
+            SCR_POINTER* pTargetPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_2A_open_target));
             Car* pCar = pTargetPointer->field_8_car;
             if (pCar != NULL)
             {
@@ -1088,12 +1088,12 @@ void ScriptThread::SCRCMD_DOOR_DECLARE_D2_S2_504B80(SCR_DOOR_DATA_DEC* pCmd)
         }
 
         case SCR_DOOR_OPENTYPES::one_model:
-            pCmd->field_8_door->set_open_details_model_id(door_open_type::one_model, pCmd->field_30_somename);
+            pCmd->field_8_door->set_open_details_model_id(door_open_type::one_model, pCmd->field_2A_open_target);
             break;
 
         case SCR_DOOR_OPENTYPES::one_char_on_foot:
         {
-            SCR_POINTER* pTargetPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_30_somename));
+            SCR_POINTER* pTargetPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_2A_open_target));
             Ped* pPed = pTargetPointer->field_8_char;
             if (pPed != NULL)
             {
