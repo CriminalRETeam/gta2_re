@@ -2554,67 +2554,67 @@ s32 sound_obj::ConvertToPlayBackRate_417C60(s32 car_model)
 {
     switch (car_model)
     {
-        case 13:
-        case 36:
+        case car_model_enum::DART:
+        case car_model_enum::MESSER:
             return 22000;
-        case 2:
-        case 8:
-        case 19:
-        case 40:
-        case 53:
-        case 71:
+        case car_model_enum::amdb4:
+        case car_model_enum::bug:
+        case car_model_enum::GT24640:
+        case car_model_enum::MORRIS:
+        case car_model_enum::T2000GT:
+        case car_model_enum::WBTWIN:
             return 18000;
-        case 10:
-        case 16:
-        case 23:
-        case 24:
-        case 25:
-        case 26:
-        case 28:
-        case 29:
-        case 37:
-        case 42:
-        case 62:
-        case 67:
-        case 85:
+        case car_model_enum::BUICK:
+        case car_model_enum::FIAT:
+        case car_model_enum::HOTDOG:
+        case car_model_enum::HOTDOG_D1:
+        case car_model_enum::HOTDOG_D2:
+        case car_model_enum::HOTDOG_D3:
+        case car_model_enum::ISETLIMO:
+        case car_model_enum::ISETTA:
+        case car_model_enum::MIURA:
+        case car_model_enum::RTYPE:
+        case car_model_enum::TRANCEAM:
+        case car_model_enum::TVVAN:
+        case car_model_enum::HOTDOG_D4:
             return 24000;
-        case 1:
-        case 22:
-        case 30:
-        case 46:
-        case 49:
-        case 83:
+        case car_model_enum::allard:
+        case car_model_enum::GUNJEEP:
+        case car_model_enum::JEEP:
+        case car_model_enum::STINGRAY:
+        case car_model_enum::STRIPETB:
+        case car_model_enum::ZCX5:
             return 16000;
-        case 5:
-        case 31:
-        case 38:
-        case 57:
+        case car_model_enum::bmw:
+        case car_model_enum::JEFFREY:
+        case car_model_enum::MONSTER:
+        case car_model_enum::TBIRD:
             return 14000;
-        case 3:
-        case 11:
-        case 54:
+        case car_model_enum::apc:
+        case car_model_enum::BUS:
+        case car_model_enum::TANK:
             return 11000;
-        case 17:
-        case 21:
-        case 63:
+        case car_model_enum::FIRETRUK:
+        case car_model_enum::GTRUCK:
+        case car_model_enum::TRUKCAB1:
             return 10300;
-        case 7:
-        case 64:
-        case 86:
+        case car_model_enum::boxtruck:
+        case car_model_enum::TRUKCAB2:
+        case car_model_enum::KRSNABUS:
             return 11700;
-        case 60:
+        case car_model_enum::TRAINCAB:
             return 15000;
-        case 27:
+        case car_model_enum::ICECREAM:
             return 11025;
-        case 4:
-        case 32:
-        case 35:
-        case 41:
-        case 44:
-        case 50:
-        case 56:
-        case 70:
-        case 82:
+        case car_model_enum::bank_van:
+        case car_model_enum::LIMO:
+        case car_model_enum::MERC:
+        case car_model_enum::PICKUP:
+        case car_model_enum::SPIDER:
+        case car_model_enum::STYPE:
+        case car_model_enum::TAXI:
+        case car_model_enum::VTYPE:
+        case car_model_enum::XK120:
             return 19000;
         default:
             return 22050;
@@ -2709,15 +2709,15 @@ bool sound_obj::IsHeavyTruckOrBus_417F40(s32 car_model)
 {
     switch (car_model)
     {
-        case 3:
-        case 7:
-        case 11:
-        case 17:
-        case 21:
-        case 58:
-        case 63:
-        case 64:
-        case 86:
+        case car_model_enum::apc:
+        case car_model_enum::boxtruck:
+        case car_model_enum::BUS:
+        case car_model_enum::FIRETRUK:
+        case car_model_enum::GTRUCK:
+        case car_model_enum::TOWTRUCK:
+        case car_model_enum::TRUKCAB1:
+        case car_model_enum::TRUKCAB2:
+        case car_model_enum::KRSNABUS:
             return 1;
         default:
             return 0;
@@ -6326,7 +6326,7 @@ void sound_obj::GenerateRadioVehicleDescription_426F20(Car* pCar)
     u32 extra_name_word = 321;
     if (!pCar)
     {
-        if (this->field_5574_car_info_idx != 87)
+        if (this->field_5574_car_info_idx != car_model_enum::none)
         {
             if (sound_obj::GetFreeRadioWordSlots_427310() > 3u)
             {
@@ -6335,7 +6335,7 @@ void sound_obj::GenerateRadioVehicleDescription_426F20(Car* pCar)
                 sound_obj::EnqueueRadioWord_4271B0(0x63u);
                 sound_obj::EnqueueRadioWord_4271B0(0x6Eu);
             }
-            this->field_5574_car_info_idx = 87;
+            this->field_5574_car_info_idx = car_model_enum::none;
         }
     }
     else

@@ -3799,7 +3799,7 @@ void Car::HandleCarExplosion_43D840(s32 type)
         field_0_attachments.DestroyAllAttached_5A6BB0();
 
         model_to_check = gCarManager_6C_677930->field_58_model_to_check_destroy;
-        if (model_to_check != 87 && model_to_check == this->field_84_car_info_idx)
+        if (model_to_check != car_model_enum::none && model_to_check == this->field_84_car_info_idx)
         {
             gCarManager_6C_677930->field_5C_model_check_destroyed = 1;
         }
@@ -4055,7 +4055,7 @@ void Car::DestroyWhileSinking_43DD60()
         }
 
         model_to_check = gCarManager_6C_677930->field_58_model_to_check_destroy;
-        if (model_to_check != 87 && model_to_check == this->field_84_car_info_idx)
+        if (model_to_check != car_model_enum::none && model_to_check == this->field_84_car_info_idx)
         {
             gCarManager_6C_677930->field_5C_model_check_destroyed = 1;
         }
