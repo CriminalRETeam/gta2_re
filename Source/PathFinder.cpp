@@ -84,9 +84,7 @@ char_type PathFinder::CanMoveToAdjacentTile_554110(u8 desired_xpos, u8 desired_y
 
     if (xd != 0 && yd != 0)
     {
-        // here both xd and yd are different from zero
-
-        // can't move into any direction if it's currently on a slope? weird
+        // No diagonal move from a slope tile
         if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(field_25_xpos, field_26_ypos, field_27_zpos))
         {
             return false;
@@ -148,8 +146,6 @@ char_type PathFinder::CanMoveToAdjacentTile_554110(u8 desired_xpos, u8 desired_y
             {
                 return false;
             }
-            //v29 = 3;
-            //LABEL_73:
             return gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(this->field_25_xpos,
                                                                       this->field_26_ypos - 1,
                                                                       this->field_27_zpos,
@@ -204,8 +200,6 @@ char_type PathFinder::CanMoveToAdjacentTile_554110(u8 desired_xpos, u8 desired_y
         {
             return false;
         }
-        //v29 = 4;
-        //goto LABEL_73;
         return gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(this->field_25_xpos,
                                                                   this->field_26_ypos - 1,
                                                                   this->field_27_zpos,
@@ -268,7 +262,7 @@ char_type PathFinder::EvaluateGridCell_554640()
             if (field_22_zpos <= 8)
             {
                 field_1C_grid_idx = field_23_grid_x + 34 * field_24_grid_y;
-                PathNode* pNode = &field_40_grid[field_1C_grid_idx]; // 1122 len
+                PathNode* pNode = &field_40_grid[field_1C_grid_idx];
                 if (pNode->field_1_idx2 == 0)
                 {
                     return 1;
@@ -527,11 +521,11 @@ bool PathFinder::ComputePath_554AB0(s32 ped_id,
                                         u8 y_end,
                                         u8 z_end,
                                         s32 angle_face,
-                                        u8* pOutPathFailCount)
+                                        u8* pOutPathPointCount)
 {
     PathNode* pBestNode;
     PathNode* pCell;
-    u8 yCoord;
+    u8 cur_y;
     u8 idx1;
     u8 idx2;
     u8 cur_x;
@@ -539,7 +533,7 @@ bool PathFinder::ComputePath_554AB0(s32 ped_id,
     u8 new_z; // only stored to cur_z on the paths that add a node
     u8 i;
 
-    PatrolPoint* pPatrolPoint_2;
+    PatrolPoint* pEndPoint;
     u16 j;
 
     field_2E_iteration_budget = 100;
@@ -648,7 +642,7 @@ bool PathFinder::ComputePath_554AB0(s32 ped_id,
                 field_18_bSearching = 0;
                 field_19_unused = 1;
                 field_1A_unused = 1;
-                goto LABEL_35;
+                goto trace_path;
             }
             field_20_xpos = gPathFinder_best_x_6FDECA;
             field_21_ypos = gPathFinder_best_y_6FDECB - 1;
@@ -659,7 +653,7 @@ bool PathFinder::ComputePath_554AB0(s32 ped_id,
 
             if (PathFinder::ProcessGridCell_5548C0())
             {
-                goto LABEL_35;
+                goto trace_path;
             }
             field_20_xpos = gPathFinder_best_x_6FDECA + 1;
             field_21_ypos = gPathFinder_best_y_6FDECB - 1;
@@ -670,7 +664,7 @@ bool PathFinder::ComputePath_554AB0(s32 ped_id,
 
             if (PathFinder::ProcessGridCell_5548C0())
             {
-                goto LABEL_35;
+                goto trace_path;
             }
             field_20_xpos = gPathFinder_best_x_6FDECA + 1;
             field_21_ypos = gPathFinder_best_y_6FDECB;
@@ -681,7 +675,7 @@ bool PathFinder::ComputePath_554AB0(s32 ped_id,
 
             if (PathFinder::ProcessGridCell_5548C0())
             {
-                goto LABEL_35;
+                goto trace_path;
             }
             field_20_xpos = gPathFinder_best_x_6FDECA + 1;
             field_21_ypos = gPathFinder_best_y_6FDECB + 1;
@@ -692,7 +686,7 @@ bool PathFinder::ComputePath_554AB0(s32 ped_id,
 
             if (PathFinder::ProcessGridCell_5548C0())
             {
-                goto LABEL_35;
+                goto trace_path;
             }
             field_20_xpos = gPathFinder_best_x_6FDECA;
             field_21_ypos = gPathFinder_best_y_6FDECB + 1;
@@ -702,7 +696,7 @@ bool PathFinder::ComputePath_554AB0(s32 ped_id,
             field_1B_direction = 3;
             if (PathFinder::ProcessGridCell_5548C0())
             {
-                goto LABEL_35;
+                goto trace_path;
             }
             field_20_xpos = gPathFinder_best_x_6FDECA - 1;
             field_21_ypos = gPathFinder_best_y_6FDECB + 1;
@@ -712,7 +706,7 @@ bool PathFinder::ComputePath_554AB0(s32 ped_id,
             field_1B_direction = 7;
             if (PathFinder::ProcessGridCell_5548C0())
             {
-                goto LABEL_35;
+                goto trace_path;
             }
             field_20_xpos = gPathFinder_best_x_6FDECA - 1;
             field_21_ypos = gPathFinder_best_y_6FDECB;
@@ -722,7 +716,7 @@ bool PathFinder::ComputePath_554AB0(s32 ped_id,
             field_1B_direction = 4;
             if (PathFinder::ProcessGridCell_5548C0())
             {
-                goto LABEL_35;
+                goto trace_path;
             }
             field_20_xpos = gPathFinder_best_x_6FDECA - 1;
             field_21_ypos = gPathFinder_best_y_6FDECB - 1;
@@ -733,7 +727,7 @@ bool PathFinder::ComputePath_554AB0(s32 ped_id,
 
             if (PathFinder::ProcessGridCell_5548C0())
             {
-                goto LABEL_35;
+                goto trace_path;
             }
             if (!field_C_node_count)
             {
@@ -742,37 +736,37 @@ bool PathFinder::ComputePath_554AB0(s32 ped_id,
                 PathFinder::RestoreSavedPosition_554920();
                 if (gPathFinder_best_x_6FDECA)
                 {
-                    goto LABEL_30;
+                    goto next_iteration;
                 }
-                goto LABEL_61;
+                goto fail;
             }
             field_14_bExpanding = 1;
             if (field_2E_iteration_budget == 0)
             {
                 return false;
             }
-        LABEL_30:
+        next_iteration:
             if (field_2E_iteration_budget > 0)
             {
                 --field_2E_iteration_budget;
             }
             if (!field_18_bSearching)
             {
-                goto LABEL_35;
+                goto trace_path;
             }
         } // end while
     }
 
-LABEL_35:
+trace_path:
     field_14_bExpanding = 0;
     cur_x = field_25_xpos;
-    yCoord = field_26_ypos;
+    cur_y = field_26_ypos;
     cur_z = field_27_zpos;
     idx1 = gPathFinder_best_grid_x_6FDEC8;
     idx2 = gPathFinder_best_grid_y_6FDEC9;
     field_8_pNode = field_2350_nodes;
     field_8_pNode->field_2_xpos = cur_x;
-    field_8_pNode->field_3_ypos = yCoord;
+    field_8_pNode->field_3_ypos = cur_y;
     field_8_pNode->field_4_zpos = cur_z;
     field_C_node_count = 1;
     pCell = &field_40_grid[static_cast<s16>(idx1 + 34 * idx2)];
@@ -789,9 +783,9 @@ LABEL_35:
             else
             {
                 field_1B_direction = pCell->field_1_idx2;
-                u8 t = pCell->field_3_ypos;
+                u8 second_direction = pCell->field_3_ypos;
                 new_z = pCell->field_2_xpos;
-                pCell->field_1_idx2 = t;
+                pCell->field_1_idx2 = second_direction;
                 pCell->field_0_idx1 = 0;
                 pCell->field_2_xpos = pCell->field_4_zpos;
             }
@@ -806,47 +800,47 @@ LABEL_35:
         {
             case 1:
                 pCell += 34;
-                ++yCoord;
-                goto LABEL_52;
+                ++cur_y;
+                goto add_path_node;
             case 3:
                 pCell -= 34;
-                --yCoord;
-                goto LABEL_52;
+                --cur_y;
+                goto add_path_node;
             case 2:
                 --pCell;
                 cur_x--;
-                goto LABEL_52;
+                goto add_path_node;
             case 4:
                 // ++cur_x written out in cases 4, 7 and 8 (VC6 tail-merges them after register allocation);
                 // a shared ++cur_x label gives new_z 2 more regalloc priority than the switch temp, so new_z
                 // took eax (al) instead of edx (dl)
                 ++pCell;
                 ++cur_x;
-                goto LABEL_52;
+                goto add_path_node;
             case 5:
-                ++yCoord;
+                ++cur_y;
                 pCell += 33;
                 cur_x--;
-                goto LABEL_52;
+                goto add_path_node;
             case 6:
-                --yCoord;
+                --cur_y;
                 pCell -= 35;
                 cur_x--;
-                goto LABEL_52;
+                goto add_path_node;
             case 7:
-                --yCoord;
+                --cur_y;
                 pCell -= 33;
                 ++cur_x;
-                goto LABEL_52;
+                goto add_path_node;
             case 8:
-                ++yCoord;
+                ++cur_y;
                 pCell += 35;
                 ++cur_x;
-            LABEL_52:
+            add_path_node:
                 field_8_pNode++;
                 cur_z = new_z;
                 field_8_pNode->field_2_xpos = cur_x;
-                field_8_pNode->field_3_ypos = yCoord;
+                field_8_pNode->field_3_ypos = cur_y;
                 field_8_pNode->field_4_zpos = cur_z;
                 ++field_C_node_count;
                 continue;
@@ -868,21 +862,21 @@ LABEL_35:
                     pPatrolPoint->field_2_z = field_8_pNode->field_4_zpos;
                     --field_8_pNode;
                 }
-                pPatrolPoint_2 = &pPed->field_0_patrol_points[i];
-                pPatrolPoint_2->field_0_x = 0;
-                pPatrolPoint_2->field_1_y = 0;
-                pPatrolPoint_2->field_2_z = 0;
-                *pOutPathFailCount = static_cast<u8>(field_C_node_count);
+                pEndPoint = &pPed->field_0_patrol_points[i];
+                pEndPoint->field_0_x = 0;
+                pEndPoint->field_1_y = 0;
+                pEndPoint->field_2_z = 0;
+                *pOutPathPointCount = static_cast<u8>(field_C_node_count);
                 field_2FD0_bTimedOut = 1;
                 field_38_bComputePathInProgress = 0;
                 field_2FD1_time_out_counter = 0;
                 return true;
             default:
                 // Shared failure block: the default case and the "no more nodes" path both end here.
-                goto LABEL_61;
+                goto fail;
         }
     }
-LABEL_61:
+fail:
     PathFinder::RemovePed_554620(field_0_ped_id);
     return true;
 }

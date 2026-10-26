@@ -56,7 +56,7 @@ class PathFinder
                                         u8 y_end,
                                         u8 z_end,
                                         s32 angle_face,
-                                        u8* pOutPathFailCount);
+                                        u8* pOutPathPointCount);
     EXPORT bool FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos, u8* ypos, u8* zpos, char_type bAllowDuringPathCompute);
 
     s32 field_0_ped_id;
