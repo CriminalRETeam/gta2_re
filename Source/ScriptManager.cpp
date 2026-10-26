@@ -884,11 +884,11 @@ bool ScriptManager::TestAndRecordWeaponHit_512AF0(s32 id, char_type weapon_idx, 
         pFree->field_4_weapon_idx = weapon_idx;
         if (bIsPed)
         {
-            pFree->field_6_flags = 4;
+            pFree->field_6_flags = weapon_check_flag::ped_4;
         }
         else
         {
-            pFree->field_6_flags = 2;
+            pFree->field_6_flags = weapon_check_flag::car_2;
         }
         field_278_weapon_check_count++;
     }
@@ -957,7 +957,7 @@ void ScriptManager::RecordWeaponHit_512C00(s32 entity_id, s32 projectile_model, 
                     return;
                 }
             set:
-                pTable->field_6_flags |= 1;
+                pTable->field_6_flags |= weapon_check_flag::hit_1;
                 pTable->field_5_hit_projectile_type = projectile_type;
                 return;
             }
