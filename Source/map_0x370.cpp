@@ -23,6 +23,7 @@
 #include "sprite.hpp"
 #include "CollisionSoundQueue.hpp"
 #include "block_face.hpp"
+#include "car_surface_type_more.hpp"
 
 DEFINE_GLOBAL(Map_0x370*, gMap_0x370_6F6268, 0x6F6268);
 DEFINE_GLOBAL(gmp_block_info*, gBlockInfo0_6F5EB0, 0x6F5EB0);
@@ -2809,7 +2810,7 @@ char_type Map_0x370::GetSurfaceTypeBelowCoord_4E52A0(Fix16 x, Fix16 y, Fix16 z)
             return 0;
         }
     }
-    return 5;
+    return car_surface_type::no_block_5;
 }
 
 MATCH_FUNC(0x4E5300)
