@@ -54,17 +54,17 @@ class CarChaseTaskTable
     };
 
     EXPORT CarChaseTask* AllocateEntry_474810();
-    EXPORT bool AreAllies_474850(Ped* pPed1, Ped* pPed2);
-    EXPORT Ped* FindDriverInState_4748A0(s32 chase_state, Ped* pTargetPed);
-    EXPORT u8 CountPursuers_474920(Ped* pTargetPed, Ped* pPed);
-    EXPORT bool HasAnyPursuer_474970(Ped* pTargetPed);
-    EXPORT bool HasPursuerInFront_4749B0(Ped* pPed);
-    EXPORT bool HasPursuerAlongsideLeft_474A20(Ped* pPed);
-    EXPORT bool HasPursuerOnLeft_474A80(Ped* pPed);
-    EXPORT bool HasPursuerAlongsideRight_474AF0(Ped* pPed);
-    EXPORT bool HasPursuerOnRight_474B50(Ped* pPed);
-    EXPORT bool HasPursuerAlongside_474BC0(Ped* pPed);
-    EXPORT bool HasPursuerChoosingSide_474C30(Ped* pPed);
+    EXPORT bool AreAllies_474850(Ped* pPed1, Ped* pPed2) const;
+    EXPORT Ped* FindDriverInState_4748A0(s32 chase_state, Ped* pTargetPed) const;
+    EXPORT u8 CountPursuers_474920(Ped* pTargetPed, Ped* pPed) const;
+    EXPORT bool HasAnyPursuer_474970(Ped* pTargetPed) const;
+    EXPORT bool HasPursuerInFront_4749B0(Ped* pPed) const;
+    EXPORT bool HasPursuerAlongsideLeft_474A20(Ped* pPed) const;
+    EXPORT bool HasPursuerOnLeft_474A80(Ped* pPed) const;
+    EXPORT bool HasPursuerAlongsideRight_474AF0(Ped* pPed) const;
+    EXPORT bool HasPursuerOnRight_474B50(Ped* pPed) const;
+    EXPORT bool HasPursuerAlongside_474BC0(Ped* pPed) const;
+    EXPORT bool HasPursuerChoosingSide_474C30(Ped* pPed) const;
     EXPORT void FreeEntry_474CC0(CarChaseTask* pEntry);
     EXPORT CarChaseTaskTable();
     EXPORT ~CarChaseTaskTable();
