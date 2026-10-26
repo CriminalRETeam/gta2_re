@@ -1034,7 +1034,7 @@ Ped* PedManager::PedById(s32 pedId)
 MATCH_FUNC(0x4710F0)
 CharPool::~CharPool()
 {
-    field_0_pool.field_0_pHead = 0;
+    field_0_pool.field_0_pHead = NULL;
 }
 
 MATCH_FUNC(0x471110)

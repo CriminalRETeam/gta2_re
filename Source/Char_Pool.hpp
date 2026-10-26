@@ -29,7 +29,7 @@ class PedListNode
 {
   public:
     // 9.6f 0x420EA0
-    inline bool no_char_ped_420EA0()
+    inline bool no_char_ped_420EA0() const
     {
         return field_0_char_ped == NULL;
     }
@@ -54,7 +54,7 @@ class PedListNodePool
 
     ~PedListNodePool()
     {
-        field_0_pool.field_0_pHead = 0;
+        field_0_pool.field_0_pHead = NULL;
     }
 
     // 9.6f 0x445EF0
@@ -179,7 +179,7 @@ class PedPool
     }
 
     // 9.6f 0x435530
-    inline Ped* GetFirstPed_435530()
+    inline Ped* GetFirstPed_435530() const
     {
         return field_0_pool.field_4_pPrev;
     }
