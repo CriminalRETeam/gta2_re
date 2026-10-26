@@ -391,7 +391,7 @@ Sprite* ObjectDefinition::CreateSpriteFromDefinition_533170()
     return pFreeSprite;
 }
 
-// fix16?
+// 255 as a raw Fix16
 s32 kFp255_6F8FA4 = 0x3FC000;
 
 MATCH_FUNC(0x5331a0)
