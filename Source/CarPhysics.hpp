@@ -145,7 +145,7 @@ class CarPhysics
     EXPORT Fix16_Point ComputeCombinedCenterOfMass_559EC0();
     EXPORT Fix16 CalculateMass_559FF0();
     EXPORT Fix16 GetEffectiveMomentOfInertia_55A050();
-    EXPORT u8 IsInAir_55A0B0();
+    EXPORT bool IsInAir_55A0B0();
     EXPORT Fix16 GetTrailerAwareTurnRatio_55A100();
     // Inlined in UpdateSteeringAngle_562560. The scale is computed before the turn ratio call, which
     // needs it as a by-value argument ahead of the turn direction (arguments are evaluated right to left)
@@ -179,11 +179,11 @@ class CarPhysics
     EXPORT bool TestCollision_55C150();
     EXPORT bool SweepTestMovementForCollision_55C3B0(Fix16* outHitStep, Fix16* outNoHitStep);
     EXPORT void BinarySearchCollisionTime_55C560(Fix16& low, Fix16& high);
-    EXPORT void HandleMapBoundaryCollisionY_55C5C0(Fix16_Point& pPoint, Ang16 angle);
-    EXPORT void HandleMapBoundaryCollisionX_55C820(Fix16_Point& pPoint, Ang16 angle);
+    EXPORT void HandleMapBoundaryCollisionY_55C5C0(Fix16_Point& point, Ang16 angle);
+    EXPORT void HandleMapBoundaryCollisionX_55C820(Fix16_Point& point, Ang16 angle);
     EXPORT void DispatchCollision_55CA70(Fix16_Point& point, Ang16 angle);
     EXPORT void ReplayAndDispatchCollision_55CBB0(Fix16 step_a, Fix16 step_b);
-    EXPORT void SpawnSkidSegment_55D200(s32 box_idx, Fix16_Point arg_4, s32 surface);
+    EXPORT void SpawnSkidSegment_55D200(s32 box_idx, Fix16_Point wheel_offset, s32 surface);
     EXPORT void UpdateWheelSkidEffects_55DC00();
     EXPORT void DoSkidmarks_55E260();
     EXPORT bool StepMovementAndCollisions_55E470();
@@ -200,11 +200,11 @@ class CarPhysics
     EXPORT void ApplyForceAtPoint_55F800(Fix16_Point* pPoint, Fix16_Point* pForce, s32 bRotate);
     EXPORT void AccumulateImpulse_55F930(Fix16_Point* pPoint);
     EXPORT void ApplyAngularImpulse_55F970(Fix16 impulse);
-    EXPORT void ApplyForceScaledByMass_55F9A0(Fix16_Point& pForce);
+    EXPORT void ApplyForceScaledByMass_55F9A0(Fix16_Point& force);
     EXPORT void ApplyImpulseWithTrailerRedirect_55FA10(Fix16_Point* pPoint);
     EXPORT Fix16 ApplyImpactForcesAndDamage_55FA60(Fix16_Point& PointOfForce, Fix16_Point& Impulse, s32 base_dmg);
     EXPORT void AccumulateImpulse_55FC30(Fix16_Point& point, s32 base_dmg);
-    EXPORT void HandleWorldCollision_55FD00(Fix16_Point& pHitPoint);
+    EXPORT void HandleWorldCollision_55FD00(Fix16_Point& relative_velocity);
     EXPORT void HandleCarCollision_55FF20(Car* pOtherCar);
     EXPORT void HandleObjectCollision_5606C0(Object* pObject, char_type damage_area);
     EXPORT void ProcessPedImpact_560B40(Char* pChar, u8 hitType);
@@ -412,13 +412,13 @@ class CarPhysics
         field_93_is_forward_gas_on = 1;
         field_91_is_foot_brake_on = 0;
         field_94_is_backward_gas_on = 0;
-        field_95_is_coasting = 0;
+        field_95_is_coasting = false;
     }
 
     // FUNCTION: 96f 0x42ABC0
     void ForceNeutralInput_42ABC0()
     {
-        field_95_is_coasting = 1;
+        field_95_is_coasting = true;
         field_91_is_foot_brake_on = 0;
         field_94_is_backward_gas_on = 0;
         field_93_is_forward_gas_on = 0;
@@ -430,7 +430,7 @@ class CarPhysics
         field_91_is_foot_brake_on = 0;
         field_93_is_forward_gas_on = 0;
         field_94_is_backward_gas_on = 0;
-        field_95_is_coasting = 0;
+        field_95_is_coasting = false;
     }
 
     // Unknown 9.6f inlined func
@@ -439,7 +439,7 @@ class CarPhysics
         field_94_is_backward_gas_on = 1;
         field_91_is_foot_brake_on = 0;
         field_93_is_forward_gas_on = 0;
-        field_95_is_coasting = 0;
+        field_95_is_coasting = false;
     }
 
     // FUNCTION: 96f 0x42ABA0
@@ -493,7 +493,7 @@ class CarPhysics
     char_type field_92_is_hand_brake_on;
     char_type field_93_is_forward_gas_on;
     char_type field_94_is_backward_gas_on;
-    char_type field_95_is_coasting;
+    bool field_95_is_coasting;
     char_type field_96_unused;
     char_type field_97_unused;
     s32 field_98_surface_type;
