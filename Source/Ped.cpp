@@ -8257,9 +8257,7 @@ void Ped::GotoAreaByAnyMeans_469060()
                             pCar->SpawnDriverPed();
                             pCar->SetDriverPedType_421560(ped_type::dummy_with_occupation_6);
                             pCar->InitCarAIControl_440590();
-                            // 9.6f: Car::StartEngine_426E00
-                            pCar->field_9C_engine_status = car_engine_status::on_3;
-                            pCar->HeadlightsOn_43BFE0();
+                            pCar->StartEngine_426E00();
                             pCar->HaltAIDriving_43AF60();
                         }
                     }
@@ -8279,8 +8277,7 @@ void Ped::GotoAreaByAnyMeans_469060()
                         }
                         field_154_target_to_enter = pCar;
                         field_158_escape_car = pCar;
-                        // 9.6f: Char::Set_F84_433900
-                        field_168_game_object->field_84_target_car = pCar;
+                        field_168_game_object->Set_F84_433900(pCar);
                     }
                     else if (gDistanceToTarget_678750 < kFpFour_678680)
                     {
@@ -8342,8 +8339,7 @@ void Ped::GotoAreaByAnyMeans_469060()
                 if (field_258_objective == objectives_enum::kill_char_any_means_19)
                 {
                     Ped::SetObjective2_463830(objectives_enum::objective_52);
-                    // 9.6f: SetInternalTargetPed_403AE0
-                    field_14C_internal_target_ped = field_148_objective_target_ped;
+                    SetInternalTargetPed_403AE0(field_148_objective_target_ped);
                 }
                 else
                 {
