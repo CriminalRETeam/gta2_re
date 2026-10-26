@@ -766,7 +766,7 @@ void ScriptThread::SCRCMD_THREAD_DECLARE3_504660(SCR_THREAD* pThread)
                                                      pCmd->field_14_z,
                                                      kFpHalf_6F75F0,
                                                      kFpHalf_6F75F0);
-        pCmd->field_16_flag = 1;
+        pCmd->field_16_trigger_added = 1;
     }
 }
 
@@ -775,7 +775,7 @@ void ScriptThread::SCRCMD_THREAD_DECLARE5_504710(SCR_CHAR_AREA_ANY* pCmd)
 {
     if (static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_24_char_idx))->field_8_char)
     {
-        pCmd->field_27_flag = 1;
+        pCmd->field_27_trigger_added = 1;
 
         switch (pCmd->field_2_type)
         {
@@ -3388,7 +3388,7 @@ void ScriptThread::EnableThread_50A9E0(u16 idx)
         {
             SCR_THREAD* pThread = static_cast<SCR_THREAD*>(pCmd);
 
-            if (pThread->field_16_flag)
+            if (pThread->field_16_trigger_added)
             {
                 gCarThreadTriggers_214_705F20->SetTriggerEnableState_4768C0(pThread->field_15_trigger_idx, 1);
             }
@@ -3407,7 +3407,7 @@ void ScriptThread::EnableThread_50A9E0(u16 idx)
         {
             SCR_CHAR_AREA_ANY* pAny = static_cast<SCR_CHAR_AREA_ANY*>(pCmd);
 
-            if (pAny->field_27_flag)
+            if (pAny->field_27_trigger_added)
             {
                 gCarThreadTriggers_214_705F20->SetTriggerEnableState_4768C0(pAny->field_26_trigger_idx, 1);
             }
