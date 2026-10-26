@@ -9396,7 +9396,7 @@ void Ped::PullDriverOutOfCarStateMachine_46B2F0()
                                 Ped::ChangeNextPedState2_45C540(ped_state_2::carjack_pulling_out_9);
                                 field_168_game_object->field_68_animation_frame = 9;
                             }
-                            field_168_game_object->SetCharState_433A60(36);
+                            field_168_game_object->SetCharState_433A60(Char_B4_state::Interacting_Car_Door_36);
                             field_168_game_object->SetVelocityByRef_433920(kFpZero_678438);
                         }
                         break;
@@ -9414,7 +9414,7 @@ void Ped::PullDriverOutOfCarStateMachine_46B2F0()
                         {
                             field_21C_bf.bLeftVehicle = true;
                         }
-                        field_168_game_object->SetCharState_433A60(36);
+                        field_168_game_object->SetCharState_433A60(Char_B4_state::Interacting_Car_Door_36);
                         field_168_game_object->SetVelocityByRef_433920(kFpZero_678438);
                         break;
 
@@ -9433,7 +9433,7 @@ void Ped::PullDriverOutOfCarStateMachine_46B2F0()
                             field_168_game_object->field_68_animation_frame = 0;
                             Ped::ChangeNextPedState1_45C500(ped_state_1::standing_still_7);
                             Ped::ChangeNextPedState2_45C540(ped_state_2::carjack_opening_door_8);
-                            field_168_game_object->SetCharState_433A60(36);
+                            field_168_game_object->SetCharState_433A60(Char_B4_state::Interacting_Car_Door_36);
                             field_168_game_object->SetVelocityByRef_433920(kFpZero_678438);
                         }
                         break;
