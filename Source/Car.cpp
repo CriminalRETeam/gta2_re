@@ -625,9 +625,9 @@ u32 CarManager::SelectTrafficCarModel_444AB0(Player* pPlayer, gmp_zone_info* pZo
                 gangcar_ratio = 0;
             }
 
-            u16 value = field_0.GetRngValue_4212D0();
+            u16 value = field_0_model_rng.GetRngValue_4212D0();
 
-            field_0.IncNextRngRemapIdx_47BD90();
+            field_0_model_rng.IncNextRngRemapIdx_47BD90();
 
             if (value < goodcar_ratio)
             {
@@ -1444,7 +1444,7 @@ Car* CarManager::SpawnCarAt_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rot
     }
     else if (pCar->IsGt24640_4217D0())
     {
-        pCar->SetCarGraphic_43CDF0(field_0.GetRngValue_4212D0() % 11);
+        pCar->SetCarGraphic_43CDF0(field_0_model_rng.GetRngValue_4212D0() % 11);
     }
     else if (pCar->IsFbiCar_411920())
     {

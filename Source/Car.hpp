@@ -279,7 +279,7 @@ class CarManager
         }
     }
 
-    CarRemapRng field_0;
+    CarRemapRng field_0_model_rng;
     s16 field_2_unused;
     Ped* field_4_spare_driver;
     char_type field_8_unused;
