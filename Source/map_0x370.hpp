@@ -132,7 +132,7 @@ struct gmp_compressed_map_32
     // 9.6f 0x4630B0
     gmp_compressed_map_32()
     {
-        field_40008_pColumn = 0;
+        field_40008_pColumn = NULL;
         field_4000C_block = 0;
         field_40004_num_blocks = 0;
         field_40000_column_words = 0;
@@ -796,7 +796,7 @@ class Map_0x370
     DmapInfoList field_4_obj;
     gmp_map_zone* field_328_pZoneData;
     gmp_zone_list* field_32C_pZones;
-    BYTE* field_330_pZoneArray;
+    u8* field_330_pZoneArray;
     gmp_zone_info* field_334_pZoneInfo;
     gmp_map_object* field_338_pMapObjects;
     gmp_map_light* field_33C_pLightData;
