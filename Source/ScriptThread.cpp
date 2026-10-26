@@ -129,7 +129,7 @@ void ScriptThread::MissionFailOnDeathOrArrest_503200()
         gRoot_sound_66B038.PlayVoice_40F090(voice_line::jobfail_23);
 
         *gScriptManager_6F8060->field_344_mission_flag = 0;
-        gScriptManager_6F8060->field_C1E2E_death_arrest_flag = 1;
+        gScriptManager_6F8060->field_C1E2E_death_arrest_flag = true;
         gGame_0x40_67E008->field_38_local_player->field_2C4_player_ped->field_26C_graphic_type = ped_graphic_type::character_1;
     }
 }
@@ -1383,7 +1383,7 @@ void ScriptThread::DeallocOrDeleteItem_505B10(u16 idx)
             pCarCmdPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(idx));
             if (pCarCmdPointer->field_8_car)
             {
-                gScriptManager_6F8060->ClearWeaponHitFlag_512BA0(pCarCmdPointer->field_8_car->field_6C_car_id, 0);
+                gScriptManager_6F8060->ClearWeaponHitFlag_512BA0(pCarCmdPointer->field_8_car->field_6C_car_id, false);
                 pCarCmdPointer->field_8_car->MarkForDespawn_421470();
                 pCarCmdPointer->field_8_car = NULL;
             }
@@ -4885,7 +4885,7 @@ void ScriptThread::SCRCMD_PHONE_TEMPLATE_50CE90()
         if ((player_idx1 = gGame_0x40_67E008->field_38_local_player->get_idx_4219D0(),
              pGang->GetRespectForPlayer_4BEEF0(player_idx1) / 20 >= pCmd->field_1A_respect))
         {
-            gScriptManager_6F8060->field_C1E2E_death_arrest_flag = 0;
+            gScriptManager_6F8060->field_C1E2E_death_arrest_flag = false;
             str_table_entry* mission2_str_table = gScriptManager_6F8060->FindStringById_503080(pCmd->field_E_mission2);
             char_type* mission2_name = reinterpret_cast<char_type*>(&mission2_str_table[1]);
             ScriptThread::launch_mission_5119A0(gBasePtr_6F8070, mission2_name);
@@ -4910,7 +4910,7 @@ void ScriptThread::SCRCMD_PHONE_TEMPLATE_50CE90()
         if ((player_idx2 = gGame_0x40_67E008->field_38_local_player->get_idx_4219D0(),
              pGang->GetRespectForPlayer_4BEEF0(player_idx2) / 20 >= pCmd->field_1A_respect))
         {
-            gScriptManager_6F8060->field_C1E2E_death_arrest_flag = 0;
+            gScriptManager_6F8060->field_C1E2E_death_arrest_flag = false;
             str_table_entry* mission2_str_table = gScriptManager_6F8060->FindStringById_503080(pCmd->field_E_mission2);
             char_type* mission2_name = reinterpret_cast<char_type*>(&mission2_str_table[1]);
             ScriptThread::launch_mission_5119A0(gBasePtr_6F8070, mission2_name);
@@ -4981,7 +4981,7 @@ void ScriptThread::SCRCMD_PHONE_TEMPLATE_50CE90()
     if ((player_idx3 = gGame_0x40_67E008->field_38_local_player->get_idx_4219D0(),
          pGang->GetRespectForPlayer_4BEEF0(player_idx3) / 20 >= pCmd->field_1A_respect))
     {
-        gScriptManager_6F8060->field_C1E2E_death_arrest_flag = 0;
+        gScriptManager_6F8060->field_C1E2E_death_arrest_flag = false;
         str_table_entry* mission1_str_table = gScriptManager_6F8060->FindStringById_503080(pCmd->field_1C_mission1);
         char_type* mission1_name = reinterpret_cast<char_type*>(&mission1_str_table[1]);
         ScriptThread::launch_mission_5119A0(gBasePtr_6F8070, mission1_name);
@@ -5803,16 +5803,16 @@ void ScriptThread::SCRCMD_CHECK_WEAPONHIT_50EB00()
 
     if (!pCmd->field_A_status)
     {
-        gScriptManager_6F8060->TestAndRecordWeaponHit_512AF0(pPointer->field_8_char->get_id(), static_cast<char_type>(pCmd->field_C_weapon), 1);
+        gScriptManager_6F8060->TestAndRecordWeaponHit_512AF0(pPointer->field_8_char->get_id(), static_cast<char_type>(pCmd->field_C_weapon), true);
         field_8_cond_result = false;
         pCmd->field_A_status = 1;
     }
     else
     {
-        if (gScriptManager_6F8060->IsWeaponHitRecorded_512C70(pPointer->field_8_char->get_id(), static_cast<char_type>(pCmd->field_C_weapon), 1))
+        if (gScriptManager_6F8060->IsWeaponHitRecorded_512C70(pPointer->field_8_char->get_id(), static_cast<char_type>(pCmd->field_C_weapon), true))
         {
             field_8_cond_result = true;
-            gScriptManager_6F8060->ClearWeaponHitFlag_512BA0(pPointer->field_8_char->get_id(), 1);
+            gScriptManager_6F8060->ClearWeaponHitFlag_512BA0(pPointer->field_8_char->get_id(), true);
             pCmd->field_A_status = 0;
         }
         else
@@ -5834,13 +5834,13 @@ void ScriptThread::SCRCMD_WEAP_HIT_CAR_50EBD0()
         bool hit;
         if (gBasePtr_6F8070->field_2_type == SCRCMD_WEAP_HIT_CAR)
         {
-            hit = gScriptManager_6F8060->TestAndRecordWeaponHit_512AF0(pPointer->field_8_car->field_6C_car_id, static_cast<char_type>(pCmd->field_C_weapon), 0);
+            hit = gScriptManager_6F8060->TestAndRecordWeaponHit_512AF0(pPointer->field_8_car->field_6C_car_id, static_cast<char_type>(pCmd->field_C_weapon), false);
         }
         else
         {
-            hit = gScriptManager_6F8060->TestAndRecordWeaponHit_512AF0(pPointer->field_8_car->field_6C_car_id, 23, 0);
+            hit = gScriptManager_6F8060->TestAndRecordWeaponHit_512AF0(pPointer->field_8_car->field_6C_car_id, 23, false);
         }
-        if (hit && gScriptManager_6F8060->IsWeaponHitRecorded_512C70(pPointer->field_8_car->field_6C_car_id, static_cast<char_type>(pCmd->field_C_weapon), 0))
+        if (hit && gScriptManager_6F8060->IsWeaponHitRecorded_512C70(pPointer->field_8_car->field_6C_car_id, static_cast<char_type>(pCmd->field_C_weapon), false))
         {
             field_8_cond_result = true;
             pCmd->field_A_status = 0;
@@ -5853,7 +5853,7 @@ void ScriptThread::SCRCMD_WEAP_HIT_CAR_50EBD0()
     }
     else
     {
-        if (gScriptManager_6F8060->IsWeaponHitRecorded_512C70(pPointer->field_8_car->field_6C_car_id, static_cast<char_type>(pCmd->field_C_weapon), 0))
+        if (gScriptManager_6F8060->IsWeaponHitRecorded_512C70(pPointer->field_8_car->field_6C_car_id, static_cast<char_type>(pCmd->field_C_weapon), false))
         {
             field_8_cond_result = true;
             pCmd->field_A_status = 0;
@@ -6668,7 +6668,7 @@ void ScriptThread::SCRCMD_START_BASIC_KF_510100() // START_BASIC_KF_TEMPLATE
     }
     else
     {
-        gScriptManager_6F8060->set_field_C1E2D_475A40(1);
+        gScriptManager_6F8060->set_field_C1E2D_475A40(true);
         ScriptThread::DisableThread_505790(pCmd->field_8_triggername);
         gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("kfstart"), hud_message_priority::important_3); // KILL FRENZY!
         gRoot_sound_66B038.PlayVoice_40F090(voice_line::killfrenzy_12); // KILL FRENZY voice
@@ -6753,7 +6753,7 @@ void ScriptThread::SCRCMD_DO_BASIC_KF_510280()
             }
             pTimerIDPointer->field_8_index = 0;
             pPlayerPedCmdPointer->field_8_char->field_15C_player->ClearKFWeapon_5647D0();
-            gScriptManager_6F8060->set_field_C1E2D_475A40(0);
+            gScriptManager_6F8060->set_field_C1E2D_475A40(false);
             if (ScriptThread::GetBonusResult_505EA0(pCmd->field_8_bonusname) == -3)
             {
                 gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("kfpass"), hud_message_priority::important_3);

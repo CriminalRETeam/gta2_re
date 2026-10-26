@@ -635,19 +635,19 @@ class ScriptManager
     }
 
     // 9.6f 0x475A20
-    inline char_type get_field_C1E2C_475A20()
+    inline bool get_field_C1E2C_475A20()
     {
         return field_C1E2C_bLoadedFromSave;
     }
 
     // 9.6f 0x475A30
-    inline char_type get_field_C1E2D_475A30()
+    inline bool get_field_C1E2D_475A30()
     {
         return field_C1E2D_bKillFrenzyActive;
     }
 
     // 9.6f 0x475A40
-    inline void set_field_C1E2D_475A40(char_type v)
+    inline void set_field_C1E2D_475A40(bool v)
     {
         field_C1E2D_bKillFrenzyActive = v;
     }
@@ -681,10 +681,10 @@ class ScriptManager
     EXPORT ThreadTrigger* RemovePhoneThread_512A70(s32 ped_id, s32 obj_id);
     EXPORT ThreadTrigger* RemovePhoneThreadByObjId_512AA0(s32 obj_id);
     EXPORT ThreadTrigger* FindPhoneThreadByObjId_512AD0(s32 obj_id);
-    EXPORT bool TestAndRecordWeaponHit_512AF0(s32 id, char_type weapon_idx, char_type bIsPed);
-    EXPORT void ClearWeaponHitFlag_512BA0(s32 id, char_type bIsPed);
-    EXPORT void RecordWeaponHit_512C00(s32 entity_id, s32 projectile_model, char_type bIsPed);
-    EXPORT bool IsWeaponHitRecorded_512C70(s32 id, char_type weapon_idx, char_type bIsPed);
+    EXPORT bool TestAndRecordWeaponHit_512AF0(s32 id, char_type weapon_idx, bool bIsPed);
+    EXPORT void ClearWeaponHitFlag_512BA0(s32 id, bool bIsPed);
+    EXPORT void RecordWeaponHit_512C00(s32 entity_id, s32 projectile_model, bool bIsPed);
+    EXPORT bool IsWeaponHitRecorded_512C70(s32 id, char_type weapon_idx, bool bIsPed);
     EXPORT ScriptManager();
     EXPORT ~ScriptManager();
 
@@ -736,9 +736,9 @@ class ScriptManager
     s16 field_C1D34_mission_start_cmd[31];
     s16 field_C1D72_mission_base_ptr_idx[31];
     u32 field_C1DB0_mission_script_data_len[31];
-    char_type field_C1E2C_bLoadedFromSave;
-    char_type field_C1E2D_bKillFrenzyActive;
-    char_type field_C1E2E_death_arrest_flag;
+    bool field_C1E2C_bLoadedFromSave;
+    bool field_C1E2D_bKillFrenzyActive;
+    bool field_C1E2E_death_arrest_flag;
     char_type field_C1E2F_saved_gang_respect[3];
     u16 field_C1E32_phone_ids[31];
     u32 field_C1E70_wanted_car_model;

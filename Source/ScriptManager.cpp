@@ -848,7 +848,7 @@ ThreadTrigger* ScriptManager::FindPhoneThreadByObjId_512AD0(s32 obj_id)
 }
 
 MATCH_FUNC(0x512af0)
-bool ScriptManager::TestAndRecordWeaponHit_512AF0(s32 id, char_type weapon_idx, char_type bIsPed)
+bool ScriptManager::TestAndRecordWeaponHit_512AF0(s32 id, char_type weapon_idx, bool bIsPed)
 {
     WeaponCheckTable* pFree = NULL;
     WeaponCheckTable* pTable = &field_27C_weapon_check_table[0];
@@ -900,7 +900,7 @@ bool ScriptManager::TestAndRecordWeaponHit_512AF0(s32 id, char_type weapon_idx, 
 }
 
 MATCH_FUNC(0x512ba0)
-void ScriptManager::ClearWeaponHitFlag_512BA0(s32 id, char_type bIsPed)
+void ScriptManager::ClearWeaponHitFlag_512BA0(s32 id, bool bIsPed)
 {
     WeaponCheckTable* pTable = &field_27C_weapon_check_table[0];
 
@@ -934,7 +934,7 @@ void ScriptManager::ClearWeaponHitFlag_512BA0(s32 id, char_type bIsPed)
 
 // https://decomp.me/scratch/r6LhX
 MATCH_FUNC(0x512c00)
-void ScriptManager::RecordWeaponHit_512C00(s32 entity_id, s32 projectile_model, char_type bIsPed)
+void ScriptManager::RecordWeaponHit_512C00(s32 entity_id, s32 projectile_model, bool bIsPed)
 {
     WeaponCheckTable* pTable = &field_27C_weapon_check_table[0];
 
@@ -970,7 +970,7 @@ void ScriptManager::RecordWeaponHit_512C00(s32 entity_id, s32 projectile_model, 
 }
 
 MATCH_FUNC(0x512c70)
-bool ScriptManager::IsWeaponHitRecorded_512C70(s32 id, char_type weapon_idx, char_type bIsPed)
+bool ScriptManager::IsWeaponHitRecorded_512C70(s32 id, char_type weapon_idx, bool bIsPed)
 {
     WeaponCheckTable* pTable = &field_27C_weapon_check_table[0];
 
@@ -1040,7 +1040,7 @@ ScriptManager::ScriptManager()
     memset(field_C1DB0_mission_script_data_len, 0, sizeof(field_C1DB0_mission_script_data_len));
     field_344_mission_flag = NULL;
     field_2F4_bPreloadMissionScripts = 1;
-    field_C1E2C_bLoadedFromSave = 0;
+    field_C1E2C_bLoadedFromSave = false;
     field_310_finish_score = 0;
     field_314_total_missions = 0;
     field_318_total_secrets = 0;
@@ -1063,8 +1063,8 @@ ScriptManager::ScriptManager()
     field_358_gang_2_death_base = 0;
     field_35A_gang_3_death_base = 0;
     field_355_death_arr_state = 0;
-    field_C1E2E_death_arrest_flag = 0;
-    field_C1E2D_bKillFrenzyActive = 0;
+    field_C1E2E_death_arrest_flag = false;
+    field_C1E2D_bKillFrenzyActive = false;
     field_468_unused = 0;
 
     if (gDo_miss_logging_67D6BC)
