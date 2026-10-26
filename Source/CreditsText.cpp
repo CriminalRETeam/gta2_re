@@ -14,7 +14,7 @@ CreditsText::~CreditsText() // 483EA0
 }
 
 MATCH_FUNC(0x483EC0)
-wchar_t CreditsText::ReadNextNonBlankChar_483EC0(const wchar_t* pStr, u16* pStartPos, bool bStopAtSpace)
+wchar_t CreditsText::ReadNextNonBlankChar_483EC0(const wchar_t* pStr, u16* pStartPos, bool bStopAtSpace) const
 {
     wchar_t cur_wchar = pStr[(*pStartPos)++];
     while ((cur_wchar == ' ' && bStopAtSpace) || cur_wchar == '\n' || cur_wchar == '\t')
