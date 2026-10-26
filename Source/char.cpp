@@ -260,7 +260,7 @@ Char::Char()
     field_44_block_type = 0;
     field_45_slope_gradient_direction = 0;
     field_5C_jump_over_timer = 0;
-    field_46_timer = 0; // maybe field_46_shock_counter
+    field_46_timer = 0;
     field_48_lying_on_floor_timer = 0;
     mpNext = NULL;
     field_7C_pPed = NULL;
@@ -501,7 +501,6 @@ void Char::GetTileFracY64_545670(Fix16 coord, s16* output) const
 MATCH_FUNC(0x5456a0)
 void Char::InitSprite_5456A0()
 {
-    // TODO: maybe an inline here: temp var not needed
     Sprite* pFirst = gSpritePool_703818->get_new_sprite();
     field_80_sprite_ptr = pFirst;
     pFirst->SetType_4206F0(sprite_types_enum::ped_3);
@@ -2910,7 +2909,7 @@ void Char::ApplyRandomRotationJitter_54C6C0()
     if (gRng_6F6784.get_int_4F7AE0(32) > 22)
     {
         Ang16 old_angle = field_42_rotation_jitter;
-        field_42_rotation_jitter = Ang16::Fix16_To_Ang16_inlined_40F540(kFpOne64th_6FD868 * (Fix16(gRng_6F6784.get_int_4F7AE0(16)) - kFP16Eight_6FDA08)); // INLINED_MODE required
+        field_42_rotation_jitter = Ang16::Fix16_To_Ang16_inlined_40F540(kFpOne64th_6FD868 * (Fix16(gRng_6F6784.get_int_4F7AE0(16)) - kFP16Eight_6FDA08));
         if (old_angle > kAng180_6FD936 && field_42_rotation_jitter > kAng180_6FD936)
         {
             field_42_rotation_jitter = -field_42_rotation_jitter;
@@ -5996,7 +5995,7 @@ void Char::state_8_5520A0()
                 }
                 break;
             case ped_state_2::falling_19:
-                ground_z = gMap_0x370_6F6268->FindGroundZBelowCoord_4E4D40(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800, gCharB4_Saved_Zpos_6FD7FC); // TODO: fix Fix16 return
+                ground_z = gMap_0x370_6F6268->FindGroundZBelowCoord_4E4D40(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800, gCharB4_Saved_Zpos_6FD7FC);
                 if (gCharB4_Saved_Zpos_6FD7FC < ground_z || gCharB4_Saved_Zpos_6FD7FC >= ground_z + kFP16Eighth_6FDB04)
                 {
                     Ang16::PolarToCartesian_41FC20(field_40_rotation, field_90_fall_speed, fall_x, fall_y);
