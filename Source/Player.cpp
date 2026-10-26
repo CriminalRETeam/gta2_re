@@ -1926,7 +1926,7 @@ void Player::Busted_5679E0()
             {
                 field_2C4_player_ped->field_210_shock_counter = 0;
                 field_2C4_player_ped->ClearWantedPoints_420B80();
-                field_2C4_player_ped->SetObjective(objectives_enum::objective_54, 60);
+                field_2C4_player_ped->SetObjective(objectives_enum::call_police_car_54, 60);
                 field_2C4_player_ped->SetTargetObjectiveCar(0);
             }
         }

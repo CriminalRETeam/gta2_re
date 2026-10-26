@@ -2055,7 +2055,7 @@ void Char::HandlePedCollision_548BD0(Char* pOther)
             break;
 
         case 3:
-            if (field_7C_pPed->GetInternalObjective_403A90() == objectives_enum::objective_48 || field_7C_pPed->GetInternalObjective_403A90() == objectives_enum::enter_train_37 ||
+            if (field_7C_pPed->GetInternalObjective_403A90() == objectives_enum::crossing_road_48 || field_7C_pPed->GetInternalObjective_403A90() == objectives_enum::enter_train_37 ||
                 field_7C_pPed->GetInternalObjective_403A90() == objectives_enum::leave_train_38 || field_7C_pPed->GetInternalObjective_403A90() == objectives_enum::goto_area_on_foot_12)
             {
                 field_38_velocity = kFpThreeSixtyFourths_6FD7CC;
@@ -5939,7 +5939,7 @@ void Char::state_8_5520A0()
                             field_7C_pPed->RestorePreviousPedState_45C5A0();
                             if (!field_7C_pPed->PedTypeIs_45EDE0(ped_type::player_2) && !field_7C_pPed->PedTypeIs_45EDE0(ped_type::script_created_5))
                             {
-                                field_7C_pPed->SetObjective(objectives_enum::objective_28);
+                                field_7C_pPed->SetObjective(objectives_enum::dead_patient_28);
                             }
                         }
                         else

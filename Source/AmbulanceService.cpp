@@ -85,7 +85,7 @@ bool AmbulanceService::HandlePedDeath_4FA330(Ped* pDeadPed)
 
                 if (pDeadPed->field_168_game_object)
                 {
-                    pDeadPed->SetObjective(objectives_enum::objective_28);
+                    pDeadPed->SetObjective(objectives_enum::dead_patient_28);
                     return false;
                 }
                 return false;
@@ -105,7 +105,7 @@ bool AmbulanceService::HandlePedDeath_4FA330(Ped* pDeadPed)
 
                 if (pDeadPed->field_168_game_object)
                 {
-                    pDeadPed->SetObjective(objectives_enum::objective_28);
+                    pDeadPed->SetObjective(objectives_enum::dead_patient_28);
                 }
 
                 return false;
@@ -600,7 +600,7 @@ void AmbulanceTask::HandleObjectiveState_4FAAC0()
                 }
                 break;
 
-            case objectives_enum::objective_28:
+            case objectives_enum::dead_patient_28:
                 if (gParamedicCrewPed_6F6D60->GetObjectiveStatus_450CB0())
                 {
                     gParamedicCrewPed_6F6D60->field_278_ped_state_1 = ped_state_1::walking_0;

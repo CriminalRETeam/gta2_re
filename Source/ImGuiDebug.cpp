@@ -2756,7 +2756,7 @@ void CC ImGuiDebugDraw()
                         {
                             DisplayTextAtSprite("Obj 18", pPedIter->GetSprite_46DF50(), 0, 0);
                         }
-                        else if (pPedIter->field_258_objective == objectives_enum::objective_28) 
+                        else if (pPedIter->field_258_objective == objectives_enum::dead_patient_28) 
                         {
                             DisplayTextAtSprite("Obj 28", pPedIter->GetSprite_46DF50(), 0, 0);
                         }

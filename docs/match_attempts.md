@@ -2890,7 +2890,7 @@ Scores are `quick_score.sh` lines. No new matches; each target stopped at one of
   `Ped::AttackTargetStateMachine_46D460` (46) and `PoliceCrew::State5_PursueOrChase_572920` (275) both have
   two identical blocks (`b11 = false; ret` in the inner `else` and the else-if's `else`; the
   `SetObjective2(0,9999); SetObjective(0,9999); break` pair in the kill_char `status == 2` test and in
-  `case objective_28`). The original lays the block out at the *first* site, as the fall-through of its test,
+  `case dead_patient_28`). The original lays the block out at the *first* site, as the fall-through of its test,
   and the second site jumps backward into it (`jmp 0x4BA`, `je 0x5e9`). Ours keeps the second site and the
   first jumps forward. Probes (switch cases in/out of a loop, nested if/else, `break` inside or after the
   if, member calls on a global) always make VC6 keep the later copy; a `goto` to a label in the first block
