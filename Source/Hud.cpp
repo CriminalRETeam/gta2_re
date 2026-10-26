@@ -154,7 +154,7 @@ EXPORT wchar_t* gmp_map_zone::get_zone_str_4DEF00()
         buf[3] = 0;
         return gText_0x14_704DFC->Find_5B5F90(buf);
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x5cf620)
@@ -1088,7 +1088,7 @@ void Hud_Arrow_7C_Array::FindVisibleGangArrow_5D0EF0()
             return;
         }
     }
-    this->field_840_visible_gang_arrow = 0;
+    this->field_840_visible_gang_arrow = NULL;
 }
 
 // ----------------------------------------------------
@@ -1162,7 +1162,7 @@ Hud_Arrow* Hud_Arrow_7C_Array::FindFreeArrow_5D1020(s32* pOutIdx)
         if (!pIter->field_18_targets.field_10_gang_info.field_6_in_use)
         {
             *pOutIdx = i;
-            pIter->field_18_targets.field_10_gang_info.field_6_in_use = 1;
+            pIter->field_18_targets.field_10_gang_info.field_6_in_use = true;
             return pIter;
         }
     }
@@ -1189,7 +1189,7 @@ void Hud_Arrow_7C_Array::ReleaseAllArrows_5D10B0()
             field_0_array[i].field_18_targets.field_18_primary_target.field_10_target_type = ArrowTargetType::Nothing_0;
             field_0_array[i].field_18_targets.field_3C_secondary_target.field_10_target_type = ArrowTargetType::Nothing_0;
 
-            field_0_array[i].field_18_targets.field_10_gang_info.field_6_in_use = 0;
+            field_0_array[i].field_18_targets.field_10_gang_info.field_6_in_use = false;
         }
     }
 }
@@ -1210,7 +1210,7 @@ Hud_Arrow* Hud_Arrow_7C_Array::FindGangPhoneArrow_5D10D0(Gang* pZone, s32 phone_
         i++;
         pIter++;
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x5d1110)
@@ -1439,7 +1439,7 @@ bool Hud_QuitMessage::IsQuitMessageKey_5D15A0(s32 action)
 MATCH_FUNC(0x5d15d0)
 void Hud_QuitMessage::ShowQuitMessage_5D15D0(Player* pPlayer)
 {
-    pPlayer->field_78A_show_quit_message = 1;
+    pPlayer->field_78A_show_quit_message = true;
 }
 
 // ----------------------------------------------------
@@ -1451,7 +1451,7 @@ bool Hud_ChatInput::HandleChatInputKey_5D15E0(s32 action, Player* pPlayer)
     {
         if (action == DIK_RETURN)
         {
-            pPlayer->field_794_is_chatting = 0;
+            pPlayer->field_794_is_chatting = false;
             return true;
         }
         else if (action == DIK_BACK)
@@ -2496,8 +2496,8 @@ Hud_Brief::Hud_Brief()
     field_50C_face_variant = 0;
     field_510_num_chars = 0;
     field_514_face_anim_char_idx = 0;
-    field_6F8_curr_briefs = 0;
-    field_700_prev_briefs = 0;
+    field_6F8_curr_briefs = NULL;
+    field_700_prev_briefs = NULL;
     field_504_tick_timer = 0;
 
     for (s32 i = 0; i < GTA2_COUNTOF(field_518_briefs) - 1; i++)
@@ -2889,7 +2889,7 @@ void Hud_MapZone::UpdateZoneName_5D5B60()
     else
     {
         field_0_timer = 0;
-        field_88_nav_zone = 0;
+        field_88_nav_zone = NULL;
     }
 }
 
@@ -3534,14 +3534,14 @@ Hud_Arrow::Hud_Arrow()
 {
     field_18_targets.field_10_gang_info.field_30_gang = NULL;
     field_18_targets.field_10_gang_info.field_34_min_respect = 0;
-    field_18_targets.field_10_gang_info.field_5_is_visible = 0;
+    field_18_targets.field_10_gang_info.field_5_is_visible = false;
 
     field_18_targets.field_18_primary_target.init();
     field_18_targets.field_3C_secondary_target.init();
 
     field_18_targets.field_60_curr_target = &field_18_targets.field_18_primary_target;
     field_18_targets.field_2E_target_swap_timer = 0;
-    field_18_targets.field_10_gang_info.field_6_in_use = 0;
+    field_18_targets.field_10_gang_info.field_6_in_use = false;
 }
 
 MATCH_FUNC(0x5d7650)
