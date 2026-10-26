@@ -2328,8 +2328,8 @@ Scores are `sc.sh` lines.
 
 ### Near-miss pass (ParticleManager / sound_obj / misc owners)
 Scores are `sc.sh` lines.
-- `Char::GetNextRotationToward_550F60` 452 -> 164: `word_6FDB2E` is an `Ang16` and the unused step angle is
-  `word_6FDB2E.MultiplyByFix16_401CB0_ctor_ool(field_38_velocity)`. Initialised from an inline's return value the
+- `Char::GetNextRotationToward_550F60` 452 -> 164: `kAng4_6FDB2E` is an `Ang16` and the unused step angle is
+  `kAng4_6FDB2E.MultiplyByFix16_401CB0_ctor_ool(field_38_velocity)`. Initialised from an inline's return value the
   local lands in the temporaries area like the original's `v12` at 0xE (frame 0x28 -> 0x24); a named
   `Fix16 unused_vel` + `Ang16 v12(&unused_vel, 0)` gives it a named slot above the `u8` locals. Left: the
   original rotates the scratch registers from case to case (Delta args edx/eax, ecx/edx, eax/ecx; the sum in
