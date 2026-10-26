@@ -70,13 +70,7 @@ EXTERN_GLOBAL(Fix16, gDummyZ_67841C);
 DEFINE_GLOBAL_INIT(Fix16, gDummyH_678584, Fix16(0xCCC, 0), 0x678584); // same as gDummyW_678530, which Ped.cpp initializes too late
 DEFINE_GLOBAL_INIT(Fix16, kFp255_678414, Fix16(255), 0x678414);
 
-EXTERN_GLOBAL(u16, gNumPedsUpdated_6787E0);
-EXTERN_GLOBAL(u8, gNumDummyChars_6787E2);
 EXTERN_GLOBAL(u8, gNumEmergencyPeds_6787E4);
-EXTERN_GLOBAL(u8, gNumScriptCreatedPeds_6787E3);
-EXTERN_GLOBAL(u8, byte_6787D8);
-EXTERN_GLOBAL(u8, byte_6787D9);
-EXTERN_GLOBAL(u8, gNewTaxiCustomersThisTick_6787D2);
 
 EXTERN_GLOBAL(Fix16, kFpZero_678438);
 EXTERN_GLOBAL(Fix16, kFpHalf_67853C);
@@ -96,7 +90,6 @@ DEFINE_GLOBAL_INIT(Ang16, gSpawnRotationRight_678578, Ang16(1080), 0x678578);
 DEFINE_GLOBAL_INIT(Ang16, kAng180_6785A6, Ang16(0x2D0), 0x6785A6);
 DEFINE_GLOBAL_INIT(Ang16, gSpawnRotationBottom_678540, Ang16(720), 0x678540);
 DEFINE_GLOBAL_INIT(s16, gSpawnCounter_6787C6, 0, 0x6787C6);
-EXTERN_GLOBAL(u8, gNumberArmedGangMembers_6787CE);
 
 EXPORT Ped* __stdcall SpawnPedChainGroupAt_46DB90(char_type remap, u8 number_followers, Fix16 xpos, Fix16 ypos, Fix16 zpos);
 
