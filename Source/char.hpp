@@ -1,6 +1,7 @@
 #pragma once
 
 #include "char_b4_flags.hpp"
+#include "enums.hpp"
 #include "BitSet32.hpp"
 #include "Function.hpp"
 #include "Object_3C.hpp"
@@ -250,7 +251,7 @@ class Char
     {
         field_40_rotation.SnapToAng4_405640();
         field_40_rotation += kAng16_6FD940;
-        field_10_char_state = 9;
+        field_10_char_state = Char_B4_state::Veer_Left_From_Wall_9;
         field_46_timer = 10;
     }
 
@@ -258,7 +259,7 @@ class Char
     {
         field_40_rotation.SnapToAng4_405640();
         field_40_rotation += kAng344_6FD8F8;
-        field_10_char_state = 8;
+        field_10_char_state = Char_B4_state::Veer_Right_From_Wall_8;
         field_46_timer = 10;
     }
 
