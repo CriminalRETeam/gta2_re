@@ -662,13 +662,13 @@ class ScriptManager
     EXPORT void SaveMapInfo_511D40();
     EXPORT void SaveGame_511E10(const char_type* pFileName);
     EXPORT void LoadSave_511F80(const char_type* pFileName);
-    EXPORT ScriptThread* SpawnThread_5120C0(s16 start_cmd, char_type bFlag);
+    EXPORT ScriptThread* SpawnThread_5120C0(s16 start_cmd, char_type flags);
     EXPORT SCR_CMD_HEADER* FindCommandByType_512100(u16 toFind, u16 startOff);
     EXPORT void StartLevelThread_512160();
     EXPORT void LoadStringTbl_5121E0(u16 tableSize);
     EXPORT void GetScrFileName_5122D0();
     EXPORT void Load_512330(const char_type* pScrName);
-    EXPORT u16 LoadMissionScript_512400(const char_type* String1, u16* pStartCmd);
+    EXPORT u16 LoadMissionScript_512400(const char_type* pScriptName, u16* pStartCmd);
     EXPORT void LoadSubScripts_5125F0();
     EXPORT SCR_CMD_HEADER* GetBasePointer_512770(u16 idx);
     EXPORT void ExecuteScriptThreads_5127A0();
@@ -677,7 +677,7 @@ class ScriptManager
     EXPORT bool TriggerCarThread_512910(s32 ped_id, s32 car_id);
     EXPORT ThreadTrigger* FindPhoneThread_512980(s32 ped_id, s32 obj_id);
     EXPORT void AddPhoneThread_5129B0(s32 ped_id, s32 obj_id, u16 cmd_line);
-    EXPORT bool AnswerPhone_5129F0(s32 ped_idx, s32 phone_idx);
+    EXPORT bool AnswerPhone_5129F0(s32 ped_id, s32 obj_id);
     EXPORT ThreadTrigger* RemovePhoneThread_512A70(s32 ped_id, s32 obj_id);
     EXPORT ThreadTrigger* RemovePhoneThreadByObjId_512AA0(s32 obj_id);
     EXPORT ThreadTrigger* FindPhoneThreadByObjId_512AD0(s32 obj_id);
