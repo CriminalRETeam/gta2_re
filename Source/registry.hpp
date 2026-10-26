@@ -40,9 +40,9 @@ class Registry
 
     EXPORT void null_587290();
 
-    EXPORT bool Set_Binary_5872A0(HKEY hKey, const char_type* base_name, BYTE* lpData, u32 Data);
+    EXPORT bool Set_Binary_5872A0(HKEY hKey, const char_type* base_name, const BYTE* lpData, u32 size);
 
-    EXPORT bool Get_Binary_587340(HKEY hKey, const char_type* keyPath, s32 value, LPBYTE lpData);
+    EXPORT bool Get_Binary_587340(HKEY hKey, const char_type* keyPath, s32 expectedSize, LPBYTE lpData);
 
     EXPORT s32 Get_Binary_Size_5873E0(HKEY hKey, const char_type* subKey);
 
