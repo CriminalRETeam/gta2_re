@@ -437,7 +437,7 @@ void ExplodingScore::DrawSingleNumber_597100(s32 number_to_draw, s32 xpos_sub)
             {
                 if (y_to_use <= Fix16(480))
                 {
-                    s32 palette_type = 7;
+                    s32 palette_type = palette_types_enum::user_remaps_7;
                     Fix16 finalScale = pCam->field_A8_ui_scale * base_scale;
                     DrawFigure_5D7EC0(sprite_types_enum::user_6,
                                       number_to_draw + 163,
@@ -449,7 +449,7 @@ void ExplodingScore::DrawSingleNumber_597100(s32 number_to_draw, s32 xpos_sub)
                                       this->field_34_palette,
                                       1,
                                       this->field_36_alpha,
-                                      1);
+                                      true);
                 }
             }
         }
