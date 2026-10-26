@@ -793,11 +793,7 @@ void PublicTransport::SpawnTrainsFromStations_578860()
                         gCar_BC_Pool_67792C->field_0_pool.UnlinkFromActiveList_420F30(pTrain->field_C_carriages[j + 1]);
                     }
 
-                    Car* pEngine = pTrain->field_C_carriages[0];
-                    if (!pEngine->field_5C_AI)
-                    {
-                        pEngine->field_5C_AI = gCarAI_78_Pool_677CF8->Allocate();
-                    }
+                    EnsureAI_421510(pTrain->field_C_carriages[0]);
                     pTrain->field_C_carriages[0]->field_5C_AI->SetCar_453BF0(pTrain->field_C_carriages[0]);
                     pTrain->field_C_carriages[0]->SpawnDriverPed();
                     pTrain->field_C_carriages[0]->SetDriverPedType_421560(ped_type::script_created_5);
@@ -1302,11 +1298,7 @@ void PublicTransport::BusesService_579CA0()
                 pBusCar = field_17C0_bus.field_C_carriages[0];
                 if (pBusCar)
                 {
-                    // inline here: pBusCar.6f Car::sub_421510
-                    if (!pBusCar->field_5C_AI)
-                    {
-                        pBusCar->field_5C_AI = gCarAI_78_Pool_677CF8->Allocate();
-                    }
+                    EnsureAI_421510(pBusCar);
                     field_17C0_bus.field_C_carriages[0]->field_5C_AI->SetCar_453BF0(field_17C0_bus.field_C_carriages[0]);
                     field_17C0_bus.field_C_carriages[0]->SpawnDriverPed();
                     field_17C0_bus.field_C_carriages[0]->SetDriverPedType_421560(ped_type::special_ped_4);
