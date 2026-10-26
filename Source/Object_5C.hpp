@@ -84,7 +84,7 @@ class Object
     EXPORT void OnExplosionNearby_525190(u8 ped_ref_idx);
     EXPORT void UpdateAnimation_5257D0();
     EXPORT bool DispatchFrameAction_525910();
-    EXPORT char_type ShouldCollideWithSprite_525370(Sprite* pSprite) const;
+    EXPORT bool ShouldCollideWithSprite_525370(Sprite* pSprite) const;
     EXPORT void CheckCollisionForModel_139_And_141_525AE0();
     EXPORT void SpawnSpriteParticlesForRocketBullet_525B40();
     EXPORT bool CheckWaterDeath_525B60();
@@ -430,7 +430,7 @@ class Object_5C
     u8 field_19_unused;
     u16 field_1A_unused;
     SpriteList field_1C_sprite_list;
-    u8 field_20_uncollected_tokens[50];
+    bool field_20_uncollected_tokens[50];
     u16 field_52_unused; // pad?
     s32 field_54_uncollected_token_index;
     Sprite* field_58_collision_probe_sprite;

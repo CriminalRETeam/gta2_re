@@ -45,7 +45,7 @@ DEFINE_GLOBAL(u32, gObj3C_live_count_6F8E54, 0x6F8E54);
 DEFINE_GLOBAL(u32, gObj8_count_6F8F18, 0x6F8F18);
 DEFINE_GLOBAL(u32, gObj8_dealloc_count_6F8DC0, 0x6F8DC0);
 DEFINE_GLOBAL(u32, gObj3C_dealloc_count_6F8F0C, 0x6F8F0C);
-DEFINE_GLOBAL(u8, gDoorAccessCheckActive_6F8EDC, 0x6F8EDC);
+DEFINE_GLOBAL(bool, gDoorAccessCheckActive_6F8EDC, 0x6F8EDC);
 
 DEFINE_GLOBAL_INIT(Ang16, kAng315_6F8D8C, Ang16(0x4EC), 0x6F8D8C);
 DEFINE_GLOBAL_INIT(Ang16, kAng135_6F8D80, Ang16(0x21C), 0x6F8D80);
@@ -53,7 +53,7 @@ DEFINE_GLOBAL_INIT(Ang16, kAng225_6F8D54, Ang16(0x384), 0x6F8D54);
 DEFINE_GLOBAL_INIT(Ang16, kAng45_6F8CD0, Ang16(0xB4), 0x6F8CD0);
 
 DEFINE_GLOBAL(Sprite*, gObject2C_LastCollisionSprite_6F8F8C, 0x6F8F8C);
-DEFINE_GLOBAL(u8, gObject2C_HitWallOrDoor_6F8F94, 0x6F8F94);
+DEFINE_GLOBAL(bool, gObject2C_HitWallOrDoor_6F8F94, 0x6F8F94);
 DEFINE_GLOBAL_INIT(Fix16, kFpOneThirtySecond_6F8F5C, Fix16(0x200, 0), 0x6F8F5C);
 DEFINE_GLOBAL_INIT(Fix16, kObjectGravity_6F8DA8, Fix16(0xFFFFFFF8, 0), 0x6F8DA8);
 DEFINE_GLOBAL_INIT(Fix16, kFP16One_6F8E14, Fix16(1), 0x6F8E14);
@@ -319,7 +319,7 @@ bool Object::ShouldCollideWithSprite_522430(Sprite* pSprite) const
 MATCH_FUNC(0x522460)
 bool Object::SelectCollisionSprite_522460(Sprite* pProbe)
 {
-    gObject2C_HitWallOrDoor_6F8F94 = 0;
+    gObject2C_HitWallOrDoor_6F8F94 = false;
 
     Sprite* pSprite = pProbe->QuerySpriteCollision_59E7D0(sprite_types_enum::car_2);
     if (pSprite && gObject2C_LastCollisionSprite_6F8F8C && pSprite->GetType_416B40() == sprite_types_enum::car_2 // IsCar
@@ -331,7 +331,7 @@ bool Object::SelectCollisionSprite_522460(Sprite* pProbe)
     if (pSprite->field_8_object_2C_ptr->field_18_model == objects::diagonal_wall_collision_obj_166 ||
         pSprite->field_8_object_2C_ptr->field_18_model == objects::door_collision_obj_169)
     {
-        gObject2C_HitWallOrDoor_6F8F94 = 1;
+        gObject2C_HitWallOrDoor_6F8F94 = true;
     }
     gCollisionTarget_679188.SetSprite_40FEE0(pSprite);
     return true;
@@ -852,7 +852,7 @@ bool Object::HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite, Fix16_
     }
     else if (SelectCollisionSprite_522460(pSprite))
     {
-        if (gObject2C_HitWallOrDoor_6F8F94 != 0)
+        if (gObject2C_HitWallOrDoor_6F8F94)
         {
             field_10_obj_3c->field_14_saved_speed = field_10_obj_3c->field_C_speed;
             *pPoint = pSprite->get_x_y();
@@ -1458,7 +1458,7 @@ bool Object::ShouldStopAtTrafficLight_525290(Sprite* pSprite) const
 }
 
 MATCH_FUNC(0x525370)
-char_type Object::ShouldCollideWithSprite_525370(Sprite* pSprite) const
+bool Object::ShouldCollideWithSprite_525370(Sprite* pSprite) const
 {
     switch (this->field_18_model)
     {
@@ -1497,7 +1497,7 @@ char_type Object::ShouldCollideWithSprite_525370(Sprite* pSprite) const
             {
                 if (CanBePushed_482C90())
                 {
-                    return 0;
+                    return false;
                 }
             }
 
@@ -1505,7 +1505,7 @@ char_type Object::ShouldCollideWithSprite_525370(Sprite* pSprite) const
             {
                 if (field_10_obj_3c->field_34 != 2)
                 {
-                    return 0;
+                    return false;
                 }
 
                 if (pSprite)
@@ -1514,12 +1514,12 @@ char_type Object::ShouldCollideWithSprite_525370(Sprite* pSprite) const
                     {
                         if (field_8_definition->field_4C_collision_response == 3)
                         {
-                            return 0;
+                            return false;
                         }
 
                         if (field_8_definition->field_4C_collision_response == 0)
                         {
-                            return 0;
+                            return false;
                         }
                     }
                 }
@@ -1527,11 +1527,11 @@ char_type Object::ShouldCollideWithSprite_525370(Sprite* pSprite) const
                 {
                     if (field_8_definition->field_4C_collision_response == 3)
                     {
-                        return 0;
+                        return false;
                     }
                     if (field_8_definition->field_4C_collision_response == 0)
                     {
-                        return 0;
+                        return false;
                     }
                 }
             }
@@ -1546,11 +1546,11 @@ char_type Object::ShouldCollideWithSprite_525370(Sprite* pSprite) const
                         switch (field_8_definition->field_48_projectile_hit_type)
                         {
                             case 0:
-                                return 0;
+                                return false;
                             case 12:
-                                return 1;
+                                return true;
                             case 13:
-                                return 1;
+                                return true;
                         }
                     }
 
@@ -1562,13 +1562,13 @@ char_type Object::ShouldCollideWithSprite_525370(Sprite* pSprite) const
                     // Only pickups collide with pickups
                     if (pObject->IsPickup_421060() && !IsPickup_421060())
                     {
-                        return 0;
+                        return false;
                     }
                 }
             }
-            return 1;
+            return true;
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x5257d0)
@@ -3137,7 +3137,7 @@ Object_5C::Object_5C()
 {
     for (u8 i = 0; i < 50; i++)
     {
-        field_20_uncollected_tokens[i] = 1;
+        field_20_uncollected_tokens[i] = true;
     }
 
     field_54_uncollected_token_index = 0;
@@ -3152,7 +3152,7 @@ Object_5C::Object_5C()
     gObj3C_dealloc_count_6F8F0C = 0;
     field_58_collision_probe_sprite = NULL;
     field_18_pending_damage_owner = 0;
-    gDoorAccessCheckActive_6F8EDC = 0;
+    gDoorAccessCheckActive_6F8EDC = false;
 
     if (!gObject_2C_Pool_6F8F80)
     {
