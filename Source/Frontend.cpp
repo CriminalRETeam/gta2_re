@@ -1350,7 +1350,7 @@ void Frontend::DrawMenu_4AD140()
                             break;
                     }
 
-                    DrawFigure_5D7EC0(6, shape_type, x_pos, y_pos, kAngZero_67DA70, kFpOne_67D934, 2, 0, 0, false, 0);
+                    DrawFigure_5D7EC0(sprite_types_enum::user_6, shape_type, x_pos, y_pos, kAngZero_67DA70, kFpOne_67D934, 2, 0, 0, false, 0);
                     break;
 
                 case STRING_TEXT_1:
@@ -1462,11 +1462,11 @@ void Frontend::DrawCredits_4B7AE0()
 
             if (!wcscmp(pStrBuf, L"BINKLOGO"))
             {
-                DrawFigure_5D7EC0(6, 1, static_cast<u16>(320), y, kAngZero_67DA70, kFpOne_67D934, 2, 0, 0, 0, 0);
+                DrawFigure_5D7EC0(sprite_types_enum::user_6, 1, static_cast<u16>(320), y, kAngZero_67DA70, kFpOne_67D934, 2, 0, 0, 0, 0);
             }
             else if (!wcscmp(pStrBuf, L"MILESLOGO"))
             {
-                DrawFigure_5D7EC0(6, 25, static_cast<u16>(320), y, kAngZero_67DA70, kFpOne_67D934, 2, 0, 0, 0, 0);
+                DrawFigure_5D7EC0(sprite_types_enum::user_6, 25, static_cast<u16>(320), y, kAngZero_67DA70, kFpOne_67D934, 2, 0, 0, 0, 0);
             }
             else
             {

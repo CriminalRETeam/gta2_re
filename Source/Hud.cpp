@@ -228,7 +228,7 @@ void Hud_UnderRoofArrowMarker::Draw_5CF910()
         Camera* pCam;
         pCam = pPlayer->get_camera_434900();
 
-        DrawFigure_5D7EC0(6, 0, field_0_screen_x, field_4_screen_y, field_8_rotation, pCam->field_A8_ui_scale, drawtype, 0, 1, 14, 1);
+        DrawFigure_5D7EC0(sprite_types_enum::user_6, 0, field_0_screen_x, field_4_screen_y, field_8_rotation, pCam->field_A8_ui_scale, drawtype, 0, 1, 14, 1);
     }
 }
 
@@ -934,7 +934,7 @@ void Hud_Arrow::DrawArrow_5D0C90()
             pPlayer = gGame_0x40_67E008->field_38_local_player;
             pCam = pPlayer->get_camera_434900();
 
-            DrawFigure_5D7EC0(6,
+            DrawFigure_5D7EC0(sprite_types_enum::user_6,
                               field_18_targets.field_2C_arrow_sprt_idx,
                               field_0_screen_pos_x,
                               field_4_screen_pos_y,
@@ -971,7 +971,7 @@ void Hud_Arrow::DrawArrow_5D0C90()
             pPlayer = gGame_0x40_67E008->field_38_local_player;
             pCam = pPlayer->get_camera_434900();
 
-            DrawFigure_5D7EC0(6,
+            DrawFigure_5D7EC0(sprite_types_enum::user_6,
                               colour_related + 8,
                               field_0_screen_pos_x,
                               field_4_screen_pos_y,
