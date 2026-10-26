@@ -2603,7 +2603,7 @@ void CarPhysics::HandleCarCollision_55FF20(Car* pOtherCar)
         if (pOtherCar->IsPoliceCar_439EC0())
         {
             Ped* pDriver = field_5C_pCar->GetEffectiveDriver_43E990();
-            if (pDriver && pDriver->is_player_41B0A0() && pDriver->field_20A_wanted_points < 600)
+            if (pDriver && pDriver->is_player_41B0A0() && pDriver->field_20A_wanted_points < cop_level_ped_enum::cop_1_stars)
             {
                 pDriver->field_20A_wanted_points = cop_level_ped_enum::cop_1_stars;
             }
@@ -2668,7 +2668,7 @@ void CarPhysics::HandleCarCollision_55FF20(Car* pOtherCar)
         if (gCollisionDamage_6FE33C > kFpPoint6_6FDFF0 && pOtherCar->IsPoliceCar_439EC0())
         {
             Ped* pDriver = field_5C_pCar->GetEffectiveDriver_43E990();
-            if (pDriver && pDriver->is_player_41B0A0() && pDriver->field_20A_wanted_points < 600)
+            if (pDriver && pDriver->is_player_41B0A0() && pDriver->field_20A_wanted_points < cop_level_ped_enum::cop_1_stars)
             {
                 pDriver->field_20A_wanted_points = cop_level_ped_enum::cop_1_stars;
             }

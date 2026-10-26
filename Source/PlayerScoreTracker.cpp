@@ -88,7 +88,7 @@ void PlayerScoreTracker::Service_591C70()
                 }
             }
         }
-        if (player_ped->get_wanted_points_433DC0() >= 5000)
+        if (player_ped->get_wanted_points_433DC0() >= cop_level_ped_enum::cop_4_stars)
         {
             field_368_player->AddScore_41DC40(1);
         }
@@ -175,7 +175,7 @@ void PlayerScoreTracker::Service_591C70()
     }
 
     Car* pReversingCar;
-    if (player_ped->get_wanted_points_433DC0() > 3000 && (player_ped->has_car_403B80()) &&
+    if (player_ped->get_wanted_points_433DC0() > cop_level_ped_enum::cop_3_stars && (player_ped->has_car_403B80()) &&
         player_ped->not_enter_car_as_passenger_4A5040() &&
         (pReversingCar = player_ped->get_car_416B60()) != 0 && // null check optimized away ??
         (pReversingCar->field_58_physics) != 0 &&

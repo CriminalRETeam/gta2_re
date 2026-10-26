@@ -3834,7 +3834,7 @@ void Car::HandleCarExplosion_43D840(s32 type)
                     {
                         if (gCrimeReportQueue_67A4B8->ShouldReportCarCrime_485090(this, pExploder->field_15C_player))
                         {
-                            if (pExploder->field_20A_wanted_points < 600)
+                            if (pExploder->field_20A_wanted_points < cop_level_ped_enum::cop_1_stars)
                             {
                                 pExploder->field_20A_wanted_points = cop_level_ped_enum::cop_1_stars;
                             }
@@ -4040,7 +4040,7 @@ void Car::DestroyWhileSinking_43DD60()
                     {
                         if (gCrimeReportQueue_67A4B8->ShouldReportCarCrime_485090(this, pPed->field_15C_player))
                         {
-                            if (pPed->field_20A_wanted_points < 600)
+                            if (pPed->field_20A_wanted_points < cop_level_ped_enum::cop_1_stars)
                             {
                                 pPed->field_20A_wanted_points = cop_level_ped_enum::cop_1_stars;
                             }

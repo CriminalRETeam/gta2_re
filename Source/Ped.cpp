@@ -1917,7 +1917,7 @@ block_466022:
         if (!((pTargetPed->GetAttacking_433CA0()) && pTargetPed->field_170_selected_weapon != 0 &&
               pTargetPed->field_170_selected_weapon->sub_5DCEF0()))
         {
-            if (pTargetPed->field_20A_wanted_points < 0x258 && this->field_144_attacker != pTargetPed && pTargetPed->field_26A_recent_crime_timer <= 0u)
+            if (pTargetPed->field_20A_wanted_points < cop_level_ped_enum::cop_1_stars && this->field_144_attacker != pTargetPed && pTargetPed->field_26A_recent_crime_timer <= 0u)
             {
                 goto ret_false;
             }
@@ -1933,7 +1933,7 @@ block_466022:
                 goto ret_true;
             }
 
-            if (pTargetPed->field_20A_wanted_points < 0x258)
+            if (pTargetPed->field_20A_wanted_points < cop_level_ped_enum::cop_1_stars)
             {
                 pTargetPed->field_20A_wanted_points = cop_level_ped_enum::cop_1_stars;
             }
@@ -6160,7 +6160,7 @@ block_466022:
         if (!((pTargetPed->GetAttacking_433CA0()) && pTargetPed->field_170_selected_weapon != 0 &&
               pTargetPed->field_170_selected_weapon->sub_5DCEF0()))
         {
-            if (pTargetPed->get_wanted_points_433DC0() < 0x258 && this->field_144_attacker != pTargetPed && pTargetPed->field_26A_recent_crime_timer <= 0u)
+            if (pTargetPed->get_wanted_points_433DC0() < cop_level_ped_enum::cop_1_stars && this->field_144_attacker != pTargetPed && pTargetPed->field_26A_recent_crime_timer <= 0u)
             {
                 goto ret_false;
             }
@@ -6176,7 +6176,7 @@ block_466022:
                 goto ret_true;
             }
 
-            if (pTargetPed->get_wanted_points_433DC0() < 0x258)
+            if (pTargetPed->get_wanted_points_433DC0() < cop_level_ped_enum::cop_1_stars)
             {
                 pTargetPed->field_20A_wanted_points = cop_level_ped_enum::cop_1_stars;
             }
@@ -6184,7 +6184,7 @@ block_466022:
             return 0;
         }
 
-        if (pTargetPed->get_wanted_points_433DC0() >= 0x258)
+        if (pTargetPed->get_wanted_points_433DC0() >= cop_level_ped_enum::cop_1_stars)
         {
             goto ret_true;
         }
@@ -11939,7 +11939,7 @@ void Ped::add_wanted_points_470160(s16 wanted_amount)
 {
     field_20A_wanted_points += wanted_amount;
 
-    if (field_20A_wanted_points > 12000)
+    if (field_20A_wanted_points > cop_level_ped_enum::cop_6_stars)
     {
         field_20A_wanted_points = cop_level_ped_enum::cop_6_stars;
     }

@@ -1048,7 +1048,7 @@ void Char::UpdateAnimState_546360()
                                 break;
 
                             case ped_ocupation_enum::police:
-                                if (field_7C_pPed->field_20A_wanted_points < 600)
+                                if (field_7C_pPed->field_20A_wanted_points < cop_level_ped_enum::cop_1_stars)
                                 {
                                     gPolice_7B8_6FEE40->RegisterCriminal_56F940(field_7C_pPed);
                                     field_7C_pPed->field_20A_wanted_points = cop_level_ped_enum::cop_1_stars;
