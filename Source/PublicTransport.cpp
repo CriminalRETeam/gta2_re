@@ -44,7 +44,7 @@ DEFINE_GLOBAL_INIT(Fix16, kTrainSpeedState4_6FEEDC, Fix16(0xCCC, 0), 0x6FEEDC);
 DEFINE_GLOBAL_INIT(Fix16, kTrainSpeedState5_6FEEE4, Fix16(0x1999, 0), 0x6FEEE4);
 
 MATCH_FUNC(0x577E20)
-char_type __stdcall HasBlockGreenArrowAtDirection_577E20(s32 direction, gmp_block_info* pBlock)
+char_type __stdcall HasBlockGreenArrowAtDirection_577E20(s32 direction, const gmp_block_info* pBlock)
 {
     switch (direction)
     {
@@ -62,7 +62,7 @@ char_type __stdcall HasBlockGreenArrowAtDirection_577E20(s32 direction, gmp_bloc
 }
 
 MATCH_FUNC(0x577E90)
-bool __stdcall CompareNameChars_577E90(char_type* pChar1, char_type* pChar2)
+bool __stdcall CompareNameChars_577E90(const char_type* pChar1, const char_type* pChar2)
 {
     for (u8 i = 0; i < gNameCompareLen_6FF158; i++)
     {
@@ -75,7 +75,7 @@ bool __stdcall CompareNameChars_577E90(char_type* pChar1, char_type* pChar2)
 }
 
 MATCH_FUNC(0x577EE0)
-gmp_map_zone* __stdcall FindStationZoneByName_577EE0(char_type* pChar, u8 case_value)
+gmp_map_zone* __stdcall FindStationZoneByName_577EE0(const char_type* pChar, u8 case_value)
 {
     u32 zone_type;
 
@@ -119,7 +119,7 @@ static inline void EnsureAI_421510(Car* pCar)
 }
 
 MATCH_FUNC(0x577f80)
-s32 TrainStation::GetWagonType_577f80(u8 idx)
+s32 TrainStation::GetWagonType_577f80(u8 idx) const
 {
     if (field_24_train_wagons[0] != 0)
     {
@@ -591,7 +591,7 @@ TrainStation* PublicTransport::AllocateTrainStation_5787E0()
 }
 
 MATCH_FUNC(0x578820)
-void TrainStation::CalculateWagonCount_578820(u8* pWagons)
+void TrainStation::CalculateWagonCount_578820(const u8* pWagons)
 {
     if (!bSkip_trains_67D550)
     {
@@ -1079,7 +1079,7 @@ void PublicTransport::OnBusStopMarkerHit_579A30(Car* pToFind)
 }
 
 MATCH_FUNC(0x579aa0)
-bool PublicTransport::is_bus_579AA0(Car* pCar)
+bool PublicTransport::is_bus_579AA0(Car* pCar) const
 {
     if (!bSkip_buses_67D558)
     {
@@ -1097,7 +1097,7 @@ bool PublicTransport::is_bus_579AA0(Car* pCar)
 }
 
 MATCH_FUNC(0x579ad0)
-Car* PublicTransport::GetBusIfBoarding_579AD0()
+Car* PublicTransport::GetBusIfBoarding_579AD0() const
 {
     if (bSkip_buses_67D558)
     {
@@ -1113,7 +1113,7 @@ Car* PublicTransport::GetBusIfBoarding_579AD0()
 }
 
 MATCH_FUNC(0x579af0)
-bool PublicTransport::is_bus_full_579AF0()
+bool PublicTransport::is_bus_full_579AF0() const
 {
     if (bSkip_buses_67D558)
     {

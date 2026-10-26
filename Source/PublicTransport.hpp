@@ -50,12 +50,12 @@ class TrainStation
 {
   public:
     // returns a car_model_enum
-    EXPORT s32 GetWagonType_577f80(u8 idx);
+    EXPORT s32 GetWagonType_577f80(u8 idx) const;
     EXPORT TrainStation();
     EXPORT ~TrainStation();
 
     // NOTE: This function defined out of order for some reason
-    EXPORT void CalculateWagonCount_578820(u8* pWagons);
+    EXPORT void CalculateWagonCount_578820(const u8* pWagons);
 
     s32 field_0_station_type;
     gmp_map_zone* field_4_entry_point;
@@ -101,9 +101,9 @@ class PublicTransport
     EXPORT void SetupTrainAndBusStops_5794B0();
     EXPORT TrainStation* GetBusStopOnScreen_5799B0();
     EXPORT void OnBusStopMarkerHit_579A30(Car* pToFind);
-    EXPORT bool is_bus_579AA0(Car* pCar);
-    EXPORT Car* GetBusIfBoarding_579AD0();
-    EXPORT bool is_bus_full_579AF0();
+    EXPORT bool is_bus_579AA0(Car* pCar) const;
+    EXPORT Car* GetBusIfBoarding_579AD0() const;
+    EXPORT bool is_bus_full_579AF0() const;
     EXPORT void IncrementBusPassengerCount_579B10();
     EXPORT void KillAllPassengers_579B20();
     EXPORT Car** GetCarArrayFromLeadCar_579B40(Car* toFind);
@@ -130,6 +130,6 @@ GTA2_ASSERT_SIZEOF_ALWAYS(PublicTransport, 0x181C);
 
 EXTERN_GLOBAL(PublicTransport*, gPublicTransport_181C_6FF1D4);
 
-EXPORT bool __stdcall CompareNameChars_577E90(char_type* pChar1, char_type* pChar2);
+EXPORT bool __stdcall CompareNameChars_577E90(const char_type* pChar1, const char_type* pChar2);
 
-EXPORT gmp_map_zone* __stdcall FindStationZoneByName_577EE0(char_type* pChar, u8 case_value);
+EXPORT gmp_map_zone* __stdcall FindStationZoneByName_577EE0(const char_type* pChar, u8 case_value);
