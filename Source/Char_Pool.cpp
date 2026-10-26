@@ -589,7 +589,7 @@ MATCH_FUNC(0x470330)
 void PedManager::Dummies_470330()
 {
     s16 max_dummies = gPedManager_6787BC->field_0_max_dummy_chars;
-    if (gPolice_7B8_6FEE40->field_654_max_wanted_level > 3)
+    if (gPolice_7B8_6FEE40->field_654_max_wanted_level > cop_level_enum::police_3)
     {
         max_dummies = static_cast<u16>(max_dummies) >> 1;
     }

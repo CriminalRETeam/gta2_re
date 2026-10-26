@@ -1316,7 +1316,7 @@ void PoliceCrew::State6_ShutDown_574720()
                     if (PoliceCrew::CanTrackCriminal_572210())
                     {
                         if (field_10_subObj->field_20_crew_type == crew_type::army_6 ||
-                            (field_14_pPursuitTarget->field_4_wanted_level != 6 && field_14_pPursuitTarget->field_4_wanted_level))
+                            (field_14_pPursuitTarget->field_4_wanted_level != cop_level_enum::army_6 && field_14_pPursuitTarget->field_4_wanted_level))
                         {
                             if (gCurrentCrewPed_6FEDDC->get_objective_403A80() == objectives_enum::enter_car_as_driver_35 &&
                                 !gCurrentCrewPed_6FEDDC->field_21C_bf.bLeftVehicle)
@@ -1504,7 +1504,7 @@ void PoliceCrew::State1_Patrol_574F10()
         else
         {
             if (field_14_pPursuitTarget && field_14_pPursuitTarget->field_0_criminal_ped && PoliceCrew::CanTrackCriminal_572210() &&
-                (field_10_subObj->field_20_crew_type == crew_type::army_6 || field_14_pPursuitTarget->field_4_wanted_level != 6))
+                (field_10_subObj->field_20_crew_type == crew_type::army_6 || field_14_pPursuitTarget->field_4_wanted_level != cop_level_enum::army_6))
             {
                 field_14_pPursuitTarget->field_10_x = field_14_pPursuitTarget->field_0_criminal_ped->get_cam_x();
                 field_14_pPursuitTarget->field_14_y = field_14_pPursuitTarget->field_0_criminal_ped->get_cam_y();

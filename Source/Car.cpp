@@ -7247,7 +7247,7 @@ void TrafficSpawner::MakeTrafficForCurrCamera_5832C0()
             case 0:
                 field_8_spawn_side = 1;
                 if (!SpawnTrafficCar_582480(1, 2, 0) && !SpawnTrafficCar_582480(2, 1, 0) && !SpawnTrafficCar_582480(4, 3, 0) &&
-                    !SpawnTrafficCar_582480(3, 4, 0) && gPolice_7B8_6FEE40->field_654_max_wanted_level < 3)
+                    !SpawnTrafficCar_582480(3, 4, 0) && gPolice_7B8_6FEE40->field_654_max_wanted_level < cop_level_enum::police_3)
                 {
                     if (static_cast<u8>(bOwnerMoving))
                     {
@@ -7259,7 +7259,7 @@ void TrafficSpawner::MakeTrafficForCurrCamera_5832C0()
             case 1:
                 this->field_8_spawn_side = 0;
                 if (!SpawnTrafficCar_582480(2, 1, 0) && !SpawnTrafficCar_582480(4, 3, 0) && !SpawnTrafficCar_582480(3, 4, 0) &&
-                    (gPolice_7B8_6FEE40->field_654_max_wanted_level >= 3 || !static_cast<u8>(bOwnerMoving) || !SpawnTrafficCarFacing_583260(angleFace)))
+                    (gPolice_7B8_6FEE40->field_654_max_wanted_level >= cop_level_enum::police_3 || !static_cast<u8>(bOwnerMoving) || !SpawnTrafficCarFacing_583260(angleFace)))
                 {
                     SpawnTrafficCar_582480(1, 2, 0);
                 }
@@ -7268,7 +7268,7 @@ void TrafficSpawner::MakeTrafficForCurrCamera_5832C0()
             case 2:
                 this->field_8_spawn_side = 1;
                 if (!SpawnTrafficCar_582480(4, 3, 0) && !SpawnTrafficCar_582480(3, 4, 0) &&
-                    (gPolice_7B8_6FEE40->field_654_max_wanted_level >= 3 || !static_cast<u8>(bOwnerMoving) || !SpawnTrafficCarFacing_583260(angleFace)) &&
+                    (gPolice_7B8_6FEE40->field_654_max_wanted_level >= cop_level_enum::police_3 || !static_cast<u8>(bOwnerMoving) || !SpawnTrafficCarFacing_583260(angleFace)) &&
                     !SpawnTrafficCar_582480(1, 2, 0))
                 {
                     SpawnTrafficCar_582480(2, 1, 0);
@@ -7278,7 +7278,7 @@ void TrafficSpawner::MakeTrafficForCurrCamera_5832C0()
             case 3:
                 this->field_8_spawn_side = 0;
                 if (!SpawnTrafficCar_582480(3, 4, 0) &&
-                    (gPolice_7B8_6FEE40->field_654_max_wanted_level >= 3 || !static_cast<u8>(bOwnerMoving) || !SpawnTrafficCarFacing_583260(angleFace)) &&
+                    (gPolice_7B8_6FEE40->field_654_max_wanted_level >= cop_level_enum::police_3 || !static_cast<u8>(bOwnerMoving) || !SpawnTrafficCarFacing_583260(angleFace)) &&
                     !SpawnTrafficCar_582480(1, 2, 0) && !TrafficSpawner::SpawnTrafficCar_582480(2, 1, 0))
                 {
                     SpawnTrafficCar_582480(4, 3, 0);
@@ -7287,7 +7287,7 @@ void TrafficSpawner::MakeTrafficForCurrCamera_5832C0()
 
             case 4:
                 field_8_spawn_side = 1;
-                if ((gPolice_7B8_6FEE40->field_654_max_wanted_level >= 3 || !static_cast<u8>(bOwnerMoving) || !SpawnTrafficCarFacing_583260(angleFace)) &&
+                if ((gPolice_7B8_6FEE40->field_654_max_wanted_level >= cop_level_enum::police_3 || !static_cast<u8>(bOwnerMoving) || !SpawnTrafficCarFacing_583260(angleFace)) &&
                     !SpawnTrafficCar_582480(1, 2, 0) && !SpawnTrafficCar_582480(2, 1, 0) && !SpawnTrafficCar_582480(4, 3, 0))
                 {
                     SpawnTrafficCar_582480(3, 4, 0);
@@ -7553,7 +7553,7 @@ bool TrafficSpawner::SpawnTrafficCar_582480(s32 spawn_type, s32 arrow_direction,
                     s32 car_model;
                     u16 car_kind;
                     u8 rng_val;
-                    if (gPolice_7B8_6FEE40->field_654_max_wanted_level < 1 || (rng_val = static_cast<u8>(gRng_6F6784.get_int_4F7AE0(40)), rng_val <= 20u) ||
+                    if (gPolice_7B8_6FEE40->field_654_max_wanted_level < cop_level_enum::police_1 || (rng_val = static_cast<u8>(gRng_6F6784.get_int_4F7AE0(40)), rng_val <= 20u) ||
                         rng_val >= 30u)
                     {
                         car_model = gCarManager_6C_677930->SelectTrafficCarModel_444AB0(field_C_player, field_10_zone, gTrafficDensityScale_6FF7E8, &car_kind);

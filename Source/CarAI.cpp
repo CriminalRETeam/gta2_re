@@ -2836,7 +2836,7 @@ void CarAI::UpdateChase_44E0C0()
 
         this->field_0_car->field_60_pChaseTask->field_22_following_route = 0;
 
-        if (gPolice_7B8_6FEE40->field_654_max_wanted_level > 2 || field_0_car->IsPoliceCar_439EC0())
+        if (gPolice_7B8_6FEE40->field_654_max_wanted_level > cop_level_enum::police_2 || field_0_car->IsPoliceCar_439EC0())
         {
             this->field_0_car->field_60_pChaseTask->field_34_snap_timer = 100;
         }
@@ -2860,7 +2860,7 @@ void CarAI::UpdateChase_44E0C0()
                     {
                         if (field_0_car->SnapCarToGreenArrow_444E40(gCurrCarAI_TargetX_6779F0, gCurrCarAI_TargetY_6779F4, gCurrCarAI_TargetZ_6779F8))
                         {
-                            if (gPolice_7B8_6FEE40->field_654_max_wanted_level > 2 || field_0_car->IsPoliceCar_439EC0())
+                            if (gPolice_7B8_6FEE40->field_654_max_wanted_level > cop_level_enum::police_2 || field_0_car->IsPoliceCar_439EC0())
                             {
                                 this->field_0_car->field_60_pChaseTask->field_34_snap_timer = 100;
                             }
@@ -2920,7 +2920,7 @@ void CarAI::UpdateChase_44E0C0()
 
                 this->field_0_car->field_60_pChaseTask->field_22_following_route = 0;
 
-                if (gPolice_7B8_6FEE40->field_654_max_wanted_level > 2 || field_0_car->IsPoliceCar_439EC0())
+                if (gPolice_7B8_6FEE40->field_654_max_wanted_level > cop_level_enum::police_2 || field_0_car->IsPoliceCar_439EC0())
                 {
                     this->field_0_car->field_60_pChaseTask->field_34_snap_timer = 100;
                 }
