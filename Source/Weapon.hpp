@@ -174,8 +174,8 @@ class Weapon
     Car* field_14_car;
     Weapon* mpNext;
     s32 field_1C_weapon_type;
-    s8 field_20;
-    s8 field_21;
+    s8 field_20_bAiTestShotFired; // AI fired the invisible_rocket_159 test shot, the next shot is real
+    s8 field_21_bThrown;
     s8 field_22_unused;
     s8 field_23_unused;
     Ped* field_24_pPed;

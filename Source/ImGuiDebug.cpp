@@ -3537,7 +3537,7 @@ void CC ImGuiDebugDraw()
                     ImGui::Value("field_20_friction", phi_54->field_20_friction.mValue);
                     ImGui::Value("field_24_next_definition_timer", phi_54->field_24_next_definition_timer);
                     ImGui::Value("field_28", phi_54->field_28_collision_response);
-                    ImGui::Value("field_2C", phi_54->field_2C);
+                    ImGui::Value("field_2C", phi_54->field_2C_z_collision_response);
                     ImGui::Value("field_30_next_frame_max", phi_54->field_30_next_frame_max);
                     ImGui::Value("field_34", phi_54->field_34_uses_3d_movement);
                     ImGui::Value("field_38_mass", phi_54->field_38_mass.mValue);

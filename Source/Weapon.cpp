@@ -90,8 +90,8 @@ Weapon::Weapon()
     field_10_unused = 0;
     field_8_unused = 0;
     field_C_unused = -1;
-    field_20 = 0;
-    field_21 = 0;
+    field_20_bAiTestShotFired = 0;
+    field_21_bThrown = 0;
     field_2C_shot_fired = false;
     field_28_pSound = NULL;
 }
@@ -119,10 +119,10 @@ void Weapon::init_5DCD90()
     field_0_ammo = 0;
     field_2_reload_timer = 0;
     field_4_bTargetHit = 0;
-    field_21 = 0;
+    field_21_bThrown = 0;
     field_8_unused = 0;
     field_C_unused = -1;
-    field_20 = 0;
+    field_20_bAiTestShotFired = 0;
     field_2C_shot_fired = false;
     if (!field_28_pSound && !bSkip_audio_67D6BE)
     {
@@ -574,13 +574,13 @@ void Weapon::throwable_5DDFC0(s32 obj_idx, s32 throw_strength, s32 throw_charge)
 
     if (throw_strength)
     {
-        field_21 = 0;
+        field_21_bThrown = 0;
         if (field_2_reload_timer == 0)
         {
             SetShotFired_4CCA80(true);
             if (!field_4_bTargetHit)
             {
-                if (!field_24_pPed->PedTypeIs_45EDE0(ped_type::player_2) && !field_20)
+                if (!field_24_pPed->PedTypeIs_45EDE0(ped_type::player_2) && !field_20_bAiTestShotFired)
                 {
                     spawn_bullet_5DCF60(objects::invisible_rocket_159,
                                         field_24_pPed->get_cam_x(),
@@ -589,7 +589,7 @@ void Weapon::throwable_5DDFC0(s32 obj_idx, s32 throw_strength, s32 throw_charge)
                                         field_24_pPed->GetAimAngle_4CCA90(),
                                         field_24_pPed->GetVelocityVector_45B520());
                     field_2_reload_timer = 5;
-                    field_20 = 1;
+                    field_20_bAiTestShotFired = 1;
                     if (field_24_pPed->is_player_41B0A0())
                     {
                         gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::weapon_fired_2, field_24_pPed);
@@ -668,7 +668,7 @@ void Weapon::throwable_5DDFC0(s32 obj_idx, s32 throw_strength, s32 throw_charge)
                             {
                                 decrement_ammo_4CCA30();
                             }
-                            field_21 = 1;
+                            field_21_bThrown = 1;
                             if (field_24_pPed->is_player_41B0A0())
                             {
                                 gCrimeReportQueue_67A4B8->ReportCrimeForPed(crime_stats_type::weapon_fired_2, field_24_pPed);
@@ -686,7 +686,7 @@ void Weapon::throwable_5DDFC0(s32 obj_idx, s32 throw_strength, s32 throw_charge)
                         field_2_reload_timer = 50;
                         field_24_pPed->field_21C_bf.bFlag22 = true;
                     }
-                    field_21 = 1;
+                    field_21_bThrown = 1;
                     Weapon::ApplyFastReload_5DCF40();
                 }
             }
@@ -699,20 +699,20 @@ void Weapon::throwable_5DDFC0(s32 obj_idx, s32 throw_strength, s32 throw_charge)
                                     field_24_pPed->GetAimAngle_4CCA90(),
                                     field_24_pPed->GetVelocityVector_45B520());
                 field_2_reload_timer = 5;
-                field_20 = 0;
+                field_20_bAiTestShotFired = 0;
                 Weapon::ApplyFastReload_5DCF40();
             }
         }
         else
         {
-            if (field_20 == 0)
+            if (field_20_bAiTestShotFired == 0)
             {
                 field_24_pPed->field_21C_bf.bFlag22 = false;
             }
             --field_2_reload_timer;
-            if (field_2_reload_timer < 30 && field_21)
+            if (field_2_reload_timer < 30 && field_21_bThrown)
             {
-                field_21 = 0;
+                field_21_bThrown = 0;
                 field_24_pPed->field_21C_bf.bFlag22 = false;
             }
         }
@@ -2001,7 +2001,7 @@ void Weapon::rocket_5E3850()
             }
             else
             {
-                if (!field_20)
+                if (!field_20_bAiTestShotFired)
                 {
                     spawn_bullet_5DCF60(objects::invisible_rocket_159,
                                         field_24_pPed->get_cam_x(),
@@ -2010,7 +2010,7 @@ void Weapon::rocket_5E3850()
                                         field_24_pPed->GetAimAngle_4CCA90(),
                                         field_24_pPed->GetVelocityVector_45B520());
                     field_2_reload_timer = 5;
-                    field_20 = 1;
+                    field_20_bAiTestShotFired = 1;
                     return;
                 }
 
@@ -2035,7 +2035,7 @@ void Weapon::rocket_5E3850()
 
             field_2_reload_timer = 50;
             gParticle_8_6FD5E8->GunMuzzelFlash_53E970(field_24_pPed->field_168_game_object->field_80_sprite_ptr);
-            field_20 = 0;
+            field_20_bAiTestShotFired = 0;
 
             if (field_24_pPed->is_player_41B0A0())
             {
@@ -2051,13 +2051,13 @@ void Weapon::rocket_5E3850()
                                 field_24_pPed->GetAimAngle_4CCA90(),
                                 field_24_pPed->GetVelocityVector_45B520());
             field_2_reload_timer = 5;
-            field_20 = 0;
+            field_20_bAiTestShotFired = 0;
         }
         ApplyFastReload_5DCF40();
     }
     else
     {
-        if (!field_20)
+        if (!field_20_bAiTestShotFired)
         {
             field_24_pPed->field_21C_bf.bFlag22 = false;
         }

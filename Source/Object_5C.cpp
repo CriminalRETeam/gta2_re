@@ -352,18 +352,18 @@ void Object::SetMovementVectorWithRandomState_522640(Fix16_Point& point)
 {
     SetMovementVector_5224E0(point);
 
-    if (field_8_definition->field_4C_collision_response == 3 && field_10_obj_3c->field_34 == 2)
+    if (field_8_definition->field_4C_collision_response == 3 && field_10_obj_3c->field_34_sprite_collide_mode == 2)
     {
         const s16 rng = gRng_6F6784.get_int_4F7AE0(9);
         if (rng < 6)
         {
             if (rng < 3)
             {
-                field_10_obj_3c->field_34 = 1;
+                field_10_obj_3c->field_34_sprite_collide_mode = 1;
             }
             else
             {
-                field_10_obj_3c->field_34 = 0;
+                field_10_obj_3c->field_34_sprite_collide_mode = 0;
             }
         }
     }
@@ -672,7 +672,7 @@ bool Object::TryStartSlide_5233A0(Fix16 speed)
             return false;
         }
 
-        if (this->field_10_obj_3c->field_34 == 1)
+        if (this->field_10_obj_3c->field_34_sprite_collide_mode == 1)
         {
             SetTopDrawLayer_482BF0();
         }
@@ -684,7 +684,7 @@ bool Object::TryStartSlide_5233A0(Fix16 speed)
         this->field_10_obj_3c->field_18_friction = this->field_8_definition->field_14_friction;
         return true;
     }
-    this->field_10_obj_3c->field_34 = 2;
+    this->field_10_obj_3c->field_34_sprite_collide_mode = 2;
     return false;
 }
 
@@ -999,9 +999,9 @@ bool Object::HandleSpriteZCollision_5238B0(Sprite* pSprite, Fix16_Point* pPoint,
         else
         {
             Object_3C* pObj3C = field_10_obj_3c;
-            if (pObj3C->field_34 == 2)
+            if (pObj3C->field_34_sprite_collide_mode == 2)
             {
-                pObj3C->field_34 = 1;
+                pObj3C->field_34_sprite_collide_mode = 1;
                 ApplyDefinitionDrawLayer_482BE0();
                 field_10_obj_3c->field_10_z_speed = kObjectBounceRestitution_6F8DBC * (-field_10_obj_3c->field_10_z_speed);
             }
@@ -1150,7 +1150,7 @@ void Object::IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 angle)
                 pSprt->set_ang_lazy_420690(angle);
                 Object::Sprite_UpdateZFromSlopeAndTile_522FA0(pSprt);
                 bool bHitSprite = false;
-                if (field_10_obj_3c->field_34 == 2 && Object::SelectCollisionSprite_522460(pSprt))
+                if (field_10_obj_3c->field_34_sprite_collide_mode == 2 && Object::SelectCollisionSprite_522460(pSprt))
                 {
                     bHitSprite = true;
                 }
@@ -1496,7 +1496,7 @@ bool Object::ShouldCollideWithSprite_525370(Sprite* pSprite) const
 
             if (field_10_obj_3c)
             {
-                if (field_10_obj_3c->field_34 != 2)
+                if (field_10_obj_3c->field_34_sprite_collide_mode != 2)
                 {
                     return false;
                 }
@@ -1730,7 +1730,7 @@ void Object::UpdatePhysicsAndMovement_525B80()
             field_10_obj_3c->field_0_attached_sprites.PoolUpdate_5A6F70(field_4_sprite);
         }
 
-        if (mov_speed != kFpZero_6F8E10 || (field_10_obj_3c->field_2A_bAirborne) || field_10_obj_3c->field_34 == 2 || CheckWaterDeath_525B60())
+        if (mov_speed != kFpZero_6F8E10 || (field_10_obj_3c->field_2A_bAirborne) || field_10_obj_3c->field_34_sprite_collide_mode == 2 || CheckWaterDeath_525B60())
         {
             if (field_10_obj_3c->field_28_next_definition_timer > 0)
             {
@@ -1819,7 +1819,7 @@ void Object::UpdatePhysicsMovementAndAnimation_525D90()
 
         if (mov_speed == kFpZero_6F8E10)
         {
-            if (!field_10_obj_3c->field_2A_bAirborne && field_10_obj_3c->field_34 == 2 && !CheckWaterDeath_525B60() && !gObject2C_LastCollisionSprite_6F8F8C)
+            if (!field_10_obj_3c->field_2A_bAirborne && field_10_obj_3c->field_34_sprite_collide_mode == 2 && !CheckWaterDeath_525B60() && !gObject2C_LastCollisionSprite_6F8F8C)
             {
                 field_10_obj_3c->field_1C_z_accel = kFpZero_6F8E10;
                 field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;

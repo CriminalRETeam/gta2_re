@@ -5859,7 +5859,7 @@ void Char::state_8_5520A0()
                 {
                     field_40_rotation = field_7C_pPed->field_184_pObj2C->field_4_sprite->field_0_rotation;
                 }
-                if (!field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_34)
+                if (!field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_34_sprite_collide_mode)
                 {
                     field_80_sprite_ptr->SetDrawLayer_40F7B0(6);
                 }
@@ -6120,7 +6120,7 @@ void Char::state_8_5520A0()
 
                     field_80_sprite_ptr->set_ang_lazy_420690(field_7C_pPed->field_184_pObj2C->field_4_sprite->field_0_rotation);
 
-                    if (!field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_34)
+                    if (!field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_34_sprite_collide_mode)
                     {
                         field_80_sprite_ptr->SetDrawLayer_40F7B0(6);
                     }
@@ -6153,7 +6153,7 @@ void Char::state_8_5520A0()
                     {
                         field_40_rotation = field_7C_pPed->field_184_pObj2C->field_4_sprite->field_0_rotation;
                     }
-                    if (!field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_34)
+                    if (!field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_34_sprite_collide_mode)
                     {
                         field_80_sprite_ptr->SetDrawLayer_40F7B0(6);
                     }

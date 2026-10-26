@@ -285,7 +285,7 @@ inline MapObjectOverride::MapObjectOverride(s32 definition_idx,
                Fix16 friction,
                s8 next_definition_timer,
                const s32& collision_response,
-               const s32& param_12,
+               const s32& z_collision_response,
                s8 next_frame_max,
                const s32& uses_3d_movement,
                Fix16 mass,
@@ -307,7 +307,7 @@ inline MapObjectOverride::MapObjectOverride(s32 definition_idx,
     field_20_friction = friction;
     field_24_next_definition_timer = next_definition_timer;
     field_28_collision_response = collision_response;
-    field_2C = param_12;
+    field_2C_z_collision_response = z_collision_response;
     field_30_next_frame_max = next_frame_max;
     field_34_uses_3d_movement = uses_3d_movement;
     field_38_mass = mass;

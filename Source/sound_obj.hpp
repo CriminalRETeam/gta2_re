@@ -144,7 +144,7 @@ class sound_obj
     bool field_0_bSoundInitialized;
     bool field_1_isPaused;
     bool field_2_service_enabled;
-    char_type field_3;
+    char_type field_3_bFirstMenuStream; // frontend music restarts d.wav (stream 0) while set, m.wav (stream 1) once cleared
     s32 field_4_speed_of_sound;
     u8 field_8_frames_per_second;
     char_type field_9_unused;
