@@ -196,7 +196,7 @@ s16 BonusTracker::AllocRule_431FE0(s16 event_type,
                                       s32 alt_car_model,
                                       s32 time_limit,
                                       s8 check_mode,
-                                      s8 target_count,
+                                      u8 target_count,
                                       u16 reward,
                                       gmp_map_zone* pZone)
 {
