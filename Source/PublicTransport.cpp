@@ -1209,13 +1209,9 @@ MATCH_FUNC(0x579ca0)
 void PublicTransport::BusesService_579CA0()
 {
     Car* pBusCar;
-    Fix16 xpos;
-    Fix16 ypos;
 
     if (!bSkip_buses_67D558)
     {
-        u16 i;
-        s32 found_z;
         if (dword_6FF1D0 || byte_6FF1CD || !gCarManager_6C_677930->CanAllocateCarOfKind_446930(car_kind::recycled_1))
         {
             if (--dword_6FF1D0 < 0)
@@ -1228,10 +1224,11 @@ void PublicTransport::BusesService_579CA0()
             TrainStation* pBusStop = PublicTransport::GetBusStopOnScreen_5799B0();
             if (pBusStop)
             {
-                xpos = Fix16(pBusStop->field_10_pZone->field_1_x);
-                ypos = Fix16(pBusStop->field_10_pZone->field_2_y);
+                Fix16 xpos = Fix16(pBusStop->field_10_pZone->field_1_x);
+                Fix16 ypos = Fix16(pBusStop->field_10_pZone->field_2_y);
+                s32 found_z;
                 gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(xpos.ToInt(), ypos.ToInt(), &found_z);
-                for (i = 0; i < 4; i++)
+                for (u16 i = 0; i < 4; i++)
                 {
                     switch (i)
                     {
