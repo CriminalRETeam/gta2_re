@@ -13,7 +13,7 @@ DEFINE_GLOBAL(TextTable*, gtext_0x14_6F87F0, 0x6F87F0);
 DEFINE_GLOBAL_ARRAY(wchar_t, tmpAscii2WideStr_70488C, 640, 0x70488C);
 DEFINE_GLOBAL_ARRAY(char_type, tmpWide2AsciiStr_70462C, 80, 0x70462C);
 
-const wchar_t word_626590[256] = {
+const wchar_t kToUpperTable_626590[256] = {
     128u, 129u, 130u, 131u, 132u, 133u, 134u, 135u, 136u, 137u, 138u, 139u, 140u, 141u, 142u, 143u, 144u, 145u, 146u, 147u, 148u, 149u,
     150u, 128u, 129u, 130u, 131u, 132u, 133u, 134u, 135u, 136u, 137u, 138u, 139u, 140u, 141u, 142u, 143u, 144u, 145u, 146u, 147u, 148u,
     149u, 173u, 173u, 175u, 176u, 177u, 178u, 179u, 180u, 181u, 182u, 183u, 184u, 185u, 186u, 187u, 188u, 189u, 190u, 191u, 192u, 193u,
@@ -165,8 +165,8 @@ void text_tdat::TDAT_Load_5B5A80(u32 size)
 MATCH_FUNC(0x5B5AD0)
 u16 TextTable::ToUpper_5B5AD0(wchar_t ch)
 {
-    // The original uppercase data uses word_626590[0..127] for 'g'/'i'/'r'/'s'
-    // and word_626590[128..255] for French. Index both halves explicitly.
+    // The original uppercase data uses kToUpperTable_626590[0..127] for 'g'/'i'/'r'/'s'
+    // and kToUpperTable_626590[128..255] for French. Index both halves explicitly.
     switch (field_10_lang_code)
     {
         case 'e':
@@ -183,7 +183,7 @@ u16 TextTable::ToUpper_5B5AD0(wchar_t ch)
             }
             if (ch >= 0x80 && ch <= 0xFF)
             {
-                return word_626590[ch];
+                return kToUpperTable_626590[ch];
             }
             break;
 
@@ -197,7 +197,7 @@ u16 TextTable::ToUpper_5B5AD0(wchar_t ch)
             }
             if (ch >= 0x80 && ch <= 0xFF)
             {
-                return word_626590[ch - 128];
+                return kToUpperTable_626590[ch - 128];
             }
             break;
     }
