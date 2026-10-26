@@ -9281,8 +9281,6 @@ void Ped::ChaseTargetStateMachine_46B170()
 MATCH_FUNC(0x46b2f0)
 void Ped::PullDriverOutOfCarStateMachine_46B2F0()
 {
-
-    u8 door_idx;
     Car* pCar = field_14C_internal_target_ped->field_16C_car;
     field_24C_target_car_door = 0;
     if (field_14C_internal_target_ped->field_168_game_object)
@@ -9300,7 +9298,7 @@ void Ped::PullDriverOutOfCarStateMachine_46B2F0()
         return;
     }
 
-    for (door_idx = 0; door_idx < static_cast<u8>(pCar->GetDoorCount_43B360()); door_idx++)
+    for (u8 door_idx = 0; door_idx < static_cast<u8>(pCar->GetDoorCount_43B360()); door_idx++)
     {
         if (pCar->IsDoorAccessible_43AFE0(door_idx))
         {
@@ -9982,7 +9980,7 @@ void Ped::ExitCarStateMachine_46C250()
     if (field_168_game_object)
     {
         if (field_154_target_to_enter && field_154_target_to_enter->IsDespawning_4215B0() ||
-            (field_150_target_objective_car = this->field_150_target_objective_car) != NULL && field_150_target_objective_car->IsDespawning_4215B0() ||
+            field_150_target_objective_car != NULL && field_150_target_objective_car->IsDespawning_4215B0() ||
             (this->field_158_escape_car) != NULL && field_158_escape_car->IsDespawning_4215B0() ||
             (field_168_game_object->field_84_target_car) != NULL && field_168_game_object->field_84_target_car->IsDespawning_4215B0())
         {
@@ -10477,10 +10475,10 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
 {
     Fix16 attack_range;
 
-    u8 bThrownWeapon = 0;
-    u8 bMeleeWeapon = 0;
-    u8 bTargetGone = 0;
-    u8 bAttackingVehicleOrObject = 0;
+    bool bThrownWeapon = false;
+    bool bMeleeWeapon = false;
+    bool bTargetGone = false;
+    bool bAttackingVehicleOrObject = false;
 
     field_21C_bf.bWeaponChosen = false;
     Weapon* pWeapon = Ped::ChooseAttackWeapon_46F490();
@@ -10500,25 +10498,25 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
                 case weapon_type::molotov:
                     attack_range = kFpTwo_678658 * 2;
                     explosive_range = kFpOne_678798 + kFpHalf_678790;
-                    bThrownWeapon = 1;
+                    bThrownWeapon = true;
                     break;
 
                 case weapon_type::grenade:
                     attack_range = kFpHalf_678790 + kFpTwo_678658;
                     explosive_range = kFpTwo_678658;
-                    bThrownWeapon = 1;
+                    bThrownWeapon = true;
                     break;
 
                 case weapon_type::electro_batton:
                     close_range = kFpHalf_67853C;
                     attack_range = kFpTwo_678658;
-                    bMeleeWeapon = 1;
+                    bMeleeWeapon = true;
                     break;
 
                 case weapon_type::shotgun:
                     close_range = kFpHalf_67853C;
                     attack_range = kFpOne_678798;
-                    bMeleeWeapon = 1;
+                    bMeleeWeapon = true;
                     break;
 
                 default:
@@ -10545,7 +10543,7 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
             zpos = field_14C_internal_target_ped->get_cam_z();
             if (field_14C_internal_target_ped->isDead_403B60() || !field_14C_internal_target_ped->IsActive_433B40())
             {
-                bTargetGone = 1;
+                bTargetGone = true;
             }
             if (field_14C_internal_target_ped->get_car_416B60())
             {
@@ -10553,7 +10551,7 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
                 {
                     attack_range = kFpTwo_678668;
                     close_range = kFpTwo_678668 + kFpHalf_67853C;
-                    bAttackingVehicleOrObject = 1;
+                    bAttackingVehicleOrObject = true;
                 }
             }
 
@@ -10563,11 +10561,11 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
             zpos = field_154_target_to_enter->GetZ_41E450();
             if (field_154_target_to_enter->IsMaxDamage_40F890())
             {
-                bTargetGone = 1;
+                bTargetGone = true;
             }
             close_range = kFpThree_67866C;
             attack_range = kFpTwo_678668 + kFpHalf_67853C;
-            bAttackingVehicleOrObject = 1;
+            bAttackingVehicleOrObject = true;
             break;
 
         case ped_attack_target_type::object_2: // target is a object
@@ -10580,7 +10578,7 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
             {
                 close_range = kFpThree_67866C;
                 attack_range = kFpTwo_678668 + kFpHalf_67853C;
-                bAttackingVehicleOrObject = 1;
+                bAttackingVehicleOrObject = true;
             }
             break;
     }
@@ -10647,7 +10645,7 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
                         return;
                     }
 
-                    if (field_21C_bf.bFlag22 == false)
+                    if (!field_21C_bf.bFlag22)
                     {
                         Ped::ChangeNextPedState1_45C500(ped_state_1::flee_or_running_1);
                         Ped::ChangeNextPedState2_45C540(ped_state_2::Unknown_2);
@@ -10674,7 +10672,7 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
                             field_21C_bf.bAttacking = false;
                         }
 
-                        if (field_21C_bf.bFlag22 == false)
+                        if (!field_21C_bf.bFlag22)
                         {
                             if (field_168_game_object->field_58_flags_bf.bFlag7)
                             {
@@ -10960,7 +10958,7 @@ void Ped::SpawnPedGroupFollowers_46E200(u8 total)
 MATCH_FUNC(0x46ef00)
 u8 Ped::get_wanted_star_count_46EF00()
 {
-    short wanted_points = field_20A_wanted_points;
+    s16 wanted_points = field_20A_wanted_points;
     if (wanted_points < cop_level_ped_enum::cop_6_stars)
     {
         if (wanted_points < cop_level_ped_enum::cop_5_stars)
