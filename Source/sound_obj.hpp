@@ -290,7 +290,7 @@ class sound_obj
     EXPORT bool Type6_9_413540(CollisionEvent* pEvent);
     EXPORT bool Type6_12_4136D0(CollisionEvent* pEvent);
     EXPORT void ProcessType6_CollisionSoundQueue_413760(s32 idx);
-    EXPORT char_type Type6_413A10(CollisionEvent* pEvent);
+    EXPORT u8 Type6_413A10(CollisionEvent* pEvent);
     EXPORT void ProcessTrainCab_413B90(Sound_Params* pParams, SoundPosEntry* pAlloc);
     EXPORT void ProcessTrain_413BE0(Sound_Params* pParams);
     EXPORT void ProcessTank_413BF0(Sound_Params* pParams, SoundPosEntry* pAlloc);
@@ -353,7 +353,7 @@ class sound_obj
     EXPORT void SetCDVol_41A270(u8 cdVol);
     EXPORT bool Set3DSound_41A2F0(char_type b3dSound);
     EXPORT void ServiceSoundEffects_41A3A0();
-    EXPORT char_type CalcVolume_41A3F0(u8 base_volume, Fix16 max_dist, Fix16 dist);
+    EXPORT u8 CalcVolume_41A3F0(u8 base_volume, Fix16 max_dist, Fix16 dist);
     EXPORT u8 ComputePan_41A4A0(Fix16 intensity, Fix16 x_offset);
     EXPORT s32 AdjustPlaybackRate_41A580(s32 snd_rate, Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT s32 RandomDisplacement_41A650(u32 seed);
@@ -369,7 +369,7 @@ class sound_obj
     EXPORT void VecDiff_41B4E0(SoundPos* pVec, SoundPos* pRet);
     EXPORT void FromFix16_41B520(Fix16 value, f32* pOut);
     EXPORT void AdjustSamplesVolume_41B540();
-    EXPORT char_type ComputeEmittingVolume_41B660(u8 emittingVolume, u32 maxDistance, u32 distance);
+    EXPORT u8 ComputeEmittingVolume_41B660(u8 emittingVolume, u32 maxDistance, u32 distance);
     EXPORT void ClearRequestedQueue_41B700();
     EXPORT void ClearActivateSamples_41B7A0();
     EXPORT void GenerateIntegerRandomNumberTable_41BA90();
@@ -407,7 +407,7 @@ class sound_obj
     EXPORT void InitMusicAndCopRadio_57E960();
     EXPORT void DeInitVocals_57EA10();
     EXPORT void UpdateActiveRadioEmitterVolume_57EA90();
-    EXPORT char_type ComputeRadioEmitterVolume_57EB90(u8 emitterIndex, s32 bUseFarRadius);
+    EXPORT u8 ComputeRadioEmitterVolume_57EB90(u8 emitterIndex, s32 bUseFarRadius);
     EXPORT void DeclareRadioStation_57ECB0(s32 station_idx, Fix16 xpos, Fix16 ypos);
     EXPORT void SetRadioEmitterRadii_57EDB0(RadioStationEmitter* pEmitter, s32 type);
     EXPORT void RemoveSound_57EE30(Fix16 xpos, Fix16 ypos);

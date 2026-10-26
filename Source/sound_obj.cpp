@@ -1287,7 +1287,7 @@ void sound_obj::ProcessType6_CollisionSoundQueue_413760(s32 idx)
 }
 
 MATCH_FUNC(0x413A10)
-char_type sound_obj::Type6_413A10(CollisionEvent* pEvent)
+u8 sound_obj::Type6_413A10(CollisionEvent* pEvent)
 {
     // Each case divides by its own max (9.6f calls div per case); VC6 tail-merges the divisions.
     Fix16 ratio;
@@ -3882,7 +3882,7 @@ void sound_obj::ServiceSoundEffects_41A3A0()
     }
 }
 MATCH_FUNC(0x41A3F0)
-char_type sound_obj::CalcVolume_41A3F0(u8 base_volume, Fix16 max_dist, Fix16 dist)
+u8 sound_obj::CalcVolume_41A3F0(u8 base_volume, Fix16 max_dist, Fix16 dist)
 {
     if (max_dist == kFpZero_674CD8)
     {
@@ -4539,7 +4539,7 @@ DEFINE_GLOBAL(u8, byte_67554C, 0x67554C);
 EXPORT bool Cooldown_4236C0();
 
 MATCH_FUNC(0x41B660)
-char_type sound_obj::ComputeEmittingVolume_41B660(u8 emittingVolume, u32 maxDistance, u32 distance)
+u8 sound_obj::ComputeEmittingVolume_41B660(u8 emittingVolume, u32 maxDistance, u32 distance)
 {
     const s32 minDistance = maxDistance / 4;
     const u32 diffDistance = maxDistance - minDistance;
@@ -7384,7 +7384,7 @@ void sound_obj::UpdateActiveRadioEmitterVolume_57EA90()
         }
         else
         {
-            if (static_cast<u8>(ComputeRadioEmitterVolume_57EB90(field_54F7_active_emitter_idx[0], 1)) < 90)
+            if (ComputeRadioEmitterVolume_57EB90(field_54F7_active_emitter_idx[0], 1) < 90)
             {
                 field_54F2[4] = ComputeRadioEmitterVolume_57EB90(field_54F7_active_emitter_idx[0], 0);
                 field_54FC = 0;
@@ -7404,7 +7404,7 @@ void sound_obj::UpdateActiveRadioEmitterVolume_57EA90()
 }
 
 MATCH_FUNC(0x57EB90)
-char_type sound_obj::ComputeRadioEmitterVolume_57EB90(u8 emitterIndex, s32 bUseFarRadius)
+u8 sound_obj::ComputeRadioEmitterVolume_57EB90(u8 emitterIndex, s32 bUseFarRadius)
 {
     if (RadioEmitter(emitterIndex + 1).field_0_bUsed && RadioEmitter(emitterIndex + 1).field_C_station_idx)
     {
@@ -7433,7 +7433,7 @@ char_type sound_obj::ComputeRadioEmitterVolume_57EB90(u8 emitterIndex, s32 bUseF
             {
                 return 127;
             }
-            char_type volume = 127;
+            u8 volume = 127;
             volume -= static_cast<u16>(127 * dist - 127 * inner_radius) / (dist / 8);
             return volume;
         }
