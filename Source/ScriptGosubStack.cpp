@@ -48,13 +48,7 @@ ScriptStackFrame* ScriptGosubStack::remove_503180()
 MATCH_FUNC(0x5031A0)
 ScriptStackFrame* ScriptGosubStack::AllocFrame_5031A0()
 {
-    ScriptStackFrame* pFrame = gScriptStackFramePool_6F8068->field_0_pool.field_0_pHead;
-    gScriptStackFramePool_6F8068->field_0_pool.field_0_pHead = gScriptStackFramePool_6F8068->field_0_pool.field_0_pHead->mpNext;
-    pFrame->PoolAllocate();
-    return pFrame;
-
-    // TOOD: Pools - this should match but doesn't ??
-//    return gScriptStackFramePool_6F8068->field_0_pool.Allocate();
+    return gScriptStackFramePool_6F8068->field_0_pool.Allocate();
 }
 
 MATCH_FUNC(0x5031C0)
