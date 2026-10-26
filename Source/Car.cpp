@@ -1834,7 +1834,7 @@ EXPORT s16 Car::ApplyImpactDamage_43D5D0(Fix16 damage)
         field_4_passengers_list.ForceTaxiPassengersToExit_471680();
     }
 
-    if (!(this->field_78_flags & car_flag::Flag3))
+    if (!IsFlagSet_411930(car_flag::Flag3))
     {
 
         return AccumulateDamage_43DA90((damage * 200).ToInt(), &kZeroPoint_6778A8);
@@ -1855,8 +1855,7 @@ Ang16 Car::GetCornerAngle_4403A0()
 MATCH_FUNC(0x439ec0)
 bool Car::IsPoliceCar_439EC0()
 {
-    bool b = field_84_car_info_idx == car_model_enum::COPCAR || field_84_car_info_idx == car_model_enum::SWATVAN ||
-        field_84_car_info_idx == car_model_enum::EDSELFBI;
+    bool b = IsCopCar_421790() || IsSwatVan_4217A0() || IsFbiCar_411920();
     return b;
 }
 
@@ -2153,7 +2152,7 @@ char_type Car::GetCarModelForPhysics_43A850()
             {
                 if (field_60_pChaseTask->field_22_following_route != 0)
                 {
-                    if (field_84_car_info_idx == car_model_enum::TANK)
+                    if (IsTank_411900())
                     {
                         return car_model_enum::HOTDOG_D4;
                     }
@@ -2162,7 +2161,7 @@ char_type Car::GetCarModelForPhysics_43A850()
             }
             else
             {
-                if (field_84_car_info_idx == car_model_enum::TANK)
+                if (IsTank_411900())
                 {
                     return car_model_enum::HOTDOG_D4;
                 }
@@ -2250,7 +2249,7 @@ void Car::SetDriver(Ped* pNewDriver)
 MATCH_FUNC(0x43a9f0)
 void Car::TriggerCarAlarm_43A9F0()
 {
-    if (!field_54_driver && ((field_78_flags & car_flag::CarAlarm)) && field_7C_ped_type != ped_type::player_2 && !field_A4_bf.bLightFlashing && !IsMaxDamage_40F890())
+    if (!field_54_driver && IsFlagSet_411930(car_flag::CarAlarm) && field_7C_ped_type != ped_type::player_2 && !field_A4_bf.bLightFlashing && !IsMaxDamage_40F890())
     {
         StartLightFlashing_43CAC0();
     }
@@ -3316,7 +3315,7 @@ void Car::ResetTopLeftRoofLight_43C470()
 MATCH_FUNC(0x43c500)
 void Car::UpdateRoofLights_43C500()
 {
-    if (field_84_car_info_idx != car_model_enum::EDSELFBI ||
+    if (!IsFbiCar_411920() ||
         !field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDoor1_11) &&
             !field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDoor2_12) &&
             !field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDoor3_13) &&
@@ -3328,7 +3327,7 @@ void Car::UpdateRoofLights_43C500()
         pObj_165->UpdateLight_527A30();
     }
 
-    if (field_84_car_info_idx == car_model_enum::SWATVAN || field_84_car_info_idx == car_model_enum::FIRETRUK)
+    if (IsSwatVan_4217A0() || IsFireTruck_4118F0())
     {
         Object* pObj_172 = field_0_attachments.FindObject2CByModel_5A6A90(172);
         pObj_172->UpdateLight_527A30();
@@ -3359,7 +3358,7 @@ void Car::ResetRoofLights_43C650()
 MATCH_FUNC(0x43c700)
 void Car::UpdateBottomLeftRoofLight_43C700()
 {
-    if (this->field_84_car_info_idx != car_model_enum::EDSELFBI ||
+    if (!IsFbiCar_411920() ||
         !field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDoor1_11) &&
             !field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDoor2_12) &&
             !field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDoor3_13) &&
@@ -3368,13 +3367,13 @@ void Car::UpdateBottomLeftRoofLight_43C700()
         field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BottomLeftRoofLight_15);
     }
 
-    if (this->field_84_car_info_idx != car_model_enum::EDSELFBI)
+    if (!IsFbiCar_411920())
     {
         Object* pObj_171 = field_0_attachments.FindObject2CByModel_5A6A90(171);
         pObj_171->UpdateLight_527A30();
     }
 
-    if (field_84_car_info_idx == car_model_enum::SWATVAN || field_84_car_info_idx == car_model_enum::FIRETRUK)
+    if (IsSwatVan_4217A0() || IsFireTruck_4118F0())
     {
         Object* pObj_173 = field_0_attachments.FindObject2CByModel_5A6A90(173);
         pObj_173->UpdateLight_527A30();
@@ -3386,7 +3385,7 @@ void Car::ResetBottomLeftRoofLight_43C840()
 {
     field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::BottomLeftRoofLight_15);
 
-    if (field_84_car_info_idx != car_model_enum::EDSELFBI)
+    if (!IsFbiCar_411920())
     {
         Object* pObject = field_0_attachments.FindObject2CByModel_5A6A90(171);
         if (pObject)
@@ -3395,7 +3394,7 @@ void Car::ResetBottomLeftRoofLight_43C840()
         }
     }
 
-    if (field_84_car_info_idx == car_model_enum::SWATVAN || field_84_car_info_idx == car_model_enum::FIRETRUK)
+    if (IsSwatVan_4217A0() || IsFireTruck_4118F0())
     {
         Object* pObject = field_0_attachments.FindObject2CByModel_5A6A90(173);
         if (pObject)
@@ -4425,7 +4424,7 @@ Fix16 Car::GetMaxTurnRate_440510()
 MATCH_FUNC(0x440570)
 char_type Car::GetMaxPassengers_440570()
 {
-    if ((field_78_flags & car_flag::NoPassengers))
+    if (IsFlagSet_411930(car_flag::NoPassengers))
     {
         return 0;
     }
@@ -4676,7 +4675,7 @@ bool Car::HandleRoofTurretRotation_440D90(char_type left_on)
 {
     // 9.6f joins the three models into one +=/-= pair. Here field_B8 is set in both branches (a
     // single store after the if/else keeps the angle in %di across the second Normalize loop)
-    if (field_84_car_info_idx == car_model_enum::FIRETRUK)
+    if (IsFireTruck_4118F0())
     {
         AttachedSprite* pSprite = field_0_attachments.GetSpriteForModel_5A6A50(objects::water_cannon_114);
         if (left_on)
@@ -4692,7 +4691,7 @@ bool Car::HandleRoofTurretRotation_440D90(char_type left_on)
         return true;
     }
 
-    if (field_84_car_info_idx == car_model_enum::TANK)
+    if (IsTank_411900())
     {
         AttachedSprite* pSprite = field_0_attachments.GetSpriteForModel_5A6A50(objects::tank_cannon_148);
         if (left_on)
@@ -4708,7 +4707,7 @@ bool Car::HandleRoofTurretRotation_440D90(char_type left_on)
         return true;
     }
 
-    if (field_84_car_info_idx == car_model_enum::GUNJEEP)
+    if (IsGunJeep_411910())
     {
         AttachedSprite* pSprite = field_0_attachments.GetSpriteForModel_5A6A50(248);
         if (left_on)
@@ -4894,7 +4893,7 @@ void Car::TurnToWreck_4436A0()
     field_50_car_sprite->field_34_palette_type = palette_types_enum::sprites_2;
     field_8_damaged_areas.m_var = 0;
     PrepareForExplosion_43C1C0();
-    field_A7_horn = 0;
+    ClearHorn_421460();
     SpawnFire_43BBC0();
 }
 
@@ -4903,10 +4902,7 @@ void Car::StartWreckCountdown_441380()
 {
     if (this->field_A9_wreck_countdown == 0)
     {
-        if (this->field_9C_engine_status != car_engine_status::destroyed_6)
-        {
-            this->field_9C_engine_status = car_engine_status::unknown_5;
-        }
+        SetEngineDamaged_421590();
         this->field_A9_wreck_countdown = 50;
     }
 }
@@ -5074,7 +5070,7 @@ void Car::TryHonkHorn_4416D0(s32 horn_mode)
     {
         if (!this->field_A8_horn_cooldown)
         {
-            if (!IsTrainModel_403BA0() && field_84_car_info_idx != car_model_enum::TANK && (this->field_6C_car_id & 7) == 0)
+            if (!IsTrainModel_403BA0() && !IsTank_411900() && (this->field_6C_car_id & 7) == 0)
             {
                 if (horn_mode == 2)
                 {
@@ -5098,9 +5094,7 @@ void Car::TryHonkHorn_4416D0(s32 horn_mode)
         }
         else if (!this->field_A8_horn_cooldown || bHornStarted)
         {
-            if (field_84_car_info_idx == car_model_enum::FIRETRUK || field_84_car_info_idx == car_model_enum::COPCAR ||
-                field_84_car_info_idx == car_model_enum::MEDICAR || field_84_car_info_idx == car_model_enum::SWATVAN ||
-                field_84_car_info_idx == car_model_enum::TANK || IsFbiCar_411920() || IsTrainModel_403BA0() ||
+            if (IsFireTruck_4118F0() || IsCopCar_421790() || IsMediCar_421780() || IsSwatVan_4217A0() || IsTank_411900() || IsFbiCar_411920() || IsTrainModel_403BA0() ||
                 (this->field_6C_car_id & 3) == 0)
             {
                 this->field_A7_horn = 45;
@@ -5140,7 +5134,7 @@ void Car::HandleSpecialInput_441800(char_type now_special_pressed)
 
     if (!now_special_pressed || IsMaxDamage_40F890())
     {
-        field_A7_horn = 0;
+        ClearHorn_421460();
         return;
     }
 
@@ -5567,8 +5561,7 @@ void Car::ManageDespawning_442310()
     bool bOnScreenForAnyPlayer = false;
     bool bIsNotSeen = true;
 
-    if (bSkip_recycling_67D575 && field_84_car_info_idx != car_model_enum::MEDICAR && field_84_car_info_idx != car_model_enum::COPCAR &&
-        field_84_car_info_idx != car_model_enum::EDSELFBI)
+    if (bSkip_recycling_67D575 && !IsMediCar_421780() && !IsCopCar_421790() && !IsFbiCar_411920())
     {
         return;
     }
@@ -6143,7 +6136,7 @@ char_type Car::PoolUpdate()
         ServicePhysics_442190();
     }
 
-    if ((this->field_78_flags & car_flag::Crushing))
+    if (IsFlagSet_411930(car_flag::Crushing))
     {
         stru_67737C.PropagateMaxZLayer_5A72B0(this->field_50_car_sprite, 1);
         stru_67737C.ClearList_5A6E10();
@@ -6264,12 +6257,12 @@ void Car::InitDoors_4435A0()
 MATCH_FUNC(0x4435b0)
 s32 Car::GetAttachedDrawLayer_4435B0()
 {
-    if ((field_78_flags & car_flag::Flag4))
+    if (IsFlagSet_411930(car_flag::Flag4))
     {
         return 14;
     }
 
-    if ((field_78_flags & car_flag::Flag6))
+    if (IsFlagSet_411930(car_flag::Flag6))
     {
         return 20;
     }
@@ -6290,11 +6283,11 @@ void Car::UpdateDrawLayer_4435F0()
     }
     else
     {
-        if ((field_78_flags & car_flag::Flag4))
+        if (IsFlagSet_411930(car_flag::Flag4))
         {
             this->field_50_car_sprite->SetDrawLayer_40F7B0(13);
         }
-        else if ((field_78_flags & car_flag::Flag6))
+        else if (IsFlagSet_411930(car_flag::Flag6))
         {
             this->field_50_car_sprite->SetDrawLayer_40F7B0(19);
         }
