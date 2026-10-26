@@ -125,11 +125,9 @@ DEFINE_GLOBAL_INIT(Fix16, kTankCannonOffsetY_6772A4, Fix16(0x800, 0), 0x6772A4);
 DEFINE_GLOBAL_INIT(Fix16, kFpQuarter_677208, Fix16(0x1000, 0), 0x677208);
 
 // Indicates if CarRemapRng is initialised
-// It can probably turned into a static variable inside CarRemapRng
 DEFINE_GLOBAL(bool, gbRngRemapTableDone_679C0A, 0x679C0A);
 
 // Array of values used by CarRemapRng.
-// It can probably turned into a static variable inside CarRemapRng
 DEFINE_GLOBAL_ARRAY(u16, gRngRemapTable_679320, 1000, 0x679320);
 DEFINE_GLOBAL_INIT(Fix16, kFP16One_6777D0, Fix16(1), 0x6777D0);
 DEFINE_GLOBAL_INIT(Fix16, kFpHalf_6772D0, Fix16(0x2000, 0), 0x6772D0);
