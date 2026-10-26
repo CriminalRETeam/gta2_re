@@ -2070,7 +2070,7 @@ Fix16_Point Car::GetLinearVelocity_43A450()
 }
 
 MATCH_FUNC(0x43a4c0)
-Fix16 Car::GetVelocity_43A4C0()
+Fix16 Car::GetVelocity_43A4C0() const
 {
     if (!field_58_physics)
     {
@@ -2725,7 +2725,7 @@ void Car::GetDoorWorldPos_43B420(u8 door_idx, Fix16* pOutX, Fix16* pOutY)
 }
 
 MATCH_FUNC(0x43B540)
-bool Car::IsDoorOffsetLarge_43B540(u8 targetDoor)
+bool Car::IsDoorOffsetLarge_43B540(u8 targetDoor) const
 {
     s8* pDoorData = reinterpret_cast<s8*>(gGtx_0x106C_703DD4->get_car_door_data_5AA3D0(field_84_car_info_idx));
     if (Fix16::Abs(gPixelsToFix16_6F6850.SignedPixelsToFix16_41FE70(pDoorData[2 * targetDoor + 1])) >= kFpOne_677908)
@@ -2804,13 +2804,13 @@ void Car::GetDoorWorldPosition_43B5A0(u8 target_door, Fix16* pOutX, Fix16* pOutY
 }
 
 MATCH_FUNC(0x43b730)
-bool Car::IsOnScreenForAnyPlayer_43B730()
+bool Car::IsOnScreenForAnyPlayer_43B730() const
 {
     return gGame_0x40_67E008->IsSpriteInAnyPlayerBounds_4B97E0(field_50_car_sprite, kFpFive_6778D0);
 }
 
 MATCH_FUNC(0x43b750)
-bool Car::IsVisibleToAnyPlayer_43B750()
+bool Car::IsVisibleToAnyPlayer_43B750() const
 {
     return gGame_0x40_67E008->IsSpriteInBoundsOrFollowedByAnyPlayer_4B9830(field_50_car_sprite, kFpFive_6778D0);
 }
@@ -4633,7 +4633,7 @@ char_type Car::CountConsecutiveArrowBlocks_4410D0(Ang16 ang, s8* pOutCount, Fix1
 }
 
 MATCH_FUNC(0x441330)
-Fix16 Car::GetZPos_441330()
+Fix16 Car::GetZPos_441330() const
 {
     if (field_58_physics)
     {
@@ -4811,7 +4811,7 @@ void Car::UpdateBrakeLights_4415C0()
 }
 
 MATCH_FUNC(0x441600)
-Fix16_Rect Car::GetOrientedHalfExtentsRect_441600()
+Fix16_Rect Car::GetOrientedHalfExtentsRect_441600() const
 {
     car_info* pInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx);
     Fix16 half_w = gPixelsToFix16_6F6850.list[pInfo->w] / kFpTwo_6777D4;
@@ -5276,7 +5276,7 @@ void Car::UpdateLights_441E70()
 }
 
 MATCH_FUNC(0x442170)
-bool Car::IsCarInConditionsToDespawn_442170()
+bool Car::IsCarInConditionsToDespawn_442170() const
 {
     Ped* pDriver = field_54_driver;
     if ((!pDriver || !pDriver->field_15C_player) && !IsVisibleToAnyPlayer_43B750())
@@ -5420,7 +5420,7 @@ bool Car::UpdateCarDespawnStatus_4424C0()
 // 9.6f 0x424220
 // https://decomp.me/scratch/vhWKK
 MATCH_FUNC(0x442520)
-Ang16 Car::GetRadioTowerAngle_442520()
+Ang16 Car::GetRadioTowerAngle_442520() const
 {
     Fix16_Point xy;
     xy = gCarManager_6C_677930->field_4C_tv_van_dir - field_50_car_sprite->get_x_y();
