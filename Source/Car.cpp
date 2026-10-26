@@ -4817,13 +4817,7 @@ Fix16_Rect Car::GetOrientedHalfExtentsRect_441600() const
     Fix16 half_w = gPixelsToFix16_6F6850.list[pInfo->w] / kFpTwo_6777D4;
     Fix16 half_h = gPixelsToFix16_6F6850.list[pInfo->h] / kFpTwo_6777D4;
 
-    s32 face = Ang16::GetAngleFace_4F78F0(field_50_car_sprite->field_0_rotation);
-    if (face >= 3 && face <= 4)
-    {
-        Fix16 tmp = half_w;
-        half_w = half_h;
-        half_h = tmp;
-    }
+    SwapIf3or4_41FE40(Ang16::GetAngleFace_4F78F0(field_50_car_sprite->field_0_rotation), half_w, half_h);
 
     Fix16 z = field_50_car_sprite->field_1C_zpos;
     return Fix16_Rect(-half_w, half_w, -half_h, half_h, z);
