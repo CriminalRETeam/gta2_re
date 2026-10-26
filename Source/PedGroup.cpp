@@ -111,11 +111,11 @@ void PedGroup::add_ped_to_end_of_list_4C8F90(Ped* pPed)
 }
 
 MATCH_FUNC(0x4c8fe0)
-void PedGroup::replace_leader_4C8FE0(Ped* new_leader)
+void PedGroup::replace_leader_4C8FE0(Ped* pNewLeader)
 {
     add_ped_to_end_of_list_4C8F90(field_2C_ped_leader);
-    field_2C_ped_leader = new_leader;
-    new_leader->set_ped_group_id(99);
+    field_2C_ped_leader = pNewLeader;
+    pNewLeader->set_ped_group_id(99);
 
     for (u8 i = 0; i < field_34_count; i++)
     {
@@ -550,26 +550,23 @@ void PedGroup::RemovePed_4C9970(Ped* pPed)
 }
 
 MATCH_FUNC(0x4c9b10)
-void PedGroup::add_ped_leader_4C9B10(Ped* ptr)
+void PedGroup::add_ped_leader_4C9B10(Ped* pLeader)
 {
-    field_2C_ped_leader = ptr;
+    field_2C_ped_leader = pLeader;
     field_2C_ped_leader->set_ped_group(this);
     field_2C_ped_leader->set_ped_group_id(99);
 }
 
 MATCH_FUNC(0x4c9b30)
-void PedGroup::add_ped_to_list_4C9B30(Ped* ptr, u8 idx)
+void PedGroup::add_ped_to_list_4C9B30(Ped* pPed, u8 idx)
 {
-    field_4_ped_list[idx & 0xff] = ptr;
-    ptr->set_ped_group(this);
-    ptr->set_ped_group_id(idx);
+    field_4_ped_list[idx & 0xff] = pPed;
+    pPed->set_ped_group(this);
+    pPed->set_ped_group_id(idx);
 }
 
-// The original never sets a return value
-#pragma warning(push)
-#pragma warning(disable : 4716)
 MATCH_FUNC(0x4c9b60)
-char_type PedGroup::GroupAttackPed_4C9B60(Ped* pPed)
+void PedGroup::GroupAttackPed_4C9B60(Ped* pPed)
 {
     s8 i;
     field_30_panicking = 1;
@@ -679,7 +676,6 @@ char_type PedGroup::GroupAttackPed_4C9B60(Ped* pPed)
         }
     }
 }
-#pragma warning(pop)
 
 MATCH_FUNC(0x4c9ed0)
 Ped* PedGroup::FindLastNonPanickingMember_4C9ED0() const

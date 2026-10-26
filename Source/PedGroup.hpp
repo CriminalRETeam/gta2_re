@@ -26,7 +26,7 @@ class PedGroup
     EXPORT void Reset_4C8EF0();
     EXPORT void ResetGroupObjectives_4C8F20();
     EXPORT void add_ped_to_end_of_list_4C8F90(Ped* pPed);
-    EXPORT void replace_leader_4C8FE0(Ped* pPed);
+    EXPORT void replace_leader_4C8FE0(Ped* pNewLeader);
     EXPORT bool PurgeMembersInCars_4C9040();
     EXPORT bool AreAllMembersOffScreen_4C9150() const;
     EXPORT void ResetMembersToFollowLeader_4C91B0();
@@ -38,9 +38,9 @@ class PedGroup
     EXPORT void DisbandGroupDueToAttack_4C94E0(Ped* pAttacker);
     EXPORT void PromoteMemberToLeader_4C9680(u8 idx);
     EXPORT void RemovePed_4C9970(Ped* pPed);
-    EXPORT void add_ped_leader_4C9B10(Ped* ptr);
-    EXPORT void add_ped_to_list_4C9B30(Ped* ptr, u8 idx);
-    EXPORT char_type GroupAttackPed_4C9B60(Ped* pPed);
+    EXPORT void add_ped_leader_4C9B10(Ped* pLeader);
+    EXPORT void add_ped_to_list_4C9B30(Ped* pPed, u8 idx);
+    EXPORT void GroupAttackPed_4C9B60(Ped* pPed);
     EXPORT Ped* FindLastNonPanickingMember_4C9ED0() const;
     EXPORT void CoordinateGroupCarEntry_4C9F00();
     EXPORT u32 IsLeaderPanicking_4CA3E0() const;
