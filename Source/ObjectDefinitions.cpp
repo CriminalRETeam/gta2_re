@@ -908,13 +908,13 @@ void ObjectDefinitions::CloneRemappedDefinitions_533C90()
     pDef->field_64_next_frame_max = 3;
 
     pDef = CloneDefinition_534370(0x9a, 0xfe);
-    if (bDo_show_imaginary_67D588 == false)
+    if (!bDo_show_imaginary_67D588)
     {
         pDef->field_40_collision_bucket_category = collision_bucket_category::none_2;
     }
     CloneDefinition_534370(0x109, 0xfe);
     pDef = CloneDefinition_534370(0x9f, 0x80);
-    if (bDo_show_imaginary_67D588 == false)
+    if (!bDo_show_imaginary_67D588)
     {
         pDef->field_40_collision_bucket_category = collision_bucket_category::none_2;
     }
@@ -926,7 +926,7 @@ void ObjectDefinitions::CloneRemappedDefinitions_533C90()
     pDef->field_54_react_to_collisions_with = CollisionReaction::OnlyPeds_2;
     pDef->SetDimensions_533060(kFpPoint2_6FC578, kFpPoint2_6FC578, kFpQuarter_6F8FAC);
     pDef->field_18_mass = kFpHalf_6FC584;
-    if (bDo_show_imaginary_67D588 == false)
+    if (!bDo_show_imaginary_67D588)
     {
         pDef->field_40_collision_bucket_category = collision_bucket_category::none_2;
     }
@@ -944,7 +944,7 @@ void ObjectDefinitions::CloneRemappedDefinitions_533C90()
     pDef->field_54_react_to_collisions_with = CollisionReaction::OnlyPeds_2;
     pDef->SetDimensions_533060((kFpOne64th_6FCEB0 * 8), (kFpOne64th_6FCEB0 * 8), kFpQuarter_6F8FAC);
     pDef->field_18_mass = kFpHalf_6FC584;
-    if (bDo_show_imaginary_67D588 == '\0')
+    if (!bDo_show_imaginary_67D588)
     {
         pDef->field_40_collision_bucket_category = collision_bucket_category::none_2;
     }
@@ -959,7 +959,7 @@ void ObjectDefinitions::CloneRemappedDefinitions_533C90()
     pDef = CloneDefinition_534370(0xc1, 0xc0);
     pDef->field_38 = 0;
     pDef->field_3C_next_definition_idx = 0;
-    if (bDo_show_imaginary_67D588 == '\0')
+    if (!bDo_show_imaginary_67D588)
     {
         pDef->field_40_collision_bucket_category = collision_bucket_category::none_2;
     }
@@ -986,7 +986,7 @@ void ObjectDefinitions::CloneRemappedDefinitions_533C90()
     pDef->SetRemap_533110(1);
     pDef->field_38 = 0xb1;
     pDef->field_3C_next_definition_idx = 0xb1;
-    if (bDo_kill_phones_on_answer_67D6E8 != '\0')
+    if (bDo_kill_phones_on_answer_67D6E8)
     {
         pDef = GetObjectDefinition_534360(0xa4);
         pDef->field_38 = 0xae;
@@ -994,7 +994,7 @@ void ObjectDefinitions::CloneRemappedDefinitions_533C90()
     }
     pDef = CloneDefinition_534370(0xb1, 0xa4);
     pDef->SetRemap_533110(1);
-    if (bDo_kill_phones_on_answer_67D6E8 == '\0')
+    if (!bDo_kill_phones_on_answer_67D6E8)
     {
         pDef->field_38 = 0xbb;
         pDef->field_3C_next_definition_idx = 0xbb;
@@ -1017,7 +1017,7 @@ void ObjectDefinitions::CloneRemappedDefinitions_533C90()
 
     pDef = CloneDefinition_534370(0xb3, 0xa4);
     pDef->SetRemap_533110(2);
-    if (bDo_kill_phones_on_answer_67D6E8 == '\0')
+    if (!bDo_kill_phones_on_answer_67D6E8)
     {
         pDef->field_38 = 0xbd;
         pDef->field_3C_next_definition_idx = 0xbd;
@@ -1039,7 +1039,7 @@ void ObjectDefinitions::CloneRemappedDefinitions_533C90()
 
     pDef = CloneDefinition_534370(0xb5, 0xa4);
     pDef->SetRemap_533110(0);
-    if (bDo_kill_phones_on_answer_67D6E8 == '\0')
+    if (!bDo_kill_phones_on_answer_67D6E8)
     {
         pDef->field_38 = 0xbf;
         pDef->field_3C_next_definition_idx = 0xbf;
