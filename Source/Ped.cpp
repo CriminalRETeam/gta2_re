@@ -4366,9 +4366,8 @@ bool Ped::PoolUpdate()
     field_21C_bf.bSpottedPlayer = false;
     if (field_21C_bf.bBusted && field_278_ped_state_1 != ped_state_1::immobilized_8)
     {
-        // Ped busted
         Ped::ChangeNextPedState1_45C500(ped_state_1::immobilized_8);
-        Ped::ChangeNextPedState2_45C540(ped_state_2::lying_on_floor_22); // BUSTED!
+        Ped::ChangeNextPedState2_45C540(ped_state_2::lying_on_floor_22);
         SetStateInitPending_433B50();
     }
 
@@ -4379,9 +4378,8 @@ bool Ped::PoolUpdate()
     if (field_210_shock_counter == field_212_electrocution_threshold && field_278_ped_state_1 != ped_state_1::immobilized_8 &&
         field_27C_ped_state_2 != ped_state_2::electrocuted_27)
     {
-        // Ped electrocuted
-        Ped::ChangeNextPedState1_45C500(ped_state_1::immobilized_8); // immobilize it
-        Ped::ChangeNextPedState2_45C540(ped_state_2::electrocuted_27); // electrocute ped
+        Ped::ChangeNextPedState1_45C500(ped_state_1::immobilized_8);
+        Ped::ChangeNextPedState2_45C540(ped_state_2::electrocuted_27);
         SetStateInitPending_433B50();
     }
     if (byte_6787D8 == 1)
@@ -4655,12 +4653,8 @@ void Ped::SetObjective(s32 objective, s16 objective_timer)
         this->field_1A0_objective_target_object = NULL;
         this->field_225_objective_status = objective_status::not_finished_0;
 
-        //new_flags = this->field_21C & ~0x400004u;
-        //this->field_21C = new_flags;
-
         u8 mode = 99;
 
-        // TODO: Not sure if this is correct
         field_21C_bf.bPanicking = false;
         field_21C_bf.bFlag22 = false;
 
@@ -6507,7 +6501,6 @@ bool Ped::IsThreatToSearchingPed_4661F0()
 
     goto ret_false;
 
-// ret_true:
     return true;
 
 ret_false:
@@ -7077,7 +7070,7 @@ void Ped::FleeOnFootTillSafe_4678E0()
 {
     if (byte_61A8A3)
     {
-        if (gDistanceToTarget_678750 > kFpSix_678520) // far away from the threat or place?
+        if (gDistanceToTarget_678750 > kFpSix_678520)
         {
             if (field_168_game_object)
             {
@@ -7320,7 +7313,7 @@ void Ped::KillCharAnyMeans_467E20()
     }
     else
     {
-        if (field_148_objective_target_ped->IsInvisibleOnFoot_433DA0()) // Target is on foot?
+        if (field_148_objective_target_ped->IsInvisibleOnFoot_433DA0())
         {
             Ped::SetObjective2_463830(objectives_enum::no_obj_0);
             if (field_16C_car)
