@@ -2684,7 +2684,7 @@ MATCH_FUNC(0x54c1a0)
 bool Char::CanMoveOntoSlope_54C1A0(s32 path_direction)
 {
     u8 slope_type = 0;
-    char_type bMayLeavePavement = 0;
+    bool bMayLeavePavement = false;
     Fix16 x_fp = field_80_sprite_ptr->field_14_xy.x;
     Fix16 y_fp = field_80_sprite_ptr->field_14_xy.y;
     Fix16 zpos = field_80_sprite_ptr->field_1C_zpos;
@@ -3336,8 +3336,8 @@ static inline bool IsBlockTypeInRange_1_4(u8 block_type)
 MATCH_FUNC(0x54ddf0)
 void Char::state_0_54DDF0()
 {
-    char bCanMove;
-    char bAllowStateChange;
+    char_type bCanMove;
+    char_type bAllowStateChange;
     u8 bTileOk;
 
     byte_6FDB51 = 1;
@@ -4603,8 +4603,8 @@ void Char::state_1_5504F0()
     Ang16 prev_angle;
     Ang16 cur_rotation;
     Ang16 next_rotation;
-    char bSnapRotation;
-    char bMoved;
+    char_type bSnapRotation;
+    char_type bMoved;
     Fix16 probe_x;
     Fix16 probe_y;
 
