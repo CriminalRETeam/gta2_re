@@ -984,123 +984,123 @@ gtx_0x106C::gtx_0x106C()
 MATCH_FUNC(0x5AB8A0)
 gtx_0x106C::~gtx_0x106C()
 {
-    sprite_base* local_field_14_sprite_base2;
-    sprite_base* local_field_18_sprite_base1;
-    palette_base* local_field_C_palette_base2;
-    palette_base* local_field_10_palette_base1;
-    font_base* local_field_1C_font_base;
-    sprite_index* local_field_20_sprite_index;
-    object_info* local_field_24_map_object_info;
-    palette_index* local_field_28_palette_index;
-    void* local_field_30_physical_palettes_size;
-    void* local_field_44_aligned_tiles_size;
-    void* pUnaligned;
-    delta_store_entry* local_field_48_delta_store;
-    void* local_field_50_delta_buffer;
-    void* local_field_58_car_info;
-    car_info_container* local_field_5C_cari;
-    delta_entry* local_field_4C_delta_index;
-    void* local_field_54_del;
-    tile_array* local_field_40_tile;
+    sprite_base* pSpriteBase2;
+    sprite_base* pSpriteBase1;
+    palette_base* pPaletteBase2;
+    palette_base* pPaletteBase1;
+    font_base* pFontBase;
+    sprite_index* pSpriteIndex;
+    object_info* pMapObjectInfo;
+    palette_index* pPaletteIndex;
+    void* pPhysPalettesUnaligned;
+    void* pTilesUnaligned;
+    void* pSpriteGraphicsUnaligned;
+    delta_store_entry* pDeltaStore;
+    void* pDeltaBuffer;
+    void* pCarInfo;
+    car_info_container* pCarInfoContainer;
+    delta_entry* pDeltaIndex;
+    void* pDeltaContainer;
+    tile_array* pTileArray;
 
     if (field_64_car_recycling_info)
     {
         crt::free(field_64_car_recycling_info);
     }
 
-    local_field_14_sprite_base2 = field_14_sprite_base2;
+    pSpriteBase2 = field_14_sprite_base2;
     field_64_car_recycling_info = NULL;
-    delete local_field_14_sprite_base2;
+    delete pSpriteBase2;
 
-    local_field_18_sprite_base1 = field_18_sprite_base1;
+    pSpriteBase1 = field_18_sprite_base1;
     field_14_sprite_base2 = NULL;
-    delete (local_field_18_sprite_base1);
+    delete (pSpriteBase1);
 
-    local_field_C_palette_base2 = field_C_palette_base2;
+    pPaletteBase2 = field_C_palette_base2;
     field_18_sprite_base1 = NULL;
-    delete (local_field_C_palette_base2);
-    local_field_10_palette_base1 = field_10_palette_base1;
+    delete (pPaletteBase2);
+    pPaletteBase1 = field_10_palette_base1;
     field_C_palette_base2 = NULL;
-    delete (local_field_10_palette_base1);
-    local_field_1C_font_base = field_1C_font_base;
+    delete (pPaletteBase1);
+    pFontBase = field_1C_font_base;
     field_10_palette_base1 = NULL;
-    if (local_field_1C_font_base)
+    if (pFontBase)
     {
-        crt::free(local_field_1C_font_base);
+        crt::free(pFontBase);
     }
 
-    local_field_20_sprite_index = field_20_sprite_index;
+    pSpriteIndex = field_20_sprite_index;
     field_1C_font_base = NULL;
-    if (local_field_20_sprite_index)
+    if (pSpriteIndex)
     {
-        crt::free(local_field_20_sprite_index);
+        crt::free(pSpriteIndex);
     }
-    local_field_24_map_object_info = field_24_map_object_info;
+    pMapObjectInfo = field_24_map_object_info;
     field_20_sprite_index = NULL;
-    if (local_field_24_map_object_info)
+    if (pMapObjectInfo)
     {
-        crt::free(local_field_24_map_object_info);
+        crt::free(pMapObjectInfo);
     }
-    local_field_28_palette_index = field_28_palette_index;
+    pPaletteIndex = field_28_palette_index;
     field_24_map_object_info = NULL;
-    delete (local_field_28_palette_index);
-    local_field_30_physical_palettes_size = field_30_physical_palettes_unaligned;
+    delete (pPaletteIndex);
+    pPhysPalettesUnaligned = field_30_physical_palettes_unaligned;
     field_28_palette_index = NULL;
-    if (local_field_30_physical_palettes_size)
+    if (pPhysPalettesUnaligned)
     {
-        crt::free(local_field_30_physical_palettes_size);
+        crt::free(pPhysPalettesUnaligned);
     }
-    local_field_44_aligned_tiles_size = field_44_tiles_unaligned;
+    pTilesUnaligned = field_44_tiles_unaligned;
     field_2C_physical_palettes = NULL;
     field_30_physical_palettes_unaligned = NULL;
-    if (local_field_44_aligned_tiles_size)
+    if (pTilesUnaligned)
     {
-        crt::free(local_field_44_aligned_tiles_size);
+        crt::free(pTilesUnaligned);
     }
-    pUnaligned = field_38_sprite_graphics_unaligned;
+    pSpriteGraphicsUnaligned = field_38_sprite_graphics_unaligned;
     field_3C_tiles = NULL;
     field_44_tiles_unaligned = NULL;
-    if (pUnaligned)
+    if (pSpriteGraphicsUnaligned)
     {
-        crt::free(pUnaligned);
+        crt::free(pSpriteGraphicsUnaligned);
     }
-    local_field_48_delta_store = field_48_delta_store;
+    pDeltaStore = field_48_delta_store;
     field_34_sprite_graphics = NULL;
     field_38_sprite_graphics_unaligned = NULL;
-    if (local_field_48_delta_store)
+    if (pDeltaStore)
     {
-        crt::free(local_field_48_delta_store);
+        crt::free(pDeltaStore);
     }
-    local_field_50_delta_buffer = field_50_delta_buffer;
+    pDeltaBuffer = field_50_delta_buffer;
     field_48_delta_store = NULL;
-    if (local_field_50_delta_buffer)
+    if (pDeltaBuffer)
     {
-        crt::free(local_field_50_delta_buffer);
+        crt::free(pDeltaBuffer);
     }
-    local_field_58_car_info = field_58_car_info;
+    pCarInfo = field_58_car_info;
     field_50_delta_buffer = NULL;
-    if (local_field_58_car_info)
+    if (pCarInfo)
     {
-        crt::free(local_field_58_car_info);
+        crt::free(pCarInfo);
     }
-    local_field_5C_cari = field_5C_cari;
+    pCarInfoContainer = field_5C_cari;
     field_58_car_info = NULL;
-    delete (local_field_5C_cari);
-    local_field_4C_delta_index = field_4C_delta_index;
+    delete (pCarInfoContainer);
+    pDeltaIndex = field_4C_delta_index;
     field_5C_cari = NULL;
-    if (local_field_4C_delta_index)
+    if (pDeltaIndex)
     {
-        crt::free(local_field_4C_delta_index);
+        crt::free(pDeltaIndex);
     }
-    local_field_54_del = static_cast<void*>(field_54_del);
+    pDeltaContainer = static_cast<void*>(field_54_del);
     field_4C_delta_index = NULL;
-    if (local_field_54_del)
+    if (pDeltaContainer)
     {
-        crt::free(local_field_54_del);
+        crt::free(pDeltaContainer);
     }
-    local_field_40_tile = field_40_tile;
+    pTileArray = field_40_tile;
     field_54_del = NULL;
-    delete (local_field_40_tile);
+    delete (pTileArray);
     field_40_tile = NULL;
 }
 
