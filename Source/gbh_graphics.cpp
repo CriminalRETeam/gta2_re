@@ -50,7 +50,7 @@ DEFINE_GLOBAL(u32*, gpGBH_Globals_7085E4, 0x7085E4);
 MATCH_FUNC(0x5EA4D0)
 EXPORT void __stdcall GBH_Graphics_Stub_5EA4D0()
 {
-    MessageBoxA(0,
+    MessageBoxA(NULL,
                 "Error: A GBH Graphic function was called without the DLL being loaded, or the function has not been fixed up.",
                 "GBH Graphics Error",
                 MB_OK);
@@ -109,9 +109,9 @@ EXPORT s32 GBH_Graphics_Free_5EA640()
     varName = reinterpret_cast<varType>(GetProcAddress(gGbhDllHandle_7085D8, funcName)); \
     if (!varName)                                                      \
     {                                                                  \
-        char_type Text[120];                                           \
-        sprintf(Text, "Can't Find Function Called %s", funcName);      \
-        MessageBoxA(0, Text, "Error Patching DLL Function", MB_OK);    \
+        char_type msg[120];                                            \
+        sprintf(msg, "Can't Find Function Called %s", funcName);       \
+        MessageBoxA(NULL, msg, "Error Patching DLL Function", MB_OK);    \
         FreeLibrary(gGbhDllHandle_7085D8);                             \
         return -1;                                                     \
     }
@@ -119,7 +119,7 @@ EXPORT s32 GBH_Graphics_Free_5EA640()
 MATCH_FUNC(0x5EA680)
 EXPORT s32 __stdcall GBH_GraphicsLoadDll_5EA680(const char_type* lpLibFileName)
 {
-    char_type Text[126];
+    char_type msg[126];
     if (!lpLibFileName)
     {
         return 0;
@@ -171,8 +171,8 @@ EXPORT s32 __stdcall GBH_GraphicsLoadDll_5EA680(const char_type* lpLibFileName)
     }
     else
     {
-        sprintf(Text, "Error can't load DLL file: %s", lpLibFileName);
-        MessageBoxA(0, Text, "Error Loading DLL.", MB_OK);
+        sprintf(msg, "Error can't load DLL file: %s", lpLibFileName);
+        MessageBoxA(NULL, msg, "Error Loading DLL.", MB_OK);
         return -1;
     }
     return 0;
