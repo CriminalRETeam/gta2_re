@@ -3750,8 +3750,6 @@ void Char::state_0_54DDF0()
         }
     }
 
-    field_80_sprite_ptr = this->field_80_sprite_ptr;
-
     Ang16::PolarToCartesian_41FC20(field_40_rotation, field_38_velocity, ret1, ret2);
     ret1 += field_4C_conveyor_dx;
     ret2 += field_50_conveyor_dy;
