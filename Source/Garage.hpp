@@ -72,10 +72,10 @@ class Garage
     Fix16 field_34_target_y;
     s32 field_38_door_face;
     char_type field_3C_settle_ticks;
-    char_type field_3D_in_position;
+    bool field_3D_in_position;
     u8 field_3E_park_ticket;
-    char_type field_3F_no_respawn;
-    char_type field_40_long_car;
+    bool field_3F_no_respawn;
+    bool field_40_long_car;
     char_type field_41_unused;
     char_type field_42_unused;
     char_type field_43_unused;

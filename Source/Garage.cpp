@@ -104,9 +104,9 @@ u8 Garage::ParkCarAtDoor_534700(Car* pCar, Door* pDoor)
     field_44_wait_ticks = 0;
     field_10_door = pDoor;
     field_C_state = garage_state::waiting_for_car_1;
-    field_14_driver = 0;
+    field_14_driver = NULL;
     field_3C_settle_ticks = 30;
-    field_3D_in_position = 0;
+    field_3D_in_position = false;
     if (field_3E_park_ticket == 255)
     {
         field_3E_park_ticket = 1;
@@ -274,7 +274,7 @@ void Garage::GaragesService_5349D0()
             field_28_push_dir = (pBox->field_C_corners[idx1] + pBox->field_C_corners[idx2]).Divide_442CB0(kFpTwo_6FD128) - car_pos;
             if (field_28_push_dir.x == kFpZero_6FD120 && field_28_push_dir.y == kFpZero_6FD120)
             {
-                field_3D_in_position = 1;
+                field_3D_in_position = true;
                 field_C_state = garage_state::pushing_2;
             }
             else
@@ -309,7 +309,7 @@ void Garage::GaragesService_5349D0()
                 return;
             }
 
-            field_3D_in_position = 1;
+            field_3D_in_position = true;
             --field_3C_settle_ticks;
             field_0_parking_car->field_58_physics->StopMoving_4895D0();
             if (field_3C_settle_ticks == 0)
@@ -368,9 +368,9 @@ void Garage::GaragesService_5349D0()
 MATCH_FUNC(0x534e80)
 Garage::Garage()
 {
-    field_0_parking_car = 0;
-    field_10_door = 0;
-    field_14_driver = 0;
+    field_0_parking_car = NULL;
+    field_10_door = NULL;
+    field_14_driver = NULL;
     field_C_state = garage_state::idle_0;
     field_28_push_dir.x = 0;
     field_28_push_dir.y = 0;
@@ -382,10 +382,10 @@ Garage::Garage()
     field_30_target_x = 0;
     field_34_target_y = 0;
     field_3C_settle_ticks = 30;
-    field_3D_in_position = 0;
+    field_3D_in_position = false;
     field_3E_park_ticket = 0;
-    field_3F_no_respawn = 0;
-    field_40_long_car = 0;
-    field_4_parked_car = 0;
+    field_3F_no_respawn = false;
+    field_40_long_car = false;
+    field_4_parked_car = NULL;
     field_8_parked_car_id = 0;
 }
