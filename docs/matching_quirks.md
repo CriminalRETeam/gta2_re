@@ -1619,7 +1619,7 @@ either way, but in a `__cdecl` function VC6's scheduler gives the instructions a
 latency: the first write of `eax`/`ecx`/`edx` after the call is ready at once instead of 2 cycles later
 (`Scripts/x87_sched/sched.sh -r` prints the edge latencies as `sN/lat`). The symptom is a load into one of
 those registers scheduled right after a call where the original puts something else first: a `push $imm`,
-a `lea` or a global load into another register. `GetLayout_4D6000` (`lea &v2` before the KLID byte loads)
+a `lea` or a global load into another register. `GetLayout_4D6000` (`lea &Buffer` before the KLID byte loads)
 and `SetWindowedMode_5D9510` (`push $0x316` before the rect loads) matched once declared `__stdcall`, like
 their matched neighbours (`UpdateWinXY_5D8E70`); no other change was needed.
 

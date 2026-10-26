@@ -79,9 +79,7 @@ struct NetworkGameSettings
 class NetUi
 {
   public:
-    //EXPORT u16 WideToDbcs_519960(u8* a1, u16* a2);
     EXPORT static void DbcsToWide_5199B0(wchar_t* pDst, char_type* pSrc);
-    //EXPORT char_type* GetString_519A00(const char_type* Key);
     EXPORT static void GetString_519A50(wchar_t* Dest, char_type* Source, size_t MaxCount);
     EXPORT NetUi();
     EXPORT virtual ~NetUi();

@@ -31,9 +31,9 @@ class Bink
 
     EXPORT static void __stdcall CheckWindowPos_5136D0(s32* pNewWindowX, s32* pNewWindowY);
 
-    EXPORT static BOOL IsUsingDDBuffer_513770();
+    EXPORT static bool IsUsingDDBuffer_513770();
 
-    EXPORT static BOOL IsDDBufferOpen_513760();
+    EXPORT static bool IsDDBufferOpen_513760();
 
     EXPORT static void ResetBufferOffset_513720();
 

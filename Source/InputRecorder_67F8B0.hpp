@@ -7,7 +7,7 @@ struct DIDEVICEOBJECTDATA;
 
 struct AttractFile
 {
-    char field_0_path[256];
+    char_type field_0_path[256];
 };
 
 // InputRecorder_67F8B0::field_38_replay_state
@@ -39,7 +39,7 @@ class InputDevices
     EXPORT bool acquire_input_device_498730(struct IDirectInputDeviceA* pGamePadDevice);
     EXPORT bool game_pad_read_498D20();
     EXPORT void AddKeyToInputBits_498C80(s32* pInputBits, DIDEVICEOBJECTDATA* device_data_keys);
-    EXPORT void read_input_device_498DA0(s32* input_bits, u8 bApplyKeyboardControls);
+    EXPORT void read_input_device_498DA0(s32* input_bits, bool bApplyKeyboardControls);
 
     u8 field_0_unused;
 };
@@ -95,7 +95,7 @@ class InputRecorder_67F8B0
     EXPORT void SaveReplay_4CDED0();
     EXPORT void modify_inputs_4CDF30(s32 match_mask);
     EXPORT void AppendReplayHeader_4CDF70();
-    EXPORT void LoadReplayHeader_4CE380(char_type bLoadDebug);
+    EXPORT void LoadReplayHeader_4CE380(bool bLoadDebug);
     EXPORT void VerifyAttractFilesExist_4CE650();
     EXPORT void GetNextAttrReplay_4CE6E0(char_type* pAttrPathOut);
     EXPORT void input_init_replay_4CE740(HINSTANCE hInstance);
@@ -105,11 +105,11 @@ class InputRecorder_67F8B0
     EXPORT u32 get_input_bits_4CEAC0();
     EXPORT void save_replay_inputs_4CED00(s32 input_old, s32 input_new);
     EXPORT void DisplayInputBits_4CED90();
-    EXPORT bool IsPlayingBack_4CEDF0();
+    EXPORT bool IsPlayingBack_4CEDF0() const;
     EXPORT void ShowInput_4CEE10();
 
     // 9.6f 0x44AA60
-    bool inlined_check()
+    bool inlined_check() const
     {
         if (field_38_replay_state == Playback_1 || field_38_replay_state == Attract_3)
         {
@@ -119,25 +119,24 @@ class InputRecorder_67F8B0
     }
 
     // 9.6f 0x44C050
-    inline bool IsInputSet_44C050(s32 mask_idx)
+    inline bool IsInputSet_44C050(s32 mask_idx) const
     {
         return static_cast<u32>(field_4_input_bits & field_8_input_masks[mask_idx]) > 0;
     }
 
     // 9.6f 0x44AA80
-    inline s32 GetLastRecRngIdx_44AA80()
+    inline s32 GetLastRecRngIdx_44AA80() const
     {
         return field_3C_rec_buff[field_7533C_used_recs_count - 1].field_0_rng_idx;
     }
 
-    char_type field_0_bShutDown;
+    bool field_0_bShutDown;
     s32 field_4_input_bits;
     s32 field_8_input_masks[12];
     s32 field_38_replay_state;
     InputRecord field_3C_rec_buff[k_max_records];
     s32 field_7533C_used_recs_count;
     u32 field_75340_rec_buf_idx;
-    // front end input on/off ??
     char_type field_75344_bInputEnabled;
     u8 field_75345_attract_idx;
 };
