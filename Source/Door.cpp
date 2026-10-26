@@ -9,7 +9,7 @@
 #include "gtx_0x106C.hpp"
 #include "map_0x370.hpp"
 
-DEFINE_GLOBAL(s32, dword_67BBE0, 0x67BBE0);
+DEFINE_GLOBAL(s32, kZero_67BBE0, 0x67BBE0);
 DEFINE_GLOBAL_ARRAY(DoorAnimInfo, gDoorAnimInfo_67BB38, 5, 0x67BB38);
 DEFINE_GLOBAL(DoorPool*, gDoor_4D4_67BD2C, 0x67BD2C);
 DEFINE_GLOBAL_INIT(Fix16, kFpHalf_67BA20, Fix16(0x2000, 0), 0x67BA20);
@@ -38,8 +38,8 @@ Door::Door()
     field_29_bAuto = 1;
     field_2A_bDoFlip = 0;
     field_2B_bReversed = 0;
-    field_30_x = dword_67BBE0;
-    field_34_y = dword_67BBE0;
+    field_30_x = kZero_67BBE0;
+    field_34_y = kZero_67BBE0;
     field_2D_play_open_sound = 0;
 }
 

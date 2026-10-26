@@ -8,9 +8,9 @@
 #include "crt_stubs.hpp"
 
 DEFINE_GLOBAL_ARRAY(PedGroup, pedGroups_67EF20, 20, 0x67EF20);
-DEFINE_GLOBAL_INIT(Fix16, dword_67F60C, Fix16(0x270F00, 0), 0x67F60C);
+DEFINE_GLOBAL_INIT(Fix16, kNoNearestDistance_67F60C, Fix16(0x270F00, 0), 0x67F60C);
 DEFINE_GLOBAL_INIT(Fix16, kFpTwo_67F608, Fix16(2), 0x67F608);
-DEFINE_GLOBAL(Fix16, dword_67F610, 0x67F610);
+DEFINE_GLOBAL(Fix16, kFpZero_67F610, 0x67F610);
 DEFINE_GLOBAL_INIT(Fix16, kFpEight_67F670, Fix16(8), 0x67F670);
 DEFINE_GLOBAL_INIT(Fix16, kFpFiveSixtyFourths_67EEE4, Fix16(0x500, 0), 0x67EEE4);
 DEFINE_GLOBAL_INIT(char_type, gGroupMemberCarDoor_620838, 1, 0x620838);
@@ -959,7 +959,7 @@ void PedGroup::UpdateFormation_4CA4B0()
             }
             else if (pIter->field_278_ped_state_1 != ped_state_1::dead_9)
             {
-                if (field_2C_ped_leader->GetPedVelocity_45C920() != dword_67F610)
+                if (field_2C_ped_leader->GetPedVelocity_45C920() != kFpZero_67F610)
                 {
                     switch (i)
                     {
@@ -1215,7 +1215,7 @@ Ped* PedGroup::FindNearestOtherMember_4CAE80(u8 idx)
 {
     Fix16 x_abs;
     Fix16 y_abs;
-    Fix16 nearest_distance = dword_67F60C;
+    Fix16 nearest_distance = kNoNearestDistance_67F60C;
     u8 nearest_idx = 0;
     Ped* pMember = field_4_ped_list[idx];
     u8 i = 0;
@@ -1242,7 +1242,7 @@ Ped* PedGroup::FindNearestOtherMember_4CAE80(u8 idx)
             i++;
         } while (i < field_34_count);
 
-        if (nearest_distance != dword_67F60C)
+        if (nearest_distance != kNoNearestDistance_67F60C)
         {
             return field_4_ped_list[nearest_idx];
         }

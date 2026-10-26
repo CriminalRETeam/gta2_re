@@ -50,7 +50,7 @@ DEFINE_GLOBAL_INIT(Fix16, kFP16ThreeQuarters_6FD370, Fix16(0x3000, 0), 0x6FD370)
 DEFINE_GLOBAL_INIT(Fix16, kFP16Quarter_6FD2EC, Fix16(0x1000, 0), 0x6FD2EC);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne1024th_6FD540, Fix16(0x10, 0), 0x6FD540);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint09_6FD484, Fix16(0x5C2, 0), 0x6FD484);
-DEFINE_GLOBAL(u8, unk_6FD5F6, 0x6FD5F6);
+DEFINE_GLOBAL(u8, gExplosionWantsFlash_6FD5F6, 0x6FD5F6);
 
 DEFINE_GLOBAL_INIT(Fix16, kFpOne512th_6FD548, Fix16(0x20, 0), 0x6FD548);
 DEFINE_GLOBAL_INIT(Fix16, kFP16Eight_6FD4C0, Fix16(8), 0x6FD4C0);
@@ -432,7 +432,7 @@ void Explosion::ApplyBlastDamage_541850(u16 timerVal)
     Fix16 z_low = field_14_pObj2C->field_4_sprite->field_1C_zpos - half_height;
     Fix16 z_high = field_14_pObj2C->field_4_sprite->field_1C_zpos + half_height;
 
-    if (this->field_1A_timer == explosion_timer::first_tick_99 && unk_6FD5F6 == 1)
+    if (this->field_1A_timer == explosion_timer::first_tick_99 && gExplosionWantsFlash_6FD5F6 == 1)
     {
         SpawnFlashParticle_541760();
     }
@@ -723,7 +723,7 @@ void Explosion::UpdateExplosion_18_19_20_32_33_542790()
         }
     }
 
-    unk_6FD5F6 = 0;
+    gExplosionWantsFlash_6FD5F6 = 0;
     if (isOnScreen)
     {
         switch (this->field_10_type)
@@ -735,11 +735,11 @@ void Explosion::UpdateExplosion_18_19_20_32_33_542790()
             case explosion_type::item_19:
             case explosion_type::no_ring_32:
                 EmitExplosion_19_32_542060();
-                unk_6FD5F6 = 1;
+                gExplosionWantsFlash_6FD5F6 = 1;
                 break;
             case explosion_type::large_20:
                 EmitExplosion_20_542340();
-                unk_6FD5F6 = 1;
+                gExplosionWantsFlash_6FD5F6 = 1;
                 break;
             default:
                 break;
@@ -824,7 +824,7 @@ void Explosion::EmitBuildingDebris_22_23_24_25_542E30(u8 direction_idx)
     if (pSprite->field_14_xy.x < Fix16(254) && pSprite->field_14_xy.x > kFP16One_6FD4A0 &&
         pSprite->field_14_xy.y < Fix16(254) && pSprite->field_14_xy.y > kFP16One_6FD4A0)
     {
-        unk_6FD5F6 = 0;
+        gExplosionWantsFlash_6FD5F6 = 0;
         for (u8 i = 0; i < 2u; i++)
         {
             if (gParticle_4C_Pool_6FD5E4->field_0_pStart)

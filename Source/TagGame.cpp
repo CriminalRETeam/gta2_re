@@ -12,7 +12,7 @@
 #include <string>
 
 DEFINE_GLOBAL(TagGame, gTagGame_6F8450, 0x6F8450);
-DEFINE_GLOBAL(Fix16_Point, stru_6F8720, 0x6F8720);
+DEFINE_GLOBAL(Fix16_Point, kZeroPoint_6F8720, 0x6F8720);
 DEFINE_GLOBAL(s32, gNetTimeLimitEnabled_6F58A4, 0x6F58A4);
 
 MATCH_FUNC(0x516560)
@@ -88,7 +88,7 @@ void TagGame::ExecuteGamemodeTick_516660()
             if (field_0_fugitive && field_0_fugitive->field_2C4_player_ped &&
                 field_0_fugitive->field_2C4_player_ped->field_16C_car)
             {
-                field_0_fugitive->GetPlayerPed_41D020()->get_car_416B60()->AccumulateDamage_43DA90(17, &stru_6F8720);
+                field_0_fugitive->GetPlayerPed_41D020()->get_car_416B60()->AccumulateDamage_43DA90(17, &kZeroPoint_6F8720);
             }
 
             break;
