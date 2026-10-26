@@ -2,6 +2,7 @@
 
 #include "Car.hpp"
 #include "Function.hpp"
+#include "garage_state.hpp"
 #include <cstdio>
 
 class Car;
@@ -37,7 +38,7 @@ class Garage
     inline void Reset_489650()
     {
         field_10_door = NULL;
-        field_C_state = 0;
+        field_C_state = garage_state::idle_0;
         field_28_push_dir.x = 0;
         field_28_push_dir.y = 0;
         field_18_park_x_min = 0;
