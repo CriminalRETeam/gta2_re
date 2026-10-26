@@ -22,7 +22,7 @@ class MapObjectOverride
                   Fix16 friction,
                   s8 next_definition_timer,
                   const s32& collision_response,
-                  const s32& param_12,
+                  const s32& z_collision_response,
                   s8 next_frame_max,
                   const s32& uses_3d_movement,
                   Fix16 mass,
@@ -44,7 +44,7 @@ class MapObjectOverride
     Fix16 field_20_friction;
     s8 field_24_next_definition_timer;
     s32 field_28_collision_response;
-    s32 field_2C;
+    s32 field_2C_z_collision_response;
     s8 field_30_next_frame_max;
     s32 field_34_uses_3d_movement;
     Fix16 field_38_mass;
