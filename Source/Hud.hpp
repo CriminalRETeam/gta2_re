@@ -260,8 +260,8 @@ class Hud_TextEntry
     }
     wchar_t field_0_str_buf[82];
     s32 field_A4_display_time;
-    s16 field_A8_x;
-    s16 field_AA_y;
+    u16 field_A8_x;
+    u16 field_AA_y;
     s16 field_AC_fontType;
     s32 field_B0_drawKind;
     s16 field_B4_palette;
@@ -751,7 +751,7 @@ EXTERN_GLOBAL(Hud*, gHud_2B00_706620);
 
 EXTERN_GLOBAL(s16, gDebugFont_706600);
 
-EXTERN_GLOBAL_ARRAY(char, gTmpGxtKey_67CE50, 264);
+EXTERN_GLOBAL_ARRAY(char, gTmpGxtKey_67CE50, 256);
 
 EXPORT s32 __stdcall GetPhoneTypeFromObjModel_5D1260(s32 phone_model_idx);
 EXPORT char_type* __stdcall get_phone_colour_5D12B0(s32 phone_type);

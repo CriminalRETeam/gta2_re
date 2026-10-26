@@ -9,7 +9,7 @@
 #include <io.h>
 
 DEFINE_GLOBAL(PlyDat*, gPlyDat_6FEAC0, 0x6FEAC0);
-EXTERN_GLOBAL_ARRAY(wchar_t, gEmptyWStr_67DC8C, 32);
+EXTERN_GLOBAL_ARRAY(wchar_t, gEmptyWStr_67DC8C, 2);
 DEFINE_GLOBAL_ARRAY_INIT(ScoreTableLine, gDefaultHiScores_6242B0, 10, 0x6242B0,
     { L"ALISDAIR" COMMA 50000 } COMMA
     { L"BILLY"    COMMA 40000 } COMMA

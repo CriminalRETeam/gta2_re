@@ -327,7 +327,7 @@ DEFINE_GLOBAL(HINSTANCE, gHInstance_708220, 0x708220);
 DEFINE_GLOBAL(HANDLE, gMutex_707078, 0x707078);
 DEFINE_GLOBAL(s32, gGTA2VersionMajor_708280, 0x708280);
 DEFINE_GLOBAL(s32, gGTA2VersionMinor_708284, 0x708284);
-DEFINE_GLOBAL_ARRAY(char_type, gWorkingDir_707F64, 652, 0x707F64);
+DEFINE_GLOBAL_ARRAY(char_type, gWorkingDir_707F64, 256, 0x707F64);
 DEFINE_GLOBAL_INIT(bool, bDoFrontEnd_626B68, true, 0x626B68);
 
 DEFINE_GLOBAL(s32, window_width_706630, 0x706630);
@@ -922,7 +922,7 @@ void __stdcall ExitGameCallback_4DB0D0(Game* pGame, int reason)
 {
     char Buffer[260];
     sprintf(Buffer, "(ExitGameCallback)Called with reason - %d", reason);
-    gFile_67C530.Write_4D9620(Buffer);
+    gErrorLog_67C530.Write_4D9620(Buffer);
     pGame->ExitGameNoBonus_4B8C00(0, GameExitType::CloseGameImmediately_1);
 }
 
@@ -1582,7 +1582,7 @@ EXPORT void __stdcall GetDirectXVersion_4C4EC0(u32* pDXVer, u32* osKind)
     LPDIRECTDRAW pDDraw;
     LPDIRECTDRAWSURFACE pDSurface;
     LPDIRECTDRAW pDraw2;
-    s32 pSurface2;
+    s32 pSurface3;
     LPDIRECTDRAWSURFACE pDSurface4;
     DDSURFACEDESC surfaceDesc;
     struct _OSVERSIONINFOA osVersionInfo;
@@ -1590,7 +1590,7 @@ EXPORT void __stdcall GetDirectXVersion_4C4EC0(u32* pDXVer, u32* osKind)
     pDDraw = 0;
     pDraw2 = 0;
     pDSurface = 0;
-    pSurface2 = 0;
+    pSurface3 = 0;
     pDSurface4 = 0;
     osVersionInfo.dwOSVersionInfoSize = sizeof(osVersionInfo);
 
@@ -1716,7 +1716,7 @@ EXPORT void __stdcall GetDirectXVersion_4C4EC0(u32* pDXVer, u32* osKind)
         return;
     }
 
-    if (pDSurface->QueryInterface(IID_IDirectDrawSurface2, reinterpret_cast<LPVOID*>(&pSurface2)) < 0)
+    if (pDSurface->QueryInterface(IID_IDirectDrawSurface3, reinterpret_cast<LPVOID*>(&pSurface3)) < 0)
     {
         pDDraw->Release();
         FreeLibrary(hDDraw);
@@ -2542,7 +2542,7 @@ EXPORT void __stdcall Shutdown_4DA740()
 
         if (!bSkip_audio_67D6BE)
         {
-            gRoot_sound_66B038.DeinitializeAudio();
+            gRoot_sound_66B038.DeinitializeAudio_40EF90();
         }
     }
 }

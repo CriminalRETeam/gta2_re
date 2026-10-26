@@ -89,9 +89,16 @@ DEFINE_GLOBAL_INIT(Fix16, kFpFive_66F1D0, kFpFive_66F404, 0x66F1D0);
 DEFINE_GLOBAL_INIT(Fix16, kFpFive_66F220, kFpFive_66F1D0, 0x66F220);
 DEFINE_GLOBAL_INIT(Fix16, kFpHalf_66F258, Fix16(0x2000, 0), 0x66F258);
 
-// TODO: can't use 2d arrays here :Skull:
-//DEFINE_GLOBAL(char_type, byte_5FE434[8][44], 0x5FE434);
-char_type byte_5FE434[8][44];
+const char_type kHornPatterns_5FE434[8][44] = {
+    {0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0},
+    {0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0},
+    {0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+    {0, 0, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+    {0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    {0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0},
+    {0, 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0},
+};
 
 static inline s32 Min(s32 a, s32 b)
 {
@@ -1942,7 +1949,7 @@ void sound_obj::HandleCarHornSound_415570(Sound_Params* pParams, SoundPosEntry* 
                         horn_timer = 44;
                     }
 
-                    if (byte_5FE434[pAlloc->field_A_horn_pattern_idx][static_cast<u8>(44u - horn_timer)])
+                    if (kHornPatterns_5FE434[pAlloc->field_A_horn_pattern_idx][static_cast<u8>(44u - horn_timer)])
                     {
                         tryPlay = true;
                     }
@@ -3519,6 +3526,38 @@ void sound_obj::Init_419E10()
             field_10_nActiveSamples = 16;
             AddVocalsEntity_418C20();
         }
+    }
+}
+
+MATCH_FUNC(0x419E50)
+void sound_obj::DeinitializeAudio_419E50()
+{
+    if (field_0_bSoundInitialized)
+    {
+        DeInitVocals_57EA10();
+        RemoveVocalsEntity_418C60();
+        for (u32 i = 0; i < field_10_nActiveSamples; ++i)
+        {
+            if (field_1D_b3d_sound)
+            {
+                gSampManager_6FFF00.StopChannel3D_58DFC0(i);
+            }
+            else
+            {
+                gSampManager_6FFF00.StopChannel_58DDD0(i);
+            }
+        }
+
+        for (u32 j = 0; j < field_543C_444C_nAudioEntitiesCount; j++)
+        {
+            field_147C_audio_entities[field_444C_AudioEntityOrderList[j]].field_0_bUsed = 0;
+            field_444C_AudioEntityOrderList[j] = 0;
+        }
+        field_543C_444C_nAudioEntitiesCount = 0;
+
+        null_412250();
+        gSampManager_6FFF00.Shutdown_58DB30();
+        field_0_bSoundInitialized = 0;
     }
 }
 

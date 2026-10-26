@@ -1105,7 +1105,7 @@ void RouteFinder::DebugPrintRoute_58A020(char_type junc_idx)
                 pJunc->field_D_min_y,
                 pJunc->field_E_max_x,
                 pJunc->field_F_max_y);
-        gFile_67C530.Write_4D9620(gTmpBuffer_67C598);
+        gErrorLog_67C530.Write_4D9620(gTmpBuffer_67C598);
         ++route_pos;
         i = this->field_2218_routes[junc_idx].field_0_junctions[static_cast<u16>(route_pos)];
     }

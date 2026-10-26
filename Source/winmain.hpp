@@ -28,7 +28,7 @@ EXTERN_GLOBAL_ARRAY(u8, gSyncCheckData_6F58E0, 0x20);
 EXPORT void __stdcall MakeInitialSyncData_4DB2E0(u8* pSyncData);
 EXPORT void __stdcall CompareRemotePlayers_4DB440(u8* pLocalSyncData, u8* pRemoteSyncData);
 
-EXTERN_GLOBAL_ARRAY(char_type, gWorkingDir_707F64, 652);
+EXTERN_GLOBAL_ARRAY(char_type, gWorkingDir_707F64, 256);
 
 EXTERN_GLOBAL(u32, gLightingDrawFlag_7068F4);
 

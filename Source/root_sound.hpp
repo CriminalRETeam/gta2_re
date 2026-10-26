@@ -33,6 +33,8 @@ class root_sound
 
     EXPORT void Init_40EF80();
 
+    EXPORT void DeinitializeAudio_40EF90();
+
     EXPORT void Service_40EFA0();
 
     EXPORT s32 AddSoundObject_40EFB0(SoundObject* pSoundObj);
@@ -72,8 +74,6 @@ class root_sound
     EXPORT root_sound();
 
     EXPORT ~root_sound();
-
-    void DeinitializeAudio();
 };
 
 EXTERN_GLOBAL(root_sound, gRoot_sound_66B038);

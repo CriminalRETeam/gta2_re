@@ -42,7 +42,7 @@ DEFINE_GLOBAL(Frontend*, gFrontend_67DC84, 0x67DC84);
 DEFINE_GLOBAL_INIT(u32, counter_706C4C, 0, 0x706C4C);
 DEFINE_GLOBAL_INIT(Fix16, kFpZero_67D930, Fix16(0, 0), 0x67D930);
 u16 gTableSize_61FF20 = 25; // Note is constant but can't be marked const
-DEFINE_GLOBAL_ARRAY(wchar_t, gEmptyWStr_67DC8C, 32, 0x67DC8C); // 67DCCC
+DEFINE_GLOBAL_ARRAY(wchar_t, gEmptyWStr_67DC8C, 2, 0x67DC8C);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne_67D9FC, Fix16(1), 0x67D9FC);
 DEFINE_GLOBAL(short, font_type_703C14, 0x703C14);
 DEFINE_GLOBAL(s16, word_703C3C, 0x703C3C);
@@ -327,6 +327,23 @@ EXPORT s32 __stdcall SetGamma_5D9910(s32 gamma)
         return result;
     }
     return gamma;
+}
+
+MATCH_FUNC(0x5D9970)
+EXPORT void __stdcall ReapplySavedGamma_5D9970()
+{
+    const s32 gamma = gRegistry_6FF968.Get_Screen_Setting_5870D0("gamma", 10);
+    if (counter_706C4C > 0)
+    {
+        if (!SetGamma_5D9910(gamma))
+        {
+            counter_706C4C = 0;
+        }
+        else
+        {
+            --counter_706C4C;
+        }
+    }
 }
 
 DEFINE_GLOBAL(SoundObject, snd1_67D818, 0x67D818);
@@ -1560,22 +1577,6 @@ bool Frontend::intro_bik_exists_4B5FF0()
     return 1;
 }
 
-void sub_SetGamma()
-{
-    const s32 gammaVal = gRegistry_6FF968.Get_Screen_Setting_5870D0("gamma", 10);
-    if (counter_706C4C)
-    {
-        if (SetGamma_5D9910(gammaVal))
-        {
-            --counter_706C4C;
-        }
-        else
-        {
-            counter_706C4C = 0;
-        }
-    }
-}
-
 MATCH_FUNC(0x4AEC00)
 void Frontend::Update_4AEC00()
 {
@@ -1626,7 +1627,7 @@ void Frontend::Update_4AEC00()
 
     if (counter_706C4C > 0)
     {
-        sub_SetGamma();
+        ReapplySavedGamma_5D9970();
     }
 }
 
@@ -2812,7 +2813,7 @@ void Frontend::DrawBonusRating_4B7D60()
     {
         wchar_t* pRatingStr = gText_0x14_704DFC->Find_5B5F90(text_id);
         TextTable::InsertLineBreaksAndGetNumLines_5B5BC0(text, pRatingStr, 560, font_type);
-        DrawText_4B87A0(text, 40, 270, font_type, 1);
+        DrawText_4B87A0(text, static_cast<u16>(40), static_cast<u16>(270), font_type, 1);
     }
 }
 
@@ -4355,10 +4356,10 @@ void Frontend::DrawSavedStage_4B5270()
         gGameSession_67E8E0.DecodeStage_453A60(codified_stages, &main_stage, &bonus_stage);
     }
     swprintf(tmpBuff_67BD9C, L"%d", main_stage);
-    DrawText_4B87A0(tmpBuff_67BD9C, static_cast<s16>(450), static_cast<s16>(90), field_11C_normal_font, 1);
+    DrawText_4B87A0(tmpBuff_67BD9C, static_cast<u16>(450), static_cast<u16>(90), field_11C_normal_font, 1);
 
     swprintf(tmpBuff_67BD9C, L"%d", bonus_stage);
-    DrawText_4B87A0(tmpBuff_67BD9C, static_cast<s16>(450), static_cast<s16>(110), field_11C_normal_font, 1);
+    DrawText_4B87A0(tmpBuff_67BD9C, static_cast<u16>(450), static_cast<u16>(110), field_11C_normal_font, 1);
 }
 
 MATCH_FUNC(0x4B5370)
