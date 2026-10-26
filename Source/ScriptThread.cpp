@@ -8,6 +8,7 @@
 #include "car_despawn_status.hpp"
 #include "explosion_type.hpp"
 #include "hud_message_priority.hpp"
+#include "thread_trigger.hpp"
 #include "hud_brief_priority.hpp"
 #include "voice_line.hpp"
 #include "ScriptThread.hpp"
@@ -782,7 +783,7 @@ void ScriptThread::SCRCMD_THREAD_DECLARE3_504660(SCR_THREAD* pCmd)
 {
     if (static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_10_char_idx))->field_8_char)
     {
-        pCmd->field_15_trigger_idx = gCarThreadTriggers_214_705F20->AddThreadTrigger_5C86C0(4,
+        pCmd->field_15_trigger_idx = gCarThreadTriggers_214_705F20->AddThreadTrigger_5C86C0(thread_trigger_type::char_on_foot_4,
                                                      2,
                                                      pCmd,
                                                      Fix16(pCmd->field_12_x) + kFpHalf_6F75F0,
@@ -804,7 +805,7 @@ void ScriptThread::SCRCMD_THREAD_DECLARE5_504710(SCR_CHAR_AREA_ANY* pCmd)
         switch (pCmd->field_2_type)
         {
             case SCRCMD_THREAD_DECLARE5:
-                pCmd->field_26_trigger_idx = gCarThreadTriggers_214_705F20->AddThreadTrigger_5C86C0(4,
+                pCmd->field_26_trigger_idx = gCarThreadTriggers_214_705F20->AddThreadTrigger_5C86C0(thread_trigger_type::char_on_foot_4,
                                                                     2,
                                                                     reinterpret_cast<SCR_THREAD*>(pCmd),
                                                                     pCmd->field_10_x,
@@ -815,7 +816,7 @@ void ScriptThread::SCRCMD_THREAD_DECLARE5_504710(SCR_CHAR_AREA_ANY* pCmd)
 
                 break;
             case SCRCMD_CHAR_AREA_ANY_MEANS:
-                pCmd->field_26_trigger_idx = gCarThreadTriggers_214_705F20->AddThreadTrigger_5C86C0(3,
+                pCmd->field_26_trigger_idx = gCarThreadTriggers_214_705F20->AddThreadTrigger_5C86C0(thread_trigger_type::char_any_means_3,
                                                                     2,
                                                                     reinterpret_cast<SCR_THREAD*>(pCmd),
                                                                     pCmd->field_10_x,
@@ -1343,11 +1344,11 @@ void ScriptThread::DisableThread_505790(u16 idx)
             break;
         }
         case SCRCMD_THREAD_DECLARE3:
-            gCarThreadTriggers_214_705F20->SetTriggerEnableState_4768C0(static_cast<SCR_THREAD*>(pCmd)->field_15_trigger_idx, 2);
+            gCarThreadTriggers_214_705F20->SetTriggerEnableState_4768C0(static_cast<SCR_THREAD*>(pCmd)->field_15_trigger_idx, thread_trigger_state::disabled_2);
             break;
         case SCRCMD_THREAD_DECLARE5:
         case SCRCMD_CHAR_AREA_ANY_MEANS:
-            gCarThreadTriggers_214_705F20->SetTriggerEnableState_4768C0(static_cast<SCR_CHAR_AREA_ANY*>(pCmd)->field_26_trigger_idx, 2);
+            gCarThreadTriggers_214_705F20->SetTriggerEnableState_4768C0(static_cast<SCR_CHAR_AREA_ANY*>(pCmd)->field_26_trigger_idx, thread_trigger_state::disabled_2);
             break;
         case SCRCMD_THREAD_DECLARE2:
         {
@@ -3374,7 +3375,7 @@ void ScriptThread::EnableThread_50A9E0(u16 idx)
 
             if (pThread->field_16_trigger_added)
             {
-                gCarThreadTriggers_214_705F20->SetTriggerEnableState_4768C0(pThread->field_15_trigger_idx, 1);
+                gCarThreadTriggers_214_705F20->SetTriggerEnableState_4768C0(pThread->field_15_trigger_idx, thread_trigger_state::enabled_1);
             }
             else
             {
@@ -3393,7 +3394,7 @@ void ScriptThread::EnableThread_50A9E0(u16 idx)
 
             if (pAny->field_27_trigger_added)
             {
-                gCarThreadTriggers_214_705F20->SetTriggerEnableState_4768C0(pAny->field_26_trigger_idx, 1);
+                gCarThreadTriggers_214_705F20->SetTriggerEnableState_4768C0(pAny->field_26_trigger_idx, thread_trigger_state::enabled_1);
             }
             else
             {

@@ -15,6 +15,7 @@
 #include "map_0x370.hpp"
 #include "memory.hpp"
 #include "ScriptThread.hpp"
+#include "thread_trigger.hpp"
 #include "Ped.hpp"
 #include "PedGroup.hpp"
 #include "PublicTransport.hpp"
@@ -252,7 +253,7 @@ char_type ScriptManager::AddCranePowerupTrigger_511B10(s16 idx)
 {
     SCR_DECLARE_CRANE_POWERUP* pCmd = static_cast<SCR_DECLARE_CRANE_POWERUP*>(GetBasePointer_512770(idx));
     SCR_POINTER* pGenerator = static_cast<SCR_POINTER*>(GetBasePointer_512770(pCmd->field_A_generator));
-    return gCarThreadTriggers_214_705F20->AddThreadTrigger_5C86C0(1,
+    return gCarThreadTriggers_214_705F20->AddThreadTrigger_5C86C0(thread_trigger_type::any_car_1,
                                        3,
                                        reinterpret_cast<SCR_THREAD*>(pGenerator->field_8_generator),
                                        Fix16(pCmd->field_C_pos.field_0_x) + kFpHalf_6F75F0,
