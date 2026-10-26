@@ -117,7 +117,7 @@ Object::Object()
     field_20_pool_list_state = object_pool_state::none_0;
     field_27_thread_trigger_idx = 0;
     field_28_unused = -51;
-    field_1C_has_explosion = 0;
+    field_1C_has_explosion = false;
 }
 
 MATCH_FUNC(0x522180)
@@ -3436,7 +3436,7 @@ Object* Object_5C::CreateObject_529C00(int object_type, Fix16 xpos, Fix16 ypos, 
             pNewObject->field_C_pAny.pExplosion = pExplosion;
             if (pExplosion)
             {
-                pNewObject->field_1C_has_explosion = 1;
+                pNewObject->field_1C_has_explosion = true;
             }
             else
             {
@@ -3616,7 +3616,7 @@ Object* Object_5C::CreateExplosion_52A3D0(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, 
     Object* pNewObject = NewPhysicsObj_5299B0(objects::explosion_113, x, y, z, rot);
     if (pNewObject)
     {
-        pNewObject->field_1C_has_explosion = 1;
+        pNewObject->field_1C_has_explosion = true;
 
         if (!pNewObject->field_C_pAny.pExplosion)
         {
