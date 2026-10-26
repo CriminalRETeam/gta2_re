@@ -219,7 +219,7 @@ void AmbulanceService::ProcessPatientQueue_4FA500()
             }
 
             EmergencyCrew* pCrew = pNew->field_4_paramedics_crew;
-            pCrew->field_1E_is_used = 1;
+            pCrew->field_1E_is_used = true;
             pCrew->field_20_crew_type = crew_type::paramedic_1;
             pCrew->field_24_phase = crew_phase::in_car_1;
             pCrew->field_28_state = crew_state::spawn_car_3;
@@ -348,7 +348,7 @@ void AmbulanceTask::EvaluatePickupState_4FA9D0()
         if (!field_4_paramedics_crew->field_4_ped || field_4_paramedics_crew->field_4_ped->isDead_403B60())
         {
             field_4_paramedics_crew->field_28_state = crew_state::clean_up_5;
-            field_4_paramedics_crew->field_2C_ready = 0;
+            field_4_paramedics_crew->field_2C_ready = false;
             gParamedicCrewPed_6F6D60 = 0;
             return;
         }
@@ -379,7 +379,7 @@ void AmbulanceTask::EvaluatePickupState_4FA9D0()
         if (!field_4_paramedics_crew->field_24_phase)
         {
             field_4_paramedics_crew->field_28_state = crew_state::clean_up_5;
-            field_4_paramedics_crew->field_2C_ready = 0;
+            field_4_paramedics_crew->field_2C_ready = false;
         }
         else if (gParamedicCrewPed_6F6D60->field_16C_car && gParamedicCrewPed_6F6D60 == gParamedicCrewPed_6F6D60->field_16C_car->field_54_driver)
         {
@@ -389,7 +389,7 @@ void AmbulanceTask::EvaluatePickupState_4FA9D0()
                 {
                     field_4_paramedics_crew->field_0_car->ResumeAIDriving_43AF40();
                     field_4_paramedics_crew->field_28_state = crew_state::clean_up_5;
-                    field_4_paramedics_crew->field_2C_ready = 0;
+                    field_4_paramedics_crew->field_2C_ready = false;
                     gParamedicCrewPed_6F6D60 = 0;
                 }
                 else

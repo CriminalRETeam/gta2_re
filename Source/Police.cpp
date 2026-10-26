@@ -253,7 +253,7 @@ void Police::DespawnCrewInCar_56F6D0(Car* pCar)
 
                 pCrewCar->MarkForDespawn_421470();
                 pCrew->field_10_subObj->field_28_state = crew_state::clean_up_5;
-                pCrew->field_10_subObj->field_2C_ready = 1;
+                pCrew->field_10_subObj->field_2C_ready = true;
                 pCrew->field_24_state = police_crew_state::shutdown_6;
                 return;
             }
@@ -405,7 +405,7 @@ bool Police::DispatchNewCrewToPursuit_56FAA0(PolicePursuitTarget* pPursuitTarget
         pNewPoliceCrew->field_14_pPursuitTarget = pPursuitTarget;
         pNewPoliceCrew->field_24_state = gDispatchCrewState_6FEDCC;
         pNewPoliceCrew->field_20_crew_kind = gCrewKind_6FEDB8;
-        pEmergencyCrew->field_1E_is_used = 1;
+        pEmergencyCrew->field_1E_is_used = true;
         pEmergencyCrew->field_20_crew_type = gDispatchCrewType_6FEE18; // field_20_crew_type
         pEmergencyCrew->field_24_phase = crew_phase::in_car_1;
         pEmergencyCrew->field_28_state = crew_state::spawn_car_3;
@@ -863,7 +863,7 @@ bool Police::SpawnCrewInCar_5703E0(Car* pCar)
     EmergencyCrew* pEmergencyCrew = pNewCrew->field_10_subObj;
     pNewCrew->field_24_state = police_crew_state::patrol_1;
     pNewCrew->field_29_bCountedInPoliceCount = 1;
-    pEmergencyCrew->field_1E_is_used = 1;
+    pEmergencyCrew->field_1E_is_used = true;
     pEmergencyCrew->field_20_crew_type = gPolice_7B8_6FEE40->field_65C_highest_crew_type_in_pursuit;
     pEmergencyCrew->field_24_phase = crew_phase::in_car_1;
     pEmergencyCrew->field_0_car = pCar;
