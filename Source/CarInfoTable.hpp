@@ -117,7 +117,7 @@ class CarInfoTable
     EXPORT static s32 __stdcall HexStr2Int_430EC0(const char* pStr, s32* pOut);
     EXPORT static s32 __stdcall HexStr2Int_430F30(const char* pStr, s16* pOut);
     EXPORT static s32 __stdcall StrToInt_430FA0(const char* pStr, s32* pOut);
-    EXPORT static s32 __stdcall FloatStrToFix16_431000(char* pStr, Fix16& pOut);
+    EXPORT static s32 __stdcall FloatStrToFix16_431000(char* pStr, Fix16& out);
     EXPORT static s32 __stdcall StrToInt_431080(const char* pStr, s16* pOut);
 
     CarInfo_2C* field_0_ptr_array[256];

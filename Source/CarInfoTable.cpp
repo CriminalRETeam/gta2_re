@@ -494,9 +494,9 @@ s32 __stdcall CarInfoTable::StrToInt_430FA0(const char* pStr, s32* pOut)
 }
 
 MATCH_FUNC(0x431000)
-s32 __stdcall CarInfoTable::FloatStrToFix16_431000(char* pStr, Fix16& pOut)
+s32 __stdcall CarInfoTable::FloatStrToFix16_431000(char* pStr, Fix16& out)
 {
-    pOut = kZero_6761A4;
+    out = kZero_6761A4;
     bool bPastDecimalPoint = false;
     s32 decimal_divisor = 1;
     s32 strLen = strlen(pStr);
@@ -510,13 +510,13 @@ s32 __stdcall CarInfoTable::FloatStrToFix16_431000(char* pStr, Fix16& pOut)
             {
                 return k_gci_invalid_float;
             }
-            pOut.mValue /= decimal_divisor;
+            out.mValue /= decimal_divisor;
             decimal_divisor = 1;
             bPastDecimalPoint = true;
         }
         else
         {
-            pOut.mValue += (currentChar - 0x30) * decimal_divisor * 0x4000;
+            out.mValue += (currentChar - 0x30) * decimal_divisor * 0x4000;
             decimal_divisor = decimal_divisor * 10;
         }
     }
@@ -591,14 +591,14 @@ void CarInfo_2C::CalculateCarInfo_4542A0(s32 idx)
         new_rear_wheel_offset = gPixelsToFix16_6F6850.list[rear_wheel_offset];
     }
     this->field_8_rear_wheel_offset = new_rear_wheel_offset;
-    Fix16 outY;
+    Fix16 com_offset_y;
     this->field_0_moment_of_inertia = ComputeCarMassAndInertia_454410(gPixelsToFix16_6F6850.list[pCarInfo->w],
                                                                       gPixelsToFix16_6F6850.list[pCarInfo->h],
                                                                       pModelPhysics->field_4_mass,
                                                                       pModelPhysics->field_C_front_mass_bias,
-                                                                      &outY);
+                                                                      &com_offset_y);
     this->field_C_center_of_mass_offset.x = 0;
-    this->field_C_center_of_mass_offset.y = outY; // out val of func above
+    this->field_C_center_of_mass_offset.y = com_offset_y;
     this->field_14_half_thrust = pModelPhysics->field_24_thrust / 2;
     this->field_18_fith_thrust = pModelPhysics->field_24_thrust / 5;
     this->field_1C_max_thrust_with_turbo =
