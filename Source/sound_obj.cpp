@@ -3201,13 +3201,13 @@ void sound_obj::RemoveVocalsEntity_418C60()
 }
 
 MATCH_FUNC(0x418C80)
-void sound_obj::PlayVocal_418C80(s32 vocal_idx)
+void sound_obj::PlayVocal_418C80(s32 voice)
 {
     if (field_544C[0].field_4_entity_idx)
     {
-        if (vocal_idx < 63)
+        if (voice < 63)
         {
-            field_544C[0].field_18 = vocal_idx;
+            field_544C[0].field_18 = voice;
         }
     }
 }
