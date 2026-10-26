@@ -220,20 +220,20 @@ EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(u8 animPhase, Car* pCar, u8 
     s8 y_in_scale = car_door_info_array[2 * doorId + 2];
     y_pos = gPixelsToFix16_6F6850.SignedPixelsToFix16_41FE70(y_in_scale);
 
-    bool bUnk = false;
+    bool bXOffsetPastTile = false;
     bool bFront = false;
 
     if (x_pos >= kFpOne_6FDB20)
     {
         x_pos -= kFpOne_6FDB20;
-        bUnk = true;
+        bXOffsetPastTile = true;
     }
     else
     {
         if (x_pos <= -kFpOne_6FDB20)
         {
             x_pos += kFpOne_6FDB20;
-            bUnk = true;
+            bXOffsetPastTile = true;
         }
     }
 
@@ -256,7 +256,7 @@ EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(u8 animPhase, Car* pCar, u8 
                 {
                     x_pos += offset;
                 }
-                if (bUnk)
+                if (bXOffsetPastTile)
                 {
                     y_pos -= kFpPoint1_6FD824;
                     switch (animPhase)
@@ -287,7 +287,7 @@ EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(u8 animPhase, Car* pCar, u8 
                     }
                 }
             }
-            // VC6 threads the bFront/bUnk tests below away, but they set the block and register order
+            // VC6 threads the bFront/bXOffsetPastTile tests below away, but they set the block and register order
             if (bFront)
             {
                 switch (animPhase)
@@ -317,7 +317,7 @@ EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(u8 animPhase, Car* pCar, u8 
                         break;
                 }
             }
-            else if (!bUnk)
+            else if (!bXOffsetPastTile)
             {
                 switch (animPhase)
                 {
@@ -404,7 +404,7 @@ EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(u8 animPhase, Car* pCar, u8 
         case 1:
         case 3:
             x_pos -= offset;
-            if (bUnk)
+            if (bXOffsetPastTile)
             {
                 y_pos -= kFpPoint1_6FD824;
                 switch (animPhase)
@@ -492,7 +492,7 @@ EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(u8 animPhase, Car* pCar, u8 
                         break;
                 }
             }
-            if (bUnk)
+            if (bXOffsetPastTile)
             {
                 outAng = pCar->field_50_car_sprite->field_0_rotation - kAng90_6FD854;
             }
@@ -7427,7 +7427,7 @@ void Ped::PunchChar_467FD0()
 MATCH_FUNC(0x468040)
 void Ped::WaitOnFootAtTarget_468040()
 {
-    bool bUnknown = true;
+    bool bUpdateMovement = true;
     if (this->field_240_occupation == ped_ocupation_enum::drone)
     {
         gDistanceToTarget_678750 = kFpZero_678660;
@@ -7436,7 +7436,7 @@ void Ped::WaitOnFootAtTarget_468040()
 
     if (!byte_61A8A3)
     {
-        bUnknown = this->field_168_game_object->GetCharState_433A80() == Char_B4_state::Jumping_15 && !this->field_21C_bf.bPanicking;
+        bUpdateMovement = this->field_168_game_object->GetCharState_433A80() == Char_B4_state::Jumping_15 && !this->field_21C_bf.bPanicking;
     }
 
     if (field_224_bf.bWaitingOnTarget && this->field_21C_bf.bPanicking)
@@ -7445,7 +7445,7 @@ void Ped::WaitOnFootAtTarget_468040()
         this->field_224_bf.bWaitingOnTarget = false;
     }
 
-    if (bUnknown)
+    if (bUpdateMovement)
     {
         if (this->field_224_bf.bWaitingOnTarget ||
             gDistanceToTarget_678750 <= kFpThreeSixteenths_678780 &&
@@ -7939,7 +7939,7 @@ MATCH_FUNC(0x468e80)
 void Ped::UpdateFollowPedObjective_468E80()
 {
     bool bTargetDead = false;
-    bool bUnknown2 = true;
+    bool bUpdateMovement = true;
 
     Ped* pTargetPed = this->field_148_objective_target_ped;
     if (pTargetPed->GetPedState_403990() == ped_state_1::dead_9 &&
@@ -7956,7 +7956,7 @@ void Ped::UpdateFollowPedObjective_468E80()
     {
         if (!byte_61A8A3)
         {
-            bUnknown2 = this->field_168_game_object->GetCharState_433A80() == Char_B4_state::Jumping_15 && !this->field_21C_bf.bPanicking;
+            bUpdateMovement = this->field_168_game_object->GetCharState_433A80() == Char_B4_state::Jumping_15 && !this->field_21C_bf.bPanicking;
         }
 
         if (field_224_bf.bWaitingOnTarget && (this->field_21C_bf.bPanicking || this->field_260_wait_counter > 200u))
@@ -7965,7 +7965,7 @@ void Ped::UpdateFollowPedObjective_468E80()
             this->field_224_bf.bWaitingOnTarget = false;
         }
 
-        if (bUnknown2)
+        if (bUpdateMovement)
         {
             if (this->field_224_bf.bWaitingOnTarget ||
                 gDistanceToTarget_678750 <= kFpThreeSixteenths_678780 &&
@@ -8459,13 +8459,13 @@ void Ped::UpdateGroupMemberFollow_469BD0()
 MATCH_FUNC(0x469bf0)
 void Ped::GuardSpot_469BF0()
 {
-    bool bUnknown = true;
+    bool bUpdateMovement = true;
 
     this->field_21C_bf.bFlag22 = true;
 
     if (!byte_61A8A3)
     {
-        bUnknown = this->field_168_game_object->GetCharState_433A80() == Char_B4_state::Jumping_15 && !field_21C_bf.bPanicking;
+        bUpdateMovement = this->field_168_game_object->GetCharState_433A80() == Char_B4_state::Jumping_15 && !field_21C_bf.bPanicking;
     }
 
     if (field_224_bf.bWaitingOnTarget && (field_21C_bf.bPanicking || this->field_260_wait_counter > 200u))
@@ -8474,7 +8474,7 @@ void Ped::GuardSpot_469BF0()
         this->field_224_bf.bWaitingOnTarget = false;
     }
 
-    if (bUnknown)
+    if (bUpdateMovement)
     {
         if (this->field_224_bf.bWaitingOnTarget ||
             gDistanceToTarget_678750 <= kFpThreeSixteenths_678780 &&
