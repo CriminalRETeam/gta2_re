@@ -20,7 +20,7 @@ no original for (strings, float constants, vtables, ...) is not checked.
 Usage (from Scripts/bin_comp, after build.py): python3 check_match_refs.py [address ...]
 Exit code 1 when something differs.
 """
-import bisect, json, re, struct, sys
+import bisect, csv, json, re, struct, sys
 import compare_function, post_process_asm
 from iced_x86 import Decoder, FlowControl, Mnemonic, OpKind
 
@@ -131,6 +131,10 @@ def load():
     if conflicts:
         raise ValueError('Reference identity conflicts: ' + '; '.join(sorted(conflicts)))
     known = {address: next(iter(originals)) for address, originals in explicit.items()}
+    for row in csv.reader(open('inline_aliases.csv')):  # out-of-line copies of inlines (COMDATs, no marker)
+        if row and not row[0].startswith('#'):
+            for address in sym.get(row[0].strip(), ()):
+                known.setdefault(address, int(row[1], 16))
     known.update((address, next(iter(originals))) for address, originals in inferred.items())
     return nd, known
 

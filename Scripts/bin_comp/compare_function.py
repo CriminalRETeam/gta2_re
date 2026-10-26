@@ -34,14 +34,43 @@ def func_name_as_safe_file_name(func_name):
     func_name = func_name.replace("::", "_")
     return func_name
 
-def compare_function(newExeFile, ogExeFile, func_name, new_func_offset, og_func_offset, og_func_size):
+def call_targets(func_bytes, va):
+    """Absolute target of each instruction that is a direct call, None for the others."""
+    return [i.near_branch_target if i.flow_control == FlowControl.CALL and i.op0_kind == OpKind.NEAR_BRANCH32 else None
+            for i in Decoder(32, func_bytes, ip=va)]
+
+
+def pin_known_calls(og_asm_str, new_asm_str, og_targets, new_targets, call_identity):
+    """Calls to an original function that has an inline alias (inline_aliases.csv) are compared by address, not by
+    the order of first use: the build may call the alias or the marked function, the original must call that address."""
+    og_lines, new_lines = og_asm_str.split("\n"), new_asm_str.split("\n")
+    if len(og_lines) != len(new_lines) or len(og_targets) != len(og_lines) or len(new_targets) != len(new_lines):
+        return og_asm_str, new_asm_str
+    for k, (x, y) in enumerate(zip(og_targets, new_targets)):
+        if x is None or y is None:
+            continue
+        want = call_identity.original_of(y)
+        if x not in call_identity.pinned and want not in call_identity.pinned:
+            continue
+        if want is not None and want != x and call_identity.same_original_code(x, want):
+            want = x
+        og_lines[k] = "call og_%x" % x
+        new_lines[k] = "call og_%x" % want if want is not None else "call unknown_%x" % y
+    return "\n".join(og_lines), "\n".join(new_lines)
+
+
+def compare_function(newExeFile, ogExeFile, func_name, new_func_offset, og_func_offset, og_func_size,
+                     new_va=None, og_va=None, call_identity=None):
     strStatus = "Checking " + func_name + " " + "N:" + hex(new_func_offset) + " OG:" + hex(og_func_offset) + " LEN:" + hex(og_func_size)
     og_func_bytes = get_bytes_from_file(ogExeFile, og_func_offset, og_func_size)
     og_asm_str = dism_func(og_func_bytes)
-    og_asm_str_post_processed = post_process_asm.post_process_asm(og_asm_str)
 
     new_func_bytes = get_bytes_from_file(newExeFile, new_func_offset, og_func_size)
     new_asm_str = dism_func(new_func_bytes)
+    if call_identity is not None:
+        og_asm_str, new_asm_str = pin_known_calls(og_asm_str, new_asm_str, call_targets(og_func_bytes, og_va),
+                                                  call_targets(new_func_bytes, new_va), call_identity)
+    og_asm_str_post_processed = post_process_asm.post_process_asm(og_asm_str)
     new_asm_str_post_processed = post_process_asm.post_process_asm(new_asm_str)
 
     if new_asm_str_post_processed == og_asm_str_post_processed:
