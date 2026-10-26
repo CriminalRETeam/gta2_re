@@ -384,7 +384,7 @@ void ObjectDefinition::OffsetBaseSpriteIdxAndSetNumFrames_533150(s16 sprite_idx_
 }
 
 MATCH_FUNC(0x533170)
-Sprite* ObjectDefinition::CreateSpriteFromDefinition_533170()
+Sprite* ObjectDefinition::CreateSpriteFromDefinition_533170() const
 {
     Sprite* pFreeSprite = gSpritePool_703818->get_new_sprite();
     ApplyDefinitionToSprite_5331A0(pFreeSprite);
@@ -395,7 +395,7 @@ Sprite* ObjectDefinition::CreateSpriteFromDefinition_533170()
 s32 kFp255_6F8FA4 = 0x3FC000;
 
 MATCH_FUNC(0x5331a0)
-void ObjectDefinition::ApplyDefinitionToSprite_5331A0(Sprite* pSprite)
+void ObjectDefinition::ApplyDefinitionToSprite_5331A0(Sprite* pSprite) const
 {
     s32 bucket_category;
 
@@ -1126,7 +1126,7 @@ void ObjectDefinitions::InitDefinitions_534330()
 }
 
 MATCH_FUNC(0x534360)
-ObjectDefinition* ObjectDefinitions::GetObjectDefinition_534360(s32 idx)
+ObjectDefinition* ObjectDefinitions::GetObjectDefinition_534360(s32 idx) const
 {
     return field_87F4_definition_by_idx[idx];
 }

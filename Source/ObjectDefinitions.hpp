@@ -179,8 +179,8 @@ class ObjectDefinition
     EXPORT void SetDimensionsFromSprite_533090();
     EXPORT void SetRemap_533110(s16 remap);
     EXPORT void OffsetBaseSpriteIdxAndSetNumFrames_533150(s16 sprite_idx_offset, s16 num_frames);
-    EXPORT Sprite* CreateSpriteFromDefinition_533170();
-    EXPORT void ApplyDefinitionToSprite_5331A0(Sprite* pSprite);
+    EXPORT Sprite* CreateSpriteFromDefinition_533170() const;
+    EXPORT void ApplyDefinitionToSprite_5331A0(Sprite* pSprite) const;
     EXPORT ObjectDefinition();
 
 
@@ -241,10 +241,10 @@ class ObjectDefinitions
     EXPORT void CacheDef112BaseSpriteIdx_5342D0();
     EXPORT void ClearColour1PixelsOfDefinitionSprite_5342F0(s32 idx);
     EXPORT void InitDefinitions_534330();
-    EXPORT ObjectDefinition* GetObjectDefinition_534360(s32 idx);
+    EXPORT ObjectDefinition* GetObjectDefinition_534360(s32 idx) const;
 
     // 9.6f 0x4C6E30
-    inline s16 GetObjectBaseSpriteIdx_4C6E30(s32 idx)
+    inline s16 GetObjectBaseSpriteIdx_4C6E30(s32 idx) const
     {
         return GetObjectDefinition_534360(idx)->field_1E_base_sprite_idx;
     }
