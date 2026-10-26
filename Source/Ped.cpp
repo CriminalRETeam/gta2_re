@@ -768,7 +768,7 @@ bool Ped::IsEmergencyOccupation_45B590() const
 }
 
 MATCH_FUNC(0x45b5b0)
-void Ped::CopyStatsFromPed_45B5B0(Ped* pSrc)
+void Ped::CopyStatsFromPed_45B5B0(const Ped* pSrc)
 {
     field_21C_bf.bActive = pSrc->field_21C_bf.bActive;
     field_21C_bf.bUnused1 = pSrc->field_21C_bf.bUnused1;
@@ -1664,7 +1664,7 @@ void Ped::TakeDamage(s16 damage)
 }
 
 MATCH_FUNC(0x45cf20)
-void Ped::HandlePedCrossingTrigger_45CF20(Object* pObj)
+void Ped::HandlePedCrossingTrigger_45CF20(const Object* pObj)
 {
     if (field_278_ped_state_1 != ped_state_1::dead_9 && field_278_ped_state_1 != ped_state_1::immobilized_8 && pObj->field_18_model == objects::ped_crossing_trigger_258 &&
         gNumPedsCrossingRoad_6787D0 < 10)
@@ -10800,7 +10800,7 @@ Sprite* Ped::GetSprite_46DF50() const
 }
 
 MATCH_FUNC(0x46df70)
-void Ped::SetupFollower_46DF70(Ped* pToFollow, s32 weaponIdx)
+void Ped::SetupFollower_46DF70(const Ped* pToFollow, s32 weaponIdx)
 {
     set_remap_433B90(pToFollow->field_244_remap);
     SetRemap_433C10(pToFollow->field_244_remap);
@@ -10817,7 +10817,7 @@ void Ped::SetupFollower_46DF70(Ped* pToFollow, s32 weaponIdx)
 }
 
 MATCH_FUNC(0x46e020)
-bool Ped::CanBeRecruitedToGroup_46E020(PedGroup* pGroup) const
+bool Ped::CanBeRecruitedToGroup_46E020(const PedGroup* pGroup) const
 {
     return this->field_164_ped_group != pGroup && !this->field_15C_player &&
             (PedTypeIs_45EDE0(ped_type::dummy_3) || (PedTypeIs_45EDE0(ped_type::special_ped_4) || PedTypeIs_45EDE0(ped_type::dummy_with_occupation_6)) && this->field_240_occupation == ped_ocupation_enum::special_groups_member) ?
@@ -11382,7 +11382,7 @@ void Ped::GiveWeapon_46F650(s32 weapon_kind)
 }
 
 MATCH_FUNC(0x46f680)
-void Ped::ApplyGangRespectForKill_46F680(Ped* pPed)
+void Ped::ApplyGangRespectForKill_46F680(const Ped* pPed)
 {
     if (field_17C_pGang)
     {
@@ -11933,7 +11933,7 @@ void Ped::StartPedWalking_470200(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 }
 
 MATCH_FUNC(0x4702d0)
-void Ped::BecomeLeaderOfGroup_4702D0(Ped* pPed)
+void Ped::BecomeLeaderOfGroup_4702D0(const Ped* pPed)
 {
     PedGroup* pPedGroup = pPed->field_164_ped_group;
     pPedGroup->replace_leader_4C8FE0(this);

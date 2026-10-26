@@ -164,7 +164,7 @@ class Ped
     EXPORT void SetRecentCrimeTimer_45B550();
     EXPORT void SetPlayer_45B560(Player* pPlayer, bool bIsAuxPed);
     EXPORT bool IsEmergencyOccupation_45B590() const;
-    EXPORT void CopyStatsFromPed_45B5B0(Ped* pSrc);
+    EXPORT void CopyStatsFromPed_45B5B0(const Ped* pSrc);
     EXPORT Car* GetCarBeingEnteredOrExited_45BBF0() const;
     EXPORT void TeleportToCoord_45BC10(Fix16 xpos, Fix16 ypos);
     EXPORT void ManageShocking_45BC70();
@@ -202,7 +202,7 @@ class Ped
     EXPORT Ang16 ComputeAimAngle_45C9D0();
     EXPORT void HandleClosePedInteraction_45CAA0();
     EXPORT void TakeDamage(s16 damage);
-    EXPORT void HandlePedCrossingTrigger_45CF20(Object* pObj);
+    EXPORT void HandlePedCrossingTrigger_45CF20(const Object* pObj);
     EXPORT bool HandlePedHitByObject_45D000(Object* pObj);
     EXPORT bool AddWeaponWithAmmo_45DD30(s32 weapon_kind, char_type ammo);
     EXPORT bool HandlePickupCollision_45DE80(Object* pPickUp);
@@ -331,8 +331,8 @@ class Ped
     EXPORT void AttackCar_46DB70();
     EXPORT void AttackObject_46DB80();
     EXPORT Sprite* GetSprite_46DF50() const;
-    EXPORT void SetupFollower_46DF70(Ped* pToFollow, s32 weaponIdx);
-    EXPORT bool CanBeRecruitedToGroup_46E020(PedGroup* pGroup) const;
+    EXPORT void SetupFollower_46DF70(const Ped* pToFollow, s32 weaponIdx);
+    EXPORT bool CanBeRecruitedToGroup_46E020(const PedGroup* pGroup) const;
     EXPORT void RecruitNearbyPeds_46E080(s32 desiredCount, Fix16 searchRadius);
     EXPORT void SpawnPedGroupFollowers_46E200(u8 total);
     EXPORT u8 get_wanted_star_count_46EF00() const;
@@ -346,7 +346,7 @@ class Ped
     EXPORT Weapon* ChooseAttackWeapon_46F490();
     EXPORT void ForceWeapon_46F600(s32 weapon_kind);
     EXPORT void GiveWeapon_46F650(s32 weapon_kind);
-    EXPORT void ApplyGangRespectForKill_46F680(Ped* pPed);
+    EXPORT void ApplyGangRespectForKill_46F680(const Ped* pPed);
     EXPORT void UpdateStatsForKiller_46F720();
     EXPORT void Kill_46F9D0();
     EXPORT void AddThreateningPedToList_46FC70();
@@ -358,7 +358,7 @@ class Ped
     EXPORT void add_wanted_points_470160(s16 wanted_amount);
     EXPORT bool IsNearestSpriteACar_4701D0() const;
     EXPORT void StartPedWalking_470200(Fix16 xpos, Fix16 ypos, Fix16 zpos);
-    EXPORT void BecomeLeaderOfGroup_4702D0(Ped* pPed);
+    EXPORT void BecomeLeaderOfGroup_4702D0(const Ped* pPed);
     EXPORT void BecomeDummyOnPlayerDisconnect_470300();
     EXPORT void PushPatrolPoint_4702A0(s8 x, s8 y, s8 z);
     EXPORT s32 IsInTrain_470F00() const;
