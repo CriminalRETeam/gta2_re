@@ -2236,7 +2236,7 @@ void Car::DoBrakeAndHandbrake_43A970()
 MATCH_FUNC(0x43a9a0)
 void Car::SetDriver(Ped* pNewDriver)
 {
-    char hand_brake_on;
+    char_type hand_brake_on;
     if (!pNewDriver)
     {
         CarPhysics* pCarPhysics = this->field_58_physics;
@@ -2871,8 +2871,8 @@ static inline bool IsPlayerPedId_420C30(u32 ped_id)
 MATCH_FUNC(0x43b7b0)
 void Car::AssignDriverBlameForExplosion_43B7B0(Car* pCar)
 {
-    char_type bBlameUs = 0;
-    char_type bBlameThem = 0;
+    bool bBlameUs = false;
+    bool bBlameThem = false;
     u32 our_id = GetEffectiveDriverPedId_444090();
     u32 their_id = pCar->GetEffectiveDriverPedId_444090();
     bool bOurIsPlayer = IsPlayerPedId_420C30(our_id);
@@ -2882,24 +2882,24 @@ void Car::AssignDriverBlameForExplosion_43B7B0(Car* pCar)
     {
         if (bTheirIsPlayer && our_id != their_id)
         {
-            bBlameUs = 1;
+            bBlameUs = true;
         }
     }
     else if (their_id > 0 && our_id != their_id)
     {
-        bBlameUs = 1;
+        bBlameUs = true;
     }
 
     if (bTheirIsPlayer)
     {
         if (bOurIsPlayer && their_id != our_id)
         {
-            bBlameThem = 1;
+            bBlameThem = true;
         }
     }
     else if (our_id > 0 && their_id != our_id)
     {
-        bBlameThem = 1;
+        bBlameThem = true;
     }
 
     if (bBlameUs)
@@ -3763,12 +3763,12 @@ void Car::TriggerExplosion_43D7B0(s32 type)
 MATCH_FUNC(0x43d840)
 void Car::HandleCarExplosion_43D840(s32 type)
 {
-    char bOcc2;
+    bool bOcc2;
     s32 model_to_check;
     Ped* pExploder;
     Gang* pGang;
 
-    bOcc2 = 0;
+    bOcc2 = false;
     if (field_60_pChaseTask)
     {
         gCarChaseTaskTable_678E30->FreeEntry_474CC0(field_60_pChaseTask);
@@ -3786,7 +3786,7 @@ void Car::HandleCarExplosion_43D840(s32 type)
         {
             if (field_54_driver->get_occupation_403980() == ped_ocupation_enum::unknown_2)
             {
-                bOcc2 = 1;
+                bOcc2 = true;
             }
         }
 
@@ -5079,7 +5079,7 @@ Fix16_Rect Car::GetOrientedHalfExtentsRect_441600()
 MATCH_FUNC(0x4416d0)
 void Car::TryHonkHorn_4416D0(s32 horn_mode)
 {
-    char bHornStarted = 0;
+    bool bHornStarted = false;
     if (field_A8_horn_cooldown > 0)
     {
         field_A8_horn_cooldown--;
@@ -5099,7 +5099,7 @@ void Car::TryHonkHorn_4416D0(s32 horn_mode)
                 {
                     this->field_AC_sound_event = 2;
                 }
-                bHornStarted = 1;
+                bHornStarted = true;
                 this->field_A8_horn_cooldown = -1;
             }
         }
@@ -7412,7 +7412,7 @@ bool TrafficSpawner::SpawnTrafficCar_582480(s32 spawn_type, s32 arrow_direction,
     char_type x_step = 0;
     char_type y_step = 0;
     u8 speed_kind;
-    char_type bRoadblock = 0;
+    bool bRoadblock = false;
     Gang* pGang = NULL;
     s32 found_z;
     Fix16 ground_z;
@@ -7570,7 +7570,7 @@ bool TrafficSpawner::SpawnTrafficCar_582480(s32 spawn_type, s32 arrow_direction,
 
                     if (gPolice_7B8_6FEE40->TryBeginRoadblock_577320())
                     {
-                        bRoadblock = 1;
+                        bRoadblock = true;
                         car_model = car_model_enum::bank_van;
                     }
                     else
