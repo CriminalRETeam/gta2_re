@@ -22,7 +22,6 @@ enum
     one_char_on_foot = 5,
     any_player_one_car = 6,
 };
-//static_assert(sizeof(door_open_type) == 4);
 } // namespace door_open_type
 
 namespace door_close_type
@@ -35,7 +34,6 @@ enum
     close_never = 3,
     close_when_open_rule_fails = 4,
 };
-//static_assert(sizeof(door_close_type) == 4);
 } // namespace door_close_type
 
 struct DoorAnimInfo
@@ -53,7 +51,7 @@ class Door
 {
   public:
     // 9.6f 0x476A90
-    inline s32 get_open_type_476A90()
+    inline s32 get_open_type_476A90() const
     {
         return field_20_open_type;
     }
@@ -75,7 +73,7 @@ class Door
     EXPORT void get_door_xyz_face_49CEE0(u8* pX, u8* pY, u8* pZ, u32* pFace);
     
     // 9.6f 0x44C860, defined in DoorPool.hpp (needs DoorData)
-    inline bool IsOpen_44C860();
+    inline bool IsOpen_44C860() const;
 
     // 9.6f 0x476A30, defined in DoorPool.hpp (needs DoorData)
     inline void CloseDoors_476A30();
@@ -83,11 +81,11 @@ class Door
     // 9.6f 0x4895F0
     inline void ClearF2C_4895F0()
     {
-        field_2C_bCanAutoOpen = 0;
+        field_2C_bCanAutoOpen = false;
     }
 
     // 9.6f 0x489600
-    inline bool IsDoubleDoor_489600()
+    inline bool IsDoubleDoor_489600() const
     {
         return field_0_primary_door_data && field_4_secondary_door_data;
     }
@@ -117,7 +115,7 @@ class Door
     {
         field_20_open_type = open;
         field_10_car_bc = car_bc_ptr;
-        field_2C_bCanAutoOpen = 1;
+        field_2C_bCanAutoOpen = true;
     }
 
     // inlined in 0x4769a0
@@ -125,7 +123,7 @@ class Door
     {
         field_20_open_type = open;
         field_10_model_id = id;
-        field_2C_bCanAutoOpen = 1;
+        field_2C_bCanAutoOpen = true;
     }
 
     // inlined in 0x4769c0
@@ -133,14 +131,14 @@ class Door
     {
         field_20_open_type = open;
         field_10_ped = ped_ptr;
-        field_2C_bCanAutoOpen = 1;
+        field_2C_bCanAutoOpen = true;
     }
 
     // inlined in 0x476a00
     inline void set_target_id(s32 id)
     {
         field_14_target_id = id;
-        field_2C_bCanAutoOpen = 1;
+        field_2C_bCanAutoOpen = true;
     }
 
     DoorData* field_0_primary_door_data;
@@ -159,12 +157,12 @@ class Door
     u16 field_1E_close_timer;
     s32 field_20_open_type;
     s32 field_24_close_type;
-    char_type field_28_bClosing;
-    char_type field_29_bAuto;
+    bool field_28_bClosing;
+    bool field_29_bAuto;
     char_type field_2A_bDoFlip;
     char_type field_2B_bReversed;
-    char_type field_2C_bCanAutoOpen;
-    char_type field_2D_play_open_sound;
+    bool field_2C_bCanAutoOpen;
+    bool field_2D_play_open_sound;
     char_type field_2E_unused;
     char_type field_2F_unused;
     Fix16 field_30_x;
