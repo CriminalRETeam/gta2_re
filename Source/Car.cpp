@@ -1413,7 +1413,7 @@ Car* CarManager::SpawnCarAt_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rot
     else if (pCar->IsFireTruck_4118F0())
     {
         pCar->PutWaterCannonOnRoof_440AC0();
-        gWeapon_8_707018->allocate_5E3D50(20, 50u, pCar);
+        gWeapon_8_707018->allocate_5E3D50(weapon_type::fire_truck_gun, 50u, pCar);
 
         // shared flag set
         pCar->AddFlags_421890(car_flag::Jammed);
@@ -1426,12 +1426,12 @@ Car* CarManager::SpawnCarAt_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rot
         pCar->SetBulletproof_4218C0();
         pCar->SetFlameproof_4218D0();
         pCar->SetFlag3_4218A0();
-        gWeapon_8_707018->allocate_5E3D50(19, 20u, pCar);
+        gWeapon_8_707018->allocate_5E3D50(weapon_type::tank_main_gun, 20u, pCar);
     }
     else if (pCar->IsGunJeep_411910())
     {
         pCar->PutMachineGunOnRoof_440B60();
-        gWeapon_8_707018->allocate_5E3D50(22, 20u, pCar);
+        gWeapon_8_707018->allocate_5E3D50(weapon_type::army_gun_jeep, 20u, pCar);
     }
     else if (pCar->IsTvVan_4217E0())
     {

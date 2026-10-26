@@ -73,7 +73,7 @@ DEFINE_GLOBAL_INIT(Fix16, kFpTwo_6F77C8, Fix16(2), 0x6F77C8);
 
 static inline bool is_car_weapon(s32& weapon_idx)
 {
-    return weapon_idx >= 15 && weapon_idx <= 27;
+    return weapon_idx >= weapon_type::car_bomb && weapon_idx <= 27;
 }
 
 MATCH_FUNC(0x503200)

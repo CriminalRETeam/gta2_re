@@ -489,7 +489,7 @@ MATCH_FUNC(0x564AD0)
 void Player::LoadCarWeapons_564AD0(Car* pCar)
 {
     s16 last_weapon_kind = -1;
-    for (s32 weapon_kind = 15; weapon_kind < 28; weapon_kind++)
+    for (s32 weapon_kind = weapon_type::car_bomb; weapon_kind < 28; weapon_kind++)
     {
         Weapon* pWeapon = gWeapon_8_707018->find_5E3D20(pCar, weapon_kind);
         field_718_weapons[weapon_kind] = pWeapon;
