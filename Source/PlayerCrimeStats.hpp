@@ -28,9 +28,9 @@ class PlayerCrimeStats
     EXPORT void Reset_484EF0();
     EXPORT void Service_484F20();
     EXPORT void ResetCrimeCountFlags_484F30();
-    EXPORT void IncrementCrimeCount_484F50(int crime_type);
-    EXPORT void AddCarDamageCost_484FA0(int cost);
-    EXPORT void AddEvasionRating_484FB0(int amount);
+    EXPORT void IncrementCrimeCount_484F50(s32 crime_type);
+    EXPORT void AddCarDamageCost_484FA0(s32 cost);
+    EXPORT void AddEvasionRating_484FB0(s32 amount);
 
   public:
     u32 field_0_crime_count_list[crime_stats_type::count_10]; // indexed by crime_stats_type
