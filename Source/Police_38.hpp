@@ -81,14 +81,14 @@ class PoliceCrew
     s32 field_1C_used;
     s32 field_20_crew_kind; // crew_kind
     s32 field_24_state;
-    char_type field_28_use_car;
-    char_type field_29_bCountedInPoliceCount;
+    bool field_28_use_car;
+    bool field_29_bCountedInPoliceCount;
     s16 field_2A_unused;
     s16 field_2C_unused;
     char_type field_2E_unused;
     char_type field_2F_unused;
     s32 field_30_prev_target_ped;
-    char_type field_34_is_dismissed;
+    bool field_34_is_dismissed;
     u8 field_35_fast_target_counter;
     char_type field_36_unused;
     char_type field_37_unused;
@@ -107,7 +107,7 @@ class PolicePursuitTarget  // Pursuit of one wanted criminal by police crews
     Fix16 field_10_x;
     Fix16 field_14_y;
     Fix16 field_18_z;
-    char_type field_1C_crew_gave_up;
+    bool field_1C_crew_gave_up;
     char_type field_1D_unused;
     char_type field_1E_unused;
     char_type field_1F_unused;
@@ -133,7 +133,7 @@ class PolicePursuitTarget  // Pursuit of one wanted criminal by police crews
     char_type field_74_num_army_crews;
     u8 field_75_num_crews;
     s16 field_76_unused;
-    char_type field_78_is_actively_chased;
+    bool field_78_is_actively_chased;
     char_type field_79_unused;
     s16 field_7A_wanted_timer;
 };
@@ -149,7 +149,7 @@ class PoliceRoadblock
 
     EXPORT PoliceRoadblock();
     EXPORT ~PoliceRoadblock();
-    char_type field_0_bActive;
+    bool field_0_bActive;
     char_type field_1_unused;
     char_type field_2_unused;
     char_type field_3_unused;
