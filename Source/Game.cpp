@@ -95,7 +95,7 @@ s32 Game::GetFrameDurationMs_4B8BB0() const
 {
     if (bStartNetworkGame_7081F0 == false)
     {
-        return field_30_fast_forward == false ? 33 : 11;
+        return !field_30_fast_forward ? 33 : 11;
     }
     return field_34_network_frame_ms;
 }
