@@ -51,6 +51,30 @@ DEFINE_GLOBAL_ARRAY_INIT(char*,
                          "Output too big" COMMA
                          "Unknown error");
 
+// Return codes of the gci tokenizer and parser, in the order of the messages of error_table_61A6D4
+enum
+{
+    k_gci_ok = 0,
+    k_gci_end_of_data = 1,
+    k_gci_invalid_integer = -1,
+    k_gci_number_too_big = -2,
+    k_gci_eof_in_comment = -4,
+    k_gci_token_too_big = -5,
+    k_gci_invalid_long_integer = -8,
+    k_gci_invalid_hex_integer = -9,
+    k_gci_invalid_hex_long_integer = -10,
+    k_gci_invalid_float = -11,
+    k_gci_output_too_big = -12,
+};
+
+// gTokenizerState_67626C
+enum
+{
+    k_tokenizer_between_tokens = 0,
+    k_tokenizer_in_comment = 1,
+    k_tokenizer_in_token = 2,
+};
+
 MATCH_FUNC(0x430a30)
 char* __stdcall CarInfoTable::parse_gci_file_430A30(void* pGciData,
                                                    size_t gciDataLen,
@@ -67,8 +91,8 @@ char* __stdcall CarInfoTable::parse_gci_file_430A30(void* pGciData,
     modelPhyArrLen_675F90 = modelPhyArrLen;
 
     s32 parse_result;
-    s32 token_result = 0;
-    while (token_result == 0)
+    s32 token_result = k_gci_ok;
+    while (token_result == k_gci_ok)
     {
         token_result = ReadToken_430B10(token_buffer_676024);
         if (token_result < 0)
@@ -129,51 +153,51 @@ s32 __stdcall CarInfoTable::ReadToken_430B10(char* pOut)
 
         switch (gTokenizerState_67626C)
         {
-            case 0:
+            case k_tokenizer_between_tokens:
                 if (currentChar == -1)
                 {
-                    return 1;
+                    return k_gci_end_of_data;
                 }
                 if (currentChar == '{')
                 {
-                    gTokenizerState_67626C = 1;
+                    gTokenizerState_67626C = k_tokenizer_in_comment;
                 }
                 else if (currentChar != ' ' && currentChar != '\t' && currentChar != '\n' && currentChar != ')' && currentChar != '(' &&
                          currentChar != '\r')
                 {
-                    gTokenizerState_67626C = 2;
+                    gTokenizerState_67626C = k_tokenizer_in_token;
                     pOut[i] = static_cast<char>(currentChar);
                     i++;
                 }
                 break;
-            case 1:
+            case k_tokenizer_in_comment:
                 if (currentChar == -1)
                 {
-                    return -4;
+                    return k_gci_eof_in_comment;
                 }
                 if (currentChar == '}')
                 {
-                    gTokenizerState_67626C = 0;
+                    gTokenizerState_67626C = k_tokenizer_between_tokens;
                 }
                 break;
-            case 2:
+            case k_tokenizer_in_token:
                 if (currentChar == -1)
                 {
                     pOut[i] = 0;
-                    return 1;
+                    return k_gci_end_of_data;
                 }
                 if (currentChar == '{')
                 {
                     pOut[i] = 0;
-                    gTokenizerState_67626C = 1;
-                    return 0;
+                    gTokenizerState_67626C = k_tokenizer_in_comment;
+                    return k_gci_ok;
                 }
                 if (currentChar == ' ' || currentChar == '\t' || currentChar == '\n' || currentChar == ')' || currentChar == '(' ||
                     currentChar == '\r')
                 {
                     pOut[i] = 0;
-                    gTokenizerState_67626C = 0;
-                    return 0;
+                    gTokenizerState_67626C = k_tokenizer_between_tokens;
+                    return k_gci_ok;
                 }
                 pOut[i] = static_cast<char>(currentChar);
                 i++;
@@ -181,7 +205,7 @@ s32 __stdcall CarInfoTable::ReadToken_430B10(char* pOut)
                 break;
         }
     }
-    return -5;
+    return k_gci_token_too_big;
 }
 
 // https://decomp.me/scratch/YniJR
@@ -265,7 +289,7 @@ s32 __stdcall ParseTokenAndPush_430C70(char_type* pStr)
                             negated = static_cast<char>(-static_cast<char>(parsed_short));
                             if (negated < -127)
                             {
-                                return -2;
+                                return k_gci_number_too_big;
                             }
                             error_ret = CarInfoTable::PushData_430E60(&negated, sizeof(BYTE));
                         }
@@ -273,7 +297,7 @@ s32 __stdcall ParseTokenAndPush_430C70(char_type* pStr)
                         {
                             if (static_cast<u16>(parsed_short) > 0xFFu)
                             {
-                                return -2;
+                                return k_gci_number_too_big;
                             }
                             error_ret = CarInfoTable::PushData_430E60(&parsed_short, sizeof(BYTE));
                         }
@@ -307,7 +331,7 @@ s32 __stdcall ParseTokenAndPush_430C70(char_type* pStr)
                     check_push_result:
                         if (error_ret >= 0)
                         {
-                            return 0;
+                            return k_gci_ok;
                         }
                     }
                     return error_ret;
@@ -336,7 +360,7 @@ s32 __stdcall ParseTokenAndPush_430C70(char_type* pStr)
 
                         if (error_ret >= 0)
                         {
-                            return 0;
+                            return k_gci_ok;
                         }
                     }
                     return error_ret;
@@ -354,17 +378,17 @@ s32 __stdcall ParseTokenAndPush_430C70(char_type* pStr)
                         error_ret = CarInfoTable::PushData_430E60(&fix16_num, sizeof(Fix16));
                         if (error_ret >= 0)
                         {
-                            return 0;
+                            return k_gci_ok;
                         }
                     }
                     return error_ret;
 
                 default:
-                    return 0;
+                    return k_gci_ok;
             }
         }
     }
-    return 0;
+    return k_gci_ok;
 }
 
 MATCH_FUNC(0x430e60)
@@ -373,13 +397,13 @@ s32 __stdcall CarInfoTable::PushData_430E60(void* pSrc, u32 size)
     processed_output_676250 += size;
     if (processed_output_676250 > static_cast<u32>(modelPhyArrLen_675F90))
     {
-        return -12;
+        return k_gci_output_too_big;
     }
 
     memcpy(modelPhyArrPtr_675F98, pSrc, size);
 
     modelPhyArrPtr_675F98 = modelPhyArrPtr_675F98 + size;
-    return 0;
+    return k_gci_ok;
 }
 
 MATCH_FUNC(0x430EC0)
@@ -394,7 +418,7 @@ s32 __stdcall CarInfoTable::HexStr2Int_430EC0(const char* pStr, s32* pOut)
         s8 currentChar = pStr[strLen];
         if ((currentChar < '0' || '9' < currentChar) && (currentChar < 'A' || 'F' < currentChar))
         {
-            return 0xfffffff6;
+            return k_gci_invalid_hex_long_integer;
         }
 
         s32 digit_value;
@@ -411,7 +435,7 @@ s32 __stdcall CarInfoTable::HexStr2Int_430EC0(const char* pStr, s32* pOut)
         place_value = place_value << 4;
     }
 
-    return 0;
+    return k_gci_ok;
 }
 
 MATCH_FUNC(0x430f30)
@@ -426,7 +450,7 @@ s32 __stdcall CarInfoTable::HexStr2Int_430F30(const char* pStr, s16* pOut)
         s8 currentChar = pStr[strLen];
         if ((currentChar < '0' || '9' < currentChar) && (currentChar < 'A' || 'F' < currentChar))
         {
-            return 0xfffffff7;
+            return k_gci_invalid_hex_integer;
         }
 
         s32 digit_value;
@@ -443,7 +467,7 @@ s32 __stdcall CarInfoTable::HexStr2Int_430F30(const char* pStr, s16* pOut)
         place_value = place_value << 4;
     }
 
-    return 0;
+    return k_gci_ok;
 }
 
 MATCH_FUNC(0x430fa0)
@@ -458,7 +482,7 @@ s32 __stdcall CarInfoTable::StrToInt_430FA0(const char* pStr, s32* pOut)
         s8 currentChar = pStr[strLen];
         if (currentChar < '0' || '9' < currentChar)
         {
-            return 0xfffffff8;
+            return k_gci_invalid_long_integer;
         }
 
         s32 digit_value = (currentChar - 0x30) * place_value;
@@ -466,7 +490,7 @@ s32 __stdcall CarInfoTable::StrToInt_430FA0(const char* pStr, s32* pOut)
         place_value = place_value * 10;
     }
 
-    return 0;
+    return k_gci_ok;
 }
 
 MATCH_FUNC(0x431000)
@@ -484,7 +508,7 @@ s32 __stdcall CarInfoTable::FloatStrToFix16_431000(char* pStr, Fix16& pOut)
         {
             if (currentChar != '.' || bPastDecimalPoint)
             {
-                return -11;
+                return k_gci_invalid_float;
             }
             pOut.mValue /= decimal_divisor;
             decimal_divisor = 1;
@@ -496,7 +520,7 @@ s32 __stdcall CarInfoTable::FloatStrToFix16_431000(char* pStr, Fix16& pOut)
             decimal_divisor = decimal_divisor * 10;
         }
     }
-    return 0;
+    return k_gci_ok;
 }
 
 MATCH_FUNC(0x431080)
@@ -511,7 +535,7 @@ s32 __stdcall CarInfoTable::StrToInt_431080(const char* pStr, s16* pOut)
         s8 currentChar = pStr[strLen];
         if (currentChar < '0' || '9' < currentChar)
         {
-            return 0xffffffff;
+            return k_gci_invalid_integer;
         }
 
         s32 digit_value = (currentChar - 0x30) * place_value;
@@ -519,7 +543,7 @@ s32 __stdcall CarInfoTable::StrToInt_431080(const char* pStr, s16* pOut)
         place_value = place_value * 10;
     }
 
-    return 0;
+    return k_gci_ok;
 }
 
 MATCH_FUNC(0x440860)
