@@ -2934,7 +2934,7 @@ Scores are `quick_score.sh` lines. No new matches; each target stopped at one of
   `cmp %bl,%al` (ours `test %al,%al`) after `FindNearbyTileMatchingSlopeType_5552B0` are not the return
   type (`u8` instead of `bool` changes nothing); 9.6f also uses `test`.
 - `Ped::HandlePedHitByObject_45D000` (137): the one real diff is the first `IsRespectNegativeForPlayer`
-  site in the inlined `IsPedAThreat_Inline_465D00`: the original spills `field_2E_idx` through
+  site in the inlined `IsPedAThreat_Inline_465D00`: the original spills `field_2E_player_idx` through
   `[esp+0x20]` (the `flag` slot) at both sites. A `u8 player_idx` local at the first site too gives both
   spills, but then the two sites get each other's register pattern (`edx/al` vs `eax/cl`, gang pointer
   loaded before or after the push) and `MaxAbsDistance_4614E0(...) <= kFpOne` puts the result in ecx instead of eax, a

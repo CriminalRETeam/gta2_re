@@ -750,7 +750,7 @@ MATCH_FUNC(0x45b560)
 void Ped::SetPlayer_45B560(Player* pPlayer, char_type bIsAuxPed)
 {
     field_15C_player = pPlayer;
-    field_200_id = pPlayer->field_2E_idx + 1;
+    field_200_id = pPlayer->field_2E_player_idx + 1;
     if (bIsAuxPed)
     {
         field_200_id += 6;
@@ -1851,7 +1851,7 @@ inline bool Ped::IsPedAThreat_Inline_465D00(Ped* pTargetPed)
         // block_465F75:
             if (pTargetPed->IsActivePlayerPed_45EDC0() || pTargetPed->field_240_occupation == ped_ocupation_enum::empty)
             {
-                u8 player_idx = pTargetPed->field_15C_player->field_2E_idx;
+                u8 player_idx = pTargetPed->field_15C_player->field_2E_player_idx;
 
                 if (this->field_17C_pGang->IsRespectNegativeForPlayer_4BEF10(player_idx))
                 {

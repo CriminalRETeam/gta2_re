@@ -312,7 +312,7 @@ class Player
 
     inline u8 get_idx_4219D0()
     {
-        return field_2E_idx;
+        return field_2E_player_idx;
     }
 
     // 9.6f 0x4A5150
@@ -356,7 +356,7 @@ class Player
     char_type field_2A_pad;
     char_type field_2B_pad;
     s16 field_2C_death_countdown;
-    u8 field_2E_idx;
+    u8 field_2E_player_idx;
     char_type field_2F_disable_all_controls;
     char_type field_30_disable_enter_vehicles;
     char_type field_31_kf_weapon_mode;
