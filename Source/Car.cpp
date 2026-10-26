@@ -1,4 +1,5 @@
 #include "Car.hpp"
+#include "car_shop_event.hpp"
 #include "explosion_type.hpp"
 #include "ped_death_cause.hpp"
 #include "car_shop_type.hpp"
@@ -6174,16 +6175,16 @@ void Car::BuyCarWeapon_4438C0(s32 weapon_kind)
             switch (weapon_kind)
             {
                 case weapon_type::car_bomb:
-                    this->SetWeaponKind_421950(4);
+                    this->SetShopEvent_421950(car_shop_event::car_bomb_4);
                     break;
                 case weapon_type::car_mines:
-                    this->SetWeaponKind_421950(5);
+                    this->SetShopEvent_421950(car_shop_event::car_mines_5);
                     break;
                 case weapon_type::oil_stain:
-                    this->SetWeaponKind_421950(6);
+                    this->SetShopEvent_421950(car_shop_event::oil_stain_6);
                     break;
                 case weapon_type::car_smg:
-                    this->SetWeaponKind_421950(7);
+                    this->SetShopEvent_421950(car_shop_event::car_smg_7);
                     break;
                 default:
                     FatalError_4A38C0(0x431, "C:\\Splitting\\Gta2\\Source\\car.cpp", 6107, 0);
@@ -6193,7 +6194,7 @@ void Car::BuyCarWeapon_4438C0(s32 weapon_kind)
         {
             // Can't afford weapon
             Car::ShowCantAffordMessage_443AB0(pPlayer, car_weapon_cost);
-            this->SetWeaponKind_421950(8);
+            this->SetShopEvent_421950(car_shop_event::cant_afford_8);
         }
     }
 }
@@ -6230,11 +6231,11 @@ void Car::ResprayOrChangePlates(u8 remap)
         {
             SetCarRemap(remap);
             field_0_attachments.ClearGangIconSprite_5A7110();
-            this->SetWeaponKind_421950(1);
+            this->SetShopEvent_421950(car_shop_event::respray_1);
         }
         else
         {
-            this->SetWeaponKind_421950(2);
+            this->SetShopEvent_421950(car_shop_event::change_plates_2);
         }
 
         pPlayer->field_2D4_scores.AddCash_592620(-cost);
@@ -6244,7 +6245,7 @@ void Car::ResprayOrChangePlates(u8 remap)
     else
     {
         ShowCantAffordMessage_443AB0(pPlayer, cost);
-        this->SetWeaponKind_421950(8);
+        this->SetShopEvent_421950(car_shop_event::cant_afford_8);
     }
 }
 
@@ -6504,7 +6505,7 @@ void Car::PoolAllocate()
     this->field_8E_flash_count = 0;
     this->field_A8_horn_cooldown = 0;
     this->field_A9_wreck_countdown = 0;
-    this->field_B4_weapon_kind = 0;
+    this->field_B4_shop_event = car_shop_event::none_0;
     this->field_B8_turret_rotated = false;
     this->field_B0_emitter_status = 0;
 }

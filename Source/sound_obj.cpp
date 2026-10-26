@@ -27,6 +27,7 @@
 #include "sprite.hpp"
 #include "CrimeReportQueue.hpp"
 #include "voice_line.hpp"
+#include "car_shop_event.hpp"
 #include <math.h>
 
 // Forward declarations: the functions below are in address order
@@ -1872,26 +1873,26 @@ MATCH_FUNC(0x415480)
 void sound_obj::HandleCarWeaponHitSound_415480(Sound_Params* pParams)
 {
     Car* pCar = pParams->field_0_pObj->field_8_car_bc_ptr;
-    const s32 old_weapon_kind = pCar->TakeWeaponKind_4119D0();
-    switch (old_weapon_kind)
+    const s32 shop_event = pCar->TakeShopEvent_4119D0();
+    switch (shop_event)
     {
-        case weapon_type::smg:
+        case car_shop_event::respray_1:
             this->field_30_sQueueSample.field_14_samp_idx = 67;
             break;
-        case weapon_type::rocket:
-        case weapon_type::shocker:
+        case car_shop_event::change_plates_2:
+        case 3:
             this->field_30_sQueueSample.field_14_samp_idx = 66;
             break;
-        case weapon_type::molotov:
+        case car_shop_event::car_bomb_4:
             this->field_30_sQueueSample.field_14_samp_idx = 65;
             break;
-        case weapon_type::grenade:
+        case car_shop_event::car_mines_5:
             this->field_30_sQueueSample.field_14_samp_idx = 62;
             break;
-        case weapon_type::shotgun:
+        case car_shop_event::oil_stain_6:
             this->field_30_sQueueSample.field_14_samp_idx = 63;
             break;
-        case weapon_type::electro_batton:
+        case car_shop_event::car_smg_7:
             this->field_30_sQueueSample.field_14_samp_idx = 64;
             break;
         default:
