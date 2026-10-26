@@ -376,7 +376,7 @@ class Trailer
 
 static inline bool IsArmyModel(s32 car_model)
 {
-    return car_model == car_model_enum::TANK || car_model == 22 || car_model == 30 || car_model == 3;
+    return car_model == car_model_enum::TANK || car_model == car_model_enum::GUNJEEP || car_model == car_model_enum::JEEP || car_model == car_model_enum::apc;
 }
 
 class Car

@@ -1562,42 +1562,42 @@ void CarManager::RemoveFromPoolAndCollision_446730(Car* pCar)
 }
 
 MATCH_FUNC(0x4466c0)
-void CarManager::DecrementAllocatedCarType_4466C0(s32 car_kind)
+void CarManager::DecrementAllocatedCarType_4466C0(s32 kind)
 {
-    switch (car_kind)
+    switch (kind)
     {
-        case 1:
+        case car_kind::recycled_1:
             --this->field_28_recycled_cars;
             break;
 
-        case 2:
+        case car_kind::proto_recycled_2:
             --this->field_40_proto_recycled_cars;
             break;
 
-        case 10:
+        case car_kind::Unknown_10:
             --this->field_48_kind10_cars;
             break;
 
-        case 4:
+        case car_kind::paramedic_car_4:
             --this->field_2C_paramedic_cars;
             break;
 
-        case 5:
+        case car_kind::firefighter_5:
             --this->field_30_firefighter_cars;
             break;
 
-        case 6:
+        case car_kind::police_6:
             --this->field_34_unit_cars;
             break;
 
-        case 7:
+        case car_kind::roadblock_car_7:
             --this->field_38_roadblock_cars;
             break;
 
-        case 8:
+        case car_kind::mission_car_8:
             --this->field_3C_mission_cars;
             break;
-        case 9:
+        case car_kind::parked_car_9:
             --this->field_44_parked_cars;
             break;
         default:
@@ -3999,7 +3999,7 @@ s32 __stdcall GetDeathCauseForObjectModel_48E780(s32 model)
             case objects::fire_hitting_194:
                 return ped_death_cause::fire_hit_14;
             case objects::water_hitting_198:
-            case 251:
+            case objects::object_251:
                 return ped_death_cause::burning_20;
         }
     }
@@ -4568,23 +4568,23 @@ char_type Car::CountConsecutiveArrowBlocks_4410D0(Ang16 ang, s8* pOutCount, Fix1
     {
         case 1:
             x_add = -1;
-            mask1 = 4;
-            mask2 = 0x40;
+            mask1 = block_arrow::green_up_4;
+            mask2 = block_arrow::red_up_40;
             break;
         case 2:
             x_add = 1;
-            mask1 = 8;
-            mask2 = 0x80;
+            mask1 = block_arrow::green_down_8;
+            mask2 = block_arrow::red_down_80;
             break;
         case 4:
             y_add = 1;
-            mask2 = 0x10;
-            mask1 = 1;
+            mask2 = block_arrow::red_left_10;
+            mask1 = block_arrow::green_left_1;
             break;
         case 3:
             y_add = -1;
-            mask1 = 2;
-            mask2 = 0x20;
+            mask1 = block_arrow::green_right_2;
+            mask2 = block_arrow::red_right_20;
             break;
         default:
             break;
