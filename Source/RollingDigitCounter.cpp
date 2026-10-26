@@ -4,7 +4,7 @@
 #include "TextureCache.hpp"
 
 // Forward declarations: the functions below are in address order
-s32 __stdcall GetMaxNumOfDigits_4F7660(s32 &max_value);
+s32 __stdcall GetMaxNumOfDigits_4F7660(const s32& max_value);
 
 DEFINE_GLOBAL_INIT(Ang16, kAngZero_67B210, Ang16(0), 0x67B210);
 
@@ -114,7 +114,7 @@ void RollingDigitCounter::ColorDigits_4921F0(s32 palette_type, s16 palette)
 
 // https://decomp.me/scratch/6E5vt
 MATCH_FUNC(0x492260)
-s32 RollingDigitCounter::DrawDigitsRightAligned_492260(s32 base_xpos, s32 base_ypos)
+s32 RollingDigitCounter::DrawDigitsRightAligned_492260(s32 base_xpos, s32 base_ypos) const
 {
     s32 curr_xpos = base_xpos;
     bool bFirst = true;
@@ -176,7 +176,7 @@ s32 RollingDigitCounter::DrawDigitsRightAligned_492260(s32 base_xpos, s32 base_y
 
 // Draws the digits left to right, skipping leading zeros, and returns the x after the last digit
 MATCH_FUNC(0x492430)
-s32 RollingDigitCounter::DrawDigitsLeftAligned_492430(s32 base_xpos, s32 base_ypos)
+s32 RollingDigitCounter::DrawDigitsLeftAligned_492430(s32 base_xpos, s32 base_ypos) const
 {
     // u32: converts with the Fix16(u32) constructor, whose out-of-line copy is 0x4926F0
     bool bFirst = true;
@@ -237,7 +237,7 @@ s32 RollingDigitCounter::DrawDigitsLeftAligned_492430(s32 base_xpos, s32 base_yp
 }
 
 MATCH_FUNC(0x4925c0)
-bool RollingDigitCounter::IsAnyDigitRolling_4925C0()
+bool RollingDigitCounter::IsAnyDigitRolling_4925C0() const
 {
     s32 digit_idx = field_2E_non_used_digits;
 
@@ -319,7 +319,7 @@ void RollingDigitCounter::UpdateRollingDigits_4925E0()
 }
 
 MATCH_FUNC(0x4f7660)
-s32 __stdcall GetMaxNumOfDigits_4F7660(s32 &max_value)
+s32 __stdcall GetMaxNumOfDigits_4F7660(const s32& max_value)
 {
     s32 num_digits = 1;
     s32 abs_value = max_value;

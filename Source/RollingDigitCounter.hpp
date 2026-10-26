@@ -16,9 +16,9 @@ class RollingDigitCounter
     EXPORT void InitDigitSprites_492150();
     EXPORT void ChangeStatByAmount_4921B0(s32 amount);
     EXPORT void ColorDigits_4921F0(s32 palette_type, s16 palette);
-    EXPORT s32 DrawDigitsRightAligned_492260(s32 base_xpos, s32 base_ypos);
-    EXPORT s32 DrawDigitsLeftAligned_492430(s32 base_xpos, s32 base_ypos);
-    EXPORT bool IsAnyDigitRolling_4925C0();
+    EXPORT s32 DrawDigitsRightAligned_492260(s32 base_xpos, s32 base_ypos) const;
+    EXPORT s32 DrawDigitsLeftAligned_492430(s32 base_xpos, s32 base_ypos) const;
+    EXPORT bool IsAnyDigitRolling_4925C0() const;
     EXPORT void UpdateRollingDigits_4925E0();
 
     // 9.6f 0x4A50B0
@@ -39,7 +39,7 @@ class RollingDigitCounter
     }
 
     // 9.6f 0x41DC30
-    inline s32 get_value()
+    inline s32 get_value() const
     {
         return field_0_value;
     }
