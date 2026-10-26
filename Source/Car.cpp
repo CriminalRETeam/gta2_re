@@ -80,7 +80,7 @@ DEFINE_GLOBAL_INIT(Fix16, kMachineGunOffsetY_6777FC, Fix16(0xFFFFEE00, 0), 0x677
 EXTERN_GLOBAL(CarInfo_2C*, gCarInfo_2C_6FE0E4);
 EXTERN_GLOBAL(ModelPhysics*, gCarInfo_48_6FE258);
 
-DEFINE_GLOBAL(u16, word_677CFC, 0x677CFC);
+DEFINE_GLOBAL(u16, gBlockedRoadBrakeTimer_677CFC, 0x677CFC);
 DEFINE_GLOBAL(SpriteList, stru_67737C, 0x67737c);
 
 DEFINE_GLOBAL_INIT(Fix16, kWaterCannonOffsetY_6771F0, Fix16(0x800, 0), 0x6771F0);
@@ -204,7 +204,7 @@ void ClearCarInfoGlobals_5639C0()
 MATCH_FUNC(0x447640)
 void ResetBlockedRoadBrakeTimer_447640()
 {
-    word_677CFC = 0;
+    gBlockedRoadBrakeTimer_677CFC = 0;
 }
 
 MATCH_FUNC(0x5c8680)

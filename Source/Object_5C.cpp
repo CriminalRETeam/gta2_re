@@ -75,7 +75,7 @@ DEFINE_GLOBAL_INIT(Fix16, kFpOne256th_6F8CF0, Fix16(0x40, 0), 0x6F8CF0);
 DEFINE_GLOBAL_INIT(Fix16, kMaxZ_6F8BFC, Fix16(0x1FF00, 0), 0x6F8BFC);
 DEFINE_GLOBAL_INIT(Fix16, kFP16Half_6F8D10, Fix16(0x2000, 0), 0x6F8D10);
 
-DEFINE_GLOBAL_INIT(u8, byte_6771DC, 0, 0x6771DC);
+DEFINE_GLOBAL_INIT(u8, gCarAIProbingAhead_6771DC, 0, 0x6771DC);
 DEFINE_GLOBAL_INIT(s32, gObj2C_id_623EC0, 1, 0x623EC0);
 
 DEFINE_GLOBAL_INIT(Fix16, kFP16One_6F8D38, kFP16One_6F8E14, 0x6F8D38);
@@ -1453,7 +1453,7 @@ bool Object::ShouldStopAtTrafficLight_525290(Sprite* pSprite)
     Car* pCar = pSprite->AsCar_40FEB0();
     if (pCar)
     {
-        if (byte_6771DC)
+        if (gCarAIProbingAhead_6771DC)
         {
             if ((field_4_sprite->field_0_rotation != kZeroAng_6F8F68 || gTrafficLights_194_705958->field_192_phase != traffic_light_phase::north_south_green_1) &&
                 (field_4_sprite->field_0_rotation != kAng90_6F8C88 || gTrafficLights_194_705958->field_192_phase != traffic_light_phase::east_west_green_4))

@@ -3968,7 +3968,7 @@ Round 6 findings (not matched):
   slot list, so it opens slot 1 before `new_z` (4 refs): with the old named `Ang16 v83(&v86, 0)` (size 4: its first
   IL reference is the ctor's `lea`) no source order could put the cosine temp at 0x0 and `v7` at 0x4. The inline budget
   then left one sine multiply too many inline (3rd kFpHalf rotation, nested budget 57, needs <= 56): two free sites
-  fixed it, both from 9.6f: the `byte_6771DC = 1/0` stores go through a setter (9.6f 0x42ACE0, a Car method there;
+  fixed it, both from 9.6f: the `gCarAIProbingAhead_6771DC = 1/0` stores go through a setter (9.6f 0x42ACE0, a Car method there;
   here a file-local `SetByte6771DC_42ACE0`) and the react switch reads `GetType_416B40()`.
 - **`CarAI::ReactToNearbyCar_451980` (96 -> 0, MATCH).** `Ang16 v21; v21 = atan2(...)` plus `v27 = v21 + kAng180`
   (9.6f's operand order) puts v21 in bp (140 alone: `cBC`/`v2` then swap edi/ebp and the field_0_car spill is split),

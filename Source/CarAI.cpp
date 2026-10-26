@@ -104,8 +104,8 @@ DEFINE_GLOBAL_INIT(Fix16, kFpPoint04_677B64, Fix16(0x28F, 0), 0x677B64);
 DEFINE_GLOBAL_INIT(Ang16, kAng45_677A38, Ang16(180), 0x677A38);
 DEFINE_GLOBAL_INIT(Ang16, word_677A3A, Ang16(128), 0x677A3A);
 
-EXTERN_GLOBAL(u16, word_677CFC);
-EXTERN_GLOBAL(u8, byte_6771DC);
+EXTERN_GLOBAL(u16, gBlockedRoadBrakeTimer_677CFC);
+EXTERN_GLOBAL(u8, gCarAIProbingAhead_6771DC);
 
 // TODO: Move
 MATCH_FUNC(0x447650)
@@ -684,11 +684,11 @@ void CarAI::BrakeForBlockedRoadAhead_4482C0()
     u8 probe_steps = 0;
     Fix16 default_probe_x = Fix16(static_cast<u8>(gCurrCarAI_ProbeX_677A74.ToInt()));
     Fix16 default_probe_y = Fix16(static_cast<u8>(gCurrCarAI_ProbeY_677A80.ToInt()));
-    if (word_677CFC && !this->field_24_bf.bFlag17)
+    if (gBlockedRoadBrakeTimer_677CFC && !this->field_24_bf.bFlag17)
     {
-        if (word_677CFC > 0)
+        if (gBlockedRoadBrakeTimer_677CFC > 0)
         {
-            --word_677CFC;
+            --gBlockedRoadBrakeTimer_677CFC;
         }
 
         this->field_0_car->DoBrake_43A950();
@@ -697,7 +697,7 @@ void CarAI::BrakeForBlockedRoadAhead_4482C0()
     }
     else
     {
-        word_677CFC = 50;
+        gBlockedRoadBrakeTimer_677CFC = 50;
         u8 bSecondPass;
         if (!this->field_24_bf.bFlag17)
         {
@@ -4380,7 +4380,7 @@ void CarAI::ReactToNearbyPed_451FF0()
 // 9.6f 0x42ACE0 (a Car method there): sets the flag Object_5C reads while the car probes ahead
 static inline void SetByte6771DC_42ACE0(u8 value)
 {
-    byte_6771DC = value;
+    gCarAIProbingAhead_6771DC = value;
 }
 
 MATCH_FUNC(0x452060)
