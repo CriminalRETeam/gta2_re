@@ -1683,8 +1683,7 @@ Fix16 __stdcall MaxAbsDistance_4614E0(Fix16& x1, Fix16& y1, Fix16& x2, Fix16& y2
 // out as in the copy): 4661F0's nested budget (42) sends it out of line, 45D000's (71) inlines it.
 inline bool Ped::IsPedAThreat_Inline_465D00(Ped* pTargetPed)
 {
-
-    char_type flag = 0;
+    char_type bThisIsActivePlayer = 0;
 
     if (pTargetPed->IsInvisibleOnFoot_433DA0())
     {
@@ -1709,7 +1708,7 @@ inline bool Ped::IsPedAThreat_Inline_465D00(Ped* pTargetPed)
 
     if (this->IsActivePlayerPed_45EDC0())
     {
-        flag = 1;
+        bThisIsActivePlayer = 1;
     }
 
     if (this->field_164_ped_group == pTargetPed->field_164_ped_group && this->field_164_ped_group != NULL)
@@ -1750,7 +1749,7 @@ inline bool Ped::IsPedAThreat_Inline_465D00(Ped* pTargetPed)
             {
                 if (pOtherGang == pMyGang)
                 {
-                    goto merge_178;
+                    goto ret_if_active_player;
                 }
 
                 if (!pMyGang->IsHostileToGang_4BEDF0(pOtherGang->field_1_gang_idx))
@@ -1806,7 +1805,7 @@ inline bool Ped::IsPedAThreat_Inline_465D00(Ped* pTargetPed)
                 {
                     if (pTargetPed->field_28C_threat_reaction == threat_reaction_enum::react_as_emergency_1)
                     {
-                        goto merge_178;
+                        goto ret_if_active_player;
                     }
 
                     if (this->field_170_selected_weapon != NULL)
@@ -1821,7 +1820,7 @@ inline bool Ped::IsPedAThreat_Inline_465D00(Ped* pTargetPed)
                         goto ret_true;
                     }
 
-                    goto merge_178;
+                    goto ret_if_active_player;
                 }
 
                 {
@@ -1841,7 +1840,6 @@ inline bool Ped::IsPedAThreat_Inline_465D00(Ped* pTargetPed)
                 }
             }
 
-        // block_465F75:
             if (pTargetPed->IsActivePlayerPed_45EDC0() || pTargetPed->field_240_occupation == ped_ocupation_enum::empty)
             {
                 u8 player_idx = pTargetPed->field_15C_player->field_2E_idx;
@@ -1858,11 +1856,10 @@ inline bool Ped::IsPedAThreat_Inline_465D00(Ped* pTargetPed)
                 goto ret_false;
             }
 
-            goto merge_178;
+            goto ret_if_active_player;
         }
     }
 
-// no_my_gang:
     switch (this->field_240_occupation)
     {
         case ped_ocupation_enum::criminal_type_1:
@@ -1871,21 +1868,21 @@ inline bool Ped::IsPedAThreat_Inline_465D00(Ped* pTargetPed)
                 return false;
             }
 
-            goto merge_178;
+            goto ret_if_active_player;
         case ped_ocupation_enum::criminal_type_2:
             if (pTargetPed->field_240_occupation == ped_ocupation_enum::criminal_type_2)
             {
                 return false;
             }
 
-            goto merge_178;
+            goto ret_if_active_player;
         case ped_ocupation_enum::elvis:
             if (pTargetPed->PedTypeIs_45EDE0(ped_type::player_2))
             {
                 return false;
             }
 
-            goto merge_178;
+            goto ret_if_active_player;
         case ped_ocupation_enum::police:
         case ped_ocupation_enum::swat:
         case ped_ocupation_enum::fbi:
@@ -1894,12 +1891,12 @@ inline bool Ped::IsPedAThreat_Inline_465D00(Ped* pTargetPed)
         case ped_ocupation_enum::unknown_cop_occu_30:
         case ped_ocupation_enum::unknown_cop_occu_31:
         case ped_ocupation_enum::roadblock_cop_37:
-            goto block_466022;
+            goto law_enforcement_checks;
         default:
-            goto block_46613E;
+            goto other_occupation_checks;
     }
 
-block_466022:
+law_enforcement_checks:
     if (pTargetPed->IsActivePlayerPed_45EDC0())
     {
         if (pTargetPed->field_168_game_object != NULL && pTargetPed->field_168_game_object->field_10_char_state == Char_B4_state::Jumping_15)
@@ -1943,7 +1940,6 @@ block_466022:
         return true;
     }
 
-// block_4660FB:
 {
     s32 target_occupation = pTargetPed->field_240_occupation;
     switch (target_occupation)
@@ -1958,7 +1954,7 @@ block_466022:
         case ped_ocupation_enum::unknown_cop_occu_31:
         case ped_ocupation_enum::roadblock_cop_37:
         case ped_ocupation_enum::road_block_tank_man:
-            goto merge_178;
+            goto ret_if_active_player;
         default:
             break;
     }
@@ -1975,18 +1971,18 @@ block_466022:
 
     if (pTargetPed->field_25C_internal_objective != objectives_enum::kill_char_on_foot_20)
     {
-        goto merge_178;
+        goto ret_if_active_player;
     }
 
     return true;
 }
 
-block_46613E:
+other_occupation_checks:
     if (this->field_164_ped_group != NULL)
     {
         if (this->field_164_ped_group->field_2C_ped_leader != pTargetPed->field_14C_internal_target_ped)
         {
-            goto merge_178;
+            goto ret_if_active_player;
         }
 
         if (pTargetPed->field_25C_internal_objective == objectives_enum::kill_char_on_foot_20)
@@ -1996,7 +1992,7 @@ block_46613E:
 
         if (pTargetPed->field_25C_internal_objective != objectives_enum::punch_char_23)
         {
-            goto merge_178;
+            goto ret_if_active_player;
         }
 
         return true;
@@ -2007,8 +2003,8 @@ block_46613E:
         goto ret_true;
     }
 
-merge_178:
-    if (flag == 1)
+ret_if_active_player:
+    if (bThisIsActivePlayer == 1)
     {
         goto ret_true;
     }
@@ -5919,9 +5915,7 @@ Fix16 __stdcall MaxAbsDistance_4614E0(Fix16& x1, Fix16& y1, Fix16& x2, Fix16& y2
 MATCH_FUNC(0x465d00)
 bool Ped::IsPedAThreat_465D00(Ped* pTargetPed)
 {
-
-
-    char_type flag = 0;
+    char_type bThisIsActivePlayer = 0;
 
     if (pTargetPed->field_21C_bf.bInvisible)
     {
@@ -5949,7 +5943,7 @@ bool Ped::IsPedAThreat_465D00(Ped* pTargetPed)
 
     if (this->IsActivePlayerPed_45EDC0())
     {
-        flag = 1;
+        bThisIsActivePlayer = 1;
     }
 
     if (this->field_164_ped_group == pTargetPed->field_164_ped_group && this->field_164_ped_group != NULL)
@@ -5990,7 +5984,7 @@ bool Ped::IsPedAThreat_465D00(Ped* pTargetPed)
             {
                 if (pOtherGang == pMyGang)
                 {
-                    goto merge_178;
+                    goto ret_if_active_player;
                 }
 
                 if (!pMyGang->IsHostileToGang_4BEDF0(pOtherGang->field_1_gang_idx))
@@ -6046,7 +6040,7 @@ bool Ped::IsPedAThreat_465D00(Ped* pTargetPed)
                 {
                     if (pTargetPed->field_28C_threat_reaction == threat_reaction_enum::react_as_emergency_1)
                     {
-                        goto merge_178;
+                        goto ret_if_active_player;
                     }
 
                     if (this->field_170_selected_weapon != NULL)
@@ -6059,7 +6053,7 @@ bool Ped::IsPedAThreat_465D00(Ped* pTargetPed)
                         goto ret_true;
                     }
 
-                    goto merge_178;
+                    goto ret_if_active_player;
                 }
 
                 {
@@ -6079,7 +6073,6 @@ bool Ped::IsPedAThreat_465D00(Ped* pTargetPed)
                 }
             }
 
-        // block_465F75:
             if (pTargetPed->IsActivePlayerPed_45EDC0() || pTargetPed->field_240_occupation == ped_ocupation_enum::empty)
             {
                 u8 player_idx = pTargetPed->field_15C_player->get_idx_4219D0();
@@ -6096,11 +6089,10 @@ bool Ped::IsPedAThreat_465D00(Ped* pTargetPed)
                 goto ret_false;
             }
 
-            goto merge_178;
+            goto ret_if_active_player;
         }
     }
 
-// no_my_gang:
     switch (this->field_240_occupation)
     {
         case ped_ocupation_enum::criminal_type_1:
@@ -6109,21 +6101,21 @@ bool Ped::IsPedAThreat_465D00(Ped* pTargetPed)
                 return false;
             }
 
-            goto merge_178;
+            goto ret_if_active_player;
         case ped_ocupation_enum::criminal_type_2:
             if (pTargetPed->field_240_occupation == ped_ocupation_enum::criminal_type_2)
             {
                 return false;
             }
 
-            goto merge_178;
+            goto ret_if_active_player;
         case ped_ocupation_enum::elvis:
             if (pTargetPed->PedTypeIs_45EDE0(ped_type::player_2))
             {
                 return false;
             }
 
-            goto merge_178;
+            goto ret_if_active_player;
         case ped_ocupation_enum::police:
         case ped_ocupation_enum::swat:
         case ped_ocupation_enum::fbi:
@@ -6132,12 +6124,12 @@ bool Ped::IsPedAThreat_465D00(Ped* pTargetPed)
         case ped_ocupation_enum::unknown_cop_occu_30:
         case ped_ocupation_enum::unknown_cop_occu_31:
         case ped_ocupation_enum::roadblock_cop_37:
-            goto block_466022;
+            goto law_enforcement_checks;
         default:
-            goto block_46613E;
+            goto other_occupation_checks;
     }
 
-block_466022:
+law_enforcement_checks:
     if (pTargetPed->IsActivePlayerPed_45EDC0())
     {
         if (pTargetPed->field_168_game_object != NULL && pTargetPed->field_168_game_object->field_10_char_state == Char_B4_state::Jumping_15)
@@ -6181,7 +6173,6 @@ block_466022:
         return true;
     }
 
-// block_4660FB:
 {
     s32 target_occupation = pTargetPed->field_240_occupation;
     switch (target_occupation)
@@ -6196,7 +6187,7 @@ block_466022:
         case ped_ocupation_enum::unknown_cop_occu_31:
         case ped_ocupation_enum::roadblock_cop_37:
         case ped_ocupation_enum::road_block_tank_man:
-            goto merge_178;
+            goto ret_if_active_player;
         default:
             break;
     }
@@ -6213,18 +6204,18 @@ block_466022:
 
     if (pTargetPed->field_25C_internal_objective != objectives_enum::kill_char_on_foot_20)
     {
-        goto merge_178;
+        goto ret_if_active_player;
     }
 
     return true;
 }
 
-block_46613E:
+other_occupation_checks:
     if (this->field_164_ped_group != NULL)
     {
         if (this->field_164_ped_group->field_2C_ped_leader != pTargetPed->field_14C_internal_target_ped)
         {
-            goto merge_178;
+            goto ret_if_active_player;
         }
 
         if (pTargetPed->field_25C_internal_objective == objectives_enum::kill_char_on_foot_20)
@@ -6234,7 +6225,7 @@ block_46613E:
 
         if (pTargetPed->field_25C_internal_objective != objectives_enum::punch_char_23)
         {
-            goto merge_178;
+            goto ret_if_active_player;
         }
 
         return true;
@@ -6245,8 +6236,8 @@ block_46613E:
         goto ret_true;
     }
 
-merge_178:
-    if (flag == 1)
+ret_if_active_player:
+    if (bThisIsActivePlayer == 1)
     {
         goto ret_true;
     }
