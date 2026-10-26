@@ -1434,14 +1434,10 @@ void sound_obj::ProcessOtherCarTypes_413C50(Sound_Params* pParams, SoundPosEntry
 MATCH_FUNC(0x413D10)
 void sound_obj::HandleAICarHornBeep_413D10(Sound_Params* pParams)
 {
-
-    Car* pCar;
-    s32 sound_event;
     s32 samp_idx;
-    u8 emit_vol;
 
-    pCar = pParams->field_0_pObj->field_8_car_bc_ptr;
-    sound_event = pCar->TakeSoundEvent_411950();
+    Car* pCar = pParams->field_0_pObj->field_8_car_bc_ptr;
+    const s32 sound_event = pCar->TakeSoundEvent_411950();
     if (!pCar->IsMaxDamage_40F890() && pCar->field_54_driver && pParams->field_4_bDrivenByPlayer != 1)
     {
         switch (pCar->GetCarInfoIdx_411940())
@@ -1490,7 +1486,7 @@ void sound_obj::HandleAICarHornBeep_413D10(Sound_Params* pParams)
 
                 if (CalculateDistance_419020(Fix16(1806336, 0)))
                 {
-                    emit_vol = this->field_1454_anRandomTable[this->field_30_sQueueSample.field_0_EntityIndex % 5u] % 30u + 50;
+                    const u8 emit_vol = this->field_1454_anRandomTable[this->field_30_sQueueSample.field_0_EntityIndex % 5u] % 30u + 50;
                     if (VolCalc_419070(emit_vol, Fix16(172032, 0), pParams->field_5_bHasSolidAbove))
                     {
                         this->field_30_sQueueSample.field_54_sound_intensity = Fix16(172032, 0);
@@ -5519,14 +5515,8 @@ void sound_obj::UpdateRadioChatterLoop_41FCA0()
 MATCH_FUNC(0x422B70)
 void sound_obj::ProcessPed_422B70(Sound_Params* pParams)
 {
-    u32 animation_state;
-    char_type animation_frame;
     s32 first_samp;
     s32 last_samp;
-    u32 samp_offset;
-    s32 playback_rate;
-    s32 base_rate;
-    s32 scream_timer;
     s32 samp_idx;
     s32 release_mod;
     Fix16 sound_intensity;
@@ -5535,17 +5525,16 @@ void sound_obj::ProcessPed_422B70(Sound_Params* pParams)
     s32 rate;
     u8 vol;
     s32 max_dist;
-    Char* pChar;
 
-    pChar = pParams->field_0_pObj->field_8_char_b4_ptr;
+    Char* pChar = pParams->field_0_pObj->field_8_char_b4_ptr;
     if (pChar->field_7C_pPed)
     {
         if (!gGame_0x40_67E008->field_38_local_player->GetPlayerCar_5698E0() && pChar->get_velocity_41B080() > kFpZero_675220)
         {
-            animation_state = pChar->field_6C_animation_state;
+            const u32 animation_state = pChar->field_6C_animation_state;
             if (animation_state == 4 || animation_state == 1 || animation_state == 0)
             {
-                animation_frame = pChar->field_68_animation_frame;
+                const char_type animation_frame = pChar->field_68_animation_frame;
                 if ((animation_frame == 1 || animation_frame == 5) && ((reinterpret_cast<s32>(pChar) + this->field_5448_m_FrameCounter) & 1) != 0)
                 {
                     switch (pChar->field_7C_pPed->field_254_block_spec)
@@ -5585,14 +5574,14 @@ void sound_obj::ProcessPed_422B70(Sound_Params* pParams)
                                 }
                                 if (VolCalc_419070(vol, Fix16(2), pParams->field_5_bHasSolidAbove))
                                 {
-                                    samp_offset = this->field_1454_anRandomTable[this->field_30_sQueueSample.field_0_EntityIndex % 5u] %
+                                    const u32 samp_offset = this->field_1454_anRandomTable[this->field_30_sQueueSample.field_0_EntityIndex % 5u] %
                                         static_cast<u32>(last_samp - first_samp + 1);
                                     this->field_30_sQueueSample.field_14_samp_idx = first_samp + samp_offset;
                                     this->field_30_sQueueSample.field_54_sound_intensity = Fix16(2);
                                     this->field_30_sQueueSample.field_64_max_distance = 4;
                                     this->field_30_sQueueSample.field_60_nEmittingVolume = vol;
-                                    playback_rate = gSampManager_6FFF00.GetPlayBackRate_58DBF0(field_30_sQueueSample.field_14_samp_idx);
-                                    base_rate = playback_rate + RandomDisplacement_41A650(field_30_sQueueSample.field_14_samp_idx);
+                                    const s32 playback_rate = gSampManager_6FFF00.GetPlayBackRate_58DBF0(field_30_sQueueSample.field_14_samp_idx);
+                                    const s32 base_rate = playback_rate + RandomDisplacement_41A650(field_30_sQueueSample.field_14_samp_idx);
                                     this->field_30_sQueueSample.field_58_type = 20;
                                     this->field_30_sQueueSample.field_20_rate = base_rate;
                                     if (!pChar->field_68_animation_frame)
@@ -5621,7 +5610,7 @@ void sound_obj::ProcessPed_422B70(Sound_Params* pParams)
             }
         }
 
-        scream_timer = pChar->field_B0_scream_timer;
+        const s32 scream_timer = pChar->field_B0_scream_timer;
         if (scream_timer > -1)
         {
             if (scream_timer > 0)
@@ -6470,8 +6459,6 @@ void sound_obj::Init_RadioMessageQueue_427180()
 MATCH_FUNC(0x4271B0)
 void sound_obj::EnqueueRadioWord_4271B0(u32 val)
 {
-    s32 write_idx;
-
     if (val > 136)
     {
         val = 136;
@@ -6481,7 +6468,7 @@ void sound_obj::EnqueueRadioWord_4271B0(u32 val)
         val = 69;
     }
 
-    write_idx = field_5529_idx15;
+    const s32 write_idx = field_5529_idx15;
     if ((write_idx + 1) % 15 != field_5528_idx15_cur)
     {
         field_552C_15array[write_idx] = val;
@@ -6604,19 +6591,13 @@ u32 sound_obj::GetCopRadioZoneIndex_427400(u8 x, u8 y, gmp_map_zone** ppZone)
 MATCH_FUNC(0x42A500)
 void sound_obj::ProcessType7_Weapon_42A500(s32 idx)
 {
-    Weapon* pWeapon;
-    char_type shot_fired;
     s32 samp_idx;
-    char_type releasing_flag;
-    u8 vol;
-    s32 rate_adjust;
-    bool bHasSolidAbove;
 
-    vol = 40;
-    rate_adjust = 0;
-    pWeapon = field_147C_audio_entities[idx].field_4_pObj->field_C_pAny.pWeapon_30;
+    u8 vol = 40;
+    s32 rate_adjust = 0;
+    Weapon* pWeapon = field_147C_audio_entities[idx].field_4_pObj->field_C_pAny.pWeapon_30;
     this->field_30_sQueueSample.field_41_releasing_sound_flag = 2;
-    shot_fired = pWeapon->TakeShotFired_41CC80();
+    const char_type shot_fired = pWeapon->TakeShotFired_41CC80();
     if (shot_fired)
     {
         if (pWeapon)
@@ -6679,9 +6660,9 @@ void sound_obj::ProcessType7_Weapon_42A500(s32 idx)
                                             &this->field_30_sQueueSample.field_8_obj.field_8_z);
                 this->field_30_sQueueSample.field_0_EntityIndex = idx;
                 this->field_30_sQueueSample.field_5C = NULL;
-                bHasSolidAbove = gMap_0x370_6F6268->CheckColumnHasSolidAbove_4E7FC0(field_30_sQueueSample.field_8_obj.field_0_x,
-                                                                                    field_30_sQueueSample.field_8_obj.field_4_y,
-                                                                                    field_30_sQueueSample.field_8_obj.field_8_z);
+                const bool bHasSolidAbove = gMap_0x370_6F6268->CheckColumnHasSolidAbove_4E7FC0(field_30_sQueueSample.field_8_obj.field_0_x,
+                                                                                               field_30_sQueueSample.field_8_obj.field_4_y,
+                                                                                               field_30_sQueueSample.field_8_obj.field_8_z);
                 this->field_28_dist_related = ComputeEmitterDistanceSquared_4190B0();
                 this->field_2C_distCalculated = false;
                 if (CalculateDistance_419020((Fix16(20) / Fix16(2)) * (Fix16(20) / Fix16(2))))
@@ -6703,7 +6684,7 @@ void sound_obj::ProcessType7_Weapon_42A500(s32 idx)
                         this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 4;
                         this->field_30_sQueueSample.field_18_bIs2D = false;
                         this->field_30_sQueueSample.field_34_loop_start = gSampManager_6FFF00.GetLoopStart_58DC30(this->field_30_sQueueSample.field_14_samp_idx);
-                        releasing_flag = this->field_30_sQueueSample.field_41_releasing_sound_flag;
+                        const char_type releasing_flag = this->field_30_sQueueSample.field_41_releasing_sound_flag;
                         this->field_30_sQueueSample.field_38_loop_end = -1;
                         this->field_30_sQueueSample.field_4C_releasing_volume_divider = 5;
                         if (static_cast<u8>(releasing_flag) > 0)
