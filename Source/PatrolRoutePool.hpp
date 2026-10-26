@@ -7,8 +7,6 @@
 class PatrolPoint
 {
   public:
-    // ctor 463F90
-    // dtor 463FA0
     EXPORT PatrolPoint();
     EXPORT ~PatrolPoint();
 
@@ -48,9 +46,9 @@ class PatrolRoutePool
 
     EXPORT ~PatrolRoutePool();
     EXPORT PatrolRoutePool();
-    EXPORT PatrolRoute* AllocPatrolList_543F10(u8* pRet);
+    EXPORT PatrolRoute* AllocPatrolList_543F10(u8* pRouteIdx);
     PatrolRoute field_0_routes[k_max_routes];
-    u8 field_1D4C_bUsed[k_max_routes];
+    bool field_1D4C_bUsed[k_max_routes];
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(PatrolRoutePool, 0x1D7E);
 
