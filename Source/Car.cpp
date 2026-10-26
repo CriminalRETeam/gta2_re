@@ -2527,7 +2527,6 @@ void Car::ProcessCarToCarImpact_43ADC0(Sprite* pSprite)
                 if (field_50_car_sprite->field_1C_zpos > gCarManager_6C_677930->field_64_zpos)
                 {
                     gCarManager_6C_677930->field_64_zpos = field_50_car_sprite->field_1C_zpos;
-                    // NOTE: returned here originally
                 }
                 break;
         }
@@ -2946,7 +2945,7 @@ void Car::SpawnDamageFireEffect_43B870(s32 fire_size, const Fix16_Point* pPos)
                 }
                 break;
 
-            case 3u: // also a big fire but never used?
+            case 3u: // big fire, no caller in the game passes 3
                 y_hit = Get_front_window_offset(pCarInfo);
                 if (gCarManager_6C_677930->field_1A_fire_effect_cycle && gCarManager_6C_677930->field_1A_fire_effect_cycle != 2)
                 {
@@ -6273,7 +6272,6 @@ void Car::ResprayOrCleanPlates(u8 remap)
     }
     else if (GetDriverPlayer_421870()->IsUser_41DC70())
     {
-        // I ain't touching that get outta here!
         gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, "nespray");
     }
 }
