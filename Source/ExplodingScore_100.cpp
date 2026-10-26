@@ -86,7 +86,6 @@ void ExplodingScorePool::Update_596940()
 MATCH_FUNC(0x5969e0)
 void ExplodingScorePool::DrawExplodingScores_5969E0()
 {
-    // TODO: Would there have been an iterator object ??
     ExplodingScore* pIter = field_4_pool.GetFirstUsed_4B8FD0();
     while (pIter)
     {
@@ -438,15 +437,15 @@ void ExplodingScore::DrawSingleNumber_597100(s32 number_to_draw, s32 xpos_sub)
             {
                 if (y_to_use <= Fix16(480))
                 {
-                    s32 drawKind = 7;
+                    s32 palette_type = 7;
                     Fix16 finalScale = pCam->field_A8_ui_scale * base_scale;
-                    DrawFigure_5D7EC0(6, // type
-                                      number_to_draw + 163, // pal
-                                      x_to_use, // x
-                                      y_to_use, // y
-                                      kAng0_702F24, // rot
-                                      finalScale, // scale
-                                      drawKind, // drawkind
+                    DrawFigure_5D7EC0(6,
+                                      number_to_draw + 163,
+                                      x_to_use,
+                                      y_to_use,
+                                      kAng0_702F24,
+                                      finalScale,
+                                      palette_type,
                                       this->field_34_palette,
                                       1,
                                       this->field_36_alpha,
