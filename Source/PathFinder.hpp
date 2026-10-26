@@ -39,7 +39,6 @@ class PathFinder
 
     ~PathFinder()
     {
-        // TODO: Should this be empty?
     }
     EXPORT void RemovePed_554620(s32 ped_id);
     EXPORT char_type EvaluateGridCell_554640();
