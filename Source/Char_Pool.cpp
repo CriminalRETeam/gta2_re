@@ -148,11 +148,22 @@ static inline Fix16 GetSpawnJitter()
     return gSpawnJitterScale_678618 * (gRng_6F6784.get_int_4F7AE0(32) + 8);
 }
 
+// The kind of ped SpawnPedestrianAt_46E380 picks from the zone's ratios
+enum
+{
+    k_spawn_dummy = 0,
+    k_spawn_mugger = 1,
+    k_spawn_car_thief = 2,
+    k_spawn_elvis = 3,
+    k_spawn_gang_member = 4,
+    k_spawn_cop = 5,
+};
+
 // TODO: Prob a method of PedManager?
 MATCH_FUNC(0x46E380)
 EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation)
 {
-    u8 kind = 0;
+    u8 kind = k_spawn_dummy;
     s16 rng_val = gRng_6F6784.get_int_4F7AE0(1000);
 
     Ped* pPed = gPedPool_6787B8->Allocate();
@@ -163,39 +174,39 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
 
     if (rng_val < static_cast<u16>(pZone->field_C_mugger_ratio))
     {
-        kind = 1; // mugger
+        kind = k_spawn_mugger;
     }
     else if (rng_val < static_cast<u16>(pZone->field_C_mugger_ratio) + static_cast<u16>(pZone->field_E_carthief_ratio))
     {
-        kind = 2; // car thief
+        kind = k_spawn_car_thief;
     }
     else if (rng_val < static_cast<u16>(pZone->field_C_mugger_ratio) + static_cast<u16>(pZone->field_E_carthief_ratio) + static_cast<u16>(pZone->field_10_elvis_ratio))
     {
         // 1 in 50 chance of elvis
-        kind = gRng_6F6784.get_int_4F7AE0(50) == 25 ? 3 : 0;
+        kind = gRng_6F6784.get_int_4F7AE0(50) == 25 ? k_spawn_elvis : k_spawn_dummy;
     }
     else if (rng_val < static_cast<u16>(pZone->field_C_mugger_ratio) + static_cast<u16>(pZone->field_E_carthief_ratio) + static_cast<u16>(pZone->field_10_elvis_ratio) +
                  static_cast<u16>(pZone->field_12_gangchar_ratio))
     {
         // Gang member, limited to 8
-        kind = static_cast<u8>(gNumberArmedGangMembers_6787CE) < 8u ? 4 : 0;
+        kind = static_cast<u8>(gNumberArmedGangMembers_6787CE) < 8u ? k_spawn_gang_member : k_spawn_dummy;
     }
     else if (rng_val < static_cast<u16>(pZone->field_C_mugger_ratio) + static_cast<u16>(pZone->field_E_carthief_ratio) + static_cast<u16>(pZone->field_10_elvis_ratio) +
                  static_cast<u16>(pZone->field_12_gangchar_ratio) + static_cast<u16>(pZone->field_14_policeped_ratio))
     {
-        kind = 5;
+        kind = k_spawn_cop;
     }
 
     if (gCheatOnlyElvisPeds_67D4ED)
     {
-        kind = 3;
+        kind = k_spawn_elvis;
     }
 
     if (bNo_annoying_chars_67D586)
     {
-        if (kind != 5)
+        if (kind != k_spawn_cop)
         {
-            kind = 0;
+            kind = k_spawn_dummy;
         }
     }
 
@@ -209,7 +220,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
 
         switch (kind)
         {
-            case 1:
+            case k_spawn_mugger:
                 if (gNumberMuggersSpawned_6787CA)
                 {
                     goto delloc_ret_2;
@@ -225,7 +236,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
                 pPed->field_26C_graphic_type = ped_graphic_type::civilian_0;
                 break;
 
-            case 2:
+            case k_spawn_car_thief:
                 if (gNumberCarThiefsSpawned_6787CB)
                 {
                     goto delloc_ret_2;
@@ -243,7 +254,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
                 pPed->field_1F8_run_speed = kFpFour_678670;
                 break;
 
-            case 3:
+            case k_spawn_elvis:
                 if (gNumberElvisLeadersSpawned_6787CC)
                 {
                     goto delloc_ret_2;
@@ -253,7 +264,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
                 ++gNumberElvisLeadersSpawned_6787CC;
                 break;
 
-            case 4:
+            case k_spawn_gang_member:
             {
                 gmp_map_zone* pMapZone = gMap_0x370_6F6268->GetZoneAtPosOfType_4DF4D0(xpos.ToInt(), ypos.ToInt(), 14u);
                 if (pMapZone)
@@ -334,7 +345,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
                 }
                 break;
             }
-            case 5:
+            case k_spawn_cop:
                 if (gNumberWalkingCopsSpawned_6787CD || bSkip_police_67D4F9 || gPolice_7B8_6FEE40->field_65C_highest_crew_type_in_pursuit == crew_type::army_6)
                 {
                 delloc_ret_2:
