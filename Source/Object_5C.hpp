@@ -181,7 +181,7 @@ class Object
         return false;
     }
 
-    bool CanBePushed_482C90() // matched
+    bool CanBePushed_482C90()
     {
         s32 behavior_type = field_8_definition->field_34_behavior_type;
         if (behavior_type == object_behavior_type::physics_3 || behavior_type == object_behavior_type::physics_animated_4 ||
@@ -201,7 +201,6 @@ class Object
             type != object_behavior_type::effect_only_12;
     }
 
-    // Sucky names but better than just "sub" for now
     bool IsOwnedByPedRef_4973E0(u8 ped_ref_idx)
     {
         return UsesParamAsPedRef_421080() && field_26_ped_ref_idx == ped_ref_idx;

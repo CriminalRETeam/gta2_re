@@ -95,7 +95,6 @@ class Object_3C
         field_38_conveyor_speed = 0;
     }
 
-    // ?? not sure if this is O3C either :skull:
     EXPORT Fix16_Point GetSpeedVector_52ADF0() const;
 
     // 9.6f 0x482BA0; GetSpeedVector_52ADF0 is its out-of-line copy. It returns a Fix16_Point (which has a

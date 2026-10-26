@@ -29,9 +29,6 @@
 #include "sprite.hpp"
 #include "block_face.hpp"
 
-EXTERN_GLOBAL(PedRefTable*, gPedRefTable_7F8_703398);
-EXTERN_GLOBAL(Ang16, kZeroAng_6F8F68);
-
 DEFINE_GLOBAL(Object_5C*, gObject_5C_6F8F84, 0x6F8F84);
 DEFINE_GLOBAL(s32, dword_6F8F88, 0x6f8f88);
 DEFINE_GLOBAL(s32, gObject2C_WallHitSide_6F8F90, 0x6F8F90);
@@ -97,9 +94,6 @@ DEFINE_GLOBAL_INIT(Fix16, kMapSize_6F8BF4, Fix16(256), 0x6F8BF4);
 
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint7_6F8C78, Fix16(0x2CCC, 0), 0x6F8C78);
 DEFINE_GLOBAL_INIT(Fix16, kObjectBounceRestitution_6F8DBC, kFpPoint7_6F8C78, 0x6F8DBC);
-
-// TODO: From CarPhysics
-EXTERN_GLOBAL(Fix16_Point, CollisionIntersectionPoint_6FE1A0);
 
 // 9.6f 0x482C10
 inline bool Object::IsAnimFinished_482C10()
@@ -1119,7 +1113,7 @@ void Object::IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 angle)
             {
                 bHandled = Object::HandleSpriteZCollision_5238B0(pSprt, &point, &bHitWall, &bHitSomething, found_z);
             }
-        } // end for
+        }
 
         if (bHitSomething)
         {
@@ -1237,9 +1231,7 @@ void Object::IntegrateHorizontalMovementAndCollisions_524630(Fix16 move_len, Ang
 {
     bool bOnSlope = false;
     Fix16_Point hitPoint;
-    //v4 = move_len;
     Sprite* pProbe = gObject_5C_6F8F84->field_58_collision_probe_sprite;
-    //v63 = 0;
     gObject2C_LastCollisionSprite_6F8F8C = NULL;
     if (move_len == kFpZero_6F8E10 && !this->field_10_obj_3c->field_2A_bAirborne)
     {
@@ -1567,7 +1559,7 @@ char Object::ShouldCollideWithSprite_525370(Sprite* pSprite)
                         break;
                     }
 
-                    // Don't collide shops, I guess
+                    // Only pickups collide with pickups
                     if (pObject->IsPickup_421060() && !IsPickup_421060())
                     {
                         return 0;
@@ -1778,7 +1770,7 @@ void Object::UpdatePhysicsAndMovement_525B80()
             {
                 if (get_field_26_420FF0() > 0)
                 {
-                    gPedRefTable_7F8_703398->DecrementRefCount_59B0D0(field_26_ped_ref_idx); // reduce field4 of ped ref at idx
+                    gPedRefTable_7F8_703398->DecrementRefCount_59B0D0(field_26_ped_ref_idx);
                     this->field_26_ped_ref_idx = 0;
                 }
             }
@@ -2020,7 +2012,7 @@ void Object::InheritMotionFromSprite_526B40(Sprite* pSprite)
 
     switch (pSprite->GetType_416B40())
     {
-        case sprite_types_enum::ped_3: //sprite_type_3_Char_B4:
+        case sprite_types_enum::ped_3:
             this->field_10_obj_3c->field_C_speed = (pSprite->field_8_char_b4_ptr->get_velocity_41B080() * kFpOne64th_6F8C9C);
             this->field_10_obj_3c->field_4_angle = pSprite->field_0_rotation;
             this->field_4_sprite->SetDrawLayer_40F7B0(27);
@@ -2032,8 +2024,8 @@ void Object::InheritMotionFromSprite_526B40(Sprite* pSprite)
             this->field_4_sprite->SetDrawLayer_40F7B0(pSprite->AsCar_40FEB0()->GetAttachedDrawLayer_4435B0());
             break;
 
-        case sprite_types_enum::code_obj1_4: //sprite_type_4_Object_5C:
-        case sprite_types_enum::map_obj_5: //sprite_type_5_Object_5C:
+        case sprite_types_enum::code_obj1_4:
+        case sprite_types_enum::map_obj_5:
             pObject3C = pSprite->field_8_object_2C_ptr->field_10_obj_3c;
             if (pObject3C)
             {
@@ -2544,7 +2536,6 @@ void Object::TickObject_5283C0(s32 obj_type)
                             break;
                     }
 
-                    //LABEL_48:
                     if (!pDefinition->field_61_in_pool_list && !this->field_25_removal_state)
                     {
                         Object::PoolTake_522360();
@@ -2554,7 +2545,6 @@ void Object::TickObject_5283C0(s32 obj_type)
                         byte_6F8F40 = 1;
                         Object::AssignToBucket_527AE0();
                     }
-                    //break;
                 }
             }
         }
@@ -2872,7 +2862,7 @@ void Object::HandleImpact_528E50(Sprite* pSprite)
             case 5:
                 if (pSprite->AsCharB4_40FEA0())
                 {
-                    this->field_24_touched_result = 1; // is_charb4
+                    this->field_24_touched_result = 1;
                 }
                 else
                 {
@@ -2951,7 +2941,7 @@ void Object::HandleCollisionWithObject_529000(Object* pObj)
 MATCH_FUNC(0x529030)
 void Object::SetConveyorSpeed_529030(s8 speed_x, s8 speed_y)
 {
-    field_26_ped_ref_idx = (speed_y + 7) | (16 * (speed_x + 7)); //  two variables in the same byte?
+    field_26_ped_ref_idx = (speed_y + 7) | (16 * (speed_x + 7)); // x and y as nibbles, read back by UnpackSignedNibbles_529050
 }
 
 MATCH_FUNC(0x529070)
@@ -3544,7 +3534,6 @@ Object* Object_5C::CreateObject_529C00(int object_type, Fix16 xpos, Fix16 ypos, 
 MATCH_FUNC(0x52a210)
 char_type Object_5C::SetPendingDamageOwner_52A210(char_type owner)
 {
-    // TODO: Why is it a byte here? enum ??
     field_18_pending_damage_owner = owner;
     return owner;
 }
@@ -3704,14 +3693,13 @@ MATCH_FUNC(0x52A590)
 void Object_5C::RestoreObjects_52A590(SavedObjectData* pData)
 {
     u8* pPedRefIdx = &pData->field_118_ped_ref_idx[0];
-    // SavedFix16* pX = &pData->field_0_obj_x[0][0];
     u16* pModel = &pData->field_F0_model[0];
 
     s32 i = 19;
     while (i >= 0)
     {
         if (pData->field_0_obj_x[0][19 - i].field_0_value != kFpZero_6F8E10 &&
-            pData->field_0_obj_x[1][19 - i].field_0_value != kFpZero_6F8E10) // x and y not zero?
+            pData->field_0_obj_x[1][19 - i].field_0_value != kFpZero_6F8E10)
         {
             Object* pNewObj = NewPhysicsObj_5299B0(*pModel,
                                                       pData->field_0_obj_x[0][19 - i].field_0_value,
@@ -3720,8 +3708,7 @@ void Object_5C::RestoreObjects_52A590(SavedObjectData* pData)
                                                       kZeroAng_6F8F68);
             pNewObj->set_field_26(*pPedRefIdx);
         }
-        // pX++;
-        pModel++; // add $0x2,$esi
+        pModel++;
         i--;
         pPedRefIdx++;
     }
