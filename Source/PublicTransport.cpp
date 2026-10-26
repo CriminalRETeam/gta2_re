@@ -284,10 +284,6 @@ void Train::DecrementState_5781F0()
 MATCH_FUNC(0x578260)
 Train::Train()
 {
-    Car** ppCarriage;
-    char_type* pTimer;
-    s32 remaining;
-
     field_8_alloc_state = 0;
     field_C_carriages[0] = NULL;
     field_44_unused = 0;
@@ -301,9 +297,9 @@ Train::Train()
     field_55_unused = 0;
     field_56_passenger_count = 0;
     field_57_track_idx = 0;
-    pTimer = field_38_explosion_timers;
-    ppCarriage = field_C_carriages + 1;
-    remaining = 10;
+    char_type* pTimer = field_38_explosion_timers;
+    Car** ppCarriage = field_C_carriages + 1;
+    s32 remaining = 10;
     do
     {
         *ppCarriage = NULL;
