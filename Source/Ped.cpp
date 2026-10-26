@@ -5282,7 +5282,7 @@ void Ped::CalcApproachPointNearTargetPed_4645B0()
     Fix16 vec_x;
     Fix16 vec_y;
 
-    u8 bHurtByAttackingLeader = false;
+    bool bHurtByAttackingLeader = false;
 
     if (field_14C_internal_target_ped->GetPedVelocity_45C920() > kFpZero_678660)
     {
@@ -6811,14 +6811,14 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
     Fix16 x;
     Fix16 y;
     Fix16 z;
-    u8 bMoveTargetSet = false;
-    u8 bTargetNotReached = true;
+    bool bMoveTargetSet = false;
+    bool bTargetNotReached = true;
     // Flags VC6 threads away: none of them appears in the code, but they decide the block layout (the
     // bNextPoint block sits after the null-path block, the give-up block is laid out last with its own
     // epilogue and the exit is moved up behind the type check). See docs/matching_quirks.md.
-    u8 bNextPoint = false;
-    u8 bUseCurrentPath = false;
-    u8 bGiveUp = false;
+    bool bNextPoint = false;
+    bool bUseCurrentPath = false;
+    bool bGiveUp = false;
     field_21C_bf.bFlag17 = false;
 
     switch (type)
@@ -7417,7 +7417,7 @@ void Ped::PunchChar_467FD0()
 MATCH_FUNC(0x468040)
 void Ped::WaitOnFootAtTarget_468040()
 {
-    u8 bUnknown = 1;
+    bool bUnknown = true;
     if (this->field_240_occupation == ped_ocupation_enum::drone)
     {
         gDistanceToTarget_678750 = kFpZero_678660;
@@ -7933,14 +7933,14 @@ void Ped::GotoAreaOnFoot_468DE0()
 MATCH_FUNC(0x468e80)
 void Ped::UpdateFollowPedObjective_468E80()
 {
-    u8 bTargetDead = 0;
-    u8 bUnknown2 = 1;
+    bool bTargetDead = false;
+    bool bUnknown2 = true;
 
     Ped* pTargetPed = this->field_148_objective_target_ped;
     if (pTargetPed->GetPedState_403990() == ped_state_1::dead_9 &&
         pTargetPed->get_objective_403A80() != objectives_enum::objective_28)
     {
-        bTargetDead = 1;
+        bTargetDead = true;
     }
 
     if (!pTargetPed->IsActive_433B40() || bTargetDead)
@@ -8458,7 +8458,7 @@ void Ped::UpdateGroupMemberFollow_469BD0()
 MATCH_FUNC(0x469bf0)
 void Ped::GuardSpot_469BF0()
 {
-    u8 bUnknown = 1;
+    bool bUnknown = true;
 
     this->field_21C_bf.bFlag22 = true;
 
