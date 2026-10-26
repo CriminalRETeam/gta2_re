@@ -60,7 +60,7 @@ Object_3C::Object_3C()
     this->field_38_conveyor_speed = 0;
     this->field_34 = 2;
     this->field_2E_unused = 0;
-    this->field_2F_bOnSlope = 0;
+    this->field_2F_bOnSlope = false;
 }
 
 MATCH_FUNC(0x52ade0)
@@ -689,7 +689,7 @@ void SpriteList::PruneNonCollidingSprites_5A7240(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x5a72b0)
-void SpriteList::PropagateMaxZLayer_5A72B0(Sprite* pSprite, char_type bAlsoSetSprite)
+void SpriteList::PropagateMaxZLayer_5A72B0(Sprite* pSprite, bool bAlsoSetSprite)
 {
     char start_val = pSprite->ComputeZLayer_5A1BD0();
     char max_val = start_val;

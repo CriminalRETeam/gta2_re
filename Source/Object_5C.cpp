@@ -778,7 +778,7 @@ bool Object::HandleSpriteGroundAndCollision_5235B0(Sprite* pSprite, Fix16_Point*
         {
             Sprite_UpdateZFromSlopeAndTile_522FA0(pSprite);
         }
-        field_10_obj_3c->field_2F_bOnSlope = 1;
+        field_10_obj_3c->field_2F_bOnSlope = true;
     }
     else
     {
@@ -799,7 +799,7 @@ bool Object::HandleSpriteGroundAndCollision_5235B0(Sprite* pSprite, Fix16_Point*
             field_10_obj_3c->field_10_z_speed = kObjectGravity_6F8DA8;
             field_10_obj_3c->field_2A_bAirborne = 1;
         }
-        field_10_obj_3c->field_2F_bOnSlope = 0;
+        field_10_obj_3c->field_2F_bOnSlope = false;
     }
 
     if (pSprite->CheckSpriteMovementRegion_5A2500())
@@ -2589,7 +2589,7 @@ void Object::HandleWaterDeath_528900()
 {
     if (field_10_obj_3c)
     {
-        field_10_obj_3c->field_30_bSkipAnim = 1;
+        field_10_obj_3c->field_30_bSkipAnim = true;
     }
 
     if ((gpRng_67AB34->get_cur_rng_41CFE0() & 3) == 0)

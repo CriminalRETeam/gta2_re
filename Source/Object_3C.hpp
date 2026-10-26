@@ -54,7 +54,7 @@ class SpriteList
     EXPORT s32 GetGangIdxFromSpriteIfAny_5A71A0();
     EXPORT void ExpireAttachedFlames_5A71F0();
     EXPORT void PruneNonCollidingSprites_5A7240(Sprite* pSprite);
-    EXPORT void PropagateMaxZLayer_5A72B0(Sprite* pSprite, char_type bAlsoSetSprite);
+    EXPORT void PropagateMaxZLayer_5A72B0(Sprite* pSprite, bool bAlsoSetSprite);
     EXPORT bool AnySpriteHasSlopeTopInFootprint_5A7310();
 
   public:
@@ -79,8 +79,8 @@ class Object_3C
         field_38_conveyor_speed = 0;
         field_34 = 2;
         field_24_unused = 0;
-        field_2F_bOnSlope = 0;
-        field_30_bSkipAnim = 0;
+        field_2F_bOnSlope = false;
+        field_30_bSkipAnim = false;
     }
 
     // 9.6f 0x482B80
@@ -126,7 +126,7 @@ class Object_3C
     s16 field_2C_unused;
     char_type field_2E_unused;
     char_type field_2F_bOnSlope;
-    u8 field_30_bSkipAnim;
+    bool field_30_bSkipAnim;
     u8 field_31_unused;
     u16 field_32_unused;
     s32 field_34;
