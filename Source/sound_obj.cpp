@@ -180,41 +180,41 @@ bool sound_obj::InitSampleForType_412260(sound_0x68* pObj)
 }
 
 MATCH_FUNC(0x4123A0)
-void sound_obj::ProcessEntity_4123A0(s32 id)
+void sound_obj::ProcessEntity_4123A0(s32 idx)
 {
-    if (!field_147C_audio_entities[id].field_4_pObj->field_4_bStatus)
+    if (!field_147C_audio_entities[idx].field_4_pObj->field_4_bStatus)
     {
         if (gGame_0x40_67E008 && field_1478_type5Idx)
         {
-            if (field_147C_audio_entities[id].field_4_pObj->field_0_object_type == SoundObjectTypeEnum::Radio_3)
+            if (field_147C_audio_entities[idx].field_4_pObj->field_0_object_type == SoundObjectTypeEnum::Radio_3)
             {
                 ProcessType3_CopRadioAndMusic_57DD50();
             }
 
             if (!field_1_isPaused)
             {
-                switch (field_147C_audio_entities[id].field_4_pObj->field_0_object_type)
+                switch (field_147C_audio_entities[idx].field_4_pObj->field_0_object_type)
                 {
                     case SoundObjectTypeEnum::Sprite_1:
-                        ProcessType1_Sprite_412740(id);
+                        ProcessType1_Sprite_412740(idx);
                         break;
                     case SoundObjectTypeEnum::CollisionSoundQueue_6:
-                        ProcessType6_CollisionSoundQueue_413760(id);
+                        ProcessType6_CollisionSoundQueue_413760(idx);
                         break;
                     case SoundObjectTypeEnum::Weapon_30_7:
-                        ProcessType7_Weapon_42A500(id);
+                        ProcessType7_Weapon_42A500(idx);
                         break;
                     case SoundObjectTypeEnum::Crane_15C_8:
-                        ProcessType8_Crane_412820(id);
+                        ProcessType8_Crane_412820(idx);
                         break;
                     case SoundObjectTypeEnum::Crusher_30_9:
-                        ProcessType9_Crusher_412A60(id);
+                        ProcessType9_Crusher_412A60(idx);
                         break;
                     case SoundObjectTypeEnum::Vocals_10:
                         ProcessType10_Vocals_418CA0();
                         break;
                     case SoundObjectTypeEnum::Hud_Pager_C_11:
-                        ProcessType11_HudPager_418B60(id);
+                        ProcessType11_HudPager_418B60(idx);
                         break;
                     default:
                         return;
@@ -222,9 +222,9 @@ void sound_obj::ProcessEntity_4123A0(s32 id)
             }
         }
 
-        if (field_147C_audio_entities[id].field_4_pObj->field_0_object_type == SoundObjectTypeEnum::Unknown_2)
+        if (field_147C_audio_entities[idx].field_4_pObj->field_0_object_type == SoundObjectTypeEnum::Unknown_2)
         {
-            ProcessType2_412490(id);
+            ProcessType2_412490(idx);
         }
     }
 }
@@ -638,9 +638,9 @@ bool sound_obj::Type6_412C90(CollisionEvent* pEvent, u8 base_sample)
 }
 
 MATCH_FUNC(0x412D30)
-bool sound_obj::SelectObjectImpactSound_1_10_412D30(CollisionEvent* pObj)
+bool sound_obj::SelectObjectImpactSound_1_10_412D30(CollisionEvent* pEvent)
 {
-    return SelectObjectImpactSound_413120(pObj, 1);
+    return SelectObjectImpactSound_413120(pEvent, 1);
 }
 
 MATCH_FUNC(0x412D40)
@@ -799,14 +799,14 @@ void sound_obj::Type6_Play_412D90(s32 model)
 }
 
 MATCH_FUNC(0x413000)
-bool sound_obj::Type6_3_413000(CollisionEvent* pObj)
+bool sound_obj::Type6_3_413000(CollisionEvent* pEvent)
 {
-    if ((pObj->field_18_object_model < 200 || pObj->field_18_object_model > 244) &&
-        (pObj->field_18_object_model < 64 || pObj->field_18_object_model > 108))
+    if ((pEvent->field_18_object_model < 200 || pEvent->field_18_object_model > 244) &&
+        (pEvent->field_18_object_model < 64 || pEvent->field_18_object_model > 108))
     {
-        return SelectObjectImpactSound_413120(pObj, 3);
+        return SelectObjectImpactSound_413120(pEvent, 3);
     }
-    Type6_Play_412D90(pObj->field_18_object_model);
+    Type6_Play_412D90(pEvent->field_18_object_model);
     return true;
 }
 

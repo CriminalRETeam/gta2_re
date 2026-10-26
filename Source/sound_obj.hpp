@@ -349,7 +349,7 @@ class sound_obj
 
     EXPORT void FreeSoundEntry_41A090(u32 idx);
     EXPORT bool LoadStyle_41A1B0(const char_type* pStyleName);
-    EXPORT const char_type* GetFileName_41A1E0(const char_type* Str);
+    EXPORT const char_type* GetFileName_41A1E0(const char_type* pStr);
     EXPORT void SetSfxVol_41A250(u8 sfxVol);
     EXPORT void SetCDVol_41A270(u8 cdVol);
     EXPORT bool Set3DSound_41A2F0(char_type b3dSound);
