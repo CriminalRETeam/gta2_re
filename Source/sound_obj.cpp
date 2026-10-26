@@ -5680,7 +5680,7 @@ void sound_obj::ProcessPed_422B70(Sound_Params* pType3Entity)
                 max_dist = 35;
                 break;
 
-            case ped_state_2::Unknown_26:
+            case ped_state_2::knocked_fatal_26:
                 if (!pChar->field_7C_pPed->is_player_41B0A0() && (this->field_30_sQueueSample.field_0_EntityIndex & 1) != 0)
                 {
                     return;

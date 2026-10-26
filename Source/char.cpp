@@ -241,7 +241,7 @@ Char::Char()
     field_5_remap = -1;
     field_6_unused = 0;
     field_8_ped_state_1 = 11;
-    field_C_ped_state_2 = 28;
+    field_C_ped_state_2 = ped_state_2::Unknown_28;
     field_10_char_state = Char_B4_state::Interacting_Car_Door_36;
     field_14_target_rotation = kAng0_6FDB34;
     field_16_state_init_pending = 0;
@@ -328,7 +328,7 @@ void Char::PoolAllocate()
     field_5_remap = -1;
     field_6_unused = 0;
     field_8_ped_state_1 = 11;
-    field_C_ped_state_2 = 28;
+    field_C_ped_state_2 = ped_state_2::Unknown_28;
     field_10_char_state = Char_B4_state::Interacting_Car_Door_36;
     field_14_target_rotation = kAng0_6FDB34;
     field_16_state_init_pending = 0;
@@ -4844,7 +4844,7 @@ LABEL_65:
         {
             if (field_6A_repulsion_timer)
             {
-                if (field_C_ped_state_2 == ped_state_2::Unknown_3)
+                if (field_C_ped_state_2 == ped_state_2::running_away_3)
                 {
                     goto LABEL_82;
                 }
@@ -4856,7 +4856,7 @@ LABEL_65:
                 bSnapRotation = 1;
             }
         }
-        if (field_C_ped_state_2 == ped_state_2::Unknown_3)
+        if (field_C_ped_state_2 == ped_state_2::running_away_3)
         {
         LABEL_82:
             if (field_55_next_tile_timer > 0)
@@ -4884,7 +4884,7 @@ LABEL_65:
             if (!Char::CanReachTile_550090(x_u8, y_u8))
             {
                 field_58_flags_bf.bFlag7 = true;
-                if (field_C_ped_state_2 == ped_state_2::Unknown_3)
+                if (field_C_ped_state_2 == ped_state_2::running_away_3)
                 {
                     Char::ChooseNextMovementTile_551400();
                 }
@@ -5164,7 +5164,7 @@ bool Char::CanStepInDirection_551350(Ang16 ang)
     Fix16 x_pos;
     Fix16 y_pos;
 
-    if (field_C_ped_state_2 == ped_state_2::Unknown_3)
+    if (field_C_ped_state_2 == ped_state_2::running_away_3)
     {
         Ang16::PolarToCartesian_41FC20(ang, kFpHalf_6FDB18, x_pos, y_pos);
     }
@@ -5732,10 +5732,10 @@ void Char::state_7_551CB0()
                 }
             }
             break;
-        case 8:
+        case ped_state_2::carjack_opening_door_8:
             field_6C_animation_state = 9;
             break;
-        case 9:
+        case ped_state_2::carjack_pulling_out_9:
             field_6C_animation_state = 9;
             break;
         default:
@@ -5840,14 +5840,14 @@ void Char::state_8_5520A0()
                 field_46_timer = 10;
                 break;
 
-            case ped_state_2::Unknown_24:
-            case ped_state_2::Unknown_25:
-            case ped_state_2::Unknown_26:
+            case ped_state_2::knocked_recover_24:
+            case ped_state_2::knocked_down_25:
+            case ped_state_2::knocked_fatal_26:
                 if (!field_7C_pPed->field_184_pObj2C)
                 {
                     field_7C_pPed->Kill_46F9D0();
                     Set_F8_ped_state_1_433910(9);
-                    field_C_ped_state_2 = 15;
+                    field_C_ped_state_2 = ped_state_2::ped2_dead_15;
                     field_7C_pPed->field_278_ped_state_1 = ped_state_1::dead_9;
                     field_7C_pPed->field_27C_ped_state_2 = ped_state_2::ped2_dead_15;
                     return;
@@ -5856,7 +5856,7 @@ void Char::state_8_5520A0()
                 {
                     field_7C_pPed->Kill_46F9D0();
                     Set_F8_ped_state_1_433910(9);
-                    field_C_ped_state_2 = 15;
+                    field_C_ped_state_2 = ped_state_2::ped2_dead_15;
                     field_7C_pPed->field_278_ped_state_1 = ped_state_1::dead_9;
                     field_7C_pPed->field_27C_ped_state_2 = ped_state_2::ped2_dead_15;
                     return;
@@ -5865,7 +5865,7 @@ void Char::state_8_5520A0()
                 {
                     field_7C_pPed->Kill_46F9D0();
                     Set_F8_ped_state_1_433910(9);
-                    field_C_ped_state_2 = 15;
+                    field_C_ped_state_2 = ped_state_2::ped2_dead_15;
                     field_7C_pPed->field_278_ped_state_1 = ped_state_1::dead_9;
                     field_7C_pPed->field_27C_ped_state_2 = ped_state_2::ped2_dead_15;
                     return;
@@ -5874,7 +5874,7 @@ void Char::state_8_5520A0()
                 field_80_sprite_ptr->set_xyz_lazy_420600(field_7C_pPed->field_184_pObj2C->field_4_sprite->field_14_xy.x,
                                                          field_7C_pPed->field_184_pObj2C->field_4_sprite->field_14_xy.y,
                                                          field_7C_pPed->field_184_pObj2C->field_4_sprite->field_1C_zpos);
-                if (field_C_ped_state_2 != 24)
+                if (field_C_ped_state_2 != ped_state_2::knocked_recover_24)
                 {
                     field_40_rotation = field_7C_pPed->field_184_pObj2C->field_4_sprite->field_0_rotation;
                 }
@@ -6011,8 +6011,8 @@ void Char::state_8_5520A0()
                                                               field_80_sprite_ptr->field_14_xy.y,
                                                               field_80_sprite_ptr->field_1C_zpos,
                                                               field_80_sprite_ptr->field_0_rotation);
-                    field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::Unknown_25);
-                    field_C_ped_state_2 = 24;
+                    field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::knocked_down_25);
+                    field_C_ped_state_2 = ped_state_2::knocked_recover_24;
                     field_6C_animation_state = 10;
                 }
                 break;
@@ -6063,7 +6063,7 @@ void Char::state_8_5520A0()
                                                                                                      kFP16Zero_6FD9E4);
 
                             field_7C_pPed->ChangeNextPedState1_45C500(ped_state_1::immobilized_8);
-                            field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::Unknown_26);
+                            field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::knocked_fatal_26);
                             // 9.6f: Ped::SetStateInitPending_433B50 here and below (inlined, using it makes the diff worse)
                             field_7C_pPed->field_168_game_object->field_16_state_init_pending = 1;
                             return;
@@ -6090,9 +6090,9 @@ void Char::state_8_5520A0()
                 }
                 break;
 
-            case ped_state_2::Unknown_24:
-            case ped_state_2::Unknown_25:
-            case ped_state_2::Unknown_26:
+            case ped_state_2::knocked_recover_24:
+            case ped_state_2::knocked_down_25:
+            case ped_state_2::knocked_fatal_26:
 
                 if (field_4A > 0)
                 {
@@ -6100,13 +6100,13 @@ void Char::state_8_5520A0()
                 }
                 if (field_4A == 0)
                 {
-                    field_C_ped_state_2 = 26;
+                    field_C_ped_state_2 = ped_state_2::knocked_fatal_26;
                 }
                 if (!field_7C_pPed->field_184_pObj2C)
                 {
                     field_7C_pPed->Kill_46F9D0();
                     Set_F8_ped_state_1_433910(9);
-                    field_C_ped_state_2 = 15;
+                    field_C_ped_state_2 = ped_state_2::ped2_dead_15;
                     field_7C_pPed->field_278_ped_state_1 = ped_state_1::dead_9;
                     field_7C_pPed->field_27C_ped_state_2 = ped_state_2::ped2_dead_15;
                     return;
@@ -6115,19 +6115,19 @@ void Char::state_8_5520A0()
                 {
                     switch (field_C_ped_state_2)
                     {
-                        case 24:
+                        case ped_state_2::knocked_recover_24:
                             field_7C_pPed->RestorePreviousPedState_45C5A0();
                             Set_F8_ped_state_1_433910(field_7C_pPed->field_278_ped_state_1);
                             field_C_ped_state_2 = field_7C_pPed->field_27C_ped_state_2;
                             break;
-                        case 25:
+                        case ped_state_2::knocked_down_25:
                             field_7C_pPed->ChangeNextPedState1_45C500(ped_state_1::immobilized_8);
                             field_7C_pPed->field_27C_ped_state_2 = ped_state_2::lying_on_floor_22;
                             field_7C_pPed->field_168_game_object->field_16_state_init_pending = 1;
                             Set_F8_ped_state_1_433910(8);
                             field_C_ped_state_2 = ped_state_2::lying_on_floor_22;
                             break;
-                        case 26:
+                        case ped_state_2::knocked_fatal_26:
                             field_7C_pPed->RestorePreviousPedState_45C5A0();
                             field_7C_pPed->Kill_46F9D0();
                             field_7C_pPed->SetVoiceEventIfNotOnFire_433DD0(27);
@@ -6168,7 +6168,7 @@ void Char::state_8_5520A0()
                     pAttachSprite = field_7C_pPed->field_184_pObj2C->field_4_sprite;
                     field_80_sprite_ptr->set_xyz_lazy_420600(pAttachSprite->field_14_xy.x, pAttachSprite->field_14_xy.y, pAttachSprite->field_1C_zpos);
 
-                    if (field_C_ped_state_2 != 24)
+                    if (field_C_ped_state_2 != ped_state_2::knocked_recover_24)
                     {
                         field_40_rotation = field_7C_pPed->field_184_pObj2C->field_4_sprite->field_0_rotation;
                     }
@@ -6214,7 +6214,7 @@ void Char::state_8_5520A0()
                     }
                     field_7C_pPed->Kill_46F9D0();
                     Set_F8_ped_state_1_433910(9);
-                    field_C_ped_state_2 = 15;
+                    field_C_ped_state_2 = ped_state_2::ped2_dead_15;
                     field_6C_animation_state = 21;
                     field_10_char_state = 1;
                 }
@@ -6432,17 +6432,17 @@ bool Char::ShouldCollideWithSprite_553340(Sprite* pSprite)
     {
         case ped_state_2::ped2_entering_a_car_6:
         case ped_state_2::ped2_getting_out_a_car_7:
-        case 9:
+        case ped_state_2::carjack_pulling_out_9:
         case ped_state_2::ped2_driving_10:
-        case 17:
+        case ped_state_2::ped2_at_car_door_17:
         case ped_state_2::falling_19:
-        case 24:
-        case 25:
-        case 26:
+        case ped_state_2::knocked_recover_24:
+        case ped_state_2::knocked_down_25:
+        case ped_state_2::knocked_fatal_26:
         case ped_state_2::electrocuted_27:
             return 0;
 
-        case 8:
+        case ped_state_2::carjack_opening_door_8:
             if (pSprite == 0)
             {
                 return 1;
@@ -6651,8 +6651,8 @@ void Char::HandleCarImpact_5538A0(Car* pCar, u8 bUnknown, Fix16 x, Fix16 y)
                 this->field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_10_z_speed = kFP16Zero_6FD9E4;
                 this->field_7C_pPed->field_184_pObj2C->SetDamageOwner_529080(this->field_7C_pPed->field_267_ped_ref_idx);
                 this->field_7C_pPed->ChangeNextPedState1_45C500(ped_state_1::immobilized_8);
-                this->field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::Unknown_24);
-                this->field_C_ped_state_2 = ped_state_2::Unknown_24;
+                this->field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::knocked_recover_24);
+                this->field_C_ped_state_2 = ped_state_2::knocked_recover_24;
             }
         }
         else if (this->field_7C_pPed->PedTypeIs_45EDE0(ped_type::dummy_3))
@@ -6681,18 +6681,18 @@ void Char::HandleCarImpact_5538A0(Car* pCar, u8 bUnknown, Fix16 x, Fix16 y)
 
                     if (this->field_7C_pPed->field_208_invulnerability > 0)
                     {
-                        this->field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::Unknown_24);
+                        this->field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::knocked_recover_24);
                     }
                     else if (pCar->field_7C_ped_type == ped_type::player_2)
                     {
-                        this->field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::Unknown_26);
+                        this->field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::knocked_fatal_26);
                     }
                     else
                     {
-                        this->field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::Unknown_25);
+                        this->field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::knocked_down_25);
                     }
 
-                    this->field_C_ped_state_2 = ped_state_2::Unknown_24;
+                    this->field_C_ped_state_2 = ped_state_2::knocked_recover_24;
 
                     gParticle_8_6FD5E8->EmitBloodBurst_53E450(this->field_80_sprite_ptr->field_14_xy.x,
                                                               this->field_80_sprite_ptr->field_14_xy.y,
@@ -6716,14 +6716,14 @@ void Char::HandleCarImpact_5538A0(Car* pCar, u8 bUnknown, Fix16 x, Fix16 y)
                     this->field_7C_pPed->field_184_pObj2C->SetDamageOwner_529080(this->field_7C_pPed->field_267_ped_ref_idx);
                     if (field_7C_pPed->field_208_invulnerability > 0)
                     {
-                        field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::Unknown_24);
+                        field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::knocked_recover_24);
                     }
                     else
                     {
-                        field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::Unknown_25);
+                        field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::knocked_down_25);
                     }
 
-                    this->field_C_ped_state_2 = ped_state_2::Unknown_24;
+                    this->field_C_ped_state_2 = ped_state_2::knocked_recover_24;
                 }
                 else
                 {
@@ -6743,8 +6743,8 @@ void Char::HandleCarImpact_5538A0(Car* pCar, u8 bUnknown, Fix16 x, Fix16 y)
                 this->field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_10_z_speed = kFP16Zero_6FD9E4;
                 this->field_7C_pPed->field_184_pObj2C->SetDamageOwner_529080(this->field_7C_pPed->field_267_ped_ref_idx);
                 this->field_7C_pPed->ChangeNextPedState1_45C500(ped_state_1::immobilized_8);
-                this->field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::Unknown_24);
-                this->field_C_ped_state_2 = ped_state_2::Unknown_24;
+                this->field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::knocked_recover_24);
+                this->field_C_ped_state_2 = ped_state_2::knocked_recover_24;
             }
             else
             {
@@ -6791,8 +6791,8 @@ void Char::HandleGenericImpact_553E00(Ang16 ang, Fix16 impact_x, Fix16 impact_z,
         {
             case 0:
                 field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_10_z_speed = kFP16Zero_6FD9E4;
-                field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::Unknown_24);
-                field_C_ped_state_2 = ped_state_2::Unknown_24;
+                field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::knocked_recover_24);
+                field_C_ped_state_2 = ped_state_2::knocked_recover_24;
                 break;
 
             case 1:
@@ -6800,21 +6800,21 @@ void Char::HandleGenericImpact_553E00(Ang16 ang, Fix16 impact_x, Fix16 impact_z,
                 if (field_7C_pPed->field_208_invulnerability > 0)
                 {
 
-                    field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::Unknown_24);
+                    field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::knocked_recover_24);
                 }
                 else
                 {
                     if (field_7C_pPed->PedTypeIs_45EDE0(ped_type::player_2))
                     {
-                        field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::Unknown_25);
+                        field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::knocked_down_25);
                     }
                     else
                     {
-                        field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::Unknown_26);
+                        field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::knocked_fatal_26);
                     }
                 }
 
-                this->field_C_ped_state_2 = ped_state_2::Unknown_24;
+                this->field_C_ped_state_2 = ped_state_2::knocked_recover_24;
                 gParticle_8_6FD5E8->EmitBloodBurst_53E450(this->field_80_sprite_ptr->field_14_xy.x,
                                                           this->field_80_sprite_ptr->field_14_xy.y,
                                                           this->field_80_sprite_ptr->field_1C_zpos,
@@ -6825,14 +6825,14 @@ void Char::HandleGenericImpact_553E00(Ang16 ang, Fix16 impact_x, Fix16 impact_z,
                 field_7C_pPed->field_184_pObj2C->field_10_obj_3c->field_10_z_speed = impact_z;
                 if (field_7C_pPed->field_208_invulnerability > 0)
                 {
-                    field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::Unknown_24);
+                    field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::knocked_recover_24);
                 }
                 else
                 {
-                    field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::Unknown_26);
+                    field_7C_pPed->ChangeNextPedState2_45C540(ped_state_2::knocked_fatal_26);
                 }
 
-                this->field_C_ped_state_2 = ped_state_2::Unknown_24;
+                this->field_C_ped_state_2 = ped_state_2::knocked_recover_24;
                 gParticle_8_6FD5E8->EmitBloodBurst_53E450(this->field_80_sprite_ptr->field_14_xy.x,
                                                           this->field_80_sprite_ptr->field_14_xy.y,
                                                           this->field_80_sprite_ptr->field_1C_zpos,

@@ -449,14 +449,14 @@ enum
 {
     ped2_walking_0 = 0,
     Unknown_1 = 1,
-    Unknown_2 = 2,
-    Unknown_3 = 3,
+    running_to_target_2 = 2, // with flee_or_running_1, facing the move target
+    running_away_3 = 3, // with flee_or_running_1, facing away from the move target
     ped2_following_a_car_4 = 4,
-    Unknown_5 = 5,
+    entering_train_5 = 5, // with ped_state_1::entering_train_5
     ped2_entering_a_car_6 = 6,
     ped2_getting_out_a_car_7 = 7,
-    Unknown_8 = 8,
-    Unknown_9 = 9,
+    carjack_opening_door_8 = 8, // Ped::PullDriverOutOfCarStateMachine_46B2F0
+    carjack_pulling_out_9 = 9, // then closes the door and goes to ped2_staying_14
     ped2_driving_10 = 10,
     ped2_staying_14 = 14,
     ped2_dead_15 = 15, // with ped_state_1::dead_9 (Ped::Kill_46F9D0)
@@ -468,9 +468,9 @@ enum
     Unknown_21 = 21,
     lying_on_floor_22 = 22,
     Unknown_23 = 23,
-    Unknown_24 = 24,
-    Unknown_25 = 25,
-    Unknown_26 = 26,
+    knocked_recover_24 = 24, // 24-26: pushed by a car or blast; when it stops, 24 restores the previous state,
+    knocked_down_25 = 25, // 25 goes to lying_on_floor_22,
+    knocked_fatal_26 = 26, // and 26 kills the ped
     electrocuted_27 = 27,
     Unknown_28 = 28,
     ped2_respawned_29 = 29, // Ped::RespawnPed_45C350; a player in it has its wanted level cleared
