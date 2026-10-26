@@ -747,10 +747,10 @@ class Ped
     {
         if (field_21C_bf.bInvisible && field_168_game_object != 0)
         {
-            return 1;
+            return true;
         }
 
-        return 0;
+        return false;
     }
 
     bool bHasGameObject_403B70()

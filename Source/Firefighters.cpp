@@ -28,7 +28,7 @@ bool Firefighter::CheckAbortConditions_4A7FC0()
     if (!field_1C_car->field_58_physics)
     {
         Firefighter::deinit_4A81A0();
-        return 0;
+        return false;
     }
 
     if (field_1C_car->field_58_physics->get_car_velocity_4211C0() == kFpZero_67D378)
@@ -36,7 +36,7 @@ bool Firefighter::CheckAbortConditions_4A7FC0()
         if (++field_24_next_state_timer >= 1000)
         {
             Firefighter::deinit_4A81A0();
-            return 0;
+            return false;
         }
     }
     else
@@ -109,7 +109,7 @@ bool Firefighter::CheckAbortConditions_4A7FC0()
     {
         Firefighter::deinit_4A81A0();
     }
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x4a81a0)
@@ -381,17 +381,17 @@ bool FirefighterPool::TryDispatchFirefightersToCar_4A8820(Car* pCar)
 {
     if (!pCar)
     {
-        return 0;
+        return false;
     }
     const s32 despawn_status = pCar->field_88_despawn_status;
     if (despawn_status == car_despawn_status::despawned_6 || despawn_status == car_despawn_status::deactivated_7 || despawn_status == car_despawn_status::despawning_5)
     {
-        return 0;
+        return false;
     }
 
     if (pCar->IsTrainModel_403BA0())
     {
-        return 0;
+        return false;
     }
 
     Firefighter* pFoundCar =
@@ -399,10 +399,10 @@ bool FirefighterPool::TryDispatchFirefightersToCar_4A8820(Car* pCar)
 
     if (!pFoundCar)
     {
-        return 0;
+        return false;
     }
     pFoundCar->field_C_target_car = pCar;
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x4A8890)
@@ -414,12 +414,12 @@ bool FirefighterPool::IsFireEngineSentToCar_4A8890(Car* pFireEngine, Car* pTarge
     {
         if (p && p->field_C_target_car == pTargetCar && p->field_1C_car == pFireEngine)
         {
-            return 1;
+            return true;
         }
         p++;
         i++;
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x4a88d0)

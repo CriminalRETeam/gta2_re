@@ -118,7 +118,7 @@ void SpriteGrid::DebugLogAll_477BA0()
 MATCH_FUNC(0x477bd0)
 bool SpriteGrid::CheckAndHandleCollisionInStrips_477BD0(Sprite* pSprite)
 {
-    bool bHit = 0;
+    bool bHit = false;
 
     gCollisionCounters_6791FC->field_4_query_id++; // TODO: Prob an inline
 
@@ -136,7 +136,7 @@ MATCH_FUNC(0x477c30)
 bool SpriteGrid::CheckAndHandleAllCollisionsForSprite_477C30(Sprite* pSprite, s32 sprite_type_filter)
 {
     gSpriteGrid_sprite_type_filter_678FA8 = sprite_type_filter;
-    bool bHit = 0;
+    bool bHit = false;
     ++gCollisionCounters_6791FC->field_4_query_id;
     pSprite->UpdateCollisionBoundsIfNeeded_59E9C0();
     pSprite->field_C_pCollisionShape->SetCurrentRect_5A4D90();
@@ -680,7 +680,7 @@ MATCH_FUNC(0x4785d0)
 bool SpriteGrid::CheckRowForRectCollisions_4785D0(u32 y_pos, Fix16_Rect* pRect)
 {
     GridCell* pXItemIter = GetFirstXCellInRow_478590(y_pos);
-    bool bRet = 0;
+    bool bRet = false;
     while (pXItemIter)
     {
         if (pXItemIter->field_0_x > gSpriteGrid_right_6F5B80)
@@ -706,14 +706,14 @@ bool SpriteGrid::CheckRowForRectCollisions_4785D0(u32 y_pos, Fix16_Rect* pRect)
                 {
                     if (gSpriteGrid_list_679214)
                     {
-                        bRet = 1;
+                        bRet = true;
                         // Add to list and keep going to add more
                         gSpriteGrid_list_679214->AddSprite_5A6CD0(pObj->field_0_pSprite);
                     }
                     else
                     {
                         // No list so stop here
-                        return 1;
+                        return true;
                     }
                 }
 
@@ -729,7 +729,7 @@ bool SpriteGrid::CheckRowForRectCollisions_4785D0(u32 y_pos, Fix16_Rect* pRect)
 MATCH_FUNC(0x478750)
 bool SpriteGrid::CheckAndHandleCollisionsInStrip_478750(u32 y_pos, Sprite* pSprite)
 {
-    bool bRet = 0;
+    bool bRet = false;
     GridCell* pIter = GetFirstXCellInRow_478590(y_pos);
     while (pIter)
     {
@@ -745,7 +745,7 @@ bool SpriteGrid::CheckAndHandleCollisionsInStrip_478750(u32 y_pos, Sprite* pSpri
                 gCollisionCounters_6791FC->field_0_test_count++;
                 if (pSprite->CollisionCheck_59E590(pLinkIter->field_0_pSprite))
                 {
-                    bRet = 1;
+                    bRet = true;
                     pLinkIter->field_0_pSprite->HandleObjectCollision_59E8C0(pSprite);
                 }
                 pLinkIter->field_0_pSprite->field_C_pCollisionShape->SetCollisionId_446920(gCollisionCounters_6791FC->field_4_query_id);

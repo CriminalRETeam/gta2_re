@@ -434,7 +434,7 @@ bool CarAI::TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBlock)
                     if ((pBlock->field_A_arrows & block_arrow::green_right_2) && ComputeShortestAngleDelta_4056C0(kAng90_6779E4, angle) > kAng45_677A38)
                     {
                         field_44_target_direction = car_ai_target_direction::eastwards_3;
-                        return 1;
+                        return true;
                     }
                 }
                 else
@@ -442,7 +442,7 @@ bool CarAI::TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBlock)
                     if ((pBlock->field_A_arrows & block_arrow::green_left_1) && ComputeShortestAngleDelta_4056C0(kAng270_677B08, angle) > kAng45_677A38)
                     {
                         field_44_target_direction = car_ai_target_direction::westwards_4;
-                        return 1;
+                        return true;
                     }
                 }
             }
@@ -451,23 +451,23 @@ bool CarAI::TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBlock)
             {
                 if (ComputeShortestAngleDelta_4056C0(kAng270_677B08, angle) <= kAng45_677A38)
                 {
-                    return 0;
+                    return false;
                 }
                 field_44_target_direction = car_ai_target_direction::westwards_4;
-                return 1;
+                return true;
             }
 
             if ((pBlock->field_A_arrows & block_arrow::green_mask) != block_arrow::green_right_2)
             {
-                return 0;
+                return false;
             }
 
             if (ComputeShortestAngleDelta_4056C0(kAng90_6779E4, angle) <= kAng45_677A38)
             {
-                return 0;
+                return false;
             }
             field_44_target_direction = car_ai_target_direction::eastwards_3;
-            return 1;
+            return true;
 
         case car_ai_direction::south_2:
             if (field_0_car->IsTurnLeft_42AC30() || field_0_car->IsTurnRight_42AC20())
@@ -479,7 +479,7 @@ bool CarAI::TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBlock)
                         if ((pBlock->field_A_arrows & block_arrow::left_mask) && ComputeShortestAngleDelta_4056C0(kAng270_677B08, angle) > kAng45_677A38)
                         {
                             field_44_target_direction = car_ai_target_direction::westwards_4;
-                            return 1;
+                            return true;
                         }
                     }
                     else
@@ -487,7 +487,7 @@ bool CarAI::TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBlock)
                         if ((pBlock->field_A_arrows & block_arrow::green_left_1) && ComputeShortestAngleDelta_4056C0(kAng270_677B08, angle) > kAng45_677A38)
                         {
                             field_44_target_direction = car_ai_target_direction::westwards_4;
-                            return 1;
+                            return true;
                         }
                     }
                 }
@@ -499,7 +499,7 @@ bool CarAI::TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBlock)
                         if ((pBlock->field_A_arrows & block_arrow::right_mask) && ComputeShortestAngleDelta_4056C0(kAng270_677B08, angle) > kAng45_677A38)
                         {
                             field_44_target_direction = car_ai_target_direction::eastwards_3;
-                            return 1;
+                            return true;
                         }
                     }
                     else
@@ -507,7 +507,7 @@ bool CarAI::TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBlock)
                         if ((pBlock->field_A_arrows & block_arrow::green_right_2) && ComputeShortestAngleDelta_4056C0(kAng90_6779E4, angle) > kAng45_677A38)
                         {
                             field_44_target_direction = car_ai_target_direction::eastwards_3;
-                            return 1;
+                            return true;
                         }
                     }
                 }
@@ -519,28 +519,28 @@ bool CarAI::TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBlock)
                 {
                     if (ComputeShortestAngleDelta_4056C0(kAng270_677B08, angle) <= kAng45_677A38)
                     {
-                        return 0;
+                        return false;
                     }
                     field_44_target_direction = car_ai_target_direction::westwards_4;
-                    return 1;
+                    return true;
                 }
 
                 if ((pBlock->field_A_arrows & block_arrow::red_mask) != block_arrow::red_right_20)
                 {
-                    return 0;
+                    return false;
                 }
 
                 if (ComputeShortestAngleDelta_4056C0(kAng90_6779E4, angle) <= kAng45_677A38)
                 {
-                    return 0;
+                    return false;
                 }
                 field_44_target_direction = car_ai_target_direction::eastwards_3;
-                return 1;
+                return true;
             }
 
             if (!(pBlock->field_A_arrows & block_arrow::green_mask) || (pBlock->field_A_arrows & block_arrow::red_mask))
             {
-                return 0;
+                return false;
             }
 
             if ((pBlock->field_A_arrows & block_arrow::green_mask) == block_arrow::green_left_1)
@@ -548,7 +548,7 @@ bool CarAI::TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBlock)
                 if (ComputeShortestAngleDelta_4056C0(kAng270_677B08, angle) > kAng45_677A38)
                 {
                     field_44_target_direction = car_ai_target_direction::westwards_4;
-                    return 1;
+                    return true;
                 }
             }
             else if ((pBlock->field_A_arrows & block_arrow::green_mask) == block_arrow::green_right_2)
@@ -556,10 +556,10 @@ bool CarAI::TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBlock)
                 if (ComputeShortestAngleDelta_4056C0(kAng90_6779E4, angle) > kAng45_677A38)
                 {
                     field_44_target_direction = car_ai_target_direction::eastwards_3;
-                    return 1;
+                    return true;
                 }
             }
-            return 0;
+            return false;
 
         case car_ai_direction::west_4:
             if (field_0_car->IsTurnLeft_42AC30() || field_0_car->IsTurnRight_42AC20())
@@ -569,7 +569,7 @@ bool CarAI::TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBlock)
                     if ((pBlock->field_A_arrows & block_arrow::green_up_4) && ComputeShortestAngleDelta_4056C0(kAng180_677ADE, angle) > kAng45_677A38)
                     {
                         field_44_target_direction = car_ai_target_direction::northwards_1;
-                        return 1;
+                        return true;
                     }
                 }
                 else
@@ -577,7 +577,7 @@ bool CarAI::TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBlock)
                     if ((pBlock->field_A_arrows & block_arrow::green_down_8) && ComputeShortestAngleDelta_4056C0(kAng0_677CE8, angle) > kAng45_677A38)
                     {
                         field_44_target_direction = car_ai_target_direction::southwards_2;
-                        return 1;
+                        return true;
                     }
                 }
             }
@@ -587,7 +587,7 @@ bool CarAI::TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBlock)
                 if (ComputeShortestAngleDelta_4056C0(kAng0_677CE8, angle) > kAng45_677A38)
                 {
                     field_44_target_direction = car_ai_target_direction::southwards_2;
-                    return 1;
+                    return true;
                 }
             }
             else if ((pBlock->field_A_arrows & block_arrow::green_mask) == block_arrow::green_up_4)
@@ -595,10 +595,10 @@ bool CarAI::TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBlock)
                 if (ComputeShortestAngleDelta_4056C0(kAng180_677ADE, angle) > kAng45_677A38)
                 {
                     field_44_target_direction = car_ai_target_direction::northwards_1;
-                    return 1;
+                    return true;
                 }
             }
-            return 0;
+            return false;
 
         case car_ai_direction::east_3:
             if (field_0_car->IsTurnLeft_42AC30() || field_0_car->IsTurnRight_42AC20())
@@ -608,7 +608,7 @@ bool CarAI::TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBlock)
                     if ((pBlock->field_A_arrows & block_arrow::green_down_8) && ComputeShortestAngleDelta_4056C0(kAng0_677CE8, angle) > kAng45_677A38)
                     {
                         field_44_target_direction = car_ai_target_direction::southwards_2;
-                        return 1;
+                        return true;
                     }
                 }
                 else
@@ -616,7 +616,7 @@ bool CarAI::TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBlock)
                     if ((pBlock->field_A_arrows & block_arrow::green_up_4) && ComputeShortestAngleDelta_4056C0(kAng180_677ADE, angle) > kAng45_677A38)
                     {
                         field_44_target_direction = car_ai_target_direction::northwards_1;
-                        return 1;
+                        return true;
                     }
                 }
             }
@@ -626,7 +626,7 @@ bool CarAI::TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBlock)
                 if (ComputeShortestAngleDelta_4056C0(kAng0_677CE8, angle) > kAng45_677A38)
                 {
                     field_44_target_direction = car_ai_target_direction::southwards_2;
-                    return 1;
+                    return true;
                 }
             }
             else if ((pBlock->field_A_arrows & block_arrow::green_mask) == block_arrow::green_up_4)
@@ -634,12 +634,12 @@ bool CarAI::TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBlock)
                 if (ComputeShortestAngleDelta_4056C0(kAng180_677ADE, angle) > kAng45_677A38)
                 {
                     field_44_target_direction = car_ai_target_direction::northwards_1;
-                    return 1;
+                    return true;
                 }
             }
-            return 0;
+            return false;
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x448270)
@@ -1662,7 +1662,7 @@ void CarAI::FollowRoadDirection_44A1F0()
                                                            (field_0_car->field_50_car_sprite->field_1C_zpos.ToInt()) - 1);
     }
 
-    s32 road_direction = pBlockAtPos ? gMap_0x370_6F6268->GetArrowDirectionFromBlock_4E5FC0(pBlockAtPos, 1) : 0;
+    s32 road_direction = pBlockAtPos ? gMap_0x370_6F6268->GetArrowDirectionFromBlock_4E5FC0(pBlockAtPos, true) : 0;
     if (road_direction && field_3C_seeking_road)
     {
         field_3C_seeking_road = 0;
@@ -1986,7 +1986,7 @@ void CarAI::FollowRoadDirection_44A1F0()
                     {
                         pBlock = gMap_0x370_6F6268->GetBlock_4DFE10(xpos.ToInt(), ypos.ToInt(), zpos.ToInt() - 1);
                     }
-                    if (pBlock && gMap_0x370_6F6268->GetArrowDirectionFromBlock_4E5FC0(pBlock, 1))
+                    if (pBlock && gMap_0x370_6F6268->GetArrowDirectionFromBlock_4E5FC0(pBlock, true))
                     {
                         field_24_flags &= ~0xC0;
                         switch (k)
@@ -2905,7 +2905,7 @@ void CarAI::UpdateChase_44E0C0()
             pBlock = gMap_0x370_6F6268->GetBlock_4DFE10(gCurrCarAI_TargetX_6779F0.ToInt(), gCurrCarAI_TargetY_6779F4.ToInt(), target_block_z.ToInt());
         }
 
-        if (!pBlock || !static_cast<u8>(gMap_0x370_6F6268->GetArrowDirectionFromBlock_4E5FC0(pBlock, 1)))
+        if (!pBlock || !static_cast<u8>(gMap_0x370_6F6268->GetArrowDirectionFromBlock_4E5FC0(pBlock, true)))
         {
             t_x = gCurrCarAI_TargetX_6779F0.ToInt();
             t_y = gCurrCarAI_TargetY_6779F4.ToInt();
@@ -2944,7 +2944,7 @@ void CarAI::UpdateChase_44E0C0()
             }
             if (pBlock_)
             {
-                gMap_0x370_6F6268->GetArrowDirectionFromBlock_4E5FC0(pBlock_, 1);
+                gMap_0x370_6F6268->GetArrowDirectionFromBlock_4E5FC0(pBlock_, true);
             }
         }
 
@@ -4109,7 +4109,7 @@ void CarAI::ReactToNearbyCar_451980()
     {
         if (gCurrCarAI_IsChasing_677BBC || field_24_bf.bFlag21)
         {
-            flag1 = 1;
+            flag1 = true;
         }
         if (pCar->field_7C_ped_type == ped_type::player_2)
         {
@@ -4117,23 +4117,23 @@ void CarAI::ReactToNearbyCar_451980()
         }
         else if (ComputeShortestAngleDelta_4056C0(pCar->field_50_car_sprite->field_0_rotation, field_0_car->field_50_car_sprite->field_0_rotation) > kAng45_677A38)
         {
-            flag1 = 1;
+            flag1 = true;
         }
         if (bEmergencyDriver)
         {
-            flag1 = 0;
+            flag1 = false;
         }
     }
     else
     {
         if (dist_to_target > near_dist)
         {
-            flag1 = 1;
+            flag1 = true;
             if (ComputeShortestAngleDelta_4056C0(pCar->field_50_car_sprite->field_0_rotation, field_0_car->field_50_car_sprite->field_0_rotation) > kAng90_6779E4)
             {
                 if (field_24_bf.bFlag21)
                 {
-                    flag1 = 1;
+                    flag1 = true;
                 }
                 else
                 {
@@ -4185,7 +4185,7 @@ void CarAI::ReactToNearbyCar_451980()
             }
             else if (field_24_bf.bFlag21)
             {
-                flag1 = 1;
+                flag1 = true;
             }
             else
             {
@@ -4197,7 +4197,7 @@ void CarAI::ReactToNearbyCar_451980()
         {
             if (field_24_bf.bFlag21)
             {
-                flag1 = 1;
+                flag1 = true;
             }
             else
             {
@@ -4210,12 +4210,12 @@ void CarAI::ReactToNearbyCar_451980()
         {
             if (ComputeShortestAngleDelta_4056C0(pCar->field_50_car_sprite->field_0_rotation, field_0_car->field_50_car_sprite->field_0_rotation) > kAng90_6779E4)
             {
-                flag1 = 1;
+                flag1 = true;
             }
 
             if ((field_24_flags & 0x20000) == 0x20000)
             {
-                flag1 = 1;
+                flag1 = true;
             }
         }
     }
@@ -4899,7 +4899,7 @@ void CarAI::UpdateDrivingAI_452DF0()
 
     if (pBlock)
     {
-        gCurrCarAI_ArrowDirection_677C06 = gMap_0x370_6F6268->GetArrowDirectionFromBlock_4E5FC0(pBlock, 1);
+        gCurrCarAI_ArrowDirection_677C06 = gMap_0x370_6F6268->GetArrowDirectionFromBlock_4E5FC0(pBlock, true);
     }
     else
     {

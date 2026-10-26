@@ -233,11 +233,11 @@ bool SpriteList::TagSpriteWithRng_5A6C10(Sprite* toFind)
             if (pNext->field_0_pSprite == toFind)
             {
                 pNext->field_14_rng = gpRng_67AB34->get_cur_rng_41CFE0();
-                return 1;
+                return true;
             }
         }
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x5a6c40)
@@ -339,11 +339,11 @@ bool SpriteList::SpriteExists_5A6D80(Sprite* pToFind)
     {
         if (pIter->field_0_pSprite == pToFind)
         {
-            return 1;
+            return true;
         }
         pIter = pIter->mpNext;
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x5a6da0)
@@ -726,8 +726,8 @@ bool SpriteList::AnySpriteHasSlopeTopInFootprint_5A7310()
     {
         if (pIter->field_0_pSprite->CheckSlopeTopInFootprint_5A1A60())
         {
-            return 1;
+            return true;
         }
     }
-    return 0;
+    return false;
 }

@@ -81,7 +81,7 @@ void Police::Init_56F400()
     field_7AC_roadblock_cooldown = 100;
     field_7AD_police_peds_in_range_screen = 0;
     field_7B0_last_firing_emergency_ped = 0;
-    field_7B4_crew_ped_onscreen = 0;
+    field_7B4_crew_ped_onscreen = false;
 }
 
 MATCH_FUNC(0x56f4d0)
@@ -768,7 +768,7 @@ void Police::UpdatePursuitTargets_56FBD0()
 MATCH_FUNC(0x570270)
 void Police::Service_570270()
 {
-    field_7B4_crew_ped_onscreen = 0;
+    field_7B4_crew_ped_onscreen = false;
     field_654_max_wanted_level = cop_level_enum::none_0;
 
     if (bHaveCriminals_6FEE44 == 1)

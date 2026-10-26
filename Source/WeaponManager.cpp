@@ -88,7 +88,7 @@ bool WeaponManager::allocate_5E3D50(s32 weapon_kind, u8 ammo, Car* pCar)
     else
     {
         pWeapon = allocate_5E3CE0(weapon_kind, pCar, ammo);
-        bAddedAmmo = 1;
+        bAddedAmmo = true;
     }
 
     if (bAddedAmmo)

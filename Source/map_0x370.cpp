@@ -1674,13 +1674,13 @@ bool Map_0x370::RectHitsDiagonalWall_4E11E0(Fix16_Rect* pRect)
 
                     if (pRect->EdgesCrossSegment_463690(p1, p2))
                     {
-                        return 1;
+                        return true;
                     }
                 }
             }
         }
     }
-    return 0;
+    return false;
 }
 
 // https://decomp.me/scratch/jaBFe
@@ -3015,7 +3015,7 @@ bool Map_0x370::IsProbePathClear_4E5640(Fix16 width, Fix16 height, Fix16 depth, 
 
             if (pProbe->CheckSpriteMovementRegion_5A2500())
             {
-                return 0;
+                return false;
             }
         }
         else
@@ -3029,7 +3029,7 @@ bool Map_0x370::IsProbePathClear_4E5640(Fix16 width, Fix16 height, Fix16 depth, 
                 Fix16 new_z = pProbe->field_1C_zpos;
                 if (new_z > kFpSeven_6F6128)
                 {
-                    return 0;
+                    return false;
                 }
 
                 if (!(pProbe->field_1C_zpos < kFpSeven_6F6128) ||
@@ -3041,7 +3041,7 @@ bool Map_0x370::IsProbePathClear_4E5640(Fix16 width, Fix16 height, Fix16 depth, 
                                                                      pProbe->field_14_xy.y.ToInt(),
                                                                      pProbe->field_1C_zpos.ToInt()))
                     {
-                        return 0;
+                        return false;
                     }
                 }
 
@@ -3049,7 +3049,7 @@ bool Map_0x370::IsProbePathClear_4E5640(Fix16 width, Fix16 height, Fix16 depth, 
 
                 if (pProbe->CheckSpriteMovementRegion_5A2500())
                 {
-                    return 0;
+                    return false;
                 }
             }
             else
@@ -3072,24 +3072,24 @@ bool Map_0x370::IsProbePathClear_4E5640(Fix16 width, Fix16 height, Fix16 depth, 
                                                                             pProbe->field_1C_zpos);
                         if (ground_z > pProbe->field_1C_zpos)
                         {
-                            return 0;
+                            return false;
                         }
                     }
                 }
                 else if (ground_z > pProbe->field_1C_zpos)
                 {
                     pProbe->set_xyz_lazy_420600(pProbe->field_14_xy.x, pProbe->field_14_xy.y, ground_z);
-                    return 0;
+                    return false;
                 }
 
                 if (pProbe->CheckSpriteMovementRegion_5A2500())
                 {
-                    return 0;
+                    return false;
                 }
             }
         }
     }
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x4E5B30)
@@ -3552,10 +3552,10 @@ s32 Map_0x370::AdvanceAlongRailway_4E6660(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16
     Fix16 to_centre;
 
     Fix16 z = *pZ;
-    SnapZToRailway_4E65A0(x, y, &z, 1, 0);
+    SnapZToRailway_4E65A0(x, y, &z, true, false);
     gmp_block_info* pBlock;
     SET_ROAD_BLOCK_AT(pBlock, x, y, z);
-    s32 direction = GetArrowDirectionFromBlock_4E5FC0(pBlock, 1);
+    s32 direction = GetArrowDirectionFromBlock_4E5FC0(pBlock, true);
 
     Fix16 side;
     side = GetLateralOffsetInBlock_4E5D70(x, y, ReturnAngleFromRoadDirection_4F7940(direction));
@@ -3606,7 +3606,7 @@ s32 Map_0x370::AdvanceAlongRailway_4E6660(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16
             {
                 MovePosAlongDirection_4E5D10(&x, &y, to_centre, direction);
                 dist -= to_centre;
-                direction = GetArrowDirectionFromBlock_4E5FC0(pBlock, 1);
+                direction = GetArrowDirectionFromBlock_4E5FC0(pBlock, true);
                 if (dist >= kFpHalf_6F5F18)
                 {
                     pPrev = pBlock;
@@ -3620,7 +3620,7 @@ s32 Map_0x370::AdvanceAlongRailway_4E6660(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16
                     SET_ROAD_BLOCK_AT(pBlock, x, y, z);
                     if (pBlock != pPrev)
                     {
-                        SnapZToRailway_4E65A0(x, y, &z, 1, 0);
+                        SnapZToRailway_4E65A0(x, y, &z, true, false);
                         SET_ROAD_BLOCK_AT(pBlock, x, y, z);
                     }
                 }
@@ -3644,7 +3644,7 @@ s32 Map_0x370::AdvanceAlongRailway_4E6660(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16
         to_edge = GetForwardOffsetInBlock_4E5E00(x, y, ReturnAngleFromRoadDirection_4F7940(direction));
         if (to_edge > kFpZero_6F610C)
         {
-            SnapZToRailway_4E65A0(x, y, &z, 1, 1);
+            SnapZToRailway_4E65A0(x, y, &z, true, true);
             pPrev = pBlock;
             MovePosAlongDirection_4E5D10(&x,
                        &y,
@@ -3660,12 +3660,12 @@ s32 Map_0x370::AdvanceAlongRailway_4E6660(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16
             SET_ROAD_BLOCK_AT(pBlock, x, y, z);
             if (pBlock != pPrev)
             {
-                SnapZToRailway_4E65A0(x, y, &z, 1, 0);
+                SnapZToRailway_4E65A0(x, y, &z, true, false);
                 SET_ROAD_BLOCK_AT(pBlock, x, y, z);
             }
             else
             {
-                SnapZToRailway_4E65A0(x, y, &z, 1, 0);
+                SnapZToRailway_4E65A0(x, y, &z, true, false);
             }
         }
     }
@@ -3679,7 +3679,7 @@ s32 Map_0x370::AdvanceAlongRailway_4E6660(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16
             SET_ROAD_BLOCK_AT(pBlock, x, y, z);
             if (pBlock != pPrev)
             {
-                SnapZToRailway_4E65A0(x, y, &z, 1, 0);
+                SnapZToRailway_4E65A0(x, y, &z, true, false);
                 SET_ROAD_BLOCK_AT(pBlock, x, y, z);
             }
             if (!HasGreenArrowForPathDirection_4E5E90(pBlock, direction, 1))
@@ -3696,7 +3696,7 @@ s32 Map_0x370::AdvanceAlongRailway_4E6660(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16
                 SET_ROAD_BLOCK_AT(pBlock, x, y, z);
                 if (pBlock != pPrev)
                 {
-                    SnapZToRailway_4E65A0(x, y, &z, 1, 0);
+                    SnapZToRailway_4E65A0(x, y, &z, true, false);
                     SET_ROAD_BLOCK_AT(pBlock, x, y, z);
                 }
                 bTurned = 1;
@@ -3709,13 +3709,13 @@ s32 Map_0x370::AdvanceAlongRailway_4E6660(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16
             if (dist >= kFpOne_6F6110)
             {
                 MovePosAlongDirection_4E5D10(&x, &y, kFpHalf_6F5F18, direction);
-                direction = GetArrowDirectionFromBlock_4E5FC0(GetRoadBlockAt_4E6660(x, y, z), 1);
+                direction = GetArrowDirectionFromBlock_4E5FC0(GetRoadBlockAt_4E6660(x, y, z), true);
                 MovePosAlongDirection_4E5D10(&x, &y, kFpHalf_6F5F18, direction);
                 dist -= kFpOne_6F6110;
                 SET_ROAD_BLOCK_AT(pBlock, x, y, z);
                 if (pBlock != pPrev)
                 {
-                    SnapZToRailway_4E65A0(x, y, &z, 1, 0);
+                    SnapZToRailway_4E65A0(x, y, &z, true, false);
                     SET_ROAD_BLOCK_AT(pBlock, x, y, z);
                 }
             }
@@ -3725,14 +3725,14 @@ s32 Map_0x370::AdvanceAlongRailway_4E6660(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16
                 {
                     MovePosAlongDirection_4E5D10(&x, &y, kFpHalf_6F5F18, direction);
                     SET_ROAD_BLOCK_AT(pBlock, x, y, z);
-                    direction = GetArrowDirectionFromBlock_4E5FC0(pBlock, 1);
+                    direction = GetArrowDirectionFromBlock_4E5FC0(pBlock, true);
                     dist -= kFpHalf_6F5F18;
                 }
                 MovePosAlongDirection_4E5D10(&x, &y, dist, direction);
                 dist = 0;
                 if (pBlock != pPrev)
                 {
-                    SnapZToRailway_4E65A0(x, y, &z, 1, 0);
+                    SnapZToRailway_4E65A0(x, y, &z, true, false);
                     SET_ROAD_BLOCK_AT(pBlock, x, y, z);
                 }
             }
@@ -3757,10 +3757,10 @@ s32 Map_0x370::AdvanceAlongRailwayChecked_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ
     Fix16 last_y = y;
     Fix16 last_z = z;
 
-    SnapZToRailway_4E65A0(x, y, &z, 0, 0);
+    SnapZToRailway_4E65A0(x, y, &z, false, false);
     gmp_block_info* pBlock;
     SetRoadBlockAt_4E6660(pBlock, x, y, z);
-    s32 direction = GetArrowDirectionFromBlock_4E5FC0(pBlock, 0);
+    s32 direction = GetArrowDirectionFromBlock_4E5FC0(pBlock, false);
 
     Fix16 side;
     side = GetLateralOffsetInBlock_4E5D70(x, y, ReturnAngleFromRoadDirection_4F7940(direction));
@@ -3828,7 +3828,7 @@ s32 Map_0x370::AdvanceAlongRailwayChecked_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ
         SetRoadBlockAt_4E6660(pBlock, x, y, z);
         if (pBlock != pPrev)
         {
-            SnapZToRailway_4E65A0(x, y, &z, 0, 0);
+            SnapZToRailway_4E65A0(x, y, &z, false, false);
             SetRoadBlockAt_4E6660(pBlock, x, y, z);
         }
     }
@@ -3838,7 +3838,7 @@ s32 Map_0x370::AdvanceAlongRailwayChecked_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ
         to_edge = GetForwardOffsetInBlock_4E5E00(x, y, ReturnAngleFromRoadDirection_4F7940(direction));
         if (to_edge > kFpZero_6F610C)
         {
-            SnapZToRailway_4E65A0(x, y, &z, 0, 1);
+            SnapZToRailway_4E65A0(x, y, &z, false, true);
             pPrev = pBlock;
             MovePosAlongDirection_4E5D10(&x,
                        &y,
@@ -3853,12 +3853,12 @@ s32 Map_0x370::AdvanceAlongRailwayChecked_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ
             SetRoadBlockAt_4E6660(pBlock, x, y, z);
             if (pBlock != pPrev)
             {
-                SnapZToRailway_4E65A0(x, y, &z, 0, 0);
+                SnapZToRailway_4E65A0(x, y, &z, false, false);
                 SetRoadBlockAt_4E6660(pBlock, x, y, z);
             }
             else
             {
-                SnapZToRailway_4E65A0(x, y, &z, 0, 0);
+                SnapZToRailway_4E65A0(x, y, &z, false, false);
             }
         }
     }
@@ -3884,7 +3884,7 @@ s32 Map_0x370::AdvanceAlongRailwayChecked_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ
                 }
                 if (pBlock != pPrev)
                 {
-                    SnapZToRailway_4E65A0(x, y, &z, 0, 0);
+                    SnapZToRailway_4E65A0(x, y, &z, false, false);
                     SetRoadBlockAtOrNull_4E7190(pBlock, x, y, z);
                 }
             }
@@ -3906,7 +3906,7 @@ s32 Map_0x370::AdvanceAlongRailwayChecked_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ
                 SetRoadBlockAt_4E6660(pBlock, x, y, z);
                 if (pBlock != pPrev)
                 {
-                    SnapZToRailway_4E65A0(x, y, &z, 0, 0);
+                    SnapZToRailway_4E65A0(x, y, &z, false, false);
                     SetRoadBlockAt_4E6660(pBlock, x, y, z);
                 }
                 bTurned = 1;
@@ -3925,7 +3925,7 @@ s32 Map_0x370::AdvanceAlongRailwayChecked_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ
                                                                  (last_z - kFpOne_6F6110).ToInt());
                     if (pBlock)
                     {
-                        new_direction = GetArrowDirectionFromBlock_4E5FC0(pBlock, 0);
+                        new_direction = GetArrowDirectionFromBlock_4E5FC0(pBlock, false);
                         if (new_direction != road_direction::right_3)
                         {
                             new_direction = 0;
@@ -3936,7 +3936,7 @@ s32 Map_0x370::AdvanceAlongRailwayChecked_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ
                         pBlock = gMap_0x370_6F6268->GetBlock_4DFE10((last_x - kFpOne_6F6110).ToInt(),
                                                                      last_y.ToInt(),
                                                                      (last_z - kFpOne_6F6110).ToInt());
-                        new_direction = GetArrowDirectionFromBlock_4E5FC0(pBlock, 0);
+                        new_direction = GetArrowDirectionFromBlock_4E5FC0(pBlock, false);
                     }
                     break;
                 case road_direction::right_3:
@@ -3946,7 +3946,7 @@ s32 Map_0x370::AdvanceAlongRailwayChecked_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ
                                                                  (last_z - kFpOne_6F6110).ToInt());
                     if (pBlock)
                     {
-                        new_direction = GetArrowDirectionFromBlock_4E5FC0(pBlock, 0);
+                        new_direction = GetArrowDirectionFromBlock_4E5FC0(pBlock, false);
                         if (new_direction != road_direction::down_2)
                         {
                             new_direction = 0;
@@ -3957,7 +3957,7 @@ s32 Map_0x370::AdvanceAlongRailwayChecked_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ
                         pBlock = gMap_0x370_6F6268->GetBlock_4DFE10(last_x.ToInt(),
                                                                      (last_y - kFpOne_6F6110).ToInt(),
                                                                      (last_z - kFpOne_6F6110).ToInt());
-                        new_direction = GetArrowDirectionFromBlock_4E5FC0(pBlock, 0);
+                        new_direction = GetArrowDirectionFromBlock_4E5FC0(pBlock, false);
                     }
                     break;
             }
@@ -3976,7 +3976,7 @@ s32 Map_0x370::AdvanceAlongRailwayChecked_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ
                 SetRoadBlockAt_4E6660(pBlock, x, y, z);
                 if (pBlock != pPrev)
                 {
-                    SnapZToRailway_4E65A0(x, y, &z, 0, 0);
+                    SnapZToRailway_4E65A0(x, y, &z, false, false);
                     SetRoadBlockAt_4E6660(pBlock, x, y, z);
                 }
             }
@@ -3994,7 +3994,7 @@ s32 Map_0x370::AdvanceAlongRailwayChecked_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ
                 dist = 0;
                 if (pBlock != pPrev)
                 {
-                    SnapZToRailway_4E65A0(x, y, &z, 0, 0);
+                    SnapZToRailway_4E65A0(x, y, &z, false, false);
                     SetRoadBlockAt_4E6660(pBlock, x, y, z);
                 }
             }
@@ -4032,11 +4032,11 @@ bool Map_0x370::FindFirstPavementCoord_4E7E90(u8* pX, char_type* pY)
             {
                 *pX = x;
                 *pY = y;
-                return 1;
+                return true;
             }
         }
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x4E7FC0)
@@ -4065,7 +4065,7 @@ bool Map_0x370::CheckColumnHasSolidAbove_4E7FC0(Fix16 x, Fix16 y, Fix16 z)
                 if ((GET_SLOPE_BITS(slope_type) < DIAGONAL_WALL_UP_LEFT || slope_type_masked > PARTIAL_CENTRE_BLOCK) &&
                     (!IS_GRADIENT_SLOPE(slope_type) || IS_AIR_TYPE(slope_type)))
                 {
-                    return 1;
+                    return true;
                 }
             }
         }
@@ -4083,14 +4083,14 @@ bool Map_0x370::CheckColumnHasSolidAbove_4E7FC0(Fix16 x, Fix16 y, Fix16 z)
                     u8 slope_type_masked_ = GET_SLOPE_BITS(pDMap->field_4000C_block[idx].field_B_slope_type);
                     if (slope_type_masked_ < DIAGONAL_WALL_UP_LEFT || slope_type_masked_ > PARTIAL_CENTRE_BLOCK)
                     {
-                        return 1;
+                        return true;
                     }
                 }
             }
             ++block_d_idx;
         }
     }
-    return 0;
+    return false;
 }
 
 

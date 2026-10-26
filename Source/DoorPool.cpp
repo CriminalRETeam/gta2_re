@@ -328,11 +328,11 @@ bool DoorPool::CheckDoorAccess_49D3C0(Sprite* pSprite, u8 door_idx)
         {
             if (!field_0_doors[door_idx].CanOpen_49C6D0(pCar))
             {
-                return 1;
+                return true;
             }
         }
 
-        return 0;
+        return false;
     }
 
     Char* pChar = pSprite->AsCharB4_40FEA0();
@@ -343,14 +343,14 @@ bool DoorPool::CheckDoorAccess_49D3C0(Sprite* pSprite, u8 door_idx)
             // 9.6f: Char::get_ped_433A20 (inlined, using it changes the code)
             if (!field_0_doors[door_idx].CanOpenForPed_49C7F0(pChar->field_7C_pPed))
             {
-                return 1;
+                return true;
             }
         }
 
-        return 0;
+        return false;
     }
 
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x49d460)

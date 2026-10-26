@@ -634,7 +634,7 @@ bool sound_obj::Type6_412C90(CollisionEvent* pEvent, u8 base_sample)
             result = sound_obj::Type6_12_4136D0(pEvent);
             break;
         default:
-            result = 0;
+            result = false;
             break;
     }
     return result;
@@ -653,7 +653,7 @@ bool sound_obj::Type6_2_412D40(u8 roll)
 
     if (roll < 15u)
     {
-        return 0;
+        return false;
     }
 
     if (roll < 40u)
@@ -673,7 +673,7 @@ bool sound_obj::Type6_2_412D40(u8 roll)
         RandomDisplacement_41A650(samp_idx) + gSampManager_6FFF00.GetPlayBackRate_58DBF0(samp_idx);
     this->field_30_sQueueSample.field_14_samp_idx = samp_idx;
     this->field_30_sQueueSample.field_18_bIs2D = 0;
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x412D90)
@@ -810,7 +810,7 @@ bool sound_obj::Type6_3_413000(CollisionEvent* pObj)
         return SelectObjectImpactSound_413120(pObj, 3);
     }
     Type6_Play_412D90(pObj->field_18_object_model);
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x413040)
@@ -818,7 +818,7 @@ bool sound_obj::Type6_4_413040(u8 roll)
 {
     if (roll < 15u)
     {
-        return 0;
+        return false;
     }
 
     s32 idx_to_use;
@@ -835,7 +835,7 @@ bool sound_obj::Type6_4_413040(u8 roll)
         RandomDisplacement_41A650(idx_to_use) + gSampManager_6FFF00.GetPlayBackRate_58DBF0(idx_to_use);
     this->field_30_sQueueSample.field_14_samp_idx = idx_to_use;
     this->field_30_sQueueSample.field_18_bIs2D = 0;
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x413090)
@@ -860,7 +860,7 @@ bool sound_obj::Type6_5_413090(u8 roll)
     this->field_30_sQueueSample.field_14_samp_idx = idx_to_use;
 
     this->field_30_sQueueSample.field_18_bIs2D = 0;
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x4130E0)
@@ -871,7 +871,7 @@ bool sound_obj::Type6_7_4130E0(CollisionEvent* pEvent)
         return SelectObjectImpactSound_413120(pEvent, 7);
     }
     Type6_Play_412D90(pEvent->field_18_object_model);
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x413120)
@@ -896,7 +896,7 @@ bool sound_obj::SelectObjectImpactSound_413120(CollisionEvent* pEvent, s32 inter
                 field_30_sQueueSample.field_14_samp_idx = 55;
                 field_30_sQueueSample.field_18_bIs2D = 0;
                 field_30_sQueueSample.field_20_rate = field_1454_anRandomTable[0] % 2000 + 23000;
-                return 1;
+                return true;
 
             case objects::bin_7:
                 field_30_sQueueSample.field_14_samp_idx = 55;
@@ -908,7 +908,7 @@ bool sound_obj::SelectObjectImpactSound_413120(CollisionEvent* pEvent, s32 inter
                 field_30_sQueueSample.field_14_samp_idx = 55;
                 field_30_sQueueSample.field_18_bIs2D = 0;
                 field_30_sQueueSample.field_20_rate = field_1454_anRandomTable[0] % 2000 + 15000;
-                return 1;
+                return true;
 
             case objects::boxes_4:
             case objects::package_23:
@@ -921,7 +921,7 @@ bool sound_obj::SelectObjectImpactSound_413120(CollisionEvent* pEvent, s32 inter
                 field_30_sQueueSample.field_14_samp_idx = 52;
                 field_30_sQueueSample.field_18_bIs2D = 0;
                 field_30_sQueueSample.field_20_rate = field_1454_anRandomTable[0] % 600 + 16000;
-                return 1;
+                return true;
 
             case objects::cone_3:
             case objects::blaster_5:
@@ -935,7 +935,7 @@ bool sound_obj::SelectObjectImpactSound_413120(CollisionEvent* pEvent, s32 inter
             rate_17000:
                 field_30_sQueueSample.field_18_bIs2D = 0;
                 field_30_sQueueSample.field_20_rate = field_1454_anRandomTable[0] % 2000 + 17000;
-                return 1;
+                return true;
 
             case objects::roadblock_21:
             case objects::bench_22:
@@ -944,7 +944,7 @@ bool sound_obj::SelectObjectImpactSound_413120(CollisionEvent* pEvent, s32 inter
                 field_30_sQueueSample.field_14_samp_idx = 53;
                 field_30_sQueueSample.field_18_bIs2D = 0;
                 field_30_sQueueSample.field_20_rate = field_1454_anRandomTable[0] % 1000 + 15500;
-                return 1;
+                return true;
 
             case objects::crate_12:
             case objects::hardbox_14:
@@ -952,7 +952,7 @@ bool sound_obj::SelectObjectImpactSound_413120(CollisionEvent* pEvent, s32 inter
                 field_30_sQueueSample.field_14_samp_idx = 53;
                 field_30_sQueueSample.field_18_bIs2D = 0;
                 field_30_sQueueSample.field_20_rate = field_1454_anRandomTable[0] % 2000 + 18000;
-                return 1;
+                return true;
 
             case objects::bollard_2:
             case objects::newsdis_15:
@@ -963,7 +963,7 @@ bool sound_obj::SelectObjectImpactSound_413120(CollisionEvent* pEvent, s32 inter
                 goto samp_37;
 
             default:
-                return 0;
+                return false;
         }
     }
 
@@ -977,7 +977,7 @@ bool sound_obj::SelectObjectImpactSound_413120(CollisionEvent* pEvent, s32 inter
             s32 rate = RandomDisplacement_41A650(37) + gSampManager_6FFF00.GetPlayBackRate_58DBF0(37);
             field_30_sQueueSample.field_18_bIs2D = 0;
             field_30_sQueueSample.field_20_rate = rate;
-            return 1;
+            return true;
         }
 
         case objects::power_generator_281:
@@ -1012,21 +1012,21 @@ bool sound_obj::SelectObjectImpactSound_413120(CollisionEvent* pEvent, s32 inter
                         field_30_sQueueSample.field_14_samp_idx = 68;
                         break;
                     default:
-                        return 0;
+                        return false;
                 }
 
                 if (pEvent->field_20_map_block_spec == 4)
                 {
                     field_30_sQueueSample.field_18_bIs2D = 0;
                     field_30_sQueueSample.field_20_rate = field_1454_anRandomTable[1] % 4000 + 28000;
-                    return 1;
+                    return true;
                 }
 
                 field_30_sQueueSample.field_20_rate = gSampManager_6FFF00.GetPlayBackRate_58DBF0(field_30_sQueueSample.field_14_samp_idx) +
                     RandomDisplacement_41A650(field_30_sQueueSample.field_14_samp_idx);
                 field_30_sQueueSample.field_14_samp_idx += field_1454_anRandomTable[3] & 3;
                 field_30_sQueueSample.field_18_bIs2D = 0;
-                return 1;
+                return true;
             }
             field_30_sQueueSample.field_14_samp_idx = 37;
             goto rate_20000;
@@ -1061,22 +1061,22 @@ bool sound_obj::SelectObjectImpactSound_413120(CollisionEvent* pEvent, s32 inter
             field_30_sQueueSample.field_14_samp_idx = 33;
             field_30_sQueueSample.field_20_rate = gSampManager_6FFF00.GetPlayBackRate_58DBF0(33);
             field_30_sQueueSample.field_18_bIs2D = 1;
-            return 1;
+            return true;
 
         case objects::secret_token_266:
             field_30_sQueueSample.field_14_samp_idx = 34;
             field_30_sQueueSample.field_20_rate = gSampManager_6FFF00.GetPlayBackRate_58DBF0(34);
             field_30_sQueueSample.field_18_bIs2D = 1;
-            return 1;
+            return true;
 
         default:
-            return 0;
+            return false;
     }
 
 rate_20000:
     field_30_sQueueSample.field_18_bIs2D = 0;
     field_30_sQueueSample.field_20_rate = field_1454_anRandomTable[0] % 2000 + 20000;
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x413540)
@@ -1146,7 +1146,7 @@ bool sound_obj::Type6_9_413540(CollisionEvent* pEvent)
             return SelectObjectImpactSound_413120(pEvent, 9);
 
         default:
-            return 0;
+            return false;
     }
 }
 
@@ -1175,14 +1175,14 @@ bool sound_obj::Type6_12_4136D0(CollisionEvent* pEvent)
             break;
 
         default:
-            return 0;
+            return false;
     }
     this->field_30_sQueueSample.field_20_rate =
         RandomDisplacement_41A650(samp_idx) + gSampManager_6FFF00.GetPlayBackRate_58DBF0(samp_idx);
     this->field_30_sQueueSample.field_14_samp_idx = samp_idx;
 
     this->field_30_sQueueSample.field_18_bIs2D = 0;
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x413760)
@@ -1565,7 +1565,7 @@ bool sound_obj::Type_16_414320(sound_0x68* pObj)
     pObj->field_38_loop_end = -1;
     pObj->field_20_rate = gSampManager_6FFF00.GetPlayBackRate_58DBF0(10);
     pObj->field_4C_releasing_volume_divider = 30;
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x4143A0)
@@ -1614,12 +1614,12 @@ bool sound_obj::GetCar_4145E0(s32 idx, Car** ppOut)
                 *ppOut = pCar;
                 if (pCar)
                 {
-                    return 1;
+                    return true;
                 }
             }
         }
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x414690)
@@ -1632,7 +1632,7 @@ bool sound_obj::Type_17_414690(sound_0x68* pObj)
     pObj->field_34_loop_start = 0;
     pObj->field_38_loop_end = -1;
     pObj->field_4C_releasing_volume_divider = 30;
-    return 1;
+    return true;
 }
 
 // 9.6f 0x412A20
@@ -1692,7 +1692,7 @@ bool sound_obj::Type_19_4149D0(sound_0x68* pObj)
     pObj->field_34_loop_start = 0;
     pObj->field_38_loop_end = -1;
     pObj->field_20_rate = gSampManager_6FFF00.GetPlayBackRate_58DBF0(pObj->field_14_samp_idx);
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x414A50)
@@ -1743,7 +1743,7 @@ bool sound_obj::Type_12_414C90(sound_0x68* pSound)
     pSound->field_30_loop_count = 0;
     pSound->field_34_loop_start = gSampManager_6FFF00.GetLoopStart_58DC30(35);
     pSound->field_38_loop_end = gSampManager_6FFF00.GetLoopEnd_58DC50(35);
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x414D30)
@@ -1786,7 +1786,7 @@ bool sound_obj::Type_11_414EE0(sound_0x68* pSound)
     pSound->field_30_loop_count = 0;
     pSound->field_34_loop_start = gSampManager_6FFF00.GetLoopStart_58DC30(60);
     pSound->field_38_loop_end = gSampManager_6FFF00.GetLoopEnd_58DC50(60);
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x414F90)
@@ -1822,7 +1822,7 @@ bool sound_obj::Type_15_415100(sound_0x68* pSound)
     pSound->field_30_loop_count = 0;
     pSound->field_34_loop_start = gSampManager_6FFF00.GetLoopStart_58DC30(57);
     pSound->field_38_loop_end = gSampManager_6FFF00.GetLoopEnd_58DC50(57);
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x415190)
@@ -1873,7 +1873,7 @@ bool sound_obj::Type_13_4153F0(sound_0x68* pObj)
     pObj->field_30_loop_count = 0;
     pObj->field_34_loop_start = gSampManager_6FFF00.GetLoopStart_58DC30(36);
     pObj->field_38_loop_end = gSampManager_6FFF00.GetLoopEnd_58DC50(36);
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x415480)
@@ -2003,9 +2003,9 @@ bool sound_obj::Type_5_InitHornSound_415730(sound_0x68* pSound)
         pSound->field_30_loop_count = 0;
         pSound->field_34_loop_start = gSampManager_6FFF00.GetLoopStart_58DC30(pSound->field_14_samp_idx);
         pSound->field_38_loop_end = gSampManager_6FFF00.GetLoopEnd_58DC50(pSound->field_14_samp_idx);
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x4157C0)
@@ -2233,9 +2233,9 @@ bool sound_obj::Type_1_6_416260(sound_0x68* pSound)
         s32 idx = pSound->field_14_samp_idx;
         pSound->field_34_loop_start = gSampManager_6FFF00.GetLoopStart_58DC30(idx);
         pSound->field_38_loop_end = gSampManager_6FFF00.GetLoopEnd_58DC50(pSound->field_14_samp_idx);
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x417060)
@@ -2303,9 +2303,9 @@ bool sound_obj::Type_3_InitCarAlarmSound_4174C0(sound_0x68* pSound)
         pSound->field_30_loop_count = 0;
         pSound->field_34_loop_start = gSampManager_6FFF00.GetLoopStart_58DC30(pSound->field_14_samp_idx);
         pSound->field_38_loop_end = gSampManager_6FFF00.GetLoopEnd_58DC50(pSound->field_14_samp_idx);
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x4177D0)
@@ -2392,9 +2392,9 @@ bool sound_obj::Type_4_417A00(sound_0x68* pSound)
         pSound->field_30_loop_count = 0;
         pSound->field_34_loop_start = gSampManager_6FFF00.GetLoopStart_58DC30(pSound->field_14_samp_idx);
         pSound->field_38_loop_end = gSampManager_6FFF00.GetLoopEnd_58DC50(pSound->field_14_samp_idx);
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x417AC0)
@@ -2718,9 +2718,9 @@ bool sound_obj::IsHeavyTruckOrBus_417F40(s32 car_model)
         case 63:
         case 64:
         case 86:
-            return 1;
+            return true;
         default:
-            return 0;
+            return false;
     }
 }
 
@@ -2776,7 +2776,7 @@ bool sound_obj::Type_8_418130(sound_0x68* pObj)
     pObj->field_30_loop_count = 0;
     pObj->field_34_loop_start = gSampManager_6FFF00.GetLoopStart_58DC30(pObj->field_14_samp_idx);
     pObj->field_38_loop_end = gSampManager_6FFF00.GetLoopEnd_58DC50(pObj->field_14_samp_idx);
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x418190)
@@ -2819,30 +2819,30 @@ bool sound_obj::Type_2_4182A0(sound_0x68* pObj)
     pObj->field_38_loop_end = -1;
     pObj->field_20_rate = gSampManager_6FFF00.GetPlayBackRate_58DBF0(0);
     pObj->field_4C_releasing_volume_divider = 5;
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x4182E0)
 void sound_obj::HandleCarDoorSounds_4182E0(Sound_Params* pParams)
 {
-    bool bQueued1 = 0;
-    bool bQueued2 = 0;
+    bool bQueued1 = false;
+    bool bQueued2 = false;
     Car* pCar = pParams->field_0_pObj->field_8_car_bc_ptr;
     s32 model = pCar->field_84_car_info_idx;
     BYTE* car_remap_5AA3D0 = gGtx_0x106C_703DD4->get_car_door_data_5AA3D0(model);
     for (u8 i = 0; i < static_cast<u8>(pCar->GetDoorCount_43B360()); ++i)
     {
-        bool bTrainOrBus = 0;
+        bool bTrainOrBus = false;
         s8 remap = car_remap_5AA3D0[2 * i + 1];
         if ((remap > 64 || remap < -64) && model != car_model_enum::TRAIN && model != car_model_enum::TRAINCAB &&
             model != car_model_enum::TRAINFB && model != car_model_enum::boxcar && model != car_model_enum::BUS)
         {
-            bTrainOrBus = 1;
+            bTrainOrBus = true;
         }
 
         if (!bQueued1 && pCar->field_C_doors[i].IsStartingToOpen())
         {
-            bQueued1 = 1;
+            bQueued1 = true;
             if (CalculateDistance_419020(Fix16(0xE1000, 0)))
             {
                 if (VolCalc_419070(0x32u, Fix16(0x1E000, 0), pParams->field_5_bHasSolidAbove))
@@ -2862,7 +2862,7 @@ void sound_obj::HandleCarDoorSounds_4182E0(Sound_Params* pParams)
                     {
                         this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 5;
                     }
-                    this->field_30_sQueueSample.field_14_samp_idx = get_samp_idx_for_car_417D70(pCar, 1, bTrainOrBus);
+                    this->field_30_sQueueSample.field_14_samp_idx = get_samp_idx_for_car_417D70(pCar, true, bTrainOrBus);
                     this->field_30_sQueueSample.field_3C_speed_multiplier = 0;
                     this->field_30_sQueueSample.field_20_rate =
                         RandomDisplacement_41A650(this->field_30_sQueueSample.field_14_samp_idx) +
@@ -2879,7 +2879,7 @@ void sound_obj::HandleCarDoorSounds_4182E0(Sound_Params* pParams)
         {
             if (pCar->field_C_doors[i].IsStartingToClose())
             {
-                bQueued2 = 1;
+                bQueued2 = true;
                 if (CalculateDistance_419020(Fix16(0xE1000, 0)))
                 {
                     if (VolCalc_419070(0x32u, Fix16(0x1E000, 0), pParams->field_5_bHasSolidAbove))
@@ -2899,7 +2899,7 @@ void sound_obj::HandleCarDoorSounds_4182E0(Sound_Params* pParams)
                         {
                             this->field_30_sQueueSample.field_1C_ReleasingVolumeModificator = 5;
                         }
-                        this->field_30_sQueueSample.field_14_samp_idx = get_samp_idx_for_car_417D70(pCar, 0, bTrainOrBus);
+                        this->field_30_sQueueSample.field_14_samp_idx = get_samp_idx_for_car_417D70(pCar, false, bTrainOrBus);
                         this->field_30_sQueueSample.field_3C_speed_multiplier = 0;
                         this->field_30_sQueueSample.field_20_rate =
                             RandomDisplacement_41A650(this->field_30_sQueueSample.field_14_samp_idx) +
@@ -2955,7 +2955,7 @@ bool sound_obj::Type_9_4186D0(sound_0x68* pObj)
     pObj->field_38_loop_end = -1;
     pObj->field_20_rate =
         RandomDisplacement_41A650(pObj->field_14_samp_idx) + gSampManager_6FFF00.GetPlayBackRate_58DBF0(pObj->field_14_samp_idx);
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x418720)
@@ -3136,10 +3136,10 @@ bool sound_obj::Type_10_HandleCarSkidSound_418940(sound_0x68* pSound)
             pSound->field_34_loop_start = gSampManager_6FFF00.GetLoopStart_58DC30(pSound->field_14_samp_idx);
             pSound->field_38_loop_end = gSampManager_6FFF00.GetLoopEnd_58DC50(pSound->field_14_samp_idx);
             pSound->field_4C_releasing_volume_divider = 3;
-            return 1;
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x418B60)
@@ -3430,9 +3430,9 @@ bool sound_obj::CalculateDistance_419020(Fix16 max_dist)
             field_2C_distCalculated = 1;
             field_30_sQueueSample.field_28_distance = Fix16::SquareRoot(field_28_dist_related);
         }
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x419070)
@@ -3747,7 +3747,7 @@ bool sound_obj::LoadStyle_41A1B0(const char_type* pStyleName)
     {
         return gSampManager_6FFF00.LoadWavSdtData_58E980(GetFileName_41A1E0(pStyleName));
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x41A1E0)
@@ -3836,14 +3836,14 @@ bool sound_obj::Set3DSound_41A2F0(char_type b3dSound)
                 {
                     field_1D_b3d_sound = 1;
                     field_10_nActiveSamples = field_1C_samp_count; // note: regswap from redundant local
-                    return 1;
+                    return true;
                 }
                 else
                 {
                     gSampManager_6FFF00.AllocSamples_58D9F0(1);
                     field_1D_b3d_sound = 0;
                     field_10_nActiveSamples = 16;
-                    return 0;
+                    return false;
                 }
             }
 
@@ -3851,17 +3851,17 @@ bool sound_obj::Set3DSound_41A2F0(char_type b3dSound)
             {
                 field_1D_b3d_sound = 0;
                 field_10_nActiveSamples = 16;
-                return 1;
+                return true;
             }
 
             gSampManager_6FFF00.Init3DProvider_58D820(&field_1C_samp_count);
             field_1D_b3d_sound = 1;
             field_10_nActiveSamples = field_1C_samp_count;
-            return 0;
+            return false;
         }
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x41A390)
@@ -6004,12 +6004,12 @@ EXPORT bool Cooldown_4236C0()
     if (gCooldownCounter_67554D > 0)
     {
         --gCooldownCounter_67554D;
-        return 0;
+        return false;
     }
     else
     {
         gCooldownCounter_67554D = 6;
-        return 1;
+        return true;
     }
 }
 
@@ -7322,7 +7322,7 @@ void sound_obj::DeInitVocals_57EA10()
 {
     if (gSoundVocalsInited_6FF538)
     {
-        gSoundVocalsInited_6FF538 = 0;
+        gSoundVocalsInited_6FF538 = false;
 
         s32 idx = 0;
         s32 k2 = 2;
@@ -7662,7 +7662,7 @@ bool sound_obj::IsTrainOrBoxcar_57F120(Car* pCar)
 {
     if (!pCar)
     {
-        return 0;
+        return false;
     }
 
     if (pCar->field_84_car_info_idx == car_model_enum::boxcar ||

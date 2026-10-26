@@ -271,7 +271,7 @@ bool Object::ShouldCollideWith_5223C0(Sprite* pSprite)
 
     if (!pSprite)
     {
-        return 0;
+        return false;
     }
     switch (field_8_definition->field_54_react_to_collisions_with)
     {
@@ -298,19 +298,19 @@ bool Object::ShouldCollideWith_5223C0(Sprite* pSprite)
             if (sprite_type != sprite_types_enum::code_obj1_4 && sprite_type != sprite_types_enum::map_obj_5 &&
                 sprite_type != sprite_types_enum::object_1)
             {
-                return 1;
+                return true;
             }
             else
             {
-                return 0;
+                return false;
             }
             break;
         case CollisionReaction::Never_4:
             // Never
-            return 0;
+            return false;
             break;
         default:
-            return 1;
+            return true;
             break;
     }
     return true;
@@ -331,7 +331,7 @@ bool Object::SelectCollisionSprite_522460(Sprite* pProbe)
     if (pSprite && gObject2C_LastCollisionSprite_6F8F8C && pSprite->GetType_416B40() == sprite_types_enum::car_2 // IsCar
         || !ShouldCollideWithSprite_522430(pSprite) || pSprite == gObject2C_LastCollisionSprite_6F8F8C)
     {
-        return 0;
+        return false;
     }
 
     if (pSprite->field_8_object_2C_ptr->field_18_model == objects::diagonal_wall_collision_obj_166 ||
@@ -340,7 +340,7 @@ bool Object::SelectCollisionSprite_522460(Sprite* pProbe)
         gObject2C_HitWallOrDoor_6F8F94 = 1;
     }
     gCollisionTarget_679188.SetSprite_40FEE0(pSprite);
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x5224e0)
@@ -676,13 +676,13 @@ bool Object::TryStartSlide_5233A0(Fix16 value)
         byte_623EC4 = 0;
         if (gObject2C_HitWallOrDoor_6F8F94)
         {
-            return 0;
+            return false;
         }
 
         gObject2C_LastCollisionSprite_6F8F8C = gCollisionTarget_679188.field_20_pHitSprite;
         if (value > kFpPoint1_6F8C58)
         {
-            return 0;
+            return false;
         }
 
         if (this->field_10_obj_3c->field_34 == 1)
@@ -695,10 +695,10 @@ bool Object::TryStartSlide_5233A0(Fix16 value)
         }
         this->field_10_obj_3c->field_C_speed = kFpPoint1_6F8C58;
         this->field_10_obj_3c->field_18_friction = this->field_8_definition->field_14_friction;
-        return 1;
+        return true;
     }
     this->field_10_obj_3c->field_34 = 2;
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x523440)
@@ -807,7 +807,7 @@ bool Object::HandleSpriteGroundAndCollision_5235B0(Sprite* pSprite, Fix16_Point*
         *pPoint = pSprite->get_x_y();
         *pHit = 1;
         ComputeWallHitSide_524550();
-        return 1;
+        return true;
     }
     else if (SelectCollisionSprite_522460(pSprite))
     {
@@ -815,11 +815,11 @@ bool Object::HandleSpriteGroundAndCollision_5235B0(Sprite* pSprite, Fix16_Point*
         field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
         field_10_obj_3c->field_2A_bAirborne = 0;
         *pPoint = pSprite->get_x_y();
-        return 1;
+        return true;
     }
     else
     {
-        return 0;
+        return false;
     }
 }
 
@@ -844,7 +844,7 @@ bool Object::HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite, Fix16_
         field_10_obj_3c->field_1C_z_accel = kFpZero_6F8E10;
         if (field_8_definition->field_50_z_collision_response == 4)
         {
-            return 1;
+            return true;
         }
     }
 
@@ -854,7 +854,7 @@ bool Object::HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite, Fix16_
         *pPoint = pSprite->get_x_y();
         *pHit = 1;
         ComputeWallHitSide_524550();
-        return 1;
+        return true;
     }
     else if (SelectCollisionSprite_522460(pSprite))
     {
@@ -869,11 +869,11 @@ bool Object::HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite, Fix16_
             field_10_obj_3c->field_14_saved_speed = field_10_obj_3c->field_C_speed;
             *pPoint = pSprite->get_x_y();
         }
-        return 1;
+        return true;
     }
     else
     {
-        return 0;
+        return false;
     }
 }
 
@@ -1235,7 +1235,7 @@ void Object::ComputeWallHitSide_524550()
 MATCH_FUNC(0x524630)
 void Object::IntegrateHorizontalMovementAndCollisions_524630(Fix16 move_len, Ang16 move_angle)
 {
-    bool bOnSlope = 0;
+    bool bOnSlope = false;
     Fix16_Point hitPoint;
     //v4 = move_len;
     Sprite* pProbe = gObject_5C_6F8F84->field_58_collision_probe_sprite;
@@ -1300,7 +1300,7 @@ void Object::IntegrateHorizontalMovementAndCollisions_524630(Fix16 move_len, Ang
 
             if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(pProbe->field_14_xy.x.ToInt(), pProbe->field_14_xy.y.ToInt(), pProbe->field_1C_zpos.ToInt()))
             {
-                bOnSlope = 1;
+                bOnSlope = true;
             }
 
             pProbe->set_xy_lazy_447E20(pProbe->field_14_xy.x + step_dx, pProbe->field_14_xy.y + step_dy);
@@ -1664,7 +1664,7 @@ bool Object::IsFireExplosion_525AC0()
     }
     else
     {
-        return 0;
+        return false;
     }
 }
 
@@ -1712,9 +1712,9 @@ bool Object::CheckWaterDeath_525B60()
     if (isWater)
     {
         HandleWaterDeath_528900();
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x525b80)
@@ -2105,7 +2105,7 @@ bool Object::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 y, 
                             if (field_C_pAny.pExplosion->Update_5434A0(field_10_obj_3c->field_C_speed, field_10_obj_3c->field_4_angle))
                             {
                                 byte_6F8C68 = 0;
-                                return 1;
+                                return true;
                             }
                             break;
 
@@ -2121,7 +2121,7 @@ bool Object::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 y, 
                             if (field_C_pAny.pExplosion->Update_5434A0(field_10_obj_3c->field_C_speed, field_10_obj_3c->field_4_angle))
                             {
                                 byte_6F8C68 = 0;
-                                return 1;
+                                return true;
                             }
                             break;
 
@@ -2129,7 +2129,7 @@ bool Object::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 y, 
                             if (field_C_pAny.pExplosion->Update_5434A0(field_10_obj_3c->field_C_speed, field_10_obj_3c->field_4_angle))
                             {
                                 byte_6F8C68 = 0;
-                                return 1;
+                                return true;
                             }
                             break;
 
@@ -2158,13 +2158,13 @@ bool Object::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 y, 
             gSpriteGrid_3_679210->AddToSingleBucket_477AE0(field_4_sprite);
         }
         byte_6F8C68 = 0;
-        return 0;
+        return false;
     }
     else
     {
         TriggerCarExplosionIfApplicable_526790(pSprite);
         byte_6F8C68 = 0;
-        return 1;
+        return true;
     }
 }
 
@@ -2306,7 +2306,7 @@ bool Object::ChangeInstanceLimitKind_528240(s32 current, s32 desired)
                     if (gObject_5C_6F8F84->field_10_limited_object_count == 360)
                     {
                         RequestRemoval_5290A0();
-                        return 1;
+                        return true;
                     }
                     gObject_5C_6F8F84->field_10_limited_object_count++;
                     break;
@@ -2345,7 +2345,7 @@ bool Object::ChangeInstanceLimitKind_528240(s32 current, s32 desired)
                     if (gObject_5C_6F8F84->field_10_limited_object_count == 360)
                     {
                         RequestRemoval_5290A0();
-                        return 1;
+                        return true;
                     }
 
                     gObject_5C_6F8F84->field_14_listed_sprite_count--;
@@ -2355,7 +2355,7 @@ bool Object::ChangeInstanceLimitKind_528240(s32 current, s32 desired)
             }
             break;
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x5283c0)
@@ -2609,11 +2609,11 @@ bool Object::HandleObjectHitIfExplosive_528960(Object* pOther)
     // Check is explosive range
     if (field_8_definition->field_48_projectile_hit_type < 12 || field_8_definition->field_48_projectile_hit_type > 13)
     {
-        return 0;
+        return false;
     }
 
     pOther->ProcessObjectExplosionImpact_528A20(this);
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x528990)

@@ -355,10 +355,10 @@ bool Player::HasAnyAmmo_564940()
     {
         if (field_718_weapons[i]->field_0_ammo)
         {
-            return 1;
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x564960)
@@ -369,7 +369,7 @@ bool Player::AddWeaponWithAmmo_564960(s32 weapon_kind, u8 ammo)
 
     if (GetPlayerPed_4A5130()->get_car_416B60())
     {
-        bHasAnyAmmo = 0;
+        bHasAnyAmmo = false;
     }
     else
     {
@@ -637,7 +637,7 @@ bool Player::CollectPowerUp_564D60(s32 power_up_idx)
         case power_up_indices::Unk_0:
             if (field_6BC_multipliers.get_value() == 99)
             {
-                return 0;
+                return false;
             }
             ChangeMultipliers_4766B0(1);
             break;
@@ -645,7 +645,7 @@ bool Player::CollectPowerUp_564D60(s32 power_up_idx)
         case power_up_indices::Unk_1:
             if (this->field_684_lives.get_value() == 99)
             {
-                return 0;
+                return false;
             }
             ChangeLifeCountByAmount_5699F0(1);
             break;
@@ -653,7 +653,7 @@ bool Player::CollectPowerUp_564D60(s32 power_up_idx)
         case power_up_indices::Unk_2:
             if (field_2C4_player_ped->get_health_433B70() >= 100)
             {
-                return 0;
+                return false;
             }
             field_2C4_player_ped->SetFullHealth_4A5050();
             break;
@@ -661,7 +661,7 @@ bool Player::CollectPowerUp_564D60(s32 power_up_idx)
         case power_up_indices::Armor_3:
             if (this->field_6F4_power_up_timers[3] == 10)
             {
-                return 0;
+                return false;
             }
             this->field_6F4_power_up_timers[3] = 10;
             break;
@@ -669,7 +669,7 @@ bool Player::CollectPowerUp_564D60(s32 power_up_idx)
         case power_up_indices::Unk_5:
             if (field_2C4_player_ped->get_wanted_points_433DC0() == 0)
             {
-                return 0;
+                return false;
             }
             field_2C4_player_ped->ClearWantedPoints_420B80();
             break;
@@ -677,7 +677,7 @@ bool Player::CollectPowerUp_564D60(s32 power_up_idx)
         case power_up_indices::Invulnerability_6:
             if (this->field_6F4_power_up_timers[6] == 1200)
             {
-                return 0;
+                return false;
             }
             this->field_6F4_power_up_timers[power_up_idx] = 1200;
             field_2C4_player_ped->SetInvulnerable();
@@ -686,7 +686,7 @@ bool Player::CollectPowerUp_564D60(s32 power_up_idx)
         case power_up_indices::DoubleDamage_7:
             if (this->field_6F4_power_up_timers[7] == 1800)
             {
-                return 0;
+                return false;
             }
             this->field_6F4_power_up_timers[7] = 1800;
             break;
@@ -694,7 +694,7 @@ bool Player::CollectPowerUp_564D60(s32 power_up_idx)
         case power_up_indices::FastReload_8:
             if (this->field_6F4_power_up_timers[8] == 1800)
             {
-                return 0;
+                return false;
             }
             this->field_6F4_power_up_timers[8] = 1800;
             break;
@@ -702,7 +702,7 @@ bool Player::CollectPowerUp_564D60(s32 power_up_idx)
         case power_up_indices::Electrofingers_9:
             if (this->field_6F4_power_up_timers[9] == 2100)
             {
-                return 0;
+                return false;
             }
             this->field_6F4_power_up_timers[9] = 2100;
             this->field_2C4_player_ped->SetElectrofingers_4A5060();
@@ -711,7 +711,7 @@ bool Player::CollectPowerUp_564D60(s32 power_up_idx)
         case power_up_indices::Invisibility_11:
             if (this->field_6F4_power_up_timers[11] == 1800)
             {
-                return 0;
+                return false;
             }
             this->field_6F4_power_up_timers[power_up_idx] = 1800;
             field_2C4_player_ped->SetInvisible();
@@ -720,11 +720,11 @@ bool Player::CollectPowerUp_564D60(s32 power_up_idx)
         case power_up_indices::Unk_10:
             if (!field_34_gang_curr_location)
             {
-                return 0;
+                return false;
             }
             if (field_34_gang_curr_location->GetRespectForPlayer_4BEEF0(this->field_2E_idx) == 100)
             {
-                return 0;
+                return false;
             }
             field_34_gang_curr_location->IncrementRespect_4BEE50(this->field_2E_idx, 20);
             break;
@@ -732,19 +732,19 @@ bool Player::CollectPowerUp_564D60(s32 power_up_idx)
         case power_up_indices::InstantGang_12:
             if (!field_2C4_player_ped->get_game_object_4A5020())
             {
-                return 0;
+                return false;
             }
             field_2C4_player_ped->RecruitNearbyPeds_46E080(4, k_instant_gang_radius_6FE634);
             break;
         default:
             if (this->field_6F4_power_up_timers[power_up_idx] == 1)
             {
-                return 0;
+                return false;
             }
             this->field_6F4_power_up_timers[power_up_idx] = 1;
             break;
     }
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x565070)
@@ -1982,12 +1982,12 @@ void Player::UpdateCamera_5686D0(Camera* pCam)
                                    this->field_79_now_down_pressed,
                                    this->field_7A_now_left_pressed,
                                    this->field_7B_now_right_pressed);
-        this->field_7A_now_left_pressed = 0;
-        this->field_7B_now_right_pressed = 0;
-        this->field_78_now_forward_pressed = 0;
-        this->field_79_now_down_pressed = 0;
-        this->field_8B_forward_changed = 0;
-        this->field_8C_down_changed = 0;
+        this->field_7A_now_left_pressed = false;
+        this->field_7B_now_right_pressed = false;
+        this->field_78_now_forward_pressed = false;
+        this->field_79_now_down_pressed = false;
+        this->field_8B_forward_changed = false;
+        this->field_8C_down_changed = false;
     }
     else
     {
@@ -2008,7 +2008,7 @@ void Player::Disconnect_568730()
     {
         pPed->BecomeDummyOnPlayerDisconnect_470300();
     }
-    set_in_use_4A5170(0);
+    set_in_use_4A5170(false);
 }
 
 MATCH_FUNC(0x5687F0)
@@ -2029,8 +2029,8 @@ void Player::Service_5687F0()
 
     if (this->field_30_disable_enter_vehicles)
     {
-        this->field_7D_now_enter_exit_pressed = 0;
-        this->field_89_enter_exit_changed = 0;
+        this->field_7D_now_enter_exit_pressed = false;
+        this->field_89_enter_exit_changed = false;
     }
 
     field_2D4_scores.Service_591C70();
@@ -2043,7 +2043,7 @@ void Player::Service_5687F0()
     {
         if (this->field_7C_now_attack_pressed)
         {
-            this->field_7C_now_attack_pressed = 0;
+            this->field_7C_now_attack_pressed = false;
         }
         else
         {
@@ -2103,8 +2103,8 @@ void Player::Service_5687F0()
             break;
 
         case 2:
-            this->field_7D_now_enter_exit_pressed = 0;
-            this->field_89_enter_exit_changed = 0;
+            this->field_7D_now_enter_exit_pressed = false;
+            this->field_89_enter_exit_changed = false;
 
             Player::UpdateCamera_5686D0(&this->field_208_aux_game_camera);
 
@@ -2877,27 +2877,27 @@ void Player::ApplyCheats_56A490()
 MATCH_FUNC(0x56A6D0)
 void Player::ClearInputs_56A6D0()
 {
-    field_78_now_forward_pressed = 0;
-    field_79_now_down_pressed = 0;
-    field_7A_now_left_pressed = 0;
-    field_7B_now_right_pressed = 0;
-    field_7C_now_attack_pressed = 0;
-    field_7D_now_enter_exit_pressed = 0;
-    field_7E_now_hand_brake_or_jump_pressed = 0;
-    field_7F_now_prev_weapon_pressed = 0;
-    field_80_now_next_weapon_pressed = 0;
-    field_81_now_special_1_pressed = 0;
-    field_82_now_special_2_pressed = 0;
-    field_83_now_special_3_pressed = 0;
+    field_78_now_forward_pressed = false;
+    field_79_now_down_pressed = false;
+    field_7A_now_left_pressed = false;
+    field_7B_now_right_pressed = false;
+    field_7C_now_attack_pressed = false;
+    field_7D_now_enter_exit_pressed = false;
+    field_7E_now_hand_brake_or_jump_pressed = false;
+    field_7F_now_prev_weapon_pressed = false;
+    field_80_now_next_weapon_pressed = false;
+    field_81_now_special_1_pressed = false;
+    field_82_now_special_2_pressed = false;
+    field_83_now_special_3_pressed = false;
 
-    field_84_special_1_changed = 0;
-    field_88_prev_weapon_changed = 0;
-    field_87_next_weapon_changed = 0;
-    field_89_enter_exit_changed = 0;
-    field_8D_attack_changed = 0;
-    field_8A_hand_brake_or_jump_changed = 0;
-    field_8B_forward_changed = 0;
-    field_8C_down_changed = 0;
+    field_84_special_1_changed = false;
+    field_88_prev_weapon_changed = false;
+    field_87_next_weapon_changed = false;
+    field_89_enter_exit_changed = false;
+    field_8D_attack_changed = false;
+    field_8A_hand_brake_or_jump_changed = false;
+    field_8B_forward_changed = false;
+    field_8C_down_changed = false;
 }
 
 // https://decomp.me/scratch/OMzHk early %ecx load
@@ -2914,7 +2914,7 @@ Player::Player(u8 player_idx)
     field_682_traffic_spawn_threshold = 1000;
     field_29_aux_ped_dying = 0;
     field_4_inputs = 0;
-    field_8E_in_use = 1;
+    field_8E_in_use = true;
 
     // early %ecx load here
 

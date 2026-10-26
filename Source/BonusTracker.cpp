@@ -405,7 +405,7 @@ bool BonusTracker::AreCarModelsEquivalent_432300(int car_model_1, int car_model_
     if ((car_model_1 == car_model_enum::TAXI || car_model_1 == car_model_enum::STYPECAB) &&
         (car_model_2 == car_model_enum::TAXI || car_model_2 == car_model_enum::STYPECAB))
     {
-        return 1;
+        return true;
     }
     switch (car_model_1)
     {
@@ -416,10 +416,10 @@ bool BonusTracker::AreCarModelsEquivalent_432300(int car_model_1, int car_model_
         case car_model_enum::SWATVAN:
         case car_model_enum::TANK:
         case car_model_enum::EDSELFBI:
-            is_fed_car_1 = 1;
+            is_fed_car_1 = true;
             break;
         default:
-            is_fed_car_1 = 0;
+            is_fed_car_1 = false;
             break;
     }
     switch (car_model_2)
@@ -431,10 +431,10 @@ bool BonusTracker::AreCarModelsEquivalent_432300(int car_model_1, int car_model_
         case car_model_enum::SWATVAN:
         case car_model_enum::TANK:
         case car_model_enum::EDSELFBI:
-            is_fed_car_2 = 1;
+            is_fed_car_2 = true;
             break;
         default:
-            is_fed_car_2 = 0;
+            is_fed_car_2 = false;
             break;
     }
     if (is_fed_car_1 && is_fed_car_2)

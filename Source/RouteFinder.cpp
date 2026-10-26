@@ -27,21 +27,21 @@ bool Junction::IsUsableWithArrowType_588580(s32 arrow_type)
     {
         if (this->field_8_type != 1)
         {
-            return 1;
+            return true;
         }
     }
     else if (arrow_type == 1)
     {
         if (this->field_8_type != 2)
         {
-            return 1;
+            return true;
         }
     }
     else if (arrow_type == 3)
     {
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x5885c0)
@@ -414,7 +414,7 @@ MATCH_FUNC(0x588de0)
 bool RouteFinder::HasBlockArrowInRoadDirection_588DE0(gmp_block_info* pBlock, s32 arrow_type, s32 road_direction)
 {
 
-    bool result = 0;
+    bool result = false;
     switch (road_direction)
     {
         case road_direction::up_1:
@@ -558,7 +558,7 @@ void RouteFinder::FindArrowBlockInJunction_5890D0(u16 junction_idx, s32 directio
         {
             s32 z;
             gmp_block_info* block = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x_pos, y_pos, &z);
-            if (gMap_0x370_6F6268->GetArrowDirectionFromBlock_4E5FC0(block, 0))
+            if (gMap_0x370_6F6268->GetArrowDirectionFromBlock_4E5FC0(block, false))
             {
                 *xpos = x_pos;
                 *ypos = y_pos;
@@ -703,9 +703,9 @@ bool RouteFinder::InitSearch_589480(u8 start_x, u8 start_y, u8 start_z, u8 dest_
         field_CA40_visited[0] = 1;
         field_A82C_open_list = field_861C_nodes;
         field_CA40_visited[field_8618_idx] = 1;
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x5895c0)
@@ -832,10 +832,10 @@ bool RouteFinder::InitSearchWithDirection_5895C0(u8 x, u8 y, u8 z, s32 arrow_typ
                     }
                     break;
             }
-            return 1;
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x589930)
@@ -916,7 +916,7 @@ bool RouteFinder::ExpandNodeUnlessOffScreen_589BB0(RouteSearchNode* pRoute, s32 
         !gGame_0x40_67E008->IsPointOnScreen_4B9A80(pJunction->field_C_min_x, pJunction->field_F_max_y) &&
         !gGame_0x40_67E008->IsPointOnScreen_4B9A80(pJunction->field_E_max_x, pJunction->field_F_max_y))
     {
-        return 1;
+        return true;
     }
 
     u16 north = pJunction->field_0_n.GetIndex_0040CE90();
@@ -941,7 +941,7 @@ bool RouteFinder::ExpandNodeUnlessOffScreen_589BB0(RouteSearchNode* pRoute, s32 
     {
         AddChildNode_589990(pRoute, east, pJunction->field_4_e.GetLength());
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x589e00)

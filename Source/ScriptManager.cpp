@@ -792,19 +792,19 @@ bool ScriptManager::AnswerPhone_5129F0(s32 ped_idx, s32 phone_idx)
             case SCRCMD_ANSWER_PHONE:
                 pTriggerCmd = reinterpret_cast<SCR_ANSWER_PHONE*>(pPtr);
                 pTriggerCmd->field_12_answered = 1;
-                return 1;
+                return true;
             case SCRCMD_THREAD_DECLARE4:
                 pPtr->field_8_script_thread = SpawnThread_5120C0(pPtr->field_E_thread_start_cmd, 0);
                 if (pPtr->field_8_script_thread)
                 {
                     pPtr->field_C_thread_id = pPtr->field_8_script_thread->field_11A_thread_id;
                 }
-                return 1;
+                return true;
             default:
-                return 0;
+                return false;
         }
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x512a70)
@@ -868,14 +868,14 @@ bool ScriptManager::TestAndRecordWeaponHit_512AF0(s32 id, char_type weapon_idx, 
                 {
                     if (HasCheckFlag4_4759C0(pTable))
                     {
-                        return 1;
+                        return true;
                     }
                 }
                 else
                 {
                     if (HasCheckFlag2_4759A0(pTable))
                     {
-                        return 1;
+                        return true;
                     }
                 }
             }
@@ -896,7 +896,7 @@ bool ScriptManager::TestAndRecordWeaponHit_512AF0(s32 id, char_type weapon_idx, 
         }
         field_278_weapon_check_count++;
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x512ba0)

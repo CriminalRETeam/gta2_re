@@ -54,17 +54,17 @@ bool CarChaseTaskTable::AreAllies_474850(Ped* pPed1, Ped* pPed2)
     {
         if (pPed2->field_17C_pGang == pPed1->field_17C_pGang) // they are from same gang (or both dont have any)
         {
-            return 1;
+            return true;
         }
     }
     else
     {
         if (pPed2->get_occupation_403980() >= ped_ocupation_enum::police && pPed2->field_240_occupation <= ped_ocupation_enum::army_army) // both ped 1 and ped 2 are police feds
         {
-            return 1;
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x4748a0)
@@ -105,10 +105,10 @@ bool CarChaseTaskTable::HasAnyPursuer_474970(Ped* pTargetPed)
     {
         if (field_0_entries[i].field_0_in_use == 1 && field_0_entries[i].field_30_pTargetPed == pTargetPed)
         {
-            return 1;
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x4749b0)
@@ -124,12 +124,12 @@ bool CarChaseTaskTable::HasPursuerInFront_4749B0(Ped* pPed)
                 {
                     case car_chase_state::in_front_stopping_13:
                     case car_chase_state::target_stopped_15:
-                        return 1;
+                        return true;
                 }
             }
         }
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x474a20)
@@ -141,11 +141,11 @@ bool CarChaseTaskTable::HasPursuerAlongsideLeft_474A20(Ped* pPed)
         {
             if (AreAllies_474850(pPed, field_0_entries[i].field_4_pDriver) && field_0_entries[i].field_C_chase_state == car_chase_state::alongside_left_8)
             {
-                return 1;
+                return true;
             }
         }
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x474a80)
@@ -162,12 +162,12 @@ bool CarChaseTaskTable::HasPursuerOnLeft_474A80(Ped* pPed)
                     case car_chase_state::approach_left_6:
                     case car_chase_state::alongside_left_8:
                     case car_chase_state::pull_ahead_left_10:
-                        return 1;
+                        return true;
                 }
             }
         }
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x474af0)
@@ -179,11 +179,11 @@ bool CarChaseTaskTable::HasPursuerAlongsideRight_474AF0(Ped* pPed)
         {
             if (AreAllies_474850(pPed, field_0_entries[i].field_4_pDriver) && field_0_entries[i].field_C_chase_state == car_chase_state::alongside_right_9)
             {
-                return 1;
+                return true;
             }
         }
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x474b50)
@@ -198,15 +198,15 @@ bool CarChaseTaskTable::HasPursuerOnRight_474B50(Ped* pPed)
                 switch (field_0_entries[i].field_C_chase_state)
                 {
                     case car_chase_state::approach_right_7:
-                        return 1;
+                        return true;
                     case car_chase_state::alongside_right_9:
                     case car_chase_state::pull_ahead_right_11:
-                        return 1;
+                        return true;
                 }
             }
         }
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x474bc0)
@@ -220,12 +220,12 @@ bool CarChaseTaskTable::HasPursuerAlongside_474BC0(Ped* pPed)
             {
                 if (field_0_entries[i].field_C_chase_state >= car_chase_state::approach_left_6 && (field_0_entries[i].field_C_chase_state <= car_chase_state::alongside_right_9 || field_0_entries[i].field_C_chase_state == car_chase_state::in_front_stopping_13))
                 {
-                    return 1;
+                    return true;
                 }
             }
         }
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x474c30)
@@ -244,12 +244,12 @@ bool CarChaseTaskTable::HasPursuerChoosingSide_474C30(Ped* pPed)
 
                 if (field_0_entries[i].field_C_chase_state <= car_chase_state::choose_side_5)
                 {
-                    return 1;
+                    return true;
                 }
             }
         }
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x474ca0)

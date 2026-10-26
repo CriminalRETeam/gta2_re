@@ -141,9 +141,9 @@ bool Registry::Open_Debug_Root_586C60(PHKEY phkResult)
         {
             FatalError_4A38C0(Gta2Error::CreateRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 232);
         }
-        return 0;
+        return false;
     }
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x586CD0)
@@ -164,9 +164,9 @@ bool Registry::Open_Options_Root_586CD0(PHKEY phkResult)
         {
             FatalError_4A38C0(Gta2Error::CreateRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 265);
         }
-        return 0;
+        return false;
     }
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x586D40)
@@ -187,9 +187,9 @@ bool Registry::Open_Control_Root_586D40(PHKEY phkResult)
         {
             FatalError_4A38C0(Gta2Error::CreateRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 298);
         }
-        return 0;
+        return false;
     }
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x586DB0)
@@ -210,9 +210,9 @@ bool Registry::Open_Screen_Root_586DB0(PHKEY phkResult)
         {
             FatalError_4A38C0(Gta2Error::CreateRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 331);
         }
-        return 0;
+        return false;
     }
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x586E20)
@@ -226,7 +226,7 @@ bool Registry::Debug_Setting_Exists_586E20(const char_type* lpValueName)
         DWORD cbData = sizeof(DWORD);
         if (RegQueryValueExA(hKey, lpValueName, 0, 0, reinterpret_cast<BYTE*>(&Data), &cbData) == ERROR_SUCCESS)
         {
-            bRead = 1;
+            bRead = true;
         }
     }
 
@@ -402,7 +402,7 @@ MATCH_FUNC(0x5872A0)
 bool Registry::Set_Binary_5872A0(HKEY hKey, const char_type* base_name, BYTE* lpData, u32 Data)
 {
     char_type Buffer[260];
-    bool ret = 0;
+    bool ret = false;
 
     sprintf(Buffer, "%ss", base_name);
     if (RegSetValueExA(hKey, Buffer, 0, REG_DWORD, reinterpret_cast<const BYTE*>(&Data), sizeof(DWORD)) == ERROR_SUCCESS)
@@ -410,7 +410,7 @@ bool Registry::Set_Binary_5872A0(HKEY hKey, const char_type* base_name, BYTE* lp
         sprintf(Buffer, "%sd", base_name);
         if (RegSetValueExA(hKey, Buffer, 0, REG_BINARY, lpData, Data) == ERROR_SUCCESS)
         {
-            ret = 1;
+            ret = true;
         }
     }
     return ret;
@@ -454,7 +454,7 @@ bool Registry::CreateNetworkRoot_587420(PHKEY phkResult)
         FatalError_4A38C0(Gta2Error::CreateRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 910);
     }
 
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x5874E0)
@@ -504,13 +504,13 @@ bool Registry::Network_Setting_Exists_587620(const char_type* lpValueName)
     HKEY hKey;
     u32 Data;
     DWORD cbData;
-    bool ret = 0;
+    bool ret = false;
     if (CreateNetworkRoot_587420(&hKey))
     {
         cbData = sizeof(DWORD);
         if (RegQueryValueExA(hKey, lpValueName, 0, 0, reinterpret_cast<BYTE*>(&Data), &cbData) == ERROR_SUCCESS)
         {
-            ret = 1;
+            ret = true;
         }
     }
 
@@ -582,9 +582,9 @@ bool Registry::Open_Player_Root_5877A0(PHKEY phkResult)
         {
             FatalError_4A38C0(Gta2Error::CreateRegistryKeyFail, "C:\\Splitting\\Gta2\\Source\\registry.cpp", 1110);
         }
-        return 0;
+        return false;
     }
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x587810)

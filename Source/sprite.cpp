@@ -431,7 +431,7 @@ EXPORT bool __stdcall ComputeScanlineIntersectionY_4F76A0(Fix16& minX, Fix16& mi
 
     if (p0.y == p1.y)
     {
-        return 0;
+        return false;
     }
 
     if (p0.y <= scanLineY && p1.y >= scanLineY)
@@ -441,7 +441,7 @@ EXPORT bool __stdcall ComputeScanlineIntersectionY_4F76A0(Fix16& minX, Fix16& mi
         if (x.mValue >= minX.mValue && x.mValue <= minY.mValue)
         {
             gCollisionTarget_679188.field_14_vseg_x = x;
-            return 1;
+            return true;
         }
     }
     else if (p1.y <= scanLineY && p0.y >= scanLineY)
@@ -451,10 +451,10 @@ EXPORT bool __stdcall ComputeScanlineIntersectionY_4F76A0(Fix16& minX, Fix16& mi
         if (x.mValue >= minX.mValue && x.mValue <= minY.mValue)
         {
             gCollisionTarget_679188.field_14_vseg_x = x;
-            return 1;
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x4F77D0)
@@ -466,7 +466,7 @@ EXPORT bool __stdcall ComputeScanlineIntersectionX_4F77D0(Fix16& minX, Fix16& mi
 
     if (p0.x == p1.x)
     {
-        return 0;
+        return false;
     }
 
     if (p0.x <= scanLineX && p1.x >= scanLineX)
@@ -476,7 +476,7 @@ EXPORT bool __stdcall ComputeScanlineIntersectionX_4F77D0(Fix16& minX, Fix16& mi
         if (y.mValue >= minX.mValue && y.mValue <= minY.mValue)
         {
             gCollisionTarget_679188.field_18_hseg_y = y;
-            return 1;
+            return true;
         }
     }
     else if (p1.x <= scanLineX && p0.x >= scanLineX)
@@ -486,10 +486,10 @@ EXPORT bool __stdcall ComputeScanlineIntersectionX_4F77D0(Fix16& minX, Fix16& mi
         if (y.mValue >= minX.mValue && y.mValue <= minY.mValue)
         {
             gCollisionTarget_679188.field_18_hseg_y = y;
-            return 1;
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x54EC80)
@@ -700,16 +700,16 @@ bool Sprite::CollisionCheck_59E590(Sprite* pOther)
             (pOther->field_C_pCollisionShape->IsZeroWidth_41E390() || pOther->field_0_rotation.jIsAxisAligned_41E3C0()))
         {
 
-            return 1;
+            return true;
         }
 
         if (RotatedRectCollisionSAT_5A0380(pOther) || pOther->RotatedRectCollisionSAT_5A0380(this))
         {
-            return 1;
+            return true;
         }
     }
 
-    return 0;
+    return false;
 }
 
 // 9.6f 0x4BDF20
@@ -787,7 +787,7 @@ bool Sprite::IsThreatToSearchingPed_59E830()
             return this->field_8_char_b4_ptr->IsThreatToSearchingPed_553330();
 
         default:
-            return 1;
+            return true;
     }
 }
 
@@ -1662,9 +1662,9 @@ bool Sprite::CheckBBoxScanlineIntersection_5A0970(Fix16 scanXMin, Fix16 scanXMax
         gCollisionTarget_679188.field_8_hseg_x_max = scanXMax;
         gCollisionTarget_679188.field_18_hseg_y = scanY;
         gCollisionTarget_679188.field_20_pHitSprite = 0;
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 // https://decomp.me/scratch/EK1Y2
@@ -1755,9 +1755,9 @@ bool Sprite::HitTestVerticalLine_5A0EF0(Fix16 x, Fix16 y1, Fix16 y2)
         ComputeScanlineIntersectionX_4F77D0(x, y1, y2, pBBox[3], pBBox[0]))
     {
         gCollisionTarget_679188.SetVerticalSegment_4BA280(x, y1, y2);
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 // https://decomp.me/scratch/ScgaC
@@ -1999,45 +1999,45 @@ bool Sprite::IsTouchingSlopeBlock_5A1EB0()
 
     if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(pBBox[0].x.ToInt(), pBBox[0].y.ToInt(), zpos_int))
     {
-        return 1;
+        return true;
     }
     if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(pBBox[1].x.ToInt(), pBBox[1].y.ToInt(), zpos_int))
     {
-        return 1;
+        return true;
     }
     if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(pBBox[2].x.ToInt(), pBBox[2].y.ToInt(), zpos_int))
     {
-        return 1;
+        return true;
     }
     if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(pBBox[3].x.ToInt(), pBBox[3].y.ToInt(), zpos_int))
     {
-        return 1;
+        return true;
     }
 
     if (zpos_int <= 0)
     {
-        return 0;
+        return false;
     }
 
     s32 zpos_m1 = zpos_int - 1;
     if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(pBBox[0].x.ToInt(), pBBox[0].y.ToInt(), zpos_m1))
     {
-        return 1;
+        return true;
     }
     if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(pBBox[1].x.ToInt(), pBBox[1].y.ToInt(), zpos_m1))
     {
-        return 1;
+        return true;
     }
     if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(pBBox[2].x.ToInt(), pBBox[2].y.ToInt(), zpos_m1))
     {
-        return 1;
+        return true;
     }
     if (gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(pBBox[3].x.ToInt(), pBBox[3].y.ToInt(), zpos_m1))
     {
-        return 1;
+        return true;
     }
 
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x5A21F0)
@@ -2762,7 +2762,7 @@ bool AttachedSprite::UpdateAttached_5A6910(Sprite* pSprite)
         else
         {
             Char* pChar = field_0_pSprite->AsCharB4_40FEA0();
-            bRet = 0;
+            bRet = false;
             pChar->Update_545720(kFP16Zero_703A38);
         }
     }

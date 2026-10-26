@@ -200,19 +200,19 @@ bool cSampleManager::DisableA3DSplash_58D620()
 
     if (RegCreateKeyExA(HKEY_LOCAL_MACHINE, "Software\\Aureal\\A3D", 0, 0, 0, 0x20006u, 0, &hKey, &disposition))
     {
-        return 0;
+        return false;
     }
 
     data = 0;
     if (RegSetValueExA(hKey, "SplashScreen", 0, REG_DWORD, reinterpret_cast<const BYTE*>(&data), 4u))
     {
-        bOk = 0;
+        bOk = false;
     }
 
     data = 0;
     if (RegSetValueExA(hKey, "SplashAudio", 0, REG_DWORD, reinterpret_cast<const BYTE*>(&data), 4u))
     {
-        bOk = 0;
+        bOk = false;
     }
 
     RegCloseKey(hKey);
@@ -228,7 +228,7 @@ bool cSampleManager::SoundInit_58D6C0(s32* not_used)
     if (!OpenDigitalDriver_58D720(1, field_2714_is_stereo, 22050))
     {
         AIL_shutdown();
-        return 0;
+        return false;
     }
 
     Enum3DProviders_58E1F0();
@@ -240,7 +240,7 @@ bool cSampleManager::SoundInit_58D6C0(s32* not_used)
     {
         AIL_set_digital_master_volume(field_0_hDriver, 127);
     }
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x58D720)
@@ -287,7 +287,7 @@ bool cSampleManager::OpenDigitalDriver_58D720(char_type bFlag, char_type bStereo
 
     if (AIL_waveOutOpen(&field_0_hDriver, 0, -1, &l.waveFormat))
     {
-        return 0;
+        return false;
     }
 
     field_2714_is_stereo = bStereo;
@@ -299,10 +299,10 @@ bool cSampleManager::OpenDigitalDriver_58D720(char_type bFlag, char_type bStereo
     {
         ReleaseSample_58DAC0();
         AIL_waveOutClose(field_0_hDriver);
-        return 0;
+        return false;
     }
     field_1EAC_pAudioBuffer2 = field_1EA8_pAudioBuffer1;
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x58D820)
@@ -320,7 +320,7 @@ bool cSampleManager::Init3DProvider_58D820(BYTE* pMaxSamples)
             {
                 AllocSamples_58D9F0(1);
             }
-            return 0;
+            return false;
         }
     }
 
@@ -354,7 +354,7 @@ bool cSampleManager::Init3DProvider_58D820(BYTE* pMaxSamples)
             {
                 *pMaxSamples = 0;
                 Close3DProvider_58E1C0();
-                return 0;
+                return false;
             }
 
             for (u32 sampIdx = 0; sampIdx < *pMaxSamples; sampIdx++)
@@ -364,15 +364,15 @@ bool cSampleManager::Init3DProvider_58D820(BYTE* pMaxSamples)
                 {
                     *pMaxSamples = 0;
                     Close3DProvider_58E1C0();
-                    return 0;
+                    return false;
                 }
             }
 
             field_1EB2_3d_samp_count = *pMaxSamples;
-            return 1;
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x58D960)
@@ -412,7 +412,7 @@ bool cSampleManager::AllocSamples_58D9F0(s32 not_used)
 
         if (OpenDigitalDriver_58D720(1, 0, 22050) == 0)
         {
-            return 0;
+            return false;
         }
     }
 
@@ -423,7 +423,7 @@ bool cSampleManager::AllocSamples_58D9F0(s32 not_used)
         AIL_set_sample_type(field_58_hSamples[i], 1, 1);
     }
 
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x58DA80)
@@ -643,7 +643,7 @@ bool cSampleManager::InitialiseChannel3D_58DDF0(s32 channel, s32 nSfx, s32 rate)
         return ail_result != 0 ? true : false;
     }
 
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x58DE80)
@@ -758,7 +758,7 @@ bool cSampleManager::Open3DProvider_58E140(s32 envIdx)
         if (envIdx2 != M3D_NOERR)
         {
             field_26B4_3d_provider_idx = -1;
-            return 0;
+            return false;
         }
 
         field_26C0_3d_provider = field_1EB4_h3dProvider[envIdx];
@@ -769,9 +769,9 @@ bool cSampleManager::Open3DProvider_58E140(s32 envIdx)
             field_26B8_bEaxSupported = 1;
             SetEaxEnvironment_58E010(17);
         }
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x58E1C0)
@@ -833,16 +833,16 @@ bool cSampleManager::StreamStatus_58E2C0()
         {
             if (AIL_stream_status(field_9C_hStreams[0]) == SMP_DONE)
             {
-                return 1;
+                return true;
             }
             else
             {
-                return 0;
+                return false;
             }
         }
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x58E2F0)
@@ -1142,7 +1142,7 @@ bool cSampleManager::LoadWavSdtData_58E980(const char_type* pRawOrSdtName)
     hRawFile_ = hRawFile;
     if (!hRawFile)
     {
-        return 0;
+        return false;
     }
 
     fseek(hRawFile, 0, 2);
@@ -1150,7 +1150,7 @@ bool cSampleManager::LoadWavSdtData_58E980(const char_type* pRawOrSdtName)
     if (rawFileSize > 6100000)
     {
         fclose(hRawFile_);
-        return 0;
+        return false;
     }
 
     rewind(hRawFile_);
@@ -1165,5 +1165,5 @@ bool cSampleManager::LoadWavSdtData_58E980(const char_type* pRawOrSdtName)
     fread(field_A8_sdt_entries, sizeof(SdtEntry), 320u, hSdtFile);
     fclose(hSdtFile);
     field_A4_bLoaded = 1;
-    return 1;
+    return true;
 }

@@ -462,7 +462,7 @@ bool Door::Service_49CE90()
         UpdateAutoClose_49CD90();
     }
     field_28_bClosing = 1;
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x49CEE0)

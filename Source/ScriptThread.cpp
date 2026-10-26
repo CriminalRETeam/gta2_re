@@ -1223,7 +1223,7 @@ void ScriptThread::SCRCMD_DECLARE_POLICE_5052C0(SCR_DECLARE_POLICELEVEL* pCmd)
     u8 max_wanted_level = static_cast<u8>(pCmd->field_A_wanted_level);
     if (max_wanted_level == 0)
     {
-        bSkip_police_67D4F9 = 0;
+        bSkip_police_67D4F9 = false;
     }
     gPolice_7B8_6FEE40->field_660_max_wanted_stars = static_cast<u8>(pCmd->field_A_wanted_level); // max_wanted_level
 }

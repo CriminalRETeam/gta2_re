@@ -168,9 +168,9 @@ bool PedGroup::PurgeMembersInCars_4C9040()
 
     if (ped_idx == 0)
     {
-        return 0;
+        return false;
     }
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x4c9150)

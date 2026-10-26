@@ -1745,7 +1745,7 @@ void PoliceCrew::Service_575590()
             if (!pPed->field_20E_offscreen_counter && pPed->GetPedState_403990() != ped_state_1::dead_9 
                 && pPed->IsActive_433B40())
             {
-                gPolice_7B8_6FEE40->field_7B4_crew_ped_onscreen = 1;
+                gPolice_7B8_6FEE40->field_7B4_crew_ped_onscreen = true;
             }
         }
         else
@@ -2540,13 +2540,13 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
                 case ROAD:
                     break;
                 case 4:
-                    return 0;
+                    return false;
                 default:
-                    return 0;
+                    return false;
             }
             if (++tries > 12)
             {
-                return 0;
+                return false;
             }
         } while (!bFound);
 
@@ -2594,19 +2594,19 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
                     bFound = 1;
                     break;
                 case 4:
-                    return 0;
+                    return false;
                 default:
-                    return 0;
+                    return false;
             }
             if (++tries > 12)
             {
-                return 0;
+                return false;
             }
         } while (!bFound);
 
         if (width > 12)
         {
-            return 0;
+            return false;
         }
 
         x_left = Fix16(x_start) + kFpHalf_6FEBF4;
@@ -2618,7 +2618,7 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
         field_A0_rect->SetHiLowZ_41E370(zpos - kFpOne_6FECEC, zpos + kFpOne_6FECEC);
         if (gSpriteGrid_1_679208->CheckRectForCollisions_477F60(field_A0_rect, 0, 0, 0))
         {
-            return 0;
+            return false;
         }
         if (gMap_0x370_6F6268->HasWallInArea_4E18A0((x_left - kFpHalf_6FEBF4).ToInt(),
                                                     (x_right + kFpHalf_6FEBF4 - kFpOne64th_6FEDA0).ToInt(),
@@ -2626,7 +2626,7 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
                                                     (y_bottom - kFpOne64th_6FEDA0).ToInt(),
                                                     zpos.ToInt()))
         {
-            return 0;
+            return false;
         }
 
         Reset_575710();
@@ -2855,13 +2855,13 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
                 case ROAD:
                     break;
                 case 4:
-                    return 0;
+                    return false;
                 default:
-                    return 0;
+                    return false;
             }
             if (++tries > 12)
             {
-                return 0;
+                return false;
             }
         } while (!bFound);
 
@@ -2909,19 +2909,19 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
                     bFound = 1;
                     break;
                 case 4:
-                    return 0;
+                    return false;
                 default:
-                    return 0;
+                    return false;
             }
             if (++tries > 12)
             {
-                return 0;
+                return false;
             }
         } while (!bFound);
 
         if (width > 12)
         {
-            return 0;
+            return false;
         }
 
         x_left = Fix16(x_start);
@@ -2933,7 +2933,7 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
         field_A0_rect->SetHiLowZ_41E370(zpos - kFpOne_6FECEC, zpos + kFpOne_6FECEC);
         if (gSpriteGrid_1_679208->CheckRectForCollisions_477F60(field_A0_rect, 0, 0, 0))
         {
-            return 0;
+            return false;
         }
         if (gMap_0x370_6F6268->HasWallInArea_4E18A0(x_left.ToInt(),
                                                     (x_right - kFpOne64th_6FEDA0).ToInt(),
@@ -2941,7 +2941,7 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
                                                     (y_bottom + kFpHalf_6FEBF4 - kFpOne64th_6FEDA0).ToInt(),
                                                     zpos.ToInt()))
         {
-            return 0;
+            return false;
         }
 
         Reset_575710();
@@ -3136,7 +3136,7 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
 
     field_0_bActive = 1;
     field_C_startup_timer = 100;
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x577480)

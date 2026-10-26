@@ -889,7 +889,7 @@ bool gtx_0x106C::IsCarModelInRecycleList_5AB380(u8 car_id)
     s32 i = 0;
     if (!field_64_car_recycling_info)
     {
-        return 1;
+        return true;
     }
 
     // This while only ends if it finds 'car_id' or if it reaches the 

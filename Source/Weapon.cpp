@@ -159,13 +159,13 @@ bool Weapon::add_ammo_capped_5DCE40(u8 to_add)
     s32 cap_total = max_ammo_capacity_5FF75C[field_1C_idx] * 10;
     if (is_infinite_ammo_4A4FA0())
     {
-        return 0;
+        return false;
     }
 
     u16 cur_amount = field_0_ammo;
     if (cur_amount == cap_total)
     {
-        return 0;
+        return false;
     }
 
     s32 new_amount = cur_amount + (to_add * 10);
@@ -177,7 +177,7 @@ bool Weapon::add_ammo_capped_5DCE40(u8 to_add)
     {
         field_0_ammo = new_amount;
     }
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x5dcea0)
@@ -197,13 +197,13 @@ bool Weapon::sub_5DCEF0()
         case weapon_type::car_mines:
         case weapon_type::fire_truck_gun:
         case weapon_type::weapon_0x17:
-            result = 0;
+            result = false;
             break;
         case weapon_type::car_smg:
         case weapon_type::tank_main_gun:
         case weapon_type::fire_truck_flamethrower:
         case weapon_type::army_gun_jeep:
-            result = 1;
+            result = true;
             break;
         default:
             result = field_24_pPed->field_16C_car == 0;
@@ -258,11 +258,11 @@ Object* Weapon::spawn_bullet_5DCF60(s32 bullet_type, Fix16 xpos, Fix16 ypos, Fix
     {
         pNewBullet->RequestRemoval_5290A0();
         pNewBullet = NULL;
-        bAllowFlameSegment_706D60 = 0;
+        bAllowFlameSegment_706D60 = false;
     }
     else
     {
-        bAllowFlameSegment_706D60 = 1;
+        bAllowFlameSegment_706D60 = true;
         pNewBullet->SetMovementVector_5224E0(speed);
     }
     return pNewBullet;
@@ -292,7 +292,7 @@ void Weapon::flamethrower_5DD0F0()
     if (!field_4_bTargetHit)
     {
         SetShotFired_4CCA80(1);
-        bAllowFlameSegment_706D60 = 0;
+        bAllowFlameSegment_706D60 = false;
         Weapon::spawn_bullet_5DCF60(objects::invisible_bullet_154, xpos, ypos, cam_z, ped_rot, ped_velocity);
         if (bAllowFlameSegment_706D60)
         {
@@ -1837,10 +1837,10 @@ bool Weapon::CanFireWhileHeld_5E33C0()
         case weapon_type::car_mines:
         case weapon_type::tank_main_gun:
         case weapon_type::weapon_0x17:
-            result = 0;
+            result = false;
             break;
         default:
-            result = 1;
+            result = true;
             break;
     }
     return result;
@@ -2082,10 +2082,10 @@ bool Weapon::IsExplosiveWeapon_5E3BD0()
         case weapon_type::car_bomb:
         case weapon_type::car_mines:
         case weapon_type::tank_main_gun:
-            result = 1;
+            result = true;
             break;
         default:
-            result = 0;
+            result = false;
             break;
     }
     return result;

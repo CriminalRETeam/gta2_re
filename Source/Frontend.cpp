@@ -141,9 +141,9 @@ EXPORT bool __stdcall FreeLoader::CheckCityInstalled_4AE1F0(u8 city_idx)
             CloseHandle(hMutex);
         }
 
-        return 0;
+        return false;
     }
-    return 1;
+    return true;
 }
 
 DIOBJECTDATAFORMAT gKeyboardObjectDataFormats_5E9110[256] = {
@@ -1570,11 +1570,11 @@ bool Frontend::intro_bik_exists_4B5FF0()
 
     if (hFind == -1)
     {
-        return 0;
+        return false;
     }
 
     _findclose(hFind);
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x4AEC00)
@@ -1851,7 +1851,7 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
                         --bonus_scan_idx;
                     }
                     LoadMapFilenames_4B4D00(stage_main_idx, stage_bonus_idx);
-                    gGameSession_67E8E0.SetStartedFromPlayBonusMenu_4C5AD0(0);
+                    gGameSession_67E8E0.SetStartedFromPlayBonusMenu_4C5AD0(false);
                     field_EE08_menu_screen = RedBar_16;
                     field_110_state = FrontendState::Booting_Map_2;
                     break;
@@ -1920,7 +1920,7 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
                     if (FreeLoader::CheckCityInstalled_4AE1F0(stage_main_idx))
                     {
                         LoadMapFilenames_4B4D00(stage_main_idx, stage_bonus_idx);
-                        gGameSession_67E8E0.SetStartedFromPlayBonusMenu_4C5AD0(1);
+                        gGameSession_67E8E0.SetStartedFromPlayBonusMenu_4C5AD0(true);
                         field_EE08_menu_screen = RedBar_16;
                         field_110_state = FrontendState::Booting_Map_2;
                     }
@@ -2794,7 +2794,7 @@ void Frontend::ContinueToNextStage_4B8020()
         }
 
         LoadMapFilenames_4B4D00(main_stage_idx, substage_idx);
-        gGameSession_67E8E0.SetStartedFromPlayBonusMenu_4C5AD0(0);
+        gGameSession_67E8E0.SetStartedFromPlayBonusMenu_4C5AD0(false);
         field_EE08_menu_screen = RedBar_16;
         field_110_state = FrontendState::Booting_Map_2;
     }
@@ -3445,15 +3445,15 @@ bool Frontend::KeyBoard_GetKeyStates_4AFDD0()
         {
             if (FAILED(field_4_pKeyboardDevice->Acquire()))
             {
-                return 0;
+                return false;
             }
 
             field_4_pKeyboardDevice->GetDeviceState(256, field_8_keys);
         }
-        return 0;
+        return false;
     }
 
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x4AFBE0)
@@ -4372,11 +4372,11 @@ bool Frontend::PlySlotSvgExists_4B5370(u8 idx)
     long hFind = _findfirst(FileName, &findData);
     if (hFind == -1)
     {
-        return 0;
+        return false;
     }
 
     _findclose(hFind);
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x4B77B0)
