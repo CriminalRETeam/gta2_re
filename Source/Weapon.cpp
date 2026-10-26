@@ -453,7 +453,7 @@ void Weapon::dual_pistol_5DDA70()
         Fix16 y = field_24_pPed->get_cam_y();
         Fix16 z = field_24_pPed->get_cam_z();
         ped_rotation = field_24_pPed->GetRotation();
-        vector3 = field_24_pPed->GetVelocityVector_45B520(); // vector isnt used, but required to match
+        vector3 = field_24_pPed->GetVelocityVector_45B520(); // not used, but required to match
 
         vector2.FromPolar_41E210(kFP16Quarter_706CF4, ped_rotation);
         Fix16 point_x = x + vector2.x;
