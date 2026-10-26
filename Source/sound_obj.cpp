@@ -797,7 +797,7 @@ void sound_obj::Type6_Play_412D90(s32 model)
         default:
             return;
     }
-    gSampManager_6FFF00.PlayVocal_58E510(1, sample, 1);
+    gSampManager_6FFF00.PlayVocal_58E510(1, sample, true);
     gSampManager_6FFF00.SetVocalVolume_58E6D0(1, 127 * field_24_sfx_vol / 127);
 }
 
@@ -3413,7 +3413,7 @@ void sound_obj::ProcessType10_Vocals_418CA0()
                 return;
         }
 
-        gSampManager_6FFF00.PlayVocal_58E510(1, voc_idx, 1);
+        gSampManager_6FFF00.PlayVocal_58E510(1, voc_idx, true);
         gSampManager_6FFF00.SetVocalVolume_58E6D0(1, 127 * field_24_sfx_vol / 127);
 
         field_544C[0].field_18 = 0;
@@ -3577,7 +3577,7 @@ void sound_obj::Service_419EF0()
             if (!bWasPaused_674E24)
             {
                 gSampManager_6FFF00.CloseVocalStream_58E6A0(1);
-                gSampManager_6FFF00.PlayVocal_58E510(1, 7, 1); // FREEZE
+                gSampManager_6FFF00.PlayVocal_58E510(1, 7, true); // FREEZE
                 gSampManager_6FFF00.SetVocalVolume_58E6D0(1, 127u);
             }
         }
@@ -7104,7 +7104,7 @@ void sound_obj::UpdateVocalStream_57E510()
             field_544C[field_54F7_active_emitter_idx[1] + 1].field_18 = gSampManager_6FFF00.GetVocalPosMs_58E770(0);
         }
         gSampManager_6FFF00.CloseVocalStream_58E6A0(0);
-        gSampManager_6FFF00.PlayVocal_58E510(0, 12, 1);
+        gSampManager_6FFF00.PlayVocal_58E510(0, 12, true);
         gSampManager_6FFF00.SetVocalVolume_58E6D0(0, 0);
         u32 length = gSampManager_6FFF00.GetVocalLengthMs_58E7A0(0);
         if (length > 0)

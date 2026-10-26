@@ -23,7 +23,7 @@ class cSampleManager
 
     EXPORT bool SoundInit_58D6C0(s32* not_used);
 
-    EXPORT bool OpenDigitalDriver_58D720(char_type bFlag, char_type bStereo, s32 sampleRate);
+    EXPORT bool OpenDigitalDriver_58D720(bool bFlag, bool bStereo, s32 sampleRate);
 
     // todo: order
 
@@ -114,9 +114,9 @@ class cSampleManager
 
     EXPORT void FadeOut_58E490();
 
-    EXPORT char_type MusicFileExists_58E500();
+    EXPORT bool MusicFileExists_58E500();
 
-    EXPORT void PlayVocal_58E510(s32 stream_idx, s32 voc_idx, char_type bAppendA);
+    EXPORT void PlayVocal_58E510(s32 stream_idx, s32 voc_idx, bool bAppendA);
 
     EXPORT void CloseVocalStream_58E6A0(s32 stream_idx);
 
@@ -144,7 +144,7 @@ class cSampleManager
 
     EXPORT bool LoadWavSdtData_58E980(const char_type* pRawOrSdtName);
 
-    EXPORT BYTE Reacquire_58E2A0();
+    EXPORT bool Reacquire_58E2A0();
 
     EXPORT void Release_58E290();
 
@@ -155,7 +155,7 @@ class cSampleManager
     HSAMPLE field_58_hSamples[16];
     HSAMPLE field_98_hSample;
     HSTREAM field_9C_hStreams[2];
-    char_type field_A4_bLoaded;
+    bool field_A4_bLoaded;
     SdtEntry field_A8_sdt_entries[320];
     void* field_1EA8_pAudioBuffer1;
     void* field_1EAC_pAudioBuffer2;
@@ -173,7 +173,7 @@ class cSampleManager
     f32 field_2708_float;
     f32 field_270C_float;
     s32 field_2710_3d_provider_count;
-    char_type field_2714_is_stereo;
+    bool field_2714_is_stereo;
 };
 
 EXTERN_GLOBAL(cSampleManager, gSampManager_6FFF00);
