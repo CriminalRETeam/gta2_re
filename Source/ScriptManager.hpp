@@ -17,9 +17,9 @@ struct str_table_entry
     s16 field_6_padding;
     u8 field_8_length;
 
-    inline char* get_name()
+    inline char_type* get_name()
     {
-        return reinterpret_cast<char*>(&this[1]);
+        return reinterpret_cast<char_type*>(&this[1]);
     }
 };
 #pragma pack(pop)
