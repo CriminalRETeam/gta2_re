@@ -39,7 +39,7 @@ s32 Generator::next_cycle_4C1AB0()
 }
 
 MATCH_FUNC(0x4C1B10)
-EXPORT void Generator::SpawnObject_4C1B10()
+void Generator::SpawnObject_4C1B10()
 {
     if (field_21_spawn_mode == 2)
     {
@@ -51,7 +51,7 @@ EXPORT void Generator::SpawnObject_4C1B10()
             }
             else
             {
-                field_24_obj = 0;
+                field_24_obj = NULL;
                 field_28_id = 0;
                 field_18_cycle = next_cycle_4C1AB0();
             }
@@ -194,10 +194,10 @@ void GeneratorPool::GeneratorsService_4C1D70()
 MATCH_FUNC(0x4c1dc0)
 Generator* GeneratorPool::CreateGenerator_4C1DC0(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 type, s16 min_delay, s16 max_delay)
 {
-    Generator* pMaccies = &field_0_pool[field_14A0_count];
-    pMaccies->Init_4C1C70(x, y, z, rot, type, min_delay, max_delay);
+    Generator* pGen = &field_0_pool[field_14A0_count];
+    pGen->Init_4C1C70(x, y, z, rot, type, min_delay, max_delay);
     field_14A0_count++;
-    return pMaccies;
+    return pGen;
 }
 
 MATCH_FUNC(0x4c1e20)
