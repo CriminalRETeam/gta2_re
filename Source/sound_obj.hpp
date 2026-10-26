@@ -43,7 +43,7 @@ GTA2_ASSERT_SIZEOF_ALWAYS(SoundPosEntry, 0xC);
 
 struct AudioEntity
 {
-    char_type field_0_bUsed;
+    bool field_0_bUsed;
     u8 field_1_age;
     char_type field_2_unused;
     char_type field_3_unused;
@@ -54,7 +54,7 @@ GTA2_ASSERT_SIZEOF_ALWAYS(AudioEntity, 0xC);
 
 struct SoundEntry
 {
-    char_type field_0_fifth_frame_flag;
+    bool field_0_fifth_frame_flag;
     char_type field_1_unused;
     char_type field_2_unused;
     char_type field_3_unused;
@@ -66,7 +66,7 @@ GTA2_ASSERT_SIZEOF_ALWAYS(SoundEntry, 0x1C);
 
 struct RadioStationEmitter
 {
-    u8 field_0_bUsed;
+    bool field_0_bUsed;
     u8 field_1_unused;
     u8 field_2_unused;
     u8 field_3_unused;
@@ -91,7 +91,7 @@ struct sound_0x68
     char_type field_7_unused;
     SoundPos field_8_obj;
     u32 field_14_samp_idx;
-    char_type field_18_bIs2D;
+    bool field_18_bIs2D;
     char_type field_19_unused;
     char_type field_1A_unused;
     char_type field_1B_unused;
@@ -102,8 +102,8 @@ struct sound_0x68
     char_type field_26_unused;
     char_type field_27_unused;
     Fix16 field_28_distance;
-    char_type field_2C_bIsBeingPlayed;
-    char_type field_2D_bIsPlayingFinished;
+    bool field_2C_bIsBeingPlayed;
+    bool field_2D_bIsPlayingFinished;
     char_type field_2E_unused;
     char_type field_2F_unused;
     u32 field_30_loop_count;
@@ -135,7 +135,7 @@ struct Sound_Params
 {
     Sprite* field_0_pObj;
     char_type field_4_bDrivenByPlayer;
-    char_type field_5_bHasSolidAbove;
+    bool field_5_bHasSolidAbove;
     // pad?
     char_type field_6_unused;
     char_type field_7_unused;
@@ -145,9 +145,9 @@ GTA2_ASSERT_SIZEOF_ALWAYS(Sound_Params, 0x8);
 class sound_obj
 {
   public:
-    char_type field_0_bSoundInitialized;
-    char_type field_1_isPaused;
-    char_type field_2_service_enabled;
+    bool field_0_bSoundInitialized;
+    bool field_1_isPaused;
+    bool field_2_service_enabled;
     char_type field_3;
     s32 field_4_speed_of_sound;
     u8 field_8_frames_per_second;
@@ -162,7 +162,7 @@ class sound_obj
     s32 field_14_sample_rate;
     char_type field_18_unused;
     char_type field_19_unused;
-    char_type field_1A_bDoubleVolume;
+    bool field_1A_bDoubleVolume;
     char_type field_1B_unused;
     u8 field_1C_samp_count;
     char_type field_1D_b3d_sound;
@@ -174,7 +174,7 @@ class sound_obj
     char_type field_26_unused;
     char_type field_27_unused;
     Fix16 field_28_dist_related;
-    char_type field_2C_distCalculated;
+    bool field_2C_distCalculated;
     char_type field_2D_unused;
     char_type field_2E_unused;
     char_type field_2F_unused;
@@ -242,7 +242,7 @@ class sound_obj
     s32 field_5508_radio_entity_idx;
     SoundObject field_550C_radio_entity;
     s32 field_551C_fade_in_timer;
-    u8 field_5520_bCanPlay;
+    bool field_5520_bCanPlay;
     u8 field_5521_radio_word;
     s16 field_5522_wanted_star_count;
     s32 field_5524_radio_word;
@@ -275,7 +275,7 @@ class sound_obj
 
     EXPORT void null_412240();
     EXPORT void null_412250();
-    EXPORT char_type InitSampleForType_412260(sound_0x68* pObj);
+    EXPORT bool InitSampleForType_412260(sound_0x68* pObj);
     EXPORT void ProcessEntity_4123A0(s32 idx);
     EXPORT void ProcessType2_412490(s32 idx);
     EXPORT void ProcessType1_Sprite_412740(s32 idx);
@@ -329,7 +329,7 @@ class sound_obj
     EXPORT s32 GetVehicleAudioClass_417BA0(s32 car_model);
     EXPORT s32 ConvertToPlayBackRate_417C60(s32 car_model);
     EXPORT void HandleHeavyVehicleStopSound_417E30(Sound_Params* pParams, SoundPosEntry* pAlloc);
-    EXPORT s32 Type_7_417EF0(sound_0x68* pObj);
+    EXPORT bool Type_7_417EF0(sound_0x68* pObj);
     EXPORT bool IsHeavyTruckOrBus_417F40(s32 car_model);
     EXPORT void HandleTruckCorneringAudio_417FD0(Sound_Params* pParams);
     EXPORT bool Type_8_418130(sound_0x68* pObj);
@@ -346,7 +346,7 @@ class sound_obj
     EXPORT void PlayVocal_418C80(s32 vocal_idx);
     EXPORT void ProcessType10_Vocals_418CA0();
     EXPORT bool CalculateDistance_419020(Fix16 max_dist);
-    EXPORT bool VolCalc_419070(u8 base_volume, Fix16 max_dist, char_type bFlag);
+    EXPORT bool VolCalc_419070(u8 base_volume, Fix16 max_dist, bool bFlag);
     EXPORT Fix16 ComputeEmitterDistanceSquared_4190B0();
     EXPORT s32 AddSoundObject_419FA0(SoundObject* pTuring);
 
