@@ -455,9 +455,9 @@ bool PathFinder::ProcessGridCell_5548C0()
         field_18_bSearching = 0;
         field_19_unused = 1;
         field_1A_unused = 1;
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x554920)
@@ -605,7 +605,7 @@ bool PathFinder::ComputePath_554AB0(s32 ped_id,
     {
         field_2FD0_bTimedOut = 1;
         field_38_bComputePathInProgress = 0;
-        return 1;
+        return true;
     }
     if (field_C_node_count)
     {
@@ -749,7 +749,7 @@ bool PathFinder::ComputePath_554AB0(s32 ped_id,
             field_14_bExpanding = 1;
             if (field_2E_iteration_budget == 0)
             {
-                return 0;
+                return false;
             }
         LABEL_30:
             if (field_2E_iteration_budget > 0)
@@ -876,7 +876,7 @@ LABEL_35:
                 field_2FD0_bTimedOut = 1;
                 field_38_bComputePathInProgress = 0;
                 field_2FD1_time_out_counter = 0;
-                return 1;
+                return true;
             default:
                 // Shared failure block: the default case and the "no more nodes" path both end here.
                 goto LABEL_61;
@@ -884,7 +884,7 @@ LABEL_35:
     }
 LABEL_61:
     PathFinder::RemovePed_554620(field_0_ped_id);
-    return 1;
+    return true;
 }
 
 // https://decomp.me/scratch/19LIh
@@ -894,11 +894,11 @@ bool PathFinder::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos,
     u8 j = 0;
     if (field_38_bComputePathInProgress && !bAllowDuringPathCompute)
     {
-        return 0;
+        return false;
     }
     if (*zpos > 6u || *zpos == 0)
     {
-        return 0;
+        return false;
     }
     u8 default_pos = kFpZero_6FDD98.ToUInt8();
     field_27_zpos = default_pos;
@@ -999,7 +999,7 @@ bool PathFinder::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos,
                     *xpos = field_25_xpos;
                     *ypos = field_26_ypos;
                     *zpos = field_27_zpos;
-                    return 1;
+                    return true;
                 }
             }
             else
@@ -1047,7 +1047,7 @@ bool PathFinder::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos,
                         {
                             if (!field_18_bSearching)
                             {
-                                return 1;
+                                return true;
                             }
                             continue;
                         }
@@ -1055,11 +1055,11 @@ bool PathFinder::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos,
                 }
             }
         }
-        return 0;
+        return false;
     }
     if (bListWasEmpty)
     {
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
