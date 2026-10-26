@@ -190,7 +190,7 @@ class Ped
     EXPORT void ChangeNextPedState2_45C540(s32 new_state);
     EXPORT void RestorePreviousPedState_45C5A0();
     EXPORT void CancelEnterCarObjective_45C5C0();
-    EXPORT void SpawnDriverRunAway_45C650(Car* pCar, Ped* pPed);
+    EXPORT void SpawnDriverRunAway_45C650(Car* pCar, Ped* pCarThief);
     EXPORT void SpawnPedInCar_45C730(Car* pCar);
     EXPORT void EnterCarByBackDoor_45C7A0(Car* pCar);
     EXPORT void EnterCarAsPassenger_45C7F0(Car* pCar);
