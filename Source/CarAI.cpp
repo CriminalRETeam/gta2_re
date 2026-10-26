@@ -2404,7 +2404,7 @@ void CarAI::DetectCarAhead_44D1D0()
     Fix16 y_off;
     s8 arrow_count = 0;
     char_type arrow_idx;
-    u8 bSlowerThanTarget = 0;
+    bool bSlowerThanTarget = false;
 
     byte_677A94 = 0;
     if (this->field_0_car->field_84_car_info_idx == car_model_enum::BUS)
@@ -2475,7 +2475,7 @@ void CarAI::DetectCarAhead_44D1D0()
     {
         if (field_70_nearest_entity->field_8_car_bc_ptr->GetCarLinearSpeed_43A240() < gCurrCarAI_DesiredSpeed_677A8C)
         {
-            bSlowerThanTarget = 1;
+            bSlowerThanTarget = true;
         }
 
         if (byte_677A6C && this->field_70_nearest_entity->field_8_car_bc_ptr == gCurrCarAI_TargetCar_6779B0)
@@ -2488,7 +2488,7 @@ void CarAI::DetectCarAhead_44D1D0()
         {
             if (gCurrCarAI_DesiredSpeed_677A8C > pOtherAI->field_74_max_speed)
             {
-                bSlowerThanTarget = 1;
+                bSlowerThanTarget = true;
             }
             if ((pOtherAI->field_24_flags & 0x100) == 0x100)
             {
@@ -4066,7 +4066,7 @@ void CarAI::ReactToNearbyCar_451980()
 {
     Fix16 near_dist = gF16fOne_677B94;
     bool bNoBrake = false;
-    u8 bEmergencyDriver = 0;
+    bool bEmergencyDriver = false;
     Car* pCar = field_70_nearest_entity->field_8_car_bc_ptr;
 
     if (field_8_maneuver_active)
@@ -4083,7 +4083,7 @@ void CarAI::ReactToNearbyCar_451980()
         {
             if (pCar->field_54_driver->field_28C_threat_reaction == threat_reaction_enum::react_as_emergency_1)
             {
-                bEmergencyDriver = 1;
+                bEmergencyDriver = true;
             }
         }
     }
@@ -4097,7 +4097,7 @@ void CarAI::ReactToNearbyCar_451980()
     {
         if (gCurrCarAI_IsChasing_677BBC || field_24_bf.bFlag21)
         {
-            bNoBrake = 1;
+            bNoBrake = true;
         }
         if (pCar->field_7C_ped_type == ped_type::player_2)
         {
@@ -4105,23 +4105,23 @@ void CarAI::ReactToNearbyCar_451980()
         }
         else if (ComputeShortestAngleDelta_4056C0(pCar->field_50_car_sprite->field_0_rotation, field_0_car->field_50_car_sprite->field_0_rotation) > kAng45_677A38)
         {
-            bNoBrake = 1;
+            bNoBrake = true;
         }
         if (bEmergencyDriver)
         {
-            bNoBrake = 0;
+            bNoBrake = false;
         }
     }
     else
     {
         if (dist_to_target > near_dist)
         {
-            bNoBrake = 1;
+            bNoBrake = true;
             if (ComputeShortestAngleDelta_4056C0(pCar->field_50_car_sprite->field_0_rotation, field_0_car->field_50_car_sprite->field_0_rotation) > kAng90_6779E4)
             {
                 if (field_24_bf.bFlag21)
                 {
-                    bNoBrake = 1;
+                    bNoBrake = true;
                 }
                 else
                 {
@@ -4173,7 +4173,7 @@ void CarAI::ReactToNearbyCar_451980()
             }
             else if (field_24_bf.bFlag21)
             {
-                bNoBrake = 1;
+                bNoBrake = true;
             }
             else
             {
@@ -4185,7 +4185,7 @@ void CarAI::ReactToNearbyCar_451980()
         {
             if (field_24_bf.bFlag21)
             {
-                bNoBrake = 1;
+                bNoBrake = true;
             }
             else
             {
@@ -4198,12 +4198,12 @@ void CarAI::ReactToNearbyCar_451980()
         {
             if (ComputeShortestAngleDelta_4056C0(pCar->field_50_car_sprite->field_0_rotation, field_0_car->field_50_car_sprite->field_0_rotation) > kAng90_6779E4)
             {
-                bNoBrake = 1;
+                bNoBrake = true;
             }
 
             if ((field_24_flags & 0x20000) == 0x20000)
             {
-                bNoBrake = 1;
+                bNoBrake = true;
             }
         }
     }
@@ -4765,7 +4765,7 @@ void CarAI::ManageCollisions_452A20()
 
         Ped* pDriver = field_68_car_in_collision->field_54_driver;
 
-        if (pDriver && pDriver->PedTypeIs_45EDE0(ped_type::player_2) && field_24_bf.bFlag21 == false)
+        if (pDriver && pDriver->PedTypeIs_45EDE0(ped_type::player_2) && !field_24_bf.bFlag21)
         {
             field_0_car->field_58_physics->NeutralGear_42AC00();
             gCurrCarAI_AllowTrafficSteering_677A5D = 0;
