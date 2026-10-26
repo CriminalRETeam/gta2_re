@@ -24,7 +24,7 @@ void Generator::Activate_4C1A70()
 }
 
 MATCH_FUNC(0x4C1AB0)
-s32 Generator::next_cycle_4C1AB0()
+s32 Generator::next_cycle_4C1AB0() const
 {
     s32 result;
     if (field_12_min_delay == field_14_max_delay)
