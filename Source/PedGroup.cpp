@@ -174,7 +174,7 @@ bool PedGroup::PurgeMembersInCars_4C9040()
 }
 
 MATCH_FUNC(0x4c9150)
-bool PedGroup::AreAllMembersOffScreen_4C9150()
+bool PedGroup::AreAllMembersOffScreen_4C9150() const
 {
     if (field_2C_ped_leader->field_168_game_object == NULL || field_2C_ped_leader->GetOffscreenCounter_4039F0() < 0x28)
     {
@@ -204,7 +204,7 @@ void PedGroup::ResetMembersToFollowLeader_4C91B0()
 }
 
 MATCH_FUNC(0x4c9210)
-bool PedGroup::IsLeaderInCar_4C9210()
+bool PedGroup::IsLeaderInCar_4C9210() const
 {
     if (field_2C_ped_leader->field_16C_car != NULL)
     {
@@ -217,7 +217,7 @@ bool PedGroup::IsLeaderInCar_4C9210()
 }
 
 MATCH_FUNC(0x4c9220)
-bool PedGroup::IsLeaderEnteringCarOrTrain_4C9220()
+bool PedGroup::IsLeaderEnteringCarOrTrain_4C9220() const
 {
     if (field_2C_ped_leader->GetPedState_403990() != ped_state1_enum::ped_entering_a_car)
     {
@@ -682,7 +682,7 @@ char_type PedGroup::GroupAttackPed_4C9B60(Ped* pPed)
 #pragma warning(pop)
 
 MATCH_FUNC(0x4c9ed0)
-Ped* PedGroup::FindLastNonPanickingMember_4C9ED0()
+Ped* PedGroup::FindLastNonPanickingMember_4C9ED0() const
 {
     for (s8 i = this->field_34_count - 1; i >= 0; i--)
     {
@@ -899,13 +899,13 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
 }
 
 MATCH_FUNC(0x4ca3e0)
-u32 PedGroup::IsLeaderPanicking_4CA3E0()
+u32 PedGroup::IsLeaderPanicking_4CA3E0() const
 {
     return field_2C_ped_leader->field_21C_bf.bPanicking;
 }
 
 MATCH_FUNC(0x4ca3f0)
-Ped* PedGroup::FindFarthestMember_4CA3F0(Fix16* pFoundDistance)
+Ped* PedGroup::FindFarthestMember_4CA3F0(Fix16* pFoundDistance) const
 {
     Fix16 max_distance = Fix16(0);
     u8 found_index = 0;
@@ -1119,7 +1119,7 @@ void PedGroup::UpdateMemberTightFollowState_4CA820(u8 idx)
 }
 
 MATCH_FUNC(0x4caa20)
-bool PedGroup::IsAllMembersInSomeCar_4CAA20()
+bool PedGroup::IsAllMembersInSomeCar_4CAA20() const
 {
     if (field_34_count == 0)
     {
@@ -1137,7 +1137,7 @@ bool PedGroup::IsAllMembersInSomeCar_4CAA20()
 }
 
 MATCH_FUNC(0x4caae0)
-bool PedGroup::HasNoActiveMembers_4CAAE0()
+bool PedGroup::HasNoActiveMembers_4CAAE0() const
 {
     for (u8 i = 0; i < field_34_count; i++)
     {
@@ -1151,7 +1151,7 @@ bool PedGroup::HasNoActiveMembers_4CAAE0()
 }
 
 MATCH_FUNC(0x4cab80)
-bool PedGroup::AreAllMembersOnFoot_4CAB80()
+bool PedGroup::AreAllMembersOnFoot_4CAB80() const
 {
     for (u8 i = 0; i < field_34_count; i++)
     {
@@ -1164,7 +1164,7 @@ bool PedGroup::AreAllMembersOnFoot_4CAB80()
 }
 
 MATCH_FUNC(0x4cac20)
-bool PedGroup::IsMemberTooFarFromLeader_4CAC20(u8 idx)
+bool PedGroup::IsMemberTooFarFromLeader_4CAC20(u8 idx) const
 {
     Ped* pMember = field_4_ped_list[idx];
     Fix16 x_diff = pMember->field_1AC_cam.x - field_2C_ped_leader->field_1AC_cam.x;
@@ -1183,7 +1183,7 @@ bool PedGroup::IsMemberTooFarFromLeader_4CAC20(u8 idx)
 }
 
 MATCH_FUNC(0x4cad40)
-bool PedGroup::IsLeaderCloseToTargetCar_4CAD40()
+bool PedGroup::IsLeaderCloseToTargetCar_4CAD40() const
 {
     Fix16 leader_xpos = field_2C_ped_leader->get_cam_x();
     Car* pTargetCar = field_2C_ped_leader->get_target_to_enter_403B10();
@@ -1211,7 +1211,7 @@ bool PedGroup::IsLeaderCloseToTargetCar_4CAD40()
 // nearest_distance check. Reading pOther's x directly (not through get_cam_x) loads
 // pMember's x first, as in the original.
 MATCH_FUNC(0x4cae80)
-Ped* PedGroup::FindNearestOtherMember_4CAE80(u8 idx)
+Ped* PedGroup::FindNearestOtherMember_4CAE80(u8 idx) const
 {
     Fix16 x_abs;
     Fix16 y_abs;
