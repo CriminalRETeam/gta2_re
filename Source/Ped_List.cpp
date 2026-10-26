@@ -320,13 +320,13 @@ void Ped_List::ForceTaxiPassengersToExit_471680()
 MATCH_FUNC(0x4716b0)
 u16 Ped_List::GetPedsCount_4716B0() const
 {
-    u16 passengerCount;
+    u16 count;
     PedListNode* pIter = field_0_pFirstPed;
-    for (passengerCount = 0; pIter; ++passengerCount)
+    for (count = 0; pIter; ++count)
     {
         pIter = pIter->mpNext;
     }
-    return passengerCount;
+    return count;
 }
 
 MATCH_FUNC(0x4716d0)
