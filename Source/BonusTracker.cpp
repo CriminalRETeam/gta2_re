@@ -84,8 +84,8 @@ void BonusTracker::Service_431E30()
         {
             if (pIter->field_2B_bActive)
             {
-                const u32 f1c = pIter->field_1C_time_limit;
-                if (f1c != -1 && static_cast<u32>(field_1BC_cur_time - pIter->field_20_start_time) > f1c)
+                const u32 time_limit = pIter->field_1C_time_limit;
+                if (time_limit != -1 && static_cast<u32>(field_1BC_cur_time - pIter->field_20_start_time) > time_limit)
                 {
                     pIter->field_26_progress_count = 0;
                     pIter->Deactivate_431DB0();
@@ -222,25 +222,25 @@ s16 BonusTracker::AllocRule_431FE0(s16 event_type,
 MATCH_FUNC(0x432080);
 s16 BonusTracker::GetBonusResult_432080(u16 idx)
 {
-    BonusRule* pItem = &field_0_bonuses[idx];
-    if (!pItem->field_2A_bUsed)
+    BonusRule* pRule = &field_0_bonuses[idx];
+    if (!pRule->field_2A_bUsed)
     {
         return bonus_result::unused_rule;
     }
 
-    if (pItem->field_2B_bActive)
+    if (pRule->field_2B_bActive)
     {
         return bonus_result::in_progress;
     }
 
-    if (pItem->field_26_progress_count == pItem->field_25_target_count)
+    if (pRule->field_26_progress_count == pRule->field_25_target_count)
     {
-        pItem->Reset_431DA0();
+        pRule->Reset_431DA0();
         return bonus_result::passed;
     }
     else
     {
-        pItem->Reset_431DA0();
+        pRule->Reset_431DA0();
         return bonus_result::failed;
     }
 }
