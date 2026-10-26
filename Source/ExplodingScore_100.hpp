@@ -14,7 +14,7 @@ class ExplodingScore
     EXPORT void ClearNumbersArrayFrom_596A70(s32 start_idx);
     EXPORT void InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 score);
     EXPORT void DrawNumbers_596C90();
-    EXPORT char_type PoolUpdate();
+    EXPORT bool PoolUpdate();
     EXPORT void DrawSingleNumber_597100(s32 number_to_draw, s32 xpos_sub);
 
     s32 field_0_highest_digit_idx;
