@@ -7875,7 +7875,7 @@ void Ped::LeaveCarThenStop_468BD0()
             SetStateInitPending_433B50();
             field_278_ped_state_1 = ped_state_1::immobilized_8;
             field_27C_ped_state_2 = ped_state_2::ped2_at_car_door_17;
-            field_168_game_object->Set_F8_ped_state_1_433910(8);
+            field_168_game_object->Set_F8_ped_state_1_433910(ped_state_1::immobilized_8);
             field_168_game_object->SetPedState2_433A50(17);
             field_16C_car = 0;
             Ped::SetObjective(objectives_enum::no_obj_0);

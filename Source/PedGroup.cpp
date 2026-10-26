@@ -221,7 +221,7 @@ bool PedGroup::IsLeaderEnteringCarOrTrain_4C9220()
 {
     if (field_2C_ped_leader->GetPedState_403990() != ped_state1_enum::ped_entering_a_car)
     {
-        if (field_2C_ped_leader->GetPedState_403990() != ped_state1_enum::unused2)
+        if (field_2C_ped_leader->GetPedState_403990() != ped_state1_enum::ped_entering_train)
         {
             return false;
         }

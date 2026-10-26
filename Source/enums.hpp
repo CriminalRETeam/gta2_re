@@ -429,12 +429,12 @@ namespace ped_state1_enum
 enum
 {
     ped_walking = 0,
-    unused1 = 1,
+    ped_running = 1,
     ped_going_to_car = 2,
     ped_entering_a_car = 3,
     ped_getting_out_a_car = 4,
-    unused2 = 5,
-    unused3 = 6,
+    ped_entering_train = 5,
+    ped_leaving_train = 6,
     ped_staying = 7,
     ped_fall_on_ground = 8,
     ped_wasted = 9,
