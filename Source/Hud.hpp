@@ -12,7 +12,6 @@ class Ped;
 class Player;
 class Gang;
 class SoundObject;
-class Gang;
 class Object;
 class Car;
 
@@ -66,7 +65,7 @@ class Hud_BriefSelector
     // inline 0x4C6AC0
     Hud_BriefSelector()
     {
-        field_0_value = 0; // TODO: byte ?
+        field_0_value = 0;
     }
     EXPORT void ShowNextNumberedBrief_5CF620();
     EXPORT void ShowPrevNumberedBrief_5CF6B0();
@@ -110,7 +109,7 @@ class Hud_Message
     EXPORT void ClearTimeToShow_5D1850();
     EXPORT void FormatMessage_5D1860();
     EXPORT void DrawMessage_5D1940();
-    EXPORT void ShowMessage_5D1A00(wchar_t* pStr, s32 priority);
+    EXPORT void ShowMessage_5D1A00(const wchar_t* pStr, s32 priority);
     EXPORT void DecrementTimeToShow_5D1AB0();
     EXPORT Hud_Message();
     u8 field_0_time_to_show;
@@ -137,14 +136,14 @@ class Hud_UnderRoofArrowMarker
     Hud_UnderRoofArrowMarker()
     {
         field_8_rotation = 0;
-        field_A_ped_under_solid = 0;
+        field_A_ped_under_solid = false;
     }
     EXPORT void Update_5CF730();
     EXPORT void Draw_5CF910();
     Fix16 field_0_screen_x;
     Fix16 field_4_screen_y;
     Ang16 field_8_rotation;
-    char_type field_A_ped_under_solid;
+    bool field_A_ped_under_solid;
     char_type field_B_unused;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Hud_UnderRoofArrowMarker, 0xC);
@@ -184,10 +183,10 @@ class Hud_ShowCoords
     // 9.6f 0x4A4760
     inline void ToggleShowCoords_4A4760()
     {
-        field_0_show_coords = field_0_show_coords == 0;
+        field_0_show_coords = !field_0_show_coords;
     }
 
-    char_type field_0_show_coords;
+    bool field_0_show_coords;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Hud_ShowCoords, 0x1);
 
@@ -237,7 +236,7 @@ class Hud_TextEntry
     EXPORT void FormatAndSetupText_5D1B10(const wchar_t* pStr, s16 xpos, s16 ypos, s16 fontType, s32 displayTime);
     EXPORT void Draw_5D1D00();
     EXPORT bool DecrementDisplayTime_5D1DB0();
-    EXPORT bool operator_equals_5D1E10(Hud_TextEntry* pOther);
+    EXPORT bool operator_equals_5D1E10(const Hud_TextEntry* pOther) const;
 
     // 9.6f 0x4C70F0
     inline void Expire_4C70F0()
@@ -274,7 +273,7 @@ GTA2_ASSERT_SIZEOF_ALWAYS(Hud_TextEntry, 0xC4);
 class Hud_TextList
 {
   public:
-    EXPORT void ExpireDuplicates_5D1EB0(Hud_TextEntry* String2);
+    EXPORT void ExpireDuplicates_5D1EB0(const Hud_TextEntry* pEntry);
     EXPORT Hud_TextEntry* DisplayText_5D1F50(const wchar_t* pStr, s16 xpos, s16 ypos, s16 font_type, s32 display_time);
     EXPORT void Service_5D2010();
     EXPORT void RemoveExpired_5D2050();
@@ -291,13 +290,13 @@ class Hud_Pager
 {
   public:
     // 9.6f 0x4C7160
-    inline bool no_ptr_counter_4C7160()
+    inline bool no_ptr_counter_4C7160() const
     {
         return field_4_ptr_counter == NULL;
     }
 
     // 9.6f 0x4C7170
-    inline bool IsTimerOff_4C7170()
+    inline bool IsTimerOff_4C7170() const
     {
         return field_0_timer < 0;
     }
@@ -312,7 +311,7 @@ class Hud_Pager
     inline void SetCounter_4C7130(s32* pCounter);
 
     // 9.6f 0x411A40
-    inline s32 get_timer_411A40()
+    inline s32 get_timer_411A40() const
     {
         return field_0_timer;
     }
@@ -325,7 +324,7 @@ class Hud_Pager
 
     EXPORT Hud_Pager();
     s32 field_0_timer;
-    s32* field_4_ptr_counter; //  counter?
+    s32* field_4_ptr_counter;
     SoundObject* field_8_sound;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Hud_Pager, 0xC);
@@ -444,13 +443,13 @@ class ArrowTrace
     }
 
     // 9.6f inline 0x4C6F20
-    inline bool HasNoTarget_4C6F20()
+    inline bool HasNoTarget_4C6F20() const
     {
         return field_10_target_type == ArrowTargetType::Nothing_0;
     }
     
     // 9.6f 0x4C6F30
-    inline Player* GetTargetPlayer_4C6F30()
+    inline Player* GetTargetPlayer_4C6F30() const
     {
         return field_C_player;
     }
@@ -479,7 +478,7 @@ class Hud_ArrowTargets
 {
   public:
 
-    inline bool HasBothTargets_4C6FB0()
+    inline bool HasBothTargets_4C6FB0() const
     {
         return !field_18_primary_target.HasNoTarget_4C6F20() && !field_3C_secondary_target.HasNoTarget_4C6F20();
     }
@@ -506,7 +505,7 @@ class Hud_Arrow
     inline void SetMinRadiusPos_4C6FF0(s32 steps);
 
     // 9.6f 0x4C6F20
-    inline bool Is_radius_pos_0_4C6F20()
+    inline bool Is_radius_pos_0_4C6F20() const
     {
         return (field_10_radius_pos == 0) != 0;
     }
@@ -520,7 +519,7 @@ class Hud_Arrow
     EXPORT void SetPlayerArrowColour_5D0DC0(Ped* pPed);
 
     // 9.6f inline 0x4C6F80
-    inline bool IsType0_4C6F80()
+    inline bool IsType0_4C6F80() const
     {
         if (field_18_targets.field_18_primary_target.HasNoTarget_4C6F20() && field_18_targets.field_3C_secondary_target.HasNoTarget_4C6F20())
         {
@@ -530,7 +529,7 @@ class Hud_Arrow
     }
 
     // 9.6f inline 0x4C7050
-    inline bool IsVisible_4C7050()
+    inline bool IsVisible_4C7050() const
     {
         if (field_18_targets.field_10_gang_info.field_5_is_visible)
         {
@@ -593,7 +592,7 @@ class Hud_Arrow_7C_Array
 {
   public:
     // 9.6f 0x4C70B0
-    inline char_type ShowGangArrows_4C70B0()
+    inline bool ShowGangArrows_4C70B0() const
     {
         return field_83C_show_gang_arrows;
     }
@@ -601,9 +600,9 @@ class Hud_Arrow_7C_Array
     // inline 0x4C7080
     Hud_Arrow_7C_Array()
     {
-        field_83C_show_gang_arrows = 1;
+        field_83C_show_gang_arrows = true;
         field_840_visible_gang_arrow = NULL;
-        field_844_check_info_phones = 0;
+        field_844_check_info_phones = false;
     }
 
     EXPORT void CreatePlayerArrows_5D1350();
@@ -620,14 +619,14 @@ class Hud_Arrow_7C_Array
     EXPORT void place_gang_phone_5D1110(Object* pPhoneInfo);
     EXPORT void SetNewGangArrow_5D1310(Gang* pZone);
     Hud_Arrow field_0_array[17];
-    char_type field_83C_show_gang_arrows;
+    bool field_83C_show_gang_arrows;
     Hud_Arrow* field_840_visible_gang_arrow;
-    char_type field_844_check_info_phones;
+    bool field_844_check_info_phones;
 };
 
 EXPORT char_type __stdcall GetBriefFaceIdx_5D3680(u16 face_char);
 
-class Hud_Brief // size 0x704
+class Hud_Brief
 {
   public:
     EXPORT void MovePrevBriefToCurrent_5D3330();
@@ -708,7 +707,7 @@ class Hud
   public:
     EXPORT ~Hud();
     EXPORT void CalcCarNameTextWidth_5D5190();
-    EXPORT void ShowCarName_5D5240(wchar_t* Source);
+    EXPORT void ShowCarName_5D5240(const wchar_t* pName);
     EXPORT void UpdateCarName_5D5350();
     EXPORT void DrawGui_5D6860();
     EXPORT void UpdatePauseSection_5D69C0();
@@ -751,7 +750,7 @@ EXTERN_GLOBAL(Hud*, gHud_2B00_706620);
 
 EXTERN_GLOBAL(s16, gDebugFont_706600);
 
-EXTERN_GLOBAL_ARRAY(char, gTmpGxtKey_67CE50, 256);
+EXTERN_GLOBAL_ARRAY(char_type, gTmpGxtKey_67CE50, 256);
 
 EXPORT s32 __stdcall GetPhoneTypeFromObjModel_5D1260(s32 phone_model_idx);
 EXPORT char_type* __stdcall get_phone_colour_5D12B0(s32 phone_type);

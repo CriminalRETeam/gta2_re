@@ -14,7 +14,7 @@ CreditsText::~CreditsText() // 483EA0
 }
 
 MATCH_FUNC(0x483EC0)
-wchar_t CreditsText::ReadNextNonBlankChar_483EC0(const wchar_t* pStr, u16* pStartPos, bool bStopAtSpace)
+wchar_t CreditsText::ReadNextNonBlankChar_483EC0(const wchar_t* pStr, u16* pStartPos, bool bStopAtSpace) const
 {
     wchar_t cur_wchar = pStr[(*pStartPos)++];
     while ((cur_wchar == ' ' && bStopAtSpace) || cur_wchar == '\n' || cur_wchar == '\t')
@@ -30,7 +30,7 @@ void CreditsText::LoadCredits_483F20()
     s16 y_gap = 0;
     u16 read_pos = 0;
     wchar_t* pCreditsText = gText_0x14_704DFC->Find_5B5F90("credits");
-    wchar_t line_char = CreditsText::ReadNextNonBlankChar_483EC0(pCreditsText, &read_pos, 1);
+    wchar_t line_char = CreditsText::ReadNextNonBlankChar_483EC0(pCreditsText, &read_pos, true);
     u16 line_idx = 0;
 
     while (line_char != 0)
@@ -42,9 +42,9 @@ void CreditsText::LoadCredits_483F20()
         }
         else
         {
-            if (line_char == 35)
+            if (line_char == '#')
             {
-                wchar_t tag_char = CreditsText::ReadNextNonBlankChar_483EC0(pCreditsText, &read_pos, 1);
+                wchar_t tag_char = CreditsText::ReadNextNonBlankChar_483EC0(pCreditsText, &read_pos, true);
                 if (tag_char != 'W')
                 {
                     if (tag_char == 'B')
@@ -81,7 +81,7 @@ void CreditsText::LoadCredits_483F20()
             u16 i = 0;
             while (1)
             {
-                wchar_t content_char = CreditsText::ReadNextNonBlankChar_483EC0(pCreditsText, &read_pos, 0);
+                wchar_t content_char = CreditsText::ReadNextNonBlankChar_483EC0(pCreditsText, &read_pos, false);
                 if (content_char == '*')
                 {
                     break;
@@ -95,7 +95,7 @@ void CreditsText::LoadCredits_483F20()
             y_gap = 0;
             line_idx++;
         }
-        line_char = CreditsText::ReadNextNonBlankChar_483EC0(pCreditsText, &read_pos, 1);
+        line_char = CreditsText::ReadNextNonBlankChar_483EC0(pCreditsText, &read_pos, true);
         if (line_char == 0)
         {
             return;

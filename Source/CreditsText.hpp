@@ -11,7 +11,7 @@ class CreditsText
     EXPORT CreditsText(); // 483E70
     EXPORT ~CreditsText(); // 483EA0
 
-    EXPORT wchar_t ReadNextNonBlankChar_483EC0(const wchar_t *pStr, u16 *pStartPos, bool bStopAtSpace);
+    EXPORT wchar_t ReadNextNonBlankChar_483EC0(const wchar_t *pStr, u16 *pStartPos, bool bStopAtSpace) const;
     EXPORT void LoadCredits_483F20();
 
     s16 field_0_line_count;
