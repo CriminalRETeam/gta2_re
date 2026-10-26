@@ -198,7 +198,7 @@ bool cSampleManager::DisableA3DSplash_58D620()
     HKEY hKey;
     DWORD disposition;
 
-    if (RegCreateKeyExA(HKEY_LOCAL_MACHINE, "Software\\Aureal\\A3D", 0, NULL, 0, 0x20006u, NULL, &hKey, &disposition))
+    if (RegCreateKeyExA(HKEY_LOCAL_MACHINE, "Software\\Aureal\\A3D", 0, NULL, 0, KEY_WRITE, NULL, &hKey, &disposition))
     {
         return false;
     }
@@ -246,12 +246,7 @@ bool cSampleManager::SoundInit_58D6C0(s32* not_used)
 MATCH_FUNC(0x58D720)
 bool cSampleManager::OpenDigitalDriver_58D720(char_type bFlag, char_type bStereo, s32 sampleRate)
 {
-    struct lol
-    {
-        WAVEFORMAT waveFormat;
-        s16 t;
-    };
-    lol l;
+    PCMWAVEFORMAT format;
 
     if (bFlag)
     {
@@ -262,14 +257,12 @@ bool cSampleManager::OpenDigitalDriver_58D720(char_type bFlag, char_type bStereo
         field_1EB1_bytes_per_sample = 1;
     }
 
-    l.waveFormat.nChannels = 2;
-    l.waveFormat.nSamplesPerSec = sampleRate;
-    l.waveFormat.nAvgBytesPerSec = 2 * sampleRate * field_1EB1_bytes_per_sample;
-    l.waveFormat.wFormatTag = 1;
-    l.waveFormat.nBlockAlign = static_cast<unsigned __int8>(2 * field_1EB1_bytes_per_sample);
-
-    // todo: not sure how/why this is here ??
-    l.t = static_cast<unsigned __int8>(8 * field_1EB1_bytes_per_sample);
+    format.wf.nChannels = 2;
+    format.wf.nSamplesPerSec = sampleRate;
+    format.wf.nAvgBytesPerSec = 2 * sampleRate * field_1EB1_bytes_per_sample;
+    format.wf.wFormatTag = WAVE_FORMAT_PCM;
+    format.wf.nBlockAlign = static_cast<u8>(2 * field_1EB1_bytes_per_sample);
+    format.wBitsPerSample = static_cast<u8>(8 * field_1EB1_bytes_per_sample);
 
     AIL_set_preference(1, 37); // DIG_MIXER_CHANNELS
     AIL_set_preference(15, 0); // DIG_USE_WAVEOUT
@@ -285,7 +278,7 @@ bool cSampleManager::OpenDigitalDriver_58D720(char_type bFlag, char_type bStereo
 
     AIL_set_preference(31, 1); // DIG_ENABLE_RESAMPLE_FILTER
 
-    if (AIL_waveOutOpen(&field_0_hDriver, NULL, -1, &l.waveFormat))
+    if (AIL_waveOutOpen(&field_0_hDriver, NULL, -1, &format.wf))
     {
         return false;
     }
@@ -725,7 +718,7 @@ void cSampleManager::StopChannel3D_58DFC0(s32 samp_idx)
 {
     if (field_26C4_3d_sample[samp_idx])
     {
-        if (AIL_3D_sample_status(field_26C4_3d_sample[samp_idx]) == 4)
+        if (AIL_3D_sample_status(field_26C4_3d_sample[samp_idx]) == SMP_PLAYING)
         {
             AIL_end_3D_sample(field_26C4_3d_sample[samp_idx]);
         }
@@ -1145,7 +1138,7 @@ bool cSampleManager::LoadWavSdtData_58E980(const char_type* pRawOrSdtName)
         return false;
     }
 
-    fseek(hRawFile, 0, 2);
+    fseek(hRawFile, 0, SEEK_END);
     rawFileSize = ftell(hRawFile_);
     if (rawFileSize > 6100000)
     {
