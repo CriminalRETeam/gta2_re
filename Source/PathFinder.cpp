@@ -892,7 +892,7 @@ fail:
 MATCH_FUNC(0x5552b0)
 bool PathFinder::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos, u8* ypos, u8* zpos, bool bAllowDuringPathCompute)
 {
-    u8 j = 0;
+    u8 dead_end_count = 0;
     if (field_38_bComputePathInProgress && !bAllowDuringPathCompute)
     {
         return false;
@@ -992,7 +992,7 @@ bool PathFinder::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos,
         }
         else if (block_below_type == block_type)
         {
-            if (block_type == 1)
+            if (block_type == ROAD)
             {
                 if ((gMap_0x370_6F6268->GetBlock_4DFE10(field_25_xpos, field_26_ypos, field_27_zpos - 1)->field_A_arrows & block_arrow::green_mask) != 0)
                 {
@@ -1044,7 +1044,7 @@ bool PathFinder::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos,
                     if (!PathFinder::ProcessGridCell_5548C0())
                     {
                         ++field_16_start_cost;
-                        if (++j <= 6 || bAllowDuringPathCompute)
+                        if (++dead_end_count <= 6 || bAllowDuringPathCompute)
                         {
                             if (!field_18_bSearching)
                             {

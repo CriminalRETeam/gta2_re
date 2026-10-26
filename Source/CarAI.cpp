@@ -2898,7 +2898,7 @@ void CarAI::UpdateChase_44E0C0()
             t_x = gCurrCarAI_TargetX_6779F0.ToInt();
             t_y = gCurrCarAI_TargetY_6779F4.ToInt();
             t_z = gCurrCarAI_TargetZ_6779F8.ToInt();
-            if (!gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &t_x, &t_y, &t_z, false))
+            if (!gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(ROAD, &t_x, &t_y, &t_z, false))
             {
                 if (field_28_route_idx > 0)
                 {
