@@ -4847,11 +4847,11 @@ void Ped::SetObjective2_463830(s32 internal_objective, s16 internal_objective_ti
                 mode = 6;
                 break;
             case objectives_enum::enter_train_37:
-                Ped::ChangeNextPedState1_45C500(ped_state_1::unknown_5);
+                Ped::ChangeNextPedState1_45C500(ped_state_1::entering_train_5);
                 Ped::ChangeNextPedState2_45C540(ped_state_2::Unknown_5);
                 break;
             case objectives_enum::leave_train_38:
-                Ped::ChangeNextPedState1_45C500(ped_state_1::unknown_6);
+                Ped::ChangeNextPedState1_45C500(ped_state_1::leaving_train_6);
                 Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_driving_10);
                 break;
             case objectives_enum::leave_car_36:

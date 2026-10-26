@@ -931,8 +931,8 @@ enum
     findind_path_2 = 2,
     entering_car_3 = 3,
     exiting_car_4 = 4,
-    unknown_5 = 5,
-    unknown_6 = 6,
+    entering_train_5 = 5, // objective enter_train_37
+    leaving_train_6 = 6, // objective leave_train_38
     standing_still_7 = 7,
     immobilized_8 = 8, // ped lying on ground, or getting repeled by blast waves, or getting pushed, or on air, or sinking
     dead_9 = 9,

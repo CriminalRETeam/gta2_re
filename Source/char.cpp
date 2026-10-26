@@ -568,10 +568,10 @@ void Char::Update_545720(Fix16 distance_to_target)
             case ped_state_1::exiting_car_4:
                 Char::state_4_551B30(); // ExitingCar
                 break;
-            case 5:
+            case ped_state_1::entering_train_5:
                 Char::state_5_551BB0();
                 break;
-            case 6:
+            case ped_state_1::leaving_train_6:
                 nullsub_28();
                 break;
             case ped_state_1::standing_still_7:
