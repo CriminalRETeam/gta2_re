@@ -135,4 +135,4 @@ class Object_3C
     char_type field_3B_unused;
 };
 
-EXTERN_GLOBAL(SpriteList, stru_67727C);
+EXTERN_GLOBAL(SpriteList, gTrailerHitchCandidates_67727C);
