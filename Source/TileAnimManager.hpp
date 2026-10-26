@@ -30,7 +30,7 @@ class TileAnim
         field_2_anim_length = length;
         field_4_frame_rate = frame_rate;
         field_6_repeat = repeat;
-        field_C_ptr = 0;
+        field_C_ptr = NULL;
     }
 
     EXPORT void PoolAllocate();
@@ -39,9 +39,9 @@ class TileAnim
       
     }
     EXPORT void ApplyCurrentFrame_5BC150();
-    EXPORT void InitFromGmpAnim_5BC190(const gmp_tile_animation* pStru);
+    EXPORT void InitFromGmpAnim_5BC190(const gmp_tile_animation* pAnimation);
     EXPORT void Start_5BC1D0();
-    EXPORT char_type PoolUpdate();
+    EXPORT bool PoolUpdate();
     EXPORT TileAnim();
     EXPORT ~TileAnim();
 
