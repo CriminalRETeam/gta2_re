@@ -387,7 +387,6 @@ class Ped
 
     void ClearAttacking()
     {
-        // There was no way to match this without using a bit field
         field_21C_bf.bAttacking = false;
     }
 
@@ -598,8 +597,6 @@ class Ped
 
     inline void SetVoiceEventIfNotOnFire_433DD0(s32 voice_event)
     {
-        // TODO: Check if (HIBYTE(this->field_21C) & 1)
-        // is correct
         if (!field_21C_bf.bOnFire)
         {
             field_250_voice_event = voice_event;
@@ -664,7 +661,7 @@ class Ped
         return field_1C8_move_target_y;
     }
 
-    // TODO: to use this inline we need to fix a circular dependency issue
+    // In Ped.inl, which needs Car.hpp
     inline s32 get_car_model();
 
     // 9.6f 0x433C10: a thin wrapper around Char::SetRemap. The remap is taken by const reference:

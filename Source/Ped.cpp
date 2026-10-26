@@ -189,7 +189,6 @@ EXTERN_GLOBAL(Ang16, gSpawnRotationBottom_678540);
 MATCH_FUNC(0x545AF0)
 EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(u8 animPhase, Car* pCar, u8 doorId, Fix16& outX, Fix16& outY, Ang16& outAng)
 {
-    // This func is really get_car_remap?? shouldnt be get_car_door_info?
     u8* car_door_info_array = gGtx_0x106C_703DD4->get_car_door_data_5AA3D0(pCar->field_84_car_info_idx);
     Fix16 offset = gCharB4_WorldCollisionOffset_6FD8D8;
 
@@ -1040,15 +1039,15 @@ void Ped::ManageBurning_45BEC0()
                 }
             }
 
-            if (!is_player_41B0A0()) // not player
+            if (!is_player_41B0A0())
             {
                 if (field_168_game_object)
                 {
-                    if (field_25C_internal_objective != objectives_enum::flee_on_foot_till_safe_1) // not in flee/running state?
+                    if (field_25C_internal_objective != objectives_enum::flee_on_foot_till_safe_1)
                     {
                         field_21C_bf.bPanicking = true;
 
-                        SetObjective2_463830(objectives_enum::flee_on_foot_till_safe_1); // make them flee
+                        SetObjective2_463830(objectives_enum::flee_on_foot_till_safe_1);
 
                         field_1D0_internal_target_x = field_1AC_cam.x;
                         field_1D4_internal_target_y = field_1AC_cam.y;
@@ -1256,7 +1255,6 @@ void Ped::RespawnPed_45C350(gmp_map_zone* pZone)
 
     SpawnCharInZone_45C0C0(pZone);
 
-    // TODO: missing inlines here, temp var shouldn't be needed
     SetRemap_433C10(get_remap_433BA0());
 
     field_27C_ped_state_2 = ped_state_2::ped2_respawned_29;
@@ -1485,7 +1483,7 @@ Fix16 Ped::GetPedVelocity_45C920()
 {
     if (field_168_game_object)
     {
-        return field_168_game_object->get_velocity_41B080(); // velocity ??
+        return field_168_game_object->get_velocity_41B080();
     }
     else
     {
@@ -2154,7 +2152,6 @@ bool Ped::HandlePedHitByObject_45D000(Object* pObj)
 
             if (field_238_ped_type == ped_type::player_2)
             {
-                // Player ped
                 if (field_15C_player->HasPowerUp_434920(power_up_indices::Armor_3))
                 {
                     field_15C_player->DecPowerUp_434940(power_up_indices::Armor_3);
@@ -2204,7 +2201,6 @@ bool Ped::HandlePedHitByObject_45D000(Object* pObj)
 
             if (field_238_ped_type == ped_type::player_2)
             {
-                // Player ped
                 if (field_15C_player->HasPowerUp_434920(power_up_indices::Armor_3))
                 {
                     field_15C_player->DecPowerUp_434940(power_up_indices::Armor_3);
@@ -2216,7 +2212,6 @@ bool Ped::HandlePedHitByObject_45D000(Object* pObj)
             }
             else
             {
-                // Non-player ped
                 Ped::TakeDamage(25 * damage_amplifier * GetDamageMultiplier_45CF90(pBlamedPed));
             }
             gParticle_8_6FD5E8->EmitBloodBurst_53E450(field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z, pObj->field_4_sprite->field_0_rotation);
@@ -2245,7 +2240,7 @@ bool Ped::AddWeaponWithAmmo_45DD30(s32 weapon_kind, char_type ammo)
         ammo = gWeapon_8_707018->get_defalt_ammo_5E3E80(weapon_kind);
     }
 
-    if (gWeapon_8_707018->is_car_weapon_433820(weapon_kind)) // car_bomb
+    if (gWeapon_8_707018->is_car_weapon_433820(weapon_kind))
     {
         if (field_16C_car)
         {
@@ -3144,7 +3139,6 @@ void Ped::TaxiCustomer_AI_460820()
                 Car* pTaxi = this->field_150_target_objective_car;
                 if (!pTaxi->IsDespawning_4215B0())
                 {
-                    // reinit taxi AI?
                     pTaxi->ResumeAIDriving_43AF40();
                 }
                 SetObjective(objectives_enum::no_obj_0, 40);
