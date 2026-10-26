@@ -907,10 +907,10 @@ class ScriptThread
     EXPORT void SCRCMD_GENERATOR_DECSET_504420(SCR_GENERATOR* pCmd, SCR_POINTER* pPointer);
     EXPORT void SCRCMD_DESTRUCTOR_DECSET_504530(SCR_DESTRUCTOR* pCmd, SCR_POINTER* pPointer);
     EXPORT void SCRCMD_CRUSHER_BASIC_5045A0(SCR_CRUSHER_BASIC* pCmd, SCR_POINTER* pPointer);
-    EXPORT void SCRCMD_THREAD_DECLARE2_5045D0(SCR_THREAD* pThread, s16* pThreadIdx);
-    EXPORT void SCRCMD_THREAD_DECLARE3_504660(SCR_THREAD* pThread);
+    EXPORT void SCRCMD_THREAD_DECLARE2_5045D0(SCR_THREAD* pCmd, s16* pThreadIdx);
+    EXPORT void SCRCMD_THREAD_DECLARE3_504660(SCR_THREAD* pCmd);
     EXPORT void SCRCMD_THREAD_DECLARE5_504710(SCR_CHAR_AREA_ANY* pCmd);
-    EXPORT void SCRCMD_THREAD_DECLARE4_5047C0(SCR_THREAD* pThread, s16* pThreadIdx);
+    EXPORT void SCRCMD_THREAD_DECLARE4_5047C0(SCR_THREAD* pCmd, s16* pThreadIdx);
     EXPORT void SCRCMD_SET_GANG_INFO1_504830(SCR_SET_GANG_INFO* pCmd);
     EXPORT void SCRCMD_SET_DOOR_INFO_504950(SCR_FOUR_PARAMS* pCmd);
     EXPORT void SCRCMD_DOOR_DECLARE_D1_S1_504970(SCR_DOOR_DATA_DEC* pCmd);
@@ -919,7 +919,7 @@ class ScriptThread
     EXPORT void CreateLight_504EE0(SCR_CREATE_LIGHT* pCmd, SCR_POINTER* pPointer);
     EXPORT void SCRCMD_SET_STATION_EMPTY_STATION_505030(SCR_SET_STATION* pCmd);
     EXPORT void SCRCMD_RADIOSTATION_DEC_5051D0(SCR_RADIOSTATION_DEC* pCmd);
-    EXPORT void CRCMD_SET_TRAIN_STATIONS_505210(SCR_TWO_PARAMS* pCmd);
+    EXPORT void SCRCMD_SET_TRAIN_STATIONS_505210(SCR_TWO_PARAMS* pCmd);
     EXPORT void SCRCMD_DECLARE_POLICE_5052C0(SCR_DECLARE_POLICELEVEL* pCmd);
     EXPORT void SCRCMD_SOUND_DECSET_505340(SCR_SOUND_DECSET* pCmd, SCR_POINTER* pPointer);
     EXPORT void SCRCMD_SET_MISSIONS_TOTAL_505430(SCR_TWO_PARAMS* pCmd);
@@ -1140,10 +1140,10 @@ class ScriptThread
     EXPORT void SCRCMD_FORCE_CLEANUP_510660();
     EXPORT void SCRCMD_SAVE_RESTORE_RESPECT_510780();
     EXPORT void PreExecOpCode_5108D0();
-    EXPORT char_type PoolUpdate();
+    EXPORT bool PoolUpdate();
     EXPORT void InitThread_511930(char_type flags, u16 levelStart);
     EXPORT ScriptThread* SpawnThread_511960(u16 levelStart);
-    EXPORT void launch_mission_5119A0(SCR_CMD_HEADER* base_pointer, char_type* string);
+    EXPORT void launch_mission_5119A0(SCR_CMD_HEADER* pCmd, const char_type* pMissionName);
     EXPORT ScriptThread();
     EXPORT void DisableBasicKfsFromSave_511CD0();
     EXPORT ~ScriptThread();
@@ -1162,7 +1162,7 @@ class ScriptThread
     char_type field_14_str[255];
     char_type field_113_unused;
     ScriptGosubStack* field_114_gosub_stack;
-    char_type field_118_in_level_start;
+    bool field_118_in_level_start;
     char_type field_119_unused;
     s16 field_11A_thread_id;
 };

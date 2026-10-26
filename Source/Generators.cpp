@@ -24,7 +24,7 @@ void Generator::Activate_4C1A70()
 }
 
 MATCH_FUNC(0x4C1AB0)
-s32 Generator::next_cycle_4C1AB0()
+s32 Generator::next_cycle_4C1AB0() const
 {
     s32 result;
     if (field_12_min_delay == field_14_max_delay)
@@ -39,9 +39,9 @@ s32 Generator::next_cycle_4C1AB0()
 }
 
 MATCH_FUNC(0x4C1B10)
-EXPORT void Generator::SpawnObject_4C1B10()
+void Generator::SpawnObject_4C1B10()
 {
-    if (field_21_spawn_mode == 2)
+    if (field_21_spawn_mode == generator_spawn_mode::one_at_a_time_2)
     {
         if (field_24_obj)
         {
@@ -51,7 +51,7 @@ EXPORT void Generator::SpawnObject_4C1B10()
             }
             else
             {
-                field_24_obj = 0;
+                field_24_obj = NULL;
                 field_28_id = 0;
                 field_18_cycle = next_cycle_4C1AB0();
             }
@@ -138,7 +138,7 @@ void Generator::Init_4C1C70(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 generator_
     field_1C_ammo = 0;
     field_24_obj = NULL;
     field_28_id = 0;
-    field_21_spawn_mode = 1;
+    field_21_spawn_mode = generator_spawn_mode::every_cycle_1;
 }
 
 MATCH_FUNC(0x4c1cd0)
@@ -194,10 +194,10 @@ void GeneratorPool::GeneratorsService_4C1D70()
 MATCH_FUNC(0x4c1dc0)
 Generator* GeneratorPool::CreateGenerator_4C1DC0(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 type, s16 min_delay, s16 max_delay)
 {
-    Generator* pMaccies = &field_0_pool[field_14A0_count];
-    pMaccies->Init_4C1C70(x, y, z, rot, type, min_delay, max_delay);
+    Generator* pGen = &field_0_pool[field_14A0_count];
+    pGen->Init_4C1C70(x, y, z, rot, type, min_delay, max_delay);
     field_14A0_count++;
-    return pMaccies;
+    return pGen;
 }
 
 MATCH_FUNC(0x4c1e20)
