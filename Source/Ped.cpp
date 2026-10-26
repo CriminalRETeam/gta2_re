@@ -1420,11 +1420,7 @@ void Ped::SpawnPedInCar_45C730(Car* pCar)
     pCar->field_7C_ped_type = field_238_ped_type;
     pCar->field_76_last_seen_timer = 0;
 
-    // TODO: inline ??
-    if (pCar->field_88_despawn_status == car_despawn_status::despawn_pending_2 || pCar->field_88_despawn_status == car_despawn_status::marked_for_despawn_4 || pCar->field_88_despawn_status == car_despawn_status::despawn_soon_3)
-    {
-        pCar->field_88_despawn_status = car_despawn_status::active_1;
-    }
+    pCar->CancelDespawn_4215F0();
 }
 
 MATCH_FUNC(0x45c7a0)
@@ -1459,7 +1455,7 @@ bool Ped::AllocCharB4_45C830(Fix16 xpos, Fix16 ypos, Fix16 zpos)
         return false;
     }
 
-    Sprite* pSprite = pSprite = pChar->field_80_sprite_ptr;
+    Sprite* pSprite = pChar->field_80_sprite_ptr;
     pSprite->set_xyz_lazy_420600(xpos, ypos, zpos);
 
     pChar->field_80_sprite_ptr->AllocCollisionShape_59F950(gDummyW_678530, gDummyW_678530, gDummyZ_67841C);
@@ -1529,11 +1525,10 @@ Ang16 Ped::ComputeAimAngle_45C9D0()
 {
     if (PedTypeIs_45EDE0(ped_type::player_2))
     {
-        Ped* pNearest = gThreateningPedsList_678468.FindClosestPedInViewCone_4713C0(this->field_1AC_cam.x,
-                                                                                    this->field_1AC_cam.y,
-                                                                                    this->field_12C_facing_angle,
-                                                                                    kAng16_6784E4);
-        Ped* best = pNearest;
+        Ped* best = gThreateningPedsList_678468.FindClosestPedInViewCone_4713C0(this->field_1AC_cam.x,
+                                                                                this->field_1AC_cam.y,
+                                                                                this->field_12C_facing_angle,
+                                                                                kAng16_6784E4);
 
         if (!best)
         {
@@ -1563,8 +1558,6 @@ Ang16 Ped::ComputeAimAngle_45C9D0()
 MATCH_FUNC(0x45caa0)
 void Ped::HandleClosePedInteraction_45CAA0()
 {
-
-    PedGroup* pNearPedGroup;
     s16 rng;
 
     Ped* pNearPed = FindNearbyPed_466FB0();
@@ -1573,7 +1566,7 @@ void Ped::HandleClosePedInteraction_45CAA0()
         if (abs_sub_less_than_epislon_45AE40(this->field_1AC_cam.z, pNearPed->get_cam_z()))
         {
             this->field_188_last_char_punched = pNearPed;
-            pNearPedGroup = pNearPed->field_164_ped_group;
+            PedGroup* pNearPedGroup = pNearPed->field_164_ped_group;
             if (!pNearPedGroup || pNearPedGroup != this->field_164_ped_group)
             {
                 pNearPed->field_144_attacker = this;
@@ -2674,7 +2667,6 @@ void Ped::Deallocate_45EB60()
             field_17C_pGang->field_141_always_basic_weapon = 0;
         }
     }
-    field_164_ped_group = field_164_ped_group;
     if (field_164_ped_group)
     {
         if (field_23C_group_idx == 99)
@@ -2927,9 +2919,6 @@ void Ped::Mugger_AI_45F360()
 MATCH_FUNC(0x45ff60)
 void Ped::CarThief_AI_45FF60()
 {
-
-    Car* pNearestSteal;
-    Car* pNearestSteal_;
     Car* pStolenCar;
     Car* pCar;
     Fix16 xd;
@@ -2963,21 +2952,20 @@ void Ped::CarThief_AI_45FF60()
             {
                 if (!this->field_218_objective_timer)
                 {
-                    pNearestSteal = gCarManager_6C_677930->GetNearestEnterableCarFromCoord_444FA0(this->field_1AC_cam.x,
-                                                                                           this->field_1AC_cam.y,
-                                                                                           this->field_1AC_cam.z,
-                                                                                           this);
-                    pNearestSteal_ = pNearestSteal;
-                    if (pNearestSteal)
+                    Car* pNearestCar = gCarManager_6C_677930->GetNearestEnterableCarFromCoord_444FA0(this->field_1AC_cam.x,
+                                                                                                  this->field_1AC_cam.y,
+                                                                                                  this->field_1AC_cam.z,
+                                                                                                  this);
+                    if (pNearestCar)
                     {
-                        if (pNearestSteal->field_7C_ped_type != ped_type::player_2)
+                        if (pNearestCar->field_7C_ped_type != ped_type::player_2)
                         {
-                            if (!pNearestSteal->IsTrainModel_403BA0() && !pNearestSteal_->IsPoliceCar_439EC0() &&
-                                pNearestSteal_->field_84_car_info_idx != car_model_enum::BUS &&
-                                pNearestSteal_->field_4_passengers_list.IsEmpty_420EA0() && pNearestSteal_->field_7C_ped_type == ped_type::dummy_3)
+                            if (!pNearestCar->IsTrainModel_403BA0() && !pNearestCar->IsPoliceCar_439EC0() &&
+                                pNearestCar->field_84_car_info_idx != car_model_enum::BUS &&
+                                pNearestCar->field_4_passengers_list.IsEmpty_420EA0() && pNearestCar->field_7C_ped_type == ped_type::dummy_3)
                             {
                                 SetObjective(objectives_enum::enter_car_as_driver_35);
-                                this->field_150_target_objective_car = pNearestSteal_;
+                                this->field_150_target_objective_car = pNearestCar;
                                 this->field_248_enter_car_as_passenger = 0;
                                 this->field_24C_target_car_door = 0;
                             }
