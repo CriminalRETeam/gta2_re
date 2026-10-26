@@ -38,12 +38,16 @@ enum
 
 class CarAI
 {
-  public:
+  private:
     EXPORT void MakeAgressiveSirensAndLights_4476F0();
     EXPORT void PlanTurnAtNextJunction_447710();
     EXPORT void DoShortcutsUsingJunctions_447970();
     inline void TurnAround_447970();
+
+  public:
     EXPORT bool GoToBlock_447CA0(u8 x, u8 y, u8 z, s32 arrow_type);
+
+  private:
     EXPORT bool TrySetTargetDirectionFromArrows_447D40(const gmp_block_info* pBlock);
     EXPORT bool IsClockwiseTurning_448270() const;
     EXPORT void BrakeForBlockedRoadAhead_4482C0();
@@ -66,10 +70,16 @@ class CarAI
     EXPORT void RaiseSpeedTo_453990(Fix16 target_speed);
     EXPORT void ClearTurnReady_4539B0();
     EXPORT void UpdateSpeedTowardTarget_4539D0();
+
+  public:
     EXPORT void UpdateTrainMovement_453A40();
     EXPORT void AI_Service_453BB0();
     EXPORT void SetCar_453BF0(Car* pCar);
+
+  private:
     EXPORT void ReverseOrNeutral_453C00();
+
+  public:
     EXPORT void PoolAllocate();
     EXPORT CarAI();
 
