@@ -3494,8 +3494,8 @@ sound_obj::sound_obj()
 
     field_543C_444C_nAudioEntitiesCount = 0;
     field_5448_m_FrameCounter = 0;
-    field_544C[0].field_0_fifth_frame_flag = false; // todo: type check
-    field_544C[0].field_18 = 0; // todo: type check
+    field_544C[0].field_0_fifth_frame_flag = false;
+    field_544C[0].field_18 = 0;
     field_3 = 1;
 }
 
@@ -6517,7 +6517,6 @@ u8 sound_obj::GetFreeRadioWordSlots_427310() const
     }
 }
 
-// TODO: Arg types ??
 MATCH_FUNC(0x427340)
 void sound_obj::EnqueueRadioCrimeCallout_427340(s32 crime_word, u8 loc_a, u8 loc_b)
 {
@@ -6535,7 +6534,7 @@ void sound_obj::EnqueueRadioCrimeCallout_427340(s32 crime_word, u8 loc_a, u8 loc
         EnqueueRadioWord_4271B0(73u);
         EnqueueRadioWord_4271B0(crime_word + 73);
         EnqueueRadioWord_4271B0(88u);
-        EnqueueRadioLocationPhrase_426E10(loc_a, loc_b); // TODO: Arg types ??
+        EnqueueRadioLocationPhrase_426E10(loc_a, loc_b);
     }
 }
 
