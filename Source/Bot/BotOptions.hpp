@@ -21,6 +21,7 @@
 //   -bot_walk=N           walk_test: frames to hold forward
 //   -bot_pad=xxx...       ignored; Scripts/bot pads the command line to a fixed length so that
 //                         the CRT's start up allocations, and so the heap layout, are the same
+//   -bot_goto=x,y         walk_arrow: target when the HUD arrow shows nothing (tiles)
 //   -bot_perturb          restore_check: change the player's health after the restore, so the
 //                         check must FAIL and name the ped pool block (verifier sanity check)
 struct BotOptions
@@ -43,6 +44,8 @@ struct BotOptions
     s32 walk_frames;
     bool perturb;
     s32 save_at_frame; // -1 = never
+    bool has_goto;
+    float goto_x, goto_y;
 };
 
 // Returns false (and leaves *out zeroed except defaults) when the command line has no -bot option

@@ -312,6 +312,8 @@ set(gta2_bot_src
   Source/Bot/Hooks.cpp
   Source/Bot/Snapshot.hpp
   Source/Bot/Snapshot.cpp
+  Source/Bot/WorldModel.hpp
+  Source/Bot/WorldModel.cpp
   Source/3rdParty/Detours/src/detours.cpp
   Source/3rdParty/Detours/src/disasm.cpp
 )

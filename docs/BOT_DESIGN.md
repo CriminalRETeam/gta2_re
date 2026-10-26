@@ -378,10 +378,38 @@ Decisions that differ from the plan above, and why:
   the CI style `xvfb-run` path is untested. The process sometimes segfaults inside wine during
   teardown, after the replay was written; the drivers ignore the exit code.
 
-### Next: phase 1
+### Phase 1: done
 
-`WorldModel` (entities, facts, `Text()`), `BotRng`, the stuck report, `-bot_load`, and the
-hard-coded "walk towards the arrow target" behaviour.
+`WorldModel` (`Observe()` copies plain numbers out of the game pools, `Text()` is the cheap view),
+`BotRng`, the decision ring, the stuck report with `bot_stuck.snap`, `-bot_load`, and the
+`walk_arrow` profile: walk to the HUD arrow target, or to `-bot_goto=x,y` when there is none.
+
+```bash
+python3 run_bot.py --profile walk_arrow --budget 1500 -- -bot_goto=162,141   # PASS, arrived
+python3 run_bot.py --profile walk_arrow --budget 1500 -- -bot_goto=170,150   # FAIL no_progress
+```
+
+- The controller calibrates itself: it walks 10 frames, turns right 8, walks again, and fits
+  `heading = sign * rotation + offset` from the two moves. On foot the ped's rotation runs the
+  opposite way to the world heading (`heading = -rot + 180`, rot 180 is up the map), which a
+  single move could not show.
+- Failure conditions are `no_progress` (the distance did not shrink by half a tile in 150
+  frames) and `no_plan` (no arrow and no goto). The second goto above is a real wall near
+  (164,140); the report holds the cheap view, the last decisions and the path of the snapshot.
+- `bot_stuck.snap` is the state at the start of the failing action. Loading it in a fresh process
+  (`-bot_load`) resumes at the same rng and player position as the walk trace shows for that frame.
+- The recorded `.rep` of the arrival run plays back to the same per-frame trace. The `hash_log`
+  comparison of the plan was not done: the recorder state (live vs playback) is inside the hashed
+  memory and differs by design, so the trace (rng, player position) is the replay check.
+- Not yet exercised: the arrow branch of the walk (no mission arrow is active at the start of
+  Downtown). The `WorldModel` arrow, phone, brief and gang fields are read but only the player,
+  ped and car lines have been looked at against live data.
+
+### Next: phase 2
+
+Navigation: `NavFoot` (block grid, `PathFinder`, slopes, roads as hazards), `NavRoad`, `Driving`,
+`EnterCar`/`ExitCar`, and generic retry with snapshots. The walk_arrow wall case above is the
+first thing the foot navigator has to solve.
 
 ## Risks and open points
 

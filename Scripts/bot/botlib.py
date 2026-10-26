@@ -269,7 +269,7 @@ def read_trace(out_dir):
     if path.exists():
         for line in path.read_text().splitlines():
             parts = line.split()
-            if len(parts) >= 7:
+            if len(parts) >= 7 and parts[0].lstrip('-').isdigit():
                 rows.append(tuple(int(p) for p in parts[:7]))
     return rows
 
