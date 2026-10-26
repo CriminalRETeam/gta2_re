@@ -75,8 +75,8 @@ struct RadioStationEmitter
     Fix16 field_8_ypos;
 
     s32 field_C_station_idx;
-    s16 field_10;
-    s16 field_12;
+    s16 field_10_a_variant_radius;
+    s16 field_12_main_radius;
     s32 field_14_elapsed_frames;
     s32 field_18_pos_ms;
 };
@@ -233,8 +233,8 @@ class sound_obj
     s16 field_54E8[5];
     u8 field_54F2[5];
     u8 field_54F7_active_emitter_idx[5];
-    s32 field_54FC;
-    s32 field_5500;
+    s32 field_54FC_main_variant;
+    s32 field_5500_prev_main_variant;
     char_type field_5504_radio_station_change_mode;
     char_type field_5505_unused;
     char_type field_5506_mute_timer;
@@ -411,7 +411,7 @@ class sound_obj
     EXPORT void InitMusicAndCopRadio_57E960();
     EXPORT void DeInitVocals_57EA10();
     EXPORT void UpdateActiveRadioEmitterVolume_57EA90();
-    EXPORT char_type ComputeRadioEmitterVolume_57EB90(u8 emitterIndex, s32 bUseFarRadius);
+    EXPORT char_type ComputeRadioEmitterVolume_57EB90(u8 emitterIndex, s32 bMainVariant);
     EXPORT void DeclareRadioStation_57ECB0(s32 station_idx, Fix16 xpos, Fix16 ypos);
     EXPORT void SetRadioEmitterRadii_57EDB0(RadioStationEmitter* pEmitter, s32 type);
     EXPORT void RemoveSound_57EE30(Fix16 xpos, Fix16 ypos);

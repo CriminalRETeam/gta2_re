@@ -116,7 +116,7 @@ class cSampleManager
 
     EXPORT char_type MusicFileExists_58E500();
 
-    EXPORT void PlayVocal_58E510(s32 stream_idx, s32 voc_idx, char_type bAppendA);
+    EXPORT void PlayVocal_58E510(s32 stream_idx, s32 voc_idx, char_type bMainVariant);
 
     EXPORT void CloseVocalStream_58E6A0(s32 stream_idx);
 

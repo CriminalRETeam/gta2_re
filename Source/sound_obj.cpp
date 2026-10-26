@@ -6762,7 +6762,7 @@ void sound_obj::ProcessType3_CopRadioAndMusic_57DD50()
 
     field_54F2[2] = field_54F2[3];
     field_54F7_active_emitter_idx[1] = field_54F7_active_emitter_idx[0];
-    field_5500 = field_54FC;
+    field_5500_prev_main_variant = field_54FC_main_variant;
     TickRadioStationClocks_57E680();
 
     Car* pCar = gGame_0x40_67E008->field_38_local_player->GetPlayerCar_5698E0();
@@ -6836,7 +6836,7 @@ void sound_obj::HandleVocalStreamSwitching_57DF10(char_type bFastForward)
 
     if (field_54F2[2] != field_54F2[3])
     {
-        bFast = field_54FC == 1;
+        bFast = field_54FC_main_variant == 1;
         gSampManager_6FFF00.CloseVocalStream_58E6A0(0);
         if (field_54F7_active_emitter_idx[0] != 101)
         {
@@ -6877,7 +6877,7 @@ void sound_obj::HandleVocalStreamSwitching_57DF10(char_type bFastForward)
     // The do/while (0) and the gotos to done (not returns) give the original's block layout and tail merging.
     do
     {
-        if (field_5500 == field_54FC)
+        if (field_5500_prev_main_variant == field_54FC_main_variant)
         {
             if (!bStationChanged)
             {
@@ -6896,7 +6896,7 @@ void sound_obj::HandleVocalStreamSwitching_57DF10(char_type bFastForward)
             {
                 pos = gSampManager_6FFF00.GetVocalPosMs_58E770(0);
                 gSampManager_6FFF00.CloseVocalStream_58E6A0(0);
-                bFast = field_54FC == 1;
+                bFast = field_54FC_main_variant == 1;
                 if (field_54F7_active_emitter_idx[0] != 101)
                 {
                     gSampManager_6FFF00.PlayVocal_58E510(0, RadioEmitter(field_54F7_active_emitter_idx[0] + 1).field_C_station_idx, bFast);
@@ -6925,7 +6925,7 @@ void sound_obj::HandleVocalStreamSwitching_57DF10(char_type bFastForward)
         RadioEmitter(field_54F7_active_emitter_idx[1] + 1).field_18_pos_ms = pos;
     }
     gSampManager_6FFF00.CloseVocalStream_58E6A0(0);
-    bFast = field_54FC == 1;
+    bFast = field_54FC_main_variant == 1;
     if (field_54F7_active_emitter_idx[0] != 101)
     {
         gSampManager_6FFF00.PlayVocal_58E510(0, RadioEmitter(field_54F7_active_emitter_idx[0] + 1).field_C_station_idx, bFast);
@@ -7059,7 +7059,7 @@ void sound_obj::UpdateCarRadioAudio_57E220()
             field_30_sQueueSample.field_64_max_distance = 50;
             AddSampleToRequestedQueue_41A850();
 
-            if (field_54FC == 0)
+            if (field_54FC_main_variant == 0)
             {
                 u32 tune_rate = gSampManager_6FFF00.GetPlayBackRate_58DBF0(138);
                 tune_rate += (tune_rate >> 6) * RadioEmitter(field_54F7_active_emitter_idx[0] + 1).field_C_station_idx;
@@ -7160,7 +7160,7 @@ void sound_obj::ChooseRadioEmitterForVehicle_57E6C0()
     Car* pCar = gGame_0x40_67E008->field_38_local_player->GetPlayerCar_5698E0();
     if (IsPoliceOrServiceVehicle_57F090(pCar) == true)
     {
-        field_54FC = 0;
+        field_54FC_main_variant = 0;
         field_54F7_active_emitter_idx[0] = 101;
         return;
     }
@@ -7171,7 +7171,7 @@ void sound_obj::ChooseRadioEmitterForVehicle_57E6C0()
         return;
     }
 
-    field_54FC = 1;
+    field_54FC_main_variant = 1;
 
     u8 emitter;
     switch (pCar->GetCarInfoIdx_411940())
@@ -7295,8 +7295,8 @@ void sound_obj::InitMusicAndCopRadio_57E960()
         for (u8 i = 1; i <= 5; i++)
         {
             RadioEmitter(i).field_0_bUsed = 0;
-            RadioEmitter(i).field_10 = 0;
-            RadioEmitter(i).field_12 = 0;
+            RadioEmitter(i).field_10_a_variant_radius = 0;
+            RadioEmitter(i).field_12_main_radius = 0;
             RadioEmitter(i).field_14_elapsed_frames = 0;
             RadioEmitter(i).field_18_pos_ms = 0;
         }
@@ -7379,12 +7379,12 @@ void sound_obj::UpdateActiveRadioEmitterVolume_57EA90()
 
     if (RadioEmitter(field_54F7_active_emitter_idx[0] + 1).field_C_station_idx && RadioEmitter(field_54F7_active_emitter_idx[0] + 1).field_0_bUsed == 1)
     {
-        if (!field_54FC)
+        if (!field_54FC_main_variant)
         {
             u8 volume = ComputeRadioEmitterVolume_57EB90(field_54F7_active_emitter_idx[0], 1);
             if (volume > 110)
             {
-                field_54FC = 1;
+                field_54FC_main_variant = 1;
                 field_54F2[4] = volume;
                 field_5506_mute_timer = field_1454_anRandomTable[0] % 10 + 16;
             }
@@ -7398,13 +7398,13 @@ void sound_obj::UpdateActiveRadioEmitterVolume_57EA90()
             if (static_cast<u8>(ComputeRadioEmitterVolume_57EB90(field_54F7_active_emitter_idx[0], 1)) < 90)
             {
                 field_54F2[4] = ComputeRadioEmitterVolume_57EB90(field_54F7_active_emitter_idx[0], 0);
-                field_54FC = 0;
+                field_54FC_main_variant = 0;
                 field_5506_mute_timer = field_1454_anRandomTable[0] % 10 + 16;
             }
             else
             {
                 field_54F2[4] = ComputeRadioEmitterVolume_57EB90(field_54F7_active_emitter_idx[0], 1);
-                field_54FC = 1;
+                field_54FC_main_variant = 1;
             }
         }
     }
@@ -7415,7 +7415,7 @@ void sound_obj::UpdateActiveRadioEmitterVolume_57EA90()
 }
 
 MATCH_FUNC(0x57EB90)
-char_type sound_obj::ComputeRadioEmitterVolume_57EB90(u8 emitterIndex, s32 bUseFarRadius)
+char_type sound_obj::ComputeRadioEmitterVolume_57EB90(u8 emitterIndex, s32 bMainVariant)
 {
     if (RadioEmitter(emitterIndex + 1).field_0_bUsed && RadioEmitter(emitterIndex + 1).field_C_station_idx)
     {
@@ -7428,13 +7428,13 @@ char_type sound_obj::ComputeRadioEmitterVolume_57EB90(u8 emitterIndex, s32 bUseF
             abs(static_cast<s16>(xpos.ToInt() - RadioEmitter(emitterIndex + 1).field_4_xpos.ToInt()));
 
         u16 radius;
-        if (!bUseFarRadius)
+        if (!bMainVariant)
         {
-            radius = RadioEmitter(emitterIndex + 1).field_10;
+            radius = RadioEmitter(emitterIndex + 1).field_10_a_variant_radius;
         }
         else
         {
-            radius = RadioEmitter(emitterIndex + 1).field_12;
+            radius = RadioEmitter(emitterIndex + 1).field_12_main_radius;
         }
 
         if (dist < radius)
@@ -7457,7 +7457,7 @@ void sound_obj::DeclareRadioStation_57ECB0(s32 station_idx, Fix16 xpos, Fix16 yp
 {
     for (u8 i = 0; i < 5; i++)
     {
-        if (!RadioEmitter(i + 1).field_0_bUsed && !RadioEmitter(i + 1).field_10 && !RadioEmitter(i + 1).field_12)
+        if (!RadioEmitter(i + 1).field_0_bUsed && !RadioEmitter(i + 1).field_10_a_variant_radius && !RadioEmitter(i + 1).field_12_main_radius)
         {
             RadioEmitter(i + 1).field_0_bUsed = 1;
             RadioEmitter(i + 1).field_C_station_idx = station_idx;
@@ -7478,50 +7478,50 @@ void sound_obj::SetRadioEmitterRadii_57EDB0(RadioStationEmitter* pEmitter, s32 t
     switch (type)
     {
         case 1:
-            pEmitter->field_10 = 0;
-            pEmitter->field_12 = 600;
+            pEmitter->field_10_a_variant_radius = 0;
+            pEmitter->field_12_main_radius = 600;
             pEmitter->field_4_xpos = 0;
             pEmitter->field_8_ypos = 0;
             break;
         case 2:
-            pEmitter->field_10 = 0;
-            pEmitter->field_12 = 600;
+            pEmitter->field_10_a_variant_radius = 0;
+            pEmitter->field_12_main_radius = 600;
             break;
         case 3:
-            pEmitter->field_10 = 0;
-            pEmitter->field_12 = 600;
+            pEmitter->field_10_a_variant_radius = 0;
+            pEmitter->field_12_main_radius = 600;
             break;
         case 4:
-            pEmitter->field_10 = 0;
-            pEmitter->field_12 = 600;
+            pEmitter->field_10_a_variant_radius = 0;
+            pEmitter->field_12_main_radius = 600;
             break;
         case 5:
-            pEmitter->field_10 = 600;
-            pEmitter->field_12 = 300;
+            pEmitter->field_10_a_variant_radius = 600;
+            pEmitter->field_12_main_radius = 300;
             break;
         case 6:
-            pEmitter->field_10 = 600;
-            pEmitter->field_12 = 300;
+            pEmitter->field_10_a_variant_radius = 600;
+            pEmitter->field_12_main_radius = 300;
             break;
         case 7:
-            pEmitter->field_10 = 600;
-            pEmitter->field_12 = 300;
+            pEmitter->field_10_a_variant_radius = 600;
+            pEmitter->field_12_main_radius = 300;
             break;
         case 8:
-            pEmitter->field_10 = 600;
-            pEmitter->field_12 = 300;
+            pEmitter->field_10_a_variant_radius = 600;
+            pEmitter->field_12_main_radius = 300;
             break;
         case 9:
-            pEmitter->field_10 = 600;
-            pEmitter->field_12 = 300;
+            pEmitter->field_10_a_variant_radius = 600;
+            pEmitter->field_12_main_radius = 300;
             break;
         case 10:
-            pEmitter->field_10 = 600;
-            pEmitter->field_12 = 300;
+            pEmitter->field_10_a_variant_radius = 600;
+            pEmitter->field_12_main_radius = 300;
             break;
         case 11:
-            pEmitter->field_10 = 600;
-            pEmitter->field_12 = 300;
+            pEmitter->field_10_a_variant_radius = 600;
+            pEmitter->field_12_main_radius = 300;
             break;
     }
 }
@@ -7542,8 +7542,8 @@ void sound_obj::RemoveSound_57EE30(Fix16 xpos, Fix16 ypos)
             static_cast<s16>(RadioEmitter(i).field_8_ypos.ToInt()) == y)
         {
             RadioEmitter(i).field_0_bUsed = 0;
-            RadioEmitter(i).field_10 = 0;
-            RadioEmitter(i).field_12 = 0;
+            RadioEmitter(i).field_10_a_variant_radius = 0;
+            RadioEmitter(i).field_12_main_radius = 0;
             RadioEmitter(i).field_14_elapsed_frames = 0;
             RadioEmitter(i).field_18_pos_ms = 0;
             return;
@@ -7614,7 +7614,7 @@ void sound_obj::SelectBestRadioEmitter_57EF60()
             {
                 field_54F7_active_emitter_idx[0] = candidate;
                 field_54F2[4] = volume;
-                field_54FC = 1 - bNear;
+                field_54FC_main_variant = 1 - bNear;
                 field_5504_radio_station_change_mode = 0;
                 field_5506_mute_timer = field_1454_anRandomTable[0] % 15 + 15;
                 return;

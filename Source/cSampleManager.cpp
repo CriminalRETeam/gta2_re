@@ -932,7 +932,7 @@ char_type cSampleManager::MusicFileExists_58E500()
 }
 
 MATCH_FUNC(0x58E510)
-void cSampleManager::PlayVocal_58E510(s32 stream_idx, s32 voc_idx, char_type bAppendA)
+void cSampleManager::PlayVocal_58E510(s32 stream_idx, s32 voc_idx, char_type bMainVariant)
 {
     if (stream_idx || field_55_bMusicFound)
     {
@@ -949,7 +949,7 @@ void cSampleManager::PlayVocal_58E510(s32 stream_idx, s32 voc_idx, char_type bAp
             char_type Buffer[12];
             sprintf(Buffer, "%d", voc_idx);
             strcat(fileName, Buffer);
-            if (!bAppendA)
+            if (!bMainVariant)
             {
                 strcat(fileName, "A");
             }
