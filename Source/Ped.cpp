@@ -2187,7 +2187,7 @@ bool Ped::HandlePedHitByObject_45D000(Object* pObj)
         case objects::rocket_bullet_128:
         case objects::moving_molotov_138:
         case objects::shotgun_bullet_192:
-        case objects::object_195:
+        case objects::flamethrower_bullet_195:
         case objects::machine_gun_bullet_254:
         case objects::pistol_bullet_265:
         {

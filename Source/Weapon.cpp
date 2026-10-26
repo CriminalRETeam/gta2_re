@@ -308,7 +308,7 @@ void Weapon::flamethrower_5DD0F0()
     }
     else
     {
-        Weapon::spawn_bullet_5DCF60(195, cam_x, cam_y, cam_z, ped_rot, ped_velocity);
+        Weapon::spawn_bullet_5DCF60(objects::flamethrower_bullet_195, cam_x, cam_y, cam_z, ped_rot, ped_velocity);
     }
 }
 
@@ -351,11 +351,11 @@ void Weapon::shotgun_5DD290()
         }
         else
         {
-            Weapon::spawn_bullet_5DCF60(objects::tanktop_193, x, y, z, kAng24_706D5C + ped_rotation, vector);
-            Weapon::spawn_bullet_5DCF60(objects::tanktop_193, x, y, z, Ang16(kAng12_706D5E.rValue + ped_rotation.rValue, static_cast<u8>(0)), vector);
-            Weapon::spawn_bullet_5DCF60(objects::tanktop_193, x, y, z, ped_rotation, vector);
-            Weapon::spawn_bullet_5DCF60(objects::tanktop_193, x, y, z, Ang16(ped_rotation.rValue - kAng12_706D5E.rValue, static_cast<u8>(0)), vector);
-            Weapon::spawn_bullet_5DCF60(objects::tanktop_193, x, y, z, Ang16(ped_rotation.rValue - kAng24_706D5C.rValue).Normalized_406C20(), vector);
+            Weapon::spawn_bullet_5DCF60(objects::invisible_shotgun_bullet_193, x, y, z, kAng24_706D5C + ped_rotation, vector);
+            Weapon::spawn_bullet_5DCF60(objects::invisible_shotgun_bullet_193, x, y, z, Ang16(kAng12_706D5E.rValue + ped_rotation.rValue, static_cast<u8>(0)), vector);
+            Weapon::spawn_bullet_5DCF60(objects::invisible_shotgun_bullet_193, x, y, z, ped_rotation, vector);
+            Weapon::spawn_bullet_5DCF60(objects::invisible_shotgun_bullet_193, x, y, z, Ang16(ped_rotation.rValue - kAng12_706D5E.rValue, static_cast<u8>(0)), vector);
+            Weapon::spawn_bullet_5DCF60(objects::invisible_shotgun_bullet_193, x, y, z, Ang16(ped_rotation.rValue - kAng24_706D5C.rValue).Normalized_406C20(), vector);
             field_2_reload_timer = 5;
         }
         Weapon::ApplyFastReload_5DCF40();
@@ -1441,7 +1441,7 @@ void Weapon::fire_truck_flamethrower_5E0B10()
     }
     else
     {
-        spawn_bullet_5DCF60(195, bullet_pos.x, bullet_pos.y, field_14_car->field_50_car_sprite->field_1C_zpos, gun_ang, velocity);
+        spawn_bullet_5DCF60(objects::flamethrower_bullet_195, bullet_pos.x, bullet_pos.y, field_14_car->field_50_car_sprite->field_1C_zpos, gun_ang, velocity);
     }
 }
 
@@ -1481,7 +1481,7 @@ void Weapon::fire_truck_gun_5E0E70()
     }
     else
     {
-        spawn_bullet_5DCF60(199, bullet_pos.x, bullet_pos.y, field_14_car->field_50_car_sprite->field_1C_zpos, gun_ang, velocity);
+        spawn_bullet_5DCF60(objects::fire_truck_gun_bullet_199, bullet_pos.x, bullet_pos.y, field_14_car->field_50_car_sprite->field_1C_zpos, gun_ang, velocity);
     }
 }
 
@@ -1855,7 +1855,7 @@ void Weapon::ChuckThrowable_5E34B0()
             {
                 if (field_1C_weapon_type == weapon_type::molotov || field_1C_weapon_type == weapon_type::grenade)
                 {
-                    s32 obj_type = (field_1C_weapon_type != weapon_type::molotov ? 183 : 138);
+                    s32 obj_type = (field_1C_weapon_type != weapon_type::molotov ? objects::grenade_obj_183 : objects::moving_molotov_138);
                     if (field_24_pPed->field_15C_player->IsThrowCharging_4CCB00())
                     {
                         s32 throw_strength = field_24_pPed->field_15C_player->GetThrowStrength_4CCAD0();
@@ -1922,7 +1922,7 @@ void Weapon::pull_trigger_5E3670()
             }
             else
             {
-                throwable_5DDFC0(138, 0x1E, 45);
+                throwable_5DDFC0(objects::moving_molotov_138, 0x1E, 45);
             }
             break;
 
@@ -1937,13 +1937,13 @@ void Weapon::pull_trigger_5E3670()
 
                 if (pp->GetThrowCharge_4CCAE0() == 0x60)
                 {
-                    throwable_5DDFC0(183, field_24_pPed->field_15C_player->GetThrowStrength_4CCAD0(), pp->GetThrowCharge_4CCAE0());
+                    throwable_5DDFC0(objects::grenade_obj_183, field_24_pPed->field_15C_player->GetThrowStrength_4CCAD0(), pp->GetThrowCharge_4CCAE0());
                     this->field_24_pPed->field_15C_player->field_50_throw_charge = -1;
                 }
             }
             else
             {
-                throwable_5DDFC0(183, 0x1E, 45);
+                throwable_5DDFC0(objects::grenade_obj_183, 0x1E, 45);
             }
             break;
 

@@ -2666,11 +2666,11 @@ void Object::ProcessObjectExplosionImpact_528A20(Object* pObj)
         case objects::invisible_bullet_154:
         case objects::invisible_rocket_159:
         case objects::shotgun_bullet_192:
-        case objects::tanktop_193:
+        case objects::invisible_shotgun_bullet_193:
         case objects::fire_hitting_194:
-        case objects::object_195:
+        case objects::flamethrower_bullet_195:
         case objects::water_hitting_198:
-        case objects::object_199:
+        case objects::fire_truck_gun_bullet_199:
         case objects::machine_gun_bullet_254:
         case objects::pistol_bullet_265:
         case objects::electrobaton_bullet_277:
@@ -2736,11 +2736,11 @@ void Object::HandleImpactNoSprite_528BA0()
         case objects::invisible_bullet_154:
         case objects::invisible_rocket_159:
         case objects::shotgun_bullet_192:
-        case objects::tanktop_193:
+        case objects::invisible_shotgun_bullet_193:
         case objects::fire_hitting_194:
-        case objects::object_195:
+        case objects::flamethrower_bullet_195:
         case objects::water_hitting_198:
-        case objects::object_199:
+        case objects::fire_truck_gun_bullet_199:
         case objects::electrobaton_bullet_277:
             break;
 

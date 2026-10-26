@@ -3945,9 +3945,9 @@ bool __stdcall IsNoKillCreditObject_48E720(s32 model)
     {
         case objects::invisible_bullet_154:
         case objects::invisible_rocket_159:
-        case objects::tanktop_193:
-        case objects::object_195:
-        case objects::object_199:
+        case objects::invisible_shotgun_bullet_193:
+        case objects::flamethrower_bullet_195:
+        case objects::fire_truck_gun_bullet_199:
             result = true;
             break;
         default:
@@ -4043,9 +4043,9 @@ bool Car::HandleCarHitByObject_43F130(Object* pObj)
             pFoundPed->HandleShootingAtCar_46FC90(this, pObj->field_18_model);
         }
 
-        if (pObj->field_18_model == objects::invisible_bullet_154 || pObj->field_18_model == objects::tanktop_193 ||
-            pObj->field_18_model == objects::object_195 || pObj->field_18_model == objects::invisible_rocket_159 ||
-            pObj->field_18_model == objects::object_199)
+        if (pObj->field_18_model == objects::invisible_bullet_154 || pObj->field_18_model == objects::invisible_shotgun_bullet_193 ||
+            pObj->field_18_model == objects::flamethrower_bullet_195 || pObj->field_18_model == objects::invisible_rocket_159 ||
+            pObj->field_18_model == objects::fire_truck_gun_bullet_199)
         {
             return true;
         }

@@ -5280,8 +5280,8 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params* pParams)
 
         case 185:
         case 187:
-        case objects::huge_red_skid_189:
-        case objects::huge_brown_skid_191:
+        case objects::yellow_phone_answered_189:
+        case objects::green_phone_answered_191:
             UpdateRadioChatterLoop_41FCA0();
             return;
 
