@@ -6,6 +6,18 @@ class Ped;
 class Car;
 class Object;
 
+// MissionCleanupEntry::field_4_type
+namespace cleanup_entry_type
+{
+enum
+{
+    empty_0 = 0,
+    car_1 = 1,
+    object_2 = 2,
+    ped_3 = 3,
+};
+} // namespace cleanup_entry_type
+
 class MissionCleanupEntry
 {
   public:

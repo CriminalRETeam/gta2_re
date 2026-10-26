@@ -19,7 +19,7 @@ MissionCleanupList::MissionCleanupList() throw()
     {
         field_0_entries[i].field_0_obj = 0;
         field_0_entries[i].field_8_entity_id = 0;
-        field_0_entries[i].field_4_type = 0;
+        field_0_entries[i].field_4_type = cleanup_entry_type::empty_0;
     }
 }
 
@@ -46,7 +46,7 @@ void MissionCleanupList::push_type_1_car_502F80(Car* pCar)
     {
         pFree->field_0_car = pCar;
         const s32 id = pCar->field_6C_car_id;
-        pFree->field_4_type = 1;
+        pFree->field_4_type = cleanup_entry_type::car_1;
         pFree->field_8_entity_id = id;
         field_258_count++;
     }
@@ -60,7 +60,7 @@ void MissionCleanupList::push_type_3_ped_502FB0(Ped* pPed)
     {
         pFree->field_0_ped = pPed;
         const s32 entity_id = pPed->field_200_id;
-        pFree->field_4_type = 3;
+        pFree->field_4_type = cleanup_entry_type::ped_3;
         pFree->field_8_entity_id = entity_id;
         field_258_count++;
     }
@@ -76,7 +76,7 @@ void MissionCleanupList::push_type_2_502FF0(Object* pObj, char_type bForce)
         {
             pEntry->field_0_obj = pObj;
             pEntry->field_8_entity_id = pObj->field_14_id;
-            pEntry->field_4_type = 2;
+            pEntry->field_4_type = cleanup_entry_type::object_2;
             field_258_count++;
         }
     }
@@ -90,7 +90,7 @@ void MissionCleanupList::push_type_2_503050(Object* pObj)
     {
         pEntry->field_0_obj = pObj;
         const s32 entity_id = pObj->field_14_id;
-        pEntry->field_4_type = 2;
+        pEntry->field_4_type = cleanup_entry_type::object_2;
         pEntry->field_8_entity_id = entity_id;
         field_258_count++;
     }

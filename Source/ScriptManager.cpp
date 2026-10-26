@@ -60,14 +60,14 @@ void MissionCleanupList::MissionCleanUp_502DC0()
         {
             switch (pIter->field_4_type)
             {
-                case 2:
+                case cleanup_entry_type::object_2:
                     if (pIter->field_0_obj->field_14_id == pIter->field_8_entity_id)
                     {
                         pIter->field_0_obj->Dealloc_5291B0();
                         pIter->field_0_obj->RequestRemovalWhenOffScreen_5290B0();
                     }
                     break;
-                case 3:
+                case cleanup_entry_type::ped_3:
                     if (pIter->field_0_ped->field_200_id == static_cast<u32>(pIter->field_8_entity_id))
                     {
                         PedGroup* pPedGroup = pIter->field_0_ped->field_164_ped_group;
@@ -79,7 +79,7 @@ void MissionCleanupList::MissionCleanUp_502DC0()
                         pIter->field_0_ped->field_21C_bf.bScheduledForRemoval = true;
                     }
                     break;
-                case 1:
+                case cleanup_entry_type::car_1:
                     if (pIter->field_0_car->field_6C_car_id == pIter->field_8_entity_id)
                     {
                         gGame_0x40_67E008->field_38_local_player->RemoveCarFromHistory_564680(pIter->field_0_car);
@@ -95,7 +95,7 @@ void MissionCleanupList::MissionCleanUp_502DC0()
             }
             pIter->field_0_car = NULL;
             pIter->field_8_entity_id = 0;
-            pIter->field_4_type = 0;
+            pIter->field_4_type = cleanup_entry_type::empty_0;
             --field_258_count;
         }
         pIter++;
