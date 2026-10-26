@@ -1158,7 +1158,7 @@ ObjectDefinitions::ObjectDefinitions()
 {
     for (s32 i = 0; i < GTA2_COUNTOF(field_87F4_definition_by_idx); i++)
     {
-        field_87F4_definition_by_idx[i] = 0;
+        field_87F4_definition_by_idx[i] = NULL;
     }
     field_0_next_idx = 0;
     field_8CA4_def112_base_sprite_idx = 99;
