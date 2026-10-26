@@ -4086,7 +4086,7 @@ bool Ped::StateMachineTick_4626B0()
                 {
                     this->field_168_game_object->SetSpriteNum_4338F0(25);
                 }
-                if (field_168_game_object->IsOnScreen_545700() == 1)
+                if (field_168_game_object->IsOnScreen_545700() == true)
                 {
                     this->field_20E_offscreen_counter = 0;
                 }
@@ -4652,9 +4652,6 @@ void Ped::SetStatesForObjective_4633E0(bool bMainObj)
 MATCH_FUNC(0x463570)
 void Ped::SetObjective(s32 objective, s16 objective_timer)
 {
-    PatrolRoute* pPatrolRoute;
-    PatrolPoint* pPoint;
-
     if (this->field_278_ped_state_1 != ped_state_1::dead_9 || objective == objectives_enum::dead_patient_28)
     {
         this->field_258_objective = objective;
@@ -4727,15 +4724,17 @@ void Ped::SetObjective(s32 objective, s16 objective_timer)
                 break;
 
             case objectives_enum::patrol_on_foot_42:
-                pPatrolRoute = gPatrolRoutePool_6FD784->AllocPatrolList_543F10(&field_265_patrol_list_idx);
+            {
+                PatrolRoute* pPatrolRoute = gPatrolRoutePool_6FD784->AllocPatrolList_543F10(&field_265_patrol_list_idx);
                 field_190_patrol_route = pPatrolRoute;
-                pPoint = pPatrolRoute->field_0_points;
+                PatrolPoint* pPoint = pPatrolRoute->field_0_points;
                 while (pPoint->field_0_x)
                 {
                     pPoint->field_0_x = 0;
                     pPoint++;
                 }
                 break;
+            }
 
             case objectives_enum::goto_area_on_foot_12:
             case objectives_enum::goto_char_on_foot_16:
@@ -8035,7 +8034,7 @@ void Ped::UpdateKillerIdTimer_469030()
 MATCH_FUNC(0x469060)
 void Ped::GotoAreaByAnyMeans_469060()
 {
-    u8 bCanAllocate;
+    bool bCanAllocate;
     u8 xpos;
     u8 ypos;
     u8 zpos;
