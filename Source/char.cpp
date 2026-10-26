@@ -655,7 +655,7 @@ void Char::DrownPed_5459E0()
     {
         if (gPedManager_6787BC->PedById(ped_killer_id))
         {
-            field_7C_pPed->field_290_death_cause = ped_death_cause::unknown_5;
+            field_7C_pPed->field_290_death_cause = ped_death_cause::drowned_5;
             field_7C_pPed->field_264_killer_id_timer = 50;
         }
     }

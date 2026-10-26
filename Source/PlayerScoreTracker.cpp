@@ -510,7 +510,7 @@ void PlayerScoreTracker::AwardPedKilledScore_592660(Ped* pVictim, Ped* pKiller)
                 score = 10000;
                 break;
             case ped_death_cause::electrocuted_2:
-            case ped_death_cause::unknown_5:
+            case ped_death_cause::drowned_5:
                 score = 5000;
                 break;
         }
@@ -697,7 +697,7 @@ void PlayerScoreTracker::AwardPedKilledScore_592660(Ped* pVictim, Ped* pKiller)
                 case ped_death_cause::explosion_4:
                     score = 20;
                     break;
-                case ped_death_cause::unknown_5:
+                case ped_death_cause::drowned_5:
                     score = 50;
                     break;
             }

@@ -13,7 +13,7 @@ enum
     electrocuted_2 = 2,
     run_over_by_stolen_car_3 = 3, // the victim's own stolen car (scores 10000 in a network game)
     explosion_4 = 4,      // caught in a blast (Explosion::ApplyBlastDamage_541850) or a car crusher
-    unknown_5 = 5,
+    drowned_5 = 5,        // Char::DrownPed_5459E0, when the ped has a killer
     projectile_default_9 = 9, // GetDeathCauseForObjectModel_48E780 fallback
     punched_10 = 10,
     bullet_11 = 11,       // machine gun / pistol bullet
