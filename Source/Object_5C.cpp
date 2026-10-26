@@ -2439,14 +2439,14 @@ void Object::TickObject_5283C0(s32 obj_type)
                                 }
                             }
 
-                            u8 bNewObj8;
+                            bool bNewObj8;
                             if (this->field_C_pAny.o8)
                             {
-                                bNewObj8 = 0;
+                                bNewObj8 = false;
                             }
                             else
                             {
-                                bNewObj8 = 1;
+                                bNewObj8 = true;
                                 Object_8* pNewObj8 = gObject_8_Pool_6F8F78->Allocate();
                                 this->field_C_pAny.o8 = pNewObj8;
                             }
@@ -2480,14 +2480,14 @@ void Object::TickObject_5283C0(s32 obj_type)
                                 pNew3C->field_20_obj2c_id = field_14_id;
                             }
 
-                            u8 bNewObj8;
+                            bool bNewObj8;
                             if (this->field_C_pAny.o8)
                             {
-                                bNewObj8 = 0;
+                                bNewObj8 = false;
                             }
                             else
                             {
-                                bNewObj8 = 1;
+                                bNewObj8 = true;
                                 Object_8* pNewObj8 = gObject_8_Pool_6F8F78->Allocate();
                                 this->field_C_pAny.o8 = pNewObj8;
                             }
@@ -3265,7 +3265,7 @@ Object* Object_5C::GetDirectionalObject_5298E0(s32 slope_type)
 MATCH_FUNC(0x529950)
 Object* Object_5C::NewTouchPoint_529950(s32 object_type, Fix16 x, Fix16 y, Fix16 z, Ang16 rot, Fix16 w, Fix16 h, Fix16 depth)
 {
-    Object* pNewObj = CreateObject_529C00(object_type, x, y, z, rot, 0);
+    Object* pNewObj = CreateObject_529C00(object_type, x, y, z, rot, false);
     if (pNewObj)
     {
         pNewObj->field_4_sprite->SetDimensions_482A40(w, h, depth);
@@ -3277,7 +3277,7 @@ Object* Object_5C::NewTouchPoint_529950(s32 object_type, Fix16 x, Fix16 y, Fix16
 MATCH_FUNC(0x5299b0)
 Object* Object_5C::NewPhysicsObj_5299B0(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation)
 {
-    Object* pNewObj = CreateObject_529C00(object_type, xpos, ypos, zpos, rotation, 0);
+    Object* pNewObj = CreateObject_529C00(object_type, xpos, ypos, zpos, rotation, false);
     if (pNewObj)
     {
         pNewObj->AssignToBucket_527AE0();
@@ -3288,7 +3288,7 @@ Object* Object_5C::NewPhysicsObj_5299B0(s32 object_type, Fix16 xpos, Fix16 ypos,
 MATCH_FUNC(0x5299f0)
 Object* Object_5C::NewWithPedRefIdx_5299F0(s32 object_type, u32 ped_ref_idx, Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
-    Object* pNewObj = CreateObject_529C00(object_type, xpos, ypos, zpos, kZeroAng_6F8F68, 0);
+    Object* pNewObj = CreateObject_529C00(object_type, xpos, ypos, zpos, kZeroAng_6F8F68, false);
     if (pNewObj)
     {
         pNewObj->set_field_26(ped_ref_idx);
@@ -3303,7 +3303,7 @@ Object* Object_5C::NewWithPedRefIdx_5299F0(s32 object_type, u32 ped_ref_idx, Fix
 MATCH_FUNC(0x529a40)
 Object* Object_5C::NewLight_529A40(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity)
 {
-    Object* pNewObj = CreateObject_529C00(objects::light_165, xpos, ypos, zpos, kZeroAng_6F8F68, 0);
+    Object* pNewObj = CreateObject_529C00(objects::light_165, xpos, ypos, zpos, kZeroAng_6F8F68, false);
     if (pNewObj)
     {
         pNewObj->field_C_pAny.pLight->SetColourRadiusIntensity_482D60(argb, radius, intensity);
@@ -3314,7 +3314,7 @@ Object* Object_5C::NewLight_529A40(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb,
 MATCH_FUNC(0x529ab0)
 Object* Object_5C::NewLight_529AB0(s32 light_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 argb, Fix16 radius, u8 intensity)
 {
-    Object* pNewObj = Object_5C::CreateObject_529C00(light_type, xpos, ypos, zpos, kZeroAng_6F8F68, 0);
+    Object* pNewObj = Object_5C::CreateObject_529C00(light_type, xpos, ypos, zpos, kZeroAng_6F8F68, false);
     if (pNewObj)
     {
         pNewObj->field_C_pAny.pLight->SetColourRadiusIntensity_482D60(argb, radius, intensity);
@@ -3333,7 +3333,7 @@ Object* Object_5C::NewFlashingLight_529B20(Fix16 xpos,
                                              u8 off_time,
                                              u8 shape)
 {
-    Object* pNewObj = CreateObject_529C00(objects::light_165, xpos, ypos, zpos, kZeroAng_6F8F68, 0);
+    Object* pNewObj = CreateObject_529C00(objects::light_165, xpos, ypos, zpos, kZeroAng_6F8F68, false);
     if (pNewObj)
     {
         pNewObj->field_C_pAny.pLight->SetColourRadiusIntensity_482D60(argb, radius, intensity);
@@ -3345,7 +3345,7 @@ Object* Object_5C::NewFlashingLight_529B20(Fix16 xpos,
 MATCH_FUNC(0x529bc0)
 Object* Object_5C::NewPhysicsObjUnlessBlocked_529BC0(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation)
 {
-    Object* pNewObj = CreateObject_529C00(object_type, xpos, ypos, zpos, rotation, 1);
+    Object* pNewObj = CreateObject_529C00(object_type, xpos, ypos, zpos, rotation, true);
     if (pNewObj)
     {
         pNewObj->AssignToBucket_527AE0();
@@ -3355,7 +3355,7 @@ Object* Object_5C::NewPhysicsObjUnlessBlocked_529BC0(s32 object_type, Fix16 xpos
 
 // 9.6f 0x484E00
 MATCH_FUNC(0x529c00)
-Object* Object_5C::CreateObject_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, char fail_if_blocked)
+Object* Object_5C::CreateObject_529C00(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, bool fail_if_blocked)
 {
     if (object_type == objects::secret_token_266)
     {
@@ -3549,7 +3549,7 @@ Object* Object_5C::NewMovingObj_52A240(s32 object_type,
                                         Fix16 friction,
                                         Fix16 z_speed)
 {
-    return Object_5C::CreateMovingObj_52A2C0(object_type, xpos, ypos, zpos, move_angle, rotation, speed, friction, z_speed, 0);
+    return Object_5C::CreateMovingObj_52A2C0(object_type, xpos, ypos, zpos, move_angle, rotation, speed, friction, z_speed, false);
 }
 
 MATCH_FUNC(0x52a280)
@@ -3563,7 +3563,7 @@ Object* Object_5C::NewMovingObjUnlessBlocked_52A280(s32 object_type,
                                  Fix16 friction,
                                  Fix16 z_speed)
 {
-    return Object_5C::CreateMovingObj_52A2C0(object_type, xpos, ypos, zpos, move_angle, rotation, speed, friction, z_speed, 1);
+    return Object_5C::CreateMovingObj_52A2C0(object_type, xpos, ypos, zpos, move_angle, rotation, speed, friction, z_speed, true);
 }
 
 MATCH_FUNC(0x52a2c0)
@@ -3576,7 +3576,7 @@ Object* Object_5C::CreateMovingObj_52A2C0(s32 object_type,
                                  Fix16 speed,
                                  Fix16 friction,
                                  Fix16 z_speed,
-                                 char_type fail_if_blocked)
+                                 bool fail_if_blocked)
 {
     Object* pNewObj = Object_5C::CreateObject_529C00(object_type, xpos, ypos, zpos, rotation, fail_if_blocked);
 
