@@ -8,7 +8,7 @@ namespace credits_line_category
 enum
 {
     normal_0 = 0,     // no tag, or #W: white
-    unknown_1 = 1,    // any other tag
+    other_tag_1 = 1,  // any other tag (the shipped credits only use #W, #B, #G and #C)
     dev_names_2 = 2,  // #B: blue
     department_3 = 3, // #G: green (DMA, T2 etc)
     game_name_4 = 4,  // #C: yellow ("GTA2")

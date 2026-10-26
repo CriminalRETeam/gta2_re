@@ -61,7 +61,7 @@ void CreditsText::LoadCredits_483F20()
                     }
                     else
                     {
-                        pLine->field_6_string_category = credits_line_category::unknown_1;
+                        pLine->field_6_string_category = credits_line_category::other_tag_1;
                     }
                 }
                 else

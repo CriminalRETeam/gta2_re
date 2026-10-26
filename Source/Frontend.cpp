@@ -1433,7 +1433,7 @@ void Frontend::DrawCredits_4B7AE0()
                 draw_kind = 2;
                 palette = 0;
                 break;
-            case credits_line_category::unknown_1:
+            case credits_line_category::other_tag_1:
                 font_type = field_120_selected_font;
                 draw_kind = 2;
                 palette = 0;
