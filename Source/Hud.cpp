@@ -62,10 +62,8 @@ DEFINE_GLOBAL_INIT(Fix16, kArrowRepositionAccel_7065A8, Fix16(0x100, 0), 0x7065A
 EXTERN_GLOBAL_ARRAY(wchar_t, gTmpWideStr_67C7D8, 640);
 DEFINE_GLOBAL_INIT(s32, MaxLineWidth_62689C, 576, 0x62689C);
 
-// TODO
 EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 
-// TODO
 EXTERN_GLOBAL(char_type, gLighting_626A09);
 
 // TODO: move
@@ -2093,16 +2091,16 @@ void Hud_Brief::AppendCurrentBriefToPrev_5D33A0()
 MATCH_FUNC(0x5d33f0)
 Hud_BriefEntry* Hud_Brief::AllocBrief_5D33F0()
 {
-    Hud_BriefEntry* result = field_6FC_free_briefs;
-    if (result)
+    Hud_BriefEntry* pBrief = field_6FC_free_briefs;
+    if (pBrief)
     {
-        field_6FC_free_briefs = result->field_C_pNext;
+        field_6FC_free_briefs = pBrief->field_C_pNext;
     }
     else
     {
         Hud_BriefEntry* pPrev;
         Hud_BriefEntry* pIter;
-        result = field_700_prev_briefs;
+        pBrief = field_700_prev_briefs;
         if (field_700_prev_briefs)
         {
             pIter = field_700_prev_briefs->field_C_pNext;
@@ -2110,9 +2108,9 @@ Hud_BriefEntry* Hud_Brief::AllocBrief_5D33F0()
             {
                 do
                 {
-                    pPrev = result;
-                    result = result->field_C_pNext;
-                } while (result->field_C_pNext);
+                    pPrev = pBrief;
+                    pBrief = pBrief->field_C_pNext;
+                } while (pBrief->field_C_pNext);
                 if (pPrev)
                 {
                     pPrev->field_C_pNext = NULL;
@@ -2129,8 +2127,8 @@ Hud_BriefEntry* Hud_Brief::AllocBrief_5D33F0()
         }
         else
         {
-            result = field_6F8_curr_briefs;
-            pIter = result->field_C_pNext;
+            pBrief = field_6F8_curr_briefs;
+            pIter = pBrief->field_C_pNext;
             if (!pIter)
             {
                 field_6F8_curr_briefs = NULL;
@@ -2139,9 +2137,9 @@ Hud_BriefEntry* Hud_Brief::AllocBrief_5D33F0()
             {
                 do
                 {
-                    pPrev = result;
-                    result = result->field_C_pNext;
-                } while (result->field_C_pNext);
+                    pPrev = pBrief;
+                    pBrief = pBrief->field_C_pNext;
+                } while (pBrief->field_C_pNext);
                 if (pPrev)
                 {
                     pPrev->field_C_pNext = NULL;
@@ -2153,7 +2151,7 @@ Hud_BriefEntry* Hud_Brief::AllocBrief_5D33F0()
             }
         }
     }
-    return result;
+    return pBrief;
 }
 
 MATCH_FUNC(0x5d3470)
