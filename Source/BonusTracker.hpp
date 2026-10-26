@@ -79,6 +79,7 @@ class BonusTracker
     EXPORT bool IsOccupationInGroup_432240(s32 occupation, s32 rule_occupation) const;
     EXPORT bool AreCarModelsEquivalent_432300(s32 car_model_1, s32 car_model_2) const;
 
+  private:
     BonusRule field_0_bonuses[k_max_rules];
     class PlayerScoreTracker* field_1B8_pScores;
     s32 field_1BC_cur_time;
