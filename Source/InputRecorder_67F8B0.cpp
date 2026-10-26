@@ -372,7 +372,7 @@ bool InputDevices::game_pad_read_498D20()
 
 // https://decomp.me/scratch/75Pau
 MATCH_FUNC(0x498DA0)
-void InputDevices::read_input_device_498DA0(s32* input_bits, u8 bApplyKeyboardControls)
+void InputDevices::read_input_device_498DA0(s32* input_bits, bool bApplyKeyboardControls)
 {
     bool bFirstPass = true;
     s32 bReleased = 0;
@@ -1074,7 +1074,7 @@ u32 InputRecorder_67F8B0::get_input_bits_4CEAC0()
                 if ((saved_input & input_bit::KeyBits) == 0 || (*control_status & input_bit::KeyBits) == 0)
                 {
                     *control_status = 0;
-                    gInputDevices_67B990->read_input_device_498DA0(reinterpret_cast<s32*>(control_status), 0);
+                    gInputDevices_67B990->read_input_device_498DA0(reinterpret_cast<s32*>(control_status), false);
                     *control_status |= saved_input;
                     InputRecorder_67F8B0::replay_save_4CEA40(control_status);
                 }
@@ -1108,7 +1108,7 @@ u32 InputRecorder_67F8B0::get_input_bits_4CEAC0()
                 if ((saved_input & input_bit::KeyBits) == 0 || (*control_status & input_bit::KeyBits) == 0)
                 {
                     *control_status = 0;
-                    gInputDevices_67B990->read_input_device_498DA0(reinterpret_cast<s32*>(control_status), 0);
+                    gInputDevices_67B990->read_input_device_498DA0(reinterpret_cast<s32*>(control_status), false);
                     if ((*control_status & 0xFFFFF000) != 0)
                     {
                         gGame_0x40_67E008->ExitGameNoBonus_4B8C00(0, GameExitType::ReplayExit_6);
@@ -1124,12 +1124,12 @@ u32 InputRecorder_67F8B0::get_input_bits_4CEAC0()
             {
                 if (!gGame_0x40_67E008->IsPaused_416BC0())
                 {
-                    gInputDevices_67B990->read_input_device_498DA0(reinterpret_cast<s32*>(control_status), 1);
+                    gInputDevices_67B990->read_input_device_498DA0(reinterpret_cast<s32*>(control_status), true);
                     InputRecorder_67F8B0::save_replay_inputs_4CED00(*control_status, saved_input);
                 }
                 else
                 {
-                    gInputDevices_67B990->read_input_device_498DA0(reinterpret_cast<s32*>(control_status), 0);
+                    gInputDevices_67B990->read_input_device_498DA0(reinterpret_cast<s32*>(control_status), false);
                     if (InputRecorder_67F8B0::should_record_input_4CDDF0((static_cast<u32>(*control_status) >> input_bit::KeyShift) & input_bit::KeyMask))
                     {
                         *control_status = remove_bit;

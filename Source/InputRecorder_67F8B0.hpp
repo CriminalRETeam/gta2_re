@@ -39,7 +39,7 @@ class InputDevices
     EXPORT bool acquire_input_device_498730(struct IDirectInputDeviceA* pGamePadDevice);
     EXPORT bool game_pad_read_498D20();
     EXPORT void AddKeyToInputBits_498C80(s32* pInputBits, DIDEVICEOBJECTDATA* device_data_keys);
-    EXPORT void read_input_device_498DA0(s32* input_bits, u8 bApplyKeyboardControls);
+    EXPORT void read_input_device_498DA0(s32* input_bits, bool bApplyKeyboardControls);
 
     u8 field_0_unused;
 };
