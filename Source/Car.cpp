@@ -4285,7 +4285,7 @@ bool Car::HandleCarHitByObject_43F130(Object* pObj)
             pFoundPed->HandleShootingAtCar_46FC90(this, pObj->field_18_model);
         }
 
-        if (pObj->field_18_model == objects::invisible_bullet_154 || pObj->field_18_model == 193 ||
+        if (pObj->field_18_model == objects::invisible_bullet_154 || pObj->field_18_model == objects::tanktop_193 ||
             pObj->field_18_model == objects::object_195 || pObj->field_18_model == objects::invisible_rocket_159 ||
             pObj->field_18_model == objects::object_199)
         {
@@ -4293,7 +4293,7 @@ bool Car::HandleCarHitByObject_43F130(Object* pObj)
         }
     }
 
-    if (field_54_driver && pObj->field_18_model != 10 && pObj->get_field_26_420FF0() == field_54_driver->get_ped_ref_idx_420B50())
+    if (field_54_driver && pObj->field_18_model != objects::mine_10 && pObj->get_field_26_420FF0() == field_54_driver->get_ped_ref_idx_420B50())
     {
         return 0;
     }

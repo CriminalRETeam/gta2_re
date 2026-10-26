@@ -970,7 +970,7 @@ bool sound_obj::SelectObjectImpactSound_413120(CollisionEvent* pEvent, s32 inter
     switch (pEvent->field_18_object_model)
     {
         case objects::diagonal_wall_collision_obj_166:
-        case 169:
+        case objects::door_collision_obj_169:
         case objects::tunnel_blocker_294:
         {
             field_30_sQueueSample.field_14_samp_idx = 37;
@@ -1084,7 +1084,7 @@ bool sound_obj::Type6_9_413540(CollisionEvent* pEvent)
 {
     switch (pEvent->field_1C_other_object_model)
     {
-        case 169:
+        case objects::door_collision_obj_169:
         case 182:
         case objects::grenade_obj_183:
         case objects::shotgun_bullet_192:

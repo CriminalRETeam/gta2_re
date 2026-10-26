@@ -3327,7 +3327,7 @@ void Hud_PauseScreen::DrawPause_5D63B0()
                              value_1,
                              gScriptManager_6F8060->field_318_total_secrets);
                     sprite_type = sprite_types_enum::code_obj1_4;
-                    sprite_pal = gObjectDefinitions_6FCF00->GetObjectBaseSpriteIdx_4C6E30(286);
+                    sprite_pal = gObjectDefinitions_6FCF00->GetObjectBaseSpriteIdx_4C6E30(objects::kill_frenzy_icon_286);
                     break;
 
                 case HudPauseSection::tokens_collected_6:
@@ -3336,7 +3336,7 @@ void Hud_PauseScreen::DrawPause_5D63B0()
                              gGameSession_67E8E0.get_secret_tokens_collected_453A80(),
                              50);
                     sprite_type = sprite_types_enum::code_obj1_4;
-                    sprite_pal = gObjectDefinitions_6FCF00->GetObjectBaseSpriteIdx_4C6E30(266);
+                    sprite_pal = gObjectDefinitions_6FCF00->GetObjectBaseSpriteIdx_4C6E30(objects::secret_token_266);
                     break;
                 default:
                     break;
