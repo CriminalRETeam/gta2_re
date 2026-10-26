@@ -39,9 +39,9 @@ DEFINE_GLOBAL(Fix16_Point, gZeroVector_6F8EF0, 0x6F8EF0);
 DEFINE_GLOBAL_INIT(Fix16, kFpZero_6F8E10, Fix16(0), 0x6F8E10);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6F8C9C, Fix16(0x100, 0), 0x6F8C9C);
 
-DEFINE_GLOBAL(u8, byte_6F8C68, 0x6F8C68);
-DEFINE_GLOBAL(u8, byte_6F8C4C, 0x6F8C4C);
-DEFINE_GLOBAL(u8, byte_6F8F40, 0x6F8F40);
+DEFINE_GLOBAL(u8, gInObjectMovementUpdate_6F8C68, 0x6F8C68);
+DEFINE_GLOBAL(u8, gObjectRemovedFromBuckets_6F8C4C, 0x6F8C4C);
+DEFINE_GLOBAL(u8, gObjectReBucketed_6F8F40, 0x6F8F40);
 DEFINE_GLOBAL(u32, gObj3C_live_count_6F8E54, 0x6F8E54);
 DEFINE_GLOBAL(u32, gObj8_count_6F8F18, 0x6F8F18);
 DEFINE_GLOBAL(u32, gObj8_dealloc_count_6F8DC0, 0x6F8DC0);
@@ -1881,9 +1881,9 @@ void Object::Update_525F30()
             case object_behavior_type::physics_3:
             case object_behavior_type::pickup_physics_7:
                 RemoveFromCollisionBuckets_527D00();
-                byte_6F8C4C = 1;
+                gObjectRemovedFromBuckets_6F8C4C = 1;
                 UpdatePhysicsAndMovement_525B80();
-                if (!byte_6F8F40)
+                if (!gObjectReBucketed_6F8F40)
                 {
                     AssignToBucket_527AE0();
                 }
@@ -1901,9 +1901,9 @@ void Object::Update_525F30()
             case object_behavior_type::physics_animated_4:
             case object_behavior_type::pickup_physics_animated_9:
                 RemoveFromCollisionBuckets_527D00();
-                byte_6F8C4C = 1;
+                gObjectRemovedFromBuckets_6F8C4C = 1;
                 UpdatePhysicsMovementAndAnimation_525D90();
-                if (!byte_6F8F40)
+                if (!gObjectReBucketed_6F8F40)
                 {
                     AssignToBucket_527AE0();
                 }
@@ -1929,8 +1929,8 @@ void Object::Update_525F30()
 MATCH_FUNC(0x5263d0)
 bool Object::PoolUpdate()
 {
-    byte_6F8C4C = 0;
-    byte_6F8F40 = 0;
+    gObjectRemovedFromBuckets_6F8C4C = 0;
+    gObjectReBucketed_6F8F40 = 0;
     if (field_25_removal_state != object_removal_state::requested_1)
     {
         Object::Update_525F30();
@@ -2037,7 +2037,7 @@ void Object::InheritMotionFromSprite_526B40(Sprite* pSprite)
 MATCH_FUNC(0x527070)
 bool Object::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 rot)
 {
-    byte_6F8C68 = 1;
+    gInObjectMovementUpdate_6F8C68 = 1;
 
     if (field_10_obj_3c)
     {
@@ -2088,7 +2088,7 @@ bool Object::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 y, 
                         case sprite_types_enum::map_obj_5:
                             if (field_C_pAny.pExplosion->Update_5434A0(field_10_obj_3c->field_C_speed, field_10_obj_3c->field_4_angle))
                             {
-                                byte_6F8C68 = 0;
+                                gInObjectMovementUpdate_6F8C68 = 0;
                                 return true;
                             }
                             break;
@@ -2104,7 +2104,7 @@ bool Object::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 y, 
 
                             if (field_C_pAny.pExplosion->Update_5434A0(field_10_obj_3c->field_C_speed, field_10_obj_3c->field_4_angle))
                             {
-                                byte_6F8C68 = 0;
+                                gInObjectMovementUpdate_6F8C68 = 0;
                                 return true;
                             }
                             break;
@@ -2112,7 +2112,7 @@ bool Object::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 y, 
                         case sprite_types_enum::ped_3:
                             if (field_C_pAny.pExplosion->Update_5434A0(field_10_obj_3c->field_C_speed, field_10_obj_3c->field_4_angle))
                             {
-                                byte_6F8C68 = 0;
+                                gInObjectMovementUpdate_6F8C68 = 0;
                                 return true;
                             }
                             break;
@@ -2141,13 +2141,13 @@ bool Object::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 y, 
         {
             gSpriteGrid_3_679210->AddToSingleBucket_477AE0(field_4_sprite);
         }
-        byte_6F8C68 = 0;
+        gInObjectMovementUpdate_6F8C68 = 0;
         return false;
     }
     else
     {
         TriggerCarExplosionIfApplicable_526790(pSprite);
-        byte_6F8C68 = 0;
+        gInObjectMovementUpdate_6F8C68 = 0;
         return true;
     }
 }
@@ -2385,7 +2385,7 @@ void Object::TickObject_5283C0(s32 obj_type)
                 if (field_8_definition->field_5C_instance_limit_kind == pDefinition->field_5C_instance_limit_kind ||
                     !Object::ChangeInstanceLimitKind_528240(field_8_definition->field_5C_instance_limit_kind, pDefinition->field_5C_instance_limit_kind))
                 {
-                    if (!byte_6F8C4C && !byte_6F8C68)
+                    if (!gObjectRemovedFromBuckets_6F8C4C && !gInObjectMovementUpdate_6F8C68)
                     {
                         Object::RemoveFromCollisionBuckets_527D00();
                     }
@@ -2532,9 +2532,9 @@ void Object::TickObject_5283C0(s32 obj_type)
                     {
                         Object::PoolTake_522360();
                     }
-                    if (!byte_6F8C68)
+                    if (!gInObjectMovementUpdate_6F8C68)
                     {
-                        byte_6F8F40 = 1;
+                        gObjectReBucketed_6F8F40 = 1;
                         Object::AssignToBucket_527AE0();
                     }
                 }
@@ -3133,9 +3133,9 @@ Object_5C::Object_5C()
     }
 
     field_54_uncollected_token_index = 0;
-    byte_6F8C68 = 0;
-    byte_6F8C4C = 0;
-    byte_6F8F40 = 0;
+    gInObjectMovementUpdate_6F8C68 = 0;
+    gObjectRemovedFromBuckets_6F8C4C = 0;
+    gObjectReBucketed_6F8F40 = 0;
     field_10_limited_object_count = 0;
     field_14_listed_sprite_count = 0;
     gObj3C_live_count_6F8E54 = 0;
