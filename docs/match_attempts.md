@@ -1809,9 +1809,9 @@ Registers only:
 
 Frame and stack slots:
 - `Fix16_Point::NormalizeSafe_442AD0` (52): frame 0x28 vs 0x20, nothing else.
-- `CarAI::ScanAheadForObstacles_452060` (268 -> 34, new `word_677A3A`, `gSin_table_667A80` indexed directly, `u8 field_2C`):
+- `CarAI::ScanAheadForObstacles_452060` (268 -> 34, new `kAng32_677A3A`, `gSin_table_667A80` indexed directly, `u8 field_2C`):
   `zpos_`/`v85` at +0/+8 vs the original's +8/+0xC, plus the `u8` temp of the third inlined
-  `IsBlockRoadType`. `word_677A3A`'s initial value is a guess (TODO, read it from the exe).
+  `IsBlockRoadType`. `kAng32_677A3A`'s initial value is a guess (TODO, read it from the exe).
 - `CarAI::BrakeForBlockedRoadAhead_4482C0` (225): the top `v33 = 0` goes into `v32`'s slot in the original, ours swapped.
 - `CarAI::AlignToLaneCenter_44AF00` (609): each angle temp has its own 2-byte packed slot in a 0x1C frame.
 - `ParticleManager::EmitBloodBurst_53E450` (291): multiply temps in other slots (frame 4 short); ours keeps 0 in
@@ -3963,7 +3963,7 @@ Round 6 findings (not matched):
 - **`CarAI::ScanAheadForObstacles_452060` (32 -> 0, MATCH).** Rewritten in its 9.6f shape (0x431C10, found as the
   only caller of 9.6f's ReactToNearbyCar 0x431770): every rotation is `Ang16::PolarToCartesian_41FC20(angle, radius,
   v9, v10)` into one `v9`/`v10` pair, then `set_xyz_lazy(v9 + x, v10 + y, new_z)`; the first radius is the temporary
-  `v1 + kFpThreeQuarters`; the 0x80 branch angle is `field_10_angle + word_677A3A.MultiplyByFix16_401CB0_ctor_ool(
+  `v1 + kFpThreeQuarters`; the 0x80 branch angle is `field_10_angle + kAng32_677A3A.MultiplyByFix16_401CB0_ctor_ool(
   Fix16(turn_direction))`. That temporary `Ang16` (the inline's return value, read back from memory) is size 2 in the
   slot list, so it opens slot 1 before `new_z` (4 refs): with the old named `Ang16 v83(&v86, 0)` (size 4: its first
   IL reference is the ctor's `lea`) no source order could put the cosine temp at 0x0 and `v7` at 0x4. The inline budget
