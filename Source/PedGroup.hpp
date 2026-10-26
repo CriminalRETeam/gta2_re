@@ -71,7 +71,7 @@ class PedGroup
         return field_3C_is_leader_waiting;
     }
 
-    char_type field_0_remove_dead_members;
+    bool field_0_remove_dead_members;
     bool field_1_wait_for_members; // while set, UpdateFormation makes the leader wait (objective 9) for a member who has fallen too far behind
     char_type field_2_unused; // padding
     char_type field_3_unused; // padding

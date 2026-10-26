@@ -51,7 +51,7 @@ void PedGroup::ClearGroupData_4C8E90()
         field_2C_ped_leader->ClearGroupAndGroupIdx_403A30();
     }
     field_2C_ped_leader = NULL;
-    field_0_remove_dead_members = 1;
+    field_0_remove_dead_members = true;
     field_1_wait_for_members = false;
     field_34_count = 0;
     field_35_unused = 0;
@@ -74,7 +74,7 @@ void PedGroup::Reset_4C8EF0()
     field_30_panicking = 0;
     field_36_count = 0;
     field_2C_ped_leader = NULL;
-    field_0_remove_dead_members = 1;
+    field_0_remove_dead_members = true;
     field_1_wait_for_members = false;
     field_34_count = 0;
     field_35_unused = 0;
