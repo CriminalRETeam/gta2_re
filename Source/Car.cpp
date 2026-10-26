@@ -500,9 +500,9 @@ CarRemapRng::CarRemapRng()
         for (u16 j = 0; j < 1000; j++)
         {
             u16 idx = gRng_6F6784.get_int_4F7AE0(1000);
-            s16 next = gRngRemapTable_679320[j];
+            s16 old_value = gRngRemapTable_679320[j];
             gRngRemapTable_679320[j] = gRngRemapTable_679320[idx];
-            gRngRemapTable_679320[idx] = next;
+            gRngRemapTable_679320[idx] = old_value;
         }
     }
     field_0_table_idx = 0;
@@ -927,7 +927,7 @@ Car* CarManager::DoGetNearestCarFromCoord_444FC0(Fix16 xpos,
 }
 
 MATCH_FUNC(0x445210)
-Car* CarManager::GetNearestFrontVehicle_445210(Sprite* pSprite, u8 k3)
+Car* CarManager::GetNearestFrontVehicle_445210(Sprite* pSprite, u8 max_rings)
 {
     Fix16 oldx = pSprite->field_14_xy.x;
     Fix16 oldy = pSprite->field_14_xy.y;
@@ -942,7 +942,7 @@ Car* CarManager::GetNearestFrontVehicle_445210(Sprite* pSprite, u8 k3)
     pSprite->set_xyz_lazy_420600(pSprite->field_14_xy.x + new_x, pSprite->field_14_xy.y + new_y, pSprite->field_1C_zpos);
 
     Sprite* pNearest =
-        gSpriteGrid_1_679208->FindNearestSprite_SpiralSearch_477C90(sprite_types_enum::car_2, sprite_types_enum::car_2, pSprite, k3, 3, 1u);
+        gSpriteGrid_1_679208->FindNearestSprite_SpiralSearch_477C90(sprite_types_enum::car_2, sprite_types_enum::car_2, pSprite, max_rings, 3, 1u);
 
     pSprite->set_xyz_lazy_420600(oldx, oldy, oldz);
 
@@ -1083,10 +1083,10 @@ Car* CarManager::SpawnBusAtValidRoadPosition_4453E0(Fix16 x, Fix16 y, s32 road_d
             if (GET_BLOCK_TYPE(pBlock->field_B_slope_type) == 1 && !gGame_0x40_67E008->IsPointOnScreen_4B9A80(x, y))
             {
                 Fix16 ground_z = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(x, y);
-                car_info* car_info_5AA3B0 = gGtx_0x106C_703DD4->get_car_info_5AA3B0(car_model);
+                car_info* pCarInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(car_model);
 
-                Fix16 sprite_width = gPixelsToFix16_6F6850.list[car_info_5AA3B0->w];
-                Fix16 sprite_height = gPixelsToFix16_6F6850.list[car_info_5AA3B0->h];
+                Fix16 sprite_width = gPixelsToFix16_6F6850.list[pCarInfo->w];
+                Fix16 sprite_height = gPixelsToFix16_6F6850.list[pCarInfo->h];
 
                 SwapIf3or4_41FE40(road_direction, sprite_width, sprite_height);
 
@@ -2022,14 +2022,14 @@ Fix16_Point Car::GetLinearVelocity_43A450()
 {
     if (IsTrainModel_403BA0())
     {
-        Car* carObj = gPublicTransport_181C_6FF1D4->GetLeadTrainCar_57B540(this);
-        if (!carObj->field_58_physics)
+        Car* pLeadCar = gPublicTransport_181C_6FF1D4->GetLeadTrainCar_57B540(this);
+        if (!pLeadCar->field_58_physics)
         {
             return kZeroPoint_6778A8;
         }
         else
         {
-            return carObj->field_58_physics->get_linvel_447010();
+            return pLeadCar->field_58_physics->get_linvel_447010();
         }
     }
     else
@@ -2070,13 +2070,13 @@ Fix16 Car::GetMinDimension_43A5B0()
     const car_info* pInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx);
     if (pInfo->w < pInfo->h)
     {
-        Fix16 t = gPixelsToFix16_6F6850.list[pInfo->w];
-        return t;
+        Fix16 width = gPixelsToFix16_6F6850.list[pInfo->w];
+        return width;
     }
     else
     {
-        Fix16 tt = gPixelsToFix16_6F6850.list[pInfo->h];
-        return tt;
+        Fix16 height = gPixelsToFix16_6F6850.list[pInfo->h];
+        return height;
     }
 }
 
@@ -2637,7 +2637,7 @@ bool Car::IsStoppedWithPavementAtDoor_43B140(u8 target_car_door)
 {
     Ang16 angToUse;
 
-    u8 remap = GetDoorCount_43B360();
+    u8 door_count = GetDoorCount_43B360();
     if (GetCarLinearSpeed_43A240() > gFix16_6777CC)
     {
         return false;
@@ -2647,7 +2647,7 @@ bool Car::IsStoppedWithPavementAtDoor_43B140(u8 target_car_door)
     Fix16 door_y;
     GetDoorWorldPosition_43B5A0(target_car_door, &door_x, &door_y);
 
-    if (remap != 3)
+    if (door_count != 3)
     {
         switch (target_car_door)
         {
@@ -2668,13 +2668,13 @@ bool Car::IsStoppedWithPavementAtDoor_43B140(u8 target_car_door)
         angToUse = field_50_car_sprite->field_0_rotation - kAng90_677234;
     }
 
-    Fix16 t1;
-    Fix16 t2;
-    Ang16::PolarToCartesian_41FC20(angToUse, kFpHalf_6778FC, t1, t2);
+    Fix16 side_x;
+    Fix16 side_y;
+    Ang16::PolarToCartesian_41FC20(angToUse, kFpHalf_6778FC, side_x, side_y);
 
-    t1 += door_x;
-    t2 += door_y;
-    if (gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(t1.ToInt(), t2.ToInt(), field_50_car_sprite->field_1C_zpos.ToInt() - 1) != 2)
+    side_x += door_x;
+    side_y += door_y;
+    if (gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(side_x.ToInt(), side_y.ToInt(), field_50_car_sprite->field_1C_zpos.ToInt() - 1) != 2)
     {
         return false;
     }
@@ -2715,8 +2715,8 @@ char_type Car::GetDoorCount_43B360()
 MATCH_FUNC(0x43b380)
 void Car::OpenAllDoors_43B380()
 {
-    u8* pRemap = gGtx_0x106C_703DD4->get_car_door_data_5AA3D0(field_84_car_info_idx);
-    for (u8 i = 0; i < *pRemap; i++)
+    u8* pDoorCount = gGtx_0x106C_703DD4->get_car_door_data_5AA3D0(field_84_car_info_idx);
+    for (u8 i = 0; i < *pDoorCount; i++)
     {
         Car_Door* pDoor = GetDoor(i);
         pDoor->Open_439E60();
@@ -2726,8 +2726,8 @@ void Car::OpenAllDoors_43B380()
 MATCH_FUNC(0x43b3d0)
 void Car::CloseAllDoors_43B3D0()
 {
-    u8* pRemap = gGtx_0x106C_703DD4->get_car_door_data_5AA3D0(field_84_car_info_idx);
-    for (u8 i = 0; i < *pRemap; i++)
+    u8* pDoorCount = gGtx_0x106C_703DD4->get_car_door_data_5AA3D0(field_84_car_info_idx);
+    for (u8 i = 0; i < *pDoorCount; i++)
     {
         Car_Door* pDoor = GetDoor(i);
         pDoor->Close_439EA0();
@@ -2758,8 +2758,8 @@ void Car::GetDoorWorldPos_43B420(u8 door_idx, Fix16* pOutX, Fix16* pOutY)
 MATCH_FUNC(0x43B540)
 bool Car::IsDoorOffsetLarge_43B540(u8 targetDoor)
 {
-    s8* array = reinterpret_cast<s8*>(gGtx_0x106C_703DD4->get_car_door_data_5AA3D0(field_84_car_info_idx));
-    if (Fix16::Abs(gPixelsToFix16_6F6850.SignedPixelsToFix16_41FE70(array[2 * targetDoor + 1])) >= kFpOne_677908)
+    s8* pDoorData = reinterpret_cast<s8*>(gGtx_0x106C_703DD4->get_car_door_data_5AA3D0(field_84_car_info_idx));
+    if (Fix16::Abs(gPixelsToFix16_6F6850.SignedPixelsToFix16_41FE70(pDoorData[2 * targetDoor + 1])) >= kFpOne_677908)
     {
         return true;
     }
@@ -2784,10 +2784,10 @@ void Car::GetDoorWorldPosition_43B5A0(u8 target_door, Fix16* pOutX, Fix16* pOutY
     Fix16 door_relative_xpos;
     Fix16 door_relative_ypos;
 
-    u8* pRemap_0 = &gGtx_0x106C_703DD4->get_car_door_data_5AA3D0(field_84_car_info_idx)[2 * target_door + 1];
+    u8* pDoorOffset = &gGtx_0x106C_703DD4->get_car_door_data_5AA3D0(field_84_car_info_idx)[2 * target_door + 1];
 
-    door_relative_xpos = gPixelsToFix16_6F6850.SignedPixelsToFix16_41FE70(pRemap_0[0]);
-    door_relative_ypos = gPixelsToFix16_6F6850.SignedPixelsToFix16_41FE70(pRemap_0[1]);
+    door_relative_xpos = gPixelsToFix16_6F6850.SignedPixelsToFix16_41FE70(pDoorOffset[0]);
+    door_relative_ypos = gPixelsToFix16_6F6850.SignedPixelsToFix16_41FE70(pDoorOffset[1]);
 
     if (door_relative_xpos >= kFpOne_677908)
     {
@@ -3859,20 +3859,20 @@ s16 Car::AccumulateDamage_43DA90(s16 damage, const Fix16_Point* pVec)
         return 0;
     }
 
-    Fix16 anti_s;
-    anti_s = GetAntiStrength_43A1D0();
-    Fix16 t = (anti_s * Fix16(damage));
-    s16 damage_1 = t.ToInt();
+    Fix16 anti_strength;
+    anti_strength = GetAntiStrength_43A1D0();
+    Fix16 scaled_damage = (anti_strength * Fix16(damage));
+    s16 applied_damage = scaled_damage.ToInt();
 
-    if (damage_1 == 0)
+    if (applied_damage == 0)
     {
-        if (anti_s != gFix16_6777CC)
+        if (anti_strength != gFix16_6777CC)
         {
-            damage_1 = 1;
+            applied_damage = 1;
         }
     }
 
-    this->field_74_damage += damage_1;
+    this->field_74_damage += applied_damage;
     if (this->field_74_damage < 0 || this->field_74_damage > 32000)
     {
         this->field_74_damage = 32000;
@@ -3903,7 +3903,7 @@ s16 Car::AccumulateDamage_43DA90(s16 damage, const Fix16_Point* pVec)
             }
         }
     }
-    return damage_1;
+    return applied_damage;
 }
 
 MATCH_FUNC(0x43db80)
@@ -3950,16 +3950,16 @@ bool Car::IsSpriteShrunk_43DC00()
     if (field_74_damage == 32001)
     {
         SpriteShape* pShape = field_50_car_sprite->field_C_pCollisionShape;
-        SpriteShape* pLen = field_50_car_sprite->field_4_pVisualShape;
+        SpriteShape* pVisualShape = field_50_car_sprite->field_4_pVisualShape;
         Fix16 shapeWidth = pShape->field_0_width;
-        Fix16 lenWidth = pLen->field_0_width;
-        return (lenWidth != shapeWidth) != 0;
+        Fix16 visualWidth = pVisualShape->field_0_width;
+        return (visualWidth != shapeWidth) != 0;
     }
 
     u16 sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::car_2, pInfo->sprite);
     sprite_index* pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
-    Fix16 lenWidth = field_50_car_sprite->field_4_pVisualShape->field_0_width;
-    return lenWidth.mValue != gPixelsToFix16_6F6850.list[pSpriteIndex->field_4_width].mValue;
+    Fix16 visualWidth = field_50_car_sprite->field_4_pVisualShape->field_0_width;
+    return visualWidth.mValue != gPixelsToFix16_6F6850.list[pSpriteIndex->field_4_width].mValue;
 }
 
 MATCH_FUNC(0x43dc80)
@@ -3985,7 +3985,7 @@ MATCH_FUNC(0x43dd60)
 void Car::DestroyWhileSinking_43DD60()
 {
     bool bOcc2;
-    Ped* field_54_driver;
+    Ped* pDriver;
     s32 exploder_ped_id;
     Ped* pExploderPed;
     Ped* pPed;
@@ -4000,10 +4000,10 @@ void Car::DestroyWhileSinking_43DD60()
 
     if (CarShrinkSprite_43DC80(2, 2))
     {
-        field_54_driver = this->field_54_driver;
-        if (field_54_driver)
+        pDriver = this->field_54_driver;
+        if (pDriver)
         {
-            if (field_54_driver->get_occupation_403980() == ped_ocupation_enum::unknown_2)
+            if (pDriver->get_occupation_403980() == ped_ocupation_enum::unknown_2)
             {
                 bOcc2 = true;
             }
@@ -5270,15 +5270,15 @@ bool Car::AreAllDoorsClosed_441A40()
 MATCH_FUNC(0x441a70)
 void Car::InitDoors_441A70()
 {
-    const u8* pRemapCount = gGtx_0x106C_703DD4->get_car_door_data_5AA3D0(field_84_car_info_idx);
+    const u8* pDoorCount = gGtx_0x106C_703DD4->get_car_door_data_5AA3D0(field_84_car_info_idx);
     u8 i;
-    for (i = 0; i < *pRemapCount; i++)
+    for (i = 0; i < *pDoorCount; i++)
     {
         field_C_doors[i].Init_439E40(i);
         field_C_doors[i].set_ped_421380(NULL);
     }
 
-    for (i = *pRemapCount; i < 4; i++)
+    for (i = *pDoorCount; i < 4; i++)
     {
         field_C_doors[i].ResetState_421340();
     }
@@ -5287,11 +5287,11 @@ void Car::InitDoors_441A70()
 MATCH_FUNC(0x441b00)
 void Car::ServiceDoors_441B00()
 {
-    Car_Door* p = field_C_doors;
+    Car_Door* pDoor = field_C_doors;
     for (s32 i = 0; i < 4; i++)
     {
-        p->Service_439DA0(&field_8_damaged_areas.m_var);
-        p++;
+        pDoor->Service_439DA0(&field_8_damaged_areas.m_var);
+        pDoor++;
     }
 }
 
@@ -5714,13 +5714,13 @@ EXPORT void __stdcall SmoothApproachAngle_405CE0(Fix16& target_angle, Fix16& ang
         }
     }
 
-    Fix16 a1_m_a3 = target_angle - angle;
+    Fix16 angle_diff = target_angle - angle;
 
-    if (a1_m_a3 > kFPZero_6691B0)
+    if (angle_diff > kFPZero_6691B0)
     {
         if (angle_speed >= kFPZero_6691B0)
         {
-            if (angle_speed + accel <= a1_m_a3)
+            if (angle_speed + accel <= angle_diff)
             {
                 angle_speed += accel;
                 if (angle_speed > max_speed)
@@ -5730,7 +5730,7 @@ EXPORT void __stdcall SmoothApproachAngle_405CE0(Fix16& target_angle, Fix16& ang
             }
             else
             {
-                angle_speed = a1_m_a3;
+                angle_speed = angle_diff;
             }
         }
         else
@@ -5740,13 +5740,13 @@ EXPORT void __stdcall SmoothApproachAngle_405CE0(Fix16& target_angle, Fix16& ang
     }
     else
     {
-        if (a1_m_a3 >= kFPZero_6691B0 || angle_speed > kFPZero_6691B0)
+        if (angle_diff >= kFPZero_6691B0 || angle_speed > kFPZero_6691B0)
         {
             angle_speed = kFPZero_6691B0;
         }
         else
         {
-            if (angle_speed - accel >= a1_m_a3)
+            if (angle_speed - accel >= angle_diff)
             {
                 angle_speed -= accel;
                 if (angle_speed < -max_speed)
@@ -5756,7 +5756,7 @@ EXPORT void __stdcall SmoothApproachAngle_405CE0(Fix16& target_angle, Fix16& ang
             }
             else
             {
-                angle_speed = a1_m_a3;
+                angle_speed = angle_diff;
             }
         }
     }
@@ -5811,23 +5811,23 @@ void Car::ServiceDoorsLightsAndHorn_4426D0()
 MATCH_FUNC(0x442760)
 void Car::DetachTrailer_442760()
 {
-    Trailer* p = field_64_pTrailer;
+    Trailer* pTrailer = field_64_pTrailer;
     gCar_BC_Pool_67792C->UpdateNextPrev(field_64_pTrailer->field_C_trailer_car);
     field_64_pTrailer->field_C_trailer_car->field_64_pTrailer = NULL;
     field_64_pTrailer->field_8_truck_cab->field_64_pTrailer = NULL;
-    gTrailerPool_66AC80->Remove_425580(p);
+    gTrailerPool_66AC80->Remove_425580(pTrailer);
 }
 
 MATCH_FUNC(0x4427a0)
-void Car::AttachTrailer_4427A0(Car* pToFind)
+void Car::AttachTrailer_4427A0(Car* pTrailerCar)
 {
     field_64_pTrailer = gTrailerPool_66AC80->field_0_pool.Allocate();
-    field_64_pTrailer->SetTruckCabAndTrailerCar_407BB0(this, pToFind);
+    field_64_pTrailer->SetTruckCabAndTrailerCar_407BB0(this, pTrailerCar);
 
     Car* pLast = NULL;
     for (Car* pIter = gCar_BC_Pool_67792C->field_0_pool.field_4_pPrev; pIter; pIter = pIter->mpNext)
     {
-        if (pIter == pToFind)
+        if (pIter == pTrailerCar)
         {
             if (pLast)
             {
@@ -5879,16 +5879,16 @@ void Car::TryHitchTrailer_442810()
             hitch_this = GetHitchPoint_439FB0();
             offset = hitch_this - hitch_car;
             // Declared, then assigned: keeps the length in eax (Abs results reloaded from their temp)
-            Fix16 v6_len;
-            v6_len = offset.GetLength_41E260();
+            Fix16 hitch_dist;
+            hitch_dist = offset.GetLength_41E260();
 
             Fix16 z_delta = Fix16::Abs(pHitchSprite->field_1C_zpos - field_50_car_sprite->field_1C_zpos);
 
-            if (v6_len < kHitchPullDist_6772C0 && z_delta < kHitchPullDist_6772C0)
+            if (hitch_dist < kHitchPullDist_6772C0 && z_delta < kHitchPullDist_6772C0)
             {
                 if ((this->field_78_flags & 1) == 0)
                 {
-                    if (v6_len < kHitchAttachDist_677900)
+                    if (hitch_dist < kHitchAttachDist_677900)
                     {
                         AttachTrailer_4427A0(pCar);
                         FlashHeadlights_43BD40();
@@ -5956,7 +5956,7 @@ static inline void SetPrism(Fix16_Rect& rect, Fix16 left, Fix16 right, Fix16 top
 MATCH_FUNC(0x442d70)
 bool Car::TrainUpdate_442D70()
 {
-    u8 train_car_idx_ = 0;
+    u8 train_car_idx = 0;
     Fix16 player_x;
     Fix16 player_y;
     Fix16 player_z;
@@ -6032,13 +6032,13 @@ bool Car::TrainUpdate_442D70()
         gSpriteGrid_1_679208->RemoveFromRegionBuckets_477B60(field_50_car_sprite);
     }
 
-    for (Car* pTrainCarIter_ = *pTrainCarsArray; pTrainCarIter_; pTrainCarIter_ = pTrainCarsArray[train_car_idx_])
+    for (Car* pTrainCarIter_ = *pTrainCarsArray; pTrainCarIter_; pTrainCarIter_ = pTrainCarsArray[train_car_idx])
     {
         if (pTrainCarIter_->field_88_despawn_status != car_despawn_status::despawning_5)
         {
             gSpriteGrid_1_679208->RemoveFromRegionBuckets_477B60(pTrainCarIter_->field_50_car_sprite);
         }
-        ++train_car_idx_;
+        ++train_car_idx;
     }
 
     if (UpdateCarDespawnStatus_4424C0())
@@ -6079,14 +6079,14 @@ bool Car::TrainUpdate_442D70()
         gSpriteGrid_1_679208->AddToRegionBuckets_477B20(field_50_car_sprite);
     }
 
-    train_car_idx_ = 0;
-    for (Car* pTrainCarIter = *pTrainCarsArray; pTrainCarIter; pTrainCarIter = pTrainCarsArray[train_car_idx_])
+    train_car_idx = 0;
+    for (Car* pTrainCarIter = *pTrainCarsArray; pTrainCarIter; pTrainCarIter = pTrainCarsArray[train_car_idx])
     {
         if (pTrainCarIter->field_88_despawn_status != car_despawn_status::despawning_5)
         {
             gSpriteGrid_1_679208->AddToRegionBuckets_477B20(pTrainCarIter->field_50_car_sprite);
         }
-        ++train_car_idx_;
+        ++train_car_idx;
     }
 
     LightUpdate_442D10();
@@ -7065,9 +7065,9 @@ s32 Trailer::Update_408220()
         gSpriteGrid_1_679208->RemoveFromRegionBuckets_477B60(field_C_trailer_car->field_50_car_sprite);
     }
 
-    const bool despawn_status = field_8_truck_cab->UpdateCarDespawnStatus_4424C0();
+    const bool bDespawned = field_8_truck_cab->UpdateCarDespawnStatus_4424C0();
     field_C_trailer_car->field_88_despawn_status = field_8_truck_cab->field_88_despawn_status;
-    if (despawn_status)
+    if (bDespawned)
     {
         gCar_BC_Pool_67792C->Remove(field_C_trailer_car);
         return 1;
@@ -7150,7 +7150,7 @@ TrafficSpawner::~TrafficSpawner()
 }
 
 MATCH_FUNC(0x582360)
-bool TrafficSpawner::IsInsideCameraEdge_582360(int direction, Fix16 x, Fix16 y)
+bool TrafficSpawner::IsInsideCameraEdge_582360(s32 direction, Fix16 x, Fix16 y)
 {
     switch (direction)
     {
@@ -7198,7 +7198,7 @@ void TrafficSpawner::MakeTrafficForCurrCamera_5832C0()
 {
     Fix16 w;
 
-    Fix16 wanted_related;
+    Fix16 wanted_traffic_scale;
     if ((!bLimit_recycling_67D4CA || gCarManager_6C_677930->field_28_recycled_cars < 2) &&
         gCarManager_6C_677930->field_28_recycled_cars + gCarManager_6C_677930->field_40_proto_recycled_cars != 16)
     {
@@ -7208,23 +7208,23 @@ void TrafficSpawner::MakeTrafficForCurrCamera_5832C0()
         {
             case cop_level_enum::none_0:
             case cop_level_enum::police_1:
-                wanted_related = kFpOne_6FF778;
+                wanted_traffic_scale = kFpOne_6FF778;
                 break;
             case cop_level_enum::police_3:
-                wanted_related = kFpPoint6_6FF5DC;
+                wanted_traffic_scale = kFpPoint6_6FF5DC;
                 break;
             case cop_level_enum::police_2:
             case cop_level_enum::fbi_5:
-                wanted_related = kFpPoint8_6FF5E4;
+                wanted_traffic_scale = kFpPoint8_6FF5E4;
                 break;
             case cop_level_enum::swat_4:
-                wanted_related = kFpPoint4_6FF5D4;
+                wanted_traffic_scale = kFpPoint4_6FF5D4;
                 break;
             case cop_level_enum::army_6:
-                wanted_related = kFpPoint4_6FF5D4;
+                wanted_traffic_scale = kFpPoint4_6FF5D4;
                 break;
             default:
-                //wanted_related = rng_; // random value ??
+                //wanted_traffic_scale = rng_; // random value ??
                 break;
         }
 
@@ -7235,7 +7235,7 @@ void TrafficSpawner::MakeTrafficForCurrCamera_5832C0()
         t = t / Fix16(86);
         // w is declared at the top of the function: with it declared here, the field_9_traffic_car_model store after
         // gTrafficDensityScale_6FF7E8 (as in 9.6f) made VC6 compute the height first
-        gTrafficDensityScale_6FF7E8 = (t)*wanted_related;
+        gTrafficDensityScale_6FF7E8 = (t)*wanted_traffic_scale;
         this->field_9_traffic_car_model = 1;
         this->field_A_unused = 1;
 

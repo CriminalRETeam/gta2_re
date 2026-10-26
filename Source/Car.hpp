@@ -193,7 +193,7 @@ class CarManager
                                                    Ped* pPed,
                                                    char_type bIgnorePedRestrictions);
 
-    EXPORT Car* GetNearestFrontVehicle_445210(Sprite* pSprite, u8 k3);
+    EXPORT Car* GetNearestFrontVehicle_445210(Sprite* pSprite, u8 max_rings);
     EXPORT Car* SpawnBusAtValidRoadPosition_4453E0(Fix16 x, Fix16 y, s32 side, const s32& car_model);
     EXPORT Car* SpawnCarOnRoadNetwork_4458B0(Fix16 xpos, Fix16 ypos, s32 road_direction, s32 car_model_type);
     EXPORT Car* SpawnCarAt_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx, Fix16 scale);
@@ -654,7 +654,7 @@ class Car
     EXPORT void ManageTVAntenna_4425D0();
     EXPORT void ServiceDoorsLightsAndHorn_4426D0();
     EXPORT void DetachTrailer_442760();
-    EXPORT void AttachTrailer_4427A0(Car* pToFind);
+    EXPORT void AttachTrailer_4427A0(Car* pTrailerCar);
     EXPORT void TryHitchTrailer_442810();
     EXPORT void LightUpdate_442D10();
     EXPORT bool TrainUpdate_442D70();
@@ -1438,7 +1438,7 @@ struct TrafficSpawner
 {
     EXPORT TrafficSpawner();
     EXPORT ~TrafficSpawner();
-    EXPORT bool IsInsideCameraEdge_582360(int direction, Fix16 x, Fix16 y);
+    EXPORT bool IsInsideCameraEdge_582360(s32 direction, Fix16 x, Fix16 y);
     EXPORT void MakeTrafficForCurrCamera_5832C0();
     EXPORT bool SpawnTrafficCarFacing_583260(s32 angle_face);
     EXPORT void GenerateTraffic_583670();
