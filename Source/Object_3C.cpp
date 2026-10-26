@@ -58,7 +58,7 @@ Object_3C::Object_3C()
     this->field_2C_unused = 0;
     this->field_2A_bAirborne = 0;
     this->field_38_conveyor_speed = 0;
-    this->field_34 = 2;
+    this->field_34_sprite_collide_mode = 2;
     this->field_2E_unused = 0;
     this->field_2F_bOnSlope = false;
 }

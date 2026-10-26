@@ -77,7 +77,7 @@ class Object_3C
         field_18_friction = Fix16(0);
         field_28_next_definition_timer = 0;
         field_38_conveyor_speed = 0;
-        field_34 = 2;
+        field_34_sprite_collide_mode = 2;
         field_24_unused = 0;
         field_2F_bOnSlope = false;
         field_30_bSkipAnim = false;
@@ -128,7 +128,7 @@ class Object_3C
     bool field_30_bSkipAnim;
     u8 field_31_unused;
     u16 field_32_unused;
-    s32 field_34;
+    s32 field_34_sprite_collide_mode; // 2 collides with sprites, 1 passes over them (draw layer 29), 0 under (layer 6)
     char_type field_38_conveyor_speed;
     char_type field_39_unused;
     char_type field_3A_unused;
