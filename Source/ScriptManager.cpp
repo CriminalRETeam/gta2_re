@@ -105,7 +105,7 @@ void MissionCleanupList::MissionCleanUp_502DC0()
 
 
 MATCH_FUNC(0x503080)
-str_table_entry* ScriptManager::FindStringById_503080(s16 stringId)
+str_table_entry* ScriptManager::FindStringById_503080(s16 stringId) const
 {
     u16 idx = 0;
     str_table_entry* result = field_13350_pStringTbl->field_4_entries[idx];
@@ -122,7 +122,7 @@ str_table_entry* ScriptManager::FindStringById_503080(s16 stringId)
 }
 
 MATCH_FUNC(0x5030b0)
-str_table_entry* ScriptManager::StrEntryByString_5030B0(char_type* strToFind)
+str_table_entry* ScriptManager::StrEntryByString_5030B0(const char_type* strToFind) const
 {
     u16 idx = 0;
     str_table_entry* pEntry = field_13350_pStringTbl->field_4_entries[idx];
@@ -970,9 +970,9 @@ void ScriptManager::RecordWeaponHit_512C00(s32 entity_id, s32 projectile_model, 
 }
 
 MATCH_FUNC(0x512c70)
-bool ScriptManager::IsWeaponHitRecorded_512C70(s32 id, char_type weapon_idx, bool bIsPed)
+bool ScriptManager::IsWeaponHitRecorded_512C70(s32 id, char_type weapon_idx, bool bIsPed) const
 {
-    WeaponCheckTable* pTable = &field_27C_weapon_check_table[0];
+    const WeaponCheckTable* pTable = &field_27C_weapon_check_table[0];
 
     for (u8 i = 0; i < 15; pTable++, i++)
     {

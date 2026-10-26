@@ -611,37 +611,37 @@ class ScriptManager
 {
   public:
     // 9.6f 0x4C7350
-    inline bool IsOnMission_4C7350()
+    inline bool IsOnMission_4C7350() const
     {
         return field_344_mission_flag && *field_344_mission_flag;
     }
 
     // 9.6f 0x475980
-    inline bool HasCheckFlag1_475980(WeaponCheckTable* pTable)
+    inline bool HasCheckFlag1_475980(const WeaponCheckTable* pTable) const
     {
         return (pTable->field_6_flags & 1) == 1;
     }
 
     // 9.6f 0x4759A0
-    inline bool HasCheckFlag2_4759A0(WeaponCheckTable* pTable)
+    inline bool HasCheckFlag2_4759A0(const WeaponCheckTable* pTable) const
     {
         return (pTable->field_6_flags & 2) == 2;
     }
 
     // 9.6f 0x4759C0
-    inline bool HasCheckFlag4_4759C0(WeaponCheckTable* pTable)
+    inline bool HasCheckFlag4_4759C0(const WeaponCheckTable* pTable) const
     {
         return (pTable->field_6_flags & 4) == 4;
     }
 
     // 9.6f 0x475A20
-    inline bool get_field_C1E2C_475A20()
+    inline bool get_field_C1E2C_475A20() const
     {
         return field_C1E2C_bLoadedFromSave;
     }
 
     // 9.6f 0x475A30
-    inline bool get_field_C1E2D_475A30()
+    inline bool get_field_C1E2D_475A30() const
     {
         return field_C1E2D_bKillFrenzyActive;
     }
@@ -652,8 +652,8 @@ class ScriptManager
         field_C1E2D_bKillFrenzyActive = v;
     }
 
-    EXPORT str_table_entry* FindStringById_503080(s16 stringId);
-    EXPORT str_table_entry* StrEntryByString_5030B0(char_type* strToFind);
+    EXPORT str_table_entry* FindStringById_503080(s16 stringId) const;
+    EXPORT str_table_entry* StrEntryByString_5030B0(const char_type* strToFind) const;
     EXPORT void SetGeneratorTypeForCar_511A70(s32 car_model, Generator* pGen);
     EXPORT char_type AddCranePowerupTrigger_511B10(s16 idx);
     EXPORT void SaveScriptCounters_511B90();
@@ -684,7 +684,7 @@ class ScriptManager
     EXPORT bool TestAndRecordWeaponHit_512AF0(s32 id, char_type weapon_idx, bool bIsPed);
     EXPORT void ClearWeaponHitFlag_512BA0(s32 id, bool bIsPed);
     EXPORT void RecordWeaponHit_512C00(s32 entity_id, s32 projectile_model, bool bIsPed);
-    EXPORT bool IsWeaponHitRecorded_512C70(s32 id, char_type weapon_idx, bool bIsPed);
+    EXPORT bool IsWeaponHitRecorded_512C70(s32 id, char_type weapon_idx, bool bIsPed) const;
     EXPORT ScriptManager();
     EXPORT ~ScriptManager();
 
