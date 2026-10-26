@@ -22,7 +22,7 @@ class Player;
 struct GameSession
 {
     // 9.6f 0x453A80
-    inline s32 get_secret_tokens_collected_453A80()
+    inline s32 get_secret_tokens_collected_453A80() const
     {
         return field_574_secret_tokens_collected;
     }
@@ -88,14 +88,13 @@ struct GameSession
     PlayerName field_4B4_player_names[MAX_PLAYERS];
     s32 field_574_secret_tokens_collected;
 
-    // inlined at 45b420 in 9.6f
     // 9.6f 0x45B420
     EXPORT void clear_secret_tokens_collected()
     {
         field_574_secret_tokens_collected = 0;
     }
 
-    inline s32 GetTimeLimit_461DC0()
+    inline s32 GetTimeLimit_461DC0() const
     {
         return field_444_game_time_limit;
     }
@@ -104,11 +103,11 @@ struct GameSession
 
     EXPORT void LoadDebugSettings_4C53D0();
 
-    EXPORT char* SetMapName_4C5870(char_type* pName);
+    EXPORT char_type* SetMapName_4C5870(char_type* pName);
 
-    EXPORT char* SetStyleName_4C5890(char_type* pName);
+    EXPORT char_type* SetStyleName_4C5890(char_type* pName);
 
-    EXPORT char* SetScriptName_4C58B0(char_type* pName);
+    EXPORT char_type* SetScriptName_4C58B0(char_type* pName);
 
     EXPORT char_type* SetSaveFileName_4C58D0(char_type* pStr);
 
@@ -130,53 +129,53 @@ struct GameSession
 
     EXPORT char_type* GetSaveFileName_4C5970();
 
-    EXPORT char_type GetMainStageIdx_4C5980();
+    EXPORT char_type GetMainStageIdx_4C5980() const;
 
-    EXPORT char_type GetStage_4C5990();
+    EXPORT char_type GetStage_4C5990() const;
 
-    EXPORT char_type IsBonusStage_4C59A0();
+    EXPORT char_type IsBonusStage_4C59A0() const;
 
-    EXPORT u8 GetPlySlotIdx_4C59B0();
+    EXPORT u8 GetPlySlotIdx_4C59B0() const;
 
-    EXPORT char_type GetLevelFinishBonusType_4C59C0();
+    EXPORT char_type GetLevelFinishBonusType_4C59C0() const;
 
     EXPORT void SetStatistic_4C59D0(u8 idx, s32 value);
 
-    EXPORT s32 GetStatistic_4C59F0(u8 idx);
+    EXPORT s32 GetStatistic_4C59F0(u8 idx) const;
 
     EXPORT void StoreCrimeStats_4C5A10(Player* pPlayer);
 
     EXPORT void SetCarDamageCost_4C5A70(s32 cost);
 
-    EXPORT s32 GetCarDamageCost_4C5A80();
+    EXPORT s32 GetCarDamageCost_4C5A80() const;
 
     EXPORT void SetEvasionRating_4C5A90(s32 rating);
 
-    EXPORT s32 GetEvasionRating_4C5AA0();
+    EXPORT s32 GetEvasionRating_4C5AA0() const;
 
     EXPORT void SetBonusRatingTextIdx_4C5AB0(s16 gxt_text_idx);
 
-    EXPORT s16 GetBonusRatingTextIdx_4C5AC0();
+    EXPORT s16 GetBonusRatingTextIdx_4C5AC0() const;
 
     EXPORT void SetStartedFromPlayBonusMenu_4C5AD0(bool bStarted);
 
-    EXPORT bool IsStartedFromPlayBonusMenu_4C5AE0();
+    EXPORT bool IsStartedFromPlayBonusMenu_4C5AE0() const;
 
     EXPORT void init_4C5AF0();
 
     EXPORT void SetMultiplayerParams_4C5B80(char_type game_type, s32 points_limit, char_type user_idx, char_type max_players, s32 time_limit);
 
-    EXPORT u8 GetMultiplayerGamemode_4C5BC0();
+    EXPORT u8 GetMultiplayerGamemode_4C5BC0() const;
 
-    EXPORT s32 GetMultiplayerPointsLimit_4C5BD0();
+    EXPORT s32 GetMultiplayerPointsLimit_4C5BD0() const;
 
-    EXPORT char_type GetUserPlayerIdx_4C5BE0();
+    EXPORT char_type GetUserPlayerIdx_4C5BE0() const;
 
-    EXPORT char_type GetMaxPlayers_4C5BF0();
+    EXPORT char_type GetMaxPlayers_4C5BF0() const;
 
     EXPORT void SetWinnerIdx_4C5C00(char_type player_idx);
 
-    EXPORT char_type GetWinnerIdx_4C5C20();
+    EXPORT char_type GetWinnerIdx_4C5C20() const;
 
     EXPORT void SetPlayerName_4C5C30(u16 player_idx, wchar_t* pName);
 
@@ -184,13 +183,13 @@ struct GameSession
 
     EXPORT void ChangePointsForPlayerIdxByAmount_4C5C80(u8 player_idx, s32 amount);
 
-    EXPORT s32 GetPointsForPlayerIdx_4C5CB0(u8 player_idx);
+    EXPORT s32 GetPointsForPlayerIdx_4C5CB0(u8 player_idx) const;
 
     EXPORT void UpdateFrags_4C5CD0(u8 player_killer_idx, u8 player_victim_idx);
 
-    EXPORT u16 GetFragsForPlayerIdx_4C5D60(u8 player_idx);
+    EXPORT u16 GetFragsForPlayerIdx_4C5D60(u8 player_idx) const;
 
-    EXPORT s16 GetFragsOnPlayer_4C5D80(u8 player_killer_idx, u8 player_victim_idx);
+    EXPORT s16 GetFragsOnPlayer_4C5D80(u8 player_killer_idx, u8 player_victim_idx) const;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(GameSession, 0x578);
 
