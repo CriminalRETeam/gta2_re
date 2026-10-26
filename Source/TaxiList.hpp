@@ -54,7 +54,7 @@ class TaxiList
     }
 
     // 9.6f 0x434970
-    inline bool IsEmpty_434970()
+    inline bool IsEmpty_434970() const
     {
         return field_0_pFirst == NULL;
     }
