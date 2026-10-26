@@ -204,7 +204,7 @@ s32 __stdcall ParseTokenAndPush_430C70(char_type* pStr)
     {
         if (*pCurr == '-')
         {
-            bNegate = 1;
+            bNegate = true;
             pCurr++;
         }
 
@@ -237,7 +237,7 @@ s32 __stdcall ParseTokenAndPush_430C70(char_type* pStr)
 
             if (*pCurr == 'h')
             {
-                bHex = 1;
+                bHex = true;
                 ++pCurr;
             }
             if (*pCurr == '-')
@@ -736,7 +736,7 @@ void CarInfoTable::Reload_454A50()
 MATCH_FUNC(0x454a80)
 void CarInfoTable::Clear_454A80()
 {
-    for (int i = 0; i < 0x100; i++)
+    for (s32 i = 0; i < 0x100; i++)
     {
         field_404_model_physics_array[i] = NULL;
         field_0_ptr_array[i] = NULL;
@@ -747,13 +747,13 @@ MATCH_FUNC(0x454aa0)
 void CarInfoTable::Free_454AA0()
 {
     delete[] field_400_raw_data;
-    field_400_raw_data = 0;
+    field_400_raw_data = NULL;
 
     if (field_804_raw_data)
     {
         delete[] field_804_raw_data;
     }
-    field_804_raw_data = 0;
+    field_804_raw_data = NULL;
 }
 
 MATCH_FUNC(0x454b00)
