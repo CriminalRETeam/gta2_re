@@ -121,16 +121,15 @@ unwind funclet (after the CRT in `.text`) changes, and neither the verifier nor 
 a byte compare of the whole exe does. The unwind maps already differ there: for EH states 0 and 1 the
 original destroys `-0x44` then `-0x14`, ours `-0x14` then `-0x1c`.
 
-**Calls to unnamed operator copies are fine, mixing them is not.** The verifier (and
-`permuter_score.py`) names call targets per function by first use, so a call to the COMDAT copy of an
-inline (`??DFix16`, `??0Fix16@@QAE@H@Z`, `?Normalize@Ang16`) where the original calls `0x408680`,
-`0x4369F0` or `0x406C20` matches: the original only has the inline's one out-of-line copy (its linker
-folds nothing, see "No single rule fits the `Fix16_Point` add/sub"), and our named exports are second
-copies of the same body. Verified
-matches do this (`Camera::IsCoordsPosVisible_435A70` calls `??DFix16`). What fails is one function
-calling both the COMDAT copy and the named export (`Multiply_408680`) for the same original target, or a
-different named function: `permuter_score.py` adds 2 per call to a `Name_ADDRESS` function the original
-doesn't call. See also "Use one out-of-line callee per operator" below.
+**Out-of-line operator copies are checked by address (`inline_aliases.csv`).** Past the inline budget VC6
+calls its own COMDAT copy of an inline (`??DFix16`), another symbol than our marked copy
+(`Multiply_408680`) of the same original function. `Scripts/bin_comp/inline_aliases.csv` maps such a COMDAT
+to the original address: `compare_all_functions.py` checks the COMDAT's code against 10.5.exe like a
+`MATCH_FUNC`, and compares every call to that address by identity, so a function may call the COMDAT, the
+marked copy or both, and 10.5.exe must call exactly that function there. Other calls are still named by first
+use: a COMDAT without a row matches whatever the original calls consistently, and calling it next to another
+copy of the same original fails. A row only fits an inline with one out-of-line copy in 10.5.exe (not
+`Fix16(s32)`: 0x41B480, 0x4369F0 and 0x4926F0).
 
 **Literals can be renumbered too.** The normaliser can turn literals such as `$0x68` into
 `stable_name_N`, so one added or removed call renumbers them and the score jumps without a real
@@ -1108,7 +1107,7 @@ directly in the first check keeps the original jump target (`Car::CanCarCollideW
 
 **Identical switch cases are cross-jumped only when their instructions are identical before scheduling.** `UpdateCircularBurst_state_5_539890` matches with cases 4 and 5 both written `set_id; dir.x = 0; dir.y = ...` (see "How VC6 copies and merges block tails").
 
-**Out-of-line copies by address:** `Abs_436A50` is `Fix16::Abs`, `AssignNormalized_409300` is the `Ang16(const s16&, s32)` ctor (9.6f 0x401C60), `sub_53E860` is a COMDAT copy of `Fix16::operator/(const s32&)` emitted by ParticleManager.cpp and also called from sprite.cpp (no EXPORT yet, so those divides can't match).
+**Out-of-line copies by address:** `Abs_436A50` is `Fix16::Abs`, `AssignNormalized_409300` is the `Ang16(const s16&, s32)` ctor (9.6f 0x401C60), `DivideInt_53E860` is `Fix16::operator/(const s32&)` (its COMDAT has an `inline_aliases.csv` row).
 
 **Hoisting a rotation angle into a local changes evaluation order.** Storing the spread angle in the Ang16 local 9.6f uses gave the original's left-first `(A + ang) - B` (`EmitBloodBurst_53E450`, `EmitWaterSplash_53F060`).
 
@@ -1928,15 +1927,12 @@ kept the rest inlined (0.476 -> 0.843). It matched `Crane::ComputeHookPos_47E620
 `_47E730`. `GetDoorWorldPos_43B420` has the same shape, and it may help `fire_truck_gun_5E0E70`
 and the `EmitBloodBurst`/`EmitWaterSplash` siblings.
 
-**Use one out-of-line callee per operator throughout the function.** Past the budget VC6 calls a
-COMDAT copy of `operator*`, a different symbol from `Multiply_408680` although the original has one
-function at 0x408680. Mixing the two in one function fails, so where some sites must be the named helper,
-every site must: a local
-inline `PolarToCartesian` that calls `Multiply_408680`, and `Normalize_406C20`, `Subtract_436A00`,
-`Add_408660`, `Negate_4086A0`, `Divide_436A20` instead of the operators
-(`Char::ApplyMovement_54CC40`, `HandleGenericCollision_54A530`). `Sprite::IntersectsRectSAT_59FB10`
-matched with each operator through one named copy: `RotateAndTranslatePoint_ool_42A720`,
-`GetHalfExtents_ool_4BA0A0`, `Negate_4086A0` and the const `operator+` for the last x sum.
+**Write the operators, not the named copies.** An operator the budget leaves out of line calls the COMDAT
+copy, which matches (see `inline_aliases.csv` above). A named call (`Multiply_408680`, a `*_ool` helper) is
+no inline site: it isn't charged and doesn't count in `sites_left`, so it pins one call out of line without
+moving the others. Named calls remain where our budget doesn't give the original's cut-off, for example the
+rotations: `Trailer::GetHitchPosition_407BD0` and `Crane::ComputeHookOffset_47E840` take the same budget path
+through `RotateByAngle_40F6B0`, yet the original cuts them off at different sites. Check with `inl.sh` first.
 
 **No jump table and compares in source order mean an if-chain, not a switch.** If the original
 tests the value in one else-if chain (14, 9, 3, 6, 2||11, ...) and builds no jump table, write the
