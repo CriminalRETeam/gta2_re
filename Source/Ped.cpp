@@ -9397,7 +9397,7 @@ void Ped::PullDriverOutOfCarStateMachine_46B2F0()
                         else
                         {
                             field_21C_bf.bLeftVehicle = true;
-                            field_168_game_object->field_6C_animation_state = Char_Anim_state::Unknown_9;
+                            field_168_game_object->field_6C_animation_state = Char_Anim_state::Carjacking_9;
                             field_168_game_object->field_68_animation_frame = 0;
                             Ped::ChangeNextPedState1_45C500(ped_state_1::standing_still_7);
                             Ped::ChangeNextPedState2_45C540(ped_state_2::carjack_opening_door_8);
