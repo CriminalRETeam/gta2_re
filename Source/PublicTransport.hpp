@@ -23,7 +23,7 @@ class Train
     EXPORT void ProcessTrainExplosionChain_578670();
     char_type field_0_is_hijacked;
     char_type field_1_unused;
-    char_type field_2;
+    char_type field_2_passengers_fleeing;
     char_type field_3_unused;
     s16 field_4_wait_timer;
     char_type field_6_unused;
@@ -31,7 +31,7 @@ class Train
     s32 field_8_alloc_state;
     Car* field_C_carriages[11];
     char_type field_38_explosion_timers[11];
-    u8 field_43_idx;
+    u8 field_43_wagon_count;
     char_type field_44_unused;
     char_type field_45_unused;
     char_type field_46_unused;
