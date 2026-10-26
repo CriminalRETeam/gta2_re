@@ -2917,10 +2917,10 @@ void Car::AssignDriverBlameForExplosion_43B7B0(Car* pCar)
 }
 
 MATCH_FUNC(0x43b850)
-bool Car::IsImmuneToExplosionType_43B850(s32 explosion_type)
+bool Car::IsImmuneToExplosionType_43B850(s32 type)
 {
     // Two separate bit tests: VC6 loads the u16 once into cx and merges them into 'test $6,%ch'
-    return ((field_78_flags & car_flag::Rocketproof) || (field_78_flags & car_flag::Flameproof)) && explosion_type != 20 ? true : false;
+    return ((field_78_flags & car_flag::Rocketproof) || (field_78_flags & car_flag::Flameproof)) && type != explosion_type::large_20 ? true : false;
 }
 
 // 9.6f 0x4226C0
@@ -4323,14 +4323,14 @@ bool Car::HandleCarHitByObject_43F130(Object* pObj)
                 {
                     offset = pObj->field_4_sprite->get_x_y_late_443580().SubLate_40AC80(field_50_car_sprite->get_x_y_late_443580());
                     offset.RotateByAngle_40F6B0(-field_50_car_sprite->field_0_rotation);
-                    EmitExplosion_43D690(18, offset.x, offset.y);
+                    EmitExplosion_43D690(explosion_type::small_18, offset.x, offset.y);
                 }
             }
             else
             {
                 offset = pObj->field_4_sprite->get_x_y_late_443580().SubLate_40AC80(field_50_car_sprite->get_x_y_late_443580());
                 offset.RotateByAngle_40F6B0(-field_50_car_sprite->field_0_rotation);
-                EmitExplosion_43D690(18, offset.x, offset.y);
+                EmitExplosion_43D690(explosion_type::small_18, offset.x, offset.y);
             }
             break;
 
@@ -4352,7 +4352,7 @@ bool Car::HandleCarHitByObject_43F130(Object* pObj)
                     {
                         offset = pObj->field_4_sprite->get_x_y_late_443580().SubLate_40AC80(field_50_car_sprite->get_x_y_late_443580());
                         offset.RotateByAngle_40F6B0(-field_50_car_sprite->field_0_rotation);
-                        EmitExplosion_43D690(18, offset.x, offset.y);
+                        EmitExplosion_43D690(explosion_type::small_18, offset.x, offset.y);
                     }
                 }
             }
