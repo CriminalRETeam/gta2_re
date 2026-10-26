@@ -3462,8 +3462,8 @@ void ScriptThread::SCRCMD_SET_GANG_KILL_REACTION_50AC20()
     }
     Gang* pGang_2 = gGangPool_CA8_67E274->FindGangByName_4BF100(gang_2_str->get_name());
     pGang_1->SetGangKillReaction_4BEF50(pGang_2->field_1_gang_idx, static_cast<char_type>(pCmd->field_A_unsigned_2));
-    pGang_1->SetKillAffectsRespect_475900(1);
-    pGang_2->SetKillAffectsRespect_475900(1);
+    pGang_1->SetKillAffectsRespect_475900(true);
+    pGang_2->SetKillAffectsRespect_475900(true);
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }
 
@@ -3485,7 +3485,7 @@ void ScriptThread::SCRCMD_CHANGE_RESPECT_50ACF0()
         case SCRCMD_SET_CHAR_RESPECT:
 
             pGang->SetRespect_4BEE30(pPointer->field_8_char->field_15C_player->get_idx_4219D0(), 20 * static_cast<u8>(pCmd->field_A_signed_2));
-            pGang->SetKillAffectsRespect_475900(1);
+            pGang->SetKillAffectsRespect_475900(true);
             break;
         case SCRCMD_CHANGE_RESPECT:
             if (pCmd->field_A_signed_2 > 0)
