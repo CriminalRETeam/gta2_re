@@ -3,6 +3,7 @@
 
 // Force inline off
 //#define INLINE_MODE inline
+#include "bonus_event_type.hpp"
 #include "bonus_result.hpp"
 #include "car_despawn_status.hpp"
 #include "explosion_type.hpp"
@@ -5342,15 +5343,15 @@ void ScriptThread::StartBonus_50DF10()
 
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_18_ptr));
 
-    s32 flag;
+    s32 event_type;
 
     if (pCmd->field_A_subtype == 0 || pCmd->field_A_subtype == 2)
     {
-        flag = true;
+        event_type = bonus_event_type::car_destroyed_1;
     }
     else
     {
-        flag = false;
+        event_type = bonus_event_type::ped_killed_0;
     }
 
     switch (pCmd->field_A_subtype)
@@ -5400,7 +5401,7 @@ void ScriptThread::StartBonus_50DF10()
         gMap_0x370_6F6268->FindZoneByName_4DEFD0(gScriptManager_6F8060->FindStringById_503080(pCmd->field_8_zone_str_id)->get_name());
     }
 
-    pPointer->field_8_counter = gGame_0x40_67E008->field_38_local_player->field_2D4_scores.field_1A8_bonuses.AllocRule_431FE0(flag,
+    pPointer->field_8_counter = gGame_0x40_67E008->field_38_local_player->field_2D4_scores.field_1A8_bonuses.AllocRule_431FE0(event_type,
                                                                                                                    car_model,
                                                                                                                    occupation,
                                                                                                                    gang_idx,
