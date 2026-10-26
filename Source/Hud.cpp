@@ -914,7 +914,6 @@ void Hud_Arrow::Service_5D0C60()
 MATCH_FUNC(0x5d0c90)
 void Hud_Arrow::DrawArrow_5D0C90()
 {
-    // TODO: Kinda messy, refactor this
     Player* pPlayer;
     Camera* pCam;
     s32 arrow_palette_type;
@@ -1626,7 +1625,7 @@ void Hud_TextEntry::FormatAndSetupText_5D1B10(const wchar_t* pStr, s16 xpos, s16
 
     if (field_AC_fontType == gStyleZoneNameFont_703C9C || field_AC_fontType == gStyleMessageFont_703D9C)
     {
-        /*v7 =*/gText_0x14_704DFC->StrToUpper_5B5B80(field_0_str_buf);
+        gText_0x14_704DFC->StrToUpper_5B5B80(field_0_str_buf);
     }
 
     this->field_B0_drawKind = 2;
@@ -2508,7 +2507,6 @@ Hud_Brief::Hud_Brief()
     field_518_briefs[GTA2_COUNTOF(field_518_briefs) - 1].field_C_pNext = NULL;
 }
 
-// TODO: Calls 2 Fix16 ctors that are exactly the same but are 2 unique functions ??
 MATCH_FUNC(0x5d4a10)
 void Hud_CarName::DrawCarName_5D4A10()
 {
@@ -2577,7 +2575,6 @@ void Hud::CalcCarNameTextWidth_5D5190()
 {
     if (field_0_car_name.field_0_display_time)
     {
-        // TODO: Structure seems wrong, probablty field_2 to field_4C of Hud is a string buffer?
         field_0_car_name.field_44_text_width = Frontend::GetMaxTextWidth_5D8990(reinterpret_cast<wchar_t*>(&field_0_car_name.field_2_car_name), gCarNameFont_706508);
     }
 }

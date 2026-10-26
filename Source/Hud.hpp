@@ -12,7 +12,6 @@ class Ped;
 class Player;
 class Gang;
 class SoundObject;
-class Gang;
 class Object;
 class Car;
 
@@ -66,7 +65,7 @@ class Hud_BriefSelector
     // inline 0x4C6AC0
     Hud_BriefSelector()
     {
-        field_0_value = 0; // TODO: byte ?
+        field_0_value = 0;
     }
     EXPORT void ShowNextNumberedBrief_5CF620();
     EXPORT void ShowPrevNumberedBrief_5CF6B0();
@@ -325,7 +324,7 @@ class Hud_Pager
 
     EXPORT Hud_Pager();
     s32 field_0_timer;
-    s32* field_4_ptr_counter; //  counter?
+    s32* field_4_ptr_counter;
     SoundObject* field_8_sound;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Hud_Pager, 0xC);
@@ -627,7 +626,7 @@ class Hud_Arrow_7C_Array
 
 EXPORT char_type __stdcall GetBriefFaceIdx_5D3680(u16 face_char);
 
-class Hud_Brief // size 0x704
+class Hud_Brief
 {
   public:
     EXPORT void MovePrevBriefToCurrent_5D3330();
