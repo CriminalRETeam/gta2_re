@@ -39,7 +39,7 @@ class Explosion
     }
 
     s32 field_0_bIn20Pool;
-    u8 field_4_idx;
+    u8 field_4_pool_slot_idx;
     s16 field_6_id;
     Fix16 field_8_speed;
     Ang16 field_C_angle;

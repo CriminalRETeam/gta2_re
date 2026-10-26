@@ -137,7 +137,7 @@ EXPORT s32 Player::ObjectTypeToWeaponType_443CB0(u8 shop_type)
 MATCH_FUNC(0x4881E0)
 u8 Player::GetIdx_4881E0()
 {
-    return field_2E_idx;
+    return field_2E_player_idx;
 }
 
 MATCH_FUNC(0x5645B0)
@@ -340,7 +340,7 @@ Weapon* Player::GetCurrPlayerWeapon_5648F0()
 MATCH_FUNC(0x564910)
 void Player::SetWeapon_564910(Weapon* pWeapon)
 {
-    s16 idx = pWeapon->field_1C_idx;
+    s16 idx = pWeapon->field_1C_weapon_type;
     this->field_718_weapons[idx] = pWeapon;
     if (!this->field_31_kf_weapon_mode)
     {
@@ -566,8 +566,8 @@ void Player::RemovePlayerWeapons_564C50()
     Weapon* pWeapon = this->field_718_weapons[0];
     do
     {
-        if ((!gCheatUnlimitedElectroGun_67D4F7 || pWeapon->field_1C_idx != weapon_type::shocker) &&
-            (!gCheatUnlimitedFlameThrower_67D6CC || pWeapon->field_1C_idx != weapon_type::flamethrower))
+        if ((!gCheatUnlimitedElectroGun_67D4F7 || pWeapon->field_1C_weapon_type != weapon_type::shocker) &&
+            (!gCheatUnlimitedFlameThrower_67D6CC || pWeapon->field_1C_weapon_type != weapon_type::flamethrower))
         {
             if (pWeapon->HasAmmo_4A4F80())
             {
@@ -722,11 +722,11 @@ bool Player::CollectPowerUp_564D60(s32 power_up_idx)
             {
                 return 0;
             }
-            if (field_34_gang_curr_location->GetRespectForPlayer_4BEEF0(this->field_2E_idx) == 100)
+            if (field_34_gang_curr_location->GetRespectForPlayer_4BEEF0(this->field_2E_player_idx) == 100)
             {
                 return 0;
             }
-            field_34_gang_curr_location->IncrementRespect_4BEE50(this->field_2E_idx, 20);
+            field_34_gang_curr_location->IncrementRespect_4BEE50(this->field_2E_player_idx, 20);
             break;
 
         case power_up_indices::InstantGang_12:
@@ -846,7 +846,7 @@ void Player::DebugWatchNearestCar_5653E0()
 }
 
 MATCH_FUNC(0x565460)
-void Player::sub_565460()
+void Player::OnVideoModeChange_565460()
 {
     // Empty
 }
@@ -907,13 +907,13 @@ void Player::IncrementGangRespectFromDebugKeys_565770(u8 count)
 
     if (pZone)
     {
-        if (pZone->GetRespectForPlayer_4BEEF0(this->field_2E_idx) >= 100)
+        if (pZone->GetRespectForPlayer_4BEEF0(this->field_2E_player_idx) >= 100)
         {
-            pZone->SetRespect_4BEE30(this->field_2E_idx, -100);
+            pZone->SetRespect_4BEE30(this->field_2E_player_idx, -100);
         }
         else
         {
-            pZone->IncrementRespect_4BEE50(this->field_2E_idx, 20);
+            pZone->IncrementRespect_4BEE50(this->field_2E_player_idx, 20);
         }
     }
 }
@@ -2577,9 +2577,9 @@ void Player::InitializePlayerState_569CB0()
     if (bStartNetworkGame_7081F0)
     {
         Player::ColorScoreFromRemap_569A10();
-        gNetPlay_7071E8.GetPlayerName_521100(field_83C_player_name, field_2E_idx);
+        gNetPlay_7071E8.GetPlayerName_521100(field_83C_player_name, field_2E_player_idx);
         gText_0x14_704DFC->RemapExtendedCharsIfNotJapanese_5B5910(field_83C_player_name);
-        gGameSession_67E8E0.SetPlayerName_4C5C30(field_2E_idx, field_83C_player_name);
+        gGameSession_67E8E0.SetPlayerName_4C5C30(field_2E_player_idx, field_83C_player_name);
     }
 }
 
@@ -2757,7 +2757,7 @@ void Player::CopyPlayerDataToSave_56A1A0(SavedPlayerStats* pSave)
     for (u8 gang_idx = 0; gang_idx < 10; gang_idx++)
     {
         Gang* pGang = gGangPool_CA8_67E274->GangByIdx_4BF1C0(gang_idx);
-        pSave->field_75_gang_respect[gang_idx] = pGang->GetRespectForPlayer_4BEEF0(field_2E_idx);
+        pSave->field_75_gang_respect[gang_idx] = pGang->GetRespectForPlayer_4BEEF0(field_2E_player_idx);
     }
 
     for (u16 weapon_idx = 0; weapon_idx < 15; weapon_idx++)
@@ -2789,7 +2789,7 @@ void Player::UpdateGameFromSave_56A310(SavedPlayerStats* pSave)
     for (u8 gang_idx = 0; gang_idx < 10; gang_idx++)
     {
         Gang* pGang = gGangPool_CA8_67E274->GangByIdx_4BF1C0(gang_idx);
-        pGang->SetRespect_4BEE30(field_2E_idx, pSave->field_75_gang_respect[gang_idx]);
+        pGang->SetRespect_4BEE30(field_2E_player_idx, pSave->field_75_gang_respect[gang_idx]);
     }
 
     for (u16 weapon_idx = 0; weapon_idx < 15; weapon_idx++)
@@ -2831,7 +2831,7 @@ void Player::ApplyCheats_56A490()
     {
         for (Gang* pIter = gGangPool_CA8_67E274->FirstGang_4BECA0(); pIter; pIter = gGangPool_CA8_67E274->NextGang_4BECE0())
         {
-            pIter->SetRespect_4BEE30(field_2E_idx, 100);
+            pIter->SetRespect_4BEE30(field_2E_player_idx, 100);
         }
     }
     if (gCheatGet99Lives_67D4F1)
@@ -2869,7 +2869,7 @@ void Player::ApplyCheats_56A490()
         Player::AddWeaponWithAmmo_564960(weapon_type::smg, 50u);
         for (Gang* pIter2 = gGangPool_CA8_67E274->FirstGang_4BECA0(); pIter2; pIter2 = gGangPool_CA8_67E274->NextGang_4BECE0())
         {
-            pIter2->SetRespect_4BEE30(field_2E_idx, 80);
+            pIter2->SetRespect_4BEE30(field_2E_player_idx, 80);
         }
     }
 }
@@ -2907,7 +2907,7 @@ Player::Player(u8 player_idx)
     field_794_is_chatting = 0;
     field_838_chat_text_idx = 0;
     field_796_chat_text[0] = 0;
-    field_2E_idx = player_idx;
+    field_2E_player_idx = player_idx;
     field_28_wasted_or_busted = 0;
     field_640_busted = 0;
     field_680_traffic_spawn_counter = 0;
@@ -2957,7 +2957,7 @@ Player::Player(u8 player_idx)
     field_2D0_aux_cam_active = 0;
     field_2C_death_countdown = 0;
     field_4C_sound_obj = 0;
-    field_2E_idx = player_idx;
+    field_2E_player_idx = player_idx;
     field_2D4_scores.Init_5922F0(this, 2, 999999999, 158, 999u);
     field_684_lives.SetupDigitsParams_492110(1, 99, 115);
     field_6BC_multipliers.SetupDigitsParams_492110(1, 99, 116);

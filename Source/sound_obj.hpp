@@ -30,7 +30,7 @@ struct SoundPosEntry
     }
 
     Fix16 field_0_last_speed;
-    u32 field_4;
+    u32 field_4_car;
     //char_type field_4;
     //char_type field_5;
     //char_type field_6;
@@ -59,7 +59,7 @@ struct SoundEntry
     char_type field_2_unused;
     char_type field_3_unused;
     s32 field_4_entity_idx;
-    SoundObject field_8;
+    SoundObject field_8_sound_obj;
     s32 field_18;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SoundEntry, 0x1C);
@@ -75,8 +75,8 @@ struct RadioStationEmitter
     Fix16 field_8_ypos;
 
     s32 field_C_station_idx;
-    s16 field_10;
-    s16 field_12;
+    s16 field_10_a_variant_radius;
+    s16 field_12_main_radius;
     s32 field_14_elapsed_frames;
     s32 field_18_pos_ms;
 };
@@ -123,7 +123,7 @@ struct sound_0x68
     char_type field_53_unused;
     Fix16 field_54_sound_intensity;
     s32 field_58_type;
-    sound_0x68* field_5C;
+    sound_0x68* field_5C_pReleaseSource;
     u8 field_60_nEmittingVolume;
     char_type field_61_unused;
     char_type field_62_unused;
@@ -173,7 +173,7 @@ class sound_obj
     u8 field_25_cdVol;
     char_type field_26_unused;
     char_type field_27_unused;
-    Fix16 field_28_dist_related;
+    Fix16 field_28_dist_squared;
     char_type field_2C_distCalculated;
     char_type field_2D_unused;
     char_type field_2E_unused;
@@ -233,8 +233,8 @@ class sound_obj
     s16 field_54E8[5];
     u8 field_54F2[5];
     u8 field_54F7_active_emitter_idx[5];
-    s32 field_54FC;
-    s32 field_5500;
+    s32 field_54FC_main_variant;
+    s32 field_5500_prev_main_variant;
     char_type field_5504_radio_station_change_mode;
     char_type field_5505_unused;
     char_type field_5506_mute_timer;
@@ -246,9 +246,9 @@ class sound_obj
     u8 field_5521_radio_word;
     s16 field_5522_wanted_star_count;
     s32 field_5524_radio_word;
-    u8 field_5528_idx15_cur;
-    u8 field_5529_idx15;
-    s32 field_552C_15array[15];
+    u8 field_5528_radio_word_read_idx;
+    u8 field_5529_radio_word_write_idx;
+    s32 field_552C_radio_word_queue[15];
     char_type field_5568_crime_xpos;
     char_type field_5569_crime_ypos;
     s16 field_556A_erv_en_route_timer;
@@ -346,7 +346,7 @@ class sound_obj
     EXPORT void PlayVocal_418C80(s32 vocal_idx);
     EXPORT void ProcessType10_Vocals_418CA0();
     EXPORT bool CalculateDistance_419020(Fix16 max_dist);
-    EXPORT bool VolCalc_419070(u8 base_volume, Fix16 max_dist, char_type bFlag);
+    EXPORT bool VolCalc_419070(u8 base_volume, Fix16 max_dist, char_type bHasSolidAbove);
     EXPORT Fix16 ComputeEmitterDistanceSquared_4190B0();
     EXPORT s32 AddSoundObject_419FA0(SoundObject* pTuring);
 
@@ -411,7 +411,7 @@ class sound_obj
     EXPORT void InitMusicAndCopRadio_57E960();
     EXPORT void DeInitVocals_57EA10();
     EXPORT void UpdateActiveRadioEmitterVolume_57EA90();
-    EXPORT char_type ComputeRadioEmitterVolume_57EB90(u8 emitterIndex, s32 bUseFarRadius);
+    EXPORT char_type ComputeRadioEmitterVolume_57EB90(u8 emitterIndex, s32 bMainVariant);
     EXPORT void DeclareRadioStation_57ECB0(s32 station_idx, Fix16 xpos, Fix16 ypos);
     EXPORT void SetRadioEmitterRadii_57EDB0(RadioStationEmitter* pEmitter, s32 type);
     EXPORT void RemoveSound_57EE30(Fix16 xpos, Fix16 ypos);

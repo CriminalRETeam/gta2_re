@@ -21,7 +21,7 @@ class MapObjectOverride
                   Fix16 speed,
                   Fix16 friction,
                   s8 next_definition_timer,
-                  const s32& param_11,
+                  const s32& collision_response,
                   const s32& param_12,
                   s8 next_frame_max,
                   const s32& uses_3d_movement,
@@ -43,7 +43,7 @@ class MapObjectOverride
     Fix16 field_1C_speed;
     Fix16 field_20_friction;
     s8 field_24_next_definition_timer;
-    s32 field_28;
+    s32 field_28_collision_response;
     s32 field_2C;
     s8 field_30_next_frame_max;
     s32 field_34_uses_3d_movement;
@@ -65,7 +65,7 @@ class CodeObjectTemplate
     EXPORT CodeObjectTemplate(u32 definition_idx,
                   u8 num_sprites,
                   const u32& behavior_type,
-                  u32 param_4,
+                  u32 impact_definition_idx,
                   u32 next_definition_idx,
                   u8 in_pool_list,
                   const u32& touch_behavior,
@@ -74,7 +74,7 @@ class CodeObjectTemplate
                   Fix16 speed,
                   Fix16 friction,
                   s8 next_definition_timer,
-                  const u32& param_13,
+                  const u32& collision_response,
                   const u32& z_collision_response,
                   u32 sprite_type,
                   u32 next_frame_max,
@@ -95,7 +95,7 @@ class CodeObjectTemplate
     s32 field_0_definition_idx;
     u8 field_4_num_sprites;
     s32 field_8_behavior_type;
-    s32 field_C;
+    s32 field_C_impact_definition_idx;
     s32 field_10_next_definition_idx;
     s8 field_14_in_pool_list;
     s32 field_18_touch_behavior;
@@ -104,7 +104,7 @@ class CodeObjectTemplate
     Fix16 field_24_speed;
     Fix16 field_28_friction;
     s8 field_2C_next_definition_timer;
-    s32 field_30;
+    s32 field_30_collision_response;
     s32 field_34_z_collision_response;
     s32 field_38_sprite_type;
     s8 field_3C_next_frame_max;
@@ -199,12 +199,12 @@ class ObjectDefinition
     s32 field_2C_draw_layer;
     s32 field_30_palette_type;
     s32 field_34_behavior_type; // One of object_behavior_type
-    s32 field_38;
+    s32 field_38_impact_definition_idx;
     s32 field_3C_next_definition_idx;
     s32 field_40_collision_bucket_category; // One of collision_bucket_category
     s32 field_44_touch_behavior;
     s32 field_48_projectile_hit_type;
-    s32 field_4C;
+    s32 field_4C_collision_response;
     s32 field_50_z_collision_response;
     s32 field_54_react_to_collisions_with; // One of CollisionReaction
     s32 field_58_uses_3d_movement;

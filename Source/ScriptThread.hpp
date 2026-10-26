@@ -183,7 +183,7 @@ struct SCR_THREAD : SCR_CMD_HEADER
             u8 field_13_y;
             u8 field_14_z;
             char_type field_15_trigger_idx;
-            u8 field_16_flag;
+            u8 field_16_trigger_added;
         };
     };
 };
@@ -200,7 +200,7 @@ struct SCR_CHAR_AREA_ANY : SCR_CMD_HEADER
     Fix16 field_20_h;
     u16 field_24_char_idx;
     char_type field_26_trigger_idx;
-    u8 field_27_flag;
+    u8 field_27_trigger_added;
 };
 
 struct SCR_CHAR_OBJECTIVE : SCR_CMD_HEADER
@@ -336,8 +336,8 @@ struct SCR_SET_GANG_INFO : SCR_CMD_HEADER
 
 struct SCR_GENERATOR : SCR_CMD_HEADER
 {
-    u16 field_8_unk2;
-    u16 field_A_unk3;
+    u16 field_8_pointer_lo;
+    u16 field_A_pointer_hi;
     Fix16_Vec field_C_pos;
     Ang16 field_18_rot;
     u16 field_1A_obj_id;
@@ -412,8 +412,8 @@ struct SCR_REMOVE_BLOCK : SCR_CMD_HEADER
 
 struct SCR_CONVEYOR : SCR_CMD_HEADER
 {
-    u16 field_8_unk2;
-    u16 field_A_unk3;
+    u16 field_8_pointer_lo;
+    u16 field_A_pointer_hi;
     SCR_Rect_f field_C_rect;
     SCR_XY_uc field_18_speed;
     u16 field_1A_padding;
@@ -421,15 +421,15 @@ struct SCR_CONVEYOR : SCR_CMD_HEADER
 
 struct SCR_DESTRUCTOR : SCR_CMD_HEADER
 {
-    u16 field_8_unk2;
-    u16 field_A_unk3;
+    u16 field_8_pointer_lo;
+    u16 field_A_pointer_hi;
     SCR_Rect_f field_C_rect;
 };
 
 struct SCR_CRUSHER_BASIC : SCR_CMD_HEADER
 {
-    u16 field_8_unk2;
-    u16 field_A_unk3;
+    u16 field_8_pointer_lo;
+    u16 field_A_pointer_hi;
     SCR_XY_f field_C_pos;
 };
 
@@ -443,7 +443,7 @@ struct SCR_SET_AMBIENT : SCR_CMD_HEADER
 struct SCR_IF_JUMP : SCR_CMD_HEADER
 {
     u8 is_or;
-    u8 unknown;
+    u8 padding;
     u16 else_endif_pointer;
 };
 
@@ -492,7 +492,7 @@ struct SCR_IS_CAR_IN_BLOCK : SCR_CMD_HEADER
 
 struct SCR_CHECK_SCORE_GREATER : SCR_CMD_HEADER
 {
-    u32 field_8_unknown;
+    u32 field_8_char_idx;
     s32 field_C_target_score;
 };
 
@@ -505,7 +505,7 @@ struct SCR_WARP_FROM_CAR : SCR_CMD_HEADER
 
 struct SCR_SET_GROUP_TYPE : SCR_CMD_HEADER
 {
-    u32 field_8;
+    u32 field_8_char_idx;
     u32 field_C_group_type;
 };
 

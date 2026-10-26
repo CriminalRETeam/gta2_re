@@ -493,7 +493,7 @@ void Game::UpdateGame_4B9410()
 
     if (bDo_mike_67D5CC)
     {
-        gMike_A80_6F7328->sub_4FF980();
+        gMike_A80_6F7328->Service_4FF980();
     }
 
     if (!bSkip_traffic_lights_67D4EC)
@@ -652,7 +652,7 @@ void Game::ReinitAfterVideoModeChange_4B9720()
 {
     if (field_38_local_player)
     {
-        field_38_local_player->sub_565460();
+        field_38_local_player->OnVideoModeChange_565460();
     }
 
     ResetFrameTimer_4DA830();

@@ -33,7 +33,7 @@ class Weapon
     // 9.6f 0x4CCA00
     inline void set_idx_4CCA00(s32 v)
     {
-        field_1C_idx = v;
+        field_1C_weapon_type = v;
     }
 
     // 9.6f 0x4CCA10
@@ -55,7 +55,7 @@ class Weapon
     EXPORT void set_ammo_clips_5DCE20(u8 clips);
     EXPORT bool add_ammo_capped_5DCE40(u8 to_add);
     EXPORT bool is_max_capacity_5DCEA0();
-    EXPORT bool sub_5DCEF0();
+    EXPORT bool CountsAsArmedAttack_5DCEF0();
     EXPORT void ApplyFastReload_5DCF40();
     EXPORT Object* spawn_bullet_5DCF60(s32 bullet_type, Fix16 x, Fix16 y, Fix16 z, Ang16 rot, Fix16_Point& speed);
     EXPORT void flamethrower_5DD0F0();
@@ -65,7 +65,7 @@ class Weapon
     EXPORT void smg_5DDD20();
     EXPORT void throwable_5DDFC0(s32 obj_idx, s32 throw_strength, s32 throw_charge);
     EXPORT void TraceBeamToHitTarget_5DE4F0();
-    EXPORT void ChainShockTargets_5DFB60(u8 bFlag, Sprite* pSprite, Ang16 target_angle);
+    EXPORT void ChainShockTargets_5DFB60(u8 chain_depth, Sprite* pSprite, Ang16 target_angle);
     EXPORT void shocker_5E06B0();
     EXPORT void electro_batton_5E0740();
     EXPORT void car_bomb_5E0AB0(char_type instant_bomb);
@@ -150,7 +150,7 @@ class Weapon
 
     s32 GetWeaponType_41CC90()
     {
-        return field_1C_idx;
+        return field_1C_weapon_type;
     }
     
     void SetTargetHit_433810(s32 value)
@@ -173,7 +173,7 @@ class Weapon
     s16 field_12_unused;
     Car* field_14_car;
     Weapon* mpNext;
-    s32 field_1C_idx; // weapon_type
+    s32 field_1C_weapon_type;
     s8 field_20;
     s8 field_21;
     s8 field_22_unused;

@@ -750,7 +750,7 @@ MATCH_FUNC(0x45b560)
 void Ped::SetPlayer_45B560(Player* pPlayer, char_type bIsAuxPed)
 {
     field_15C_player = pPlayer;
-    field_200_id = pPlayer->field_2E_idx + 1;
+    field_200_id = pPlayer->field_2E_player_idx + 1;
     if (bIsAuxPed)
     {
         field_200_id += 6;
@@ -1851,7 +1851,7 @@ inline bool Ped::IsPedAThreat_Inline_465D00(Ped* pTargetPed)
         // block_465F75:
             if (pTargetPed->IsActivePlayerPed_45EDC0() || pTargetPed->field_240_occupation == ped_ocupation_enum::empty)
             {
-                u8 player_idx = pTargetPed->field_15C_player->field_2E_idx;
+                u8 player_idx = pTargetPed->field_15C_player->field_2E_player_idx;
 
                 if (this->field_17C_pGang->IsRespectNegativeForPlayer_4BEF10(player_idx))
                 {
@@ -1915,7 +1915,7 @@ block_466022:
         }
 
         if (!((pTargetPed->GetAttacking_433CA0()) && pTargetPed->field_170_selected_weapon != 0 &&
-              pTargetPed->field_170_selected_weapon->sub_5DCEF0()))
+              pTargetPed->field_170_selected_weapon->CountsAsArmedAttack_5DCEF0()))
         {
             if (pTargetPed->field_20A_wanted_points < 0x258 && this->field_144_attacker != pTargetPed && pTargetPed->field_26A_recent_crime_timer <= 0u)
             {
@@ -2270,7 +2270,7 @@ bool Ped::AddWeaponWithAmmo_45DD30(s32 weapon_kind, char_type ammo)
         return field_15C_player->AddWeaponWithAmmo_564960(weapon_kind, ammo);
     }
 
-    if (field_170_selected_weapon && field_170_selected_weapon->field_1C_idx == weapon_kind)
+    if (field_170_selected_weapon && field_170_selected_weapon->field_1C_weapon_type == weapon_kind)
     {
         return 0;
     }
@@ -2346,7 +2346,7 @@ void Ped::SpawnWeaponOnDeath_45E080()
         {
             if (!PedTypeIs_45EDE0(ped_type::player_2))
             {
-                switch (this->field_170_selected_weapon->field_1C_idx)
+                switch (this->field_170_selected_weapon->field_1C_weapon_type)
                 {
                     case weapon_type::pistol:
                         pWeaponObj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::pistol_weapon_200,
@@ -6158,7 +6158,7 @@ block_466022:
         }
 
         if (!((pTargetPed->GetAttacking_433CA0()) && pTargetPed->field_170_selected_weapon != 0 &&
-              pTargetPed->field_170_selected_weapon->sub_5DCEF0()))
+              pTargetPed->field_170_selected_weapon->CountsAsArmedAttack_5DCEF0()))
         {
             if (pTargetPed->get_wanted_points_433DC0() < 0x258 && this->field_144_attacker != pTargetPed && pTargetPed->field_26A_recent_crime_timer <= 0u)
             {
@@ -10531,7 +10531,7 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
     {
         if (pWeapon)
         {
-            switch (pWeapon->field_1C_idx)
+            switch (pWeapon->field_1C_weapon_type)
             {
                 case weapon_type::flamethrower:
                     attack_range = kFpTwo_678658;
@@ -10989,7 +10989,7 @@ void Ped::SpawnPedGroupFollowers_46E200(u8 total)
             Weapon* pWeapon = this->field_170_selected_weapon;
             if (pWeapon)
             {
-                pNewPed->ForceWeapon_46F600(pWeapon->field_1C_idx);
+                pNewPed->ForceWeapon_46F600(pWeapon->field_1C_weapon_type);
             }
 
             ++current;
@@ -11164,7 +11164,7 @@ Weapon* Ped::GetWeaponFromPed_46F110()
 
         if (field_16C_car)
         {
-            if (field_170_selected_weapon && field_170_selected_weapon->field_1C_idx >= weapon_type::car_bomb)
+            if (field_170_selected_weapon && field_170_selected_weapon->field_1C_weapon_type >= weapon_type::car_bomb)
             {
                 field_21C_bf.bUseCarWeapon = true;
                 return field_170_selected_weapon;
@@ -11234,7 +11234,7 @@ void Ped::ApplyAimJitter_46F1E0(Weapon* pWeapon)
     s16 max_still;
     s16 max_moving;
     s16 max_moving_retry;
-    if (pWeapon->field_1C_idx >= weapon_type::pistol && pWeapon->field_1C_idx <= weapon_type::smg)
+    if (pWeapon->field_1C_weapon_type >= weapon_type::pistol && pWeapon->field_1C_weapon_type <= weapon_type::smg)
     {
         if (field_270_fire_mode == ped_fire_mode::random_shots_0)
         {

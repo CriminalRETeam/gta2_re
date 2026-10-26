@@ -652,7 +652,7 @@ class SpriteMask
     char_type field_7_unused;
     s32 field_8_delta_mask;
     s32 field_C_last_used;
-    u16 field_10_idx;
+    u16 field_10_mask_idx;
     u16 field_12_palette;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SpriteMask, 0x14);

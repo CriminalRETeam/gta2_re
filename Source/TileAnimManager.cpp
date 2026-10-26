@@ -13,7 +13,7 @@ DEFINE_GLOBAL(TileAnimPool*, gTileAnimPool_7052C8, 0x7052C8);
 MATCH_FUNC(0x5bc130)
 void TileAnim::PoolAllocate()
 {
-    field_12_idx = gTileAnim_2_7052C4->field_0_count++;
+    field_12_anim_idx = gTileAnim_2_7052C4->field_0_count++;
 }
 
 MATCH_FUNC(0x5bc150)
@@ -145,7 +145,7 @@ TileAnim::TileAnim()
     field_A_frame_timer = 0;
     field_C_ptr = 0;
     field_10_base = 0;
-    field_12_idx = 0;
+    field_12_anim_idx = 0;
     mpNext = 0;
 }
 

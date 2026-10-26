@@ -174,20 +174,20 @@ void Train::ReassignTrainHead_578030()
     if (!bSkip_trains_67D550)
     {
         Car* pFirst = this->field_C_carriages[0];
-        this->field_C_carriages[0] = this->field_C_carriages[this->field_43_idx];
-        this->field_C_carriages[this->field_43_idx] = pFirst;
+        this->field_C_carriages[0] = this->field_C_carriages[this->field_43_wagon_count];
+        this->field_C_carriages[this->field_43_wagon_count] = pFirst;
 
         gCar_BC_Pool_67792C->UpdateNextPrev(this->field_C_carriages[0]);
 
-        gCar_BC_Pool_67792C->field_0_pool.UnlinkFromActiveList_420F30(this->field_C_carriages[this->field_43_idx]);
+        gCar_BC_Pool_67792C->field_0_pool.UnlinkFromActiveList_420F30(this->field_C_carriages[this->field_43_wagon_count]);
 
-        Car* pTrainCar = this->field_C_carriages[this->field_43_idx];
+        Car* pTrainCar = this->field_C_carriages[this->field_43_wagon_count];
         if (pTrainCar->field_58_physics) // BUG?
         {
             pTrainCar->AllocCarPhysics_4419E0();
         }
 
-        this->field_C_carriages[this->field_43_idx]->field_58_physics->Init_5637A0();
+        this->field_C_carriages[this->field_43_wagon_count]->field_58_physics->Init_5637A0();
         if (this->field_C_carriages[0]->field_58_physics) // BUG?
         {
             this->field_C_carriages[0]->AllocCarPhysics_4419E0();
@@ -293,7 +293,7 @@ Train::Train()
     field_4C_station = 0;
     field_4_wait_timer = 0;
     field_0_is_hijacked = 0;
-    field_2 = 0;
+    field_2_passengers_fleeing = 0;
     field_48_stop_phase = 0;
     field_50_state = 2;
     field_54_passenger_timer = 0;
@@ -312,7 +312,7 @@ Train::Train()
         remaining--;
     } while (remaining != 0);
     field_38_explosion_timers[10] = -1;
-    field_43_idx = 0;
+    field_43_wagon_count = 0;
     field_1_unused = 0;
 }
 
@@ -396,7 +396,7 @@ void Train::UpdatePassengerAI_578390()
     {
         if (this->field_8_alloc_state == 2)
         {
-            for (u8 i = 0; i < this->field_43_idx; i++)
+            for (u8 i = 0; i < this->field_43_wagon_count; i++)
             {
                 Car** pTrainCar = &this->field_C_carriages[i + 1];
                 if ((*pTrainCar)->GetCarInfoIdx_411940() == car_model_enum::TRAIN)
@@ -517,7 +517,7 @@ void Train::ProcessTrainExplosionChain_578670()
             }
         }
 
-        for (u8 car_idx = 0; car_idx < field_43_idx; pCars++, car_idx++)
+        for (u8 car_idx = 0; car_idx < field_43_wagon_count; pCars++, car_idx++)
         {
             if (field_38_explosion_timers[car_idx] == -1 && pCars->field_74_damage >= 32000)
             {
@@ -525,7 +525,7 @@ void Train::ProcessTrainExplosionChain_578670()
                 {
                     *(reinterpret_cast<u8*>(&field_C_carriages[10]) + car_idx + 3) = 10;
                 }
-                else if (car_idx < field_43_idx - 1)
+                else if (car_idx < field_43_wagon_count - 1)
                 {
                     field_38_explosion_timers[car_idx + 1] = 10;
                 }
@@ -545,7 +545,7 @@ void Train::ProcessTrainExplosionChain_578670()
                     {
                         *(reinterpret_cast<u8*>(&field_C_carriages[10]) + car_idx + 3) = 10;
                     }
-                    if (car_idx < field_43_idx - 1)
+                    if (car_idx < field_43_wagon_count - 1)
                     {
                         field_38_explosion_timers[car_idx + 1] = 10;
                     }
@@ -787,7 +787,7 @@ void PublicTransport::SpawnTrainsFromStations_578860()
                                           rail_z);
                     }
 
-                    pTrain->field_43_idx = wagons;
+                    pTrain->field_43_wagon_count = wagons;
                     for (j = 0; j < wagons; j++)
                     {
                         gCar_BC_Pool_67792C->field_0_pool.UnlinkFromActiveList_420F30(pTrain->field_C_carriages[j + 1]);
@@ -1359,17 +1359,17 @@ void PublicTransport::BusesService_579CA0()
                         if (pBusCar->field_54_driver->get_occupation_403980() == ped_ocupation_enum::angry_armed_robbed_driver_12)
                         {
                             field_17C0_bus.field_0_is_hijacked = 0;
-                            field_17C0_bus.field_2 = 0;
+                            field_17C0_bus.field_2_passengers_fleeing = 0;
                             pBusCar->field_54_driver->set_occupation_403970(ped_ocupation_enum::driver);
                             field_17C0_bus.field_C_carriages[0]->field_54_driver->SetPedType_403920(ped_type::dummy_3);
                         }
                     }
                 }
-                if (!field_17C0_bus.field_2 && !field_1818_stop_getting_off_bus)
+                if (!field_17C0_bus.field_2_passengers_fleeing && !field_1818_stop_getting_off_bus)
                 {
                     if (field_17C0_bus.field_C_carriages[0]->GetCarLinearSpeed_43A240() > kTrainSpeedState1And3_6FEED4 + kFpPoint05_6FF04C)
                     {
-                        field_17C0_bus.field_2 = 1;
+                        field_17C0_bus.field_2_passengers_fleeing = 1;
                         field_17C0_bus.field_C_carriages[0]->field_4_passengers_list.ApplyPassengerBusStopBehavior_471630();
                     }
                 }
@@ -1416,7 +1416,7 @@ void PublicTransport::BusesService_579CA0()
                             break;
 
                         case 13:
-                            if (!field_17C0_bus.field_2)
+                            if (!field_17C0_bus.field_2_passengers_fleeing)
                             {
                                 field_17C0_bus.UpdatePassengerAI_578390();
                             }
@@ -1468,7 +1468,7 @@ static inline void SetDriverStation(Train* pTrain, TrainStation* pStation)
     if (pCar)
     {
         Ped* pDriver = pCar->field_54_driver;
-        if (pDriver && pTrain->field_43_idx > 0)
+        if (pDriver && pTrain->field_43_wagon_count > 0)
         {
             pDriver->SetTrainStation_4AF860(pStation);
         }
@@ -1828,7 +1828,7 @@ Train* PublicTransport::GetTrainFromCar_57B5C0(Car* pToFind)
             {
                 return pTrain;
             }
-            for (u8 wagon_idx = 0; wagon_idx < pTrain->field_43_idx; wagon_idx++)
+            for (u8 wagon_idx = 0; wagon_idx < pTrain->field_43_wagon_count; wagon_idx++)
             {
                 pWagon = pTrain->field_C_carriages[wagon_idx + 1];
                 if (pWagon == pToFind)
@@ -1849,7 +1849,7 @@ Train* PublicTransport::GetTrainFromCarExcludingLeadCar_57B6A0(Car* pToFind)
         for (u8 i = 0; i < 10; i++)
         {
             Train* pTrain = &field_1450_train_array[i];
-            for (u8 wagon_idx = 0; wagon_idx < pTrain->field_43_idx; wagon_idx++)
+            for (u8 wagon_idx = 0; wagon_idx < pTrain->field_43_wagon_count; wagon_idx++)
             {
                 Car* pWagon = pTrain->field_C_carriages[wagon_idx + 1];
                 if (pWagon == pToFind)

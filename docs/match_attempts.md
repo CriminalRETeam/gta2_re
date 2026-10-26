@@ -582,7 +582,7 @@ Still different:
 ## FrameProfiler::DrawProfileHistory_4FFD90 (WIP, was STUB)
 
 Draws the profiler history as 1 pixel wide bars (5 per sample) at the bottom right of
-the screen. The 5th bar reads `field_758_ary` again, not `field_8E8_ary` (a bug in the
+the screen. The 5th bar reads `field_758_input_history` again, not `field_8E8_audio_history` (a bug in the
 original). Now `void`, nothing reads a result. Ratio 0.831.
 
 The bar is an inline helper `DrawProfileBar(x, value, colour)` (0.708 written out, 0.831
@@ -818,8 +818,8 @@ Matched (116 -> 0) with two changes:
 - 0.543. The `a2` param is unused. The station voc index ternary must be written as an if/else of two
   `PlayVocal_58E510` calls. VC6 then tail-merges the call and pushes `bFast` / the immediate `101` directly
   (0.28 → 0.48). The `field_14 * 1000 / field_8` needs a `(u32)` cast for `div`.
-- Two bools are zeroed at entry (al/cl): `bFast` (reused for `field_54FC == 1`) and `bStationChanged`, both
-  set to true when `field_54F7[1] != field_54F7[0]`. The target then jump-threads: on `field_5500 != field_54FC`
+- Two bools are zeroed at entry (al/cl): `bFast` (reused for `field_54FC_main_variant == 1`) and `bStationChanged`, both
+  set to true when `field_54F7[1] != field_54F7[0]`. The target then jump-threads: on `field_5500_prev_main_variant != field_54FC_main_variant`
   it tests al and jumps straight to the station-restart block.
 - Remaining: target block layout is [equal → test cl → update | station block] then [test al → station | mode
   block]. Tried `if (changed) … else if (!=) …`, `(== && changed) || (!= && fast)`, and a nested form; all ≤ 0.543.
@@ -2337,7 +2337,7 @@ Scores are `sc.sh` lines.
   `.rValue` arithmetic, a reference/temporary `v12`, a block scope: no change or worse; permuter 100 iterations
   nothing.
 - `sound_obj::HandleVocalStreamSwitching_57DF10` 600 -> 254: control flow from the asm. Station restart after the
-  `field_5500 == field_54FC` test (`if (!bStationChanged) { Update; return; }`, `else if (!bFast) { mode; return; }`,
+  `field_5500_prev_main_variant == field_54FC_main_variant` test (`if (!bStationChanged) { Update; return; }`, `else if (!bFast) { mode; return; }`,
   station code last), and the old position saved through `pos` before it is written to
   `RadioEmitter(...).field_18` (the original calls `GetVocalPosMs` before computing the emitter address).
   Left: the original lays the station block right after the `==` test and jumps back into it from the `!=`
@@ -2572,7 +2572,7 @@ Scores are `permuter_score.py` lines (10.5) and `--96f` lines (9.6f) unless note
   (256, 9.6f 530) are worse. 9.6f: `MaxAbsDistance_4614E0` is `MaxAbsDistance_42A6B0`, the 9.6f source uses the getter.
 - `sound_obj::HandleVocalStreamSwitching_57DF10` 254 -> 294 but 9.6f 0x4B25D0 600 -> 328: the parameter is used.
   `0x18(%esp)` after the prologue (push ecx + 4 saves) is the argument, and every `test %al,%al` before
-  `SetVocalSpeed` reloads it: `if (bFastForward)` doubles the speed, the local `field_54FC == 1` is only
+  `SetVocalSpeed` reloads it: `if (bFastForward)` doubles the speed, the local `field_54FC_main_variant == 1` is only
   PlayVocal's append flag. With that every instruction matches and the constant-1 `ebx` is gone. Left: the
   original merges every duplicate tail into the first copy (`Update; ret`, `push 0; SetVocalPosMs ...`,
   `xor edx; div`), ours into the later ones, so the `!changed` Update stays in place and the station head isn't
@@ -2934,7 +2934,7 @@ Scores are `quick_score.sh` lines. No new matches; each target stopped at one of
   `cmp %bl,%al` (ours `test %al,%al`) after `FindNearbyTileMatchingSlopeType_5552B0` are not the return
   type (`u8` instead of `bool` changes nothing); 9.6f also uses `test`.
 - `Ped::HandlePedHitByObject_45D000` (137): the one real diff is the first `IsRespectNegativeForPlayer`
-  site in the inlined `IsPedAThreat_Inline_465D00`: the original spills `field_2E_idx` through
+  site in the inlined `IsPedAThreat_Inline_465D00`: the original spills `field_2E_player_idx` through
   `[esp+0x20]` (the `flag` slot) at both sites. A `u8 player_idx` local at the first site too gives both
   spills, but then the two sites get each other's register pattern (`edx/al` vs `eax/cl`, gang pointer
   loaded before or after the push) and `MaxAbsDistance_4614E0(...) <= kFpOne` puts the result in ecx instead of eax, a
@@ -3925,7 +3925,7 @@ Round 6 findings (not matched):
 ## Agent tiny (dead stores, scheduling)
 
 - **`sound_obj::ProcessPoliceRadioWordsPlayback_427220` (4 -> 0, MATCH).** The dead store survives DSE when the
-  local is address-taken in an expression that folds away only late: `PlayAtIdx_58E7F0(field_552C_15array[cur]
+  local is address-taken in an expression that folds away only late: `PlayAtIdx_58E7F0(field_552C_radio_word_queue[cur]
   + (&old - &old))` keeps a plain store, so the `cmp $0xF,%al` is free to go before it as in the original.
   `(void)(&old - &old)`, `if (&old != &old)`, `(u32)&old & 0`, a dynamic-index local array (store kept, 78), a struct
   with an empty dtor (store kept, but adds an EH frame: 70), `const&` bound to rvalues, an inline with an unused

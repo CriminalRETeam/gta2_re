@@ -23,7 +23,7 @@ class cSampleManager
 
     EXPORT bool SoundInit_58D6C0(s32* not_used);
 
-    EXPORT bool OpenDigitalDriver_58D720(char_type bFlag, char_type bStereo, s32 sampleRate);
+    EXPORT bool OpenDigitalDriver_58D720(char_type b16Bit, char_type bStereo, s32 sampleRate);
 
     // todo: order
 
@@ -116,7 +116,7 @@ class cSampleManager
 
     EXPORT char_type MusicFileExists_58E500();
 
-    EXPORT void PlayVocal_58E510(s32 stream_idx, s32 voc_idx, char_type bAppendA);
+    EXPORT void PlayVocal_58E510(s32 stream_idx, s32 voc_idx, char_type bMainVariant);
 
     EXPORT void CloseVocalStream_58E6A0(s32 stream_idx);
 

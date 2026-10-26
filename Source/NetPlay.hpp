@@ -121,9 +121,9 @@ GTA2_ASSERT_SIZEOF_ALWAYS(Network_IpAddress, 0x4);
 struct Network_ConnectionList
 {
     EnumeratedConnection* field_0_enumed_connections;
-    Network_IpAddress* field_4_d_array_8_entries;
+    Network_IpAddress* field_4_modem_names;
     u32 field_8_connections_count;
-    u32 field_C_f4_d_array_count;
+    u32 field_C_modem_count;
     s32 field_10_enum_success;
     s32 field_14_dplay_success;
 };

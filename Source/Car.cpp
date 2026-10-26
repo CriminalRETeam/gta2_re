@@ -271,11 +271,11 @@ struct CarThreadTriggerCmd : SCR_CMD_HEADER
         u16 field_8_idx;
         ScriptThread* field_8_thread;
     };
-    u16 field_C;
+    u16 field_C_thread_id;
     s16 field_E_thread_start_cmd;
-    u16 field_10_idx;
+    u16 field_10_char_idx;
     u8 field_12_pad[0x12];
-    u16 field_24_idx;
+    u16 field_24_char_idx;
 };
 
 MATCH_FUNC(0x5c8780)
@@ -321,11 +321,11 @@ void CarThreadTriggers::CheckThreadTrigger_5C8780(u8 idx, Sprite* pSprite)
                 pCmd = reinterpret_cast<CarThreadTriggerCmd*>(pEntry->field_0_pScriptCmd);
                 if (pCmd->field_2_type == SCRCMD_THREAD_DECLARE3)
                 {
-                    pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_10_idx));
+                    pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_10_char_idx));
                 }
                 else if (pCmd->field_2_type == SCRCMD_THREAD_DECLARE5)
                 {
-                    pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_24_idx));
+                    pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_24_char_idx));
                 }
                 else
                 {
@@ -354,7 +354,7 @@ void CarThreadTriggers::CheckThreadTrigger_5C8780(u8 idx, Sprite* pSprite)
                     pCmd = reinterpret_cast<CarThreadTriggerCmd*>(pEntry->field_0_pScriptCmd);
                     if (pCmd->field_2_type == SCRCMD_CHAR_AREA_ANY_MEANS)
                     {
-                        pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_24_idx));
+                        pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_24_char_idx));
                     }
                     else
                     {
@@ -375,7 +375,7 @@ void CarThreadTriggers::CheckThreadTrigger_5C8780(u8 idx, Sprite* pSprite)
                     pCmd = reinterpret_cast<CarThreadTriggerCmd*>(pEntry->field_0_pScriptCmd);
                     if (pCmd->field_2_type == SCRCMD_CHAR_AREA_ANY_MEANS)
                     {
-                        pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_24_idx));
+                        pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_24_char_idx));
                     }
                     else
                     {
@@ -625,9 +625,9 @@ u32 CarManager::SelectTrafficCarModel_444AB0(Player* pPlayer, gmp_zone_info* pZo
                 gangcar_ratio = 0;
             }
 
-            u16 value = field_0.GetRngValue_4212D0();
+            u16 value = field_0_model_rng.GetRngValue_4212D0();
 
-            field_0.IncNextRngRemapIdx_47BD90();
+            field_0_model_rng.IncNextRngRemapIdx_47BD90();
 
             if (value < goodcar_ratio)
             {
@@ -1444,7 +1444,7 @@ Car* CarManager::SpawnCarAt_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rot
     }
     else if (pCar->IsGt24640_4217D0())
     {
-        pCar->SetCarGraphic_43CDF0(field_0.GetRngValue_4212D0() % 11);
+        pCar->SetCarGraphic_43CDF0(field_0_model_rng.GetRngValue_4212D0() % 11);
     }
     else if (pCar->IsFbiCar_411920())
     {

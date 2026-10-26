@@ -7,7 +7,7 @@ struct TextKeyEntry
 {
     wchar_t* field_0_pwstr;
     const char_type* field_4_key;
-    s32 field_8;
+    s32 field_8_key_tail;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(TextKeyEntry, 0xC);
 

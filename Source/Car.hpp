@@ -279,7 +279,7 @@ class CarManager
         }
     }
 
-    CarRemapRng field_0;
+    CarRemapRng field_0_model_rng;
     s16 field_2_unused;
     Ped* field_4_spare_driver;
     char_type field_8_unused;
@@ -374,9 +374,9 @@ class Trailer
     Car* field_C_trailer_car;
 };
 
-static inline bool IsArmyModel(s32 idx1)
+static inline bool IsArmyModel(s32 car_model)
 {
-    return idx1 == car_model_enum::TANK || idx1 == 22 || idx1 == 30 || idx1 == 3;
+    return car_model == car_model_enum::TANK || car_model == 22 || car_model == 30 || car_model == 3;
 }
 
 class Car

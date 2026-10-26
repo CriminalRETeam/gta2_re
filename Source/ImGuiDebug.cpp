@@ -2862,12 +2862,12 @@ void CC ImGuiDebugDraw()
                             ImGui::InputInt("field_2C_draw_layer", &pDef->field_2C_draw_layer, 1, 1);
                             ImGui::InputInt("field_30_palette_type", &pDef->field_30_palette_type, 1, 1);
                             ImGui::InputInt("field_34_behavior_type", &pDef->field_34_behavior_type, 1, 1);
-                            ImGui::InputInt("field_38", &pDef->field_38, 1, 1);
+                            ImGui::InputInt("field_38", &pDef->field_38_impact_definition_idx, 1, 1);
                             ImGui::InputInt("field_3C_next_definition_idx", &pDef->field_3C_next_definition_idx, 1, 1);
                             ImGui::InputInt("field_40_collision_bucket_category", &pDef->field_40_collision_bucket_category, 1, 1);
                             ImGui::InputInt("field_44_touch_behavior", &pDef->field_44_touch_behavior, 1, 1);
                             ImGui::InputInt("field_48", &pDef->field_48_projectile_hit_type, 1, 1);
-                            ImGui::InputInt("field_4C", &pDef->field_4C, 1, 1);
+                            ImGui::InputInt("field_4C", &pDef->field_4C_collision_response, 1, 1);
                             ImGui::InputInt("field_50", &pDef->field_50_z_collision_response, 1, 1);
                             ImGui::InputInt("field_54_react_to_collisions_with", &pDef->field_54_react_to_collisions_with, 1, 1);
                             ImGui::InputInt("field_58", &pDef->field_58_uses_3d_movement, 1, 1);
@@ -3536,7 +3536,7 @@ void CC ImGuiDebugDraw()
                     ImGui::Value("field_1C_speed", phi_54->field_1C_speed.mValue);
                     ImGui::Value("field_20_friction", phi_54->field_20_friction.mValue);
                     ImGui::Value("field_24_next_definition_timer", phi_54->field_24_next_definition_timer);
-                    ImGui::Value("field_28", phi_54->field_28);
+                    ImGui::Value("field_28", phi_54->field_28_collision_response);
                     ImGui::Value("field_2C", phi_54->field_2C);
                     ImGui::Value("field_30_next_frame_max", phi_54->field_30_next_frame_max);
                     ImGui::Value("field_34", phi_54->field_34_uses_3d_movement);

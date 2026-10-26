@@ -768,7 +768,7 @@ void ScriptThread::SCRCMD_THREAD_DECLARE3_504660(SCR_THREAD* pThread)
                                                      pCmd->field_14_z,
                                                      kFpHalf_6F75F0,
                                                      kFpHalf_6F75F0);
-        pCmd->field_16_flag = 1;
+        pCmd->field_16_trigger_added = 1;
     }
 }
 
@@ -777,7 +777,7 @@ void ScriptThread::SCRCMD_THREAD_DECLARE5_504710(SCR_CHAR_AREA_ANY* pCmd)
 {
     if (static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_24_char_idx))->field_8_char)
     {
-        pCmd->field_27_flag = 1;
+        pCmd->field_27_trigger_added = 1;
 
         switch (pCmd->field_2_type)
         {
@@ -3390,7 +3390,7 @@ void ScriptThread::EnableThread_50A9E0(u16 idx)
         {
             SCR_THREAD* pThread = static_cast<SCR_THREAD*>(pCmd);
 
-            if (pThread->field_16_flag)
+            if (pThread->field_16_trigger_added)
             {
                 gCarThreadTriggers_214_705F20->SetTriggerEnableState_4768C0(pThread->field_15_trigger_idx, 1);
             }
@@ -3409,7 +3409,7 @@ void ScriptThread::EnableThread_50A9E0(u16 idx)
         {
             SCR_CHAR_AREA_ANY* pAny = static_cast<SCR_CHAR_AREA_ANY*>(pCmd);
 
-            if (pAny->field_27_flag)
+            if (pAny->field_27_trigger_added)
             {
                 gCarThreadTriggers_214_705F20->SetTriggerEnableState_4768C0(pAny->field_26_trigger_idx, 1);
             }
@@ -5967,19 +5967,19 @@ void ScriptThread::SCRCMD_DO_EASY_PHONE_50EDC0() //  EASY_PHONE_TEMPLATE
         ScriptThread::Next_503620(gBasePtr_6F8070);
         return;
     }
-    s8 idx1;
+    s8 player_idx1;
     //  Check if the player has respect enough to launch the mission
-    if ((idx1 = gGame_0x40_67E008->field_38_local_player->get_idx_4219D0(),
-         pGang_zone->GetRespectForPlayer_4BEEF0(idx1) / 20 >= pCmd->field_1A_respect))
+    if ((player_idx1 = gGame_0x40_67E008->field_38_local_player->get_idx_4219D0(),
+         pGang_zone->GetRespectForPlayer_4BEEF0(player_idx1) / 20 >= pCmd->field_1A_respect))
     {
         str_table_entry* mission1_str_table = gScriptManager_6F8060->FindStringById_503080(pCmd->field_1C_mission1);
         char_type* mission1_name = reinterpret_cast<char_type*>(&mission1_str_table[1]);
         ScriptThread::launch_mission_5119A0(gBasePtr_6F8070, mission1_name); //  TODO: fix gBasePtr_6F8070 type
         return;
     }
-    s8 idx2;
+    s8 player_idx2;
     //  Check if the player has respect = 0
-    if ((idx2 = gGame_0x40_67E008->field_38_local_player->get_idx_4219D0(), (pGang_zone->GetRespectForPlayer_4BEEF0(idx2) / 20) == 0))
+    if ((player_idx2 = gGame_0x40_67E008->field_38_local_player->get_idx_4219D0(), (pGang_zone->GetRespectForPlayer_4BEEF0(player_idx2) / 20) == 0))
     {
         s32 briefId = pCmd->field_8_brief_id - 6;
         sprintf(gTmpBuffer_67C598, "%d", briefId);
@@ -5987,9 +5987,9 @@ void ScriptThread::SCRCMD_DO_EASY_PHONE_50EDC0() //  EASY_PHONE_TEMPLATE
         ScriptThread::Next_503620(gBasePtr_6F8070);
         return;
     }
-    s8 idx3;
+    s8 player_idx3;
     //  Check if the player has negative respect
-    if ((idx3 = gGame_0x40_67E008->field_38_local_player->get_idx_4219D0(), pGang_zone->GetRespectForPlayer_4BEEF0(idx3) / 20 < 0))
+    if ((player_idx3 = gGame_0x40_67E008->field_38_local_player->get_idx_4219D0(), pGang_zone->GetRespectForPlayer_4BEEF0(player_idx3) / 20 < 0))
     {
         s32 briefId = pCmd->field_8_brief_id - 4;
         sprintf(gTmpBuffer_67C598, "%d", briefId);
@@ -6648,7 +6648,7 @@ void ScriptThread::SCRCMD_CHECK_CURRENT_WEAPON_510090()
 
     Weapon* pWeapon = pPointer->field_8_char->field_15C_player->GetCurrPlayerWeapon_5648F0();
 
-    if (pWeapon != NULL && static_cast<u32>(pWeapon->field_1C_idx) == pCmd->field_C_weapon_idx)
+    if (pWeapon != NULL && static_cast<u32>(pWeapon->field_1C_weapon_type) == pCmd->field_C_weapon_idx)
     {
         field_8_cond_result = true;
     }

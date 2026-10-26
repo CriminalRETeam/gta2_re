@@ -98,7 +98,7 @@ class NetUi
     EXPORT void ShowSpecificWindow_51ABF0(s32 showing_specific_window_idx);
     EXPORT static s32 OnInitDialog_51AC60(HWND hWnd, s32 lParam, NetUi* thisPtr);
     EXPORT s32 Get_20310_showing_window_idx_51ACC0();
-    EXPORT static void __stdcall cb_sub_51ACD0(NetUi* pNetUi, wchar_t* Source);
+    EXPORT static void __stdcall cb_RemovePlayerFromList_51ACD0(NetUi* pNetUi, wchar_t* Source);
     EXPORT static void _stdcall cb_Disconnect_51ADE0(NetUi* pNetUi);
     EXPORT void ClearListView_51AE20(s32 nIDDlgItem);
     EXPORT static s32 __stdcall cb_SetPlayerPing_51AE50(NetUi* pNetUi, Network_PlayerPing* pPing);
@@ -106,7 +106,7 @@ class NetUi
     EXPORT static LRESULT __stdcall cb_AddChatMessage_51B2F0(NetUi* pNetUi, Network_ChatMessage* pMsg);
     EXPORT s32 AppendChatMessage_51B4F0(s32 hmenu, const char_type* pMsg);
     EXPORT void SetPlayerNameText_51B7C0();
-    EXPORT static void __stdcall cb_sub_51B7E0(NetUi* pNetUi, const char_type** ppData);
+    EXPORT static void __stdcall cb_GameSettingsChanged_51B7E0(NetUi* pNetUi, const char_type** ppData);
     EXPORT void ApplyHostGameSettings_51B810(const char_type* pData);
     EXPORT void SetSetting_51B9C0(s32 setting, s32 value);
     EXPORT void IncCount_51BBC0();

@@ -30,7 +30,7 @@ class PatrolRoute
 
 
     EXPORT ~PatrolRoute();
-    EXPORT void sub_543EC0();
+    EXPORT void Init_543EC0();
     EXPORT PatrolRoute();
     PatrolPoint field_0_points[k_max_points];
 };

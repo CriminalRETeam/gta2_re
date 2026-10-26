@@ -2702,7 +2702,7 @@ void CarPhysics::HandleObjectCollision_5606C0(Object* pObject, char_type damage_
     Fix16_Point Impulse;
     Fix16_Point tmp;
     Fix16_Point ObjPos = pObject->GetXY_52AE70();
-    Fix16_Point arg0a;
+    Fix16_Point push_impulse;
     Fix16_Point CoM = ComputeCombinedCenterOfMass_559EC0();
     Fix16 CarMass = CalculateMass_559FF0();
     Fix16 ObjMass;
@@ -2751,11 +2751,11 @@ void CarPhysics::HandleObjectCollision_5606C0(Object* pObject, char_type damage_
         {
             field_68_air_z_vel = kFP16Zero_6FE20C;
         }
-        arg0a = (CoM - ObjPos).NormalizeSafe_442AD0().DivideInl_55F9E0(10);
-        AccumulateImpulse_55FC30(arg0a, 50);
+        push_impulse = (CoM - ObjPos).NormalizeSafe_442AD0().DivideInl_55F9E0(10);
+        AccumulateImpulse_55FC30(push_impulse, 50);
         if (pObject->CanBePushed_482C90())
         {
-            pObject->SetMovementVectorWithRandomState_522640(arg0a.Negate_40ACB0());
+            pObject->SetMovementVectorWithRandomState_522640(push_impulse.Negate_40ACB0());
         }
         gCollisionDamage_6FE33C = (CarMass * Fix16::Abs_negate_out_of_line(field_70_z_vel)) * 50;
     }

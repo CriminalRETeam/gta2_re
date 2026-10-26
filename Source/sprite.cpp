@@ -324,7 +324,7 @@ SpriteMaskCache::SpriteMaskCache()
 
     for (u16 mask_idx = 0; mask_idx < 48; mask_idx++)
     {
-        field_0_masks[mask_idx].field_10_idx = mask_idx;
+        field_0_masks[mask_idx].field_10_mask_idx = mask_idx;
     }
 }
 
@@ -417,7 +417,7 @@ s16 DamageAreaFlags::Delta_48F8B0(u16& sprite_idx, u8& bRet, const u16& palette,
     }
     
     pMask->MarkUsed_48F5A0();
-    return pMask->field_10_idx;
+    return pMask->field_10_mask_idx;
 }
 
 MATCH_FUNC(0x4F76A0)

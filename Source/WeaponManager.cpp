@@ -64,7 +64,7 @@ Weapon* WeaponManager::find_5E3D20(Car* pCar, s32 weapon_kind)
     }
 
     // TODO: Can probably invert this
-    while (result->field_14_car != pCar || result->field_1C_idx != weapon_kind)
+    while (result->field_14_car != pCar || result->field_1C_weapon_type != weapon_kind)
     {
         result = result->mpNext;
         if (!result)

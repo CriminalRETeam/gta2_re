@@ -104,14 +104,14 @@ NetPlay::~NetPlay()
         field_30_enumed_connections.field_0_enumed_connections = 0;
     }
 
-    if (field_30_enumed_connections.field_4_d_array_8_entries)
+    if (field_30_enumed_connections.field_4_modem_names)
     {
-        for (u32 i = 0; i < field_30_enumed_connections.field_C_f4_d_array_count; i++)
+        for (u32 i = 0; i < field_30_enumed_connections.field_C_modem_count; i++)
         {
-            operator delete(field_30_enumed_connections.field_4_d_array_8_entries[i].field_0_allocated_str);
+            operator delete(field_30_enumed_connections.field_4_modem_names[i].field_0_allocated_str);
         }
-        operator delete(field_30_enumed_connections.field_4_d_array_8_entries);
-        field_30_enumed_connections.field_4_d_array_8_entries = 0;
+        operator delete(field_30_enumed_connections.field_4_modem_names);
+        field_30_enumed_connections.field_4_modem_names = 0;
     }
 
     for (s32 j = 0; j < MAX_PLAYERS; j++)
@@ -126,7 +126,7 @@ NetPlay::~NetPlay()
     operator delete(reinterpret_cast<void*>(field_8E0_pSendDataBuffer));
     operator delete(field_758_n2.field_120_session_desc.lpszSessionName);
     field_30_enumed_connections.field_8_connections_count = 0;
-    field_30_enumed_connections.field_C_f4_d_array_count = 0;
+    field_30_enumed_connections.field_C_modem_count = 0;
     field_30_enumed_connections.field_10_enum_success = 0;
     field_30_enumed_connections.field_14_dplay_success = 0;
     CloseHandle(field_5DC_handle);
@@ -299,8 +299,8 @@ MATCH_FUNC(0x51ded0)
 s32 NetPlay::DirectPlayCreate_51DED0()
 {
     GUID guid_DPSPGUID_MODEM = DPSPGUID_MODEM;
-    this->field_30_enumed_connections.field_4_d_array_8_entries = new Network_IpAddress[8];
-    this->field_30_enumed_connections.field_C_f4_d_array_count = 0;
+    this->field_30_enumed_connections.field_4_modem_names = new Network_IpAddress[8];
+    this->field_30_enumed_connections.field_C_modem_count = 0;
 
     IDirectPlay* pDirectPlay;
     if (DirectPlayCreate(&guid_DPSPGUID_MODEM, &pDirectPlay, 0) < 0)
@@ -384,15 +384,15 @@ BOOL NetPlay::EnumAddress_cb_51E030(const GUID& guidDataType, DWORD dwDataSize, 
 MATCH_FUNC(0x51e0e0)
 s32 NetPlay::PushConnection_51E0E0(wchar_t* Source)
 {
-    if (field_30_enumed_connections.field_C_f4_d_array_count < 8)
+    if (field_30_enumed_connections.field_C_modem_count < 8)
     {
         size_t string_len_bytes = wcslen(Source);
-        field_30_enumed_connections.field_4_d_array_8_entries[field_30_enumed_connections.field_C_f4_d_array_count].field_0_allocated_str =
+        field_30_enumed_connections.field_4_modem_names[field_30_enumed_connections.field_C_modem_count].field_0_allocated_str =
             new wchar_t[string_len_bytes + 1];
-        wcscpy(field_30_enumed_connections.field_4_d_array_8_entries[field_30_enumed_connections.field_C_f4_d_array_count]
+        wcscpy(field_30_enumed_connections.field_4_modem_names[field_30_enumed_connections.field_C_modem_count]
                    .field_0_allocated_str,
                Source);
-        ++field_30_enumed_connections.field_C_f4_d_array_count;
+        ++field_30_enumed_connections.field_C_modem_count;
         return 1;
     }
     return 0;

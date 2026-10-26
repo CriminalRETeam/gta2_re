@@ -89,7 +89,7 @@ Weapon::Weapon()
     field_2_reload_timer = 0;
     field_4_bTargetHit = 0;
     mpNext = 0;
-    field_1C_idx = 0;
+    field_1C_weapon_type = 0;
     field_10_unused = 0;
     field_8_unused = 0;
     field_C_unused = -1;
@@ -118,7 +118,7 @@ void Weapon::init_5DCD90()
 {
     field_24_pPed = 0;
     field_14_car = 0;
-    field_1C_idx = 0;
+    field_1C_weapon_type = 0;
     field_0_ammo = 0;
     field_2_reload_timer = 0;
     field_4_bTargetHit = 0;
@@ -156,7 +156,7 @@ void Weapon::set_ammo_clips_5DCE20(u8 clips)
 MATCH_FUNC(0x5dce40)
 bool Weapon::add_ammo_capped_5DCE40(u8 to_add)
 {
-    s32 cap_total = max_ammo_capacity_5FF75C[field_1C_idx] * 10;
+    s32 cap_total = max_ammo_capacity_5FF75C[field_1C_weapon_type] * 10;
     if (is_infinite_ammo_4A4FA0())
     {
         return 0;
@@ -183,14 +183,14 @@ bool Weapon::add_ammo_capped_5DCE40(u8 to_add)
 MATCH_FUNC(0x5dcea0)
 bool Weapon::is_max_capacity_5DCEA0()
 {
-    return this->field_0_ammo == 10 * max_ammo_capacity_5FF75C[this->field_1C_idx];
+    return this->field_0_ammo == 10 * max_ammo_capacity_5FF75C[this->field_1C_weapon_type];
 }
 
 MATCH_FUNC(0x5dcef0)
-bool Weapon::sub_5DCEF0()
+bool Weapon::CountsAsArmedAttack_5DCEF0()
 {
     bool result;
-    switch (field_1C_idx)
+    switch (field_1C_weapon_type)
     {
         case weapon_type::car_bomb:
         case weapon_type::oil_stain:
@@ -542,7 +542,7 @@ void Weapon::smg_5DDD20()
             field_2_reload_timer = 2;
             gParticle_8_6FD5E8->GunMuzzelFlash_53E970(field_24_pPed->field_168_game_object->field_80_sprite_ptr);
 
-            if (field_1C_idx != weapon_type::silence_smg)
+            if (field_1C_weapon_type != weapon_type::silence_smg)
             {
                 field_24_pPed->AddThreateningPedToList_46FC70();
                 if (field_24_pPed->is_player_41B0A0())
@@ -1152,7 +1152,7 @@ void __stdcall ShockPedsAroundSprite_5DF270(Sprite* pSprite, Fix16 search_size, 
 }
 
 MATCH_FUNC(0x5dfb60)
-void Weapon::ChainShockTargets_5DFB60(u8 bFlag, Sprite* pSprite, Ang16 target_angle)
+void Weapon::ChainShockTargets_5DFB60(u8 chain_depth, Sprite* pSprite, Ang16 target_angle)
 {
     SpriteList hits;
     char_type bHit = 0;
@@ -1163,7 +1163,7 @@ void Weapon::ChainShockTargets_5DFB60(u8 bFlag, Sprite* pSprite, Ang16 target_an
     Fix16 right;
     Fix16 top;
     Fix16 bottom;
-    if (!bFlag)
+    if (!chain_depth)
     {
         left = pSprite->field_14_xy.x - kFP16Two_706EC0;
         right = pSprite->field_14_xy.x + kFP16Two_706EC0;
@@ -1215,14 +1215,14 @@ void Weapon::ChainShockTargets_5DFB60(u8 bFlag, Sprite* pSprite, Ang16 target_an
                                                               pHit->field_14_xy.y,
                                                               pHit->field_1C_zpos))
                             {
-                                gElectroChainDepth_706C94 = bFlag;
+                                gElectroChainDepth_706C94 = chain_depth;
                                 DrawElectricArc_5DE910(pSprite->get_x_y(),
                                            pHit->get_x_y(),
                                            pHit->field_1C_zpos > pSprite->field_1C_zpos ? pHit->field_1C_zpos : pSprite->field_1C_zpos);
                                 gWeapon_8_707018->field_0_hit_sprites.PushSprite_5A6D40(pHit);
-                                if (bFlag < 1)
+                                if (chain_depth < 1)
                                 {
-                                    ChainShockTargets_5DFB60(bFlag + 1, pHit, angle);
+                                    ChainShockTargets_5DFB60(chain_depth + 1, pHit, angle);
                                 }
                                 pHit->field_8_char_b4_ptr->field_7C_pPed->SetAttacker_433BF0(field_24_pPed);
                                 pHit->field_8_char_b4_ptr->field_7C_pPed->field_204_killer_id = field_24_pPed->field_200_id;
@@ -1260,14 +1260,14 @@ void Weapon::ChainShockTargets_5DFB60(u8 bFlag, Sprite* pSprite, Ang16 target_an
                                                               pHit->field_14_xy.y,
                                                               pHit->field_1C_zpos))
                             {
-                                gElectroChainDepth_706C94 = bFlag;
+                                gElectroChainDepth_706C94 = chain_depth;
                                 DrawElectricArc_5DE910(pSprite->get_x_y(),
                                            pHit->get_x_y(),
                                            pHit->field_1C_zpos > pSprite->field_1C_zpos ? pHit->field_1C_zpos : pSprite->field_1C_zpos);
                                 gWeapon_8_707018->field_0_hit_sprites.PushSprite_5A6D40(pHit);
-                                if (bFlag < 1)
+                                if (chain_depth < 1)
                                 {
-                                    ChainShockTargets_5DFB60(bFlag + 1, pHit, angle);
+                                    ChainShockTargets_5DFB60(chain_depth + 1, pHit, angle);
                                 }
                                 if (!pHit->field_8_car_bc_ptr->IsFlameproof_425770())
                                 {
@@ -1295,7 +1295,7 @@ void Weapon::ChainShockTargets_5DFB60(u8 bFlag, Sprite* pSprite, Ang16 target_an
             }
         } while (hits.field_0_p18);
 
-        if (bHit && !bFlag)
+        if (bHit && !chain_depth)
         {
             SetShotFired_4CCA80(1);
             if (field_24_pPed->PedTypeIs_45EDE0(ped_type::player_2) && (gpRng_67AB34->get_cur_rng_41CFE0() & 1))
@@ -1830,7 +1830,7 @@ MATCH_FUNC(0x5e33c0)
 bool Weapon::CanFireWhileHeld_5E33C0()
 {
     bool result;
-    switch (this->field_1C_idx)
+    switch (this->field_1C_weapon_type)
     {
         case weapon_type::car_bomb:
         case weapon_type::oil_stain:
@@ -1859,9 +1859,9 @@ void Weapon::ChuckThrowable_5E34B0()
         {
             if (field_24_pPed->field_15C_player)
             {
-                if (field_1C_idx == weapon_type::molotov || field_1C_idx == weapon_type::grenade)
+                if (field_1C_weapon_type == weapon_type::molotov || field_1C_weapon_type == weapon_type::grenade)
                 {
-                    s32 obj_type = (field_1C_idx != weapon_type::molotov ? 183 : 138);
+                    s32 obj_type = (field_1C_weapon_type != weapon_type::molotov ? 183 : 138);
                     if (field_24_pPed->field_15C_player->IsThrowCharging_4CCB00())
                     {
                         s32 throw_strength = field_24_pPed->field_15C_player->GetThrowStrength_4CCAD0();
@@ -1878,7 +1878,7 @@ void Weapon::ChuckThrowable_5E34B0()
 MATCH_FUNC(0x5e3670)
 void Weapon::pull_trigger_5E3670()
 {
-    switch (field_1C_idx)
+    switch (field_1C_weapon_type)
     {
         case weapon_type::pistol:
             pistol_5DD860();
@@ -2075,7 +2075,7 @@ MATCH_FUNC(0x5e3bd0)
 bool Weapon::IsExplosiveWeapon_5E3BD0()
 {
     bool result;
-    switch (this->field_1C_idx)
+    switch (this->field_1C_weapon_type)
     {
         case weapon_type::rocket:
         case weapon_type::molotov:

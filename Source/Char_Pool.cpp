@@ -279,7 +279,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
                         pPed->field_26C_graphic_type = ped_graphic_type::character_1;
                         pPed->SetPedClass_433BC0(ped_class::gang_member_1);
                         pPed->ForceWeapon_46F600(pPed->field_17C_pGang->GetCurrentWeapon_4BF0C0());
-                        if (pPed->field_170_selected_weapon && pPed->field_170_selected_weapon->field_1C_idx)
+                        if (pPed->field_170_selected_weapon && pPed->field_170_selected_weapon->field_1C_weapon_type)
                         {
                             pPed->field_21C_bf.bArmedGangMember = true;
                             pGang->field_141_always_basic_weapon = 1;

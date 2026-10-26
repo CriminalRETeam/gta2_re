@@ -26,7 +26,7 @@ PatrolRoute::~PatrolRoute()
 }
 
 MATCH_FUNC(0x543ec0)
-void PatrolRoute::sub_543EC0()
+void PatrolRoute::Init_543EC0()
 {
 }
 
@@ -46,7 +46,7 @@ PatrolRoute* PatrolRoutePool::AllocPatrolList_543F10(u8* pRet)
     {
         if (!field_1D4C_bUsed[i])
         {
-            field_0_routes[i].sub_543EC0();
+            field_0_routes[i].Init_543EC0();
             *pRet = i;
             field_1D4C_bUsed[i] = 1;
             return &field_0_routes[i];
