@@ -3,6 +3,7 @@
 
 // Force inline off
 //#define INLINE_MODE inline
+#include "bonus_result.hpp"
 #include "car_despawn_status.hpp"
 #include "explosion_type.hpp"
 #include "hud_message_priority.hpp"
@@ -1438,10 +1439,10 @@ s16 ScriptThread::GetBonusResult_505EA0(u16 idx)
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(idx));
     s16 result = pPointer->field_8_counter;
-    if (result != -3 && result != -4)
+    if (result != bonus_result::passed && result != bonus_result::failed)
     {
         result = gGame_0x40_67E008->field_38_local_player->field_2D4_scores.field_1A8_bonuses.GetBonusResult_432080(result);
-        if (result == -3 || result == -4)
+        if (result == bonus_result::passed || result == bonus_result::failed)
         {
             pPointer->field_8_counter = result;
         }
@@ -5424,19 +5425,19 @@ void ScriptThread::SCRCMD_CHECK_BONUS_50E0B0()
     switch (gBasePtr_6F8070->field_2_type)
     {
         case SCRCMD_CHECK_BONUS1:
-            if (result == -3)
+            if (result == bonus_result::passed)
             {
                 field_8_cond_result = true;
             }
             break;
         case SCRCMD_CHECK_BONUS2:
-            if (result == -4)
+            if (result == bonus_result::failed)
             {
                 field_8_cond_result = true;
             }
             break;
         case SCRCMD_CHECK_BONUS3:
-            if (result != -2)
+            if (result != bonus_result::in_progress)
             {
                 field_8_cond_result = true;
             }
@@ -6446,7 +6447,7 @@ void ScriptThread::SCRCMD_STORE_BONUS_50FAF0()
 
     s32 bonus_rule_idx = pPointerBonus->field_8_counter;
 
-    if (bonus_rule_idx != -3 && bonus_rule_idx != -4)
+    if (bonus_rule_idx != bonus_result::passed && bonus_rule_idx != bonus_result::failed)
     {
         pPointerCounter->field_8_counter =
             gGame_0x40_67E008->field_38_local_player->field_2D4_scores.field_1A8_bonuses.field_0_bonuses[pPointerBonus->field_8_index].field_26_progress_count;
@@ -6729,7 +6730,7 @@ void ScriptThread::SCRCMD_DO_BASIC_KF_510280()
     }
     else
     {
-        if (ScriptThread::GetBonusResult_505EA0(pCmd->field_8_bonusname) == -2)
+        if (ScriptThread::GetBonusResult_505EA0(pCmd->field_8_bonusname) == bonus_result::in_progress)
         {
             SCR_POINTER* pBonusType = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_bonusname));
             SCR_POINTER* pCounter = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_12_countername));
@@ -6754,7 +6755,7 @@ void ScriptThread::SCRCMD_DO_BASIC_KF_510280()
             pTimerIDPointer->field_8_index = 0;
             pPlayerPedCmdPointer->field_8_char->field_15C_player->ClearKFWeapon_5647D0();
             gScriptManager_6F8060->set_field_C1E2D_475A40(0);
-            if (ScriptThread::GetBonusResult_505EA0(pCmd->field_8_bonusname) == -3)
+            if (ScriptThread::GetBonusResult_505EA0(pCmd->field_8_bonusname) == bonus_result::passed)
             {
                 gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("kfpass"), hud_message_priority::important_3);
                 pPlayerPedCmdPointer->field_8_char->ClearWantedPoints_420B80();

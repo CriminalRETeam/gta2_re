@@ -3,6 +3,7 @@
 #include "Player.hpp" // PlayerScoreTracker
 #include "rng.hpp"
 #include "bonus_event_type.hpp"
+#include "bonus_result.hpp"
 #include "ped_death_cause.hpp"
 
 MATCH_FUNC(0x431D30);
@@ -224,23 +225,23 @@ s16 BonusTracker::GetBonusResult_432080(u16 idx)
     BonusRule* pItem = &field_0_bonuses[idx];
     if (!pItem->field_2A_bUsed)
     {
-        return -1;
+        return bonus_result::unused_rule;
     }
 
     if (pItem->field_2B_bActive)
     {
-        return -2;
+        return bonus_result::in_progress;
     }
 
     if (pItem->field_26_progress_count == pItem->field_25_target_count)
     {
         pItem->Reset_431DA0();
-        return -3;
+        return bonus_result::passed;
     }
     else
     {
         pItem->Reset_431DA0();
-        return -4;
+        return bonus_result::failed;
     }
 }
 
