@@ -598,8 +598,8 @@ u16 ScriptManager::LoadMissionScript_512400(const char_type* pScriptName, u16* p
         File::Global_Read_4A71C0(&base_ptr_idx, 2);
         File::Global_Read_4A71C0(pStartCmd, 2);
         File::Global_Read_4A71C0(&remainder, 4);
-        File::Global_Read_4A71C0(&field_46C_base_pointers[static_cast<u16>(base_ptr_idx)], 0xC00);
-        File::Global_ReadRemainder_4A7250(&field_334C_script_data[field_46C_base_pointers[static_cast<u16>(base_ptr_idx)]], &remainder);
+        File::Global_Read_4A71C0(&field_46C_base_pointers[base_ptr_idx], 0xC00);
+        File::Global_ReadRemainder_4A7250(&field_334C_script_data[field_46C_base_pointers[base_ptr_idx]], &remainder);
         File::Global_Close_4A70C0();
     }
     else
@@ -631,9 +631,9 @@ void ScriptManager::LoadSubScripts_5125F0()
         {
             size_t length = strlen(pEntry->get_name());
 
-            reinterpret_cast<char*>(&pEntry->field_6_padding)[length] = 'S';
-            reinterpret_cast<char*>(&pEntry->field_6_padding)[length + 1] = 'C';
-            reinterpret_cast<char*>(&pEntry->field_6_padding)[length + 2] = 'R';
+            reinterpret_cast<char_type*>(&pEntry->field_6_padding)[length] = 'S';
+            reinterpret_cast<char_type*>(&pEntry->field_6_padding)[length + 1] = 'C';
+            reinterpret_cast<char_type*>(&pEntry->field_6_padding)[length + 2] = 'R';
 
             if (field_2F4_bPreloadMissionScripts == 1)
             {
@@ -685,7 +685,7 @@ void ScriptManager::ExecuteScriptThreads_5127A0()
         }
         miss2_0x11C_Pool_6F8064->field_0_pool.UpdatePoolNoDeallocate();
     }
-    gCarManager_6C_677930->field_5C_model_check_destroyed = 0;
+    gCarManager_6C_677930->field_5C_model_check_destroyed = false;
 }
 
 MATCH_FUNC(0x5128a0)

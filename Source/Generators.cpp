@@ -164,11 +164,11 @@ void GeneratorPool::FinalizeAfterScriptLoad_4C1CD0()
     }
     if (bStartNetworkGame_7081F0)
     {
-        Generator* pIter_2 = &field_0_pool[0];
+        Generator* pIter = &field_0_pool[0];
         for (u8 i = 0; i < field_14A0_count; i++)
         {
-            pIter_2->field_18_cycle = 1;
-            pIter_2++;
+            pIter->field_18_cycle = 1;
+            pIter++;
         }
     }
 }

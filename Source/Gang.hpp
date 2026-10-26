@@ -149,7 +149,7 @@ class GangPool
     EXPORT Gang* AllocGang_4BF170();
     EXPORT Gang* GangByIdx_4BF1C0(u8 gang_idx);
     EXPORT void AddGangForMapZone_4BF1E0(gmp_map_zone* pMapZone);
-    EXPORT s8 GetGangIdxByName_4BF210(const char_type* gangName);
+    EXPORT s8 GetGangIdxByName_4BF210(const char_type* pGangName);
     EXPORT void SwapGangSlots_4BF230(Gang* pGang, u8 gang_idx);
     EXPORT s8 FindGangByCarModel_4BF2F0(s32 car_model);
 

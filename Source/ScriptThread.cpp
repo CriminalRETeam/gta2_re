@@ -766,13 +766,13 @@ void ScriptThread::SCRCMD_CRUSHER_BASIC_5045A0(SCR_CRUSHER_BASIC* pCmd, SCR_POIN
 MATCH_FUNC(0x5045d0)
 void ScriptThread::SCRCMD_THREAD_DECLARE2_5045D0(SCR_THREAD* pCmd, s16* pThreadIdx)
 {
-    SCR_POINTER* pParam1 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_10_char_var_idx));
-    SCR_POINTER* pParam2 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_12_car_or_phone_idx));
+    SCR_POINTER* pCharPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_10_char_var_idx));
+    SCR_POINTER* pCarPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_12_car_or_phone_idx));
 
-    if (pParam1->field_8_char && pParam2->field_8_car)
+    if (pCharPointer->field_8_char && pCarPointer->field_8_car)
     {
-        gScriptManager_6F8060->AddCarThread_5128D0(pParam1->field_8_char->get_id(), pParam2->field_8_car->field_6C_car_id, *pThreadIdx);
-        pParam2->field_8_car->SetCarThreadPending_476360();
+        gScriptManager_6F8060->AddCarThread_5128D0(pCharPointer->field_8_char->get_id(), pCarPointer->field_8_car->field_6C_car_id, *pThreadIdx);
+        pCarPointer->field_8_car->SetCarThreadPending_476360();
     }
 }
 
@@ -831,13 +831,13 @@ void ScriptThread::SCRCMD_THREAD_DECLARE5_504710(SCR_CHAR_AREA_ANY* pCmd)
 MATCH_FUNC(0x5047c0)
 void ScriptThread::SCRCMD_THREAD_DECLARE4_5047C0(SCR_THREAD* pCmd, s16* pThreadIdx)
 {
-    SCR_POINTER* pParam1 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_10_char_var_idx));
-    SCR_POINTER* pParam2 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_12_car_or_phone_idx));
+    SCR_POINTER* pCharPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_10_char_var_idx));
+    SCR_POINTER* pPhonePointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_12_car_or_phone_idx));
 
-    if (pParam1->field_8_char && pParam2->field_8_car)
+    if (pCharPointer->field_8_char && pPhonePointer->field_8_car)
     {
-        pParam2->field_8_obj->PoolGiveAndMarkDone_5291D0();
-        gScriptManager_6F8060->AddPhoneThread_5129B0(pParam1->field_8_char->get_id(), pParam2->field_8_obj->field_14_id, *pThreadIdx);
+        pPhonePointer->field_8_obj->PoolGiveAndMarkDone_5291D0();
+        gScriptManager_6F8060->AddPhoneThread_5129B0(pCharPointer->field_8_char->get_id(), pPhonePointer->field_8_obj->field_14_id, *pThreadIdx);
     }
 }
 
@@ -1066,11 +1066,9 @@ void ScriptThread::SCRCMD_DOOR_DECLARE_D2_S2_504B80(SCR_DOOR_DATA_DEC* pCmd)
     switch (pCmd->field_11_open_type)
     {
         case SCR_DOOR_OPENTYPES::any_player:
-            //pCmd->field_8_door->field_20_open_type = 1;
             pCmd->field_8_door->set_field_20(door_open_type::any_player);
             break;
         case SCR_DOOR_OPENTYPES::any_car:
-            //pCmd->field_8_door->field_20_open_type = 2;
             pCmd->field_8_door->set_field_20(door_open_type::any_car);
             break;
         case SCR_DOOR_OPENTYPES::one_car:
@@ -1332,15 +1330,15 @@ void ScriptThread::DisableThread_505790(u16 idx)
         case SCRCMD_THREAD_DECLARE4:
         {
             SCR_THREAD* pThread = static_cast<SCR_THREAD*>(pCmd);
-            SCR_POINTER* pParam1 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pThread->field_10_char_var_idx));
-            SCR_POINTER* pParam2 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pThread->field_12_car_or_phone_idx));
+            SCR_POINTER* pCharPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pThread->field_10_char_var_idx));
+            SCR_POINTER* pPhonePointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pThread->field_12_car_or_phone_idx));
 
-            if (pParam2->field_8_obj->IsAnimatedBehavior_475A80() && pParam2->field_8_obj->field_24_touched_result != 174)
+            if (pPhonePointer->field_8_obj->IsAnimatedBehavior_475A80() && pPhonePointer->field_8_obj->field_24_touched_result != 174)
             {
-                pParam2->field_8_obj->PoolGiveAndMarkDone_5291D0();
+                pPhonePointer->field_8_obj->PoolGiveAndMarkDone_5291D0();
             }
 
-            gScriptManager_6F8060->RemovePhoneThread_512A70(pParam1->field_8_char->get_id(), pParam2->field_8_obj->field_14_id);
+            gScriptManager_6F8060->RemovePhoneThread_512A70(pCharPointer->field_8_char->get_id(), pPhonePointer->field_8_obj->field_14_id);
             break;
         }
         case SCRCMD_THREAD_DECLARE3:
@@ -1353,11 +1351,11 @@ void ScriptThread::DisableThread_505790(u16 idx)
         case SCRCMD_THREAD_DECLARE2:
         {
             SCR_THREAD* pThread = static_cast<SCR_THREAD*>(pCmd);
-            SCR_POINTER* pParam1 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pThread->field_10_char_var_idx));
-            SCR_POINTER* pParam2 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pThread->field_12_car_or_phone_idx));
+            SCR_POINTER* pCharPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pThread->field_10_char_var_idx));
+            SCR_POINTER* pCarPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pThread->field_12_car_or_phone_idx));
 
-            s32 charId = pParam1->field_8_char->get_id();
-            ThreadTrigger* pTrigger = gScriptManager_6F8060->FindCarThread_5128A0(charId, pParam2->field_8_car->field_6C_car_id);
+            s32 char_id = pCharPointer->field_8_char->get_id();
+            ThreadTrigger* pTrigger = gScriptManager_6F8060->FindCarThread_5128A0(char_id, pCarPointer->field_8_car->field_6C_car_id);
 
             if (pTrigger)
             {
@@ -1367,7 +1365,7 @@ void ScriptThread::DisableThread_505790(u16 idx)
                 --gScriptManager_6F8060->field_0_car_trigger_count;
             }
 
-            pParam2->field_8_car->ClearCarThreadPending_4218E0();
+            pCarPointer->field_8_car->ClearCarThreadPending_4218E0();
             break;
         }
     }
@@ -2718,14 +2716,14 @@ MATCH_FUNC(0x509c10)
 void ScriptThread::SCRCMD_IS_CHAR_IN_CAR_509C10()
 {
     SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070);
-    SCR_POINTER* pParam1 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
-    SCR_POINTER* pParam2 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2));
+    SCR_POINTER* pCharPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
+    SCR_POINTER* pCarPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2));
 
-    Ped* pPed = pParam1->field_8_char;
+    Ped* pPed = pCharPointer->field_8_char;
 
     Car* pCarTarget;
 
-    if (pPed != NULL && (pCarTarget = pParam2->field_8_car) != NULL && pPed->has_car_403B80() &&
+    if (pPed != NULL && (pCarTarget = pCarPointer->field_8_car) != NULL && pPed->has_car_403B80() &&
         pPed->get_car_416B60() == pCarTarget)
     {
         field_8_cond_result = true;
@@ -2741,9 +2739,9 @@ MATCH_FUNC(0x509c90)
 void ScriptThread::SCRCMD_IS_CHAR_IN_MODEL_509C90()
 {
     SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070);
-    SCR_POINTER* pParam1 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
+    SCR_POINTER* pCharPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
-    Ped* pPed = pParam1->field_8_char;
+    Ped* pPed = pCharPointer->field_8_char;
 
     if (pPed != NULL && pPed->has_car_403B80() && pPed->get_car_416B60()->GetCarInfoIdx_411940() == pCmd->field_A_signed_2)
     {
@@ -4195,16 +4193,16 @@ MATCH_FUNC(0x50c0e0)
 void ScriptThread::SCRCMD_IS_TRAILER_ATT_50C0E0()
 {
     SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070);
-    SCR_POINTER* pParam1 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
-    SCR_POINTER* pParam2 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2));
+    SCR_POINTER* pCarPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
+    SCR_POINTER* pTrailerPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2));
 
     Car* pCar;
 
-    if (pParam2 == pParam1)
+    if (pTrailerPointer == pCarPointer)
     {
-        pCar = pParam1->field_8_car;
+        pCar = pCarPointer->field_8_car;
 
-        if (pCar->IsTrailerCar_421720() || pParam1->field_8_car->IsTrailerCab_41E460())
+        if (pCar->IsTrailerCar_421720() || pCarPointer->field_8_car->IsTrailerCab_41E460())
         {
             field_8_cond_result = true;
         }
@@ -4215,9 +4213,9 @@ void ScriptThread::SCRCMD_IS_TRAILER_ATT_50C0E0()
     }
     else
     {
-        pCar = pParam2->field_8_car;
+        pCar = pTrailerPointer->field_8_car;
 
-        if (pParam1->field_8_car->HasAttachedTrailer_475E60(pCar))
+        if (pCarPointer->field_8_car->HasAttachedTrailer_475E60(pCar))
         {
             field_8_cond_result = true;
         }
@@ -4236,7 +4234,6 @@ void ScriptThread::SCRCMD_IS_CAR_ON_TRAIL_50C1B0()
     SCR_POINTER* pCarPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     SCR_POINTER* pTrailerPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2));
 
-    //Sprite* pSprite = pTrailerPointer->field_8_sprite->FirstSpriteOfType_5A6CA0(sprite_types_enum::car_2);
     Sprite* pSprite = pTrailerPointer->field_8_car->field_0_attachments.FirstSpriteOfType_5A6CA0(sprite_types_enum::car_2);
     Car* pCarOnTrailer;
 
@@ -4469,10 +4466,10 @@ MATCH_FUNC(0x50c6f0)
 void ScriptThread::SCRCMD_PARK_50C6F0() // PARK and PARK_NO_RESPAWN
 {
     SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070);
-    SCR_POINTER* pParam1 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
-    SCR_POINTER* pParam2 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2));
+    SCR_POINTER* pCarPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
+    SCR_POINTER* pDoorPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2));
 
-    gGarage_48_6FD26C->ParkCarAtDoor_534700(pParam1->field_8_car, pParam2->field_8_door);
+    gGarage_48_6FD26C->ParkCarAtDoor_534700(pCarPointer->field_8_car, pDoorPointer->field_8_door);
     if (gBasePtr_6F8070->field_2_type == SCRCMD_PARK_NO_RESPAWN)
     {
         gGarage_48_6FD26C->field_3F_no_respawn = true;
@@ -4508,19 +4505,19 @@ void ScriptThread::SCRCMD_UPDATE_DOOR_50C7D0()
 
     switch (pDoorPointer->field_8_door->get_open_type_476A90())
     {
-        case 5:
+        case door_open_type::one_char_on_foot:
             pTarget = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_target_idx));
 
             pDoorPointer->field_8_door->set_open_details_ped(door_open_type::one_char_on_foot, pTarget->field_8_char);
             pDoorPointer->field_8_door->set_target_id(pTarget->field_8_char->field_200_id);
             break;
-        case 3:
+        case door_open_type::one_car:
             pTarget = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_target_idx));
 
             pDoorPointer->field_8_door->set_open_details_car_bc(door_open_type::one_car, pTarget->field_8_car);
             pDoorPointer->field_8_door->set_target_id(pTarget->field_8_car->field_6C_car_id);
             break;
-        case 6:
+        case door_open_type::any_player_one_car:
             pTarget = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_target_idx));
 
             pDoorPointer->field_8_door->set_open_details_car_bc(door_open_type::any_player_one_car, pTarget->field_8_car);
@@ -5029,7 +5026,7 @@ void ScriptThread::SCRCMD_SAVE_GAME_50D340()
 MATCH_FUNC(0x50d3c0)
 void ScriptThread::SCRCMD_DO_SAVE_GAME_50D3C0()
 {
-    if (field_C_cmd_initialised == false)
+    if (!field_C_cmd_initialised)
     {
         SCR_DO_SAVE_GAME* pCmd = reinterpret_cast<SCR_DO_SAVE_GAME*>(gBasePtr_6F8070);
         ScriptThread::DisableThread_505790(pCmd->field_8_triggername);
@@ -5450,7 +5447,7 @@ void ScriptThread::GetSpeed_50E190()
 {
     SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
-    SCR_POINTER* pParam2 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2));
+    SCR_POINTER* pCounterPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2));
 
     // 9.6f 0x47D070. The cases are in ascending order (the layout doesn't follow it): that order gives
     // the original's inline cut-offs, GetLength_41E260 inlined (with one Abs) for the char's car and
@@ -5460,11 +5457,11 @@ void ScriptThread::GetSpeed_50E190()
         case SCRCMD_GET_CAR_SPEED:
             if (pPointer->field_8_car->field_58_physics)
             {
-                pParam2->field_8_counter = pPointer->field_8_car->field_58_physics->get_car_velocity_4211C0().get_value_4754D0();
+                pCounterPointer->field_8_counter = pPointer->field_8_car->field_58_physics->get_car_velocity_4211C0().get_value_4754D0();
             }
             else
             {
-                pParam2->field_8_counter = kFpZero_6F77C0.ToInt();
+                pCounterPointer->field_8_counter = kFpZero_6F77C0.ToInt();
             }
             break;
 
@@ -5473,18 +5470,18 @@ void ScriptThread::GetSpeed_50E190()
             {
                 if (pPointer->field_8_char->get_car_416B60()->field_58_physics)
                 {
-                    pParam2->field_8_counter =
+                    pCounterPointer->field_8_counter =
                         pPointer->field_8_char->get_car_416B60()->field_58_physics->get_car_velocity_4211C0().get_value_4754D0();
                 }
                 else
                 {
-                    pParam2->field_8_counter = kFpZero_6F77C0.ToInt();
+                    pCounterPointer->field_8_counter = kFpZero_6F77C0.ToInt();
                 }
             }
             break;
 
         case SCRCMD_GET_MAX_SPEED:
-            pParam2->field_8_counter = pPointer->field_8_car->GetMaxSpeed_439F30().get_value_4754D0();
+            pCounterPointer->field_8_counter = pPointer->field_8_car->GetMaxSpeed_439F30().get_value_4754D0();
             break;
     }
 
@@ -5817,7 +5814,7 @@ void ScriptThread::SCRCMD_WEAP_HIT_CAR_50EBD0()
         }
         else
         {
-            hit = gScriptManager_6F8060->TestAndRecordWeaponHit_512AF0(pPointer->field_8_car->field_6C_car_id, 23, false);
+            hit = gScriptManager_6F8060->TestAndRecordWeaponHit_512AF0(pPointer->field_8_car->field_6C_car_id, weapon_type::weapon_0x17, false);
         }
         if (hit && gScriptManager_6F8060->IsWeaponHitRecorded_512C70(pPointer->field_8_car->field_6C_car_id, static_cast<char_type>(pCmd->field_C_weapon), false))
         {
@@ -5888,58 +5885,58 @@ void ScriptThread::SCRCMD_DO_EASY_PHONE_50EDC0() //  EASY_PHONE_TEMPLATE
 {
     SCR_PHONE_TEMPLATE* pCmd = reinterpret_cast<SCR_PHONE_TEMPLATE*>(gBasePtr_6F8070);
 
-    SCR_POINTER* pParam3;
-    SCR_POINTER* pParam4;
-    SCR_POINTER* pParam5;
-    SCR_POINTER* pParam1;
-    SCR_POINTER* pParam2;
+    SCR_POINTER* pGang1MissionFlag;
+    SCR_POINTER* pGang2MissionFlag;
+    SCR_POINTER* pGang3MissionFlag;
+    SCR_POINTER* pPassedFlag;
+    SCR_POINTER* pFailedFlag;
 
-    pParam1 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_counter1));
-    pParam2 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_10_counter2));
-    pParam3 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_12_counter3));
-    pParam4 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_14_counter4));
-    pParam5 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_16_counter5));
+    pPassedFlag = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_counter1));
+    pFailedFlag = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_10_counter2));
+    pGang1MissionFlag = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_12_counter3));
+    pGang2MissionFlag = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_14_counter4));
+    pGang3MissionFlag = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_16_counter5));
     str_table_entry* pGangStr = gScriptManager_6F8060->FindStringById_503080(pCmd->field_18_gangname);
-    char_type* gang_name = pGangStr->get_name();
-    Gang* pGang_zone = gGangPool_CA8_67E274->FindGangByName_4BF100(gang_name);
-    if (pParam3->field_8_counter == 1) //  flag_on_[gang1]_mission == 1
+    char_type* pGangName = pGangStr->get_name();
+    Gang* pGang = gGangPool_CA8_67E274->FindGangByName_4BF100(pGangName);
+    if (pGang1MissionFlag->field_8_counter == 1) //  flag_on_[gang1]_mission == 1
     {
-        s32 briefId = pCmd->field_8_brief_id - 5;
-        sprintf(gTmpBuffer_67C598, "%d", briefId);
+        s32 brief_id = pCmd->field_8_brief_id - 5;
+        sprintf(gTmpBuffer_67C598, "%d", brief_id);
         gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
         ScriptThread::Next_503620(gBasePtr_6F8070);
         return;
     }
-    if (pParam4->field_8_counter == 1) //  flag_on_[gang2]_mission == 1
+    if (pGang2MissionFlag->field_8_counter == 1) //  flag_on_[gang2]_mission == 1
     {
-        s32 briefId = pCmd->field_8_brief_id - 2;
-        sprintf(gTmpBuffer_67C598, "%d", briefId);
+        s32 brief_id = pCmd->field_8_brief_id - 2;
+        sprintf(gTmpBuffer_67C598, "%d", brief_id);
         gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
         ScriptThread::Next_503620(gBasePtr_6F8070);
         return;
     }
-    if (pParam5->field_8_counter == 1) //  flag_on_[gang3]_mission == 1
+    if (pGang3MissionFlag->field_8_counter == 1) //  flag_on_[gang3]_mission == 1
     {
-        s32 briefId = pCmd->field_8_brief_id - 1;
-        sprintf(gTmpBuffer_67C598, "%d", briefId);
+        s32 brief_id = pCmd->field_8_brief_id - 1;
+        sprintf(gTmpBuffer_67C598, "%d", brief_id);
         gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
         ScriptThread::Next_503620(gBasePtr_6F8070);
         return;
     }
-    if (pParam1->field_8_counter == 1) //  flag_passed_[gang1]_easy_phone_m1 == 1
+    if (pPassedFlag->field_8_counter == 1) //  flag_passed_[gang1]_easy_phone_m1 == 1
     {
         //  not used in original levels, since phones are disabled after finishing mission
-        s32 briefId = pCmd->field_8_brief_id;
-        sprintf(gTmpBuffer_67C598, "%d", briefId);
+        s32 brief_id = pCmd->field_8_brief_id;
+        sprintf(gTmpBuffer_67C598, "%d", brief_id);
         gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
         ScriptThread::Next_503620(gBasePtr_6F8070);
         return;
     }
-    if (pParam2->field_8_counter == 1) //  flag_failed_[this_gang]_easy_phone_m1 == 1
+    if (pFailedFlag->field_8_counter == 1) //  flag_failed_[this_gang]_easy_phone_m1 == 1
     {
         //  not used in the game as you can repeat a failed mission in GTA2
-        s32 briefId = pCmd->field_8_brief_id + 1;
-        sprintf(gTmpBuffer_67C598, "%d", briefId);
+        s32 brief_id = pCmd->field_8_brief_id + 1;
+        sprintf(gTmpBuffer_67C598, "%d", brief_id);
         gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
         ScriptThread::Next_503620(gBasePtr_6F8070);
         return;
@@ -5947,37 +5944,37 @@ void ScriptThread::SCRCMD_DO_EASY_PHONE_50EDC0() //  EASY_PHONE_TEMPLATE
     s8 player_idx1;
     //  Check if the player has respect enough to launch the mission
     if ((player_idx1 = gGame_0x40_67E008->field_38_local_player->get_idx_4219D0(),
-         pGang_zone->GetRespectForPlayer_4BEEF0(player_idx1) / 20 >= pCmd->field_1A_respect))
+         pGang->GetRespectForPlayer_4BEEF0(player_idx1) / 20 >= pCmd->field_1A_respect))
     {
         str_table_entry* mission1_str_table = gScriptManager_6F8060->FindStringById_503080(pCmd->field_1C_mission1);
-        char_type* mission1_name = reinterpret_cast<char_type*>(&mission1_str_table[1]);
+        char_type* mission1_name = mission1_str_table->get_name();
         ScriptThread::launch_mission_5119A0(gBasePtr_6F8070, mission1_name); //  TODO: fix gBasePtr_6F8070 type
         return;
     }
     s8 player_idx2;
     //  Check if the player has respect = 0
-    if ((player_idx2 = gGame_0x40_67E008->field_38_local_player->get_idx_4219D0(), (pGang_zone->GetRespectForPlayer_4BEEF0(player_idx2) / 20) == 0))
+    if ((player_idx2 = gGame_0x40_67E008->field_38_local_player->get_idx_4219D0(), (pGang->GetRespectForPlayer_4BEEF0(player_idx2) / 20) == 0))
     {
-        s32 briefId = pCmd->field_8_brief_id - 6;
-        sprintf(gTmpBuffer_67C598, "%d", briefId);
+        s32 brief_id = pCmd->field_8_brief_id - 6;
+        sprintf(gTmpBuffer_67C598, "%d", brief_id);
         gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
         ScriptThread::Next_503620(gBasePtr_6F8070);
         return;
     }
     s8 player_idx3;
     //  Check if the player has negative respect
-    if ((player_idx3 = gGame_0x40_67E008->field_38_local_player->get_idx_4219D0(), pGang_zone->GetRespectForPlayer_4BEEF0(player_idx3) / 20 < 0))
+    if ((player_idx3 = gGame_0x40_67E008->field_38_local_player->get_idx_4219D0(), pGang->GetRespectForPlayer_4BEEF0(player_idx3) / 20 < 0))
     {
-        s32 briefId = pCmd->field_8_brief_id - 4;
-        sprintf(gTmpBuffer_67C598, "%d", briefId);
+        s32 brief_id = pCmd->field_8_brief_id - 4;
+        sprintf(gTmpBuffer_67C598, "%d", brief_id);
         gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
         ScriptThread::Next_503620(gBasePtr_6F8070);
     }
     else
     {
         //  In this case, the player has positive respect but not enough to launch the mission
-        s32 briefId = pCmd->field_8_brief_id - 7;
-        sprintf(gTmpBuffer_67C598, "%d", briefId);
+        s32 brief_id = pCmd->field_8_brief_id - 7;
+        sprintf(gTmpBuffer_67C598, "%d", brief_id);
         gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
         ScriptThread::Next_503620(gBasePtr_6F8070);
     }
@@ -5987,41 +5984,41 @@ MATCH_FUNC(0x50f060)
 void ScriptThread::SCRCMD_CHAR_INTO_CAR_50F060()
 {
     SCR_CHAR_INTO_CAR* pCmd = reinterpret_cast<SCR_CHAR_INTO_CAR*>(gBasePtr_6F8070);
-    SCR_POINTER* pParam1 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_char_idx));
-    SCR_POINTER* pParam2 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_10_car_idx));
+    SCR_POINTER* pCharPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_char_idx));
+    SCR_POINTER* pCarPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_10_car_idx));
 
     Ped* pNewPed = gPedManager_6787BC->AllocatePed_470F30();
-    pParam1->field_8_char = pNewPed;
+    pCharPointer->field_8_char = pNewPed;
 
     if (pNewPed)
     {
         pNewPed->field_238_ped_type = ped_type::script_created_5;
-        pParam1->field_8_char->SpawnPedInCar_45C730(pParam2->field_8_car);
-        pParam1->field_8_char->field_244_remap = pCmd->field_C_remap;
-        pParam1->field_8_char->field_240_occupation = pCmd->field_E_occupation;
+        pCharPointer->field_8_char->SpawnPedInCar_45C730(pCarPointer->field_8_car);
+        pCharPointer->field_8_char->field_244_remap = pCmd->field_C_remap;
+        pCharPointer->field_8_char->field_240_occupation = pCmd->field_E_occupation;
 
         if (!field_118_in_level_start)
         {
-            gMiss2_25C_6F805C->push_type_3_ped_502FB0(pParam1->field_8_char);
+            gMiss2_25C_6F805C->push_type_3_ped_502FB0(pCharPointer->field_8_char);
         }
     }
 
-    Car* pCarTest = pParam2->field_8_car;
+    Car* pCarTest = pCarPointer->field_8_car;
 
     if (pCarTest)
     {
         pCarTest->field_7C_ped_type = ped_type::script_created_5;
         pCarTest->field_76_last_seen_timer = 0;
 
-        Car* pCar = pParam2->field_8_car;
+        Car* pCar = pCarPointer->field_8_car;
 
         if (!pCar->field_5C_AI)
         {
             pCar->field_5C_AI = gCarAI_78_Pool_677CF8->Allocate();
         }
 
-        pParam2->field_8_car->field_5C_AI->SetCar_453BF0(pParam2->field_8_car);
-        pParam2->field_8_car->SetupCarPhysicsAndSpriteBinding_43BCA0();
+        pCarPointer->field_8_car->field_5C_AI->SetCar_453BF0(pCarPointer->field_8_car);
+        pCarPointer->field_8_car->SetupCarPhysicsAndSpriteBinding_43BCA0();
     }
 
     ScriptThread::Next_503620(gBasePtr_6F8070);
@@ -6031,10 +6028,10 @@ MATCH_FUNC(0x50f150)
 void ScriptThread::SCRCMD_DECIDE_POWERUP_50F150()
 {
     SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070);
-    SCR_POINTER* pParam1 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
-    SCR_POINTER* pParam2 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2));
+    SCR_POINTER* pCarPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
+    SCR_POINTER* pGeneratorPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2));
 
-    Car* pCar = pParam1->field_8_car;
+    Car* pCar = pCarPointer->field_8_car;
     u8* pCarList = reinterpret_cast<u8*>(gScriptManager_6F8060->field_340_car_list);
 
     u16 i;
@@ -6043,8 +6040,8 @@ void ScriptThread::SCRCMD_DECIDE_POWERUP_50F150()
     {
         if (pCar != NULL && pCar->field_84_car_info_idx == *pCarList)
         {
-            pParam2->field_8_generator->field_0_gen_type = kDecidePowerupGenTypes_6212F0[i];
-            Generator* pGen = pParam2->field_8_generator;
+            pGeneratorPointer->field_8_generator->field_0_gen_type = kDecidePowerupGenTypes_6212F0[i];
+            Generator* pGen = pGeneratorPointer->field_8_generator;
 
             if (kDecidePowerupGenTypes_6212F0[i] < 91)
             {
@@ -6065,10 +6062,10 @@ void ScriptThread::SCRCMD_DECIDE_POWERUP_50F150()
 
     if (i == 19)
     {
-        Generator* pGen = pParam2->field_8_generator;
+        Generator* pGen = pGeneratorPointer->field_8_generator;
         pGen->Activate_4C1A70();
         pGen->field_1E_spawns_left = 3;
-        pParam2->field_8_generator->field_0_gen_type = 65;
+        pGeneratorPointer->field_8_generator->field_0_gen_type = 65;
     }
 
     ScriptThread::Next_503620(gBasePtr_6F8070);
@@ -6697,7 +6694,7 @@ void ScriptThread::SCRCMD_DO_BASIC_KF_510280()
     SCR_DO_BASIC_KF_TEMPLATE* pCmd = reinterpret_cast<SCR_DO_BASIC_KF_TEMPLATE*>(gBasePtr_6F8070);
     SCR_POINTER* pPlayerPedCmdPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_18_playername));
 
-    if (field_C_cmd_initialised == 0)
+    if (!field_C_cmd_initialised)
     {
         pTimerIDPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_timername));
         pTimerIDPointer->field_8_index = gHud_2B00_706620->field_620_pagers.CreateTimer_5D31F0(pCmd->field_C_time_limit);
@@ -7626,7 +7623,7 @@ bool ScriptThread::PoolUpdate()
         // field_6_return_value == 1  means it's in a WHILE_EXEC block
         if (pCmd->field_6_return_value == 1)
         {
-            while (1) // execute commands in the same frame
+            while (true) // execute commands in the same frame
             {
                 SCR_CMD_HEADER* pCurrentCmd = gScriptManager_6F8060->GetBasePointer_512770(field_4_next_cmd);
                 ScriptThread::PreExecOpCode_5108D0();
@@ -7651,15 +7648,15 @@ bool ScriptThread::PoolUpdate()
         }
     }
 
-    const bool reachedLevelEnd = field_4_next_cmd == 0xFFFF; // Did it reached the LEVELEND?
-    field_12_exec_flag = 0; // Clear EXEC flag?
-    return reachedLevelEnd;
+    const bool reached_level_end = field_4_next_cmd == 0xFFFF;
+    field_12_exec_flag = 0;
+    return reached_level_end;
 }
 
 MATCH_FUNC(0x511930)
-void ScriptThread::InitThread_511930(char_type flags, u16 levelStart)
+void ScriptThread::InitThread_511930(char_type flags, u16 start_cmd)
 {
-    field_4_next_cmd = levelStart;
+    field_4_next_cmd = start_cmd;
     field_6_flags = flags;
     field_E_phone_timer = 0;
     field_C_cmd_initialised = 0;
@@ -7669,10 +7666,10 @@ void ScriptThread::InitThread_511930(char_type flags, u16 levelStart)
 }
 
 MATCH_FUNC(0x511960)
-ScriptThread* ScriptThread::SpawnThread_511960(u16 levelStart)
+ScriptThread* ScriptThread::SpawnThread_511960(u16 start_cmd)
 {
     ScriptThread* pNewThread = miss2_0x11C_Pool_6F8064->Allocate_4767A0();
-    pNewThread->InitThread_511930(field_6_flags, levelStart);
+    pNewThread->InitThread_511930(field_6_flags, start_cmd);
     return pNewThread;
 }
 

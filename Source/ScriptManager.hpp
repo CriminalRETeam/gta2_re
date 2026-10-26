@@ -17,9 +17,9 @@ struct str_table_entry
     s16 field_6_padding;
     u8 field_8_length;
 
-    inline char* get_name()
+    inline char_type* get_name()
     {
-        return reinterpret_cast<char*>(&this[1]);
+        return reinterpret_cast<char_type*>(&this[1]);
     }
 };
 #pragma pack(pop)
@@ -27,7 +27,7 @@ struct str_table_entry
 struct str_table_normalized
 {
     u16 field_0_string_count;
-    s16 field_2_unused; // pad ?
+    s16 field_2_unused;
     str_table_entry* field_4_entries[999];
 };
 
@@ -568,7 +568,7 @@ GTA2_ASSERT_SIZEOF_ALWAYS(SavedScriptCounter, 0x4);
 struct SavedCarAndScriptData
 {
     SavedCarInfo field_0_saved_cars; // 3x saved cars
-    s16 field_44_unused; // pad ??
+    s16 field_44_unused;
     s16 field_46_script_ptr_count; // count of populated array entries
     s32 field_48_flags;
     s32 field_4C_started_basic_kf_mask;
@@ -589,7 +589,7 @@ class SaveData
     char_type field_4D_bonus_stage;
     char_type field_4E_pad;
     char_type field_4F_pad;
-    s32 field_50_unused; // never used ?
+    s32 field_50_unused;
     SavedPlayerStats field_54_player_and_world_stats;
     SavedCarAndScriptData field_E4_car_and_script_data;
     SavedObjectData field_5E4_object_data;

@@ -851,7 +851,6 @@ enum
     unknown1 = 5,
     any_player_one_car = 6,
 };
-//static_assert(sizeof(SCR_DOOR_OPENTYPES) == 1)
 } // namespace SCR_DOOR_OPENTYPES
 
 namespace SCR_DOOR_CLOSETYPES
@@ -863,7 +862,6 @@ enum
     close_when_clear = 2,
     close_when_open_rule_fails = 3,
 };
-//static_assert(sizeof(SCR_DOOR_CLOSETYPES) == 1)
 } // namespace SCR_DOOR_CLOSETYPES
 
 namespace SCR_BONUSES
@@ -1141,8 +1139,8 @@ class ScriptThread
     EXPORT void SCRCMD_SAVE_RESTORE_RESPECT_510780();
     EXPORT void PreExecOpCode_5108D0();
     EXPORT bool PoolUpdate();
-    EXPORT void InitThread_511930(char_type flags, u16 levelStart);
-    EXPORT ScriptThread* SpawnThread_511960(u16 levelStart);
+    EXPORT void InitThread_511930(char_type flags, u16 start_cmd);
+    EXPORT ScriptThread* SpawnThread_511960(u16 start_cmd);
     EXPORT void launch_mission_5119A0(SCR_CMD_HEADER* pCmd, const char_type* pMissionName);
     EXPORT ScriptThread();
     EXPORT void DisableBasicKfsFromSave_511CD0();

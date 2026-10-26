@@ -10,7 +10,6 @@
 #include "Ped.hpp"
 #include "CarPhysics.hpp"
 #include "Car.hpp"
-#include "garage_state.hpp"
 
 // Forward declarations: the functions below are in address order
 EXTERN_GLOBAL(Ang16, kAng0_6FD25C);
