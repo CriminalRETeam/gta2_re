@@ -196,9 +196,6 @@ void sound_obj::ProcessEntity_4123A0(s32 id)
                 switch (field_147C_audio_entities[id].field_4_pObj->field_0_object_type)
                 {
                     case SoundObjectTypeEnum::Sprite_1:
-                        //case SoundObjectTypeEnum::Unknown_2:
-                        //case SoundObjectTypeEnum::Unknown_3:
-                        //case SoundObjectTypeEnum::Unknown_4:
                         ProcessType1_Sprite_412740(id);
                         break;
                     case SoundObjectTypeEnum::CollisionSoundQueue_6:
@@ -285,7 +282,7 @@ void sound_obj::ProcessType2_412490(s32 idx)
             sampIdx1 = 0;
             sampIdx2 = 1;
             break;
-        case 2: // call this this function is guarded by type 2, so all other cases are dead?
+        case 2:
             sampIdx1 = 2;
             sampIdx2 = 3;
             break;
@@ -571,7 +568,7 @@ void sound_obj::ProcessCar_412B80(Sound_Params* pParams)
         SoundPosEntry* pAlloc = field_147C_audio_entities[field_30_sQueueSample.field_0_EntityIndex].field_8_pAlloc;
         if (pAlloc)
         {
-            CarPhysics* pPhysics = pSprite->field_8_car_bc_ptr->field_58_physics; // +8 = Car*
+            CarPhysics* pPhysics = pSprite->field_8_car_bc_ptr->field_58_physics;
             if (pPhysics)
             {
                 pPhysics->SetModelPhysicsGlobal_562EB0();
@@ -1534,7 +1531,6 @@ void sound_obj::HandleTrainEngineSound_4140C0(Sound_Params* pParams)
     {
         if (CalculateDistance_419020(Fix16(4225)))
         {
-            //s32 vol = (int)(((0x104000LL * (int)(((__int64)car_speed << 14) / max_speed)) >> 14) + 0x2000) >> 14;
             u8 vol = (car_speed / max_speed * Fix16(65) + Fix16(0x2000, 0)).ToInt();
             if (vol > 0)
             {
@@ -1714,7 +1710,6 @@ void sound_obj::Tank_414A50(Sound_Params* pParams)
                 }
 
                 u8 vol = Fix16::Round_To_Int_410BF0((vol_mult / max_speed) * Fix16(90));
-                //vol = (int)(((1474560LL * (int)(((__int64)vol_mult << 14) / max_speed)) >> 14) + 0x2000) >> 14;
 
                 if (VolCalc_419070(vol, Fix16(20) / Fix16(2), pParams->field_5_bHasSolidAbove))
                 {
@@ -1982,10 +1977,6 @@ void sound_obj::HandleCarHornSound_415570(Sound_Params* pParams, SoundPosEntry* 
         }
     }
 }
-
-struct naughty_elion_0x4C;
-struct inspiring_cori_0xBC;
-struct naughty_elion_0x4C;
 
 MATCH_FUNC(0x415730)
 bool sound_obj::Type_5_InitHornSound_415730(sound_0x68* pSound)
@@ -2624,7 +2615,6 @@ s32 sound_obj::ConvertToPlayBackRate_417C60(s32 car_model)
 MATCH_FUNC(0x417D70)
 s32 sound_obj::get_samp_idx_for_car_417D70(Car* pCar, bool bDoorOpening, bool bTrainOrBus)
 {
-    // TODO: bDoorOpening = door opening or closing?
     s32 result;
 
     if (bTrainOrBus)
@@ -4139,7 +4129,7 @@ void sound_obj::AddReleasingSounds_41A9D0()
     {
         const u32 sample_idx = field_D9C_abSampleQueueIndexTable[queue][idx];
         sound_0x68& pSound = field_9C_asSamples[queue][sample_idx];
-        if (!pSound.field_2D_bIsPlayingFinished) // m_bIsPlayingFinished ?
+        if (!pSound.field_2D_bIsPlayingFinished)
         {
             toProcess[idx] = false;
             for (u8 i = 0; i < field_DBC_SampleRequestQueuesStatus[field_98_nActiveSampleQueue]; i++)
@@ -4207,7 +4197,6 @@ void sound_obj::AddReleasingSounds_41A9D0()
     }
 }
 
-// https://decomp.me/scratch/uOtew matching this function will make sound works
 MATCH_FUNC(0x41AB80)
 void sound_obj::ProcessActiveQueues_41AB80()
 {
@@ -4580,7 +4569,7 @@ void sound_obj::ClearActivateSamples_41B7A0()
         field_DC0_ActiveSamples[i].field_0_EntityIndex = 0;
         field_DC0_ActiveSamples[i].field_4_SampleIndex = 0;
         field_DC0_ActiveSamples[i].field_14_samp_idx = 321;
-        field_DC0_ActiveSamples[i].field_8_obj.field_0_x = kFpZero_674CD8; // vec3 type ?
+        field_DC0_ActiveSamples[i].field_8_obj.field_0_x = kFpZero_674CD8;
         field_DC0_ActiveSamples[i].field_8_obj.field_4_y = kFpZero_674CD8;
         field_DC0_ActiveSamples[i].field_8_obj.field_8_z = kFpZero_674CD8;
         field_DC0_ActiveSamples[i].field_18_bIs2D = false;

@@ -31,10 +31,6 @@ struct SoundPosEntry
 
     Fix16 field_0_last_speed;
     u32 field_4;
-    //char_type field_4;
-    //char_type field_5;
-    //char_type field_6;
-    //char_type field_7;
     s16 field_8_unused;
     u8 field_A_horn_pattern_idx;
     char_type field_B_unused;
