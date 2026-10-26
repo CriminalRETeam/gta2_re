@@ -21,7 +21,7 @@ DEFINE_GLOBAL(u8, gTargetCarDoor_6FF1D8, 0x6FF1D8);
 DEFINE_GLOBAL_INIT(Fix16, kFpZero_6FF078, 0, 0x6FF078);
 DEFINE_GLOBAL_INIT(Fix16_Point, kZeroPoint_6FF150, Fix16_Point(Fix16(0), Fix16(0)), 0x6FF150);
 DEFINE_GLOBAL(u8, gNameCompareLen_6FF158, 0x6FF158);
-DEFINE_GLOBAL(u8, gBusSpawned_6FF1CD, 0x6FF1CD);
+DEFINE_GLOBAL(bool, gBusSpawned_6FF1CD, 0x6FF1CD);
 DEFINE_GLOBAL(s32, gBusSpawnDelay_6FF1D0, 0x6FF1D0);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne_6FF07C, Fix16(1), 0x6FF07C);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint05_6FF04C, Fix16(0x333, 0), 0x6FF04C);
@@ -869,7 +869,7 @@ MATCH_FUNC(0x5794b0)
 void PublicTransport::SetupTrainAndBusStops_5794B0()
 {
     char_type track_name[8];
-    gBusSpawned_6FF1CD = 0;
+    gBusSpawned_6FF1CD = false;
     gBusSpawnDelay_6FF1D0 = 0;
     if (!bSkip_trains_67D550)
     {
@@ -1246,7 +1246,6 @@ void PublicTransport::BusesService_579CA0()
                             }
                             break;
                         case 2:
-                            // inlined
                             if (gMap_0x370_6F6268->IsSouthBlockRoadType_4334D0(xpos.ToInt(), ypos.ToInt(), found_z))
                             {
                                 ypos += kFpOne_6FF07C;
@@ -1254,7 +1253,6 @@ void PublicTransport::BusesService_579CA0()
                             }
                             break;
                         case 3:
-                            // inlined
                             if (gMap_0x370_6F6268->IsWestBlockRoadType_433500(xpos.ToInt(), ypos.ToInt(), found_z))
                             {
                                 xpos -= kFpHalf_6FEEE8;
@@ -1298,7 +1296,7 @@ void PublicTransport::BusesService_579CA0()
                     field_17C0_bus.field_C_carriages[0]->InitCarAIControl_440590();
                     field_17C0_bus.field_C_carriages[0]->StartEngine_426E00();
 
-                    gBusSpawned_6FF1CD = 1;
+                    gBusSpawned_6FF1CD = true;
                     field_17C0_bus.field_48_stop_phase = 0;
                     field_17C0_bus.field_56_passenger_count = 0;
                     field_17C0_bus.field_C_carriages[0]->IncrementCarStats_443D70(car_kind::recycled_1);
@@ -1358,7 +1356,7 @@ void PublicTransport::BusesService_579CA0()
             {
                 field_17C0_bus.field_C_carriages[0]->MarkForDespawn_421470();
                 field_17C0_bus.field_C_carriages[0] = NULL;
-                gBusSpawned_6FF1CD = 0;
+                gBusSpawned_6FF1CD = false;
                 gBusSpawnDelay_6FF1D0 = 100;
             }
             else
@@ -1367,7 +1365,7 @@ void PublicTransport::BusesService_579CA0()
                     field_17C0_bus.field_C_carriages[0]->field_74_damage == 32000)
                 {
                     field_17C0_bus.field_C_carriages[0] = NULL;
-                    gBusSpawned_6FF1CD = 0;
+                    gBusSpawned_6FF1CD = false;
                     gBusSpawnDelay_6FF1D0 = 0;
                 }
                 else
