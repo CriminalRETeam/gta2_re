@@ -71,7 +71,7 @@ Object_3C::~Object_3C()
 
 // 9.6f 0x482BA0
 MATCH_FUNC(0x52adf0)
-Fix16_Point Object_3C::GetSpeedVector_52ADF0()
+Fix16_Point Object_3C::GetSpeedVector_52ADF0() const
 {
     Fix16_Point p;
     p.FromPolar_41E210(field_C_speed, field_4_angle);
@@ -79,7 +79,7 @@ Fix16_Point Object_3C::GetSpeedVector_52ADF0()
 }
 
 MATCH_FUNC(0x5a6a50)
-AttachedSprite* SpriteList::GetSpriteForModel_5A6A50(s32 obj_type)
+AttachedSprite* SpriteList::GetSpriteForModel_5A6A50(s32 obj_type) const
 {
     AttachedSprite* pIter = this->field_0_p18;
     while (pIter)
@@ -98,7 +98,7 @@ AttachedSprite* SpriteList::GetSpriteForModel_5A6A50(s32 obj_type)
 }
 
 MATCH_FUNC(0x5a6a90)
-Object* SpriteList::FindObject2CByModel_5A6A90(s32 obj_type)
+Object* SpriteList::FindObject2CByModel_5A6A90(s32 obj_type) const
 {
     AttachedSprite* pIter = this->field_0_p18;
     while (pIter)
@@ -122,7 +122,7 @@ Object* SpriteList::FindObject2CByModel_5A6A90(s32 obj_type)
 }
 
 MATCH_FUNC(0x5a6ad0)
-AttachedSprite* SpriteList::FindFirstFireExplosion_5A6AD0()
+AttachedSprite* SpriteList::FindFirstFireExplosion_5A6AD0() const
 {
     AttachedSprite* pObjIter = this->field_0_p18;
     while (pObjIter)
@@ -273,7 +273,7 @@ void SpriteList::RemoveAllExceptRngValue_5A6C40(s32 toFind)
 }
 
 MATCH_FUNC(0x5a6ca0)
-Sprite* SpriteList::FirstSpriteOfType_5A6CA0(s32 sprite_type)
+Sprite* SpriteList::FirstSpriteOfType_5A6CA0(s32 sprite_type) const
 {
     if (field_0_p18 != NULL)
     {
@@ -332,7 +332,7 @@ void SpriteList::PushSprite_5A6D40(Sprite* pToFind)
 }
 
 MATCH_FUNC(0x5a6d80)
-bool SpriteList::SpriteExists_5A6D80(Sprite* pToFind)
+bool SpriteList::SpriteExists_5A6D80(Sprite* pToFind) const
 {
     AttachedSprite* pIter = this->field_0_p18;
     while (pIter)
@@ -400,7 +400,7 @@ AttachedSprite* SpriteList::ClearList_5A6E10()
 }
 
 MATCH_FUNC(0x5a6e40)
-Sprite* SpriteList::FindClosestSprite_5A6E40(Fix16 xOff, Fix16 yOff)
+Sprite* SpriteList::FindClosestSprite_5A6E40(Fix16 xOff, Fix16 yOff) const
 {
     Fix16 smallest(99999);
 
@@ -613,7 +613,7 @@ void SpriteList::ClearGangIconSprite_5A7110()
 }
 
 MATCH_FUNC(0x5a71a0)
-s32 SpriteList::GetGangIdxFromSpriteIfAny_5A71A0()
+s32 SpriteList::GetGangIdxFromSpriteIfAny_5A71A0() const
 {
     AttachedSprite* pIter = this->field_0_p18;
     while (pIter)
@@ -719,7 +719,7 @@ void SpriteList::PropagateMaxZLayer_5A72B0(Sprite* pSprite, bool bAlsoSetSprite)
 }
 
 MATCH_FUNC(0x5a7310)
-bool SpriteList::AnySpriteHasSlopeTopInFootprint_5A7310()
+bool SpriteList::AnySpriteHasSlopeTopInFootprint_5A7310() const
 {
     for (AttachedSprite* pIter = this->field_0_p18; pIter; pIter = pIter->mpNext)
     {
