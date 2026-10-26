@@ -19,7 +19,6 @@ EXTERN_GLOBAL(Fix16, kFpOneSixteenth_6FEB0C);
 EXTERN_GLOBAL(Fix16, kFpPoint8_6FEB68);
 EXTERN_GLOBAL(Police*, gPolice_7B8_6FEE40);
 EXTERN_GLOBAL(s32, gCrewKind_6FEDB8);
-EXTERN_GLOBAL(Police*, gPolice_7B8_6FEE40);
 
 // Number of criminals the police can pursue at once (not the player count: MAX_PLAYERS is 6)
 #define MAX_PURSUIT_TARGETS 4
@@ -49,8 +48,8 @@ class Police
   public:
     EXPORT Ped* SpawnRoadblockGuard_56F5C0(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation);
     EXPORT void DespawnCrewInCar_56F6D0(Car* pCar);
-    EXPORT bool IsBeingPursued_56F800(Ped* pCriminal);
-    EXPORT bool IsActivelyChased_56F880(Ped* pCriminal);
+    EXPORT bool IsBeingPursued_56F800(Ped* pCriminal) const;
+    EXPORT bool IsActivelyChased_56F880(Ped* pCriminal) const;
     EXPORT void SetArrestedPed_56F8E0(Ped* pCriminal, Ped* pAuxPed);
     EXPORT void RegisterCriminal_56F940(Ped* pCriminal);
 

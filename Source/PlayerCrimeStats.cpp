@@ -45,7 +45,7 @@ void PlayerCrimeStats::ResetCrimeCountFlags_484F30()
 }
 
 MATCH_FUNC(0x484F50)
-void PlayerCrimeStats::IncrementCrimeCount_484F50(int crime_type)
+void PlayerCrimeStats::IncrementCrimeCount_484F50(s32 crime_type)
 {
     switch (crime_type)
     {
@@ -73,13 +73,13 @@ void PlayerCrimeStats::IncrementCrimeCount_484F50(int crime_type)
 }
 
 MATCH_FUNC(0x484FA0)
-void PlayerCrimeStats::AddCarDamageCost_484FA0(int cost)
+void PlayerCrimeStats::AddCarDamageCost_484FA0(s32 cost)
 {
     field_34_car_damage_cost += cost;
 }
 
 MATCH_FUNC(0x484FB0)
-void PlayerCrimeStats::AddEvasionRating_484FB0(int amount)
+void PlayerCrimeStats::AddEvasionRating_484FB0(s32 amount)
 {
     field_38_evasion_rating += amount;
 }
