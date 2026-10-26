@@ -1458,7 +1458,7 @@ bool Object::ShouldStopAtTrafficLight_525290(Sprite* pSprite) const
 }
 
 MATCH_FUNC(0x525370)
-char Object::ShouldCollideWithSprite_525370(Sprite* pSprite) const
+char_type Object::ShouldCollideWithSprite_525370(Sprite* pSprite) const
 {
     switch (this->field_18_model)
     {
@@ -3234,7 +3234,7 @@ void Object_5C::CreateDiagonalWallObjects_5297F0()
 }
 
 MATCH_FUNC(0x5298e0)
-Object* Object_5C::GetDirectionalObject_5298E0(s32 slope_type)
+Object* Object_5C::GetDirectionalObject_5298E0(s32 slope_type) const
 {
     Object* result;
     switch (slope_type)
@@ -3532,7 +3532,7 @@ Object* Object_5C::CreateObject_529C00(s32 object_type, Fix16 xpos, Fix16 ypos, 
 }
 
 MATCH_FUNC(0x52a210)
-char_type Object_5C::SetPendingDamageOwner_52A210(char_type ped_ref_idx)
+u8 Object_5C::SetPendingDamageOwner_52A210(u8 ped_ref_idx)
 {
     field_18_pending_damage_owner = ped_ref_idx;
     return ped_ref_idx;

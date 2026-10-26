@@ -84,7 +84,7 @@ class Object
     EXPORT void OnExplosionNearby_525190(u8 ped_ref_idx);
     EXPORT void UpdateAnimation_5257D0();
     EXPORT bool DispatchFrameAction_525910();
-    EXPORT char ShouldCollideWithSprite_525370(Sprite* pSprite) const;
+    EXPORT char_type ShouldCollideWithSprite_525370(Sprite* pSprite) const;
     EXPORT void CheckCollisionForModel_139_And_141_525AE0();
     EXPORT void SpawnSpriteParticlesForRocketBullet_525B40();
     EXPORT bool CheckWaterDeath_525B60();
@@ -376,7 +376,7 @@ class Object_5C
     EXPORT Object_5C();
     EXPORT ~Object_5C();
     EXPORT void CreateDiagonalWallObjects_5297F0();
-    EXPORT Object* GetDirectionalObject_5298E0(s32 slope_type);
+    EXPORT Object* GetDirectionalObject_5298E0(s32 slope_type) const;
     EXPORT Object* NewTouchPoint_529950(s32 object_type, Fix16 x, Fix16 y, Fix16 z, Ang16 rot, Fix16 w, Fix16 h, Fix16 depth);
     EXPORT Object* NewPhysicsObj_5299B0(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation);
     EXPORT Object* NewWithPedRefIdx_5299F0(s32 object_type, u32 ped_ref_idx, Fix16 xpos, Fix16 ypos, Fix16 zpos);
@@ -385,7 +385,7 @@ class Object_5C
     EXPORT Object* NewFlashingLight_529B20(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity, u8 on_time, u8 off_time, u8 shape);
     EXPORT Object* NewPhysicsObjUnlessBlocked_529BC0(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation);
     EXPORT Object* CreateObject_529C00(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, bool fail_if_blocked);
-    EXPORT char_type SetPendingDamageOwner_52A210(char_type ped_ref_idx);
+    EXPORT u8 SetPendingDamageOwner_52A210(u8 ped_ref_idx);
     EXPORT Object* NewMovingObj_52A240(s32 object_type,
                                         Fix16 xpos,
                                         Fix16 ypos,
