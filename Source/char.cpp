@@ -947,7 +947,7 @@ void Char::UpdateAnimState_546360()
                 case 1:
                 case 2:
                 case 3:
-                    if (field_58_flags & 0x10)
+                    if (field_58_flags_bf.bFlag4)
                     {
                         frame_limit = 1;
                         CarDoorAlignmentSolver_545AF0(7 - field_68_animation_frame,
@@ -976,7 +976,7 @@ void Char::UpdateAnimState_546360()
                 case 5:
                 case 6:
                 case 7:
-                    if (field_58_flags & 0x10)
+                    if (field_58_flags_bf.bFlag4)
                     {
                         frame_limit = 1;
                         CarDoorAlignmentSolver_545AF0(7 - field_68_animation_frame,
@@ -1123,7 +1123,7 @@ void Char::UpdateAnimState_546360()
                 newy,
                 gMap_0x370_6F6268->FindGroundZAboveCoord_4E4E50(newx, newy, pCar->field_50_car_sprite->field_1C_zpos));
 
-            if (field_58_flags & 0x10)
+            if (field_58_flags_bf.bFlag4)
             {
                 field_40_rotation = TurnBy180Deg_546360(field_40_rotation);
             }
@@ -1140,7 +1140,7 @@ void Char::UpdateAnimState_546360()
             else if (field_70_frame_timer == 5 && field_68_animation_frame == 0)
             {
                 Car_Door* pDoor = field_84_target_car->GetDoor(field_7C_pPed->get_target_car_door_403A60());
-                if (!(field_58_flags & 0x10))
+                if (!field_58_flags_bf.bFlag4)
                 {
                     pDoor->Open_439E60();
                     pDoor->set_ped_421380(field_7C_pPed);
@@ -1188,7 +1188,7 @@ void Char::UpdateAnimState_546360()
             switch (field_68_animation_frame)
             {
                 case 0:
-                    if (field_58_flags & 0x10)
+                    if (field_58_flags_bf.bFlag4)
                     {
                         field_84_target_car->GetDoor(field_7C_pPed->get_target_car_door_403A60())->Open_439E60();
                         newId = baseId + field_68_animation_frame;
@@ -1205,7 +1205,7 @@ void Char::UpdateAnimState_546360()
                     break;
 
                 case 1:
-                    if (field_58_flags & 0x10)
+                    if (field_58_flags_bf.bFlag4)
                     {
                         newId = baseId + field_68_animation_frame;
                         frame_limit = 0;
@@ -1221,7 +1221,7 @@ void Char::UpdateAnimState_546360()
                     break;
 
                 case 2:
-                    if (field_58_flags & 0x10)
+                    if (field_58_flags_bf.bFlag4)
                     {
                         newId = baseId + field_68_animation_frame;
                         frame_limit = 0;
@@ -1237,7 +1237,7 @@ void Char::UpdateAnimState_546360()
                     break;
 
                 case 3:
-                    if (field_58_flags & 0x10)
+                    if (field_58_flags_bf.bFlag4)
                     {
                         newId = baseId + field_68_animation_frame;
                         frame_limit = 0;
@@ -1253,7 +1253,7 @@ void Char::UpdateAnimState_546360()
                     break;
 
                 case 4:
-                    if (field_58_flags & 0x10)
+                    if (field_58_flags_bf.bFlag4)
                     {
                         newId = baseId + field_68_animation_frame;
                         frame_limit = 0;
@@ -1269,7 +1269,7 @@ void Char::UpdateAnimState_546360()
                     break;
 
                 case 5:
-                    if (field_58_flags & 0x10)
+                    if (field_58_flags_bf.bFlag4)
                     {
                         newId = baseId + field_68_animation_frame;
                         frame_limit = 0;
@@ -1285,7 +1285,7 @@ void Char::UpdateAnimState_546360()
                     break;
 
                 case 6:
-                    if (field_58_flags & 0x10)
+                    if (field_58_flags_bf.bFlag4)
                     {
                         newId = baseId + field_68_animation_frame;
                         frame_limit = 0;
@@ -1301,7 +1301,7 @@ void Char::UpdateAnimState_546360()
                     break;
 
                 case 7:
-                    if (field_58_flags & 0x10)
+                    if (field_58_flags_bf.bFlag4)
                     {
                         newId = baseId + field_68_animation_frame;
                         frame_limit = 0;
@@ -1324,7 +1324,7 @@ void Char::UpdateAnimState_546360()
                     field_C_ped_state_2 = ped_state_2::ped2_walking_0;
                     field_8_ped_state_1 = ped_state_1::walking_0;
                     Car_Door* pDoor = field_84_target_car->GetDoor(field_7C_pPed->get_target_car_door_403A60());
-                    if (!(field_58_flags & 0x10))
+                    if (!field_58_flags_bf.bFlag4)
                     {
                         pDoor->Close_439EA0();
                     }
@@ -1363,7 +1363,7 @@ void Char::UpdateAnimState_546360()
             else if (field_70_frame_timer == 1 && field_68_animation_frame == 0)
             {
                 Car_Door* pDoor = field_84_target_car->GetDoor(field_7C_pPed->get_target_car_door_403A60());
-                if (!(field_58_flags & 0x10))
+                if (!field_58_flags_bf.bFlag4)
                 {
                     pDoor->Open_439E60();
                     pDoor->set_ped_421380(field_7C_pPed);
@@ -1451,7 +1451,7 @@ void Char::UpdateAnimState_546360()
                 case 4:
                     gCharB4_Saved_Zpos_6FD7FC += kFpPoint05_6FDAE4;
                     gCharB4_Saved_Zpos_6FD7FC = SnapZTo16_4F79B0(gCharB4_Saved_Zpos_6FD7FC);
-                    if (field_58_flags & 1)
+                    if (field_58_flags_bf.bOnSlope)
                     {
                         gCharB4_GradientSlopeBelow_6FDB54 = 0;
                     }
@@ -1462,7 +1462,7 @@ void Char::UpdateAnimState_546360()
                     field_54_jump_scale_counter = 0;
                     gCharB4_Saved_Zpos_6FD7FC += kFpPoint05_6FDAE4;
                     gCharB4_Saved_Zpos_6FD7FC = SnapZTo16_4F79B0(gCharB4_Saved_Zpos_6FD7FC);
-                    if (field_58_flags & 1)
+                    if (field_58_flags_bf.bOnSlope)
                     {
                         gCharB4_GradientSlopeBelow_6FDB54 = 0;
                     }
@@ -1901,7 +1901,7 @@ void Char::HandlePedCollision_548BD0(Char* pOther)
 {
     s32 my_type = field_7C_pPed->GetPedType_420B70();
     s32 other_type = pOther->field_7C_pPed->GetPedType_420B70();
-    if (pOther->get_ped_state_1_48A4C0() == ped_state_1::dead_9 || pOther->get_ped_state_1_48A4C0() == ped_state_1::immobilized_8 || (field_58_flags & 0x80) || field_10_char_state == Char_B4_state::Jumping_15)
+    if (pOther->get_ped_state_1_48A4C0() == ped_state_1::dead_9 || pOther->get_ped_state_1_48A4C0() == ped_state_1::immobilized_8 || field_58_flags_bf.bFlag7 || field_10_char_state == Char_B4_state::Jumping_15)
     {
         return;
     }
@@ -3964,7 +3964,7 @@ bool Char::CanStepToTile_54EF60(char_type target_x, char_type target_y)
             {
                 bCanStep = true;
                 field_80_sprite_ptr->field_14_xy.x.subtract_one_491F00();
-                if (field_58_flags & 1)
+                if (field_58_flags_bf.bOnSlope)
                 {
                     field_80_sprite_ptr->field_1C_zpos =
                         gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(field_80_sprite_ptr->field_14_xy.x, field_80_sprite_ptr->field_14_xy.y);
@@ -3980,7 +3980,7 @@ bool Char::CanStepToTile_54EF60(char_type target_x, char_type target_y)
                 }
                 field_80_sprite_ptr->field_14_xy.x = sprite_xpos;
                 field_80_sprite_ptr->field_14_xy.y.subtract_one_491F00();
-                if (field_58_flags & 1)
+                if (field_58_flags_bf.bOnSlope)
                 {
                     field_80_sprite_ptr->field_1C_zpos =
                         gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(field_80_sprite_ptr->field_14_xy.x, field_80_sprite_ptr->field_14_xy.y);
@@ -4039,7 +4039,7 @@ bool Char::CanStepToTile_54EF60(char_type target_x, char_type target_y)
             {
                 bCanStep = true;
                 field_80_sprite_ptr->field_14_xy.x.subtract_one_491F00();
-                if (field_58_flags & 1)
+                if (field_58_flags_bf.bOnSlope)
                 {
                     field_80_sprite_ptr->field_1C_zpos =
                         gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(field_80_sprite_ptr->field_14_xy.x, field_80_sprite_ptr->field_14_xy.y);
@@ -4055,7 +4055,7 @@ bool Char::CanStepToTile_54EF60(char_type target_x, char_type target_y)
                 }
                 field_80_sprite_ptr->field_14_xy.x = sprite_xpos;
                 field_80_sprite_ptr->field_14_xy.y.add_one_491EF0();
-                if (field_58_flags & 1)
+                if (field_58_flags_bf.bOnSlope)
                 {
                     field_80_sprite_ptr->field_1C_zpos =
                         gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(field_80_sprite_ptr->field_14_xy.x, field_80_sprite_ptr->field_14_xy.y);
@@ -4118,7 +4118,7 @@ bool Char::CanStepToTile_54EF60(char_type target_x, char_type target_y)
             {
                 bCanStep = true;
                 field_80_sprite_ptr->field_14_xy.x.add_one_491EF0();
-                if (field_58_flags & 1)
+                if (field_58_flags_bf.bOnSlope)
                 {
                     field_80_sprite_ptr->field_1C_zpos =
                         gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(field_80_sprite_ptr->field_14_xy.x, field_80_sprite_ptr->field_14_xy.y);
@@ -4134,7 +4134,7 @@ bool Char::CanStepToTile_54EF60(char_type target_x, char_type target_y)
                 }
                 field_80_sprite_ptr->field_14_xy.x = sprite_xpos;
                 field_80_sprite_ptr->field_14_xy.y.subtract_one_491F00();
-                if (field_58_flags & 1)
+                if (field_58_flags_bf.bOnSlope)
                 {
                     field_80_sprite_ptr->field_1C_zpos =
                         gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(field_80_sprite_ptr->field_14_xy.x, field_80_sprite_ptr->field_14_xy.y);
@@ -4194,7 +4194,7 @@ bool Char::CanStepToTile_54EF60(char_type target_x, char_type target_y)
             {
                 bCanStep = true;
                 field_80_sprite_ptr->field_14_xy.x.add_one_491EF0();
-                if (field_58_flags & 1)
+                if (field_58_flags_bf.bOnSlope)
                 {
                     field_80_sprite_ptr->field_1C_zpos =
                         gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(field_80_sprite_ptr->field_14_xy.x, field_80_sprite_ptr->field_14_xy.y);
