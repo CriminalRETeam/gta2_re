@@ -656,7 +656,7 @@ void AmbulanceTask::HandleObjectiveState_4FAAC0()
                         }
                         else
                         {
-                            pVictim->set_objective_status_403B40(1);
+                            pVictim->set_objective_status_403B40(objective_status::passed_1);
                         }
                         pVictim->set_health_4039A0(100);
                         pVictim->field_21C_bf.bPanicking = false;

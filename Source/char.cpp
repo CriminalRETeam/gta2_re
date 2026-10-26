@@ -1072,9 +1072,9 @@ void Char::UpdateAnimState_546360()
                                 break;
                         }
 
-                        if (field_7C_pPed->GetInternalObjective_403A90() == objectives_enum::enter_car_as_driver_35 && field_7C_pPed->GetInternalObjectiveStatus_4039D0() == 1)
+                        if (field_7C_pPed->GetInternalObjective_403A90() == objectives_enum::enter_car_as_driver_35 && field_7C_pPed->GetInternalObjectiveStatus_4039D0() == objective_status::passed_1)
                         {
-                            field_7C_pPed->SetInternalObjectiveStatus_403B50(0);
+                            field_7C_pPed->SetInternalObjectiveStatus_403B50(objective_status::not_finished_0);
                         }
                         pDriver->ChangeNextPedState1_45C500(ped_state_1::immobilized_8);
                         pDriver->ChangeNextPedState2_45C540(ped_state_2::ped2_at_car_door_17);
