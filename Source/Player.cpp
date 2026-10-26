@@ -2439,42 +2439,42 @@ void Player::ColorScoreFromRemap_569A10()
             field_2D4_scores.GetScoreDigits_592360()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 2);
             field_2D4_scores.GetMultiplayerFragDigits_5935B0()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 2);
             field_790_hud_palette = 2;
-            field_78C_hud_palette_type = 7;
+            field_78C_hud_palette_type = palette_types_enum::user_remaps_7;
             break;
 
         case ped_remap_enum::ped_remap_lonny:
             field_2D4_scores.GetScoreDigits_592360()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 3);
             field_2D4_scores.GetMultiplayerFragDigits_5935B0()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 3);
             field_790_hud_palette = 3;
-            field_78C_hud_palette_type = 7;
+            field_78C_hud_palette_type = palette_types_enum::user_remaps_7;
             break;
 
         case ped_remap_enum::ped_remap_russian:
             field_2D4_scores.GetScoreDigits_592360()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 6);
             field_2D4_scores.GetMultiplayerFragDigits_5935B0()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 6);
             field_790_hud_palette = 6;
-            field_78C_hud_palette_type = 7;
+            field_78C_hud_palette_type = palette_types_enum::user_remaps_7;
             break;
 
         case ped_remap_enum::ped_remap_kristna:
             field_2D4_scores.GetScoreDigits_592360()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 5);
             field_2D4_scores.GetMultiplayerFragDigits_5935B0()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 5);
             field_790_hud_palette = 5;
-            field_78C_hud_palette_type = 7;
+            field_78C_hud_palette_type = palette_types_enum::user_remaps_7;
             break;
 
         case ped_remap_enum::ped_remap_zaibatsu:
             field_2D4_scores.GetScoreDigits_592360()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 7);
             field_2D4_scores.GetMultiplayerFragDigits_5935B0()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 7);
             field_790_hud_palette = 7;
-            field_78C_hud_palette_type = 7;
+            field_78C_hud_palette_type = palette_types_enum::user_remaps_7;
             break;
 
         case ped_remap_enum::ped_remap_yellow_scientist:
             field_2D4_scores.GetScoreDigits_592360()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 8);
             field_2D4_scores.GetMultiplayerFragDigits_5935B0()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 8);
             field_790_hud_palette = 8;
-            field_78C_hud_palette_type = 7;
+            field_78C_hud_palette_type = palette_types_enum::user_remaps_7;
             break;
 
         case ped_remap_enum::ped_remap_red_head_redneck:
@@ -2482,7 +2482,7 @@ void Player::ColorScoreFromRemap_569A10()
             field_2D4_scores.GetScoreDigits_592360()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 4);
             field_2D4_scores.GetMultiplayerFragDigits_5935B0()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 4);
             field_790_hud_palette = 4;
-            field_78C_hud_palette_type = 7;
+            field_78C_hud_palette_type = palette_types_enum::user_remaps_7;
             break;
 
         default:
@@ -2572,7 +2572,7 @@ void Player::InitializePlayerState_569CB0()
             field_4C_sound_obj = gRoot_sound_66B038.CreateSoundObject_40EF40(&field_90_game_camera, SoundObjectTypeEnum::Camera_0xBC_5);
         }
     }
-    field_78C_hud_palette_type = 2;
+    field_78C_hud_palette_type = palette_types_enum::sprites_2;
     field_790_hud_palette = 0;
     if (bStartNetworkGame_7081F0)
     {

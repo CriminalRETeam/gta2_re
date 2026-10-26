@@ -957,7 +957,7 @@ void Frontend::DrawScoreTable_4B5430(ScoreTableLine* pStrings,
         }
         else
         {
-            DrawText_5D8A10(tmpBuff_67BD9C, text_xpos, text_ypos_to_use, arg_fontType, 1, 8, palette, false, 0);
+            DrawText_5D8A10(tmpBuff_67BD9C, text_xpos, text_ypos_to_use, arg_fontType, 1, palette_types_enum::font_remaps_8, palette, false, 0);
         }
         if (spacing_type == 0)
         {
@@ -1237,7 +1237,7 @@ void Frontend::DrawMenu_4AD140()
                     }
                     else
                     {
-                        DrawText_5D8A10(wstr_array, x_pos, y_pos, pMenuOption->field_6A_font_type, static_cast<s32>(1), 8, pMenuOption->field_6C_palette, false, 0);
+                        DrawText_5D8A10(wstr_array, x_pos, y_pos, pMenuOption->field_6A_font_type, static_cast<s32>(1), palette_types_enum::font_remaps_8, pMenuOption->field_6C_palette, false, 0);
                     }
                 }
                 else
@@ -1248,7 +1248,7 @@ void Frontend::DrawMenu_4AD140()
                     }
                     else
                     {
-                        DrawText_5D8A10(wstr_array, x_pos, y_pos, field_11C_normal_font, static_cast<s32>(1), 8, pMenuOption->field_6C_palette, false, 0);
+                        DrawText_5D8A10(wstr_array, x_pos, y_pos, field_11C_normal_font, static_cast<s32>(1), palette_types_enum::font_remaps_8, pMenuOption->field_6C_palette, false, 0);
                     }
                 }
             }
@@ -1279,11 +1279,11 @@ void Frontend::DrawMenu_4AD140()
 
                 if (pMenuOption->field_6A_font_type != 0xFFFF)
                 {
-                    DrawText_5D8A10(wstr_array, x_pos, y_pos, pMenuOption->field_6A_font_type, 1, 8, 8, false, 0);
+                    DrawText_5D8A10(wstr_array, x_pos, y_pos, pMenuOption->field_6A_font_type, 1, palette_types_enum::font_remaps_8, 8, false, 0);
                 }
                 else
                 {
-                    DrawText_5D8A10(wstr_array, x_pos, y_pos, field_11C_normal_font, 1, 8, 8, false, 0);
+                    DrawText_5D8A10(wstr_array, x_pos, y_pos, field_11C_normal_font, 1, palette_types_enum::font_remaps_8, 8, false, 0);
                 }
             }
 
@@ -1381,7 +1381,7 @@ void Frontend::DrawMenu_4AD140()
                         }
                         else
                         {
-                            DrawText_5D8A10(wstr_array, x_pos, y_pos, font_type, 1, 8, pMenuElement->field_6C_font_palette, false, 0);
+                            DrawText_5D8A10(wstr_array, x_pos, y_pos, font_type, 1, palette_types_enum::font_remaps_8, pMenuElement->field_6C_font_palette, false, 0);
                         }
                     }
                     break;
@@ -2873,7 +2873,7 @@ EXPORT int Frontend::DrawKeyHint_4B7E10(u8 str_id_idx, u16 text_xpos, u16 text_y
     }
     else
     {
-        DrawText_5D8A10(tmpBuff_67BD9C, text_xpos, text_ypos, fontType, 1, 8, palette, 0, 0);
+        DrawText_5D8A10(tmpBuff_67BD9C, text_xpos, text_ypos, fontType, 1, palette_types_enum::font_remaps_8, palette, 0, 0);
     }
     return GetMaxTextWidth_5D8990(tmpBuff_67BD9C, fontType);
 }
@@ -4518,7 +4518,7 @@ void Frontend::DrawTextFixedWidth_4B78B0(wchar_t* pString, u16 text_xpos, u16 te
         }
         else
         {
-            DrawText_5D8A10(chr, text_xbase + char_pad, text_ypos, font_type, scale, 8, palette, false, false);
+            DrawText_5D8A10(chr, text_xbase + char_pad, text_ypos, font_type, scale, palette_types_enum::font_remaps_8, palette, false, false);
         }
         text_xbase += char_width;
     }

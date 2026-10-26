@@ -367,10 +367,10 @@ void ObjectDefinition::SetRemap_533110(s16 remap)
     switch (field_28_sprite_type)
     {
         case sprite_types_enum::code_obj1_4:
-            field_30_palette_type = 5;
+            field_30_palette_type = palette_types_enum::code_obj_remaps_5;
             break;
         case sprite_types_enum::map_obj_5:
-            field_30_palette_type = 6;
+            field_30_palette_type = palette_types_enum::map_obj_remaps_6;
             break;
     }
     field_1C_remap = remap;
@@ -405,7 +405,7 @@ void ObjectDefinition::ApplyDefinitionToSprite_5331A0(Sprite* pSprite)
     pSprite->SetDrawLayer_40F7B0(this->field_2C_draw_layer);
     pSprite->field_2C_flags = this->field_20_sprite_flags;
 
-    if (this->field_30_palette_type != 2)
+    if (this->field_30_palette_type != palette_types_enum::sprites_2)
     {
         pSprite->SetRemap(this->field_1C_remap);
     }
@@ -467,7 +467,7 @@ ObjectDefinition* ObjectDefinitions::AllocDefinitionWithSprite_5332D0(s32 idx, s
     result->field_28_sprite_type = sprite_type;
     result->field_1E_base_sprite_idx = sprite_palette;
     result->field_6C_num_frames = anim_speed;
-    result->field_30_palette_type = 2;
+    result->field_30_palette_type = palette_types_enum::sprites_2;
     return result;
 }
 

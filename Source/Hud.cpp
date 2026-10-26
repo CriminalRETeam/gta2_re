@@ -462,7 +462,7 @@ void Hud_PlayerNames::DrawPlayerNames_5CFE40()
                                               xCalc,
                                               yCalc,
                                               gPlayerNameFont_7062DC,
-                                              pIter->field_78C_hud_palette_type != 7 ? 2 : 8,
+                                              pIter->field_78C_hud_palette_type != palette_types_enum::user_remaps_7 ? palette_types_enum::sprites_2 : palette_types_enum::font_remaps_8,
                                               pIter->field_790_hud_palette - 1,
                                               0,
                                               0);
@@ -2990,7 +2990,7 @@ void Hud_PlayerStats::DrawPlayerStats_5D5C80()
                      gTagGame_6F8450.GetPlayerTime_4C7380(pPlayer) / 60,
                      gTagGame_6F8450.GetPlayerTime_4C7380(pPlayer) % 60);
 
-            const s32 text_palette_type = (pPlayer->field_78C_hud_palette_type != 7) ? 2 : 8;
+            const s32 text_palette_type = (pPlayer->field_78C_hud_palette_type != palette_types_enum::user_remaps_7) ? palette_types_enum::sprites_2 : palette_types_enum::font_remaps_8;
             DrawText_5D7720(Buffer, 420, 4, word_703BAA, text_palette_type, pPlayer->field_790_hud_palette - 1, 0, 0);
         }
         else
@@ -3025,7 +3025,7 @@ void Hud_PlayerStats::DrawPlayerStats_5D5C80()
                              gTagGame_6F8450.GetPlayerTime_4C7380(pMultiPlayer) / 60,
                              gTagGame_6F8450.GetPlayerTime_4C7380(pMultiPlayer) % 60);
 
-                    const s32 text_palette_type = (pMultiPlayer->field_78C_hud_palette_type != 7) ? 2 : 8;
+                    const s32 text_palette_type = (pMultiPlayer->field_78C_hud_palette_type != palette_types_enum::user_remaps_7) ? palette_types_enum::sprites_2 : palette_types_enum::font_remaps_8;
                     DrawText_5D7720(Buffer, score_end_xpos + 20, static_cast<u32>(ypos), word_703BAA, text_palette_type, pMultiPlayer->field_790_hud_palette - 1, 0, 0);
                 }
                 else

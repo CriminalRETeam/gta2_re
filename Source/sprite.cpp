@@ -1015,7 +1015,7 @@ void Sprite::ShowId_59EB30(f32& x, f32& y)
                 Fix16 ypos;
             ypos = Fix16(static_cast<s32>((y / static_cast<f32>(static_cast<u32>(window_height_706B50))) * 480.0f));
                 swprintf(tmpBuff_67BD9C, L"%d", pChar->field_7C_pPed->field_200_id);
-                s32 palette_type = 2;
+                s32 palette_type = palette_types_enum::sprites_2;
                 DrawText_5D8A10(tmpBuff_67BD9C,
                                 xpos * gViewCamera_676978->field_A8_ui_scale,
                                 ypos * gViewCamera_676978->field_A8_ui_scale,
@@ -1039,7 +1039,7 @@ void Sprite::ShowId_59EB30(f32& x, f32& y)
             Fix16 ypos;
             ypos = Fix16(static_cast<s32>((y / static_cast<f32>(static_cast<u32>(window_height_706B50))) * 480.0f));
             swprintf(tmpBuff_67BD9C, L"%d:%d", pObj->field_18_model, pObj->field_14_id);
-            s32 palette_type = 2;
+            s32 palette_type = palette_types_enum::sprites_2;
             DrawText_5D8A10(tmpBuff_67BD9C,
                             xpos * gViewCamera_676978->field_A8_ui_scale,
                             ypos * gViewCamera_676978->field_A8_ui_scale,
