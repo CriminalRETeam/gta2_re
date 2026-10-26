@@ -148,7 +148,7 @@ void force_link()
     jaw_20.field_14_patient_count = 1;
 
     CollisionSoundQueue collision_sound_queue;
-    collision_sound_queue.field_0_pSoundObj = 0;
+    collision_sound_queue.field_0_pSoundObj = NULL;
 
     GeneratorPool maccies;
     maccies.FinalizeAfterScriptLoad_4C1CD0();
@@ -157,10 +157,10 @@ void force_link()
     car_3c.field_20_instance_id = 5;
 
     CrusherPool snooky;
-    snooky.IsCarBeingCrushed_4887A0(0);
+    snooky.IsCarBeingCrushed_4887A0(NULL);
 
     NetUi network;
-    network.cb_FillSessionList_519D30(0, 0);
+    network.cb_FillSessionList_519D30(NULL, NULL);
 
     Light light;
     light.AddToGrid_4D6D70();
@@ -171,18 +171,18 @@ void force_link()
     Player lewin(1);
     u8 zero_u8 = 0;
     lewin.GetIdx_4881E0();
-    lewin.AddCarToHistory_5645B0(0);
-    lewin.PromoteCarInHistory_564610(0, 0);
-    lewin.RemoveCarFromHistory_564680(0);
-    lewin.SetKFCarWeapon_564710(0, 0);
+    lewin.AddCarToHistory_5645B0(NULL);
+    lewin.PromoteCarInHistory_564610(NULL, false);
+    lewin.RemoveCarFromHistory_564680(NULL);
+    lewin.SetKFCarWeapon_564710(NULL, 0);
     lewin.SetKFWeapon_564790(0);
     lewin.ClearKFWeapon_5647D0();
     lewin.GetCurrPlayerWeapon_5648F0();
-    lewin.SetWeapon_564910(0);
+    lewin.SetWeapon_564910(NULL);
     lewin.HasAnyAmmo_564940();
     lewin.AddWeaponWithAmmo_564960(0, 0);
     lewin.SelectNextOrPrevWeapon_5649D0(0, 0);
-    lewin.LoadCarWeapons_564AD0(0);
+    lewin.LoadCarWeapons_564AD0(NULL);
     lewin.ClearCarWeapons_564B60();
     lewin.CleanupEmptyAmmoWeapons_564B80();
     lewin.UnloadCarWeapons_564C00();
@@ -191,10 +191,10 @@ void force_link()
     lewin.ClearPowerUpsExceptJailCard_564CF0();
     lewin.CollectPowerUp_564D60(0);
     lewin.tick_down_powerups_565070();
-    lewin.RestorePowerUpsFromSave_5651F0(0);
+    lewin.RestorePowerUpsFromSave_5651F0(NULL);
     lewin.TeleportToDebugCam_565310();
     lewin.DebugWatchNearestCar_5653E0();
-    lewin.InitPlayerPed_565490(0);
+    lewin.InitPlayerPed_565490(NULL);
     lewin.SetInputs_565740(0);
     lewin.IncrementGangRespectFromDebugKeys_565770(0);
     lewin.IncreaseWantedLevelFromDebugKeys_565860();
@@ -202,9 +202,9 @@ void force_link()
     lewin.HandleKeyRelease_566380(0);
     lewin.CharacterControls_566520();
     lewin.ControlInputs_566820();
-    lewin.HandleControls_5668D0(0);
-    lewin.DoCarControlInputs_566C30(0);
-    lewin.DoPedControlInputs_566C80(0);
+    lewin.HandleControls_5668D0(NULL);
+    lewin.DoCarControlInputs_566C30(NULL);
+    lewin.DoPedControlInputs_566C80(NULL);
     lewin.ShowDebugInfo_566EE0(0);
     lewin.RespawnPlayer_5670B0();
     lewin.Wasted_567130();
@@ -213,17 +213,17 @@ void force_link()
     lewin.UpdateCurrentZones_568520();
     lewin.UpdateSoundListener_568630();
     lewin.HandleDebugZoom_568670();
-    lewin.UpdateCamera_5686D0(0);
+    lewin.UpdateCamera_5686D0(NULL);
     lewin.Disconnect_568730();
     lewin.Service_5687F0();
     lewin.UpdatePaused_569410();
     lewin.EndRemoteControl_569530();
     lewin.ResetAuxCamera_5695A0();
-    lewin.StartRemoteControl_569600(0);
-    lewin.WatchCar_5696D0(0);
+    lewin.StartRemoteControl_569600(NULL);
+    lewin.WatchCar_5696D0(NULL);
     lewin.GetPosU8_569840(zero_u8, zero_u8, zero_u8);
     lewin.GetPlayerCar_5698E0();
-    lewin.get_pos_569920(0, 0, 0);
+    lewin.get_pos_569920(NULL, NULL, NULL);
     lewin.ChangeLifeCountByAmount_5699F0(0);
     lewin.ColorScoreFromRemap_569A10();
     lewin.SetScoreTextColour_569C20();
@@ -238,8 +238,8 @@ void force_link()
     lewin.DisableEnterVehicles_56A030();
     lewin.EnableEnterVehicles_56A040();
     lewin.RestoreCarsFromSave_56A0F0();
-    lewin.CopyPlayerDataToSave_56A1A0(0);
-    lewin.UpdateGameFromSave_56A310(0);
+    lewin.CopyPlayerDataToSave_56A1A0(NULL);
+    lewin.UpdateGameFromSave_56A310(NULL);
     lewin.ApplyCheats_56A490();
     lewin.ClearInputs_56A6D0();
 
@@ -249,7 +249,7 @@ void force_link()
     camera.DecreaseElevation_435810();
     camera.ResetElevation_435830();
     camera.ClampTargetZ_435840();
-    camera.ApplyMovementDeltaFrom_435860(0);
+    camera.ApplyMovementDeltaFrom_435860(NULL);
     camera.MoveTarget_435D20(1, 1, 1, 1, 1, 1);
     camera.ResetCameraSmoothing_435DD0();
     camera.RefreshBoundaries_436110();
@@ -264,7 +264,7 @@ void force_link()
     cn.IsEmergencyOccupation_45B590();
 
     ScriptGosubStack miss2;
-    miss2.add_503160(0);
+    miss2.add_503160(NULL);
     miss2.remove_503180();
     miss2.remove_5031E0(0);
 
@@ -281,10 +281,10 @@ void force_link()
     input_recorder.AppendReplayHeader_4CDF70();
     input_recorder.LoadReplayHeader_4CE380(false);
     input_recorder.VerifyAttractFilesExist_4CE650();
-    input_recorder.GetNextAttrReplay_4CE6E0(0);
-    input_recorder.input_init_replay_4CE740(0);
-    input_recorder.input_init_live_4CE880(0);
-    input_recorder.replay_save_4CEA40(0);
+    input_recorder.GetNextAttrReplay_4CE6E0(NULL);
+    input_recorder.input_init_replay_4CE740(NULL);
+    input_recorder.input_init_live_4CE880(NULL);
+    input_recorder.replay_save_4CEA40(NULL);
     input_recorder.get_input_bits_4CEAC0();
     input_recorder.save_replay_inputs_4CED00(0, 0);
     input_recorder.DisplayInputBits_4CED90();
@@ -312,7 +312,7 @@ void force_link()
     FirefighterPool tango_54;
 
     CarChaseTaskTable car_chase_task_table;
-    car_chase_task_table.FreeEntry_474CC0(0);
+    car_chase_task_table.FreeEntry_474CC0(NULL);
 
     CollisionCounters collide_C;
 
@@ -2350,7 +2350,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
 
     if (bStartNetworkGame_7081F0)
     {
-        bDoFrontEnd_626B68 = 0;
+        bDoFrontEnd_626B68 = false;
         gRoot_sound_66B038.Set3DSound_40F160(gRegistry_6FF968.Sound_Setting_Exists_586A70("do_3d_sound"));
         gRegistry_6FF968.Clear_Or_Delete_Sound_Setting_586BF0("do_3d_sound", gRoot_sound_66B038.Get3DSound_40F180());
     }
@@ -2448,7 +2448,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
                                     default:
                                         state = 7;
                                         CleanUpInputAndOthers_4DA700();
-                                        bDoFrontEnd_626B68 = 1;
+                                        bDoFrontEnd_626B68 = true;
                                         break;
                                 }
                                 break; // go to the beginning
@@ -2468,7 +2468,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
 
                                         state = gGameSession_67E8E0.IsBonusStage_4C59A0() != 0 ? 6 : 11; // 11? prob 1
                                         CleanUpInputAndOthers_4DA700();
-                                        bDoFrontEnd_626B68 = 1;
+                                        bDoFrontEnd_626B68 = true;
                                         break;
 
                                     case GameExitType::GameOverRIP_3:
@@ -2477,7 +2477,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
                                         gPlyDat_6FEAC0->UpdateHiScores_56C010();
                                         state = gGameSession_67E8E0.IsBonusStage_4C59A0() != 0 ? 6 : 2;
                                         CleanUpInputAndOthers_4DA700();
-                                        bDoFrontEnd_626B68 = 1;
+                                        bDoFrontEnd_626B68 = true;
                                         break;
 
                                     case GameExitType::AreaCompleted_4:
@@ -2486,19 +2486,19 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
                                         gPlyDat_6FEAC0->UpdateHiScores_56C010();
                                         state = gGameSession_67E8E0.IsBonusStage_4C59A0() != 0 ? 6 : 3;
                                         CleanUpInputAndOthers_4DA700();
-                                        bDoFrontEnd_626B68 = 1;
+                                        bDoFrontEnd_626B68 = true;
                                         break;
 
                                     case GameExitType::MultiplayerExit_5:
                                         state = 7;
                                         CleanUpInputAndOthers_4DA700();
-                                        bDoFrontEnd_626B68 = 1;
+                                        bDoFrontEnd_626B68 = true;
                                         break;
 
                                     case GameExitType::ReplayExit_6:
                                         state = 0;
                                         CleanUpInputAndOthers_4DA700();
-                                        bDoFrontEnd_626B68 = 1;
+                                        bDoFrontEnd_626B68 = true;
                                         break;
 
                                     default:

@@ -1747,9 +1747,9 @@ bool Sprite::HitTestVerticalLine_5A0EF0(Fix16 x, Fix16 y1, Fix16 y2)
         ComputeScanlineIntersectionX_4F77D0(x, y1, y2, pBBox[3], pBBox[0]))
     {
         gCollisionTarget_679188.SetVerticalSegment_4BA280(x, y1, y2);
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 // https://decomp.me/scratch/ScgaC

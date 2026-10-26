@@ -133,7 +133,7 @@ void Explosion::EmitRandomDiagonalParticle_540A40()
                                                            0);
                 break;
             default:
-                pParticle = 0;
+                pParticle = NULL;
                 break;
         }
 

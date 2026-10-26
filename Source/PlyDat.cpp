@@ -183,7 +183,7 @@ bool HighScoreTable::InsertScore_56B550(const wchar_t* pFindStr, s32 findScore)
         if (static_cast<u32>(findScore) == field_0_score_table_line[i].field_14_score &&
             wcscmp(pFindStr, field_0_score_table_line[i].field_0_player_name) == 0)
         {
-            return 0;
+            return false;
         }
     }
 
@@ -201,9 +201,9 @@ bool HighScoreTable::InsertScore_56B550(const wchar_t* pFindStr, s32 findScore)
         wcsncpy(field_0_score_table_line[startIdx].field_0_player_name, pFindStr, 9u);
         field_0_score_table_line[startIdx].field_14_score = findScore;
 
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x56B610)
@@ -363,10 +363,10 @@ bool PlyDat::PlySlotDatExists_56B940(s32 slot_idx)
     long hFind = _findfirst(FileName, &findData);
     if (hFind == -1)
     {
-        return 0;
+        return false;
     }
     _findclose(hFind);
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x56B990)
@@ -508,10 +508,10 @@ bool PlyDat::HiScoreHscExists_56BCA0()
     long hFind = _findfirst(FileName, &findData);
     if (hFind == -1)
     {
-        return 0;
+        return false;
     }
     _findclose(hFind);
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x56BCF0)
@@ -744,6 +744,6 @@ void PlyDat::Destroy_56C340()
     if (gPlyDat_6FEAC0)
     {
         delete gPlyDat_6FEAC0;
-        gPlyDat_6FEAC0 = 0;
+        gPlyDat_6FEAC0 = NULL;
     }
 }

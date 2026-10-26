@@ -95,7 +95,7 @@ class DoorDataPool
     // 9.6f 0x44C7F0
     ~DoorDataPool()
     {
-        field_0_pool.field_0_pHead = 0;
+        field_0_pool.field_0_pHead = NULL;
     }
 
     PoolBasic<DoorData, 44> field_0_pool;

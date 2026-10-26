@@ -69,7 +69,7 @@ bool InputDevices::acquire_input_device_498730(LPDIRECTINPUTDEVICEA pGamePadDevi
 
     gDeviceDataCount_67B624 = -1;
 
-    const HRESULT hr = pGamePadDevice->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), 0, &gDeviceDataCount_67B624, DIGDD_PEEK);
+    const HRESULT hr = pGamePadDevice->GetDeviceData(sizeof(DIDEVICEOBJECTDATA), NULL, &gDeviceDataCount_67B624, DIGDD_PEEK);
     if (hr == DIERR_INPUTLOST || hr == DIERR_NOTACQUIRED)
     {
         return SUCCEEDED(pGamePadDevice->Acquire()) ? true : false;

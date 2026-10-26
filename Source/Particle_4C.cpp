@@ -503,7 +503,7 @@ bool Particle_4C::UpdateObjectBeamLink_state_38_538AC0()
             field_30_pOwnSprite->SetNoLighting_4337F0();
             field_30_pOwnSprite->set_xyz_lazy_420600(dst.x, dst.y, field_30_pOwnSprite->field_1C_zpos);
             gSpriteGrid_3_679210->AddToSingleBucket_477AE0(field_30_pOwnSprite);
-            return 0;
+            return false;
         }
     }
     return true;

@@ -123,7 +123,7 @@ bool Game::UpdateExitTimer_4B8C20()
 {
     if (field_28_exit_timer == 0)
     {
-        return 1;
+        return true;
     }
 
     if (field_28_exit_timer > 0)
@@ -131,7 +131,7 @@ bool Game::UpdateExitTimer_4B8C20()
         field_28_exit_timer--;
     }
 
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x4B8C40)
@@ -694,10 +694,10 @@ bool Game::IsSpriteInAnyPlayerBounds_4B97E0(Sprite* pSprite, Fix16 margin) const
     {
         if (IsSpriteInPlayerBounds_4B9950(pSprite, i, margin))
         {
-            return 1;
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x4B9830)
@@ -707,10 +707,10 @@ bool Game::IsSpriteInBoundsOrFollowedByAnyPlayer_4B9830(Sprite* pSprite, Fix16 m
     {
         if (IsSpriteInPlayerBounds_4B9950(pSprite, i, margin) || IsSpriteCameraSubjectForPlayer_4B9A10(pSprite, i))
         {
-            return 1;
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x4B9890)
@@ -720,10 +720,10 @@ bool Game::IsSpriteInAnyPlayerView_4B9890(Sprite* pSprite, s32 wide_view) const
     {
         if (IsSpriteInPlayerView_4B98E0(pSprite, i, wide_view))
         {
-            return 1;
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x4B98E0)
@@ -747,20 +747,20 @@ bool Game::IsSpriteInPlayerBounds_4B9950(Sprite* pSprite, u8 player_idx, Fix16 m
     Player* const& pPlayer = this->field_4_players[player_idx]; // a reference: 9.6f keeps the slot address too
     if (!pPlayer->field_8E_in_use)
     {
-        return 0;
+        return false;
     }
 
     if (pPlayer->field_90_game_camera.IsSpriteInBounds_45AEA0(pSprite, margin))
     {
-        return 1;
+        return true;
     }
 
     if (pPlayer->field_2D0_aux_cam_active && pPlayer->field_208_aux_game_camera.IsSpriteInBounds_45AEA0(pSprite, margin))
     {
-        return 1;
+        return true;
     }
 
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x4B9A10)
@@ -812,15 +812,15 @@ bool Game::IsRectVisibleToAnyPlayer_4B9B10(Fix16_Rect* pBounds)
         {
             if (pCurPlayer->field_90_game_camera.IsRectInBounds_45AF40(pBounds))
             {
-                return 1;
+                return true;
             }
             if (pCurPlayer->field_2D0_aux_cam_active && pCurPlayer->field_208_aux_game_camera.IsRectInBounds_45AF40(pBounds))
             {
-                return 1;
+                return true;
             }
         }
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x4B9BC0)
@@ -830,7 +830,7 @@ Camera* Game::IteratePlayerCamera_4B9BC0()
     {
         if (field_4_players[field_21_camera_iter_idx]->field_8E_in_use)
         {
-            field_22_aux_cam_iterated = 0;
+            field_22_aux_cam_iterated = false;
             return &field_4_players[field_21_camera_iter_idx]->field_90_game_camera;
         }
     }
@@ -845,11 +845,11 @@ bool Game::IsCarInAnyPlayerHistory_4B9C10(Car* pCar)
     {
         if (pPlayer->PromoteCarInHistory_564610(pCar, true))
         {
-            return 1;
+            return true;
         }
         pPlayer = IterateNextPlayer_4B9D10();
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x4B9C50)
@@ -861,15 +861,15 @@ Camera* Game::IterateNextPlayerCamera_4B9C50()
         {
             if (field_4_players[field_21_camera_iter_idx]->field_8E_in_use)
             {
-                field_22_aux_cam_iterated = 0;
+                field_22_aux_cam_iterated = false;
                 return &field_4_players[field_21_camera_iter_idx]->field_90_game_camera;
             }
         }
-        return 0;
+        return NULL;
     }
     else
     {
-        field_22_aux_cam_iterated = 1;
+        field_22_aux_cam_iterated = true;
         return &field_4_players[field_21_camera_iter_idx]->field_208_aux_game_camera;
     }
 }
@@ -884,7 +884,7 @@ Player* Game::IterateFirstPlayer_4B9CD0()
             return field_4_players[field_20_player_iter_idx];
         }
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x4B9D10)
@@ -897,7 +897,7 @@ Player* Game::IterateNextPlayer_4B9D10()
             return field_4_players[field_20_player_iter_idx];
         }
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x4B9D60)
@@ -934,7 +934,7 @@ Game::Game(u8 max_players, s8 player_idx)
 
     for (s32 ii = 0; ii < GTA2_COUNTOF(field_4_players); ii++)
     {
-        field_4_players[ii] = 0;
+        field_4_players[ii] = NULL;
     }
 
     field_23_num_players = max_players;
@@ -1247,12 +1247,12 @@ Game::Game(u8 max_players, s8 player_idx)
     }
 
     field_21_camera_iter_idx = 0;
-    field_22_aux_cam_iterated = 0;
+    field_22_aux_cam_iterated = false;
     field_0_game_state = GameState::Running_1;
     gbRngRemapTableDone_679C0A = 0;
     field_20_player_iter_idx = 0;
     field_28_exit_timer = -1;
-    field_30_fast_forward = 0;
+    field_30_fast_forward = false;
     field_2C_game_exit_type = GameExitType::None;
     field_34_network_frame_ms = 0;
     if (!bSkip_audio_67D6BE)
@@ -1346,6 +1346,6 @@ Game::~Game()
         GTA2_DELETE_AND_NULL(gKanjiFont_6F5168);
     }
 
-    field_1C_draw_player = 0;
-    field_38_local_player = 0;
+    field_1C_draw_player = NULL;
+    field_38_local_player = NULL;
 }

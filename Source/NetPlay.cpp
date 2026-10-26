@@ -303,7 +303,7 @@ s32 NetPlay::DirectPlayCreate_51DED0()
     this->field_30_enumed_connections.field_C_modem_count = 0;
 
     IDirectPlay* pDirectPlay;
-    if (DirectPlayCreate(&guid_DPSPGUID_MODEM, &pDirectPlay, 0) < 0)
+    if (DirectPlayCreate(&guid_DPSPGUID_MODEM, &pDirectPlay, NULL) < 0)
     {
         return 0;
     }
@@ -322,7 +322,7 @@ s32 NetPlay::DirectPlayCreate_51DED0()
     }
     {
         unsigned long playerAddressLen = 0;
-        HRESULT result = pDirectPlay3->GetPlayerAddress(0, 0, &playerAddressLen);
+        HRESULT result = pDirectPlay3->GetPlayerAddress(0, NULL, &playerAddressLen);
         if (result == DPERR_UNAVAILABLE)
         {
             pDirectPlay3->Release();
@@ -589,7 +589,7 @@ s32 NetPlay::EnumSessions_51E650()
         hr = field_5E4_pDPlay3->EnumSessions(&desc, 0, reinterpret_cast<LPDPENUMSESSIONSCALLBACK2>(NetPlay::EnumSessions_cb_51EAE0), this, 0);
         while (hr == DPERR_CONNECTING)
         {
-            if (PeekMessageA(&msg, 0, 0, 0, PM_REMOVE))
+            if (PeekMessageA(&msg, NULL, 0, 0, PM_REMOVE))
             {
                 TranslateMessage(&msg);
                 DispatchMessageA(&msg);
@@ -1646,7 +1646,7 @@ MATCH_FUNC(0x520ca0)
 s32 NetPlay::AddEnumeratedGroupPlayer_520CA0(s32 player_id, DPNAME* pName)
 {
     Network_Buffer data;
-    data.field_0_data = 0;
+    data.field_0_data = NULL;
     data.field_4_len = 0;
     return AddPlayer_51E9C0(&data, player_id, *pName, &field_758_n2) != 0xEEEEEEEE;
 }
@@ -1887,7 +1887,7 @@ void NetPlay::DisableJoining_521220()
 
     memset(&pStru, 0, sizeof(pStru));
     pStru.field_8_seq = 0;
-    pStru.field_D_data = 0;
+    pStru.field_D_data = NULL;
     pStru.field_11_len = 0;
     pStru.header.field_0_type = 1;
     pStru.header.field_4_sub_type = packet_subtype::DisableJoining_4;
@@ -2144,7 +2144,7 @@ bool NetPlay::ReceiveGameMessage_521890(Network_Buffer* pOut, s32* pPlayerIdx, u
     s32 dataLen;
 
     bCheckBuffered = 1;
-    bGotMessage = 0;
+    bGotMessage = false;
     bool bTimedOut = false;
     DWORD startTime = timeGetTime();
 
@@ -2166,7 +2166,7 @@ bool NetPlay::ReceiveGameMessage_521890(Network_Buffer* pOut, s32* pPlayerIdx, u
         {
             // The oldest buffered (out of order) packet
             *packet_subtype = packet_subtype::PlayerInputs_3;
-            bGotMessage = 1;
+            bGotMessage = true;
 
             // diff: received player tick - our (buffered?) current stored tick for the same player
             s32 diff = SeqDiff(receivedTick, field_758_n2.field_8_packet_game_tick[*pPlayerIdx]);
@@ -2174,7 +2174,7 @@ bool NetPlay::ReceiveGameMessage_521890(Network_Buffer* pOut, s32* pPlayerIdx, u
             if (diff < 0)
             {
                 // we received an old packet, so ignore it and clear its packet slot
-                bGotMessage = 0;
+                bGotMessage = false;
                 Remove_521870(slot);
             }
             else if (diff <= 0 && diffLocal < 0)  // diff == 0 && diffLocal < 0
@@ -2187,7 +2187,7 @@ bool NetPlay::ReceiveGameMessage_521890(Network_Buffer* pOut, s32* pPlayerIdx, u
             else
             {
                 // Not the next one yet: read new packets until it is
-                bGotMessage = 0;
+                bGotMessage = false;
                 bCheckBuffered = 0;
             }
         }
@@ -2201,7 +2201,7 @@ bool NetPlay::ReceiveGameMessage_521890(Network_Buffer* pOut, s32* pPlayerIdx, u
                 *pPlayerIdx = IndexOf_520E30(senderId, pN2);
                 if (*pPlayerIdx != 0xEEEEEEEE)
                 {
-                    bGotMessage = 1;
+                    bGotMessage = true;
                     pOut->field_4_len = reinterpret_cast<u8*>(pData)[4];
                     pOut->field_0_data = reinterpret_cast<u8*>(pData) + 5;
                     if (*packet_subtype == packet_subtype::PlayerInputs_3)
@@ -2211,7 +2211,7 @@ bool NetPlay::ReceiveGameMessage_521890(Network_Buffer* pOut, s32* pPlayerIdx, u
                         if (diff < 0)
                         {
                             // we received an old packet, so ignore it
-                            bGotMessage = 0;
+                            bGotMessage = false;
                         }
                         else if (diff <= 0 && diffLocal < 0) // diff == 0 && diffLocal < 0
                         {
@@ -2221,7 +2221,7 @@ bool NetPlay::ReceiveGameMessage_521890(Network_Buffer* pOut, s32* pPlayerIdx, u
                         else
                         {
                             // Not the next one in sequence yet: buffer it
-                            bGotMessage = 0;
+                            bGotMessage = false;
                             Add_5216E0(pOut, *pPlayerIdx, reinterpret_cast<u8*>(pData)[1]);
                         }
                     }

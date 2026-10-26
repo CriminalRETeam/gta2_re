@@ -75,7 +75,7 @@ bool Bink::TickFrame_513240()
     else
     {
         // Software / DirectDraw path: copy into the locked BinkBuffer, then blit.
-        if (BinkBufferLock(hbinkbuffer) != 0)
+        if (BinkBufferLock(hbinkbuffer) != NULL)
         {
             BinkCopyToBuffer(hbink,
                              hbinkbuffer->pixels,

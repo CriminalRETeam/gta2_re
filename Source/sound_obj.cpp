@@ -6660,8 +6660,8 @@ void sound_obj::ProcessType7_Weapon_42A500(s32 idx)
                 this->field_30_sQueueSample.field_0_EntityIndex = idx;
                 this->field_30_sQueueSample.field_5C_pReleaseSource = NULL;
                 const bool bHasSolidAbove = gMap_0x370_6F6268->CheckColumnHasSolidAbove_4E7FC0(field_30_sQueueSample.field_8_obj.field_0_x,
-                                                                                               field_30_sQueueSample.field_8_obj.field_4_y,
-                                                                                               field_30_sQueueSample.field_8_obj.field_8_z);
+                                                                                    field_30_sQueueSample.field_8_obj.field_4_y,
+                                                                                    field_30_sQueueSample.field_8_obj.field_8_z);
                 this->field_28_dist_squared = ComputeEmitterDistanceSquared_4190B0();
                 this->field_2C_distCalculated = false;
                 if (CalculateDistance_419020((Fix16(20) / Fix16(2)) * (Fix16(20) / Fix16(2))))

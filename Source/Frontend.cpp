@@ -84,7 +84,7 @@ MATCH_FUNC(0x4AE010)
 LPCSTR __stdcall FreeLoader::GetRegDword_4AE010(HKEY hKey, LPCSTR lpValueName, LPCSTR default_value)
 {
     DWORD Type = 4;
-    if (!RegQueryValueExA(hKey, lpValueName, 0, &Type, reinterpret_cast<LPBYTE>(&lpValueName), &Type) == 0)
+    if (!RegQueryValueExA(hKey, lpValueName, NULL, &Type, reinterpret_cast<LPBYTE>(&lpValueName), &Type) == 0)
     {
         return default_value;
     }
@@ -113,7 +113,7 @@ void __cdecl FreeLoader::MessageBox_4AE170(UINT uType, LPCSTR lpCaption, LPCSTR 
     wvsprintfA(Buffer, lpFormat, args);
     lstrcatA(Buffer, "\r\n");
     OutputDebugStringA(Buffer);
-    MessageBoxA(0, Buffer, lpCaption, uType);
+    MessageBoxA(NULL, Buffer, lpCaption, uType);
 }
 
 MATCH_FUNC(0x4AE1F0)
@@ -125,7 +125,7 @@ EXPORT bool __stdcall FreeLoader::CheckCityInstalled_4AE1F0(u8 city_idx)
         PostMessageA(gHwnd_707F04, WM_ACTIVATE, 0, 0);
         tagMSG Msg;
 
-        while (PeekMessageA(&Msg, 0, 0, 0, 1u))
+        while (PeekMessageA(&Msg, NULL, 0, 0, 1u))
         {
             TranslateMessage(&Msg);
             DispatchMessageA(&Msg);
@@ -134,16 +134,16 @@ EXPORT bool __stdcall FreeLoader::CheckCityInstalled_4AE1F0(u8 city_idx)
         HANDLE hMutex = OpenMutexA(0x1F0001u, 0, "WEBL_COOP_MUTEX");
         if (!hMutex)
         {
-            ShellExecuteA(0, 0, "WebLaunch.exe", 0, gWorkingDir_707F64, 1);
+            ShellExecuteA(NULL, NULL, "WebLaunch.exe", NULL, gWorkingDir_707F64, 1);
         }
         else
         {
             CloseHandle(hMutex);
         }
 
-        return 0;
+        return false;
     }
-    return 1;
+    return true;
 }
 
 DIOBJECTDATAFORMAT gKeyboardObjectDataFormats_5E9110[256] = {
@@ -1570,11 +1570,11 @@ bool Frontend::intro_bik_exists_4B5FF0()
 
     if (hFind == -1)
     {
-        return 0;
+        return false;
     }
 
     _findclose(hFind);
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x4AEC00)
@@ -1851,7 +1851,7 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
                         --bonus_scan_idx;
                     }
                     LoadMapFilenames_4B4D00(stage_main_idx, stage_bonus_idx);
-                    gGameSession_67E8E0.SetStartedFromPlayBonusMenu_4C5AD0(0);
+                    gGameSession_67E8E0.SetStartedFromPlayBonusMenu_4C5AD0(false);
                     field_EE08_menu_screen = RedBar_16;
                     field_110_state = FrontendState::Booting_Map_2;
                     break;
@@ -1920,7 +1920,7 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
                     if (FreeLoader::CheckCityInstalled_4AE1F0(stage_main_idx))
                     {
                         LoadMapFilenames_4B4D00(stage_main_idx, stage_bonus_idx);
-                        gGameSession_67E8E0.SetStartedFromPlayBonusMenu_4C5AD0(1);
+                        gGameSession_67E8E0.SetStartedFromPlayBonusMenu_4C5AD0(true);
                         field_EE08_menu_screen = RedBar_16;
                         field_110_state = FrontendState::Booting_Map_2;
                     }
@@ -2317,7 +2317,7 @@ static __forceinline bool CheckCdFile()
                     {
                         if (!crt::fclose(hFile))
                         {
-                            bool ok = crt::fopen(path, "wb") == 0;
+                            bool ok = crt::fopen(path, "wb") == NULL;
                             return ok;
                         }
                     }
@@ -2793,7 +2793,7 @@ void Frontend::ContinueToNextStage_4B8020()
         }
 
         LoadMapFilenames_4B4D00(main_stage_idx, substage_idx);
-        gGameSession_67E8E0.SetStartedFromPlayBonusMenu_4C5AD0(0);
+        gGameSession_67E8E0.SetStartedFromPlayBonusMenu_4C5AD0(false);
         field_EE08_menu_screen = RedBar_16;
         field_110_state = FrontendState::Booting_Map_2;
     }
@@ -3424,7 +3424,7 @@ void Frontend::FreeKeyBoardDevice_4AFD00()
     {
         field_4_pKeyboardDevice->Unacquire();
         field_4_pKeyboardDevice->Release();
-        field_4_pKeyboardDevice = 0;
+        field_4_pKeyboardDevice = NULL;
     }
 }
 
@@ -3444,24 +3444,24 @@ bool Frontend::KeyBoard_GetKeyStates_4AFDD0()
         {
             if (FAILED(field_4_pKeyboardDevice->Acquire()))
             {
-                return 0;
+                return false;
             }
 
             field_4_pKeyboardDevice->GetDeviceState(256, field_8_keys);
         }
-        return 0;
+        return false;
     }
 
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x4AFBE0)
 void Frontend::InitKeyBoardDevice_4AFBE0()
 {
     field_0_pDInput = gpDInput_67B804;
-    field_4_pKeyboardDevice = 0;
+    field_4_pKeyboardDevice = NULL;
 
-    if (field_0_pDInput->CreateDevice(GUID_SysKeyboard, &field_4_pKeyboardDevice, 0) < 0)
+    if (field_0_pDInput->CreateDevice(GUID_SysKeyboard, &field_4_pKeyboardDevice, NULL) < 0)
     {
         FatalError_4A38C0(Gta2Error::DirectInputCreateFail, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2469);
     }
@@ -4371,11 +4371,11 @@ bool Frontend::PlySlotSvgExists_4B5370(u8 idx)
     long hFind = _findfirst(FileName, &findData);
     if (hFind == -1)
     {
-        return 0;
+        return false;
     }
 
     _findclose(hFind);
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x4B77B0)

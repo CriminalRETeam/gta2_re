@@ -815,7 +815,7 @@ void Weapon::TraceBeamToHitTarget_5DE4F0()
                 {
                     case sprite_types_enum::car_2:
                         field_24_pPed->field_170_selected_weapon->SetTargetHit_433810(1);
-                        field_24_pPed->field_198_hit_target_ped = 0;
+                        field_24_pPed->field_198_hit_target_ped = NULL;
                         return;
 
                     case sprite_types_enum::ped_3:

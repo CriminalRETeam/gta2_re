@@ -464,7 +464,7 @@ DWORD Registry::Get_Int_Setting_5874E0(HKEY hKey, const char_type* lpValueName)
     if (RegQueryValueExA(hKey, lpValueName, NULL, reinterpret_cast<LPDWORD>(&hKey), reinterpret_cast<LPBYTE>(&lpValueName), &cbData) != ERROR_SUCCESS)
     {
         // Zeroing the value instead of returning 0 keeps VC6 from going branchless
-        lpValueName = 0;
+        lpValueName = NULL;
     }
 
     return reinterpret_cast<DWORD>(lpValueName);
@@ -509,7 +509,7 @@ bool Registry::Network_Setting_Exists_587620(const char_type* lpValueName)
         cbData = sizeof(DWORD);
         if (RegQueryValueExA(hKey, lpValueName, NULL, NULL, reinterpret_cast<BYTE*>(&Data), &cbData) == ERROR_SUCCESS)
         {
-            ret = 1;
+            ret = true;
         }
     }
 

@@ -162,7 +162,7 @@ void PoliceCrew::SpawnPoliceInCar_570BF0()
     {
         case cop_level_enum::none_0:
         case cop_level_enum::police_1:
-            pCopLeader->field_170_selected_weapon = 0;
+            pCopLeader->field_170_selected_weapon = NULL;
             pCopLeader->GiveWeapon_46F650(weapon_type::pistol);
             pCopLeader->set_health_4039A0(50);
             pCopLeader->field_1F0_max_speed = kFpOneSixteenth_6FEB0C * kFpPoint8_6FEB68;
@@ -191,7 +191,7 @@ void PoliceCrew::SpawnPoliceInCar_570BF0()
     switch (field_14_pPursuitTarget->field_4_wanted_level)
     {
         case cop_level_enum::police_1:
-            pCopSupporter->field_170_selected_weapon = 0;
+            pCopSupporter->field_170_selected_weapon = NULL;
             pCopSupporter->GiveWeapon_46F650(weapon_type::pistol);
             pCopSupporter->field_216_health = 50;
             pCopSupporter->field_1F0_max_speed = kFpOneSixteenth_6FEB0C * kFpPoint8_6FEB68;
@@ -2613,7 +2613,7 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
         zpos = Fix16(z);
         field_A0_rect->SetRect_41E350(x_left - kFpHalf_6FEBF4, x_right + kFpHalf_6FEBF4, y_top, y_bottom);
         field_A0_rect->SetHiLowZ_41E370(zpos - kFpOne_6FECEC, zpos + kFpOne_6FECEC);
-        if (gSpriteGrid_1_679208->CheckRectForCollisions_477F60(field_A0_rect, 0, sprite_types_enum::none_0, 0))
+        if (gSpriteGrid_1_679208->CheckRectForCollisions_477F60(field_A0_rect, 0, sprite_types_enum::none_0, NULL))
         {
             return false;
         }
@@ -2928,7 +2928,7 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
         zpos = Fix16(z);
         field_A0_rect->SetRect_41E350(x_left, x_right, y_top - kFpHalf_6FEBF4, y_bottom + kFpHalf_6FEBF4);
         field_A0_rect->SetHiLowZ_41E370(zpos - kFpOne_6FECEC, zpos + kFpOne_6FECEC);
-        if (gSpriteGrid_1_679208->CheckRectForCollisions_477F60(field_A0_rect, 0, sprite_types_enum::none_0, 0))
+        if (gSpriteGrid_1_679208->CheckRectForCollisions_477F60(field_A0_rect, 0, sprite_types_enum::none_0, NULL))
         {
             return false;
         }
