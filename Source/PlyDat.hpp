@@ -24,8 +24,8 @@ struct PlySlot
     EXPORT ~PlySlot();
 
     EXPORT void ResetPlayerSlot_56B630();
-    EXPORT s32 GetTotalLatestScore_56B680();
-    EXPORT s32 GetTotalBestScore_56B6B0();
+    EXPORT s32 GetTotalLatestScore_56B680() const;
+    EXPORT s32 GetTotalBestScore_56B6B0() const;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(PlySlot, 0xA4);
 

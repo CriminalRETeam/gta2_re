@@ -145,7 +145,6 @@ DEFINE_GLOBAL_ARRAY_INIT(ScoreTableLine, gDefaultStageHiScores_6243A0, 120, 0x62
     {L"WILLIAM"  COMMA  5000 } COMMA
 );
 
-// TODO
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
 
 
@@ -239,7 +238,7 @@ void PlySlot::ResetPlayerSlot_56B630()
 }
 
 MATCH_FUNC(0x56B680)
-s32 PlySlot::GetTotalLatestScore_56B680()
+s32 PlySlot::GetTotalLatestScore_56B680() const
 {
     s32 result = 0;
 
@@ -254,7 +253,7 @@ s32 PlySlot::GetTotalLatestScore_56B680()
 }
 
 MATCH_FUNC(0x56B6B0)
-s32 PlySlot::GetTotalBestScore_56B6B0()
+s32 PlySlot::GetTotalBestScore_56B6B0() const
 {
     s32 result = 0;
 
