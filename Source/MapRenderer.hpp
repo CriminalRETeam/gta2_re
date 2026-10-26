@@ -103,7 +103,7 @@ class MapRenderer
     EXPORT void DrawPartialBlocks_4F6580();
     EXPORT void DrawGradientSlope_4F6630();
     EXPORT void RenderFlatBlock_4F66C0();
-    EXPORT void RenderBlockAt_4F6880(s32& pXCoord, s32& pYCoord);
+    EXPORT void RenderBlockAt_4F6880(s32& xpos, s32& ypos);
     EXPORT void ClearDrawnTileCount_4F6A10();
     EXPORT void Draw_4F6A20();
 
@@ -117,7 +117,6 @@ class MapRenderer
 
     inline u8 GetColour_46B5E0(s32 light_level)
     {
-        //u8 diffuseColour;
         switch (light_level)
         {
             case 0u:
@@ -136,7 +135,6 @@ class MapRenderer
                 return 0;
                 break;
         }
-        //return diffuseColour;
     }
 
     inline void AddToDrawList_46BB90(s32& x, s32& y)
@@ -187,9 +185,9 @@ class MapRenderer
 
 EXPORT void __stdcall set_vert_xyz_relative_to_cam_4EAD90(Fix16 xCoord, Fix16 yCoord, Fix16 z_val, Vert* pVerts);
 
-EXPORT void __stdcall draw_4F3FB0(s32 arg);
+EXPORT void __stdcall draw_4F3FB0(s32 uv_flags);
 
-EXPORT void __stdcall Set_UV_4F4190(Fix16& edge01_frac, Fix16& edge03_frac, const u32& pVertIdx);
+EXPORT void __stdcall Set_UV_4F4190(Fix16& edge01_frac, Fix16& edge03_frac, const u32& vert_idx);
 
 EXTERN_GLOBAL(MapRenderer*, gpMapRenderer_6F66E4);
 
