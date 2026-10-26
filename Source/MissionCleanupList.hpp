@@ -49,7 +49,7 @@ class MissionCleanupList
 
     MissionCleanupEntry field_0_entries[50];
 
-    char_type field_258_count;
+    u8 field_258_count;
     char_type field_259_unused;
     char_type field_25A_unused;
     char_type field_25B_unused;
