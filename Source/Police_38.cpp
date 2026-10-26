@@ -43,12 +43,12 @@ void PoliceCrew::Init_5709C0()
     field_18_unused = 0;
     field_1C_used = 0;
     field_1A_unused = 0;
-    field_10_subObj = 0;
+    field_10_subObj = NULL;
     field_24_state = police_crew_state::none_0;
     field_28_use_car = false;
     field_8_criminal_distance = kFpZero_6FECE8;
     field_C_unused = kFpZero_6FECE8;
-    field_14_pPursuitTarget = 0;
+    field_14_pPursuitTarget = NULL;
     field_1A_unused = 0;
     field_29_bCountedInPoliceCount = false;
     field_2A_unused = 0;
@@ -62,7 +62,6 @@ void PoliceCrew::AddToPursuit_570A10()
 {
     if (field_14_pPursuitTarget->field_75_num_crews < 6)
     {
-        // check if it's already active
         for (u8 i = 0; i < 6; i++)
         {
             if (field_14_pPursuitTarget->field_20_crews[i] == this)
@@ -70,7 +69,6 @@ void PoliceCrew::AddToPursuit_570A10()
                 return;
             }
         }
-        // if not found on the list, then
         field_14_pPursuitTarget->field_20_crews[field_14_pPursuitTarget->field_75_num_crews] = this;
         ++field_14_pPursuitTarget->field_75_num_crews;
         switch (field_10_subObj->field_20_crew_type)
@@ -101,8 +99,8 @@ void PoliceCrew::RemoveFromPursuit_570AB0()
         && field_24_state != police_crew_state::shutdown_6))
     {
         u8 last_idx = field_14_pPursuitTarget->field_75_num_crews - 1;
-        PoliceCrew* pPolice38_last = field_14_pPursuitTarget->field_20_crews[last_idx];
-        if (pPolice38_last == this)
+        PoliceCrew* pLastCrew = field_14_pPursuitTarget->field_20_crews[last_idx];
+        if (pLastCrew == this)
         {
             field_14_pPursuitTarget->field_20_crews[last_idx] = NULL;
         }
@@ -112,7 +110,7 @@ void PoliceCrew::RemoveFromPursuit_570AB0()
             {
                 if (field_14_pPursuitTarget->field_20_crews[i] == this)
                 {
-                    field_14_pPursuitTarget->field_20_crews[i] = pPolice38_last;
+                    field_14_pPursuitTarget->field_20_crews[i] = pLastCrew;
                     field_14_pPursuitTarget->field_20_crews[last_idx] = NULL;
                     break;
                 }
@@ -442,8 +440,8 @@ void PoliceCrew::TryDespawnFinishedCrew_571540()
 MATCH_FUNC(0x571a30)
 void PoliceCrew::TryDespawnInCarCrew_571A30()
 {
-    Car* pPlayerCar = gCurrentCrewPed_6FEDDC->field_16C_car;
-    if (pPlayerCar && gCurrentCrewPed_6FEDDC == pPlayerCar->field_54_driver)
+    Car* pCrewPedCar = gCurrentCrewPed_6FEDDC->field_16C_car;
+    if (pCrewPedCar && gCurrentCrewPed_6FEDDC == pCrewPedCar->field_54_driver)
     {
         PedGroup* pGroup = field_10_subObj->field_8_group;
         if (pGroup)
@@ -472,7 +470,7 @@ void PoliceCrew::TryDespawnInCarCrew_571A30()
             }
             else
             {
-                u8 bAllReady = 1;
+                bool bAllReady = true;
                 field_10_subObj->field_0_car->HaltAIDriving_43AF60();
 
                 PedGroup* pGroup2 = field_10_subObj->field_8_group;
@@ -481,7 +479,7 @@ void PoliceCrew::TryDespawnInCarCrew_571A30()
                 {
                     if (pMember->field_168_game_object && pMember->GetOffscreenCounter_4039F0() < 10)
                     {
-                        bAllReady = 0;
+                        bAllReady = false;
                     }
                 }
 
@@ -645,7 +643,7 @@ bool PoliceCrew::CanTrackCriminal_572210()
 MATCH_FUNC(0x572340)
 void PoliceCrew::State3_AlertedSearch_572340()
 {
-    u8 bSpawned = true;
+    bool bSpawned = true;
     u8 idx = 0;
     byte_6FEB48 = 1;
 
@@ -812,7 +810,7 @@ void PoliceCrew::State3_AlertedSearch_572340()
                     }
                     else
                     {
-                        pPed = 0;
+                        pPed = NULL;
                     }
                     gCurrentCrewPed_6FEDDC = pPed;
                 }
@@ -847,8 +845,8 @@ static inline Fix16 MaxAbsDistance_572920(Fix16& x1, Fix16& y1, Fix16& x2, Fix16
 MATCH_FUNC(0x572920)
 void PoliceCrew::State5_PursueOrChase_572920()
 {
-    u8 bSpawned = true;
-    u8 bChaseOnFoot = false;
+    bool bSpawned = true;
+    bool bChaseOnFoot = false;
     u8 idx = 0;
 
     if (!field_14_pPursuitTarget->field_0_criminal_ped)
@@ -1108,7 +1106,7 @@ void PoliceCrew::State5_PursueOrChase_572920()
 
                             if (field_10_subObj->field_24_phase == crew_phase::in_car_1)
                             {
-                                u8 bEnterCar = false;
+                                bool bEnterCar = false;
                                 if (field_8_criminal_distance > kFpEight_6FED48)
                                 {
                                     bEnterCar = true;
@@ -1234,7 +1232,7 @@ void PoliceCrew::State5_PursueOrChase_572920()
             }
             else
             {
-                gCurrentCrewPed_6FEDDC = 0;
+                gCurrentCrewPed_6FEDDC = NULL;
             }
             idx++;
         }
@@ -1260,7 +1258,7 @@ void PoliceCrew::State6_ShutDown_574720()
         if (field_10_subObj->field_0_car->field_60_pChaseTask)
         {
             gCarChaseTaskTable_678E30->FreeEntry_474CC0(field_10_subObj->field_0_car->field_60_pChaseTask);
-            field_10_subObj->field_0_car->field_60_pChaseTask = 0;
+            field_10_subObj->field_0_car->field_60_pChaseTask = NULL;
         }
         if (field_10_subObj->field_0_car->HasEmergencyLights_414F20())
         {
@@ -1422,7 +1420,7 @@ void PoliceCrew::State6_ShutDown_574720()
                     {
                         gCurrentCrewPed_6FEDDC = NULL;
                     }
-                } // end for loop
+                }
             }
         }
     }
@@ -1481,7 +1479,7 @@ void PoliceCrew::State1_Patrol_574F10()
                 CarAI* pAI = pCar->field_5C_AI;
                 if (pAI)
                 {
-                    char route_idx = pAI->field_28_route_idx;
+                    char_type route_idx = pAI->field_28_route_idx;
                     if (route_idx > 0)
                     {
                         gRouteFinder_6FFDC8->CancelRoute_589930(route_idx);
@@ -1527,7 +1525,7 @@ void PoliceCrew::State1_Patrol_574F10()
                             if (pChaseTask)
                             {
                                 gCarChaseTaskTable_678E30->FreeEntry_474CC0(pChaseTask);
-                                field_10_subObj->field_0_car->field_60_pChaseTask = 0;
+                                field_10_subObj->field_0_car->field_60_pChaseTask = NULL;
                             }
                             break;
                         case objectives_enum::no_obj_0:
@@ -1575,7 +1573,7 @@ void PoliceCrew::State1_Patrol_574F10()
                     }
                     else
                     {
-                        pPedIter = 0;
+                        pPedIter = NULL;
                     }
                     gCurrentCrewPed_6FEDDC = pPedIter;
                 }
@@ -1667,7 +1665,7 @@ void PoliceCrew::HandleChaseInCarObjective_575310()
             if (field_10_subObj && field_10_subObj->field_0_car && field_10_subObj->field_0_car->field_60_pChaseTask)
             {
                 gCarChaseTaskTable_678E30->FreeEntry_474CC0(field_10_subObj->field_0_car->field_60_pChaseTask);
-                field_10_subObj->field_0_car->field_60_pChaseTask = 0;
+                field_10_subObj->field_0_car->field_60_pChaseTask = NULL;
             }
         }
         else
@@ -1698,7 +1696,7 @@ void PoliceCrew::HandleChaseInCarObjective_575310()
                 if (field_10_subObj->field_0_car->field_60_pChaseTask)
                 {
                     gCarChaseTaskTable_678E30->FreeEntry_474CC0(field_10_subObj->field_0_car->field_60_pChaseTask);
-                    field_10_subObj->field_0_car->field_60_pChaseTask = 0;
+                    field_10_subObj->field_0_car->field_60_pChaseTask = NULL;
                 }
                 return;
         }
@@ -1728,7 +1726,7 @@ void PoliceCrew::HandleChaseInCarObjective_575310()
             if (field_10_subObj->field_0_car->field_60_pChaseTask)
             {
                 gCarChaseTaskTable_678E30->FreeEntry_474CC0(field_10_subObj->field_0_car->field_60_pChaseTask);
-                field_10_subObj->field_0_car->field_60_pChaseTask = 0;
+                field_10_subObj->field_0_car->field_60_pChaseTask = NULL;
             }
         }
     }
@@ -1836,24 +1834,24 @@ void PoliceRoadblock::Reset_575710()
     field_9_y = 0;
     field_A_unused = 0;
     field_C_startup_timer = 0;
-    field_10_car_1 = 0;
-    field_14_car_2 = 0;
-    field_18_car_3 = 0;
-    field_1C_car_4 = 0;
-    field_20_car_5 = 0;
-    field_24_car_6 = 0;
-    field_28_barrier_1 = 0;
-    field_2C_barrier_2 = 0;
-    field_30_barrier_3 = 0;
-    field_34_barrier_4 = 0;
-    field_38_barrier_5 = 0;
-    field_3C_barrier_6 = 0;
-    field_40_barrier_7 = 0;
-    field_44_barrier_8 = 0;
-    field_48_barrier_9 = 0;
-    field_4C_barrier_10 = 0;
-    field_50_barrier_11 = 0;
-    field_54_barrier_12 = 0;
+    field_10_car_1 = NULL;
+    field_14_car_2 = NULL;
+    field_18_car_3 = NULL;
+    field_1C_car_4 = NULL;
+    field_20_car_5 = NULL;
+    field_24_car_6 = NULL;
+    field_28_barrier_1 = NULL;
+    field_2C_barrier_2 = NULL;
+    field_30_barrier_3 = NULL;
+    field_34_barrier_4 = NULL;
+    field_38_barrier_5 = NULL;
+    field_3C_barrier_6 = NULL;
+    field_40_barrier_7 = NULL;
+    field_44_barrier_8 = NULL;
+    field_48_barrier_9 = NULL;
+    field_4C_barrier_10 = NULL;
+    field_50_barrier_11 = NULL;
+    field_54_barrier_12 = NULL;
     field_58_barrier_1_id = 0;
     field_5C_barrier_2_id = 0;
     field_60_barrier_3_id = 0;
@@ -1866,18 +1864,18 @@ void PoliceRoadblock::Reset_575710()
     field_7C_barrier_10_id = 0;
     field_80_barrier_11_id = 0;
     field_84_barrier_12_id = 0;
-    field_88_guard_1 = 0;
-    field_8C_guard_2 = 0;
-    field_90_guard_3 = 0;
-    field_94_guard_4 = 0;
-    field_98_guard_5 = 0;
-    field_9C_guard_6 = 0;
+    field_88_guard_1 = NULL;
+    field_8C_guard_2 = NULL;
+    field_90_guard_3 = NULL;
+    field_94_guard_4 = NULL;
+    field_98_guard_5 = NULL;
+    field_9C_guard_6 = NULL;
 }
 
 MATCH_FUNC(0x5757b0)
 void PoliceRoadblock::Update_5757B0()
 {
-    u8 bAllClear = 1;
+    bool bAllClear = true;
 
     if (field_0_bActive)
     {
@@ -1891,13 +1889,13 @@ void PoliceRoadblock::Update_5757B0()
             {
                 if (field_10_car_1->field_7C_ped_type != ped_type::special_ped_4)
                 {
-                    field_10_car_1 = 0;
+                    field_10_car_1 = NULL;
                 }
                 else
                 {
                     if (!field_10_car_1->field_76_last_seen_timer)
                     {
-                        bAllClear = 0;
+                        bAllClear = false;
                     }
                 }
             }
@@ -1906,13 +1904,13 @@ void PoliceRoadblock::Update_5757B0()
             {
                 if (field_14_car_2->field_7C_ped_type != ped_type::special_ped_4)
                 {
-                    field_14_car_2 = 0;
+                    field_14_car_2 = NULL;
                 }
                 else
                 {
                     if (!field_14_car_2->field_76_last_seen_timer)
                     {
-                        bAllClear = 0;
+                        bAllClear = false;
                     }
                 }
             }
@@ -1921,13 +1919,13 @@ void PoliceRoadblock::Update_5757B0()
             {
                 if (field_18_car_3->field_7C_ped_type != ped_type::special_ped_4)
                 {
-                    field_18_car_3 = 0;
+                    field_18_car_3 = NULL;
                 }
                 else
                 {
                     if (!field_18_car_3->field_76_last_seen_timer)
                     {
-                        bAllClear = 0;
+                        bAllClear = false;
                     }
                 }
             }
@@ -1936,13 +1934,13 @@ void PoliceRoadblock::Update_5757B0()
             {
                 if (field_1C_car_4->field_7C_ped_type != ped_type::special_ped_4)
                 {
-                    field_1C_car_4 = 0;
+                    field_1C_car_4 = NULL;
                 }
                 else
                 {
                     if (!field_1C_car_4->field_76_last_seen_timer)
                     {
-                        bAllClear = 0;
+                        bAllClear = false;
                     }
                 }
             }
@@ -1951,13 +1949,13 @@ void PoliceRoadblock::Update_5757B0()
             {
                 if (field_20_car_5->field_7C_ped_type != ped_type::special_ped_4)
                 {
-                    field_20_car_5 = 0;
+                    field_20_car_5 = NULL;
                 }
                 else
                 {
                     if (!field_20_car_5->field_76_last_seen_timer)
                     {
-                        bAllClear = 0;
+                        bAllClear = false;
                     }
                 }
             }
@@ -1966,13 +1964,13 @@ void PoliceRoadblock::Update_5757B0()
             {
                 if (field_24_car_6->field_7C_ped_type != ped_type::special_ped_4)
                 {
-                    field_24_car_6 = 0;
+                    field_24_car_6 = NULL;
                 }
                 else
                 {
                     if (!field_24_car_6->field_76_last_seen_timer)
                     {
-                        bAllClear = 0;
+                        bAllClear = false;
                     }
                 }
             }
@@ -1984,7 +1982,7 @@ void PoliceRoadblock::Update_5757B0()
                     if (gGame_0x40_67E008->IsPointOnScreen_4B9A80(field_28_barrier_1->field_4_sprite->field_14_xy.x,
                                                                      field_28_barrier_1->field_4_sprite->field_14_xy.y))
                     {
-                        bAllClear = 0;
+                        bAllClear = false;
                     }
                 }
             }
@@ -1996,7 +1994,7 @@ void PoliceRoadblock::Update_5757B0()
                     if (gGame_0x40_67E008->IsPointOnScreen_4B9A80(field_2C_barrier_2->field_4_sprite->field_14_xy.x,
                                                                      field_2C_barrier_2->field_4_sprite->field_14_xy.y))
                     {
-                        bAllClear = 0;
+                        bAllClear = false;
                     }
                 }
             }
@@ -2008,7 +2006,7 @@ void PoliceRoadblock::Update_5757B0()
                     if (gGame_0x40_67E008->IsPointOnScreen_4B9A80(field_30_barrier_3->field_4_sprite->field_14_xy.x,
                                                                      field_30_barrier_3->field_4_sprite->field_14_xy.y))
                     {
-                        bAllClear = 0;
+                        bAllClear = false;
                     }
                 }
             }
@@ -2020,7 +2018,7 @@ void PoliceRoadblock::Update_5757B0()
                     if (gGame_0x40_67E008->IsPointOnScreen_4B9A80(field_34_barrier_4->field_4_sprite->field_14_xy.x,
                                                                      field_34_barrier_4->field_4_sprite->field_14_xy.y))
                     {
-                        bAllClear = 0;
+                        bAllClear = false;
                     }
                 }
             }
@@ -2032,7 +2030,7 @@ void PoliceRoadblock::Update_5757B0()
                     if (gGame_0x40_67E008->IsPointOnScreen_4B9A80(field_38_barrier_5->field_4_sprite->field_14_xy.x,
                                                                      field_38_barrier_5->field_4_sprite->field_14_xy.y))
                     {
-                        bAllClear = 0;
+                        bAllClear = false;
                     }
                 }
             }
@@ -2044,7 +2042,7 @@ void PoliceRoadblock::Update_5757B0()
                     if (gGame_0x40_67E008->IsPointOnScreen_4B9A80(field_3C_barrier_6->field_4_sprite->field_14_xy.x,
                                                                      field_3C_barrier_6->field_4_sprite->field_14_xy.y))
                     {
-                        bAllClear = 0;
+                        bAllClear = false;
                     }
                 }
             }
@@ -2056,7 +2054,7 @@ void PoliceRoadblock::Update_5757B0()
                     if (gGame_0x40_67E008->IsPointOnScreen_4B9A80(field_40_barrier_7->field_4_sprite->field_14_xy.x,
                                                                      field_40_barrier_7->field_4_sprite->field_14_xy.y))
                     {
-                        bAllClear = 0;
+                        bAllClear = false;
                     }
                 }
             }
@@ -2068,7 +2066,7 @@ void PoliceRoadblock::Update_5757B0()
                     if (gGame_0x40_67E008->IsPointOnScreen_4B9A80(field_44_barrier_8->field_4_sprite->field_14_xy.x,
                                                                      field_44_barrier_8->field_4_sprite->field_14_xy.y))
                     {
-                        bAllClear = 0;
+                        bAllClear = false;
                     }
                 }
             }
@@ -2080,7 +2078,7 @@ void PoliceRoadblock::Update_5757B0()
                     if (gGame_0x40_67E008->IsPointOnScreen_4B9A80(field_48_barrier_9->field_4_sprite->field_14_xy.x,
                                                                      field_48_barrier_9->field_4_sprite->field_14_xy.y))
                     {
-                        bAllClear = 0;
+                        bAllClear = false;
                     }
                 }
             }
@@ -2092,7 +2090,7 @@ void PoliceRoadblock::Update_5757B0()
                     if (gGame_0x40_67E008->IsPointOnScreen_4B9A80(field_4C_barrier_10->field_4_sprite->field_14_xy.x,
                                                                      field_4C_barrier_10->field_4_sprite->field_14_xy.y))
                     {
-                        bAllClear = 0;
+                        bAllClear = false;
                     }
                 }
             }
@@ -2104,7 +2102,7 @@ void PoliceRoadblock::Update_5757B0()
                     if (gGame_0x40_67E008->IsPointOnScreen_4B9A80(field_50_barrier_11->field_4_sprite->field_14_xy.x,
                                                                      field_50_barrier_11->field_4_sprite->field_14_xy.y))
                     {
-                        bAllClear = 0;
+                        bAllClear = false;
                     }
                 }
             }
@@ -2116,7 +2114,7 @@ void PoliceRoadblock::Update_5757B0()
                     if (gGame_0x40_67E008->IsPointOnScreen_4B9A80(field_54_barrier_12->field_4_sprite->field_14_xy.x,
                                                                      field_54_barrier_12->field_4_sprite->field_14_xy.y))
                     {
-                        bAllClear = 0;
+                        bAllClear = false;
                     }
                 }
             }
@@ -2125,13 +2123,13 @@ void PoliceRoadblock::Update_5757B0()
             {
                 if (!field_88_guard_1->IsActive_433B40())
                 {
-                    field_88_guard_1 = 0;
+                    field_88_guard_1 = NULL;
                 }
                 else
                 {
                     if (field_88_guard_1->field_20E_offscreen_counter < 0x50u)
                     {
-                        bAllClear = 0;
+                        bAllClear = false;
                     }
                 }
             }
@@ -2140,13 +2138,13 @@ void PoliceRoadblock::Update_5757B0()
             {
                 if (!field_8C_guard_2->IsActive_433B40())
                 {
-                    field_8C_guard_2 = 0;
+                    field_8C_guard_2 = NULL;
                 }
                 else
                 {
                     if (field_8C_guard_2->field_20E_offscreen_counter < 0x50u)
                     {
-                        bAllClear = 0;
+                        bAllClear = false;
                     }
                 }
             }
@@ -2155,13 +2153,13 @@ void PoliceRoadblock::Update_5757B0()
             {
                 if (!field_90_guard_3->IsActive_433B40())
                 {
-                    field_90_guard_3 = 0;
+                    field_90_guard_3 = NULL;
                 }
                 else
                 {
                     if (field_90_guard_3->field_20E_offscreen_counter < 0x50u)
                     {
-                        bAllClear = 0;
+                        bAllClear = false;
                     }
                 }
             }
@@ -2170,13 +2168,13 @@ void PoliceRoadblock::Update_5757B0()
             {
                 if (!field_94_guard_4->IsActive_433B40())
                 {
-                    field_94_guard_4 = 0;
+                    field_94_guard_4 = NULL;
                 }
                 else
                 {
                     if (field_94_guard_4->field_20E_offscreen_counter < 0x50u)
                     {
-                        bAllClear = 0;
+                        bAllClear = false;
                     }
                 }
             }
@@ -2185,13 +2183,13 @@ void PoliceRoadblock::Update_5757B0()
             {
                 if (!field_98_guard_5->IsActive_433B40())
                 {
-                    field_98_guard_5 = 0;
+                    field_98_guard_5 = NULL;
                 }
                 else
                 {
                     if (field_98_guard_5->field_20E_offscreen_counter < 0x50u)
                     {
-                        bAllClear = 0;
+                        bAllClear = false;
                     }
                 }
             }
@@ -2200,7 +2198,7 @@ void PoliceRoadblock::Update_5757B0()
             {
                 if (!field_9C_guard_6->IsActive_433B40())
                 {
-                    field_9C_guard_6 = 0;
+                    field_9C_guard_6 = NULL;
                 }
                 else
                 {
@@ -2250,41 +2248,41 @@ void PoliceRoadblock::RemoveRoadblock_575CA0()
     {
         field_10_car_1->MarkForDespawn_421470();
         field_10_car_1->SetDriverPedType_421560(ped_type::dummy_3);
-        field_10_car_1 = 0;
+        field_10_car_1 = NULL;
     }
 
     if (field_14_car_2)
     {
         field_14_car_2->MarkForDespawn_421470();
         field_14_car_2->SetDriverPedType_421560(ped_type::dummy_3);
-        field_14_car_2 = 0;
+        field_14_car_2 = NULL;
     }
     if (field_18_car_3)
     {
         field_18_car_3->MarkForDespawn_421470();
         field_18_car_3->SetDriverPedType_421560(ped_type::dummy_3);
-        field_18_car_3 = 0;
+        field_18_car_3 = NULL;
     }
 
     if (field_1C_car_4)
     {
         field_1C_car_4->MarkForDespawn_421470();
         field_1C_car_4->SetDriverPedType_421560(ped_type::dummy_3);
-        field_1C_car_4 = 0;
+        field_1C_car_4 = NULL;
     }
 
     if (field_20_car_5)
     {
         field_20_car_5->MarkForDespawn_421470();
         field_20_car_5->SetDriverPedType_421560(ped_type::dummy_3);
-        field_20_car_5 = 0;
+        field_20_car_5 = NULL;
     }
 
     if (field_24_car_6)
     {
         field_24_car_6->MarkForDespawn_421470();
         field_24_car_6->SetDriverPedType_421560(ped_type::dummy_3);
-        field_24_car_6 = 0;
+        field_24_car_6 = NULL;
     }
 
     if (field_28_barrier_1)
@@ -2293,7 +2291,7 @@ void PoliceRoadblock::RemoveRoadblock_575CA0()
         {
             field_28_barrier_1->Dealloc_5291B0();
         }
-        field_28_barrier_1 = 0;
+        field_28_barrier_1 = NULL;
     }
 
     if (field_2C_barrier_2)
@@ -2302,7 +2300,7 @@ void PoliceRoadblock::RemoveRoadblock_575CA0()
         {
             field_2C_barrier_2->Dealloc_5291B0();
         }
-        field_2C_barrier_2 = 0;
+        field_2C_barrier_2 = NULL;
     }
 
     if (field_30_barrier_3)
@@ -2311,7 +2309,7 @@ void PoliceRoadblock::RemoveRoadblock_575CA0()
         {
             field_30_barrier_3->Dealloc_5291B0();
         }
-        field_30_barrier_3 = 0;
+        field_30_barrier_3 = NULL;
     }
 
     if (field_34_barrier_4)
@@ -2320,7 +2318,7 @@ void PoliceRoadblock::RemoveRoadblock_575CA0()
         {
             field_34_barrier_4->Dealloc_5291B0();
         }
-        field_34_barrier_4 = 0;
+        field_34_barrier_4 = NULL;
     }
 
     if (field_38_barrier_5)
@@ -2329,7 +2327,7 @@ void PoliceRoadblock::RemoveRoadblock_575CA0()
         {
             field_38_barrier_5->Dealloc_5291B0();
         }
-        field_38_barrier_5 = 0;
+        field_38_barrier_5 = NULL;
     }
 
     if (field_3C_barrier_6)
@@ -2338,7 +2336,7 @@ void PoliceRoadblock::RemoveRoadblock_575CA0()
         {
             field_3C_barrier_6->Dealloc_5291B0();
         }
-        field_3C_barrier_6 = 0;
+        field_3C_barrier_6 = NULL;
     }
 
     if (field_40_barrier_7)
@@ -2347,7 +2345,7 @@ void PoliceRoadblock::RemoveRoadblock_575CA0()
         {
             field_40_barrier_7->Dealloc_5291B0();
         }
-        field_40_barrier_7 = 0;
+        field_40_barrier_7 = NULL;
     }
 
     if (field_44_barrier_8)
@@ -2356,7 +2354,7 @@ void PoliceRoadblock::RemoveRoadblock_575CA0()
         {
             field_44_barrier_8->Dealloc_5291B0();
         }
-        field_44_barrier_8 = 0;
+        field_44_barrier_8 = NULL;
     }
 
     if (field_48_barrier_9)
@@ -2365,7 +2363,7 @@ void PoliceRoadblock::RemoveRoadblock_575CA0()
         {
             field_48_barrier_9->Dealloc_5291B0();
         }
-        field_48_barrier_9 = 0;
+        field_48_barrier_9 = NULL;
     }
 
     if (field_4C_barrier_10)
@@ -2374,7 +2372,7 @@ void PoliceRoadblock::RemoveRoadblock_575CA0()
         {
             field_4C_barrier_10->Dealloc_5291B0();
         }
-        field_4C_barrier_10 = 0;
+        field_4C_barrier_10 = NULL;
     }
 
     if (field_50_barrier_11)
@@ -2383,7 +2381,7 @@ void PoliceRoadblock::RemoveRoadblock_575CA0()
         {
             field_50_barrier_11->Dealloc_5291B0();
         }
-        field_50_barrier_11 = 0;
+        field_50_barrier_11 = NULL;
     }
 
     if (field_54_barrier_12)
@@ -2392,7 +2390,7 @@ void PoliceRoadblock::RemoveRoadblock_575CA0()
         {
             field_54_barrier_12->Dealloc_5291B0();
         }
-        field_54_barrier_12 = 0;
+        field_54_barrier_12 = NULL;
     }
 
     if (field_88_guard_1)
@@ -2405,7 +2403,7 @@ void PoliceRoadblock::RemoveRoadblock_575CA0()
         {
             field_88_guard_1->SetPedType_403920(ped_type::dummy_3);
         }
-        field_88_guard_1 = 0;
+        field_88_guard_1 = NULL;
     }
 
     if (field_8C_guard_2)
@@ -2418,7 +2416,7 @@ void PoliceRoadblock::RemoveRoadblock_575CA0()
         {
             field_8C_guard_2->SetPedType_403920(ped_type::dummy_3);
         }
-        field_8C_guard_2 = 0;
+        field_8C_guard_2 = NULL;
     }
 
     if (field_90_guard_3)
@@ -2431,7 +2429,7 @@ void PoliceRoadblock::RemoveRoadblock_575CA0()
         {
             field_90_guard_3->SetPedType_403920(ped_type::dummy_3);
         }
-        field_90_guard_3 = 0;
+        field_90_guard_3 = NULL;
     }
 
     if (field_94_guard_4)
@@ -2444,7 +2442,7 @@ void PoliceRoadblock::RemoveRoadblock_575CA0()
         {
             field_94_guard_4->SetPedType_403920(ped_type::dummy_3);
         }
-        field_94_guard_4 = 0;
+        field_94_guard_4 = NULL;
     }
 
     if (field_98_guard_5)
@@ -2457,7 +2455,7 @@ void PoliceRoadblock::RemoveRoadblock_575CA0()
         {
             field_98_guard_5->SetPedType_403920(ped_type::dummy_3);
         }
-        field_98_guard_5 = 0;
+        field_98_guard_5 = NULL;
     }
 
     if (field_9C_guard_6)
@@ -2465,17 +2463,16 @@ void PoliceRoadblock::RemoveRoadblock_575CA0()
         if (field_9C_guard_6->field_20E_offscreen_counter)
         {
             field_9C_guard_6->Deallocate_45EB60();
-            field_9C_guard_6 = 0;
+            field_9C_guard_6 = NULL;
             field_0_bActive = false;
             return;
         }
         field_9C_guard_6->SetPedType_403920(ped_type::dummy_3);
-        field_9C_guard_6 = 0;
+        field_9C_guard_6 = NULL;
     }
     field_0_bActive = false;
 }
 
-// Roadblock building: the values aren't known yet
 DEFINE_GLOBAL_INIT(Fix16, kFpOne_6FECEC, Fix16(1), 0x6FECEC);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6FEDA0, Fix16(0x100, 0), 0x6FEDA0);
 DEFINE_GLOBAL_INIT(Fix16, kFpSixteen_6FED80, Fix16(16), 0x6FED80);
@@ -2494,7 +2491,7 @@ DEFINE_GLOBAL_INIT(u8, gRoadblockLaneHasGuard_624FBD, 1, 0x624FBD); // the next 
 MATCH_FUNC(0x575ff0)
 bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
 {
-    Car* pCar = 0;
+    Car* pCar = NULL;
     u8 bEdge;
     u8 tries;
     u8 width;
@@ -2540,13 +2537,13 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
                 case ROAD:
                     break;
                 case 4:
-                    return 0;
+                    return false;
                 default:
-                    return 0;
+                    return false;
             }
             if (++tries > 12)
             {
-                return 0;
+                return false;
             }
         } while (!bFound);
 
@@ -2594,19 +2591,19 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
                     bFound = 1;
                     break;
                 case 4:
-                    return 0;
+                    return false;
                 default:
-                    return 0;
+                    return false;
             }
             if (++tries > 12)
             {
-                return 0;
+                return false;
             }
         } while (!bFound);
 
         if (width > 12)
         {
-            return 0;
+            return false;
         }
 
         x_left = Fix16(x_start) + kFpHalf_6FEBF4;
@@ -2618,7 +2615,7 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
         field_A0_rect->SetHiLowZ_41E370(zpos - kFpOne_6FECEC, zpos + kFpOne_6FECEC);
         if (gSpriteGrid_1_679208->CheckRectForCollisions_477F60(field_A0_rect, 0, 0, 0))
         {
-            return 0;
+            return false;
         }
         if (gMap_0x370_6F6268->HasWallInArea_4E18A0((x_left - kFpHalf_6FEBF4).ToInt(),
                                                     (x_right + kFpHalf_6FEBF4 - kFpOne64th_6FEDA0).ToInt(),
@@ -2626,7 +2623,7 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
                                                     (y_bottom - kFpOne64th_6FEDA0).ToInt(),
                                                     zpos.ToInt()))
         {
-            return 0;
+            return false;
         }
 
         Reset_575710();
@@ -2855,13 +2852,13 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
                 case ROAD:
                     break;
                 case 4:
-                    return 0;
+                    return false;
                 default:
-                    return 0;
+                    return false;
             }
             if (++tries > 12)
             {
-                return 0;
+                return false;
             }
         } while (!bFound);
 
@@ -2909,19 +2906,19 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
                     bFound = 1;
                     break;
                 case 4:
-                    return 0;
+                    return false;
                 default:
-                    return 0;
+                    return false;
             }
             if (++tries > 12)
             {
-                return 0;
+                return false;
             }
         } while (!bFound);
 
         if (width > 12)
         {
-            return 0;
+            return false;
         }
 
         x_left = Fix16(x_start);
@@ -2933,7 +2930,7 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
         field_A0_rect->SetHiLowZ_41E370(zpos - kFpOne_6FECEC, zpos + kFpOne_6FECEC);
         if (gSpriteGrid_1_679208->CheckRectForCollisions_477F60(field_A0_rect, 0, 0, 0))
         {
-            return 0;
+            return false;
         }
         if (gMap_0x370_6F6268->HasWallInArea_4E18A0(x_left.ToInt(),
                                                     (x_right - kFpOne64th_6FEDA0).ToInt(),
@@ -2941,7 +2938,7 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
                                                     (y_bottom + kFpHalf_6FEBF4 - kFpOne64th_6FEDA0).ToInt(),
                                                     zpos.ToInt()))
         {
-            return 0;
+            return false;
         }
 
         Reset_575710();
@@ -3136,7 +3133,7 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
 
     field_0_bActive = true;
     field_C_startup_timer = 100;
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x577480)
