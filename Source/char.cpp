@@ -1087,9 +1087,7 @@ void Char::UpdateAnimState_546360()
                         pDriver->field_168_game_object->SetPedState2_433A50(17);
                         pDriver->field_168_game_object->field_84_target_car = pCar;
                         pDriver->field_168_game_object->field_80_sprite_ptr->SetDrawLayer_40F7B0(6);
-                        {
-                            pDriver->SetRemap_433C10(pDriver->get_remap_433BA0());
-                        }
+                        pDriver->SetRemap_433C10(pDriver->get_remap_433BA0());
                         pDriver->field_16C_car = NULL;
                         pDriver->SetStateInitPending_433B50();
                         if (!pDriver->is_player_41B0A0())
