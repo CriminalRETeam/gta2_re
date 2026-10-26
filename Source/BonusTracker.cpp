@@ -265,55 +265,55 @@ void BonusTracker::ProcessBonusEvent_4320D0(s16 event_type, s32 car_model, s32 o
 }
 
 MATCH_FUNC(0x432170);
-s8 BonusTracker::IsDeathCauseInGroup_432170(int death_cause, int rule_death_cause)
+bool BonusTracker::IsDeathCauseInGroup_432170(int death_cause, int rule_death_cause)
 {
     if (rule_death_cause == ped_death_cause::run_over_1)
     {
         if (death_cause == ped_death_cause::run_over_by_stolen_car_3)
         {
-            return 1;
+            return true;
         }
     }
     else if (rule_death_cause == ped_death_cause::bomb_12)
     {
         if (death_cause == ped_death_cause::unknown_4)
         {
-            return 1;
+            return true;
         }
     }
     else if (rule_death_cause == ped_death_cause::unknown_21)
     {
         if (death_cause == ped_death_cause::unknown_4)
         {
-            return 1;
+            return true;
         }
     }
     else if (rule_death_cause == ped_death_cause::grenade_15)
     {
         if (death_cause == ped_death_cause::unknown_4)
         {
-            return 1;
+            return true;
         }
     }
     else if (rule_death_cause == ped_death_cause::molotov_16)
     {
         if (death_cause == ped_death_cause::unknown_4)
         {
-            return 1;
+            return true;
         }
     }
     else if (rule_death_cause == ped_death_cause::rocket_bullet_17)
     {
         if (death_cause == ped_death_cause::unknown_4)
         {
-            return 1;
+            return true;
         }
     }
     else if (rule_death_cause == ped_death_cause::fire_hit_14)
     {
         if (death_cause == ped_death_cause::fire_13)
         {
-            return 1;
+            return true;
         }
     }
     else if (rule_death_cause == ped_death_cause::any_weapon_22)
@@ -330,14 +330,14 @@ s8 BonusTracker::IsDeathCauseInGroup_432170(int death_cause, int rule_death_caus
             case ped_death_cause::rocket_bullet_17:
             case ped_death_cause::rocket_18:
             case ped_death_cause::shotgun_19:
-                return 1;
+                return true;
         }
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x432240);
-s8 BonusTracker::IsOccupationInGroup_432240(int occupation, int rule_occupation)
+bool BonusTracker::IsOccupationInGroup_432240(int occupation, int rule_occupation)
 {
     if (rule_occupation == ped_ocupation_enum::any_law_enforcement)
     {
@@ -353,9 +353,9 @@ s8 BonusTracker::IsOccupationInGroup_432240(int occupation, int rule_occupation)
             case ped_ocupation_enum::tank_driver:
             case ped_ocupation_enum::roadblock_cop_37:
             case ped_ocupation_enum::road_block_tank_man:
-                return 1;
+                return true;
             default:
-                return 0;
+                return false;
         }
     }
     else if (rule_occupation == ped_ocupation_enum::any_emergency_service_man)
@@ -374,26 +374,26 @@ s8 BonusTracker::IsOccupationInGroup_432240(int occupation, int rule_occupation)
             case ped_ocupation_enum::roadblock_cop_37:
             case ped_ocupation_enum::fireman:
             case ped_ocupation_enum::road_block_tank_man:
-                return 1;
+                return true;
             default:
-                return 0;
+                return false;
         }
     }
     else if (rule_occupation == ped_ocupation_enum::any_gang_member)
     {
         if (occupation == ped_ocupation_enum::armed_gang_member_19 || occupation == ped_ocupation_enum::guard || occupation == ped_ocupation_enum::gang_driver_42)
         {
-            return 1;
+            return true;
         }
     }
     else if (rule_occupation == ped_ocupation_enum::any_elvis)
     {
         if (occupation == ped_ocupation_enum::elvis || occupation == ped_ocupation_enum::elvis_leader)
         {
-            return 1;
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x432300);
