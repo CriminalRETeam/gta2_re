@@ -265,7 +265,7 @@ class sound_obj
     EXPORT u8 GetCDVol_41A280();
     EXPORT void Init_419E10();
     EXPORT void DeinitializeAudio_419E50();
-    EXPORT s32 get_samp_idx_for_car_417D70(Car* pCar, bool bDoorOpening, bool bTrainOrBus);
+    EXPORT s32 get_samp_idx_for_car_417D70(Car* pCar, bool bDoorOpening, bool bLargeDoorOffset);
     EXPORT s32 samp_idx_for_model_417AC0(s32 car_model);
     EXPORT s32 GetSirenSampleIdx_417B80(s32 car_model, bool bHornOn);
 
@@ -277,7 +277,7 @@ class sound_obj
     EXPORT void ProcessType1_Sprite_412740(s32 idx);
     EXPORT void ProcessType8_Crane_412820(s32 idx);
     EXPORT void ProcessType9_Crusher_412A60(s32 idx);
-    EXPORT void ProcessCar_412B80(Sound_Params* pType2Entity);
+    EXPORT void ProcessCar_412B80(Sound_Params* pParams);
     EXPORT bool Type6_412C90(CollisionEvent* pEvent, u8 base_sample);
     EXPORT bool SelectObjectImpactSound_1_10_412D30(CollisionEvent* pEvent);
     EXPORT bool Type6_2_412D40(u8 roll);
@@ -344,7 +344,7 @@ class sound_obj
     EXPORT bool CalculateDistance_419020(Fix16 max_dist);
     EXPORT bool VolCalc_419070(u8 base_volume, Fix16 max_dist, bool bFlag);
     EXPORT Fix16 ComputeEmitterDistanceSquared_4190B0();
-    EXPORT s32 AddSoundObject_419FA0(SoundObject* pTuring);
+    EXPORT s32 AddSoundObject_419FA0(SoundObject* pSoundObj);
 
     EXPORT void FreeSoundEntry_41A090(u32 idx);
     EXPORT bool LoadStyle_41A1B0(const char_type* pStyleName);
@@ -374,12 +374,12 @@ class sound_obj
     EXPORT void ClearActivateSamples_41B7A0();
     EXPORT void GenerateIntegerRandomNumberTable_41BA90();
 
-    EXPORT void ProcessObject_41E820(Sound_Params* pEntity);
+    EXPORT void ProcessObject_41E820(Sound_Params* pParams);
     EXPORT void ProcessObject_Type12_41E850(Sound_Params* pParams);
     EXPORT void ProcessOtherObjects_41F520(Sound_Params* pParams);
     EXPORT void UpdateRadioChatterLoop_41FCA0();
 
-    EXPORT void ProcessPed_422B70(Sound_Params* pType3Entity);
+    EXPORT void ProcessPed_422B70(Sound_Params* pParams);
     EXPORT void HandlePedVoiceEvent_423080(Sound_Params* pParams);
 
     EXPORT void ResetRadioMessageState_426750();
@@ -413,7 +413,7 @@ class sound_obj
     EXPORT void RemoveSound_57EE30(Fix16 xpos, Fix16 ypos);
     EXPORT void CycleRadioStation_57EEE0(char_type bPrev);
     EXPORT void SelectBestRadioEmitter_57EF60();
-    EXPORT u8 FindEmitterByStation_57F050(s32 status);
+    EXPORT u8 FindEmitterByStation_57F050(s32 station_idx);
     EXPORT bool IsPoliceOrServiceVehicle_57F090(Car* pCar);
     EXPORT bool IsTrainOrBoxcar_57F120(Car* pCar);
 };
