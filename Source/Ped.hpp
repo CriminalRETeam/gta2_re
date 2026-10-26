@@ -212,6 +212,7 @@ class Ped
     EXPORT void Deallocate_45EB60();
     EXPORT bool IsActivePlayerPed_45EDC0() const;
     EXPORT bool PedTypeIs_45EDE0(s32 type) const;
+  private:
     EXPORT void SetOccupation_45EE00(u32 occupation);
     EXPORT void EnterPublicTransport_45EE70();
     EXPORT void Mugger_AI_45F360();
@@ -225,6 +226,7 @@ class Ped
     EXPORT void Occupation_AI_461F20();
     EXPORT void UpdateAI_462280();
     EXPORT void ReleaseGroupSpritesAndWeapons_4624A0();
+  public:
     EXPORT void RemovePedWeapons_462510();
     EXPORT void RemoveSecondaryWeapon_462550();
     EXPORT void ForceDoNothing_462590();
@@ -237,16 +239,19 @@ class Ped
     EXPORT void SetStatesForObjective_4633E0(bool bMainObj);
     EXPORT void SetObjective(s32 objective, s16 objective_timer = 9999); // 9999: never times out
     EXPORT void SetObjective2_463830(s32 internal_objective, s16 internal_objective_timer = 9999);
+  private:
     EXPORT void ProcessMainObjective_463AA0();
     EXPORT void ProcessInternalObjective_463FB0();
     EXPORT void CalcApproachPointNearTargetPed_4645B0();
     EXPORT void Threat_Reaction_AI_465270();
     EXPORT void ReactToAttacker_465B20();
+  public:
     EXPORT bool IsAttackingTargetPed_465CD0() const;
     EXPORT bool IsPedAThreat_465D00(Ped* pTargetPed);
     inline bool IsPedAThreat_Inline_465D00(Ped* pTargetPed);
     EXPORT bool IsInvisibleOnFoot_466B70() const;
     EXPORT bool IsThreatToSearchingPed_4661F0();
+  private:
     EXPORT Ped* FindBestTargetPed_Mode1_466B90(s32 max_x_check);
     EXPORT Ped* FindBestTargetPed_Mode4_466BB0(s32 max_x_check);
     EXPORT Ped* FindBestTargetPed_Mode5_466BD0(s32 max_x_check);
@@ -255,8 +260,10 @@ class Ped
     EXPORT Ped* FindNearestPed_466F60(u8 max_x_check);
     EXPORT Ped* FindNearbyPed_466FB0();
     EXPORT Ped* GetLastProcessedPedOnFoot_467070();
+  public:
     EXPORT bool FindUsableCarDoor_467090();
     EXPORT Sprite* ResetAnimAndFindNearestSprite_467280();
+  private:
     EXPORT void UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type);
     EXPORT void FleeOnFootTillSafe_4678E0();
     EXPORT void FleeCharOnFootTillSafe_467960();
@@ -330,6 +337,7 @@ class Ped
     EXPORT void AttackPed_46DB60();
     EXPORT void AttackCar_46DB70();
     EXPORT void AttackObject_46DB80();
+  public:
     EXPORT Sprite* GetSprite_46DF50() const;
     EXPORT void SetupFollower_46DF70(const Ped* pToFollow, s32 weaponIdx);
     EXPORT bool CanBeRecruitedToGroup_46E020(const PedGroup* pGroup) const;
@@ -363,11 +371,13 @@ class Ped
     EXPORT void PushPatrolPoint_4702A0(s8 x, s8 y, s8 z);
     EXPORT s32 IsInTrain_470F00() const;
 
+  private:
     EXPORT void FleeCharAnyMeansTillSafe_Nullsub();
     EXPORT void FleeCharAnyMeansAlways_Nullsub();
     EXPORT void KillCar_Nullsub();
     EXPORT void Objective50_Nullsub();
     EXPORT void State30_Nullsub();
+  public:
 
     inline u8 get_ped_ref_idx_420B50() const
     {
