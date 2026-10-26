@@ -8,6 +8,7 @@
 #include "explosion_type.hpp"
 #include "car_despawn_status.hpp"
 #include "ped_death_cause.hpp"
+#include "char_b4_state_more.hpp"
 #include "accuracy_event.hpp"
 #include "AmbulanceService.hpp"
 #include "CarInfoTable.hpp"
@@ -1634,7 +1635,7 @@ void Ped::HandleClosePedInteraction_45CAA0()
                     pNearPed->ChangeNextPedState2_45C540(ped_state_2::lying_on_floor_22);
                     pNearPed->ChangeNextPedState1_45C500(ped_state_1::immobilized_8);
                     pNearPed->SetStateInitPending_433B50();
-                    pNearPed->field_168_game_object->SetCharState_433A60(33);
+                    pNearPed->field_168_game_object->SetCharState_433A60(Char_B4_state::Hit_From_Front_33);
                 }
                 else
                 {
@@ -2154,11 +2155,11 @@ bool Ped::HandlePedHitByObject_45D000(Object* pObj)
             angle = ComputeShortestAngleDelta_4056C0(field_168_game_object->field_80_sprite_ptr->field_0_rotation, pObj->field_4_sprite->field_0_rotation);
             if (angle > kAng90_6784B0)
             {
-                field_168_game_object->SetCharState_433A60(33); // TODO: include and use Char_B4_state enum
+                field_168_game_object->SetCharState_433A60(Char_B4_state::Hit_From_Front_33);
             }
             else
             {
-                field_168_game_object->SetCharState_433A60(34); // TODO: include and use Char_B4_state enum
+                field_168_game_object->SetCharState_433A60(Char_B4_state::Hit_From_Behind_34);
             }
 
             if (field_208_invulnerability)
@@ -2194,11 +2195,11 @@ bool Ped::HandlePedHitByObject_45D000(Object* pObj)
             angle = ComputeShortestAngleDelta_4056C0(field_168_game_object->field_80_sprite_ptr->field_0_rotation, pObj->field_4_sprite->field_0_rotation);
             if (angle > kAng90_6784B0)
             {
-                field_168_game_object->SetCharState_433A60(33); // TODO: include and use Char_B4_state enum
+                field_168_game_object->SetCharState_433A60(Char_B4_state::Hit_From_Front_33);
             }
             else
             {
-                field_168_game_object->SetCharState_433A60(34); // TODO: include and use Char_B4_state enum
+                field_168_game_object->SetCharState_433A60(Char_B4_state::Hit_From_Behind_34);
             }
             if (field_208_invulnerability)
             {

@@ -491,9 +491,9 @@ enum
     Unknown_5 = 5,
     Unknown_6 = 6,
     Unknown_7 = 7,
-    Unknown_8 = 8,
-    Unknown_9 = 9,
-    Unknown_10 = 10,
+    Veer_Right_From_Wall_8 = 8,
+    Veer_Left_From_Wall_9 = 9,
+    Avoiding_Ped_10 = 10, // turned aside after bumping into another ped (Char::HandlePedCollision_548BD0)
     Unknown_11 = 11,
     Unknown_12 = 12,
     Unknown_13 = 13,

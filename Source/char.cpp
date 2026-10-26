@@ -1,6 +1,7 @@
 #define FIX16_POINT_ZERO kFP16Zero_6FD9E4
 #include "ped_death_cause.hpp"
 #include "ped_jump_over_mode.hpp"
+#include "char_b4_state_more.hpp"
 #include "explosion_type.hpp"
 #include "voice_line.hpp"
 #include "char.hpp"
@@ -1741,7 +1742,7 @@ void Char::DispatchCollision_548670(char_type bFlag)
     }
     else
     {
-        if (field_10_char_state != 10)
+        if (field_10_char_state != Char_B4_state::Avoiding_Ped_10)
         {
             if (field_10_char_state == Char_B4_state::Colliding_With_Car_27)
             {
@@ -1963,7 +1964,7 @@ void Char::HandlePedCollision_548BD0(Char* pOther)
             switch (other_type)
             {
                 case ped_type::script_created_5:
-                    if (field_10_char_state == 10 || field_7C_pPed->get_id() >= pOther->field_7C_pPed->get_id())
+                    if (field_10_char_state == Char_B4_state::Avoiding_Ped_10 || field_7C_pPed->get_id() >= pOther->field_7C_pPed->get_id())
                     {
                         field_10_char_state = 1;
                     }
@@ -1974,11 +1975,11 @@ void Char::HandlePedCollision_548BD0(Char* pOther)
                             if (field_7C_pPed->GetInternalObjective_403A90() != objectives_enum::objective_11)
                             {
                                 compound_add_41FA70(field_40_rotation, kAng16_6FD888);
-                                field_10_char_state = 10;
+                                field_10_char_state = Char_B4_state::Avoiding_Ped_10;
                             }
                             else
                             {
-                                field_10_char_state = 10;
+                                field_10_char_state = Char_B4_state::Avoiding_Ped_10;
                             }
                         }
                         else
@@ -2006,7 +2007,7 @@ void Char::HandlePedCollision_548BD0(Char* pOther)
             {
                 case ped_type::special_ped_4:
                 case ped_type::dummy_with_occupation_6:
-                    if (field_10_char_state == 10 || field_7C_pPed->get_id() >= pOther->field_7C_pPed->get_id())
+                    if (field_10_char_state == Char_B4_state::Avoiding_Ped_10 || field_7C_pPed->get_id() >= pOther->field_7C_pPed->get_id())
                     {
                         field_10_char_state = 1;
                         // A return, not a break: the original keeps the type 5 copy of this tail
@@ -2019,11 +2020,11 @@ void Char::HandlePedCollision_548BD0(Char* pOther)
                             if (field_7C_pPed->GetInternalObjective_403A90() != objectives_enum::objective_11)
                             {
                                 compound_add_41FA70(field_40_rotation, kAng16_6FD888);
-                                field_10_char_state = 10;
+                                field_10_char_state = Char_B4_state::Avoiding_Ped_10;
                             }
                             else
                             {
-                                field_10_char_state = 10;
+                                field_10_char_state = Char_B4_state::Avoiding_Ped_10;
                             }
                         }
                     }
@@ -2618,7 +2619,7 @@ static inline s32 __stdcall RotateFace_491F10(s32* face, bool* clockwise)
 // 9.6f 0x492400
 inline void Char::SetTurnTarget_492400(Ang16 target_rotation)
 {
-    field_10_char_state = 25;
+    field_10_char_state = Char_B4_state::Turning_To_Target_25;
     field_14_target_rotation = target_rotation;
     field_46_timer = 255;
 }
@@ -2897,7 +2898,7 @@ void Char::SelectRandomIdleBehavior_54C580()
         }
     }
 
-    if (--this->field_46_timer == 255 && this->field_10_char_state != 25)
+    if (--this->field_46_timer == 255 && this->field_10_char_state != Char_B4_state::Turning_To_Target_25)
     {
         this->field_46_timer = 0;
     }
@@ -2988,8 +2989,8 @@ void Char::TickMovementStateMachine_54C900()
             byte_6FDB52 = 1;
             break;
 
-        case 8:
-        case 9:
+        case Char_B4_state::Veer_Right_From_Wall_8:
+        case Char_B4_state::Veer_Left_From_Wall_9:
             if (!this->field_46_timer)
             {
                 this->field_46_timer = 100;
@@ -3002,7 +3003,7 @@ void Char::TickMovementStateMachine_54C900()
             byte_6FDB51 = 1;
             break;
 
-        case 25:
+        case Char_B4_state::Turning_To_Target_25:
             TurnTowardsAngle_54CAE0();
             if (ComputeShortestAngleDelta_4056C0(this->field_40_rotation, this->field_14_target_rotation) < kAng12_6FD892)
             {
@@ -4723,7 +4724,7 @@ void Char::state_1_5504F0()
         desired_angle = field_7C_pPed->GetTargetFacingAngle_492CC0();
     }
     target_rotation = desired_angle;
-    if (field_10_char_state != 10)
+    if (field_10_char_state != Char_B4_state::Avoiding_Ped_10)
     {
         if (field_10_char_state == Char_B4_state::Jumping_15)
         {
@@ -5016,7 +5017,7 @@ Ang16 Char::GetNextRotationToward_550F60(Ang16 inputAng)
     Ang16 max_turn = word_6FDB2E.MultiplyByFix16_401CB0(field_38_velocity);
     Ang16 result;
 
-    if (field_10_char_state == 10)
+    if (field_10_char_state == Char_B4_state::Avoiding_Ped_10)
     {
         return inputAng;
     }
@@ -5761,14 +5762,14 @@ void Char::state_8_5520A0()
 
                 switch (field_10_char_state)
                 {
-                    case 33:
+                    case Char_B4_state::Hit_From_Front_33:
                         if (field_6C_animation_state != 15)
                         {
                             field_6C_animation_state = 15;
                             field_68_animation_frame = 0;
                         }
                         break;
-                    case 34:
+                    case Char_B4_state::Hit_From_Behind_34:
                         if (field_6C_animation_state != 16)
                         {
                             field_40_rotation = field_40_rotation + kAng180_6FD936;
@@ -6225,14 +6226,14 @@ void Char::state_9_552E90()
     {
         switch (field_10_char_state)
         {
-            case 33:
+            case Char_B4_state::Hit_From_Front_33:
                 if (field_6C_animation_state != 15)
                 {
                     field_6C_animation_state = 15;
                     field_68_animation_frame = 0;
                 }
                 break;
-            case 34:
+            case Char_B4_state::Hit_From_Behind_34:
                 if (field_6C_animation_state != 16)
                 {
                     field_40_rotation = field_40_rotation + kAng180_6FD936;
