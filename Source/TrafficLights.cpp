@@ -46,7 +46,7 @@ enum
 };
 } // namespace traffic_light_sprite_offset
 
-// TODO: Is this too big?
+// Phase durations, indexed by traffic_light_phase
 u8 traffic_light_phase_timers_626840[] = {0x00, 0x64, 0x18, 0x18, 0x64, 0x18, 0x18, 0x96, 0x50, 0x00, 0x00, 0x00};
 
 // https://decomp.me/scratch/JogBj
@@ -60,7 +60,6 @@ void TrafficLight::Init_5C1D00(u8 x, u8 y, u8 w, u8 h)
     // West side
     if (gMap_0x370_6F6268->IsBlockRoadType_42A8C0(x - 1, h + y - 1, block_z))
     {
-        // OK
         gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::traffic_light_hull_170, Fix16(x) - kFpOne_7055E4, Fix16(y + (h / 2)), kFpTwo_7055E0 + zpos, kAng270_705788);
         field_8_west_headlight_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::traffic_light_lighting_255,
                                                           Fix16(x) - kFpThreeThirtySeconds_7055FC - kFpOne_7055E4,
@@ -78,7 +77,6 @@ void TrafficLight::Init_5C1D00(u8 x, u8 y, u8 w, u8 h)
     // East side
     if (gMap_0x370_6F6268->IsBlockRoadType_42A8C0(x + w, y, block_z))
     {
-        // OK
         gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::traffic_light_hull_170, Fix16(x + w) + kFpOne_7055E4, Fix16(y + (h / 2)), kFpTwo_7055E0 + zpos, kAng90_705690);
         field_C_east_headlight_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::traffic_light_lighting_255,
                                                           Fix16(x + w) + kFpThreeThirtySeconds_7055FC + kFpOne_7055E4,
@@ -96,7 +94,6 @@ void TrafficLight::Init_5C1D00(u8 x, u8 y, u8 w, u8 h)
     // North side
     if (gMap_0x370_6F6268->IsBlockRoadType_42A8C0(x, y - 1, block_z))
     {
-        // OK
         gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::traffic_light_hull_170, Fix16(x + (w / 2)), Fix16(y) - kFpOne_7055E4, kFpTwo_7055E0 + zpos, kAng180_705762);
         field_0_north_headlight_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::traffic_light_lighting_255,
                                                           Fix16(x + (w / 2)),
@@ -152,10 +149,10 @@ void TrafficLight::Init_5C1D00(u8 x, u8 y, u8 w, u8 h)
     {
         for (s32 i = 0; i < w; i++)
         {
-            gmp_block_info* pBlock1 = gMap_0x370_6F6268->GetBlock_4DFE10((Fix16(x + i) + kFpHalf_705714).ToInt(),
+            gmp_block_info* pBlock = gMap_0x370_6F6268->GetBlock_4DFE10((Fix16(x + i) + kFpHalf_705714).ToInt(),
                                                                           (Fix16(y) - kFpPoint6_705660).ToInt(),
                                                                           (zpos - kFpOne_70580C).ToInt());
-            if (pBlock1 && (pBlock1->field_A_arrows & block_arrow::green_down_8) != 0)
+            if (pBlock && (pBlock->field_A_arrows & block_arrow::green_down_8) != 0)
             {
                 gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::pedestrian_crossing_marker_122, Fix16(x + i) + kFpHalf_705714, Fix16(y) - kFpPoint6_705660, zpos, kAng0_705948);
             }
@@ -166,10 +163,10 @@ void TrafficLight::Init_5C1D00(u8 x, u8 y, u8 w, u8 h)
     {
         for (s32 i = 0; i < w; i++)
         {
-            gmp_block_info* pBlock2 = gMap_0x370_6F6268->GetBlock_4DFE10((Fix16(x + i) + kFpHalf_705714).ToInt(),
+            gmp_block_info* pBlock = gMap_0x370_6F6268->GetBlock_4DFE10((Fix16(x + i) + kFpHalf_705714).ToInt(),
                                                                           (Fix16(y + h) + kFpPoint6_705660).ToInt(),
                                                                           (zpos - kFpOne_70580C).ToInt());
-            if (pBlock2 && (pBlock2->field_A_arrows & block_arrow::green_up_4) != 0)
+            if (pBlock && (pBlock->field_A_arrows & block_arrow::green_up_4) != 0)
             {
                 gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::pedestrian_crossing_marker_122, Fix16(x + i) + kFpHalf_705714, Fix16(y + h) + kFpPoint6_705660, zpos, kAng0_705948);
             }
@@ -180,10 +177,10 @@ void TrafficLight::Init_5C1D00(u8 x, u8 y, u8 w, u8 h)
     {
         for (s32 i = 0; i < h; i++)
         {
-            gmp_block_info* pBlock3 = gMap_0x370_6F6268->GetBlock_4DFE10((Fix16(x + w) + kFpPoint6_705660).ToInt(),
+            gmp_block_info* pBlock = gMap_0x370_6F6268->GetBlock_4DFE10((Fix16(x + w) + kFpPoint6_705660).ToInt(),
                                                                           (Fix16(y + i) + kFpHalf_705714).ToInt(),
                                                                           (zpos - kFpOne_70580C).ToInt());
-            if (pBlock3 && (pBlock3->field_A_arrows & block_arrow::green_left_1) != 0)
+            if (pBlock && (pBlock->field_A_arrows & block_arrow::green_left_1) != 0)
             {
                 gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::pedestrian_crossing_marker_122, Fix16(x + w) + kFpPoint6_705660, Fix16(y + i) + kFpHalf_705714, zpos, kAng90_705690);
             }
@@ -194,10 +191,10 @@ void TrafficLight::Init_5C1D00(u8 x, u8 y, u8 w, u8 h)
     {
         for (s32 i = 0; i < h; i++)
         {
-            gmp_block_info* pBlock4 = gMap_0x370_6F6268->GetBlock_4DFE10((Fix16(x) - (kFpPoint6_705660)).ToInt(),
+            gmp_block_info* pBlock = gMap_0x370_6F6268->GetBlock_4DFE10((Fix16(x) - (kFpPoint6_705660)).ToInt(),
                                                                           (Fix16(y + i) + kFpHalf_705714).ToInt(),
                                                                           (zpos - kFpOne_70580C).ToInt());
-            if (pBlock4 && (pBlock4->field_A_arrows & block_arrow::green_right_2) != 0)
+            if (pBlock && (pBlock->field_A_arrows & block_arrow::green_right_2) != 0)
             {
                 gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::pedestrian_crossing_marker_122, Fix16(x) - kFpPoint6_705660, Fix16(y + i) + kFpHalf_705714, zpos, kAng90_705690);
             }
@@ -302,9 +299,9 @@ void TrafficLight::UpdateLightsFromPhase_5C27A0(u8 phase)
 MATCH_FUNC(0x5c2910)
 void TrafficLights::AddTrafficLight_5C2910(u8 x, u8 y, u8 w, u8 h)
 {
-    TrafficLight* pMem = new TrafficLight();
-    field_0_traffic_lights[field_190_array_used_count++] = pMem;
-    pMem->Init_5C1D00(x, y, w, h);
+    TrafficLight* pLight = new TrafficLight();
+    field_0_traffic_lights[field_190_array_used_count++] = pLight;
+    pLight->Init_5C1D00(x, y, w, h);
 }
 
 MATCH_FUNC(0x5c2950)
@@ -321,7 +318,7 @@ void TrafficLights::TrafficLightsService_5C2950()
 
         field_192_phase++;
 
-        if (field_192_phase > traffic_light_phase::all_red_8) // TODO: Why is  GTA2_COUNTOF_S(traffic_light_phase_timers_626840) wrong?
+        if (field_192_phase > traffic_light_phase::all_red_8)
         {
             field_192_phase = traffic_light_phase::north_south_green_1;
         }
