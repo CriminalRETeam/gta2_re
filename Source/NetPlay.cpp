@@ -1019,7 +1019,7 @@ s32 NetPlay::DecodeReceivedPacket_51F210(s32 pPacket, u32 packetLen)
             {
                 pMsg[1] = 4; // pPacket[4]
             }
-            pBytes[0] = 1;
+            pBytes[0] = packet_type::DataPacket_1;
             pBytes[1] = copy[1];
             pBytes[2] = pMsg[1] + 2;
             *reinterpret_cast<s32*>(pPayload) = -1;
@@ -1033,7 +1033,7 @@ s32 NetPlay::DecodeReceivedPacket_51F210(s32 pPacket, u32 packetLen)
         case pkt_data_type::PlayerInputsAndTick_1:
             pMsg[0] = packet_subtype::PlayerInputs_3;
             pMsg[1] = packetLen - 2;
-            pBytes[0] = 1;
+            pBytes[0] = packet_type::DataPacket_1;
             pBytes[1] = copy[1];
             pBytes[2] = pMsg[1] + 2;
             memcpy(pPayload, &copy[2], packetLen - 2);
@@ -1043,15 +1043,15 @@ s32 NetPlay::DecodeReceivedPacket_51F210(s32 pPacket, u32 packetLen)
         case pkt_data_type::Ping_2:
             pMsg[0] = packet_subtype::Ping_1;
             pMsg[1] = packetLen - 1;
-            pBytes[0] = 1;
+            pBytes[0] = packet_type::DataPacket_1;
             pBytes[1] = copy[1];
             pBytes[2] = pMsg[1] + 2;
             memcpy(pPayload, &copy[1], packetLen - 1);
             len = packetLen + 4;
             break;
 
-        case pkt_data_type::Unknown_4:
-            pBytes[0] = 2;
+        case pkt_data_type::Acknowledgment_4:
+            pBytes[0] = packet_type::Acknowledgment_2;
             pBytes[1] = 0;
             pBytes[2] = 0;
             len = 3;
@@ -1063,7 +1063,7 @@ s32 NetPlay::DecodeReceivedPacket_51F210(s32 pPacket, u32 packetLen)
         case pkt_data_type::SyncCheckData_3:
             pMsg[0] = packet_subtype::StandardPacket_2;
             pMsg[1] = packetLen - 1;
-            pBytes[0] = 1;
+            pBytes[0] = packet_type::DataPacket_1;
             pBytes[1] = 0;
             pBytes[2] = pMsg[1] + 2;
             memcpy(pPayload, &copy[1], packetLen - 1);
@@ -1073,7 +1073,7 @@ s32 NetPlay::DecodeReceivedPacket_51F210(s32 pPacket, u32 packetLen)
         case pkt_data_type::PlayerQuit_5:
             pMsg[0] = packet_subtype::StandardPacket_2;
             pMsg[1] = packetLen - 1;
-            pBytes[0] = 1;
+            pBytes[0] = packet_type::DataPacket_1;
             pBytes[1] = 0;
             pBytes[2] = pMsg[1] + 2;
             memcpy(pPayload, &copy[1], packetLen - 1);
@@ -1083,7 +1083,7 @@ s32 NetPlay::DecodeReceivedPacket_51F210(s32 pPacket, u32 packetLen)
         case pkt_data_type::GiveUp_6:
             pMsg[0] = packet_subtype::StandardPacket_2;
             pMsg[1] = packetLen - 1;
-            pBytes[0] = 1;
+            pBytes[0] = packet_type::DataPacket_1;
             pBytes[1] = 0;
             pBytes[2] = pMsg[1] + 2;
             memcpy(pPayload, &copy[1], packetLen - 1);
@@ -1093,7 +1093,7 @@ s32 NetPlay::DecodeReceivedPacket_51F210(s32 pPacket, u32 packetLen)
         case pkt_data_type::KickFromConnection_7:
             pMsg[0] = packet_subtype::StandardPacket_2;
             pMsg[1] = packetLen - 1;
-            pBytes[0] = 1;
+            pBytes[0] = packet_type::DataPacket_1;
             pBytes[1] = 0;
             pBytes[2] = pMsg[1] + 2;
             memcpy(pPayload, &copy[1], packetLen - 1);
@@ -1103,7 +1103,7 @@ s32 NetPlay::DecodeReceivedPacket_51F210(s32 pPacket, u32 packetLen)
         case pkt_data_type::DisableJoining_8:
             pMsg[0] = packet_subtype::DisableJoining_4;
             pMsg[1] = 0;
-            pBytes[0] = 1;
+            pBytes[0] = packet_type::DataPacket_1;
             pBytes[1] = 0;
             pBytes[2] = 2;
             len = 5;
@@ -1210,7 +1210,7 @@ void NetPlay::MakeSendData_51F420(Packet_SubType_3* pPacket, s32* pData, u32* pD
             break;
 
         case packet_type::Acknowledgment_2:
-            pBuffer[0] = pkt_data_type::Unknown_4;
+            pBuffer[0] = pkt_data_type::Acknowledgment_4;
             *pDataLen = 1;
             break;
 
