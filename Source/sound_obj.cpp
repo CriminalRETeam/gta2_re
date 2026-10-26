@@ -232,8 +232,8 @@ void sound_obj::ProcessEntity_4123A0(s32 id)
 MATCH_FUNC(0x412490)
 void sound_obj::ProcessType2_412490(s32 idx)
 {
-    static BYTE gType2SampleIndexCounter_66F2D4;
-    static BYTE byte_66F540;
+    static u8 gType2SampleIndexCounter_66F2D4;
+    static u8 byte_66F540;
 
     SoundObject* pLinkedObj = field_147C_audio_entities[idx].field_4_pObj->field_C_pAny.pNextFree;
     if (!pLinkedObj)
@@ -2819,7 +2819,7 @@ void sound_obj::HandleCarDoorSounds_4182E0(Sound_Params* pParams)
     bool bQueued2 = false;
     Car* pCar = pParams->field_0_pObj->field_8_car_bc_ptr;
     s32 model = pCar->field_84_car_info_idx;
-    BYTE* pDoorData = gGtx_0x106C_703DD4->get_car_door_data_5AA3D0(model);
+    u8* pDoorData = gGtx_0x106C_703DD4->get_car_door_data_5AA3D0(model);
     for (u8 i = 0; i < static_cast<u8>(pCar->GetDoorCount_43B360()); ++i)
     {
         bool bLargeDoorOffset = false;
@@ -3719,7 +3719,7 @@ void sound_obj::FreeSoundEntry_41A090(u32 idx)
             {
                 memmove(&field_444C_AudioEntityOrderList[idx_iter],
                         &field_444C_AudioEntityOrderList[idx_iter + 1],
-                        sizeof(int) * (field_543C_444C_nAudioEntitiesCount - (idx_iter + 1)));
+                        sizeof(u32) * (field_543C_444C_nAudioEntitiesCount - (idx_iter + 1)));
             }
 
             field_543C_444C_nAudioEntitiesCount--;
@@ -6517,7 +6517,7 @@ void sound_obj::ProcessPoliceRadioWordsPlayback_427220()
 }
 
 MATCH_FUNC(0x427310)
-BYTE sound_obj::GetFreeRadioWordSlots_427310()
+u8 sound_obj::GetFreeRadioWordSlots_427310()
 {
     // note: return value and'ed with 0xFF if return type is wider
     if (field_5529_idx15 < field_5528_idx15_cur)
@@ -6605,11 +6605,11 @@ MATCH_FUNC(0x42A500)
 void sound_obj::ProcessType7_Weapon_42A500(s32 idx)
 {
     Weapon* pWeapon;
-    char shot_fired;
+    char_type shot_fired;
     s32 samp_idx;
-    char releasing_flag;
+    char_type releasing_flag;
     u8 vol;
-    int rate_adjust;
+    s32 rate_adjust;
     bool bHasSolidAbove;
 
     vol = 40;
