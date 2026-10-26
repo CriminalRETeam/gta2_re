@@ -269,7 +269,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
                         pPed->set_occupation_403970(ped_ocupation_enum::armed_gang_member_19);
                         pPed->field_17C_pGang = pGang;
                         pPed->set_remap_433B90(pGang->field_101_remap);
-                        if (pPed->get_remap_433BA0() == 5)
+                        if (pPed->get_remap_433BA0() == ped_remap_enum::ped_remap_red_head_redneck)
                         {
                             if (!gRng_6F6784.get_int_4F7AE0(2))
                             {
@@ -299,7 +299,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
                         pPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
                         pPed->set_remap_433B90(pGang->field_101_remap);
                         pPed->field_26C_graphic_type = ped_graphic_type::character_1;
-                        if (pPed->get_remap_433BA0() == 5)
+                        if (pPed->get_remap_433BA0() == ped_remap_enum::ped_remap_red_head_redneck)
                         {
                             if (!gRng_6F6784.get_int_4F7AE0(2))
                             {
@@ -859,7 +859,7 @@ Ped* PedManager::SpawnGangDriver_470BA0(Car* pCar, Gang* pGang)
     pNewPed->field_17C_pGang = pGang;
     pNewPed->set_remap_433B90(pGang->field_101_remap);
 
-    if (pNewPed->get_remap_433BA0() == 5)
+    if (pNewPed->get_remap_433BA0() == ped_remap_enum::ped_remap_red_head_redneck)
     {
         if (!gRng_6F6784.get_int_4F7AE0(2))
         {
