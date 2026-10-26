@@ -191,7 +191,7 @@ class CarManager
                                                    Fix16 zpos,
                                                    s32 bMatchDriverless,
                                                    Ped* pPed,
-                                                   char_type bIgnorePedRestrictions);
+                                                   bool bIgnorePedRestrictions);
 
     EXPORT Car* GetNearestFrontVehicle_445210(Sprite* pSprite, u8 max_rings);
     EXPORT Car* SpawnBusAtValidRoadPosition_4453E0(Fix16 x, Fix16 y, s32 side, const s32& car_model);
@@ -362,7 +362,6 @@ class Trailer
         field_8_truck_cab = NULL;
         field_C_trailer_car = NULL;
         field_0_hitch_angle_clamped = 0;
-        0;
     }
 
     char_type field_0_hitch_angle_clamped; // set by UpdateTrailerAlignment_407CE0 when the trailer angle hits its window, cleared on hitching
@@ -385,49 +384,49 @@ class Car
     // 9.6f 0x42AC70
     inline void SetTurnRight_42AC70()
     {
-        field_A6_bf.bTurnRight = 1;
+        field_A6_bf.bTurnRight = true;
     }
 
     // 9.6f 0x42AC80
     inline void SetTurnLeft_42AC80()
     {
-        field_A6_bf.bTurnLeft = 1;
+        field_A6_bf.bTurnLeft = true;
     }
 
     // 9.6f 0x42AC90
     inline void SetTurnRightReady_42AC90()
     {
-        field_A6_bf.bTurnRightReady = 1;
+        field_A6_bf.bTurnRightReady = true;
     }
 
     // 9.6f 0x421530
     inline void SetTurnLeftReady_421530()
     {
-        field_A6_bf.bTurnLeftReady = 1;
+        field_A6_bf.bTurnLeftReady = true;
     }
 
     // 9.6f 0x421540
     inline void SetAIHalted_421540()
     {
-        field_A6_bf.bAIHalted = 1;
+        field_A6_bf.bAIHalted = true;
     }
 
     // 9.6f 0x421550
     inline void ClearAIHalted_421550()
     {
-        field_A6_bf.bAIHalted = 0;
+        field_A6_bf.bAIHalted = false;
     }
 
     // 9.6f 0x42ACA0
     inline void ClearTurnRight_42ACA0()
     {
-        field_A6_bf.bTurnRight = 0;
+        field_A6_bf.bTurnRight = false;
     }
 
     // 9.6f 0x42ACB0
     inline void ClearTurnLeft_42ACB0()
     {
-        field_A6_bf.bTurnLeft = 0;
+        field_A6_bf.bTurnLeft = false;
     }
 
     // 9.6f 0x42AC60
@@ -1471,7 +1470,7 @@ EXTERN_GLOBAL(TrailerPool*, gTrailerPool_66AC80);
 
 EXTERN_GLOBAL(TrafficSpawner*, gTrafficSpawner_14_677934);
 
-EXTERN_GLOBAL(char_type, gbRngRemapTableDone_679C0A);
+EXTERN_GLOBAL(bool, gbRngRemapTableDone_679C0A);
 
 // TODO: move
 EXPORT s32 __stdcall GetDamageMultiplier_45CF90(Ped* pPed);

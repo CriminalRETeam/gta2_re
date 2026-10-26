@@ -126,7 +126,7 @@ DEFINE_GLOBAL_INIT(Fix16, kFpQuarter_677208, Fix16(0x1000, 0), 0x677208);
 
 // Indicates if CarRemapRng is initialised
 // It can probably turned into a static variable inside CarRemapRng
-DEFINE_GLOBAL(char_type, gbRngRemapTableDone_679C0A, 0x679C0A);
+DEFINE_GLOBAL(bool, gbRngRemapTableDone_679C0A, 0x679C0A);
 
 // Array of values used by CarRemapRng.
 // It can probably turned into a static variable inside CarRemapRng
@@ -892,13 +892,13 @@ bool Car::TrySnapCarToNearestDrivableRoadAndDriveForward_445EC0(Fix16 xpos, Fix1
 MATCH_FUNC(0x444f80)
 Car* CarManager::GetNearestCarFromCoord_444F80(Fix16 x, Fix16 y, Fix16 z, Ped* pPed)
 {
-    return DoGetNearestCarFromCoord_444FC0(x, y, z, 1, pPed, 1);
+    return DoGetNearestCarFromCoord_444FC0(x, y, z, true, pPed, true);
 }
 
 MATCH_FUNC(0x444fa0)
 Car* CarManager::GetNearestEnterableCarFromCoord_444FA0(Fix16 x, Fix16 y, Fix16 z, Ped* pPed)
 {
-    return DoGetNearestCarFromCoord_444FC0(x, y, z, 0, pPed, 0);
+    return DoGetNearestCarFromCoord_444FC0(x, y, z, false, pPed, false);
 }
 
 // 9.6f 0x424BD0
@@ -908,7 +908,7 @@ Car* CarManager::DoGetNearestCarFromCoord_444FC0(Fix16 xpos,
                                                 Fix16 zpos,
                                                 s32 bMatchDriverless,
                                                 Ped* pPed,
-                                                char_type bIgnorePedRestrictions)
+                                                bool bIgnorePedRestrictions)
 {
     // 9.6f calls sub_421D80 and sub_421DF0 here, which are HasSpriteZoom_43A230 and IsCarInAir_43A3C0 (not inlined in 10.5)
     Fix16 smallestDist = Fix16(0x300);
@@ -5903,7 +5903,7 @@ char_type Car::PoolUpdate()
                     pAi->AI_Service_453BB0();
                 }
             }
-            field_5C_AI->field_68_car_in_collision = 0;
+            field_5C_AI->field_68_car_in_collision = NULL;
             field_5C_AI->field_24_bf.bFlag12 = false;
         }
         ServicePhysics_442190();
