@@ -356,7 +356,7 @@ class Player
     char_type field_2A_pad;
     char_type field_2B_pad;
     s16 field_2C_death_countdown;
-    u8 field_2E_idx;
+    u8 field_2E_player_idx;
     bool field_2F_disable_all_controls;
     bool field_30_disable_enter_vehicles;
     bool field_31_kf_weapon_mode;

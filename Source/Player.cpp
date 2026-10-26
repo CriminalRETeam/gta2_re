@@ -2899,7 +2899,7 @@ Player::Player(u8 player_idx)
     field_794_is_chatting = false;
     field_838_chat_text_idx = 0;
     field_796_chat_text[0] = 0;
-    field_2E_idx = player_idx;
+    field_2E_player_idx = player_idx;
     field_28_wasted_or_busted = false;
     field_640_busted = false;
     field_680_traffic_spawn_counter = 0;
