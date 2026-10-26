@@ -21,7 +21,7 @@ RollingDigitCounter::RollingDigitCounter()
     field_9_shown_digits[kNumDigits] = 0;
     field_0_value = 0;
     field_4_target_value = -1;
-    field_8_bRollingUp = 0;
+    field_8_bRollingUp = false;
     field_27_sprite_w = -1;
     field_28_sprite_h_calc = -1;
     field_2A_max_num_of_digits = 0;
@@ -100,7 +100,7 @@ void RollingDigitCounter::ColorDigits_4921F0(s32 palette_type, s16 palette)
     }
     else
     {
-        true_palette = gGtx_0x106C_703DD4->GetTruePalette_5AA5F0(palette_type, palette); // default color ?
+        true_palette = gGtx_0x106C_703DD4->GetTruePalette_5AA5F0(palette_type, palette);
     }
 
     s32 digit_idx = field_2E_non_used_digits;
