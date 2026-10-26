@@ -4221,7 +4221,7 @@ s32 __stdcall GetDeathCauseForObjectModel_48E780(s32 model)
                 case objects::rocket_160:
                     return ped_death_cause::rocket_18;
                 case objects::mine_10:
-                    return ped_death_cause::unknown_21;
+                    return ped_death_cause::mine_21;
             }
         }
         else

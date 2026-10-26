@@ -276,35 +276,35 @@ bool BonusTracker::IsDeathCauseInGroup_432170(int death_cause, int rule_death_ca
     }
     else if (rule_death_cause == ped_death_cause::bomb_12)
     {
-        if (death_cause == ped_death_cause::unknown_4)
+        if (death_cause == ped_death_cause::explosion_4)
         {
             return true;
         }
     }
-    else if (rule_death_cause == ped_death_cause::unknown_21)
+    else if (rule_death_cause == ped_death_cause::mine_21)
     {
-        if (death_cause == ped_death_cause::unknown_4)
+        if (death_cause == ped_death_cause::explosion_4)
         {
             return true;
         }
     }
     else if (rule_death_cause == ped_death_cause::grenade_15)
     {
-        if (death_cause == ped_death_cause::unknown_4)
+        if (death_cause == ped_death_cause::explosion_4)
         {
             return true;
         }
     }
     else if (rule_death_cause == ped_death_cause::molotov_16)
     {
-        if (death_cause == ped_death_cause::unknown_4)
+        if (death_cause == ped_death_cause::explosion_4)
         {
             return true;
         }
     }
     else if (rule_death_cause == ped_death_cause::rocket_bullet_17)
     {
-        if (death_cause == ped_death_cause::unknown_4)
+        if (death_cause == ped_death_cause::explosion_4)
         {
             return true;
         }
@@ -320,7 +320,7 @@ bool BonusTracker::IsDeathCauseInGroup_432170(int death_cause, int rule_death_ca
     {
         switch (death_cause)
         {
-            case ped_death_cause::unknown_4:
+            case ped_death_cause::explosion_4:
             case ped_death_cause::punched_10:
             case ped_death_cause::bullet_11:
             case ped_death_cause::fire_13:

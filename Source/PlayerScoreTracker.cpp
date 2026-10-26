@@ -488,7 +488,7 @@ void PlayerScoreTracker::AwardPedKilledScore_592660(Ped* pVictim, Ped* pKiller)
     {
         switch (pVictim->field_290_death_cause)
         {
-            case ped_death_cause::unknown_4:
+            case ped_death_cause::explosion_4:
             case ped_death_cause::projectile_default_9:
             case ped_death_cause::punched_10:
             case ped_death_cause::bullet_11:
@@ -694,7 +694,7 @@ void PlayerScoreTracker::AwardPedKilledScore_592660(Ped* pVictim, Ped* pKiller)
                     else
                         score = bGangB ? 200 : 100;
                     break;
-                case ped_death_cause::unknown_4:
+                case ped_death_cause::explosion_4:
                     score = 20;
                     break;
                 case ped_death_cause::unknown_5:

@@ -460,7 +460,7 @@ void Explosion::ApplyBlastDamage_541850(u16 timerVal)
                     {
                         pPedChar->field_7C_pPed->field_204_killer_id = ped_id;
                     }
-                    pPedChar->field_7C_pPed->field_290_death_cause = ped_death_cause::unknown_4;
+                    pPedChar->field_7C_pPed->field_290_death_cause = ped_death_cause::explosion_4;
                     pPedChar->field_7C_pPed->field_264_killer_id_timer = 50;
 
                     Fix16 dx = pSprite->field_14_xy.x - this->field_14_pObj2C->field_4_sprite->field_14_xy.x;
