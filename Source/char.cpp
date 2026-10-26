@@ -1918,10 +1918,10 @@ void Char::HandlePedCollision_548BD0(Char* pOther)
 
     switch (my_type)
     {
-        case 2:
+        case ped_type::player_2:
             switch (other_type)
             {
-                case 5:
+                case ped_type::script_created_5:
                     if (field_7C_pPed->field_164_ped_group && pOther->field_7C_pPed->field_164_ped_group == field_7C_pPed->field_164_ped_group)
                     {
                         break;
@@ -1937,12 +1937,12 @@ void Char::HandlePedCollision_548BD0(Char* pOther)
                         field_80_sprite_ptr->set_xyz_lazy_420600(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800, gCharB4_Saved_Zpos_6FD7FC);
                     }
                     break;
-                case 2:
+                case ped_type::player_2:
                     field_80_sprite_ptr->set_xyz_lazy_420600(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800, gCharB4_Saved_Zpos_6FD7FC);
                     break;
-                case 3:
-                case 4:
-                case 6:
+                case ped_type::dummy_3:
+                case ped_type::special_ped_4:
+                case ped_type::dummy_with_occupation_6:
                     field_10_char_state = 1;
                     if (field_38_velocity == kZeroVelocity_6FD7C0)
                     {
@@ -1959,10 +1959,10 @@ void Char::HandlePedCollision_548BD0(Char* pOther)
             }
             break;
 
-        case 5:
+        case ped_type::script_created_5:
             switch (other_type)
             {
-                case 5:
+                case ped_type::script_created_5:
                     if (field_10_char_state == 10 || field_7C_pPed->get_id() >= pOther->field_7C_pPed->get_id())
                     {
                         field_10_char_state = 1;
@@ -1987,12 +1987,12 @@ void Char::HandlePedCollision_548BD0(Char* pOther)
                         }
                     }
                     break;
-                case 2:
+                case ped_type::player_2:
                     // Nothing to do, but the original's jump table starts at 2 (an empty case is dropped)
                     return;
-                case 3:
-                case 4:
-                case 6:
+                case ped_type::dummy_3:
+                case ped_type::special_ped_4:
+                case ped_type::dummy_with_occupation_6:
                     pOther->field_6A_repulsion_timer = 4;
                     pOther->field_74_repulsion_rotation = Fix16::atan2_fixed_405320(get_sprite_ptr_4338D0()->field_14_xy.y - pOther->field_80_sprite_ptr->field_14_xy.y,
                                                          field_80_sprite_ptr->field_14_xy.x - pOther->field_80_sprite_ptr->field_14_xy.x) + kAng180_6FD936;
@@ -2000,12 +2000,12 @@ void Char::HandlePedCollision_548BD0(Char* pOther)
             }
             break;
 
-        case 4:
-        case 6:
+        case ped_type::special_ped_4:
+        case ped_type::dummy_with_occupation_6:
             switch (other_type)
             {
-                case 4:
-                case 6:
+                case ped_type::special_ped_4:
+                case ped_type::dummy_with_occupation_6:
                     if (field_10_char_state == 10 || field_7C_pPed->get_id() >= pOther->field_7C_pPed->get_id())
                     {
                         field_10_char_state = 1;
@@ -2028,13 +2028,13 @@ void Char::HandlePedCollision_548BD0(Char* pOther)
                         }
                     }
                     break;
-                case 2:
+                case ped_type::player_2:
                     if (pOther->field_7C_pPed->field_20A_wanted_points >= 1)
                     {
                         field_7C_pPed->IsLawEnforcement_45B4E0();
                     }
                     break;
-                case 3:
+                case ped_type::dummy_3:
                     pOther->field_6A_repulsion_timer = 4;
                     pOther->field_74_repulsion_rotation = Fix16::atan2_fixed_405320(field_80_sprite_ptr->field_14_xy.y - pOther->field_80_sprite_ptr->field_14_xy.y,
                                                          field_80_sprite_ptr->field_14_xy.x - pOther->field_80_sprite_ptr->field_14_xy.x) + kAng180_6FD936;
@@ -2042,7 +2042,7 @@ void Char::HandlePedCollision_548BD0(Char* pOther)
             }
             break;
 
-        case 3:
+        case ped_type::dummy_3:
             if (field_7C_pPed->GetInternalObjective_403A90() == objectives_enum::crossing_road_48 || field_7C_pPed->GetInternalObjective_403A90() == objectives_enum::enter_train_37 ||
                 field_7C_pPed->GetInternalObjective_403A90() == objectives_enum::leave_train_38 || field_7C_pPed->GetInternalObjective_403A90() == objectives_enum::goto_area_on_foot_12)
             {
@@ -2051,7 +2051,7 @@ void Char::HandlePedCollision_548BD0(Char* pOther)
             }
             switch (other_type)
             {
-                case 2:
+                case ped_type::player_2:
                     if (pOther->field_7C_pPed->field_20A_wanted_points >= 1 && field_7C_pPed->IsLawEnforcement_45B4E0())
                     {
                         break;
@@ -2066,7 +2066,7 @@ void Char::HandlePedCollision_548BD0(Char* pOther)
                                                          field_80_sprite_ptr->field_14_xy.x - pOther->field_80_sprite_ptr->field_14_xy.x);
                     }
                     break;
-                case 5:
+                case ped_type::script_created_5:
                     if (pOther->field_38_velocity != kZeroVelocity_6FD7C0)
                     {
                         field_38_velocity = kFpOne128th_6FD860;
@@ -2077,11 +2077,11 @@ void Char::HandlePedCollision_548BD0(Char* pOther)
                                                          field_80_sprite_ptr->field_14_xy.x - pOther->field_80_sprite_ptr->field_14_xy.x);
                     }
                     break;
-                case 4:
-                case 6:
+                case ped_type::special_ped_4:
+                case ped_type::dummy_with_occupation_6:
                     field_38_velocity = kFpOne128th_6FD860;
                     break;
-                case 3:
+                case ped_type::dummy_3:
                     if (!field_20_collided_entity_type)
                     {
                         pOther->field_6A_repulsion_timer = 4;
