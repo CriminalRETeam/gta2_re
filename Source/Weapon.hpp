@@ -65,7 +65,7 @@ class Weapon
     EXPORT void smg_5DDD20();
     EXPORT void throwable_5DDFC0(s32 obj_idx, s32 throw_strength, s32 throw_charge);
     EXPORT void TraceBeamToHitTarget_5DE4F0();
-    EXPORT void ChainShockTargets_5DFB60(u8 bFlag, Sprite* pSprite, Ang16 target_angle);
+    EXPORT void ChainShockTargets_5DFB60(u8 chain_depth, Sprite* pSprite, Ang16 target_angle);
     EXPORT void shocker_5E06B0();
     EXPORT void electro_batton_5E0740();
     EXPORT void car_bomb_5E0AB0(char_type instant_bomb);

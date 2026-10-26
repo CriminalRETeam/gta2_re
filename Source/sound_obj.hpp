@@ -346,7 +346,7 @@ class sound_obj
     EXPORT void PlayVocal_418C80(s32 vocal_idx);
     EXPORT void ProcessType10_Vocals_418CA0();
     EXPORT bool CalculateDistance_419020(Fix16 max_dist);
-    EXPORT bool VolCalc_419070(u8 base_volume, Fix16 max_dist, char_type bFlag);
+    EXPORT bool VolCalc_419070(u8 base_volume, Fix16 max_dist, char_type bHasSolidAbove);
     EXPORT Fix16 ComputeEmitterDistanceSquared_4190B0();
     EXPORT s32 AddSoundObject_419FA0(SoundObject* pTuring);
 

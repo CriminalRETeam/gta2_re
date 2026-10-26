@@ -1152,7 +1152,7 @@ void __stdcall ShockPedsAroundSprite_5DF270(Sprite* pSprite, Fix16 search_size, 
 }
 
 MATCH_FUNC(0x5dfb60)
-void Weapon::ChainShockTargets_5DFB60(u8 bFlag, Sprite* pSprite, Ang16 target_angle)
+void Weapon::ChainShockTargets_5DFB60(u8 chain_depth, Sprite* pSprite, Ang16 target_angle)
 {
     SpriteList hits;
     char_type bHit = 0;
@@ -1163,7 +1163,7 @@ void Weapon::ChainShockTargets_5DFB60(u8 bFlag, Sprite* pSprite, Ang16 target_an
     Fix16 right;
     Fix16 top;
     Fix16 bottom;
-    if (!bFlag)
+    if (!chain_depth)
     {
         left = pSprite->field_14_xy.x - kFP16Two_706EC0;
         right = pSprite->field_14_xy.x + kFP16Two_706EC0;
@@ -1215,14 +1215,14 @@ void Weapon::ChainShockTargets_5DFB60(u8 bFlag, Sprite* pSprite, Ang16 target_an
                                                               pHit->field_14_xy.y,
                                                               pHit->field_1C_zpos))
                             {
-                                gElectroChainDepth_706C94 = bFlag;
+                                gElectroChainDepth_706C94 = chain_depth;
                                 DrawElectricArc_5DE910(pSprite->get_x_y(),
                                            pHit->get_x_y(),
                                            pHit->field_1C_zpos > pSprite->field_1C_zpos ? pHit->field_1C_zpos : pSprite->field_1C_zpos);
                                 gWeapon_8_707018->field_0_hit_sprites.PushSprite_5A6D40(pHit);
-                                if (bFlag < 1)
+                                if (chain_depth < 1)
                                 {
-                                    ChainShockTargets_5DFB60(bFlag + 1, pHit, angle);
+                                    ChainShockTargets_5DFB60(chain_depth + 1, pHit, angle);
                                 }
                                 pHit->field_8_char_b4_ptr->field_7C_pPed->SetAttacker_433BF0(field_24_pPed);
                                 pHit->field_8_char_b4_ptr->field_7C_pPed->field_204_killer_id = field_24_pPed->field_200_id;
@@ -1260,14 +1260,14 @@ void Weapon::ChainShockTargets_5DFB60(u8 bFlag, Sprite* pSprite, Ang16 target_an
                                                               pHit->field_14_xy.y,
                                                               pHit->field_1C_zpos))
                             {
-                                gElectroChainDepth_706C94 = bFlag;
+                                gElectroChainDepth_706C94 = chain_depth;
                                 DrawElectricArc_5DE910(pSprite->get_x_y(),
                                            pHit->get_x_y(),
                                            pHit->field_1C_zpos > pSprite->field_1C_zpos ? pHit->field_1C_zpos : pSprite->field_1C_zpos);
                                 gWeapon_8_707018->field_0_hit_sprites.PushSprite_5A6D40(pHit);
-                                if (bFlag < 1)
+                                if (chain_depth < 1)
                                 {
-                                    ChainShockTargets_5DFB60(bFlag + 1, pHit, angle);
+                                    ChainShockTargets_5DFB60(chain_depth + 1, pHit, angle);
                                 }
                                 if (!pHit->field_8_car_bc_ptr->IsFlameproof_425770())
                                 {
@@ -1295,7 +1295,7 @@ void Weapon::ChainShockTargets_5DFB60(u8 bFlag, Sprite* pSprite, Ang16 target_an
             }
         } while (hits.field_0_p18);
 
-        if (bHit && !bFlag)
+        if (bHit && !chain_depth)
         {
             SetShotFired_4CCA80(1);
             if (field_24_pPed->PedTypeIs_45EDE0(ped_type::player_2) && (gpRng_67AB34->get_cur_rng_41CFE0() & 1))

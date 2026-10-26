@@ -3436,11 +3436,11 @@ bool sound_obj::CalculateDistance_419020(Fix16 max_dist)
 }
 
 MATCH_FUNC(0x419070)
-bool sound_obj::VolCalc_419070(u8 base_volume, Fix16 max_dist, char_type bFlag)
+bool sound_obj::VolCalc_419070(u8 base_volume, Fix16 max_dist, char_type bHasSolidAbove)
 {
     u8 volume = CalcVolume_41A3F0(base_volume, max_dist, field_30_sQueueSample.field_28_distance);
     field_30_sQueueSample.field_24_nVolume = volume;
-    if (bFlag)
+    if (bHasSolidAbove)
     {
         field_30_sQueueSample.field_24_nVolume = volume >> 1;
     }

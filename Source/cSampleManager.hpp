@@ -23,7 +23,7 @@ class cSampleManager
 
     EXPORT bool SoundInit_58D6C0(s32* not_used);
 
-    EXPORT bool OpenDigitalDriver_58D720(char_type bFlag, char_type bStereo, s32 sampleRate);
+    EXPORT bool OpenDigitalDriver_58D720(char_type b16Bit, char_type bStereo, s32 sampleRate);
 
     // todo: order
 

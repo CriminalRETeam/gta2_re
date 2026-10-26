@@ -244,7 +244,7 @@ bool cSampleManager::SoundInit_58D6C0(s32* not_used)
 }
 
 MATCH_FUNC(0x58D720)
-bool cSampleManager::OpenDigitalDriver_58D720(char_type bFlag, char_type bStereo, s32 sampleRate)
+bool cSampleManager::OpenDigitalDriver_58D720(char_type b16Bit, char_type bStereo, s32 sampleRate)
 {
     struct lol
     {
@@ -253,7 +253,7 @@ bool cSampleManager::OpenDigitalDriver_58D720(char_type bFlag, char_type bStereo
     };
     lol l;
 
-    if (bFlag)
+    if (b16Bit)
     {
         field_1EB1_bytes_per_sample = 2;
     }
