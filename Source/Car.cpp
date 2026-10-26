@@ -1895,7 +1895,7 @@ Fix16_Point Car::GetHitchPoint_439FB0()
 {
     Fix16_Point point;
     car_info* pInfo = gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx);
-    if ((pInfo->info_flags & car_info_flag::trailer) == car_info_flag::trailer)
+    if (pInfo->IsTrailer())
     {
         point = kTrailerHitchOffset_677370;
     }
@@ -2083,7 +2083,7 @@ void Car::RemoveAllDamage()
 MATCH_FUNC(0x43a680)
 bool Car::AllowResprayOrPlates()
 {
-    return (!IsTrainModel_403BA0() && (gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags & car_info_flag::emergency) != car_info_flag::emergency &&
+    return (!IsTrainModel_403BA0() && !HasEmergencyInfoFlag() &&
             !IsFbiCar_411920() && !field_0_attachments.GetGangIdxFromSpriteIfAny_5A71A0() && !IsArmyModel(field_84_car_info_idx));
 }
 
@@ -2386,9 +2386,9 @@ bool Car::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
                 {
                     return false;
                 }
-                if ((their_flags & car_flag::Crushing) != 0 && (gGtx_0x106C_703DD4->get_car_info_5AA3B0(this->field_84_car_info_idx)->info_flags_2 & car_info_flag2::heavy) != car_info_flag2::heavy ||
+                if ((their_flags & car_flag::Crushing) != 0 && !gGtx_0x106C_703DD4->get_car_info_5AA3B0(this->field_84_car_info_idx)->IsHeavy_41FF00() ||
                     (this->field_78_flags & car_flag::Crushing) &&
-                        (gGtx_0x106C_703DD4->get_car_info_5AA3B0(pCar->field_84_car_info_idx)->info_flags_2 & car_info_flag2::heavy) != car_info_flag2::heavy)
+                        !gGtx_0x106C_703DD4->get_car_info_5AA3B0(pCar->field_84_car_info_idx)->IsHeavy_41FF00())
                 {
                     return false;
                 }
@@ -2398,14 +2398,12 @@ bool Car::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
                     return true;
                 }
 
-                if ((gGtx_0x106C_703DD4->get_car_info_5AA3B0(this->field_84_car_info_idx)->info_flags & car_info_flag::truck_cab) == car_info_flag::truck_cab && !pCar->field_64_pTrailer &&
-                    (gGtx_0x106C_703DD4->get_car_info_5AA3B0(pCar->field_84_car_info_idx)->info_flags & car_info_flag::trailer) == car_info_flag::trailer)
+                if (IsTruckCab_421620() && !pCar->field_64_pTrailer && pCar->IsTrailerInfo_421640())
                 {
                     return field_50_car_sprite->CheckDirectionalSliceCollision_59E680(kFpFiveEighths_6778C8, pSprite);
                 }
 
-                if (this->field_64_pTrailer || (gGtx_0x106C_703DD4->get_car_info_5AA3B0(this->field_84_car_info_idx)->info_flags & car_info_flag::trailer) != car_info_flag::trailer ||
-                    pCar->field_64_pTrailer || (gGtx_0x106C_703DD4->get_car_info_5AA3B0(pCar->field_84_car_info_idx)->info_flags & car_info_flag::truck_cab) != car_info_flag::truck_cab)
+                if (this->field_64_pTrailer || !IsTrailerInfo_421640() || pCar->field_64_pTrailer || !pCar->IsTruckCab_421620())
                 {
                     return true;
                 }
@@ -6162,7 +6160,7 @@ char_type Car::PoolUpdate()
         ManageDrowning_43E560();
     }
 
-    if (!this->field_64_pTrailer && (gGtx_0x106C_703DD4->get_car_info_5AA3B0(this->field_84_car_info_idx)->info_flags & car_info_flag::truck_cab) == car_info_flag::truck_cab)
+    if (!this->field_64_pTrailer && IsTruckCab_421620())
     {
         TryHitchTrailer_442810();
     }
@@ -6173,7 +6171,7 @@ char_type Car::PoolUpdate()
 
     if (field_88_despawn_status != car_despawn_status::despawning_5)
     {
-        if ((gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags & car_info_flag::taxi_light) == car_info_flag::taxi_light)
+        if (HasTaxiLight_4216C0())
         {
             if (field_54_driver)
             {
@@ -6276,7 +6274,7 @@ s32 Car::GetAttachedDrawLayer_4435B0()
         return 20;
     }
 
-    if ((gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags_2 & car_info_flag2::heavy) != car_info_flag2::heavy)
+    if (!gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->IsHeavy_41FF00())
     {
         return 17;
     }
@@ -6300,7 +6298,7 @@ void Car::UpdateDrawLayer_4435F0()
         {
             this->field_50_car_sprite->SetDrawLayer_40F7B0(19);
         }
-        else if ((gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags_2 & car_info_flag2::heavy) == car_info_flag2::heavy)
+        else if (gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->IsHeavy_41FF00())
         {
             this->field_50_car_sprite->SetDrawLayer_40F7B0(21);
         }
