@@ -634,7 +634,7 @@ bool Player::CollectPowerUp_564D60(s32 power_up_idx)
 {
     switch (power_up_idx)
     {
-        case power_up_indices::Unk_0:
+        case power_up_indices::Multiplier_0:
             if (field_6BC_multipliers.get_value() == 99)
             {
                 return 0;
@@ -642,7 +642,7 @@ bool Player::CollectPowerUp_564D60(s32 power_up_idx)
             ChangeMultipliers_4766B0(1);
             break;
 
-        case power_up_indices::Unk_1:
+        case power_up_indices::ExtraLife_1:
             if (this->field_684_lives.get_value() == 99)
             {
                 return 0;
@@ -650,7 +650,7 @@ bool Player::CollectPowerUp_564D60(s32 power_up_idx)
             ChangeLifeCountByAmount_5699F0(1);
             break;
 
-        case power_up_indices::Unk_2:
+        case power_up_indices::Health_2:
             if (field_2C4_player_ped->get_health_433B70() >= 100)
             {
                 return 0;
@@ -659,14 +659,14 @@ bool Player::CollectPowerUp_564D60(s32 power_up_idx)
             break;
 
         case power_up_indices::Armor_3:
-            if (this->field_6F4_power_up_timers[3] == 10)
+            if (this->field_6F4_power_up_timers[power_up_indices::Armor_3] == 10)
             {
                 return 0;
             }
-            this->field_6F4_power_up_timers[3] = 10;
+            this->field_6F4_power_up_timers[power_up_indices::Armor_3] = 10;
             break;
 
-        case power_up_indices::Unk_5:
+        case power_up_indices::CopBribe_5:
             if (field_2C4_player_ped->get_wanted_points_433DC0() == 0)
             {
                 return 0;
@@ -675,7 +675,7 @@ bool Player::CollectPowerUp_564D60(s32 power_up_idx)
             break;
 
         case power_up_indices::Invulnerability_6:
-            if (this->field_6F4_power_up_timers[6] == 1200)
+            if (this->field_6F4_power_up_timers[power_up_indices::Invulnerability_6] == 1200)
             {
                 return 0;
             }
@@ -684,32 +684,32 @@ bool Player::CollectPowerUp_564D60(s32 power_up_idx)
             break;
 
         case power_up_indices::DoubleDamage_7:
-            if (this->field_6F4_power_up_timers[7] == 1800)
+            if (this->field_6F4_power_up_timers[power_up_indices::DoubleDamage_7] == 1800)
             {
                 return 0;
             }
-            this->field_6F4_power_up_timers[7] = 1800;
+            this->field_6F4_power_up_timers[power_up_indices::DoubleDamage_7] = 1800;
             break;
 
         case power_up_indices::FastReload_8:
-            if (this->field_6F4_power_up_timers[8] == 1800)
+            if (this->field_6F4_power_up_timers[power_up_indices::FastReload_8] == 1800)
             {
                 return 0;
             }
-            this->field_6F4_power_up_timers[8] = 1800;
+            this->field_6F4_power_up_timers[power_up_indices::FastReload_8] = 1800;
             break;
 
         case power_up_indices::Electrofingers_9:
-            if (this->field_6F4_power_up_timers[9] == 2100)
+            if (this->field_6F4_power_up_timers[power_up_indices::Electrofingers_9] == 2100)
             {
                 return 0;
             }
-            this->field_6F4_power_up_timers[9] = 2100;
+            this->field_6F4_power_up_timers[power_up_indices::Electrofingers_9] = 2100;
             this->field_2C4_player_ped->SetElectrofingers_4A5060();
             break;
 
         case power_up_indices::Invisibility_11:
-            if (this->field_6F4_power_up_timers[11] == 1800)
+            if (this->field_6F4_power_up_timers[power_up_indices::Invisibility_11] == 1800)
             {
                 return 0;
             }
@@ -717,7 +717,7 @@ bool Player::CollectPowerUp_564D60(s32 power_up_idx)
             field_2C4_player_ped->SetInvisible();
             break;
 
-        case power_up_indices::Unk_10:
+        case power_up_indices::Respect_10:
             if (!field_34_gang_curr_location)
             {
                 return 0;

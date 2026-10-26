@@ -4252,7 +4252,7 @@ s32 __stdcall GetDeathCauseForObjectModel_48E780(s32 model)
 MATCH_FUNC(0x45CF90)
 s32 __stdcall GetDamageMultiplier_45CF90(Ped* pPed)
 {
-    if (pPed && pPed->field_15C_player && pPed->field_15C_player->field_6F4_power_up_timers[7] != 0)
+    if (pPed && pPed->field_15C_player && pPed->field_15C_player->field_6F4_power_up_timers[power_up_indices::DoubleDamage_7] != 0)
     {
         return 2;
     }
