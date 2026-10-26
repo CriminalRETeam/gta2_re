@@ -554,6 +554,7 @@ class Car
     EXPORT void HeadlightsOn_43BFE0();
     EXPORT void HeadlightsOff_43C0C0();
     EXPORT void PrepareForExplosion_43C1C0();
+  private:
     EXPORT void UpdateTopRightRoofLight_43C260();
     EXPORT void ResetTopRightRoofLight_43C310();
     EXPORT void UpdateTopLeftRoofLight_43C3C0();
@@ -562,6 +563,7 @@ class Car
     EXPORT void ResetRoofLights_43C650();
     EXPORT void UpdateBottomLeftRoofLight_43C700();
     EXPORT void ResetBottomLeftRoofLight_43C840();
+  public:
     EXPORT void ActivateEmergencyLights_43C920();
     EXPORT void DeactivateEmergencyLights_43C9D0();
     EXPORT void ToggleEmergencyLights_43CA80();
@@ -636,6 +638,7 @@ class Car
     EXPORT void AllocCarPhysics_4419E0();
     EXPORT void DeAllocateCarPhysics_441A10();
     EXPORT bool AreAllDoorsClosed_441A40();
+  private:
     EXPORT void InitDoors_441A70();
     EXPORT void ServiceDoors_441B00();
     EXPORT void UpdateTaxiLight_441B20();
@@ -648,6 +651,7 @@ class Car
     EXPORT bool IsMissionRelated_4421B0();
     EXPORT bool CanDespawn_442200();
     EXPORT void ManageDespawning_442310();
+  public:
     EXPORT bool UpdateCarDespawnStatus_4424C0();
     EXPORT Ang16 GetRadioTowerAngle_442520() const;
     EXPORT void ManageTVAntenna_4425D0();
