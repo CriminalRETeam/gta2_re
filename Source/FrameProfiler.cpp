@@ -168,7 +168,7 @@ void __stdcall FrameProfiler::GetMemTotal_4FF970(u32* pValue)
 }
 
 MATCH_FUNC(0x4ff980)
-void FrameProfiler::sub_4FF980()
+void FrameProfiler::Service_4FF980()
 {
 }
 

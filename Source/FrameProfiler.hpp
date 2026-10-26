@@ -89,7 +89,7 @@ class FrameProfiler
     EXPORT void DebugDrawProfiling_4FF250();
     EXPORT static void sDrawString_4FF910(s32 xpos, s32 ypos, const wchar_t* pFormat, ...);
     EXPORT static void __stdcall GetMemTotal_4FF970(u32* pValue);
-    EXPORT void sub_4FF980();
+    EXPORT void Service_4FF980();
     EXPORT void StartProfileTimer_4FF990(u32 idx);
     EXPORT void StopProfileTimer_4FF9F0(u32 idx);
     EXPORT void DebugPrintf_4FFA50(const char_type* pFormat, ...);

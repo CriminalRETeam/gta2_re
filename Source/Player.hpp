@@ -237,7 +237,7 @@ class Player
     EXPORT void RestorePowerUpsFromSave_5651F0(SavedPlayerStats* pSave);
     EXPORT void TeleportToDebugCam_565310();
     EXPORT void DebugWatchNearestCar_5653E0();
-    EXPORT void sub_565460();
+    EXPORT void OnVideoModeChange_565460();
     EXPORT void InitPlayerPed_565490(Ped* pPed);
     EXPORT void SetInputs_565740(u32 inputs);
     EXPORT void IncrementGangRespectFromDebugKeys_565770(u8 count);

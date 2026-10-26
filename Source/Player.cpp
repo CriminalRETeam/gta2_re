@@ -846,7 +846,7 @@ void Player::DebugWatchNearestCar_5653E0()
 }
 
 MATCH_FUNC(0x565460)
-void Player::sub_565460()
+void Player::OnVideoModeChange_565460()
 {
     // Empty
 }
