@@ -19,7 +19,7 @@ class Ped_List
     EXPORT void AddPedToBackIfMissing_471160(Ped* pPed);
     EXPORT void AddPedToFrontIfMissing_4711B0(Ped* pPed);
     EXPORT void RemovePed_4711F0(Ped* pPed);
-    // Functionally the same as above? Hmmm
+    // Same code as RemovePed_4711F0
     EXPORT void RemovePed_471240(Ped* pPed);
     // Keeps the active dead peds (the bodies waiting for an ambulance) and frees every other node.
     // Returns how many were removed.
@@ -39,7 +39,6 @@ class Ped_List
     EXPORT void SyncPassengersWithCarState_4716D0(Car* pCar);
     EXPORT bool HasScriptCreatedPed_471710() const;
 
-    // inline
     void ClearList_420E90()
     {
         field_0_pFirstPed = NULL;
