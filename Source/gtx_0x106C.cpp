@@ -820,15 +820,15 @@ void gtx_0x106C::read_spec_5AB3F0(u32 spec)
 MATCH_FUNC(0x5AB450)
 void gtx_0x106C::load_spec_5AB450()
 {
-    read_spec_5AB3F0(2);
-    read_spec_5AB3F0(3);
-    read_spec_5AB3F0(4);
-    read_spec_5AB3F0(5);
-    read_spec_5AB3F0(6);
-    read_spec_5AB3F0(7);
-    read_spec_5AB3F0(8);
-    read_spec_5AB3F0(9);
-    read_spec_5AB3F0(10);
+    read_spec_5AB3F0(tile_spec::grass_dirt_floor);
+    read_spec_5AB3F0(tile_spec::road_junction_special);
+    read_spec_5AB3F0(tile_spec::water);
+    read_spec_5AB3F0(tile_spec::electrified_floor);
+    read_spec_5AB3F0(tile_spec::electrified_platform_floor);
+    read_spec_5AB3F0(tile_spec::wood_floor);
+    read_spec_5AB3F0(tile_spec::metal_floor);
+    read_spec_5AB3F0(tile_spec::metal_wall);
+    read_spec_5AB3F0(tile_spec::grass_dirt_wall);
 }
 
 MATCH_FUNC(0x5AB4B0)
