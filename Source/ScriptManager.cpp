@@ -128,7 +128,7 @@ str_table_entry* ScriptManager::StrEntryByString_5030B0(const char_type* strToFi
     str_table_entry* pEntry = field_13350_pStringTbl->field_4_entries[idx];
     while (pEntry)
     {
-        if (_strnicmp(strToFind, reinterpret_cast<const char*>(&pEntry[1]), pEntry->field_8_length) == 0) // string data is after the end of the structure
+        if (_strnicmp(strToFind, pEntry->get_name(), pEntry->field_8_length) == 0)
         {
             return pEntry;
         }
@@ -526,8 +526,8 @@ void ScriptManager::LoadStringTbl_5121E0(u16 tableSize)
     u32 total_str_length_ = 0;
     while (total_str_length_ < tableSize)
     {
-        pStringDataIter2->field_2_zone_idx = gMap_0x370_6F6268->FindZoneIdxByName_4DF050(reinterpret_cast<char_type*>(&pStringDataIter2[1]),
-                                                                                        static_cast<u8>(strlen(reinterpret_cast<const char_type*>(&pStringDataIter2[1]))));
+        pStringDataIter2->field_2_zone_idx = gMap_0x370_6F6268->FindZoneIdxByName_4DF050(pStringDataIter2->get_name(),
+                                                                                        static_cast<u8>(strlen(pStringDataIter2->get_name())));
         field_13350_pStringTbl->field_4_entries[str_count] = pStringDataIter2;
         s32 str_length_ = pStringDataIter2->field_8_length + 9;
         total_str_length_ += str_length_;

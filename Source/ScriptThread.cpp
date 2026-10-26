@@ -859,7 +859,7 @@ void ScriptThread::SCRCMD_SET_GANG_INFO1_504830(SCR_SET_GANG_INFO* pCmd)
 
     string_entry = gScriptManager_6F8060->FindStringById_503080(pCmd->field_8_gangname);
 
-    Gang* pZone = gGangPool_CA8_67E274->FindGangByName_4BF100(reinterpret_cast<char*>(&string_entry[1]));
+    Gang* pZone = gGangPool_CA8_67E274->FindGangByName_4BF100(string_entry->get_name());
     pZone->SetRemap_4758A0(pCmd->field_A_remap);
 
     pZone->SetBasicWeapon_4758B0(pCmd->field_B_weapon1);
@@ -882,7 +882,7 @@ void ScriptThread::SCRCMD_SET_GANG_INFO1_504830(SCR_SET_GANG_INFO* pCmd)
     pZone->SetKillRespectChange_475950(pCmd->field_F_kill_respect_change);
     gGangPool_CA8_67E274->SwapGangSlots_4BF230(pZone, gScriptManager_6F8060->field_354_next_gang_idx);
     ++gScriptManager_6F8060->field_354_next_gang_idx;
-    Gang* pGang = gGangPool_CA8_67E274->FindGangByName_4BF100(reinterpret_cast<char*>(&string_entry[1]));
+    Gang* pGang = gGangPool_CA8_67E274->FindGangByName_4BF100(string_entry->get_name());
 
     if (pCmd->field_F_kill_respect_change > 0)
     {
@@ -1198,7 +1198,7 @@ void ScriptThread::SCRCMD_SET_STATION_EMPTY_STATION_505030(SCR_SET_STATION* pCmd
     if (!bSkip_trains_67D550)
     {
         str_table_entry* StringById_503080 = gScriptManager_6F8060->FindStringById_503080(pCmd->field_8_platform);
-        gmp_map_zone* station_zone = gMap_0x370_6F6268->FindZoneByName_4DEFD0(reinterpret_cast<const char*>(&StringById_503080[1]));
+        gmp_map_zone* station_zone = gMap_0x370_6F6268->FindZoneByName_4DEFD0(StringById_503080->get_name());
         TrainStation* pStation = gPublicTransport_181C_6FF1D4->TrainStationForZone_57B4B0(station_zone);
 
         for (u8 wagon_idx = 0; wagon_idx < 10; wagon_idx++)
@@ -1243,7 +1243,7 @@ void ScriptThread::CRCMD_SET_TRAIN_STATIONS_505210(SCR_TWO_PARAMS* pCmd)
     if (!bSkip_trains_67D550)
     {
         StringById = gScriptManager_6F8060->FindStringById_503080(pCmd->field_8_unsigned_1);
-        const char* station_zone_name = reinterpret_cast<const char*>(&StringById[1]);
+        const char_type* station_zone_name = StringById->get_name();
         gmp_map_zone* station_zone = gMap_0x370_6F6268->FindZoneByName_4DEFD0(station_zone_name);
         TrainStation* pTrainStation = gPublicTransport_181C_6FF1D4->TrainStationForZone_57B4B0(station_zone);
         pTrainStation->CalculateWagonCount_578820(reinterpret_cast<u8*>(&pCmd->field_A_unsigned_2)); //  The parameter may be the train wagon array, not sure
@@ -3505,7 +3505,7 @@ void ScriptThread::SCRCMD_CHANGE_RESPECT_50ACF0()
 
     str_table_entry* StringById_503080 = gScriptManager_6F8060->FindStringById_503080(gBasePtr_6F8070->field_8_index);
 
-    char* gang_zone_name = reinterpret_cast<char*>(&StringById_503080[1]);
+    char_type* gang_zone_name = StringById_503080->get_name();
     Gang* pGang = gGangPool_CA8_67E274->FindGangByName_4BF100(gang_zone_name);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_C_unsigned_3));
 
@@ -3883,7 +3883,7 @@ void ScriptThread::SCRCMD_IS_CHAR_IN_GANG_50B7D0()
     SCR_IS_CHAR_IN_GANG_ZONE* pCmd = reinterpret_cast<SCR_IS_CHAR_IN_GANG_ZONE*>(gBasePtr_6F8070);
     SCR_POINTER* BasePointer_512770 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     str_table_entry* StringById_503080 = gScriptManager_6F8060->FindStringById_503080(pCmd->field_A_gang_idx);
-    const char_type* GangName = reinterpret_cast<char*>(&StringById_503080[1]);
+    const char_type* GangName = StringById_503080->get_name();
     Gang* pGang = gGangPool_CA8_67E274->FindGangByName_4BF100(GangName);
     Ped* pPed = BasePointer_512770->field_8_char;
     if (pPed->is_player_41B0A0())
@@ -4202,8 +4202,8 @@ void ScriptThread::SCRCMD_IS_CHAR_IN_ZONE_50BF40()
                                                               Navigation_1);
     }
 
-    if ((pZone1 && !_strnicmp(pZone1->field_6_name, reinterpret_cast<const char*>(&pStrEntry[1]), pZone1->field_5_name_length)) ||
-        (pZone2 && !_strnicmp(pZone2->field_6_name, reinterpret_cast<const char*>(&pStrEntry[1]), pZone2->field_5_name_length)))
+    if ((pZone1 && !_strnicmp(pZone1->field_6_name, pStrEntry->get_name(), pZone1->field_5_name_length)) ||
+        (pZone2 && !_strnicmp(pZone2->field_6_name, pStrEntry->get_name(), pZone2->field_5_name_length)))
     {
         field_8_cond_result = true;
     }
@@ -4440,7 +4440,7 @@ void ScriptThread::SCRCMD_ADD_CHAR_TO_GANG_50C540()
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     str_table_entry* StringById_503080 = gScriptManager_6F8060->FindStringById_503080(pCmd->field_A_unsigned_2);
 
-    char* gang_zone_name = reinterpret_cast<char*>(&StringById_503080[1]);
+    char_type* gang_zone_name = StringById_503080->get_name();
 
     pPointer->field_8_char->field_17C_pGang = gGangPool_CA8_67E274->FindGangByName_4BF100(gang_zone_name);
 
@@ -4903,7 +4903,7 @@ void ScriptThread::SCRCMD_PHONE_TEMPLATE_50CE90()
     SCR_POINTER* pOnMission3 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_16_counter5));
 
     str_table_entry* pGangNameEntry = gScriptManager_6F8060->FindStringById_503080(pCmd->field_18_gangname);
-    char_type* gang_name = reinterpret_cast<char_type*>(&pGangNameEntry[1]);
+    char_type* gang_name = pGangNameEntry->get_name();
     Gang* pGang = gGangPool_CA8_67E274->FindGangByName_4BF100(gang_name);
 
     s8 player_idx1;
@@ -4918,7 +4918,7 @@ void ScriptThread::SCRCMD_PHONE_TEMPLATE_50CE90()
         {
             gScriptManager_6F8060->field_C1E2E_death_arrest_flag = false;
             str_table_entry* mission2_str_table = gScriptManager_6F8060->FindStringById_503080(pCmd->field_E_mission2);
-            char_type* mission2_name = reinterpret_cast<char_type*>(&mission2_str_table[1]);
+            char_type* mission2_name = mission2_str_table->get_name();
             ScriptThread::launch_mission_5119A0(gBasePtr_6F8070, mission2_name);
             return;
         }
@@ -4943,7 +4943,7 @@ void ScriptThread::SCRCMD_PHONE_TEMPLATE_50CE90()
         {
             gScriptManager_6F8060->field_C1E2E_death_arrest_flag = false;
             str_table_entry* mission2_str_table = gScriptManager_6F8060->FindStringById_503080(pCmd->field_E_mission2);
-            char_type* mission2_name = reinterpret_cast<char_type*>(&mission2_str_table[1]);
+            char_type* mission2_name = mission2_str_table->get_name();
             ScriptThread::launch_mission_5119A0(gBasePtr_6F8070, mission2_name);
             return;
         }
@@ -5014,7 +5014,7 @@ void ScriptThread::SCRCMD_PHONE_TEMPLATE_50CE90()
     {
         gScriptManager_6F8060->field_C1E2E_death_arrest_flag = false;
         str_table_entry* mission1_str_table = gScriptManager_6F8060->FindStringById_503080(pCmd->field_1C_mission1);
-        char_type* mission1_name = reinterpret_cast<char_type*>(&mission1_str_table[1]);
+        char_type* mission1_name = mission1_str_table->get_name();
         ScriptThread::launch_mission_5119A0(gBasePtr_6F8070, mission1_name);
         return;
     }
@@ -5952,7 +5952,7 @@ void ScriptThread::SCRCMD_DO_EASY_PHONE_50EDC0() //  EASY_PHONE_TEMPLATE
     pParam4 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_14_counter4));
     pParam5 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_16_counter5));
     str_table_entry* StringById = gScriptManager_6F8060->FindStringById_503080(pCmd->field_18_gangname);
-    char_type* gang_name = reinterpret_cast<char_type*>(&StringById[1]);
+    char_type* gang_name = StringById->get_name();
     Gang* pGang_zone = gGangPool_CA8_67E274->FindGangByName_4BF100(gang_name);
     if (pParam3->field_8_counter == 1) //  flag_on_[gang1]_mission == 1
     {
