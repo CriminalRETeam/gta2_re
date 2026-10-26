@@ -17,7 +17,7 @@ MissionCleanupList::MissionCleanupList() throw()
     field_258_count = 0;
     for (s32 i = 0; i < 50; i++)
     {
-        field_0_entries[i].field_0_obj = 0;
+        field_0_entries[i].field_0_obj = NULL;
         field_0_entries[i].field_8_entity_id = 0;
         field_0_entries[i].field_4_type = cleanup_entry_type::empty_0;
     }
@@ -67,7 +67,7 @@ void MissionCleanupList::push_type_3_ped_502FB0(Ped* pPed)
 }
 
 MATCH_FUNC(0x502ff0)
-void MissionCleanupList::push_type_2_502FF0(Object* pObj, char_type bForce)
+void MissionCleanupList::push_type_2_502FF0(Object* pObj, bool bForce)
 {
     if (bForce || pObj && ((pObj->GetModel_40FEF0() < 64) || pObj->GetModel_40FEF0() > 108) && (pObj->GetModel_40FEF0() < 200 || pObj->GetModel_40FEF0() > 244))
     {

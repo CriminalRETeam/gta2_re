@@ -2147,7 +2147,7 @@ void ScriptThread::SCRCMD_CREATE_OBJ_507CE0()
     }
     if (!field_118_in_level_start)
     {
-        gMiss2_25C_6F805C->push_type_2_502FF0(pPointer->field_8_obj, 0);
+        gMiss2_25C_6F805C->push_type_2_502FF0(pPointer->field_8_obj, false);
     }
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }
@@ -6845,7 +6845,7 @@ void ScriptThread::SCRCMD_FORCE_CLEANUP_510660()
 
     if (ScriptThread::GetEntityTypeOfCommand_503410(pPointer->field_2_type) == 3)
     {
-        gMiss2_25C_6F805C->push_type_2_502FF0(pPointer->field_8_obj, 1);
+        gMiss2_25C_6F805C->push_type_2_502FF0(pPointer->field_8_obj, true);
     }
     else if (ScriptThread::GetEntityTypeOfCommand_503410(pPointer->field_2_type) == 10)
     {
