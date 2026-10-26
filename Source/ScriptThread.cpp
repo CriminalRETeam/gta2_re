@@ -5168,7 +5168,7 @@ MATCH_FUNC(0x50da50)
 void ScriptThread::SCRCMD_CREATE_LIGHT_50DA50() // CREATE_LIGHT1 or LIGHT_DECSET2
 {
     SCR_POINTER* pPointer =
-        static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index)); // pCmd->field_8_light_idx
+        static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index)); // SCR_CREATE_LIGHT::field_8_light_idx
     ScriptThread::CreateLight_504EE0(reinterpret_cast<SCR_CREATE_LIGHT*>(gBasePtr_6F8070), pPointer);
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }
