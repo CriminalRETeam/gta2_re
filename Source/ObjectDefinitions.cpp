@@ -397,8 +397,6 @@ s32 kFp255_6F8FA4 = 0x3FC000;
 MATCH_FUNC(0x5331a0)
 void ObjectDefinition::ApplyDefinitionToSprite_5331A0(Sprite* pSprite) const
 {
-    s32 bucket_category;
-
     pSprite->SetType_4206F0(this->field_28_sprite_type);
     pSprite->set_id_lazy_4206C0(this->field_1E_base_sprite_idx);
 
@@ -410,8 +408,9 @@ void ObjectDefinition::ApplyDefinitionToSprite_5331A0(Sprite* pSprite) const
         pSprite->SetRemap(this->field_1C_remap);
     }
 
-    bucket_category = this->field_40_collision_bucket_category;
-    if (bucket_category > 0 && (bucket_category <= 3 || bucket_category == 4))
+    const s32 bucket_category = this->field_40_collision_bucket_category;
+    if (bucket_category > collision_bucket_category::sprite_grid_3_single_cell_0 &&
+        (bucket_category <= collision_bucket_category::sprite_grid_2_region_3 || bucket_category == collision_bucket_category::sprite_grid_1_region_4))
     {
         pSprite->AllocCollisionShape_59F950(this->field_0_width, this->field_4_height, this->field_8_depth);
     }
@@ -1090,13 +1089,13 @@ void ObjectDefinitions::CloneRemappedDefinitions_533C90()
 MATCH_FUNC(0x534270)
 void ObjectDefinitions::ClearColour1PixelsOfDefinitions287To293_534270()
 {
-    ClearColour1PixelsOfDefinitionSprite_5342F0(287);
-    ClearColour1PixelsOfDefinitionSprite_5342F0(288);
-    ClearColour1PixelsOfDefinitionSprite_5342F0(289);
-    ClearColour1PixelsOfDefinitionSprite_5342F0(290);
-    ClearColour1PixelsOfDefinitionSprite_5342F0(291);
-    ClearColour1PixelsOfDefinitionSprite_5342F0(292);
-    ClearColour1PixelsOfDefinitionSprite_5342F0(293);
+    ClearColour1PixelsOfDefinitionSprite_5342F0(objects::loonies_icon_287);
+    ClearColour1PixelsOfDefinitionSprite_5342F0(objects::yakuza_icon_288);
+    ClearColour1PixelsOfDefinitionSprite_5342F0(objects::zaibatsu_icon_289);
+    ClearColour1PixelsOfDefinitionSprite_5342F0(objects::redneck_icon_290);
+    ClearColour1PixelsOfDefinitionSprite_5342F0(objects::scientists_icon_291);
+    ClearColour1PixelsOfDefinitionSprite_5342F0(objects::krishna_icon_292);
+    ClearColour1PixelsOfDefinitionSprite_5342F0(objects::russian_mafia_icon_293);
 }
 
 MATCH_FUNC(0x5342d0)
