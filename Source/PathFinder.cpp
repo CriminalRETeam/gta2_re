@@ -60,7 +60,7 @@ bool PathFinder::CanMoveInDirection_554080(s32 path_direction)
 }
 
 MATCH_FUNC(0x5540e0)
-char_type PathFinder::TestMoveToAdjacentTile_5540E0(u8 curr_xpos, u8 curr_ypos, u8 curr_zpos, u8 desired_xpos, u8 desired_ypos)
+bool PathFinder::TestMoveToAdjacentTile_5540E0(u8 curr_xpos, u8 curr_ypos, u8 curr_zpos, u8 desired_xpos, u8 desired_ypos)
 {
     field_25_xpos = curr_xpos;
     field_26_ypos = curr_ypos;
@@ -69,7 +69,7 @@ char_type PathFinder::TestMoveToAdjacentTile_5540E0(u8 curr_xpos, u8 curr_ypos, 
 }
 
 MATCH_FUNC(0x554110)
-char_type PathFinder::CanMoveToAdjacentTile_554110(u8 desired_xpos, u8 desired_ypos)
+bool PathFinder::CanMoveToAdjacentTile_554110(u8 desired_xpos, u8 desired_ypos)
 {
 
     gPathFinder_SlopeZDelta_6FDEEC = 0;
@@ -234,11 +234,11 @@ MATCH_FUNC(0x5545e0)
 void PathFinder::Init_5545E0()
 {
     memset(this->field_40_grid, 0, sizeof(this->field_40_grid));
-    field_38_bComputePathInProgress = 0;
+    field_38_bComputePathInProgress = false;
     field_34_unused = 1;
     field_36_unused = 0;
     field_3A_unused = 0;
-    field_2FD0_bTimedOut = 1;
+    field_2FD0_bTimedOut = true;
     field_2FD1_time_out_counter = 0;
 }
 
@@ -247,7 +247,7 @@ void PathFinder::RemovePed_554620(s32 ped_id)
 {
     if (ped_id == field_0_ped_id)
     {
-        field_2FD0_bTimedOut = 1;
+        field_2FD0_bTimedOut = true;
         field_2FD1_time_out_counter = 0;
     }
 }
@@ -348,7 +348,7 @@ void PathFinder::AddGridCell_554710()
     else
     {
         u16 heuristic;
-        if (field_4_bFindTileMode == 0)
+        if (!field_4_bFindTileMode)
         {
             // The sum assigned first and `*= cost_scale` after (one expression keeps cost_scale's multiply in the sum's
             // register and pushes ebp at the top instead of inside this branch). The dx/dy locals give
@@ -446,7 +446,7 @@ bool PathFinder::ProcessGridCell_5548C0()
     }
     else if (cell_result == 2)
     {
-        field_18_bSearching = 0;
+        field_18_bSearching = false;
         field_19_unused = 1;
         field_1A_unused = 1;
         return true;
@@ -570,7 +570,7 @@ bool PathFinder::ComputePath_554AB0(s32 ped_id,
 
         field_2FD1_time_out_counter = 0;
         gPathFinder_angle_face_6FDD38 = angle_face;
-        field_4_bFindTileMode = 0;
+        field_4_bFindTileMode = false;
         PathFinder::ClearGrid_5545C0();
 
         if (!gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(x_start, y_start, z_start))
@@ -590,15 +590,15 @@ bool PathFinder::ComputePath_554AB0(s32 ped_id,
         field_8_pNode = field_2350_nodes;
         field_1C_grid_idx = 560;
         field_40_grid[field_1C_grid_idx].field_6_cost = 0;
-        field_2FD0_bTimedOut = 0;
+        field_2FD0_bTimedOut = false;
         field_1E_current_cost = 0;
-        field_18_bSearching = 1;
+        field_18_bSearching = true;
     }
     ++field_2FD1_time_out_counter;
     if (field_2FD1_time_out_counter > 200)
     {
-        field_2FD0_bTimedOut = 1;
-        field_38_bComputePathInProgress = 0;
+        field_2FD0_bTimedOut = true;
+        field_38_bComputePathInProgress = false;
         return true;
     }
     if (field_C_node_count)
@@ -606,7 +606,7 @@ bool PathFinder::ComputePath_554AB0(s32 ped_id,
         while (1)
         {
             j = 0;
-            field_38_bComputePathInProgress = 1;
+            field_38_bComputePathInProgress = true;
             field_8_pNode = field_2350_nodes;
             pBestNode = field_2350_nodes;
 
@@ -639,7 +639,7 @@ bool PathFinder::ComputePath_554AB0(s32 ped_id,
             field_27_zpos = gPathFinder_best_z_6FDECC;
             if (field_25_xpos == field_11_xEnd && field_26_ypos == field_12_yEnd && field_27_zpos == field_13_zEnd)
             {
-                field_18_bSearching = 0;
+                field_18_bSearching = false;
                 field_19_unused = 1;
                 field_1A_unused = 1;
                 goto trace_path;
@@ -731,7 +731,7 @@ bool PathFinder::ComputePath_554AB0(s32 ped_id,
             }
             if (!field_C_node_count)
             {
-                field_18_bSearching = 0;
+                field_18_bSearching = false;
                 field_19_unused = 1;
                 PathFinder::RestoreSavedPosition_554920();
                 if (gPathFinder_best_x_6FDECA)
@@ -740,7 +740,7 @@ bool PathFinder::ComputePath_554AB0(s32 ped_id,
                 }
                 goto fail;
             }
-            field_14_bExpanding = 1;
+            field_14_bExpanding = true;
             if (field_2E_iteration_budget == 0)
             {
                 return false;
@@ -758,7 +758,7 @@ bool PathFinder::ComputePath_554AB0(s32 ped_id,
     }
 
 trace_path:
-    field_14_bExpanding = 0;
+    field_14_bExpanding = false;
     cur_x = field_25_xpos;
     cur_y = field_26_ypos;
     cur_z = field_27_zpos;
@@ -867,8 +867,8 @@ trace_path:
                 pEndPoint->field_1_y = 0;
                 pEndPoint->field_2_z = 0;
                 *pOutPathPointCount = static_cast<u8>(field_C_node_count);
-                field_2FD0_bTimedOut = 1;
-                field_38_bComputePathInProgress = 0;
+                field_2FD0_bTimedOut = true;
+                field_38_bComputePathInProgress = false;
                 field_2FD1_time_out_counter = 0;
                 return true;
             default:
@@ -883,7 +883,7 @@ fail:
 
 // https://decomp.me/scratch/19LIh
 MATCH_FUNC(0x5552b0)
-bool PathFinder::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos, u8* ypos, u8* zpos, char_type bAllowDuringPathCompute)
+bool PathFinder::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos, u8* ypos, u8* zpos, bool bAllowDuringPathCompute)
 {
     u8 j = 0;
     if (field_38_bComputePathInProgress && !bAllowDuringPathCompute)
@@ -904,7 +904,7 @@ bool PathFinder::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos,
     field_E_xStart = *xpos;
     field_F_yStart = *ypos;
     field_10_zStart = *zpos;
-    field_4_bFindTileMode = 1;
+    field_4_bFindTileMode = true;
 
     if (!gMap_0x370_6F6268->IsGradientSlopeAt_466CF0(field_E_xStart, field_F_yStart, field_10_zStart))
     {
@@ -928,7 +928,7 @@ bool PathFinder::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos,
     field_1C_grid_idx = 560;
     field_40_grid[field_1C_grid_idx].field_6_cost = field_16_start_cost;
     field_1E_current_cost = 0;
-    field_18_bSearching = 1;
+    field_18_bSearching = true;
     bool bListWasEmpty = true;
     while (field_C_node_count)
     {
@@ -977,7 +977,7 @@ bool PathFinder::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos,
                                                Fix16(field_26_ypos) + kFpHalf_6FDCA8,
                                                Fix16(field_27_zpos)))
             {
-                field_18_bSearching = 0;
+                field_18_bSearching = false;
                 *xpos = field_25_xpos;
                 *ypos = field_26_ypos;
                 *zpos = field_27_zpos;
@@ -989,7 +989,7 @@ bool PathFinder::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos,
             {
                 if ((gMap_0x370_6F6268->GetBlock_4DFE10(field_25_xpos, field_26_ypos, field_27_zpos - 1)->field_A_arrows & block_arrow::green_mask) != 0)
                 {
-                    field_18_bSearching = 0;
+                    field_18_bSearching = false;
                     *xpos = field_25_xpos;
                     *ypos = field_26_ypos;
                     *zpos = field_27_zpos;
@@ -998,7 +998,7 @@ bool PathFinder::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos,
             }
             else
             {
-                field_18_bSearching = 0;
+                field_18_bSearching = false;
                 *xpos = field_25_xpos;
                 *ypos = field_26_ypos;
                 *zpos = field_27_zpos;
@@ -1037,7 +1037,7 @@ bool PathFinder::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos,
                     if (!PathFinder::ProcessGridCell_5548C0())
                     {
                         ++field_16_start_cost;
-                        if (++j <= 6 || bAllowDuringPathCompute != 0)
+                        if (++j <= 6 || bAllowDuringPathCompute)
                         {
                             if (!field_18_bSearching)
                             {
