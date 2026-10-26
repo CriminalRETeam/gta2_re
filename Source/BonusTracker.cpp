@@ -33,8 +33,8 @@ void BonusRule::Init_431D50()
     field_25_target_count = 0;
     field_26_progress_count = 0;
     field_28_reward = 0;
-    field_2A_bUsed = 0;
-    field_2B_bActive = 0;
+    field_2A_bUsed = false;
+    field_2B_bActive = false;
 }
 
 MATCH_FUNC(0x431DA0);
@@ -46,7 +46,7 @@ void BonusRule::Reset_431DA0()
 MATCH_FUNC(0x431DB0);
 void BonusRule::Deactivate_431DB0()
 {
-    field_2B_bActive = 0;
+    field_2B_bActive = false;
 }
 
 // ============
@@ -212,8 +212,8 @@ s16 BonusTracker::AllocRule_431FE0(s16 event_type,
     field_0_bonuses[idx].field_25_target_count = target_count;
     field_0_bonuses[idx].field_26_progress_count = 0;
     field_0_bonuses[idx].field_28_reward = reward;
-    field_0_bonuses[idx].field_2A_bUsed = 1;
-    field_0_bonuses[idx].field_2B_bActive = 1;
+    field_0_bonuses[idx].field_2A_bUsed = true;
+    field_0_bonuses[idx].field_2B_bActive = true;
 
     return idx;
 }

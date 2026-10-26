@@ -29,8 +29,8 @@ class BonusRule
     u8 field_25_target_count;
     u8 field_26_progress_count;
     u16 field_28_reward;
-    char_type field_2A_bUsed;
-    char_type field_2B_bActive;
+    bool field_2A_bUsed;
+    bool field_2B_bActive;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(BonusRule, 0x2C);
 
