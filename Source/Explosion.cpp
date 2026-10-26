@@ -72,7 +72,7 @@ Explosion::Explosion()
     this->field_C_angle = 0;
     this->field_20_unused = 0;
     this->field_22_spawn_angle = 0;
-    this->field_4_idx = 0;
+    this->field_4_pool_slot_idx = 0;
     this->field_10_type = explosion_type::none_0;
     this->field_14_pObj2C = 0;
     this->field_18_particle_cooldown = 0;
@@ -1026,11 +1026,11 @@ void Explosion::Release_543610()
     this->field_6_id = 0;
     if (field_0_bIn20Pool == 0)
     {
-        gExplosionPool_7A8_6FD5F0->field_780_bUsed[this->field_4_idx] = 0;
+        gExplosionPool_7A8_6FD5F0->field_780_bUsed[this->field_4_pool_slot_idx] = 0;
     }
     else
     {
-        gExplosionPool_3D4_6FD5EC->field_3C0_bUsed[this->field_4_idx] = 0;
+        gExplosionPool_3D4_6FD5EC->field_3C0_bUsed[this->field_4_pool_slot_idx] = 0;
     }
 }
 
@@ -1201,7 +1201,7 @@ Explosion* ExplosionPool::Allocate_543800()
         if (!this->field_780_bUsed[idx])
         {
             this->field_0_explosions[idx].Init_543650();
-            this->field_0_explosions[idx].field_4_idx = idx;
+            this->field_0_explosions[idx].field_4_pool_slot_idx = idx;
             this->field_0_explosions[idx].field_6_id = gExplosionId_623F18;
             this->field_0_explosions[idx].field_0_bIn20Pool = 0;
             gExplosionId_623F18++;
@@ -1217,7 +1217,7 @@ Explosion* ExplosionPool::Allocate_543800()
         if (!this->field_780_bUsed[idx])
         {
             this->field_0_explosions[idx].Init_543650();
-            this->field_0_explosions[idx].field_4_idx = idx;
+            this->field_0_explosions[idx].field_4_pool_slot_idx = idx;
             this->field_0_explosions[idx].field_6_id = gExplosionId_623F18;
             this->field_0_explosions[idx].field_0_bIn20Pool = 0;
             gExplosionId_623F18++;
@@ -1233,7 +1233,7 @@ ExplosionPool::ExplosionPool()
 {
     for (u8 i = 0; i < GTA2_COUNTOF(field_0_explosions); i++)
     {
-        field_0_explosions[i].field_4_idx = i;
+        field_0_explosions[i].field_4_pool_slot_idx = i;
         field_780_bUsed[i] = 0;
     }
 
@@ -1253,7 +1253,7 @@ Explosion* ExplosionPool_3D4::Allocate_543900()
         if (!this->field_3C0_bUsed[idx])
         {
             this->field_0_explosions[idx].Init_543650();
-            this->field_0_explosions[idx].field_4_idx = idx;
+            this->field_0_explosions[idx].field_4_pool_slot_idx = idx;
             this->field_0_explosions[idx].field_6_id = gExplosionId20_623F1A;
             this->field_0_explosions[idx].field_0_bIn20Pool = 1;
             gExplosionId20_623F1A++;
@@ -1269,7 +1269,7 @@ ExplosionPool_3D4::ExplosionPool_3D4()
 {
     for (u8 i = 0; i < GTA2_COUNTOF(field_3C0_bUsed); i++)
     {
-        field_0_explosions[i].field_4_idx = i;
+        field_0_explosions[i].field_4_pool_slot_idx = i;
         field_3C0_bUsed[i] = 0;
     }
     gParticleInstCount_6FD5F4 = 0;
