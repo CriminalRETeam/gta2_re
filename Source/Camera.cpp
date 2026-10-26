@@ -89,7 +89,7 @@ static inline Fix16 Max_41E130(Fix16 a, Fix16 b)
 }
 
 MATCH_FUNC(0x4355D0)
-bool Camera::IsSpriteTheCameraSubject_4355D0(Sprite* pSprite)
+bool Camera::IsSpriteTheCameraSubject_4355D0(Sprite* pSprite) const
 {
     Car* pCar = pSprite->AsCar_40FEB0();
     if (pCar)
@@ -425,7 +425,7 @@ void Camera::UpdateBoundaries_435B90()
 }
 
 MATCH_FUNC(0x435D20)
-void Camera::MoveTarget_435D20(char_type move_north, char_type move_south, char_type move_west, char_type move_east, char_type zoom_in, char_type zoom_out)
+void Camera::MoveTarget_435D20(bool move_north, bool move_south, bool move_west, bool move_east, bool zoom_in, bool zoom_out)
 {
     ResetPendingTarget();
     if (move_north)
@@ -654,7 +654,7 @@ void Camera::UpdateFollowPedCamera_436540(Ped* pPed)
 }
 
 MATCH_FUNC(0x436710)
-void Camera::HandlePanning_436710(char_type forward_gas_on, char_type foot_brake_on, char_type left_on, char_type right_on)
+void Camera::HandlePanning_436710(bool forward_gas_on, bool foot_brake_on, bool left_on, bool right_on)
 {
     if (forward_gas_on)
     {
