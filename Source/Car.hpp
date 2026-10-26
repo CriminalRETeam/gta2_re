@@ -472,9 +472,9 @@ class Car
     }
 
     // 9.6f 0x421950
-    inline void SetWeaponKind_421950(s32 v)
+    inline void SetShopEvent_421950(s32 v)
     {
-        field_B4_weapon_kind = v;
+        field_B4_shop_event = v;
     }
 
     // 9.6f 0x4A51B0
@@ -809,10 +809,10 @@ class Car
     }
 
     // 9.6f 0x4119D0
-    inline s32 TakeWeaponKind_4119D0()
+    inline s32 TakeShopEvent_4119D0()
     {
-        s32 ret = field_B4_weapon_kind;
-        field_B4_weapon_kind = 0;
+        s32 ret = field_B4_shop_event;
+        field_B4_shop_event = 0;
         return ret;
     }
 
@@ -1370,7 +1370,7 @@ class Car
     char_type field_A9_wreck_countdown;
     s32 field_AC_sound_event;
     s32 field_B0_emitter_status;
-    s32 field_B4_weapon_kind;
+    s32 field_B4_shop_event;
     bool field_B8_turret_rotated;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Car, 0xBC)

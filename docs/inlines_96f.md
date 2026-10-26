@@ -333,7 +333,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x413C50 | `sound_obj::sub_413C50` | 0x415D20 | `sub_413160`, `sub_414030`, `sub_414200`, `sub_4148D0`, `sub_4143B0` (10.5 0x413BE0), `sub_415A90`, `sub_4139A0`, `sub_414780`, `sub_413EB0`, `sub_412EB0` | checked | dispatcher calling Handle*/Tank_* helpers; missing 9.6f callees are those helpers, unpaired (pairing noise) |
 | 0x413D10 | `sound_obj::sub_413D10` | 0x4123C0 | ✓ `sub_411950`, ✓ `IsMaxDamage_40F890`, ✓ `sub_411940` | matched | Car::TakeSoundEvent_411950 added; 54->54 |
 | 0x4145E0 | `sound_obj::GetCar_4145E0` | 0x4129D0 | ✓ `sub_40FEB0` | done | all 9.6f inlines used |
-| 0x415480 | `sound_obj::sub_415480` | 0x412FE0 | ✓ `sub_4119D0` | done | Car::TakeWeaponKind_4119D0 (new); code unchanged |
+| 0x415480 | `sound_obj::sub_415480` | 0x412FE0 | ✓ `sub_4119D0` | done | Car::TakeShopEvent_4119D0 (new); code unchanged |
 | 0x415570 | `sound_obj::sub_415570` | 0x415880 | ✓ `sub_4118F0`, ✓ `sub_414F20`, ✓ `sub_414F80`, ✓ `Car::sub_411900`, ✓ `Car::sub_411910`, ✓ `?_GetResult@?$_Task_impl@_N@details@Concurrency@@QAE_NXZ`, ✓ `sub_411970`, ✓ `sub_411940`, ✓ `sub_411990` | done | Car::IsTurretRotated_4119F0 (new); code unchanged |
 | 0x4177D0 | `sound_obj::sub_4177D0` | 0x413BD0 | ✓ `Car::sub_4118C0` | matched | all 9.6f inlines used |
 | 0x417A00 | `sound_obj::Type_4_417A00` | 0x413D40 | ✓ `sub_411940`, ✓ `sub_411970` | done | all 9.6f inlines used |

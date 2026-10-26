@@ -3,6 +3,7 @@
 
 #include "ped_death_cause.hpp"
 #include "explosion_type.hpp"
+#include "car_impact_mode.hpp"
 #include "CarPhysics.hpp"
 #include "CarAI.hpp"
 #include "CarInfoTable.hpp"
@@ -1141,7 +1142,7 @@ void CarPhysics::UpdateZPhysics_55AD90(Fix16 dt)
                                                                 field_5C_pCar->field_50_car_sprite->field_14_xy.y,
                                                                 zpos);
 
-        gCarManager_6C_677930->field_60_impact_mode = 2;
+        gCarManager_6C_677930->field_60_impact_mode = car_impact_mode::crush_max_z_2;
         gCarManager_6C_677930->field_64_zpos = kFP16Zero_6FE20C;
 
         gSpriteGrid_1_679208->CheckAndHandleAllCollisionsForSprite_477C30(field_5C_pCar->field_50_car_sprite, sprite_types_enum::car_2);
@@ -2201,7 +2202,7 @@ char_type CarPhysics::CheckPendingCollision_55F360()
     // (inlined, using IsFlagSet_411930 here changes the code)
     if ((this->field_5C_pCar->field_78_flags & car_flag::Crushing))
     {
-        gCarManager_6C_677930->field_60_impact_mode = 1;
+        gCarManager_6C_677930->field_60_impact_mode = car_impact_mode::crush_damage_1;
         if (gSpriteGrid_1_679208->CheckAndHandleAllCollisionsForSprite_477C30(field_5C_pCar->field_50_car_sprite, sprite_types_enum::car_2))
         {
             return 1;

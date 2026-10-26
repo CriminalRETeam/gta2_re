@@ -774,23 +774,23 @@ static const char* ObjectIdToString(s32 id)
         case objects::rocket_160: return "rocket_160";
         case objects::savepoint_161: return "savepoint_161";
         case objects::car_shop_162: return "car_shop_162";
-        case objects::busy_car_shop_163: return "busy_car_shop_163";
+        case objects::blue_phone_not_ringing_163: return "busy_car_shop_163";
         case objects::blue_phone_164: return "blue_phone_164";
         case objects::light_165: return "maybe_train_headlight_165";
         case objects::diagonal_wall_collision_obj_166: return "diagonal_wall_collision_obj_166";
         case objects::door_trigger_167: return "maybe_door_trigger_167";
 
-        case objects::huge_red_skid_189: return "huge_red_skid_189";
-        case objects::huge_white_skid_190: return "huge_white_skid_190";
-        case objects::huge_brown_skid_191: return "huge_brown_skid_191";
+        case objects::yellow_phone_answered_189: return "huge_red_skid_189";
+        case objects::green_phone_after_answer_190: return "huge_white_skid_190";
+        case objects::green_phone_answered_191: return "huge_brown_skid_191";
         case objects::shotgun_bullet_192: return "shotgun_bullet_192";
-        case objects::tanktop_193: return "tanktop_193";
+        case objects::invisible_shotgun_bullet_193: return "tanktop_193";
         case objects::fire_hitting_194: return "fire_hitting_194";
-        case objects::object_195: return "object_195";
+        case objects::flamethrower_bullet_195: return "object_195";
         case objects::animating_rubbish_196: return "animating_rubbish_196";
         case objects::fire_197: return "ped_like_fire_197";
         case objects::water_hitting_198: return "maybe_bullet_on_fire_198";
-        case objects::object_199: return "object_199";
+        case objects::fire_truck_gun_bullet_199: return "object_199";
         case objects::pistol_weapon_200: return "remote_200";
 
         case objects::secret_token_266: return "secret_token_266";

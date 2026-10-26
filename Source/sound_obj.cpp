@@ -26,6 +26,8 @@
 #include "map_0x370.hpp"
 #include "sprite.hpp"
 #include "CrimeReportQueue.hpp"
+#include "voice_line.hpp"
+#include "car_shop_event.hpp"
 #include <math.h>
 
 // Forward declarations: the functions below are in address order
@@ -1871,26 +1873,26 @@ MATCH_FUNC(0x415480)
 void sound_obj::HandleCarWeaponHitSound_415480(Sound_Params* pParams)
 {
     Car* pCar = pParams->field_0_pObj->field_8_car_bc_ptr;
-    const s32 old_weapon_kind = pCar->TakeWeaponKind_4119D0();
-    switch (old_weapon_kind)
+    const s32 shop_event = pCar->TakeShopEvent_4119D0();
+    switch (shop_event)
     {
-        case weapon_type::smg:
+        case car_shop_event::respray_1:
             this->field_30_sQueueSample.field_14_samp_idx = 67;
             break;
-        case weapon_type::rocket:
-        case weapon_type::shocker:
+        case car_shop_event::change_plates_2:
+        case 3:
             this->field_30_sQueueSample.field_14_samp_idx = 66;
             break;
-        case weapon_type::molotov:
+        case car_shop_event::car_bomb_4:
             this->field_30_sQueueSample.field_14_samp_idx = 65;
             break;
-        case weapon_type::grenade:
+        case car_shop_event::car_mines_5:
             this->field_30_sQueueSample.field_14_samp_idx = 62;
             break;
-        case weapon_type::shotgun:
+        case car_shop_event::oil_stain_6:
             this->field_30_sQueueSample.field_14_samp_idx = 63;
             break;
-        case weapon_type::electro_batton:
+        case car_shop_event::car_smg_7:
             this->field_30_sQueueSample.field_14_samp_idx = 64;
             break;
         default:
@@ -3220,173 +3222,173 @@ void sound_obj::ProcessType10_Vocals_418CA0()
     {
         switch (field_544C[0].field_18)
         {
-            case 9:
+            case voice_line::accuracyb_9:
                 voc_idx = 0;
                 break;
-            case 10:
+            case voice_line::back2front_10:
                 voc_idx = 1;
                 break;
-            case 17:
+            case voice_line::busted_17:
                 voc_idx = 2;
                 break;
-            case 7:
+            case voice_line::carjacker_7:
                 voc_idx = 3;
                 break;
-            case 6:
+            case voice_line::copkilla_6:
                 voc_idx = 4;
                 break;
-            case 8:
+            case voice_line::elvis_8:
                 voc_idx = 5;
                 break;
-            case 4:
+            case voice_line::expiditious_4:
                 voc_idx = 6;
                 break;
-            case 18:
+            case voice_line::frenzyfail_18:
                 voc_idx = 8;
                 break;
-            case 19:
+            case voice_line::frenzypassed_19:
                 voc_idx = 9;
                 break;
-            case 20:
+            case voice_line::fryingtonite_20:
                 voc_idx = 10;
                 break;
-            case 5:
+            case voice_line::genocide_5:
                 voc_idx = 12;
                 break;
-            case 2:
+            case voice_line::gta_2:
                 voc_idx = 13;
                 break;
-            case 1:
+            case voice_line::insanestunt_1:
                 voc_idx = 14;
                 break;
-            case 22:
+            case voice_line::jobcomplete_22:
                 voc_idx = 15;
                 break;
-            case 23:
+            case voice_line::jobfail_23:
                 voc_idx = 16;
                 break;
-            case 12:
+            case voice_line::killfrenzy_12:
                 voc_idx = 17;
                 break;
-            case 11:
+            case voice_line::medicalemer_11:
                 voc_idx = 18;
                 break;
-            case 24:
+            case voice_line::respectis_24:
                 voc_idx = 19;
                 break;
-            case 25:
+            case voice_line::shocking_25:
                 voc_idx = 20;
                 break;
-            case 26:
+            case voice_line::somethingscookin_26:
                 voc_idx = 21;
                 break;
-            case 27:
+            case voice_line::timesup_27:
                 voc_idx = 22;
                 break;
-            case 28:
+            case voice_line::toasted_28:
                 voc_idx = 23;
                 break;
-            case 29:
+            case voice_line::wasted_29:
                 voc_idx = 24;
                 break;
-            case 3:
+            case voice_line::wipeout_3:
                 voc_idx = 25;
                 break;
-            case 30:
+            case voice_line::bombarmed_30:
                 voc_idx = 26;
                 break;
-            case 33:
+            case voice_line::raceover_33:
                 voc_idx = 55;
                 break;
-            case 34:
+            case voice_line::second_lap_34:
                 voc_idx = 56;
                 break;
-            case 35:
+            case voice_line::finallap_35:
                 voc_idx = 57;
                 break;
-            case 36:
+            case voice_line::raceon_36:
                 voc_idx = 58;
                 break;
-            case 37:
+            case voice_line::people_down_30_37:
                 voc_idx = 59;
                 break;
-            case 38:
+            case voice_line::people_down_60_38:
                 voc_idx = 60;
                 break;
-            case 39:
+            case voice_line::people_down_90_39:
                 voc_idx = 61;
                 break;
-            case 40:
+            case voice_line::people_down_120_40:
                 voc_idx = 62;
                 break;
-            case 41:
+            case voice_line::people_down_150_41:
                 voc_idx = 63;
                 break;
-            case 42:
+            case voice_line::timeout_42:
                 voc_idx = 64;
                 break;
-            case 43:
+            case voice_line::timeextended_43:
                 voc_idx = 65;
                 break;
-            case 44:
+            case voice_line::timesup_44:
                 voc_idx = 66;
                 break;
-            case 45:
+            case voice_line::sorrydidthathurt_45:
                 voc_idx = 67;
                 break;
-            case 46:
+            case voice_line::nicework_46:
                 voc_idx = 68;
                 break;
-            case 47:
+            case voice_line::choctastic_47:
                 voc_idx = 69;
                 break;
-            case 48:
+            case voice_line::raspberryripple_48:
                 voc_idx = 70;
                 break;
-            case 49:
+            case voice_line::youshotyourload_49:
                 voc_idx = 71;
                 break;
-            case 50:
+            case voice_line::oohdidthathurt_50:
                 voc_idx = 72;
                 break;
-            case 51:
+            case voice_line::deathtoicvans_51:
                 voc_idx = 73;
                 break;
-            case 52:
+            case voice_line::crispycritter_52:
                 voc_idx = 74;
                 break;
-            case 53:
+            case voice_line::youretoastbuddy_53:
                 voc_idx = 75;
                 break;
-            case 54:
+            case voice_line::eatleaddeath_54:
                 voc_idx = 76;
                 break;
-            case 55:
+            case voice_line::thatsgottahurt_55:
                 voc_idx = 77;
                 break;
-            case 56:
+            case voice_line::sorryaboutthat_56:
                 voc_idx = 78;
                 break;
-            case 57:
+            case voice_line::xinloimyman_57:
                 voc_idx = 79;
                 break;
-            case 58:
+            case voice_line::damnsundaydrivers_58:
                 voc_idx = 80;
                 break;
-            case 59:
+            case voice_line::suckitandsee_59:
                 voc_idx = 81;
                 break;
-            case 60:
+            case voice_line::tastemywrath_60:
                 voc_idx = 82;
                 break;
-            case 61:
+            case voice_line::hallelujah_61:
                 voc_idx = 83;
                 break;
-            case 62:
+            case voice_line::damnation_62:
                 voc_idx = 84;
                 break;
-            case 31:
-            case 32:
+            case voice_line::random_laugh_31:
+            case voice_line::random_laugh_32:
                 voc_idx = (field_1454_anRandomTable[0] % 13u) + 85;
                 if (voc_idx == 99)
                 {
@@ -5278,8 +5280,8 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params* pParams)
 
         case 185:
         case 187:
-        case objects::huge_red_skid_189:
-        case objects::huge_brown_skid_191:
+        case objects::yellow_phone_answered_189:
+        case objects::green_phone_answered_191:
             UpdateRadioChatterLoop_41FCA0();
             return;
 
@@ -6074,7 +6076,7 @@ void sound_obj::PoliceRadioMessageGeneration_426790()
 
         if (best_crime)
         {
-            if (best_crime == 8 && !field_556A_erv_en_route_timer)
+            if (best_crime == crime_stats_type::lawmen_killed_8 && !field_556A_erv_en_route_timer)
             {
                 field_5569_crime_ypos = ypos;
                 field_5568_crime_xpos = xpos;
@@ -6186,7 +6188,7 @@ void sound_obj::PoliceRadioMessageGeneration_426790()
                         }
                         break;
                     case 2:
-                        if (best_crime == 2 && !field_556C_timer)
+                        if (best_crime == crime_stats_type::weapon_fired_2 && !field_556C_timer)
                         {
                             if (GetFreeRadioWordSlots_427310() > 3)
                             {
