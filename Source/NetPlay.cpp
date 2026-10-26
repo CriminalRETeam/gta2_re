@@ -1387,7 +1387,6 @@ void NetPlay::OnPacketReceived_51F870(void* pPacket, s32 packetLen, s32 recvId, 
     }
 }
 
-// Register allocation differs, see docs/match_attempts.md
 MATCH_FUNC(0x520040)
 s32 NetPlay::MovePlayerToGroup_520040(s32 toFind, Network_Game_Session* pStru, Network_Game_Session* pDst, u32* pOutIdx)
 {
