@@ -3,7 +3,7 @@
 `compare_all_functions.py` (the `build.py` verifier) says whether each `MATCH_FUNC` has the same
 instructions as 10.5.exe once absolute addresses are renamed. This page lists what that leaves
 unchecked, the checks added for it (`Scripts/bin_comp/run_extra_checks.py`, `build.py --extra_checks`),
-and what they found on master at 5c33a937 (3426/3426 MATCH functions verified).
+and what they found on master at d26e830b (3430/3430 MATCH functions verified).
 
 ## What each existing tool checks
 
@@ -82,10 +82,9 @@ process isn't a child of the launcher). Compared with the emulated startup:
 So the emulated values are the real ones apart from run dependent data, and both sides go through
 the same emulator, so the check doesn't need wine.
 
-## Findings on master (5c33a937)
+## Findings on master (d26e830b)
 
-None of these is fixed here; they are the entries of `extra_checks_known.txt`. Cross-checked by hand
-against 10.5.exe where marked.
+These are the entries of `extra_checks_known.txt`. Cross-checked by hand against 10.5.exe where marked.
 
 ### EH data: 36 MATCH functions differ (174 have an EH frame)
 
@@ -120,37 +119,14 @@ Another member destroyed in a constructor (2): `Camera::ctor_4368E0` (10.5.exe d
 `this+0x48`, the build `this+0x60`) and `Char::ctor_544FF0` (`this+0x98`, the build `this+0x88`):
 the member with a destructor is at another offset, or another member has one.
 
-### Constants and callees: 9 MATCH functions differ
+### Constants, callees and global values: none
 
-| Function | Difference | Checked by hand |
-|---|---|---|
-| `Frontend::Update_4AEC00`, `Game::UpdateGame_4B9410` | call `sub_SetGamma`, whose code differs from 10.5.exe's 0x5D9970 (`je` for `jbe` after `test ecx, ecx`: the same result) | objdump of both |
-| `Frontend::DrawSavedStage_4B5270`, `Hud_TextEntry::Draw_5D1D00` | call `Fix16(s16)` (`movsx`) where 10.5.exe calls `Fix16::FromU16_4AE970` (`and ecx, 0FFFFh`) | objdump of both |
-| `Frontend::DrawBonusRating_4B7D60` | calls `Fix16(int)` where 10.5.exe calls `Fix16::FromU16_4AE970` | objdump of both |
-| `GetDirectXVersion_4C4EC0` | queries `IID_IDirectDrawSurface2` where 10.5.exe queries `IID_IDirectDrawSurface3` ({DA044E00-69B2-11D0-...}) | VC6 `DDRAW.H` |
-| `PedGroup::DestroyGroupArray_4C8E60` | calls the hand-written `__ehvec_dtor` in `crt_stubs.cpp` where 10.5.exe calls the CRT's `??_M` (with its SEH frame) | objdump of both |
-| `Shutdown_4DA740` | calls `root_sound::DeinitializeAudio` where 10.5.exe calls 0x40EF90 (`mov ecx, 66F680h; jmp 419E50h`, another object and function) | objdump of both |
-| `NetPlay::EnumAddress_cb_51E030` | compares with `DPAID_INet` where 10.5.exe compares with `DPAID_Modem` ({F6DCC200-A2FE-11D0-...}) | VC6 `DPLOBBY.H` |
-
-`CarInfoTable::SetErr_430AC0` (`cmp eax, -14` where 10.5.exe has `cmp eax, -12`, the error table
-bound) was found on d5724def too; #854 fixed it.
-
-Two references were left out because where the object starts is unknown (an end bound or a biased
-index with no object around it). 8606 references without an original identity were compared.
-
-### Global values: 6 of 1700 globals differ
-
-| Global | Difference |
-|---|---|
-| `byte_5FE434[8][44]` | 10.5.exe has data there (in `.rdata`: `00 00 01 01 01 ...`); the build declares the array without an initialiser |
-| `gFile_67C530` | a second object at the address of `gErrorLog_67C530`: 10.5.exe constructs one `ErrorLog` there (0x4A0720), the build also default-constructs `gFile_67C530`, which the code writing to "gFile" then uses |
-| `gGameSession_67E8E0` | 10.5.exe constructs it at startup (initialiser 0x4C52B0 calls 0x4C52D0, which sets `+0x442` to 6 and copies strings); the build has no constructor |
-| `gTmpGxtKey_67CE50` | declared 264 bytes; at `+256` 10.5.exe has another object, set to 0x824 by its initialiser 0x4A6270 |
-| `gEmptyWStr_67DC8C` | declared 32 `wchar_t`; at `+12` 10.5.exe has another object, set to 0x3A000 by 0x4BC340 |
-| `gWorkingDir_707F64` | declared 652 bytes; at `+256` 10.5.exe has another object, set to 0x63D8 by 0x5E7900 |
-
-The 10.5.exe values were also read from the real process: `+0x442` of `gGameSession_67E8E0` is 6,
-0x67CF50 is 0x824, 0x67DC98 is 0x3A000, 0x708064 is 0x63D8.
+8 functions with a wrong constant or callee (a `Fix16` constructor, `IID_IDirectDrawSurface3`,
+`DPAID_Modem`, copies of SetGamma and DeinitializeAudio) and 6 globals with wrong values or sizes,
+found on 5c33a937, were fixed in #869. `PedGroup::DestroyGroupArray_4C8E60` calls the hand-written
+`__ehvec_dtor` in `crt_stubs.cpp` where 10.5.exe calls the CRT's `??_M`: it is in `REVIEWED`.
+8608 references without an original identity are compared; 2 are left out because where the object
+starts is unknown.
 
 ## Proof that each check sees an injected defect
 
