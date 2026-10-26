@@ -40,7 +40,7 @@ public:
 
 class TaxiList
 {
-  public:
+  private:
     // inlined
     void Init_4C09B0()
     {
@@ -53,6 +53,7 @@ class TaxiList
         field_0_pFirst = NULL;
     }
 
+  public:
     // 9.6f 0x434970
     inline bool IsEmpty_434970() const
     {
@@ -64,6 +65,8 @@ class TaxiList
     EXPORT Car* GetTaxiNear_457BF0(Fix16 xpos, Fix16 ypos);
     EXPORT TaxiList();
     EXPORT ~TaxiList();
+
+  private:
     TaxiListNode* field_0_pFirst;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(TaxiList, 0x4);
