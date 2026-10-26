@@ -519,7 +519,7 @@ EXPORT void __stdcall SetFullScreenMode_5D93A0()
     if (pVid_SetMode(gVidSys_7071D0, gHwnd_707F04, bcheckModeRet))
     {
         // Gta2Error::FailedToSetFullscreenVideomode
-        FatalError_4A38C0(0x40D, "C:\\Splitting\\Gta2\\Source\\video.cpp", 1365, bcheckModeRet);
+        FatalError_4A38C0(Gta2Error::FailedToSetFullscreenVideomode, "C:\\Splitting\\Gta2\\Source\\video.cpp", 1365, bcheckModeRet);
     }
 
     HideCursor_5D94F0();
@@ -2441,7 +2441,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
                             {
                                 switch (gGame_0x40_67E008->GetExitType_4D09C0())
                                 {
-                                    case 1:
+                                    case GameExitType::CloseGameImmediately_1:
                                         DestroyWindow(gHwnd_707F04);
                                         break;
 
