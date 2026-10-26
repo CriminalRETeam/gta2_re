@@ -39,10 +39,16 @@ GTA2_ASSERT_SIZEOF_ALWAYS(TrafficLight, 0x20);
 
 class TrafficLights
 {
-  public:
+  private:
     EXPORT void AddTrafficLight_5C2910(u8 x, u8 y, u8 w, u8 h);
+
+  public:
     EXPORT void TrafficLightsService_5C2950();
+
+  private:
     EXPORT void ShowTrafficLightsInfo_5C2A10();
+
+  public:
     EXPORT void CreateFromMapZones_5C2AC0();
     EXPORT TrafficLights();
     EXPORT ~TrafficLights();
