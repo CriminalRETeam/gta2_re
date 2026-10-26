@@ -74,7 +74,7 @@ class Object
     EXPORT void ResolveCollisionWithHorizontalEdge_522BE0(Fix16_Point* pPoint);
     EXPORT void ResolveCollisionWithVerticalEdge_522D00(Fix16_Point* pPoint);
     EXPORT void HandleCollision_522E10(Fix16_Point* pPoint);
-    EXPORT bool TryStartSlide_5233A0(Fix16 value);
+    EXPORT bool TryStartSlide_5233A0(Fix16 speed);
     EXPORT void HandleCollisionOutcome_523440(Fix16_Point point, bool bHitFloorBelow, bool bHitBlockAtZ);
     EXPORT bool HandleSpriteGroundAndCollision_5235B0(Sprite* pSprite, Fix16_Point* pPoint, bool* pHitWall, Fix16 found_z);
     EXPORT bool HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite, Fix16_Point* pPoint, bool* pHitWall, bool* pHitBlockAtZ);
@@ -84,7 +84,7 @@ class Object
     EXPORT void OnExplosionNearby_525190(u8 ped_ref_idx);
     EXPORT void UpdateAnimation_5257D0();
     EXPORT bool DispatchFrameAction_525910();
-    EXPORT char_type ShouldCollideWithSprite_525370(Sprite* pSprite) const;
+    EXPORT bool ShouldCollideWithSprite_525370(Sprite* pSprite) const;
     EXPORT void CheckCollisionForModel_139_And_141_525AE0();
     EXPORT void SpawnSpriteParticlesForRocketBullet_525B40();
     EXPORT bool CheckWaterDeath_525B60();
@@ -430,7 +430,7 @@ class Object_5C
     u8 field_19_unused;
     u16 field_1A_unused;
     SpriteList field_1C_sprite_list;
-    u8 field_20_uncollected_tokens[50];
+    bool field_20_uncollected_tokens[50];
     u16 field_52_unused; // pad?
     s32 field_54_uncollected_token_index;
     Sprite* field_58_collision_probe_sprite;
