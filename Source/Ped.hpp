@@ -49,7 +49,7 @@ class Ped
     }
 
     // 9.6f 0x4039D0
-    inline char_type GetInternalObjectiveStatus_4039D0() const
+    inline u8 GetInternalObjectiveStatus_4039D0() const
     {
         return field_226_internal_objective_status;
     }
@@ -120,7 +120,7 @@ class Ped
     }
 
     // 9.6f 0x403B50
-    inline void SetInternalObjectiveStatus_403B50(char_type v)
+    inline void SetInternalObjectiveStatus_403B50(u8 v)
     {
         field_226_internal_objective_status = v;
     }
@@ -920,9 +920,9 @@ class Ped
     s32 field_220_last_voice_rng;
     PedFlags8 field_224_bf;
     u8 field_225_objective_status; // it uses objective_status enum
-    char_type field_226_internal_objective_status;
+    u8 field_226_internal_objective_status;
     char_type field_227_unused;
-    char_type field_228_hit_count; // times hit by the attacker
+    u8 field_228_hit_count; // times hit by the attacker
     u8 field_229_mug_count; // times mugged while mugging a player
     s32 field_22C_ped_class; // ped_class
     s32 field_230_jump_over_mode; // ped_jump_over_mode
