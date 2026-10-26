@@ -747,7 +747,7 @@ void Ped::SetRecentCrimeTimer_45B550()
 }
 
 MATCH_FUNC(0x45b560)
-void Ped::SetPlayer_45B560(Player* pPlayer, char_type bIsAuxPed)
+void Ped::SetPlayer_45B560(Player* pPlayer, bool bIsAuxPed)
 {
     field_15C_player = pPlayer;
     field_200_id = pPlayer->field_2E_idx + 1;
@@ -4574,7 +4574,7 @@ void Ped::ChangePedStatesByMode_463300(u8 mode)
 }
 
 MATCH_FUNC(0x4633e0)
-void Ped::SetStatesForObjective_4633E0(char_type bMainObj)
+void Ped::SetStatesForObjective_4633E0(bool bMainObj)
 {
     u8 state = 99;
     s32 obj;

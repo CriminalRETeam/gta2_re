@@ -162,7 +162,7 @@ class Ped
     EXPORT bool IsLawEnforcement_45B4E0();
     EXPORT Fix16_Point GetVelocityVector_45B520();
     EXPORT void SetRecentCrimeTimer_45B550();
-    EXPORT void SetPlayer_45B560(Player* pPlayer, char_type bIsAuxPed);
+    EXPORT void SetPlayer_45B560(Player* pPlayer, bool bIsAuxPed);
     EXPORT bool IsEmergencyOccupation_45B590();
     EXPORT void CopyStatsFromPed_45B5B0(Ped* pSrc);
     EXPORT Car* GetCarBeingEnteredOrExited_45BBF0();
@@ -234,7 +234,7 @@ class Ped
     EXPORT bool PoolUpdate();
     EXPORT void ProcessObjective_4632E0();
     EXPORT void ChangePedStatesByMode_463300(u8 mode);
-    EXPORT void SetStatesForObjective_4633E0(char_type bMainObj);
+    EXPORT void SetStatesForObjective_4633E0(bool bMainObj);
     EXPORT void SetObjective(s32 objective, s16 objective_timer = 9999); // 9999: never times out
     EXPORT void SetObjective2_463830(s32 internal_objective, s16 internal_objective_timer = 9999);
     EXPORT void ProcessMainObjective_463AA0();
@@ -758,22 +758,22 @@ class Ped
         return field_168_game_object != NULL;
     }
 
-    inline u8 GetPanicking()
+    inline bool GetPanicking()
     {
         return field_21C_bf.bPanicking;
     }
 
-    inline u8 GetAttacking_433CA0()
+    inline bool GetAttacking_433CA0()
     {
         return field_21C_bf.bAttacking;
     }
 
-    u8 IsOnFire_475B50()
+    bool IsOnFire_475B50()
     {
         return field_21C_bf.bOnFire;
     }
 
-    u8 HasSpottedPlayer()
+    bool HasSpottedPlayer()
     {
         return field_21C_bf.bSpottedPlayer;
     }
