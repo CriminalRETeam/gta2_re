@@ -12,7 +12,7 @@ SoundObject* root_sound::CreateSoundObject_40EF40(void* pObject, s32 objectType)
 {
     SoundObject* pCurrent = PopFree_410730();
     pCurrent->field_C_pAny.pAny = pObject;
-    pCurrent->field_4_bStatus = 0;
+    pCurrent->field_4_bStatus = false;
     pCurrent->field_0_object_type = objectType;
 
     if (!bSkip_audio_67D6BE)

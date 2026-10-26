@@ -26,7 +26,7 @@ class SoundObject
 {
   public:
     s32 field_0_object_type; // SoundObjectTypeEnum
-    char_type field_4_bStatus;
+    bool field_4_bStatus;
     s32 field_8_sound_entry;
 
     union SoundObjectType
