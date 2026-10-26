@@ -1140,7 +1140,7 @@ class ScriptThread
     EXPORT void SCRCMD_FORCE_CLEANUP_510660();
     EXPORT void SCRCMD_SAVE_RESTORE_RESPECT_510780();
     EXPORT void PreExecOpCode_5108D0();
-    EXPORT char_type PoolUpdate();
+    EXPORT bool PoolUpdate();
     EXPORT void InitThread_511930(char_type flags, u16 levelStart);
     EXPORT ScriptThread* SpawnThread_511960(u16 levelStart);
     EXPORT void launch_mission_5119A0(SCR_CMD_HEADER* base_pointer, char_type* string);
@@ -1162,7 +1162,7 @@ class ScriptThread
     char_type field_14_str[255];
     char_type field_113_unused;
     ScriptGosubStack* field_114_gosub_stack;
-    char_type field_118_in_level_start;
+    bool field_118_in_level_start;
     char_type field_119_unused;
     s16 field_11A_thread_id;
 };

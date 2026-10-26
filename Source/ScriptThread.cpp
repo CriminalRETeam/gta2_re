@@ -214,7 +214,7 @@ u8 ScriptThread::GetEntityTypeOfCommand_503410(u32 opcode)
 MATCH_FUNC(0x5035b0)
 void ScriptThread::PoolAllocate_5035B0()
 {
-    field_118_in_level_start = 0;
+    field_118_in_level_start = false;
     field_11A_thread_id = gNextThreadId_6212EE++;
 }
 
@@ -1689,14 +1689,14 @@ MATCH_FUNC(0x5069c0)
 void ScriptThread::SCRCMD_LEVELSTART_5069C0()
 {
     gRoot_sound_66B038.PlayVoice_40F090(voice_line::respectis_24); //  "And remember, respect is everything!"
-    field_118_in_level_start = 1;
+    field_118_in_level_start = true;
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }
 
 MATCH_FUNC(0x5069f0)
 void ScriptThread::SCRCMD_LEVELEND_5069F0()
 {
-    field_118_in_level_start = 0;
+    field_118_in_level_start = false;
     ScriptThread::EndCmd_503670();
 }
 
@@ -2167,7 +2167,7 @@ void ScriptThread::SCRCMD_CREATE_CAR_507F80()
     }
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_car_idx));
     ScriptThread::SCRCMD_CAR_DECSET_503BC0(reinterpret_cast<SCR_CAR_DATA_DEC*>(gBasePtr_6F8070), pPointer);
-    if (this->field_118_in_level_start == 0)
+    if (!field_118_in_level_start)
     {
         gMiss2_25C_6F805C->push_type_1_car_502F80(pPointer->field_8_car);
     }
@@ -2714,11 +2714,11 @@ void ScriptThread::SCRCMD_HAS_CHAR_DIED_509BB0()
 
     if (pPointer->field_8_char && pPointer->field_8_char->field_278_ped_state_1 == ped_state_1::dead_9)
     {
-        field_8_cond_result = 1;
+        field_8_cond_result = true;
     }
     else
     {
-        field_8_cond_result = 0;
+        field_8_cond_result = false;
     }
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }
@@ -6126,7 +6126,7 @@ void ScriptThread::SCRCMD_WARP_CHAR_50F270() // WARP_FROM_CAR_TO_POINT
 
         pPointer->field_8_char->SetRotation_433C00(rotation);
         pCar->ClearDriver_4407F0();
-        pCar->field_54_driver = 0;
+        pCar->field_54_driver = NULL;
         gGame_0x40_67E008->field_38_local_player->DisableInputs_569F40();
         gGame_0x40_67E008->field_38_local_player->field_90_game_camera.UpdateFollowPedCamera_436540(pPointer->field_8_char);
 
@@ -7615,7 +7615,7 @@ void ScriptThread::PreExecOpCode_5108D0()
 }
 
 MATCH_FUNC(0x511840)
-char_type ScriptThread::PoolUpdate()
+bool ScriptThread::PoolUpdate()
 { //  return boolean: true if it has reached LEVELEND, false otherwise
     SCR_CMD_HEADER* BasePointer_512770;
     bool reachedLevelEnd;
@@ -7713,7 +7713,7 @@ void ScriptThread::launch_mission_5119A0(SCR_CMD_HEADER* BasePointer, char_type*
 MATCH_FUNC(0x511a00)
 ScriptThread::ScriptThread()
 {
-    mpNext = 0;
+    mpNext = NULL;
     field_114_gosub_stack = new ScriptGosubStack();
     field_4_next_cmd = 0;
     field_6_flags = 0;
@@ -7726,7 +7726,7 @@ ScriptThread::ScriptThread()
 
     memset(field_14_str, 0, sizeof(field_14_str));
 
-    field_118_in_level_start = 0;
+    field_118_in_level_start = false;
 }
 
 // https://decomp.me/scratch/gmYBd
@@ -7752,7 +7752,7 @@ ScriptThread::~ScriptThread()
     {
         GTA2_DELETE_AND_NULL(field_114_gosub_stack);
     }
-    mpNext = 0;
+    mpNext = NULL;
 }
 
 MATCH_FUNC(0x5131C0)
