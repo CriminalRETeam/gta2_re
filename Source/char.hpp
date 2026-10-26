@@ -39,7 +39,7 @@ class Char
 {
   public:
     // 9.6f 0x41B080
-    inline Fix16 get_velocity_41B080()
+    inline Fix16 get_velocity_41B080() const
     {
         return field_38_velocity;
     }
@@ -57,13 +57,13 @@ class Char
     }
 
     // 9.6f 0x41B090
-    inline s32 get_ped_state_2_41B090()
+    inline s32 get_ped_state_2_41B090() const
     {
         return field_C_ped_state_2;
     }
 
     // 9.6f 0x4338D0
-    inline Sprite* get_sprite_ptr_4338D0()
+    inline Sprite* get_sprite_ptr_4338D0() const
     {
         return field_80_sprite_ptr;
     }
@@ -156,7 +156,7 @@ class Char
     s32 field_B0_scream_timer;
 
     // 9.6f 0x48A4C0
-    inline s32 get_ped_state_1_48A4C0()
+    inline s32 get_ped_state_1_48A4C0() const
     {
         return field_8_ped_state_1;
     }
@@ -167,7 +167,7 @@ class Char
         field_8_ped_state_1 = ped_state;
     }
 
-    inline Ang16 get_rotation_433A40()
+    inline Ang16 get_rotation_433A40() const
     {
         return field_40_rotation;
     }
@@ -178,19 +178,19 @@ class Char
     }
 
     // 9.6f 0x4339C0
-    inline Fix16 get_sprite_xpos()
+    inline Fix16 get_sprite_xpos() const
     {
         return field_80_sprite_ptr->field_14_xy.x;
     }
 
     // 9.6f 0x4339E0
-    inline Fix16 get_sprite_ypos()
+    inline Fix16 get_sprite_ypos() const
     {
         return field_80_sprite_ptr->field_14_xy.y;
     }
 
     // 9.6f 0x433A00
-    inline Fix16 get_sprite_zpos()
+    inline Fix16 get_sprite_zpos() const
     {
         return field_80_sprite_ptr->field_1C_zpos;
     }
@@ -231,7 +231,7 @@ class Char
         field_38_velocity = max_speed;
     }
 
-    inline Ped* get_ped_433A20()
+    inline Ped* get_ped_433A20() const
     {
         return field_7C_pPed;
     }
@@ -262,7 +262,7 @@ class Char
         field_46_timer = 10;
     }
 
-    inline s32 GetCharState_433A80()
+    inline s32 GetCharState_433A80() const
     {
         return field_10_char_state;
     }
@@ -273,13 +273,13 @@ class Char
     }
 
     // 9.6f 0x433A90
-    inline s8 Get_F44_433A90()
+    inline s8 Get_F44_433A90() const
     {
         return field_44_block_type;
     }
 
     // 9.6f 0x403900
-    inline Car* Get_F84_403900()
+    inline Car* Get_F84_403900() const
     {
         return field_84_target_car;
     }
@@ -304,7 +304,7 @@ class Char
         field_40_rotation += ang;
     }
 
-    inline bool IsCollidingWithASprite_433AA0()
+    inline bool IsCollidingWithASprite_433AA0() const
     {
         if (field_69_is_colliding_with_sprite)
         {
@@ -320,9 +320,9 @@ class Char
     EXPORT void PoolDeallocate();
 
     EXPORT void DrawFlamesAndStartScreamTimer_545430();
-    EXPORT bool HasShadows_5451C0();
+    EXPORT bool HasShadows_5451C0() const;
 
-    EXPORT Fix16_Point GetRunVelocity_545580();
+    EXPORT Fix16_Point GetRunVelocity_545580() const;
     EXPORT void SetRemap_46DD50(u8 remap);
 
     // Inlined copy of SetRemap_46DD50
@@ -338,13 +338,13 @@ class Char
     EXPORT void RemoveFireSprites_5454B0();
     EXPORT void DoJump_5454D0();
     EXPORT void Teleport_545530(Fix16 xpos, Fix16 ypos, Fix16 zpos);
-    EXPORT s32 IsOnWater_545570();
+    EXPORT s32 IsOnWater_545570() const;
     EXPORT void KillPed_5455F0();
     EXPORT void ClearCollisionState_545600();
-    EXPORT void GetTileFracX64_545640(Fix16 coord, s16* output);
-    EXPORT void GetTileFracY64_545670(Fix16 coord, s16* output);
+    EXPORT void GetTileFracX64_545640(Fix16 coord, s16* output) const;
+    EXPORT void GetTileFracY64_545670(Fix16 coord, s16* output) const;
     EXPORT void InitSprite_5456A0();
-    EXPORT bool IsOnScreen_545700();
+    EXPORT bool IsOnScreen_545700() const;
     EXPORT void Update_545720(Fix16 distance_to_target);
     EXPORT void CheckAndHandleCollisions_5459C0();
     EXPORT void DrownPed_5459E0();
@@ -384,9 +384,9 @@ class Char
     EXPORT void state_8_5520A0();
     EXPORT void state_9_552E90();
 
-    EXPORT bool IsNearTileCentre_5532C0();
-    EXPORT bool IsThreatToSearchingPed_553330();
-    EXPORT bool ShouldCollideWithSprite_553340(Sprite* pSprite);
+    EXPORT bool IsNearTileCentre_5532C0() const;
+    EXPORT bool IsThreatToSearchingPed_553330() const;
+    EXPORT bool ShouldCollideWithSprite_553340(Sprite* pSprite) const;
     EXPORT bool PhoneTouched_5535B0(Object* pObject);
     EXPORT bool OnObjectTouched_553640(Object* pObject);
     EXPORT bool HandlePedObjectHit_5537F0(Object* pObject);

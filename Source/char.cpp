@@ -303,7 +303,7 @@ Char::~Char()
 }
 
 MATCH_FUNC(0x5451C0)
-bool Char::HasShadows_5451C0()
+bool Char::HasShadows_5451C0() const
 {
     if (field_8_ped_state_1 == ped_state_1::dead_9)
     {
@@ -453,14 +453,14 @@ void Char::Teleport_545530(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 }
 
 MATCH_FUNC(0x545570)
-s32 Char::IsOnWater_545570()
+s32 Char::IsOnWater_545570() const
 {
     return field_80_sprite_ptr->IsOnWater_59E1D0();
 }
 
 // 9.6f 0x493780
 MATCH_FUNC(0x545580)
-Fix16_Point Char::GetRunVelocity_545580()
+Fix16_Point Char::GetRunVelocity_545580() const
 {
     Fix16_Point p;
     p.FromPolar_41E210(-gRunOrJumpSpeed_6FD7D0, field_80_sprite_ptr->field_0_rotation);
@@ -488,13 +488,13 @@ void Char::ClearCollisionState_545600()
 }
 
 MATCH_FUNC(0x545640)
-void Char::GetTileFracX64_545640(Fix16 coord, s16* output)
+void Char::GetTileFracX64_545640(Fix16 coord, s16* output) const
 {
     *output = (coord.GetFracValue() * Fix16(64)).ToInt();
 }
 
 MATCH_FUNC(0x545670)
-void Char::GetTileFracY64_545670(Fix16 coord, s16* output)
+void Char::GetTileFracY64_545670(Fix16 coord, s16* output) const
 {
     *output = (coord.GetFracValue() * Fix16(64)).ToInt();
 }
@@ -512,7 +512,7 @@ void Char::InitSprite_5456A0()
 }
 
 MATCH_FUNC(0x545700)
-bool Char::IsOnScreen_545700()
+bool Char::IsOnScreen_545700() const
 {
     return gGame_0x40_67E008->IsSpriteInAnyPlayerBounds_4B97E0(this->field_80_sprite_ptr, kFP16Zero_6FD9E4) == 1;
 }
@@ -6354,7 +6354,7 @@ void Char::state_9_552E90()
 }
 
 MATCH_FUNC(0x5532C0)
-bool Char::IsNearTileCentre_5532C0()
+bool Char::IsNearTileCentre_5532C0() const
 {
     s16 frac_x = 0;
     s16 frac_y = 0;
@@ -6368,14 +6368,14 @@ bool Char::IsNearTileCentre_5532C0()
 }
 
 MATCH_FUNC(0x553330)
-bool Char::IsThreatToSearchingPed_553330()
+bool Char::IsThreatToSearchingPed_553330() const
 {
     return field_7C_pPed->IsThreatToSearchingPed_4661F0();
 }
 
 // 9.6f 0x497480
 MATCH_FUNC(0x553340)
-bool Char::ShouldCollideWithSprite_553340(Sprite* pSprite)
+bool Char::ShouldCollideWithSprite_553340(Sprite* pSprite) const
 {
     Ped* pPed;
 
