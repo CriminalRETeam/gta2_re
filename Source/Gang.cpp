@@ -56,7 +56,7 @@ Gang* GangPool::NextGang_4BECE0()
 }
 
 MATCH_FUNC(0x4BED30)
-wchar_t* Gang::GetNameWide_4BED30()
+wchar_t* Gang::GetNameWide_4BED30() const
 {
     gGangNameWide_67E030[0] = field_2_name[0];
     gGangNameWide_67E030[1] = field_2_name[1];
@@ -94,7 +94,7 @@ void Gang::Init_4BED70()
 }
 
 MATCH_FUNC(0x4BEDF0)
-bool Gang::IsHostileToGang_4BEDF0(u8 gang_idx)
+bool Gang::IsHostileToGang_4BEDF0(u8 gang_idx) const
 {
     return field_112_hostile_to_gang[gang_idx];
 }
@@ -152,13 +152,13 @@ void Gang::DecrementRespect_4BEEA0(u8 player_idx, char_type respect)
 }
 
 MATCH_FUNC(0x4BEEF0)
-char_type Gang::GetRespectForPlayer_4BEEF0(u8 player_idx)
+char_type Gang::GetRespectForPlayer_4BEEF0(u8 player_idx) const
 {
     return field_11C_respect[player_idx];
 }
 
 MATCH_FUNC(0x4BEF10)
-bool Gang::IsRespectNegativeForPlayer_4BEF10(u8 player_idx)
+bool Gang::IsRespectNegativeForPlayer_4BEF10(u8 player_idx) const
 {
     if (field_11C_respect[player_idx] < -19)
     {
@@ -241,7 +241,7 @@ void Gang::SetName_4BF090(const char_type* pName, u8 nameLen)
 }
 
 MATCH_FUNC(0x4BF0C0);
-s32 Gang::GetCurrentWeapon_4BF0C0()
+s32 Gang::GetCurrentWeapon_4BF0C0() const
 {
     if (bStartNetworkGame_7081F0 || field_141_always_basic_weapon)
     {
@@ -364,7 +364,7 @@ s8 GangPool::FindGangByCarModel_4BF2F0(s32 car_model)
 }
 
 MATCH_FUNC(0x4BF340)
-wchar_t* Gang::GetArrowColourText_4BF340()
+wchar_t* Gang::GetArrowColourText_4BF340() const
 {
     sprintf(gTmpBuffer_67C598, "ganga%d", field_138_arrow_colour);
     return gText_0x14_704DFC->Find_5B5F90(gTmpBuffer_67C598);

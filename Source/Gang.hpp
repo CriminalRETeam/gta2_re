@@ -11,13 +11,13 @@ class Gang
 {
   public:
     // 9.6f 0x45DD50
-    inline bool HasKillRespectChange_45DD50()
+    inline bool HasKillRespectChange_45DD50() const
     {
         return field_139_kill_respect_change > 0;
     }
 
     // 9.6f 0x433B30
-    inline bool DoesKillAffectRespect_433B30()
+    inline bool DoesKillAffectRespect_433B30() const
     {
         return field_111_kill_affects_respect;
     }
@@ -87,20 +87,20 @@ class Gang
     EXPORT Gang(); //  0x4BE4E0
     EXPORT ~Gang(); // 0x4BE4F0
 
-    EXPORT wchar_t* GetNameWide_4BED30();
+    EXPORT wchar_t* GetNameWide_4BED30() const;
     EXPORT void Init_4BED70();
-    EXPORT bool IsHostileToGang_4BEDF0(u8 gang_idx);
+    EXPORT bool IsHostileToGang_4BEDF0(u8 gang_idx) const;
     EXPORT void SetRespect_4BEE30(u8 player_idx, char_type respect);
     EXPORT void IncrementRespect_4BEE50(u8 player_idx, char_type respect);
     EXPORT void DecrementRespect_4BEEA0(u8 player_idx, char_type respect);
-    EXPORT char_type GetRespectForPlayer_4BEEF0(u8 player_idx);
-    EXPORT bool IsRespectNegativeForPlayer_4BEF10(u8 player_idx);
+    EXPORT char_type GetRespectForPlayer_4BEEF0(u8 player_idx) const;
+    EXPORT bool IsRespectNegativeForPlayer_4BEF10(u8 player_idx) const;
     EXPORT void SetGangKillReaction_4BEF50(u8 gang_idx, char_type kill_reaction_value);
     EXPORT void ApplyKillRespectChange_4BEF70(u8 player_idx, u8 respect);
     EXPORT void ChangeRespectAndUpdate_4BF000(u8 player_idx, char_type respect);
-    EXPORT s32 GetCurrentWeapon_4BF0C0();
+    EXPORT s32 GetCurrentWeapon_4BF0C0() const;
     EXPORT void SetName_4BF090(const char_type* pName, u8 nameLen);
-    EXPORT wchar_t* GetArrowColourText_4BF340();
+    EXPORT wchar_t* GetArrowColourText_4BF340() const;
 
     bool field_0_used;
     u8 field_1_gang_idx;
