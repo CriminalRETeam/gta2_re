@@ -39,7 +39,7 @@ DEFINE_GLOBAL(u16, gPlayerNameFont_7062DC, 0x7062DC);
 // The chat font. Renaming it (for example to gChatFont_70643E) changes the code of
 // Hud_ChatInput::DrawChatMessages_5D16B0, so it keeps its old name.
 DEFINE_GLOBAL(u16, word_70643E, 0x70643E);
-DEFINE_GLOBAL_ARRAY(char, gTmpGxtKey_67CE50, 256, 0x67CE50);
+DEFINE_GLOBAL_ARRAY(char_type, gTmpGxtKey_67CE50, 256, 0x67CE50);
 DEFINE_GLOBAL(s16, word_7064D8, 0x7064D8);
 DEFINE_GLOBAL_INIT(Fix16, kFpZero_7064C0, 0, 0x7064C0);
 DEFINE_GLOBAL_INIT(Fix16, kArrowBaseRepositionSpeed_7063B0, Fix16(0x400, 0), 0x7063B0);
@@ -145,7 +145,7 @@ Hud_Pager::~Hud_Pager()
 MATCH_FUNC(0x4DEF00)
 EXPORT wchar_t* gmp_map_zone::get_zone_str_4DEF00()
 {
-    char buf[4];
+    char_type buf[4];
     if (field_5_name_length == 3)
     {
         buf[0] = field_6_name[0];
@@ -2575,7 +2575,7 @@ void Hud::CalcCarNameTextWidth_5D5190()
 {
     if (field_0_car_name.field_0_display_time)
     {
-        field_0_car_name.field_44_text_width = Frontend::GetMaxTextWidth_5D8990(reinterpret_cast<wchar_t*>(&field_0_car_name.field_2_car_name), gCarNameFont_706508);
+        field_0_car_name.field_44_text_width = Frontend::GetMaxTextWidth_5D8990(field_0_car_name.field_2_car_name, gCarNameFont_706508);
     }
 }
 
