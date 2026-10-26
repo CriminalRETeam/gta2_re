@@ -410,12 +410,12 @@ class Ped
 
     bool IsActive_433B40()
     {
-        return field_21C_bf.bActive != 0;
+        return field_21C_bf.bActive;
     }
 
     bool IsAttacking()
     {
-        return field_21C_bf.bAttacking != 0;
+        return field_21C_bf.bAttacking;
     }
 
     // 9.6f inline 0x450CB0
@@ -600,7 +600,7 @@ class Ped
     {
         // TODO: Check if (HIBYTE(this->field_21C) & 1)
         // is correct
-        if (field_21C_bf.bOnFire == 0)
+        if (!field_21C_bf.bOnFire)
         {
             field_250_voice_event = voice_event;
         }

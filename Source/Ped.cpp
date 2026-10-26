@@ -3846,7 +3846,7 @@ void Ped::UpdateAI_462280()
         {
             if (field_23C_group_idx != 99)
             {
-                if (field_21C_bf.bPanicking == 0)
+                if (!field_21C_bf.bPanicking)
                 {
                     field_164_ped_group->UpdateMemberAIState_4CA5E0(field_23C_group_idx);
                     byte_61A8A3 = 1;
@@ -3858,7 +3858,7 @@ void Ped::UpdateAI_462280()
                     byte_6787C4 = 0;
                 }
             }
-            else if (field_21C_bf.bPanicking == 0)
+            else if (!field_21C_bf.bPanicking)
             {
                 byte_61A8A3 = field_164_ped_group->Get_F3C_433370() != 1;
                 field_164_ped_group->CoordinateGroupCarEntry_4C9F00();
@@ -3870,7 +3870,7 @@ void Ped::UpdateAI_462280()
                 byte_6787C4 = 0;
             }
         }
-        else if (field_21C_bf.bPanicking == 0)
+        else if (!field_21C_bf.bPanicking)
         {
             byte_61A8A3 = 1;
             byte_6787C4 = 1;
@@ -4386,7 +4386,7 @@ bool Ped::PoolUpdate()
     field_263_prev_attackers_count = field_262_attackers_count;
     field_262_attackers_count = 0;
     field_21C_bf.bSpottedPlayer = false;
-    if (field_21C_bf.bBusted != 0 && field_278_ped_state_1 != ped_state_1::immobilized_8)
+    if (field_21C_bf.bBusted && field_278_ped_state_1 != ped_state_1::immobilized_8)
     {
         // Ped busted
         Ped::ChangeNextPedState1_45C500(ped_state_1::immobilized_8);
@@ -4486,7 +4486,7 @@ bool Ped::PoolUpdate()
             if (field_168_game_object)
             {
                 Fix16 zpos = get_cam_z();
-                if (field_168_game_object->field_58_flags_bf.bOnSlope == 0 && zpos != kFpZero_678660)
+                if (!field_168_game_object->field_58_flags_bf.bOnSlope && zpos != kFpZero_678660)
                 {
                     zpos -= kFpOne_678664;
                 }
