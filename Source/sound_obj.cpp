@@ -1593,7 +1593,7 @@ void sound_obj::HandleTrainCabRollingFrictionSound_4143A0(Sound_Params* pParams)
 }
 
 MATCH_FUNC(0x4145E0)
-bool sound_obj::GetCar_4145E0(s32 idx, Car** ppOut)
+bool sound_obj::GetCar_4145E0(s32 idx, Car** ppOut) const
 {
     if (field_147C_audio_entities[idx].field_0_bUsed)
     {
@@ -2385,7 +2385,7 @@ bool sound_obj::Type_4_417A00(sound_0x68* pSound)
 }
 
 MATCH_FUNC(0x417AC0)
-s32 sound_obj::samp_idx_for_model_417AC0(s32 car_model)
+s32 sound_obj::samp_idx_for_model_417AC0(s32 car_model) const
 {
     s32 result;
 
@@ -2467,7 +2467,7 @@ s32 sound_obj::samp_idx_for_model_417AC0(s32 car_model)
 }
 
 MATCH_FUNC(0x417B80)
-s32 sound_obj::GetSirenSampleIdx_417B80(s32 car_model, bool bHornOn)
+s32 sound_obj::GetSirenSampleIdx_417B80(s32 car_model, bool bHornOn) const
 {
     if (car_model != car_model_enum::FIRETRUK)
     {
@@ -2477,7 +2477,7 @@ s32 sound_obj::GetSirenSampleIdx_417B80(s32 car_model, bool bHornOn)
 }
 
 MATCH_FUNC(0x417BA0)
-s32 sound_obj::GetVehicleAudioClass_417BA0(s32 car_model)
+s32 sound_obj::GetVehicleAudioClass_417BA0(s32 car_model) const
 {
     s32 result;
     switch (car_model)
@@ -2537,7 +2537,7 @@ s32 sound_obj::GetVehicleAudioClass_417BA0(s32 car_model)
 }
 
 MATCH_FUNC(0x417C60)
-s32 sound_obj::ConvertToPlayBackRate_417C60(s32 car_model)
+s32 sound_obj::ConvertToPlayBackRate_417C60(s32 car_model) const
 {
     switch (car_model)
     {
@@ -2609,7 +2609,7 @@ s32 sound_obj::ConvertToPlayBackRate_417C60(s32 car_model)
 }
 
 MATCH_FUNC(0x417D70)
-s32 sound_obj::get_samp_idx_for_car_417D70(Car* pCar, bool bDoorOpening, bool bLargeDoorOffset)
+s32 sound_obj::get_samp_idx_for_car_417D70(Car* pCar, bool bDoorOpening, bool bLargeDoorOffset) const
 {
     s32 result;
 
@@ -2691,7 +2691,7 @@ bool sound_obj::Type_7_417EF0(sound_0x68* pObj)
 }
 
 MATCH_FUNC(0x417F40)
-bool sound_obj::IsHeavyTruckOrBus_417F40(s32 car_model)
+bool sound_obj::IsHeavyTruckOrBus_417F40(s32 car_model) const
 {
     switch (car_model)
     {
@@ -3434,7 +3434,7 @@ bool sound_obj::VolCalc_419070(u8 base_volume, Fix16 max_dist, bool bFlag)
 }
 
 MATCH_FUNC(0x4190B0)
-Fix16 sound_obj::ComputeEmitterDistanceSquared_4190B0()
+Fix16 sound_obj::ComputeEmitterDistanceSquared_4190B0() const
 {
     Fix16 dx = field_30_sQueueSample.field_8_obj.field_0_x - field_1468_listener_x;
     Fix16 dy = field_30_sQueueSample.field_8_obj.field_4_y - field_146C_listener_y;
@@ -3777,7 +3777,7 @@ void sound_obj::SetCDVol_41A270(u8 cdVol)
 }
 
 MATCH_FUNC(0x41A280)
-u8 sound_obj::GetCDVol_41A280()
+u8 sound_obj::GetCDVol_41A280() const
 {
     return field_25_cdVol;
 }
@@ -3804,7 +3804,7 @@ void sound_obj::Reacquire_41A2A0()
 }
 
 MATCH_FUNC(0x41A2E0)
-char_type sound_obj::GetAudioDriveLetter_41A2E0()
+char_type sound_obj::GetAudioDriveLetter_41A2E0() const
 {
     return gSampManager_6FFF00.field_4_gtaAudioDriveLetter;
 }
@@ -3851,7 +3851,7 @@ bool sound_obj::Set3DSound_41A2F0(char_type b3dSound)
 }
 
 MATCH_FUNC(0x41A390)
-char_type sound_obj::Get3dSound_41A390()
+char_type sound_obj::Get3dSound_41A390() const
 {
     if (field_0_bSoundInitialized)
     {
@@ -3878,7 +3878,7 @@ void sound_obj::ServiceSoundEffects_41A3A0()
     }
 }
 MATCH_FUNC(0x41A3F0)
-u8 sound_obj::CalcVolume_41A3F0(u8 base_volume, Fix16 max_dist, Fix16 dist)
+u8 sound_obj::CalcVolume_41A3F0(u8 base_volume, Fix16 max_dist, Fix16 dist) const
 {
     if (max_dist == kFpZero_674CD8)
     {
@@ -3900,7 +3900,7 @@ u8 sound_obj::CalcVolume_41A3F0(u8 base_volume, Fix16 max_dist, Fix16 dist)
 }
 
 MATCH_FUNC(0x41A4A0)
-u8 sound_obj::ComputePan_41A4A0(Fix16 intensity, Fix16 x_offset) // TODO: Ret type
+u8 sound_obj::ComputePan_41A4A0(Fix16 intensity, Fix16 x_offset) const // TODO: Ret type
 {
     Fix16 half_width = intensity / kFp64_674DA8;
     if (half_width == kFpZero_674CD8)
@@ -3941,7 +3941,7 @@ u8 sound_obj::ComputePan_41A4A0(Fix16 intensity, Fix16 x_offset) // TODO: Ret ty
 }
 
 MATCH_FUNC(0x41A580)
-s32 sound_obj::AdjustPlaybackRate_41A580(s32 snd_rate, Fix16 xpos, Fix16 ypos, Fix16 zpos)
+s32 sound_obj::AdjustPlaybackRate_41A580(s32 snd_rate, Fix16 xpos, Fix16 ypos, Fix16 zpos) const
 {
     if (zpos != 0)
     {
@@ -4494,7 +4494,7 @@ void sound_obj::UpdateFramesToPlay_41B490(sound_0x68* pObj)
 }
 
 MATCH_FUNC(0x41B4E0)
-void sound_obj::VecDiff_41B4E0(SoundPos* pVec, SoundPos* pRet)
+void sound_obj::VecDiff_41B4E0(const SoundPos* pVec, SoundPos* pRet) const
 {
     pRet->field_0_x = pVec->field_0_x - field_1468_listener_x;
     pRet->field_4_y = pVec->field_4_y - field_146C_listener_y;
@@ -4502,7 +4502,7 @@ void sound_obj::VecDiff_41B4E0(SoundPos* pVec, SoundPos* pRet)
 }
 
 MATCH_FUNC(0x41B520)
-void sound_obj::FromFix16_41B520(Fix16 value, f32* pOut)
+void sound_obj::FromFix16_41B520(Fix16 value, f32* pOut) const
 {
     *pOut = value.ToFloat();
 }
@@ -4535,7 +4535,7 @@ DEFINE_GLOBAL(u8, byte_67554C, 0x67554C);
 EXPORT bool Cooldown_4236C0();
 
 MATCH_FUNC(0x41B660)
-u8 sound_obj::ComputeEmittingVolume_41B660(u8 emittingVolume, u32 maxDistance, u32 distance)
+u8 sound_obj::ComputeEmittingVolume_41B660(u8 emittingVolume, u32 maxDistance, u32 distance) const
 {
     const s32 minDistance = maxDistance / 4;
     const u32 diffDistance = maxDistance - minDistance;
@@ -6504,7 +6504,7 @@ void sound_obj::ProcessPoliceRadioWordsPlayback_427220()
 }
 
 MATCH_FUNC(0x427310)
-u8 sound_obj::GetFreeRadioWordSlots_427310()
+u8 sound_obj::GetFreeRadioWordSlots_427310() const
 {
     // note: return value and'ed with 0xFF if return type is wider
     if (field_5529_idx15 < field_5528_idx15_cur)
@@ -6553,7 +6553,7 @@ void sound_obj::AppendRadioMessageSuffix_4273B0()
 }
 
 MATCH_FUNC(0x427400)
-u32 sound_obj::GetCopRadioZoneIndex_427400(u8 x, u8 y, gmp_map_zone** ppZone)
+u32 sound_obj::GetCopRadioZoneIndex_427400(u8 x, u8 y, gmp_map_zone** ppZone) const
 {
     *ppZone = gMap_0x370_6F6268->GetZoneAtPosOfType_4DF4D0(x, y, 15u);
     if (!(*ppZone) || (*ppZone)->field_5_name_length != 3)
@@ -7595,12 +7595,12 @@ void sound_obj::SelectBestRadioEmitter_57EF60()
 }
 
 MATCH_FUNC(0x57F050)
-u8 sound_obj::FindEmitterByStation_57F050(s32 station_idx)
+u8 sound_obj::FindEmitterByStation_57F050(s32 station_idx) const
 {
     for (u8 i = 0; i < 5; i++)
     {
         // TODO: Structure is wrong, maybe field_544C starts earlier or later?
-        if (*reinterpret_cast<u32*>(&field_544C[i + 1].field_8.field_4_bStatus) == static_cast<u32>(station_idx))
+        if (*reinterpret_cast<const u32*>(&field_544C[i + 1].field_8.field_4_bStatus) == static_cast<u32>(station_idx))
         {
             return i;
         }
@@ -7609,7 +7609,7 @@ u8 sound_obj::FindEmitterByStation_57F050(s32 station_idx)
 }
 
 MATCH_FUNC(0x57F090)
-bool sound_obj::IsPoliceOrServiceVehicle_57F090(Car* pCar)
+bool sound_obj::IsPoliceOrServiceVehicle_57F090(Car* pCar) const
 {
     switch (pCar->GetCarInfoIdx_411940())
     {
@@ -7628,7 +7628,7 @@ bool sound_obj::IsPoliceOrServiceVehicle_57F090(Car* pCar)
 }
 
 MATCH_FUNC(0x57F120)
-bool sound_obj::IsTrainOrBoxcar_57F120(Car* pCar)
+bool sound_obj::IsTrainOrBoxcar_57F120(Car* pCar) const
 {
     if (!pCar)
     {
