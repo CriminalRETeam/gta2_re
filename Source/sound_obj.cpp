@@ -2918,7 +2918,7 @@ void sound_obj::HandleCarDoorSounds_4182E0(Sound_Params* pParams)
 MATCH_FUNC(0x418610)
 void sound_obj::HandleCarEngineStartSound_418610(Sound_Params* pParams)
 {
-    if (pParams->field_0_pObj->field_8_car_bc_ptr->field_9C_engine_status == car_engine_status::unknown_4)
+    if (pParams->field_0_pObj->field_8_car_bc_ptr->field_9C_engine_status == car_engine_status::starting_4)
     {
         if (CalculateDistance_419020(Fix16(25)))
         {

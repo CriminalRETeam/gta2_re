@@ -4920,7 +4920,7 @@ void Car::StartWreckCountdown_441380()
     {
         if (this->field_9C_engine_status != car_engine_status::destroyed_6)
         {
-            this->field_9C_engine_status = car_engine_status::unknown_5;
+            this->field_9C_engine_status = car_engine_status::destroying_5;
         }
         this->field_A9_wreck_countdown = 50;
     }
@@ -5019,19 +5019,19 @@ void Car::UpdateEngineStatus_441520()
             {
                 if (pCarPhysics->IsAccelerationOrReverseOn_55A180())
                 {
-                    field_9C_engine_status = car_engine_status::unknown_4;
+                    field_9C_engine_status = car_engine_status::starting_4;
                 }
             }
             break;
-        case car_engine_status::unknown_4:
+        case car_engine_status::starting_4:
             HeadlightsOn_43BFE0();
             field_9C_engine_status = car_engine_status::on_3;
             break;
-        case car_engine_status::unknown_2:
+        case car_engine_status::stopping_2:
             HeadlightsOff_43C0C0();
             field_9C_engine_status = car_engine_status::off_1;
             break;
-        case car_engine_status::unknown_5:
+        case car_engine_status::destroying_5:
             HeadlightsOff_43C0C0();
             field_9C_engine_status = car_engine_status::destroyed_6;
             break;

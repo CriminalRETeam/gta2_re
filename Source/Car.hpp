@@ -61,10 +61,10 @@ namespace car_engine_status
 enum
 {
     off_1 = 1,
-    unknown_2 = 2,
+    stopping_2 = 2, // transient: Car::UpdateEngineStatus_441520 turns the headlights off, then off_1
     on_3 = 3,
-    unknown_4 = 4,
-    unknown_5 = 5,
+    starting_4 = 4, // transient: start sound, headlights on, then on_3
+    destroying_5 = 5, // transient: headlights off, then destroyed_6
     destroyed_6 = 6,
     crushed_7 = 7,
 };
@@ -1086,7 +1086,7 @@ class Car
     // 9.6f 0x421570
     inline void ResetEngineStatus_421570()
     {
-        if (field_9C_engine_status == car_engine_status::destroyed_6 || field_9C_engine_status == car_engine_status::unknown_5)
+        if (field_9C_engine_status == car_engine_status::destroyed_6 || field_9C_engine_status == car_engine_status::destroying_5)
         {
             field_9C_engine_status = car_engine_status::off_1;
         }
@@ -1097,7 +1097,7 @@ class Car
     {
         if (field_9C_engine_status != car_engine_status::destroyed_6)
         {
-            field_9C_engine_status = car_engine_status::unknown_5;
+            field_9C_engine_status = car_engine_status::destroying_5;
         }
     }
 
