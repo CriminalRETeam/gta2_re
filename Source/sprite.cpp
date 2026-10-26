@@ -199,7 +199,7 @@ EXPORT void SpriteMask::ClearMask_48F5C0(u8 xCount, u8 yCount)
 }
 
 MATCH_FUNC(0x48f600)
-SpriteMask* SpriteMaskCache::FindCachedMask_48F600(u16& sprite_idx, u32* pFlag, u32* pDeltaMask, const u16* pExtra)
+SpriteMask* SpriteMaskCache::FindCachedMask_48F600(const u16& sprite_idx, const u32* pFlag, const u32* pDeltaMask, const u16* pExtra)
 {
     s32 final_idx;
     s32 start_idx = 0;
@@ -234,7 +234,7 @@ SpriteMask* SpriteMaskCache::FindCachedMask_48F600(u16& sprite_idx, u32* pFlag, 
 }
 
 MATCH_FUNC(0x48f690)
-SpriteMask* SpriteMaskCache::FindLeastRecentlyUsed_48F690(u32* pKey)
+SpriteMask* SpriteMaskCache::FindLeastRecentlyUsed_48F690(const u32* pKey)
 {
     u32 min_value = -1;
     s32 start_idx;
@@ -264,7 +264,7 @@ SpriteMask* SpriteMaskCache::FindLeastRecentlyUsed_48F690(u32* pKey)
 }
 
 MATCH_FUNC(0x48f6e0)
-void SpriteMaskCache::InvalidateMasksBySpriteIdx_48F6E0(u16* sprite_idx)
+void SpriteMaskCache::InvalidateMasksBySpriteIdx_48F6E0(const u16* sprite_idx)
 {
     s32 count = 0;
     for (SpriteMask* pIter = &this->field_0_masks[0]; count < 48; count++, ++pIter)
@@ -529,7 +529,7 @@ bool Sprite::IsControlledByRemotePlayer_59E170()
 }
 
 MATCH_FUNC(0x59E1B0)
-Ped* Sprite::GetPed_59E1B0()
+Ped* Sprite::GetPed_59E1B0() const
 {
     if (this->field_30_sprite_type_enum == sprite_types_enum::ped_3 && this->field_8_char_b4_ptr != NULL)
     {
@@ -833,7 +833,7 @@ void Sprite::ProcessCarToCarImpactIfCar_59E910(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x59E930)
-bool Sprite::IsObjectModelEqual_59E930(s32 model)
+bool Sprite::IsObjectModelEqual_59E930(s32 model) const
 {
     return (IsObject2CType_40FE80() && field_8_object_2C_ptr->field_18_model == model) ? true : false;
 }
@@ -937,7 +937,7 @@ void Sprite::SetRemap(s16 remap)
 }
 
 MATCH_FUNC(0x59eaa0)
-s16 Sprite::GetTruePalette_59EAA0()
+s16 Sprite::GetTruePalette_59EAA0() const
 {
     if (field_34_palette_type == palette_types_enum::sprites_2)
     {
@@ -1345,8 +1345,8 @@ bool Sprite::IntersectsRectSAT_59FB10(Fix16_Rect* pOtherRect)
 
     GetHalfExtents_ool_4BA0A0(field_C_pCollisionShape, &half_width, &half_height);
 
-    Fix16 pRotTransX;
-    Fix16 pRotTransY;
+    Fix16 rot_x;
+    Fix16 rot_y;
 
     // First rotation
     RotateAndTranslatePoint_ool_42A720(pOtherRect->get_left_45ADB0(),
@@ -1354,12 +1354,12 @@ bool Sprite::IntersectsRectSAT_59FB10(Fix16_Rect* pOtherRect)
                                    -field_0_rotation,
                                    field_14_xy.x,
                                    field_14_xy.y,
-                                   pRotTransX,
-                                   pRotTransY);
+                                   rot_x,
+                                   rot_y);
 
-    if (pRotTransX >= -half_width && pRotTransX <= half_width)
+    if (rot_x >= -half_width && rot_x <= half_width)
     {
-        if (pRotTransY >= -half_height && pRotTransY <= half_height)
+        if (rot_y >= -half_height && rot_y <= half_height)
         {
             return true;
         }
@@ -1371,12 +1371,12 @@ bool Sprite::IntersectsRectSAT_59FB10(Fix16_Rect* pOtherRect)
                                    -field_0_rotation,
                                    field_14_xy.x,
                                    field_14_xy.y,
-                                   pRotTransX,
-                                   pRotTransY);
+                                   rot_x,
+                                   rot_y);
 
-    if (pRotTransX >= -half_width && pRotTransX <= half_width)
+    if (rot_x >= -half_width && rot_x <= half_width)
     {
-        if (pRotTransY >= -half_height && pRotTransY <= half_height)
+        if (rot_y >= -half_height && rot_y <= half_height)
         {
             return true;
         }
@@ -1388,12 +1388,12 @@ bool Sprite::IntersectsRectSAT_59FB10(Fix16_Rect* pOtherRect)
                                    -field_0_rotation,
                                    field_14_xy.x,
                                    field_14_xy.y,
-                                   pRotTransX,
-                                   pRotTransY);
+                                   rot_x,
+                                   rot_y);
 
-    if (pRotTransX >= -half_width && pRotTransX <= half_width)
+    if (rot_x >= -half_width && rot_x <= half_width)
     {
-        if (pRotTransY >= -half_height && pRotTransY <= half_height)
+        if (rot_y >= -half_height && rot_y <= half_height)
         {
             return true;
         }
@@ -1405,12 +1405,12 @@ bool Sprite::IntersectsRectSAT_59FB10(Fix16_Rect* pOtherRect)
                                    -field_0_rotation,
                                    field_14_xy.x,
                                    field_14_xy.y,
-                                   pRotTransX,
-                                   pRotTransY);
+                                   rot_x,
+                                   rot_y);
 
-    if (pRotTransX >= -half_width && pRotTransX <= half_width)
+    if (rot_x >= -half_width && rot_x <= half_width)
     {
-        if (pRotTransY >= -half_height && pRotTransY <= half_height)
+        if (rot_y >= -half_height && rot_y <= half_height)
         {
             return true;
         }
@@ -1425,12 +1425,12 @@ bool Sprite::IntersectsRectSAT_59FB10(Fix16_Rect* pOtherRect)
                            -field_0_rotation,
                            field_14_xy.x,
                            field_14_xy.y,
-                           pRotTransX,
-                           pRotTransY);
+                           rot_x,
+                           rot_y);
 
-    if (pRotTransX >= half_width.Negate_4086A0() && pRotTransX <= half_width)
+    if (rot_x >= half_width.Negate_4086A0() && rot_x <= half_width)
     {
-        if (pRotTransY >= half_height.Negate_4086A0() && pRotTransY <= half_height)
+        if (rot_y >= half_height.Negate_4086A0() && rot_y <= half_height)
         {
             return true;
         }
@@ -1548,8 +1548,8 @@ bool Sprite::RotatedRectCollisionSAT_5A0380(Sprite* pOther)
 
     field_C_pCollisionShape->GetHalfExtents_4BA0A0(&half_width, &half_height);
 
-    Fix16 pRotTransX;
-    Fix16 pRotTransY;
+    Fix16 rot_x;
+    Fix16 rot_y;
 
     // First rotation
     RotateAndTranslatePoint_NegOOL_42A720(pOtherRenderRect[0].x,
@@ -1557,12 +1557,12 @@ bool Sprite::RotatedRectCollisionSAT_5A0380(Sprite* pOther)
                                    -field_0_rotation,
                                    field_14_xy.x,
                                    field_14_xy.y,
-                                   pRotTransX,
-                                   pRotTransY);
+                                   rot_x,
+                                   rot_y);
 
-    if (pRotTransX >= -half_width && pRotTransX <= half_width)
+    if (rot_x >= -half_width && rot_x <= half_width)
     {
-        if (pRotTransY >= -half_height && pRotTransY <= half_height)
+        if (rot_y >= -half_height && rot_y <= half_height)
         {
             return true;
         }
@@ -1574,12 +1574,12 @@ bool Sprite::RotatedRectCollisionSAT_5A0380(Sprite* pOther)
                                    -field_0_rotation,
                                    field_14_xy.x,
                                    field_14_xy.y,
-                                   pRotTransX,
-                                   pRotTransY);
+                                   rot_x,
+                                   rot_y);
 
-    if (pRotTransX >= -half_width && pRotTransX <= half_width)
+    if (rot_x >= -half_width && rot_x <= half_width)
     {
-        if (pRotTransY >= -half_height && pRotTransY <= half_height)
+        if (rot_y >= -half_height && rot_y <= half_height)
         {
             return true;
         }
@@ -1591,12 +1591,12 @@ bool Sprite::RotatedRectCollisionSAT_5A0380(Sprite* pOther)
                                    -field_0_rotation,
                                    field_14_xy.x,
                                    field_14_xy.y,
-                                   pRotTransX,
-                                   pRotTransY);
+                                   rot_x,
+                                   rot_y);
 
-    if (pRotTransX >= -half_width && pRotTransX <= half_width)
+    if (rot_x >= -half_width && rot_x <= half_width)
     {
-        if (pRotTransY >= -half_height && pRotTransY <= half_height)
+        if (rot_y >= -half_height && rot_y <= half_height)
         {
             return true;
         }
@@ -1608,12 +1608,12 @@ bool Sprite::RotatedRectCollisionSAT_5A0380(Sprite* pOther)
                                    -field_0_rotation,
                                    field_14_xy.x,
                                    field_14_xy.y,
-                                   pRotTransX,
-                                   pRotTransY);
+                                   rot_x,
+                                   rot_y);
 
-    if (pRotTransX >= half_width.Negate_4086A0() && pRotTransX <= half_width)
+    if (rot_x >= half_width.Negate_4086A0() && rot_x <= half_width)
     {
-        if (pRotTransY >= half_height.Negate_4086A0() && pRotTransY <= half_height)
+        if (rot_y >= half_height.Negate_4086A0() && rot_y <= half_height)
         {
             return true;
         }
@@ -1626,12 +1626,12 @@ bool Sprite::RotatedRectCollisionSAT_5A0380(Sprite* pOther)
                            GetNegatedAngle_5A26E0(),
                            field_14_xy.x,
                            field_14_xy.y,
-                           pRotTransX,
-                           pRotTransY);
+                           rot_x,
+                           rot_y);
 
-    if (pRotTransX >= half_width.Negate_4086A0() && pRotTransX <= half_width)
+    if (rot_x >= half_width.Negate_4086A0() && rot_x <= half_width)
     {
-        if (pRotTransY >= half_height.Negate_4086A0() && pRotTransY <= half_height)
+        if (rot_y >= half_height.Negate_4086A0() && rot_y <= half_height)
         {
             return true;
         }
