@@ -266,7 +266,7 @@ void BonusTracker::ProcessBonusEvent_4320D0(s16 event_type, s32 car_model, s32 o
 }
 
 MATCH_FUNC(0x432170);
-bool BonusTracker::IsDeathCauseInGroup_432170(int death_cause, int rule_death_cause)
+bool BonusTracker::IsDeathCauseInGroup_432170(s32 death_cause, s32 rule_death_cause)
 {
     if (rule_death_cause == ped_death_cause::run_over_1)
     {
@@ -338,7 +338,7 @@ bool BonusTracker::IsDeathCauseInGroup_432170(int death_cause, int rule_death_ca
 }
 
 MATCH_FUNC(0x432240);
-bool BonusTracker::IsOccupationInGroup_432240(int occupation, int rule_occupation)
+bool BonusTracker::IsOccupationInGroup_432240(s32 occupation, s32 rule_occupation)
 {
     if (rule_occupation == ped_ocupation_enum::any_law_enforcement)
     {
@@ -398,7 +398,7 @@ bool BonusTracker::IsOccupationInGroup_432240(int occupation, int rule_occupatio
 }
 
 MATCH_FUNC(0x432300);
-bool BonusTracker::AreCarModelsEquivalent_432300(int car_model_1, int car_model_2)
+bool BonusTracker::AreCarModelsEquivalent_432300(s32 car_model_1, s32 car_model_2)
 {
     bool is_fed_car_1;
     bool is_fed_car_2;

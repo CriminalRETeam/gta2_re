@@ -75,9 +75,9 @@ class BonusTracker
                                  gmp_map_zone* pZone);
     EXPORT s16 GetBonusResult_432080(u16 idx);
     EXPORT void ProcessBonusEvent_4320D0(s16 event_type, s32 car_model, s32 occupation, s16 gang_idx, s16 remap, s32 death_cause, s32 alt_car_model, gmp_map_zone* pZone);
-    EXPORT bool IsDeathCauseInGroup_432170(int death_cause, int rule_death_cause);
-    EXPORT bool IsOccupationInGroup_432240(int occupation, int rule_occupation);
-    EXPORT bool AreCarModelsEquivalent_432300(int car_model_1, int car_model_2);
+    EXPORT bool IsDeathCauseInGroup_432170(s32 death_cause, s32 rule_death_cause);
+    EXPORT bool IsOccupationInGroup_432240(s32 occupation, s32 rule_occupation);
+    EXPORT bool AreCarModelsEquivalent_432300(s32 car_model_1, s32 car_model_2);
 
     BonusRule field_0_bonuses[k_max_rules];
     class PlayerScoreTracker* field_1B8_pScores;
