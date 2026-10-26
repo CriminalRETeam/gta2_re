@@ -3199,7 +3199,7 @@ void sound_obj::AddVocalsEntity_418C20()
         SoundObject* pSoundObj = &field_544C[0].field_8;
         field_544C[0].field_8.field_C_pAny.pAny = 0;
         field_544C[0].field_8.field_4_bStatus = 0;
-        pSoundObj->field_0_object_type = 10;
+        pSoundObj->field_0_object_type = SoundObjectTypeEnum::Vocals_10;
         field_544C[0].field_4_entity_idx = AddSoundObject_419FA0(pSoundObj);
     }
 }
