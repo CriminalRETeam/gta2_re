@@ -2138,7 +2138,6 @@ void Frontend::HandlePlayerNameTyping_4B2F60()
         }
         else if (input == DIK_BACKSPACE)
         {
-            //v8 = field_C9B2_curr_plyr_name_length;
             if (field_C9B2_curr_plyr_name_length > 0)
             {
                 field_C9B2_curr_plyr_name_length--;
