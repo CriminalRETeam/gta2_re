@@ -2344,27 +2344,11 @@ bool Car::IsThreatToSearchingPed_43AAE0()
 MATCH_FUNC(0x43aaf0)
 bool Car::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
 {
-
-    s32 sprite_type;
-    Car* pCar;
-    u16 our_flags;
-    u16 their_flags;
-    bool bCanCollide;
-    s32 despawn_status;
-    Object* pObject;
-    ObjectDefinition* pDefinition;
-    s32 phi_type;
-    s32 field_18_model;
-    Ped* pPed;
-    Char* pChar;
-    Ped* pCharPed;
-    Trailer* pTrailer;
-
     if (pSprite)
     {
         if (pSprite->field_30_sprite_type_enum == sprite_types_enum::car_2)
         {
-            pCar = pSprite->field_8_car_bc_ptr;
+            Car* pCar = pSprite->field_8_car_bc_ptr;
             if (pCar)
             {
                 if (gPublicTransport_181C_6FF1D4->AreTrainsOnDifferentTracks_57B740(pCar, this))
@@ -2372,8 +2356,8 @@ bool Car::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
                     return false;
                 }
 
-                our_flags = this->field_78_flags;
-                their_flags = pCar->field_78_flags;
+                const u16 our_flags = this->field_78_flags;
+                const u16 their_flags = pCar->field_78_flags;
                 if ((static_cast<u8>(their_flags) & car_flag::Flag4) != (static_cast<u8>(our_flags) & car_flag::Flag4))
                 {
                     return false;
@@ -2405,10 +2389,10 @@ bool Car::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
                     return true;
                 }
 
-                bCanCollide = pSprite->CheckDirectionalSliceCollision_59E680(kFpFiveEighths_6778C8, this->field_50_car_sprite);
+                const bool bCanCollide = pSprite->CheckDirectionalSliceCollision_59E680(kFpFiveEighths_6778C8, this->field_50_car_sprite);
                 if (!HasSpriteZoom_43A230() && !this->IsMaxDamage_40F890())
                 {
-                    despawn_status = this->field_88_despawn_status;
+                    const s32 despawn_status = this->field_88_despawn_status;
                     if (despawn_status != car_despawn_status::despawn_pending_2 && despawn_status != car_despawn_status::marked_for_despawn_4 && despawn_status != car_despawn_status::despawn_soon_3 && despawn_status != car_despawn_status::despawning_5)
                     {
                         stru_67727C.PushSprite_5A6D40(this->field_50_car_sprite);
@@ -2418,14 +2402,16 @@ bool Car::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
             }
         }
 
-        sprite_type = pSprite->field_30_sprite_type_enum;
+        const s32 sprite_type = pSprite->field_30_sprite_type_enum;
+        Object* pObject;
         if ((sprite_type == sprite_types_enum::code_obj1_4 || sprite_type == sprite_types_enum::map_obj_5 || sprite_type == sprite_types_enum::object_1) && (pObject = pSprite->field_8_object_2C_ptr) != NULL)
         {
-            pDefinition = pObject->field_8_definition;
-            phi_type = pDefinition->field_34_behavior_type;
-            if (phi_type == object_behavior_type::pickup_6 || phi_type == object_behavior_type::pickup_physics_7 || phi_type == object_behavior_type::pickup_animated_8 ||
-            phi_type == object_behavior_type::pickup_physics_animated_9 || phi_type == object_behavior_type::shop_10 || phi_type == object_behavior_type::static_collision_check_1 || phi_type == object_behavior_type::effect_only_12 ||
-                (field_18_model = pObject->field_18_model, field_18_model == 182) || field_18_model == objects::grenade_obj_183)
+            ObjectDefinition* pDefinition = pObject->field_8_definition;
+            const s32 behavior_type = pDefinition->field_34_behavior_type;
+            s32 model;
+            if (behavior_type == object_behavior_type::pickup_6 || behavior_type == object_behavior_type::pickup_physics_7 || behavior_type == object_behavior_type::pickup_animated_8 ||
+            behavior_type == object_behavior_type::pickup_physics_animated_9 || behavior_type == object_behavior_type::shop_10 || behavior_type == object_behavior_type::static_collision_check_1 || behavior_type == object_behavior_type::effect_only_12 ||
+                (model = pObject->field_18_model, model == 182) || model == objects::grenade_obj_183)
             {
                 if (pDefinition->field_40_collision_bucket_category == collision_bucket_category::sprite_grid_2_region_3)
                 {
@@ -2436,7 +2422,7 @@ bool Car::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
             {
                 if (gPedRefTable_7F8_703398->field_0_entries[pObject->field_26_ped_ref_idx].field_0_ped_id)
                 {
-                    pPed = gPedManager_6787BC->PedById(gPedRefTable_7F8_703398->field_0_entries[pObject->field_26_ped_ref_idx].field_0_ped_id);
+                    Ped* pPed = gPedManager_6787BC->PedById(gPedRefTable_7F8_703398->field_0_entries[pObject->field_26_ped_ref_idx].field_0_ped_id);
                     if (pPed)
                     {
                         if (pPed->field_16C_car == this)
@@ -2449,10 +2435,10 @@ bool Car::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
         }
         else if (sprite_type == sprite_types_enum::ped_3)
         {
-            pChar = pSprite->field_8_char_b4_ptr;
+            Char* pChar = pSprite->field_8_char_b4_ptr;
             if (pChar)
             {
-                pCharPed = pChar->field_7C_pPed;
+                Ped* pCharPed = pChar->field_7C_pPed;
                 if (pCharPed->field_27C_ped_state_2 == ped_state_2::ped2_entering_a_car_6 && pCharPed->field_154_target_to_enter == this)
                 {
                     return false;
@@ -2465,7 +2451,7 @@ bool Car::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
     {
         if (gCollisionCounters_6791FC->field_8_bDoorAccessCheck == 1)
         {
-            pTrailer = this->field_64_pTrailer;
+            Trailer* pTrailer = this->field_64_pTrailer;
             if (pTrailer)
             {
                 if (pTrailer->field_C_trailer_car == this)
@@ -3553,12 +3539,7 @@ void Car::TriggerExplosion_43D7B0(s32 type)
 MATCH_FUNC(0x43d840)
 void Car::HandleCarExplosion_43D840(s32 type)
 {
-    bool bOcc2;
-    s32 model_to_check;
-    Ped* pExploder;
-    Gang* pGang;
-
-    bOcc2 = false;
+    bool bOcc2 = false;
     if (field_60_pChaseTask)
     {
         gCarChaseTaskTable_678E30->FreeEntry_474CC0(field_60_pChaseTask);
@@ -3588,7 +3569,7 @@ void Car::HandleCarExplosion_43D840(s32 type)
 
         field_0_attachments.DestroyAllAttached_5A6BB0();
 
-        model_to_check = gCarManager_6C_677930->field_58_model_to_check_destroy;
+        const s32 model_to_check = gCarManager_6C_677930->field_58_model_to_check_destroy;
         if (model_to_check != 87 && model_to_check == this->field_84_car_info_idx)
         {
             gCarManager_6C_677930->field_5C_model_check_destroyed = true;
@@ -3596,7 +3577,7 @@ void Car::HandleCarExplosion_43D840(s32 type)
 
         if (this->field_70_exploder_ped_id)
         {
-            pExploder = gPedManager_6787BC->PedById(this->field_70_exploder_ped_id);
+            Ped* pExploder = gPedManager_6787BC->PedById(this->field_70_exploder_ped_id);
             if (pExploder)
             {
                 if (pExploder->PedTypeIs_45EDE0(ped_type::player_2))
@@ -3617,7 +3598,7 @@ void Car::HandleCarExplosion_43D840(s32 type)
                     s16 gang_idx = gGangPool_CA8_67E274->FindGangByCarModel_4BF2F0(this->field_84_car_info_idx);
                     if (gang_idx != -1)
                     {
-                        pGang = gGangPool_CA8_67E274->GangByIdx_4BF1C0(static_cast<u8>(gang_idx));
+                        Gang* pGang = gGangPool_CA8_67E274->GangByIdx_4BF1C0(static_cast<u8>(gang_idx));
                         pGang->ApplyKillRespectChange_4BEF70(pExploder->field_15C_player->get_idx_4219D0(), 1u);
                     }
                     if (pExploder->is_player_41B0A0())
@@ -3699,17 +3680,14 @@ s16 Car::AccumulateDamage_43DA90(s16 damage, const Fix16_Point* pVec)
 MATCH_FUNC(0x43db80)
 void Car::KillContainedPeds_43DB80()
 {
-    Ped* pDriver;
-    CarPhysics* pPhysics;
-
-    pDriver = this->field_54_driver;
+    Ped* pDriver = this->field_54_driver;
     if (pDriver)
     {
         if (pDriver->get_occupation_403980() != ped_ocupation_enum::unknown_2)
         {
             if (pDriver->is_player_41B0A0())
             {
-                pPhysics = this->field_58_physics;
+                CarPhysics* pPhysics = this->field_58_physics;
                 if (pPhysics)
                 {
                     pPhysics->SetField8C_to_1();
@@ -3774,15 +3752,7 @@ bool Car::IsBeingCrushed_43DD50()
 MATCH_FUNC(0x43dd60)
 void Car::DestroyWhileSinking_43DD60()
 {
-    bool bOcc2;
-    Ped* pDriver;
-    s32 exploder_ped_id;
-    Ped* pExploderPed;
-    Ped* pPed;
-    Gang* pGang;
-    s32 model_to_check;
-
-    bOcc2 = false;
+    bool bOcc2 = false;
 
     StopMovement_43DBD0();
     field_50_car_sprite->IncreaseZoom_59E320(1);
@@ -3790,7 +3760,7 @@ void Car::DestroyWhileSinking_43DD60()
 
     if (CarShrinkSprite_43DC80(2, 2))
     {
-        pDriver = this->field_54_driver;
+        Ped* pDriver = this->field_54_driver;
         if (pDriver)
         {
             if (pDriver->get_occupation_403980() == ped_ocupation_enum::unknown_2)
@@ -3798,11 +3768,11 @@ void Car::DestroyWhileSinking_43DD60()
                 bOcc2 = true;
             }
         }
-        exploder_ped_id = this->field_70_exploder_ped_id;
+        const s32 exploder_ped_id = this->field_70_exploder_ped_id;
         if (exploder_ped_id)
         {
-            pExploderPed = gPedManager_6787BC->PedById(exploder_ped_id);
-            pPed = pExploderPed;
+            Ped* pExploderPed = gPedManager_6787BC->PedById(exploder_ped_id);
+            Ped* pPed = pExploderPed;
             if (pExploderPed)
             {
                 if (pExploderPed->PedTypeIs_45EDE0(ped_type::player_2))
@@ -3823,7 +3793,7 @@ void Car::DestroyWhileSinking_43DD60()
                     s16 gang_idx = gGangPool_CA8_67E274->FindGangByCarModel_4BF2F0(this->field_84_car_info_idx);
                     if (gang_idx != -1)
                     {
-                        pGang = gGangPool_CA8_67E274->GangByIdx_4BF1C0(static_cast<u8>(gang_idx));
+                        Gang* pGang = gGangPool_CA8_67E274->GangByIdx_4BF1C0(static_cast<u8>(gang_idx));
                         pGang->ApplyKillRespectChange_4BEF70(pPed->field_15C_player->get_idx_4219D0(), 1u);
                     }
                     if (pPed->is_player_41B0A0())
@@ -3844,7 +3814,7 @@ void Car::DestroyWhileSinking_43DD60()
             }
         }
 
-        model_to_check = gCarManager_6C_677930->field_58_model_to_check_destroy;
+        const s32 model_to_check = gCarManager_6C_677930->field_58_model_to_check_destroy;
         if (model_to_check != 87 && model_to_check == this->field_84_car_info_idx)
         {
             gCarManager_6C_677930->field_5C_model_check_destroyed = true;
