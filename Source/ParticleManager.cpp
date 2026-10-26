@@ -18,7 +18,6 @@ static inline Ang16 AddAng16_ool(const Ang16& a, const Ang16& b);
 
 
 EXTERN_GLOBAL(Fix16, kFpPoint05_6FD46C);
-//EXTERN_GLOBAL(Fix16_Point, gParticlePosX_6FD388);
 EXTERN_GLOBAL(Fix16, gParticlePosX_6FD388);
 EXTERN_GLOBAL(Fix16, gParticlePosY_6FD38C);
 EXTERN_GLOBAL(Fix16, kFpOne512th_6FD548);
@@ -62,7 +61,7 @@ void ParticleManager::ParticlesService_53E320()
 MATCH_FUNC(0x53E3C0)
 Particle_4C* ParticleManager::New_53E3C0(Fix16 speed_x, Fix16 speed_y, Fix16 speed_z, Fix16 additional_speed_x, Fix16 additional_speed_y, Fix16 additional_speed_z)
 {
-    Particle_4C* pNewParticle = 0;
+    Particle_4C* pNewParticle = NULL;
     if (gParticle_4C_Pool_6FD5E4->has_pStart_48A8F0() && gSpritePool_703818->has_free_48A8D0())
     {
         pNewParticle = gParticle_4C_Pool_6FD5E4->Allocate();
@@ -271,7 +270,7 @@ void ParticleManager::GunMuzzelFlash_53E970(Sprite* pSprite)
     }
 }
 
-// Something wrong with the velocities https://decomp.me/scratch/2Kz9I
+// https://decomp.me/scratch/2Kz9I
 // 9.6f 0x48D1F0 (unpaired before): plain members (MultiplyByFix16_401CB0, +, -, RotateByAngle_40F6B0 as
 // RotateNegExport_), a count-down loop, -(v / 15) through Negate_4086A0.
 MATCH_FUNC(0x53f060)
@@ -392,8 +391,8 @@ void ParticleManager::EmitFlameStreamSegment_53F4C0(Sprite* pSprt)
                     }
                     else
                     {
-                        AttachedSprite* pSprt18_2 = pCar->field_0_attachments.GetSpriteForModel_5A6A50(248);
-                        angle = pSprt18_2->field_0_pSprite->field_0_rotation;
+                        AttachedSprite* pGun = pCar->field_0_attachments.GetSpriteForModel_5A6A50(248);
+                        angle = pGun->field_0_pSprite->field_0_rotation;
                         pos.SetXY_432860(Fix16(0), kFpThreeThirtySeconds_6FD48C);
                         pos.RotateByAngle_40F6B0(angle);
                         offset.SetXY_432860(Fix16(0), kFpMinusNineThirtySeconds_6FD4CC);
@@ -689,8 +688,8 @@ ParticleManager::ParticleManager()
             FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\particle.cpp", 4167);
         }
     }
-    field_0_fire_hit_obj = 0;
-    field_4_water_hit_obj = 0;
+    field_0_fire_hit_obj = NULL;
+    field_4_water_hit_obj = NULL;
 }
 
 MATCH_FUNC(0x543a60)
@@ -700,6 +699,6 @@ ParticleManager::~ParticleManager()
     {
         GTA2_DELETE_AND_NULL(gParticle_4C_Pool_6FD5E4);
     }
-    field_0_fire_hit_obj = 0;
-    field_4_water_hit_obj = 0;
+    field_0_fire_hit_obj = NULL;
+    field_4_water_hit_obj = NULL;
 }
