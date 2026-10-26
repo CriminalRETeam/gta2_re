@@ -1827,9 +1827,9 @@ inline bool Ped::IsPedAThreat_Inline_465D00(Ped* pTargetPed)
                         goto ret_true;
                     }
 
-                    Fix16 result;
-                    result = MaxAbsDistance_4614E0(this->field_1AC_cam.x, this->field_1AC_cam.y, pTargetPed->get_cam_x(), pTargetPed->get_cam_y());
-                    if (result <= kFpOne_678798)
+                    Fix16 distance;
+                    distance = MaxAbsDistance_4614E0(this->field_1AC_cam.x, this->field_1AC_cam.y, pTargetPed->get_cam_x(), pTargetPed->get_cam_y());
+                    if (distance <= kFpOne_678798)
                     {
                         goto ret_true;
                     }
