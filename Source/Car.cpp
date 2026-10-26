@@ -2392,8 +2392,7 @@ bool Car::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
                 const bool bCanCollide = pSprite->CheckDirectionalSliceCollision_59E680(kFpFiveEighths_6778C8, this->field_50_car_sprite);
                 if (!HasSpriteZoom_43A230() && !this->IsMaxDamage_40F890())
                 {
-                    const s32 despawn_status = this->field_88_despawn_status;
-                    if (despawn_status != car_despawn_status::despawn_pending_2 && despawn_status != car_despawn_status::marked_for_despawn_4 && despawn_status != car_despawn_status::despawn_soon_3 && despawn_status != car_despawn_status::despawning_5)
+                    if (!IsMarkedForDespawn_4214B0() && !IsDespawning_4215B0())
                     {
                         stru_67727C.PushSprite_5A6D40(this->field_50_car_sprite);
                     }
@@ -3772,7 +3771,6 @@ void Car::DestroyWhileSinking_43DD60()
         if (exploder_ped_id)
         {
             Ped* pExploderPed = gPedManager_6787BC->PedById(exploder_ped_id);
-            Ped* pPed = pExploderPed;
             if (pExploderPed)
             {
                 if (pExploderPed->PedTypeIs_45EDE0(ped_type::player_2))
@@ -3780,33 +3778,33 @@ void Car::DestroyWhileSinking_43DD60()
                     if (gPublicTransport_181C_6FF1D4->is_bus_579AA0(this) &&
                         gPublicTransport_181C_6FF1D4->field_17C0_bus.field_56_passenger_count >= 10)
                     {
-                        pPed->field_15C_player->field_2D4_scores.AwardFullBusDestroyedScore_593410(this);
+                        pExploderPed->field_15C_player->field_2D4_scores.AwardFullBusDestroyedScore_593410(this);
                     }
                     else
                     {
-                        pPed->field_15C_player->field_2D4_scores.AwardCarDestroyedScore_592DD0(this, pPed);
+                        pExploderPed->field_15C_player->field_2D4_scores.AwardCarDestroyedScore_592DD0(this, pExploderPed);
                         if (bOcc2)
                         {
-                            pPed->field_15C_player->field_2D4_scores.AddCashWithMultiplier_593220();
+                            pExploderPed->field_15C_player->field_2D4_scores.AddCashWithMultiplier_593220();
                         }
                     }
                     s16 gang_idx = gGangPool_CA8_67E274->FindGangByCarModel_4BF2F0(this->field_84_car_info_idx);
                     if (gang_idx != -1)
                     {
                         Gang* pGang = gGangPool_CA8_67E274->GangByIdx_4BF1C0(static_cast<u8>(gang_idx));
-                        pGang->ApplyKillRespectChange_4BEF70(pPed->field_15C_player->get_idx_4219D0(), 1u);
+                        pGang->ApplyKillRespectChange_4BEF70(pExploderPed->field_15C_player->get_idx_4219D0(), 1u);
                     }
-                    if (pPed->is_player_41B0A0())
+                    if (pExploderPed->is_player_41B0A0())
                     {
-                        if (gCrimeReportQueue_67A4B8->ShouldReportCarCrime_485090(this, pPed->field_15C_player))
+                        if (gCrimeReportQueue_67A4B8->ShouldReportCarCrime_485090(this, pExploderPed->field_15C_player))
                         {
-                            if (pPed->field_20A_wanted_points < 600)
+                            if (pExploderPed->field_20A_wanted_points < 600)
                             {
-                                pPed->field_20A_wanted_points = cop_level_ped_enum::cop_1_stars;
+                                pExploderPed->field_20A_wanted_points = cop_level_ped_enum::cop_1_stars;
                             }
                             else
                             {
-                                pPed->add_wanted_points_470160(200);
+                                pExploderPed->add_wanted_points_470160(200);
                             }
                         }
                     }
