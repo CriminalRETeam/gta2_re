@@ -924,8 +924,6 @@ void Player::IncreaseWantedLevelFromDebugKeys_565860()
     field_2C4_player_ped->IncreaseWantedLevelFromDebugKeys_46EFD0();
 }
 
-// https://decomp.me/scratch/jvjpT
-// pre processor bugged, should match ??
 MATCH_FUNC(0x565890)
 void Player::Hud_Controls_565890(u16 action)
 {
@@ -1637,7 +1635,6 @@ void Player::ShowDebugInfo_566EE0(bool skip)
 
         if (bDo_show_camera_67D58A)
         {
-            // fmuls vs fmull
             double x = this->field_90_game_camera.field_98_cur_pos.field_0_x.AsDouble();
             double y = this->field_90_game_camera.field_98_cur_pos.field_4_y.AsDouble();
             double z = this->field_90_game_camera.field_98_cur_pos.field_8_z.AsDouble();
@@ -2896,7 +2893,6 @@ void Player::ClearInputs_56A6D0()
     field_8C_down_changed = 0;
 }
 
-// https://decomp.me/scratch/OMzHk early %ecx load
 MATCH_FUNC(0x56A740)
 Player::Player(u8 player_idx)
 {
@@ -2911,8 +2907,6 @@ Player::Player(u8 player_idx)
     field_29_aux_ped_dying = false;
     field_4_inputs = 0;
     field_8E_in_use = 1;
-
-    // early %ecx load here
 
     field_2C4_player_ped = 0;
     field_2C8_aux_ped = 0;
