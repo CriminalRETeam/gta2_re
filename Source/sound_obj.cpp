@@ -3826,7 +3826,7 @@ char_type sound_obj::GetAudioDriveLetter_41A2E0()
 MATCH_FUNC(0x41A2F0)
 bool sound_obj::Set3DSound_41A2F0(char_type b3dSound)
 {
-    if (field_0_bSoundInitialized != 0)
+    if (field_0_bSoundInitialized)
     {
         if (b3dSound != field_1D_b3d_sound)
         {
@@ -6503,7 +6503,7 @@ void sound_obj::EnqueueRadioWord_4271B0(u32 val)
 MATCH_FUNC(0x427220)
 void sound_obj::ProcessPoliceRadioWordsPlayback_427220()
 {
-    if (!(field_5448_m_FrameCounter % 10u) && field_5520_bCanPlay == 0 && !gSampManager_6FFF00.SampleNotDone_58E880())
+    if (!(field_5448_m_FrameCounter % 10u) && !field_5520_bCanPlay && !gSampManager_6FFF00.SampleNotDone_58E880())
     {
         gSampManager_6FFF00.EndSample_58E960();
         field_5520_bCanPlay = true;
