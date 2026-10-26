@@ -27,7 +27,7 @@ struct SaveSlotInfo
     char_type field_4B_last_saved_stage;
     char_type field_4C_last_saved_bonus_stage_code;
     char_type field_4D_last_saved_is_bonus;
-    short field_4E_unused;
+    s16 field_4E_unused;
     s16 field_50_unused;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SaveSlotInfo, 0x52);
@@ -243,7 +243,7 @@ struct Frontend
     LPDIRECTINPUTDEVICEA field_4_pKeyboardDevice;
     char_type field_8_keys[256];
     s32 field_108_winmain_next_state;
-    char_type field_10C_bKeyboardAcquireFailed;
+    bool field_10C_bKeyboardAcquireFailed;
     char_type field_10D_bInputEnabled;
     s32 field_110_state;
     s32 field_114_cursor_blink;
@@ -264,14 +264,14 @@ struct Frontend
     MenuPage field_136_menu_pages_array[17];
     wchar_t field_C9A0_curr_plyr_name[9];
     u8 field_C9B2_curr_plyr_name_length;
-    char_type field_C9B3_key_held;
+    bool field_C9B3_key_held;
     s16 field_C9B4_last_key;
     s16 field_C9B6_key_repeat_timer;
     wchar_t field_C9B8_password[9];
     //char_type field_C9C8;
     //char_type field_C9C9;
     u8 field_C9CA_password_length;
-    char_type field_C9CB_wrong_password_shown;
+    bool field_C9CB_wrong_password_shown;
     char_type field_C9CC_left_pressed;
     char_type field_C9CD_right_pressed;
     char_type field_C9CE_up_pressed;
@@ -290,7 +290,7 @@ struct Frontend
     char_type field_C9DB_unused;
     s32 field_C9DC_next_frame_time;
     char_type field_C9E0_updates_since_render;
-    char_type field_C9E1_bCheatsEnabled;
+    bool field_C9E1_bCheatsEnabled;
     char_type field_C9E2_unused;
     char_type field_C9E3_unused;
     s32 field_C9E4_last_input_time;
@@ -384,7 +384,7 @@ struct Frontend
     EXPORT void ContinueToNextStage_4B8020();
 
     EXPORT void DrawBonusRating_4B7D60();
-    EXPORT int DrawKeyHint_4B7E10(u8 str_id_idx, u16 text_xpos, u16 text_ypos, u16 fontType, s32 palette);
+    EXPORT s32 DrawKeyHint_4B7E10(u8 str_id_idx, u16 text_xpos, u16 text_ypos, u16 fontType, s32 palette);
 
     EXPORT bool AreAllStagesUnlocked_4B7FB0();
 
@@ -400,7 +400,7 @@ struct Frontend
 
     EXPORT void DrawBackground_4B6E10();
 
-    EXPORT void GetTgaIdxsForMenuScreen_4B6B00(u8 screen, BYTE* pTgaIdx, BYTE* pTgaIdx2);
+    EXPORT void GetTgaIdxsForMenuScreen_4B6B00(u8 screen, u8* pTgaIdx, u8* pTgaIdx2);
 
     EXPORT void Load_tga_4B6520(u16 idx);
 
@@ -434,7 +434,7 @@ struct Frontend
 
     EXPORT bool PlySlotSvgExists_4B5370(u8 idx);
 
-    EXPORT static void __stdcall SetInputEnabled_5E53C0(BYTE* pEnabled);
+    EXPORT static void __stdcall SetInputEnabled_5E53C0(u8* pEnabled);
 
     EXPORT static s32 __stdcall GetMaxTextWidth_5D8990(wchar_t* pStr, u16 font_type);
 
@@ -490,7 +490,7 @@ struct Frontend
 
     EXPORT void DrawLastAndBestStats_4B57B0(u16 text_xpos, u16 text_ypos);
 
-    EXPORT void DrawTextFixedWidth_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 font_type, u16 palette, u16 scale, u16 char_width, u8 pStr);
+    EXPORT void DrawTextFixedWidth_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 font_type, u16 palette, u16 scale, u16 char_width, bool bRightAlign);
 
     EXPORT void Frontend::DrawScoreTable_4B5430(ScoreTableLine* pStrings,
                            u16 text_xpos,
@@ -523,7 +523,7 @@ EXPORT void __cdecl FreeSurface_5D7DC0();
 EXPORT void __stdcall DrawDebugLine_5D7DD0(s32 x1, s32 y1, s32 x2, s32 y2, u16 colour);
 EXPORT void __stdcall ConvertColourBanks_5D7CB0();
 
-EXTERN_GLOBAL(short, font_type_703C14);
+EXTERN_GLOBAL(s16, font_type_703C14);
 
 EXTERN_GLOBAL(s16, gFrontendHeadingFont_703C3C);
 
