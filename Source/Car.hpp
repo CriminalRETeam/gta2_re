@@ -361,7 +361,7 @@ class Trailer
         mpNext = NULL;
         field_8_truck_cab = NULL;
         field_C_trailer_car = NULL;
-        field_0_hitch_angle_clamped = NULL;
+        field_0_hitch_angle_clamped = 0;
         0;
     }
 
@@ -1421,7 +1421,7 @@ class TrailerPool
 
     ~TrailerPool()
     {
-       field_0_pool.field_0_pHead = 0;
+       field_0_pool.field_0_pHead = NULL;
     }
 
     // 9.6f 0x425580
