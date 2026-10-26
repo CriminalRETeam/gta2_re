@@ -110,8 +110,8 @@ NetPlay::~NetPlay()
         {
             operator delete(field_30_enumed_connections.field_4_modem_names[i].field_0_allocated_str);
         }
-        operator delete(field_30_enumed_connections.field_4_d_array_8_entries);
-        field_30_enumed_connections.field_4_d_array_8_entries = NULL;
+        operator delete(field_30_enumed_connections.field_4_modem_names);
+        field_30_enumed_connections.field_4_modem_names = NULL;
     }
 
     for (s32 j = 0; j < MAX_PLAYERS; j++)

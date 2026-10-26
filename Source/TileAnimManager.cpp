@@ -145,7 +145,7 @@ TileAnim::TileAnim()
     field_A_frame_timer = 0;
     field_C_ptr = NULL;
     field_10_base = 0;
-    field_12_idx = 0;
+    field_12_anim_idx = 0;
     mpNext = NULL;
 }
 
