@@ -6416,10 +6416,8 @@ bool Ped::IsThreatToSearchingPed_4661F0()
             }
             else
             {
-                Camera* pCam;
-
                 Player* pPlayer = this->field_15C_player;
-                pCam = &(pPlayer->field_68_camera_mode == 2 || pPlayer->field_68_camera_mode == 3 ? pPlayer->field_208_aux_game_camera : pPlayer->field_90_game_camera);
+                Camera* pCam = &(pPlayer->field_68_camera_mode == 2 || pPlayer->field_68_camera_mode == 3 ? pPlayer->field_208_aux_game_camera : pPlayer->field_90_game_camera);
 
                 Char* pSearcherChar = gSearchingPed_6787DC->field_168_game_object;
 
@@ -7502,11 +7500,6 @@ void Ped::TimeWaitedInCar_4682A0()
 MATCH_FUNC(0x468310)
 void Ped::GotoAreaInCar_468310()
 {
-    Ped* pDriver;
-    Car* pCar;
-    Car* pCar_;
-    Car* pCar__;
-
     if (this->field_225_objective_status != objective_status::passed_1)
     {
         if (this->field_168_game_object)
@@ -7529,12 +7522,12 @@ void Ped::GotoAreaInCar_468310()
             this->field_16C_car->field_60_pChaseTask->field_1C_target_z = this->field_1E4_objective_target_z;
             this->field_16C_car->ClearAIHalted_421550();
 
-            pDriver = this->field_16C_car->field_54_driver;
+            Ped* pDriver = this->field_16C_car->field_54_driver;
             if (pDriver)
             {
                 if (pDriver->PedTypeIs_45EDE0(ped_type::special_ped_4) || this->field_16C_car->field_54_driver->PedTypeIs_45EDE0(ped_type::dummy_with_occupation_6))
                 {
-                    pCar = this->field_16C_car;
+                    Car* pCar = this->field_16C_car;
                     if (pCar->field_54_driver->field_26C_graphic_type == ped_graphic_type::cop_2)
                     {
                         pCar->field_60_pChaseTask->field_20_can_snap_to_target = 1;
@@ -7547,30 +7540,30 @@ void Ped::GotoAreaInCar_468310()
                 static_cast<u8>(this->field_1AC_cam.y.ToInt()) == static_cast<u8>(this->field_1E0_objective_target_y.ToInt()) &&
                 this->field_1AC_cam.z == this->field_1E4_objective_target_z)
             {
-                pCar_ = this->field_16C_car;
+                Car* pCar = this->field_16C_car;
                 this->field_225_objective_status = objective_status::passed_1;
-                gCarChaseTaskTable_678E30->FreeEntry_474CC0(pCar_->field_60_pChaseTask);
+                gCarChaseTaskTable_678E30->FreeEntry_474CC0(pCar->field_60_pChaseTask);
                 this->field_16C_car->field_60_pChaseTask = NULL;
                 this->field_16C_car->SetAIHalted_421540();
                 this->field_1A0_objective_target_object = dword_678558; // TODO: Never written so part of a bigger global obj?
             }
             else
             {
-                pCar__ = this->field_16C_car;
-                if (pCar__->field_60_pChaseTask->field_26_route_finished)
+                Car* pCar = this->field_16C_car;
+                if (pCar->field_60_pChaseTask->field_26_route_finished)
                 {
                     this->field_225_objective_status = objective_status::passed_1;
-                    gCarChaseTaskTable_678E30->FreeEntry_474CC0(pCar__->field_60_pChaseTask);
+                    gCarChaseTaskTable_678E30->FreeEntry_474CC0(pCar->field_60_pChaseTask);
                     this->field_16C_car->field_60_pChaseTask = NULL;
                     this->field_16C_car->SetAIHalted_421540();
                 }
-                else if (!pCar__)
+                else if (!pCar)
                 {
                     this->field_218_objective_timer = 9999;
                 }
                 else
                 {
-                    if (pCar__->GetVelocity_43A4C0() == kFpZero_678660)
+                    if (pCar->GetVelocity_43A4C0() == kFpZero_678660)
                     {
                         ++this->field_218_objective_timer;
                     }
