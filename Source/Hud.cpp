@@ -225,8 +225,7 @@ void Hud_UnderRoofArrowMarker::Draw_5CF910()
     {
         const s32 palette_type = 2;
         Player* pPlayer = gGame_0x40_67E008->field_38_local_player;
-        Camera* pCam;
-        pCam = pPlayer->get_camera_434900();
+        Camera* pCam = pPlayer->get_camera_434900();
 
         DrawFigure_5D7EC0(6, 0, field_0_screen_x, field_4_screen_y, field_8_rotation, pCam->field_A8_ui_scale, palette_type, 0, 1, 14, 1);
     }
@@ -610,7 +609,6 @@ void ArrowTrace::UpdateAimCoordinates_5D03F0()
     Player* pPlayer;
     Car* pCar;
     Sprite* pSprite;
-    Camera* pCam;
 
     switch (field_10_target_type)
     {
@@ -675,7 +673,7 @@ void ArrowTrace::UpdateAimCoordinates_5D03F0()
     }
 
     Player* pLocalPlayer = gGame_0x40_67E008->field_38_local_player;
-    pCam = pLocalPlayer->get_camera_434900();
+    Camera* pCam = pLocalPlayer->get_camera_434900();
 
     field_20_bIsTargetVisible = pCam->IsCoordsPosVisible_435A70(field_14_aim_x, field_18_aim_y, field_1C_aim_z);
 }
@@ -2059,11 +2057,10 @@ void Hud_Brief::MovePrevBriefToCurrent_5D3330()
 MATCH_FUNC(0x5d3350)
 void Hud_Brief::FreeCurrentBrief_5D3350()
 {
-    Hud_BriefEntry* pPrev;
-    pPrev = this->field_6F8_curr_briefs;
-    this->field_6F8_curr_briefs = pPrev->field_C_pNext;
-    pPrev->field_C_pNext = this->field_6FC_free_briefs;
-    this->field_6FC_free_briefs = pPrev;
+    Hud_BriefEntry* pBrief = this->field_6F8_curr_briefs;
+    this->field_6F8_curr_briefs = pBrief->field_C_pNext;
+    pBrief->field_C_pNext = this->field_6FC_free_briefs;
+    this->field_6FC_free_briefs = pBrief;
 }
 
 MATCH_FUNC(0x5d3370)
