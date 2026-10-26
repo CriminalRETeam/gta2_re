@@ -46,8 +46,8 @@ DEFINE_GLOBAL_INIT(Fix16, kFpThree_706EC4, Fix16(3), 0x706EC4);
 DEFINE_GLOBAL_INIT(Ang16, kAng45_706D6C, Ang16(180), 0x706D6C);
 DEFINE_GLOBAL_INIT(Ang16, kAng315_706E28, Ang16(1260), 0x706E28);
 DEFINE_GLOBAL(u8, gElectroChainDepth_706C94, 0x706C94);
-DEFINE_GLOBAL(Ang16, word_707004, 0x707004);
-DEFINE_GLOBAL(Fix16_Point_POD, stru_706E58, 0x706E58);
+DEFINE_GLOBAL(Ang16, gElectroShooterRotation_707004, 0x707004);
+DEFINE_GLOBAL(Fix16_Point_POD, gElectroShooterVelocity_706E58, 0x706E58);
 DEFINE_GLOBAL(Fix16_Point, kZeroPoint_706F90, 0x706F90);
 DEFINE_GLOBAL_INIT(Fix16, kFpOneEighth_706CC8, Fix16(0x800, 0), 0x706CC8);
 DEFINE_GLOBAL_INIT(Fix16, kFpEight_706EDC, Fix16(8), 0x706EDC);
@@ -62,7 +62,7 @@ DEFINE_GLOBAL_INIT(Fix16, kFpPoint02_706E80, Fix16(0x147, 0), 0x706E80);
 DEFINE_GLOBAL_INIT(Fix16, kFP16Half_706DA8, Fix16(0.5), 0x706DA8);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint01_706E74, Fix16(0xA3, 0), 0x706E74);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne512th_706F64, Fix16(0x20, 0), 0x706F64);
-DEFINE_GLOBAL_INIT(Fix16, dword_706C8C, Fix16(0x340, 0), 0x706C8C);
+DEFINE_GLOBAL_INIT(Fix16, kThrowSpeedBonus_706C8C, Fix16(0x340, 0), 0x706C8C);
 
 DEFINE_GLOBAL_INIT(Fix16, kFpThreeEighths_706EB4, kFpOne64th_706F70 * 24, 0x706EB4);
 DEFINE_GLOBAL_INIT(Fix16, kFpFiveThirtySeconds_706E6C, kFpOne64th_706F70 * 10, 0x706E6C);
@@ -645,7 +645,7 @@ void Weapon::throwable_5DDFC0(s32 obj_idx, s32 throw_strength, s32 throw_charge)
                                 pProjectile->SetMovementVector_5224E0(vector);
                                 if (!vector.IsNull_420360())
                                 {
-                                    pProjectile->field_10_obj_3c->field_C_speed += dword_706C8C;
+                                    pProjectile->field_10_obj_3c->field_C_speed += kThrowSpeedBonus_706C8C;
                                 }
                             }
                             if (obj_idx == objects::moving_molotov_138)
@@ -902,10 +902,10 @@ void __stdcall DrawElectricArc_5DE910(Fix16_Point_POD start_pos, Fix16_Point& en
     {
         start.x = -kFpPoint03_706E7C;
         start.y = kFpPoint2_706CF8 + kFpPoint02_706E80;
-        start.RotateByAngle_40F6B0_all_out_of_line(word_707004);
+        start.RotateByAngle_40F6B0_all_out_of_line(gElectroShooterRotation_707004);
         start = start.Add_40AC50(start_pos);
-        start.x += stru_706E58.x;
-        start.y += stru_706E58.y;
+        start.x += gElectroShooterVelocity_706E58.x;
+        start.y += gElectroShooterVelocity_706E58.y;
     }
 
     Fix16 len;
@@ -1174,9 +1174,9 @@ void Weapon::ChainShockTargets_5DFB60(u8 chain_depth, Sprite* pSprite, Ang16 tar
     rect.SetRect_41E350(left, right, top, bottom);
     rect.SetHiLowZ_41E370(pSprite->field_1C_zpos - kFpOne_706EBC, pSprite->field_1C_zpos + kFpOne_706EBC);
 
-    word_707004 = field_24_pPed->field_168_game_object->field_80_sprite_ptr->field_0_rotation;
+    gElectroShooterRotation_707004 = field_24_pPed->field_168_game_object->field_80_sprite_ptr->field_0_rotation;
     // The original copies the returned point through the return pointer, as a struct assignment
-    reinterpret_cast<Fix16_Point&>(stru_706E58) = field_24_pPed->GetVelocityVector_45B520();
+    reinterpret_cast<Fix16_Point&>(gElectroShooterVelocity_706E58) = field_24_pPed->GetVelocityVector_45B520();
 
     if (gSpriteGrid_1_679208->CollectRectCollisions_477F30(&rect, false, sprite_types_enum::none_0, pSprite, &hits) && hits.field_0_p18)
     {
