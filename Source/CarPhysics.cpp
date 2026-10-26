@@ -454,7 +454,6 @@ void CarPhysics::ScarePedsOnDrivingFast_559C30()
             {
                 if (!field_5C_pCar->IsTrainModel_403BA0())
                 {
-                    //Fix16 linvel_length = get_car_lin_vel_4754D0();
                     // 9.6f: CarPhysics::GetLinearSpeed_4211A0 (inlined, using it makes the diff worse)
 
                     if (field_40_linvel_1.GetLength_out_of_line_x_squared() > FastCarMinVelocity_6FE1CC || field_5C_pCar->IsEmittingHorn_411970())
@@ -1388,7 +1387,6 @@ char_type CarPhysics::ProcessGroundCollisionAndSurfaceType_55B970(char_type* che
     u8 graident_size;
     s32 surface_type = gMap_0x370_6F6268->GetBlockSurfaceType_49EBE0(field_38_cp1.x.ToInt(), this->field_38_cp1.y.ToInt(), cp3_int, &graident_size, &gradient_level);
 
-    //LABEL_37:
     if (surface_type != 5)
     {
         this->field_98_surface_type = surface_type;
@@ -1645,7 +1643,6 @@ void CarPhysics::DispatchCollision_55CA70(Fix16_Point& point, Ang16 angle)
 {
     Fix16_Point arg0;
     u8 hitType;
-    //v7 = 0;
     switch (gCollisionTarget_679188.field_0_type)
     {
         case collision_target_type::horizontal_edge_1:
@@ -1843,7 +1840,7 @@ void CarPhysics::UpdateWheelSkidEffects_55DC00()
 
         if (field_98_surface_type == car_surface_type::unknown_surface_7 || field_98_surface_type == car_surface_type::water_surface_8 || field_98_surface_type == car_surface_type::unknown_surface_9)
         {
-            SpawnSkidSegment_55D200(0, Fix16_Point(-half_width, rear_wheel_offset_), 3); // spawns the skid obj?
+            SpawnSkidSegment_55D200(0, Fix16_Point(-half_width, rear_wheel_offset_), 3);
             SpawnSkidSegment_55D200(1, Fix16_Point(half_width, rear_wheel_offset_), 3);
         }
         else if ((field_88_rear_skid >= gCarInfo_2C_6FE0E4->field_28_skid_threshhold_2 ||
@@ -1925,7 +1922,7 @@ bool CarPhysics::StepMovementAndCollisions_55E470()
     while (gRemainingTimeStep_6FE198 >= kFP16Eighth_6FE370)
     {
         gCollisionTarget_679188.Reset_4637B0();
-        this->field_70_z_vel = 0; // fp 0
+        this->field_70_z_vel = 0;
         save_physics_state_55A4B0();
         ApplyMovementStep_560F20(kFpOne_6FE210);
         UpdateTrailerPhysicsFromTowingCar_559A40();
@@ -2214,7 +2211,6 @@ char_type CarPhysics::CheckPendingCollision_55F360()
     return 0;
 }
 
-// TODO: Probably move & Rename to ComputeImpulse or something
 // https://decomp.me/scratch/dN85v
 MATCH_FUNC(0x55F3B0)
 EXPORT Fix16_Point __stdcall ComputeCollisionImpulse_55F3B0(Fix16 OwnerMass,
@@ -3770,7 +3766,6 @@ bool CarPhysics::ProcessCarPhysicsStateMachine_562FE0()
             }
             break;
         default:
-            //bCol4 = v14;
             break;
     }
 

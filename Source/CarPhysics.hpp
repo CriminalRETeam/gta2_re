@@ -298,7 +298,6 @@ class CarPhysics
 
     EXPORT Fix16 CalculateFrontWheelForce_561E50();
     EXPORT Fix16 CalculateRearWheelForce_5620D0();
-    // 0x62450 moved to Sprite
     EXPORT void ApplyThrottleInput_562480();
     EXPORT void ApplyBrakePhysics_5624F0();
     EXPORT void UpdateSteeringAngle_562560();
