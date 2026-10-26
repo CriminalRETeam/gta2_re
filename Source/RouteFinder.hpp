@@ -109,17 +109,27 @@ class RouteFinder
     EXPORT void Reset_588C60();
     EXPORT bool HasBlockDesiredArrow_588CA0(const gmp_block_info* block, s32 arrow_type, u8 direction) const;
     EXPORT bool HasBlockArrowInRoadDirection_588DE0(const gmp_block_info* pBlock, s32 arrow_type, s32 road_direction) const;
+
+  private:
     EXPORT u16 FindHorzSegmentJunction_588E60(u8 x, u8 y, u8 z, char_type bIsDest, s32 arrow_type);
     EXPORT u16 FindVertSegmentJunction_588F30(u8 x, u8 y, u8 z, char_type bIsDest, s32 arrow_type);
     EXPORT u16 FindSegmentJunction_589000(u8 x_coord, u8 y_coord, u8 z_coord, char_type bIsDest, s32 arrow_type);
+
+  public:
     EXPORT void FindArrowBlockInJunction_5890D0(u16 junction_idx, s32 direction, u8* xpos, u8* ypos);
+
+  private:
     EXPORT s32 NoRefs_589210(u8 x, u8 y, s32 a4, u8 direction, s32 a6, u16 junction_idx);
     EXPORT RouteSearchNode* NewChildNode_5892F0(RouteSearchNode* pParent, u16 idx, s16 step_cost);
     EXPORT RouteSearchNode* NewStartNode_589390(u16 junction_idx);
     EXPORT void InsertIntoOpenList_589420(RouteSearchNode* pNode);
     EXPORT bool InitSearch_589480(u8 start_x, u8 start_y, u8 start_z, u8 dest_x, u8 dest_y, u8 dest_z, s32 arrow_type);
     EXPORT bool InitSearchWithDirection_5895C0(u8 x, u8 y, u8 z, s32 arrow_type, s32 direction);
+
+  public:
     EXPORT void CancelRoute_589930(s16 route_idx);
+
+  private:
     EXPORT s16 GetFreeRouteIdx_589960();
     EXPORT u16 AddChildNode_589990(RouteSearchNode* pParent, u16 junction_idx, s16 step_cost);
     EXPORT bool ExpandNode_5899C0(RouteSearchNode* pNode, s32 arrow_type);
@@ -129,6 +139,8 @@ class RouteFinder
     EXPORT bool SearchUntilOffScreen_589E70(s32 arrow_type);
     EXPORT s16 StoreRoute_589EB0();
     EXPORT s16 StoreRouteReversed_589F70();
+
+  public:
     EXPORT void DebugPrintRoute_58A020(char_type route_idx);
     EXPORT Junction* GetJunction_58A0B0(u16 junction_idx);
     EXPORT s16 DoStartRoute_58A0D0(u8 x1, u8 y1, u8 z1, u8 x2, u8 y2, u8 z2, s32 arrow_type);
