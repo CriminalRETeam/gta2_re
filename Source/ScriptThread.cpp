@@ -1209,7 +1209,7 @@ void ScriptThread::SCRCMD_RADIOSTATION_DEC_5051D0(SCR_RADIOSTATION_DEC* pCmd)
 }
 
 MATCH_FUNC(0x505210)
-void ScriptThread::CRCMD_SET_TRAIN_STATIONS_505210(SCR_TWO_PARAMS* pCmd)
+void ScriptThread::SCRCMD_SET_TRAIN_STATIONS_505210(SCR_TWO_PARAMS* pCmd)
 {
     if (!bSkip_trains_67D550)
     {
@@ -1615,7 +1615,7 @@ void ScriptThread::ExecOpCode_5061C0()
                 case SCRCMD_SET_STATION_3:
                 case SCRCMD_SET_STATION_2:
                 case SCRCMD_SET_STATION_1:
-                    ScriptThread::CRCMD_SET_TRAIN_STATIONS_505210(static_cast<SCR_TWO_PARAMS*>(pBasePtr));
+                    ScriptThread::SCRCMD_SET_TRAIN_STATIONS_505210(static_cast<SCR_TWO_PARAMS*>(pBasePtr));
                     break;
                 case SCRCMD_DECLARE_POLICE:
                     ScriptThread::SCRCMD_DECLARE_POLICE_5052C0(static_cast<SCR_DECLARE_POLICELEVEL*>(pBasePtr));
