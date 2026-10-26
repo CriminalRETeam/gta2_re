@@ -66,7 +66,6 @@ int __cdecl fgetc(FILE* f)
 // this shouldn't be a problem but is something to be aware of.
 void* operator new(size_t n) throw(std::bad_alloc)
 {
-    //printf("new %d\n", n);
     return crt::malloc(n);
 }
 void operator delete(void* p) throw()
@@ -76,7 +75,6 @@ void operator delete(void* p) throw()
 
 void* operator new[](size_t s) throw(std::bad_alloc)
 {
-    //printf("new[] %d\n", s);
     return crt::malloc(s);
 }
 
@@ -86,7 +84,7 @@ void operator delete[](void* p) throw()
 }
 
 // Destroys count objects of size bytes at ptr, last to first (like the CRT's `??_M`).
-void __stdcall __ehvec_dtor(void* ptr, unsigned size, int count, EhVecDtorFn pDtor)
+void __stdcall __ehvec_dtor(void* ptr, u32 size, s32 count, EhVecDtorFn pDtor)
 {
     char* p = static_cast<char*>(ptr) + size * count;
     while (--count >= 0)

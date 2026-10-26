@@ -22,8 +22,6 @@ EXPORT size_t __cdecl fwrite(const void* Buffer, size_t ElementSize, size_t Elem
 EXPORT void __cdecl free(void* Block);
 EXPORT void* __cdecl malloc(size_t Size);
 
-// TODO: crt::malloc, crt::free
-
 } // namespace crt
 
 // VC6 maps this name to the CRT's vector destructor iterator `??_M`, which compiler generated
@@ -31,4 +29,4 @@ EXPORT void* __cdecl malloc(size_t Size);
 // __thiscall keyword, so this one (`??_M@YGXPAXIHP6AX0@Z@Z`, defined in crt_stubs.cpp) takes a
 // __cdecl destructor thunk instead.
 typedef void(__cdecl* EhVecDtorFn)(void*);
-void __stdcall __ehvec_dtor(void* ptr, unsigned size, int count, EhVecDtorFn pDtor);
+void __stdcall __ehvec_dtor(void* ptr, u32 size, s32 count, EhVecDtorFn pDtor);
