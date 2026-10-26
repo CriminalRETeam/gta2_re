@@ -12,7 +12,7 @@ SoundObject* root_sound::CreateSoundObject_40EF40(void* pObject, s32 objectType)
 {
     SoundObject* pCurrent = PopFree_410730();
     pCurrent->field_C_pAny.pAny = pObject;
-    pCurrent->field_4_bStatus = 0;
+    pCurrent->field_4_bStatus = false;
     pCurrent->field_0_object_type = objectType;
 
     if (!bSkip_audio_67D6BE)
@@ -78,9 +78,9 @@ void root_sound::DeclareRadioStation_40F030(s32 station_idx, Fix16 xpos, Fix16 y
 }
 
 MATCH_FUNC(0x40F050)
-void root_sound::RemoveSound_40F050(Fix16 sound_id, Fix16 emitter)
+void root_sound::RemoveSound_40F050(Fix16 xpos, Fix16 ypos)
 {
-    gSound_obj_66F680.RemoveSound_57EE30(sound_id, emitter);
+    gSound_obj_66F680.RemoveSound_57EE30(xpos, ypos);
 }
 
 MATCH_FUNC(0x40F070)
@@ -90,9 +90,9 @@ void root_sound::CycleRadioStation_40F070(char_type direction)
 }
 
 MATCH_FUNC(0x40F090)
-void root_sound::PlayVoice_40F090(s32 state)
+void root_sound::PlayVoice_40F090(s32 voice)
 {
-    gSound_obj_66F680.PlayVocal_418C80(state);
+    gSound_obj_66F680.PlayVocal_418C80(voice);
 }
 
 MATCH_FUNC(0x40F0B0)
@@ -154,11 +154,11 @@ root_sound::root_sound()
     }
 
     field_0_pFreeList = field_4_pool;
-    field_4_pool[999].field_C_pAny.pNextFree = 0;
+    field_4_pool[999].field_C_pAny.pNextFree = NULL;
 }
 
 MATCH_FUNC(0x411E60)
 root_sound::~root_sound()
 {
-    field_0_pFreeList = 0;
+    field_0_pFreeList = NULL;
 }

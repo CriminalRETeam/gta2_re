@@ -123,7 +123,7 @@ bool CollisionEvent::SetupForObject_40BA60(Object* pObj)
 {
     if (!pObj->MakesCollisionSound_40FF00())
     {
-        return 0;
+        return false;
     }
 
     field_18_object_model = pObj->field_18_model;
@@ -151,19 +151,19 @@ bool CollisionEvent::SetupForObject_40BA60(Object* pObj)
             {
                 field_10_car = pCar;
                 field_0_type = collision_event_type::car_object_3;
-                return 1;
+                return true;
             }
             else if (gCollisionTarget_679188.field_20_pHitSprite->AsCharB4_40FEA0())
             {
                 field_0_type = collision_event_type::ped_object_7;
-                return 1;
+                return true;
             }
             else
             {
                 Object* pObject = gCollisionTarget_679188.field_20_pHitSprite->AsObject2C_40FEC0();
                 if (!pObject->MakesCollisionSound_40FF00())
                 {
-                    return 0;
+                    return false;
                 }
 
                 field_1C_other_object_model = pObject->GetModel_40FEF0();
@@ -181,7 +181,7 @@ bool CollisionEvent::SetupForObject_40BA60(Object* pObj)
         }
     }
 
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x40bb90)
@@ -313,12 +313,12 @@ CollisionSoundQueue::~CollisionSoundQueue()
     if (field_0_pSoundObj)
     {
         gRoot_sound_66B038.DestroySoundObj_40FE60(field_0_pSoundObj);
-        field_0_pSoundObj = 0;
+        field_0_pSoundObj = NULL;
     }
 }
 
 MATCH_FUNC(0x477A10)
-bool CollisionTarget::IsObj2C_477A10()
+bool CollisionTarget::IsObj2C_477A10() const
 {
     if (field_0_type == collision_target_type::sprite_3)
     {
@@ -327,9 +327,9 @@ bool CollisionTarget::IsObj2C_477A10()
         {
             if (pObject->field_8_definition->field_4C_collision_response == 3)
             {
-                return 1;
+                return true;
             }
         }
     }
-    return 0;
+    return false;
 }

@@ -49,11 +49,11 @@ class root_sound
 
     EXPORT void DeclareRadioStation_40F030(s32 station_idx, Fix16 xpos, Fix16 ypos);
 
-    EXPORT void RemoveSound_40F050(Fix16 sound_id, Fix16 emitter);
+    EXPORT void RemoveSound_40F050(Fix16 xpos, Fix16 ypos);
 
     EXPORT void CycleRadioStation_40F070(char_type direction);
 
-    EXPORT void PlayVoice_40F090(s32 state);
+    EXPORT void PlayVoice_40F090(s32 voice);
 
     EXPORT void SetSfxVol_40F0B0(u8 sfxVol);
 
