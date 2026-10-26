@@ -50,6 +50,41 @@ enum
     kEmergencyOrFlashingLightsMask = 0x1C
 };
 
+// Car model lists filled by CarManager::DistributeCarsByRating_444980, from the tens of car_info::rating
+enum
+{
+    k_rating_bad = 1,
+    k_rating_average = 2,
+    k_rating_good = 3,
+};
+
+// Traffic car category that CarManager::SelectTrafficCarModel_444AB0 writes to *pOutCategory
+enum
+{
+    k_traffic_none = 0,
+    k_traffic_good = 1,
+    k_traffic_bad = 2,
+    k_traffic_average = 3,
+    k_traffic_police = 4,
+    k_traffic_gang = 5,
+};
+
+// Speed band that TrafficSpawner::GetRandomTrafficSpeed_583750 writes to *pOutSpeedBand
+enum
+{
+    k_traffic_speed_slow = 0,
+    k_traffic_speed_medium = 1,
+    k_traffic_speed_fast = 2,
+};
+
+// Trailer::Update_408220 results
+enum
+{
+    k_trailer_update_ok = 0,
+    k_trailer_update_despawned = 1,
+    k_trailer_update_detach = 2,
+};
+
 // TODO: Its in FrontEnd by seems crazy to include the whole file just for this
 EXTERN_GLOBAL(bool, gCheatMiniCars_67D6C8);
 
@@ -538,32 +573,32 @@ void CarManager::DistributeCarsByRating_444980()
 
                     if (pInfo->rating < 10)
                     {
-                        idx_type = 1;
+                        idx_type = k_rating_bad;
                     }
                     else if (pInfo->rating < 20)
                     {
-                        idx_type = 2;
+                        idx_type = k_rating_average;
                     }
                     else if (pInfo->rating < 30)
                     {
-                        idx_type = 3;
+                        idx_type = k_rating_good;
                     }
 
-                    if (idx_type == 1)
+                    if (idx_type == k_rating_bad)
                     {
                         for (; r_mod_10 > 0; r_mod_10--)
                         {
                             gBadCarModels_676988.values[gBadCarModelsCount_6772EC++] = pInfo->model;
                         }
                     }
-                    else if (idx_type == 2)
+                    else if (idx_type == k_rating_average)
                     {
                         for (; r_mod_10 > 0; r_mod_10--)
                         {
                             gAverageCarModels_676DB4.values[gAverageCarModelsCount_6772DC++] = pInfo->model;
                         }
                     }
-                    else if (idx_type == 3)
+                    else if (idx_type == k_rating_good)
                     {
                         for (; r_mod_10 > 0; r_mod_10--)
                         {
@@ -577,13 +612,13 @@ void CarManager::DistributeCarsByRating_444980()
 }
 
 MATCH_FUNC(0x444ab0)
-u32 CarManager::SelectTrafficCarModel_444AB0(Player* pPlayer, gmp_zone_info* pZoneInfo, Fix16 density_scale, u16* pOut)
+u32 CarManager::SelectTrafficCarModel_444AB0(Player* pPlayer, gmp_zone_info* pZoneInfo, Fix16 density_scale, u16* pOutCategory)
 {
     s32 result;
     Fix16 density_calc = Fix16(pZoneInfo->field_0_car_density) / Fix16(1000);
     if (density_calc == gFix16_6777CC)
     {
-        *pOut = 0;
+        *pOutCategory = k_traffic_none;
         return car_model_enum::none;
     }
     else
@@ -597,7 +632,7 @@ u32 CarManager::SelectTrafficCarModel_444AB0(Player* pPlayer, gmp_zone_info* pZo
         pPlayer->field_682_traffic_spawn_threshold = 100 - density;
         if (pPlayer->field_680_traffic_spawn_counter < static_cast<u16>(100 - density))
         {
-            *pOut = 0;
+            *pOutCategory = k_traffic_none;
             return car_model_enum::none;
         }
         else
@@ -636,7 +671,7 @@ u32 CarManager::SelectTrafficCarModel_444AB0(Player* pPlayer, gmp_zone_info* pZo
                         field_9_good_car_idx = 0;
                     }
                 } while (result == field_C_suppressed_model);
-                *pOut = 1;
+                *pOutCategory = k_traffic_good;
             }
             else
             {
@@ -650,21 +685,21 @@ u32 CarManager::SelectTrafficCarModel_444AB0(Player* pPlayer, gmp_zone_info* pZo
                             field_A_bad_car_idx = 0;
                         }
                     } while (result == field_C_suppressed_model);
-                    *pOut = 2;
+                    *pOutCategory = k_traffic_bad;
                 }
                 else
                 {
                     if (value < badcar_ratio + goodcar_ratio + policecar_ratio)
                     {
                         result = 12;
-                        *pOut = 4;
+                        *pOutCategory = k_traffic_police;
                     }
                     else
                     {
                         if (value < badcar_ratio + goodcar_ratio + policecar_ratio + gangcar_ratio)
                         {
                             result = car_model_enum::none;
-                            *pOut = 5;
+                            *pOutCategory = k_traffic_gang;
                         }
                         else
                         {
@@ -676,7 +711,7 @@ u32 CarManager::SelectTrafficCarModel_444AB0(Player* pPlayer, gmp_zone_info* pZo
                                     field_B_average_car_idx = 0;
                                 }
                             } while (result == field_C_suppressed_model);
-                            *pOut = 3;
+                            *pOutCategory = k_traffic_average;
                         }
                     }
                 }
@@ -5845,12 +5880,12 @@ bool Car::TrailerUpdate_443130()
     const s32 state = field_64_pTrailer->Update_408220();
     switch (state)
     {
-        case 0:
+        case k_trailer_update_ok:
             return false;
-        case 1:
+        case k_trailer_update_despawned:
             gTrailerPool_66AC80->field_0_pool.DeAllocate(field_64_pTrailer);
             return true;
-        case 2:
+        case k_trailer_update_detach:
             Car::DetachTrailer_442760();
             break;
     }
@@ -6793,7 +6828,7 @@ s32 Trailer::Update_408220()
     if (bDespawned)
     {
         gCar_BC_Pool_67792C->Remove(field_C_trailer_car);
-        return 1;
+        return k_trailer_update_despawned;
     }
     else
     {
@@ -6831,11 +6866,11 @@ s32 Trailer::Update_408220()
 
         if (ExplodeBothIfOneDestroyed_4081D0() || bCabDrowning)
         {
-            return 2;
+            return k_trailer_update_detach;
         }
         else
         {
-            return 0;
+            return k_trailer_update_ok;
         }
     }
 }
@@ -7087,7 +7122,7 @@ void TrafficSpawner::GenerateTraffic_583670()
 }
 
 MATCH_FUNC(0x583750)
-Fix16 TrafficSpawner::GetRandomTrafficSpeed_583750(Fix16 max_speed, u8* pOut)
+Fix16 TrafficSpawner::GetRandomTrafficSpeed_583750(Fix16 max_speed, u8* pOutSpeedBand)
 {
 
     Fix16 roll;
@@ -7096,26 +7131,26 @@ Fix16 TrafficSpawner::GetRandomTrafficSpeed_583750(Fix16 max_speed, u8* pOut)
 
     if (max_speed >= kFpPoint4_6FF70C)
     {
-        *pOut = 2;
+        *pOutSpeedBand = k_traffic_speed_fast;
     }
 
     if (max_speed >= kFpPoint3_6FF85C)
     {
-        *pOut = 2;
+        *pOutSpeedBand = k_traffic_speed_fast;
         roll = Fix16(gRng_6F6784.get_uint8_4F7B70(100)) / Fix16(100);
         lo = kFpPoint3_6FF85C;
         hi = kFpPoint4_6FF70C;
     }
     else if (max_speed >= kFpPoint2_6FF724)
     {
-        *pOut = 1;
+        *pOutSpeedBand = k_traffic_speed_medium;
         roll = Fix16(gRng_6F6784.get_uint8_4F7B70(100)) / Fix16(100);
         lo = kFpPoint2_6FF724;
         hi = kFpPoint3_6FF85C;
     }
     else
     {
-        *pOut = 0;
+        *pOutSpeedBand = k_traffic_speed_slow;
         roll = Fix16(gRng_6F6784.get_uint8_4F7B70(100)) / Fix16(100);
         lo = kFpPoint03_6FF6A4;
         hi = kFpPoint2_6FF724;
@@ -7273,13 +7308,13 @@ bool TrafficSpawner::SpawnTrafficCar_582480(s32 spawn_type, s32 arrow_direction,
                     }
 
                     s32 car_model;
-                    u16 car_kind;
+                    u16 traffic_category;
                     u8 rng_val;
                     if (gPolice_7B8_6FEE40->field_654_max_wanted_level < 1 || (rng_val = static_cast<u8>(gRng_6F6784.get_int_4F7AE0(40)), rng_val <= 20u) ||
                         rng_val >= 30u)
                     {
-                        car_model = gCarManager_6C_677930->SelectTrafficCarModel_444AB0(field_C_player, field_10_zone, gTrafficDensityScale_6FF7E8, &car_kind);
-                        if (car_kind == 0)
+                        car_model = gCarManager_6C_677930->SelectTrafficCarModel_444AB0(field_C_player, field_10_zone, gTrafficDensityScale_6FF7E8, &traffic_category);
+                        if (traffic_category == k_traffic_none)
                         {
                             return false;
                         }
@@ -7287,7 +7322,7 @@ bool TrafficSpawner::SpawnTrafficCar_582480(s32 spawn_type, s32 arrow_direction,
                     else
                     {
                         car_model = car_model_enum::COPCAR;
-                        car_kind = 4;
+                        traffic_category = k_traffic_police;
                     }
 
                     if (gPolice_7B8_6FEE40->TryBeginRoadblock_577320())
@@ -7302,8 +7337,8 @@ bool TrafficSpawner::SpawnTrafficCar_582480(s32 spawn_type, s32 arrow_direction,
                             if (gPolice_7B8_6FEE40->field_658_police_car_count >= static_cast<u8>(gPolice_7B8_6FEE40->field_659_max_police_cars) || bSkip_police_67D4F9)
                             {
                                 car_model =
-                                    gCarManager_6C_677930->SelectTrafficCarModel_444AB0(field_C_player, field_10_zone, gTrafficDensityScale_6FF7E8, &car_kind);
-                                if (car_model == car_model_enum::COPCAR || car_kind == 0)
+                                    gCarManager_6C_677930->SelectTrafficCarModel_444AB0(field_C_player, field_10_zone, gTrafficDensityScale_6FF7E8, &traffic_category);
+                                if (car_model == car_model_enum::COPCAR || traffic_category == k_traffic_none)
                                 {
                                     return false;
                                 }
@@ -7345,7 +7380,7 @@ bool TrafficSpawner::SpawnTrafficCar_582480(s32 spawn_type, s32 arrow_direction,
                             }
                         }
 
-                        if (car_kind == 5)
+                        if (traffic_category == k_traffic_gang)
                         {
                             pGang = field_C_player->get_gang_curr_location_4766D0();
                             if (!pGang || !pGang->HasKillRespectChange_45DD50())
@@ -7455,7 +7490,7 @@ bool TrafficSpawner::SpawnTrafficCar_582480(s32 spawn_type, s32 arrow_direction,
 
                     Fix16 spawn_x;
                     Fix16 spawn_y;
-                    if (speed_kind == 2)
+                    if (speed_kind == k_traffic_speed_fast)
                     {
                         if (static_cast<u8>(DAT_006FF8C4) > 2u)
                         {
@@ -7476,7 +7511,7 @@ bool TrafficSpawner::SpawnTrafficCar_582480(s32 spawn_type, s32 arrow_direction,
                             ResolveSpawnDirection_583930(0, road_len);
                         }
                     }
-                    else if (speed_kind == 1)
+                    else if (speed_kind == k_traffic_speed_medium)
                     {
                         if (static_cast<u8>(DAT_006FF8C4) > 1u)
                         {
@@ -7513,7 +7548,7 @@ bool TrafficSpawner::SpawnTrafficCar_582480(s32 spawn_type, s32 arrow_direction,
                         spawn_chance = gRng_6F6784.get_uint8_4F7B70(100);
                     }
 
-                    if ((speed_kind == 2 && spawn_chance < 33u) || (speed_kind == 1 && spawn_chance < 67u) || speed_kind == 0)
+                    if ((speed_kind == k_traffic_speed_fast && spawn_chance < 33u) || (speed_kind == k_traffic_speed_medium && spawn_chance < 67u) || speed_kind == k_traffic_speed_slow)
                     {
                         if (!gSpriteGrid_1_679208->CheckRectForCollisions_477F60(field_4_rect, 0, 0, 0) &&
                             !field_4_rect->IsRectBlockedByMap_59DE80() && !field_4_rect->RectOverlapsZone_59DF20(2))
@@ -7538,7 +7573,7 @@ bool TrafficSpawner::SpawnTrafficCar_582480(s32 spawn_type, s32 arrow_direction,
                                         car_model != car_model_enum::JEEP && car_model != car_model_enum::EDSELFBI)
                                     {
                                         pNewCar->IncrementCarStats_443D70(car_kind::recycled_1);
-                                        if (car_kind == 5)
+                                        if (traffic_category == k_traffic_gang)
                                         {
                                             u8 gang_car_remap = pGang->field_140_gang_car_remap;
                                             if (gang_car_remap == 0xFF)
