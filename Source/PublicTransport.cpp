@@ -21,9 +21,8 @@ DEFINE_GLOBAL(u8, gTargetCarDoor_6FF1D8, 0x6FF1D8);
 DEFINE_GLOBAL_INIT(Fix16, kFpZero_6FF078, 0, 0x6FF078);
 DEFINE_GLOBAL_INIT(Fix16_Point, kZeroPoint_6FF150, Fix16_Point(Fix16(0), Fix16(0)), 0x6FF150);
 DEFINE_GLOBAL(u8, gNameCompareLen_6FF158, 0x6FF158);
-// Keep their old names: the names set their .bss offsets, which SetupTrainAndBusStops_5794B0 depends on (docs/matching_quirks.md)
-DEFINE_GLOBAL(u8, byte_6FF1CD, 0x6FF1CD);
-DEFINE_GLOBAL(s32, dword_6FF1D0, 0x6FF1D0);
+DEFINE_GLOBAL(u8, gBusSpawned_6FF1CD, 0x6FF1CD);
+DEFINE_GLOBAL(s32, gBusSpawnDelay_6FF1D0, 0x6FF1D0);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne_6FF07C, Fix16(1), 0x6FF07C);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint05_6FF04C, Fix16(0x333, 0), 0x6FF04C);
 
@@ -31,12 +30,12 @@ DEFINE_GLOBAL_INIT(Fix16, kFpHalf_6FEEE8, Fix16(0.5), 0x6FEEE8);
 DEFINE_GLOBAL_INIT(Ang16, kAng0_6FF1BC, Ang16(0), 0x6FF1BC);
 
 // Train spawning values
-DEFINE_GLOBAL_INIT(Fix16, dword_6FEF88, Fix16(0.5), 0x6FEF88); // offset into the stop block
-DEFINE_GLOBAL_INIT(Fix16, dword_6FF088, Fix16(4), 0x6FF088); // wagon spacing along x
-DEFINE_GLOBAL_INIT(Fix16, dword_6FF080, Fix16(2), 0x6FF080); // wagon spacing along y
-DEFINE_GLOBAL_INIT(Ang16, word_6FEFFE, Ang16(1080), 0x6FEFFE);
-DEFINE_GLOBAL_INIT(Ang16, word_6FEF04, Ang16(360), 0x6FEF04);
-DEFINE_GLOBAL_INIT(Ang16, word_6FEFD6, Ang16(720), 0x6FEFD6);
+DEFINE_GLOBAL_INIT(Fix16, kTrainStopBlockOffset_6FEF88, Fix16(0.5), 0x6FEF88);
+DEFINE_GLOBAL_INIT(Fix16, kWagonSpacingX_6FF088, Fix16(4), 0x6FF088);
+DEFINE_GLOBAL_INIT(Fix16, kWagonSpacingY_6FF080, Fix16(2), 0x6FF080);
+DEFINE_GLOBAL_INIT(Ang16, kAng270_6FEFFE, Ang16(1080), 0x6FEFFE);
+DEFINE_GLOBAL_INIT(Ang16, kAng90_6FEF04, Ang16(360), 0x6FEF04);
+DEFINE_GLOBAL_INIT(Ang16, kAng180_6FEFD6, Ang16(720), 0x6FEFD6);
 
 DEFINE_GLOBAL_INIT(Fix16, kTrainSpeedState0_6FEEE0, Fix16(0x1333, 0), 0x6FEEE0);
 DEFINE_GLOBAL_INIT(Fix16, kTrainSpeedState1And3_6FEED4, Fix16(0x666, 0), 0x6FEED4);
@@ -608,7 +607,7 @@ void TrainStation::CalculateWagonCount_578820(u8* pWagons)
 }
 
 // The wagon spawns pass the "+ half block" coordinate as Fix16::Add_ref of two temporaries (9.6f copies
-// dword_6FEF88 into a temp first): VC6 then builds that argument only after the GetWagonType_577f80 call,
+// kTrainStopBlockOffset_6FEF88 into a temp first): VC6 then builds that argument only after the GetWagonType_577f80 call,
 // keeping the u8 coordinate and the copy across it, as the original does. The member operator+ builds it first.
 MATCH_FUNC(0x578860)
 void PublicTransport::SpawnTrainsFromStations_578860()
@@ -674,9 +673,9 @@ void PublicTransport::SpawnTrainsFromStations_578860()
                         for (j = 0; j < wagons; j++)
                         {
                             pTrain->field_C_carriages[j + 1] = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(
-                                Fix16(pStation->field_C_stop_point->field_1_x) + Fix16(j + 1) * dword_6FF088,
-                                Fix16::Add_ref(Fix16(pStation->field_C_stop_point->field_2_y), Fix16(dword_6FEF88)),
-                                word_6FEFFE,
+                                Fix16(pStation->field_C_stop_point->field_1_x) + Fix16(j + 1) * kWagonSpacingX_6FF088,
+                                Fix16::Add_ref(Fix16(pStation->field_C_stop_point->field_2_y), Fix16(kTrainStopBlockOffset_6FEF88)),
+                                kAng270_6FEFFE,
                                 pStation->GetWagonType_577f80(j),
                                 kFpOne_6FF07C);
                             if (!pTrain->field_C_carriages[j + 1])
@@ -684,15 +683,15 @@ void PublicTransport::SpawnTrainsFromStations_578860()
                                 FatalError_4A38C0(Gta2Error::FailedToCreateCarriage,
                                                   "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp",
                                                   761,
-                                                  (Fix16(pStation->field_C_stop_point->field_1_x) + Fix16(j + 1) * dword_6FF088).ToInt(),
-                                                  (Fix16(pStation->field_C_stop_point->field_2_y) + dword_6FEF88).ToInt(),
+                                                  (Fix16(pStation->field_C_stop_point->field_1_x) + Fix16(j + 1) * kWagonSpacingX_6FF088).ToInt(),
+                                                  (Fix16(pStation->field_C_stop_point->field_2_y) + kTrainStopBlockOffset_6FEF88).ToInt(),
                                                   rail_z);
                             }
                         }
                         pTrain->field_C_carriages[0] =
                             gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(pStation->field_C_stop_point->field_1_x),
-                                                                      Fix16(pStation->field_C_stop_point->field_2_y) + dword_6FEF88,
-                                                                      word_6FEFFE,
+                                                                      Fix16(pStation->field_C_stop_point->field_2_y) + kTrainStopBlockOffset_6FEF88,
+                                                                      kAng270_6FEFFE,
                                                                       car_model_enum::TRAINCAB,
                                                                       kFpOne_6FF07C);
                     }
@@ -701,8 +700,8 @@ void PublicTransport::SpawnTrainsFromStations_578860()
                         for (j = 0; j < wagons; j++)
                         {
                             pTrain->field_C_carriages[j + 1] = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(
-                                Fix16::Add_ref(Fix16(pStation->field_C_stop_point->field_1_x), Fix16(dword_6FEF88)),
-                                Fix16(pStation->field_C_stop_point->field_2_y) - Fix16(j + 1) * dword_6FF080,
+                                Fix16::Add_ref(Fix16(pStation->field_C_stop_point->field_1_x), Fix16(kTrainStopBlockOffset_6FEF88)),
+                                Fix16(pStation->field_C_stop_point->field_2_y) - Fix16(j + 1) * kWagonSpacingY_6FF080,
                                 kAng0_6FF1BC,
                                 pStation->GetWagonType_577f80(j),
                                 kFpOne_6FF07C);
@@ -711,13 +710,13 @@ void PublicTransport::SpawnTrainsFromStations_578860()
                                 FatalError_4A38C0(Gta2Error::FailedToCreateCarriage,
                                                   "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp",
                                                   773,
-                                                  (Fix16(pStation->field_C_stop_point->field_1_x) + dword_6FEF88).ToInt(),
-                                                  (Fix16(pStation->field_C_stop_point->field_2_y) - Fix16(j + 1) * dword_6FF080).ToInt(),
+                                                  (Fix16(pStation->field_C_stop_point->field_1_x) + kTrainStopBlockOffset_6FEF88).ToInt(),
+                                                  (Fix16(pStation->field_C_stop_point->field_2_y) - Fix16(j + 1) * kWagonSpacingY_6FF080).ToInt(),
                                                   rail_z);
                             }
                         }
                         pTrain->field_C_carriages[0] =
-                            gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(pStation->field_C_stop_point->field_1_x) + dword_6FEF88,
+                            gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(pStation->field_C_stop_point->field_1_x) + kTrainStopBlockOffset_6FEF88,
                                                                       Fix16(pStation->field_C_stop_point->field_2_y),
                                                                       kAng0_6FF1BC,
                                                                       car_model_enum::TRAINCAB,
@@ -728,9 +727,9 @@ void PublicTransport::SpawnTrainsFromStations_578860()
                         for (j = 0; j < wagons; j++)
                         {
                             pTrain->field_C_carriages[j + 1] = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(
-                                Fix16(pStation->field_C_stop_point->field_1_x) - Fix16(j + 1) * dword_6FF088,
-                                Fix16::Add_ref(Fix16(pStation->field_C_stop_point->field_2_y), Fix16(dword_6FEF88)),
-                                word_6FEFFE,
+                                Fix16(pStation->field_C_stop_point->field_1_x) - Fix16(j + 1) * kWagonSpacingX_6FF088,
+                                Fix16::Add_ref(Fix16(pStation->field_C_stop_point->field_2_y), Fix16(kTrainStopBlockOffset_6FEF88)),
+                                kAng270_6FEFFE,
                                 pStation->GetWagonType_577f80(j),
                                 kFpOne_6FF07C);
                             if (!pTrain->field_C_carriages[j + 1])
@@ -738,15 +737,15 @@ void PublicTransport::SpawnTrainsFromStations_578860()
                                 FatalError_4A38C0(Gta2Error::FailedToCreateCarriage,
                                                   "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp",
                                                   785,
-                                                  (Fix16(pStation->field_C_stop_point->field_1_x) - Fix16(j + 1) * dword_6FF088).ToInt(),
-                                                  (Fix16(pStation->field_C_stop_point->field_2_y) + dword_6FEF88).ToInt(),
+                                                  (Fix16(pStation->field_C_stop_point->field_1_x) - Fix16(j + 1) * kWagonSpacingX_6FF088).ToInt(),
+                                                  (Fix16(pStation->field_C_stop_point->field_2_y) + kTrainStopBlockOffset_6FEF88).ToInt(),
                                                   rail_z);
                             }
                         }
                         pTrain->field_C_carriages[0] =
                             gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(pStation->field_C_stop_point->field_1_x),
-                                                                      Fix16(pStation->field_C_stop_point->field_2_y) + dword_6FEF88,
-                                                                      word_6FEF04,
+                                                                      Fix16(pStation->field_C_stop_point->field_2_y) + kTrainStopBlockOffset_6FEF88,
+                                                                      kAng90_6FEF04,
                                                                       car_model_enum::TRAINCAB,
                                                                       kFpOne_6FF07C);
                     }
@@ -755,9 +754,9 @@ void PublicTransport::SpawnTrainsFromStations_578860()
                         for (j = 0; j < wagons; j++)
                         {
                             pTrain->field_C_carriages[j + 1] = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(
-                                Fix16::Add_ref(Fix16(pStation->field_C_stop_point->field_1_x), Fix16(dword_6FEF88)),
-                                Fix16(pStation->field_C_stop_point->field_2_y) + Fix16(j + 1) * dword_6FF080,
-                                word_6FEFD6,
+                                Fix16::Add_ref(Fix16(pStation->field_C_stop_point->field_1_x), Fix16(kTrainStopBlockOffset_6FEF88)),
+                                Fix16(pStation->field_C_stop_point->field_2_y) + Fix16(j + 1) * kWagonSpacingY_6FF080,
+                                kAng180_6FEFD6,
                                 pStation->GetWagonType_577f80(j),
                                 kFpOne_6FF07C);
                             if (!pTrain->field_C_carriages[j + 1])
@@ -765,15 +764,15 @@ void PublicTransport::SpawnTrainsFromStations_578860()
                                 FatalError_4A38C0(Gta2Error::FailedToCreateCarriage,
                                                   "C:\\Splitting\\Gta2\\Source\\pubtrans.cpp",
                                                   796,
-                                                  (Fix16(pStation->field_C_stop_point->field_1_x) + dword_6FEF88).ToInt(),
-                                                  (Fix16(pStation->field_C_stop_point->field_2_y) + Fix16(j + 1) * dword_6FF080).ToInt(),
+                                                  (Fix16(pStation->field_C_stop_point->field_1_x) + kTrainStopBlockOffset_6FEF88).ToInt(),
+                                                  (Fix16(pStation->field_C_stop_point->field_2_y) + Fix16(j + 1) * kWagonSpacingY_6FF080).ToInt(),
                                                   rail_z);
                             }
                         }
                         pTrain->field_C_carriages[0] =
-                            gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(pStation->field_C_stop_point->field_1_x) + dword_6FEF88,
+                            gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(pStation->field_C_stop_point->field_1_x) + kTrainStopBlockOffset_6FEF88,
                                                                       Fix16(pStation->field_C_stop_point->field_2_y),
-                                                                      word_6FEFD6,
+                                                                      kAng180_6FEFD6,
                                                                       car_model_enum::TRAINCAB,
                                                                       kFpOne_6FF07C);
                     }
@@ -877,8 +876,8 @@ MATCH_FUNC(0x5794b0)
 void PublicTransport::SetupTrainAndBusStops_5794B0()
 {
     char Buffer[8];
-    byte_6FF1CD = 0;
-    dword_6FF1D0 = 0;
+    gBusSpawned_6FF1CD = 0;
+    gBusSpawnDelay_6FF1D0 = 0;
     if (!bSkip_trains_67D550)
     {
         for (u8 station_zone_kind = 0; station_zone_kind < 5; station_zone_kind++)
@@ -1229,11 +1228,11 @@ void PublicTransport::BusesService_579CA0()
     {
         u16 i;
         s32 found_z;
-        if (dword_6FF1D0 || byte_6FF1CD || !gCarManager_6C_677930->CanAllocateCarOfKind_446930(car_kind::recycled_1))
+        if (gBusSpawnDelay_6FF1D0 || gBusSpawned_6FF1CD || !gCarManager_6C_677930->CanAllocateCarOfKind_446930(car_kind::recycled_1))
         {
-            if (--dword_6FF1D0 < 0)
+            if (--gBusSpawnDelay_6FF1D0 < 0)
             {
-                dword_6FF1D0 = 0;
+                gBusSpawnDelay_6FF1D0 = 0;
             }
         }
         else
@@ -1319,13 +1318,13 @@ void PublicTransport::BusesService_579CA0()
                     field_17C0_bus.field_C_carriages[0]->InitCarAIControl_440590();
                     field_17C0_bus.field_C_carriages[0]->StartEngine_426E00();
 
-                    byte_6FF1CD = 1;
+                    gBusSpawned_6FF1CD = 1;
                     field_17C0_bus.field_48_stop_phase = 0;
                     field_17C0_bus.field_56_passenger_count = 0;
                     field_17C0_bus.field_C_carriages[0]->IncrementCarStats_443D70(car_kind::recycled_1);
                 }
             }
-            dword_6FF1D0 = 200;
+            gBusSpawnDelay_6FF1D0 = 200;
         }
 
         pBusCar = field_17C0_bus.field_C_carriages[0];
@@ -1379,8 +1378,8 @@ void PublicTransport::BusesService_579CA0()
             {
                 field_17C0_bus.field_C_carriages[0]->MarkForDespawn_421470();
                 field_17C0_bus.field_C_carriages[0] = 0;
-                byte_6FF1CD = 0;
-                dword_6FF1D0 = 100;
+                gBusSpawned_6FF1CD = 0;
+                gBusSpawnDelay_6FF1D0 = 100;
             }
             else
             {
@@ -1388,8 +1387,8 @@ void PublicTransport::BusesService_579CA0()
                     field_17C0_bus.field_C_carriages[0]->field_74_damage == 32000)
                 {
                     field_17C0_bus.field_C_carriages[0] = 0;
-                    byte_6FF1CD = 0;
-                    dword_6FF1D0 = 0;
+                    gBusSpawned_6FF1CD = 0;
+                    gBusSpawnDelay_6FF1D0 = 0;
                 }
                 else
                 {
