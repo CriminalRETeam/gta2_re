@@ -41,7 +41,7 @@ s32 Generator::next_cycle_4C1AB0() const
 MATCH_FUNC(0x4C1B10)
 void Generator::SpawnObject_4C1B10()
 {
-    if (field_21_spawn_mode == 2)
+    if (field_21_spawn_mode == generator_spawn_mode::one_at_a_time_2)
     {
         if (field_24_obj)
         {
@@ -138,7 +138,7 @@ void Generator::Init_4C1C70(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 generator_
     field_1C_ammo = 0;
     field_24_obj = NULL;
     field_28_id = 0;
-    field_21_spawn_mode = 1;
+    field_21_spawn_mode = generator_spawn_mode::every_cycle_1;
 }
 
 MATCH_FUNC(0x4c1cd0)

@@ -4760,11 +4760,11 @@ void ScriptThread::SCRCMD_SWITCH_GENERATOR1_50CCB0()
 
     if ((type >= 200 && type <= 244) || (type >= 64 && type <= 108))
     {
-        pPointer->field_8_generator->field_21_spawn_mode = 2;
+        pPointer->field_8_generator->field_21_spawn_mode = generator_spawn_mode::one_at_a_time_2;
     }
     else
     {
-        pPointer->field_8_generator->field_21_spawn_mode = 1;
+        pPointer->field_8_generator->field_21_spawn_mode = generator_spawn_mode::every_cycle_1;
     }
 
     ScriptThread::Next_503620(gBasePtr_6F8070);
@@ -4786,11 +4786,11 @@ void ScriptThread::SCRCMD_SWITCH_GENERATOR3_50CD30()
 
     if ((type >= 200 && type <= 244) || (type >= 64 && type <= 108))
     {
-        pPointer->field_8_generator->field_21_spawn_mode = 2;
+        pPointer->field_8_generator->field_21_spawn_mode = generator_spawn_mode::one_at_a_time_2;
     }
     else
     {
-        pPointer->field_8_generator->field_21_spawn_mode = 1;
+        pPointer->field_8_generator->field_21_spawn_mode = generator_spawn_mode::every_cycle_1;
     }
 
     ScriptThread::Next_503620(gBasePtr_6F8070);

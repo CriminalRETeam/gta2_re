@@ -6,6 +6,16 @@
 
 class Object;
 
+// Generator::field_21_spawn_mode
+namespace generator_spawn_mode
+{
+enum
+{
+    every_cycle_1 = 1,
+    one_at_a_time_2 = 2,
+};
+} // namespace generator_spawn_mode
+
 class Generator
 {
   public:
