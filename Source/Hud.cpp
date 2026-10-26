@@ -3253,7 +3253,7 @@ void Hud_PauseScreen::DrawPause_5D63B0()
                              pGang->GetArrowColourText_4BF340(),
                              value_1,
                              gScriptManager_6F8060->field_31C_gang_1_missions_total);
-                    sprite_type = 6;
+                    sprite_type = sprite_types_enum::user_6;
                     sprite_pal = pGang->field_138_arrow_colour + 63;
                     break;
 
@@ -3273,7 +3273,7 @@ void Hud_PauseScreen::DrawPause_5D63B0()
                              pGang->GetArrowColourText_4BF340(),
                              value_1,
                              gScriptManager_6F8060->field_320_gang_2_missions_total);
-                    sprite_type = 6;
+                    sprite_type = sprite_types_enum::user_6;
                     sprite_pal = pGang->field_138_arrow_colour + 63;
                     break;
 
@@ -3294,7 +3294,7 @@ void Hud_PauseScreen::DrawPause_5D63B0()
                              pGang->GetArrowColourText_4BF340(),
                              value_1,
                              gScriptManager_6F8060->field_324_gang_3_missions_total);
-                    sprite_type = 6;
+                    sprite_type = sprite_types_enum::user_6;
                     sprite_pal = pGang->field_138_arrow_colour + 63;
                     break;
 
@@ -3326,7 +3326,7 @@ void Hud_PauseScreen::DrawPause_5D63B0()
                              gText_0x14_704DFC->Find_5B5F90("psec"),
                              value_1,
                              gScriptManager_6F8060->field_318_total_secrets);
-                    sprite_type = 4;
+                    sprite_type = sprite_types_enum::code_obj1_4;
                     sprite_pal = gObjectDefinitions_6FCF00->GetObjectBaseSpriteIdx_4C6E30(286);
                     break;
 
@@ -3335,7 +3335,7 @@ void Hud_PauseScreen::DrawPause_5D63B0()
                              gText_0x14_704DFC->Find_5B5F90("pbon"),
                              gGameSession_67E8E0.get_secret_tokens_collected_453A80(),
                              50);
-                    sprite_type = 4;
+                    sprite_type = sprite_types_enum::code_obj1_4;
                     sprite_pal = gObjectDefinitions_6FCF00->GetObjectBaseSpriteIdx_4C6E30(266);
                     break;
                 default:
