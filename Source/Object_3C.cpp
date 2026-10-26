@@ -21,20 +21,20 @@ EXTERN_GLOBAL(Fix16, kFpOne64th_6F8ECC);
 MATCH_FUNC(0x521FD0)
 void Object_3C::GetMovementSpeedAndAngle_521FD0(Fix16& Speed, Ang16& Angle)
 {
-    s8 x_related;
-    s8 y_related;
+    s8 conveyor_x;
+    s8 conveyor_y;
     Fix16_Point point;
     Fix16_Point conveyor_vel;
     if (field_38_conveyor_speed)
     {
-        UnpackSignedNibbles_529050(field_38_conveyor_speed, &x_related, &y_related);
-        conveyor_vel.x = kFpOne64th_6F8ECC * x_related;
-        conveyor_vel.y = kFpOne64th_6F8ECC * y_related;
+        UnpackSignedNibbles_529050(field_38_conveyor_speed, &conveyor_x, &conveyor_y);
+        conveyor_vel.x = kFpOne64th_6F8ECC * conveyor_x;
+        conveyor_vel.y = kFpOne64th_6F8ECC * conveyor_y;
         point = conveyor_vel + GetSpeedVector_482BA0();
 
         Speed = point.GetLength_41E260();
         Angle = point.atan2_40F790();
-        ClearF38_482BD0();
+        ClearConveyorSpeed_482BD0();
     }
     else
     {
@@ -84,10 +84,10 @@ AttachedSprite* SpriteList::GetSpriteForModel_5A6A50(s32 obj_type)
     AttachedSprite* pIter = this->field_0_p18;
     while (pIter)
     {
-        Object* o5c = pIter->field_0_pSprite->AsObject2C_40FEC0();
-        if (o5c)
+        Object* pObject = pIter->field_0_pSprite->AsObject2C_40FEC0();
+        if (pObject)
         {
-            if (o5c->field_18_model == obj_type)
+            if (pObject->field_18_model == obj_type)
             {
                 return pIter;
             }
@@ -621,13 +621,13 @@ s32 SpriteList::GetGangIdxFromSpriteIfAny_5A71A0()
         const s32 type = pIter->field_0_pSprite->field_30_sprite_type_enum;
         if (type == sprite_types_enum::code_obj1_4 || type == sprite_types_enum::map_obj_5 || type == sprite_types_enum::object_1)
         {
-            Object* o5c = pIter->field_0_pSprite->field_8_object_2C_ptr;
-            if (o5c)
+            Object* pObject = pIter->field_0_pSprite->field_8_object_2C_ptr;
+            if (pObject)
             {
                 // If it is car gang icon
-                if (o5c->field_18_model >= objects::loonies_icon_287 && o5c->field_18_model <= objects::russian_mafia_icon_293)
+                if (pObject->field_18_model >= objects::loonies_icon_287 && pObject->field_18_model <= objects::russian_mafia_icon_293)
                 {
-                    return o5c->field_18_model - 286;
+                    return pObject->field_18_model - 286;
                 }
             }
         }
@@ -691,8 +691,8 @@ void SpriteList::PruneNonCollidingSprites_5A7240(Sprite* pSprite)
 MATCH_FUNC(0x5a72b0)
 void SpriteList::PropagateMaxZLayer_5A72B0(Sprite* pSprite, bool bAlsoSetSprite)
 {
-    char start_val = pSprite->ComputeZLayer_5A1BD0();
-    char max_val = start_val;
+    char_type start_val = pSprite->ComputeZLayer_5A1BD0();
+    char_type max_val = start_val;
 
     AttachedSprite* pIter;
     for (pIter = this->field_0_p18; pIter; pIter = pIter->mpNext)
@@ -721,8 +721,7 @@ void SpriteList::PropagateMaxZLayer_5A72B0(Sprite* pSprite, bool bAlsoSetSprite)
 MATCH_FUNC(0x5a7310)
 bool SpriteList::AnySpriteHasSlopeTopInFootprint_5A7310()
 {
-    AttachedSprite* pIter;
-    for (pIter = this->field_0_p18; pIter; pIter = pIter->mpNext)
+    for (AttachedSprite* pIter = this->field_0_p18; pIter; pIter = pIter->mpNext)
     {
         if (pIter->field_0_pSprite->CheckSlopeTopInFootprint_5A1A60())
         {

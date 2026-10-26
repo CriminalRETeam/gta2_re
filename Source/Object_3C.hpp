@@ -90,7 +90,7 @@ class Object_3C
         ++gObj3C_dealloc_count_6F8F0C;
     }
 
-    void ClearF38_482BD0()
+    void ClearConveyorSpeed_482BD0()
     {
         field_38_conveyor_speed = 0;
     }
