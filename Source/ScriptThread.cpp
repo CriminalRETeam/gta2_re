@@ -6,6 +6,7 @@
 #include "bonus_event_type.hpp"
 #include "bonus_result.hpp"
 #include "car_despawn_status.hpp"
+#include "crane_home_target.hpp"
 #include "explosion_type.hpp"
 #include "hud_message_priority.hpp"
 #include "thread_trigger.hpp"
@@ -647,7 +648,7 @@ void ScriptThread::SCRCMD_CRANE_5041C0(SCR_CRANE_TARGET_DEC* pTargetCmd, SCR_CRA
 
     if (pTargetCmd->field_2_type == SCRCMD_CRANE_TARGET_DEC)
     {
-        if (pTargetCmd->field_1A_home_cranetype == 0)
+        if (pTargetCmd->field_1A_home_cranetype == crane_home_target::first_0)
         {
             Fix16 fix_rot = Fix16(kDegreesToAng16_6F8044.rValue) * Fix16(pTargetCmd->field_24_target_rotation);
             Ang16 rotation(&fix_rot, 0);
@@ -656,7 +657,7 @@ void ScriptThread::SCRCMD_CRANE_5041C0(SCR_CRANE_TARGET_DEC* pTargetCmd, SCR_CRA
                                                                      pTargetCmd->field_1C_target_pos.field_4_y,
                                                                      rotation);
         }
-        else if (pTargetCmd->field_1A_home_cranetype == 1)
+        else if (pTargetCmd->field_1A_home_cranetype == crane_home_target::second_1)
         {
             Fix16 fix_rot = Fix16(kDegreesToAng16_6F8044.rValue) * Fix16(pTargetCmd->field_24_target_rotation);
             Ang16 rotation(&fix_rot, 0);

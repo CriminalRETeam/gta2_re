@@ -277,7 +277,7 @@ struct SCR_CRANE_TARGET_DEC : SCR_CMD_HEADER
     u32 field_C_homecrane;
     SCR_XY_f field_10_pos;
     u16 field_18_home_rotation;
-    u16 field_1A_home_cranetype; // "first" or "second"
+    u16 field_1A_home_cranetype; // crane_home_target
     SCR_XY_f field_1C_target_pos;
     u16 field_24_target_rotation;
     u16 field_26_unused;
@@ -289,7 +289,7 @@ struct SCR_CRANE_BASIC_DEC : SCR_CMD_HEADER
     u32 field_C_homecrane;
     SCR_XY_f field_10_pos;
     u16 field_18_home_rotation;
-    u16 field_1A_home_cranetype; // "first" or "second"
+    u16 field_1A_home_cranetype; // crane_home_target
     SCR_XY_f field_1C_target_pos;
     u16 field_24_target_rotation;
     u16 field_26_second_rotation;
