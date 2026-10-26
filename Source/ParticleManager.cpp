@@ -274,7 +274,7 @@ void ParticleManager::GunMuzzelFlash_53E970(Sprite* pSprite)
 // 9.6f 0x48D1F0 (unpaired before): plain members (MultiplyByFix16_401CB0, +, -, RotateByAngle_40F6B0 as
 // RotateNegExport_), a count-down loop, -(v / 15) through Negate_4086A0.
 MATCH_FUNC(0x53f060)
-void ParticleManager::EmitWaterSplash_53F060(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, char_type bRandomRot)
+void ParticleManager::EmitWaterSplash_53F060(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, bool bRandomRot)
 {
     Ang16 angle_2;
     Fix16_Point velocity(Fix16(0), Fix16(0));

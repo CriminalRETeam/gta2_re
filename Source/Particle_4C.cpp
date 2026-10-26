@@ -1561,7 +1561,7 @@ bool Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
                     field_30_pOwnSprite->set_xyz_lazy_420600(xpos, ypos, zpos + kFpPoint01_6FD45C);
                     if (!(gpRng_67AB34->get_cur_rng_41CFE0() & 1))
                     {
-                        gParticle_8_6FD5E8->EmitWaterSplash_53F060(xpos, ypos, zpos, angle, 0);
+                        gParticle_8_6FD5E8->EmitWaterSplash_53F060(xpos, ypos, zpos, angle, false);
                     }
                     gParticle_8_6FD5E8->field_4_water_hit_obj->field_4_sprite->set_xyz_lazy_420600(xpos, ypos, zpos);
                     if (pChar)
@@ -1612,7 +1612,7 @@ bool Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
 // The frame-delay store is written twice (two if branches): VC6 counts the uses of the constant 1 before
 // merging the identical branches, and keeps it in bl for the stores and the return 1.
 MATCH_FUNC(0x53d260)
-char_type Particle_4C::PoolUpdate()
+bool Particle_4C::PoolUpdate()
 {
     s32 state = this->field_38_state;
     --this->field_2C_counter;
