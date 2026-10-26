@@ -318,7 +318,7 @@ CollisionSoundQueue::~CollisionSoundQueue()
 }
 
 MATCH_FUNC(0x477A10)
-bool CollisionTarget::IsObj2C_477A10()
+bool CollisionTarget::IsObj2C_477A10() const
 {
     if (field_0_type == collision_target_type::sprite_3)
     {

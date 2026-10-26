@@ -13,7 +13,7 @@ class Object;
 class CollisionTarget
 {
   public:
-    EXPORT bool IsObj2C_477A10();
+    EXPORT bool IsObj2C_477A10() const;
 
     void Reset_4637B0()
     {
@@ -65,7 +65,7 @@ class CollisionTarget
         this->field_20_pHitSprite = NULL;
     }
 
-    bool IsCharB4_49EF20()
+    bool IsCharB4_49EF20() const
     {
         return this->field_0_type == collision_target_type::sprite_3 && field_20_pHitSprite->AsCharB4_40FEA0();
     }
