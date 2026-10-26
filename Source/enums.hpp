@@ -554,9 +554,9 @@ enum
     slope_westwards_3 = 3,
     slope_eastwards_4 = 4,
     air_surface_6 = 6,
-    unknown_surface_7 = 7,
+    remapped_water_tile_7 = 7, // Map_0x370::GetBlockSurfaceType_49EBE0; water_surface_8 once all four corners are in
     water_surface_8 = 8,
-    unknown_surface_9 = 9,
+    water_tile_9 = 9, // a not remapped water lid on a solid block
 };
 } // namespace car_surface_type
 

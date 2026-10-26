@@ -1062,7 +1062,7 @@ void CarPhysics::UpdateZPhysics_55AD90(Fix16 dt)
     }
     else
     {
-        if (field_98_surface_type == car_surface_type::unknown_surface_7 ||
+        if (field_98_surface_type == car_surface_type::remapped_water_tile_7 ||
             field_98_surface_type == car_surface_type::water_surface_8)
         {
             goto reset_z;
@@ -1170,14 +1170,14 @@ inline u8 Map_0x370::GetBlockSurfaceType_49EBE0(s32 x, s32 y, s32 z, u8* pGradie
     {
         if (gGtx_0x106C_703DD4->IsRemappedWaterTile_49E540(pBlock->field_8_lid & block_face::tile_idx_mask))
         {
-            return 7;
+            return car_surface_type::remapped_water_tile_7;
         }
 
         if (!IS_AIR_TYPE(pBlock->field_B_slope_type))
         {
             if (gGtx_0x106C_703DD4->IsUnremappedWaterTile_49E570(pBlock->field_8_lid & block_face::tile_idx_mask))
             {
-                return 9;
+                return car_surface_type::water_tile_9;
             }
             gmp_map_slope* pSlope = &gGmpSlopes_6F5BA8[pBlock->field_B_slope_type >> 2];
             *pGradientSize = pSlope->field_1_gradient_size;
@@ -1395,7 +1395,7 @@ char_type CarPhysics::ProcessGroundCollisionAndSurfaceType_55B970(char_type* che
         this->field_A5_current_slope_length = static_cast<char>(graident_size);
         this->field_A6_current_slope_left_tiles = gradient_level;
         this->field_A7_current_tile_z = cp3_int;
-        if (surface_type == 7)
+        if (surface_type == car_surface_type::remapped_water_tile_7)
         {
             u8 water_mask = pSprite->GetWaterCornerMask_59E250();
             if (water_mask == 15)
@@ -1841,7 +1841,7 @@ void CarPhysics::UpdateWheelSkidEffects_55DC00()
         rear_wheel_offset_ = field_5C_pCar->ApplyScale_421910(gCarInfo_2C_6FE0E4->field_8_rear_wheel_offset);
         front_wheel_offset_ = field_5C_pCar->ApplyScale_421910(gCarInfo_2C_6FE0E4->field_4_front_wheel_offset);
 
-        if (field_98_surface_type == car_surface_type::unknown_surface_7 || field_98_surface_type == car_surface_type::water_surface_8 || field_98_surface_type == car_surface_type::unknown_surface_9)
+        if (field_98_surface_type == car_surface_type::remapped_water_tile_7 || field_98_surface_type == car_surface_type::water_surface_8 || field_98_surface_type == car_surface_type::water_tile_9)
         {
             SpawnSkidSegment_55D200(0, Fix16_Point(-half_width, rear_wheel_offset_), 3); // spawns the skid obj?
             SpawnSkidSegment_55D200(1, Fix16_Point(half_width, rear_wheel_offset_), 3);
@@ -1859,7 +1859,7 @@ void CarPhysics::UpdateWheelSkidEffects_55DC00()
             field_10_last_skid_pos[1].reset();
         }
 
-        if (field_98_surface_type == car_surface_type::unknown_surface_7 || field_98_surface_type == car_surface_type::water_surface_8 || field_98_surface_type == car_surface_type::unknown_surface_9)
+        if (field_98_surface_type == car_surface_type::remapped_water_tile_7 || field_98_surface_type == car_surface_type::water_surface_8 || field_98_surface_type == car_surface_type::water_tile_9)
         {
             SpawnSkidSegment_55D200(3, Fix16_Point(-half_width, front_wheel_offset_), 3);
             SpawnSkidSegment_55D200(2, Fix16_Point(half_width, front_wheel_offset_), 3);
@@ -3038,7 +3038,7 @@ MATCH_FUNC(0x561970)
 Fix16 CarPhysics::ComputeEngineTorque_561970()
 {
     Fix16 torque;
-    if (field_5C_pCar->IsEngineOn_4118C0() && field_98_surface_type != car_surface_type::unknown_surface_7 && field_98_surface_type != car_surface_type::water_surface_8)
+    if (field_5C_pCar->IsEngineOn_4118C0() && field_98_surface_type != car_surface_type::remapped_water_tile_7 && field_98_surface_type != car_surface_type::water_surface_8)
     {
         if (this->field_8C_state == 2)
         {
@@ -3341,7 +3341,7 @@ void CarPhysics::ApplyThrottleInput_562480()
 MATCH_FUNC(0x5624f0)
 void CarPhysics::ApplyBrakePhysics_5624F0()
 {
-    if (!field_91_is_foot_brake_on || field_98_surface_type == car_surface_type::unknown_surface_7 || field_98_surface_type == car_surface_type::water_surface_8)
+    if (!field_91_is_foot_brake_on || field_98_surface_type == car_surface_type::remapped_water_tile_7 || field_98_surface_type == car_surface_type::water_surface_8)
     {
         field_64_brake_pressure = kBrakePressureStart_6FE200;
         gBrakeForce_6FE0D8 = kFP16Zero_6FE20C; // final value used in skid calcs
@@ -3774,7 +3774,7 @@ bool CarPhysics::ProcessCarPhysicsStateMachine_562FE0()
             break;
     }
 
-    return (UpdateLastMovementTimer_562FA0() && !flag && field_98_surface_type != car_surface_type::unknown_surface_7 && field_98_surface_type != car_surface_type::water_surface_8 &&
+    return (UpdateLastMovementTimer_562FA0() && !flag && field_98_surface_type != car_surface_type::remapped_water_tile_7 && field_98_surface_type != car_surface_type::water_surface_8 &&
             field_98_surface_type != car_surface_type::air_surface_6);
 }
 
