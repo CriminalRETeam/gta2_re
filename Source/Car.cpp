@@ -3205,14 +3205,14 @@ void Car::UpdateRoofLights_43C500()
     {
         field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BottomRightRoofLight_16);
 
-        Object* pObj_165 = field_0_attachments.FindObject2CByModel_5A6A90(objects::light_165);
-        pObj_165->UpdateLight_527A30();
+        Object* pLight = field_0_attachments.FindObject2CByModel_5A6A90(objects::light_165);
+        pLight->UpdateLight_527A30();
     }
 
     if (IsSwatVan_4217A0() || IsFireTruck_4118F0())
     {
-        Object* pObj_172 = field_0_attachments.FindObject2CByModel_5A6A90(172);
-        pObj_172->UpdateLight_527A30();
+        Object* pLight = field_0_attachments.FindObject2CByModel_5A6A90(172);
+        pLight->UpdateLight_527A30();
     }
 }
 
@@ -3221,18 +3221,18 @@ void Car::ResetRoofLights_43C650()
 {
     field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::BottomRightRoofLight_16);
 
-    Object* pObj1 = field_0_attachments.FindObject2CByModel_5A6A90(objects::light_165);
-    if (pObj1)
+    Object* pLight = field_0_attachments.FindObject2CByModel_5A6A90(objects::light_165);
+    if (pLight)
     {
-        pObj1->TurnOffLight_527990();
+        pLight->TurnOffLight_527990();
     }
 
     if (IsSwatVan_4217A0() || IsFireTruck_4118F0())
     {
-        Object* pObj2 = field_0_attachments.FindObject2CByModel_5A6A90(172);
-        if (pObj2)
+        Object* pSecondLight = field_0_attachments.FindObject2CByModel_5A6A90(172);
+        if (pSecondLight)
         {
-            pObj2->TurnOffLight_527990();
+            pSecondLight->TurnOffLight_527990();
         }
     }
 }
@@ -3251,14 +3251,14 @@ void Car::UpdateBottomLeftRoofLight_43C700()
 
     if (!IsFbiCar_411920())
     {
-        Object* pObj_171 = field_0_attachments.FindObject2CByModel_5A6A90(171);
-        pObj_171->UpdateLight_527A30();
+        Object* pLight = field_0_attachments.FindObject2CByModel_5A6A90(171);
+        pLight->UpdateLight_527A30();
     }
 
     if (IsSwatVan_4217A0() || IsFireTruck_4118F0())
     {
-        Object* pObj_173 = field_0_attachments.FindObject2CByModel_5A6A90(173);
-        pObj_173->UpdateLight_527A30();
+        Object* pLight = field_0_attachments.FindObject2CByModel_5A6A90(173);
+        pLight->UpdateLight_527A30();
     }
 }
 
@@ -6446,33 +6446,33 @@ void Car::SetSirens_4441B0()
 {
     if (IsMediCar_421780())
     {
-        Car::AttachLight_443F30(165, 0xFF2010, 10, 16);
+        Car::AttachLight_443F30(objects::light_165, 0xFF2010, 10, 16);
         Car::AttachLight_443F30(171, 0xFF2010, -10, 16);
         Car::AttachLight_443F30(172, 0xFF2010, 10, -32);
         Car::AttachLight_443F30(173, 0xFF2010, -10, -32);
     }
     else if (IsCopCar_421790())
     {
-        Car::AttachLight_443F30(165, 0xFF2010, 10, -16);
+        Car::AttachLight_443F30(objects::light_165, 0xFF2010, 10, -16);
         Car::AttachLight_443F30(171, 255, -10, -16);
     }
     else if (IsSwatVan_4217A0())
     {
-        Car::AttachLight_443F30(165, 0xFF2010, 10, 32);
+        Car::AttachLight_443F30(objects::light_165, 0xFF2010, 10, 32);
         Car::AttachLight_443F30(171, 255, -10, 32);
         Car::AttachLight_443F30(172, 0xFF2010, 10, -32);
         Car::AttachLight_443F30(173, 255, -10, -32);
     }
     else if (IsFireTruck_4118F0())
     {
-        Car::AttachLight_443F30(165, 0xFF2010, 16, 48);
+        Car::AttachLight_443F30(objects::light_165, 0xFF2010, 16, 48);
         Car::AttachLight_443F30(171, 0xFF2010, -16, 48);
         Car::AttachLight_443F30(172, 0xFF2010, 16, -16);
         Car::AttachLight_443F30(173, 0xFF2010, -16, -26);
     }
     else if (IsFbiCar_411920())
     {
-        Car::AttachLight_443F30(165, 0xFF2010, 0, 16);
+        Car::AttachLight_443F30(objects::light_165, 0xFF2010, 0, 16);
     }
 }
 
