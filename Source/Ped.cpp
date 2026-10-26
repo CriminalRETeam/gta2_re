@@ -82,14 +82,14 @@ DEFINE_GLOBAL_INIT(u8, gNumberCarThiefsSpawned_6787CB, 0, 0x6787CB);
 DEFINE_GLOBAL_INIT(u8, gNumberElvisLeadersSpawned_6787CC, 0, 0x6787CC);
 DEFINE_GLOBAL_INIT(u8, gNumberWalkingCopsSpawned_6787CD, 0, 0x6787CD);
 DEFINE_GLOBAL(u8, gNewTaxiCustomersThisTick_6787D2, 0x6787D2);
-DEFINE_GLOBAL_INIT(u8, byte_61A8A0, 1, 0x61A8A0);
+DEFINE_GLOBAL_INIT(u8, gRunPedObjectiveAI_61A8A0, 1, 0x61A8A0);
 DEFINE_GLOBAL(u8, gNumDummyChars_6787E2, 0x6787E2);
 DEFINE_GLOBAL(u8, gNumScriptCreatedPeds_6787E3, 0x6787E3);
 DEFINE_GLOBAL(u8, gNumEmergencyPeds_6787E4, 0x6787E4);
 EXTERN_GLOBAL(u8, gTargetSearchMode_6787D7);
 DEFINE_GLOBAL(u8, byte_6787D4, 0x6787D4);
 DEFINE_GLOBAL(u8, gPedUsedPathThisTick_678554, 0x678554);
-DEFINE_GLOBAL(u8, byte_6787D8, 0x6787D8);
+DEFINE_GLOBAL(u8, gPathStepRoundDone_6787D8, 0x6787D8);
 DEFINE_GLOBAL(u8, gLosCheckRoundDone_6787D9, 0x6787D9);
 DEFINE_GLOBAL_INIT(u8, gRunPedThink_61A8A4, 1, 0x61A8A4);
 DEFINE_GLOBAL(u8, byte_6787C4, 0x6787C4);
@@ -170,7 +170,7 @@ DEFINE_GLOBAL_INIT(Fix16, kFpThreeSixteenths_678780, kFpOne64th_6784C4 * 12, 0x6
 DEFINE_GLOBAL_INIT(Ang16, kAng90_6784B0, Ang16(360), 0x6784B0); // TODO: Init via 0x45FAA0 func
 
 EXTERN_GLOBAL(u8, bHaveThreateningPeds_6787DA);
-EXTERN_GLOBAL(u8, byte_61A8A1);
+EXTERN_GLOBAL(u8, gPathStepSlotFree_61A8A1);
 
 // TODO
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
@@ -3728,10 +3728,10 @@ void Ped::Occupation_AI_461F20()
             Ped::BusCustomer_AI_461290();
             break;
         case ped_ocupation_enum::dummy_driver_4:
-            byte_61A8A0 = 0;
+            gRunPedObjectiveAI_61A8A0 = 0;
             break;
         case ped_ocupation_enum::driver:
-            byte_61A8A0 = 0;
+            gRunPedObjectiveAI_61A8A0 = 0;
             if (field_16C_car)
             {
                 if (field_16C_car->IsDespawning_4215B0())
@@ -3835,10 +3835,10 @@ void Ped::Occupation_AI_461F20()
 MATCH_FUNC(0x462280)
 void Ped::UpdateAI_462280()
 {
-    byte_61A8A0 = 1;
+    gRunPedObjectiveAI_61A8A0 = 1;
     Ped::Occupation_AI_461F20();
     byte_61A8A3 = 0;
-    if (byte_61A8A0)
+    if (gRunPedObjectiveAI_61A8A0)
     {
         if (field_164_ped_group)
         {
@@ -4402,7 +4402,7 @@ bool Ped::PoolUpdate()
         Ped::ChangeNextPedState2_45C540(ped_state_2::electrocuted_27);
         SetStateInitPending_433B50();
     }
-    if (byte_6787D8 == 1)
+    if (gPathStepRoundDone_6787D8 == 1)
     {
         field_21C_bf.bFlag16 = false;
     }
@@ -7055,7 +7055,7 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
                 field_1C8_move_target_y = kFpHalf_67853C + Fix16(field_18C_current_path_point->field_1_y);
                 field_1CC_move_target_z = Fix16(field_18C_current_path_point->field_2_z);
                 field_21C_bf.bFlag16 = true;
-                byte_61A8A1 = 0;
+                gPathStepSlotFree_61A8A1 = 0;
                 bMoveTargetSet = true;
             }
         }

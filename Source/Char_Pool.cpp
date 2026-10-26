@@ -26,7 +26,7 @@
 // Defined in Ped.cpp
 EXTERN_GLOBAL(s16, gPedOffscreenDespawnTime_678656);
 EXTERN_GLOBAL(Ang16, gSearchConeHalfAngle_6784F0);
-EXTERN_GLOBAL(u8, byte_61A8A0);
+EXTERN_GLOBAL(u8, gRunPedObjectiveAI_61A8A0);
 EXTERN_GLOBAL(s8, byte_61A8A3);
 EXTERN_GLOBAL(u8, gRunPedThink_61A8A4);
 EXTERN_GLOBAL(Fix16, kFpZero_678660);
@@ -38,7 +38,7 @@ EXTERN_GLOBAL(u8, gNewTaxiCustomersThisTick_6787D2);
 EXTERN_GLOBAL(char_type, gNumberBusCustomers_6787D3);
 EXTERN_GLOBAL(u8, byte_6787D4);
 DEFINE_GLOBAL(u8, gTargetSearchMode_6787D7, 0x6787D7);
-EXTERN_GLOBAL(u8, byte_6787D8);
+EXTERN_GLOBAL(u8, gPathStepRoundDone_6787D8);
 EXTERN_GLOBAL(u8, gLosCheckRoundDone_6787D9);
 EXTERN_GLOBAL(Ped*, gSearchingPed_6787DC);
 EXTERN_GLOBAL(u16, gNumPedsUpdated_6787E0);
@@ -53,7 +53,7 @@ DEFINE_GLOBAL(CharPool*, gChar_B4_Pool_6FDB44, 0x6FDB44);
 DEFINE_GLOBAL(PedListNodePool*, gChar_8_Pool_678b50, 0x678b50);
 
 DEFINE_GLOBAL(u16, gPedsServiceTickCount_6787F0, 0x6787F0);
-DEFINE_GLOBAL_INIT(u8, byte_61A8A1, 1, 0x61A8A1);
+DEFINE_GLOBAL_INIT(u8, gPathStepSlotFree_61A8A1, 1, 0x61A8A1);
 DEFINE_GLOBAL_INIT(u8, gLosCheckSlotFree_61A8A2, 1, 0x61A8A2);
 DEFINE_GLOBAL(u8, gNumPolicePedsInRangeScreen_6787EE, 0x6787EE);
 DEFINE_GLOBAL(u8, bThreateningPedAdded_6787EF, 0x6787EF);
@@ -625,7 +625,7 @@ void PedManager::PedsService_4703F0()
     gNumEmergencyPeds_6787E4 = 0;
     gNumScriptCreatedPeds_6787E3 = 0;
     gNumPedsOnScreen_6787EC = 0;
-    byte_61A8A1 = 1;
+    gPathStepSlotFree_61A8A1 = 1;
     gLosCheckSlotFree_61A8A2 = 1;
     gNewTaxiCustomersThisTick_6787D2 = 0;
     gNumPolicePedsInRangeScreen_6787EE = 0;
@@ -642,7 +642,7 @@ void PedManager::PedsService_4703F0()
         gThreateningPedsList_678468.ClearPeds_4712F0();
     }
 
-    byte_6787D8 = byte_61A8A1 == 1;
+    gPathStepRoundDone_6787D8 = gPathStepSlotFree_61A8A1 == 1;
     gLosCheckRoundDone_6787D9 = gLosCheckSlotFree_61A8A2 == 1;
 
     if (!bSkip_dummies_67D4EF)
@@ -742,9 +742,9 @@ PedManager::PedManager()
     spawnSideLocked_6787D5 = 0;
     spawnCountLimit_6787D6 = 0;
     gTargetSearchMode_6787D7 = threat_search_enum::no_threats_0;
-    byte_61A8A0 = 1;
-    byte_61A8A1 = 1;
-    byte_6787D8 = 0;
+    gRunPedObjectiveAI_61A8A0 = 1;
+    gPathStepSlotFree_61A8A1 = 1;
+    gPathStepRoundDone_6787D8 = 0;
     gLosCheckSlotFree_61A8A2 = 1;
     gLosCheckRoundDone_6787D9 = 0;
     bHaveThreateningPeds_6787DA = 0;
