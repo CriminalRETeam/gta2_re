@@ -366,11 +366,11 @@ void ObjectDefinition::SetRemap_533110(s16 remap)
 {
     switch (field_28_sprite_type)
     {
-        case 4:
-            field_30_palette_type = 5;
+        case sprite_types_enum::code_obj1_4:
+            field_30_palette_type = palette_types_enum::code_obj_remaps_5;
             break;
-        case 5:
-            field_30_palette_type = 6;
+        case sprite_types_enum::map_obj_5:
+            field_30_palette_type = palette_types_enum::map_obj_remaps_6;
             break;
     }
     field_1C_remap = remap;
@@ -405,7 +405,7 @@ void ObjectDefinition::ApplyDefinitionToSprite_5331A0(Sprite* pSprite)
     pSprite->SetDrawLayer_40F7B0(this->field_2C_draw_layer);
     pSprite->field_2C_flags = this->field_20_sprite_flags;
 
-    if (this->field_30_palette_type != 2)
+    if (this->field_30_palette_type != palette_types_enum::sprites_2)
     {
         pSprite->SetRemap(this->field_1C_remap);
     }
@@ -429,7 +429,7 @@ ObjectDefinition::ObjectDefinition()
     field_4_height = kFp255_6F8FA4;
     field_8_depth = kFp255_6F8FA4;
     field_24_object_idx = 0;
-    field_28_sprite_type = 0;
+    field_28_sprite_type = sprite_types_enum::none_0;
     field_2C_draw_layer = 0;
     field_30_palette_type = 0;
     field_34_behavior_type = object_behavior_type::static_object_0;
@@ -467,7 +467,7 @@ ObjectDefinition* ObjectDefinitions::AllocDefinitionWithSprite_5332D0(s32 idx, s
     result->field_28_sprite_type = sprite_type;
     result->field_1E_base_sprite_idx = sprite_palette;
     result->field_6C_num_frames = anim_speed;
-    result->field_30_palette_type = 2;
+    result->field_30_palette_type = palette_types_enum::sprites_2;
     return result;
 }
 
@@ -479,7 +479,7 @@ void ObjectDefinitions::CreateMapObjectDefinitions_533300()
     object_info* pIter = gGtx_0x106C_703DD4->get_map_object_info_5AA910(i++);
     while (pIter)
     {
-        ObjectDefinition* pDefinition = AllocDefinitionWithSprite_5332D0(pIter->field_0_model, 5, sprites, pIter->field_1_sprites);
+        ObjectDefinition* pDefinition = AllocDefinitionWithSprite_5332D0(pIter->field_0_model, sprite_types_enum::map_obj_5, sprites, pIter->field_1_sprites);
         sprites += pIter->field_1_sprites;
         pDefinition->SetDimensionsFromSprite_533090();
         pIter = gGtx_0x106C_703DD4->get_map_object_info_5AA910(i++);
@@ -818,7 +818,7 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pDef->field_61_in_pool_list = '\x01';
     pDef->field_58_uses_3d_movement = 1;
     pDef = GetObjectDefinition_534360(0x19);
-    pDef->field_28_sprite_type = 1;
+    pDef->field_28_sprite_type = sprite_types_enum::object_1;
     pDef->field_8_depth = kFpTwo_6FCE10;
     return;
 }
@@ -832,7 +832,7 @@ void ObjectDefinitions::CreateCodeObjectDefinitions_533B30()
         CodeObjectTemplate* pTemplate = &gCodeObjectTemplates_6F9038[0];
         for(s32 remaining = gCodeObjectTemplates_length_623EF0; remaining != 0; remaining--)
         {
-            ObjectDefinition* pDef = AllocDefinitionWithSprite_5332D0(pTemplate->field_0_definition_idx, 4, sprite_base, pTemplate->field_4_num_sprites);
+            ObjectDefinition* pDef = AllocDefinitionWithSprite_5332D0(pTemplate->field_0_definition_idx, sprite_types_enum::code_obj1_4, sprite_base, pTemplate->field_4_num_sprites);
             sprite_base += pTemplate->field_4_num_sprites;
             pDef->field_28_sprite_type = pTemplate->field_38_sprite_type;
             if (pTemplate->field_48_width == kFpZero_6FCE08 && pTemplate->field_4C_height == kFpZero_6FCE08 && pTemplate->field_50_depth == kFpZero_6FCE08)

@@ -48,7 +48,7 @@ void __stdcall DrawTextureScaled_495470(STexture* pTexture, Fix16 x_pos, Fix16 y
 MATCH_FUNC(0x4B87A0)
 void __stdcall DrawText_4B87A0(const wchar_t* pBuffer, Fix16 xpos_fp, Fix16 ypos_fp, s16 fontType, Fix16 scale)
 {
-    DrawText_5D8A10(pBuffer, xpos_fp, ypos_fp, fontType, scale, 2, 0, 0, 0);
+    DrawText_5D8A10(pBuffer, xpos_fp, ypos_fp, fontType, scale, palette_types_enum::sprites_2, 0, 0, 0);
 }
 
 MATCH_FUNC(0x5D7670)
@@ -95,7 +95,7 @@ void __stdcall DrawTextScaled_5D77A0(wchar_t* pText, Fix16 xpos, Fix16 ypos, u16
                     ypos * gViewCamera_676978->field_A8_ui_scale,
                     font_type,
                     gViewCamera_676978->field_A8_ui_scale,
-                    2,
+                    palette_types_enum::sprites_2,
                     0,
                     0,
                     0);

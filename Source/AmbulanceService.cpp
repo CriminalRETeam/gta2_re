@@ -85,7 +85,7 @@ bool AmbulanceService::HandlePedDeath_4FA330(Ped* pDeadPed)
 
                 if (pDeadPed->field_168_game_object)
                 {
-                    pDeadPed->SetObjective(objectives_enum::objective_28);
+                    pDeadPed->SetObjective(objectives_enum::dead_patient_28);
                     return false;
                 }
                 return false;
@@ -105,7 +105,7 @@ bool AmbulanceService::HandlePedDeath_4FA330(Ped* pDeadPed)
 
                 if (pDeadPed->field_168_game_object)
                 {
-                    pDeadPed->SetObjective(objectives_enum::objective_28);
+                    pDeadPed->SetObjective(objectives_enum::dead_patient_28);
                 }
 
                 return false;
@@ -585,7 +585,7 @@ void AmbulanceTask::HandleObjectiveState_4FAAC0()
                     }
                     field_8_leader_patient = pPatient;
                 }
-                else if (gParamedicCrewPed_6F6D60->GetInternalObjective_403A90() == objectives_enum::objective_9)
+                else if (gParamedicCrewPed_6F6D60->GetInternalObjective_403A90() == objectives_enum::follow_char_9)
                 {
                     pPatient = field_10_patients.RemoveFirstPed_471320();
                     if (pPatient)
@@ -600,7 +600,7 @@ void AmbulanceTask::HandleObjectiveState_4FAAC0()
                 }
                 break;
 
-            case objectives_enum::objective_28:
+            case objectives_enum::dead_patient_28:
                 if (gParamedicCrewPed_6F6D60->GetObjectiveStatus_450CB0())
                 {
                     gParamedicCrewPed_6F6D60->field_278_ped_state_1 = ped_state_1::walking_0;
@@ -656,7 +656,7 @@ void AmbulanceTask::HandleObjectiveState_4FAAC0()
                         }
                         else
                         {
-                            pVictim->set_objective_status_403B40(1);
+                            pVictim->set_objective_status_403B40(objective_status::passed_1);
                         }
                         pVictim->set_health_4039A0(100);
                         pVictim->field_21C_bf.bPanicking = false;

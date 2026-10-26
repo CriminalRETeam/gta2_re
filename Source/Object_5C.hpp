@@ -288,7 +288,7 @@ class Object
     // 9.6f 0x4BE850
     bool IsGangIcon_4BE850()
     {
-        return field_18_model >= 287 && field_18_model <= 293; // loonies_icon_287 .. russian_mafia_icon_293
+        return field_18_model >= objects::loonies_icon_287 && field_18_model <= objects::russian_mafia_icon_293;
     }
 
     bool IsFlameObject_4BE830()

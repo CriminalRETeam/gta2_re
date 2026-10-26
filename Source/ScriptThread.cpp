@@ -75,7 +75,7 @@ DEFINE_GLOBAL_INIT(Fix16, kFpTwo_6F77C8, Fix16(2), 0x6F77C8);
 
 static inline bool is_car_weapon(s32& weapon_idx)
 {
-    return weapon_idx >= 15 && weapon_idx <= 27;
+    return weapon_idx >= weapon_type::car_bomb && weapon_idx <= 27;
 }
 
 MATCH_FUNC(0x503200)
@@ -4255,7 +4255,7 @@ void ScriptThread::SCRCMD_IS_CAR_ON_TRAIL_50C1B0()
     SCR_POINTER* pCarPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     SCR_POINTER* pTrailerPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_unsigned_2));
 
-    //Sprite* pSprite = pTrailerPointer->field_8_sprite->FirstSpriteOfType_5A6CA0(2);
+    //Sprite* pSprite = pTrailerPointer->field_8_sprite->FirstSpriteOfType_5A6CA0(sprite_types_enum::car_2);
     Sprite* pSprite = pTrailerPointer->field_8_car->field_0_attachments.FirstSpriteOfType_5A6CA0(sprite_types_enum::car_2);
     Car* pCarOnTrailer;
 

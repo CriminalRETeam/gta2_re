@@ -300,7 +300,7 @@ void PoliceCrew::SpawnFBI_nonused_571150()
 MATCH_FUNC(0x571350)
 void PoliceCrew::TryDespawnOffscreenCrew_571350()
 {
-    field_24_state = police_crew_state::unknown_2;
+    field_24_state = police_crew_state::despawning_2;
     PedGroup* pGroup = field_10_subObj->field_8_group;
     if (pGroup)
     {
@@ -790,14 +790,14 @@ void PoliceCrew::State3_AlertedSearch_572340()
                                     gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::objective_51, 200);
                                 }
                                 break;
-                            case objectives_enum::objective_28:
+                            case objectives_enum::dead_patient_28:
                                 if (pPed->GetObjectiveStatus_450CB0() != objective_status::not_finished_0)
                                 {
                                     pPed->SetObjective2_463830(objectives_enum::no_obj_0);
                                     gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::no_obj_0);
                                 }
                                 break;
-                            case objectives_enum::objective_32:
+                            case objectives_enum::pull_driver_out_32:
                                 pPed->SetObjective2_463830(objectives_enum::no_obj_0);
                                 gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::no_obj_0);
                                 break;
@@ -1069,7 +1069,7 @@ void PoliceCrew::State5_PursueOrChase_572920()
                         break;
 
                     case objectives_enum::kill_char_on_foot_20:
-                    case objectives_enum::objective_32:
+                    case objectives_enum::pull_driver_out_32:
                     {
                         if (pPed->get_objective_target_ped_403AD0() == pPed->GetInternalTargetPed_403AF0())
                         {
@@ -1084,7 +1084,7 @@ void PoliceCrew::State5_PursueOrChase_572920()
                         }
                         // An if/else rather than an early break: the then-branch exit is retargeted late, so its
                         // copy of SetObjective2/SetObjective survives the cross-jump with goto_area_on_foot_12,
-                        // objective_51 and objective_28 (9.6f 0x4AC580 matches this function exactly with VC7)
+                        // objective_51 and dead_patient_28 (9.6f 0x4AC580 matches this function exactly with VC7)
                         if (gCurrentCrewPed_6FEDDC->GetObjectiveStatus_450CB0() == objective_status::failed_2)
                         {
                             gCurrentCrewPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0);
@@ -1135,7 +1135,7 @@ void PoliceCrew::State5_PursueOrChase_572920()
                                 if (bEnterCar)
                                 {
                                     // The criminal is too far or too fast to chase on foot
-                                    if (gCurrentCrewPed_6FEDDC->get_objective_403A80() == objectives_enum::objective_32 && gCurrentCrewPed_6FEDDC->field_278_ped_state_1 != ped_state_1::flee_or_running_1)
+                                    if (gCurrentCrewPed_6FEDDC->get_objective_403A80() == objectives_enum::pull_driver_out_32 && gCurrentCrewPed_6FEDDC->field_278_ped_state_1 != ped_state_1::flee_or_running_1)
                                     {
                                         break;
                                     }
@@ -1151,7 +1151,7 @@ void PoliceCrew::State5_PursueOrChase_572920()
                                 }
                             }
 
-                            if (gCurrentCrewPed_6FEDDC->get_objective_403A80() == objectives_enum::objective_32)
+                            if (gCurrentCrewPed_6FEDDC->get_objective_403A80() == objectives_enum::pull_driver_out_32)
                             {
                                 if (field_14_pPursuitTarget->field_0_criminal_ped->field_168_game_object && gCurrentCrewPed_6FEDDC->field_21C_bf.bLeftVehicle)
                                 {
@@ -1164,7 +1164,7 @@ void PoliceCrew::State5_PursueOrChase_572920()
                             }
                             else if (bChaseOnFoot)
                             {
-                                gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::objective_32);
+                                gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::pull_driver_out_32);
                                 gCurrentCrewPed_6FEDDC->set_objective_target_ped_403AC0(field_14_pPursuitTarget->field_0_criminal_ped);
                                 gCurrentCrewPed_6FEDDC->ClearPanicking_403960();
                             }
@@ -1181,7 +1181,7 @@ void PoliceCrew::State5_PursueOrChase_572920()
                         gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::no_obj_0);
                         break;
 
-                    case objectives_enum::objective_28:
+                    case objectives_enum::dead_patient_28:
                         if (pPed->GetObjectiveStatus_450CB0())
                         {
                             gCurrentCrewPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0);
@@ -1316,7 +1316,7 @@ void PoliceCrew::State6_ShutDown_574720()
                     if (PoliceCrew::CanTrackCriminal_572210())
                     {
                         if (field_10_subObj->field_20_crew_type == crew_type::army_6 ||
-                            (field_14_pPursuitTarget->field_4_wanted_level != 6 && field_14_pPursuitTarget->field_4_wanted_level))
+                            (field_14_pPursuitTarget->field_4_wanted_level != cop_level_enum::army_6 && field_14_pPursuitTarget->field_4_wanted_level))
                         {
                             if (gCurrentCrewPed_6FEDDC->get_objective_403A80() == objectives_enum::enter_car_as_driver_35 &&
                                 !gCurrentCrewPed_6FEDDC->field_21C_bf.bLeftVehicle)
@@ -1390,7 +1390,7 @@ void PoliceCrew::State6_ShutDown_574720()
                                 break;
                             case objectives_enum::objective_8:
                             case objectives_enum::wait_in_car_27:
-                            case objectives_enum::objective_34:
+                            case objectives_enum::leave_car_and_flee_34:
                             case objectives_enum::objective_43:
                             case objectives_enum::objective_50:
                                 break;
@@ -1400,7 +1400,7 @@ void PoliceCrew::State6_ShutDown_574720()
                             case objectives_enum::leave_car_36:
                                 PoliceCrew::HandleLeaveCarObjective_575270();
                                 break;
-                            case objectives_enum::objective_28:
+                            case objectives_enum::dead_patient_28:
                                 if (gCurrentCrewPed_6FEDDC->GetObjectiveStatus_450CB0())
                                 {
                                     gCurrentCrewPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0);
@@ -1504,7 +1504,7 @@ void PoliceCrew::State1_Patrol_574F10()
         else
         {
             if (field_14_pPursuitTarget && field_14_pPursuitTarget->field_0_criminal_ped && PoliceCrew::CanTrackCriminal_572210() &&
-                (field_10_subObj->field_20_crew_type == crew_type::army_6 || field_14_pPursuitTarget->field_4_wanted_level != 6))
+                (field_10_subObj->field_20_crew_type == crew_type::army_6 || field_14_pPursuitTarget->field_4_wanted_level != cop_level_enum::army_6))
             {
                 field_14_pPursuitTarget->field_10_x = field_14_pPursuitTarget->field_0_criminal_ped->get_cam_x();
                 field_14_pPursuitTarget->field_14_y = field_14_pPursuitTarget->field_0_criminal_ped->get_cam_y();
@@ -1558,7 +1558,7 @@ void PoliceCrew::State1_Patrol_574F10()
                             pPedIter->SetObjective2_463830(objectives_enum::no_obj_0);
                             gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::no_obj_0);
                             break;
-                        case objectives_enum::objective_28:
+                        case objectives_enum::dead_patient_28:
                             if (pPedIter->GetObjectiveStatus_450CB0() != objective_status::not_finished_0)
                             {
                                 pPedIter->SetObjective2_463830(objectives_enum::no_obj_0);
@@ -1777,7 +1777,7 @@ void PoliceCrew::Service_575590()
         case police_crew_state::patrol_1:
             PoliceCrew::State1_Patrol_574F10();
             break;
-        case 2:
+        case police_crew_state::despawning_2:
             PoliceCrew::State2_SwitchToShutDown_575200();
             break;
         default:
@@ -2616,7 +2616,7 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
         zpos = Fix16(z);
         field_A0_rect->SetRect_41E350(x_left - kFpHalf_6FEBF4, x_right + kFpHalf_6FEBF4, y_top, y_bottom);
         field_A0_rect->SetHiLowZ_41E370(zpos - kFpOne_6FECEC, zpos + kFpOne_6FECEC);
-        if (gSpriteGrid_1_679208->CheckRectForCollisions_477F60(field_A0_rect, 0, 0, 0))
+        if (gSpriteGrid_1_679208->CheckRectForCollisions_477F60(field_A0_rect, 0, sprite_types_enum::none_0, 0))
         {
             return 0;
         }
@@ -2931,7 +2931,7 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
         zpos = Fix16(z);
         field_A0_rect->SetRect_41E350(x_left, x_right, y_top - kFpHalf_6FEBF4, y_bottom + kFpHalf_6FEBF4);
         field_A0_rect->SetHiLowZ_41E370(zpos - kFpOne_6FECEC, zpos + kFpOne_6FECEC);
-        if (gSpriteGrid_1_679208->CheckRectForCollisions_477F60(field_A0_rect, 0, 0, 0))
+        if (gSpriteGrid_1_679208->CheckRectForCollisions_477F60(field_A0_rect, 0, sprite_types_enum::none_0, 0))
         {
             return 0;
         }

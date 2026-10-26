@@ -863,7 +863,7 @@ void Sprite::SetDefaultDrawLayerBySpriteType_59E960()
         case sprite_types_enum::code_obj2_8:
             this->field_28_draw_layer = 33;
             break;
-        case sprite_types_enum::unknown_0:
+        case sprite_types_enum::none_0:
             this->field_28_draw_layer = 0;
             break;
         case sprite_types_enum::object_1:
@@ -1015,7 +1015,7 @@ void Sprite::ShowId_59EB30(f32& x, f32& y)
                 Fix16 ypos;
             ypos = Fix16(static_cast<s32>((y / static_cast<f32>(static_cast<u32>(window_height_706B50))) * 480.0f));
                 swprintf(tmpBuff_67BD9C, L"%d", pChar->field_7C_pPed->field_200_id);
-                s32 palette_type = 2;
+                s32 palette_type = palette_types_enum::sprites_2;
                 DrawText_5D8A10(tmpBuff_67BD9C,
                                 xpos * gViewCamera_676978->field_A8_ui_scale,
                                 ypos * gViewCamera_676978->field_A8_ui_scale,
@@ -1039,7 +1039,7 @@ void Sprite::ShowId_59EB30(f32& x, f32& y)
             Fix16 ypos;
             ypos = Fix16(static_cast<s32>((y / static_cast<f32>(static_cast<u32>(window_height_706B50))) * 480.0f));
             swprintf(tmpBuff_67BD9C, L"%d:%d", pObj->field_18_model, pObj->field_14_id);
-            s32 palette_type = 2;
+            s32 palette_type = palette_types_enum::sprites_2;
             DrawText_5D8A10(tmpBuff_67BD9C,
                             xpos * gViewCamera_676978->field_A8_ui_scale,
                             ypos * gViewCamera_676978->field_A8_ui_scale,
@@ -2255,7 +2255,7 @@ void Sprite::ResolveCollisionWithCarPedOrObject_5A2A30()
 {
     SpriteList collisions;
     collisions.field_0_p18 = 0;
-    gSpriteGrid_1_679208->CollectRectCollisions_477F30(&field_C_pCollisionShape->field_30_boundingBox, 0, 0, this, &collisions);
+    gSpriteGrid_1_679208->CollectRectCollisions_477F30(&field_C_pCollisionShape->field_30_boundingBox, 0, sprite_types_enum::none_0, this, &collisions);
     for (AttachedSprite* pCollisionIter = collisions.field_0_p18; pCollisionIter; pCollisionIter = pCollisionIter->mpNext)
     {
         Sprite* pCurrent = pCollisionIter->field_0_pSprite;
@@ -2725,7 +2725,7 @@ Sprite::Sprite() : field_0_rotation(gAng16_703804)
     field_24_remap = 0;
     field_28_draw_layer = 0;
     field_2C_flags = 0;
-    field_30_sprite_type_enum = 0;
+    field_30_sprite_type_enum = sprite_types_enum::none_0;
     field_34_palette_type = 0;
     field_38_zoom = 0;
     field_39_z_col = -1;

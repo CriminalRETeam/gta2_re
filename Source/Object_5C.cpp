@@ -327,7 +327,7 @@ bool Object::SelectCollisionSprite_522460(Sprite* pProbe)
 {
     gObject2C_HitWallOrDoor_6F8F94 = 0;
 
-    Sprite* pSprite = pProbe->QuerySpriteCollision_59E7D0(2);
+    Sprite* pSprite = pProbe->QuerySpriteCollision_59E7D0(sprite_types_enum::car_2);
     if (pSprite && gObject2C_LastCollisionSprite_6F8F8C && pSprite->GetType_416B40() == sprite_types_enum::car_2 // IsCar
         || !ShouldCollideWithSprite_522430(pSprite) || pSprite == gObject2C_LastCollisionSprite_6F8F8C)
     {
@@ -2001,13 +2001,13 @@ s32 __stdcall Object::GetExplosionTypeForItemDefinition_526830(s32 type)
     switch (type)
     {
         case 39:
-            return 18;
+            return explosion_type::small_18;
         case 40:
-            return 33;
+            return explosion_type::small_33;
         case 41:
-            return 19;
+            return explosion_type::item_19;
         case 42:
-            return 20;
+            return explosion_type::large_20;
     }
     // The original reloads type from its stack slot here instead of keeping it in a register
     return *static_cast<volatile s32*>(&type);
@@ -2661,11 +2661,11 @@ void Object::ProcessObjectExplosionImpact_528A20(Object* pObj)
             {
                 if (pObj->field_8_definition->field_48_projectile_hit_type == 13)
                 {
-                    remapped = 19;
+                    remapped = explosion_type::item_19;
                 }
                 else
                 {
-                    remapped = 18;
+                    remapped = explosion_type::small_18;
                 }
             }
             Object* pExplosion = gObject_5C_6F8F84->CreateExplosion_52A3D0(this->field_4_sprite->field_14_xy.x,
@@ -2785,19 +2785,19 @@ s32 __stdcall Object::GetExplosionTypeForWallSide_528E00(s32 wall_side)
     switch (wall_side)
     {
         case 0:
-            result = 18;
+            result = explosion_type::small_18;
             break;
         case 4:
-            result = 25;
+            result = explosion_type::building_315_25;
             break;
         case 1:
-            result = 23;
+            result = explosion_type::building_225_23;
             break;
         case 2:
-            result = 22;
+            result = explosion_type::building_45_22;
             break;
         default:
-            result = 24;
+            result = explosion_type::building_135_24;
             break;
     }
     return result;
@@ -3059,12 +3059,12 @@ s32 Object::GetExplosionTypeForDiagonalWall_529210()
     {
         case 46: // diagonal up right
         case 48: // diagonal down right
-            return 22;
+            return explosion_type::building_45_22;
         case 45: // diagonal up left
         case 47: // diagonal down left
-            return 23;
+            return explosion_type::building_225_23;
     }
-    return 23;
+    return explosion_type::building_225_23;
 }
 
 MATCH_FUNC(0x529240)
@@ -3406,9 +3406,9 @@ Object* Object_5C::CreateObject_529C00(int object_type, Fix16 xpos, Fix16 ypos, 
     }
 
     if (fail_if_blocked &&
-        (pNewObject->field_4_sprite->QuerySpriteCollision_59E7D0(0) ||
+        (pNewObject->field_4_sprite->QuerySpriteCollision_59E7D0(sprite_types_enum::none_0) ||
          (pDefinition->field_40_collision_bucket_category == collision_bucket_category::sprite_grid_2_region_3 &&
-          gSpriteGrid_2_67920C->FindCollidingSpritePreferType_477E60(pNewObject->field_4_sprite, 0))))
+          gSpriteGrid_2_67920C->FindCollidingSpritePreferType_477E60(pNewObject->field_4_sprite, sprite_types_enum::none_0))))
     {
         if (pNewObject->field_20_pool_list_state == object_pool_state::in_pool_list_1)
         {

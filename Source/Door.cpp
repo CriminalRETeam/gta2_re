@@ -135,14 +135,14 @@ bool Door::CanOpenForPed_49C7F0(Ped* pPed)
     bool ret = false;
     switch (field_20_open_type)
     {
-        case 1:
+        case door_open_type::any_player:
             if (pPed->is_player_41B0A0())
             {
                 ret = true;
             }
             break;
 
-        case 5:
+        case door_open_type::one_char_on_foot:
             if (field_10_ped)
             {
                 if (pPed == field_10_ped)

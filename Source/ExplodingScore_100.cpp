@@ -440,7 +440,7 @@ void ExplodingScore::DrawSingleNumber_597100(s32 number_to_draw, s32 xpos_sub)
                 {
                     s32 drawKind = 7;
                     Fix16 finalScale = pCam->field_A8_ui_scale * base_scale;
-                    DrawFigure_5D7EC0(6, // type
+                    DrawFigure_5D7EC0(sprite_types_enum::user_6, // type
                                       number_to_draw + 163, // pal
                                       x_to_use, // x
                                       y_to_use, // y

@@ -819,7 +819,7 @@ void Police::SpawnWalkingGuard_570320(Ped* pPed, Fix16 xpos, Fix16 ypos, Fix16 z
 {
     if (field_65C_highest_crew_type_in_pursuit == crew_type::army_6)
     {
-        pPed->set_occupation_403970(ped_ocupation_enum::unknown_cop_occu_31);
+        pPed->set_occupation_403970(ped_ocupation_enum::walking_army_guard_31);
         pPed->SetPedType_403920(ped_type::dummy_3);
         pPed->set_remap_433B90(ped_remap_enum::ped_remap_army);
     }

@@ -489,7 +489,7 @@ MATCH_FUNC(0x564AD0)
 void Player::LoadCarWeapons_564AD0(Car* pCar)
 {
     s16 last_weapon_kind = -1;
-    for (s32 weapon_kind = 15; weapon_kind < 28; weapon_kind++)
+    for (s32 weapon_kind = weapon_type::car_bomb; weapon_kind < 28; weapon_kind++)
     {
         Weapon* pWeapon = gWeapon_8_707018->find_5E3D20(pCar, weapon_kind);
         field_718_weapons[weapon_kind] = pWeapon;
@@ -634,7 +634,7 @@ bool Player::CollectPowerUp_564D60(s32 power_up_idx)
 {
     switch (power_up_idx)
     {
-        case power_up_indices::Unk_0:
+        case power_up_indices::Multiplier_0:
             if (field_6BC_multipliers.get_value() == 99)
             {
                 return 0;
@@ -642,7 +642,7 @@ bool Player::CollectPowerUp_564D60(s32 power_up_idx)
             ChangeMultipliers_4766B0(1);
             break;
 
-        case power_up_indices::Unk_1:
+        case power_up_indices::ExtraLife_1:
             if (this->field_684_lives.get_value() == 99)
             {
                 return 0;
@@ -650,7 +650,7 @@ bool Player::CollectPowerUp_564D60(s32 power_up_idx)
             ChangeLifeCountByAmount_5699F0(1);
             break;
 
-        case power_up_indices::Unk_2:
+        case power_up_indices::Health_2:
             if (field_2C4_player_ped->get_health_433B70() >= 100)
             {
                 return 0;
@@ -659,14 +659,14 @@ bool Player::CollectPowerUp_564D60(s32 power_up_idx)
             break;
 
         case power_up_indices::Armor_3:
-            if (this->field_6F4_power_up_timers[3] == 10)
+            if (this->field_6F4_power_up_timers[power_up_indices::Armor_3] == 10)
             {
                 return 0;
             }
-            this->field_6F4_power_up_timers[3] = 10;
+            this->field_6F4_power_up_timers[power_up_indices::Armor_3] = 10;
             break;
 
-        case power_up_indices::Unk_5:
+        case power_up_indices::CopBribe_5:
             if (field_2C4_player_ped->get_wanted_points_433DC0() == 0)
             {
                 return 0;
@@ -675,7 +675,7 @@ bool Player::CollectPowerUp_564D60(s32 power_up_idx)
             break;
 
         case power_up_indices::Invulnerability_6:
-            if (this->field_6F4_power_up_timers[6] == 1200)
+            if (this->field_6F4_power_up_timers[power_up_indices::Invulnerability_6] == 1200)
             {
                 return 0;
             }
@@ -684,32 +684,32 @@ bool Player::CollectPowerUp_564D60(s32 power_up_idx)
             break;
 
         case power_up_indices::DoubleDamage_7:
-            if (this->field_6F4_power_up_timers[7] == 1800)
+            if (this->field_6F4_power_up_timers[power_up_indices::DoubleDamage_7] == 1800)
             {
                 return 0;
             }
-            this->field_6F4_power_up_timers[7] = 1800;
+            this->field_6F4_power_up_timers[power_up_indices::DoubleDamage_7] = 1800;
             break;
 
         case power_up_indices::FastReload_8:
-            if (this->field_6F4_power_up_timers[8] == 1800)
+            if (this->field_6F4_power_up_timers[power_up_indices::FastReload_8] == 1800)
             {
                 return 0;
             }
-            this->field_6F4_power_up_timers[8] = 1800;
+            this->field_6F4_power_up_timers[power_up_indices::FastReload_8] = 1800;
             break;
 
         case power_up_indices::Electrofingers_9:
-            if (this->field_6F4_power_up_timers[9] == 2100)
+            if (this->field_6F4_power_up_timers[power_up_indices::Electrofingers_9] == 2100)
             {
                 return 0;
             }
-            this->field_6F4_power_up_timers[9] = 2100;
+            this->field_6F4_power_up_timers[power_up_indices::Electrofingers_9] = 2100;
             this->field_2C4_player_ped->SetElectrofingers_4A5060();
             break;
 
         case power_up_indices::Invisibility_11:
-            if (this->field_6F4_power_up_timers[11] == 1800)
+            if (this->field_6F4_power_up_timers[power_up_indices::Invisibility_11] == 1800)
             {
                 return 0;
             }
@@ -717,7 +717,7 @@ bool Player::CollectPowerUp_564D60(s32 power_up_idx)
             field_2C4_player_ped->SetInvisible();
             break;
 
-        case power_up_indices::Unk_10:
+        case power_up_indices::Respect_10:
             if (!field_34_gang_curr_location)
             {
                 return 0;
@@ -1926,7 +1926,7 @@ void Player::Busted_5679E0()
             {
                 field_2C4_player_ped->field_210_shock_counter = 0;
                 field_2C4_player_ped->ClearWantedPoints_420B80();
-                field_2C4_player_ped->SetObjective(objectives_enum::objective_54, 60);
+                field_2C4_player_ped->SetObjective(objectives_enum::call_police_car_54, 60);
                 field_2C4_player_ped->SetTargetObjectiveCar(0);
             }
         }
@@ -2439,42 +2439,42 @@ void Player::ColorScoreFromRemap_569A10()
             field_2D4_scores.GetScoreDigits_592360()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 2);
             field_2D4_scores.GetMultiplayerFragDigits_5935B0()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 2);
             field_790_hud_palette = 2;
-            field_78C_hud_palette_type = 7;
+            field_78C_hud_palette_type = palette_types_enum::user_remaps_7;
             break;
 
         case ped_remap_enum::ped_remap_lonny:
             field_2D4_scores.GetScoreDigits_592360()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 3);
             field_2D4_scores.GetMultiplayerFragDigits_5935B0()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 3);
             field_790_hud_palette = 3;
-            field_78C_hud_palette_type = 7;
+            field_78C_hud_palette_type = palette_types_enum::user_remaps_7;
             break;
 
         case ped_remap_enum::ped_remap_russian:
             field_2D4_scores.GetScoreDigits_592360()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 6);
             field_2D4_scores.GetMultiplayerFragDigits_5935B0()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 6);
             field_790_hud_palette = 6;
-            field_78C_hud_palette_type = 7;
+            field_78C_hud_palette_type = palette_types_enum::user_remaps_7;
             break;
 
         case ped_remap_enum::ped_remap_kristna:
             field_2D4_scores.GetScoreDigits_592360()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 5);
             field_2D4_scores.GetMultiplayerFragDigits_5935B0()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 5);
             field_790_hud_palette = 5;
-            field_78C_hud_palette_type = 7;
+            field_78C_hud_palette_type = palette_types_enum::user_remaps_7;
             break;
 
         case ped_remap_enum::ped_remap_zaibatsu:
             field_2D4_scores.GetScoreDigits_592360()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 7);
             field_2D4_scores.GetMultiplayerFragDigits_5935B0()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 7);
             field_790_hud_palette = 7;
-            field_78C_hud_palette_type = 7;
+            field_78C_hud_palette_type = palette_types_enum::user_remaps_7;
             break;
 
         case ped_remap_enum::ped_remap_yellow_scientist:
             field_2D4_scores.GetScoreDigits_592360()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 8);
             field_2D4_scores.GetMultiplayerFragDigits_5935B0()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 8);
             field_790_hud_palette = 8;
-            field_78C_hud_palette_type = 7;
+            field_78C_hud_palette_type = palette_types_enum::user_remaps_7;
             break;
 
         case ped_remap_enum::ped_remap_red_head_redneck:
@@ -2482,7 +2482,7 @@ void Player::ColorScoreFromRemap_569A10()
             field_2D4_scores.GetScoreDigits_592360()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 4);
             field_2D4_scores.GetMultiplayerFragDigits_5935B0()->ColorDigits_4921F0(palette_types_enum::user_remaps_7, 4);
             field_790_hud_palette = 4;
-            field_78C_hud_palette_type = 7;
+            field_78C_hud_palette_type = palette_types_enum::user_remaps_7;
             break;
 
         default:
@@ -2572,7 +2572,7 @@ void Player::InitializePlayerState_569CB0()
             field_4C_sound_obj = gRoot_sound_66B038.CreateSoundObject_40EF40(&field_90_game_camera, SoundObjectTypeEnum::Camera_0xBC_5);
         }
     }
-    field_78C_hud_palette_type = 2;
+    field_78C_hud_palette_type = palette_types_enum::sprites_2;
     field_790_hud_palette = 0;
     if (bStartNetworkGame_7081F0)
     {

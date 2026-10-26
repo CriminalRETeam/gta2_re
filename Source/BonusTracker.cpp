@@ -346,8 +346,8 @@ bool BonusTracker::IsOccupationInGroup_432240(s32 occupation, s32 rule_occupatio
             case ped_ocupation_enum::fbi:
             case ped_ocupation_enum::army_army:
             case ped_ocupation_enum::walking_guard_29:
-            case ped_ocupation_enum::unknown_cop_occu_30:
-            case ped_ocupation_enum::unknown_cop_occu_31:
+            case ped_ocupation_enum::walking_swat_guard_30:
+            case ped_ocupation_enum::walking_army_guard_31:
             case ped_ocupation_enum::tank_driver:
             case ped_ocupation_enum::roadblock_cop_37:
             case ped_ocupation_enum::road_block_tank_man:
@@ -366,8 +366,8 @@ bool BonusTracker::IsOccupationInGroup_432240(s32 occupation, s32 rule_occupatio
             case ped_ocupation_enum::fbi:
             case ped_ocupation_enum::army_army:
             case ped_ocupation_enum::walking_guard_29:
-            case ped_ocupation_enum::unknown_cop_occu_30:
-            case ped_ocupation_enum::unknown_cop_occu_31:
+            case ped_ocupation_enum::walking_swat_guard_30:
+            case ped_ocupation_enum::walking_army_guard_31:
             case ped_ocupation_enum::tank_driver:
             case ped_ocupation_enum::roadblock_cop_37:
             case ped_ocupation_enum::fireman:

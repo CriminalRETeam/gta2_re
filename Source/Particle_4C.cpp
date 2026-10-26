@@ -1532,7 +1532,7 @@ bool Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0()
     {
         if (field_46_sub_state < max_sub_state)
         {
-            Sprite* pHit = field_30_pOwnSprite->QuerySpriteCollision_59E7D0(2);
+            Sprite* pHit = field_30_pOwnSprite->QuerySpriteCollision_59E7D0(sprite_types_enum::car_2);
             if (pHit && pHit != field_28_pSprite)
             {
                 if (field_38_state == 31)

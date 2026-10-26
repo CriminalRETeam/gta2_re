@@ -222,7 +222,7 @@ void sound_obj::ProcessEntity_4123A0(s32 idx)
             }
         }
 
-        if (field_147C_audio_entities[idx].field_4_pObj->field_0_object_type == SoundObjectTypeEnum::Unknown_2)
+        if (field_147C_audio_entities[idx].field_4_pObj->field_0_object_type == SoundObjectTypeEnum::Frontend_2)
         {
             ProcessType2_412490(idx);
         }
@@ -967,7 +967,7 @@ bool sound_obj::SelectObjectImpactSound_413120(CollisionEvent* pEvent, s32 inter
     switch (pEvent->field_18_object_model)
     {
         case objects::diagonal_wall_collision_obj_166:
-        case 169:
+        case objects::door_collision_obj_169:
         case objects::tunnel_blocker_294:
         {
             field_30_sQueueSample.field_14_samp_idx = 37;
@@ -1081,7 +1081,7 @@ bool sound_obj::Type6_9_413540(CollisionEvent* pEvent)
 {
     switch (pEvent->field_1C_other_object_model)
     {
-        case 169:
+        case objects::door_collision_obj_169:
         case 182:
         case objects::grenade_obj_183:
         case objects::shotgun_bullet_192:
@@ -2541,67 +2541,67 @@ s32 sound_obj::ConvertToPlayBackRate_417C60(s32 car_model) const
 {
     switch (car_model)
     {
-        case 13:
-        case 36:
+        case car_model_enum::DART:
+        case car_model_enum::MESSER:
             return 22000;
-        case 2:
-        case 8:
-        case 19:
-        case 40:
-        case 53:
-        case 71:
+        case car_model_enum::amdb4:
+        case car_model_enum::bug:
+        case car_model_enum::GT24640:
+        case car_model_enum::MORRIS:
+        case car_model_enum::T2000GT:
+        case car_model_enum::WBTWIN:
             return 18000;
-        case 10:
-        case 16:
-        case 23:
-        case 24:
-        case 25:
-        case 26:
-        case 28:
-        case 29:
-        case 37:
-        case 42:
-        case 62:
-        case 67:
-        case 85:
+        case car_model_enum::BUICK:
+        case car_model_enum::FIAT:
+        case car_model_enum::HOTDOG:
+        case car_model_enum::HOTDOG_D1:
+        case car_model_enum::HOTDOG_D2:
+        case car_model_enum::HOTDOG_D3:
+        case car_model_enum::ISETLIMO:
+        case car_model_enum::ISETTA:
+        case car_model_enum::MIURA:
+        case car_model_enum::RTYPE:
+        case car_model_enum::TRANCEAM:
+        case car_model_enum::TVVAN:
+        case car_model_enum::HOTDOG_D4:
             return 24000;
-        case 1:
-        case 22:
-        case 30:
-        case 46:
-        case 49:
-        case 83:
+        case car_model_enum::allard:
+        case car_model_enum::GUNJEEP:
+        case car_model_enum::JEEP:
+        case car_model_enum::STINGRAY:
+        case car_model_enum::STRIPETB:
+        case car_model_enum::ZCX5:
             return 16000;
-        case 5:
-        case 31:
-        case 38:
-        case 57:
+        case car_model_enum::bmw:
+        case car_model_enum::JEFFREY:
+        case car_model_enum::MONSTER:
+        case car_model_enum::TBIRD:
             return 14000;
-        case 3:
-        case 11:
-        case 54:
+        case car_model_enum::apc:
+        case car_model_enum::BUS:
+        case car_model_enum::TANK:
             return 11000;
-        case 17:
-        case 21:
-        case 63:
+        case car_model_enum::FIRETRUK:
+        case car_model_enum::GTRUCK:
+        case car_model_enum::TRUKCAB1:
             return 10300;
-        case 7:
-        case 64:
-        case 86:
+        case car_model_enum::boxtruck:
+        case car_model_enum::TRUKCAB2:
+        case car_model_enum::KRSNABUS:
             return 11700;
-        case 60:
+        case car_model_enum::TRAINCAB:
             return 15000;
-        case 27:
+        case car_model_enum::ICECREAM:
             return 11025;
-        case 4:
-        case 32:
-        case 35:
-        case 41:
-        case 44:
-        case 50:
-        case 56:
-        case 70:
-        case 82:
+        case car_model_enum::bank_van:
+        case car_model_enum::LIMO:
+        case car_model_enum::MERC:
+        case car_model_enum::PICKUP:
+        case car_model_enum::SPIDER:
+        case car_model_enum::STYPE:
+        case car_model_enum::TAXI:
+        case car_model_enum::VTYPE:
+        case car_model_enum::XK120:
             return 19000;
         default:
             return 22050;
@@ -2695,15 +2695,15 @@ bool sound_obj::IsHeavyTruckOrBus_417F40(s32 car_model) const
 {
     switch (car_model)
     {
-        case 3:
-        case 7:
-        case 11:
-        case 17:
-        case 21:
-        case 58:
-        case 63:
-        case 64:
-        case 86:
+        case car_model_enum::apc:
+        case car_model_enum::boxtruck:
+        case car_model_enum::BUS:
+        case car_model_enum::FIRETRUK:
+        case car_model_enum::GTRUCK:
+        case car_model_enum::TOWTRUCK:
+        case car_model_enum::TRUKCAB1:
+        case car_model_enum::TRUKCAB2:
+        case car_model_enum::KRSNABUS:
             return true;
         default:
             return false;
@@ -2904,7 +2904,7 @@ void sound_obj::HandleCarDoorSounds_4182E0(Sound_Params* pParams)
 MATCH_FUNC(0x418610)
 void sound_obj::HandleCarEngineStartSound_418610(Sound_Params* pParams)
 {
-    if (pParams->field_0_pObj->field_8_car_bc_ptr->field_9C_engine_status == car_engine_status::unknown_4)
+    if (pParams->field_0_pObj->field_8_car_bc_ptr->field_9C_engine_status == car_engine_status::starting_4)
     {
         if (CalculateDistance_419020(Fix16(25)))
         {
@@ -3185,7 +3185,7 @@ void sound_obj::AddVocalsEntity_418C20()
         SoundObject* pSoundObj = &field_544C[0].field_8_sound_obj;
         field_544C[0].field_8_sound_obj.field_C_pAny.pAny = NULL;
         field_544C[0].field_8_sound_obj.field_4_bStatus = false;
-        pSoundObj->field_0_object_type = 10;
+        pSoundObj->field_0_object_type = SoundObjectTypeEnum::Vocals_10;
         field_544C[0].field_4_entity_idx = AddSoundObject_419FA0(pSoundObj);
     }
 }
@@ -3641,7 +3641,7 @@ s32 sound_obj::AddSoundObject_419FA0(SoundObject* pSoundObj)
                     break;
                 }
 
-                case SoundObjectTypeEnum::Unknown_2:
+                case SoundObjectTypeEnum::Frontend_2:
                 {
                     DeInitVocals_57EA10();
                     break;
@@ -3691,7 +3691,7 @@ void sound_obj::FreeSoundEntry_41A090(u32 idx)
             }
             // fall through
 
-        case SoundObjectTypeEnum::Unknown_2:
+        case SoundObjectTypeEnum::Frontend_2:
             field_3 = 0;
             gSampManager_6FFF00.FadeOut_58E490();
             break;
@@ -5658,7 +5658,7 @@ void sound_obj::ProcessPed_422B70(Sound_Params* pParams)
                 max_dist = 35;
                 break;
 
-            case ped_state_2::Unknown_26:
+            case ped_state_2::knocked_fatal_26:
                 if (!pChar->field_7C_pPed->is_player_41B0A0() && (this->field_30_sQueueSample.field_0_EntityIndex & 1) != 0)
                 {
                     return;
@@ -6304,7 +6304,7 @@ void sound_obj::GenerateRadioVehicleDescription_426F20(Car* pCar)
     u32 extra_name_word = 321;
     if (!pCar)
     {
-        if (this->field_5574_car_info_idx != 87)
+        if (this->field_5574_car_info_idx != car_model_enum::none)
         {
             if (sound_obj::GetFreeRadioWordSlots_427310() > 3u)
             {
@@ -6313,7 +6313,7 @@ void sound_obj::GenerateRadioVehicleDescription_426F20(Car* pCar)
                 sound_obj::EnqueueRadioWord_4271B0(0x63u);
                 sound_obj::EnqueueRadioWord_4271B0(0x6Eu);
             }
-            this->field_5574_car_info_idx = 87;
+            this->field_5574_car_info_idx = car_model_enum::none;
         }
     }
     else

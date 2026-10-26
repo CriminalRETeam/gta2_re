@@ -228,7 +228,7 @@ void Hud_UnderRoofArrowMarker::Draw_5CF910()
         Camera* pCam;
         pCam = pPlayer->get_camera_434900();
 
-        DrawFigure_5D7EC0(6, 0, field_0_screen_x, field_4_screen_y, field_8_rotation, pCam->field_A8_ui_scale, drawtype, 0, 1, 14, 1);
+        DrawFigure_5D7EC0(sprite_types_enum::user_6, 0, field_0_screen_x, field_4_screen_y, field_8_rotation, pCam->field_A8_ui_scale, drawtype, 0, 1, 14, 1);
     }
 }
 
@@ -462,7 +462,7 @@ void Hud_PlayerNames::DrawPlayerNames_5CFE40()
                                               xCalc,
                                               yCalc,
                                               gPlayerNameFont_7062DC,
-                                              pIter->field_78C_hud_palette_type != 7 ? 2 : 8,
+                                              pIter->field_78C_hud_palette_type != palette_types_enum::user_remaps_7 ? palette_types_enum::sprites_2 : palette_types_enum::font_remaps_8,
                                               pIter->field_790_hud_palette - 1,
                                               0,
                                               0);
@@ -934,7 +934,7 @@ void Hud_Arrow::DrawArrow_5D0C90()
             pPlayer = gGame_0x40_67E008->field_38_local_player;
             pCam = pPlayer->get_camera_434900();
 
-            DrawFigure_5D7EC0(6,
+            DrawFigure_5D7EC0(sprite_types_enum::user_6,
                               field_18_targets.field_2C_arrow_sprt_idx,
                               field_0_screen_pos_x,
                               field_4_screen_pos_y,
@@ -971,7 +971,7 @@ void Hud_Arrow::DrawArrow_5D0C90()
             pPlayer = gGame_0x40_67E008->field_38_local_player;
             pCam = pPlayer->get_camera_434900();
 
-            DrawFigure_5D7EC0(6,
+            DrawFigure_5D7EC0(sprite_types_enum::user_6,
                               colour_related + 8,
                               field_0_screen_pos_x,
                               field_4_screen_pos_y,
@@ -2990,7 +2990,7 @@ void Hud_PlayerStats::DrawPlayerStats_5D5C80()
                      gTagGame_6F8450.GetPlayerTime_4C7380(pPlayer) / 60,
                      gTagGame_6F8450.GetPlayerTime_4C7380(pPlayer) % 60);
 
-            const s32 text_palette_type = (pPlayer->field_78C_hud_palette_type != 7) ? 2 : 8;
+            const s32 text_palette_type = (pPlayer->field_78C_hud_palette_type != palette_types_enum::user_remaps_7) ? palette_types_enum::sprites_2 : palette_types_enum::font_remaps_8;
             DrawText_5D7720(Buffer, 420, 4, word_703BAA, text_palette_type, pPlayer->field_790_hud_palette - 1, 0, 0);
         }
         else
@@ -3025,7 +3025,7 @@ void Hud_PlayerStats::DrawPlayerStats_5D5C80()
                              gTagGame_6F8450.GetPlayerTime_4C7380(pMultiPlayer) / 60,
                              gTagGame_6F8450.GetPlayerTime_4C7380(pMultiPlayer) % 60);
 
-                    const s32 text_palette_type = (pMultiPlayer->field_78C_hud_palette_type != 7) ? 2 : 8;
+                    const s32 text_palette_type = (pMultiPlayer->field_78C_hud_palette_type != palette_types_enum::user_remaps_7) ? palette_types_enum::sprites_2 : palette_types_enum::font_remaps_8;
                     DrawText_5D7720(Buffer, score_end_xpos + 20, static_cast<u32>(ypos), word_703BAA, text_palette_type, pMultiPlayer->field_790_hud_palette - 1, 0, 0);
                 }
                 else
@@ -3253,7 +3253,7 @@ void Hud_PauseScreen::DrawPause_5D63B0()
                              pGang->GetArrowColourText_4BF340(),
                              value_1,
                              gScriptManager_6F8060->field_31C_gang_1_missions_total);
-                    sprite_type = 6;
+                    sprite_type = sprite_types_enum::user_6;
                     sprite_pal = pGang->field_138_arrow_colour + 63;
                     break;
 
@@ -3273,7 +3273,7 @@ void Hud_PauseScreen::DrawPause_5D63B0()
                              pGang->GetArrowColourText_4BF340(),
                              value_1,
                              gScriptManager_6F8060->field_320_gang_2_missions_total);
-                    sprite_type = 6;
+                    sprite_type = sprite_types_enum::user_6;
                     sprite_pal = pGang->field_138_arrow_colour + 63;
                     break;
 
@@ -3294,7 +3294,7 @@ void Hud_PauseScreen::DrawPause_5D63B0()
                              pGang->GetArrowColourText_4BF340(),
                              value_1,
                              gScriptManager_6F8060->field_324_gang_3_missions_total);
-                    sprite_type = 6;
+                    sprite_type = sprite_types_enum::user_6;
                     sprite_pal = pGang->field_138_arrow_colour + 63;
                     break;
 
@@ -3326,8 +3326,8 @@ void Hud_PauseScreen::DrawPause_5D63B0()
                              gText_0x14_704DFC->Find_5B5F90("psec"),
                              value_1,
                              gScriptManager_6F8060->field_318_total_secrets);
-                    sprite_type = 4;
-                    sprite_pal = gObjectDefinitions_6FCF00->GetObjectBaseSpriteIdx_4C6E30(286);
+                    sprite_type = sprite_types_enum::code_obj1_4;
+                    sprite_pal = gObjectDefinitions_6FCF00->GetObjectBaseSpriteIdx_4C6E30(objects::kill_frenzy_icon_286);
                     break;
 
                 case HudPauseSection::tokens_collected_6:
@@ -3335,8 +3335,8 @@ void Hud_PauseScreen::DrawPause_5D63B0()
                              gText_0x14_704DFC->Find_5B5F90("pbon"),
                              gGameSession_67E8E0.get_secret_tokens_collected_453A80(),
                              50);
-                    sprite_type = 4;
-                    sprite_pal = gObjectDefinitions_6FCF00->GetObjectBaseSpriteIdx_4C6E30(266);
+                    sprite_type = sprite_types_enum::code_obj1_4;
+                    sprite_pal = gObjectDefinitions_6FCF00->GetObjectBaseSpriteIdx_4C6E30(objects::secret_token_266);
                     break;
                 default:
                     break;

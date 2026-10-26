@@ -25,17 +25,17 @@ namespace power_up_indices
 {
 enum
 {
-    Unk_0 = 0,
-    Unk_1 = 1,
-    Unk_2 = 2,
+    Multiplier_0 = 0,
+    ExtraLife_1 = 1,
+    Health_2 = 2,
     Armor_3 = 3,
     JailCard_4 = 4,
-    Unk_5 = 5,
+    CopBribe_5 = 5,
     Invulnerability_6 = 6,
     DoubleDamage_7 = 7,
     FastReload_8 = 8,
     Electrofingers_9 = 9,
-    Unk_10 = 10,
+    Respect_10 = 10,
     Invisibility_11 = 11,
     InstantGang_12 = 12,
     Unk_13 = 13,
@@ -94,14 +94,14 @@ class Player
     inline bool IsWastedOrBustedNotObjective54_476700()
     {
         Ped* pPed;
-        return field_28_wasted_or_busted && field_2C_death_countdown == 2 && ((pPed = field_2C4_player_ped) == NULL || pPed->get_objective_403A80() != objectives_enum::objective_54);
+        return field_28_wasted_or_busted && field_2C_death_countdown == 2 && ((pPed = field_2C4_player_ped) == NULL || pPed->get_objective_403A80() != objectives_enum::call_police_car_54);
     }
 
     // 9.6f 0x476730
     inline bool IsBustedObjective54_476730()
     {
         Ped* pPed;
-        return field_28_wasted_or_busted && field_2C_death_countdown == 2 && (pPed = field_2C4_player_ped) != NULL && pPed->get_objective_403A80() == objectives_enum::objective_54;
+        return field_28_wasted_or_busted && field_2C_death_countdown == 2 && (pPed = field_2C4_player_ped) != NULL && pPed->get_objective_403A80() == objectives_enum::call_police_car_54;
     }
 
     // 9.6f 0x4766C0

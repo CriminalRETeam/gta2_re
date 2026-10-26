@@ -299,7 +299,7 @@ void Ped_List::ApplyPassengerBusStopBehavior_471630()
         if (pIter->field_0_char_ped->get_occupation_403980() == ped_ocupation_enum::bus_customer_8)
         {
             pIter->field_0_char_ped->SetObjective2_463830(objectives_enum::no_obj_0);
-            pIter->field_0_char_ped->SetObjective(objectives_enum::objective_34);
+            pIter->field_0_char_ped->SetObjective(objectives_enum::leave_car_and_flee_34);
             pIter->field_0_char_ped->SetTargetObjectiveCar(pIter->field_0_char_ped->field_16C_car);
         }
     }

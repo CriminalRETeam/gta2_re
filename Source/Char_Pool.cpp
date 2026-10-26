@@ -269,7 +269,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
                         pPed->set_occupation_403970(ped_ocupation_enum::armed_gang_member_19);
                         pPed->field_17C_pGang = pGang;
                         pPed->set_remap_433B90(pGang->field_101_remap);
-                        if (pPed->get_remap_433BA0() == 5)
+                        if (pPed->get_remap_433BA0() == ped_remap_enum::ped_remap_red_head_redneck)
                         {
                             if (!gRng_6F6784.get_int_4F7AE0(2))
                             {
@@ -299,7 +299,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
                         pPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
                         pPed->set_remap_433B90(pGang->field_101_remap);
                         pPed->field_26C_graphic_type = ped_graphic_type::character_1;
-                        if (pPed->get_remap_433BA0() == 5)
+                        if (pPed->get_remap_433BA0() == ped_remap_enum::ped_remap_red_head_redneck)
                         {
                             if (!gRng_6F6784.get_int_4F7AE0(2))
                             {
@@ -413,14 +413,14 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
         } // End switch
 
         if (pPed->get_occupation_403980() != ped_ocupation_enum::walking_guard_29 &&
-            pPed->get_occupation_403980() != ped_ocupation_enum::unknown_cop_occu_31)
+            pPed->get_occupation_403980() != ped_ocupation_enum::walking_army_guard_31)
         {
             pPed->AllocCharB4_45C830(xpos, ypos, zpos);
         }
 
         gSpriteGrid_1_679208->RemoveFromRegionBuckets_477B60(pPed->field_168_game_object->field_80_sprite_ptr);
 
-        if (gSpriteGrid_1_679208->FindCollidingSpritePreferType_477E60(pPed->field_168_game_object->field_80_sprite_ptr, 0))
+        if (gSpriteGrid_1_679208->FindCollidingSpritePreferType_477E60(pPed->field_168_game_object->field_80_sprite_ptr, sprite_types_enum::none_0))
         {
             pPed->ChangeNextPedState1_45C500(ped_state_1::dead_9);
             pPed->ChangeNextPedState2_45C540(ped_state_2::ped2_dead_15);
@@ -589,7 +589,7 @@ MATCH_FUNC(0x470330)
 void PedManager::Dummies_470330()
 {
     s16 max_dummies = gPedManager_6787BC->field_0_max_dummy_chars;
-    if (gPolice_7B8_6FEE40->field_654_max_wanted_level > 3)
+    if (gPolice_7B8_6FEE40->field_654_max_wanted_level > cop_level_enum::police_3)
     {
         max_dummies = static_cast<u16>(max_dummies) >> 1;
     }
@@ -820,7 +820,7 @@ Ped* PedManager::SpawnDriver_470B00(Car* pCar)
 {
     Ped* pNewPed = gPedPool_6787B8->Allocate();
     pNewPed->SetPedType_403920(ped_type::dummy_3);
-    pNewPed->set_occupation_403970(ped_ocupation_enum::unknown_2); //unknown_2;
+    pNewPed->set_occupation_403970(ped_ocupation_enum::dummy_driver_4);
     pNewPed->field_16C_car = pCar;
     pNewPed->field_168_game_object = 0;
     pNewPed->ChangeNextPedState1_45C500(ped_state_1::in_car_10);
@@ -859,7 +859,7 @@ Ped* PedManager::SpawnGangDriver_470BA0(Car* pCar, Gang* pGang)
     pNewPed->field_17C_pGang = pGang;
     pNewPed->set_remap_433B90(pGang->field_101_remap);
 
-    if (pNewPed->get_remap_433BA0() == 5)
+    if (pNewPed->get_remap_433BA0() == ped_remap_enum::ped_remap_red_head_redneck)
     {
         if (!gRng_6F6784.get_int_4F7AE0(2))
         {
@@ -886,7 +886,7 @@ Ped* PedManager::CreateDummyDriver_470CC0(Car* pCar)
     pNewPed->set_remap_433B90(-1);
     pNewPed->field_26C_graphic_type = ped_graphic_type::civilian_0;
     pNewPed->SetPedType_403920(ped_type::dummy_3);
-    pNewPed->set_occupation_403970(ped_ocupation_enum::unknown_2); //unknown_2;
+    pNewPed->set_occupation_403970(ped_ocupation_enum::dummy_driver_4);
     pNewPed->field_16C_car = pCar;
     pNewPed->field_168_game_object = 0;
     pNewPed->ChangeNextPedState1_45C500(ped_state_1::in_car_10);

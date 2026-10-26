@@ -201,7 +201,7 @@ void TextureCache::LoadStyleTextures_5B9350()
     LoadPals_5B90F0();
     ReadTextures_5B92E0();
 
-    field_1548_sprite_textures.Alloc_5B8E90(gGtx_0x106C_703DD4->GetPaletteBaseOfType_5AA560(palette_types_enum::sprites_2), 1, sprite_types_enum::unknown_0, palette_types_enum::sprites_2);
+    field_1548_sprite_textures.Alloc_5B8E90(gGtx_0x106C_703DD4->GetPaletteBaseOfType_5AA560(palette_types_enum::sprites_2), 1, sprite_types_enum::none_0, palette_types_enum::sprites_2);
     field_1548_sprite_textures.LoadTextures_5B8F00();
 
     field_155C_car_remap_textures.Alloc_5B8E90(gGtx_0x106C_703DD4->GetSpriteBaseOfType_5AA4F0(sprite_types_enum::car_2),

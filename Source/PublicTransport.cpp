@@ -1342,7 +1342,7 @@ void PublicTransport::BusesService_579CA0()
                 {
                     if (pBusCar->field_54_driver)
                     {
-                        if (pBusCar->field_54_driver->get_occupation_403980() != ped_ocupation_enum::unknown_2 &&
+                        if (pBusCar->field_54_driver->get_occupation_403980() != ped_ocupation_enum::dummy_driver_4 &&
                             pBusCar->field_54_driver->get_occupation_403980() != ped_ocupation_enum::driver)
                         {
                             field_17C0_bus.field_0_is_hijacked = 1;

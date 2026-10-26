@@ -137,7 +137,7 @@ bool EmergencyCrew::ReplaceLeaderIfNeeded_5CBC90()
                 pPedAtIdx->set_occupation_403970(ped_ocupation_enum::dummy);
                 pPedAtIdx->Kill_46F9D0();
                 pPedAtIdx->set_occupation_403970(occupation);
-                pPedAtIdx->SetObjective(objectives_enum::objective_28);
+                pPedAtIdx->SetObjective(objectives_enum::dead_patient_28);
             }
             return true;
         }
