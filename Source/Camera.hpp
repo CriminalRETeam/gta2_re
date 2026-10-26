@@ -90,7 +90,7 @@ class Camera
         *pOutY = (((y - field_98_cur_pos.field_4_y) * field_60_screen_scale.x) * scale) + Fix16(field_74_screen_px_center_y);
     }
 
-    // ProjectWorldToScreen_4B90E0 with the out-of-line Fix16 helpers (ExplodingScore::DrawNumbers_596C90)
+    // Unused. Deleting it moves a register tie-break in MapRenderer::Draw4SidedDiagonalUpLeft_4EF880.
     void ProjectWorldToScreen_OutOfLine_4B90E0(Fix16 x, Fix16 y, Fix16 z, Fix16* pOutX, Fix16* pOutY)
     {
         Fix16 scale = kFpOne_702DE4.Divide_436A20((field_98_cur_pos.field_8_z - z) + kFpEight_702E04);
