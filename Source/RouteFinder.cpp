@@ -18,7 +18,7 @@ DEFINE_GLOBAL(RouteFinder*, gRouteFinder_6FFDC8, 0x6FFDC8);
 DEFINE_GLOBAL(u16, gLastRouteLength_6FFDCC, 0x6ffdcc);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne_6FFC7C, Fix16(1), 0x6FFC7C);
 DEFINE_GLOBAL_INIT(Fix16, kFpEight_6FFC9C, Fix16(8), 0x6FFC9C);
-EXTERN_GLOBAL(s16, word_703BAA);
+EXTERN_GLOBAL(s16, gStyleTextFont_703BAA);
 
 MATCH_FUNC(0x588580)
 bool Junction::IsUsableWithArrowType_588580(s32 arrow_type)
@@ -97,7 +97,7 @@ void RouteFinder::ShowJunctionIds_588620()
                                              &screen_y);
 
             swprintf(tmpBuff_67BD9C, L"%d", i);
-            gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, screen_x.ToInt(), screen_y.ToInt(), word_703BAA, 1);
+            gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, screen_x.ToInt(), screen_y.ToInt(), gStyleTextFont_703BAA, 1);
         }
     }
 }

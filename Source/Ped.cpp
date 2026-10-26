@@ -68,10 +68,10 @@ DEFINE_GLOBAL(u8, gNumScriptCreatedPeds_6787E3, 0x6787E3);
 DEFINE_GLOBAL(u8, gNumEmergencyPeds_6787E4, 0x6787E4);
 EXTERN_GLOBAL(u8, gTargetSearchMode_6787D7);
 DEFINE_GLOBAL(u8, byte_6787D4, 0x6787D4);
-DEFINE_GLOBAL(u8, byte_678554, 0x678554);
+DEFINE_GLOBAL(u8, gPedUsedPathThisTick_678554, 0x678554);
 DEFINE_GLOBAL(u8, byte_6787D8, 0x6787D8);
-DEFINE_GLOBAL(u8, byte_6787D9, 0x6787D9);
-DEFINE_GLOBAL_INIT(u8, byte_61A8A4, 1, 0x61A8A4);
+DEFINE_GLOBAL(u8, gLosCheckRoundDone_6787D9, 0x6787D9);
+DEFINE_GLOBAL_INIT(u8, gRunPedThink_61A8A4, 1, 0x61A8A4);
 DEFINE_GLOBAL(u8, byte_6787C4, 0x6787C4);
 DEFINE_GLOBAL(s16, gNumPedsCrossingRoad_6787D0, 0x6787D0);
 DEFINE_GLOBAL(s16, gElvisVoiceTimer_6787F2, 0x6787F2);
@@ -129,7 +129,7 @@ DEFINE_GLOBAL_INIT(Fix16, kFpFiveSixteenths_678784, kFpOne64th_6784C4 * 20, 0x67
 
 DEFINE_GLOBAL_INIT(Ang16, kAng10_6784C8, Ang16(40), 0x6784C8);
 DEFINE_GLOBAL_INIT(Ang16, kAng16_6784E4, Ang16(64), 0x6784E4);
-DEFINE_GLOBAL_INIT(Ang16, word_6784F0, Ang16(0), 0x6784F0);
+DEFINE_GLOBAL_INIT(Ang16, gSearchConeHalfAngle_6784F0, Ang16(0), 0x6784F0);
 
 DEFINE_GLOBAL_INIT(Ang16, kAng90_678502, Ang16(360), 0x678502);
 DEFINE_GLOBAL_INIT(Ang16, kAng270_6785D0, Ang16(1080), 0x6785D0);
@@ -1537,7 +1537,7 @@ Ang16 Ped::ComputeAimAngle_45C9D0()
 
         if (!best)
         {
-            word_6784F0 = kAng16_6784E4;
+            gSearchConeHalfAngle_6784F0 = kAng16_6784E4;
             best = FindBestTargetPed_Mode4_466BB0(3);
         }
 
@@ -4016,14 +4016,14 @@ void Ped::UpdateOnScreenCounter_462620()
 {
     if (field_278_ped_state_1 == ped_state_1::dead_9 || field_278_ped_state_1 == ped_state_1::immobilized_8)
     {
-        byte_61A8A4 = 0;
+        gRunPedThink_61A8A4 = 0;
         field_21C_bf.bAttacking = false;
     }
     else
     {
         if (field_168_game_object->GetCharState_433A80() == Char_B4_state::Jumping_15)
         {
-            byte_61A8A4 = field_278_ped_state_1 == ped_state_1::entering_car_3;
+            gRunPedThink_61A8A4 = field_278_ped_state_1 == ped_state_1::entering_car_3;
         }
         field_21C_bf.bAttacking = false;
         field_168_game_object->SetSpriteNum_4338F0(24);
@@ -4081,12 +4081,12 @@ bool Ped::StateMachineTick_4626B0()
                 byte_6787C4 = 1;
                 if (this->field_168_game_object->GetCharState_433A80() == Char_B4_state::Jumping_15)
                 {
-                    byte_61A8A4 = this->field_278_ped_state_1 == ped_state_1::entering_car_3;
+                    gRunPedThink_61A8A4 = this->field_278_ped_state_1 == ped_state_1::entering_car_3;
                 }
 
                 if (field_278_ped_state_1 == ped_state_1::dead_9 || field_278_ped_state_1 == ped_state_1::immobilized_8)
                 {
-                    byte_61A8A4 = 0;
+                    gRunPedThink_61A8A4 = 0;
                 }
                 else
                 {
@@ -4382,7 +4382,7 @@ bool Ped::PoolUpdate()
     gTargetSearchMode_6787D7 = threat_search_enum::no_threats_0;
     gSearchingPed_6787DC = 0;
     byte_6787D4 = 0;
-    byte_678554 = 0;
+    gPedUsedPathThisTick_678554 = 0;
     field_263_prev_attackers_count = field_262_attackers_count;
     field_262_attackers_count = 0;
     field_21C_bf.bSpottedPlayer = 0;
@@ -4410,16 +4410,16 @@ bool Ped::PoolUpdate()
     {
         field_21C_bf.bFlag16 = 0;
     }
-    if (byte_6787D9 == 1)
+    if (gLosCheckRoundDone_6787D9 == 1)
     {
         field_21C_bf.bFlag19 = 0;
     }
     if (field_21C_bf.bActive == 1)
     {
-        byte_61A8A4 = 1;
+        gRunPedThink_61A8A4 = 1;
         if (Ped::StateMachineTick_4626B0())
         {
-            if (byte_61A8A4)
+            if (gRunPedThink_61A8A4)
             {
                 Ped::UpdateAI_462280();
                 gLastProcessedPed_6787C0 = this;
@@ -4477,7 +4477,7 @@ bool Ped::PoolUpdate()
                 }
             }
 
-            if (!byte_678554 && field_21C_bf.bInPathList)
+            if (!gPedUsedPathThisTick_678554 && field_21C_bf.bInPathList)
             {
                 gPathFinder_6FDEF0->field_3C_ped_list.RemovePed_471240(this);
                 field_21C_bf.bInPathList = 0;
@@ -5464,7 +5464,7 @@ void Ped::Threat_Reaction_AI_465270()
             if ((field_288_threat_search == threat_search_enum::line_of_sight_1 ||
                  field_288_threat_search == threat_search_enum::line_of_sight_player_only_6 ||
                  field_288_threat_search == threat_search_enum::line_of_sight_player_threat_only_4) &&
-                !field_21C_bf.bFlag19 && byte_61A8A2 == 1)
+                !field_21C_bf.bFlag19 && gLosCheckSlotFree_61A8A2 == 1)
             {
                 field_288_threat_search = threat_search_enum::line_of_sight_player_only_6;
                 Ped* pPlayerPed = Ped::FindBestTargetPed_Mode5_466BD0(3);
@@ -5565,7 +5565,7 @@ void Ped::Threat_Reaction_AI_465270()
                     field_288_threat_search == threat_search_enum::line_of_sight_player_only_6 ||
                     field_288_threat_search == threat_search_enum::line_of_sight_player_threat_only_4)
                 {
-                    if (!field_21C_bf.bFlag19 && byte_61A8A2 == 1)
+                    if (!field_21C_bf.bFlag19 && gLosCheckSlotFree_61A8A2 == 1)
                     {
                         pTarget = Ped::FindBestTargetPed_Mode5_466BD0(3);
                         bLineOfSightChecked = true;
@@ -5632,7 +5632,7 @@ void Ped::Threat_Reaction_AI_465270()
                     {
                         field_20C_target_unseen_counter = 0;
                     }
-                    else if (!field_21C_bf.bFlag19 && byte_61A8A2 == 1)
+                    else if (!field_21C_bf.bFlag19 && gLosCheckSlotFree_61A8A2 == 1)
                     {
                         if (!gMap_0x370_6F6268->IsProbePathClear_4E5640(gSpawnJitterScale_678618,
                                                            kFpQuarter_678484,
@@ -5668,7 +5668,7 @@ void Ped::Threat_Reaction_AI_465270()
                     bLineOfSightChecked == true)
                 {
                     field_21C_bf.bFlag19 = true;
-                    byte_61A8A2 = 0;
+                    gLosCheckSlotFree_61A8A2 = 0;
                 }
 
                 if (field_20C_target_unseen_counter > 15)
@@ -5732,7 +5732,7 @@ void Ped::Threat_Reaction_AI_465270()
                         field_288_threat_search == threat_search_enum::line_of_sight_player_only_6 ||
                         field_288_threat_search == threat_search_enum::line_of_sight_player_threat_only_4)
                     {
-                        if (!field_21C_bf.bFlag19 && byte_61A8A2 == 1)
+                        if (!field_21C_bf.bFlag19 && gLosCheckSlotFree_61A8A2 == 1)
                         {
                             pTarget = Ped::FindBestTargetPed_Mode5_466BD0(3);
                             bLineOfSightChecked = true;
@@ -5787,7 +5787,7 @@ void Ped::Threat_Reaction_AI_465270()
                         bLineOfSightChecked == true)
                     {
                         field_21C_bf.bFlag19 = true;
-                        byte_61A8A2 = 0;
+                        gLosCheckSlotFree_61A8A2 = 0;
                     }
                 }
             }
@@ -6411,9 +6411,9 @@ bool Ped::IsThreatToSearchingPed_4661F0()
                 dy = this->field_1AC_cam.y - pS->get_cam_y();
                 a = Fix16::atan2_fixed_405320(dy, dx);
                 rel = SubAng16(a, gSearchingPed_6787DC->GetRotation());
-                range = SubAng16(gDummyPedAng_6787A8, word_6784F0);
+                range = SubAng16(gDummyPedAng_6787A8, gSearchConeHalfAngle_6784F0);
 
-                if (!(rel < word_6784F0))
+                if (!(rel < gSearchConeHalfAngle_6784F0))
                 {
                     if (rel <= range)
                     {
@@ -6466,7 +6466,7 @@ bool Ped::IsThreatToSearchingPed_4661F0()
                 }
             }
 
-            word_6784F0.rValue = *reinterpret_cast<s16*>(&kAng90_6784B0);
+            gSearchConeHalfAngle_6784F0.rValue = *reinterpret_cast<s16*>(&kAng90_6784B0);
 
             {
                 Ped* pS = gSearchingPed_6787DC;
@@ -6480,9 +6480,9 @@ bool Ped::IsThreatToSearchingPed_4661F0()
                 dy2 = this->field_1AC_cam.y - pS->get_cam_y();
                 a = Fix16::atan2_fixed_405320(dy2, dx2);
                 rel = SubAng16(a, gSearchingPed_6787DC->GetRotation());
-                range = SubAng16(gDummyPedAng_6787A8, word_6784F0);
+                range = SubAng16(gDummyPedAng_6787A8, gSearchConeHalfAngle_6784F0);
 
-                if (!(rel < word_6784F0))
+                if (!(rel < gSearchConeHalfAngle_6784F0))
                 {
                     if (rel <= range)
                     {
@@ -6945,7 +6945,7 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
 
         if (!bGiveUp)
         {
-            byte_678554 = 1;
+            gPedUsedPathThisTick_678554 = 1;
             Ped::ChangeNextPedState1_45C500(ped_state_1::findind_path_2);
             Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
             if (!field_21C_bf.bInPathList)

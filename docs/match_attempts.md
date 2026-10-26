@@ -537,7 +537,7 @@ What helped:
   gives `setge` (0.612).
 - Negating the whole condition so the "not flashing" block comes first (0.647 -> 0.710).
 
-Still different: the original lays out the first-flash path (`if (!byte_6F59C0)`) right after
+Still different: the original lays out the first-flash path (`if (!gNetTimerFlashing_6F59C0)`) right after
 the condition, then the "not flashing" block and the shared pager-clear return, then the
 rest of the flash code. Ours puts the whole flash block after the not-flashing one. Also
 `test $1,%dl` vs ours `test %dl,%bl` (VC6 reuses the `bShow = 1` register). Tried: the
@@ -548,9 +548,9 @@ Oct 5 (54 lines): merging the clear and return tails into one form scored 209.
 
 Oct 9 (score 6, quick_score): the layout now matches. All that is left is `test $1,%dl` (ours
 `test %dl,%bl`). ralog shows an int constant-1 colour range (k=0x100D, prio 1) that coalesces with
-bShow in `ebx`. It exists only because of the `byte_6F59C0 = 1` store: storing 2 removes it and gives
+bShow in `ebx`. It exists only because of the `gNetTimerFlashing_6F59C0 = 1` store: storing 2 removes it and gives
 `test $1`. Its priority doesn't matter (pushed to -6 with dummy blocks, still `ebx`). The original
-keeps `mov %bl,byte_6F59C0` but tests with an immediate, so its range covers the bShow def and the
+keeps `mov %bl,gNetTimerFlashing_6F59C0` but tests with an immediate, so its range covers the bShow def and the
 store but not the `& 1`. 9.6f (0x462530, VC7) has exactly the same code. Tried with no change
 (still 6): `!(..&1)`, `& 1u`, `(u8)`/`(bool)` casts on the test, `(u32)q % 2`, an inline
 `BlinkPhase()` returning bool/s32/u8, the store written as `= bShow`/`= true`/`++`/`= !byte`, the
@@ -1176,7 +1176,7 @@ Matched (116 -> 0) with two changes:
   and globals check out. Each now has a csv row and `MATCH_FUNC`.
 
 ### ConvertCycleCount_5BEED0 (0x5BEED0): MATCH
-- `return (u32)cycles / dword_705334;`. It needed the normaliser fix for `divl mem`.
+- `return (u32)cycles / gCyclesPerMs_705334;`. It needed the normaliser fix for `divl mem`.
 
 ### arc_tan_table_init_4052D0 (0x4052D0): MATCH
 - The tangent table initialiser. The dump now reads the x87 constants of the `target_extra.json`
@@ -1190,7 +1190,7 @@ Matched (116 -> 0) with two changes:
 - A map object's sound by kind (`Object::field_26`). 40 case blocks set the sample, release,
   range, distance and volume. VC6 merges their tails, so each case is written out in full, in
   the jump table's address order. Then come countdowns for the occasional kinds, the sample
-  counter `byte_6751E4`, and the queue.
+  counter `gType12SampleIndexCounter_6751E4`, and the queue.
 - 0.716 -> 0.907: the countdown `if (!w) {...} else { w--; return; }`. 0.970: the countdown
   cases in address order and an unsigned sample index. One register difference is left.
 - Oct 5 (40 lines): the rate line. The original copies the first argument to `eax` and reloads `field_14`
@@ -1503,7 +1503,7 @@ Each was a few asm lines away from the original. What is left and what was tried
 - Matched: `Ped::CarThief_AI_45FF60` (case order 0, 35, 31, 36, 1; Kill written out at each site; inline bus model compare; `*(xd > yd ? &xd : &yd)` instead of `Max_44E540`), `Sprite::FindCollisionIntersectionPoint_5A2710` (logic fixes: restore paths use the saved angle, second-half corners from pOther, bOutSideSelf/bOutSideOther were swapped; one named result; `GetBoundingBoxCorner_562450` moved to CarPhysics.cpp)
 - Closer: `ProcessPedImpact_560B40` 0.26->0.95 (left: an EH state around the negated temporary; `throw()` on `operator/` removes it but breaks `ResolveCollisionWithObject_522710`), `EmitExplosion_18_33_541D60` 306->35
 - No change: `59EB30` ShowId, `465D00` IsPedAThreat (register rotation)
-- Unverified data: `word_61A898` now defined with initial value 40, a guess (marked TODO in Char_Pool.cpp)
+- Unverified data: `kDefaultPedOffscreenDespawnTime_61A898` now defined with initial value 40, a guess (marked TODO in Char_Pool.cpp)
 - Matched: `Hud_CarName::DrawCarName_5D4A10` and `Hud_Brief::DrawBrief_5D3B80` (the y/x positions passed as u32, so the call goes to the `Fix16(u32)` copy 0x4926F0), `CarPhysics::UpdateWheelSkidEffects_55DC00` (SpawnSkidSegment param by value, a temporary per call with an EH state; assign rather than init for the inline ApplyScale results), `Ped::FollowTargetStateMachine_46AC20` (`RegulateVelocityByRef_433970`: a by-reference argument stops VC6 tail-merging inlined calls with different arguments), `CarAI::DoShortcutsUsingJunctions_447970` (u8 x/y/z locals, `(u16)route_pos`, if/else per case, 9.6f `ContainsPoint` 0x40CEE0 used)
 - Closer: `EmitExplosion_20_542340` 239->20 (timer > 8 branch first, cos product through `Multiply_408680`), `DrawPlayerNames_5CFE40` 247->172 (WorldToScreen_40CFC0 written out), `DrawDigitsRightAligned_492260` 246->198, `CarThreadTriggers::CheckThreadTrigger_5C8780` 250->229, `DrawPlayerStatsHelper_5D61A0` (Fix16(u32) for the text x), `GetNearest{Horizontal,Vertical}EdgeToCoordinate` 5A0A70/5A1030 (one reused diff local)
 - Still unexplained: in `DrawDigitsRightAligned_492260` the original re-tests `c != '0'` and `idx == 8` after the `idx == 8` branch where ours threads the jump (`DrawDigitsLeftAligned_492430` matched by re-reading `field_9_str[idx]` at each test); `5CFE40` tests only `al` of `IsCoordsPosVisible_435A70` (bool return?); `5C8780` case 4 keeps three calls jumping to a shared compare where ours merges them
@@ -1569,7 +1569,7 @@ Each was a few asm lines away from the original. What is left and what was tried
   - 0x460820 `Ped::TaxiCustomer_AI_460820`: no change (0.824). What's left is register allocation in the Fix16 compares (lhs in ecx, constant in eax), plus the Max>2 else block placed after the `ret`. The permuter's only gain removed the `pTargetObjCar_` load, so it was rejected.
   - 0x5504F0 `Char::state_1`: 0.567->0.825. Logic fixes (`b3` set when negating velocity, electrified check vs state 15), `Ang16(a+b,(u8)0)` for the inlined Normalize, u8 tile args to `CanReachTile_550090`, `MaxAbsDistanceOOL_42A6B0`, offset math inside the `set_xyz_lazy` call. Left: the original keeps 0 in ebp throughout.
   - 0x53BAC0 `Particle_4C::sub_53BAC0` (0.31), 0x4661F0 `Ped::sub_4661F0` (0.34), 0x448CE0 `ManageTrafficCarDirection` (0.31), 0x44D1D0 `CarAI::DetectCarAhead_44D1D0` (0.11): no change, these need rewrites rather than tweaks (block layout or frame differ from the start).
-  - 0x5CBD50 `EmergencyCrew::UpdateStateMachine`: MATCH. `if (v36) {...} else {dead}` block order, a shared u8 index counter and a reused flag variable fix the stack slots, new `MaxAbsDistanceNegOOL_42A6B0` (out-of-line `Negate_4086A0` for x), a missing `dword_706148` compare.
+  - 0x5CBD50 `EmergencyCrew::UpdateStateMachine`: MATCH. `if (v36) {...} else {dead}` block order, a shared u8 index counter and a reused flag variable fix the stack slots, new `MaxAbsDistanceNegOOL_42A6B0` (out-of-line `Negate_4086A0` for x), a missing `kFpFour_706148` compare.
   - 0x4626B0 `Ped::StateMachineTick`: MATCH. Restructured without the IDA gotos (if/else layout, u16 local, `return 0` last); one goto kept to the shared final `Deallocate` block.
   - 0x4AD140 `Frontend::DrawMenu`: MATCH. A missing call to `Frontend::sub_4B7D60` (added as STUB), u8/u16 field types, u16 palette param on `DrawTextFixedWidth_4B78B0`, block-scoped locals for the frame size. Also matched 0x4B7E10 (thiscall, not static stdcall; u16 font param).
   - 0x447D40 `CarAI::TrySetTargetDirectionFromArrows_447D40`: 0.146->0.415. Angle copied to a local at entry. Left: VC6 cross-jumps shared call tails in ours that the original keeps duplicated.
@@ -2082,8 +2082,8 @@ in one expression"); the same form replaced the dead-store workaround in the mat
   no trailing `return`, `default` with break/return: all 2. Permuter 1500.
 - `TagGameHudUpdate_4DADA0` (54): the original never stores 59 to `gNetTimerBlinkCounter_6F5B74` on the first flash (jump-threaded
   into the `> 0` test with 59 in `ecx`), so the timer is likely a local (`timer = byte ? dword : 59`), but layout
-  is the gap: the original puts the `if (!byte_6F59C0)` block right after the condition, then the not-flashing
-  block + pager clear, then the rest. Tried: if/else with the rest after (B goes first, 56-211), a `byte_6F59C0`
+  is the gap: the original puts the `if (!gNetTimerFlashing_6F59C0)` block right after the condition, then the not-flashing
+  block + pager clear, then the rest. Tried: if/else with the rest after (B goes first, 56-211), a `gNetTimerFlashing_6F59C0`
   test after the if/else (threaded, 56), inline `IsTimerFlashTime` (54/142), goto (93/211). VC7 (`sc7.sh`, 9.6f has
   the same layout) puts the first-flash block after the first `||` term with the early-return form (58).
 - `gtx_0x106C::BuildCarInfoContainer_5AA9A0` (8): 9.6f has `mov %edx,%eax` before the `lea 1(%eax,%eax)`, a
@@ -3481,8 +3481,8 @@ helpers under other names, or plain Fix16/Ang16 operators.
 - The 12 WIPs out of address order in their file (582480, 4B6390, 534700, 540320, 53F4C0, 5121E0, 4E5640,
   427220, 41AB80, 4182E0, 418720, 5D9510) moved into address order: every score unchanged.
 - `check_global_inits.py`: kAngZero fixed (0x6FE3C0). Left as found (no code reads them differently):
-  `gPedOffscreenDespawnTime_678656` (copied from 0x61A898 at startup), `dword_67BBE0` (dynamic 0, probably `Fix16`),
-  `gCharB4_Saved_TileX/Y` (`kFP16Zero.ToInt()`), `dword_705334` (SpriteRenderer's rdtsc init),
+  `gPedOffscreenDespawnTime_678656` (copied from 0x61A898 at startup), `kZero_67BBE0` (dynamic 0, probably `Fix16`),
+  `gCharB4_Saved_TileX/Y` (`kFP16Zero.ToInt()`), `gCyclesPerMs_705334` (SpriteRenderer's rdtsc init),
   `gCollisionDamage_6FE33C` (no original initialiser), the debug bools (one 79-store init at 0x4AB950).
 - Address order for whole files: 34 files reordered (pure moves), 3304/3304 and every WIP score unchanged.
 - PCH: `/Yc`/`/Yu` builds of Weapon.cpp change nothing. Defining `Fix16_Point::operator+` at the end of
@@ -3968,7 +3968,7 @@ Round 6 findings (not matched):
   slot list, so it opens slot 1 before `new_z` (4 refs): with the old named `Ang16 v83(&v86, 0)` (size 4: its first
   IL reference is the ctor's `lea`) no source order could put the cosine temp at 0x0 and `v7` at 0x4. The inline budget
   then left one sine multiply too many inline (3rd kFpHalf rotation, nested budget 57, needs <= 56): two free sites
-  fixed it, both from 9.6f: the `byte_6771DC = 1/0` stores go through a setter (9.6f 0x42ACE0, a Car method there;
+  fixed it, both from 9.6f: the `gCarAIProbingAhead_6771DC = 1/0` stores go through a setter (9.6f 0x42ACE0, a Car method there;
   here a file-local `SetByte6771DC_42ACE0`) and the react switch reads `GetType_416B40()`.
 - **`CarAI::ReactToNearbyCar_451980` (96 -> 0, MATCH).** `Ang16 v21; v21 = atan2(...)` plus `v27 = v21 + kAng180`
   (9.6f's operand order) puts v21 in bp (140 alone: `cBC`/`v2` then swap edi/ebp and the field_0_car spill is split),
@@ -4081,7 +4081,7 @@ Scores are `quick_score.sh` lines. No new match; all source left as on the base.
   only the int and shifts at every site. `Fix16((s32)y)` / `Fix16(y << 14, 0)` at the FindGroundZ call: 734;
   `s32 yi = y`, `Fix16 yOff = Fix16((s32)y)`: 738.
 - `PublicTransport::SpawnTrainsFromStations_578860` (601): the original reads `stop_point->field_2_y`
-  (byte, kept in a stack temp) and `dword_6FEF88` (ebx) before the __allmul/GetWagonType calls and does the
+  (byte, kept in a stack temp) and `kTrainStopBlockOffset_6FEF88` (ebx) before the __allmul/GetWagonType calls and does the
   zext/shl/add after them; ours finishes the sum before the calls. `dword + Fix16(y)`, `mul + Fix16(x)`, a `u8 sy`
   local: 601 unchanged.
 - `CarAI::ManageTrafficCarDirection_448CE0` (1897): the original holds the constant 0x10 in ecx across the
@@ -4841,7 +4841,7 @@ root with `VC6_TOOLS`-free `patch_c2.X` set to a scratch dir, see `Scripts/regal
 - `--skeleton` scores 0 (same jumps, block order and call order); `--structure` 274. So the rest is in-block
   scheduling, slot numbering and frame size (ours 0x58, original 0x68; original `this` at 0x3C, ours 0x2C).
 - Argument evaluation order in the first arm (dir 4): the original computes the x sum (`__allmul` + `Fix16(x)`)
-  before `GetWagonType_577f80(j)` and the y sum (`Fix16(y) + dword_6FEF88`, y byte kept in a stack temp 0x2C)
+  before `GetWagonType_577f80(j)` and the y sum (`Fix16(y) + kTrainStopBlockOffset_6FEF88`, y byte kept in a stack temp 0x2C)
   after it. Ours computes the y sum before the `__allmul`, and the x sum after the call. Tried:
   - `u8 sy = stop->field_2_y` local with `Fix16(sy)` at the y arg: 601 (identical asm, VC6 CSEs it).
   - `s32 wt = GetWagonType(j)` local before the spawn: 866.
@@ -5096,8 +5096,8 @@ Scores are `NO_PCH=1 quick_score.sh` lines. Only `Source/Frontend.cpp` changed (
   a local null-first/non-null-first helper, or the direct `get_block` call: 184-714, none changes the order. The
   unfolded `test %bl,%bl` needs the and-arm to fall into a join that tests a copy; all inline forms give it only
   with the non-null arm first.
-- Late finding on 4B0220, not kept (84 -> 244): the page 5 `elements[1].font = word_703C3C` statement is the decompiler's
-  `v34`: `s16 v34 = word_703C3C;` right after `elements[1].ypos = 185` and `... = v34` after the two 197 ypos stores gives
+- Late finding on 4B0220, not kept (84 -> 244): the page 5 `elements[1].font = gFrontendHeadingFont_703C3C` statement is the decompiler's
+  `v34`: `s16 v34 = gFrontendHeadingFont_703C3C;` right after `elements[1].ypos = 185` and `... = v34` after the two 197 ypos stores gives
   the original's IL (the global load before the ypos stores, the `v2` reload, then the font store: the block-local is
   NOT forward-substituted past the this-> stores, which may alias the global). What breaks is the colour order: v34 is a
   coloured range (prio 204 = 4 x 51 ranges in the block) and takes eax before the 0xC5 constant (ecx), v2's reload

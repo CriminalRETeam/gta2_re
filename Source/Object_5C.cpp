@@ -48,7 +48,7 @@ DEFINE_GLOBAL(u32, gObj3C_live_count_6F8E54, 0x6F8E54);
 DEFINE_GLOBAL(u32, gObj8_count_6F8F18, 0x6F8F18);
 DEFINE_GLOBAL(u32, gObj8_dealloc_count_6F8DC0, 0x6F8DC0);
 DEFINE_GLOBAL(u32, gObj3C_dealloc_count_6F8F0C, 0x6F8F0C);
-DEFINE_GLOBAL(u8, byte_6F8EDC, 0x6F8EDC);
+DEFINE_GLOBAL(u8, gDoorAccessCheckActive_6F8EDC, 0x6F8EDC);
 
 DEFINE_GLOBAL_INIT(Ang16, kAng315_6F8D8C, Ang16(0x4EC), 0x6F8D8C);
 DEFINE_GLOBAL_INIT(Ang16, kAng135_6F8D80, Ang16(0x21C), 0x6F8D80);
@@ -75,7 +75,7 @@ DEFINE_GLOBAL_INIT(Fix16, kFpOne256th_6F8CF0, Fix16(0x40, 0), 0x6F8CF0);
 DEFINE_GLOBAL_INIT(Fix16, kMaxZ_6F8BFC, Fix16(0x1FF00, 0), 0x6F8BFC);
 DEFINE_GLOBAL_INIT(Fix16, kFP16Half_6F8D10, Fix16(0x2000, 0), 0x6F8D10);
 
-DEFINE_GLOBAL_INIT(u8, byte_6771DC, 0, 0x6771DC);
+DEFINE_GLOBAL_INIT(u8, gCarAIProbingAhead_6771DC, 0, 0x6771DC);
 DEFINE_GLOBAL_INIT(s32, gObj2C_id_623EC0, 1, 0x623EC0);
 
 DEFINE_GLOBAL_INIT(Fix16, kFP16One_6F8D38, kFP16One_6F8E14, 0x6F8D38);
@@ -1453,7 +1453,7 @@ bool Object::ShouldStopAtTrafficLight_525290(Sprite* pSprite)
     Car* pCar = pSprite->AsCar_40FEB0();
     if (pCar)
     {
-        if (byte_6771DC)
+        if (gCarAIProbingAhead_6771DC)
         {
             if ((field_4_sprite->field_0_rotation != kZeroAng_6F8F68 || gTrafficLights_194_705958->field_192_phase != traffic_light_phase::north_south_green_1) &&
                 (field_4_sprite->field_0_rotation != kAng90_6F8C88 || gTrafficLights_194_705958->field_192_phase != traffic_light_phase::east_west_green_4))
@@ -1487,7 +1487,7 @@ char Object::ShouldCollideWithSprite_525370(Sprite* pSprite)
             }
             else
             {
-                return byte_6F8EDC;
+                return gDoorAccessCheckActive_6F8EDC;
             }
 
         case objects::tunnel_blocker_294:
@@ -3162,7 +3162,7 @@ Object_5C::Object_5C()
     gObj3C_dealloc_count_6F8F0C = 0;
     field_58_collision_probe_sprite = 0;
     field_18_pending_damage_owner = 0;
-    byte_6F8EDC = 0;
+    gDoorAccessCheckActive_6F8EDC = 0;
 
     if (!gObject_2C_Pool_6F8F80)
     {

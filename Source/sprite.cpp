@@ -51,7 +51,7 @@ DEFINE_GLOBAL_INIT(Fix16, kFpPoint2_703424, Fix16(0xCCC, 0), 0x703424);
 DEFINE_GLOBAL_INIT(Fix16, kFP16Eight_7035E4, Fix16(8), 0x7035E4);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_703578, Fix16(256, 0), 0x703578);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_703678, kFpOne64th_703578, 0x703678);
-DEFINE_GLOBAL_INIT(Fix16, k_dword_7033C0, kFP16Eight_7035E4 - kFpOne64th_703678, 0x7033C0);
+DEFINE_GLOBAL_INIT(Fix16, kMaxSpriteZ_7033C0, kFP16Eight_7035E4 - kFpOne64th_703678, 0x7033C0);
 DEFINE_GLOBAL_INIT(Ang16, kAng90_70344C, Ang16(360), 0x70344C);
 DEFINE_GLOBAL_INIT(Ang16, kAng180_70351E, Ang16(720), 0x70351E);
 DEFINE_GLOBAL_INIT(Ang16, kAng270_703544, Ang16(1080), 0x703544);
@@ -1003,7 +1003,7 @@ void Sprite::ShowId_59EB30(f32& x, f32& y)
             Fix16 ypos;
             ypos = Fix16(static_cast<s32>((y / static_cast<f32>(static_cast<u32>(window_height_706B50))) * 480.0f));
             swprintf(tmpBuff_67BD9C, L"%d", pCar->field_6C_car_id);
-            DrawTextScaled_4BA2C0(tmpBuff_67BD9C, xpos, ypos, word_703BAA);
+            DrawTextScaled_4BA2C0(tmpBuff_67BD9C, xpos, ypos, gStyleTextFont_703BAA);
         }
         else
         {
@@ -1019,7 +1019,7 @@ void Sprite::ShowId_59EB30(f32& x, f32& y)
                 DrawText_5D8A10(tmpBuff_67BD9C,
                                 xpos * gViewCamera_676978->field_A8_ui_scale,
                                 ypos * gViewCamera_676978->field_A8_ui_scale,
-                                word_703BAA,
+                                gStyleTextFont_703BAA,
                                 gViewCamera_676978->field_A8_ui_scale,
                                 palette_type,
                                 0,
@@ -1043,7 +1043,7 @@ void Sprite::ShowId_59EB30(f32& x, f32& y)
             DrawText_5D8A10(tmpBuff_67BD9C,
                             xpos * gViewCamera_676978->field_A8_ui_scale,
                             ypos * gViewCamera_676978->field_A8_ui_scale,
-                            word_703BAA,
+                            gStyleTextFont_703BAA,
                             gViewCamera_676978->field_A8_ui_scale,
                             palette_type,
                             0,
@@ -1068,7 +1068,7 @@ void Sprite::ShowHorn_59EE40(f32& x, f32& y)
 
             if (pCar->IsEmittingHorn_411970())
             {
-                DrawTextScaled_4BA2C0(L"H", xpos, ypos, word_703BAA);
+                DrawTextScaled_4BA2C0(L"H", xpos, ypos, gStyleTextFont_703BAA);
             }
 
             Ped* pDriver = pCar->field_54_driver;
@@ -1076,7 +1076,7 @@ void Sprite::ShowHorn_59EE40(f32& x, f32& y)
             {
                 if (gPolice_7B8_6FEE40->IsActivelyChased_56F880(pDriver))
                 {
-                    DrawTextScaled_4BA2C0(L"P", xpos, ypos, word_703BAA);
+                    DrawTextScaled_4BA2C0(L"P", xpos, ypos, gStyleTextFont_703BAA);
                 }
             }
         }
@@ -1952,9 +1952,9 @@ char_type Sprite::CheckCornerZCollisions_5A1CA0(u32* pCount)
     Fix16 z_min = field_1C_zpos - (pShape->field_8_depth / 2);
     Fix16 z_max = field_1C_zpos + (pShape->field_8_depth / 2);
 
-    if (z_max > k_dword_7033C0)
+    if (z_max > kMaxSpriteZ_7033C0)
     {
-        z_max = k_dword_7033C0;
+        z_max = kMaxSpriteZ_7033C0;
     }
 
     if (gMap_0x370_6F6268->CheckZCollisionAtCoord_4E5300(pShape->field_C_corners[0].x, pShape->field_C_corners[0].y, z_min, z_max))
@@ -2046,9 +2046,9 @@ bool Sprite::CheckMapZCollision_5A21F0()
     Fix16 half = this->field_C_pCollisionShape->field_8_depth / 2; // which union type ??
     Fix16 zLow = field_1C_zpos - half;
     Fix16 zHigh = field_1C_zpos + half;
-    if (zHigh > k_dword_7033C0)
+    if (zHigh > kMaxSpriteZ_7033C0)
     {
-        zHigh = k_dword_7033C0;
+        zHigh = kMaxSpriteZ_7033C0;
     }
     return gMap_0x370_6F6268->CheckZCollisionAtCoord_4E5300(field_14_xy.x, field_14_xy.y, zLow, zHigh);
 }

@@ -37,9 +37,9 @@ DEFINE_GLOBAL(Fix16, gScreenScaleBottom_6F633C, 0x6F633C);
 DEFINE_GLOBAL(Fix16, gZCoordFp_6F6518, 0x6F6518);
 DEFINE_GLOBAL_INIT(s8, gDiagonalLidType_620F20, -1, 0x620F20);  // OBS: workaround
 DEFINE_GLOBAL_ARRAY_INIT(s32, kLidFlags_620FA4, 8, 0x620FA4, 0 COMMA 8 COMMA 0x20 COMMA 0x28 COMMA 0x40 COMMA 0x48 COMMA 0x60 COMMA 0x68);
-DEFINE_GLOBAL_ARRAY_INIT(s32, dword_621004, 8, 0x621004, 0x65 COMMA 0x75 COMMA 5 COMMA 0x15 COMMA 0x25 COMMA 0x35 COMMA 0x45 COMMA 0x55);
-DEFINE_GLOBAL_ARRAY_INIT(s32, dword_621024, 8, 0x621024, 5 COMMA 0x0D COMMA 0x25 COMMA 0x2D COMMA 0x45 COMMA 0x4D COMMA 0x65 COMMA 0x6D);
-DEFINE_GLOBAL_ARRAY_INIT(s32, dword_620FE4, 8, 0x620FE4, 0x25 COMMA 0x35 COMMA 0x45 COMMA 0x55 COMMA 0x65 COMMA 0x75 COMMA 5 COMMA 0x15);
+DEFINE_GLOBAL_ARRAY_INIT(s32, kDiagonalRightFlags_621004, 8, 0x621004, 0x65 COMMA 0x75 COMMA 5 COMMA 0x15 COMMA 0x25 COMMA 0x35 COMMA 0x45 COMMA 0x55);
+DEFINE_GLOBAL_ARRAY_INIT(s32, kDiagonalLidFlags_621024, 8, 0x621024, 5 COMMA 0x0D COMMA 0x25 COMMA 0x2D COMMA 0x45 COMMA 0x4D COMMA 0x65 COMMA 0x6D);
+DEFINE_GLOBAL_ARRAY_INIT(s32, kDiagonalLeftFlags_620FE4, 8, 0x620FE4, 0x25 COMMA 0x35 COMMA 0x45 COMMA 0x55 COMMA 0x65 COMMA 0x75 COMMA 5 COMMA 0x15);
 DEFINE_GLOBAL_ARRAY_INIT(s32, kBottomSideFlags_620F84, 8, 0x620F84, 2 COMMA 0xA COMMA 0x22 COMMA 0x2A COMMA 0x42 COMMA 0x4A COMMA 0x62 COMMA 0x6A);
 DEFINE_GLOBAL_ARRAY_INIT(s32, kRightSideFlags_620F44, 8, 0x620F44, 0x64 COMMA 0x74 COMMA 0x4 COMMA 0x14 COMMA 0x24 COMMA 0x34 COMMA 0x44 COMMA 0x54);
 DEFINE_GLOBAL_ARRAY_INIT(s32, kLeftSideFlags_620F24, 8, 0x620F24, 0x23 COMMA 0x33 COMMA 0x43 COMMA 0x53 COMMA 0x63 COMMA 0x73 COMMA 0x3 COMMA 0x13);
@@ -1076,7 +1076,7 @@ void MapRenderer::DrawDiagonalUpLeftFace_4EC450(u16& left_word)
         gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC, gYCoord_6F63B8 + kZeroOnePoint_6F6484.y, &gTileVerts_6F65A8[2]);
         gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC, gYCoord_6F63B8 + kZeroOnePoint_6F6484.y, &gTileVerts_6F65A8[3]);
 
-        gTileDrawFlags_6F6560 = dword_620FE4[left_word >> 13];
+        gTileDrawFlags_6F6560 = kDiagonalLeftFlags_620FE4[left_word >> 13];
         u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(left_word & block_face::tile_idx_mask);
         if (texture_idx)
         {
@@ -1105,7 +1105,7 @@ void MapRenderer::DrawDiagonalUpRightFace_4EC7A0(u16& right_word)
         gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + kZeroOnePoint_6F6484.y, gYCoord_6F63B8 + kZeroOnePoint_6F6484.y, &gTileVerts_6F65A8[2]);
         gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + kZeroOnePoint_6F6484.y, gYCoord_6F63B8 + kZeroOnePoint_6F6484.y, &gTileVerts_6F65A8[3]);
 
-        gTileDrawFlags_6F6560 = dword_621004[right_word >> 13];
+        gTileDrawFlags_6F6560 = kDiagonalRightFlags_621004[right_word >> 13];
         u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(right_word & block_face::tile_idx_mask);
         if (texture_idx)
         {
@@ -1134,7 +1134,7 @@ void MapRenderer::DrawDiagonalDownLeftFace_4ECAF0(u16& left_word)
     {
         gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC + kZeroOnePoint_6F6484.y, gYCoord_6F63B8 + kZeroOnePoint_6F6484.y, &gTileVerts_6F65A8[2]);
         gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC + kZeroOnePoint_6F6484.y, gYCoord_6F63B8 + kZeroOnePoint_6F6484.y, &gTileVerts_6F65A8[3]);
-        gTileDrawFlags_6F6560 = dword_620FE4[left_word >> 13];
+        gTileDrawFlags_6F6560 = kDiagonalLeftFlags_620FE4[left_word >> 13];
         u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(left_word & block_face::tile_idx_mask);
         if (texture_idx)
         {
@@ -1163,7 +1163,7 @@ void MapRenderer::DrawDiagonalDownRightFace_4ECE40(u16& right_word)
     {
         gVertProjector2.ProjectVertBottom_46BDF0(gXCoord_6F63AC, gYCoord_6F63B8 + kZeroOnePoint_6F6484.y, &gTileVerts_6F65A8[2]);
         gVertProjector2.ProjectVertTop_46BD40(gXCoord_6F63AC, gYCoord_6F63B8 + kZeroOnePoint_6F6484.y, &gTileVerts_6F65A8[3]);
-        gTileDrawFlags_6F6560 = dword_621004[right_word >> 13];
+        gTileDrawFlags_6F6560 = kDiagonalRightFlags_621004[right_word >> 13];
         u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(right_word & block_face::tile_idx_mask);
         if (texture_idx)
         {
@@ -1370,12 +1370,12 @@ void MapRenderer::draw_lid_4EE130()
                     memcpy(&gTileVerts_6F65A8[6], &gTileVerts_6F65A8[7], sizeof(Vert));
                     memcpy(&gTileVerts_6F65A8[3], &gTileVerts_6F65A8[0], sizeof(Vert));
                     memcpy(&gTileVerts_6F65A8[7], &gTileVerts_6F65A8[4], sizeof(Vert));
-                    gTileDrawFlags_6F6560 = dword_621004[static_cast<u16>(gLidType_6F6274) >> 13];
+                    gTileDrawFlags_6F6560 = kDiagonalRightFlags_621004[static_cast<u16>(gLidType_6F6274) >> 13];
                     break;
                 case 1:
                     memcpy(&gTileVerts_6F65A8[1], &gTileVerts_6F65A8[2], sizeof(Vert));
                     memcpy(&gTileVerts_6F65A8[5], &gTileVerts_6F65A8[6], sizeof(Vert));
-                    gTileDrawFlags_6F6560 = dword_621024[static_cast<u16>(gLidType_6F6274) >> 13];
+                    gTileDrawFlags_6F6560 = kDiagonalLidFlags_621024[static_cast<u16>(gLidType_6F6274) >> 13];
                     break;
                 case 2:
                     memcpy(&gTileVerts_6F65A8[2], &gTileVerts_6F65A8[1], sizeof(Vert));
@@ -1384,12 +1384,12 @@ void MapRenderer::draw_lid_4EE130()
                     memcpy(&gTileVerts_6F65A8[5], &gTileVerts_6F65A8[4], sizeof(Vert));
                     memcpy(&gTileVerts_6F65A8[0], &gTileVerts_6F65A8[3], sizeof(Vert));
                     memcpy(&gTileVerts_6F65A8[4], &gTileVerts_6F65A8[7], sizeof(Vert));
-                    gTileDrawFlags_6F6560 = dword_620FE4[static_cast<u16>(gLidType_6F6274) >> 13];
+                    gTileDrawFlags_6F6560 = kDiagonalLeftFlags_620FE4[static_cast<u16>(gLidType_6F6274) >> 13];
                     break;
                 case 3:
                     memcpy(&gTileVerts_6F65A8[3], &gTileVerts_6F65A8[0], sizeof(Vert));
                     memcpy(&gTileVerts_6F65A8[7], &gTileVerts_6F65A8[4], sizeof(Vert));
-                    gTileDrawFlags_6F6560 = dword_621024[static_cast<u16>(gLidType_6F6274) >> 13];
+                    gTileDrawFlags_6F6560 = kDiagonalLidFlags_621024[static_cast<u16>(gLidType_6F6274) >> 13];
                     break;
                 default:
                     break;

@@ -29,7 +29,7 @@ EXTERN_GLOBAL(s32, window_height_706B50);
 DEFINE_GLOBAL(DWORD, gWindowRight_70675C, 0x70675C);
 DEFINE_GLOBAL(DWORD, gWindowBottom_70679C, 0x70679C);
 
-//u16 word_703BAA; //DEFINE_GLOBAL(u16, word_703BAA, 0x703BAA);
+//u16 gStyleTextFont_703BAA; //DEFINE_GLOBAL(u16, gStyleTextFont_703BAA, 0x703BAA);
 
 MATCH_FUNC(0x495470)
 void __stdcall DrawTextureScaled_495470(STexture* pTexture, Fix16 x_pos, Fix16 y_pos, u8 width, u8 height, Ang16 rotation, s32 alpha_value, u8 alpha_flag)

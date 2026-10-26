@@ -62,8 +62,8 @@ struct UnknownDebugClass
     EXPORT void DoTest_5B2640(u16 action);
     EXPORT void DoBrianTest_42D870(u16 action);
 };
-DEFINE_GLOBAL(UnknownDebugClass*, dword_7044A0, 0x7044A0);
-DEFINE_GLOBAL(UnknownDebugClass*, dword_675F74, 0x675F74);
+DEFINE_GLOBAL(UnknownDebugClass*, gTestObj_7044A0, 0x7044A0);
+DEFINE_GLOBAL(UnknownDebugClass*, gBrianTestObj_675F74, 0x675F74);
 
 DEFINE_GLOBAL(Hud_Arrow*, gTestArrow_70416C, 0x70416C);
 DEFINE_GLOBAL(Car*, gTestArrowCar_7043F0, 0x7043F0);
@@ -1194,11 +1194,11 @@ void Player::Hud_Controls_565890(u16 action)
             case DIK_0:
                 if (bDo_test_67D4F8)
                 {
-                    dword_7044A0->DoTest_5B2640(action);
+                    gTestObj_7044A0->DoTest_5B2640(action);
                 }
                 if (bDo_brian_test_67D544)
                 {
-                    dword_675F74->DoBrianTest_42D870(action);
+                    gBrianTestObj_675F74->DoBrianTest_42D870(action);
                 }
                 else if (bDo_iain_test_67D4E9)
                 {

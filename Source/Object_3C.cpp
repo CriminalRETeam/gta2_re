@@ -10,7 +10,7 @@
 #include "rng.hpp"
 #include "sprite.hpp"
 
-DEFINE_GLOBAL_INIT(Fix16, dword_6F8BF0, Fix16(255), 0x6F8BF0);
+DEFINE_GLOBAL_INIT(Fix16, kFp255_6F8BF0, Fix16(255), 0x6F8BF0);
 DEFINE_GLOBAL(Ang16, kZeroAng_6F8F68, 0x6F8F68);
 DEFINE_GLOBAL(SpriteList, stru_67727C, 0x67727C);
 
@@ -48,10 +48,10 @@ Object_3C::Object_3C()
 {
     this->field_4_angle = 0;
     this->mpNext = 0;
-    this->field_1C_z_accel = dword_6F8BF0;
-    this->field_18_friction = dword_6F8BF0;
-    this->field_10_z_speed = dword_6F8BF0;
-    this->field_C_speed = dword_6F8BF0;
+    this->field_1C_z_accel = kFp255_6F8BF0;
+    this->field_18_friction = kFp255_6F8BF0;
+    this->field_10_z_speed = kFp255_6F8BF0;
+    this->field_C_speed = kFp255_6F8BF0;
     this->field_4_angle = kZeroAng_6F8F68;
     this->field_28_next_definition_timer = 0;
     this->field_20_obj2c_id = 0;

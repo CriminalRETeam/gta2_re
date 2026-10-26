@@ -50,7 +50,7 @@ EXPORT void __stdcall DrawText_5D8A10(const wchar_t* pText,
                                       s32 alpha_value,
                                       u8 flags);
 
-//extern u16 word_703BAA; //EXTERN_GLOBAL(u16, word_703BAA);
+//extern u16 gStyleTextFont_703BAA; //EXTERN_GLOBAL(u16, gStyleTextFont_703BAA);
 
 EXPORT void __stdcall DrawTexture_5D8470(STexture* pTexture,
                                  Fix16 x_pos,

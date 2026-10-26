@@ -10,7 +10,7 @@
 DEFINE_GLOBAL(NetPlay, gNetPlay_7071E8, 0x7071E8);
 DEFINE_GLOBAL_INIT(GUID, kGta2_DP_Guid_5FE928, {0x561E8920 COMMA 0x5C70 COMMA 0x11D2 COMMA {0xAD COMMA 0x00 COMMA 0x00 COMMA 0xA0 COMMA 0xC9 COMMA 0xB6 COMMA 0x13 COMMA 0x98}}, 0x5FE928);
 DEFINE_GLOBAL_ARRAY(s32, gLastPlayerInputs_6F8A4C, 6, 0x6F8A4C);
-DEFINE_GLOBAL_ARRAY(char_type, byte_6F8A64, 24, 0x6F8A64);
+DEFINE_GLOBAL_ARRAY(char_type, gLastPlayerInputSeq_6F8A64, 24, 0x6F8A64);
 
 // 9.6f 0x409C50
 // Signed difference between two 8-bit sequence numbers, allowing for wrap around
@@ -57,7 +57,7 @@ NetPlay::NetPlay()
     memset(&field_30_enumed_connections, 0, sizeof(field_30_enumed_connections));
     memset(&field_758_n2, 0, sizeof(field_758_n2));
     memset(gLastPlayerInputs_6F8A4C, 0xFF, sizeof(gLastPlayerInputs_6F8A4C));
-    memset(byte_6F8A64, 0, sizeof(byte_6F8A64));
+    memset(gLastPlayerInputSeq_6F8A64, 0, sizeof(gLastPlayerInputSeq_6F8A64));
     field_5DC_handle = CreateEventA(NULL, FALSE, FALSE, NULL);
     field_8EC_unused = 0;
     field_48_net_state = 5;
@@ -1169,9 +1169,9 @@ void NetPlay::MakeSendData_51F420(Packet_SubType_3* pPacket, s32* pData, u32* pD
                     case packet_subtype::PlayerInputs_3: // In-Game data?
                     {
                         s32 idx = GetPlayerIdx_409C40();
-                        if (SeqDiff(pPacket->field_8_seq, byte_6F8A64[idx]) == 1 && gLastPlayerInputs_6F8A4C[idx] == *static_cast<s32*>(pPacket->field_D_data))
+                        if (SeqDiff(pPacket->field_8_seq, gLastPlayerInputSeq_6F8A64[idx]) == 1 && gLastPlayerInputs_6F8A4C[idx] == *static_cast<s32*>(pPacket->field_D_data))
                         {
-                            byte_6F8A64[idx] = pPacket->field_8_seq;
+                            gLastPlayerInputSeq_6F8A64[idx] = pPacket->field_8_seq;
                             pBuffer[0] = pkt_data_type::PlayerTickOnly_9;
                             pBuffer[1] = pPacket->field_8_seq;
                             *pDataLen = 2;
@@ -1188,10 +1188,10 @@ void NetPlay::MakeSendData_51F420(Packet_SubType_3* pPacket, s32* pData, u32* pD
                             memcpy(pBuffer + 2, pPacket->field_D_data, pPacket->field_11_len);
                             *pDataLen = pPacket->field_11_len + 2;
                             idx = GetPlayerIdx_409C40();
-                            if (SeqDiff(pPacket->field_8_seq, byte_6F8A64[idx]) == 1)
+                            if (SeqDiff(pPacket->field_8_seq, gLastPlayerInputSeq_6F8A64[idx]) == 1)
                             {
                                 gLastPlayerInputs_6F8A4C[idx] = *static_cast<s32*>(pPacket->field_D_data);
-                                byte_6F8A64[GetPlayerIdx_409C40()] = pPacket->field_8_seq;
+                                gLastPlayerInputSeq_6F8A64[GetPlayerIdx_409C40()] = pPacket->field_8_seq;
                             }
                         }
                         break;
@@ -2124,7 +2124,7 @@ void NetPlay::ResolvePlayerInput_521820(s32** ppData, s32 idx)
     {
         gLastPlayerInputs_6F8A4C[idx] = *p;
     }
-    byte_6F8A64[idx] = field_758_n2.field_8_packet_game_tick[idx];
+    gLastPlayerInputSeq_6F8A64[idx] = field_758_n2.field_8_packet_game_tick[idx];
 }
 
 MATCH_FUNC(0x521870)

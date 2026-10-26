@@ -28,7 +28,7 @@
 
 DEFINE_GLOBAL(Hud*, gHud_2B00_706620, 0x706620);
 DEFINE_GLOBAL(s16, gDebugFont_706600, 0x706600);
-DEFINE_GLOBAL(s16, word_7064B8, 0x7064B8);
+DEFINE_GLOBAL(s16, gPickupTextFont_7064B8, 0x7064B8);
 DEFINE_GLOBAL(u16, gZoneNameFont_706618, 0x706618);
 DEFINE_GLOBAL(s16, gCarNameFont_706508, 0x706508);
 DEFINE_GLOBAL(u16, gPlayerStatsFont_70646C, 0x70646C);
@@ -270,7 +270,7 @@ void Hud_ShowCoords::ShowPlayerCoords_5CF970()
                  pPed->get_cam_z().AsDouble(),
                  pZoneName);
 
-        Hud_TextEntry* pTextEntry = gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, -1, 16, word_7064B8, 1);
+        Hud_TextEntry* pTextEntry = gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, -1, 16, gPickupTextFont_7064B8, 1);
         pTextEntry->SetDrawKind8_45AFD0(0);
     }
 }
@@ -2623,7 +2623,7 @@ void Hud_PickupText::CalcTextWidth_5D53E0()
 {
     if (field_0_timer)
     {
-        field_84_text_width = Frontend::GetMaxTextWidth_5D8990(field_2_str, word_7064B8);
+        field_84_text_width = Frontend::GetMaxTextWidth_5D8990(field_2_str, gPickupTextFont_7064B8);
     }
 }
 
@@ -2632,7 +2632,7 @@ void Hud_PickupText::Draw_5D5420()
 {
     if (field_0_timer)
     {
-        DrawText_5D7720(field_2_str, (640 - field_84_text_width) / 2, 32, word_7064B8, palette_types_enum::font_remaps_8, 5, 0, 0);
+        DrawText_5D7720(field_2_str, (640 - field_84_text_width) / 2, 32, gPickupTextFont_7064B8, palette_types_enum::font_remaps_8, 5, 0, 0);
     }
 }
 
@@ -2991,7 +2991,7 @@ void Hud_PlayerStats::DrawPlayerStats_5D5C80()
                      gTagGame_6F8450.GetPlayerTime_4C7380(pPlayer) % 60);
 
             const s32 text_palette_type = (pPlayer->field_78C_hud_palette_type != palette_types_enum::user_remaps_7) ? palette_types_enum::sprites_2 : palette_types_enum::font_remaps_8;
-            DrawText_5D7720(Buffer, 420, 4, word_703BAA, text_palette_type, pPlayer->field_790_hud_palette - 1, 0, 0);
+            DrawText_5D7720(Buffer, 420, 4, gStyleTextFont_703BAA, text_palette_type, pPlayer->field_790_hud_palette - 1, 0, 0);
         }
         else
         {
@@ -3026,7 +3026,7 @@ void Hud_PlayerStats::DrawPlayerStats_5D5C80()
                              gTagGame_6F8450.GetPlayerTime_4C7380(pMultiPlayer) % 60);
 
                     const s32 text_palette_type = (pMultiPlayer->field_78C_hud_palette_type != palette_types_enum::user_remaps_7) ? palette_types_enum::sprites_2 : palette_types_enum::font_remaps_8;
-                    DrawText_5D7720(Buffer, score_end_xpos + 20, static_cast<u32>(ypos), word_703BAA, text_palette_type, pMultiPlayer->field_790_hud_palette - 1, 0, 0);
+                    DrawText_5D7720(Buffer, score_end_xpos + 20, static_cast<u32>(ypos), gStyleTextFont_703BAA, text_palette_type, pMultiPlayer->field_790_hud_palette - 1, 0, 0);
                 }
                 else
                 {
@@ -3454,11 +3454,11 @@ void Hud::SetFontTypes_5D6B00()
 {
     if (gText_0x14_704DFC->LangIsJapanese_452E60())
     {
-        word_7064B8 = 103;
+        gPickupTextFont_7064B8 = 103;
         gCarNameFont_706508 = 104;
         gZoneNameFont_706618 = 105;
         gBriefFont_7065C4 = 107;
-        gPlayerStatsFont_70646C = word_703BAA;
+        gPlayerStatsFont_70646C = gStyleTextFont_703BAA;
         gMessageFont_7062F0 = 203;
         gDebugFont_706600 = 103;
         gPauseFont_7063F8 = 201;
@@ -3469,16 +3469,16 @@ void Hud::SetFontTypes_5D6B00()
     else
     {
         gCarNameFont_706508 = gStyleCarNameFont_703D98;
-        word_7064B8 = word_703BAA;
+        gPickupTextFont_7064B8 = gStyleTextFont_703BAA;
         gZoneNameFont_706618 = gStyleZoneNameFont_703C9C;
-        gBriefFont_7065C4 = word_703BAA;
-        gPlayerStatsFont_70646C = word_703BAA;
+        gBriefFont_7065C4 = gStyleTextFont_703BAA;
+        gPlayerStatsFont_70646C = gStyleTextFont_703BAA;
         gMessageFont_7062F0 = gStyleMessageFont_703D9C;
-        gDebugFont_706600 = word_703BAA;
-        word_7064D8 = word_703BAA;
+        gDebugFont_706600 = gStyleTextFont_703BAA;
+        word_7064D8 = gStyleTextFont_703BAA;
         gPauseFont_7063F8 = gStylePauseFont_703DA4;
-        gPlayerNameFont_7062DC = word_703BAA;
-        word_70643E = word_703BAA;
+        gPlayerNameFont_7062DC = gStyleTextFont_703BAA;
+        word_70643E = gStyleTextFont_703BAA;
     }
 }
 

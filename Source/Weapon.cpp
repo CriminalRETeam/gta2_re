@@ -73,7 +73,7 @@ DEFINE_GLOBAL_INIT(Fix16, kFpOneEighth_706D88, kFpOne64th_706F70 * 8, 0x706D88);
 // loads it with a 32-bit mov in dual_pistol_5DDA70 instead of the original's 16-bit mov/sub.
 EXTERN_GLOBAL(Ang16, kAng12_706D5E);
 // Keeps its old name (6 degrees): the name sets its .bss offset, which shotgun_5DD290 depends on (docs/matching_quirks.md)
-DEFINE_GLOBAL_INIT(Ang16, word_707002, Ang16(24), 0x707002);
+DEFINE_GLOBAL_INIT(Ang16, kShotgunInnerSpread_707002, Ang16(24), 0x707002);
 DEFINE_GLOBAL_INIT(Ang16, kAng24_706D5C, Ang16(96), 0x706D5C);
 DEFINE_GLOBAL_INIT(Ang16, kAngZero_707006, Ang16(0), 0x707006);
 
@@ -335,9 +335,9 @@ void Weapon::shotgun_5DD290()
         if (!field_4_bTargetHit)
         {
             Object* pBullet_1 = Weapon::spawn_bullet_5DCF60(objects::shotgun_bullet_192, x, y, z, Ang16(kAng12_706D5E.rValue + ped_rotation.rValue, static_cast<u8>(0)), vector);
-            Object* pBullet_2 = Weapon::spawn_bullet_5DCF60(objects::shotgun_bullet_192, x, y, z, Ang16(word_707002.rValue + ped_rotation.rValue, static_cast<u8>(0)), vector);
+            Object* pBullet_2 = Weapon::spawn_bullet_5DCF60(objects::shotgun_bullet_192, x, y, z, Ang16(kShotgunInnerSpread_707002.rValue + ped_rotation.rValue, static_cast<u8>(0)), vector);
             Object* pBullet_3 = Weapon::spawn_bullet_5DCF60(objects::shotgun_bullet_192, x, y, z, ped_rotation, vector);
-            Object* pBullet_4 = Weapon::spawn_bullet_5DCF60(objects::shotgun_bullet_192, x, y, z, Ang16(ped_rotation.rValue - word_707002.rValue, static_cast<u8>(0)), vector);
+            Object* pBullet_4 = Weapon::spawn_bullet_5DCF60(objects::shotgun_bullet_192, x, y, z, Ang16(ped_rotation.rValue - kShotgunInnerSpread_707002.rValue, static_cast<u8>(0)), vector);
             Object* pBullet_5 = Weapon::spawn_bullet_5DCF60(objects::shotgun_bullet_192, x, y, z, Ang16(ped_rotation.rValue - kAng12_706D5E.rValue, static_cast<u8>(0)), vector);
             if ((pBullet_1 || pBullet_2 || pBullet_3 || pBullet_4 || pBullet_5) && field_24_pPed->PedTypeIs_45EDE0(ped_type::player_2))
             {

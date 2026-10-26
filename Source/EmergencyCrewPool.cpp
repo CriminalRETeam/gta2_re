@@ -5,7 +5,7 @@
 #include "PedGroup.hpp"
 
 DEFINE_GLOBAL(EmergencyCrewPool*, gEmergencyCrewPool_706280, 0x706280);
-DEFINE_GLOBAL_INIT(Fix16, dword_706148, Fix16(4), 0x706148);
+DEFINE_GLOBAL_INIT(Fix16, kFpFour_706148, Fix16(4), 0x706148);
 
 MATCH_FUNC(0x4beb00)
 EmergencyCrew::EmergencyCrew()
@@ -234,7 +234,7 @@ void EmergencyCrew::UpdateStateMachine_5CBD50()
                     if (Fix16::MaxAbsDistance_42A6B0(field_4_ped->get_cam_x(),
                                                      field_4_ped->get_cam_y(),
                                                      field_0_car->field_50_car_sprite->field_14_xy.x,
-                                                     field_0_car->field_50_car_sprite->field_14_xy.y) > dword_706148)
+                                                     field_0_car->field_50_car_sprite->field_14_xy.y) > kFpFour_706148)
                     {
                         bCarGone = 1;
                     }
