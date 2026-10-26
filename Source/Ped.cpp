@@ -8799,10 +8799,10 @@ void Ped::FollowCarOnFootWithOffset_46A350()
 MATCH_FUNC(0x46a530)
 void Ped::FireAtObject_46A530()
 {
-    AttachedSprite* pSprite_148 = field_16C_car->field_0_attachments.GetSpriteForModel_5A6A50(objects::tank_cannon_148);
-    Sprite* pSprite_18 = pSprite_148->field_0_pSprite;
-    Fix16 x_v = pSprite_18->field_14_xy.x;
-    Fix16 y_v = pSprite_18->field_14_xy.y;
+    AttachedSprite* pCannon = field_16C_car->field_0_attachments.GetSpriteForModel_5A6A50(objects::tank_cannon_148);
+    Sprite* pCannonSprite = pCannon->field_0_pSprite;
+    Fix16 x_v = pCannonSprite->field_14_xy.x;
+    Fix16 y_v = pCannonSprite->field_14_xy.y;
     Ang16 aim_angle;
     aim_angle = Fix16::atan2_fixed_405320(field_1A0_objective_target_object->field_4_sprite->field_14_xy.y - y_v,
                                    field_1A0_objective_target_object->field_4_sprite->field_14_xy.x - x_v);
@@ -8831,9 +8831,9 @@ void Ped::FireAtPlayer_46A5E0()
     Ped* pPlayerPed = gGame_0x40_67E008->field_38_local_player->field_2C4_player_ped;
     if (!pPlayerPed->IsInvisibleOnFoot_433DA0())
     {
-        Sprite* pSprite_148 = field_16C_car->field_0_attachments.GetSpriteForModel_5A6A50(objects::tank_cannon_148)->field_0_pSprite;
-        Fix16 x = pSprite_148->field_14_xy.x;
-        Fix16 y = pSprite_148->field_14_xy.y;
+        Sprite* pCannonSprite = field_16C_car->field_0_attachments.GetSpriteForModel_5A6A50(objects::tank_cannon_148)->field_0_pSprite;
+        Fix16 x = pCannonSprite->field_14_xy.x;
+        Fix16 y = pCannonSprite->field_14_xy.y;
         Ang16 aim_angle;
         aim_angle = Fix16::atan2_fixed_405320(pPlayerPed->get_cam_y() - y, pPlayerPed->get_cam_x() - x);
 
@@ -9282,7 +9282,7 @@ MATCH_FUNC(0x46b2f0)
 void Ped::PullDriverOutOfCarStateMachine_46B2F0()
 {
 
-    u8 door_num;
+    u8 door_idx;
     Car* pCar = field_14C_internal_target_ped->field_16C_car;
     field_24C_target_car_door = 0;
     if (field_14C_internal_target_ped->field_168_game_object)
@@ -9300,12 +9300,12 @@ void Ped::PullDriverOutOfCarStateMachine_46B2F0()
         return;
     }
 
-    for (door_num = 0; door_num < static_cast<u8>(pCar->GetDoorCount_43B360()); door_num++)
+    for (door_idx = 0; door_idx < static_cast<u8>(pCar->GetDoorCount_43B360()); door_idx++)
     {
-        if (pCar->IsDoorAccessible_43AFE0(door_num))
+        if (pCar->IsDoorAccessible_43AFE0(door_idx))
         {
-            field_24C_target_car_door = door_num;
-            pCar->GetDoorWorldPosition_43B5A0(door_num, &field_1C4_move_target_x, &field_1C8_move_target_y);
+            field_24C_target_car_door = door_idx;
+            pCar->GetDoorWorldPosition_43B5A0(door_idx, &field_1C4_move_target_x, &field_1C8_move_target_y);
             field_1CC_move_target_z = field_14C_internal_target_ped->field_1AC_cam.z;
             field_168_game_object->Set_F84_433900(pCar);
 
@@ -9735,9 +9735,9 @@ void Ped::EnterCarStateMachine_46BDC0()
     }
 
     this->field_168_game_object->Set_F84_433900(this->field_154_target_to_enter);
-    const bool isPedKind = IsLawEnforcement_45B4E0();
+    const bool bIsLawEnforcement = IsLawEnforcement_45B4E0();
     Fix16 vel_to_check = kFpPoint2_67856C;
-    if (isPedKind)
+    if (bIsLawEnforcement)
     {
         vel_to_check = kFpPoint1_678428;
     }
@@ -9829,12 +9829,12 @@ void Ped::EnterCarStateMachine_46BDC0()
                             field_15C_player->field_2D4_scores.AwardCarHijackedScore_593240(field_154_target_to_enter);
 
                             // Is it gang car?
-                            const s16 gang_car_model =
+                            const s16 gang_idx =
                                 gGangPool_CA8_67E274->FindGangByCarModel_4BF2F0(field_154_target_to_enter->field_84_car_info_idx);
-                            if (gang_car_model != -1)
+                            if (gang_idx != -1)
                             {
                                 // Well now they hate you a bit
-                                Gang* pGang = gGangPool_CA8_67E274->GangByIdx_4BF1C0(static_cast<u8>(gang_car_model));
+                                Gang* pGang = gGangPool_CA8_67E274->GangByIdx_4BF1C0(static_cast<u8>(gang_idx));
                                 pGang->ApplyKillRespectChange_4BEF70(this->field_15C_player->get_idx_4219D0(), 1u);
                             }
                         }
@@ -10854,17 +10854,17 @@ static inline void ComputeRecruitPrism(Fix16_Rect& r, Fix16 x, Fix16 y, Fix16 of
 MATCH_FUNC(0x46e080)
 void Ped::RecruitNearbyPeds_46E080(s32 desiredCount, Fix16 searchRadius)
 {
-    PedGroup* pGroup_;
+    PedGroup* pMyGroup;
     s32 maxCount;
     Sprite* pNearest;
     Char* pChar;
     Ped* pPed;
-    PedGroup* pGroup;
+    PedGroup* pOldGroup;
     SpriteList collision_list;
     Fix16_Rect rect;
 
-    pGroup_ = this->field_164_ped_group;
-    if (pGroup_)
+    pMyGroup = this->field_164_ped_group;
+    if (pMyGroup)
     {
         maxCount = desiredCount;
         // max(desiredCount, 9)
@@ -10873,7 +10873,7 @@ void Ped::RecruitNearbyPeds_46E080(s32 desiredCount, Fix16 searchRadius)
             maxCount = 9;
         }
 
-        if (pGroup_->field_34_count >= maxCount)
+        if (pMyGroup->field_34_count >= maxCount)
         {
             return;
         }
@@ -10897,10 +10897,10 @@ void Ped::RecruitNearbyPeds_46E080(s32 desiredCount, Fix16 searchRadius)
                 pPed = pChar->get_ped_433A20();
                 if (pPed->CanBeRecruitedToGroup_46E020(this->field_164_ped_group))
                 {
-                    pGroup = pPed->field_164_ped_group;
-                    if (pGroup)
+                    pOldGroup = pPed->field_164_ped_group;
+                    if (pOldGroup)
                     {
-                        pGroup->RemovePed_4C9970(pPed);
+                        pOldGroup->RemovePed_4C9970(pPed);
                     }
                     field_164_ped_group->add_ped_to_end_of_list_4C8F90(pPed);
                     pPed->SetupFollower_46DF70(this, weapon_type::dual_pistol);
@@ -11850,30 +11850,30 @@ void Ped::HandleWeaponFireEnd_46FFF0(s32 model)
 MATCH_FUNC(0x470050)
 void Ped::AimRoofGun_470050()
 {
-    AttachedSprite* pHit = NULL;
+    AttachedSprite* pTurret = NULL;
     if (field_16C_car->IsFireTruck_4118F0())
     {
-        pHit = field_16C_car->field_0_attachments.GetSpriteForModel_5A6A50(objects::water_cannon_114);
+        pTurret = field_16C_car->field_0_attachments.GetSpriteForModel_5A6A50(objects::water_cannon_114);
     }
     else if (field_16C_car->IsTank_411900())
     {
-        pHit = field_16C_car->field_0_attachments.GetSpriteForModel_5A6A50(objects::tank_cannon_148);
+        pTurret = field_16C_car->field_0_attachments.GetSpriteForModel_5A6A50(objects::tank_cannon_148);
     }
     else if (field_16C_car->IsGunJeep_411910())
     {
-        pHit = field_16C_car->field_0_attachments.GetSpriteForModel_5A6A50(248);
+        pTurret = field_16C_car->field_0_attachments.GetSpriteForModel_5A6A50(248);
     }
 
-    Fix16 x = pHit->field_0_pSprite->field_14_xy.x;
-    Fix16 y = pHit->field_0_pSprite->field_14_xy.y;
-    Ped* objective_target_ped = this->field_148_objective_target_ped;
-    Ang16 tan_v;
-    tan_v = Fix16::atan2_fixed_405320(objective_target_ped->get_cam_y() - y, objective_target_ped->get_cam_x() - x);
+    Fix16 x = pTurret->field_0_pSprite->field_14_xy.x;
+    Fix16 y = pTurret->field_0_pSprite->field_14_xy.y;
+    Ped* pTargetPed = this->field_148_objective_target_ped;
+    Ang16 aim_angle;
+    aim_angle = Fix16::atan2_fixed_405320(pTargetPed->get_cam_y() - y, pTargetPed->get_cam_x() - x);
 
     this->field_21C_bf.bAttacking = false;
     this->field_21C_bf.bUseCarWeapon = true;
 
-    if (field_16C_car->RotateRoofObjectTowardTarget_440C10(tan_v))
+    if (field_16C_car->RotateRoofObjectTowardTarget_440C10(aim_angle))
     {
         if (field_148_objective_target_ped->PedTypeIs_45EDE0(ped_type::player_2))
         {
@@ -11907,10 +11907,10 @@ void Ped::add_wanted_points_470160(s16 wanted_amount)
         field_20A_wanted_points = cop_level_ped_enum::cop_0_stars;
     }
 
-    s16 star_count = gPolice_7B8_6FEE40->field_660_max_wanted_stars;
-    if (get_wanted_star_count_46EF00() >= star_count)
+    s16 max_stars = gPolice_7B8_6FEE40->field_660_max_wanted_stars;
+    if (get_wanted_star_count_46EF00() >= max_stars)
     {
-        set_wanted_star_count_46F070(static_cast<u8>(star_count));
+        set_wanted_star_count_46F070(static_cast<u8>(max_stars));
     }
 }
 
