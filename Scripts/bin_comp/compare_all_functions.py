@@ -40,8 +40,16 @@ def check_funcs_match(verbose: bool = False):
     funcs_to_check = calc_funcs_to_check_match(new_data, old_data)
     ok_funcs = []
     fail_funcs = []
+
+    def check(func):
+        try:
+            return compare_function.compare_function("../../build_vc6/decomp_main.exe", "10.5.exe", func[0], int(func[1], 16),
+                                                     int(func[2], 16), int(func[3], 16))
+        except ValueError as error:
+            print(func[0] + ": " + str(error))
+            return False
     for func in funcs_to_check:
-        if compare_function.compare_function("../../build_vc6/decomp_main.exe", "10.5.exe", func[0], int(func[1], 16), int(func[2], 16), int(func[3], 16)):
+        if check(func):
             ok_funcs.append(func[0] + " OK!")
         else:
             fail_funcs.append(func[0] + " FAIL!")
