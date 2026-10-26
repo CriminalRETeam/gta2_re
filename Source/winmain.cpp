@@ -2336,16 +2336,16 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
     s32 state;
     if (Frontend::intro_bik_exists_4B5FF0())
     {
-        state = gRegistry_6FF968.Get_Screen_Setting_5870D0("do_play_movie", 1) != 1 ? 0 : 8;
+        state = gRegistry_6FF968.Get_Screen_Setting_5870D0("do_play_movie", 1) != 1 ? MENUPAGE_START_MENU : MENUPAGE_PLAY_INTRO;
     }
     else
     {
-        state = 0;
+        state = MENUPAGE_START_MENU;
     }
 
     if (bIsFrench_67D53C)
     {
-        state = 14;
+        state = MENUPAGE_PARENTAL_CONTROL;
     }
 
     if (bStartNetworkGame_7081F0)
@@ -2446,7 +2446,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
                                         break;
 
                                     default:
-                                        state = 7;
+                                        state = MENUPAGE_MULTIPLAYER_RESULTS;
                                         CleanUpInputAndOthers_4DA700();
                                         bDoFrontEnd_626B68 = true;
                                         break;
@@ -2466,7 +2466,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
                                         gPlyDat_6FEAC0->UpdateStageScore_56BB10(gGame_0x40_67E008->field_38_local_player);
                                         gPlyDat_6FEAC0->UpdateHiScores_56C010();
 
-                                        state = gGameSession_67E8E0.IsBonusStage_4C59A0() != 0 ? 6 : 11; // 11? prob 1
+                                        state = gGameSession_67E8E0.IsBonusStage_4C59A0() != 0 ? MENUPAGE_BONUS_AREA : MENUPAGE_RESULTS_PLAYER_QUIT;
                                         CleanUpInputAndOthers_4DA700();
                                         bDoFrontEnd_626B68 = true;
                                         break;
@@ -2475,7 +2475,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
                                         gGameSession_67E8E0.StoreCrimeStats_4C5A10(gGame_0x40_67E008->field_38_local_player);
                                         gPlyDat_6FEAC0->UpdateStageScore_56BB10(gGame_0x40_67E008->field_38_local_player);
                                         gPlyDat_6FEAC0->UpdateHiScores_56C010();
-                                        state = gGameSession_67E8E0.IsBonusStage_4C59A0() != 0 ? 6 : 2;
+                                        state = gGameSession_67E8E0.IsBonusStage_4C59A0() != 0 ? MENUPAGE_BONUS_AREA : MENUPAGE_DEAD;
                                         CleanUpInputAndOthers_4DA700();
                                         bDoFrontEnd_626B68 = true;
                                         break;
@@ -2484,19 +2484,19 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
                                         gGameSession_67E8E0.StoreCrimeStats_4C5A10(gGame_0x40_67E008->field_38_local_player);
                                         gPlyDat_6FEAC0->UpdateStageScore_56BB10(gGame_0x40_67E008->field_38_local_player);
                                         gPlyDat_6FEAC0->UpdateHiScores_56C010();
-                                        state = gGameSession_67E8E0.IsBonusStage_4C59A0() != 0 ? 6 : 3;
+                                        state = gGameSession_67E8E0.IsBonusStage_4C59A0() != 0 ? MENUPAGE_BONUS_AREA : MENUPAGE_AREA_COMPLETE;
                                         CleanUpInputAndOthers_4DA700();
                                         bDoFrontEnd_626B68 = true;
                                         break;
 
                                     case GameExitType::MultiplayerExit_5:
-                                        state = 7;
+                                        state = MENUPAGE_MULTIPLAYER_RESULTS;
                                         CleanUpInputAndOthers_4DA700();
                                         bDoFrontEnd_626B68 = true;
                                         break;
 
                                     case GameExitType::ReplayExit_6:
-                                        state = 0;
+                                        state = MENUPAGE_START_MENU;
                                         CleanUpInputAndOthers_4DA700();
                                         bDoFrontEnd_626B68 = true;
                                         break;

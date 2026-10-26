@@ -15,6 +15,7 @@
 #include "map_0x370.hpp"
 #include "memory.hpp"
 #include "ScriptThread.hpp"
+#include "thread_trigger.hpp"
 #include "Ped.hpp"
 #include "PedGroup.hpp"
 #include "PublicTransport.hpp"
@@ -252,7 +253,7 @@ char_type ScriptManager::AddCranePowerupTrigger_511B10(s16 idx)
 {
     SCR_DECLARE_CRANE_POWERUP* pCmd = static_cast<SCR_DECLARE_CRANE_POWERUP*>(GetBasePointer_512770(idx));
     SCR_POINTER* pGenerator = static_cast<SCR_POINTER*>(GetBasePointer_512770(pCmd->field_A_generator));
-    return gCarThreadTriggers_214_705F20->AddThreadTrigger_5C86C0(1,
+    return gCarThreadTriggers_214_705F20->AddThreadTrigger_5C86C0(thread_trigger_type::any_car_1,
                                        3,
                                        reinterpret_cast<SCR_THREAD*>(pGenerator->field_8_generator),
                                        Fix16(pCmd->field_C_pos.field_0_x) + kFpHalf_6F75F0,
@@ -883,11 +884,11 @@ bool ScriptManager::TestAndRecordWeaponHit_512AF0(s32 id, char_type weapon_idx, 
         pFree->field_4_weapon_idx = weapon_idx;
         if (bIsPed)
         {
-            pFree->field_6_flags = 4;
+            pFree->field_6_flags = weapon_check_flag::ped_4;
         }
         else
         {
-            pFree->field_6_flags = 2;
+            pFree->field_6_flags = weapon_check_flag::car_2;
         }
         field_278_weapon_check_count++;
     }
@@ -956,7 +957,7 @@ void ScriptManager::RecordWeaponHit_512C00(s32 entity_id, s32 projectile_model, 
                     return;
                 }
             set:
-                pTable->field_6_flags |= 1;
+                pTable->field_6_flags |= weapon_check_flag::hit_1;
                 pTable->field_5_hit_projectile_type = projectile_type;
                 return;
             }

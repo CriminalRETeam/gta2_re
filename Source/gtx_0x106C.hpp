@@ -222,7 +222,7 @@ class gtx_0x106C
     {
         for (s32 i = 0; i < GTA2_COUNTOF(field_6C_spec); i++)
         {
-            field_6C_spec[i] = 1;
+            field_6C_spec[i] = tile_spec::none;
         }
     }
 
@@ -242,9 +242,9 @@ class gtx_0x106C
     inline s32 GetSpecIgnoringRoadJunction_462FD0(u16 spec_idx) const
     {
         s32 result = field_6C_spec[spec_idx];
-        if (result == 3)
+        if (result == tile_spec::road_junction_special)
         {
-            result = 1;
+            result = tile_spec::none;
         }
         return result;
     }

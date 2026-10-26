@@ -204,1413 +204,1413 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
 
     switch (code)
     {
-        case 2:
+        case Gta2Error::DMAVideoInitFail:
             sprintf(gTmpBuffer_67C598, "Can't Init DMAVideo.");
             break;
 
-        case 72:
+        case Gta2Error::SecurityFail:
             sprintf(gTmpBuffer_67C598, "security failure");
             break;
 
-        case 5:
+        case Gta2Error::SetWindowModeFail:
             sprintf(gTmpBuffer_67C598, "Failed to set WindowMode");
             break;
 
-        case 6:
+        case Gta2Error::GetValidHDCFail:
             sprintf(gTmpBuffer_67C598, "Failed to get a valid HDC");
             break;
 
-        case 7:
+        case Gta2Error::SetWindowPosFail:
             sprintf(gTmpBuffer_67C598, "Failed to SetWindowPos properly");
             break;
 
-        case 8:
+        case Gta2Error::DirectInputInitFail:
             sprintf(gTmpBuffer_67C598, "Failed to Initialise DirectInput");
             break;
 
-        case 9:
+        case Gta2Error::DirectInputSetDataFormatFail:
             sprintf(gTmpBuffer_67C598, "Failed to set Data Format for DirectInput");
             break;
 
-        case 10:
+        case Gta2Error::DirectInputSetCooperativeLevelFail:
             sprintf(gTmpBuffer_67C598, "Failed to set Cooperative Level for DirectInput");
             break;
 
-        case 30:
+        case Gta2Error::DirectInputNoObject:
             sprintf(gTmpBuffer_67C598, "No DirectInput Object");
             break;
 
-        case 31:
+        case Gta2Error::DirectInputCreateFail:
             sprintf(gTmpBuffer_67C598, "Failed to create DirectInput object");
             break;
 
-        case 28:
+        case Gta2Error::ZeroBytesAlloc:
             strcpy(gTmpBuffer_67C598, "Attempting to allocate zero bytes of memory");
             break;
 
-        case 13:
+        case Gta2Error::FtellError:
             sprintf(gTmpBuffer_67C598, "Ftell error in file: %s", gGlobalFileName_67C6AC);
             break;
 
-        case 15:
+        case Gta2Error::FileReadFailure:
             sprintf(gTmpBuffer_67C598, "Read failure in file: %s", gGlobalFileName_67C6AC);
             break;
 
-        case 16:
+        case Gta2Error::FreeloaderEpisodeUnknown:
             sprintf(gTmpBuffer_67C598,
                     "Install Next freeloader episode please. [Temp message].Unable to open file : %s",
                     gGlobalFileName_67C6AC);
             break;
 
-        case 17:
+        case Gta2Error::FileCloseError:
             sprintf(gTmpBuffer_67C598, "Unable to close file: %s", gGlobalFileName_67C6AC);
             break;
 
-        case 18:
+        case Gta2Error::FileBiggerThanBuffer:
             sprintf(gTmpBuffer_67C598, "Trying to a load a file too big for buffer: %s", gGlobalFileName_67C6AC);
             break;
 
-        case 19:
+        case Gta2Error::WritingZeroBytesToFile:
             sprintf(gTmpBuffer_67C598, "Writing zero bytes to file : %s", gGlobalFileName_67C6AC);
             break;
 
-        case 20:
+        case Gta2Error::FileWriteFailure:
             sprintf(gTmpBuffer_67C598, "Write failure on file : %s", gGlobalFileName_67C6AC);
             break;
 
-        case 21:
+        case Gta2Error::FileReadingNotOpenedFile:
             strcpy(gTmpBuffer_67C598, "Attempt to read from not opened file");
             break;
 
-        case 24:
+        case Gta2Error::ungetcFailrue:
             sprintf(gTmpBuffer_67C598, "ungetc failure in file %s", gGlobalFileName_67C6AC);
             break;
 
-        case 25:
+        case Gta2Error::FileInvalidInteger:
             sprintf(gTmpBuffer_67C598, "invalid integer encountered in file %s", gGlobalFileName_67C6AC);
             break;
 
-        case 26:
+        case Gta2Error::FileEndOfFileInTextString:
             sprintf(gTmpBuffer_67C598, "End of file in text string in file %s", gGlobalFileName_67C6AC);
             break;
 
-        case 27:
+        case Gta2Error::TextStringTooLong:
             strcpy(gTmpBuffer_67C598, "Text string too long");
             break;
 
-        case 32:
+        case Gta2Error::OutOfMemoryNewOperator:
             strcpy(gTmpBuffer_67C598, "Out of memory - new operator failed");
             break;
 
-        case 34:
+        case Gta2Error::FileOverflow:
             strcpy(gTmpBuffer_67C598, "file overflow");
             break;
 
-        case 35:
+        case Gta2Error::DataNotLoaded:
             strcpy(gTmpBuffer_67C598, "data not loaded");
             break;
 
-        case 36:
+        case Gta2Error::InvalidStringInParameterList:
             sprintf(gTmpBuffer_67C598, "Invalid string in parameter list: %s", gGlobalFileName_67C6AC);
             break;
 
-        case 37:
+        case Gta2Error::RepeatedFileInParameterList:
             sprintf(gTmpBuffer_67C598, "Repeated file in parameter list : %s", gGlobalFileName_67C6AC);
             break;
 
-        case 39:
+        case Gta2Error::InvalidZoneData:
             strcpy(gTmpBuffer_67C598, "Invalid zone data");
             break;
 
-        case 40:
+        case Gta2Error::InvalidMapObjectData:
             strcpy(gTmpBuffer_67C598, "Invalid map object data");
             break;
 
-        case 51:
+        case Gta2Error::InvalidMapLightData:
             strcpy(gTmpBuffer_67C598, "Invalid map light data");
             break;
 
-        case 41:
+        case Gta2Error::InvalidLoadedObjectInfoData:
             strcpy(gTmpBuffer_67C598, "Invalid loaded object info data");
             break;
 
-        case 42:
+        case Gta2Error::CloseRegistryKeyFail:
             strcpy(gTmpBuffer_67C598, "unable to close registry key");
             break;
 
-        case 43:
+        case Gta2Error::CreateRegistryKeyFail:
             strcpy(gTmpBuffer_67C598, "unable to create registry key");
             break;
 
-        case 44:
+        case Gta2Error::NoPlayers:
             strcpy(gTmpBuffer_67C598, "No players");
             break;
 
-        case 45:
+        case Gta2Error::ClassNotAllocated:
             strcpy(gTmpBuffer_67C598, "Class not allocated");
             break;
 
-        case 46:
+        case Gta2Error::SetRegistryValueFail:
             strcpy(gTmpBuffer_67C598, "Unable to set registry value");
             break;
 
-        case 47:
+        case Gta2Error::LoopInTree:
             strcpy(gTmpBuffer_67C598, "Loop in tree");
             break;
 
-        case 48:
+        case Gta2Error::DisplayTreeOutOfSpace:
             strcpy(gTmpBuffer_67C598, "Out of space for display tree");
             break;
 
-        case 50:
+        case Gta2Error::FileWriteByteFail:
             sprintf(gTmpBuffer_67C598, "Failed writing a byte to file %s", gGlobalFileName_67C6AC);
             break;
 
-        case 53:
+        case Gta2Error::UsingUninitialisedSprite:
             strcpy(gTmpBuffer_67C598, "Using uninitialised sprite");
             break;
 
-        case 54:
+        case Gta2Error::InvalidCorners:
             sprintf(gTmpBuffer_67C598, "Invalid corners");
             break;
 
-        case 55:
+        case Gta2Error::MissionProcessAllocMemFail:
             sprintf(gTmpBuffer_67C598, "Failed to allocate memory for new mission process");
             break;
 
-        case 56:
+        case Gta2Error::MissionProcessOutOfSlots:
             sprintf(gTmpBuffer_67C598, "No more process slots available for mission processes");
             break;
 
-        case 59:
+        case Gta2Error::CheckWallsSlopeInvalidSlope:
             strcpy(gTmpBuffer_67C598, "check walls slope invalid slope");
             break;
 
-        case 66:
+        case Gta2Error::ScriptfileTooMany_PLAYER_PED_Declarations:
             sprintf(gTmpBuffer_67C598, "Too many PLAYER_PED declarations in scriptfile");
             break;
 
-        case 65:
+        case Gta2Error::ScriptfileNo_LEVELSTART_Declaration:
             sprintf(gTmpBuffer_67C598, "No LEVELSTART declaration in scriptfile");
             break;
 
-        case 69:
+        case Gta2Error::ScriptfileFailedToCreatePed:
             sprintf(gTmpBuffer_67C598, "Failed to create a ped in scriptfile");
             break;
 
-        case 67:
+        case Gta2Error::MapChangeOverflowBlocks:
             strcpy(gTmpBuffer_67C598, "map change overflow - too many new blocks");
             break;
 
-        case 68:
+        case Gta2Error::MapChangeOverflowColumns:
             strcpy(gTmpBuffer_67C598, "map change overflow - too many new columns");
             break;
 
-        case 70:
+        case Gta2Error::MissionStackAllocFail:
             strcpy(gTmpBuffer_67C598, "Failed to allocate memory for mission stack");
             break;
 
-        case 71:
+        case Gta2Error::MissionStackPushNullItem:
             strcpy(gTmpBuffer_67C598, "Tried to push NULL item onto mission stack");
             break;
 
-        case 73:
+        case Gta2Error::MissStackItemGrabNoStackSpaceLeftFail:
             strcpy(gTmpBuffer_67C598, "Failed grabbing miss_stack_item - no stack space left");
             break;
 
-        case 74:
+        case Gta2Error::RemoveCharFromCharlistFail:
             strcpy(gTmpBuffer_67C598, "can't remove character from charlist");
             break;
 
-        case 75:
+        case Gta2Error::InvalidDoor:
             strcpy(gTmpBuffer_67C598, "Invalid door");
             break;
 
-        case 76:
+        case Gta2Error::ScriptfileCreateCarFail:
             strcpy(gTmpBuffer_67C598, "Failed to create a car in scriptfile.");
             break;
 
-        case 77:
+        case Gta2Error::ObjectHasDataWhenItShouldnt:
             strcpy(gTmpBuffer_67C598, "Object has data when it shouldn't");
             break;
 
-        case 91:
+        case Gta2Error::SidNegativeReferences:
             sprintf(gTmpBuffer_67C598, "Sid has negative references");
             break;
 
-        case 90:
+        case Gta2Error::SidTooManyReferences:
             sprintf(gTmpBuffer_67C598, "Sid has too many references");
             break;
 
-        case 92:
+        case Gta2Error::NoFreeTiles:
             strcpy(gTmpBuffer_67C598, "No free tiles");
             break;
 
-        case 93:
+        case Gta2Error::InvalidFileType:
             sprintf(gTmpBuffer_67C598, "Invalid file type in %s", gGlobalFileName_67C6AC);
             break;
 
-        case 94:
+        case Gta2Error::InvalidFileVersion:
             sprintf(gTmpBuffer_67C598, "Invalid file version in %s", gGlobalFileName_67C6AC);
             break;
 
-        case 61:
-        case 81:
+        case Gta2Error::CharacterHasNoPedPointer_1:
+        case Gta2Error::CharacterHasNoPedPointer_2:
             sprintf(gTmpBuffer_67C598, "Character has no ped pointer, bad ");
             break;
 
-        case 64:
+        case Gta2Error::InvalidObjectiveCoordinates:
             sprintf(gTmpBuffer_67C598, "Invalid objective coordinates");
             break;
 
-        case 60:
+        case Gta2Error::NoPlayerPointer:
             sprintf(gTmpBuffer_67C598, "No Player pointer");
             break;
 
-        case 79:
-        case 80:
+        case Gta2Error::CharacterHasNoCarObjectivePointer_1:
+        case Gta2Error::CharacterHasNoCarObjectivePointer_2:
             sprintf(gTmpBuffer_67C598, "Character has no car objective pointer,very bad");
             break;
 
-        case 97:
+        case Gta2Error::CharacterHasNoInCarPointer:
             sprintf(gTmpBuffer_67C598, "Character has no in_car pointer, bad");
             break;
 
-        case 62:
+        case Gta2Error::CharacterDefaultCase:
             sprintf(gTmpBuffer_67C598, "Character Default Case error");
             break;
 
-        case 85:
+        case Gta2Error::PedDefaultCase:
             sprintf(gTmpBuffer_67C598, "Ped Default Case error");
             break;
 
-        case 88:
+        case Gta2Error::PedSpriteZIs0:
             sprintf(gTmpBuffer_67C598, "Ped Sprite Z is 0, not good");
             break;
 
-        case 89:
+        case Gta2Error::PedsCarInfoIsNULL:
             sprintf(gTmpBuffer_67C598, "Peds Car Info is NULL , error indeed");
             break;
 
-        case 82:
+        case Gta2Error::GroupMemberNotRemoved:
             sprintf(gTmpBuffer_67C598, "Group member not removed");
             break;
-        case 83:
+        case Gta2Error::TooManyGroupMembers:
             sprintf(gTmpBuffer_67C598, "Too many members for the group to manage");
             break;
-        case 84:
+        case Gta2Error::GroupCreateTooManyGroupsInUse:
             sprintf(gTmpBuffer_67C598, "Cant create a group too many in use");
             break;
 
-        case 95:
+        case Gta2Error::CharacterNoFootOrCarPointer:
             sprintf(gTmpBuffer_67C598, "Character not got a foot or car pointer, very bad");
             break;
 
-        case 96:
+        case Gta2Error::CreateMedicalUnitFail:
             sprintf(gTmpBuffer_67C598, "Unable to Create A Medical Unit");
             break;
 
-        case 98:
+        case Gta2Error::TooManyTrafficLights:
             strcpy(gTmpBuffer_67C598, "Too many traffic lights");
             break;
 
-        case 99:
+        case Gta2Error::TooManyInfoAndNavigationZonesInMap:
             strcpy(gTmpBuffer_67C598, "Too many information & navigation zones in map");
             break;
 
-        case 100:
+        case Gta2Error::InvalidZoneForInfoSetting:
             strcpy(gTmpBuffer_67C598, "Invalid zone for information setting");
             break;
 
-        case 101:
+        case Gta2Error::FailedToCreateCarInRecycle:
             strcpy(gTmpBuffer_67C598, "Failed to create car in recycle.");
             break;
 
-        case 102:
+        case Gta2Error::EmptyStringPassedToFunction:
             strcpy(gTmpBuffer_67C598, "Empty String passed into function");
             break;
 
-        case 103:
+        case Gta2Error::FirstPlayerIsNULL:
             strcpy(gTmpBuffer_67C598, "Got NULL ptr for first player");
             break;
 
-        case 104:
+        case Gta2Error::NextPlayerIsNULL:
             strcpy(gTmpBuffer_67C598, "Got NULL ptr for next player");
             break;
 
-        case 49:
+        case Gta2Error::DivideByZero:
             strcpy(gTmpBuffer_67C598, "divide by zero");
             break;
 
-        case 105:
+        case Gta2Error::NullBlockPassedToCheckForArrowsInRoutefinderCode:
             strcpy(gTmpBuffer_67C598, "NULL block passed to check for arrows in routefinder code");
             break;
 
-        case 106:
+        case Gta2Error::TooManyJunctionsInMapForRoutefinder:
             strcpy(gTmpBuffer_67C598, "Too many junctions in map for routefinder!");
             break;
 
-        case 146:
+        case Gta2Error::GswTrainMovingAcrossSlope:
             strcpy(gTmpBuffer_67C598, "gsw - train moving across slope");
             break;
 
-        case 147:
+        case Gta2Error::GswTrainUnknownDirection:
             strcpy(gTmpBuffer_67C598, "gsw - train : unknown direction");
             break;
 
-        case 148:
+        case Gta2Error::GswTrainUnknownSlope:
             strcpy(gTmpBuffer_67C598, "gsw - train : unknown slope");
             break;
 
-        case 107:
+        case Gta2Error::CarTryingSuicideDidntDealWithDriver:
             strcpy(gTmpBuffer_67C598, "Car is trying to suicide and has not dealt with the driver");
             break;
 
-        case 108:
+        case Gta2Error::AIObjectiveRequiredByCharNoLongerActive:
             strcpy(gTmpBuffer_67C598, "AI objective required by a character is no longer active");
             break;
 
-        case 149:
+        case Gta2Error::InvalidCarRating:
             strcpy(gTmpBuffer_67C598, "Invalid Car Rating in Car Model Info");
             break;
 
-        case 109:
+        case Gta2Error::NoMoreSpaceIn_simp_text_DisplayBuffer:
             strcpy(gTmpBuffer_67C598, "No more space in simp_text display buffer");
             break;
 
-        case 120:
+        case Gta2Error::TooManyScoreTextures:
             strcpy(gTmpBuffer_67C598, "Too many score textures");
             break;
 
-        case 121:
+        case Gta2Error::TryingToGetUnitOfZeroVector:
             strcpy(gTmpBuffer_67C598, "Trying to get unit of zero vector");
             break;
 
-        case 123:
+        case Gta2Error::AssertionFail:
             sprintf(gTmpBuffer_67C598, "assertion failure in %s(line %d)", SourceFileNameFromPath_4A07A0(pFileName), lineNo);
             break;
 
-        case 124:
+        case Gta2Error::TryingToExpandAnEmptyNodeInRouterfinder:
             strcpy(gTmpBuffer_67C598, "Trying to expand an empty node in routefinder.");
             break;
 
-        case 125:
+        case Gta2Error::NoValidBackcarForAnCarRelatedStruct:
             strcpy(gTmpBuffer_67C598, "No valid backcar for an car related struct.");
             break;
 
-        case 126:
+        case Gta2Error::Gta2ManagerLaunchError:
             strcpy(gTmpBuffer_67C598, "Failed to launch 'GTA2 Manager' correctly.");
             break;
 
-        case 127:
+        case Gta2Error::MessageTextTooLongToWrap:
             strcpy(gTmpBuffer_67C598, "Message text too long to wrap");
             break;
 
-        case 128:
+        case Gta2Error::TooManyTimers:
             strcpy(gTmpBuffer_67C598, "Too many timers");
             break;
 
-        case 130:
+        case Gta2Error::TooManyArrows:
             strcpy(gTmpBuffer_67C598, "Too many arrows");
             break;
 
-        case 129:
+        case Gta2Error::TooManyMessages:
             strcpy(gTmpBuffer_67C598, "Too many messages");
             break;
 
-        case 131:
+        case Gta2Error::NoRestartZone:
             strcpy(gTmpBuffer_67C598, "No Restart Zone");
             break;
 
-        case 132:
+        case Gta2Error::MapNotCompressed:
             strcpy(gTmpBuffer_67C598, "Map not compressed");
             break;
 
-        case 133:
+        case Gta2Error::InvalidSmybolDataInSymboltableBuffer:
             strcpy(gTmpBuffer_67C598, "Invalid symbol data in symboltable buffer");
             break;
 
-        case 134:
+        case Gta2Error::InvalidMissionScriptFileSpecifiedInBob:
             sprintf(gTmpBuffer_67C598, "Invalid mission script file specified in Bob");
             break;
 
-        case 136:
+        case Gta2Error::PointingArrowAtANoLongerValidCharacter:
             strcpy(gTmpBuffer_67C598, "Pointing arrow at a no longer valid character");
             break;
 
-        case 137:
+        case Gta2Error::PointingArrowAtANoLongerValidCar:
             strcpy(gTmpBuffer_67C598, "Pointing arrow at a no longer valid car");
             break;
 
-        case 138:
+        case Gta2Error::PointingArrowAtANoLongerValidObject:
             strcpy(gTmpBuffer_67C598, "Pointing arrow at a no longer valid object");
             break;
 
-        case 139:
+        case Gta2Error::CarRoutefindNoRoutfinderDataInMap:
             sprintf(gTmpBuffer_67C598, "Error doing car routefind: no routefinder data in map.");
             break;
 
-        case 143:
+        case Gta2Error::IllegalTrainStationNoPlatformZone:
             sprintf(gTmpBuffer_67C598, "Illegal Train Station: no platform zone");
             break;
 
-        case 144:
+        case Gta2Error::NoMoreTrainSpace:
             sprintf(gTmpBuffer_67C598, "Unable to create train: no more space! The game has too many trains/carriages/buses.");
             break;
 
-        case 145:
+        case Gta2Error::BaseChangeLogOverflow:
             strcpy(gTmpBuffer_67C598, "Base change log overflow");
             break;
 
-        case 150:
+        case Gta2Error::KeyboardTypeNotHandled:
             strcpy(gTmpBuffer_67C598, "Keyboard type not handled");
             break;
 
-        case 151:
+        case Gta2Error::KeyboardTypeFileOpenError:
             strcpy(gTmpBuffer_67C598, "Couldn't open file for keyboard type");
             break;
 
-        case 152:
+        case Gta2Error::SeqFileNotFound:
             strcpy(gTmpBuffer_67C598, "Couldn't find a .seq file in the data directory");
             break;
 
-        case 153:
+        case Gta2Error::MultipleSeqFilesFound:
             strcpy(gTmpBuffer_67C598, "There is more than one .seq file in the data directory");
             break;
 
-        case 154:
+        case Gta2Error::SeqFileOpenError:
             strcpy(gTmpBuffer_67C598, "Couldn't open .seq file in the data directory");
             break;
 
-        case 155:
+        case Gta2Error::TooManyMainBlocks:
             strcpy(gTmpBuffer_67C598, "The .seq file has too many MAIN blocks defined");
             break;
 
-        case 156:
+        case Gta2Error::MainBlockMustPrecedeBonus:
             strcpy(gTmpBuffer_67C598, "There must be a MAIN block before any BONUS block in .seq file");
             break;
 
-        case 157:
+        case Gta2Error::TooManyBonusBlocks:
             strcpy(gTmpBuffer_67C598, "The .seq file has too many BONUS blocks defined for a particular city");
             break;
 
-        case 158:
+        case Gta2Error::InvalidBlockType:
             strcpy(gTmpBuffer_67C598, "Each block in .seq file must be MAIN or BONUS");
             break;
 
-        case 159:
+        case Gta2Error::InvalidFirstLineCharacter:
             strcpy(gTmpBuffer_67C598, "First character of line in .seq should be a letter");
             break;
 
-        case 160:
+        case Gta2Error::LineInterruptedByNewline:
             strcpy(gTmpBuffer_67C598, "Line in .seq has been interrupted by newline before end");
             break;
 
-        case 161:
+        case Gta2Error::LabelTooLong:
             strcpy(gTmpBuffer_67C598, "Label in .seq file is too long");
             break;
 
-        case 162:
+        case Gta2Error::UndefinedLabel:
             strcpy(gTmpBuffer_67C598, "Undefined label in code for loading .seq file");
             break;
 
-        case 163:
+        case Gta2Error::LineDataTooLong:
             strcpy(gTmpBuffer_67C598, "Data for a line in .seq file is too long");
             break;
 
-        case 164:
+        case Gta2Error::UnexpectedLabel:
             strcpy(gTmpBuffer_67C598, "Unexpected label in .seq file - Check order and spelling");
             break;
 
-        case 165:
+        case Gta2Error::NoValidMenuOptions:
             strcpy(gTmpBuffer_67C598, "The menu contains no valid options");
             break;
 
-        case 166:
+        case Gta2Error::GmpFilenameMismatch:
             strcpy(gTmpBuffer_67C598, ".gmp filename in save game file does not match .gmp filename in .seq for same level");
             break;
 
-        case 167:
+        case Gta2Error::StyFilenameMismatch:
             strcpy(gTmpBuffer_67C598, ".sty filename in save game file does not match .sty filename in .seq for same level");
             break;
 
-        case 168:
+        case Gta2Error::ScrFilenameMismatch:
             strcpy(gTmpBuffer_67C598, ".scr filename in save game file does not match .scr filename in .seq for same level");
             break;
 
-        case 169:
+        case Gta2Error::BinkBufferOpenError:
             strcpy(gTmpBuffer_67C598, "Couldn't open bink buffer for playing movie");
             break;
 
-        case 170:
+        case Gta2Error::BinkOpenError:
             strcpy(gTmpBuffer_67C598, "Couldn't open bink for playing movie");
             break;
 
-        case 183:
+        case Gta2Error::CreditsLineTooLong:
             strcpy(gTmpBuffer_67C598, "Too many characters in credits line (max is 50)");
             break;
 
-        case 184:
+        case Gta2Error::TooManyCreditsLines:
             strcpy(gTmpBuffer_67C598, "Too many lines in credits (max is 600)");
             break;
 
-        case 185:
+        case Gta2Error::InvalidLevelAdvancement:
             strcpy(gTmpBuffer_67C598, "Shouldn't be allowed to move to next level if already on last level");
             break;
 
-        case 186:
+        case Gta2Error::LevelNotOpened:
             strcpy(gTmpBuffer_67C598, "Shouldn't be allowed to move to next level if it isn't opened");
             break;
 
-        case 187:
+        case Gta2Error::InvalidBackgroundImageSize:
             strcpy(gTmpBuffer_67C598, "Unexpected size of frontend background image");
             break;
 
-        case 188:
+        case Gta2Error::InvalidCreditTextColor:
             strcpy(gTmpBuffer_67C598, "Invalid colour for line of credit text");
             break;
 
-        case 189:
+        case Gta2Error::InvalidMultiplayerGameType:
             strcpy(gTmpBuffer_67C598, "Multiplayer game type should be frag, tag or score (but isn't)");
             break;
 
-        case 171:
+        case Gta2Error::UnableToHandleAttachedPed:
             strcpy(gTmpBuffer_67C598, "Unable to handle attached ped");
             break;
 
-        case 172:
+        case Gta2Error::EmptyReplayFile:
             strcpy(gTmpBuffer_67C598, "Attract mode replay file has no contents");
             break;
 
-        case 173:
+        case Gta2Error::ReplaySyncError:
             strcpy(gTmpBuffer_67C598, "Replay sync error");
             break;
 
-        case 174:
+        case Gta2Error::TargaMemoryAllocationError:
             strcpy(gTmpBuffer_67C598, "Couldn't allocate memory for targa file");
             break;
 
-        case 175:
+        case Gta2Error::TargaFileInvalidImage:
             strcpy(gTmpBuffer_67C598, "Targa file does not contain an image");
             break;
 
-        case 176:
+        case Gta2Error::TargaFileInvalidFormat:
             strcpy(gTmpBuffer_67C598, "Wrong format for targa file - expecting 16 bit uncompressed");
             break;
 
-        case 177:
+        case Gta2Error::TargaFileInvalidBitsPerPixel:
             strcpy(gTmpBuffer_67C598, "Targa file does not have 16 bits per pixel");
             break;
 
-        case 178:
+        case Gta2Error::TargaFileHasPalette:
             strcpy(gTmpBuffer_67C598, "Targa file has a palette - not expected");
             break;
 
-        case 179:
+        case Gta2Error::TargaFileInvalidOrigin:
             strcpy(gTmpBuffer_67C598, "Origin for targa file image not at (0,0)");
             break;
 
-        case 180:
+        case Gta2Error::TargaFileZeroWidthOrHeight:
             strcpy(gTmpBuffer_67C598, "Width or height of targa file image is 0");
             break;
 
-        case 181:
+        case Gta2Error::TargaFileIdReadError:
             strcpy(gTmpBuffer_67C598, "Couldn't read id from targa file");
             break;
 
-        case 182:
+        case Gta2Error::TargaFileImageReadError:
             strcpy(gTmpBuffer_67C598, "Error in reading image from targa file");
             break;
 
-        case 1001:
+        case Gta2Error::InvalidCarModel:
         {
             s32 va_1 = va_arg(va, s32);
             err_a1_int("Invalid car model : %d", va_1);
             break;
         }
 
-        case 1002:
+        case Gta2Error::MultipleSpriteDeltas:
         {
             s32 va_1 = va_arg(va, s32);
             err_a1_int("Sprite %d has multiple delta entries", va_1);
             break;
         }
 
-        case 1003:
+        case Gta2Error::TooManySpritesWithDeltas:
         {
             s32 va_1 = va_arg(va, s32);
             err_a1_int("Too many sprites with deltas at %d", va_1);
             break;
         }
 
-        case 1004:
+        case Gta2Error::InvalidAbsoluteSpriteNumber:
         {
             s32 va_1 = va_arg(va, s32);
             err_a1_int("Invalid absolute sprite number: %d", va_1);
             break;
         }
 
-        case 1005:
+        case Gta2Error::TooManySprites:
         {
             s32 va_1 = va_arg(va, s32);
             err_a1_int("Too many sprites at %d", va_1);
             break;
         }
 
-        case 1006:
+        case Gta2Error::InvalidCase:
         {
             s32 va_1 = va_arg(va, s32);
             err_a1_int("Invalid case : %d", va_1);
             break;
         }
 
-        case 1007:
+        case Gta2Error::InvalidAbsoluteVirtualPaletteNumber:
         {
             s32 va_1 = va_arg(va, s32);
             err_a1_int("Invalid absolute virtual palette number: %d", va_1);
             break;
         }
 
-        case 1008:
+        case Gta2Error::InvalidFontNumber:
         {
             s32 va_1 = va_arg(va, s32);
             err_a1_int("Invalid font number: %d", va_1);
             break;
         }
 
-        case 1009:
+        case Gta2Error::InvalidTileNumber:
         {
             s32 va_1 = va_arg(va, s32);
             err_a1_int("Invalid tile number: %d", va_1);
             break;
         }
 
-        case 1010:
+        case Gta2Error::InvalidNewTileNumber:
         {
             s32 va_1 = va_arg(va, s32);
             err_a1_int("Invalid new tile number: %d", va_1);
             break;
         }
 
-        case 1011:
+        case Gta2Error::DllLoadError:
         {
             const char_type* va_1 = va_arg(va, const char_type*);
             err_a1_int("Unable to load DLL: %s", va_1);
             break;
         }
 
-        case 1012:
+        case Gta2Error::InvalidPhysicalPaletteNumber:
         {
             s32 va_1 = va_arg(va, s32);
             err_a1_int("Invalid physical palette number: %d", va_1);
             break;
         }
 
-        case 1016:
+        case Gta2Error::TooManyZones:
         {
             s32 va_1 = va_arg(va, s32);
             err_a1_int("Too many zones at %d (max is 999)", va_1);
             break;
         }
 
-        case 1017:
+        case Gta2Error::InvalidZoneNumber:
         {
             s32 va_1 = va_arg(va, s32);
             err_a1_int("Invalid zone number: %d", va_1);
             break;
         }
 
-        case 1013:
+        case Gta2Error::ZoneNotFoundError:
         {
             const char_type* va_1 = va_arg(va, const char_type*);
             err_a1_int("Zone not found : %s", va_1);
             break;
         }
 
-        case 1014:
+        case Gta2Error::InvalidCarModelGearSpeeds:
         {
             s32 va_1 = va_arg(va, s32);
             err_a1_int("car model %d has invalid gear speeds in gci file", va_1);
             break;
         }
 
-        case 1018:
+        case Gta2Error::InvalidMapObjectNumber:
         {
             s32 va_1 = va_arg(va, s32);
             err_a1_int("Invalid map object number: %d", va_1);
             break;
         }
 
-        case 1022:
+        case Gta2Error::FileTooLarge:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "File too large: %s exceeds max size by %d bytes", gGlobalFileName_67C6AC, va_1);
             break;
         }
 
-        case 1029:
+        case Gta2Error::OutOfMemory:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Out of memory allocating %d bytes", va_1);
             break;
         }
 
-        case 1033:
+        case Gta2Error::InvalidChunkSize:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Invalid chunk size : %d", va_1);
             break;
         }
 
-        case 1034:
+        case Gta2Error::InvalidParameterListSwitch:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Invalid switch in parameter list: %c", static_cast<char>(va_1));
             break;
         }
 
-        case 1073:
+        case Gta2Error::InvalidLineInfo:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Invalid line (info:%d)", va_1);
             break;
         }
 
-        case 1035:
+        case Gta2Error::ReplayFileTooLarge:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Replay File larger than maximum: size %d", va_1);
             break;
         }
 
-        case 1036:
+        case Gta2Error::InvalidVideomode:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Invalid Videomode to search for: %d", va_1);
             break;
         }
 
-        case 1037:
+        case Gta2Error::FullscreenVideomodeSetError:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Failed to set fullscreen videomode: %d", va_1);
             break;
         }
 
-        case 1020:
+        case Gta2Error::TooManyLoadedObjectInfos:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Too many loaded object infos at %d", va_1);
             break;
         }
 
-        case 1023:
+        case Gta2Error::TooManyPlayers:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Too many players at %d", va_1);
             break;
         }
 
-        case 1024:
+        case Gta2Error::InvalidPlayerNumber:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Invalid player number : %d", va_1);
             break;
         }
 
-        case 1025:
+        case Gta2Error::InvalidGridWidth:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Invalid grid width : %d", va_1);
             break;
         }
 
-        case 1026:
+        case Gta2Error::InvalidGridHeight:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Invalid grid height : %d", va_1);
             break;
         }
 
-        case 1027:
+        case Gta2Error::InvalidZCoordinate:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Invalid z coordinate : %d", va_1);
             break;
         }
 
-        case 1028:
+        case Gta2Error::UnprocessedEvent:
         {
             u32 va_1 = va_arg(va, u32);
             sprintf(gTmpBuffer_67C598, "Event left unprocessed : %08X", va_1);
             break;
         }
 
-        case 1040:
+        case Gta2Error::ListTypeOutOfSpace:
         {
             u32 va_1 = va_arg(va, u32);
             sprintf(gTmpBuffer_67C598, "Out of space for list type %s", gListTypes_61AB70[va_1]);
             break;
         }
 
-        case 1039:
+        case Gta2Error::NoCollisionBoxInSprite:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "No collision box in sprite %d", va_1);
             break;
         }
 
-        case 1021:
+        case Gta2Error::InvalidCollisionBoxInSprite:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Collision box invalid in sprite %d", va_1);
             break;
         }
 
-        case 1041:
+        case Gta2Error::InvalidObjectModelNumber:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Invalid object model number : %d", va_1);
             break;
         }
 
-        case 1042:
+        case Gta2Error::ObjectModelNumberAlreadyAdded:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "object model number %d already added", va_1);
             break;
         }
 
-        case 1043:
+        case Gta2Error::NoSpaceForObjectModelNumber:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "no space for object model number %d", va_1);
             break;
         }
 
-        case 1044:
+        case Gta2Error::CheckWallsSlopeSizeTooBig:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "check walls slope size too big : %d", va_1);
             break;
         }
 
-        case 1045:
+        case Gta2Error::FailedToCreateObjectInScriptfile:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Failed to create an object in scriptfile. Object type: %d", va_1);
             break;
         }
 
-        case 1046:
+        case Gta2Error::AttemptToKillDeadMissionThread:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Attempt to kill an already dead mission thread. Debug line %d", va_1);
             break;
         }
 
-        case 1047:
+        case Gta2Error::TooManyCarDoors:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Car model %d has too many doors", va_1);
             break;
         }
 
-        case 1048:
+        case Gta2Error::ReleasingNullPtrInReleasePassive:
         {
             u32 va_1 = va_arg(va, u32);
             sprintf(gTmpBuffer_67C598, "Releasing null ptr in release_passive. List type %s", gListTypes_61AB70[va_1]);
             break;
         }
-        case 1049:
+        case Gta2Error::TryingToPacifyNullListElement:
         {
             u32 va_1 = va_arg(va, u32);
             sprintf(gTmpBuffer_67C598, "Trying to 'pacify' a NULL list element. List type %s", gListTypes_61AB70[va_1]);
             break;
         }
-        case 1050:
+        case Gta2Error::ObjectBackPointerMissingInSprite:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Object back pointer missing in sprite %d", va_1);
             break;
         }
 
-        case 1051:
+        case Gta2Error::NoRigidBodyInCar:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "No rigid body in car ID %d", va_1);
             break;
         }
-        case 1052:
+        case Gta2Error::NoFreeSidForCharacter:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "No free Sid for character %d", va_1);
             break;
         }
-        case 1053:
+        case Gta2Error::InvalidDoorInfoNumber:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Invalid door info number : %d", va_1);
             break;
         }
-        case 1054:
+        case Gta2Error::IllegalAngleValue:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Illegal Value for an angle: %d", va_1);
             break;
         }
-        case 1055:
+        case Gta2Error::InvalidTileTexture:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Invalid tile texture: %d", va_1);
             break;
         }
-        case 1056:
+        case Gta2Error::InvalidCacheNumber:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Invalid cache number : %d", va_1);
             break;
         }
-        case 1068:
+        case Gta2Error::InvalidScoreTextureNumber:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Invalid score texture number : %d", va_1);
             break;
         }
 
-        case 1019:
+        case Gta2Error::InvalidZoneInformation:
         {
             const char_type* va_1 = va_arg(va, const char_type*);
             sprintf(gTmpBuffer_67C598, "Setting invalid zone information : %s", va_1);
             break;
         }
 
-        case 1057:
+        case Gta2Error::CounterOutOfBoundsInternalCount:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Counter has out of bounds internal count: %d", va_1);
             break;
         }
 
-        case 1058:
+        case Gta2Error::OutOfRangeRouteId:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Out of range route id: %d", va_1);
             break;
         }
 
-        case 1066:
+        case Gta2Error::InvalidScorePosition:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Invalid score position: %d", va_1);
             break;
         }
 
-        case 1067:
+        case Gta2Error::InvalidPlayerId:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Invalid player ID: %d", va_1);
             break;
         }
 
-        case 1069:
+        case Gta2Error::TooManyCharactersInScore:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Too characters in score : %d", va_1);
             break;
         }
 
-        case 1071:
+        case Gta2Error::InvalidTextFile:
         {
             const char_type* va_1 = va_arg(va, const char_type*);
             sprintf(gTmpBuffer_67C598, "Invalid text file : %s", va_1);
             break;
         }
 
-        case 1072:
+        case Gta2Error::StringStartsWithEndOfLine:
         {
             const char_type* va_1 = va_arg(va, const char_type*);
             sprintf(gTmpBuffer_67C598, "String starts with end-of-line : %s", va_1);
             break;
         }
 
-        case 1076:
+        case Gta2Error::CarInCollisionWithWallAtSafePosition:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "car ID %d in collision with wall at safe position", va_1);
             break;
         }
 
-        case 1080:
+        case Gta2Error::ObjectInCollisionWithWallAtSafePosition:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "object ID %d in collision with wall at safe position", va_1);
             break;
         }
 
-        case 1077:
+        case Gta2Error::IllegalDeviceCode:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Illegal device code for this machine: %d", va_1);
             break;
         }
 
-        case 1078:
+        case Gta2Error::ActivatingNullPtrInActivate:
         {
             u32 va_1 = va_arg(va, u32);
             sprintf(gTmpBuffer_67C598, "Activating null ptr in activate. List type %s", gListTypes_61AB70[va_1]);
             break;
         }
 
-        case 1079:
+        case Gta2Error::ActivatingItemTwice:
         {
             u32 va_1 = va_arg(va, u32);
             sprintf(gTmpBuffer_67C598, "Activating item twice. List type %s", gListTypes_61AB70[va_1]);
             break;
         }
 
-        case 1081:
+        case Gta2Error::IllegalTurntableIndex:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Illegal index into turntable: %d", va_1);
             break;
         }
 
-        case 1082:
+        case Gta2Error::TooManyYRoadSegments:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Too many Y road segments. Num: %d", va_1);
             break;
         }
 
-        case 1083:
+        case Gta2Error::TooManyXRoadSegments:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Too many X road segments. Num: %d", va_1);
             break;
         }
-        case 1084:
+        case Gta2Error::InvalidTimerHandle:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Invalid timer handle : %d", va_1);
             break;
         }
 
-        case 1085:
+        case Gta2Error::InvalidArrowHandle:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Invalid arrow handle : %d", va_1);
             break;
         }
 
-        case 1086:
+        case Gta2Error::UnallocatedArrowHandle:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Unallocated arrow handle : %d", va_1);
             break;
         }
 
-        case 1090:
+        case Gta2Error::CarAlreadyDoingRoutefind:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Car already doing routefind, but requested another. Car ID: %d", va_1);
             break;
         }
 
-        case 1137:
+        case Gta2Error::CounterCheckFailed:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Counter check failed for list type %s", gListTypes_61AB70[va_1]);
             break;
         }
 
-        case 1107:
+        case Gta2Error::InvalidCarModelStyleData:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Car model %d has invalid style data", va_1);
             break;
         }
 
-        case 1138:
+        case Gta2Error::ReleasingTwiceInReleasePassive:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Releasing twice in release_passive. List type %s", gListTypes_61AB70[va_1]);
             break;
         }
 
-        case 1139:
+        case Gta2Error::ReleasingTwiceInRelease:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Releasing twice in release. List type %s", gListTypes_61AB70[va_1]);
             break;
         }
 
-        case 1095:
+        case Gta2Error::AssertionFailure:
         {
             const char_type* va_1 = va_arg(va, const char_type*);
             sprintf(gTmpBuffer_67C598, "assertion failure in %s(line %d): %s", SourceFileNameFromPath_4A07A0(pFileName), lineNo, va_1);
             break;
         }
-        case 1096:
+        case Gta2Error::TooManySymbols:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Too many symbols at %d (max is 999)", va_1);
             break;
         }
 
-        case 1098:
+        case Gta2Error::FailedToCreateCharacterInScript:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Failed to create_a_character in script: uid: %d", va_1);
             break;
         }
 
-        case 1099:
+        case Gta2Error::FailedToFindUidInScript:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Failed to find a uid in script: uid: %d", va_1);
             break;
         }
 
-        case 1100:
+        case Gta2Error::IllegalZoneIdInSymbolTable:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Illegal zone id in symbol table: %d", va_1);
             break;
         }
 
-        case 1101:
+        case Gta2Error::FailedToCreateArrowInScript:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Failed to create arrow in script: uid: %d", va_1);
             break;
         }
 
-        case 1102:
+        case Gta2Error::LineAccessingCarThatHasntBeenCreated:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Line accessing car that hasn't been created: uid: %d", va_1);
             break;
         }
 
-        case 1103:
+        case Gta2Error::LineAccessingCharacterThatHasntBeenCreated:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Line accessing character that hasn't been created: uid: %d", va_1);
             break;
         }
 
-        case 1104:
+        case Gta2Error::LineAccessingObjectThatHasntBeenCreated:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Line accessing object that hasn't been created: uid: %d", va_1);
             break;
         }
 
-        case 1110:
+        case Gta2Error::LineAccessingCounterThatHasntBeenCreated:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Line accessing counter that hasn't been created: uid: %d", va_1);
             break;
         }
 
-        case 1111:
+        case Gta2Error::LineAccessingCharacterWithNoGroup:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Line accessing character with no group when it should have group: uid: %d", va_1);
             break;
         }
 
-        case 1106:
+        case Gta2Error::LineAccessingTriggerThatHasntBeenCreated:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Line accessing trigger that hasn't been created: uid: %d", va_1);
             break;
         }
 
-        case 1108:
+        case Gta2Error::LineAccessingCraneThatHasntBeenCreated:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Line accessing crane that hasn't been created: uid: %d", va_1);
             break;
         }
 
-        case 1109:
+        case Gta2Error::LineOrderingDriverOutOfCarButCharIsNotDriver:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Line attempting to order driver out of car, but char isn't a driver!: %d", va_1);
             break;
         }
 
-        case 1112:
+        case Gta2Error::LineAccessingArrowThatHasntBeenCreated:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Line accessing arrow that hasn't been created: uid: %d", va_1);
             break;
         }
 
-        case 1113:
+        case Gta2Error::AttemptingToDoSetGangInfoOnInvalidGangName:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Attempting to do 'SET_GANG_INFO' on invalid gang name in script line: %d", va_1);
             break;
         }
 
-        case 1114:
+        case Gta2Error::FailedToCreateCraneInScriptLine:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Failed to create a crane in script line: %d", va_1);
             break;
         }
 
-        case 1115:
+        case Gta2Error::FailedToCreateConveyorInScriptLine:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Failed to create a conveyor in script line: %d", va_1);
             break;
         }
 
-        case 1116:
+        case Gta2Error::FailedToCreateGeneratorInScriptLine:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Failed to create a generator in script line: %d", va_1);
             break;
         }
 
-        case 1117:
+        case Gta2Error::FailedToCreateDestructorInScriptLine:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Failed to create a destructor in script line: %d", va_1);
             break;
         }
 
-        case 1118:
+        case Gta2Error::AttemptingToPos32ArrowAtLogicalItem:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Attempted to point arrow at a 'logical' item, not a physical item. Script line: %d", va_1);
             break;
         }
 
-        case 1119:
+        case Gta2Error::LineAccessingDoorThatHasntBeenCreated:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Line accessing door that hasn't been created: uid: %d", va_1);
             break;
         }
 
-        case 1120:
+        case Gta2Error::FailedToCreateCrusherInScriptLine:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Failed to create a crusher in script line: %d", va_1);
             break;
         }
 
-        case 1121:
+        case Gta2Error::LineAccessingConveyorThatHasntBeenCreated:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Line accessing conveyor that hasn't been created: uid: %d", va_1);
             break;
         }
 
-        case 1123:
+        case Gta2Error::LineAccessingGeneratorThatHasntBeenCreated:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Line accessing generator that hasn't been created: uid: %d", va_1);
             break;
         }
 
-        case 1124:
+        case Gta2Error::InvalidSpecialTileNumber:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Invalid special tile number : %d", va_1);
             break;
         }
 
-        case 1125:
+        case Gta2Error::RepeatedSpecialTileNumber:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Repeated special tile number : %d", va_1);
             break;
         }
 
-        case 1122:
+        case Gta2Error::LineAccessingDestructorThatHasntBeenCreated:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Line accessing destructor that hasn't been created: uid: %d", va_1);
             break;
         }
 
-        case 1126:
+        case Gta2Error::CheckingPhoneInMissionscriptWithoutExecutingAnswerPhone:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Checking phone in missionscript without executing ANSWER_PHONE: uid: %d", va_1);
             break;
         }
 
-        case 1127:
+        case Gta2Error::MapHasTooManyColumns:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "map has too many columns by %d words", va_1);
             break;
         }
 
-        case 1129:
+        case Gta2Error::MapHasTooManyBlocks:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "map has %d blocks too many ", va_1);
             break;
         }
 
-        case 1128:
+        case Gta2Error::StyleFileContainsUnexpectedNumberOfFonts:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "style file contains unexpected number of fonts %d", va_1);
             break;
         }
 
-        case 1130:
+        case Gta2Error::AttemptingIsItemOnscreenOnIllegalType:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Attempting 'is_item_onscreen' on an illegal type: uid: %d", va_1);
             break;
         }
 
-        case 1131:
+        case Gta2Error::UnableToCreateCarToPlaceOnTopOfTrailerInScript:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Unable to create car to place on top of trailer in script. uid: %d", va_1);
             break;
         }
 
-        case 1132:
+        case Gta2Error::UnableToFindZonenameToSetupInfoForInScript:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Unable to find zonename to 'setup' info for in script. uid: %d", va_1);
             break;
         }
 
-        case 1133:
+        case Gta2Error::UnableToFindZonenameInSetGangInfoInScript:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Unable to find zonename in 'set_gang_info' in script. uid: %d", va_1);
             break;
         }
 
-        case 1134:
+        case Gta2Error::UnableToFindZonenameInSetStationInfoInScript:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Unable to find zonename in 'set_station_info' in script. uid: %d", va_1);
             break;
         }
 
-        case 1135:
+        case Gta2Error::UnableToFindPlatformInSetStationInfoInScript:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Unable to find platform in 'set_station_info' in script. uid: %d", va_1);
             break;
         }
 
-        case 1136:
+        case Gta2Error::UnableToFindTrainstationAssociatedWithPlatformInSetStationInfoInScript:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598,
@@ -1619,77 +1619,77 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 1140:
+        case Gta2Error::UnableToFindGangMatchingNameInSetGangRespect:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Unable to find gang matching name of gangone in a 'set gang respect'. uid: %d", va_1);
             break;
         }
 
-        case 1141:
+        case Gta2Error::UnableToFindGangMatchingNameInSetGangRespect2:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Unable to find gang matching name of gangtwo in a 'set gang respect'. uid: %d", va_1);
             break;
         }
 
-        case 1142:
+        case Gta2Error::UnableToFindGangnameInAlterGangRespect:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Unable to find gangname in an 'alter gang respect'. uid: %d", va_1);
             break;
         }
 
-        case 1143:
+        case Gta2Error::TryingToChangeGangRespectOnNonPlayerControlledCharacter:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Trying to change gangrespect on a non-player controlled character. uid: %d", va_1);
             break;
         }
 
-        case 1144:
+        case Gta2Error::UnableToFindGangMatchingNameInCheckGangRespect:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Unable to find gang matching name in a 'check gang respect'. uid: %d", va_1);
             break;
         }
 
-        case 1145:
+        case Gta2Error::UnableToFindZoneMatchingNameInIsCharInGangzone:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Unable to find zone matching name in a 'is char in gangzone'. uid: %d", va_1);
             break;
         }
 
-        case 1146:
+        case Gta2Error::UnableToFindZoneMatchingNameInIsCharInZone:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Unable to find zone matching name in a 'is char in zone'. uid: %d", va_1);
             break;
         }
 
-        case 1147:
+        case Gta2Error::UnableToFindGangMatchingNameInAddCharToGang:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Unable to find gang matching name in a 'add char to gang'. uid: %d", va_1);
             break;
         }
 
-        case 1148:
+        case Gta2Error::MissionScriptIsReferringToTextIdThatDoesNotExist:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Mission script is referring to a 'text id' that doesn't exist. ID: %d", va_1);
             break;
         }
 
-        case 1400:
+        case Gta2Error::ErrorWith1Param:
         {
             s32 va_1 = va_arg(va, s32);
             sprintf(gTmpBuffer_67C598, "Error with 1 param: %d", va_1);
             break;
         }
 
-        case 2001:
+        case Gta2Error::InvalidRelativeSpriteNumber:
         {
             s32 va_1 = va_arg(va, s32);
             const char_type* va_2 = va_arg(va, const char_type*);
@@ -1697,7 +1697,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 2002:
+        case Gta2Error::InvalidRelativeVirtualPaletteNumber:
         {
             s32 va_1 = va_arg(va, s32);
             const char_type* va_2 = va_arg(va, const char_type*);
@@ -1705,7 +1705,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 2003:
+        case Gta2Error::InvalidRelativeFontSpriteNumber:
         {
             s32 va_1 = va_arg(va, s32);
             s32 va_2 = va_arg(va, s32);
@@ -1713,7 +1713,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 2004:
+        case Gta2Error::IncorrectAspectRatioInScreenMode:
         {
             s32 va_1 = va_arg(va, s32);
             s32 va_2 = va_arg(va, s32);
@@ -1721,7 +1721,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 2024:
+        case Gta2Error::ListTypeCorruptedAtGrab:
         {
             s32 va_1 = va_arg(va, s32);
             s32 va_2 = va_arg(va, s32);
@@ -1729,7 +1729,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 2025:
+        case Gta2Error::ListTypeCorruptedAtRelease:
         {
             s32 va_1 = va_arg(va, s32);
             s32 va_2 = va_arg(va, s32);
@@ -1737,7 +1737,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 2026:
+        case Gta2Error::ListTypeCorruptedAtTraverse:
         {
             s32 va_1 = va_arg(va, s32);
             s32 va_2 = va_arg(va, s32);
@@ -1745,7 +1745,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 2030:
+        case Gta2Error::ListTypeCorruptedAtActivate:
         {
             s32 va_1 = va_arg(va, s32);
             s32 va_2 = va_arg(va, s32);
@@ -1753,7 +1753,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 2031:
+        case Gta2Error::ListTypeCorruptedAtPacify:
         {
             s32 va_1 = va_arg(va, s32);
             s32 va_2 = va_arg(va, s32);
@@ -1761,7 +1761,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 2005:
+        case Gta2Error::CantDeleteElementFromList:
         {
             s32 va_1 = va_arg(va, s32);
             s32 va_2 = va_arg(va, s32);
@@ -1769,7 +1769,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 2006:
+        case Gta2Error::InvalidZsInSprite:
         {
             s32 va_1 = va_arg(va, s32);
             s32 va_2 = va_arg(va, s32);
@@ -1777,7 +1777,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 2007:
+        case Gta2Error::DoorTooCloseInCarModel:
         {
             s32 va_1 = va_arg(va, s32);
             s32 va_2 = va_arg(va, s32);
@@ -1785,7 +1785,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 2008:
+        case Gta2Error::InvalidSpriteTypeAndNumber:
         {
             s32 va_1 = va_arg(va, s32);
             s32 va_2 = va_arg(va, s32);
@@ -1793,7 +1793,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 2009:
+        case Gta2Error::TrafficLightsTooCloseToEdgeOfWorld:
         {
             s32 va_1 = va_arg(va, s32);
             s32 va_2 = va_arg(va, s32);
@@ -1801,7 +1801,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 2010:
+        case Gta2Error::InvalidFrameInObjectModel:
         {
             s32 va_1 = va_arg(va, s32);
             s32 va_2 = va_arg(va, s32);
@@ -1809,7 +1809,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 2011:
+        case Gta2Error::IllegalCoordinate:
         {
             Fix16_Point_POD c;
             c.x = *va_arg(va, int*);
@@ -1819,7 +1819,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 2012:
+        case Gta2Error::IllegalGoodBadRatioForCarModelChoice:
         {
             s32 va_1 = va_arg(va, s32);
             s32 va_2 = va_arg(va, s32);
@@ -1827,7 +1827,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 2019:
+        case Gta2Error::ModelRepeatedInFile:
         {
             s32 va_1 = va_arg(va, s32);
             const char_type* va_2 = va_arg(va, const char_type*);
@@ -1835,11 +1835,11 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 2014:
+        case Gta2Error::BinmakeError:
             sprintf(gTmpBuffer_67C598, "%s binmake error : %s", SourceFileNameFromPath_4A07A0(gErrStr_67C29C), gErrStr2_67C3A8);
             break;
 
-        case 2018:
+        case Gta2Error::InvalidSize:
         {
             s32 va_1 = va_arg(va, s32);
             const char_type* va_2 = va_arg(va, const char_type*);
@@ -1847,7 +1847,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 2015:
+        case Gta2Error::CarInCollisionWithSpriteAtSafePosition:
         {
             s32 va_1 = va_arg(va, s32);
             const char_type* va_2 = va_arg(va, const char_type*);
@@ -1855,7 +1855,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 2016:
+        case Gta2Error::ObjectInCollisionWithSpriteAtSafePosition:
         {
             s32 va_1 = va_arg(va, s32);
             const char_type* va_2 = va_arg(va, const char_type*);
@@ -1863,7 +1863,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 2017:
+        case Gta2Error::InvalidCraneTarget:
         {
             s32 va_1 = va_arg(va, s32);
             s32 va_2 = va_arg(va, s32);
@@ -1871,7 +1871,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 2020:
+        case Gta2Error::TooManyDoorInfosDeclaredInScript:
         {
             s32 va_1 = va_arg(va, s32);
             s32 va_2 = va_arg(va, s32);
@@ -1879,7 +1879,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 2021:
+        case Gta2Error::IllegalTrainStationNoEntryZone:
         {
             s32 va_1 = va_arg(va, s32);
             s32 va_2 = va_arg(va, s32);
@@ -1887,7 +1887,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 2022:
+        case Gta2Error::IllegalTrainStationNoExitZone:
         {
             s32 va_1 = va_arg(va, s32);
             s32 va_2 = va_arg(va, s32);
@@ -1895,7 +1895,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 2023:
+        case Gta2Error::IllegalTrainStationNoStopZone:
         {
             s32 va_1 = va_arg(va, s32);
             s32 va_2 = va_arg(va, s32);
@@ -1903,7 +1903,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 2401:
+        case Gta2Error::ErrorWith2Params:
         {
             s32 va_1 = va_arg(va, s32);
             s32 va_2 = va_arg(va, s32);
@@ -1911,7 +1911,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 2027:
+        case Gta2Error::IncorrectReplayVersion:
         {
             s32 va_1 = va_arg(va, s32);
             s32 va_2 = va_arg(va, s32);
@@ -1919,7 +1919,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 2028:
+        case Gta2Error::SyncErrorRandom:
         {
             s32 va_1 = va_arg(va, s32);
             s32 va_2 = va_arg(va, s32);
@@ -1927,7 +1927,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 2029:
+        case Gta2Error::SyncErrorMission:
         {
             s32 va_1 = va_arg(va, s32);
             s32 va_2 = va_arg(va, s32);
@@ -1935,7 +1935,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 3003:
+        case Gta2Error::VideomodeNotAvailable:
         {
             s32 va_1 = va_arg(va, s32);
             const char_type* va_2 = va_arg(va, const char_type*);
@@ -1944,7 +1944,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 3004:
+        case Gta2Error::FailedToSetVideomode:
         {
             s32 va_1 = va_arg(va, s32);
             const char_type* va_2 = va_arg(va, const char_type*);
@@ -1953,7 +1953,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 3005:
+        case Gta2Error::CantDeleteSpriteFromCollisionList:
         {
             s32 va_1 = va_arg(va, s32);
             const char_type* va_2 = va_arg(va, const char_type*);
@@ -1962,7 +1962,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 3006:
+        case Gta2Error::AddingSpriteToCollisionListTwice:
         {
             s32 va_1 = va_arg(va, s32);
             const char_type* va_2 = va_arg(va, const char_type*);
@@ -1971,7 +1971,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 3007:
+        case Gta2Error::InvalidMapAccess:
         {
             s32 va_1 = va_arg(va, s32);
             const char_type* va_2 = va_arg(va, const char_type*);
@@ -1980,7 +1980,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 3008:
+        case Gta2Error::InvalidMapChangeAccess:
         {
             s32 va_1 = va_arg(va, s32);
             const char_type* va_2 = va_arg(va, const char_type*);
@@ -1989,7 +1989,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 3009:
+        case Gta2Error::InvalidPaletteTypeForSpriteTypeAndNumber:
         {
             s32 va_1 = va_arg(va, s32);
             const char_type* va_2 = va_arg(va, const char_type*);
@@ -1998,7 +1998,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 3010:
+        case Gta2Error::InvalidSpriteTypeAndNumberRemap:
         {
             s32 va_1 = va_arg(va, s32);
             const char_type* va_2 = va_arg(va, const char_type*);
@@ -2007,7 +2007,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 3013:
+        case Gta2Error::ModelCountMismatchInStyleFile:
         {
             s32 va_1 = va_arg(va, s32);
             const char_type* va_2 = va_arg(va, const char_type*);
@@ -2020,7 +2020,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 3011:
+        case Gta2Error::InvalidBlockInTrainCode:
         {
             s32 va_1 = va_arg(va, s32);
             const char_type* va_2 = va_arg(va, const char_type*);
@@ -2029,7 +2029,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 3012:
+        case Gta2Error::TrainOnBlockWithIncorrectArrow:
         {
             s32 va_1 = va_arg(va, s32);
             const char_type* va_2 = va_arg(va, const char_type*);
@@ -2038,7 +2038,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 3014:
+        case Gta2Error::AttemptingToDisableRoadAtIllegalCoordinates:
         {
             s32 va_1 = va_arg(va, s32);
             const char_type* va_2 = va_arg(va, const char_type*);
@@ -2047,7 +2047,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 3015:
+        case Gta2Error::AttemptingToEnableRoadAtIllegalCoordinates:
         {
             s32 va_1 = va_arg(va, s32);
             const char_type* va_2 = va_arg(va, const char_type*);
@@ -2056,7 +2056,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 3016:
+        case Gta2Error::IllegalBlockForTrainCreation:
         {
             s32 va_1 = va_arg(va, s32);
             const char_type* va_2 = va_arg(va, const char_type*);
@@ -2065,7 +2065,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 3017:
+        case Gta2Error::FailedToCreateCarriage:
         {
             s32 va_1 = va_arg(va, s32);
             const char_type* va_2 = va_arg(va, const char_type*);
@@ -2074,7 +2074,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 3018:
+        case Gta2Error::ErrorInSetupOfParkCommand:
         {
             s32 va_1 = va_arg(va, s32);
             const char_type* va_2 = va_arg(va, const char_type*);
@@ -2087,7 +2087,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 4001:
+        case Gta2Error::InvalidXCoordinateInSpriteType:
         {
             s32 va_1 = va_arg(va, s32);
 
@@ -2106,7 +2106,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         }
         break;
 
-        case 4002:
+        case Gta2Error::InvalidYCoordinateInSpriteType:
         {
             s32 va_1 = va_arg(va, s32);
 
@@ -2123,7 +2123,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 4003:
+        case Gta2Error::InvalidZCoordinateInSpriteType:
         {
             s32 va_1 = va_arg(va, s32);
 
@@ -2140,7 +2140,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 4007:
+        case Gta2Error::PlacingGangPhoneWhenNoGang:
         {
             const char_type* va_1 = va_arg(va, const char_type*);
 
@@ -2151,7 +2151,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 4004:
+        case Gta2Error::IllegalCoordinate3D:
         {
             const char_type* va_1 = va_arg(va, const char_type*);
 
@@ -2163,7 +2163,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 4008:
+        case Gta2Error::InvalidDiagonalBlock:
         {
             const char_type* va_1 = va_arg(va, const char_type*);
 
@@ -2175,7 +2175,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 4005:
+        case Gta2Error::NoDirectionArrowFoundInBlockWithSlope:
         {
             s32* va_1 = va_arg(va, s32*);
             Fix16_Vec c;
@@ -2190,51 +2190,51 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             break;
         }
 
-        case 9011:
+        case Gta2Error::DirectXError:
         {
             const char_type* va_1 = va_arg(va, const char_type*);
             sprintf(gTmpBuffer_67C598, "DirectX Error: %s", va_1);
             break;
         }
 
-        case 8001:
+        case Gta2Error::TooManyPhonesForGang:
             sprintf(gTmpBuffer_67C598, "Too many %s phones for %s gang", gErrStr_67C29C, gErrStr2_67C3A8);
             break;
-        case 7004:
+        case Gta2Error::TooManyLinesInBriefing:
 
             sprintf(gTmpBuffer_67C598, "Too many lines in briefing %s", gErrStr_67C29C);
             break;
 
-        case 7006:
+        case Gta2Error::CouldntFindAttractModeFile:
             sprintf(gTmpBuffer_67C598, "Couldn't find attract mode file %s", gErrStr_67C29C);
             break;
 
-        case 7001:
+        case Gta2Error::TextIdentifierNotFound:
             sprintf(gTmpBuffer_67C598, "text identifier not found : %s", gErrStr_67C29C);
             break;
 
-        case 7002:
+        case Gta2Error::BriefingTooLong:
             sprintf(gTmpBuffer_67C598, "Briefing %s too long", gErrStr_67C29C);
             break;
 
-        case 7003:
+        case Gta2Error::BriefingTooLongToWrap:
             sprintf(gTmpBuffer_67C598, "Briefing %s too long to wrap", gErrStr_67C29C);
             break;
 
-        case 5001:
+        case Gta2Error::InvalidFraction:
         {
             Fix16 value = *va_arg(va, Fix16*);
             sprintf(gTmpBuffer_67C598, "Invalid fraction : %f", value.AsFloat());
             break;
         }
 
-        case 5002:
+        case Gta2Error::InvalidAmbientLightValue:
         {
             Fix16 value = *va_arg(va, Fix16*);
             sprintf(gTmpBuffer_67C598, "Invalid ambient light value : %f", value.AsFloat());
             break;
         }
-        case 6001:
+        case Gta2Error::UnableToFindRoute:
         {
             s32 va_1 = va_arg(va, s32);
             s32 va_2 = va_arg(va, s32);
@@ -2263,7 +2263,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         }
         break;
 
-        case 666: // moved case
+        case Gta2Error::ListError: // moved case
             sprintf(gTmpBuffer_67C598, "List Error see Kivlin");
             break;
 
@@ -2279,7 +2279,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
 MATCH_FUNC(0x4A38C0)
 EXPORT void FatalError_4A38C0(s32 Code, const char_type* pSourceFile, s32 lineNo, ...)
 {
-    if (Code == 16)
+    if (Code == Gta2Error::FreeloaderEpisodeUnknown)
     {
         const char_type destroyed = bDestroyed_6F5B70;
         if (!destroyed)
@@ -2288,7 +2288,7 @@ EXPORT void FatalError_4A38C0(s32 Code, const char_type* pSourceFile, s32 lineNo
             GBH_Graphis_DMA_Video_Free_5D9830();
             // 16 was using esi instead of push 10h without the 0x6F5B70 bool
             // being cached in both branches of the if/else
-            FatalError_4A07C0(16, pSourceFile, lineNo);
+            FatalError_4A07C0(Gta2Error::FreeloaderEpisodeUnknown, pSourceFile, lineNo);
         }
         DestroyWindow(gHwnd_707F04);
         exit(16);

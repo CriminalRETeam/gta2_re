@@ -290,7 +290,7 @@ void __stdcall File::Global_Seek_4A7140(u32* pOffset)
 
     if (crt::fseek(ghFile_67CFEC, *pOffset, SEEK_CUR))
     {
-        File_Error_4A7190(14, 0, 0);
+        File_Error_4A7190(Gta2Error::FseekError, 0, 0);
     }
 }
 
@@ -311,7 +311,7 @@ void __stdcall File::Global_Read_4A71C0(void* pBuffer, const u32& bufferSize)
 
     if (Read_4A6D90(pBuffer, bufferSize, 1u, ghFile_67CFEC) != 1)
     {
-        File_Error_4A7190(15, 0, 0);
+        File_Error_4A7190(Gta2Error::FileReadFailure, 0, 0);
     }
 }
 
@@ -336,34 +336,34 @@ size_t __stdcall File::Global_ReadRemainder_4A7250(void* Buffer, u32* pMaxFileSi
     s32 curPos = crt::ftell(ghFile_67CFEC);
     if (curPos == -1)
     {
-        File_Error_4A7190(13, 0, 0);
+        File_Error_4A7190(Gta2Error::FtellError, 0, 0);
     }
 
     if (crt::fseek(ghFile_67CFEC, 0, SEEK_END))
     {
-        File_Error_4A7190(14, 0, 0);
+        File_Error_4A7190(Gta2Error::FseekError, 0, 0);
     }
 
     s32 endPos = crt::ftell(ghFile_67CFEC);
     if (endPos == -1)
     {
-        File_Error_4A7190(13, 0, 0);
+        File_Error_4A7190(Gta2Error::FtellError, 0, 0);
     }
 
     if (crt::fseek(ghFile_67CFEC, curPos, SEEK_SET))
     {
-        File_Error_4A7190(14, 0, 0);
+        File_Error_4A7190(Gta2Error::FseekError, 0, 0);
     }
 
     size_t remainderSize = endPos - curPos;
     if (remainderSize > *pMaxFileSize)
     {
-        File_Error_4A7190(1022, remainderSize - *pMaxFileSize, 0);
+        File_Error_4A7190(Gta2Error::FileTooLarge, remainderSize - *pMaxFileSize, 0);
     }
 
     if (Read_4A6D90(Buffer, remainderSize, 1u, ghFile_67CFEC) != 1)
     {
-        File_Error_4A7190(15, 0, 0);
+        File_Error_4A7190(Gta2Error::FileReadFailure, 0, 0);
     }
 
     return remainderSize;

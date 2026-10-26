@@ -598,6 +598,17 @@ GTA2_ASSERT_SIZEOF_ALWAYS(SaveData, 0x748);
 
 EXTERN_GLOBAL(SaveData, gGameSave_6F78C8);
 
+// WeaponCheckTable::field_6_flags
+namespace weapon_check_flag
+{
+enum
+{
+    hit_1 = 1, // set once a matching weapon hit the entity
+    car_2 = 2,
+    ped_4 = 4,
+};
+} // namespace weapon_check_flag
+
 struct WeaponCheckTable
 {
     s32 field_0_entity_id;
@@ -619,19 +630,19 @@ class ScriptManager
     // 9.6f 0x475980
     inline bool HasCheckFlag1_475980(const WeaponCheckTable* pTable) const
     {
-        return (pTable->field_6_flags & 1) == 1;
+        return (pTable->field_6_flags & weapon_check_flag::hit_1) == weapon_check_flag::hit_1;
     }
 
     // 9.6f 0x4759A0
     inline bool HasCheckFlag2_4759A0(const WeaponCheckTable* pTable) const
     {
-        return (pTable->field_6_flags & 2) == 2;
+        return (pTable->field_6_flags & weapon_check_flag::car_2) == weapon_check_flag::car_2;
     }
 
     // 9.6f 0x4759C0
     inline bool HasCheckFlag4_4759C0(const WeaponCheckTable* pTable) const
     {
-        return (pTable->field_6_flags & 4) == 4;
+        return (pTable->field_6_flags & weapon_check_flag::ped_4) == weapon_check_flag::ped_4;
     }
 
     // 9.6f 0x475A20
