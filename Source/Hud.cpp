@@ -198,7 +198,7 @@ void Hud_UnderRoofArrowMarker::Update_5CF730()
 
     if (!pPed || static_cast<u8>(pPed->IsInTrain_470F00()))
     {
-        field_A_ped_under_solid = 0;
+        field_A_ped_under_solid = false;
     }
     else
     {
@@ -659,7 +659,7 @@ void ArrowTrace::UpdateAimCoordinates_5D03F0()
         case ArrowTargetType::Object_4:
             if (!field_8_obj->IsNotModel_174_529200())
             {
-                gHud_2B00_706620->field_1F18_arrows.field_844_check_info_phones = 1;
+                gHud_2B00_706620->field_1F18_arrows.field_844_check_info_phones = true;
                 field_10_target_type = ArrowTargetType::Nothing_0;
             }
             else
@@ -1147,7 +1147,7 @@ void Hud_Arrow_7C_Array::UpdateArrows_5D0FD0()
     if (field_844_check_info_phones)
     {
         ClearOrphanInfoPhoneArrows_5D0F80();
-        field_844_check_info_phones = 0;
+        field_844_check_info_phones = false;
     }
 }
 

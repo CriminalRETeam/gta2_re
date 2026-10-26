@@ -137,14 +137,14 @@ class Hud_UnderRoofArrowMarker
     Hud_UnderRoofArrowMarker()
     {
         field_8_rotation = 0;
-        field_A_ped_under_solid = 0;
+        field_A_ped_under_solid = false;
     }
     EXPORT void Update_5CF730();
     EXPORT void Draw_5CF910();
     Fix16 field_0_screen_x;
     Fix16 field_4_screen_y;
     Ang16 field_8_rotation;
-    char_type field_A_ped_under_solid;
+    bool field_A_ped_under_solid;
     char_type field_B_unused;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Hud_UnderRoofArrowMarker, 0xC);
@@ -184,10 +184,10 @@ class Hud_ShowCoords
     // 9.6f 0x4A4760
     inline void ToggleShowCoords_4A4760()
     {
-        field_0_show_coords = field_0_show_coords == 0;
+        field_0_show_coords = !field_0_show_coords;
     }
 
-    char_type field_0_show_coords;
+    bool field_0_show_coords;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Hud_ShowCoords, 0x1);
 
@@ -593,7 +593,7 @@ class Hud_Arrow_7C_Array
 {
   public:
     // 9.6f 0x4C70B0
-    inline char_type ShowGangArrows_4C70B0()
+    inline bool ShowGangArrows_4C70B0()
     {
         return field_83C_show_gang_arrows;
     }
@@ -601,9 +601,9 @@ class Hud_Arrow_7C_Array
     // inline 0x4C7080
     Hud_Arrow_7C_Array()
     {
-        field_83C_show_gang_arrows = 1;
+        field_83C_show_gang_arrows = true;
         field_840_visible_gang_arrow = NULL;
-        field_844_check_info_phones = 0;
+        field_844_check_info_phones = false;
     }
 
     EXPORT void CreatePlayerArrows_5D1350();
@@ -620,9 +620,9 @@ class Hud_Arrow_7C_Array
     EXPORT void place_gang_phone_5D1110(Object* pPhoneInfo);
     EXPORT void SetNewGangArrow_5D1310(Gang* pZone);
     Hud_Arrow field_0_array[17];
-    char_type field_83C_show_gang_arrows;
+    bool field_83C_show_gang_arrows;
     Hud_Arrow* field_840_visible_gang_arrow;
-    char_type field_844_check_info_phones;
+    bool field_844_check_info_phones;
 };
 
 EXPORT char_type __stdcall GetBriefFaceIdx_5D3680(u16 face_char);
