@@ -6845,24 +6845,7 @@ Car::~Car()
 MATCH_FUNC(0x447360)
 void Car::ClearHeadlightDeltas_447360()
 {
-    if ((gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags_2 & car_info_flag2::popup_headlights) == car_info_flag2::popup_headlights)
-    {
-        field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopRightDoor1_11);
-        field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopRightDoor2_12);
-        field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopRightDoor3_13);
-        field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopRightDoor4_14);
-
-        field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopLeftDoor1_28);
-        field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopLeftDoor2_29);
-        field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopLeftDoor3_30);
-        field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopLeftDoor4_31);
-    }
-    field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::FrontRightHeadlight_6);
-    field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::FrontLeftHeadlight_23);
-    if ((gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags & car_info_flag::roof_light) == car_info_flag::roof_light)
-    {
-        field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::BottomLeftRoofLight_15);
-    }
+    ClearHeadlightDeltas_425650();
 }
 
 MATCH_FUNC(0x564300)
