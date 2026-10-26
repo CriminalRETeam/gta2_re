@@ -94,7 +94,7 @@ class cSampleManager
     EXPORT u8 Get3DSampleCount_58E000() const;
     EXPORT void SetEaxEnvironment_58E010(s32 env_idx);
 
-    EXPORT bool Open3DProvider_58E140(s32 envIdx);
+    EXPORT bool Open3DProvider_58E140(s32 provider_idx);
 
     // todo order
     EXPORT void Close3DProvider_58E1C0();

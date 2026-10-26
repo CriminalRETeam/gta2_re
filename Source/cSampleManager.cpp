@@ -171,11 +171,11 @@ cSampleManager::cSampleManager()
         strcpy(field_5_str, driveStr);
         strcat(field_5_str, ":\\GTAUDIO\\");
 
-        char_type FileName[80];
-        strcpy(FileName, field_5_str);
-        strcat(FileName, "1.wav");
+        char_type fileName[80];
+        strcpy(fileName, field_5_str);
+        strcat(fileName, "1.wav");
 
-        FILE* hFile = fopen(FileName, "rb");
+        FILE* hFile = fopen(fileName, "rb");
         if (hFile)
         {
             fclose(hFile);
@@ -742,22 +742,22 @@ void cSampleManager::SetEaxEnvironment_58E010(s32 env_idx)
 }
 
 MATCH_FUNC(0x58E140)
-bool cSampleManager::Open3DProvider_58E140(s32 envIdx)
+bool cSampleManager::Open3DProvider_58E140(s32 provider_idx)
 {
-    field_26B4_3d_provider_idx = envIdx;
-    if (envIdx != -1)
+    field_26B4_3d_provider_idx = provider_idx;
+    if (provider_idx != -1)
     {
-        M3DRESULT envIdx2 = AIL_open_3D_provider(field_1EB4_h3dProvider[envIdx]);
-        if (envIdx2 != M3D_NOERR)
+        M3DRESULT result = AIL_open_3D_provider(field_1EB4_h3dProvider[provider_idx]);
+        if (result != M3D_NOERR)
         {
             field_26B4_3d_provider_idx = -1;
             return false;
         }
 
-        field_26C0_3d_provider = field_1EB4_h3dProvider[envIdx];
-        // using another local for envIdx2 doesn't match here, meh
-        AIL_3D_provider_attribute(field_26C0_3d_provider, "EAX environment selection", &envIdx2);
-        if (envIdx2 != -1)
+        field_26C0_3d_provider = field_1EB4_h3dProvider[provider_idx];
+        // The attribute is read into the same local: a second local doesn't match
+        AIL_3D_provider_attribute(field_26C0_3d_provider, "EAX environment selection", &result);
+        if (result != -1)
         {
             field_26B8_bEaxSupported = 1;
             SetEaxEnvironment_58E010(17);
@@ -939,9 +939,9 @@ void cSampleManager::PlayVocal_58E510(s32 stream_idx, s32 voc_idx, bool bAppendA
         {
             strcpy(fileName, field_5_str);
 
-            char_type Buffer[12];
-            sprintf(Buffer, "%d", voc_idx);
-            strcat(fileName, Buffer);
+            char_type number[12];
+            sprintf(number, "%d", voc_idx);
+            strcat(fileName, number);
             if (!bAppendA)
             {
                 strcat(fileName, "A");
