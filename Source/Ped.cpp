@@ -6949,7 +6949,7 @@ void Ped::UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type)
                     field_18C_current_path_point = &field_0_patrol_points[0];
                     field_21C_bf.bInPathList = false;
 
-                    while (1)
+                    while (true)
                     {
                         if (field_18C_current_path_point->field_0_x == 0)
                         {
@@ -7148,7 +7148,7 @@ MATCH_FUNC(0x467a20)
 void Ped::FleeFromCharOnFootAlways_467A20()
 {
     if (field_148_objective_target_ped->field_278_ped_state_1 == ped_state_1::dead_9 ||
-        field_148_objective_target_ped->field_21C_bf.bActive == false)
+        !field_148_objective_target_ped->field_21C_bf.bActive)
     {
         // Only back to normality if the menacing ped is died or (maybe) cannot move
         Ped::ChangeNextPedState1_45C500(ped_state_1::walking_0);
@@ -7869,7 +7869,7 @@ void Ped::PatrolOnFoot_468C70()
     {
         if (field_25C_internal_objective == objectives_enum::goto_area_on_foot_12)
         {
-            if (field_21C_bf.bPanicking == false)
+            if (!field_21C_bf.bPanicking)
             {
                 if (field_226_internal_objective_status)
                 {
@@ -7886,7 +7886,7 @@ void Ped::PatrolOnFoot_468C70()
                 field_168_game_object->RegulateVelocity_433970(field_1F4_walk_speed);
             }
         }
-        else if (field_21C_bf.bPanicking == false)
+        else if (!field_21C_bf.bPanicking)
         {
             field_194_current_patrol_point = field_190_patrol_route->field_0_points;
             Ped::SetObjective2_463830(objectives_enum::goto_area_on_foot_12);
@@ -10415,7 +10415,7 @@ void Ped::ExitTrainStateMachine_46D240()
     {
         found_usable_door = false;
         u8 attempt = 0;
-        while (1)
+        while (true)
         {
             attempt++;
             if (field_154_target_to_enter->IsStoppedWithPavementAtDoor_43B140(field_24C_target_car_door))
