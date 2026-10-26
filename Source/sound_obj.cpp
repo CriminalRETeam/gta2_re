@@ -29,17 +29,17 @@
 #include <math.h>
 
 // Forward declarations: the functions below are in address order
-EXTERN_GLOBAL(u16, word_6751D0);
-EXTERN_GLOBAL(u16, word_6751D2);
-EXTERN_GLOBAL(u16, word_6751D4);
-EXTERN_GLOBAL(u16, word_6751D6);
-EXTERN_GLOBAL(u16, word_6751D8);
-EXTERN_GLOBAL(u16, word_6751DA);
-EXTERN_GLOBAL(u16, word_6751DC);
-EXTERN_GLOBAL(u16, word_6751E2);
-EXTERN_GLOBAL(u16, word_6751DE);
-EXTERN_GLOBAL(u16, word_6751E0);
-EXTERN_GLOBAL(u8, byte_6751E4);
+EXTERN_GLOBAL(u16, gObjSoundDelayKind17_6751D0);
+EXTERN_GLOBAL(u16, gObjSoundDelayKind7_6751D2);
+EXTERN_GLOBAL(u16, gObjSoundDelayKind28_6751D4);
+EXTERN_GLOBAL(u16, gObjSoundDelayKind11_6751D6);
+EXTERN_GLOBAL(u16, gObjSoundDelayKind12_6751D8);
+EXTERN_GLOBAL(u16, gObjSoundDelayKind20_6751DA);
+EXTERN_GLOBAL(u16, gObjSoundDelayKind24_6751DC);
+EXTERN_GLOBAL(u16, gObjSoundDelayKind52_6751E2);
+EXTERN_GLOBAL(u16, gObjSoundDelayKind46_6751DE);
+EXTERN_GLOBAL(u16, gObjSoundDelayKind21_6751E0);
+EXTERN_GLOBAL(u8, gType12SampleIndexCounter_6751E4);
 EXTERN_GLOBAL(s32, dword_61A6CC);
 EXTERN_GLOBAL(s32, dword_61A6D0);
 EXTERN_GLOBAL(u8, gCarRadioStaticVolume_6FF540);
@@ -236,7 +236,7 @@ MATCH_FUNC(0x412490)
 void sound_obj::ProcessType2_412490(s32 idx)
 {
     static BYTE gType2SampleIndexCounter_66F2D4;
-    static BYTE byte_66F540;
+    static BYTE gType2StreamStarted_66F540;
 
     SoundObject* field_C_pObject = field_147C_audio_entities[idx].field_4_pObj->field_C_pAny.pNextFree;
     if (!field_C_pObject)
@@ -247,12 +247,12 @@ void sound_obj::ProcessType2_412490(s32 idx)
     if (field_C_pObject->field_4_bStatus)
     {
         field_3 = 0;
-        if (gSampManager_6FFF00.StreamStatus_58E2C0() || !byte_66F540)
+        if (gSampManager_6FFF00.StreamStatus_58E2C0() || !gType2StreamStarted_66F540)
         {
             gSampManager_6FFF00.CloseStream_58E460();
             gSampManager_6FFF00.OpenStream_58E320(2u);
             gSampManager_6FFF00.StreamSetVolume_58E2F0((6 * field_25_cdVol) / 10);
-            byte_66F540 = 1;
+            gType2StreamStarted_66F540 = 1;
         }
     }
     else
@@ -4543,9 +4543,9 @@ void sound_obj::AdjustSamplesVolume_41B540()
 }
 
 DEFINE_GLOBAL(s16, gElvisVoiceCooldown_675548, 0x675548);
-DEFINE_GLOBAL(u8, byte_67554A, 0x67554A);
-DEFINE_GLOBAL(u8, byte_67554B, 0x67554B);
-DEFINE_GLOBAL(u8, byte_67554C, 0x67554C);
+DEFINE_GLOBAL(u8, gCopVoice17Cooldown_67554A, 0x67554A);
+DEFINE_GLOBAL(u8, gPedVoice1Cooldown_67554B, 0x67554B);
+DEFINE_GLOBAL(u8, gPedVoice22Cooldown_67554C, 0x67554C);
 
 EXPORT bool Cooldown_4236C0();
 
@@ -4631,7 +4631,7 @@ void sound_obj::ProcessObject_41E820(Sound_Params* pEntity)
 }
 
 // The looping or one-shot sound of a map object, by its object kind. Some kinds only play now and
-// then (word_6751D0..E2 count down between plays) and pick a random sample when they do.
+// then (the gObjSoundDelayKind* globals count down between plays) and pick a random sample when they do.
 MATCH_FUNC(0x41E850)
 void sound_obj::ProcessObject_Type12_41E850(Sound_Params* pParams)
 {
@@ -5101,119 +5101,119 @@ void sound_obj::ProcessObject_Type12_41E850(Sound_Params* pParams)
     switch (kind)
     {
         case 17:
-            if (!word_6751D0)
+            if (!gObjSoundDelayKind17_6751D0)
             {
-                word_6751D0 = static_cast<u8>(field_1454_anRandomTable[0] % 20 + 20);
+                gObjSoundDelayKind17_6751D0 = static_cast<u8>(field_1454_anRandomTable[0] % 20 + 20);
             }
             else
             {
-                word_6751D0--;
+                gObjSoundDelayKind17_6751D0--;
                 return;
             }
             break;
         case 7:
-            if (!word_6751D2)
+            if (!gObjSoundDelayKind7_6751D2)
             {
-                word_6751D2 = static_cast<u8>(field_1454_anRandomTable[1] % 12 + 10);
+                gObjSoundDelayKind7_6751D2 = static_cast<u8>(field_1454_anRandomTable[1] % 12 + 10);
             }
             else
             {
-                word_6751D2--;
+                gObjSoundDelayKind7_6751D2--;
                 return;
             }
             break;
         case 28:
-            if (!word_6751D4)
+            if (!gObjSoundDelayKind28_6751D4)
             {
-                word_6751D4 = static_cast<u8>(field_1454_anRandomTable[2] % 90 - 46);
+                gObjSoundDelayKind28_6751D4 = static_cast<u8>(field_1454_anRandomTable[2] % 90 - 46);
             }
             else
             {
-                word_6751D4--;
+                gObjSoundDelayKind28_6751D4--;
                 return;
             }
             break;
         case 11:
-            if (!word_6751D6)
+            if (!gObjSoundDelayKind11_6751D6)
             {
                 field_30_sQueueSample.field_14_samp_idx = field_1454_anRandomTable[3] % 11 + 228;
-                word_6751D6 = static_cast<u8>(field_1454_anRandomTable[2] % 10 + 40);
+                gObjSoundDelayKind11_6751D6 = static_cast<u8>(field_1454_anRandomTable[2] % 10 + 40);
             }
             else
             {
-                word_6751D6--;
+                gObjSoundDelayKind11_6751D6--;
                 return;
             }
             break;
         case 12:
-            if (!word_6751D8)
+            if (!gObjSoundDelayKind12_6751D8)
             {
                 field_30_sQueueSample.field_14_samp_idx = (field_1454_anRandomTable[2] & 3) + 181;
-                word_6751D8 = static_cast<u8>(field_1454_anRandomTable[3] % 90 + 30);
+                gObjSoundDelayKind12_6751D8 = static_cast<u8>(field_1454_anRandomTable[3] % 90 + 30);
             }
             else
             {
-                word_6751D8--;
+                gObjSoundDelayKind12_6751D8--;
                 return;
             }
             break;
         case 20:
-            if (!word_6751DA)
+            if (!gObjSoundDelayKind20_6751DA)
             {
                 field_30_sQueueSample.field_14_samp_idx = field_1454_anRandomTable[1] % 5 + 152;
-                word_6751DA = static_cast<u8>(field_1454_anRandomTable[4] % 10 + 4);
+                gObjSoundDelayKind20_6751DA = static_cast<u8>(field_1454_anRandomTable[4] % 10 + 4);
             }
             else
             {
-                word_6751DA--;
+                gObjSoundDelayKind20_6751DA--;
                 return;
             }
             break;
         case 24:
-            if (!word_6751DC)
+            if (!gObjSoundDelayKind24_6751DC)
             {
                 field_30_sQueueSample.field_14_samp_idx = field_1454_anRandomTable[1] % 5 + 152;
-                word_6751DC = static_cast<u8>((field_1454_anRandomTable[2] & 7) + 5);
+                gObjSoundDelayKind24_6751DC = static_cast<u8>((field_1454_anRandomTable[2] & 7) + 5);
             }
             else
             {
-                word_6751DC--;
+                gObjSoundDelayKind24_6751DC--;
                 return;
             }
             break;
         case 52:
-            if (!word_6751E2)
+            if (!gObjSoundDelayKind52_6751E2)
             {
                 field_30_sQueueSample.field_14_samp_idx = field_1454_anRandomTable[1] % 3 + 154;
-                word_6751E2 = static_cast<u8>(field_1454_anRandomTable[2] % 30 + 45);
+                gObjSoundDelayKind52_6751E2 = static_cast<u8>(field_1454_anRandomTable[2] % 30 + 45);
             }
             else
             {
-                word_6751E2--;
+                gObjSoundDelayKind52_6751E2--;
                 return;
             }
             break;
         case 46:
-            if (!word_6751DE)
+            if (!gObjSoundDelayKind46_6751DE)
             {
                 field_30_sQueueSample.field_14_samp_idx = field_1454_anRandomTable[4] % 6 + 303;
-                word_6751DE = static_cast<u8>(field_1454_anRandomTable[2] % 90 + 30);
+                gObjSoundDelayKind46_6751DE = static_cast<u8>(field_1454_anRandomTable[2] % 90 + 30);
             }
             else
             {
-                word_6751DE--;
+                gObjSoundDelayKind46_6751DE--;
                 return;
             }
             break;
         case 21:
-            if (!word_6751E0)
+            if (!gObjSoundDelayKind21_6751E0)
             {
                 field_30_sQueueSample.field_14_samp_idx = (field_1454_anRandomTable[2] & 3) + 157;
-                word_6751E0 = static_cast<u8>(field_1454_anRandomTable[3] % 40 + 90);
+                gObjSoundDelayKind21_6751E0 = static_cast<u8>(field_1454_anRandomTable[3] % 40 + 90);
             }
             else
             {
-                word_6751E0--;
+                gObjSoundDelayKind21_6751E0--;
                 return;
             }
             break;
@@ -5221,11 +5221,11 @@ void sound_obj::ProcessObject_Type12_41E850(Sound_Params* pParams)
 
     if (field_30_sQueueSample.field_30_loop_count > 0)
     {
-        if (++byte_6751E4 == 255)
+        if (++gType12SampleIndexCounter_6751E4 == 255)
         {
-            byte_6751E4 = 0;
+            gType12SampleIndexCounter_6751E4 = 0;
         }
-        field_30_sQueueSample.field_4_SampleIndex = byte_6751E4;
+        field_30_sQueueSample.field_4_SampleIndex = gType12SampleIndexCounter_6751E4;
     }
 
     field_30_sQueueSample.field_60_nEmittingVolume = vol;
@@ -5750,17 +5750,17 @@ void sound_obj::ProcessPed_422B70(Sound_Params* pType3Entity)
     }
 }
 
-DEFINE_GLOBAL(u16, word_6751D0, 0x6751D0);
-DEFINE_GLOBAL(u16, word_6751D2, 0x6751D2);
-DEFINE_GLOBAL(u16, word_6751D4, 0x6751D4);
-DEFINE_GLOBAL(u16, word_6751D6, 0x6751D6);
-DEFINE_GLOBAL(u16, word_6751D8, 0x6751D8);
-DEFINE_GLOBAL(u16, word_6751DA, 0x6751DA);
-DEFINE_GLOBAL(u16, word_6751DC, 0x6751DC);
-DEFINE_GLOBAL(u16, word_6751DE, 0x6751DE);
-DEFINE_GLOBAL(u16, word_6751E0, 0x6751E0);
-DEFINE_GLOBAL(u16, word_6751E2, 0x6751E2);
-DEFINE_GLOBAL(u8, byte_6751E4, 0x6751E4);
+DEFINE_GLOBAL(u16, gObjSoundDelayKind17_6751D0, 0x6751D0);
+DEFINE_GLOBAL(u16, gObjSoundDelayKind7_6751D2, 0x6751D2);
+DEFINE_GLOBAL(u16, gObjSoundDelayKind28_6751D4, 0x6751D4);
+DEFINE_GLOBAL(u16, gObjSoundDelayKind11_6751D6, 0x6751D6);
+DEFINE_GLOBAL(u16, gObjSoundDelayKind12_6751D8, 0x6751D8);
+DEFINE_GLOBAL(u16, gObjSoundDelayKind20_6751DA, 0x6751DA);
+DEFINE_GLOBAL(u16, gObjSoundDelayKind24_6751DC, 0x6751DC);
+DEFINE_GLOBAL(u16, gObjSoundDelayKind46_6751DE, 0x6751DE);
+DEFINE_GLOBAL(u16, gObjSoundDelayKind21_6751E0, 0x6751E0);
+DEFINE_GLOBAL(u16, gObjSoundDelayKind52_6751E2, 0x6751E2);
+DEFINE_GLOBAL(u8, gType12SampleIndexCounter_6751E4, 0x6751E4);
 
 // Plays what a ped says for the voice event in Ped::field_250 (shouts, screams, ...)
 MATCH_FUNC(0x423080)
@@ -5781,14 +5781,14 @@ void sound_obj::HandlePedVoiceEvent_423080(Sound_Params* pParams)
             case 1:
                 if (!bTank)
                 {
-                    if (!byte_67554B)
+                    if (!gPedVoice1Cooldown_67554B)
                     {
-                        byte_67554B = 3;
+                        gPedVoice1Cooldown_67554B = 3;
                         samp = field_1454_anRandomTable[static_cast<u32>(field_30_sQueueSample.field_0_EntityIndex) % 5] % 11 + 210;
                     }
                     else
                     {
-                        byte_67554B--;
+                        gPedVoice1Cooldown_67554B--;
                     }
                 }
                 break;
@@ -5865,28 +5865,28 @@ void sound_obj::HandlePedVoiceEvent_423080(Sound_Params* pParams)
             case 17:
                 if (bTank)
                 {
-                    if (!byte_67554A)
+                    if (!gCopVoice17Cooldown_67554A)
                     {
                         samp = field_1454_anRandomTable[static_cast<u32>(field_30_sQueueSample.field_0_EntityIndex) % 5] % 14 + 285;
-                        byte_67554A = 3;
+                        gCopVoice17Cooldown_67554A = 3;
                     }
                     else
                     {
-                        byte_67554A--;
+                        gCopVoice17Cooldown_67554A--;
                     }
                 }
                 break;
             case 22:
                 if (!bTank)
                 {
-                    if (!byte_67554C)
+                    if (!gPedVoice22Cooldown_67554C)
                     {
-                        byte_67554C = 3;
+                        gPedVoice22Cooldown_67554C = 3;
                         samp = field_1454_anRandomTable[static_cast<u32>(field_30_sQueueSample.field_0_EntityIndex) % 5] % 4 + 299;
                     }
                     else
                     {
-                        byte_67554C--;
+                        gPedVoice22Cooldown_67554C--;
                     }
                 }
                 break;

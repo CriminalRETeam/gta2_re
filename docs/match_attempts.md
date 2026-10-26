@@ -1190,7 +1190,7 @@ Matched (116 -> 0) with two changes:
 - A map object's sound by kind (`Object::field_26`). 40 case blocks set the sample, release,
   range, distance and volume. VC6 merges their tails, so each case is written out in full, in
   the jump table's address order. Then come countdowns for the occasional kinds, the sample
-  counter `byte_6751E4`, and the queue.
+  counter `gType12SampleIndexCounter_6751E4`, and the queue.
 - 0.716 -> 0.907: the countdown `if (!w) {...} else { w--; return; }`. 0.970: the countdown
   cases in address order and an unsigned sample index. One register difference is left.
 - Oct 5 (40 lines): the rate line. The original copies the first argument to `eax` and reloads `field_14`
