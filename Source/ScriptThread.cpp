@@ -988,7 +988,6 @@ void ScriptThread::SCRCMD_DOOR_DECLARE_D1_S1_504970(SCR_DOOR_DATA_DEC* pCmd)
             pDoor->field_1C_close_delay = close_delay;
             pDoor->field_1E_close_timer = close_delay;
             return;
-            break;
         case SCR_DOOR_CLOSETYPES::close_time_delay:
             pCmd->field_8_door->set_close_type(door_close_type::close_time_delay);
             pDoor = pCmd->field_8_door;
@@ -996,7 +995,6 @@ void ScriptThread::SCRCMD_DOOR_DECLARE_D1_S1_504970(SCR_DOOR_DATA_DEC* pCmd)
             pDoor->field_1C_close_delay = close_delay;
             pDoor->field_1E_close_timer = close_delay;
             return;
-            break;
         case SCR_DOOR_CLOSETYPES::close_when_clear:
             pCmd->field_8_door->set_close_type(door_close_type::close_when_clear);
             pDoor = pCmd->field_8_door;
@@ -1004,7 +1002,6 @@ void ScriptThread::SCRCMD_DOOR_DECLARE_D1_S1_504970(SCR_DOOR_DATA_DEC* pCmd)
             pDoor->field_1C_close_delay = close_delay;
             pDoor->field_1E_close_timer = close_delay;
             return;
-            break;
         case SCR_DOOR_CLOSETYPES::close_when_open_rule_fails:
             pCmd->field_8_door->set_close_type(door_close_type::close_when_open_rule_fails);
             pDoor = pCmd->field_8_door;
@@ -1012,7 +1009,6 @@ void ScriptThread::SCRCMD_DOOR_DECLARE_D1_S1_504970(SCR_DOOR_DATA_DEC* pCmd)
             pDoor->field_1C_close_delay = close_delay;
             pDoor->field_1E_close_timer = close_delay;
             return;
-            break;
     }
     pDoor = pCmd->field_8_door;
     close_delay = pCmd->field_13_delay;
@@ -5072,7 +5068,7 @@ void ScriptThread::SCRCMD_LAUNCH_MISSION_50D2E0()
 MATCH_FUNC(0x50d340)
 void ScriptThread::SCRCMD_SAVE_GAME_50D340()
 {
-    char* pSaveFileName = gGameSession_67E8E0.GetSaveFileName_4C5970();
+    char_type* pSaveFileName = gGameSession_67E8E0.GetSaveFileName_4C5970();
     gScriptManager_6F8060->SaveGame_511E10(pSaveFileName);
     Next_503620(gBasePtr_6F8070);
 }
@@ -5220,7 +5216,6 @@ void ScriptThread::SCRCMD_CHANGE_RADIUS_50D9A0()
 MATCH_FUNC(0x50da50)
 void ScriptThread::SCRCMD_CREATE_LIGHT_50DA50() // CREATE_LIGHT1 or LIGHT_DECSET2
 {
-    //SCR_CREATE_LIGHT* pCmd = (SCR_CREATE_LIGHT*)gBasePtr_6F8070;
     SCR_POINTER* pPointer =
         static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index)); // pCmd->field_8_light_idx
     ScriptThread::CreateLight_504EE0(reinterpret_cast<SCR_CREATE_LIGHT*>(gBasePtr_6F8070), pPointer);
@@ -5790,7 +5785,7 @@ MATCH_FUNC(0x50ea40)
 void ScriptThread::SCRCMD_FINISH_LEVEL_50EA40()
 {
     SCR_FINISH_LEVEL* pCmd = reinterpret_cast<SCR_FINISH_LEVEL*>(gBasePtr_6F8070);
-    char bonus_type;
+    char_type bonus_type;
     switch (pCmd->field_A_bonus_type)
     {
         case SCR_BONUSES::NO_BONUS:
@@ -6930,7 +6925,7 @@ void ScriptThread::PreExecOpCode_5108D0()
                 SCRCMD_STOP_THREAD_506A60();
                 break;
             case SCRCMD_IF_JUMP:
-                SCRCMD_IF_JUMP_506AF0(); // IF_JUMP?
+                SCRCMD_IF_JUMP_506AF0();
                 break;
             case SCRCMD_NOT:
                 SCRCMD_NOT_507750();
