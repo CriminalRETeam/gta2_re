@@ -1654,7 +1654,7 @@ bool Particle_4C::PoolUpdate()
                 gSpriteGrid_3_679210->AddToSingleBucket_477AE0(this->field_30_pOwnSprite);
                 if (this->field_46_sub_state == 2)
                 {
-                    this->field_30_pOwnSprite->field_2C_flags = 0xA2; // sub_4337D0
+                    this->field_30_pOwnSprite->SetBlendAndAlpha_4337D0(2, 20);
                 }
                 this->field_30_pOwnSprite->field_2C_bf.bNoLighting = true;
                 return false;
@@ -1740,7 +1740,7 @@ bool Particle_4C::PoolUpdate()
                 gSpriteGrid_3_679210->AddToSingleBucket_477AE0(this->field_30_pOwnSprite);
                 if (this->field_46_sub_state == 2)
                 {
-                    this->field_30_pOwnSprite->field_2C_flags = -94;
+                    this->field_30_pOwnSprite->SetBlendAndAlpha_4337D0(2, 20);
                 }
 
                 field_30_pOwnSprite->field_2C_bf.bNoLighting = true;
@@ -1791,7 +1791,7 @@ bool Particle_4C::PoolUpdate()
             }
 
             gSpriteGrid_3_679210->AddToSingleBucket_477AE0(this->field_30_pOwnSprite);
-            field_30_pOwnSprite->field_2C_flags = 82;
+            field_30_pOwnSprite->SetBlendAndAlpha_4337D0(2, 10);
             field_30_pOwnSprite->field_2C_bf.bNoLighting = true;
             return false;
 
