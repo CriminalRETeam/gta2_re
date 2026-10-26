@@ -1087,7 +1087,7 @@ void Char::UpdateAnimState_546360()
                         pDriver->field_168_game_object->set_rotation_433A30(pCar->field_50_car_sprite->field_0_rotation);
                         pDriver->field_168_game_object->Set_F8_ped_state_1_433910(ped_state_1::immobilized_8);
                         pDriver->set_target_car_door_403A70(field_7C_pPed->get_target_car_door_403A60());
-                        pDriver->field_168_game_object->SetPedState2_433A50(17);
+                        pDriver->field_168_game_object->SetPedState2_433A50(ped_state_2::ped2_at_car_door_17);
                         pDriver->field_168_game_object->field_84_target_car = pCar;
                         pDriver->field_168_game_object->field_80_sprite_ptr->SetDrawLayer_40F7B0(6);
                         {

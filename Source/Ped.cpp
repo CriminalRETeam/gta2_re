@@ -3682,7 +3682,7 @@ void Ped::UpdateFacingAngle_461A60()
 
         case ped_state_1::standing_still_7:
         {
-            if (this->field_27C_ped_state_2 == 11) // ped_state_2::Unknown_11)
+            if (this->field_27C_ped_state_2 == 11)
             {
                 this->field_130_target_facing_angle = Fix16::atan2_fixed_405320(this->field_1C8_move_target_y - this->field_1AC_cam.y, this->field_1C4_move_target_x - this->field_1AC_cam.x);
             }
@@ -7876,7 +7876,7 @@ void Ped::LeaveCarThenStop_468BD0()
             field_278_ped_state_1 = ped_state_1::immobilized_8;
             field_27C_ped_state_2 = ped_state_2::ped2_at_car_door_17;
             field_168_game_object->Set_F8_ped_state_1_433910(ped_state_1::immobilized_8);
-            field_168_game_object->SetPedState2_433A50(17);
+            field_168_game_object->SetPedState2_433A50(ped_state_2::ped2_at_car_door_17);
             field_16C_car = 0;
             Ped::SetObjective(objectives_enum::no_obj_0);
             Ped::SetObjective2_463830(objectives_enum::no_obj_0);
