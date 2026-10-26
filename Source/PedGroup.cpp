@@ -56,7 +56,7 @@ void PedGroup::ClearGroupData_4C8E90()
     field_34_count = 0;
     field_35_unused = 0;
 
-    for (int i = 0; i < 9; ++i)
+    for (s32 i = 0; i < 9; ++i)
     {
         if (field_4_ped_list[i] != NULL)
         {
