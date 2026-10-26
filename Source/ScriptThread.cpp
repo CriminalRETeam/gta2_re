@@ -8,6 +8,7 @@
 #include "car_despawn_status.hpp"
 #include "explosion_type.hpp"
 #include "hud_message_priority.hpp"
+#include "hud_brief_priority.hpp"
 #include "voice_line.hpp"
 #include "ScriptThread.hpp"
 #include "CarAI.hpp"
@@ -161,9 +162,9 @@ void ScriptThread::MissionFailOnDeathOrArrest_503200()
 
         sprintf(gTmpBuffer_67C598, "%d", msg_id);
 
-        gHud_2B00_706620->field_DC_brief.ClearAllBriefsWithPriority_5D4890(1);
-        gHud_2B00_706620->field_DC_brief.ClearAllBriefsWithPriority_5D4890(3);
-        gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
+        gHud_2B00_706620->field_DC_brief.ClearAllBriefsWithPriority_5D4890(hud_brief_priority::normal_1);
+        gHud_2B00_706620->field_DC_brief.ClearAllBriefsWithPriority_5D4890(hud_brief_priority::now_3);
+        gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(hud_brief_priority::normal_1, gTmpBuffer_67C598);
         gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("mfail"), hud_message_priority::important_3);
         gRoot_sound_66B038.PlayVoice_40F090(voice_line::jobfail_23);
 
@@ -2515,13 +2516,13 @@ void ScriptThread::SCRCMD_DISPLAY_MESSAGE_5093C0()
             gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90(gTmpBuffer_67C598), hud_message_priority::important_3);
             break;
         case SCRCMD_DISPLAY_BRIEF:
-            gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
+            gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(hud_brief_priority::normal_1, gTmpBuffer_67C598);
             break;
         case SCRCMD_DISPLAY_BRIEF_NOW:
-            gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(3, gTmpBuffer_67C598);
+            gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(hud_brief_priority::now_3, gTmpBuffer_67C598);
             break;
         case SCRCMD_DISPLAY_BRIEF_SOON:
-            gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(2, gTmpBuffer_67C598);
+            gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(hud_brief_priority::soon_2, gTmpBuffer_67C598);
             break;
         default:
             break;
@@ -4872,7 +4873,7 @@ void ScriptThread::SCRCMD_PHONE_TEMPLATE_50CE90()
         // Not enough respect.
         s32 brief_id = pCmd->field_8_brief_id - 7;
         sprintf(gTmpBuffer_67C598, "%d", brief_id);
-        gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
+        gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(hud_brief_priority::normal_1, gTmpBuffer_67C598);
         ScriptThread::Next_503620(gBasePtr_6F8070);
         return;
     }
@@ -4897,7 +4898,7 @@ void ScriptThread::SCRCMD_PHONE_TEMPLATE_50CE90()
         // Not enough respect.
         s32 brief_id = pCmd->field_8_brief_id - 7;
         sprintf(gTmpBuffer_67C598, "%d", brief_id);
-        gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
+        gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(hud_brief_priority::normal_1, gTmpBuffer_67C598);
         ScriptThread::Next_503620(gBasePtr_6F8070);
         return;
     }
@@ -4907,7 +4908,7 @@ void ScriptThread::SCRCMD_PHONE_TEMPLATE_50CE90()
     {
         s32 brief_id = pCmd->field_8_brief_id - 5;
         sprintf(gTmpBuffer_67C598, "%d", brief_id);
-        gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
+        gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(hud_brief_priority::normal_1, gTmpBuffer_67C598);
         ScriptThread::Next_503620(gBasePtr_6F8070);
         return;
     }
@@ -4917,7 +4918,7 @@ void ScriptThread::SCRCMD_PHONE_TEMPLATE_50CE90()
     {
         s32 brief_id = pCmd->field_8_brief_id - 2;
         sprintf(gTmpBuffer_67C598, "%d", brief_id);
-        gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
+        gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(hud_brief_priority::normal_1, gTmpBuffer_67C598);
         ScriptThread::Next_503620(gBasePtr_6F8070);
         return;
     }
@@ -4927,7 +4928,7 @@ void ScriptThread::SCRCMD_PHONE_TEMPLATE_50CE90()
     {
         s32 brief_id = pCmd->field_8_brief_id - 1;
         sprintf(gTmpBuffer_67C598, "%d", brief_id);
-        gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
+        gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(hud_brief_priority::normal_1, gTmpBuffer_67C598);
         ScriptThread::Next_503620(gBasePtr_6F8070);
         return;
     }
@@ -4937,7 +4938,7 @@ void ScriptThread::SCRCMD_PHONE_TEMPLATE_50CE90()
     {
         s32 brief_id = pCmd->field_8_brief_id;
         sprintf(gTmpBuffer_67C598, "%d", brief_id);
-        gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
+        gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(hud_brief_priority::normal_1, gTmpBuffer_67C598);
         ScriptThread::Next_503620(gBasePtr_6F8070);
         return;
     }
@@ -4947,7 +4948,7 @@ void ScriptThread::SCRCMD_PHONE_TEMPLATE_50CE90()
     {
         s32 brief_id = pCmd->field_8_brief_id + 1;
         sprintf(gTmpBuffer_67C598, "%d", brief_id);
-        gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
+        gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(hud_brief_priority::normal_1, gTmpBuffer_67C598);
         ScriptThread::Next_503620(gBasePtr_6F8070);
         return;
     }
@@ -4972,7 +4973,7 @@ void ScriptThread::SCRCMD_PHONE_TEMPLATE_50CE90()
     {
         s32 brief_id = pCmd->field_8_brief_id - 6;
         sprintf(gTmpBuffer_67C598, "%d", brief_id);
-        gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
+        gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(hud_brief_priority::normal_1, gTmpBuffer_67C598);
         ScriptThread::Next_503620(gBasePtr_6F8070);
         return;
     }
@@ -4984,14 +4985,14 @@ void ScriptThread::SCRCMD_PHONE_TEMPLATE_50CE90()
     {
         s32 brief_id = pCmd->field_8_brief_id - 4;
         sprintf(gTmpBuffer_67C598, "%d", brief_id);
-        gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
+        gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(hud_brief_priority::normal_1, gTmpBuffer_67C598);
         ScriptThread::Next_503620(gBasePtr_6F8070);
     }
     else // Positive respect, but not enough.
     {
         s32 brief_id = pCmd->field_8_brief_id - 7;
         sprintf(gTmpBuffer_67C598, "%d", brief_id);
-        gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
+        gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(hud_brief_priority::normal_1, gTmpBuffer_67C598);
         ScriptThread::Next_503620(gBasePtr_6F8070);
     }
 }
@@ -5059,7 +5060,7 @@ void ScriptThread::SCRCMD_DO_SAVE_GAME_50D3C0()
                 }
             }
 
-            gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
+            gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(hud_brief_priority::normal_1, gTmpBuffer_67C598);
         }
 
         field_C_cmd_initialised = true;
@@ -5709,8 +5710,8 @@ void ScriptThread::SCRCMD_PUT_CAR_ON_TRAILER_50E900()
 MATCH_FUNC(0x50e9a0)
 void ScriptThread::SCRCMD_CLEAR_BRIEFS_50E9A0()
 {
-    gHud_2B00_706620->field_DC_brief.ClearAllBriefsWithPriority_5D4890(1); // clear lowest brief priority
-    gHud_2B00_706620->field_DC_brief.ClearAllBriefsWithPriority_5D4890(3); // clear highest brief priority
+    gHud_2B00_706620->field_DC_brief.ClearAllBriefsWithPriority_5D4890(hud_brief_priority::normal_1);
+    gHud_2B00_706620->field_DC_brief.ClearAllBriefsWithPriority_5D4890(hud_brief_priority::now_3);
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }
 
@@ -5903,7 +5904,7 @@ void ScriptThread::SCRCMD_DO_EASY_PHONE_50EDC0() //  EASY_PHONE_TEMPLATE
     {
         s32 brief_id = pCmd->field_8_brief_id - 5;
         sprintf(gTmpBuffer_67C598, "%d", brief_id);
-        gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
+        gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(hud_brief_priority::normal_1, gTmpBuffer_67C598);
         ScriptThread::Next_503620(gBasePtr_6F8070);
         return;
     }
@@ -5911,7 +5912,7 @@ void ScriptThread::SCRCMD_DO_EASY_PHONE_50EDC0() //  EASY_PHONE_TEMPLATE
     {
         s32 brief_id = pCmd->field_8_brief_id - 2;
         sprintf(gTmpBuffer_67C598, "%d", brief_id);
-        gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
+        gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(hud_brief_priority::normal_1, gTmpBuffer_67C598);
         ScriptThread::Next_503620(gBasePtr_6F8070);
         return;
     }
@@ -5919,7 +5920,7 @@ void ScriptThread::SCRCMD_DO_EASY_PHONE_50EDC0() //  EASY_PHONE_TEMPLATE
     {
         s32 brief_id = pCmd->field_8_brief_id - 1;
         sprintf(gTmpBuffer_67C598, "%d", brief_id);
-        gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
+        gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(hud_brief_priority::normal_1, gTmpBuffer_67C598);
         ScriptThread::Next_503620(gBasePtr_6F8070);
         return;
     }
@@ -5928,7 +5929,7 @@ void ScriptThread::SCRCMD_DO_EASY_PHONE_50EDC0() //  EASY_PHONE_TEMPLATE
         //  not used in original levels, since phones are disabled after finishing mission
         s32 brief_id = pCmd->field_8_brief_id;
         sprintf(gTmpBuffer_67C598, "%d", brief_id);
-        gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
+        gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(hud_brief_priority::normal_1, gTmpBuffer_67C598);
         ScriptThread::Next_503620(gBasePtr_6F8070);
         return;
     }
@@ -5937,7 +5938,7 @@ void ScriptThread::SCRCMD_DO_EASY_PHONE_50EDC0() //  EASY_PHONE_TEMPLATE
         //  not used in the game as you can repeat a failed mission in GTA2
         s32 brief_id = pCmd->field_8_brief_id + 1;
         sprintf(gTmpBuffer_67C598, "%d", brief_id);
-        gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
+        gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(hud_brief_priority::normal_1, gTmpBuffer_67C598);
         ScriptThread::Next_503620(gBasePtr_6F8070);
         return;
     }
@@ -5957,7 +5958,7 @@ void ScriptThread::SCRCMD_DO_EASY_PHONE_50EDC0() //  EASY_PHONE_TEMPLATE
     {
         s32 brief_id = pCmd->field_8_brief_id - 6;
         sprintf(gTmpBuffer_67C598, "%d", brief_id);
-        gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
+        gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(hud_brief_priority::normal_1, gTmpBuffer_67C598);
         ScriptThread::Next_503620(gBasePtr_6F8070);
         return;
     }
@@ -5967,7 +5968,7 @@ void ScriptThread::SCRCMD_DO_EASY_PHONE_50EDC0() //  EASY_PHONE_TEMPLATE
     {
         s32 brief_id = pCmd->field_8_brief_id - 4;
         sprintf(gTmpBuffer_67C598, "%d", brief_id);
-        gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
+        gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(hud_brief_priority::normal_1, gTmpBuffer_67C598);
         ScriptThread::Next_503620(gBasePtr_6F8070);
     }
     else
@@ -5975,7 +5976,7 @@ void ScriptThread::SCRCMD_DO_EASY_PHONE_50EDC0() //  EASY_PHONE_TEMPLATE
         //  In this case, the player has positive respect but not enough to launch the mission
         s32 brief_id = pCmd->field_8_brief_id - 7;
         sprintf(gTmpBuffer_67C598, "%d", brief_id);
-        gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
+        gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(hud_brief_priority::normal_1, gTmpBuffer_67C598);
         ScriptThread::Next_503620(gBasePtr_6F8070);
     }
 }
@@ -6654,7 +6655,7 @@ void ScriptThread::SCRCMD_START_BASIC_KF_510100() // START_BASIC_KF_TEMPLATE
             ScriptThread::DeallocOrDeleteItem_505B10(pCmd->field_C_objname); // Delete skull icon?
         }
         sprintf(gTmpBuffer_67C598, "%d", pCmd->field_A_brief_id);
-        gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, gTmpBuffer_67C598);
+        gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(hud_brief_priority::normal_1, gTmpBuffer_67C598);
         SCR_POINTER* pPlayerPedPtr = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_E_playername));
         u8 weapon_idx = static_cast<u8>(pCmd->field_10_weapon);
         if (weapon_idx < weapon_type::car_bomb || weapon_idx > 27)

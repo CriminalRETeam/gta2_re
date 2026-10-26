@@ -4,6 +4,7 @@
 #include "Char_Pool.hpp"
 #include "Globals.hpp"
 #include "Hud.hpp"
+#include "hud_brief_priority.hpp"
 #include "Object_5C.hpp"
 #include "SpriteGrid.hpp"
 #include "debug.hpp"
@@ -602,7 +603,7 @@ void Crane::PickUpCar_47F930(Car* pCar)
                         Trailer* pTrailer = pCar->field_64_pTrailer;
                         if (!pTrailer || pTrailer->field_C_trailer_car == NULL || !pTrailer->field_C_trailer_car->IsTruckTransport_447EC0())
                         {
-                            gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, "nespray");
+                            gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(hud_brief_priority::normal_1, "nespray");
                             field_28_strct4.AddSprite_5A6CD0(pCar->field_50_car_sprite);
                             field_28_strct4.TagSpriteWithRng_5A6C10(pCar->field_50_car_sprite);
                         }

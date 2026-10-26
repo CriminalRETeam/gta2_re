@@ -1,6 +1,7 @@
 #include "Player.hpp"
 #include "car_shop_type.hpp"
 #include "hud_message_priority.hpp"
+#include "hud_brief_priority.hpp"
 #include "voice_line.hpp"
 #include "InputRecorder_67F8B0.hpp"
 #include "input_bits.hpp"
@@ -2990,13 +2991,13 @@ void UnknownDebugClass::DoTest_5B2640(u16 action)
     switch (action)
     {
         case 3:
-            gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, "8011");
+            gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(hud_brief_priority::normal_1, "8011");
             break;
         case 4:
-            gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(3, "8012");
+            gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(hud_brief_priority::now_3, "8012");
             break;
         case 5:
-            gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(3, "8013");
+            gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(hud_brief_priority::now_3, "8013");
             break;
         case 6:
             gGame_0x40_67E008->field_38_local_player->ChangeMultipliers_4766B0(1);

@@ -1,6 +1,7 @@
 #define FIX16_POINT_ZERO kFpZero_7064C0
 #include "Hud.hpp"
 #include "hud_message_priority.hpp"
+#include "hud_brief_priority.hpp"
 #include "voice_line.hpp"
 #include "Car.hpp"
 #include "Draw.hpp"
@@ -167,7 +168,7 @@ void Hud_BriefSelector::ShowNextNumberedBrief_5CF620()
         }
         sprintf(gTmpBuffer_67C598, "%d", field_0_value);
     } while (!gText_0x14_704DFC->KeyExists_5B5FA0(gTmpBuffer_67C598));
-    gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(3, gTmpBuffer_67C598);
+    gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(hud_brief_priority::now_3, gTmpBuffer_67C598);
     swprintf(tmpBuff_67BD9C, L"%d", field_0_value);
     gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(tmpBuff_67BD9C, hud_message_priority::important_3);
 }
@@ -184,7 +185,7 @@ void Hud_BriefSelector::ShowPrevNumberedBrief_5CF6B0()
         }
         sprintf(gTmpBuffer_67C598, "%d", field_0_value);
     } while (!gText_0x14_704DFC->KeyExists_5B5FA0(gTmpBuffer_67C598));
-    gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(3, gTmpBuffer_67C598);
+    gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(hud_brief_priority::now_3, gTmpBuffer_67C598);
     swprintf(tmpBuff_67BD9C, L"%d", field_0_value);
     gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(tmpBuff_67BD9C, hud_message_priority::important_3);
 }
@@ -2326,7 +2327,7 @@ void Hud_Brief::SetHudBrief_5D3F10(s32 priority, const char_type* pText, s32 cos
         pNewBrief->field_C_pNext = NULL;
         StartCurrentBrief_5D39D0();
     }
-    else if (this->field_6F8_curr_briefs->field_8_brief_priority >= priority && priority != 3)
+    else if (this->field_6F8_curr_briefs->field_8_brief_priority >= priority && priority != hud_brief_priority::now_3)
     {
         Hud_BriefEntry* pIter = this->field_6F8_curr_briefs;
         while (pIter->field_C_pNext && pIter->field_C_pNext->field_8_brief_priority >= priority)
