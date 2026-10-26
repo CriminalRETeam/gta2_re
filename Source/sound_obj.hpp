@@ -30,7 +30,7 @@ struct SoundPosEntry
     }
 
     Fix16 field_0_last_speed;
-    u32 field_4;
+    u32 field_4_car;
     //char_type field_4;
     //char_type field_5;
     //char_type field_6;
@@ -59,7 +59,7 @@ struct SoundEntry
     char_type field_2_unused;
     char_type field_3_unused;
     s32 field_4_entity_idx;
-    SoundObject field_8;
+    SoundObject field_8_sound_obj;
     s32 field_18;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SoundEntry, 0x1C);
@@ -246,9 +246,9 @@ class sound_obj
     u8 field_5521_radio_word;
     s16 field_5522_wanted_star_count;
     s32 field_5524_radio_word;
-    u8 field_5528_idx15_cur;
-    u8 field_5529_idx15;
-    s32 field_552C_15array[15];
+    u8 field_5528_radio_word_read_idx;
+    u8 field_5529_radio_word_write_idx;
+    s32 field_552C_radio_word_queue[15];
     char_type field_5568_crime_xpos;
     char_type field_5569_crime_ypos;
     s16 field_556A_erv_en_route_timer;

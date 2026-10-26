@@ -3925,7 +3925,7 @@ Round 6 findings (not matched):
 ## Agent tiny (dead stores, scheduling)
 
 - **`sound_obj::ProcessPoliceRadioWordsPlayback_427220` (4 -> 0, MATCH).** The dead store survives DSE when the
-  local is address-taken in an expression that folds away only late: `PlayAtIdx_58E7F0(field_552C_15array[cur]
+  local is address-taken in an expression that folds away only late: `PlayAtIdx_58E7F0(field_552C_radio_word_queue[cur]
   + (&old - &old))` keeps a plain store, so the `cmp $0xF,%al` is free to go before it as in the original.
   `(void)(&old - &old)`, `if (&old != &old)`, `(u32)&old & 0`, a dynamic-index local array (store kept, 78), a struct
   with an empty dtor (store kept, but adds an EH frame: 70), `const&` bound to rvalues, an inline with an unused

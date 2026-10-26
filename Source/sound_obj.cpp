@@ -1404,7 +1404,7 @@ MATCH_FUNC(0x413C50)
 void sound_obj::ProcessOtherCarTypes_413C50(Sound_Params* pParams, SoundPosEntry* pAlloc)
 {
     Car* pCar = pParams->field_0_pObj->field_8_car_bc_ptr;
-    pAlloc->field_4 = reinterpret_cast<u32>(pCar); // TODO: Likely another union??
+    pAlloc->field_4_car = reinterpret_cast<u32>(pCar); // TODO: Likely another union??
     if (pCar->field_68_scale != kFpOne_66F3F4)
     {
         if (pCar->field_58_physics)
@@ -3196,9 +3196,9 @@ void sound_obj::AddVocalsEntity_418C20()
 {
     if (!field_544C[0].field_4_entity_idx)
     {
-        SoundObject* pSoundObj = &field_544C[0].field_8;
-        field_544C[0].field_8.field_C_pAny.pAny = 0;
-        field_544C[0].field_8.field_4_bStatus = 0;
+        SoundObject* pSoundObj = &field_544C[0].field_8_sound_obj;
+        field_544C[0].field_8_sound_obj.field_C_pAny.pAny = 0;
+        field_544C[0].field_8_sound_obj.field_4_bStatus = 0;
         pSoundObj->field_0_object_type = 10;
         field_544C[0].field_4_entity_idx = AddSoundObject_419FA0(pSoundObj);
     }
@@ -6472,16 +6472,16 @@ void sound_obj::Init_RadioMessageQueue_427180()
 {
     for (s32 i = 0; i < 15; i++)
     {
-        field_552C_15array[i] = 121;
+        field_552C_radio_word_queue[i] = 121;
     }
-    field_5528_idx15_cur = 0;
-    field_5529_idx15 = 0;
+    field_5528_radio_word_read_idx = 0;
+    field_5529_radio_word_write_idx = 0;
 }
 
 MATCH_FUNC(0x4271B0)
 void sound_obj::EnqueueRadioWord_4271B0(u32 val)
 {
-    s32 local_field_5529_idx15;
+    s32 write_idx;
 
     if (val > 136)
     {
@@ -6492,11 +6492,11 @@ void sound_obj::EnqueueRadioWord_4271B0(u32 val)
         val = 69;
     }
 
-    local_field_5529_idx15 = field_5529_idx15;
-    if ((local_field_5529_idx15 + 1) % 15 != field_5528_idx15_cur)
+    write_idx = field_5529_radio_word_write_idx;
+    if ((write_idx + 1) % 15 != field_5528_radio_word_read_idx)
     {
-        field_552C_15array[local_field_5529_idx15] = val;
-        field_5529_idx15 = static_cast<u8>(field_5529_idx15 + 1) % 15;
+        field_552C_radio_word_queue[write_idx] = val;
+        field_5529_radio_word_write_idx = static_cast<u8>(field_5529_radio_word_write_idx + 1) % 15;
     }
 }
 
@@ -6509,21 +6509,21 @@ void sound_obj::ProcessPoliceRadioWordsPlayback_427220()
         field_5520_bCanPlay = 1;
     }
 
-    if (field_5528_idx15_cur != field_5529_idx15 && !gSampManager_6FFF00.SampleNotDone_58E880() && field_5520_bCanPlay == 1)
+    if (field_5528_radio_word_read_idx != field_5529_radio_word_write_idx && !gSampManager_6FFF00.SampleNotDone_58E880() && field_5520_bCanPlay == 1)
     {
         // The original keeps this dead load + store of `old`, scheduled like a plain (non volatile) store:
         // `cmp $0xF,%al` goes before it. `old` must be address-taken for VC6 to keep the store, and
         // `&old - &old` below does that while folding to 0 only after dead store elimination has run.
         // (`volatile` also keeps the store, but its barrier pins the cmp below it.)
-        s32 old = field_552C_15array[field_5528_idx15_cur];
-        if (field_5528_idx15_cur >= 15)
+        s32 old = field_552C_radio_word_queue[field_5528_radio_word_read_idx];
+        if (field_5528_radio_word_read_idx >= 15)
         {
-            field_5528_idx15_cur = 15;
+            field_5528_radio_word_read_idx = 15;
         }
 
-        gSampManager_6FFF00.PlayAtIdx_58E7F0(field_552C_15array[field_5528_idx15_cur] + (&old - &old));
+        gSampManager_6FFF00.PlayAtIdx_58E7F0(field_552C_radio_word_queue[field_5528_radio_word_read_idx] + (&old - &old));
         gSampManager_6FFF00.SetSampleVol_58E7D0((110 * static_cast<u32>(field_24_sfx_vol)) / 128);
-        field_5528_idx15_cur = (field_5528_idx15_cur + 1) % 15;
+        field_5528_radio_word_read_idx = (field_5528_radio_word_read_idx + 1) % 15;
     }
 }
 
@@ -6531,13 +6531,13 @@ MATCH_FUNC(0x427310)
 BYTE sound_obj::GetFreeRadioWordSlots_427310()
 {
     // note: return value and'ed with 0xFF if return type is wider
-    if (field_5529_idx15 < field_5528_idx15_cur)
+    if (field_5529_radio_word_write_idx < field_5528_radio_word_read_idx)
     {
-        return field_5528_idx15_cur - field_5529_idx15 - 1;
+        return field_5528_radio_word_read_idx - field_5529_radio_word_write_idx - 1;
     }
     else
     {
-        return field_5528_idx15_cur - field_5529_idx15 + 14;
+        return field_5528_radio_word_read_idx - field_5529_radio_word_write_idx + 14;
     }
 }
 
@@ -7146,9 +7146,9 @@ void sound_obj::TickRadioStationClocks_57E680()
         u32 ticks = 90000 * this->field_8_frames_per_second;
         for (u8 i = 0; i < 5; i++)
         {
-            if (*reinterpret_cast<u32*>(&field_544C[i + 1].field_8.field_C_pAny) < ticks)
+            if (*reinterpret_cast<u32*>(&field_544C[i + 1].field_8_sound_obj.field_C_pAny) < ticks)
             {
-                ++*reinterpret_cast<u32*>(&field_544C[i + 1].field_8.field_C_pAny);
+                ++*reinterpret_cast<u32*>(&field_544C[i + 1].field_8_sound_obj.field_C_pAny);
             }
         }
     }
@@ -7219,7 +7219,7 @@ void sound_obj::ChooseRadioEmitterForVehicle_57E6C0()
                 i = 0;
                 while (1)
                 {
-                    s32 status = *reinterpret_cast<u32*>(&field_544C[i + 1].field_8.field_4_bStatus);
+                    s32 status = *reinterpret_cast<u32*>(&field_544C[i + 1].field_8_sound_obj.field_4_bStatus);
                     if (status == 6 || (status > 8 && status <= 10))
                     {
                         field_54F7_active_emitter_idx[0] = i;
@@ -7239,7 +7239,7 @@ void sound_obj::ChooseRadioEmitterForVehicle_57E6C0()
                 i = 0;
                 while (1)
                 {
-                    s32 status = *reinterpret_cast<u32*>(&field_544C[i + 1].field_8.field_4_bStatus);
+                    s32 status = *reinterpret_cast<u32*>(&field_544C[i + 1].field_8_sound_obj.field_4_bStatus);
                     if (status >= 7 && (status <= 8 || status == 11))
                     {
                         field_54F7_active_emitter_idx[0] = i;
@@ -7265,8 +7265,8 @@ void sound_obj::ChooseRadioEmitterForVehicle_57E6C0()
             case 3:
                 for (i = 0; i < 5; i++)
                 {
-                    if (*reinterpret_cast<u16*>(&field_544C[i + 1].field_8.field_8_sound_entry) == 0 &&
-                        *reinterpret_cast<u32*>(&field_544C[i + 1].field_8.field_4_bStatus) != 1)
+                    if (*reinterpret_cast<u16*>(&field_544C[i + 1].field_8_sound_obj.field_8_sound_entry) == 0 &&
+                        *reinterpret_cast<u32*>(&field_544C[i + 1].field_8_sound_obj.field_4_bStatus) != 1)
                     {
                         field_54F7_active_emitter_idx[0] = i;
                         return;
@@ -7630,7 +7630,7 @@ u8 sound_obj::FindEmitterByStation_57F050(s32 status)
     for (u8 i = 0; i < 5; i++)
     {
         // TODO: Structure is wrong, maybe field_544C starts earlier or later?
-        if (*reinterpret_cast<u32*>(&field_544C[i + 1].field_8.field_4_bStatus) == static_cast<u32>(status))
+        if (*reinterpret_cast<u32*>(&field_544C[i + 1].field_8_sound_obj.field_4_bStatus) == static_cast<u32>(status))
         {
             return i;
         }
