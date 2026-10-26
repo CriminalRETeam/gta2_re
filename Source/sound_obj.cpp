@@ -423,7 +423,7 @@ void sound_obj::ProcessType8_Crane_412820(s32 idx)
                 s32 rate;
                 u8 emitter_vol;
                 s32 vol_mod;
-                char_type bLoop;
+                bool bLoop;
                 for (u8 i = 0; i < 4; i++)
                 {
                     switch (i)
@@ -437,7 +437,7 @@ void sound_obj::ProcessType8_Crane_412820(s32 idx)
                             rate = 9000;
                             emitter_vol = 60;
                             vol_mod = 3;
-                            bLoop = 0;
+                            bLoop = false;
                             break;
                         case 1:
                             if (!pCrane->field_157_is_radius_changing)
@@ -448,7 +448,7 @@ void sound_obj::ProcessType8_Crane_412820(s32 idx)
                             rate = 13000;
                             emitter_vol = 30;
                             vol_mod = 4;
-                            bLoop = 0;
+                            bLoop = false;
                             break;
                         case 2:
                             if (!pCrane->field_158_is_hook_depth_changing)
@@ -459,7 +459,7 @@ void sound_obj::ProcessType8_Crane_412820(s32 idx)
                             rate = 8000;
                             emitter_vol = 45;
                             vol_mod = 4;
-                            bLoop = 0;
+                            bLoop = false;
                             break;
                         case 3:
                             if (!pCrane->field_159_hooked_car_this_frame)
@@ -470,7 +470,7 @@ void sound_obj::ProcessType8_Crane_412820(s32 idx)
                             rate = 22050;
                             emitter_vol = 50;
                             vol_mod = 5;
-                            bLoop = 1;
+                            bLoop = true;
                             break;
                         default:
                             continue;
@@ -5244,7 +5244,7 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params* pParams)
     u8 sample_index = 0;
     s32 rate_displacement = 0;
     u8 volume = 0;
-    u8 bLoop = 1;
+    bool bLoop = true;
     Fix16 emit_distance;
     Fix16 calc_distance;
 
@@ -5253,7 +5253,7 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params* pParams)
     {
         case objects::rocket_bullet_128:
             samp_idx = 191;
-            bLoop = 0;
+            bLoop = false;
             volume = 127;
             sample_index = 1;
             emit_distance = Fix16(14) / Fix16(2);
@@ -5277,7 +5277,7 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params* pParams)
             max_distance = 15;
             calc_distance = (Fix16(15) / Fix16(2)) * (Fix16(15) / Fix16(2));
             release_mod = 3;
-            bLoop = 1;
+            bLoop = true;
             break;
 
         case 185:
@@ -5290,7 +5290,7 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params* pParams)
         case objects::fire_197:
             samp_idx = 189;
             volume = 50;
-            bLoop = 0;
+            bLoop = false;
             sample_index = 1;
             emit_distance = Fix16(14) / Fix16(2);
             max_distance = 14;
@@ -5313,7 +5313,7 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params* pParams)
                     {
                         samp_idx = 186;
                         volume = 127;
-                        bLoop = 1;
+                        bLoop = true;
                         emit_distance = Fix16(35) / Fix16(2);
                         max_distance = 35;
                         calc_distance = (Fix16(35) / Fix16(2)) * (Fix16(35) / Fix16(2));
@@ -5323,7 +5323,7 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params* pParams)
                     else if (field_147C_audio_entities[field_30_sQueueSample.field_0_EntityIndex].field_1_age > 2)
                     {
                         samp_idx = 190;
-                        bLoop = 0;
+                        bLoop = false;
                         volume = 50;
                         sample_index = 1;
                         emit_distance = Fix16(14) / Fix16(2);
@@ -5345,7 +5345,7 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params* pParams)
                     {
                         samp_idx = 187;
                         volume = 127;
-                        bLoop = 1;
+                        bLoop = true;
                         emit_distance = Fix16(35) / Fix16(2);
                         max_distance = 35;
                         calc_distance = (Fix16(35) / Fix16(2)) * (Fix16(35) / Fix16(2));
@@ -5356,7 +5356,7 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params* pParams)
                     {
                         samp_idx = 190;
                         volume = 127;
-                        bLoop = 0;
+                        bLoop = false;
                         sample_index = 1;
                         emit_distance = Fix16(14) / Fix16(2);
                         max_distance = 14;
@@ -5372,7 +5372,7 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params* pParams)
                     {
                         samp_idx = 188;
                         volume = 127;
-                        bLoop = 1;
+                        bLoop = true;
                         emit_distance = Fix16(35) / Fix16(2);
                         max_distance = 35;
                         calc_distance = (Fix16(35) / Fix16(2)) * (Fix16(35) / Fix16(2));
@@ -5383,7 +5383,7 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params* pParams)
                     {
                         samp_idx = 190;
                         volume = 127;
-                        bLoop = 0;
+                        bLoop = false;
                         sample_index = 1;
                         emit_distance = Fix16(14) / Fix16(2);
                         max_distance = 14;
@@ -5398,7 +5398,7 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params* pParams)
                 case explosion_type::car_fire_level1_12:
                     samp_idx = 190;
                     volume = 50;
-                    bLoop = 0;
+                    bLoop = false;
                     sample_index = 1;
                     emit_distance = Fix16(14) / Fix16(2);
                     max_distance = 14;
@@ -5410,7 +5410,7 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params* pParams)
                 case explosion_type::car_fire_level3_14:
                     samp_idx = 190;
                     volume = 85;
-                    bLoop = 0;
+                    bLoop = false;
                     sample_index = 1;
                     emit_distance = Fix16(14) / Fix16(2);
                     max_distance = 14;
@@ -5427,7 +5427,7 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params* pParams)
         case objects::blaster_5:
             samp_idx = 145;
             volume = 50;
-            bLoop = 0;
+            bLoop = false;
             emit_distance = Fix16(12) / Fix16(2);
             max_distance = 12;
             calc_distance = (Fix16(12) / Fix16(2)) * (Fix16(12) / Fix16(2));
@@ -5436,7 +5436,7 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params* pParams)
 
         case objects::conveyor_139:
             samp_idx = 150;
-            bLoop = 0;
+            bLoop = false;
             volume = 20;
             emit_distance = Fix16(40) / Fix16(2);
             max_distance = 40;
@@ -6263,7 +6263,7 @@ void sound_obj::PoliceRadioMessageGeneration_426790()
 MATCH_FUNC(0x426E10)
 void sound_obj::EnqueueRadioLocationPhrase_426E10(u8 xpos, u8 ypos)
 {
-    char_type bQueuedYDirection = 0;
+    bool bQueuedYDirection = false;
     gmp_map_zone* pZone = NULL;
     const u32 cop_zone = sound_obj::GetCopRadioZoneIndex_427400(xpos, ypos, &pZone);
     if (!cop_zone && !pZone)
@@ -6283,12 +6283,12 @@ void sound_obj::EnqueueRadioLocationPhrase_426E10(u8 xpos, u8 ypos)
     if (ypos < mid_y - h_half)
     {
         sound_obj::EnqueueRadioWord_4271B0(0x73u);
-        bQueuedYDirection = 1;
+        bQueuedYDirection = true;
     }
     else if (ypos > h_half + mid_y)
     {
         sound_obj::EnqueueRadioWord_4271B0(0x75u);
-        bQueuedYDirection = 1;
+        bQueuedYDirection = true;
     }
 
     if (xpos > mid_x + w_half)
