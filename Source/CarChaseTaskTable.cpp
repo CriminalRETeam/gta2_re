@@ -10,25 +10,25 @@ MATCH_FUNC(0x4747b0)
 void CarChaseTask::ResetEntry_4747B0()
 {
     field_0_in_use = 0;
-    field_10_ram_target = 0;
+    field_10_ram_target = false;
     field_8_task_type = 0;
     field_14_target_x = kFpZero_678D0C;
     field_18_target_y = kFpZero_678D0C;
     field_1C_target_z = kFpZero_678D0C;
-    field_20_can_snap_to_target = 0;
+    field_20_can_snap_to_target = false;
     field_21_unused = 0;
-    field_22_following_route = 1;
+    field_22_following_route = true;
     field_23_unused = 1;
     field_24_unused = 0;
     field_25_unused = 0;
-    field_30_pTargetPed = 0;
-    field_26_route_finished = 0;
+    field_30_pTargetPed = NULL;
+    field_26_route_finished = false;
     field_2A_settle_counter = 0;
     field_2C_side_counter = 0;
     field_2E_wait_counter = 0;
     field_C_chase_state = car_chase_state::follow_behind_0;
     field_34_snap_timer = 0;
-    field_4_pDriver = 0;
+    field_4_pDriver = NULL;
     field_38_unused = 0;
     field_3C_block_counter = 0;
 }
@@ -44,31 +44,31 @@ CarChaseTask* CarChaseTaskTable::AllocateEntry_474810()
             return &field_0_entries[i];
         }
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x474850)
-bool CarChaseTaskTable::AreAllies_474850(Ped* pPed1, Ped* pPed2)
+bool CarChaseTaskTable::AreAllies_474850(Ped* pPed1, Ped* pPed2) const
 {
     if (pPed1->get_occupation_403980() < ped_ocupation_enum::police || pPed1->get_occupation_403980() > ped_ocupation_enum::army_army) // ped 1 is not police
     {
         if (pPed2->field_17C_pGang == pPed1->field_17C_pGang) // they are from same gang (or both dont have any)
         {
-            return 1;
+            return true;
         }
     }
     else
     {
         if (pPed2->get_occupation_403980() >= ped_ocupation_enum::police && pPed2->field_240_occupation <= ped_ocupation_enum::army_army) // both ped 1 and ped 2 are police feds
         {
-            return 1;
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x4748a0)
-Ped* CarChaseTaskTable::FindDriverInState_4748A0(s32 chase_state, Ped* pTargetPed)
+Ped* CarChaseTaskTable::FindDriverInState_4748A0(s32 chase_state, Ped* pTargetPed) const
 {
     for (u8 i = 0; i < k_max_entries; i++)
     {
@@ -78,11 +78,11 @@ Ped* CarChaseTaskTable::FindDriverInState_4748A0(s32 chase_state, Ped* pTargetPe
             return field_0_entries[i].field_4_pDriver;
         }
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x474920)
-u8 CarChaseTaskTable::CountPursuers_474920(Ped* pTargetPed, Ped* pPed)
+u8 CarChaseTaskTable::CountPursuers_474920(Ped* pTargetPed, Ped* pPed) const
 {
     u8 total = 0;
     for (u8 i = 0; i < k_max_entries; i++)
@@ -99,20 +99,20 @@ u8 CarChaseTaskTable::CountPursuers_474920(Ped* pTargetPed, Ped* pPed)
 }
 
 MATCH_FUNC(0x474970)
-bool CarChaseTaskTable::HasAnyPursuer_474970(Ped* pTargetPed)
+bool CarChaseTaskTable::HasAnyPursuer_474970(Ped* pTargetPed) const
 {
     for (u8 i = 0; i < k_max_entries; i++)
     {
         if (field_0_entries[i].field_0_in_use == 1 && field_0_entries[i].field_30_pTargetPed == pTargetPed)
         {
-            return 1;
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x4749b0)
-bool CarChaseTaskTable::HasPursuerInFront_4749B0(Ped* pPed)
+bool CarChaseTaskTable::HasPursuerInFront_4749B0(Ped* pPed) const
 {
     for (u8 i = 0; i < k_max_entries; i++)
     {
@@ -124,16 +124,16 @@ bool CarChaseTaskTable::HasPursuerInFront_4749B0(Ped* pPed)
                 {
                     case car_chase_state::in_front_stopping_13:
                     case car_chase_state::target_stopped_15:
-                        return 1;
+                        return true;
                 }
             }
         }
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x474a20)
-bool CarChaseTaskTable::HasPursuerAlongsideLeft_474A20(Ped* pPed)
+bool CarChaseTaskTable::HasPursuerAlongsideLeft_474A20(Ped* pPed) const
 {
     for (u8 i = 0; i < k_max_entries; i++)
     {
@@ -141,15 +141,15 @@ bool CarChaseTaskTable::HasPursuerAlongsideLeft_474A20(Ped* pPed)
         {
             if (AreAllies_474850(pPed, field_0_entries[i].field_4_pDriver) && field_0_entries[i].field_C_chase_state == car_chase_state::alongside_left_8)
             {
-                return 1;
+                return true;
             }
         }
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x474a80)
-bool CarChaseTaskTable::HasPursuerOnLeft_474A80(Ped* pPed)
+bool CarChaseTaskTable::HasPursuerOnLeft_474A80(Ped* pPed) const
 {
     for (u8 i = 0; i < k_max_entries; i++)
     {
@@ -162,16 +162,16 @@ bool CarChaseTaskTable::HasPursuerOnLeft_474A80(Ped* pPed)
                     case car_chase_state::approach_left_6:
                     case car_chase_state::alongside_left_8:
                     case car_chase_state::pull_ahead_left_10:
-                        return 1;
+                        return true;
                 }
             }
         }
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x474af0)
-bool CarChaseTaskTable::HasPursuerAlongsideRight_474AF0(Ped* pPed)
+bool CarChaseTaskTable::HasPursuerAlongsideRight_474AF0(Ped* pPed) const
 {
     for (u8 i = 0; i < k_max_entries; i++)
     {
@@ -179,15 +179,15 @@ bool CarChaseTaskTable::HasPursuerAlongsideRight_474AF0(Ped* pPed)
         {
             if (AreAllies_474850(pPed, field_0_entries[i].field_4_pDriver) && field_0_entries[i].field_C_chase_state == car_chase_state::alongside_right_9)
             {
-                return 1;
+                return true;
             }
         }
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x474b50)
-bool CarChaseTaskTable::HasPursuerOnRight_474B50(Ped* pPed)
+bool CarChaseTaskTable::HasPursuerOnRight_474B50(Ped* pPed) const
 {
     for (u8 i = 0; i < k_max_entries; i++)
     {
@@ -198,19 +198,19 @@ bool CarChaseTaskTable::HasPursuerOnRight_474B50(Ped* pPed)
                 switch (field_0_entries[i].field_C_chase_state)
                 {
                     case car_chase_state::approach_right_7:
-                        return 1;
+                        return true;
                     case car_chase_state::alongside_right_9:
                     case car_chase_state::pull_ahead_right_11:
-                        return 1;
+                        return true;
                 }
             }
         }
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x474bc0)
-bool CarChaseTaskTable::HasPursuerAlongside_474BC0(Ped* pPed)
+bool CarChaseTaskTable::HasPursuerAlongside_474BC0(Ped* pPed) const
 {
     for (u8 i = 0; i < k_max_entries; i++)
     {
@@ -220,16 +220,16 @@ bool CarChaseTaskTable::HasPursuerAlongside_474BC0(Ped* pPed)
             {
                 if (field_0_entries[i].field_C_chase_state >= car_chase_state::approach_left_6 && (field_0_entries[i].field_C_chase_state <= car_chase_state::alongside_right_9 || field_0_entries[i].field_C_chase_state == car_chase_state::in_front_stopping_13))
                 {
-                    return 1;
+                    return true;
                 }
             }
         }
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x474c30)
-bool CarChaseTaskTable::HasPursuerChoosingSide_474C30(Ped* pPed)
+bool CarChaseTaskTable::HasPursuerChoosingSide_474C30(Ped* pPed) const
 {
     for (u8 i = 0; i < k_max_entries; i++)
     {
@@ -244,12 +244,12 @@ bool CarChaseTaskTable::HasPursuerChoosingSide_474C30(Ped* pPed)
 
                 if (field_0_entries[i].field_C_chase_state <= car_chase_state::choose_side_5)
                 {
-                    return 1;
+                    return true;
                 }
             }
         }
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x474ca0)
@@ -264,11 +264,11 @@ CarChaseTask::~CarChaseTask()
 }
 
 MATCH_FUNC(0x474cc0)
-void CarChaseTaskTable::FreeEntry_474CC0(CarChaseTask* toFind)
+void CarChaseTaskTable::FreeEntry_474CC0(CarChaseTask* pEntry)
 {
     for (u8 i = 0; i < k_max_entries; i++)
     {
-        if (&field_0_entries[i] == toFind)
+        if (&field_0_entries[i] == pEntry)
         {
             field_0_entries[i].field_0_in_use = 0;
             field_0_entries[i].ResetEntry_4747B0();

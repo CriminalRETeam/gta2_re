@@ -8,12 +8,12 @@ class Car_Door
 {
   public:
     // 9.6f 0x4341B0
-    inline Ped* get_pObj_4341B0()
+    inline Ped* get_pObj_4341B0() const
     {
         return field_8_pObj;
     }
 
-    EXPORT void AnimateOpening_439CD0(u32* pRet);
+    EXPORT void AnimateOpening_439CD0(u32* pDeltaMask);
     EXPORT void AnimateClosing_439D40(u32* pDeltaMask);
     EXPORT void Service_439DA0(u32* pDeltaMask);
     EXPORT void Init_439E40(u8 door_idx);
@@ -23,7 +23,7 @@ class Car_Door
     EXPORT ~Car_Door(); // 447350
 
     // 9.6f 0x421360
-    inline bool IsStateActive_421360()
+    inline bool IsStateActive_421360() const
     {
         return field_4_state != 0 && field_4_state != 6;
     }
@@ -35,13 +35,13 @@ class Car_Door
     }
 
     // Inlined in sound_obj::HandleCarDoorSounds_4182E0
-    inline bool IsStartingToOpen()
+    inline bool IsStartingToOpen() const
     {
         return field_4_state == 2 && field_0_animation_frame == 0 && field_1_frame_delay == 0;
     }
 
     // Inlined in sound_obj::HandleCarDoorSounds_4182E0
-    inline bool IsStartingToClose()
+    inline bool IsStartingToClose() const
     {
         return field_4_state == 3 && field_0_animation_frame == 1;
     }
