@@ -1028,7 +1028,7 @@ void Char::UpdateAnimState_546360()
                     {
                         switch (pDriver->get_occupation_403980())
                         {
-                            case ped_ocupation_enum::unknown_2:
+                            case ped_ocupation_enum::dummy_driver_4:
                                 pDriver = gPedManager_6787BC->SpawnRunAwayGuy_470D60();
                                 if (pCar->field_84_car_info_idx == car_model_enum::apc ||
                                     pCar->field_84_car_info_idx == car_model_enum::JEEP ||

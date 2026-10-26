@@ -724,8 +724,8 @@ bool Ped::IsLawEnforcement_45B4E0()
         case ped_ocupation_enum::fbi:
         case ped_ocupation_enum::army_army:
         case ped_ocupation_enum::walking_guard_29:
-        case ped_ocupation_enum::unknown_cop_occu_30:
-        case ped_ocupation_enum::unknown_cop_occu_31:
+        case ped_ocupation_enum::walking_swat_guard_30:
+        case ped_ocupation_enum::walking_army_guard_31:
         case ped_ocupation_enum::roadblock_cop_37:
             return 1;
         default:
@@ -1798,8 +1798,8 @@ inline bool Ped::IsPedAThreat_Inline_465D00(Ped* pTargetPed)
                     case ped_ocupation_enum::fbi:
                     case ped_ocupation_enum::army_army:
                     case ped_ocupation_enum::walking_guard_29:
-                    case ped_ocupation_enum::unknown_cop_occu_30:
-                    case ped_ocupation_enum::unknown_cop_occu_31:
+                    case ped_ocupation_enum::walking_swat_guard_30:
+                    case ped_ocupation_enum::walking_army_guard_31:
                     case ped_ocupation_enum::roadblock_cop_37:
                         goto ret_true;
                     default:
@@ -1898,8 +1898,8 @@ inline bool Ped::IsPedAThreat_Inline_465D00(Ped* pTargetPed)
         case ped_ocupation_enum::fbi:
         case ped_ocupation_enum::army_army:
         case ped_ocupation_enum::walking_guard_29:
-        case ped_ocupation_enum::unknown_cop_occu_30:
-        case ped_ocupation_enum::unknown_cop_occu_31:
+        case ped_ocupation_enum::walking_swat_guard_30:
+        case ped_ocupation_enum::walking_army_guard_31:
         case ped_ocupation_enum::roadblock_cop_37:
             goto block_466022;
         default:
@@ -1961,8 +1961,8 @@ block_466022:
         case ped_ocupation_enum::fbi:
         case ped_ocupation_enum::army_army:
         case ped_ocupation_enum::walking_guard_29:
-        case ped_ocupation_enum::unknown_cop_occu_30:
-        case ped_ocupation_enum::unknown_cop_occu_31:
+        case ped_ocupation_enum::walking_swat_guard_30:
+        case ped_ocupation_enum::walking_army_guard_31:
         case ped_ocupation_enum::roadblock_cop_37:
         case ped_ocupation_enum::road_block_tank_man:
             goto merge_178;
@@ -2761,9 +2761,9 @@ void Ped::SetOccupation_45EE00(u32 occupation)
         {
             case ped_ocupation_enum::player:
             case ped_ocupation_enum::empty:
-            case ped_ocupation_enum::unknown_1:
+            case ped_ocupation_enum::deallocate_on_death_2:
             case ped_ocupation_enum::dummy:
-            case ped_ocupation_enum::unknown_2:
+            case ped_ocupation_enum::dummy_driver_4:
             case ped_ocupation_enum::driver:
             case ped_ocupation_enum::unknown_3:
             case ped_ocupation_enum::taxi_customer_7:
@@ -3729,7 +3729,7 @@ void Ped::Occupation_AI_461F20()
         case ped_ocupation_enum::bus_customer_8:
             Ped::BusCustomer_AI_461290();
             break;
-        case ped_ocupation_enum::unknown_2:
+        case ped_ocupation_enum::dummy_driver_4:
             byte_61A8A0 = 0;
             break;
         case ped_ocupation_enum::driver:
@@ -4231,7 +4231,7 @@ bool Ped::StateMachineTick_4626B0()
             {
                 this->field_20E_offscreen_counter = 0;
             }
-            if (this->field_240_occupation != ped_ocupation_enum::unknown_2)
+            if (this->field_240_occupation != ped_ocupation_enum::dummy_driver_4)
             {
                 if (this->field_16C_car->IsDespawning_4215B0())
                 {
@@ -6043,8 +6043,8 @@ bool Ped::IsPedAThreat_465D00(Ped* pTargetPed)
                     case ped_ocupation_enum::fbi:
                     case ped_ocupation_enum::army_army:
                     case ped_ocupation_enum::walking_guard_29:
-                    case ped_ocupation_enum::unknown_cop_occu_30:
-                    case ped_ocupation_enum::unknown_cop_occu_31:
+                    case ped_ocupation_enum::walking_swat_guard_30:
+                    case ped_ocupation_enum::walking_army_guard_31:
                     case ped_ocupation_enum::roadblock_cop_37:
                         goto ret_true;
                     default:
@@ -6141,8 +6141,8 @@ bool Ped::IsPedAThreat_465D00(Ped* pTargetPed)
         case ped_ocupation_enum::fbi:
         case ped_ocupation_enum::army_army:
         case ped_ocupation_enum::walking_guard_29:
-        case ped_ocupation_enum::unknown_cop_occu_30:
-        case ped_ocupation_enum::unknown_cop_occu_31:
+        case ped_ocupation_enum::walking_swat_guard_30:
+        case ped_ocupation_enum::walking_army_guard_31:
         case ped_ocupation_enum::roadblock_cop_37:
             goto block_466022;
         default:
@@ -6204,8 +6204,8 @@ block_466022:
         case ped_ocupation_enum::fbi:
         case ped_ocupation_enum::army_army:
         case ped_ocupation_enum::walking_guard_29:
-        case ped_ocupation_enum::unknown_cop_occu_30:
-        case ped_ocupation_enum::unknown_cop_occu_31:
+        case ped_ocupation_enum::walking_swat_guard_30:
+        case ped_ocupation_enum::walking_army_guard_31:
         case ped_ocupation_enum::roadblock_cop_37:
         case ped_ocupation_enum::road_block_tank_man:
             goto merge_178;
@@ -11634,7 +11634,7 @@ void Ped::Kill_46F9D0()
                 }
                 return;
 
-            case ped_ocupation_enum::unknown_1:
+            case ped_ocupation_enum::deallocate_on_death_2:
                 Deallocate_45EB60();
                 return;
 

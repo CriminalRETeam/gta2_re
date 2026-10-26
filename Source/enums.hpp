@@ -335,9 +335,9 @@ enum
 { /* The ocupation that a PED can have */
     player = 0,
     empty = 1,
-    unknown_1 = 2,
+    deallocate_on_death_2 = 2, // PedGroup::PromoteMemberToLeader_4C9680 scratch ped: removed without a corpse
     dummy = 3,
-    unknown_2 = 4,
+    dummy_driver_4 = 4, // CarManager spare driver, one Ped shared by the ambient traffic cars
     driver = 5,
     unknown_3 = 6,
     taxi_customer_7 = 7,
@@ -363,8 +363,8 @@ enum
     army_army = 27,
     guard = 28,
     walking_guard_29 = 29,
-    unknown_cop_occu_30 = 30,
-    unknown_cop_occu_31 = 31,
+    walking_swat_guard_30 = 30, // scored as SWAT, like walking_guard_29 as police
+    walking_army_guard_31 = 31, // Police::SpawnWalkingGuard_570320 when the army is in pursuit
     guard_against_player = 32,
     criminal_type_1 = 33,
     criminal_type_2 = 34,

@@ -2852,7 +2852,7 @@ void Car::AssignKillerToOccupants_43B770()
     Ped* pDriver = this->field_54_driver;
     if (pDriver)
     {
-        if (pDriver->get_occupation_403980() != ped_ocupation_enum::unknown_2)
+        if (pDriver->get_occupation_403980() != ped_ocupation_enum::dummy_driver_4)
         {
             pDriver->field_204_killer_id = this->field_70_exploder_ped_id;
             this->field_54_driver->field_290_death_cause = this->field_90_death_cause;
@@ -3784,7 +3784,7 @@ void Car::HandleCarExplosion_43D840(s32 type)
 
         if (field_54_driver)
         {
-            if (field_54_driver->get_occupation_403980() == ped_ocupation_enum::unknown_2)
+            if (field_54_driver->get_occupation_403980() == ped_ocupation_enum::dummy_driver_4)
             {
                 bOcc2 = 1;
             }
@@ -3915,7 +3915,7 @@ void Car::KillContainedPeds_43DB80()
     pDriver = this->field_54_driver;
     if (pDriver)
     {
-        if (pDriver->get_occupation_403980() != ped_ocupation_enum::unknown_2)
+        if (pDriver->get_occupation_403980() != ped_ocupation_enum::dummy_driver_4)
         {
             if (pDriver->is_player_41B0A0())
             {
@@ -4003,7 +4003,7 @@ void Car::DestroyWhileSinking_43DD60()
         field_54_driver = this->field_54_driver;
         if (field_54_driver)
         {
-            if (field_54_driver->get_occupation_403980() == ped_ocupation_enum::unknown_2)
+            if (field_54_driver->get_occupation_403980() == ped_ocupation_enum::dummy_driver_4)
             {
                 bOcc2 = 1;
             }
@@ -6679,7 +6679,7 @@ u32 Car::GetEffectiveDriverPedId_444090()
     }
 
     Ped* pDriver = pCar->field_54_driver;
-    if (pDriver->get_occupation_403980() == ped_ocupation_enum::unknown_2)
+    if (pDriver->get_occupation_403980() == ped_ocupation_enum::dummy_driver_4)
     {
         return pCar->field_70_exploder_ped_id;
     }

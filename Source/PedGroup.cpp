@@ -475,7 +475,7 @@ void PedGroup::PromoteMemberToLeader_4C9680(u8 idx)
         pSwapPed->PoolAllocate();
     }
     pSwapPed->set_health_4039A0(100);
-    pSwapPed->set_occupation_403970(ped_ocupation_enum::unknown_1);
+    pSwapPed->set_occupation_403970(ped_ocupation_enum::deallocate_on_death_2);
     pSwapPed->Kill_46F9D0();
 }
 
@@ -1020,9 +1020,9 @@ void PedGroup::UpdateMemberAIState_4CA5E0(u8 idx)
     else
     {
         s32 occupation = pMember->get_occupation_403980();
-        if (occupation != 0x29)
+        if (occupation != ped_ocupation_enum::drone)
         {
-            if (occupation != 0x2D)
+            if (occupation != ped_ocupation_enum::refugees)
             {
                 pMember->field_288_threat_search = threat_search_enum::line_of_sight_1;
                 pMember->field_28C_threat_reaction = threat_reaction_enum::react_as_normal_2;
@@ -1076,7 +1076,7 @@ void PedGroup::UpdateMemberAIState_4CA5E0(u8 idx)
     else if (pMember->GetInternalObjective_403A90() == objectives_enum::objective_9)
     {
         s32 occupation = pMember->get_occupation_403980();
-        if ((occupation < 0x18 || occupation > 0x1B) && pMember->GetInternalTargetPed_403AF0()->has_car_403B80() && pMember->field_258_objective != objectives_enum::objective_8)
+        if ((occupation < ped_ocupation_enum::police || occupation > ped_ocupation_enum::army_army) && pMember->GetInternalTargetPed_403AF0()->has_car_403B80() && pMember->field_258_objective != objectives_enum::objective_8)
         {
             pMember->SetObjective(objectives_enum::objective_8);
             pMember->SetObjective2_463830(objectives_enum::no_obj_0);

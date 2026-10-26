@@ -413,7 +413,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
         } // End switch
 
         if (pPed->get_occupation_403980() != ped_ocupation_enum::walking_guard_29 &&
-            pPed->get_occupation_403980() != ped_ocupation_enum::unknown_cop_occu_31)
+            pPed->get_occupation_403980() != ped_ocupation_enum::walking_army_guard_31)
         {
             pPed->AllocCharB4_45C830(xpos, ypos, zpos);
         }
@@ -820,7 +820,7 @@ Ped* PedManager::SpawnDriver_470B00(Car* pCar)
 {
     Ped* pNewPed = gPedPool_6787B8->Allocate();
     pNewPed->SetPedType_403920(ped_type::dummy_3);
-    pNewPed->set_occupation_403970(ped_ocupation_enum::unknown_2); //unknown_2;
+    pNewPed->set_occupation_403970(ped_ocupation_enum::dummy_driver_4);
     pNewPed->field_16C_car = pCar;
     pNewPed->field_168_game_object = 0;
     pNewPed->ChangeNextPedState1_45C500(ped_state_1::in_car_10);
@@ -886,7 +886,7 @@ Ped* PedManager::CreateDummyDriver_470CC0(Car* pCar)
     pNewPed->set_remap_433B90(-1);
     pNewPed->field_26C_graphic_type = ped_graphic_type::civilian_0;
     pNewPed->SetPedType_403920(ped_type::dummy_3);
-    pNewPed->set_occupation_403970(ped_ocupation_enum::unknown_2); //unknown_2;
+    pNewPed->set_occupation_403970(ped_ocupation_enum::dummy_driver_4);
     pNewPed->field_16C_car = pCar;
     pNewPed->field_168_game_object = 0;
     pNewPed->ChangeNextPedState1_45C500(ped_state_1::in_car_10);
