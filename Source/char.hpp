@@ -88,7 +88,7 @@ class Char
     void* field_18_collided_entity;
     void* field_1C_prev_collided_entity;
     s32 field_20_collided_entity_type;
-    s32 field_24;
+    s32 field_24_slide_state;
     Ang16 field_28_slide_rotation;
     Ang16 field_2A_slide_turn;
     Ang16 field_2C_ang;
@@ -247,7 +247,7 @@ class Char
         field_C_ped_state_2 = new_state;
     }
 
-    inline void sub_4923D0()
+    inline void VeerLeftFromWall_4923D0()
     {
         field_40_rotation.SnapToAng4_405640();
         field_40_rotation += kAng16_6FD940;
@@ -255,7 +255,7 @@ class Char
         field_46_timer = 10;
     }
 
-    inline void sub_4923A0()
+    inline void VeerRightFromWall_4923A0()
     {
         field_40_rotation.SnapToAng4_405640();
         field_40_rotation += kAng344_6FD8F8;

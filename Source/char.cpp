@@ -248,7 +248,7 @@ Char::Char()
     field_18_collided_entity = 0;
     field_1C_prev_collided_entity = 0;
     field_20_collided_entity_type = 0;
-    field_24 = 3;
+    field_24_slide_state = 3;
     field_28_slide_rotation = kAng0_6FDB34;
     field_2A_slide_turn = kAng0_6FDB34;
     field_2C_ang = kAng0_6FDB34;
@@ -335,7 +335,7 @@ void Char::PoolAllocate()
     field_18_collided_entity = 0;
     field_1C_prev_collided_entity = 0;
     field_20_collided_entity_type = 0;
-    field_24 = 3;
+    field_24_slide_state = 3;
     field_28_slide_rotation = kAng0_6FDB34;
     field_2A_slide_turn = kAng0_6FDB34;
     field_2C_ang = kAng0_6FDB34;
@@ -481,7 +481,7 @@ void Char::ClearCollisionState_545600()
     field_20_collided_entity_type = 0;
     field_2C_ang = kAng0_6FDB34;
     field_69_is_colliding_with_sprite = 0;
-    field_24 = 0;
+    field_24_slide_state = 0;
     field_28_slide_rotation = kAng0_6FDB34;
     field_2A_slide_turn = kAng0_6FDB34;
     field_2C_ang = kAng0_6FDB34;
@@ -1686,7 +1686,7 @@ MATCH_FUNC(0x548670)
 void Char::DispatchCollision_548670(char_type bFlag)
 {
     u8 bUnknown;
-    if (this->field_69_is_colliding_with_sprite == 1 && this->field_20_collided_entity_type && this->field_24 != 3)
+    if (this->field_69_is_colliding_with_sprite == 1 && this->field_20_collided_entity_type && this->field_24_slide_state != 3)
     {
         bUnknown = 1;
     }
@@ -2495,7 +2495,7 @@ bool Char::ContinueMovementAfterCollision_54B8F0()
     if (field_18_collided_entity)
     {
         field_40_rotation = field_28_slide_rotation;
-        field_24 = 1;
+        field_24_slide_state = 1;
         PolarToCartesian_OutOfLineMul(field_40_rotation, field_38_velocity, x_vec, y_vec);
         field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + x_vec,
                                                  field_80_sprite_ptr->field_14_xy.y + y_vec,
@@ -2538,13 +2538,13 @@ bool Char::ContinueMovementAfterCollision_54B8F0()
                                                      field_80_sprite_ptr->field_14_xy.y + y_vec,
                                                      field_80_sprite_ptr->field_1C_zpos);
             Char::DispatchCollision_548670(byte_623F48);
-            if (!field_18_collided_entity && field_24 != 2)
+            if (!field_18_collided_entity && field_24_slide_state != 2)
             {
                 // Free behind: turn around
                 field_80_sprite_ptr->set_xy_lazy_447E20(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800);
                 field_28_slide_rotation.rValue += AddAngles_ool_54B8F0(kAng180_6FD936, field_2A_slide_turn).rValue;
                 field_28_slide_rotation.Normalize_406C20();
-                field_24 = 2;
+                field_24_slide_state = 2;
                 field_40_rotation = field_28_slide_rotation;
                 PolarToCartesian_OutOfLineMul(field_40_rotation, field_38_velocity * gFix16_Two_6FD9EC, x_vec, y_vec);
                 field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + x_vec,
@@ -2556,7 +2556,7 @@ bool Char::ContinueMovementAfterCollision_54B8F0()
                     field_80_sprite_ptr->set_xy_lazy_447E20(gCharB4_Saved_Xpos_6FD7F8, gCharB4_Saved_Ypos_6FD800);
                     field_28_slide_rotation.rValue += field_2A_slide_turn.rValue;
                     field_28_slide_rotation.Normalize_406C20();
-                    field_24 = 0;
+                    field_24_slide_state = 0;
                     field_40_rotation = field_28_slide_rotation;
                     PolarToCartesian_OutOfLineMul(field_40_rotation, field_38_velocity, x_vec, y_vec);
                     field_80_sprite_ptr->set_xyz_lazy_420600(field_80_sprite_ptr->field_14_xy.x + x_vec,
@@ -3748,12 +3748,12 @@ void Char::state_0_54DDF0()
 
                         if (!Char::CanMoveToTile_54C500(xpos_4.ToInt(), ypos_4.ToInt()))
                         {
-                            sub_4923D0();
+                            VeerLeftFromWall_4923D0();
                         }
                     }
                     else
                     {
-                        sub_4923A0();
+                        VeerRightFromWall_4923A0();
                     }
                 }
             }
