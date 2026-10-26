@@ -40,7 +40,7 @@ DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6768D8, kFpOne64th_6767D0, 0x6768D8);
 DEFINE_GLOBAL_INIT(Fix16, kFpThreeSixteenths_676918, kFpOne64th_6768D8 * 12, 0x676918);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne128th_6767B8, kFpOne64th_6768D8* kFpHalf_676678, 0x6767B8);
 DEFINE_GLOBAL_INIT(Fix16, kFpFiveEighths_676638, kFpOne64th_6768D8 * 40, 0x676638);
-DEFINE_GLOBAL_INIT(Fix16, dword_676834, kFpOne64th_6768D8* kFpPoint1_676664, 0x676834);
+DEFINE_GLOBAL_INIT(Fix16, kFpOne640th_676834, kFpOne64th_6768D8* kFpPoint1_676664, 0x676834);
 DEFINE_GLOBAL_INIT(Fix16, kFpFiveSixtyFourths_6765FC, kFpOne64th_6768D8 * 5, 0x6765FC);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6766FC, kFpOne64th_6768D8, 0x6766FC);
 DEFINE_GLOBAL_INIT(Fix16, kFpOneSixteenth_6766A4, kFpOne64th_6768D8 * 4, 0x6766A4);
@@ -520,7 +520,7 @@ void Camera::Update_435FF0()
                                          &field_98_cur_pos.field_8_z,
                                          &kFpOne128th_6767B8,
                                          &kFpFiveEighths_676638,
-                                         &dword_676834,
+                                         &kFpOne640th_676834,
                                          &kFpFiveSixtyFourths_6765FC);
             SmoothApproach_4F7540(field_0_target_pos.field_C_zoom,
                                   field_AC_cam_velocity.field_C_zoom,

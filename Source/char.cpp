@@ -51,7 +51,7 @@ DEFINE_GLOBAL_INIT(Ang16, kAng180_6FD936, Ang16(720), 0x6FD936);
 DEFINE_GLOBAL_INIT(Ang16, kAng315_6FD938, Ang16(1260), 0x6FD938);
 
 DEFINE_GLOBAL(u8, byte_6FDB55, 0x6FDB55);
-DEFINE_GLOBAL_INIT(Ang16, word_6FDB2E, Ang16(16), 0x6FDB2E);
+DEFINE_GLOBAL_INIT(Ang16, kAng4_6FDB2E, Ang16(16), 0x6FDB2E);
 
 DEFINE_GLOBAL(u8, gCharCollisionNoJump_6FDB58, 0x6FDB58);
 DEFINE_GLOBAL(u8, gCharB4_HitByMine_6FDB59, 0x6FDB59);
@@ -108,8 +108,8 @@ DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6FDA9C, Fix16(0x100, 0), 0x6FDA9C);
 
 DEFINE_GLOBAL(u16, gNumPedsOnScreen_6787EC, 0x6787EC);
 
-DEFINE_GLOBAL(u8, byte_6FDB51, 0x6FDB51);
-DEFINE_GLOBAL(u8, byte_6FDB52, 0x6FDB52);
+DEFINE_GLOBAL(u8, gCharB4_TurnToFreeFace_6FDB51, 0x6FDB51);
+DEFINE_GLOBAL(u8, gCharB4_VeerFromWalls_6FDB52, 0x6FDB52);
 DEFINE_GLOBAL(u8, byte_6FDB53, 0x6FDB53);
 DEFINE_GLOBAL(u8, gCharB4_GradientSlopeBelow_6FDB54, 0x6FDB54);
 
@@ -117,7 +117,7 @@ DEFINE_GLOBAL(u8, byte_6FDB56, 0x6FDB56);
 DEFINE_GLOBAL_INIT(u8, byte_623F48, 1, 0x623F48);
 DEFINE_GLOBAL(u8, gCharB4_Saved_TileX_6FDAD8, 0x6FDAD8);
 DEFINE_GLOBAL(u8, gCharB4_Saved_TileY_6FDAD9, 0x6FDAD9);
-DEFINE_GLOBAL(u8, byte_6FDB57, 0x6FDB57);
+DEFINE_GLOBAL(u8, gCharB4_StepPosValid_6FDB57, 0x6FDB57);
 
 DEFINE_GLOBAL_INIT(Ang16, gAng16_AngleOfCollision_6FD808, Ang16(0), 0x6FD808);
 DEFINE_GLOBAL_INIT(Ang16, kAng90_6FD8A2, Ang16(360), 0x6FD8A2);
@@ -220,8 +220,8 @@ void __stdcall ResetCharUpdateGlobals_544F70()
     gCharB4_StepXpos_6FD8B8 = kFP16Zero_6FD9E4;
     gCharB4_StepYpos_6FD8BC = kFP16Zero_6FD9E4;
     dword_6FD8B4 = kFP16Zero_6FD9E4;
-    byte_6FDB51 = 0;
-    byte_6FDB52 = 0;
+    gCharB4_TurnToFreeFace_6FDB51 = 0;
+    gCharB4_VeerFromWalls_6FDB52 = 0;
     byte_6FDB53 = 0;
     gCharB4_GradientSlopeBelow_6FDB54 = 0;
     byte_6FDB55 = 0;
@@ -230,7 +230,7 @@ void __stdcall ResetCharUpdateGlobals_544F70()
     byte_623F48 = 1;
     gCharB4_Saved_TileX_6FDAD8 = kFP16Zero_6FD9E4.ToUInt8();
     gCharB4_Saved_TileY_6FDAD9 = kFP16Zero_6FD9E4.ToUInt8();
-    byte_6FDB57 = 0;
+    gCharB4_StepPosValid_6FDB57 = 0;
     gCharCollisionNoJump_6FDB58 = 0;
 }
 
@@ -2933,8 +2933,8 @@ void Char::TickMovementStateMachine_54C900()
         case 1:
             ApplyRandomRotationJitter_54C6C0();
             this->field_38_velocity = kFpOne64th_6FD7B8;
-            byte_6FDB51 = 1;
-            byte_6FDB52 = 1;
+            gCharB4_TurnToFreeFace_6FDB51 = 1;
+            gCharB4_VeerFromWalls_6FDB52 = 1;
             byte_6FDB53 = 0;
             break;
 
@@ -2951,8 +2951,8 @@ void Char::TickMovementStateMachine_54C900()
                 this->field_6C_animation_state = Char_Anim_state::Walking_0;
             }
             byte_6FDB53 = 0;
-            byte_6FDB51 = 1;
-            byte_6FDB52 = 1;
+            gCharB4_TurnToFreeFace_6FDB51 = 1;
+            gCharB4_VeerFromWalls_6FDB52 = 1;
             break;
 
         case 4:
@@ -2968,8 +2968,8 @@ void Char::TickMovementStateMachine_54C900()
                 this->field_6C_animation_state = Char_Anim_state::Walking_0;
             }
             byte_6FDB53 = 0;
-            byte_6FDB51 = 1;
-            byte_6FDB52 = 1;
+            gCharB4_TurnToFreeFace_6FDB51 = 1;
+            gCharB4_VeerFromWalls_6FDB52 = 1;
             break;
 
         case 7:
@@ -2987,8 +2987,8 @@ void Char::TickMovementStateMachine_54C900()
                 this->field_38_velocity = kFpOne64th_6FD7B8;
             }
             byte_6FDB53 = 0;
-            byte_6FDB51 = 1;
-            byte_6FDB52 = 1;
+            gCharB4_TurnToFreeFace_6FDB51 = 1;
+            gCharB4_VeerFromWalls_6FDB52 = 1;
             break;
 
         case Char_B4_state::Veer_Right_From_Wall_8:
@@ -3000,9 +3000,9 @@ void Char::TickMovementStateMachine_54C900()
                 this->field_10_char_state = 1;
                 this->field_6C_animation_state = Char_Anim_state::Walking_0;
             }
-            byte_6FDB52 = 0;
+            gCharB4_VeerFromWalls_6FDB52 = 0;
             byte_6FDB53 = 0;
-            byte_6FDB51 = 1;
+            gCharB4_TurnToFreeFace_6FDB51 = 1;
             break;
 
         case Char_B4_state::Turning_To_Target_25:
@@ -3014,8 +3014,8 @@ void Char::TickMovementStateMachine_54C900()
                 this->field_6C_animation_state = Char_Anim_state::Walking_0;
                 this->field_46_timer = 0;
             }
-            byte_6FDB51 = 0;
-            byte_6FDB52 = 0;
+            gCharB4_TurnToFreeFace_6FDB51 = 0;
+            gCharB4_VeerFromWalls_6FDB52 = 0;
             byte_6FDB53 = 0;
             break;
 
@@ -3341,8 +3341,8 @@ void Char::state_0_54DDF0()
     char_type bAllowStateChange;
     u8 bTileOk;
 
-    byte_6FDB51 = 1;
-    byte_6FDB52 = 1;
+    gCharB4_TurnToFreeFace_6FDB51 = 1;
+    gCharB4_VeerFromWalls_6FDB52 = 1;
     byte_6FDB53 = 0;
     gCharB4_GradientSlopeBelow_6FDB54 = 0;
     this->field_4A = 500;
@@ -3580,8 +3580,8 @@ void Char::state_0_54DDF0()
                 {
                     if (this->field_6A_repulsion_timer)
                     {
-                        byte_6FDB51 = 0;
-                        byte_6FDB52 = 0;
+                        gCharB4_TurnToFreeFace_6FDB51 = 0;
+                        gCharB4_VeerFromWalls_6FDB52 = 0;
                         new_rotation = field_40_rotation;
                         this->field_40_rotation = this->field_74_repulsion_rotation;
 
@@ -3612,16 +3612,16 @@ void Char::state_0_54DDF0()
         {
             bAllowStateChange = 0;
             field_7C_pPed->field_21C_bf.bAttacking = false;
-            byte_6FDB51 = 0;
-            byte_6FDB52 = 0;
+            gCharB4_TurnToFreeFace_6FDB51 = 0;
+            gCharB4_VeerFromWalls_6FDB52 = 0;
         }
         else
         {
             if (this->field_6A_repulsion_timer)
             {
                 bAllowStateChange = 0;
-                byte_6FDB51 = 0;
-                byte_6FDB52 = 0;
+                gCharB4_TurnToFreeFace_6FDB51 = 0;
+                gCharB4_VeerFromWalls_6FDB52 = 0;
                 new_rotation = field_40_rotation;
                 this->field_40_rotation = this->field_74_repulsion_rotation;
                 this->field_38_velocity = k_CollisionRepulsionSpeed_6FD7BC;
@@ -3698,7 +3698,7 @@ void Char::state_0_54DDF0()
         {
             bTileOk = Char::CanMoveToTile_54C500(ret1.ToInt(), ret2.ToInt());
 
-            if (byte_6FDB51)
+            if (gCharB4_TurnToFreeFace_6FDB51)
             {
                 Char::TurnToFreeAdjacentFace_54C3E0();
             }
@@ -3706,7 +3706,7 @@ void Char::state_0_54DDF0()
             if (bTileOk == 1)
             {
                 bCanMove = 1;
-                if (byte_6FDB52)
+                if (gCharB4_VeerFromWalls_6FDB52)
                 {
                     side_angle = field_40_rotation;
                     side_angle.SnapToAng4_405640();
@@ -3835,7 +3835,7 @@ bool Char::CanStepForwardWithRegionCheck_54ECB0(s32 direction)
         gCharB4_PathDirection_623F44 = direction;
         return false;
     }
-    if (byte_6FDB57)
+    if (gCharB4_StepPosValid_6FDB57)
     {
         field_80_sprite_ptr->set_xyz_lazy_420600(gCharB4_StepXpos_6FD8B8, gCharB4_StepYpos_6FD8BC, zpos);
         Char::ManageZCoordAndSlopes_548590();
@@ -3908,7 +3908,7 @@ bool Char::CanStepToTile_54EF60(char_type target_x, char_type target_y)
     Fix16 sprite_zpos = field_80_sprite_ptr->field_1C_zpos;
 
     u8 old_slope_dir = field_45_slope_gradient_direction;
-    byte_6FDB57 = 1;
+    gCharB4_StepPosValid_6FDB57 = 1;
     Fix16 xpos, ypos;
     Ang16::PolarToCartesian_41FC20(gAng16_AngleOfCollision_6FD808, gFP16_CollisionCheckRadius_6FDACC, xpos, ypos);
     gCharB4_StepXpos_6FD8B8 = gCharB4_Saved_Xpos_6FD7F8 + xpos;
@@ -5016,7 +5016,7 @@ Ang16 Char::GetNextRotationToward_550F60(Ang16 inputAng)
 
     // 9.6f has no trace of this; 10.5 constructs the step angle from it and then overwrites it.
     // The product is a temporary inside the inline: the step angle sits in the temporaries area.
-    Ang16 max_turn = word_6FDB2E.MultiplyByFix16_401CB0(field_38_velocity);
+    Ang16 max_turn = kAng4_6FDB2E.MultiplyByFix16_401CB0(field_38_velocity);
     Ang16 result;
 
     if (field_10_char_state == Char_B4_state::Avoiding_Ped_10)

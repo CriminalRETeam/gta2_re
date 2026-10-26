@@ -30,8 +30,8 @@ EXTERN_GLOBAL(Ang16, kAng180_6FD3EE);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6FD448, Fix16(0x100, 0), 0x6FD448);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6FD328, kFpOne64th_6FD448, 0x6FD328);
 DEFINE_GLOBAL_INIT(Fix16, kFpOneThirtySecond_6FD330, kFpOne64th_6FD328 * 2, 0x6FD330);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD450, kFpOne64th_6FD328 / 100, 0x6FD450);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD44C, kFpOne64th_6FD328 / 50, 0x6FD44C);
+DEFINE_GLOBAL_INIT(Fix16, kFpOne6400th_6FD450, kFpOne64th_6FD328 / 100, 0x6FD450);
+DEFINE_GLOBAL_INIT(Fix16, kFpOne3200th_6FD44C, kFpOne64th_6FD328 / 50, 0x6FD44C);
 DEFINE_GLOBAL(s16, gDebrisDirection_6FD5F8, 0x6FD5F8);
 
 DEFINE_GLOBAL_INIT(s16, gExplosionId_623F18, 1, 0x623F18);
@@ -106,30 +106,30 @@ void Explosion::EmitRandomDiagonalParticle_540A40()
         switch (gDebrisDirection_6FD5F8)
         {
             case 0:
-                pParticle = gParticle_8_6FD5E8->New_53E3C0(dword_6FD44C, dword_6FD44C, kFpOneThirtySecond_6FD330, dword_6FD450, dword_6FD450, 0);
+                pParticle = gParticle_8_6FD5E8->New_53E3C0(kFpOne3200th_6FD44C, kFpOne3200th_6FD44C, kFpOneThirtySecond_6FD330, kFpOne6400th_6FD450, kFpOne6400th_6FD450, 0);
                 break;
             case 1:
-                pParticle = gParticle_8_6FD5E8->New_53E3C0(dword_6FD44C.Negate_4086A0(),
-                                                           dword_6FD44C,
+                pParticle = gParticle_8_6FD5E8->New_53E3C0(kFpOne3200th_6FD44C.Negate_4086A0(),
+                                                           kFpOne3200th_6FD44C,
                                                            kFpOneThirtySecond_6FD330,
-                                                           dword_6FD450.Negate_4086A0(),
-                                                           dword_6FD450,
+                                                           kFpOne6400th_6FD450.Negate_4086A0(),
+                                                           kFpOne6400th_6FD450,
                                                            0);
                 break;
             case 2:
-                pParticle = gParticle_8_6FD5E8->New_53E3C0(dword_6FD44C,
-                                                           dword_6FD44C.Negate_4086A0(),
+                pParticle = gParticle_8_6FD5E8->New_53E3C0(kFpOne3200th_6FD44C,
+                                                           kFpOne3200th_6FD44C.Negate_4086A0(),
                                                            kFpOneThirtySecond_6FD330,
-                                                           dword_6FD450,
-                                                           dword_6FD450.Negate_4086A0(),
+                                                           kFpOne6400th_6FD450,
+                                                           kFpOne6400th_6FD450.Negate_4086A0(),
                                                            0);
                 break;
             case 3:
-                pParticle = gParticle_8_6FD5E8->New_53E3C0(dword_6FD44C.Negate_4086A0(),
-                                                           dword_6FD44C.Negate_4086A0(),
+                pParticle = gParticle_8_6FD5E8->New_53E3C0(kFpOne3200th_6FD44C.Negate_4086A0(),
+                                                           kFpOne3200th_6FD44C.Negate_4086A0(),
                                                            kFpOneThirtySecond_6FD330,
-                                                           dword_6FD450.Negate_4086A0(),
-                                                           dword_6FD450.Negate_4086A0(),
+                                                           kFpOne6400th_6FD450.Negate_4086A0(),
+                                                           kFpOne6400th_6FD450.Negate_4086A0(),
                                                            0);
                 break;
             default:

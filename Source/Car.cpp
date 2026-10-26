@@ -119,7 +119,7 @@ EXTERN_GLOBAL(CarInfo_2C*, gCarInfo_2C_6FE0E4);
 EXTERN_GLOBAL(ModelPhysics*, gCarInfo_48_6FE258);
 
 DEFINE_GLOBAL(u16, gBlockedRoadBrakeTimer_677CFC, 0x677CFC);
-DEFINE_GLOBAL(SpriteList, stru_67737C, 0x67737c);
+DEFINE_GLOBAL(SpriteList, gCrushedCarSprites_67737C, 0x67737c);
 
 DEFINE_GLOBAL_INIT(Fix16, kWaterCannonOffsetY_6771F0, Fix16(0x800, 0), 0x6771F0);
 DEFINE_GLOBAL_INIT(Ang16, kAng180_677326, Ang16(0x2D0), 0x677326);
@@ -1762,8 +1762,8 @@ CarManager::CarManager()
     field_3C_mission_cars = 0;
     field_44_parked_cars = 0;
 
-    stru_67727C.ResetHead_4207E0();
-    stru_67737C.ResetHead_4207E0();
+    gTrailerHitchCandidates_67727C.ResetHead_4207E0();
+    gCrushedCarSprites_67737C.ResetHead_4207E0();
 
     ClearCarInfoGlobals_5639C0();
     ResetBlockedRoadBrakeTimer_447640();
@@ -2395,7 +2395,7 @@ bool Car::CanCarCollideWithSprite_43AAF0(Sprite* pSprite)
                 {
                     if (!IsMarkedForDespawn_4214B0() && !IsDespawning_4215B0())
                     {
-                        stru_67727C.PushSprite_5A6D40(this->field_50_car_sprite);
+                        gTrailerHitchCandidates_67727C.PushSprite_5A6D40(this->field_50_car_sprite);
                     }
                 }
                 return bCanCollide;
@@ -2520,7 +2520,7 @@ void Car::ProcessCarToCarImpact_43ADC0(Sprite* pSprite)
                 {
                     field_58_physics->set_linvel_421170(kZeroPoint_6778A8);
                 }
-                stru_67737C.AddSprite_5A6CD0(field_50_car_sprite);
+                gCrushedCarSprites_67737C.AddSprite_5A6CD0(field_50_car_sprite);
                 break;
             }
 
@@ -5603,19 +5603,19 @@ void Car::TryHitchTrailer_442810()
 
     if (!HasSpriteZoom_43A230() && !IsMaxDamage_40F890() && !IsMarkedForDespawn_4214B0() && !IsDespawning_4215B0())
     {
-        stru_67727C.PruneNonCollidingSprites_5A7240(field_50_car_sprite);
+        gTrailerHitchCandidates_67727C.PruneNonCollidingSprites_5A7240(field_50_car_sprite);
         Sprite* pHitchSprite =
-            stru_67727C.FindClosestSprite_5A6E40(this->field_50_car_sprite->field_14_xy.x, this->field_50_car_sprite->field_14_xy.y);
+            gTrailerHitchCandidates_67727C.FindClosestSprite_5A6E40(this->field_50_car_sprite->field_14_xy.x, this->field_50_car_sprite->field_14_xy.y);
         if (!pHitchSprite)
         {
             this->field_78_flags &= static_cast<u16>(~car_flag::TrailerDetached);
         }
         else
         {
-            if (field_50_car_sprite->CheckSlopeTopInFootprint_5A1A60() || stru_67727C.AnySpriteHasSlopeTopInFootprint_5A7310())
+            if (field_50_car_sprite->CheckSlopeTopInFootprint_5A1A60() || gTrailerHitchCandidates_67727C.AnySpriteHasSlopeTopInFootprint_5A7310())
             {
                 this->field_50_car_sprite->SetDrawLayer_40F7B0(8);
-                stru_67727C.PropagateMaxZLayer_5A72B0(this->field_50_car_sprite, 1);
+                gTrailerHitchCandidates_67727C.PropagateMaxZLayer_5A72B0(this->field_50_car_sprite, 1);
             }
 
             Car* pCar = pHitchSprite->AsCar_40FEB0();
@@ -5661,7 +5661,7 @@ void Car::TryHitchTrailer_442810()
             }
         }
     }
-    stru_67727C.ClearList_5A6E10();
+    gTrailerHitchCandidates_67727C.ClearList_5A6E10();
 }
 
 MATCH_FUNC(0x442d10)
@@ -5905,8 +5905,8 @@ bool Car::PoolUpdate()
 
     if (IsFlagSet_411930(car_flag::Crushing))
     {
-        stru_67737C.PropagateMaxZLayer_5A72B0(this->field_50_car_sprite, 1);
-        stru_67737C.ClearList_5A6E10();
+        gCrushedCarSprites_67737C.PropagateMaxZLayer_5A72B0(this->field_50_car_sprite, 1);
+        gCrushedCarSprites_67737C.ClearList_5A6E10();
     }
 
     if (this->field_0_attachments.field_0_p18)
