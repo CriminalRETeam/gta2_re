@@ -92,14 +92,24 @@ EXTERN_GLOBAL(TrainStopCount, gTrainStopCount_6FEFFC);
 
 class PublicTransport
 {
-  public:
+  private:
     EXPORT Train* AllocateTrain_578790();
     EXPORT TrainStation* AllocateTrainStation_5787E0();
+
+  public:
     EXPORT void SpawnTrainsFromStations_578860();
+
+  private:
     EXPORT void InitStationsLinkedList_5793E0();
     EXPORT void InitTrainStations_579440();
+
+  public:
     EXPORT void SetupTrainAndBusStops_5794B0();
+
+  private:
     EXPORT TrainStation* GetBusStopOnScreen_5799B0();
+
+  public:
     EXPORT void OnBusStopMarkerHit_579A30(Car* pToFind);
     EXPORT bool is_bus_579AA0(Car* pCar) const;
     EXPORT Car* GetBusIfBoarding_579AD0() const;
@@ -108,7 +118,11 @@ class PublicTransport
     EXPORT void KillAllPassengers_579B20();
     EXPORT Car** GetCarArrayFromLeadCar_579B40(Car* toFind);
     EXPORT bool GetTrainSpeed_579B90(Car* pToFind, Fix16* pOutSpeed);
+
+  private:
     EXPORT void BusesService_579CA0();
+
+  public:
     EXPORT void PublicTransportService_57A7A0();
     EXPORT TrainStation* TrainStationForZone_57B4B0(gmp_map_zone* pZone);
     EXPORT Car* GetLeadTrainCar_57B540(Car* pCar);
