@@ -51,6 +51,43 @@
 // Back to force inline
 #define INLINE_MODE __forceinline
 
+// GetEntityTypeOfCommand_503410
+namespace script_entity_type
+{
+enum
+{
+    none_0 = 0,
+    char_1 = 1,
+    car_2 = 2,
+    object_3 = 3,
+    crane_4 = 4,
+    conveyor_5 = 5,
+    destructor_6 = 6,
+    generator_7 = 7,
+    light_8 = 8,
+    radio_station_9 = 9,
+    sound_10 = 10,
+};
+} // namespace script_entity_type
+
+// GetOperationType_506BC0
+namespace script_operation
+{
+enum
+{
+    add_0 = 0,
+    subtract_1 = 1,
+    greater_2 = 2,
+    greater_or_equal_3 = 3,
+    less_4 = 4,
+    less_or_equal_5 = 5,
+    equal_6 = 6,
+    divide_7 = 7,
+    multiply_8 = 8,
+    modulo_9 = 9,
+};
+} // namespace script_operation
+
 DEFINE_GLOBAL_INIT(s16, gNextThreadId_6212EE, 1, 0x6212EE);
 
 DEFINE_GLOBAL_ARRAY_INIT(
@@ -142,31 +179,29 @@ u8 ScriptThread::GetEntityTypeOfCommand_503410(u32 opcode)
         case SCRCMD_CONVEYOR_DEC:
         case SCRCMD_CONVEYOR_DECSET1:
         case SCRCMD_CONVEYOR_DECSET2:
-            return 5;
+            return script_entity_type::conveyor_5;
         case SCRCMD_GENERATOR_DEC:
         case SCRCMD_GENERATOR_DECSET3:
         case SCRCMD_GENERATOR_DECSET4:
-            return 7;
+            return script_entity_type::generator_7;
         case SCRCMD_DESTRUCTOR_DEC:
         case SCRCMD_DESTRUCTOR_DECSET1:
         case SCRCMD_DESTRUCTOR_DECSET2:
-            return 6;
+            return script_entity_type::destructor_6;
         case SCRCMD_CRANE_DEC:
         case SCRCMD_CRANE_BASIC_DEC:
         case SCRCMD_CRANE_TARGET_DEC:
         case SCRCMD_CRANE2TARGET_DEC:
-            return 4;
+            return script_entity_type::crane_4;
 
-        // 1
         case SCRCMD_PLAYER_PED:
         case SCRCMD_CHAR_DEC:
         case SCRCMD_CHAR_DECSET_2D:
         case SCRCMD_CHAR_DECSET_3D:
         case SCRCMD_CREATE_CHAR_2D:
         case SCRCMD_CREATE_CHAR_3D:
-            return 1;
+            return script_entity_type::char_1;
 
-        // 3
         case SCRCMD_OBJ_DEC:
         case SCRCMD_OBJ_DECSET_2D:
         case SCRCMD_OBJ_DECSET_3D:
@@ -180,14 +215,12 @@ u8 ScriptThread::GetEntityTypeOfCommand_503410(u32 opcode)
         case SCRCMD_CREATE_OBJ_2D_INT:
         case SCRCMD_CREATE_OBJ_3D_STR:
         case SCRCMD_CREATE_OBJ_2D_STR:
-            return 3;
+            return script_entity_type::object_3;
 
-        // 8
         case SCRCMD_LIGHT_DEC:
         case SCRCMD_LIGHT_DECSET1:
-            return 8;
+            return script_entity_type::light_8;
 
-        // 2
         case SCRCMD_CAR_DEC:
         case SCRCMD_CAR_DECSET_2D:
         case SCRCMD_CAR_DECSET_3D:
@@ -197,17 +230,17 @@ u8 ScriptThread::GetEntityTypeOfCommand_503410(u32 opcode)
         case SCRCMD_PARKED_CAR_DECSET_3D_STR:
         case SCRCMD_CREATE_CAR_2D:
         case SCRCMD_CREATE_CAR_3D:
-            return 2;
+            return script_entity_type::car_2;
 
         case SCRCMD_RADIOSTATION_DEC:
-            return 9;
+            return script_entity_type::radio_station_9;
 
         case SCRCMD_SOUND:
         case SCRCMD_SOUND_DECSET:
         case SCRCMD_CREATE_SOUND:
-            return 10;
+            return script_entity_type::sound_10;
         default:
-            return 0;
+            return script_entity_type::none_0;
     }
 }
 
@@ -1379,7 +1412,7 @@ void ScriptThread::DeallocOrDeleteItem_505B10(u16 idx)
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(idx));
     switch (ScriptThread::GetEntityTypeOfCommand_503410(pPointer->field_2_type))
     {
-        case 2:
+        case script_entity_type::car_2:
             pCarCmdPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(idx));
             if (pCarCmdPointer->field_8_car)
             {
@@ -1389,7 +1422,7 @@ void ScriptThread::DeallocOrDeleteItem_505B10(u16 idx)
             }
             break;
 
-        case 1:
+        case script_entity_type::char_1:
             pPedCmdPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(idx));
             if (pPedCmdPointer->field_8_char)
             {
@@ -1398,7 +1431,7 @@ void ScriptThread::DeallocOrDeleteItem_505B10(u16 idx)
             }
             break;
 
-        case 3:
+        case script_entity_type::object_3:
             pObjCmdPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(idx));
             if (pObjCmdPointer->field_8_obj)
             {
@@ -1406,7 +1439,7 @@ void ScriptThread::DeallocOrDeleteItem_505B10(u16 idx)
                 pObjCmdPointer->field_8_obj = NULL;
             }
             break;
-        case 8:
+        case script_entity_type::light_8:
             pLghtCmdPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(idx));
             if (pLghtCmdPointer->field_8_light)
             {
@@ -1415,12 +1448,12 @@ void ScriptThread::DeallocOrDeleteItem_505B10(u16 idx)
             }
             break;
 
-        case 9:
+        case script_entity_type::radio_station_9:
             pSoundCmdPointer = static_cast<SCR_DELETE_SOUND*>(gScriptManager_6F8060->GetBasePointer_512770(idx));
             gRoot_sound_66B038.RemoveSound_40F050(pSoundCmdPointer->field_8_xpos, pSoundCmdPointer->field_C_ypos);
             break;
 
-        case 10:
+        case script_entity_type::sound_10:
             pObjCmdPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(idx));
             if (pObjCmdPointer->field_8_obj)
             {
@@ -1805,39 +1838,39 @@ u8 ScriptThread::GetOperationType_506BC0(u32 opcode)
         case SCRCMD_S_PLUS_S:
         case SCRCMD_S_IS_S_PLUS_S:
         case SCRCMD_S_IS_S_PLUS_I:
-            return 0;
+            return script_operation::add_0;
         case SCRCMD_S_MINUS_I:
         case SCRCMD_I_MINUS_S:
         case SCRCMD_S_MINUS_S:
         case SCRCMD_S_IS_S_MINUS_I:
         case SCRCMD_S_IS_S_MINUS_S:
-            return 1;
+            return script_operation::subtract_1;
         case SCRCMD_S_LESS_I:
         case SCRCMD_S_LESS_S:
-            return 4;
+            return script_operation::less_4;
         case SCRCMD_S_LEQUAL_I:
         case SCRCMD_S_LEQUAL_S:
-            return 5;
+            return script_operation::less_or_equal_5;
         case SCRCMD_S_GREATER_I:
         case SCRCMD_S_GREATER_S:
-            return 2;
+            return script_operation::greater_2;
         case SCRCMD_S_GEQUAL_I:
         case SCRCMD_S_GEQUAL_S:
-            return 3;
+            return script_operation::greater_or_equal_3;
         case SCRCMD_S_EQUAL_I:
         case SCRCMD_S_EQUAL_S:
-            return 6;
+            return script_operation::equal_6;
         case SCRCMD_S_IS_S_DIV_I:
         case SCRCMD_S_IS_S_DIV_S:
-            return 7;
+            return script_operation::divide_7;
         case SCRCMD_S_IS_S_MULT_I:
         case SCRCMD_S_IS_S_MULT_S:
-            return 8;
+            return script_operation::multiply_8;
         case SCRCMD_S_IS_S_MOD_I:
         case SCRCMD_S_IS_S_MOD_S:
-            return 9;
+            return script_operation::modulo_9;
         default:
-            return 0;
+            return script_operation::add_0;
     }
 }
 
@@ -1850,13 +1883,13 @@ void ScriptThread::SCRCMD_S_OP_I_506D60()
 
     switch (operation_type)
     {
-        case 0:
+        case script_operation::add_0:
             this->field_8_cond_result = pLeftOperand->field_8_counter + pCmd->field_A_value;
             break;
-        case 1:
+        case script_operation::subtract_1:
             this->field_8_cond_result = pLeftOperand->field_8_counter - pCmd->field_A_value;
             break;
-        case 4:
+        case script_operation::less_4:
             if (pLeftOperand->field_8_counter < pCmd->field_A_value)
             {
                 field_8_cond_result = true;
@@ -1867,7 +1900,7 @@ void ScriptThread::SCRCMD_S_OP_I_506D60()
             }
 
             break;
-        case 5:
+        case script_operation::less_or_equal_5:
             if (pLeftOperand->field_8_counter <= pCmd->field_A_value)
             {
                 field_8_cond_result = true;
@@ -1878,7 +1911,7 @@ void ScriptThread::SCRCMD_S_OP_I_506D60()
             }
 
             break;
-        case 2:
+        case script_operation::greater_2:
             if (pLeftOperand->field_8_counter > pCmd->field_A_value)
             {
                 field_8_cond_result = true;
@@ -1889,7 +1922,7 @@ void ScriptThread::SCRCMD_S_OP_I_506D60()
             }
 
             break;
-        case 3:
+        case script_operation::greater_or_equal_3:
             if (pLeftOperand->field_8_counter >= pCmd->field_A_value)
             {
                 field_8_cond_result = true;
@@ -1900,7 +1933,7 @@ void ScriptThread::SCRCMD_S_OP_I_506D60()
             }
 
             break;
-        case 6:
+        case script_operation::equal_6:
             if (pLeftOperand->field_8_counter == pCmd->field_A_value)
             {
                 field_8_cond_result = true;
@@ -1926,16 +1959,15 @@ void ScriptThread::SCRCMD_S_OP_S_506ED0()
     SCR_POINTER* pLeftOperand =
         static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index)); // pCmd->field_8_left_counter_idx
     SCR_POINTER* pRightOperand = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_A_right_counter_idx));
-    // 10.5.exe's jump table: 2 is >, 3 >=, 4 < and 5 <= (GetOperationType_506BC0)
     switch (operation_type)
     {
-        case 0:
+        case script_operation::add_0:
             this->field_8_cond_result = pLeftOperand->field_8_counter + pRightOperand->field_8_counter;
             break;
-        case 1:
+        case script_operation::subtract_1:
             this->field_8_cond_result = pLeftOperand->field_8_counter - pRightOperand->field_8_counter;
             break;
-        case 4:
+        case script_operation::less_4:
             if (pLeftOperand->field_8_counter < pRightOperand->field_8_counter)
             {
                 field_8_cond_result = true;
@@ -1945,7 +1977,7 @@ void ScriptThread::SCRCMD_S_OP_S_506ED0()
                 field_8_cond_result = false;
             }
             break;
-        case 5:
+        case script_operation::less_or_equal_5:
             if (pLeftOperand->field_8_counter <= pRightOperand->field_8_counter)
             {
                 field_8_cond_result = true;
@@ -1955,7 +1987,7 @@ void ScriptThread::SCRCMD_S_OP_S_506ED0()
                 field_8_cond_result = false;
             }
             break;
-        case 2:
+        case script_operation::greater_2:
             if (pLeftOperand->field_8_counter > pRightOperand->field_8_counter)
             {
                 field_8_cond_result = true;
@@ -1965,7 +1997,7 @@ void ScriptThread::SCRCMD_S_OP_S_506ED0()
                 field_8_cond_result = false;
             }
             break;
-        case 3:
+        case script_operation::greater_or_equal_3:
             if (pLeftOperand->field_8_counter >= pRightOperand->field_8_counter)
             {
                 field_8_cond_result = true;
@@ -1975,7 +2007,7 @@ void ScriptThread::SCRCMD_S_OP_S_506ED0()
                 field_8_cond_result = false;
             }
             break;
-        case 6:
+        case script_operation::equal_6:
             if (pLeftOperand->field_8_counter == pRightOperand->field_8_counter)
             {
                 field_8_cond_result = true;
@@ -1999,16 +2031,15 @@ void ScriptThread::SCRCMD_I_OP_S_507110()
     SCR_POINTER* pOperand = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(
         static_cast<SCR_CMD_HEADER*>(gBasePtr_6F8070)[1].field_2_type)); // pCmd->field_A_counter_idx
 
-    // 10.5.exe's jump table: 2 is >, 3 >=, 4 < and 5 <= (GetOperationType_506BC0)
     switch (operation_type)
     {
-        case 0:
+        case script_operation::add_0:
             this->field_8_cond_result = pCmd->field_8_value + pOperand->field_8_counter;
             break;
-        case 1:
+        case script_operation::subtract_1:
             this->field_8_cond_result = pCmd->field_8_value - pOperand->field_8_counter;
             break;
-        case 4:
+        case script_operation::less_4:
             if (pCmd->field_8_value < pOperand->field_8_counter)
             {
                 field_8_cond_result = true;
@@ -2018,7 +2049,7 @@ void ScriptThread::SCRCMD_I_OP_S_507110()
                 field_8_cond_result = false;
             }
             break;
-        case 5:
+        case script_operation::less_or_equal_5:
             if (pCmd->field_8_value <= pOperand->field_8_counter)
             {
                 field_8_cond_result = true;
@@ -2028,7 +2059,7 @@ void ScriptThread::SCRCMD_I_OP_S_507110()
                 field_8_cond_result = false;
             }
             break;
-        case 2:
+        case script_operation::greater_2:
             if (pCmd->field_8_value > pOperand->field_8_counter)
             {
                 field_8_cond_result = true;
@@ -2038,7 +2069,7 @@ void ScriptThread::SCRCMD_I_OP_S_507110()
                 field_8_cond_result = false;
             }
             break;
-        case 3:
+        case script_operation::greater_or_equal_3:
             if (pCmd->field_8_value >= pOperand->field_8_counter)
             {
                 field_8_cond_result = true;
@@ -2048,7 +2079,7 @@ void ScriptThread::SCRCMD_I_OP_S_507110()
                 field_8_cond_result = false;
             }
             break;
-        case 6:
+        case script_operation::equal_6:
             if (pCmd->field_8_value == pOperand->field_8_counter)
             {
                 field_8_cond_result = true;
@@ -2274,13 +2305,13 @@ void ScriptThread::SCRCMD_POINT_ARROW_AT_5086F0()
 
     switch (ScriptThread::GetEntityTypeOfCommand_503410(pEntityPtr->field_2_type))
     {
-        case 2: // car
+        case script_entity_type::car_2:
         {
             pArrowPtr->field_8_arrow->SetArrowTargetCar_476860(pEntityPtr->field_8_car);
             break;
         }
 
-        case 1: // ped
+        case script_entity_type::char_1:
         {
             Ped* pChar = pEntityPtr->field_8_char;
 
@@ -2292,19 +2323,19 @@ void ScriptThread::SCRCMD_POINT_ARROW_AT_5086F0()
             break;
         }
 
-        case 3: // object
+        case script_entity_type::object_3:
         {
             pArrowPtr->field_8_arrow->SetArrowTargetObject_476870(pEntityPtr->field_8_obj);
             break;
         }
 
-        case 4: // crane
+        case script_entity_type::crane_4:
             pArrowPtr->field_8_arrow->SetArrowAim_476840(reinterpret_cast<SCR_CRANE_TARGET_DEC*>(pEntityPtr)->field_10_pos.field_0_x,
                                                          reinterpret_cast<SCR_CRANE_TARGET_DEC*>(pEntityPtr)->field_10_pos.field_4_y,
                                                          kFpOne_6F77C4);
             break;
 
-        case 5: // conveyor
+        case script_entity_type::conveyor_5:
             pArrowPtr->field_8_arrow->SetArrowAim_476840(reinterpret_cast<SCR_CONVEYOR*>(pEntityPtr)->field_C_rect.field_0_pos.x,
                                                          reinterpret_cast<SCR_CONVEYOR*>(pEntityPtr)->field_C_rect.field_0_pos.y,
                                                          reinterpret_cast<SCR_CONVEYOR*>(pEntityPtr)->field_C_rect.field_0_pos.z);
@@ -2630,7 +2661,7 @@ void ScriptThread::SCRCMD_GIVE_WEAPON_5098E0()
     SCR_FOUR_PARAMS* pCmd4 = reinterpret_cast<SCR_FOUR_PARAMS*>(gBasePtr_6F8070);
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
-    if (ScriptThread::GetEntityTypeOfCommand_503410(pPointer->field_2_type) == 1)
+    if (ScriptThread::GetEntityTypeOfCommand_503410(pPointer->field_2_type) == script_entity_type::char_1)
     {
         if (gBasePtr_6F8070->field_2_type == SCRCMD_GIVE_WEAPON1)
         {
@@ -3234,7 +3265,7 @@ void ScriptThread::IsOnScreen_50A760()
 
     switch (ScriptThread::GetEntityTypeOfCommand_503410(pPointer->field_2_type))
     {
-        case 2: // car
+        case script_entity_type::car_2:
         {
             if (!pPointer->field_8_car)
             {
@@ -3260,7 +3291,7 @@ void ScriptThread::IsOnScreen_50A760()
 
             break;
         }
-        case 1: // char
+        case script_entity_type::char_1:
             if (!pPointer->field_8_char)
             {
                 FatalError_4A38C0(1103, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 0x1383, static_cast<u16>(gBasePtr_6F8070->field_0_cmd_this));
@@ -3276,7 +3307,7 @@ void ScriptThread::IsOnScreen_50A760()
             }
 
             break;
-        case 3: // obj
+        case script_entity_type::object_3:
             if (!pPointer->field_8_obj)
             {
                 FatalError_4A38C0(1104, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 0x138E, static_cast<u16>(gBasePtr_6F8070->field_0_cmd_this));
@@ -3292,7 +3323,7 @@ void ScriptThread::IsOnScreen_50A760()
             }
 
             break;
-        case 4: // crane
+        case script_entity_type::crane_4:
             if (!pPointer->field_8_crane)
             {
                 FatalError_4A38C0(1108, "C:\\Splitting\\Gta2\\Source\\miss2.cpp", 0x1399, static_cast<u16>(gBasePtr_6F8070->field_0_cmd_this));
@@ -4441,10 +4472,10 @@ void ScriptThread::SCRCMD_EXPLODE_50C5A0()
 
     switch (ScriptThread::GetEntityTypeOfCommand_503410(pPointer->field_2_type))
     {
-        case 2:
+        case script_entity_type::car_2:
             pPointer->field_8_car->HandleCarExplosion_43D840(explosion_type::item_19);
             break;
-        case 1:
+        case script_entity_type::char_1:
         {
             Ped* pChar = pPointer->field_8_char;
 
@@ -4453,7 +4484,7 @@ void ScriptThread::SCRCMD_EXPLODE_50C5A0()
 
             break;
         }
-        case 3:
+        case script_entity_type::object_3:
         {
             // 9.6f: Object::GetX_4340D0/GetY_4340E0/GetZ_4340F0 (inlined, using them changes the code)
             Sprite* pSprite = pPointer->field_8_obj->field_4_sprite;
@@ -4463,7 +4494,7 @@ void ScriptThread::SCRCMD_EXPLODE_50C5A0()
 
             break;
         }
-        case 4:
+        case script_entity_type::crane_4:
         {
             SCR_CRANE_TARGET_DEC* pCrane = reinterpret_cast<SCR_CRANE_TARGET_DEC*>(pPointer);
 
@@ -5568,19 +5599,19 @@ void ScriptThread::SCRCMD_S_IS_S_OP_S_50E4F0()
     SCR_POINTER* pSecondOperand = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_C_second_operand_counter_idx));
     switch (type)
     {
-        case 0:
+        case script_operation::add_0:
             pDestCounter->field_8_counter = pFirstOperand->field_8_counter + pSecondOperand->field_8_counter;
             break;
-        case 1:
+        case script_operation::subtract_1:
             pDestCounter->field_8_counter = pFirstOperand->field_8_counter - pSecondOperand->field_8_counter;
             break;
-        case 8:
+        case script_operation::multiply_8:
             pDestCounter->field_8_counter = pFirstOperand->field_8_counter * pSecondOperand->field_8_counter;
             break;
-        case 7:
+        case script_operation::divide_7:
             pDestCounter->field_8_counter = pFirstOperand->field_8_counter / pSecondOperand->field_8_counter;
             break;
-        case 9:
+        case script_operation::modulo_9:
             pDestCounter->field_8_counter = pFirstOperand->field_8_counter % pSecondOperand->field_8_counter;
             break;
         default:
@@ -5598,19 +5629,19 @@ void ScriptThread::SCRCMD_S_IS_S_OP_I_50E610()
 
     switch (ScriptThread::GetOperationType_506BC0(gBasePtr_6F8070->field_2_type))
     {
-        case 0:
+        case script_operation::add_0:
             pDestCounter->field_8_counter = pOperandCounter->field_8_counter + pCmd->field_C_value;
             break;
-        case 1:
+        case script_operation::subtract_1:
             pDestCounter->field_8_counter = pOperandCounter->field_8_counter - pCmd->field_C_value;
             break;
-        case 8:
+        case script_operation::multiply_8:
             pDestCounter->field_8_counter = pOperandCounter->field_8_counter * pCmd->field_C_value;
             break;
-        case 7:
+        case script_operation::divide_7:
             pDestCounter->field_8_counter = pOperandCounter->field_8_counter / pCmd->field_C_value;
             break;
-        case 9:
+        case script_operation::modulo_9:
             pDestCounter->field_8_counter = pOperandCounter->field_8_counter % pCmd->field_C_value;
             break;
         default:
@@ -6673,7 +6704,7 @@ void ScriptThread::SCRCMD_START_BASIC_KF_510100() // START_BASIC_KF_TEMPLATE
         gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("kfstart"), hud_message_priority::important_3); // KILL FRENZY!
         gRoot_sound_66B038.PlayVoice_40F090(voice_line::killfrenzy_12); // KILL FRENZY voice
         SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_C_objname)); // Skull icon?
-        if (ScriptThread::GetEntityTypeOfCommand_503410(pPointer->field_2_type) == 3)
+        if (ScriptThread::GetEntityTypeOfCommand_503410(pPointer->field_2_type) == script_entity_type::object_3)
         {
             ScriptThread::DeallocOrDeleteItem_505B10(pCmd->field_C_objname); // Delete skull icon?
         }
@@ -6843,11 +6874,11 @@ void ScriptThread::SCRCMD_FORCE_CLEANUP_510660()
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
-    if (ScriptThread::GetEntityTypeOfCommand_503410(pPointer->field_2_type) == 3)
+    if (ScriptThread::GetEntityTypeOfCommand_503410(pPointer->field_2_type) == script_entity_type::object_3)
     {
         gMiss2_25C_6F805C->push_type_2_502FF0(pPointer->field_8_obj, true);
     }
-    else if (ScriptThread::GetEntityTypeOfCommand_503410(pPointer->field_2_type) == 10)
+    else if (ScriptThread::GetEntityTypeOfCommand_503410(pPointer->field_2_type) == script_entity_type::sound_10)
     {
         gMiss2_25C_6F805C->push_type_2_503050(pPointer->field_8_obj);
     }
