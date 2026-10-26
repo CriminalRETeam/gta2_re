@@ -44,7 +44,7 @@ class BonusTracker
     };
 
     // 9.6f 0x476660
-    inline u8 GetProgressCount_476660(u16 idx)
+    inline u8 GetProgressCount_476660(u16 idx) const
     {
         return field_0_bonuses[idx].field_26_progress_count;
     }
@@ -59,7 +59,7 @@ class BonusTracker
     EXPORT ~BonusTracker(); // 0x431DF0
     EXPORT void Init_431E10(class PlayerScoreTracker* pScores);
     EXPORT void Service_431E30();
-    EXPORT u16 FindFreeRule_431E90();
+    EXPORT u16 FindFreeRule_431E90() const;
     EXPORT u16 FindMatchingRule_431EC0(u16 start_idx, s16 event_type, s32 car_model, s32 occupation, s16 gang_idx, s16 remap, s32 death_cause, s32 alt_car_model, gmp_map_zone* pZone);
     EXPORT s16 AllocRule_431FE0(s16 event_type,
                                  s32 car_model,
@@ -75,9 +75,9 @@ class BonusTracker
                                  gmp_map_zone* pZone);
     EXPORT s16 GetBonusResult_432080(u16 idx);
     EXPORT void ProcessBonusEvent_4320D0(s16 event_type, s32 car_model, s32 occupation, s16 gang_idx, s16 remap, s32 death_cause, s32 alt_car_model, gmp_map_zone* pZone);
-    EXPORT bool IsDeathCauseInGroup_432170(s32 death_cause, s32 rule_death_cause);
-    EXPORT bool IsOccupationInGroup_432240(s32 occupation, s32 rule_occupation);
-    EXPORT bool AreCarModelsEquivalent_432300(s32 car_model_1, s32 car_model_2);
+    EXPORT bool IsDeathCauseInGroup_432170(s32 death_cause, s32 rule_death_cause) const;
+    EXPORT bool IsOccupationInGroup_432240(s32 occupation, s32 rule_occupation) const;
+    EXPORT bool AreCarModelsEquivalent_432300(s32 car_model_1, s32 car_model_2) const;
 
     BonusRule field_0_bonuses[k_max_rules];
     class PlayerScoreTracker* field_1B8_pScores;
