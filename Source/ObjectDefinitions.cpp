@@ -1,5 +1,6 @@
 #include "ObjectDefinitions.hpp"
 #include "enums.hpp"
+#include "objects_more.hpp"
 #include "instance_limit_kind.hpp"
 #include "Globals.hpp"
 #include "debug.hpp"
@@ -963,16 +964,16 @@ void ObjectDefinitions::CloneRemappedDefinitions_533C90()
         pDef->field_40_collision_bucket_category = collision_bucket_category::none_2;
     }
 
-    pDef = CloneDefinition_534370(0xb9, 0xa3);
-    pDef->field_38_impact_definition_idx = 0xb8;
-    pDef->field_3C_next_definition_idx = 0xb8;
+    pDef = CloneDefinition_534370(objects::blue_phone_answered_185, objects::blue_phone_not_ringing_163);
+    pDef->field_38_impact_definition_idx = objects::blue_phone_after_answer_184;
+    pDef->field_3C_next_definition_idx = objects::blue_phone_after_answer_184;
     pDef->field_44_touch_behavior = 4;
     pDef->field_40_collision_bucket_category = collision_bucket_category::sprite_grid_2_region_3;
     pDef->field_61_in_pool_list = 1;
 
-    pDef = CloneDefinition_534370(0xb8, 0xa3);
-    pDef->field_38_impact_definition_idx = 0xb9;
-    pDef->field_3C_next_definition_idx = 0xa4;
+    pDef = CloneDefinition_534370(objects::blue_phone_after_answer_184, objects::blue_phone_not_ringing_163);
+    pDef->field_38_impact_definition_idx = objects::blue_phone_answered_185;
+    pDef->field_3C_next_definition_idx = objects::blue_phone_164;
     pDef->field_65_next_definition_timer = 100;
     pDef->field_61_in_pool_list = 1;
     pDef->field_34_behavior_type = object_behavior_type::animated_2;
@@ -981,84 +982,84 @@ void ObjectDefinitions::CloneRemappedDefinitions_533C90()
     pDef->field_40_collision_bucket_category = collision_bucket_category::sprite_grid_2_region_3;
     pDef->field_44_touch_behavior = 5;
 
-    pDef = CloneDefinition_534370(0xb0, 0xa3);
+    pDef = CloneDefinition_534370(objects::red_phone_not_ringing_176, objects::blue_phone_not_ringing_163);
     pDef->SetRemap_533110(1);
-    pDef->field_38_impact_definition_idx = 0xb1;
-    pDef->field_3C_next_definition_idx = 0xb1;
+    pDef->field_38_impact_definition_idx = objects::red_phone_177;
+    pDef->field_3C_next_definition_idx = objects::red_phone_177;
     if (bDo_kill_phones_on_answer_67D6E8)
     {
-        pDef = GetObjectDefinition_534360(0xa4);
-        pDef->field_38_impact_definition_idx = 0xae;
-        pDef->field_3C_next_definition_idx = 0xae;
+        pDef = GetObjectDefinition_534360(objects::blue_phone_164);
+        pDef->field_38_impact_definition_idx = objects::dead_phone_174;
+        pDef->field_3C_next_definition_idx = objects::dead_phone_174;
     }
-    pDef = CloneDefinition_534370(0xb1, 0xa4);
+    pDef = CloneDefinition_534370(objects::red_phone_177, objects::blue_phone_164);
     pDef->SetRemap_533110(1);
     if (!bDo_kill_phones_on_answer_67D6E8)
     {
-        pDef->field_38_impact_definition_idx = 0xbb;
-        pDef->field_3C_next_definition_idx = 0xbb;
+        pDef->field_38_impact_definition_idx = objects::red_phone_answered_187;
+        pDef->field_3C_next_definition_idx = objects::red_phone_answered_187;
     }
 
-    pDef = CloneDefinition_534370(0xbb, 0xb9);
+    pDef = CloneDefinition_534370(objects::red_phone_answered_187, objects::blue_phone_answered_185);
     pDef->SetRemap_533110(1);
-    pDef->field_38_impact_definition_idx = 0xba;
-    pDef->field_3C_next_definition_idx = 0xba;
+    pDef->field_38_impact_definition_idx = objects::red_phone_after_answer_186;
+    pDef->field_3C_next_definition_idx = objects::red_phone_after_answer_186;
 
-    pDef = CloneDefinition_534370(0xba, 0xb8);
+    pDef = CloneDefinition_534370(objects::red_phone_after_answer_186, objects::blue_phone_after_answer_184);
     pDef->SetRemap_533110(1);
-    pDef->field_38_impact_definition_idx = 0xbb;
-    pDef->field_3C_next_definition_idx = 0xb1;
+    pDef->field_38_impact_definition_idx = objects::red_phone_answered_187;
+    pDef->field_3C_next_definition_idx = objects::red_phone_177;
 
-    pDef = CloneDefinition_534370(0xb2, 0xa3);
+    pDef = CloneDefinition_534370(objects::yellow_phone_not_ringing_178, objects::blue_phone_not_ringing_163);
     pDef->SetRemap_533110(2);
-    pDef->field_38_impact_definition_idx = 0xb3;
-    pDef->field_3C_next_definition_idx = 0xb3;
+    pDef->field_38_impact_definition_idx = objects::yellow_phone_179;
+    pDef->field_3C_next_definition_idx = objects::yellow_phone_179;
 
-    pDef = CloneDefinition_534370(0xb3, 0xa4);
+    pDef = CloneDefinition_534370(objects::yellow_phone_179, objects::blue_phone_164);
     pDef->SetRemap_533110(2);
     if (!bDo_kill_phones_on_answer_67D6E8)
     {
-        pDef->field_38_impact_definition_idx = 0xbd;
-        pDef->field_3C_next_definition_idx = 0xbd;
+        pDef->field_38_impact_definition_idx = objects::yellow_phone_answered_189;
+        pDef->field_3C_next_definition_idx = objects::yellow_phone_answered_189;
     }
-    pDef = CloneDefinition_534370(0xbd, 0xb9);
+    pDef = CloneDefinition_534370(objects::yellow_phone_answered_189, objects::blue_phone_answered_185);
     pDef->SetRemap_533110(2);
-    pDef->field_38_impact_definition_idx = 0xbc;
-    pDef->field_3C_next_definition_idx = 0xbc;
+    pDef->field_38_impact_definition_idx = objects::yellow_phone_after_answer_188;
+    pDef->field_3C_next_definition_idx = objects::yellow_phone_after_answer_188;
 
-    pDef = CloneDefinition_534370(0xbc, 0xb8);
+    pDef = CloneDefinition_534370(objects::yellow_phone_after_answer_188, objects::blue_phone_after_answer_184);
     pDef->SetRemap_533110(2);
-    pDef->field_38_impact_definition_idx = 0xbd;
-    pDef->field_3C_next_definition_idx = 0xb3;
+    pDef->field_38_impact_definition_idx = objects::yellow_phone_answered_189;
+    pDef->field_3C_next_definition_idx = objects::yellow_phone_179;
 
-    pDef = CloneDefinition_534370(0xb4, 0xa3);
+    pDef = CloneDefinition_534370(objects::green_phone_not_ringing_180, objects::blue_phone_not_ringing_163);
     pDef->SetRemap_533110(0);
-    pDef->field_38_impact_definition_idx = 0xb5;
-    pDef->field_3C_next_definition_idx = 0xb5;
+    pDef->field_38_impact_definition_idx = objects::green_phone_181;
+    pDef->field_3C_next_definition_idx = objects::green_phone_181;
 
-    pDef = CloneDefinition_534370(0xb5, 0xa4);
+    pDef = CloneDefinition_534370(objects::green_phone_181, objects::blue_phone_164);
     pDef->SetRemap_533110(0);
     if (!bDo_kill_phones_on_answer_67D6E8)
     {
-        pDef->field_38_impact_definition_idx = 0xbf;
-        pDef->field_3C_next_definition_idx = 0xbf;
+        pDef->field_38_impact_definition_idx = objects::green_phone_answered_191;
+        pDef->field_3C_next_definition_idx = objects::green_phone_answered_191;
     }
 
-    pDef = CloneDefinition_534370(0xbf, 0xb9);
+    pDef = CloneDefinition_534370(objects::green_phone_answered_191, objects::blue_phone_answered_185);
     pDef->SetRemap_533110(0);
-    pDef->field_38_impact_definition_idx = 0xbe;
-    pDef->field_3C_next_definition_idx = 0xbe;
+    pDef->field_38_impact_definition_idx = objects::green_phone_after_answer_190;
+    pDef->field_3C_next_definition_idx = objects::green_phone_after_answer_190;
 
-    pDef = CloneDefinition_534370(0xbe, 0xb8);
+    pDef = CloneDefinition_534370(objects::green_phone_after_answer_190, objects::blue_phone_after_answer_184);
     pDef->SetRemap_533110(0);
-    pDef->field_38_impact_definition_idx = 0xbf;
-    pDef->field_3C_next_definition_idx = 0xb5;
+    pDef->field_38_impact_definition_idx = objects::green_phone_answered_191;
+    pDef->field_3C_next_definition_idx = objects::green_phone_181;
 
-    pDef = CloneDefinition_534370(0xae, 0xa3);
+    pDef = CloneDefinition_534370(objects::dead_phone_174, objects::blue_phone_not_ringing_163);
     pDef->field_44_touch_behavior = 0;
 
-    pDef = CloneDefinition_534370(0xb6, 0xb7);
-    pDef->field_38_impact_definition_idx = 0xb7;
+    pDef = CloneDefinition_534370(objects::grenade_lying_still_182, objects::grenade_obj_183);
+    pDef->field_38_impact_definition_idx = objects::grenade_obj_183;
     pDef->field_34_behavior_type = object_behavior_type::animated_2;
     pDef->field_44_touch_behavior = 2;
 

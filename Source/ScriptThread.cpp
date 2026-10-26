@@ -12,6 +12,7 @@
 #include "hud_message_priority.hpp"
 #include "hud_brief_priority.hpp"
 #include "voice_line.hpp"
+#include "objects_more.hpp"
 #include "ScriptThread.hpp"
 #include "CarAI.hpp"
 #include "CarPhysics.hpp"
@@ -1336,7 +1337,7 @@ void ScriptThread::DisableThread_505790(u16 idx)
             SCR_POINTER* pCharPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pThread->field_10_char_var_idx));
             SCR_POINTER* pPhonePointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pThread->field_12_car_or_phone_idx));
 
-            if (pPhonePointer->field_8_obj->IsAnimatedBehavior_475A80() && pPhonePointer->field_8_obj->field_24_touched_result != 174)
+            if (pPhonePointer->field_8_obj->IsAnimatedBehavior_475A80() && pPhonePointer->field_8_obj->field_24_touched_result != objects::dead_phone_174)
             {
                 pPhonePointer->field_8_obj->PoolGiveAndMarkDone_5291D0();
             }
@@ -4174,7 +4175,7 @@ void ScriptThread::SCRCMD_SET_PHONE_DEAD_50C040()
     u16* pIndex = &gBasePtr_6F8070->field_8_index;
     SCR_POINTER* pScrPtr = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(*pIndex));
 
-    pScrPtr->field_8_obj->PoolGiveAndQueueObjectType_5291E0(174);
+    pScrPtr->field_8_obj->PoolGiveAndQueueObjectType_5291E0(objects::dead_phone_174);
     gScriptManager_6F8060->RemovePhoneThreadByObjId_512AA0(pScrPtr->field_8_obj->field_14_id);
     u16* pPhoneIds = &gScriptManager_6F8060->field_C1E32_phone_ids[0];
 

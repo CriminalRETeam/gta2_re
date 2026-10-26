@@ -20,6 +20,7 @@
 #include "map_0x370.hpp"
 #include "rng.hpp"
 #include "block_face.hpp"
+#include "car_surface_type_more.hpp"
 
 // Forward declarations: the functions below are in address order
 EXPORT s32 __stdcall get_skid_obj_type_55D490(s32 surface, Fix16 skid_len);
@@ -1185,7 +1186,7 @@ inline u8 Map_0x370::GetBlockSurfaceType_49EBE0(s32 x, s32 y, s32 z, u8* pGradie
             return pSlope->field_0_gradient_direction;
         }
     }
-    return 5;
+    return car_surface_type::no_block_5;
 }
 
 MATCH_FUNC(0x55b3f0)
@@ -1388,7 +1389,7 @@ char_type CarPhysics::ProcessGroundCollisionAndSurfaceType_55B970(char_type* che
     u8 gradient_size;
     s32 surface_type = gMap_0x370_6F6268->GetBlockSurfaceType_49EBE0(field_38_cp1.x.ToInt(), this->field_38_cp1.y.ToInt(), cp3_int, &gradient_size, &gradient_level);
 
-    if (surface_type != 5)
+    if (surface_type != car_surface_type::no_block_5)
     {
         this->field_98_surface_type = surface_type;
         this->field_A5_current_slope_length = static_cast<char>(gradient_size);
@@ -1725,7 +1726,7 @@ void CarPhysics::SpawnSkidSegment_55D200(s32 box_idx, Fix16_Point wheel_offset, 
     wheel_offset += this->field_38_cp1;
 
     char_type map_ret = gMap_0x370_6F6268->GetSurfaceTypeBelowCoord_4E52A0(wheel_offset.x, wheel_offset.y, field_6C_cp3);
-    if (map_ret == 5 || surface == 3 && map_ret != car_surface_type::remapped_water_tile_7)
+    if (map_ret == car_surface_type::no_block_5 || surface == 3 && map_ret != car_surface_type::remapped_water_tile_7)
     {
         Fix16_Point* pBoxCorner_ = &this->field_10_last_skid_pos[static_cast<u8>(box_idx)];
         pBoxCorner_->clear_41E1E0();
