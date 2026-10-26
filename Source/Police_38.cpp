@@ -2616,7 +2616,7 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
         zpos = Fix16(z);
         field_A0_rect->SetRect_41E350(x_left - kFpHalf_6FEBF4, x_right + kFpHalf_6FEBF4, y_top, y_bottom);
         field_A0_rect->SetHiLowZ_41E370(zpos - kFpOne_6FECEC, zpos + kFpOne_6FECEC);
-        if (gSpriteGrid_1_679208->CheckRectForCollisions_477F60(field_A0_rect, 0, 0, 0))
+        if (gSpriteGrid_1_679208->CheckRectForCollisions_477F60(field_A0_rect, 0, sprite_types_enum::none_0, 0))
         {
             return 0;
         }
@@ -2931,7 +2931,7 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
         zpos = Fix16(z);
         field_A0_rect->SetRect_41E350(x_left, x_right, y_top - kFpHalf_6FEBF4, y_bottom + kFpHalf_6FEBF4);
         field_A0_rect->SetHiLowZ_41E370(zpos - kFpOne_6FECEC, zpos + kFpOne_6FECEC);
-        if (gSpriteGrid_1_679208->CheckRectForCollisions_477F60(field_A0_rect, 0, 0, 0))
+        if (gSpriteGrid_1_679208->CheckRectForCollisions_477F60(field_A0_rect, 0, sprite_types_enum::none_0, 0))
         {
             return 0;
         }

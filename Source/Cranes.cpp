@@ -142,7 +142,7 @@ bool Crane::IsDropPositionClear_47E920()
     field_60_probe_sprite->set_xyz_lazy_420600(pos.x, pos.y, this->field_80_ground_z - this->field_11C_drop_hook_depth);
     field_60_probe_sprite->set_ang_lazy_420690(Ang16::Fix16_To_Ang16_40F540(field_118_drop_rot));
 
-    return !gSpriteGrid_1_679208->FindCollidingSpritePreferType_477E60(field_60_probe_sprite, sprite_types_enum::unknown_0) &&
+    return !gSpriteGrid_1_679208->FindCollidingSpritePreferType_477E60(field_60_probe_sprite, sprite_types_enum::none_0) &&
         !field_60_probe_sprite->CheckSpriteMovementRegion_5A2500();
 }
 
@@ -157,7 +157,7 @@ bool Crane::IsTarget1PositionClear_47EB00()
     field_60_probe_sprite->set_xyz_lazy_420600(hookPos.x, hookPos.y, field_80_ground_z - field_12C_target1_hook_depth);
     field_60_probe_sprite->set_ang_lazy_420690(Ang16::Fix16_To_Ang16_40F540(field_128_target1_rot));
 
-    return gSpriteGrid_1_679208->FindCollidingSpritePreferType_477E60(field_60_probe_sprite, sprite_types_enum::unknown_0) == 0;
+    return gSpriteGrid_1_679208->FindCollidingSpritePreferType_477E60(field_60_probe_sprite, sprite_types_enum::none_0) == 0;
 }
 
 MATCH_FUNC(0x47ecc0)

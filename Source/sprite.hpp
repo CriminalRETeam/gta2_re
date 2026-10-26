@@ -295,7 +295,7 @@ class Sprite
         field_24_remap = 0;
         field_28_draw_layer = 0;
         field_2C_flags = 0;
-        field_30_sprite_type_enum = 0;
+        field_30_sprite_type_enum = sprite_types_enum::none_0;
         field_34_palette_type = 0;
         field_38_zoom = 0;
         field_39_z_col = -1;
@@ -453,7 +453,7 @@ class Sprite
     {
         Car* field_8_car_bc_ptr; // field_30_sprite_type_enum == sprite_types_enum::car
         Char* field_8_char_b4_ptr; // field_30_sprite_type_enum == sprite_types_enum::ped
-        Object* field_8_object_2C_ptr; // field_30_sprite_type_enum == sprite_types_enum::map_obj or code_obj1 or unknown_1
+        Object* field_8_object_2C_ptr; // field_30_sprite_type_enum == sprite_types_enum::map_obj or code_obj1 or object_1
         Sprite* field_8_pSprite;
         class Object_5C* field_8_o5C;
     };

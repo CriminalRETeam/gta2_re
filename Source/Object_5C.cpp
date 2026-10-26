@@ -327,7 +327,7 @@ bool Object::SelectCollisionSprite_522460(Sprite* pProbe)
 {
     gObject2C_HitWallOrDoor_6F8F94 = 0;
 
-    Sprite* pSprite = pProbe->QuerySpriteCollision_59E7D0(2);
+    Sprite* pSprite = pProbe->QuerySpriteCollision_59E7D0(sprite_types_enum::car_2);
     if (pSprite && gObject2C_LastCollisionSprite_6F8F8C && pSprite->GetType_416B40() == sprite_types_enum::car_2 // IsCar
         || !ShouldCollideWithSprite_522430(pSprite) || pSprite == gObject2C_LastCollisionSprite_6F8F8C)
     {
@@ -3406,9 +3406,9 @@ Object* Object_5C::CreateObject_529C00(int object_type, Fix16 xpos, Fix16 ypos, 
     }
 
     if (fail_if_blocked &&
-        (pNewObject->field_4_sprite->QuerySpriteCollision_59E7D0(0) ||
+        (pNewObject->field_4_sprite->QuerySpriteCollision_59E7D0(sprite_types_enum::none_0) ||
          (pDefinition->field_40_collision_bucket_category == collision_bucket_category::sprite_grid_2_region_3 &&
-          gSpriteGrid_2_67920C->FindCollidingSpritePreferType_477E60(pNewObject->field_4_sprite, 0))))
+          gSpriteGrid_2_67920C->FindCollidingSpritePreferType_477E60(pNewObject->field_4_sprite, sprite_types_enum::none_0))))
     {
         if (pNewObject->field_20_pool_list_state == object_pool_state::in_pool_list_1)
         {

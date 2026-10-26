@@ -10926,7 +10926,7 @@ void Ped::RecruitNearbyPeds_46E080(s32 desiredCount, Fix16 searchRadius)
     }
 
     ComputeRecruitPrism(rect, this->field_1AC_cam.x, this->field_1AC_cam.y, searchRadius, this->field_1AC_cam.z);
-    if (gSpriteGrid_1_679208->CollectRectCollisions_477F30(&rect, 0, 0, GetSprite_46DF50(), &collision_list))
+    if (gSpriteGrid_1_679208->CollectRectCollisions_477F30(&rect, 0, sprite_types_enum::none_0, GetSprite_46DF50(), &collision_list))
     {
         for (pNearest = collision_list.TakeClosestSprite_5A6EA0(this->field_1AC_cam.x, this->field_1AC_cam.y); pNearest;
              pNearest = collision_list.TakeClosestSprite_5A6EA0(this->field_1AC_cam.x, this->field_1AC_cam.y))
@@ -11958,7 +11958,7 @@ void Ped::add_wanted_points_470160(s16 wanted_amount)
 MATCH_FUNC(0x4701d0)
 bool Ped::IsNearestSpriteACar_4701D0()
 {
-    Sprite* pSprite = gSpriteGrid_1_679208->FindCollidingSpritePreferType_477E60(this->field_168_game_object->field_80_sprite_ptr, 0);
+    Sprite* pSprite = gSpriteGrid_1_679208->FindCollidingSpritePreferType_477E60(this->field_168_game_object->field_80_sprite_ptr, sprite_types_enum::none_0);
     if (pSprite)
     {
         return (pSprite->GetType_416B40() != sprite_types_enum::car_2) ? false : true;

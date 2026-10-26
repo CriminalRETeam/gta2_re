@@ -1695,7 +1695,7 @@ void Char::DispatchCollision_548670(char_type bFlag)
         bUnknown = bFlag;
     }
 
-    Sprite* pNearSprite = field_80_sprite_ptr->QuerySpriteCollision_59E7D0(2);
+    Sprite* pNearSprite = field_80_sprite_ptr->QuerySpriteCollision_59E7D0(sprite_types_enum::car_2);
     if (pNearSprite)
     {
         s32 sprite_type_enum = pNearSprite->field_30_sprite_type_enum;
@@ -1719,7 +1719,7 @@ void Char::DispatchCollision_548670(char_type bFlag)
 
             case sprite_types_enum::car_2: // car
             {
-                Sprite* pNearSprite2 = field_80_sprite_ptr->QuerySpriteCollision_59E7D0(1);
+                Sprite* pNearSprite2 = field_80_sprite_ptr->QuerySpriteCollision_59E7D0(sprite_types_enum::object_1);
                 if (pNearSprite2->GetType_416B40() == sprite_types_enum::object_1) // object
                 {
                     if (pNearSprite2->AsObject2C_40FEC0())
@@ -5471,7 +5471,7 @@ void Char::state_3_551A00()
     else if (field_C_ped_state_2 == ped_state_2::ped2_entering_a_car_6)
     {
         field_10_char_state = Char_B4_state::Interacting_Car_Door_36;
-        Sprite* nearestSprt = gSpriteGrid_1_679208->FindCollidingSpritePreferType_477E60(field_80_sprite_ptr, 0);
+        Sprite* nearestSprt = gSpriteGrid_1_679208->FindCollidingSpritePreferType_477E60(field_80_sprite_ptr, sprite_types_enum::none_0);
         if (!nearestSprt || nearestSprt->GetType_416B40() != sprite_types_enum::car_2 ||
             (nearestSprt->field_8_car_bc_ptr == field_7C_pPed->get_target_to_enter_403B10()) ||
             nearestSprt->field_8_car_bc_ptr->IsTrailerCar_421720() || field_7C_pPed->CloseDoorIfCarApproaching_45BD20(nearestSprt->field_8_car_bc_ptr))
@@ -6043,7 +6043,7 @@ void Char::state_8_5520A0()
                     field_7C_pPed->RestorePreviousPedState_45C5A0();
                     Set_F8_ped_state_1_433910(field_7C_pPed->GetPedState_403990());
                     field_C_ped_state_2 = field_7C_pPed->GetPedState2_433B60();
-                    NearestSpriteOfType_477E60 = gSpriteGrid_1_679208->FindCollidingSpritePreferType_477E60(field_80_sprite_ptr, 0);
+                    NearestSpriteOfType_477E60 = gSpriteGrid_1_679208->FindCollidingSpritePreferType_477E60(field_80_sprite_ptr, sprite_types_enum::none_0);
                     if (field_6C_animation_state == Char_Anim_state::Lethal_Fall_12)
                     {
                         if (field_7C_pPed->field_21C_bf.bOnFire == false) //if ((v41 & 0x1000000) == 0)

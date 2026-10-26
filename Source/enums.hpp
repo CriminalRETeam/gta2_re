@@ -564,7 +564,7 @@ namespace sprite_types_enum
 {
 enum
 {
-    unknown_0 = 0, // At least in the function sprite_FUN_004b9aa0, but don't know what represents.
+    none_0 = 0, // Sprite ctor and probe sprites; as a preferred or excluded type, no type
     object_1 = 1, // has an Object like code_obj1_4 and map_obj_5
     car_2 = 2,
     ped_3 = 3,

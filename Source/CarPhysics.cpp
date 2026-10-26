@@ -1456,13 +1456,13 @@ MATCH_FUNC(0x55c150)
 bool CarPhysics::TestCollision_55C150()
 {
     Sprite* pCarSprite = this->field_5C_pCar->field_50_car_sprite;
-    if (!pCarSprite->CheckSpriteMovementRegion_5A2500() && !pCarSprite->QuerySpriteCollision_59E7D0(0))
+    if (!pCarSprite->CheckSpriteMovementRegion_5A2500() && !pCarSprite->QuerySpriteCollision_59E7D0(sprite_types_enum::none_0))
     {
         Trailer* pTrailer = this->field_5C_pCar->field_64_pTrailer;
         if (pTrailer)
         {
             pCarSprite = pTrailer->field_C_trailer_car->field_50_car_sprite;
-            if (!pCarSprite->CheckSpriteMovementRegion_5A2500() && !pCarSprite->QuerySpriteCollision_59E7D0(0))
+            if (!pCarSprite->CheckSpriteMovementRegion_5A2500() && !pCarSprite->QuerySpriteCollision_59E7D0(sprite_types_enum::none_0))
             {
                 return 0;
             }
