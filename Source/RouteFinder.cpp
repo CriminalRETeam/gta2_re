@@ -21,7 +21,7 @@ DEFINE_GLOBAL_INIT(Fix16, kFpEight_6FFC9C, Fix16(8), 0x6FFC9C);
 EXTERN_GLOBAL(s16, word_703BAA);
 
 MATCH_FUNC(0x588580)
-bool Junction::IsUsableWithArrowType_588580(s32 arrow_type)
+bool Junction::IsUsableWithArrowType_588580(s32 arrow_type) const
 {
     if (arrow_type == 2)
     {
@@ -45,7 +45,7 @@ bool Junction::IsUsableWithArrowType_588580(s32 arrow_type)
 }
 
 MATCH_FUNC(0x5885c0)
-u16 Junction::GetDirectionToJunction_5885C0(u16 junction_idx)
+u16 Junction::GetDirectionToJunction_5885C0(u16 junction_idx) const
 {
     if (junction_idx != 0)
     {
@@ -272,7 +272,7 @@ void RouteFinder::Load_RGEN_588B30()
 
     if (bLog_routefinder_67D6D1)
     {
-        int junction_idx = 0;
+        s32 junction_idx = 0;
         do
         {
             sprintf(gTmpBuffer_67C598,
@@ -306,7 +306,7 @@ void RouteFinder::Reset_588C60()
 }
 
 MATCH_FUNC(0x588ca0)
-bool RouteFinder::HasBlockDesiredArrow_588CA0(gmp_block_info* block, s32 arrow_type, u8 direction)
+bool RouteFinder::HasBlockDesiredArrow_588CA0(const gmp_block_info* block, s32 arrow_type, u8 direction) const
 {
     switch (direction)
     {
@@ -411,7 +411,7 @@ bool RouteFinder::HasBlockDesiredArrow_588CA0(gmp_block_info* block, s32 arrow_t
 }
 
 MATCH_FUNC(0x588de0)
-bool RouteFinder::HasBlockArrowInRoadDirection_588DE0(gmp_block_info* pBlock, s32 arrow_type, s32 road_direction)
+bool RouteFinder::HasBlockArrowInRoadDirection_588DE0(const gmp_block_info* pBlock, s32 arrow_type, s32 road_direction) const
 {
 
     bool result = false;
@@ -839,9 +839,9 @@ bool RouteFinder::InitSearchWithDirection_5895C0(u8 x, u8 y, u8 z, s32 arrow_typ
 }
 
 MATCH_FUNC(0x589930)
-void RouteFinder::CancelRoute_589930(s16 junc_idx)
+void RouteFinder::CancelRoute_589930(s16 route_idx)
 {
-    this->field_2218_routes[junc_idx].field_0_junctions[0] = 0;
+    this->field_2218_routes[route_idx].field_0_junctions[0] = 0;
     if (this->field_0_route_count > 0)
     {
         --this->field_0_route_count;
@@ -958,13 +958,13 @@ MATCH_FUNC(0x589e20)
 char_type RouteFinder::SearchToDest_589E20(s32 arrow_type)
 {
     bool bRet = false;
-    RouteSearchNode* f_A82C = this->field_A82C_open_list;
-    if (f_A82C->field_0_idx == this->field_861A_dest_idx)
+    RouteSearchNode* pOpenList = this->field_A82C_open_list;
+    if (pOpenList->field_0_idx == this->field_861A_dest_idx)
     {
         return 1;
     }
 
-    if (f_A82C)
+    if (pOpenList)
     {
         // while (true) + break keeps the original's dead test of bRet on loop entry, while (!bRet) drops it
         while (true)
@@ -1091,10 +1091,10 @@ s16 RouteFinder::StoreRouteReversed_589F70()
 }
 
 MATCH_FUNC(0x58a020)
-void RouteFinder::DebugPrintRoute_58A020(char_type junc_idx)
+void RouteFinder::DebugPrintRoute_58A020(char_type route_idx)
 {
     s32 route_pos = 0;
-    u16 i = this->field_2218_routes[junc_idx].field_0_junctions[static_cast<u16>(route_pos)];
+    u16 i = this->field_2218_routes[route_idx].field_0_junctions[static_cast<u16>(route_pos)];
     while (i)
     {
         Junction* pJunc = &this->field_8_junctions[i];
@@ -1107,7 +1107,7 @@ void RouteFinder::DebugPrintRoute_58A020(char_type junc_idx)
                 pJunc->field_F_max_y);
         gErrorLog_67C530.Write_4D9620(gTmpBuffer_67C598);
         ++route_pos;
-        i = this->field_2218_routes[junc_idx].field_0_junctions[static_cast<u16>(route_pos)];
+        i = this->field_2218_routes[route_idx].field_0_junctions[static_cast<u16>(route_pos)];
     }
 }
 
