@@ -452,9 +452,9 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
     {
         field_110_state = FrontendState::User_Typing_Password_5;
         field_C9CA_password_length = 0;
-        field_C9CB_wrong_password_shown = 0;
+        field_C9CB_wrong_password_shown = false;
         StripPasswordToCurrLength_4B8530();
-        field_C9B3_key_held = 1;
+        field_C9B3_key_held = true;
         field_C9B4_last_key = DIK_RETURN;
         field_C9B6_key_repeat_timer = 5;
     }
@@ -463,7 +463,7 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
         field_1EB30_credits_scroll_timer = 0;
         field_1EB34_credits_ypos = Fix16(410);
         field_1EB38_credits_line_idx = 0;
-        field_C9B3_key_held = 1;
+        field_C9B3_key_held = true;
     }
     else if (menu_page_idx == MENUPAGE_AREA_COMPLETE)
     {
@@ -1785,7 +1785,7 @@ void Frontend::ManageCredits_4B7A10()
     }
     else
     {
-        field_C9B3_key_held = 0;
+        field_C9B3_key_held = false;
     }
 
     if (++field_1EB30_credits_scroll_timer > 0)
@@ -1942,7 +1942,7 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
             LoadCurrPlayerName_4B4280();
             field_C9B2_curr_plyr_name_length = static_cast<u8>(wcslen(field_C9A0_curr_plyr_name));
             StripPlayerNameToCurrLength_4B42B0();
-            field_C9B3_key_held = 1;
+            field_C9B3_key_held = true;
             field_C9B4_last_key = DIK_RETURN;
             field_C9B6_key_repeat_timer = 5;
             snd1_67D818.field_0_object_type = 5;
@@ -2156,7 +2156,7 @@ void Frontend::HandlePlayerNameTyping_4B2F60()
         else if (input == 256)
         {
         LABEL_27:
-            field_C9B3_key_held = 0;
+            field_C9B3_key_held = false;
             goto LABEL_29;
         }
         else if (input == DIK_SPACE)
@@ -2196,7 +2196,7 @@ LABEL_26:
     {
         goto LABEL_27;
     }
-    field_C9B3_key_held = 1;
+    field_C9B3_key_held = true;
 LABEL_29:
     field_118_cursor_blink_timer--;
     if (field_118_cursor_blink_timer <= 0)
@@ -2403,7 +2403,7 @@ void Frontend::HandlePasswordTyping_4B8280()
             {
                 if (field_C9CB_wrong_password_shown)
                 {
-                    field_C9CB_wrong_password_shown = 0;
+                    field_C9CB_wrong_password_shown = false;
                     wcsncpy(field_136_menu_pages_array[14].field_518_elements_array[0].field_6_element_name_str,
                             gText_0x14_704DFC->Find_5B5F90("fr_ent1"),
                             0x32u);
@@ -2440,11 +2440,11 @@ void Frontend::HandlePasswordTyping_4B8280()
 LABEL_27:
     if (key_scan == 256)
     {
-        field_C9B3_key_held = 0;
+        field_C9B3_key_held = false;
     }
     else
     {
-        field_C9B3_key_held = 1;
+        field_C9B3_key_held = true;
     }
     field_118_cursor_blink_timer--;
     if (field_118_cursor_blink_timer <= 0)
@@ -2570,7 +2570,7 @@ void Frontend::HandleCheatCode_4B3DD0(const wchar_t* cheat_str_wide)
 
         if (cheat_str_hash == 0x49362) // GOURANGA
         {
-            this->field_C9E1_bCheatsEnabled = 1;
+            this->field_C9E1_bCheatsEnabled = true;
             snd1_67D818.field_0_object_type = 9;
             return;
         }
@@ -2751,7 +2751,7 @@ void Frontend::CheckPassword_4B8560()
 
         StripPasswordToCurrLength_4B8530();
 
-        field_C9B3_key_held = 1;
+        field_C9B3_key_held = true;
         field_C9B4_last_key = DIK_RETURN;
         field_C9B6_key_repeat_timer = 5;
 
@@ -2765,7 +2765,7 @@ void Frontend::CheckPassword_4B8560()
                 gText_0x14_704DFC->Find_5B5F90("fr_rnt3"),
                 0x32u);
 
-        field_C9CB_wrong_password_shown = 1;
+        field_C9CB_wrong_password_shown = true;
     }
 }
 
@@ -3317,9 +3317,9 @@ Frontend::Frontend()
     field_C9D7_return_key_down = 0;
     field_C9D8_escape_key_down = 0;
     field_C9D9_delete_key_down = 0;
-    field_10C_bKeyboardAcquireFailed = 0;
+    field_10C_bKeyboardAcquireFailed = false;
     field_108_winmain_next_state = Run_Frontend_2;
-    field_C9E1_bCheatsEnabled = 0;
+    field_C9E1_bCheatsEnabled = false;
 
     SetFontTypes_4AF0E0();
 
@@ -3331,7 +3331,7 @@ Frontend::Frontend()
     SetupMenuStringsOptionsElements_4B0220();
 
     field_C9B2_curr_plyr_name_length = 0;
-    field_C9B3_key_held = 1;
+    field_C9B3_key_held = true;
     field_C9B4_last_key = 256;
     field_C9B6_key_repeat_timer = 5;
 
@@ -3346,7 +3346,7 @@ Frontend::Frontend()
         field_C9B8_password[k2] = 0;
     }
     field_C9CA_password_length = 0;
-    field_C9CB_wrong_password_shown = 0;
+    field_C9CB_wrong_password_shown = false;
     field_1EB50_num_main_stages = 0;
 
     for (s32 k3 = 0; k3 < 3; k3++)
@@ -3414,7 +3414,7 @@ void Frontend::AcquireKeyBoard_4AFD70()
 {
     if (!field_4_pKeyboardDevice || field_4_pKeyboardDevice->Acquire() < 0)
     {
-        field_10C_bKeyboardAcquireFailed = 1;
+        field_10C_bKeyboardAcquireFailed = true;
     }
 }
 
@@ -4850,7 +4850,7 @@ char_type Frontend::GetPreviousUnlockedBonusStage_4B7120(u8 stage)
 
     u8 main_og = main_stage_idx;
     u8 bonus_og = bonus_stage_idx;
-    u8 bFirstIteration = true;
+    bool bFirstIteration = true;
 
     while (!player_stats->field_0_plyr_stage_stats[main_stage_idx][bonus_stage_idx].field_0_is_stage_unlocked || bFirstIteration)
     {
@@ -4973,7 +4973,7 @@ char_type Frontend::GetNextUnlockedBonusStage_4B7360(u8 stage)
     u8 og_main_stage_idx = main_stage_idx;
     u8 og_bonus_stage_idx = bonus_stage_idx;
 
-    u8 bFirstIteration = true;
+    bool bFirstIteration = true;
 
     while (!player_stats->field_0_plyr_stage_stats[main_stage_idx][bonus_stage_idx].field_0_is_stage_unlocked || bFirstIteration)
     {
@@ -5244,7 +5244,7 @@ bool MenuItem::SelectNextHorizontalIdx_4B6330()
     u8 bLoopEnabled = bIsLeftRightLoopEnabled_67DA80;
     u16 old_count = field_6E_horizontal_selected_idx;
     u16 new_count = old_count;
-    char_type bFound = 0;
+    bool bFound = false;
     // Reading field_6E through a reference stops VC6 from reusing old_count's register for it in the
     // loop condition; with no register left to hoist it into, it is reloaded each pass like the original.
     u16& selected_idx = field_6E_horizontal_selected_idx;
@@ -5265,7 +5265,7 @@ bool MenuItem::SelectNextHorizontalIdx_4B6330()
 
         if (field_72_horizontal_idx_enabled[new_count])
         {
-            bFound = 1;
+            bFound = true;
         }
 
     } while (new_count != selected_idx && !bFound);
@@ -5280,7 +5280,7 @@ bool MenuItem::SelectPrevHorizontalIdx_4B6390()
 {
     u16 oldCount = field_6E_horizontal_selected_idx;
     u16 new_count = oldCount;
-    char_type bFound = 0;
+    bool bFound = false;
     do
     {
 
@@ -5299,7 +5299,7 @@ bool MenuItem::SelectPrevHorizontalIdx_4B6390()
 
         if (field_72_horizontal_idx_enabled[new_count])
         {
-            bFound = 1;
+            bFound = true;
         }
 
         // Last-resort workaround, probably not the original source: a redundant self-store. VC6 deletes it, but

@@ -243,7 +243,7 @@ struct Frontend
     LPDIRECTINPUTDEVICEA field_4_pKeyboardDevice;
     char_type field_8_keys[256];
     s32 field_108_winmain_next_state;
-    char_type field_10C_bKeyboardAcquireFailed;
+    bool field_10C_bKeyboardAcquireFailed;
     char_type field_10D_bInputEnabled;
     s32 field_110_state;
     s32 field_114_cursor_blink;
@@ -264,14 +264,14 @@ struct Frontend
     MenuPage field_136_menu_pages_array[17];
     wchar_t field_C9A0_curr_plyr_name[9];
     u8 field_C9B2_curr_plyr_name_length;
-    char_type field_C9B3_key_held;
+    bool field_C9B3_key_held;
     s16 field_C9B4_last_key;
     s16 field_C9B6_key_repeat_timer;
     wchar_t field_C9B8_password[9];
     //char_type field_C9C8;
     //char_type field_C9C9;
     u8 field_C9CA_password_length;
-    char_type field_C9CB_wrong_password_shown;
+    bool field_C9CB_wrong_password_shown;
     char_type field_C9CC_left_pressed;
     char_type field_C9CD_right_pressed;
     char_type field_C9CE_up_pressed;
@@ -290,7 +290,7 @@ struct Frontend
     char_type field_C9DB_unused;
     s32 field_C9DC_next_frame_time;
     char_type field_C9E0_updates_since_render;
-    char_type field_C9E1_bCheatsEnabled;
+    bool field_C9E1_bCheatsEnabled;
     char_type field_C9E2_unused;
     char_type field_C9E3_unused;
     s32 field_C9E4_last_input_time;
