@@ -59,12 +59,12 @@ bool InputDevices::acquire_input_device_498730(LPDIRECTINPUTDEVICEA pGamePadDevi
 {
     if (!pGamePadDevice)
     {
-        return 0;
+        return false;
     }
 
     if (gNeedKbAcquire_67B66C && FAILED(gKeyboardDevice_67B5C0->Acquire()))
     {
-        return 0;
+        return false;
     }
 
     gDeviceDataCount_67B624 = -1;
@@ -86,14 +86,14 @@ void InputDevices::free_input_devices_4987A0()
         {
             gKeyboardDevice_67B5C0->Unacquire();
             gKeyboardDevice_67B5C0->Release();
-            gKeyboardDevice_67B5C0 = 0;
+            gKeyboardDevice_67B5C0 = NULL;
         }
 
         if (gGamePadDevice_67B6C0)
         {
             gGamePadDevice_67B6C0->Unacquire();
             gGamePadDevice_67B6C0->Release();
-            gGamePadDevice_67B6C0 = 0;
+            gGamePadDevice_67B6C0 = NULL;
         }
     }
 }
@@ -103,9 +103,9 @@ BOOL __stdcall InputDevices::make_input_devices_498800(HINSTANCE hInstance)
 {
     DIPROPDWORD prop;
 
-    gNeedKbAcquire_67B66C = 0;
+    gNeedKbAcquire_67B66C = false;
 
-    if (FAILED(gpDInput_67B804->CreateDevice(GUID_SysKeyboard, &gKeyboardDevice_67B5C0, 0)))
+    if (FAILED(gpDInput_67B804->CreateDevice(GUID_SysKeyboard, &gKeyboardDevice_67B5C0, NULL)))
     {
         FatalError_4A38C0(Gta2Error::DirectInputCreateFail, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 268);
     }
@@ -115,7 +115,7 @@ BOOL __stdcall InputDevices::make_input_devices_498800(HINSTANCE hInstance)
         FatalError_4A38C0(Gta2Error::DirectInputSetDataFormatFail, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 279);
     }
 
-    if (FAILED(gKeyboardDevice_67B5C0->SetCooperativeLevel(gHwnd_707F04, 6)))
+    if (FAILED(gKeyboardDevice_67B5C0->SetCooperativeLevel(gHwnd_707F04, DISCL_NONEXCLUSIVE | DISCL_FOREGROUND)))
     {
         FatalError_4A38C0(Gta2Error::DirectInputSetCooperativeLevelFail, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 287);
     }
@@ -143,7 +143,7 @@ EXPORT BOOL CALLBACK DirectInputDeviceEnumCallBack_498910(LPCDIDEVICEINSTANCEA l
 {
     const GUID guidInstanceCopy = lpddi->guidInstance;
     LPDIRECTINPUTDEVICEA tempDevice;
-    if (SUCCEEDED(gpDInput_67B804->CreateDevice(guidInstanceCopy, &tempDevice, 0)))
+    if (SUCCEEDED(gpDInput_67B804->CreateDevice(guidInstanceCopy, &tempDevice, NULL)))
     {
         const HRESULT hr = tempDevice->QueryInterface(IID_IDirectInputDevice2A, reinterpret_cast<LPVOID*>(&gGamePadDevice_67B6C0));
         tempDevice->Release();
@@ -153,14 +153,14 @@ EXPORT BOOL CALLBACK DirectInputDeviceEnumCallBack_498910(LPCDIDEVICEINSTANCEA l
             if (FAILED(gGamePadDevice_67B6C0->SetCooperativeLevel(gHwnd_707F04, DISCL_EXCLUSIVE | DISCL_FOREGROUND)))
             {
                 gGamePadDevice_67B6C0->Release();
-                gGamePadDevice_67B6C0 = 0;
+                gGamePadDevice_67B6C0 = NULL;
                 return DIENUM_STOP;
             }
 
             if (FAILED(gGamePadDevice_67B6C0->SetDataFormat(&gInputDeviceFormat_601A6C)))
             {
                 gGamePadDevice_67B6C0->Release();
-                gGamePadDevice_67B6C0 = 0;
+                gGamePadDevice_67B6C0 = NULL;
                 return DIENUM_STOP;
             }
         }
@@ -251,9 +251,9 @@ bool InputDevices::game_pads_init_498BA0()
 #if defined(__clang__) || (_MSC_VER <= 1200)
     #pragma comment(lib, "DInput.lib")
         // VC6-compatible path
-        if (FAILED(DirectInputCreateA(gHInstance_708220, 0x700, &gpDInput_67B804, 0)))
+        if (FAILED(DirectInputCreateA(gHInstance_708220, 0x700, &gpDInput_67B804, NULL)))
         {
-            return 1;
+            return true;
         }
 #else
     #pragma comment(lib, "DInput8.lib")
@@ -265,9 +265,9 @@ bool InputDevices::game_pads_init_498BA0()
             if (p)
             {
                 auto pDirectInputCreateA = reinterpret_cast<decltype(&DirectInputCreateA)>(p);
-                if (FAILED(pDirectInputCreateA(gHInstance_708220, 0x700, &gpDInput_67B804, 0)))
+                if (FAILED(pDirectInputCreateA(gHInstance_708220, 0x700, &gpDInput_67B804, NULL)))
                 {
-                    return 1;
+                    return true;
                 }
             }
         }
@@ -278,10 +278,10 @@ bool InputDevices::game_pads_init_498BA0()
 
     if (!gGamePadDevice_67B6C0)
     {
-        return 0;
+        return false;
     }
     set_game_pad_device_properties_4989C0();
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x498C00)
@@ -304,7 +304,7 @@ void __stdcall InputDevices::input_devices_init_498C40(HINSTANCE hInstance)
 
     if (!make_input_devices_498800(hInstance))
     {
-        gNeedKbAcquire_67B66C = 1;
+        gNeedKbAcquire_67B66C = true;
     }
     game_pads_init_498BA0();
 }
@@ -341,13 +341,13 @@ void InputDevices::flush_keyboard_and_gamepad_498CC0()
     gDeviceDataCount_67B624 = -1;
     if (gKeyboardDevice_67B5C0)
     {
-        gKeyboardDevice_67B5C0->GetDeviceData(16, 0, &gDeviceDataCount_67B624, 0);
+        gKeyboardDevice_67B5C0->GetDeviceData(16, NULL, &gDeviceDataCount_67B624, 0);
     }
 
     gDeviceDataCount_67B624 = -1;
     if (gGamePadDevice_67B6C0)
     {
-        gGamePadDevice_67B6C0->GetDeviceData(16, 0, &gDeviceDataCount_67B624, 0);
+        gGamePadDevice_67B6C0->GetDeviceData(16, NULL, &gDeviceDataCount_67B624, 0);
     }
 }
 
@@ -406,7 +406,7 @@ void InputDevices::read_input_device_498DA0(s32* input_bits, u8 bApplyKeyboardCo
             if (gGamePadDevice_67B6C0 && !gDeviceDataCount_67B624)
             {
                 gDeviceDataCount_67B624 = 1;
-                gGamePadDevice_67B6C0->GetDeviceData(16, 0, &padItems, DIGDD_PEEK);
+                gGamePadDevice_67B6C0->GetDeviceData(16, NULL, &padItems, DIGDD_PEEK);
                 padResult = gGamePadDevice_67B6C0->GetDeviceData(16,
                                                                  reinterpret_cast<DIDEVICEOBJECTDATA*>(&gGamePadDeviceData_67B5B0),
                                                                  &gDeviceDataCount_67B624,
@@ -700,7 +700,6 @@ void InputRecorder_67F8B0::SaveReplay_4CDED0()
 }
 
 // https://decomp.me/scratch/c6Gy5
-// Register allocation differs, see docs/match_attempts.md
 MATCH_FUNC(0x4cdf30)
 void InputRecorder_67F8B0::modify_inputs_4CDF30(s32 match_mask)
 {
@@ -730,11 +729,9 @@ MATCH_FUNC(0x4cdf70)
 void InputRecorder_67F8B0::AppendReplayHeader_4CDF70()
 {
     ReplayHeader header;
-    DWORD computer_name_size;
-    size_t header_size;
 
     memset(&header, 0, sizeof(header));
-    computer_name_size = 29;
+    DWORD computer_name_size = 29;
     sprintf(header.field_0_version, "v%d.%d", gGTA2VersionMajor_708280, gGTA2VersionMinor_708284);
 
     time_t now = time(NULL);
@@ -789,12 +786,12 @@ void InputRecorder_67F8B0::AppendReplayHeader_4CDF70()
     header.field_E4_flags[29] = bDo_police_2_67D569 ? '1' : '0';
     header.field_E4_flags[30] = bDo_police_3_67D56A ? '1' : '0';
 
-    header_size = sizeof(header);
+    size_t header_size = sizeof(header);
     File::AppendBufferToFile_4A6F50("test\\replay.rep", &header, &header_size);
 }
 
 MATCH_FUNC(0x4ce380)
-void InputRecorder_67F8B0::LoadReplayHeader_4CE380(char_type bLoadDebug)
+void InputRecorder_67F8B0::LoadReplayHeader_4CE380(bool bLoadDebug)
 {
     u32 header_size = sizeof(ReplayHeader);
     ReplayHeader header;
@@ -850,18 +847,18 @@ void InputRecorder_67F8B0::LoadReplayHeader_4CE380(char_type bLoadDebug)
 MATCH_FUNC(0x4ce650)
 void InputRecorder_67F8B0::VerifyAttractFilesExist_4CE650()
 {
-    const AttractFile* attr1FilePath = &attractFiles_62083C[0];
-    for (s32 i = 0; i < 3; i++)
+    const AttractFile* pAttractFile = &attractFiles_62083C[0];
+    for (s32 i = 0; i < ATTRACT_COUNT; i++)
     {
         struct _finddata_t fileInfo;
-        long hFind = _findfirst(attr1FilePath->field_0_path, &fileInfo);
+        long hFind = _findfirst(pAttractFile->field_0_path, &fileInfo);
         if (hFind == -1)
         {
-            strcpy(gErrStr_67C29C, attr1FilePath->field_0_path);
+            strcpy(gErrStr_67C29C, pAttractFile->field_0_path);
             FatalError_4A38C0(0x1B5E, "C:\\Splitting\\Gta2\\Source\\input.cpp", 524);
         }
         _findclose(hFind);
-        ++attr1FilePath;
+        ++pAttractFile;
     }
 }
 
@@ -879,9 +876,9 @@ void InputRecorder_67F8B0::GetNextAttrReplay_4CE6E0(char_type* pAttrPathOut)
 MATCH_FUNC(0x4ce740)
 void InputRecorder_67F8B0::input_init_replay_4CE740(HINSTANCE hInstance)
 {
-    char FileName[256];
+    char_type FileName[256];
 
-    this->field_0_bShutDown = 0;
+    this->field_0_bShutDown = false;
     InputRecorder_67F8B0::GetNextAttrReplay_4CE6E0(FileName);
     this->field_8_input_masks[0] = input_bit::Forward;
     this->field_8_input_masks[1] = input_bit::Backward;
@@ -900,9 +897,9 @@ void InputRecorder_67F8B0::input_init_replay_4CE740(HINSTANCE hInstance)
     gInputDevices_67B990->input_devices_init_498C40(hInstance);
     memset(this->field_3C_rec_buff, 0, sizeof(this->field_3C_rec_buff));
     this->field_75340_rec_buf_idx = 0;
-    bConstant_replay_save_67D5C4 = 0;
+    bConstant_replay_save_67D5C4 = false;
     File::Global_Open_4A7060(FileName);
-    LoadReplayHeader_4CE380(0);
+    LoadReplayHeader_4CE380(false);
 
     u32 bufLen = sizeof(field_3C_rec_buff);
     const u32 remainderSize = File::Global_ReadRemainder_4A7250(this->field_3C_rec_buff, &bufLen);
@@ -922,7 +919,7 @@ void InputRecorder_67F8B0::input_init_replay_4CE740(HINSTANCE hInstance)
 MATCH_FUNC(0x4ce880)
 void InputRecorder_67F8B0::input_init_live_4CE880(HINSTANCE hInstance)
 {
-    field_0_bShutDown = 0;
+    field_0_bShutDown = false;
     field_8_input_masks[0] = input_bit::Forward;
     field_8_input_masks[1] = input_bit::Backward;
     field_8_input_masks[2] = input_bit::Left;
@@ -951,14 +948,14 @@ void InputRecorder_67F8B0::input_init_live_4CE880(HINSTANCE hInstance)
 
     if (bPlay_replay_67D4F4 == 1)
     {
-        bConstant_replay_save_67D5C4 = 0;
+        bConstant_replay_save_67D5C4 = false;
         File::Global_Open_4A7060("test\\replay.rep");
-        InputRecorder_67F8B0::LoadReplayHeader_4CE380(1);
-        u32 size = 480000;
+        InputRecorder_67F8B0::LoadReplayHeader_4CE380(true);
+        u32 size = sizeof(field_3C_rec_buff);
         size_t remainderSize = File::Global_ReadRemainder_4A7250(field_3C_rec_buff, &size);
         File::Global_Close_4A70C0();
-        field_7533C_used_recs_count = remainderSize / 0xC;
-        if (12 * (remainderSize / 0xC) != remainderSize)
+        field_7533C_used_recs_count = remainderSize / sizeof(InputRecord);
+        if (sizeof(InputRecord) * (remainderSize / sizeof(InputRecord)) != remainderSize)
         {
             FatalError_4A38C0(Gta2Error::ReplayFileTooLarge, "C:\\Splitting\\Gta2\\Source\\input.cpp", 702, remainderSize);
         }
@@ -987,11 +984,11 @@ void InputRecorder_67F8B0::input_init_live_4CE880(HINSTANCE hInstance)
 }
 
 MATCH_FUNC(0x4cea00)
-void InputRecorder_67F8B0::Shutdown_4CEA00() // 4CEA00
+void InputRecorder_67F8B0::Shutdown_4CEA00()
 {
     if (!field_0_bShutDown)
     {
-        field_0_bShutDown = 1;
+        field_0_bShutDown = true;
         gInputDevices_67B990->free_input_devices_4987A0();
         SaveReplay_4CDED0();
         GTA2_DELETE_AND_NULL(gInputDevices_67B990);
@@ -1237,7 +1234,7 @@ void InputRecorder_67F8B0::DisplayInputBits_4CED90()
 }
 
 MATCH_FUNC(0x4cedf0)
-bool InputRecorder_67F8B0::IsPlayingBack_4CEDF0()
+bool InputRecorder_67F8B0::IsPlayingBack_4CEDF0() const
 {
     if (field_38_replay_state == Playback_1 || field_38_replay_state == Attract_3)
     {
