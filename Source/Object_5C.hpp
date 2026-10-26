@@ -74,7 +74,7 @@ class Object
     EXPORT void ResolveCollisionWithHorizontalEdge_522BE0(Fix16_Point* pPoint);
     EXPORT void ResolveCollisionWithVerticalEdge_522D00(Fix16_Point* pPoint);
     EXPORT void HandleCollision_522E10(Fix16_Point* pPoint);
-    EXPORT bool TryStartSlide_5233A0(Fix16 value);
+    EXPORT bool TryStartSlide_5233A0(Fix16 speed);
     EXPORT void HandleCollisionOutcome_523440(Fix16_Point point, bool bHitFloorBelow, bool bHitBlockAtZ);
     EXPORT bool HandleSpriteGroundAndCollision_5235B0(Sprite* pSprite, Fix16_Point* pPoint, bool* pHitWall, Fix16 found_z);
     EXPORT bool HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite, Fix16_Point* pPoint, bool* pHitWall, bool* pHitBlockAtZ);

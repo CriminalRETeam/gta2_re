@@ -2,6 +2,7 @@
 #define FIX16_POINT_ZERO kFpZero_6F8E10
 #include "Object_5C.hpp"
 #include "explosion_type.hpp"
+#include "instance_limit_kind.hpp"
 #include "ped_death_cause.hpp"
 #include "CarPhysics.hpp"
 #include "Car.hpp"
@@ -127,11 +128,11 @@ void Object::PoolDeallocate()
 
     // TODO: Local required, inline?
     const s32 limit_kind = field_8_definition->field_5C_instance_limit_kind;
-    if (limit_kind == 2)
+    if (limit_kind == instance_limit_kind::limited_count_2)
     {
         --gObject_5C_6F8F84->field_10_limited_object_count;
     }
-    else if (limit_kind == 3)
+    else if (limit_kind == instance_limit_kind::sprite_list_3)
     {
         --gObject_5C_6F8F84->field_14_listed_sprite_count;
         gObject_5C_6F8F84->field_1C_sprite_list.RemoveSpriteSafe_5A6B60(this->field_4_sprite);
@@ -652,7 +653,7 @@ void Object::Sprite_UpdateZFromSlopeAndTile_522FA0(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x5233a0)
-bool Object::TryStartSlide_5233A0(Fix16 value)
+bool Object::TryStartSlide_5233A0(Fix16 speed)
 {
     gObject2C_LastCollisionSprite_6F8F8C = NULL;
 
@@ -666,7 +667,7 @@ bool Object::TryStartSlide_5233A0(Fix16 value)
         }
 
         gObject2C_LastCollisionSprite_6F8F8C = gCollisionTarget_679188.field_20_pHitSprite;
-        if (value > kFpPoint1_6F8C58)
+        if (speed > kFpPoint1_6F8C58)
         {
             return false;
         }
@@ -2282,10 +2283,10 @@ bool Object::ChangeInstanceLimitKind_528240(s32 current, s32 desired)
 {
     switch (current)
     {
-        case 1:
+        case instance_limit_kind::unlimited_1:
             switch (desired)
             {
-                case 2:
+                case instance_limit_kind::limited_count_2:
                     if (gObject_5C_6F8F84->field_10_limited_object_count == 360)
                     {
                         RequestRemoval_5290A0();
@@ -2294,21 +2295,21 @@ bool Object::ChangeInstanceLimitKind_528240(s32 current, s32 desired)
                     gObject_5C_6F8F84->field_10_limited_object_count++;
                     break;
 
-                case 3:
+                case instance_limit_kind::sprite_list_3:
                     gObject_5C_6F8F84->field_14_listed_sprite_count++;
                     gObject_5C_6F8F84->field_1C_sprite_list.AddSprite_5A6CD0(field_4_sprite);
                     break;
             }
             break;
 
-        case 2:
+        case instance_limit_kind::limited_count_2:
             switch (desired)
             {
-                case 1:
+                case instance_limit_kind::unlimited_1:
                     gObject_5C_6F8F84->field_10_limited_object_count--;
                     break;
 
-                case 3:
+                case instance_limit_kind::sprite_list_3:
                     gObject_5C_6F8F84->field_10_limited_object_count--;
                     gObject_5C_6F8F84->field_14_listed_sprite_count++;
                     gObject_5C_6F8F84->field_1C_sprite_list.AddSprite_5A6CD0(field_4_sprite);
@@ -2316,15 +2317,15 @@ bool Object::ChangeInstanceLimitKind_528240(s32 current, s32 desired)
             }
             break;
 
-        case 3:
+        case instance_limit_kind::sprite_list_3:
             switch (desired)
             {
-                case 1:
+                case instance_limit_kind::unlimited_1:
                     gObject_5C_6F8F84->field_14_listed_sprite_count--;
                     gObject_5C_6F8F84->field_1C_sprite_list.RemoveSprite_5A6B10(field_4_sprite);
                     break;
 
-                case 2:
+                case instance_limit_kind::limited_count_2:
                     if (gObject_5C_6F8F84->field_10_limited_object_count == 360)
                     {
                         RequestRemoval_5290A0();
@@ -3358,7 +3359,7 @@ Object* Object_5C::CreateObject_529C00(s32 object_type, Fix16 xpos, Fix16 ypos, 
     }
 
     ObjectDefinition* pDefinition = gObjectDefinitions_6FCF00->GetObjectDefinition_534360(object_type);
-    if (pDefinition->field_5C_instance_limit_kind == 2)
+    if (pDefinition->field_5C_instance_limit_kind == instance_limit_kind::limited_count_2)
     {
         if (field_10_limited_object_count == 360)
         {
@@ -3402,7 +3403,7 @@ Object* Object_5C::CreateObject_529C00(s32 object_type, Fix16 xpos, Fix16 ypos, 
         return NULL;
     }
 
-    if (pDefinition->field_5C_instance_limit_kind == 3)
+    if (pDefinition->field_5C_instance_limit_kind == instance_limit_kind::sprite_list_3)
     {
         ++field_14_listed_sprite_count;
         field_1C_sprite_list.AddSprite_5A6CD0(pNewObject->field_4_sprite);

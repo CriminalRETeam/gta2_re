@@ -1,5 +1,6 @@
 #include "ObjectDefinitions.hpp"
 #include "enums.hpp"
+#include "instance_limit_kind.hpp"
 #include "Globals.hpp"
 #include "debug.hpp"
 #include "gtx_0x106C.hpp"
@@ -455,7 +456,7 @@ ObjectDefinition::ObjectDefinition()
     field_18_mass = zero_mass;
     field_20_sprite_flags = 0;
     field_60_destroyed_by_destructor = 0;
-    field_5C_instance_limit_kind = 1;
+    field_5C_instance_limit_kind = instance_limit_kind::unlimited_1;
     field_70_has_sound = 0;
 }
 

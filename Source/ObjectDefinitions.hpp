@@ -208,7 +208,7 @@ class ObjectDefinition
     s32 field_50_z_collision_response;
     s32 field_54_react_to_collisions_with; // One of CollisionReaction
     s32 field_58_uses_3d_movement;
-    s32 field_5C_instance_limit_kind;
+    s32 field_5C_instance_limit_kind; // One of instance_limit_kind
     char_type field_60_destroyed_by_destructor;
     char_type field_61_in_pool_list;
     char_type field_62_has_shadows;
