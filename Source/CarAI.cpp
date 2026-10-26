@@ -692,7 +692,7 @@ void CarAI::BrakeForBlockedRoadAhead_4482C0()
         u8 bSecondPass;
         if (!this->field_24_bf.bFlag17)
         {
-            this->field_48_probe_direction = 4;
+            this->field_48_probe_direction = car_ai_direction::west_4;
             this->field_9_probe_x = default_probe_x.ToInt();
             this->field_A_probe_y = default_probe_y.ToInt();
         }
@@ -755,7 +755,7 @@ void CarAI::BrakeForBlockedRoadAhead_4482C0()
                         probe_x += kFpTwo_677B98;
                         probe_steps = 6;
                     }
-                    this->field_48_probe_direction = 4;
+                    this->field_48_probe_direction = car_ai_direction::west_4;
                     break;
 
                 case car_ai_direction::south_2:
@@ -770,7 +770,7 @@ void CarAI::BrakeForBlockedRoadAhead_4482C0()
                         probe_steps = 6;
                         probe_x -= gF16fOne_677B94;
                     }
-                    this->field_48_probe_direction = 3;
+                    this->field_48_probe_direction = car_ai_direction::east_3;
                     break;
 
                 case car_ai_direction::east_3:
@@ -785,7 +785,7 @@ void CarAI::BrakeForBlockedRoadAhead_4482C0()
                         probe_y += kFpTwo_677B98;
                         probe_steps = 6;
                     }
-                    this->field_48_probe_direction = 1;
+                    this->field_48_probe_direction = car_ai_direction::north_1;
                     break;
 
                 case car_ai_direction::west_4:
@@ -800,7 +800,7 @@ void CarAI::BrakeForBlockedRoadAhead_4482C0()
                         probe_y -= kFpTwo_677B98;
                         probe_steps = 6;
                     }
-                    this->field_48_probe_direction = 2;
+                    this->field_48_probe_direction = car_ai_direction::south_2;
                     break;
 
                 default:
@@ -1211,7 +1211,7 @@ void CarAI::ManageTrafficCarDirection_448CE0()
                 }
 
                 cur_angle = field_10_angle;
-                field_40_prev_target_direction = 1;
+                field_40_prev_target_direction = car_ai_target_direction::northwards_1;
                 target_angle = kAng180_677ADE;
                 if (cur_angle > target_angle - kAng10_677A08 && cur_angle < target_angle + kAng10_677A08)
                 {
@@ -1319,7 +1319,7 @@ void CarAI::ManageTrafficCarDirection_448CE0()
                     return;
                 }
 
-                field_40_prev_target_direction = 2;
+                field_40_prev_target_direction = car_ai_target_direction::southwards_2;
                 cur_angle = field_10_angle + kAng90_6779E4;
                 target_angle = kAng90_6779E4;
                 if (cur_angle > (target_angle - kAng4_677CE2) - kAng4_677CE2 && cur_angle < (target_angle + kAng4_677CE2) + kAng4_677CE2)
@@ -1405,7 +1405,7 @@ void CarAI::ManageTrafficCarDirection_448CE0()
             case car_ai_direction::east_3:
             {
                 cur_angle = field_10_angle;
-                field_40_prev_target_direction = 3;
+                field_40_prev_target_direction = car_ai_target_direction::eastwards_3;
                 target_angle = kAng90_6779E4;
                 if (field_24_bf.bFlag7 != 0)
                 {
@@ -1538,7 +1538,7 @@ void CarAI::ManageTrafficCarDirection_448CE0()
                 }
 
                 cur_angle = field_10_angle;
-                field_40_prev_target_direction = 4;
+                field_40_prev_target_direction = car_ai_target_direction::westwards_4;
                 target_angle = kAng270_677B08;
                 if (cur_angle > (target_angle - kAng4_677CE2) - kAng4_677CE2 && cur_angle < (target_angle + kAng4_677CE2) + kAng4_677CE2)
                 {
@@ -5295,9 +5295,9 @@ CarAI::CarAI()
     this->field_34_unused = 0;
     this->field_38_junction_turn_direction = 0;
     this->field_3C_seeking_road = 0;
-    this->field_40_prev_target_direction = 0;
+    this->field_40_prev_target_direction = car_ai_target_direction::go_straight_0;
     this->field_44_target_direction = car_ai_target_direction::go_straight_0;
-    this->field_48_probe_direction = 0;
+    this->field_48_probe_direction = car_ai_direction::none_0;
     this->field_4C_curr_direction = car_ai_direction::none_0;
     this->field_70_nearest_entity = NULL;
     this->field_74_max_speed = kF16Zero_677B90;
@@ -5340,9 +5340,9 @@ void CarAI::PoolAllocate()
     this->field_34_unused = 0;
     this->field_38_junction_turn_direction = 0;
     this->field_3C_seeking_road = 0;
-    this->field_40_prev_target_direction = 0;
+    this->field_40_prev_target_direction = car_ai_target_direction::go_straight_0;
     this->field_44_target_direction = car_ai_target_direction::go_straight_0;
-    this->field_48_probe_direction = 0;
+    this->field_48_probe_direction = car_ai_direction::none_0;
     this->field_4C_curr_direction = car_ai_direction::none_0;
     this->field_70_nearest_entity = NULL;
     this->field_74_max_speed = kFpPoint7_6779D4;
