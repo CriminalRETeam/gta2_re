@@ -340,7 +340,7 @@ Weapon* Player::GetCurrPlayerWeapon_5648F0()
 MATCH_FUNC(0x564910)
 void Player::SetWeapon_564910(Weapon* pWeapon)
 {
-    s16 idx = pWeapon->field_1C_idx;
+    s16 idx = pWeapon->field_1C_weapon_type;
     this->field_718_weapons[idx] = pWeapon;
     if (!this->field_31_kf_weapon_mode)
     {
@@ -566,8 +566,8 @@ void Player::RemovePlayerWeapons_564C50()
     Weapon* pWeapon = this->field_718_weapons[0];
     do
     {
-        if ((!gCheatUnlimitedElectroGun_67D4F7 || pWeapon->field_1C_idx != weapon_type::shocker) &&
-            (!gCheatUnlimitedFlameThrower_67D6CC || pWeapon->field_1C_idx != weapon_type::flamethrower))
+        if ((!gCheatUnlimitedElectroGun_67D4F7 || pWeapon->field_1C_weapon_type != weapon_type::shocker) &&
+            (!gCheatUnlimitedFlameThrower_67D6CC || pWeapon->field_1C_weapon_type != weapon_type::flamethrower))
         {
             if (pWeapon->HasAmmo_4A4F80())
             {

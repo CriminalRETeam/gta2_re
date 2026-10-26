@@ -6646,7 +6646,7 @@ void ScriptThread::SCRCMD_CHECK_CURRENT_WEAPON_510090()
 
     Weapon* pWeapon = pPointer->field_8_char->field_15C_player->GetCurrPlayerWeapon_5648F0();
 
-    if (pWeapon != NULL && static_cast<u32>(pWeapon->field_1C_idx) == pCmd->field_C_weapon_idx)
+    if (pWeapon != NULL && static_cast<u32>(pWeapon->field_1C_weapon_type) == pCmd->field_C_weapon_idx)
     {
         field_8_cond_result = true;
     }

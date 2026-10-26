@@ -89,7 +89,7 @@ Weapon::Weapon()
     field_2_reload_timer = 0;
     field_4_bTargetHit = 0;
     mpNext = 0;
-    field_1C_idx = 0;
+    field_1C_weapon_type = 0;
     field_10_unused = 0;
     field_8_unused = 0;
     field_C_unused = -1;
@@ -118,7 +118,7 @@ void Weapon::init_5DCD90()
 {
     field_24_pPed = 0;
     field_14_car = 0;
-    field_1C_idx = 0;
+    field_1C_weapon_type = 0;
     field_0_ammo = 0;
     field_2_reload_timer = 0;
     field_4_bTargetHit = 0;
@@ -156,7 +156,7 @@ void Weapon::set_ammo_clips_5DCE20(u8 clips)
 MATCH_FUNC(0x5dce40)
 bool Weapon::add_ammo_capped_5DCE40(u8 to_add)
 {
-    s32 cap_total = max_ammo_capacity_5FF75C[field_1C_idx] * 10;
+    s32 cap_total = max_ammo_capacity_5FF75C[field_1C_weapon_type] * 10;
     if (is_infinite_ammo_4A4FA0())
     {
         return 0;
@@ -183,14 +183,14 @@ bool Weapon::add_ammo_capped_5DCE40(u8 to_add)
 MATCH_FUNC(0x5dcea0)
 bool Weapon::is_max_capacity_5DCEA0()
 {
-    return this->field_0_ammo == 10 * max_ammo_capacity_5FF75C[this->field_1C_idx];
+    return this->field_0_ammo == 10 * max_ammo_capacity_5FF75C[this->field_1C_weapon_type];
 }
 
 MATCH_FUNC(0x5dcef0)
 bool Weapon::CountsAsArmedAttack_5DCEF0()
 {
     bool result;
-    switch (field_1C_idx)
+    switch (field_1C_weapon_type)
     {
         case weapon_type::car_bomb:
         case weapon_type::oil_stain:
@@ -542,7 +542,7 @@ void Weapon::smg_5DDD20()
             field_2_reload_timer = 2;
             gParticle_8_6FD5E8->GunMuzzelFlash_53E970(field_24_pPed->field_168_game_object->field_80_sprite_ptr);
 
-            if (field_1C_idx != weapon_type::silence_smg)
+            if (field_1C_weapon_type != weapon_type::silence_smg)
             {
                 field_24_pPed->AddThreateningPedToList_46FC70();
                 if (field_24_pPed->is_player_41B0A0())
@@ -1830,7 +1830,7 @@ MATCH_FUNC(0x5e33c0)
 bool Weapon::CanFireWhileHeld_5E33C0()
 {
     bool result;
-    switch (this->field_1C_idx)
+    switch (this->field_1C_weapon_type)
     {
         case weapon_type::car_bomb:
         case weapon_type::oil_stain:
@@ -1859,9 +1859,9 @@ void Weapon::ChuckThrowable_5E34B0()
         {
             if (field_24_pPed->field_15C_player)
             {
-                if (field_1C_idx == weapon_type::molotov || field_1C_idx == weapon_type::grenade)
+                if (field_1C_weapon_type == weapon_type::molotov || field_1C_weapon_type == weapon_type::grenade)
                 {
-                    s32 obj_type = (field_1C_idx != weapon_type::molotov ? 183 : 138);
+                    s32 obj_type = (field_1C_weapon_type != weapon_type::molotov ? 183 : 138);
                     if (field_24_pPed->field_15C_player->IsThrowCharging_4CCB00())
                     {
                         s32 throw_strength = field_24_pPed->field_15C_player->GetThrowStrength_4CCAD0();
@@ -1878,7 +1878,7 @@ void Weapon::ChuckThrowable_5E34B0()
 MATCH_FUNC(0x5e3670)
 void Weapon::pull_trigger_5E3670()
 {
-    switch (field_1C_idx)
+    switch (field_1C_weapon_type)
     {
         case weapon_type::pistol:
             pistol_5DD860();
@@ -2075,7 +2075,7 @@ MATCH_FUNC(0x5e3bd0)
 bool Weapon::IsExplosiveWeapon_5E3BD0()
 {
     bool result;
-    switch (this->field_1C_idx)
+    switch (this->field_1C_weapon_type)
     {
         case weapon_type::rocket:
         case weapon_type::molotov:

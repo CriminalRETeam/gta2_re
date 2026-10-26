@@ -33,7 +33,7 @@ class Weapon
     // 9.6f 0x4CCA00
     inline void set_idx_4CCA00(s32 v)
     {
-        field_1C_idx = v;
+        field_1C_weapon_type = v;
     }
 
     // 9.6f 0x4CCA10
@@ -150,7 +150,7 @@ class Weapon
 
     s32 GetWeaponType_41CC90()
     {
-        return field_1C_idx;
+        return field_1C_weapon_type;
     }
     
     void SetTargetHit_433810(s32 value)
@@ -173,7 +173,7 @@ class Weapon
     s16 field_12_unused;
     Car* field_14_car;
     Weapon* mpNext;
-    s32 field_1C_idx; // weapon_type
+    s32 field_1C_weapon_type;
     s8 field_20;
     s8 field_21;
     s8 field_22_unused;

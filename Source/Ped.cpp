@@ -2270,7 +2270,7 @@ bool Ped::AddWeaponWithAmmo_45DD30(s32 weapon_kind, char_type ammo)
         return field_15C_player->AddWeaponWithAmmo_564960(weapon_kind, ammo);
     }
 
-    if (field_170_selected_weapon && field_170_selected_weapon->field_1C_idx == weapon_kind)
+    if (field_170_selected_weapon && field_170_selected_weapon->field_1C_weapon_type == weapon_kind)
     {
         return 0;
     }
@@ -2346,7 +2346,7 @@ void Ped::SpawnWeaponOnDeath_45E080()
         {
             if (!PedTypeIs_45EDE0(ped_type::player_2))
             {
-                switch (this->field_170_selected_weapon->field_1C_idx)
+                switch (this->field_170_selected_weapon->field_1C_weapon_type)
                 {
                     case weapon_type::pistol:
                         pWeaponObj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::pistol_weapon_200,
@@ -10531,7 +10531,7 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
     {
         if (pWeapon)
         {
-            switch (pWeapon->field_1C_idx)
+            switch (pWeapon->field_1C_weapon_type)
             {
                 case weapon_type::flamethrower:
                     attack_range = kFpTwo_678658;
@@ -10989,7 +10989,7 @@ void Ped::SpawnPedGroupFollowers_46E200(u8 total)
             Weapon* pWeapon = this->field_170_selected_weapon;
             if (pWeapon)
             {
-                pNewPed->ForceWeapon_46F600(pWeapon->field_1C_idx);
+                pNewPed->ForceWeapon_46F600(pWeapon->field_1C_weapon_type);
             }
 
             ++current;
@@ -11164,7 +11164,7 @@ Weapon* Ped::GetWeaponFromPed_46F110()
 
         if (field_16C_car)
         {
-            if (field_170_selected_weapon && field_170_selected_weapon->field_1C_idx >= weapon_type::car_bomb)
+            if (field_170_selected_weapon && field_170_selected_weapon->field_1C_weapon_type >= weapon_type::car_bomb)
             {
                 field_21C_bf.bUseCarWeapon = true;
                 return field_170_selected_weapon;
@@ -11234,7 +11234,7 @@ void Ped::ApplyAimJitter_46F1E0(Weapon* pWeapon)
     s16 max_still;
     s16 max_moving;
     s16 max_moving_retry;
-    if (pWeapon->field_1C_idx >= weapon_type::pistol && pWeapon->field_1C_idx <= weapon_type::smg)
+    if (pWeapon->field_1C_weapon_type >= weapon_type::pistol && pWeapon->field_1C_weapon_type <= weapon_type::smg)
     {
         if (field_270_fire_mode == ped_fire_mode::random_shots_0)
         {

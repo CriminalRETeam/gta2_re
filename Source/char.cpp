@@ -725,16 +725,16 @@ void Char::UpdateAnimState_546360()
     if (field_7C_pPed->field_15C_player && field_C_ped_state_2 != ped_state_2::falling_19)
     {
         if (field_7C_pPed->field_170_selected_weapon &&
-            (field_7C_pPed->field_170_selected_weapon->field_1C_idx == weapon_type::molotov ||
-             field_7C_pPed->field_170_selected_weapon->field_1C_idx == weapon_type::grenade))
+            (field_7C_pPed->field_170_selected_weapon->field_1C_weapon_type == weapon_type::molotov ||
+             field_7C_pPed->field_170_selected_weapon->field_1C_weapon_type == weapon_type::grenade))
         {
             bThrowWeapon = 1;
         }
 
         if (field_7C_pPed->field_170_selected_weapon && !field_7C_pPed->field_21C_bf.bAttacking)
         {
-            if ((field_7C_pPed->field_170_selected_weapon->field_1C_idx == weapon_type::molotov ||
-                 field_7C_pPed->field_170_selected_weapon->field_1C_idx == weapon_type::grenade) &&
+            if ((field_7C_pPed->field_170_selected_weapon->field_1C_weapon_type == weapon_type::molotov ||
+                 field_7C_pPed->field_170_selected_weapon->field_1C_weapon_type == weapon_type::grenade) &&
                 field_7C_pPed->field_15C_player->field_8D_attack_changed)
             {
                 field_6C_animation_state = 4;
@@ -743,8 +743,8 @@ void Char::UpdateAnimState_546360()
         }
         else if (field_7C_pPed->field_170_selected_weapon && field_7C_pPed->field_21C_bf.bAttacking)
         {
-            if (field_7C_pPed->field_170_selected_weapon->field_1C_idx == weapon_type::molotov ||
-                field_7C_pPed->field_170_selected_weapon->field_1C_idx == weapon_type::grenade)
+            if (field_7C_pPed->field_170_selected_weapon->field_1C_weapon_type == weapon_type::molotov ||
+                field_7C_pPed->field_170_selected_weapon->field_1C_weapon_type == weapon_type::grenade)
             {
                 field_7C_pPed->field_21C_bf.bAttacking = false;
             }
@@ -753,8 +753,8 @@ void Char::UpdateAnimState_546360()
     else
     {
         if (field_7C_pPed->field_170_selected_weapon && field_7C_pPed->field_21C_bf.bAttacking &&
-            (field_7C_pPed->field_170_selected_weapon->field_1C_idx == weapon_type::molotov ||
-             field_7C_pPed->field_170_selected_weapon->field_1C_idx == weapon_type::grenade))
+            (field_7C_pPed->field_170_selected_weapon->field_1C_weapon_type == weapon_type::molotov ||
+             field_7C_pPed->field_170_selected_weapon->field_1C_weapon_type == weapon_type::grenade))
         {
             field_6C_animation_state = 4;
             bThrowWeapon = 1;
