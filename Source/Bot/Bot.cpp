@@ -65,6 +65,7 @@ Bot::Bot(const BotOptions& opts)
     , mInputBits(0)
     , mFrame(0)
     , mRunFrame(0)
+    , mRunStartTick(0)
     , mSeenRunning(false)
     , mExitRequested(false)
     , mMap(NULL)
@@ -217,6 +218,8 @@ void Bot::RequestExit(const char* why)
     }
     mExitRequested = true;
     mInputBits = 0;
+    const u32 ms = GetTickCount() - mRunStartTick;
+    BotLog("bot: %d frames in %u ms (%u frames/s)", mRunFrame, ms, ms ? mRunFrame * 1000 / ms : 0);
     BotLog("bot: exit requested at f=%d: %s (heap: %u live blocks, %u bytes; during play %u allocs/%u bytes, %u frees)",
            mFrame,
            why,
@@ -248,6 +251,8 @@ void Bot::EnsureMap()
     mMap->AddExclusion(&gMatchStartTime_6F5A28, sizeof(gMatchStartTime_6F5A28), "gMatchStartTime_6F5A28 (frame pacing)");
 
     mMap->Build();
+    BotPath_Join(path, sizeof(path), mOpts.out_dir, "bot_blocks.txt");
+    mMap->WriteBlockIndex(path);
 }
 
 void Bot::WriteReport(const char* result, const char* detail)
@@ -299,6 +304,7 @@ void Bot::OnFrame()
             return;
         }
         mSeenRunning = true;
+        mRunStartTick = GetTickCount();
         HeapTracker::BeginPlay();
         BotLog("bot: game running from f=%d, replay state=%d input_enabled=%d, heap %u blocks %u bytes",
                mFrame,
@@ -478,6 +484,12 @@ void Bot::StepRestoreCheck()
                     mRcState = RC_Done;
                     RequestExit("restore_check failed");
                     break;
+                }
+                if (mOpts.perturb)
+                {
+                    // Verifier sanity check: a one byte change after the restore has to show up
+                    PlayerPed()->field_216_health -= 1;
+                    BotLog("restore_check: perturbed the player's health, run 2 must diverge");
                 }
                 mRcState = RC_RunB;
                 mRcCounter = 0;

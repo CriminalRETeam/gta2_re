@@ -20,6 +20,7 @@ def main():
     ap.add_argument("--timeout", type=int, default=600)
     ap.add_argument("--exclude", action="append", default=[], help="extra symbol to exclude (repeatable)")
     ap.add_argument("--max-print", type=int, default=60)
+    ap.add_argument("--perturb", action="store_true", help="sanity check: the bot changes one byte after the restore, the result must be FAIL")
     args = ap.parse_args()
 
     root = botlib.gta2_root(args.root)
@@ -36,6 +37,8 @@ def main():
             p.unlink()
 
     bot_args = ["-bot=restore_check", f"-bot_map={args.map}", f"-bot_out={args.out}", f"-bot_warmup={args.warmup}", f"-bot_frames={args.frames}"]
+    if args.perturb:
+        bot_args.append("-bot_perturb")
     botlib.run_game(root, bot_args, timeout=args.timeout, log=out_dir / "wine_stdout.txt")
 
     rep = botlib.read_report(out_dir)
@@ -49,16 +52,23 @@ def main():
 
     diff = out_dir / "bot_diff.txt"
     if diff.exists():
+        blocks = botlib.read_blocks(out_dir)
+        image_end = mapfile.symbols[-1].va + 0x10000 if mapfile.symbols else mapfile.image_base + 0x400000
         by_symbol = defaultdict(lambda: [0, 0, None])
         for line in diff.read_text().splitlines():
             parts = line.split()
             if len(parts) < 2:
                 continue
             addr, size = int(parts[0], 16), int(parts[1])
-            sym, off = mapfile.lookup(addr)
-            key = sym.name if sym and sym.va >= mapfile.image_base and off < max(sym.size, 1) else f"heap/unknown {addr:08x}"
-            if sym and key.startswith("heap"):
-                key = f"heap block near {sym.name}" if addr < mapfile.image_base + 0x1000000 else "heap block"
+            if mapfile.image_base <= addr < image_end:
+                key = mapfile.describe(addr).split("+")[0]
+            else:
+                block = botlib.find_block(blocks, addr)
+                if block:
+                    owners = ", ".join(mapfile.describe(mapfile.image_base + rva) for rva in block[2]) or "no global points at it"
+                    key = f"heap block {block[0]:08x}+{block[1]:x} <- {owners}"
+                else:
+                    key = f"unknown {addr:08x}"
             entry = by_symbol[key]
             entry[0] += 1
             entry[1] += size
@@ -70,6 +80,10 @@ def main():
 
     print("--- bot_log.txt")
     print(botlib.tail(out_dir / "bot_log.txt", 25))
+    if args.perturb:
+        ok = rep.get("result") == "FAIL"
+        print("perturb sanity check:", "OK, the check turned red" if ok else "BROKEN, the check stayed green")
+        return 0 if ok else 1
     return 0 if rep.get("result") == "PASS" else 1
 
 

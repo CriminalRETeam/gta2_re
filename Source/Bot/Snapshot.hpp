@@ -64,6 +64,10 @@ class MemoryMap : public BotObject
     // Hash of the current contents of every range
     u32 Hash() const;
 
+    // Writes "block_addr size rva..." per heap block, the rvas being the exe globals that point at
+    // the block's start, so that Scripts/bot can name a heap block by its owner (bot_blocks.txt)
+    void WriteBlockIndex(const char* path) const;
+
   private:
     void Clear();
     void PushRaw(u8* start, u32 size);
@@ -87,6 +91,7 @@ class MemoryMap : public BotObject
     u32 mSectionBytes;
     u32 mHeapBytes;
     u32 mHeapBlocks;
+    u32 mSectionCount; // the first mSectionCount raw ranges are PE sections
 };
 
 // A copy of every range of a MemoryMap. Capture and Restore are plain memcpy loops, so they

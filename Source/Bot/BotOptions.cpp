@@ -145,6 +145,10 @@ bool BotOptions_Parse(const char* cmd_line, BotOptions* o)
         {
             o->walk_frames = atoi(value);
         }
+        else if (_strnicmp(key, "_perturb", key_len) == 0 && key_len == 8)
+        {
+            o->perturb = true;
+        }
     }
     return o->enabled;
 }

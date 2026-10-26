@@ -18,6 +18,8 @@
 //   -bot_draw / -bot_audio  keep drawing / sound (default: both skipped)
 //   -bot_warmup=N -bot_frames=N  restore_check: frames before the snapshot, frames per run
 //   -bot_walk=N           walk_test: frames to hold forward
+//   -bot_perturb          restore_check: change the player's health after the restore, so the
+//                         check must FAIL and name the ped pool block (verifier sanity check)
 struct BotOptions
 {
     bool enabled;
@@ -36,6 +38,7 @@ struct BotOptions
     s32 warmup_frames;
     s32 check_frames;
     s32 walk_frames;
+    bool perturb;
 };
 
 // Returns false (and leaves *out zeroed except defaults) when the command line has no -bot option

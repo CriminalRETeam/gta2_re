@@ -71,6 +71,7 @@ MemoryMap::MemoryMap()
     , mSectionBytes(0)
     , mHeapBytes(0)
     , mHeapBlocks(0)
+    , mSectionCount(0)
 {
 }
 
@@ -89,6 +90,7 @@ void MemoryMap::Clear()
     mSectionBytes = 0;
     mHeapBytes = 0;
     mHeapBlocks = 0;
+    mSectionCount = 0;
 }
 
 void MemoryMap::AddExclusion(const void* start, u32 size, const char* name)
@@ -190,6 +192,7 @@ void MemoryMap::AddSections()
             BotLog("snapshot: section %s at %08x size %x", name, reinterpret_cast<u32>(base + sec[i].VirtualAddress), sec[i].Misc.VirtualSize);
             PushRaw(base + sec[i].VirtualAddress, sec[i].Misc.VirtualSize);
             mSectionBytes += sec[i].Misc.VirtualSize;
+            mSectionCount++;
         }
     }
 }
@@ -250,6 +253,104 @@ void MemoryMap::Build()
            mHeapBytes,
            mHeapBlocks,
            mExclCount);
+}
+
+namespace
+{
+struct BlockRef
+{
+    u8* start;
+    u32 size;
+    u32 ref_count;
+    u32 refs[4];
+};
+
+int __cdecl CompareBlockRefs(const void* a, const void* b)
+{
+    const BlockRef* ra = static_cast<const BlockRef*>(a);
+    const BlockRef* rb = static_cast<const BlockRef*>(b);
+    if (ra->start < rb->start)
+    {
+        return -1;
+    }
+    if (ra->start > rb->start)
+    {
+        return 1;
+    }
+    return 0;
+}
+
+void CollectBlockCb(void* ctx, u8* p, u32 size)
+{
+    BlockRef** cursor = static_cast<BlockRef**>(ctx);
+    (*cursor)->start = p;
+    (*cursor)->size = size;
+    (*cursor)->ref_count = 0;
+    (*cursor)++;
+}
+} // namespace
+
+void MemoryMap::WriteBlockIndex(const char* path) const
+{
+    const u32 block_count = HeapTracker::LiveCount();
+    BlockRef* blocks = static_cast<BlockRef*>(BotHeap_Alloc(sizeof(BlockRef) * (block_count + 1)));
+    BlockRef* cursor = blocks;
+    HeapTracker::ForEachLive(CollectBlockCb, &cursor);
+    const u32 count = cursor - blocks;
+    if (count > 1)
+    {
+        qsort(blocks, count, sizeof(BlockRef), CompareBlockRefs);
+    }
+
+    // Every aligned word of the sections that equals a block start is a reference to that block
+    u8* base = reinterpret_cast<u8*>(GetModuleHandleA(NULL));
+    for (u32 s = 0; s < mSectionCount && s < mRawCount; s++)
+    {
+        u8** words = reinterpret_cast<u8**>(mRaw[s].start);
+        const u32 word_count = mRaw[s].size / sizeof(u8*);
+        for (u32 w = 0; w < word_count; w++)
+        {
+            u8* target = words[w];
+            if (!target || !HeapTracker::BlockSize(target))
+            {
+                continue;
+            }
+            u32 lo = 0;
+            u32 hi = count;
+            while (lo < hi)
+            {
+                const u32 mid = (lo + hi) / 2;
+                if (blocks[mid].start < target)
+                {
+                    lo = mid + 1;
+                }
+                else
+                {
+                    hi = mid;
+                }
+            }
+            if (lo < count && blocks[lo].start == target && blocks[lo].ref_count < 4)
+            {
+                blocks[lo].refs[blocks[lo].ref_count++] = reinterpret_cast<u8*>(&words[w]) - base;
+            }
+        }
+    }
+
+    BotTextFile file;
+    if (file.Open(path))
+    {
+        file.Printf("# block_addr size referencing_global_rva...\n");
+        for (u32 b = 0; b < count; b++)
+        {
+            file.Printf("%08x %u", reinterpret_cast<u32>(blocks[b].start), blocks[b].size);
+            for (u32 r = 0; r < blocks[b].ref_count; r++)
+            {
+                file.Printf(" %08x", blocks[b].refs[r]);
+            }
+            file.Printf("\n");
+        }
+    }
+    BotHeap_Free(blocks);
 }
 
 u32 MemoryMap::Hash() const

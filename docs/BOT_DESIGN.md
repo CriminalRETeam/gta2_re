@@ -325,6 +325,64 @@ a replay-only mode (fast regression: play the stored `.rep` in the decomp and ch
 log and end state) and a re-solve mode. Run the stored `.rep` through the original `10.5.exe`
 as the match test.
 
+## Status
+
+### Phase 0: done (branch `bot`)
+
+What is in the tree: `Source/Bot/` (`gta2_bot` static library, linked into `decomp_main` only;
+`test.cpp` calls `Bot_Init(lpCmdLine)` before `WinMain_5E53F0`), `Scripts/bot/` (drivers). Run from
+the GTA2 install dir (`$GTA2_ROOT`, the dir `build.py` copies the exe to):
+
+```bash
+cd Scripts/bot && export GTA2_ROOT=/path/to/GTA2
+python3 run_bot.py --profile walk_test --map wil     # any profile; logs in $GTA2_ROOT/bot_out
+python3 replay_check.py                              # walk_test, then the game plays the .rep back
+python3 restore_check.py [--perturb]                 # snapshot/restore check, --perturb must FAIL
+```
+
+Measured on Downtown (`wil`) under wine 8 on the desktop display:
+
+- Headless boot straight into the level, no frontend, no drawing, no sound: about 2 s to load,
+  then **~10,000 logic frames/s** (700 frames in 69 ms).
+- Input seam: `walk_test` holds forward for 100 frames, the player moves, the game writes
+  `test\replay.rep` (header + 2 records) at shutdown, and the same build plays it back
+  (`-bot=replay`) to an identical per-frame trace of rng index and player position.
+- Snapshot: 11.7 MB (`.data` 0.9 MB + 186 CRT heap blocks, 10.8 MB), restore well under 1 ms,
+  `restore_check` passes over 300 frames with 12 exclusions. `--perturb` (one byte of player
+  health changed after the restore) turns it red and the report names
+  `heap block ... <- gPedPool_6787B8`, so the check is live. No allocation happens during play
+  (the frees logged at exit are the game's teardown).
+
+Decisions that differ from the plan above, and why:
+
+- **Three detours, not two.** The boot overrides (skip frontend/draw/audio, map, style, script,
+  replay recording) are applied in a detour on `ParseCommandLine_4DA320`, which `WinMain_5E53F0`
+  calls right after `Debug::Init_4ABBD0` and `GameSession::LoadDebugSettings_4C53D0` have read the
+  registry. Writing the registry instead would change the user's normal runs.
+- **CRT allocator hooks instead of `HeapWalk`.** VC6's small-block heap keeps blocks under 1 KB in
+  `VirtualAlloc`'d regions that no heap walk sees, so `HeapTracker` detours `malloc`, `calloc`,
+  `realloc` and `free` and keeps the block table itself. The heap's own metadata is not
+  snapshotted; the CRT variables that point into it (`_crtheap`, `__sbh_*`) are on the exclusion
+  list for that reason, together with `_iob` (the game's `error.log` `FILE`) and the two wall
+  clock ranges (`gMatchStartTime_6F5A28`, the `FpsCounter` block). The list with reasons is
+  `DEFAULT_EXCLUSIONS` in `Scripts/bot/botlib.py`, resolved against `output.map` into
+  `bot_out/bot_exclude.txt`.
+- **The replay recorder is inside the snapshot.** Rewinding `gInputRecorder_67F8B0` with the world
+  keeps the recorded `.rep` equal to the committed run with no bookkeeping in the bot.
+- **The bot never uses CRT stdio or `malloc`.** Its files go through Win32 handles and its memory
+  through a private heap, since the CRT's state is part of what a restore rewinds.
+- The caller logged for an allocation during play is the `crt::malloc`/`crt::free` wrapper, not
+  the game function; walk one more frame when that matters.
+- `wine explorer /desktop=...` never started the exe here; the drivers run `wine decomp_main.exe`
+  directly (a small window appears on the desktop). Xvfb is not installed on this machine, so
+  the CI style `xvfb-run` path is untested. The process sometimes segfaults inside wine during
+  teardown, after the replay was written; the drivers ignore the exit code.
+
+### Next: phase 1
+
+`WorldModel` (entities, facts, `Text()`), `BotRng`, the stuck report, `-bot_load`, and the
+hard-coded "walk towards the arrow target" behaviour.
+
 ## Risks and open points
 
 - Headless D3D9 under xvfb+wine may not initialise; fall back to the `dma_video` path or stub the

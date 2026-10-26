@@ -132,7 +132,6 @@ DEFAULT_EXCLUSIONS = [
     ("__sbh_cntHeaderList", "CRT small block heap bookkeeping"),
     ("__sbh_sizeHeaderList", "CRT small block heap bookkeeping"),
     ("__sbh_threshold", "CRT small block heap bookkeeping"),
-    ("_active_heap", "CRT heap kind"),
     ("_amblksiz", "CRT heap growth"),
     ("_iob", "stdio FILE table (error.log): file positions are not rewound"),
 ]
@@ -180,6 +179,30 @@ def run_game(root, bot_args, timeout=600, desktop=None, xvfb=None, log=None):
             code = -1
     print(f"exit code {code} after {time.time() - t0:.1f}s", flush=True)
     return code
+
+
+def read_blocks(out_dir):
+    """bot_blocks.txt: [(addr, size, [referencing rvas])], sorted by address."""
+    path = out_dir / "bot_blocks.txt"
+    blocks = []
+    if path.exists():
+        for line in path.read_text().splitlines():
+            if line.startswith("#"):
+                continue
+            parts = line.split()
+            if len(parts) >= 2:
+                blocks.append((int(parts[0], 16), int(parts[1]), [int(p, 16) for p in parts[2:]]))
+    blocks.sort()
+    return blocks
+
+
+def find_block(blocks, addr):
+    import bisect
+
+    i = bisect.bisect_right([b[0] for b in blocks], addr) - 1
+    if i >= 0 and blocks[i][0] <= addr < blocks[i][0] + blocks[i][1]:
+        return blocks[i]
+    return None
 
 
 def read_report(out_dir):

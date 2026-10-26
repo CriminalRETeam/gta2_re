@@ -84,6 +84,7 @@ class Bot : public BotObject
     u32 mInputBits;
     s32 mFrame;        // logic frames seen by the hook, never rewound
     s32 mRunFrame;     // frames since the game was first seen running, never rewound
+    u32 mRunStartTick; // GetTickCount at the first running frame
     bool mSeenRunning;
     bool mExitRequested;
 

@@ -272,6 +272,24 @@ u32 HeapTracker::PlayAllocBytes()
     return gPlayAllocBytes;
 }
 
+u32 HeapTracker::BlockSize(const u8* p)
+{
+    if (!p || !gTable)
+    {
+        return 0;
+    }
+    u32 idx = HashPtr(p) & (gCapacity - 1);
+    while (gTable[idx].p)
+    {
+        if (gTable[idx].p == p)
+        {
+            return gTable[idx].size;
+        }
+        idx = (idx + 1) & (gCapacity - 1);
+    }
+    return 0;
+}
+
 void HeapTracker::ForEachLive(BlockFn fn, void* ctx)
 {
     for (u32 i = 0; i < gCapacity; i++)

@@ -26,4 +26,7 @@ u32 PlayAllocBytes();
 
 typedef void (*BlockFn)(void* ctx, u8* p, u32 size);
 void ForEachLive(BlockFn fn, void* ctx);
+
+// Size of the live block starting exactly at p, 0 if p is not a block start
+u32 BlockSize(const u8* p);
 } // namespace HeapTracker
