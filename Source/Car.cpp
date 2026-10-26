@@ -2263,45 +2263,8 @@ void Car::StartLightFlashing_43CAC0()
         field_A5_flash_phase_counter = 12;
         field_A4_bf.bLightFlashing = true;
 
-        if (!field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomRightDamage_2))
-        {
-            if (HasPopupHeadlights_421700())
-            {
-                field_8_damaged_areas.set_bit(CarDeltaBitsEnum::TopRightDoor1_11);
-            }
-            else
-            {
-                field_8_damaged_areas.set_bit(CarDeltaBitsEnum::FrontRightHeadlight_6);
-            }
-        }
-
-        if (!field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomLeftDamage_3))
-        {
-            if (HasPopupHeadlights_421700())
-            {
-                field_8_damaged_areas.set_bit(CarDeltaBitsEnum::TopLeftDoor1_28);
-            }
-            else
-            {
-                field_8_damaged_areas.set_bit(CarDeltaBitsEnum::FrontLeftHeadlight_23);
-            }
-        }
-
-        if (HasRoofLight_421660())
-        {
-            field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BottomLeftRoofLight_15);
-        }
-
-        if (!field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDamage_1))
-        {
-            field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BackRightBrakeLight_5);
-        }
-
-        if (!field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopLeftDamage_0))
-        {
-            field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BackLeftBrakeLight_22);
-        }
-
+        SetHeadlightDeltas_425590();
+        SetBrakeLightDeltas_4213D0();
         field_8E_flash_count = 50;
     }
 }
@@ -3090,57 +3053,11 @@ void Car::FlashHeadlights_43BD40()
     {
         if (field_A4_bf.bHeadlights)
         {
-            if (HasPopupHeadlights_421700())
-            {
-                this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopRightDoor1_11);
-                this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopRightDoor2_12);
-                this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopRightDoor3_13);
-                this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopRightDoor4_14);
-
-                this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopLeftDoor1_28);
-                this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopLeftDoor2_29);
-                this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopLeftDoor3_30);
-                this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopLeftDoor4_31);
-            }
-
-            this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::FrontRightHeadlight_6);
-            this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::FrontLeftHeadlight_23);
-
-            if (HasRoofLight_421660())
-            {
-                field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::BottomLeftRoofLight_15);
-            }
+            ClearHeadlightDeltas_425650();
         }
         else
         {
-            if (!this->field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomRightDamage_2))
-            {
-                if (HasPopupHeadlights_421700())
-                {
-                    field_8_damaged_areas.set_bit(CarDeltaBitsEnum::TopRightDoor1_11);
-                }
-                else
-                {
-                    field_8_damaged_areas.set_bit(CarDeltaBitsEnum::FrontRightHeadlight_6);
-                }
-            }
-
-            if (!this->field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomLeftDamage_3))
-            {
-                if (HasPopupHeadlights_421700())
-                {
-                    field_8_damaged_areas.set_bit(CarDeltaBitsEnum::TopLeftDoor1_28);
-                }
-                else
-                {
-                    field_8_damaged_areas.set_bit(CarDeltaBitsEnum::FrontLeftHeadlight_23);
-                }
-            }
-
-            if (HasRoofLight_421660())
-            {
-                field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BottomLeftRoofLight_15);
-            }
+            SetHeadlightDeltas_425590();
         }
 
         this->field_A5_flash_phase_counter = 6;
@@ -3153,14 +3070,7 @@ void Car::BrakeLightsOn_43BF10()
 {
     if (!this->field_A4_bf.bLightFlashing)
     {
-        if (!this->field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDamage_1))
-        {
-            this->field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BackRightBrakeLight_5);
-        }
-        if (!this->field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopLeftDamage_0))
-        {
-            this->field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BackLeftBrakeLight_22);
-        }
+        SetBrakeLightDeltas_4213D0();
     }
     this->field_A4_bf.bBrakeLights = true;
 }
@@ -3170,8 +3080,7 @@ void Car::BrakeLightsOff_43BF70()
 {
     if (!this->field_A4_bf.bLightFlashing)
     {
-        this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::BackRightBrakeLight_5);
-        this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::BackLeftBrakeLight_22);
+        ClearBrakeLightDeltas_421430();
     }
     this->field_A4_bf.bBrakeLights = false;
 }
@@ -3181,34 +3090,7 @@ void Car::HeadlightsOn_43BFE0()
 {
     if (!this->field_A4_bf.bLightFlashing)
     {
-        if (!this->field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomRightDamage_2))
-        {
-            if (HasPopupHeadlights_421700())
-            {
-                field_8_damaged_areas.set_bit(CarDeltaBitsEnum::TopRightDoor1_11);
-            }
-            else
-            {
-                field_8_damaged_areas.set_bit(CarDeltaBitsEnum::FrontRightHeadlight_6);
-            }
-        }
-
-        if (!this->field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomLeftDamage_3))
-        {
-            if (HasPopupHeadlights_421700())
-            {
-                field_8_damaged_areas.set_bit(CarDeltaBitsEnum::TopLeftDoor1_28);
-            }
-            else
-            {
-                field_8_damaged_areas.set_bit(CarDeltaBitsEnum::FrontLeftHeadlight_23);
-            }
-        }
-
-        if (HasRoofLight_421660())
-        {
-            this->field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BottomLeftRoofLight_15);
-        }
+        SetHeadlightDeltas_425590();
     }
     this->field_A4_bf.bHeadlights = true;
 }
@@ -3216,31 +3098,12 @@ void Car::HeadlightsOn_43BFE0()
 MATCH_FUNC(0x43c0c0)
 void Car::HeadlightsOff_43C0C0()
 {
-    if (!field_A4_bf.bLightFlashing) // bit 3
+    if (!field_A4_bf.bLightFlashing)
     {
-        if (HasPopupHeadlights_421700()) // bit 1
-        {
-            field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopRightDoor1_11);
-            field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopRightDoor2_12);
-            field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopRightDoor3_13);
-            field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopRightDoor4_14);
-
-            field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopLeftDoor1_28);
-            field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopLeftDoor2_29);
-            field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopLeftDoor3_30);
-            field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopLeftDoor4_31);
-        }
-
-        field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::FrontRightHeadlight_6);
-        field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::FrontLeftHeadlight_23);
-
-        if (HasRoofLight_421660()) // bit 2
-        {
-            field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::BottomLeftRoofLight_15);
-        }
+        ClearHeadlightDeltas_425650();
     }
 
-    field_A4_bf.bHeadlights = false; // bit 1
+    field_A4_bf.bHeadlights = false;
 }
 
 MATCH_FUNC(0x43c1c0)
@@ -3459,78 +3322,20 @@ void Car::StopLightFlashing_43CBE0()
 
     if (field_A4_bf.bHeadlights)
     {
-        if (!this->field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomRightDamage_2))
-        {
-            if (HasPopupHeadlights_421700())
-            {
-                field_8_damaged_areas.set_bit(CarDeltaBitsEnum::TopRightDoor1_11);
-            }
-            else
-            {
-                field_8_damaged_areas.set_bit(CarDeltaBitsEnum::FrontRightHeadlight_6);
-            }
-        }
-
-        if (!this->field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomLeftDamage_3))
-        {
-            if (HasPopupHeadlights_421700())
-            {
-                field_8_damaged_areas.set_bit(CarDeltaBitsEnum::TopLeftDoor1_28);
-            }
-            else
-            {
-                field_8_damaged_areas.set_bit(CarDeltaBitsEnum::FrontLeftHeadlight_23);
-            }
-        }
-
-        if (HasRoofLight_421660())
-        {
-            this->field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BottomLeftRoofLight_15);
-        }
+        SetHeadlightDeltas_425590();
     }
     else
     {
-        if (HasPopupHeadlights_421700())
-        {
-            this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopRightDoor1_11);
-            this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopRightDoor2_12);
-            this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopRightDoor3_13);
-            this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopRightDoor4_14);
-
-            this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopLeftDoor1_28);
-            this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopLeftDoor2_29);
-            this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopLeftDoor3_30);
-            this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::TopLeftDoor4_31);
-        }
-
-        this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::FrontRightHeadlight_6);
-        this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::FrontLeftHeadlight_23);
-
-        if (HasRoofLight_421660())
-        {
-            this->field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::BottomLeftRoofLight_15);
-        }
+        ClearHeadlightDeltas_425650();
     }
 
-    // Braking?
     if (this->field_A4_bf.bBrakeLights)
     {
-        if (!this->field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDamage_1))
-        {
-            this->field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BackRightBrakeLight_5);
-        }
-
-        if (!this->field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopLeftDamage_0))
-        {
-            this->field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BackLeftBrakeLight_22);
-            this->field_8E_flash_count = 0;
-            return;
-        }
+        SetBrakeLightDeltas_4213D0();
     }
     else
     {
-        field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::BackRightBrakeLight_5);
-        field_8_damaged_areas.clear_bit(CarDeltaBitsEnum::BackLeftBrakeLight_22);
+        ClearBrakeLightDeltas_421430();
     }
 
     this->field_8E_flash_count = 0;
@@ -3673,47 +3478,12 @@ void Car::RepairDamage_43D400()
 
     if (this->field_A4_bf.bHeadlights)
     {
-        if (!field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomRightDamage_2))
-        {
-            if (HasPopupHeadlights_421700())
-            {
-                field_8_damaged_areas.set_bit(CarDeltaBitsEnum::TopRightDoor1_11);
-            }
-            else
-            {
-                field_8_damaged_areas.set_bit(CarDeltaBitsEnum::FrontRightHeadlight_6);
-            }
-        }
-
-        if (!field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::BottomLeftDamage_3))
-        {
-            if (HasPopupHeadlights_421700())
-            {
-                field_8_damaged_areas.set_bit(CarDeltaBitsEnum::TopLeftDoor1_28);
-            }
-            else
-            {
-                field_8_damaged_areas.set_bit(CarDeltaBitsEnum::FrontLeftHeadlight_23);
-            }
-        }
-
-        if (HasRoofLight_421660())
-        {
-            this->field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BottomLeftRoofLight_15);
-        }
+        SetHeadlightDeltas_425590();
     }
 
     if (this->field_A4_bf.bBrakeLights)
     {
-        if (!this->field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopRightDamage_1))
-        {
-            this->field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BackRightBrakeLight_5);
-        }
-
-        if (!this->field_8_damaged_areas.mask_bit(CarDeltaBitsEnum::TopLeftDamage_0))
-        {
-            this->field_8_damaged_areas.set_bit(CarDeltaBitsEnum::BackLeftBrakeLight_22);
-        }
+        SetBrakeLightDeltas_4213D0();
     }
 
     field_0_attachments.CleanupSpriteList_5A7080();
