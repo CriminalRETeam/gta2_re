@@ -696,7 +696,7 @@ bool Object::TryStartSlide_5233A0(Fix16 value)
 }
 
 MATCH_FUNC(0x523440)
-void Object::HandleCollisionOutcome_523440(Fix16_Point point, char_type bHitFloorBelow, char_type bHitBlockAtZ)
+void Object::HandleCollisionOutcome_523440(Fix16_Point point, bool bHitFloorBelow, bool bHitBlockAtZ)
 {
     if (static_cast<u8>(field_4_sprite->IsOnWater_59E1D0()))
     {
@@ -751,7 +751,7 @@ void Object::HandleCollisionOutcome_523440(Fix16_Point point, char_type bHitFloo
 }
 
 MATCH_FUNC(0x5235b0)
-bool Object::HandleSpriteGroundAndCollision_5235B0(Sprite* pSprite, Fix16_Point* pPoint, u8* pHit, Fix16 found_z)
+bool Object::HandleSpriteGroundAndCollision_5235B0(Sprite* pSprite, Fix16_Point* pPoint, bool* pHit, Fix16 found_z)
 {
     Fix16 ground_z;
     bool bOnGround;
@@ -799,7 +799,7 @@ bool Object::HandleSpriteGroundAndCollision_5235B0(Sprite* pSprite, Fix16_Point*
     if (pSprite->CheckSpriteMovementRegion_5A2500())
     {
         *pPoint = pSprite->get_x_y();
-        *pHit = 1;
+        *pHit = true;
         ComputeWallHitSide_524550();
         return true;
     }
@@ -819,7 +819,7 @@ bool Object::HandleSpriteGroundAndCollision_5235B0(Sprite* pSprite, Fix16_Point*
 
 // https://decomp.me/scratch/soZJL
 MATCH_FUNC(0x523770)
-bool Object::HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite, Fix16_Point* pPoint, u8* pHit, u8* pHit2)
+bool Object::HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite, Fix16_Point* pPoint, bool* pHit, bool* pHit2)
 {
     field_10_obj_3c->field_2A_bAirborne = 1;
 
@@ -833,7 +833,7 @@ bool Object::HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite, Fix16_
 
     if (pSprite->CheckMapZCollision_5A21F0())
     {
-        *pHit2 = 1;
+        *pHit2 = true;
         field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
         field_10_obj_3c->field_1C_z_accel = kFpZero_6F8E10;
         if (field_8_definition->field_50_z_collision_response == 4)
@@ -846,7 +846,7 @@ bool Object::HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite, Fix16_
     {
         field_10_obj_3c->field_14_saved_speed = field_10_obj_3c->field_C_speed;
         *pPoint = pSprite->get_x_y();
-        *pHit = 1;
+        *pHit = true;
         ComputeWallHitSide_524550();
         return true;
     }
@@ -856,7 +856,7 @@ bool Object::HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite, Fix16_
         {
             field_10_obj_3c->field_14_saved_speed = field_10_obj_3c->field_C_speed;
             *pPoint = pSprite->get_x_y();
-            *pHit = 1;
+            *pHit = true;
         }
         else
         {
@@ -873,7 +873,7 @@ bool Object::HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite, Fix16_
 
 // https://decomp.me/scratch/1RN5H
 MATCH_FUNC(0x5238B0)
-bool Object::HandleSpriteZCollision_5238B0(Sprite* pSprite, Fix16_Point* pPoint, u8* pHit, u8* pHit2, Fix16 found_z)
+bool Object::HandleSpriteZCollision_5238B0(Sprite* pSprite, Fix16_Point* pPoint, bool* pHit, bool* pHit2, Fix16 found_z)
 {
     Fix16 ground_z;
     bool bOverGap = false;
@@ -1028,10 +1028,10 @@ void Object::IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 angle)
     // constructed (EH state 1 is set after the byte stores)
     Ang16 prev_rotation(0);
     Fix16 mov_speed_copy = mov_speed;
-    u8 bHitSomething = 0;
-    u8 bHitBlockAtZ = 0;
-    u8 bHitWall = false;
-    char_type bHandled = 0;
+    bool bHitSomething = false;
+    bool bHitBlockAtZ = false;
+    bool bHitWall = false;
+    bool bHandled = false;
     Fix16_Point point;
     Fix16_Point point2;
     Fix16 step_count;
