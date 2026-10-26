@@ -123,7 +123,7 @@ struct sound_0x68
     char_type field_53_unused;
     Fix16 field_54_sound_intensity;
     s32 field_58_type;
-    sound_0x68* field_5C;
+    sound_0x68* field_5C_pReleaseSource;
     u8 field_60_nEmittingVolume;
     char_type field_61_unused;
     char_type field_62_unused;
