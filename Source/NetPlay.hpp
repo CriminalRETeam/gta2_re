@@ -157,8 +157,8 @@ struct Network_InputPacket
     s32 field_C_len;
     u8 field_10_used;
     char_type field_11_game_tick; // mod 256
-    char field_12_unused;
-    char field_13_unused;
+    char_type field_12_unused;
+    char_type field_13_unused;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Network_InputPacket, 0x14);
 
@@ -263,10 +263,10 @@ struct NetPlay
     }
 
     //s32 field_0_vtbl;
-    char field_4_bModem;
-    char field_5_modem_num;
-    char field_6_unused;
-    char field_7_unused;
+    char_type field_4_bModem;
+    char_type field_5_modem_num;
+    char_type field_6_unused;
+    char_type field_7_unused;
     GUID field_8_ip_or_ipx_guid;
     s32 field_18_unused;
     s32 field_1C_unused;
@@ -293,10 +293,10 @@ struct NetPlay
     s32 field_8E4_pReceivedDataBuffer; // 0x1800 of alloc size
     s32 field_8E8_time;
     s32 field_8EC_unused;
-    char field_8F0_receive_disabled; // Receive_51F010 and ReceiveGameMessage_521890 always returns false if this var is true
-    char field_8F1_unused;
-    char field_8F2_unused;
-    char field_8F3_unused;
+    char_type field_8F0_receive_disabled; // Receive_51F010 and ReceiveGameMessage_521890 always returns false if this var is true
+    char_type field_8F1_unused;
+    char_type field_8F2_unused;
+    char_type field_8F3_unused;
     s32 field_8F4_time_diff;
     Network_InputPacket field_8F8_packets[48];
     s32 field_CB8_count;
