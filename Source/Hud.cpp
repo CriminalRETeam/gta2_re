@@ -1587,7 +1587,7 @@ void Hud_Message::DrawMessage_5D1940()
 }
 
 MATCH_FUNC(0x5d1a00)
-void Hud_Message::ShowMessage_5D1A00(wchar_t* pStr, s32 priority)
+void Hud_Message::ShowMessage_5D1A00(const wchar_t* pStr, s32 priority)
 {
     if (field_0_time_to_show <= 0 || priority >= field_1C4_priority)
     {
@@ -1691,19 +1691,19 @@ bool Hud_TextEntry::DecrementDisplayTime_5D1DB0()
 }
 
 MATCH_FUNC(0x5d1e10)
-bool Hud_TextEntry::operator_equals_5D1E10(Hud_TextEntry* pOther)
+bool Hud_TextEntry::operator_equals_5D1E10(const Hud_TextEntry* pOther) const
 {
     return field_A4_display_time > 0 && pOther != this && field_A8_x == pOther->field_A8_x && field_AA_y == pOther->field_AA_y &&
         field_AC_fontType == pOther->field_AC_fontType && !wcscmp(field_0_str_buf, pOther->field_0_str_buf);
 }
 
 MATCH_FUNC(0x5d1eb0)
-void Hud_TextList::ExpireDuplicates_5D1EB0(Hud_TextEntry* String2)
+void Hud_TextList::ExpireDuplicates_5D1EB0(const Hud_TextEntry* pEntry)
 {
     Hud_TextEntry* pIter = field_960_pFirst;
     while (pIter)
     {
-        if (pIter->operator_equals_5D1E10(String2))
+        if (pIter->operator_equals_5D1E10(pEntry))
         {
             pIter->Expire_4C70F0();
             return;
@@ -2583,10 +2583,10 @@ void Hud::CalcCarNameTextWidth_5D5190()
 }
 
 MATCH_FUNC(0x5d5240)
-void Hud::ShowCarName_5D5240(wchar_t* Source)
+void Hud::ShowCarName_5D5240(const wchar_t* pName)
 {
     field_0_car_name.field_0_display_time = 120;
-    wcscpy(field_0_car_name.field_2_car_name, Source);
+    wcscpy(field_0_car_name.field_2_car_name, pName);
     gText_0x14_704DFC->StrToUpper_5B5B80(field_0_car_name.field_2_car_name);
     Hud::CalcCarNameTextWidth_5D5190();
     field_0_car_name.field_48_ypos = -17;
