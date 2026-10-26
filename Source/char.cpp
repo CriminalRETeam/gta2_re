@@ -2838,10 +2838,10 @@ bool Char::CanMoveToTile_54C500(char_type x, char_type y)
     // Pure horizontal
     if (dx != 0)
     {
-        return (dx == -1) ? Char::CanMoveOntoSlope_54C1A0(4) : Char::CanMoveOntoSlope_54C1A0(3);
+        return (dx == -1) ? Char::CanMoveOntoSlope_54C1A0(path_direction::left_4) : Char::CanMoveOntoSlope_54C1A0(path_direction::right_3);
     }
 
-    return (dy == -1) ? Char::CanMoveOntoSlope_54C1A0(1) : Char::CanMoveOntoSlope_54C1A0(2);
+    return (dy == -1) ? Char::CanMoveOntoSlope_54C1A0(path_direction::up_1) : Char::CanMoveOntoSlope_54C1A0(path_direction::down_2);
 }
 
 MATCH_FUNC(0x54c580)
@@ -3852,16 +3852,16 @@ bool Char::CanStepForwardWithRegionCheck_54ECB0(s32 direction)
 
     switch (direction)
     {
-        case 1:
+        case path_direction::up_1:
             block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt(), ypos.ToInt() - 1, new_zpos);
             break;
-        case 3:
+        case path_direction::right_3:
             block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt() + 1, ypos.ToInt(), new_zpos);
             break;
-        case 2:
+        case path_direction::down_2:
             block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt(), ypos.ToInt() + 1, new_zpos);
             break;
-        case 4:
+        case path_direction::left_4:
             block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt() - 1, ypos.ToInt(), new_zpos);
             break;
         default:
@@ -4317,16 +4317,16 @@ bool Char::CanStepForward_54FEC0(s32 direction)
 
     switch (direction)
     {
-        case 1:
+        case path_direction::up_1:
             block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt(), ypos.ToInt() - 1, check_z);
             break;
-        case 3:
+        case path_direction::right_3:
             block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt() + 1, ypos.ToInt(), check_z);
             break;
-        case 2:
+        case path_direction::down_2:
             block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt(), ypos.ToInt() + 1, check_z);
             break;
-        case 4:
+        case path_direction::left_4:
             block_type = gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(xpos.ToInt() - 1, ypos.ToInt(), check_z);
             break;
         default:
@@ -5214,7 +5214,7 @@ void Char::ChooseNextMovementTile_551400()
                 }
             }
 
-            if (saved_direction == 1)
+            if (saved_direction == path_direction::up_1)
             {
                 field_72_next_tile_x = gCharB4_Saved_TileX_6FDAD8;
                 field_73_next_tile_y = gCharB4_Saved_TileY_6FDAD9 + 1;
@@ -5274,7 +5274,7 @@ void Char::ChooseNextMovementTile_551400()
                 }
             }
 
-            if (saved_direction == 3)
+            if (saved_direction == path_direction::right_3)
             {
                 field_72_next_tile_x = gCharB4_Saved_TileX_6FDAD8 - 1;
                 field_73_next_tile_y = gCharB4_Saved_TileY_6FDAD9;
@@ -5340,7 +5340,7 @@ void Char::SelectNextTileFast_5516F0()
                 }
             }
 
-            if (saved_direction == 1)
+            if (saved_direction == path_direction::up_1)
             {
                 field_72_next_tile_x = gCharB4_Saved_TileX_6FDAD8;
                 field_73_next_tile_y = gCharB4_Saved_TileY_6FDAD9 + 1;
@@ -5396,7 +5396,7 @@ void Char::SelectNextTileFast_5516F0()
                 }
             }
 
-            if (saved_direction == 3)
+            if (saved_direction == path_direction::right_3)
             {
                 field_72_next_tile_x = gCharB4_Saved_TileX_6FDAD8 - 1;
                 field_73_next_tile_y = gCharB4_Saved_TileY_6FDAD9;
