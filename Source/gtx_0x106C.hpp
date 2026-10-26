@@ -30,15 +30,15 @@ struct sprite_base
 struct font_base
 {
     u16 field_0_font_count;
-    u16 field_2_base[1]; // variable � see font_count
+    u16 field_2_base[1]; // variable, see font_count
 };
 
 struct sprite_index
 {
     EXPORT void ClearPixelsOfColour_5ABAA0(u8 clear_target);
-    EXPORT void CopyPixels_5ABB00(u8* dst_x);
+    EXPORT void CopyPixels_5ABB00(u8* pDst);
 
-    BYTE* field_0_pData;
+    u8* field_0_pData;
     u8 field_4_width;
     u8 field_5_height;
     s16 field_6_pad;
@@ -115,9 +115,9 @@ class car_info
     s8 rear_window_offset;
     BYTE info_flags;
     BYTE info_flags_2;
-    BYTE remap[1]; // [variable � see num_remaps];
+    BYTE remap[1]; // [variable, see num_remaps];
     BYTE num_doors;
-    door_info doors[1]; // [variable � see num_doors];
+    door_info doors[1]; // [variable, see num_doors];
 
     bool has_remaps() const
     {
@@ -160,7 +160,7 @@ struct delta_store_entry
 {
     u16 field_0_offset;
     u8 field_2_len;
-    u8 field_3_data[1]; // variable � see field_2_len
+    u8 field_3_data[1]; // variable, see field_2_len
 };
 
 struct sprite_delta
@@ -203,13 +203,12 @@ enum
     metal_wall = 9,
     grass_dirt_wall = 10,
 };
-//static_assert(sizeof(tile_spec) == 1)
 } // namespace tile_spec
 
 class gtx_0x106C
 {
   public:
-    inline bool IsRemappedWaterTile_49E540(u16 spec_idx)
+    inline bool IsRemappedWaterTile_49E540(u16 spec_idx) const
     {
         if (field_6C_spec[spec_idx] == spec_surface_type_enum::spec_water && IsTileRemapped_5AA850(spec_idx))
         {
@@ -221,26 +220,26 @@ class gtx_0x106C
     // 9.6f 0x4C03D0 (a ctor of the spec array there)
     inline void ResetSpecs_4C03D0()
     {
-        for (int i = 0; i < GTA2_COUNTOF(field_6C_spec); i++)
+        for (s32 i = 0; i < GTA2_COUNTOF(field_6C_spec); i++)
         {
             field_6C_spec[i] = 1;
         }
     }
 
     // 9.6f 0x462FB0
-    inline bool IsWaterTile_462FB0(u16 spec_idx)
+    inline bool IsWaterTile_462FB0(u16 spec_idx) const
     {
         return field_6C_spec[spec_idx] == spec_surface_type_enum::spec_water;
     }
 
     // 9.6f 0x42A810
-    inline bool IsRoadTile_42A810(u16 spec_idx)
+    inline bool IsRoadTile_42A810(u16 spec_idx) const
     {
         return field_6C_spec[spec_idx] == spec_surface_type_enum::spec_road_special;
     }
 
     // 9.6f 0x462FD0
-    inline s32 GetSpecIgnoringRoadJunction_462FD0(u16 spec_idx)
+    inline s32 GetSpecIgnoringRoadJunction_462FD0(u16 spec_idx) const
     {
         s32 result = field_6C_spec[spec_idx];
         if (result == 3)
@@ -251,7 +250,7 @@ class gtx_0x106C
     }
 
     // 9.6f 0x49E570
-    inline bool IsUnremappedWaterTile_49E570(u16 spec_idx)
+    inline bool IsUnremappedWaterTile_49E570(u16 spec_idx) const
     {
         if (field_6C_spec[spec_idx] == spec_surface_type_enum::spec_water && !IsTileRemapped_5AA850(spec_idx))
         {
@@ -263,64 +262,64 @@ class gtx_0x106C
     // inline
     bool has_tiles_4C2EE0() const
     {
-        return field_3C_tiles != 0;
+        return field_3C_tiles != NULL;
     }
 
     // inline
-    u8* get_tile_4C2EB0(u16 tile_num)
+    u8* get_tile_4C2EB0(u16 tile_num) const
     {
         return &field_3C_tiles[(((tile_num & ~3) * 64) + (tile_num & 3)) * 64];
     }
 
-    inline u8 get_sprite_width_420220(u16 sprite_idx)
+    inline u8 get_sprite_width_420220(u16 sprite_idx) const
     {
         return get_sprite_index_5AA440(sprite_idx)->field_4_width;
     }
 
-    inline u8 get_sprite_height_4C6C90(u16 sprite_idx)
+    inline u8 get_sprite_height_4C6C90(u16 sprite_idx) const
     {
         return get_sprite_index_5AA440(sprite_idx)->field_5_height;
     }
 
-    EXPORT car_info* get_car_info_5AA3B0(u8 idx);
+    EXPORT car_info* get_car_info_5AA3B0(u8 idx) const;
 
-    EXPORT BYTE* get_car_door_data_5AA3D0(u8 idx);
+    EXPORT u8* get_car_door_data_5AA3D0(u8 idx) const;
 
-    EXPORT sprite_delta* get_delta_5AA3F0(u16 sprite_idx, u8 delta_idx);
+    EXPORT sprite_delta* get_delta_5AA3F0(u16 sprite_idx, u8 delta_idx) const;
 
-    EXPORT sprite_index* get_sprite_index_5AA440(u16 idx);
+    EXPORT sprite_index* get_sprite_index_5AA440(u16 idx) const;
 
-    EXPORT u16 GetSpriteTrueIndex_5AA460(s32 sprite_type, s16 sprite_pal);
+    EXPORT u16 GetSpriteTrueIndex_5AA460(s32 sprite_type, s16 sprite_idx) const;
 
-    EXPORT s16 GetSpriteBaseOfType_5AA4F0(s32 sprite_type);
+    EXPORT s16 GetSpriteBaseOfType_5AA4F0(s32 sprite_type) const;
 
-    EXPORT s16 GetPaletteBaseOfType_5AA560(s32 palette_type);
+    EXPORT s16 GetPaletteBaseOfType_5AA560(s32 palette_type) const;
 
-    EXPORT s16 GetTruePalette_5AA5F0(s32 palette_type, s16 pal); // maybe "get virtual palette"?
+    EXPORT s16 GetTruePalette_5AA5F0(s32 palette_type, s16 pal) const; // maybe "get virtual palette"?
 
-    EXPORT BYTE* GetPalData_5AA6A0(u16 palette_idx);
+    EXPORT u8* GetPalData_5AA6A0(u16 palette_idx) const;
 
-    EXPORT u16 get_phys_pal_5AA6F0(u16 palId);
+    EXPORT u16 get_phys_pal_5AA6F0(u16 palId) const;
 
-    EXPORT u16 GetSpriteIdxFromFont_5AA710(u16 font_type, s16 offset);
+    EXPORT u16 GetSpriteIdxFromFont_5AA710(u16 font_type, s16 offset) const;
 
-    EXPORT u16 GetFontWidth_5AA760(u16* font_type, wchar_t* pStr);
+    EXPORT u16 GetFontWidth_5AA760(const u16* font_type, const wchar_t* pStr) const;
 
-    EXPORT u16 GetSpaceCharWidth_5AA7B0(u16* font_type);
+    EXPORT u16 GetSpaceCharWidth_5AA7B0(const u16* font_type) const;
 
-    EXPORT s16 GetLineSpacing_5AA800(u16* font_type);
+    EXPORT s16 GetLineSpacing_5AA800(const u16* font_type) const;
 
-    EXPORT bool IsTileRemapped_5AA850(u16 tile_idx);
+    EXPORT bool IsTileRemapped_5AA850(u16 tile_idx) const;
 
-    EXPORT s16 GetTile_5AA870(u16 tile_idx);
+    EXPORT s16 GetTile_5AA870(u16 tile_idx) const;
 
-    EXPORT s16 GetFirstFreeReservedTileIdx_5AA890();
+    EXPORT s16 GetFirstFreeReservedTileIdx_5AA890() const;
 
-    EXPORT void* GetTiles_5AA8C0();
+    EXPORT void* GetTiles_5AA8C0() const;
 
-    EXPORT u16 get_physical_palettes_len_5AA900();
+    EXPORT u16 get_physical_palettes_len_5AA900() const;
 
-    EXPORT object_info* get_map_object_info_5AA910(u16 idx);
+    EXPORT object_info* get_map_object_info_5AA910(u16 idx) const;
 
     EXPORT void SetTileRemap_5AA930(u16 tile_idx, s16 tile_val);
 
@@ -362,7 +361,7 @@ class gtx_0x106C
 
     EXPORT void load_font_base_5AB0F0(u32 fonb_chunk_size);
 
-    EXPORT static u16 __stdcall SumCounts_5AB1A0(u16* pOffsets, u32 offsetsCount);
+    EXPORT static u16 __stdcall SumCounts_5AB1A0(const u16* pOffsets, u32 offsetsCount);
 
     EXPORT static void __stdcall ConvertToVirtualOffsets_5AB1C0(u16* pBuffer, u32 len);
 
@@ -370,15 +369,15 @@ class gtx_0x106C
 
     EXPORT void load_palete_base_5AB2C0(u32 palette_base_chunk_len);
 
-    EXPORT bool IsCarModelInRecycleList_5AB380(u8 car_id);
+    EXPORT bool IsCarModelInRecycleList_5AB380(u8 car_id) const;
 
     EXPORT void load_car_recycling_info_5AB3C0(u32 recy_chunk_size);
 
-    EXPORT void read_spec_5AB3F0(u32 read_size2);
+    EXPORT void read_spec_5AB3F0(u32 spec);
 
     EXPORT void load_spec_5AB450();
 
-    EXPORT void LoadChunk_5AB4B0(const char_type* Str1, u32 chunk_len);
+    EXPORT void LoadChunk_5AB4B0(const char_type* pChunkType, u32 chunk_len);
 
     EXPORT void SetDataPtrs_5AB720();
 
@@ -397,17 +396,17 @@ class gtx_0x106C
     }
 
     // inlined v9.6f, 0x420200
-    bool does_car_exist(u8 iParm1) const
+    bool does_car_exist(u8 model_idx) const
     {
-        return field_5C_cari->field_0_car_info[iParm1] != NULL;
+        return field_5C_cari->field_0_car_info[model_idx] != NULL;
     }
 
-    inline bool IsElectrifiedFloorType_491F80(u16 tile_idx)
+    inline bool IsElectrifiedFloorType_491F80(u16 tile_idx) const
     {
         return field_6C_spec[tile_idx] == spec_surface_type_enum::spec_electrified;
     }
 
-    inline car_info* get_car_info_4BF1F0(u8 model_idx)
+    inline car_info* get_car_info_4BF1F0(u8 model_idx) const
     {
         return field_5C_cari->field_0_car_info[model_idx];
     }
@@ -442,7 +441,7 @@ class gtx_0x106C
     s32 field_60_delta_len;
     u8* field_64_car_recycling_info;
     s16 field_68_recy_chunk_size;
-    char_type field_6A_palettes_converted;
+    bool field_6A_palettes_converted;
     char_type field_6B_unused;
     s32 field_6C_spec[1024];
 };

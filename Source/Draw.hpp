@@ -19,7 +19,7 @@ EXPORT s32 __stdcall GetLineSpacingFromFontType_5D7700(u16 font_type);
 
 EXPORT void __stdcall DrawText_5D7720(const wchar_t* pStr, Fix16 xoff, Fix16 yoff, u16 fontType, const s32& palette_type, u16 palette, s32 alpha, u8 alpha_flag);
 
-EXPORT void __stdcall DrawTextScaled_5D77A0(wchar_t* pText, Fix16 xpos, Fix16 ypos, u16 font_type);
+EXPORT void __stdcall DrawTextScaled_5D77A0(const wchar_t* pText, Fix16 xpos, Fix16 ypos, u16 font_type);
 
 EXPORT void __stdcall ConvertColourBanks_5D7CB0();
 EXPORT void __stdcall ConvertColourBanks_5D7CC0();
@@ -36,7 +36,7 @@ EXPORT void __stdcall DrawFigure_5D7EC0(s32 sprite_type,
                                  s16 palette,
                                  s32 alpha_value,
                                  u8 flags,
-                                 char_type bNoTextureFiltering);
+                                 bool bNoTextureFiltering);
 
 EXPORT s32 __stdcall CalcQuadFlags_5D83E0(s32 mode, u8 alpha);
 
@@ -49,8 +49,6 @@ EXPORT void __stdcall DrawText_5D8A10(const wchar_t* pText,
                                       u16 og_palette,
                                       s32 alpha_value,
                                       u8 flags);
-
-//extern u16 gStyleTextFont_703BAA; //EXTERN_GLOBAL(u16, gStyleTextFont_703BAA);
 
 EXPORT void __stdcall DrawTexture_5D8470(STexture* pTexture,
                                  Fix16 x_pos,
@@ -76,4 +74,4 @@ inline s32 __stdcall GetCharWidth_4539D0(u16 font_type, wchar_t chr)
     return static_cast<u16>(gGtx_0x106C_703DD4->GetFontWidth_5AA760(&font_type, &chr));
 }
 
-EXPORT s32 __stdcall CountLineSpacing_5D8940(wchar_t* pStr, u16 font_type);
+EXPORT s32 __stdcall CountLineSpacing_5D8940(const wchar_t* pStr, u16 font_type);

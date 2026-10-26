@@ -20,7 +20,7 @@ template <class T> class vector
 template <class T> class set
 {
     void* mHead;
-    unsigned int mSize;
+    u32 mSize;
 };
 } // namespace std
 #endif
@@ -33,10 +33,10 @@ struct Vert;
 struct SLight;
 struct SImage;
 
-typedef void (CC* T_ConvertColourBank)(BYTE* pPalData);
+typedef void (CC* T_ConvertColourBank)(BYTE* pPalette);
 typedef s32 (CC* T_DrawLine)(s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
 typedef void (CC* T_SetShadeTableA)(s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
-typedef s32* (CC* T_MakeScreenTable)(s32 result, s32 element_size, u32 size);
+typedef s32* (CC* T_MakeScreenTable)(s32 pPixels, s32 pitch, u32 height);
 typedef s32 (CC* T_gbh_AddLight)(SLight* pLight);
 typedef void (CC* T_gbh_AssignPalette)(STexture* pTexture, s32 palId);
 typedef void (CC* T_gbh_BeginLevel)();
@@ -51,7 +51,7 @@ typedef u32 (CC* T_gbh_ConvertColour)(u8 a1, u8 a2, u8 a3);
 typedef s32 (CC* T_gbh_DrawFlatRect)(Vert* pVerts, s32 colour);
 typedef void (CC* T_gbh_DrawQuad)(s32 flags, STexture* pTexture, Vert* pVerts, s32 baseColour);
 typedef void (CC* T_gbh_DrawQuadClipped)(s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
-typedef int(CC* T_gbh_DrawTile)(u32 flags, STexture* pTexture, Vert* pData, u8 diffuseColour);
+typedef s32(CC* T_gbh_DrawTile)(u32 flags, STexture* pTexture, Vert* pData, u8 diffuseColour);
 typedef s32 (CC* T_gbh_DrawTilePart)(u32 flags, STexture* pTexture, Vert* pData, s32 diffuseColour);
 typedef void (CC* T_gbh_DrawTriangle)(s32 triFlags, STexture* pTexture, Vert* pVerts, u8 diffuseColour);
 typedef void (CC* T_gbh_EndLevel)();
@@ -71,10 +71,10 @@ typedef s32 (CC* T_gbh_PrintBitmap)(s32 a1, s32 a2);
 typedef u32 (CC* T_gbh_RegisterPalette)(s32 palId, DWORD *pData);
 typedef STexture* (CC* T_gbh_RegisterTexture)(s32 width, s32 height, BYTE* pData, s32 pal_idx, char_type flag);
 typedef void (CC* T_gbh_ResetLights)();
-typedef void (CC* T_gbh_SetAmbient)(float ambient);
-typedef s32 (CC* T_gbh_SetCamera)(float min_x, float min_y, float max_x, float max_y);
+typedef void (CC* T_gbh_SetAmbient)(f32 ambient);
+typedef s32 (CC* T_gbh_SetCamera)(f32 min_x, f32 min_y, f32 max_x, f32 max_y);
 typedef s32 (CC* T_gbh_SetColourDepth)();
-typedef void (CC* T_gbh_SetWindow)(float left, float top, float right, float bottom);
+typedef void (CC* T_gbh_SetWindow)(f32 left, f32 top, f32 right, f32 bottom);
 typedef STexture* (CC* T_gbh_UnlockTexture)(STexture* pTexture);
 
 EXTERN_GLOBAL(T_gbh_InitDLL, pgbh_InitDLL);

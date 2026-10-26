@@ -12,8 +12,8 @@ class DigitTexture
     // inlined 0x4C2F70
     DigitTexture()
     {
-        field_0_pPixelData = 0;
-        field_4_pTexture = 0;
+        field_0_pPixelData = NULL;
+        field_4_pTexture = NULL;
         field_8_height = 0;
         field_A_row_offset = 0;
     }
@@ -34,17 +34,17 @@ class RemapTextureSet
     u16 field_6_remaps_per_sprite;
     s32 field_8_sprite_type;
     s32 field_C_pal_type;
-    char_type field_10_bDoFree;
+    bool field_10_bDoFree;
 
     // inlined 0x4C2F10
     RemapTextureSet()
     {
-        field_0_pTextures = 0;
+        field_0_pTextures = NULL;
         field_4_texture_count = 0;
         field_6_remaps_per_sprite = 0;
         field_8_sprite_type = 0;
         field_C_pal_type = 0;
-        field_10_bDoFree = 0;
+        field_10_bDoFree = false;
     }
 
     EXPORT ~RemapTextureSet();
@@ -55,17 +55,17 @@ class RemapTextureSet
 
     EXPORT void LoadTextures_5B8F00();
 
-    EXPORT STexture* get_texture_5B90A0(s32 sprite_type, s16 sprite_idx);
+    EXPORT STexture* get_texture_5B90A0(s32 sprite_type, s16 sprite_idx) const;
 
-    EXPORT STexture* GetRemappedTexture_5B90D0(s16 sprite_idx, s16 remap);
+    EXPORT STexture* GetRemappedTexture_5B90D0(s16 sprite_idx, s16 remap) const;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(RemapTextureSet, 0x14);
 
 struct TextureCache
 {
     STexture* field_0_tile_textures[1024];
-    char_type field_1000_bFreeCarDamageTextures;
-    char_type field_1001_bFreeTileTextures;
+    bool field_1000_bFreeCarDamageTextures;
+    bool field_1001_bFreeTileTextures;
     STexture* field_1004_car_damage_textures[48];
     DigitTexture field_10C4_digit_textures[96];
     STexture* field_1544_pShared_texture; // 128x128, re-pointed at different pixel data on demand
@@ -79,7 +79,7 @@ struct TextureCache
     s16 field_15D4_next_digit_idx;
     u16 field_15D6_pal_count;
 
-    inline STexture* GetTexture_46BB50(u16& tile_idx)
+    inline STexture* GetTexture_46BB50(const u16& tile_idx) const
     {
         return field_0_tile_textures[tile_idx];
     }
@@ -90,8 +90,8 @@ struct TextureCache
     EXPORT s16 RegisterDigits_5B9220(u16 num_of_digits, u16 palette);
     EXPORT void ReadTextures_5B92E0();
     EXPORT void LoadStyleTextures_5B9350();
-    EXPORT STexture* GetSpriteTexture_5B94F0(s32 sprite_type, u16 sprite_id, s32 palette_type, s16 remap);
-    EXPORT STexture* GetCarDamageTexture_5B95D0(u16 texture_idx);
+    EXPORT STexture* GetSpriteTexture_5B94F0(s32 sprite_type, u16 sprite_id, s32 palette_type, s16 remap) const;
+    EXPORT STexture* GetCarDamageTexture_5B95D0(u16 texture_idx) const;
     EXPORT STexture* GetDigitTexture_5B95F0(u16 idx, u16 row_offset, u16 height);
     EXPORT void SetPal_5B9660(u16 digit_idx, u16 pal_idx);
     EXPORT void SetCarDamageTextureSizeAndPalette_5B96B0(u16 texture_idx, u16 new_width, u16 new_height, u16 pal);
