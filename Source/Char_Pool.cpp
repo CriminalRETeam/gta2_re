@@ -233,15 +233,12 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
                 gNumberCarThiefsSpawned_6787CB = 1;
                 pPed->SetPedClass_433BC0(ped_class::mugger_or_car_thief_2);
                 pPed->field_288_threat_search = threat_search_enum::area_2;
-                //v13 = pPed->field_21C;
                 pPed->set_objective_timer_433C80(40);
-                //LOBYTE(v13) = v13 | 8;
                 pPed->set_occupation_403970(ped_ocupation_enum::car_thief);
                 pPed->SetPedType_403920(ped_type::dummy_with_occupation_6);
                 pPed->set_remap_433B90(ped_remap_enum::ped_remap_green_shorts);
                 pPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
                 pPed->field_26C_graphic_type = ped_graphic_type::civilian_0;
-                //pPed->field_21C = v13;
                 pPed->field_21C_bf.bDriveAggressively = true;
                 pPed->field_1F8_run_speed = kFpFour_678670;
                 break;
@@ -634,7 +631,7 @@ void PedManager::PedsService_4703F0()
 
     gPedPool_6787B8->UpdatePool_445960();
 
-    if (bThreateningPedAdded_6787EF) // 11d: je 128
+    if (bThreateningPedAdded_6787EF)
     {
         bHaveThreateningPeds_6787DA = 1;
     }
@@ -664,14 +661,13 @@ void PedManager::PedsService_4703F0()
     if (bDo_iain_test_67D4E9)
     {
         u16 num_peds = *reinterpret_cast<u32*>(&gNumPedsOnScreen_6787EC); //  TODO: fix me
-        swprintf(tmpBuff_67BD9C, L"num peds on screen : %d",
-                 num_peds); // num peds on screen : %d
+        swprintf(tmpBuff_67BD9C, L"num peds on screen : %d", num_peds);
         gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 64, gDebugFont_706600, 1);
 
         if (gPolice_7B8_6FEE40)
         {
             swprintf(tmpBuff_67BD9C,
-                     L"num police peds in range screen : %d", // num police peds in range screen : %d
+                     L"num police peds in range screen : %d",
                      static_cast<u8>(gPolice_7B8_6FEE40->field_7AD_police_peds_in_range_screen));
             gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 80, gDebugFont_706600, 1);
         }
@@ -820,15 +816,15 @@ Ped* PedManager::SpawnDriver_470B00(Car* pCar)
 {
     Ped* pNewPed = gPedPool_6787B8->Allocate();
     pNewPed->SetPedType_403920(ped_type::dummy_3);
-    pNewPed->set_occupation_403970(ped_ocupation_enum::unknown_2); //unknown_2;
+    pNewPed->set_occupation_403970(ped_ocupation_enum::unknown_2);
     pNewPed->field_16C_car = pCar;
     pNewPed->field_168_game_object = NULL;
     pNewPed->ChangeNextPedState1_45C500(ped_state_1::in_car_10);
     pNewPed->ChangeNextPedState2_45C540(ped_state_2::ped2_driving_10);
     pNewPed->set_enter_car_as_passenger_4039B0(0);
     pNewPed->set_target_car_door_403A70(0);
-    pNewPed->field_288_threat_search = threat_search_enum::area_2; //area_2;
-    pNewPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3; //run_away_3;
+    pNewPed->field_288_threat_search = threat_search_enum::area_2;
+    pNewPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
     pNewPed->set_health_4039A0(100);
     pNewPed->field_26C_graphic_type = ped_graphic_type::civilian_0;
     pCar->SetDriver(pNewPed);
@@ -886,14 +882,14 @@ Ped* PedManager::CreateDummyDriver_470CC0(Car* pCar)
     pNewPed->set_remap_433B90(-1);
     pNewPed->field_26C_graphic_type = ped_graphic_type::civilian_0;
     pNewPed->SetPedType_403920(ped_type::dummy_3);
-    pNewPed->set_occupation_403970(ped_ocupation_enum::unknown_2); //unknown_2;
+    pNewPed->set_occupation_403970(ped_ocupation_enum::unknown_2);
     pNewPed->field_16C_car = pCar;
     pNewPed->field_168_game_object = NULL;
     pNewPed->ChangeNextPedState1_45C500(ped_state_1::in_car_10);
     pNewPed->ChangeNextPedState2_45C540(ped_state_2::ped2_driving_10);
     pNewPed->set_target_car_door_403A70(0);
-    pNewPed->field_288_threat_search = threat_search_enum::area_2; //area_2;
-    pNewPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3; //run_away_3;
+    pNewPed->field_288_threat_search = threat_search_enum::area_2;
+    pNewPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
     pNewPed->set_health_4039A0(100);
     pNewPed->field_26C_graphic_type = ped_graphic_type::civilian_0;
     return pNewPed;
