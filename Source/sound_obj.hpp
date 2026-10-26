@@ -140,7 +140,7 @@ GTA2_ASSERT_SIZEOF_ALWAYS(Sound_Params, 0x8);
 
 class sound_obj
 {
-  public:
+  private:
     bool field_0_bSoundInitialized;
     bool field_1_isPaused;
     bool field_2_service_enabled;
@@ -254,6 +254,7 @@ class sound_obj
     s16 field_5572_unused; // pad?
     s32 field_5574_car_info_idx;
 
+  public:
     EXPORT sound_obj();
 
     // TODO: Ordering
