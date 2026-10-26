@@ -187,7 +187,7 @@ void Train::ReassignTrainHead_578030()
             pTrainCar->AllocCarPhysics_4419E0();
         }
 
-        this->field_C_carriages[this->field_43_idx]->field_58_physics->Init_5637A0();
+        this->field_C_carriages[this->field_43_wagon_count]->field_58_physics->Init_5637A0();
         if (this->field_C_carriages[0]->field_58_physics)
         {
             this->field_C_carriages[0]->AllocCarPhysics_4419E0();
@@ -513,7 +513,7 @@ void Train::ProcessTrainExplosionChain_578670()
             }
         }
 
-        for (u8 car_idx = 0; car_idx < field_43_idx; pWagon++, car_idx++)
+        for (u8 car_idx = 0; car_idx < field_43_wagon_count; pWagon++, car_idx++)
         {
             if (field_38_explosion_timers[car_idx] == -1 && pWagon->field_74_damage >= 32000)
             {

@@ -653,7 +653,7 @@ RouteSearchNode* RouteFinder::NewStartNode_589390(u16 junction_idx)
 MATCH_FUNC(0x589420)
 void RouteFinder::InsertIntoOpenList_589420(RouteSearchNode* pNode)
 {
-    field_CA40_visited[pNode->field_0_idx] = true;
+    field_CA40_visited[pNode->field_0_junction_idx] = true;
 
     if (pNode->field_2_cost < field_A82C_open_list->field_2_cost)
     {
@@ -699,10 +699,10 @@ bool RouteFinder::InitSearch_589480(u8 start_x, u8 start_y, u8 start_z, u8 dest_
 
     if (field_8618_start_idx != 0 && field_861A_dest_idx != 0)
     {
-        NewStartNode_589390(field_8618_idx);
+        NewStartNode_589390(field_8618_start_idx);
         field_CA40_visited[0] = true;
         field_A82C_open_list = field_861C_nodes;
-        field_CA40_visited[field_8618_idx] = true;
+        field_CA40_visited[field_8618_start_idx] = true;
         return true;
     }
     return false;
@@ -736,7 +736,7 @@ bool RouteFinder::InitSearchWithDirection_5895C0(u8 x, u8 y, u8 z, s32 arrow_typ
             NewStartNode_589390(field_8618_start_idx);
             field_A82C_open_list = pStart;
             field_CA40_visited[0] = true;
-            field_CA40_visited[field_8618_idx] = true;
+            field_CA40_visited[field_8618_start_idx] = true;
 
             pJunction = &field_8_junctions[field_8618_start_idx];
             u16 north = pJunction->field_0_n.GetIndex_0040CE90();
@@ -910,7 +910,7 @@ bool RouteFinder::ExpandNode_5899C0(RouteSearchNode* pNode, s32 arrow_type)
 MATCH_FUNC(0x589bb0)
 bool RouteFinder::ExpandNodeUnlessOffScreen_589BB0(RouteSearchNode* pNode, s32 arrow_type)
 {
-    Junction* pJunction = &field_8_junctions[pNode->field_0_idx];
+    Junction* pJunction = &field_8_junctions[pNode->field_0_junction_idx];
     if (!gGame_0x40_67E008->IsPointOnScreen_4B9A80(pJunction->field_C_min_x, pJunction->field_D_min_y) &&
         !gGame_0x40_67E008->IsPointOnScreen_4B9A80(pJunction->field_E_max_x, pJunction->field_D_min_y) &&
         !gGame_0x40_67E008->IsPointOnScreen_4B9A80(pJunction->field_C_min_x, pJunction->field_F_max_y) &&
@@ -959,7 +959,7 @@ bool RouteFinder::SearchToDest_589E20(s32 arrow_type)
 {
     bool bRet = false;
     RouteSearchNode* pOpenList = this->field_A82C_open_list;
-    if (pOpenList->field_0_idx == this->field_861A_dest_idx)
+    if (pOpenList->field_0_junction_idx == this->field_861A_dest_idx)
     {
         return true;
     }
