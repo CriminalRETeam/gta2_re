@@ -1117,10 +1117,6 @@ void cSampleManager::EndSample_58E960()
 MATCH_FUNC(0x58E980)
 bool cSampleManager::LoadWavSdtData_58E980(const char_type* pRawOrSdtName)
 {
-    FILE* hRawFile;
-    FILE* hRawFile_;
-    u32 rawFileSize;
-    FILE* hSdtFile;
     char_type rawName[80];
     char_type sdtName[80];
 
@@ -1131,28 +1127,27 @@ bool cSampleManager::LoadWavSdtData_58E980(const char_type* pRawOrSdtName)
     strcpy(sdtName, "data\\audio\\");
     strcat(sdtName, pRawOrSdtName);
     strcat(sdtName, ".SDT");
-    hRawFile = fopen(rawName, "rb");
-    hRawFile_ = hRawFile;
+    FILE* hRawFile = fopen(rawName, "rb");
     if (!hRawFile)
     {
         return false;
     }
 
     fseek(hRawFile, 0, SEEK_END);
-    rawFileSize = ftell(hRawFile_);
+    const u32 rawFileSize = ftell(hRawFile);
     if (rawFileSize > 6100000)
     {
-        fclose(hRawFile_);
+        fclose(hRawFile);
         return false;
     }
 
-    rewind(hRawFile_);
-    fread(field_1EA8_pAudioBuffer1, 1u, rawFileSize, hRawFile_);
-    fclose(hRawFile_);
-    hSdtFile = fopen(sdtName, "rb");
+    rewind(hRawFile);
+    fread(field_1EA8_pAudioBuffer1, 1u, rawFileSize, hRawFile);
+    fclose(hRawFile);
+    FILE* hSdtFile = fopen(sdtName, "rb");
     if (!hSdtFile)
     {
-        fclose(hRawFile_);
+        fclose(hRawFile);
     }
 
     fread(field_A8_sdt_entries, sizeof(SdtEntry), 320u, hSdtFile);
