@@ -1187,27 +1187,21 @@ bool PublicTransport::GetTrainSpeed_579B90(Car* pToFind, Fix16* pOutSpeed)
                     case 0:
                         *pOutSpeed = kTrainSpeedState0_6FEEE0;
                         return false;
-                        break;
                     case 1:
                         *pOutSpeed = kTrainSpeedState1And3_6FEED4;
                         return false;
-                        break;
                     case 2:
                         *pOutSpeed = kFpZero_6FF078;
                         return true;
-                        break;
                     case 3:
                         *pOutSpeed = kTrainSpeedState1And3_6FEED4;
                         return true;
-                        break;
                     case 4:
                         *pOutSpeed = kTrainSpeedState4_6FEEDC;
                         return true;
-                        break;
                     case 5:
                         *pOutSpeed = kTrainSpeedState5_6FEEE4;
                         return true;
-                        break;
                     default:
                         break;
                 }
@@ -1478,7 +1472,7 @@ static inline void SetDriverStation(Train* pTrain, TrainStation* pStation)
 MATCH_FUNC(0x57a7a0)
 void PublicTransport::PublicTransportService_57A7A0()
 {
-    u8 bStopped = 0;
+    bool bStopped = false;
     BusesService_579CA0();
     if (!bSkip_trains_67D550)
     {
@@ -1523,15 +1517,15 @@ void PublicTransport::PublicTransportService_57A7A0()
             {
                 case 0:
                 case 1:
-                    bStopped = 1;
+                    bStopped = true;
                     break;
                 case 2:
-                    bStopped = 0;
+                    bStopped = false;
                     break;
                 case 3:
                 case 4:
                 case 5:
-                    bStopped = 1;
+                    bStopped = true;
                     break;
             }
 

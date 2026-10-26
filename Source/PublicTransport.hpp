@@ -121,7 +121,7 @@ class PublicTransport
     TrainStation field_0_stations[100];
     Train field_1450_train_array[10];
     Train field_17C0_bus;
-    char_type field_1818_stop_getting_off_bus;
+    bool field_1818_stop_getting_off_bus;
     char_type field_1819_unused;
     char_type field_181A_unused;
     char_type field_181B_unused;
