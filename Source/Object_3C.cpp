@@ -300,10 +300,10 @@ void SpriteList::AddSprite_5A6CD0(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x5a6d00)
-void SpriteList::PushAttachedSprite_5A6D00(Sprite* pSprite1, Fix16 x, Fix16 y, Ang16 angle)
+void SpriteList::PushAttachedSprite_5A6D00(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 angle)
 {
     AttachedSprite* pAttached = gAttachedSpritePool_703B80->Allocate();
-    pAttached->field_0_pSprite = pSprite1;
+    pAttached->field_0_pSprite = pSprite;
     pAttached->mpNext = field_0_p18;
     pAttached->field_8_offset_x = x;
     pAttached->field_C_offset_y = y;
@@ -312,12 +312,12 @@ void SpriteList::PushAttachedSprite_5A6D00(Sprite* pSprite1, Fix16 x, Fix16 y, A
 }
 
 MATCH_FUNC(0x5a6d40)
-void SpriteList::PushSprite_5A6D40(Sprite* pToFind)
+void SpriteList::PushSprite_5A6D40(Sprite* pSprite)
 {
     AttachedSprite* pIter = this->field_0_p18;
     while (pIter)
     {
-        if (pIter->field_0_pSprite == pToFind)
+        if (pIter->field_0_pSprite == pSprite)
         {
             return;
         }
@@ -325,7 +325,7 @@ void SpriteList::PushSprite_5A6D40(Sprite* pToFind)
     }
 
     AttachedSprite* pNew = gAttachedSpritePool_703B80->Allocate();
-    pNew->field_0_pSprite = pToFind;
+    pNew->field_0_pSprite = pSprite;
 
     pNew->mpNext = this->field_0_p18;
     this->field_0_p18 = pNew;
@@ -400,21 +400,21 @@ AttachedSprite* SpriteList::ClearList_5A6E10()
 }
 
 MATCH_FUNC(0x5a6e40)
-Sprite* SpriteList::FindClosestSprite_5A6E40(Fix16 xOff, Fix16 yOff) const
+Sprite* SpriteList::FindClosestSprite_5A6E40(Fix16 xpos, Fix16 ypos) const
 {
     Fix16 smallest(99999);
 
-    Sprite* new_ret = NULL;
+    Sprite* pClosest = NULL;
     for (AttachedSprite* pIter = this->field_0_p18; pIter; pIter = pIter->mpNext)
     {
-        Fix16 yDelta = Fix16::MaxAbsDistance_42A6B0(xOff, yOff, pIter->field_0_pSprite->field_14_xy.x, pIter->field_0_pSprite->field_14_xy.y);
-        if (yDelta < smallest)
+        Fix16 distance = Fix16::MaxAbsDistance_42A6B0(xpos, ypos, pIter->field_0_pSprite->field_14_xy.x, pIter->field_0_pSprite->field_14_xy.y);
+        if (distance < smallest)
         {
-            new_ret = pIter->field_0_pSprite;
-            smallest = yDelta;
+            pClosest = pIter->field_0_pSprite;
+            smallest = distance;
         }
     }
-    return new_ret;
+    return pClosest;
 }
 
 MATCH_FUNC(0x5a6ea0)
@@ -691,30 +691,29 @@ void SpriteList::PruneNonCollidingSprites_5A7240(Sprite* pSprite)
 MATCH_FUNC(0x5a72b0)
 void SpriteList::PropagateMaxZLayer_5A72B0(Sprite* pSprite, bool bAlsoSetSprite)
 {
-    char_type start_val = pSprite->ComputeZLayer_5A1BD0();
-    char_type max_val = start_val;
+    char_type max_layer = pSprite->ComputeZLayer_5A1BD0();
 
     AttachedSprite* pIter;
     for (pIter = this->field_0_p18; pIter; pIter = pIter->mpNext)
     {
         if (pIter->field_0_pSprite->IsTypeAbove1_446950()) // object_5c type
         {
-            const char_type cur_val = pIter->field_0_pSprite->ComputeZLayer_5A1BD0();
-            if (cur_val > max_val)
+            const char_type layer = pIter->field_0_pSprite->ComputeZLayer_5A1BD0();
+            if (layer > max_layer)
             {
-                max_val = cur_val;
+                max_layer = layer;
             }
         }
     }
 
     if (bAlsoSetSprite)
     {
-        pSprite->set_z_col_4BA220(max_val);
+        pSprite->set_z_col_4BA220(max_layer);
     }
 
     for (pIter = this->field_0_p18; pIter; pIter = pIter->mpNext)
     {
-        pIter->field_0_pSprite->set_z_col_4BA220(max_val);
+        pIter->field_0_pSprite->set_z_col_4BA220(max_layer);
     }
 }
 
