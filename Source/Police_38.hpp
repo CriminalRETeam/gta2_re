@@ -51,7 +51,7 @@ class PoliceCrew
     EXPORT void TryDespawnFinishedCrew_571540();
     EXPORT void TryDespawnInCarCrew_571A30();
     EXPORT void HandleShutdownAndDespawn_5720C0();
-    EXPORT bool CanTrackCriminal_572210();
+    EXPORT bool CanTrackCriminal_572210() const;
     EXPORT void State3_AlertedSearch_572340();
     EXPORT void State5_PursueOrChase_572920();
     EXPORT void State6_ShutDown_574720();
@@ -87,7 +87,7 @@ class PoliceCrew
     s16 field_2C_unused;
     char_type field_2E_unused;
     char_type field_2F_unused;
-    s32 field_30_prev_target_ped;
+    Ped* field_30_prev_target_ped;
     bool field_34_is_dismissed;
     u8 field_35_fast_target_counter;
     char_type field_36_unused;
@@ -130,7 +130,7 @@ class PolicePursuitTarget  // Pursuit of one wanted criminal by police crews
     u8 field_71_target_police_crews;
     u8 field_72_num_swat_crews;
     u8 field_73_num_fbi_crews;
-    char_type field_74_num_army_crews;
+    u8 field_74_num_army_crews;
     u8 field_75_num_crews;
     s16 field_76_unused;
     bool field_78_is_actively_chased;

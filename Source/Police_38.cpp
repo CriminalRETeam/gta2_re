@@ -53,7 +53,7 @@ void PoliceCrew::Init_5709C0()
     field_29_bCountedInPoliceCount = false;
     field_2A_unused = 0;
     field_2C_unused = 0;
-    field_30_prev_target_ped = 0;
+    field_30_prev_target_ped = NULL;
     field_34_is_dismissed = false;
 }
 
@@ -618,7 +618,7 @@ void PoliceCrew::HandleShutdownAndDespawn_5720C0()
 // https://decomp.me/scratch/p2NiN
 // MaxAbsDistance_42A6B0 with a by-value max, which keeps the compare in registers
 MATCH_FUNC(0x572210)
-bool PoliceCrew::CanTrackCriminal_572210()
+bool PoliceCrew::CanTrackCriminal_572210() const
 {
     if (field_14_pPursuitTarget->field_0_criminal_ped && !field_34_is_dismissed && field_14_pPursuitTarget->field_C_timer > 0)
     {
@@ -1050,7 +1050,7 @@ void PoliceCrew::State5_PursueOrChase_572920()
                                 field_35_fast_target_counter = 0;
                             }
                         }
-                        else if (pPed->GetInternalTargetPed_403AF0() == reinterpret_cast<Ped*>(field_30_prev_target_ped) && pPed->GetInternalTargetPed_403AF0())
+                        else if (pPed->GetInternalTargetPed_403AF0() == field_30_prev_target_ped && pPed->GetInternalTargetPed_403AF0())
                         {
                             pPed->SetInternalTargetPed_403AE0(field_14_pPursuitTarget->field_0_criminal_ped);
                         }
@@ -1071,7 +1071,7 @@ void PoliceCrew::State5_PursueOrChase_572920()
                     {
                         if (pPed->get_objective_target_ped_403AD0() == pPed->GetInternalTargetPed_403AF0())
                         {
-                            field_30_prev_target_ped = reinterpret_cast<s32>(pPed->get_objective_target_ped_403AD0());
+                            field_30_prev_target_ped = pPed->get_objective_target_ped_403AD0();
                             gCurrentCrewPed_6FEDDC->SetInternalTargetPed_403AE0(field_14_pPursuitTarget->field_0_criminal_ped);
                         }
                         gCurrentCrewPed_6FEDDC->set_objective_target_ped_403AC0(field_14_pPursuitTarget->field_0_criminal_ped);
@@ -2492,7 +2492,7 @@ MATCH_FUNC(0x575ff0)
 bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
 {
     Car* pCar = NULL;
-    u8 bEdge;
+    bool bEdge; // tested with == 1 below: a plain test changes the codegen
     u8 tries;
     u8 width;
     u8 x_start;
@@ -2509,29 +2509,29 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
     {
         // Find the road's edges along y
         x_start = x;
-        bEdge = 0;
+        bEdge = false;
         tries = 0;
         s32 z_below = z - 1;
-        char_type bFound;
+        bool bFound;
         do
         {
-            bFound = 0;
+            bFound = false;
             y--;
             switch (gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(x, y, z_below))
             {
                 case AIR:
-                    bFound = 1;
+                    bFound = true;
                     y++;
                     break;
                 case PAVEMENT:
                 case FIELD:
                     if (!bEdge)
                     {
-                        bEdge = 1;
+                        bEdge = true;
                     }
                     else
                     {
-                        bFound = 1;
+                        bFound = true;
                     }
                     break;
                 case ROAD:
@@ -2554,11 +2554,11 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
             y++;
         }
         y_start = y;
-        bEdge = 0;
+        bEdge = false;
         tries = 0;
         do
         {
-            bFound = 0;
+            bFound = false;
             y++;
             switch (gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(x, y, z_below))
             {
@@ -2569,26 +2569,26 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
                     if (!bEdge)
                     {
                         width++;
-                        bEdge = 1;
+                        bEdge = true;
                     }
                     else
                     {
-                        bFound = 1;
+                        bFound = true;
                     }
                     break;
                 case FIELD:
                     if (!bEdge)
                     {
                         width++;
-                        bEdge = 1;
+                        bEdge = true;
                     }
                     else
                     {
-                        bFound = 1;
+                        bFound = true;
                     }
                     break;
                 case AIR:
-                    bFound = 1;
+                    bFound = true;
                     break;
                 case 4:
                     return false;
@@ -2824,29 +2824,29 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
     {
         // Find the road's edges along x
         y_start = y;
-        bEdge = 0;
+        bEdge = false;
         tries = 0;
         s32 z_below = z - 1;
-        char_type bFound;
+        bool bFound;
         do
         {
-            bFound = 0;
+            bFound = false;
             x--;
             switch (gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(x, y, z_below))
             {
                 case AIR:
-                    bFound = 1;
+                    bFound = true;
                     x++;
                     break;
                 case PAVEMENT:
                 case FIELD:
                     if (!bEdge)
                     {
-                        bEdge = 1;
+                        bEdge = true;
                     }
                     else
                     {
-                        bFound = 1;
+                        bFound = true;
                     }
                     break;
                 case ROAD:
@@ -2869,11 +2869,11 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
             x++;
         }
         x_start = x;
-        bEdge = 0;
+        bEdge = false;
         tries = 0;
         do
         {
-            bFound = 0;
+            bFound = false;
             x++;
             switch (gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(x, y, z_below))
             {
@@ -2884,26 +2884,26 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
                     if (!bEdge)
                     {
                         width++;
-                        bEdge = 1;
+                        bEdge = true;
                     }
                     else
                     {
-                        bFound = 1;
+                        bFound = true;
                     }
                     break;
                 case FIELD:
                     if (!bEdge)
                     {
                         width++;
-                        bEdge = 1;
+                        bEdge = true;
                     }
                     else
                     {
-                        bFound = 1;
+                        bFound = true;
                     }
                     break;
                 case AIR:
-                    bFound = 1;
+                    bFound = true;
                     break;
                 case 4:
                     return false;
