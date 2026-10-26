@@ -2671,7 +2671,7 @@ void Ped::Deallocate_45EB60()
     {
         if (field_17C_pGang->field_141_always_basic_weapon)
         {
-            field_17C_pGang->field_141_always_basic_weapon = 0;
+            field_17C_pGang->field_141_always_basic_weapon = false;
         }
     }
     if (field_164_ped_group)
@@ -3777,8 +3777,8 @@ void Ped::Occupation_AI_461F20()
         case ped_ocupation_enum::armed_gang_member_19:
             if (field_25C_internal_objective == objectives_enum::kill_char_on_foot_20 && field_17C_pGang != NULL && field_14C_internal_target_ped->is_player_41B0A0())
             {
-                u8 idx = field_14C_internal_target_ped->field_15C_player->get_idx_4219D0();
-                if (!field_17C_pGang->IsRespectNegativeForPlayer_4BEF10(idx))
+                u8 player_idx = field_14C_internal_target_ped->field_15C_player->get_idx_4219D0();
+                if (!field_17C_pGang->IsRespectNegativeForPlayer_4BEF10(player_idx))
                 {
                     Ped::SetObjective2_463830(objectives_enum::no_obj_0);
                 }
@@ -4053,7 +4053,7 @@ bool Ped::StateMachineTick_4626B0()
                 this->field_240_occupation = ped_ocupation_enum::player;
             }
             this->field_230_jump_over_mode = ped_jump_over_mode::can_jump_2;
-            this->field_15C_player->field_64_jumping = 0;
+            this->field_15C_player->field_64_jumping = false;
 
             if (this->field_168_game_object)
             {
@@ -4086,7 +4086,7 @@ bool Ped::StateMachineTick_4626B0()
                 {
                     this->field_168_game_object->SetSpriteNum_4338F0(25);
                 }
-                if (field_168_game_object->IsOnScreen_545700() == 1)
+                if (field_168_game_object->IsOnScreen_545700() == true)
                 {
                     this->field_20E_offscreen_counter = 0;
                 }
@@ -4116,7 +4116,7 @@ bool Ped::StateMachineTick_4626B0()
                 }
                 if (this->field_168_game_object->GetCharState_433A80() == Char_B4_state::Jumping_15)
                 {
-                    this->field_15C_player->field_64_jumping = 1;
+                    this->field_15C_player->field_64_jumping = true;
                 }
                 return true;
             }
@@ -4446,7 +4446,7 @@ bool Ped::PoolUpdate()
                         field_278_ped_state_1 = ped_state_1::dead_9;
                         field_27C_ped_state_2 = ped_state_2::ped2_dead_15;
                     }
-                    if (field_20E_offscreen_counter > 0xC8u && field_240_occupation != ped_ocupation_enum::paramedic_23 && field_238_ped_type != ped_type::script_created_5)
+                    if (field_20E_offscreen_counter > 200u && field_240_occupation != ped_ocupation_enum::paramedic_23 && field_238_ped_type != ped_type::script_created_5)
                     {
                         Ped::Deallocate_45EB60();
                     }
@@ -4568,25 +4568,25 @@ void Ped::ChangePedStatesByMode_463300(u8 mode)
 MATCH_FUNC(0x4633e0)
 void Ped::SetStatesForObjective_4633E0(bool bMainObj)
 {
-    u8 state = ped_states_mode::unchanged_99;
-    s32 obj;
+    u8 mode = ped_states_mode::unchanged_99;
+    s32 objective;
     if (bMainObj)
     {
-        obj = field_258_objective;
+        objective = field_258_objective;
     }
     else
     {
-        obj = field_25C_internal_objective;
+        objective = field_25C_internal_objective;
     }
-    switch (obj)
+    switch (objective)
     {
         case objectives_enum::no_obj_0:
-            state = field_16C_car ? ped_states_mode::drive_5 : ped_states_mode::walk_1;
+            mode = field_16C_car ? ped_states_mode::drive_5 : ped_states_mode::walk_1;
             break;
         case objectives_enum::flee_on_foot_till_safe_1:
         case objectives_enum::flee_char_on_foot_till_safe_2:
         case objectives_enum::flee_char_on_foot_always_3:
-            state = ped_states_mode::flee_2;
+            mode = ped_states_mode::flee_2;
             break;
         case objectives_enum::guard_spot_24:
         case objectives_enum::guard_area_25:
@@ -4597,7 +4597,7 @@ void Ped::SetStatesForObjective_4633E0(bool bMainObj)
         case objectives_enum::wait_to_cross_x_forwards_45:
         case objectives_enum::wait_to_cross_y_forwards_46:
         case objectives_enum::wait_to_cross_x_backwards_47:
-            state = ped_states_mode::stand_still_4;
+            mode = ped_states_mode::stand_still_4;
             break;
         case objectives_enum::goto_area_in_car_14:
         case objectives_enum::wait_in_car_27:
@@ -4607,15 +4607,15 @@ void Ped::SetStatesForObjective_4633E0(bool bMainObj)
         case objectives_enum::call_police_car_54:
         case objectives_enum::follow_car_in_car_55:
         case objectives_enum::fire_at_object_from_vehicle_57:
-            state = ped_states_mode::drive_5;
+            mode = ped_states_mode::drive_5;
             break;
         case objectives_enum::enter_car_as_driver_35:
         case objectives_enum::enter_train_37:
-            state = ped_states_mode::go_to_car_6;
+            mode = ped_states_mode::go_to_car_6;
             break;
         case objectives_enum::leave_car_36:
         case objectives_enum::leave_train_38:
-            state = field_168_game_object ? ped_states_mode::walk_1 : ped_states_mode::exit_car_7;
+            mode = field_168_game_object ? ped_states_mode::walk_1 : ped_states_mode::exit_car_7;
             break;
         case objectives_enum::run_to_char_7:
         case objectives_enum::follow_char_9:
@@ -4631,13 +4631,13 @@ void Ped::SetStatesForObjective_4633E0(bool bMainObj)
         case objectives_enum::follow_car_on_foot_with_offset_56:
         case objectives_enum::destroy_object_58:
         case objectives_enum::destroy_car_59:
-            state = ped_states_mode::run_to_target_3;
+            mode = ped_states_mode::run_to_target_3;
             break;
         case objectives_enum::objective_8:
         case objectives_enum::kill_frenzy_22:
         case objectives_enum::wait_after_crossing_49:
         case objectives_enum::objective_51:
-            state = ped_states_mode::walk_1;
+            mode = ped_states_mode::walk_1;
             break;
         case objectives_enum::objective_50:
             Ped::ChangeNextPedState1_45C500(ped_state_1::dead_9);
@@ -4646,15 +4646,12 @@ void Ped::SetStatesForObjective_4633E0(bool bMainObj)
         default:
             break;
     }
-    Ped::ChangePedStatesByMode_463300(state);
+    Ped::ChangePedStatesByMode_463300(mode);
 }
 
 MATCH_FUNC(0x463570)
 void Ped::SetObjective(s32 objective, s16 objective_timer)
 {
-    PatrolRoute* pPatrolRoute;
-    PatrolPoint* pPoint;
-
     if (this->field_278_ped_state_1 != ped_state_1::dead_9 || objective == objectives_enum::dead_patient_28)
     {
         this->field_258_objective = objective;
@@ -4727,15 +4724,17 @@ void Ped::SetObjective(s32 objective, s16 objective_timer)
                 break;
 
             case objectives_enum::patrol_on_foot_42:
-                pPatrolRoute = gPatrolRoutePool_6FD784->AllocPatrolList_543F10(&field_265_patrol_list_idx);
+            {
+                PatrolRoute* pPatrolRoute = gPatrolRoutePool_6FD784->AllocPatrolList_543F10(&field_265_patrol_list_idx);
                 field_190_patrol_route = pPatrolRoute;
-                pPoint = pPatrolRoute->field_0_points;
+                PatrolPoint* pPoint = pPatrolRoute->field_0_points;
                 while (pPoint->field_0_x)
                 {
                     pPoint->field_0_x = 0;
                     pPoint++;
                 }
                 break;
+            }
 
             case objectives_enum::goto_area_on_foot_12:
             case objectives_enum::goto_char_on_foot_16:
@@ -6020,7 +6019,7 @@ bool Ped::IsPedAThreat_465D00(Ped* pTargetPed)
                 return true;
             }
 
-            if (pMyGang->field_110_has_high_respect != 0)
+            if (pMyGang->field_110_has_high_respect)
             {
                 switch (pTargetPed->field_240_occupation)
                 {
@@ -6065,7 +6064,7 @@ bool Ped::IsPedAThreat_465D00(Ped* pTargetPed)
 
                     if (this->field_17C_pGang->IsRespectNegativeForPlayer_4BEF10(player_idx))
                     {
-                        if (gPolice_7B8_6FEE40->field_7B4_crew_ped_onscreen == 0)
+                        if (!gPolice_7B8_6FEE40->field_7B4_crew_ped_onscreen)
                         {
                             goto ret_true;
                         }
@@ -6083,7 +6082,7 @@ bool Ped::IsPedAThreat_465D00(Ped* pTargetPed)
 
                 if (this->field_17C_pGang->IsRespectNegativeForPlayer_4BEF10(player_idx))
                 {
-                    if (gPolice_7B8_6FEE40->field_7B4_crew_ped_onscreen == 0)
+                    if (!gPolice_7B8_6FEE40->field_7B4_crew_ped_onscreen)
                     {
                         goto ret_true;
                     }
@@ -7524,8 +7523,8 @@ void Ped::GotoAreaInCar_468310()
             }
 
             this->field_16C_car->field_60_pChaseTask->field_8_task_type = car_task_type::goto_position_1;
-            this->field_16C_car->field_60_pChaseTask->field_22_following_route = 1;
-            this->field_16C_car->field_60_pChaseTask->field_20_can_snap_to_target = 0;
+            this->field_16C_car->field_60_pChaseTask->field_22_following_route = true;
+            this->field_16C_car->field_60_pChaseTask->field_20_can_snap_to_target = false;
             this->field_16C_car->field_60_pChaseTask->field_14_target_x = this->field_1DC_objective_target_x;
             this->field_16C_car->field_60_pChaseTask->field_18_target_y = this->field_1E0_objective_target_y;
             this->field_16C_car->field_60_pChaseTask->field_1C_target_z = this->field_1E4_objective_target_z;
@@ -7539,8 +7538,8 @@ void Ped::GotoAreaInCar_468310()
                     Car* pCar = this->field_16C_car;
                     if (pCar->field_54_driver->field_26C_graphic_type == ped_graphic_type::cop_2)
                     {
-                        pCar->field_60_pChaseTask->field_20_can_snap_to_target = 1;
-                        this->field_16C_car->field_60_pChaseTask->field_22_following_route = 1;
+                        pCar->field_60_pChaseTask->field_20_can_snap_to_target = true;
+                        this->field_16C_car->field_60_pChaseTask->field_22_following_route = true;
                     }
                 }
             }
@@ -7956,7 +7955,7 @@ void Ped::UpdateFollowPedObjective_468E80()
             bUnknown2 = this->field_168_game_object->GetCharState_433A80() == Char_B4_state::Jumping_15 && !this->field_21C_bf.bPanicking;
         }
 
-        if (field_224_bf.bWaitingOnTarget && (this->field_21C_bf.bPanicking || this->field_260_wait_counter > 0xC8u))
+        if (field_224_bf.bWaitingOnTarget && (this->field_21C_bf.bPanicking || this->field_260_wait_counter > 200u))
         {
             this->field_260_wait_counter = 0;
             this->field_224_bf.bWaitingOnTarget = false;
@@ -8035,7 +8034,7 @@ void Ped::UpdateKillerIdTimer_469030()
 MATCH_FUNC(0x469060)
 void Ped::GotoAreaByAnyMeans_469060()
 {
-    u8 bCanAllocate;
+    bool bCanAllocate;
     u8 xpos;
     u8 ypos;
     u8 zpos;
@@ -8196,7 +8195,7 @@ void Ped::GotoAreaByAnyMeans_469060()
                             bCanAllocate = gCarManager_6C_677930->CanAllocateCarOfKind_446930(car_kind::recycled_1);
                             if (bCanAllocate)
                             {
-                                bFound = gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &xpos, &ypos, &zpos, 1);
+                                bFound = gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &xpos, &ypos, &zpos, true);
                             }
                             if (bFound)
                             {
@@ -8250,7 +8249,7 @@ void Ped::GotoAreaByAnyMeans_469060()
                             u8 bFound = 0;
                             if (gCarManager_6C_677930->CanAllocateCarOfKind_446930(car_kind::recycled_1))
                             {
-                                bFound = gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &xpos, &ypos, &zpos, 1);
+                                bFound = gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &xpos, &ypos, &zpos, true);
                             }
                             if (bFound)
                             {
@@ -8308,7 +8307,7 @@ void Ped::GotoAreaByAnyMeans_469060()
         }
         else if (field_21C_bf.bSkipCarSearch && !field_16C_car->field_54_driver)
         {
-            field_16C_car->field_80_abandoned = 1;
+            field_16C_car->field_80_abandoned = true;
             field_16C_car->SetDriverPedType_421560(ped_type::dummy_3);
             Ped::SetObjective2_463830(objectives_enum::leave_car_36);
             field_218_objective_timer = 0;
@@ -8319,7 +8318,7 @@ void Ped::GotoAreaByAnyMeans_469060()
         {
             if (field_16C_car->field_8C_damage_level >= 4)
             {
-                field_16C_car->field_80_abandoned = 1;
+                field_16C_car->field_80_abandoned = true;
                 field_16C_car->SetDriverPedType_421560(ped_type::dummy_3);
                 Ped::SetObjective2_463830(objectives_enum::leave_car_36);
                 field_218_objective_timer = 0;
@@ -8330,7 +8329,7 @@ void Ped::GotoAreaByAnyMeans_469060()
             {
                 if (++field_218_objective_timer > 500)
                 {
-                    field_16C_car->field_80_abandoned = 1;
+                    field_16C_car->field_80_abandoned = true;
                     field_16C_car->SetDriverPedType_421560(ped_type::dummy_3);
                     Ped::SetObjective2_463830(objectives_enum::leave_car_36);
                     field_218_objective_timer = 0;
@@ -8366,9 +8365,9 @@ void Ped::GotoAreaByAnyMeans_469060()
                     target_z = field_1E4_objective_target_z.ToUInt8();
 
                     field_218_objective_timer = 0;
-                    if (!gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &target_x, &target_y, &target_z, 0))
+                    if (!gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &target_x, &target_y, &target_z, false))
                     {
-                        field_16C_car->field_80_abandoned = 1;
+                        field_16C_car->field_80_abandoned = true;
                         field_16C_car->SetDriverPedType_421560(ped_type::dummy_3);
                         Ped::SetObjective2_463830(objectives_enum::leave_car_36);
                         field_218_objective_timer = 0;
@@ -8572,7 +8571,7 @@ void Ped::SetupCarFollowTargetPed_469E50()
         field_16C_car->field_60_pChaseTask->field_30_pTargetPed = field_148_objective_target_ped;
         field_16C_car->ClearAIHalted_421550();
         field_16C_car->field_5C_AI->field_74_max_speed = kFpThree_67866C;
-        field_16C_car->field_60_pChaseTask->field_20_can_snap_to_target = 1;
+        field_16C_car->field_60_pChaseTask->field_20_can_snap_to_target = true;
         if (field_16C_car->field_84_car_info_idx == car_model_enum::JEEP)
         {
             if (gDistanceToTarget_678750 < kFpTwo_678668)
@@ -8628,7 +8627,7 @@ void Ped::CallPoliceCar_469FE0()
         u8 x = this->field_1AC_cam.x.ToUInt8();
         u8 y = this->field_1AC_cam.y.ToUInt8();
         u8 z = this->field_1AC_cam.z.ToUInt8();
-        gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &x, &y, &z, 1);
+        gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &x, &y, &z, true);
         if (gCarManager_6C_677930->CanAllocateCarOfKind_446930(car_kind::Unknown_10))
         {
             pCar = gCarManager_6C_677930->SpawnCarAtRoadDirection_444CF0(car_model_enum::COPCAR, x, y, z);
@@ -8747,7 +8746,6 @@ void Ped::FollowCarInCurrCar_46A290()
     {
         if (!field_16C_car->field_60_pChaseTask)
         {
-            // If no path, create one
             field_16C_car->field_60_pChaseTask = gCarChaseTaskTable_678E30->AllocateEntry_474810();
             field_16C_car->field_60_pChaseTask->field_4_pDriver = this;
         }
@@ -10186,7 +10184,7 @@ void Ped::FollowPedInCar_46CA70()
     this->field_16C_car->field_60_pChaseTask->field_30_pTargetPed = this->field_14C_internal_target_ped;
     this->field_16C_car->ClearAIHalted_421550();
     this->field_16C_car->field_5C_AI->field_74_max_speed = kFpThree_67866C;
-    this->field_16C_car->field_60_pChaseTask->field_20_can_snap_to_target = 1;
+    this->field_16C_car->field_60_pChaseTask->field_20_can_snap_to_target = true;
 }
 
 // 9.6f 0x43A550
