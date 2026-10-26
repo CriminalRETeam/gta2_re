@@ -534,13 +534,13 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pDef = GetObjectDefinition_534360(0x97);
     pDef->OffsetBaseSpriteIdxAndSetNumFrames_533150(1, pDef->field_6C_num_frames + -1);
     pDef->field_34_behavior_type = object_behavior_type::animated_2;
-    pDef->field_64_next_frame_max = '\x05';
+    pDef->field_64_next_frame_max = 5;
     pDef->field_38 = 0x98;
     pDef->field_3C_next_definition_idx = 0x98;
     pDef->field_40_collision_bucket_category = collision_bucket_category::sprite_grid_3_single_cell_0;
     pDef->field_44_touch_behavior = 0;
-    pDef->field_65_next_definition_timer = '\x01';
-    pDef->field_61_in_pool_list = '\x01';
+    pDef->field_65_next_definition_timer = 1;
+    pDef->field_61_in_pool_list = 1;
 
     pDef = CloneDefinition_534370(0x98, 6);
     pDef->OffsetBaseSpriteIdxAndSetNumFrames_533150(pDef->field_6C_num_frames - 1, 1);
@@ -549,7 +549,7 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pDef->field_3C_next_definition_idx = 0;
     pDef->field_40_collision_bucket_category = collision_bucket_category::sprite_grid_3_single_cell_0;
     pDef->field_44_touch_behavior = 0;
-    pDef->field_61_in_pool_list = '\0';
+    pDef->field_61_in_pool_list = 0;
 
     pDef = CloneDefinition_534370(0x34, 4);
     pDef->OffsetBaseSpriteIdxAndSetNumFrames_533150(pDef->field_6C_num_frames - 1, 1);
@@ -558,19 +558,19 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pDef->field_3C_next_definition_idx = 0;
     pDef->field_40_collision_bucket_category = collision_bucket_category::sprite_grid_3_single_cell_0;
     pDef->field_44_touch_behavior = 0;
-    pDef->field_61_in_pool_list = '\0';
+    pDef->field_61_in_pool_list = 0;
 
     CloneDefinition_534370(0x32, 0xc);
     pDef = GetObjectDefinition_534360(0x32);
     pDef->OffsetBaseSpriteIdxAndSetNumFrames_533150(1, pDef->field_6C_num_frames + -1);
     pDef->field_34_behavior_type = object_behavior_type::animated_2;
-    pDef->field_64_next_frame_max = '\x03';
+    pDef->field_64_next_frame_max = 3;
     pDef->field_38 = 0x33;
     pDef->field_3C_next_definition_idx = 0x33;
     pDef->field_40_collision_bucket_category = collision_bucket_category::sprite_grid_3_single_cell_0;
     pDef->field_44_touch_behavior = 0;
-    pDef->field_65_next_definition_timer = '\x01';
-    pDef->field_61_in_pool_list = '\x01';
+    pDef->field_65_next_definition_timer = 1;
+    pDef->field_61_in_pool_list = 1;
 
     pDef = CloneDefinition_534370(0x33, 0xc);
     pDef->OffsetBaseSpriteIdxAndSetNumFrames_533150(pDef->field_6C_num_frames - 1, 1);
@@ -579,7 +579,7 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pDef->field_3C_next_definition_idx = 0;
     pDef->field_40_collision_bucket_category = collision_bucket_category::sprite_grid_3_single_cell_0;
     pDef->field_44_touch_behavior = 0;
-    pDef->field_61_in_pool_list = '\0';
+    pDef->field_61_in_pool_list = 0;
 
     pDef = CloneDefinition_534370(0x9b, 3);
     pDef->OffsetBaseSpriteIdxAndSetNumFrames_533150(1, pDef->field_6C_num_frames + -1);
@@ -603,14 +603,14 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pDef = CloneDefinition_534370(0x7b, 0xb);
     pDef->OffsetBaseSpriteIdxAndSetNumFrames_533150(1, pDef->field_6C_num_frames + -1);
     pDef->field_34_behavior_type = object_behavior_type::physics_animated_4;
-    pDef->field_64_next_frame_max = '\x01';
+    pDef->field_64_next_frame_max = 1;
     pDef->field_38 = 0x37;
     pDef->field_3C_next_definition_idx = 0x37;
     pDef->field_40_collision_bucket_category = collision_bucket_category::sprite_grid_1_region_4;
     pDef->field_44_touch_behavior = 0;
     pDef->field_10_speed = kFpPoint1_6F8FD8;
     pDef->field_14_friction = -kFpPoint01_6FCDD8;
-    pDef->field_61_in_pool_list = '\x01';
+    pDef->field_61_in_pool_list = 1;
     pDef->field_4C = 3;
     pDef->field_50_z_collision_response = 3;
     pDef->field_65_next_definition_timer = -1;
@@ -622,14 +622,14 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pDef = CloneDefinition_534370(0x9c, 5);
     pDef->OffsetBaseSpriteIdxAndSetNumFrames_533150(1, pDef->field_6C_num_frames + -1);
     pDef->field_34_behavior_type = object_behavior_type::physics_animated_4;
-    pDef->field_64_next_frame_max = '\x01';
+    pDef->field_64_next_frame_max = 1;
     pDef->field_38 = 0x36;
     pDef->field_3C_next_definition_idx = 0x36;
     pDef->field_40_collision_bucket_category = collision_bucket_category::sprite_grid_1_region_4;
     pDef->field_44_touch_behavior = 0;
     pDef->field_10_speed = kFpPoint1_6F8FD8;
     pDef->field_14_friction = -kFpPoint01_6FCDD8;
-    pDef->field_61_in_pool_list = '\x01';
+    pDef->field_61_in_pool_list = 1;
     pDef->field_4C = 3;
     pDef->field_50_z_collision_response = 3;
     pDef->field_65_next_definition_timer = -1;
@@ -641,14 +641,14 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pDef = CloneDefinition_534370(0x38, 0xd);
     pDef->OffsetBaseSpriteIdxAndSetNumFrames_533150(1, pDef->field_6C_num_frames + -1);
     pDef->field_34_behavior_type = object_behavior_type::physics_animated_4;
-    pDef->field_64_next_frame_max = '\x01';
+    pDef->field_64_next_frame_max = 1;
     pDef->field_38 = 0xd;
     pDef->field_3C_next_definition_idx = 0xd;
     pDef->field_40_collision_bucket_category = collision_bucket_category::sprite_grid_1_region_4;
     pDef->field_44_touch_behavior = 0;
     pDef->field_10_speed = kFpPoint1_6F8FD8;
     pDef->field_14_friction = -kFpPoint01_6FCDD8;
-    pDef->field_61_in_pool_list = '\x01';
+    pDef->field_61_in_pool_list = 1;
     pDef->field_4C = 3;
     pDef->field_50_z_collision_response = 3;
     pDef->field_65_next_definition_timer = -1;
@@ -657,14 +657,14 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pDef = CloneDefinition_534370(0x39, 0xe);
     pDef->OffsetBaseSpriteIdxAndSetNumFrames_533150(1, pDef->field_6C_num_frames + -1);
     pDef->field_34_behavior_type = object_behavior_type::physics_animated_4;
-    pDef->field_64_next_frame_max = '\x01';
+    pDef->field_64_next_frame_max = 1;
     pDef->field_38 = 0x3a;
     pDef->field_3C_next_definition_idx = 0x3a;
     pDef->field_40_collision_bucket_category = collision_bucket_category::sprite_grid_1_region_4;
     pDef->field_44_touch_behavior = 0;
     pDef->field_10_speed = kFpPoint1_6F8FD8;
     pDef->field_14_friction = -kFpPoint01_6FCDD8;
-    pDef->field_61_in_pool_list = '\x01';
+    pDef->field_61_in_pool_list = 1;
     pDef->field_4C = 3;
     pDef->field_50_z_collision_response = 3;
     pDef->field_65_next_definition_timer = -1;
@@ -676,14 +676,14 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pDef = CloneDefinition_534370(0x3b, 0xf);
     pDef->OffsetBaseSpriteIdxAndSetNumFrames_533150(1, pDef->field_6C_num_frames + -1);
     pDef->field_34_behavior_type = object_behavior_type::physics_animated_4;
-    pDef->field_64_next_frame_max = '\x01';
+    pDef->field_64_next_frame_max = 1;
     pDef->field_38 = 0x3c;
     pDef->field_3C_next_definition_idx = 0x3c;
     pDef->field_40_collision_bucket_category = collision_bucket_category::sprite_grid_1_region_4;
     pDef->field_44_touch_behavior = 0;
     pDef->field_10_speed = kFpPoint1_6F8FD8;
     pDef->field_14_friction = -kFpPoint01_6FCDD8;
-    pDef->field_61_in_pool_list = '\x01';
+    pDef->field_61_in_pool_list = 1;
     pDef->field_4C = 3;
     pDef->field_50_z_collision_response = 3;
     pDef->field_65_next_definition_timer = -1;
@@ -695,14 +695,14 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pDef = CloneDefinition_534370(0x3d, 0x10);
     pDef->OffsetBaseSpriteIdxAndSetNumFrames_533150(1, pDef->field_6C_num_frames + -1);
     pDef->field_34_behavior_type = object_behavior_type::physics_animated_4;
-    pDef->field_64_next_frame_max = '\x01';
+    pDef->field_64_next_frame_max = 1;
     pDef->field_38 = 0x3e;
     pDef->field_3C_next_definition_idx = 0x3e;
     pDef->field_40_collision_bucket_category = collision_bucket_category::sprite_grid_1_region_4;
     pDef->field_44_touch_behavior = 0;
     pDef->field_10_speed = kFpPoint1_6F8FD8;
     pDef->field_14_friction = -kFpPoint01_6FCDD8;
-    pDef->field_61_in_pool_list = '\x01';
+    pDef->field_61_in_pool_list = 1;
     pDef->field_4C = 3;
     pDef->field_50_z_collision_response = 3;
     pDef->field_65_next_definition_timer = -1;
@@ -714,14 +714,14 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pDef = CloneDefinition_534370(0x31, 0x12);
     pDef->OffsetBaseSpriteIdxAndSetNumFrames_533150(1, pDef->field_6C_num_frames + -1);
     pDef->field_34_behavior_type = object_behavior_type::physics_animated_4;
-    pDef->field_64_next_frame_max = '\x01';
+    pDef->field_64_next_frame_max = 1;
     pDef->field_38 = 0x12;
     pDef->field_3C_next_definition_idx = 0x12;
     pDef->field_40_collision_bucket_category = collision_bucket_category::sprite_grid_1_region_4;
     pDef->field_44_touch_behavior = 0;
     pDef->field_10_speed = kFpPoint1_6F8FD8;
     pDef->field_14_friction = -kFpPoint01_6FCDD8;
-    pDef->field_61_in_pool_list = '\x01';
+    pDef->field_61_in_pool_list = 1;
     pDef->field_4C = 3;
     pDef->field_50_z_collision_response = 3;
     pDef->field_65_next_definition_timer = -1;
@@ -730,14 +730,14 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pDef = CloneDefinition_534370(0x2d, 0x16);
     pDef->OffsetBaseSpriteIdxAndSetNumFrames_533150(1, pDef->field_6C_num_frames + -1);
     pDef->field_34_behavior_type = object_behavior_type::physics_animated_4;
-    pDef->field_64_next_frame_max = '\x01';
+    pDef->field_64_next_frame_max = 1;
     pDef->field_38 = 0x2e;
     pDef->field_3C_next_definition_idx = 0x2e;
     pDef->field_40_collision_bucket_category = collision_bucket_category::sprite_grid_1_region_4;
     pDef->field_44_touch_behavior = 0;
     pDef->field_10_speed = kFpPoint1_6F8FD8;
     pDef->field_14_friction = -kFpPoint01_6FCDD8;
-    pDef->field_61_in_pool_list = '\x01';
+    pDef->field_61_in_pool_list = 1;
     pDef->field_4C = 3;
     pDef->field_50_z_collision_response = 3;
     pDef->field_65_next_definition_timer = -1;
@@ -749,14 +749,14 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pDef = CloneDefinition_534370(0x2f, 0x15);
     pDef->OffsetBaseSpriteIdxAndSetNumFrames_533150(1, pDef->field_6C_num_frames + -1);
     pDef->field_34_behavior_type = object_behavior_type::physics_animated_4;
-    pDef->field_64_next_frame_max = '\x01';
+    pDef->field_64_next_frame_max = 1;
     pDef->field_38 = 0x30;
     pDef->field_3C_next_definition_idx = 0x30;
     pDef->field_40_collision_bucket_category = collision_bucket_category::sprite_grid_1_region_4;
     pDef->field_44_touch_behavior = 0;
     pDef->field_10_speed = kFpPoint1_6F8FD8;
     pDef->field_14_friction = -kFpPoint01_6FCDD8;
-    pDef->field_61_in_pool_list = '\x01';
+    pDef->field_61_in_pool_list = 1;
     pDef->field_4C = 3;
     pDef->field_50_z_collision_response = 3;
     pDef->field_65_next_definition_timer = -1;
@@ -775,20 +775,20 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pDef->field_14_friction = -kFpPoint01_6FCDD8;
     pDef->field_4C = 3;
     pDef->field_50_z_collision_response = 3;
-    pDef->field_61_in_pool_list = '\x01';
+    pDef->field_61_in_pool_list = 1;
     pDef->field_58_uses_3d_movement = 1;
 
     pDef = CloneDefinition_534370(0x2b, 0x17);
     pDef->OffsetBaseSpriteIdxAndSetNumFrames_533150(1, pDef->field_6C_num_frames + -1);
     pDef->field_34_behavior_type = object_behavior_type::physics_animated_4;
-    pDef->field_64_next_frame_max = '\x01';
+    pDef->field_64_next_frame_max = 1;
     pDef->field_38 = 0x2c;
     pDef->field_3C_next_definition_idx = 0x2c;
     pDef->field_40_collision_bucket_category = collision_bucket_category::sprite_grid_1_region_4;
     pDef->field_44_touch_behavior = 0;
     pDef->field_10_speed = kFpPoint1_6F8FD8;
     pDef->field_14_friction = -kFpPoint01_6FCDD8;
-    pDef->field_61_in_pool_list = '\x01';
+    pDef->field_61_in_pool_list = 1;
     pDef->field_4C = 3;
     pDef->field_50_z_collision_response = 3;
     pDef->field_65_next_definition_timer = -1;
@@ -805,7 +805,7 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pDef->field_3C_next_definition_idx = 7;
     pDef->field_40_collision_bucket_category = collision_bucket_category::sprite_grid_1_region_4;
     pDef->field_44_touch_behavior = 0;
-    pDef->field_61_in_pool_list = '\x01';
+    pDef->field_61_in_pool_list = 1;
     pDef->field_58_uses_3d_movement = 1;
 
     pDef = CloneDefinition_534370(0x9e, 1);
@@ -815,7 +815,7 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pDef->field_38 = 1;
     pDef->field_3C_next_definition_idx = 1;
     pDef->field_44_touch_behavior = 0;
-    pDef->field_61_in_pool_list = '\x01';
+    pDef->field_61_in_pool_list = 1;
     pDef->field_58_uses_3d_movement = 1;
     pDef = GetObjectDefinition_534360(0x19);
     pDef->field_28_sprite_type = 1;
@@ -969,16 +969,16 @@ void ObjectDefinitions::CloneRemappedDefinitions_533C90()
     pDef->field_3C_next_definition_idx = 0xb8;
     pDef->field_44_touch_behavior = 4;
     pDef->field_40_collision_bucket_category = collision_bucket_category::sprite_grid_2_region_3;
-    pDef->field_61_in_pool_list = '\x01';
+    pDef->field_61_in_pool_list = 1;
 
     pDef = CloneDefinition_534370(0xb8, 0xa3);
     pDef->field_38 = 0xb9;
     pDef->field_3C_next_definition_idx = 0xa4;
-    pDef->field_65_next_definition_timer = 'd';
-    pDef->field_61_in_pool_list = '\x01';
+    pDef->field_65_next_definition_timer = 100;
+    pDef->field_61_in_pool_list = 1;
     pDef->field_34_behavior_type = object_behavior_type::animated_2;
-    pDef->field_6C_num_frames = '\x01';
-    pDef->field_64_next_frame_max = '\x01';
+    pDef->field_6C_num_frames = 1;
+    pDef->field_64_next_frame_max = 1;
     pDef->field_40_collision_bucket_category = collision_bucket_category::sprite_grid_2_region_3;
     pDef->field_44_touch_behavior = 5;
 
@@ -1067,7 +1067,7 @@ void ObjectDefinitions::CloneRemappedDefinitions_533C90()
     pDef->field_10_speed = kFpZero_6FCE08;
     pDef->field_4C = 0;
     pDef->field_50_z_collision_response = 0;
-    pDef->field_64_next_frame_max = '\b';
+    pDef->field_64_next_frame_max = 8;
     pDef->OffsetBaseSpriteIdxAndSetNumFrames_533150(pDef->field_6C_num_frames - 1, 1);
 
     for(s32 def_idx = 200; def_idx - 200 <= 44; def_idx++)
@@ -1078,7 +1078,7 @@ void ObjectDefinitions::CloneRemappedDefinitions_533C90()
         pDef->field_14_friction = -kFpPoint01_6FCDD8;
         pDef->field_4C = 1;
         pDef->field_50_z_collision_response = 1;
-        pDef->field_61_in_pool_list = '\x01';
+        pDef->field_61_in_pool_list = 1;
         pDef->field_58_uses_3d_movement = 1;
         pDef->field_40_collision_bucket_category = collision_bucket_category::sprite_grid_2_region_3;
         pDef->field_18_mass = kFpPoint1_6F8FD8;
