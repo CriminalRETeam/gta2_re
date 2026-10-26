@@ -27,7 +27,7 @@ struct SaveSlotInfo
     char_type field_4B_last_saved_stage;
     char_type field_4C_last_saved_bonus_stage_code;
     char_type field_4D_last_saved_is_bonus;
-    short field_4E_unused;
+    s16 field_4E_unused;
     s16 field_50_unused;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SaveSlotInfo, 0x52);
@@ -384,7 +384,7 @@ struct Frontend
     EXPORT void ContinueToNextStage_4B8020();
 
     EXPORT void DrawBonusRating_4B7D60();
-    EXPORT int DrawKeyHint_4B7E10(u8 str_id_idx, u16 text_xpos, u16 text_ypos, u16 fontType, s32 palette);
+    EXPORT s32 DrawKeyHint_4B7E10(u8 str_id_idx, u16 text_xpos, u16 text_ypos, u16 fontType, s32 palette);
 
     EXPORT bool AreAllStagesUnlocked_4B7FB0();
 
@@ -400,7 +400,7 @@ struct Frontend
 
     EXPORT void DrawBackground_4B6E10();
 
-    EXPORT void GetTgaIdxsForMenuScreen_4B6B00(u8 screen, BYTE* pTgaIdx, BYTE* pTgaIdx2);
+    EXPORT void GetTgaIdxsForMenuScreen_4B6B00(u8 screen, u8* pTgaIdx, u8* pTgaIdx2);
 
     EXPORT void Load_tga_4B6520(u16 idx);
 
@@ -434,7 +434,7 @@ struct Frontend
 
     EXPORT bool PlySlotSvgExists_4B5370(u8 idx);
 
-    EXPORT static void __stdcall SetInputEnabled_5E53C0(BYTE* pEnabled);
+    EXPORT static void __stdcall SetInputEnabled_5E53C0(u8* pEnabled);
 
     EXPORT static s32 __stdcall GetMaxTextWidth_5D8990(wchar_t* pStr, u16 font_type);
 
@@ -523,7 +523,7 @@ EXPORT void __cdecl FreeSurface_5D7DC0();
 EXPORT void __stdcall DrawDebugLine_5D7DD0(s32 x1, s32 y1, s32 x2, s32 y2, u16 colour);
 EXPORT void __stdcall ConvertColourBanks_5D7CB0();
 
-EXTERN_GLOBAL(short, font_type_703C14);
+EXTERN_GLOBAL(s16, font_type_703C14);
 
 EXTERN_GLOBAL(s16, gFrontendHeadingFont_703C3C);
 

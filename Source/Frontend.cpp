@@ -44,7 +44,7 @@ DEFINE_GLOBAL_INIT(Fix16, kFpZero_67D930, Fix16(0, 0), 0x67D930);
 u16 gTableSize_61FF20 = 25; // Note is constant but can't be marked const
 DEFINE_GLOBAL_ARRAY(wchar_t, gEmptyWStr_67DC8C, 2, 0x67DC8C);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne_67D9FC, Fix16(1), 0x67D9FC);
-DEFINE_GLOBAL(short, font_type_703C14, 0x703C14);
+DEFINE_GLOBAL(s16, font_type_703C14, 0x703C14);
 DEFINE_GLOBAL(s16, gFrontendHeadingFont_703C3C, 0x703C3C);
 DEFINE_GLOBAL(s16, gFrontendNormalFont_703D0C, 0x703D0C);
 DEFINE_GLOBAL(s16, gFrontendSelectedFont_703C16, 0x703C16);
@@ -57,7 +57,7 @@ DEFINE_GLOBAL(s16, gFrontendTitleFont_703B9C, 0x703B9C);
 DEFINE_GLOBAL_INIT(Ang16, kAngZero_67DA70, Ang16(0), 0x67DA70);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne_67D934, Fix16(1), 0x67D934);
 DEFINE_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640, 0x67BD9C);
-DEFINE_GLOBAL(BYTE, bIsLeftRightLoopEnabled_67DA80, 0x67DA80);
+DEFINE_GLOBAL(u8, bIsLeftRightLoopEnabled_67DA80, 0x67DA80);
 DEFINE_GLOBAL_ARRAY(wchar_t, gTmpWideStr_67C7D8, 640, 0x67C7D8);
 DEFINE_GLOBAL(bool, gCheatOnlyMuggerPeds_67D5A4, 0x67D5A4);
 DEFINE_GLOBAL(bool, gCheatUnlimitedElectroGun_67D4F7, 0x67D4F7);
@@ -78,7 +78,7 @@ DEFINE_GLOBAL(bool, gCheatUnlimitedDoubleDamage_67D57C, 0x67D57C);
 DEFINE_GLOBAL(bool, gCheatInvisibility_67D539, 0x67D539);
 DEFINE_GLOBAL(bool, gCheatMiniCars_67D6C8, 0x67D6C8);
 
-int sCheatHashSecret_61F0A8[8] = {829, 761, 23, 641, 43, 809, 677, 191};
+s32 sCheatHashSecret_61F0A8[8] = {829, 761, 23, 641, 43, 809, 677, 191};
 
 MATCH_FUNC(0x4AE010)
 LPCSTR __stdcall FreeLoader::GetRegDword_4AE010(HKEY hKey, LPCSTR lpValueName, LPCSTR default_value)
@@ -2818,7 +2818,7 @@ void Frontend::DrawBonusRating_4B7D60()
 }
 
 MATCH_FUNC(0x4B7E10)
-EXPORT int Frontend::DrawKeyHint_4B7E10(u8 str_id_idx, u16 text_xpos, u16 text_ypos, u16 fontType, s32 palette)
+s32 Frontend::DrawKeyHint_4B7E10(u8 str_id_idx, u16 text_xpos, u16 text_ypos, u16 fontType, s32 palette)
 {
     switch (str_id_idx)
     {
@@ -3088,13 +3088,13 @@ void Frontend::Render_4ADFB0()
 MATCH_FUNC(0x4B6E10)
 void Frontend::DrawBackground_4B6E10()
 {
-    BYTE tga_idx;
+    u8 tga_idx;
     s32 ret; // second tga idx then the blit result
 
     if (field_EE08_menu_screen == GameOver_13 || field_EE08_menu_screen == RedBar_16 || field_EE08_menu_screen == BlueBar_14 || field_EE08_menu_screen == Loading_15 ||
         field_EE08_menu_screen == HiScoresDisplay_12 || field_EE08_menu_screen == Credits_17)
     {
-        GetTgaIdxsForMenuScreen_4B6B00(field_EE08_menu_screen, &tga_idx, reinterpret_cast<BYTE*>(&ret));
+        GetTgaIdxsForMenuScreen_4B6B00(field_EE08_menu_screen, &tga_idx, reinterpret_cast<u8*>(&ret));
         if (pgbh_BlitImage(tgaArray_61F0C8[tga_idx].field_84_img, 0, 0, 640, 480, 0, 0) == -10)
         {
             // need to reload image
@@ -3104,7 +3104,7 @@ void Frontend::DrawBackground_4B6E10()
     }
     else
     {
-        GetTgaIdxsForMenuScreen_4B6B00(field_EE08_menu_screen, &tga_idx, reinterpret_cast<BYTE*>(&ret));
+        GetTgaIdxsForMenuScreen_4B6B00(field_EE08_menu_screen, &tga_idx, reinterpret_cast<u8*>(&ret));
 
         // Left side
         s32 blitRet = pgbh_BlitImage(tgaArray_61F0C8[tga_idx].field_84_img, 0, 0, 278, 480, 0, 0);
@@ -3131,7 +3131,7 @@ void Frontend::DrawBackground_4B6E10()
 }
 
 MATCH_FUNC(0x4B6B00)
-void Frontend::GetTgaIdxsForMenuScreen_4B6B00(u8 screen, BYTE* pTgaIdx, BYTE* pTgaIdx2)
+void Frontend::GetTgaIdxsForMenuScreen_4B6B00(u8 screen, u8* pTgaIdx, u8* pTgaIdx2)
 {
     switch (screen)
     {
@@ -4428,7 +4428,7 @@ u8 Frontend::GetLastUnlockedBonusStageCode_4B7800(PlySlot* pStats)
 EXTERN_GLOBAL(bool, bDoFrontEnd_626B68);
 
 MATCH_FUNC(0x5E53C0)
-void __stdcall Frontend::SetInputEnabled_5E53C0(BYTE* pEnabled)
+void __stdcall Frontend::SetInputEnabled_5E53C0(u8* pEnabled)
 {
     if (bDoFrontEnd_626B68)
     {
@@ -5241,7 +5241,7 @@ MenuItem::~MenuItem()
 MATCH_FUNC(0x4B6330)
 bool MenuItem::SelectNextHorizontalIdx_4B6330()
 {
-    BYTE bLoopEnabled = bIsLeftRightLoopEnabled_67DA80;
+    u8 bLoopEnabled = bIsLeftRightLoopEnabled_67DA80;
     u16 old_count = field_6E_horizontal_selected_idx;
     u16 new_count = old_count;
     char_type bFound = 0;
