@@ -589,7 +589,7 @@ char_type PedGroup::GroupAttackPed_4C9B60(Ped* pPed)
                 }
                 // Two copies of the follow-pPed body (VC6 cross-jumps them back together). The extra
                 // pPed reference gives pPed edi over the list cursor.
-                else if (0x23 != field_2C_ped_leader->GetInternalObjective_403A90())
+                else if (objectives_enum::enter_car_as_driver_35 != field_2C_ped_leader->GetInternalObjective_403A90())
                 {
                     pMember->SetObjective2_463830(objectives_enum::kill_char_on_foot_20);
                     pMember->SetInternalTargetPed_403AE0(pPed);
