@@ -544,8 +544,8 @@ Ped::~Ped()
 MATCH_FUNC(0x45afc0)
 void Ped::Reset_45AFC0()
 {
-    field_21C_bf.bActive = 0;
-    field_21C_bf.bUnused1 = 0;
+    field_21C_bf.bActive = false;
+    field_21C_bf.bUnused1 = false;
     field_234_lifetime_timer = ped_lifetime::remove_0;
     field_238_ped_type = ped_type::dummy_3;
     field_23C_group_idx = 0;
@@ -564,7 +564,7 @@ void Ped::Reset_45AFC0()
     field_230_jump_over_mode = ped_jump_over_mode::cannot_jump_1;
     field_270_fire_mode = ped_fire_mode::normal_1;
     field_12E_aim_angle = gDummyPedAng_6787A8;
-    field_21C_bf.bPanicking = 0;
+    field_21C_bf.bPanicking = false;
     field_144_attacker = NULL;
     field_130_target_facing_angle = -gPedAng_6787A0;
     field_225_objective_status = objective_status::not_finished_0;
@@ -595,9 +595,9 @@ void Ped::Reset_45AFC0()
     field_170_selected_weapon = NULL;
     field_174_pWeapon = NULL;
     field_178_car_weapon = NULL;
-    field_21C_bf.bAttacking = 0;
-    field_21C_bf.bUnused12 = 0;
-    field_21C_bf.bWeaponChosen = 0;
+    field_21C_bf.bAttacking = false;
+    field_21C_bf.bUnused12 = false;
+    field_21C_bf.bWeaponChosen = false;
     field_17C_pGang = NULL;
     field_262_attackers_count = 0;
     field_263_prev_attackers_count = 0;
@@ -605,7 +605,7 @@ void Ped::Reset_45AFC0()
     field_204_killer_id = 0;
     field_290_death_cause = ped_death_cause::none_0;
     field_264_killer_id_timer = 0;
-    field_21C_bf.bInPathList = 0;
+    field_21C_bf.bInPathList = false;
     field_0_patrol_points[0].field_0_x = 0;
     field_0_patrol_points[0].field_1_y = 0;
     field_261_unused = 0;
@@ -635,17 +635,17 @@ void Ped::Reset_45AFC0()
     field_28C_threat_reaction = threat_reaction_enum::run_away_3;
     field_188_last_char_punched = NULL;
     field_266_path_point_count = 0;
-    field_21C_bf.bFlag17 = 0;
-    field_21C_bf.bUnused18 = 0;
-    field_21C_bf.bFlag19 = 0;
-    field_21C_bf.bUnused20 = 0;
-    field_21C_bf.bUnused21 = 0;
-    field_21C_bf.bFlag22 = 0;
-    field_21C_bf.bSpottedPlayer = 0;
-    field_21C_bf.bOnFire = 0;
-    field_21C_bf.bInvisible = 0;
-    field_21C_bf.bElectroFingers = 0;
-    field_21C_bf.bLeftVehicle = 0;
+    field_21C_bf.bFlag17 = false;
+    field_21C_bf.bUnused18 = false;
+    field_21C_bf.bFlag19 = false;
+    field_21C_bf.bUnused20 = false;
+    field_21C_bf.bUnused21 = false;
+    field_21C_bf.bFlag22 = false;
+    field_21C_bf.bSpottedPlayer = false;
+    field_21C_bf.bOnFire = false;
+    field_21C_bf.bInvisible = false;
+    field_21C_bf.bElectroFingers = false;
+    field_21C_bf.bLeftVehicle = false;
     field_210_shock_counter = 0;
     field_212_electrocution_threshold = 100;
     field_1F4_walk_speed = kFpOneThirtySecond_678434;
@@ -654,7 +654,7 @@ void Ped::Reset_45AFC0()
     field_198_hit_target_ped = NULL;
     field_19C_dummy_gang = NULL;
     byte_6787C4 = 0;
-    field_21C_bf.bDriveAggressively = 0;
+    field_21C_bf.bDriveAggressively = false;
     field_1F8_run_speed = kFpPoint8_6784A0;
     field_1A0_objective_target_object = NULL;
     field_1A4_internal_target_object = NULL;
@@ -663,30 +663,30 @@ void Ped::Reset_45AFC0()
     field_269_unused = -1;
     field_214_unused = 0;
     field_26A_recent_crime_timer = 0;
-    field_21C_bf.bStayInCar = 0;
+    field_21C_bf.bStayInCar = false;
     field_26C_graphic_type = ped_graphic_type::character_1;
-    field_21C_bf.bBusted = 0;
-    field_21C_bf.bSkipCarSearch = 0;
+    field_21C_bf.bBusted = false;
+    field_21C_bf.bSkipCarSearch = false;
     field_250_voice_event = 0;
-    field_224_bf.bUnused0 = 0;
-    field_224_bf.bUnused1 = 0;
-    field_224_bf.bCollidedWithPed = 0;
-    field_224_bf.bUnused3 = 0;
+    field_224_bf.bUnused0 = false;
+    field_224_bf.bUnused1 = false;
+    field_224_bf.bCollidedWithPed = false;
+    field_224_bf.bUnused3 = false;
     field_138_collided_char_b4 = 0;
     field_13C_pTrainStation = NULL;
     field_220_last_voice_rng = 0;
-    field_21C_bf.bUseCarWeapon = 0;
-    field_21C_bf.bHitByAttacker = 0;
-    field_21C_bf.bNoWeapon = 0;
+    field_21C_bf.bUseCarWeapon = false;
+    field_21C_bf.bHitByAttacker = false;
+    field_21C_bf.bNoWeapon = false;
     field_229_mug_count = 0;
-    field_21C_bf.bScheduledForRemoval = 0;
+    field_21C_bf.bScheduledForRemoval = false;
     field_274_gang_car_model = car_model_enum::MERC;
     field_1A8_ped_killer = NULL;
-    field_224_bf.bWaitingOnTarget = 0;
-    field_21C_bf.bArmedGangMember = 0;
-    field_21C_bf.bForcedOutOfTaxi = 0;
+    field_224_bf.bWaitingOnTarget = false;
+    field_21C_bf.bArmedGangMember = false;
+    field_21C_bf.bForcedOutOfTaxi = false;
     field_260_wait_counter = 0;
-    field_224_bf.bDropsWeaponOnDeath = 1;
+    field_224_bf.bDropsWeaponOnDeath = true;
 }
 
 MATCH_FUNC(0x45b440)
@@ -2599,7 +2599,7 @@ void Ped::DeallocateWithGroupCleanup_45EA00()
     }
 
     Deallocate_45EB60();
-    field_21C_bf.bScheduledForRemoval = 0;
+    field_21C_bf.bScheduledForRemoval = false;
 }
 
 // https://decomp.me/scratch/jJ6aF
@@ -2608,7 +2608,7 @@ void Ped::DeallocateWithGroupCleanup_45EA00()
 // and clears the bit with the short `and al, 0xFE` form, like the original
 static inline PedFlags32 ClearActive_45EB60(PedFlags32 bf)
 {
-    bf.bActive = 0;
+    bf.bActive = false;
     return bf;
 }
 
@@ -3880,7 +3880,7 @@ void Ped::UpdateAI_462280()
             byte_6787C4 = 0;
         }
 
-        field_21C_bf.bLeftVehicle = 0;
+        field_21C_bf.bLeftVehicle = false;
         Ped::ProcessMainObjective_463AA0();
         Ped::ProcessInternalObjective_463FB0();
         if (field_278_ped_state_1 > ped_state_1::walking_0 && field_278_ped_state_1 <= ped_state_1::standing_still_7)
@@ -4385,7 +4385,7 @@ bool Ped::PoolUpdate()
     byte_678554 = 0;
     field_263_prev_attackers_count = field_262_attackers_count;
     field_262_attackers_count = 0;
-    field_21C_bf.bSpottedPlayer = 0;
+    field_21C_bf.bSpottedPlayer = false;
     if (field_21C_bf.bBusted != 0 && field_278_ped_state_1 != ped_state_1::immobilized_8)
     {
         // Ped busted
@@ -4408,11 +4408,11 @@ bool Ped::PoolUpdate()
     }
     if (byte_6787D8 == 1)
     {
-        field_21C_bf.bFlag16 = 0;
+        field_21C_bf.bFlag16 = false;
     }
     if (byte_6787D9 == 1)
     {
-        field_21C_bf.bFlag19 = 0;
+        field_21C_bf.bFlag19 = false;
     }
     if (field_21C_bf.bActive == 1)
     {
@@ -4480,7 +4480,7 @@ bool Ped::PoolUpdate()
             if (!byte_678554 && field_21C_bf.bInPathList)
             {
                 gPathFinder_6FDEF0->field_3C_ped_list.RemovePed_471240(this);
-                field_21C_bf.bInPathList = 0;
+                field_21C_bf.bInPathList = false;
             }
 
             if (field_168_game_object)
@@ -4493,8 +4493,8 @@ bool Ped::PoolUpdate()
                 field_254_block_spec = gMap_0x370_6F6268->GetBlockSpec_4E00A0(get_cam_x(), get_cam_y(), zpos);
                 Ped::UpdateCharB4_462B80();
 
-                field_21C_bf.bHitByAttacker = 0;
-                field_21C_bf.bNoWeapon = 0;
+                field_21C_bf.bHitByAttacker = false;
+                field_21C_bf.bNoWeapon = false;
             }
             else
             {
@@ -7125,7 +7125,7 @@ void Ped::FleeOnFootTillSafe_4678E0()
             }
             else
             {
-                field_21C_bf.bAttacking = 0;
+                field_21C_bf.bAttacking = false;
             }
         }
         else
@@ -7166,7 +7166,7 @@ void Ped::FleeCharOnFootTillSafe_467960()
             Ped::ChangeNextPedState1_45C500(ped_state_1::flee_or_running_1);
             Ped::ChangeNextPedState2_45C540(ped_state_2::Unknown_3);
             this->field_168_game_object->field_38_velocity = this->field_168_game_object->field_3C_run_or_jump_speed;
-            field_21C_bf.bAttacking = 0;
+            field_21C_bf.bAttacking = false;
         }
     }
 }
@@ -7187,7 +7187,7 @@ void Ped::FleeFromCharOnFootAlways_467A20()
     {
         // Run
         field_168_game_object->field_38_velocity = field_168_game_object->field_3C_run_or_jump_speed;
-        field_21C_bf.bAttacking = 0;
+        field_21C_bf.bAttacking = false;
     }
 }
 
@@ -7291,7 +7291,7 @@ void Ped::KillCharOnFoot_467CA0()
                 {
                     Ped::SetObjective2_463830(objectives_enum::kill_char_on_foot_20);
                     field_14C_internal_target_ped = field_148_objective_target_ped;
-                    field_21C_bf.bPanicking = 0;
+                    field_21C_bf.bPanicking = false;
                 }
                 return;
 
@@ -9026,7 +9026,7 @@ void Ped::FleeOnFootTillSafe_46A8F0()
         }
         else
         {
-            field_21C_bf.bAttacking = 0;
+            field_21C_bf.bAttacking = false;
         }
     }
     else
@@ -11351,7 +11351,7 @@ Weapon* Ped::ChooseAttackWeapon_46F490()
         case ped_ocupation_enum::walking_guard_29:
             if (!field_14C_internal_target_ped->PedTypeIs_45EDE0(ped_type::player_2))
             {
-                this->field_21C_bf.bWeaponChosen = 1;
+                this->field_21C_bf.bWeaponChosen = true;
                 return this->field_174_pWeapon;
             }
 
@@ -11360,10 +11360,10 @@ Weapon* Ped::ChooseAttackWeapon_46F490()
             {
                 if (pCar->GetVelocity_43A4C0() > kFpPoint01_678624)
                 {
-                    this->field_21C_bf.bWeaponChosen = 1;
+                    this->field_21C_bf.bWeaponChosen = true;
                     return this->field_174_pWeapon;
                 }
-                this->field_21C_bf.bNoWeapon = 1;
+                this->field_21C_bf.bNoWeapon = true;
                 return NULL;
             }
 
@@ -11374,7 +11374,7 @@ Weapon* Ped::ChooseAttackWeapon_46F490()
 
             if (gPolice_7B8_6FEE40->field_7AD_police_peds_in_range_screen < 2u)
             {
-                this->field_21C_bf.bNoWeapon = 1;
+                this->field_21C_bf.bNoWeapon = true;
                 this->field_198_hit_target_ped = NULL;
                 return NULL;
             }
@@ -11384,13 +11384,13 @@ Weapon* Ped::ChooseAttackWeapon_46F490()
                 return this->field_170_selected_weapon;
             }
             this->field_198_hit_target_ped = NULL;
-            this->field_21C_bf.bNoWeapon = 1;
+            this->field_21C_bf.bNoWeapon = true;
             return NULL;
 
         case ped_ocupation_enum::fbi:
             if (this->field_14C_internal_target_ped->field_16C_car || gDistanceToTarget_678750 > kFpHalf_67853C)
             {
-                this->field_21C_bf.bWeaponChosen = 1;
+                this->field_21C_bf.bWeaponChosen = true;
                 return this->field_174_pWeapon;
             }
             return this->field_170_selected_weapon;
@@ -11398,7 +11398,7 @@ Weapon* Ped::ChooseAttackWeapon_46F490()
         case ped_ocupation_enum::roadblock_cop_37:
             if (!field_14C_internal_target_ped->PedTypeIs_45EDE0(ped_type::player_2) || this->field_14C_internal_target_ped->field_16C_car)
             {
-                this->field_21C_bf.bWeaponChosen = 1;
+                this->field_21C_bf.bWeaponChosen = true;
                 return this->field_174_pWeapon;
             }
             return this->field_170_selected_weapon;

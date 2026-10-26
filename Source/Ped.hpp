@@ -388,7 +388,7 @@ class Ped
     void ClearAttacking()
     {
         // There was no way to match this without using a bit field
-        field_21C_bf.bAttacking = 0;
+        field_21C_bf.bAttacking = false;
     }
 
     // 9.6f 0x4A5060
