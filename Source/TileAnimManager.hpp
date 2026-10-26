@@ -53,7 +53,7 @@ class TileAnim
     s16 field_A_frame_timer;
     const gmp_tile_animation* field_C_ptr;
     s16 field_10_base;
-    s16 field_12_idx;
+    s16 field_12_anim_idx;
     TileAnim* mpNext;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(TileAnim, 0x18);
