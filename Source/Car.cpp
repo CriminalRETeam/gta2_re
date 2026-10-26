@@ -5860,7 +5860,7 @@ bool Car::TrailerUpdate_443130()
 }
 
 MATCH_FUNC(0x443170)
-char_type Car::PoolUpdate()
+bool Car::PoolUpdate()
 {
     if (!this->field_76_last_seen_timer)
     {
@@ -5886,7 +5886,7 @@ char_type Car::PoolUpdate()
 
     if (UpdateCarDespawnStatus_4424C0())
     {
-        return 1;
+        return true;
     }
 
     if (this->field_58_physics)
@@ -5948,7 +5948,7 @@ char_type Car::PoolUpdate()
         }
         gSpriteGrid_1_679208->AddToRegionBuckets_477B20(field_50_car_sprite);
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x443330)

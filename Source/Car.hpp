@@ -658,7 +658,7 @@ class Car
     EXPORT void LightUpdate_442D10();
     EXPORT bool TrainUpdate_442D70();
     EXPORT bool TrailerUpdate_443130();
-    EXPORT char_type PoolUpdate();
+    EXPORT bool PoolUpdate();
     EXPORT void UpdateOnCraneHook_443330();
     EXPORT bool UpdateAttachedToSprite_443360(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 rot);
     EXPORT void InitDoors_4435A0();
