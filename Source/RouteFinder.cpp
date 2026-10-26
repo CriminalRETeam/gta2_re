@@ -988,10 +988,7 @@ bool RouteFinder::SearchToDest_589E20(s32 arrow_type)
 MATCH_FUNC(0x589e70)
 bool RouteFinder::SearchUntilOffScreen_589E70(s32 arrow_type)
 {
-    bool result;
-    RouteSearchNode* pNode;
-
-    result = false;
+    bool result = false;
     if (this->field_A82C_open_list != NULL)
     {
         while (true)
@@ -1001,7 +998,7 @@ bool RouteFinder::SearchUntilOffScreen_589E70(s32 arrow_type)
                 break;
             }
 
-            pNode = GetFirstUnexpandedNode_589E00();
+            RouteSearchNode* pNode = GetFirstUnexpandedNode_589E00();
             if (pNode == NULL)
             {
                 break;
