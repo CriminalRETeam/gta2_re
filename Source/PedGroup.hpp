@@ -11,11 +11,11 @@ class PedGroup
     // 9.6f 0x4038E0
     inline void set_in_use_4038E0()
     {
-        field_40_in_use = 1;
+        field_40_in_use = true;
     }
 
     // 9.6f 0x4038F0
-    inline char_type get_in_use_4038F0()
+    inline bool get_in_use_4038F0() const
     {
         return field_40_in_use;
     }
@@ -85,7 +85,7 @@ class PedGroup
     char_type field_37_unused;
     s32 field_38_group_type;
     s32 field_3C_is_leader_waiting;
-    char_type field_40_in_use;
+    bool field_40_in_use;
     char_type field_41_unused;
     char_type field_42_unused;
     char_type field_43_unused;

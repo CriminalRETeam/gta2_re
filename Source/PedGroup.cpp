@@ -69,7 +69,7 @@ void PedGroup::ClearGroupData_4C8E90()
 MATCH_FUNC(0x4c8ef0)
 void PedGroup::Reset_4C8EF0()
 {
-    field_40_in_use = 0;
+    field_40_in_use = false;
     field_38_group_type = 2;
     field_30_panicking = 0;
     field_36_count = 0;
@@ -239,14 +239,14 @@ void PedGroup::KillEntireGroup_4C9240()
         field_4_ped_list[i]->ClearGroupAndGroupIdx_403A30();
         field_4_ped_list[i]->Kill_46F9D0();
     }
-    this->field_40_in_use = 0;
+    this->field_40_in_use = false;
 }
 
 
 MATCH_FUNC(0x4c92a0)
 void PedGroup::DisbandGroup_4C92A0()
 {
-    if (field_40_in_use == false)
+    if (!field_40_in_use)
     {
         return;
     }
@@ -287,7 +287,7 @@ void PedGroup::DisbandGroup_4C92A0()
 MATCH_FUNC(0x4c93a0)
 void PedGroup::DestroyGroup_4C93A0()
 {
-    if (field_40_in_use == false)
+    if (!field_40_in_use)
     {
         return;
     }
