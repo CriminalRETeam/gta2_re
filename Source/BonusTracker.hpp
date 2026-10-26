@@ -59,8 +59,12 @@ class BonusTracker
     EXPORT ~BonusTracker(); // 0x431DF0
     EXPORT void Init_431E10(class PlayerScoreTracker* pScores);
     EXPORT void Service_431E30();
+
+  private:
     EXPORT u16 FindFreeRule_431E90() const;
     EXPORT u16 FindMatchingRule_431EC0(u16 start_idx, s16 event_type, s32 car_model, s32 occupation, s16 gang_idx, s16 remap, s32 death_cause, s32 alt_car_model, gmp_map_zone* pZone);
+
+  public:
     EXPORT s16 AllocRule_431FE0(s16 event_type,
                                  s32 car_model,
                                  s32 occupation,
@@ -75,11 +79,12 @@ class BonusTracker
                                  gmp_map_zone* pZone);
     EXPORT s16 GetBonusResult_432080(u16 idx);
     EXPORT void ProcessBonusEvent_4320D0(s16 event_type, s32 car_model, s32 occupation, s16 gang_idx, s16 remap, s32 death_cause, s32 alt_car_model, gmp_map_zone* pZone);
+
+  private:
     EXPORT bool IsDeathCauseInGroup_432170(s32 death_cause, s32 rule_death_cause) const;
     EXPORT bool IsOccupationInGroup_432240(s32 occupation, s32 rule_occupation) const;
     EXPORT bool AreCarModelsEquivalent_432300(s32 car_model_1, s32 car_model_2) const;
 
-  private:
     BonusRule field_0_bonuses[k_max_rules];
     class PlayerScoreTracker* field_1B8_pScores;
     s32 field_1BC_cur_time;
