@@ -200,8 +200,8 @@ u8 Garage::ParkCarAtDoor_534700(Car* pCar, Door* pDoor)
 MATCH_FUNC(0x5349d0)
 void Garage::GaragesService_5349D0()
 {
-    u8 idx1;
-    u8 idx2;
+    u8 corner1;
+    u8 corner2;
     Fix16_Point car_pos;
 
     switch (field_C_state)
@@ -218,12 +218,12 @@ void Garage::GaragesService_5349D0()
                 field_14_driver = field_0_parking_car->GetDriver_4118B0();
             }
 
-            u8 collision = field_0_parking_car->field_50_car_sprite->CollisionCheck_5A0320(&field_18_park_x_min, &field_20_park_x_max, &idx1, &idx2);
+            u8 collision = field_0_parking_car->field_50_car_sprite->CollisionCheck_5A0320(&field_18_park_x_min, &field_20_park_x_max, &corner1, &corner2);
             if (collision == 2)
             {
-                if (idx1 == 0)
+                if (corner1 == 0)
                 {
-                    if (idx2 == 1)
+                    if (corner2 == 1)
                     {
                     }
                     else
@@ -233,13 +233,13 @@ void Garage::GaragesService_5349D0()
                 }
                 else
                 {
-                    if (idx1 != 2)
+                    if (corner1 != 2)
                     {
                         return;
                     }
                     // goto: the original lays the parked block as the jump target of both
                     // corner checks, each with its own inline epilogue after it.
-                    if (idx2 == 3)
+                    if (corner2 == 3)
                     {
                         goto park;
                     }
@@ -271,7 +271,7 @@ void Garage::GaragesService_5349D0()
 
             car_pos.SetXY_432860(field_0_parking_car->GetX_41E430(), field_0_parking_car->GetY_41E440());
             SpriteShape* pBox = field_0_parking_car->field_50_car_sprite->field_C_pCollisionShape;
-            field_28_push_dir = (pBox->field_C_corners[idx1] + pBox->field_C_corners[idx2]).Divide_442CB0(kFpTwo_6FD128) - car_pos;
+            field_28_push_dir = (pBox->field_C_corners[corner1] + pBox->field_C_corners[corner2]).Divide_442CB0(kFpTwo_6FD128) - car_pos;
             if (field_28_push_dir.x == kFpZero_6FD120 && field_28_push_dir.y == kFpZero_6FD120)
             {
                 field_3D_in_position = true;
@@ -302,7 +302,7 @@ void Garage::GaragesService_5349D0()
                 field_0_parking_car->GetDriver_4118B0()->SetObjective(objectives_enum::wait_in_car_27);
             }
 
-            if (field_0_parking_car->field_50_car_sprite->CollisionCheck_5A0320(&field_18_park_x_min, &field_20_park_x_max, &idx1, &idx2) != 4 && !field_3D_in_position)
+            if (field_0_parking_car->field_50_car_sprite->CollisionCheck_5A0320(&field_18_park_x_min, &field_20_park_x_max, &corner1, &corner2) != 4 && !field_3D_in_position)
             {
                 field_0_parking_car->field_58_physics->StopMoving_4895D0();
                 field_0_parking_car->field_58_physics->ApplyForceScaledByMass_55F9A0(field_28_push_dir);
