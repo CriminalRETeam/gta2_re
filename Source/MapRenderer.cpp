@@ -599,7 +599,7 @@ void MapRenderer::DrawLeftSide_4EA390(u16& left_word)
 
                 if (gTileVerts_6F65A8[0].x > gTileVerts_6F65A8[1].x)
                 {
-                    return; // optimizing
+                    return;
                 }
 
                 gVertProjector.ProjectVertBottom_46BDF0(gXCoord_6F63AC, gYCoord_6F63B8 + kZeroOnePoint_6F6484.y, &gTileVerts_6F65A8[3]);
@@ -779,7 +779,7 @@ void MapRenderer::DrawRightSide_4EAF40(u16& right_word)
 
                 if (gTileVerts_6F65A8[0].x > gTileVerts_6F65A8[1].x)
                 {
-                    return; // optimizing
+                    return;
                 }
 
                 gVertProjector.ProjectVertBottom_46BDF0(gXCoord_6F63AC + kZeroOnePoint_6F6484.y, gYCoord_6F63B8 + kZeroOnePoint_6F6484.y, &gTileVerts_6F65A8[2]);
@@ -820,7 +820,6 @@ void MapRenderer::DrawRightSide_4EAF40(u16& right_word)
                 break;
 
             case SOUTH_2:
-                // 270 on IDA
                 gVertProjector.ProjectVertBottom_46BDF0(gXCoord_6F63AC + kZeroOnePoint_6F6484.y, gYCoord_6F63B8 + kZeroOnePoint_6F6484.y, &gTileVerts_6F65A8[2]);
                 if (gGradientLevel_6F647C == 0)
                 {
@@ -941,7 +940,7 @@ void MapRenderer::DrawTopSide_4EBA60(u16& top_word)
 
                 if (gTileVerts_6F65A8[0].y > gTileVerts_6F65A8[3].y)
                 {
-                    return; // optmize
+                    return;
                 }
 
                 gVertProjector.ProjectVertBottom_46BDF0(gXCoord_6F63AC + kZeroOnePoint_6F6484.y, gYCoord_6F63B8, &gTileVerts_6F65A8[1]);
@@ -994,7 +993,7 @@ void MapRenderer::DrawTopSide_4EBA60(u16& top_word)
 
                 if (gTileVerts_6F65A8[1].y > gTileVerts_6F65A8[2].y)
                 {
-                    return; // optmize
+                    return;
                 }
 
                 gVertProjector.ProjectVertBottom_46BDF0(gXCoord_6F63AC, gYCoord_6F63B8, &gTileVerts_6F65A8[0]);
@@ -1398,7 +1397,6 @@ void MapRenderer::draw_lid_4EE130()
             {
                 gTileDrawFlags_6F6560 |= 0x80;
             }
-            //u8 diffuseColour = GetColour_46B5E0((gLidType_6F6274 >> 10) & 3);
             pgbh_DrawTile(gTileDrawFlags_6F6560 | gLightingDrawFlag_7068F4,
                           gTextureCache_15D8_705064->GetTexture_46BB50(texture_idx),
                           gTileVerts_6F65A8,
@@ -1596,7 +1594,6 @@ void MapRenderer::Draw3SidedDiagonalDownLeft_4EF1C0()
 }
 
 // https://decomp.me/scratch/6WLOw
-// Remaining diff: an lea operand-order tie-break (fails against 10.5.exe)
 MATCH_FUNC(0x4ef520)
 void MapRenderer::Draw3SidedDiagonalDownRight_4EF520()
 {
@@ -1695,7 +1692,6 @@ void MapRenderer::Draw4SidedDiagonalUpRight_4EFB20()
 }
 
 // https://decomp.me/scratch/IdZ0n
-// Remaining diff: an lea operand-order tie-break (fails against 10.5.exe)
 MATCH_FUNC(0x4efdb0)
 void MapRenderer::Draw4SidedDiagonalDownLeft_4EFDB0()
 {
@@ -2391,8 +2387,6 @@ void MapRenderer::draw_left_4F3C00(u16& side_word, Fix16& x_off, Fix16& y_off_a,
         u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(side_word & block_face::tile_idx_mask);
         if (texture_idx)
         {
-            //BlockSideWord word = *(BlockSideWord*)&side_word;
-            //if (word.flat)
             if ((*(reinterpret_cast<u8*>(&side_word) + 1) & 0x10) != 0)
             {
                 gTileDrawFlags_6F6560 = gTileDrawFlags_6F6560 | 0x80;
@@ -2407,10 +2401,10 @@ void MapRenderer::draw_left_4F3C00(u16& side_word, Fix16& x_off, Fix16& y_off_a,
 }
 
 MATCH_FUNC(0x4F3FB0)
-void __stdcall draw_4F3FB0(s32 arg)
+void __stdcall draw_4F3FB0(s32 uv_flags)
 {
     Fix16_Point tmp;
-    switch (arg & 0x60)
+    switch (uv_flags & 0x60)
     {
         case 32: // rotation code 0
             gUVCorner0_6F6580.SetXY_432860(kZeroOnePoint_6F6484.x, kTileTexMax_6F6578);
@@ -2425,7 +2419,7 @@ void __stdcall draw_4F3FB0(s32 arg)
             gUVCorner3_6F6598.SetXY_432860(kZeroOnePoint_6F6484.x, kZeroOnePoint_6F6484.x);
             break;
         case 64: // rotation code 1
-            arg ^= 0x18;
+            uv_flags ^= 0x18;
         default: // rotation code 3
             gUVCorner0_6F6580.SetXY_432860(kZeroOnePoint_6F6484.x, kZeroOnePoint_6F6484.x);
             gUVCorner1_6F6588.SetXY_432860(kTileTexMax_6F6578, kZeroOnePoint_6F6484.x);
@@ -2434,7 +2428,7 @@ void __stdcall draw_4F3FB0(s32 arg)
             break;
     }
 
-    if ((arg & 0x8) != 0) // maybe rotation code 1
+    if ((uv_flags & 0x8) != 0) // maybe rotation code 1
     {
         tmp = gUVCorner0_6F6580;
         gUVCorner0_6F6580 = gUVCorner1_6F6588;
@@ -2444,7 +2438,7 @@ void __stdcall draw_4F3FB0(s32 arg)
         gUVCorner3_6F6598 = gUVCorner2_6F6590;
         gUVCorner2_6F6590 = tmp;
     }
-    if ((arg & 0x10) != 0) // flip
+    if ((uv_flags & 0x10) != 0) // flip
     {
         tmp = gUVCorner0_6F6580;
         gUVCorner0_6F6580 = gUVCorner3_6F6598;
@@ -2461,15 +2455,15 @@ void __stdcall draw_4F3FB0(s32 arg)
 
 // https://decomp.me/scratch/NaMFS or https://decomp.me/scratch/hij63
 MATCH_FUNC(0x4f4190)
-void __stdcall Set_UV_4F4190(Fix16& edge01_frac, Fix16& edge03_frac, const u32& pVertIdx)
+void __stdcall Set_UV_4F4190(Fix16& edge01_frac, Fix16& edge03_frac, const u32& vert_idx)
 {
     Fix16_Point uv_coords = ((gUVEdge01_6F62A8 * edge01_frac) + (gUVEdge03_6F62A0 * edge03_frac)) + gUVCorner0_6F6580;
     // Converting through f32 locals (rather than ToFloat()) adds a narrowing step that makes
     // VC6 schedule the index load before the fmuls, like the original.
     f32 u = static_cast<f32>(uv_coords.x.mValue);
-    gTileVerts_6F65A8[pVertIdx].u = u / 16384.0f;
+    gTileVerts_6F65A8[vert_idx].u = u / 16384.0f;
     f32 v = static_cast<f32>(uv_coords.y.mValue);
-    gTileVerts_6F65A8[pVertIdx].v = v / 16384.0f;
+    gTileVerts_6F65A8[vert_idx].v = v / 16384.0f;
 }
 
 // https://decomp.me/scratch/dGqKl
@@ -2498,8 +2492,6 @@ void MapRenderer::draw_right_4F4250(u16& side_word, Fix16& x_off, Fix16& y_off_a
         u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(side_word & block_face::tile_idx_mask);
         if (texture_idx)
         {
-            //BlockSideWord word = *(BlockSideWord*)&side_word;
-            //if (word.flat)
             if ((*(reinterpret_cast<u8*>(&side_word) + 1) & 0x10) != 0)
             {
                 gTileDrawFlags_6F6560 = gTileDrawFlags_6F6560 | 0x80;
@@ -2539,8 +2531,6 @@ void MapRenderer::draw_top_4F4600(u16& side_word, Fix16& x_off_a, Fix16& x_off_b
         u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(side_word & block_face::tile_idx_mask);
         if (texture_idx)
         {
-            //BlockSideWord word = *(BlockSideWord*)&side_word;
-            //if (word.flat)
             if ((*(reinterpret_cast<u8*>(&side_word) + 1) & 0x10) != 0)
             {
                 gTileDrawFlags_6F6560 = gTileDrawFlags_6F6560 | 0x80;
@@ -2580,8 +2570,6 @@ void MapRenderer::draw_bottom_4F49B0(u16& side_word, Fix16& x_off_a, Fix16& x_of
         u16 texture_idx = gGtx_0x106C_703DD4->GetTile_5AA870(side_word & block_face::tile_idx_mask);
         if (texture_idx)
         {
-            //BlockSideWord word = *(BlockSideWord*)&side_word;
-            //if (word.flat)
             if ((*(reinterpret_cast<u8*>(&side_word) + 1) & 0x10) != 0)
             {
                 gTileDrawFlags_6F6560 = gTileDrawFlags_6F6560 | 0x80;
@@ -3353,7 +3341,7 @@ void MapRenderer::DrawGradientSlope_4F6630()
     }
 }
 
-// https://decomp.me/scratch/8po7Q  instruction swap at lines (0xbc vs 0xc2) and (0x125 vs 0x12b)
+// https://decomp.me/scratch/8po7Q
 MATCH_FUNC(0x4f66c0)
 void MapRenderer::RenderFlatBlock_4F66C0()
 {
@@ -3422,9 +3410,9 @@ void MapRenderer::RenderFlatBlock_4F66C0()
 }
 
 MATCH_FUNC(0x4f6880)
-void MapRenderer::RenderBlockAt_4F6880(s32& pXCoord, s32& pYCoord)
+void MapRenderer::RenderBlockAt_4F6880(s32& xpos, s32& ypos)
 {
-    gmp_block_info* pBlock = gMap_0x370_6F6268->GetBlockClamped_4DFEE0(pXCoord, pYCoord, gZCoord_6F63E0);
+    gmp_block_info* pBlock = gMap_0x370_6F6268->GetBlockClamped_4DFEE0(xpos, ypos, gZCoord_6F63E0);
     gpBlock_6F6478 = pBlock;
     if (pBlock)
     {
@@ -3459,8 +3447,8 @@ void MapRenderer::RenderBlockAt_4F6880(s32& pXCoord, s32& pYCoord)
                 gBlockBottom_6F6468 = gBlockBottom_6F6468 | 0x260;
             }
         }
-        gXCoord_6F63AC = Fix16(pXCoord) - gViewCamera_676978->field_98_cur_pos.field_0_x;
-        gYCoord_6F63B8 = Fix16(pYCoord) - gViewCamera_676978->field_98_cur_pos.field_4_y;
+        gXCoord_6F63AC = Fix16(xpos) - gViewCamera_676978->field_98_cur_pos.field_0_x;
+        gYCoord_6F63B8 = Fix16(ypos) - gViewCamera_676978->field_98_cur_pos.field_4_y;
 
         u8 slope = GET_SLOPE_BITS(pBlock->field_B_slope_type);
 
@@ -3476,7 +3464,7 @@ void MapRenderer::RenderBlockAt_4F6880(s32& pXCoord, s32& pYCoord)
                     }
                     else
                     {
-                        MapRenderer::RenderFlatBlock_4F66C0(); // !
+                        MapRenderer::RenderFlatBlock_4F66C0();
                     }
                 }
                 else

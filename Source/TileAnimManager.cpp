@@ -28,13 +28,13 @@ void TileAnim::ApplyCurrentFrame_5BC150()
 }
 
 MATCH_FUNC(0x5bc190)
-void TileAnim::InitFromGmpAnim_5BC190(const gmp_tile_animation* pStru)
+void TileAnim::InitFromGmpAnim_5BC190(const gmp_tile_animation* pAnimation)
 {
-    field_C_ptr = pStru;
-    field_4_frame_rate = pStru->field_2_frame_rate;
-    field_6_repeat = pStru->field_3_repeat;
-    field_10_base = pStru->field_0_base;
-    field_2_anim_length = pStru->field_4_anim_length - 1;
+    field_C_ptr = pAnimation;
+    field_4_frame_rate = pAnimation->field_2_frame_rate;
+    field_6_repeat = pAnimation->field_3_repeat;
+    field_10_base = pAnimation->field_0_base;
+    field_2_anim_length = pAnimation->field_4_anim_length - 1;
     field_0_start_frame = 0;
 }
 
@@ -47,9 +47,9 @@ void TileAnim::Start_5BC1D0()
 }
 
 MATCH_FUNC(0x5bc1f0)
-char_type TileAnim::PoolUpdate()
+bool TileAnim::PoolUpdate()
 {
-    u8 bAtEnd;
+    bool bAtEnd;
 
     field_A_frame_timer--;
     if (field_A_frame_timer == 0)
@@ -68,14 +68,14 @@ char_type TileAnim::PoolUpdate()
         {
             if (field_6_repeat > 0 && --field_6_repeat == 0)
             {
-                return 1;
+                return true;
             }
             field_8_current_frame = field_0_start_frame;
         }
         ApplyCurrentFrame_5BC150();
         field_A_frame_timer = field_4_frame_rate;
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x5bc260)
@@ -143,10 +143,10 @@ TileAnim::TileAnim()
     field_6_repeat = 0;
     field_8_current_frame = 0;
     field_A_frame_timer = 0;
-    field_C_ptr = 0;
+    field_C_ptr = NULL;
     field_10_base = 0;
-    field_12_anim_idx = 0;
-    mpNext = 0;
+    field_12_idx = 0;
+    mpNext = NULL;
 }
 
 MATCH_FUNC(0x5bebd0)

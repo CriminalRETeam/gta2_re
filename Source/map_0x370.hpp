@@ -132,7 +132,7 @@ struct gmp_compressed_map_32
     // 9.6f 0x4630B0
     gmp_compressed_map_32()
     {
-        field_40008_pColumn = 0;
+        field_40008_pColumn = NULL;
         field_4000C_block = 0;
         field_40004_num_blocks = 0;
         field_40000_column_words = 0;
@@ -195,11 +195,11 @@ class gmp_map_zone
     u8 field_5_name_length;
     char_type field_6_name[2];
 
-    EXPORT s8 IsZoneVisibleToAnyPlayer_4DEF40();
+    EXPORT bool IsZoneVisibleToAnyPlayer_4DEF40() const;
     EXPORT wchar_t* get_zone_str_4DEF00();
 
     // 9.6f 0x463020
-    inline bool ContainsPoint_463020(u8 x, u8 y)
+    inline bool ContainsPoint_463020(u8 x, u8 y) const
     {
         return x >= field_1_x && y >= field_2_y && x < field_1_x + field_3_w && y < field_2_y + field_4_h;
     }
@@ -355,11 +355,11 @@ struct gmp_zone_list
 class Map_0x370
 {
   public:
-    EXPORT gmp_block_info* GetBlockOrNull_452980(u8 x_coord, u8 y_coord, u8 z_coord);
+    EXPORT gmp_block_info* GetBlockOrNull_452980(u8 x_coord, u8 y_coord, u8 z_coord) const;
 
     EXPORT gmp_map_zone* FindZoneByName_4DEFD0(const char_type* pZoneName);
 
-    EXPORT s32 FindZoneIdxByName_4DF050(const char_type* pZoneName, BYTE zone_name_len);
+    EXPORT s32 FindZoneIdxByName_4DF050(const char_type* pZoneName, u8 zone_name_len);
 
     EXPORT gmp_map_zone* GetNextZoneOfTypeRoundRobin_4DF0F0(u8 zone_type);
 
@@ -392,7 +392,7 @@ class Map_0x370
                                             s16 gangchar_ratio,
                                             s16 policeped_ratio);
 
-    EXPORT gmp_zone_info* GetZoneInfo_4DF9A0(u16 zone_idx);
+    EXPORT gmp_zone_info* GetZoneInfo_4DF9A0(u16 zone_idx) const;
 
     EXPORT void SetZoneCarDensity_4DF9D0(u16 zone_idx, s16 value);
 
@@ -424,7 +424,7 @@ class Map_0x370
     EXPORT void AllocZones_4DFCA0();
     EXPORT void UpdateLights_4DFCD0();
 
-    EXPORT gmp_block_info* GetBlock_4DFE10(s32 x_coord, s32 y_coord, s32 z_coord);
+    EXPORT gmp_block_info* GetBlock_4DFE10(s32 x_coord, s32 y_coord, s32 z_coord) const;
 
     EXPORT gmp_block_info* GetEffectiveBlock_4DFE60(s32 x, s32 y, s32 z);
     EXPORT gmp_block_info* GetBlockClamped_4DFEE0(s32 x_coord, s32 y_coord, s32 z_coord);
@@ -436,15 +436,15 @@ class Map_0x370
 
     // 9.6f 0x49EBE0, inlined in 10.5; defined in CarPhysics.cpp (ProcessGroundCollisionAndSurfaceType_55B970)
     inline u8 GetBlockSurfaceType_49EBE0(s32 x, s32 y, s32 z, u8* pGradientSize, u8* pGradientLevel);
-    EXPORT char_type TakeBlockedByTerrain_4E0110();
-    EXPORT char_type TakeLowerBlockHasArrows_4E0120();
-    EXPORT bool IsMoveOntoSlopeTileBlocked_4E0130(s32 x, s32 y, s32 z, s32 path_direction, u8* pSlopeZDelta, char_type bReportStepUp);
+    EXPORT bool TakeBlockedByTerrain_4E0110();
+    EXPORT bool TakeLowerBlockHasArrows_4E0120();
+    EXPORT bool IsMoveOntoSlopeTileBlocked_4E0130(s32 x, s32 y, s32 z, s32 path_direction, u8* pSlopeZDelta, bool bReportStepUp);
     EXPORT bool RectHitsDiagonalWall_4E11E0(Fix16_Rect* pRect);
     EXPORT bool SpriteHitsDiagonalWall_4E1520(s32 z_pos);
     EXPORT bool HasWallInArea_4E18A0(s32 x_min, s32 x_max, s32 y_min, s32 y_max, s32 z);
     EXPORT bool SpriteHitsBlockFacesInArea_4E1A30(s32 x_min, s32 x_max, s32 y_min, s32 y_max, s32 z);
-    EXPORT char_type IsTileBlockedForSprite_4E1E00(s32 regionLeft, s32 regionRight, s32 regionTop, s32 regionBottom, s32 tileX, s32 tileY, s32 zLevel);
-    EXPORT char_type IsMovementRegionBlocked_4E4460(s32 tile_x, s32 tile_y, s32 tile_z, Sprite* pSprite, s16 collision_mask);
+    EXPORT bool IsTileBlockedForSprite_4E1E00(s32 regionLeft, s32 regionRight, s32 regionTop, s32 regionBottom, s32 tileX, s32 tileY, s32 zLevel);
+    EXPORT bool IsMovementRegionBlocked_4E4460(s32 tile_x, s32 tile_y, s32 tile_z, Sprite* pSprite, s16 collision_mask);
     EXPORT char_type CheckSlopeTopInSpriteGrid_4E4630(Fix16 z_pos);
     EXPORT bool SlopeBordersFlatInSpriteGrid_4E4770(Fix16 z_pos);
     EXPORT bool AllBlocksInRectHaveSlopeBits_4E4820(Fix16_Rect* pRect, u8 slope_bits);
@@ -465,7 +465,7 @@ class Map_0x370
     EXPORT bool IsProbePathClear_4E5640(Fix16 width, Fix16 height, Fix16 depth, Fix16 from_x, Fix16 from_y, Fix16 from_z, Fix16 to_x, Fix16 to_y, Fix16 to_z);
     EXPORT Fix16 FindGroundZForCoord_4E5B60(Fix16 x_pos, Fix16 y_pos);
     EXPORT u8 UpdateZFromSlopeAtCoord_4E5BF0(Fix16 x_pos, Fix16 y_pos, Fix16& z_pos);
-    EXPORT char_type HasGreenArrowForPathDirection_4E5E90(gmp_block_info* pBlock, s32 direction, char_type bDefault);
+    EXPORT bool HasGreenArrowForPathDirection_4E5E90(gmp_block_info* pBlock, s32 direction, bool bDefault);
     EXPORT s32 GetArrowDirectionFromBlock_4E5FC0(gmp_block_info* pBlock, bool bDontFlip);
     EXPORT s16 ClassifyArrowOnSlope_4E6190(Fix16 x, Fix16 y, Fix16 z, s32 arrow_dir, bool bReverse);
     EXPORT Fix16 FloorPlusOne_4E62B0(Fix16 value);
@@ -715,7 +715,7 @@ class Map_0x370
 
     inline void ClearBlockedByTerrain_492130()
     {
-        field_36E_bBlockedByTerrain = 0;
+        field_36E_bBlockedByTerrain = false;
     }
 
     bool IsNorthOrSouthGradSlope_4634B0(gmp_block_info* pBlock) 
@@ -796,7 +796,7 @@ class Map_0x370
     DmapInfoList field_4_obj;
     gmp_map_zone* field_328_pZoneData;
     gmp_zone_list* field_32C_pZones;
-    BYTE* field_330_pZoneArray;
+    u8* field_330_pZoneArray;
     gmp_zone_info* field_334_pZoneInfo;
     gmp_map_object* field_338_pMapObjects;
     gmp_map_light* field_33C_pLightData;
@@ -815,10 +815,10 @@ class Map_0x370
     u8 field_369_unused;
     u8 field_36A_zone_x;
     u8 field_36B_zone_y;
-    char_type field_36C_bMatchPos;
+    bool field_36C_bMatchPos;
     char_type field_36D_unused;
-    char_type field_36E_bBlockedByTerrain;
-    char_type field_36F_bLowerBlockHasArrows;
+    bool field_36E_bBlockedByTerrain;
+    bool field_36F_bLowerBlockHasArrows;
 };
 
 EXTERN_GLOBAL(Map_0x370*, gMap_0x370_6F6268);
