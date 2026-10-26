@@ -2046,7 +2046,7 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
                     Input_Read_498D10();
                 }
 
-                if (gVidSys_7071D0 && !static_cast<u8>(Bink::IsUsingDDBuffer_513770()))
+                if (gVidSys_7071D0 && !Bink::IsUsingDDBuffer_513770())
                 {
                     SetVideoModeFromSettings_5D92D0();
                     OnVideoModeChanged_5D9680();
@@ -2071,7 +2071,7 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
                 gRoot_sound_66B038.Set3DSound_40F160(0);
                 gRoot_sound_66B038.Release_40F130();
 
-                if (gFrontend_67DC84 && static_cast<u8>(Bink::IsDDBufferOpen_513760()))
+                if (gFrontend_67DC84 && Bink::IsDDBufferOpen_513760())
                 {
                     Bink::CloseSlot1_513340();
                     Bink::CloseSlot2_513390();
