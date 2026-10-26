@@ -2516,7 +2516,7 @@ void Ped::DeallocateWithGroupCleanup_45EA00()
             return;
         }
 
-        if (field_23C_group_idx == 99)
+        if (IsGroupLeader_472FD0())
         {
             if (field_164_ped_group->IsAllMembersInSomeCar_4CAA20())
             {
@@ -2660,7 +2660,7 @@ void Ped::Deallocate_45EB60()
     }
     if (field_164_ped_group)
     {
-        if (field_23C_group_idx == 99)
+        if (IsGroupLeader_472FD0())
         {
             if (field_164_ped_group->IsAllMembersInSomeCar_4CAA20())
             {
@@ -3822,7 +3822,7 @@ void Ped::UpdateAI_462280()
     {
         if (field_164_ped_group)
         {
-            if (field_23C_group_idx != 99)
+            if (!IsGroupLeader_472FD0())
             {
                 if (!field_21C_bf.bPanicking)
                 {
@@ -4423,7 +4423,7 @@ bool Ped::PoolUpdate()
             {
                 if (field_278_ped_state_1 == ped_state_1::dead_9)
                 {
-                    if ((!field_164_ped_group || field_23C_group_idx != 99) && field_258_objective != objectives_enum::objective_28)
+                    if ((!field_164_ped_group || !IsGroupLeader_472FD0()) && field_258_objective != objectives_enum::objective_28)
                     {
                         Ped::SetObjective(objectives_enum::no_obj_0);
                         Ped::SetObjective2_463830(objectives_enum::no_obj_0);
@@ -5580,7 +5580,7 @@ void Ped::Threat_Reaction_AI_465270()
                 abs_y = Fix16::Abs(diff_y);
                 Fix16 dist = Fix16::Max(abs_x, abs_y);
 
-                if (field_164_ped_group && field_23C_group_idx != 99)
+                if (field_164_ped_group && !IsGroupLeader_472FD0())
                 {
                     if (field_164_ped_group->IsMemberTooFarFromLeader_4CAC20(field_23C_group_idx))
                     {
@@ -8333,7 +8333,7 @@ void Ped::GotoAreaByAnyMeans_469060()
             {
                 field_16C_car->SetDriverPedType_421560(ped_type::dummy_with_occupation_6);
             }
-            bool bGroupReady = field_23C_group_idx != 99 || field_164_ped_group->IsAllMembersInSomeCar_4CAA20();
+            bool bGroupReady = !IsGroupLeader_472FD0() || field_164_ped_group->IsAllMembersInSomeCar_4CAA20();
             if (bGroupReady)
             {
                 if (field_258_objective == objectives_enum::kill_char_any_means_19)
@@ -10696,7 +10696,7 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
                     }
                 }
 
-                if ((field_240_occupation == ped_ocupation_enum::fbi || field_23C_group_idx == 99 || bMeleeWeapon) &&
+                if ((field_240_occupation == ped_ocupation_enum::fbi || IsGroupLeader_472FD0() || bMeleeWeapon) &&
                     field_240_occupation != ped_ocupation_enum::stand_still_bloke && !bAttackingVehicleOrObject)
                 {
                     if (gDistanceToTarget_678750 < kFpHalf_67853C)
