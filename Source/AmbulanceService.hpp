@@ -7,7 +7,7 @@ class Ped;
 class EmergencyCrew;
 
 // 25 of these sit in AmbulanceService (the same 25 as the patient queue limit in TryAddPatient_4FA470).
-// init_4FA310 zeroes them and nothing else touches them: the queue is a Ped_List now.
+// init_4FA310 zeroes them and nothing else touches them: the queue itself is field_4_patient_queue.
 class PatientSlot
 {
   public:
@@ -38,7 +38,7 @@ class AmbulanceTask
     u8 field_14_patient_count;
     s16 field_16_unused;
     s32 field_18_in_use;
-    char_type field_1C_done; // set when no paramedic had anything left to do
+    bool field_1C_done; // set when no paramedic had anything left to do
     char_type field_1D_revive_ticks; // counts to 50 while the paramedic stands at the patient
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(AmbulanceTask, 0x20);
