@@ -83,7 +83,7 @@ class Char
     s32 field_C_ped_state_2;
     s32 field_10_char_state;
     Ang16 field_14_target_rotation;
-    s8 field_16_state_init_pending;
+    bool field_16_state_init_pending;
     s8 field_17_unused;
     void* field_18_collided_entity;
     void* field_1C_prev_collided_entity;
@@ -146,7 +146,7 @@ class Char
     Fix16 field_90_fall_speed;
     Fix16 field_94_fall_z_speed;
     Fix16_Point_POD field_98_velocity_vector;
-    s8 field_A0_force_top_layer;
+    bool field_A0_force_top_layer;
     s8 field_A1_unused;
     s8 field_A2_unused;
     s8 field_A3_unused;
