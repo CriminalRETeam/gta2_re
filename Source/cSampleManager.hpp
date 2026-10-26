@@ -31,7 +31,7 @@ class cSampleManager
 
     EXPORT void PlaySampleRange_58E8C0(u32 idx, u32 end_idx);
 
-    EXPORT bool Init3DProvider_58D820(BYTE* pMaxSamples);
+    EXPORT bool Init3DProvider_58D820(u8* pMaxSamples);
 
     EXPORT void Reset3DSamples_58D960();
 
@@ -164,7 +164,7 @@ class cSampleManager
     u8 field_1EB2_3d_samp_count;
     HPROVIDER field_1EB4_h3dProvider[256];
     char_type* field_22B4_str[256];
-    HPROVIDER field_26B4_3d_provider_idx;
+    s32 field_26B4_3d_provider_idx;
     s32 field_26B8_bEaxSupported;
     s32 field_26BC_eax_environment;
     s32 field_26C0_3d_provider;

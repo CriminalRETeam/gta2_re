@@ -299,7 +299,7 @@ bool cSampleManager::OpenDigitalDriver_58D720(bool bFlag, bool bStereo, s32 samp
 }
 
 MATCH_FUNC(0x58D820)
-bool cSampleManager::Init3DProvider_58D820(BYTE* pMaxSamples)
+bool cSampleManager::Init3DProvider_58D820(u8* pMaxSamples)
 {
     Terminate_58DAE0();
     Reset3DSamples_58D960();
