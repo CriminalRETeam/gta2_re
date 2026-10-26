@@ -187,7 +187,7 @@ bool Weapon::is_max_capacity_5DCEA0()
 }
 
 MATCH_FUNC(0x5dcef0)
-bool Weapon::sub_5DCEF0()
+bool Weapon::CountsAsArmedAttack_5DCEF0()
 {
     bool result;
     switch (field_1C_idx)

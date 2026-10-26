@@ -1915,7 +1915,7 @@ block_466022:
         }
 
         if (!((pTargetPed->GetAttacking_433CA0()) && pTargetPed->field_170_selected_weapon != 0 &&
-              pTargetPed->field_170_selected_weapon->sub_5DCEF0()))
+              pTargetPed->field_170_selected_weapon->CountsAsArmedAttack_5DCEF0()))
         {
             if (pTargetPed->field_20A_wanted_points < 0x258 && this->field_144_attacker != pTargetPed && pTargetPed->field_26A_recent_crime_timer <= 0u)
             {
@@ -6158,7 +6158,7 @@ block_466022:
         }
 
         if (!((pTargetPed->GetAttacking_433CA0()) && pTargetPed->field_170_selected_weapon != 0 &&
-              pTargetPed->field_170_selected_weapon->sub_5DCEF0()))
+              pTargetPed->field_170_selected_weapon->CountsAsArmedAttack_5DCEF0()))
         {
             if (pTargetPed->get_wanted_points_433DC0() < 0x258 && this->field_144_attacker != pTargetPed && pTargetPed->field_26A_recent_crime_timer <= 0u)
             {

@@ -55,7 +55,7 @@ class Weapon
     EXPORT void set_ammo_clips_5DCE20(u8 clips);
     EXPORT bool add_ammo_capped_5DCE40(u8 to_add);
     EXPORT bool is_max_capacity_5DCEA0();
-    EXPORT bool sub_5DCEF0();
+    EXPORT bool CountsAsArmedAttack_5DCEF0();
     EXPORT void ApplyFastReload_5DCF40();
     EXPORT Object* spawn_bullet_5DCF60(s32 bullet_type, Fix16 x, Fix16 y, Fix16 z, Ang16 rot, Fix16_Point& speed);
     EXPORT void flamethrower_5DD0F0();
