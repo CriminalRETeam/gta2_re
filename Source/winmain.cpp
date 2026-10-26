@@ -370,7 +370,7 @@ DEFINE_GLOBAL(u8, bForceGameUpdate_6F5880, 0x6F5880);
 MATCH_FUNC(0x4DA820)
 EXPORT void ForceGameUpdate_4DA820()
 {
-    bForceGameUpdate_6F5880 = 1;
+    bForceGameUpdate_6F5880 = true;
 }
 
 // TODO: Other missing stubs here
@@ -791,15 +791,15 @@ EXPORT void InitVideo_5D96C0()
     if (GetHwndDCDeviceCaps_5D9800() == 16)
     {
         bool bDeviceFound = Vid_FindDevice_5D9290();
-        bWindowedModeAvailable_706C5C = 1;
+        bWindowedModeAvailable_706C5C = true;
         if (!bDeviceFound)
         {
-            bWindowedModeAvailable_706C5C = 0;
+            bWindowedModeAvailable_706C5C = false;
         }
     }
     else
     {
-        bWindowedModeAvailable_706C5C = 0;
+        bWindowedModeAvailable_706C5C = false;
     }
 
     SetVideoModeFromSettings_5D92D0();
@@ -934,7 +934,7 @@ EXPORT void __stdcall InitializeGame_4DA4D0()
     if (bReplayMode_6F5B71)
     {
         gInputRecorder_67F8B0.input_init_replay_4CE740(gHInstance_708220);
-        bReplayMode_6F5B71 = 0;
+        bReplayMode_6F5B71 = false;
     }
     else
     {
@@ -961,7 +961,7 @@ EXPORT void __stdcall InitializeGame_4DA4D0()
         gpInputBuffer_6F58C0 = reinterpret_cast<ReceivedPacket*>(&gCurrentNetInputs_6F57D8.field_0_inputs[0]);
         gCurrentInputsBufferSize_6F58C4 = 48;
         dword_6F5B00 = 0;
-        bRecordStartTime_6F593C = 1;
+        bRecordStartTime_6F593C = true;
         gPlayerQuit_6F5AEC = false;
         gNetDisconnectPlayersBits_6F56B8 = 0;
         gNetworkFrameCounter_6F5868 = 0;
@@ -989,8 +989,8 @@ EXPORT void __stdcall InitializeGame_4DA4D0()
 
     gMatchStartTime_6F5A28 = timeGetTime();
     gFramesSinceDraw_6F58D8 = 0;
-    bForceGameUpdate_6F5880 = 0;
-    bInputsPending_6F5760 = 1;
+    bForceGameUpdate_6F5880 = false;
+    bInputsPending_6F5760 = true;
 }
 
 // todo: move
@@ -1010,7 +1010,7 @@ EXPORT void __stdcall ApplyChangedScreenSettings_5D9690()
     {
         SetVideoModeFromSettings_5D92D0();
         OnVideoModeChanged_5D9680();
-        bVideoModeResetPending_706C5D = 0;
+        bVideoModeResetPending_706C5D = false;
     }
     Input_MouseAcquire_5D7C60();
 }
@@ -1472,10 +1472,9 @@ EXPORT void __stdcall do_network_and_local_inputs_4DAF30()
 MATCH_FUNC(0x4DA850)
 EXPORT bool RunGameFrame_4DA850()
 {
-    u8 frame_due = 0;
     bool exit_requested = false;
-    u8 drew_frame = 0;
-    u8 updated_logic = 0;
+    bool drew_frame = false;
+    bool updated_logic = false;
     DWORD Time = timeGetTime();
 
     if (bStartNetworkGame_7081F0)
@@ -1491,18 +1490,16 @@ EXPORT bool RunGameFrame_4DA850()
     {
         if (!max_frame_rate_626A08 && !gFramesSinceDraw_6F58D8 || Time >= gMatchStartTime_6F5A28)
         {
-            frame_due = 1;
-            updated_logic = 1;
+            updated_logic = true;
         }
         if (gFramesSinceDraw_6F58D8 >= 8u || !min_frame_rate_706C50 && gFramesSinceDraw_6F58D8)
         {
-            frame_due = 0;
-            updated_logic = 0;
+            updated_logic = false;
         }
 
         if (bForceGameUpdate_6F5880 || bSkip_draw_67D4EA)
         {
-            updated_logic = 1;
+            updated_logic = true;
         }
 
         if (updated_logic)
@@ -1514,25 +1511,25 @@ EXPORT bool RunGameFrame_4DA850()
             if (bInputsPending_6F5760)
             {
                 do_network_and_local_inputs_4DAF30();
-                bInputsPending_6F5760 = 0;
+                bInputsPending_6F5760 = false;
             }
             exit_requested = ExecuteGame_4DA780();
             s32 frame_ms = gGame_0x40_67E008->GetFrameDurationMs_4B8BB0();
-            bForceGameUpdate_6F5880 = 0;
+            bForceGameUpdate_6F5880 = false;
             gMatchStartTime_6F5A28 += frame_ms;
             ++gFramesSinceDraw_6F58D8;
-            bInputsPending_6F5760 = 1;
+            bInputsPending_6F5760 = true;
         }
         else if (gFramesSinceDraw_6F58D8)
         {
             Draw_4DA7B0();
             gFramesSinceDraw_6F58D8 = 0;
-            drew_frame = 1;
+            drew_frame = true;
         }
         else if (bInputsPending_6F5760)
         {
             do_network_and_local_inputs_4DAF30();
-            bInputsPending_6F5760 = 0;
+            bInputsPending_6F5760 = false;
         }
     }
 
@@ -2049,7 +2046,7 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
                 {
                     SetVideoModeFromSettings_5D92D0();
                     OnVideoModeChanged_5D9680();
-                    bVideoModeResetPending_706C5D = 0;
+                    bVideoModeResetPending_706C5D = false;
                 }
 
                 if (gGame_0x40_67E008)
@@ -2081,7 +2078,7 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
                     if (!Vid_FindDevice_5D9290())
                     {
                         pVid_CloseScreen(gVidSys_7071D0);
-                        bVideoModeResetPending_706C5D = 1;
+                        bVideoModeResetPending_706C5D = true;
                         ShowWindow(gHwnd_707F04, SW_SHOWMINNOACTIVE);
                     }
                 }
@@ -2360,11 +2357,11 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
 
     // Game loop
 
-    u8 bQuit = 0;
+    bool bQuit = false;
 
     while (true)
     {
-        bQuit = 0;
+        bQuit = false;
 
         if (bDoFrontEnd_626B68)
         {
@@ -2407,7 +2404,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
 
                         if (t == Quit_1)
                         {
-                            bQuit = Quit_1;
+                            bQuit = true;
                             Frontend::destroy_4AD070();
                             DestroyWindow(gHwnd_707F04);
                             continue; // go to PeekMessageA
