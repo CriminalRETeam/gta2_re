@@ -50,6 +50,22 @@
 #include "winmain.hpp"
 #include "ped_graphic_type.hpp"
 
+// Modes of ChangePedStatesByMode_463300: the ped_state_1/ped_state_2 pair each one sets
+namespace ped_states_mode
+{
+enum
+{
+    walk_1 = 1,
+    flee_2 = 2,
+    run_to_target_3 = 3,
+    stand_still_4 = 4,
+    drive_5 = 5,
+    go_to_car_6 = 6,
+    exit_car_7 = 7,
+    unchanged_99 = 99,
+};
+}
+
 // =================
 DEFINE_GLOBAL_INIT(s8, byte_61A8A3, 1, 0x61A8A3);
 DEFINE_GLOBAL_INIT(Ang16, kAng0_6FDB34, Ang16(0), 0x6FDB34);
@@ -4516,31 +4532,31 @@ void Ped::ChangePedStatesByMode_463300(u8 mode)
 {
     switch (mode)
     {
-        case 1u:
+        case ped_states_mode::walk_1:
             Ped::ChangeNextPedState1_45C500(ped_state_1::walking_0);
             Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_walking_0);
             break;
-        case 2u:
+        case ped_states_mode::flee_2:
             Ped::ChangeNextPedState1_45C500(ped_state_1::flee_or_running_1);
             Ped::ChangeNextPedState2_45C540(ped_state_2::Unknown_3);
             break;
-        case 3u:
+        case ped_states_mode::run_to_target_3:
             Ped::ChangeNextPedState1_45C500(ped_state_1::flee_or_running_1);
             Ped::ChangeNextPedState2_45C540(ped_state_2::Unknown_2);
             break;
-        case 4u:
+        case ped_states_mode::stand_still_4:
             Ped::ChangeNextPedState1_45C500(ped_state_1::standing_still_7);
             Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_staying_14);
             break;
-        case 5u:
+        case ped_states_mode::drive_5:
             Ped::ChangeNextPedState1_45C500(ped_state_1::in_car_10);
             Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_driving_10);
             break;
-        case 6u:
+        case ped_states_mode::go_to_car_6:
             Ped::ChangeNextPedState1_45C500(ped_state_1::entering_car_3);
             Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_following_a_car_4);
             break;
-        case 7u:
+        case ped_states_mode::exit_car_7:
             Ped::ChangeNextPedState1_45C500(ped_state_1::exiting_car_4);
             Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_driving_10);
             break;
@@ -4552,7 +4568,7 @@ void Ped::ChangePedStatesByMode_463300(u8 mode)
 MATCH_FUNC(0x4633e0)
 void Ped::SetStatesForObjective_4633E0(bool bMainObj)
 {
-    u8 state = 99;
+    u8 state = ped_states_mode::unchanged_99;
     s32 obj;
     if (bMainObj)
     {
@@ -4565,12 +4581,12 @@ void Ped::SetStatesForObjective_4633E0(bool bMainObj)
     switch (obj)
     {
         case objectives_enum::no_obj_0:
-            state = field_16C_car ? 5 : 1;
+            state = field_16C_car ? ped_states_mode::drive_5 : ped_states_mode::walk_1;
             break;
         case objectives_enum::flee_on_foot_till_safe_1:
         case objectives_enum::flee_char_on_foot_till_safe_2:
         case objectives_enum::flee_char_on_foot_always_3:
-            state = 2;
+            state = ped_states_mode::flee_2;
             break;
         case objectives_enum::guard_spot_24:
         case objectives_enum::guard_area_25:
@@ -4581,7 +4597,7 @@ void Ped::SetStatesForObjective_4633E0(bool bMainObj)
         case objectives_enum::objective_45:
         case objectives_enum::objective_46:
         case objectives_enum::objective_47:
-            state = 4;
+            state = ped_states_mode::stand_still_4;
             break;
         case objectives_enum::goto_area_in_car_14:
         case objectives_enum::wait_in_car_27:
@@ -4591,15 +4607,15 @@ void Ped::SetStatesForObjective_4633E0(bool bMainObj)
         case objectives_enum::objective_54:
         case objectives_enum::follow_car_in_car_55:
         case objectives_enum::fire_at_object_from_vehicle_57:
-            state = 5;
+            state = ped_states_mode::drive_5;
             break;
         case objectives_enum::enter_car_as_driver_35:
         case objectives_enum::enter_train_37:
-            state = 6;
+            state = ped_states_mode::go_to_car_6;
             break;
         case objectives_enum::leave_car_36:
         case objectives_enum::leave_train_38:
-            state = field_168_game_object ? 1 : 7;
+            state = field_168_game_object ? ped_states_mode::walk_1 : ped_states_mode::exit_car_7;
             break;
         case objectives_enum::objective_7:
         case objectives_enum::objective_9:
@@ -4615,13 +4631,13 @@ void Ped::SetStatesForObjective_4633E0(bool bMainObj)
         case objectives_enum::follow_car_on_foot_with_offset_56:
         case objectives_enum::destroy_object_58:
         case objectives_enum::destroy_car_59:
-            state = 3;
+            state = ped_states_mode::run_to_target_3;
             break;
         case objectives_enum::objective_8:
         case objectives_enum::kill_frenzy_22:
         case objectives_enum::objective_49:
         case objectives_enum::objective_51:
-            state = 1;
+            state = ped_states_mode::walk_1;
             break;
         case objectives_enum::objective_50:
             Ped::ChangeNextPedState1_45C500(ped_state_1::dead_9);
@@ -4653,7 +4669,7 @@ void Ped::SetObjective(s32 objective, s16 objective_timer)
         this->field_1A0_objective_target_object = NULL;
         this->field_225_objective_status = objective_status::not_finished_0;
 
-        u8 mode = 99;
+        u8 mode = ped_states_mode::unchanged_99;
 
         field_21C_bf.bPanicking = false;
         field_21C_bf.bFlag22 = false;
@@ -4661,20 +4677,20 @@ void Ped::SetObjective(s32 objective, s16 objective_timer)
         switch (objective)
         {
             case objectives_enum::no_obj_0:
-                mode = field_16C_car != NULL ? 5 : 1;
+                mode = field_16C_car != NULL ? ped_states_mode::drive_5 : ped_states_mode::walk_1;
                 break;
 
             case objectives_enum::flee_on_foot_till_safe_1:
             case objectives_enum::flee_char_on_foot_till_safe_2:
             case objectives_enum::flee_char_on_foot_always_3:
-                mode = 2;
+                mode = ped_states_mode::flee_2;
                 break;
 
             case objectives_enum::kill_char_on_foot_20:
             case objectives_enum::punch_char_23:
             case objectives_enum::destroy_object_58:
             case objectives_enum::destroy_car_59:
-                mode = 3;
+                mode = ped_states_mode::run_to_target_3;
                 SetObjective2_463830(objectives_enum::no_obj_0);
                 break;
 
@@ -4684,7 +4700,7 @@ void Ped::SetObjective(s32 objective, s16 objective_timer)
                 this->field_1DC_objective_target_x = this->field_1AC_cam.x;
                 this->field_1E0_objective_target_y = this->field_1AC_cam.y;
                 this->field_1E4_objective_target_z = this->field_1AC_cam.z;
-                mode = 4;
+                mode = ped_states_mode::stand_still_4;
                 break;
 
             case objectives_enum::goto_area_in_car_14:
@@ -4697,17 +4713,17 @@ void Ped::SetObjective(s32 objective, s16 objective_timer)
             case objectives_enum::fire_at_object_from_vehicle_57:
             case objectives_enum::turret_put_out_car_fire_60:
             case objectives_enum::objective_61:
-                mode = 5;
+                mode = ped_states_mode::drive_5;
                 break;
 
             case objectives_enum::enter_car_as_driver_35:
             case objectives_enum::enter_train_37:
-                mode = 6;
+                mode = ped_states_mode::go_to_car_6;
                 break;
 
             case objectives_enum::leave_car_36:
             case objectives_enum::leave_train_38:
-                mode = field_168_game_object != NULL ? 1 : 7;
+                mode = field_168_game_object != NULL ? ped_states_mode::walk_1 : ped_states_mode::exit_car_7;
                 break;
 
             case objectives_enum::patrol_on_foot_42:
@@ -4728,7 +4744,7 @@ void Ped::SetObjective(s32 objective, s16 objective_timer)
                 SetObjective2_463830(objectives_enum::no_obj_0);
                 // fall through
             case objectives_enum::kill_frenzy_22:
-                mode = 3;
+                mode = ped_states_mode::run_to_target_3;
                 break;
 
             case objectives_enum::objective_28:
@@ -4741,7 +4757,7 @@ void Ped::SetObjective(s32 objective, s16 objective_timer)
 
             case objectives_enum::objective_8:
             case objectives_enum::objective_51:
-                mode = 1;
+                mode = ped_states_mode::walk_1;
                 break;
 
             case objectives_enum::objective_50:
@@ -4763,7 +4779,7 @@ void Ped::SetObjective2_463830(s32 internal_objective, s16 internal_objective_ti
     u8 x_int;
     u8 y_int;
     u8 z_int;
-    u8 mode = 99;
+    u8 mode = ped_states_mode::unchanged_99;
     if (this->field_278_ped_state_1 != ped_state_1::dead_9)
     {
         if (this->field_27C_ped_state_2 == ped_state_2::ped2_entering_a_car_6 ||
@@ -4803,7 +4819,7 @@ void Ped::SetObjective2_463830(s32 internal_objective, s16 internal_objective_ti
             case objectives_enum::flee_on_foot_till_safe_1:
             case objectives_enum::flee_char_on_foot_till_safe_2:
             case objectives_enum::flee_char_on_foot_always_3:
-                mode = 2;
+                mode = ped_states_mode::flee_2;
                 break;
             case objectives_enum::objective_7:
             case objectives_enum::objective_9:
@@ -4813,10 +4829,10 @@ void Ped::SetObjective2_463830(s32 internal_objective, s16 internal_objective_ti
             case objectives_enum::kill_char_on_foot_20:
             case objectives_enum::punch_char_23:
             case objectives_enum::objective_48:
-                mode = 3;
+                mode = ped_states_mode::run_to_target_3;
                 break;
             case objectives_enum::enter_car_as_driver_35:
-                mode = 6;
+                mode = ped_states_mode::go_to_car_6;
                 break;
             case objectives_enum::enter_train_37:
                 Ped::ChangeNextPedState1_45C500(ped_state_1::unknown_5);
@@ -4827,11 +4843,11 @@ void Ped::SetObjective2_463830(s32 internal_objective, s16 internal_objective_ti
                 Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_driving_10);
                 break;
             case objectives_enum::leave_car_36:
-                mode = 7;
+                mode = ped_states_mode::exit_car_7;
                 break;
             case objectives_enum::objective_17:
             {
-                mode = 3;
+                mode = ped_states_mode::run_to_target_3;
                 x_int = this->field_1AC_cam.x.ToUInt8();
                 y_int = this->field_1AC_cam.y.ToUInt8();
                 z_int = this->field_1AC_cam.z.ToUInt8();
@@ -4842,7 +4858,7 @@ void Ped::SetObjective2_463830(s32 internal_objective, s16 internal_objective_ti
                 break;
             }
             case objectives_enum::goto_area_in_car_14:
-                mode = 5;
+                mode = ped_states_mode::drive_5;
                 break;
             case objectives_enum::wait_on_foot_26:
             case objectives_enum::objective_29:
@@ -4851,12 +4867,12 @@ void Ped::SetObjective2_463830(s32 internal_objective, s16 internal_objective_ti
             case objectives_enum::objective_45:
             case objectives_enum::objective_46:
             case objectives_enum::objective_47:
-                mode = 4;
+                mode = ped_states_mode::stand_still_4;
                 break;
             case objectives_enum::no_obj_0:
             case objectives_enum::kill_frenzy_22:
             case objectives_enum::objective_49:
-                mode = 1;
+                mode = ped_states_mode::walk_1;
                 break;
             default:
                 break;
