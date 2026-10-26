@@ -3765,7 +3765,7 @@ const char_type* sound_obj::GetFileName_41A1E0(const char_type* pStr)
 }
 
 MATCH_FUNC(0x41A250)
-void sound_obj::SetSfxVol_41A250(u8 sfxVol) // TODO: Arg type
+void sound_obj::SetSfxVol_41A250(u8 sfxVol)
 {
     field_24_sfx_vol = sfxVol;
 }
@@ -3900,7 +3900,7 @@ u8 sound_obj::CalcVolume_41A3F0(u8 base_volume, Fix16 max_dist, Fix16 dist) cons
 }
 
 MATCH_FUNC(0x41A4A0)
-u8 sound_obj::ComputePan_41A4A0(Fix16 intensity, Fix16 x_offset) const // TODO: Ret type
+u8 sound_obj::ComputePan_41A4A0(Fix16 intensity, Fix16 x_offset) const
 {
     Fix16 half_width = intensity / kFp64_674DA8;
     if (half_width == kFpZero_674CD8)
