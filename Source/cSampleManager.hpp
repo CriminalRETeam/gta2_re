@@ -19,12 +19,16 @@ class cSampleManager
   public:
     EXPORT cSampleManager();
 
+  private:
     EXPORT bool DisableA3DSplash_58D620();
 
+  public:
     EXPORT bool SoundInit_58D6C0(s32* not_used);
 
+  private:
     EXPORT bool OpenDigitalDriver_58D720(bool bFlag, bool bStereo, s32 sampleRate);
 
+  public:
     // todo: order
 
     EXPORT bool AllocSamples_58D9F0(s32 not_used);
@@ -33,6 +37,7 @@ class cSampleManager
 
     EXPORT bool Init3DProvider_58D820(u8* pMaxSamples);
 
+  private:
     EXPORT void Reset3DSamples_58D960();
 
     EXPORT void AllocSample_58DA80();
@@ -41,6 +46,7 @@ class cSampleManager
 
     EXPORT void Terminate_58DAE0();
 
+  public:
     EXPORT void Shutdown_58DB30();
 
     EXPORT s32 GetPlayBackRate_58DBF0(s32 idx) const;
@@ -92,6 +98,8 @@ class cSampleManager
     EXPORT void StopChannel3D_58DFC0(s32 samp_idx);
 
     EXPORT u8 Get3DSampleCount_58E000() const;
+
+  private:
     EXPORT void SetEaxEnvironment_58E010(s32 env_idx);
 
     EXPORT bool Open3DProvider_58E140(s32 provider_idx);
@@ -102,6 +110,7 @@ class cSampleManager
     // todo order
     EXPORT void Enum3DProviders_58E1F0();
 
+  public:
     // order func
 
     EXPORT bool StreamStatus_58E2C0() const;
@@ -150,6 +159,8 @@ class cSampleManager
 
     HDIGDRIVER field_0_hDriver;
     char_type field_4_gtaAudioDriveLetter;
+
+  private:
     char_type field_5_str[80];
     bool field_55_bMusicFound;
     HSAMPLE field_58_hSamples[16];
