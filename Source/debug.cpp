@@ -174,56 +174,56 @@ void Debug::Init_4ABBD0()
 MATCH_FUNC(0x4AC200)
 bool Debug::HaveOnlyFrenchGtx_4AC200()
 {
-    bool bEGtxExists = false;
-    bool bFgxtExists = false;
-    bool bGGtxExists = false;
-    bool bIGtxExists = false;
-    bool bJGtxExists = false;
-    bool bSGtxExists = false;
+    bool bEGxtExists = false;
+    bool bFGxtExists = false;
+    bool bGGxtExists = false;
+    bool bIGxtExists = false;
+    bool bJGxtExists = false;
+    bool bSGxtExists = false;
 
     FILE* fEnglish = fopen("data\\e.gxt", "rb");
     if (fEnglish)
     {
         fclose(fEnglish);
-        bEGtxExists = true;
+        bEGxtExists = true;
     }
 
     FILE* fFrench = fopen("data\\f.gxt", "rb");
     if (fFrench)
     {
         fclose(fFrench);
-        bFgxtExists = true;
+        bFGxtExists = true;
     }
 
     FILE* fGerman = fopen("data\\g.gxt", "rb");
     if (fGerman)
     {
         fclose(fGerman);
-        bGGtxExists = true;
+        bGGxtExists = true;
     }
 
     FILE* fItalian = fopen("data\\i.gxt", "rb");
     if (fItalian)
     {
         fclose(fItalian);
-        bIGtxExists = true;
+        bIGxtExists = true;
     }
 
     FILE* fJapanese = fopen("data\\j.gxt", "rb");
     if (fJapanese)
     {
         fclose(fJapanese);
-        bJGtxExists = true;
+        bJGxtExists = true;
     }
 
     FILE* fSpanish = fopen("data\\s.gxt", "rb");
     if (fSpanish)
     {
         fclose(fSpanish);
-        bSGtxExists = true;
+        bSGxtExists = true;
     }
 
-    bool r = (!bEGtxExists && bFgxtExists == true && !bGGtxExists && !bIGtxExists && !bJGtxExists && !bSGtxExists);
+    bool r = (!bEGxtExists && bFGxtExists == true && !bGGxtExists && !bIGxtExists && !bJGxtExists && !bSGxtExists);
 
     return r;
 }
