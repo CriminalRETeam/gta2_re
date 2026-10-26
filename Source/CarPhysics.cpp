@@ -92,13 +92,13 @@ DEFINE_GLOBAL_INIT(Fix16, kFpPoint2_6FDFD8, Fix16(0xCCC, 0), 0x6FDFD8);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint05_6FE1D4, Fix16(0x333, 0), 0x6FE1D4);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint8_6FDFF8, Fix16(0x3333, 0), 0x6FDFF8);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint6_6FE228, kFpPoint6_6FDFF0, 0x6FE228);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FE374, kFpPoint2_6FDFD8 + kFpPoint05_6FE1D4, 0x6FE374);
+DEFINE_GLOBAL_INIT(Fix16, kFpQuarter_6FE374, kFpPoint2_6FDFD8 + kFpPoint05_6FE1D4, 0x6FE374);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint8_6FE104, kFpPoint8_6FDFF8, 0x6FE104);
 
 DEFINE_GLOBAL_INIT(Ang16, kAng90_6FE00C, Ang16(360), 0x6FE00C);
 DEFINE_GLOBAL_INIT(Ang16, kAng270_6FE154, Ang16(1080), 0x6FE154);
 DEFINE_GLOBAL_INIT(Ang16, kAng180_6FE12A, Ang16(720), 0x6FE12A);
-DEFINE_GLOBAL(Fix16_Point, stru_6FE1F0, 0x6FE1F0);
+DEFINE_GLOBAL(Fix16_Point, gCollisionNormal_6FE1F0, 0x6FE1F0);
 DEFINE_GLOBAL_INIT(Fix16, kAngFix16OneDegree_6FE3C4, Fix16(0x11C, 0), 0x6FE3C4);
 DEFINE_GLOBAL_INIT(Fix16, kAngFix16OneDegree_6FDFA4, kAngFix16OneDegree_6FE3C4, 0x6FDFA4);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6FDF80, kFP16One64th_6FE2E0, 0x6FDF80);
@@ -132,14 +132,14 @@ DEFINE_GLOBAL_INIT(Fix16, kFP16One128th_6FDFDC, kFP16One128th_6FE0A0, 0x6FDFDC);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint95_6FE334, kFpOne_6FE210 - kFpPoint05_6FE1D4, 0x6FE334);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint005_6FE2F0, Fix16(0x51, 0), 0x6FE2F0);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint01_6FE1C4, Fix16(0xA3, 0), 0x6FE1C4);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FE330, kFpOne_6FE210 - kFpPoint005_6FE2F0 - kFpPoint01_6FE1C4, 0x6FE330);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FE240, kFpOne_6FE210 - kFpPoint005_6FE2F0 - kFpPoint01_6FE1C4, 0x6FE240);
+DEFINE_GLOBAL_INIT(Fix16, kFpPoint985_6FE330, kFpOne_6FE210 - kFpPoint005_6FE2F0 - kFpPoint01_6FE1C4, 0x6FE330);
+DEFINE_GLOBAL_INIT(Fix16, kFpPoint985_6FE240, kFpOne_6FE210 - kFpPoint005_6FE2F0 - kFpPoint01_6FE1C4, 0x6FE240);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint06_6FE1E4, Fix16(0x3D7, 0), 0x6FE1E4);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint94_6FDF18, kFpOne_6FE210 - kFpPoint06_6FE1E4, 0x6FDF18);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint1_6FDFD0, Fix16(0x666, 0), 0x6FDFD0);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint9_6FE100, kFpOne_6FE210 - kFpPoint1_6FDFD0, 0x6FE100);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FE0FC, kFpOne_6FE210 - FastCarMinVelocity_6FE1CC, 0x6FE0FC);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FDFBC, kFpOne_6FE210 - FastCarMinVelocity_6FE1CC, 0x6FDFBC);
+DEFINE_GLOBAL_INIT(Fix16, kFpPoint97_6FE0FC, kFpOne_6FE210 - FastCarMinVelocity_6FE1CC, 0x6FE0FC);
+DEFINE_GLOBAL_INIT(Fix16, kFpPoint97_6FDFBC, kFpOne_6FE210 - FastCarMinVelocity_6FE1CC, 0x6FDFBC);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint12_6FE1E0, Fix16(0x7AE, 0), 0x6FE1E0);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint88_6FE318, kFpOne_6FE210 - kFpPoint12_6FE1E0, 0x6FE318);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint05_6FE3B4, kFpPoint05_6FE1D4, 0x6FE3B4);
@@ -147,8 +147,8 @@ DEFINE_GLOBAL_INIT(Fix16, kFpPoint01_6FE15C, kFpPoint01_6FE1C4, 0x6FE15C);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint1_6FE2F4, kFpPoint1_6FDFD0, 0x6FE2F4);
 
 DEFINE_GLOBAL_INIT(Fix16, kFP16Half_6FE0C0, Fix16(0x2000, 0), 0x6FE0C0);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FE064, Fix16(0x1FE8, 0), 0x6FE064);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FE350, Fix16(0x824, 0), 0x6FE350);
+DEFINE_GLOBAL_INIT(Fix16, kSlopeGradient2_6FE064, Fix16(0x1FE8, 0), 0x6FE064);
+DEFINE_GLOBAL_INIT(Fix16, kSlopeGradient8_6FE350, Fix16(0x824, 0), 0x6FE350);
 
 DEFINE_GLOBAL_INIT(Fix16, kAngFix16QuarterCircle_6FE10C, Fix16(0x63D8, 0), 0x6FE10C);
 DEFINE_GLOBAL_INIT(Fix16, kAngFix16TwentyFiveDegrees_6FE134, kAngFix16OneDegree_6FE3C4 * 25, 0x6FE134);
@@ -172,10 +172,10 @@ DEFINE_GLOBAL_INIT(Fix16, kFP16MinusOne_6FDF1C, Fix16(262143), 0x6FDF1C);
 DEFINE_GLOBAL(Fix16_Point, kZeroPoint_6FE300, 0x6FE300);
 
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint9_6FDFFC, Fix16(0x3999, 0), 0x6FDFFC);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FE358, kFP16One64th_6FE2E0*(kFpPoint1_6FDFD0 + kFpOne_6FE210), 0x6FE358);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FE078, (kAngFix16OneDegree_6FE3C4 * kFpPoint9_6FDFFC), 0x6FE078);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FE390, (kFP16One64th_6FE2E0 * kFpPoint9_6FDFFC), 0x6FE390);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FE080, kAngFix16OneDegree_6FE3C4*(kFpPoint1_6FDFD0 + kFpOne_6FE210), 0x6FE080);
+DEFINE_GLOBAL_INIT(Fix16, kAiWallTurnForce_6FE358, kFP16One64th_6FE2E0*(kFpPoint1_6FDFD0 + kFpOne_6FE210), 0x6FE358);
+DEFINE_GLOBAL_INIT(Fix16, kPlayerWallTurnTorque_6FE078, (kAngFix16OneDegree_6FE3C4 * kFpPoint9_6FDFFC), 0x6FE078);
+DEFINE_GLOBAL_INIT(Fix16, kPlayerWallTurnForce_6FE390, (kFP16One64th_6FE2E0 * kFpPoint9_6FDFFC), 0x6FE390);
+DEFINE_GLOBAL_INIT(Fix16, kAiWallTurnTorque_6FE080, kAngFix16OneDegree_6FE3C4*(kFpPoint1_6FDFD0 + kFpOne_6FE210), 0x6FE080);
 DEFINE_GLOBAL_INIT(Fix16, kFP16One16th_6FE270, Fix16(0x400, 0), 0x6FE270);
 DEFINE_GLOBAL_INIT(Fix16, kFpThreeEighths_6FE178, Fix16(0x1800, 0), 0x6FE178);
 
@@ -988,10 +988,10 @@ Fix16 CarPhysics::ComputeSlopeCorrection_55AB50(Fix16* pOutY)
             slope_val = kFP16One_6FDF7C;
             break;
         case 2:
-            slope_val = dword_6FE064;
+            slope_val = kSlopeGradient2_6FE064;
             break;
         case 8:
-            slope_val = dword_6FE350;
+            slope_val = kSlopeGradient8_6FE350;
             break;
         default:
             slope_val = kFP16Zero_6FE20C;
@@ -1556,7 +1556,7 @@ void CarPhysics::HandleMapBoundaryCollisionY_55C5C0(Fix16_Point& pPoint, Ang16 a
                                                                                         CollisionIntersectionPoint_6FE1A0,
                                                                                         gCollisionArea_6FDFC4))
     {
-        stru_6FE1F0.SetXY_432860(Fix16(0), field_38_cp1.y - gCollisionTarget_679188.field_18_hseg_y);
+        gCollisionNormal_6FE1F0.SetXY_432860(Fix16(0), field_38_cp1.y - gCollisionTarget_679188.field_18_hseg_y);
         RelativePointVelocity = ComputeRelativePointVelocity_561130(&CollisionIntersectionPoint_6FE1A0);
     }
     else
@@ -1583,11 +1583,11 @@ void CarPhysics::HandleMapBoundaryCollisionY_55C5C0(Fix16_Point& pPoint, Ang16 a
         RelativePointVelocity = ComputeRelativePointVelocity_561130(&CollisionIntersectionPoint_6FE1A0);
         if (field_38_cp1.y < CollisionIntersectionPoint_6FE1A0.y)
         {
-            stru_6FE1F0.SetXY_432860(Fix16(0), -kFpOne_6FE210);
+            gCollisionNormal_6FE1F0.SetXY_432860(Fix16(0), -kFpOne_6FE210);
         }
         else
         {
-            stru_6FE1F0.SetXY_432860(Fix16(0), kFpOne_6FE210);
+            gCollisionNormal_6FE1F0.SetXY_432860(Fix16(0), kFpOne_6FE210);
         }
     }
     CarPhysics::HandleWorldCollision_55FD00(RelativePointVelocity);
@@ -1602,7 +1602,7 @@ void CarPhysics::HandleMapBoundaryCollisionX_55C820(Fix16_Point& pPoint, Ang16 a
                                                                                       CollisionIntersectionPoint_6FE1A0,
                                                                                       gCollisionArea_6FDFC4))
     {
-        stru_6FE1F0.SetXY_432860(field_38_cp1.x - gCollisionTarget_679188.field_14_vseg_x, Fix16(0));
+        gCollisionNormal_6FE1F0.SetXY_432860(field_38_cp1.x - gCollisionTarget_679188.field_14_vseg_x, Fix16(0));
         RelativePointVelocity = ComputeRelativePointVelocity_561130(&CollisionIntersectionPoint_6FE1A0);
     }
     else
@@ -1629,11 +1629,11 @@ void CarPhysics::HandleMapBoundaryCollisionX_55C820(Fix16_Point& pPoint, Ang16 a
         RelativePointVelocity = ComputeRelativePointVelocity_561130(&CollisionIntersectionPoint_6FE1A0);
         if (field_38_cp1.x < CollisionIntersectionPoint_6FE1A0.x)
         {
-            stru_6FE1F0.SetXY_432860(-kFpOne_6FE210, Fix16(0));
+            gCollisionNormal_6FE1F0.SetXY_432860(-kFpOne_6FE210, Fix16(0));
         }
         else
         {
-            stru_6FE1F0.SetXY_432860(kFpOne_6FE210, Fix16(0));
+            gCollisionNormal_6FE1F0.SetXY_432860(kFpOne_6FE210, Fix16(0));
         }
     }
     CarPhysics::HandleWorldCollision_55FD00(RelativePointVelocity);
@@ -2000,7 +2000,7 @@ void CarPhysics::ApplyVerticalEdgeNudge_55EC30()
         theta = field_58_theta;
     }
 
-    if (stru_6FE1F0.x > kFP16Zero_6FE20C)
+    if (gCollisionNormal_6FE1F0.x > kFP16Zero_6FE20C)
     {
         if (theta > kAng270_6FE154)
         {
@@ -2023,7 +2023,7 @@ void CarPhysics::ApplyVerticalEdgeNudge_55EC30()
         }
     }
 
-    ApplyForceScaledByMass_55F9A0(stru_6FE1F0.NormalizeSafe_442AD0() * kFpOne64th_6FDF80);
+    ApplyForceScaledByMass_55F9A0(gCollisionNormal_6FE1F0.NormalizeSafe_442AD0() * kFpOne64th_6FDF80);
     field_AA_sbw = 1;
 }
 
@@ -2049,7 +2049,7 @@ void CarPhysics::ApplyHorizontalEdgeNudge_55EF20()
         theta = field_58_theta;
     }
 
-    if (stru_6FE1F0.y > kFP16Zero_6FE20C)
+    if (gCollisionNormal_6FE1F0.y > kFP16Zero_6FE20C)
     {
         if (theta > kAng90_6FE00C && theta < kAng180_6FE12A)
         {
@@ -2073,7 +2073,7 @@ void CarPhysics::ApplyHorizontalEdgeNudge_55EF20()
         }
     }
 
-    ApplyForceScaledByMass_55F9A0(stru_6FE1F0.NormalizeSafe_442AD0() * kFpOne64th_6FDF80);
+    ApplyForceScaledByMass_55F9A0(gCollisionNormal_6FE1F0.NormalizeSafe_442AD0() * kFpOne64th_6FDF80);
     this->field_AA_sbw = 1;
 }
 
@@ -2082,7 +2082,7 @@ MATCH_FUNC(0x55f020)
 void CarPhysics::ApplyTurningForce_55F020()
 {
     Fix16_Point local_offset;
-    Fix16 turn_force = dword_6FE358;
+    Fix16 turn_force = kAiWallTurnForce_6FE358;
     Object* pObj = gCollisionTarget_679188.field_20_pHitSprite->AsObject2C_40FEC0();
     Fix16 turn_torque;
 
@@ -2095,13 +2095,13 @@ void CarPhysics::ApplyTurningForce_55F020()
     {
         if (field_5C_pCar->IsDrivenByPlayer_4118D0())
         {
-            turn_torque = dword_6FE078;
-            turn_force = dword_6FE390;
+            turn_torque = kPlayerWallTurnTorque_6FE078;
+            turn_force = kPlayerWallTurnForce_6FE390;
         }
         else
         {
-            turn_torque = dword_6FE080;
-            turn_force = dword_6FE358;
+            turn_torque = kAiWallTurnTorque_6FE080;
+            turn_force = kAiWallTurnForce_6FE358;
         }
     }
 
@@ -2114,7 +2114,7 @@ void CarPhysics::ApplyTurningForce_55F020()
         turn_torque = -turn_torque;
     }
     ApplyAngularImpulse_55F970(turn_torque);
-    ApplyForceScaledByMass_55F9A0(stru_6FE1F0.NormalizeSafe_442AD0().Multiply_438FE0(turn_force));
+    ApplyForceScaledByMass_55F9A0(gCollisionNormal_6FE1F0.NormalizeSafe_442AD0().Multiply_438FE0(turn_force));
 }
 
 MATCH_FUNC(0x55f240)
@@ -2479,7 +2479,7 @@ void CarPhysics::HandleWorldCollision_55FD00(Fix16_Point& pHitPoint)
     Fix16_Point Impulse = ComputeCollisionImpulse_55F3B0(CalculateMass_559FF0(),
                                                              kFP16MinusOne_6FDF1C,
                                                              pHitPoint,
-                                                             stru_6FE1F0,
+                                                             gCollisionNormal_6FE1F0,
                                                              CollisionIntersectionPoint_6FE1A0,
                                                              ComputeCombinedCenterOfMass_559EC0(),
                                                              kZeroPoint_6FE300,
@@ -2540,12 +2540,12 @@ void CarPhysics::HandleCarCollision_55FF20(Car* pOtherCar)
     RelativeVelocity = ComputeRelativePointVelocity_561130(&CollisionIntersectionPoint_6FE1A0) - RelativeVelocity_1;
     ThisCoM = ComputeCombinedCenterOfMass_559EC0();
     OtherCoM = OtherCarPhysics->ComputeCombinedCenterOfMass_559EC0();
-    stru_6FE1F0 = ThisCoM - CollisionIntersectionPoint_6FE1A0;
+    gCollisionNormal_6FE1F0 = ThisCoM - CollisionIntersectionPoint_6FE1A0;
 
     ImpulseForce = ComputeCollisionImpulse_55F3B0(ThisCarMass,
                                                       OtherCarPhysics->CalculateMass_559FF0(),
                                                       RelativeVelocity,
-                                                      stru_6FE1F0,
+                                                      gCollisionNormal_6FE1F0,
                                                       CollisionIntersectionPoint_6FE1A0,
                                                       ThisCoM,
                                                       OtherCoM,
@@ -2706,7 +2706,7 @@ void CarPhysics::HandleObjectCollision_5606C0(Object* pObject, char_type damage_
     Fix16_Point CoM = ComputeCombinedCenterOfMass_559EC0();
     Fix16 CarMass = CalculateMass_559FF0();
     Fix16 ObjMass;
-    stru_6FE1F0 = CoM - CollisionIntersectionPoint_6FE1A0;
+    gCollisionNormal_6FE1F0 = CoM - CollisionIntersectionPoint_6FE1A0;
     if (pObject->CanBePushed_482C90())
     {
         ObjMass = pObject->GetMass_482C80();
@@ -2716,7 +2716,7 @@ void CarPhysics::HandleObjectCollision_5606C0(Object* pObject, char_type damage_
         Impulse = ComputeCollisionImpulse_55F3B0(CarMass,
                                                      ObjMass,
                                                      RelativeVelocity,
-                                                     stru_6FE1F0,
+                                                     gCollisionNormal_6FE1F0,
                                                      CollisionIntersectionPoint_6FE1A0,
                                                      CoM,
                                                      ObjPos,
@@ -2735,7 +2735,7 @@ void CarPhysics::HandleObjectCollision_5606C0(Object* pObject, char_type damage_
         Impulse = ComputeCollisionImpulse_55F3B0(CarMass,
                                                      kFP16MinusOne_6FDF1C,
                                                      RelativeVelocity,
-                                                     stru_6FE1F0,
+                                                     gCollisionNormal_6FE1F0,
                                                      CollisionIntersectionPoint_6FE1A0,
                                                      CoM,
                                                      ObjPos,
@@ -2789,12 +2789,12 @@ void CarPhysics::ProcessPedImpact_560B40(Char* pChar, u8 hitType)
     Fix16_Point combinedCentreOfmass = ComputeCombinedCenterOfMass_559EC0();
     relativePointVel = ComputeRelativePointVelocity_561130(&CollisionIntersectionPoint_6FE1A0);
 
-    stru_6FE1F0 = combinedCentreOfmass - CollisionIntersectionPoint_6FE1A0;
+    gCollisionNormal_6FE1F0 = combinedCentreOfmass - CollisionIntersectionPoint_6FE1A0;
 
     pIntersection = ComputeCollisionImpulse_55F3B0(CalculateMass_559FF0(),
                                                        kFP16Half_6FE2F8,
                                                        relativePointVel,
-                                                       stru_6FE1F0,
+                                                       gCollisionNormal_6FE1F0,
                                                        CollisionIntersectionPoint_6FE1A0,
                                                        combinedCentreOfmass,
                                                        sprite_xy,
@@ -3384,9 +3384,9 @@ void CarPhysics::UpdateSteeringAngle_562560()
     else
     {
         Fix16 speed_factor = kFpPoint6_6FE228 - field_40_linvel_1.GetLength_out_of_line_x_squared();
-        if (speed_factor.mValue < dword_6FE374.mValue)
+        if (speed_factor.mValue < kFpQuarter_6FE374.mValue)
         {
-            speed_factor = dword_6FE374;
+            speed_factor = kFpQuarter_6FE374;
         }
         field_78_pointing_ang_rad = GetScaledTurnRatio(speed_factor / (kFpPoint6_6FE228 * kFpPoint8_6FE104), field_AD_turn_direction);
     }
@@ -3527,11 +3527,11 @@ void CarPhysics::StabilizeVelocityAtSpeed_562910()
             field_40_linvel_1.x *= kFpPoint95_6FE334;
             if (field_5C_pCar->field_64_pTrailer)
             {
-                field_40_linvel_1.y *= dword_6FE240;
+                field_40_linvel_1.y *= kFpPoint985_6FE240;
             }
             else
             {
-                field_40_linvel_1.y *= dword_6FE330;
+                field_40_linvel_1.y *= kFpPoint985_6FE330;
             }
             field_40_linvel_1.RotateByAngle_40F6B0(field_58_theta);
             field_74_ang_vel_rad = field_74_ang_vel_rad * kFpPoint94_6FDF18;
@@ -3554,11 +3554,11 @@ void CarPhysics::StabilizeVelocityAtSpeed_562910()
             // helper gives the original operand order (y in eax) and budget use.
             if (field_5C_pCar->field_64_pTrailer)
             {
-                MultiplyAssign_ProductTemp(field_40_linvel_1.y, dword_6FDFBC);
+                MultiplyAssign_ProductTemp(field_40_linvel_1.y, kFpPoint97_6FDFBC);
             }
             else
             {
-                field_40_linvel_1.y *= dword_6FE0FC;
+                field_40_linvel_1.y *= kFpPoint97_6FE0FC;
             }
             field_40_linvel_1.RotateByAngle_40F6B0(field_58_theta);
             MultiplyAssign_inline_408680(field_74_ang_vel_rad, kFpPoint88_6FE318);
