@@ -7,7 +7,6 @@
 class File
 {
   public:
-    // or static with explicit __stdcall
     EXPORT static s32 __stdcall GetFileSize_4A6B10(FILE* Stream);
 
     EXPORT static bool __stdcall IsCdRomDrive_4A6BB0(char_type driveLetter);
@@ -36,7 +35,7 @@ class File
 
     EXPORT static void __stdcall File_Error_4A7190(s32 Code, s32 arg1, s32 arg2);
 
-    EXPORT static void __stdcall Global_Read_4A71C0(void* pBuffer, const u32& pBufferSize);
+    EXPORT static void __stdcall Global_Read_4A71C0(void* pBuffer, const u32& bufferSize);
 
     EXPORT static bool __stdcall Global_Read_4A7210(void* Buffer, u32* pSize);
 
