@@ -7,7 +7,7 @@ class Fix16;
 
 class PedGroup
 {
-  public:
+  private:
     // 9.6f 0x4038E0
     inline void set_in_use_4038E0()
     {
@@ -20,10 +20,19 @@ class PedGroup
         return field_40_in_use;
     }
 
+  public:
     EXPORT void DestroyGroupArray_4C8E60();
+
+  private:
     EXPORT static void ResetMemberCarDoor_4C8E80();
+
+  public:
     EXPORT void ClearGroupData_4C8E90();
+
+  private:
     EXPORT void Reset_4C8EF0();
+
+  public:
     EXPORT void ResetGroupObjectives_4C8F20();
     EXPORT void add_ped_to_end_of_list_4C8F90(Ped* pPed);
     EXPORT void replace_leader_4C8FE0(Ped* pNewLeader);
@@ -41,11 +50,19 @@ class PedGroup
     EXPORT void add_ped_leader_4C9B10(Ped* pLeader);
     EXPORT void add_ped_to_list_4C9B30(Ped* pPed, u8 idx);
     EXPORT void GroupAttackPed_4C9B60(Ped* pPed);
+
+  private:
     EXPORT Ped* FindLastNonPanickingMember_4C9ED0() const;
+
+  public:
     EXPORT void CoordinateGroupCarEntry_4C9F00();
+
+  private:
     EXPORT u32 IsLeaderPanicking_4CA3E0() const;
     EXPORT Ped* FindFarthestMember_4CA3F0(Fix16* pFoundDistance) const;
     EXPORT void UpdateFormation_4CA4B0();
+
+  public:
     EXPORT void UpdateMemberAIState_4CA5E0(u8 idx);
     EXPORT void UpdateMemberTightFollowState_4CA820(u8 idx);
     EXPORT bool IsAllMembersInSomeCar_4CAA20() const;
@@ -53,7 +70,11 @@ class PedGroup
     EXPORT bool AreAllMembersOnFoot_4CAB80() const;
     EXPORT bool IsMemberTooFarFromLeader_4CAC20(u8 idx) const;
     EXPORT bool IsLeaderCloseToTargetCar_4CAD40() const;
+
+  private:
     EXPORT Ped* FindNearestOtherMember_4CAE80(u8 idx) const;
+
+  public:
     EXPORT static void ResetAllGroups_4CB080();
     EXPORT static PedGroup* New_4CB0D0();
     EXPORT PedGroup();
