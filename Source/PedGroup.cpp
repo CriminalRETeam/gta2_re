@@ -1,4 +1,5 @@
 #include "PedGroup.hpp"
+#include "ped_group_type.hpp"
 #include "Car.hpp"
 #include "Char_Pool.hpp"
 #include "Globals.hpp"
@@ -42,7 +43,7 @@ MATCH_FUNC(0x4c8e90)
 void PedGroup::ClearGroupData_4C8E90()
 {
     field_40_in_use = false;
-    field_38_group_type = 2;
+    field_38_group_type = ped_group_type::normal_2;
     field_30_panicking = 0;
     field_36_count = 0;
     field_34_count = 0;
@@ -70,7 +71,7 @@ MATCH_FUNC(0x4c8ef0)
 void PedGroup::Reset_4C8EF0()
 {
     field_40_in_use = false;
-    field_38_group_type = 2;
+    field_38_group_type = ped_group_type::normal_2;
     field_30_panicking = 0;
     field_36_count = 0;
     field_2C_ped_leader = NULL;
@@ -942,7 +943,7 @@ void PedGroup::UpdateFormation_4CA4B0()
                     pIter->SetObjective2_463830(objectives_enum::follow_char_9);
                 }
             }
-            if (field_38_group_type == 1)
+            if (field_38_group_type == ped_group_type::chain_1)
             {
                 if (i == 0)
                 {

@@ -1,4 +1,5 @@
 #include "Game.hpp"
+#include "ped_group_type.hpp"
 #include "ped_class.hpp"
 #include "AmbulanceService.hpp"
 #include "InputRecorder_67F8B0.hpp"
@@ -233,7 +234,7 @@ EXPORT void __stdcall SpawnTestGroup_46DD70(char_type remap, u8 count)
     PedGroup* pGroup = PedGroup::New_4CB0D0();
     pGroup->add_ped_leader_4C9B10(pPlayerPed);
     pGroup->SetCounts_433360(0);
-    pGroup->field_38_group_type = 2;
+    pGroup->field_38_group_type = ped_group_type::normal_2;
 
     gLastTestPed_6787E8 = gPedPool_6787B8->Allocate();
     gLastTestPed_6787E8->set_occupation_403970(ped_ocupation_enum::bank_robber);

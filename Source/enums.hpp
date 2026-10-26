@@ -491,9 +491,9 @@ enum
     Unknown_5 = 5,
     Unknown_6 = 6,
     Unknown_7 = 7,
-    Unknown_8 = 8,
-    Unknown_9 = 9,
-    Unknown_10 = 10,
+    Veer_Right_From_Wall_8 = 8,
+    Veer_Left_From_Wall_9 = 9,
+    Avoiding_Ped_10 = 10, // turned aside after bumping into another ped (Char::HandlePedCollision_548BD0)
     Unknown_11 = 11,
     Unknown_12 = 12,
     Unknown_13 = 13,
@@ -509,21 +509,21 @@ namespace Char_Anim_state
 {
 enum
 {
-    Unknown_0 = 0,
-    Unknown_1 = 1,
-    Unknown_2 = 2,
+    Walking_0 = 0,
+    Running_1 = 1, // velocity above k_CollisionRepulsionSpeed_6FD7BC
+    Standing_2 = 2,
     Unknown_3 = 3,
-    Unknown_4 = 4,
+    Punching_4 = 4,
     Jumping_5 = 5,
     Entering_Car_6 = 6,
     Exiting_Car_7 = 7,
     Getting_pulled_out_of_car_8 = 8,
-    Unknown_9 = 9,
-    Unknown_10 = 10,
+    Carjacking_9 = 9,
+    Lying_On_Floor_10 = 10,
     Normal_Fall_11 = 11,
     Lethal_Fall_12 = 12,
-    Unknown_13 = 13,
-    Unknown_14 = 14,
+    Lying_Pose_13 = 13,
+    Lying_Pose_14 = 14,
 };
 } // namespace Char_Anim_state
 
