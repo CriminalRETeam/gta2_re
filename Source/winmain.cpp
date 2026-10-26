@@ -87,7 +87,7 @@ DEFINE_GLOBAL(u32, dword_6F5AC0, 0x6F5AC0); // TODO: move
 DEFINE_GLOBAL(s32, gFramesOfCurrSecond_6F5858, 0x6F5858); // TODO: move
 DEFINE_GLOBAL(s32, gNetTimerBlinkCounter_6F5B74, 0x6F5B74);
 DEFINE_GLOBAL(s32, gNetTimerSeconds_6F5944, 0x6F5944);
-DEFINE_GLOBAL(u8, byte_6F59C0, 0x6F59C0); // TODO: move
+DEFINE_GLOBAL(u8, gNetTimerFlashing_6F59C0, 0x6F59C0); // TODO: move
 DEFINE_GLOBAL(NetworkGameSettings, gNetworkGameSettings_707098, 0x707098);
 
 static T_gbh_SetBeginSceneCB pBeginSceneCB = NULL;
@@ -977,7 +977,7 @@ EXPORT void __stdcall InitializeGame_4DA4D0()
         gNetTimeLimitEnabled_6F58A4 = (gNetTimeLimit_6F573C != 0);
         gNetTimeSecondsOfCurrMin_6F58A0 = 0;
         gFramesOfCurrSecond_6F5858 = 0;
-        byte_6F59C0 = 0;
+        gNetTimerFlashing_6F59C0 = 0;
     }
     else
     {
@@ -1356,11 +1356,11 @@ EXPORT void ManageNetworkTimeAndHudPager_4DADA0()
         {
             // bShow is set in both arms (not once before the if): with a single store, VC6 sees bl == 1 at the
             // blink test and uses "test dl, bl" there instead of "test dl, 1"
-            if (!byte_6F59C0)
+            if (!gNetTimerFlashing_6F59C0)
             {
                 bShow = true;
                 gNetTimerBlinkCounter_6F5B74 = 59;
-                byte_6F59C0 = 1;
+                gNetTimerFlashing_6F59C0 = 1;
             }
             else
             {
@@ -1369,7 +1369,7 @@ EXPORT void ManageNetworkTimeAndHudPager_4DADA0()
         }
         if (!bShow)
         {
-            byte_6F59C0 = 0;
+            gNetTimerFlashing_6F59C0 = 0;
             gNetTimerBlinkCounter_6F5B74 = 0;
         }
         else

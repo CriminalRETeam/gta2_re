@@ -537,7 +537,7 @@ What helped:
   gives `setge` (0.612).
 - Negating the whole condition so the "not flashing" block comes first (0.647 -> 0.710).
 
-Still different: the original lays out the first-flash path (`if (!byte_6F59C0)`) right after
+Still different: the original lays out the first-flash path (`if (!gNetTimerFlashing_6F59C0)`) right after
 the condition, then the "not flashing" block and the shared pager-clear return, then the
 rest of the flash code. Ours puts the whole flash block after the not-flashing one. Also
 `test $1,%dl` vs ours `test %dl,%bl` (VC6 reuses the `bShow = 1` register). Tried: the
@@ -548,9 +548,9 @@ Oct 5 (54 lines): merging the clear and return tails into one form scored 209.
 
 Oct 9 (score 6, quick_score): the layout now matches. All that is left is `test $1,%dl` (ours
 `test %dl,%bl`). ralog shows an int constant-1 colour range (k=0x100D, prio 1) that coalesces with
-bShow in `ebx`. It exists only because of the `byte_6F59C0 = 1` store: storing 2 removes it and gives
+bShow in `ebx`. It exists only because of the `gNetTimerFlashing_6F59C0 = 1` store: storing 2 removes it and gives
 `test $1`. Its priority doesn't matter (pushed to -6 with dummy blocks, still `ebx`). The original
-keeps `mov %bl,byte_6F59C0` but tests with an immediate, so its range covers the bShow def and the
+keeps `mov %bl,gNetTimerFlashing_6F59C0` but tests with an immediate, so its range covers the bShow def and the
 store but not the `& 1`. 9.6f (0x462530, VC7) has exactly the same code. Tried with no change
 (still 6): `!(..&1)`, `& 1u`, `(u8)`/`(bool)` casts on the test, `(u32)q % 2`, an inline
 `BlinkPhase()` returning bool/s32/u8, the store written as `= bShow`/`= true`/`++`/`= !byte`, the
@@ -1176,7 +1176,7 @@ Matched (116 -> 0) with two changes:
   and globals check out. Each now has a csv row and `MATCH_FUNC`.
 
 ### ConvertCycleCount_5BEED0 (0x5BEED0): MATCH
-- `return (u32)cycles / dword_705334;`. It needed the normaliser fix for `divl mem`.
+- `return (u32)cycles / gCyclesPerMs_705334;`. It needed the normaliser fix for `divl mem`.
 
 ### arc_tan_table_init_4052D0 (0x4052D0): MATCH
 - The tangent table initialiser. The dump now reads the x87 constants of the `target_extra.json`
@@ -2082,8 +2082,8 @@ in one expression"); the same form replaced the dead-store workaround in the mat
   no trailing `return`, `default` with break/return: all 2. Permuter 1500.
 - `TagGameHudUpdate_4DADA0` (54): the original never stores 59 to `gNetTimerBlinkCounter_6F5B74` on the first flash (jump-threaded
   into the `> 0` test with 59 in `ecx`), so the timer is likely a local (`timer = byte ? dword : 59`), but layout
-  is the gap: the original puts the `if (!byte_6F59C0)` block right after the condition, then the not-flashing
-  block + pager clear, then the rest. Tried: if/else with the rest after (B goes first, 56-211), a `byte_6F59C0`
+  is the gap: the original puts the `if (!gNetTimerFlashing_6F59C0)` block right after the condition, then the not-flashing
+  block + pager clear, then the rest. Tried: if/else with the rest after (B goes first, 56-211), a `gNetTimerFlashing_6F59C0`
   test after the if/else (threaded, 56), inline `IsTimerFlashTime` (54/142), goto (93/211). VC7 (`sc7.sh`, 9.6f has
   the same layout) puts the first-flash block after the first `||` term with the early-return form (58).
 - `gtx_0x106C::BuildCarInfoContainer_5AA9A0` (8): 9.6f has `mov %edx,%eax` before the `lea 1(%eax,%eax)`, a
@@ -3482,7 +3482,7 @@ helpers under other names, or plain Fix16/Ang16 operators.
   427220, 41AB80, 4182E0, 418720, 5D9510) moved into address order: every score unchanged.
 - `check_global_inits.py`: kAngZero fixed (0x6FE3C0). Left as found (no code reads them differently):
   `gPedOffscreenDespawnTime_678656` (copied from 0x61A898 at startup), `kZero_67BBE0` (dynamic 0, probably `Fix16`),
-  `gCharB4_Saved_TileX/Y` (`kFP16Zero.ToInt()`), `dword_705334` (SpriteRenderer's rdtsc init),
+  `gCharB4_Saved_TileX/Y` (`kFP16Zero.ToInt()`), `gCyclesPerMs_705334` (SpriteRenderer's rdtsc init),
   `gCollisionDamage_6FE33C` (no original initialiser), the debug bools (one 79-store init at 0x4AB950).
 - Address order for whole files: 34 files reordered (pure moves), 3304/3304 and every WIP score unchanged.
 - PCH: `/Yc`/`/Yu` builds of Weapon.cpp change nothing. Defining `Fix16_Point::operator+` at the end of

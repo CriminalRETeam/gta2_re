@@ -6,7 +6,7 @@
 
 // Forward declarations: the functions below are in address order
 EXPORT s32 get_rdtsc_5BEE90();
-EXTERN_GLOBAL(u32, dword_705334);
+EXTERN_GLOBAL(u32, gCyclesPerMs_705334);
 
 DEFINE_GLOBAL(SpriteRenderer*, gSpriteRenderer_67B580, 0x67B580);
 DEFINE_GLOBAL(SpriteTreeNodePool*, gSpriteTreeNodePool_705BBC, 0x705BBC);
@@ -89,12 +89,11 @@ EXPORT s32 get_rdtsc_5BEE90()
     return static_cast<s32>(t);
 }
 
-// Converts a cycle count from get_rdtsc_5BEE90 for the profiler display (dword_705334 is the
-// number of cycles per unit)
+// Converts a cycle count from get_rdtsc_5BEE90 to milliseconds for the profiler display
 MATCH_FUNC(0x5BEED0)
 EXPORT s32 __stdcall ConvertCycleCount_5BEED0(s32 cycles)
 {
-    return static_cast<u32>(cycles) / dword_705334;
+    return static_cast<u32>(cycles) / gCyclesPerMs_705334;
 }
 
 // https://decomp.me/scratch/qyVgM
@@ -208,7 +207,7 @@ void SpriteTree::Draw_5C5DF0()
     }
 }
 
-DEFINE_GLOBAL_INIT(u32, dword_705334, 1701493, 0x705334);
+DEFINE_GLOBAL_INIT(u32, gCyclesPerMs_705334, 1701493, 0x705334);
 
 MATCH_FUNC(0x5c5e50)
 void SpriteTree::Reset_5C5E50()
