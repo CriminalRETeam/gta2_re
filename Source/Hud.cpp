@@ -86,7 +86,7 @@ static inline void DrawFigureScaled_4C71B0(s32 type, s16 pal, Fix16 x_pos, Fix16
                       palette,
                       alpha_value,
                       flags,
-                      0);
+                      false);
 }
 
 // Camera::WorldToScreen_40CFC0 (9.6f 0x40CFC0: x/y/z by value, writes through two out pointers)
@@ -223,11 +223,11 @@ void Hud_UnderRoofArrowMarker::Draw_5CF910()
 {
     if (field_A_ped_under_solid)
     {
-        const s32 palette_type = 2;
+        const s32 palette_type = palette_types_enum::sprites_2;
         Player* pPlayer = gGame_0x40_67E008->field_38_local_player;
         Camera* pCam = pPlayer->get_camera_434900();
 
-        DrawFigure_5D7EC0(sprite_types_enum::user_6, 0, field_0_screen_x, field_4_screen_y, field_8_rotation, pCam->field_A8_ui_scale, palette_type, 0, 1, 14, 1);
+        DrawFigure_5D7EC0(sprite_types_enum::user_6, 0, field_0_screen_x, field_4_screen_y, field_8_rotation, pCam->field_A8_ui_scale, palette_type, 0, 1, 14, true);
     }
 }
 
@@ -531,7 +531,7 @@ void Hud_CopHead_C_Array::DrawWantedLevel_5D0110()
     Hud_CopHead* pHead = field_1028_cop_heads;
     for (; cop_head_idx < field_48_cop_level; cop_head_idx++, pHead++, xpos += field_4C_w_fp)
     {
-        DrawFigureScaled_4C71B0(6, pHead->field_0_frame + 14, xpos, y_base + Fix16(pHead->field_4_height), kAngZero_706610, 2, 0, 0, 0);
+        DrawFigureScaled_4C71B0(sprite_types_enum::user_6, pHead->field_0_frame + 14, xpos, y_base + Fix16(pHead->field_4_height), kAngZero_706610, palette_types_enum::sprites_2, 0, 0, 0);
     }
 }
 
@@ -922,11 +922,11 @@ void Hud_Arrow::DrawArrow_5D0C90()
         {
             if (field_18_targets.field_28_arrow_colour != 5 || (static_cast<u32>(gpRng_67AB34->get_cur_rng_41CFE0()) % 6 >= 3))
             {
-                arrow_palette_type = 2;
+                arrow_palette_type = palette_types_enum::sprites_2;
             }
             else
             {
-                arrow_palette_type = 7;
+                arrow_palette_type = palette_types_enum::user_remaps_7;
             }
             pPlayer = gGame_0x40_67E008->field_38_local_player;
             pCam = pPlayer->get_camera_434900();
@@ -941,7 +941,7 @@ void Hud_Arrow::DrawArrow_5D0C90()
                               0,
                               1,
                               14u,
-                              1);
+                              true);
 
             s16 colour_related;
             switch (this->field_18_targets.field_28_arrow_colour)
@@ -964,7 +964,7 @@ void Hud_Arrow::DrawArrow_5D0C90()
                     break;
             }
 
-            const s32 palette_type = 2;
+            const s32 palette_type = palette_types_enum::sprites_2;
             pPlayer = gGame_0x40_67E008->field_38_local_player;
             pCam = pPlayer->get_camera_434900();
 
@@ -978,7 +978,7 @@ void Hud_Arrow::DrawArrow_5D0C90()
                               0,
                               1,
                               14u,
-                              1);
+                              true);
         }
     }
 }
@@ -2997,7 +2997,7 @@ void Hud_PlayerStats::DrawPlayerStats_5D5C80()
         for (Player* pMultiPlayer = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0(); pMultiPlayer != NULL;
              pMultiPlayer = gGame_0x40_67E008->IterateNextPlayer_4B9D10())
         {
-            if (pMultiPlayer->IsUser_41DC70() == 0)
+            if (!pMultiPlayer->IsUser_41DC70())
             {
                 RollingDigitCounter* pMultiScoreDigits = pMultiPlayer->field_2D4_scores.GetScoreDigits_592360();
                 s32 score_end_xpos = pMultiScoreDigits->DrawDigitsLeftAligned_492430(16, ypos);
