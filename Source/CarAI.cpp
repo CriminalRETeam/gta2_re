@@ -5101,11 +5101,11 @@ void CarAI::ChooseRandomTurn_4537D0()
     {
         if (gRng_6F6784.get_int_4F7AE0(2) > 0)
         {
-            field_0_car->field_A6_bf.bTurnLeft = true;
+            field_0_car->SetTurnLeft_42AC80();
         }
         else
         {
-            field_0_car->field_A6_bf.bTurnRight = true;
+            field_0_car->SetTurnRight_42AC70();
         }
     }
 }
@@ -5115,8 +5115,8 @@ void CarAI::ClearSteeringIfTurning_4538B0()
 {
     if (this->field_24_bf.bFlag7)
     {
-        this->field_0_car->field_A6_bf.bTurnLeft = false;
-        this->field_0_car->field_A6_bf.bTurnRight = false;
+        this->field_0_car->ClearTurnLeft_42ACB0();
+        this->field_0_car->ClearTurnRight_42ACA0();
     }
 }
 
