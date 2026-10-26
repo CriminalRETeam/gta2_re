@@ -11,7 +11,7 @@ class Fix16_Point;
 class Nanobotz  // Maybe Fix16_Point
 {
   public:
-    inline s32 IsEqual_46BB60(Nanobotz* other)
+    inline bool IsEqual_46BB60(const Nanobotz* other) const
     {
         return field_0_x == other->field_0_x && field_4_y == other->field_4_y;
     }
