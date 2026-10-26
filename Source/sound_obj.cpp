@@ -7112,13 +7112,12 @@ void sound_obj::TickRadioStationClocks_57E680()
 
     if (gSoundVocalsInited_6FF538)
     {
-        // Increment some counter on each station, probably wrong offset etc here
         u32 ticks = 90000 * this->field_8_frames_per_second;
         for (u8 i = 0; i < 5; i++)
         {
-            if (*reinterpret_cast<u32*>(&field_544C[i + 1].field_8.field_C_pAny) < ticks)
+            if (static_cast<u32>(RadioEmitter(i + 1).field_14_elapsed_frames) < ticks)
             {
-                ++*reinterpret_cast<u32*>(&field_544C[i + 1].field_8.field_C_pAny);
+                ++RadioEmitter(i + 1).field_14_elapsed_frames;
             }
         }
     }
@@ -7189,8 +7188,8 @@ void sound_obj::ChooseRadioEmitterForVehicle_57E6C0()
                 i = 0;
                 while (1)
                 {
-                    s32 status = *reinterpret_cast<u32*>(&field_544C[i + 1].field_8.field_4_bStatus);
-                    if (status == 6 || (status > 8 && status <= 10))
+                    s32 station_idx = RadioEmitter(i + 1).field_C_station_idx;
+                    if (station_idx == 6 || (station_idx > 8 && station_idx <= 10))
                     {
                         field_54F7_active_emitter_idx[0] = i;
                         break;
@@ -7209,8 +7208,8 @@ void sound_obj::ChooseRadioEmitterForVehicle_57E6C0()
                 i = 0;
                 while (1)
                 {
-                    s32 status = *reinterpret_cast<u32*>(&field_544C[i + 1].field_8.field_4_bStatus);
-                    if (status >= 7 && (status <= 8 || status == 11))
+                    s32 station_idx = RadioEmitter(i + 1).field_C_station_idx;
+                    if (station_idx >= 7 && (station_idx <= 8 || station_idx == 11))
                     {
                         field_54F7_active_emitter_idx[0] = i;
                         break;
@@ -7235,8 +7234,7 @@ void sound_obj::ChooseRadioEmitterForVehicle_57E6C0()
             case 3:
                 for (i = 0; i < 5; i++)
                 {
-                    if (*reinterpret_cast<u16*>(&field_544C[i + 1].field_8.field_8_sound_entry) == 0 &&
-                        *reinterpret_cast<u32*>(&field_544C[i + 1].field_8.field_4_bStatus) != 1)
+                    if (RadioEmitter(i + 1).field_10 == 0 && RadioEmitter(i + 1).field_C_station_idx != 1)
                     {
                         field_54F7_active_emitter_idx[0] = i;
                         return;
