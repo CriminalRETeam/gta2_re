@@ -16,7 +16,7 @@ enum
 {
     none_0 = 0,
     patrol_1 = 1,
-    unknown_2 = 2,
+    despawning_2 = 2, // PoliceCrew::TryDespawnOffscreenCrew_571350, back to shutdown_6 next update
     alerted_search_3 = 3,
     pursue_or_chase_5 = 5,
     shutdown_6 = 6,

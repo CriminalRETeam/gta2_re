@@ -300,7 +300,7 @@ void PoliceCrew::SpawnFBI_nonused_571150()
 MATCH_FUNC(0x571350)
 void PoliceCrew::TryDespawnOffscreenCrew_571350()
 {
-    field_24_state = police_crew_state::unknown_2;
+    field_24_state = police_crew_state::despawning_2;
     PedGroup* pGroup = field_10_subObj->field_8_group;
     if (pGroup)
     {
@@ -1777,7 +1777,7 @@ void PoliceCrew::Service_575590()
         case police_crew_state::patrol_1:
             PoliceCrew::State1_Patrol_574F10();
             break;
-        case 2:
+        case police_crew_state::despawning_2:
             PoliceCrew::State2_SwitchToShutDown_575200();
             break;
         default:
