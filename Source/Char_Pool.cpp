@@ -24,10 +24,10 @@
 
 // Defined in Ped.cpp
 EXTERN_GLOBAL(s16, gPedOffscreenDespawnTime_678656);
-EXTERN_GLOBAL(Ang16, word_6784F0);
+EXTERN_GLOBAL(Ang16, gSearchConeHalfAngle_6784F0);
 EXTERN_GLOBAL(u8, byte_61A8A0);
 EXTERN_GLOBAL(s8, byte_61A8A3);
-EXTERN_GLOBAL(u8, byte_61A8A4);
+EXTERN_GLOBAL(u8, gRunPedThink_61A8A4);
 EXTERN_GLOBAL(Fix16, kFpZero_678660);
 EXTERN_GLOBAL(Fix16, gDistanceToTarget_678750);
 EXTERN_GLOBAL(Ped*, gLastProcessedPed_6787C0);
@@ -38,14 +38,14 @@ EXTERN_GLOBAL(char_type, gNumberBusCustomers_6787D3);
 EXTERN_GLOBAL(u8, byte_6787D4);
 DEFINE_GLOBAL(u8, gTargetSearchMode_6787D7, 0x6787D7);
 EXTERN_GLOBAL(u8, byte_6787D8);
-EXTERN_GLOBAL(u8, byte_6787D9);
+EXTERN_GLOBAL(u8, gLosCheckRoundDone_6787D9);
 EXTERN_GLOBAL(Ped*, gSearchingPed_6787DC);
 EXTERN_GLOBAL(u16, gNumPedsUpdated_6787E0);
 EXTERN_GLOBAL(u8, gNumDummyChars_6787E2);
 EXTERN_GLOBAL(u8, gNumScriptCreatedPeds_6787E3);
 
 // Initial value not verified (assumed to be gPedOffscreenDespawnTime_678656's default, which PedManager resets from it)
-DEFINE_GLOBAL_INIT(s16, word_61A898, 40, 0x61A898);
+DEFINE_GLOBAL_INIT(s16, kDefaultPedOffscreenDespawnTime_61A898, 40, 0x61A898);
 DEFINE_GLOBAL(PedManager*, gPedManager_6787BC, 0x6787BC);
 DEFINE_GLOBAL(PedPool*, gPedPool_6787B8, 0x6787B8);
 DEFINE_GLOBAL(CharPool*, gChar_B4_Pool_6FDB44, 0x6FDB44);
@@ -53,7 +53,7 @@ DEFINE_GLOBAL(PedListNodePool*, gChar_8_Pool_678b50, 0x678b50);
 
 DEFINE_GLOBAL(u16, gPedsServiceTickCount_6787F0, 0x6787F0);
 DEFINE_GLOBAL_INIT(u8, byte_61A8A1, 1, 0x61A8A1);
-DEFINE_GLOBAL_INIT(u8, byte_61A8A2, 1, 0x61A8A2);
+DEFINE_GLOBAL_INIT(u8, gLosCheckSlotFree_61A8A2, 1, 0x61A8A2);
 DEFINE_GLOBAL(u8, gNumPolicePedsInRangeScreen_6787EE, 0x6787EE);
 DEFINE_GLOBAL(u8, bThreateningPedAdded_6787EF, 0x6787EF);
 DEFINE_GLOBAL(u8, bHaveThreateningPeds_6787DA, 0x6787DA);
@@ -75,7 +75,7 @@ EXTERN_GLOBAL(u8, gNumDummyChars_6787E2);
 EXTERN_GLOBAL(u8, gNumEmergencyPeds_6787E4);
 EXTERN_GLOBAL(u8, gNumScriptCreatedPeds_6787E3);
 EXTERN_GLOBAL(u8, byte_6787D8);
-EXTERN_GLOBAL(u8, byte_6787D9);
+EXTERN_GLOBAL(u8, gLosCheckRoundDone_6787D9);
 EXTERN_GLOBAL(u8, gNewTaxiCustomersThisTick_6787D2);
 
 EXTERN_GLOBAL(Fix16, kFpZero_678438);
@@ -628,7 +628,7 @@ void PedManager::PedsService_4703F0()
     gNumScriptCreatedPeds_6787E3 = 0;
     gNumPedsOnScreen_6787EC = 0;
     byte_61A8A1 = 1;
-    byte_61A8A2 = 1;
+    gLosCheckSlotFree_61A8A2 = 1;
     gNewTaxiCustomersThisTick_6787D2 = 0;
     gNumPolicePedsInRangeScreen_6787EE = 0;
 
@@ -645,7 +645,7 @@ void PedManager::PedsService_4703F0()
     }
 
     byte_6787D8 = byte_61A8A1 == 1;
-    byte_6787D9 = byte_61A8A2 == 1;
+    gLosCheckRoundDone_6787D9 = gLosCheckSlotFree_61A8A2 == 1;
 
     if (!bSkip_dummies_67D4EF)
     {
@@ -735,11 +735,11 @@ PedManager::PedManager()
     gNumberArmedGangMembers_6787CE = 0;
     gNumPedsCrossingRoad_6787D0 = 0;
     field_5_fbi_army_count = 0;
-    gPedOffscreenDespawnTime_678656 = word_61A898;
+    gPedOffscreenDespawnTime_678656 = kDefaultPedOffscreenDespawnTime_61A898;
     gPedsServiceTickCount_6787F0 = 0;
     gNewTaxiCustomersThisTick_6787D2 = 0;
     gNumberBusCustomers_6787D3 = 0;
-    word_6784F0 = gDummyPedAng_6787A8;
+    gSearchConeHalfAngle_6784F0 = gDummyPedAng_6787A8;
     byte_6787D4 = 0;
     spawnSideLocked_6787D5 = 0;
     spawnCountLimit_6787D6 = 0;
@@ -747,14 +747,14 @@ PedManager::PedManager()
     byte_61A8A0 = 1;
     byte_61A8A1 = 1;
     byte_6787D8 = 0;
-    byte_61A8A2 = 1;
-    byte_6787D9 = 0;
+    gLosCheckSlotFree_61A8A2 = 1;
+    gLosCheckRoundDone_6787D9 = 0;
     bHaveThreateningPeds_6787DA = 0;
     gDistanceToTarget_678750 = kFpZero_678660;
     gSearchingPed_6787DC = 0;
     cameraFacingAng_678760 = gDummyPedAng_6787A8;
     byte_61A8A3 = 1;
-    byte_61A8A4 = 1;
+    gRunPedThink_61A8A4 = 1;
     gNumPedsUpdated_6787E0 = 0;
     gNumDummyChars_6787E2 = 0;
     gNumScriptCreatedPeds_6787E3 = 0;

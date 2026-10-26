@@ -197,4 +197,4 @@ EXTERN_GLOBAL(PedListNodePool*, gChar_8_Pool_678b50);
 
 EXTERN_GLOBAL(u8, gNumPolicePedsInRangeScreen_6787EE);
 
-EXTERN_GLOBAL(u8, byte_61A8A2);
+EXTERN_GLOBAL(u8, gLosCheckSlotFree_61A8A2);
