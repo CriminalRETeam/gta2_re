@@ -128,13 +128,11 @@ class LightPool : public LightBase
         pLight->RemoveFromGrid_4D6DC0();
         if (pLight->field_14_on_time)
         {
-            //RemoveFromUpdateListAndFree_47F450(pLight);
             field_0_pool.FindAndDeAllocate(pLight);
         }
         else
         {
             field_0_pool.DeAllocate(pLight);
-            //Free_47F4B0(pLight);
         }
     }
 
