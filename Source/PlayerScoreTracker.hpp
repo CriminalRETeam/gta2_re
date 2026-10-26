@@ -18,13 +18,13 @@ class PlayerScoreTracker
     }
 
     // 9.6f 0x45B0A0
-    inline u8 get_accuracy_count_45B0A0()
+    inline u8 get_accuracy_count_45B0A0() const
     {
         return field_198_accuracy_count;
     }
 
     // 9.6f 0x45B0B0
-    inline s32 get_reverse_count_45B0B0()
+    inline s32 get_reverse_count_45B0B0() const
     {
         return field_19C_reverse_time_ms;
     }
@@ -34,7 +34,7 @@ class PlayerScoreTracker
     EXPORT void Init_5922F0(Player* pPlayer, s16 digit_transition_speed, s32 max_score_value, s16 palette, u16 max_frag_value);
     EXPORT void Reset_592330();
     EXPORT RollingDigitCounter* GetScoreDigits_592360();
-    EXPORT s32 GetScore_592370();
+    EXPORT s32 GetScore_592370() const;
     EXPORT void ResetCarModelFlags_592380(char_type bits);
     EXPORT void CheckAllCarModelsFlagged_592430(char_type bits);
     EXPORT void SetCarModelFlag_592570(char_type flag, s32 car_model);
@@ -50,7 +50,7 @@ class PlayerScoreTracker
     EXPORT void AwardFullBusDestroyedScore_593410(Car* pCar);
     EXPORT void UpdateAccuracyCount_5934F0(u32 event, s32 weapon_model, Ped* pTarget);
     EXPORT RollingDigitCounter* GetMultiplayerFragDigits_5935B0();
-    EXPORT s32 GetFrags_5935C0();
+    EXPORT s32 GetFrags_5935C0() const;
     EXPORT void ChangeFragsByAmount_5935D0(s32 amount);
 
     RollingDigitCounter field_0_money;
