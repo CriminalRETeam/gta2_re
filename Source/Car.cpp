@@ -140,7 +140,7 @@ DEFINE_GLOBAL_INIT(Fix16, kFpPoint1_6778E0, Fix16(0x666, 0), 0x6778E0);
 DEFINE_GLOBAL_INIT(Fix16, kFpTwo_6777D4, Fix16(2), 0x6777D4);
 
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint2_6772CC, Fix16(0xCCC, 0), 0x6772CC);
-EXTERN_GLOBAL(u8, byte_6F8EDC);
+EXTERN_GLOBAL(u8, gDoorAccessCheckActive_6F8EDC);
 
 DEFINE_GLOBAL_INIT(Fix16, kFpZero_66AB38, Fix16(0), 0x66AB38);
 
@@ -2614,7 +2614,7 @@ bool Car::IsDoorAccessible_43AFE0(u8 target_door)
                                                    x.ToInt(),
                                                    y.ToInt()))
     {
-        byte_6F8EDC = 1;
+        gDoorAccessCheckActive_6F8EDC = 1;
         fr.ComputeCollisionPrism_4204D0(x, y, kFpPoint2_6772CC, field_50_car_sprite->field_1C_zpos);
         fr.ExpandToIncludePoint_59DEE0(field_50_car_sprite->field_14_xy.x, field_50_car_sprite->field_14_xy.y);
         gCollisionCounters_6791FC->field_8_bDoorAccessCheck = 1;
@@ -2622,10 +2622,10 @@ bool Car::IsDoorAccessible_43AFE0(u8 target_door)
             !gSpriteGrid_1_679208->CheckRectForCollisions_477F60(&fr, 1, 3, field_50_car_sprite) && !gMap_0x370_6F6268->RectHitsDiagonalWall_4E11E0(&fr))
         {
             gCollisionCounters_6791FC->field_8_bDoorAccessCheck = 0;
-            byte_6F8EDC = 0;
+            gDoorAccessCheckActive_6F8EDC = 0;
             return 1;
         }
-        byte_6F8EDC = 0;
+        gDoorAccessCheckActive_6F8EDC = 0;
         gCollisionCounters_6791FC->field_8_bDoorAccessCheck = 0;
     }
     return 0;
