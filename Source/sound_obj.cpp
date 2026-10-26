@@ -1832,7 +1832,7 @@ void sound_obj::Tank_415190(Sound_Params* pParams)
             {
                 if (vol_mult > max_speed)
                 {
-                    vol_mult = gCarInfo_48_6FE258->field_28_max_speed;
+                    vol_mult = max_speed;
                 }
 
                 u8 vol = Fix16::Round_To_Int_410BF0((vol_mult / max_speed) * Fix16(80));
