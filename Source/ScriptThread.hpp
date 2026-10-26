@@ -1141,8 +1141,8 @@ class ScriptThread
     EXPORT void SCRCMD_SAVE_RESTORE_RESPECT_510780();
     EXPORT void PreExecOpCode_5108D0();
     EXPORT bool PoolUpdate();
-    EXPORT void InitThread_511930(char_type flags, u16 levelStart);
-    EXPORT ScriptThread* SpawnThread_511960(u16 levelStart);
+    EXPORT void InitThread_511930(char_type flags, u16 start_cmd);
+    EXPORT ScriptThread* SpawnThread_511960(u16 start_cmd);
     EXPORT void launch_mission_5119A0(SCR_CMD_HEADER* pCmd, const char_type* pMissionName);
     EXPORT ScriptThread();
     EXPORT void DisableBasicKfsFromSave_511CD0();
