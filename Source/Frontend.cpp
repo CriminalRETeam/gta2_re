@@ -376,10 +376,10 @@ void __stdcall Frontend::create_4ACFA0()
     if (!bSkip_audio_67D6BE)
     {
         snd1_67D818.field_0_object_type = 0;
-        snd1_67D818.field_4_bStatus = 0;
+        snd1_67D818.field_4_bStatus = false;
         snd2_67D6F8.field_0_object_type = SoundObjectTypeEnum::Frontend_2;
         snd2_67D6F8.field_C_pAny.pNextFree = &snd1_67D818;
-        snd2_67D6F8.field_4_bStatus = 0;
+        snd2_67D6F8.field_4_bStatus = false;
         snd2_67D6F8.field_8_sound_entry = gRoot_sound_66B038.AddSoundObject_40EFB0(&snd2_67D6F8);
         gRoot_sound_66B038.LoadStyle_40EFF0("data\\fstyle.sty");
         gRoot_sound_66B038.Set3DSound_40F160(0);
@@ -623,13 +623,13 @@ void Frontend::ChangeMenuPage_4B3170(u16 menu_page_idx)
         {
             if (player < num_players)
             {
-                field_136_menu_pages_array[7].field_518_elements_array[player + 1].field_1_is_it_displayed = 1;
+                field_136_menu_pages_array[7].field_518_elements_array[player + 1].field_1_is_it_displayed = true;
                 field_136_menu_pages_array[7].field_518_elements_array[player + 7].field_1_is_it_displayed = !IsTagGame_434B20();
             }
             else
             {
-                field_136_menu_pages_array[7].field_518_elements_array[player + 1].field_1_is_it_displayed = 0;
-                field_136_menu_pages_array[7].field_518_elements_array[player + 7].field_1_is_it_displayed = 0;
+                field_136_menu_pages_array[7].field_518_elements_array[player + 1].field_1_is_it_displayed = false;
+                field_136_menu_pages_array[7].field_518_elements_array[player + 7].field_1_is_it_displayed = false;
             }
         }
 
@@ -809,10 +809,10 @@ void Frontend::InitSound_4B8680()
     if (!bSkip_audio_67D6BE)
     {
         snd1_67D818.field_0_object_type = 0;
-        snd1_67D818.field_4_bStatus = 0;
+        snd1_67D818.field_4_bStatus = false;
         snd2_67D6F8.field_0_object_type = SoundObjectTypeEnum::Frontend_2;
         snd2_67D6F8.field_C_pAny.pNextFree = &snd1_67D818;
-        snd2_67D6F8.field_4_bStatus = 0;
+        snd2_67D6F8.field_4_bStatus = false;
         snd2_67D6F8.field_8_sound_entry = gRoot_sound_66B038.AddSoundObject_40EFB0(&snd2_67D6F8);
     }
 }
@@ -957,7 +957,7 @@ void Frontend::DrawScoreTable_4B5430(ScoreTableLine* pStrings,
         }
         else
         {
-            DrawText_5D8A10(tmpBuff_67BD9C, text_xpos, text_ypos_to_use, arg_fontType, 1, palette_types_enum::font_remaps_8, palette, false, 0);
+            DrawText_5D8A10(tmpBuff_67BD9C, text_xpos, text_ypos_to_use, arg_fontType, 1, palette_types_enum::font_remaps_8, palette, 0, 0);
         }
         if (spacing_type == 0)
         {
@@ -1237,7 +1237,7 @@ void Frontend::DrawMenu_4AD140()
                     }
                     else
                     {
-                        DrawText_5D8A10(wstr_array, x_pos, y_pos, pMenuOption->field_6A_font_type, static_cast<s32>(1), palette_types_enum::font_remaps_8, pMenuOption->field_6C_palette, false, 0);
+                        DrawText_5D8A10(wstr_array, x_pos, y_pos, pMenuOption->field_6A_font_type, static_cast<s32>(1), palette_types_enum::font_remaps_8, pMenuOption->field_6C_palette, 0, 0);
                     }
                 }
                 else
@@ -1248,7 +1248,7 @@ void Frontend::DrawMenu_4AD140()
                     }
                     else
                     {
-                        DrawText_5D8A10(wstr_array, x_pos, y_pos, field_11C_normal_font, static_cast<s32>(1), palette_types_enum::font_remaps_8, pMenuOption->field_6C_palette, false, 0);
+                        DrawText_5D8A10(wstr_array, x_pos, y_pos, field_11C_normal_font, static_cast<s32>(1), palette_types_enum::font_remaps_8, pMenuOption->field_6C_palette, 0, 0);
                     }
                 }
             }
@@ -1279,11 +1279,11 @@ void Frontend::DrawMenu_4AD140()
 
                 if (pMenuOption->field_6A_font_type != 0xFFFF)
                 {
-                    DrawText_5D8A10(wstr_array, x_pos, y_pos, pMenuOption->field_6A_font_type, 1, palette_types_enum::font_remaps_8, 8, false, 0);
+                    DrawText_5D8A10(wstr_array, x_pos, y_pos, pMenuOption->field_6A_font_type, 1, palette_types_enum::font_remaps_8, 8, 0, 0);
                 }
                 else
                 {
-                    DrawText_5D8A10(wstr_array, x_pos, y_pos, field_11C_normal_font, 1, palette_types_enum::font_remaps_8, 8, false, 0);
+                    DrawText_5D8A10(wstr_array, x_pos, y_pos, field_11C_normal_font, 1, palette_types_enum::font_remaps_8, 8, 0, 0);
                 }
             }
 
@@ -1350,7 +1350,7 @@ void Frontend::DrawMenu_4AD140()
                             break;
                     }
 
-                    DrawFigure_5D7EC0(sprite_types_enum::user_6, shape_type, x_pos, y_pos, kAngZero_67DA70, kFpOne_67D934, 2, 0, 0, false, 0);
+                    DrawFigure_5D7EC0(sprite_types_enum::user_6, shape_type, x_pos, y_pos, kAngZero_67DA70, kFpOne_67D934, palette_types_enum::sprites_2, 0, 0, 0, false);
                     break;
 
                 case STRING_TEXT_1:
@@ -1367,11 +1367,11 @@ void Frontend::DrawMenu_4AD140()
 
                     if (field_132_current_page_idx == MENUPAGE_PLAY && (option_idx == 2 || option_idx == 3))
                     {
-                        Frontend::DrawTextFixedWidth_4B78B0(wstr_array, x_pos, y_pos, font_type, pMenuElement->field_6C_font_palette, 1, 0x15u, 1);
+                        Frontend::DrawTextFixedWidth_4B78B0(wstr_array, x_pos, y_pos, font_type, pMenuElement->field_6C_font_palette, 1, 0x15u, true);
                     }
                     else if (field_132_current_page_idx == MENUPAGE_VIEW_HIGH_SCORE && option_idx == 1)
                     {
-                        Frontend::DrawTextFixedWidth_4B78B0(wstr_array, x_pos, y_pos, font_type, pMenuElement->field_6C_font_palette, 1, 0x15u, 1);
+                        Frontend::DrawTextFixedWidth_4B78B0(wstr_array, x_pos, y_pos, font_type, pMenuElement->field_6C_font_palette, 1, 0x15u, true);
                     }
                     else
                     {
@@ -1381,7 +1381,7 @@ void Frontend::DrawMenu_4AD140()
                         }
                         else
                         {
-                            DrawText_5D8A10(wstr_array, x_pos, y_pos, font_type, 1, palette_types_enum::font_remaps_8, pMenuElement->field_6C_font_palette, false, 0);
+                            DrawText_5D8A10(wstr_array, x_pos, y_pos, font_type, 1, palette_types_enum::font_remaps_8, pMenuElement->field_6C_font_palette, 0, 0);
                         }
                     }
                     break;
@@ -1430,27 +1430,27 @@ void Frontend::DrawCredits_4B7AE0()
         {
             case credits_line_category::normal_0: // normal string: white
                 font_type = field_11E_text_font;
-                draw_kind = 2;
+                draw_kind = palette_types_enum::sprites_2;
                 palette = 0;
                 break;
             case credits_line_category::other_tag_1:
                 font_type = field_120_selected_font;
-                draw_kind = 2;
+                draw_kind = palette_types_enum::sprites_2;
                 palette = 0;
                 break;
             case credits_line_category::dev_names_2: // dev names: blue
                 font_type = field_120_selected_font;
-                draw_kind = 8;
+                draw_kind = palette_types_enum::font_remaps_8;
                 palette = 13;
                 break;
             case credits_line_category::department_3: // department (DMA, T2 etc) : green
                 font_type = field_120_selected_font;
-                draw_kind = 8;
+                draw_kind = palette_types_enum::font_remaps_8;
                 palette = 14;
                 break;
             case credits_line_category::game_name_4: // game name "GTA2" : yellow
                 font_type = field_120_selected_font;
-                draw_kind = 8;
+                draw_kind = palette_types_enum::font_remaps_8;
                 palette = 15;
                 break;
             default:
@@ -1462,11 +1462,11 @@ void Frontend::DrawCredits_4B7AE0()
 
             if (!wcscmp(pStrBuf, L"BINKLOGO"))
             {
-                DrawFigure_5D7EC0(sprite_types_enum::user_6, 1, static_cast<u16>(320), y, kAngZero_67DA70, kFpOne_67D934, 2, 0, 0, 0, 0);
+                DrawFigure_5D7EC0(sprite_types_enum::user_6, 1, static_cast<u16>(320), y, kAngZero_67DA70, kFpOne_67D934, palette_types_enum::sprites_2, 0, 0, 0, false);
             }
             else if (!wcscmp(pStrBuf, L"MILESLOGO"))
             {
-                DrawFigure_5D7EC0(sprite_types_enum::user_6, 25, static_cast<u16>(320), y, kAngZero_67DA70, kFpOne_67D934, 2, 0, 0, 0, 0);
+                DrawFigure_5D7EC0(sprite_types_enum::user_6, 25, static_cast<u16>(320), y, kAngZero_67DA70, kFpOne_67D934, palette_types_enum::sprites_2, 0, 0, 0, false);
             }
             else
             {
@@ -1598,12 +1598,12 @@ void Frontend::Update_4AEC00()
         case FrontendState::Menu_Navigation_1:
             if (field_132_current_page_idx == MENUPAGE_CREDITS)
             {
-                snd1_67D818.field_4_bStatus = 1;
+                snd1_67D818.field_4_bStatus = true;
                 ManageCredits_4B7A10();
             }
             else
             {
-                snd1_67D818.field_4_bStatus = 0;
+                snd1_67D818.field_4_bStatus = false;
                 UpdatePageFromUserInput_4AE2D0();
             }
             break;
@@ -4487,11 +4487,11 @@ s32 __stdcall Frontend::GetMaxTextWidth_5D8990(wchar_t* pStr, u16 font_type)
 }
 
 MATCH_FUNC(0x4B78B0)
-void Frontend::DrawTextFixedWidth_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 font_type, u16 palette, u16 scale, u16 char_width, u8 pStr)
+void Frontend::DrawTextFixedWidth_4B78B0(wchar_t* pString, u16 text_xpos, u16 text_ypos, u16 font_type, u16 palette, u16 scale, u16 char_width, bool bRightAlign)
 {
     u16 text_xbase;
 
-    if (pStr)
+    if (bRightAlign)
     {
         u16 char_count = 0;
         for (; pString[char_count]; ++char_count)
@@ -4518,7 +4518,7 @@ void Frontend::DrawTextFixedWidth_4B78B0(wchar_t* pString, u16 text_xpos, u16 te
         }
         else
         {
-            DrawText_5D8A10(chr, text_xbase + char_pad, text_ypos, font_type, scale, palette_types_enum::font_remaps_8, palette, false, false);
+            DrawText_5D8A10(chr, text_xbase + char_pad, text_ypos, font_type, scale, palette_types_enum::font_remaps_8, palette, 0, 0);
         }
         text_xbase += char_width;
     }
@@ -4617,11 +4617,11 @@ void Frontend::DrawLastAndBestStats_4B57B0(u16 text_xpos, u16 text_ypos)
 
     swprintf(tmpBuff_67BD9C, L"%d", gGameSession_67E8E0.GetStatistic_4C59F0(5));
     u16 x_pos_last = text_xpos + 480;
-    Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, x_pos_last, text_ypos, font_type, 10, 1, line_height, 1);
+    Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, x_pos_last, text_ypos, font_type, 10, 1, line_height, true);
 
     swprintf(tmpBuff_67BD9C, L"%d", *reinterpret_cast<u32*>(&gPlyDat_6FEAC0->field_1800_best_stats[main_stage_idx].field_0_best_statistics[20]));
     u16 x_pos_best = text_xpos + 610;
-    Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, x_pos_best, text_ypos, font_type, 10, 1, line_height, 1);
+    Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, x_pos_best, text_ypos, font_type, 10, 1, line_height, true);
 
     //  auto damage cost
 
@@ -4630,10 +4630,10 @@ void Frontend::DrawLastAndBestStats_4B57B0(u16 text_xpos, u16 text_ypos)
     DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("car_cst"), x_pos, y_pos, font_type, 1);
 
     swprintf(tmpBuff_67BD9C, L"$%d", gGameSession_67E8E0.GetCarDamageCost_4C5A80());
-    Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, x_pos_last, y_pos, font_type, 10, 1, line_height, 1);
+    Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, x_pos_last, y_pos, font_type, 10, 1, line_height, true);
 
     swprintf(tmpBuff_67BD9C, L"$%d", gPlyDat_6FEAC0->field_1878_best_car_damage_cost[main_stage_idx]);
-    Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, x_pos_best, y_pos, font_type, 10, 1, line_height, 1);
+    Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, x_pos_best, y_pos, font_type, 10, 1, line_height, true);
 
     //  civilians run down
 
@@ -4642,10 +4642,10 @@ void Frontend::DrawLastAndBestStats_4B57B0(u16 text_xpos, u16 text_ypos)
     DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("run_ovr"), x_pos, y_pos, font_type, 1);
 
     swprintf(tmpBuff_67BD9C, L"%d", gGameSession_67E8E0.GetStatistic_4C59F0(6u));
-    Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, x_pos_last, y_pos, font_type, 10, 1, line_height, 1);
+    Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, x_pos_last, y_pos, font_type, 10, 1, line_height, true);
 
     swprintf(tmpBuff_67BD9C, L"%d", *reinterpret_cast<u32*>(&gPlyDat_6FEAC0->field_1800_best_stats[main_stage_idx].field_0_best_statistics[24]));
-    Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, x_pos_best, y_pos, font_type, 10, 1, line_height, 1);
+    Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, x_pos_best, y_pos, font_type, 10, 1, line_height, true);
 
     //  civilians murdered
 
@@ -4654,10 +4654,10 @@ void Frontend::DrawLastAndBestStats_4B57B0(u16 text_xpos, u16 text_ypos)
     DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("murder"), x_pos, y_pos, font_type, 1);
 
     swprintf(tmpBuff_67BD9C, L"%d", gGameSession_67E8E0.GetStatistic_4C59F0(7u));
-    Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, x_pos_last, y_pos, font_type, 10, 1, line_height, 1);
+    Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, x_pos_last, y_pos, font_type, 10, 1, line_height, true);
 
     swprintf(tmpBuff_67BD9C, L"%d", *reinterpret_cast<u32*>(&gPlyDat_6FEAC0->field_1800_best_stats[main_stage_idx].field_0_best_statistics[28]));
-    Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, x_pos_best, y_pos, font_type, 10, 1, line_height, 1);
+    Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, x_pos_best, y_pos, font_type, 10, 1, line_height, true);
 
     //  lawmen killed
 
@@ -4668,10 +4668,10 @@ void Frontend::DrawLastAndBestStats_4B57B0(u16 text_xpos, u16 text_ypos)
         DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("cop_kl"), x_pos, y_pos, font_type, 1);
 
         swprintf(tmpBuff_67BD9C, L"%d", gGameSession_67E8E0.GetStatistic_4C59F0(8u));
-        Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, x_pos_last, y_pos, font_type, 10, 1, line_height, 1);
+        Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, x_pos_last, y_pos, font_type, 10, 1, line_height, true);
 
         swprintf(tmpBuff_67BD9C, L"%d", *reinterpret_cast<u32*>(&gPlyDat_6FEAC0->field_1800_best_stats[main_stage_idx].field_0_best_statistics[32]));
-        Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, x_pos_best, y_pos, font_type, 10, 1, line_height, 1);
+        Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, x_pos_best, y_pos, font_type, 10, 1, line_height, true);
     }
 
     //  gang members killed
@@ -4681,10 +4681,10 @@ void Frontend::DrawLastAndBestStats_4B57B0(u16 text_xpos, u16 text_ypos)
     DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("gng_kl"), x_pos, y_pos, font_type, 1);
 
     swprintf(tmpBuff_67BD9C, L"%d", gGameSession_67E8E0.GetStatistic_4C59F0(9u));
-    Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, x_pos_last, y_pos, font_type, 10, 1, line_height, 1);
+    Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, x_pos_last, y_pos, font_type, 10, 1, line_height, true);
 
     swprintf(tmpBuff_67BD9C, L"%d", *reinterpret_cast<u32*>(&gPlyDat_6FEAC0->field_1800_best_stats[main_stage_idx].field_0_best_statistics[36]));
-    Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, x_pos_best, y_pos, font_type, 10, 1, line_height, 1);
+    Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, x_pos_best, y_pos, font_type, 10, 1, line_height, true);
 
     //  fugitive factor
 
@@ -4693,10 +4693,10 @@ void Frontend::DrawLastAndBestStats_4B57B0(u16 text_xpos, u16 text_ypos)
     DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("evsnrtg"), x_pos, y_pos, font_type, 1);
 
     swprintf(tmpBuff_67BD9C, L"%d", gGameSession_67E8E0.GetEvasionRating_4C5AA0());
-    Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, x_pos_last, y_pos, font_type, 10, 1, line_height, 1);
+    Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, x_pos_last, y_pos, font_type, 10, 1, line_height, true);
 
     swprintf(tmpBuff_67BD9C, L"%d", gPlyDat_6FEAC0->field_1884_best_evasion_rating[main_stage_idx]);
-    Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, x_pos_best, y_pos, font_type, 10, 1, line_height, 1);
+    Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, x_pos_best, y_pos, font_type, 10, 1, line_height, true);
 }
 
 MATCH_FUNC(0x4B0190)
@@ -4794,23 +4794,23 @@ void Frontend::UpdateMainStageArrows_4B7550()
 
     if (ExistsPreviousMainStage_4B7490())
     {
-        pMenuPage->field_518_elements_array[4].field_1_is_it_displayed = 1;
+        pMenuPage->field_518_elements_array[4].field_1_is_it_displayed = true;
         field_1EB4C_has_prev_main_stage = 1;
     }
     else
     {
-        pMenuPage->field_518_elements_array[4].field_1_is_it_displayed = 0;
+        pMenuPage->field_518_elements_array[4].field_1_is_it_displayed = false;
         field_1EB4C_has_prev_main_stage = 0;
     }
 
     if (ExistsNextMainStage_4B74C0())
     {
-        pMenuPage->field_518_elements_array[5].field_1_is_it_displayed = 1;
+        pMenuPage->field_518_elements_array[5].field_1_is_it_displayed = true;
         field_1EB4D_has_next_main_stage = 1;
     }
     else
     {
-        pMenuPage->field_518_elements_array[5].field_1_is_it_displayed = 0;
+        pMenuPage->field_518_elements_array[5].field_1_is_it_displayed = false;
         field_1EB4D_has_next_main_stage = 0;
     }
 }
@@ -4899,38 +4899,38 @@ void Frontend::UpdateBonusStageArrows_4B7610()
     {
         pPage->field_4_options_array[4].field_1_is_unlocked = 0;
         pPage->field_B8A_option_states[4].field_4_is_option_unlocked = 0;
-        pPage->field_518_elements_array[3].field_1_is_it_displayed = 0;
-        pPage->field_518_elements_array[1].field_1_is_it_displayed = 0;
-        pPage->field_518_elements_array[6].field_1_is_it_displayed = 0;
-        pPage->field_518_elements_array[7].field_1_is_it_displayed = 0;
+        pPage->field_518_elements_array[3].field_1_is_it_displayed = false;
+        pPage->field_518_elements_array[1].field_1_is_it_displayed = false;
+        pPage->field_518_elements_array[6].field_1_is_it_displayed = false;
+        pPage->field_518_elements_array[7].field_1_is_it_displayed = false;
     }
     else
     {
         pPage->field_4_options_array[4].field_1_is_unlocked = 1;
         pPage->field_B8A_option_states[4].field_4_is_option_unlocked = 1;
-        pPage->field_518_elements_array[3].field_1_is_it_displayed = 1;
-        pPage->field_518_elements_array[1].field_1_is_it_displayed = 1;
-        pPage->field_518_elements_array[6].field_1_is_it_displayed = 1;
-        pPage->field_518_elements_array[7].field_1_is_it_displayed = 1;
+        pPage->field_518_elements_array[3].field_1_is_it_displayed = true;
+        pPage->field_518_elements_array[1].field_1_is_it_displayed = true;
+        pPage->field_518_elements_array[6].field_1_is_it_displayed = true;
+        pPage->field_518_elements_array[7].field_1_is_it_displayed = true;
         if (ExistsPreviousBonusStage_4B74F0())
         {
-            pPage->field_518_elements_array[6].field_1_is_it_displayed = 1;
+            pPage->field_518_elements_array[6].field_1_is_it_displayed = true;
             field_1EB4E_has_prev_bonus_stage = 1;
         }
         else
         {
-            pPage->field_518_elements_array[6].field_1_is_it_displayed = 0;
+            pPage->field_518_elements_array[6].field_1_is_it_displayed = false;
             field_1EB4E_has_prev_bonus_stage = 0;
         }
 
         if (ExistsNextBonusStage_4B7520())
         {
-            pPage->field_518_elements_array[7].field_1_is_it_displayed = 1;
+            pPage->field_518_elements_array[7].field_1_is_it_displayed = true;
             field_1EB4F_has_next_bonus_stage = 1;
         }
         else
         {
-            pPage->field_518_elements_array[7].field_1_is_it_displayed = 0;
+            pPage->field_518_elements_array[7].field_1_is_it_displayed = false;
             field_1EB4F_has_next_bonus_stage = 0;
         }
 
@@ -5184,7 +5184,7 @@ MenuElement::MenuElement()
     field_0_element_type = NULL_TYPE_0;
     field_2_xpos = 0;
     field_4_ypos = 0;
-    field_1_is_it_displayed = 1;
+    field_1_is_it_displayed = true;
     wcscpy(field_6_element_name_str, gEmptyWStr_67DC8C);
     field_6A_font_type = -1;
     field_6C_font_palette = -1;
@@ -5193,7 +5193,7 @@ MenuElement::MenuElement()
 MATCH_FUNC(0x4B6420)
 MenuElement::~MenuElement()
 {
-    field_1_is_it_displayed = 1;
+    field_1_is_it_displayed = true;
     field_0_element_type = NULL_TYPE_0;
     field_2_xpos = 0;
     field_4_ypos = 0;
