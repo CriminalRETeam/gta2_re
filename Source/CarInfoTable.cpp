@@ -569,28 +569,8 @@ void CarInfo_2C::CalculateCarInfo_4542A0(s32 idx)
         FatalError_4A38C0(Gta2Error::InvalidCarModelGearSpeeds, "C:\\Splitting\\Gta2\\Source\\carinfo.cpp", 91, static_cast<u8>(idx));
     }
 
-    s8 front_wheel_offset = pCarInfo->front_wheel_offset;
-    Fix16 new_front_wheel_offset;
-    if (front_wheel_offset < 0)
-    {
-        new_front_wheel_offset = -gPixelsToFix16_6F6850.list[-front_wheel_offset];
-    }
-    else
-    {
-        new_front_wheel_offset = gPixelsToFix16_6F6850.list[front_wheel_offset];
-    }
-    this->field_4_front_wheel_offset = new_front_wheel_offset;
-    s8 rear_wheel_offset = pCarInfo->rear_wheel_offset;
-    Fix16 new_rear_wheel_offset;
-    if (rear_wheel_offset < 0)
-    {
-        new_rear_wheel_offset = -gPixelsToFix16_6F6850.list[-rear_wheel_offset];
-    }
-    else
-    {
-        new_rear_wheel_offset = gPixelsToFix16_6F6850.list[rear_wheel_offset];
-    }
-    this->field_8_rear_wheel_offset = new_rear_wheel_offset;
+    this->field_4_front_wheel_offset = gPixelsToFix16_6F6850.SignedPixelsToFix16_41FE70(pCarInfo->front_wheel_offset);
+    this->field_8_rear_wheel_offset = gPixelsToFix16_6F6850.SignedPixelsToFix16_41FE70(pCarInfo->rear_wheel_offset);
     Fix16 com_offset_y;
     this->field_0_moment_of_inertia = ComputeCarMassAndInertia_454410(gPixelsToFix16_6F6850.list[pCarInfo->w],
                                                                       gPixelsToFix16_6F6850.list[pCarInfo->h],
