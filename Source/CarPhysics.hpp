@@ -536,7 +536,7 @@ class CarPhyisicsPool : public PoolBasic<CarPhysics, 306>
 
     ~CarPhyisicsPool()
     {
-        field_0_pHead = 0;
+        field_0_pHead = NULL;
     }
 };
 
