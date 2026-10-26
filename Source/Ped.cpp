@@ -9,6 +9,7 @@
 #include "car_despawn_status.hpp"
 #include "ped_death_cause.hpp"
 #include "char_b4_state_more.hpp"
+#include "ped_state_2_more.hpp"
 #include "accuracy_event.hpp"
 #include "AmbulanceService.hpp"
 #include "CarInfoTable.hpp"
@@ -3677,7 +3678,7 @@ void Ped::UpdateFacingAngle_461A60()
 
         case ped_state_1::standing_still_7:
         {
-            if (this->field_27C_ped_state_2 == 11)
+            if (this->field_27C_ped_state_2 == ped_state_2::attacking_standing_11)
             {
                 this->field_130_target_facing_angle = Fix16::atan2_fixed_405320(this->field_1C8_move_target_y - this->field_1AC_cam.y, this->field_1C4_move_target_x - this->field_1AC_cam.x);
             }
@@ -10618,7 +10619,7 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
     if (field_198_hit_target_ped)
     {
         Ped::ChangeNextPedState1_45C500(ped_state_1::standing_still_7);
-        Ped::ChangeNextPedState2_45C540(11);
+        Ped::ChangeNextPedState2_45C540(ped_state_2::attacking_standing_11);
         field_21C_bf.bAttacking = true;
     }
     else
@@ -10719,7 +10720,7 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
                         if (field_168_game_object->GetCharState_433A80() != Char_B4_state::Jumping_15)
                         {
                             Ped::ChangeNextPedState1_45C500(ped_state_1::standing_still_7);
-                            Ped::ChangeNextPedState2_45C540(11);
+                            Ped::ChangeNextPedState2_45C540(ped_state_2::attacking_standing_11);
                             field_21C_bf.bAttacking = true;
                         }
                         else
@@ -10736,7 +10737,7 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
                 else if (field_168_game_object->GetCharState_433A80() != Char_B4_state::Jumping_15)
                 {
                     Ped::ChangeNextPedState1_45C500(ped_state_1::standing_still_7);
-                    Ped::ChangeNextPedState2_45C540(11);
+                    Ped::ChangeNextPedState2_45C540(ped_state_2::attacking_standing_11);
                     field_21C_bf.bAttacking = true;
                     // 9.6f: Char::SetVelocity_433920 (inlined, using it makes the diff worse)
                     field_168_game_object->field_38_velocity = kFpZero_678438;
