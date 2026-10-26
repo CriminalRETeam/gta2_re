@@ -6450,7 +6450,7 @@ void ScriptThread::SCRCMD_STORE_BONUS_50FAF0()
     if (bonus_rule_idx != bonus_result::passed && bonus_rule_idx != bonus_result::failed)
     {
         pPointerCounter->field_8_counter =
-            gGame_0x40_67E008->field_38_local_player->field_2D4_scores.field_1A8_bonuses.field_0_bonuses[pPointerBonus->field_8_index].field_26_progress_count;
+            gGame_0x40_67E008->field_38_local_player->field_2D4_scores.field_1A8_bonuses.GetProgressCount_476660(pPointerBonus->field_8_index);
     }
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }
