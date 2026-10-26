@@ -338,16 +338,30 @@ class Char
     EXPORT void RemoveFireSprites_5454B0();
     EXPORT void DoJump_5454D0();
     EXPORT void Teleport_545530(Fix16 xpos, Fix16 ypos, Fix16 zpos);
+
+  private:
     EXPORT s32 IsOnWater_545570() const;
     EXPORT void KillPed_5455F0();
+
+  public:
     EXPORT void ClearCollisionState_545600();
+
+  private:
     EXPORT void GetTileFracX64_545640(Fix16 coord, s16* output) const;
     EXPORT void GetTileFracY64_545670(Fix16 coord, s16* output) const;
     EXPORT void InitSprite_5456A0();
+
+  public:
     EXPORT bool IsOnScreen_545700() const;
     EXPORT void Update_545720(Fix16 distance_to_target);
+
+  private:
     EXPORT void CheckAndHandleCollisions_5459C0();
+
+  public:
     EXPORT void DrownPed_5459E0();
+
+  private:
     EXPORT void UpdateAnimState_546360();
     EXPORT void ManageZCoordAndSlopes_548590();
     EXPORT void DispatchCollision_548670(char_type bFlag);
@@ -385,14 +399,21 @@ class Char
     EXPORT void state_9_552E90();
 
     EXPORT bool IsNearTileCentre_5532C0() const;
+
+  public:
     EXPORT bool IsThreatToSearchingPed_553330() const;
     EXPORT bool ShouldCollideWithSprite_553340(Sprite* pSprite) const;
+
+  private:
     EXPORT bool PhoneTouched_5535B0(Object* pObject);
+
+  public:
     EXPORT bool OnObjectTouched_553640(Object* pObject);
     EXPORT bool HandlePedObjectHit_5537F0(Object* pObject);
     EXPORT void HandleCarImpact_5538A0(Car* pCar, u8 bUnknown, Fix16 x, Fix16 y);
     EXPORT void HandleGenericImpact_553E00(Ang16 ang, Fix16 impact_x, Fix16 impact_z, char_type impact_type);
 
+  private:
     EXPORT void nullsub_28();
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Char, 0xB4);
