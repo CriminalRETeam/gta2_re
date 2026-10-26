@@ -2185,7 +2185,7 @@ char_type Car::GetCarModelForPhysics_43A850()
         {
             if (field_60_pChaseTask)
             {
-                if (field_60_pChaseTask->field_22_following_route != 0)
+                if (field_60_pChaseTask->field_22_following_route)
                 {
                     if (IsTank_411900())
                     {
@@ -6220,7 +6220,7 @@ MATCH_FUNC(0x443ae0)
 void Car::ResprayOrChangePlates(u8 remap)
 {
     Player* pPlayer = GetDriverPlayer_421870();
-    const s32 cost = gCarManager_6C_677930->field_69_do_free_shopping != 0 ? 0 : 5000;
+    const s32 cost = gCarManager_6C_677930->field_69_do_free_shopping ? 0 : 5000;
     if (cost <= pPlayer->field_2D4_scores.GetScore_592370())
     {
         if (pPlayer->IsUser_41DC70())
