@@ -205,7 +205,7 @@ static inline bool has_top(gmp_block_info* pBlock)
 }
 
 MATCH_FUNC(0x452980)
-gmp_block_info* Map_0x370::GetBlockOrNull_452980(u8 x_coord, u8 y_coord, u8 z_coord)
+gmp_block_info* Map_0x370::GetBlockOrNull_452980(u8 x_coord, u8 y_coord, u8 z_coord) const
 {
     gmp_col_info* pColData =
         reinterpret_cast<gmp_col_info*>(&field_0_pDmap->field_40008_pColumn[*field_0_pDmap->get_base_42A830(y_coord, x_coord)]);
@@ -220,7 +220,7 @@ gmp_block_info* Map_0x370::GetBlockOrNull_452980(u8 x_coord, u8 y_coord, u8 z_co
 }
 
 MATCH_FUNC(0x4DEF40)
-bool gmp_map_zone::IsZoneVisibleToAnyPlayer_4DEF40()
+bool gmp_map_zone::IsZoneVisibleToAnyPlayer_4DEF40() const
 {
     Fix16_Rect zoneBounds;
     zoneBounds.SetFromPosSize_463710(field_1_x, field_2_y, field_3_w, field_4_h);
@@ -625,7 +625,7 @@ void Map_0x370::SetZoneInfo_4DF8C0(s32 zone_idx,
 }
 
 MATCH_FUNC(0x4DF9A0)
-gmp_zone_info* Map_0x370::GetZoneInfo_4DF9A0(u16 zone_idx)
+gmp_zone_info* Map_0x370::GetZoneInfo_4DF9A0(u16 zone_idx) const
 {
     return &field_334_pZoneInfo[field_330_pZoneArray[zone_idx]];
 }
@@ -780,7 +780,7 @@ void Map_0x370::UpdateLights_4DFCD0()
 }
 
 MATCH_FUNC(0x4DFE10)
-gmp_block_info* Map_0x370::GetBlock_4DFE10(s32 x_coord, s32 y_coord, s32 z_coord)
+gmp_block_info* Map_0x370::GetBlock_4DFE10(s32 x_coord, s32 y_coord, s32 z_coord) const
 {
     gmp_col_info* pCol =
         reinterpret_cast<gmp_col_info*>(&field_0_pDmap->field_40008_pColumn[*field_0_pDmap->get_base_42A830(y_coord, x_coord)]);
@@ -825,10 +825,6 @@ gmp_block_info* Map_0x370::GetEffectiveBlock_4DFE60(s32 x, s32 y, s32 z)
 MATCH_FUNC(0x4DFEE0)
 gmp_block_info* Map_0x370::GetBlockClamped_4DFEE0(s32 x_coord, s32 y_coord, s32 z_coord)
 {
-    gmp_compressed_map_32* field_0_pDmap;
-    gmp_col_info* pColInfo;
-    s32 offset;
-
     if (x_coord < 0)
     {
         x_coord = 0;
@@ -853,15 +849,15 @@ gmp_block_info* Map_0x370::GetBlockClamped_4DFEE0(s32 x_coord, s32 y_coord, s32 
         }
     }
 
-    field_0_pDmap = this->field_0_pDmap;
-    pColInfo = reinterpret_cast<gmp_col_info*>(&field_0_pDmap->field_40008_pColumn[*field_0_pDmap->get_base_42A830(y_coord, x_coord)]);
+    gmp_compressed_map_32* pDmap = field_0_pDmap;
+    gmp_col_info* pColInfo = reinterpret_cast<gmp_col_info*>(&pDmap->field_40008_pColumn[*pDmap->get_base_42A830(y_coord, x_coord)]);
 
     if (z_coord < pColInfo->field_0_height)
     {
-        offset = pColInfo->field_1_offset;
+        s32 offset = pColInfo->field_1_offset;
         if (z_coord >= offset)
         {
-            return &field_0_pDmap->field_4000C_block[pColInfo->field_4_blockd[z_coord - offset]];
+            return &pDmap->field_4000C_block[pColInfo->field_4_blockd[z_coord - offset]];
         }
     }
     return NULL;
@@ -3541,7 +3537,7 @@ void Map_0x370::SnapZToRailway_4E65A0(Fix16 x, Fix16 y, Fix16* pZ, bool bDontFli
 MATCH_FUNC(0x4E6660)
 s32 Map_0x370::AdvanceAlongRailway_4E6660(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
 {
-    char_type bTurned = 0;
+    bool bTurned = false;
     Fix16 x = *pX;
     Fix16 y = *pY;
     Fix16 to_centre;
@@ -3608,7 +3604,7 @@ s32 Map_0x370::AdvanceAlongRailway_4E6660(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16
                     MovePosAlongDirection_4E5D10(&x, &y, kFpHalf_6F5F18, direction);
                     dist -= kFpHalf_6F5F18;
                     gmp_block_info* pNext = GetRoadBlockAt_4E6660(x, y, z);
-                    if (!pNext || !HasGreenArrowForPathDirection_4E5E90(pNext, direction, 1))
+                    if (!pNext || !HasGreenArrowForPathDirection_4E5E90(pNext, direction, true))
                     {
                         STEP_ONE_BLOCK(&x, &y, dist, direction);
                     }
@@ -3648,7 +3644,7 @@ s32 Map_0x370::AdvanceAlongRailway_4E6660(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16
                            Ang16(ReturnAngleFromRoadDirection_4F7940(direction).rValue + kAng180_6F603E.rValue).Normalized_406C20()));
             dist += kFpOne_6F6110 - to_edge;
             gmp_block_info* pNext = GetRoadBlockAtOrNull_4E7190(x, y, z);
-            if (!pNext || !HasGreenArrowForPathDirection_4E5E90(pNext, direction, 1))
+            if (!pNext || !HasGreenArrowForPathDirection_4E5E90(pNext, direction, true))
             {
                 STEP_ONE_BLOCK(&x, &y, dist, direction);
             }
@@ -3667,7 +3663,7 @@ s32 Map_0x370::AdvanceAlongRailway_4E6660(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16
 
     while (dist != kFpZero_6F610C)
     {
-        if (HasGreenArrowForPathDirection_4E5E90(pBlock, direction, 1) && !bTurned)
+        if (HasGreenArrowForPathDirection_4E5E90(pBlock, direction, true) && !bTurned)
         {
             pPrev = pBlock;
             STEP_ONE_BLOCK(&x, &y, dist, direction);
@@ -3677,7 +3673,7 @@ s32 Map_0x370::AdvanceAlongRailway_4E6660(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16
                 SnapZToRailway_4E65A0(x, y, &z, 1, 0);
                 SET_ROAD_BLOCK_AT(pBlock, x, y, z);
             }
-            if (!HasGreenArrowForPathDirection_4E5E90(pBlock, direction, 1))
+            if (!HasGreenArrowForPathDirection_4E5E90(pBlock, direction, true))
             {
                 pPrev = pBlock;
                 Fix16 to_edge;
@@ -3694,12 +3690,12 @@ s32 Map_0x370::AdvanceAlongRailway_4E6660(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16
                     SnapZToRailway_4E65A0(x, y, &z, 1, 0);
                     SET_ROAD_BLOCK_AT(pBlock, x, y, z);
                 }
-                bTurned = 1;
+                bTurned = true;
             }
         }
         else
         {
-            bTurned = 0;
+            bTurned = false;
             pPrev = pBlock;
             if (dist >= kFpOne_6F6110)
             {
@@ -3744,7 +3740,7 @@ done:
 MATCH_FUNC(0x4E7190)
 s32 Map_0x370::AdvanceAlongRailwayChecked_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
 {
-    char_type bTurned = 0;
+    bool bTurned = false;
     Fix16 x = *pX;
     Fix16 y = *pY;
     Fix16 z = *pZ;
@@ -3816,7 +3812,7 @@ s32 Map_0x370::AdvanceAlongRailwayChecked_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ
                 dist = kFpZero_6F610C;
             }
         }
-        if (!HasGreenArrowForPathDirection_4E5E90(GetRoadBlockAt_4E6660(x, y, z), direction, 0))
+        if (!HasGreenArrowForPathDirection_4E5E90(GetRoadBlockAt_4E6660(x, y, z), direction, false))
         {
             StepOneBlock_4E6660(&x, &y, dist, direction);
         }
@@ -3841,7 +3837,7 @@ s32 Map_0x370::AdvanceAlongRailwayChecked_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ
                        Ang16::GetAngleFace_4F78F0(ReturnAngleFromRoadDirection_4F7940(direction) + kAng180_6F603E));
             dist += kFpOne_6F6110 - to_edge;
             gmp_block_info* pNext = GetRoadBlockAtOrNull_4E7190(x, y, z);
-            if (!pNext || !HasGreenArrowForPathDirection_4E5E90(pNext, direction, 0))
+            if (!pNext || !HasGreenArrowForPathDirection_4E5E90(pNext, direction, false))
             {
                 StepOneBlock_4E6660(&x, &y, dist, direction);
             }
@@ -3860,7 +3856,7 @@ s32 Map_0x370::AdvanceAlongRailwayChecked_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ
 
     while (dist != kFpZero_6F610C)
     {
-        if (HasGreenArrowForPathDirection_4E5E90(pBlock, direction, 0) && !bTurned)
+        if (HasGreenArrowForPathDirection_4E5E90(pBlock, direction, false) && !bTurned)
         {
             // pPrev first: the last_z store is scheduled after the pPrev copy
             pPrev = pBlock;
@@ -3883,7 +3879,7 @@ s32 Map_0x370::AdvanceAlongRailwayChecked_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ
                     SetRoadBlockAtOrNull_4E7190(pBlock, x, y, z);
                 }
             }
-            if (!pBlock || !HasGreenArrowForPathDirection_4E5E90(pBlock, direction, 0))
+            if (!pBlock || !HasGreenArrowForPathDirection_4E5E90(pBlock, direction, false))
             {
                 pPrev = pBlock;
                 Fix16 to_edge;
@@ -3904,13 +3900,13 @@ s32 Map_0x370::AdvanceAlongRailwayChecked_4E7190(Fix16* pX, Fix16* pY, Fix16* pZ
                     SnapZToRailway_4E65A0(x, y, &z, 0, 0);
                     SetRoadBlockAt_4E6660(pBlock, x, y, z);
                 }
-                bTurned = 1;
+                bTurned = true;
             }
         }
         else
         {
             s32 new_direction = 0;
-            bTurned = 0;
+            bTurned = false;
             switch (direction)
             {
                 case road_direction::up_1:

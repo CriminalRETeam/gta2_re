@@ -195,11 +195,11 @@ class gmp_map_zone
     u8 field_5_name_length;
     char_type field_6_name[2];
 
-    EXPORT bool IsZoneVisibleToAnyPlayer_4DEF40();
+    EXPORT bool IsZoneVisibleToAnyPlayer_4DEF40() const;
     EXPORT wchar_t* get_zone_str_4DEF00();
 
     // 9.6f 0x463020
-    inline bool ContainsPoint_463020(u8 x, u8 y)
+    inline bool ContainsPoint_463020(u8 x, u8 y) const
     {
         return x >= field_1_x && y >= field_2_y && x < field_1_x + field_3_w && y < field_2_y + field_4_h;
     }
@@ -355,7 +355,7 @@ struct gmp_zone_list
 class Map_0x370
 {
   public:
-    EXPORT gmp_block_info* GetBlockOrNull_452980(u8 x_coord, u8 y_coord, u8 z_coord);
+    EXPORT gmp_block_info* GetBlockOrNull_452980(u8 x_coord, u8 y_coord, u8 z_coord) const;
 
     EXPORT gmp_map_zone* FindZoneByName_4DEFD0(const char_type* pZoneName);
 
@@ -392,7 +392,7 @@ class Map_0x370
                                             s16 gangchar_ratio,
                                             s16 policeped_ratio);
 
-    EXPORT gmp_zone_info* GetZoneInfo_4DF9A0(u16 zone_idx);
+    EXPORT gmp_zone_info* GetZoneInfo_4DF9A0(u16 zone_idx) const;
 
     EXPORT void SetZoneCarDensity_4DF9D0(u16 zone_idx, s16 value);
 
@@ -424,7 +424,7 @@ class Map_0x370
     EXPORT void AllocZones_4DFCA0();
     EXPORT void UpdateLights_4DFCD0();
 
-    EXPORT gmp_block_info* GetBlock_4DFE10(s32 x_coord, s32 y_coord, s32 z_coord);
+    EXPORT gmp_block_info* GetBlock_4DFE10(s32 x_coord, s32 y_coord, s32 z_coord) const;
 
     EXPORT gmp_block_info* GetEffectiveBlock_4DFE60(s32 x, s32 y, s32 z);
     EXPORT gmp_block_info* GetBlockClamped_4DFEE0(s32 x_coord, s32 y_coord, s32 z_coord);
