@@ -466,7 +466,6 @@ void ScriptThread::SCRCMD_CAR_DECSET_503BC0(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER*
 {
     if (pCmd->field_C_pos.z == kFp255_6F7570) //  255.0
     {
-        Fix16 temp_z;
         pCmd->field_C_pos.z =
             gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(pCmd->field_C_pos.x, pCmd->field_C_pos.y);
     }
@@ -580,7 +579,6 @@ void ScriptThread::SCRCMD_CHAR_DECSET_2D_3D_503FB0(SCR_CHAR_DATA_DEC* pCmd, SCR_
 {
     if (pCmd->field_C_pos.z == kFp255_6F7570)
     {
-        Fix16 temp_z;
         pCmd->field_C_pos.z =
             gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(pCmd->field_C_pos.x, pCmd->field_C_pos.y);
     }
@@ -699,7 +697,6 @@ void ScriptThread::SCRCMD_CONVEYOR_DECSET1_2_5043A0(SCR_CONVEYOR* pCmd, SCR_POIN
 {
     if (pCmd->field_C_rect.field_0_pos.z == kFp255_6F7570)
     {
-        Fix16 temp_z;
         pCmd->field_C_rect.field_0_pos.z = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(pCmd->field_C_rect.field_0_pos.x,
                                                                                                  pCmd->field_C_rect.field_0_pos.y);
     }
@@ -720,7 +717,6 @@ void ScriptThread::SCRCMD_GENERATOR_DECSET_504420(SCR_GENERATOR* pCmd, SCR_POINT
 {
     if (pCmd->field_C_pos.z == kFp255_6F7570)
     {
-        Fix16 temp_z;
         pCmd->field_C_pos.z =
             gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(pCmd->field_C_pos.x, pCmd->field_C_pos.y);
     }
@@ -745,7 +741,6 @@ void ScriptThread::SCRCMD_DESTRUCTOR_DECSET_504530(SCR_DESTRUCTOR* pCmd, SCR_POI
 {
     if (pCmd->field_C_rect.field_0_pos.z == kFp255_6F7570)
     {
-        Fix16 temp_z;
         pCmd->field_C_rect.field_0_pos.z = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(pCmd->field_C_rect.field_0_pos.x,
                                                                                                  pCmd->field_C_rect.field_0_pos.y);
     }
@@ -866,7 +861,6 @@ void ScriptThread::SCRCMD_SET_GANG_INFO1_504830(SCR_SET_GANG_INFO* pCmd)
 
     if (pCmd->field_10_pos.z == kFp255_6F7570)
     {
-        Fix16 temp_z;
         pCmd->field_10_pos.z =
             gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(pCmd->field_10_pos.x, pCmd->field_10_pos.y);
     }
@@ -2658,7 +2652,6 @@ void ScriptThread::SCRCMD_IS_CAR_IN_BLOCK_509990()
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
     if (pCmd->field_C_pos.z == kFp255_6F7570)
     {
-        Fix16 temp_z;
         pCmd->field_C_pos.z =
             gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(pCmd->field_C_pos.x, pCmd->field_C_pos.y);
     }
