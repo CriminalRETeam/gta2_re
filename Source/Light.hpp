@@ -52,8 +52,8 @@ class Light
             else
             {
                 field_0_intensity_radius.flag &= ~0xff;
-                u8 t = field_18_intensity;
-                field_0_intensity_radius.flag |= t;
+                u8 intensity = field_18_intensity;
+                field_0_intensity_radius.flag |= intensity;
                 field_17_timer = field_14_on_time;
                 if (field_16_flicker_range)
                 {

@@ -44,7 +44,7 @@ class LightPool : public LightBase
     {
         Light* pFirst = field_0_pool.field_0_pStart;
         field_0_pool.field_0_pStart = field_0_pool.field_0_pStart->mpNext;
-        pFirst->mpNext = 0;
+        pFirst->mpNext = NULL;
         pFirst->Reset_463F50();
         return pFirst;
     }
