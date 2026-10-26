@@ -288,8 +288,8 @@ Train::Train()
     field_44_unused = 0;
     field_4C_station = NULL;
     field_4_wait_timer = 0;
-    field_0_is_hijacked = 0;
-    field_2_passengers_fleeing = 0;
+    field_0_is_hijacked = false;
+    field_2_passengers_fleeing = false;
     field_48_stop_phase = 0;
     field_50_state = 2;
     field_54_passenger_timer = 0;
@@ -1314,7 +1314,7 @@ void PublicTransport::BusesService_579CA0()
             {
                 if (field_17C0_bus.field_C_carriages[0]->IsDrivenByPlayer_4118D0())
                 {
-                    field_17C0_bus.field_0_is_hijacked = 1;
+                    field_17C0_bus.field_0_is_hijacked = true;
                     pBusCar->field_54_driver->field_15C_player->field_2D4_scores.AwardBusStolenScore_593370(pBusCar);
                 }
                 else
@@ -1324,7 +1324,7 @@ void PublicTransport::BusesService_579CA0()
                         if (pBusCar->field_54_driver->get_occupation_403980() != ped_ocupation_enum::dummy_driver_4 &&
                             pBusCar->field_54_driver->get_occupation_403980() != ped_ocupation_enum::driver)
                         {
-                            field_17C0_bus.field_0_is_hijacked = 1;
+                            field_17C0_bus.field_0_is_hijacked = true;
                         }
                     }
                 }
@@ -1337,8 +1337,8 @@ void PublicTransport::BusesService_579CA0()
                     {
                         if (pBusCar->field_54_driver->get_occupation_403980() == ped_ocupation_enum::angry_armed_robbed_driver_12)
                         {
-                            field_17C0_bus.field_0_is_hijacked = 0;
-                            field_17C0_bus.field_2_passengers_fleeing = 0;
+                            field_17C0_bus.field_0_is_hijacked = false;
+                            field_17C0_bus.field_2_passengers_fleeing = false;
                             pBusCar->field_54_driver->set_occupation_403970(ped_ocupation_enum::driver);
                             field_17C0_bus.field_C_carriages[0]->field_54_driver->SetPedType_403920(ped_type::dummy_3);
                         }
@@ -1348,7 +1348,7 @@ void PublicTransport::BusesService_579CA0()
                 {
                     if (field_17C0_bus.field_C_carriages[0]->GetCarLinearSpeed_43A240() > kTrainSpeedState1And3_6FEED4 + kFpPoint05_6FF04C)
                     {
-                        field_17C0_bus.field_2_passengers_fleeing = 1;
+                        field_17C0_bus.field_2_passengers_fleeing = true;
                         field_17C0_bus.field_C_carriages[0]->field_4_passengers_list.ApplyPassengerBusStopBehavior_471630();
                     }
                 }
@@ -1476,11 +1476,11 @@ void PublicTransport::PublicTransportService_57A7A0()
                 if (!pTrain->field_C_carriages[0]->field_54_driver)
                 {
                     pCar->SetDriverPedType_421560(ped_type::unknown_1);
-                    pTrain->field_0_is_hijacked = 0;
+                    pTrain->field_0_is_hijacked = false;
                 }
                 else
                 {
-                    pTrain->field_0_is_hijacked = 1;
+                    pTrain->field_0_is_hijacked = true;
                     if (pCar->field_54_driver->GetMoveDirection_45C9B0() > kFpZero_6FF078)
                     {
                         if (pTrain->field_C_carriages[0]->field_54_driver->field_15C_player->field_8B_forward_changed)
