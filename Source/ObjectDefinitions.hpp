@@ -178,7 +178,7 @@ class ObjectDefinition
     EXPORT void SetDimensions_533060(Fix16 width, Fix16 height, Fix16 depth);
     EXPORT void SetDimensionsFromSprite_533090();
     EXPORT void SetRemap_533110(s16 remap);
-    EXPORT void OffsetBaseSpriteIdxAndSetNumFrames_533150(s16 sprite_idx_offset, s16 anim_speed);
+    EXPORT void OffsetBaseSpriteIdxAndSetNumFrames_533150(s16 sprite_idx_offset, s16 num_frames);
     EXPORT Sprite* CreateSpriteFromDefinition_533170();
     EXPORT void ApplyDefinitionToSprite_5331A0(Sprite* pSprite);
     EXPORT ObjectDefinition();
@@ -231,7 +231,7 @@ class ObjectDefinitions
     };
 
     EXPORT ~ObjectDefinitions();
-    EXPORT ObjectDefinition* AllocDefinitionWithSprite_5332D0(s32 idx, s32 sprite_type, s16 sprite_palette, u8 anim_speed);
+    EXPORT ObjectDefinition* AllocDefinitionWithSprite_5332D0(s32 idx, s32 sprite_type, s16 base_sprite_idx, u8 num_frames);
     EXPORT void CreateMapObjectDefinitions_533300();
     EXPORT void ApplyMapObjectOverrides_533360();
     EXPORT void CloneAnimatedDefinitions_533420();

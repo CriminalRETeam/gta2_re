@@ -377,10 +377,10 @@ void ObjectDefinition::SetRemap_533110(s16 remap)
 }
 
 MATCH_FUNC(0x533150)
-void ObjectDefinition::OffsetBaseSpriteIdxAndSetNumFrames_533150(s16 sprite_idx_offset, s16 anim_speed)
+void ObjectDefinition::OffsetBaseSpriteIdxAndSetNumFrames_533150(s16 sprite_idx_offset, s16 num_frames)
 {
     field_1E_base_sprite_idx += sprite_idx_offset;
-    field_6C_num_frames = static_cast<u8>(anim_speed);
+    field_6C_num_frames = static_cast<u8>(num_frames);
 }
 
 MATCH_FUNC(0x533170)
@@ -461,12 +461,12 @@ ObjectDefinition::ObjectDefinition()
 }
 
 MATCH_FUNC(0x5332d0)
-ObjectDefinition* ObjectDefinitions::AllocDefinitionWithSprite_5332D0(s32 idx, s32 sprite_type, s16 sprite_palette, u8 anim_speed)
+ObjectDefinition* ObjectDefinitions::AllocDefinitionWithSprite_5332D0(s32 idx, s32 sprite_type, s16 base_sprite_idx, u8 num_frames)
 {
     ObjectDefinition* result = AllocDefinition_5343C0(idx);
     result->field_28_sprite_type = sprite_type;
-    result->field_1E_base_sprite_idx = sprite_palette;
-    result->field_6C_num_frames = anim_speed;
+    result->field_1E_base_sprite_idx = base_sprite_idx;
+    result->field_6C_num_frames = num_frames;
     result->field_30_palette_type = 2;
     return result;
 }
@@ -489,7 +489,7 @@ void ObjectDefinitions::CreateMapObjectDefinitions_533300()
 MATCH_FUNC(0x533360)
 void ObjectDefinitions::ApplyMapObjectOverrides_533360()
 {
-    int override_count = gMapObjectOverrides_length_623EEC;
+    s32 override_count = gMapObjectOverrides_length_623EEC;
 
     if (0 < override_count)
     {
@@ -820,7 +820,6 @@ void ObjectDefinitions::CloneAnimatedDefinitions_533420()
     pDef = GetObjectDefinition_534360(0x19);
     pDef->field_28_sprite_type = 1;
     pDef->field_8_depth = kFpTwo_6FCE10;
-    return;
 }
 
 MATCH_FUNC(0x533b30)
