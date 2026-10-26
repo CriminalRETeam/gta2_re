@@ -203,8 +203,8 @@ class CarManager
     EXPORT void DecrementAllocatedCarType_4466C0(s32 car_kind);
     EXPORT void EnableFreeShoppingIfAllKFsPassed_446760();
     EXPORT void CarsService_446790();
-    EXPORT bool CanAllocateCarOfKindWithSpare_446870(s32 type);
-    EXPORT bool CanAllocateCarOfKind_446930(s32 type);
+    EXPORT bool CanAllocateCarOfKindWithSpare_446870(s32 type) const;
+    EXPORT bool CanAllocateCarOfKind_446930(s32 type) const;
     EXPORT CarManager();
     EXPORT ~CarManager();
 
@@ -330,8 +330,8 @@ EXTERN_GLOBAL(CarManager*, gCarManager_6C_677930);
 class Trailer
 {
   public:
-    EXPORT Ped* GetTruckCabDriver_407B80();
-    EXPORT Car* GetCabOrTrailerCar_407B90(Car* pCar);
+    EXPORT Ped* GetTruckCabDriver_407B80() const;
+    EXPORT Car* GetCabOrTrailerCar_407B90(Car* pCar) const;
     EXPORT void SetTruckCabAndTrailerCar_407BB0(Car* pTruckCab, Car* pTrailerCar);
     EXPORT Fix16_Point GetHitchPosition_407BD0();
     EXPORT void UpdateTrailerAlignment_407CE0();
@@ -483,33 +483,33 @@ class Car
         field_74_damage = v;
     }
 
-    EXPORT bool CanBeEnteredByPed_4451E0(Ped* pPed);
-    EXPORT bool IsEnterable_445360();
-    EXPORT Ang16 GetCornerAngle_4403A0();
+    EXPORT bool CanBeEnteredByPed_4451E0(Ped* pPed) const;
+    EXPORT bool IsEnterable_445360() const;
+    EXPORT Ang16 GetCornerAngle_4403A0() const;
 
     EXPORT s16 ApplyImpactDamage_43D5D0(Fix16 damage);
 
-    EXPORT bool IsPoliceCar_439EC0();
-    EXPORT Fix16 GetDamageFactorOnSpeed_439EE0();
-    EXPORT Fix16 GetMaxSpeed_439F30();
+    EXPORT bool IsPoliceCar_439EC0() const;
+    EXPORT Fix16 GetDamageFactorOnSpeed_439EE0() const;
+    EXPORT Fix16 GetMaxSpeed_439F30() const;
     EXPORT wchar_t* GetCarStr_439F80();
-    EXPORT Fix16_Point GetHitchPoint_439FB0();
-    EXPORT Fix16_Point GetRearWheelOffset_43A0E0();
-    EXPORT Fix16 GetMass_43A120();
-    EXPORT Fix16 GetAntiStrength_43A1D0();
+    EXPORT Fix16_Point GetHitchPoint_439FB0() const;
+    EXPORT Fix16_Point GetRearWheelOffset_43A0E0() const;
+    EXPORT Fix16 GetMass_43A120() const;
+    EXPORT Fix16 GetAntiStrength_43A1D0() const;
     EXPORT bool IsBus_43A1F0();
-    EXPORT bool HasSpriteZoom_43A230();
+    EXPORT bool HasSpriteZoom_43A230() const;
     EXPORT Fix16 GetCarLinearSpeed_43A240();
-    EXPORT bool IsCarInAir_43A3C0();
-    EXPORT Ang16 GetOrientationAngle_43A3E0();
+    EXPORT bool IsCarInAir_43A3C0() const;
+    EXPORT Ang16 GetOrientationAngle_43A3E0() const;
     EXPORT Fix16_Point GetLinearVelocity_43A450();
     EXPORT Fix16 GetVelocity_43A4C0();
     EXPORT Fix16 GetMomentOfInertia_43A590();
-    EXPORT Fix16 GetMinDimension_43A5B0();
+    EXPORT Fix16 GetMinDimension_43A5B0() const;
     EXPORT void RemoveAllDamage();
     EXPORT bool AllowResprayOrPlates();
-    EXPORT bool IsNotCurrentRemap(u8 remap);
-    EXPORT bool IsNotCurrentRemapOfCarAndTrailerCar(u8 remap);
+    EXPORT bool IsNotCurrentRemap(u8 remap) const;
+    EXPORT bool IsNotCurrentRemapOfCarAndTrailerCar(u8 remap) const;
     EXPORT void SetCarRemap(u8 remap);
     EXPORT void AssignRandomRemap_43A7D0();
     EXPORT char_type GetCarModelForPhysics_43A850();
@@ -520,17 +520,17 @@ class Car
     EXPORT void SetDummyControl_43AA20();
     EXPORT void StartLightFlashing_43CAC0();
     EXPORT void Deactivate_43AA60();
-    EXPORT bool IsThreatToSearchingPed_43AAE0();
+    EXPORT bool IsThreatToSearchingPed_43AAE0() const;
     EXPORT bool CanCarCollideWithSprite_43AAF0(Sprite* pSprite);
     EXPORT void ProcessCarToCarImpact_43ADC0(Sprite* pSprite);
-    EXPORT bool CanExitCar_43AF10();
+    EXPORT bool CanExitCar_43AF10() const;
     EXPORT void ResumeAIDriving_43AF40();
     EXPORT void HaltAIDriving_43AF60();
     EXPORT bool IsDoorAccessible_43AFE0(u8 target_door);
     EXPORT bool IsStoppedWithPavementAtDoor_43B140(u8 target_car_door);
-    EXPORT bool IsDoorLockedForPed_43B2B0(Ped* pPed);
+    EXPORT bool IsDoorLockedForPed_43B2B0(Ped* pPed) const;
     EXPORT Car_Door* GetDoor(u8 door_idx);
-    EXPORT char_type GetDoorCount_43B360();
+    EXPORT char_type GetDoorCount_43B360() const;
     EXPORT void OpenAllDoors_43B380();
     EXPORT void CloseAllDoors_43B3D0();
     EXPORT void GetDoorWorldPos_43B420(u8 door_idx, Fix16* pOutX, Fix16* pOutY);
@@ -540,7 +540,7 @@ class Car
     EXPORT bool IsVisibleToAnyPlayer_43B750();
     EXPORT void AssignKillerToOccupants_43B770();
     EXPORT void AssignDriverBlameForExplosion_43B7B0(Car* pCar);
-    EXPORT bool IsImmuneToExplosionType_43B850(s32 explosion_type);
+    EXPORT bool IsImmuneToExplosionType_43B850(s32 explosion_type) const;
     EXPORT void SpawnDamageFireEffect_43B870(s32 fire_size, const Fix16_Point* pPos);
     // Called without this in SpawnDamageFireEffect_43B870: a static __stdcall
     EXPORT static s32 __stdcall GetFireExplosionType_43BB90(u8 fire_level);
@@ -582,17 +582,17 @@ class Car
     }
     EXPORT void KillContainedPeds_43DB80();
     EXPORT void StopMovement_43DBD0();
-    EXPORT bool IsSpriteShrunk_43DC00();
+    EXPORT bool IsSpriteShrunk_43DC00() const;
     EXPORT bool CarShrinkSprite_43DC80(s32 xoff, s32 yoff);
     EXPORT bool IsBeingCrushed_43DD50();
     EXPORT void DestroyWhileSinking_43DD60();
     EXPORT bool ManageDrowning_43E560();
     EXPORT Car* GetCabOrSelf_43E8D0();
-    EXPORT Ped* GetEffectiveDriver_43E990();
+    EXPORT Ped* GetEffectiveDriver_43E990() const;
     EXPORT bool OnObjectTouched_43EA60(Object* pObj);
     EXPORT bool HandleCarHitByObject_43F130(Object* pObj);
     EXPORT Fix16 GetMaxTurnRate_440510();
-    EXPORT char_type GetMaxPassengers_440570();
+    EXPORT char_type GetMaxPassengers_440570() const;
     EXPORT void InitCarAIControl_440590();
     EXPORT void SpawnDriverPed();
     EXPORT void AddGangDriver_440630(Gang* pGang);
@@ -600,7 +600,7 @@ class Car
     EXPORT void ShowCarName_4406B0(Ped* pPed);
     EXPORT void AssignDriver_4406E0(Ped* pPed);
     EXPORT void ClearDriver_4407F0();
-    EXPORT Sprite* GetSprite_440840();
+    EXPORT Sprite* GetSprite_440840() const;
     EXPORT void PutWaterCannonOnRoof_440AC0();
     EXPORT void PutTankCannonOnRoof_440B10();
     EXPORT void PutMachineGunOnRoof_440B60();
@@ -662,7 +662,7 @@ class Car
     EXPORT void UpdateOnCraneHook_443330();
     EXPORT bool UpdateAttachedToSprite_443360(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 rot);
     EXPORT void InitDoors_4435A0();
-    EXPORT s32 GetAttachedDrawLayer_4435B0();
+    EXPORT s32 GetAttachedDrawLayer_4435B0() const;
     EXPORT void UpdateDrawLayer_4435F0();
     EXPORT void ApplyExplosionImpulse_443710(Fix16_Point* xy);
     EXPORT static s32 __stdcall GetCarWeaponCost_443A50(s32 weapon_kind);
