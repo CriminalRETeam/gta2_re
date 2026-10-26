@@ -3777,8 +3777,8 @@ void Ped::Occupation_AI_461F20()
         case ped_ocupation_enum::armed_gang_member_19:
             if (field_25C_internal_objective == objectives_enum::kill_char_on_foot_20 && field_17C_pGang != NULL && field_14C_internal_target_ped->is_player_41B0A0())
             {
-                u8 idx = field_14C_internal_target_ped->field_15C_player->get_idx_4219D0();
-                if (!field_17C_pGang->IsRespectNegativeForPlayer_4BEF10(idx))
+                u8 player_idx = field_14C_internal_target_ped->field_15C_player->get_idx_4219D0();
+                if (!field_17C_pGang->IsRespectNegativeForPlayer_4BEF10(player_idx))
                 {
                     Ped::SetObjective2_463830(objectives_enum::no_obj_0);
                 }
@@ -4446,7 +4446,7 @@ bool Ped::PoolUpdate()
                         field_278_ped_state_1 = ped_state_1::dead_9;
                         field_27C_ped_state_2 = ped_state_2::ped2_dead_15;
                     }
-                    if (field_20E_offscreen_counter > 0xC8u && field_240_occupation != ped_ocupation_enum::paramedic_23 && field_238_ped_type != ped_type::script_created_5)
+                    if (field_20E_offscreen_counter > 200u && field_240_occupation != ped_ocupation_enum::paramedic_23 && field_238_ped_type != ped_type::script_created_5)
                     {
                         Ped::Deallocate_45EB60();
                     }
@@ -4568,25 +4568,25 @@ void Ped::ChangePedStatesByMode_463300(u8 mode)
 MATCH_FUNC(0x4633e0)
 void Ped::SetStatesForObjective_4633E0(bool bMainObj)
 {
-    u8 state = ped_states_mode::unchanged_99;
-    s32 obj;
+    u8 mode = ped_states_mode::unchanged_99;
+    s32 objective;
     if (bMainObj)
     {
-        obj = field_258_objective;
+        objective = field_258_objective;
     }
     else
     {
-        obj = field_25C_internal_objective;
+        objective = field_25C_internal_objective;
     }
-    switch (obj)
+    switch (objective)
     {
         case objectives_enum::no_obj_0:
-            state = field_16C_car ? ped_states_mode::drive_5 : ped_states_mode::walk_1;
+            mode = field_16C_car ? ped_states_mode::drive_5 : ped_states_mode::walk_1;
             break;
         case objectives_enum::flee_on_foot_till_safe_1:
         case objectives_enum::flee_char_on_foot_till_safe_2:
         case objectives_enum::flee_char_on_foot_always_3:
-            state = ped_states_mode::flee_2;
+            mode = ped_states_mode::flee_2;
             break;
         case objectives_enum::guard_spot_24:
         case objectives_enum::guard_area_25:
@@ -4597,7 +4597,7 @@ void Ped::SetStatesForObjective_4633E0(bool bMainObj)
         case objectives_enum::wait_to_cross_x_forwards_45:
         case objectives_enum::wait_to_cross_y_forwards_46:
         case objectives_enum::wait_to_cross_x_backwards_47:
-            state = ped_states_mode::stand_still_4;
+            mode = ped_states_mode::stand_still_4;
             break;
         case objectives_enum::goto_area_in_car_14:
         case objectives_enum::wait_in_car_27:
@@ -4607,15 +4607,15 @@ void Ped::SetStatesForObjective_4633E0(bool bMainObj)
         case objectives_enum::call_police_car_54:
         case objectives_enum::follow_car_in_car_55:
         case objectives_enum::fire_at_object_from_vehicle_57:
-            state = ped_states_mode::drive_5;
+            mode = ped_states_mode::drive_5;
             break;
         case objectives_enum::enter_car_as_driver_35:
         case objectives_enum::enter_train_37:
-            state = ped_states_mode::go_to_car_6;
+            mode = ped_states_mode::go_to_car_6;
             break;
         case objectives_enum::leave_car_36:
         case objectives_enum::leave_train_38:
-            state = field_168_game_object ? ped_states_mode::walk_1 : ped_states_mode::exit_car_7;
+            mode = field_168_game_object ? ped_states_mode::walk_1 : ped_states_mode::exit_car_7;
             break;
         case objectives_enum::run_to_char_7:
         case objectives_enum::follow_char_9:
@@ -4631,13 +4631,13 @@ void Ped::SetStatesForObjective_4633E0(bool bMainObj)
         case objectives_enum::follow_car_on_foot_with_offset_56:
         case objectives_enum::destroy_object_58:
         case objectives_enum::destroy_car_59:
-            state = ped_states_mode::run_to_target_3;
+            mode = ped_states_mode::run_to_target_3;
             break;
         case objectives_enum::objective_8:
         case objectives_enum::kill_frenzy_22:
         case objectives_enum::wait_after_crossing_49:
         case objectives_enum::objective_51:
-            state = ped_states_mode::walk_1;
+            mode = ped_states_mode::walk_1;
             break;
         case objectives_enum::objective_50:
             Ped::ChangeNextPedState1_45C500(ped_state_1::dead_9);
@@ -4646,7 +4646,7 @@ void Ped::SetStatesForObjective_4633E0(bool bMainObj)
         default:
             break;
     }
-    Ped::ChangePedStatesByMode_463300(state);
+    Ped::ChangePedStatesByMode_463300(mode);
 }
 
 MATCH_FUNC(0x463570)
@@ -7956,7 +7956,7 @@ void Ped::UpdateFollowPedObjective_468E80()
             bUnknown2 = this->field_168_game_object->GetCharState_433A80() == Char_B4_state::Jumping_15 && !this->field_21C_bf.bPanicking;
         }
 
-        if (field_224_bf.bWaitingOnTarget && (this->field_21C_bf.bPanicking || this->field_260_wait_counter > 0xC8u))
+        if (field_224_bf.bWaitingOnTarget && (this->field_21C_bf.bPanicking || this->field_260_wait_counter > 200u))
         {
             this->field_260_wait_counter = 0;
             this->field_224_bf.bWaitingOnTarget = false;
@@ -8747,7 +8747,6 @@ void Ped::FollowCarInCurrCar_46A290()
     {
         if (!field_16C_car->field_60_pChaseTask)
         {
-            // If no path, create one
             field_16C_car->field_60_pChaseTask = gCarChaseTaskTable_678E30->AllocateEntry_474810();
             field_16C_car->field_60_pChaseTask->field_4_pDriver = this;
         }
