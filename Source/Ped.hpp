@@ -575,7 +575,7 @@ class Ped
 
     inline void SetStateInitPending_433B50()
     {
-        field_168_game_object->field_16_state_init_pending = 1;
+        field_168_game_object->field_16_state_init_pending = true;
     }
 
     inline s8 get_remap_433BA0() const
