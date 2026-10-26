@@ -181,14 +181,15 @@ void Train::ReassignTrainHead_578030()
 
         gCar_BC_Pool_67792C->field_0_pool.UnlinkFromActiveList_420F30(this->field_C_carriages[this->field_43_idx]);
 
+        // AllocCarPhysics_4419E0 only allocates when there is no physics, so these guarded calls do nothing
         Car* pTrainCar = this->field_C_carriages[this->field_43_idx];
-        if (pTrainCar->field_58_physics) // BUG?
+        if (pTrainCar->field_58_physics)
         {
             pTrainCar->AllocCarPhysics_4419E0();
         }
 
         this->field_C_carriages[this->field_43_idx]->field_58_physics->Init_5637A0();
-        if (this->field_C_carriages[0]->field_58_physics) // BUG?
+        if (this->field_C_carriages[0]->field_58_physics)
         {
             this->field_C_carriages[0]->AllocCarPhysics_4419E0();
         }
@@ -196,7 +197,7 @@ void Train::ReassignTrainHead_578030()
         this->field_C_carriages[0]->field_58_physics->SetSprite_563560(this->field_C_carriages[0]->field_50_car_sprite);
         this->field_C_carriages[0]->field_54_driver = pFirst->field_54_driver;
         
-        if (this->field_C_carriages[0]->field_58_physics) // BUG?
+        if (this->field_C_carriages[0]->field_58_physics)
         {
             this->field_C_carriages[0]->AllocCarPhysics_4419E0();
         }
