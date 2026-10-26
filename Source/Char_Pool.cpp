@@ -283,7 +283,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
                         if (pPed->field_170_selected_weapon && pPed->field_170_selected_weapon->field_1C_weapon_type)
                         {
                             pPed->field_21C_bf.bArmedGangMember = true;
-                            pGang->field_141_always_basic_weapon = 1;
+                            pGang->field_141_always_basic_weapon = true;
                         }
                         pPed->GiveWeapon_46F650(weapon_type::pistol);
                         pPed->field_270_fire_mode = ped_fire_mode::random_shots_0;

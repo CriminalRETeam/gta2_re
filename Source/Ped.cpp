@@ -8195,7 +8195,7 @@ void Ped::GotoAreaByAnyMeans_469060()
                             bCanAllocate = gCarManager_6C_677930->CanAllocateCarOfKind_446930(car_kind::recycled_1);
                             if (bCanAllocate)
                             {
-                                bFound = gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &xpos, &ypos, &zpos, true);
+                                bFound = gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(ROAD, &xpos, &ypos, &zpos, true);
                             }
                             if (bFound)
                             {
@@ -8249,7 +8249,7 @@ void Ped::GotoAreaByAnyMeans_469060()
                             u8 bFound = 0;
                             if (gCarManager_6C_677930->CanAllocateCarOfKind_446930(car_kind::recycled_1))
                             {
-                                bFound = gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &xpos, &ypos, &zpos, true);
+                                bFound = gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(ROAD, &xpos, &ypos, &zpos, true);
                             }
                             if (bFound)
                             {
@@ -8365,7 +8365,7 @@ void Ped::GotoAreaByAnyMeans_469060()
                     target_z = field_1E4_objective_target_z.ToUInt8();
 
                     field_218_objective_timer = 0;
-                    if (!gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &target_x, &target_y, &target_z, false))
+                    if (!gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(ROAD, &target_x, &target_y, &target_z, false))
                     {
                         field_16C_car->field_80_abandoned = true;
                         field_16C_car->SetDriverPedType_421560(ped_type::dummy_3);
@@ -8627,7 +8627,7 @@ void Ped::CallPoliceCar_469FE0()
         u8 x = this->field_1AC_cam.x.ToUInt8();
         u8 y = this->field_1AC_cam.y.ToUInt8();
         u8 z = this->field_1AC_cam.z.ToUInt8();
-        gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &x, &y, &z, true);
+        gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(ROAD, &x, &y, &z, true);
         if (gCarManager_6C_677930->CanAllocateCarOfKind_446930(car_kind::Unknown_10))
         {
             pCar = gCarManager_6C_677930->SpawnCarAtRoadDirection_444CF0(car_model_enum::COPCAR, x, y, z);
@@ -10883,7 +10883,7 @@ void Ped::RecruitNearbyPeds_46E080(s32 desiredCount, Fix16 searchRadius)
     }
 
     ComputeRecruitPrism(rect, this->field_1AC_cam.x, this->field_1AC_cam.y, searchRadius, this->field_1AC_cam.z);
-    if (gSpriteGrid_1_679208->CollectRectCollisions_477F30(&rect, 0, sprite_types_enum::none_0, GetSprite_46DF50(), &collision_list))
+    if (gSpriteGrid_1_679208->CollectRectCollisions_477F30(&rect, false, sprite_types_enum::none_0, GetSprite_46DF50(), &collision_list))
     {
         for (pNearest = collision_list.TakeClosestSprite_5A6EA0(this->field_1AC_cam.x, this->field_1AC_cam.y); pNearest;
              pNearest = collision_list.TakeClosestSprite_5A6EA0(this->field_1AC_cam.x, this->field_1AC_cam.y))

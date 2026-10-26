@@ -213,7 +213,7 @@ void PoliceCrew::SpawnPoliceInCar_570BF0()
     pGroup->add_ped_leader_4C9B10(pCopLeader);
     pGroup->SetCounts_433360(1);
     pGroup->add_ped_to_list_4C9B30(pCopSupporter, 0);
-    pGroup->field_0_remove_dead_members = 0;
+    pGroup->field_0_remove_dead_members = false;
     field_10_subObj->field_4_ped = pCopLeader;
     field_10_subObj->field_28_state = crew_state::update_6;
     field_10_subObj->field_0_car->SetDriverPedType_421560(ped_type::script_created_5);
@@ -259,7 +259,7 @@ void PoliceCrew::SpawnSWAT_570E30()
 
         pSwatGroup->add_ped_to_list_4C9B30(pSwatMember, i);
     }
-    pSwatGroup->field_0_remove_dead_members = 0;
+    pSwatGroup->field_0_remove_dead_members = false;
     field_10_subObj->field_4_ped = pSwatLeader;
     field_10_subObj->field_28_state = crew_state::update_6;
     field_10_subObj->field_0_car->SetDriverPedType_421560(ped_type::script_created_5);
@@ -728,7 +728,7 @@ void PoliceCrew::State3_AlertedSearch_572340()
                                     u8 xpos = xpos_f.ToInt();
                                     u8 ypos = field_14_pPursuitTarget->field_14_y.ToInt();
                                     u8 zpos = field_14_pPursuitTarget->field_18_z.ToInt();
-                                    if (gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &xpos, &ypos, &zpos, 0))
+                                    if (gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(ROAD, &xpos, &ypos, &zpos, false))
                                     {
                                         gCurrentCrewPed_6FEDDC->field_1DC_objective_target_x = Fix16(xpos);
                                         field_14_pPursuitTarget->field_10_x = gCurrentCrewPed_6FEDDC->field_1DC_objective_target_x;
@@ -2613,7 +2613,7 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
         zpos = Fix16(z);
         field_A0_rect->SetRect_41E350(x_left - kFpHalf_6FEBF4, x_right + kFpHalf_6FEBF4, y_top, y_bottom);
         field_A0_rect->SetHiLowZ_41E370(zpos - kFpOne_6FECEC, zpos + kFpOne_6FECEC);
-        if (gSpriteGrid_1_679208->CheckRectForCollisions_477F60(field_A0_rect, 0, sprite_types_enum::none_0, NULL))
+        if (gSpriteGrid_1_679208->CheckRectForCollisions_477F60(field_A0_rect, false, sprite_types_enum::none_0, NULL))
         {
             return false;
         }
@@ -2928,7 +2928,7 @@ bool PoliceRoadblock::CreateRoadblock_575FF0(u8 x, u8 y, u8 z, s32 orientation)
         zpos = Fix16(z);
         field_A0_rect->SetRect_41E350(x_left, x_right, y_top - kFpHalf_6FEBF4, y_bottom + kFpHalf_6FEBF4);
         field_A0_rect->SetHiLowZ_41E370(zpos - kFpOne_6FECEC, zpos + kFpOne_6FECEC);
-        if (gSpriteGrid_1_679208->CheckRectForCollisions_477F60(field_A0_rect, 0, sprite_types_enum::none_0, NULL))
+        if (gSpriteGrid_1_679208->CheckRectForCollisions_477F60(field_A0_rect, false, sprite_types_enum::none_0, NULL))
         {
             return false;
         }

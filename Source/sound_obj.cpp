@@ -7304,7 +7304,7 @@ void sound_obj::DeInitVocals_57EA10()
         /*
         for (u32 j = 5; j; j--)
         {
-            field_544C[j].field_0_bUsed = 0;
+            field_544C[j].field_0_bUsed = false;
             field_544C[j].field_10 = 0;
             field_544C[j].field_12 = 0;
             field_544C[j].field_14 = 0;

@@ -2244,7 +2244,7 @@ void Sprite::ResolveCollisionWithCarPedOrObject_5A2A30()
 {
     SpriteList collisions;
     collisions.field_0_p18 = NULL;
-    gSpriteGrid_1_679208->CollectRectCollisions_477F30(&field_C_pCollisionShape->field_30_boundingBox, 0, sprite_types_enum::none_0, this, &collisions);
+    gSpriteGrid_1_679208->CollectRectCollisions_477F30(&field_C_pCollisionShape->field_30_boundingBox, false, sprite_types_enum::none_0, this, &collisions);
     for (AttachedSprite* pCollisionIter = collisions.field_0_p18; pCollisionIter; pCollisionIter = pCollisionIter->mpNext)
     {
         Sprite* pCurrent = pCollisionIter->field_0_pSprite;
@@ -2259,7 +2259,7 @@ void Sprite::ResolveCollisionWithCarPedOrObject_5A2A30()
                 u8 z = field_1C_zpos.ToInt();
 
                 // car shoving / overlap resolution ?
-                if (gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &x, &y, &z, 1))
+                if (gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(ROAD, &x, &y, &z, true))
                 {
                     gSpriteGrid_1_679208->RemoveFromRegionBuckets_477B60(pCurrent);
                     pIterCar->SnapCarToGreenArrow_444E40(x, y, z);
