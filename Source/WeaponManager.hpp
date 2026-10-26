@@ -12,7 +12,7 @@ class SoundObject;
 class WeaponManager
 {
   public:
-    bool is_car_weapon_433820(s32 weapon_kind)
+    bool is_car_weapon_433820(s32 weapon_kind) const
     {
         return weapon_kind >= 15;
     }
@@ -23,8 +23,8 @@ class WeaponManager
     EXPORT Weapon* find_5E3D20(Car* pCar, s32 weapon_kind);
     EXPORT bool allocate_5E3D50(s32 weapon_kind, u8 ammo, Car* pCar);
     EXPORT void dealloc_car_weapon_5E3DF0(Car* pCar);
-    EXPORT u8 get_max_ammo_capacity_5E3E70(s32 weapon_kind);
-    EXPORT u8 get_defalt_ammo_5E3E80(s32 weapon_kind);
+    EXPORT u8 get_max_ammo_capacity_5E3E70(s32 weapon_kind) const;
+    EXPORT u8 get_defalt_ammo_5E3E80(s32 weapon_kind) const;
     EXPORT WeaponManager();
     EXPORT ~WeaponManager();
     SpriteList field_0_hit_sprites;
@@ -55,16 +55,14 @@ class WeaponPool
     {
         Weapon* pWeapon = field_0_pool.field_0_pStart;
         field_0_pool.field_0_pStart = pWeapon->mpNext;
-        pWeapon->mpNext = 0;
+        pWeapon->mpNext = NULL;
         return pWeapon;
     }
 
-    // TODO: This is probably a heavily inlined common iteration func
-    // Remove/dealloc?
     void DeAllocate_4A4F20(Weapon* pWeapon)
     {
         Weapon* pIter = this->field_0_pool.field_4_pPrev;
-        Weapon* pLastIter = 0;
+        Weapon* pLastIter = NULL;
         while (pIter)
         {
             if (pIter == pWeapon)
@@ -90,7 +88,7 @@ class WeaponPool
         }
     }
 
-    Weapon* get_next_4CC9B0()
+    Weapon* get_next_4CC9B0() const
     {
         return this->field_0_pool.field_4_pPrev;
     }

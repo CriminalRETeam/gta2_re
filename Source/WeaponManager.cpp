@@ -131,13 +131,13 @@ void WeaponManager::dealloc_car_weapon_5E3DF0(Car* pCar)
 }
 
 MATCH_FUNC(0x5e3e70)
-u8 WeaponManager::get_max_ammo_capacity_5E3E70(s32 weapon_kind)
+u8 WeaponManager::get_max_ammo_capacity_5E3E70(s32 weapon_kind) const
 {
     return max_ammo_capacity_5FF75C[weapon_kind];
 }
 
 MATCH_FUNC(0x5e3e80)
-u8 WeaponManager::get_defalt_ammo_5E3E80(s32 weapon_kind)
+u8 WeaponManager::get_defalt_ammo_5E3E80(s32 weapon_kind) const
 {
     return byte_5FF778[weapon_kind];
 }
