@@ -3,6 +3,7 @@
 #include "ped_jump_over_mode.hpp"
 #include "char_b4_state_more.hpp"
 #include "char_anim_state_more.hpp"
+#include "ped_voice_event.hpp"
 #include "explosion_type.hpp"
 #include "voice_line.hpp"
 #include "char.hpp"
@@ -1880,7 +1881,7 @@ static inline void CollideWithElvis_493040(Ped* pPed, Char* pChar)
         pPed->field_138_collided_char_b4 = reinterpret_cast<s32>(pChar);
         pPed->field_224_bf.bCollidedWithPed = false;
         pChar->field_7C_pPed->field_138_collided_char_b4 = reinterpret_cast<s32>(pPed->field_168_game_object);
-        pPed->SetVoiceEventIfNotOnFire_433DD0(ped_ocupation_enum::elvis);
+        pPed->SetVoiceEventIfNotOnFire_433DD0(ped_voice_event::elvis_bumped_22);
     }
 }
 

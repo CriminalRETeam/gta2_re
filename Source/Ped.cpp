@@ -11,6 +11,7 @@
 #include "char_b4_state_more.hpp"
 #include "ped_state_2_more.hpp"
 #include "ped_group_type.hpp"
+#include "ped_voice_event.hpp"
 #include "accuracy_event.hpp"
 #include "AmbulanceService.hpp"
 #include "CarInfoTable.hpp"
@@ -3425,7 +3426,7 @@ void Ped::RobbedDriver_AI_461630()
                             // gang member or very angry driver (2.5% chance): shoot at the thief
                             this->SetPedType_403920(ped_type::dummy_with_occupation_6);
                             this->field_240_occupation = ped_ocupation_enum::very_angry_armed_robbed_driver_13;
-                            SetVoiceEventIfNotOnFire_433DD0(14);
+                            SetVoiceEventIfNotOnFire_433DD0(ped_voice_event::very_angry_robbed_driver_14);
                             ForceDoNothing_462590();
                             SetObjective(objectives_enum::kill_char_on_foot_20);
                             this->field_148_objective_target_ped = this->field_180_car_thief;
@@ -3438,7 +3439,7 @@ void Ped::RobbedDriver_AI_461630()
                             // 3 over 40 = 7.5% of chance of being an armed and angry driver
                             this->SetPedType_403920(ped_type::dummy_with_occupation_6);
                             this->field_240_occupation = ped_ocupation_enum::angry_armed_robbed_driver_12;
-                            SetVoiceEventIfNotOnFire_433DD0(13);
+                            SetVoiceEventIfNotOnFire_433DD0(ped_voice_event::angry_robbed_driver_13);
                             SetObjective(objectives_enum::enter_car_as_driver_35);
                             this->field_24C_target_car_door = 0;
                             this->field_150_target_objective_car = field_140_stolen_car;
@@ -4322,7 +4323,7 @@ bool Ped::PoolUpdate()
         }
         else
         {
-            SetVoiceEventIfNotOnFire_433DD0(23);
+            SetVoiceEventIfNotOnFire_433DD0(ped_voice_event::elvis_ambient_23);
             gElvisVoiceTimer_6787F2 = gRng_6F6784.get_int_4F7AE0(300) + 450;
         }
     }
