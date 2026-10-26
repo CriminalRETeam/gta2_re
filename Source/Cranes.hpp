@@ -63,13 +63,13 @@ class Crane
     }
 
     // 9.6f 0x411A00
-    inline Sprite* GetRotorSprite_411A00()
+    inline Sprite* GetRotorSprite_411A00() const
     {
         return field_2C_rotor_obj->field_4_sprite;
     }
 
     // FUNCTION: 96f 0x447f40
-    inline s32 IsAtHomeAngle_447F40()
+    inline s32 IsAtHomeAngle_447F40() const
     {
         return field_8C_crane_angle == field_A8_home_angle;
     }
@@ -153,7 +153,7 @@ class Crane
     s32 field_144_crane_mode;
     s32 field_148_disabled;
     char_type field_14C_return_delay;
-    char_type field_14D_is_busy;
+    bool field_14D_is_busy;
     char_type field_14E_unused;
     char_type field_14F_unused;
     s32 field_150_hook_job;
@@ -162,7 +162,7 @@ class Crane
     char_type field_156_is_rotating;
     char_type field_157_is_radius_changing;
     char_type field_158_is_hook_depth_changing;
-    char_type field_159_hooked_car_this_frame;
+    bool field_159_hooked_car_this_frame;
     char_type field_15A_unused;
     char_type field_15B_unused;
 };
