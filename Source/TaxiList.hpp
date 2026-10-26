@@ -33,14 +33,14 @@ public:
     
     ~TaxiListPool()
     {
-        this->field_0_pHead = 0;
+        this->field_0_pHead = NULL;
     }
 };
 
 
 class TaxiList
 {
-  public:
+  private:
     // inlined
     void Init_4C09B0()
     {
@@ -50,13 +50,14 @@ class TaxiList
     // inlined
     void ClearList_4C0980()
     {
-        field_0_pFirst = 0;
+        field_0_pFirst = NULL;
     }
 
+  public:
     // 9.6f 0x434970
-    inline bool IsEmpty_434970()
+    inline bool IsEmpty_434970() const
     {
-        return field_0_pFirst == 0;
+        return field_0_pFirst == NULL;
     }
 
     EXPORT void PushTaxi_457BA0(Car* pCar);
@@ -64,6 +65,8 @@ class TaxiList
     EXPORT Car* GetTaxiNear_457BF0(Fix16 xpos, Fix16 ypos);
     EXPORT TaxiList();
     EXPORT ~TaxiList();
+
+  private:
     TaxiListNode* field_0_pFirst;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(TaxiList, 0x4);

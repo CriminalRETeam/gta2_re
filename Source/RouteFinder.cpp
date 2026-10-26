@@ -21,31 +21,31 @@ DEFINE_GLOBAL_INIT(Fix16, kFpEight_6FFC9C, Fix16(8), 0x6FFC9C);
 EXTERN_GLOBAL(s16, gStyleTextFont_703BAA);
 
 MATCH_FUNC(0x588580)
-bool Junction::IsUsableWithArrowType_588580(s32 arrow_type)
+bool Junction::IsUsableWithArrowType_588580(s32 arrow_type) const
 {
     if (arrow_type == 2)
     {
         if (this->field_8_type != 1)
         {
-            return 1;
+            return true;
         }
     }
     else if (arrow_type == 1)
     {
         if (this->field_8_type != 2)
         {
-            return 1;
+            return true;
         }
     }
     else if (arrow_type == 3)
     {
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x5885c0)
-u16 Junction::GetDirectionToJunction_5885C0(u16 junction_idx)
+u16 Junction::GetDirectionToJunction_5885C0(u16 junction_idx) const
 {
     if (junction_idx != 0)
     {
@@ -272,7 +272,7 @@ void RouteFinder::Load_RGEN_588B30()
 
     if (bLog_routefinder_67D6D1)
     {
-        int junction_idx = 0;
+        s32 junction_idx = 0;
         do
         {
             sprintf(gTmpBuffer_67C598,
@@ -306,7 +306,7 @@ void RouteFinder::Reset_588C60()
 }
 
 MATCH_FUNC(0x588ca0)
-bool RouteFinder::HasBlockDesiredArrow_588CA0(gmp_block_info* block, s32 arrow_type, u8 direction)
+bool RouteFinder::HasBlockDesiredArrow_588CA0(const gmp_block_info* block, s32 arrow_type, u8 direction) const
 {
     switch (direction)
     {
@@ -411,10 +411,10 @@ bool RouteFinder::HasBlockDesiredArrow_588CA0(gmp_block_info* block, s32 arrow_t
 }
 
 MATCH_FUNC(0x588de0)
-bool RouteFinder::HasBlockArrowInRoadDirection_588DE0(gmp_block_info* pBlock, s32 arrow_type, s32 road_direction)
+bool RouteFinder::HasBlockArrowInRoadDirection_588DE0(const gmp_block_info* pBlock, s32 arrow_type, s32 road_direction) const
 {
 
-    bool result = 0;
+    bool result = false;
     switch (road_direction)
     {
         case road_direction::up_1:
@@ -558,7 +558,7 @@ void RouteFinder::FindArrowBlockInJunction_5890D0(u16 junction_idx, s32 directio
         {
             s32 z;
             gmp_block_info* block = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x_pos, y_pos, &z);
-            if (gMap_0x370_6F6268->GetArrowDirectionFromBlock_4E5FC0(block, 0))
+            if (gMap_0x370_6F6268->GetArrowDirectionFromBlock_4E5FC0(block, false))
             {
                 *xpos = x_pos;
                 *ypos = y_pos;
@@ -611,25 +611,25 @@ RouteSearchNode::RouteSearchNode()
     field_0_junction_idx = 0;
     field_2_cost = -1;
     field_4_expanded = 0;
-    field_8_pParent = 0;
-    field_C_pNext = 0;
+    field_8_pParent = NULL;
+    field_C_pNext = NULL;
 }
 #pragma warning(pop)
 
 MATCH_FUNC(0x5892f0)
-RouteSearchNode* RouteFinder::NewChildNode_5892F0(RouteSearchNode* pRoute, u16 idx, s16 step_cost)
+RouteSearchNode* RouteFinder::NewChildNode_5892F0(RouteSearchNode* pParent, u16 idx, s16 step_cost)
 {
     RouteSearchNode* pNode = &this->field_861C_nodes[this->field_CC66_545_count++];
 
     s32 dy = abs(static_cast<u8>(field_8_junctions[idx].field_D_min_y) - static_cast<u8>(field_8_junctions[field_861A_dest_idx].field_D_min_y));
     s32 dx = abs(static_cast<u8>(field_8_junctions[idx].field_C_min_x) - static_cast<u8>(field_8_junctions[field_861A_dest_idx].field_C_min_x));
     s16 dist = dy + dx;
-    s16 cost = pRoute->field_2_cost + step_cost;
+    s16 cost = pParent->field_2_cost + step_cost;
 
     pNode->field_0_junction_idx = idx;
     pNode->field_2_cost = cost + dist;
-    pNode->field_8_pParent = pRoute;
-    pNode->field_C_pNext = 0;
+    pNode->field_8_pParent = pParent;
+    pNode->field_C_pNext = NULL;
 
     return pNode;
 }
@@ -645,29 +645,29 @@ RouteSearchNode* RouteFinder::NewStartNode_589390(u16 junction_idx)
     pNode->field_0_junction_idx = junction_idx;
     pNode->field_4_expanded = 0;
     // field_6 is preserved by the original function.
-    pNode->field_8_pParent = 0;
-    pNode->field_C_pNext = 0;
+    pNode->field_8_pParent = NULL;
+    pNode->field_C_pNext = NULL;
     return pNode;
 }
 
 MATCH_FUNC(0x589420)
-void RouteFinder::InsertIntoOpenList_589420(RouteSearchNode* pRoute)
+void RouteFinder::InsertIntoOpenList_589420(RouteSearchNode* pNode)
 {
-    field_CA40_visited[pRoute->field_0_junction_idx] = 1;
+    field_CA40_visited[pNode->field_0_idx] = true;
 
-    if (pRoute->field_2_cost < field_A82C_open_list->field_2_cost)
+    if (pNode->field_2_cost < field_A82C_open_list->field_2_cost)
     {
-        pRoute->field_C_pNext = field_A82C_open_list;
-        field_A82C_open_list = pRoute;
+        pNode->field_C_pNext = field_A82C_open_list;
+        field_A82C_open_list = pNode;
     }
     else
     {
         RouteSearchNode* pInsertAfter;
-        for (pInsertAfter = field_A82C_open_list; pInsertAfter->field_C_pNext != NULL && pInsertAfter->field_C_pNext->field_2_cost < pRoute->field_2_cost; pInsertAfter = pInsertAfter->field_C_pNext)
+        for (pInsertAfter = field_A82C_open_list; pInsertAfter->field_C_pNext != NULL && pInsertAfter->field_C_pNext->field_2_cost < pNode->field_2_cost; pInsertAfter = pInsertAfter->field_C_pNext)
         {
         }
-        pRoute->field_C_pNext = pInsertAfter->field_C_pNext;
-        pInsertAfter->field_C_pNext = pRoute;
+        pNode->field_C_pNext = pInsertAfter->field_C_pNext;
+        pInsertAfter->field_C_pNext = pNode;
     }
 }
 
@@ -699,13 +699,13 @@ bool RouteFinder::InitSearch_589480(u8 start_x, u8 start_y, u8 start_z, u8 dest_
 
     if (field_8618_start_idx != 0 && field_861A_dest_idx != 0)
     {
-        NewStartNode_589390(field_8618_start_idx);
-        field_CA40_visited[0] = 1;
+        NewStartNode_589390(field_8618_idx);
+        field_CA40_visited[0] = true;
         field_A82C_open_list = field_861C_nodes;
-        field_CA40_visited[field_8618_start_idx] = 1;
-        return 1;
+        field_CA40_visited[field_8618_idx] = true;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x5895c0)
@@ -735,8 +735,8 @@ bool RouteFinder::InitSearchWithDirection_5895C0(u8 x, u8 y, u8 z, s32 arrow_typ
         {
             NewStartNode_589390(field_8618_start_idx);
             field_A82C_open_list = pStart;
-            field_CA40_visited[0] = 1;
-            field_CA40_visited[field_8618_start_idx] = 1;
+            field_CA40_visited[0] = true;
+            field_CA40_visited[field_8618_idx] = true;
 
             pJunction = &field_8_junctions[field_8618_start_idx];
             u16 north = pJunction->field_0_n.GetIndex_0040CE90();
@@ -832,16 +832,16 @@ bool RouteFinder::InitSearchWithDirection_5895C0(u8 x, u8 y, u8 z, s32 arrow_typ
                     }
                     break;
             }
-            return 1;
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x589930)
-void RouteFinder::CancelRoute_589930(s16 junc_idx)
+void RouteFinder::CancelRoute_589930(s16 route_idx)
 {
-    this->field_2218_routes[junc_idx].field_0_junctions[0] = 0;
+    this->field_2218_routes[route_idx].field_0_junctions[0] = 0;
     if (this->field_0_route_count > 0)
     {
         --this->field_0_route_count;
@@ -866,9 +866,9 @@ s16 RouteFinder::GetFreeRouteIdx_589960()
 }
 
 MATCH_FUNC(0x589990)
-u16 RouteFinder::AddChildNode_589990(RouteSearchNode* pRoute, u16 junction_idx, s16 step_cost)
+u16 RouteFinder::AddChildNode_589990(RouteSearchNode* pParent, u16 junction_idx, s16 step_cost)
 {
-    RouteSearchNode* pChild = NewChildNode_5892F0(pRoute, junction_idx, step_cost);
+    RouteSearchNode* pChild = NewChildNode_5892F0(pParent, junction_idx, step_cost);
     InsertIntoOpenList_589420(pChild);
     return pChild->field_0_junction_idx;
 }
@@ -908,40 +908,40 @@ bool RouteFinder::ExpandNode_5899C0(RouteSearchNode* pNode, s32 arrow_type)
 }
 
 MATCH_FUNC(0x589bb0)
-bool RouteFinder::ExpandNodeUnlessOffScreen_589BB0(RouteSearchNode* pRoute, s32 arrow_type)
+bool RouteFinder::ExpandNodeUnlessOffScreen_589BB0(RouteSearchNode* pNode, s32 arrow_type)
 {
-    Junction* pJunction = &field_8_junctions[pRoute->field_0_junction_idx];
+    Junction* pJunction = &field_8_junctions[pNode->field_0_idx];
     if (!gGame_0x40_67E008->IsPointOnScreen_4B9A80(pJunction->field_C_min_x, pJunction->field_D_min_y) &&
         !gGame_0x40_67E008->IsPointOnScreen_4B9A80(pJunction->field_E_max_x, pJunction->field_D_min_y) &&
         !gGame_0x40_67E008->IsPointOnScreen_4B9A80(pJunction->field_C_min_x, pJunction->field_F_max_y) &&
         !gGame_0x40_67E008->IsPointOnScreen_4B9A80(pJunction->field_E_max_x, pJunction->field_F_max_y))
     {
-        return 1;
+        return true;
     }
 
     u16 north = pJunction->field_0_n.GetIndex_0040CE90();
     u16 south = pJunction->field_2_s.GetIndex_0040CE90();
     u16 west = pJunction->field_6_w.GetIndex_0040CE90();
     u16 east = pJunction->field_4_e.GetIndex_0040CE90();
-    pRoute->field_4_expanded = 1;
+    pNode->field_4_expanded = 1;
 
     if (!field_CA40_visited[north] && pJunction->field_0_n.IsEnabled() && field_8_junctions[north].IsUsableWithArrowType_588580(arrow_type))
     {
-        AddChildNode_589990(pRoute, north, pJunction->field_0_n.GetLength());
+        AddChildNode_589990(pNode, north, pJunction->field_0_n.GetLength());
     }
     if (!field_CA40_visited[south] && pJunction->field_2_s.IsEnabled() && field_8_junctions[south].IsUsableWithArrowType_588580(arrow_type))
     {
-        AddChildNode_589990(pRoute, south, pJunction->field_2_s.GetLength());
+        AddChildNode_589990(pNode, south, pJunction->field_2_s.GetLength());
     }
     if (!field_CA40_visited[west] && pJunction->field_6_w.IsEnabled() && field_8_junctions[west].IsUsableWithArrowType_588580(arrow_type))
     {
-        AddChildNode_589990(pRoute, west, pJunction->field_6_w.GetLength());
+        AddChildNode_589990(pNode, west, pJunction->field_6_w.GetLength());
     }
     if (!field_CA40_visited[east] && pJunction->field_4_e.IsEnabled() && field_8_junctions[east].IsUsableWithArrowType_588580(arrow_type))
     {
-        AddChildNode_589990(pRoute, east, pJunction->field_4_e.GetLength());
+        AddChildNode_589990(pNode, east, pJunction->field_4_e.GetLength());
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x589e00)
@@ -955,16 +955,16 @@ RouteSearchNode* RouteFinder::GetFirstUnexpandedNode_589E00()
 }
 
 MATCH_FUNC(0x589e20)
-char_type RouteFinder::SearchToDest_589E20(s32 arrow_type)
+bool RouteFinder::SearchToDest_589E20(s32 arrow_type)
 {
     bool bRet = false;
-    RouteSearchNode* f_A82C = this->field_A82C_open_list;
-    if (f_A82C->field_0_junction_idx == this->field_861A_dest_idx)
+    RouteSearchNode* pOpenList = this->field_A82C_open_list;
+    if (pOpenList->field_0_idx == this->field_861A_dest_idx)
     {
-        return 1;
+        return true;
     }
 
-    if (f_A82C)
+    if (pOpenList)
     {
         // while (true) + break keeps the original's dead test of bRet on loop entry, while (!bRet) drops it
         while (true)
@@ -988,20 +988,17 @@ char_type RouteFinder::SearchToDest_589E20(s32 arrow_type)
 MATCH_FUNC(0x589e70)
 bool RouteFinder::SearchUntilOffScreen_589E70(s32 arrow_type)
 {
-    bool result;
-    RouteSearchNode* pNode;
-
-    result = '\0';
-    if (this->field_A82C_open_list != 0)
+    bool result = false;
+    if (this->field_A82C_open_list != NULL)
     {
         while (true)
         {
-            if (result != '\0')
+            if (result)
             {
                 break;
             }
 
-            pNode = GetFirstUnexpandedNode_589E00();
+            RouteSearchNode* pNode = GetFirstUnexpandedNode_589E00();
             if (pNode == NULL)
             {
                 break;
@@ -1091,10 +1088,10 @@ s16 RouteFinder::StoreRouteReversed_589F70()
 }
 
 MATCH_FUNC(0x58a020)
-void RouteFinder::DebugPrintRoute_58A020(char_type junc_idx)
+void RouteFinder::DebugPrintRoute_58A020(char_type route_idx)
 {
     s32 route_pos = 0;
-    u16 i = this->field_2218_routes[junc_idx].field_0_junctions[static_cast<u16>(route_pos)];
+    u16 i = this->field_2218_routes[route_idx].field_0_junctions[static_cast<u16>(route_pos)];
     while (i)
     {
         Junction* pJunc = &this->field_8_junctions[i];
@@ -1107,14 +1104,14 @@ void RouteFinder::DebugPrintRoute_58A020(char_type junc_idx)
                 pJunc->field_F_max_y);
         gErrorLog_67C530.Write_4D9620(gTmpBuffer_67C598);
         ++route_pos;
-        i = this->field_2218_routes[junc_idx].field_0_junctions[static_cast<u16>(route_pos)];
+        i = this->field_2218_routes[route_idx].field_0_junctions[static_cast<u16>(route_pos)];
     }
 }
 
 MATCH_FUNC(0x58a0b0)
-Junction* RouteFinder::GetJunction_58A0B0(u16 jIdx)
+Junction* RouteFinder::GetJunction_58A0B0(u16 junction_idx)
 {
-    return &field_8_junctions[jIdx];
+    return &field_8_junctions[junction_idx];
 }
 
 MATCH_FUNC(0x58a0d0)
@@ -1162,7 +1159,7 @@ RouteFinder::RouteFinder()
     field_8618_start_idx = 0;
     field_861A_dest_idx = 0;
     memset(field_861C_nodes, 0, sizeof(field_861C_nodes));
-    field_A82C_open_list = 0;
+    field_A82C_open_list = NULL;
     memset(field_A830_horz_segments, 0, sizeof(field_A830_horz_segments));
     memset(field_B938_vert_segments, 0, sizeof(field_B938_vert_segments));
     memset(field_CA40_visited, 0, sizeof(field_CA40_visited));

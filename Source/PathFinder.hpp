@@ -31,22 +31,28 @@ class PathFinder
     {
         Init_5545E0();
     }
-    EXPORT bool CanMoveInDirection_554080(s32 path_direction);
-    EXPORT char_type TestMoveToAdjacentTile_5540E0(u8 curr_xpos, u8 curr_ypos, u8 curr_zpos, u8 desired_xpos, u8 desired_ypos);
-    EXPORT char_type CanMoveToAdjacentTile_554110(u8 desired_xpos, u8 desired_ypos);
+    EXPORT bool CanMoveInDirection_554080(s32 path_direction) const;
+    EXPORT bool TestMoveToAdjacentTile_5540E0(u8 curr_xpos, u8 curr_ypos, u8 curr_zpos, u8 desired_xpos, u8 desired_ypos);
+
+  private:
+    EXPORT bool CanMoveToAdjacentTile_554110(u8 desired_xpos, u8 desired_ypos);
     EXPORT void ClearGrid_5545C0();
     EXPORT void Init_5545E0();
 
+  public:
     ~PathFinder()
     {
-        // TODO: Should this be empty?
     }
     EXPORT void RemovePed_554620(s32 ped_id);
+
+  private:
     EXPORT char_type EvaluateGridCell_554640();
     EXPORT void AddGridCell_554710();
     EXPORT bool ProcessGridCell_5548C0();
     EXPORT void RestoreSavedPosition_554920();
-    EXPORT s32 IsFirstInPathQueue_554A90(Ped* pPed);
+
+  public:
+    EXPORT s32 IsFirstInPathQueue_554A90(Ped* pPed) const;
     EXPORT bool ComputePath_554AB0(s32 ped_id,
                                         Ped* pPed,
                                         u8 x_start,
@@ -56,11 +62,11 @@ class PathFinder
                                         u8 y_end,
                                         u8 z_end,
                                         s32 angle_face,
-                                        u8* pOutPathFailCount);
-    EXPORT bool FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos, u8* ypos, u8* zpos, char_type bAllowDuringPathCompute);
+                                        u8* pOutPathPointCount);
+    EXPORT bool FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos, u8* ypos, u8* zpos, bool bAllowDuringPathCompute);
 
     s32 field_0_ped_id;
-    char_type field_4_bFindTileMode; // 1: FindNearbyTileMatchingSlopeType, 0: ComputePath
+    bool field_4_bFindTileMode; // FindNearbyTileMatchingSlopeType_5552B0, not ComputePath_554AB0
     PathNode * field_8_pNode;
     u16 field_C_node_count;
     u8 field_E_xStart;
@@ -69,9 +75,9 @@ class PathFinder
     u8 field_11_xEnd;
     u8 field_12_yEnd;
     u8 field_13_zEnd;
-    u8 field_14_bExpanding;
+    bool field_14_bExpanding;
     u16 field_16_start_cost;
-    char_type field_18_bSearching;
+    bool field_18_bSearching;
     char_type field_19_unused;
     char_type field_1A_unused;
     u8 field_1B_direction;
@@ -94,7 +100,7 @@ class PathFinder
     s32 field_30_unused;
     s16 field_34_unused;
     s16 field_36_unused;
-    char_type field_38_bComputePathInProgress;
+    bool field_38_bComputePathInProgress;
     s16 field_3A_unused;
     Ped_List field_3C_ped_list;
     PathNode field_40_grid[1122];
@@ -103,7 +109,7 @@ class PathFinder
     s32 field_2FC4_unused;
     s32 field_2FC8_unused;
     s32 field_2FCC_unused;
-    char_type field_2FD0_bTimedOut;
+    bool field_2FD0_bTimedOut;
     u8 field_2FD1_time_out_counter;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(PathFinder, 0x2FD4);

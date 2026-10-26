@@ -43,25 +43,25 @@ DEFINE_GLOBAL_INIT(Fix16, kTrainSpeedState4_6FEEDC, Fix16(0xCCC, 0), 0x6FEEDC);
 DEFINE_GLOBAL_INIT(Fix16, kTrainSpeedState5_6FEEE4, Fix16(0x1999, 0), 0x6FEEE4);
 
 MATCH_FUNC(0x577E20)
-char __stdcall HasBlockGreenArrowAtDirection_577E20(s32 direction, gmp_block_info* pBlock)
+bool __stdcall HasBlockGreenArrowAtDirection_577E20(s32 direction, const gmp_block_info* pBlock)
 {
     switch (direction)
     {
         case road_direction::up_1:
-            return pBlock->field_A_arrows >> 2 & 1; // up
+            return pBlock->field_A_arrows >> 2 & 1;
         case road_direction::down_2:
-            return pBlock->field_A_arrows >> 3 & 1; // down
+            return pBlock->field_A_arrows >> 3 & 1;
         case road_direction::right_3:
-            return pBlock->field_A_arrows >> 1 & 1; // right
+            return pBlock->field_A_arrows >> 1 & 1;
         case road_direction::left_4:
-            return pBlock->field_A_arrows & block_arrow::green_left_1; // left
+            return pBlock->field_A_arrows & block_arrow::green_left_1;
         default:
             return true;
     }
 }
 
 MATCH_FUNC(0x577E90)
-bool __stdcall CompareNameChars_577E90(char_type* pChar1, char_type* pChar2)
+bool __stdcall CompareNameChars_577E90(const char_type* pChar1, const char_type* pChar2)
 {
     for (u8 i = 0; i < gNameCompareLen_6FF158; i++)
     {
@@ -74,7 +74,7 @@ bool __stdcall CompareNameChars_577E90(char_type* pChar1, char_type* pChar2)
 }
 
 MATCH_FUNC(0x577EE0)
-gmp_map_zone* __stdcall FindStationZoneByName_577EE0(char_type* pChar, u8 case_value)
+gmp_map_zone* __stdcall FindStationZoneByName_577EE0(const char_type* pChar, u8 case_value)
 {
     u32 zone_type;
 
@@ -118,7 +118,7 @@ static inline void EnsureAI_421510(Car* pCar)
 }
 
 MATCH_FUNC(0x577f80)
-s32 TrainStation::GetWagonType_577f80(u8 idx)
+s32 TrainStation::GetWagonType_577f80(u8 idx) const
 {
     if (field_24_train_wagons[0] != 0)
     {
@@ -144,7 +144,7 @@ TrainStation::TrainStation()
     field_C_stop_point = NULL;
     field_10_pZone = NULL;
     field_14_used = 0;
-    field_18_pStoppedTrain = 0;
+    field_18_pStoppedTrain = NULL;
     field_1C_platform_state = 0;
     field_20_next_station = NULL;
     field_2E_wagons_number = 0;
@@ -159,11 +159,11 @@ TrainStation::TrainStation()
 MATCH_FUNC(0x578010)
 TrainStation::~TrainStation()
 {
-    field_18_pStoppedTrain = 0;
+    field_18_pStoppedTrain = NULL;
     field_4_entry_point = NULL;
     field_8_exit_point = NULL;
     field_C_stop_point = NULL;
-    field_10_pZone = 0;
+    field_10_pZone = NULL;
     field_20_next_station = NULL;
 }
 
@@ -180,14 +180,15 @@ void Train::ReassignTrainHead_578030()
 
         gCar_BC_Pool_67792C->field_0_pool.UnlinkFromActiveList_420F30(this->field_C_carriages[this->field_43_wagon_count]);
 
+        // AllocCarPhysics_4419E0 only allocates when there is no physics, so these guarded calls do nothing
         Car* pTrainCar = this->field_C_carriages[this->field_43_wagon_count];
-        if (pTrainCar->field_58_physics) // BUG?
+        if (pTrainCar->field_58_physics)
         {
             pTrainCar->AllocCarPhysics_4419E0();
         }
 
-        this->field_C_carriages[this->field_43_wagon_count]->field_58_physics->Init_5637A0();
-        if (this->field_C_carriages[0]->field_58_physics) // BUG?
+        this->field_C_carriages[this->field_43_idx]->field_58_physics->Init_5637A0();
+        if (this->field_C_carriages[0]->field_58_physics)
         {
             this->field_C_carriages[0]->AllocCarPhysics_4419E0();
         }
@@ -195,7 +196,7 @@ void Train::ReassignTrainHead_578030()
         this->field_C_carriages[0]->field_58_physics->SetSprite_563560(this->field_C_carriages[0]->field_50_car_sprite);
         this->field_C_carriages[0]->field_54_driver = pFirst->field_54_driver;
         
-        if (this->field_C_carriages[0]->field_58_physics) // BUG?
+        if (this->field_C_carriages[0]->field_58_physics)
         {
             this->field_C_carriages[0]->AllocCarPhysics_4419E0();
         }
@@ -209,7 +210,7 @@ void Train::ReassignTrainHead_578030()
         {
             pHead->field_58_physics->SetField8C_to_1();
         }
-        pFirst->field_54_driver = 0;
+        pFirst->field_54_driver = NULL;
 
         EnsureAI_421510(this->field_C_carriages[0]);
 
@@ -282,14 +283,10 @@ void Train::DecrementState_5781F0()
 MATCH_FUNC(0x578260)
 Train::Train()
 {
-    Car** ppCVar1;
-    char* pTimer;
-    int remaining;
-
     field_8_alloc_state = 0;
     field_C_carriages[0] = NULL;
     field_44_unused = 0;
-    field_4C_station = 0;
+    field_4C_station = NULL;
     field_4_wait_timer = 0;
     field_0_is_hijacked = 0;
     field_2_passengers_fleeing = 0;
@@ -299,14 +296,14 @@ Train::Train()
     field_55_unused = 0;
     field_56_passenger_count = 0;
     field_57_track_idx = 0;
-    pTimer = field_38_explosion_timers;
-    ppCVar1 = field_C_carriages + 1;
-    remaining = 10;
+    char_type* pTimer = field_38_explosion_timers;
+    Car** ppCarriage = field_C_carriages + 1;
+    s32 remaining = 10;
     do
     {
-        *ppCVar1 = NULL;
+        *ppCarriage = NULL;
         *pTimer = -1;
-        ppCVar1++;
+        ppCarriage++;
         pTimer++;
         remaining--;
     } while (remaining != 0);
@@ -318,8 +315,8 @@ Train::Train()
 MATCH_FUNC(0x5782c0)
 Train::~Train()
 {
-    this->field_C_carriages[0] = 0;
-    this->field_4C_station = 0;
+    this->field_C_carriages[0] = NULL;
+    this->field_4C_station = NULL;
 }
 
 MATCH_FUNC(0x5782d0)
@@ -397,26 +394,26 @@ void Train::UpdatePassengerAI_578390()
         {
             for (u8 i = 0; i < this->field_43_wagon_count; i++)
             {
-                Car** pTrainCar = &this->field_C_carriages[i + 1];
-                if ((*pTrainCar)->GetCarInfoIdx_411940() == car_model_enum::TRAIN)
+                Car** ppWagon = &this->field_C_carriages[i + 1];
+                if ((*ppWagon)->GetCarInfoIdx_411940() == car_model_enum::TRAIN)
                 {
                     this->field_56_passenger_count = 1;
-                    if (gGame_0x40_67E008->IsSpriteInAnyPlayerBounds_4B97E0((*pTrainCar)->field_50_car_sprite, kFpZero_6FF078))
+                    if (gGame_0x40_67E008->IsSpriteInAnyPlayerBounds_4B97E0((*ppWagon)->field_50_car_sprite, kFpZero_6FF078))
                     {
                         if (this->field_54_passenger_timer <= 0)
                         {
-                            for (gTargetCarDoor_6FF1D8 = static_cast<u8>(gRng_6F6784.get_int_4F7AE0(4)); gTargetCarDoor_6FF1D8 < static_cast<u8>((*pTrainCar)->GetDoorCount_43B360());
+                            for (gTargetCarDoor_6FF1D8 = static_cast<u8>(gRng_6F6784.get_int_4F7AE0(4)); gTargetCarDoor_6FF1D8 < static_cast<u8>((*ppWagon)->GetDoorCount_43B360());
                                  gTargetCarDoor_6FF1D8++)
                             {
-                                if ((*pTrainCar)->IsStoppedWithPavementAtDoor_43B140(gTargetCarDoor_6FF1D8) && this->field_56_passenger_count > 0)
+                                if ((*ppWagon)->IsStoppedWithPavementAtDoor_43B140(gTargetCarDoor_6FF1D8) && this->field_56_passenger_count > 0)
                                 {
-                                    Ped* pNewPed = gPedManager_6787BC->SpawnTrainLeaver_470E30();
-                                    pNewPed->field_16C_car = *pTrainCar;
-                                    pNewPed->SetObjective(objectives_enum::leave_train_38);
-                                    Ped_List* pLink = &pNewPed->field_16C_car->field_4_passengers_list;
-                                    pNewPed->SetTargetObjectiveCar(*pTrainCar);
-                                    pLink->AddPedToFront_471140(pNewPed);
-                                    pNewPed->set_target_car_door_403A70(gTargetCarDoor_6FF1D8);
+                                    Ped* pPassenger = gPedManager_6787BC->SpawnTrainLeaver_470E30();
+                                    pPassenger->field_16C_car = *ppWagon;
+                                    pPassenger->SetObjective(objectives_enum::leave_train_38);
+                                    Ped_List* pLink = &pPassenger->field_16C_car->field_4_passengers_list;
+                                    pPassenger->SetTargetObjectiveCar(*ppWagon);
+                                    pLink->AddPedToFront_471140(pPassenger);
+                                    pPassenger->set_target_car_door_403A70(gTargetCarDoor_6FF1D8);
                                     --this->field_56_passenger_count;
                                 }
                             }
@@ -438,14 +435,14 @@ void Train::UpdatePassengerAI_578390()
                     {
                         if (this->field_56_passenger_count > 6 || !this->field_0_is_hijacked)
                         {
-                            Ped* pNewPed_1 = gPedManager_6787BC->SpawnTrainLeaver_470E30();
-                            pNewPed_1->field_16C_car = this->field_C_carriages[0];
-                            this->field_C_carriages[0]->field_4_passengers_list.AddPedToFront_471140(pNewPed_1);
-                            pNewPed_1->SetObjective(objectives_enum::leave_train_38);
-                            Car* pTargetCar = this->field_C_carriages[0];
-                            pNewPed_1->SetTargetObjectiveCar(pTargetCar);
-                            pNewPed_1->set_target_car_door_403A70(2);
-                            pNewPed_1->set_occupation_403970(ped_ocupation_enum::bus_customer_8);
+                            Ped* pPassenger = gPedManager_6787BC->SpawnTrainLeaver_470E30();
+                            pPassenger->field_16C_car = this->field_C_carriages[0];
+                            this->field_C_carriages[0]->field_4_passengers_list.AddPedToFront_471140(pPassenger);
+                            pPassenger->SetObjective(objectives_enum::leave_train_38);
+                            Car* pBus = this->field_C_carriages[0];
+                            pPassenger->SetTargetObjectiveCar(pBus);
+                            pPassenger->set_target_car_door_403A70(2);
+                            pPassenger->set_occupation_403970(ped_ocupation_enum::bus_customer_8);
                             if (this->field_0_is_hijacked == 1)
                             {
                                 this->field_56_passenger_count--;
@@ -454,13 +451,13 @@ void Train::UpdatePassengerAI_578390()
                     }
                     else
                     {
-                        Ped* pRemoved = this->field_C_carriages[0]->field_4_passengers_list.RemoveFirstPed_471320();
-                        pRemoved->field_16C_car = this->field_C_carriages[0];
-                        pRemoved->SetObjective(objectives_enum::leave_train_38);
-                        Car* pTargetCar_ = this->field_C_carriages[0];
-                        pRemoved->SetTargetObjectiveCar(pTargetCar_);
-                        pRemoved->set_target_car_door_403A70(2);
-                        pRemoved->set_occupation_403970(ped_ocupation_enum::bus_customer_8);
+                        Ped* pPassenger = this->field_C_carriages[0]->field_4_passengers_list.RemoveFirstPed_471320();
+                        pPassenger->field_16C_car = this->field_C_carriages[0];
+                        pPassenger->SetObjective(objectives_enum::leave_train_38);
+                        Car* pBus = this->field_C_carriages[0];
+                        pPassenger->SetTargetObjectiveCar(pBus);
+                        pPassenger->set_target_car_door_403A70(2);
+                        pPassenger->set_occupation_403970(ped_ocupation_enum::bus_customer_8);
                         if (this->field_0_is_hijacked == 1)
                         {
                             if (this->field_56_passenger_count > 0)
@@ -488,7 +485,7 @@ void Train::UpdatePassengerAI_578390()
 MATCH_FUNC(0x578670)
 void Train::ProcessTrainExplosionChain_578670()
 {
-    Car* pCars = field_C_carriages[1];
+    Car* pWagon = field_C_carriages[1];
     if (!bSkip_trains_67D550)
     {
         Car* pFirst = field_C_carriages[0];
@@ -496,7 +493,7 @@ void Train::ProcessTrainExplosionChain_578670()
         {
             field_38_explosion_timers[10] = 10;
         }
-        if (field_38_explosion_timers[0] == 1 && pCars->field_74_damage >= 32000)
+        if (field_38_explosion_timers[0] == 1 && pWagon->field_74_damage >= 32000)
         {
             field_38_explosion_timers[10] = 10;
         }
@@ -507,7 +504,7 @@ void Train::ProcessTrainExplosionChain_578670()
             {
                 if (pFirst->field_74_damage >= 32000)
                 {
-                    pCars->AccumulateDamage_43DA90(32000, &kZeroPoint_6FF150);
+                    pWagon->AccumulateDamage_43DA90(32000, &kZeroPoint_6FF150);
                 }
                 else
                 {
@@ -516,13 +513,13 @@ void Train::ProcessTrainExplosionChain_578670()
             }
         }
 
-        for (u8 car_idx = 0; car_idx < field_43_wagon_count; pCars++, car_idx++)
+        for (u8 car_idx = 0; car_idx < field_43_idx; pWagon++, car_idx++)
         {
-            if (field_38_explosion_timers[car_idx] == -1 && pCars->field_74_damage >= 32000)
+            if (field_38_explosion_timers[car_idx] == -1 && pWagon->field_74_damage >= 32000)
             {
                 if (car_idx > 0)
                 {
-                    *(reinterpret_cast<u8*>(&field_C_carriages[10]) + car_idx + 3) = 10;
+                    field_38_explosion_timers[car_idx - 1] = 10;
                 }
                 else if (car_idx < field_43_wagon_count - 1)
                 {
@@ -542,7 +539,7 @@ void Train::ProcessTrainExplosionChain_578670()
                     field_C_carriages[car_idx + 1]->AccumulateDamage_43DA90(32000, &kZeroPoint_6FF150);
                     if (car_idx > 0)
                     {
-                        *(reinterpret_cast<u8*>(&field_C_carriages[10]) + car_idx + 3) = 10;
+                        field_38_explosion_timers[car_idx - 1] = 10;
                     }
                     if (car_idx < field_43_wagon_count - 1)
                     {
@@ -563,7 +560,7 @@ Train* PublicTransport::AllocateTrain_578790()
 {
     if (bSkip_trains_67D550)
     {
-        return 0;
+        return NULL;
     }
 
     for (u16 i = 0; i < GTA2_COUNTOF(field_1450_train_array); i++)
@@ -573,7 +570,7 @@ Train* PublicTransport::AllocateTrain_578790()
             return &this->field_1450_train_array[i];
         }
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x5787e0)
@@ -586,11 +583,11 @@ TrainStation* PublicTransport::AllocateTrainStation_5787E0()
             return &this->field_0_stations[i];
         }
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x578820)
-void TrainStation::CalculateWagonCount_578820(u8* pWagons)
+void TrainStation::CalculateWagonCount_578820(const u8* pWagons)
 {
     if (!bSkip_trains_67D550)
     {
@@ -792,11 +789,7 @@ void PublicTransport::SpawnTrainsFromStations_578860()
                         gCar_BC_Pool_67792C->field_0_pool.UnlinkFromActiveList_420F30(pTrain->field_C_carriages[j + 1]);
                     }
 
-                    Car* pEngine = pTrain->field_C_carriages[0];
-                    if (!pEngine->field_5C_AI)
-                    {
-                        pEngine->field_5C_AI = gCarAI_78_Pool_677CF8->Allocate();
-                    }
+                    EnsureAI_421510(pTrain->field_C_carriages[0]);
                     pTrain->field_C_carriages[0]->field_5C_AI->SetCar_453BF0(pTrain->field_C_carriages[0]);
                     pTrain->field_C_carriages[0]->SpawnDriverPed();
                     pTrain->field_C_carriages[0]->SetDriverPedType_421560(ped_type::script_created_5);
@@ -875,29 +868,29 @@ void PublicTransport::InitTrainStations_579440()
 MATCH_FUNC(0x5794b0)
 void PublicTransport::SetupTrainAndBusStops_5794B0()
 {
-    char Buffer[8];
+    char_type track_name[8];
     gBusSpawned_6FF1CD = 0;
     gBusSpawnDelay_6FF1D0 = 0;
     if (!bSkip_trains_67D550)
     {
-        for (u8 station_zone_kind = 0; station_zone_kind < 5; station_zone_kind++)
+        for (u8 track_idx = 0; track_idx < 5; track_idx++)
         {
-            switch (station_zone_kind)
+            switch (track_idx)
             {
                 case 0:
-                    sprintf(Buffer, "trak0");
+                    sprintf(track_name, "trak0");
                     break;
                 case 1:
-                    sprintf(Buffer, "trak1");
+                    sprintf(track_name, "trak1");
                     break;
                 case 2:
-                    sprintf(Buffer, "trak2");
+                    sprintf(track_name, "trak2");
                     break;
                 case 3:
-                    sprintf(Buffer, "trak3");
+                    sprintf(track_name, "trak3");
                     break;
                 case 4:
-                    sprintf(Buffer, "trak4");
+                    sprintf(track_name, "trak4");
                     break;
                 default:
                     break;
@@ -908,22 +901,22 @@ void PublicTransport::SetupTrainAndBusStops_5794B0()
             }
             gTrainStopCount_6FEFFC.field_0_count = 0;
 
-            gmp_map_zone* i;
-            for (i = gMap_0x370_6F6268->GetFirstZoneOfType_4DF1D0(gmp_zone_type_enum::railway_station_platform); i != NULL;
-                 i = gMap_0x370_6F6268->GetNextZone_4DF770())
+            gmp_map_zone* pPlatform;
+            for (pPlatform = gMap_0x370_6F6268->GetFirstZoneOfType_4DF1D0(gmp_zone_type_enum::railway_station_platform); pPlatform != NULL;
+                 pPlatform = gMap_0x370_6F6268->GetNextZone_4DF770())
             {
-                gNameCompareLen_6FF158 = 5; //LOBYTE(gNameCompareLen_6FF158) = 5; part of a object???????
-                if (CompareNameChars_577E90(Buffer, i->field_6_name))
+                gNameCompareLen_6FF158 = 5;
+                if (CompareNameChars_577E90(track_name, pPlatform->field_6_name))
                 {
                     TrainStation* pStation = gPublicTransport_181C_6FF1D4->AllocateTrainStation_5787E0();
                     pStation->field_0_station_type = 2;
                     pStation->field_14_used = 1;
                     pStation->field_1C_platform_state = 1;
-                    pStation->field_10_pZone = i;
-                    pStation->field_18_pStoppedTrain = 0;
-                    pStation->field_2F_track_idx = station_zone_kind;
+                    pStation->field_10_pZone = pPlatform;
+                    pStation->field_18_pStoppedTrain = NULL;
+                    pStation->field_2F_track_idx = track_idx;
                     ++gStationCount_6FF1CC;
-                    switch (i->field_6_name[static_cast<u8>(gNameCompareLen_6FF158)])
+                    switch (pPlatform->field_6_name[static_cast<u8>(gNameCompareLen_6FF158)])
                     {
                         case '0':
                             gTrainStationList_6FEE68.field_0_list[0] = pStation;
@@ -962,13 +955,13 @@ void PublicTransport::SetupTrainAndBusStops_5794B0()
             pBusStop->field_14_used = 1;
             pBusStop->field_1C_platform_state = 1;
             pBusStop->field_10_pZone = pZone;
-            pBusStop->field_18_pStoppedTrain = 0;
+            pBusStop->field_18_pStoppedTrain = NULL;
             ++gStationCount_6FF1CC;
             pZone = gMap_0x370_6F6268->GetNextZone_4DF770();
 
             s32 highest_zpos;
 
-            // called twice?
+            // The original looks the block up twice
             gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(Fix16(pBusStop->field_10_pZone->field_1_x).ToInt(),
                                                                Fix16(pBusStop->field_10_pZone->field_2_y).ToInt(),
                                                                &highest_zpos);
@@ -1078,7 +1071,7 @@ void PublicTransport::OnBusStopMarkerHit_579A30(Car* pToFind)
 }
 
 MATCH_FUNC(0x579aa0)
-bool PublicTransport::is_bus_579AA0(Car* pCar)
+bool PublicTransport::is_bus_579AA0(Car* pCar) const
 {
     if (!bSkip_buses_67D558)
     {
@@ -1096,23 +1089,23 @@ bool PublicTransport::is_bus_579AA0(Car* pCar)
 }
 
 MATCH_FUNC(0x579ad0)
-Car* PublicTransport::GetBusIfBoarding_579AD0()
+Car* PublicTransport::GetBusIfBoarding_579AD0() const
 {
     if (bSkip_buses_67D558)
     {
-        return 0;
+        return NULL;
     }
 
     Car* result = this->field_17C0_bus.field_C_carriages[0];
     if (!result || this->field_17C0_bus.field_48_stop_phase != 13)
     {
-        return 0;
+        return NULL;
     }
     return result;
 }
 
 MATCH_FUNC(0x579af0)
-bool PublicTransport::is_bus_full_579AF0()
+bool PublicTransport::is_bus_full_579AF0() const
 {
     if (bSkip_buses_67D558)
     {
@@ -1186,27 +1179,21 @@ bool PublicTransport::GetTrainSpeed_579B90(Car* pToFind, Fix16* pOutSpeed)
                     case 0:
                         *pOutSpeed = kTrainSpeedState0_6FEEE0;
                         return false;
-                        break;
                     case 1:
                         *pOutSpeed = kTrainSpeedState1And3_6FEED4;
                         return false;
-                        break;
                     case 2:
                         *pOutSpeed = kFpZero_6FF078;
                         return true;
-                        break;
                     case 3:
                         *pOutSpeed = kTrainSpeedState1And3_6FEED4;
                         return true;
-                        break;
                     case 4:
                         *pOutSpeed = kTrainSpeedState4_6FEEDC;
                         return true;
-                        break;
                     case 5:
                         *pOutSpeed = kTrainSpeedState5_6FEEE4;
                         return true;
-                        break;
                     default:
                         break;
                 }
@@ -1221,13 +1208,9 @@ MATCH_FUNC(0x579ca0)
 void PublicTransport::BusesService_579CA0()
 {
     Car* pBusCar;
-    Fix16 xpos;
-    Fix16 ypos;
 
     if (!bSkip_buses_67D558)
     {
-        u16 i;
-        s32 found_z;
         if (gBusSpawnDelay_6FF1D0 || gBusSpawned_6FF1CD || !gCarManager_6C_677930->CanAllocateCarOfKind_446930(car_kind::recycled_1))
         {
             if (--gBusSpawnDelay_6FF1D0 < 0)
@@ -1240,10 +1223,11 @@ void PublicTransport::BusesService_579CA0()
             TrainStation* pBusStop = PublicTransport::GetBusStopOnScreen_5799B0();
             if (pBusStop)
             {
-                xpos = Fix16(pBusStop->field_10_pZone->field_1_x);
-                ypos = Fix16(pBusStop->field_10_pZone->field_2_y);
+                Fix16 xpos = Fix16(pBusStop->field_10_pZone->field_1_x);
+                Fix16 ypos = Fix16(pBusStop->field_10_pZone->field_2_y);
+                s32 found_z;
                 gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(xpos.ToInt(), ypos.ToInt(), &found_z);
-                for (i = 0; i < 4; i++)
+                for (u16 i = 0; i < 4; i++)
                 {
                     switch (i)
                     {
@@ -1282,24 +1266,24 @@ void PublicTransport::BusesService_579CA0()
                     }
                 }
 
-                gmp_block_info* HighestBlockForCoord_4E4C30 =
+                gmp_block_info* pBlock =
                     gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(xpos.ToInt(), ypos.ToInt(), &found_z);
-                if (HasBlockGreenArrowAtDirection_577E20(4, HighestBlockForCoord_4E4C30))
+                if (HasBlockGreenArrowAtDirection_577E20(4, pBlock))
                 {
                     field_17C0_bus.field_C_carriages[0] =
                         gCarManager_6C_677930->SpawnBusAtValidRoadPosition_4453E0(xpos, ypos + kFpHalf_6FEEE8, 4, car_model_enum::BUS);
                 }
-                if (HasBlockGreenArrowAtDirection_577E20(2, HighestBlockForCoord_4E4C30))
+                if (HasBlockGreenArrowAtDirection_577E20(2, pBlock))
                 {
                     field_17C0_bus.field_C_carriages[0] =
                         gCarManager_6C_677930->SpawnBusAtValidRoadPosition_4453E0(xpos + kFpHalf_6FEEE8, ypos, 2, car_model_enum::BUS);
                 }
-                if (HasBlockGreenArrowAtDirection_577E20(3, HighestBlockForCoord_4E4C30))
+                if (HasBlockGreenArrowAtDirection_577E20(3, pBlock))
                 {
                     field_17C0_bus.field_C_carriages[0] =
                         gCarManager_6C_677930->SpawnBusAtValidRoadPosition_4453E0(xpos, ypos, 3, car_model_enum::BUS);
                 }
-                if (HasBlockGreenArrowAtDirection_577E20(1, HighestBlockForCoord_4E4C30))
+                if (HasBlockGreenArrowAtDirection_577E20(1, pBlock))
                 {
                     field_17C0_bus.field_C_carriages[0] =
                         gCarManager_6C_677930->SpawnBusAtValidRoadPosition_4453E0(xpos, ypos, 1, car_model_enum::BUS);
@@ -1307,11 +1291,7 @@ void PublicTransport::BusesService_579CA0()
                 pBusCar = field_17C0_bus.field_C_carriages[0];
                 if (pBusCar)
                 {
-                    // inline here: pBusCar.6f Car::sub_421510
-                    if (!pBusCar->field_5C_AI)
-                    {
-                        pBusCar->field_5C_AI = gCarAI_78_Pool_677CF8->Allocate();
-                    }
+                    EnsureAI_421510(pBusCar);
                     field_17C0_bus.field_C_carriages[0]->field_5C_AI->SetCar_453BF0(field_17C0_bus.field_C_carriages[0]);
                     field_17C0_bus.field_C_carriages[0]->SpawnDriverPed();
                     field_17C0_bus.field_C_carriages[0]->SetDriverPedType_421560(ped_type::special_ped_4);
@@ -1377,7 +1357,7 @@ void PublicTransport::BusesService_579CA0()
             if (field_17C0_bus.field_C_carriages[0]->GetLastSeenTimer_4A9AD0() > 200)
             {
                 field_17C0_bus.field_C_carriages[0]->MarkForDespawn_421470();
-                field_17C0_bus.field_C_carriages[0] = 0;
+                field_17C0_bus.field_C_carriages[0] = NULL;
                 gBusSpawned_6FF1CD = 0;
                 gBusSpawnDelay_6FF1D0 = 100;
             }
@@ -1386,7 +1366,7 @@ void PublicTransport::BusesService_579CA0()
                 if (field_17C0_bus.field_C_carriages[0]->IsDespawning_4215B0() ||
                     field_17C0_bus.field_C_carriages[0]->field_74_damage == 32000)
                 {
-                    field_17C0_bus.field_C_carriages[0] = 0;
+                    field_17C0_bus.field_C_carriages[0] = NULL;
                     gBusSpawned_6FF1CD = 0;
                     gBusSpawnDelay_6FF1D0 = 0;
                 }
@@ -1477,7 +1457,7 @@ static inline void SetDriverStation(Train* pTrain, TrainStation* pStation)
 MATCH_FUNC(0x57a7a0)
 void PublicTransport::PublicTransportService_57A7A0()
 {
-    u8 bStopped = 0;
+    bool bStopped = false;
     BusesService_579CA0();
     if (!bSkip_trains_67D550)
     {
@@ -1522,15 +1502,15 @@ void PublicTransport::PublicTransportService_57A7A0()
             {
                 case 0:
                 case 1:
-                    bStopped = 1;
+                    bStopped = true;
                     break;
                 case 2:
-                    bStopped = 0;
+                    bStopped = false;
                     break;
                 case 3:
                 case 4:
                 case 5:
-                    bStopped = 1;
+                    bStopped = true;
                     break;
             }
 
@@ -1558,7 +1538,7 @@ void PublicTransport::PublicTransportService_57A7A0()
                         pTrain->field_48_stop_phase = 0;
                         pTrain->IncrementState_578180();
                         pStation = pTrain->field_4C_station;
-                        pStation->field_18_pStoppedTrain = 0;
+                        pStation->field_18_pStoppedTrain = NULL;
                         pStation = pStation->field_20_next_station;
                         pTrain->field_4C_station = pStation;
                         pStation->field_1C_platform_state = 1;
@@ -1798,7 +1778,7 @@ TrainStation* PublicTransport::TrainStationForZone_57B4B0(gmp_map_zone* pZone)
         }
         pIter++;
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x57b540)
@@ -1810,7 +1790,7 @@ Car* PublicTransport::GetLeadTrainCar_57B540(Car* pCar)
     }
     else
     {
-        return 0;
+        return NULL;
     }
 }
 
@@ -1870,10 +1850,10 @@ bool PublicTransport::AreTrainsOnDifferentTracks_57B740(Car* pCar1, Car* pCar2)
         Train* pTrain2 = GetTrainFromCar_57B5C0(pCar2);
         if (pTrain1->field_57_track_idx != pTrain2->field_57_track_idx)
         {
-            return 1;
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x57b7b0)
