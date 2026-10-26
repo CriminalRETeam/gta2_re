@@ -6,6 +6,13 @@
 #include "bonus_result.hpp"
 #include "ped_death_cause.hpp"
 
+// Wildcard values of the BonusRule gang and remap filters
+enum
+{
+    k_any_gang = -1,
+    k_any_remap = -2,
+};
+
 MATCH_FUNC(0x431D30);
 BonusRule::BonusRule()
 {
@@ -24,8 +31,8 @@ void BonusRule::Init_431D50()
     field_4_event_type = bonus_event_type::any_event;
     field_8_car_model = car_model_enum::none;
     field_C_occupation = ped_ocupation_enum::no_occupation;
-    field_10_gang_idx = -1;
-    field_12_remap = -2;
+    field_10_gang_idx = k_any_gang;
+    field_12_remap = k_any_remap;
     field_14_death_cause = ped_death_cause::none_0;
     field_18_alt_car_model = car_model_enum::none;
     field_1C_time_limit = 0;
@@ -153,10 +160,10 @@ u16 BonusTracker::FindMatchingRule_431EC0(u16 start_idx,
             if (bonus_car_model == car_model || bonus_car_model == car_model_enum::none || AreCarModelsEquivalent_432300(car_model, bonus_car_model))
             {
                 bonus_gang_idx = pBonus->field_10_gang_idx;
-                if (bonus_gang_idx == gang_idx || bonus_gang_idx == -1)
+                if (bonus_gang_idx == gang_idx || bonus_gang_idx == k_any_gang)
                 {
                     bonus_remap = pBonus->field_12_remap;
-                    if (bonus_remap == remap || bonus_remap == -2)
+                    if (bonus_remap == remap || bonus_remap == k_any_remap)
                     {
                         bonus_death_cause = pBonus->field_14_death_cause;
                         if (bonus_death_cause == death_cause || bonus_death_cause == ped_death_cause::any_23 || IsDeathCauseInGroup_432170(death_cause, bonus_death_cause))
