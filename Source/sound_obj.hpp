@@ -173,7 +173,7 @@ class sound_obj
     u8 field_25_cdVol;
     char_type field_26_unused;
     char_type field_27_unused;
-    Fix16 field_28_dist_related;
+    Fix16 field_28_dist_squared;
     char_type field_2C_distCalculated;
     char_type field_2D_unused;
     char_type field_2E_unused;

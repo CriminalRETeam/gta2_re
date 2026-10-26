@@ -382,7 +382,7 @@ void sound_obj::ProcessType1_Sprite_412740(s32 idx)
         entity.field_5_bHasSolidAbove = gMap_0x370_6F6268->CheckColumnHasSolidAbove_4E7FC0(field_30_sQueueSample.field_8_obj.field_0_x,
                                                                                            field_30_sQueueSample.field_8_obj.field_4_y,
                                                                                            field_30_sQueueSample.field_8_obj.field_8_z);
-        this->field_28_dist_related = ComputeEmitterDistanceSquared_4190B0();
+        this->field_28_dist_squared = ComputeEmitterDistanceSquared_4190B0();
         this->field_2C_distCalculated = 0;
 
         if (entity.field_0_pObj->AsCharB4_40FEA0())
@@ -418,7 +418,7 @@ void sound_obj::ProcessType8_Crane_412820(s32 idx)
             bool bSolidAbove = gMap_0x370_6F6268->CheckColumnHasSolidAbove_4E7FC0(field_30_sQueueSample.field_8_obj.field_0_x,
                                                                                     field_30_sQueueSample.field_8_obj.field_4_y,
                                                                                     field_30_sQueueSample.field_8_obj.field_8_z);
-            this->field_28_dist_related = ComputeEmitterDistanceSquared_4190B0();
+            this->field_28_dist_squared = ComputeEmitterDistanceSquared_4190B0();
             this->field_2C_distCalculated = 0;
             if (CalculateDistance_419020(Fix16(625)))
             {
@@ -531,7 +531,7 @@ void sound_obj::ProcessType9_Crusher_412A60(s32 idx)
             this->field_30_sQueueSample.field_0_EntityIndex = idx;
             this->field_30_sQueueSample.field_5C_pReleaseSource = 0;
             const bool bSolidAbove = gMap_0x370_6F6268->CheckColumnHasSolidAbove_4E7FC0(x, y, z);
-            this->field_28_dist_related = ComputeEmitterDistanceSquared_4190B0();
+            this->field_28_dist_squared = ComputeEmitterDistanceSquared_4190B0();
             this->field_2C_distCalculated = 0;
             if (CalculateDistance_419020(Fix16(121)))
             {
@@ -1240,7 +1240,7 @@ void sound_obj::ProcessType6_CollisionSoundQueue_413760(s32 idx)
                 this->field_30_sQueueSample.field_8_obj.field_0_x = pQueue->field_4_events[event_idx].field_4_x;
                 this->field_30_sQueueSample.field_8_obj.field_4_y = pQueue->field_4_events[event_idx].field_8_y;
                 this->field_30_sQueueSample.field_8_obj.field_8_z = pQueue->field_4_events[event_idx].field_C_z;
-                this->field_28_dist_related = ComputeEmitterDistanceSquared_4190B0();
+                this->field_28_dist_squared = ComputeEmitterDistanceSquared_4190B0();
                 this->field_2C_distCalculated = 0;
                 if (CalculateDistance_419020(Fix16(25)))
                 {
@@ -1664,7 +1664,7 @@ void sound_obj::TrainCab_414710(Sound_Params* pParams)
             this->field_30_sQueueSample.field_8_obj.field_4_y =
                 Fix16(pTrainStation->field_10_pZone->field_2_y + (pTrainStation->field_10_pZone->field_4_h >> 1));
         }
-        this->field_28_dist_related = ComputeEmitterDistanceSquared_4190B0();
+        this->field_28_dist_squared = ComputeEmitterDistanceSquared_4190B0();
         this->field_2C_distCalculated = 0;
         if (CalculateDistance_419020(Fix16(1225)))
         {
@@ -3423,12 +3423,12 @@ void sound_obj::ProcessType10_Vocals_418CA0()
 MATCH_FUNC(0x419020)
 bool sound_obj::CalculateDistance_419020(Fix16 max_dist)
 {
-    if (field_28_dist_related < max_dist)
+    if (field_28_dist_squared < max_dist)
     {
         if (!field_2C_distCalculated)
         {
             field_2C_distCalculated = 1;
-            field_30_sQueueSample.field_28_distance = Fix16::SquareRoot(field_28_dist_related);
+            field_30_sQueueSample.field_28_distance = Fix16::SquareRoot(field_28_dist_squared);
         }
         return 1;
     }
@@ -3469,7 +3469,7 @@ sound_obj::sound_obj()
     field_2_service_enabled = 1;
     field_24_sfx_vol = 127;
     field_25_cdVol = 127;
-    field_28_dist_related = kFpZero_674CD8;
+    field_28_dist_squared = kFpZero_674CD8;
     field_2C_distCalculated = 0;
 
     field_98_nActiveSampleQueue = 1;
@@ -4073,7 +4073,7 @@ void sound_obj::InterrogateAudioEntities_41A730()
 
     for (u32 j = 0; j < field_543C_444C_nAudioEntitiesCount; j++)
     {
-        field_28_dist_related = kFpZero_674CD8;
+        field_28_dist_squared = kFpZero_674CD8;
         field_2C_distCalculated = 0;
         sound_obj::ProcessEntity_4123A0(field_444C_AudioEntityOrderList[j]);
     }
@@ -6693,7 +6693,7 @@ void sound_obj::ProcessType7_Weapon_42A500(s32 idx)
                 bHasSolidAbove = gMap_0x370_6F6268->CheckColumnHasSolidAbove_4E7FC0(field_30_sQueueSample.field_8_obj.field_0_x,
                                                                                     field_30_sQueueSample.field_8_obj.field_4_y,
                                                                                     field_30_sQueueSample.field_8_obj.field_8_z);
-                this->field_28_dist_related = ComputeEmitterDistanceSquared_4190B0();
+                this->field_28_dist_squared = ComputeEmitterDistanceSquared_4190B0();
                 this->field_2C_distCalculated = 0;
                 if (CalculateDistance_419020((Fix16(20) / Fix16(2)) * (Fix16(20) / Fix16(2))))
                 {
