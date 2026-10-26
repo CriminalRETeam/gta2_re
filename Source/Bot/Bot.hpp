@@ -4,6 +4,7 @@
 #include "BotHeap.hpp"
 #include "BotOptions.hpp"
 #include "BotLog.hpp"
+#include "BotRng.hpp"
 
 class MemoryMap;
 class Snapshot;
@@ -70,6 +71,8 @@ class Bot : public BotObject
     void RequestExit(const char* why);
     void EnsureMap();
     void WriteReport(const char* result, const char* detail);
+    bool LoadSnapshotFile(const char* path);
+    bool SaveSnapshotFile(const char* name);
 
     void StepIdle();
     void StepWalkTest();
@@ -80,6 +83,7 @@ class Bot : public BotObject
     u32 WriteDiff(const Snapshot* pSnap, const char* name);
 
     BotOptions mOpts;
+    BotRng mRng;
     Profile mProfile;
     u32 mInputBits;
     s32 mFrame;        // logic frames seen by the hook, never rewound

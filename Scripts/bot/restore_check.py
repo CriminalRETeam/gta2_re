@@ -25,7 +25,7 @@ def main():
 
     root = botlib.gta2_root(args.root)
     botlib.install_exe(root)
-    out_dir = root / args.out
+    out_dir, out_arg = botlib.out_paths(root, args.out)
     mapfile = botlib.MapFile()
     missing = botlib.write_exclusions(mapfile, out_dir, [(n, "command line") for n in args.exclude])
     if missing:
@@ -36,7 +36,7 @@ def main():
         if p.exists():
             p.unlink()
 
-    bot_args = ["-bot=restore_check", f"-bot_map={args.map}", f"-bot_out={args.out}", f"-bot_warmup={args.warmup}", f"-bot_frames={args.frames}"]
+    bot_args = ["-bot=restore_check", f"-bot_map={args.map}", f"-bot_out={out_arg}", f"-bot_warmup={args.warmup}", f"-bot_frames={args.frames}"]
     if args.perturb:
         bot_args.append("-bot_perturb")
     botlib.run_game(root, bot_args, timeout=args.timeout, log=out_dir / "wine_stdout.txt")

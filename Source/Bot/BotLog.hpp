@@ -8,6 +8,11 @@ void BotLog_Open(const char* out_dir); // creates out_dir and out_dir\bot_log.tx
 void BotLog(const char* fmt, ...);
 void BotLog_Close();
 
+// Decisions: logged like BotLog and kept in a ring of the last 50 for the stuck report
+void BotDecision(const char* fmt, ...);
+u32 BotDecision_Count();                // total so far
+const char* BotDecision_At(u32 i);      // i in [max(0, count - 50), count)
+
 void BotPath_Join(char* out, u32 out_size, const char* dir, const char* name);
 bool BotFile_WriteAll(const char* path, const void* data, u32 size);
 bool BotFile_AppendText(const char* path, const char* text);

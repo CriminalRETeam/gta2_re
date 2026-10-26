@@ -61,6 +61,7 @@ bool Bot_Init(const char* cmd_line)
 
 Bot::Bot(const BotOptions& opts)
     : mOpts(opts)
+    , mRng(opts.seed)
     , mProfile(Profile_Idle)
     , mInputBits(0)
     , mFrame(0)
@@ -255,6 +256,40 @@ void Bot::EnsureMap()
     mMap->WriteBlockIndex(path);
 }
 
+bool Bot::LoadSnapshotFile(const char* path)
+{
+    EnsureMap();
+    Snapshot* pSnap = new Snapshot(mMap);
+    const bool ok = pSnap->LoadFromFile(path);
+    if (ok)
+    {
+        pSnap->Restore();
+        BotLog("bot: restored %s (%u bytes), rng=%d", path, mMap->TotalBytes(), gpRng_67AB34->get_cur_rng_41CFE0());
+        LogPlayer("loaded");
+    }
+    delete pSnap;
+    return ok;
+}
+
+bool Bot::SaveSnapshotFile(const char* name)
+{
+    EnsureMap();
+    char path[MAX_PATH];
+    BotPath_Join(path, sizeof(path), mOpts.out_dir, name);
+    Snapshot* pSnap = new Snapshot(mMap);
+    pSnap->Capture();
+    const bool ok = pSnap->SaveToFile(path);
+    BotLog("bot: %s %s at f=%d rng=%d (%u bytes, hash %08x)",
+           ok ? "saved" : "could not save",
+           path,
+           mFrame,
+           gpRng_67AB34->get_cur_rng_41CFE0(),
+           mMap->TotalBytes(),
+           pSnap->Hash());
+    delete pSnap;
+    return ok;
+}
+
 void Bot::WriteReport(const char* result, const char* detail)
 {
     char text[2048];
@@ -284,6 +319,20 @@ void Bot::WriteReport(const char* result, const char* detail)
     char path[MAX_PATH];
     BotPath_Join(path, sizeof(path), mOpts.out_dir, "bot_report.txt");
     BotFile_WriteAll(path, text, strlen(text));
+
+    const u32 count = BotDecision_Count();
+    u32 first = count > 50 ? count - 50 : 0;
+    if (count)
+    {
+        BotFile_AppendText(path, "decisions\n");
+    }
+    for (u32 i = first; i < count; i++)
+    {
+        char line[260];
+        _snprintf(line, sizeof(line), "  %s\n", BotDecision_At(i));
+        line[sizeof(line) - 1] = 0;
+        BotFile_AppendText(path, line);
+    }
     BotLog("bot: report %s: %s", result, detail);
 }
 
@@ -317,6 +366,18 @@ void Bot::OnFrame()
         {
             EnsureMap();
         }
+        if (mOpts.load_snap[0])
+        {
+            if (!LoadSnapshotFile(mOpts.load_snap))
+            {
+                RequestExit("-bot_load failed");
+            }
+        }
+    }
+
+    if (!mExitRequested && mOpts.save_at_frame >= 0 && mRunFrame == mOpts.save_at_frame)
+    {
+        SaveSnapshotFile("bot_save.snap");
     }
 
     if (!mExitRequested)

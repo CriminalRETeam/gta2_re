@@ -26,6 +26,7 @@ static void SetDefaults(BotOptions* o)
     o->warmup_frames = 100;
     o->check_frames = 300;
     o->walk_frames = 100;
+    o->save_at_frame = -1;
 }
 
 bool BotOptions_Parse(const char* cmd_line, BotOptions* o)
@@ -148,6 +149,10 @@ bool BotOptions_Parse(const char* cmd_line, BotOptions* o)
         else if (_strnicmp(key, "_perturb", key_len) == 0 && key_len == 8)
         {
             o->perturb = true;
+        }
+        else if (_strnicmp(key, "_save_at", key_len) == 0 && key_len == 8)
+        {
+            o->save_at_frame = atoi(value);
         }
     }
     return o->enabled;

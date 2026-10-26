@@ -58,6 +58,44 @@ void BotLog(const char* fmt, ...)
     OutputDebugStringA(buf);
 }
 
+namespace
+{
+const u32 kDecisionRing = 50;
+const u32 kDecisionLen = 200;
+char gDecisions[kDecisionRing][kDecisionLen]; // static: never restored, the exe .data is the game's
+u32 gDecisionCount = 0;
+} // namespace
+
+void BotDecision(const char* fmt, ...)
+{
+    char* slot = gDecisions[gDecisionCount % kDecisionRing];
+    va_list args;
+    va_start(args, fmt);
+    int len = _vsnprintf(slot, kDecisionLen - 1, fmt, args);
+    va_end(args);
+    if (len < 0)
+    {
+        len = kDecisionLen - 1;
+    }
+    slot[len] = 0;
+    gDecisionCount++;
+    BotLog("decide: %s", slot);
+}
+
+u32 BotDecision_Count()
+{
+    return gDecisionCount;
+}
+
+const char* BotDecision_At(u32 i)
+{
+    if (i >= gDecisionCount || i + kDecisionRing < gDecisionCount)
+    {
+        return "";
+    }
+    return gDecisions[i % kDecisionRing];
+}
+
 void BotLog_Close()
 {
     if (gLogFile != INVALID_HANDLE_VALUE)

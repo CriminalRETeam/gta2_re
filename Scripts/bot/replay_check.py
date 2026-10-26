@@ -21,16 +21,18 @@ def main():
 
     root = botlib.gta2_root(args.root)
     botlib.install_exe(root)
-    out_run = root / args.out / "run"
-    out_replay = root / args.out / "replay"
-    out_run.mkdir(parents=True, exist_ok=True)
-    out_replay.mkdir(parents=True, exist_ok=True)
+    out_run, out_run_arg = botlib.out_paths(root, f"{args.out}/run")
+    out_replay, out_replay_arg = botlib.out_paths(root, f"{args.out}/replay")
+    mapfile = botlib.MapFile() if botlib.MAP_FILE.exists() else None
+    if mapfile:
+        botlib.write_exclusions(mapfile, out_run)
+        botlib.write_exclusions(mapfile, out_replay)
     rep = root / "test" / "replay.rep"
     if rep.exists():
         rep.unlink()
 
     print("=== 1. bot run (walk_test)")
-    botlib.run_game(root, ["-bot=walk_test", f"-bot_map={args.map}", f"-bot_out={args.out}\\run", f"-bot_walk={args.walk}"], timeout=args.timeout, log=out_run / "wine_stdout.txt")
+    botlib.run_game(root, ["-bot=walk_test", f"-bot_map={args.map}", f"-bot_out={out_run_arg}", f"-bot_walk={args.walk}"], timeout=args.timeout, log=out_run / "wine_stdout.txt")
     print(botlib.tail(out_run / "bot_log.txt", 12))
     if not rep.exists():
         print("FAIL: the game wrote no test/replay.rep")
@@ -42,7 +44,7 @@ def main():
 
     print("=== 2. playback of the recorded replay")
     shutil.copy2(saved, rep)
-    botlib.run_game(root, ["-bot=replay", f"-bot_map={args.map}", f"-bot_out={args.out}\\replay", f"-bot_budget={len(trace_run) + 200}"], timeout=args.timeout, log=out_replay / "wine_stdout.txt")
+    botlib.run_game(root, ["-bot=replay", f"-bot_map={args.map}", f"-bot_out={out_replay_arg}", f"-bot_budget={len(trace_run) + 200}"], timeout=args.timeout, log=out_replay / "wine_stdout.txt")
     print(botlib.tail(out_replay / "bot_log.txt", 12))
     trace_replay = botlib.read_trace(out_replay)
     print(f"trace {len(trace_replay)} frames")

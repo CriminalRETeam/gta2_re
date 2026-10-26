@@ -25,6 +25,14 @@ def gta2_root(arg=None):
     return root
 
 
+def out_paths(root, out):
+    """An out dir given as 'bot_out/run' or 'bot_out\\run': (Linux path, the game's argument)."""
+    out = str(out).replace("\\", "/").strip("/")
+    linux = root / out
+    linux.mkdir(parents=True, exist_ok=True)
+    return linux, out.replace("/", "\\")
+
+
 def install_exe(root):
     """Copies a newer build_vc6/decomp_main.exe (and the GTA2Hax dlls) into the run dir."""
     src = BUILD_DIR / EXE_NAME
@@ -117,6 +125,9 @@ class MapFile:
         return f"{s.name}+{off:x}" if off else s.name
 
     def find(self, name):
+        """Symbols named name; a trailing '*' matches a prefix."""
+        if name.endswith("*"):
+            return [s for s in self.symbols if s.name.startswith(name[:-1])]
         return [s for s in self.symbols if s.name == name]
 
 
@@ -134,6 +145,21 @@ DEFAULT_EXCLUSIONS = [
     ("__sbh_threshold", "CRT small block heap bookkeeping"),
     ("_amblksiz", "CRT heap growth"),
     ("_iob", "stdio FILE table (error.log): file positions are not rewound"),
+    # OS handles and DLL state: valid only in the process that created them, so a .snap loaded
+    # into another process must not overwrite them (a stale gHwnd made DestroyWindow fail and
+    # the exit hang)
+    ("gHwnd_707F04", "window handle"),
+    ("gHInstance_708220", "module handle"),
+    ("gMutex_707078", "mutex handle"),
+    ("gpDInput_67B804", "DirectInput object"),
+    ("gKeyboardDevice_67B5C0", "DirectInput device"),
+    ("gGamePadDevice_67B6C0", "DirectInput device"),
+    ("gMouseDevice_706C60", "DirectInput device"),
+    ("gVidSys_7071D0", "video system object owned by d3ddll"),
+    ("gVidFuncs_708600", "d3ddll function pointers"),
+    ("hDmaVideoDll_7085E8", "d3ddll module handle"),
+    ("gGbhDllHandle_7085D8", "gbh dll module handle"),
+    ("pgbh_*", "gbh graphics dll function pointers"),
 ]
 
 
@@ -154,20 +180,39 @@ def write_exclusions(mapfile, out_dir, extra=()):
     return missing
 
 
+# The VC6 CRT mallocs its copies of the command line and the environment at start up, before
+# the bot's allocator hooks, so their sizes decide where every later heap block lands. A
+# snapshot only loads into a process with the same heap layout, hence a fixed command line
+# length and a fixed environment for every run.
+CMDLINE_LENGTH = 1024
+ENV_KEYS = ("HOME", "PATH", "USER", "LOGNAME", "DISPLAY", "XAUTHORITY", "WINEPREFIX", "WINEARCH", "WINEDEBUG", "WINEDLLOVERRIDES", "LANG", "LC_ALL", "TMPDIR")
+
+
+def pad_args(bot_args):
+    args = list(bot_args)
+    used = sum(len(a) + 1 for a in args)
+    pad = CMDLINE_LENGTH - used - len("-bot_pad=") - 1
+    if pad < 0:
+        print(f"warning: command line longer than {CMDLINE_LENGTH}, snapshots of this run will not load elsewhere")
+    else:
+        args.append("-bot_pad=" + "x" * pad)
+    return args
+
+
 def run_game(root, bot_args, timeout=600, desktop=None, xvfb=None, log=None):
     """Runs decomp_main.exe under wine from the GTA2 dir. bot_args is a list like
     ['-bot=walk_test', '-bot_out=bot_out']. Returns the exit code."""
-    env = dict(os.environ)
+    env = {k: os.environ[k] for k in ENV_KEYS if k in os.environ}
     env.setdefault("WINEDEBUG", "-all")
     cmd = ["wine"]
     if desktop:
         cmd += ["explorer", f"/desktop={desktop}"]
-    cmd += [EXE_NAME] + list(bot_args)
+    cmd += [EXE_NAME] + pad_args(bot_args)
     if xvfb is None:
         xvfb = shutil.which("xvfb-run") is not None and not env.get("DISPLAY")
     if xvfb:
         cmd = ["xvfb-run", "-a", "-s", "-screen 0 1024x768x24"] + cmd
-    print("+", " ".join(cmd), "(cwd", str(root) + ")", flush=True)
+    print("+", " ".join(a if not a.startswith("-bot_pad=") else "-bot_pad=..." for a in cmd), "(cwd", str(root) + ")", flush=True)
     t0 = time.time()
     with open(log, "w") if log else open(os.devnull, "w") as out:
         try:

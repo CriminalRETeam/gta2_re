@@ -305,6 +305,7 @@ set(gta2_bot_src
   Source/Bot/BotLog.cpp
   Source/Bot/BotOptions.hpp
   Source/Bot/BotOptions.cpp
+  Source/Bot/BotRng.hpp
   Source/Bot/HeapTracker.hpp
   Source/Bot/HeapTracker.cpp
   Source/Bot/Hooks.hpp

@@ -25,12 +25,11 @@ def main():
 
     root = botlib.gta2_root(args.root)
     botlib.install_exe(root)
-    out_dir = root / args.out
-    out_dir.mkdir(parents=True, exist_ok=True)
+    out_dir, out_arg = botlib.out_paths(root, args.out)
     if botlib.MAP_FILE.exists():
         botlib.write_exclusions(botlib.MapFile(), out_dir)
 
-    bot_args = [f"-bot={args.profile}", f"-bot_map={args.map}", f"-bot_out={args.out}"]
+    bot_args = [f"-bot={args.profile}", f"-bot_map={args.map}", f"-bot_out={out_arg}"]
     if args.budget:
         bot_args.append(f"-bot_budget={args.budget}")
     if args.draw:
