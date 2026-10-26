@@ -124,12 +124,12 @@ void SpriteTree::AddSprite_5C5CF0(Sprite* pSprite)
     SpriteTreeNode* pParent; // TODO: not initialized before 'for' loop
     for (SpriteTreeNode* pIter = pRoot; pIter;)
     {
-        Sprite* pSprt = pIter->field_0_pSprite;
+        Sprite* pNodeSprite = pIter->field_0_pSprite;
         pParent = pIter;
-        s32 num = pIter->field_0_pSprite->field_28_draw_layer;
-        if (num > 9)
+        s32 node_layer = pIter->field_0_pSprite->field_28_draw_layer;
+        if (node_layer > 9)
         {
-            node_z = pSprt->field_1C_zpos;
+            node_z = pNodeSprite->field_1C_zpos;
         }
         else
         {
@@ -144,13 +144,13 @@ void SpriteTree::AddSprite_5C5CF0(Sprite* pSprite)
         {
             if (z_pos == node_z)
             {
-                if (pSprite->field_28_draw_layer < num)
+                if (pSprite->field_28_draw_layer < node_layer)
                 {
                     pIter = pIter->field_4_pLeft;
                 }
                 else
                 {
-                    if (pSprt == pSprite)
+                    if (pNodeSprite == pSprite)
                     {
                         return;
                     }
@@ -214,7 +214,7 @@ MATCH_FUNC(0x5c5e50)
 void SpriteTree::Reset_5C5E50()
 {
     gSpriteTreeNodePool_705BBC->Reset_4C4B70();
-    field_0_pRoot = 0;
+    field_0_pRoot = NULL;
 }
 
 MATCH_FUNC(0x5c5e70)
@@ -242,7 +242,7 @@ SpriteTree::~SpriteTree()
         SpriteTreeNodePool* p = gSpriteTreeNodePool_705BBC;
         gSpriteTreeNodePool_705BBC->~SpriteTreeNodePool();
         operator delete(p);
-        gSpriteTreeNodePool_705BBC = 0;
+        gSpriteTreeNodePool_705BBC = NULL;
     }
 
     if (gSpriteTreeStack_705BC0)
@@ -256,7 +256,7 @@ SpriteTreeNodePool::SpriteTreeNodePool()
 {
     for (s32 i = 0; i < GTA2_COUNTOF(field_0_entries); i++)
     {
-        field_0_entries[i].field_0_pSprite = 0;
+        field_0_entries[i].field_0_pSprite = NULL;
     }
     Reset_4C4B70();
 }
