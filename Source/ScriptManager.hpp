@@ -660,8 +660,8 @@ class ScriptManager
     EXPORT void LoadScriptCounters_511C30();
     EXPORT void RestoreAnsweredPhones_511C60();
     EXPORT void SaveMapInfo_511D40();
-    EXPORT void SaveGame_511E10(char_type* FileName);
-    EXPORT void LoadSave_511F80(char_type* FileName);
+    EXPORT void SaveGame_511E10(const char_type* pFileName);
+    EXPORT void LoadSave_511F80(const char_type* pFileName);
     EXPORT ScriptThread* SpawnThread_5120C0(s16 start_cmd, char_type bFlag);
     EXPORT SCR_CMD_HEADER* FindCommandByType_512100(u16 toFind, u16 startOff);
     EXPORT void StartLevelThread_512160();
@@ -728,11 +728,11 @@ class ScriptManager
     char_type field_467_unused;
     s32 field_468_unused;
     u16 field_46C_base_pointers[6000];
-    BYTE field_334C_script_data[65536];
+    u8 field_334C_script_data[65536];
     str_table_entry* field_1334C_strings;
     str_table_normalized* field_13350_pStringTbl;
-    BYTE field_13354_mission_script_data[620000];
-    BYTE field_AA934_mission_base_pointers[95232];
+    u8 field_13354_mission_script_data[620000];
+    u8 field_AA934_mission_base_pointers[95232];
     s16 field_C1D34_mission_start_cmd[31];
     s16 field_C1D72_mission_base_ptr_idx[31];
     u32 field_C1DB0_mission_script_data_len[31];

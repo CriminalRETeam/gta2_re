@@ -335,16 +335,16 @@ void ScriptManager::SaveMapInfo_511D40()
 }
 
 MATCH_FUNC(0x511e10)
-void ScriptManager::SaveGame_511E10(char_type* pFileName)
+void ScriptManager::SaveGame_511E10(const char_type* pFileName)
 {
-    unsigned short** pColData;
-    unsigned int colBytes;
+    u16** pColData;
+    u32 colBytes;
 
     gmp_block_info* pBlockInfo;
-    unsigned int blockInfoBytes;
+    u32 blockInfoBytes;
 
     DmapInfoList* pMapSub;
-    int mapSubBytes;
+    s32 mapSubBytes;
 
     if (!pFileName || !*pFileName)
     {
@@ -396,13 +396,13 @@ void ScriptManager::SaveGame_511E10(char_type* pFileName)
         File::AppendBufferToFile_4A6F50(pFileName, &mapSubBytes, &writeLen);
         if (mapSubBytes)
         {
-            File::AppendBufferToFile_4A6F50(pFileName, pMapSub, reinterpret_cast<unsigned int*>(&mapSubBytes));
+            File::AppendBufferToFile_4A6F50(pFileName, pMapSub, reinterpret_cast<u32*>(&mapSubBytes));
         }
     }
 }
 
 MATCH_FUNC(0x511f80)
-void ScriptManager::LoadSave_511F80(char_type* pFileName)
+void ScriptManager::LoadSave_511F80(const char_type* pFileName)
 {
     size_t mapSubLen;
     size_t blockInfoLen;
@@ -414,7 +414,7 @@ void ScriptManager::LoadSave_511F80(char_type* pFileName)
     gMap_0x370_6F6268->GetModifiedMapData_4E8CF0(&pColData, &colDataLen, &pBlockInfo, &blockInfoLen, &pMapSub, reinterpret_cast<s32*>(&mapSubLen));
     File::Global_Open_4A7060(pFileName);
 
-    File::Global_Read_4A71C0(&gGameSave_6F78C8, 0x748);
+    File::Global_Read_4A71C0(&gGameSave_6F78C8, sizeof(gGameSave_6F78C8));
 
     File::Global_Read_4A71C0(&colDataLen, 4);
     if (colDataLen > 0)
@@ -505,7 +505,7 @@ MATCH_FUNC(0x5121E0)
 void ScriptManager::LoadStringTbl_5121E0(u16 tableSize)
 {
     u32 total_str_length = 0;
-    BYTE* pStringDataIter1 = reinterpret_cast<BYTE*>(field_1334C_strings);
+    u8* pStringDataIter1 = reinterpret_cast<u8*>(field_1334C_strings);
     while (total_str_length < tableSize)
     {
         s32 str_length = pStringDataIter1[8] + 9;
@@ -597,7 +597,7 @@ u16 ScriptManager::LoadMissionScript_512400(const char_type* String1, u16* pStar
     {
         u32 remainder;
         strcpy(gTmpBuffer_67C598, "data\\");
-        strcat(gTmpBuffer_67C598, static_cast<const char*>(String1));
+        strcat(gTmpBuffer_67C598, String1);
         Error_SetName_4A0770(gTmpBuffer_67C598);
         File::Global_Open_4A7060(gTmpBuffer_67C598);
         File::Global_Read_4A71C0(&Buffer, 2);
@@ -609,7 +609,7 @@ u16 ScriptManager::LoadMissionScript_512400(const char_type* String1, u16* pStar
     }
     else
     {
-        str_table_entry* pStrEntry = gScriptManager_6F8060->StrEntryByString_5030B0(const_cast<char_type*>(String1));
+        str_table_entry* pStrEntry = gScriptManager_6F8060->StrEntryByString_5030B0(String1);
         u16 field_2_zone_idx = pStrEntry->field_2_zone_idx;
         Buffer = gScriptManager_6F8060->field_C1D72_mission_base_ptr_idx[field_2_zone_idx];
         *pStartCmd = gScriptManager_6F8060->field_C1D34_mission_start_cmd[field_2_zone_idx];
