@@ -1143,7 +1143,7 @@ class ScriptThread
     EXPORT bool PoolUpdate();
     EXPORT void InitThread_511930(char_type flags, u16 levelStart);
     EXPORT ScriptThread* SpawnThread_511960(u16 levelStart);
-    EXPORT void launch_mission_5119A0(SCR_CMD_HEADER* base_pointer, char_type* string);
+    EXPORT void launch_mission_5119A0(SCR_CMD_HEADER* pCmd, const char_type* pMissionName);
     EXPORT ScriptThread();
     EXPORT void DisableBasicKfsFromSave_511CD0();
     EXPORT ~ScriptThread();
