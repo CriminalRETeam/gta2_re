@@ -147,10 +147,10 @@ u16 BonusTracker::FindMatchingRule_431EC0(u16 start_idx,
             continue;
         }
         bonus_occupation = pBonus->field_C_occupation;
-        if (bonus_occupation == occupation || bonus_occupation == ped_ocupation_enum::no_occupation || IsOccupationInGroup_432240(occupation, pBonus->field_C_occupation))
+        if (bonus_occupation == occupation || bonus_occupation == ped_ocupation_enum::no_occupation || IsOccupationInGroup_432240(occupation, bonus_occupation))
         {
             bonus_car_model = pBonus->field_8_car_model;
-            if (bonus_car_model == car_model || bonus_car_model == car_model_enum::none || AreCarModelsEquivalent_432300(car_model, pBonus->field_8_car_model))
+            if (bonus_car_model == car_model || bonus_car_model == car_model_enum::none || AreCarModelsEquivalent_432300(car_model, bonus_car_model))
             {
                 bonus_gang_idx = pBonus->field_10_gang_idx;
                 if (bonus_gang_idx == gang_idx || bonus_gang_idx == -1)
@@ -159,7 +159,7 @@ u16 BonusTracker::FindMatchingRule_431EC0(u16 start_idx,
                     if (bonus_remap == remap || bonus_remap == -2)
                     {
                         bonus_death_cause = pBonus->field_14_death_cause;
-                        if (bonus_death_cause == death_cause || bonus_death_cause == ped_death_cause::any_23 || IsDeathCauseInGroup_432170(death_cause, pBonus->field_14_death_cause))
+                        if (bonus_death_cause == death_cause || bonus_death_cause == ped_death_cause::any_23 || IsDeathCauseInGroup_432170(death_cause, bonus_death_cause))
                         {
                             bonus_alt_car_model = pBonus->field_18_alt_car_model;
                             if ((bonus_alt_car_model == alt_car_model || bonus_alt_car_model == car_model_enum::none) && (pBonus->field_0_pZone == pZone || !pBonus->field_0_pZone))
@@ -173,7 +173,7 @@ u16 BonusTracker::FindMatchingRule_431EC0(u16 start_idx,
         }
         if (pBonus->field_24_check_mode == 1)
         {
-            field_0_bonuses[i].Deactivate_431DB0();
+            pBonus->Deactivate_431DB0();
         }
     }
     return k_max_rules;
