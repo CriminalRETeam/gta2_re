@@ -154,11 +154,11 @@ root_sound::root_sound()
     }
 
     field_0_pFreeList = field_4_pool;
-    field_4_pool[999].field_C_pAny.pNextFree = 0;
+    field_4_pool[999].field_C_pAny.pNextFree = NULL;
 }
 
 MATCH_FUNC(0x411E60)
 root_sound::~root_sound()
 {
-    field_0_pFreeList = 0;
+    field_0_pFreeList = NULL;
 }
