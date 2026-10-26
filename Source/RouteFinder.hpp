@@ -149,7 +149,7 @@ class RouteFinder
     RouteSearchNode* field_A82C_open_list;
     JunctionSegment field_A830_horz_segments[545];
     JunctionSegment field_B938_vert_segments[545];
-    char_type field_CA40_visited[545];
+    bool field_CA40_visited[545];
     u16 field_CC62_horz_segment_count;
     u16 field_CC64_vert_segment_count;
     u16 field_CC66_545_count;

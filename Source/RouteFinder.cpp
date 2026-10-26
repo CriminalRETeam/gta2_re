@@ -653,7 +653,7 @@ RouteSearchNode* RouteFinder::NewStartNode_589390(u16 junction_idx)
 MATCH_FUNC(0x589420)
 void RouteFinder::InsertIntoOpenList_589420(RouteSearchNode* pRoute)
 {
-    field_CA40_visited[pRoute->field_0_idx] = 1;
+    field_CA40_visited[pRoute->field_0_idx] = true;
 
     if (pRoute->field_2_cost < field_A82C_open_list->field_2_cost)
     {
@@ -700,9 +700,9 @@ bool RouteFinder::InitSearch_589480(u8 start_x, u8 start_y, u8 start_z, u8 dest_
     if (field_8618_idx != 0 && field_861A_dest_idx != 0)
     {
         NewStartNode_589390(field_8618_idx);
-        field_CA40_visited[0] = 1;
+        field_CA40_visited[0] = true;
         field_A82C_open_list = field_861C_nodes;
-        field_CA40_visited[field_8618_idx] = 1;
+        field_CA40_visited[field_8618_idx] = true;
         return true;
     }
     return false;
@@ -735,8 +735,8 @@ bool RouteFinder::InitSearchWithDirection_5895C0(u8 x, u8 y, u8 z, s32 arrow_typ
         {
             NewStartNode_589390(field_8618_idx);
             field_A82C_open_list = pStart;
-            field_CA40_visited[0] = 1;
-            field_CA40_visited[field_8618_idx] = 1;
+            field_CA40_visited[0] = true;
+            field_CA40_visited[field_8618_idx] = true;
 
             pJunction = &field_8_junctions[field_8618_idx];
             u16 north = pJunction->field_0_n.GetIndex_0040CE90();
