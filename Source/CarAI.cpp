@@ -5158,11 +5158,7 @@ void CarAI::UpdateSpeedTowardTarget_4539D0()
         }
     }
 
-    CarPhysics* pPhysics = this->field_0_car->field_58_physics;
-    pPhysics->field_91_is_foot_brake_on = 0;
-    pPhysics->field_93_is_forward_gas_on = 0;
-    pPhysics->field_94_is_backward_gas_on = 0;
-    pPhysics->field_95_is_coasting = 0;
+    this->field_0_car->field_58_physics->NeutralGear_42AC00();
 }
 
 MATCH_FUNC(0x453a40)
