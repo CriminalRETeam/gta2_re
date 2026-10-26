@@ -23,21 +23,21 @@ EXTERN_GLOBAL(s16, gStyleTextFont_703BAA);
 MATCH_FUNC(0x588580)
 bool Junction::IsUsableWithArrowType_588580(s32 arrow_type) const
 {
-    if (arrow_type == 2)
+    if (arrow_type == red_2)
     {
         if (this->field_8_type != 1)
         {
             return true;
         }
     }
-    else if (arrow_type == 1)
+    else if (arrow_type == green_1)
     {
         if (this->field_8_type != 2)
         {
             return true;
         }
     }
-    else if (arrow_type == 3)
+    else if (arrow_type == green_or_red_3)
     {
         return true;
     }

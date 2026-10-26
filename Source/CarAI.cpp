@@ -2936,7 +2936,7 @@ void CarAI::UpdateChase_44E0C0()
             }
         }
 
-        GoToBlock_447CA0(gCurrCarAI_TargetX_6779F0.ToInt(), gCurrCarAI_TargetY_6779F4.ToInt(), target_block_z.ToInt(), 3);
+        GoToBlock_447CA0(gCurrCarAI_TargetX_6779F0.ToInt(), gCurrCarAI_TargetY_6779F4.ToInt(), target_block_z.ToInt(), green_or_red_3);
         this->field_0_car->field_60_pChaseTask->field_22_following_route = true;
     }
 }
