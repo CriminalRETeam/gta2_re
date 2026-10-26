@@ -6075,7 +6075,7 @@ void sound_obj::PoliceRadioMessageGeneration_426790()
 
         if (best_crime)
         {
-            if (best_crime == 8 && !field_556A_erv_en_route_timer)
+            if (best_crime == crime_stats_type::lawmen_killed_8 && !field_556A_erv_en_route_timer)
             {
                 field_5569_crime_ypos = ypos;
                 field_5568_crime_xpos = xpos;
@@ -6187,7 +6187,7 @@ void sound_obj::PoliceRadioMessageGeneration_426790()
                         }
                         break;
                     case 2:
-                        if (best_crime == 2 && !field_556C_timer)
+                        if (best_crime == crime_stats_type::weapon_fired_2 && !field_556C_timer)
                         {
                             if (GetFreeRadioWordSlots_427310() > 3)
                             {
