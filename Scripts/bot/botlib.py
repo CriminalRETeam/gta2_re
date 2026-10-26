@@ -1,0 +1,214 @@
+"""Shared helpers for the bot drivers: the GTA2 run directory, output.map symbols, running the
+game under wine (docs/BOT_DESIGN.md, "Integration")."""
+import os
+import re
+import shutil
+import subprocess
+import sys
+import time
+from pathlib import Path
+
+REPO_ROOT = Path(__file__).resolve().parents[2]
+BUILD_DIR = REPO_ROOT / "build_vc6"
+MAP_FILE = BUILD_DIR / "output.map"
+EXE_NAME = "decomp_main.exe"
+
+
+def gta2_root(arg=None):
+    root = arg or os.environ.get("GTA2_ROOT")
+    if not root:
+        sys.exit("GTA2_ROOT is not set (the GTA2 install dir with data\\ and test\\); pass --root")
+    root = Path(root)
+    if not (root / "data").is_dir():
+        sys.exit(f"{root} has no data/ directory")
+    (root / "test").mkdir(exist_ok=True)
+    return root
+
+
+def install_exe(root):
+    """Copies a newer build_vc6/decomp_main.exe (and the GTA2Hax dlls) into the run dir."""
+    src = BUILD_DIR / EXE_NAME
+    if not src.exists():
+        sys.exit(f"{src} not built; run python3 build.py first")
+    dst = root / EXE_NAME
+    if not dst.exists() or src.stat().st_mtime > dst.stat().st_mtime:
+        shutil.copy2(src, dst)
+    for dll in ("dear_imgui.dll", "d3ddll.dll", "DmaVideo.dll"):
+        s = BUILD_DIR / "3rdParty" / "GTA2Hax" / dll
+        d = root / dll
+        if s.exists() and (not d.exists() or s.stat().st_mtime > d.stat().st_mtime):
+            shutil.copy2(s, d)
+
+
+class Symbol:
+    __slots__ = ("va", "decorated", "name", "size", "obj")
+
+    def __init__(self, va, decorated, obj):
+        self.va = va
+        self.decorated = decorated
+        self.name = undecorate(decorated)
+        self.size = 0
+        self.obj = obj
+
+    def __repr__(self):
+        return f"{self.name}@{self.va:08x}+{self.size:x}"
+
+
+def undecorate(sym):
+    """'?gVidSys_7071D0@@3PAUSVideo@@A' -> 'gVidSys_7071D0', '__crtheap' -> '_crtheap',
+    '?field@Class@@...' -> 'Class::field'."""
+    if sym.startswith("?"):
+        parts = sym[1:].split("@@", 1)[0].split("@")
+        parts = [p for p in parts if p]
+        return "::".join(reversed(parts))
+    if sym.startswith("_"):
+        return sym[1:].split("@", 1)[0]
+    return sym
+
+
+class MapFile:
+    """The VC6 linker map: publics sorted by address, in section 0003 (.data) and others."""
+
+    LINE = re.compile(r"^\s*(\d{4}):([0-9a-f]{8})\s+(\S+)\s+([0-9a-f]{8})(?:\s+f)?(?:\s+i)?\s*(\S*)")
+
+    def __init__(self, path=MAP_FILE):
+        self.path = Path(path)
+        self.symbols = []
+        self.image_base = 0x400000
+        text = self.path.read_text(errors="replace").splitlines()
+        in_publics = False
+        for line in text:
+            m = re.match(r"\s*Preferred load address is ([0-9a-f]+)", line)
+            if m:
+                self.image_base = int(m.group(1), 16)
+                continue
+            if line.strip().startswith("Address") and "Publics by Value" in line:
+                in_publics = True
+                continue
+            if line.strip().startswith("Static symbols"):
+                in_publics = True  # statics follow the same format
+                continue
+            if not in_publics:
+                continue
+            m = self.LINE.match(line)
+            if not m:
+                continue
+            section, offset, decorated, va, obj = m.groups()
+            self.symbols.append(Symbol(int(va, 16), decorated, obj))
+        self.symbols.sort(key=lambda s: s.va)
+        for a, b in zip(self.symbols, self.symbols[1:]):
+            a.size = b.va - a.va
+        self.vas = [s.va for s in self.symbols]
+
+    def lookup(self, addr):
+        """Returns (symbol, offset) for the symbol at or before addr, or (None, 0)."""
+        import bisect
+
+        i = bisect.bisect_right(self.vas, addr) - 1
+        if i < 0:
+            return None, 0
+        s = self.symbols[i]
+        return s, addr - s.va
+
+    def describe(self, addr):
+        s, off = self.lookup(addr)
+        if not s:
+            return f"{addr:08x}"
+        return f"{s.name}+{off:x}" if off else s.name
+
+    def find(self, name):
+        return [s for s in self.symbols if s.name == name]
+
+
+# Memory that must survive a Snapshot restore, by symbol: (name, reason). The CRT allocator's
+# bookkeeping is excluded because the heap's own metadata is not snapshotted (only the live
+# blocks are), so restoring the pointers into it would make the two disagree.
+DEFAULT_EXCLUSIONS = [
+    ("_crtheap", "CRT heap handle; heap metadata is not snapshotted"),
+    ("__sbh_pHeaderList", "CRT small block heap bookkeeping"),
+    ("__sbh_pHeaderScan", "CRT small block heap bookkeeping"),
+    ("__sbh_pHeaderDefer", "CRT small block heap bookkeeping"),
+    ("__sbh_indGroupDefer", "CRT small block heap bookkeeping"),
+    ("__sbh_cntHeaderList", "CRT small block heap bookkeeping"),
+    ("__sbh_sizeHeaderList", "CRT small block heap bookkeeping"),
+    ("__sbh_threshold", "CRT small block heap bookkeeping"),
+    ("_active_heap", "CRT heap kind"),
+    ("_amblksiz", "CRT heap growth"),
+    ("_iob", "stdio FILE table (error.log): file positions are not rewound"),
+]
+
+
+def write_exclusions(mapfile, out_dir, extra=()):
+    """Writes out_dir/bot_exclude.txt ('rva size name') for MemoryMap::LoadExclusionFile."""
+    lines = ["# rva size name: memory a Snapshot restore leaves alone (Scripts/bot/botlib.py)"]
+    missing = []
+    for name, reason in list(DEFAULT_EXCLUSIONS) + list(extra):
+        syms = mapfile.find(name)
+        if not syms:
+            missing.append(name)
+            continue
+        for s in syms:
+            size = min(s.size, 0x10000) if s.size > 0 else 4
+            lines.append(f"{s.va - mapfile.image_base:08x} {size} {s.name}  # {reason}")
+    out_dir.mkdir(parents=True, exist_ok=True)
+    (out_dir / "bot_exclude.txt").write_text("\n".join(lines) + "\n")
+    return missing
+
+
+def run_game(root, bot_args, timeout=600, desktop=None, xvfb=None, log=None):
+    """Runs decomp_main.exe under wine from the GTA2 dir. bot_args is a list like
+    ['-bot=walk_test', '-bot_out=bot_out']. Returns the exit code."""
+    env = dict(os.environ)
+    env.setdefault("WINEDEBUG", "-all")
+    cmd = ["wine"]
+    if desktop:
+        cmd += ["explorer", f"/desktop={desktop}"]
+    cmd += [EXE_NAME] + list(bot_args)
+    if xvfb is None:
+        xvfb = shutil.which("xvfb-run") is not None and not env.get("DISPLAY")
+    if xvfb:
+        cmd = ["xvfb-run", "-a", "-s", "-screen 0 1024x768x24"] + cmd
+    print("+", " ".join(cmd), "(cwd", str(root) + ")", flush=True)
+    t0 = time.time()
+    with open(log, "w") if log else open(os.devnull, "w") as out:
+        try:
+            proc = subprocess.run(cmd, cwd=root, env=env, stdout=out, stderr=subprocess.STDOUT, timeout=timeout)
+            code = proc.returncode
+        except subprocess.TimeoutExpired:
+            print(f"timeout after {timeout}s, killing", flush=True)
+            subprocess.run(["wineserver", "-k"], env=env)
+            code = -1
+    print(f"exit code {code} after {time.time() - t0:.1f}s", flush=True)
+    return code
+
+
+def read_report(out_dir):
+    path = out_dir / "bot_report.txt"
+    if not path.exists():
+        return {}
+    rep = {}
+    for line in path.read_text().splitlines():
+        if " " in line:
+            k, v = line.split(" ", 1)
+            rep[k] = v
+    return rep
+
+
+def read_trace(out_dir):
+    """bot_trace.txt: frame rng x y z hp rec_idx per logic frame."""
+    path = out_dir / "bot_trace.txt"
+    rows = []
+    if path.exists():
+        for line in path.read_text().splitlines():
+            parts = line.split()
+            if len(parts) >= 7:
+                rows.append(tuple(int(p) for p in parts[:7]))
+    return rows
+
+
+def tail(path, n=20):
+    path = Path(path)
+    if not path.exists():
+        return ""
+    lines = path.read_text(errors="replace").splitlines()
+    return "\n".join(lines[-n:])

@@ -294,6 +294,29 @@ add_library(HookLoader SHARED
 )
 target_compile_definitions(HookLoader PRIVATE DETOURS_X86 DETOURS_32BIT IMGUI_DLL)
 
+# The bot (docs/BOT_DESIGN.md): non original code in its own library, linked into decomp_main only.
+# It reaches the game through globals, EXPORT methods and Detours; no MATCH_FUNC changes.
+set(gta2_bot_src
+  Source/Bot/Bot.hpp
+  Source/Bot/Bot.cpp
+  Source/Bot/BotHeap.hpp
+  Source/Bot/BotHeap.cpp
+  Source/Bot/BotLog.hpp
+  Source/Bot/BotLog.cpp
+  Source/Bot/BotOptions.hpp
+  Source/Bot/BotOptions.cpp
+  Source/Bot/HeapTracker.hpp
+  Source/Bot/HeapTracker.cpp
+  Source/Bot/Hooks.hpp
+  Source/Bot/Hooks.cpp
+  Source/Bot/Snapshot.hpp
+  Source/Bot/Snapshot.cpp
+  Source/3rdParty/Detours/src/detours.cpp
+  Source/3rdParty/Detours/src/disasm.cpp
+)
+add_library(gta2_bot STATIC ${gta2_bot_src})
+target_compile_definitions(gta2_bot PRIVATE DETOURS_X86 DETOURS_32BIT _CRT_SECURE_NO_WARNINGS _CRT_NON_CONFORMING_SWPRINTFS IMGUI_DLL)
+
 add_executable (ExePatcher Source/ExePatcher.cpp)
 if (${MSVC_VERSION} EQUAL 1200)
     target_link_libraries(ExePatcher libcmt.lib libcpmt.lib)
@@ -305,7 +328,7 @@ add_executable (decomp_main WIN32
     test.cpp
     StdAfx.cpp
     resources.rc)
-target_link_libraries(decomp_main mss32 binkw32 gta2_lib ${dplay_libs} dear_imgui)
+target_link_libraries(decomp_main mss32 binkw32 gta2_lib gta2_bot ${dplay_libs} dear_imgui)
 
 if (${MSVC_VERSION} EQUAL 1200)
     target_link_libraries(decomp_main libc.lib libcp.lib)

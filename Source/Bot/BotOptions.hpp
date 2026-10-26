@@ -1,0 +1,42 @@
+#pragma once
+
+#include "types.hpp"
+#include <windows.h>
+
+// Command line of the bot, parsed by the entry point before WinMain_5E53F0 (the game's own
+// ParseCommandLine_4DA320 only knows -R, -Q and -N and upper cases the line in place).
+//
+//   -bot[=<profile>]      idle (default), walk_test, restore_check, replay
+//   -bot_seed=N           BotRng seed
+//   -bot_map=wil          data\wil.gmp, data\wil.sty, data\wil.scr (a value with a '.' is a file name)
+//   -bot_style=<file> -bot_script=<file>
+//   -bot_out=<dir>        logs and reports (default bot_out)
+//   -bot_budget=N         exit after N logic frames
+//   -bot_load=<snap>      restore this snapshot at the first frame (phase 1)
+//   -bot_hash_log         snapshot hash per frame to bot_hash.txt
+//   -bot_nav_dump         text dump of the block grid around the player (phase 2)
+//   -bot_draw / -bot_audio  keep drawing / sound (default: both skipped)
+//   -bot_warmup=N -bot_frames=N  restore_check: frames before the snapshot, frames per run
+//   -bot_walk=N           walk_test: frames to hold forward
+struct BotOptions
+{
+    bool enabled;
+    char profile[64];
+    u32 seed;
+    char map[64];
+    char style[64];
+    char script[64];
+    char out_dir[MAX_PATH];
+    s32 budget_frames;
+    char load_snap[MAX_PATH];
+    bool hash_log;
+    bool nav_dump;
+    bool draw;
+    bool audio;
+    s32 warmup_frames;
+    s32 check_frames;
+    s32 walk_frames;
+};
+
+// Returns false (and leaves *out zeroed except defaults) when the command line has no -bot option
+bool BotOptions_Parse(const char* cmd_line, BotOptions* out);

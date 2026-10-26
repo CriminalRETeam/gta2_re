@@ -15,6 +15,7 @@
 #include "Source/map_0x370.hpp"
 #include "Source/ScriptManager.hpp"
 #include "Globals.hpp"
+#include "Source/Bot/Bot.hpp"
 
 #pragma comment(lib, "Winmm.lib")
 
@@ -188,6 +189,9 @@ s32 APIENTRY WinMain(HINSTANCE hInstance,
 
     LoadBeginSceneCBPtr();
     EnableBoot2MapDebugOptions();
+
+    // -bot on the command line: attach the bot's detours before the game starts (docs/BOT_DESIGN.md)
+    Bot_Init(lpCmdLine);
 
     WinMain_5E53F0(hInstance, hPrevInstance, lpCmdLine, nCmdShow);
 

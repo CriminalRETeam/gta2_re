@@ -1,0 +1,343 @@
+# Bot: design and implementation plan
+
+A bot that plays GTA2 on its own, headless, for coverage and regression of the decompiled game.
+It is given a run profile (reach the level exit, every mission of every gang, every bonus, with or
+without dying) and works out the rest: which phone to answer, how to get there, what the mission
+wants, when to give up on a plan. It plans with GOAP (goal-oriented action planning, as F.E.A.R.
+does) and, unlike F.E.A.R., can test a plan step for real before committing to it, because the
+whole game state can be snapshotted and put back.
+
+This is the GTA2 counterpart of the ALIVE bot design (`alive_reversing`,
+`Source/relive_lib/Bot/BOT_DESIGN.md`). The layers are the same; what differs is forced by this
+codebase: the game is a matching decompilation, so **no matched function can change**, there is no
+mid-level save to build a snapshot on, and the game already has a deterministic input replay
+system that the bot should produce and consume rather than reinvent.
+
+## What the codebase gives us (verified unless marked)
+
+- **Deterministic logic.** Game logic runs in fixed 33 ms frames (`Game_0x40::GetFrameDurationMs`),
+  gated by `timeGetTime` only for pacing (`RunGameFrame_4DA850`). The game's own replay system
+  (`InputRecorder_67F8B0`) records input changes keyed by the RNG index and plays them back with a
+  sync check (`ReplaySyncError`, `bSkip_replay_sync_check`), which is the original developers'
+  evidence that logic is a pure function of inputs and the RNG. The rng (`rng.hpp`) is two
+  words of state.
+- **Unthrottled headless.** `bSkip_draw_67D4EA` makes `RunGameFrame` run a logic frame on every
+  loop iteration and never draw; `bSkip_audio_67D6BE` skips sound. Both are plain globals set from
+  registry debug settings (`Debug::Init_4ABBD0`). `bSkip_frontend_67D53B` skips the menus.
+  *To verify:* starting straight into a chosen map/script without the frontend (what
+  `InitializeGame_4DA4D0` needs in `gGameSession_67E8E0`), and running under xvfb+wine with
+  the D3D9 `d3ddll` never asked to draw (there is a `dma_video` software path if it won't start).
+- **An input seam.** Every frame `do_network_and_local_inputs_4DAF30` calls
+  `InputRecorder_67F8B0::get_input_bits_4CEAC0`, which reads the devices through
+  `InputDevices_1::read_input_device_498DA0(s32* input_bits, u8)` and records the result as a
+  replay in `Live_0` state. The player code then reads `gInputRecorder_67F8B0.field_4_input_bits`
+  through the 12 `field_8_input_masks`. *To verify:* `Live_0` reads through
+  `read_input_device_498DA0` as `Playback_1` does.
+- **Detours in tree.** `Source/HookLoader.cpp` already builds Microsoft Detours (x86) and swaps
+  functions at runtime. A detour patches compiled code at startup; it changes no source, so the
+  match count is untouched.
+- **Non-original code has a home.** `ImGuiDebug.cpp`, `LoadBeginSceneCBPtr` in `winmain.cpp`,
+  `WinMainProxy.cpp`/`test.cpp` (our entry points) show the pattern: separate TUs, called before
+  `WinMain_5E53F0`, reading globals and calling `EXPORT` methods directly.
+- **World data and the game's own path finders.** `Map_0x370` (blocks, slopes, road arrows,
+  zones by type, gang at coords), `RouteFinder` (road junction graph + A* the car AI uses),
+  `PathFinder_2FD4` (the ped grid walker), the ped/car pools, `Player` (score, lives, wanted
+  level, gang respect, weapons), `ScriptManager_C1EA8` (phone triggers, mission flag, counters,
+  briefs shown via `Hud_BriefEntry_18`'s gxt keys), the HUD arrow target.
+- **Pool allocation.** The pools (`PedPool`, `Car_BC_Pool`, `SpritePool`, script pools...) are
+  allocated once at game start (`Game_0x40::Game_0x40` and friends) and reused. *To verify:* no
+  `new`/`malloc` happens during play (124 sites, all look init-time; phase 0 checks by logging).
+- **Symbols for every byte.** `build_vc6/output.map` names every global, which turns a raw memory
+  diff into a list of global names.
+
+## Principles
+
+Same as the ALIVE bot, plus two that this codebase forces:
+
+- **Never touch a matched function.** The bot is non-original code in its own TUs. It reaches the
+  game through globals, `EXPORT` methods and two Detours. If something needs a seam the game
+  doesn't have, add a detour, not a line in a `MATCH_FUNC`.
+- **The game's replay is the bot's output.** A run produces a `.rep` the unmodified game (and
+  the original `10.5.exe`) can play back with its own sync check. That is the regression artefact
+  and the cross-check that the decompiled logic still matches the original's.
+
+And the shared ones: simulate rather than guess (snapshot, try, look, restore), white box, own
+RNG only for ties, fails loudly with a cheap text view and a repro.
+
+## Architecture
+
+```
+ Profile / Goals        all_missions,no_death,seed=7  ->  prioritised goals
+ Planner (GOAP A*)      goal  ->  [GoTo(phone#3), AnswerPhone, FollowArrow, EnterCar(#12), ...]
+ Executors              one state machine per action, input bits per frame, retry via snapshots
+ Navigation             foot: block grid + PathFinder; road: RouteFinder junction graph; driving
+ WorldModel             observe pools/script/player -> entities, facts; the cheap text view
+ Snapshot               writable PE sections + heap blocks, hash, diff by symbol
+ Hooks                  Detours on ExecuteGame_4DA780 (frame) and read_input_device_498DA0 (input)
+```
+
+### Hooks
+
+Two detours, attached in the entry point (`GameMain`/`test.cpp`) when `-bot` is on the command
+line, before `WinMain_5E53F0`:
+
+- `ExecuteGame_4DA780` (plain `EXPORT` function, called once per logic frame right after the
+  inputs are read): the detour runs `Bot::Step()` and then the trampoline. This is the only place
+  the bot thinks, observes, snapshots or restores. Nothing is mid-frame here, so a restore is a
+  plain memory copy.
+- `InputDevices_1::read_input_device_498DA0`: the detour writes the bot's bits into
+  `*input_bits` instead of reading DirectInput. The game then records them into its replay as if
+  a person had pressed the keys, so `test\replay.rep` (or wherever `SaveReplay_4CDED0` writes) is
+  the run's input log, for free, in a format the stock game plays back. `__thiscall` is detoured
+  with the usual `__fastcall(this, edx, ...)` thunk.
+
+No other game code changes. If the bot needs a third seam later (a mission event, a brief being
+shown), it gets a third detour.
+
+### Snapshot
+
+There is no mid-level save, so the snapshot is the process state itself:
+
+- The writable sections of the exe module (`.data`, `.bss`, from the PE section headers of
+  `GetModuleHandle(NULL)`): every `DEFINE_GLOBAL` lives there.
+- Every block of the CRT heap (`HeapWalk` on `_crtheap`): the pools and everything else `new`ed
+  at init. Pointers stay valid across a restore because the blocks are never freed during play
+  (phase 0 verifies).
+- Not the stack (the hook runs at a fixed depth with nothing live) and not the bot's own memory.
+
+Minus an **exclusion list** of ranges that must survive a restore: DirectX/video (`gVidSys`,
+`d3ddll` state), sound (`gRoot_sound`, Miles handles), input devices, `gFpsCounter`, the frame
+pacing globals (`gMatchStartTime_6F5A28`, `gFramesSinceDraw`, `bInputsPending`), and the replay
+recorder's buffer (the bot keeps its own view of what it committed). The list is data, named by
+symbol, and grows as `restore_check` finds things.
+
+The bot keeps itself out of the snapshot by having one global (a pointer in the exclusion list)
+to a `BotState` in a private Win32 heap (`HeapCreate`); bot classes allocate from it through a
+class-scope `operator new`. The bot's memory survives a restore; the world rewinds.
+
+A **restore_check** (the ALIVE tool, same semantics): hash all snapshotted memory at frame N,
+run k frames, hash; restore N, check the hash is N's, run k frames, check the hash is the second
+one. A mismatch means something that matters is outside the snapshot or in the exclusion list.
+The diff tool maps differing bytes to names via `output.map` and prints `<global> <offset>: a vs b`.
+
+Snapshots are per build (addresses); the `.rep` is the durable artefact. A snapshot is ~ the
+size of `.data` + heap (tens of MB); a restore is a memcpy, so a run can afford thousands.
+
+### WorldModel
+
+`Observe()` every frame the bot is awake, producing:
+
+- **Entities** keyed by pool index (stable while the object lives) and kind: Player ped, Peds
+  (occupation, objective, gang, weapon, health, in car), Cars (model, driver, damage, locked,
+  mission car), Phones (ringing, which mission thread they trigger via `field_188_phone_triggers`),
+  Objects (weapons, bonuses, kill frenzy tokens), Zones (gang, navigation, arrow blocker), the HUD
+  arrow target, Police (wanted level, cop peds/cars near), current brief (gxt key + text).
+- **Facts** for the planner: `AtPhone(id)`, `OnMission(id)`, `MissionDone(id)`, `Respect(gang)>=n`,
+  `InCar(id)`, `CarAt(id, zone)`, `WantedLevel(n)`, `Score>=exit`, `BonusCollected(id)`,
+  `Alive`, `Lives(n)`. Taken from the game's own counters and script state, never the bot's
+  bookkeeping.
+
+#### The cheap view
+
+```
+bot f=4812 wil residential profile=all_missions,no_death seed=7 deaths=0 restores=31 budget=40%
+goal Mission(zaibatsu#3) plan=[GoTo phone#9, AnswerPhone, FollowArrow, EnterCar, DriveTo zone] step=3
+brief "2_14" "Steal the Zaibatsu car from the compound and bring it to the garage"
+player x=112.5 y=44.2 z=2 hp=25 lives=3 wanted=1 cash=18400 respect z=+2 l=-1 y=0 oncar=0 weapon=pistol
+arrow -> car#44 x=140.0 y=51.0 (dist 28)
+car#44 zaibatsu_z x=140.0 y=51.0 locked=0 driver=none mission=1
+ped#17 cop x=118 y=46 objective=arrest target=player
+ped#31 zaibatsu x=139 y=50 objective=guard weapon=smg
+phone#9 x=110 y=44 ringing=0 answered=1
+nav foot: at block (112,44,2) -> (140,51) 31 steps via (120,44)(132,48); road: j14 -> j22 -> j31
+blocked: EnterCar(#44) tried x3: shot by ped#31 (f+40, f+38, f+61)
+```
+
+Under 40 lines, integers, no sprite or animation data.
+
+### Navigation
+
+Three modes, each with the game doing the heavy lifting:
+
+- **On foot**: block grid from `Map_0x370::GetBlock`, walkable = pavement/road/slope rules the
+  ped AI uses; `PathFinder_2FD4::ComputePath` for the route, the bot's own executor turns steps
+  into direction bits (8 directions + run). Hazards as attributes: roads (cars), gang zones with
+  low respect, cop proximity.
+- **Driving**: `RouteFinder::InitSearch_589480` from the current block to the destination block
+  gives the junction path the car AI would take; the bot's driving executor follows it with
+  steer/accelerate/brake bits and the road arrows for lane direction. The physics is the hard
+  part; the retry search tunes it (approach speed, when to brake) instead of a perfect model.
+- **Transitions**: `EnterCar`, `ExitCar`, `StealCar(nearest)`. Cars are the default for distance
+  > N blocks when one is reachable.
+
+A `-bot_nav_dump` writes the block grid around the player as text, and the junction path.
+
+### Planner (GOAP)
+
+As in the ALIVE design: `WorldState` of `(FactKey{kind, id}, value)`, action templates
+instantiated per entity each plan, regressive A*, cost in frames (foot/road distance from the nav
+layer), replan on action end/failure/fact change/every N frames, own RNG for ties.
+
+GTA2 actions: `GoTo(place)` (foot or car, planner picks by cost), `AnswerPhone(id)`,
+`FollowArrow` (the mission's current target, whatever it is), `EnterCar(id)`, `StealCar`,
+`DriveTo(zone)`, `DeliverCar(zone)`, `Kill(ped)`, `KillGroup(zone)`, `PickUp(object)`,
+`BuyAt(shop)`, `LoseWanted` (pay'n'spray / cop bribe / wait), `RaiseRespect(gang)` (kill rivals),
+`Wait(n)`, `Die` (profiles that allow it), `StartKillFrenzy(id)`, `ExitLevel`.
+
+Goals from the profile: `StayAlive` (always), `StayUnarrested` with `no_death`,
+`Mission(gang, n)` per phone, `Bonus(id)`, `Score>=exit` then `ExitLevel`, `Explore` as the
+fallback when nothing has a plan.
+
+Missions are the long pole. GTA2 tells the player what to do through briefs (text) and the HUD
+arrow (a target). The bot's generic mission handling is: answer the phone, then alternate
+`FollowArrow` with the action the arrow's target suggests (a car: enter it; a ped: kill or
+follow it; a zone: go there; nothing: wait) until the mission flag clears, reading the outcome
+from the script (completed/failed brief, cash). That generic loop plus the retry search is
+expected to clear the simple missions. For the rest there is a **mission knowledge** table keyed
+by (map, phone/mission id) holding sub-goal sequences, filled first by what the bot learns (which
+arrow targets came in which order on a successful try) and, only where the stuck report shows the
+generic loop can't do it, by a hand-written hint. Hints are data in `bot_runs/`, not code.
+
+### Executors
+
+One class per action, `Start/Step/Abort`, `Step` once per logic frame from the hook, setting the
+input bits for the next frame. Each watches the state it expects to change (ped objective, car
+driver, mission flag) rather than elapsed time, and has a frame budget and a no-progress check.
+Retry is generic: a risky step (near cops, gang zones, a mission car, any driving) is run under a
+snapshot; on failure or death the bot restores and picks the next variant (RNG-ordered: wait,
+different car, approach from the other side, on foot instead), up to the action's retry count.
+With `no_death`, dying inside a rewound try is fine; only the committed run is death-free.
+
+### Determinism and replay
+
+- The committed run is exactly the `.rep` the game recorded. Replaying it in the stock game
+  (`play_replay`) must reach the same end state: that is the regression test, and it also runs on
+  the original `10.5.exe`, which makes it a logic-match test between the original and the decomp.
+- `hash_log`: the snapshot hash per frame, to find the first frame two runs diverge.
+- `BotRng` seeded from `-bot_seed`; the game's rng is never touched. No wall clock in the bot;
+  budgets in frames and restores.
+
+### Stuck detection and the report
+
+The same four conditions (`no_plan`, `action_failed`, `no_progress`, `budget`) and the same
+outputs: `bot_report.txt` (condition, cheap view, last 50 decisions, nearest miss for `no_plan`),
+`bot_stuck.snap` (the snapshot at the start of the failing action, for same-build repro),
+`bot_run.rep` (the committed inputs), `bot_log.txt`. Repro: `-bot=<profile> -bot_seed=N
+-bot_load=bot_stuck.snap`, seconds. A challenge is named (map, mission/goal) so it can be tracked.
+
+## Integration
+
+- Command line (parsed by the entry point, not by `WinMain_5E53F0`): `-bot=<profile>`,
+  `-bot_seed=N`, `-bot_map=<map> -bot_script=<scr>`, `-bot_out=<dir>`, `-bot_budget=<frames>`,
+  `-bot_load=<snap>`, `-bot_nav_dump`, `-bot_hash_log`. `-bot` implies `bSkip_draw`,
+  `bSkip_audio`, `bSkip_frontend`.
+- Build: `Source/Bot/` is a static library (`gta2_bot`) compiled with VC6 like the rest, linked
+  into `decomp_main` only. It includes the game headers directly (as `ImGuiDebug.cpp` does) and
+  the Detours sources `HookLoader` already builds. Keep the C++ VC6-friendly: no templates beyond
+  what the STL in `HookLoader.cpp` already proves works, no C++11.
+- Tests: `Scripts/bot/` holds Python drivers (the repo's test style): `restore_check.py`,
+  `replay_check.py` (bot run, then stock playback, compare hash logs), `bot_runs/` with a script
+  per (map, profile) and its expected end state. They run under xvfb+wine like CI's build.
+
+## Code layout
+
+```
+Source/Bot/
+  Bot.hpp/.cpp             the hook target: profile, budgets, goal loop, retry, logs, report
+  BotOptions.hpp/.cpp      command line and profile parsing
+  BotHeap.hpp/.cpp         private heap, class-scope operator new base
+  BotRng.hpp
+  Hooks.hpp/.cpp           the two detours and their thunks
+  Snapshot.hpp/.cpp        sections + heap walk, exclusion list, hash, restore, diff by symbol
+  WorldModel.hpp/.cpp      Observe, entities, facts, Text()
+  NavFoot.hpp/.cpp         block grid + PathFinder wrapper
+  NavRoad.hpp/.cpp         RouteFinder wrapper, junction path
+  Driving.hpp/.cpp         the driving controller
+  Goap/WorldState, Action, Planner, Goals
+  Actions/*.cpp            one executor per action
+  Missions.hpp/.cpp        generic arrow-follow loop + knowledge table
+  BotLog.hpp/.cpp          decisions, report
+Scripts/bot/               drivers, restore_check, replay_check, bot_runs/
+```
+
+## Implementation plan
+
+### Phase 0: seams and prerequisites
+
+1. `-bot` command line in the entry point; `bSkip_draw/audio/frontend`; boot straight into a
+   map + script (find what `gGameSession` needs). Check: the game runs a level headless under
+   xvfb+wine at thousands of frames a second.
+2. The two detours. Check: a hard-coded "hold forward for 100 frames" moves the player, and the
+   game writes a `.rep` that plays back in the stock game to the same position.
+3. `Snapshot`: sections + heap walk, hash, restore, `restore_check` driver, diff by `output.map`
+   symbol. Log any `new`/`malloc` during play (a detour on the CRT allocator for the check).
+   Check: `restore_check` passes over 300 frames of traffic and peds with nothing excluded but the
+   known device/timing ranges; the exclusion list is written down with the reason for each entry.
+
+### Phase 1: skeleton end to end
+
+`Bot`, `BotOptions`, `BotHeap`, `BotRng`, `WorldModel` with every entity kind and `Text()`,
+`BotLog`, the stuck report, `-bot_load`. One hard-coded behaviour: walk towards the arrow target;
+report `action_failed` when blocked.
+
+Check: a report with the cheap view and a `.snap`; `-bot_load` reproduces the view; the `.rep`
+replays to the same `hash_log`.
+
+### Phase 2: navigation
+
+`NavFoot` (grid, `PathFinder`, 8-direction executor, slopes, roads as hazards), `NavRoad`
+(`RouteFinder` junction path), `Driving` (follow a junction path; retry-tuned parameters),
+`EnterCar`/`ExitCar`/`StealCar`. Generic retry with snapshots.
+
+Check: `GoTo` on foot between two far blocks in Downtown; `GoTo` by car across the map; a nav dump
+eyeballed; a crash during a driving variant is rewound and the next variant tried.
+
+### Phase 3: planner and the `any` profile
+
+`WorldState`, action templates, regressive A*, goal selection, replan triggers, `Explore`.
+Actions: `GoTo`, `PickUp`, `Kill`, `StartKillFrenzy`, `LoseWanted`, `ExitLevel`. Profile `any`:
+reach the exit score by frenzies and bonuses, then exit.
+
+Check: planner unit tests (toy states, nearest miss, deterministic ties); `any` on Downtown
+reaches `AreaCompleted_4`; the `.rep` replays; a `no_plan` report when the exit is made
+unreachable names the missing fact.
+
+### Phase 4: missions
+
+`AnswerPhone`, `FollowArrow`, `DeliverCar`, `KillGroup`, `RaiseRespect`, the generic mission loop,
+mission outcome from script state, the knowledge table and learning. Profile `all_missions`
+with respect ordering as a planner cost.
+
+Check: every mission of one gang in Downtown; the stuck reports for the others each become a
+tracked challenge; `no_death` variant replays death-free.
+
+### Phase 5: hazards and the rest of the profiles
+
+Cops and wanted levels, gang zones, trains and buses, kill frenzies as `all_bonuses`,
+`max_score`, `Die` where allowed, pay'n'spray and shops.
+
+Check: `all_missions` across Downtown; the remaining stuck reports listed.
+
+### Phase 6: whole-game runs and regression
+
+Residential and Industrial, the level transition, `bot_runs/` with per-(map, profile) scripts,
+a replay-only mode (fast regression: play the stored `.rep` in the decomp and check the hash
+log and end state) and a re-solve mode. Run the stored `.rep` through the original `10.5.exe`
+as the match test.
+
+## Risks and open points
+
+- Headless D3D9 under xvfb+wine may not initialise; fall back to the `dma_video` path or stub the
+  video globals before `WinMain`. Phase 0 settles it.
+- `HeapWalk` under wine: if it misbehaves, detour the CRT allocator at startup and keep the block
+  list ourselves (same list the alloc-during-play check needs anyway).
+- Anything the logic reads from the clock or the sound system (the RNG seed, `timeGetTime` in
+  script commands) shows up as a `restore_check` failure; each one is either excluded with a
+  reason or detoured to a deterministic source.
+- Driving is the biggest executor; expect most retry budget to go there early.
+- Missions that need the bot to lose something on purpose (die to reset, abandon a car) are left
+  until a run needs them.
+- Alternative kept in reserve: build the bot as a separate modern-C++ DLL reading globals by
+  address from `output.map`. More comfortable language, but it would need `__thiscall` thunks for
+  every game method it calls and a regenerated address header per build; the VC6 static lib
+  shares the headers and needs neither.
