@@ -3213,7 +3213,7 @@ void ScriptThread::IsOnScreen_50A760()
 {
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(gBasePtr_6F8070->field_8_index));
 
-    s8 onScreen;
+    bool onScreen;
 
     switch (ScriptThread::GetEntityTypeOfCommand_503410(pPointer->field_2_type))
     {
