@@ -2724,7 +2724,7 @@ void CC ImGuiDebugDraw()
                             pPedIter->field_21C_bf.bAttacking);
                             DisplayWideTextAtSprite(tmpBuff_67BD9C, pPedIter->GetSprite_46DF50(), 0, 0);
                         }
-                        else if (pPedIter->field_258_objective == objectives_enum::objective_7)
+                        else if (pPedIter->field_258_objective == objectives_enum::run_to_char_7)
                         {
                             DisplayTextAtSprite("Obj 7", pPedIter->GetSprite_46DF50(), 0, 0);
                         }
@@ -2732,11 +2732,11 @@ void CC ImGuiDebugDraw()
                         {
                             DisplayTextAtSprite("Obj 8", pPedIter->GetSprite_46DF50(), 0, 0);
                         }
-                        else if (pPedIter->field_258_objective == objectives_enum::objective_9)
+                        else if (pPedIter->field_258_objective == objectives_enum::follow_char_9)
                         {
                             DisplayTextAtSprite("Obj 9", pPedIter->GetSprite_46DF50(), 0, 0);
                         }
-                        else if (pPedIter->field_258_objective == objectives_enum::objective_10) 
+                        else if (pPedIter->field_258_objective == objectives_enum::follow_char_in_car_10) 
                         {
                             DisplayTextAtSprite("Obj 10", pPedIter->GetSprite_46DF50(), 0, 0);
                         }
@@ -2744,11 +2744,11 @@ void CC ImGuiDebugDraw()
                         {
                             DisplayTextAtSprite("Obj 11", pPedIter->GetSprite_46DF50(), 0, 0);
                         }
-                        else if (pPedIter->field_258_objective == objectives_enum::objective_15) 
+                        else if (pPedIter->field_258_objective == objectives_enum::follow_path_points_15) 
                         {
                             DisplayTextAtSprite("Obj 15", pPedIter->GetSprite_46DF50(), 0, 0);
                         }
-                        else if (pPedIter->field_258_objective == objectives_enum::objective_17) 
+                        else if (pPedIter->field_258_objective == objectives_enum::walk_to_point_17) 
                         {
                             DisplayTextAtSprite("Obj 17", pPedIter->GetSprite_46DF50(), 0, 0);
                         }

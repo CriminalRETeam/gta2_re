@@ -3892,7 +3892,7 @@ void Ped::UpdateAI_462280()
             if (field_258_objective != objectives_enum::flee_char_on_foot_always_3 &&
                 field_258_objective != objectives_enum::flee_char_always_once_car_stopped_6)
             {
-                if (field_25C_internal_objective != objectives_enum::flee_char_on_foot_always_3 && field_25C_internal_objective != objectives_enum::objective_7)
+                if (field_25C_internal_objective != objectives_enum::flee_char_on_foot_always_3 && field_25C_internal_objective != objectives_enum::run_to_char_7)
                 {
                     Ped::Threat_Reaction_AI_465270();
                     if (field_144_attacker)
@@ -4625,12 +4625,12 @@ void Ped::SetStatesForObjective_4633E0(char_type bMainObj)
         case objectives_enum::leave_train_38:
             state = field_168_game_object ? 1 : 7;
             break;
-        case objectives_enum::objective_7:
-        case objectives_enum::objective_9:
+        case objectives_enum::run_to_char_7:
+        case objectives_enum::follow_char_9:
         case objectives_enum::objective_11:
         case objectives_enum::goto_area_on_foot_12:
         case objectives_enum::goto_char_on_foot_16:
-        case objectives_enum::objective_17:
+        case objectives_enum::walk_to_point_17:
         case objectives_enum::objective_18:
         case objectives_enum::kill_char_on_foot_20:
         case objectives_enum::punch_char_23:
@@ -4833,8 +4833,8 @@ void Ped::SetObjective2_463830(s32 internal_objective, s16 internal_objective_ti
             case objectives_enum::flee_char_on_foot_always_3:
                 mode = 2;
                 break;
-            case objectives_enum::objective_7:
-            case objectives_enum::objective_9:
+            case objectives_enum::run_to_char_7:
+            case objectives_enum::follow_char_9:
             case objectives_enum::objective_11:
             case objectives_enum::goto_area_on_foot_12:
             case objectives_enum::objective_18:
@@ -4857,7 +4857,7 @@ void Ped::SetObjective2_463830(s32 internal_objective, s16 internal_objective_ti
             case objectives_enum::leave_car_36:
                 mode = 7;
                 break;
-            case objectives_enum::objective_17:
+            case objectives_enum::walk_to_point_17:
             {
                 mode = 3;
                 x_int = this->field_1AC_cam.x.ToUInt8();
@@ -5042,7 +5042,7 @@ void Ped::ProcessMainObjective_463AA0()
             case objectives_enum::leave_train_38:
                 Ped::LeaveTrain_468A00();
                 break;
-            case objectives_enum::objective_33:
+            case objectives_enum::leave_car_and_stop_33:
                 Ped::LeaveCarThenStop_468BD0();
                 break;
             case objectives_enum::objective_50:
@@ -5057,7 +5057,7 @@ void Ped::ProcessMainObjective_463AA0()
             case objectives_enum::wait_in_car_27:
                 Ped::WaitInCurrentCar_469FC0();
                 break;
-            case objectives_enum::objective_10:
+            case objectives_enum::follow_char_in_car_10:
                 Ped::FollowPedInCar_469F30();
                 break;
             case objectives_enum::call_police_car_54:
@@ -5204,10 +5204,10 @@ void Ped::ProcessInternalObjective_463FB0()
             case objectives_enum::flee_char_on_foot_always_3:
                 Ped::FleeFromPedAlways_46AAE0();
                 break;
-            case objectives_enum::objective_7:
+            case objectives_enum::run_to_char_7:
                 Ped::CheckFollowTargetPedStillValid_46AB50();
                 break;
-            case objectives_enum::objective_9:
+            case objectives_enum::follow_char_9:
                 Ped::FollowTargetStateMachine_46AC20();
                 break;
             case objectives_enum::objective_11:
@@ -5234,10 +5234,10 @@ void Ped::ProcessInternalObjective_463FB0()
             case objectives_enum::goto_area_on_foot_12:
                 Ped::GotoAreaOnFoot_46C7E0();
                 break;
-            case objectives_enum::objective_15:
+            case objectives_enum::follow_path_points_15:
                 Ped::FollowPathPoints_46C910();
                 break;
-            case objectives_enum::objective_17:
+            case objectives_enum::walk_to_point_17:
                 Ped::WalkToTargetPoint_46C770();
                 break;
             case objectives_enum::goto_area_in_car_14:
@@ -5612,13 +5612,13 @@ void Ped::Threat_Reaction_AI_465270()
                 {
                     if (field_164_ped_group->IsMemberTooFarFromLeader_4CAC20(field_23C_group_idx))
                     {
-                        Ped::SetObjective2_463830(objectives_enum::objective_7);
+                        Ped::SetObjective2_463830(objectives_enum::run_to_char_7);
                         SetInternalTargetPed_403AE0(field_164_ped_group->field_2C_ped_leader);
                         SetPanicking_403950();
                     }
                     if (field_164_ped_group->IsLeaderEnteringCarOrTrain_4C9220() && field_164_ped_group->IsLeaderCloseToTargetCar_4CAD40())
                     {
-                        Ped::SetObjective2_463830(objectives_enum::objective_7);
+                        Ped::SetObjective2_463830(objectives_enum::run_to_char_7);
                         SetInternalTargetPed_403AE0(field_164_ped_group->field_2C_ped_leader);
                         SetPanicking_403950();
                     }
@@ -7261,7 +7261,7 @@ void Ped::KillCharOnFoot_467CA0()
 
         if (field_148_objective_target_ped->IsInvisibleOnFoot_433DA0())
         {
-            if (field_25C_internal_objective == objectives_enum::objective_17)
+            if (field_25C_internal_objective == objectives_enum::walk_to_point_17)
             {
                 return;
             }
@@ -8179,7 +8179,7 @@ void Ped::GotoAreaByAnyMeans_469060()
                     break;
                 }
 
-                case objectives_enum::objective_9:
+                case objectives_enum::follow_char_9:
                     if (field_164_ped_group->Get_F3C_433370() != 1)
                     {
                         if (field_158_escape_car)
@@ -8716,7 +8716,7 @@ void Ped::CallPoliceCar_469FE0()
     {
         this->field_24C_target_car_door = 2;
         SetObjective2_463830(objectives_enum::no_obj_0);
-        SetObjective(objectives_enum::objective_33);
+        SetObjective(objectives_enum::leave_car_and_stop_33);
         this->SetTargetObjectiveCar(this->field_16C_car);
     }
 }
@@ -9905,7 +9905,7 @@ void Ped::ExitCarStateMachine_46C250()
 
         if (!this->field_248_enter_car_as_passenger)
         {
-            if (this->field_258_objective != objectives_enum::objective_33)
+            if (this->field_258_objective != objectives_enum::leave_car_and_stop_33)
             {
                 field_154_target_to_enter->ClearDriver_4407F0();
             }

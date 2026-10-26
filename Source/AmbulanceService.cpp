@@ -585,7 +585,7 @@ void AmbulanceTask::HandleObjectiveState_4FAAC0()
                     }
                     field_8_leader_patient = pPatient;
                 }
-                else if (gParamedicCrewPed_6F6D60->GetInternalObjective_403A90() == objectives_enum::objective_9)
+                else if (gParamedicCrewPed_6F6D60->GetInternalObjective_403A90() == objectives_enum::follow_char_9)
                 {
                     pPatient = field_10_patients.RemoveFirstPed_471320();
                     if (pPatient)
