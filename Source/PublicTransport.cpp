@@ -523,7 +523,7 @@ void Train::ProcessTrainExplosionChain_578670()
             {
                 if (car_idx > 0)
                 {
-                    *(reinterpret_cast<u8*>(&field_C_carriages[10]) + car_idx + 3) = 10;
+                    field_38_explosion_timers[car_idx - 1] = 10;
                 }
                 else if (car_idx < field_43_idx - 1)
                 {
@@ -543,7 +543,7 @@ void Train::ProcessTrainExplosionChain_578670()
                     field_C_carriages[car_idx + 1]->AccumulateDamage_43DA90(32000, &kZeroPoint_6FF150);
                     if (car_idx > 0)
                     {
-                        *(reinterpret_cast<u8*>(&field_C_carriages[10]) + car_idx + 3) = 10;
+                        field_38_explosion_timers[car_idx - 1] = 10;
                     }
                     if (car_idx < field_43_idx - 1)
                     {
