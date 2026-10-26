@@ -547,7 +547,7 @@ s32 __stdcall CarInfoTable::StrToInt_431080(const char* pStr, s16* pOut)
 }
 
 MATCH_FUNC(0x440860)
-Fix16 PixelsToFix16Table::SignedPixelsToFix16_440860(s8 pixels)
+Fix16 PixelsToFix16Table::SignedPixelsToFix16_440860(s8 pixels) const
 {
     if (pixels < 0)
     {
@@ -641,7 +641,7 @@ void ModelPhysics::ConvertMass_454680()
 }
 
 MATCH_FUNC(0x4546b0)
-ModelPhysics* CarInfoTable::GetModelPhysicsFromIdx_4546B0(u8 model_idx)
+ModelPhysics* CarInfoTable::GetModelPhysicsFromIdx_4546B0(u8 model_idx) const
 {
     return field_404_model_physics_array[model_idx];
 }
@@ -695,7 +695,7 @@ void CarInfoTable::LoadModelPhysics_4546D0()
 }
 
 MATCH_FUNC(0x454840)
-CarInfo_2C* CarInfoTable::GetInfoAtIdx_454840(u8 idx)
+CarInfo_2C* CarInfoTable::GetInfoAtIdx_454840(u8 idx) const
 {
     return field_0_ptr_array[idx];
 }

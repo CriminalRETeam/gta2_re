@@ -19,7 +19,7 @@ struct PixelsToFix16Table
 {
     EXPORT PixelsToFix16Table();
 
-    Fix16 SignedPixelsToFix16_41FE70(const s8& pixels)
+    Fix16 SignedPixelsToFix16_41FE70(const s8& pixels) const
     {
         if (pixels < 0)
         {
@@ -30,7 +30,7 @@ struct PixelsToFix16Table
 
     // This one won't match with a ref argument even though its the
     // same as the above function :')
-    EXPORT Fix16 SignedPixelsToFix16_440860(s8 pixels);
+    EXPORT Fix16 SignedPixelsToFix16_440860(s8 pixels) const;
 
     Fix16 list[256];
 };
@@ -62,7 +62,7 @@ class ModelPhysics
     Fix16 field_40_gear2_speed;
     Fix16 field_44_gear3_speed;
 
-    Fix16 get_anti_strngth()
+    Fix16 get_anti_strngth() const
     {
         return field_2C_anti_strngth;
     }
@@ -94,9 +94,9 @@ GTA2_ASSERT_SIZEOF_ALWAYS(CarInfo_2C, 0x2C);
 class CarInfoTable
 {
   public:
-    EXPORT ModelPhysics* GetModelPhysicsFromIdx_4546B0(u8 model_idx);
+    EXPORT ModelPhysics* GetModelPhysicsFromIdx_4546B0(u8 model_idx) const;
     EXPORT void LoadModelPhysics_4546D0();
-    EXPORT CarInfo_2C* GetInfoAtIdx_454840(u8 idx);
+    EXPORT CarInfo_2C* GetInfoAtIdx_454840(u8 idx) const;
     EXPORT void CalculateAllCarInfo_454850();
     EXPORT void ConvertAllMass_4549C0();
     EXPORT void LoadFromGciFile_454A00(const char_type* pGciFilePath);
