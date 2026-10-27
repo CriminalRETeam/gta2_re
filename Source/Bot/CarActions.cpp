@@ -309,7 +309,7 @@ static DriveArc Drive_Arc(const BotContext& ctx, float heading_deg, float hdir, 
                 {
                     arc.car_hit = true;
                     const bool oncoming = oc.speed > 0.12f && oc.vx * fx + oc.vy * fy < -0.10f;
-                    hard_car = (oncoming || oc.police) ? 25.0f : 8.0f;
+                    hard_car = (oncoming || oc.police) ? 25.0f : 4.0f;
                     break;
                 }
             }
@@ -318,7 +318,7 @@ static DriveArc Drive_Arc(const BotContext& ctx, float heading_deg, float hdir, 
     arc.wall_d = driven;
     // an arc that ends pointing away from the aim point is no better than one that ends a little short of it
     const float bearing = Bot_HeadingDeg(aim_x - x, aim_y - y);
-    arc.cost = sqrtf((aim_x - x) * (aim_x - x) + (aim_y - y) * (aim_y - y)) + fabsf(Bot_WrapDeg(bearing - h)) * (6.0f / 57.3f) + hard_car;
+    arc.cost = sqrtf((aim_x - x) * (aim_x - x) + (aim_y - y) * (aim_y - y)) + fabsf(Bot_WrapDeg(bearing - h)) * (12.0f / 57.3f) + hard_car;
     if (wall)
     {
         arc.cost += 20.0f + (reach - driven) * 3.0f;
