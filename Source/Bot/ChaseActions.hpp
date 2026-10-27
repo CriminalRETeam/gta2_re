@@ -13,6 +13,7 @@ struct CarPick
     s32 banned[8];
     s32 banned_count;
 };
+bool Cars_BadModel(s32 model);
 bool Cars_Pick(BotContext& ctx, const CarPick& ban, float max_dist, bool prefer_fast, s32* out_id, bool* out_hijack, float* out_path);
 
 // Drives the car the player is in at another car and rams it: aims where the target will be,

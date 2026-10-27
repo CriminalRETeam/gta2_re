@@ -146,7 +146,8 @@ s32 Goals_FirstGang(const WorldModel& w, const char* text);
 class KillGangGoal : public Action
 {
   public:
-    KillGangGoal(s32 gang_idx, s32 kills, s32 max_frames);
+    // owner_gang / target_respect: also done as soon as that gang's respect for the player reaches the target
+    KillGangGoal(s32 gang_idx, s32 kills, s32 max_frames, s32 owner_gang = -1, s32 target_respect = 0);
     ~KillGangGoal();
 
     virtual const char* Name() const
@@ -189,6 +190,10 @@ class KillGangGoal : public Action
     s32 mCarTries;
     s32 mCarBan[8];
     s32 mCarBanCount;
+    s32 mOwner;
+    s32 mTargetRespect;
+    s32 mFlees;
+    bool mFleeing;
 };
 
 // Picks up what makes the next fight survivable: full health, armour and a better weapon than the
@@ -269,6 +274,7 @@ class DestroyCarGoal : public Action
     s32 mBan[8];
     s32 mBanCount;
     s32 mStart;
+    s32 mReclaims;
 };
 
 // One phone: prepare, answer it, play the mission it starts
@@ -359,6 +365,8 @@ class MissionsGoal : public Action
         s32 respect_at_refusal_v[WorldModel::kMaxGangs];
         s32 hint_gang;       // whom to kill for respect, -1 unknown
         s32 kills_asked;     // kills asked for so far (doubles each refusal)
+        s32 owner_gang;      // the gang whose territory the phone is in, -1 unknown
+        s32 target_respect;  // the respect asked for the last time it refused
     };
 
     PhoneMemory* Memory(s32 id, bool create);
@@ -371,6 +379,7 @@ class MissionsGoal : public Action
     MissionGoal* mChild;
     Action* mRaise;        // killing a gang for respect
     s32 mRaisePhone;
+    s32 mPreferPhone; // the phone whose respect was just raised: try it first
     Snapshot* mSnap;
     PhoneMemory mMemory[kMaxPhones];
     s32 mMemoryCount;

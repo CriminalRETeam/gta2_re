@@ -7,6 +7,31 @@
 #include <string.h>
 #include "BotCompat.hpp"
 
+// Models the bot never takes: emergency and public vehicles (the driver is a service worker who comes after the
+// player, an ambulance cannot be driven off), trains, articulated lorries and slow vans
+bool Cars_BadModel(s32 model)
+{
+    switch (model)
+    {
+        case 6:  // boxcar
+        case 11: // bus
+        case 12: // police car
+        case 17: // fire truck
+        case 23: case 24: case 25: case 26: // hot dog vans
+        case 27: // ice cream van
+        case 34: // ambulance
+        case 52: // swat van
+        case 54: // tank
+        case 55: // tanker
+        case 58: // tow truck
+        case 59: case 60: case 61: // trains
+        case 63: case 64: case 65: case 66: // lorry cabs and trailers
+            return true;
+        default:
+            return false;
+    }
+}
+
 bool Cars_Pick(BotContext& ctx, const CarPick& ban, float max_dist, bool prefer_fast, s32* out_id, bool* out_hijack, float* out_path)
 {
     const WorldModel& w = *ctx.world;
@@ -26,11 +51,11 @@ bool Cars_Pick(BotContext& ctx, const CarPick& ban, float max_dist, bool prefer_
         {
             banned = banned || ban.banned[b] == c.idx;
         }
-        if (banned || c.locked || c.police || c.mission || c.damage > 1500 || c.dist > max_dist)
+        if (banned || c.locked || c.police || c.mission || c.damage > 1500 || c.dist > max_dist || Cars_BadModel(c.model))
         {
             continue;
         }
-        if (c.has_driver && (c.speed > 0.03f || pl.wanted_stars > 0 || cops_near || c.dist > 7.0f))
+        if (c.has_driver && (c.speed > 0.03f || pl.wanted_stars > 0 || cops_near || c.dist > 10.0f))
         {
             continue; // moving traffic cannot be boarded, a hijack in front of the police ends in an arrest, and a car
                       // waiting at a light drives off before we are there unless it is right beside us
@@ -39,16 +64,13 @@ bool Cars_Pick(BotContext& ctx, const CarPick& ban, float max_dist, bool prefer_
         {
             continue;
         }
-        if (c.has_driver && ctx.nav->PathLength() > 10)
+        if (c.has_driver && ctx.nav->PathLength() > 14)
         {
             continue; // by the time we have walked there it has driven off
         }
         // a hijack is dearer than a parked car: the driver fights back
         float cost = static_cast<float>(ctx.nav->PathLength()) + (c.has_driver ? 25.0f : 0.0f) + static_cast<float>(c.damage) * 0.01f;
-        if (prefer_fast)
-        {
-            cost -= c.top_speed * 6.0f; // a fast car is worth a walk
-        }
+        cost -= c.top_speed * (prefer_fast ? 6.0f : 2.0f); // a fast car is worth a walk
         if (cost < best)
         {
             best = cost;
@@ -273,8 +295,11 @@ Action::Status RamCarAction::Step(BotContext& ctx)
     const float aerr = fabsf(err);
     if (aerr > 120.0f && mSpeed < 0.06f)
     {
-        // it is behind us and we are slow: reverse round
-        ctx.input |= input_bit::Backward;
+        // it is behind us and we are slow: reverse round (the steering works the other way when backing)
+        const bool l = (ctx.input & input_bit::Left) != 0;
+        const bool rt = (ctx.input & input_bit::Right) != 0;
+        ctx.input &= ~(input_bit::Left | input_bit::Right);
+        ctx.input |= (l ? input_bit::Right : 0) | (rt ? input_bit::Left : 0) | input_bit::Backward;
     }
     else if (aerr > 55.0f)
     {

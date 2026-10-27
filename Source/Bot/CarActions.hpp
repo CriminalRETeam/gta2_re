@@ -91,6 +91,10 @@ class DriveAction : public Action
     float mBestWpDist;
     s32 mBestWpFrame;
     s32 mLastWpIdx;
+    s32 mTurnUntil;
+    s32 mTurnEnd;
+    bool mTurnReverse;
+    s32 mBehindSince;
 };
 
 // Creeps the car the player is in onto (x, y) to within tol tiles and stops there: a mission

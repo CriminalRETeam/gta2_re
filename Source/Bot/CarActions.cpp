@@ -93,7 +93,7 @@ Action::Status EnterCarAction::Step(BotContext& ctx)
         return Running;
     }
 
-    if (ctx.frame - mPressStart > 160)
+    if (ctx.frame - mPressStart > 90)
     {
         return Fail("action_failed", "enter_car: pressing enter for 160 frames next to car #%d (dist %.1f) did not get the ped in", mCarId, car.dist);
     }
@@ -159,12 +159,20 @@ DriveAction::DriveAction(float x, float y, float stop_dist)
     , mBestWpDist(1e9f)
     , mBestWpFrame(0)
     , mLastWpIdx(-1)
+    , mTurnUntil(0)
+    , mTurnEnd(0)
+    , mTurnReverse(false)
+    , mBehindSince(0)
 {
 }
 
 void DriveAction::Start(BotContext& ctx)
 {
     ctx.road->ClearBans();
+    mTurnUntil = 0;
+    mTurnEnd = 0;
+    mTurnReverse = false;
+    mBehindSince = 0;
     mPlanned = false;
     mRetries = 0;
     mHavePrev = false;
@@ -425,8 +433,12 @@ Action::Status DriveAction::Step(BotContext& ctx)
         if (first_obstacle > 0.0f)
         {
             // the speed that still lets the car stop before the obstacle: none inside 2.2 tiles
-            float allowed = (first_obstacle - 2.2f) * 0.04f;
+            float allowed = (first_obstacle - 1.4f) * 0.06f;
             allowed = allowed < 0.0f ? 0.0f : allowed;
+            if (first_obstacle > 1.9f && allowed < 0.03f)
+            {
+                allowed = 0.03f; // keep creeping: stopping dead in front of every kerb and corner is what makes it crawl
+            }
             cap = allowed < cap ? allowed : cap;
             if (ctx.frame % 40 == 0)
             {
@@ -438,10 +450,28 @@ Action::Status DriveAction::Step(BotContext& ctx)
     {
         cap *= 0.5f;
     }
-    if (fabsf(err) > 110.0f)
+    if (fabsf(err) <= 100.0f)
     {
-        // target behind: reverse out while turning
-        ctx.input |= input_bit::Backward;
+        mBehindSince = 0;
+    }
+    if (fabsf(err) > 100.0f)
+    {
+        // The target is behind. Backing towards it works for a while (it is what a parked car does to
+        // leave a kerb); if that has not turned the car in 120 frames, go forward with the wheel over
+        // instead of backing off for ever.
+        if (mBehindSince == 0)
+        {
+            mBehindSince = ctx.frame;
+        }
+        const s32 behind = ctx.frame - mBehindSince;
+        if ((behind < 120 || behind % 240 >= 120) && cap < 0.03f + 0.2f)
+        {
+            ctx.input |= input_bit::Backward;
+        }
+        else if (mSpeed < 0.10f)
+        {
+            ctx.input |= input_bit::Forward;
+        }
     }
     else if (fabsf(err) > 55.0f)
     {

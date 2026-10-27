@@ -234,7 +234,7 @@ Action::Status WalkAction::Step(BotContext& ctx)
                 break;
             }
         }
-        if (road_ahead && mTrafficWait < 600)
+        if (road_ahead && mTrafficWait < 240)
         {
             bool danger = false;
             for (int c = 0; c < ctx.world->car_count; c++)
@@ -272,7 +272,7 @@ Action::Status WalkAction::Step(BotContext& ctx)
         mProgressFrame = ctx.frame;
         return Running;
     }
-    if (ctx.frame - mProgressFrame > 35 && mNudges < 6 && ctx.world->car_count > 0 && ctx.world->cars[0].dist < 1.6f && !ctx.world->cars[0].has_driver)
+    if (ctx.frame - mProgressFrame > 15 && mNudges < 10 && ctx.world->car_count > 0 && ctx.world->cars[0].dist < 1.9f && ctx.world->cars[0].speed < 0.03f)
     {
         const WorldModel::CarInfo& pc = ctx.world->cars[0];
         float ax = pl.x - pc.x;
@@ -289,12 +289,12 @@ Action::Status WalkAction::Step(BotContext& ctx)
             ay /= al;
         }
         // away from the car, turned 45 degrees to the left or the right of that
-        const float turn = (mNudges % 2 == 0) ? 0.785f : -0.785f;
+        const float turn = (mNudges % 2 == 0) ? 1.2f : -1.2f; // nearly sideways: round the bumper
         const float c = cosf(turn);
         const float s = sinf(turn);
         mNudgeX = pl.x + (ax * c - ay * s) * 2.5f;
         mNudgeY = pl.y + (ax * s + ay * c) * 2.5f;
-        mNudgeUntil = ctx.frame + 30;
+        mNudgeUntil = ctx.frame + 36;
         BotDecision("f=%d walk: parked car #%d %.1f tiles away in the way at (%.1f,%.1f); sliding round it towards (%.1f,%.1f) (%d)", ctx.frame, pc.idx, pc.dist, pl.x, pl.y, mNudgeX, mNudgeY, mNudges + 1);
         mNudges++;
         return Running;
@@ -315,7 +315,7 @@ Action::Status WalkAction::Step(BotContext& ctx)
         mProgressFrame = ctx.frame;
         return Running;
     }
-    if (ctx.frame - mProgressFrame > 70 && mJumps < 3 && mPathIdx < len)
+    if (ctx.frame - mProgressFrame > 30 && mJumps < 4 && mPathIdx < len)
     {
         mJumps++;
         mJumpStart = ctx.frame;
@@ -327,22 +327,18 @@ Action::Status WalkAction::Step(BotContext& ctx)
     // A car in the way (traffic at a crossing): step back and let it go before calling it stuck
     if (ctx.frame < mYieldUntil)
     {
-        if (mYieldUntil - ctx.frame > 40)
-        {
-            ctx.input = input_bit::Backward;
-        }
-        mProgressFrame = ctx.frame;
+        mProgressFrame = ctx.frame; // stand still while a moving car goes by
         return Running;
     }
-    if (ctx.frame - mProgressFrame > 25 && mYields < 8 && ctx.world->car_count > 0 && ctx.world->cars[0].dist < 1.9f)
+    if (ctx.frame - mProgressFrame > 25 && mYields < 3 && ctx.world->car_count > 0 && ctx.world->cars[0].dist < 1.9f && ctx.world->cars[0].speed >= 0.03f)
     {
         mYields++;
-        mYieldUntil = ctx.frame + 60;
+        mYieldUntil = ctx.frame + 30;
         BotDecision("f=%d walk: car #%d (driver %d) %.1f tiles away in the way at (%.1f,%.1f); yielding (%d)", ctx.frame, ctx.world->cars[0].idx, ctx.world->cars[0].has_driver, ctx.world->cars[0].dist, pl.x, pl.y, mYields);
         return Running;
     }
 
-    if (ctx.frame - mProgressFrame > 120)
+    if (ctx.frame - mProgressFrame > 70)
     {
         const NavNode blocked = ctx.nav->PathAt(mPathIdx);
         char detail[200];
@@ -353,7 +349,7 @@ Action::Status WalkAction::Step(BotContext& ctx)
             const WorldModel::CarInfo& c = ctx.world->cars[0];
             _snprintf(near_things, sizeof(near_things), "; nearest car #%d model %d at %.1f (driver %d)", c.idx, c.model, c.dist, c.has_driver);
         }
-        _snprintf(detail, sizeof(detail), "no new waypoint for 120 frames at (%.1f,%.1f), waypoint %d/%d tile (%d,%d), dist %.1f to (%.1f,%.1f)%s",
+        _snprintf(detail, sizeof(detail), "no new waypoint for 70 frames at (%.1f,%.1f), waypoint %d/%d tile (%d,%d), dist %.1f to (%.1f,%.1f)%s",
                   pl.x, pl.y, mPathIdx, len, blocked.x, blocked.y, dist, mTx, mTy, near_things);
         if (mRetries >= 4 || !ctx.action_snap)
         {
@@ -401,7 +397,8 @@ Action::Status WalkAction::Step(BotContext& ctx)
         aim_y = mTy;
     }
     const float err = ctx.Steer(ctx.foot, pl.rot_deg, pl.x, pl.y, aim_x, aim_y, true);
-    if (fabsf(err) < 40.0f)
+    // Turn first, then walk: heading 40 degrees off drifts into building corners
+    if (fabsf(err) < 22.0f)
     {
         ctx.input |= input_bit::Forward;
     }
