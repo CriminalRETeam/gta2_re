@@ -144,6 +144,18 @@
       "expect": "PASS",
       "replay": true,
       "note": "destroy the delivery truck: DestroyCarGoal rams it with a car, then shoots it"
+    },
+    {
+      "name": "train_ride",
+      "args": [
+        "-bot=train_test",
+        "-bot_map=wil",
+        "-bot_goto=30,100"
+      ],
+      "budget": 16000,
+      "expect": "PASS",
+      "replay": true,
+      "note": "walk to a platform, board the second carriage in the doors-open window, ride about 140 tiles, get off at the station next to the target"
     }
   ]
 }

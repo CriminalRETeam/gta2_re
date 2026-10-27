@@ -64,6 +64,7 @@ class Bot : public BotObject
         Profile_Missions,
         Profile_Travel,
         Profile_KillGang,
+        Profile_TrainTest,
     };
 
     enum RestoreCheckState

@@ -523,9 +523,19 @@ MissionsGoal              root: which phone next. Tier (green, amber, red), dist
   back, so a drive that ends with the player thrown out goes back for the car (the thief is beside it).
   Kills go fast once the gang is in sight and attacking; the slow part is getting there (140 tiles
   through traffic from the start). `-bot=kill_gang -bot_gang=N -bot_kills=K` runs it alone.
-- **Trains.** Checked with `-bot_zones_dump`: Downtown has 8 train tracks, each with its own entry,
-  stop and exit point and one platform, so a train is a short shuttle of about 30 tiles, not a line
-  between stations. Not worth a travel option on this map.
+- **Trains.** The zone dump showed eight stations ("trakNN" entry, stop, exit points and a platform each),
+  and `-bot_trains_log` showed that the trains are long loops across the whole map (two loops that meet
+  at the stations by (100,90)), about 0.15 tiles a frame, three times a walker. They stop at a
+  platform for about 150 frames: doors open about 25 frames after the stop and stay open for about 100
+  (`platform_state == 2` in `PublicTransport.cpp`). The player boards with the enter control, but only
+  the carriages (model 59) can be boarded, not the lead cab (model 60); the player must stand within
+  about 0.6 tiles of the train, still, and the lead car must have stopped completely. `RideTrainGoal`
+  walks to the track side of a platform, watches the cab to see which way the train comes and stands
+  beside the second car, presses enter once, rides, and gets off (same control) when the train stands
+  still at a platform much nearer the target. `TravelGoal` compares walking, a car and a train by
+  estimated frames (walking counted at 28 frames a tile, 900 frames to wait for a train).
+  From the start of Downtown the train does not win; it does from near a station. `-bot=train_test
+  -bot_goto=x,y` forces a ride (the `train_ride` regression entry, replayed in the stock game).
 - **Watching.** `run_bot.py --show` draws the run on your own screen at game speed; if the session is
   locked or there is no display it runs off screen as before.
 

@@ -112,7 +112,8 @@ class TravelGoal : public Action
         GetCar,
         Drive,
         Dismount,
-        Walk
+        Walk,
+        Train
     };
     enum
     {
@@ -134,6 +135,7 @@ class TravelGoal : public Action
     bool mWalkOnly;
     bool mKeepCar;
     s32 mReclaims;
+    bool mNoTrain;
 };
 
 // Gang peds to kill when a phone refuses: the brief names whom ("kill some Zaibatsu")

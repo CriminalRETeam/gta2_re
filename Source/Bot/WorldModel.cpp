@@ -57,6 +57,7 @@ WorldModel::WorldModel()
     memset(kill_reaction, 0, sizeof(kill_reaction));
     memset(kill_respect_change, 0, sizeof(kill_respect_change));
     gang_zone_count = 0;
+    station_count = 0;
     gang_zones_read = false;
     kill_frenzy_active = false;
     memset(&bonus, 0, sizeof(bonus));
@@ -361,6 +362,8 @@ void WorldModel::Observe()
         player.attack_pressed = pPlayer->field_7C_now_attack_pressed;
         player.ped_attacking = me->field_21C_bf.bAttacking != 0;
         player.ped_state = me->field_278_ped_state_1;
+        player.objective = me->field_258_objective;
+        player.internal_objective = me->field_25C_internal_objective;
         player.armour = pPlayer->field_6F4_power_up_timers[3];
         for (i = 0; i < 28; i++)
         {
@@ -527,6 +530,40 @@ void WorldModel::Observe()
         {
             gang_zones_read = true;
             const s32 zones = gMap_0x370_6F6268->field_32C_pZones->field_0_num_zones;
+            // train stations: a platform zone and the stop point of the same track number
+            for (i = 0; i < zones && station_count < kMaxStations; i++)
+            {
+                gmp_map_zone* z = gMap_0x370_6F6268->GetZone_4DFB30(static_cast<u16>(i));
+                if (z->field_0_zone_type != 6 || z->field_5_name_length < 6)
+                {
+                    continue;
+                }
+                const int num = (z->field_6_name[4] - '0') * 10 + (z->field_6_name[5] - '0');
+                for (int k = 0; k < zones; k++)
+                {
+                    gmp_map_zone* s = gMap_0x370_6F6268->GetZone_4DFB30(static_cast<u16>(k));
+                    if (s->field_0_zone_type == 13 && s->field_5_name_length >= 6 && (s->field_6_name[4] - '0') * 10 + (s->field_6_name[5] - '0') == num)
+                    {
+                        Station& st = stations[station_count++];
+                        st.id = num;
+                        st.px = z->field_1_x;
+                        st.py = z->field_2_y;
+                        st.pw = z->field_3_w;
+                        st.ph = z->field_4_h;
+                        st.stop_x = s->field_1_x + 0.5f;
+                        st.stop_y = s->field_2_y + 0.5f;
+                        float bx = st.stop_x;
+                        float by = st.stop_y;
+                        // the platform spot on the track side of the rectangle, 0.1 tile from its edge: the carriage doors
+                        // are only reached from right beside the train
+                        bx = bx < st.px + 0.5f ? st.px + 0.1f : (bx > st.px + st.pw - 0.5f ? st.px + st.pw - 0.1f : bx);
+                        by = by < st.py + 0.5f ? st.py + 0.1f : (by > st.py + st.ph - 0.5f ? st.py + st.ph - 0.1f : by);
+                        st.board_x = bx;
+                        st.board_y = by;
+                        break;
+                    }
+                }
+            }
             for (i = 0; i < zones && gang_zone_count < kMaxGangZones; i++)
             {
                 gmp_map_zone* z = gMap_0x370_6F6268->GetZone_4DFB30(static_cast<u16>(i));

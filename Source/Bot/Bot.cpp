@@ -11,6 +11,7 @@
 #include "CollectActions.hpp"
 #include "MissionActions.hpp"
 #include "Goals.hpp"
+#include "TrainActions.hpp"
 #include "Goap.hpp"
 #include <math.h>
 #include <windows.h>
@@ -20,6 +21,7 @@
 #include "Game.hpp"
 #include "GameSession.hpp"
 #include "Player.hpp"
+#include "Car.hpp"
 #include "Ped.hpp"
 #include "char.hpp"
 #include "sprite.hpp"
@@ -131,6 +133,10 @@ Bot::Bot(const BotOptions& opts)
     else if (_stricmp(opts.profile, "collect") == 0)
     {
         mProfile = Profile_Collect;
+    }
+    else if (_stricmp(opts.profile, "train_test") == 0)
+    {
+        mProfile = Profile_TrainTest;
     }
     else if (_stricmp(opts.profile, "kill_gang") == 0)
     {
@@ -412,10 +418,28 @@ void Bot::WriteReport(const char* result, const char* detail)
 }
 
 EXTERN_GLOBAL(LPDIRECTINPUTDEVICEA, gMouseDevice_706C60);
+
+static void LogTrains(s32 frame)
+{
+    for (int i = 0; i < 306; i++)
+    {
+        Car* c = &gCar_BC_Pool_67792C->field_0_pool.field_8_pool[i];
+        if (!c->field_50_car_sprite || !c->field_6C_car_id || !c->IsTrainModel_403BA0())
+        {
+            continue;
+        }
+        BotLog("train f=%d car#%d model=%d x=%.1f y=%.1f vel=%.3f", frame, c->field_6C_car_id, c->field_84_car_info_idx, c->field_50_car_sprite->field_14_xy.x.mValue / 16384.0f,
+               c->field_50_car_sprite->field_14_xy.y.mValue / 16384.0f, c->field_58_physics ? c->GetVelocity_43A4C0().mValue / 16384.0f : 0.0f);
+    }
+}
 EXTERN_GLOBAL(u32, gMatchStartTime_6F5A28);
 
 void Bot::OnFrame()
 {
+    if (mOpts.trains_log && mFrame % 60 == 0)
+    {
+        LogTrains(mFrame);
+    }
     if (mOpts.draw)
     {
         // Watching on the user's own screen: the game grabs the mouse exclusively and clips it to its
@@ -492,6 +516,7 @@ void Bot::OnFrame()
             case Profile_Missions:
             case Profile_Travel:
             case Profile_KillGang:
+            case Profile_TrainTest:
                 StepActions();
                 break;
             default:
@@ -775,6 +800,11 @@ void Bot::BuildActions()
     if (mProfile == Profile_Collect)
     {
         return; // CollectNext plans
+    }
+    if (mProfile == Profile_TrainTest)
+    {
+        mActions[mActionCount++] = new RideTrainGoal(mOpts.goto_x, mOpts.goto_y, true);
+        return;
     }
     if (mProfile == Profile_KillGang)
     {

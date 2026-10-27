@@ -39,6 +39,8 @@ class WorldModel : public BotObject
         bool attack_pressed;
         bool ped_attacking;
         s32 ped_state;
+        s32 objective;
+        s32 internal_objective;
     };
 
     struct ArrowInfo
@@ -187,6 +189,20 @@ class WorldModel : public BotObject
     {
         kMaxGangZones = 48
     };
+    // Train stations (map zones "trakNNplatform" and "trakNNstop"): where to wait for a train
+    struct Station
+    {
+        s32 id;
+        s32 px, py, pw, ph;   // platform rectangle
+        float stop_x, stop_y; // where the lead car stops (tile centre)
+        float board_x, board_y; // a platform spot beside the track
+    };
+    enum
+    {
+        kMaxStations = 12
+    };
+    s32 station_count;
+    Station stations[kMaxStations];
     s32 gang_zone_count;
     GangZone gang_zones[kMaxGangZones];
     bool gang_zones_read;

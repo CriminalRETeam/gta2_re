@@ -3,6 +3,7 @@
 #include "NavFoot.hpp"
 #include "CarActions.hpp"
 #include "ChaseActions.hpp"
+#include "TrainActions.hpp"
 #include "CollectActions.hpp"
 #include "MissionActions.hpp"
 #include "Goap.hpp"
@@ -390,6 +391,7 @@ TravelGoal::TravelGoal(float x, float y, float arrive_dist, bool keep_car)
     , mWalkOnly(false)
     , mKeepCar(keep_car)
     , mReclaims(0)
+    , mNoTrain(false)
 {
 }
 
@@ -453,6 +455,9 @@ void TravelGoal::BeginStage(BotContext& ctx, Stage st)
         case Walk:
             mChild = new WalkAction(mX, mY, false, mArrive);
             break;
+        case Train:
+            mChild = new RideTrainGoal(mX, mY);
+            break;
         default:
             return;
     }
@@ -481,7 +486,7 @@ void TravelGoal::Decided(BotContext& ctx)
     float walk_cost = remaining * 22.0f * 1.4f;
     if (ctx.nav->FindPath(static_cast<u8>(pl.x), static_cast<u8>(pl.y), static_cast<u8>(pl.z + 0.5f), static_cast<u8>(mX), static_cast<u8>(mY)))
     {
-        walk_cost = static_cast<float>(ctx.nav->PathLength()) * 22.0f;
+        walk_cost = static_cast<float>(ctx.nav->PathLength()) * 28.0f;
     }
     else
     {
@@ -490,9 +495,29 @@ void TravelGoal::Decided(BotContext& ctx)
     s32 car = 0;
     bool hijack = false;
     float to_car = 0.0f;
+    float best_other = walk_cost;
+    float car_cost = 1e9f;
     if (!mWalkOnly && remaining > 35.0f && ChooseCar(ctx, &car, &hijack, &to_car, 45.0f))
     {
-        const float car_cost = to_car * 22.0f + remaining * 1.3f * 9.0f + 200.0f;
+        car_cost = to_car * 22.0f + remaining * 1.3f * 9.0f + 200.0f;
+        best_other = car_cost < best_other ? car_cost : best_other;
+    }
+    // A train: the tracks are long loops across the map and the trains run about three times as fast as a walker
+    if (!mNoTrain && !mWalkOnly && remaining > 60.0f)
+    {
+        s32 bid = -1;
+        s32 aid = -1;
+        const float train_cost = RideTrainGoal::Estimate(w, pl.x, pl.y, mX, mY, &bid, &aid);
+        BotDecision("f=%d travel: train estimate %.0f (stations %d, board %d, alight %d) against %.0f", ctx.frame, train_cost, w.station_count, bid, aid, best_other);
+        if (train_cost > 0.0f && train_cost < best_other * 0.8f)
+        {
+            BotDecision("f=%d travel: %.0f tiles to (%.0f,%.0f): by train from station %d to %d (estimate %.0f frames, against %.0f on foot and %.0f by car)", ctx.frame, remaining, mX, mY, bid, aid, train_cost, walk_cost, car_cost);
+            BeginStage(ctx, Train);
+            return;
+        }
+    }
+    if (car_cost < 1e9f)
+    {
         if (car_cost < walk_cost * 0.7f)
         {
             mCarId = car;
@@ -600,6 +625,21 @@ Action::Status TravelGoal::Step(BotContext& ctx)
             {
                 return Done;
             }
+            return Running;
+        case Train:
+            if (s == Failed)
+            {
+                BotDecision("f=%d travel: the train did not work (%s): %s", ctx.frame, mChild->fail_condition, mChild->fail_detail);
+                mNoTrain = true;
+            }
+            delete mChild;
+            mChild = NULL;
+            mStage = Decide;
+            if (Remaining(*ctx.world) <= mArrive)
+            {
+                return Done;
+            }
+            mNoTrain = true; // one ride; the rest by car or on foot
             return Running;
         case Walk:
             if (s == Failed)

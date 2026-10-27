@@ -203,6 +203,10 @@ bool BotOptions_Parse(const char* cmd_line, BotOptions* o)
         {
             o->script_dump = true;
         }
+        else if (_strnicmp(key, "_trains_log", key_len) == 0 && key_len == 11)
+        {
+            o->trains_log = true;
+        }
         else if (_strnicmp(key, "_fast", key_len) == 0 && key_len == 5)
         {
             o->fast = true;
