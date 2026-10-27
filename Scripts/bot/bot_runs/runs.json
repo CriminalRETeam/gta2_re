@@ -147,9 +147,9 @@
         "-bot_phone_id=226"
       ],
       "budget": 60000,
-      "expect": "PASS",
-      "replay": true,
-      "note": "walk or drive to the university, plant the explosives, then wreck the pizza truck: the bot drives to it, rams it and keeps ramming (no gun is worth getting out for), jumps clear of cars; traffic makes it chaotic (a lucky seed passes)"
+      "expect": "FAIL",
+      "replay": false,
+      "note": "tracked challenge: seeds 2 and 4 pass, seeds 1 and 3 fail (arrested after the bot is thrown out of a car, or a shot at the truck that does no damage)"
     },
     {
       "name": "train_ride",

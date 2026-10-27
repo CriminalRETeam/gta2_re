@@ -98,6 +98,12 @@ class DriveAction : public Action
     bool mTurnReverse;
     s32 mBehindSince;
     s32 mFwdUntil;
+    s32 mShoveUntil;   // pushing a car out of the way with the throttle down
+    s32 mShoves;
+    s32 mHandbrakeUntil;
+    s32 mHandbrakeNext;
+    s32 mSwerveUntil;  // dodging a police car
+    float mSwerveX, mSwerveY;
     float mStartX, mStartY;
     float mPlanX, mPlanY; // where the route was planned from (the start of its first leg)
 };

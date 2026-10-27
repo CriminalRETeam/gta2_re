@@ -396,6 +396,9 @@ TravelGoal::TravelGoal(float x, float y, float arrive_dist, bool keep_car)
     , mGrabId(0)
     , mGrabX(0.0f)
     , mGrabY(0.0f)
+    , mAways(0)
+    , mAwayX(0.0f)
+    , mAwayY(0.0f)
 {
 }
 
@@ -414,6 +417,7 @@ void TravelGoal::Start(BotContext& ctx)
     mCarFailures = 0;
     mWalkOnly = false;
     mGrabBanCount = 0;
+    mAways = 0;
 }
 
 bool Goals_WantedPickup(const WorldModel& w, float range, const s32* ban, s32 ban_count, WorldModel::ObjInfo* out)
@@ -459,6 +463,57 @@ bool Goals_WantedPickup(const WorldModel& w, float range, const s32* ban, s32 ba
             *out = o;
             return true;
         }
+    }
+    return false;
+}
+
+// A walkable spot about dist tiles from the player, away from the nearest cop (on foot or in a police car)
+static bool Goals_AwayPoint(const WorldModel& w, float dist, float* out_x, float* out_y)
+{
+    const WorldModel::PlayerInfo& pl = w.player;
+    float cx = pl.x + 1.0f;
+    float cy = pl.y;
+    float best = 1e9f;
+    for (int i = 0; i < w.ped_count; i++)
+    {
+        if (w.peds[i].cop && !w.peds[i].dead && w.peds[i].dist < best)
+        {
+            best = w.peds[i].dist;
+            cx = w.peds[i].x;
+            cy = w.peds[i].y;
+        }
+    }
+    for (int i = 0; i < w.car_count; i++)
+    {
+        if (w.cars[i].police && w.cars[i].dist < best)
+        {
+            best = w.cars[i].dist;
+            cx = w.cars[i].x;
+            cy = w.cars[i].y;
+        }
+    }
+    float ax = pl.x - cx;
+    float ay = pl.y - cy;
+    const float al = sqrtf(ax * ax + ay * ay);
+    ax = al > 0.01f ? ax / al : 1.0f;
+    ay = al > 0.01f ? ay / al : 0.0f;
+    for (int a = 0; a < 8; a++)
+    {
+        const float ang = (a % 2 == 0 ? 1 : -1) * (a / 2) * 0.6f;
+        const float px = pl.x + (ax * cosf(ang) - ay * sinf(ang)) * dist;
+        const float py = pl.y + (ax * sinf(ang) + ay * cosf(ang)) * dist;
+        if (px < 3 || py < 3 || px > 250 || py > 250)
+        {
+            continue;
+        }
+        const int tt = WorldModel::TileType(static_cast<int>(px), static_cast<int>(py));
+        if (tt == 0 || tt == 4)
+        {
+            continue;
+        }
+        *out_x = px;
+        *out_y = py;
+        return true;
     }
     return false;
 }
@@ -513,6 +568,9 @@ void TravelGoal::BeginStage(BotContext& ctx, Stage st)
         case Grab:
             mChild = new PickUpAction(mGrabId, mGrabX, mGrabY);
             break;
+        case Away:
+            mChild = new WalkAction(mAwayX, mAwayY, false, 4.0f);
+            break;
         default:
             return;
     }
@@ -535,6 +593,14 @@ void TravelGoal::Decided(BotContext& ctx)
     {
         BotDecision("f=%d travel: in car #%d, %.0f tiles to (%.0f,%.0f)", ctx.frame, pl.car_id, remaining, mX, mY);
         BeginStage(ctx, remaining > mArrive + 6.0f ? Drive : Dismount);
+        return;
+    }
+    // Police about: no car is taken in front of them (unless the clock is running); walk away first
+    if (!w.TimeLimited() && w.CopsNear(14.0f) && mAways < 2 && remaining > 15.0f && Goals_AwayPoint(w, 25.0f, &mAwayX, &mAwayY))
+    {
+        mAways++;
+        BotDecision("f=%d travel: police close by: moving away to (%.0f,%.0f) before taking a car (%d)", ctx.frame, mAwayX, mAwayY, mAways);
+        BeginStage(ctx, Away);
         return;
     }
     // on foot: cost of walking against the cost of getting a car and driving
@@ -615,6 +681,15 @@ Action::Status TravelGoal::Step(BotContext& ctx)
             BeginStage(ctx, GetCar);
             return Running;
         }
+    }
+    // On foot with the police closing in (a wanted level and a cop within a few tiles): get away from them
+    if ((mStage == Walk || mStage == GetCar) && !pl.in_car && ctx.frame % 10 == 0 && pl.wanted_stars > 0 && mAways < 3 && ctx.world->CopsNear(8.0f) && !ctx.world->TimeLimited() &&
+        Goals_AwayPoint(*ctx.world, 25.0f, &mAwayX, &mAwayY))
+    {
+        mAways++;
+        BotDecision("f=%d travel: wanted %d with police %.0f tiles away: running to (%.0f,%.0f) (%d)", ctx.frame, pl.wanted_stars, 8.0f, mAwayX, mAwayY, mAways);
+        BeginStage(ctx, Away);
+        return Running;
     }
     // On foot: a gun, health or armour lying close is taken on the way
     if (mStage == Walk && !pl.in_car && ctx.frame % 10 == 0 && Remaining(*ctx.world) > mArrive + 3.0f)
@@ -714,6 +789,7 @@ Action::Status TravelGoal::Step(BotContext& ctx)
             }
             mNoTrain = true; // one ride; the rest by car or on foot
             return Running;
+        case Away:
         case Grab:
             delete mChild;
             mChild = NULL;

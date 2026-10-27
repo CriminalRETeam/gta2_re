@@ -155,6 +155,13 @@ DriveAction::DriveAction(float x, float y, float stop_dist)
     , mReverseUntil(0)
     , mReverseSteer(0)
     , mManoeuvres(0)
+    , mShoveUntil(0)
+    , mShoves(0)
+    , mHandbrakeUntil(0)
+    , mHandbrakeNext(0)
+    , mSwerveUntil(0)
+    , mSwerveX(0.0f)
+    , mSwerveY(0.0f)
     , mBlockedFrames(0)
     , mBlockReplans(0)
     , mMaxSpeedSeen(0)
@@ -420,7 +427,7 @@ Action::Status DriveAction::Step(BotContext& ctx)
                 blocker = &oc;
             }
         }
-        if (blocker && mSpeed < 0.02f && ctx.frame > ctx.action_start_frame + 40 && ctx.frame > mReverseUntil && ctx.frame > mFwdUntil)
+        if (blocker && mSpeed < 0.02f && ctx.frame > ctx.action_start_frame + 40 && ctx.frame > mReverseUntil && ctx.frame > mFwdUntil && ctx.frame > mShoveUntil)
         {
             mBlockedFrames++;
         }
@@ -428,7 +435,16 @@ Action::Status DriveAction::Step(BotContext& ctx)
         {
             mBlockedFrames = 0;
         }
-        if (mBlockedFrames > 45 && mBlockReplans < 8)
+        if (mBlockedFrames > 45 && (!blocker->police || pl.wanted_stars > 0) && mShoves <= mBlockReplans)
+        {
+            // a bump moves most cars (and costs a few points of damage): try that before going round
+            mBlockedFrames = 0;
+            mShoves++;
+            mShoveUntil = ctx.frame + 45;
+            BotDecision("f=%d drive: stopped behind car #%d (%.1f tiles ahead, %s): pushing it out of the way (%d)", ctx.frame, blocker->idx, (blocker->x - pl.x) * fx + (blocker->y - pl.y) * fy,
+                        blocker->has_driver ? "driver" : "empty", mShoves);
+        }
+        else if (mBlockedFrames > 45 && mBlockReplans < 8)
         {
             mBlockedFrames = 0;
             mBlockReplans++;
@@ -569,8 +585,58 @@ Action::Status DriveAction::Step(BotContext& ctx)
         return Running;
     }
 
+    // Police after us: dodge a police car that is closing on the car, and keep the speed up
+    if (pl.wanted_stars > 0)
+    {
+        if (ctx.frame < mSwerveUntil)
+        {
+            aim_x = mSwerveX;
+            aim_y = mSwerveY;
+        }
+        else
+        {
+            for (int k = 0; k < ctx.world->car_count; k++)
+            {
+                const WorldModel::CarInfo& oc = ctx.world->cars[k];
+                const float v = sqrtf(oc.vx * oc.vx + oc.vy * oc.vy);
+                if (!oc.police || oc.dist < 1.5f || oc.dist > 8.0f || v < 0.08f)
+                {
+                    continue;
+                }
+                const float ux = oc.vx / v;
+                const float uy = oc.vy / v;
+                const float rx = pl.x - oc.x;
+                const float ry = pl.y - oc.y;
+                const float along = rx * ux + ry * uy;
+                const float across = rx * -uy + ry * ux;
+                if (along > 0.0f && along < 2.0f + v * 30.0f && fabsf(across) < 1.8f)
+                {
+                    const float sgn = across >= 0.0f ? 1.0f : -1.0f;
+                    mSwerveX = pl.x + (-uy) * 4.0f * sgn + ux * 1.5f;
+                    mSwerveY = pl.y + ux * 4.0f * sgn + uy * 1.5f;
+                    if (!WorldModel::BuildingAt(mSwerveX, mSwerveY))
+                    {
+                        mSwerveUntil = ctx.frame + 18;
+                        aim_x = mSwerveX;
+                        aim_y = mSwerveY;
+                        BotDecision("f=%d drive: police car #%d closing on us (%.1f tiles, speed %.2f): swerving", ctx.frame, oc.idx, oc.dist, v);
+                    }
+                    break;
+                }
+            }
+        }
+    }
     const float err = ctx.Steer(ctx.car, pl.rot_deg, pl.x, pl.y, aim_x, aim_y, true);
+    if (ctx.frame < mShoveUntil)
+    {
+        ctx.input |= input_bit::Forward; // full throttle into the car in the way
+        return Running;
+    }
     float cap = mSpeedCap;
+    if (pl.wanted_stars > 0 && cap < 0.30f)
+    {
+        cap = 0.30f; // running from the police: no dawdling
+    }
 
     // Look ahead along the car's heading for things to hit: buildings, other cars, pedestrians
     {
@@ -620,9 +686,9 @@ Action::Status DriveAction::Step(BotContext& ctx)
                 allowed = 0.03f; // keep creeping: stopping dead in front of every kerb and corner is what makes it crawl
             }
 
-            if (obstacle_is_ped && allowed < 0.04f)
+            if (obstacle_is_ped && allowed < 0.10f)
             {
-                allowed = 0.04f; // a pedestrian in the lane steps aside from a car that keeps coming; one that stands still is bumped
+                allowed = 0.10f; // a pedestrian in the lane steps aside from a car that keeps coming; one that stands still is bumped
             }
             cap = allowed < cap ? allowed : cap;
             if (ctx.frame % 40 == 0)
@@ -656,6 +722,21 @@ Action::Status DriveAction::Step(BotContext& ctx)
         else if (mSpeed < 0.10f)
         {
             ctx.input |= input_bit::Forward;  // ... then forward with the wheel over for 80, and again
+        }
+    }
+    else if (fabsf(err) > 60.0f && mSpeed > 0.14f && ctx.frame >= mHandbrakeNext)
+    {
+        // a sharp turn at speed: handbrake and the wheel over swing the tail round
+        mHandbrakeUntil = ctx.frame + 10;
+        mHandbrakeNext = ctx.frame + 70;
+        ctx.input |= input_bit::HandbrakeJump;
+    }
+    else if (ctx.frame < mHandbrakeUntil)
+    {
+        ctx.input |= input_bit::HandbrakeJump;
+        if (mSpeed < 0.10f)
+        {
+            ctx.input |= input_bit::Forward;
         }
     }
     else if (fabsf(err) > 55.0f)

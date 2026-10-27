@@ -38,10 +38,10 @@ bool Cars_Pick(BotContext& ctx, const CarPick& ban, float max_dist, bool prefer_
     const WorldModel::PlayerInfo& pl = w.player;
     float best = 1e9f;
     bool found = false;
-    bool cops_near = false;
-    for (int i = 0; i < w.ped_count; i++)
+    const bool cops_near = w.CopsNear(16.0f);
+    if (cops_near && !w.TimeLimited())
     {
-        cops_near = cops_near || (w.peds[i].cop && !w.peds[i].dead && w.peds[i].dist < 16.0f);
+        return false; // a car taken in front of the police is a wanted level: move away from them first, unless the clock is running
     }
     for (int i = 0; i < w.car_count; i++)
     {

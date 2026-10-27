@@ -587,3 +587,9 @@ police; mission goals that need a respect level the bot cannot reach quickly; th
 - A car stopped ahead for 45 frames (queue, parked car) has its tile closed to the route finder and the route is planned again, with a short reverse and swing (8 times per drive). Stopped cars near the car also add a cost to the tiles round them (`NavCar::AddJam`), and when the lane route runs through a jam a clearance-0 route (one tile pavements) is taken if it is cheaper.
 - Pavements cost 1.1 (was 1.3). Police cars count as obstacles. A pedestrian in the lane no longer stops the car: it creeps at 0.04 and they step aside.
 - Benchmark (`drive_bench.py --jobs 1`, 6 targets x 2 seeds): 9/12 reached, 59k frames summed (was 9/12 and 66k); passing runs are about 30% faster. The zoo horn mission went from 19k to 9k frames, and the truck mission passes and replays.
+
+## Police, peds, shoving, handbrake
+
+- `Cars_Pick` takes no car (parked or driven) while a cop or police car is within 16 tiles unless a mission timer runs (`WorldModel::TimeLimited`); `TravelGoal` walks 25 tiles away from them first (stage Away, twice), and also when it has a wanted level and a cop within 8 tiles on its way to a car.
+- `DriveAction`: pedestrians in the lane are bumped at 0.10 tiles per frame; a car stopped ahead is pushed out of the way for 45 frames before the route is planned round it (police cars only when already wanted); with a wanted level the speed cap is 0.30 and a police car closing on the car's path (from the per-frame car velocity) makes it swerve for 18 frames; a turn over 60 degrees at more than 0.14 tiles per frame gets 10 frames of handbrake.
+- Drive benchmark 8 to 9 of 12; passing runs another 5 to 10 percent faster. The truck mission passes on seeds 2 and 4, fails on 1 and 3 (arrested after being thrown out of a car; a shot at the truck that did no damage).

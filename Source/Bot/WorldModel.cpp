@@ -208,6 +208,41 @@ u32 WorldModel::PedTable(char* out, u32 out_size, float radius)
     return n;
 }
 
+bool WorldModel::TimeLimited() const
+{
+    if (!on_mission || kill_frenzy_active)
+    {
+        return false;
+    }
+    for (int i = 0; i < 4; i++)
+    {
+        if (pager_timer[i] >= 0)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool WorldModel::CopsNear(float radius) const
+{
+    for (int i = 0; i < ped_count; i++)
+    {
+        if (peds[i].cop && !peds[i].dead && peds[i].dist < radius)
+        {
+            return true;
+        }
+    }
+    for (int i = 0; i < car_count; i++)
+    {
+        if (cars[i].police && cars[i].dist < radius && cars[i].dist > 1.5f)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 const char* WorldModel_OccupationName(s32 o)
 {
     switch (o)

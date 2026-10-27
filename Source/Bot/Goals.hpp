@@ -114,7 +114,8 @@ class TravelGoal : public Action
         Dismount,
         Walk,
         Train,
-        Grab
+        Grab,
+        Away
     };
     enum
     {
@@ -141,6 +142,8 @@ class TravelGoal : public Action
     s32 mGrabBanCount;
     s32 mGrabId;
     float mGrabX, mGrabY;
+    s32 mAways;
+    float mAwayX, mAwayY;
 };
 
 // A pickup lying close that is worth a few steps: health or armour when short of it, a better gun,

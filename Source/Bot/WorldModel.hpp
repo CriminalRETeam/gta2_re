@@ -136,6 +136,12 @@ class WorldModel : public BotObject
     // Scans the whole object pool
     bool FindObject(s32 object_id, ObjInfo* out) const;
 
+    // A mission timer is running (a pager that counts down, outside a kill frenzy): speed matters more than manners
+    bool TimeLimited() const;
+
+    // A live cop on foot or a police car within radius tiles of the player
+    bool CopsNear(float radius) const;
+
     // Scans the whole car pool (not only the nearest few kept in cars[])
     bool FindCar(s32 car_id, CarInfo* out) const;
 
