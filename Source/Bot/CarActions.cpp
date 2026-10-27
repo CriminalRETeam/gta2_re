@@ -202,7 +202,11 @@ void DriveAction::Start(BotContext& ctx)
 bool DriveAction::Plan(BotContext& ctx, const char* why)
 {
     const WorldModel::PlayerInfo& pl = ctx.world->player;
-    const bool found = ctx.road->FindPath(pl.x, pl.y, mTx, mTy);
+    // A clear straight line is the quickest way: no detour to the roads and their arrows
+    const float ddx = mTx - pl.x;
+    const float ddy = mTy - pl.y;
+    const bool direct = ddx * ddx + ddy * ddy < 40.0f * 40.0f && ctx.road->DirectLine(pl.x, pl.y, mTx, mTy);
+    const bool found = !direct && ctx.road->FindPath(pl.x, pl.y, mTx, mTy);
     mWpCount = 0;
     if (found)
     {
@@ -236,7 +240,7 @@ bool DriveAction::Plan(BotContext& ctx, const char* why)
     mBestWpDist = 1e9f;
     mLastWpIdx = -1;
     BotDecision("f=%d drive plan (%s) (%.1f,%.1f)->(%.0f,%.0f): %s, %d waypoints, %u tiles explored (cap %.2f, radius %.1f)", ctx.frame, why, pl.x, pl.y, mTx, mTy,
-                found ? "path" : "NO PATH, driving straight", mWpCount, ctx.road->Expanded(), mSpeedCap, mWpRadius);
+                direct ? "direct line" : (found ? "path" : "NO PATH, driving straight"), mWpCount, ctx.road->Expanded(), mSpeedCap, mWpRadius);
     if (ctx.nav_dump)
     {
         char path[MAX_PATH];
@@ -437,6 +441,40 @@ Action::Status DriveAction::Step(BotContext& ctx)
                     aim_x = mWpX[mWpIdx] + nx / nl * use;
                     aim_y = mWpY[mWpIdx] + ny / nl * use;
                 }
+            }
+        }
+    }
+
+    {
+        // The line to the aim point must be clear of buildings with room for the car's width, or the car clips a
+        // corner: pull the aim point back towards the car until it is
+        const float ex = aim_x - pl.x;
+        const float ey = aim_y - pl.y;
+        const float el = sqrtf(ex * ex + ey * ey);
+        if (el > 2.0f)
+        {
+            const float px = -ey / el * 0.7f;
+            const float py = ex / el * 0.7f;
+            float f = 1.0f;
+            for (int k = 0; k < 4; k++)
+            {
+                bool clear = true;
+                for (float d = 1.5f; d <= el * f && clear; d += 0.5f)
+                {
+                    const float qx = pl.x + ex / el * d;
+                    const float qy = pl.y + ey / el * d;
+                    clear = !WorldModel::BuildingAt(qx + px, qy + py) && !WorldModel::BuildingAt(qx - px, qy - py);
+                }
+                if (clear)
+                {
+                    break;
+                }
+                f *= 0.6f;
+            }
+            if (f < 1.0f && el * f > 2.0f)
+            {
+                aim_x = pl.x + ex * f;
+                aim_y = pl.y + ey * f;
             }
         }
     }

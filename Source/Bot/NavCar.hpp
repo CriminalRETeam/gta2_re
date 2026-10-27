@@ -55,6 +55,9 @@ class NavCar : public BotObject
     // A pavement or field tile with clearance (not a road: cars parked there jam the traffic) between min_r and max_r tiles from (x, y), nearest first, for moving a car out of a doorway
     bool FindClearSpot(float x, float y, int min_r, int max_r, float* out_x, float* out_y) const;
 
+    // Is the straight line between the two points open with room for a car all along it?
+    bool DirectLine(float sx, float sy, float tx, float ty) const;
+
     void BanArea(int cx, int cy, int radius);
     void ClearBans();
 

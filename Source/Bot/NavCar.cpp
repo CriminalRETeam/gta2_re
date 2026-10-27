@@ -297,6 +297,11 @@ bool NavCar::Safe(int x, int y, int clearance) const
     return true;
 }
 
+bool NavCar::DirectLine(float sx, float sy, float tx, float ty) const
+{
+    return LineSafe(static_cast<int>(sx), static_cast<int>(sy), static_cast<int>(tx), static_cast<int>(ty));
+}
+
 bool NavCar::LineSafe(int x0, int y0, int x1, int y1) const
 {
     // Walk the segment in half tile steps; every tile touched needs clearance
