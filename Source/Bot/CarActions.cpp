@@ -1,4 +1,5 @@
 #include "CarActions.hpp"
+#include "DriveSteer.hpp"
 #include "ChaseActions.hpp"
 #include "WalkAction.hpp"
 #include "WorldModel.hpp"
@@ -247,89 +248,9 @@ static bool Drive_CorridorClear(float x0, float y0, float x1, float y1, float ha
     return true;
 }
 
-// Where would the car end up if it held the wheel at s (-1 left, +1 right, 0.5 = every other frame) for the next few tiles?
-// The car's footprint is tested against buildings (a wall ends the arc), and against other cars at the place they will
-// have reached by then (a car coming the other way is hard to hit, one going our way or standing still is only a bump).
-// The cost is how far from the aim point the arc ends, plus a penalty for what it hits.
-struct DriveArc
+static bool Drive_Solid(void* /*user*/, float x, float y)
 {
-    float cost;
-    float wall_d; // tiles driven before the first building (the whole reach if none)
-    bool car_hit;
-};
-
-static const float kTurnDegPerFrame = 1.8f; // measured from the trace: a car turns about this fast at any speed
-
-static DriveArc Drive_Arc(const BotContext& ctx, float heading_deg, float hdir, float s, float speed, float aim_x, float aim_y)
-{
-    const WorldModel::PlayerInfo& pl = ctx.world->player;
-    DriveArc arc;
-    arc.wall_d = 0.0f;
-    arc.car_hit = false;
-    float hard_car = 0.0f;
-    float x = pl.x;
-    float y = pl.y;
-    float h = heading_deg;
-    const float v = speed < 0.10f ? 0.10f : speed; // it will pick up speed
-    const float reach = 4.0f + speed * 45.0f;
-    const int step = 3;
-    float driven = 0.0f;
-    float t = 0.0f;
-    bool wall = false;
-    while (driven < reach)
-    {
-        h += hdir * s * kTurnDegPerFrame * step;
-        const float rad = h * 3.14159265f / 180.0f;
-        const float fx = sinf(rad);
-        const float fy = -cosf(rad);
-        x += fx * v * step;
-        y += fy * v * step;
-        driven += v * step;
-        t += step;
-        const float px = -fy * 0.6f;
-        const float py = fx * 0.6f;
-        // a wall the car already touches is not one it is about to hit: only look beyond the first stretch, or an arc
-        // that starts beside a wall (the corner of a road) is blocked at once and the car cannot move out of it
-        if (driven > 0.8f && (WorldModel::BuildingAt(x + fx * 0.9f + px, y + fy * 0.9f + py) || WorldModel::BuildingAt(x + fx * 0.9f - px, y + fy * 0.9f - py) ||
-            WorldModel::BuildingAt(x + px, y + py) || WorldModel::BuildingAt(x - px, y - py)))
-        {
-            wall = true;
-            break;
-        }
-        if (!arc.car_hit && driven > 2.5f)
-        {
-            for (int k = 0; k < ctx.world->car_count; k++)
-            {
-                const WorldModel::CarInfo& oc = ctx.world->cars[k];
-                if (oc.dist < 1.0f)
-                {
-                    continue; // our own
-                }
-                const float cx = oc.x + oc.vx * t;
-                const float cy = oc.y + oc.vy * t;
-                if ((cx - x) * (cx - x) + (cy - y) * (cy - y) < 1.4f * 1.4f)
-                {
-                    arc.car_hit = true;
-                    const bool oncoming = oc.speed > 0.12f && oc.vx * fx + oc.vy * fy < -0.10f;
-                    hard_car = (oncoming || oc.police) ? 25.0f : 4.0f;
-                    break;
-                }
-            }
-        }
-    }
-    arc.wall_d = driven;
-    // an arc that ends pointing away from the aim point is no better than one that ends a little short of it
-    const float bearing = Bot_HeadingDeg(aim_x - x, aim_y - y);
-    arc.cost = sqrtf((aim_x - x) * (aim_x - x) + (aim_y - y) * (aim_y - y)) + fabsf(Bot_WrapDeg(bearing - h)) * (12.0f / 57.3f) + hard_car;
-    if (wall)
-    {
-        arc.cost += 20.0f + (reach - driven) * 3.0f;
-    }
-    else
-    {
-        arc.wall_d = 1e3f; // nothing in the way: the speed is not limited by this arc
-    }
-    return arc;
+    return WorldModel::BuildingAt(x, y);
 }
 
 bool DriveAction::Plan(BotContext& ctx, const char* why)
@@ -819,31 +740,35 @@ Action::Status DriveAction::Step(BotContext& ctx)
     float wall_ahead = 1e3f;
     if (fabsf(err) <= 100.0f)
     {
-        static const float options[5] = {0.0f, -1.0f, 1.0f, -0.5f, 0.5f};
-        const float heading_deg = ctx.car.sign * pl.rot_deg + ctx.car.offset;
-        const float hdir = ctx.car.sign * ctx.car.turn_sign;
-        const float natural = fabsf(err) > 8.0f ? ((err * ctx.car.turn_sign > 0) ? 1.0f : -1.0f) : 0.0f;
-        float best_s = natural;
-        float best_cost = 1e9f;
-        for (int o = 0; o < 5; o++)
+        SteerCar others[WorldModel::kMaxCars];
+        int other_count = 0;
+        for (int k = 0; k < ctx.world->car_count; k++)
         {
-            const DriveArc arc = Drive_Arc(ctx, heading_deg, hdir, options[o], mSpeed, aim_x, aim_y);
-            const float cost = arc.cost - (options[o] == natural ? 3.0f : 0.0f);
-            if (cost < best_cost)
+            const WorldModel::CarInfo& oc = ctx.world->cars[k];
+            if (oc.dist >= 1.0f) // not our own
             {
-                best_cost = cost;
-                best_s = options[o];
-                wall_ahead = arc.wall_d;
+                SteerCar& sc = others[other_count++];
+                sc.x = oc.x;
+                sc.y = oc.y;
+                sc.vx = oc.vx;
+                sc.vy = oc.vy;
+                sc.speed = oc.speed;
+                sc.police = oc.police;
             }
         }
+        SteerWorld world = {Drive_Solid, NULL, others, other_count};
+        const float heading_deg = ctx.car.sign * pl.rot_deg + ctx.car.offset;
+        const float hdir = ctx.car.sign * ctx.car.turn_sign;
+        const SteerChoice choice = DriveSteer_Choose(world, pl.x, pl.y, heading_deg, hdir, mSpeed, aim_x, aim_y);
+        wall_ahead = choice.wall_d;
         ctx.input &= ~(input_bit::Left | input_bit::Right);
-        if (best_s != 0.0f && (fabsf(best_s) > 0.9f || ctx.frame % 2 == 0))
+        if (choice.s != 0.0f && (fabsf(choice.s) > 0.9f || ctx.frame % 2 == 0))
         {
-            ctx.input |= best_s > 0.0f ? input_bit::Right : input_bit::Left;
+            ctx.input |= choice.s > 0.0f ? input_bit::Right : input_bit::Left;
         }
-        if (best_s != natural && ctx.frame % 20 == 0)
+        if (choice.changed && ctx.frame % 20 == 0)
         {
-            BotDecision("f=%d drive: steering %+.1f instead of %+.1f to keep clear of what is ahead (wall in %.1f tiles)", ctx.frame, best_s, natural, wall_ahead);
+            BotDecision("f=%d drive: steering %+.1f to keep clear of what is ahead (wall in %.1f tiles)", ctx.frame, choice.s, wall_ahead);
         }
     }
     if (ctx.frame < mShoveUntil)
@@ -922,13 +847,7 @@ Action::Status DriveAction::Step(BotContext& ctx)
     }
     if (wall_ahead < 1e3f)
     {
-        // the speed that still lets the car stop before the building at the end of the best arc
-        float allowed = (wall_ahead - 1.4f) * 0.06f;
-        allowed = allowed < 0.0f ? 0.0f : allowed;
-        if (wall_ahead > 2.5f && allowed < 0.03f)
-        {
-            allowed = 0.03f;
-        }
+        const float allowed = DriveSteer_SpeedFor(wall_ahead);
         cap = allowed < cap ? allowed : cap;
     }
     if (last && dist < 14.0f)
