@@ -50,6 +50,9 @@ class WalkAction : public Action
     s32 mJumpStart;
     s32 mJumps;
     s32 mNudgeUntil;
+    s32 mCarJumpUntil;
+    s32 mCarJumpStart;
+    s32 mCarJumpNext;
     s32 mNudges;
     float mNudgeX, mNudgeY;
     Calibrator mCalib;

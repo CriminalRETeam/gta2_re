@@ -27,6 +27,11 @@ float Bot_HeadingDeg(float dx, float dy); // 0 = towards -Y, clockwise
 // No building / wall tile on the straight line between two points (sampled every half tile): a clear line of fire
 bool Bot_LineClear(float x0, float y0, float x1, float y1);
 
+// A drive route was just planned (from (sx,sy) to (tx,ty)): with the overlay on, saves a picture of it and, if asked to, pauses the game
+// until Resume is pressed (BotUi.cpp)
+class NavCar;
+void Bot_RoutePlanned(const char* why, NavCar* road, float sx, float sy, float tx, float ty);
+
 // Shared by the actions. Owned by the Bot; nothing here points into game memory.
 struct BotContext
 {
@@ -35,6 +40,7 @@ struct BotContext
     WorldModel* world;
     NavFoot* nav;
     NavCar* road;
+    s32 no_evade_frame; // an action standing in the road on purpose (flagging a car down) sets this to the frame: no dodging then
     BotRng* rng;
     Snapshot* action_snap; // the world at the start of the running action (or of the running step of a mission)
     MemoryMap* map;        // for actions that keep snapshots of their own

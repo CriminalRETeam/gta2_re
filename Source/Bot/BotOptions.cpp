@@ -229,6 +229,10 @@ bool BotOptions_Parse(const char* cmd_line, BotOptions* o)
         {
             o->has_goto = sscanf(value, "%f,%f", &o->goto_x, &o->goto_y) == 2;
         }
+        else if (_strnicmp(key, "_pause_route", key_len) == 0 && key_len == 12)
+        {
+            o->pause_route = true;
+        }
         else if (_strnicmp(key, "_wtf_at", key_len) == 0 && key_len == 7)
         {
             o->wtf_at_frame = atoi(value);

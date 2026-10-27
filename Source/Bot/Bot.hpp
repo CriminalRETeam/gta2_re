@@ -45,6 +45,12 @@ class Bot : public BotObject
         return mInputBits;
     }
 
+    bool Paused() const
+    {
+        return mPaused;
+    }
+    static void RoutePlannedStatic(const char* why, class NavCar* road, float sx, float sy, float tx, float ty);
+
     const BotOptions& Options() const
     {
         return mOpts;
@@ -104,6 +110,7 @@ class Bot : public BotObject
     // The overlay (BotUi.cpp): the goal chain, the state and the last decisions drawn with ImGui into the game window, and
     // a WTF button that saves the state from several seconds ago with everything needed to run that part again
     static Bot* sInstance;
+    void OnRoutePlanned(const char* why, NavCar* road, float sx, float sy, float tx, float ty);
     static void __stdcall UiCallback();
     void RegisterUi();
     void DrawUi();
@@ -114,6 +121,10 @@ class Bot : public BotObject
         kRing = 5
     };
     bool mUiOn;
+    bool mPaused;        // the game's logic is held: the world stands still, the picture and the window go on
+    bool mPauseOnRoute;  // pause whenever a drive route has been planned, to look at its picture
+    s32 mRouteCount;
+    char mRouteLast[260];
     bool mWtfRequested;
     s32 mWtfCount;
     char mWtfLast[260];

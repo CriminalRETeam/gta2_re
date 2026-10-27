@@ -123,7 +123,9 @@ class TravelGoal : public Action
         Walk,
         Train,
         Grab,
-        Away
+        Away,
+        ToRoad,
+        WaitCar
     };
     enum
     {
@@ -152,6 +154,9 @@ class TravelGoal : public Action
     float mGrabX, mGrabY;
     s32 mAways;
     float mAwayX, mAwayY;
+    s32 mRoadTries;
+    float mRoadX, mRoadY;
+    s32 mWaitStart;
 };
 
 // A pickup lying close that is worth a few steps: health or armour when short of it, a better gun,

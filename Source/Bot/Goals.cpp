@@ -1,6 +1,7 @@
 #include "Goals.hpp"
 #include "WalkAction.hpp"
 #include "NavFoot.hpp"
+#include "NavCar.hpp"
 #include "CarActions.hpp"
 #include "ChaseActions.hpp"
 #include "TrainActions.hpp"
@@ -66,6 +67,9 @@ s32 BestHeld(const WorldModel& w, s32 purpose, s32* out_score)
     return best;
 }
 } // namespace Weapons
+
+// Cost, in frames, of a way that does not exist or does not work: so large that any real way beats it
+static const float kHopeless = 1e9f;
 
 s32 Goals_PhoneTier(s32 phone_model)
 {
@@ -397,6 +401,10 @@ TravelGoal::TravelGoal(float x, float y, float arrive_dist, bool keep_car)
     , mGrabX(0.0f)
     , mGrabY(0.0f)
     , mAways(0)
+    , mRoadTries(0)
+    , mRoadX(0.0f)
+    , mRoadY(0.0f)
+    , mWaitStart(0)
     , mAwayX(0.0f)
     , mAwayY(0.0f)
 {
@@ -418,6 +426,7 @@ void TravelGoal::Start(BotContext& ctx)
     mWalkOnly = false;
     mGrabBanCount = 0;
     mAways = 0;
+    mRoadTries = 0;
 }
 
 bool Goals_WantedPickup(const WorldModel& w, float range, const s32* ban, s32 ban_count, WorldModel::ObjInfo* out)
@@ -574,6 +583,13 @@ void TravelGoal::BeginStage(BotContext& ctx, Stage st)
         case Away:
             mChild = new WalkAction(mAwayX, mAwayY, false, 4.0f);
             break;
+        case ToRoad:
+            mChild = new WalkAction(mRoadX, mRoadY, false, 0.8f); // onto the lane itself: traffic stops for a pedestrian in front of it
+            break;
+        case WaitCar:
+            mWaitStart = ctx.frame;
+            return; // no child: Step waits at the kerb
+
         default:
             return;
     }
@@ -614,15 +630,18 @@ void TravelGoal::Decided(BotContext& ctx)
     }
     else
     {
-        walk_cost = 1e6f; // no way on foot
+        walk_cost = kHopeless; // no way on foot
     }
     s32 car = 0;
     bool hijack = false;
     float to_car = 0.0f;
     float best_other = walk_cost;
-    float car_cost = 1e9f;
-    if (!mWalkOnly && remaining > 20.0f && ChooseCar(ctx, &car, &hijack, &to_car, 30.0f))
+    // Frames to get there by car; only meaningful when a car was found (have_car)
+    bool have_car = false;
+    float car_cost = kHopeless;
+    if (!mWalkOnly && remaining > 20.0f && ChooseCar(ctx, &car, &hijack, &to_car, remaining > 80.0f ? 70.0f : 30.0f))
     {
+        have_car = true;
         car_cost = to_car * 22.0f + remaining * 1.3f * 9.0f + 200.0f;
         best_other = car_cost < best_other ? car_cost : best_other;
     }
@@ -640,13 +659,33 @@ void TravelGoal::Decided(BotContext& ctx)
             return;
         }
     }
-    if (car_cost < 1e9f)
+    if (have_car)
     {
-        if (car_cost < walk_cost * 0.7f)
+        if (car_cost < walk_cost * (remaining > 80.0f ? 0.85f : 0.7f))
         {
             mCarId = car;
             BotDecision("f=%d travel: %.0f tiles to (%.0f,%.0f); taking car #%d%s %.0f tiles away (cost %.0f against %.0f on foot)", ctx.frame, remaining, mX, mY, car, hijack ? " (hijack)" : "", to_car, car_cost, walk_cost);
             BeginStage(ctx, GetCar);
+            return;
+        }
+    }
+    // No car to be had here on a long trip: go to the road, where the cars are, and wait for one at the kerb
+    if (!have_car && !mWalkOnly && remaining > 50.0f && mRoadTries < 2 && ctx.road && ctx.road->NearestLane(pl.x, pl.y, mX, mY, 40.0f, &mRoadX, &mRoadY))
+    {
+        const float rdx = mRoadX - pl.x;
+        const float rdy = mRoadY - pl.y;
+        if (rdx * rdx + rdy * rdy > 4.0f * 4.0f && ctx.nav->FindPath(static_cast<u8>(pl.x), static_cast<u8>(pl.y), static_cast<u8>(pl.z + 0.5f), static_cast<u8>(mRoadX), static_cast<u8>(mRoadY)) && !ctx.nav->Approximate())
+        {
+            mRoadTries++;
+            BotDecision("f=%d travel: %.0f tiles to (%.0f,%.0f) and no car near: going to the road at (%.0f,%.0f), where the cars are (%d)", ctx.frame, remaining, mX, mY, mRoadX, mRoadY, mRoadTries);
+            BeginStage(ctx, ToRoad);
+            return;
+        }
+        if (rdx * rdx + rdy * rdy <= 4.0f * 4.0f && mRoadTries < 2)
+        {
+            mRoadTries++;
+            BotDecision("f=%d travel: at the road already: waiting for a car (%d)", ctx.frame, mRoadTries);
+            BeginStage(ctx, WaitCar);
             return;
         }
     }
@@ -670,9 +709,40 @@ Action::Status TravelGoal::Step(BotContext& ctx)
         }
         return Running;
     }
+    if (mStage == WaitCar)
+    {
+        ctx.no_evade_frame = ctx.frame; // we stand in the lane on purpose
+        // At the kerb: a car that slows or stops next to us is taken; after a while we go on on foot
+        if (ctx.frame % 10 == 0)
+        {
+            s32 wc = 0;
+            bool wh = false;
+            float wd = 0.0f;
+            if (ChooseCar(ctx, &wc, &wh, &wd, 25.0f))
+            {
+                mCarId = wc;
+                BotDecision("f=%d travel: a car at the kerb: #%d%s %.0f tiles away, taking it", ctx.frame, wc, wh ? " (hijack)" : "", wd);
+                BeginStage(ctx, GetCar);
+                return Running;
+            }
+        }
+        if (ctx.frame - mWaitStart > 420)
+        {
+            BotDecision("f=%d travel: no car came in 420 frames", ctx.frame);
+            mStage = Decide;
+        }
+        return Running;
+    }
     // On foot and a long way to go: a car that stops next to us (traffic at a crossing) or sits
     // parked close by is worth more than the rest of the walk
-    if (mStage == Walk && !mWalkOnly && ctx.frame % 20 == 0 && !pl.in_car && Remaining(*ctx.world) > 25.0f)
+    // A car standing in the walker's way (traffic stops for a pedestrian in front of it) is the car to take, not to jump over
+    bool stopped_near = false;
+    for (int k = 0; k < ctx.world->car_count && mStage == Walk; k++)
+    {
+        const WorldModel::CarInfo& sc = ctx.world->cars[k];
+        stopped_near = stopped_near || (sc.speed < 0.03f && sc.dist < 3.5f && sc.dist > 0.5f && !sc.police);
+    }
+    if (mStage == Walk && !mWalkOnly && (ctx.frame % 20 == 0 || (stopped_near && ctx.frame % 5 == 0)) && !pl.in_car && Remaining(*ctx.world) > 25.0f)
     {
         s32 car = 0;
         bool hijack = false;
@@ -806,6 +876,11 @@ Action::Status TravelGoal::Step(BotContext& ctx)
                 return Done;
             }
             mNoTrain = true; // one ride; the rest by car or on foot
+            return Running;
+        case ToRoad:
+            delete mChild;
+            mChild = NULL;
+            BeginStage(ctx, WaitCar); // at the road: wait for a car
             return Running;
         case Away:
         case Grab:

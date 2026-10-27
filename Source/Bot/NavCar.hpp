@@ -56,6 +56,12 @@ class NavCar : public BotObject
         return mApproximate;
     }
 
+    // 1 when the route keeps a tile of room each side of the car, 0 when it had to squeeze (no such route existed)
+    int Clearance() const
+    {
+        return mClearanceUsed;
+    }
+
     u32 Expanded() const
     {
         return mExpanded;
@@ -64,6 +70,14 @@ class NavCar : public BotObject
     // Tiles within radius of (cx, cy) are closed to FindPath until ClearBans (a drive got stuck there)
     // A pavement or field tile with clearance (not a road: cars parked there jam the traffic) between min_r and max_r tiles from (x, y), nearest first, for moving a car out of a doorway
     bool FindClearSpot(float x, float y, int min_r, int max_r, float* out_x, float* out_y) const;
+
+    // The nearest road tile that carries a traffic lane (green arrows), roughly towards (toward_x, toward_y), within max_r
+    // tiles of (x, y): where cars will be. false when there is none.
+    bool NearestLane(float x, float y, float toward_x, float toward_y, float max_r, float* out_x, float* out_y);
+
+    // Draws the last route over the tiles the router sees into a 24 bit BMP: closed black, field green, pavement light grey,
+    // road dark blue, wall edges red, the route cyan with white waypoints, the start yellow and the goal magenta
+    bool WriteRouteBmp(const char* path, float sx, float sy, float tx, float ty);
 
     // Does the straight line cross a fence or wall edge between tiles? (the car router's wall data)
     bool CrossesWall(float x0, float y0, float x1, float y1);
@@ -85,10 +99,13 @@ class NavCar : public BotObject
     bool EdgeFree(int x, int y, int nx, int ny) const;
     void NearestOpen(int* x, int* y) const;
     bool Safe(int x, int y, int clearance) const;
+    bool Roomy(int x, int y) const;
+    void BuildClearance();
     bool LineSafe(int x0, int y0, int x1, int y1) const;
     bool Search(int sx, int sy, int tx, int ty, int clearance, bool approximate);
 
     u8* mGrid;   // 0 blocked, 1 field, 2 pavement, 3 road
+    u8* mClear;  // tiles to the nearest blocked tile or wall (1 = touching one), capped at 4: how much room a car has
     u8* mWalls;  // bit0 left, bit1 right, bit2 top, bit3 bottom: the block face is a wall
     u8* mJam;    // tiles occupied or hemmed in by stopped cars
     u8* mBan;    // tiles a stuck drive asked to avoid
@@ -108,5 +125,6 @@ class NavCar : public BotObject
     u32 mExpanded;
     bool mBuilt;
     bool mApproximate;
+    int mClearanceUsed;
     int mSx, mSy, mTx, mTy;
 };

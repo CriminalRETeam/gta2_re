@@ -1,4 +1,5 @@
 #include "CarActions.hpp"
+#include "ChaseActions.hpp"
 #include "WalkAction.hpp"
 #include "WorldModel.hpp"
 #include "NavCar.hpp"
@@ -162,6 +163,9 @@ DriveAction::DriveAction(float x, float y, float stop_dist)
     , mSwerveUntil(0)
     , mSwerveX(0.0f)
     , mSwerveY(0.0f)
+    , mCkNext(0)
+    , mCkSlot(0)
+    , mLeftStart(false)
     , mBlockedFrames(0)
     , mBlockReplans(0)
     , mMaxSpeedSeen(0)
@@ -178,6 +182,14 @@ DriveAction::DriveAction(float x, float y, float stop_dist)
     , mPlanX(0)
     , mPlanY(0)
 {
+    mCk[0] = mCk[1] = NULL;
+    mCkFrame[0] = mCkFrame[1] = -1;
+}
+
+DriveAction::~DriveAction()
+{
+    delete mCk[0];
+    delete mCk[1];
 }
 
 void DriveAction::Start(BotContext& ctx)
@@ -189,6 +201,9 @@ void DriveAction::Start(BotContext& ctx)
     mBehindSince = 0;
     mFwdUntil = 0;
     mStartX = ctx.world->player.x;
+    mLeftStart = false;
+    mCkFrame[0] = mCkFrame[1] = -1;
+    mCkNext = ctx.frame + 300;
     mStartY = ctx.world->player.y;
     mPlanned = false;
     mRetries = 0;
@@ -283,8 +298,9 @@ bool DriveAction::Plan(BotContext& ctx, const char* why)
     mHavePrev = false;
     mBestWpDist = 1e9f;
     mLastWpIdx = -1;
-    BotDecision("f=%d drive plan (%s) (%.1f,%.1f)->(%.0f,%.0f): %s, %d waypoints, %u tiles explored (cap %.2f, radius %.1f)", ctx.frame, why, pl.x, pl.y, mTx, mTy,
-                direct ? "direct line" : (found ? "path" : "NO PATH, driving straight"), mWpCount, ctx.road->Expanded(), mSpeedCap, mWpRadius);
+    BotDecision("f=%d drive plan (%s) (%.1f,%.1f)->(%.0f,%.0f): %s, %d waypoints, %u tiles explored, %s (cap %.2f, radius %.1f)", ctx.frame, why, pl.x, pl.y, mTx, mTy,
+                direct ? "direct line" : (found ? "path" : "NO PATH, driving straight"), mWpCount, ctx.road->Expanded(), ctx.road->Clearance() ? "room each side" : "SQUEEZED (no route with room each side)", mSpeedCap, mWpRadius);
+    Bot_RoutePlanned(why, ctx.road, pl.x, pl.y, mTx, mTy);
     if (ctx.nav_dump)
     {
         char path[MAX_PATH];
@@ -384,6 +400,19 @@ Action::Status DriveAction::Step(BotContext& ctx)
         break;
     }
 
+    // Rolling checkpoints while the drive goes well, so that a retry rewinds a few hundred frames and not to the start
+    if (ctx.map && ctx.frame >= mCkNext && mSpeed > 0.04f && ctx.frame - mProgressFrame < 100 && !pl.dead)
+    {
+        if (!mCk[mCkSlot])
+        {
+            mCk[mCkSlot] = new Snapshot(ctx.map);
+        }
+        mCk[mCkSlot]->Capture();
+        mCkFrame[mCkSlot] = ctx.frame;
+        mCkSlot = 1 - mCkSlot;
+        mCkNext = ctx.frame + 300;
+    }
+
     // Stuck: not moving while asked to, or moving (sliding along a wall) without getting nearer
     {
         const float wdx = mWpX[mWpIdx] - pl.x;
@@ -461,6 +490,20 @@ Action::Status DriveAction::Step(BotContext& ctx)
             return Running;
         }
     }
+    // Shut in: still within ten tiles of where it started, at the first waypoints, after 450 frames. Retrying the same drive from the same place
+    // (three times 600 frames) only repeats it, so give the car up at once and remember the place
+    {
+        const float sdx = pl.x - mStartX;
+        const float sdy = pl.y - mStartY;
+        if (sdx * sdx + sdy * sdy > 10.0f * 10.0f || mWpIdx > 1)
+        {
+            mLeftStart = true;
+        }
+        if (!mLeftStart && dist > 15.0f && ctx.frame - ctx.action_start_frame > 600 && mRetries == 0 && mManoeuvres >= 2)
+        {
+            return Fail("no_progress", "boxed in: still within 10 tiles of (%.1f,%.1f) and at the first waypoints after 600 frames, %d reverse manoeuvres", mStartX, mStartY, mManoeuvres);
+        }
+    }
     const bool timed_out = ctx.frame - mProgressFrame > 600;
     if ((mStillFrames > 45 && mManoeuvres >= 4) || timed_out)
     {
@@ -480,8 +523,17 @@ Action::Status DriveAction::Step(BotContext& ctx)
             const float heading = (ctx.car.sign * pl.rot_deg + ctx.car.offset) * 3.14159265f / 180.0f;
             ctx.road->BanArea(static_cast<int>(pl.x + sinf(heading) * 2.0f), static_cast<int>(pl.y - cosf(heading) * 2.0f), 1);
         }
-        BotDecision("f=%d drive STUCK %s; retry %d: speed cap %.2f, waypoint radius %.1f, restore the action start (f=%d)", ctx.frame, detail, mRetries, mSpeedCap, mWpRadius, ctx.action_start_frame);
-        ctx.action_snap->Restore();
+        // the older checkpoint (the newer may be inside the same trouble), else the start of the action
+        const s32 older = (mCkFrame[0] >= 0 && (mCkFrame[1] < 0 || mCkFrame[0] <= mCkFrame[1])) ? 0 : 1;
+        Snapshot* restore_from = ctx.action_snap;
+        s32 restore_frame = ctx.action_start_frame;
+        if (mCkFrame[older] >= 0 && mCk[older])
+        {
+            restore_from = mCk[older];
+            restore_frame = mCkFrame[older];
+        }
+        BotDecision("f=%d drive STUCK %s; retry %d: speed cap %.2f, waypoint radius %.1f, restore f=%d (%s)", ctx.frame, detail, mRetries, mSpeedCap, mWpRadius, restore_frame, restore_from == ctx.action_snap ? "the start" : "a checkpoint");
+        restore_from->Restore();
         ctx.world->Observe();
         Plan(ctx, "retry");
         return Running;
@@ -734,6 +786,10 @@ Action::Status DriveAction::Step(BotContext& ctx)
     if (last && dist < 14.0f)
     {
         cap *= 0.5f;
+    }
+    if (ctx.opts && ctx.opts->draw && (ctx.frame - ctx.action_start_frame) % 40 == 0)
+    {
+        BotDecision("f=%d drive state: at (%.1f,%.1f) speed %.3f cap %.2f, heading error %.0f to waypoint %d/%d (%.1f,%.1f), %.0f tiles to go", ctx.frame, pl.x, pl.y, mSpeed, cap, err, mWpIdx, mWpCount, mWpX[mWpIdx], mWpY[mWpIdx], dist);
     }
     if (fabsf(err) <= 100.0f)
     {

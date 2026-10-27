@@ -26,6 +26,10 @@ void __stdcall Hook_ParseCommandLine(char_type* pCommandLine)
 
 bool Hook_ExecuteGame()
 {
+    if (Bot_Get()->Paused())
+    {
+        return false; // the overlay holds the game: no logic frame, so the world, the bot and its clock stand still
+    }
     Bot_Get()->OnFrame();
     return Real_ExecuteGame();
 }

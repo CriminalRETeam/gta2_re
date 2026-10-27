@@ -95,6 +95,7 @@ NavCar::NavCar()
     , mExpanded(0)
     , mBuilt(false)
     , mApproximate(false)
+    , mClearanceUsed(1)
     , mSx(0)
     , mSy(0)
     , mTx(0)
@@ -103,6 +104,8 @@ NavCar::NavCar()
     mGrid = static_cast<u8*>(BotHeap_Alloc(kTiles));
     mArrows = static_cast<u8*>(BotHeap_Alloc(kTiles));
     mWalls = static_cast<u8*>(BotHeap_Alloc(kTiles));
+    mClear = static_cast<u8*>(BotHeap_Alloc(kTiles));
+    memset(mClear, 0, kTiles);
     mBan = static_cast<u8*>(BotHeap_Alloc(kTiles));
     memset(mBan, 0, kTiles);
     mJam = static_cast<u8*>(BotHeap_Alloc(kTiles));
@@ -124,6 +127,7 @@ NavCar::~NavCar()
     BotHeap_Free(mGrid);
     BotHeap_Free(mArrows);
     BotHeap_Free(mWalls);
+    BotHeap_Free(mClear);
     BotHeap_Free(mBan);
     BotHeap_Free(mCost);
     BotHeap_Free(mParent);
@@ -181,6 +185,64 @@ void NavCar::Build()
         }
     }
     mBuilt = true;
+    BuildClearance();
+}
+
+// Distance (in tiles, 8 neighbour steps) from every tile to the nearest tile a car cannot enter, or edge of a wall: the planner
+// keeps away from walls the way a driver does, by cost, so a route always exists where one does and is as roomy as the map allows
+void NavCar::BuildClearance()
+{
+    u32* queue = mParent; // scratch: the search arrays are idle between searches
+    u32 head = 0;
+    u32 tail = 0;
+    for (u32 i = 0; i < kTiles; i++)
+    {
+        const int x = i % 256;
+        const int y = i / 256;
+        const bool edge = x < 1 || y < 1 || x > 254 || y > 254;
+        if (edge || mGrid[i] == 0)
+        {
+            mClear[i] = 0;
+            queue[tail++] = i;
+        }
+        else if (mWalls[i])
+        {
+            mClear[i] = 1; // touching a wall
+        }
+        else
+        {
+            mClear[i] = 4;
+        }
+    }
+    static const int dxs[8] = {0, 1, 0, -1, 1, 1, -1, -1};
+    static const int dys[8] = {-1, 0, 1, 0, -1, 1, 1, -1};
+    while (head < tail)
+    {
+        const u32 i = queue[head++];
+        const int x = i % 256;
+        const int y = i / 256;
+        const u8 next = static_cast<u8>(mClear[i] + 1);
+        for (int d = 0; d < 8; d++)
+        {
+            const int nx = x + dxs[d];
+            const int ny = y + dys[d];
+            if (nx < 0 || ny < 0 || nx > 255 || ny > 255)
+            {
+                continue;
+            }
+            const u32 ni = ny * 256 + nx;
+            if (mClear[ni] > next)
+            {
+                mClear[ni] = next;
+                queue[tail++] = ni;
+            }
+        }
+    }
+}
+
+bool NavCar::Roomy(int x, int y) const
+{
+    return Open(x, y) && mClear[y * 256 + x] >= 2;
 }
 
 bool NavCar::Open(int x, int y) const
@@ -338,6 +400,196 @@ bool NavCar::Safe(int x, int y, int clearance) const
     return true;
 }
 
+bool NavCar::NearestLane(float x, float y, float toward_x, float toward_y, float max_r, float* out_x, float* out_y)
+{
+    if (!mBuilt)
+    {
+        Build();
+    }
+    const int cx = static_cast<int>(x);
+    const int cy = static_cast<int>(y);
+    const int r = static_cast<int>(max_r);
+    float best = 1e9f;
+    bool found = false;
+    for (int ty = cy - r; ty <= cy + r; ty++)
+    {
+        for (int tx = cx - r; tx <= cx + r; tx++)
+        {
+            if (tx < 1 || ty < 1 || tx > 254 || ty > 254 || mGrid[ty * 256 + tx] != 3 || !mArrows[ty * 256 + tx])
+            {
+                continue;
+            }
+            const float dx = tx + 0.5f - x;
+            const float dy = ty + 0.5f - y;
+            const float ex = toward_x - (tx + 0.5f);
+            const float ey = toward_y - (ty + 0.5f);
+            const float score = sqrtf(dx * dx + dy * dy) + 0.4f * sqrtf(ex * ex + ey * ey);
+            if (score < best)
+            {
+                best = score;
+                *out_x = tx + 0.5f;
+                *out_y = ty + 0.5f;
+                found = true;
+            }
+        }
+    }
+    return found;
+}
+
+bool NavCar::WriteRouteBmp(const char* path, float sx, float sy, float tx, float ty)
+{
+    if (!mBuilt)
+    {
+        Build();
+    }
+    // the area: the route and the two ends with a margin, at most 150 tiles each way
+    float minx = sx < tx ? sx : tx;
+    float maxx = sx < tx ? tx : sx;
+    float miny = sy < ty ? sy : ty;
+    float maxy = sy < ty ? ty : sy;
+    for (u32 i = 0; i < mCount; i++)
+    {
+        minx = mX[i] < minx ? mX[i] : minx;
+        maxx = mX[i] > maxx ? mX[i] : maxx;
+        miny = mY[i] < miny ? mY[i] : miny;
+        maxy = mY[i] > maxy ? mY[i] : maxy;
+    }
+    int x0 = static_cast<int>(minx) - 8;
+    int y0 = static_cast<int>(miny) - 8;
+    int x1 = static_cast<int>(maxx) + 8;
+    int y1 = static_cast<int>(maxy) + 8;
+    x0 = x0 < 0 ? 0 : x0;
+    y0 = y0 < 0 ? 0 : y0;
+    x1 = x1 > 255 ? 255 : x1;
+    y1 = y1 > 255 ? 255 : y1;
+    if (x1 - x0 > 150)
+    {
+        x1 = x0 + 150;
+    }
+    if (y1 - y0 > 150)
+    {
+        y1 = y0 + 150;
+    }
+    const int scale = (x1 - x0 > 110 || y1 - y0 > 110) ? 5 : 7;
+    const int w = (x1 - x0 + 1) * scale;
+    const int h = (y1 - y0 + 1) * scale;
+    const int row_bytes = (w * 3 + 3) & ~3;
+    const u32 data_size = static_cast<u32>(row_bytes) * h;
+    u8* img = static_cast<u8*>(BotHeap_Alloc(data_size));
+    if (!img)
+    {
+        return false;
+    }
+    memset(img, 0, data_size);
+    struct Local
+    {
+        static void Put(u8* img, int row_bytes, int w, int h, int px, int py, u8 r, u8 g, u8 b)
+        {
+            if (px < 0 || py < 0 || px >= w || py >= h)
+            {
+                return;
+            }
+            u8* q = img + (h - 1 - py) * row_bytes + px * 3; // BMP rows run bottom up
+            q[0] = b;
+            q[1] = g;
+            q[2] = r;
+        }
+        static void Rect(u8* img, int row_bytes, int w, int h, int cx, int cy, int half, u8 r, u8 g, u8 b)
+        {
+            for (int yy = -half; yy <= half; yy++)
+            {
+                for (int xx = -half; xx <= half; xx++)
+                {
+                    Put(img, row_bytes, w, h, cx + xx, cy + yy, r, g, b);
+                }
+            }
+        }
+    };
+    for (int ty2 = y0; ty2 <= y1; ty2++)
+    {
+        for (int tx2 = x0; tx2 <= x1; tx2++)
+        {
+            const u32 i = ty2 * 256 + tx2;
+            u8 r = 0, g = 0, b = 0;
+            switch (mGrid[i])
+            {
+                case 1: r = 70; g = 140; b = 60; break;    // field
+                case 2: r = 190; g = 190; b = 190; break;  // pavement
+                case 3: r = 55; g = 70; b = 110; break;    // road
+                default: r = 15; g = 15; b = 15; break;    // closed
+            }
+            for (int yy = 0; yy < scale; yy++)
+            {
+                for (int xx = 0; xx < scale; xx++)
+                {
+                    const bool grid_line = (xx == 0 || yy == 0) && scale >= 7;
+                    Local::Put(img, row_bytes, w, h, (tx2 - x0) * scale + xx, (ty2 - y0) * scale + yy, grid_line ? r * 9 / 10 : r, grid_line ? g * 9 / 10 : g, grid_line ? b * 9 / 10 : b);
+                }
+            }
+            // wall edges in red: 1 left, 2 right, 4 top, 8 bottom
+            const u8 wl = mWalls[i];
+            for (int k = 0; k < scale; k++)
+            {
+                if (wl & 1) Local::Put(img, row_bytes, w, h, (tx2 - x0) * scale, (ty2 - y0) * scale + k, 230, 30, 30);
+                if (wl & 2) Local::Put(img, row_bytes, w, h, (tx2 - x0) * scale + scale - 1, (ty2 - y0) * scale + k, 230, 30, 30);
+                if (wl & 4) Local::Put(img, row_bytes, w, h, (tx2 - x0) * scale + k, (ty2 - y0) * scale, 230, 30, 30);
+                if (wl & 8) Local::Put(img, row_bytes, w, h, (tx2 - x0) * scale + k, (ty2 - y0) * scale + scale - 1, 230, 30, 30);
+            }
+        }
+    }
+    // the route
+    for (u32 i = 0; i + 1 < mCount; i++)
+    {
+        const float ax = (mX[i] - x0) * scale;
+        const float ay = (mY[i] - y0) * scale;
+        const float bx = (mX[i + 1] - x0) * scale;
+        const float by = (mY[i + 1] - y0) * scale;
+        const float dx = bx - ax;
+        const float dy = by - ay;
+        const int steps = static_cast<int>(sqrtf(dx * dx + dy * dy)) + 1;
+        for (int s = 0; s <= steps; s++)
+        {
+            const float t = static_cast<float>(s) / steps;
+            Local::Rect(img, row_bytes, w, h, static_cast<int>(ax + dx * t), static_cast<int>(ay + dy * t), 1, 0, 230, 230);
+        }
+    }
+    for (u32 i = 0; i < mCount; i++)
+    {
+        Local::Rect(img, row_bytes, w, h, static_cast<int>((mX[i] - x0) * scale), static_cast<int>((mY[i] - y0) * scale), 2, 255, 255, 255);
+    }
+    Local::Rect(img, row_bytes, w, h, static_cast<int>((sx - x0) * scale), static_cast<int>((sy - y0) * scale), 4, 255, 230, 0);
+    Local::Rect(img, row_bytes, w, h, static_cast<int>((tx - x0) * scale), static_cast<int>((ty - y0) * scale), 4, 255, 0, 220);
+
+    FILE* f = fopen(path, "wb");
+    bool ok = false;
+    if (f)
+    {
+        u8 hdr[54];
+        memset(hdr, 0, sizeof(hdr));
+        const u32 file_size = 54 + data_size;
+        hdr[0] = 'B';
+        hdr[1] = 'M';
+        memcpy(hdr + 2, &file_size, 4);
+        const u32 off = 54;
+        memcpy(hdr + 10, &off, 4);
+        const u32 dib = 40;
+        memcpy(hdr + 14, &dib, 4);
+        const s32 bw = w;
+        const s32 bh = h;
+        memcpy(hdr + 18, &bw, 4);
+        memcpy(hdr + 22, &bh, 4);
+        const u16 planes = 1;
+        const u16 bpp = 24;
+        memcpy(hdr + 26, &planes, 2);
+        memcpy(hdr + 28, &bpp, 2);
+        memcpy(hdr + 34, &data_size, 4);
+        ok = fwrite(hdr, 1, 54, f) == 54 && fwrite(img, 1, data_size, f) == data_size;
+        fclose(f);
+    }
+    BotHeap_Free(img);
+    return ok;
+}
+
 bool NavCar::CrossesWall(float x0, float y0, float x1, float y1)
 {
     if (!mBuilt)
@@ -392,7 +644,7 @@ bool NavCar::LineSafe(int x0, int y0, int x1, int y1) const
         const float t = static_cast<float>(i) / steps;
         const int x = static_cast<int>(x0 + 0.5f + dx * t);
         const int y = static_cast<int>(y0 + 0.5f + dy * t);
-        if (!Safe(x, y, 1))
+        if (!Roomy(x, y))
         {
             return false;
         }
@@ -458,10 +710,6 @@ bool NavCar::Search(int sx, int sy, int tx, int ty, int clearance, bool approxim
                 continue;
             }
             const bool near_end = (nx - sx) * (nx - sx) + (ny - sy) * (ny - sy) <= 9 || (nx - tx) * (nx - tx) + (ny - ty) * (ny - ty) <= 9;
-            if (!Safe(nx, ny, near_end ? 0 : clearance))
-            {
-                continue;
-            }
             if (dxs[d] != 0 && dys[d] != 0 && (!Open(x + dxs[d], y) || !Open(x, y + dys[d])))
             {
                 continue; // no cutting corners
@@ -481,16 +729,22 @@ bool NavCar::Search(int sx, int sy, int tx, int ty, int clearance, bool approxim
                 {
                     const bool with = ((arrows & 1) && dxs[d] < 0) || ((arrows & 2) && dxs[d] > 0) || ((arrows & 4) && dys[d] < 0) || ((arrows & 8) && dys[d] > 0);
                     const bool against = ((arrows & 1) && dxs[d] > 0) || ((arrows & 2) && dxs[d] < 0) || ((arrows & 4) && dys[d] > 0) || ((arrows & 8) && dys[d] < 0);
-                    step = with ? step * 8 / 10 : (against ? step * 18 / 10 : step);
+                    step = with ? step * 9 / 10 : (against ? step * 13 / 10 : step);
                 }
             }
             else if (cell == 2)
             {
-                step = step * 11 / 10; // pavements are nearly as good as the road
+                step = step * 10 / 10; // pavements are as good as the road: the route is about room, not about roads
             }
             else
             {
-                step = step * 15 / 10;
+                step = step * 11 / 10;
+            }
+            if (!near_end)
+            {
+                // room: touching a wall is dear, a tile of space is still a little dearer than open ground
+                const u8 room = mClear[nidx];
+                step += room <= 1 ? 70 : (room == 2 ? 14 : (room == 3 ? 4 : 0));
             }
             if (mJam[nidx])
             {
@@ -556,36 +810,27 @@ bool NavCar::FindPath(float sx, float sy, float tx, float ty)
     {
         return false;
     }
+    mClearanceUsed = 1;
     if (!Search(mSx, mSy, mTx, mTy, 1, false))
     {
+        mClearanceUsed = 0;
         if (!Search(mSx, mSy, mTx, mTy, 0, true))
         {
             return false;
         }
     }
-    else if (mJamCount > 0)
+
     {
-        // Stopped cars about: a route that squeezes along a one tile pavement may beat queuing in the lane
-        bool through_jam = false;
-        for (u32 i = 0; i < mPathTileCount && !through_jam; i++)
+        // how much room the route has all along (apart from the first and last few tiles)
+        u8 least = 4;
+        for (u32 i = 3; i + 3 < mPathTileCount; i++)
         {
-            through_jam = mJam[mPathTiles[i]] != 0;
-        }
-        if (through_jam)
-        {
-            const u32 lane_cost = mLastCost;
-            const u32 lane_count = mPathTileCount;
-            memcpy(mAltTiles, mPathTiles, sizeof(u16) * lane_count);
-            if (Search(mSx, mSy, mTx, mTy, 0, false) && mLastCost < lane_cost)
+            if (mClear[mPathTiles[i]] < least)
             {
-                // the narrow route is cheaper: keep it
-            }
-            else
-            {
-                memcpy(mPathTiles, mAltTiles, sizeof(u16) * lane_count);
-                mPathTileCount = lane_count;
+                least = mClear[mPathTiles[i]];
             }
         }
+        mClearanceUsed = least >= 2 ? 1 : 0;
     }
 
     // String pulling: from each kept tile, jump to the furthest tile with a safe straight line

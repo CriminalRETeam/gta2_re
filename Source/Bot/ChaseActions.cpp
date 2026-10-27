@@ -1,4 +1,5 @@
 #include "ChaseActions.hpp"
+#include <stdio.h>
 #include "NavFoot.hpp"
 #include "NavCar.hpp"
 #include "BotLog.hpp"
@@ -65,7 +66,7 @@ bool Cars_Pick(BotContext& ctx, const CarPick& ban, float max_dist, bool prefer_
         {
             continue;
         }
-        if (c.has_driver && ctx.nav->PathLength() > 14)
+        if (c.has_driver && ctx.nav->PathLength() > 7)
         {
             continue; // by the time we have walked there it has driven off
         }

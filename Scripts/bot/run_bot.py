@@ -38,7 +38,7 @@ def main():
         if botlib.screen_unlocked():
             os.environ["BOT_USE_DISPLAY"] = "1"
             args.draw = True
-            args.extra = list(args.extra) + ["-bot_fast"]
+            args.extra = list(args.extra) + ["-bot_fast", "-bot_pause_route"]
             print(f"showing the run on {os.environ['DISPLAY']}")
         else:
             print("screen locked or no display: running off screen instead")
@@ -70,7 +70,7 @@ def main():
         subprocess.run("wineserver -k", shell=True)  # the killed game leaves wine's server in a bad state
         time.sleep(4)
         os.environ.pop("BOT_USE_DISPLAY", None)
-        bot_args = [a for a in bot_args if a not in ("-bot_draw", "-bot_fast")]
+        bot_args = [a for a in bot_args if a not in ("-bot_draw", "-bot_fast", "-bot_pause_route")]
         code = botlib.run_game(root, bot_args, timeout=args.timeout, desktop=None, log=out_dir / "wine_stdout.txt")
 
     rep = root / "test" / "replay.rep"

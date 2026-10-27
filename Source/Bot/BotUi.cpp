@@ -4,6 +4,7 @@
 #include "Snapshot.hpp"
 #include "WorldModel.hpp"
 #include "BotAction.hpp"
+#include "NavCar.hpp"
 #include "BotLog.hpp"
 #include "3rdParty/GTA2Hax/d3ddll/d3ddll.hpp" // CC
 #include "gbh_graphics.hpp"
@@ -16,6 +17,41 @@
 #include "BotCompat.hpp"
 
 Bot* Bot::sInstance = NULL;
+
+void Bot_RoutePlanned(const char* why, NavCar* road, float sx, float sy, float tx, float ty)
+{
+    Bot::RoutePlannedStatic(why, road, sx, sy, tx, ty);
+}
+
+void Bot::RoutePlannedStatic(const char* why, NavCar* road, float sx, float sy, float tx, float ty)
+{
+    if (sInstance)
+    {
+        sInstance->OnRoutePlanned(why, road, sx, sy, tx, ty);
+    }
+}
+
+// A drive route was planned: a picture of it (bot_out/<run>/route_N.bmp and route_latest.bmp) and, with the checkbox on, a pause
+void Bot::OnRoutePlanned(const char* why, NavCar* road, float sx, float sy, float tx, float ty)
+{
+    if (!mUiOn || !road)
+    {
+        return;
+    }
+    mRouteCount++;
+    char path[MAX_PATH];
+    _snprintf(path, sizeof(path), "%s\\route_%d.bmp", mOpts.out_dir, mRouteCount);
+    const bool ok = road->WriteRouteBmp(path, sx, sy, tx, ty);
+    char latest[MAX_PATH];
+    _snprintf(latest, sizeof(latest), "%s\\route_latest.bmp", mOpts.out_dir);
+    road->WriteRouteBmp(latest, sx, sy, tx, ty);
+    _snprintf(mRouteLast, sizeof(mRouteLast), "route %d (%s) (%.0f,%.0f) to (%.0f,%.0f), %u waypoints: %s%s", mRouteCount, why, sx, sy, tx, ty, road->Count(), path, ok ? "" : " (NOT WRITTEN)");
+    BotDecision("f=%d %s", mFrame, mRouteLast);
+    if (mPauseOnRoute)
+    {
+        mPaused = true;
+    }
+}
 
 void __stdcall Bot::UiCallback()
 {
@@ -50,6 +86,21 @@ void Bot::DrawUi()
     const WorldModel::PlayerInfo& pl = mWorld->player;
     ImGui::Begin("Bot", NULL, ImVec2(460, 640), 0.85f);
 
+    if (mPaused)
+    {
+        ImGui::TextColored(ImVec4(1.0f, 0.8f, 0.2f, 1.0f), "PAUSED: look at the route picture, then");
+        if (ImGui::Button("Resume"))
+        {
+            mPaused = false;
+        }
+        ImGui::Separator();
+    }
+    ImGui::Checkbox("pause when a drive route is planned", &mPauseOnRoute);
+    if (mRouteLast[0])
+    {
+        ImGui::TextWrapped("%s", mRouteLast);
+    }
+    ImGui::Separator();
     if (ImGui::Button("WTF!"))
     {
         mWtfRequested = true;

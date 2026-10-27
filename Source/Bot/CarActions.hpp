@@ -3,6 +3,7 @@
 #include "BotAction.hpp"
 
 class WalkAction;
+class Snapshot;
 
 // Walk to a parked car and get in as the driver
 class EnterCarAction : public Action
@@ -51,6 +52,7 @@ class DriveAction : public Action
 {
   public:
     DriveAction(float x, float y, float stop_dist);
+    ~DriveAction();
 
     virtual const char* Name() const
     {
@@ -87,6 +89,11 @@ class DriveAction : public Action
     s32 mReverseUntil;
     float mReverseSteer;
     s32 mManoeuvres;
+    Snapshot* mCk[2];  // rolling checkpoints: a retry rewinds to the older one, not to the start of a long drive
+    s32 mCkFrame[2];
+    s32 mCkNext;
+    s32 mCkSlot;
+    bool mLeftStart;    // the car has been more than 5 tiles from where it started
     s32 mBlockedFrames; // frames spent stopped behind a car that is not moving
     s32 mBlockReplans;
     float mMaxSpeedSeen;

@@ -30,6 +30,9 @@ WalkAction::WalkAction(float x, float y, bool follow_arrow, float stop_dist)
     , mJumpStart(0)
     , mJumps(0)
     , mNudgeUntil(0)
+    , mCarJumpUntil(0)
+    , mCarJumpStart(0)
+    , mCarJumpNext(0)
     , mNudges(0)
     , mNudgeX(0)
     , mNudgeY(0)
@@ -72,6 +75,8 @@ bool WalkAction::Plan(BotContext& ctx, const char* why)
     mProgressFrame = ctx.frame;
     mYields = 0;
     mTrafficWait = 0;
+    mCarJumpUntil = 0;
+    mCarJumpNext = 0;
     mNudges = 0;
     mNudgeUntil = 0;
     mJumps = 0;
@@ -218,86 +223,46 @@ Action::Status WalkAction::Step(BotContext& ctx)
         mCkNext = ctx.frame + 300;
     }
 
-    // About to step onto a road with traffic coming: wait on the pavement. Only when not already on
-    // the road (once on it, the quickest way is across).
-    if (WorldModel::TileType(static_cast<int>(pl.x), static_cast<int>(pl.y)) != 1)
+    // Cars are no obstacles for a walker: the route ignores them (the road is crossed whatever is on it, `Bot::Evade` jumps
+    // aside from one that is coming) and a car standing in the way is jumped over. The jump starts a little before the
+    // bumper: forward and jump together, for 20 frames.
+    if (ctx.frame < mCarJumpUntil)
     {
-        bool road_ahead = false;
-        float rx = 0, ry = 0;
-        for (s32 k = mPathIdx; k < len && k < mPathIdx + 3; k++)
-        {
-            if (WorldModel::TileType(ctx.nav->PathAt(k).x, ctx.nav->PathAt(k).y) == 1)
-            {
-                road_ahead = true;
-                rx = ctx.nav->PathAt(k).x + 0.5f;
-                ry = ctx.nav->PathAt(k).y + 0.5f;
-                break;
-            }
-        }
-        if (road_ahead && mTrafficWait < 240)
-        {
-            bool danger = false;
-            for (int c = 0; c < ctx.world->car_count; c++)
-            {
-                const WorldModel::CarInfo& car = ctx.world->cars[c];
-                const float cdx = car.x - rx;
-                const float cdy = car.y - ry;
-                if (car.speed > 0.02f && cdx * cdx + cdy * cdy < 10.0f * 10.0f)
-                {
-                    danger = true;
-                    break;
-                }
-            }
-            if (danger)
-            {
-                mTrafficWait++;
-                mProgressFrame = ctx.frame;
-                if (mTrafficWait == 1)
-                {
-                    BotDecision("f=%d walk: waiting for traffic before the road at (%.0f,%.0f)", ctx.frame, rx, ry);
-                }
-                return Running;
-            }
-        }
-    }
-
-    // A parked car in the way (the one we just left, a wreck): slide round it, one side then the other
-    if (ctx.frame < mNudgeUntil)
-    {
-        const float nerr = ctx.Steer(ctx.foot, pl.rot_deg, pl.x, pl.y, mNudgeX, mNudgeY, true);
-        if (fabsf(nerr) < 40.0f)
+        const float cerr = ctx.Steer(ctx.foot, pl.rot_deg, pl.x, pl.y, ctx.nav->PathAt(mPathIdx).x + 0.5f, ctx.nav->PathAt(mPathIdx).y + 0.5f, true);
+        if (fabsf(cerr) < 40.0f)
         {
             ctx.input |= input_bit::Forward;
+        }
+        if (ctx.frame - mCarJumpStart < 3)
+        {
+            ctx.input |= input_bit::HandbrakeJump;
         }
         mProgressFrame = ctx.frame;
         return Running;
     }
-    if (ctx.frame - mProgressFrame > 15 && mNudges < 10 && ctx.world->car_count > 0 && ctx.world->cars[0].dist < 1.9f && ctx.world->cars[0].speed < 0.03f)
+    if (ctx.frame >= mCarJumpNext && ctx.world->car_count > 0)
     {
-        const WorldModel::CarInfo& pc = ctx.world->cars[0];
-        float ax = pl.x - pc.x;
-        float ay = pl.y - pc.y;
-        const float al = sqrtf(ax * ax + ay * ay);
-        if (al < 0.01f)
+        const float hd = (ctx.foot.sign * pl.rot_deg + ctx.foot.offset) * 3.14159265f / 180.0f;
+        const float fx = sinf(hd);
+        const float fy = -cosf(hd);
+        for (int k = 0; k < ctx.world->car_count; k++)
         {
-            ax = 1.0f;
-            ay = 0.0f;
+            const WorldModel::CarInfo& car = ctx.world->cars[k];
+            if (car.speed >= 0.03f || car.dist > 3.0f)
+            {
+                continue;
+            }
+            const float along = (car.x - pl.x) * fx + (car.y - pl.y) * fy;
+            const float across = (car.x - pl.x) * -fy + (car.y - pl.y) * fx;
+            if (along > 0.0f && along < 1.9f && fabsf(across) < 1.0f)
+            {
+                mCarJumpStart = ctx.frame;
+                mCarJumpUntil = ctx.frame + 20;
+                mCarJumpNext = ctx.frame + 45;
+                BotDecision("f=%d walk: car #%d (%s) %.1f tiles ahead: jumping over it", ctx.frame, car.idx, car.has_driver ? "driver" : "empty", along);
+                return Running;
+            }
         }
-        else
-        {
-            ax /= al;
-            ay /= al;
-        }
-        // away from the car, turned 45 degrees to the left or the right of that
-        const float turn = (mNudges % 2 == 0) ? 1.2f : -1.2f; // nearly sideways: round the bumper
-        const float c = cosf(turn);
-        const float s = sinf(turn);
-        mNudgeX = pl.x + (ax * c - ay * s) * 2.5f;
-        mNudgeY = pl.y + (ax * s + ay * c) * 2.5f;
-        mNudgeUntil = ctx.frame + 36;
-        BotDecision("f=%d walk: parked car #%d %.1f tiles away in the way at (%.1f,%.1f); sliding round it towards (%.1f,%.1f) (%d)", ctx.frame, pc.idx, pc.dist, pl.x, pl.y, mNudgeX, mNudgeY, mNudges + 1);
-        mNudges++;
-        return Running;
     }
 
     // Still no progress: jump at the next waypoint (the ped can hop low obstacles: kerbs, bollards, a bumper)
@@ -321,20 +286,6 @@ Action::Status WalkAction::Step(BotContext& ctx)
         mJumpStart = ctx.frame;
         mJumpUntil = ctx.frame + 25;
         BotDecision("f=%d walk: no progress at (%.1f,%.1f) towards tile (%d,%d); jumping (%d)", ctx.frame, pl.x, pl.y, ctx.nav->PathAt(mPathIdx).x, ctx.nav->PathAt(mPathIdx).y, mJumps);
-        return Running;
-    }
-
-    // A car in the way (traffic at a crossing): step back and let it go before calling it stuck
-    if (ctx.frame < mYieldUntil)
-    {
-        mProgressFrame = ctx.frame; // stand still while a moving car goes by
-        return Running;
-    }
-    if (ctx.frame - mProgressFrame > 25 && mYields < 3 && ctx.world->car_count > 0 && ctx.world->cars[0].dist < 1.9f && ctx.world->cars[0].speed >= 0.03f)
-    {
-        mYields++;
-        mYieldUntil = ctx.frame + 30;
-        BotDecision("f=%d walk: car #%d (driver %d) %.1f tiles away in the way at (%.1f,%.1f); yielding (%d)", ctx.frame, ctx.world->cars[0].idx, ctx.world->cars[0].has_driver, ctx.world->cars[0].dist, pl.x, pl.y, mYields);
         return Running;
     }
 

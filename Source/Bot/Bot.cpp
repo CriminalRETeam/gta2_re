@@ -104,6 +104,9 @@ Bot::Bot(const BotOptions& opts)
     , mDefenseFrames(0)
     , mCrushLogFrame(-1000)
     , mUiOn(false)
+    , mPaused(false)
+    , mPauseOnRoute(opts.pause_route)
+    , mRouteCount(0)
     , mWtfRequested(false)
     , mWtfCount(0)
     , mRingTick(0)
@@ -467,6 +470,7 @@ void Bot::OnFrame()
             memset(mRing, 0, sizeof(mRing));
             memset(mRingFrame, 0, sizeof(mRingFrame));
             mWtfLast[0] = 0;
+            mRouteLast[0] = 0;
             RegisterUi();
         }
         UiFrame();
@@ -1013,6 +1017,35 @@ void Bot::StepActions()
         mWorld->DumpMap(path, mOpts.map_dump_x, mOpts.map_dump_y, 24);
         BotPath_Join(path, sizeof(path), mOpts.out_dir, "bot_tiles.txt");
         mWorld->DumpTiles(path, static_cast<int>(mOpts.map_dump_x), static_cast<int>(mOpts.map_dump_y));
+        if (mRoad && mOpts.has_goto)
+        {
+            // with -bot_goto too: the route the car router plans from the dumped point to the goto point
+            const bool found = mRoad->FindPath(mOpts.map_dump_x, mOpts.map_dump_y, mOpts.goto_x, mOpts.goto_y);
+            BotLog("car route (%.1f,%.1f)->(%.1f,%.1f): %s, %u waypoints, room %s", mOpts.map_dump_x, mOpts.map_dump_y, mOpts.goto_x, mOpts.goto_y, found ? "found" : "NONE", mRoad->Count(), mRoad->Clearance() ? "ok" : "squeezed");
+            for (u32 wi = 0; wi < mRoad->Count(); wi++)
+            {
+                BotLog("route %u: %.1f %.1f", wi, mRoad->X(wi), mRoad->Y(wi));
+            }
+        }
+        if (mRoad)
+        {
+            // the car router's whole view of the area: # closed, else a hex digit of the wall bits (1 left, 2 right, 4 top, 8 bottom)
+            const int mcx = static_cast<int>(mOpts.map_dump_x);
+            const int mcy = static_cast<int>(mOpts.map_dump_y);
+            BotLog("road map x=%d..%d y=%d..%d (# closed, digit = wall bits 1 left 2 right 4 top 8 bottom):", mcx - 16, mcx + 16, mcy - 10, mcy + 10);
+            for (int my = mcy - 10; my <= mcy + 10; my++)
+            {
+                char row[80];
+                int n = 0;
+                for (int mx = mcx - 16; mx <= mcx + 16 && n < 76; mx++)
+                {
+                    const u8 b = mRoad->WallBits(mx, my);
+                    row[n++] = (b & 0x10) ? "0123456789abcdef"[b & 15] : '#';
+                }
+                row[n] = 0;
+                BotLog("road %3d %s", my, row);
+            }
+        }
         if (mRoad)
         {
             // what the car router makes of the tiles: bit 0x10 open, 1 left, 2 right, 4 top, 8 bottom wall
@@ -1367,6 +1400,10 @@ bool Bot::SelfDefense()
 // with a jump when it is close, whatever the action was doing
 bool Bot::Evade()
 {
+    if (mCtx.no_evade_frame >= mFrame - 1)
+    {
+        return false; // standing in the lane on purpose to stop a car
+    }
     const WorldModel::PlayerInfo& pl = mWorld->player;
     if (pl.in_car || pl.dead)
     {
