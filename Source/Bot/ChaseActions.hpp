@@ -12,6 +12,9 @@ struct CarPick
 {
     s32 banned[8];
     s32 banned_count;
+    // When set, only cars that can reach this point by road are picked (a car shut in a fenced park cannot)
+    bool has_target;
+    float target_x, target_y;
 };
 bool Cars_BadModel(s32 model);
 bool Cars_Pick(BotContext& ctx, const CarPick& ban, float max_dist, bool prefer_fast, s32* out_id, bool* out_hijack, float* out_path);

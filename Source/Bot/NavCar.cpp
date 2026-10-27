@@ -338,6 +338,41 @@ bool NavCar::Safe(int x, int y, int clearance) const
     return true;
 }
 
+bool NavCar::CrossesWall(float x0, float y0, float x1, float y1)
+{
+    if (!mBuilt)
+    {
+        Build();
+    }
+    const float dx = x1 - x0;
+    const float dy = y1 - y0;
+    const float len = sqrtf(dx * dx + dy * dy);
+    const int steps = static_cast<int>(len * 3.0f) + 1;
+    int px = static_cast<int>(x0);
+    int py = static_cast<int>(y0);
+    for (int i = 1; i <= steps; i++)
+    {
+        const float t = static_cast<float>(i) / steps;
+        const int x = static_cast<int>(x0 + dx * t);
+        const int y = static_cast<int>(y0 + dy * t);
+        if ((x != px || y != py) && px >= 1 && py >= 1 && x >= 1 && y >= 1 && px <= 254 && py <= 254 && x <= 254 && y <= 254)
+        {
+            // step one axis at a time so that a diagonal step checks both of its edges
+            if (x != px && !EdgeFree(px, py, x, py))
+            {
+                return true;
+            }
+            if (y != py && !EdgeFree(x, py, x, y))
+            {
+                return true;
+            }
+        }
+        px = x;
+        py = y;
+    }
+    return false;
+}
+
 bool NavCar::DirectLine(float sx, float sy, float tx, float ty) const
 {
     return LineSafe(static_cast<int>(sx), static_cast<int>(sy), static_cast<int>(tx), static_cast<int>(ty));

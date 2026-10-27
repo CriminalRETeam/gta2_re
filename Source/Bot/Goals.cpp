@@ -535,6 +535,9 @@ bool TravelGoal::ChooseCar(BotContext& ctx, s32* out_id, bool* out_hijack, float
     {
         ban.banned[i] = mBan[i];
     }
+    ban.has_target = true;
+    ban.target_x = mX;
+    ban.target_y = mY;
     return Cars_Pick(ctx, ban, max_dist, false, out_id, out_hijack, out_dist);
 }
 
@@ -1022,6 +1025,7 @@ void KillGangGoal::NextChild(BotContext& ctx)
     if (!pl.in_car && !mNoCar && mCarTries < 4)
     {
         CarPick ban;
+        ban.has_target = false;
         ban.banned_count = 0;
         for (int i = 0; i < mCarBanCount && i < 8; i++)
         {
@@ -1351,6 +1355,7 @@ void DestroyCarGoal::Decide(BotContext& ctx)
         else
         {
             CarPick ban;
+            ban.has_target = false;
             ban.banned_count = mBanCount;
             for (int i = 0; i < mBanCount; i++)
             {

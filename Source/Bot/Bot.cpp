@@ -1000,6 +1000,21 @@ void Bot::StepActions()
         mWorld->DumpMap(path, mOpts.map_dump_x, mOpts.map_dump_y, 24);
         BotPath_Join(path, sizeof(path), mOpts.out_dir, "bot_tiles.txt");
         mWorld->DumpTiles(path, static_cast<int>(mOpts.map_dump_x), static_cast<int>(mOpts.map_dump_y));
+        if (mRoad)
+        {
+            // what the car router makes of the tiles: bit 0x10 open, 1 left, 2 right, 4 top, 8 bottom wall
+            for (int ty = static_cast<int>(mOpts.map_dump_y) - 3; ty <= static_cast<int>(mOpts.map_dump_y) + 3; ty++)
+            {
+                char line[160];
+                char* lp = line;
+                lp += _snprintf(lp, sizeof(line), "road walls y=%d x=%d..:", ty, static_cast<int>(mOpts.map_dump_x) - 3);
+                for (int tx = static_cast<int>(mOpts.map_dump_x) - 3; tx <= static_cast<int>(mOpts.map_dump_x) + 3; tx++)
+                {
+                    lp += _snprintf(lp, line + sizeof(line) - lp, " %02x", mRoad->WallBits(tx, ty));
+                }
+                BotDecision("%s", line);
+            }
+        }
     }
 
     // Damage log: who is around when health drops

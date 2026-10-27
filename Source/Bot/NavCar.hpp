@@ -25,6 +25,16 @@ class NavCar : public BotObject
     // Waypoints are tile centres in world coordinates
     bool FindPath(float sx, float sy, float tx, float ty);
 
+    // The wall bits of a tile (1 left, 2 right, 4 top, 8 bottom) and whether it is open, for debugging
+    u8 WallBits(int x, int y)
+    {
+        if (!mBuilt)
+        {
+            Build();
+        }
+        return static_cast<u8>(mWalls[y * 256 + x] | (mGrid[y * 256 + x] ? 0x10 : 0));
+    }
+
     u32 Count() const
     {
         return mCount;
@@ -54,6 +64,9 @@ class NavCar : public BotObject
     // Tiles within radius of (cx, cy) are closed to FindPath until ClearBans (a drive got stuck there)
     // A pavement or field tile with clearance (not a road: cars parked there jam the traffic) between min_r and max_r tiles from (x, y), nearest first, for moving a car out of a doorway
     bool FindClearSpot(float x, float y, int min_r, int max_r, float* out_x, float* out_y) const;
+
+    // Does the straight line cross a fence or wall edge between tiles? (the car router's wall data)
+    bool CrossesWall(float x0, float y0, float x1, float y1);
 
     // Is the straight line between the two points open with room for a car all along it?
     bool DirectLine(float sx, float sy, float tx, float ty) const;
