@@ -13,6 +13,7 @@
 #include "Char_Pool.hpp"
 #include "Hud.hpp"
 #include "Gang.hpp"
+#include "CarInfoTable.hpp"
 #include "map_0x370.hpp"
 #include "ScriptManager.hpp"
 #include "rng.hpp"
@@ -51,6 +52,8 @@ WorldModel::WorldModel()
     token_count = frenzy_count = phone_count = tokens_listed = pickup_count = 0;
     memset(weapon_ammo, 0, sizeof(weapon_ammo));
     memset(gang_index, 0, sizeof(gang_index));
+    memset(kill_reaction, 0, sizeof(kill_reaction));
+    memset(kill_respect_change, 0, sizeof(kill_respect_change));
     gang_zone_count = 0;
     gang_zones_read = false;
     kill_frenzy_active = false;
@@ -89,6 +92,16 @@ const char* WorldModel_OccupationName(s32 o)
         case 42: return "gang_driver";
         default: return "other";
     }
+}
+
+static float TopSpeed(s32 model)
+{
+    if (!gCarInfo_808_678098 || model < 0 || model > 255)
+    {
+        return 0.0f;
+    }
+    ModelPhysics* p = gCarInfo_808_678098->GetModelPhysicsFromIdx_4546B0(static_cast<u8>(model));
+    return p ? F(p->field_28_max_speed) : 0.0f;
 }
 
 static void InsertObj(WorldModel::ObjInfo* arr, s32* count, const WorldModel::ObjInfo& info, float px, float py)
@@ -365,6 +378,14 @@ void WorldModel::Observe()
             memcpy(gang_names[gang_count], g->field_2_name, 4);
             gang_names[gang_count][4] = 0;
             gang_index[gang_count] = g->field_1_gang_idx;
+            if (g->field_1_gang_idx < kMaxGangs)
+            {
+                kill_respect_change[g->field_1_gang_idx] = g->field_139_kill_respect_change;
+                for (int k = 0; k < kMaxGangs; k++)
+                {
+                    kill_reaction[g->field_1_gang_idx][k] = g->field_122_gang_kill_reaction[k];
+                }
+            }
             gang_count++;
         }
         if (!gang_zones_read && gMap_0x370_6F6268 && gMap_0x370_6F6268->field_32C_pZones)
@@ -514,6 +535,7 @@ void WorldModel::Observe()
         info.mission = c->IsMissionRelated_4421B0();
         info.police = c->field_A0_car_kind == 6;
         info.speed = c->field_58_physics ? F(c->GetVelocity_43A4C0()) : 0.0f;
+        info.top_speed = TopSpeed(c->field_84_car_info_idx);
         const float dx = info.x - player.x;
         const float dy = info.y - player.y;
         info.dist = sqrtf(dx * dx + dy * dy);
@@ -725,6 +747,7 @@ bool WorldModel::FindCar(s32 car_id, CarInfo* out) const
         out->mission = c->IsMissionRelated_4421B0();
         out->police = c->field_A0_car_kind == 6;
         out->speed = c->field_58_physics ? F(c->GetVelocity_43A4C0()) : 0.0f;
+        out->top_speed = TopSpeed(c->field_84_car_info_idx);
         const float dx = out->x - player.x;
         const float dy = out->y - player.y;
         out->dist = sqrtf(dx * dx + dy * dy);

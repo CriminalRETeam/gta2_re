@@ -141,10 +141,10 @@
         "-bot_map=wil",
         "-bot_phone_id=226"
       ],
-      "budget": 40000,
-      "expect": "FAIL",
-      "replay": false,
-      "note": "tracked challenge: the delivery truck has to be chased by car"
+      "budget": 60000,
+      "expect": "PASS",
+      "replay": true,
+      "note": "destroy the delivery truck: DestroyCarGoal rams it with a car, then shoots it"
     }
   ]
 }

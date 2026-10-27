@@ -2,6 +2,7 @@
 #include "WalkAction.hpp"
 #include "CarActions.hpp"
 #include "CollectActions.hpp"
+#include "Goals.hpp"
 #include "WorldModel.hpp"
 #include "NavFoot.hpp"
 #include "Snapshot.hpp"
@@ -251,7 +252,7 @@ Action::Status MissionAction::Step(BotContext& ctx)
         }
         else if (strncmp(key, "wreck", 5) == 0)
         {
-            mChild = new DestroyCarAction(arrow.car_idx);
+            mChild = new DestroyCarGoal(arrow.car_idx);
         }
         else if (arrow.type == 3)
         {
@@ -260,7 +261,10 @@ Action::Status MissionAction::Step(BotContext& ctx)
         else if (arrow.type == 2)
         {
             // hunt it: out of the car, up to it, shoot with the weapon the mission gave
-            mChild = new KillPedAction(arrow.ped_id, arrow.x, arrow.y);
+            SequenceGoal* hunt = new SequenceGoal("hunt");
+            hunt->Add(new PrepareGoal(Weapons::VsPed, 35.0f, 900), true);
+            hunt->Add(new KillPedAction(arrow.ped_id, arrow.x, arrow.y), false);
+            mChild = hunt;
         }
         else if (pl.in_car)
         {

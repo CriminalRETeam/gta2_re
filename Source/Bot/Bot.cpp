@@ -765,8 +765,7 @@ void Bot::BuildActions()
             return;
         }
         BotDecision("f=%d phone_test: phone #%d model %d at (%.0f,%.0f)", mFrame, phone->id, phone->model, phone->x, phone->y);
-        mActions[mActionCount++] = new PhoneAction(phone->id, phone->x, phone->y);
-        mActions[mActionCount++] = new MissionAction();
+        mActions[mActionCount++] = new MissionGoal(*phone);
         return;
     }
 

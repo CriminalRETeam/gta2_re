@@ -2,6 +2,7 @@
 #include "WalkAction.hpp"
 #include "NavFoot.hpp"
 #include "CarActions.hpp"
+#include "ChaseActions.hpp"
 #include "CollectActions.hpp"
 #include "MissionActions.hpp"
 #include "Goap.hpp"
@@ -417,47 +418,13 @@ float TravelGoal::Remaining(const WorldModel& w) const
 // car, a mission car or a wreck. dist is the path length on foot.
 bool TravelGoal::ChooseCar(BotContext& ctx, s32* out_id, bool* out_hijack, float* out_dist, float max_dist)
 {
-    const WorldModel& w = *ctx.world;
-    const WorldModel::PlayerInfo& pl = w.player;
-    float best = 1e9f;
-    bool found = false;
-    bool cops_near = false;
-    for (int i = 0; i < w.ped_count; i++)
+    CarPick ban;
+    ban.banned_count = mBanCount;
+    for (int i = 0; i < mBanCount; i++)
     {
-        cops_near = cops_near || (w.peds[i].cop && !w.peds[i].dead && w.peds[i].dist < 16.0f);
+        ban.banned[i] = mBan[i];
     }
-    for (int i = 0; i < w.car_count; i++)
-    {
-        const WorldModel::CarInfo& c = w.cars[i];
-        bool banned = false;
-        for (int b = 0; b < mBanCount; b++)
-        {
-            banned = banned || mBan[b] == c.idx;
-        }
-        if (banned || c.locked || c.police || c.mission || c.damage > 1500 || c.dist > max_dist)
-        {
-            continue;
-        }
-        if (c.has_driver && (c.speed > 0.03f || pl.wanted_stars > 0 || cops_near))
-        {
-            continue; // moving traffic cannot be boarded, and a hijack in front of the police ends in an arrest
-        }
-        if (!ctx.nav->FindPath(static_cast<u8>(pl.x), static_cast<u8>(pl.y), static_cast<u8>(pl.z + 0.5f), static_cast<u8>(c.x), static_cast<u8>(c.y)) || ctx.nav->Approximate())
-        {
-            continue;
-        }
-        // a hijack is dearer than a parked car: the driver fights back
-        const float cost = static_cast<float>(ctx.nav->PathLength()) + (c.has_driver ? 25.0f : 0.0f) + static_cast<float>(c.damage) * 0.01f;
-        if (cost < best)
-        {
-            best = cost;
-            *out_id = c.idx;
-            *out_hijack = c.has_driver;
-            *out_dist = static_cast<float>(ctx.nav->PathLength());
-            found = true;
-        }
-    }
-    return found;
+    return Cars_Pick(ctx, ban, max_dist, false, out_id, out_hijack, out_dist);
 }
 
 void TravelGoal::BeginStage(BotContext& ctx, Stage st)
@@ -694,6 +661,7 @@ KillGangGoal::KillGangGoal(s32 gang_idx, s32 kills, s32 max_frames)
     , mWander(0)
     , mZone(0)
     , mFailures(0)
+    , mChildSince(0)
 {
 }
 
@@ -746,6 +714,7 @@ void KillGangGoal::NextChild(BotContext& ctx)
     }
     // Nobody in sight: walk about the gang's territory, nearest zone first
     mHunting = false;
+    mChildSince = ctx.frame;
     if (pl.in_car)
     {
         mChild = new ExitCarAction();
@@ -831,6 +800,16 @@ Action::Status KillGangGoal::Step(BotContext& ctx)
         NextChild(ctx);
         return Running;
     }
+    // A zone that cannot be reached in a reasonable time: try the next one
+    if (!mHunting && ctx.frame - mChildSince > 2500)
+    {
+        BotDecision("f=%d kill_gang: could not reach the zone in 2500 frames; trying another", ctx.frame);
+        delete mChild;
+        mChild = NULL;
+        mZone++;
+        mFailures++;
+        return Running;
+    }
     // A gang ped came into sight while walking: switch to hunting it
     if (!mHunting && ctx.frame % 10 == 0)
     {
@@ -869,6 +848,241 @@ Action::Status KillGangGoal::Step(BotContext& ctx)
     delete mChild;
     mChild = NULL;
     ctx.input = 0;
+    return Running;
+}
+
+// ---------------------------------------------------------------------------------------------
+DestroyCarGoal::DestroyCarGoal(s32 car_id)
+    : mCarId(car_id)
+    , mStage(Prep)
+    , mChild(NULL)
+    , mSnap(NULL)
+    , mTriedShoot(false)
+    , mRamTries(0)
+    , mPickId(0)
+    , mPickFailures(0)
+    , mBanCount(0)
+    , mStart(0)
+{
+}
+
+DestroyCarGoal::~DestroyCarGoal()
+{
+    delete mChild;
+    delete mSnap;
+}
+
+void DestroyCarGoal::Start(BotContext& ctx)
+{
+    mStart = ctx.frame;
+    mTriedShoot = false;
+    mRamTries = 0;
+    mPickFailures = 0;
+    mBanCount = 0;
+    BeginStage(ctx, Prep);
+}
+
+void DestroyCarGoal::BeginStage(BotContext& ctx, Stage st)
+{
+    delete mChild;
+    mChild = NULL;
+    mStage = st;
+    switch (st)
+    {
+        case Prep:
+            mChild = new PrepareGoal(Weapons::VsCar, 45.0f, 900);
+            break;
+        case Shoot:
+            mTriedShoot = true;
+            mChild = new DestroyCarAction(mCarId);
+            break;
+        case GetCar:
+        {
+            WorldModel::CarInfo c;
+            const bool hijack = ctx.world->FindCar(mPickId, &c) && c.has_driver;
+            mChild = new EnterCarAction(mPickId, hijack);
+            break;
+        }
+        case Ram:
+            mChild = new RamCarAction(mCarId);
+            break;
+        case Leave:
+            mChild = new ExitCarAction();
+            break;
+        case Finish:
+            mTriedShoot = true;
+            mChild = new DestroyCarAction(mCarId);
+            break;
+    }
+    BeginChild(ctx, &mSnap, mChild);
+}
+
+// Shoot it or ram it, whichever is cheaper (frames, roughly)
+void DestroyCarGoal::Decide(BotContext& ctx)
+{
+    const WorldModel& w = *ctx.world;
+    const WorldModel::PlayerInfo& pl = w.player;
+    WorldModel::CarInfo t;
+    if (!w.FindCar(mCarId, &t))
+    {
+        delete mChild; // gone: Step reports Done
+        mChild = NULL;
+        return;
+    }
+    s32 score = 0;
+    Weapons::BestHeld(w, Weapons::VsCar, &score);
+    float shoot_cost = 1e9f;
+    if (!mTriedShoot)
+    {
+        shoot_cost = t.dist * 22.0f + 200.0f;
+        if (t.speed > 0.08f)
+        {
+            shoot_cost += 2500.0f; // it will not stand still for the rocket
+        }
+        if (score < 6)
+        {
+            shoot_cost += 4000.0f; // a pistol takes a minute to wreck a car
+        }
+        else if (score < 8)
+        {
+            shoot_cost += 600.0f;
+        }
+    }
+    float ram_cost = 1e9f;
+    s32 pick = 0;
+    bool hijack = false;
+    float path = 0.0f;
+    if (mRamTries < 3)
+    {
+        if (pl.in_car)
+        {
+            ram_cost = t.dist * 7.0f + 500.0f;
+            pick = pl.car_id;
+        }
+        else
+        {
+            CarPick ban;
+            ban.banned_count = mBanCount;
+            for (int i = 0; i < mBanCount; i++)
+            {
+                ban.banned[i] = mBan[i];
+            }
+            if (Cars_Pick(ctx, ban, 60.0f, true, &pick, &hijack, &path))
+            {
+                ram_cost = path * 22.0f + 150.0f + t.dist * 7.0f + 500.0f;
+            }
+        }
+        if (t.damage >= 6000)
+        {
+            ram_cost *= 0.7f; // already hurt: a few more knocks
+        }
+    }
+    BotDecision("f=%d destroy_car: car #%d model %d %.0f tiles away (speed %.2f, damage %d); shoot %.0f (weapon score %d) against ram %.0f%s", ctx.frame, mCarId, t.model, t.dist, t.speed, t.damage, shoot_cost, score, ram_cost,
+                pl.in_car ? " (already in a car)" : "");
+    if (shoot_cost >= 1e9f && ram_cost >= 1e9f)
+    {
+        delete mChild; // nothing left to try: Step fails
+        mChild = NULL;
+        return;
+    }
+    if (shoot_cost <= ram_cost)
+    {
+        BeginStage(ctx, pl.in_car ? Leave : Shoot);
+        return;
+    }
+    mRamTries++;
+    if (pl.in_car)
+    {
+        BeginStage(ctx, Ram);
+    }
+    else
+    {
+        mPickId = pick;
+        BeginStage(ctx, GetCar);
+    }
+}
+
+void DestroyCarGoal::Next(BotContext& ctx, bool ok)
+{
+    switch (mStage)
+    {
+        case Prep:
+            Decide(ctx);
+            break;
+        case Shoot:
+        case Finish:
+            // Done is reported by Step; a failed shot tries the other way
+            Decide(ctx);
+            break;
+        case GetCar:
+            if (ok)
+            {
+                BeginStage(ctx, Ram);
+            }
+            else
+            {
+                if (mBanCount < 8)
+                {
+                    mBan[mBanCount++] = mPickId;
+                }
+                mPickFailures++;
+                Decide(ctx);
+            }
+            break;
+        case Ram:
+            // Ran its course (target stopped / burning / gone) or our car is nearly dead: get out
+            BeginStage(ctx, Leave);
+            break;
+        case Leave:
+        {
+            // on foot: the target is stopped or burning, or our car is spent. Finish it with the gun
+            // if it is near, otherwise decide again
+            WorldModel::CarInfo t;
+            if (ctx.world->FindCar(mCarId, &t) && t.damage < 32000 && t.dist < 30.0f && !mTriedShoot)
+            {
+                BeginStage(ctx, Finish);
+            }
+            else
+            {
+                Decide(ctx);
+            }
+            break;
+        }
+    }
+}
+
+Action::Status DestroyCarGoal::Step(BotContext& ctx)
+{
+    ctx.input = 0;
+    if (!ctx.world->player.valid)
+    {
+        return Running;
+    }
+    WorldModel::CarInfo t;
+    if (!ctx.world->FindCar(mCarId, &t) || t.damage >= 32000)
+    {
+        BotDecision("f=%d destroy_car: car #%d destroyed after %d frames", ctx.frame, mCarId, ctx.frame - mStart);
+        return Done;
+    }
+    if (ctx.frame - mStart > 15000)
+    {
+        return Fail("no_progress", "destroy_car: car #%d still alive after 15000 frames", mCarId);
+    }
+    if (!mChild)
+    {
+        return Fail("no_plan", "destroy_car: no way left to destroy car #%d (shoot tried %d, ram tries %d)", mCarId, mTriedShoot, mRamTries);
+    }
+    const Status s = mChild->Step(ctx);
+    if (s == Running)
+    {
+        return Running;
+    }
+    ctx.input = 0;
+    if (s == Failed)
+    {
+        BotDecision("f=%d destroy_car: stage %d (%s) failed (%s): %s", ctx.frame, static_cast<int>(mStage), mChild->Name(), mChild->fail_condition, mChild->fail_detail);
+    }
+    Next(ctx, s == Done);
     return Running;
 }
 
@@ -991,6 +1205,22 @@ void MissionsGoal::Start(BotContext& ctx)
     mStart = ctx.frame;
 }
 
+// The first gang whose name appears in the text
+s32 Goals_FirstGang(const WorldModel& w, const char* text)
+{
+    for (const char* p = text; *p; p++)
+    {
+        for (int g = 0; g < w.gang_count; g++)
+        {
+            if (IEqualPrefix(p, w.gang_names[g]))
+            {
+                return w.gang_index[g];
+            }
+        }
+    }
+    return -1;
+}
+
 MissionsGoal::PhoneMemory* MissionsGoal::Memory(s32 id, bool create)
 {
     for (int i = 0; i < mMemoryCount; i++)
@@ -1087,7 +1317,12 @@ Action::Status MissionsGoal::Step(BotContext& ctx)
         }
         if (s == Done)
         {
-            BotDecision("f=%d missions: respect raised for phone #%d: respect sum now %d", ctx.frame, mRaisePhone, RespectSum(*ctx.world));
+            BotDecision("f=%d missions: respect raised for phone #%d: respect now %d %d %d", ctx.frame, mRaisePhone, ctx.world->respect[0], ctx.world->respect[1], ctx.world->respect[2]);
+            PhoneMemory* rm = Memory(mRaisePhone, false);
+            if (rm && rm->kills_asked < 80)
+            {
+                rm->kills_asked *= 2; // if it still refuses, it wants more
+            }
         }
         else
         {
@@ -1133,16 +1368,47 @@ Action::Status MissionsGoal::Step(BotContext& ctx)
                 {
                     m->respect_at_refusal_v[r] = ctx.world->respect[r];
                 }
-                m->hint_gang = Goals_ParseKillHint(*ctx.world, mChild->RefusalBrief());
+                // Whom to kill: the brief says so when it can; otherwise the gang whose death pleases the
+                // owner of the phone most (the game's own kill reaction table)
+                const WorldModel& w = *ctx.world;
+                s32 owner = -1;
+                for (int z = 0; z < w.gang_zone_count && owner < 0; z++)
+                {
+                    const WorldModel::GangZone& gz = w.gang_zones[z];
+                    if (mChild->PhoneObj().x >= gz.x && mChild->PhoneObj().x < gz.x + gz.w && mChild->PhoneObj().y >= gz.y && mChild->PhoneObj().y < gz.y + gz.h)
+                    {
+                        owner = gz.gang_idx;
+                    }
+                }
+                if (owner < 0)
+                {
+                    owner = Goals_FirstGang(w, mChild->RefusalBrief());
+                }
+                m->hint_gang = Goals_ParseKillHint(w, mChild->RefusalBrief());
+                s32 best_reaction = 0;
+                if (m->hint_gang < 0 && owner >= 0)
+                {
+                    for (int j = 0; j < WorldModel::kMaxGangs; j++)
+                    {
+                        if (j != owner && w.kill_reaction[j][owner] > best_reaction)
+                        {
+                            best_reaction = w.kill_reaction[j][owner];
+                            m->hint_gang = j;
+                        }
+                    }
+                }
                 if (m->hint_gang >= 0)
                 {
-                    m->kills_asked = m->kills_asked == 0 ? 4 : m->kills_asked * 2;
+                    const s32 asked = m->kills_asked == 0 ? 10 : m->kills_asked;
+                    BotDecision("f=%d missions: phone owner gang %d, kill gang %d (one kill changes the owner's respect by %d, the victim's by -%d)", ctx.frame, owner, m->hint_gang,
+                                owner >= 0 ? w.kill_reaction[m->hint_gang][owner] : 0, w.kill_respect_change[m->hint_gang]);
+                    m->kills_asked = asked;
                     mRaisePhone = m->id;
                     SequenceGoal* seq = new SequenceGoal("raise_respect");
                     seq->Add(new PrepareGoal(Weapons::VsPed, 40.0f, 1500), true);
-                    seq->Add(new KillGangGoal(m->hint_gang, m->kills_asked, 6000), false);
+                    seq->Add(new KillGangGoal(m->hint_gang, asked, 6000), false);
                     mRaise = seq;
-                    BotDecision("f=%d missions: raising respect: kill %d of gang %d", ctx.frame, m->kills_asked, m->hint_gang);
+                    BotDecision("f=%d missions: raising respect: kill %d of gang %d", ctx.frame, asked, m->hint_gang);
                     BeginChild(ctx, &mSnap, mRaise);
                 }
             }

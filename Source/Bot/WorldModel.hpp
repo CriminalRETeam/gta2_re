@@ -94,6 +94,7 @@ class WorldModel : public BotObject
         float x, y;
         float dist;
         float speed; // tiles per frame
+        float top_speed; // the model's top speed (game units, only to compare models)
         bool has_driver;
         bool locked;
         bool mission;
@@ -159,6 +160,10 @@ class WorldModel : public BotObject
     char gang_names[kMaxGangs][5];
     s32 gang_index[kMaxGangs]; // Gang::field_1_gang_idx of the same slot (PedInfo::gang_idx uses it)
     s32 gang_count;
+    // Killing a ped of gang J changes the respect of gang i by kill_reaction[J][i] (Gang::field_122_gang_kill_reaction),
+    // and of gang J itself by -kill_respect_change[J]
+    s32 kill_reaction[kMaxGangs][kMaxGangs];
+    s32 kill_respect_change[kMaxGangs];
     // Gang territory (map zones of the gang type), read once: the map does not change
     struct GangZone
     {

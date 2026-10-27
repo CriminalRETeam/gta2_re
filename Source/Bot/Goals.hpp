@@ -135,6 +135,7 @@ class TravelGoal : public Action
 
 // Gang peds to kill when a phone refuses: the brief names whom ("kill some Zaibatsu")
 s32 Goals_ParseKillHint(const WorldModel& w, const char* brief); // Gang::field_1_gang_idx or -1
+s32 Goals_FirstGang(const WorldModel& w, const char* text);
 
 // Kills pedestrians of one gang: hunts those in sight, otherwise wanders their territory
 class KillGangGoal : public Action
@@ -177,6 +178,7 @@ class KillGangGoal : public Action
     s32 mWander;
     s32 mZone;
     s32 mFailures;
+    s32 mChildSince;
 };
 
 // Picks up what makes the next fight survivable: full health, armour and a better weapon than the
@@ -216,6 +218,49 @@ class PrepareGoal : public Action
     s32 mPicked;
 };
 
+// Destroys a car. Two ways to do it, chosen by estimated cost and tried in turn if one fails:
+// shoot it from the ground (the best explosive / fire weapon held), or take a fast car and ram it
+// until it stops or burns, then get out and finish it with the gun.
+class DestroyCarGoal : public Action
+{
+  public:
+    explicit DestroyCarGoal(s32 car_id);
+    ~DestroyCarGoal();
+
+    virtual const char* Name() const
+    {
+        return "destroy_car_goal";
+    }
+    virtual void Start(BotContext& ctx);
+    virtual Status Step(BotContext& ctx);
+
+  private:
+    enum Stage
+    {
+        Prep,
+        Shoot,
+        GetCar,
+        Ram,
+        Leave,
+        Finish
+    };
+    void Decide(BotContext& ctx);
+    void BeginStage(BotContext& ctx, Stage st);
+    void Next(BotContext& ctx, bool ok);
+
+    s32 mCarId;
+    Stage mStage;
+    Action* mChild;
+    Snapshot* mSnap;
+    bool mTriedShoot;
+    s32 mRamTries;
+    s32 mPickId;
+    s32 mPickFailures;
+    s32 mBan[8];
+    s32 mBanCount;
+    s32 mStart;
+};
+
 // One phone: prepare, answer it, play the mission it starts
 class MissionGoal : public Action
 {
@@ -245,6 +290,11 @@ class MissionGoal : public Action
     s32 PhoneId() const
     {
         return mPhone.id;
+    }
+
+    const WorldModel::ObjInfo& PhoneObj() const
+    {
+        return mPhone;
     }
 
   private:

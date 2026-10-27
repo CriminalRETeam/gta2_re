@@ -1,0 +1,298 @@
+#include "ChaseActions.hpp"
+#include "NavFoot.hpp"
+#include "NavCar.hpp"
+#include "BotLog.hpp"
+#include "input_bits.hpp"
+#include <math.h>
+#include <string.h>
+#include "BotCompat.hpp"
+
+bool Cars_Pick(BotContext& ctx, const CarPick& ban, float max_dist, bool prefer_fast, s32* out_id, bool* out_hijack, float* out_path)
+{
+    const WorldModel& w = *ctx.world;
+    const WorldModel::PlayerInfo& pl = w.player;
+    float best = 1e9f;
+    bool found = false;
+    bool cops_near = false;
+    for (int i = 0; i < w.ped_count; i++)
+    {
+        cops_near = cops_near || (w.peds[i].cop && !w.peds[i].dead && w.peds[i].dist < 16.0f);
+    }
+    for (int i = 0; i < w.car_count; i++)
+    {
+        const WorldModel::CarInfo& c = w.cars[i];
+        bool banned = false;
+        for (int b = 0; b < ban.banned_count; b++)
+        {
+            banned = banned || ban.banned[b] == c.idx;
+        }
+        if (banned || c.locked || c.police || c.mission || c.damage > 1500 || c.dist > max_dist)
+        {
+            continue;
+        }
+        if (c.has_driver && (c.speed > 0.03f || pl.wanted_stars > 0 || cops_near || c.dist > 7.0f))
+        {
+            continue; // moving traffic cannot be boarded, a hijack in front of the police ends in an arrest, and a car
+                      // waiting at a light drives off before we are there unless it is right beside us
+        }
+        if (!ctx.nav->FindPath(static_cast<u8>(pl.x), static_cast<u8>(pl.y), static_cast<u8>(pl.z + 0.5f), static_cast<u8>(c.x), static_cast<u8>(c.y)) || ctx.nav->Approximate())
+        {
+            continue;
+        }
+        if (c.has_driver && ctx.nav->PathLength() > 10)
+        {
+            continue; // by the time we have walked there it has driven off
+        }
+        // a hijack is dearer than a parked car: the driver fights back
+        float cost = static_cast<float>(ctx.nav->PathLength()) + (c.has_driver ? 25.0f : 0.0f) + static_cast<float>(c.damage) * 0.01f;
+        if (prefer_fast)
+        {
+            cost -= c.top_speed * 6.0f; // a fast car is worth a walk
+        }
+        if (cost < best)
+        {
+            best = cost;
+            *out_id = c.idx;
+            *out_hijack = c.has_driver;
+            *out_path = static_cast<float>(ctx.nav->PathLength());
+            found = true;
+        }
+    }
+    return found;
+}
+
+// ---------------------------------------------------------------------------------------------
+RamCarAction::RamCarAction(s32 target_car_id)
+    : mTarget(target_car_id)
+    , mStart(0)
+    , mHavePrev(false)
+    , mPrevTx(0)
+    , mPrevTy(0)
+    , mVx(0)
+    , mVy(0)
+    , mPrevX(0)
+    , mPrevY(0)
+    , mSpeed(0)
+    , mStill(0)
+    , mReverseUntil(0)
+    , mReverseSteer(1.0f)
+    , mPlanFrame(-1000)
+    , mWpIdx(0)
+    , mHavePlan(false)
+    , mHits(0)
+    , mLastTargetDamage(0)
+    , mLastDamageFrame(0)
+    , mStoppedFrames(0)
+    , mWpCount(0)
+{
+}
+
+void RamCarAction::Start(BotContext& ctx)
+{
+    mStart = ctx.frame;
+    mHavePrev = false;
+    mStill = 0;
+    mReverseUntil = 0;
+    mHavePlan = false;
+    mPlanFrame = -1000;
+    mHits = 0;
+    mStoppedFrames = 0;
+    mLastDamageFrame = ctx.frame;
+    mLastTargetDamage = 0;
+    if (!ctx.car.valid && ctx.foot.valid)
+    {
+        ctx.car = ctx.foot;
+    }
+}
+
+// No building on the straight line between two points (sampled every half tile)
+bool RamCarAction::LineClear(float x0, float y0, float x1, float y1) const
+{
+    const float dx = x1 - x0;
+    const float dy = y1 - y0;
+    const float len = sqrtf(dx * dx + dy * dy);
+    const int steps = static_cast<int>(len * 2.0f) + 1;
+    for (int i = 1; i < steps; i++)
+    {
+        const float t = static_cast<float>(i) / steps;
+        if (WorldModel::BuildingAt(x0 + dx * t, y0 + dy * t))
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+Action::Status RamCarAction::Step(BotContext& ctx)
+{
+    const WorldModel::PlayerInfo& pl = ctx.world->player;
+    ctx.input = 0;
+    if (!pl.valid)
+    {
+        return Running;
+    }
+    if (pl.dead)
+    {
+        return Fail("action_failed", "ram_car: the player died");
+    }
+    if (!pl.in_car)
+    {
+        return Fail("action_failed", "ram_car: the player is not in a car");
+    }
+    if (ctx.frame - mStart > 3000)
+    {
+        return Fail("no_progress", "ram_car: car #%d still going after 3000 frames", mTarget);
+    }
+    if (pl.car_damage >= 12000)
+    {
+        return Fail("car_damaged", "ram_car: own car damage %d, about to burn", pl.car_damage);
+    }
+    WorldModel::CarInfo t;
+    if (!ctx.world->FindCar(mTarget, &t))
+    {
+        BotDecision("f=%d ram_car: car #%d is gone", ctx.frame, mTarget);
+        return Done;
+    }
+    if (t.damage >= 16000)
+    {
+        BotDecision("f=%d ram_car: car #%d is burning (damage %d)", ctx.frame, mTarget, t.damage);
+        return Done;
+    }
+    if (t.damage > mLastTargetDamage + 200)
+    {
+        mHits++;
+        mLastDamageFrame = ctx.frame;
+    }
+    mLastTargetDamage = t.damage;
+
+    // own and the target's velocity
+    if (mHavePrev)
+    {
+        const float mx = pl.x - mPrevX;
+        const float my = pl.y - mPrevY;
+        mSpeed = sqrtf(mx * mx + my * my);
+        mVx = mVx * 0.8f + (t.x - mPrevTx) * 0.2f;
+        mVy = mVy * 0.8f + (t.y - mPrevTy) * 0.2f;
+    }
+    mPrevX = pl.x;
+    mPrevY = pl.y;
+    mPrevTx = t.x;
+    mPrevTy = t.y;
+    mHavePrev = true;
+
+    const float dx = t.x - pl.x;
+    const float dy = t.y - pl.y;
+    const float dist = sqrtf(dx * dx + dy * dy);
+    const float tspeed = sqrtf(mVx * mVx + mVy * mVy);
+
+    // The target has stopped (stuck, wrecked in the road, driver gone) and we are next to it:
+    // that is the moment to get out and finish it with the gun
+    if (dist < 7.0f && tspeed < 0.01f)
+    {
+        mStoppedFrames++;
+        if (mStoppedFrames > 30)
+        {
+            BotDecision("f=%d ram_car: car #%d has stopped %.1f tiles away (damage %d, %d hits)", ctx.frame, mTarget, dist, t.damage, mHits);
+            return Done;
+        }
+    }
+    else
+    {
+        mStoppedFrames = 0;
+    }
+
+    // stuck: back out and swing the other way
+    if (ctx.frame < mReverseUntil)
+    {
+        ctx.input = input_bit::Backward | (mReverseSteer > 0 ? input_bit::Right : input_bit::Left);
+        return Running;
+    }
+    if (mSpeed < 0.004f && ctx.frame - mStart > 30)
+    {
+        mStill++;
+    }
+    else
+    {
+        mStill = 0;
+    }
+    if (mStill > 45 && !(dist < 4.0f && tspeed < 0.02f))
+    {
+        mStill = 0;
+        mReverseUntil = ctx.frame + 35;
+        mReverseSteer = ctx.rng->Below(2) == 0 ? 1.0f : -1.0f;
+        BotDecision("f=%d ram_car: stuck at (%.1f,%.1f), reversing", ctx.frame, pl.x, pl.y);
+        return Running;
+    }
+
+    // Where to aim: the point the target will reach by the time we do, or a waypoint of the road
+    // route when buildings are in the way
+    const float closing = mSpeed > 0.08f ? mSpeed : 0.08f;
+    float lead = dist / closing;
+    lead = lead > 30.0f ? 30.0f : lead;
+    float ax = t.x + mVx * lead;
+    float ay = t.y + mVy * lead;
+    if (!LineClear(pl.x, pl.y, ax, ay))
+    {
+        ax = t.x;
+        ay = t.y;
+    }
+    if (!LineClear(pl.x, pl.y, ax, ay))
+    {
+        if (!mHavePlan || ctx.frame - mPlanFrame > 60)
+        {
+            mPlanFrame = ctx.frame;
+            mWpCount = 0;
+            if (ctx.road->FindPath(pl.x, pl.y, t.x, t.y))
+            {
+                for (u32 i = 1; i < ctx.road->Count() && mWpCount < kMaxWp; i++)
+                {
+                    mWpX[mWpCount] = ctx.road->X(i);
+                    mWpY[mWpCount] = ctx.road->Y(i);
+                    mWpCount++;
+                }
+            }
+            mWpIdx = 0;
+            mHavePlan = mWpCount > 0;
+        }
+        if (mHavePlan)
+        {
+            while (mWpIdx < mWpCount - 1 && (mWpX[mWpIdx] - pl.x) * (mWpX[mWpIdx] - pl.x) + (mWpY[mWpIdx] - pl.y) * (mWpY[mWpIdx] - pl.y) < 3.5f * 3.5f)
+            {
+                mWpIdx++;
+            }
+            ax = mWpX[mWpIdx];
+            ay = mWpY[mWpIdx];
+        }
+    }
+    else
+    {
+        mHavePlan = false;
+    }
+
+    const float err = ctx.Steer(ctx.car, pl.rot_deg, pl.x, pl.y, ax, ay, false);
+    const float aerr = fabsf(err);
+    if (aerr > 120.0f && mSpeed < 0.06f)
+    {
+        // it is behind us and we are slow: reverse round
+        ctx.input |= input_bit::Backward;
+    }
+    else if (aerr > 55.0f)
+    {
+        // a sharp turn: ease off and swing the tail with the hand brake when fast
+        ctx.input |= input_bit::Forward;
+        if (mSpeed > 0.12f)
+        {
+            ctx.input |= input_bit::HandbrakeJump;
+        }
+    }
+    else
+    {
+        ctx.input |= input_bit::Forward;
+        // very close and nearly there: no brakes, drive through it
+    }
+    if (ctx.frame % 60 == 0)
+    {
+        BotDecision("f=%d ram_car: target #%d at %.1f tiles, speed %.2f (mine %.2f), err %.0f, damage %d (mine %d), %d hits", ctx.frame, mTarget, dist, tspeed, mSpeed, err, t.damage, pl.car_damage, mHits);
+    }
+    return Running;
+}
