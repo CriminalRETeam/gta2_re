@@ -129,7 +129,7 @@ void __stdcall LogFuncAddr(u32 codeAddr, s32 mode);
                 static bool logged = false;                                                                                        \
                 if (!logged)                                                                                                       \
                 {                                                                                                                  \
-                    unsigned int ip;                                                                                               \
+                    u32 ip;                                                                                                        \
                     __asm { _emit 0xE8 }                                                                                             \
                     __asm {_emit 0x00} __asm {_emit 0x00} __asm {_emit 0x00} __asm {_emit 0x00} __asm {pop ip} LogFuncAddr(ip, 0); \
                     logged = true;                                                                                                 \
@@ -142,7 +142,7 @@ void __stdcall LogFuncAddr(u32 codeAddr, s32 mode);
                 static bool logged = false;                                                                                        \
                 if (!logged)                                                                                                       \
                 {                                                                                                                  \
-                    unsigned int ip;                                                                                               \
+                    u32 ip;                                                                                                        \
                     __asm { _emit 0xE8 }                                                                                             \
                     __asm {_emit 0x00} __asm {_emit 0x00} __asm {_emit 0x00} __asm {_emit 0x00} __asm {pop ip} LogFuncAddr(ip, 1); \
                     logged = true;                                                                                                 \
@@ -213,4 +213,4 @@ void __stdcall LogFuncAddr(u32 codeAddr, s32 mode);
 
 #define GTA2_DELETE_AND_NULL(x) \
     delete x;                   \
-    x = 0;
+    x = NULL;
