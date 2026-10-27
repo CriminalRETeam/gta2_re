@@ -168,6 +168,16 @@ void NavCar::Build()
             mArrows[y * 256 + x] = b->field_A_arrows & 0x0F;
             // face flag 0x400: a wall (fence, hedge, kerb wall) that stops cars and pedestrians
             mWalls[y * 256 + x] = static_cast<u8>(((b->field_0_left & 0x400) ? 1 : 0) | ((b->field_2_right & 0x400) ? 2 : 0) | ((b->field_4_top & 0x400) ? 4 : 0) | ((b->field_6_bottom & 0x400) ? 8 : 0));
+            // A fence is a block of its own on top of the ground (no lid, only side faces), which the highest block
+            // search does not return: the walls of the block above the ground count too
+            if (z < 7)
+            {
+                gmp_block_info* above = gMap_0x370_6F6268->GetBlockOrNull_452980(static_cast<u8>(x), static_cast<u8>(y), static_cast<u8>(z + 1));
+                if (above)
+                {
+                    mWalls[y * 256 + x] |= static_cast<u8>(((above->field_0_left & 0x400) ? 1 : 0) | ((above->field_2_right & 0x400) ? 2 : 0) | ((above->field_4_top & 0x400) ? 4 : 0) | ((above->field_6_bottom & 0x400) ? 8 : 0));
+                }
+            }
         }
     }
     mBuilt = true;

@@ -124,6 +124,10 @@ class WorldModel : public BotObject
     // ' ' nothing; arrows ^v<> where a green road arrow points; c a car, @ the player
     void DumpMap(const char* path, float cx, float cy, int radius) const;
 
+    // Every block of the columns within 2 tiles of (cx, cy): the four faces, lid, arrows and slope, and the world
+    // objects there. For finding out what a stuck car is pressing against.
+    void DumpTiles(const char* path, int cx, int cy) const;
+
     // Every world object in the pool: id model x y z behaviour pickup
     void DumpObjects(const char* path) const;
 

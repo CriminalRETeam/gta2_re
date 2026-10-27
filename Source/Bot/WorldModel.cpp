@@ -882,6 +882,48 @@ void WorldModel::DumpMap(const char* path, float cx, float cy, int radius) const
     fclose(f);
 }
 
+void WorldModel::DumpTiles(const char* path, int cx, int cy) const
+{
+    FILE* f = fopen(path, "w");
+    if (!f)
+    {
+        return;
+    }
+    fprintf(f, "# x y z | left right top bottom lid (hex; 0x400 wall, 0x800 bullet wall, 0x1000 flat) | arrows | type slope\n");
+    for (int y = cy - 2; y <= cy + 2; y++)
+    {
+        for (int x = cx - 2; x <= cx + 2; x++)
+        {
+            for (int z = 0; z < 8; z++)
+            {
+                gmp_block_info* b = gMap_0x370_6F6268->GetBlockOrNull_452980(static_cast<u8>(x), static_cast<u8>(y), static_cast<u8>(z));
+                if (!b || (b->field_B_slope_type == 0 && b->field_0_left == 0 && b->field_2_right == 0 && b->field_4_top == 0 && b->field_6_bottom == 0 && b->field_8_lid == 0))
+                {
+                    continue;
+                }
+                fprintf(f, "%d %d %d | %04x %04x %04x %04x %04x | %02x | type %d slope %d\n", x, y, z, b->field_0_left, b->field_2_right, b->field_4_top, b->field_6_bottom, b->field_8_lid, b->field_A_arrows,
+                        b->field_B_slope_type & 3, b->field_B_slope_type >> 2);
+            }
+        }
+    }
+    fprintf(f, "# world objects within 4 tiles: id model x y z behaviour\n");
+    for (int i = 0; i < 3825; i++)
+    {
+        Object* o = &gObject_2C_Pool_6F8F80->field_8_pool[i];
+        if (!o->field_4_sprite || !o->field_18_model)
+        {
+            continue;
+        }
+        const float ox = F(o->field_4_sprite->field_14_xy.x);
+        const float oy = F(o->field_4_sprite->field_14_xy.y);
+        if (ox > cx - 4 && ox < cx + 5 && oy > cy - 4 && oy < cy + 5)
+        {
+            fprintf(f, "%d %d %.1f %.1f %.1f %d\n", o->field_14_id, o->field_18_model, ox, oy, F(o->field_4_sprite->field_1C_zpos), o->field_8_definition ? o->field_8_definition->field_34_behavior_type : -1);
+        }
+    }
+    fclose(f);
+}
+
 void WorldModel::DumpObjects(const char* path) const
 {
     FILE* f = fopen(path, "w");

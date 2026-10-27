@@ -149,7 +149,7 @@
       "budget": 60000,
       "expect": "NONE",
       "replay": false,
-      "note": "tracked challenge: seeds 2 and 4 pass, seeds 1 and 3 fail or run out of frames (restarts after being arrested or thrown out of a car)"
+      "note": "tracked challenge: seeds 2, 3 and 4 pass, seed 1 runs out of frames (arrested twice, then wasted, each restart repeats the 100 tile trip)"
     },
     {
       "name": "train_ride",
