@@ -95,6 +95,9 @@ class DriveAction : public Action
     s32 mTurnEnd;
     bool mTurnReverse;
     s32 mBehindSince;
+    s32 mFwdUntil;
+    float mStartX, mStartY;
+    float mPlanX, mPlanY; // where the route was planned from (the start of its first leg)
 };
 
 // Creeps the car the player is in onto (x, y) to within tol tiles and stops there: a mission

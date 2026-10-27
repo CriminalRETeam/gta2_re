@@ -163,6 +163,11 @@ DriveAction::DriveAction(float x, float y, float stop_dist)
     , mTurnEnd(0)
     , mTurnReverse(false)
     , mBehindSince(0)
+    , mFwdUntil(0)
+    , mStartX(0)
+    , mStartY(0)
+    , mPlanX(0)
+    , mPlanY(0)
 {
 }
 
@@ -173,6 +178,9 @@ void DriveAction::Start(BotContext& ctx)
     mTurnEnd = 0;
     mTurnReverse = false;
     mBehindSince = 0;
+    mFwdUntil = 0;
+    mStartX = ctx.world->player.x;
+    mStartY = ctx.world->player.y;
     mPlanned = false;
     mRetries = 0;
     mHavePrev = false;
@@ -218,6 +226,8 @@ bool DriveAction::Plan(BotContext& ctx, const char* why)
         mWpCount++;
     }
     mWpIdx = 0;
+    mPlanX = pl.x;
+    mPlanY = pl.y;
     mProgressFrame = ctx.frame;
     mStillFrames = 0;
     mReverseUntil = 0;
@@ -337,13 +347,13 @@ Action::Status DriveAction::Step(BotContext& ctx)
             mBestWpDist = wd;
             mBestWpFrame = ctx.frame;
         }
-        else if (ctx.frame - mBestWpFrame > 100 && ctx.frame > mReverseUntil)
+        else if (ctx.frame - mBestWpFrame > 100 && ctx.frame > mFwdUntil)
         {
             mStillFrames = 46;
             mBestWpFrame = ctx.frame;
         }
     }
-    if (ctx.frame > ctx.action_start_frame + 40 && mSpeed < 0.004f && ctx.frame > mReverseUntil)
+    if (ctx.frame > ctx.action_start_frame + 40 && mSpeed < 0.004f && ctx.frame > mFwdUntil)
     {
         mStillFrames++;
     }
@@ -352,13 +362,15 @@ Action::Status DriveAction::Step(BotContext& ctx)
         mStillFrames = 0;
     }
     const bool timed_out = ctx.frame - mProgressFrame > 600;
-    if ((mStillFrames > 45 && mManoeuvres >= 2) || timed_out)
+    if ((mStillFrames > 45 && mManoeuvres >= 4) || timed_out)
     {
         char detail[220];
         _snprintf(detail, sizeof(detail), "%s at (%.1f,%.1f), waypoint %d/%d (%.1f,%.1f), dist %.1f to (%.1f,%.1f), %d reverse manoeuvres",
                   timed_out ? "no waypoint reached for 600 frames" : "not moving", pl.x, pl.y, mWpIdx, mWpCount, mWpX[mWpIdx], mWpY[mWpIdx], dist, mTx, mTy, mManoeuvres);
-        if (mRetries >= 3 || !ctx.action_snap)
+        const float from_start = sqrtf((pl.x - mStartX) * (pl.x - mStartX) + (pl.y - mStartY) * (pl.y - mStartY));
+        if (mRetries >= 3 || !ctx.action_snap || (from_start < 5.0f && mManoeuvres >= 4))
         {
+            // wedged where it began: a restore would only repeat it, give the car up (the caller walks or takes another)
             return Fail("no_progress", "%s", detail);
         }
         mRetries++;
@@ -379,18 +391,64 @@ Action::Status DriveAction::Step(BotContext& ctx)
         // back out and turn the other way
         mManoeuvres++;
         mStillFrames = 0;
-        mReverseUntil = ctx.frame + 40;
+        // a three point turn: back up with the wheel one way, then go forward with it the other way; the
+        // lengths and the side vary from try to try
+        mReverseUntil = ctx.frame + 25 + static_cast<s32>(ctx.rng->Below(45));
+        mFwdUntil = mReverseUntil + 35 + static_cast<s32>(ctx.rng->Below(45));
         mReverseSteer = (ctx.rng->Below(2) == 0) ? 1.0f : -1.0f;
         BotDecision("f=%d drive: not moving at (%.1f,%.1f), reverse manoeuvre %d", ctx.frame, pl.x, pl.y, mManoeuvres);
     }
 
     const bool last = mWpIdx == mWpCount - 1;
-    const float aim_x = mWpX[mWpIdx];
-    const float aim_y = mWpY[mWpIdx];
+    float aim_x = mWpX[mWpIdx];
+    float aim_y = mWpY[mWpIdx];
+    {
+        // Pure pursuit: aim a little way ahead on the route (further when faster) instead of at the waypoint
+        // itself, which keeps the car on the leg between two waypoints and rounds the corners
+        const float ax0 = mWpIdx > 0 ? mWpX[mWpIdx - 1] : mPlanX;
+        const float ay0 = mWpIdx > 0 ? mWpY[mWpIdx - 1] : mPlanY;
+        const float sx = mWpX[mWpIdx] - ax0;
+        const float sy = mWpY[mWpIdx] - ay0;
+        const float sl2 = sx * sx + sy * sy;
+        if (sl2 > 1.0f)
+        {
+            float t = ((pl.x - ax0) * sx + (pl.y - ay0) * sy) / sl2;
+            t = t < 0.0f ? 0.0f : (t > 1.0f ? 1.0f : t);
+            const float qx = ax0 + sx * t;
+            const float qy = ay0 + sy * t;
+            const float sl = sqrtf(sl2);
+            float look = 3.5f + mSpeed * 22.0f;
+            look = look > 8.0f ? 8.0f : look;
+            const float rem = sqrtf((mWpX[mWpIdx] - qx) * (mWpX[mWpIdx] - qx) + (mWpY[mWpIdx] - qy) * (mWpY[mWpIdx] - qy));
+            if (rem > look)
+            {
+                aim_x = qx + sx / sl * look;
+                aim_y = qy + sy / sl * look;
+            }
+            else if (mWpIdx + 1 < mWpCount)
+            {
+                const float nx = mWpX[mWpIdx + 1] - mWpX[mWpIdx];
+                const float ny = mWpY[mWpIdx + 1] - mWpY[mWpIdx];
+                const float nl = sqrtf(nx * nx + ny * ny);
+                if (nl > 0.01f)
+                {
+                    const float rest = look - rem;
+                    const float use = rest < nl ? rest : nl;
+                    aim_x = mWpX[mWpIdx] + nx / nl * use;
+                    aim_y = mWpY[mWpIdx] + ny / nl * use;
+                }
+            }
+        }
+    }
 
     if (ctx.frame < mReverseUntil)
     {
         ctx.input = input_bit::Backward | (mReverseSteer > 0 ? input_bit::Right : input_bit::Left);
+        return Running;
+    }
+    if (ctx.frame < mFwdUntil)
+    {
+        ctx.input = input_bit::Forward | (mReverseSteer > 0 ? input_bit::Left : input_bit::Right);
         return Running;
     }
 
@@ -433,6 +491,7 @@ Action::Status DriveAction::Step(BotContext& ctx)
             {
                 allowed = 0.03f; // keep creeping: stopping dead in front of every kerb and corner is what makes it crawl
             }
+
             cap = allowed < cap ? allowed : cap;
             if (ctx.frame % 40 == 0)
             {

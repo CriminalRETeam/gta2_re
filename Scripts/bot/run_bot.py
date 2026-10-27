@@ -5,6 +5,9 @@ Copies the current build into the GTA2 dir, runs it under wine, then copies the 
 (test/replay.rep) next to the bot's logs as bot_run.rep and prints the end of bot_log.txt."""
 import argparse
 import os
+import subprocess
+import threading
+import time
 import shutil
 from pathlib import Path
 
@@ -46,7 +49,29 @@ def main():
         bot_args.append("-bot_draw")
     bot_args += args.extra
 
+    shown = bool(args.show and os.environ.get("BOT_USE_DISPLAY"))
+    hung = {"v": False}
+    if shown:
+        # A screen that locks after the start leaves the game stuck before its first frame: watch for that
+        def watchdog():
+            log = out_dir / "bot_log.txt"
+            deadline = time.time() + 90
+            while time.time() < deadline:
+                if log.exists() and "game running" in log.read_text(errors="ignore"):
+                    return
+                time.sleep(3)
+            hung["v"] = True
+            print("no first frame after 90 s on your screen (locked?): stopping, running off screen instead")
+            subprocess.run("pkill -f 'decomp_main.exe'", shell=True)
+
+        threading.Thread(target=watchdog, daemon=True).start()
     code = botlib.run_game(root, bot_args, timeout=args.timeout, desktop="gta2bot,800x600" if args.desktop else None, log=out_dir / "wine_stdout.txt")
+    if hung["v"]:
+        subprocess.run("wineserver -k", shell=True)  # the killed game leaves wine's server in a bad state
+        time.sleep(4)
+        os.environ.pop("BOT_USE_DISPLAY", None)
+        bot_args = [a for a in bot_args if a not in ("-bot_draw", "-bot_fast")]
+        code = botlib.run_game(root, bot_args, timeout=args.timeout, desktop=None, log=out_dir / "wine_stdout.txt")
 
     rep = root / "test" / "replay.rep"
     if rep.exists():
