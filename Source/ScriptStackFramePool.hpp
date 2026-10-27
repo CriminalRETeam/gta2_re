@@ -13,7 +13,6 @@ class ScriptStackFrame
 
     void PoolDeallocate()
     {
-      
     }
 
     s32 field_0_cond_result;
