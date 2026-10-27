@@ -222,6 +222,7 @@ class KillGangGoal : public Action
     s32 mOwner;
     s32 mTargetRespect;
     s32 mFlees;
+    s32 mBurnFlees;
     bool mFleeing;
 };
 

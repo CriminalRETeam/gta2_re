@@ -104,6 +104,7 @@ Bot::Bot(const BotOptions& opts)
     , mLastHurtFrame(-1000)
     , mDefenseFrames(0)
     , mShootCrowdFrames(0)
+    , mBlastFrames(0)
     , mCrushLogFrame(-1000)
     , mUiOn(false)
     , mPaused(false)
@@ -1144,7 +1145,12 @@ void Bot::StepActions()
     mInputBits = mCtx.input & input_bit::ControlBits;
     const bool frenzy = strcmp(pAction->Name(), "kill_frenzy") == 0;
     bool shooting_crowd = false;
-    if (!frenzy)
+    const bool blast = !frenzy && AvoidBlast(); // a kill frenzy sets cars alight on purpose and looks after itself
+    if (blast)
+    {
+        mInputBits = mCtx.input & input_bit::ControlBits;
+    }
+    if (!frenzy && !blast)
     {
         shooting_crowd = ShootPoliceCrowd();
         if (!shooting_crowd)
@@ -1153,7 +1159,7 @@ void Bot::StepActions()
         }
         mInputBits = mCtx.input & input_bit::ControlBits;
     }
-    if (!frenzy && !shooting_crowd && (CopCrush() || Evade()))
+    if (!frenzy && !blast && !shooting_crowd && (CopCrush() || Evade()))
     {
         mInputBits = mCtx.input & input_bit::ControlBits;
     }
@@ -1353,6 +1359,77 @@ void Bot::CollectNext()
 // A reflex under every action: when something is hurting the player, turn on the nearest
 // pedestrian that is close and fight until it stops. Not for kill frenzies (they fight by
 // themselves) and not with explosive weapons (they would hurt the player more).
+// Damage at which a car burns and soon blows up (cars were seen burning from about 30000)
+static const s32 kBurnDamage = 24000;
+
+bool Bot::AvoidBlast()
+{
+    const WorldModel::PlayerInfo& pl = mWorld->player;
+    if (pl.dead || !mCtx.foot.valid)
+    {
+        return false;
+    }
+    if (pl.in_car)
+    {
+        // our own car is about to go: out of it, the next frames run
+        if (pl.car_damage >= kBurnDamage)
+        {
+            if (mBlastFrames == 0)
+            {
+                BotDecision("f=%d blast: our car has %d damage and is about to burn: getting out", mFrame, pl.car_damage);
+            }
+            mBlastFrames++;
+            mCtx.input = (mFrame % 6 < 3) ? input_bit::EnterExit : 0;
+            return true;
+        }
+        mBlastFrames = 0;
+        return false;
+    }
+    const WorldModel::CarInfo* hot = NULL;
+    for (int i = 0; i < mWorld->car_count; i++)
+    {
+        const WorldModel::CarInfo& c = mWorld->cars[i];
+        if (c.damage >= kBurnDamage && c.dist < 5.0f && (!hot || c.dist < hot->dist))
+        {
+            hot = &c;
+        }
+    }
+    if (!hot)
+    {
+        mBlastFrames = 0;
+        return false;
+    }
+    float ax = pl.x - hot->x;
+    float ay = pl.y - hot->y;
+    const float al = sqrtf(ax * ax + ay * ay);
+    ax = al > 0.01f ? ax / al : 1.0f;
+    ay = al > 0.01f ? ay / al : 0.0f;
+    // straight away from it, or the nearest way round a wall
+    float tx = pl.x;
+    float ty = pl.y;
+    for (int a = 0; a < 8; a++)
+    {
+        const float ang = (a % 2 == 0 ? 1 : -1) * (a / 2) * 0.5f;
+        const float cx = pl.x + (ax * cosf(ang) - ay * sinf(ang)) * 6.0f;
+        const float cy = pl.y + (ax * sinf(ang) + ay * cosf(ang)) * 6.0f;
+        if (!WorldModel::BuildingAt(cx, cy) && !WorldModel::BuildingAt((pl.x + cx) * 0.5f, (pl.y + cy) * 0.5f))
+        {
+            tx = cx;
+            ty = cy;
+            break;
+        }
+    }
+    if (mBlastFrames == 0)
+    {
+        BotDecision("f=%d blast: car #%d (damage %d) %.1f tiles away is about to burn: running clear", mFrame, hot->idx, hot->damage, hot->dist);
+    }
+    mBlastFrames++;
+    mCtx.input = 0;
+    mCtx.Steer(mCtx.foot, pl.rot_deg, pl.x, pl.y, tx, ty, true);
+    mCtx.input |= input_bit::Forward;
+    return true;
+}
+
 static bool Crowd_Solid(void* /*user*/, float x, float y)
 {
     return WorldModel::BuildingAt(x, y);

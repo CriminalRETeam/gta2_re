@@ -105,6 +105,7 @@ class Bot : public BotObject
     void CollectNext();
     bool SelfDefense();
     bool Evade();
+    bool AvoidBlast(); // a burning car close by, or our own about to: get out of the car, run away from the blast
     bool ShootPoliceCrowd(); // a crowd of police on foot: face them, shoot, walk backwards away from them
     bool CopCrush();
 
@@ -186,6 +187,7 @@ class Bot : public BotObject
     s32 mLastHurtFrame;
     s32 mDefenseFrames;
     s32 mShootCrowdFrames;
+    s32 mBlastFrames;
     s32 mPrevHp;
     s32 mPrevWanted;
     // The last 128 frames of the player, for finding out how a death or an arrest came about

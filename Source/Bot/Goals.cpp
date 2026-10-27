@@ -991,6 +991,7 @@ KillGangGoal::KillGangGoal(s32 gang_idx, s32 kills, s32 max_frames, s32 owner_ga
     , mOwner(owner_gang)
     , mTargetRespect(target_respect)
     , mFlees(0)
+    , mBurnFlees(0)
     , mFleeing(false)
 {
 }
@@ -1029,6 +1030,40 @@ void KillGangGoal::NextChild(BotContext& ctx)
 {
     const WorldModel& w = *ctx.world;
     const WorldModel::PlayerInfo& pl = w.player;
+    // A car that is about to burn (and blow up) next to a player on foot: walk clear of it before anything else
+    if (!pl.in_car && mBurnFlees < 3)
+    {
+        for (int i = 0; i < w.car_count; i++)
+        {
+            const WorldModel::CarInfo& bc = w.cars[i];
+            if (bc.damage >= 25000 && bc.dist < 8.0f)
+            {
+                float ax = pl.x - bc.x;
+                float ay = pl.y - bc.y;
+                const float al = sqrtf(ax * ax + ay * ay);
+                ax = al > 0.01f ? ax / al : 1.0f;
+                ay = al > 0.01f ? ay / al : 0.0f;
+                for (int a = 0; a < 8; a++)
+                {
+                    const float ang = (a % 2 == 0 ? 1 : -1) * (a / 2) * 0.6f;
+                    const float cx = pl.x + (ax * cosf(ang) - ay * sinf(ang)) * 14.0f;
+                    const float cy = pl.y + (ax * sinf(ang) + ay * cosf(ang)) * 14.0f;
+                    if (cx < 3 || cy < 3 || cx > 250 || cy > 250 || WorldModel::TileType(static_cast<int>(cx), static_cast<int>(cy)) == 0 || WorldModel::TileType(static_cast<int>(cx), static_cast<int>(cy)) == 4)
+                    {
+                        continue;
+                    }
+                    mBurnFlees++;
+                    mHunting = false;
+                    mRunOver = false;
+                    mChildSince = ctx.frame;
+                    BotDecision("f=%d kill_gang: car #%d (damage %d) is about to burn %.1f tiles away: walking clear to (%.0f,%.0f)", ctx.frame, bc.idx, bc.damage, bc.dist, cx, cy);
+                    mChild = new TravelGoal(cx, cy, 3.0f, false);
+                    BeginChild(ctx, &mSnap, mChild);
+                    return;
+                }
+            }
+        }
+    }
     // The police are after us: no more killing here, get away from them first
     bool cop_close = false;
     for (int i = 0; i < w.ped_count; i++)
@@ -1071,11 +1106,14 @@ void KillGangGoal::NextChild(BotContext& ctx)
             return;
         }
     }
+    // Without a gun (it is lost when the player dies) the gang is no use punched one by one: a gun lying within a short
+    // walk is taken, or a car, which is a weapon too
+    const bool unarmed = !pl.in_car && (pl.weapon == 0 || pl.ammo <= 0);
     // On foot, a gun, health or armour lying close (dropped by the ones just killed) is worth a few steps
     if (!pl.in_car && mBanCount < kMaxBan)
     {
         WorldModel::ObjInfo o;
-        if (Goals_WantedPickup(w, 8.0f, mBan, mBanCount, &o))
+        if (Goals_WantedPickup(w, unarmed ? 25.0f : 8.0f, mBan, mBanCount, &o))
         {
             mBan[mBanCount++] = o.id; // once
             mHunting = false;
@@ -1090,6 +1128,11 @@ void KillGangGoal::NextChild(BotContext& ctx)
     for (int i = 0; i < w.ped_count; i++)
     {
         const WorldModel::PedInfo& p = w.peds[i];
+        // unarmed on foot with a car to try for: not a fight with the fists, the car code below goes first
+        if (unarmed && !mNoCar && mCarTries < 4 && p.gang_idx == mGang)
+        {
+            continue;
+        }
         if (p.gang_idx == mGang && !p.dead && !p.cop && !p.in_car && p.dist < 35.0f && !Banned(p.id))
         {
             mHunting = true;
