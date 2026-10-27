@@ -14,7 +14,7 @@ CreditsText::~CreditsText() // 483EA0
 }
 
 MATCH_FUNC(0x483EC0)
-wchar_t CreditsText::ReadNextNonBlankChar_483EC0(const wchar_t* pStr, u16* pStartPos, bool bStopAtSpace)
+wchar_t CreditsText::ReadNextNonBlankChar_483EC0(const wchar_t* pStr, u16* pStartPos, bool bStopAtSpace) const
 {
     wchar_t cur_wchar = pStr[(*pStartPos)++];
     while ((cur_wchar == ' ' && bStopAtSpace) || cur_wchar == '\n' || cur_wchar == '\t')
@@ -42,7 +42,7 @@ void CreditsText::LoadCredits_483F20()
         }
         else
         {
-            if (line_char == 35)
+            if (line_char == '#')
             {
                 wchar_t tag_char = CreditsText::ReadNextNonBlankChar_483EC0(pCreditsText, &read_pos, true);
                 if (tag_char != 'W')
@@ -61,7 +61,7 @@ void CreditsText::LoadCredits_483F20()
                     }
                     else
                     {
-                        pLine->field_6_string_category = credits_line_category::unknown_1;
+                        pLine->field_6_string_category = credits_line_category::other_tag_1;
                     }
                 }
                 else

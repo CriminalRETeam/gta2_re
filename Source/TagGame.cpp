@@ -12,7 +12,7 @@
 #include <string>
 
 DEFINE_GLOBAL(TagGame, gTagGame_6F8450, 0x6F8450);
-DEFINE_GLOBAL(Fix16_Point, stru_6F8720, 0x6F8720);
+DEFINE_GLOBAL(Fix16_Point, kZeroPoint_6F8720, 0x6F8720);
 DEFINE_GLOBAL(s32, gNetTimeLimitEnabled_6F58A4, 0x6F58A4);
 
 MATCH_FUNC(0x516560)
@@ -88,7 +88,7 @@ void TagGame::ExecuteGamemodeTick_516660()
             if (field_0_fugitive && field_0_fugitive->field_2C4_player_ped &&
                 field_0_fugitive->field_2C4_player_ped->field_16C_car)
             {
-                field_0_fugitive->GetPlayerPed_41D020()->get_car_416B60()->AccumulateDamage_43DA90(17, &stru_6F8720);
+                field_0_fugitive->GetPlayerPed_41D020()->get_car_416B60()->AccumulateDamage_43DA90(17, &kZeroPoint_6F8720);
             }
 
             break;
@@ -110,24 +110,24 @@ void TagGame::UpdateFugitive_516740(Player* pFormerPlayerFugitive, Player* pPlay
         }
         else
         {
-            Player* PlayerIter = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0();
+            Player* pIter = gGame_0x40_67E008->IterateFirstPlayer_4B9CD0();
             Player* pChosenPlayer = NULL;
             Fix16 fugitive_x = field_0_fugitive->field_2C4_player_ped->field_1AC_cam.x;
             Fix16 fugitive_y = field_0_fugitive->field_2C4_player_ped->field_1AC_cam.y;
 
-            for (; PlayerIter != NULL; PlayerIter = gGame_0x40_67E008->IterateNextPlayer_4B9D10())
+            for (; pIter != NULL; pIter = gGame_0x40_67E008->IterateNextPlayer_4B9D10())
             {
-                if (PlayerIter != field_0_fugitive)
+                if (pIter != field_0_fugitive)
                 {
-                    Fix16 iter_y = PlayerIter->field_2C4_player_ped->field_1AC_cam.y;
+                    Fix16 iter_y = pIter->field_2C4_player_ped->field_1AC_cam.y;
                     Fix16 y_abs = Fix16::Abs(iter_y - fugitive_y);
-                    Fix16 iter_x = PlayerIter->field_2C4_player_ped->field_1AC_cam.x;
+                    Fix16 iter_x = pIter->field_2C4_player_ped->field_1AC_cam.x;
                     Fix16 x_abs = Fix16::Abs(iter_x - fugitive_x);
                     Fix16 taxicab_distance = x_abs + y_abs; //  taxicab geometry
                     if (taxicab_distance < threshold_distance)
                     {
                         threshold_distance = taxicab_distance;
-                        pChosenPlayer = PlayerIter;
+                        pChosenPlayer = pIter;
                     }
                 }
             }

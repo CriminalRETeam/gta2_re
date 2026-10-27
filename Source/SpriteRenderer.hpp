@@ -38,8 +38,8 @@ class SpriteTreeStack
     // 9.6f inline
     void Push_4C4B80(SpriteTreeNode* pToPush)
     {
-        SpriteTreeNode*** pOld = &this->field_FA0_pTop;
-        *(*pOld)++ = pToPush;
+        SpriteTreeNode*** ppTop = &this->field_FA0_pTop;
+        *(*ppTop)++ = pToPush;
     }
 
     // 9.6f inline
@@ -51,8 +51,8 @@ class SpriteTreeStack
     // 9.6f inline
     SpriteTreeNode* Pop_4C4BA0()
     {
-        SpriteTreeNode*** pOld = &gSpriteTreeStack_705BC0->field_FA0_pTop;
-        (*pOld)--;
+        SpriteTreeNode*** ppTop = &gSpriteTreeStack_705BC0->field_FA0_pTop;
+        (*ppTop)--;
         return *this->field_FA0_pTop;
     }
 

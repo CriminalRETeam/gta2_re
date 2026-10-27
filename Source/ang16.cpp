@@ -27,13 +27,13 @@ void Ang16::SnapToAng4_405640()
 }
 
 MATCH_FUNC(0x405680)
-u8 Ang16::ToAng4_405680()
+u8 Ang16::ToAng4_405680() const
 {
     return rValue / 360;
 }
 
 MATCH_FUNC(0x4056A0)
-u8 Ang16::GetOctant_4056A0()
+u8 Ang16::GetOctant_4056A0() const
 {
     return rValue / 180;
 }
@@ -99,13 +99,13 @@ void __stdcall Ang16::PolarToCartesian_451730(Ang16& angle, Fix16& radius, Fix16
 }
 
 MATCH_FUNC(0x482740)
-Ang16 Ang16::Fix16_To_Ang16_482740(Fix16& value)
+Ang16 Ang16::Fix16_To_Ang16_482740(const Fix16& value)
 {
     return Ang16(value.mValue / 71, 0);
 }
 
 MATCH_FUNC(0x4F78F0)
-s32 __stdcall Ang16::GetAngleFace_4F78F0(Ang16& angle)
+s32 __stdcall Ang16::GetAngleFace_4F78F0(const Ang16& angle)
 {
     if (angle <= kAng45_6F677C || angle > kAng315_6F680C) //  45° and 315°
     {

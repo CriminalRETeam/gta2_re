@@ -18,7 +18,6 @@ static inline Ang16 AddAng16_ool(const Ang16& a, const Ang16& b);
 
 
 EXTERN_GLOBAL(Fix16, kFpPoint05_6FD46C);
-//EXTERN_GLOBAL(Fix16_Point, gParticlePosX_6FD388);
 EXTERN_GLOBAL(Fix16, gParticlePosX_6FD388);
 EXTERN_GLOBAL(Fix16, gParticlePosY_6FD38C);
 EXTERN_GLOBAL(Fix16, kFpOne512th_6FD548);
@@ -271,11 +270,11 @@ void ParticleManager::GunMuzzelFlash_53E970(Sprite* pSprite)
     }
 }
 
-// Something wrong with the velocities https://decomp.me/scratch/2Kz9I
+// https://decomp.me/scratch/2Kz9I
 // 9.6f 0x48D1F0 (unpaired before): plain members (MultiplyByFix16_401CB0, +, -, RotateByAngle_40F6B0 as
 // RotateNegExport_), a count-down loop, -(v / 15) through Negate_4086A0.
 MATCH_FUNC(0x53f060)
-void ParticleManager::EmitWaterSplash_53F060(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, char_type bRandomRot)
+void ParticleManager::EmitWaterSplash_53F060(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, bool bRandomRot)
 {
     Ang16 angle_2;
     Fix16_Point velocity(Fix16(0), Fix16(0));
@@ -392,8 +391,8 @@ void ParticleManager::EmitFlameStreamSegment_53F4C0(Sprite* pSprt)
                     }
                     else
                     {
-                        AttachedSprite* pSprt18_2 = pCar->field_0_attachments.GetSpriteForModel_5A6A50(248);
-                        angle = pSprt18_2->field_0_pSprite->field_0_rotation;
+                        AttachedSprite* pGun = pCar->field_0_attachments.GetSpriteForModel_5A6A50(248);
+                        angle = pGun->field_0_pSprite->field_0_rotation;
                         pos.SetXY_432860(Fix16(0), kFpThreeThirtySeconds_6FD48C);
                         pos.RotateByAngle_40F6B0(angle);
                         offset.SetXY_432860(Fix16(0), kFpMinusNineThirtySeconds_6FD4CC);

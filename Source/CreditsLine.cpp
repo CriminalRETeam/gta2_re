@@ -2,7 +2,7 @@
 #include <string.h>
 
 MATCH_FUNC(0x483E30)
-CreditsLine::CreditsLine() // 483E30
+CreditsLine::CreditsLine()
 {
     field_0_bLoaded = false;
     field_2_unused = 0;
@@ -12,6 +12,6 @@ CreditsLine::CreditsLine() // 483E30
 }
 
 MATCH_FUNC(0x483E60)
-CreditsLine::~CreditsLine() // 483E60
+CreditsLine::~CreditsLine()
 {
 }

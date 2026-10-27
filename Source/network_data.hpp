@@ -52,7 +52,7 @@ enum
     PlayerInputsAndTick_1 = 1,
     Ping_2 = 2,
     SyncCheckData_3 = 3,
-    Unknown_4 = 4,
+    Acknowledgment_4 = 4, // carries a packet_type::Acknowledgment_2 packet
     PlayerQuit_5 = 5,
     GiveUp_6 = 6,
     KickFromConnection_7 = 7,

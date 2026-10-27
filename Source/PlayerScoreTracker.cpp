@@ -88,7 +88,7 @@ void PlayerScoreTracker::Service_591C70()
                 }
             }
         }
-        if (player_ped->get_wanted_points_433DC0() >= 5000)
+        if (player_ped->get_wanted_points_433DC0() >= cop_level_ped_enum::cop_4_stars)
         {
             field_368_player->AddScore_41DC40(1);
         }
@@ -175,7 +175,7 @@ void PlayerScoreTracker::Service_591C70()
     }
 
     Car* pReversingCar;
-    if (player_ped->get_wanted_points_433DC0() > 3000 && (player_ped->has_car_403B80()) &&
+    if (player_ped->get_wanted_points_433DC0() > cop_level_ped_enum::cop_3_stars && (player_ped->has_car_403B80()) &&
         player_ped->not_enter_car_as_passenger_4A5040() &&
         (pReversingCar = player_ped->get_car_416B60()) != NULL && // null check optimized away ??
         (pReversingCar->field_58_physics) != NULL &&
@@ -256,7 +256,6 @@ void PlayerScoreTracker::Service_591C70()
         }
     }
 
-    // Handle the previous LABEL_63 section
     const s32 cur_rng = gpRng_67AB34->get_cur_rng_41CFE0();
 
     if (static_cast<u32>(gpRng_67AB34->get_cur_rng_41CFE0() - field_70_last_car_kill_time) > 15)
@@ -294,7 +293,7 @@ RollingDigitCounter* PlayerScoreTracker::GetScoreDigits_592360()
 }
 
 MATCH_FUNC(0x592370)
-s32 PlayerScoreTracker::GetScore_592370()
+s32 PlayerScoreTracker::GetScore_592370() const
 {
     return field_0_money.field_0_value;
 }
@@ -488,7 +487,7 @@ void PlayerScoreTracker::AwardPedKilledScore_592660(Ped* pVictim, Ped* pKiller)
     {
         switch (pVictim->field_290_death_cause)
         {
-            case ped_death_cause::unknown_4:
+            case ped_death_cause::explosion_4:
             case ped_death_cause::projectile_default_9:
             case ped_death_cause::punched_10:
             case ped_death_cause::bullet_11:
@@ -510,7 +509,7 @@ void PlayerScoreTracker::AwardPedKilledScore_592660(Ped* pVictim, Ped* pKiller)
                 score = 10000;
                 break;
             case ped_death_cause::electrocuted_2:
-            case ped_death_cause::unknown_5:
+            case ped_death_cause::drowned_5:
                 score = 5000;
                 break;
         }
@@ -541,7 +540,7 @@ void PlayerScoreTracker::AwardPedKilledScore_592660(Ped* pVictim, Ped* pKiller)
                 bGangB = false;
                 break;
             case ped_ocupation_enum::swat:
-            case ped_ocupation_enum::unknown_cop_occu_30:
+            case ped_ocupation_enum::walking_swat_guard_30:
                 bSwat = true;
                 bFbi = false;
                 bArmy = false;
@@ -558,7 +557,7 @@ void PlayerScoreTracker::AwardPedKilledScore_592660(Ped* pVictim, Ped* pKiller)
                 bGangB = false;
                 break;
             case ped_ocupation_enum::army_army:
-            case ped_ocupation_enum::unknown_cop_occu_31:
+            case ped_ocupation_enum::walking_army_guard_31:
             case ped_ocupation_enum::tank_driver:
             case ped_ocupation_enum::road_block_tank_man:
                 bArmy = true;
@@ -694,10 +693,10 @@ void PlayerScoreTracker::AwardPedKilledScore_592660(Ped* pVictim, Ped* pKiller)
                     else
                         score = bGangB ? 200 : 100;
                     break;
-                case ped_death_cause::unknown_4:
+                case ped_death_cause::explosion_4:
                     score = 20;
                     break;
-                case ped_death_cause::unknown_5:
+                case ped_death_cause::drowned_5:
                     score = 50;
                     break;
             }
@@ -786,7 +785,7 @@ void PlayerScoreTracker::AwardCarDestroyedScore_592DD0(Car* pCar, Ped* pKiller)
         pCar->IsFbiCar_411920())
     {
 
-        if (static_cast<unsigned int>(gpRng_67AB34->get_cur_rng_41CFE0() - field_1A0_last_emergency_car_kill_time) > 150)
+        if (static_cast<u32>(gpRng_67AB34->get_cur_rng_41CFE0() - field_1A0_last_emergency_car_kill_time) > 150)
         {
             field_1A4_killed_cars_flags = emergency_car_kill_flag::none_0;
         }
@@ -867,7 +866,7 @@ void PlayerScoreTracker::AwardCarDamageScore_593030(Car* pCar, s16 damage)
     u32 damage_u = damage;
     if (damage_u > 0)
     {
-        int base_score;
+        s32 base_score;
         if (damage_u < 300)
         {
             base_score = 1;
@@ -1017,8 +1016,8 @@ void PlayerScoreTracker::UpdateAccuracyCount_5934F0(u32 event, s32 weapon_model,
             case ped_ocupation_enum::fbi:
             case ped_ocupation_enum::army_army:
             case ped_ocupation_enum::walking_guard_29:
-            case ped_ocupation_enum::unknown_cop_occu_30:
-            case ped_ocupation_enum::unknown_cop_occu_31:
+            case ped_ocupation_enum::walking_swat_guard_30:
+            case ped_ocupation_enum::walking_army_guard_31:
             case ped_ocupation_enum::tank_driver:
             case ped_ocupation_enum::roadblock_cop_37:
             case ped_ocupation_enum::road_block_tank_man:
@@ -1030,8 +1029,8 @@ void PlayerScoreTracker::UpdateAccuracyCount_5934F0(u32 event, s32 weapon_model,
     }
 
     if (weapon_model == objects::fire_hitting_194 || weapon_model == objects::water_hitting_198 ||
-        weapon_model == objects::invisible_bullet_154 || weapon_model == objects::tanktop_193 || weapon_model == objects::object_195 ||
-        weapon_model == objects::invisible_rocket_159 || weapon_model == objects::object_199 || event == accuracy_event::fire_ended_0 ||
+        weapon_model == objects::invisible_bullet_154 || weapon_model == objects::invisible_shotgun_bullet_193 || weapon_model == objects::flamethrower_bullet_195 ||
+        weapon_model == objects::invisible_rocket_159 || weapon_model == objects::fire_truck_gun_bullet_199 || event == accuracy_event::fire_ended_0 ||
         event == accuracy_event::weapon_hit_1 || event == accuracy_event::hit_other_ped_3)
     {
         field_198_accuracy_count = 0;
@@ -1049,7 +1048,7 @@ RollingDigitCounter* PlayerScoreTracker::GetMultiplayerFragDigits_5935B0()
 }
 
 MATCH_FUNC(0x5935c0)
-s32 PlayerScoreTracker::GetFrags_5935C0()
+s32 PlayerScoreTracker::GetFrags_5935C0() const
 {
     return field_38_multiplayer_frags.field_0_value;
 }

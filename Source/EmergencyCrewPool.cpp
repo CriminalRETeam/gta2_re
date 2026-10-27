@@ -5,7 +5,7 @@
 #include "PedGroup.hpp"
 
 DEFINE_GLOBAL(EmergencyCrewPool*, gEmergencyCrewPool_706280, 0x706280);
-DEFINE_GLOBAL_INIT(Fix16, dword_706148, Fix16(4), 0x706148);
+DEFINE_GLOBAL_INIT(Fix16, kFpFour_706148, Fix16(4), 0x706148);
 
 MATCH_FUNC(0x4beb00)
 EmergencyCrew::EmergencyCrew()
@@ -50,7 +50,7 @@ void EmergencyCrewPool::ServiceAll_5CBBD0()
         {
             if (field_0_slots[i].Service_5CC480())
             {
-                field_0_slots[i].field_1E_is_used = 0;
+                field_0_slots[i].field_1E_is_used = false;
             }
         }
     }
@@ -60,14 +60,14 @@ MATCH_FUNC(0x5cbc00)
 void EmergencyCrew::Init_5CBC00()
 {
     field_1A_idle_limit = 150;
-    field_1E_is_used = 0;
+    field_1E_is_used = false;
     field_20_crew_type = 0;
     field_24_phase = crew_phase::on_foot_0;
     field_0_car = NULL;
     field_4_ped = NULL;
     field_28_state = crew_state::idle_0;
     field_8_group = NULL;
-    field_2C_ready = 0;
+    field_2C_ready = false;
     field_1C_spawn_wait_ticks = 0;
 }
 
@@ -86,7 +86,7 @@ void EmergencyCrew::RemovePed_5CBC40(Ped* pPed)
 
 // https://decomp.me/scratch/HmQPr
 MATCH_FUNC(0x5cbc60)
-bool EmergencyCrew::IsLeaderAlive_5CBC60()
+bool EmergencyCrew::IsLeaderAlive_5CBC60() const
 {
     if (field_4_ped && field_4_ped->isDead_403B60())
     {
@@ -137,7 +137,7 @@ bool EmergencyCrew::ReplaceLeaderIfNeeded_5CBC90()
                 pPedAtIdx->set_occupation_403970(ped_ocupation_enum::dummy);
                 pPedAtIdx->Kill_46F9D0();
                 pPedAtIdx->set_occupation_403970(occupation);
-                pPedAtIdx->SetObjective(objectives_enum::objective_28);
+                pPedAtIdx->SetObjective(objectives_enum::dead_patient_28);
             }
             return true;
         }
@@ -151,10 +151,10 @@ bool EmergencyCrew::ReplaceLeaderIfNeeded_5CBC90()
 MATCH_FUNC(0x5cbd50)
 void EmergencyCrew::UpdateStateMachine_5CBD50()
 {
-    char_type bCarGone = 0;
-    char_type bNoPedsAlive = 1;
-    char_type bAllPedsAlive = 1;
-    char_type bDriverIsOther = 0;
+    bool bCarGone = false;
+    bool bNoneOnFoot = true;
+    bool bAllOnFoot = true;
+    bool bDriverIsOther = false;
     u8 idx;
     if (field_8_group)
     {
@@ -171,26 +171,26 @@ void EmergencyCrew::UpdateStateMachine_5CBD50()
         {
             if (field_0_car->IsDespawning_4215B0())
             {
-                bCarGone = 1;
+                bCarGone = true;
             }
             if (field_0_car->IsMaxDamage_40F890())
             {
-                bCarGone = 1;
+                bCarGone = true;
             }
             if (field_0_car->HasSpriteZoom_43A230())
             {
-                bCarGone = 1;
+                bCarGone = true;
             }
 
             if (field_0_car->field_54_driver && field_0_car->field_54_driver != field_4_ped)
             {
-                bDriverIsOther = 1;
-                bCarGone = 1;
+                bDriverIsOther = true;
+                bCarGone = true;
             }
         }
         else
         {
-            bCarGone = 1;
+            bCarGone = true;
         }
 
         if (bCarGone)
@@ -202,11 +202,11 @@ void EmergencyCrew::UpdateStateMachine_5CBD50()
                 {
                     if (pMember->field_168_game_object)
                     {
-                        bNoPedsAlive = 0;
+                        bNoneOnFoot = false;
                     }
                     else
                     {
-                        bAllPedsAlive = 0;
+                        bAllOnFoot = false;
                     }
                 }
             }
@@ -215,12 +215,12 @@ void EmergencyCrew::UpdateStateMachine_5CBD50()
             {
                 if (field_4_ped->field_168_game_object)
                 {
-                    bNoPedsAlive = 0;
+                    bNoneOnFoot = false;
                 }
             }
             if (bDriverIsOther)
             {
-                if (!bAllPedsAlive)
+                if (!bAllOnFoot)
                 {
                     return;
                 }
@@ -234,14 +234,14 @@ void EmergencyCrew::UpdateStateMachine_5CBD50()
                     if (Fix16::MaxAbsDistance_42A6B0(field_4_ped->get_cam_x(),
                                                      field_4_ped->get_cam_y(),
                                                      field_0_car->field_50_car_sprite->field_14_xy.x,
-                                                     field_0_car->field_50_car_sprite->field_14_xy.y) > dword_706148)
+                                                     field_0_car->field_50_car_sprite->field_14_xy.y) > kFpFour_706148)
                     {
-                        bCarGone = 1;
+                        bCarGone = true;
                     }
                 }
                 else
                 {
-                    bCarGone = 1;
+                    bCarGone = true;
                 }
             }
             if (!bCarGone)
@@ -262,7 +262,7 @@ void EmergencyCrew::UpdateStateMachine_5CBD50()
                 }
                 field_0_car = NULL;
             }
-            if (bNoPedsAlive)
+            if (bNoneOnFoot)
             {
                 if (field_4_ped)
                 {
@@ -273,11 +273,11 @@ void EmergencyCrew::UpdateStateMachine_5CBD50()
                 idx = 0;
                 if (field_8_group)
                 {
-                    for (Ped* j = field_8_group->field_4_ped_list[0]; j; j = field_8_group->field_4_ped_list[idx])
+                    for (Ped* pMember = field_8_group->field_4_ped_list[0]; pMember; pMember = field_8_group->field_4_ped_list[idx])
                     {
-                        j->set_occupation_403970(ped_ocupation_enum::dummy);
-                        j->ClearGroupAndGroupIdx_403A30();
-                        j->Deallocate_45EB60();
+                        pMember->set_occupation_403970(ped_ocupation_enum::dummy);
+                        pMember->ClearGroupAndGroupIdx_403A30();
+                        pMember->Deallocate_45EB60();
                         ++idx;
                     }
                     field_8_group->ClearGroupData_4C8E90();
@@ -287,7 +287,7 @@ void EmergencyCrew::UpdateStateMachine_5CBD50()
                 field_24_phase = crew_phase::finished_2;
                 return;
             }
-            if (bAllPedsAlive)
+            if (bAllOnFoot)
             {
                 if (field_4_ped)
                 {
@@ -358,40 +358,40 @@ void EmergencyCrew::UpdateStateMachine_5CBD50()
         }
         else
         {
-                bCarGone = 1;
+            bCarGone = true;
 
-                if (field_8_group)
+            if (field_8_group)
+            {
+                idx = 0;
+                for (Ped* pMember = field_8_group->field_4_ped_list[0]; pMember; pMember = field_8_group->field_4_ped_list[++idx])
                 {
-                    idx = 0;
-                    for (Ped* pMember = field_8_group->field_4_ped_list[0]; pMember; pMember = field_8_group->field_4_ped_list[++idx])
+                    if (!pMember->isDead_403B60())
                     {
-                        if (!pMember->isDead_403B60())
-                        {
-                            bCarGone = 0;
-                        }
+                        bCarGone = false;
                     }
                 }
+            }
 
-                if (bCarGone)
+            if (bCarGone)
+            {
+                if (!field_4_ped || field_4_ped->isDead_403B60())
                 {
-                    if (!field_4_ped || field_4_ped->isDead_403B60())
-                    {
-                        field_24_phase = crew_phase::finished_2;
-                    }
+                    field_24_phase = crew_phase::finished_2;
                 }
-                if (field_24_phase == crew_phase::finished_2)
+            }
+            if (field_24_phase == crew_phase::finished_2)
+            {
+                if (field_0_car)
                 {
-                    if (field_0_car)
-                    {
-                        field_0_car->SetDriverPedType_421560(ped_type::dummy_3);
-                        field_0_car->field_76_last_seen_timer = -200;
-                    }
+                    field_0_car->SetDriverPedType_421560(ped_type::dummy_3);
+                    field_0_car->field_76_last_seen_timer = -200;
                 }
+            }
         }
     }
     else if (!field_24_phase)
     {
-        bCarGone = 1;
+        bCarGone = true;
         if (field_8_group)
         {
             idx = 0;
@@ -399,7 +399,7 @@ void EmergencyCrew::UpdateStateMachine_5CBD50()
             {
                 if (!pMember->isDead_403B60())
                 {
-                    bCarGone = 0;
+                    bCarGone = false;
                 }
             }
         }
@@ -430,9 +430,9 @@ void EmergencyCrew::UpdateStateMachine_5CBD50()
 MATCH_FUNC(0x5cc1c0)
 void EmergencyCrew::CleanupExpiredEntities_5CC1C0()
 {
-    bool bClearRouteAndTryClearOthers = false;
+    bool bReleaseCar = false;
     bool bClearPedAndGroup = true;
-    bool bClearCharB4F24 = true;
+    bool bAllOnFoot = true;
 
     if (field_8_group)
     {
@@ -450,12 +450,12 @@ void EmergencyCrew::CleanupExpiredEntities_5CC1C0()
             if (field_0_car->GetLastSeenTimer_4A9AD0() > this->field_1A_idle_limit)
             {
                 field_0_car->MarkForDespawn_421470();
-                bClearRouteAndTryClearOthers = true;
+                bReleaseCar = true;
             }
         }
         else
         {
-            bClearRouteAndTryClearOthers = true;
+            bReleaseCar = true;
         }
 
         if (field_4_ped)
@@ -495,20 +495,20 @@ void EmergencyCrew::CleanupExpiredEntities_5CC1C0()
                 }
                 else
                 {
-                    bClearCharB4F24 = false;
+                    bAllOnFoot = false;
                 }
                 i++;
                 pPedListIter = field_8_group->field_4_ped_list[i];
             }
         }
 
-        if (bClearRouteAndTryClearOthers)
+        if (bReleaseCar)
         {
             if (field_0_car)
             {
                 if (field_0_car->field_60_pChaseTask)
                 {
-                    gCarChaseTaskTable_678E30->FreeEntry_474CC0(field_0_car->field_60_pChaseTask); // something to do with car route
+                    gCarChaseTaskTable_678E30->FreeEntry_474CC0(field_0_car->field_60_pChaseTask);
                     field_0_car->field_60_pChaseTask = NULL;
                 }
             }
@@ -537,9 +537,9 @@ void EmergencyCrew::CleanupExpiredEntities_5CC1C0()
                     field_8_group->ClearGroupData_4C8E90();
                 }
                 this->field_8_group = NULL;
-                this->field_2C_ready = 1;
+                this->field_2C_ready = true;
             }
-            else if (bClearCharB4F24)
+            else if (bAllOnFoot)
             {
                 if (this->field_4_ped->field_168_game_object)
                 {
@@ -593,7 +593,7 @@ void EmergencyCrew::CleanupExpiredEntities_5CC1C0()
             }
             field_8_group->ClearGroupData_4C8E90();
         }
-        field_2C_ready = 1;
+        field_2C_ready = true;
     }
 }
 
@@ -622,7 +622,6 @@ bool EmergencyCrew::Service_5CC480()
             return false;
 
         case crew_state::spawn_car_3:
-            // fall through to default below
             break;
 
         default:
@@ -646,7 +645,7 @@ bool EmergencyCrew::Service_5CC480()
 
             if (this->field_0_car)
             {
-                this->field_2C_ready = 1;
+                this->field_2C_ready = true;
                 field_0_car->IncrementCarStats_443D70(car_kind::paramedic_car_4);
             }
             break;
@@ -665,7 +664,7 @@ bool EmergencyCrew::Service_5CC480()
             }
             if (this->field_0_car)
             {
-                this->field_2C_ready = 1;
+                this->field_2C_ready = true;
                 field_0_car->IncrementCarStats_443D70(car_kind::police_6);
             }
             break;
@@ -685,7 +684,7 @@ bool EmergencyCrew::Service_5CC480()
 
             if (this->field_0_car)
             {
-                this->field_2C_ready = 1;
+                this->field_2C_ready = true;
                 field_0_car->IncrementCarStats_443D70(car_kind::police_6);
             }
             break;

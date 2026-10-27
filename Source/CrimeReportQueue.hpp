@@ -16,7 +16,7 @@ class CrimeReport
     EXPORT CrimeReport();
     EXPORT ~CrimeReport();
     EXPORT void SetReport(s32 crime_type, s32 ped_id);
-    EXPORT void GetReport(s32* pCrimeType, Fix16* pXPos, Fix16* yPos, Fix16* zPos);
+    EXPORT void GetReport(s32* pCrimeType, Fix16* pXPos, Fix16* pYPos, Fix16* pZPos) const;
 
     s32 field_0_crime_type; // crime_stats_type
     s32 field_4_ped_id;
@@ -33,7 +33,7 @@ class CrimeReportQueue
     EXPORT ~CrimeReportQueue();
     EXPORT void QueueReport(s32 crime_type, s32 ped_id);
     EXPORT bool TryPopOldestReport(s32* pCrimeType, Fix16* pXPos, Fix16* pYPos, Fix16* pZPos);
-    EXPORT bool IsCrimeQueued(s32 crime_type);
+    EXPORT bool IsCrimeQueued(s32 crime_type) const;
     EXPORT CrimeReportQueue* ctor_484FC0();
     EXPORT void dtor_484FD0();
     EXPORT void ReportCrimeForPed(u32 crime_type, Ped* pPed);

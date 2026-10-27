@@ -1,4 +1,5 @@
 #include "PedGroup.hpp"
+#include "ped_group_type.hpp"
 #include "Car.hpp"
 #include "Char_Pool.hpp"
 #include "Globals.hpp"
@@ -8,9 +9,9 @@
 #include "crt_stubs.hpp"
 
 DEFINE_GLOBAL_ARRAY(PedGroup, pedGroups_67EF20, 20, 0x67EF20);
-DEFINE_GLOBAL_INIT(Fix16, dword_67F60C, Fix16(0x270F00, 0), 0x67F60C);
+DEFINE_GLOBAL_INIT(Fix16, kNoNearestDistance_67F60C, Fix16(0x270F00, 0), 0x67F60C);
 DEFINE_GLOBAL_INIT(Fix16, kFpTwo_67F608, Fix16(2), 0x67F608);
-DEFINE_GLOBAL(Fix16, dword_67F610, 0x67F610);
+DEFINE_GLOBAL(Fix16, kFpZero_67F610, 0x67F610);
 DEFINE_GLOBAL_INIT(Fix16, kFpEight_67F670, Fix16(8), 0x67F670);
 DEFINE_GLOBAL_INIT(Fix16, kFpFiveSixtyFourths_67EEE4, Fix16(0x500, 0), 0x67EEE4);
 DEFINE_GLOBAL_INIT(char_type, gGroupMemberCarDoor_620838, 1, 0x620838);
@@ -42,7 +43,7 @@ MATCH_FUNC(0x4c8e90)
 void PedGroup::ClearGroupData_4C8E90()
 {
     field_40_in_use = false;
-    field_38_group_type = 2;
+    field_38_group_type = ped_group_type::normal_2;
     field_30_panicking = 0;
     field_36_count = 0;
     field_34_count = 0;
@@ -51,12 +52,12 @@ void PedGroup::ClearGroupData_4C8E90()
         field_2C_ped_leader->ClearGroupAndGroupIdx_403A30();
     }
     field_2C_ped_leader = NULL;
-    field_0_remove_dead_members = 1;
+    field_0_remove_dead_members = true;
     field_1_wait_for_members = false;
     field_34_count = 0;
     field_35_unused = 0;
 
-    for (int i = 0; i < 9; ++i)
+    for (s32 i = 0; i < 9; ++i)
     {
         if (field_4_ped_list[i] != NULL)
         {
@@ -69,12 +70,12 @@ void PedGroup::ClearGroupData_4C8E90()
 MATCH_FUNC(0x4c8ef0)
 void PedGroup::Reset_4C8EF0()
 {
-    field_40_in_use = 0;
-    field_38_group_type = 2;
+    field_40_in_use = false;
+    field_38_group_type = ped_group_type::normal_2;
     field_30_panicking = 0;
     field_36_count = 0;
     field_2C_ped_leader = NULL;
-    field_0_remove_dead_members = 1;
+    field_0_remove_dead_members = true;
     field_1_wait_for_members = false;
     field_34_count = 0;
     field_35_unused = 0;
@@ -111,11 +112,11 @@ void PedGroup::add_ped_to_end_of_list_4C8F90(Ped* pPed)
 }
 
 MATCH_FUNC(0x4c8fe0)
-void PedGroup::replace_leader_4C8FE0(Ped* new_leader)
+void PedGroup::replace_leader_4C8FE0(Ped* pNewLeader)
 {
     add_ped_to_end_of_list_4C8F90(field_2C_ped_leader);
-    field_2C_ped_leader = new_leader;
-    new_leader->set_ped_group_id(99);
+    field_2C_ped_leader = pNewLeader;
+    pNewLeader->set_ped_group_id(99);
 
     for (u8 i = 0; i < field_34_count; i++)
     {
@@ -174,7 +175,7 @@ bool PedGroup::PurgeMembersInCars_4C9040()
 }
 
 MATCH_FUNC(0x4c9150)
-bool PedGroup::AreAllMembersOffScreen_4C9150()
+bool PedGroup::AreAllMembersOffScreen_4C9150() const
 {
     if (field_2C_ped_leader->field_168_game_object == NULL || field_2C_ped_leader->GetOffscreenCounter_4039F0() < 0x28)
     {
@@ -198,13 +199,13 @@ void PedGroup::ResetMembersToFollowLeader_4C91B0()
     for (u8 i = 0; i < field_34_count; i++)
     {
         field_4_ped_list[i]->ClearPanicking_403960();
-        field_4_ped_list[i]->SetObjective2_463830(objectives_enum::objective_9);
+        field_4_ped_list[i]->SetObjective2_463830(objectives_enum::follow_char_9);
         field_4_ped_list[i]->SetInternalTargetPed_403AE0(field_2C_ped_leader);
     }
 }
 
 MATCH_FUNC(0x4c9210)
-bool PedGroup::IsLeaderInCar_4C9210()
+bool PedGroup::IsLeaderInCar_4C9210() const
 {
     if (field_2C_ped_leader->field_16C_car != NULL)
     {
@@ -217,11 +218,11 @@ bool PedGroup::IsLeaderInCar_4C9210()
 }
 
 MATCH_FUNC(0x4c9220)
-bool PedGroup::IsLeaderEnteringCarOrTrain_4C9220()
+bool PedGroup::IsLeaderEnteringCarOrTrain_4C9220() const
 {
     if (field_2C_ped_leader->GetPedState_403990() != ped_state1_enum::ped_entering_a_car)
     {
-        if (field_2C_ped_leader->GetPedState_403990() != ped_state1_enum::unused2)
+        if (field_2C_ped_leader->GetPedState_403990() != ped_state1_enum::ped_entering_train)
         {
             return false;
         }
@@ -239,14 +240,14 @@ void PedGroup::KillEntireGroup_4C9240()
         field_4_ped_list[i]->ClearGroupAndGroupIdx_403A30();
         field_4_ped_list[i]->Kill_46F9D0();
     }
-    this->field_40_in_use = 0;
+    this->field_40_in_use = false;
 }
 
 
 MATCH_FUNC(0x4c92a0)
 void PedGroup::DisbandGroup_4C92A0()
 {
-    if (field_40_in_use == false)
+    if (!field_40_in_use)
     {
         return;
     }
@@ -267,7 +268,7 @@ void PedGroup::DisbandGroup_4C92A0()
             {
                 if (pPed->has_car_403B80())
                 {
-                    pPed->SetObjective(objectives_enum::objective_34);
+                    pPed->SetObjective(objectives_enum::leave_car_and_flee_34);
                     (*ppSlot)->SetTargetObjectiveCar((*ppSlot)->field_16C_car);
                 }
                 else
@@ -287,7 +288,7 @@ void PedGroup::DisbandGroup_4C92A0()
 MATCH_FUNC(0x4c93a0)
 void PedGroup::DestroyGroup_4C93A0()
 {
-    if (field_40_in_use == false)
+    if (!field_40_in_use)
     {
         return;
     }
@@ -313,10 +314,10 @@ void PedGroup::DestroyGroup_4C93A0()
             }
             else
             {
-                if (pPed->has_car_403B80() == true)
+                if (pPed->has_car_403B80())
                 {
                     pPed->SetObjective2_463830(objectives_enum::no_obj_0);
-                    (*ppSlot)->SetObjective(objectives_enum::objective_34);
+                    (*ppSlot)->SetObjective(objectives_enum::leave_car_and_flee_34);
                     (*ppSlot)->SetTargetObjectiveCar((*ppSlot)->field_16C_car);
                     (*ppSlot)->ClearGroupAndGroupIdx_403A30();
                     (*ppSlot)->SetPedType_403920(ped_type::dummy_3);
@@ -475,7 +476,7 @@ void PedGroup::PromoteMemberToLeader_4C9680(u8 idx)
         pSwapPed->PoolAllocate();
     }
     pSwapPed->set_health_4039A0(100);
-    pSwapPed->set_occupation_403970(ped_ocupation_enum::unknown_1);
+    pSwapPed->set_occupation_403970(ped_ocupation_enum::deallocate_on_death_2);
     pSwapPed->Kill_46F9D0();
 }
 
@@ -550,26 +551,23 @@ void PedGroup::RemovePed_4C9970(Ped* pPed)
 }
 
 MATCH_FUNC(0x4c9b10)
-void PedGroup::add_ped_leader_4C9B10(Ped* ptr)
+void PedGroup::add_ped_leader_4C9B10(Ped* pLeader)
 {
-    field_2C_ped_leader = ptr;
+    field_2C_ped_leader = pLeader;
     field_2C_ped_leader->set_ped_group(this);
     field_2C_ped_leader->set_ped_group_id(99);
 }
 
 MATCH_FUNC(0x4c9b30)
-void PedGroup::add_ped_to_list_4C9B30(Ped* ptr, u8 idx)
+void PedGroup::add_ped_to_list_4C9B30(Ped* pPed, u8 idx)
 {
-    field_4_ped_list[idx & 0xff] = ptr;
-    ptr->set_ped_group(this);
-    ptr->set_ped_group_id(idx);
+    field_4_ped_list[idx & 0xff] = pPed;
+    pPed->set_ped_group(this);
+    pPed->set_ped_group_id(idx);
 }
 
-// The original never sets a return value
-#pragma warning(push)
-#pragma warning(disable : 4716)
 MATCH_FUNC(0x4c9b60)
-char_type PedGroup::GroupAttackPed_4C9B60(Ped* pPed)
+void PedGroup::GroupAttackPed_4C9B60(Ped* pPed)
 {
     s8 i;
     field_30_panicking = 1;
@@ -583,13 +581,13 @@ char_type PedGroup::GroupAttackPed_4C9B60(Ped* pPed)
             {
                 if (IsMemberTooFarFromLeader_4CAC20(i))
                 {
-                    pMember->SetObjective2_463830(objectives_enum::objective_7);
+                    pMember->SetObjective2_463830(objectives_enum::run_to_char_7);
                     pMember->SetInternalTargetPed_403AE0(field_2C_ped_leader);
                     pMember->SetPanicking_403950();
                 }
                 // Two copies of the follow-pPed body (VC6 cross-jumps them back together). The extra
                 // pPed reference gives pPed edi over the list cursor.
-                else if (0x23 != field_2C_ped_leader->GetInternalObjective_403A90())
+                else if (objectives_enum::enter_car_as_driver_35 != field_2C_ped_leader->GetInternalObjective_403A90())
                 {
                     pMember->SetObjective2_463830(objectives_enum::kill_char_on_foot_20);
                     pMember->SetInternalTargetPed_403AE0(pPed);
@@ -679,10 +677,9 @@ char_type PedGroup::GroupAttackPed_4C9B60(Ped* pPed)
         }
     }
 }
-#pragma warning(pop)
 
 MATCH_FUNC(0x4c9ed0)
-Ped* PedGroup::FindLastNonPanickingMember_4C9ED0()
+Ped* PedGroup::FindLastNonPanickingMember_4C9ED0() const
 {
     for (s8 i = this->field_34_count - 1; i >= 0; i--)
     {
@@ -702,7 +699,7 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
     Fix16 distance;
     Ped* pLeader = field_2C_ped_leader;
     s32 state = pLeader->GetPedState_403990();
-    if (state == 3 || state == 10 || state == 5)
+    if (state == ped_state_1::entering_car_3 || state == ped_state_1::in_car_10 || state == ped_state_1::entering_train_5)
     {
         field_30_panicking = 1;
         if (pLeader->GetPedState_403990() == ped_state_1::in_car_10 || pLeader->FindUsableCarDoor_467090())
@@ -736,7 +733,7 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
 
                 if (pMember->GetInternalObjective_403A90() != objectives_enum::enter_car_as_driver_35)
                 {
-                    pMember->field_21C_bf.bPanicking = 0;
+                    pMember->field_21C_bf.bPanicking = false;
                     if (field_2C_ped_leader->field_168_game_object)
                     {
                         pMember->SetObjective2_463830(objectives_enum::objective_18);
@@ -757,13 +754,13 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
                 u8 tries = 0;
                 gGroupMemberCarDoor_620838 = i + 1;
                 u8 maxDoor = pTargetCar->GetDoorCount_43B360() - 1;
-                char_type searching;
+                bool searching;
                 if (pTargetCar->IsSwatVanOrBankVan_403BC0())
                 {
                     gGroupMemberCarDoor_620838 = i + 2;
                     do
                     {
-                        searching = 1;
+                        searching = true;
                         do
                         {
                             if (gGroupMemberCarDoor_620838 > maxDoor)
@@ -774,7 +771,7 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
 
                         if (pTargetCar->IsDoorAccessible_43AFE0(gGroupMemberCarDoor_620838))
                         {
-                            searching = 0;
+                            searching = false;
                         }
                         else
                         {
@@ -800,7 +797,7 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
                 {
                     do
                     {
-                        searching = 1;
+                        searching = true;
                         do
                         {
                             if (gGroupMemberCarDoor_620838 > maxDoor)
@@ -811,7 +808,7 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
 
                         if (pTargetCar->IsDoorAccessible_43AFE0(gGroupMemberCarDoor_620838))
                         {
-                            searching = 0;
+                            searching = false;
                         }
                         else
                         {
@@ -835,7 +832,7 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
                     if (pOther != pMember && pOther->field_25C_internal_objective == objectives_enum::objective_18 &&
                         pMember->field_24C_target_car_door == pOther->get_target_car_door_403A60())
                     {
-                        pMember->SetObjective2_463830(objectives_enum::objective_9);
+                        pMember->SetObjective2_463830(objectives_enum::follow_char_9);
                         pMember->field_14C_internal_target_ped = pOther;
                     }
                 }
@@ -865,7 +862,7 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
             {
                 if (field_2C_ped_leader->get_objective_403A80() != objectives_enum::goto_area_any_means_13 && field_2C_ped_leader->field_25C_internal_objective != objectives_enum::leave_car_36)
                 {
-                    field_2C_ped_leader->SetObjective2_463830(objectives_enum::objective_9);
+                    field_2C_ped_leader->SetObjective2_463830(objectives_enum::follow_char_9);
                     field_2C_ped_leader->field_14C_internal_target_ped = pFarthest;
                     field_3C_is_leader_waiting = 1;
                 }
@@ -899,13 +896,13 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
 }
 
 MATCH_FUNC(0x4ca3e0)
-u32 PedGroup::IsLeaderPanicking_4CA3E0()
+u32 PedGroup::IsLeaderPanicking_4CA3E0() const
 {
     return field_2C_ped_leader->field_21C_bf.bPanicking;
 }
 
 MATCH_FUNC(0x4ca3f0)
-Ped* PedGroup::FindFarthestMember_4CA3F0(Fix16* pFoundDistance)
+Ped* PedGroup::FindFarthestMember_4CA3F0(Fix16* pFoundDistance) const
 {
     Fix16 max_distance = Fix16(0);
     u8 found_index = 0;
@@ -934,19 +931,19 @@ Ped* PedGroup::FindFarthestMember_4CA3F0(Fix16* pFoundDistance)
 MATCH_FUNC(0x4ca4b0)
 void PedGroup::UpdateFormation_4CA4B0()
 {
-    if (!field_2C_ped_leader->field_16C_car && (field_2C_ped_leader->field_21C_bf.bLeftVehicle) == 0)
+    if (!field_2C_ped_leader->field_16C_car && !field_2C_ped_leader->field_21C_bf.bLeftVehicle)
     {
         for (u8 i = 0; i < field_34_count; i++)
         {
             Ped* pIter = field_4_ped_list[i];
-            if (pIter->field_25C_internal_objective != objectives_enum::objective_9)
+            if (pIter->field_25C_internal_objective != objectives_enum::follow_char_9)
             {
                 if (pIter->field_168_game_object)
                 {
-                    pIter->SetObjective2_463830(objectives_enum::objective_9);
+                    pIter->SetObjective2_463830(objectives_enum::follow_char_9);
                 }
             }
-            if (field_38_group_type == 1)
+            if (field_38_group_type == ped_group_type::chain_1)
             {
                 if (i == 0)
                 {
@@ -959,7 +956,7 @@ void PedGroup::UpdateFormation_4CA4B0()
             }
             else if (pIter->field_278_ped_state_1 != ped_state_1::dead_9)
             {
-                if (field_2C_ped_leader->GetPedVelocity_45C920() != dword_67F610)
+                if (field_2C_ped_leader->GetPedVelocity_45C920() != kFpZero_67F610)
                 {
                     switch (i)
                     {
@@ -1004,7 +1001,7 @@ void PedGroup::UpdateMemberAIState_4CA5E0(u8 idx)
 
     if (pMember->get_objective_403A80() == objectives_enum::objective_8)
     {
-        if (pMember->GetInternalObjective_403A90() == objectives_enum::objective_9)
+        if (pMember->GetInternalObjective_403A90() == objectives_enum::follow_char_9)
         {
             pMember->SetObjective2_463830(objectives_enum::no_obj_0);
         }
@@ -1020,9 +1017,9 @@ void PedGroup::UpdateMemberAIState_4CA5E0(u8 idx)
     else
     {
         s32 occupation = pMember->get_occupation_403980();
-        if (occupation != 0x29)
+        if (occupation != ped_ocupation_enum::drone)
         {
-            if (occupation != 0x2D)
+            if (occupation != ped_ocupation_enum::refugees)
             {
                 pMember->field_288_threat_search = threat_search_enum::line_of_sight_1;
                 pMember->field_28C_threat_reaction = threat_reaction_enum::react_as_normal_2;
@@ -1061,7 +1058,7 @@ void PedGroup::UpdateMemberAIState_4CA5E0(u8 idx)
                         pMember->set_target_to_enter_403B00(field_2C_ped_leader->get_target_to_enter_403B10());
                     }
                 }
-                else if (pMember->GetInternalObjective_403A90() == objectives_enum::objective_9)
+                else if (pMember->GetInternalObjective_403A90() == objectives_enum::follow_char_9)
                 {
                     pMember->SetObjective(objectives_enum::no_obj_0);
                 }
@@ -1073,10 +1070,10 @@ void PedGroup::UpdateMemberAIState_4CA5E0(u8 idx)
             pMember->set_target_to_enter_403B00(pMember->field_16C_car);
         }
     }
-    else if (pMember->GetInternalObjective_403A90() == objectives_enum::objective_9)
+    else if (pMember->GetInternalObjective_403A90() == objectives_enum::follow_char_9)
     {
         s32 occupation = pMember->get_occupation_403980();
-        if ((occupation < 0x18 || occupation > 0x1B) && pMember->GetInternalTargetPed_403AF0()->has_car_403B80() && pMember->field_258_objective != objectives_enum::objective_8)
+        if ((occupation < ped_ocupation_enum::police || occupation > ped_ocupation_enum::army_army) && pMember->GetInternalTargetPed_403AF0()->has_car_403B80() && pMember->field_258_objective != objectives_enum::objective_8)
         {
             pMember->SetObjective(objectives_enum::objective_8);
             pMember->SetObjective2_463830(objectives_enum::no_obj_0);
@@ -1102,24 +1099,24 @@ void PedGroup::UpdateMemberTightFollowState_4CA820(u8 idx)
         Fix16 y_abs = Fix16::Abs(y_diff);
         if (Fix16::Max(x_abs, y_abs) < kFpEight_67F670)
         {
-            pMember->SetObjective2_463830(objectives_enum::objective_9);
+            pMember->SetObjective2_463830(objectives_enum::follow_char_9);
             pMember->SetInternalTargetPed_403AE0(field_2C_ped_leader);
             pMember->ClearAttacking();
             pMember->SetObjective(objectives_enum::no_obj_0);
         }
-        else if (pMember->field_14C_internal_target_ped == field_2C_ped_leader && pMember->field_25C_internal_objective == objectives_enum::objective_9)
+        else if (pMember->field_14C_internal_target_ped == field_2C_ped_leader && pMember->field_25C_internal_objective == objectives_enum::follow_char_9)
         {
             pMember->SetObjective2_463830(objectives_enum::no_obj_0);
         }
     }
-    else if (pMember->field_14C_internal_target_ped == field_2C_ped_leader && pMember->field_25C_internal_objective == objectives_enum::objective_9)
+    else if (pMember->field_14C_internal_target_ped == field_2C_ped_leader && pMember->field_25C_internal_objective == objectives_enum::follow_char_9)
     {
         pMember->SetObjective2_463830(objectives_enum::no_obj_0);
     }
 }
 
 MATCH_FUNC(0x4caa20)
-bool PedGroup::IsAllMembersInSomeCar_4CAA20()
+bool PedGroup::IsAllMembersInSomeCar_4CAA20() const
 {
     if (field_34_count == 0)
     {
@@ -1137,7 +1134,7 @@ bool PedGroup::IsAllMembersInSomeCar_4CAA20()
 }
 
 MATCH_FUNC(0x4caae0)
-bool PedGroup::HasNoActiveMembers_4CAAE0()
+bool PedGroup::HasNoActiveMembers_4CAAE0() const
 {
     for (u8 i = 0; i < field_34_count; i++)
     {
@@ -1151,7 +1148,7 @@ bool PedGroup::HasNoActiveMembers_4CAAE0()
 }
 
 MATCH_FUNC(0x4cab80)
-bool PedGroup::AreAllMembersOnFoot_4CAB80()
+bool PedGroup::AreAllMembersOnFoot_4CAB80() const
 {
     for (u8 i = 0; i < field_34_count; i++)
     {
@@ -1164,7 +1161,7 @@ bool PedGroup::AreAllMembersOnFoot_4CAB80()
 }
 
 MATCH_FUNC(0x4cac20)
-bool PedGroup::IsMemberTooFarFromLeader_4CAC20(u8 idx)
+bool PedGroup::IsMemberTooFarFromLeader_4CAC20(u8 idx) const
 {
     Ped* pMember = field_4_ped_list[idx];
     Fix16 x_diff = pMember->field_1AC_cam.x - field_2C_ped_leader->field_1AC_cam.x;
@@ -1183,7 +1180,7 @@ bool PedGroup::IsMemberTooFarFromLeader_4CAC20(u8 idx)
 }
 
 MATCH_FUNC(0x4cad40)
-bool PedGroup::IsLeaderCloseToTargetCar_4CAD40()
+bool PedGroup::IsLeaderCloseToTargetCar_4CAD40() const
 {
     Fix16 leader_xpos = field_2C_ped_leader->get_cam_x();
     Car* pTargetCar = field_2C_ped_leader->get_target_to_enter_403B10();
@@ -1211,11 +1208,11 @@ bool PedGroup::IsLeaderCloseToTargetCar_4CAD40()
 // nearest_distance check. Reading pOther's x directly (not through get_cam_x) loads
 // pMember's x first, as in the original.
 MATCH_FUNC(0x4cae80)
-Ped* PedGroup::FindNearestOtherMember_4CAE80(u8 idx)
+Ped* PedGroup::FindNearestOtherMember_4CAE80(u8 idx) const
 {
     Fix16 x_abs;
     Fix16 y_abs;
-    Fix16 nearest_distance = dword_67F60C;
+    Fix16 nearest_distance = kNoNearestDistance_67F60C;
     u8 nearest_idx = 0;
     Ped* pMember = field_4_ped_list[idx];
     u8 i = 0;
@@ -1242,7 +1239,7 @@ Ped* PedGroup::FindNearestOtherMember_4CAE80(u8 idx)
             i++;
         } while (i < field_34_count);
 
-        if (nearest_distance != dword_67F60C)
+        if (nearest_distance != kNoNearestDistance_67F60C)
         {
             return field_4_ped_list[nearest_idx];
         }

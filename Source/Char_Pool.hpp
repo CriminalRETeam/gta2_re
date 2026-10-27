@@ -29,7 +29,7 @@ class PedListNode
 {
   public:
     // 9.6f 0x420EA0
-    inline bool no_char_ped_420EA0()
+    inline bool no_char_ped_420EA0() const
     {
         return field_0_char_ped == NULL;
     }
@@ -54,7 +54,7 @@ class PedListNodePool
 
     ~PedListNodePool()
     {
-        field_0_pool.field_0_pHead = 0;
+        field_0_pool.field_0_pHead = NULL;
     }
 
     // 9.6f 0x445EF0
@@ -76,8 +76,10 @@ class PedListNodePool
 
 class PedManager
 {
-  public:
+  private:
     EXPORT void SpawnDummies_46EB60(Camera* pCam);
+
+  public:
     EXPORT void PedsService_4703F0();
     EXPORT PedManager();
     EXPORT ~PedManager();
@@ -92,8 +94,10 @@ class PedManager
     EXPORT void DoIanTest_471060(u16 key);
     EXPORT Ped* PedById(s32 pedId);
 
+  private:
     EXPORT void Dummies_470330();
 
+  public:
     s16 field_0_max_dummy_chars;
     char_type field_2_num_dummy_chars;
     char_type field_3_num_peds_updated;
@@ -179,7 +183,7 @@ class PedPool
     }
 
     // 9.6f 0x435530
-    inline Ped* GetFirstPed_435530()
+    inline Ped* GetFirstPed_435530() const
     {
         return field_0_pool.field_4_pPrev;
     }
@@ -197,4 +201,4 @@ EXTERN_GLOBAL(PedListNodePool*, gChar_8_Pool_678b50);
 
 EXTERN_GLOBAL(u8, gNumPolicePedsInRangeScreen_6787EE);
 
-EXTERN_GLOBAL(u8, byte_61A8A2);
+EXTERN_GLOBAL(u8, gLosCheckSlotFree_61A8A2);

@@ -124,12 +124,12 @@ class Fix16_Point
         return Fix16::atan2_fixed_405320(y, x);
     }
 
-    Fix16 GetLength_453590();
+    Fix16 GetLength_453590() const;
 
     // 9.6f 0x41E260; the out-of-line copy is GetLength_453590. The nested if/else (front-end size 162, the
     // else-if chain is 160) gives the original's cut-offs in Crane::ComputeHookPolar_47F6C0 with
     // SquareRoot at 48; matched functions allow 159..162.
-    inline Fix16 GetLength_41E260()
+    inline Fix16 GetLength_41E260() const
     {
         if (x == FIX16_POINT_ZERO)
         {
@@ -269,7 +269,6 @@ class Fix16_Point
         return *this;
     }
 
-    // Operator* for Fix16 ?
     Fix16_Point& MultiplyByFix16_49E3A0(const Fix16& factor)
     {
         x *= factor;
@@ -280,18 +279,18 @@ class Fix16_Point
     // Out-of-line copy of RotateByAngle_40F6B0, emitted in CarPhysics.cpp
     EXPORT void RotateVelocity_562C20(const Ang16& angle);
 
-    EXPORT Fix16_Point Multiply_438FE0(Fix16& in);
-    EXPORT Fix16_Point Divide_442CB0(Fix16& in);
+    EXPORT Fix16_Point Multiply_438FE0(Fix16& in) const;
+    EXPORT Fix16_Point Divide_442CB0(Fix16& in) const;
 
     // Divide_442CB0 as a nothrow inline (see DivideInl_55F9E0; CarPhysics::HandleObjectCollision_5606C0,
     // Car::ApplyExplosionImpulse_443710)
-    inline Fix16_Point DivideInl_442CB0(Fix16& in) throw()
+    inline Fix16_Point DivideInl_442CB0(Fix16& in) const throw()
     {
         return Fix16_Point(x / in, y / in);
     }
 
     // Multiply_438FE0 as a nothrow inline (see DivideInl_55F9E0; Car::TryHitchTrailer_442810)
-    inline Fix16_Point MultiplyInl_438FE0(Fix16& in) throw()
+    inline Fix16_Point MultiplyInl_438FE0(Fix16& in) const throw()
     {
         return Fix16_Point(x * in, y * in);
     }
@@ -299,7 +298,7 @@ class Fix16_Point
     // Out-of-line copies emitted in Weapon.cpp (used by DrawElectricArc_5DE910).
     EXPORT Fix16_Point& AddAssign_5E40C0(const Fix16_Point& other);
     EXPORT Fix16_Point& DivAssign_5E40E0(const Fix16& v);
-    EXPORT Fix16 MaxAbs_5E4140();
+    EXPORT Fix16 MaxAbs_5E4140() const;
 
     // 9.6f 0x48A270 (the inline of MaxAbs_5E4140)
     inline Fix16 MaxAbs_48A270()
@@ -375,7 +374,7 @@ class Fix16_Point
     }
 
     // MATCH_FUNC(0x40AC50)
-    Fix16_Point operator+(const Fix16_Point& in)
+    Fix16_Point operator+(const Fix16_Point& in) const
     {
         return Fix16_Point(x + in.x, y + in.y);
     }
@@ -389,18 +388,18 @@ class Fix16_Point
     // The out-of-line copy of the inline operator-. Called by name where the original keeps an EH state
     // for temporaries around the call (Crane::HookPickupCar_47EF80, ComputeHookPolar_47F6C0); the
     // inline operator- called out of line gets none (CarPhysics::HandleCarCollision_55FF20)
-    EXPORT Fix16_Point Sub_40AC80(const Fix16_Point& rhs);
+    EXPORT Fix16_Point Sub_40AC80(const Fix16_Point& rhs) const;
 
     // operator+/operator- with their bodies defined at the end of Car.cpp (HandleCarHitByObject_43F130)
     inline Fix16_Point AddLate_40AC50(const Fix16_Point& in);
     inline Fix16_Point SubLate_40AC80(const Fix16_Point& rhs);
 
     // Out of line operator+ (CarPhysics::SpawnSkidSegment_55D200)
-    EXPORT Fix16_Point Add_40AC50(const Fix16_Point& in);
+    EXPORT Fix16_Point Add_40AC50(const Fix16_Point& in) const;
 
     // operator+ 0x40AC50 as a nothrow inline that VC6 still calls out of line: no EH state for the
     // temporaries alive across the call (Car::TryHitchTrailer_442810)
-    inline Fix16_Point AddInl_40AC50(const Fix16_Point& in) throw()
+    inline Fix16_Point AddInl_40AC50(const Fix16_Point& in) const throw()
     {
         return Fix16_Point(x + in.x, y + in.y);
     }
@@ -514,7 +513,7 @@ class Fix16_Point
         }
     }
 
-    Fix16_Point operator*(Fix16& in)
+    Fix16_Point operator*(Fix16& in) const
     {
         return Fix16_Point(x * in, y * in);
     }
@@ -524,10 +523,10 @@ class Fix16_Point
         return Fix16_Point(-x, -y);
     }
 
-    EXPORT Fix16_Point MultBy_442C80(const s32& factor);
+    EXPORT Fix16_Point MultBy_442C80(const s32& factor) const;
 
     // 10.0 0x442CB0
-    EXPORT Fix16_Point operator/(Fix16& in);
+    EXPORT Fix16_Point operator/(Fix16& in) const;
 
     // Unused (ApplyExplosionImpulse_443710 calls GetLength_41E260 now), kept for the same reason as
     // GetLength_no_sqrt_inline
@@ -611,7 +610,7 @@ class Fix16_Point
 
     EXPORT Ang16 atan2_40ACD0();
 
-    EXPORT Fix16_Point Rotate90CCW_5605E0();
+    EXPORT Fix16_Point Rotate90CCW_5605E0() const;
 
     void clear_41E1E0()
     {
@@ -619,12 +618,12 @@ class Fix16_Point
         y = 0;
     }
 
-    EXPORT Fix16_Point operator/(const s32& divisor);
+    EXPORT Fix16_Point operator/(const s32& divisor) const;
 
     // operator/ 0x55F9E0 as a nothrow inline that VC6 still calls out of line: the original sets no EH
     // state for the temporaries that live across this call (CarPhysics::HandleCarCollision_55FF20,
     // HandleObjectCollision_5606C0). throw() on the real operator/ changes 6 matched functions.
-    inline Fix16_Point DivideInl_55F9E0(const s32& divisor) throw()
+    inline Fix16_Point DivideInl_55F9E0(const s32& divisor) const throw()
     {
         return Fix16_Point(x / divisor, y / divisor);
     }

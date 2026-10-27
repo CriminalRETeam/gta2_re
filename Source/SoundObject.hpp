@@ -15,7 +15,7 @@ enum
     Camera_0xBC_5 = 5,
     Unknown_4 = 4,
     Radio_3 = 3,
-    Unknown_2 = 2,
+    Frontend_2 = 2, // Frontend's snd2_67D6F8, processed by sound_obj::ProcessType2_412490
     Sprite_1 = 1,
 };
 } // namespace SoundObjectTypeEnum
@@ -26,7 +26,7 @@ class SoundObject
 {
   public:
     s32 field_0_object_type; // SoundObjectTypeEnum
-    char_type field_4_bStatus;
+    bool field_4_bStatus;
     s32 field_8_sound_entry;
 
     union SoundObjectType

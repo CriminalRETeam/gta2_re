@@ -55,7 +55,7 @@ class DoorData // Contains only position, face and DoorInfo id
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(DoorData, 0x10);
 
-inline bool Door::IsOpen_44C860()
+inline bool Door::IsOpen_44C860() const
 {
     return field_0_primary_door_data->field_0_state == door_state::open_2;
 }
@@ -86,13 +86,6 @@ class DoorDataPool
         pNew->PoolAllocate();
         return pNew;
     }
-
-    // TODO: Pools - figure out why this won't match (probably doesn't get inlined??)
-    /*
-    Door_10* Allocate()
-    {
-        return field_0_pool.Allocate();
-    }*/
 
     // inlined 0x44C800
     DoorDataPool()

@@ -40,7 +40,7 @@ class EmergencyCrew
     EXPORT void Init_5CBC00();
     EXPORT void ReInit_5CBC30();
     EXPORT void RemovePed_5CBC40(Ped* pPed);
-    EXPORT bool IsLeaderAlive_5CBC60();
+    EXPORT bool IsLeaderAlive_5CBC60() const;
     EXPORT bool ReplaceLeaderIfNeeded_5CBC90();
     EXPORT void UpdateStateMachine_5CBD50();
     EXPORT void CleanupExpiredEntities_5CC1C0();
@@ -54,11 +54,11 @@ class EmergencyCrew
     s16 field_18_spawn_delay; // counts down to 0 before the crew is serviced, then to -80
     s16 field_1A_idle_limit; // car unseen / ped idle limit before the crew is cleaned up
     s16 field_1C_spawn_wait_ticks; // frames spent waiting for the car to spawn (spawn_car_3); the paramedics give up after 500
-    char_type field_1E_is_used;
+    bool field_1E_is_used;
     s32 field_20_crew_type; // crew_type
     s32 field_24_phase; // crew_phase
     s32 field_28_state; // crew_state
-    char_type field_2C_ready; // set once the car is spawned or the crew was cleaned up
+    bool field_2C_ready; // set once the car is spawned or the crew was cleaned up
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(EmergencyCrew, 0x30);
 

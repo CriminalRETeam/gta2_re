@@ -10,6 +10,17 @@ DEFINE_GLOBAL(KeyboardLayout*, gKeybrd_0x204_6F52F4, 0x6F52F4);
 
 char kTwoSpacesStr_620D2C[] = {' ', ' ', 0};
 
+enum KeyboardLanguage
+{
+    KbLang_English = 0,
+    KbLang_French = 1,
+    KbLang_German = 2,
+    KbLang_Italian = 3,
+    KbLang_Spanish = 4,
+    KbLang_Portuguese = 5,
+    KbLang_Russian = 6,
+};
+
 MATCH_FUNC(0x4D5D70)
 KeyboardLayout::KeyboardLayout()
 {
@@ -55,31 +66,31 @@ void KeyboardLayout::LoadKbCfg_4D5E00()
     const char_type* pKeyboardCfgFile;
     switch (field_200_keyBoardLayout)
     {
-        case 0:
+        case KbLang_English:
             pKeyboardCfgFile = "data\\keyboard\\eng_kb.cfg";
             strcpy(FileName, pKeyboardCfgFile); // note: compiler de-dups this to the end for all cases
             break;
-        case 1:
+        case KbLang_French:
             pKeyboardCfgFile = "data\\keyboard\\fre_kb.cfg";
             strcpy(FileName, pKeyboardCfgFile);
             break;
-        case 2:
+        case KbLang_German:
             pKeyboardCfgFile = "data\\keyboard\\ger_kb.cfg";
             strcpy(FileName, pKeyboardCfgFile);
             break;
-        case 3:
+        case KbLang_Italian:
             pKeyboardCfgFile = "data\\keyboard\\ita_kb.cfg";
             strcpy(FileName, pKeyboardCfgFile);
             break;
-        case 4:
+        case KbLang_Spanish:
             pKeyboardCfgFile = "data\\keyboard\\spa_kb.cfg";
             strcpy(FileName, pKeyboardCfgFile);
             break;
-        case 5:
+        case KbLang_Portuguese:
             pKeyboardCfgFile = "data\\keyboard\\por_kb.cfg";
             strcpy(FileName, pKeyboardCfgFile);
             break;
-        case 6:
+        case KbLang_Russian:
             pKeyboardCfgFile = "data\\keyboard\\rus_kb.cfg";
             strcpy(FileName, pKeyboardCfgFile);
             break;
@@ -169,49 +180,49 @@ void KeyboardLayout::RecreateIfLayoutChanged_4D5FD0()
 }
 
 // __stdcall, not __cdecl: with __cdecl VC6 gives the loads after GetKeyboardLayoutNameA no call-clobber
-// latency, so the KLID byte loads are scheduled before `lea &v2` (see matching_quirks.md)
+// latency, so the KLID byte loads are scheduled before `lea &Buffer` (see matching_quirks.md)
 MATCH_FUNC(0x4D6000)
 s32 __stdcall KeyboardLayout::GetLayout_4D6000()
 {
     s32 result;
     char_type Buffer[4];
-    char_type pwszKLID[KL_NAMELENGTH];
+    char_type szKLID[KL_NAMELENGTH];
 
     memcpy(Buffer, kTwoSpacesStr_620D2C, sizeof(Buffer));
 
-    GetKeyboardLayoutNameA(pwszKLID);
+    GetKeyboardLayoutNameA(szKLID);
 
-    Buffer[0] = pwszKLID[6];
-    Buffer[1] = pwszKLID[7];
+    Buffer[0] = szKLID[6];
+    Buffer[1] = szKLID[7];
 
-    s32 key_code;
-    sscanf(Buffer, "%x", &key_code);
-    switch (key_code)
+    s32 langId;
+    sscanf(Buffer, "%x", &langId);
+    switch (langId)
     {
-        case 12:
-            result = 1;
+        case LANG_FRENCH:
+            result = KbLang_French;
             break;
 
-        case 7:
-            result = 2;
+        case LANG_GERMAN:
+            result = KbLang_German;
             break;
 
-        case 16:
-            result = 3;
+        case LANG_ITALIAN:
+            result = KbLang_Italian;
             break;
 
-        case 10:
-            result = 4;
+        case LANG_SPANISH:
+            result = KbLang_Spanish;
             break;
 
-        case 22:
-            result = 5;
+        case LANG_PORTUGUESE:
+            result = KbLang_Portuguese;
             break;
-        case 25:
-            result = 6;
+        case LANG_RUSSIAN:
+            result = KbLang_Russian;
             break;
         default:
-            result = 0;
+            result = KbLang_English;
             break;
     }
     return result;

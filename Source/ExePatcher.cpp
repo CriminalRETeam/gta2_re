@@ -38,8 +38,8 @@ FARPROC WINAPI GetProcAddress_Proxy(HMODULE hModule, LPCSTR lpProcName);
 int WINAPI MessageBoxA_Proxy(HWND hWnd, LPCSTR lpText, LPCSTR lpCaption, UINT uType);
 BOOL WINAPI FreeLibrary_Proxy(HMODULE hLibModule);
 
-// As this hook functions instruction are copied over the real WinMain and start() is skipped this
-// function must be PiC (position independant code) and not depend on the CRT (c-run-time)
+// This function's code is copied over the real WinMain and start() is skipped, so it must be
+// position independent and not depend on the CRT
 s32 APIENTRY WinMain_Hooked(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd)
 {
     char dllName[256] = {'H', 'o', 'o', 'k', 'L', 'o', 'a', 'd', 'e', 'r', '.', 'd', 'l', 'l'};
@@ -110,16 +110,13 @@ static std::vector<u8> CopyHookEntryPointCode()
 
 static std::vector<u8> ReadFileToVector(const char* fileName)
 {
-    // open the file:
     std::streampos fileSize;
     std::ifstream file(fileName, std::ios::binary);
 
-    // get its size:
     file.seekg(0, std::ios::end);
     fileSize = file.tellg();
     file.seekg(0, std::ios::beg);
 
-    // read the data:
     std::vector<u8> fileData(fileSize);
     file.read(reinterpret_cast<char*>(&fileData[0]), fileSize);
     return fileData;
@@ -138,12 +135,12 @@ static const u32 kOgWinMainFA = 0x1E53F0;
 
 static void WinMainFwdJmpHookFunc(std::vector<u8>& exeData, u32 destinationFunctionVA, u32 sourceFunctionOffset)
 {
-    const u32 jmpAddr2 = destinationFunctionVA - (kOgWinMainVA + sourceFunctionOffset + kJmpOpCodeLen);
+    const u32 jmpRel = destinationFunctionVA - (kOgWinMainVA + sourceFunctionOffset + kJmpOpCodeLen);
     exeData[kOgWinMainFA + sourceFunctionOffset + 0] = kJmpOpCode;
-    memcpy(&exeData[kOgWinMainFA + sourceFunctionOffset + 1], &jmpAddr2, sizeof(u32));
+    memcpy(&exeData[kOgWinMainFA + sourceFunctionOffset + 1], &jmpRel, sizeof(u32));
 }
 
-static int PatchOgExecutableToLoadHooks()
+static s32 PatchOgExecutableToLoadHooks()
 {
     // Load the executable into a buffer
     printf("Read exe...\n");

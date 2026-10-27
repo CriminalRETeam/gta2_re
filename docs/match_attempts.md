@@ -537,7 +537,7 @@ What helped:
   gives `setge` (0.612).
 - Negating the whole condition so the "not flashing" block comes first (0.647 -> 0.710).
 
-Still different: the original lays out the first-flash path (`if (!byte_6F59C0)`) right after
+Still different: the original lays out the first-flash path (`if (!gNetTimerFlashing_6F59C0)`) right after
 the condition, then the "not flashing" block and the shared pager-clear return, then the
 rest of the flash code. Ours puts the whole flash block after the not-flashing one. Also
 `test $1,%dl` vs ours `test %dl,%bl` (VC6 reuses the `bShow = 1` register). Tried: the
@@ -548,9 +548,9 @@ Oct 5 (54 lines): merging the clear and return tails into one form scored 209.
 
 Oct 9 (score 6, quick_score): the layout now matches. All that is left is `test $1,%dl` (ours
 `test %dl,%bl`). ralog shows an int constant-1 colour range (k=0x100D, prio 1) that coalesces with
-bShow in `ebx`. It exists only because of the `byte_6F59C0 = 1` store: storing 2 removes it and gives
+bShow in `ebx`. It exists only because of the `gNetTimerFlashing_6F59C0 = 1` store: storing 2 removes it and gives
 `test $1`. Its priority doesn't matter (pushed to -6 with dummy blocks, still `ebx`). The original
-keeps `mov %bl,byte_6F59C0` but tests with an immediate, so its range covers the bShow def and the
+keeps `mov %bl,gNetTimerFlashing_6F59C0` but tests with an immediate, so its range covers the bShow def and the
 store but not the `& 1`. 9.6f (0x462530, VC7) has exactly the same code. Tried with no change
 (still 6): `!(..&1)`, `& 1u`, `(u8)`/`(bool)` casts on the test, `(u32)q % 2`, an inline
 `BlinkPhase()` returning bool/s32/u8, the store written as `= bShow`/`= true`/`++`/`= !byte`, the
@@ -582,7 +582,7 @@ Still different:
 ## FrameProfiler::DrawProfileHistory_4FFD90 (WIP, was STUB)
 
 Draws the profiler history as 1 pixel wide bars (5 per sample) at the bottom right of
-the screen. The 5th bar reads `field_758_ary` again, not `field_8E8_ary` (a bug in the
+the screen. The 5th bar reads `field_758_input_history` again, not `field_8E8_audio_history` (a bug in the
 original). Now `void`, nothing reads a result. Ratio 0.831.
 
 The bar is an inline helper `DrawProfileBar(x, value, colour)` (0.708 written out, 0.831
@@ -818,8 +818,8 @@ Matched (116 -> 0) with two changes:
 - 0.543. The `a2` param is unused. The station voc index ternary must be written as an if/else of two
   `PlayVocal_58E510` calls. VC6 then tail-merges the call and pushes `bFast` / the immediate `101` directly
   (0.28 → 0.48). The `field_14 * 1000 / field_8` needs a `(u32)` cast for `div`.
-- Two bools are zeroed at entry (al/cl): `bFast` (reused for `field_54FC == 1`) and `bStationChanged`, both
-  set to true when `field_54F7[1] != field_54F7[0]`. The target then jump-threads: on `field_5500 != field_54FC`
+- Two bools are zeroed at entry (al/cl): `bFast` (reused for `field_54FC_main_variant == 1`) and `bStationChanged`, both
+  set to true when `field_54F7[1] != field_54F7[0]`. The target then jump-threads: on `field_5500_prev_main_variant != field_54FC_main_variant`
   it tests al and jumps straight to the station-restart block.
 - Remaining: target block layout is [equal → test cl → update | station block] then [test al → station | mode
   block]. Tried `if (changed) … else if (!=) …`, `(== && changed) || (!= && fast)`, and a nested form; all ≤ 0.543.
@@ -1176,7 +1176,7 @@ Matched (116 -> 0) with two changes:
   and globals check out. Each now has a csv row and `MATCH_FUNC`.
 
 ### ConvertCycleCount_5BEED0 (0x5BEED0): MATCH
-- `return (u32)cycles / dword_705334;`. It needed the normaliser fix for `divl mem`.
+- `return (u32)cycles / gCyclesPerMs_705334;`. It needed the normaliser fix for `divl mem`.
 
 ### arc_tan_table_init_4052D0 (0x4052D0): MATCH
 - The tangent table initialiser. The dump now reads the x87 constants of the `target_extra.json`
@@ -1190,7 +1190,7 @@ Matched (116 -> 0) with two changes:
 - A map object's sound by kind (`Object::field_26`). 40 case blocks set the sample, release,
   range, distance and volume. VC6 merges their tails, so each case is written out in full, in
   the jump table's address order. Then come countdowns for the occasional kinds, the sample
-  counter `byte_6751E4`, and the queue.
+  counter `gType12SampleIndexCounter_6751E4`, and the queue.
 - 0.716 -> 0.907: the countdown `if (!w) {...} else { w--; return; }`. 0.970: the countdown
   cases in address order and an unsigned sample index. One register difference is left.
 - Oct 5 (40 lines): the rate line. The original copies the first argument to `eax` and reloads `field_14`
@@ -1503,7 +1503,7 @@ Each was a few asm lines away from the original. What is left and what was tried
 - Matched: `Ped::CarThief_AI_45FF60` (case order 0, 35, 31, 36, 1; Kill written out at each site; inline bus model compare; `*(xd > yd ? &xd : &yd)` instead of `Max_44E540`), `Sprite::FindCollisionIntersectionPoint_5A2710` (logic fixes: restore paths use the saved angle, second-half corners from pOther, bOutSideSelf/bOutSideOther were swapped; one named result; `GetBoundingBoxCorner_562450` moved to CarPhysics.cpp)
 - Closer: `ProcessPedImpact_560B40` 0.26->0.95 (left: an EH state around the negated temporary; `throw()` on `operator/` removes it but breaks `ResolveCollisionWithObject_522710`), `EmitExplosion_18_33_541D60` 306->35
 - No change: `59EB30` ShowId, `465D00` IsPedAThreat (register rotation)
-- Unverified data: `word_61A898` now defined with initial value 40, a guess (marked TODO in Char_Pool.cpp)
+- Unverified data: `kDefaultPedOffscreenDespawnTime_61A898` now defined with initial value 40, a guess (marked TODO in Char_Pool.cpp)
 - Matched: `Hud_CarName::DrawCarName_5D4A10` and `Hud_Brief::DrawBrief_5D3B80` (the y/x positions passed as u32, so the call goes to the `Fix16(u32)` copy 0x4926F0), `CarPhysics::UpdateWheelSkidEffects_55DC00` (SpawnSkidSegment param by value, a temporary per call with an EH state; assign rather than init for the inline ApplyScale results), `Ped::FollowTargetStateMachine_46AC20` (`RegulateVelocityByRef_433970`: a by-reference argument stops VC6 tail-merging inlined calls with different arguments), `CarAI::DoShortcutsUsingJunctions_447970` (u8 x/y/z locals, `(u16)route_pos`, if/else per case, 9.6f `ContainsPoint` 0x40CEE0 used)
 - Closer: `EmitExplosion_20_542340` 239->20 (timer > 8 branch first, cos product through `Multiply_408680`), `DrawPlayerNames_5CFE40` 247->172 (WorldToScreen_40CFC0 written out), `DrawDigitsRightAligned_492260` 246->198, `CarThreadTriggers::CheckThreadTrigger_5C8780` 250->229, `DrawPlayerStatsHelper_5D61A0` (Fix16(u32) for the text x), `GetNearest{Horizontal,Vertical}EdgeToCoordinate` 5A0A70/5A1030 (one reused diff local)
 - Still unexplained: in `DrawDigitsRightAligned_492260` the original re-tests `c != '0'` and `idx == 8` after the `idx == 8` branch where ours threads the jump (`DrawDigitsLeftAligned_492430` matched by re-reading `field_9_str[idx]` at each test); `5CFE40` tests only `al` of `IsCoordsPosVisible_435A70` (bool return?); `5C8780` case 4 keeps three calls jumping to a shared compare where ours merges them
@@ -1569,7 +1569,7 @@ Each was a few asm lines away from the original. What is left and what was tried
   - 0x460820 `Ped::TaxiCustomer_AI_460820`: no change (0.824). What's left is register allocation in the Fix16 compares (lhs in ecx, constant in eax), plus the Max>2 else block placed after the `ret`. The permuter's only gain removed the `pTargetObjCar_` load, so it was rejected.
   - 0x5504F0 `Char::state_1`: 0.567->0.825. Logic fixes (`b3` set when negating velocity, electrified check vs state 15), `Ang16(a+b,(u8)0)` for the inlined Normalize, u8 tile args to `CanReachTile_550090`, `MaxAbsDistanceOOL_42A6B0`, offset math inside the `set_xyz_lazy` call. Left: the original keeps 0 in ebp throughout.
   - 0x53BAC0 `Particle_4C::sub_53BAC0` (0.31), 0x4661F0 `Ped::sub_4661F0` (0.34), 0x448CE0 `ManageTrafficCarDirection` (0.31), 0x44D1D0 `CarAI::DetectCarAhead_44D1D0` (0.11): no change, these need rewrites rather than tweaks (block layout or frame differ from the start).
-  - 0x5CBD50 `EmergencyCrew::UpdateStateMachine`: MATCH. `if (v36) {...} else {dead}` block order, a shared u8 index counter and a reused flag variable fix the stack slots, new `MaxAbsDistanceNegOOL_42A6B0` (out-of-line `Negate_4086A0` for x), a missing `dword_706148` compare.
+  - 0x5CBD50 `EmergencyCrew::UpdateStateMachine`: MATCH. `if (v36) {...} else {dead}` block order, a shared u8 index counter and a reused flag variable fix the stack slots, new `MaxAbsDistanceNegOOL_42A6B0` (out-of-line `Negate_4086A0` for x), a missing `kFpFour_706148` compare.
   - 0x4626B0 `Ped::StateMachineTick`: MATCH. Restructured without the IDA gotos (if/else layout, u16 local, `return 0` last); one goto kept to the shared final `Deallocate` block.
   - 0x4AD140 `Frontend::DrawMenu`: MATCH. A missing call to `Frontend::sub_4B7D60` (added as STUB), u8/u16 field types, u16 palette param on `DrawTextFixedWidth_4B78B0`, block-scoped locals for the frame size. Also matched 0x4B7E10 (thiscall, not static stdcall; u16 font param).
   - 0x447D40 `CarAI::TrySetTargetDirectionFromArrows_447D40`: 0.146->0.415. Angle copied to a local at entry. Left: VC6 cross-jumps shared call tails in ours that the original keeps duplicated.
@@ -1809,9 +1809,9 @@ Registers only:
 
 Frame and stack slots:
 - `Fix16_Point::NormalizeSafe_442AD0` (52): frame 0x28 vs 0x20, nothing else.
-- `CarAI::ScanAheadForObstacles_452060` (268 -> 34, new `word_677A3A`, `gSin_table_667A80` indexed directly, `u8 field_2C`):
+- `CarAI::ScanAheadForObstacles_452060` (268 -> 34, new `kAng32_677A3A`, `gSin_table_667A80` indexed directly, `u8 field_2C`):
   `zpos_`/`v85` at +0/+8 vs the original's +8/+0xC, plus the `u8` temp of the third inlined
-  `IsBlockRoadType`. `word_677A3A`'s initial value is a guess (TODO, read it from the exe).
+  `IsBlockRoadType`. `kAng32_677A3A`'s initial value is a guess (TODO, read it from the exe).
 - `CarAI::BrakeForBlockedRoadAhead_4482C0` (225): the top `v33 = 0` goes into `v32`'s slot in the original, ours swapped.
 - `CarAI::AlignToLaneCenter_44AF00` (609): each angle temp has its own 2-byte packed slot in a 0x1C frame.
 - `ParticleManager::EmitBloodBurst_53E450` (291): multiply temps in other slots (frame 4 short); ours keeps 0 in
@@ -2082,8 +2082,8 @@ in one expression"); the same form replaced the dead-store workaround in the mat
   no trailing `return`, `default` with break/return: all 2. Permuter 1500.
 - `TagGameHudUpdate_4DADA0` (54): the original never stores 59 to `gNetTimerBlinkCounter_6F5B74` on the first flash (jump-threaded
   into the `> 0` test with 59 in `ecx`), so the timer is likely a local (`timer = byte ? dword : 59`), but layout
-  is the gap: the original puts the `if (!byte_6F59C0)` block right after the condition, then the not-flashing
-  block + pager clear, then the rest. Tried: if/else with the rest after (B goes first, 56-211), a `byte_6F59C0`
+  is the gap: the original puts the `if (!gNetTimerFlashing_6F59C0)` block right after the condition, then the not-flashing
+  block + pager clear, then the rest. Tried: if/else with the rest after (B goes first, 56-211), a `gNetTimerFlashing_6F59C0`
   test after the if/else (threaded, 56), inline `IsTimerFlashTime` (54/142), goto (93/211). VC7 (`sc7.sh`, 9.6f has
   the same layout) puts the first-flash block after the first `||` term with the early-return form (58).
 - `gtx_0x106C::BuildCarInfoContainer_5AA9A0` (8): 9.6f has `mov %edx,%eax` before the `lea 1(%eax,%eax)`, a
@@ -2328,8 +2328,8 @@ Scores are `sc.sh` lines.
 
 ### Near-miss pass (ParticleManager / sound_obj / misc owners)
 Scores are `sc.sh` lines.
-- `Char::GetNextRotationToward_550F60` 452 -> 164: `word_6FDB2E` is an `Ang16` and the unused step angle is
-  `word_6FDB2E.MultiplyByFix16_401CB0_ctor_ool(field_38_velocity)`. Initialised from an inline's return value the
+- `Char::GetNextRotationToward_550F60` 452 -> 164: `kAng4_6FDB2E` is an `Ang16` and the unused step angle is
+  `kAng4_6FDB2E.MultiplyByFix16_401CB0_ctor_ool(field_38_velocity)`. Initialised from an inline's return value the
   local lands in the temporaries area like the original's `v12` at 0xE (frame 0x28 -> 0x24); a named
   `Fix16 unused_vel` + `Ang16 v12(&unused_vel, 0)` gives it a named slot above the `u8` locals. Left: the
   original rotates the scratch registers from case to case (Delta args edx/eax, ecx/edx, eax/ecx; the sum in
@@ -2337,7 +2337,7 @@ Scores are `sc.sh` lines.
   `.rValue` arithmetic, a reference/temporary `v12`, a block scope: no change or worse; permuter 100 iterations
   nothing.
 - `sound_obj::HandleVocalStreamSwitching_57DF10` 600 -> 254: control flow from the asm. Station restart after the
-  `field_5500 == field_54FC` test (`if (!bStationChanged) { Update; return; }`, `else if (!bFast) { mode; return; }`,
+  `field_5500_prev_main_variant == field_54FC_main_variant` test (`if (!bStationChanged) { Update; return; }`, `else if (!bFast) { mode; return; }`,
   station code last), and the old position saved through `pos` before it is written to
   `RadioEmitter(...).field_18` (the original calls `GetVocalPosMs` before computing the emitter address).
   Left: the original lays the station block right after the `==` test and jumps back into it from the `!=`
@@ -2572,7 +2572,7 @@ Scores are `permuter_score.py` lines (10.5) and `--96f` lines (9.6f) unless note
   (256, 9.6f 530) are worse. 9.6f: `MaxAbsDistance_4614E0` is `MaxAbsDistance_42A6B0`, the 9.6f source uses the getter.
 - `sound_obj::HandleVocalStreamSwitching_57DF10` 254 -> 294 but 9.6f 0x4B25D0 600 -> 328: the parameter is used.
   `0x18(%esp)` after the prologue (push ecx + 4 saves) is the argument, and every `test %al,%al` before
-  `SetVocalSpeed` reloads it: `if (bFastForward)` doubles the speed, the local `field_54FC == 1` is only
+  `SetVocalSpeed` reloads it: `if (bFastForward)` doubles the speed, the local `field_54FC_main_variant == 1` is only
   PlayVocal's append flag. With that every instruction matches and the constant-1 `ebx` is gone. Left: the
   original merges every duplicate tail into the first copy (`Update; ret`, `push 0; SetVocalPosMs ...`,
   `xor edx; div`), ours into the later ones, so the `!changed` Update stays in place and the station head isn't
@@ -2890,7 +2890,7 @@ Scores are `quick_score.sh` lines. No new matches; each target stopped at one of
   `Ped::AttackTargetStateMachine_46D460` (46) and `PoliceCrew::State5_PursueOrChase_572920` (275) both have
   two identical blocks (`b11 = false; ret` in the inner `else` and the else-if's `else`; the
   `SetObjective2(0,9999); SetObjective(0,9999); break` pair in the kill_char `status == 2` test and in
-  `case objective_28`). The original lays the block out at the *first* site, as the fall-through of its test,
+  `case dead_patient_28`). The original lays the block out at the *first* site, as the fall-through of its test,
   and the second site jumps backward into it (`jmp 0x4BA`, `je 0x5e9`). Ours keeps the second site and the
   first jumps forward. Probes (switch cases in/out of a loop, nested if/else, `break` inside or after the
   if, member calls on a global) always make VC6 keep the later copy; a `goto` to a label in the first block
@@ -2934,7 +2934,7 @@ Scores are `quick_score.sh` lines. No new matches; each target stopped at one of
   `cmp %bl,%al` (ours `test %al,%al`) after `FindNearbyTileMatchingSlopeType_5552B0` are not the return
   type (`u8` instead of `bool` changes nothing); 9.6f also uses `test`.
 - `Ped::HandlePedHitByObject_45D000` (137): the one real diff is the first `IsRespectNegativeForPlayer`
-  site in the inlined `IsPedAThreat_Inline_465D00`: the original spills `field_2E_idx` through
+  site in the inlined `IsPedAThreat_Inline_465D00`: the original spills `field_2E_player_idx` through
   `[esp+0x20]` (the `flag` slot) at both sites. A `u8 player_idx` local at the first site too gives both
   spills, but then the two sites get each other's register pattern (`edx/al` vs `eax/cl`, gang pointer
   loaded before or after the push) and `MaxAbsDistance_4614E0(...) <= kFpOne` puts the result in ecx instead of eax, a
@@ -3481,8 +3481,8 @@ helpers under other names, or plain Fix16/Ang16 operators.
 - The 12 WIPs out of address order in their file (582480, 4B6390, 534700, 540320, 53F4C0, 5121E0, 4E5640,
   427220, 41AB80, 4182E0, 418720, 5D9510) moved into address order: every score unchanged.
 - `check_global_inits.py`: kAngZero fixed (0x6FE3C0). Left as found (no code reads them differently):
-  `gPedOffscreenDespawnTime_678656` (copied from 0x61A898 at startup), `dword_67BBE0` (dynamic 0, probably `Fix16`),
-  `gCharB4_Saved_TileX/Y` (`kFP16Zero.ToInt()`), `dword_705334` (SpriteRenderer's rdtsc init),
+  `gPedOffscreenDespawnTime_678656` (copied from 0x61A898 at startup), `kZero_67BBE0` (dynamic 0, probably `Fix16`),
+  `gCharB4_Saved_TileX/Y` (`kFP16Zero.ToInt()`), `gCyclesPerMs_705334` (SpriteRenderer's rdtsc init),
   `gCollisionDamage_6FE33C` (no original initialiser), the debug bools (one 79-store init at 0x4AB950).
 - Address order for whole files: 34 files reordered (pure moves), 3304/3304 and every WIP score unchanged.
 - PCH: `/Yc`/`/Yu` builds of Weapon.cpp change nothing. Defining `Fix16_Point::operator+` at the end of
@@ -3925,7 +3925,7 @@ Round 6 findings (not matched):
 ## Agent tiny (dead stores, scheduling)
 
 - **`sound_obj::ProcessPoliceRadioWordsPlayback_427220` (4 -> 0, MATCH).** The dead store survives DSE when the
-  local is address-taken in an expression that folds away only late: `PlayAtIdx_58E7F0(field_552C_15array[cur]
+  local is address-taken in an expression that folds away only late: `PlayAtIdx_58E7F0(field_552C_radio_word_queue[cur]
   + (&old - &old))` keeps a plain store, so the `cmp $0xF,%al` is free to go before it as in the original.
   `(void)(&old - &old)`, `if (&old != &old)`, `(u32)&old & 0`, a dynamic-index local array (store kept, 78), a struct
   with an empty dtor (store kept, but adds an EH frame: 70), `const&` bound to rvalues, an inline with an unused
@@ -3963,12 +3963,12 @@ Round 6 findings (not matched):
 - **`CarAI::ScanAheadForObstacles_452060` (32 -> 0, MATCH).** Rewritten in its 9.6f shape (0x431C10, found as the
   only caller of 9.6f's ReactToNearbyCar 0x431770): every rotation is `Ang16::PolarToCartesian_41FC20(angle, radius,
   v9, v10)` into one `v9`/`v10` pair, then `set_xyz_lazy(v9 + x, v10 + y, new_z)`; the first radius is the temporary
-  `v1 + kFpThreeQuarters`; the 0x80 branch angle is `field_10_angle + word_677A3A.MultiplyByFix16_401CB0_ctor_ool(
+  `v1 + kFpThreeQuarters`; the 0x80 branch angle is `field_10_angle + kAng32_677A3A.MultiplyByFix16_401CB0_ctor_ool(
   Fix16(turn_direction))`. That temporary `Ang16` (the inline's return value, read back from memory) is size 2 in the
   slot list, so it opens slot 1 before `new_z` (4 refs): with the old named `Ang16 v83(&v86, 0)` (size 4: its first
   IL reference is the ctor's `lea`) no source order could put the cosine temp at 0x0 and `v7` at 0x4. The inline budget
   then left one sine multiply too many inline (3rd kFpHalf rotation, nested budget 57, needs <= 56): two free sites
-  fixed it, both from 9.6f: the `byte_6771DC = 1/0` stores go through a setter (9.6f 0x42ACE0, a Car method there;
+  fixed it, both from 9.6f: the `gCarAIProbingAhead_6771DC = 1/0` stores go through a setter (9.6f 0x42ACE0, a Car method there;
   here a file-local `SetByte6771DC_42ACE0`) and the react switch reads `GetType_416B40()`.
 - **`CarAI::ReactToNearbyCar_451980` (96 -> 0, MATCH).** `Ang16 v21; v21 = atan2(...)` plus `v27 = v21 + kAng180`
   (9.6f's operand order) puts v21 in bp (140 alone: `cBC`/`v2` then swap edi/ebp and the field_0_car spill is split),
@@ -4081,7 +4081,7 @@ Scores are `quick_score.sh` lines. No new match; all source left as on the base.
   only the int and shifts at every site. `Fix16((s32)y)` / `Fix16(y << 14, 0)` at the FindGroundZ call: 734;
   `s32 yi = y`, `Fix16 yOff = Fix16((s32)y)`: 738.
 - `PublicTransport::SpawnTrainsFromStations_578860` (601): the original reads `stop_point->field_2_y`
-  (byte, kept in a stack temp) and `dword_6FEF88` (ebx) before the __allmul/GetWagonType calls and does the
+  (byte, kept in a stack temp) and `kTrainStopBlockOffset_6FEF88` (ebx) before the __allmul/GetWagonType calls and does the
   zext/shl/add after them; ours finishes the sum before the calls. `dword + Fix16(y)`, `mul + Fix16(x)`, a `u8 sy`
   local: 601 unchanged.
 - `CarAI::ManageTrafficCarDirection_448CE0` (1897): the original holds the constant 0x10 in ecx across the
@@ -4841,7 +4841,7 @@ root with `VC6_TOOLS`-free `patch_c2.X` set to a scratch dir, see `Scripts/regal
 - `--skeleton` scores 0 (same jumps, block order and call order); `--structure` 274. So the rest is in-block
   scheduling, slot numbering and frame size (ours 0x58, original 0x68; original `this` at 0x3C, ours 0x2C).
 - Argument evaluation order in the first arm (dir 4): the original computes the x sum (`__allmul` + `Fix16(x)`)
-  before `GetWagonType_577f80(j)` and the y sum (`Fix16(y) + dword_6FEF88`, y byte kept in a stack temp 0x2C)
+  before `GetWagonType_577f80(j)` and the y sum (`Fix16(y) + kTrainStopBlockOffset_6FEF88`, y byte kept in a stack temp 0x2C)
   after it. Ours computes the y sum before the `__allmul`, and the x sum after the call. Tried:
   - `u8 sy = stop->field_2_y` local with `Fix16(sy)` at the y arg: 601 (identical asm, VC6 CSEs it).
   - `s32 wt = GetWagonType(j)` local before the spawn: 866.
@@ -5096,8 +5096,8 @@ Scores are `NO_PCH=1 quick_score.sh` lines. Only `Source/Frontend.cpp` changed (
   a local null-first/non-null-first helper, or the direct `get_block` call: 184-714, none changes the order. The
   unfolded `test %bl,%bl` needs the and-arm to fall into a join that tests a copy; all inline forms give it only
   with the non-null arm first.
-- Late finding on 4B0220, not kept (84 -> 244): the page 5 `elements[1].font = word_703C3C` statement is the decompiler's
-  `v34`: `s16 v34 = word_703C3C;` right after `elements[1].ypos = 185` and `... = v34` after the two 197 ypos stores gives
+- Late finding on 4B0220, not kept (84 -> 244): the page 5 `elements[1].font = gFrontendHeadingFont_703C3C` statement is the decompiler's
+  `v34`: `s16 v34 = gFrontendHeadingFont_703C3C;` right after `elements[1].ypos = 185` and `... = v34` after the two 197 ypos stores gives
   the original's IL (the global load before the ypos stores, the `v2` reload, then the font store: the block-local is
   NOT forward-substituted past the this-> stores, which may alias the global). What breaks is the colour order: v34 is a
   coloured range (prio 204 = 4 x 51 ranges in the block) and takes eax before the 0xC5 constant (ecx), v2's reload

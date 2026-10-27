@@ -19,20 +19,25 @@ class cSampleManager
   public:
     EXPORT cSampleManager();
 
+  private:
     EXPORT bool DisableA3DSplash_58D620();
 
+  public:
     EXPORT bool SoundInit_58D6C0(s32* not_used);
 
-    EXPORT bool OpenDigitalDriver_58D720(char_type bFlag, char_type bStereo, s32 sampleRate);
+  private:
+    EXPORT bool OpenDigitalDriver_58D720(bool b16Bit, bool bStereo, s32 sampleRate);
 
+  public:
     // todo: order
 
     EXPORT bool AllocSamples_58D9F0(s32 not_used);
 
     EXPORT void PlaySampleRange_58E8C0(u32 idx, u32 end_idx);
 
-    EXPORT bool Init3DProvider_58D820(BYTE* pMaxSamples);
+    EXPORT bool Init3DProvider_58D820(u8* pMaxSamples);
 
+  private:
     EXPORT void Reset3DSamples_58D960();
 
     EXPORT void AllocSample_58DA80();
@@ -41,17 +46,18 @@ class cSampleManager
 
     EXPORT void Terminate_58DAE0();
 
+  public:
     EXPORT void Shutdown_58DB30();
 
-    EXPORT s32 GetPlayBackRate_58DBF0(s32 idx);
+    EXPORT s32 GetPlayBackRate_58DBF0(s32 idx) const;
 
-    EXPORT s32 GetRandomDisplacement_58DC10(s32 idx);
+    EXPORT s32 GetRandomDisplacement_58DC10(s32 idx) const;
 
-    EXPORT s32 GetLoopStart_58DC30(s32 sample_idx);
+    EXPORT s32 GetLoopStart_58DC30(s32 sample_idx) const;
 
-    EXPORT s32 GetLoopEnd_58DC50(s32 sample_idx);
+    EXPORT s32 GetLoopEnd_58DC50(s32 sample_idx) const;
 
-    EXPORT s32 GetSampleLength_58DC70(s32 sample_idx);
+    EXPORT s32 GetSampleLength_58DC70(s32 sample_idx) const;
 
     EXPORT void InitialiseChannel_58DC90(s32 channel, s32 sample_idx);
 
@@ -65,7 +71,7 @@ class cSampleManager
 
     EXPORT void SetChannelLoopCount_58DD60(s32 channel, s32 loopCount);
 
-    EXPORT bool GetChannelUsedFlag_58DD80(s32 channel);
+    EXPORT bool GetChannelUsedFlag_58DD80(s32 channel) const;
 
     EXPORT void StartChannel_58DDB0(s32 channel);
 
@@ -85,16 +91,18 @@ class cSampleManager
 
     EXPORT void SetChannel3DLoopCount_58DF50(s32 channel, s32 loop_count);
 
-    EXPORT bool GetChannel3DUsedFlag_58DF70(s32 channel);
+    EXPORT bool GetChannel3DUsedFlag_58DF70(s32 channel) const;
 
     EXPORT void StartChannel3D_58DFA0(s32 samp_idx);
 
     EXPORT void StopChannel3D_58DFC0(s32 samp_idx);
 
-    EXPORT u8 Get3DSampleCount_58E000();
+    EXPORT u8 Get3DSampleCount_58E000() const;
+
+  private:
     EXPORT void SetEaxEnvironment_58E010(s32 env_idx);
 
-    EXPORT bool Open3DProvider_58E140(s32 envIdx);
+    EXPORT bool Open3DProvider_58E140(s32 provider_idx);
 
     // todo order
     EXPORT void Close3DProvider_58E1C0();
@@ -102,9 +110,10 @@ class cSampleManager
     // todo order
     EXPORT void Enum3DProviders_58E1F0();
 
+  public:
     // order func
 
-    EXPORT bool StreamStatus_58E2C0();
+    EXPORT bool StreamStatus_58E2C0() const;
 
     EXPORT void StreamSetVolume_58E2F0(u8 vol);
 
@@ -114,9 +123,9 @@ class cSampleManager
 
     EXPORT void FadeOut_58E490();
 
-    EXPORT char_type MusicFileExists_58E500();
+    EXPORT bool MusicFileExists_58E500() const;
 
-    EXPORT void PlayVocal_58E510(s32 stream_idx, s32 voc_idx, char_type bAppendA);
+    EXPORT void PlayVocal_58E510(s32 stream_idx, s32 voc_idx, bool bMainVariant);
 
     EXPORT void CloseVocalStream_58E6A0(s32 stream_idx);
 
@@ -124,19 +133,19 @@ class cSampleManager
 
     EXPORT void SetVocalSpeed_58E700(s32 stream_idx, s32 playbackRate);
 
-    EXPORT s32 GetVocalSpeed_58E720(s32 stream_idx);
+    EXPORT s32 GetVocalSpeed_58E720(s32 stream_idx) const;
 
     EXPORT void SetVocalPosMs_58E750(s32 stream_idx, s32 ms_pos);
 
-    EXPORT s32 GetVocalPosMs_58E770(long stream_idx);
+    EXPORT s32 GetVocalPosMs_58E770(long stream_idx) const;
 
-    EXPORT s32 GetVocalLengthMs_58E7A0(long stream_idx);
+    EXPORT s32 GetVocalLengthMs_58E7A0(long stream_idx) const;
 
     EXPORT void SetSampleVol_58E7D0(u8 vol);
 
     EXPORT void PlayAtIdx_58E7F0(s32 idx);
 
-    EXPORT bool SampleNotDone_58E880();
+    EXPORT bool SampleNotDone_58E880() const;
     
     EXPORT void EndSample_58E8A0();
 
@@ -144,18 +153,20 @@ class cSampleManager
 
     EXPORT bool LoadWavSdtData_58E980(const char_type* pRawOrSdtName);
 
-    EXPORT BYTE Reacquire_58E2A0();
+    EXPORT bool Reacquire_58E2A0();
 
     EXPORT void Release_58E290();
 
     HDIGDRIVER field_0_hDriver;
     char_type field_4_gtaAudioDriveLetter;
+
+  private:
     char_type field_5_str[80];
     bool field_55_bMusicFound;
     HSAMPLE field_58_hSamples[16];
     HSAMPLE field_98_hSample;
     HSTREAM field_9C_hStreams[2];
-    char_type field_A4_bLoaded;
+    bool field_A4_bLoaded;
     SdtEntry field_A8_sdt_entries[320];
     void* field_1EA8_pAudioBuffer1;
     void* field_1EAC_pAudioBuffer2;
@@ -164,7 +175,7 @@ class cSampleManager
     u8 field_1EB2_3d_samp_count;
     HPROVIDER field_1EB4_h3dProvider[256];
     char_type* field_22B4_str[256];
-    HPROVIDER field_26B4_3d_provider_idx;
+    s32 field_26B4_3d_provider_idx;
     s32 field_26B8_bEaxSupported;
     s32 field_26BC_eax_environment;
     s32 field_26C0_3d_provider;
@@ -173,7 +184,7 @@ class cSampleManager
     f32 field_2708_float;
     f32 field_270C_float;
     s32 field_2710_3d_provider_count;
-    char_type field_2714_is_stereo;
+    bool field_2714_is_stereo;
 };
 
 EXTERN_GLOBAL(cSampleManager, gSampManager_6FFF00);

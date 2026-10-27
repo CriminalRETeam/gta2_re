@@ -6,11 +6,21 @@
 
 class Object;
 
+// Generator::field_21_spawn_mode
+namespace generator_spawn_mode
+{
+enum
+{
+    every_cycle_1 = 1,
+    one_at_a_time_2 = 2,
+};
+} // namespace generator_spawn_mode
+
 class Generator
 {
   public:
     EXPORT void Activate_4C1A70();
-    EXPORT s32 next_cycle_4C1AB0();
+    EXPORT s32 next_cycle_4C1AB0() const;
     EXPORT void SpawnObject_4C1B10();
     EXPORT void Service_4C1C50();
     EXPORT void Init_4C1C70(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 generator_type, s16 min_delay, s16 max_delay);

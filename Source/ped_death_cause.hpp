@@ -12,8 +12,8 @@ enum
     run_over_1 = 1,
     electrocuted_2 = 2,
     run_over_by_stolen_car_3 = 3, // the victim's own stolen car (scores 10000 in a network game)
-    unknown_4 = 4,
-    unknown_5 = 5,
+    explosion_4 = 4,      // caught in a blast (Explosion::ApplyBlastDamage_541850) or a car crusher
+    drowned_5 = 5,        // Char::DrownPed_5459E0, when the ped has a killer
     projectile_default_9 = 9, // GetDeathCauseForObjectModel_48E780 fallback
     punched_10 = 10,
     bullet_11 = 11,       // machine gun / pistol bullet
@@ -26,7 +26,7 @@ enum
     rocket_18 = 18,       // rocket_160
     shotgun_19 = 19,
     burning_20 = 20,      // water_hitting_198, 251
-    unknown_21 = 21,      // model 10
+    mine_21 = 21,         // mine_10
     any_weapon_22 = 22,   // only in a bonus rule: matches 4 and 10..19 (see BonusTracker::IsDeathCauseInGroup_432170)
     any_23 = 23,          // wildcard in a bonus definition (BonusTracker)
 };

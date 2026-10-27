@@ -128,13 +128,13 @@ void __stdcall LightGrid::SubmitLightsInArea_4D6E50(s32 min_x, s32 min_y, s32 ma
             Light* pLight = gLightGrid_6F5400[(ypos * 64) + xpos];
             while (pLight)
             {
-                SLight pSLight;
-                pSLight.field_0 = pLight->field_0_intensity_radius.flag;
-                pSLight.field_4_x = pLight->field_4_x.ToFloat();
-                pSLight.field_8_y = pLight->field_8_y.ToFloat();
-                pSLight.field_C_z = pLight->field_C_z.ToFloat();
-                pSLight.field_10_colour = pLight->field_10_argb;
-                pgbh_AddLight(&pSLight);
+                SLight sLight;
+                sLight.field_0 = pLight->field_0_intensity_radius.flag;
+                sLight.field_4_x = pLight->field_4_x.ToFloat();
+                sLight.field_8_y = pLight->field_8_y.ToFloat();
+                sLight.field_C_z = pLight->field_C_z.ToFloat();
+                sLight.field_10_colour = pLight->field_10_argb;
+                pgbh_AddLight(&sLight);
                 pLight = pLight->field_20_pGridNext;
             }
         }

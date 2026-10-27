@@ -201,7 +201,7 @@ Ped* Ped_List::RemoveFirstPed_471320()
 // 9.6f calls MaxAbsDistance_42A6B0 here. By value, with the y difference first, VC6 keeps
 // both differences and the max in registers as the original does.
 MATCH_FUNC(0x471340)
-Ped* Ped_List::FindClosestActivePed_471340(Fix16 x, Fix16 y)
+Ped* Ped_List::FindClosestActivePed_471340(Fix16 x, Fix16 y) const
 {
     Fix16 closestDistance(99999);
     PedListNode* pIter = this->field_0_pFirstPed;
@@ -225,12 +225,8 @@ Ped* Ped_List::FindClosestActivePed_471340(Fix16 x, Fix16 y)
 
 // https://decomp.me/scratch/GJ2JR
 MATCH_FUNC(0x4713C0)
-Ped* Ped_List::FindClosestPedInViewCone_4713C0(Fix16 x, Fix16 y, Ang16 facing, Ang16 half_cone)
+Ped* Ped_List::FindClosestPedInViewCone_4713C0(Fix16 x, Fix16 y, Ang16 facing, Ang16 half_cone) const
 {
-    Fix16 distance;
-    Ang16 angle_diff;
-    Ang16 neg_half_cone;
-
     Fix16 closestDistance = Fix16(99999);
     PedListNode* pIter = field_0_pFirstPed;
     Ped* pClosest = NULL;
@@ -240,11 +236,11 @@ Ped* Ped_List::FindClosestPedInViewCone_4713C0(Fix16 x, Fix16 y, Ang16 facing, A
         if (pIter->field_0_char_ped->IsActive_433B40() == 1)
         {
             bool withinCone = false;
-            distance = Fix16::MaxAbsDistance_42A6B0(x, y, pIter->field_0_char_ped->get_cam_x(), pIter->field_0_char_ped->get_cam_y());
+            Fix16 distance = Fix16::MaxAbsDistance_42A6B0(x, y, pIter->field_0_char_ped->get_cam_x(), pIter->field_0_char_ped->get_cam_y());
 
-            angle_diff = Fix16::atan2_fixed_405320(pIter->field_0_char_ped->get_cam_y() - y, pIter->field_0_char_ped->get_cam_x() - x) - facing;
+            Ang16 angle_diff = Fix16::atan2_fixed_405320(pIter->field_0_char_ped->get_cam_y() - y, pIter->field_0_char_ped->get_cam_x() - x) - facing;
 
-            neg_half_cone = kAng0_678B40 - half_cone;
+            Ang16 neg_half_cone = kAng0_678B40 - half_cone;
 
             if (angle_diff < half_cone || angle_diff > neg_half_cone)
             {
@@ -299,7 +295,7 @@ void Ped_List::ApplyPassengerBusStopBehavior_471630()
         if (pIter->field_0_char_ped->get_occupation_403980() == ped_ocupation_enum::bus_customer_8)
         {
             pIter->field_0_char_ped->SetObjective2_463830(objectives_enum::no_obj_0);
-            pIter->field_0_char_ped->SetObjective(objectives_enum::objective_34);
+            pIter->field_0_char_ped->SetObjective(objectives_enum::leave_car_and_flee_34);
             pIter->field_0_char_ped->SetTargetObjectiveCar(pIter->field_0_char_ped->field_16C_car);
         }
     }
@@ -318,15 +314,15 @@ void Ped_List::ForceTaxiPassengersToExit_471680()
 }
 
 MATCH_FUNC(0x4716b0)
-u16 Ped_List::GetPedsCount_4716B0()
+u16 Ped_List::GetPedsCount_4716B0() const
 {
-    u16 passengerCount;
+    u16 count;
     PedListNode* pIter = field_0_pFirstPed;
-    for (passengerCount = 0; pIter; ++passengerCount)
+    for (count = 0; pIter; ++count)
     {
         pIter = pIter->mpNext;
     }
-    return passengerCount;
+    return count;
 }
 
 MATCH_FUNC(0x4716d0)
@@ -341,7 +337,7 @@ void Ped_List::SyncPassengersWithCarState_4716D0(Car* pCar)
 }
 
 MATCH_FUNC(0x471710)
-bool Ped_List::HasScriptCreatedPed_471710()
+bool Ped_List::HasScriptCreatedPed_471710() const
 {
     PedListNode* pIter = field_0_pFirstPed;
     while (pIter)

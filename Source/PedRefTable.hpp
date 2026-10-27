@@ -27,7 +27,7 @@ class PedRefTable
         field_0_entries[idx].field_4_ref_count = 0;
     }
 
-    s32 GetPedId_420F10(u8 idx)
+    s32 GetPedId_420F10(u8 idx) const
     {
         return field_0_entries[idx].field_0_ped_id;
     }

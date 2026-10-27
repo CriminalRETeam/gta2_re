@@ -31,7 +31,7 @@ class Ped
 {
   public:
     // 9.6f 0x433C90
-    inline bool Is_occupation_elvis_433C90()
+    inline bool Is_occupation_elvis_433C90() const
     {
         return field_240_occupation == ped_ocupation_enum::elvis;
     }
@@ -43,19 +43,19 @@ class Ped
     }
 
     // 9.6f 0x4039C0
-    inline s32 get_enter_car_as_passenger_4039C0()
+    inline s32 get_enter_car_as_passenger_4039C0() const
     {
         return field_248_enter_car_as_passenger;
     }
 
     // 9.6f 0x4039D0
-    inline char_type GetInternalObjectiveStatus_4039D0()
+    inline u8 GetInternalObjectiveStatus_4039D0() const
     {
         return field_226_internal_objective_status;
     }
 
     // 9.6f 0x433C20
-    inline Fix16 GetGameObjectVelocity_433C20()
+    inline Fix16 GetGameObjectVelocity_433C20() const
     {
         return field_168_game_object->get_velocity_41B080();
     }
@@ -90,7 +90,7 @@ class Ped
     }
 
     // 9.6f 0x403AD0
-    inline Ped* get_objective_target_ped_403AD0()
+    inline Ped* get_objective_target_ped_403AD0() const
     {
         return field_148_objective_target_ped;
     }
@@ -102,13 +102,13 @@ class Ped
     }
 
     // 9.6f 0x403B20
-    inline u16 get_internal_objective_timer_403B20()
+    inline u16 get_internal_objective_timer_403B20() const
     {
         return field_21A_internal_objective_timer;
     }
 
     // 9.6f 0x403B30
-    inline u16 get_objective_timer_403B30()
+    inline u16 get_objective_timer_403B30() const
     {
         return field_218_objective_timer;
     }
@@ -120,7 +120,7 @@ class Ped
     }
 
     // 9.6f 0x403B50
-    inline void SetInternalObjectiveStatus_403B50(char_type v)
+    inline void SetInternalObjectiveStatus_403B50(u8 v)
     {
         field_226_internal_objective_status = v;
     }
@@ -144,13 +144,13 @@ class Ped
     }
 
     // 9.6f 0x475B10
-    inline Ped* get_last_char_punched_475B10()
+    inline Ped* get_last_char_punched_475B10() const
     {
         return field_188_last_char_punched;
     }
 
     // 9.6f 0x4A5020
-    inline Char* get_game_object_4A5020()
+    inline Char* get_game_object_4A5020() const
     {
         return field_168_game_object;
     }
@@ -159,17 +159,17 @@ class Ped
     EXPORT ~Ped(); // 45AF00
     EXPORT void Reset_45AFC0();
     EXPORT void PoolAllocate();
-    EXPORT bool IsLawEnforcement_45B4E0();
-    EXPORT Fix16_Point GetVelocityVector_45B520();
+    EXPORT bool IsLawEnforcement_45B4E0() const;
+    EXPORT Fix16_Point GetVelocityVector_45B520() const;
     EXPORT void SetRecentCrimeTimer_45B550();
-    EXPORT void SetPlayer_45B560(Player* pPlayer, char_type bIsAuxPed);
-    EXPORT bool IsEmergencyOccupation_45B590();
-    EXPORT void CopyStatsFromPed_45B5B0(Ped* pSrc);
-    EXPORT Car* GetCarBeingEnteredOrExited_45BBF0();
+    EXPORT void SetPlayer_45B560(Player* pPlayer, bool bIsAuxPed);
+    EXPORT bool IsEmergencyOccupation_45B590() const;
+    EXPORT void CopyStatsFromPed_45B5B0(const Ped* pSrc);
+    EXPORT Car* GetCarBeingEnteredOrExited_45BBF0() const;
     EXPORT void TeleportToCoord_45BC10(Fix16 xpos, Fix16 ypos);
     EXPORT void ManageShocking_45BC70();
     EXPORT bool CloseDoorIfCarApproaching_45BD20(Car* pCar);
-    EXPORT s32 GetBulletSpriteOffset_45BE30();
+    EXPORT s32 GetBulletSpriteOffset_45BE30() const;
     EXPORT void SetOnFire();
     EXPORT void PutOutFire();
     EXPORT void ManageBurning_45BEC0();
@@ -190,19 +190,19 @@ class Ped
     EXPORT void ChangeNextPedState2_45C540(s32 new_state);
     EXPORT void RestorePreviousPedState_45C5A0();
     EXPORT void CancelEnterCarObjective_45C5C0();
-    EXPORT void SpawnDriverRunAway_45C650(Car* pCar, Ped* pPed);
+    EXPORT void SpawnDriverRunAway_45C650(Car* pCar, Ped* pCarThief);
     EXPORT void SpawnPedInCar_45C730(Car* pCar);
     EXPORT void EnterCarByBackDoor_45C7A0(Car* pCar);
     EXPORT void EnterCarAsPassenger_45C7F0(Car* pCar);
     EXPORT bool AllocCharB4_45C830(Fix16 xpos, Fix16 ypos, Fix16 zpos);
-    EXPORT Ang16 GetTurnSpeed_45C900();
-    EXPORT Fix16 GetPedVelocity_45C920();
-    EXPORT Ang16 GetRotation();
-    EXPORT Fix16 GetMoveDirection_45C9B0();
+    EXPORT Ang16 GetTurnSpeed_45C900() const;
+    EXPORT Fix16 GetPedVelocity_45C920() const;
+    EXPORT Ang16 GetRotation() const;
+    EXPORT Fix16 GetMoveDirection_45C9B0() const;
     EXPORT Ang16 ComputeAimAngle_45C9D0();
     EXPORT void HandleClosePedInteraction_45CAA0();
     EXPORT void TakeDamage(s16 damage);
-    EXPORT void HandlePedCrossingTrigger_45CF20(Object* pObj);
+    EXPORT void HandlePedCrossingTrigger_45CF20(const Object* pObj);
     EXPORT bool HandlePedHitByObject_45D000(Object* pObj);
     EXPORT bool AddWeaponWithAmmo_45DD30(s32 weapon_kind, char_type ammo);
     EXPORT bool HandlePickupCollision_45DE80(Object* pPickUp);
@@ -210,8 +210,9 @@ class Ped
     EXPORT void StartCrossingRoad_45E4A0();
     EXPORT void DeallocateWithGroupCleanup_45EA00();
     EXPORT void Deallocate_45EB60();
-    EXPORT bool IsActivePlayerPed_45EDC0();
-    EXPORT bool PedTypeIs_45EDE0(s32 type);
+    EXPORT bool IsActivePlayerPed_45EDC0() const;
+    EXPORT bool PedTypeIs_45EDE0(s32 type) const;
+  private:
     EXPORT void SetOccupation_45EE00(u32 occupation);
     EXPORT void EnterPublicTransport_45EE70();
     EXPORT void Mugger_AI_45F360();
@@ -225,6 +226,7 @@ class Ped
     EXPORT void Occupation_AI_461F20();
     EXPORT void UpdateAI_462280();
     EXPORT void ReleaseGroupSpritesAndWeapons_4624A0();
+  public:
     EXPORT void RemovePedWeapons_462510();
     EXPORT void RemoveSecondaryWeapon_462550();
     EXPORT void ForceDoNothing_462590();
@@ -234,19 +236,22 @@ class Ped
     EXPORT bool PoolUpdate();
     EXPORT void ProcessObjective_4632E0();
     EXPORT void ChangePedStatesByMode_463300(u8 mode);
-    EXPORT void SetStatesForObjective_4633E0(char_type bMainObj);
+    EXPORT void SetStatesForObjective_4633E0(bool bMainObj);
     EXPORT void SetObjective(s32 objective, s16 objective_timer = 9999); // 9999: never times out
     EXPORT void SetObjective2_463830(s32 internal_objective, s16 internal_objective_timer = 9999);
+  private:
     EXPORT void ProcessMainObjective_463AA0();
     EXPORT void ProcessInternalObjective_463FB0();
     EXPORT void CalcApproachPointNearTargetPed_4645B0();
     EXPORT void Threat_Reaction_AI_465270();
     EXPORT void ReactToAttacker_465B20();
-    EXPORT bool IsAttackingTargetPed_465CD0();
+  public:
+    EXPORT bool IsAttackingTargetPed_465CD0() const;
     EXPORT bool IsPedAThreat_465D00(Ped* pTargetPed);
     inline bool IsPedAThreat_Inline_465D00(Ped* pTargetPed);
-    EXPORT bool IsInvisibleOnFoot_466B70();
+    EXPORT bool IsInvisibleOnFoot_466B70() const;
     EXPORT bool IsThreatToSearchingPed_4661F0();
+  private:
     EXPORT Ped* FindBestTargetPed_Mode1_466B90(s32 max_x_check);
     EXPORT Ped* FindBestTargetPed_Mode4_466BB0(s32 max_x_check);
     EXPORT Ped* FindBestTargetPed_Mode5_466BD0(s32 max_x_check);
@@ -255,8 +260,10 @@ class Ped
     EXPORT Ped* FindNearestPed_466F60(u8 max_x_check);
     EXPORT Ped* FindNearbyPed_466FB0();
     EXPORT Ped* GetLastProcessedPedOnFoot_467070();
+  public:
     EXPORT bool FindUsableCarDoor_467090();
     EXPORT Sprite* ResetAnimAndFindNearestSprite_467280();
+  private:
     EXPORT void UpdateMovementTowardsTarget_4672E0(Fix16 distance, u8 type);
     EXPORT void FleeOnFootTillSafe_4678E0();
     EXPORT void FleeCharOnFootTillSafe_467960();
@@ -278,7 +285,7 @@ class Ped
     EXPORT void PatrolOnFoot_468C70();
     EXPORT void GotoAreaOnFoot_468DE0();
     EXPORT void UpdateFollowPedObjective_468E80();
-    EXPORT s32 GetValueByIdParity_469010();
+    EXPORT s32 GetValueByIdParity_469010() const;
     EXPORT void UpdateKillerIdTimer_469030();
     EXPORT void GotoAreaByAnyMeans_469060();
     EXPORT void UpdateGroupMemberFollow_469BD0();
@@ -330,23 +337,24 @@ class Ped
     EXPORT void AttackPed_46DB60();
     EXPORT void AttackCar_46DB70();
     EXPORT void AttackObject_46DB80();
-    EXPORT Sprite* GetSprite_46DF50();
-    EXPORT void SetupFollower_46DF70(Ped* pToFollow, s32 weaponIdx);
-    EXPORT bool CanBeRecruitedToGroup_46E020(PedGroup* pGroup);
+  public:
+    EXPORT Sprite* GetSprite_46DF50() const;
+    EXPORT void SetupFollower_46DF70(const Ped* pToFollow, s32 weaponIdx);
+    EXPORT bool CanBeRecruitedToGroup_46E020(const PedGroup* pGroup) const;
     EXPORT void RecruitNearbyPeds_46E080(s32 desiredCount, Fix16 searchRadius);
     EXPORT void SpawnPedGroupFollowers_46E200(u8 total);
-    EXPORT u8 get_wanted_star_count_46EF00();
+    EXPORT u8 get_wanted_star_count_46EF00() const;
     EXPORT void set_wanted_level_46EF40(u16 wanted);
     EXPORT void IncreaseWantedLevelFromDebugKeys_46EFD0();
     EXPORT void set_wanted_star_count_46F070(u8 star_count);
-    EXPORT bool WantedStarCountGreaterThan_46F100(u8 star_count);
+    EXPORT bool WantedStarCountGreaterThan_46F100(u8 star_count) const;
     EXPORT Weapon* GetWeaponFromPed_46F110();
     EXPORT void ApplyAimJitter_46F1E0(Weapon* pWeapon);
     EXPORT void ManageWeapon_46F390();
     EXPORT Weapon* ChooseAttackWeapon_46F490();
     EXPORT void ForceWeapon_46F600(s32 weapon_kind);
     EXPORT void GiveWeapon_46F650(s32 weapon_kind);
-    EXPORT void ApplyGangRespectForKill_46F680(Ped* pPed);
+    EXPORT void ApplyGangRespectForKill_46F680(const Ped* pPed);
     EXPORT void UpdateStatsForKiller_46F720();
     EXPORT void Kill_46F9D0();
     EXPORT void AddThreateningPedToList_46FC70();
@@ -356,20 +364,22 @@ class Ped
     EXPORT void HandleWeaponFireEnd_46FFF0(s32 model);
     EXPORT void AimRoofGun_470050();
     EXPORT void add_wanted_points_470160(s16 wanted_amount);
-    EXPORT bool IsNearestSpriteACar_4701D0();
+    EXPORT bool IsNearestSpriteACar_4701D0() const;
     EXPORT void StartPedWalking_470200(Fix16 xpos, Fix16 ypos, Fix16 zpos);
-    EXPORT void BecomeLeaderOfGroup_4702D0(Ped* pPed);
+    EXPORT void BecomeLeaderOfGroup_4702D0(const Ped* pPed);
     EXPORT void BecomeDummyOnPlayerDisconnect_470300();
     EXPORT void PushPatrolPoint_4702A0(s8 x, s8 y, s8 z);
-    EXPORT s32 IsInTrain_470F00();
+    EXPORT s32 IsInTrain_470F00() const;
 
+  private:
     EXPORT void FleeCharAnyMeansTillSafe_Nullsub();
     EXPORT void FleeCharAnyMeansAlways_Nullsub();
     EXPORT void KillCar_Nullsub();
     EXPORT void Objective50_Nullsub();
     EXPORT void State30_Nullsub();
+  public:
 
-    inline u8 get_ped_ref_idx_420B50()
+    inline u8 get_ped_ref_idx_420B50() const
     {
         return field_267_ped_ref_idx;
     }
@@ -380,15 +390,14 @@ class Ped
         this->field_23C_group_idx = 0;
     }
 
-    inline s32 GetPedType_420B70()
+    inline s32 GetPedType_420B70() const
     {
         return field_238_ped_type;
     }
 
     void ClearAttacking()
     {
-        // There was no way to match this without using a bit field
-        field_21C_bf.bAttacking = 0;
+        field_21C_bf.bAttacking = false;
     }
 
     // 9.6f 0x4A5060
@@ -408,18 +417,18 @@ class Ped
         field_21C_bf.bElectroFingers = false;
     }
 
-    bool IsActive_433B40()
+    bool IsActive_433B40() const
     {
-        return field_21C_bf.bActive != 0;
+        return field_21C_bf.bActive;
     }
 
-    bool IsAttacking()
+    bool IsAttacking() const
     {
-        return field_21C_bf.bAttacking != 0;
+        return field_21C_bf.bAttacking;
     }
 
     // 9.6f inline 0x450CB0
-    inline u8 GetObjectiveStatus_450CB0()
+    inline u8 GetObjectiveStatus_450CB0() const
     {
         return field_225_objective_status;
     }
@@ -463,7 +472,7 @@ class Ped
     }
 
     // 9.6f 0x49EF40
-    inline Car* GetStolenCar_49EF40()
+    inline Car* GetStolenCar_49EF40() const
     {
         return field_140_stolen_car;
     }
@@ -480,7 +489,7 @@ class Ped
         field_21C_bf.bPanicking = true;
     }
 
-    bool IsPanicking()
+    bool IsPanicking() const
     {
         return field_21C_bf.bPanicking;
     }
@@ -497,7 +506,7 @@ class Ped
         field_150_target_objective_car = ptr;
     }
 
-    Car* get_target_objective_car_403AB0()
+    Car* get_target_objective_car_403AB0() const
     {
         return field_150_target_objective_car;
     }
@@ -508,19 +517,19 @@ class Ped
     }
 
     // 9.6f 0x403A00
-    inline Fix16 get_cam_x()
+    inline Fix16 get_cam_x() const
     {
         return field_1AC_cam.x;
     }
 
     // 9.6f 0x403A10
-    inline Fix16 get_cam_y()
+    inline Fix16 get_cam_y() const
     {
         return field_1AC_cam.y;
     }
 
     // 9.6f 0x416B50
-    inline Fix16 get_cam_z()
+    inline Fix16 get_cam_z() const
     {
         return field_1AC_cam.z;
     }
@@ -538,17 +547,17 @@ class Ped
                 (z_pos = field_1AC_cam.z, z_target = rect->field_0_pos.z, z_pos.ToUInt8() == z_target.ToUInt8()));
     }
 
-    inline s16 get_wanted_points_433DC0()
+    inline s16 get_wanted_points_433DC0() const
     {
         return field_20A_wanted_points;
     }
 
-    inline bool not_enter_car_as_passenger_4A5040()
+    inline bool not_enter_car_as_passenger_4A5040() const
     {
         return field_248_enter_car_as_passenger != 1;
     }
 
-    inline Car* get_car_416B60()
+    inline Car* get_car_416B60() const
     {
         return field_16C_car;
     }
@@ -559,22 +568,22 @@ class Ped
         return field_200_id;
     }
 
-    inline Fix16 get_max_speed_1F0()
+    inline Fix16 get_max_speed_1F0() const
     {
         return field_1F0_max_speed;
     }
 
     inline void SetStateInitPending_433B50()
     {
-        field_168_game_object->field_16_state_init_pending = 1;
+        field_168_game_object->field_16_state_init_pending = true;
     }
 
-    inline s8 get_remap_433BA0()
+    inline s8 get_remap_433BA0() const
     {
         return field_244_remap;
     }
 
-    inline bool is_player_41B0A0()
+    inline bool is_player_41B0A0() const
     {
         return field_15C_player != NULL;
     }
@@ -598,15 +607,13 @@ class Ped
 
     inline void SetVoiceEventIfNotOnFire_433DD0(s32 voice_event)
     {
-        // TODO: Check if (HIBYTE(this->field_21C) & 1)
-        // is correct
-        if (field_21C_bf.bOnFire == 0)
+        if (!field_21C_bf.bOnFire)
         {
             field_250_voice_event = voice_event;
         }
     }
 
-    inline u8 get_target_car_door_403A60()
+    inline u8 get_target_car_door_403A60() const
     {
         return field_24C_target_car_door;
     }
@@ -624,7 +631,7 @@ class Ped
     }
 
     // 9.6f inline 0x433B70
-    inline s32 get_health_433B70()
+    inline s32 get_health_433B70() const
     {
         return field_216_health;
     }
@@ -634,7 +641,7 @@ class Ped
         field_240_occupation = occupation;
     }
 
-    s32 get_occupation_403980()
+    s32 get_occupation_403980() const
     {
         return field_240_occupation;
     }
@@ -654,18 +661,18 @@ class Ped
         this->field_1CC_move_target_z = z;
     }
 
-    Fix16 GetMoveTargetX_492CE0()
+    Fix16 GetMoveTargetX_492CE0() const
     {
         return field_1C4_move_target_x;
     }
 
-    Fix16 GetMoveTargetY_492CF0()
+    Fix16 GetMoveTargetY_492CF0() const
     {
         return field_1C8_move_target_y;
     }
 
-    // TODO: to use this inline we need to fix a circular dependency issue
-    inline s32 get_car_model();
+    // In Ped.inl, which needs Car.hpp
+    inline s32 get_car_model() const;
 
     // 9.6f 0x433C10: a thin wrapper around Char::SetRemap. The remap is taken by const reference:
     // by value, VC6 loads the argument before the Char and 9 callers stop matching.
@@ -690,13 +697,13 @@ class Ped
     }
 
     // 9.6f 0x492CC0
-    inline Ang16 GetTargetFacingAngle_492CC0()
+    inline Ang16 GetTargetFacingAngle_492CC0() const
     {
         return field_130_target_facing_angle;
     }
 
     // 9.6f 0x492C20
-    inline s32 GetJumpOverMode_492C20()
+    inline s32 GetJumpOverMode_492C20() const
     {
         return field_230_jump_over_mode;
     }
@@ -719,7 +726,7 @@ class Ped
     }
 
     // 9.6f 0x472FD0
-    inline bool IsGroupLeader_472FD0()
+    inline bool IsGroupLeader_472FD0() const
     {
         return field_23C_group_idx == 99;
     }
@@ -736,14 +743,14 @@ class Ped
         field_168_game_object->set_rotation_433A30(rotation);
     }
 
-    inline s32 GetPedState2_433B60()
+    inline s32 GetPedState2_433B60() const
     {
         return field_27C_ped_state_2;
     }
 
     // Same body as the out-of-line copy IsInvisibleOnFoot_466B70: this form's front-end size (47) is what
     // makes the inlined IsPedAThreat in IsThreatToSearchingPed_4661F0 call the copy (nested budget 42)
-    inline bool IsInvisibleOnFoot_433DA0()
+    inline bool IsInvisibleOnFoot_433DA0() const
     {
         if (field_21C_bf.bInvisible && field_168_game_object != NULL)
         {
@@ -753,37 +760,37 @@ class Ped
         return false;
     }
 
-    bool bHasGameObject_403B70()
+    bool bHasGameObject_403B70() const
     {
         return field_168_game_object != NULL;
     }
 
-    inline u8 GetPanicking()
+    inline bool GetPanicking() const
     {
         return field_21C_bf.bPanicking;
     }
 
-    inline u8 GetAttacking_433CA0()
+    inline bool GetAttacking_433CA0() const
     {
         return field_21C_bf.bAttacking;
     }
 
-    u8 IsOnFire_475B50()
+    bool IsOnFire_475B50() const
     {
         return field_21C_bf.bOnFire;
     }
 
-    u8 HasSpottedPlayer()
+    bool HasSpottedPlayer() const
     {
         return field_21C_bf.bSpottedPlayer;
     }
 
-    inline s32 get_objective_403A80()
+    inline s32 get_objective_403A80() const
     {
         return field_258_objective;
     }
 
-    inline Car* get_target_to_enter_403B10()
+    inline Car* get_target_to_enter_403B10() const
     {
         return field_154_target_to_enter;
     }
@@ -800,32 +807,32 @@ class Ped
         field_21C_bf.bAttacking = false;
     }
 
-    inline bool IsPedGoingToEnterCar_492FD0()
+    inline bool IsPedGoingToEnterCar_492FD0() const
     {
         return field_258_objective == objectives_enum::enter_car_as_driver_35 || field_25C_internal_objective == objectives_enum::enter_car_as_driver_35;
     }
 
-    Ang16 GetAimAngle_4CCA90()
+    Ang16 GetAimAngle_4CCA90() const
     {
         return field_12E_aim_angle;
     }
 
-    bool isDead_403B60()
+    bool isDead_403B60() const
     {
         return this->field_278_ped_state_1 == ped_state_1::dead_9;
     }
 
-    PedGroup* GetGroup_475AF0()
+    PedGroup* GetGroup_475AF0() const
     {
         return this->field_164_ped_group;
     }
 
-    inline s32 GetInternalObjective_403A90()
+    inline s32 GetInternalObjective_403A90() const
     {
         return field_25C_internal_objective;
     }
 
-    inline Ped* GetInternalTargetPed_403AF0()
+    inline Ped* GetInternalTargetPed_403AF0() const
     {
         return field_14C_internal_target_ped;
     }
@@ -913,9 +920,9 @@ class Ped
     s32 field_220_last_voice_rng;
     PedFlags8 field_224_bf;
     u8 field_225_objective_status; // it uses objective_status enum
-    char_type field_226_internal_objective_status;
+    u8 field_226_internal_objective_status;
     char_type field_227_unused;
-    char_type field_228_hit_count; // times hit by the attacker
+    u8 field_228_hit_count; // times hit by the attacker
     u8 field_229_mug_count; // times mugged while mugging a player
     s32 field_22C_ped_class; // ped_class
     s32 field_230_jump_over_mode; // ped_jump_over_mode

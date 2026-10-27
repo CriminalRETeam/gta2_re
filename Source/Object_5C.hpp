@@ -56,14 +56,14 @@ class Object
 
     EXPORT Object();
     EXPORT void PoolDeallocate();
-    EXPORT bool IsSpriteOwnerPed_522250(Sprite* pSprite);
-    EXPORT s32 GetMovementRegionSize_5222B0();
+    EXPORT bool IsSpriteOwnerPed_522250(Sprite* pSprite) const;
+    EXPORT s32 GetMovementRegionSize_5222B0() const;
     EXPORT void UpdatePhysics_5222D0();
     EXPORT void PoolGive_522340();
     EXPORT void PoolTake_522360();
-    EXPORT bool ShouldCollideWith_5223C0(Sprite* pSprite);
-    EXPORT bool ShouldStopAtTrafficLight_525290(Sprite* pSprite);
-    EXPORT bool ShouldCollideWithSprite_522430(Sprite* pSprite);
+    EXPORT bool ShouldCollideWith_5223C0(Sprite* pSprite) const;
+    EXPORT bool ShouldStopAtTrafficLight_525290(Sprite* pSprite) const;
+    EXPORT bool ShouldCollideWithSprite_522430(Sprite* pSprite) const;
     EXPORT bool SelectCollisionSprite_522460(Sprite* pProbe);
     EXPORT void SetMovementVector_5224E0(Fix16_Point& speed);
     EXPORT void SetMovementVectorWithRandomState_522640(Fix16_Point& point);
@@ -74,17 +74,17 @@ class Object
     EXPORT void ResolveCollisionWithHorizontalEdge_522BE0(Fix16_Point* pPoint);
     EXPORT void ResolveCollisionWithVerticalEdge_522D00(Fix16_Point* pPoint);
     EXPORT void HandleCollision_522E10(Fix16_Point* pPoint);
-    EXPORT bool TryStartSlide_5233A0(Fix16 value);
-    EXPORT void HandleCollisionOutcome_523440(Fix16_Point point, char_type bHitFloorBelow, char_type bHitBlockAtZ);
-    EXPORT bool HandleSpriteGroundAndCollision_5235B0(Sprite* pSprite, Fix16_Point* pPoint, u8* pHit, Fix16 found_z);
-    EXPORT bool HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite, Fix16_Point* pPoint, u8* pHit, u8* pHit2);
-    EXPORT bool HandleSpriteZCollision_5238B0(Sprite* pSprite, Fix16_Point* pPoint, u8* pHit, u8* pHit2, Fix16 found_z);
+    EXPORT bool TryStartSlide_5233A0(Fix16 speed);
+    EXPORT void HandleCollisionOutcome_523440(Fix16_Point point, bool bHitFloorBelow, bool bHitBlockAtZ);
+    EXPORT bool HandleSpriteGroundAndCollision_5235B0(Sprite* pSprite, Fix16_Point* pPoint, bool* pHitWall, Fix16 found_z);
+    EXPORT bool HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite, Fix16_Point* pPoint, bool* pHitWall, bool* pHitBlockAtZ);
+    EXPORT bool HandleSpriteZCollision_5238B0(Sprite* pSprite, Fix16_Point* pPoint, bool* pHitWall, bool* pHitFloorBelow, Fix16 found_z);
     EXPORT void ComputeWallHitSide_524550();
     EXPORT void IntegrateHorizontalMovementAndCollisions_524630(Fix16 move_len, Ang16 move_angle);
     EXPORT void OnExplosionNearby_525190(u8 ped_ref_idx);
     EXPORT void UpdateAnimation_5257D0();
     EXPORT bool DispatchFrameAction_525910();
-    EXPORT char ShouldCollideWithSprite_525370(Sprite* pSprite);
+    EXPORT bool ShouldCollideWithSprite_525370(Sprite* pSprite) const;
     EXPORT void CheckCollisionForModel_139_And_141_525AE0();
     EXPORT void SpawnSpriteParticlesForRocketBullet_525B40();
     EXPORT bool CheckWaterDeath_525B60();
@@ -115,25 +115,25 @@ class Object
     EXPORT void HandleCollisionWithObject_529000(Object* pObj);
     EXPORT void SetConveyorSpeed_529030(s8 speed_x, s8 speed_y);
     EXPORT void ApplyConveyorSpeedFrom_529070(Object* pObj);
-    EXPORT s32 GetExplosionTypeForDiagonalWall_529210();
-    EXPORT s32 GetMapBlockSoundSpec_529240();
+    EXPORT s32 GetExplosionTypeForDiagonalWall_529210() const;
+    EXPORT s32 GetMapBlockSoundSpec_529240() const;
     EXPORT void SetDefaultWeaponAmmo_5292D0();
     EXPORT void SetDamageOwner_529080(u8 ped_ref_idx);
     EXPORT void RequestRemoval_5290A0();
     EXPORT void RequestRemovalWhenOffScreen_5290B0();
     EXPORT void Dealloc_5291B0();
     EXPORT void PoolGiveAndMarkDone_5291D0();
-    EXPORT void PoolGiveAndQueueObjectType_5291E0(s32 bDone);
-    EXPORT bool IsNotModel_174_529200();
+    EXPORT void PoolGiveAndQueueObjectType_5291E0(s32 object_type);
+    EXPORT bool IsNotModel_174_529200() const;
     EXPORT ~Object();
     EXPORT void EnsureObject3C_52A650();
     EXPORT void OnAttachedToSprite_52A6D0(Sprite* pSprite);
-    EXPORT Fix16_Point GetXY_52AE70();
-    EXPORT Fix16_Point GetSpeedVector_52AE90();
+    EXPORT Fix16_Point GetXY_52AE70() const;
+    EXPORT Fix16_Point GetSpeedVector_52AE90() const;
     // 9.6f 0x482C50; GetSpeedVector_52AE90 is its out-of-line copy. It returns a Fix16_Point (which has
     // a destructor), so VC6 never expands it: it is charged to the caller's inline budget and called
     // out of line (SetMovementVector_5224E0)
-    inline Fix16_Point GetSpeedVector_482C50()
+    inline Fix16_Point GetSpeedVector_482C50() const
     {
         if (field_10_obj_3c)
         {
@@ -144,8 +144,8 @@ class Object
 
     // TODO: ordering
     EXPORT void SetSpriteIdxOffset_5290C0(u8 offset);
-    EXPORT Fix16 GetEffectiveSpeed_5290F0();
-    EXPORT bool IsFireExplosion_525AC0();
+    EXPORT Fix16 GetEffectiveSpeed_5290F0() const;
+    EXPORT bool IsFireExplosion_525AC0() const;
     EXPORT void UpdateEffectPool_525B20();
     EXPORT void UpdateLight_527A30();
     EXPORT void OnAttachedSpriteDestroyed_525100();
@@ -154,25 +154,25 @@ class Object
     EXPORT void Sprite_UpdateZFromSlopeAndTile_522FA0(Sprite* pSprite);
 
     // 9.6f 0x475A70
-    inline bool IsStaticCollisionCheck_475A70()
+    inline bool IsStaticCollisionCheck_475A70() const
     {
         return field_8_definition->field_34_behavior_type == object_behavior_type::static_collision_check_1;
     }
 
     // 9.6f 0x475A60
-    inline bool IsShop_475A60()
+    inline bool IsShop_475A60() const
     {
         s32 behavior_type = field_8_definition->field_34_behavior_type;
         return behavior_type == object_behavior_type::shop_10;
     }
 
-    bool IsAnimatedBehavior_475A80()
+    bool IsAnimatedBehavior_475A80() const
     {
-        s32 t = this->field_8_definition->field_34_behavior_type;
-        return t == object_behavior_type::animated_2 || t == object_behavior_type::physics_animated_4 || t == object_behavior_type::pickup_animated_8 || t == object_behavior_type::pickup_physics_animated_9;
+        s32 behavior_type = this->field_8_definition->field_34_behavior_type;
+        return behavior_type == object_behavior_type::animated_2 || behavior_type == object_behavior_type::physics_animated_4 || behavior_type == object_behavior_type::pickup_animated_8 || behavior_type == object_behavior_type::pickup_physics_animated_9;
     }
 
-    inline bool IsDestroyedPowergen_434140()
+    inline bool IsDestroyedPowergen_434140() const
     {
         if (field_18_model == objects::destroyed_invisible_powergen_285 || field_18_model == objects::destroyed_powergen_282)
         {
@@ -181,7 +181,7 @@ class Object
         return false;
     }
 
-    bool CanBePushed_482C90() // matched
+    bool CanBePushed_482C90() const
     {
         s32 behavior_type = field_8_definition->field_34_behavior_type;
         if (behavior_type == object_behavior_type::physics_3 || behavior_type == object_behavior_type::physics_animated_4 ||
@@ -192,7 +192,7 @@ class Object
         return false;
     }
 
-    bool UsesParamAsPedRef_421080()
+    bool UsesParamAsPedRef_421080() const
     {
         s32 type = this->field_8_definition->field_34_behavior_type;
         return type != object_behavior_type::pickup_6 && type != object_behavior_type::pickup_physics_7 &&
@@ -201,13 +201,12 @@ class Object
             type != object_behavior_type::effect_only_12;
     }
 
-    // Sucky names but better than just "sub" for now
-    bool IsOwnedByPedRef_4973E0(u8 ped_ref_idx)
+    bool IsOwnedByPedRef_4973E0(u8 ped_ref_idx) const
     {
         return UsesParamAsPedRef_421080() && field_26_ped_ref_idx == ped_ref_idx;
     }
 
-    bool IsSpriteGrid2Region3_4210B0()
+    bool IsSpriteGrid2Region3_4210B0() const
     {
         return field_8_definition->field_40_collision_bucket_category == collision_bucket_category::sprite_grid_2_region_3;
     }
@@ -219,7 +218,7 @@ class Object
     }
 
     // Inlined on version 9.6f 0x420FF0
-    inline u8 get_field_26_420FF0()
+    inline u8 get_field_26_420FF0() const
     {
         return field_26_ped_ref_idx;
     }
@@ -231,25 +230,25 @@ class Object
     }
 
     // 9.6f 0x40FEF0
-    s32 GetModel_40FEF0()
+    s32 GetModel_40FEF0() const
     {
         return field_18_model;
     }
 
     // 9.6f 0x40FF00
-    inline char_type MakesCollisionSound_40FF00()
+    inline char_type MakesCollisionSound_40FF00() const
     {
         return field_8_definition->field_63_makes_collision_sound;
     }
 
     // 9.6f 0x475AA0
-    inline bool IsModel176To181_475AA0()
+    inline bool IsModel176To181_475AA0() const
     {
         s32 model = field_18_model;
         return model == 176 || model == 177 || model == 178 || model == 179 || model == 180 || model == 181;
     }
 
-    bool IsPickup_421060()
+    bool IsPickup_421060() const
     {
         return field_8_definition->field_34_behavior_type == object_behavior_type::pickup_6 ||
             field_8_definition->field_34_behavior_type == object_behavior_type::pickup_physics_7 ||
@@ -265,33 +264,33 @@ class Object
         field_26_ped_ref_idx = 99;
         field_10_obj_3c = NULL;
         field_C_pAny.o8 = NULL;
-        field_1C_has_explosion = 0;
+        field_1C_has_explosion = false;
         field_4_sprite = NULL;
         field_18_model = 0;
     }
 
-    inline Fix16 GetX_4340D0()
+    inline Fix16 GetX_4340D0() const
     {
         return field_4_sprite->field_14_xy.x;
     }
 
-    inline Fix16 GetY_4340E0()
+    inline Fix16 GetY_4340E0() const
     {
         return field_4_sprite->field_14_xy.y;
     }
 
-    inline Fix16 GetZ_4340F0()
+    inline Fix16 GetZ_4340F0() const
     {
         return field_4_sprite->field_1C_zpos;
     }
 
     // 9.6f 0x4BE850
-    bool IsGangIcon_4BE850()
+    bool IsGangIcon_4BE850() const
     {
-        return field_18_model >= 287 && field_18_model <= 293; // loonies_icon_287 .. russian_mafia_icon_293
+        return field_18_model >= objects::loonies_icon_287 && field_18_model <= objects::russian_mafia_icon_293;
     }
 
-    bool IsFlameObject_4BE830()
+    bool IsFlameObject_4BE830() const
     {
         if (this->field_18_model == objects::fire_197)
         {
@@ -313,7 +312,7 @@ class Object
     }
 
     // 9.6f 0x482C80
-    inline Fix16 GetMass_482C80()
+    inline Fix16 GetMass_482C80() const
     {
         return field_8_definition->field_18_mass;
     }
@@ -324,7 +323,7 @@ class Object
     }
 
     // 9.6f 0x482C10, defined in Object_5C.cpp (needs Object_8)
-    inline bool IsAnimFinished_482C10();
+    inline bool IsAnimFinished_482C10() const;
 
     // 9.6f 0x493090
     inline void GetConveyorDirection_493090(s8* pX, s8* pY)
@@ -351,7 +350,7 @@ class Object
     Object_3C* field_10_obj_3c;
     s32 field_14_id;
     s32 field_18_model;
-    char_type field_1C_has_explosion;
+    bool field_1C_has_explosion;
     char_type field_1D_unused;
     char_type field_1E_unused;
     char_type field_1F_unused;
@@ -377,7 +376,7 @@ class Object_5C
     EXPORT Object_5C();
     EXPORT ~Object_5C();
     EXPORT void CreateDiagonalWallObjects_5297F0();
-    EXPORT Object* GetDirectionalObject_5298E0(s32 slope_type);
+    EXPORT Object* GetDirectionalObject_5298E0(s32 slope_type) const;
     EXPORT Object* NewTouchPoint_529950(s32 object_type, Fix16 x, Fix16 y, Fix16 z, Ang16 rot, Fix16 w, Fix16 h, Fix16 depth);
     EXPORT Object* NewPhysicsObj_5299B0(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation);
     EXPORT Object* NewWithPedRefIdx_5299F0(s32 object_type, u32 ped_ref_idx, Fix16 xpos, Fix16 ypos, Fix16 zpos);
@@ -385,8 +384,8 @@ class Object_5C
     EXPORT Object* NewLight_529AB0(s32 light_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 argb, Fix16 radius, u8 intensity);
     EXPORT Object* NewFlashingLight_529B20(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 argb, Fix16 radius, u8 intensity, u8 on_time, u8 off_time, u8 shape);
     EXPORT Object* NewPhysicsObjUnlessBlocked_529BC0(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation);
-    EXPORT Object* CreateObject_529C00(int object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, char fail_if_blocked);
-    EXPORT char_type SetPendingDamageOwner_52A210(char_type owner);
+    EXPORT Object* CreateObject_529C00(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, bool fail_if_blocked);
+    EXPORT u8 SetPendingDamageOwner_52A210(u8 ped_ref_idx);
     EXPORT Object* NewMovingObj_52A240(s32 object_type,
                                         Fix16 xpos,
                                         Fix16 ypos,
@@ -414,7 +413,7 @@ class Object_5C
                                  Fix16 speed,
                                  Fix16 friction,
                                  Fix16 z_speed,
-                                 char_type fail_if_blocked);
+                                 bool fail_if_blocked);
     EXPORT Object* CreateExplosion_52A3D0(Fix16 x, Fix16 y, Fix16 z, Ang16 rot, s32 kind, s32 ped_id);
 
     EXPORT void SaveObjects_52A500(SavedObjectData* pData);
@@ -431,7 +430,7 @@ class Object_5C
     u8 field_19_unused;
     u16 field_1A_unused;
     SpriteList field_1C_sprite_list;
-    u8 field_20_uncollected_tokens[50];
+    bool field_20_uncollected_tokens[50];
     u16 field_52_unused; // pad?
     s32 field_54_uncollected_token_index;
     Sprite* field_58_collision_probe_sprite;

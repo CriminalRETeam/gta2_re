@@ -17,8 +17,8 @@ class Explosion
     EXPORT void EmitFireTrail_4_540F90(Ang16 ang, Fix16 speed);
     EXPORT void EmitFireTrail_13_14_5411E0(Ang16 ang, Fix16 speed);
     EXPORT void EmitFireTrail_5_541430(Ang16 ang, Fix16 speed);
-    EXPORT Fix16 GetBlastRadius_541680();
-    EXPORT Fix16 GetBlastHeight_541710();
+    EXPORT Fix16 GetBlastRadius_541680() const;
+    EXPORT Fix16 GetBlastHeight_541710() const;
     EXPORT void SpawnFlashParticle_541760();
     EXPORT void ApplyBlastDamage_541850(u16 timerVal);
     EXPORT void EmitExplosion_18_33_541D60();
@@ -27,7 +27,7 @@ class Explosion
     EXPORT void UpdateExplosion_18_19_20_32_33_542790();
     EXPORT void EmitBuildingDebris_22_23_24_25_542E30(u8 direction_idx);
     EXPORT bool Update_5434A0(Fix16 speed, Ang16 ang);
-    EXPORT bool IsFireType_5435D0();
+    EXPORT bool IsFireType_5435D0() const;
     EXPORT void Release_543610();
     EXPORT void Init_543650();
     EXPORT void SetObject_543680(Object* pObj);
@@ -39,7 +39,7 @@ class Explosion
     }
 
     s32 field_0_bIn20Pool;
-    u8 field_4_idx;
+    u8 field_4_pool_slot_idx;
     s16 field_6_id;
     Fix16 field_8_speed;
     Ang16 field_C_angle;

@@ -6,6 +6,18 @@ class Ped;
 class Car;
 class Object;
 
+// MissionCleanupEntry::field_4_type
+namespace cleanup_entry_type
+{
+enum
+{
+    empty_0 = 0,
+    car_1 = 1,
+    object_2 = 2,
+    ped_3 = 3,
+};
+} // namespace cleanup_entry_type
+
 class MissionCleanupEntry
 {
   public:
@@ -32,12 +44,12 @@ class MissionCleanupList
     EXPORT MissionCleanupEntry* allocate_next_502F60();
     EXPORT void push_type_1_car_502F80(Car* pCar);
     EXPORT void push_type_3_ped_502FB0(Ped* pPed);
-    EXPORT void push_type_2_502FF0(Object *pObj, char_type bForce);
+    EXPORT void push_type_2_502FF0(Object *pObj, bool bForce);
     EXPORT void push_type_2_503050(Object* pObj);
 
     MissionCleanupEntry field_0_entries[50];
 
-    char_type field_258_count;
+    u8 field_258_count;
     char_type field_259_unused;
     char_type field_25A_unused;
     char_type field_25B_unused;

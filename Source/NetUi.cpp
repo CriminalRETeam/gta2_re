@@ -1062,11 +1062,11 @@ s32 NetUi::ShowNetworkUiBlocking_519BD0(HINSTANCE hInstance)
     field_20320_hInstance = hInstance;
     gNetPlay_7071E8.Set15_51ECD0(reinterpret_cast<int>(NetUi::cb_FillSessionList_519D30), this);
     gNetPlay_7071E8.Set6_520530(static_cast<void*>(NetUi::cb_AddPlayerToList_519E30), static_cast<void*>(this));
-    gNetPlay_7071E8.Set9_520E60(reinterpret_cast<int>(NetUi::cb_sub_51ACD0), reinterpret_cast<int>(this));
+    gNetPlay_7071E8.Set9_520E60(reinterpret_cast<int>(NetUi::cb_RemovePlayerFromList_51ACD0), reinterpret_cast<int>(this));
     gNetPlay_7071E8.Set3_Disconnect_520E80(reinterpret_cast<int>(NetUi::cb_Disconnect_51ADE0), reinterpret_cast<int>(this));
     gNetPlay_7071E8.Set18_520F50(reinterpret_cast<int>(NetUi::cb_SetPlayerPing_51AE50), reinterpret_cast<int>(this));
     gNetPlay_7071E8.Set21_5210D0(reinterpret_cast<int>(NetUi::cb_AddChatMessage_51B2F0), reinterpret_cast<int>(this));
-    gNetPlay_7071E8.Set24_521140(reinterpret_cast<int>(NetUi::cb_sub_51B7E0), reinterpret_cast<int>(this));
+    gNetPlay_7071E8.Set24_521140(reinterpret_cast<int>(NetUi::cb_GameSettingsChanged_51B7E0), reinterpret_cast<int>(this));
     gNetPlay_7071E8.Set27SavePlayerName_5211F0(reinterpret_cast<int>(NetUi::cb_SavePlayerName_51BC00), reinterpret_cast<int>(this));
     return DialogBoxParamA(field_20320_hInstance,
                            reinterpret_cast<LPCSTR>(103), // probably IDD_NETWORK_DIALOG
@@ -1612,7 +1612,7 @@ s32 NetUi::Get_20310_showing_window_idx_51ACC0()
 }
 
 MATCH_FUNC(0x51acd0)
-void NetUi::cb_sub_51ACD0(NetUi* pNetUi, wchar_t* Source)
+void NetUi::cb_RemovePlayerFromList_51ACD0(NetUi* pNetUi, wchar_t* Source)
 {
     LVFINDINFOA findInfo;
     char Dest[260];
@@ -1927,7 +1927,7 @@ void NetUi::SetPlayerNameText_51B7C0()
 }
 
 MATCH_FUNC(0x51b7e0)
-void NetUi::cb_sub_51B7E0(NetUi* pNetUi, const char_type** ppData)
+void NetUi::cb_GameSettingsChanged_51B7E0(NetUi* pNetUi, const char_type** ppData)
 {
     const char_type* pData = *ppData;
     if (pNetUi->Get_20310_showing_window_idx_51ACC0() == 2)

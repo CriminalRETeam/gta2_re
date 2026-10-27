@@ -115,7 +115,7 @@ BOOL __stdcall InputDevices::make_input_devices_498800(HINSTANCE hInstance)
         FatalError_4A38C0(Gta2Error::DirectInputSetDataFormatFail, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 279);
     }
 
-    if (FAILED(gKeyboardDevice_67B5C0->SetCooperativeLevel(gHwnd_707F04, 6)))
+    if (FAILED(gKeyboardDevice_67B5C0->SetCooperativeLevel(gHwnd_707F04, DISCL_NONEXCLUSIVE | DISCL_FOREGROUND)))
     {
         FatalError_4A38C0(Gta2Error::DirectInputSetCooperativeLevelFail, "C:\\Splitting\\Gta2\\Source\\diutil.cpp", 287);
     }
@@ -265,9 +265,9 @@ bool InputDevices::game_pads_init_498BA0()
             if (p)
             {
                 auto pDirectInputCreateA = reinterpret_cast<decltype(&DirectInputCreateA)>(p);
-                if (FAILED(pDirectInputCreateA(gHInstance_708220, 0x700, &gpDInput_67B804, 0)))
+                if (FAILED(pDirectInputCreateA(gHInstance_708220, 0x700, &gpDInput_67B804, NULL)))
                 {
-                    return 1;
+                    return true;
                 }
             }
         }
@@ -372,7 +372,7 @@ bool InputDevices::game_pad_read_498D20()
 
 // https://decomp.me/scratch/75Pau
 MATCH_FUNC(0x498DA0)
-void InputDevices::read_input_device_498DA0(s32* input_bits, u8 bApplyKeyboardControls)
+void InputDevices::read_input_device_498DA0(s32* input_bits, bool bApplyKeyboardControls)
 {
     bool bFirstPass = true;
     s32 bReleased = 0;
@@ -700,7 +700,6 @@ void InputRecorder_67F8B0::SaveReplay_4CDED0()
 }
 
 // https://decomp.me/scratch/c6Gy5
-// Register allocation differs, see docs/match_attempts.md
 MATCH_FUNC(0x4cdf30)
 void InputRecorder_67F8B0::modify_inputs_4CDF30(s32 match_mask)
 {
@@ -730,11 +729,9 @@ MATCH_FUNC(0x4cdf70)
 void InputRecorder_67F8B0::AppendReplayHeader_4CDF70()
 {
     ReplayHeader header;
-    DWORD computer_name_size;
-    size_t header_size;
 
     memset(&header, 0, sizeof(header));
-    computer_name_size = 29;
+    DWORD computer_name_size = 29;
     sprintf(header.field_0_version, "v%d.%d", gGTA2VersionMajor_708280, gGTA2VersionMinor_708284);
 
     time_t now = time(NULL);
@@ -789,12 +786,12 @@ void InputRecorder_67F8B0::AppendReplayHeader_4CDF70()
     header.field_E4_flags[29] = bDo_police_2_67D569 ? '1' : '0';
     header.field_E4_flags[30] = bDo_police_3_67D56A ? '1' : '0';
 
-    header_size = sizeof(header);
+    size_t header_size = sizeof(header);
     File::AppendBufferToFile_4A6F50("test\\replay.rep", &header, &header_size);
 }
 
 MATCH_FUNC(0x4ce380)
-void InputRecorder_67F8B0::LoadReplayHeader_4CE380(char_type bLoadDebug)
+void InputRecorder_67F8B0::LoadReplayHeader_4CE380(bool bLoadDebug)
 {
     u32 header_size = sizeof(ReplayHeader);
     ReplayHeader header;
@@ -850,18 +847,18 @@ void InputRecorder_67F8B0::LoadReplayHeader_4CE380(char_type bLoadDebug)
 MATCH_FUNC(0x4ce650)
 void InputRecorder_67F8B0::VerifyAttractFilesExist_4CE650()
 {
-    const AttractFile* attr1FilePath = &attractFiles_62083C[0];
-    for (s32 i = 0; i < 3; i++)
+    const AttractFile* pAttractFile = &attractFiles_62083C[0];
+    for (s32 i = 0; i < ATTRACT_COUNT; i++)
     {
         struct _finddata_t fileInfo;
-        long hFind = _findfirst(attr1FilePath->field_0_path, &fileInfo);
+        long hFind = _findfirst(pAttractFile->field_0_path, &fileInfo);
         if (hFind == -1)
         {
-            strcpy(gErrStr_67C29C, attr1FilePath->field_0_path);
-            FatalError_4A38C0(0x1B5E, "C:\\Splitting\\Gta2\\Source\\input.cpp", 524);
+            strcpy(gErrStr_67C29C, pAttractFile->field_0_path);
+            FatalError_4A38C0(Gta2Error::CouldntFindAttractModeFile, "C:\\Splitting\\Gta2\\Source\\input.cpp", 524);
         }
         _findclose(hFind);
-        ++attr1FilePath;
+        ++pAttractFile;
     }
 }
 
@@ -879,9 +876,9 @@ void InputRecorder_67F8B0::GetNextAttrReplay_4CE6E0(char_type* pAttrPathOut)
 MATCH_FUNC(0x4ce740)
 void InputRecorder_67F8B0::input_init_replay_4CE740(HINSTANCE hInstance)
 {
-    char FileName[256];
+    char_type FileName[256];
 
-    this->field_0_bShutDown = 0;
+    this->field_0_bShutDown = false;
     InputRecorder_67F8B0::GetNextAttrReplay_4CE6E0(FileName);
     this->field_8_input_masks[0] = input_bit::Forward;
     this->field_8_input_masks[1] = input_bit::Backward;
@@ -902,7 +899,7 @@ void InputRecorder_67F8B0::input_init_replay_4CE740(HINSTANCE hInstance)
     this->field_75340_rec_buf_idx = 0;
     bConstant_replay_save_67D5C4 = false;
     File::Global_Open_4A7060(FileName);
-    LoadReplayHeader_4CE380(0);
+    LoadReplayHeader_4CE380(false);
 
     u32 bufLen = sizeof(field_3C_rec_buff);
     const u32 remainderSize = File::Global_ReadRemainder_4A7250(this->field_3C_rec_buff, &bufLen);
@@ -922,7 +919,7 @@ void InputRecorder_67F8B0::input_init_replay_4CE740(HINSTANCE hInstance)
 MATCH_FUNC(0x4ce880)
 void InputRecorder_67F8B0::input_init_live_4CE880(HINSTANCE hInstance)
 {
-    field_0_bShutDown = 0;
+    field_0_bShutDown = false;
     field_8_input_masks[0] = input_bit::Forward;
     field_8_input_masks[1] = input_bit::Backward;
     field_8_input_masks[2] = input_bit::Left;
@@ -953,12 +950,12 @@ void InputRecorder_67F8B0::input_init_live_4CE880(HINSTANCE hInstance)
     {
         bConstant_replay_save_67D5C4 = false;
         File::Global_Open_4A7060("test\\replay.rep");
-        InputRecorder_67F8B0::LoadReplayHeader_4CE380(1);
-        u32 size = 480000;
+        InputRecorder_67F8B0::LoadReplayHeader_4CE380(true);
+        u32 size = sizeof(field_3C_rec_buff);
         size_t remainderSize = File::Global_ReadRemainder_4A7250(field_3C_rec_buff, &size);
         File::Global_Close_4A70C0();
-        field_7533C_used_recs_count = remainderSize / 0xC;
-        if (12 * (remainderSize / 0xC) != remainderSize)
+        field_7533C_used_recs_count = remainderSize / sizeof(InputRecord);
+        if (sizeof(InputRecord) * (remainderSize / sizeof(InputRecord)) != remainderSize)
         {
             FatalError_4A38C0(Gta2Error::ReplayFileTooLarge, "C:\\Splitting\\Gta2\\Source\\input.cpp", 702, remainderSize);
         }
@@ -987,11 +984,11 @@ void InputRecorder_67F8B0::input_init_live_4CE880(HINSTANCE hInstance)
 }
 
 MATCH_FUNC(0x4cea00)
-void InputRecorder_67F8B0::Shutdown_4CEA00() // 4CEA00
+void InputRecorder_67F8B0::Shutdown_4CEA00()
 {
     if (!field_0_bShutDown)
     {
-        field_0_bShutDown = 1;
+        field_0_bShutDown = true;
         gInputDevices_67B990->free_input_devices_4987A0();
         SaveReplay_4CDED0();
         GTA2_DELETE_AND_NULL(gInputDevices_67B990);
@@ -1077,7 +1074,7 @@ u32 InputRecorder_67F8B0::get_input_bits_4CEAC0()
                 if ((saved_input & input_bit::KeyBits) == 0 || (*control_status & input_bit::KeyBits) == 0)
                 {
                     *control_status = 0;
-                    gInputDevices_67B990->read_input_device_498DA0(reinterpret_cast<s32*>(control_status), 0);
+                    gInputDevices_67B990->read_input_device_498DA0(reinterpret_cast<s32*>(control_status), false);
                     *control_status |= saved_input;
                     InputRecorder_67F8B0::replay_save_4CEA40(control_status);
                 }
@@ -1111,7 +1108,7 @@ u32 InputRecorder_67F8B0::get_input_bits_4CEAC0()
                 if ((saved_input & input_bit::KeyBits) == 0 || (*control_status & input_bit::KeyBits) == 0)
                 {
                     *control_status = 0;
-                    gInputDevices_67B990->read_input_device_498DA0(reinterpret_cast<s32*>(control_status), 0);
+                    gInputDevices_67B990->read_input_device_498DA0(reinterpret_cast<s32*>(control_status), false);
                     if ((*control_status & 0xFFFFF000) != 0)
                     {
                         gGame_0x40_67E008->ExitGameNoBonus_4B8C00(0, GameExitType::ReplayExit_6);
@@ -1127,12 +1124,12 @@ u32 InputRecorder_67F8B0::get_input_bits_4CEAC0()
             {
                 if (!gGame_0x40_67E008->IsPaused_416BC0())
                 {
-                    gInputDevices_67B990->read_input_device_498DA0(reinterpret_cast<s32*>(control_status), 1);
+                    gInputDevices_67B990->read_input_device_498DA0(reinterpret_cast<s32*>(control_status), true);
                     InputRecorder_67F8B0::save_replay_inputs_4CED00(*control_status, saved_input);
                 }
                 else
                 {
-                    gInputDevices_67B990->read_input_device_498DA0(reinterpret_cast<s32*>(control_status), 0);
+                    gInputDevices_67B990->read_input_device_498DA0(reinterpret_cast<s32*>(control_status), false);
                     if (InputRecorder_67F8B0::should_record_input_4CDDF0((static_cast<u32>(*control_status) >> input_bit::KeyShift) & input_bit::KeyMask))
                     {
                         *control_status = remove_bit;
@@ -1237,7 +1234,7 @@ void InputRecorder_67F8B0::DisplayInputBits_4CED90()
 }
 
 MATCH_FUNC(0x4cedf0)
-bool InputRecorder_67F8B0::IsPlayingBack_4CEDF0()
+bool InputRecorder_67F8B0::IsPlayingBack_4CEDF0() const
 {
     if (field_38_replay_state == Playback_1 || field_38_replay_state == Attract_3)
     {

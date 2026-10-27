@@ -130,7 +130,7 @@ cSampleManager::cSampleManager()
         field_26C4_3d_sample[m] = NULL;
     }
 
-    field_A4_bLoaded = 0;
+    field_A4_bLoaded = false;
 
     for (s32 i = 0; i < 320; i++)
     {
@@ -154,7 +154,7 @@ cSampleManager::cSampleManager()
     field_270C_float = -1.0;
     field_26BC_eax_environment = 0;
     field_2710_3d_provider_count = 0;
-    field_2714_is_stereo = 0;
+    field_2714_is_stereo = false;
 
     DisableA3DSplash_58D620();
 
@@ -171,11 +171,11 @@ cSampleManager::cSampleManager()
         strcpy(field_5_str, driveStr);
         strcat(field_5_str, ":\\GTAUDIO\\");
 
-        char_type FileName[80];
-        strcpy(FileName, field_5_str);
-        strcat(FileName, "1.wav");
+        char_type fileName[80];
+        strcpy(fileName, field_5_str);
+        strcat(fileName, "1.wav");
 
-        FILE* hFile = fopen(FileName, "rb");
+        FILE* hFile = fopen(fileName, "rb");
         if (hFile)
         {
             fclose(hFile);
@@ -198,7 +198,7 @@ bool cSampleManager::DisableA3DSplash_58D620()
     HKEY hKey;
     DWORD disposition;
 
-    if (RegCreateKeyExA(HKEY_LOCAL_MACHINE, "Software\\Aureal\\A3D", 0, NULL, 0, 0x20006u, NULL, &hKey, &disposition))
+    if (RegCreateKeyExA(HKEY_LOCAL_MACHINE, "Software\\Aureal\\A3D", 0, NULL, 0, KEY_WRITE, NULL, &hKey, &disposition))
     {
         return false;
     }
@@ -225,7 +225,7 @@ bool cSampleManager::SoundInit_58D6C0(s32* not_used)
 {
     AIL_startup();
 
-    if (!OpenDigitalDriver_58D720(1, field_2714_is_stereo, 22050))
+    if (!OpenDigitalDriver_58D720(true, field_2714_is_stereo, 22050))
     {
         AIL_shutdown();
         return false;
@@ -244,16 +244,11 @@ bool cSampleManager::SoundInit_58D6C0(s32* not_used)
 }
 
 MATCH_FUNC(0x58D720)
-bool cSampleManager::OpenDigitalDriver_58D720(char_type bFlag, char_type bStereo, s32 sampleRate)
+bool cSampleManager::OpenDigitalDriver_58D720(bool b16Bit, bool bStereo, s32 sampleRate)
 {
-    struct lol
-    {
-        WAVEFORMAT waveFormat;
-        s16 t;
-    };
-    lol l;
+    PCMWAVEFORMAT format;
 
-    if (bFlag)
+    if (b16Bit)
     {
         field_1EB1_bytes_per_sample = 2;
     }
@@ -262,19 +257,17 @@ bool cSampleManager::OpenDigitalDriver_58D720(char_type bFlag, char_type bStereo
         field_1EB1_bytes_per_sample = 1;
     }
 
-    l.waveFormat.nChannels = 2;
-    l.waveFormat.nSamplesPerSec = sampleRate;
-    l.waveFormat.nAvgBytesPerSec = 2 * sampleRate * field_1EB1_bytes_per_sample;
-    l.waveFormat.wFormatTag = 1;
-    l.waveFormat.nBlockAlign = static_cast<unsigned __int8>(2 * field_1EB1_bytes_per_sample);
-
-    // todo: not sure how/why this is here ??
-    l.t = static_cast<unsigned __int8>(8 * field_1EB1_bytes_per_sample);
+    format.wf.nChannels = 2;
+    format.wf.nSamplesPerSec = sampleRate;
+    format.wf.nAvgBytesPerSec = 2 * sampleRate * field_1EB1_bytes_per_sample;
+    format.wf.wFormatTag = WAVE_FORMAT_PCM;
+    format.wf.nBlockAlign = static_cast<u8>(2 * field_1EB1_bytes_per_sample);
+    format.wBitsPerSample = static_cast<u8>(8 * field_1EB1_bytes_per_sample);
 
     AIL_set_preference(1, 37); // DIG_MIXER_CHANNELS
     AIL_set_preference(15, 0); // DIG_USE_WAVEOUT
 
-    if (bStereo != 0)
+    if (bStereo)
     {
         AIL_set_preference(33, 1);
     }
@@ -285,7 +278,7 @@ bool cSampleManager::OpenDigitalDriver_58D720(char_type bFlag, char_type bStereo
 
     AIL_set_preference(31, 1); // DIG_ENABLE_RESAMPLE_FILTER
 
-    if (AIL_waveOutOpen(&field_0_hDriver, NULL, -1, &l.waveFormat))
+    if (AIL_waveOutOpen(&field_0_hDriver, NULL, -1, &format.wf))
     {
         return false;
     }
@@ -306,7 +299,7 @@ bool cSampleManager::OpenDigitalDriver_58D720(char_type bFlag, char_type bStereo
 }
 
 MATCH_FUNC(0x58D820)
-bool cSampleManager::Init3DProvider_58D820(BYTE* pMaxSamples)
+bool cSampleManager::Init3DProvider_58D820(u8* pMaxSamples)
 {
     Terminate_58DAE0();
     Reset3DSamples_58D960();
@@ -314,9 +307,9 @@ bool cSampleManager::Init3DProvider_58D820(BYTE* pMaxSamples)
     if (field_2714_is_stereo)
     {
         AIL_waveOutClose(field_0_hDriver);
-        if (!OpenDigitalDriver_58D720(1, 0, 22050))
+        if (!OpenDigitalDriver_58D720(true, false, 22050))
         {
-            if (OpenDigitalDriver_58D720(1, 0, 22050))
+            if (OpenDigitalDriver_58D720(true, false, 22050))
             {
                 AllocSamples_58D9F0(1);
             }
@@ -410,7 +403,7 @@ bool cSampleManager::AllocSamples_58D9F0(s32 not_used)
     {
         AIL_waveOutClose(field_0_hDriver);
 
-        if (OpenDigitalDriver_58D720(1, 0, 22050) == 0)
+        if (!OpenDigitalDriver_58D720(true, false, 22050))
         {
             return false;
         }
@@ -504,7 +497,7 @@ void cSampleManager::Shutdown_58DB30()
 }
 
 MATCH_FUNC(0x58DBF0)
-s32 cSampleManager::GetPlayBackRate_58DBF0(s32 idx)
+s32 cSampleManager::GetPlayBackRate_58DBF0(s32 idx) const
 {
     const s32 playBackRate = field_A8_sdt_entries[idx].field_8_playBackRate;
     if (playBackRate == 0)
@@ -515,25 +508,25 @@ s32 cSampleManager::GetPlayBackRate_58DBF0(s32 idx)
 }
 
 MATCH_FUNC(0x58DC10)
-s32 cSampleManager::GetRandomDisplacement_58DC10(s32 idx)
+s32 cSampleManager::GetRandomDisplacement_58DC10(s32 idx) const
 {
     return field_A8_sdt_entries[idx].field_C_random_displacement;
 }
 
 MATCH_FUNC(0x58DC30)
-s32 cSampleManager::GetLoopStart_58DC30(s32 sample_idx)
+s32 cSampleManager::GetLoopStart_58DC30(s32 sample_idx) const
 {
     return field_A8_sdt_entries[sample_idx].field_10_loop_start;
 }
 
 MATCH_FUNC(0x58DC50)
-s32 cSampleManager::GetLoopEnd_58DC50(s32 sample_idx)
+s32 cSampleManager::GetLoopEnd_58DC50(s32 sample_idx) const
 {
     return field_A8_sdt_entries[sample_idx].field_14_loop_end;
 }
 
 MATCH_FUNC(0x58DC70)
-s32 cSampleManager::GetSampleLength_58DC70(s32 sample_idx)
+s32 cSampleManager::GetSampleLength_58DC70(s32 sample_idx) const
 {
     return field_A8_sdt_entries[sample_idx].field_4_sample_length;
 }
@@ -598,7 +591,7 @@ void cSampleManager::SetChannelLoopCount_58DD60(s32 channel, s32 loopCount)
 }
 
 MATCH_FUNC(0x58DD80)
-bool cSampleManager::GetChannelUsedFlag_58DD80(s32 channel)
+bool cSampleManager::GetChannelUsedFlag_58DD80(s32 channel) const
 {
     if (field_58_hSamples[channel])
     {
@@ -701,7 +694,7 @@ void cSampleManager::SetChannel3DLoopCount_58DF50(s32 channel, s32 loop_count)
 }
 
 MATCH_FUNC(0x58DF70)
-bool cSampleManager::GetChannel3DUsedFlag_58DF70(s32 channel)
+bool cSampleManager::GetChannel3DUsedFlag_58DF70(s32 channel) const
 {
     if (field_26C4_3d_sample[channel])
     {
@@ -725,7 +718,7 @@ void cSampleManager::StopChannel3D_58DFC0(s32 samp_idx)
 {
     if (field_26C4_3d_sample[samp_idx])
     {
-        if (AIL_3D_sample_status(field_26C4_3d_sample[samp_idx]) == 4)
+        if (AIL_3D_sample_status(field_26C4_3d_sample[samp_idx]) == SMP_PLAYING)
         {
             AIL_end_3D_sample(field_26C4_3d_sample[samp_idx]);
         }
@@ -733,7 +726,7 @@ void cSampleManager::StopChannel3D_58DFC0(s32 samp_idx)
 }
 
 MATCH_FUNC(0x58E000)
-u8 cSampleManager::Get3DSampleCount_58E000()
+u8 cSampleManager::Get3DSampleCount_58E000() const
 {
     return field_1EB2_3d_samp_count;
 }
@@ -749,22 +742,22 @@ void cSampleManager::SetEaxEnvironment_58E010(s32 env_idx)
 }
 
 MATCH_FUNC(0x58E140)
-bool cSampleManager::Open3DProvider_58E140(s32 envIdx)
+bool cSampleManager::Open3DProvider_58E140(s32 provider_idx)
 {
-    field_26B4_3d_provider_idx = envIdx;
-    if (envIdx != -1)
+    field_26B4_3d_provider_idx = provider_idx;
+    if (provider_idx != -1)
     {
-        M3DRESULT envIdx2 = AIL_open_3D_provider(field_1EB4_h3dProvider[envIdx]);
-        if (envIdx2 != M3D_NOERR)
+        M3DRESULT result = AIL_open_3D_provider(field_1EB4_h3dProvider[provider_idx]);
+        if (result != M3D_NOERR)
         {
             field_26B4_3d_provider_idx = -1;
             return false;
         }
 
-        field_26C0_3d_provider = field_1EB4_h3dProvider[envIdx];
-        // using another local for envIdx2 doesn't match here, meh
-        AIL_3D_provider_attribute(field_26C0_3d_provider, "EAX environment selection", &envIdx2);
-        if (envIdx2 != -1)
+        field_26C0_3d_provider = field_1EB4_h3dProvider[provider_idx];
+        // The attribute is read into the same local: a second local doesn't match
+        AIL_3D_provider_attribute(field_26C0_3d_provider, "EAX environment selection", &result);
+        if (result != -1)
         {
             field_26B8_bEaxSupported = 1;
             SetEaxEnvironment_58E010(17);
@@ -816,16 +809,16 @@ void cSampleManager::Release_58E290()
 }
 
 MATCH_FUNC(0x58E2A0)
-BYTE cSampleManager::Reacquire_58E2A0()
+bool cSampleManager::Reacquire_58E2A0()
 {
-    BYTE ret = field_0_hDriver && AIL_digital_handle_reacquire(field_0_hDriver) ? 1 : 0;
+    bool ret = field_0_hDriver && AIL_digital_handle_reacquire(field_0_hDriver) ? true : false;
     return ret;
 }
 
 const char_type dma_wav_5FF5D8[3][6] = {"d.wav", "m.wav", "a.wav"};
 
 MATCH_FUNC(0x58E2C0)
-bool cSampleManager::StreamStatus_58E2C0()
+bool cSampleManager::StreamStatus_58E2C0() const
 {
     if (field_55_bMusicFound)
     {
@@ -926,13 +919,13 @@ void cSampleManager::FadeOut_58E490()
 }
 
 MATCH_FUNC(0x58E500)
-char_type cSampleManager::MusicFileExists_58E500()
+bool cSampleManager::MusicFileExists_58E500() const
 {
     return field_55_bMusicFound;
 }
 
 MATCH_FUNC(0x58E510)
-void cSampleManager::PlayVocal_58E510(s32 stream_idx, s32 voc_idx, char_type bAppendA)
+void cSampleManager::PlayVocal_58E510(s32 stream_idx, s32 voc_idx, bool bMainVariant)
 {
     if (stream_idx || field_55_bMusicFound)
     {
@@ -946,10 +939,10 @@ void cSampleManager::PlayVocal_58E510(s32 stream_idx, s32 voc_idx, char_type bAp
         {
             strcpy(fileName, field_5_str);
 
-            char_type Buffer[12];
-            sprintf(Buffer, "%d", voc_idx);
-            strcat(fileName, Buffer);
-            if (!bAppendA)
+            char_type number[12];
+            sprintf(number, "%d", voc_idx);
+            strcat(fileName, number);
+            if (!bMainVariant)
             {
                 strcat(fileName, "A");
             }
@@ -1008,7 +1001,7 @@ void cSampleManager::SetVocalSpeed_58E700(s32 stream_idx, s32 playbackRate)
 }
 
 MATCH_FUNC(0x58E720)
-s32 cSampleManager::GetVocalSpeed_58E720(s32 stream_idx)
+s32 cSampleManager::GetVocalSpeed_58E720(s32 stream_idx) const
 {
     if (field_9C_hStreams[stream_idx])
     {
@@ -1030,7 +1023,7 @@ void cSampleManager::SetVocalPosMs_58E750(s32 stream_idx, s32 ms_pos)
 }
 
 MATCH_FUNC(0x58E770)
-s32 cSampleManager::GetVocalPosMs_58E770(long stream_idx)
+s32 cSampleManager::GetVocalPosMs_58E770(long stream_idx) const
 {
     if (field_9C_hStreams[stream_idx])
     {
@@ -1041,7 +1034,7 @@ s32 cSampleManager::GetVocalPosMs_58E770(long stream_idx)
 }
 
 MATCH_FUNC(0x58E7A0)
-s32 cSampleManager::GetVocalLengthMs_58E7A0(long stream_idx)
+s32 cSampleManager::GetVocalLengthMs_58E7A0(long stream_idx) const
 {
     if (field_9C_hStreams[stream_idx])
     {
@@ -1079,7 +1072,7 @@ void cSampleManager::PlayAtIdx_58E7F0(s32 idx)
 }
 
 MATCH_FUNC(0x58E880)
-bool cSampleManager::SampleNotDone_58E880()
+bool cSampleManager::SampleNotDone_58E880() const
 {
     return AIL_sample_status(field_98_hSample) != SMP_DONE ? true : false;
 }
@@ -1124,46 +1117,41 @@ void cSampleManager::EndSample_58E960()
 MATCH_FUNC(0x58E980)
 bool cSampleManager::LoadWavSdtData_58E980(const char_type* pRawOrSdtName)
 {
-    FILE* hRawFile;
-    FILE* hRawFile_;
-    u32 rawFileSize;
-    FILE* hSdtFile;
     char_type rawName[80];
     char_type sdtName[80];
 
-    field_A4_bLoaded = 0;
+    field_A4_bLoaded = false;
     strcpy(rawName, "data\\audio\\");
     strcat(rawName, pRawOrSdtName);
     strcat(rawName, ".RAW");
     strcpy(sdtName, "data\\audio\\");
     strcat(sdtName, pRawOrSdtName);
     strcat(sdtName, ".SDT");
-    hRawFile = fopen(rawName, "rb");
-    hRawFile_ = hRawFile;
+    FILE* hRawFile = fopen(rawName, "rb");
     if (!hRawFile)
     {
         return false;
     }
 
-    fseek(hRawFile, 0, 2);
-    rawFileSize = ftell(hRawFile_);
+    fseek(hRawFile, 0, SEEK_END);
+    const u32 rawFileSize = ftell(hRawFile);
     if (rawFileSize > 6100000)
     {
-        fclose(hRawFile_);
+        fclose(hRawFile);
         return false;
     }
 
-    rewind(hRawFile_);
-    fread(field_1EA8_pAudioBuffer1, 1u, rawFileSize, hRawFile_);
-    fclose(hRawFile_);
-    hSdtFile = fopen(sdtName, "rb");
+    rewind(hRawFile);
+    fread(field_1EA8_pAudioBuffer1, 1u, rawFileSize, hRawFile);
+    fclose(hRawFile);
+    FILE* hSdtFile = fopen(sdtName, "rb");
     if (!hSdtFile)
     {
-        fclose(hRawFile_);
+        fclose(hRawFile);
     }
 
     fread(field_A8_sdt_entries, sizeof(SdtEntry), 320u, hSdtFile);
     fclose(hSdtFile);
-    field_A4_bLoaded = 1;
+    field_A4_bLoaded = true;
     return true;
 }

@@ -77,7 +77,7 @@ class FirefighterPool
     EXPORT Firefighter* DispatchFirefighters_4A8620(Car* pCar, Fix16 x, Fix16 y, Fix16 z);
     EXPORT Firefighter* New28_4A8800();
     EXPORT bool TryDispatchFirefightersToCar_4A8820(Car* pCar);
-    EXPORT bool IsFireEngineSentToCar_4A8890(Car* pFireEngine, Car* pTargetCar);
+    EXPORT bool IsFireEngineSentToCar_4A8890(Car* pFireEngine, Car* pTargetCar) const;
     EXPORT void ResetCount_4A88D0();
 
     Firefighter field_0_firefighters[2];

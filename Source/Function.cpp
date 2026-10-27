@@ -1,14 +1,8 @@
 #include "Function.hpp"
 #include <stdio.h>
-
-#include <stdio.h>
 #include <stdlib.h>
 #include <string>
 #include <vector>
-
-// For C++98, we'll use these typedefs
-typedef unsigned int u32;
-typedef unsigned char u8;
 
 // Structure to store one function's metadata.
 struct FunctionMetadata
@@ -148,25 +142,19 @@ std::vector<FunctionMetadata> loadFunctionMetadataFromFile(const std::string& fi
     return functions;
 }
 
-// Searches backward from the given code address for a metadata signature.
-// The assumed signature is: two NOPs (0x90, 0x90) followed by a MOV EAX immediate opcode (0xB8).
-// If found, returns the address (as u32) where the pattern starts; otherwise returns 0.
+// The original address stored by the function marker (90 90 B8 <addr>) up to 100 bytes before codeAddr, or 0
 static u32 find_func_meta_data(u32 codeAddr)
 {
-    // Search backwards up to 10 bytes.
     for (u32 offset = 1; offset <= 100; ++offset)
     {
         u32 candidateAddr = codeAddr - offset;
-        // Cast the candidate address into a pointer to bytes.
         const u8* candidate = reinterpret_cast<const u8*>(candidateAddr);
-        // Check for the pattern.
-        // (Note: Make sure that reading these 3 bytes is safe in your environment.)
         if (candidate[0] == 0x90 && candidate[1] == 0x90 && candidate[2] == 0xB8)
         {
             return (candidate[3]) | (candidate[4] << 8) | (candidate[5] << 16) | (candidate[6] << 24);
         }
     }
-    return 0; // Not found.
+    return 0;
 }
 
 void __stdcall LogFuncAddr(u32 codeAddr, s32 mode)
@@ -179,7 +167,7 @@ void __stdcall LogFuncAddr(u32 codeAddr, s32 mode)
     else
     {
         static std::vector<FunctionMetadata> functions = loadFunctionMetadataFromFile("new_data.json");
-        for (unsigned int i = 0; i < functions.size(); ++i)
+        for (size_t i = 0; i < functions.size(); ++i)
         {
             if (functions[i].og_addr == ogAddr)
             {

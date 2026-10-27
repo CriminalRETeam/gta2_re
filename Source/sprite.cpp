@@ -51,7 +51,7 @@ DEFINE_GLOBAL_INIT(Fix16, kFpPoint2_703424, Fix16(0xCCC, 0), 0x703424);
 DEFINE_GLOBAL_INIT(Fix16, kFP16Eight_7035E4, Fix16(8), 0x7035E4);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_703578, Fix16(256, 0), 0x703578);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_703678, kFpOne64th_703578, 0x703678);
-DEFINE_GLOBAL_INIT(Fix16, k_dword_7033C0, kFP16Eight_7035E4 - kFpOne64th_703678, 0x7033C0);
+DEFINE_GLOBAL_INIT(Fix16, kMaxSpriteZ_7033C0, kFP16Eight_7035E4 - kFpOne64th_703678, 0x7033C0);
 DEFINE_GLOBAL_INIT(Ang16, kAng90_70344C, Ang16(360), 0x70344C);
 DEFINE_GLOBAL_INIT(Ang16, kAng180_70351E, Ang16(720), 0x70351E);
 DEFINE_GLOBAL_INIT(Ang16, kAng270_703544, Ang16(1080), 0x703544);
@@ -182,8 +182,8 @@ void Sprite::set_angle_4833B0(Ang16 ang)
 MATCH_FUNC(0x48F5A0)
 void SpriteMask::MarkUsed_48F5A0()
 {
-    SpriteMaskCache* pSprt = gSpriteMaskCache_67AF1C;
-    s32 new_idx = ++pSprt->field_3C0_use_counter;
+    SpriteMaskCache* pCache = gSpriteMaskCache_67AF1C;
+    s32 new_idx = ++pCache->field_3C0_use_counter;
     field_C_last_used = new_idx;
 }
 
@@ -199,11 +199,11 @@ EXPORT void SpriteMask::ClearMask_48F5C0(u8 xCount, u8 yCount)
 }
 
 MATCH_FUNC(0x48f600)
-SpriteMask* SpriteMaskCache::FindCachedMask_48F600(u16& sprite_idx, u32* pFlag, u32* pDeltaMask, const u16* pExtra)
+SpriteMask* SpriteMaskCache::FindCachedMask_48F600(const u16& sprite_idx, const u32* pFlag, const u32* pDeltaMask, const u16* pExtra)
 {
     s32 final_idx;
     s32 start_idx = 0;
-    SpriteMask* pSprt = NULL;
+    SpriteMask* pPartialMatch = NULL;
     if (!*pFlag)
     {
         final_idx = 32;
@@ -226,20 +226,20 @@ SpriteMask* SpriteMaskCache::FindCachedMask_48F600(u16& sprite_idx, u32* pFlag, 
             }
             if (static_cast<u32>(pIter->field_8_delta_mask) < *pDeltaMask && (pIter->field_8_delta_mask | (*pDeltaMask - pIter->field_8_delta_mask)) == *pDeltaMask)
             {
-                pSprt = pIter;
+                pPartialMatch = pIter;
             }
         }
     }
-    return pSprt;
+    return pPartialMatch;
 }
 
 MATCH_FUNC(0x48f690)
-SpriteMask* SpriteMaskCache::FindLeastRecentlyUsed_48F690(u32* pKey)
+SpriteMask* SpriteMaskCache::FindLeastRecentlyUsed_48F690(const u32* pKey)
 {
     u32 min_value = -1;
     s32 start_idx;
     s32 final_idx;
-    SpriteMask* pSprt = NULL;
+    SpriteMask* pOldest = NULL;
     if (!*pKey)
     {
         start_idx = 0;
@@ -257,14 +257,14 @@ SpriteMask* SpriteMaskCache::FindLeastRecentlyUsed_48F690(u32* pKey)
         if (static_cast<u32>(pIter->field_C_last_used) < min_value)
         {
             min_value = pIter->field_C_last_used;
-            pSprt = pIter;
+            pOldest = pIter;
         }
     }
-    return pSprt;
+    return pOldest;
 }
 
 MATCH_FUNC(0x48f6e0)
-void SpriteMaskCache::InvalidateMasksBySpriteIdx_48F6E0(u16* sprite_idx)
+void SpriteMaskCache::InvalidateMasksBySpriteIdx_48F6E0(const u16* sprite_idx)
 {
     s32 count = 0;
     for (SpriteMask* pIter = &this->field_0_masks[0]; count < 48; count++, ++pIter)
@@ -324,7 +324,7 @@ SpriteMaskCache::SpriteMaskCache()
 
     for (u16 mask_idx = 0; mask_idx < 48; mask_idx++)
     {
-        field_0_masks[mask_idx].field_10_idx = mask_idx;
+        field_0_masks[mask_idx].field_10_mask_idx = mask_idx;
     }
 }
 
@@ -382,8 +382,8 @@ s16 DamageAreaFlags::Delta_48F8B0(u16& sprite_idx, u8& bRet, const u16& palette,
     {
         return -1;
     }
-    sprite_index* sprite_index_5AA440 = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
-    u32 bLargeMask = sprite_index_5AA440->field_5_height > 0x40u;
+    sprite_index* pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
+    u32 bLargeMask = pSpriteIndex->field_5_height > 0x40u;
     SpriteMask* pMask = gSpriteMaskCache_67AF1C->FindCachedMask_48F600(sprite_idx, &bLargeMask, &m_var, &palette);
     if (pMask)
     {
@@ -391,7 +391,7 @@ s16 DamageAreaFlags::Delta_48F8B0(u16& sprite_idx, u8& bRet, const u16& palette,
         {
             bRet = 1;
             u32 sub = m_var - pMask->field_8_delta_mask;
-            Delta_48F820(sprite_idx, pMask->field_0_pixels, sub, sprite_index_5AA440->field_4_width);
+            Delta_48F820(sprite_idx, pMask->field_0_pixels, sub, pSpriteIndex->field_4_width);
             pMask->SetKey_44AF50(sprite_idx, m_var, palette);
         }
         else
@@ -405,25 +405,24 @@ s16 DamageAreaFlags::Delta_48F8B0(u16& sprite_idx, u8& bRet, const u16& palette,
         pMask = gSpriteMaskCache_67AF1C->FindLeastRecentlyUsed_48F690(&bLargeMask);
         if (!bClearMask)
         {
-            sprite_index_5AA440->CopyPixels_5ABB00(pMask->field_0_pixels);
+            pSpriteIndex->CopyPixels_5ABB00(pMask->field_0_pixels);
         }
         else
         {
-            pMask->ClearMask_48F5C0(sprite_index_5AA440->field_4_width, sprite_index_5AA440->field_5_height);
+            pMask->ClearMask_48F5C0(pSpriteIndex->field_4_width, pSpriteIndex->field_5_height);
         }
         
-        Delta_48F820(sprite_idx, pMask->field_0_pixels, m_var, sprite_index_5AA440->field_4_width);
+        Delta_48F820(sprite_idx, pMask->field_0_pixels, m_var, pSpriteIndex->field_4_width);
         pMask->SetKey_44AF50(sprite_idx, m_var, palette);
     }
     
     pMask->MarkUsed_48F5A0();
-    return pMask->field_10_idx;
+    return pMask->field_10_mask_idx;
 }
 
 MATCH_FUNC(0x4F76A0)
 EXPORT bool __stdcall ComputeScanlineIntersectionY_4F76A0(Fix16& minX, Fix16& minY, Fix16& scanLineY, Fix16_Point& p0, Fix16_Point& p1)
 {
-
     // Raw compares: with Fix16 operators VC6 runs out of inline budget and calls the Fix16_Point ctor
     // out of line. The out-of-line Sub_40AC80 gives the original's EH frame for pd. Remaining diff: the
     // original's success returns are `mov $1,%al; jmp` to one shared epilogue, ours copy the epilogue.
@@ -460,7 +459,6 @@ EXPORT bool __stdcall ComputeScanlineIntersectionY_4F76A0(Fix16& minX, Fix16& mi
 MATCH_FUNC(0x4F77D0)
 EXPORT bool __stdcall ComputeScanlineIntersectionX_4F77D0(Fix16& minX, Fix16& minY, Fix16& scanLineX, Fix16_Point& p0, Fix16_Point& p1)
 {
-
     // Same shape as ComputeScanlineIntersectionY_4F76A0, same leftover diff.
     Fix16_Point pd;
 
@@ -531,9 +529,9 @@ bool Sprite::IsControlledByRemotePlayer_59E170()
 }
 
 MATCH_FUNC(0x59E1B0)
-Ped* Sprite::GetPed_59E1B0()
+Ped* Sprite::GetPed_59E1B0() const
 {
-    if (this->field_30_sprite_type_enum == sprite_types_enum::ped_3 && (this->field_8_char_b4_ptr) != NULL)
+    if (this->field_30_sprite_type_enum == sprite_types_enum::ped_3 && this->field_8_char_b4_ptr != NULL)
     {
         return field_8_char_b4_ptr->field_7C_pPed;
     }
@@ -606,23 +604,23 @@ MATCH_FUNC(0x59e320)
 void Sprite::IncreaseZoom_59E320(char_type delta)
 {
     u16 sprite_idx = GetTrueSpriteIdx_4BA230();
-    sprite_index* sprite_index_5AA440 = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
-    u32 field_5_height = sprite_index_5AA440->field_5_height;
-    u32 field_4_width = sprite_index_5AA440->field_4_width;
+    sprite_index* pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
+    u32 height = pSpriteIndex->field_5_height;
+    u32 width = pSpriteIndex->field_4_width;
 
-    s32 result;
-    if (static_cast<s32>(field_4_width & 0xFFFFFFFE) < static_cast<s32>(field_5_height & 0xFFFFFFFE))
+    s32 max_zoom;
+    if (static_cast<s32>(width & 0xFFFFFFFE) < static_cast<s32>(height & 0xFFFFFFFE))
     {
-        result = field_4_width >> 1;
+        max_zoom = width >> 1;
     }
     else
     {
-        result = field_5_height >> 1;
+        max_zoom = height >> 1;
     }
     field_38_zoom = delta + field_38_zoom;
-    if ((field_38_zoom & 0xFF) > result)
+    if ((field_38_zoom & 0xFF) > max_zoom)
     {
-        field_38_zoom = result;
+        field_38_zoom = max_zoom;
     }
 }
 
@@ -678,13 +676,13 @@ bool Sprite::ShrinkSprite_59E390(Fix16 xoff, Fix16 yoff, s32 bShrinkCollisionSha
 }
 
 MATCH_FUNC(0x59e4c0)
-void Sprite::ApplyScaleToDimensions_59E4C0(Fix16 scale, s32 bScale_Field_C_4C)
+void Sprite::ApplyScaleToDimensions_59E4C0(Fix16 scale, s32 bScaleCollisionShape)
 {
     Sprite::EnsureVisualShape_59F990();
 
     field_4_pVisualShape->ScaleWidthHeight_4BA1A0(scale);
 
-    if (bScale_Field_C_4C == 1)
+    if (bScaleCollisionShape == 1)
     {
         field_C_pCollisionShape->ScaleWidthHeight_4BA1A0(scale);
     }
@@ -699,7 +697,6 @@ bool Sprite::CollisionCheck_59E590(Sprite* pOther)
         if ((field_C_pCollisionShape->IsZeroWidth_41E390() || field_0_rotation.jIsAxisAligned_41E3C0()) &&
             (pOther->field_C_pCollisionShape->IsZeroWidth_41E390() || pOther->field_0_rotation.jIsAxisAligned_41E3C0()))
         {
-
             return true;
         }
 
@@ -773,8 +770,6 @@ Sprite* Sprite::QuerySpriteCollision_59E7D0(s32 sprite_type)
     return result;
 }
 
-// 9.6f inline
-
 MATCH_FUNC(0x59E830)
 bool Sprite::IsThreatToSearchingPed_59E830()
 {
@@ -838,7 +833,7 @@ void Sprite::ProcessCarToCarImpactIfCar_59E910(Sprite* pSprite)
 }
 
 MATCH_FUNC(0x59E930)
-bool Sprite::IsObjectModelEqual_59E930(s32 model)
+bool Sprite::IsObjectModelEqual_59E930(s32 model) const
 {
     return (IsObject2CType_40FE80() && field_8_object_2C_ptr->field_18_model == model) ? true : false;
 }
@@ -863,7 +858,7 @@ void Sprite::SetDefaultDrawLayerBySpriteType_59E960()
         case sprite_types_enum::code_obj2_8:
             this->field_28_draw_layer = 33;
             break;
-        case sprite_types_enum::unknown_0:
+        case sprite_types_enum::none_0:
             this->field_28_draw_layer = 0;
             break;
         case sprite_types_enum::object_1:
@@ -942,7 +937,7 @@ void Sprite::SetRemap(s16 remap)
 }
 
 MATCH_FUNC(0x59eaa0)
-s16 Sprite::GetTruePalette_59EAA0()
+s16 Sprite::GetTruePalette_59EAA0() const
 {
     if (field_34_palette_type == palette_types_enum::sprites_2)
     {
@@ -1003,7 +998,7 @@ void Sprite::ShowId_59EB30(f32& x, f32& y)
             Fix16 ypos;
             ypos = Fix16(static_cast<s32>((y / static_cast<f32>(static_cast<u32>(window_height_706B50))) * 480.0f));
             swprintf(tmpBuff_67BD9C, L"%d", pCar->field_6C_car_id);
-            DrawTextScaled_4BA2C0(tmpBuff_67BD9C, xpos, ypos, word_703BAA);
+            DrawTextScaled_4BA2C0(tmpBuff_67BD9C, xpos, ypos, gStyleTextFont_703BAA);
         }
         else
         {
@@ -1011,15 +1006,15 @@ void Sprite::ShowId_59EB30(f32& x, f32& y)
             if (pChar)
             {
                 Fix16 xpos;
-            xpos = Fix16(static_cast<s32>((x / static_cast<f32>(static_cast<u32>(window_width_706630))) * 640.0f));
+                xpos = Fix16(static_cast<s32>((x / static_cast<f32>(static_cast<u32>(window_width_706630))) * 640.0f));
                 Fix16 ypos;
-            ypos = Fix16(static_cast<s32>((y / static_cast<f32>(static_cast<u32>(window_height_706B50))) * 480.0f));
+                ypos = Fix16(static_cast<s32>((y / static_cast<f32>(static_cast<u32>(window_height_706B50))) * 480.0f));
                 swprintf(tmpBuff_67BD9C, L"%d", pChar->field_7C_pPed->field_200_id);
-                s32 palette_type = 2;
+                s32 palette_type = palette_types_enum::sprites_2;
                 DrawText_5D8A10(tmpBuff_67BD9C,
                                 xpos * gViewCamera_676978->field_A8_ui_scale,
                                 ypos * gViewCamera_676978->field_A8_ui_scale,
-                                word_703BAA,
+                                gStyleTextFont_703BAA,
                                 gViewCamera_676978->field_A8_ui_scale,
                                 palette_type,
                                 0,
@@ -1039,11 +1034,11 @@ void Sprite::ShowId_59EB30(f32& x, f32& y)
             Fix16 ypos;
             ypos = Fix16(static_cast<s32>((y / static_cast<f32>(static_cast<u32>(window_height_706B50))) * 480.0f));
             swprintf(tmpBuff_67BD9C, L"%d:%d", pObj->field_18_model, pObj->field_14_id);
-            s32 palette_type = 2;
+            s32 palette_type = palette_types_enum::sprites_2;
             DrawText_5D8A10(tmpBuff_67BD9C,
                             xpos * gViewCamera_676978->field_A8_ui_scale,
                             ypos * gViewCamera_676978->field_A8_ui_scale,
-                            word_703BAA,
+                            gStyleTextFont_703BAA,
                             gViewCamera_676978->field_A8_ui_scale,
                             palette_type,
                             0,
@@ -1056,8 +1051,7 @@ void Sprite::ShowId_59EB30(f32& x, f32& y)
 MATCH_FUNC(0x59ee40)
 void Sprite::ShowHorn_59EE40(f32& x, f32& y)
 {
-
-    // 0x4BAEF0 9.6f
+    // 9.6f 0x4BAEF0
     if (bDo_show_horn_67D4F2)
     {
         Car* pCar = AsCar_40FEB0();
@@ -1068,7 +1062,7 @@ void Sprite::ShowHorn_59EE40(f32& x, f32& y)
 
             if (pCar->IsEmittingHorn_411970())
             {
-                DrawTextScaled_4BA2C0(L"H", xpos, ypos, word_703BAA);
+                DrawTextScaled_4BA2C0(L"H", xpos, ypos, gStyleTextFont_703BAA);
             }
 
             Ped* pDriver = pCar->field_54_driver;
@@ -1076,7 +1070,7 @@ void Sprite::ShowHorn_59EE40(f32& x, f32& y)
             {
                 if (gPolice_7B8_6FEE40->IsActivelyChased_56F880(pDriver))
                 {
-                    DrawTextScaled_4BA2C0(L"P", xpos, ypos, word_703BAA);
+                    DrawTextScaled_4BA2C0(L"P", xpos, ypos, gStyleTextFont_703BAA);
                 }
             }
         }
@@ -1088,8 +1082,8 @@ MATCH_FUNC(0x59eff0)
 void Sprite::Draw_59EFF0()
 {
     sprite_index* pSpriteIndex;
-    u16 converted_pal;
-    sprite_index* pSpriteIndex2;
+    u16 true_sprite_idx;
+    sprite_index* pSourceSpriteIndex;
     u16 pal;
     STexture* pTexture;
     f32 u;
@@ -1103,15 +1097,15 @@ void Sprite::Draw_59EFF0()
     {
         sprite_idx = gGtx_0x106C_703DD4->field_4_sprite_index_count - 1;
         pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
-        converted_pal = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(field_30_sprite_type_enum, field_22_type_sprite_idx);
-        pSpriteIndex2 = gGtx_0x106C_703DD4->get_sprite_index_5AA440(converted_pal);
-        pSpriteIndex->field_4_width = pSpriteIndex2->field_4_width - 2 * field_38_zoom;
-        pSpriteIndex->field_5_height = pSpriteIndex2->field_5_height - 2 * field_38_zoom;
+        true_sprite_idx = gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(field_30_sprite_type_enum, field_22_type_sprite_idx);
+        pSourceSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(true_sprite_idx);
+        pSpriteIndex->field_4_width = pSourceSpriteIndex->field_4_width - 2 * field_38_zoom;
+        pSpriteIndex->field_5_height = pSourceSpriteIndex->field_5_height - 2 * field_38_zoom;
         if (!pSpriteIndex->field_4_width || !pSpriteIndex->field_5_height)
         {
             return;
         }
-        pSpriteIndex->field_0_pData = &pSpriteIndex2->field_0_pData[257 * static_cast<u8>(field_38_zoom)];
+        pSpriteIndex->field_0_pData = &pSourceSpriteIndex->field_0_pData[257 * static_cast<u8>(field_38_zoom)];
         pal = Sprite::GetTruePalette_59EAA0();
         pTexture = gTextureCache_15D8_705064->SetSharedTextureData_5B9710(pSpriteIndex->field_4_width,
                                                          pSpriteIndex->field_5_height,
@@ -1203,7 +1197,7 @@ void Sprite::Draw_59EFF0()
 
     if (Sprite::has_shadows_59EAE0())
     {
-        Vert pShadowVerts[4]; // length 4? strange
+        Vert pShadowVerts[4];
 
         memcpy(&pShadowVerts[0], &gTileVerts_7036D0[0], sizeof(Vert));
 
@@ -1286,20 +1280,20 @@ void Sprite::EnsureVisualShape_59F990()
         this->field_4_pVisualShape = gSpriteShapePool_70381C->Allocate();
 
         const u16 sprite_idx = GetTrueSpriteIdx_4BA230();
-        const sprite_index* sprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
+        const sprite_index* pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(sprite_idx);
 
         Fix16 w;
         Fix16 h;
 
         if (this->field_30_sprite_type_enum == sprite_types_enum::code_obj2_8)
         {
-            w = gPixelsToFix16_6F6850.list[sprite_index->field_4_width] / 2;
-            h = gPixelsToFix16_6F6850.list[sprite_index->field_5_height] / 2;
+            w = gPixelsToFix16_6F6850.list[pSpriteIndex->field_4_width] / 2;
+            h = gPixelsToFix16_6F6850.list[pSpriteIndex->field_5_height] / 2;
         }
         else
         {
-            w = gPixelsToFix16_6F6850.list[sprite_index->field_4_width];
-            h = gPixelsToFix16_6F6850.list[sprite_index->field_5_height];
+            w = gPixelsToFix16_6F6850.list[pSpriteIndex->field_4_width];
+            h = gPixelsToFix16_6F6850.list[pSpriteIndex->field_5_height];
         }
         field_4_pVisualShape->SetWidthHeight_4BA070(w, h);
     }
@@ -1311,10 +1305,10 @@ void Sprite::UpdateDimensionsFromSpriteIndex_59FA40()
     if (field_4_pVisualShape)
     {
         const u16 idx = GetTrueSpriteIdx_4BA230();
-        sprite_index* pSprite_index = gGtx_0x106C_703DD4->get_sprite_index_5AA440(idx);
+        sprite_index* pSpriteIndex = gGtx_0x106C_703DD4->get_sprite_index_5AA440(idx);
 
-        const Fix16 height = gPixelsToFix16_6F6850.list[pSprite_index->field_5_height];
-        const Fix16 width = gPixelsToFix16_6F6850.list[pSprite_index->field_4_width];
+        const Fix16 height = gPixelsToFix16_6F6850.list[pSpriteIndex->field_5_height];
+        const Fix16 width = gPixelsToFix16_6F6850.list[pSpriteIndex->field_4_width];
 
         field_4_pVisualShape->SetWidthHeightLazy_4BA030(width, height);
     }
@@ -1351,8 +1345,8 @@ bool Sprite::IntersectsRectSAT_59FB10(Fix16_Rect* pOtherRect)
 
     GetHalfExtents_ool_4BA0A0(field_C_pCollisionShape, &half_width, &half_height);
 
-    Fix16 pRotTransX;
-    Fix16 pRotTransY;
+    Fix16 rot_x;
+    Fix16 rot_y;
 
     // First rotation
     RotateAndTranslatePoint_ool_42A720(pOtherRect->get_left_45ADB0(),
@@ -1360,12 +1354,12 @@ bool Sprite::IntersectsRectSAT_59FB10(Fix16_Rect* pOtherRect)
                                    -field_0_rotation,
                                    field_14_xy.x,
                                    field_14_xy.y,
-                                   pRotTransX,
-                                   pRotTransY);
+                                   rot_x,
+                                   rot_y);
 
-    if (pRotTransX >= -half_width && pRotTransX <= half_width)
+    if (rot_x >= -half_width && rot_x <= half_width)
     {
-        if (pRotTransY >= -half_height && pRotTransY <= half_height)
+        if (rot_y >= -half_height && rot_y <= half_height)
         {
             return true;
         }
@@ -1377,12 +1371,12 @@ bool Sprite::IntersectsRectSAT_59FB10(Fix16_Rect* pOtherRect)
                                    -field_0_rotation,
                                    field_14_xy.x,
                                    field_14_xy.y,
-                                   pRotTransX,
-                                   pRotTransY);
+                                   rot_x,
+                                   rot_y);
 
-    if (pRotTransX >= -half_width && pRotTransX <= half_width)
+    if (rot_x >= -half_width && rot_x <= half_width)
     {
-        if (pRotTransY >= -half_height && pRotTransY <= half_height)
+        if (rot_y >= -half_height && rot_y <= half_height)
         {
             return true;
         }
@@ -1394,12 +1388,12 @@ bool Sprite::IntersectsRectSAT_59FB10(Fix16_Rect* pOtherRect)
                                    -field_0_rotation,
                                    field_14_xy.x,
                                    field_14_xy.y,
-                                   pRotTransX,
-                                   pRotTransY);
+                                   rot_x,
+                                   rot_y);
 
-    if (pRotTransX >= -half_width && pRotTransX <= half_width)
+    if (rot_x >= -half_width && rot_x <= half_width)
     {
-        if (pRotTransY >= -half_height && pRotTransY <= half_height)
+        if (rot_y >= -half_height && rot_y <= half_height)
         {
             return true;
         }
@@ -1411,12 +1405,12 @@ bool Sprite::IntersectsRectSAT_59FB10(Fix16_Rect* pOtherRect)
                                    -field_0_rotation,
                                    field_14_xy.x,
                                    field_14_xy.y,
-                                   pRotTransX,
-                                   pRotTransY);
+                                   rot_x,
+                                   rot_y);
 
-    if (pRotTransX >= -half_width && pRotTransX <= half_width)
+    if (rot_x >= -half_width && rot_x <= half_width)
     {
-        if (pRotTransY >= -half_height && pRotTransY <= half_height)
+        if (rot_y >= -half_height && rot_y <= half_height)
         {
             return true;
         }
@@ -1431,12 +1425,12 @@ bool Sprite::IntersectsRectSAT_59FB10(Fix16_Rect* pOtherRect)
                            -field_0_rotation,
                            field_14_xy.x,
                            field_14_xy.y,
-                           pRotTransX,
-                           pRotTransY);
+                           rot_x,
+                           rot_y);
 
-    if (pRotTransX >= half_width.Negate_4086A0() && pRotTransX <= half_width)
+    if (rot_x >= half_width.Negate_4086A0() && rot_x <= half_width)
     {
-        if (pRotTransY >= half_height.Negate_4086A0() && pRotTransY <= half_height)
+        if (rot_y >= half_height.Negate_4086A0() && rot_y <= half_height)
         {
             return true;
         }
@@ -1446,7 +1440,7 @@ bool Sprite::IntersectsRectSAT_59FB10(Fix16_Rect* pOtherRect)
 }
 
 // 9.6f 0x4B9F80: clamp the current rect to the map
-static inline void ClampPurpleRectToMap_4B9F80()
+static inline void ClampGridRectToMap_4B9F80()
 {
     if (gSpriteGrid_left_6F5FD4 < 0)
     {
@@ -1473,18 +1467,17 @@ MATCH_FUNC(0x5a0150)
 char_type Sprite::FindOverlappingBoundingBoxCorners_5A0150(Sprite* pOther, u8* pOut1, u8* pOut2)
 {
     u8 i = 0;
-
     char_type counter = 0;
 
     Fix16_Point* pBBox = pOther->field_C_pCollisionShape->field_C_corners;
 
-    Fix16 pHalfW;
-    Fix16 pHalfH;
+    Fix16 half_w;
+    Fix16 half_h;
     // corner_x/y declared up here: two fewer inline candidates after GetHalfExtents_4BA0A0 keep both of its
     // divisions inline
     Fix16 corner_x;
     Fix16 corner_y;
-    field_C_pCollisionShape->GetHalfExtents_4BA0A0(&pHalfW, &pHalfH);
+    field_C_pCollisionShape->GetHalfExtents_4BA0A0(&half_w, &half_h);
 
     for (i = 0; i < 4; i++)
     {
@@ -1492,7 +1485,7 @@ char_type Sprite::FindOverlappingBoundingBoxCorners_5A0150(Sprite* pOther, u8* p
         Fix16_Point* pCorner = &pBBox[i];
         RotateAndTranslatePoint_42A720(pCorner->x, pCorner->y, t, field_14_xy.x, field_14_xy.y, corner_x, corner_y);
 
-        if (((corner_x >= -pHalfW) && (corner_x <= pHalfW) && (corner_y >= -pHalfH) && (corner_y <= pHalfH)))
+        if (((corner_x >= -half_w) && (corner_x <= half_w) && (corner_y >= -half_h) && (corner_y <= half_h)))
         {
             counter++;
             if (counter == 1)
@@ -1537,7 +1530,6 @@ char_type Sprite::CollisionCheck_5A0320(Fix16* pXY1, Fix16* pXY2, u8* pCollision
         }
     }
 
-    // Return the result count (0, 1, or 2)
     return overlapCount;
 }
 
@@ -1556,8 +1548,8 @@ bool Sprite::RotatedRectCollisionSAT_5A0380(Sprite* pOther)
 
     field_C_pCollisionShape->GetHalfExtents_4BA0A0(&half_width, &half_height);
 
-    Fix16 pRotTransX;
-    Fix16 pRotTransY;
+    Fix16 rot_x;
+    Fix16 rot_y;
 
     // First rotation
     RotateAndTranslatePoint_NegOOL_42A720(pOtherRenderRect[0].x,
@@ -1565,12 +1557,12 @@ bool Sprite::RotatedRectCollisionSAT_5A0380(Sprite* pOther)
                                    -field_0_rotation,
                                    field_14_xy.x,
                                    field_14_xy.y,
-                                   pRotTransX,
-                                   pRotTransY);
+                                   rot_x,
+                                   rot_y);
 
-    if (pRotTransX >= -half_width && pRotTransX <= half_width)
+    if (rot_x >= -half_width && rot_x <= half_width)
     {
-        if (pRotTransY >= -half_height && pRotTransY <= half_height)
+        if (rot_y >= -half_height && rot_y <= half_height)
         {
             return true;
         }
@@ -1582,12 +1574,12 @@ bool Sprite::RotatedRectCollisionSAT_5A0380(Sprite* pOther)
                                    -field_0_rotation,
                                    field_14_xy.x,
                                    field_14_xy.y,
-                                   pRotTransX,
-                                   pRotTransY);
+                                   rot_x,
+                                   rot_y);
 
-    if (pRotTransX >= -half_width && pRotTransX <= half_width)
+    if (rot_x >= -half_width && rot_x <= half_width)
     {
-        if (pRotTransY >= -half_height && pRotTransY <= half_height)
+        if (rot_y >= -half_height && rot_y <= half_height)
         {
             return true;
         }
@@ -1599,12 +1591,12 @@ bool Sprite::RotatedRectCollisionSAT_5A0380(Sprite* pOther)
                                    -field_0_rotation,
                                    field_14_xy.x,
                                    field_14_xy.y,
-                                   pRotTransX,
-                                   pRotTransY);
+                                   rot_x,
+                                   rot_y);
 
-    if (pRotTransX >= -half_width && pRotTransX <= half_width)
+    if (rot_x >= -half_width && rot_x <= half_width)
     {
-        if (pRotTransY >= -half_height && pRotTransY <= half_height)
+        if (rot_y >= -half_height && rot_y <= half_height)
         {
             return true;
         }
@@ -1616,12 +1608,12 @@ bool Sprite::RotatedRectCollisionSAT_5A0380(Sprite* pOther)
                                    -field_0_rotation,
                                    field_14_xy.x,
                                    field_14_xy.y,
-                                   pRotTransX,
-                                   pRotTransY);
+                                   rot_x,
+                                   rot_y);
 
-    if (pRotTransX >= half_width.Negate_4086A0() && pRotTransX <= half_width)
+    if (rot_x >= half_width.Negate_4086A0() && rot_x <= half_width)
     {
-        if (pRotTransY >= half_height.Negate_4086A0() && pRotTransY <= half_height)
+        if (rot_y >= half_height.Negate_4086A0() && rot_y <= half_height)
         {
             return true;
         }
@@ -1634,12 +1626,12 @@ bool Sprite::RotatedRectCollisionSAT_5A0380(Sprite* pOther)
                            GetNegatedAngle_5A26E0(),
                            field_14_xy.x,
                            field_14_xy.y,
-                           pRotTransX,
-                           pRotTransY);
+                           rot_x,
+                           rot_y);
 
-    if (pRotTransX >= half_width.Negate_4086A0() && pRotTransX <= half_width)
+    if (rot_x >= half_width.Negate_4086A0() && rot_x <= half_width)
     {
-        if (pRotTransY >= half_height.Negate_4086A0() && pRotTransY <= half_height)
+        if (rot_y >= half_height.Negate_4086A0() && rot_y <= half_height)
         {
             return true;
         }
@@ -1673,17 +1665,17 @@ bool Sprite::GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 line_y, Fix16_Poi
 {
     // Same as GetNearestVerticalEdgeToCoordinate_5A1030
     UpdateCollisionBoundsIfNeeded_59E9C0();
-    Fix16_Point* RenderingRect = field_C_pCollisionShape->field_C_corners;
+    Fix16_Point* pCorners = field_C_pCollisionShape->field_C_corners;
 
-    Fix16 diff = RenderingRect[0].y - line_y;
+    Fix16 diff = pCorners[0].y - line_y;
     Fix16 sign = Sign_4B9C20(diff.mValue);
     Fix16 least_abs;
     least_abs = Fix16::Abs(diff);
 
-    point = RenderingRect[0];
+    point = pCorners[0];
     nearest_corner_idx = 0;
 
-    diff = RenderingRect[1].y - line_y;
+    diff = pCorners[1].y - line_y;
     if (Sign_4B9C20(diff.mValue) != sign)
     {
         return false;
@@ -1693,17 +1685,17 @@ bool Sprite::GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 line_y, Fix16_Poi
     if (diff < least_abs)
     {
         least_abs = diff;
-        point.x = RenderingRect[1].x;
-        point.y = RenderingRect[1].y;
+        point.x = pCorners[1].x;
+        point.y = pCorners[1].y;
         nearest_corner_idx = 1;
     }
     else if (diff == least_abs)
     {
-        point.x = (point.x + RenderingRect[1].x) / kFP16Two_7035C8;
+        point.x = (point.x + pCorners[1].x) / kFP16Two_7035C8;
         nearest_corner_idx = 5;
     }
 
-    diff = RenderingRect[2].y - line_y;
+    diff = pCorners[2].y - line_y;
     if (Sign_4B9C20(diff.mValue) != sign)
     {
         return false;
@@ -1713,17 +1705,17 @@ bool Sprite::GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 line_y, Fix16_Poi
     if (diff < least_abs)
     {
         least_abs = diff;
-        point.x = RenderingRect[2].x;
-        point.y = RenderingRect[2].y;
+        point.x = pCorners[2].x;
+        point.y = pCorners[2].y;
         nearest_corner_idx = 2;
     }
     else if (diff == least_abs)
     {
-        point.x = (point.x + RenderingRect[2].x) / kFP16Two_7035C8;
+        point.x = (point.x + pCorners[2].x) / kFP16Two_7035C8;
         nearest_corner_idx = 5;
     }
 
-    diff = RenderingRect[3].y - line_y;
+    diff = pCorners[3].y - line_y;
     if (Sign_4B9C20(diff.mValue) != sign)
     {
         return false;
@@ -1732,13 +1724,13 @@ bool Sprite::GetNearestHorizontalEdgeToCoordinate_5A0A70(Fix16 line_y, Fix16_Poi
     diff = Fix16::Abs(diff);
     if (diff < least_abs)
     {
-        point.x = RenderingRect[3].x;
-        point.y = RenderingRect[3].y;
+        point.x = pCorners[3].x;
+        point.y = pCorners[3].y;
         nearest_corner_idx = 3;
     }
     else if (diff == least_abs)
     {
-        point.x = (point.x + RenderingRect[3].x) / kFP16Two_7035C8;
+        point.x = (point.x + pCorners[3].x) / kFP16Two_7035C8;
         nearest_corner_idx = 5;
     }
 
@@ -1766,18 +1758,18 @@ bool Sprite::GetNearestVerticalEdgeToCoordinate_5A1030(Fix16 line_x, Fix16_Point
 {
     // least_abs assigned (not initialised) so it lives in a register. point set with one point copy (smaller
     // than the two field copies): the inline budget then leaves the negation in all four Abs out of line
-    Fix16_Point* RenderingRect = field_C_pCollisionShape->field_C_corners;
+    Fix16_Point* pCorners = field_C_pCollisionShape->field_C_corners;
     UpdateCollisionBoundsIfNeeded_59E9C0();
 
-    Fix16 diff = RenderingRect[0].x - line_x;
+    Fix16 diff = pCorners[0].x - line_x;
     Fix16 sign = Sign_4B9C20(diff.mValue);
     Fix16 least_abs;
     least_abs = Fix16::Abs(diff);
 
-    point = RenderingRect[0];
+    point = pCorners[0];
     nearest_corner_idx = 0;
 
-    diff = RenderingRect[1].x - line_x;
+    diff = pCorners[1].x - line_x;
     if (Sign_4B9C20(diff.mValue) != sign)
     {
         return false;
@@ -1787,17 +1779,17 @@ bool Sprite::GetNearestVerticalEdgeToCoordinate_5A1030(Fix16 line_x, Fix16_Point
     if (diff < least_abs)
     {
         least_abs = diff;
-        point.x = RenderingRect[1].x;
-        point.y = RenderingRect[1].y;
+        point.x = pCorners[1].x;
+        point.y = pCorners[1].y;
         nearest_corner_idx = 1;
     }
     else if (diff == least_abs)
     {
-        point.y = (point.y + RenderingRect[1].y) / kFP16Two_7035C8;
+        point.y = (point.y + pCorners[1].y) / kFP16Two_7035C8;
         nearest_corner_idx = 5;
     }
 
-    diff = RenderingRect[2].x - line_x;
+    diff = pCorners[2].x - line_x;
     if (Sign_4B9C20(diff.mValue) != sign)
     {
         return false;
@@ -1807,17 +1799,17 @@ bool Sprite::GetNearestVerticalEdgeToCoordinate_5A1030(Fix16 line_x, Fix16_Point
     if (diff < least_abs)
     {
         least_abs = diff;
-        point.x = RenderingRect[2].x;
-        point.y = RenderingRect[2].y;
+        point.x = pCorners[2].x;
+        point.y = pCorners[2].y;
         nearest_corner_idx = 2;
     }
     else if (diff == least_abs)
     {
-        point.y = (point.y + RenderingRect[2].y) / kFP16Two_7035C8;
+        point.y = (point.y + pCorners[2].y) / kFP16Two_7035C8;
         nearest_corner_idx = 5;
     }
 
-    diff = RenderingRect[3].x - line_x;
+    diff = pCorners[3].x - line_x;
     if (Sign_4B9C20(diff.mValue) != sign)
     {
         return false;
@@ -1826,13 +1818,13 @@ bool Sprite::GetNearestVerticalEdgeToCoordinate_5A1030(Fix16 line_x, Fix16_Point
     diff = Fix16::Abs(diff);
     if (diff < least_abs)
     {
-        point.x = RenderingRect[3].x;
-        point.y = RenderingRect[3].y;
+        point.x = pCorners[3].x;
+        point.y = pCorners[3].y;
         nearest_corner_idx = 3;
     }
     else if (diff == least_abs)
     {
-        point.y = (point.y + RenderingRect[3].y) / kFP16Two_7035C8;
+        point.y = (point.y + pCorners[3].y) / kFP16Two_7035C8;
         nearest_corner_idx = 5;
     }
 
@@ -1890,7 +1882,7 @@ bool Sprite::IsStraddlingSlopeAndFlat_5A19C0()
 }
 
 MATCH_FUNC(0x5a1a60)
-char Sprite::CheckSlopeTopInFootprint_5A1A60()
+char_type Sprite::CheckSlopeTopInFootprint_5A1A60()
 {
     EnsureVisualShape_59F990();
 
@@ -1903,7 +1895,7 @@ char Sprite::CheckSlopeTopInFootprint_5A1A60()
 
     field_4_pVisualShape->SetCurrentRect_5A4D90();
 
-    ClampPurpleRectToMap_4B9F80();
+    ClampGridRectToMap_4B9F80();
 
     return gMap_0x370_6F6268->CheckSlopeTopInSpriteGrid_4E4630(field_1C_zpos);
 }
@@ -1952,9 +1944,9 @@ char_type Sprite::CheckCornerZCollisions_5A1CA0(u32* pCount)
     Fix16 z_min = field_1C_zpos - (pShape->field_8_depth / 2);
     Fix16 z_max = field_1C_zpos + (pShape->field_8_depth / 2);
 
-    if (z_max > k_dword_7033C0)
+    if (z_max > kMaxSpriteZ_7033C0)
     {
-        z_max = k_dword_7033C0;
+        z_max = kMaxSpriteZ_7033C0;
     }
 
     if (gMap_0x370_6F6268->CheckZCollisionAtCoord_4E5300(pShape->field_C_corners[0].x, pShape->field_C_corners[0].y, z_min, z_max))
@@ -2043,12 +2035,12 @@ bool Sprite::IsTouchingSlopeBlock_5A1EB0()
 MATCH_FUNC(0x5A21F0)
 bool Sprite::CheckMapZCollision_5A21F0()
 {
-    Fix16 half = this->field_C_pCollisionShape->field_8_depth / 2; // which union type ??
+    Fix16 half = this->field_C_pCollisionShape->field_8_depth / 2;
     Fix16 zLow = field_1C_zpos - half;
     Fix16 zHigh = field_1C_zpos + half;
-    if (zHigh > k_dword_7033C0)
+    if (zHigh > kMaxSpriteZ_7033C0)
     {
-        zHigh = k_dword_7033C0;
+        zHigh = kMaxSpriteZ_7033C0;
     }
     return gMap_0x370_6F6268->CheckZCollisionAtCoord_4E5300(field_14_xy.x, field_14_xy.y, zLow, zHigh);
 }
@@ -2131,21 +2123,21 @@ char_type Sprite::CheckSpriteMovementRegion_5A2500()
     field_C_pCollisionShape->SetCurrentRect_5A4D90();
 
     Object* pObject = AsObject2C_40FEC0();
-    s16 val;
+    s16 region_size;
     if (pObject)
     {
-        val = pObject->GetMovementRegionSize_5222B0();
+        region_size = pObject->GetMovementRegionSize_5222B0();
     }
     else
     {
-        val = 1024;
+        region_size = 1024;
     }
 
     char_type result = gMap_0x370_6F6268->IsMovementRegionBlocked_4E4460(field_14_xy.x.ToInt(),
                                                                               field_14_xy.y.ToInt(),
                                                                               field_1C_zpos.ToInt(),
                                                                               this,
-                                                                              val);
+                                                                              region_size);
     if (result)
     {
         gCollisionTarget_679188.SetMapZ_4BA2B0(field_1C_zpos);
@@ -2164,9 +2156,9 @@ MATCH_FUNC(0x5a2710)
 Fix16_Point Sprite::FindCollisionIntersectionPoint_5A2710(Sprite* pOther,
                                                           Fix16_Point& newPos,
                                                           Ang16 newAng,
-                                                          u8& bOutSideSelf,
-                                                          u8& bOutSideOther,
-                                                          u8& pOutHitType)
+                                                          u8& self_corner_idx,
+                                                          u8& other_corner_idx,
+                                                          u8& overlap_count)
 {
     u8 idx1;
     u8 idx2;
@@ -2175,24 +2167,24 @@ Fix16_Point Sprite::FindCollisionIntersectionPoint_5A2710(Sprite* pOther,
     Fix16_Point SpritePos = get_x_y_443580();
     Ang16 SpriteAng = field_0_rotation;
 
-    bOutSideSelf = 5;
-    bOutSideOther = 5;
+    self_corner_idx = 5;
+    other_corner_idx = 5;
 
     set_xyz_lazy_420600(newPos.x, newPos.y, field_1C_zpos);
     set_ang_lazy_420690(newAng);
     UpdateCollisionBoundsIfNeeded_59E9C0();
 
-    pOutHitType = pOther->FindOverlappingBoundingBoxCorners_5A0150(this, &idx1, &idx2);
+    overlap_count = pOther->FindOverlappingBoundingBoxCorners_5A0150(this, &idx1, &idx2);
 
-    if (pOutHitType != 0)
+    if (overlap_count != 0)
     {
         set_xyz_lazy_420600(SpritePos.x, SpritePos.y, field_1C_zpos);
         set_ang_lazy_420690(SpriteAng);
         UpdateCollisionBoundsIfNeeded_59E9C0();
-        if (pOutHitType == 1)
+        if (overlap_count == 1)
         {
             result = GetBoundingBoxCorner_562450(idx1);
-            bOutSideSelf = idx1;
+            self_corner_idx = idx1;
         }
         else
         {
@@ -2201,27 +2193,24 @@ Fix16_Point Sprite::FindCollisionIntersectionPoint_5A2710(Sprite* pOther,
     }
     else
     {
-        // pOutHitType == 0
-        pOutHitType = FindOverlappingBoundingBoxCorners_5A0150(pOther, &idx1, &idx2);
+        overlap_count = FindOverlappingBoundingBoxCorners_5A0150(pOther, &idx1, &idx2);
         set_xyz_lazy_420600(SpritePos.x, SpritePos.y, field_1C_zpos);
         set_ang_lazy_420690(SpriteAng);
 
-        if (pOutHitType != 0)
+        if (overlap_count != 0)
         {
-            if (pOutHitType == 1)
+            if (overlap_count == 1)
             {
                 result = pOther->GetBoundingBoxCorner_562450(idx1);
-                bOutSideOther = idx1;
+                other_corner_idx = idx1;
             }
             else
             {
-                // not 0, not 1
                 result = (pOther->GetBoundingBoxCorner_562450(idx1) + pOther->GetBoundingBoxCorner_562450(idx2)) / 2;
             }
         }
         else
         {
-            // pOutHitType == 0
             result = (pOther->get_x_y_443580() + SpritePos) / 2;
         }
     }
@@ -2255,7 +2244,7 @@ void Sprite::ResolveCollisionWithCarPedOrObject_5A2A30()
 {
     SpriteList collisions;
     collisions.field_0_p18 = NULL;
-    gSpriteGrid_1_679208->CollectRectCollisions_477F30(&field_C_pCollisionShape->field_30_boundingBox, 0, 0, this, &collisions);
+    gSpriteGrid_1_679208->CollectRectCollisions_477F30(&field_C_pCollisionShape->field_30_boundingBox, false, sprite_types_enum::none_0, this, &collisions);
     for (AttachedSprite* pCollisionIter = collisions.field_0_p18; pCollisionIter; pCollisionIter = pCollisionIter->mpNext)
     {
         Sprite* pCurrent = pCollisionIter->field_0_pSprite;
@@ -2270,7 +2259,7 @@ void Sprite::ResolveCollisionWithCarPedOrObject_5A2A30()
                 u8 z = field_1C_zpos.ToInt();
 
                 // car shoving / overlap resolution ?
-                if (gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(1, &x, &y, &z, 1))
+                if (gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(ROAD, &x, &y, &z, true))
                 {
                     gSpriteGrid_1_679208->RemoveFromRegionBuckets_477B60(pCurrent);
                     pIterCar->SnapCarToGreenArrow_444E40(x, y, z);
@@ -2339,9 +2328,9 @@ void Sprite::AttachSprite_5A3100(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 ang)
         case sprite_types_enum::car_2:
             field_8_car_bc_ptr->field_0_attachments.PushAttachedSprite_5A6D00(pSprite, x, y, ang);
             break;
-        case sprite_types_enum::object_1: // sprite_type_1_Object_5C
-        case sprite_types_enum::code_obj1_4: // sprite_type_4_Object_5C
-        case sprite_types_enum::map_obj_5: // sprite_type_5_Object_5C
+        case sprite_types_enum::object_1:
+        case sprite_types_enum::code_obj1_4:
+        case sprite_types_enum::map_obj_5:
             pObject = field_8_object_2C_ptr;
             if (!pObject->field_10_obj_3c)
             {
@@ -2358,9 +2347,9 @@ void Sprite::AttachSprite_5A3100(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 ang)
         case sprite_types_enum::car_2:
             pSprite->field_8_car_bc_ptr->Deactivate_43AA60();
             break;
-        case sprite_types_enum::object_1: // sprite_type_1_Object_5C
-        case sprite_types_enum::code_obj1_4: // sprite_type_4_Object_5C
-        case sprite_types_enum::map_obj_5: // sprite_type_5_Object_5C
+        case sprite_types_enum::object_1:
+        case sprite_types_enum::code_obj1_4:
+        case sprite_types_enum::map_obj_5:
             pSprite->field_8_object_2C_ptr->OnAttachedToSprite_52A6D0(this);
             break;
         default:
@@ -2687,19 +2676,19 @@ SpriteManager_8::~SpriteManager_8()
 MATCH_FUNC(0x5a5be0)
 SpriteShapePool::~SpriteShapePool()
 {
-    field_0_pool.field_0_pHead = 0;
+    field_0_pool.field_0_pHead = NULL;
 }
 
 MATCH_FUNC(0x5A5C00)
 SpritePool::~SpritePool()
 {
-    field_0_pool.field_0_pHead = 0;
+    field_0_pool.field_0_pHead = NULL;
 }
 
 MATCH_FUNC(0x5a5c20)
 AttachedSpritePool::~AttachedSpritePool()
 {
-    field_0_pool.field_0_pHead = 0;
+    field_0_pool.field_0_pHead = NULL;
 }
 
 MATCH_FUNC(0x5a5c40)
@@ -2725,7 +2714,7 @@ Sprite::Sprite() : field_0_rotation(gAng16_703804)
     field_24_remap = 0;
     field_28_draw_layer = 0;
     field_2C_flags = 0;
-    field_30_sprite_type_enum = 0;
+    field_30_sprite_type_enum = sprite_types_enum::none_0;
     field_34_palette_type = 0;
     field_38_zoom = 0;
     field_39_z_col = -1;

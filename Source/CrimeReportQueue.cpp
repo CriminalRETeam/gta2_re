@@ -51,12 +51,12 @@ void CrimeReport::SetReport(s32 crime_type, s32 ped_id)
 }
 
 MATCH_FUNC(0x484d50)
-void CrimeReport::GetReport(s32* pCrimeType, Fix16* pXPos, Fix16* yPos, Fix16* zPos)
+void CrimeReport::GetReport(s32* pCrimeType, Fix16* pXPos, Fix16* pYPos, Fix16* pZPos) const
 {
     *pCrimeType = field_0_crime_type;
     *pXPos = field_8_pos.x;
-    *yPos = field_8_pos.y;
-    *zPos = field_8_pos.z;
+    *pYPos = field_8_pos.y;
+    *pZPos = field_8_pos.z;
 }
 
 MATCH_FUNC(0x484d80)
@@ -96,13 +96,10 @@ void CrimeReportQueue::QueueReport(s32 crime_type, s32 ped_id)
 MATCH_FUNC(0x484e20)
 bool CrimeReportQueue::TryPopOldestReport(s32* pCrimeType, Fix16* pXPos, Fix16* pYPos, Fix16* pZPos)
 {
-    // Get it
     field_4_reports[field_2_read_idx].GetReport(pCrimeType, pXPos, pYPos, pZPos);
 
-    // But then also clear it?
     field_4_reports[field_2_read_idx].SetReport(crime_stats_type::none_0, 0);
 
-    // Tick the count
     if (field_2_read_idx != field_0_write_idx)
     {
         field_2_read_idx++;
@@ -112,14 +109,12 @@ bool CrimeReportQueue::TryPopOldestReport(s32* pCrimeType, Fix16* pXPos, Fix16* 
         }
     }
 
-    // Did we fill in the info?
     return *pCrimeType != crime_stats_type::none_0 ? true : false;
 }
 
 MATCH_FUNC(0x484e90)
-bool CrimeReportQueue::IsCrimeQueued(s32 crime_type)
+bool CrimeReportQueue::IsCrimeQueued(s32 crime_type) const
 {
-    // Circular loop around
     u16 idx = field_2_read_idx;
     while (idx != field_0_write_idx)
     {
@@ -157,22 +152,22 @@ void CrimeReportQueue::ReportCrimeForPed(u32 crime_type, Ped* pPed)
         case ped_ocupation_enum::fbi:
         case ped_ocupation_enum::army_army:
         case ped_ocupation_enum::walking_guard_29:
-        case ped_ocupation_enum::unknown_cop_occu_30:
-        case ped_ocupation_enum::unknown_cop_occu_31:
+        case ped_ocupation_enum::walking_swat_guard_30:
+        case ped_ocupation_enum::walking_army_guard_31:
         case ped_ocupation_enum::roadblock_cop_37:
             // Feds are allowed to do crime
             return;
 
         default:
         {
-            bool doit = false;
+            bool bQueueOnce = false;
             switch (crime_type)
             {
 
                 case crime_stats_type::none_0:
                 case crime_stats_type::car_damaged_1:
                 case crime_stats_type::weapon_fired_2:
-                    doit = true;
+                    bQueueOnce = true;
                     break;
 
                 default:
@@ -185,7 +180,7 @@ void CrimeReportQueue::ReportCrimeForPed(u32 crime_type, Ped* pPed)
                     break;
             }
 
-            if (doit)
+            if (bQueueOnce)
             {
                 if (!IsCrimeQueued(crime_type))
                 {
@@ -211,7 +206,7 @@ bool CrimeReportQueue::ShouldReportCarCrime_485090(Car* pCar, Player* pPlayer)
     bool bInRange = true;
     if (gCarManager_6C_677930->field_68_object_hit_active)
     {
-        if (gGame_0x40_67E008->IsSpriteInPlayerBounds_4B9950(pCar->field_50_car_sprite, pPlayer->GetIdx_4881E0(), 0) == 0)
+        if (!gGame_0x40_67E008->IsSpriteInPlayerBounds_4B9950(pCar->field_50_car_sprite, pPlayer->GetIdx_4881E0(), 0))
         {
             bInRange = false;
         }
@@ -229,15 +224,15 @@ bool CrimeReportQueue::ShouldReportCarCrime_485090(Car* pCar, Player* pPlayer)
 MATCH_FUNC(0x4850f0)
 bool CrimeReportQueue::ShouldReportCharCrime_4850F0(Char* pChar, Player* pPlayer)
 {
-    bool result = true;
+    bool bInRange = true;
     if (gCharB4_HitByMine_6FDB59)
     {
-        if (gGame_0x40_67E008->IsSpriteInPlayerBounds_4B9950(pChar->field_80_sprite_ptr, pPlayer->GetIdx_4881E0(), 0) == 0)
+        if (!gGame_0x40_67E008->IsSpriteInPlayerBounds_4B9950(pChar->field_80_sprite_ptr, pPlayer->GetIdx_4881E0(), 0))
         {
-            result = false;
+            bInRange = false;
         }
     }
-    return result;
+    return bInRange;
 }
 
 MATCH_FUNC(0x485140)
