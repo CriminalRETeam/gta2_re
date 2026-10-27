@@ -71,6 +71,12 @@ class Action : public BotObject
     virtual void Start(BotContext& ctx) = 0;
     virtual Status Step(BotContext& ctx) = 0;
 
+    // The action a goal is running at the moment (NULL for a plain action): lets the overlay show the whole chain
+    virtual Action* Active() const
+    {
+        return 0;
+    }
+
     // Valid when Step returned Failed
     char fail_condition[24]; // no_plan, no_progress, action_failed
     char fail_detail[240];

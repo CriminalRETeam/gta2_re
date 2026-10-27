@@ -300,6 +300,7 @@ set(gta2_bot_src
   Source/Bot/BotCompat.hpp
   Source/Bot/Bot.hpp
   Source/Bot/Bot.cpp
+  Source/Bot/BotUi.cpp
   Source/Bot/BotHeap.hpp
   Source/Bot/BotHeap.cpp
   Source/Bot/BotLog.hpp

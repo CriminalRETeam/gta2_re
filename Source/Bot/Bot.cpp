@@ -103,6 +103,11 @@ Bot::Bot(const BotOptions& opts)
     , mLastHurtFrame(-1000)
     , mDefenseFrames(0)
     , mCrushLogFrame(-1000)
+    , mUiOn(false)
+    , mWtfRequested(false)
+    , mWtfCount(0)
+    , mRingTick(0)
+    , mRingNext(0)
     , mEvadeUntil(0)
     , mEvades(0)
     , mEvadeTx(0.0f)
@@ -457,6 +462,14 @@ void Bot::OnFrame()
     }
     if (mOpts.draw)
     {
+        if (!sInstance)
+        {
+            memset(mRing, 0, sizeof(mRing));
+            memset(mRingFrame, 0, sizeof(mRingFrame));
+            mWtfLast[0] = 0;
+            RegisterUi();
+        }
+        UiFrame();
         // Watching on the user's own screen: the game grabs the mouse exclusively and clips it to its
         // window. The bot plays by itself, so give the mouse back every frame.
         ClipCursor(NULL);

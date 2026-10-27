@@ -54,7 +54,9 @@ struct BotOptions
     s32 check_frames;
     s32 walk_frames;
     bool perturb;
-    s32 save_at_frame; // -1 = never
+    s32 save_at_frame;
+    char cmdline[1024]; // the command line as it was given (the game upper cases its own copy later)
+    s32 wtf_at_frame; // presses the overlay's WTF button at this frame (for testing) // -1 = never
     bool has_map_dump;
     float map_dump_x, map_dump_y;
     s32 only_frenzy_ids[4]; // collect: use only these kill frenzy icons (object ids), none = any

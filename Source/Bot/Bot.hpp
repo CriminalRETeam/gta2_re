@@ -100,6 +100,27 @@ class Bot : public BotObject
     bool SelfDefense();
     bool Evade();
     bool CopCrush();
+
+    // The overlay (BotUi.cpp): the goal chain, the state and the last decisions drawn with ImGui into the game window, and
+    // a WTF button that saves the state from several seconds ago with everything needed to run that part again
+    static Bot* sInstance;
+    static void __stdcall UiCallback();
+    void RegisterUi();
+    void DrawUi();
+    void UiFrame();   // per logic frame: the rolling snapshots and a pending WTF
+    void SaveWtf();
+    enum
+    {
+        kRing = 5
+    };
+    bool mUiOn;
+    bool mWtfRequested;
+    s32 mWtfCount;
+    char mWtfLast[260];
+    Snapshot* mRing[kRing];
+    s32 mRingFrame[kRing];
+    u32 mRingTick;
+    s32 mRingNext;
     s32 mCrushLogFrame;
     s32 mEvadeUntil;
     s32 mEvades;

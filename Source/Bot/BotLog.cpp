@@ -61,7 +61,7 @@ void BotLog(const char* fmt, ...)
 
 namespace
 {
-const u32 kDecisionRing = 50;
+const u32 kDecisionRing = 200;
 const u32 kDecisionLen = 520;
 char gDecisions[kDecisionRing][kDecisionLen]; // static: never restored, the exe .data is the game's
 u32 gDecisionCount = 0;

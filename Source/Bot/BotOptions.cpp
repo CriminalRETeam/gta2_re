@@ -28,6 +28,7 @@ static void SetDefaults(BotOptions* o)
     o->check_frames = 300;
     o->walk_frames = 100;
     o->save_at_frame = -1;
+    o->wtf_at_frame = -1;
     o->want_tokens = 3;
     o->want_frenzies = 2;
     o->want_missions = 0;
@@ -43,6 +44,7 @@ bool BotOptions_Parse(const char* cmd_line, BotOptions* o)
         return false;
     }
 
+    CopyStr(o->cmdline, sizeof(o->cmdline), cmd_line, static_cast<u32>(strlen(cmd_line)));
     const char* p = cmd_line;
     while (*p)
     {
@@ -226,6 +228,10 @@ bool BotOptions_Parse(const char* cmd_line, BotOptions* o)
         else if (_strnicmp(key, "_goto", key_len) == 0 && key_len == 5)
         {
             o->has_goto = sscanf(value, "%f,%f", &o->goto_x, &o->goto_y) == 2;
+        }
+        else if (_strnicmp(key, "_wtf_at", key_len) == 0 && key_len == 7)
+        {
+            o->wtf_at_frame = atoi(value);
         }
         else if (_strnicmp(key, "_save_at", key_len) == 0 && key_len == 8)
         {

@@ -57,6 +57,10 @@ class SelectWeaponAction : public Action
 class SequenceGoal : public Action
 {
   public:
+    virtual Action* Active() const
+    {
+        return (mIdx >= 0 && mIdx < mCount) ? mChild[mIdx] : 0;
+    }
     explicit SequenceGoal(const char* name);
     ~SequenceGoal();
 
@@ -94,6 +98,10 @@ class SequenceGoal : public Action
 class TravelGoal : public Action
 {
   public:
+    virtual Action* Active() const
+    {
+        return mChild;
+    }
     // keep_car: after a drive stay in the car instead of getting out at the end
     TravelGoal(float x, float y, float arrive_dist, bool keep_car = false);
     ~TravelGoal();
@@ -158,6 +166,10 @@ s32 Goals_FirstGang(const WorldModel& w, const char* text);
 class KillGangGoal : public Action
 {
   public:
+    virtual Action* Active() const
+    {
+        return mChild;
+    }
     // owner_gang / target_respect: also done as soon as that gang's respect for the player reaches the target
     KillGangGoal(s32 gang_idx, s32 kills, s32 max_frames, s32 owner_gang = -1, s32 target_respect = 0);
     ~KillGangGoal();
@@ -214,6 +226,10 @@ class KillGangGoal : public Action
 class PrepareGoal : public Action
 {
   public:
+    virtual Action* Active() const
+    {
+        return mSelect ? static_cast<Action*>(mSelect) : mChild;
+    }
     PrepareGoal(s32 purpose, float max_range, s32 max_frames);
     ~PrepareGoal();
 
@@ -251,6 +267,10 @@ class PrepareGoal : public Action
 class DestroyCarGoal : public Action
 {
   public:
+    virtual Action* Active() const
+    {
+        return mChild;
+    }
     explicit DestroyCarGoal(s32 car_id);
     ~DestroyCarGoal();
 
@@ -299,6 +319,10 @@ class DestroyCarGoal : public Action
 class MissionGoal : public Action
 {
   public:
+    virtual Action* Active() const
+    {
+        return mChild;
+    }
     MissionGoal(const WorldModel::ObjInfo& phone);
     ~MissionGoal();
 
@@ -354,6 +378,10 @@ class MissionGoal : public Action
 class MissionsGoal : public Action
 {
   public:
+    virtual Action* Active() const
+    {
+        return mRaise ? mRaise : static_cast<Action*>(mChild);
+    }
     explicit MissionsGoal(s32 want_missions);
     ~MissionsGoal();
 

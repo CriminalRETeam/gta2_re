@@ -11,6 +11,11 @@ class MissionAction : public Action
     MissionAction();
     ~MissionAction();
 
+    virtual Action* Active() const
+    {
+        return mRemedy ? mRemedy : mChild;
+    }
+
     virtual const char* Name() const
     {
         return "mission";
