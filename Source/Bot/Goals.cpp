@@ -1214,6 +1214,9 @@ DestroyCarGoal::DestroyCarGoal(s32 car_id)
     , mReclaims(0)
     , mStageStart(0)
     , mApproaches(0)
+    , mFlees(0)
+    , mFleeX(0.0f)
+    , mFleeY(0.0f)
 {
 }
 
@@ -1270,6 +1273,9 @@ void DestroyCarGoal::BeginStage(BotContext& ctx, Stage st)
         case Finish:
             mTriedShoot = true;
             mChild = new DestroyCarAction(mCarId);
+            break;
+        case Flee:
+            mChild = new WalkAction(mFleeX, mFleeY, false, 4.0f);
             break;
         case Approach:
         {
@@ -1390,6 +1396,9 @@ void DestroyCarGoal::Next(BotContext& ctx, bool ok)
 {
     switch (mStage)
     {
+        case Flee:
+            BeginStage(ctx, Finish); // away from the police: the next shot
+            break;
         case Prep:
         case Approach:
             Decide(ctx);
@@ -1467,6 +1476,16 @@ Action::Status DestroyCarGoal::Step(BotContext& ctx)
     if (!mChild)
     {
         return Fail("no_plan", "destroy_car: no way left to destroy car #%d (shoot tried %d, ram tries %d)", mCarId, mTriedShoot, mRamTries);
+    }
+    // On foot with the police beside the player after a shot (the rocket draws them): get away from them first. Every
+    // death so far was cops punching the player to death while the action went on with the next shot
+    if ((mStage == Shoot || mStage == Finish) && !ctx.world->player.in_car && ctx.world->player.wanted_stars > 0 && ctx.world->CopsNear(5.0f) && mFlees < 4 &&
+        Goals_AwayPoint(*ctx.world, 22.0f, &mFleeX, &mFleeY))
+    {
+        mFlees++;
+        BotDecision("f=%d destroy_car: wanted %d with police beside us: moving away to (%.0f,%.0f) before the next shot (%d)", ctx.frame, ctx.world->player.wanted_stars, mFleeX, mFleeY, mFlees);
+        BeginStage(ctx, Flee);
+        return Running;
     }
     if ((mStage == Shoot || mStage == Finish) && ctx.frame - mStageStart > 900)
     {
