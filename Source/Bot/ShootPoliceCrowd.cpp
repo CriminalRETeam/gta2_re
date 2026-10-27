@@ -1,14 +1,14 @@
-#include "KiteCops.hpp"
+#include "ShootPoliceCrowd.hpp"
 #include <math.h>
 
-KiteOut Kite_Decide(const KiteWorld& w)
+CrowdOut ShootPoliceCrowd_Decide(const CrowdWorld& w)
 {
-    KiteOut out;
+    CrowdOut out;
     out.active = false;
     out.target_x = w.x;
     out.target_y = w.y;
     out.move = 0;
-    if (w.cop_count < kKiteCrowd)
+    if (w.cop_count < kCrowdSize)
     {
         return out;
     }

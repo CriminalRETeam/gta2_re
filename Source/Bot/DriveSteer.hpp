@@ -33,3 +33,8 @@ SteerChoice DriveSteer_Choose(const SteerWorld& w, float x, float y, float headi
 
 // The speed (tiles per frame) that still stops the car before a wall that far ahead
 float DriveSteer_SpeedFor(float wall_d);
+
+// A slower car in the way along the line to the aim point (a queue, a car pottering along the lane): an aim point
+// beside it and a little past it, on the pavement or in the next lane, whichever has room, so that the car goes round
+// instead of following. false when nothing blocks the way or no side has room
+bool DriveSteer_Overtake(const SteerWorld& w, float x, float y, float speed, float aim_x, float aim_y, float* out_x, float* out_y);

@@ -181,3 +181,95 @@ float DriveSteer_SpeedFor(float wall_d)
     // there. A creep costs next to no damage and lets it turn away
     return allowed < 0.04f ? 0.04f : allowed;
 }
+
+namespace
+{
+// Is the strip (half width 0.7) from (x0,y0) to (x1,y1) free of buildings and of cars (where they will be about when we pass)?
+bool StripFree(const SteerWorld& w, float x0, float y0, float x1, float y1, float speed, const SteerCar* skip)
+{
+    const float dx = x1 - x0;
+    const float dy = y1 - y0;
+    const float len = sqrtf(dx * dx + dy * dy);
+    if (len < 0.1f)
+    {
+        return true;
+    }
+    const float ux = dx / len;
+    const float uy = dy / len;
+    const float v = speed < 0.10f ? 0.10f : speed;
+    for (float d = 0.6f; d <= len; d += 0.5f)
+    {
+        const float px = x0 + ux * d;
+        const float py = y0 + uy * d;
+        if (w.solid(w.user, px - uy * 0.7f, py + ux * 0.7f) || w.solid(w.user, px + uy * 0.7f, py - ux * 0.7f) || w.solid(w.user, px, py))
+        {
+            return false;
+        }
+        const float t = d / v;
+        for (int k = 0; k < w.car_count; k++)
+        {
+            if (&w.cars[k] == skip)
+            {
+                continue;
+            }
+            const float cx = w.cars[k].x + w.cars[k].vx * t;
+            const float cy = w.cars[k].y + w.cars[k].vy * t;
+            if ((cx - px) * (cx - px) + (cy - py) * (cy - py) < 1.5f * 1.5f)
+            {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+} // namespace
+
+bool DriveSteer_Overtake(const SteerWorld& w, float x, float y, float speed, float aim_x, float aim_y, float* out_x, float* out_y)
+{
+    const float ax = aim_x - x;
+    const float ay = aim_y - y;
+    const float al = sqrtf(ax * ax + ay * ay);
+    if (al < 6.0f)
+    {
+        return false;
+    }
+    const float ux = ax / al;
+    const float uy = ay / al;
+    const SteerCar* blocker = 0;
+    float blocker_along = 1e9f;
+    for (int k = 0; k < w.car_count; k++)
+    {
+        const SteerCar& oc = w.cars[k];
+        const float along = (oc.x - x) * ux + (oc.y - y) * uy;
+        const float side = (oc.x - x) * -uy + (oc.y - y) * ux;
+        const float along_speed = oc.vx * ux + oc.vy * uy;
+        // slower than we are going (or standing), not coming at us, and in our way
+        if (along > 1.5f && along < 9.0f && fabsf(side) < 1.5f && along_speed < (speed < 0.10f ? 0.10f : speed) * 0.8f && along_speed > -0.04f && along < blocker_along)
+        {
+            blocker = &oc;
+            blocker_along = along;
+        }
+    }
+    if (!blocker)
+    {
+        return false;
+    }
+    // a point beside it and past it: try the near side first, then the far, from close in to wide
+    static const float offsets[6] = {2.6f, -2.6f, 3.6f, -3.6f, 4.6f, -4.6f};
+    for (int i = 0; i < 6; i++)
+    {
+        const float cx = blocker->x + ux * 4.5f + -uy * offsets[i];
+        const float cy = blocker->y + uy * 4.5f + ux * offsets[i];
+        if (w.solid(w.user, cx, cy))
+        {
+            continue;
+        }
+        if (StripFree(w, x, y, cx, cy, speed, blocker))
+        {
+            *out_x = cx;
+            *out_y = cy;
+            return true;
+        }
+    }
+    return false;
+}

@@ -736,18 +736,31 @@ Action::Status TravelGoal::Step(BotContext& ctx)
     // On foot and a long way to go: a car that stops next to us (traffic at a crossing) or sits
     // parked close by is worth more than the rest of the walk
     // A car standing in the walker's way (traffic stops for a pedestrian in front of it) is the car to take, not to jump over
+    // The same while walking to a car that is still far off (GetCar): traffic passes and stops on the way, and a car
+    // close by is better than the far one. It has to be clearly nearer, or the choice flips between two cars
+    bool far_target = false;
+    float target_dist = 0.0f;
+    if (mStage == GetCar && !pl.in_car)
+    {
+        WorldModel::CarInfo cur;
+        if (ctx.world->FindCar(mCarId, &cur) && cur.dist > 14.0f)
+        {
+            far_target = true;
+            target_dist = cur.dist;
+        }
+    }
     bool stopped_near = false;
-    for (int k = 0; k < ctx.world->car_count && mStage == Walk; k++)
+    for (int k = 0; k < ctx.world->car_count && (mStage == Walk || far_target); k++)
     {
         const WorldModel::CarInfo& sc = ctx.world->cars[k];
         stopped_near = stopped_near || (sc.speed < 0.03f && sc.dist < 3.5f && sc.dist > 0.5f && !sc.police);
     }
-    if (mStage == Walk && !mWalkOnly && (ctx.frame % 20 == 0 || (stopped_near && ctx.frame % 5 == 0)) && !pl.in_car && Remaining(*ctx.world) > 25.0f)
+    if ((mStage == Walk || far_target) && !mWalkOnly && (ctx.frame % 20 == 0 || (stopped_near && ctx.frame % 5 == 0)) && !pl.in_car && Remaining(*ctx.world) > 25.0f)
     {
         s32 car = 0;
         bool hijack = false;
         float to_car = 0.0f;
-        if (ChooseCar(ctx, &car, &hijack, &to_car, 20.0f))
+        if (ChooseCar(ctx, &car, &hijack, &to_car, 20.0f) && (!far_target || (car != mCarId && to_car < target_dist - 8.0f)))
         {
             mCarId = car;
             BotDecision("f=%d travel: %.0f tiles to go; car #%d%s is %.0f tiles away: taking it", ctx.frame, Remaining(*ctx.world), car, hijack ? " (hijack)" : "", to_car);

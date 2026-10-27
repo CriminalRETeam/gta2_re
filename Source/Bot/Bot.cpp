@@ -1,5 +1,5 @@
 #include "Bot.hpp"
-#include "KiteCops.hpp"
+#include "ShootPoliceCrowd.hpp"
 #include "Hooks.hpp"
 #include "HeapTracker.hpp"
 #include "Snapshot.hpp"
@@ -103,7 +103,7 @@ Bot::Bot(const BotOptions& opts)
     , mStartCash(0)
     , mLastHurtFrame(-1000)
     , mDefenseFrames(0)
-    , mKiteFrames(0)
+    , mShootCrowdFrames(0)
     , mCrushLogFrame(-1000)
     , mUiOn(false)
     , mPaused(false)
@@ -1143,17 +1143,17 @@ void Bot::StepActions()
     const Action::Status status = pAction->Step(mCtx);
     mInputBits = mCtx.input & input_bit::ControlBits;
     const bool frenzy = strcmp(pAction->Name(), "kill_frenzy") == 0;
-    bool kiting = false;
+    bool shooting_crowd = false;
     if (!frenzy)
     {
-        kiting = KiteCops();
-        if (!kiting)
+        shooting_crowd = ShootPoliceCrowd();
+        if (!shooting_crowd)
         {
             SelfDefense(); // may replace the action's input, or add a weapon change to it
         }
         mInputBits = mCtx.input & input_bit::ControlBits;
     }
-    if (!frenzy && !kiting && (CopCrush() || Evade()))
+    if (!frenzy && !shooting_crowd && (CopCrush() || Evade()))
     {
         mInputBits = mCtx.input & input_bit::ControlBits;
     }
@@ -1353,12 +1353,12 @@ void Bot::CollectNext()
 // A reflex under every action: when something is hurting the player, turn on the nearest
 // pedestrian that is close and fight until it stops. Not for kill frenzies (they fight by
 // themselves) and not with explosive weapons (they would hurt the player more).
-static bool Kite_Solid(void* /*user*/, float x, float y)
+static bool Crowd_Solid(void* /*user*/, float x, float y)
 {
     return WorldModel::BuildingAt(x, y);
 }
 
-bool Bot::KiteCops()
+bool Bot::ShootPoliceCrowd()
 {
     const WorldModel::PlayerInfo& pl = mWorld->player;
     const bool explosive_held = pl.weapon == 2 || pl.weapon == 4 || pl.weapon == 5 || pl.weapon == 8;
@@ -1366,7 +1366,7 @@ bool Bot::KiteCops()
     {
         return false;
     }
-    KiteCop cops[WorldModel::kMaxPeds];
+    CrowdCop cops[WorldModel::kMaxPeds];
     int count = 0;
     for (int i = 0; i < mWorld->ped_count; i++)
     {
@@ -1379,18 +1379,18 @@ bool Bot::KiteCops()
         }
     }
     const float heading = (mCtx.foot.sign * pl.rot_deg + mCtx.foot.offset) * 3.14159265f / 180.0f;
-    KiteWorld world = {pl.x, pl.y, sinf(heading), -cosf(heading), cops, count, Kite_Solid, NULL};
-    const KiteOut out = Kite_Decide(world);
+    CrowdWorld world = {pl.x, pl.y, sinf(heading), -cosf(heading), cops, count, Crowd_Solid, NULL};
+    const CrowdOut out = ShootPoliceCrowd_Decide(world);
     if (!out.active)
     {
-        mKiteFrames = 0;
+        mShootCrowdFrames = 0;
         return false;
     }
-    if (mKiteFrames == 0)
+    if (mShootCrowdFrames == 0)
     {
-        BotDecision("f=%d kite: %d police on foot close by: facing them, shooting and walking %s", mFrame, count, out.move < 0 ? "backwards" : (out.move > 0 ? "away" : "nowhere (no room)"));
+        BotDecision("f=%d police crowd: %d police on foot close by: facing them, shooting and walking %s", mFrame, count, out.move < 0 ? "backwards" : (out.move > 0 ? "away" : "nowhere (no room)"));
     }
-    mKiteFrames++;
+    mShootCrowdFrames++;
     mCtx.input = 0;
     const float err = mCtx.Steer(mCtx.foot, pl.rot_deg, pl.x, pl.y, out.target_x, out.target_y, true);
     if (fabsf(err) < 35.0f && (mFrame % 8) < 6)

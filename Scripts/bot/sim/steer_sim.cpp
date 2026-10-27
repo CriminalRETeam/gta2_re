@@ -11,6 +11,9 @@
 #include <string>
 #include <vector>
 
+static bool g_overtake = true;
+static float kTraffic = 0.15f;
+
 struct Grid
 {
     int x0, y0, w, h;
@@ -73,18 +76,27 @@ struct Pt
     float x, y;
 };
 
+struct SimCar
+{
+    float x, y, vx, vy;
+};
+
 struct Result
 {
     bool arrived;
     int frames;
     int scrape_frames;
     float end_x, end_y;
+    float min_car_dist;
+    int car_bumps;
 };
 
 // hdir -1: a right key press lowers the heading, like the game's cars' calibration says "Right turns -1" for rot
-static Result Run(const Grid& g, float sx, float sy, float heading, const std::vector<Pt>& wps, int max_frames, bool trace)
+static Result Run(const Grid& g, float sx, float sy, float heading, const std::vector<Pt>& wps, int max_frames, bool trace, std::vector<SimCar> cars = std::vector<SimCar>())
 {
-    Result r = {false, 0, 0, sx, sy};
+    Result r = {false, 0, 0, sx, sy, 1e9f, 0};
+    float ot_x = 0, ot_y = 0;
+    int ot_until = -1;
     float x = sx, y = sy, h = heading, v = 0.0f;
     const float hdir = 1.0f;
     size_t wi = 0;
@@ -125,7 +137,31 @@ static Result Run(const Grid& g, float sx, float sy, float heading, const std::v
                 aim = wps[k];
             }
         }
-        SteerWorld w = {SolidCb, const_cast<Grid*>(&g), NULL, 0};
+        std::vector<SteerCar> sc;
+        for (size_t i = 0; i < cars.size(); i++)
+        {
+            SteerCar s2 = {cars[i].x, cars[i].y, cars[i].vx, cars[i].vy, sqrtf(cars[i].vx * cars[i].vx + cars[i].vy * cars[i].vy), false};
+            sc.push_back(s2);
+        }
+        SteerWorld w = {SolidCb, const_cast<Grid*>(&g), sc.empty() ? NULL : &sc[0], static_cast<int>(sc.size())};
+        // overtake: go round a slower car; the aim point is kept for a while so that the choice does not flip
+        if (f < ot_until)
+        {
+            aim.x = ot_x;
+            aim.y = ot_y;
+        }
+        else
+        {
+            float ox, oy;
+            if (g_overtake && DriveSteer_Overtake(w, x, y, v, aim.x, aim.y, &ox, &oy))
+            {
+                ot_x = ox;
+                ot_y = oy;
+                ot_until = f + 45;
+                aim.x = ox;
+                aim.y = oy;
+            }
+        }
         const SteerChoice c = DriveSteer_Choose(w, x, y, h, hdir, v, aim.x, aim.y);
         float cap = cap0;
         const float wall_cap = DriveSteer_SpeedFor(c.wall_d);
@@ -172,6 +208,20 @@ static Result Run(const Grid& g, float sx, float sy, float heading, const std::v
             x = nx;
             y = ny;
         }
+        for (size_t i = 0; i < cars.size(); i++)
+        {
+            cars[i].x += cars[i].vx;
+            cars[i].y += cars[i].vy;
+            const float cd = sqrtf((cars[i].x - x) * (cars[i].x - x) + (cars[i].y - y) * (cars[i].y - y));
+            if (cd < r.min_car_dist)
+            {
+                r.min_car_dist = cd;
+            }
+            if (cd < 1.2f)
+            {
+                r.car_bumps++;
+            }
+        }
         if (trace && f % 10 == 0)
         {
             printf("f=%d at (%.1f,%.1f) h %.0f v %.3f wp %zu aim (%.1f,%.1f) key %+.1f wall %.1f cap %.2f%s\n", f, x, y, h, v, wi, aim.x, aim.y, c.s, c.wall_d, cap, hit ? " HIT" : "");
@@ -186,13 +236,15 @@ static Result Run(const Grid& g, float sx, float sy, float heading, const std::v
 static int Report(const char* name, const Result& r, int max_scrape)
 {
     const bool ok = r.arrived && r.scrape_frames <= max_scrape;
-    printf("%-34s %s  frames %4d  scraping %3d frames  ends (%.1f,%.1f)\n", name, ok ? "PASS" : "FAIL", r.frames, r.scrape_frames, r.end_x, r.end_y);
+    printf("%-34s %s  frames %4d  scraping %3d frames  bumps %3d  ends (%.1f,%.1f)\n", name, ok ? "PASS" : "FAIL", r.frames, r.scrape_frames, r.car_bumps, r.end_x, r.end_y);
     return ok ? 0 : 1;
 }
 
 int main(int argc, char** argv)
 {
     const bool trace = argc > 1 && strcmp(argv[1], "-v") == 0;
+    for (int i = 1; i < argc; i++) if (strncmp(argv[i], "-traffic=", 9) == 0) kTraffic = static_cast<float>(atof(argv[i] + 9));
+    g_overtake = !(argc > 1 && strcmp(argv[argc - 1], "-noovertake") == 0); // to prove the tests can fail
     int fails = 0;
 
     // 1. an open field: straight to the goal
@@ -235,6 +287,87 @@ int main(int argc, char** argv)
         else
         {
             printf("junction map missing\n");
+            fails++;
+        }
+    }
+    // 4. a slow car pottering along the lane in front: a road 4 wide with a pavement 3 wide on each side and buildings
+    //    beyond. Following it for the whole road is the failure; the car should go round by the pavement
+    {
+        Grid g;
+        g.x0 = 0; g.y0 = 0; g.w = 120; g.h = 40;
+        g.cell.assign(g.w * g.h, 'B');
+        for (int y = 14; y < 26; y++) for (int x = 2; x < 118; x++) g.cell[y * g.w + x] = (y < 17 || y >= 23) ? 'P' : '>';
+        std::vector<Pt> wps;
+        Pt a = {110.0f, 20.5f};
+        wps.push_back(a);
+        std::vector<SimCar> cars;
+        SimCar c = {22.0f, 20.5f, 0.04f, 0.0f};
+        cars.push_back(c);
+        const Result r = Run(g, 8.5f, 20.5f, 90.0f, wps, 2500, trace, cars);
+        const bool fast = r.frames < 800; // behind it at 0.04 the road takes 2500 frames
+        fails += Report("slow car ahead: round it by the pavement", r, 3);
+        if (r.car_bumps > 0 || !fast)
+        {
+            printf("   expected no bump and under 800 frames: bumps %d frames %d\n", r.car_bumps, r.frames);
+            fails++;
+        }
+    }
+    // 5. the same with the pavement blocked on one side by a wall: it must use the other
+    {
+        Grid g;
+        g.x0 = 0; g.y0 = 0; g.w = 120; g.h = 40;
+        g.cell.assign(g.w * g.h, 'B');
+        for (int y = 17; y < 26; y++) for (int x = 2; x < 118; x++) g.cell[y * g.w + x] = (y >= 23) ? 'P' : '>';
+        std::vector<Pt> wps;
+        Pt a = {110.0f, 20.5f};
+        wps.push_back(a);
+        std::vector<SimCar> cars;
+        SimCar c = {22.0f, 19.5f, 0.04f, 0.0f};
+        cars.push_back(c);
+        const Result r = Run(g, 8.5f, 19.5f, 90.0f, wps, 2500, trace, cars);
+        fails += Report("slow car ahead, pavement on one side only", r, 3);
+        if (r.car_bumps > 0 || r.frames >= 800)
+        {
+            printf("   expected no bump and under 800 frames: bumps %d frames %d\n", r.car_bumps, r.frames);
+            fails++;
+        }
+    }
+    // 6. no room to pass (a one lane alley): it follows, and does not scrape the walls trying
+    {
+        Grid g;
+        g.x0 = 0; g.y0 = 0; g.w = 120; g.h = 40;
+        g.cell.assign(g.w * g.h, 'B');
+        for (int y = 19; y < 22; y++) for (int x = 2; x < 118; x++) g.cell[y * g.w + x] = '>';
+        std::vector<Pt> wps;
+        Pt a = {60.0f, 20.5f};
+        wps.push_back(a);
+        std::vector<SimCar> cars;
+        SimCar c = {22.0f, 20.5f, 0.04f, 0.0f};
+        cars.push_back(c);
+        const Result r = Run(g, 8.5f, 20.5f, 90.0f, wps, 2500, trace, cars);
+        fails += Report("alley too narrow to pass: follows", r, 3);
+    }
+    // 7. traffic at nearly our speed (the real case: NPC cars drive at 0.13 to 0.20 and the driver's cap is 0.20): going
+    //    round at once saves the 20 percent we would lose following it, and must not clip it
+    {
+        Grid g;
+        g.x0 = 0; g.y0 = 0; g.w = 160; g.h = 40;
+        g.cell.assign(g.w * g.h, 'B');
+        for (int y = 14; y < 26; y++) for (int x = 2; x < 158; x++) g.cell[y * g.w + x] = (y < 17 || y >= 23) ? 'P' : '>';
+        std::vector<Pt> wps;
+        Pt a = {150.0f, 20.5f};
+        wps.push_back(a);
+        std::vector<SimCar> cars;
+        SimCar c = {20.0f, 20.5f, kTraffic, 0.0f};
+        cars.push_back(c);
+        SimCar c2 = {44.0f, 20.5f, kTraffic, 0.0f}; // and one more, further on
+        cars.push_back(c2);
+        const Result r = Run(g, 8.5f, 20.5f, 90.0f, wps, 3000, trace, cars);
+        fails += Report("traffic at 0.15, cap 0.20: overtakes", r, 3);
+        // behind a car that does 0.15 the 140 tiles take 930 frames; going round, 700 to 780
+        if (r.car_bumps > 0 || r.frames > 800)
+        {
+            printf("   expected no bump and under 800 frames: bumps %d frames %d\n", r.car_bumps, r.frames);
             fails++;
         }
     }

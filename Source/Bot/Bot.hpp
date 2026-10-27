@@ -105,7 +105,7 @@ class Bot : public BotObject
     void CollectNext();
     bool SelfDefense();
     bool Evade();
-    bool KiteCops(); // a crowd of police on foot: face them, shoot, walk backwards away from them
+    bool ShootPoliceCrowd(); // a crowd of police on foot: face them, shoot, walk backwards away from them
     bool CopCrush();
 
     // The overlay (BotUi.cpp): the goal chain, the state and the last decisions drawn with ImGui into the game window, and
@@ -185,7 +185,7 @@ class Bot : public BotObject
     s32 mStartCash;
     s32 mLastHurtFrame;
     s32 mDefenseFrames;
-    s32 mKiteFrames;
+    s32 mShootCrowdFrames;
     s32 mPrevHp;
     s32 mPrevWanted;
     // The last 128 frames of the player, for finding out how a death or an arrest came about

@@ -88,6 +88,8 @@ class DriveAction : public Action
     s32 mStillFrames;
     s32 mReverseUntil;
     float mReverseSteer;
+    s32 mOvertakeUntil;
+    float mOvertakeX, mOvertakeY;
     s32 mManoeuvres;
     Snapshot* mCk[2];  // rolling checkpoints: a retry rewinds to the older one, not to the start of a long drive
     s32 mCkFrame[2];

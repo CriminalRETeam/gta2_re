@@ -156,6 +156,9 @@ DriveAction::DriveAction(float x, float y, float stop_dist)
     , mStillFrames(0)
     , mReverseUntil(0)
     , mReverseSteer(0)
+    , mOvertakeUntil(0)
+    , mOvertakeX(0)
+    , mOvertakeY(0)
     , mManoeuvres(0)
     , mShoveUntil(0)
     , mShoves(0)
@@ -206,6 +209,7 @@ void DriveAction::Start(BotContext& ctx)
     mCkFrame[0] = mCkFrame[1] = -1;
     mCkNext = ctx.frame + 300;
     mStartY = ctx.world->player.y;
+    mOvertakeUntil = 0;
     mPlanned = false;
     mRetries = 0;
     mHavePrev = false;
@@ -757,6 +761,23 @@ Action::Status DriveAction::Step(BotContext& ctx)
             }
         }
         SteerWorld world = {Drive_Solid, NULL, others, other_count};
+        // A slower car in the way: go round it by the pavement or the next lane. The side is kept for a while so
+        // that the choice does not flip from frame to frame
+        if (ctx.frame < mOvertakeUntil)
+        {
+            aim_x = mOvertakeX;
+            aim_y = mOvertakeY;
+        }
+        else if (dist > 12.0f && DriveSteer_Overtake(world, pl.x, pl.y, mSpeed, aim_x, aim_y, &mOvertakeX, &mOvertakeY))
+        {
+            mOvertakeUntil = ctx.frame + 45;
+            aim_x = mOvertakeX;
+            aim_y = mOvertakeY;
+            if (ctx.frame % 20 == 0)
+            {
+                BotDecision("f=%d drive: slower car ahead: going round it towards (%.1f,%.1f)", ctx.frame, aim_x, aim_y);
+            }
+        }
         const float heading_deg = ctx.car.sign * pl.rot_deg + ctx.car.offset;
         const float hdir = ctx.car.sign * ctx.car.turn_sign;
         const SteerChoice choice = DriveSteer_Choose(world, pl.x, pl.y, heading_deg, hdir, mSpeed, aim_x, aim_y);
