@@ -745,6 +745,9 @@ void WorldModel::Observe()
         info.locked = c->field_98_door_lock == 1 || c->field_98_door_lock == 4;
         info.mission = c->IsMissionRelated_4421B0();
         info.police = c->field_A0_car_kind == 6;
+        info.bulletproof = (c->field_78_flags & 0x100) != 0;
+        info.rocketproof = (c->field_78_flags & 0x200) != 0;
+        info.flameproof = (c->field_78_flags & 0x400) != 0;
         info.speed = c->field_58_physics ? F(c->GetVelocity_43A4C0()) : 0.0f;
         info.top_speed = TopSpeed(c->field_84_car_info_idx);
         {
@@ -1011,6 +1014,9 @@ bool WorldModel::FindCar(s32 car_id, CarInfo* out) const
         out->locked = c->field_98_door_lock == 1 || c->field_98_door_lock == 4;
         out->mission = c->IsMissionRelated_4421B0();
         out->police = c->field_A0_car_kind == 6;
+        out->bulletproof = (c->field_78_flags & 0x100) != 0;
+        out->rocketproof = (c->field_78_flags & 0x200) != 0;
+        out->flameproof = (c->field_78_flags & 0x400) != 0;
         out->speed = c->field_58_physics ? F(c->GetVelocity_43A4C0()) : 0.0f;
         out->top_speed = TopSpeed(c->field_84_car_info_idx);
         const float dx = out->x - player.x;

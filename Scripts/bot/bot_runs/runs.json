@@ -147,9 +147,9 @@
         "-bot_phone_id=226"
       ],
       "budget": 60000,
-      "expect": "NONE",
-      "replay": false,
-      "note": "tracked challenge: seeds 2, 3 and 4 pass, seed 1 runs out of frames (arrested twice, then wasted, each restart repeats the 100 tile trip)"
+      "expect": "PASS",
+      "replay": true,
+      "note": "6 of 8 seeds pass (7 fails, 8 runs out of frames); the delivery truck is wrecked by ramming it, police and wanted levels are the main loss"
     },
     {
       "name": "train_ride",

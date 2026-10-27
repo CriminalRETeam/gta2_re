@@ -108,6 +108,7 @@ Bot::Bot(const BotOptions& opts)
     , mEvadeTx(0.0f)
     , mEvadeTy(0.0f)
     , mPrevHp(100)
+    , mPrevWanted(0)
     , mDamageLogs(0)
     , mMapDumped(false)
     , mObjectsDumped(false)
@@ -985,6 +986,28 @@ void Bot::StepActions()
             p += _snprintf(p, line + sizeof(line) - p, " car#%d model %d d=%.1f dmg=%d drv=%d", d.idx, d.model, d.dist, d.damage, d.has_driver);
         }
         BotDecision("%s", line);
+    }
+    if (mWorld->player.wanted_stars != mPrevWanted)
+    {
+        // what the player was doing when the police took notice (or lost interest)
+        const WorldModel::PlayerInfo& wp = mWorld->player;
+        char line[400];
+        char* p = line;
+        p += _snprintf(p, sizeof(line), "f=%d wanted %d -> %d at (%.1f,%.1f) %s weapon %d ammo %d (fired %d) car damage %d, action %s; near:", mFrame, mPrevWanted, wp.wanted_stars, wp.x, wp.y, wp.in_car ? "in a car" : "on foot",
+                       wp.weapon, wp.ammo, wp.shot_fired, wp.car_damage, mActions[mActionIdx] ? mActions[mActionIdx]->Name() : "-");
+        int k;
+        for (k = 0; k < mWorld->ped_count && k < 4; k++)
+        {
+            const WorldModel::PedInfo& d = mWorld->peds[k];
+            p += _snprintf(p, line + sizeof(line) - p, " ped#%d %s%s d=%.1f", d.id, WorldModel_OccupationName(d.occupation), d.dead ? "(dead)" : "", d.dist);
+        }
+        for (k = 0; k < mWorld->car_count && k < 3; k++)
+        {
+            const WorldModel::CarInfo& d = mWorld->cars[k];
+            p += _snprintf(p, line + sizeof(line) - p, " car#%d%s d=%.1f dmg=%d", d.idx, d.police ? "(police)" : "", d.dist, d.damage);
+        }
+        BotDecision("%s", line);
+        mPrevWanted = wp.wanted_stars;
     }
     if (mWorld->player.hp < mPrevHp)
     {

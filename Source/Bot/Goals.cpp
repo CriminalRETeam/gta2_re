@@ -683,7 +683,9 @@ Action::Status TravelGoal::Step(BotContext& ctx)
         }
     }
     // On foot with the police closing in (a wanted level and a cop within a few tiles): get away from them
-    if ((mStage == Walk || mStage == GetCar) && !pl.in_car && ctx.frame % 10 == 0 && pl.wanted_stars > 0 && mAways < 3 && ctx.world->CopsNear(8.0f) && !ctx.world->TimeLimited() &&
+    // (and before taking a car, police that turn up while we walk to it make the grab a theft in front of them)
+    if ((mStage == Walk || mStage == GetCar) && !pl.in_car && ctx.frame % 10 == 0 && mAways < 3 && !ctx.world->TimeLimited() &&
+        (pl.wanted_stars > 0 && ctx.world->CopsNear(8.0f)) &&
         Goals_AwayPoint(*ctx.world, 25.0f, &mAwayX, &mAwayY))
     {
         mAways++;
@@ -1291,7 +1293,10 @@ void DestroyCarGoal::Decide(BotContext& ctx)
     s32 score = 0;
     Weapons::BestHeld(w, Weapons::VsCar, &score);
     float shoot_cost = 1e9f;
-    if (!mTriedShoot)
+    // A car that is proof against bullets and rockets (the mission truck is) takes nothing from a gun: shooting only
+    // draws the police
+    const bool shootable = !(t.bulletproof && t.rocketproof);
+    if (!mTriedShoot && shootable)
     {
         shoot_cost = t.dist * 22.0f + 200.0f;
         if (t.speed > 0.08f)
@@ -1336,7 +1341,7 @@ void DestroyCarGoal::Decide(BotContext& ctx)
             ram_cost *= 0.7f; // already hurt: a few more knocks
         }
     }
-    BotDecision("f=%d destroy_car: car #%d model %d %.0f tiles away (speed %.2f, damage %d); shoot %.0f (weapon score %d) against ram %.0f%s", ctx.frame, mCarId, t.model, t.dist, t.speed, t.damage, shoot_cost, score, ram_cost,
+    BotDecision("f=%d destroy_car: car #%d model %d %.0f tiles away (speed %.2f, damage %d, proof: bullets %d rockets %d flames %d); shoot %.0f (weapon score %d) against ram %.0f%s", ctx.frame, mCarId, t.model, t.dist, t.speed, t.damage, t.bulletproof, t.rocketproof, t.flameproof, shoot_cost, score, ram_cost,
                 pl.in_car ? " (already in a car)" : "");
     if (shoot_cost >= 1e9f && ram_cost >= 1e9f)
     {

@@ -152,6 +152,7 @@ class Bot : public BotObject
     s32 mLastHurtFrame;
     s32 mDefenseFrames;
     s32 mPrevHp;
+    s32 mPrevWanted;
     s32 mDamageLogs;
     bool mMapDumped;
     bool mObjectsDumped;

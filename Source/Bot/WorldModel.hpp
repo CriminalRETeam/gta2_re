@@ -102,6 +102,9 @@ class WorldModel : public BotObject
         bool locked;
         bool mission;
         bool police;
+        bool bulletproof; // car_flag::Bulletproof: guns do nothing to it
+        bool rocketproof;
+        bool flameproof;
     };
 
     struct ObjInfo
