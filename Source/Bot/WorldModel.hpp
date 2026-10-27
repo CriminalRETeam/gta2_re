@@ -143,7 +143,9 @@ class WorldModel : public BotObject
     static void GiveWeapon(s32 weapon, s32 ammo);
 
     // True when the tile at (x, y) is a building / high ground
-    static bool BuildingAt(float x, float y);
+    static bool BuildingAt(float x, float y);   // a building, the edge of the map or water: nothing drives or walks there
+    static bool IsRoofBlock(const struct gmp_block_info* b, s32 z); // the highest block at height z is a rooftop, not a bridge
+    static bool IsWaterBlock(const struct gmp_block_info* b); // the lid is a water tile (the game's own test for drowning)
 
     // 0 air / none, 1 road, 2 pavement, 3 field; building tiles give 4
     static int TileType(int x, int y);

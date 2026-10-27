@@ -15,6 +15,8 @@
 #include "Gang.hpp"
 #include "CarInfoTable.hpp"
 #include "map_0x370.hpp"
+#include "gtx_0x106C.hpp"
+#include "block_face.hpp"
 #include "ScriptManager.hpp"
 #include "BotLog.hpp"
 #include "ScriptThread.hpp"
@@ -994,7 +996,20 @@ bool WorldModel::BuildingAt(float x, float y)
     }
     s32 z = 0;
     gmp_block_info* b = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(ix, iy, &z);
-    return b != NULL && z >= 3;
+    return b != NULL && (IsRoofBlock(b, z) || IsWaterBlock(b));
+}
+
+bool WorldModel::IsRoofBlock(const gmp_block_info* b, s32 z)
+{
+    // Up at height 3 and more a block is a rooftop, unless its lid is a road or a pavement: that is a bridge or
+    // an overpass, which cars and pedestrians use
+    const int ground = b->field_B_slope_type & 3;
+    return z >= 3 && !(z <= 4 && (ground == 1 || ground == 2));
+}
+
+bool WorldModel::IsWaterBlock(const gmp_block_info* b)
+{
+    return gGtx_0x106C_703DD4->IsWaterTile_462FB0(static_cast<u16>(b->field_8_lid & block_face::tile_idx_mask));
 }
 
 bool WorldModel::FindObject(s32 object_id, ObjInfo* out) const

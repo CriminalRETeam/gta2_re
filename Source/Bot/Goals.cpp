@@ -856,7 +856,13 @@ Action::Status TravelGoal::Step(BotContext& ctx)
             delete mChild;
             mChild = NULL;
             mStage = Decide;
-            mWalkOnly = true; // the rest is on foot
+            // The car got as near as the roads go (water, a wall of buildings): walk on, and take another car on the
+            // far side where one can drive the rest. This one is no use for it, so it is not taken again. A drive
+            // that failed has already set walk only
+            if (mCarId != 0 && mBanCount < kMaxBan)
+            {
+                mBan[mBanCount++] = mCarId;
+            }
             if (Remaining(*ctx.world) <= mArrive)
             {
                 return Done;

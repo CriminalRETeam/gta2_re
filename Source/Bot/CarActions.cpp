@@ -247,6 +247,89 @@ static bool Drive_CorridorClear(float x0, float y0, float x1, float y1, float ha
     return true;
 }
 
+// Where would the car end up if it held the wheel at s (-1 left, +1 right, 0.5 = every other frame) for the next few tiles?
+// The car's footprint is tested against buildings (a wall ends the arc), and against other cars at the place they will
+// have reached by then (a car coming the other way is hard to hit, one going our way or standing still is only a bump).
+// The cost is how far from the aim point the arc ends, plus a penalty for what it hits.
+struct DriveArc
+{
+    float cost;
+    float wall_d; // tiles driven before the first building (the whole reach if none)
+    bool car_hit;
+};
+
+static const float kTurnDegPerFrame = 1.8f; // measured from the trace: a car turns about this fast at any speed
+
+static DriveArc Drive_Arc(const BotContext& ctx, float heading_deg, float hdir, float s, float speed, float aim_x, float aim_y)
+{
+    const WorldModel::PlayerInfo& pl = ctx.world->player;
+    DriveArc arc;
+    arc.wall_d = 0.0f;
+    arc.car_hit = false;
+    float hard_car = 0.0f;
+    float x = pl.x;
+    float y = pl.y;
+    float h = heading_deg;
+    const float v = speed < 0.10f ? 0.10f : speed; // it will pick up speed
+    const float reach = 4.0f + speed * 45.0f;
+    const int step = 3;
+    float driven = 0.0f;
+    float t = 0.0f;
+    bool wall = false;
+    while (driven < reach)
+    {
+        h += hdir * s * kTurnDegPerFrame * step;
+        const float rad = h * 3.14159265f / 180.0f;
+        const float fx = sinf(rad);
+        const float fy = -cosf(rad);
+        x += fx * v * step;
+        y += fy * v * step;
+        driven += v * step;
+        t += step;
+        const float px = -fy * 0.6f;
+        const float py = fx * 0.6f;
+        if (WorldModel::BuildingAt(x + fx * 0.9f + px, y + fy * 0.9f + py) || WorldModel::BuildingAt(x + fx * 0.9f - px, y + fy * 0.9f - py) ||
+            WorldModel::BuildingAt(x + px, y + py) || WorldModel::BuildingAt(x - px, y - py))
+        {
+            wall = true;
+            break;
+        }
+        if (!arc.car_hit && driven > 2.5f)
+        {
+            for (int k = 0; k < ctx.world->car_count; k++)
+            {
+                const WorldModel::CarInfo& oc = ctx.world->cars[k];
+                if (oc.dist < 1.0f)
+                {
+                    continue; // our own
+                }
+                const float cx = oc.x + oc.vx * t;
+                const float cy = oc.y + oc.vy * t;
+                if ((cx - x) * (cx - x) + (cy - y) * (cy - y) < 1.4f * 1.4f)
+                {
+                    arc.car_hit = true;
+                    const bool oncoming = oc.speed > 0.12f && oc.vx * fx + oc.vy * fy < -0.10f;
+                    hard_car = (oncoming || oc.police) ? 25.0f : 8.0f;
+                    break;
+                }
+            }
+        }
+    }
+    arc.wall_d = driven;
+    // an arc that ends pointing away from the aim point is no better than one that ends a little short of it
+    const float bearing = Bot_HeadingDeg(aim_x - x, aim_y - y);
+    arc.cost = sqrtf((aim_x - x) * (aim_x - x) + (aim_y - y) * (aim_y - y)) + fabsf(Bot_WrapDeg(bearing - h)) * (6.0f / 57.3f) + hard_car;
+    if (wall)
+    {
+        arc.cost += 20.0f + (reach - driven) * 3.0f;
+    }
+    else
+    {
+        arc.wall_d = 1e3f; // nothing in the way: the speed is not limited by this arc
+    }
+    return arc;
+}
+
 bool DriveAction::Plan(BotContext& ctx, const char* why)
 {
     const WorldModel::PlayerInfo& pl = ctx.world->player;
@@ -261,6 +344,11 @@ bool DriveAction::Plan(BotContext& ctx, const char* why)
         if (oc.dist > 2.0f && oc.speed < 0.03f)
         {
             ctx.road->AddJam(oc.x, oc.y);
+        }
+        else if (oc.dist > 2.0f && oc.speed < 0.08f)
+        {
+            // a slow one is where it will be in a few seconds, not where it is: that tile is the one it clogs
+            ctx.road->AddJam(oc.x + oc.vx * 60.0f, oc.y + oc.vy * 60.0f);
         }
     }
     const bool direct = ddx * ddx + ddy * ddy < 40.0f * 40.0f && ctx.road->DirectLine(pl.x, pl.y, mTx, mTy);
@@ -678,6 +766,17 @@ Action::Status DriveAction::Step(BotContext& ctx)
             }
         }
     }
+    // Driving against the traffic of a lane: move over to the lane that goes our way
+    if (dist > 8.0f && ctx.frame >= mSwerveUntil)
+    {
+        float lx = 0.0f;
+        float ly = 0.0f;
+        if (ctx.road->LaneSwitch(pl.x, pl.y, aim_x - pl.x, aim_y - pl.y, &lx, &ly) && !WorldModel::BuildingAt(lx, ly) && Drive_CorridorClear(pl.x, pl.y, lx, ly, 0.75f))
+        {
+            aim_x = lx;
+            aim_y = ly;
+        }
+    }
     // A pedestrian in the way that is easy to avoid (room beside him) is steered round, whoever is watching
     {
         const float hd = (ctx.car.sign * pl.rot_deg + ctx.car.offset) * 3.14159265f / 180.0f;
@@ -699,7 +798,11 @@ Action::Status DriveAction::Step(BotContext& ctx)
                 const float ay = p.y + fx * side * 1.7f + fy * 1.5f;
                 const float mx = p.x + (-fy) * side * 1.7f;
                 const float my = p.y + fx * side * 1.7f;
-                if (!WorldModel::BuildingAt(ax, ay) && !WorldModel::BuildingAt(mx, my))
+                // only when going round him still heads the way of the route: a plaza full of pedestrians must not
+                // turn the car away from where it is going every few frames
+                const float route_h = Bot_HeadingDeg(aim_x - pl.x, aim_y - pl.y);
+                const float round_h = Bot_HeadingDeg(ax - pl.x, ay - pl.y);
+                if (!WorldModel::BuildingAt(ax, ay) && !WorldModel::BuildingAt(mx, my) && fabsf(Bot_WrapDeg(round_h - route_h)) < 40.0f)
                 {
                     aim_x = ax;
                     aim_y = ay;
@@ -709,6 +812,38 @@ Action::Status DriveAction::Step(BotContext& ctx)
         }
     }
     const float err = ctx.Steer(ctx.car, pl.rot_deg, pl.x, pl.y, aim_x, aim_y, true);
+    // Which way to hold the wheel: try five arcs ahead and keep the one that ends nearest the aim point without
+    // running into a building (or a car coming at us). Steering straight at the aim point is the first choice
+    float wall_ahead = 1e3f;
+    if (fabsf(err) <= 100.0f)
+    {
+        static const float options[5] = {0.0f, -1.0f, 1.0f, -0.5f, 0.5f};
+        const float heading_deg = ctx.car.sign * pl.rot_deg + ctx.car.offset;
+        const float hdir = ctx.car.sign * ctx.car.turn_sign;
+        const float natural = fabsf(err) > 8.0f ? ((err * ctx.car.turn_sign > 0) ? 1.0f : -1.0f) : 0.0f;
+        float best_s = natural;
+        float best_cost = 1e9f;
+        for (int o = 0; o < 5; o++)
+        {
+            const DriveArc arc = Drive_Arc(ctx, heading_deg, hdir, options[o], mSpeed, aim_x, aim_y);
+            const float cost = arc.cost - (options[o] == natural ? 3.0f : 0.0f);
+            if (cost < best_cost)
+            {
+                best_cost = cost;
+                best_s = options[o];
+                wall_ahead = arc.wall_d;
+            }
+        }
+        ctx.input &= ~(input_bit::Left | input_bit::Right);
+        if (best_s != 0.0f && (fabsf(best_s) > 0.9f || ctx.frame % 2 == 0))
+        {
+            ctx.input |= best_s > 0.0f ? input_bit::Right : input_bit::Left;
+        }
+        if (best_s != natural && ctx.frame % 20 == 0)
+        {
+            BotDecision("f=%d drive: steering %+.1f instead of %+.1f to keep clear of what is ahead (wall in %.1f tiles)", ctx.frame, best_s, natural, wall_ahead);
+        }
+    }
     if (ctx.frame < mShoveUntil)
     {
         ctx.input |= input_bit::Forward; // full throttle into the car in the way
@@ -732,7 +867,7 @@ Action::Status DriveAction::Step(BotContext& ctx)
         {
             const float sx = pl.x + hx * d;
             const float sy = pl.y + hy * d;
-            bool hit = WorldModel::BuildingAt(sx, sy);
+            bool hit = false; // buildings are the arcs' business (above)
             // Other cars are not obstacles: stopping dead behind every parked or queuing car is what makes a
             // drive crawl, and a bump costs a few points of damage. Walls and pedestrians are.
             for (int i = 0; i < ctx.world->ped_count && !hit; i++)
@@ -741,7 +876,7 @@ Action::Status DriveAction::Step(BotContext& ctx)
                 if (!p.dead && !p.in_car && (p.x - sx) * (p.x - sx) + (p.y - sy) * (p.y - sy) < 0.8f * 0.8f)
                 {
                     hit = true;
-                    obstacle_is_ped = !WorldModel::BuildingAt(sx, sy);
+                    obstacle_is_ped = true;
                 }
             }
             // a police car is no use to bump: it brings the wanted level
@@ -783,13 +918,24 @@ Action::Status DriveAction::Step(BotContext& ctx)
             }
         }
     }
+    if (wall_ahead < 1e3f)
+    {
+        // the speed that still lets the car stop before the building at the end of the best arc
+        float allowed = (wall_ahead - 1.4f) * 0.06f;
+        allowed = allowed < 0.0f ? 0.0f : allowed;
+        if (wall_ahead > 2.5f && allowed < 0.03f)
+        {
+            allowed = 0.03f;
+        }
+        cap = allowed < cap ? allowed : cap;
+    }
     if (last && dist < 14.0f)
     {
         cap *= 0.5f;
     }
-    if (ctx.opts && ctx.opts->draw && (ctx.frame - ctx.action_start_frame) % 40 == 0)
+    if (ctx.opts && ctx.opts->draw && (ctx.frame - ctx.action_start_frame) % 40 == 0 || ctx.frame - ctx.action_start_frame < 100 && (ctx.frame - ctx.action_start_frame) % 10 == 0)
     {
-        BotDecision("f=%d drive state: at (%.1f,%.1f) speed %.3f cap %.2f, heading error %.0f to waypoint %d/%d (%.1f,%.1f), %.0f tiles to go", ctx.frame, pl.x, pl.y, mSpeed, cap, err, mWpIdx, mWpCount, mWpX[mWpIdx], mWpY[mWpIdx], dist);
+        BotDecision("f=%d drive state: at (%.1f,%.1f) speed %.3f cap %.2f, heading error %.0f to aim (%.1f,%.1f) on the way to waypoint %d/%d (%.1f,%.1f), %.0f tiles to go", ctx.frame, pl.x, pl.y, mSpeed, cap, err, aim_x, aim_y, mWpIdx, mWpCount, mWpX[mWpIdx], mWpY[mWpIdx], dist);
     }
     if (fabsf(err) <= 100.0f)
     {
@@ -805,7 +951,9 @@ Action::Status DriveAction::Step(BotContext& ctx)
             mBehindSince = ctx.frame;
         }
         const s32 behind = ctx.frame - mBehindSince;
-        if (behind % 160 < 80)
+        const float bh = (ctx.car.sign * pl.rot_deg + ctx.car.offset) * 3.14159265f / 180.0f;
+        const bool room_behind = !WorldModel::BuildingAt(pl.x - sinf(bh) * 1.6f, pl.y + cosf(bh) * 1.6f) && !WorldModel::BuildingAt(pl.x - sinf(bh) * 2.8f, pl.y + cosf(bh) * 2.8f);
+        if (room_behind && behind % 160 < 80)
         {
             ctx.input |= input_bit::Backward; // back towards it for 80 frames ...
         }

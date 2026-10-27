@@ -1,5 +1,6 @@
 #include "NavCar.hpp"
 #include "BotLog.hpp"
+#include "WorldModel.hpp"
 #include <string.h>
 #include <stdio.h>
 
@@ -137,6 +138,9 @@ NavCar::~NavCar()
 
 void NavCar::Build()
 {
+    int water_tiles = 0;
+    int high_tiles[8][4];
+    memset(high_tiles, 0, sizeof(high_tiles));
     memset(mGrid, 0, kTiles);
     memset(mArrows, 0, kTiles);
     memset(mWalls, 0, kTiles);
@@ -146,9 +150,17 @@ void NavCar::Build()
         {
             s32 z = 0;
             gmp_block_info* b = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x, y, &z);
-            if (!b || z >= 3)
+            if (b && z >= 3 && !WorldModel::IsRoofBlock(b, z))
             {
-                continue;
+                high_tiles[z < 8 ? z : 7][b->field_B_slope_type & 3]++; // bridges
+            }
+            if (b && z < 3 && WorldModel::IsWaterBlock(b))
+            {
+                water_tiles++;
+            }
+            if (!b || WorldModel::IsRoofBlock(b, z) || WorldModel::IsWaterBlock(b))
+            {
+                continue; // nothing there, a building, or water
             }
             const int type = b->field_B_slope_type & 3;
             u8 cell = 1;
@@ -185,6 +197,11 @@ void NavCar::Build()
         }
     }
     mBuilt = true;
+    BotDecision("road map: %d water tiles closed", water_tiles);
+    for (int z = 3; z < 8; z++)
+    {
+        BotDecision("road map: highest block at z=%d: %d road, %d pavement, %d field", z, high_tiles[z][1], high_tiles[z][2], high_tiles[z][3]);
+    }
     BuildClearance();
 }
 
@@ -630,6 +647,58 @@ bool NavCar::DirectLine(float sx, float sy, float tx, float ty) const
     return LineSafe(static_cast<int>(sx), static_cast<int>(sy), static_cast<int>(tx), static_cast<int>(ty));
 }
 
+static bool Lane_Against(u8 a, float dx, float dy)
+{
+    return ((a & 1) && dx > 0.35f) || ((a & 2) && dx < -0.35f) || ((a & 4) && dy > 0.35f) || ((a & 8) && dy < -0.35f);
+}
+
+static bool Lane_With(u8 a, float dx, float dy)
+{
+    return ((a & 1) && dx < -0.35f) || ((a & 2) && dx > 0.35f) || ((a & 4) && dy < -0.35f) || ((a & 8) && dy > 0.35f);
+}
+
+bool NavCar::LaneSwitch(float x, float y, float dir_x, float dir_y, float* out_x, float* out_y)
+{
+    if (!mBuilt)
+    {
+        Build();
+    }
+    const float l = sqrtf(dir_x * dir_x + dir_y * dir_y);
+    if (l < 0.01f || x < 1.0f || y < 1.0f || x > 254.0f || y > 254.0f)
+    {
+        return false;
+    }
+    const float dx = dir_x / l;
+    const float dy = dir_y / l;
+    if (!Lane_Against(mArrows[static_cast<int>(y) * 256 + static_cast<int>(x)], dx, dy))
+    {
+        return false;
+    }
+    const float px = -dy;
+    const float py = dx;
+    for (int k = 1; k <= 4; k++)
+    {
+        for (int side = 0; side < 2; side++)
+        {
+            const float sgn = side == 0 ? 1.0f : -1.0f;
+            const float tx = x + px * k * sgn;
+            const float ty = y + py * k * sgn;
+            if (tx < 1.0f || ty < 1.0f || tx > 254.0f || ty > 254.0f)
+            {
+                continue;
+            }
+            const int idx = static_cast<int>(ty) * 256 + static_cast<int>(tx);
+            if (mGrid[idx] == 3 && Lane_With(mArrows[idx], dx, dy) && !(mWalls[idx]))
+            {
+                *out_x = tx + dx * 3.0f;
+                *out_y = ty + dy * 3.0f;
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 bool NavCar::LineSafe(int x0, int y0, int x1, int y1) const
 {
     // Walk the segment in half tile steps; every tile touched needs clearance
@@ -647,6 +716,19 @@ bool NavCar::LineSafe(int x0, int y0, int x1, int y1) const
         if (!Roomy(x, y))
         {
             return false;
+        }
+        // a shortcut must not run against the traffic of a lane: the arrows of the tiles it touches have to agree
+        // with the way it goes along that axis (crossing a lane at right angles is fine)
+        const u8 arrows = mArrows[y * 256 + x];
+        if (arrows)
+        {
+            const float lx = dx < 0 ? -dx : dx;
+            const float ly = dy < 0 ? -dy : dy;
+            const float l = lx > ly ? lx : ly;
+            if (((arrows & 1) && dx > 0.35f * l) || ((arrows & 2) && dx < -0.35f * l) || ((arrows & 4) && dy > 0.35f * l) || ((arrows & 8) && dy < -0.35f * l))
+            {
+                return false;
+            }
         }
         if (i > 0 && (x != px || y != py) && (!EdgeFree(px, py, x, y) || (x - px > 1 || px - x > 1 || y - py > 1 || py - y > 1)))
         {
@@ -729,7 +811,7 @@ bool NavCar::Search(int sx, int sy, int tx, int ty, int clearance, bool approxim
                 {
                     const bool with = ((arrows & 1) && dxs[d] < 0) || ((arrows & 2) && dxs[d] > 0) || ((arrows & 4) && dys[d] < 0) || ((arrows & 8) && dys[d] > 0);
                     const bool against = ((arrows & 1) && dxs[d] > 0) || ((arrows & 2) && dxs[d] < 0) || ((arrows & 4) && dys[d] > 0) || ((arrows & 8) && dys[d] < 0);
-                    step = with ? step * 9 / 10 : (against ? step * 13 / 10 : step);
+                    step = with ? step * 8 / 10 : (against ? step * 3 : step);
                 }
             }
             else if (cell == 2)

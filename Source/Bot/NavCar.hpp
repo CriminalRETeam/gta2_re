@@ -73,6 +73,9 @@ class NavCar : public BotObject
 
     // The nearest road tile that carries a traffic lane (green arrows), roughly towards (toward_x, toward_y), within max_r
     // tiles of (x, y): where cars will be. false when there is none.
+    // The car is on a lane whose arrows point against the way it goes (dir_x, dir_y): the centre of the nearest lane within 4 tiles
+    // that goes the same way, a few tiles on, in (*out_x, *out_y)
+    bool LaneSwitch(float x, float y, float dir_x, float dir_y, float* out_x, float* out_y);
     bool NearestLane(float x, float y, float toward_x, float toward_y, float max_r, float* out_x, float* out_y);
 
     // Draws the last route over the tiles the router sees into a 24 bit BMP: closed black, field green, pavement light grey,
