@@ -26,6 +26,7 @@
 //   -bot_objects_dump     list every world object (model, position) to bot_objects.txt at the first frame
 //   -bot_tokens=N -bot_frenzies=N -bot_missions=N   collect profile goals (defaults 3, 2, 0)
 //   -bot_frenzy_id=N      collect: only this kill frenzy icon (object id from bot_objects.txt), up to 4 times
+//   -bot_skip_phone       phone_test: only the mission loop (after -bot_load of a snapshot taken during a mission)
 //   -bot_perturb          restore_check: change the player's health after the restore, so the
 //                         check must FAIL and name the ped pool block (verifier sanity check)
 struct BotOptions
@@ -52,6 +53,8 @@ struct BotOptions
     float map_dump_x, map_dump_y;
     s32 only_frenzy_ids[4]; // collect: use only these kill frenzy icons (object ids), none = any
     s32 only_frenzy_count;
+    s32 phone_id;
+    bool skip_phone; // phone_test: the mission is already running (resume from a -bot_load snapshot)
     s32 fire_mode;      // 0 pulse 6/2, 1 hold, 2 pulse 2/2, 3 pulse 1/1
     s32 want_tokens;
     s32 want_frenzies;

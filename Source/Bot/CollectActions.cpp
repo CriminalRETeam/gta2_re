@@ -5,6 +5,7 @@
 #include "Snapshot.hpp"
 #include "BotOptions.hpp"
 #include "NavFoot.hpp"
+#include "CarActions.hpp"
 #include "input_bits.hpp"
 #include <math.h>
 #include <string.h>
@@ -653,6 +654,373 @@ Action::Status KillFrenzyAction::Step(BotContext& ctx)
         {
             ctx.input |= input_bit::Attack;
         }
+    }
+    return Running;
+}
+
+// ---------------------------------------------------------------------------------------------
+PhoneAction::PhoneAction(s32 object_id, float x, float y)
+    : mId(object_id)
+    , mX(x)
+    , mY(y)
+    , mWalk(NULL)
+    , mOnIt(false)
+    , mOnItFrame(0)
+    , mWasOnMission(false)
+{
+    mBrief0[0] = 0;
+}
+
+PhoneAction::~PhoneAction()
+{
+    delete mWalk;
+}
+
+void PhoneAction::Start(BotContext& ctx)
+{
+    delete mWalk;
+    mWalk = NULL;
+    mOnIt = false;
+    mWasOnMission = ctx.world->on_mission;
+    strncpy(mBrief0, ctx.world->brief_key, sizeof(mBrief0) - 1);
+    mBrief0[sizeof(mBrief0) - 1] = 0;
+}
+
+Action::Status PhoneAction::Step(BotContext& ctx)
+{
+    const WorldModel::PlayerInfo& pl = ctx.world->player;
+    ctx.input = 0;
+    if (!pl.valid)
+    {
+        return Running;
+    }
+    if (pl.dead)
+    {
+        return Fail("action_failed", "phone: the player died");
+    }
+    if (!mOnIt)
+    {
+        if (!mWalk)
+        {
+            mWalk = new WalkAction(mX, mY, false, 0.5f);
+            mWalk->Start(ctx);
+        }
+        const Status s = mWalk->Step(ctx);
+        if (s == Failed)
+        {
+            return Fail(mWalk->fail_condition, "phone #%d: %s", mId, mWalk->fail_detail);
+        }
+        if (s == Done)
+        {
+            mOnIt = true;
+            mOnItFrame = ctx.frame;
+            BotDecision("f=%d phone: on phone #%d at (%.1f,%.1f)", ctx.frame, mId, pl.x, pl.y);
+        }
+        return Running;
+    }
+    if (ctx.world->on_mission && !mWasOnMission)
+    {
+        BotDecision("f=%d phone: mission started (brief \"%s\")", ctx.frame, ctx.world->brief_key);
+        return Done;
+    }
+    if (strcmp(mBrief0, ctx.world->brief_key) != 0 && ctx.world->brief_key[0])
+    {
+        BotDecision("f=%d phone: a brief came up (\"%s\" [%s]) on_mission=%d", ctx.frame, ctx.world->brief_key, ctx.world->brief_text, ctx.world->on_mission);
+        return Done;
+    }
+    if (ctx.frame - mOnItFrame > 120)
+    {
+        return Fail("action_failed", "phone #%d: standing on it for 120 frames, no mission or brief (on_mission=%d, brief \"%s\")", mId, ctx.world->on_mission, ctx.world->brief_key);
+    }
+    // step on and off the phone to touch it again
+    const float err = ctx.Steer(ctx.foot, pl.rot_deg, pl.x, pl.y, mX, mY, true);
+    if (((ctx.frame - mOnItFrame) / 20) % 2 == 0 && fabsf(err) < 40.0f)
+    {
+        ctx.input |= input_bit::Forward;
+    }
+    return Running;
+}
+
+// ---------------------------------------------------------------------------------------------
+MissionWatchAction::MissionWatchAction(s32 frames)
+    : mFrames(frames)
+    , mStart(0)
+{
+}
+
+void MissionWatchAction::Start(BotContext& ctx)
+{
+    mStart = ctx.frame;
+}
+
+Action::Status MissionWatchAction::Step(BotContext& ctx)
+{
+    ctx.input = 0;
+    if ((ctx.frame - mStart) % 120 == 0)
+    {
+        char view[1500];
+        ctx.world->Text(view, sizeof(view), "mission_watch");
+        BotLog("%s", view);
+    }
+    return ctx.frame - mStart >= mFrames ? Done : Running;
+}
+
+// ---------------------------------------------------------------------------------------------
+KillPedAction::KillPedAction(s32 ped_id, float x, float y)
+    : mId(ped_id)
+    , mX(x)
+    , mY(y)
+    , mWalk(NULL)
+    , mWalkFrame(0)
+    , mWalkTx(0)
+    , mWalkTy(0)
+    , mStart(0)
+    , mGoneFrames(0)
+    , mExit(NULL)
+{
+}
+
+KillPedAction::~KillPedAction()
+{
+    delete mWalk;
+    delete mExit;
+}
+
+void KillPedAction::Start(BotContext& ctx)
+{
+    delete mWalk;
+    mWalk = NULL;
+    delete mExit;
+    mExit = NULL;
+    mStart = ctx.frame;
+    mGoneFrames = 0;
+    ctx.world->track_ped_id = mId;
+}
+
+Action::Status KillPedAction::Step(BotContext& ctx)
+{
+    const WorldModel::PlayerInfo& pl = ctx.world->player;
+    ctx.input = 0;
+    ctx.world->track_ped_id = mId;
+    if (!pl.valid)
+    {
+        return Running;
+    }
+    if (pl.dead)
+    {
+        return Fail("action_failed", "kill_ped: the player died");
+    }
+    if (ctx.frame - mStart > 3000)
+    {
+        return Fail("action_failed", "kill_ped: ped #%d still alive after 3000 frames", mId);
+    }
+    if (pl.in_car)
+    {
+        if (!mExit)
+        {
+            mExit = new ExitCarAction();
+            mExit->Start(ctx);
+        }
+        const Status es = mExit->Step(ctx);
+        if (es == Failed)
+        {
+            return Fail(mExit->fail_condition, "kill_ped: %s", mExit->fail_detail);
+        }
+        return Running;
+    }
+    delete mExit;
+    mExit = NULL;
+
+    if (!ctx.world->tracked_valid || ctx.world->tracked.dead)
+    {
+        // not in the nearest list or dead: dead for a while means done, far away means go there
+        mGoneFrames++;
+        if (ctx.world->tracked_valid && ctx.world->tracked.dead)
+        {
+            BotDecision("f=%d kill_ped: ped #%d is dead", ctx.frame, mId);
+            return Done;
+        }
+        if (mGoneFrames > 40)
+        {
+            BotDecision("f=%d kill_ped: ped #%d is gone", ctx.frame, mId);
+            return Done;
+        }
+    }
+    else
+    {
+        mGoneFrames = 0;
+        mX = ctx.world->tracked.x;
+        mY = ctx.world->tracked.y;
+    }
+
+    const float dx = mX - pl.x;
+    const float dy = mY - pl.y;
+    const float dist = sqrtf(dx * dx + dy * dy);
+    const bool explosive = pl.weapon == 2 || pl.weapon == 4 || pl.weapon == 5;
+    const float stand = explosive ? 7.0f : 4.5f;
+
+    // is there a wall or fence between?
+    if (dist > stand + 1.5f || mWalk)
+    {
+        // one walk per place the target stands at: rebuilding it each time would hide that it is stuck
+        if (mWalk && (mX - mWalkTx) * (mX - mWalkTx) + (mY - mWalkTy) * (mY - mWalkTy) > 3.0f * 3.0f)
+        {
+            delete mWalk;
+            mWalk = NULL;
+        }
+        if (!mWalk)
+        {
+            mWalk = new WalkAction(mX, mY, false, stand);
+            mWalk->Start(ctx);
+            mWalkFrame = ctx.frame;
+            mWalkTx = mX;
+            mWalkTy = mY;
+        }
+        const Status s = mWalk->Step(ctx);
+        if (s == Failed)
+        {
+            delete mWalk;
+            mWalk = NULL;
+            return Fail("action_failed", "kill_ped #%d: cannot get to it", mId);
+        }
+        if (s == Done)
+        {
+            delete mWalk;
+            mWalk = NULL;
+        }
+        return Running;
+    }
+    delete mWalk;
+    mWalk = NULL;
+    const float err = ctx.Steer(ctx.foot, pl.rot_deg, pl.x, pl.y, mX, mY, true);
+    if (dist < (explosive ? 4.0f : 1.2f))
+    {
+        ctx.input |= input_bit::Backward;
+    }
+    if (fabsf(err) < 30.0f && (ctx.frame % 8) < 6)
+    {
+        ctx.input |= input_bit::Attack;
+    }
+    return Running;
+}
+
+// ---------------------------------------------------------------------------------------------
+DestroyCarAction::DestroyCarAction(s32 car_id)
+    : mId(car_id)
+    , mWalk(NULL)
+    , mWalkTx(0)
+    , mWalkTy(0)
+    , mStart(0)
+    , mExit(NULL)
+    , mLastX(0)
+    , mLastY(0)
+    , mLastDamage(0)
+    , mLastDamageFrame(0)
+{
+}
+
+DestroyCarAction::~DestroyCarAction()
+{
+    delete mWalk;
+    delete mExit;
+}
+
+void DestroyCarAction::Start(BotContext& ctx)
+{
+    delete mWalk;
+    mWalk = NULL;
+    delete mExit;
+    mExit = NULL;
+    mStart = ctx.frame;
+    mLastDamage = 0;
+    mLastDamageFrame = ctx.frame;
+}
+
+Action::Status DestroyCarAction::Step(BotContext& ctx)
+{
+    const WorldModel::PlayerInfo& pl = ctx.world->player;
+    ctx.input = 0;
+    if (!pl.valid)
+    {
+        return Running;
+    }
+    if (pl.dead)
+    {
+        return Fail("action_failed", "destroy_car: the player died");
+    }
+    if (ctx.frame - mStart > 12000)
+    {
+        return Fail("action_failed", "destroy_car: car #%d still not destroyed after 12000 frames", mId);
+    }
+    WorldModel::CarInfo car;
+    if (!ctx.world->FindCar(mId, &car))
+    {
+        BotDecision("f=%d destroy_car: car #%d is gone", ctx.frame, mId);
+        return Done;
+    }
+    if (car.damage >= 32000)
+    {
+        BotDecision("f=%d destroy_car: car #%d is wrecked (damage %d)", ctx.frame, mId, car.damage);
+        return Done;
+    }
+    if (car.damage != mLastDamage)
+    {
+        mLastDamage = car.damage;
+        mLastDamageFrame = ctx.frame;
+    }
+    if (pl.in_car)
+    {
+        if (!mExit)
+        {
+            mExit = new ExitCarAction();
+            mExit->Start(ctx);
+        }
+        mExit->Step(ctx);
+        return Running;
+    }
+    delete mExit;
+    mExit = NULL;
+
+    const float dist = car.dist;
+    const bool explosive = pl.weapon == 2 || pl.weapon == 4 || pl.weapon == 5;
+    const float stand = explosive ? 9.0f : 6.0f;
+    if (ctx.frame % 120 == 0)
+    {
+        BotDecision("f=%d destroy_car: car #%d model %d at (%.0f,%.0f) dist %.1f damage %d, my weapon %d/%d", ctx.frame, mId, car.model, car.x, car.y, dist, car.damage, pl.weapon, pl.ammo);
+    }
+    if (dist > stand + 2.0f || mWalk)
+    {
+        if (mWalk && (car.x - mWalkTx) * (car.x - mWalkTx) + (car.y - mWalkTy) * (car.y - mWalkTy) > 4.0f * 4.0f)
+        {
+            delete mWalk;
+            mWalk = NULL;
+        }
+        if (!mWalk)
+        {
+            mWalk = new WalkAction(car.x, car.y, false, stand);
+            mWalk->Start(ctx);
+            mWalkTx = car.x;
+            mWalkTy = car.y;
+        }
+        const Status s = mWalk->Step(ctx);
+        if (s != Running)
+        {
+            delete mWalk;
+            mWalk = NULL;
+        }
+        if (dist > stand + 2.0f)
+        {
+            return Running;
+        }
+    }
+    const float err = ctx.Steer(ctx.foot, pl.rot_deg, pl.x, pl.y, car.x, car.y, true);
+    if (dist < 3.0f)
+    {
+        ctx.input |= input_bit::Backward; // a wrecked car burns and blows up
+    }
+    if (fabsf(err) < 30.0f && dist < stand + 4.0f && (ctx.frame % 8) < 6)
+    {
+        ctx.input |= input_bit::Attack;
     }
     return Running;
 }

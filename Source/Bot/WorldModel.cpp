@@ -17,6 +17,7 @@
 #include "rng.hpp"
 #include "enums.hpp"
 #include "Weapon.hpp"
+#include "TextTable.hpp"
 #include "BonusTracker.hpp"
 #include "PlayerScoreTracker.hpp"
 #include "ObjectPool.hpp"
@@ -49,6 +50,9 @@ WorldModel::WorldModel()
     token_count = frenzy_count = phone_count = tokens_listed = 0;
     kill_frenzy_active = false;
     memset(&bonus, 0, sizeof(bonus));
+    track_ped_id = 0;
+    tracked_valid = false;
+    memset(&tracked, 0, sizeof(tracked));
     secrets_passed = secrets_failed = match_count = 0;
     memset(match_peds, 0, sizeof(match_peds));
     finish_score = 0;
@@ -165,9 +169,11 @@ void WorldModel::Observe()
     arrow.ped_id = -1;
     arrow.car_idx = -1;
     ped_count = car_count = match_count = 0;
+    tracked_valid = false;
     memset(&bonus, 0, sizeof(bonus));
     peds_total = cops_total = cars_total = 0;
     brief_key[0] = 0;
+    brief_text[0] = 0;
     phones_ringing = 0;
     token_count = frenzy_count = phone_count = tokens_listed = 0;
     rng = gpRng_67AB34->get_cur_rng_41CFE0();
@@ -196,6 +202,7 @@ void WorldModel::Observe()
         player.wanted_stars = me->get_wanted_star_count_46EF00();
         player.in_car = me->field_16C_car != NULL;
         player.car_id = me->field_16C_car ? me->field_16C_car->field_6C_car_id : 0;
+        player.car_damage = me->field_16C_car ? me->field_16C_car->field_74_damage : 0;
         player.dead = pPlayer->field_28_wasted_or_busted != 0;
         player.attack_pressed = pPlayer->field_7C_now_attack_pressed;
         player.ped_attacking = me->field_21C_bf.bAttacking != 0;
@@ -248,6 +255,17 @@ void WorldModel::Observe()
         {
             strncpy(brief_key, pBrief->field_0_brief_id_str, sizeof(brief_key) - 1);
             brief_key[sizeof(brief_key) - 1] = 0;
+            const wchar_t* pText = gText_0x14_704DFC->Find_5B5F90(brief_key);
+            if (pText)
+            {
+                int k = 0;
+                while (pText[k] && k < static_cast<int>(sizeof(brief_text)) - 1)
+                {
+                    brief_text[k] = pText[k] < 128 ? static_cast<char>(pText[k]) : '?';
+                    k++;
+                }
+                brief_text[k] = 0;
+            }
         }
 
         // The mission arrow: first arrow in use, not a gang arrow, with a target
@@ -398,6 +416,11 @@ void WorldModel::Observe()
         const float dx = info.x - player.x;
         const float dy = info.y - player.y;
         info.dist = sqrtf(dx * dx + dy * dy);
+        if (track_ped_id != 0 && info.id == track_ped_id)
+        {
+            tracked = info;
+            tracked_valid = true;
+        }
         if (!info.dead)
         {
             InsertPed(this, info);
@@ -446,6 +469,7 @@ void WorldModel::Observe()
         info.locked = c->field_98_door_lock == 1 || c->field_98_door_lock == 4;
         info.mission = c->IsMissionRelated_4421B0();
         info.police = c->field_A0_car_kind == 6;
+        info.speed = c->field_58_physics ? F(c->GetVelocity_43A4C0()) : 0.0f;
         const float dx = info.x - player.x;
         const float dy = info.y - player.y;
         info.dist = sqrtf(dx * dx + dy * dy);
@@ -590,6 +614,21 @@ void WorldModel::DumpObjects(const char* path) const
     fclose(f);
 }
 
+int WorldModel::TileType(int x, int y)
+{
+    if (x < 1 || x > 254 || y < 1 || y > 254)
+    {
+        return 0;
+    }
+    s32 z = 0;
+    gmp_block_info* b = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x, y, &z);
+    if (!b)
+    {
+        return 0;
+    }
+    return z >= 3 ? 4 : (b->field_B_slope_type & 3);
+}
+
 bool WorldModel::BuildingAt(float x, float y)
 {
     const int ix = static_cast<int>(x);
@@ -641,6 +680,7 @@ bool WorldModel::FindCar(s32 car_id, CarInfo* out) const
         out->locked = c->field_98_door_lock == 1 || c->field_98_door_lock == 4;
         out->mission = c->IsMissionRelated_4421B0();
         out->police = c->field_A0_car_kind == 6;
+        out->speed = c->field_58_physics ? F(c->GetVelocity_43A4C0()) : 0.0f;
         const float dx = out->x - player.x;
         const float dy = out->y - player.y;
         out->dist = sqrtf(dx * dx + dy * dy);
@@ -658,7 +698,7 @@ u32 WorldModel::Text(char* out, u32 out_size, const char* header) const
 Append(&buf, "bot f=%d rng=%d %s\n", frame, rng, header ? header : "");
     if (brief_key[0])
     {
-        Append(&buf, "brief \"%s\"\n", brief_key);
+        Append(&buf, "brief \"%s\": %s\n", brief_key, brief_text);
     }
     Append(&buf, "player x=%.1f y=%.1f z=%.0f rot=%.0f hp=%d lives=%d cash=%d wanted=%d incar=%d dead=%d weapon=%d/%d\n",
          player.x,

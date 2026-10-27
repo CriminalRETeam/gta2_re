@@ -1,0 +1,150 @@
+{
+  "comment": "One entry per (map, profile). expect is the bot_report.txt result; replay=true also plays the recorded .rep back and compares the per-frame trace. See regress.py.",
+  "runs": [
+    {
+      "name": "walk_wil_open",
+      "args": [
+        "-bot=walk_arrow",
+        "-bot_map=wil",
+        "-bot_goto=162,141"
+      ],
+      "budget": 3000,
+      "expect": "PASS",
+      "replay": true
+    },
+    {
+      "name": "walk_wil_detour",
+      "args": [
+        "-bot=walk_arrow",
+        "-bot_map=wil",
+        "-bot_goto=170,150"
+      ],
+      "budget": 6000,
+      "expect": "PASS",
+      "replay": true
+    },
+    {
+      "name": "walk_wil_retries",
+      "args": [
+        "-bot=walk_arrow",
+        "-bot_map=wil",
+        "-bot_goto=170,100"
+      ],
+      "budget": 8000,
+      "expect": "PASS",
+      "replay": true
+    },
+    {
+      "name": "walk_wil_noplan",
+      "args": [
+        "-bot=walk_arrow",
+        "-bot_map=wil",
+        "-bot_goto=255,255"
+      ],
+      "budget": 2000,
+      "expect": "FAIL",
+      "condition": "no_plan",
+      "replay": false
+    },
+    {
+      "name": "drive_wil",
+      "args": [
+        "-bot=drive_test",
+        "-bot_map=wil",
+        "-bot_goto=178,193"
+      ],
+      "budget": 8000,
+      "expect": "PASS",
+      "replay": true
+    },
+    {
+      "name": "collect_tokens",
+      "args": [
+        "-bot=collect",
+        "-bot_map=wil",
+        "-bot_tokens=3",
+        "-bot_frenzies=0"
+      ],
+      "budget": 12000,
+      "expect": "PASS",
+      "replay": true
+    },
+    {
+      "name": "frenzy_413_smg",
+      "args": [
+        "-bot=collect",
+        "-bot_map=wil",
+        "-bot_tokens=0",
+        "-bot_frenzies=1",
+        "-bot_frenzy_id=413"
+      ],
+      "budget": 12000,
+      "expect": "PASS",
+      "replay": true,
+      "seeds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "note": "kill frenzies are chaotic (crowds that shoot back); the driver tries several -bot_seed values"
+    },
+    {
+      "name": "frenzy_417_flame",
+      "args": [
+        "-bot=collect",
+        "-bot_map=wil",
+        "-bot_tokens=0",
+        "-bot_frenzies=1",
+        "-bot_frenzy_id=417"
+      ],
+      "budget": 16000,
+      "expect": "PASS",
+      "replay": true,
+      "seeds": [
+        1,
+        2,
+        3,
+        4
+      ],
+      "note": "kill frenzies are chaotic (crowds that shoot back); the driver tries several -bot_seed values"
+    },
+    {
+      "name": "mission_zoo_horn",
+      "args": [
+        "-bot=phone_test",
+        "-bot_map=wil",
+        "-bot_phone_id=220"
+      ],
+      "budget": 30000,
+      "expect": "FAIL",
+      "condition": "no_progress",
+      "replay": false,
+      "note": "tracked challenge: stalls after the horn, the script waits for something the bot does not know"
+    },
+    {
+      "name": "mission_bank_guards",
+      "args": [
+        "-bot=phone_test",
+        "-bot_map=wil",
+        "-bot_phone_id=221"
+      ],
+      "budget": 40000,
+      "expect": "FAIL",
+      "replay": false,
+      "note": "tracked challenge: the two bank guards kill the player"
+    },
+    {
+      "name": "mission_elmo_truck",
+      "args": [
+        "-bot=phone_test",
+        "-bot_map=wil",
+        "-bot_phone_id=226"
+      ],
+      "budget": 40000,
+      "expect": "FAIL",
+      "replay": false,
+      "note": "tracked challenge: the delivery truck has to be chased by car"
+    }
+  ]
+}

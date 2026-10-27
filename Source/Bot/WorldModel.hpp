@@ -32,6 +32,7 @@ class WorldModel : public BotObject
         s32 weapon;
         s32 ammo;
         s32 car_id; // 0 when not in a car
+        s32 car_damage;
         s32 reload;
         s32 shot_fired;
         bool attack_pressed;
@@ -91,6 +92,7 @@ class WorldModel : public BotObject
         s32 damage;
         float x, y;
         float dist;
+        float speed; // tiles per frame
         bool has_driver;
         bool locked;
         bool mission;
@@ -123,6 +125,9 @@ class WorldModel : public BotObject
     // True when the tile at (x, y) is a building / high ground
     static bool BuildingAt(float x, float y);
 
+    // 0 air / none, 1 road, 2 pavement, 3 field; building tiles give 4
+    static int TileType(int x, int y);
+
     // Scans the whole object pool
     bool FindObject(s32 object_id, ObjInfo* out) const;
 
@@ -141,6 +146,7 @@ class WorldModel : public BotObject
     s32 missions_passed;
     s32 phones_ringing;
     char brief_key[12];
+    char brief_text[400];
     s32 peds_total;
     s32 cops_total;
     s32 cars_total;
@@ -160,6 +166,9 @@ class WorldModel : public BotObject
     s32 phone_count;
     ObjInfo phones[kMaxObjs];
     bool kill_frenzy_active;
+    s32 track_ped_id;     // set by an action: the ped to follow in tracked
+    bool tracked_valid;
+    PedInfo tracked;
     BonusInfo bonus;
     s32 secrets_passed;  // kill frenzies passed so far (the script's counter)
     s32 secrets_failed;

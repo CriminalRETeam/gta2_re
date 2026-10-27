@@ -103,7 +103,10 @@ struct Heap
 NavFoot::NavFoot()
     : mPathLen(0)
     , mExpanded(0)
+    , mApproximate(false)
     , mBanCount(0)
+    , mBanTx(-100)
+    , mBanTy(-100)
     , mStartX(0)
     , mStartY(0)
     , mTargetX(0)
@@ -138,6 +141,18 @@ void NavFoot::ClearBans()
     mBanCount = 0;
 }
 
+void NavFoot::ClearBansUnlessSameTarget(float tx, float ty)
+{
+    const float dx = tx - mBanTx;
+    const float dy = ty - mBanTy;
+    if (dx * dx + dy * dy > 9.0f)
+    {
+        mBanCount = 0;
+    }
+    mBanTx = tx;
+    mBanTy = ty;
+}
+
 bool NavFoot::IsBanned(u8 x, u8 y) const
 {
     for (u32 i = 0; i < mBanCount; i++)
@@ -154,6 +169,7 @@ bool NavFoot::FindPath(u8 sx, u8 sy, u8 sz, u8 tx, u8 ty)
 {
     mPathLen = 0;
     mExpanded = 0;
+    mApproximate = false;
     mStartX = sx;
     mStartY = sy;
     mTargetX = tx;
@@ -185,6 +201,8 @@ bool NavFoot::FindPath(u8 sx, u8 sy, u8 sz, u8 tx, u8 ty)
     static const s32 dys[8] = {-1, 0, 1, 0, -1, 1, 1, -1};
 
     u32 goal = kNone;
+    u32 closest = kNone;
+    u32 closest_d2 = 0xFFFFFFFFu;
     while (heap.count && mExpanded < 80000)
     {
         const HeapItem item = heap.Pop();
@@ -204,6 +222,16 @@ bool NavFoot::FindPath(u8 sx, u8 sy, u8 sz, u8 tx, u8 ty)
         {
             goal = idx;
             break;
+        }
+        {
+            const s32 gdx = x - tx;
+            const s32 gdy = y - ty;
+            const u32 d2 = gdx * gdx + gdy * gdy;
+            if (d2 < closest_d2)
+            {
+                closest_d2 = d2;
+                closest = idx;
+            }
         }
 
         for (u32 d = 0; d < 8; d++)
@@ -260,6 +288,11 @@ bool NavFoot::FindPath(u8 sx, u8 sy, u8 sz, u8 tx, u8 ty)
     gPathFinder_SlopeZDelta_6FDEEC = save_delta;
     gMap_0x370_6F6268->field_36E_bBlockedByTerrain = save_blocked;
 
+    if (goal == kNone && closest != kNone && closest_d2 <= 6 && closest_d2 > 0)
+    {
+        goal = closest; // the target tile itself is not walkable (a phone on a wall): get as near as possible
+        mApproximate = true;
+    }
     if (goal == kNone)
     {
         return false;

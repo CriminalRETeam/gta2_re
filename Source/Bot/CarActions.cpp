@@ -132,7 +132,7 @@ DriveAction::DriveAction(float x, float y, float stop_dist)
     , mWpIdx(0)
     , mProgressFrame(0)
     , mRetries(0)
-    , mSpeedCap(0.30f)
+    , mSpeedCap(0.20f)
     , mWpRadius(3.5f)
     , mHavePrev(false)
     , mPrevX(0)
@@ -154,6 +154,13 @@ void DriveAction::Start(BotContext& ctx)
     mPlanned = false;
     mRetries = 0;
     mHavePrev = false;
+    if (!ctx.car.valid && ctx.foot.valid)
+    {
+        // The rotation to heading relation measured for the ped and for cars came out the same
+        // every time, and calibrating a car means crashing it about the place: reuse it
+        ctx.car = ctx.foot;
+        BotDecision("f=%d drive: using the pedestrian's steering model for the car", ctx.frame);
+    }
     mCalibrating = !ctx.car.valid;
     if (mCalibrating)
     {
@@ -356,6 +363,52 @@ Action::Status DriveAction::Step(BotContext& ctx)
 
     const float err = ctx.Steer(ctx.car, pl.rot_deg, pl.x, pl.y, aim_x, aim_y, true);
     float cap = mSpeedCap;
+
+    // Look ahead along the car's heading for things to hit: buildings, other cars, pedestrians
+    {
+        const float heading = (ctx.car.sign * pl.rot_deg + ctx.car.offset) * 3.14159265f / 180.0f;
+        const float hx = sinf(heading);
+        const float hy = -cosf(heading);
+        const float reach = 3.0f + mSpeed * 50.0f;
+        float first_obstacle = -1.0f;
+        for (float d = 1.2f; d <= reach && first_obstacle < 0.0f; d += 0.5f)
+        {
+            const float sx = pl.x + hx * d;
+            const float sy = pl.y + hy * d;
+            bool hit = WorldModel::BuildingAt(sx, sy);
+            for (int i = 0; i < ctx.world->car_count && !hit; i++)
+            {
+                const WorldModel::CarInfo& c = ctx.world->cars[i];
+                if (c.idx != pl.car_id && (c.x - sx) * (c.x - sx) + (c.y - sy) * (c.y - sy) < 1.2f * 1.2f)
+                {
+                    hit = true;
+                }
+            }
+            for (int i = 0; i < ctx.world->ped_count && !hit; i++)
+            {
+                const WorldModel::PedInfo& p = ctx.world->peds[i];
+                if (!p.dead && !p.in_car && (p.x - sx) * (p.x - sx) + (p.y - sy) * (p.y - sy) < 0.8f * 0.8f)
+                {
+                    hit = true;
+                }
+            }
+            if (hit)
+            {
+                first_obstacle = d;
+            }
+        }
+        if (first_obstacle > 0.0f)
+        {
+            // the speed that still lets the car stop before the obstacle: none inside 2.2 tiles
+            float allowed = (first_obstacle - 2.2f) * 0.04f;
+            allowed = allowed < 0.0f ? 0.0f : allowed;
+            cap = allowed < cap ? allowed : cap;
+            if (ctx.frame % 40 == 0)
+            {
+                BotDecision("f=%d drive: obstacle %.1f tiles ahead at (%.1f,%.1f), speed %.2f -> allowed %.2f", ctx.frame, first_obstacle, pl.x, pl.y, mSpeed, cap);
+            }
+        }
+    }
     if (last && dist < 14.0f)
     {
         cap *= 0.5f;
@@ -380,7 +433,7 @@ Action::Status DriveAction::Step(BotContext& ctx)
     {
         ctx.input |= input_bit::Forward;
     }
-    else if (mSpeed > cap * 1.5f)
+    else if (mSpeed > cap * 1.5f + 0.01f)
     {
         ctx.input |= input_bit::Backward;
     }

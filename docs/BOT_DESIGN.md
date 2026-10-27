@@ -405,11 +405,72 @@ python3 run_bot.py --profile walk_arrow --budget 1500 -- -bot_goto=170,150   # F
   Downtown). The `WorldModel` arrow, phone, brief and gang fields are read but only the player,
   ped and car lines have been looked at against live data.
 
-### Next: phase 2
+### Phases 2 to 6: what exists and what it does
 
-Navigation: `NavFoot` (block grid, `PathFinder`, slopes, roads as hazards), `NavRoad`, `Driving`,
-`EnterCar`/`ExitCar`, and generic retry with snapshots. The walk_arrow wall case above is the
-first thing the foot navigator has to solve.
+All of it is in `Source/Bot/` and `Scripts/bot/`; the match count is unchanged (3430/3430).
+
+**Running.** `Scripts/bot/botlib.py` starts a private Xvfb (`:99`, found on `PATH`, `$BOT_XVFB` or
+`~/.local/bin/Xvfb`; `BOT_USE_DISPLAY=1` uses the session display). A locked X session blocks window
+creation, and wine 8's null driver cannot create windows at all, so the game needs a real X server.
+The command line is padded to a fixed length and the environment is fixed: the CRT mallocs both before
+the allocator hooks, and their sizes decide where every later heap block lands, which a `.snap` needs.
+
+| Layer | Files | State |
+|---|---|---|
+| WorldModel | `WorldModel` | players, peds, cars (speed), objects (tokens, frenzy icons, phones), the HUD arrow, script flags, passed/failed counters, the active bonus rule, brief text, tracked ped |
+| Foot navigation | `NavFoot` | A* over (x,y,z) tiles whose edges are the game's own `PathFinder::TestMoveToAdjacentTile`; bans; closest reachable tile when the target is not walkable (a phone on a wall) |
+| Driving navigation | `NavCar` | A* over drivable tiles (roads preferred, lane arrows respected, clearance, no corner cutting), string pulled. The `RouteFinder` junction path was tried first and dropped: it needs both ends on arrow blocks and a parked car starts in a walled yard |
+| Planner | `Goap` | Dijkstra over (done mask, location), goal counts per kind, seed-driven tie break, replanned after every action, failed entities banned |
+| Actions | `WalkAction`, `EnterCarAction`, `ExitCarAction`, `DriveAction`, `PickUpAction`, `KillFrenzyAction`, `KillPedAction`, `DestroyCarAction`, `PhoneAction`, `MissionAction` | one state machine each (`Start/Step`, `Fail(condition, detail)`) |
+| Reflexes | `Bot::SelfDefense`, traffic wait and car yielding in `WalkAction`, obstacle braking in `DriveAction` | |
+| Retry | snapshot at every action start; a walk takes rolling checkpoints; a mission takes one per step | restore, change something (ban a tile, a wait, a speed cap, another target), try again |
+| Profiles | `walk_arrow`, `drive_test`, `collect`, `phone_test`, `restore_check`, `replay`, `idle`, `walk_test` | |
+| Regression | `Scripts/bot/regress.py`, `bot_runs/runs.json` | each entry: result, condition, and the stock-game replay of its `.rep` compared per frame |
+
+**Results on Downtown (`wil`).**
+
+- Foot trips of 20 to 130 tiles, including detours around walls, road crossings with traffic, and
+  trips that needed several snapshot retries. Parked car: walk to it, enter, drive 28 to 90 tiles
+  (short drives work; long ones can still get stuck on building corners or take collision damage, no success rate was measured).
+- **Secret tokens:** 6 collected in one session (the planner orders them by walking cost).
+- **Kill frenzies:** two of the 16 pass, by the script's own passed counter: 25 kills with the
+  silenced SMG (icon 413) and 10 kills with the flamethrower (icon 417). A single session
+  collected 6 tokens and passed both (26,651 frames, one failed frenzy attempt rewound and
+  retried), and its recording replays frame-identically in the stock game (19,982 committed frames).
+- **Missions:** none completed. The mission loop gets a long way: it answers the phone, reads the
+  brief, and follows the arrow wherever it points (a place on foot or by car, a car to get in, a
+  pedestrian to kill, an object to walk onto, "sound the horn", "destroy that car"). It reads
+  mission success from the script's passed counter. The three Loonies missions stop at:
+  - Johnny Zoo / Doctor ZitZaki (phone 220): walk 50 tiles, take the marked car, drive to the
+    hospital, honk, then the script waits for something the bot does not know (5000 frames idle).
+  - Johnny Zoo / money transfer (phone 221): the drive to the City Bank works; the two bank guards
+    kill the player.
+  - Elmo / Pizza Cake (phone 226): explosives picked up and planted, then the delivery truck has to
+    be destroyed and it drives off through traffic faster than a pedestrian can follow.
+  - Elmo / Zaibatsu drug (phone 225): a crowd of crazed pedestrians kills the player on the way.
+  The other phones refuse until gang respect is high enough ("kill some Zaibatsu before you return
+  for work"); raising respect is the missing `RaiseRespect` action.
+
+**What the bot learned the hard way** (found by experiment; the code has them as comments too):
+
+- A held attack button stops firing: pulse it (6 frames on, 2 off).
+- While the attack button is held the game turns the ped slowly; line up first, fire second.
+- Thrown weapons (molotov, grenade) fly when the button is let go, the range is the time held.
+- A rocket bursts on the first thing in its path: a pedestrian two tiles away burns the player.
+- A kill frenzy counts only what its `BonusRule` says (kind of ped or car, weapon, count), and some
+  rules cancel on a mismatch; the HUD counter is not the progress.
+- Pedestrians three tiles away can be behind a fence: compare the walking path with the line.
+- The phone and pickup objects sit on building tiles; walk to the closest reachable tile.
+- Cars and pedestrians at a crossing: wait on the pavement, never walk into a moving car.
+- Rotation and heading run opposite ways on foot and in cars (`heading = 180 - rotation`), both
+  measured by the calibrator and identical.
+
+**Not done** (tracked as `regress.py` entries with `expect: FAIL`, so a regression in them shows):
+phase 5's hazards beyond the reflexes above (wanted level handling, gang zones, trains, buses,
+pay'n'spray, shops), the `RaiseRespect` action, driving that avoids all collisions, vehicle chases,
+the other 14 kill frenzies (rockets and cop kills in particular), the other maps, a re-solve mode,
+and the run through the original `10.5.exe` (the `.rep` files are in `bot_out/regress/*/bot_run.rep`
+and play in the stock `decomp_main.exe`; the original exe was not tried).
 
 ## Risks and open points
 

@@ -43,7 +43,7 @@ void BotLog_Open(const char* out_dir)
 
 void BotLog(const char* fmt, ...)
 {
-    char buf[2048];
+    char buf[4096];
     va_list args;
     va_start(args, fmt);
     int len = _vsnprintf(buf, sizeof(buf) - 2, fmt, args);
@@ -62,7 +62,7 @@ void BotLog(const char* fmt, ...)
 namespace
 {
 const u32 kDecisionRing = 50;
-const u32 kDecisionLen = 200;
+const u32 kDecisionLen = 520;
 char gDecisions[kDecisionRing][kDecisionLen]; // static: never restored, the exe .data is the game's
 u32 gDecisionCount = 0;
 } // namespace

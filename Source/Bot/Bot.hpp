@@ -60,6 +60,7 @@ class Bot : public BotObject
         Profile_WalkArrow,
         Profile_DriveTest,
         Profile_Collect,
+        Profile_PhoneTest,
     };
 
     enum RestoreCheckState
@@ -91,6 +92,7 @@ class Bot : public BotObject
     void StartAction(int idx);
     void ClearActions();
     void CollectNext();
+    bool SelfDefense();
     void OnCollectFailure(Action* pAction);
     void StuckReport(const char* condition, const char* detail);
 
@@ -137,6 +139,8 @@ class Bot : public BotObject
     s32 mBanned[kMaxBanned];
     s32 mBannedCount;
     s32 mStartCash;
+    s32 mLastHurtFrame;
+    s32 mDefenseFrames;
     s32 mPrevHp;
     s32 mDamageLogs;
     bool mMapDumped;

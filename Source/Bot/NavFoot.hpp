@@ -37,6 +37,12 @@ class NavFoot : public BotObject
         return mPath[i];
     }
 
+    // The last FindPath ended at the closest reachable tile, not at the target
+    bool Approximate() const
+    {
+        return mApproximate;
+    }
+
     u32 Expanded() const
     {
         return mExpanded;
@@ -44,6 +50,8 @@ class NavFoot : public BotObject
 
     void Ban(u8 x, u8 y);
     void ClearBans();
+    // Keeps the bans while the target stays within 3 tiles of the one they were made for
+    void ClearBansUnlessSameTarget(float tx, float ty);
     u32 BanCount() const
     {
         return mBanCount;
@@ -64,8 +72,10 @@ class NavFoot : public BotObject
     NavNode mPath[kMaxPath];
     u32 mPathLen;
     u32 mExpanded;
+    bool mApproximate;
     u8 mBanX[kMaxBans];
     u8 mBanY[kMaxBans];
     u32 mBanCount;
+    float mBanTx, mBanTy;
     u8 mStartX, mStartY, mTargetX, mTargetY;
 };

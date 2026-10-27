@@ -9,6 +9,7 @@
 #include "WalkAction.hpp"
 #include "CarActions.hpp"
 #include "CollectActions.hpp"
+#include "MissionActions.hpp"
 #include "Goap.hpp"
 #include <math.h>
 #include <windows.h>
@@ -94,6 +95,8 @@ Bot::Bot(const BotOptions& opts)
     , mCurrentKind(0)
     , mBannedCount(0)
     , mStartCash(0)
+    , mLastHurtFrame(-1000)
+    , mDefenseFrames(0)
     , mPrevHp(100)
     , mDamageLogs(0)
     , mMapDumped(false)
@@ -116,6 +119,10 @@ Bot::Bot(const BotOptions& opts)
     else if (_stricmp(opts.profile, "walk_arrow") == 0)
     {
         mProfile = Profile_WalkArrow;
+    }
+    else if (_stricmp(opts.profile, "phone_test") == 0)
+    {
+        mProfile = Profile_PhoneTest;
     }
     else if (_stricmp(opts.profile, "collect") == 0)
     {
@@ -444,6 +451,7 @@ void Bot::OnFrame()
             case Profile_WalkArrow:
             case Profile_DriveTest:
             case Profile_Collect:
+            case Profile_PhoneTest:
                 StepActions();
                 break;
             default:
@@ -697,6 +705,7 @@ void Bot::BuildActions()
         mCtx.road = mRoad;
         mCtx.rng = &mRng;
         mCtx.action_snap = mActionSnap;
+        mCtx.map = mMap;
         mCtx.opts = &mOpts;
         mCtx.nav_dump = mOpts.nav_dump;
         mCtx.out_dir = mOpts.out_dir;
@@ -710,6 +719,34 @@ void Bot::BuildActions()
     if (mProfile == Profile_Collect)
     {
         return; // CollectNext plans
+    }
+    if (mProfile == Profile_PhoneTest && mOpts.skip_phone)
+    {
+        mActions[mActionCount++] = new MissionAction();
+        return;
+    }
+    if (mProfile == Profile_PhoneTest)
+    {
+        // -bot_phone_id=N picks a phone, otherwise the nearest one
+        const WorldModel::ObjInfo* phone = NULL;
+        for (int i = 0; i < mWorld->phone_count; i++)
+        {
+            if (mOpts.phone_id == 0 || mWorld->phones[i].id == mOpts.phone_id)
+            {
+                phone = &mWorld->phones[i];
+                break;
+            }
+        }
+        if (!phone)
+        {
+            StuckReport("no_plan", "no such phone");
+            RequestExit("no phone");
+            return;
+        }
+        BotDecision("f=%d phone_test: phone #%d model %d at (%.0f,%.0f)", mFrame, phone->id, phone->model, phone->x, phone->y);
+        mActions[mActionCount++] = new PhoneAction(phone->id, phone->x, phone->y);
+        mActions[mActionCount++] = new MissionAction();
+        return;
     }
 
     // drive_test: nearest parked, unlocked car on foot reach, drive it to -bot_goto, get out
@@ -824,6 +861,10 @@ void Bot::StepActions()
         }
         BotDecision("%s", line);
     }
+    if (mWorld->player.hp < mPrevHp)
+    {
+        mLastHurtFrame = mFrame;
+    }
     mPrevHp = mWorld->player.hp;
 
     // Dead (wasted or busted): the game respawns the player after a countdown, nothing to do
@@ -838,9 +879,13 @@ void Bot::StepActions()
     Action* pAction = mActions[mActionIdx];
     const Action::Status status = pAction->Step(mCtx);
     mInputBits = mCtx.input & input_bit::ControlBits;
+    if (strcmp(pAction->Name(), "kill_frenzy") != 0 && SelfDefense())
+    {
+        mInputBits = mCtx.input & input_bit::ControlBits;
+    }
     if ((mFrame - mCtx.action_start_frame) % 5 == 0)
     {
-        mTrace.Printf("act f=%d %s pos=%.2f,%.2f rot=%.0f in=%x incar=%d hp=%d wanted=%d cops=%d weapon=%d/%d\n", mFrame, pAction->Name(), mWorld->player.x, mWorld->player.y, mWorld->player.rot_deg, mInputBits, mWorld->player.in_car, mWorld->player.hp, mWorld->player.wanted_stars, mWorld->cops_total, mWorld->player.weapon, mWorld->player.ammo);
+        mTrace.Printf("act f=%d %s pos=%.2f,%.2f rot=%.0f in=%x incar=%d cdmg=%d hp=%d wanted=%d cops=%d weapon=%d/%d\n", mFrame, pAction->Name(), mWorld->player.x, mWorld->player.y, mWorld->player.rot_deg, mInputBits, mWorld->player.in_car, mWorld->player.car_damage, mWorld->player.hp, mWorld->player.wanted_stars, mWorld->cops_total, mWorld->player.weapon, mWorld->player.ammo);
     }
 
     if (status == Action::Failed && mProfile == Profile_Collect)
@@ -1029,4 +1074,46 @@ void Bot::CollectNext()
         mActions[mActionCount++] = new KillFrenzyAction();
     }
     StartAction(0);
+}
+
+// A reflex under every action: when something is hurting the player, turn on the nearest
+// pedestrian that is close and fight until it stops. Not for kill frenzies (they fight by
+// themselves) and not with explosive weapons (they would hurt the player more).
+bool Bot::SelfDefense()
+{
+    const WorldModel::PlayerInfo& pl = mWorld->player;
+    if (pl.in_car || pl.dead || mFrame - mLastHurtFrame > 50)
+    {
+        return false;
+    }
+    if (pl.weapon == 2 || pl.weapon == 4 || pl.weapon == 5 || pl.weapon == 8)
+    {
+        return false;
+    }
+    const WorldModel::PedInfo* target = NULL;
+    for (int i = 0; i < mWorld->ped_count; i++)
+    {
+        const WorldModel::PedInfo& p = mWorld->peds[i];
+        if (!p.cop && !p.dead && !p.in_car && p.dist < 3.6f)
+        {
+            target = &p;
+            break;
+        }
+    }
+    if (!target)
+    {
+        return false;
+    }
+    if (mDefenseFrames == 0)
+    {
+        BotDecision("f=%d self defence: hp %d, fighting ped #%d (%s) at %.1f with weapon %d ammo %d", mFrame, pl.hp, target->id, WorldModel_OccupationName(target->occupation), target->dist, pl.weapon, pl.ammo);
+    }
+    mDefenseFrames++;
+    mCtx.input = 0;
+    const float err = mCtx.Steer(mCtx.foot, pl.rot_deg, pl.x, pl.y, target->x, target->y, true);
+    if (fabsf(err) < 35.0f && (mFrame % 8) < 6)
+    {
+        mCtx.input |= input_bit::Attack;
+    }
+    return true;
 }

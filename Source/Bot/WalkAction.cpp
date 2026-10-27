@@ -20,12 +20,27 @@ WalkAction::WalkAction(float x, float y, bool follow_arrow, float stop_dist)
     , mProgressFrame(0)
     , mRetries(0)
     , mWaitUntil(0)
+    , mCkNext(0)
+    , mCkSlot(0)
+    , mTrafficWait(0)
+    , mYieldUntil(0)
+    , mYields(0)
     , mCalibrating(false)
 {
+    mCk[0] = mCk[1] = NULL;
+    mCkFrame[0] = mCkFrame[1] = -1;
+}
+
+WalkAction::~WalkAction()
+{
+    delete mCk[0];
+    delete mCk[1];
 }
 
 void WalkAction::Start(BotContext& ctx)
 {
+    mCkFrame[0] = mCkFrame[1] = -1;
+    mCkNext = ctx.frame + 300;
     mPlanned = false;
     mRetries = 0;
     mCalibrating = !ctx.foot.valid;
@@ -45,6 +60,8 @@ bool WalkAction::Plan(BotContext& ctx, const char* why)
     mPlanned = ctx.nav->FindPath(sx, sy, sz, static_cast<u8>(mTx), static_cast<u8>(mTy));
     mPathIdx = 0;
     mProgressFrame = ctx.frame;
+    mYields = 0;
+    mTrafficWait = 0;
     BotDecision("f=%d walk plan (%s) (%d,%d,%d)->(%d,%d): %s, %u tiles, %u explored, %u banned",
                 ctx.frame, why, sx, sy, sz, static_cast<u8>(mTx), static_cast<u8>(mTy), mPlanned ? "found" : "NO PATH",
                 ctx.nav->PathLength(), ctx.nav->Expanded(), ctx.nav->BanCount());
@@ -108,7 +125,7 @@ Action::Status WalkAction::Step(BotContext& ctx)
         mTx = tx;
         mTy = ty;
         mTargetIsArrow = is_arrow;
-        ctx.nav->ClearBans();
+        ctx.nav->ClearBansUnlessSameTarget(mTx, mTy);
         mRetries = 0;
         if (!Plan(ctx, "new target"))
         {
@@ -125,7 +142,9 @@ Action::Status WalkAction::Step(BotContext& ctx)
     const float dx = mTx - pl.x;
     const float dy = mTy - pl.y;
     const float dist = sqrtf(dx * dx + dy * dy);
-    if (dist < mStopDist)
+    const s32 last = static_cast<s32>(ctx.nav->PathLength()) - 1;
+    if (dist < mStopDist || (ctx.nav->Approximate() && last >= 0 && mPathIdx >= last &&
+                             (pl.x - (ctx.nav->PathAt(last).x + 0.5f)) * (pl.x - (ctx.nav->PathAt(last).x + 0.5f)) + (pl.y - (ctx.nav->PathAt(last).y + 0.5f)) * (pl.y - (ctx.nav->PathAt(last).y + 0.5f)) < 0.5f * 0.5f))
     {
         BotDecision("f=%d walk arrived at (%.1f,%.1f), dist %.2f, %d retries", ctx.frame, mTx, mTy, dist, mRetries);
         return Done;
@@ -156,12 +175,93 @@ Action::Status WalkAction::Step(BotContext& ctx)
         mProgressFrame = ctx.frame;
     }
 
+    // Rolling checkpoints while things go well
+    if (ctx.map && ctx.frame >= mCkNext && ctx.frame - mProgressFrame < 20 && !pl.dead)
+    {
+        if (!mCk[mCkSlot])
+        {
+            mCk[mCkSlot] = new Snapshot(ctx.map);
+        }
+        mCk[mCkSlot]->Capture();
+        mCkFrame[mCkSlot] = ctx.frame;
+        mCkSlot = 1 - mCkSlot;
+        mCkNext = ctx.frame + 300;
+    }
+
+    // About to step onto a road with traffic coming: wait on the pavement. Only when not already on
+    // the road (once on it, the quickest way is across).
+    if (WorldModel::TileType(static_cast<int>(pl.x), static_cast<int>(pl.y)) != 1)
+    {
+        bool road_ahead = false;
+        float rx = 0, ry = 0;
+        for (s32 k = mPathIdx; k < len && k < mPathIdx + 3; k++)
+        {
+            if (WorldModel::TileType(ctx.nav->PathAt(k).x, ctx.nav->PathAt(k).y) == 1)
+            {
+                road_ahead = true;
+                rx = ctx.nav->PathAt(k).x + 0.5f;
+                ry = ctx.nav->PathAt(k).y + 0.5f;
+                break;
+            }
+        }
+        if (road_ahead && mTrafficWait < 600)
+        {
+            bool danger = false;
+            for (int c = 0; c < ctx.world->car_count; c++)
+            {
+                const WorldModel::CarInfo& car = ctx.world->cars[c];
+                const float cdx = car.x - rx;
+                const float cdy = car.y - ry;
+                if (car.speed > 0.02f && cdx * cdx + cdy * cdy < 10.0f * 10.0f)
+                {
+                    danger = true;
+                    break;
+                }
+            }
+            if (danger)
+            {
+                mTrafficWait++;
+                mProgressFrame = ctx.frame;
+                if (mTrafficWait == 1)
+                {
+                    BotDecision("f=%d walk: waiting for traffic before the road at (%.0f,%.0f)", ctx.frame, rx, ry);
+                }
+                return Running;
+            }
+        }
+    }
+
+    // A car in the way (traffic at a crossing): step back and let it go before calling it stuck
+    if (ctx.frame < mYieldUntil)
+    {
+        if (mYieldUntil - ctx.frame > 40)
+        {
+            ctx.input = input_bit::Backward;
+        }
+        mProgressFrame = ctx.frame;
+        return Running;
+    }
+    if (ctx.frame - mProgressFrame > 25 && mYields < 8 && ctx.world->car_count > 0 && ctx.world->cars[0].dist < 1.9f)
+    {
+        mYields++;
+        mYieldUntil = ctx.frame + 60;
+        BotDecision("f=%d walk: car #%d (driver %d) %.1f tiles away in the way at (%.1f,%.1f); yielding (%d)", ctx.frame, ctx.world->cars[0].idx, ctx.world->cars[0].has_driver, ctx.world->cars[0].dist, pl.x, pl.y, mYields);
+        return Running;
+    }
+
     if (ctx.frame - mProgressFrame > 120)
     {
         const NavNode blocked = ctx.nav->PathAt(mPathIdx);
         char detail[200];
-        _snprintf(detail, sizeof(detail), "no new waypoint for 120 frames at (%.1f,%.1f), waypoint %d/%d tile (%d,%d), dist %.1f to (%.1f,%.1f)",
-                  pl.x, pl.y, mPathIdx, len, blocked.x, blocked.y, dist, mTx, mTy);
+        char near_things[120];
+        near_things[0] = 0;
+        if (ctx.world->car_count > 0)
+        {
+            const WorldModel::CarInfo& c = ctx.world->cars[0];
+            _snprintf(near_things, sizeof(near_things), "; nearest car #%d model %d at %.1f (driver %d)", c.idx, c.model, c.dist, c.has_driver);
+        }
+        _snprintf(detail, sizeof(detail), "no new waypoint for 120 frames at (%.1f,%.1f), waypoint %d/%d tile (%d,%d), dist %.1f to (%.1f,%.1f)%s",
+                  pl.x, pl.y, mPathIdx, len, blocked.x, blocked.y, dist, mTx, mTy, near_things);
         if (mRetries >= 4 || !ctx.action_snap)
         {
             return Fail("no_progress", "%s", detail);
@@ -179,7 +279,17 @@ Action::Status WalkAction::Step(BotContext& ctx)
             }
         }
         const s32 wait = static_cast<s32>(ctx.rng->Below(90));
-        ctx.action_snap->Restore();
+        Snapshot* restore_from = ctx.action_snap;
+        s32 restore_frame = ctx.action_start_frame;
+        // the older of the two checkpoints; the other may already be inside the same trouble
+        const s32 older = (mCkFrame[0] >= 0 && (mCkFrame[1] < 0 || mCkFrame[0] <= mCkFrame[1])) ? 0 : 1;
+        if (mCkFrame[older] >= 0 && mCk[older])
+        {
+            restore_from = mCk[older];
+            restore_frame = mCkFrame[older];
+        }
+        restore_from->Restore();
+        BotDecision("f=%d walk: rewound to the checkpoint of f=%d", ctx.frame, restore_frame);
         ctx.world->Observe();
         mWaitUntil = ctx.frame + wait;
         BotDecision("f=%d walk retry %d: ban radius %d, wait %d frames", ctx.frame, mRetries, radius, wait);

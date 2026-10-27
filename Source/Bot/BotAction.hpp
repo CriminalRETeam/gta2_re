@@ -8,6 +8,7 @@ class WorldModel;
 class NavFoot;
 class NavCar;
 class Snapshot;
+class MemoryMap;
 struct BotOptions;
 
 // How a rotation maps to a world heading for one way of moving (on foot, in a car), measured at
@@ -32,7 +33,8 @@ struct BotContext
     NavFoot* nav;
     NavCar* road;
     BotRng* rng;
-    Snapshot* action_snap; // the world at the start of the running action
+    Snapshot* action_snap; // the world at the start of the running action (or of the running step of a mission)
+    MemoryMap* map;        // for actions that keep snapshots of their own
     const BotOptions* opts;
     s32 frame;             // logic frames seen, never rewound
     s32 action_start_frame;

@@ -324,6 +324,8 @@ set(gta2_bot_src
   Source/Bot/Goap.cpp
   Source/Bot/CollectActions.hpp
   Source/Bot/CollectActions.cpp
+  Source/Bot/MissionActions.hpp
+  Source/Bot/MissionActions.cpp
   Source/Bot/NavCar.hpp
   Source/Bot/NavCar.cpp
   Source/Bot/Snapshot.cpp

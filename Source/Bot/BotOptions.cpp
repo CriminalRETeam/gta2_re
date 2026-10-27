@@ -165,6 +165,14 @@ bool BotOptions_Parse(const char* cmd_line, BotOptions* o)
                 o->only_frenzy_ids[o->only_frenzy_count++] = atoi(value);
             }
         }
+        else if (_strnicmp(key, "_skip_phone", key_len) == 0 && key_len == 11)
+        {
+            o->skip_phone = true;
+        }
+        else if (_strnicmp(key, "_phone_id", key_len) == 0 && key_len == 9)
+        {
+            o->phone_id = atoi(value);
+        }
         else if (_strnicmp(key, "_fire_mode", key_len) == 0 && key_len == 10)
         {
             o->fire_mode = atoi(value);
