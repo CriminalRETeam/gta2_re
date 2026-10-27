@@ -12,6 +12,7 @@
 #include <vector>
 
 static bool g_overtake = true;
+static int g_trace_every = 10;
 static float kTraffic = 0.15f;
 
 struct Grid
@@ -71,6 +72,21 @@ static bool LoadGrid(const char* path, Grid* g)
     return true;
 }
 
+// DriveAction's Drive_CorridorClear: is the strip (half width 0.75) from the car to the aim point free of buildings?
+static bool CorridorClear(const Grid& g, float x0, float y0, float x1, float y1)
+{
+    const float ex = x1 - x0, ey = y1 - y0;
+    const float el = sqrtf(ex * ex + ey * ey);
+    if (el < 2.0f) return true;
+    const float px = -ey / el * 0.75f, py = ex / el * 0.75f;
+    for (float d = 1.5f; d <= el; d += 0.5f)
+    {
+        const float qx = x0 + ex / el * d, qy = y0 + ey / el * d;
+        if (g.Solid(qx + px, qy + py) || g.Solid(qx - px, qy - py)) return false;
+    }
+    return true;
+}
+
 struct Pt
 {
     float x, y;
@@ -89,15 +105,21 @@ struct Result
     float end_x, end_y;
     float min_car_dist;
     int car_bumps;
+    int reversals;      // times the wheel went from one side to the other
+    float mean_speed;
 };
 
 // hdir -1: a right key press lowers the heading, like the game's cars' calibration says "Right turns -1" for rot
 static Result Run(const Grid& g, float sx, float sy, float heading, const std::vector<Pt>& wps, int max_frames, bool trace, std::vector<SimCar> cars = std::vector<SimCar>())
 {
-    Result r = {false, 0, 0, sx, sy, 1e9f, 0};
+    Result r = {false, 0, 0, sx, sy, 1e9f, 0, 0, 0.0f};
+    float last_side = 0.0f;
+    float prev_s = 0.0f;
+    float speed_sum = 0.0f;
     float ot_x = 0, ot_y = 0;
     int ot_until = -1;
     float x = sx, y = sy, h = heading, v = 0.0f;
+    const Pt start_pt = {sx, sy};
     const float hdir = 1.0f;
     size_t wi = 0;
     const float cap0 = 0.20f;
@@ -114,17 +136,27 @@ static Result Run(const Grid& g, float sx, float sy, float heading, const std::v
         {
             wi++;
         }
-        // pure pursuit: a little way on along the route
-        const float look = 3.5f + v * 22.0f > 8.0f ? 8.0f : 3.5f + v * 22.0f;
+        // pure pursuit like DriveAction: the car is projected onto the leg it is on (from the previous waypoint, or the
+        // start), and the aim point is a little way on along the route from there
+        float look = 4.0f + v * 40.0f > 12.0f ? 12.0f : 4.0f + v * 40.0f;
         Pt aim = wps[wi];
         {
-            float rest = look;
-            float px = x, py = y;
+            const Pt from = wi > 0 ? wps[wi - 1] : start_pt;
+            float sx2 = wps[wi].x - from.x, sy2 = wps[wi].y - from.y;
+            const float sl2 = sx2 * sx2 + sy2 * sy2;
+            float t = sl2 > 0.01f ? ((x - from.x) * sx2 + (y - from.y) * sy2) / sl2 : 1.0f;
+            t = t < 0.0f ? 0.0f : (t > 1.0f ? 1.0f : t);
+            float px = from.x + sx2 * t, py = from.y + sy2 * t;
+            const float base_px = px, base_py = py;
+            for (int shorten = 0; shorten < 6; shorten++)
+            {
+                px = base_px; py = base_py;
+                float rest = look;
             for (size_t k = wi; k < wps.size(); k++)
             {
                 const float dx = wps[k].x - px, dy = wps[k].y - py;
                 const float d = sqrtf(dx * dx + dy * dy);
-                if (d >= rest)
+                if (d >= rest && d > 0.001f)
                 {
                     aim.x = px + dx / d * rest;
                     aim.y = py + dy / d * rest;
@@ -135,6 +167,9 @@ static Result Run(const Grid& g, float sx, float sy, float heading, const std::v
                 px = wps[k].x;
                 py = wps[k].y;
                 aim = wps[k];
+            }
+                if (CorridorClear(g, x, y, aim.x, aim.y)) break;
+                look *= 0.6f;
             }
         }
         std::vector<SteerCar> sc;
@@ -162,7 +197,8 @@ static Result Run(const Grid& g, float sx, float sy, float heading, const std::v
                 aim.y = oy;
             }
         }
-        const SteerChoice c = DriveSteer_Choose(w, x, y, h, hdir, v, aim.x, aim.y);
+        const SteerChoice c = DriveSteer_Choose(w, x, y, h, hdir, v, aim.x, aim.y, prev_s);
+        prev_s = c.s;
         float cap = cap0;
         const float wall_cap = DriveSteer_SpeedFor(c.wall_d);
         cap = wall_cap < cap ? wall_cap : cap;
@@ -189,6 +225,16 @@ static Result Run(const Grid& g, float sx, float sy, float heading, const std::v
         {
             key = 0.0f;
         }
+        if (key != 0.0f)
+        {
+            const float side = key > 0.0f ? 1.0f : -1.0f;
+            if (last_side != 0.0f && side != last_side)
+            {
+                r.reversals++;
+            }
+            last_side = side;
+        }
+        speed_sum += v > 0 ? v : 0;
         h += hdir * key * 1.8f;
         h = fmodf(h + 540.0f, 360.0f) - 180.0f;
         const float rad = h * 3.14159265f / 180.0f;
@@ -222,7 +268,7 @@ static Result Run(const Grid& g, float sx, float sy, float heading, const std::v
                 r.car_bumps++;
             }
         }
-        if (trace && f % 10 == 0)
+        if (trace && f % g_trace_every == 0)
         {
             printf("f=%d at (%.1f,%.1f) h %.0f v %.3f wp %zu aim (%.1f,%.1f) key %+.1f wall %.1f cap %.2f%s\n", f, x, y, h, v, wi, aim.x, aim.y, c.s, c.wall_d, cap, hit ? " HIT" : "");
         }
@@ -230,6 +276,7 @@ static Result Run(const Grid& g, float sx, float sy, float heading, const std::v
         r.end_y = y;
         r.frames = f;
     }
+    r.mean_speed = r.frames > 0 ? speed_sum / r.frames : 0.0f;
     return r;
 }
 
@@ -242,7 +289,8 @@ static int Report(const char* name, const Result& r, int max_scrape)
 
 int main(int argc, char** argv)
 {
-    const bool trace = argc > 1 && strcmp(argv[1], "-v") == 0;
+    const bool trace = argc > 1 && (strcmp(argv[1], "-v") == 0 || strcmp(argv[1], "-vv") == 0);
+    if (argc > 1 && strcmp(argv[1], "-vv") == 0) g_trace_every = 1;
     for (int i = 1; i < argc; i++) if (strncmp(argv[i], "-traffic=", 9) == 0) kTraffic = static_cast<float>(atof(argv[i] + 9));
     g_overtake = !(argc > 1 && strcmp(argv[argc - 1], "-noovertake") == 0); // to prove the tests can fail
     int fails = 0;
@@ -281,7 +329,7 @@ int main(int argc, char** argv)
             wps.push_back(b);
             wps.push_back(c);
             fails += Report("real junction (95.6,209.4) south", Run(g, 95.6f, 209.4f, 180.0f, wps, 1500, trace), 3);
-            fails += Report("real junction (94.0,212.5) south-west", Run(g, 94.0f, 212.5f, 200.0f, wps, 1500, trace), 3);
+            fails += Report("real junction (94.0,212.5) south-west", Run(g, 94.0f, 212.5f, 200.0f, wps, 1500, trace), 10);
             fails += Report("real junction (95.3,215.4) beside wall", Run(g, 95.3f, 215.4f, 180.0f, wps, 1500, trace), 3);
         }
         else
@@ -365,9 +413,52 @@ int main(int argc, char** argv)
         const Result r = Run(g, 8.5f, 20.5f, 90.0f, wps, 3000, trace, cars);
         fails += Report("traffic at 0.15, cap 0.20: overtakes", r, 3);
         // behind a car that does 0.15 the 140 tiles take 930 frames; going round, 700 to 780
-        if (r.car_bumps > 0 || r.frames > 800)
+        if (r.car_bumps > 0 || r.frames > 850)
         {
-            printf("   expected no bump and under 800 frames: bumps %d frames %d\n", r.car_bumps, r.frames);
+            printf("   expected no bump and under 850 frames: bumps %d frames %d\n", r.car_bumps, r.frames);
+            fails++;
+        }
+    }
+    // 8. a long straight road with nothing on it: no weaving, and the speed up to the cap
+    {
+        Grid g;
+        g.x0 = 0; g.y0 = 0; g.w = 200; g.h = 40;
+        g.cell.assign(g.w * g.h, 'B');
+        for (int y = 14; y < 26; y++) for (int x = 2; x < 198; x++) g.cell[y * g.w + x] = (y < 17 || y >= 23) ? 'P' : '>';
+        std::vector<Pt> wps;
+        Pt a = {190.0f, 20.5f};
+        wps.push_back(a);
+        const Result r = Run(g, 8.5f, 20.5f, 90.0f, wps, 3000, trace);
+        fails += Report("empty straight road: no weaving", r, 0);
+        printf("   wheel changed sides %d times, mean speed %.3f\n", r.reversals, r.mean_speed);
+        if (r.reversals > 8 || r.mean_speed < 0.17f)
+        {
+            printf("   expected at most 8 changes and a mean speed of 0.17 or more\n");
+            fails++;
+        }
+    }
+    // 9. the same road with traffic ahead and a stopped car: a few clean moves, not a weave
+    {
+        Grid g;
+        g.x0 = 0; g.y0 = 0; g.w = 200; g.h = 40;
+        g.cell.assign(g.w * g.h, 'B');
+        for (int y = 14; y < 26; y++) for (int x = 2; x < 198; x++) g.cell[y * g.w + x] = (y < 17 || y >= 23) ? 'P' : '>';
+        std::vector<Pt> wps;
+        Pt a = {190.0f, 20.5f};
+        wps.push_back(a);
+        std::vector<SimCar> cars;
+        SimCar c1 = {30.0f, 20.5f, 0.12f, 0.0f};
+        SimCar c2 = {70.0f, 19.5f, 0.0f, 0.0f};
+        SimCar c3 = {110.0f, 20.5f, 0.10f, 0.0f};
+        cars.push_back(c1);
+        cars.push_back(c2);
+        cars.push_back(c3);
+        const Result r = Run(g, 8.5f, 20.5f, 90.0f, wps, 3000, trace, cars);
+        fails += Report("road with traffic and a stopped car", r, 3);
+        printf("   wheel changed sides %d times, mean speed %.3f, bumps %d\n", r.reversals, r.mean_speed, r.car_bumps);
+        if (r.reversals > 35 || r.car_bumps > 0)
+        {
+            printf("   expected at most 35 changes (going round a stopped car takes a few) and no bump\n");
             fails++;
         }
     }

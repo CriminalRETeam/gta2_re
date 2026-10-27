@@ -19,6 +19,15 @@ float WrapDeg(float d)
     return d;
 }
 
+// How far to turn the wheel for a heading error: nothing inside 8 degrees, half the time up to 20, then full. A wheel that
+// is either hard over or straight overshoots and swings from side to side
+float Gentle(float err)
+{
+    const float a = fabsf(err);
+    const float m = a > 20.0f ? 1.0f : (a > 8.0f ? 0.5f : 0.0f);
+    return err > 0.0f ? m : -m;
+}
+
 float HeadingDeg(float dx, float dy)
 {
     return atan2f(dx, -dy) * 180.0f / kPi;
@@ -50,36 +59,16 @@ Arc Rollout(const SteerWorld& w, float x, float y, float heading, float hdir, fl
     // the closest the rollout comes to the aim point, and the heading it has there: an aim point nearer than the
     // reach must not make an arc that wiggles past it look better than one that goes straight at it
     float closest = 1e9f;
+    float far_closest = 1e9f;
     float closest_err = 0.0f;
-    // The walls the car already touches (which tiles) are not counted: it must be free to move away from them.
-    // Every other wall counts from the first step
-    const float srad = heading * kPi / 180.0f;
-    const float sfx = sinf(srad);
-    const float sfy = -cosf(srad);
-    int exempt[4][2];
-    int exempt_count = 0;
-    {
-        const float pts[4][2] = {{x + sfx * 0.9f - sfy * 0.6f, y + sfy * 0.9f + sfx * 0.6f}, {x + sfx * 0.9f + sfy * 0.6f, y + sfy * 0.9f - sfx * 0.6f},
-                                 {x - sfy * 0.6f, y + sfx * 0.6f}, {x + sfy * 0.6f, y - sfx * 0.6f}};
-        for (int i = 0; i < 4; i++)
-        {
-            if (w.solid(w.user, pts[i][0], pts[i][1]))
-            {
-                exempt[exempt_count][0] = static_cast<int>(floorf(pts[i][0]));
-                exempt[exempt_count][1] = static_cast<int>(floorf(pts[i][1]));
-                exempt_count++;
-            }
-        }
-    }
     while (driven < reach)
     {
         float turn = s;
         if (driven > hold)
         {
             const float err = WrapDeg(HeadingDeg(aim_x - x, aim_y - y) - h);
-            turn = fabsf(err) > 8.0f ? (err > 0.0f ? 1.0f : -1.0f) : 0.0f;
             // what hdir means: a right key press adds hdir to the heading, so turning towards err means pressing right when err*hdir > 0
-            turn = turn * hdir;
+            turn = Gentle(err) * hdir;
         }
         h += hdir * turn * kTurnDegPerFrame * step;
         const float rad = h * kPi / 180.0f;
@@ -96,6 +85,12 @@ Arc Rollout(const SteerWorld& w, float x, float y, float heading, float hdir, fl
             if (d < closest)
             {
                 closest = d;
+            }
+            // the heading towards the aim point only means something while it is still more than a tile away: right on
+            // top of it the bearing swings about from step to step and would decide the choice by chance
+            if (d > 1.0f && d < far_closest)
+            {
+                far_closest = d;
                 closest_err = fabsf(WrapDeg(HeadingDeg(ddx, ddy) - h));
             }
         }
@@ -104,20 +99,10 @@ Arc Rollout(const SteerWorld& w, float x, float y, float heading, float hdir, fl
         const float pts[4][2] = {{x + fx * 0.9f + px, y + fy * 0.9f + py}, {x + fx * 0.9f - px, y + fy * 0.9f - py}, {x + px, y + py}, {x - px, y - py}};
         for (int i = 0; i < 4 && !wall; i++)
         {
-            if (!w.solid(w.user, pts[i][0], pts[i][1]))
-            {
-                continue;
-            }
-            bool touched_at_start = false;
-            for (int e = 0; e < exempt_count; e++)
-            {
-                touched_at_start = touched_at_start || (exempt[e][0] == static_cast<int>(floorf(pts[i][0])) && exempt[e][1] == static_cast<int>(floorf(pts[i][1])));
-            }
-            wall = !touched_at_start;
+            wall = w.solid(w.user, pts[i][0], pts[i][1]);
         }
         if (wall)
         {
-            wall = true;
             break;
         }
         if (!car_hit && driven > 2.5f)
@@ -148,12 +133,12 @@ Arc Rollout(const SteerWorld& w, float x, float y, float heading, float hdir, fl
 }
 } // namespace
 
-SteerChoice DriveSteer_Choose(const SteerWorld& w, float x, float y, float heading_deg, float hdir, float speed, float aim_x, float aim_y)
+SteerChoice DriveSteer_Choose(const SteerWorld& w, float x, float y, float heading_deg, float hdir, float speed, float aim_x, float aim_y, float prev_s)
 {
     static const float options[5] = {0.0f, -1.0f, 1.0f, -0.5f, 0.5f};
     const float err = WrapDeg(HeadingDeg(aim_x - x, aim_y - y) - heading_deg);
     // the key that turns the car towards the aim point: a right key press adds hdir to the heading
-    const float natural = fabsf(err) > 8.0f ? ((err * hdir > 0.0f) ? 1.0f : -1.0f) : 0.0f;
+    const float natural = Gentle(err) * hdir;
     SteerChoice best;
     best.s = natural;
     best.wall_d = 1e3f;
@@ -162,7 +147,7 @@ SteerChoice DriveSteer_Choose(const SteerWorld& w, float x, float y, float headi
     for (int o = 0; o < 5; o++)
     {
         const Arc arc = Rollout(w, x, y, heading_deg, hdir, options[o], speed, aim_x, aim_y);
-        const float cost = arc.cost - (options[o] == natural ? 3.0f : 0.0f);
+        const float cost = arc.cost - (options[o] == natural ? 3.0f : 0.0f) - (options[o] == prev_s ? 1.5f : 0.0f);
         if (cost < best_cost)
         {
             best_cost = cost;

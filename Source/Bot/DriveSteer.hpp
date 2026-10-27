@@ -29,7 +29,9 @@ struct SteerChoice
 
 // heading_deg: 0 is -Y, clockwise (the direction the car faces). hdir: how much a right key press adds to it per
 // frame, in degrees' sign (+1 or -1). aim: where the route wants the car to go
-SteerChoice DriveSteer_Choose(const SteerWorld& w, float x, float y, float heading_deg, float hdir, float speed, float aim_x, float aim_y);
+// prev_s: what this returned last frame (a small preference for staying with it: choices that flip from frame to frame
+// are a weave)
+SteerChoice DriveSteer_Choose(const SteerWorld& w, float x, float y, float heading_deg, float hdir, float speed, float aim_x, float aim_y, float prev_s);
 
 // The speed (tiles per frame) that still stops the car before a wall that far ahead
 float DriveSteer_SpeedFor(float wall_d);

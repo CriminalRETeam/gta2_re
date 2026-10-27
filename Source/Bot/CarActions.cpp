@@ -156,6 +156,7 @@ DriveAction::DriveAction(float x, float y, float stop_dist)
     , mStillFrames(0)
     , mReverseUntil(0)
     , mReverseSteer(0)
+    , mPrevSteer(0)
     , mOvertakeUntil(0)
     , mOvertakeX(0)
     , mOvertakeY(0)
@@ -479,7 +480,8 @@ Action::Status DriveAction::Step(BotContext& ctx)
         {
             mBlockedFrames = 0;
         }
-        if (mBlockedFrames > 45 && (!blocker->police || pl.wanted_stars > 0) && mShoves <= mBlockReplans)
+        // a bump in sight of the police is a wanted level (the cars that were pushed about that way ended in an arrest): go round
+        if (mBlockedFrames > 45 && (!blocker->police || pl.wanted_stars > 0) && (pl.wanted_stars > 0 || !ctx.world->CopsNear(15.0f)) && mShoves <= mBlockReplans)
         {
             // a bump moves most cars (and costs a few points of damage): try that before going round
             mBlockedFrames = 0;
@@ -605,8 +607,9 @@ Action::Status DriveAction::Step(BotContext& ctx)
             const float qx = ax0 + sx * t;
             const float qy = ay0 + sy * t;
             const float sl = sqrtf(sl2);
-            float look = 3.5f + mSpeed * 22.0f;
-            look = look > 8.0f ? 8.0f : look;
+            // further ahead when faster: a short look steers at every little error and the car swings from side to side
+            float look = 4.0f + mSpeed * 40.0f;
+            look = look > 12.0f ? 12.0f : look;
             const float rem = sqrtf((mWpX[mWpIdx] - qx) * (mWpX[mWpIdx] - qx) + (mWpY[mWpIdx] - qy) * (mWpY[mWpIdx] - qy));
             for (int k = 0; k < 6; k++)
             {
@@ -780,7 +783,8 @@ Action::Status DriveAction::Step(BotContext& ctx)
         }
         const float heading_deg = ctx.car.sign * pl.rot_deg + ctx.car.offset;
         const float hdir = ctx.car.sign * ctx.car.turn_sign;
-        const SteerChoice choice = DriveSteer_Choose(world, pl.x, pl.y, heading_deg, hdir, mSpeed, aim_x, aim_y);
+        const SteerChoice choice = DriveSteer_Choose(world, pl.x, pl.y, heading_deg, hdir, mSpeed, aim_x, aim_y, mPrevSteer);
+        mPrevSteer = choice.s;
         wall_ahead = choice.wall_d;
         ctx.input &= ~(input_bit::Left | input_bit::Right);
         if (choice.s != 0.0f && (fabsf(choice.s) > 0.9f || ctx.frame % 2 == 0))

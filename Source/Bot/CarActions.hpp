@@ -88,6 +88,7 @@ class DriveAction : public Action
     s32 mStillFrames;
     s32 mReverseUntil;
     float mReverseSteer;
+    float mPrevSteer;
     s32 mOvertakeUntil;
     float mOvertakeX, mOvertakeY;
     s32 mManoeuvres;
