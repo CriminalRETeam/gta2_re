@@ -61,6 +61,8 @@ class Bot : public BotObject
         Profile_DriveTest,
         Profile_Collect,
         Profile_PhoneTest,
+        Profile_Missions,
+        Profile_Travel,
     };
 
     enum RestoreCheckState

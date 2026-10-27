@@ -35,6 +35,7 @@ class WorldModel : public BotObject
         s32 car_damage;
         s32 reload;
         s32 shot_fired;
+        s32 armour;      // hits the armour power up still absorbs (10 when fresh)
         bool attack_pressed;
         bool ped_attacking;
         s32 ped_state;
@@ -156,7 +157,21 @@ class WorldModel : public BotObject
     CarInfo cars[kMaxCars];
     s32 respect[kMaxGangs];
     char gang_names[kMaxGangs][5];
+    s32 gang_index[kMaxGangs]; // Gang::field_1_gang_idx of the same slot (PedInfo::gang_idx uses it)
     s32 gang_count;
+    // Gang territory (map zones of the gang type), read once: the map does not change
+    struct GangZone
+    {
+        s32 gang_idx;
+        s32 x, y, w, h;
+    };
+    enum
+    {
+        kMaxGangZones = 48
+    };
+    s32 gang_zone_count;
+    GangZone gang_zones[kMaxGangZones];
+    bool gang_zones_read;
     // Interesting world objects, nearest first within each kind
     s32 token_count;       // secret tokens still in the world
     s32 tokens_listed;     // how many of the nearest are in tokens[]
@@ -165,6 +180,10 @@ class WorldModel : public BotObject
     ObjInfo frenzies[kMaxObjs];
     s32 phone_count;
     ObjInfo phones[kMaxObjs];
+    // Pickups, nearest first: health (230), armour (231) and weapons (200..227, weapon type = model - 200)
+    s32 pickup_count;
+    ObjInfo pickups[kMaxObjs];
+    s32 weapon_ammo[28];  // ammo per weapon type the player holds (0 = not held)
     bool kill_frenzy_active;
     s32 track_ped_id;     // set by an action: the ped to follow in tracked
     bool tracked_valid;

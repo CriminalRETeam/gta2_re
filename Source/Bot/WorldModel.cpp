@@ -13,6 +13,7 @@
 #include "Char_Pool.hpp"
 #include "Hud.hpp"
 #include "Gang.hpp"
+#include "map_0x370.hpp"
 #include "ScriptManager.hpp"
 #include "rng.hpp"
 #include "enums.hpp"
@@ -47,7 +48,11 @@ WorldModel::WorldModel()
     peds_total = cops_total = cars_total = ped_count = car_count = gang_count = 0;
     exit_pending = false;
     exit_type = 0;
-    token_count = frenzy_count = phone_count = tokens_listed = 0;
+    token_count = frenzy_count = phone_count = tokens_listed = pickup_count = 0;
+    memset(weapon_ammo, 0, sizeof(weapon_ammo));
+    memset(gang_index, 0, sizeof(gang_index));
+    gang_zone_count = 0;
+    gang_zones_read = false;
     kill_frenzy_active = false;
     memset(&bonus, 0, sizeof(bonus));
     track_ped_id = 0;
@@ -175,7 +180,8 @@ void WorldModel::Observe()
     brief_key[0] = 0;
     brief_text[0] = 0;
     phones_ringing = 0;
-    token_count = frenzy_count = phone_count = tokens_listed = 0;
+    token_count = frenzy_count = phone_count = tokens_listed = pickup_count = 0;
+    memset(weapon_ammo, 0, sizeof(weapon_ammo));
     rng = gpRng_67AB34->get_cur_rng_41CFE0();
 
     int i;
@@ -207,6 +213,12 @@ void WorldModel::Observe()
         player.attack_pressed = pPlayer->field_7C_now_attack_pressed;
         player.ped_attacking = me->field_21C_bf.bAttacking != 0;
         player.ped_state = me->field_278_ped_state_1;
+        player.armour = pPlayer->field_6F4_power_up_timers[3];
+        for (i = 0; i < 28; i++)
+        {
+            Weapon* pHeld = pPlayer->field_718_weapons[i];
+            weapon_ammo[i] = pHeld ? pHeld->field_0_ammo : 0;
+        }
         Weapon* pWeapon = pPlayer->GetCurrPlayerWeapon_5648F0();
         if (pWeapon)
         {
@@ -332,6 +344,10 @@ void WorldModel::Observe()
         {
             InsertObj(phones, &phone_count, info, player.x, player.y);
         }
+        else if ((model >= 200 && model <= 227) || model == 230 || model == 231)
+        {
+            InsertObj(pickups, &pickup_count, info, player.x, player.y);
+        }
     }
 
     // Gangs: read the array directly, FirstGang/NextGang share a cursor with the game
@@ -348,7 +364,35 @@ void WorldModel::Observe()
             respect[gang_count] = g->field_11C_respect[pPlayer->field_2E_idx];
             memcpy(gang_names[gang_count], g->field_2_name, 4);
             gang_names[gang_count][4] = 0;
+            gang_index[gang_count] = g->field_1_gang_idx;
             gang_count++;
+        }
+        if (!gang_zones_read && gMap_0x370_6F6268 && gMap_0x370_6F6268->field_32C_pZones)
+        {
+            gang_zones_read = true;
+            const s32 zones = gMap_0x370_6F6268->field_32C_pZones->field_0_num_zones;
+            for (i = 0; i < zones && gang_zone_count < kMaxGangZones; i++)
+            {
+                gmp_map_zone* z = gMap_0x370_6F6268->GetZone_4DFB30(static_cast<u16>(i));
+                if (z->field_0_zone_type != 14)
+                {
+                    continue;
+                }
+                for (int k = 0; k < kMaxGangs; k++)
+                {
+                    Gang* g = &gGangPool_CA8_67E274->field_0_gang_list[k];
+                    if (g->field_0_used && strncmp(g->field_2_name, z->field_6_name, 4) == 0)
+                    {
+                        GangZone& gz = gang_zones[gang_zone_count++];
+                        gz.gang_idx = g->field_1_gang_idx;
+                        gz.x = z->field_1_x;
+                        gz.y = z->field_2_y;
+                        gz.w = z->field_3_w;
+                        gz.h = z->field_4_h;
+                        break;
+                    }
+                }
+            }
         }
     }
 

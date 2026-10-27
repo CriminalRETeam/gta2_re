@@ -1,0 +1,1191 @@
+#include "Goals.hpp"
+#include "WalkAction.hpp"
+#include "NavFoot.hpp"
+#include "CarActions.hpp"
+#include "CollectActions.hpp"
+#include "MissionActions.hpp"
+#include "Goap.hpp"
+#include "Snapshot.hpp"
+#include "BotLog.hpp"
+#include "BotRng.hpp"
+#include "input_bits.hpp"
+#include <math.h>
+#include <string.h>
+#include "BotCompat.hpp"
+
+// ---------------------------------------------------------------------------------------------
+// Weapons
+
+namespace Weapons
+{
+static const s32 kPedScore[11] = {3, 8, 4, 2, 3, 3, 7, 1, 8, 8, 5};
+static const s32 kCarScore[11] = {1, 3, 10, 0, 7, 6, 2, 0, 8, 3, 1};
+
+s32 Score(s32 t, s32 purpose)
+{
+    if (t < 0 || t > 10)
+    {
+        return 0;
+    }
+    return purpose == VsCar ? kCarScore[t] : kPedScore[t];
+}
+
+s32 MinAmmo(s32 t)
+{
+    switch (t)
+    {
+        case 2:
+        case 4:
+        case 5:
+            return 3;
+        case 8:
+            return 20;
+        default:
+            return 10;
+    }
+}
+
+s32 BestHeld(const WorldModel& w, s32 purpose, s32* out_score)
+{
+    s32 best = -1;
+    s32 best_score = 0;
+    for (s32 t = 0; t <= 10; t++)
+    {
+        if (w.weapon_ammo[t] >= MinAmmo(t) && Score(t, purpose) > best_score)
+        {
+            best = t;
+            best_score = Score(t, purpose);
+        }
+    }
+    if (out_score)
+    {
+        *out_score = best_score;
+    }
+    return best;
+}
+} // namespace Weapons
+
+s32 Goals_PhoneTier(s32 phone_model)
+{
+    s32 tier = (phone_model - 176) / 2;
+    return tier < 0 ? 0 : (tier > 2 ? 2 : tier);
+}
+
+// Every child of a goal starts under a snapshot of its own
+static void BeginChild(BotContext& ctx, Snapshot** snap, Action* child)
+{
+    if (ctx.map)
+    {
+        if (!*snap)
+        {
+            *snap = new Snapshot(ctx.map);
+        }
+        (*snap)->Capture();
+        ctx.action_snap = *snap;
+    }
+    ctx.action_start_frame = ctx.frame;
+    child->Start(ctx);
+}
+
+// ---------------------------------------------------------------------------------------------
+SelectWeaponAction::SelectWeaponAction(s32 weapon_type)
+    : mType(weapon_type)
+    , mStart(0)
+{
+}
+
+void SelectWeaponAction::Start(BotContext& ctx)
+{
+    mStart = ctx.frame;
+}
+
+Action::Status SelectWeaponAction::Step(BotContext& ctx)
+{
+    ctx.input = 0;
+    if (ctx.world->player.weapon == mType)
+    {
+        return Done;
+    }
+    if (ctx.frame - mStart > 80)
+    {
+        return Fail("action_failed", "select weapon %d: still on %d after 80 frames", mType, ctx.world->player.weapon);
+    }
+    if ((ctx.frame - mStart) % 4 == 0)
+    {
+        ctx.input = input_bit::NextWeapon;
+    }
+    return Running;
+}
+
+// ---------------------------------------------------------------------------------------------
+SequenceGoal::SequenceGoal(const char* name)
+    : mName(name)
+    , mCount(0)
+    , mIdx(0)
+    , mChildStarted(false)
+    , mSnap(NULL)
+{
+    for (int i = 0; i < kMax; i++)
+    {
+        mChild[i] = NULL;
+        mOptional[i] = false;
+    }
+}
+
+SequenceGoal::~SequenceGoal()
+{
+    for (int i = 0; i < mCount; i++)
+    {
+        delete mChild[i];
+    }
+    delete mSnap;
+}
+
+void SequenceGoal::Add(Action* child, bool optional)
+{
+    if (mCount < kMax)
+    {
+        mChild[mCount] = child;
+        mOptional[mCount] = optional;
+        mCount++;
+    }
+}
+
+void SequenceGoal::Start(BotContext& ctx)
+{
+    mIdx = 0;
+    mChildStarted = false;
+}
+
+Action::Status SequenceGoal::Step(BotContext& ctx)
+{
+    ctx.input = 0;
+    while (mIdx < mCount)
+    {
+        if (!mChildStarted)
+        {
+            BeginChild(ctx, &mSnap, mChild[mIdx]);
+            mChildStarted = true;
+        }
+        const Status s = mChild[mIdx]->Step(ctx);
+        if (s == Running)
+        {
+            return Running;
+        }
+        if (s == Failed && !mOptional[mIdx])
+        {
+            return Fail(mChild[mIdx]->fail_condition, "%s step %d (%s): %s", mName, mIdx, mChild[mIdx]->Name(), mChild[mIdx]->fail_detail);
+        }
+        mIdx++;
+        mChildStarted = false;
+        ctx.input = 0;
+    }
+    return Done;
+}
+
+// ---------------------------------------------------------------------------------------------
+PrepareGoal::PrepareGoal(s32 purpose, float max_range, s32 max_frames)
+    : mPurpose(purpose)
+    , mRange(max_range)
+    , mMaxFrames(max_frames)
+    , mStart(0)
+    , mChild(NULL)
+    , mChildId(0)
+    , mSelect(NULL)
+    , mSnap(NULL)
+    , mBanCount(0)
+    , mPicked(0)
+{
+}
+
+PrepareGoal::~PrepareGoal()
+{
+    delete mChild;
+    delete mSelect;
+    delete mSnap;
+}
+
+void PrepareGoal::Start(BotContext& ctx)
+{
+    delete mChild;
+    mChild = NULL;
+    delete mSelect;
+    mSelect = NULL;
+    mStart = ctx.frame;
+    mBanCount = 0;
+    mPicked = 0;
+}
+
+bool PrepareGoal::Banned(s32 id) const
+{
+    for (int i = 0; i < mBanCount; i++)
+    {
+        if (mBan[i] == id)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+// Plans the pickups worth fetching and starts the first; false when there is nothing to fetch
+bool PrepareGoal::Choose(BotContext& ctx)
+{
+    const WorldModel& w = *ctx.world;
+    const WorldModel::PlayerInfo& pl = w.player;
+    Goap::Entity ents[Goap::kMaxEntities];
+    const WorldModel::ObjInfo* objs[Goap::kMaxEntities];
+    s32 count = 0;
+    s32 listed[3] = {0, 0, 0};
+    const bool need_health = pl.hp < 85;
+    const bool need_armour = pl.armour < 6;
+    s32 best_score = 0;
+    Weapons::BestHeld(w, mPurpose, &best_score);
+    const s32 want_score = mPurpose == Weapons::VsCar ? 8 : 7;
+    const bool need_weapon = best_score < want_score;
+    for (int i = 0; i < w.pickup_count && count < Goap::kMaxEntities; i++)
+    {
+        const WorldModel::ObjInfo& o = w.pickups[i];
+        const float dx = o.x - pl.x;
+        const float dy = o.y - pl.y;
+        if (dx * dx + dy * dy > mRange * mRange)
+        {
+            break; // nearest first
+        }
+        if (Banned(o.id))
+        {
+            continue;
+        }
+        s32 kind = -1;
+        float cost = 20.0f;
+        if (o.model == 230 && need_health)
+        {
+            kind = 0;
+        }
+        else if (o.model == 231 && need_armour)
+        {
+            kind = 1;
+        }
+        else if (o.model >= 200 && o.model <= 227 && need_weapon)
+        {
+            const s32 sc = Weapons::Score(o.model - 200, mPurpose);
+            if (sc > best_score && listed[2] < 4)
+            {
+                kind = 2;
+                cost = 20.0f + static_cast<float>(10 - sc) * 30.0f; // the better gun is worth a longer walk
+            }
+        }
+        if (kind < 0)
+        {
+            continue;
+        }
+        ents[count].id = o.id;
+        ents[count].kind = kind;
+        ents[count].x = o.x;
+        ents[count].y = o.y;
+        ents[count].cost = cost;
+        objs[count] = &o;
+        listed[kind]++;
+        count++;
+    }
+    if (count == 0)
+    {
+        return false;
+    }
+    Goap::Goal goal;
+    memset(&goal, 0, sizeof(goal));
+    goal.need[0] = listed[0] ? 1 : 0;
+    goal.need[1] = listed[1] ? 1 : 0;
+    goal.need[2] = listed[2] ? 1 : 0;
+    Goap::Plan plan;
+    Goap::MakePlan(ents, count, goal, pl.x, pl.y, 22.0f, ctx.rng->Next(), &plan);
+    if (!plan.found || plan.length == 0)
+    {
+        return false;
+    }
+    const Goap::Entity& first = ents[plan.order[0]];
+    BotDecision("f=%d prepare: hp %d armour %d weapon %d (best score %d); %d pickups in reach, plan %d, first %s #%d model %d at (%.0f,%.0f)", ctx.frame, pl.hp, pl.armour, pl.weapon, best_score, count, plan.length,
+                first.kind == 0 ? "health" : (first.kind == 1 ? "armour" : "weapon"), first.id, objs[plan.order[0]]->model, first.x, first.y);
+    mChildId = first.id;
+    mChild = new PickUpAction(first.id, first.x, first.y);
+    BeginChild(ctx, &mSnap, mChild);
+    return true;
+}
+
+Action::Status PrepareGoal::Step(BotContext& ctx)
+{
+    const WorldModel::PlayerInfo& pl = ctx.world->player;
+    ctx.input = 0;
+    if (!pl.valid || pl.dead)
+    {
+        return Running;
+    }
+    if (pl.in_car)
+    {
+        return Done; // the pickups are walked onto
+    }
+    if (ctx.frame - mStart > mMaxFrames)
+    {
+        BotDecision("f=%d prepare: out of time, %d pickups taken", ctx.frame, mPicked);
+        return Done;
+    }
+    if (mSelect)
+    {
+        const Status s = mSelect->Step(ctx);
+        return s == Running ? Running : Done;
+    }
+    for (;;)
+    {
+        if (!mChild)
+        {
+            if (Choose(ctx))
+            {
+                continue;
+            }
+            // Nothing more to fetch: use the best gun held
+            s32 sc = 0;
+            const s32 best = Weapons::BestHeld(*ctx.world, mPurpose, &sc);
+            if (best >= 0 && best != pl.weapon && sc > Weapons::Score(pl.weapon, mPurpose))
+            {
+                BotDecision("f=%d prepare: selecting weapon %d (score %d) over %d", ctx.frame, best, sc, pl.weapon);
+                mSelect = new SelectWeaponAction(best);
+                mSelect->Start(ctx);
+                return Running;
+            }
+            return Done;
+        }
+        const Status s = mChild->Step(ctx);
+        if (s == Running)
+        {
+            return Running;
+        }
+        if (s == Done)
+        {
+            mPicked++;
+        }
+        else if (mBanCount < kMaxBan)
+        {
+            BotDecision("f=%d prepare: pickup #%d failed (%s): %s", ctx.frame, mChildId, mChild->fail_condition, mChild->fail_detail);
+            mBan[mBanCount++] = mChildId;
+        }
+        delete mChild;
+        mChild = NULL;
+        ctx.input = 0;
+        return Running; // plan again next frame, with the world as it is now
+    }
+}
+
+// ---------------------------------------------------------------------------------------------
+TravelGoal::TravelGoal(float x, float y, float arrive_dist)
+    : mX(x)
+    , mY(y)
+    , mArrive(arrive_dist)
+    , mStage(Decide)
+    , mChild(NULL)
+    , mSnap(NULL)
+    , mCarId(0)
+    , mBanCount(0)
+    , mCarFailures(0)
+    , mWalkOnly(false)
+{
+}
+
+TravelGoal::~TravelGoal()
+{
+    delete mChild;
+    delete mSnap;
+}
+
+void TravelGoal::Start(BotContext& ctx)
+{
+    delete mChild;
+    mChild = NULL;
+    mStage = Decide;
+    mBanCount = 0;
+    mCarFailures = 0;
+    mWalkOnly = false;
+}
+
+float TravelGoal::Remaining(const WorldModel& w) const
+{
+    const float dx = mX - w.player.x;
+    const float dy = mY - w.player.y;
+    return sqrtf(dx * dx + dy * dy);
+}
+
+// A car worth walking to: parked and unlocked, or waiting in traffic (hijacked); never a police
+// car, a mission car or a wreck. dist is the path length on foot.
+bool TravelGoal::ChooseCar(BotContext& ctx, s32* out_id, bool* out_hijack, float* out_dist, float max_dist)
+{
+    const WorldModel& w = *ctx.world;
+    const WorldModel::PlayerInfo& pl = w.player;
+    float best = 1e9f;
+    bool found = false;
+    bool cops_near = false;
+    for (int i = 0; i < w.ped_count; i++)
+    {
+        cops_near = cops_near || (w.peds[i].cop && !w.peds[i].dead && w.peds[i].dist < 16.0f);
+    }
+    for (int i = 0; i < w.car_count; i++)
+    {
+        const WorldModel::CarInfo& c = w.cars[i];
+        bool banned = false;
+        for (int b = 0; b < mBanCount; b++)
+        {
+            banned = banned || mBan[b] == c.idx;
+        }
+        if (banned || c.locked || c.police || c.mission || c.damage > 1500 || c.dist > max_dist)
+        {
+            continue;
+        }
+        if (c.has_driver && (c.speed > 0.03f || pl.wanted_stars > 0 || cops_near))
+        {
+            continue; // moving traffic cannot be boarded, and a hijack in front of the police ends in an arrest
+        }
+        if (!ctx.nav->FindPath(static_cast<u8>(pl.x), static_cast<u8>(pl.y), static_cast<u8>(pl.z + 0.5f), static_cast<u8>(c.x), static_cast<u8>(c.y)) || ctx.nav->Approximate())
+        {
+            continue;
+        }
+        // a hijack is dearer than a parked car: the driver fights back
+        const float cost = static_cast<float>(ctx.nav->PathLength()) + (c.has_driver ? 25.0f : 0.0f) + static_cast<float>(c.damage) * 0.01f;
+        if (cost < best)
+        {
+            best = cost;
+            *out_id = c.idx;
+            *out_hijack = c.has_driver;
+            *out_dist = static_cast<float>(ctx.nav->PathLength());
+            found = true;
+        }
+    }
+    return found;
+}
+
+void TravelGoal::BeginStage(BotContext& ctx, Stage st)
+{
+    delete mChild;
+    mChild = NULL;
+    mStage = st;
+    const WorldModel::PlayerInfo& pl = ctx.world->player;
+    switch (st)
+    {
+        case GetCar:
+        {
+            WorldModel::CarInfo c;
+            const bool hijack = ctx.world->FindCar(mCarId, &c) && c.has_driver;
+            mChild = new EnterCarAction(mCarId, hijack);
+            break;
+        }
+        case Drive:
+            mChild = new DriveAction(mX, mY, mArrive > 6.0f ? mArrive : 6.0f);
+            break;
+        case Dismount:
+            mChild = new ExitCarAction();
+            break;
+        case Walk:
+            mChild = new WalkAction(mX, mY, false, mArrive);
+            break;
+        default:
+            return;
+    }
+    BeginChild(ctx, &mSnap, mChild);
+    (void)pl;
+}
+
+void TravelGoal::Decided(BotContext& ctx)
+{
+    const WorldModel& w = *ctx.world;
+    const WorldModel::PlayerInfo& pl = w.player;
+    const float remaining = Remaining(w);
+    if (remaining <= mArrive)
+    {
+        mStage = Walk; // arrived: the walk finishes at once
+        BeginStage(ctx, Walk);
+        return;
+    }
+    if (pl.in_car)
+    {
+        BotDecision("f=%d travel: in car #%d, %.0f tiles to (%.0f,%.0f)", ctx.frame, pl.car_id, remaining, mX, mY);
+        BeginStage(ctx, remaining > mArrive + 6.0f ? Drive : Dismount);
+        return;
+    }
+    // on foot: cost of walking against the cost of getting a car and driving
+    float walk_cost = remaining * 22.0f * 1.4f;
+    if (ctx.nav->FindPath(static_cast<u8>(pl.x), static_cast<u8>(pl.y), static_cast<u8>(pl.z + 0.5f), static_cast<u8>(mX), static_cast<u8>(mY)))
+    {
+        walk_cost = static_cast<float>(ctx.nav->PathLength()) * 22.0f;
+    }
+    else
+    {
+        walk_cost = 1e6f; // no way on foot
+    }
+    s32 car = 0;
+    bool hijack = false;
+    float to_car = 0.0f;
+    if (!mWalkOnly && remaining > 35.0f && ChooseCar(ctx, &car, &hijack, &to_car, 45.0f))
+    {
+        const float car_cost = to_car * 22.0f + remaining * 1.3f * 9.0f + 200.0f;
+        if (car_cost < walk_cost * 0.7f)
+        {
+            mCarId = car;
+            BotDecision("f=%d travel: %.0f tiles to (%.0f,%.0f); taking car #%d%s %.0f tiles away (cost %.0f against %.0f on foot)", ctx.frame, remaining, mX, mY, car, hijack ? " (hijack)" : "", to_car, car_cost, walk_cost);
+            BeginStage(ctx, GetCar);
+            return;
+        }
+    }
+    BotDecision("f=%d travel: walking %.0f tiles to (%.0f,%.0f) (%.0f frames on foot; %d cars known, walk only %d)", ctx.frame, remaining, mX, mY, walk_cost, w.car_count, mWalkOnly);
+    BeginStage(ctx, Walk);
+}
+
+Action::Status TravelGoal::Step(BotContext& ctx)
+{
+    const WorldModel::PlayerInfo& pl = ctx.world->player;
+    ctx.input = 0;
+    if (!pl.valid)
+    {
+        return Running;
+    }
+    if (mStage == Decide)
+    {
+        if (ctx.frame - ctx.action_start_frame >= 30) // the player may still be falling into the map at the start of a run
+        {
+            Decided(ctx);
+        }
+        return Running;
+    }
+    // On foot and a long way to go: a car that stops next to us (traffic at a crossing) or sits
+    // parked close by is worth more than the rest of the walk
+    if (mStage == Walk && !mWalkOnly && ctx.frame % 30 == 0 && !pl.in_car && Remaining(*ctx.world) > 40.0f)
+    {
+        s32 car = 0;
+        bool hijack = false;
+        float to_car = 0.0f;
+        if (ChooseCar(ctx, &car, &hijack, &to_car, 8.0f))
+        {
+            mCarId = car;
+            BotDecision("f=%d travel: %.0f tiles to go; car #%d%s is %.0f tiles away: taking it", ctx.frame, Remaining(*ctx.world), car, hijack ? " (hijack)" : "", to_car);
+            BeginStage(ctx, GetCar);
+            return Running;
+        }
+    }
+    const Status s = mChild->Step(ctx);
+    if (s == Running)
+    {
+        return Running;
+    }
+    ctx.input = 0;
+    switch (mStage)
+    {
+        case GetCar:
+            if (s == Done)
+            {
+                BeginStage(ctx, Drive);
+            }
+            else
+            {
+                BotDecision("f=%d travel: could not get car #%d (%s): %s", ctx.frame, mCarId, mChild->fail_condition, mChild->fail_detail);
+                if (mBanCount < kMaxBan)
+                {
+                    mBan[mBanCount++] = mCarId;
+                }
+                if (++mCarFailures >= 3)
+                {
+                    mWalkOnly = true;
+                }
+                delete mChild;
+                mChild = NULL;
+                mStage = Decide;
+            }
+            return Running;
+        case Drive:
+            if (s == Failed)
+            {
+                BotDecision("f=%d travel: the drive failed (%s): %s; on foot from here", ctx.frame, mChild->fail_condition, mChild->fail_detail);
+                mWalkOnly = true;
+            }
+            BeginStage(ctx, Dismount);
+            return Running;
+        case Dismount:
+            if (s == Failed)
+            {
+                return Fail(mChild->fail_condition, "travel: %s", mChild->fail_detail);
+            }
+            delete mChild;
+            mChild = NULL;
+            mStage = Decide;
+            mWalkOnly = true; // the rest is on foot
+            if (Remaining(*ctx.world) <= mArrive)
+            {
+                return Done;
+            }
+            return Running;
+        case Walk:
+            if (s == Failed)
+            {
+                return Fail(mChild->fail_condition, "travel: %s", mChild->fail_detail);
+            }
+            return Done;
+        default:
+            return Done;
+    }
+}
+
+// ---------------------------------------------------------------------------------------------
+static bool IEqualPrefix(const char* text, const char* name4)
+{
+    for (int i = 0; i < 4; i++)
+    {
+        char a = text[i];
+        char b = name4[i];
+        if (a >= 'A' && a <= 'Z')
+        {
+            a = static_cast<char>(a + 32);
+        }
+        if (b >= 'A' && b <= 'Z')
+        {
+            b = static_cast<char>(b + 32);
+        }
+        if (a != b || a == 0)
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+// The first gang named after "kill" / "eliminate" in the brief
+s32 Goals_ParseKillHint(const WorldModel& w, const char* brief)
+{
+    const char* from = NULL;
+    for (const char* p = brief; *p && !from; p++)
+    {
+        if (IEqualPrefix(p, "kill") || IEqualPrefix(p, "elim"))
+        {
+            from = p;
+        }
+    }
+    if (!from)
+    {
+        return -1;
+    }
+    for (const char* p = from; *p; p++)
+    {
+        for (int g = 0; g < w.gang_count; g++)
+        {
+            if (IEqualPrefix(p, w.gang_names[g]))
+            {
+                return w.gang_index[g];
+            }
+        }
+    }
+    return -1;
+}
+
+KillGangGoal::KillGangGoal(s32 gang_idx, s32 kills, s32 max_frames)
+    : mGang(gang_idx)
+    , mWant(kills)
+    , mMaxFrames(max_frames)
+    , mStart(0)
+    , mKilled(0)
+    , mChild(NULL)
+    , mHunting(false)
+    , mTargetId(0)
+    , mSnap(NULL)
+    , mBanCount(0)
+    , mWander(0)
+    , mZone(0)
+    , mFailures(0)
+{
+}
+
+KillGangGoal::~KillGangGoal()
+{
+    delete mChild;
+    delete mSnap;
+}
+
+void KillGangGoal::Start(BotContext& ctx)
+{
+    mStart = ctx.frame;
+    mKilled = 0;
+    mBanCount = 0;
+    mWander = 0;
+    mZone = 0;
+    mFailures = 0;
+    delete mChild;
+    mChild = NULL;
+}
+
+bool KillGangGoal::Banned(s32 id) const
+{
+    for (int i = 0; i < mBanCount; i++)
+    {
+        if (mBan[i] == id)
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+void KillGangGoal::NextChild(BotContext& ctx)
+{
+    const WorldModel& w = *ctx.world;
+    const WorldModel::PlayerInfo& pl = w.player;
+    for (int i = 0; i < w.ped_count; i++)
+    {
+        const WorldModel::PedInfo& p = w.peds[i];
+        if (p.gang_idx == mGang && !p.dead && !p.cop && !p.in_car && p.dist < 35.0f && !Banned(p.id))
+        {
+            mHunting = true;
+            mTargetId = p.id;
+            BotDecision("f=%d kill_gang: hunting ped #%d of gang %d at %.0f tiles (%d of %d killed)", ctx.frame, p.id, mGang, p.dist, mKilled, mWant);
+            mChild = new KillPedAction(p.id, p.x, p.y);
+            BeginChild(ctx, &mSnap, mChild);
+            return;
+        }
+    }
+    // Nobody in sight: walk about the gang's territory, nearest zone first
+    mHunting = false;
+    if (pl.in_car)
+    {
+        mChild = new ExitCarAction();
+        BeginChild(ctx, &mSnap, mChild);
+        return;
+    }
+    const WorldModel::GangZone* best[WorldModel::kMaxGangZones];
+    float best_d[WorldModel::kMaxGangZones];
+    int n = 0;
+    for (int i = 0; i < w.gang_zone_count; i++)
+    {
+        const WorldModel::GangZone& z = w.gang_zones[i];
+        if (z.gang_idx != mGang)
+        {
+            continue;
+        }
+        const float dx = z.x + z.w * 0.5f - pl.x;
+        const float dy = z.y + z.h * 0.5f - pl.y;
+        const float d = dx * dx + dy * dy;
+        int pos = n++;
+        while (pos > 0 && best_d[pos - 1] > d)
+        {
+            best[pos] = best[pos - 1];
+            best_d[pos] = best_d[pos - 1];
+            pos--;
+        }
+        best[pos] = &z;
+        best_d[pos] = d;
+    }
+    if (n == 0)
+    {
+        mFailures++;
+        return;
+    }
+    const WorldModel::GangZone& z = *best[mZone % n];
+    // a random reachable tile of the zone
+    for (int attempt = 0; attempt < 24; attempt++)
+    {
+        const s32 tx = z.x + static_cast<s32>(ctx.rng->Below(static_cast<u32>(z.w > 0 ? z.w : 1)));
+        const s32 ty = z.y + static_cast<s32>(ctx.rng->Below(static_cast<u32>(z.h > 0 ? z.h : 1)));
+        if (WorldModel::TileType(tx, ty) == 0 || WorldModel::TileType(tx, ty) == 4)
+        {
+            continue;
+        }
+        if (ctx.nav->FindPath(static_cast<u8>(pl.x), static_cast<u8>(pl.y), static_cast<u8>(pl.z + 0.5f), static_cast<u8>(tx), static_cast<u8>(ty)) && !ctx.nav->Approximate())
+        {
+            BotDecision("f=%d kill_gang: nobody of gang %d in sight; walking to (%d,%d) in its zone %d", ctx.frame, mGang, tx, ty, mZone % n);
+            mChild = new TravelGoal(tx + 0.5f, ty + 0.5f, 2.0f);
+            BeginChild(ctx, &mSnap, mChild);
+            if (++mWander % 4 == 0)
+            {
+                mZone++;
+            }
+            return;
+        }
+    }
+    mZone++;
+    mFailures++;
+}
+
+Action::Status KillGangGoal::Step(BotContext& ctx)
+{
+    const WorldModel::PlayerInfo& pl = ctx.world->player;
+    ctx.input = 0;
+    if (!pl.valid)
+    {
+        return Running;
+    }
+    if (mKilled >= mWant)
+    {
+        return Done;
+    }
+    if (ctx.frame - mStart > mMaxFrames)
+    {
+        return Fail("no_progress", "kill_gang: %d of %d gang %d peds killed in %d frames", mKilled, mWant, mGang, mMaxFrames);
+    }
+    if (mFailures > 30)
+    {
+        return Fail("no_plan", "kill_gang: nowhere to look for gang %d (%d of %d killed)", mGang, mKilled, mWant);
+    }
+    if (!mChild)
+    {
+        NextChild(ctx);
+        return Running;
+    }
+    // A gang ped came into sight while walking: switch to hunting it
+    if (!mHunting && ctx.frame % 10 == 0)
+    {
+        for (int i = 0; i < ctx.world->ped_count; i++)
+        {
+            const WorldModel::PedInfo& p = ctx.world->peds[i];
+            if (p.gang_idx == mGang && !p.dead && !p.cop && !p.in_car && p.dist < 20.0f && !Banned(p.id))
+            {
+                delete mChild;
+                mChild = NULL;
+                NextChild(ctx);
+                return Running;
+            }
+        }
+    }
+    const Status s = mChild->Step(ctx);
+    if (s == Running)
+    {
+        return Running;
+    }
+    if (mHunting)
+    {
+        if (s == Done)
+        {
+            mKilled++;
+        }
+        else if (mBanCount < kMaxBan)
+        {
+            mBan[mBanCount++] = mTargetId;
+        }
+    }
+    else if (s == Failed)
+    {
+        mFailures++;
+    }
+    delete mChild;
+    mChild = NULL;
+    ctx.input = 0;
+    return Running;
+}
+
+// ---------------------------------------------------------------------------------------------
+MissionGoal::MissionGoal(const WorldModel::ObjInfo& phone)
+    : mPhone(phone)
+    , mStage(Prep)
+    , mChild(NULL)
+    , mSnap(NULL)
+    , mRefused(false)
+{
+    mRefusalBrief[0] = 0;
+}
+
+MissionGoal::~MissionGoal()
+{
+    delete mChild;
+    delete mSnap;
+}
+
+void MissionGoal::BeginStage(BotContext& ctx, Stage st)
+{
+    delete mChild;
+    mStage = st;
+    mChild = NULL;
+    switch (st)
+    {
+        case Prep:
+            mChild = new PrepareGoal(Weapons::VsPed, 40.0f, 1500);
+            break;
+        case Travel:
+            mChild = new TravelGoal(mPhone.x, mPhone.y, 8.0f);
+            break;
+        case Phone:
+            mChild = new PhoneAction(mPhone.id, mPhone.x, mPhone.y);
+            break;
+        case Play:
+            mChild = new MissionAction();
+            break;
+        default:
+            return;
+    }
+    BeginChild(ctx, &mSnap, mChild);
+}
+
+void MissionGoal::Start(BotContext& ctx)
+{
+    mRefused = false;
+    BeginStage(ctx, Prep);
+}
+
+Action::Status MissionGoal::Step(BotContext& ctx)
+{
+    ctx.input = 0;
+    if (!mChild)
+    {
+        return Done;
+    }
+    const Status s = mChild->Step(ctx);
+    if (s == Running)
+    {
+        return Running;
+    }
+    if (s == Failed)
+    {
+        if (mStage == Phone)
+        {
+            PhoneAction* phone = static_cast<PhoneAction*>(mChild);
+            mRefused = phone->Refused();
+            strncpy(mRefusalBrief, phone->RefusalBrief(), sizeof(mRefusalBrief) - 1);
+            mRefusalBrief[sizeof(mRefusalBrief) - 1] = 0;
+        }
+        return Fail(mChild->fail_condition, "phone #%d stage %d (%s): %s", mPhone.id, static_cast<int>(mStage), mChild->Name(), mChild->fail_detail);
+    }
+    ctx.input = 0;
+    if (mStage == Prep)
+    {
+        BeginStage(ctx, Travel);
+    }
+    else if (mStage == Travel)
+    {
+        BeginStage(ctx, Phone);
+    }
+    else if (mStage == Phone)
+    {
+        BeginStage(ctx, Play);
+    }
+    else
+    {
+        mStage = Over;
+        return Done;
+    }
+    return Running;
+}
+
+// ---------------------------------------------------------------------------------------------
+MissionsGoal::MissionsGoal(s32 want_missions)
+    : mWant(want_missions)
+    , mPassed(0)
+    , mStart(0)
+    , mChild(NULL)
+    , mRaise(NULL)
+    , mRaisePhone(0)
+    , mSnap(NULL)
+    , mMemoryCount(0)
+    , mFailures(0)
+    , mRaiseFailures(0)
+{
+}
+
+MissionsGoal::~MissionsGoal()
+{
+    delete mChild;
+    delete mRaise;
+    delete mSnap;
+}
+
+void MissionsGoal::Start(BotContext& ctx)
+{
+    mStart = ctx.frame;
+}
+
+MissionsGoal::PhoneMemory* MissionsGoal::Memory(s32 id, bool create)
+{
+    for (int i = 0; i < mMemoryCount; i++)
+    {
+        if (mMemory[i].id == id)
+        {
+            return &mMemory[i];
+        }
+    }
+    if (!create || mMemoryCount == kMaxPhones)
+    {
+        return NULL;
+    }
+    PhoneMemory* m = &mMemory[mMemoryCount++];
+    memset(m, 0, sizeof(*m));
+    m->id = id;
+    m->hint_gang = -1;
+    return m;
+}
+
+// Has the respect of any gang changed since the vector was taken?
+static bool RespectMoved(const WorldModel& w, const s32* before)
+{
+    for (int i = 0; i < w.gang_count; i++)
+    {
+        if (w.respect[i] != before[i])
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+s32 MissionsGoal::RespectSum(const WorldModel& w) const
+{
+    s32 sum = 0;
+    for (int i = 0; i < w.gang_count; i++)
+    {
+        sum += w.respect[i];
+    }
+    return sum;
+}
+
+// The cheapest phone not yet passed: tier first (green, amber, red), then distance. A phone that
+// refused is left alone until the respect of some gang has changed since.
+bool MissionsGoal::ChoosePhone(BotContext& ctx, WorldModel::ObjInfo* out)
+{
+    const WorldModel& w = *ctx.world;
+    float best = 1e9f;
+    bool found = false;
+    for (int i = 0; i < w.phone_count; i++)
+    {
+        const WorldModel::ObjInfo& p = w.phones[i];
+        const PhoneMemory* m = Memory(p.id, false);
+        float penalty = 0.0f;
+        if (m)
+        {
+            if (m->passed || m->tries >= 2)
+            {
+                continue;
+            }
+            if (m->refused && !RespectMoved(w, m->respect_at_refusal_v))
+            {
+                continue;
+            }
+            penalty = static_cast<float>(m->tries) * 600.0f;
+        }
+        const float dx = p.x - w.player.x;
+        const float dy = p.y - w.player.y;
+        const float cost = sqrtf(dx * dx + dy * dy) + static_cast<float>(Goals_PhoneTier(p.model)) * 400.0f + penalty;
+        if (cost < best)
+        {
+            best = cost;
+            *out = p;
+            found = true;
+        }
+    }
+    return found;
+}
+
+Action::Status MissionsGoal::Step(BotContext& ctx)
+{
+    ctx.input = 0;
+    if (!ctx.world->player.valid)
+    {
+        return Running;
+    }
+    if (mRaise)
+    {
+        const Status s = mRaise->Step(ctx);
+        if (s == Running)
+        {
+            return Running;
+        }
+        if (s == Done)
+        {
+            BotDecision("f=%d missions: respect raised for phone #%d: respect sum now %d", ctx.frame, mRaisePhone, RespectSum(*ctx.world));
+        }
+        else
+        {
+            mRaiseFailures++;
+            BotDecision("f=%d missions: raising respect for phone #%d failed (%s): %s", ctx.frame, mRaisePhone, mRaise->fail_condition, mRaise->fail_detail);
+        }
+        delete mRaise;
+        mRaise = NULL;
+        // whatever the kills did, the phone may be asked again; if the respect did not move it is not
+        ctx.input = 0;
+        if (mRaiseFailures > 6)
+        {
+            return Fail("action_failed", "missions: raising respect failed %d times (%d of %d missions passed)", mRaiseFailures, mPassed, mWant);
+        }
+        return Running;
+    }
+    if (mChild)
+    {
+        const Status s = mChild->Step(ctx);
+        if (s == Running)
+        {
+            return Running;
+        }
+        PhoneMemory* m = Memory(mChild->PhoneId(), true);
+        const bool refused = s == Failed && mChild->Refused();
+        if (s == Done)
+        {
+            mPassed++;
+            if (m)
+            {
+                m->passed = true;
+            }
+            BotDecision("f=%d missions: phone #%d done, %d of %d passed, cash %d", ctx.frame, mChild->PhoneId(), mPassed, mWant, ctx.world->player.cash);
+        }
+        else if (refused)
+        {
+            // Nothing happened in the world but a brief: stay where we are, and do what it says
+            BotDecision("f=%d missions: phone #%d refused: %s", ctx.frame, mChild->PhoneId(), mChild->RefusalBrief());
+            if (m)
+            {
+                m->refused = true;
+                for (int r = 0; r < WorldModel::kMaxGangs; r++)
+                {
+                    m->respect_at_refusal_v[r] = ctx.world->respect[r];
+                }
+                m->hint_gang = Goals_ParseKillHint(*ctx.world, mChild->RefusalBrief());
+                if (m->hint_gang >= 0)
+                {
+                    m->kills_asked = m->kills_asked == 0 ? 4 : m->kills_asked * 2;
+                    mRaisePhone = m->id;
+                    SequenceGoal* seq = new SequenceGoal("raise_respect");
+                    seq->Add(new PrepareGoal(Weapons::VsPed, 40.0f, 1500), true);
+                    seq->Add(new KillGangGoal(m->hint_gang, m->kills_asked, 6000), false);
+                    mRaise = seq;
+                    BotDecision("f=%d missions: raising respect: kill %d of gang %d", ctx.frame, m->kills_asked, m->hint_gang);
+                    BeginChild(ctx, &mSnap, mRaise);
+                }
+            }
+        }
+        else
+        {
+            mFailures++;
+            BotDecision("f=%d missions: phone #%d failed (%s): %s", ctx.frame, mChild->PhoneId(), mChild->fail_condition, mChild->fail_detail);
+            // the attempt is undone: the world goes back to before it
+            if (mSnap)
+            {
+                mSnap->Restore();
+                ctx.world->Observe();
+            }
+            if (m)
+            {
+                m->tries++;
+            }
+        }
+        delete mChild;
+        mChild = NULL;
+        ctx.input = 0;
+        if (mPassed >= mWant)
+        {
+            return Done;
+        }
+        if (mFailures > 16)
+        {
+            return Fail("action_failed", "missions: %d failed attempts, %d of %d missions passed", mFailures, mPassed, mWant);
+        }
+        return Running;
+    }
+    if (mPassed >= mWant)
+    {
+        return Done;
+    }
+    WorldModel::ObjInfo phone;
+    if (!ChoosePhone(ctx, &phone))
+    {
+        return Fail("no_plan", "missions: no phone left to try (%d of %d passed, %d failed attempts)", mPassed, mWant, mFailures);
+    }
+    BotDecision("f=%d missions: next phone #%d model %d (tier %d) at (%.0f,%.0f), I am at (%.0f,%.0f)", ctx.frame, phone.id, phone.model, Goals_PhoneTier(phone.model), phone.x, phone.y, ctx.world->player.x, ctx.world->player.y);
+    mChild = new MissionGoal(phone);
+    BeginChild(ctx, &mSnap, mChild);
+    return Running;
+}

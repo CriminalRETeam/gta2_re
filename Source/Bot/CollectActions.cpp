@@ -667,8 +667,11 @@ PhoneAction::PhoneAction(s32 object_id, float x, float y)
     , mOnIt(false)
     , mOnItFrame(0)
     , mWasOnMission(false)
+    , mRefused(false)
+    , mBriefFrame(0)
 {
     mBrief0[0] = 0;
+    mBrief[0] = 0;
 }
 
 PhoneAction::~PhoneAction()
@@ -681,6 +684,9 @@ void PhoneAction::Start(BotContext& ctx)
     delete mWalk;
     mWalk = NULL;
     mOnIt = false;
+    mRefused = false;
+    mBriefFrame = 0;
+    mBrief[0] = 0;
     mWasOnMission = ctx.world->on_mission;
     strncpy(mBrief0, ctx.world->brief_key, sizeof(mBrief0) - 1);
     mBrief0[sizeof(mBrief0) - 1] = 0;
@@ -725,11 +731,25 @@ Action::Status PhoneAction::Step(BotContext& ctx)
     }
     if (strcmp(mBrief0, ctx.world->brief_key) != 0 && ctx.world->brief_key[0])
     {
-        BotDecision("f=%d phone: a brief came up (\"%s\" [%s]) on_mission=%d", ctx.frame, ctx.world->brief_key, ctx.world->brief_text, ctx.world->on_mission);
-        return Done;
+        // A brief without a mission is the phone's refusal ("kill some Zaibatsu before you return
+        // for work"): give the script a few seconds to start the mission anyway
+        if (mBriefFrame == 0)
+        {
+            mBriefFrame = ctx.frame;
+            strncpy(mBrief, ctx.world->brief_text, sizeof(mBrief) - 1);
+            mBrief[sizeof(mBrief) - 1] = 0;
+            BotDecision("f=%d phone: a brief came up (\"%s\" [%s]) on_mission=%d", ctx.frame, ctx.world->brief_key, ctx.world->brief_text, ctx.world->on_mission);
+        }
+        if (ctx.frame - mBriefFrame > 200)
+        {
+            mRefused = true;
+            return Fail("action_failed", "phone #%d: refused: \"%s\"", mId, mBrief);
+        }
+        return Running;
     }
     if (ctx.frame - mOnItFrame > 120)
     {
+        mRefused = true;
         return Fail("action_failed", "phone #%d: standing on it for 120 frames, no mission or brief (on_mission=%d, brief \"%s\")", mId, ctx.world->on_mission, ctx.world->brief_key);
     }
     // step on and off the phone to touch it again

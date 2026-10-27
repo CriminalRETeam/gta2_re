@@ -99,6 +99,18 @@ class PhoneAction : public Action
     virtual void Start(BotContext& ctx);
     virtual Status Step(BotContext& ctx);
 
+    // After Failed: the script gave neither a mission nor a brief
+    bool Refused() const
+    {
+        return mRefused;
+    }
+
+    // The brief text shown when the phone refused (empty if none)
+    const char* RefusalBrief() const
+    {
+        return mBrief;
+    }
+
   private:
     s32 mId;
     float mX, mY;
@@ -106,6 +118,9 @@ class PhoneAction : public Action
     bool mOnIt;
     s32 mOnItFrame;
     bool mWasOnMission;
+    bool mRefused;
+    s32 mBriefFrame;
+    char mBrief[400];
     char mBrief0[12];
 };
 

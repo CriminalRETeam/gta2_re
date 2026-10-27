@@ -10,6 +10,7 @@
 #include "CarActions.hpp"
 #include "CollectActions.hpp"
 #include "MissionActions.hpp"
+#include "Goals.hpp"
 #include "Goap.hpp"
 #include <math.h>
 #include <windows.h>
@@ -127,6 +128,14 @@ Bot::Bot(const BotOptions& opts)
     else if (_stricmp(opts.profile, "collect") == 0)
     {
         mProfile = Profile_Collect;
+    }
+    else if (_stricmp(opts.profile, "travel") == 0)
+    {
+        mProfile = Profile_Travel;
+    }
+    else if (_stricmp(opts.profile, "missions") == 0)
+    {
+        mProfile = Profile_Missions;
     }
     else if (_stricmp(opts.profile, "drive_test") == 0)
     {
@@ -452,6 +461,8 @@ void Bot::OnFrame()
             case Profile_DriveTest:
             case Profile_Collect:
             case Profile_PhoneTest:
+            case Profile_Missions:
+            case Profile_Travel:
                 StepActions();
                 break;
             default:
@@ -719,6 +730,16 @@ void Bot::BuildActions()
     if (mProfile == Profile_Collect)
     {
         return; // CollectNext plans
+    }
+    if (mProfile == Profile_Travel)
+    {
+        mActions[mActionCount++] = new TravelGoal(mOpts.goto_x, mOpts.goto_y, 6.0f);
+        return;
+    }
+    if (mProfile == Profile_Missions)
+    {
+        mActions[mActionCount++] = new MissionsGoal(mOpts.want_missions > 0 ? mOpts.want_missions : 3);
+        return;
     }
     if (mProfile == Profile_PhoneTest && mOpts.skip_phone)
     {
