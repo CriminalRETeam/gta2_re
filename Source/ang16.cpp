@@ -27,13 +27,13 @@ void Ang16::SnapToAng4_405640()
 }
 
 MATCH_FUNC(0x405680)
-u8 Ang16::ToAng4_405680()
+u8 Ang16::ToAng4_405680() const
 {
     return rValue / 360;
 }
 
 MATCH_FUNC(0x4056A0)
-u8 Ang16::GetOctant_4056A0()
+u8 Ang16::GetOctant_4056A0() const
 {
     return rValue / 180;
 }
