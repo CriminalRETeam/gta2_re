@@ -40,6 +40,10 @@ WorldModel::WorldModel()
     memset(&arrow, 0, sizeof(arrow));
     memset(peds, 0, sizeof(peds));
     memset(cars, 0, sizeof(cars));
+    memset(prev_car_id, 0, sizeof(prev_car_id));
+    memset(prev_car_x, 0, sizeof(prev_car_x));
+    memset(prev_car_y, 0, sizeof(prev_car_y));
+    memset(prev_car_frame, 0, sizeof(prev_car_frame));
     memset(respect, 0, sizeof(respect));
     memset(gang_names, 0, sizeof(gang_names));
     frame = 0;
@@ -708,6 +712,18 @@ void WorldModel::Observe()
         info.police = c->field_A0_car_kind == 6;
         info.speed = c->field_58_physics ? F(c->GetVelocity_43A4C0()) : 0.0f;
         info.top_speed = TopSpeed(c->field_84_car_info_idx);
+        {
+            const int h = info.idx & (kPrevCars - 1);
+            if (prev_car_id[h] == info.idx && frame - prev_car_frame[h] == 1)
+            {
+                info.vx = info.x - prev_car_x[h];
+                info.vy = info.y - prev_car_y[h];
+            }
+            prev_car_id[h] = info.idx;
+            prev_car_x[h] = info.x;
+            prev_car_y[h] = info.y;
+            prev_car_frame[h] = frame;
+        }
         const float dx = info.x - player.x;
         const float dy = info.y - player.y;
         info.dist = sqrtf(dx * dx + dy * dy);

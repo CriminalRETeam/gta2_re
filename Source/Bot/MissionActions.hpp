@@ -37,6 +37,7 @@ class MissionAction : public Action
     bool mStarted;
     s32 mStartPassed;
     s32 mStart;
+    float mProgX, mProgY;  // where the player was when the progress timer last restarted
     s32 mLastChange;       // frame of the last arrow / brief / progress change
     char mLastBrief[12];
     s32 mLastArrowType;

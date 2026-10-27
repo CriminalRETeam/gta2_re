@@ -105,6 +105,7 @@ RamCarAction::RamCarAction(s32 target_car_id)
     , mLastTargetDamage(0)
     , mLastDamageFrame(0)
     , mStoppedFrames(0)
+    , mStay(false)
     , mWpCount(0)
 {
 }
@@ -209,7 +210,7 @@ Action::Status RamCarAction::Step(BotContext& ctx)
 
     // The target has stopped (stuck, wrecked in the road, driver gone) and we are next to it:
     // that is the moment to get out and finish it with the gun
-    if (dist < 7.0f && tspeed < 0.01f)
+    if (dist < 7.0f && tspeed < 0.01f && !mStay)
     {
         mStoppedFrames++;
         if (mStoppedFrames > 30)
@@ -237,7 +238,7 @@ Action::Status RamCarAction::Step(BotContext& ctx)
     {
         mStill = 0;
     }
-    if (mStill > 45 && !(dist < 4.0f && tspeed < 0.02f))
+    if (mStill > 45 && (mStay || !(dist < 4.0f && tspeed < 0.02f)))
     {
         mStill = 0;
         mReverseUntil = ctx.frame + 35;

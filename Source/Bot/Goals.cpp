@@ -669,7 +669,7 @@ Action::Status TravelGoal::Step(BotContext& ctx)
                 BotDecision("f=%d travel: the drive failed (%s): %s", ctx.frame, mChild->fail_condition, mChild->fail_detail);
                 // thrown out of the car (its owner took it back): get it back, the thief is next to it
                 WorldModel::CarInfo lost;
-                if (strstr(mChild->fail_detail, "not in a car") != NULL && mReclaims < 2 && mCarId != 0 && ctx.world->FindCar(mCarId, &lost) && lost.dist < 12.0f)
+                if (strstr(mChild->fail_detail, "not in a car") != NULL && mReclaims < 4 && mCarId != 0 && ctx.world->FindCar(mCarId, &lost) && lost.dist < 25.0f)
                 {
                     mReclaims++;
                     BotDecision("f=%d travel: car #%d is %.1f tiles away: taking it back (%d)", ctx.frame, mCarId, lost.dist, mReclaims);
@@ -1121,6 +1121,8 @@ DestroyCarGoal::DestroyCarGoal(s32 car_id)
     , mBanCount(0)
     , mStart(0)
     , mReclaims(0)
+    , mStageStart(0)
+    , mApproaches(0)
 {
 }
 
@@ -1145,6 +1147,7 @@ void DestroyCarGoal::BeginStage(BotContext& ctx, Stage st)
     delete mChild;
     mChild = NULL;
     mStage = st;
+    mStageStart = ctx.frame;
     switch (st)
     {
         case Prep:
@@ -1162,8 +1165,14 @@ void DestroyCarGoal::BeginStage(BotContext& ctx, Stage st)
             break;
         }
         case Ram:
-            mChild = new RamCarAction(mCarId);
+        {
+            RamCarAction* ram = new RamCarAction(mCarId);
+            s32 score = 0;
+            Weapons::BestHeld(*ctx.world, Weapons::VsCar, &score);
+            ram->SetStay(score < 6); // nothing worth getting out for: keep hitting it
+            mChild = ram;
             break;
+        }
         case Leave:
             mChild = new ExitCarAction();
             break;
@@ -1171,6 +1180,14 @@ void DestroyCarGoal::BeginStage(BotContext& ctx, Stage st)
             mTriedShoot = true;
             mChild = new DestroyCarAction(mCarId);
             break;
+        case Approach:
+        {
+            WorldModel::CarInfo t;
+            const float tx = ctx.world->FindCar(mCarId, &t) ? t.x : ctx.world->player.x;
+            const float ty = ctx.world->FindCar(mCarId, &t) ? t.y : ctx.world->player.y;
+            mChild = new TravelGoal(tx, ty, 25.0f, true); // by car, train or on foot, whichever is quickest
+            break;
+        }
     }
     BeginChild(ctx, &mSnap, mChild);
 }
@@ -1185,6 +1202,14 @@ void DestroyCarGoal::Decide(BotContext& ctx)
     {
         delete mChild; // gone: Step reports Done
         mChild = NULL;
+        return;
+    }
+    if (t.dist > 45.0f && mApproaches < 3)
+    {
+        // a long way off: get near first (in a car if one can be had), the choice of weapon waits
+        mApproaches++;
+        BotDecision("f=%d destroy_car: car #%d is %.0f tiles away: travelling to it first (%d)", ctx.frame, mCarId, t.dist, mApproaches);
+        BeginStage(ctx, Approach);
         return;
     }
     s32 score = 0;
@@ -1210,7 +1235,7 @@ void DestroyCarGoal::Decide(BotContext& ctx)
     s32 pick = 0;
     bool hijack = false;
     float path = 0.0f;
-    if (mRamTries < 3)
+    if (mRamTries < 14)
     {
         if (pl.in_car)
         {
@@ -1266,6 +1291,7 @@ void DestroyCarGoal::Next(BotContext& ctx, bool ok)
     switch (mStage)
     {
         case Prep:
+        case Approach:
             Decide(ctx);
             break;
         case Shoot:
@@ -1292,7 +1318,7 @@ void DestroyCarGoal::Next(BotContext& ctx, bool ok)
         {
             // Thrown out of the car (its owner took it back): go back for it while it is near, rather than walk
             WorldModel::CarInfo lost;
-            if (!ok && strstr(mChild->fail_detail, "not in a car") != NULL && mReclaims < 2 && mPickId != 0 && ctx.world->FindCar(mPickId, &lost) && lost.dist < 15.0f)
+            if (!ok && strstr(mChild->fail_detail, "not in a car") != NULL && mReclaims < 4 && mPickId != 0 && ctx.world->FindCar(mPickId, &lost) && lost.dist < 25.0f)
             {
                 mReclaims++;
                 BotDecision("f=%d destroy_car: thrown out of car #%d, %.1f tiles away: taking it back (%d)", ctx.frame, mPickId, lost.dist, mReclaims);
@@ -1341,6 +1367,14 @@ Action::Status DestroyCarGoal::Step(BotContext& ctx)
     if (!mChild)
     {
         return Fail("no_plan", "destroy_car: no way left to destroy car #%d (shoot tried %d, ram tries %d)", mCarId, mTriedShoot, mRamTries);
+    }
+    if ((mStage == Shoot || mStage == Finish) && ctx.frame - mStageStart > 900)
+    {
+        // a target that drives off cannot be chased on foot
+        BotDecision("f=%d destroy_car: 900 frames of shooting at car #%d (damage %d) got nowhere: trying the other way", ctx.frame, mCarId, t.damage);
+        ctx.input = 0;
+        Next(ctx, false);
+        return Running;
     }
     const Status s = mChild->Step(ctx);
     if (s == Running)

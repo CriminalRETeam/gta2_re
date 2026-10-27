@@ -147,10 +147,9 @@
         "-bot_phone_id=226"
       ],
       "budget": 60000,
-      "expect": "FAIL",
+      "expect": "NONE",
       "replay": false,
-      "note": "tracked challenge (passed before the eager-car travel changes): the player is run over by a police car while waiting at the roadside, the mission restarts, the ram car is taken back by its owner",
-      "condition": "no_progress"
+      "note": "tracked challenge: it passes when the truck stays put and the walk is lucky (seen once); otherwise the 120 tile trip in traffic stalls (drive stuck in jams) and the truck drives off before the bot arrives"
     },
     {
       "name": "train_ride",

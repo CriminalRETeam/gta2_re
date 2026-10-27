@@ -23,6 +23,8 @@ MissionAction::MissionAction()
     , mStarted(false)
     , mStartPassed(0)
     , mStart(0)
+    , mProgX(0.0f)
+    , mProgY(0.0f)
     , mLastChange(0)
     , mLastArrowType(-1)
     , mRetries(0)
@@ -64,6 +66,8 @@ void MissionAction::Start(BotContext& ctx)
     mStarted = false;
     mStart = ctx.frame;
     mLastChange = ctx.frame;
+    mProgX = ctx.world->player.x;
+    mProgY = ctx.world->player.y;
     mStartPassed = ctx.world->missions_passed;
     mRetries = 0;
     mNoArrowFrames = 0;
@@ -85,6 +89,8 @@ bool MissionAction::Restart(BotContext& ctx, const char* why)
     DropChild();
     mStarted = false;
     mLastChange = ctx.frame;
+    mProgX = ctx.world->player.x;
+    mProgY = ctx.world->player.y;
     mNoArrowFrames = 0;
     mLastArrowType = -1;
     return true;
@@ -190,6 +196,17 @@ Action::Status MissionAction::Step(BotContext& ctx)
         mLastChange = ctx.frame;
         BotDecision("f=%d mission: brief \"%s\" [%.390s], arrow %s type %d at (%.0f,%.0f), I am at (%.0f,%.0f) hp %d %s", ctx.frame, ctx.world->brief_key, ctx.world->brief_text, arrow.valid ? "" : "none", arrow.type, arrow.x, arrow.y, pl.x, pl.y,
                     pl.hp, pl.in_car ? "in a car" : "on foot");
+    }
+    {
+        // travelling counts as progress: a long drive through traffic changes neither brief nor arrow
+        const float mx = pl.x - mProgX;
+        const float my = pl.y - mProgY;
+        if (mx * mx + my * my > 15.0f * 15.0f)
+        {
+            mProgX = pl.x;
+            mProgY = pl.y;
+            mLastChange = ctx.frame;
+        }
     }
     if (ctx.frame - mLastChange > 5000)
     {

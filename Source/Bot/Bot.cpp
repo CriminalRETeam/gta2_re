@@ -29,6 +29,7 @@
 #include "rng.hpp"
 #include "input_bits.hpp"
 #include <dinput.h>
+#include <stdlib.h>
 #include "FpsCounter.hpp"
 #include "InputRecorder_67F8B0.hpp"
 #include "BotCompat.hpp"
@@ -101,6 +102,10 @@ Bot::Bot(const BotOptions& opts)
     , mStartCash(0)
     , mLastHurtFrame(-1000)
     , mDefenseFrames(0)
+    , mEvadeUntil(0)
+    , mEvades(0)
+    , mEvadeTx(0.0f)
+    , mEvadeTy(0.0f)
     , mPrevHp(100)
     , mDamageLogs(0)
     , mMapDumped(false)
@@ -1000,6 +1005,10 @@ void Bot::StepActions()
     {
         mInputBits = mCtx.input & input_bit::ControlBits;
     }
+    if (strcmp(pAction->Name(), "kill_frenzy") != 0 && Evade())
+    {
+        mInputBits = mCtx.input & input_bit::ControlBits;
+    }
     if ((mFrame - mCtx.action_start_frame) % 5 == 0)
     {
         mTrace.Printf("act f=%d %s pos=%.2f,%.2f rot=%.0f in=%x incar=%d cdmg=%d hp=%d wanted=%d cops=%d weapon=%d/%d\n", mFrame, pAction->Name(), mWorld->player.x, mWorld->player.y, mWorld->player.rot_deg, mInputBits, mWorld->player.in_car, mWorld->player.car_damage, mWorld->player.hp, mWorld->player.wanted_stars, mWorld->cops_total, mWorld->player.weapon, mWorld->player.ammo);
@@ -1231,6 +1240,69 @@ bool Bot::SelfDefense()
     if (fabsf(err) < 35.0f && (mFrame % 8) < 6)
     {
         mCtx.input |= input_bit::Attack;
+    }
+    return true;
+}
+
+// A reflex over every action: a car coming straight at the player on foot is dodged, sideways and
+// with a jump when it is close, whatever the action was doing
+bool Bot::Evade()
+{
+    const WorldModel::PlayerInfo& pl = mWorld->player;
+    if (pl.in_car || pl.dead)
+    {
+        return false;
+    }
+    const WorldModel::CarInfo* threat = NULL;
+    float side = 0.0f;
+    float along_t = 0.0f;
+    for (int i = 0; i < mWorld->car_count; i++)
+    {
+        const WorldModel::CarInfo& c = mWorld->cars[i];
+        const float v = sqrtf(c.vx * c.vx + c.vy * c.vy);
+        if (v < 0.12f || c.dist > 6.0f)
+        {
+            continue;
+        }
+        const float ux = c.vx / v;
+        const float uy = c.vy / v;
+        const float rx = pl.x - c.x;
+        const float ry = pl.y - c.y;
+        const float along = rx * ux + ry * uy;      // ahead of the car
+        const float across = rx * -uy + ry * ux;    // to its left (+) or right (-)
+        // reaches us within about 25 frames, and we stand in its path (a car is about 1.3 tiles wide)
+        if (along > 0.0f && along < 1.5f + v * 10.0f && fabsf(across) < 1.0f && (!threat || along < along_t))
+        {
+            threat = &c;
+            along_t = along;
+            side = across >= 0.0f ? 1.0f : -1.0f;
+        }
+    }
+    if (threat && mFrame >= mEvadeUntil)
+    {
+        const float v = sqrtf(threat->vx * threat->vx + threat->vy * threat->vy);
+        // sideways = perpendicular to the car's path, to the side we already stand on
+        mEvadeTx = pl.x + (-threat->vy / v) * 3.0f * side;
+        mEvadeTy = pl.y + (threat->vx / v) * 3.0f * side;
+        mEvadeUntil = mFrame + 14;
+        mEvades++;
+        BotDecision("f=%d evade: car #%d (model %d) %.1f tiles away heading at us (speed %.2f), jumping aside (%d)", mFrame, threat->idx, threat->model, threat->dist, v, mEvades);
+    }
+    else if (mFrame >= mEvadeUntil)
+    {
+        return false;
+    }
+    const float tx = mEvadeTx;
+    const float ty = mEvadeTy;
+    mCtx.input = 0;
+    const float err = mCtx.Steer(mCtx.foot, pl.rot_deg, pl.x, pl.y, tx, ty, true);
+    if (fabsf(err) < 60.0f)
+    {
+        mCtx.input |= input_bit::Forward;
+    }
+    if (mEvadeUntil - mFrame > 10)
+    {
+        mCtx.input |= input_bit::HandbrakeJump;
     }
     return true;
 }

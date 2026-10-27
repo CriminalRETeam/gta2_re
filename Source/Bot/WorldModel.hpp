@@ -96,6 +96,7 @@ class WorldModel : public BotObject
         float x, y;
         float dist;
         float speed; // tiles per frame
+        float vx, vy; // movement since the last observation, tiles per frame (0 when not seen before)
         float top_speed; // the model's top speed (game units, only to compare models)
         bool has_driver;
         bool locked;
@@ -157,6 +158,15 @@ class WorldModel : public BotObject
 
     s32 frame;
     s32 rng;
+    // Where each car was at the last Observe (hashed by id), for its velocity
+    enum
+    {
+        kPrevCars = 1024
+    };
+    s32 prev_car_id[kPrevCars];
+    float prev_car_x[kPrevCars];
+    float prev_car_y[kPrevCars];
+    s32 prev_car_frame[kPrevCars];
     PlayerInfo player;
     ArrowInfo arrow;
     bool on_mission;

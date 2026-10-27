@@ -97,6 +97,10 @@ class Bot : public BotObject
     void ClearActions();
     void CollectNext();
     bool SelfDefense();
+    bool Evade();
+    s32 mEvadeUntil;
+    s32 mEvades;
+    float mEvadeTx, mEvadeTy;
     void OnCollectFailure(Action* pAction);
     void StuckReport(const char* condition, const char* detail);
 

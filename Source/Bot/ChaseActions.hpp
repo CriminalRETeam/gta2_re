@@ -24,6 +24,12 @@ class RamCarAction : public Action
   public:
     explicit RamCarAction(s32 target_car_id);
 
+    // Keep ramming a stopped target instead of finishing: no gun worth getting out for
+    void SetStay(bool stay)
+    {
+        mStay = stay;
+    }
+
     virtual const char* Name() const
     {
         return "ram_car";
@@ -51,6 +57,7 @@ class RamCarAction : public Action
     s32 mLastTargetDamage;
     s32 mLastDamageFrame;
     s32 mStoppedFrames;
+    bool mStay;
     enum
     {
         kMaxWp = 64

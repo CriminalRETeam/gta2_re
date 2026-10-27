@@ -266,7 +266,8 @@ class DestroyCarGoal : public Action
         GetCar,
         Ram,
         Leave,
-        Finish
+        Finish,
+        Approach
     };
     void Decide(BotContext& ctx);
     void BeginStage(BotContext& ctx, Stage st);
@@ -284,6 +285,8 @@ class DestroyCarGoal : public Action
     s32 mBanCount;
     s32 mStart;
     s32 mReclaims;
+    s32 mStageStart;
+    s32 mApproaches;
 };
 
 // One phone: prepare, answer it, play the mission it starts
