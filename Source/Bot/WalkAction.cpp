@@ -26,6 +26,13 @@ WalkAction::WalkAction(float x, float y, bool follow_arrow, float stop_dist)
     , mTrafficWait(0)
     , mYieldUntil(0)
     , mYields(0)
+    , mJumpUntil(0)
+    , mJumpStart(0)
+    , mJumps(0)
+    , mNudgeUntil(0)
+    , mNudges(0)
+    , mNudgeX(0)
+    , mNudgeY(0)
     , mCalibrating(false)
     , mExitCar(NULL)
 {
@@ -65,6 +72,10 @@ bool WalkAction::Plan(BotContext& ctx, const char* why)
     mProgressFrame = ctx.frame;
     mYields = 0;
     mTrafficWait = 0;
+    mNudges = 0;
+    mNudgeUntil = 0;
+    mJumps = 0;
+    mJumpUntil = 0;
     BotDecision("f=%d walk plan (%s) (%d,%d,%d)->(%d,%d): %s, %u tiles, %u explored, %u banned",
                 ctx.frame, why, sx, sy, sz, static_cast<u8>(mTx), static_cast<u8>(mTy), mPlanned ? "found" : "NO PATH",
                 ctx.nav->PathLength(), ctx.nav->Expanded(), ctx.nav->BanCount());
@@ -248,6 +259,69 @@ Action::Status WalkAction::Step(BotContext& ctx)
                 return Running;
             }
         }
+    }
+
+    // A parked car in the way (the one we just left, a wreck): slide round it, one side then the other
+    if (ctx.frame < mNudgeUntil)
+    {
+        const float nerr = ctx.Steer(ctx.foot, pl.rot_deg, pl.x, pl.y, mNudgeX, mNudgeY, true);
+        if (fabsf(nerr) < 40.0f)
+        {
+            ctx.input |= input_bit::Forward;
+        }
+        mProgressFrame = ctx.frame;
+        return Running;
+    }
+    if (ctx.frame - mProgressFrame > 35 && mNudges < 6 && ctx.world->car_count > 0 && ctx.world->cars[0].dist < 1.6f && !ctx.world->cars[0].has_driver)
+    {
+        const WorldModel::CarInfo& pc = ctx.world->cars[0];
+        float ax = pl.x - pc.x;
+        float ay = pl.y - pc.y;
+        const float al = sqrtf(ax * ax + ay * ay);
+        if (al < 0.01f)
+        {
+            ax = 1.0f;
+            ay = 0.0f;
+        }
+        else
+        {
+            ax /= al;
+            ay /= al;
+        }
+        // away from the car, turned 45 degrees to the left or the right of that
+        const float turn = (mNudges % 2 == 0) ? 0.785f : -0.785f;
+        const float c = cosf(turn);
+        const float s = sinf(turn);
+        mNudgeX = pl.x + (ax * c - ay * s) * 2.5f;
+        mNudgeY = pl.y + (ax * s + ay * c) * 2.5f;
+        mNudgeUntil = ctx.frame + 30;
+        BotDecision("f=%d walk: parked car #%d %.1f tiles away in the way at (%.1f,%.1f); sliding round it towards (%.1f,%.1f) (%d)", ctx.frame, pc.idx, pc.dist, pl.x, pl.y, mNudgeX, mNudgeY, mNudges + 1);
+        mNudges++;
+        return Running;
+    }
+
+    // Still no progress: jump at the next waypoint (the ped can hop low obstacles: kerbs, bollards, a bumper)
+    if (ctx.frame < mJumpUntil)
+    {
+        const float jerr = ctx.Steer(ctx.foot, pl.rot_deg, pl.x, pl.y, ctx.nav->PathAt(mPathIdx).x + 0.5f, ctx.nav->PathAt(mPathIdx).y + 0.5f, true);
+        if (fabsf(jerr) < 40.0f)
+        {
+            ctx.input |= input_bit::Forward;
+        }
+        if (ctx.frame - mJumpStart < 3)
+        {
+            ctx.input |= input_bit::HandbrakeJump;
+        }
+        mProgressFrame = ctx.frame;
+        return Running;
+    }
+    if (ctx.frame - mProgressFrame > 70 && mJumps < 3 && mPathIdx < len)
+    {
+        mJumps++;
+        mJumpStart = ctx.frame;
+        mJumpUntil = ctx.frame + 25;
+        BotDecision("f=%d walk: no progress at (%.1f,%.1f) towards tile (%d,%d); jumping (%d)", ctx.frame, pl.x, pl.y, ctx.nav->PathAt(mPathIdx).x, ctx.nav->PathAt(mPathIdx).y, mJumps);
+        return Running;
     }
 
     // A car in the way (traffic at a crossing): step back and let it go before calling it stuck

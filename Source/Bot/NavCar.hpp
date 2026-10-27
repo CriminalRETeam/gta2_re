@@ -52,6 +52,9 @@ class NavCar : public BotObject
     }
 
     // Tiles within radius of (cx, cy) are closed to FindPath until ClearBans (a drive got stuck there)
+    // A pavement or field tile with clearance (not a road: cars parked there jam the traffic) between min_r and max_r tiles from (x, y), nearest first, for moving a car out of a doorway
+    bool FindClearSpot(float x, float y, int min_r, int max_r, float* out_x, float* out_y) const;
+
     void BanArea(int cx, int cy, int radius);
     void ClearBans();
 

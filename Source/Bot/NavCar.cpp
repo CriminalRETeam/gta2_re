@@ -201,6 +201,33 @@ bool NavCar::EdgeFree(int x, int y, int nx, int ny) const
     return true;
 }
 
+bool NavCar::FindClearSpot(float x, float y, int min_r, int max_r, float* out_x, float* out_y) const
+{
+    const int cx = static_cast<int>(x);
+    const int cy = static_cast<int>(y);
+    int best_d = 1 << 30;
+    for (int dy = -max_r; dy <= max_r; dy++)
+    {
+        for (int dx = -max_r; dx <= max_r; dx++)
+        {
+            const int d = dx * dx + dy * dy;
+            if (d < min_r * min_r || d > max_r * max_r || d >= best_d)
+            {
+                continue;
+            }
+            const int tx = cx + dx;
+            const int ty = cy + dy;
+            if (Open(tx, ty) && mGrid[ty * 256 + tx] != 3 && Safe(tx, ty, 1) && Safe(tx + 1, ty + 1, 1) && Safe(tx - 1, ty - 1, 1))
+            {
+                best_d = d;
+                *out_x = tx + 0.5f;
+                *out_y = ty + 0.5f;
+            }
+        }
+    }
+    return best_d < (1 << 30);
+}
+
 void NavCar::BanArea(int cx, int cy, int radius)
 {
     for (int y = cy - radius; y <= cy + radius; y++)

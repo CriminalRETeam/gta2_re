@@ -24,6 +24,9 @@ struct Steering
 float Bot_WrapDeg(float d);
 float Bot_HeadingDeg(float dx, float dy); // 0 = towards -Y, clockwise
 
+// No building / wall tile on the straight line between two points (sampled every half tile): a clear line of fire
+bool Bot_LineClear(float x0, float y0, float x1, float y1);
+
 // Shared by the actions. Owned by the Bot; nothing here points into game memory.
 struct BotContext
 {

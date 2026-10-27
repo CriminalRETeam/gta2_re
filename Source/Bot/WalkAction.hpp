@@ -46,6 +46,12 @@ class WalkAction : public Action
     s32 mTrafficWait;
     s32 mYieldUntil;
     s32 mYields;
+    s32 mJumpUntil;
+    s32 mJumpStart;
+    s32 mJumps;
+    s32 mNudgeUntil;
+    s32 mNudges;
+    float mNudgeX, mNudgeY;
     Calibrator mCalib;
     bool mCalibrating;
     Action* mExitCar; // when the walk starts in a car

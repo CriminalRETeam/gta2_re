@@ -1,6 +1,7 @@
 #include "MissionActions.hpp"
 #include "WalkAction.hpp"
 #include "CarActions.hpp"
+#include "NavCar.hpp"
 #include "CollectActions.hpp"
 #include "Goals.hpp"
 #include "WorldModel.hpp"
@@ -28,6 +29,9 @@ MissionAction::MissionAction()
     , mNoArrowFrames(0)
     , mHornUntil(0)
     , mHornParked(false)
+    , mLastCarId(0)
+    , mRemedy(NULL)
+    , mRemedyUsed(false)
     , mWheelsId(0)
     , mWheelsTried(0)
     , mWheelsSearchFrame(0)
@@ -40,6 +44,7 @@ MissionAction::MissionAction()
 MissionAction::~MissionAction()
 {
     delete mChild;
+    delete mRemedy;
     delete mStepSnap;
 }
 
@@ -218,6 +223,24 @@ Action::Status MissionAction::Step(BotContext& ctx)
     }
     mNoArrowFrames = 0;
 
+    if (pl.in_car)
+    {
+        mLastCarId = pl.car_id;
+    }
+    if (mRemedy)
+    {
+        // moving the car we left out of the way (it blocks a doorway): then the failed step is tried again
+        const Status rs = mRemedy->Step(ctx);
+        if (rs != Running)
+        {
+            BotDecision("f=%d mission: car moved (%s)", ctx.frame, rs == Done ? "done" : mRemedy->fail_detail);
+            delete mRemedy;
+            mRemedy = NULL;
+            DropChild();
+        }
+        return Running;
+    }
+
     // What does the arrow ask for? Make a child action for it
     char key[kKeyLen];
     bool horn = false;
@@ -263,6 +286,7 @@ Action::Status MissionAction::Step(BotContext& ctx)
         {
             mHornParked = false;
         }
+        mRemedyUsed = false;
         DropChild();
         strncpy(mChildKey, key, kKeyLen - 1);
         mChildKey[kKeyLen - 1] = 0;
@@ -349,6 +373,26 @@ Action::Status MissionAction::RunChild(BotContext& ctx)
     else if (s == Failed)
     {
         BotDecision("f=%d mission: step %s failed (%s): %s", ctx.frame, mChildKey, mChild->fail_condition, mChild->fail_detail);
+        if (!mRemedyUsed && mLastCarId != 0 && !pl.in_car)
+        {
+            // The car we left may be parked in the way (a doorway, an alley): move it before giving up on the step
+            WorldModel::CarInfo c;
+            float sx = 0, sy = 0;
+            if (ctx.world->FindCar(mLastCarId, &c) && c.dist < 8.0f && !c.has_driver && ctx.road->FindClearSpot(c.x, c.y, 6, 16, &sx, &sy))
+            {
+                mRemedyUsed = true;
+                SequenceGoal* fix = new SequenceGoal("move_car");
+                fix->Add(new EnterCarAction(mLastCarId), false);
+                fix->Add(new DriveAction(sx, sy, 2.5f), false);
+                fix->Add(new ExitCarAction(), false);
+                mRemedy = fix;
+                BotDecision("f=%d mission: car #%d is %.1f tiles away, maybe in the way; moving it to (%.0f,%.0f)", ctx.frame, mLastCarId, c.dist, sx, sy);
+                ctx.action_start_frame = ctx.frame;
+                mRemedy->Start(ctx);
+                DropChild();
+                return Running;
+            }
+        }
         if (!Restart(ctx, "a step failed"))
         {
             return Fail(mChild->fail_condition, "mission step %s: %s", mChildKey, mChild->fail_detail);

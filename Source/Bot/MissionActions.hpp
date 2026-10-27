@@ -45,6 +45,9 @@ class MissionAction : public Action
     char mBriefMemory[400]; // the last brief text seen: the on-screen brief goes away after a few seconds
     s32 mHornUntil;
     bool mHornParked; // parked on the spot a horn mission asked for
+    s32 mLastCarId;   // the last car the player was in
+    Action* mRemedy;  // moving that car out of the way
+    bool mRemedyUsed;
     s32 mWheelsId;
     s32 mWheelsTried;
     s32 mWheelsSearchFrame;

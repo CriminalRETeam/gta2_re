@@ -879,8 +879,9 @@ Action::Status KillPedAction::Step(BotContext& ctx)
     const bool explosive = pl.weapon == 2 || pl.weapon == 4 || pl.weapon == 5;
     const float stand = explosive ? 7.0f : 4.5f;
 
-    // is there a wall or fence between?
-    if (dist > stand + 1.5f || mWalk)
+    // is there a wall or fence between? Then no standing and shooting here: go round to where the shot is clear
+    const bool clear = Bot_LineClear(pl.x, pl.y, mX, mY);
+    if (dist > stand + 1.5f || mWalk || !clear)
     {
         // one walk per place the target stands at: rebuilding it each time would hide that it is stuck
         if (mWalk && (mX - mWalkTx) * (mX - mWalkTx) + (mY - mWalkTy) * (mY - mWalkTy) > 3.0f * 3.0f)
@@ -890,7 +891,7 @@ Action::Status KillPedAction::Step(BotContext& ctx)
         }
         if (!mWalk)
         {
-            mWalk = new WalkAction(mX, mY, false, stand);
+            mWalk = new WalkAction(mX, mY, false, clear ? stand : 1.2f);
             mWalk->Start(ctx);
             mWalkFrame = ctx.frame;
             mWalkTx = mX;

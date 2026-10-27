@@ -55,6 +55,23 @@ float BotContext::Steer(const Steering& st, float rot, float px, float py, float
     return err;
 }
 
+bool Bot_LineClear(float x0, float y0, float x1, float y1)
+{
+    const float dx = x1 - x0;
+    const float dy = y1 - y0;
+    const float len = sqrtf(dx * dx + dy * dy);
+    const int steps = static_cast<int>(len * 2.0f) + 1;
+    for (int i = 1; i < steps; i++)
+    {
+        const float t = static_cast<float>(i) / steps;
+        if (WorldModel::BuildingAt(x0 + dx * t, y0 + dy * t))
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
 Action::Action()
 {
     fail_condition[0] = 0;

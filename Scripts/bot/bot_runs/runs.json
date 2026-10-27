@@ -131,7 +131,7 @@
       "budget": 40000,
       "expect": "FAIL",
       "replay": false,
-      "note": "tracked challenge: the two bank guards kill the player"
+      "note": "tracked challenge: the guards stand in a walled pocket behind the bank door; the route to it runs through a traffic jam on the crossing, and the mission car parked on the arrow blocks the alley (the bot now moves it)"
     },
     {
       "name": "mission_elmo_truck",
