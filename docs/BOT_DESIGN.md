@@ -573,3 +573,10 @@ police; mission goals that need a respect level the bot cannot reach quickly; th
   address from `output.map`. More comfortable language, but it would need `__thiscall` thunks for
   every game method it calls and a regenerated address header per build; the VC6 static lib
   shares the headers and needs neither.
+
+## Dynamic choices, pickups, arrests (latest)
+
+- `Goals_WantedPickup`: a gun that beats the held one (or ammo for one held low), health under 90 and armour under 10 are taken when within 5 tiles of a walk (`TravelGoal` stage Grab) or 8 tiles in `KillGangGoal`.
+- `KillGangGoal` flees at one star when a live cop is within 14 tiles (an arrest follows otherwise), at two stars anywhere.
+- `MissionsGoal` draws a favourite gang per run (its phones cost 450 less), adds up to 300 of random cost to every phone, and picks the gang to kill for respect at random among those within 75% of the best kill reaction. All from the `-bot_seed` rng, so runs differ by seed and replay by seed.
+- `DriveAction`: a clear straight line (`NavCar::DirectLine`) under 40 tiles skips the route search; the pure pursuit aim point is pulled back until a car-wide corridor to it holds no building. Making string pulling demand diagonal clearance was tried and cost 3 of 12 benchmark runs, so it was left out.
