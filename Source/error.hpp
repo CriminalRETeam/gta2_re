@@ -15,7 +15,7 @@ class ErrorLog
 {
   public:
     EXPORT void Open_4D9470(const char_type* path, s32 truncate_mode);
-    EXPORT ErrorLog(const char* FileName, int truncate_mode);
+    EXPORT ErrorLog(const char_type* FileName, s32 truncate_mode);
     EXPORT void Write_4D9620(const char_type* pMsg);
     EXPORT void Write_Log_4D9650(const char_type* buffer);
 

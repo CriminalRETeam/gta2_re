@@ -14,12 +14,12 @@ struct str_table_entry
     s16 field_0_str_id;
     s16 field_2_zone_idx;
     s16 field_4_type;
-    s16 field_6;
+    s16 field_6_padding;
     u8 field_8_length;
 
-    inline char* get_name()
+    inline char_type* get_name()
     {
-        return reinterpret_cast<char*>(&this[1]);
+        return reinterpret_cast<char_type*>(&this[1]);
     }
 };
 #pragma pack(pop)
@@ -27,7 +27,7 @@ struct str_table_entry
 struct str_table_normalized
 {
     u16 field_0_string_count;
-    s16 field_2_unused; // pad ?
+    s16 field_2_unused;
     str_table_entry* field_4_entries[999];
 };
 
@@ -257,7 +257,7 @@ enum SCRCMD
     SCRCMD_CHANGE_COLOUR = 221, // DD00
     SCRCMD_CHANGE_RADIUS = 222, // DE00
     SCRCMD_SET_GANG_INFO1 = 223, // DF00
-    SCRCMD_SET_CHAR_MOM_FAT = 448, // DF00
+    SCRCMD_SET_CHAR_MOM_FAT = 448, // C001
     SCRCMD_SET_GANG_RESPECT = 224, // E000
     SCRCMD_SET_CHAR_RESPECT = 225, // E100
     SCRCMD_SET_AMBIENT = 226, // E200
@@ -403,7 +403,7 @@ enum SCRCMD
     SCRCMD_ANY_WEAPON_HIT_CAR = 366, // 6E01
     SCRCMD_LOC_SECOND_CHAR = 367, // 6F01
     SCRCMD_STOP_CAR_DRIVE = 368, // 7001
-    SCRCMD_IS_CHAR_MOM_FAT = 449, // 7101
+    SCRCMD_IS_CHAR_MOM_FAT = 449, // C101
     SCRCMD_IS_BUS_FULL = 369, // 7101
     SCRCMD_NO_CHARS_OFF_BUS = 370, // 7201
     SCRCMD_KILL_CHAR = 371, // 7301
@@ -568,7 +568,7 @@ GTA2_ASSERT_SIZEOF_ALWAYS(SavedScriptCounter, 0x4);
 struct SavedCarAndScriptData
 {
     SavedCarInfo field_0_saved_cars; // 3x saved cars
-    s16 field_44_unused; // pad ??
+    s16 field_44_unused;
     s16 field_46_script_ptr_count; // count of populated array entries
     s32 field_48_flags;
     s32 field_4C_started_basic_kf_mask;
@@ -589,7 +589,7 @@ class SaveData
     char_type field_4D_bonus_stage;
     char_type field_4E_pad;
     char_type field_4F_pad;
-    s32 field_50_unused; // never used ?
+    s32 field_50_unused;
     SavedPlayerStats field_54_player_and_world_stats;
     SavedCarAndScriptData field_E4_car_and_script_data;
     SavedObjectData field_5E4_object_data;
@@ -597,6 +597,17 @@ class SaveData
 GTA2_ASSERT_SIZEOF_ALWAYS(SaveData, 0x748);
 
 EXTERN_GLOBAL(SaveData, gGameSave_6F78C8);
+
+// WeaponCheckTable::field_6_flags
+namespace weapon_check_flag
+{
+enum
+{
+    hit_1 = 1, // set once a matching weapon hit the entity
+    car_2 = 2,
+    ped_4 = 4,
+};
+} // namespace weapon_check_flag
 
 struct WeaponCheckTable
 {
@@ -611,64 +622,64 @@ class ScriptManager
 {
   public:
     // 9.6f 0x4C7350
-    inline bool IsOnMission_4C7350()
+    inline bool IsOnMission_4C7350() const
     {
         return field_344_mission_flag && *field_344_mission_flag;
     }
 
     // 9.6f 0x475980
-    inline bool HasCheckFlag1_475980(WeaponCheckTable* pTable)
+    inline bool HasCheckFlag1_475980(const WeaponCheckTable* pTable) const
     {
-        return (pTable->field_6_flags & 1) == 1;
+        return (pTable->field_6_flags & weapon_check_flag::hit_1) == weapon_check_flag::hit_1;
     }
 
     // 9.6f 0x4759A0
-    inline bool HasCheckFlag2_4759A0(WeaponCheckTable* pTable)
+    inline bool HasCheckFlag2_4759A0(const WeaponCheckTable* pTable) const
     {
-        return (pTable->field_6_flags & 2) == 2;
+        return (pTable->field_6_flags & weapon_check_flag::car_2) == weapon_check_flag::car_2;
     }
 
     // 9.6f 0x4759C0
-    inline bool HasCheckFlag4_4759C0(WeaponCheckTable* pTable)
+    inline bool HasCheckFlag4_4759C0(const WeaponCheckTable* pTable) const
     {
-        return (pTable->field_6_flags & 4) == 4;
+        return (pTable->field_6_flags & weapon_check_flag::ped_4) == weapon_check_flag::ped_4;
     }
 
     // 9.6f 0x475A20
-    inline char_type get_field_C1E2C_475A20()
+    inline bool get_field_C1E2C_475A20() const
     {
         return field_C1E2C_bLoadedFromSave;
     }
 
     // 9.6f 0x475A30
-    inline char_type get_field_C1E2D_475A30()
+    inline bool get_field_C1E2D_475A30() const
     {
         return field_C1E2D_bKillFrenzyActive;
     }
 
     // 9.6f 0x475A40
-    inline void set_field_C1E2D_475A40(char_type v)
+    inline void set_field_C1E2D_475A40(bool v)
     {
         field_C1E2D_bKillFrenzyActive = v;
     }
 
-    EXPORT str_table_entry* FindStringById_503080(s16 stringId);
-    EXPORT str_table_entry* StrEntryByString_5030B0(char_type* strToFind);
+    EXPORT str_table_entry* FindStringById_503080(s16 stringId) const;
+    EXPORT str_table_entry* StrEntryByString_5030B0(const char_type* strToFind) const;
     EXPORT void SetGeneratorTypeForCar_511A70(s32 car_model, Generator* pGen);
     EXPORT char_type AddCranePowerupTrigger_511B10(s16 idx);
     EXPORT void SaveScriptCounters_511B90();
     EXPORT void LoadScriptCounters_511C30();
     EXPORT void RestoreAnsweredPhones_511C60();
     EXPORT void SaveMapInfo_511D40();
-    EXPORT void SaveGame_511E10(char_type* FileName);
-    EXPORT void LoadSave_511F80(char_type* FileName);
-    EXPORT ScriptThread* SpawnThread_5120C0(s16 start_cmd, char_type bFlag);
+    EXPORT void SaveGame_511E10(const char_type* pFileName);
+    EXPORT void LoadSave_511F80(const char_type* pFileName);
+    EXPORT ScriptThread* SpawnThread_5120C0(s16 start_cmd, char_type flags);
     EXPORT SCR_CMD_HEADER* FindCommandByType_512100(u16 toFind, u16 startOff);
     EXPORT void StartLevelThread_512160();
     EXPORT void LoadStringTbl_5121E0(u16 tableSize);
     EXPORT void GetScrFileName_5122D0();
     EXPORT void Load_512330(const char_type* pScrName);
-    EXPORT u16 LoadMissionScript_512400(const char_type* String1, u16* pStartCmd);
+    EXPORT u16 LoadMissionScript_512400(const char_type* pScriptName, u16* pStartCmd);
     EXPORT void LoadSubScripts_5125F0();
     EXPORT SCR_CMD_HEADER* GetBasePointer_512770(u16 idx);
     EXPORT void ExecuteScriptThreads_5127A0();
@@ -677,14 +688,14 @@ class ScriptManager
     EXPORT bool TriggerCarThread_512910(s32 ped_id, s32 car_id);
     EXPORT ThreadTrigger* FindPhoneThread_512980(s32 ped_id, s32 obj_id);
     EXPORT void AddPhoneThread_5129B0(s32 ped_id, s32 obj_id, u16 cmd_line);
-    EXPORT bool AnswerPhone_5129F0(s32 ped_idx, s32 phone_idx);
+    EXPORT bool AnswerPhone_5129F0(s32 ped_id, s32 obj_id);
     EXPORT ThreadTrigger* RemovePhoneThread_512A70(s32 ped_id, s32 obj_id);
     EXPORT ThreadTrigger* RemovePhoneThreadByObjId_512AA0(s32 obj_id);
     EXPORT ThreadTrigger* FindPhoneThreadByObjId_512AD0(s32 obj_id);
-    EXPORT bool TestAndRecordWeaponHit_512AF0(s32 id, char_type weapon_idx, char_type bIsPed);
-    EXPORT void ClearWeaponHitFlag_512BA0(s32 id, char_type bIsPed);
-    EXPORT void RecordWeaponHit_512C00(s32 entity_id, s32 projectile_model, char_type bIsPed);
-    EXPORT bool IsWeaponHitRecorded_512C70(s32 id, char_type weapon_idx, char_type bIsPed);
+    EXPORT bool TestAndRecordWeaponHit_512AF0(s32 id, char_type weapon_idx, bool bIsPed);
+    EXPORT void ClearWeaponHitFlag_512BA0(s32 id, bool bIsPed);
+    EXPORT void RecordWeaponHit_512C00(s32 entity_id, s32 projectile_model, bool bIsPed);
+    EXPORT bool IsWeaponHitRecorded_512C70(s32 id, char_type weapon_idx, bool bIsPed) const;
     EXPORT ScriptManager();
     EXPORT ~ScriptManager();
 
@@ -728,17 +739,17 @@ class ScriptManager
     char_type field_467_unused;
     s32 field_468_unused;
     u16 field_46C_base_pointers[6000];
-    BYTE field_334C_script_data[65536];
+    u8 field_334C_script_data[65536];
     str_table_entry* field_1334C_strings;
     str_table_normalized* field_13350_pStringTbl;
-    BYTE field_13354_mission_script_data[620000];
-    BYTE field_AA934_mission_base_pointers[95232];
+    u8 field_13354_mission_script_data[620000];
+    u8 field_AA934_mission_base_pointers[95232];
     s16 field_C1D34_mission_start_cmd[31];
     s16 field_C1D72_mission_base_ptr_idx[31];
     u32 field_C1DB0_mission_script_data_len[31];
-    char_type field_C1E2C_bLoadedFromSave;
-    char_type field_C1E2D_bKillFrenzyActive;
-    char_type field_C1E2E_death_arrest_flag;
+    bool field_C1E2C_bLoadedFromSave;
+    bool field_C1E2D_bKillFrenzyActive;
+    bool field_C1E2E_death_arrest_flag;
     char_type field_C1E2F_saved_gang_respect[3];
     u16 field_C1E32_phone_ids[31];
     u32 field_C1E70_wanted_car_model;

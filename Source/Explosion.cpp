@@ -30,8 +30,8 @@ EXTERN_GLOBAL(Ang16, kAng180_6FD3EE);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6FD448, Fix16(0x100, 0), 0x6FD448);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6FD328, kFpOne64th_6FD448, 0x6FD328);
 DEFINE_GLOBAL_INIT(Fix16, kFpOneThirtySecond_6FD330, kFpOne64th_6FD328 * 2, 0x6FD330);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD450, kFpOne64th_6FD328 / 100, 0x6FD450);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD44C, kFpOne64th_6FD328 / 50, 0x6FD44C);
+DEFINE_GLOBAL_INIT(Fix16, kFpOne6400th_6FD450, kFpOne64th_6FD328 / 100, 0x6FD450);
+DEFINE_GLOBAL_INIT(Fix16, kFpOne3200th_6FD44C, kFpOne64th_6FD328 / 50, 0x6FD44C);
 DEFINE_GLOBAL(s16, gDebrisDirection_6FD5F8, 0x6FD5F8);
 
 DEFINE_GLOBAL_INIT(s16, gExplosionId_623F18, 1, 0x623F18);
@@ -50,7 +50,7 @@ DEFINE_GLOBAL_INIT(Fix16, kFP16ThreeQuarters_6FD370, Fix16(0x3000, 0), 0x6FD370)
 DEFINE_GLOBAL_INIT(Fix16, kFP16Quarter_6FD2EC, Fix16(0x1000, 0), 0x6FD2EC);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne1024th_6FD540, Fix16(0x10, 0), 0x6FD540);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint09_6FD484, Fix16(0x5C2, 0), 0x6FD484);
-DEFINE_GLOBAL(u8, unk_6FD5F6, 0x6FD5F6);
+DEFINE_GLOBAL(u8, gExplosionWantsFlash_6FD5F6, 0x6FD5F6);
 
 DEFINE_GLOBAL_INIT(Fix16, kFpOne512th_6FD548, Fix16(0x20, 0), 0x6FD548);
 DEFINE_GLOBAL_INIT(Fix16, kFP16Eight_6FD4C0, Fix16(8), 0x6FD4C0);
@@ -72,9 +72,9 @@ Explosion::Explosion()
     this->field_C_angle = 0;
     this->field_20_unused = 0;
     this->field_22_spawn_angle = 0;
-    this->field_4_idx = 0;
+    this->field_4_pool_slot_idx = 0;
     this->field_10_type = explosion_type::none_0;
-    this->field_14_pObj2C = 0;
+    this->field_14_pObj2C = NULL;
     this->field_18_particle_cooldown = 0;
     this->field_1A_timer = 0;
     this->field_8_speed = kFP16Zero_6FD49C;
@@ -83,7 +83,7 @@ Explosion::Explosion()
     this->field_24_particle_spread = kFP16Zero_6FD49C;
     this->field_28_blast_radius = kFP16Zero_6FD49C;
     this->field_C_angle = kAngZero_6FD5D4;
-    this->field_1C_pAttachedSprite = 0;
+    this->field_1C_pAttachedSprite = NULL;
     this->field_6_id = 0;
     this->field_2C_owner_ped_id = 0;
 }
@@ -91,8 +91,8 @@ Explosion::Explosion()
 MATCH_FUNC(0x540a10)
 Explosion::~Explosion()
 {
-    field_14_pObj2C = 0;
-    field_1C_pAttachedSprite = 0;
+    field_14_pObj2C = NULL;
+    field_1C_pAttachedSprite = NULL;
 }
 
 // No callers. Every few frames, a particle thrown in a random diagonal direction from the attached object
@@ -106,34 +106,34 @@ void Explosion::EmitRandomDiagonalParticle_540A40()
         switch (gDebrisDirection_6FD5F8)
         {
             case 0:
-                pParticle = gParticle_8_6FD5E8->New_53E3C0(dword_6FD44C, dword_6FD44C, kFpOneThirtySecond_6FD330, dword_6FD450, dword_6FD450, 0);
+                pParticle = gParticle_8_6FD5E8->New_53E3C0(kFpOne3200th_6FD44C, kFpOne3200th_6FD44C, kFpOneThirtySecond_6FD330, kFpOne6400th_6FD450, kFpOne6400th_6FD450, 0);
                 break;
             case 1:
-                pParticle = gParticle_8_6FD5E8->New_53E3C0(-dword_6FD44C,
-                                                           dword_6FD44C,
+                pParticle = gParticle_8_6FD5E8->New_53E3C0(-kFpOne3200th_6FD44C,
+                                                           kFpOne3200th_6FD44C,
                                                            kFpOneThirtySecond_6FD330,
-                                                           -dword_6FD450,
-                                                           dword_6FD450,
+                                                           -kFpOne6400th_6FD450,
+                                                           kFpOne6400th_6FD450,
                                                            0);
                 break;
             case 2:
-                pParticle = gParticle_8_6FD5E8->New_53E3C0(dword_6FD44C,
-                                                           -dword_6FD44C,
+                pParticle = gParticle_8_6FD5E8->New_53E3C0(kFpOne3200th_6FD44C,
+                                                           -kFpOne3200th_6FD44C,
                                                            kFpOneThirtySecond_6FD330,
-                                                           dword_6FD450,
-                                                           -dword_6FD450,
+                                                           kFpOne6400th_6FD450,
+                                                           -kFpOne6400th_6FD450,
                                                            0);
                 break;
             case 3:
-                pParticle = gParticle_8_6FD5E8->New_53E3C0(-dword_6FD44C,
-                                                           -dword_6FD44C,
+                pParticle = gParticle_8_6FD5E8->New_53E3C0(-kFpOne3200th_6FD44C,
+                                                           -kFpOne3200th_6FD44C,
                                                            kFpOneThirtySecond_6FD330,
-                                                           -dword_6FD450,
-                                                           -dword_6FD450,
+                                                           -kFpOne6400th_6FD450,
+                                                           -kFpOne6400th_6FD450,
                                                            0);
                 break;
             default:
-                pParticle = 0;
+                pParticle = NULL;
                 break;
         }
 
@@ -178,7 +178,6 @@ void Explosion::EmitFireTrail_3_12_540D30(Ang16 ang, Fix16 speed)
 
     if (this->field_18_particle_cooldown == 0)
     {
-        //speed = (int)&v27; // TODO: Field_20 wrong val ??
         Particle_4C* pParticle = gParticle_8_6FD5E8->New_53E3C0(point.x, point.y, kFpOneThirtySecond_6FD330, point.x, point.y, 0);
         if (pParticle)
         {
@@ -221,7 +220,6 @@ void Explosion::EmitFireTrail_4_540F90(Ang16 ang, Fix16 speed)
 
     if (this->field_18_particle_cooldown == 0)
     {
-        //speed = (int)&v27; // TODO: Field_20 wrong val ??
         Particle_4C* pParticle = gParticle_8_6FD5E8->New_53E3C0(point.x, point.y, kFpOneThirtySecond_6FD330, point.x, point.y, 0);
         if (pParticle)
         {
@@ -263,7 +261,6 @@ void Explosion::EmitFireTrail_13_14_5411E0(Ang16 ang, Fix16 speed)
 
     if (this->field_18_particle_cooldown == 0)
     {
-        //speed = (int)&v27; // TODO: Field_20 wrong val ??
         Particle_4C* pParticle = gParticle_8_6FD5E8->New_53E3C0(point.x, point.y, kFpOneThirtySecond_6FD330, point.x, point.y, 0);
         if (pParticle)
         {
@@ -339,7 +336,7 @@ void Explosion::EmitFireTrail_5_541430(Ang16 ang, Fix16 speed)
 }
 
 MATCH_FUNC(0x541680)
-Fix16 Explosion::GetBlastRadius_541680()
+Fix16 Explosion::GetBlastRadius_541680() const
 {
     Fix16 radius;
     switch (this->field_10_type)
@@ -369,7 +366,7 @@ Fix16 Explosion::GetBlastRadius_541680()
 
 
 MATCH_FUNC(0x541710)
-Fix16 Explosion::GetBlastHeight_541710()
+Fix16 Explosion::GetBlastHeight_541710() const
 {
     Fix16 height;
     switch (this->field_10_type)
@@ -432,7 +429,7 @@ void Explosion::ApplyBlastDamage_541850(u16 timerVal)
     Fix16 z_low = field_14_pObj2C->field_4_sprite->field_1C_zpos - half_height;
     Fix16 z_high = field_14_pObj2C->field_4_sprite->field_1C_zpos + half_height;
 
-    if (this->field_1A_timer == explosion_timer::first_tick_99 && unk_6FD5F6 == 1)
+    if (this->field_1A_timer == explosion_timer::first_tick_99 && gExplosionWantsFlash_6FD5F6 == 1)
     {
         SpawnFlashParticle_541760();
     }
@@ -441,7 +438,7 @@ void Explosion::ApplyBlastDamage_541850(u16 timerVal)
     rect.SetRect_41E350(left, right, top, bottom);
     rect.SetHiLowZ_41E370(z_low, z_high);
 
-    if (gSpriteGrid_1_679208->CollectRectCollisions_477F30(&rect, 0, 0, field_14_pObj2C->field_4_sprite, &collision_list))
+    if (gSpriteGrid_1_679208->CollectRectCollisions_477F30(&rect, false, sprite_types_enum::none_0, field_14_pObj2C->field_4_sprite, &collision_list))
     {
         while (collision_list.field_0_p18)
         {
@@ -460,7 +457,7 @@ void Explosion::ApplyBlastDamage_541850(u16 timerVal)
                     {
                         pPedChar->field_7C_pPed->field_204_killer_id = ped_id;
                     }
-                    pPedChar->field_7C_pPed->field_290_death_cause = ped_death_cause::unknown_4;
+                    pPedChar->field_7C_pPed->field_290_death_cause = ped_death_cause::explosion_4;
                     pPedChar->field_7C_pPed->field_264_killer_id_timer = 50;
 
                     Fix16 dx = pSprite->field_14_xy.x - this->field_14_pObj2C->field_4_sprite->field_14_xy.x;
@@ -516,7 +513,7 @@ void Explosion::ApplyBlastDamage_541850(u16 timerVal)
                                 {
                                     pCar->field_70_exploder_ped_id = exploder_ped_id;
                                 }
-                                pCar->field_90_death_cause = 4;
+                                pCar->field_90_death_cause = ped_death_cause::explosion_4;
                                 pCar->field_94_exploder_timer = 50;
                                 s16 damage = pCar->AccumulateDamage_43DA90(32000, &kZeroPoint_6FD570);
                                 if (pCar->field_70_exploder_ped_id)
@@ -723,7 +720,7 @@ void Explosion::UpdateExplosion_18_19_20_32_33_542790()
         }
     }
 
-    unk_6FD5F6 = 0;
+    gExplosionWantsFlash_6FD5F6 = 0;
     if (isOnScreen)
     {
         switch (this->field_10_type)
@@ -735,11 +732,11 @@ void Explosion::UpdateExplosion_18_19_20_32_33_542790()
             case explosion_type::item_19:
             case explosion_type::no_ring_32:
                 EmitExplosion_19_32_542060();
-                unk_6FD5F6 = 1;
+                gExplosionWantsFlash_6FD5F6 = 1;
                 break;
             case explosion_type::large_20:
                 EmitExplosion_20_542340();
-                unk_6FD5F6 = 1;
+                gExplosionWantsFlash_6FD5F6 = 1;
                 break;
             default:
                 break;
@@ -802,7 +799,6 @@ void Explosion::UpdateExplosion_18_19_20_32_33_542790()
 
     if (this->field_1A_timer == explosion_timer::first_tick_99)
     {
-        // TODO: Arg order correct?
         gGame_0x40_67E008->ShakeCamerasAtPos_4B9790(8, this->field_14_pObj2C->field_4_sprite->field_14_xy.x, this->field_14_pObj2C->field_4_sprite->field_14_xy.y);
     }
 
@@ -824,7 +820,7 @@ void Explosion::EmitBuildingDebris_22_23_24_25_542E30(u8 direction_idx)
     if (pSprite->field_14_xy.x < Fix16(254) && pSprite->field_14_xy.x > kFP16One_6FD4A0 &&
         pSprite->field_14_xy.y < Fix16(254) && pSprite->field_14_xy.y > kFP16One_6FD4A0)
     {
-        unk_6FD5F6 = 0;
+        gExplosionWantsFlash_6FD5F6 = 0;
         for (u8 i = 0; i < 2u; i++)
         {
             if (gParticle_4C_Pool_6FD5E4->field_0_pStart)
@@ -956,12 +952,12 @@ bool Explosion::Update_5434A0(Fix16 speed, Ang16 ang)
     if (!this->field_1A_timer)
     {
         Explosion::Release_543610();
-        return 1;
+        return true;
     }
 
     if (bSkip_particles_67D64D)
     {
-        return 1;
+        return true;
     }
 
     switch (this->field_10_type)
@@ -969,42 +965,42 @@ bool Explosion::Update_5434A0(Fix16 speed, Ang16 ang)
         case explosion_type::fire_3:
         case explosion_type::car_fire_level1_12:
             Explosion::EmitFireTrail_3_12_540D30(ang, speed);
-            return 0;
+            return false;
         case explosion_type::car_fire_level2_13:
         case explosion_type::car_fire_level3_14:
             Explosion::EmitFireTrail_13_14_5411E0(ang, speed);
-            return 0;
+            return false;
         case explosion_type::car_fire_4:
             Explosion::EmitFireTrail_4_540F90(ang, speed);
-            return 0;
+            return false;
         case explosion_type::molotov_fire_5:
             Explosion::EmitFireTrail_5_541430(ang, speed);
-            return 0;
+            return false;
         case explosion_type::small_18:
         case explosion_type::item_19:
         case explosion_type::large_20:
         case explosion_type::no_ring_32:
         case explosion_type::small_33:
             Explosion::UpdateExplosion_18_19_20_32_33_542790();
-            return 0;
+            return false;
         case explosion_type::building_135_24:
             Explosion::EmitBuildingDebris_22_23_24_25_542E30(building_debris_dir::towards_135_0);
-            return 0;
+            return false;
         case explosion_type::building_315_25:
             Explosion::EmitBuildingDebris_22_23_24_25_542E30(building_debris_dir::towards_315_1);
-            return 0;
+            return false;
         case explosion_type::building_225_23:
             Explosion::EmitBuildingDebris_22_23_24_25_542E30(building_debris_dir::towards_225_2);
-            return 0;
+            return false;
         case explosion_type::building_45_22:
             Explosion::EmitBuildingDebris_22_23_24_25_542E30(building_debris_dir::towards_45_3);
-            return 0;
+            return false;
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x5435d0)
-bool Explosion::IsFireType_5435D0()
+bool Explosion::IsFireType_5435D0() const
 {
     switch (field_10_type)
     {
@@ -1026,11 +1022,11 @@ void Explosion::Release_543610()
     this->field_6_id = 0;
     if (field_0_bIn20Pool == 0)
     {
-        gExplosionPool_7A8_6FD5F0->field_780_bUsed[this->field_4_idx] = 0;
+        gExplosionPool_7A8_6FD5F0->field_780_bUsed[this->field_4_pool_slot_idx] = false;
     }
     else
     {
-        gExplosionPool_3D4_6FD5EC->field_3C0_bUsed[this->field_4_idx] = 0;
+        gExplosionPool_3D4_6FD5EC->field_3C0_bUsed[this->field_4_pool_slot_idx] = false;
     }
 }
 
@@ -1042,7 +1038,7 @@ void Explosion::Init_543650()
     this->field_24_particle_spread = 0;
     this->field_22_spawn_angle = kAngZero_6FD5D4;
     this->field_1A_timer = 200;
-    this->field_14_pObj2C = 0;
+    this->field_14_pObj2C = NULL;
     this->field_2C_owner_ped_id = 0;
     this->field_0_bIn20Pool = 0;
 }
@@ -1201,11 +1197,11 @@ Explosion* ExplosionPool::Allocate_543800()
         if (!this->field_780_bUsed[idx])
         {
             this->field_0_explosions[idx].Init_543650();
-            this->field_0_explosions[idx].field_4_idx = idx;
+            this->field_0_explosions[idx].field_4_pool_slot_idx = idx;
             this->field_0_explosions[idx].field_6_id = gExplosionId_623F18;
             this->field_0_explosions[idx].field_0_bIn20Pool = 0;
             gExplosionId_623F18++;
-            this->field_780_bUsed[idx] = 1;
+            this->field_780_bUsed[idx] = true;
             return &this->field_0_explosions[idx];
         }
     }
@@ -1217,15 +1213,15 @@ Explosion* ExplosionPool::Allocate_543800()
         if (!this->field_780_bUsed[idx])
         {
             this->field_0_explosions[idx].Init_543650();
-            this->field_0_explosions[idx].field_4_idx = idx;
+            this->field_0_explosions[idx].field_4_pool_slot_idx = idx;
             this->field_0_explosions[idx].field_6_id = gExplosionId_623F18;
             this->field_0_explosions[idx].field_0_bIn20Pool = 0;
             gExplosionId_623F18++;
-            this->field_780_bUsed[idx] = 1;
+            this->field_780_bUsed[idx] = true;
             return &this->field_0_explosions[idx];
         }
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x5438b0)
@@ -1233,8 +1229,8 @@ ExplosionPool::ExplosionPool()
 {
     for (u8 i = 0; i < GTA2_COUNTOF(field_0_explosions); i++)
     {
-        field_0_explosions[i].field_4_idx = i;
-        field_780_bUsed[i] = 0;
+        field_0_explosions[i].field_4_pool_slot_idx = i;
+        field_780_bUsed[i] = false;
     }
 
     gParticleInstCount_6FD5F4 = 0;
@@ -1253,15 +1249,15 @@ Explosion* ExplosionPool_3D4::Allocate_543900()
         if (!this->field_3C0_bUsed[idx])
         {
             this->field_0_explosions[idx].Init_543650();
-            this->field_0_explosions[idx].field_4_idx = idx;
+            this->field_0_explosions[idx].field_4_pool_slot_idx = idx;
             this->field_0_explosions[idx].field_6_id = gExplosionId20_623F1A;
             this->field_0_explosions[idx].field_0_bIn20Pool = 1;
             gExplosionId20_623F1A++;
-            this->field_3C0_bUsed[idx] = 1;
+            this->field_3C0_bUsed[idx] = true;
             return &this->field_0_explosions[idx];
         }
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x543980)
@@ -1269,8 +1265,8 @@ ExplosionPool_3D4::ExplosionPool_3D4()
 {
     for (u8 i = 0; i < GTA2_COUNTOF(field_3C0_bUsed); i++)
     {
-        field_0_explosions[i].field_4_idx = i;
-        field_3C0_bUsed[i] = 0;
+        field_0_explosions[i].field_4_pool_slot_idx = i;
+        field_3C0_bUsed[i] = false;
     }
     gParticleInstCount_6FD5F4 = 0;
 }

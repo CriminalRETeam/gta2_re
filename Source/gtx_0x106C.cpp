@@ -13,66 +13,66 @@
 #include "enums.hpp"
 
 // Forward declarations: the functions below are in address order
-void __stdcall ClearPixelsOfColourInRow_5ABAE0(u8* pData, int width, u8 clear_target);
+void __stdcall ClearPixelsOfColourInRow_5ABAE0(u8* pData, s32 width, u8 clear_target);
 
 DEFINE_GLOBAL(gtx_0x106C*, gGtx_0x106C_703DD4, 0x703DD4);
 DEFINE_GLOBAL(s16, gStyleMessageFont_703D9C, 0x703D9C);
-DEFINE_GLOBAL(s16, word_703D9A, 0x703D9A);
-DEFINE_GLOBAL(s16, word_703C3E, 0x703C3E);
+DEFINE_GLOBAL(s16, gKanjiLargeFont_703D9A, 0x703D9A);
+DEFINE_GLOBAL(s16, gKanjiSmallFont_703C3E, 0x703C3E);
 DEFINE_GLOBAL(s16, gStylePauseFont_703DA4, 0x703DA4);
-DEFINE_GLOBAL(s16, word_703BAA, 0x703BAA);
+DEFINE_GLOBAL(s16, gStyleTextFont_703BAA, 0x703BAA);
 DEFINE_GLOBAL(s16, gStyleCarNameFont_703D98, 0x703D98);
 DEFINE_GLOBAL(s16, gStyleZoneNameFont_703C9C, 0x703C9C);
 
 MATCH_FUNC(0x5AA3B0)
-car_info* gtx_0x106C::get_car_info_5AA3B0(u8 idx)
+car_info* gtx_0x106C::get_car_info_5AA3B0(u8 idx) const
 {
     return field_5C_cari->field_0_car_info[idx];
 }
 
 MATCH_FUNC(0x5AA3D0)
-BYTE* gtx_0x106C::get_car_door_data_5AA3D0(u8 idx)
+u8* gtx_0x106C::get_car_door_data_5AA3D0(u8 idx) const
 {
     car_info* pCarInfo = field_5C_cari->field_0_car_info[idx];
     return &pCarInfo->remap[pCarInfo->num_remaps];
 }
 
 MATCH_FUNC(0x5AA3F0)
-sprite_delta* gtx_0x106C::get_delta_5AA3F0(u16 sprite_idx, u8 delta_idx)
+sprite_delta* gtx_0x106C::get_delta_5AA3F0(u16 sprite_idx, u8 delta_idx) const
 {
     delta_container* pDel = field_54_del;
 
     if (sprite_idx >= pDel->field_0_count)
     {
-        return 0;
+        return NULL;
     }
 
     sprite_deltas* pEntry = pDel->field_4_entries[sprite_idx];
 
     if (!pEntry)
     {
-        return 0;
+        return NULL;
     }
 
     if (delta_idx >= pEntry->field_2_count)
     {
-        return 0;
+        return NULL;
     }
 
     sprite_delta* pDelta = &pEntry->field_4_deltas[delta_idx];
 
-    return pDelta->field_4_len != 0 ? pDelta : 0;
+    return pDelta->field_4_len != 0 ? pDelta : NULL;
 }
 
 // note: param type matters
 MATCH_FUNC(0x5AA440)
-sprite_index* gtx_0x106C::get_sprite_index_5AA440(u16 idx)
+sprite_index* gtx_0x106C::get_sprite_index_5AA440(u16 idx) const
 {
     return &field_20_sprite_index[idx];
 }
 
 MATCH_FUNC(0x5AA460)
-u16 gtx_0x106C::GetSpriteTrueIndex_5AA460(s32 sprite_type, s16 sprite_idx)
+u16 gtx_0x106C::GetSpriteTrueIndex_5AA460(s32 sprite_type, s16 sprite_idx) const
 {
     u16 result;
     switch (sprite_type)
@@ -105,7 +105,7 @@ u16 gtx_0x106C::GetSpriteTrueIndex_5AA460(s32 sprite_type, s16 sprite_idx)
 }
 
 MATCH_FUNC(0x5AA4F0)
-s16 gtx_0x106C::GetSpriteBaseOfType_5AA4F0(s32 sprite_type)
+s16 gtx_0x106C::GetSpriteBaseOfType_5AA4F0(s32 sprite_type) const
 {
     switch (sprite_type)
     {
@@ -128,7 +128,7 @@ s16 gtx_0x106C::GetSpriteBaseOfType_5AA4F0(s32 sprite_type)
 }
 
 MATCH_FUNC(0x5AA560)
-s16 gtx_0x106C::GetPaletteBaseOfType_5AA560(s32 palette_type)
+s16 gtx_0x106C::GetPaletteBaseOfType_5AA560(s32 palette_type) const
 {
     switch (palette_type)
     {
@@ -154,7 +154,7 @@ s16 gtx_0x106C::GetPaletteBaseOfType_5AA560(s32 palette_type)
 }
 
 MATCH_FUNC(0x5AA5F0)
-s16 gtx_0x106C::GetTruePalette_5AA5F0(s32 palette_type, s16 pal)
+s16 gtx_0x106C::GetTruePalette_5AA5F0(s32 palette_type, s16 pal) const
 {
     s16 result;
 
@@ -192,19 +192,19 @@ s16 gtx_0x106C::GetTruePalette_5AA5F0(s32 palette_type, s16 pal)
 }
 
 MATCH_FUNC(0x5AA6A0)
-BYTE* gtx_0x106C::GetPalData_5AA6A0(u16 palette_idx)
+u8* gtx_0x106C::GetPalData_5AA6A0(u16 palette_idx) const
 {
-    return static_cast<BYTE*>(field_2C_physical_palettes) + 4 * ((palette_idx & 63) + ((palette_idx & 0xFFFFC0) << 8));
+    return static_cast<u8*>(field_2C_physical_palettes) + 4 * ((palette_idx & 63) + ((palette_idx & 0xFFFFC0) << 8));
 }
 
 MATCH_FUNC(0x5AA6F0)
-u16 gtx_0x106C::get_phys_pal_5AA6F0(u16 palId)
+u16 gtx_0x106C::get_phys_pal_5AA6F0(u16 palId) const
 {
     return field_28_palette_index->field_0_phys_palette[palId];
 }
 
 MATCH_FUNC(0x5AA710)
-u16 gtx_0x106C::GetSpriteIdxFromFont_5AA710(u16 font_type, s16 offset)
+u16 gtx_0x106C::GetSpriteIdxFromFont_5AA710(u16 font_type, s16 offset) const
 {
     u16 result = field_1C_font_base->field_2_base[font_type] + offset;
     if (font_type == field_1C_font_base->field_0_font_count - 1)
@@ -226,7 +226,7 @@ u16 gtx_0x106C::GetSpriteIdxFromFont_5AA710(u16 font_type, s16 offset)
 }
 
 MATCH_FUNC(0x5AA760)
-u16 gtx_0x106C::GetFontWidth_5AA760(u16* font_type, wchar_t* pStr)
+u16 gtx_0x106C::GetFontWidth_5AA760(const u16* font_type, const wchar_t* pStr) const
 {
     if (*font_type >= 101)
     {
@@ -242,7 +242,7 @@ u16 gtx_0x106C::GetFontWidth_5AA760(u16* font_type, wchar_t* pStr)
 }
 
 MATCH_FUNC(0x5AA7B0)
-u16 gtx_0x106C::GetSpaceCharWidth_5AA7B0(u16* font_type)
+u16 gtx_0x106C::GetSpaceCharWidth_5AA7B0(const u16* font_type) const
 {
     if (*font_type >= 101)
     {
@@ -255,7 +255,7 @@ u16 gtx_0x106C::GetSpaceCharWidth_5AA7B0(u16* font_type)
 }
 
 MATCH_FUNC(0x5AA800)
-s16 gtx_0x106C::GetLineSpacing_5AA800(u16* font_type)
+s16 gtx_0x106C::GetLineSpacing_5AA800(const u16* font_type) const
 {
     if (*font_type >= 0x65u)
     {
@@ -268,28 +268,23 @@ s16 gtx_0x106C::GetLineSpacing_5AA800(u16* font_type)
     }
 }
 
-#define STRINGIZE(x) STRINGIZE2(x)
-#define STRINGIZE2(x) #x
-#define LINE_STRING STRINGIZE(__LINE__)
-#define UNIQUE_FUNC printf(__FILE__ LINE_STRING "\n")
-
 MATCH_FUNC(0x5AA850)
-bool gtx_0x106C::IsTileRemapped_5AA850(u16 tile_idx)
+bool gtx_0x106C::IsTileRemapped_5AA850(u16 tile_idx) const
 {
     return field_40_tile->field_0_tile_mapping[tile_idx] != tile_idx;
 }
 
 MATCH_FUNC(0x5AA870)
-s16 gtx_0x106C::GetTile_5AA870(u16 tile_idx)
+s16 gtx_0x106C::GetTile_5AA870(u16 tile_idx) const
 {
     return field_40_tile->field_0_tile_mapping[tile_idx];
 }
 
 MATCH_FUNC(0x5AA890)
-s16 gtx_0x106C::GetFirstFreeReservedTileIdx_5AA890()
+s16 gtx_0x106C::GetFirstFreeReservedTileIdx_5AA890() const
 {
     // Decreasing order: starts from 1023 down to 992
-    u16* i = &field_40_tile->field_0_tile_mapping[1023];
+    const u16* i = &field_40_tile->field_0_tile_mapping[1023];
     for (u16 j = 1023; j >= 992; j--, i--)
     {
         if (*i == 0)
@@ -302,23 +297,23 @@ s16 gtx_0x106C::GetFirstFreeReservedTileIdx_5AA890()
 }
 
 MATCH_FUNC(0x5AA8C0)
-void* gtx_0x106C::GetTiles_5AA8C0()
+void* gtx_0x106C::GetTiles_5AA8C0() const
 {
     return field_3C_tiles;
 }
 
 MATCH_FUNC(0x5AA900)
-u16 gtx_0x106C::get_physical_palettes_len_5AA900()
+u16 gtx_0x106C::get_physical_palettes_len_5AA900() const
 {
     return field_8_physical_palettes_len;
 }
 
 MATCH_FUNC(0x5AA910)
-object_info* gtx_0x106C::get_map_object_info_5AA910(u16 idx)
+object_info* gtx_0x106C::get_map_object_info_5AA910(u16 idx) const
 {
     if (idx >= field_6_map_object_info_len)
     {
-        return 0;
+        return NULL;
     }
     return &field_24_map_object_info[idx];
 }
@@ -346,10 +341,6 @@ void gtx_0x106C::InitTileMapping_5AA950()
     }
 }
 
-// Better score:
-// https://decomp.me/scratch/IKsR3
-// Current WIP (lower score, but more runtime correct?):
-// https://decomp.me/scratch/CqJJm
 MATCH_FUNC(0x5AA9A0)
 void gtx_0x106C::BuildCarInfoContainer_5AA9A0(s32 chunk_size)
 {
@@ -361,7 +352,7 @@ void gtx_0x106C::BuildCarInfoContainer_5AA9A0(s32 chunk_size)
 
     field_5C_cari = new car_info_container();
 
-    if (field_5C_cari == 0)
+    if (field_5C_cari == NULL)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\style.cpp", 821);
     }
@@ -453,123 +444,29 @@ MATCH_FUNC(0x5AABF0)
 void gtx_0x106C::SetDeltaDataPtrs_5AABF0()
 {
     s32 size;
-    delta_entry* i = static_cast<delta_entry*>(field_50_delta_buffer);
+    delta_entry* pEntry = static_cast<delta_entry*>(field_50_delta_buffer);
 
     for (u32 offset = 0; offset < static_cast<u32>(field_60_delta_len); offset += size)
     {
-        for (u32 delta_idx = 0; delta_idx < i->field_2_delta_count; delta_idx++)
+        for (u32 delta_idx = 0; delta_idx < pEntry->field_2_delta_count; delta_idx++)
         {
-            *reinterpret_cast<u32*>(&i->field_4_delta[4 * delta_idx]) += *reinterpret_cast<u32*>(&field_48_delta_store); // TODO: fix me
+            *reinterpret_cast<u32*>(&pEntry->field_4_delta[4 * delta_idx]) += *reinterpret_cast<u32*>(&field_48_delta_store); // TODO: fix me
         }
-        size = 8 * i->field_2_delta_count + 4;
-        i = reinterpret_cast<delta_entry*>(reinterpret_cast<char_type*>(i) + size);
+        size = 8 * pEntry->field_2_delta_count + 4;
+        pEntry = reinterpret_cast<delta_entry*>(reinterpret_cast<char_type*>(pEntry) + size);
     }
 }
 
 MATCH_FUNC(0x5AAC40)
 void gtx_0x106C::SetSpriteIndexDataPtrs_5AAC40()
 {
-    u8* field_0_pData;
-    sprite_index* pSpriteIndex;
-
     for (u32 i = 0; i < static_cast<u16>(this->field_4_sprite_index_count); i++)
     {
-        field_0_pData = this->field_20_sprite_index[i].field_0_pData;
-        pSpriteIndex = &this->field_20_sprite_index[i];
-        pSpriteIndex->field_0_pData = &this->field_34_sprite_graphics[reinterpret_cast<u32>(field_0_pData)];
+        u8* pGraphicsOffset = this->field_20_sprite_index[i].field_0_pData;
+        sprite_index* pSpriteIndex = &this->field_20_sprite_index[i];
+        pSpriteIndex->field_0_pData = &this->field_34_sprite_graphics[reinterpret_cast<u32>(pGraphicsOffset)];
     }
 }
-
-/*
- //gtx_0x106C *this_; // edi
-    u32 idx; // ebx
-    car_info *pCarInfoIter; // esi
-    u32 total_len; // ebp
-
-   // BYTE new_total_sprite; // dl
-    s32 num_remaps; // eax
-    s32 next_item_len; // eax
-    BYTE total_sprite; // [esp+12h] [ebp-6h]
-   // BYTE car_sprite; // [esp+13h] [ebp-5h]
-
-    //this_ = this;
-    idx = 0;
-    total_len = 0;
-    total_sprite = 0;
-    BYTE last_car_sprite = 0;
-    pCarInfoIter = (car_info *)field_58_car_info;
-
-    car_info_container* pInfo = new car_info_container();
-    field_5C_cari = pInfo;                  // 257 "dynamic" array ??
-    if (!field_5C_cari)
-    {
-        FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\style.cpp", 821);
-    }
-
-    if (chunk_size > 0)
-    {
-        for (; total_len < chunk_size; idx++)
-            //while (1)
-        {
-            if (idx >= 256)
-            {
-                FatalError_4A38C0(34, "C:\\Splitting\\Gta2\\Source\\style.cpp", 825);
-            }
-
-            if (pCarInfoIter->w > 0x80u || pCarInfoIter->h > 0x80u || pCarInfoIter->num_remaps > 0x40u)
-            {
-                FatalError_4A38C0(Gta2Error::InvalidCarModelStyleData, "C:\\Splitting\\Gta2\\Source\\style.cpp", 826, pCarInfoIter->model);
-            }
-
-            BYTE sprite = pCarInfoIter->sprite;
-            if (sprite && sprite != 1)
-            {
-                FatalError_4A38C0(Gta2Error::InvalidCarModelStyleData, "C:\\Splitting\\Gta2\\Source\\style.cpp", 827, pCarInfoIter->model);
-            }
-
-            pInfo->field_0_car_info[pCarInfoIter->model] = pCarInfoIter;
-
-            if (pCarInfoIter->sprite)
-            {
-                total_sprite = last_car_sprite + total_sprite;
-                last_car_sprite = pCarInfoIter->sprite;
-            }
-
-            num_remaps = pCarInfoIter->num_remaps;
-            pCarInfoIter->sprite = total_sprite;
-
-            BYTE* pRemaps = pCarInfoIter->remap;
-            BYTE* t = pRemaps + num_remaps;
-            if (*t > 5u)// num_doors
-            {
-                FatalError_4A38C0(Gta2Error::InvalidCarModelStyleData, "C:\\Splitting\\Gta2\\Source\\style.cpp", 842, pCarInfoIter->model);
-            }
-
-            // 0xE = remap
-            next_item_len = pCarInfoIter->remap[num_remaps] + sizeof(door_info) * pCarInfoIter->remap[num_remaps] + 1;
-
-            total_len += next_item_len;
-
-            pCarInfoIter = (car_info *)((char_type *)pCarInfoIter + next_item_len);
-
-            //++idx;
-
-            //if (total_len >= chunk_size)
-            //{
-            //    break;
-            //}
-            //this_ = this;
-        } // loop end
-
-        pInfo->field_400_count = idx;
-
-    }
-    else
-    {
-
-        field_5C_cari->field_400_count = 0;
-    }
-*/
 
 MATCH_FUNC(0x5AAC70)
 void gtx_0x106C::build_delta_container_5AAC70()
@@ -595,7 +492,7 @@ void gtx_0x106C::build_delta_container_5AAC70()
 
     for (u32 i = 0; i < field_54_del->field_0_count; i++)
     {
-        field_54_del->field_4_entries[i] = 0;
+        field_54_del->field_4_entries[i] = NULL;
     }
 
     pIter = static_cast<sprite_deltas*>(field_50_delta_buffer);
@@ -639,13 +536,13 @@ void gtx_0x106C::load_delta_index_5AAD80(u32 delx_chunk_size)
     build_delta_container_5AAC70();
 
     crt::free(this->field_4C_delta_index);
-    this->field_4C_delta_index = 0;
+    this->field_4C_delta_index = NULL;
 }
 
 MATCH_FUNC(0x5AADD0)
 void gtx_0x106C::load_delta_store_5AADD0(u32 dels_chunk_size)
 {
-    field_48_delta_store = static_cast<delta_store_entry*>(Memory::malloc_4FE4D0(dels_chunk_size)); // todo: or new?
+    field_48_delta_store = static_cast<delta_store_entry*>(Memory::malloc_4FE4D0(dels_chunk_size));
     File::Global_Read_4A71C0(field_48_delta_store, dels_chunk_size);
 }
 
@@ -672,7 +569,7 @@ void gtx_0x106C::skip_psxt_5AAE30(u32 size)
 MATCH_FUNC(0x5AAE40)
 void gtx_0x106C::load_sprite_graphics_5AAE40(u32 sprg_chunk_len)
 {
-    field_34_sprite_graphics = reinterpret_cast<BYTE*>(Memory::Aligned_malloc_4FE510(sprg_chunk_len, &field_38_sprite_graphics_unaligned));
+    field_34_sprite_graphics = reinterpret_cast<u8*>(Memory::Aligned_malloc_4FE510(sprg_chunk_len, &field_38_sprite_graphics_unaligned));
     File::Global_Read_4A71C0(field_34_sprite_graphics, sprg_chunk_len);
 }
 
@@ -736,30 +633,30 @@ void gtx_0x106C::InitFontTypes_5AAFE0(u16 fontCount)
     if (fontCount == 14)
     {
         gStyleMessageFont_703D9C = 0;
-        word_703C3E = 1;
-        word_703D9A = 2;
+        gKanjiSmallFont_703C3E = 1;
+        gKanjiLargeFont_703D9A = 2;
         gStylePauseFont_703DA4 = 3;
         gFrontendNormalFont_703D0C = 4;
         gFrontendSelectedFont_703C16 = 5;
         word_703C8C = 6;
         font_type_703C14 = 7;
-        word_703C3C = 8;
-        word_703C8A = 9;
+        gFrontendHeadingFont_703C3C = 8;
+        gFrontendPlayMenuScoreFont_703C8A = 9;
         gFrontendScoreFont_703BE2 = 10;
-        word_703B88 = 11;
+        gFrontendAreaCompleteFont_703B88 = 11;
         word_703DAC = 12;
-        word_703B9C = 13;
-        word_703BAA = 99;
+        gFrontendTitleFont_703B9C = 13;
+        gStyleTextFont_703BAA = 99;
         gStyleCarNameFont_703D98 = 99;
         gStyleZoneNameFont_703C9C = 99;
     }
     else if (fontCount == 7)
     {
         gStyleMessageFont_703D9C = 0;
-        word_703BAA = 1;
+        gStyleTextFont_703BAA = 1;
         gStyleCarNameFont_703D98 = 2;
-        word_703C3E = 3;
-        word_703D9A = 4;
+        gKanjiSmallFont_703C3E = 3;
+        gKanjiLargeFont_703D9A = 4;
         gStyleZoneNameFont_703C9C = 5;
         gStylePauseFont_703DA4 = 6;
     }
@@ -780,8 +677,8 @@ void gtx_0x106C::load_font_base_5AB0F0(u32 fonb_chunk_size)
     field_1C_font_base = static_cast<font_base*>(Memory::malloc_4FE4D0(fonb_chunk_size));
     File::Global_Read_4A71C0(field_1C_font_base, fonb_chunk_size);
 
-    u32 fountCount = field_1C_font_base->field_0_font_count;
-    if (fonb_chunk_size != (fountCount * 2) + 2)
+    u32 font_count = field_1C_font_base->field_0_font_count;
+    if (fonb_chunk_size != (font_count * 2) + 2)
     {
         FatalError_4A38C0(Gta2Error::InvalidChunkSize, "C:\\Splitting\\Gta2\\Source\\style.cpp", 1271, fonb_chunk_size);
     }
@@ -794,14 +691,11 @@ void gtx_0x106C::load_font_base_5AB0F0(u32 fonb_chunk_size)
 }
 
 MATCH_FUNC(0x5AB1A0)
-u16 __stdcall gtx_0x106C::SumCounts_5AB1A0(u16* pOffsets, u32 offsetsCount)
+u16 __stdcall gtx_0x106C::SumCounts_5AB1A0(const u16* pOffsets, u32 offsetsCount)
 {
     u16 total = 0;
-    while (offsetsCount > 0) // jbe vs jz due to missing > 0 and signed vs unsigned
+    while (offsetsCount > 0)
     {
-        // note: mov si, [ecx] also did xor esi, esi because
-        // total was 32bits not 16bits, then an additional bitmask of 0xFFFF was done
-        // because the return value was 32bits rather than 16bits.
         total += *pOffsets;
         pOffsets++;
         offsetsCount--;
@@ -883,13 +777,13 @@ void gtx_0x106C::load_palete_base_5AB2C0(u32 palette_base_chunk_len)
 }
 
 MATCH_FUNC(0x5AB380)
-bool gtx_0x106C::IsCarModelInRecycleList_5AB380(u8 car_id)
+bool gtx_0x106C::IsCarModelInRecycleList_5AB380(u8 car_id) const
 {
     // Certain car models are in the recycle list only for certain stages/districts
     s32 i = 0;
     if (!field_64_car_recycling_info)
     {
-        return 1;
+        return true;
     }
 
     // This while only ends if it finds 'car_id' or if it reaches the 
@@ -910,14 +804,14 @@ void gtx_0x106C::load_car_recycling_info_5AB3C0(u32 recy_chunk_size)
 }
 
 MATCH_FUNC(0x5AB3F0)
-void gtx_0x106C::read_spec_5AB3F0(u32 value_to_set)
+void gtx_0x106C::read_spec_5AB3F0(u32 spec)
 {
     u16 index_to_set;
     u32 len = 2;
     File::Global_Read_4A71C0(&index_to_set, len);
     while (index_to_set)
     {
-        this->field_6C_spec[index_to_set] = value_to_set;
+        this->field_6C_spec[index_to_set] = spec;
         s32 len2 = 2;
         File::Global_Read_4A71C0(&index_to_set, len2);
     }
@@ -926,81 +820,81 @@ void gtx_0x106C::read_spec_5AB3F0(u32 value_to_set)
 MATCH_FUNC(0x5AB450)
 void gtx_0x106C::load_spec_5AB450()
 {
-    read_spec_5AB3F0(2);
-    read_spec_5AB3F0(3);
-    read_spec_5AB3F0(4);
-    read_spec_5AB3F0(5);
-    read_spec_5AB3F0(6);
-    read_spec_5AB3F0(7);
-    read_spec_5AB3F0(8);
-    read_spec_5AB3F0(9);
-    read_spec_5AB3F0(10);
+    read_spec_5AB3F0(tile_spec::grass_dirt_floor);
+    read_spec_5AB3F0(tile_spec::road_junction_special);
+    read_spec_5AB3F0(tile_spec::water);
+    read_spec_5AB3F0(tile_spec::electrified_floor);
+    read_spec_5AB3F0(tile_spec::electrified_platform_floor);
+    read_spec_5AB3F0(tile_spec::wood_floor);
+    read_spec_5AB3F0(tile_spec::metal_floor);
+    read_spec_5AB3F0(tile_spec::metal_wall);
+    read_spec_5AB3F0(tile_spec::grass_dirt_wall);
 }
 
 MATCH_FUNC(0x5AB4B0)
-void gtx_0x106C::LoadChunk_5AB4B0(const char_type* Str1, u32 chunk_len)
+void gtx_0x106C::LoadChunk_5AB4B0(const char_type* pChunkType, u32 chunk_len)
 {
-    if (!strncmp(Str1, "PALB", 4u))
+    if (!strncmp(pChunkType, "PALB", 4u))
     {
         load_palete_base_5AB2C0(chunk_len);
     }
-    else if (!strncmp(Str1, "SPRB", 4u))
+    else if (!strncmp(pChunkType, "SPRB", 4u))
     {
         load_sprite_base_5AB210(chunk_len);
     }
-    else if (!strncmp(Str1, "FONB", 4u))
+    else if (!strncmp(pChunkType, "FONB", 4u))
     {
         load_font_base_5AB0F0(chunk_len);
     }
-    else if (!strncmp(Str1, "SPRX", 4u))
+    else if (!strncmp(pChunkType, "SPRX", 4u))
     {
         load_sprite_index_5AAF80(chunk_len);
     }
-    else if (!strncmp(Str1, "OBJI", 4u))
+    else if (!strncmp(pChunkType, "OBJI", 4u))
     {
         load_map_object_info_5AAF00(chunk_len);
     }
-    else if (!strncmp(Str1, "PALX", 4u))
+    else if (!strncmp(pChunkType, "PALX", 4u))
     {
         load_palette_index_5AAEA0(chunk_len);
     }
-    else if (!strncmp(Str1, "PPAL", 4u))
+    else if (!strncmp(pChunkType, "PPAL", 4u))
     {
         load_physical_palettes_5AAE70(chunk_len);
     }
-    else if (!strncmp(Str1, "SPRG", 4u))
+    else if (!strncmp(pChunkType, "SPRG", 4u))
     {
         load_sprite_graphics_5AAE40(chunk_len);
     }
-    else if (!strncmp(Str1, "TILE", 4u))
+    else if (!strncmp(pChunkType, "TILE", 4u))
     {
         load_tiles_5AADF0(chunk_len);
     }
-    else if (!strncmp(Str1, "DELS", 4u))
+    else if (!strncmp(pChunkType, "DELS", 4u))
     {
         load_delta_store_5AADD0(chunk_len);
     }
-    else if (!strncmp(Str1, "DELX", 4u))
+    else if (!strncmp(pChunkType, "DELX", 4u))
     {
         load_delta_index_5AAD80(chunk_len);
     }
-    else if (!strncmp(Str1, "CARI", 4u))
+    else if (!strncmp(pChunkType, "CARI", 4u))
     {
         load_car_info_5AAD50(chunk_len);
     }
-    else if (!strncmp(Str1, "PSXT", 4u))
+    else if (!strncmp(pChunkType, "PSXT", 4u))
     {
         skip_psxt_5AAE30(chunk_len);
     }
-    else if (!strncmp(Str1, "OVLY", 4u))
+    else if (!strncmp(pChunkType, "OVLY", 4u))
     {
         skip_ovly_5AAE20(chunk_len);
     }
-    else if (!strncmp(Str1, "SPEC", 4u))
+    else if (!strncmp(pChunkType, "SPEC", 4u))
     {
         load_spec_5AB450();
     }
-    else if (!strncmp(Str1, "RECY", 4u))
+    else if (!strncmp(pChunkType, "RECY", 4u))
     {
         load_car_recycling_info_5AB3C0(chunk_len);
     }
@@ -1055,159 +949,159 @@ gtx_0x106C::gtx_0x106C()
 {
     ResetSpecs_4C03D0();
 
-    field_64_car_recycling_info = 0;
+    field_64_car_recycling_info = NULL;
     field_68_recy_chunk_size = 0;
-    field_14_sprite_base2 = 0;
-    field_C_palette_base2 = 0;
-    field_1C_font_base = 0;
-    field_20_sprite_index = 0;
-    field_24_map_object_info = 0;
+    field_14_sprite_base2 = NULL;
+    field_C_palette_base2 = NULL;
+    field_1C_font_base = NULL;
+    field_20_sprite_index = NULL;
+    field_24_map_object_info = NULL;
     field_6_map_object_info_len = 0;
-    field_28_palette_index = 0;
-    field_2C_physical_palettes = 0;
-    field_30_physical_palettes_unaligned = 0;
-    field_3C_tiles = 0;
-    field_44_tiles_unaligned = 0;
-    field_34_sprite_graphics = 0;
-    field_38_sprite_graphics_unaligned = 0;
-    field_48_delta_store = 0;
-    field_50_delta_buffer = 0;
-    field_58_car_info = 0;
-    field_5C_cari = 0;
-    field_4C_delta_index = 0;
+    field_28_palette_index = NULL;
+    field_2C_physical_palettes = NULL;
+    field_30_physical_palettes_unaligned = NULL;
+    field_3C_tiles = NULL;
+    field_44_tiles_unaligned = NULL;
+    field_34_sprite_graphics = NULL;
+    field_38_sprite_graphics_unaligned = NULL;
+    field_48_delta_store = NULL;
+    field_50_delta_buffer = NULL;
+    field_58_car_info = NULL;
+    field_5C_cari = NULL;
+    field_4C_delta_index = NULL;
     field_60_delta_len = 0;
-    field_54_del = 0;
+    field_54_del = NULL;
     field_4_sprite_index_count = 0;
     field_0_totalPalBase = 0;
     field_2_font_base_total = 0;
-    field_40_tile = 0;
+    field_40_tile = NULL;
     field_8_physical_palettes_len = 0;
-    field_6A_palettes_converted = 0;
-    field_10_palette_base1 = 0;
-    field_18_sprite_base1 = 0;
+    field_6A_palettes_converted = false;
+    field_10_palette_base1 = NULL;
+    field_18_sprite_base1 = NULL;
 }
 
 MATCH_FUNC(0x5AB8A0)
 gtx_0x106C::~gtx_0x106C()
 {
-    sprite_base* local_field_14_sprite_base2;
-    sprite_base* local_field_18_sprite_base1;
-    palette_base* local_field_C_palette_base2;
-    palette_base* local_field_10_palette_base1;
-    font_base* local_field_1C_font_base;
-    sprite_index* local_field_20_sprite_index;
-    object_info* local_field_24_map_object_info;
-    palette_index* local_field_28_palette_index;
-    void* local_field_30_physical_palettes_size;
-    void* local_field_44_aligned_tiles_size;
-    void* pUnaligned;
-    delta_store_entry* local_field_48_delta_store;
-    void* local_field_50_delta_buffer;
-    void* local_field_58_car_info;
-    car_info_container* local_field_5C_cari;
-    delta_entry* local_field_4C_delta_index;
-    void* local_field_54_del;
-    tile_array* local_field_40_tile;
+    sprite_base* pSpriteBase2;
+    sprite_base* pSpriteBase1;
+    palette_base* pPaletteBase2;
+    palette_base* pPaletteBase1;
+    font_base* pFontBase;
+    sprite_index* pSpriteIndex;
+    object_info* pMapObjectInfo;
+    palette_index* pPaletteIndex;
+    void* pPhysPalettesUnaligned;
+    void* pTilesUnaligned;
+    void* pSpriteGraphicsUnaligned;
+    delta_store_entry* pDeltaStore;
+    void* pDeltaBuffer;
+    void* pCarInfo;
+    car_info_container* pCarInfoContainer;
+    delta_entry* pDeltaIndex;
+    void* pDeltaContainer;
+    tile_array* pTileArray;
 
     if (field_64_car_recycling_info)
     {
         crt::free(field_64_car_recycling_info);
     }
 
-    local_field_14_sprite_base2 = field_14_sprite_base2;
-    field_64_car_recycling_info = 0;
-    delete local_field_14_sprite_base2;
+    pSpriteBase2 = field_14_sprite_base2;
+    field_64_car_recycling_info = NULL;
+    delete pSpriteBase2;
 
-    local_field_18_sprite_base1 = field_18_sprite_base1;
-    field_14_sprite_base2 = 0;
-    delete (local_field_18_sprite_base1);
+    pSpriteBase1 = field_18_sprite_base1;
+    field_14_sprite_base2 = NULL;
+    delete (pSpriteBase1);
 
-    local_field_C_palette_base2 = field_C_palette_base2;
-    field_18_sprite_base1 = 0;
-    delete (local_field_C_palette_base2);
-    local_field_10_palette_base1 = field_10_palette_base1;
-    field_C_palette_base2 = 0;
-    delete (local_field_10_palette_base1);
-    local_field_1C_font_base = field_1C_font_base;
-    field_10_palette_base1 = 0;
-    if (local_field_1C_font_base)
+    pPaletteBase2 = field_C_palette_base2;
+    field_18_sprite_base1 = NULL;
+    delete (pPaletteBase2);
+    pPaletteBase1 = field_10_palette_base1;
+    field_C_palette_base2 = NULL;
+    delete (pPaletteBase1);
+    pFontBase = field_1C_font_base;
+    field_10_palette_base1 = NULL;
+    if (pFontBase)
     {
-        crt::free(local_field_1C_font_base);
+        crt::free(pFontBase);
     }
 
-    local_field_20_sprite_index = field_20_sprite_index;
-    field_1C_font_base = 0;
-    if (local_field_20_sprite_index)
+    pSpriteIndex = field_20_sprite_index;
+    field_1C_font_base = NULL;
+    if (pSpriteIndex)
     {
-        crt::free(local_field_20_sprite_index);
+        crt::free(pSpriteIndex);
     }
-    local_field_24_map_object_info = field_24_map_object_info;
-    field_20_sprite_index = 0;
-    if (local_field_24_map_object_info)
+    pMapObjectInfo = field_24_map_object_info;
+    field_20_sprite_index = NULL;
+    if (pMapObjectInfo)
     {
-        crt::free(local_field_24_map_object_info);
+        crt::free(pMapObjectInfo);
     }
-    local_field_28_palette_index = field_28_palette_index;
-    field_24_map_object_info = 0;
-    delete (local_field_28_palette_index);
-    local_field_30_physical_palettes_size = field_30_physical_palettes_unaligned;
-    field_28_palette_index = 0;
-    if (local_field_30_physical_palettes_size)
+    pPaletteIndex = field_28_palette_index;
+    field_24_map_object_info = NULL;
+    delete (pPaletteIndex);
+    pPhysPalettesUnaligned = field_30_physical_palettes_unaligned;
+    field_28_palette_index = NULL;
+    if (pPhysPalettesUnaligned)
     {
-        crt::free(local_field_30_physical_palettes_size);
+        crt::free(pPhysPalettesUnaligned);
     }
-    local_field_44_aligned_tiles_size = field_44_tiles_unaligned;
-    field_2C_physical_palettes = 0;
-    field_30_physical_palettes_unaligned = 0;
-    if (local_field_44_aligned_tiles_size)
+    pTilesUnaligned = field_44_tiles_unaligned;
+    field_2C_physical_palettes = NULL;
+    field_30_physical_palettes_unaligned = NULL;
+    if (pTilesUnaligned)
     {
-        crt::free(local_field_44_aligned_tiles_size);
+        crt::free(pTilesUnaligned);
     }
-    pUnaligned = field_38_sprite_graphics_unaligned;
-    field_3C_tiles = 0;
-    field_44_tiles_unaligned = 0;
-    if (pUnaligned)
+    pSpriteGraphicsUnaligned = field_38_sprite_graphics_unaligned;
+    field_3C_tiles = NULL;
+    field_44_tiles_unaligned = NULL;
+    if (pSpriteGraphicsUnaligned)
     {
-        crt::free(pUnaligned);
+        crt::free(pSpriteGraphicsUnaligned);
     }
-    local_field_48_delta_store = field_48_delta_store;
-    field_34_sprite_graphics = 0;
-    field_38_sprite_graphics_unaligned = 0;
-    if (local_field_48_delta_store)
+    pDeltaStore = field_48_delta_store;
+    field_34_sprite_graphics = NULL;
+    field_38_sprite_graphics_unaligned = NULL;
+    if (pDeltaStore)
     {
-        crt::free(local_field_48_delta_store);
+        crt::free(pDeltaStore);
     }
-    local_field_50_delta_buffer = field_50_delta_buffer;
-    field_48_delta_store = 0;
-    if (local_field_50_delta_buffer)
+    pDeltaBuffer = field_50_delta_buffer;
+    field_48_delta_store = NULL;
+    if (pDeltaBuffer)
     {
-        crt::free(local_field_50_delta_buffer);
+        crt::free(pDeltaBuffer);
     }
-    local_field_58_car_info = field_58_car_info;
-    field_50_delta_buffer = 0;
-    if (local_field_58_car_info)
+    pCarInfo = field_58_car_info;
+    field_50_delta_buffer = NULL;
+    if (pCarInfo)
     {
-        crt::free(local_field_58_car_info);
+        crt::free(pCarInfo);
     }
-    local_field_5C_cari = field_5C_cari;
-    field_58_car_info = 0;
-    delete (local_field_5C_cari);
-    local_field_4C_delta_index = field_4C_delta_index;
-    field_5C_cari = 0;
-    if (local_field_4C_delta_index)
+    pCarInfoContainer = field_5C_cari;
+    field_58_car_info = NULL;
+    delete (pCarInfoContainer);
+    pDeltaIndex = field_4C_delta_index;
+    field_5C_cari = NULL;
+    if (pDeltaIndex)
     {
-        crt::free(local_field_4C_delta_index);
+        crt::free(pDeltaIndex);
     }
-    local_field_54_del = static_cast<void*>(field_54_del);
-    field_4C_delta_index = 0;
-    if (local_field_54_del)
+    pDeltaContainer = static_cast<void*>(field_54_del);
+    field_4C_delta_index = NULL;
+    if (pDeltaContainer)
     {
-        crt::free(local_field_54_del);
+        crt::free(pDeltaContainer);
     }
-    local_field_40_tile = field_40_tile;
-    field_54_del = 0;
-    delete (local_field_40_tile);
-    field_40_tile = 0;
+    pTileArray = field_40_tile;
+    field_54_del = NULL;
+    delete (pTileArray);
+    field_40_tile = NULL;
 }
 
 // https://decomp.me/scratch/CjuP1
@@ -1295,7 +1189,7 @@ void sprite_index::ClearPixelsOfColour_5ABAA0(u8 clear_target)
 }
 
 MATCH_FUNC(0x5ABAE0)
-void __stdcall ClearPixelsOfColourInRow_5ABAE0(u8* pData, int width, u8 clear_target)
+void __stdcall ClearPixelsOfColourInRow_5ABAE0(u8* pData, s32 width, u8 clear_target)
 {
     u8* pDataIter = pData;
     for (s32 i = 0; i < width; i++)
@@ -1309,11 +1203,11 @@ void __stdcall ClearPixelsOfColourInRow_5ABAE0(u8* pData, int width, u8 clear_ta
 }
 
 MATCH_FUNC(0x5abb00)
-void sprite_index::CopyPixels_5ABB00(u8* src)
+void sprite_index::CopyPixels_5ABB00(u8* pDst)
 {
     for (s32 ypos = 0; ypos < field_5_height; ypos++)
     {
         s32 idx = ypos << 8;
-        memcpy(&src[idx], &field_0_pData[idx], field_4_width);
+        memcpy(&pDst[idx], &field_0_pData[idx], field_4_width);
     }
 }

@@ -1,6 +1,6 @@
 #pragma once
 
-inline s32 Ped::get_car_model()
+inline s32 Ped::get_car_model() const
 {
     u32 m;
     if (field_16C_car)

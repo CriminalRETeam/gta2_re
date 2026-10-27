@@ -13,7 +13,7 @@ DEFINE_GLOBAL(TextTable*, gtext_0x14_6F87F0, 0x6F87F0);
 DEFINE_GLOBAL_ARRAY(wchar_t, tmpAscii2WideStr_70488C, 640, 0x70488C);
 DEFINE_GLOBAL_ARRAY(char_type, tmpWide2AsciiStr_70462C, 80, 0x70462C);
 
-const wchar_t word_626590[256] = {
+const wchar_t kToUpperTable_626590[256] = {
     128u, 129u, 130u, 131u, 132u, 133u, 134u, 135u, 136u, 137u, 138u, 139u, 140u, 141u, 142u, 143u, 144u, 145u, 146u, 147u, 148u, 149u,
     150u, 128u, 129u, 130u, 131u, 132u, 133u, 134u, 135u, 136u, 137u, 138u, 139u, 140u, 141u, 142u, 143u, 144u, 145u, 146u, 147u, 148u,
     149u, 173u, 173u, 175u, 176u, 177u, 178u, 179u, 180u, 181u, 182u, 183u, 184u, 185u, 186u, 187u, 188u, 189u, 190u, 191u, 192u, 193u,
@@ -43,21 +43,21 @@ static const u16 kExtendedWesternCharMap[128] = {
     157, 158, 159, 160, 161, 162, 163, 164, 0,   174, 165, 166, 167, 0,   168, 0, 0,   169, 170, 171, 172, 0,   0,   0};
 
 MATCH_FUNC(0x5B58D0)
-u16 TextTable::RemapExtendedChar_5B58D0(u16 ch)
+u16 TextTable::RemapExtendedChar_5B58D0(u16 ch) const
 {
     u16 result = ch;
     if (ch >= 128u)
     {
         if (ch >= 256u)
         {
-            result = 63;
+            result = '?';
         }
         else
         {
             result = field_10_lang_code == 'r' ? kExtendedRussianCharMap_626490[ch - 128] : kExtendedWesternCharMap[ch - 128];
             if (!result)
             {
-                result = 63;
+                result = '?';
             }
         }
     }
@@ -83,35 +83,35 @@ void TextTable::RemapExtendedChars_5B5930(wchar_t* pStr)
 }
 
 MATCH_FUNC(0x5B5960)
-void TextTable::TKEY_Load_5B5960(u32 chunkSize)
+void TextTable::TKEY_Load_5B5960(u32 chunk_size)
 {
     // TODO: probably an inline
-    field_0_tKey.field_4_tKey_count = chunkSize / sizeof(TextKeyEntry);
+    field_0_tKey.field_4_tKey_count = chunk_size / sizeof(TextKeyEntry);
     field_0_tKey.field_0_tKey = new TextKeyEntry[field_0_tKey.field_4_tKey_count];
     if (!field_0_tKey.field_0_tKey)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\text.cpp", 218);
     }
 
-    File::Global_Read_4A71C0(field_0_tKey.field_0_tKey, chunkSize);
+    File::Global_Read_4A71C0(field_0_tKey.field_0_tKey, chunk_size);
 }
 
 MATCH_FUNC(0x5B59B0)
-void TextTable::TDAT_Offsets2Strings_5B59B0(BYTE* pDat)
+void TextTable::TDAT_Offsets2Strings_5B59B0(u8* pDat)
 {
     TextKeyEntry* ptKeyIter = field_0_tKey.field_0_tKey;
 
     for (u32 idx = 0; idx < static_cast<u32>(field_0_tKey.field_4_tKey_count); idx++)
     {
-        // The raw file record is an offset, convert it to pos32 to the string data in the TDAT
-        const s32 offsetInBytes = reinterpret_cast<int>(ptKeyIter->field_0_pwstr);
+        // The raw file record is an offset, convert it to a pointer to the string data in the TDAT
+        const s32 offsetInBytes = reinterpret_cast<s32>(ptKeyIter->field_0_pwstr);
         ptKeyIter->field_0_pwstr = reinterpret_cast<wchar_t*>(&pDat[offsetInBytes]);
         ptKeyIter++;
     }
 }
 
 MATCH_FUNC(0x5B59E0)
-bool TextTable::TKeyFind_5B59E0(const char_type* pIdStr)
+bool TextTable::TKeyFind_5B59E0(const char_type* pIdStr) const
 {
     return bsearch(pIdStr, // search key
                    field_0_tKey.field_0_tKey, // array to search
@@ -127,11 +127,11 @@ s32 __cdecl TextTable::TKeySearch_5B5A10(const void* a, const void* b)
 {
     const char_type* pIdStr = static_cast<const char_type*>(a);
     const TextKeyEntry* pEntry = static_cast<const TextKeyEntry*>(b);
-    return strcmp(pIdStr, reinterpret_cast<const char_type*>(&pEntry->field_4_key)); // TODO: ???
+    return strcmp(pIdStr, reinterpret_cast<const char_type*>(&pEntry->field_4_key));
 }
 
 MATCH_FUNC(0x5B5A50)
-wchar_t* TextTable::TKeyFind_5B5A50(const char_type* pIdStr)
+wchar_t* TextTable::TKeyFind_5B5A50(const char_type* pIdStr) const
 {
     TextKeyEntry* pFound = static_cast<TextKeyEntry*>(bsearch(pIdStr, // key
                                           field_0_tKey.field_0_tKey, // array
@@ -152,7 +152,7 @@ MATCH_FUNC(0x5B5A80)
 void text_tdat::TDAT_Load_5B5A80(u32 size)
 {
     field_4_len = size / sizeof(wchar_t);
-    field_0_data = new BYTE[field_4_len * sizeof(wchar_t)];
+    field_0_data = new u8[field_4_len * sizeof(wchar_t)];
 
     if (!field_0_data)
     {
@@ -163,10 +163,10 @@ void text_tdat::TDAT_Load_5B5A80(u32 size)
 }
 
 MATCH_FUNC(0x5B5AD0)
-u16 TextTable::ToUpper_5B5AD0(wchar_t ch)
+u16 TextTable::ToUpper_5B5AD0(wchar_t ch) const
 {
-    // The original uppercase data uses word_626590[0..127] for 'g'/'i'/'r'/'s'
-    // and word_626590[128..255] for French. Index both halves explicitly.
+    // The original uppercase data uses kToUpperTable_626590[0..127] for 'g'/'i'/'r'/'s'
+    // and kToUpperTable_626590[128..255] for French. Index both halves explicitly.
     switch (field_10_lang_code)
     {
         case 'e':
@@ -183,7 +183,7 @@ u16 TextTable::ToUpper_5B5AD0(wchar_t ch)
             }
             if (ch >= 0x80 && ch <= 0xFF)
             {
-                return word_626590[ch];
+                return kToUpperTable_626590[ch];
             }
             break;
 
@@ -197,7 +197,7 @@ u16 TextTable::ToUpper_5B5AD0(wchar_t ch)
             }
             if (ch >= 0x80 && ch <= 0xFF)
             {
-                return word_626590[ch - 128];
+                return kToUpperTable_626590[ch - 128];
             }
             break;
     }
@@ -224,35 +224,35 @@ static inline s32 __stdcall GetCharWidth_local_4539D0(u16 font_type, wchar_t chr
 MATCH_FUNC(0x5B5BC0)
 s32 __stdcall TextTable::InsertLineBreaksAndGetNumLines_5B5BC0(wchar_t* pDestStr, const wchar_t* pSrcStr, s32 max_line_width, u16 font_type)
 {
-    const wchar_t* pSrcStrCopy = pSrcStr;
-    wchar_t* pDestStrCopy = pDestStr;
+    const wchar_t* pSrc = pSrcStr;
+    wchar_t* pDest = pDestStr;
     s32 num_of_lines = 1;
     s32 space_width = GetSpaceWidth_4C23D0(font_type);
     s32 current_width = 0;
     const wchar_t* pPrevSrcCheckpoint = NULL;
     wchar_t* pPrevDestCheckpoint = NULL;
 
-    for (; *pSrcStrCopy; pSrcStrCopy++, pDestStrCopy++)
+    for (; *pSrc; pSrc++, pDest++)
     {
-        *pDestStrCopy = *pSrcStrCopy;
+        *pDest = *pSrc;
 
-        switch (*pSrcStrCopy)
+        switch (*pSrc)
         {
             case '\n':
-                pPrevSrcCheckpoint = 0;
+                pPrevSrcCheckpoint = NULL;
                 pPrevDestCheckpoint = NULL;
                 current_width = 0;
                 num_of_lines += 1;
                 break;
             case ' ':
                 current_width += space_width;
-                pPrevSrcCheckpoint = pSrcStrCopy;
-                pPrevDestCheckpoint = pDestStrCopy;
+                pPrevSrcCheckpoint = pSrc;
+                pPrevDestCheckpoint = pDest;
                 break;
             case '#':
                 break;
             default:
-                current_width += GetCharWidth_local_4539D0(font_type, *pSrcStrCopy);
+                current_width += GetCharWidth_local_4539D0(font_type, *pSrc);
                 break;
         }
 
@@ -261,40 +261,38 @@ s32 __stdcall TextTable::InsertLineBreaksAndGetNumLines_5B5BC0(wchar_t* pDestStr
             if (pPrevSrcCheckpoint && pPrevDestCheckpoint)
             {
                 current_width = 0;
-                pDestStrCopy = pPrevDestCheckpoint; // retrocede
-                pSrcStrCopy = pPrevSrcCheckpoint;
-                *pDestStrCopy = '\n';
+                pDest = pPrevDestCheckpoint; // retrocede
+                pSrc = pPrevSrcCheckpoint;
+                *pDest = '\n';
 
                 pPrevSrcCheckpoint = NULL;
                 pPrevDestCheckpoint = NULL;
             }
             else
             {
-                *pDestStrCopy = '\n';
-                pDestStrCopy++;
+                *pDest = '\n';
+                pDest++;
 
-                current_width = GetCharWidth_local_4539D0(font_type, *pSrcStrCopy);
-                *pDestStrCopy = *pSrcStrCopy;
+                current_width = GetCharWidth_local_4539D0(font_type, *pSrc);
+                *pDest = *pSrc;
             }
             num_of_lines += 1;
         }
     }
-    *pDestStrCopy = 0; // terminate string
+    *pDest = 0; // terminate string
 
     return num_of_lines;
 }
 
 MATCH_FUNC(0x5B5D10)
-char* TextTable::Wide2PesudoAscii_5B5D10(const wchar_t* pText)
+char_type* TextTable::Wide2PesudoAscii_5B5D10(const wchar_t* pText)
 {
     const wchar_t* pSrc = pText;
-    // jnb forced to jge by changing u32 loop index to int
+    // Signed index and limit: the original compares them with jge
     s32 dstIdx = 0;
     while (pSrc) // bug: should be *pSrc
     {
-        // jnb also used if comparing to sizeof() value instead of
-        // numerical literal! cast to s32 fixes (sizeof returns unsigned?)
-        if (dstIdx >= static_cast<int>(sizeof(tmpWide2AsciiStr_70462C) - 1))
+        if (dstIdx >= static_cast<s32>(sizeof(tmpWide2AsciiStr_70462C) - 1))
         {
             break;
         }
@@ -305,7 +303,7 @@ char* TextTable::Wide2PesudoAscii_5B5D10(const wchar_t* pText)
         }
         else
         {
-            tmpWide2AsciiStr_70462C[dstIdx] = static_cast<char>(*pSrc);
+            tmpWide2AsciiStr_70462C[dstIdx] = static_cast<char_type>(*pSrc);
         }
 
         pSrc++;
@@ -318,9 +316,9 @@ char* TextTable::Wide2PesudoAscii_5B5D10(const wchar_t* pText)
 }
 
 MATCH_FUNC(0x5B5DF0)
-wchar_t* __stdcall TextTable::Ascii2Wide_5B5DF0(char_type* pStr)
+wchar_t* __stdcall TextTable::Ascii2Wide_5B5DF0(const char_type* pStr)
 {
-    // movsx vs movzx caused by unsigned vs s8
+    // char_type is signed, so the widening sign-extends (movsx) as in the original
     wchar_t* pDst = tmpAscii2WideStr_70488C;
     while (*pStr)
     {
@@ -364,12 +362,12 @@ void TextTable::Load_5B5E90()
 
     File::Global_Open_4A7060(gxtFileName);
 
-    file_header gtxHeader;
+    file_header gxtHeader;
     u32 len = sizeof(file_header);
-    File::Global_Read_4A71C0(&gtxHeader, len);
+    File::Global_Read_4A71C0(&gxtHeader, len);
 
-    gtxHeader.verify_type(expected_code);
-    gtxHeader.verify_version(100);
+    gxtHeader.verify_type(expected_code);
+    gxtHeader.verify_version(100);
 
     for (len = sizeof(chunk_header); File::Global_Read_4A7210(&chunkHeader, &len); len = sizeof(chunk_header))
     {
@@ -383,13 +381,13 @@ void TextTable::Load_5B5E90()
 }
 
 MATCH_FUNC(0x5B5F90)
-wchar_t* TextTable::Find_5B5F90(const char_type* pIdStr)
+wchar_t* TextTable::Find_5B5F90(const char_type* pIdStr) const
 {
     return TKeyFind_5B5A50(pIdStr);
 }
 
 MATCH_FUNC(0x5B5FA0)
-bool TextTable::KeyExists_5B5FA0(const char_type* pIdStr)
+bool TextTable::KeyExists_5B5FA0(const char_type* pIdStr) const
 {
     return TKeyFind_5B59E0(pIdStr);
 }

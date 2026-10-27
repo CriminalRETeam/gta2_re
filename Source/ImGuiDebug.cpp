@@ -471,7 +471,7 @@ EXPORT void __stdcall NoRefs_sub_5B1170()
     gmp_block_info block;
     gGtx_0x106C_703DD4->get_sprite_index_5AA440(
         gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::font_7,
-                                                      gGtx_0x106C_703DD4->GetSpriteIdxFromFont_5AA710(word_703C3E, 0)));
+                                                      gGtx_0x106C_703DD4->GetSpriteIdxFromFont_5AA710(gKanjiSmallFont_703C3E, 0)));
     block.field_A_arrows = 0;
     block.field_0_left = 7206;
     block.field_2_right = 7206;
@@ -774,23 +774,23 @@ static const char* ObjectIdToString(s32 id)
         case objects::rocket_160: return "rocket_160";
         case objects::savepoint_161: return "savepoint_161";
         case objects::car_shop_162: return "car_shop_162";
-        case objects::busy_car_shop_163: return "busy_car_shop_163";
+        case objects::blue_phone_not_ringing_163: return "busy_car_shop_163";
         case objects::blue_phone_164: return "blue_phone_164";
         case objects::light_165: return "maybe_train_headlight_165";
         case objects::diagonal_wall_collision_obj_166: return "diagonal_wall_collision_obj_166";
         case objects::door_trigger_167: return "maybe_door_trigger_167";
 
-        case objects::huge_red_skid_189: return "huge_red_skid_189";
-        case objects::huge_white_skid_190: return "huge_white_skid_190";
-        case objects::huge_brown_skid_191: return "huge_brown_skid_191";
+        case objects::yellow_phone_answered_189: return "huge_red_skid_189";
+        case objects::green_phone_after_answer_190: return "huge_white_skid_190";
+        case objects::green_phone_answered_191: return "huge_brown_skid_191";
         case objects::shotgun_bullet_192: return "shotgun_bullet_192";
-        case objects::tanktop_193: return "tanktop_193";
+        case objects::invisible_shotgun_bullet_193: return "tanktop_193";
         case objects::fire_hitting_194: return "fire_hitting_194";
-        case objects::object_195: return "object_195";
+        case objects::flamethrower_bullet_195: return "object_195";
         case objects::animating_rubbish_196: return "animating_rubbish_196";
         case objects::fire_197: return "ped_like_fire_197";
         case objects::water_hitting_198: return "maybe_bullet_on_fire_198";
-        case objects::object_199: return "object_199";
+        case objects::fire_truck_gun_bullet_199: return "object_199";
         case objects::pistol_weapon_200: return "remote_200";
 
         case objects::secret_token_266: return "secret_token_266";
@@ -2724,7 +2724,7 @@ void CC ImGuiDebugDraw()
                             pPedIter->field_21C_bf.bAttacking);
                             DisplayWideTextAtSprite(tmpBuff_67BD9C, pPedIter->GetSprite_46DF50(), 0, 0);
                         }
-                        else if (pPedIter->field_258_objective == objectives_enum::objective_7)
+                        else if (pPedIter->field_258_objective == objectives_enum::run_to_char_7)
                         {
                             DisplayTextAtSprite("Obj 7", pPedIter->GetSprite_46DF50(), 0, 0);
                         }
@@ -2732,11 +2732,11 @@ void CC ImGuiDebugDraw()
                         {
                             DisplayTextAtSprite("Obj 8", pPedIter->GetSprite_46DF50(), 0, 0);
                         }
-                        else if (pPedIter->field_258_objective == objectives_enum::objective_9)
+                        else if (pPedIter->field_258_objective == objectives_enum::follow_char_9)
                         {
                             DisplayTextAtSprite("Obj 9", pPedIter->GetSprite_46DF50(), 0, 0);
                         }
-                        else if (pPedIter->field_258_objective == objectives_enum::objective_10) 
+                        else if (pPedIter->field_258_objective == objectives_enum::follow_char_in_car_10) 
                         {
                             DisplayTextAtSprite("Obj 10", pPedIter->GetSprite_46DF50(), 0, 0);
                         }
@@ -2744,11 +2744,11 @@ void CC ImGuiDebugDraw()
                         {
                             DisplayTextAtSprite("Obj 11", pPedIter->GetSprite_46DF50(), 0, 0);
                         }
-                        else if (pPedIter->field_258_objective == objectives_enum::objective_15) 
+                        else if (pPedIter->field_258_objective == objectives_enum::follow_path_points_15) 
                         {
                             DisplayTextAtSprite("Obj 15", pPedIter->GetSprite_46DF50(), 0, 0);
                         }
-                        else if (pPedIter->field_258_objective == objectives_enum::objective_17) 
+                        else if (pPedIter->field_258_objective == objectives_enum::walk_to_point_17) 
                         {
                             DisplayTextAtSprite("Obj 17", pPedIter->GetSprite_46DF50(), 0, 0);
                         }
@@ -2756,7 +2756,7 @@ void CC ImGuiDebugDraw()
                         {
                             DisplayTextAtSprite("Obj 18", pPedIter->GetSprite_46DF50(), 0, 0);
                         }
-                        else if (pPedIter->field_258_objective == objectives_enum::objective_28) 
+                        else if (pPedIter->field_258_objective == objectives_enum::dead_patient_28) 
                         {
                             DisplayTextAtSprite("Obj 28", pPedIter->GetSprite_46DF50(), 0, 0);
                         }
@@ -2862,12 +2862,12 @@ void CC ImGuiDebugDraw()
                             ImGui::InputInt("field_2C_draw_layer", &pDef->field_2C_draw_layer, 1, 1);
                             ImGui::InputInt("field_30_palette_type", &pDef->field_30_palette_type, 1, 1);
                             ImGui::InputInt("field_34_behavior_type", &pDef->field_34_behavior_type, 1, 1);
-                            ImGui::InputInt("field_38", &pDef->field_38, 1, 1);
+                            ImGui::InputInt("field_38", &pDef->field_38_impact_definition_idx, 1, 1);
                             ImGui::InputInt("field_3C_next_definition_idx", &pDef->field_3C_next_definition_idx, 1, 1);
                             ImGui::InputInt("field_40_collision_bucket_category", &pDef->field_40_collision_bucket_category, 1, 1);
                             ImGui::InputInt("field_44_touch_behavior", &pDef->field_44_touch_behavior, 1, 1);
                             ImGui::InputInt("field_48", &pDef->field_48_projectile_hit_type, 1, 1);
-                            ImGui::InputInt("field_4C", &pDef->field_4C, 1, 1);
+                            ImGui::InputInt("field_4C", &pDef->field_4C_collision_response, 1, 1);
                             ImGui::InputInt("field_50", &pDef->field_50_z_collision_response, 1, 1);
                             ImGui::InputInt("field_54_react_to_collisions_with", &pDef->field_54_react_to_collisions_with, 1, 1);
                             ImGui::InputInt("field_58", &pDef->field_58_uses_3d_movement, 1, 1);
@@ -3536,8 +3536,8 @@ void CC ImGuiDebugDraw()
                     ImGui::Value("field_1C_speed", phi_54->field_1C_speed.mValue);
                     ImGui::Value("field_20_friction", phi_54->field_20_friction.mValue);
                     ImGui::Value("field_24_next_definition_timer", phi_54->field_24_next_definition_timer);
-                    ImGui::Value("field_28", phi_54->field_28);
-                    ImGui::Value("field_2C", phi_54->field_2C);
+                    ImGui::Value("field_28", phi_54->field_28_collision_response);
+                    ImGui::Value("field_2C", phi_54->field_2C_z_collision_response);
                     ImGui::Value("field_30_next_frame_max", phi_54->field_30_next_frame_max);
                     ImGui::Value("field_34", phi_54->field_34_uses_3d_movement);
                     ImGui::Value("field_38_mass", phi_54->field_38_mass.mValue);

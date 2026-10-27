@@ -25,7 +25,7 @@ class TagGame
     inline bool IsFugitivePed_434B60(Ped* pPed);
 
     // 9.6f 0x453A90
-    inline u8 HasQuit_453A90(s32 player_idx)
+    inline bool HasQuit_453A90(s32 player_idx)
     {
         return field_20_bHasQuit[player_idx];
     }
@@ -36,7 +36,7 @@ class TagGame
     // 9.6f 0x461DD0
     inline void SetQuit_461DD0(s32 player_idx)
     {
-        field_20_bHasQuit[player_idx] = 1;
+        field_20_bHasQuit[player_idx] = true;
     }
 
     // 9.6f 0x453AA0
@@ -51,7 +51,7 @@ class TagGame
     Player* field_0_fugitive;  //  the player who is "IT"
     s32 field_4_it_time_secs[MAX_PLAYERS]; //  seconds each player has spent as "IT" (counted while the net time limit is enabled)
     s32 field_1C_tick_timer;
-    u8 field_20_bHasQuit[MAX_PLAYERS];
+    bool field_20_bHasQuit[MAX_PLAYERS];
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(TagGame, 0x28);
 

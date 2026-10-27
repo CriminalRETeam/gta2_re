@@ -15,7 +15,7 @@ DEFINE_GLOBAL(FrameProfiler*, gMike_A80_6F7328, 0x6F7328);
 MATCH_FUNC(0x4ff1b0)
 void FrameProfiler::Init_4FF1B0()
 {
-    field_A78_ary_idx = 0;
+    field_A78_history_idx = 0;
     field_A7C_count = 0;
 }
 
@@ -80,15 +80,15 @@ void FrameProfiler::DebugDrawProfiling_4FF250()
         s32 size = 8 << (ypos < 140 ? row : row - 6);
 
         swprintf(tmpBuff_67BD9C, L"%d", size);
-        DrawText_4B87A0(tmpBuff_67BD9C, 0, ypos, word_703BAA, 1);
+        DrawText_4B87A0(tmpBuff_67BD9C, 0, ypos, gStyleTextFont_703BAA, 1);
         swprintf(tmpBuff_67BD9C, L"%d", pGlobals[4 + row]);
-        DrawText_4B87A0(tmpBuff_67BD9C, 50, ypos, word_703BAA, 1);
+        DrawText_4B87A0(tmpBuff_67BD9C, 50, ypos, gStyleTextFont_703BAA, 1);
         swprintf(tmpBuff_67BD9C, L"%d", pGlobals[16 + row]);
-        DrawText_4B87A0(tmpBuff_67BD9C, 100, ypos, word_703BAA, 1);
+        DrawText_4B87A0(tmpBuff_67BD9C, 100, ypos, gStyleTextFont_703BAA, 1);
         swprintf(tmpBuff_67BD9C, L"%d", tex_counts[row]);
-        DrawText_4B87A0(tmpBuff_67BD9C, 150, ypos, word_703BAA, 1);
+        DrawText_4B87A0(tmpBuff_67BD9C, 150, ypos, gStyleTextFont_703BAA, 1);
         swprintf(tmpBuff_67BD9C, L"%d", cache_used[row]);
-        DrawText_4B87A0(tmpBuff_67BD9C, 200, ypos, word_703BAA, 1);
+        DrawText_4B87A0(tmpBuff_67BD9C, 200, ypos, gStyleTextFont_703BAA, 1);
 
         total_textures_used += pGlobals[16 + row];
         total_texture_bytes += pGlobals[16 + row] * size * size * 2;
@@ -98,24 +98,24 @@ void FrameProfiler::DebugDrawProfiling_4FF250()
     sDrawString_4FF910(0, 280, L"Total Num Textures %d - %d bytes", total_textures_used, total_texture_bytes);
 
     swprintf(tmpBuff_67BD9C, L"Polys Drawn:");
-    DrawText_4B87A0(tmpBuff_67BD9C, 0, 300, word_703BAA, 1);
+    DrawText_4B87A0(tmpBuff_67BD9C, 0, 300, gStyleTextFont_703BAA, 1);
     swprintf(tmpBuff_67BD9C, L"%d", polys_drawn);
-    DrawText_4B87A0(tmpBuff_67BD9C, 180, 300, word_703BAA, 1);
+    DrawText_4B87A0(tmpBuff_67BD9C, 180, 300, gStyleTextFont_703BAA, 1);
 
     swprintf(tmpBuff_67BD9C, L"TextureUsed: ");
-    DrawText_4B87A0(tmpBuff_67BD9C, 0, 320, word_703BAA, 1);
+    DrawText_4B87A0(tmpBuff_67BD9C, 0, 320, gStyleTextFont_703BAA, 1);
     swprintf(tmpBuff_67BD9C, L"%d", total_cache_used);
-    DrawText_4B87A0(tmpBuff_67BD9C, 180, 320, word_703BAA, 1);
+    DrawText_4B87A0(tmpBuff_67BD9C, 180, 320, gStyleTextFont_703BAA, 1);
 
     swprintf(tmpBuff_67BD9C, L"Cache Misses:");
-    DrawText_4B87A0(tmpBuff_67BD9C, 0, 340, word_703BAA, 1);
+    DrawText_4B87A0(tmpBuff_67BD9C, 0, 340, gStyleTextFont_703BAA, 1);
     swprintf(tmpBuff_67BD9C, L"%d", total_tex_count);
-    DrawText_4B87A0(tmpBuff_67BD9C, 180, 340, word_703BAA, 1);
+    DrawText_4B87A0(tmpBuff_67BD9C, 180, 340, gStyleTextFont_703BAA, 1);
 
     swprintf(tmpBuff_67BD9C, L"TextureSwaps:");
-    DrawText_4B87A0(tmpBuff_67BD9C, 0, 360, word_703BAA, 1);
+    DrawText_4B87A0(tmpBuff_67BD9C, 0, 360, gStyleTextFont_703BAA, 1);
     swprintf(tmpBuff_67BD9C, L"%d", texture_swaps);
-    DrawText_4B87A0(tmpBuff_67BD9C, 180, 360, word_703BAA, 1);
+    DrawText_4B87A0(tmpBuff_67BD9C, 180, 360, gStyleTextFont_703BAA, 1);
 
     if (++gMemTotalCounter_6F7550 > 100)
     {
@@ -124,13 +124,13 @@ void FrameProfiler::DebugDrawProfiling_4FF250()
     }
     sDrawString_4FF910(0, 380, L"Mem Total %5d", gMemTotal_6F7360);
 
-    s32 total = field_28_m80_1.Average() + field_A8_m80_2.Average() + field_128_m80_3.Average() +
-        field_228_m80_5.Average() + field_1A8_m80_4.Average();
-    sDrawString_4FF910(280, 20, L"Process %3d", field_28_m80_1.Average());
-    sDrawString_4FF910(280, 40, L"Draw    %3d", field_A8_m80_2.Average());
-    sDrawString_4FF910(280, 60, L"Render  %3d", field_128_m80_3.Average());
-    sDrawString_4FF910(280, 80, L"Audio   %3d", field_228_m80_5.Average());
-    sDrawString_4FF910(280, 100, L"Input   %3d", field_1A8_m80_4.Average());
+    s32 total = field_28_process_avg.Average() + field_A8_draw_avg.Average() + field_128_render_avg.Average() +
+        field_228_audio_avg.Average() + field_1A8_input_avg.Average();
+    sDrawString_4FF910(280, 20, L"Process %3d", field_28_process_avg.Average());
+    sDrawString_4FF910(280, 40, L"Draw    %3d", field_A8_draw_avg.Average());
+    sDrawString_4FF910(280, 60, L"Render  %3d", field_128_render_avg.Average());
+    sDrawString_4FF910(280, 80, L"Audio   %3d", field_228_audio_avg.Average());
+    sDrawString_4FF910(280, 100, L"Input   %3d", field_1A8_input_avg.Average());
     sDrawString_4FF910(280, 120, L"Total   %3d", total);
 
     s32 large_timer = total > 30 ? 15 : gLargeFrameTimer_6F754C;
@@ -158,7 +158,7 @@ void FrameProfiler::sDrawString_4FF910(s32 xpos, s32 ypos, const wchar_t* pForma
     va_list args;
     va_start(args, pFormat);
     vswprintf(buffer, pFormat, args);
-    DrawText_4B87A0(buffer, xpos, ypos, word_703BAA, 1);
+    DrawText_4B87A0(buffer, xpos, ypos, gStyleTextFont_703BAA, 1);
 }
 
 MATCH_FUNC(0x4ff970)
@@ -168,7 +168,7 @@ void __stdcall FrameProfiler::GetMemTotal_4FF970(u32* pValue)
 }
 
 MATCH_FUNC(0x4ff980)
-void FrameProfiler::sub_4FF980()
+void FrameProfiler::Service_4FF980()
 {
 }
 
@@ -178,16 +178,16 @@ void FrameProfiler::StartProfileTimer_4FF990(u32 idx)
     switch (idx)
     {
         case 0:
-            m81.field_0_start_time = GetTickCount();
+            field_0_process_watch.field_0_start_time = GetTickCount();
             break;
         case 1:
-            m82.field_0_start_time = GetTickCount();
+            field_8_draw_watch.field_0_start_time = GetTickCount();
             break;
         case 2:
-            m84.field_0_start_time = GetTickCount();
+            field_18_input_watch.field_0_start_time = GetTickCount();
             break;
         case 3:
-            m85.field_0_start_time = GetTickCount();
+            field_20_audio_watch.field_0_start_time = GetTickCount();
             break;
     }
 }
@@ -198,16 +198,16 @@ void FrameProfiler::StopProfileTimer_4FF9F0(u32 idx)
     switch (idx)
     {
         case 0:
-            m81.field_4_end_time = GetTickCount();
+            field_0_process_watch.field_4_end_time = GetTickCount();
             break;
         case 1:
-            m82.field_4_end_time = GetTickCount();
+            field_8_draw_watch.field_4_end_time = GetTickCount();
             break;
         case 2:
-            m84.field_4_end_time = GetTickCount();
+            field_18_input_watch.field_4_end_time = GetTickCount();
             break;
         case 3:
-            m85.field_4_end_time = GetTickCount();
+            field_20_audio_watch.field_4_end_time = GetTickCount();
             break;
     }
 }
@@ -225,10 +225,10 @@ void FrameProfiler::DebugPrintf_4FFA50(const char_type* pFormat, ...)
 MATCH_FUNC(0x4ffa90)
 void FrameProfiler::UpdateProfiling_4FFA90()
 {
-    s32 process_time = m81.TakeElapsed();
-    s32 draw_time = m82.TakeElapsed();
-    s32 input_time = m84.TakeElapsed();
-    s32 audio_time = m85.TakeElapsed();
+    s32 process_time = field_0_process_watch.TakeElapsed();
+    s32 draw_time = field_8_draw_watch.TakeElapsed();
+    s32 input_time = field_18_input_watch.TakeElapsed();
+    s32 audio_time = field_20_audio_watch.TakeElapsed();
 
     if (process_time == 0 && draw_time == 0 && input_time == 0 && audio_time == 0)
     {
@@ -242,16 +242,16 @@ void FrameProfiler::UpdateProfiling_4FFA90()
         draw_time -= flip_time;
     }
 
-    field_2A8_ary[field_A78_ary_idx] = process_time;
-    field_438_ary[field_A78_ary_idx] = draw_time;
-    field_5C8_ary[field_A78_ary_idx] = flip_time;
-    field_758_ary[field_A78_ary_idx] = input_time;
-    field_8E8_ary[field_A78_ary_idx] = audio_time;
+    field_2A8_process_history[field_A78_history_idx] = process_time;
+    field_438_draw_history[field_A78_history_idx] = draw_time;
+    field_5C8_render_history[field_A78_history_idx] = flip_time;
+    field_758_input_history[field_A78_history_idx] = input_time;
+    field_8E8_audio_history[field_A78_history_idx] = audio_time;
 
     char_type buffer[240];
     if (process_time)
     {
-        field_28_m80_1.AddSample(process_time);
+        field_28_process_avg.AddSample(process_time);
     }
     if (process_time > 15)
     {
@@ -261,7 +261,7 @@ void FrameProfiler::UpdateProfiling_4FFA90()
 
     if (draw_time)
     {
-        field_A8_m80_2.AddSample(draw_time);
+        field_A8_draw_avg.AddSample(draw_time);
     }
     if (draw_time > 15)
     {
@@ -271,12 +271,12 @@ void FrameProfiler::UpdateProfiling_4FFA90()
 
     if (flip_time)
     {
-        field_128_m80_3.AddSample(flip_time);
+        field_128_render_avg.AddSample(flip_time);
     }
 
     if (input_time)
     {
-        field_1A8_m80_4.AddSample(input_time);
+        field_1A8_input_avg.AddSample(input_time);
     }
     if (input_time > 10)
     {
@@ -286,7 +286,7 @@ void FrameProfiler::UpdateProfiling_4FFA90()
 
     if (audio_time)
     {
-        field_228_m80_5.AddSample(audio_time);
+        field_228_audio_avg.AddSample(audio_time);
     }
     // Checks input_time rather than audio_time
     if (input_time > 10)
@@ -302,9 +302,9 @@ void FrameProfiler::UpdateProfiling_4FFA90()
         OutputDebugStringA(buffer);
     }
 
-    if (++field_A78_ary_idx >= 100)
+    if (++field_A78_history_idx >= 100)
     {
-        field_A78_ary_idx = 0;
+        field_A78_history_idx = 0;
     }
     field_A7C_count++;
 }
@@ -316,17 +316,17 @@ void FrameProfiler::DrawProfileHistory_4FFD90()
 
     for (s32 i = 0; i < count; i++)
     {
-        s32 idx = field_A78_ary_idx - i - 1;
+        s32 idx = field_A78_history_idx - i - 1;
         if (idx < 0)
         {
             idx += 100;
         }
 
-        DrawProfileBar(6 * i, field_2A8_ary[idx], 0xFF00);
-        DrawProfileBar(6 * i + 1, field_438_ary[idx], 0xFF0000);
-        DrawProfileBar(6 * i + 2, field_5C8_ary[idx], 0xFF);
-        DrawProfileBar(6 * i + 3, field_758_ary[idx], 0);
-        // Draws field_758_ary again rather than field_8E8_ary
-        DrawProfileBar(6 * i + 4, field_758_ary[idx], 0xFFFFFF);
+        DrawProfileBar(6 * i, field_2A8_process_history[idx], 0xFF00);
+        DrawProfileBar(6 * i + 1, field_438_draw_history[idx], 0xFF0000);
+        DrawProfileBar(6 * i + 2, field_5C8_render_history[idx], 0xFF);
+        DrawProfileBar(6 * i + 3, field_758_input_history[idx], 0);
+        // Draws field_758_input_history again rather than field_8E8_audio_history
+        DrawProfileBar(6 * i + 4, field_758_input_history[idx], 0xFFFFFF);
     }
 }

@@ -14,9 +14,9 @@ Light::Light()
     field_8_y = 0;
     field_C_z = 0;
     field_10_argb = 0xFFFFFF;
-    mpNext = 0;
-    field_24_pGridPrev = 0;
-    field_20_pGridNext = 0;
+    mpNext = NULL;
+    field_24_pGridPrev = NULL;
+    field_20_pGridNext = NULL;
     field_14_on_time = 0;
     field_15_off_time = 0;
     field_16_flicker_range = 0;
@@ -27,9 +27,9 @@ Light::Light()
 MATCH_FUNC(0x4D6D60)
 Light::~Light()
 {
-    mpNext = 0;
-    field_24_pGridPrev = 0;
-    field_20_pGridNext = 0;
+    mpNext = NULL;
+    field_24_pGridPrev = NULL;
+    field_20_pGridNext = NULL;
 }
 
 MATCH_FUNC(0x4D6D70)
@@ -41,13 +41,13 @@ void Light::AddToGrid_4D6D70()
     if (!pFirst)
     {
         gLightGrid_6F5400[cell_idx] = this;
-        field_20_pGridNext = 0;
-        field_24_pGridPrev = 0;
+        field_20_pGridNext = NULL;
+        field_24_pGridPrev = NULL;
     }
     else
     {
         gLightGrid_6F5400[cell_idx] = this;
-        field_24_pGridPrev = 0;
+        field_24_pGridPrev = NULL;
         field_20_pGridNext = pFirst;
         pFirst->field_24_pGridPrev = this;
     }
@@ -80,7 +80,7 @@ void __stdcall LightGrid::AllocGrid_4D6E00()
     gLightGrid_6F5400 = static_cast<Light**>(crt::malloc(0x4000u));
     for (s32 i = 0; i < 4096; i++)
     {
-        gLightGrid_6F5400[i] = 0;
+        gLightGrid_6F5400[i] = NULL;
     }
 }
 
@@ -90,7 +90,7 @@ void LightGrid::FreeGrid_4D6E30()
     if (gLightGrid_6F5400)
     {
         crt::free(gLightGrid_6F5400);
-        gLightGrid_6F5400 = 0;
+        gLightGrid_6F5400 = NULL;
     }
 }
 
@@ -128,13 +128,13 @@ void __stdcall LightGrid::SubmitLightsInArea_4D6E50(s32 min_x, s32 min_y, s32 ma
             Light* pLight = gLightGrid_6F5400[(ypos * 64) + xpos];
             while (pLight)
             {
-                SLight pSLight;
-                pSLight.field_0 = pLight->field_0_intensity_radius.flag;
-                pSLight.field_4_x = pLight->field_4_x.ToFloat();
-                pSLight.field_8_y = pLight->field_8_y.ToFloat();
-                pSLight.field_C_z = pLight->field_C_z.ToFloat();
-                pSLight.field_10_colour = pLight->field_10_argb;
-                pgbh_AddLight(&pSLight);
+                SLight sLight;
+                sLight.field_0 = pLight->field_0_intensity_radius.flag;
+                sLight.field_4_x = pLight->field_4_x.ToFloat();
+                sLight.field_8_y = pLight->field_8_y.ToFloat();
+                sLight.field_C_z = pLight->field_C_z.ToFloat();
+                sLight.field_10_colour = pLight->field_10_argb;
+                pgbh_AddLight(&sLight);
                 pLight = pLight->field_20_pGridNext;
             }
         }

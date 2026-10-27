@@ -11,7 +11,7 @@ DEFINE_GLOBAL_INIT(Ang16, kAng12_677A2E, Ang16(0x30), 0x677A2E);
 
 // 9.6f: the bit ops are BitSet32::clear_bit/set_bit (0x420DE0/0x420DC0) on a maybe_flags, here a u32*
 MATCH_FUNC(0x439CD0)
-void Car_Door::AnimateOpening_439CD0(u32* pRet)
+void Car_Door::AnimateOpening_439CD0(u32* pDeltaMask)
 {
     if (field_0_animation_frame != 4)
     {
@@ -19,9 +19,9 @@ void Car_Door::AnimateOpening_439CD0(u32* pRet)
         {
             if (field_0_animation_frame != 0)
             {
-                *pRet &= ~(1 << (field_2_first_delta_idx + field_0_animation_frame - 1));
+                *pDeltaMask &= ~(1 << (field_2_first_delta_idx + field_0_animation_frame - 1));
             }
-            *pRet |= 1 << (field_0_animation_frame + field_2_first_delta_idx);
+            *pDeltaMask |= 1 << (field_0_animation_frame + field_2_first_delta_idx);
             field_1_frame_delay = 2;
             field_0_animation_frame++;
         }
@@ -97,7 +97,7 @@ void Car_Door::Service_439DA0(u32* pDeltaMask)
     {
         if (pPed->isDead_403B60() || !pPed->field_21C_bf.bLeftVehicle)
         {
-            field_8_pObj = 0;
+            field_8_pObj = NULL;
         }
     }
 }
@@ -143,7 +143,7 @@ void Car_Door::Close_439EA0()
 MATCH_FUNC(0x447330)
 Car_Door::Car_Door()
 {
-    field_8_pObj = 0;
+    field_8_pObj = NULL;
     field_2_first_delta_idx = 0;
     field_0_animation_frame = 0;
     field_1_frame_delay = 3;
@@ -154,5 +154,5 @@ Car_Door::Car_Door()
 MATCH_FUNC(0x447350)
 Car_Door::~Car_Door()
 {
-    field_8_pObj = 0;
+    field_8_pObj = NULL;
 }

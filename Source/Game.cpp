@@ -1,4 +1,5 @@
 #include "Game.hpp"
+#include "ped_group_type.hpp"
 #include "ped_class.hpp"
 #include "AmbulanceService.hpp"
 #include "InputRecorder_67F8B0.hpp"
@@ -82,7 +83,6 @@ enum
 
 DEFINE_GLOBAL(s32, gCachedScreenDimension_706C58, 0x706C58);
 
-// TODO
 EXTERN_GLOBAL(u32, counter_706C4C);
 EXTERN_GLOBAL(char_type, gLighting_626A09);
 
@@ -92,11 +92,11 @@ DEFINE_GLOBAL(Game*, gGame_0x40_67E008, 0x67E008);
 EXPORT void __stdcall ReapplySavedGamma_5D9970();
 
 MATCH_FUNC(0x4B8BB0)
-s32 Game::GetFrameDurationMs_4B8BB0()
+s32 Game::GetFrameDurationMs_4B8BB0() const
 {
     if (bStartNetworkGame_7081F0 == false)
     {
-        return field_30_fast_forward == false ? 33 : 11;
+        return !field_30_fast_forward ? 33 : 11;
     }
     return field_34_network_frame_ms;
 }
@@ -104,7 +104,7 @@ s32 Game::GetFrameDurationMs_4B8BB0()
 MATCH_FUNC(0x4B8BD0)
 void Game::ExitGame_4B8BD0(s32 new_timer, s32 exit_type, s8 bonus_type)
 {
-    int timer = field_28_exit_timer;
+    s32 timer = field_28_exit_timer;
     if (timer == -1 || timer > new_timer)
     {
         field_28_exit_timer = new_timer;
@@ -124,7 +124,7 @@ bool Game::UpdateExitTimer_4B8C20()
 {
     if (field_28_exit_timer == 0)
     {
-        return 1;
+        return true;
     }
 
     if (field_28_exit_timer > 0)
@@ -132,7 +132,7 @@ bool Game::UpdateExitTimer_4B8C20()
         field_28_exit_timer--;
     }
 
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x4B8C40)
@@ -234,7 +234,7 @@ EXPORT void __stdcall SpawnTestGroup_46DD70(char_type remap, u8 count)
     PedGroup* pGroup = PedGroup::New_4CB0D0();
     pGroup->add_ped_leader_4C9B10(pPlayerPed);
     pGroup->SetCounts_433360(0);
-    pGroup->field_38_group_type = 2;
+    pGroup->field_38_group_type = ped_group_type::normal_2;
 
     gLastTestPed_6787E8 = gPedPool_6787B8->Allocate();
     gLastTestPed_6787E8->set_occupation_403970(ped_ocupation_enum::bank_robber);
@@ -348,19 +348,18 @@ void Game::ShowCounters_4B8FF0()
     swprintf(tmpBuff_67BD9C, L"cars:%d", gCar_BC_Pool_67792C->get_cars_count_45AD30());
     gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 96, gDebugFont_706600, 1);
 
-    swprintf(tmpBuff_67BD9C, L"dummy_chars : %d", static_cast<unsigned __int8>(gPedManager_6787BC->field_2_num_dummy_chars));
+    swprintf(tmpBuff_67BD9C, L"dummy_chars : %d", static_cast<u8>(gPedManager_6787BC->field_2_num_dummy_chars));
     gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 112, gDebugFont_706600, 1);
 
     Player* pLocalPlayer = gGame_0x40_67E008->field_38_local_player;
     if (pLocalPlayer)
     {
-        swprintf(tmpBuff_67BD9C, L"accuracy_count : %d", static_cast<unsigned __int8>(pLocalPlayer->field_2D4_scores.get_accuracy_count_45B0A0()));
+        swprintf(tmpBuff_67BD9C, L"accuracy_count : %d", static_cast<u8>(pLocalPlayer->field_2D4_scores.get_accuracy_count_45B0A0()));
         gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 128, gDebugFont_706600, 1);
 
         swprintf(tmpBuff_67BD9C, L"reverse_count : %d", pLocalPlayer->field_2D4_scores.get_reverse_count_45B0B0());
         gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 144, gDebugFont_706600, 1);
 
-        // TODO: Seems strange, converted to a local integer point or something ??
         const u32 x = pLocalPlayer->field_2C4_player_ped->get_cam_x().ToInt();
         const u32 y = pLocalPlayer->field_2C4_player_ped->get_cam_y().ToInt();
 
@@ -493,7 +492,7 @@ void Game::UpdateGame_4B9410()
 
     if (bDo_mike_67D5CC)
     {
-        gMike_A80_6F7328->sub_4FF980();
+        gMike_A80_6F7328->Service_4FF980();
     }
 
     if (!bSkip_traffic_lights_67D4EC)
@@ -592,7 +591,6 @@ bool Game::ExecuteGame_4B9640()
     return UpdateExitTimer_4B8C20();
 }
 
-// TODO: Werid function chunk stuff
 MATCH_FUNC(0x4B96B0)
 void Game::Pause_4B96B0()
 {
@@ -652,7 +650,7 @@ void Game::ReinitAfterVideoModeChange_4B9720()
 {
     if (field_38_local_player)
     {
-        field_38_local_player->sub_565460();
+        field_38_local_player->OnVideoModeChange_565460();
     }
 
     ResetFrameTimer_4DA830();
@@ -691,46 +689,46 @@ void Game::ShakeCamerasAtPos_4B9790(Fix16 amount, Fix16 x, Fix16 y)
 }
 
 MATCH_FUNC(0x4B97E0)
-bool Game::IsSpriteInAnyPlayerBounds_4B97E0(Sprite* pSprite, Fix16 margin)
+bool Game::IsSpriteInAnyPlayerBounds_4B97E0(Sprite* pSprite, Fix16 margin) const
 {
     for (u8 i = 0; i < field_23_num_players; i++)
     {
         if (IsSpriteInPlayerBounds_4B9950(pSprite, i, margin))
         {
-            return 1;
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x4B9830)
-bool Game::IsSpriteInBoundsOrFollowedByAnyPlayer_4B9830(Sprite* pSprite, Fix16 margin)
+bool Game::IsSpriteInBoundsOrFollowedByAnyPlayer_4B9830(Sprite* pSprite, Fix16 margin) const
 {
     for (u8 i = 0; i < field_23_num_players; i++)
     {
         if (IsSpriteInPlayerBounds_4B9950(pSprite, i, margin) || IsSpriteCameraSubjectForPlayer_4B9A10(pSprite, i))
         {
-            return 1;
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x4B9890)
-bool Game::IsSpriteInAnyPlayerView_4B9890(Sprite* pSprite, s32 wide_view)
+bool Game::IsSpriteInAnyPlayerView_4B9890(Sprite* pSprite, s32 wide_view) const
 {
     for (u8 i = 0; i < field_23_num_players; i++)
     {
         if (IsSpriteInPlayerView_4B98E0(pSprite, i, wide_view))
         {
-            return 1;
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x4B98E0)
-bool Game::IsSpriteInPlayerView_4B98E0(Sprite* pSprite, u8 player_idx, s32 wide_view)
+bool Game::IsSpriteInPlayerView_4B98E0(Sprite* pSprite, u8 player_idx, s32 wide_view) const
 {
     if (field_4_players[player_idx]->field_8E_in_use)
     {
@@ -745,29 +743,29 @@ bool Game::IsSpriteInPlayerView_4B98E0(Sprite* pSprite, u8 player_idx, s32 wide_
 }
 
 MATCH_FUNC(0x4B9950)
-bool Game::IsSpriteInPlayerBounds_4B9950(Sprite* pSprite, u8 player_idx, Fix16 margin)
+bool Game::IsSpriteInPlayerBounds_4B9950(Sprite* pSprite, u8 player_idx, Fix16 margin) const
 {
-    Player*& pPlayer = this->field_4_players[player_idx]; // a reference: 9.6f keeps the slot address too
+    Player* const& pPlayer = this->field_4_players[player_idx]; // a reference: 9.6f keeps the slot address too
     if (!pPlayer->field_8E_in_use)
     {
-        return 0;
+        return false;
     }
 
     if (pPlayer->field_90_game_camera.IsSpriteInBounds_45AEA0(pSprite, margin))
     {
-        return 1;
+        return true;
     }
 
     if (pPlayer->field_2D0_aux_cam_active && pPlayer->field_208_aux_game_camera.IsSpriteInBounds_45AEA0(pSprite, margin))
     {
-        return 1;
+        return true;
     }
 
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x4B9A10)
-bool Game::IsSpriteCameraSubjectForPlayer_4B9A10(Sprite* pSprite, u8 player_idx)
+bool Game::IsSpriteCameraSubjectForPlayer_4B9A10(Sprite* pSprite, u8 player_idx) const
 {
     if (field_4_players[player_idx]->field_8E_in_use)
     {
@@ -780,7 +778,6 @@ bool Game::IsSpriteCameraSubjectForPlayer_4B9A10(Sprite* pSprite, u8 player_idx)
     return false;
 }
 
-// https://decomp.me/scratch/PO0RU wip - prob needs Fix16 operators ??
 MATCH_FUNC(0x4B9A80)
 bool Game::IsPointOnScreen_4B9A80(Fix16 x, Fix16 y)
 {
@@ -816,15 +813,15 @@ bool Game::IsRectVisibleToAnyPlayer_4B9B10(Fix16_Rect* pBounds)
         {
             if (pCurPlayer->field_90_game_camera.IsRectInBounds_45AF40(pBounds))
             {
-                return 1;
+                return true;
             }
             if (pCurPlayer->field_2D0_aux_cam_active && pCurPlayer->field_208_aux_game_camera.IsRectInBounds_45AF40(pBounds))
             {
-                return 1;
+                return true;
             }
         }
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x4B9BC0)
@@ -834,7 +831,7 @@ Camera* Game::IteratePlayerCamera_4B9BC0()
     {
         if (field_4_players[field_21_camera_iter_idx]->field_8E_in_use)
         {
-            field_22_aux_cam_iterated = 0;
+            field_22_aux_cam_iterated = false;
             return &field_4_players[field_21_camera_iter_idx]->field_90_game_camera;
         }
     }
@@ -849,11 +846,11 @@ bool Game::IsCarInAnyPlayerHistory_4B9C10(Car* pCar)
     {
         if (pPlayer->PromoteCarInHistory_564610(pCar, true))
         {
-            return 1;
+            return true;
         }
         pPlayer = IterateNextPlayer_4B9D10();
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x4B9C50)
@@ -865,15 +862,15 @@ Camera* Game::IterateNextPlayerCamera_4B9C50()
         {
             if (field_4_players[field_21_camera_iter_idx]->field_8E_in_use)
             {
-                field_22_aux_cam_iterated = 0;
+                field_22_aux_cam_iterated = false;
                 return &field_4_players[field_21_camera_iter_idx]->field_90_game_camera;
             }
         }
-        return 0;
+        return NULL;
     }
     else
     {
-        field_22_aux_cam_iterated = 1;
+        field_22_aux_cam_iterated = true;
         return &field_4_players[field_21_camera_iter_idx]->field_208_aux_game_camera;
     }
 }
@@ -888,7 +885,7 @@ Player* Game::IterateFirstPlayer_4B9CD0()
             return field_4_players[field_20_player_iter_idx];
         }
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x4B9D10)
@@ -901,7 +898,7 @@ Player* Game::IterateNextPlayer_4B9D10()
             return field_4_players[field_20_player_iter_idx];
         }
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x4B9D60)
@@ -930,15 +927,15 @@ void Game::ReduceTrafficSpawnCounterOfOtherViewers_4B9D60(Sprite* pSprite, Playe
 DEFINE_GLOBAL_INIT(Fix16, kInitialAmbient_67DCCC, Fix16(0x666, 0), 0x67DCCC);
 
 MATCH_FUNC(0x4B9DE0)
-Game::Game(u8 max_players, s8 player_idx) // 4B9DE0
+Game::Game(u8 max_players, s8 player_idx)
 {
-    gRng_6F6784.srand_4F7A40(); // srand?
+    gRng_6F6784.srand_4F7A40();
 
     field_3C_skip_police = bSkip_police_67D4F9;
 
     for (s32 ii = 0; ii < GTA2_COUNTOF(field_4_players); ii++)
     {
-        field_4_players[ii] = 0;
+        field_4_players[ii] = NULL;
     }
 
     field_23_num_players = max_players;
@@ -953,7 +950,7 @@ Game::Game(u8 max_players, s8 player_idx) // 4B9DE0
     }
     Player* pPlayer = field_4_players[field_24_local_player_idx];
     field_38_local_player = pPlayer;
-    pPlayer->field_0_is_user = 1;
+    pPlayer->field_0_is_user = true;
     field_1C_draw_player = field_38_local_player;
 
     gpRng_67AB34 = new rng(); // inline
@@ -1251,12 +1248,12 @@ Game::Game(u8 max_players, s8 player_idx) // 4B9DE0
     }
 
     field_21_camera_iter_idx = 0;
-    field_22_aux_cam_iterated = 0;
+    field_22_aux_cam_iterated = false;
     field_0_game_state = GameState::Running_1;
-    gbRngRemapTableDone_679C0A = 0;
+    gbRngRemapTableDone_679C0A = false;
     field_20_player_iter_idx = 0;
     field_28_exit_timer = -1;
-    field_30_fast_forward = 0;
+    field_30_fast_forward = false;
     field_2C_game_exit_type = GameExitType::None;
     field_34_network_frame_ms = 0;
     if (!bSkip_audio_67D6BE)
@@ -1350,6 +1347,6 @@ Game::~Game()
         GTA2_DELETE_AND_NULL(gKanjiFont_6F5168);
     }
 
-    field_1C_draw_player = 0;
-    field_38_local_player = 0;
+    field_1C_draw_player = NULL;
+    field_38_local_player = NULL;
 }

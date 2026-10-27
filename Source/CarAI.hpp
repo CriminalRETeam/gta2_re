@@ -38,14 +38,18 @@ enum
 
 class CarAI
 {
-  public:
+  private:
     EXPORT void MakeAgressiveSirensAndLights_4476F0();
     EXPORT void PlanTurnAtNextJunction_447710();
     EXPORT void DoShortcutsUsingJunctions_447970();
     inline void TurnAround_447970();
+
+  public:
     EXPORT bool GoToBlock_447CA0(u8 x, u8 y, u8 z, s32 arrow_type);
-    EXPORT bool TrySetTargetDirectionFromArrows_447D40(gmp_block_info* pBlock);
-    EXPORT bool IsClockwiseTurning_448270();
+
+  private:
+    EXPORT bool TrySetTargetDirectionFromArrows_447D40(const gmp_block_info* pBlock);
+    EXPORT bool IsClockwiseTurning_448270() const;
     EXPORT void BrakeForBlockedRoadAhead_4482C0();
     EXPORT void CheckRoadAhead_448770();
     EXPORT void ManageTrafficCarDirection_448CE0();
@@ -66,16 +70,22 @@ class CarAI
     EXPORT void RaiseSpeedTo_453990(Fix16 target_speed);
     EXPORT void ClearTurnReady_4539B0();
     EXPORT void UpdateSpeedTowardTarget_4539D0();
+
+  public:
     EXPORT void UpdateTrainMovement_453A40();
     EXPORT void AI_Service_453BB0();
     EXPORT void SetCar_453BF0(Car* pCar);
+
+  private:
     EXPORT void ReverseOrNeutral_453C00();
+
+  public:
     EXPORT void PoolAllocate();
     EXPORT CarAI();
 
     void PoolDeallocate()
     {
-        field_0_car = 0;
+        field_0_car = NULL;
     }
 
     Car* field_0_car;
@@ -120,7 +130,7 @@ class CarAI
     Fix16 field_5C_unused;
     Fix16 field_60_unused;
     Fix16 field_64_unused;
-    Car* field_68_car_in_collision; // Car collided
+    Car* field_68_car_in_collision;
     Car* field_6C_yield_to_car;
     Sprite* field_70_nearest_entity;
     Fix16 field_74_max_speed;
@@ -137,7 +147,7 @@ class CarAIPool
 
     ~CarAIPool()
     {
-        field_0_pool.field_0_pHead = 0;
+        field_0_pool.field_0_pHead = NULL;
     }
 
     CarAI* Allocate()

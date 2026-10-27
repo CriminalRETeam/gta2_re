@@ -3,14 +3,14 @@
 
 // The out-of-line copy of the inline operator+
 MATCH_FUNC(0x40AC50)
-Fix16_Point Fix16_Point::Add_40AC50(const Fix16_Point& in)
+Fix16_Point Fix16_Point::Add_40AC50(const Fix16_Point& in) const
 {
     return Fix16_Point(x + in.x, y + in.y);
 }
 
 // The out-of-line copy of the inline operator-
 MATCH_FUNC(0x40AC80)
-Fix16_Point Fix16_Point::Sub_40AC80(const Fix16_Point& rhs)
+Fix16_Point Fix16_Point::Sub_40AC80(const Fix16_Point& rhs) const
 {
     return Fix16_Point(x - rhs.x, y - rhs.y);
 }
@@ -29,7 +29,7 @@ Ang16 Fix16_Point::atan2_40ACD0()
 
 // https://decomp.me/scratch/qQwG3
 MATCH_FUNC(0x438FE0)
-Fix16_Point Fix16_Point::Multiply_438FE0(Fix16& in)
+Fix16_Point Fix16_Point::Multiply_438FE0(Fix16& in) const
 {
     return Fix16_Point(x * in, y * in);
 }
@@ -50,26 +50,26 @@ Fix16_Point Fix16_Point::NormalizeSafe_442AD0()
     }
 }
 
-Fix16_Point Fix16_Point::operator/(Fix16& in)
+Fix16_Point Fix16_Point::operator/(Fix16& in) const
 {
     return Fix16_Point(x / in, y / in);
 }
 
 MATCH_FUNC(0x442C80)
-Fix16_Point Fix16_Point::MultBy_442C80(const s32& factor)
+Fix16_Point Fix16_Point::MultBy_442C80(const s32& factor) const
 {
     return Fix16_Point(x * factor, y * factor);
 }
 
 // https://decomp.me/scratch/nFSYS
 MATCH_FUNC(0x442CB0)
-Fix16_Point Fix16_Point::Divide_442CB0(Fix16& in)
+Fix16_Point Fix16_Point::Divide_442CB0(Fix16& in) const
 {
     return Fix16_Point(x / in, y / in);
 }
 
 MATCH_FUNC(0x453590)
-Fix16 Fix16_Point::GetLength_453590()
+Fix16 Fix16_Point::GetLength_453590() const
 {
     if (x == gFix16_6777CC)
     {
@@ -86,13 +86,13 @@ Fix16 Fix16_Point::GetLength_453590()
 }
 
 MATCH_FUNC(0x55F9E0)
-Fix16_Point Fix16_Point::operator/(const s32& divisor)
+Fix16_Point Fix16_Point::operator/(const s32& divisor) const
 {
     return Fix16_Point(x / divisor, y / divisor);
 }
 
 MATCH_FUNC(0x5605E0)
-Fix16_Point Fix16_Point::Rotate90CCW_5605E0()
+Fix16_Point Fix16_Point::Rotate90CCW_5605E0() const
 {
     return Fix16_Point(-y, x);
 }
@@ -115,7 +115,7 @@ Fix16_Point& Fix16_Point::DivAssign_5E40E0(const Fix16& v)
 
 // The larger of |x| and |y|, a cheap stand-in for the length.
 MATCH_FUNC(0x5E4140)
-Fix16 Fix16_Point::MaxAbs_5E4140()
+Fix16 Fix16_Point::MaxAbs_5E4140() const
 {
     Fix16 ax = Fix16::Abs(x);
     Fix16 ay = Fix16::Abs(y);

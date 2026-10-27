@@ -10,28 +10,28 @@ class Ang16
   public:
     //   Ang16  and  Ang16
     // 9.6f 0x40E670/0x41E0F0/0x40F4C0/0x40E690: setcc into a 32-bit register, so these return int, not bool
-    s32 operator>(const Ang16& other)
+    s32 operator>(const Ang16& other) const
     {
         return rValue > other.rValue;
     }
 
-    s32 operator<(const Ang16& other)
+    s32 operator<(const Ang16& other) const
     {
         return rValue < other.rValue;
     }
 
-    s32 operator>=(const Ang16& other)
+    s32 operator>=(const Ang16& other) const
     {
         return rValue >= other.rValue;
     }
 
-    s32 operator<=(const Ang16& other)
+    s32 operator<=(const Ang16& other) const
     {
         return rValue <= other.rValue;
     }
 
     // 9.6f 0x41CFF0
-    s32 operator!=(const Ang16& other)
+    s32 operator!=(const Ang16& other) const
     {
         return rValue != other.rValue;
     }
@@ -50,28 +50,19 @@ class Ang16
         return *this;
     }
 
-    // TODO: this shouldn't exist, try to match Player::DoPedControlInputs_566C80 without it
-    /*
-    Ang16 operator=(const Ang16& other)
-    {
-        rValue = other.rValue;
-        return *this;
-    }
-    */
-
-    s32 operator==(const Ang16& other)
+    s32 operator==(const Ang16& other) const
     {
         return rValue == other.rValue;
     }
 
-    Ang16 operator*(const Ang16& other)
+    Ang16 operator*(const Ang16& other) const
     {
         return Ang16((Fix16(rValue) * Fix16(other.rValue)).ToInt());
     }
 
     // 9.6f 0x40E5A0
     // https://decomp.me/scratch/Rc5ql
-    Ang16 operator+(const Ang16& rhs)
+    Ang16 operator+(const Ang16& rhs) const
     {
         s16 value = rValue + rhs.rValue;
         return Ang16(value, 0);
@@ -79,7 +70,7 @@ class Ang16
 
     // operator+ with the normalizing constructor called out of line (AssignNormalized_409300), for
     // functions that ran out of inline expansions (Explosion::EmitBuildingDebris_22_23_24_25_542E30)
-    Ang16 Add_ool(const Ang16& rhs)
+    Ang16 Add_ool(const Ang16& rhs) const
     {
         s16 value = rValue + rhs.rValue;
         return Ang16(&value, 0);
@@ -95,29 +86,29 @@ class Ang16
     // 9.6f 0x49E240, defined in CarPhysics.cpp
     inline wchar_t* ThetaText_49E240();
 
-    Ang16 operator-()
+    Ang16 operator-() const
     {
         return Ang16(-rValue, 0);
     }
 
     //   Ang16  and  const int
 
-    bool operator>(const s32 other)
+    bool operator>(const s32 other) const
     {
         return rValue > other;
     }
 
-    bool operator<(const s32 other)
+    bool operator<(const s32 other) const
     {
         return rValue < other;
     }
 
-    bool operator>=(const s32 other)
+    bool operator>=(const s32 other) const
     {
         return rValue >= other;
     }
 
-    bool operator<=(const s32 other)
+    bool operator<=(const s32 other) const
     {
         return rValue <= other;
     }
@@ -164,12 +155,12 @@ class Ang16
         return *this;
     }
 
-    inline s32 ToFloat()
+    inline s32 ToFloat() const
     {
         return rValue << 14;
     }
 
-    inline s32 FromUnsignedToFloat()
+    inline s32 FromUnsignedToFloat() const
     {
         return static_cast<u16>(rValue) << 14;
     }
@@ -213,7 +204,7 @@ class Ang16
     EXPORT void SnapToAng4_405640();
     EXPORT Ang16* AssignNormalized_409300(const s16& value, s32 not_used);
     EXPORT Ang16 SubtractNormalized_409340(const Ang16& toSub);
-    EXPORT static Ang16 __stdcall Fix16_To_Ang16_482740(Fix16& value);
+    EXPORT static Ang16 __stdcall Fix16_To_Ang16_482740(const Fix16& value);
 
     // 10.5 0x409300 (AssignNormalized_409300) is the out-of-line copy of the normalizing constructor
     // Ang16(const s16&, s32) below (9.6f 0x401C60). VC6 calls it instead of inlining in functions that
@@ -256,11 +247,11 @@ class Ang16
     // Non-inlined version of above function
     EXPORT static void __stdcall PolarToCartesian_451730(Ang16& angle, Fix16& radius, Fix16& ret1, Fix16& ret2);
 
-    EXPORT static s32 __stdcall Ang16::GetAngleFace_4F78F0(Ang16& angle);
+    EXPORT static s32 __stdcall GetAngleFace_4F78F0(const Ang16& angle);
 
     // inlined from 0x40f580 on v9.6f
     // I was tempted to put this on the Fix16 header, but that will create a circular dependency...
-    EXPORT static Fix16 _stdcall Ang16_to_Fix16(const Ang16& v)
+    EXPORT static Fix16 __stdcall Ang16_to_Fix16(const Ang16& v)
     {
         s32 value = v.rValue * 71;
         return Fix16(value, 0);
@@ -295,7 +286,7 @@ class Ang16
     }
 
     // 9.6f 0x41E3C0
-    bool jIsAxisAligned_41E3C0()
+    bool jIsAxisAligned_41E3C0() const
     {
         return IsAxisAligned_41E110();
     }
@@ -332,7 +323,7 @@ class Ang16
         Normalize();
     }
 
-    Ang16 MultiplyByFix16_401CB0(const Fix16& factor)
+    Ang16 MultiplyByFix16_401CB0(const Fix16& factor) const
     {
         return Ang16(Fix16(rValue) * factor, 0);
     }
@@ -340,14 +331,14 @@ class Ang16
     // MultiplyByFix16_401CB0 with the multiply and the Fix16* constructor out of line. The product
     // goes straight into the constructor call, so its 0 argument is pushed before the multiply
     // (ParticleManager::EmitImpactParticles_53FE40)
-    Ang16 MultiplyByFix16_401CB0_out_of_line(const Fix16& factor)
+    Ang16 MultiplyByFix16_401CB0_out_of_line(const Fix16& factor) const
     {
         return Ang16(const_cast<Fix16*>(&static_cast<const Fix16&>(Fix16(rValue).Multiply_408680(factor))), 0);
     }
 
     // MultiplyByFix16_401CB0 with the multiply inline and the Fix16* constructor out of line
     // (ParticleManager::EmitWaterSplash_53F060)
-    Ang16 MultiplyByFix16_401CB0_ctor_ool(const Fix16& factor)
+    Ang16 MultiplyByFix16_401CB0_ctor_ool(const Fix16& factor) const
     {
         Fix16 product = Fix16(rValue) * factor;
         return Ang16(&product, 0);
@@ -359,8 +350,8 @@ class Ang16
     }
 
     EXPORT static Fix16 __stdcall NormalizeAngleDeltaScaled_405B60(Ang16& from, Ang16& to, Ang16& divisor);
-    EXPORT u8 GetOctant_4056A0();
-    EXPORT u8 ToAng4_405680();
+    EXPORT u8 GetOctant_4056A0() const;
+    EXPORT u8 ToAng4_405680() const;
 
     // TODO: move with CarDoorAlignmentSolver_545AF0
     // https://decomp.me/scratch/6VBR0  (matched)
@@ -394,7 +385,7 @@ class Ang8
 {
   public:
     //  maybe an Ang8 inline at 0x462EF0 in 9.6f
-    Ang16 convert_to_ang16()
+    Ang16 convert_to_ang16() const
     {
         return Ang16((Fix16(rValue) / 256) * 1440);
     }
@@ -402,14 +393,14 @@ class Ang8
     u8 rValue;
 };
 
-inline void __stdcall RotateAndTranslatePoint_42A720(Fix16& pInX,
-                                                         Fix16& pInY,
-                                                         Ang16& pRotAng,
-                                                         Fix16& pTransX,
-                                                         Fix16& pTransY,
-                                                         Fix16& pRotTransX,
-                                                         Fix16& pRotTransY)
+inline void __stdcall RotateAndTranslatePoint_42A720(Fix16& inX,
+                                                         Fix16& inY,
+                                                         Ang16& rotation,
+                                                         Fix16& transX,
+                                                         Fix16& transY,
+                                                         Fix16& outX,
+                                                         Fix16& outY)
 {
-    pRotTransX = (((pInX - pTransX) * Ang16::cosine_40F520(pRotAng)) + ((pInY - pTransY) * Ang16::sine_40F500(pRotAng)));
-    pRotTransY = ((-(pInX - pTransX) * Ang16::sine_40F500(pRotAng)) + ((pInY - pTransY) * Ang16::cosine_40F520(pRotAng)));
+    outX = (((inX - transX) * Ang16::cosine_40F520(rotation)) + ((inY - transY) * Ang16::sine_40F500(rotation)));
+    outY = ((-(inX - transX) * Ang16::sine_40F500(rotation)) + ((inY - transY) * Ang16::cosine_40F520(rotation)));
 }

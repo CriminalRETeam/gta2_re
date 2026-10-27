@@ -39,7 +39,7 @@ Gang* GangPool::FirstGang_4BECA0()
             return &field_0_gang_list[gGangIdx_6206B8];
         }
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x4bece0)
@@ -52,11 +52,11 @@ Gang* GangPool::NextGang_4BECE0()
             return &field_0_gang_list[gGangIdx_6206B8];
         }
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x4BED30)
-wchar_t* Gang::GetNameWide_4BED30()
+wchar_t* Gang::GetNameWide_4BED30() const
 {
     gGangNameWide_67E030[0] = field_2_name[0];
     gGangNameWide_67E030[1] = field_2_name[1];
@@ -69,10 +69,10 @@ MATCH_FUNC(0x4BED70);
 void Gang::Init_4BED70()
 {
     field_1_gang_idx = 0;
-    field_0_used = 0;
+    field_0_used = false;
     field_101_remap = 1;
-    field_110_has_high_respect = 0;
-    field_111_kill_affects_respect = 0;
+    field_110_has_high_respect = false;
+    field_111_kill_affects_respect = false;
     field_104_basic_weapon = 0;
     field_108_angry_weapon = 0;
     field_10C_hate_weapon = 0;
@@ -82,7 +82,7 @@ void Gang::Init_4BED70()
 
     for (u8 i = 0; i < 10; i++)
     {
-        field_112_hostile_to_gang[i] = 1;
+        field_112_hostile_to_gang[i] = true;
         field_122_gang_kill_reaction[i] = 0;
     }
 
@@ -90,11 +90,11 @@ void Gang::Init_4BED70()
     {
         field_11C_respect[j] = 0;
     }
-    field_141_always_basic_weapon = 0;
+    field_141_always_basic_weapon = false;
 }
 
 MATCH_FUNC(0x4BEDF0)
-char_type Gang::IsHostileToGang_4BEDF0(u8 gang_idx)
+bool Gang::IsHostileToGang_4BEDF0(u8 gang_idx) const
 {
     return field_112_hostile_to_gang[gang_idx];
 }
@@ -152,13 +152,13 @@ void Gang::DecrementRespect_4BEEA0(u8 player_idx, char_type respect)
 }
 
 MATCH_FUNC(0x4BEEF0)
-char_type Gang::GetRespectForPlayer_4BEEF0(u8 player_idx)
+char_type Gang::GetRespectForPlayer_4BEEF0(u8 player_idx) const
 {
     return field_11C_respect[player_idx];
 }
 
 MATCH_FUNC(0x4BEF10)
-bool Gang::IsRespectNegativeForPlayer_4BEF10(u8 player_idx)
+bool Gang::IsRespectNegativeForPlayer_4BEF10(u8 player_idx) const
 {
     if (field_11C_respect[player_idx] < -19)
     {
@@ -213,25 +213,23 @@ void Gang::ChangeRespectAndUpdate_4BF000(u8 player_idx, char_type respect)
 
     for (u8 i = 0; i < 10; ++i)
     {
-        Gang* pGangFromIdx = gGangPool_CA8_67E274->GangByIdx_4BF1C0(i);
-        if (field_1_gang_idx != pGangFromIdx->field_1_gang_idx)
+        Gang* pGang = gGangPool_CA8_67E274->GangByIdx_4BF1C0(i);
+        if (field_1_gang_idx != pGang->field_1_gang_idx)
         {
-            if (pGangFromIdx->field_122_gang_kill_reaction[field_1_gang_idx])
+            if (pGang->field_122_gang_kill_reaction[field_1_gang_idx])
             {
                 if (respect > 0)
                 {
-                    pGangFromIdx->DecrementRespect_4BEEA0(player_idx, respect);
+                    pGang->DecrementRespect_4BEEA0(player_idx, respect);
                 }
                 else
                 {
-                    pGangFromIdx->IncrementRespect_4BEE50(player_idx, abs(respect));
+                    pGang->IncrementRespect_4BEE50(player_idx, abs(respect));
                 }
             }
         }
     }
 }
-
-// =====================
 
 MATCH_FUNC(0x4BF090);
 void Gang::SetName_4BF090(const char_type* pName, u8 nameLen)
@@ -241,7 +239,7 @@ void Gang::SetName_4BF090(const char_type* pName, u8 nameLen)
 }
 
 MATCH_FUNC(0x4BF0C0);
-s32 Gang::GetCurrentWeapon_4BF0C0()
+s32 Gang::GetCurrentWeapon_4BF0C0() const
 {
     if (bStartNetworkGame_7081F0 || field_141_always_basic_weapon)
     {
@@ -264,7 +262,7 @@ s32 Gang::GetCurrentWeapon_4BF0C0()
 }
 
 MATCH_FUNC(0x4BF100);
-Gang* GangPool::FindGangByName_4BF100(const char* pGangName)
+Gang* GangPool::FindGangByName_4BF100(const char_type* pGangName)
 {
     for (u8 i = 0; i < 10; i++)
     {
@@ -273,7 +271,7 @@ Gang* GangPool::FindGangByName_4BF100(const char* pGangName)
             return &field_0_gang_list[i];
         }
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x4BF170);
@@ -285,7 +283,7 @@ Gang* GangPool::AllocGang_4BF170()
         {
             Gang* result = &field_0_gang_list[i];
             result->field_1_gang_idx = i;
-            result->field_0_used = 1;
+            result->field_0_used = true;
             return result;
         }
     }
@@ -309,9 +307,9 @@ void GangPool::AddGangForMapZone_4BF1E0(gmp_map_zone* pMapZone)
 }
 
 MATCH_FUNC(0x4BF210);
-s8 GangPool::GetGangIdxByName_4BF210(const char* gangName)
+s8 GangPool::GetGangIdxByName_4BF210(const char_type* pGangName)
 {
-    Gang* pGang = FindGangByName_4BF100(gangName);
+    Gang* pGang = FindGangByName_4BF100(pGangName);
     if (pGang)
     {
         return pGang->field_1_gang_idx;
@@ -364,7 +362,7 @@ s8 GangPool::FindGangByCarModel_4BF2F0(s32 car_model)
 }
 
 MATCH_FUNC(0x4BF340)
-wchar_t* Gang::GetArrowColourText_4BF340()
+wchar_t* Gang::GetArrowColourText_4BF340() const
 {
     sprintf(gTmpBuffer_67C598, "ganga%d", field_138_arrow_colour);
     return gText_0x14_704DFC->Find_5B5F90(gTmpBuffer_67C598);

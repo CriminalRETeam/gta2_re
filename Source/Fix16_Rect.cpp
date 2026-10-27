@@ -41,7 +41,7 @@ char_type Fix16_Rect::IsRectBlockedByMap_59DE80()
     s32 x = ((this->field_0_left + this->field_4_right) / 2).ToInt();
     s32 y = ((this->field_8_top + this->field_C_bottom) / 2).ToInt();
     s32 z = ((this->field_10_low_z + this->field_14_high_z) / 2).ToInt();
-    return gMap_0x370_6F6268->IsMovementRegionBlocked_4E4460(x, y, z, 0, 1024);
+    return gMap_0x370_6F6268->IsMovementRegionBlocked_4E4460(x, y, z, NULL, 1024);
 }
 
 MATCH_FUNC(0x59dee0)

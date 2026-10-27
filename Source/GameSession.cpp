@@ -29,7 +29,7 @@ GameSession::GameSession()
     field_430_car_damage_cost = 0;
     field_434_evasion_rating = 0;
     field_438_bonus_rating_text_idx = 0;
-    field_43A_bStartedFromPlayBonusMenu = 0;
+    field_43A_bStartedFromPlayBonusMenu = false;
 
     init_4C5AF0();
 }
@@ -37,8 +37,8 @@ GameSession::GameSession()
 MATCH_FUNC(0x4C53D0)
 void GameSession::LoadDebugSettings_4C53D0()
 {
-    char path[256];
-    char reg_value[256];
+    char_type path[256];
+    char_type reg_value[256];
 
     strcpy(reg_value, "");
     strcpy(path, "data\\");
@@ -94,25 +94,25 @@ void GameSession::LoadDebugSettings_4C53D0()
     field_430_car_damage_cost = 0;
     field_434_evasion_rating = 0;
     field_438_bonus_rating_text_idx = 0;
-    field_43A_bStartedFromPlayBonusMenu = 0;
+    field_43A_bStartedFromPlayBonusMenu = false;
 
     init_4C5AF0();
 }
 
 MATCH_FUNC(0x4C5870)
-char* GameSession::SetMapName_4C5870(char_type* pName)
+char_type* GameSession::SetMapName_4C5870(char_type* pName)
 {
     return strncpy(field_0_map_name, pName, 255u);
 }
 
 MATCH_FUNC(0x4C5890)
-char* GameSession::SetStyleName_4C5890(char_type* pName)
+char_type* GameSession::SetStyleName_4C5890(char_type* pName)
 {
     return strncpy(field_100_style_name, pName, 0xFFu);
 }
 
 MATCH_FUNC(0x4C58B0)
-char* GameSession::SetScriptName_4C58B0(char_type* pName)
+char_type* GameSession::SetScriptName_4C58B0(char_type* pName)
 {
     return strncpy(field_200_script_name, pName, 0xFFu);
 }
@@ -154,67 +154,67 @@ void GameSession::SetLevelFinishBonusType_4C5930(char_type bonus_type)
 }
 
 MATCH_FUNC(0x4C5940)
-char* GameSession::GetMapName_4C5940()
+char_type* GameSession::GetMapName_4C5940()
 {
     return field_0_map_name;
 }
 
 MATCH_FUNC(0x4C5950)
-char* GameSession::GetStyleName_4C5950()
+char_type* GameSession::GetStyleName_4C5950()
 {
     return field_100_style_name;
 }
 
 MATCH_FUNC(0x4C5960)
-char* GameSession::GetScriptName_4C5960()
+char_type* GameSession::GetScriptName_4C5960()
 {
     return field_200_script_name;
 }
 
 MATCH_FUNC(0x4C5970)
-char* GameSession::GetSaveFileName_4C5970()
+char_type* GameSession::GetSaveFileName_4C5970()
 {
     return field_300_save_file_name;
 }
 
 MATCH_FUNC(0x4C5980)
-char_type GameSession::GetMainStageIdx_4C5980()
+char_type GameSession::GetMainStageIdx_4C5980() const
 {
     return field_400_main_stage;
 }
 
 MATCH_FUNC(0x4C5990)
-char_type GameSession::GetStage_4C5990()
+char_type GameSession::GetStage_4C5990() const
 {
     return field_401_stage;
 }
 
 MATCH_FUNC(0x4C59A0)
-char_type GameSession::IsBonusStage_4C59A0()
+char_type GameSession::IsBonusStage_4C59A0() const
 {
     return field_402_bonus_stage;
 }
 
 MATCH_FUNC(0x4C59B0)
-u8 GameSession::GetPlySlotIdx_4C59B0()
+u8 GameSession::GetPlySlotIdx_4C59B0() const
 {
     return field_403_player_slot_idx;
 }
 
 MATCH_FUNC(0x4C59C0)
-char_type GameSession::GetLevelFinishBonusType_4C59C0()
+char_type GameSession::GetLevelFinishBonusType_4C59C0() const
 {
     return field_404_level_finish_bonus_type;
 }
 
 MATCH_FUNC(0x4C59D0)
-void GameSession::SetStatistic_4C59D0(u8 i, s32 value)
+void GameSession::SetStatistic_4C59D0(u8 idx, s32 value)
 {
-    field_408_statistics[i] = value;
+    field_408_statistics[idx] = value;
 }
 
 MATCH_FUNC(0x4C59F0)
-s32 GameSession::GetStatistic_4C59F0(u8 idx)
+s32 GameSession::GetStatistic_4C59F0(u8 idx) const
 {
     return field_408_statistics[idx];
 }
@@ -238,7 +238,7 @@ void GameSession::SetCarDamageCost_4C5A70(s32 cost)
 }
 
 MATCH_FUNC(0x4C5A80)
-s32 GameSession::GetCarDamageCost_4C5A80()
+s32 GameSession::GetCarDamageCost_4C5A80() const
 {
     return field_430_car_damage_cost;
 }
@@ -250,7 +250,7 @@ void GameSession::SetEvasionRating_4C5A90(s32 rating)
 }
 
 MATCH_FUNC(0x4C5AA0)
-s32 GameSession::GetEvasionRating_4C5AA0()
+s32 GameSession::GetEvasionRating_4C5AA0() const
 {
     return field_434_evasion_rating;
 }
@@ -262,7 +262,7 @@ void GameSession::SetBonusRatingTextIdx_4C5AB0(s16 gxt_text_idx)
 }
 
 MATCH_FUNC(0x4C5AC0)
-s16 GameSession::GetBonusRatingTextIdx_4C5AC0()
+s16 GameSession::GetBonusRatingTextIdx_4C5AC0() const
 {
     return field_438_bonus_rating_text_idx;
 }
@@ -274,7 +274,7 @@ void GameSession::SetStartedFromPlayBonusMenu_4C5AD0(bool bStarted)
 }
 
 MATCH_FUNC(0x4C5AE0)
-bool GameSession::IsStartedFromPlayBonusMenu_4C5AE0()
+bool GameSession::IsStartedFromPlayBonusMenu_4C5AE0() const
 {
     return field_43A_bStartedFromPlayBonusMenu;
 }
@@ -286,7 +286,7 @@ void GameSession::init_4C5AF0()
     field_43C_points_limit = 0;
     field_440_user_player_idx = 0;
     field_441_max_players = 0;
-    field_442_winner_player_idx = 6;
+    field_442_winner_player_idx = MAX_PLAYERS;
 
     for (s32 i = 0; i < GTA2_COUNTOF(field_490_frags_list); i++)
     {
@@ -311,25 +311,25 @@ void GameSession::SetMultiplayerParams_4C5B80(char_type game_type, s32 points_li
 }
 
 MATCH_FUNC(0x4C5BC0)
-u8 GameSession::GetMultiplayerGamemode_4C5BC0()
+u8 GameSession::GetMultiplayerGamemode_4C5BC0() const
 {
     return field_43B_game_type;
 }
 
 MATCH_FUNC(0x4C5BD0)
-s32 GameSession::GetMultiplayerPointsLimit_4C5BD0()
+s32 GameSession::GetMultiplayerPointsLimit_4C5BD0() const
 {
     return field_43C_points_limit;
 }
 
 MATCH_FUNC(0x4C5BE0)
-char_type GameSession::GetUserPlayerIdx_4C5BE0()
+char_type GameSession::GetUserPlayerIdx_4C5BE0() const
 {
     return field_440_user_player_idx;
 }
 
 MATCH_FUNC(0x4C5BF0)
-char_type GameSession::GetMaxPlayers_4C5BF0()
+char_type GameSession::GetMaxPlayers_4C5BF0() const
 {
     return field_441_max_players;
 }
@@ -344,7 +344,7 @@ void GameSession::SetWinnerIdx_4C5C00(char_type player_idx)
 }
 
 MATCH_FUNC(0x4C5C20)
-char_type GameSession::GetWinnerIdx_4C5C20()
+char_type GameSession::GetWinnerIdx_4C5C20() const
 {
     return field_442_winner_player_idx;
 }
@@ -368,7 +368,7 @@ void GameSession::ChangePointsForPlayerIdxByAmount_4C5C80(u8 player_idx, s32 amo
 }
 
 MATCH_FUNC(0x4C5CB0)
-s32 GameSession::GetPointsForPlayerIdx_4C5CB0(u8 player_idx)
+s32 GameSession::GetPointsForPlayerIdx_4C5CB0(u8 player_idx) const
 {
     return field_49C_points_list[player_idx];
 }
@@ -395,13 +395,13 @@ void GameSession::UpdateFrags_4C5CD0(u8 player_killer_idx, u8 player_victim_idx)
 }
 
 MATCH_FUNC(0x4C5D60)
-u16 GameSession::GetFragsForPlayerIdx_4C5D60(u8 player_idx)
+u16 GameSession::GetFragsForPlayerIdx_4C5D60(u8 player_idx) const
 {
     return field_490_frags_list[player_idx];
 }
 
 MATCH_FUNC(0x4C5D80)
-s16 GameSession::GetFragsOnPlayer_4C5D80(u8 player_killer_idx, u8 player_victim_idx)
+s16 GameSession::GetFragsOnPlayer_4C5D80(u8 player_killer_idx, u8 player_victim_idx) const
 {
     return field_448_frags_by_victim[player_killer_idx].field_0_frags_on_victim[player_victim_idx];
 }

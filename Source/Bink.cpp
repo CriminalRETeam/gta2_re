@@ -10,6 +10,13 @@ DEFINE_GLOBAL(char_type, gBinkActiveSlot_6F83FF, 0x6F83FF);
 DEFINE_GLOBAL_ARRAY(u32, gBinkSummary_6F8250, 30, 0x6F8250);
 DEFINE_GLOBAL(s32, gBinkPixelFormat_6F81B0, 0x6F81B0);
 
+enum BinkDDState
+{
+    BinkDD_Closed = 0,
+    BinkDD_Opening = 1,
+    BinkDD_Open = 2,
+};
+
 // 9.6f 0x481DF0
 static inline bool IsDirectBufferMode_481DF0()
 {
@@ -19,18 +26,17 @@ static inline bool IsDirectBufferMode_481DF0()
 MATCH_FUNC(0x513210)
 void __stdcall Bink::Reset_513210()
 {
-    gBinkHandleSlot2_6F83B0 = 0;
-    gBinkHandleSlot1_6F8168 = 0;
-    gBinkBufferSlot2_6F80C4 = 0;
-    gBinkBufferSlot1_6F8170 = 0;
-    gBinkDDState_6F83FE = 0;
+    gBinkHandleSlot2_6F83B0 = NULL;
+    gBinkHandleSlot1_6F8168 = NULL;
+    gBinkBufferSlot2_6F80C4 = NULL;
+    gBinkBufferSlot1_6F8170 = NULL;
+    gBinkDDState_6F83FE = BinkDD_Closed;
     gBinkActiveSlot_6F83FF = 0;
 }
 
 MATCH_FUNC(0x513240)
 bool Bink::TickFrame_513240()
 {
-
     BINK* hbink;
     BINKBUFFER* hbinkbuffer;
     if (gBinkActiveSlot_6F83FF == 1)
@@ -69,7 +75,7 @@ bool Bink::TickFrame_513240()
     else
     {
         // Software / DirectDraw path: copy into the locked BinkBuffer, then blit.
-        if (BinkBufferLock(hbinkbuffer) != 0)
+        if (BinkBufferLock(hbinkbuffer) != NULL)
         {
             BinkCopyToBuffer(hbink,
                              hbinkbuffer->pixels,
@@ -95,30 +101,30 @@ bool Bink::TickFrame_513240()
 MATCH_FUNC(0x513340)
 void Bink::CloseSlot1_513340()
 {
-    if (gBinkBufferSlot1_6F8170 != 0)
+    if (gBinkBufferSlot1_6F8170 != NULL)
     {
         BinkBufferClose(gBinkBufferSlot1_6F8170);
-        gBinkBufferSlot1_6F8170 = 0;
-        gBinkDDState_6F83FE = 0;
+        gBinkBufferSlot1_6F8170 = NULL;
+        gBinkDDState_6F83FE = BinkDD_Closed;
         gBinkActiveSlot_6F83FF = 0;
     }
 
-    if (gBinkHandleSlot1_6F8168 != 0)
+    if (gBinkHandleSlot1_6F8168 != NULL)
     {
         BinkGetSummary(gBinkHandleSlot1_6F8168, &gBinkSummary_6F8250);
         BinkClose(gBinkHandleSlot1_6F8168);
-        gBinkHandleSlot1_6F8168 = 0;
+        gBinkHandleSlot1_6F8168 = NULL;
     }
 }
 
 MATCH_FUNC(0x513390)
 void Bink::CloseSlot2_513390()
 {
-    if (gBinkBufferSlot2_6F80C4 != 0)
+    if (gBinkBufferSlot2_6F80C4 != NULL)
     {
         BinkBufferClose(gBinkBufferSlot2_6F80C4);
-        gBinkBufferSlot2_6F80C4 = 0;
-        gBinkDDState_6F83FE = 0;
+        gBinkBufferSlot2_6F80C4 = NULL;
+        gBinkDDState_6F83FE = BinkDD_Closed;
         gBinkActiveSlot_6F83FF = 0;
     }
 
@@ -126,7 +132,7 @@ void Bink::CloseSlot2_513390()
     {
         BinkGetSummary(gBinkHandleSlot2_6F83B0, &gBinkSummary_6F8250);
         BinkClose(gBinkHandleSlot2_6F83B0);
-        gBinkHandleSlot2_6F83B0 = 0;
+        gBinkHandleSlot2_6F83B0 = NULL;
     }
 }
 
@@ -140,7 +146,7 @@ void __stdcall Bink::OpenSlot2_5133E0(const char_type* pFileName, HDIGDRIVER hDr
 
     gBinkHandleSlot2_6F83B0 = BinkOpen(pFileName, 0x4000000);
 
-    if (gBinkHandleSlot2_6F83B0 != 0)
+    if (gBinkHandleSlot2_6F83B0 != NULL)
     {
         if (IsDirectBufferMode_481DF0())
         {
@@ -182,22 +188,22 @@ void __stdcall Bink::OpenSlot2_5133E0(const char_type* pFileName, HDIGDRIVER hDr
         }
 
         // Software / DirectDraw path.
-        if (gBinkDDState_6F83FE == 0)
+        if (gBinkDDState_6F83FE == BinkDD_Closed)
         {
             BinkBufferSetDDPrimary(gVidSys_7071D0->field_134_SurfacePrimary);
         }
 
-        gBinkDDState_6F83FE = 1;
+        gBinkDDState_6F83FE = BinkDD_Opening;
         gBinkBufferSlot2_6F80C4 = BinkBufferOpen(gHwnd_707F04, gBinkHandleSlot2_6F83B0->width, gBinkHandleSlot2_6F83B0->height, 0);
 
-        if (gBinkBufferSlot2_6F80C4 == 0)
+        if (gBinkBufferSlot2_6F80C4 == NULL)
         {
-            gBinkDDState_6F83FE = 0;
+            gBinkDDState_6F83FE = BinkDD_Closed;
             FatalError_4A38C0(Gta2Error::BinkBufferOpenError, "C:\\Splitting\\Gta2\\Source\\movie2.cpp", 360);
         }
         else
         {
-            gBinkDDState_6F83FE = 2;
+            gBinkDDState_6F83FE = BinkDD_Open;
         }
     }
     else
@@ -257,18 +263,18 @@ void __stdcall Bink::OpenSlot1_513560(const char_type* pFileName, HDIGDRIVER hDr
 
         BinkBufferSetDDPrimary(gVidSys_7071D0->field_134_SurfacePrimary);
 
-        gBinkDDState_6F83FE = 1;
+        gBinkDDState_6F83FE = BinkDD_Opening;
         gBinkBufferSlot1_6F8170 = BinkBufferOpen(gHwnd_707F04, gBinkHandleSlot1_6F8168->width, gBinkHandleSlot1_6F8168->height, 0);
 
-        if (gBinkBufferSlot1_6F8170 == 0)
+        if (gBinkBufferSlot1_6F8170 == NULL)
         {
-            gBinkDDState_6F83FE = 0;
+            gBinkDDState_6F83FE = BinkDD_Closed;
             FatalError_4A38C0(Gta2Error::BinkBufferOpenError, "C:\\Splitting\\Gta2\\Source\\movie2.cpp", 450);
             gBinkActiveSlot_6F83FF = 1;
             return;
         }
 
-        gBinkDDState_6F83FE = 2;
+        gBinkDDState_6F83FE = BinkDD_Open;
         gBinkActiveSlot_6F83FF = 1;
     }
     else
@@ -280,12 +286,12 @@ void __stdcall Bink::OpenSlot1_513560(const char_type* pFileName, HDIGDRIVER hDr
 MATCH_FUNC(0x5136D0)
 void __stdcall Bink::CheckWindowPos_5136D0(s32* pNewWindowX, s32* pNewWindowY)
 {
-    if (gBinkActiveSlot_6F83FF == 1 && gBinkBufferSlot1_6F8170 != 0)
+    if (gBinkActiveSlot_6F83FF == 1 && gBinkBufferSlot1_6F8170 != NULL)
     {
         BinkBufferCheckWinPos(gBinkBufferSlot1_6F8170, pNewWindowX, pNewWindowY);
         return;
     }
-    else if (gBinkActiveSlot_6F83FF == 2 && gBinkBufferSlot2_6F80C4 != 0)
+    else if (gBinkActiveSlot_6F83FF == 2 && gBinkBufferSlot2_6F80C4 != NULL)
     {
         BinkBufferCheckWinPos(gBinkBufferSlot2_6F80C4, pNewWindowX, pNewWindowY);
     }
@@ -294,26 +300,26 @@ void __stdcall Bink::CheckWindowPos_5136D0(s32* pNewWindowX, s32* pNewWindowY)
 MATCH_FUNC(0x513720)
 void Bink::ResetBufferOffset_513720()
 {
-    if (gBinkActiveSlot_6F83FF == 1 && gBinkBufferSlot1_6F8170 != 0)
+    if (gBinkActiveSlot_6F83FF == 1 && gBinkBufferSlot1_6F8170 != NULL)
     {
         BinkBufferSetOffset(gBinkBufferSlot1_6F8170, 0, 0);
     }
-    else if (gBinkActiveSlot_6F83FF == 2 && gBinkBufferSlot2_6F80C4 != 0)
+    else if (gBinkActiveSlot_6F83FF == 2 && gBinkBufferSlot2_6F80C4 != NULL)
     {
         BinkBufferSetOffset(gBinkBufferSlot2_6F80C4, 0, 0);
     }
 }
 
 MATCH_FUNC(0x513760)
-BOOL Bink::IsDDBufferOpen_513760()
+bool Bink::IsDDBufferOpen_513760()
 {
-    return gBinkDDState_6F83FE == 2;
+    return gBinkDDState_6F83FE == BinkDD_Open;
 }
 
 MATCH_FUNC(0x513770)
-BOOL Bink::IsUsingDDBuffer_513770()
+bool Bink::IsUsingDDBuffer_513770()
 {
-    return gBinkDDState_6F83FE == 2 || gBinkDDState_6F83FE == 1;
+    return gBinkDDState_6F83FE == BinkDD_Open || gBinkDDState_6F83FE == BinkDD_Opening;
 }
 
 MATCH_FUNC(0x513790)

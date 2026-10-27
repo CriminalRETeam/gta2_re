@@ -86,7 +86,6 @@ void ExplodingScorePool::Update_596940()
 MATCH_FUNC(0x5969e0)
 void ExplodingScorePool::DrawExplodingScores_5969E0()
 {
-    // TODO: Would there have been an iterator object ??
     ExplodingScore* pIter = field_4_pool.GetFirstUsed_4B8FD0();
     while (pIter)
     {
@@ -109,14 +108,14 @@ ExplodingScore::ExplodingScore()
     field_40_y_offset_mult = 0;
     field_4C_score = 0;
     field_48_unused = 0;
-    mpNext = 0;
+    mpNext = NULL;
     field_34_palette = 9;
 }
 
 MATCH_FUNC(0x596a40)
 ExplodingScore::~ExplodingScore()
 {
-    mpNext = 0;
+    mpNext = NULL;
 }
 
 MATCH_FUNC(0x596a50)
@@ -361,7 +360,7 @@ void ExplodingScore::DrawNumbers_596C90()
 }
 
 MATCH_FUNC(0x5970c0)
-char_type ExplodingScore::PoolUpdate()
+bool ExplodingScore::PoolUpdate()
 {
     if (field_38_explode_counter < 0)
     {
@@ -372,19 +371,19 @@ char_type ExplodingScore::PoolUpdate()
         {
             field_36_alpha -= 2;
             field_38_explode_counter--;
-            return 0;
+            return false;
         }
         else
         {
             field_36_alpha = 0;
             gExplodingScorePool->IncrementFreeScores_596880();
-            return 1;
+            return true;
         }
     }
     else
     {
         field_38_explode_counter--;
-        return 0;
+        return false;
     }
 }
 
@@ -438,19 +437,19 @@ void ExplodingScore::DrawSingleNumber_597100(s32 number_to_draw, s32 xpos_sub)
             {
                 if (y_to_use <= Fix16(480))
                 {
-                    s32 drawKind = 7;
+                    s32 palette_type = palette_types_enum::user_remaps_7;
                     Fix16 finalScale = pCam->field_A8_ui_scale * base_scale;
-                    DrawFigure_5D7EC0(6, // type
-                                      number_to_draw + 163, // pal
-                                      x_to_use, // x
-                                      y_to_use, // y
-                                      kAng0_702F24, // rot
-                                      finalScale, // scale
-                                      drawKind, // drawkind
+                    DrawFigure_5D7EC0(sprite_types_enum::user_6,
+                                      number_to_draw + 163,
+                                      x_to_use,
+                                      y_to_use,
+                                      kAng0_702F24,
+                                      finalScale,
+                                      palette_type,
                                       this->field_34_palette,
                                       1,
                                       this->field_36_alpha,
-                                      1);
+                                      true);
                 }
             }
         }

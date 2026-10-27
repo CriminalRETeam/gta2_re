@@ -9,7 +9,7 @@
 #include "gtx_0x106C.hpp"
 #include "map_0x370.hpp"
 
-DEFINE_GLOBAL(s32, dword_67BBE0, 0x67BBE0);
+DEFINE_GLOBAL(s32, kZero_67BBE0, 0x67BBE0);
 DEFINE_GLOBAL_ARRAY(DoorAnimInfo, gDoorAnimInfo_67BB38, 5, 0x67BB38);
 DEFINE_GLOBAL(DoorPool*, gDoor_4D4_67BD2C, 0x67BD2C);
 DEFINE_GLOBAL_INIT(Fix16, kFpHalf_67BA20, Fix16(0x2000, 0), 0x67BA20);
@@ -22,34 +22,34 @@ DEFINE_GLOBAL(Ang16, DAT_0067BD18, 0x67BD18);
 MATCH_FUNC(0x49c640)
 Door::Door()
 {
-    field_0_primary_door_data = 0;
-    field_4_secondary_door_data = 0;
-    field_8_door_obj = 0;
-    field_C_trigger_obj = 0;
+    field_0_primary_door_data = NULL;
+    field_4_secondary_door_data = NULL;
+    field_8_door_obj = NULL;
+    field_C_trigger_obj = NULL;
     field_20_open_type = 0;
     field_24_close_type = 0;
     field_10_model_id = 0;
     field_18_unused = 0;
-    field_28_bClosing = 1;
-    field_2C_bCanAutoOpen = 1;
+    field_28_bClosing = true;
+    field_2C_bCanAutoOpen = true;
     field_1C_close_delay = 0;
     field_1E_close_timer = 0;
     field_14_target_id = 0;
-    field_29_bAuto = 1;
+    field_29_bAuto = true;
     field_2A_bDoFlip = 0;
     field_2B_bReversed = 0;
-    field_30_x = dword_67BBE0;
-    field_34_y = dword_67BBE0;
-    field_2D_play_open_sound = 0;
+    field_30_x = kZero_67BBE0;
+    field_34_y = kZero_67BBE0;
+    field_2D_play_open_sound = false;
 }
 
 MATCH_FUNC(0x49c690)
 Door::~Door()
 {
-    field_0_primary_door_data = 0;
-    field_4_secondary_door_data = 0;
-    field_8_door_obj = 0;
-    field_C_trigger_obj = 0;
+    field_0_primary_door_data = NULL;
+    field_4_secondary_door_data = NULL;
+    field_8_door_obj = NULL;
+    field_C_trigger_obj = NULL;
 }
 
 MATCH_FUNC(0x49c6a0)
@@ -135,14 +135,14 @@ bool Door::CanOpenForPed_49C7F0(Ped* pPed)
     bool ret = false;
     switch (field_20_open_type)
     {
-        case 1:
+        case door_open_type::any_player:
             if (pPed->is_player_41B0A0())
             {
                 ret = true;
             }
             break;
 
-        case 5:
+        case door_open_type::one_char_on_foot:
             if (field_10_ped)
             {
                 if (pPed == field_10_ped)
@@ -166,7 +166,7 @@ void Door::Open_49C840()
     {
         if (pDoorData->field_0_state != door_state::open_2)
         {
-            this->field_2D_play_open_sound = 1;
+            this->field_2D_play_open_sound = true;
         }
         pDoorData->Open_49C4E0(0);
     }
@@ -174,7 +174,7 @@ void Door::Open_49C840()
     {
         this->field_4_secondary_door_data->Open_49C4E0(this->field_2A_bDoFlip);
     }
-    this->field_28_bClosing = 0;
+    this->field_28_bClosing = false;
 }
 
 MATCH_FUNC(0x49c870)
@@ -254,8 +254,8 @@ void Door::InitSingleNoCheck_49C8D0(u8 door_group, u8 gr_id, u8 x, u8 y, u8 z, s
             break;
     }
 
-    field_28_bClosing = 1;
-    field_2C_bCanAutoOpen = 1;
+    field_28_bClosing = true;
+    field_2C_bCanAutoOpen = true;
 
     field_1E_close_timer = field_1C_close_delay = (gDoorAnimInfo_67BB38[gr_id].field_2_end_frame - gDoorAnimInfo_67BB38[gr_id].field_0_start_frame) * gDoorAnimInfo_67BB38[gr_id].field_8_speed;
 
@@ -316,8 +316,8 @@ void Door::InitSingle_49CAC0(DoorData* pDoorData, char_type bFlip, u8 obj_id, Fi
             }
             break;
     }
-    field_28_bClosing = 1;
-    field_2C_bCanAutoOpen = 1;
+    field_28_bClosing = true;
+    field_2C_bCanAutoOpen = true;
     u16 anim_frames = (gDoorAnimInfo_67BB38[pDoorData->field_7_gr_id].field_2_end_frame - gDoorAnimInfo_67BB38[pDoorData->field_7_gr_id].field_0_start_frame);
     field_1E_close_timer = field_1C_close_delay = anim_frames * gDoorAnimInfo_67BB38[pDoorData->field_7_gr_id].field_8_speed + 0x28;
     if (bFlip)
@@ -381,8 +381,8 @@ void Door::InitDouble_49CC00(DoorData* pDoorData, char_type bFlip, u8 obj_id, Fi
             }
             break;
     }
-    field_28_bClosing = 1;
-    field_2C_bCanAutoOpen = 1;
+    field_28_bClosing = true;
+    field_2C_bCanAutoOpen = true;
     u16 anim_frames = (gDoorAnimInfo_67BB38[pDoorData->field_7_gr_id].field_2_end_frame - gDoorAnimInfo_67BB38[pDoorData->field_7_gr_id].field_0_start_frame);
     field_1E_close_timer = field_1C_close_delay = anim_frames * gDoorAnimInfo_67BB38[pDoorData->field_7_gr_id].field_8_speed + 0x28;
     if (bFlip)
@@ -408,7 +408,7 @@ void Door::InitDouble_49CC00(DoorData* pDoorData, char_type bFlip, u8 obj_id, Fi
 MATCH_FUNC(0x49cd90)
 void Door::UpdateAutoClose_49CD90()
 {
-    if (field_29_bAuto != 0)
+    if (field_29_bAuto)
     {
         if ((field_0_primary_door_data != NULL && field_0_primary_door_data->field_0_state == door_state::open_2) || (field_4_secondary_door_data != NULL && field_4_secondary_door_data->field_0_state == door_state::open_2))
         {
@@ -419,18 +419,18 @@ void Door::UpdateAutoClose_49CD90()
                     if (CanOpen_49C6D0(field_10_car_bc) == false && CanOpenForPed_49C7F0(field_10_ped) == false &&
                         !IsSpriteClearOfDoorCollision_49C6A0(field_10_car_bc->field_50_car_sprite))
                     {
-                        field_28_bClosing = 1;
+                        field_28_bClosing = true;
                         field_1E_close_timer = 0;
                     }
                 }
-                if (field_28_bClosing != 0)
+                if (field_28_bClosing)
                 {
                     if (field_1E_close_timer > 0)
                     {
                         field_1E_close_timer--;
                     }
                 }
-                if (field_28_bClosing != '\0' && field_1E_close_timer == 0)
+                if (field_28_bClosing && field_1E_close_timer == 0)
                 {
                     field_1E_close_timer = field_1C_close_delay;
                     if (field_0_primary_door_data != NULL)
@@ -454,14 +454,14 @@ bool Door::Service_49CE90()
     if (field_2D_play_open_sound)
     {
         gObject_5C_6F8F84->NewWithPedRefIdx_5299F0(0x117, 0x32, field_30_x, field_34_y, field_0_primary_door_data->field_6_z);
-        field_2D_play_open_sound = 0;
+        field_2D_play_open_sound = false;
     }
 
     if (field_29_bAuto)
     {
         UpdateAutoClose_49CD90();
     }
-    field_28_bClosing = 1;
+    field_28_bClosing = true;
     return 0;
 }
 

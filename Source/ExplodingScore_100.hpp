@@ -14,7 +14,7 @@ class ExplodingScore
     EXPORT void ClearNumbersArrayFrom_596A70(s32 start_idx);
     EXPORT void InitScore_596A90(Fix16 xpos, Fix16 ypos, Fix16 zpos, u32 score);
     EXPORT void DrawNumbers_596C90();
-    EXPORT char_type PoolUpdate();
+    EXPORT bool PoolUpdate();
     EXPORT void DrawSingleNumber_597100(s32 number_to_draw, s32 xpos_sub);
 
     s32 field_0_highest_digit_idx;
@@ -24,14 +24,14 @@ class ExplodingScore
     Fix16 field_30_z;
     s16 field_34_palette;
     char_type field_36_alpha; // draw figure param
-    char_type field_37_unused; // pad ?
+    char_type field_37_unused;
     s32 field_38_explode_counter;
-    s32 field_3C_x_offset_mult; // xoff ?
-    s32 field_40_y_offset_mult; // yoff ?
-    // NOTE: Used by a template so the name maters
+    s32 field_3C_x_offset_mult;
+    s32 field_40_y_offset_mult;
+    // Pool<> reaches the next item by this name
     ExplodingScore* mpNext;
-    s16 field_48_unused; // set to 0, never used ??
-    s16 field_4A_unused; // pad?
+    s16 field_48_unused; // set to 0, never read
+    s16 field_4A_unused;
     s32 field_4C_score;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(ExplodingScore, 0x50);
@@ -49,10 +49,6 @@ class ExplodingScorePool
 
     s16 field_0_last_palette;
     u16 field_2_free_scores;
-
-    // NOTE: Nearly all other pools start at offset 0, this object is some 
-    // suggestion its composition and not inheritance unless this object 
-    // has an additional unknown base that been melted by the compiler :']
     Pool<ExplodingScore, 3> field_4_pool;
 };
 

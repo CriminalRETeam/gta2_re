@@ -47,12 +47,12 @@ class Camera
 {
   public:
     // 9.6f 0x416B70
-    inline Ped* GetFollowedPed_416B70()
+    inline Ped* GetFollowedPed_416B70() const
     {
         return field_34_target_ped;
     }
 
-    EXPORT bool IsSpriteTheCameraSubject_4355D0(Sprite* pSprite);
+    EXPORT bool IsSpriteTheCameraSubject_4355D0(Sprite* pSprite) const;
     EXPORT bool IsSpriteInView_435630(Sprite* pSprite, s32 wide_view);
     EXPORT void SavePrevCamPos_4357B0();
     EXPORT void IncreaseElevation_4357F0();
@@ -64,7 +64,7 @@ class Camera
     EXPORT Fix16 ReturnOwnerVelocity_435A20();
     EXPORT s32 IsCoordsPosVisible_435A70(Fix16 x, Fix16 y, Fix16 z);
     EXPORT void UpdateBoundaries_435B90();
-    EXPORT void MoveTarget_435D20(char_type move_north, char_type move_south, char_type move_west, char_type move_east, char_type zoom_in, char_type zoom_out);
+    EXPORT void MoveTarget_435D20(bool move_north, bool move_south, bool move_west, bool move_east, bool zoom_in, bool zoom_out);
     EXPORT void ResetCameraSmoothing_435DD0();
     EXPORT void AccumulateSuspicionOnDriver_435F90(Car* pCar);
     EXPORT void Update_435FF0();
@@ -75,11 +75,11 @@ class Camera
     EXPORT void ApplyCarVelocityCameraOffset_436200(Car* pCar, Fix16* pOutX, Fix16* pOutY, Fix16* pOutZ);
     EXPORT void UpdateFollowCarCamera_4364A0(Car* pCar);
     EXPORT void UpdateFollowPedCamera_436540(Ped* pPed);
-    EXPORT void HandlePanning_436710(char_type forward_gas_on, char_type foot_brake_on, char_type left_on, char_type right_on);
+    EXPORT void HandlePanning_436710(bool forward_gas_on, bool foot_brake_on, bool left_on, bool right_on);
     EXPORT void ResetPanning_436830();
     EXPORT void ApplyPanOffset_436860(Ped* pPed, Fix16& x_pos, Fix16& y_pos, Fix16 z_pos);
-    EXPORT Camera(); // 4368E0
-    EXPORT ~Camera(); // empty 4369E0
+    EXPORT Camera();
+    EXPORT ~Camera();
     EXPORT void SetTarget_4397D0(Fix16 x, Fix16 y, Fix16 z, Fix16 zoom);
     EXPORT bool IsPointInBoundaries_58CF10(Fix16 x, Fix16 y);
 
@@ -145,7 +145,7 @@ class Camera
     }
 
     // 9.6f 0x40CF60
-    inline bool IsPointInViewBounds_40CF60(Fix16 x, Fix16 y)
+    inline bool IsPointInViewBounds_40CF60(Fix16 x, Fix16 y) const
     {
         return x >= field_78_view_bounds.field_0_left && x <= field_78_view_bounds.field_4_right &&
             y >= field_78_view_bounds.field_8_top && y <= field_78_view_bounds.field_C_bottom;
@@ -162,7 +162,7 @@ class Camera
     }
 
     // 9.6f inline 0x433E90
-    inline bool HasFollowTarget_433E90()
+    inline bool HasFollowTarget_433E90() const
     {
         return field_34_target_ped || field_38_target_car;
     }
@@ -175,12 +175,12 @@ class Camera
         field_10_pending_target_pos.field_C_zoom = zoom;
     }
 
-    Fix16 GetPaddedViewBoundsWidth_4B3110()
+    Fix16 GetPaddedViewBoundsWidth_4B3110() const
     {
         return field_20_padded_view_bounds.field_4_right - field_20_padded_view_bounds.field_0_left;
     }
 
-    Fix16 GetPaddedViewBoundsHeight_4B3130()
+    Fix16 GetPaddedViewBoundsHeight_4B3130() const
     {
         return field_20_padded_view_bounds.field_C_bottom - field_20_padded_view_bounds.field_8_top;
     }

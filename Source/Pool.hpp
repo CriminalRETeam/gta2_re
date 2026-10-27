@@ -77,17 +77,17 @@ class Pool
             pIter++;
         }
 
-        field_8_pool[PoolSize - 1].mpNext = 0;
+        field_8_pool[PoolSize - 1].mpNext = NULL;
         field_0_pStart = field_8_pool;
 
-        field_4_pPrev = 0;
+        field_4_pPrev = NULL;
         field_X_count = 0;
     }
 
     ~Pool()
     {
-        field_0_pStart = 0;
-        field_4_pPrev = 0;
+        field_0_pStart = NULL;
+        field_4_pPrev = NULL;
     }
 
     PoolType* Allocate()
@@ -265,7 +265,7 @@ class Pool
 
     PoolType* FindAndDeAllocate(PoolType* pToFind)
     {
-        PoolType* pLast = 0;
+        PoolType* pLast = NULL;
 
         for (PoolType* pIter = field_4_pPrev; pIter; pIter = pIter->mpNext)
         {

@@ -29,8 +29,6 @@ EXTERN_GLOBAL(s32, window_height_706B50);
 DEFINE_GLOBAL(DWORD, gWindowRight_70675C, 0x70675C);
 DEFINE_GLOBAL(DWORD, gWindowBottom_70679C, 0x70679C);
 
-//u16 word_703BAA; //DEFINE_GLOBAL(u16, word_703BAA, 0x703BAA);
-
 MATCH_FUNC(0x495470)
 void __stdcall DrawTextureScaled_495470(STexture* pTexture, Fix16 x_pos, Fix16 y_pos, u8 width, u8 height, Ang16 rotation, s32 alpha_value, u8 alpha_flag)
 {
@@ -48,7 +46,7 @@ void __stdcall DrawTextureScaled_495470(STexture* pTexture, Fix16 x_pos, Fix16 y
 MATCH_FUNC(0x4B87A0)
 void __stdcall DrawText_4B87A0(const wchar_t* pBuffer, Fix16 xpos_fp, Fix16 ypos_fp, s16 fontType, Fix16 scale)
 {
-    DrawText_5D8A10(pBuffer, xpos_fp, ypos_fp, fontType, scale, 2, 0, 0, 0);
+    DrawText_5D8A10(pBuffer, xpos_fp, ypos_fp, fontType, scale, palette_types_enum::sprites_2, 0, 0, 0);
 }
 
 MATCH_FUNC(0x5D7670)
@@ -64,7 +62,7 @@ void __stdcall DrawFigureScaled_5D7670(s32 sprite_type, s16 sprite_idx, Fix16 x_
                palette,
                alpha_value,
                flags,
-               0);
+               false);
 }
 
 MATCH_FUNC(0x5D7700)
@@ -88,14 +86,14 @@ void __stdcall DrawText_5D7720(const wchar_t* pStr, Fix16 xoff, Fix16 yoff, u16 
 }
 
 MATCH_FUNC(0x5D77A0)
-void __stdcall DrawTextScaled_5D77A0(wchar_t* pText, Fix16 xpos, Fix16 ypos, u16 font_type)
+void __stdcall DrawTextScaled_5D77A0(const wchar_t* pText, Fix16 xpos, Fix16 ypos, u16 font_type)
 {
     DrawText_5D8A10(pText,
                     xpos * gViewCamera_676978->field_A8_ui_scale,
                     ypos * gViewCamera_676978->field_A8_ui_scale,
                     font_type,
                     gViewCamera_676978->field_A8_ui_scale,
-                    2,
+                    palette_types_enum::sprites_2,
                     0,
                     0,
                     0);
@@ -113,7 +111,7 @@ void __stdcall ConvertColourBanks_5D7CB0()
 MATCH_FUNC(0x5D7CC0)
 void __stdcall ConvertColourBanks_5D7CC0()
 {
-    if (gGtx_0x106C_703DD4 && gGtx_0x106C_703DD4->field_6A_palettes_converted == 0)
+    if (gGtx_0x106C_703DD4 && !gGtx_0x106C_703DD4->field_6A_palettes_converted)
     {
         s32 phys_pal_len = gGtx_0x106C_703DD4->get_physical_palettes_len_5AA900();
         u32 max_idx = static_cast<u32>(phys_pal_len) / 64;
@@ -126,7 +124,7 @@ void __stdcall ConvertColourBanks_5D7CC0()
         {
             pConvertColourBank(gGtx_0x106C_703DD4->GetPalData_5AA6A0(i * 64));
         }
-        gGtx_0x106C_703DD4->field_6A_palettes_converted = 1;
+        gGtx_0x106C_703DD4->field_6A_palettes_converted = true;
     }
 }
 
@@ -134,7 +132,7 @@ MATCH_FUNC(0x5D7D30)
 void __stdcall MakeScreenTableAndSetWindow_5D7D30()
 {
     pVid_GetSurface(gVidSys_7071D0);
-    pMakeScreenTable(reinterpret_cast<int>(gVidSys_7071D0->field_50_surface_pixels_ptr),
+    pMakeScreenTable(reinterpret_cast<s32>(gVidSys_7071D0->field_50_surface_pixels_ptr),
                      gVidSys_7071D0->field_54_surface_pixels_pitch,
                      gVidSys_7071D0->field_4C_rect_bottom);
 
@@ -168,16 +166,16 @@ void __stdcall DrawFigure_5D7EC0(s32 sprite_type,
                           s16 palette,
                           s32 alpha_value,
                           u8 og_flags,
-                          char_type bNoTextureFiltering)
+                          bool bNoTextureFiltering)
 {
-    sprite_index* sprite_index_5AA440 =
+    sprite_index* pSprIdx =
         gGtx_0x106C_703DD4->get_sprite_index_5AA440(gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_type, sprite_idx));
     Fix16_Point point;
 
     Fix16 half_w;
     Fix16 half_h;
-    half_w = (Fix16(sprite_index_5AA440->field_4_width) / 2) * scale;
-    half_h = (Fix16(sprite_index_5AA440->field_5_height) / 2) * scale;
+    half_w = (Fix16(pSprIdx->field_4_width) / 2) * scale;
+    half_h = (Fix16(pSprIdx->field_5_height) / 2) * scale;
 
     u32 flags;
 
@@ -216,8 +214,8 @@ void __stdcall DrawFigure_5D7EC0(s32 sprite_type,
     gQuadVerts_706B88.field_0_verts[3].z = 0.000099999997f;
 
 
-    f32 u = sprite_index_5AA440->field_4_width - 0.000099999997f;
-    f32 v = sprite_index_5AA440->field_5_height - 0.000099999997f;
+    f32 u = pSprIdx->field_4_width - 0.000099999997f;
+    f32 v = pSprIdx->field_5_height - 0.000099999997f;
     gQuadVerts_706B88.field_0_verts[0].u = 0.0;
     gQuadVerts_706B88.field_0_verts[0].v = 0.0;
     gQuadVerts_706B88.field_0_verts[1].v = 0.0;
@@ -294,16 +292,12 @@ void __stdcall DrawTexture_5D8470(STexture* pTexture,
     half_w = (Fix16(width) / 2) * scale;
     half_h = (Fix16(height) / 2) * scale;
 
-    // point 1
-
     point.SetXY_432860(-half_w, -half_h);
     point.RotateByAngle_40F6B0(rotation);
 
     gQuadVerts_706B88.field_0_verts[0].x = ((x_pos + point.x).ToFloat());
     gQuadVerts_706B88.field_0_verts[0].y = ((y_pos + point.y).ToFloat());
     gQuadVerts_706B88.field_0_verts[0].z = 0.000099999997f;
-
-    // point 2
 
     point.SetXY_432860(half_w, -half_h);
     point.RotateByAngle_40F6B0(rotation);
@@ -313,16 +307,12 @@ void __stdcall DrawTexture_5D8470(STexture* pTexture,
     gQuadVerts_706B88.field_0_verts[1].y = ((y_pos + point.y).ToFloat());
     gQuadVerts_706B88.field_0_verts[1].z = 0.000099999997f;
 
-    // point 3
-
     point.SetXY_432860(half_w, half_h);
     point.RotateByAngle_40F6B0(rotation);
 
     gQuadVerts_706B88.field_0_verts[2].x = ((x_pos + point.x).ToFloat());
     gQuadVerts_706B88.field_0_verts[2].y = ((y_pos + point.y).ToFloat());
     gQuadVerts_706B88.field_0_verts[2].z = 0.000099999997f;
-
-    // point 4
 
     point.SetXY_432860(-half_w, half_h);
     point.RotateByAngle_40F6B0(rotation);
@@ -347,14 +337,14 @@ void __stdcall DrawTexture_5D8470(STexture* pTexture,
 }
 
 MATCH_FUNC(0x5D8940)
-s32 __stdcall CountLineSpacing_5D8940(wchar_t* pStr, u16 font_type)
+s32 __stdcall CountLineSpacing_5D8940(const wchar_t* pStr, u16 font_type)
 {
     s32 line_spacing = GetLineSpacingFromFontType_5D7700_inlined(font_type);
 
     s32 result = line_spacing;
-    for (wchar_t* i = pStr; *i; ++i)
+    for (const wchar_t* pIter = pStr; *pIter; ++pIter)
     {
-        if (*i == '\n')
+        if (*pIter == '\n')
         {
             result += line_spacing;
         }
@@ -374,7 +364,7 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
                                s32 alpha_value,
                                u8 flags)
 {
-    s32 new_Flags = CalcQuadFlags_5D83E0(alpha_value, flags) | quad_flag::texture_filtering;
+    s32 quad_flags = CalcQuadFlags_5D83E0(alpha_value, flags) | quad_flag::texture_filtering;
 
     // The original walks a copy of pText (it reuses pText's stack slot as a float temp)
     const wchar_t* pIter = pText;
@@ -392,7 +382,7 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
 
     if (scale_fp == kFpOne_706A6C)
     {
-        new_Flags = new_Flags | quad_flag::fit_to_texture;
+        quad_flags = quad_flags | quad_flag::fit_to_texture;
     }
 
     if (font_type >= 101u)
@@ -508,7 +498,7 @@ void __stdcall DrawText_5D8A10(const wchar_t* pText,
             gQuadVerts_706B88.field_0_verts[2].v = v.ToFloat();
             gQuadVerts_706B88.field_0_verts[3].v = v.ToFloat();
 
-            pgbh_DrawQuad(new_Flags, pTexture, &gQuadVerts_706B88.field_0_verts[0], 255);
+            pgbh_DrawQuad(quad_flags, pTexture, &gQuadVerts_706B88.field_0_verts[0], 255);
 
             cur_xpos += sprite_w;
         }

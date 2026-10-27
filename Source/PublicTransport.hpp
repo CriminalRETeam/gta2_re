@@ -21,9 +21,9 @@ class Train
     EXPORT void OpenCarriageDoors_578360();
     EXPORT void UpdatePassengerAI_578390();
     EXPORT void ProcessTrainExplosionChain_578670();
-    char_type field_0_is_hijacked;
+    bool field_0_is_hijacked;
     char_type field_1_unused;
-    char_type field_2;
+    bool field_2_passengers_fleeing;
     char_type field_3_unused;
     s16 field_4_wait_timer;
     char_type field_6_unused;
@@ -31,7 +31,7 @@ class Train
     s32 field_8_alloc_state;
     Car* field_C_carriages[11];
     char_type field_38_explosion_timers[11];
-    u8 field_43_idx;
+    u8 field_43_wagon_count;
     char_type field_44_unused;
     char_type field_45_unused;
     char_type field_46_unused;
@@ -50,12 +50,12 @@ class TrainStation
 {
   public:
     // returns a car_model_enum
-    EXPORT s32 GetWagonType_577f80(u8 idx);
+    EXPORT s32 GetWagonType_577f80(u8 idx) const;
     EXPORT TrainStation();
     EXPORT ~TrainStation();
 
     // NOTE: This function defined out of order for some reason
-    EXPORT void CalculateWagonCount_578820(u8* pWagons);
+    EXPORT void CalculateWagonCount_578820(const u8* pWagons);
 
     s32 field_0_station_type;
     gmp_map_zone* field_4_entry_point;
@@ -63,7 +63,7 @@ class TrainStation
     gmp_map_zone* field_C_stop_point;
     gmp_map_zone* field_10_pZone;
     s32 field_14_used;
-    Train* field_18_pStoppedTrain; // train stopped at the station?
+    Train* field_18_pStoppedTrain;
     s32 field_1C_platform_state;
     TrainStation* field_20_next_station;
     u8 field_24_train_wagons[10];
@@ -92,23 +92,37 @@ EXTERN_GLOBAL(TrainStopCount, gTrainStopCount_6FEFFC);
 
 class PublicTransport
 {
-  public:
+  private:
     EXPORT Train* AllocateTrain_578790();
     EXPORT TrainStation* AllocateTrainStation_5787E0();
+
+  public:
     EXPORT void SpawnTrainsFromStations_578860();
+
+  private:
     EXPORT void InitStationsLinkedList_5793E0();
     EXPORT void InitTrainStations_579440();
+
+  public:
     EXPORT void SetupTrainAndBusStops_5794B0();
+
+  private:
     EXPORT TrainStation* GetBusStopOnScreen_5799B0();
+
+  public:
     EXPORT void OnBusStopMarkerHit_579A30(Car* pToFind);
-    EXPORT bool is_bus_579AA0(Car* pCar);
-    EXPORT Car* GetBusIfBoarding_579AD0();
-    EXPORT bool is_bus_full_579AF0();
+    EXPORT bool is_bus_579AA0(Car* pCar) const;
+    EXPORT Car* GetBusIfBoarding_579AD0() const;
+    EXPORT bool is_bus_full_579AF0() const;
     EXPORT void IncrementBusPassengerCount_579B10();
     EXPORT void KillAllPassengers_579B20();
     EXPORT Car** GetCarArrayFromLeadCar_579B40(Car* toFind);
     EXPORT bool GetTrainSpeed_579B90(Car* pToFind, Fix16* pOutSpeed);
+
+  private:
     EXPORT void BusesService_579CA0();
+
+  public:
     EXPORT void PublicTransportService_57A7A0();
     EXPORT TrainStation* TrainStationForZone_57B4B0(gmp_map_zone* pZone);
     EXPORT Car* GetLeadTrainCar_57B540(Car* pCar);
@@ -121,7 +135,7 @@ class PublicTransport
     TrainStation field_0_stations[100];
     Train field_1450_train_array[10];
     Train field_17C0_bus;
-    char_type field_1818_stop_getting_off_bus;
+    bool field_1818_stop_getting_off_bus;
     char_type field_1819_unused;
     char_type field_181A_unused;
     char_type field_181B_unused;
@@ -130,6 +144,6 @@ GTA2_ASSERT_SIZEOF_ALWAYS(PublicTransport, 0x181C);
 
 EXTERN_GLOBAL(PublicTransport*, gPublicTransport_181C_6FF1D4);
 
-EXPORT bool __stdcall CompareNameChars_577E90(char_type* pChar1, char_type* pChar2);
+EXPORT bool __stdcall CompareNameChars_577E90(const char_type* pChar1, const char_type* pChar2);
 
-EXPORT gmp_map_zone* __stdcall FindStationZoneByName_577EE0(char_type* pChar, u8 case_value);
+EXPORT gmp_map_zone* __stdcall FindStationZoneByName_577EE0(const char_type* pChar, u8 case_value);

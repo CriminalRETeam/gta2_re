@@ -1,8 +1,8 @@
 # Out-of-line (COMDAT) copy of an inline in our build, as named in output.map, and the original function it stands
 # for. Calls to that original are then compared by address. Only for inlines with one out-of-line copy in 10.5.exe.
-??HFix16@@QAE?AV0@ABV0@@Z,0x408660
+??HFix16@@QBE?AV0@ABV0@@Z,0x408660
 ??DFix16@@QBE?AV0@ABV0@@Z,0x408680
 ??GFix16@@QBE?AV0@XZ,0x4086A0
 ??GFix16@@QBE?AV0@ABV0@@Z,0x436A00
-??KFix16@@QAE?AV0@ABV0@@Z,0x436A20
-??KFix16@@QAE?AV0@ABH@Z,0x53E860
+??KFix16@@QBE?AV0@ABV0@@Z,0x436A20
+??KFix16@@QBE?AV0@ABH@Z,0x53E860

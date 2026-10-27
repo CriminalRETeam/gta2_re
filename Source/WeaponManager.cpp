@@ -18,7 +18,7 @@ DEFINE_GLOBAL_ARRAY_INIT(u8, max_ammo_capacity_5FF75C, 28, 0x5FF75C, 99u COMMA 9
 
                                                                       
 
-u8 byte_5FF778[40] = {10u, 10u, 5u,  20u, 5u, 5u, 10u, 20u, 20u, 10u, 10u, 0u, 0u,  0u,  0u,  1u,  5u,   5u,  10u, 50u,
+u8 default_ammo_5FF778[40] = {10u, 10u, 5u,  20u, 5u, 5u, 10u, 20u, 20u, 10u, 10u, 0u, 0u,  0u,  0u,  1u,  5u,   5u,  10u, 50u,
                       50u, 20u, 50u, 1u,  0u, 0u, 0u,  0u,  0u,  0u,  0u,  0u, 80u, 69u, 82u, 84u, 251u, 33u, 9u,  64u};
 
 MATCH_FUNC(0x5e3c10)
@@ -60,16 +60,15 @@ Weapon* WeaponManager::find_5E3D20(Car* pCar, s32 weapon_kind)
     Weapon* result = gWeapon_30_Pool_707014->get_next_4CC9B0();
     if (!result)
     {
-        return 0;
+        return NULL;
     }
 
-    // TODO: Can probably invert this
-    while (result->field_14_car != pCar || result->field_1C_idx != weapon_kind)
+    while (result->field_14_car != pCar || result->field_1C_weapon_type != weapon_kind)
     {
         result = result->mpNext;
         if (!result)
         {
-            return 0;
+            return NULL;
         }
     }
     return result;
@@ -88,7 +87,7 @@ bool WeaponManager::allocate_5E3D50(s32 weapon_kind, u8 ammo, Car* pCar)
     else
     {
         pWeapon = allocate_5E3CE0(weapon_kind, pCar, ammo);
-        bAddedAmmo = 1;
+        bAddedAmmo = true;
     }
 
     if (bAddedAmmo)
@@ -132,15 +131,15 @@ void WeaponManager::dealloc_car_weapon_5E3DF0(Car* pCar)
 }
 
 MATCH_FUNC(0x5e3e70)
-u8 WeaponManager::get_max_ammo_capacity_5E3E70(s32 weapon_kind)
+u8 WeaponManager::get_max_ammo_capacity_5E3E70(s32 weapon_kind) const
 {
     return max_ammo_capacity_5FF75C[weapon_kind];
 }
 
 MATCH_FUNC(0x5e3e80)
-u8 WeaponManager::get_defalt_ammo_5E3E80(s32 weapon_kind)
+u8 WeaponManager::get_defalt_ammo_5E3E80(s32 weapon_kind) const
 {
-    return byte_5FF778[weapon_kind];
+    return default_ammo_5FF778[weapon_kind];
 }
 
 MATCH_FUNC(0x5e3e90)

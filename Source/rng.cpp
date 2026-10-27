@@ -117,7 +117,7 @@ u8 rng::get_uint8_4F7B70(const u8& max_rnd)
 }
 
 MATCH_FUNC(0x4F7C00)
-int rng::rand_4F7C00()
+s32 rng::rand_4F7C00()
 {
     return rand();
 }

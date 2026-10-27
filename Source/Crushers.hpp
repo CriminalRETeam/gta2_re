@@ -11,19 +11,19 @@ class Crusher
 {
   public:
     // 9.6f 0x411A20
-    inline Fix16 get_xpos_411A20()
+    inline Fix16 get_xpos_411A20() const
     {
         return field_24_xpos;
     }
 
     // 9.6f 0x411A30
-    inline Fix16 get_ypos_411A30()
+    inline Fix16 get_ypos_411A30() const
     {
         return field_28_ypos;
     }
 
     // 9.6f 0x411A10
-    inline s32 get_state_411A10()
+    inline s32 get_state_411A10() const
     {
         return field_2C_state;
     }

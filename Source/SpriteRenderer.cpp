@@ -6,7 +6,7 @@
 
 // Forward declarations: the functions below are in address order
 EXPORT s32 get_rdtsc_5BEE90();
-EXTERN_GLOBAL(u32, dword_705334);
+EXTERN_GLOBAL(u32, gCyclesPerMs_705334);
 
 DEFINE_GLOBAL(SpriteRenderer*, gSpriteRenderer_67B580, 0x67B580);
 DEFINE_GLOBAL(SpriteTreeNodePool*, gSpriteTreeNodePool_705BBC, 0x705BBC);
@@ -89,12 +89,11 @@ EXPORT s32 get_rdtsc_5BEE90()
     return static_cast<s32>(t);
 }
 
-// Converts a cycle count from get_rdtsc_5BEE90 for the profiler display (dword_705334 is the
-// number of cycles per unit)
+// Converts a cycle count from get_rdtsc_5BEE90 to milliseconds for the profiler display
 MATCH_FUNC(0x5BEED0)
 EXPORT s32 __stdcall ConvertCycleCount_5BEED0(s32 cycles)
 {
-    return static_cast<u32>(cycles) / dword_705334;
+    return static_cast<u32>(cycles) / gCyclesPerMs_705334;
 }
 
 // https://decomp.me/scratch/qyVgM
@@ -124,12 +123,12 @@ void SpriteTree::AddSprite_5C5CF0(Sprite* pSprite)
     SpriteTreeNode* pParent; // TODO: not initialized before 'for' loop
     for (SpriteTreeNode* pIter = pRoot; pIter;)
     {
-        Sprite* pSprt = pIter->field_0_pSprite;
+        Sprite* pNodeSprite = pIter->field_0_pSprite;
         pParent = pIter;
-        s32 num = pIter->field_0_pSprite->field_28_draw_layer;
-        if (num > 9)
+        s32 node_layer = pIter->field_0_pSprite->field_28_draw_layer;
+        if (node_layer > 9)
         {
-            node_z = pSprt->field_1C_zpos;
+            node_z = pNodeSprite->field_1C_zpos;
         }
         else
         {
@@ -144,13 +143,13 @@ void SpriteTree::AddSprite_5C5CF0(Sprite* pSprite)
         {
             if (z_pos == node_z)
             {
-                if (pSprite->field_28_draw_layer < num)
+                if (pSprite->field_28_draw_layer < node_layer)
                 {
                     pIter = pIter->field_4_pLeft;
                 }
                 else
                 {
-                    if (pSprt == pSprite)
+                    if (pNodeSprite == pSprite)
                     {
                         return;
                     }
@@ -208,13 +207,13 @@ void SpriteTree::Draw_5C5DF0()
     }
 }
 
-DEFINE_GLOBAL_INIT(u32, dword_705334, 1701493, 0x705334);
+DEFINE_GLOBAL_INIT(u32, gCyclesPerMs_705334, 1701493, 0x705334);
 
 MATCH_FUNC(0x5c5e50)
 void SpriteTree::Reset_5C5E50()
 {
     gSpriteTreeNodePool_705BBC->Reset_4C4B70();
-    field_0_pRoot = 0;
+    field_0_pRoot = NULL;
 }
 
 MATCH_FUNC(0x5c5e70)
@@ -242,7 +241,7 @@ SpriteTree::~SpriteTree()
         SpriteTreeNodePool* p = gSpriteTreeNodePool_705BBC;
         gSpriteTreeNodePool_705BBC->~SpriteTreeNodePool();
         operator delete(p);
-        gSpriteTreeNodePool_705BBC = 0;
+        gSpriteTreeNodePool_705BBC = NULL;
     }
 
     if (gSpriteTreeStack_705BC0)
@@ -256,7 +255,7 @@ SpriteTreeNodePool::SpriteTreeNodePool()
 {
     for (s32 i = 0; i < GTA2_COUNTOF(field_0_entries); i++)
     {
-        field_0_entries[i].field_0_pSprite = 0;
+        field_0_entries[i].field_0_pSprite = NULL;
     }
     Reset_4C4B70();
 }

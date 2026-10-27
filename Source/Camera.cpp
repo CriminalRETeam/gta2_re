@@ -40,7 +40,7 @@ DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6768D8, kFpOne64th_6767D0, 0x6768D8);
 DEFINE_GLOBAL_INIT(Fix16, kFpThreeSixteenths_676918, kFpOne64th_6768D8 * 12, 0x676918);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne128th_6767B8, kFpOne64th_6768D8* kFpHalf_676678, 0x6767B8);
 DEFINE_GLOBAL_INIT(Fix16, kFpFiveEighths_676638, kFpOne64th_6768D8 * 40, 0x676638);
-DEFINE_GLOBAL_INIT(Fix16, dword_676834, kFpOne64th_6768D8* kFpPoint1_676664, 0x676834);
+DEFINE_GLOBAL_INIT(Fix16, kFpOne640th_676834, kFpOne64th_6768D8* kFpPoint1_676664, 0x676834);
 DEFINE_GLOBAL_INIT(Fix16, kFpFiveSixtyFourths_6765FC, kFpOne64th_6768D8 * 5, 0x6765FC);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6766FC, kFpOne64th_6768D8, 0x6766FC);
 DEFINE_GLOBAL_INIT(Fix16, kFpOneSixteenth_6766A4, kFpOne64th_6768D8 * 4, 0x6766A4);
@@ -89,7 +89,7 @@ static inline Fix16 Max_41E130(Fix16 a, Fix16 b)
 }
 
 MATCH_FUNC(0x4355D0)
-bool Camera::IsSpriteTheCameraSubject_4355D0(Sprite* pSprite)
+bool Camera::IsSpriteTheCameraSubject_4355D0(Sprite* pSprite) const
 {
     Car* pCar = pSprite->AsCar_40FEB0();
     if (pCar)
@@ -151,10 +151,10 @@ bool Camera::IsSpriteInView_435630(Sprite* pSprite, s32 wide_view)
             pSprite->field_0_rotation == 360 || pSprite->field_0_rotation == 720 || pSprite->field_0_rotation == 1080 || pSprite->IntersectsRectSAT_59FB10(&rect) ||
             rect.IntersectsSpriteRenderingRect_59DDF0(pSprite))
         {
-            return 1;
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x4357B0)
@@ -425,7 +425,7 @@ void Camera::UpdateBoundaries_435B90()
 }
 
 MATCH_FUNC(0x435D20)
-void Camera::MoveTarget_435D20(char_type move_north, char_type move_south, char_type move_west, char_type move_east, char_type zoom_in, char_type zoom_out)
+void Camera::MoveTarget_435D20(bool move_north, bool move_south, bool move_west, bool move_east, bool zoom_in, bool zoom_out)
 {
     ResetPendingTarget();
     if (move_north)
@@ -520,7 +520,7 @@ void Camera::Update_435FF0()
                                          &field_98_cur_pos.field_8_z,
                                          &kFpOne128th_6767B8,
                                          &kFpFiveEighths_676638,
-                                         &dword_676834,
+                                         &kFpOne640th_676834,
                                          &kFpFiveSixtyFourths_6765FC);
             SmoothApproach_4F7540(field_0_target_pos.field_C_zoom,
                                   field_AC_cam_velocity.field_C_zoom,
@@ -589,7 +589,7 @@ MATCH_FUNC(0x4364A0)
 void Camera::UpdateFollowCarCamera_4364A0(Car* pCar)
 {
 
-    this->field_34_target_ped = 0;
+    this->field_34_target_ped = NULL;
     this->field_38_target_car = pCar;
 
     if (pCar)
@@ -622,7 +622,7 @@ void Camera::UpdateFollowPedCamera_436540(Ped* pPed)
         Fix16 ypos;
         Fix16 zpos;
         Car* pCar = pPed->get_car_416B60();
-        if (pCar || (pCar_2 = pPed->GetCarBeingEnteredOrExited_45BBF0(), pCar_2 == 0))
+        if (pCar || (pCar_2 = pPed->GetCarBeingEnteredOrExited_45BBF0(), pCar_2 == NULL))
         {
             xpos = pPed->get_cam_x();
             ypos = pPed->get_cam_y();
@@ -654,7 +654,7 @@ void Camera::UpdateFollowPedCamera_436540(Ped* pPed)
 }
 
 MATCH_FUNC(0x436710)
-void Camera::HandlePanning_436710(char_type forward_gas_on, char_type foot_brake_on, char_type left_on, char_type right_on)
+void Camera::HandlePanning_436710(bool forward_gas_on, bool foot_brake_on, bool left_on, bool right_on)
 {
     if (forward_gas_on)
     {

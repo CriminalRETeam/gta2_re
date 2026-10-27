@@ -335,9 +335,9 @@ enum
 { /* The ocupation that a PED can have */
     player = 0,
     empty = 1,
-    unknown_1 = 2,
+    deallocate_on_death_2 = 2, // PedGroup::PromoteMemberToLeader_4C9680 scratch ped: removed without a corpse
     dummy = 3,
-    unknown_2 = 4,
+    dummy_driver_4 = 4, // CarManager spare driver, one Ped shared by the ambient traffic cars
     driver = 5,
     unknown_3 = 6,
     taxi_customer_7 = 7,
@@ -363,8 +363,8 @@ enum
     army_army = 27,
     guard = 28,
     walking_guard_29 = 29,
-    unknown_cop_occu_30 = 30,
-    unknown_cop_occu_31 = 31,
+    walking_swat_guard_30 = 30, // scored as SWAT, like walking_guard_29 as police
+    walking_army_guard_31 = 31, // Police::SpawnWalkingGuard_570320 when the army is in pursuit
     guard_against_player = 32,
     criminal_type_1 = 33,
     criminal_type_2 = 34,
@@ -429,12 +429,12 @@ namespace ped_state1_enum
 enum
 {
     ped_walking = 0,
-    unused1 = 1,
+    ped_running = 1,
     ped_going_to_car = 2,
     ped_entering_a_car = 3,
     ped_getting_out_a_car = 4,
-    unused2 = 5,
-    unused3 = 6,
+    ped_entering_train = 5,
+    ped_leaving_train = 6,
     ped_staying = 7,
     ped_fall_on_ground = 8,
     ped_wasted = 9,
@@ -449,14 +449,14 @@ enum
 {
     ped2_walking_0 = 0,
     Unknown_1 = 1,
-    Unknown_2 = 2,
-    Unknown_3 = 3,
+    running_to_target_2 = 2, // with flee_or_running_1, facing the move target
+    running_away_3 = 3, // with flee_or_running_1, facing away from the move target
     ped2_following_a_car_4 = 4,
-    Unknown_5 = 5,
+    entering_train_5 = 5, // with ped_state_1::entering_train_5
     ped2_entering_a_car_6 = 6,
     ped2_getting_out_a_car_7 = 7,
-    Unknown_8 = 8,
-    Unknown_9 = 9,
+    carjack_opening_door_8 = 8, // Ped::PullDriverOutOfCarStateMachine_46B2F0
+    carjack_pulling_out_9 = 9, // then closes the door and goes to ped2_staying_14
     ped2_driving_10 = 10,
     ped2_staying_14 = 14,
     ped2_dead_15 = 15, // with ped_state_1::dead_9 (Ped::Kill_46F9D0)
@@ -468,9 +468,9 @@ enum
     Unknown_21 = 21,
     lying_on_floor_22 = 22,
     Unknown_23 = 23,
-    Unknown_24 = 24,
-    Unknown_25 = 25,
-    Unknown_26 = 26,
+    knocked_recover_24 = 24, // 24-26: pushed by a car or blast; when it stops, 24 restores the previous state,
+    knocked_down_25 = 25, // 25 goes to lying_on_floor_22,
+    knocked_fatal_26 = 26, // and 26 kills the ped
     electrocuted_27 = 27,
     Unknown_28 = 28,
     ped2_respawned_29 = 29, // Ped::RespawnPed_45C350; a player in it has its wanted level cleared
@@ -491,9 +491,9 @@ enum
     Unknown_5 = 5,
     Unknown_6 = 6,
     Unknown_7 = 7,
-    Unknown_8 = 8,
-    Unknown_9 = 9,
-    Unknown_10 = 10,
+    Veer_Right_From_Wall_8 = 8,
+    Veer_Left_From_Wall_9 = 9,
+    Avoiding_Ped_10 = 10, // turned aside after bumping into another ped (Char::HandlePedCollision_548BD0)
     Unknown_11 = 11,
     Unknown_12 = 12,
     Unknown_13 = 13,
@@ -509,21 +509,21 @@ namespace Char_Anim_state
 {
 enum
 {
-    Unknown_0 = 0,
-    Unknown_1 = 1,
-    Unknown_2 = 2,
+    Walking_0 = 0,
+    Running_1 = 1, // velocity above k_CollisionRepulsionSpeed_6FD7BC
+    Standing_2 = 2,
     Unknown_3 = 3,
-    Unknown_4 = 4,
+    Punching_4 = 4,
     Jumping_5 = 5,
     Entering_Car_6 = 6,
     Exiting_Car_7 = 7,
     Getting_pulled_out_of_car_8 = 8,
-    Unknown_9 = 9,
-    Unknown_10 = 10,
+    Carjacking_9 = 9,
+    Lying_On_Floor_10 = 10,
     Normal_Fall_11 = 11,
     Lethal_Fall_12 = 12,
-    Unknown_13 = 13,
-    Unknown_14 = 14,
+    Lying_Pose_13 = 13,
+    Lying_Pose_14 = 14,
 };
 } // namespace Char_Anim_state
 
@@ -554,9 +554,9 @@ enum
     slope_westwards_3 = 3,
     slope_eastwards_4 = 4,
     air_surface_6 = 6,
-    unknown_surface_7 = 7,
+    remapped_water_tile_7 = 7, // Map_0x370::GetBlockSurfaceType_49EBE0; water_surface_8 once all four corners are in
     water_surface_8 = 8,
-    unknown_surface_9 = 9,
+    water_tile_9 = 9, // a not remapped water lid on a solid block
 };
 } // namespace car_surface_type
 
@@ -564,7 +564,7 @@ namespace sprite_types_enum
 {
 enum
 {
-    unknown_0 = 0, // At least in the function sprite_FUN_004b9aa0, but don't know what represents.
+    none_0 = 0, // Sprite ctor and probe sprites; as a preferred or excluded type, no type
     object_1 = 1, // has an Object like code_obj1_4 and map_obj_5
     car_2 = 2,
     ped_3 = 3,
@@ -727,7 +727,7 @@ enum
     rocket_160 = 160,
     savepoint_161 = 161,
     car_shop_162 = 162,
-    busy_car_shop_163 = 163,
+    blue_phone_not_ringing_163 = 163,
     blue_phone_164 = 164,
     light_165 = 165,
     diagonal_wall_collision_obj_166 = 166,
@@ -738,18 +738,18 @@ enum
     yellow_phone_179 = 179,
     green_phone_181 = 181,
     grenade_obj_183 = 183,
-    grenade_obj_on_ground_184 = 184,
-    huge_red_skid_189 = 189,
-    huge_white_skid_190 = 190,
-    huge_brown_skid_191 = 191,
+    blue_phone_after_answer_184 = 184,
+    yellow_phone_answered_189 = 189,
+    green_phone_after_answer_190 = 190,
+    green_phone_answered_191 = 191,
     shotgun_bullet_192 = 192,
-    tanktop_193 = 193,
+    invisible_shotgun_bullet_193 = 193,
     fire_hitting_194 = 194,
-    object_195 = 195,
+    flamethrower_bullet_195 = 195,
     animating_rubbish_196 = 196,
     fire_197 = 197, // like the one in peds
     water_hitting_198 = 198,
-    object_199 = 199,
+    fire_truck_gun_bullet_199 = 199,
 
     pistol_weapon_200 = 200,
     machine_gun_weapon_201 = 201,
@@ -824,17 +824,17 @@ enum
     flee_char_any_means_till_safe_4 = 4,
     flee_char_any_means_always_5 = 5,
     flee_char_always_once_car_stopped_6 = 6,
-    objective_7 = 7,
+    run_to_char_7 = 7,
     objective_8 = 8,
-    objective_9 = 9,
-    objective_10 = 10,
+    follow_char_9 = 9,
+    follow_char_in_car_10 = 10,
     objective_11 = 11,
     goto_area_on_foot_12 = 12,
     goto_area_any_means_13 = 13,
     goto_area_in_car_14 = 14,
-    objective_15 = 15,
+    follow_path_points_15 = 15,
     goto_char_on_foot_16 = 16,
-    objective_17 = 17,
+    walk_to_point_17 = 17,
     objective_18 = 18,
     kill_char_any_means_19 = 19,
     kill_char_on_foot_20 = 20,
@@ -845,13 +845,13 @@ enum
     guard_area_25 = 25,
     wait_on_foot_26 = 26,
     wait_in_car_27 = 27,
-    objective_28 = 28,
-    objective_29 = 29,
-    objective_30 = 30,
+    dead_patient_28 = 28,
+    wait_for_train_29 = 29,
+    enter_bus_30 = 30,
     time_waited_in_car_31 = 31,
-    objective_32 = 32,
-    objective_33 = 33,
-    objective_34 = 34,
+    pull_driver_out_32 = 32,
+    leave_car_and_stop_33 = 33,
+    leave_car_and_flee_34 = 34,
     enter_car_as_driver_35 = 35,
     leave_car_36 = 36,
     enter_train_37 = 37,
@@ -861,24 +861,24 @@ enum
     objective_41 = 41,
     patrol_on_foot_42 = 42,
     objective_43 = 43,
-    objective_44 = 44,
-    objective_45 = 45,
-    objective_46 = 46,
-    objective_47 = 47,
-    objective_48 = 48,
-    objective_49 = 49,
+    wait_to_cross_y_backward_44 = 44,
+    wait_to_cross_x_forwards_45 = 45,
+    wait_to_cross_y_forwards_46 = 46,
+    wait_to_cross_x_backwards_47 = 47,
+    crossing_road_48 = 48,
+    wait_after_crossing_49 = 49,
     objective_50 = 50,
     objective_51 = 51,
     objective_52 = 52,
     objective_53 = 53,
-    objective_54 = 54,
+    call_police_car_54 = 54,
     follow_car_in_car_55 = 55,
     follow_car_on_foot_with_offset_56 = 56,
     fire_at_object_from_vehicle_57 = 57,
     destroy_object_58 = 58,
     destroy_car_59 = 59,
     turret_put_out_car_fire_60 = 60,
-    objective_61 = 61,
+    tank_fire_at_player_61 = 61,
 };
 } // namespace objectives_enum
 
@@ -931,8 +931,8 @@ enum
     findind_path_2 = 2,
     entering_car_3 = 3,
     exiting_car_4 = 4,
-    unknown_5 = 5,
-    unknown_6 = 6,
+    entering_train_5 = 5, // objective enter_train_37
+    leaving_train_6 = 6, // objective leave_train_38
     standing_still_7 = 7,
     immobilized_8 = 8, // ped lying on ground, or getting repeled by blast waves, or getting pushed, or on air, or sinking
     dead_9 = 9,

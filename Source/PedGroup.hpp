@@ -7,53 +7,74 @@ class Fix16;
 
 class PedGroup
 {
-  public:
+  private:
     // 9.6f 0x4038E0
     inline void set_in_use_4038E0()
     {
-        field_40_in_use = 1;
+        field_40_in_use = true;
     }
 
     // 9.6f 0x4038F0
-    inline char_type get_in_use_4038F0()
+    inline bool get_in_use_4038F0() const
     {
         return field_40_in_use;
     }
 
+  public:
     EXPORT void DestroyGroupArray_4C8E60();
+
+  private:
     EXPORT static void ResetMemberCarDoor_4C8E80();
+
+  public:
     EXPORT void ClearGroupData_4C8E90();
+
+  private:
     EXPORT void Reset_4C8EF0();
+
+  public:
     EXPORT void ResetGroupObjectives_4C8F20();
     EXPORT void add_ped_to_end_of_list_4C8F90(Ped* pPed);
-    EXPORT void replace_leader_4C8FE0(Ped* pPed);
+    EXPORT void replace_leader_4C8FE0(Ped* pNewLeader);
     EXPORT bool PurgeMembersInCars_4C9040();
-    EXPORT bool AreAllMembersOffScreen_4C9150();
+    EXPORT bool AreAllMembersOffScreen_4C9150() const;
     EXPORT void ResetMembersToFollowLeader_4C91B0();
-    EXPORT bool IsLeaderInCar_4C9210();
-    EXPORT bool IsLeaderEnteringCarOrTrain_4C9220();
+    EXPORT bool IsLeaderInCar_4C9210() const;
+    EXPORT bool IsLeaderEnteringCarOrTrain_4C9220() const;
     EXPORT void KillEntireGroup_4C9240();
     EXPORT void DisbandGroup_4C92A0();
     EXPORT void DestroyGroup_4C93A0();
     EXPORT void DisbandGroupDueToAttack_4C94E0(Ped* pAttacker);
     EXPORT void PromoteMemberToLeader_4C9680(u8 idx);
     EXPORT void RemovePed_4C9970(Ped* pPed);
-    EXPORT void add_ped_leader_4C9B10(Ped* ptr);
-    EXPORT void add_ped_to_list_4C9B30(Ped* ptr, u8 idx);
-    EXPORT char_type GroupAttackPed_4C9B60(Ped* pPed);
-    EXPORT Ped* FindLastNonPanickingMember_4C9ED0();
+    EXPORT void add_ped_leader_4C9B10(Ped* pLeader);
+    EXPORT void add_ped_to_list_4C9B30(Ped* pPed, u8 idx);
+    EXPORT void GroupAttackPed_4C9B60(Ped* pPed);
+
+  private:
+    EXPORT Ped* FindLastNonPanickingMember_4C9ED0() const;
+
+  public:
     EXPORT void CoordinateGroupCarEntry_4C9F00();
-    EXPORT u32 IsLeaderPanicking_4CA3E0();
-    EXPORT Ped* FindFarthestMember_4CA3F0(Fix16* pFoundDistance);
+
+  private:
+    EXPORT u32 IsLeaderPanicking_4CA3E0() const;
+    EXPORT Ped* FindFarthestMember_4CA3F0(Fix16* pFoundDistance) const;
     EXPORT void UpdateFormation_4CA4B0();
+
+  public:
     EXPORT void UpdateMemberAIState_4CA5E0(u8 idx);
     EXPORT void UpdateMemberTightFollowState_4CA820(u8 idx);
-    EXPORT bool IsAllMembersInSomeCar_4CAA20();
-    EXPORT bool HasNoActiveMembers_4CAAE0();
-    EXPORT bool AreAllMembersOnFoot_4CAB80();
-    EXPORT bool IsMemberTooFarFromLeader_4CAC20(u8 idx);
-    EXPORT bool IsLeaderCloseToTargetCar_4CAD40();
-    EXPORT Ped* FindNearestOtherMember_4CAE80(u8 idx);
+    EXPORT bool IsAllMembersInSomeCar_4CAA20() const;
+    EXPORT bool HasNoActiveMembers_4CAAE0() const;
+    EXPORT bool AreAllMembersOnFoot_4CAB80() const;
+    EXPORT bool IsMemberTooFarFromLeader_4CAC20(u8 idx) const;
+    EXPORT bool IsLeaderCloseToTargetCar_4CAD40() const;
+
+  private:
+    EXPORT Ped* FindNearestOtherMember_4CAE80(u8 idx) const;
+
+  public:
     EXPORT static void ResetAllGroups_4CB080();
     EXPORT static PedGroup* New_4CB0D0();
     EXPORT PedGroup();
@@ -66,12 +87,12 @@ class PedGroup
         field_34_count = count;
     }
 
-    inline s32 Get_F3C_433370()
+    inline s32 Get_F3C_433370() const
     {
         return field_3C_is_leader_waiting;
     }
 
-    char_type field_0_remove_dead_members;
+    bool field_0_remove_dead_members;
     bool field_1_wait_for_members; // while set, UpdateFormation makes the leader wait (objective 9) for a member who has fallen too far behind
     char_type field_2_unused; // padding
     char_type field_3_unused; // padding
@@ -85,7 +106,7 @@ class PedGroup
     char_type field_37_unused;
     s32 field_38_group_type;
     s32 field_3C_is_leader_waiting;
-    char_type field_40_in_use;
+    bool field_40_in_use;
     char_type field_41_unused;
     char_type field_42_unused;
     char_type field_43_unused;

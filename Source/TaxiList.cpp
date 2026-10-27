@@ -9,10 +9,10 @@ DEFINE_GLOBAL(TaxiList*, gTaxi_4_704130, 0x704130);
 MATCH_FUNC(0x457ba0)
 void TaxiList::PushTaxi_457BA0(Car* pCar)
 {
-    TaxiListNode* pFirst = gTaxi_4_Pool_6783F8->Allocate();
-    pFirst->field_0_pCar = pCar;
-    pFirst->mpNext = this->field_0_pFirst;
-    this->field_0_pFirst = pFirst;
+    TaxiListNode* pNode = gTaxi_4_Pool_6783F8->Allocate();
+    pNode->field_0_pCar = pCar;
+    pNode->mpNext = this->field_0_pFirst;
+    this->field_0_pFirst = pNode;
 }
 
 MATCH_FUNC(0x457bc0)
@@ -25,7 +25,7 @@ void TaxiList::PopAll_457BC0()
         pIter = pIter->mpNext;
         gTaxi_4_Pool_6783F8->DeAllocate(pOldIter);
     }
-    this->field_0_pFirst = 0;
+    this->field_0_pFirst = NULL;
 }
 
 // https://decomp.me/scratch/tPr1q
