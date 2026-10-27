@@ -8,7 +8,7 @@ extern "C"
         printf("Welcome to... the GAME MAIN!\n");
 
         LoadBeginSceneCBPtr();
-        WinMain_5E53F0(GetModuleHandle(NULL), 0, GetCommandLineA(), SW_SHOW);
+        WinMain_5E53F0(GetModuleHandle(NULL), NULL, GetCommandLineA(), SW_SHOW);
 
         // TODO: we probably need to call the og exit/static de-inits too
         exit(0);

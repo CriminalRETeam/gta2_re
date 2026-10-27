@@ -372,17 +372,14 @@ class Preprocessor
         const std::string strCwd(cwd);
 
         const std::string sourceFileNameNoPathOrExt = extractBaseName(sourcePath);
-        const std::string mutexName = "Global\\" + to_lowercase(sourceFileNameNoPathOrExt);
         NamedMutex mutex(sourceFileNameNoPathOrExt);
         if (!mutex.is_acquired())
         {
-            // Well now the build is fucked, good luck
             mLogger.debug("Failed to get mutex");
         }
 
-        // My god why? clang-cl will just use input.cpp and produce output.i, so when input.cpp is compiled twice
-        // with diff arguments it is totally fucked, take the base name and use it as mutex to prevent this.
-        // Is it clang? Are we passing bad arguments? Is it wine? Who knows, mutex works, sigh.
+        // clang-cl writes <input base name>.i whatever -o says, so two compiles of one source with different
+        // arguments clash: the mutex named after the base name serialises them.
         const std::string outputClangCLWillUse = sourceFileNameNoPathOrExt + ".i";
         const std::string fullPathToOutputClangCLWillUse = strCwd + "\\" + outputClangCLWillUse;
 
@@ -393,13 +390,6 @@ class Preprocessor
 
         mLogger.debug("Running:");
         mLogger.debug(cmd.c_str());
-/*
-        // Warning: output names may clash, careful when using for debugging
-        std::string cmdLog = sourceFileNameNoPathOrExt + ".cmd.txt";
-        std::ofstream log(cmdLog.c_str());
-        log << cmd << "\n";
-        log.close();
-*/
         STARTUPINFOA si = {sizeof(si)};
         PROCESS_INFORMATION pi;
         ZeroMemory(&pi, sizeof(pi));
@@ -425,7 +415,7 @@ class Preprocessor
         }
         else
         {
-            mLogger.debug("No .i found in CWD — preprocessing failed.");
+            mLogger.debug("No .i found in CWD, preprocessing failed.");
             return false;
         }
 
@@ -436,11 +426,10 @@ class Preprocessor
     Logger& mLogger;
 };
 
-// Is this a huge hack? Ofc, do I care? No
 bool shouldSkipClangForArg(const std::string& arg)
 {
-    // 3rdParty dir structure doesn't get re-created inside the build dir resulting in the input not being found
-    // so bin the whole thing, we don't use new macros or matching code in there anyway
+    // The 3rdParty dir structure isn't recreated in the build dir, so the input wouldn't be found; nothing
+    // there uses the new macros or needs to match
     return arg.find("detours.cpp") != std::string::npos || arg.find("disasm.cpp") != std::string::npos ||
         arg.find("3rdParty") != std::string::npos;
 }
@@ -676,7 +665,6 @@ class ToolchainEngine
         {
             std::string line(buffer);
             line.erase(line.find_last_not_of("\r\n") + 1);
-            //mLogger.debug(line.c_str());
 
             // Extract flags + source path for clang
             std::string clangFlags, sourcePath;
@@ -751,15 +739,6 @@ class ToolchainEngine
         int i;
         for (i = 0; i < argc; ++i)
             mLogger.debug(argv[i]);
-
-        //const char* includeEnv = getenv("INCLUDE");
-        //if (includeEnv)
-        //    mLogger.debug("INCLUDE env var:");
-        //else
-        //mLogger.debug("INCLUDE env var is NOT set.");
-
-        //if (includeEnv)
-        //    mLogger.debug(includeEnv);
 
         if (argc < 2)
             return 1;

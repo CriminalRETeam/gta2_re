@@ -84,7 +84,7 @@ class Fix16
         return *this;
     }
 
-    Fix16 operator+(const Fix16& in)
+    Fix16 operator+(const Fix16& in) const
     {
         assert(static_cast<__int64>(mValue) + in.mValue <= 0x7FFFFFFF);
         assert(static_cast<__int64>(mValue) + in.mValue >= -0x7FFFFFFF - 1);
@@ -273,7 +273,7 @@ class Fix16
         return -input;
     }
 
-    inline Fix16 ZeroIfNegligible_482730()
+    inline Fix16 ZeroIfNegligible_482730() const
     {
         if (Fix16::Abs(*this) < kFpOne256th_6F8CF0)
         {
@@ -298,7 +298,7 @@ class Fix16
         return Fix16(mValue & 0x3FFF, 0); // 0x4000 = Fix16(1)
     }
 
-    inline s32 MultiplyInt64(Fix16 rhs)
+    inline s32 MultiplyInt64(Fix16 rhs) const
     {
         __int64 t = (mValue * static_cast<__int64>(rhs.mValue)) >> 14;
         return static_cast<s32>(t);
@@ -345,7 +345,7 @@ class Fix16
         return Fix16(sqrt(input.AsDouble()));
     }
 
-    EXPORT static Fix16 __stdcall Max_44E540(Fix16& pLhs, Fix16& pRhs);
+    EXPORT static Fix16 __stdcall Max_44E540(const Fix16& lhs, const Fix16& rhs);
     // 9.6f 0x41E130, out-of-line copy Max_44E540. Small functions inline it (Ped_List::FindClosestActivePed_471340),
     // and as a site after the two Abs it sets their nested budget in MaxAbsDistance_42A6B0
     inline static Fix16 __stdcall Max_41E130(Fix16& a, Fix16& b)
@@ -359,8 +359,8 @@ class Fix16
             return b;
         }
     }
-    EXPORT static Fix16 __stdcall Abs_436A50(Fix16& input);
-    EXPORT static Fix16 __stdcall SquareRoot_436A70(Fix16& input) throw();
+    EXPORT static Fix16 __stdcall Abs_436A50(const Fix16& input);
+    EXPORT static Fix16 __stdcall SquareRoot_436A70(const Fix16& input) throw();
     // throw(): the original calls these out-of-line copies without an EH frame (their inline
     // bodies were visible there), see CarPhysics::UpdateReferencePoint_563460
     // Out-of-line copy of operator+ (0x408660)
@@ -390,7 +390,7 @@ class Fix16
     }
 
     //MATCH_FUNC(0x436A20)
-    Fix16 operator/(const Fix16& in)
+    Fix16 operator/(const Fix16& in) const
     {
         s32 value = static_cast<s32>((static_cast<__int64>(mValue) << 14) / in.mValue);
         return Fix16(value, 0);
@@ -399,7 +399,7 @@ class Fix16
     // Inlined from 9.6f at 0x401bf0
     // I am not fully sure if this is right, i.e. the s32 parameter, instead of Fix16.
     // But I couldn't match ObjectDefinition::SetDimensionsFromSprite_533090 without this overload.
-    EXPORT Fix16 operator/(const s32& in)
+    EXPORT Fix16 operator/(const s32& in) const
     {
         s32 value = mValue / in;
         return Fix16(value, 0);
@@ -415,7 +415,7 @@ class Fix16
         return mValue;
     }
 
-    Fix16 ApplyDeadZone_482730(Fix16 to_abs)
+    Fix16 ApplyDeadZone_482730(Fix16 to_abs) const
     {
         if (!(Fix16::Abs(to_abs) < kFP16One256th_6FE07C))
         {
@@ -512,8 +512,8 @@ EXPORT Ang16 __stdcall ArcTanLookup_405500(const Fix16& targetTan);
 
 EXPORT void __stdcall FindMinMax_5A57E0(Fix16& minOut, Fix16& maxOut, const Fix16& a, const Fix16& b, const Fix16& c, const Fix16& d);
 
-EXPORT Fix16 __stdcall TurnAngleToward_405DA0(Fix16 cur, Fix16* pTarget, Fix16* pSpeed);
-EXPORT s32 __stdcall ClampAngleAroundTarget_405E80(Fix16* pTarget, Fix16* pCur);
+EXPORT Fix16 __stdcall TurnAngleToward_405DA0(Fix16 cur, const Fix16* pTarget, const Fix16* pSpeed);
+EXPORT s32 __stdcall ClampAngleAroundTarget_405E80(const Fix16* pTarget, Fix16* pCur);
 EXTERN_GLOBAL_ARRAY(Fix16, gSin_table_667A80, 1440);
 EXTERN_GLOBAL_ARRAY(Fix16, gCos_table_669260, 1440);
 

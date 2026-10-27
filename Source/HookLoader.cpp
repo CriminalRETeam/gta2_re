@@ -12,15 +12,12 @@ typedef bool (*TExportCb)(LPVOID, HMODULE, const char*);
 static void EnumExports(LPVOID pContext, HMODULE dllAlloc, TExportCb cb)
 {
     PIMAGE_NT_HEADERS header = reinterpret_cast<PIMAGE_NT_HEADERS>(reinterpret_cast<BYTE*>(dllAlloc) + reinterpret_cast<PIMAGE_DOS_HEADER>(dllAlloc)->e_lfanew);
-    //assert(header->Signature == IMAGE_NT_SIGNATURE);
-    //assert(header->OptionalHeader.NumberOfRvaAndSizes > 0);
     PIMAGE_EXPORT_DIRECTORY exports =
         reinterpret_cast<PIMAGE_EXPORT_DIRECTORY>(reinterpret_cast<BYTE*>(dllAlloc) + header->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_EXPORT].VirtualAddress);
-    //assert(exports->AddressOfNames != 0);
-    BYTE** names = reinterpret_cast<BYTE**>(reinterpret_cast<int>(dllAlloc) + exports->AddressOfNames);
-    for (int i = 0; i < exports->NumberOfNames; i++)
+    BYTE** names = reinterpret_cast<BYTE**>(reinterpret_cast<s32>(dllAlloc) + exports->AddressOfNames);
+    for (s32 i = 0; i < exports->NumberOfNames; i++)
     {
-        char* pName = reinterpret_cast<char*>(reinterpret_cast<BYTE*>(dllAlloc) + reinterpret_cast<int>(names[i]));
+        char* pName = reinterpret_cast<char*>(reinterpret_cast<BYTE*>(dllAlloc) + reinterpret_cast<s32>(names[i]));
         if (!cb(pContext, dllAlloc, pName))
         {
             return;
@@ -63,19 +60,11 @@ static void RewriteImports(HMODULE hImports, GlobalsRegistry* pGlobals, Function
             {
                 if (IMAGE_SNAP_BY_ORDINAL(lpThunkData->u1.Ordinal))
                 {
-                    //const UINT functionOrdinal = (UINT)IMAGE_ORDINAL(lpThunkData->u1.Ordinal);
-                    //lpThunkData->u1.Function = (DWORD)callBacks.VGetProcAddress(hModule, MAKEINTRESOURCEA(functionOrdinal));
-                    //printf("[+]\tFunction Ordinal %u\n", functionOrdinal);
                 }
                 else
                 {
-                    // Because lpThunkData->u1.XYZ no longer points to a PIMAGE_IMPORT_BY_NAME we can't use it.
-                    // Instead it points to a resolved var in our exports dll, so we can get the function name
-                    // that way.
-
-                    //const PIMAGE_IMPORT_BY_NAME lpData =
-                    //    (PIMAGE_IMPORT_BY_NAME)((unsigned char*)hMod + (unsigned int)lpThunkData->u1.AddressOfData);
-
+                    // The thunk no longer points to a PIMAGE_IMPORT_BY_NAME but to the resolved var in the exports dll,
+                    // which identifies the global
                     bool replaced = false;
                     for (size_t i = 0; i < pGlobals->mGlobals.size(); i++)
                     {
@@ -114,7 +103,6 @@ static void RewriteImports(HMODULE hImports, GlobalsRegistry* pGlobals, Function
                                 }
                             }
 
-                            //(unsigned long*)callBacks.VGetProcAddress(hModule, (const char*)lpData->Name);
                             DWORD dwOld = 0;
                             VirtualProtect(&lpThunkData->u1.Function, 4, PAGE_EXECUTE_READWRITE, &dwOld);
                             SetFuncField(lpThunkData->u1.Function, functionAddress);
@@ -128,8 +116,6 @@ static void RewriteImports(HMODULE hImports, GlobalsRegistry* pGlobals, Function
                         printf("Var couldn't be found, I guess we die now\n");
                         abort();
                     }
-
-                    //printf("[+]\tFunction %s\n", (LPSTR)lpData->Name);
                 }
 
                 lpThunkData++;
@@ -170,7 +156,6 @@ bool FunctionCollector::GetFuncMeta(FuncMeta& meta, HMODULE hDll, const char* pN
                 {
                     meta.mOgAddr = *reinterpret_cast<u32*>(&(pFun[-10]));
                     meta.mStatus = *reinterpret_cast<u32*>(&(pFun[-5]));
-                    //printf("og addr %X status %d for %s\n", meta.mOgAddr, meta.mStatus, pName);
                     return true;
                 }
             }
@@ -190,7 +175,7 @@ bool FunctionCollector::OnImportsExport(LPVOID pContext, HMODULE hDll, const cha
     }
     else
     {
-        if (strstr(pName, "Marker") == NULL) // ignore Markers
+        if (strstr(pName, "Marker") == NULL)
         {
             printf("WARNING: No meta for %s\n", pName);
         }
@@ -210,7 +195,7 @@ class GlobalVarCollector
     {
         if (stricmp(pName, "GetGlobalsRegistry") == 0)
         {
-            // Skip - its a function, everything else is a var
+            // The only exported function, everything else is a var
         }
         else
         {
@@ -228,7 +213,7 @@ class GlobalVarCollector
             }
             else
             {
-                if (strstr(pName, "Marker") == NULL) // ignore Markers
+                if (strstr(pName, "Marker") == NULL)
                 {
                     printf("Didn't find %s (its over fr)\n", pName);
                 }
@@ -369,37 +354,37 @@ extern "C"
 class HookLoader
 {
   private:
-    typedef int(__cdecl* PT1)(int);
-    typedef int (*TP2)();
-    typedef void (*TP3)();
+    typedef s32(__cdecl* TFnIntArg)(s32);
+    typedef s32 (*TFnInt)();
+    typedef void (*TFnVoid)();
 
     void crt_inits()
     {
         printf("Heap\n");
-        if (!reinterpret_cast<PT1>(0x5F116B)(0))
+        if (!reinterpret_cast<TFnIntArg>(0x5F116B)(0))
         {
             printf("Heap failed!\n");
         }
         printf("Heap done\n");
 
         printf("_ioinit\n");
-        reinterpret_cast<TP3>(0x5F0527)();
+        reinterpret_cast<TFnVoid>(0x5F0527)();
         printf("_ioinit done\n");
 
         *reinterpret_cast<char**>(0x7099E4) = GetCommandLineA();
 
-        *reinterpret_cast<char**>(0x7082F8) = reinterpret_cast<char*>(reinterpret_cast<TP2>(0x5F6D61)()); // __crtGetEnvironmentStringsA
+        *reinterpret_cast<char**>(0x7082F8) = reinterpret_cast<char*>(reinterpret_cast<TFnInt>(0x5F6D61)()); // __crtGetEnvironmentStringsA
 
         printf("_setargv\n");
-        reinterpret_cast<TP2>(0x5F6B14)();
+        reinterpret_cast<TFnInt>(0x5F6B14)();
         printf("_setargv done\n");
 
         printf("_setenvp\n");
-        reinterpret_cast<TP3>(0x5F6A5B)();
+        reinterpret_cast<TFnVoid>(0x5F6A5B)();
         printf("_setenvp done\n");
 
         printf("_cinit\n");
-        reinterpret_cast<TP3>(0x5EE16A)();
+        reinterpret_cast<TFnVoid>(0x5EE16A)();
         printf("_cinit done\n");
 
         // TODO: Bin off static init funcs that are impl'd
@@ -416,7 +401,7 @@ class HookLoader
     HMODULE mHExports;
 
   public:
-    HookLoader() : mVars(NULL), mFuncs(NULL), mHImports(0), mHExports(0)
+    HookLoader() : mVars(NULL), mFuncs(NULL), mHImports(NULL), mHExports(NULL)
     {
     }
 
@@ -474,7 +459,6 @@ class HookLoader
                 if (meta.mStatus == 0 || meta.mStatus == 2)
                 {
                     // stubbed or wip - hook reimpl func to og
-                    //printf("STUB %s\n", it->first.c_str());
 
                     hookEntry->target = newFuncAddr;
                     hookEntry->detour = reinterpret_cast<void*>(meta.mOgAddr);
@@ -482,9 +466,8 @@ class HookLoader
                 else if (meta.mStatus == 1)
                 {
                     // matched - hook og func to reimpl
-                    //printf("MATCH %s\n", it->first.c_str());
 
-                    hookEntry->target =  reinterpret_cast<void*>(meta.mOgAddr);
+                    hookEntry->target = reinterpret_cast<void*>(meta.mOgAddr);
                     hookEntry->detour = newFuncAddr;
                 }
                 else
@@ -492,7 +475,7 @@ class HookLoader
                     // Unknown status
                 }
 
-                hookEntry->trampoline =  hookEntry->target;
+                hookEntry->trampoline = hookEntry->target;
                 ok = DetourHelper::Attach(&static_cast<PVOID&>(hookEntry->trampoline), hookEntry->detour);
 
                 if (!ok)
@@ -532,7 +515,6 @@ extern "C"
 
         HookLoader hl;
         hl.CollectVarsAndFuncs();
-        //RunHookManagerUi(GetModuleHandle(NULL), *hl.mFuncs);
         hl.LoadHooks();
     }
 }

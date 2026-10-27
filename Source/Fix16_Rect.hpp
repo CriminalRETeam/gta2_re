@@ -82,12 +82,12 @@ class Fix16_Rect
         this->field_C_bottom = bottom;
     }
 
-    // TODO: None inline version of SetRect_41E350 ??
+    // Out-of-line copy of SetRect_41E350
     EXPORT void SetRect_5A5E30(Fix16 left, Fix16 right, Fix16 top, Fix16 bottom);
     EXPORT void MakeRect_4E6280(Fix16 x, Fix16 y, Fix16 w, Fix16 h);
 
     // 9.6f 0x433560
-    inline bool OverlapsZ_433560(Fix16_Rect* pOther)
+    inline bool OverlapsZ_433560(Fix16_Rect* pOther) const
     {
         return IntervalsOverlap_41E160(field_10_low_z, field_14_high_z, pOther->field_10_low_z, pOther->field_14_high_z);
     }
@@ -157,28 +157,28 @@ class Fix16_Rect
             false;
     }
 
-    Fix16 get_top_45ADD0()
+    Fix16 get_top_45ADD0() const
     {
         return field_8_top;
     }
 
-    Fix16 get_left_45ADB0()
+    Fix16 get_left_45ADB0() const
     {
         return field_0_left;
     }
 
-    Fix16 get_right_45ADA0()
+    Fix16 get_right_45ADA0() const
     {
         return field_4_right;
     }
 
-    Fix16 get_bottom_45ADC0()
+    Fix16 get_bottom_45ADC0() const
     {
         return field_C_bottom;
     }
 
     // 9.6f 0x4637A0
-    Fix16 get_low_z_4637A0()
+    Fix16 get_low_z_4637A0() const
     {
         return field_10_low_z;
     }
