@@ -323,6 +323,7 @@ set(gta2_bot_src
   Source/Bot/CarActions.cpp
   Source/Bot/DriveSteer.cpp
   Source/Bot/CalibrateCore.cpp
+  Source/Bot/KiteCops.cpp
   Source/Bot/Goap.hpp
   Source/Bot/Goap.cpp
   Source/Bot/CollectActions.hpp

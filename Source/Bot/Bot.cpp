@@ -1,4 +1,5 @@
 #include "Bot.hpp"
+#include "KiteCops.hpp"
 #include "Hooks.hpp"
 #include "HeapTracker.hpp"
 #include "Snapshot.hpp"
@@ -102,6 +103,7 @@ Bot::Bot(const BotOptions& opts)
     , mStartCash(0)
     , mLastHurtFrame(-1000)
     , mDefenseFrames(0)
+    , mKiteFrames(0)
     , mCrushLogFrame(-1000)
     , mUiOn(false)
     , mPaused(false)
@@ -1140,12 +1142,18 @@ void Bot::StepActions()
     Action* pAction = mActions[mActionIdx];
     const Action::Status status = pAction->Step(mCtx);
     mInputBits = mCtx.input & input_bit::ControlBits;
-    if (strcmp(pAction->Name(), "kill_frenzy") != 0)
+    const bool frenzy = strcmp(pAction->Name(), "kill_frenzy") == 0;
+    bool kiting = false;
+    if (!frenzy)
     {
-        SelfDefense(); // may replace the action's input, or add a weapon change to it
+        kiting = KiteCops();
+        if (!kiting)
+        {
+            SelfDefense(); // may replace the action's input, or add a weapon change to it
+        }
         mInputBits = mCtx.input & input_bit::ControlBits;
     }
-    if (strcmp(pAction->Name(), "kill_frenzy") != 0 && (CopCrush() || Evade()))
+    if (!frenzy && !kiting && (CopCrush() || Evade()))
     {
         mInputBits = mCtx.input & input_bit::ControlBits;
     }
@@ -1345,6 +1353,61 @@ void Bot::CollectNext()
 // A reflex under every action: when something is hurting the player, turn on the nearest
 // pedestrian that is close and fight until it stops. Not for kill frenzies (they fight by
 // themselves) and not with explosive weapons (they would hurt the player more).
+static bool Kite_Solid(void* /*user*/, float x, float y)
+{
+    return WorldModel::BuildingAt(x, y);
+}
+
+bool Bot::KiteCops()
+{
+    const WorldModel::PlayerInfo& pl = mWorld->player;
+    const bool explosive_held = pl.weapon == 2 || pl.weapon == 4 || pl.weapon == 5 || pl.weapon == 8;
+    if (pl.in_car || pl.dead || pl.wanted_stars == 0 || pl.ammo <= 0 || explosive_held || !mCtx.foot.valid)
+    {
+        return false;
+    }
+    KiteCop cops[WorldModel::kMaxPeds];
+    int count = 0;
+    for (int i = 0; i < mWorld->ped_count; i++)
+    {
+        const WorldModel::PedInfo& p = mWorld->peds[i];
+        if (p.cop && !p.dead && !p.in_car && p.dist < 14.0f)
+        {
+            cops[count].x = p.x;
+            cops[count].y = p.y;
+            count++;
+        }
+    }
+    const float heading = (mCtx.foot.sign * pl.rot_deg + mCtx.foot.offset) * 3.14159265f / 180.0f;
+    KiteWorld world = {pl.x, pl.y, sinf(heading), -cosf(heading), cops, count, Kite_Solid, NULL};
+    const KiteOut out = Kite_Decide(world);
+    if (!out.active)
+    {
+        mKiteFrames = 0;
+        return false;
+    }
+    if (mKiteFrames == 0)
+    {
+        BotDecision("f=%d kite: %d police on foot close by: facing them, shooting and walking %s", mFrame, count, out.move < 0 ? "backwards" : (out.move > 0 ? "away" : "nowhere (no room)"));
+    }
+    mKiteFrames++;
+    mCtx.input = 0;
+    const float err = mCtx.Steer(mCtx.foot, pl.rot_deg, pl.x, pl.y, out.target_x, out.target_y, true);
+    if (fabsf(err) < 35.0f && (mFrame % 8) < 6)
+    {
+        mCtx.input |= input_bit::Attack;
+    }
+    if (out.move < 0)
+    {
+        mCtx.input |= input_bit::Backward;
+    }
+    else if (out.move > 0)
+    {
+        mCtx.input |= input_bit::Forward;
+    }
+    return true;
+}
+
 bool Bot::SelfDefense()
 {
     const WorldModel::PlayerInfo& pl = mWorld->player;
