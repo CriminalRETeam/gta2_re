@@ -69,9 +69,21 @@ bool Cars_Pick(BotContext& ctx, const CarPick& ban, float max_dist, bool prefer_
         {
             continue; // by the time we have walked there it has driven off
         }
-        if (ban.has_target && ctx.road && (!ctx.road->FindPath(c.x, c.y, ban.target_x, ban.target_y) || ctx.road->Approximate()))
+        if (ban.has_target && ctx.road)
         {
-            continue; // shut in (a fenced park, a yard): the walk to it is for nothing
+            // shut in (a fenced park, a yard): the walk to it is for nothing. The target itself may be where no car goes (a
+            // pavement, a yard): then the route must at least end near it
+            bool ok = ctx.road->FindPath(c.x, c.y, ban.target_x, ban.target_y) && ctx.road->Count() > 0;
+            if (ok && ctx.road->Approximate())
+            {
+                const float ex = ctx.road->X(ctx.road->Count() - 1) - ban.target_x;
+                const float ey = ctx.road->Y(ctx.road->Count() - 1) - ban.target_y;
+                ok = ex * ex + ey * ey < 25.0f * 25.0f;
+            }
+            if (!ok)
+            {
+                continue;
+            }
         }
         // a hijack is dearer than a parked car: the driver fights back
         float cost = static_cast<float>(ctx.nav->PathLength()) + (c.has_driver ? 25.0f : 0.0f) + static_cast<float>(c.damage) * 0.01f;
