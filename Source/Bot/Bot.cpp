@@ -102,6 +102,7 @@ Bot::Bot(const BotOptions& opts)
     , mDamageLogs(0)
     , mMapDumped(false)
     , mObjectsDumped(false)
+    , mScriptDumped(false)
     , mRcState(RC_Warmup)
     , mRcCounter(0)
     , mRcSnapA(NULL)
@@ -184,6 +185,10 @@ void Bot::ApplyBootOverrides()
     bSkip_draw_67D4EA = !mOpts.draw;
     bSkip_audio_67D6BE = !mOpts.audio;
     bSkip_quit_confirm_67D4E8 = true;
+    if (mOpts.miss_log)
+    {
+        gDo_miss_logging_67D6BC = true; // test\\MISS_LOG.TXT
+    }
     // The game writes test\replay.rep (header at init, the records at shutdown) only with this on
     bDo_release_replay_67D4EB = true;
 
@@ -686,6 +691,16 @@ void Bot::StuckReport(const char* condition, const char* detail)
     BotPath_Join(path, sizeof(path), mOpts.out_dir, "bot_report.txt");
     BotFile_WriteAll(path, head, strlen(head));
     BotFile_AppendText(path, view);
+    {
+        char threads[4000];
+        WorldModel::ScriptThreads(threads, sizeof(threads));
+        BotFile_AppendText(path, "--- script threads (what each is about to run)\n");
+        BotFile_AppendText(path, threads);
+        char peds[3500];
+        WorldModel::PedTable(peds, sizeof(peds), 30.0f);
+        BotFile_AppendText(path, "--- peds within 30 tiles\n");
+        BotFile_AppendText(path, peds);
+    }
     BotFile_AppendText(path, "--- last decisions\n");
     const u32 count = BotDecision_Count();
     for (u32 i = count > 50 ? count - 50 : 0; i < count; i++)
@@ -701,6 +716,12 @@ void Bot::StuckReport(const char* condition, const char* detail)
     }
     BotLog("bot: STUCK %s: %s", condition, detail);
     BotLog("%s", view);
+    if (mOpts.script_dump)
+    {
+        // the mission script is loaded over the level script when a mission starts: dump what is there now
+        BotPath_Join(path, sizeof(path), mOpts.out_dir, "bot_script_stuck.txt");
+        WorldModel::DumpScript(path);
+    }
 }
 
 void Bot::BuildActions()
@@ -846,6 +867,13 @@ void Bot::StepActions()
         StartAction(0);
     }
 
+    if (mOpts.script_dump && !mScriptDumped)
+    {
+        mScriptDumped = true;
+        char path[MAX_PATH];
+        BotPath_Join(path, sizeof(path), mOpts.out_dir, "bot_script.txt");
+        WorldModel::DumpScript(path);
+    }
     if (mOpts.objects_dump && !mObjectsDumped)
     {
         mObjectsDumped = true;

@@ -92,3 +92,26 @@ class DriveAction : public Action
     s32 mBestWpFrame;
     s32 mLastWpIdx;
 };
+
+// Creeps the car the player is in onto (x, y) to within tol tiles and stops there: a mission
+// "locate" test is a small box round the arrow (the script wants the car on the spot, not near it).
+class ParkAction : public Action
+{
+  public:
+    ParkAction(float x, float y, float tol);
+
+    virtual const char* Name() const
+    {
+        return "park";
+    }
+    virtual void Start(BotContext& ctx);
+    virtual Status Step(BotContext& ctx);
+
+  private:
+    float mTx, mTy, mTol;
+    s32 mStart;
+    bool mHavePrev;
+    float mPrevX, mPrevY;
+    float mSpeed;
+    s32 mSettled;
+};

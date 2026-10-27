@@ -16,6 +16,8 @@
 #include "CarInfoTable.hpp"
 #include "map_0x370.hpp"
 #include "ScriptManager.hpp"
+#include "BotLog.hpp"
+#include "ScriptThread.hpp"
 #include "rng.hpp"
 #include "enums.hpp"
 #include "Weapon.hpp"
@@ -66,6 +68,119 @@ WorldModel::WorldModel()
     finish_score = 0;
     arrow.ped_id = -1;
     arrow.car_idx = -1;
+}
+
+namespace
+{
+struct ScrName
+{
+    int id;
+    const char* name;
+};
+const ScrName kScriptNames[] = {
+#include "ScriptNames.inc"
+    {-1, 0}};
+} // namespace
+
+void WorldModel::DumpScript(const char* path)
+{
+    BotTextFile f;
+    if (!gScriptManager_6F8060 || !f.Open(path))
+    {
+        return;
+    }
+    for (int idx = 0; idx < 6000; idx++)
+    {
+        SCR_CMD_HEADER* p = gScriptManager_6F8060->GetBasePointer_512770(static_cast<u16>(idx));
+        if (!p)
+        {
+            continue;
+        }
+        const char* pn = "?";
+        for (int i = 0; kScriptNames[i].name; i++)
+        {
+            if (kScriptNames[i].id == p->field_2_type)
+            {
+                pn = kScriptNames[i].name;
+                break;
+            }
+        }
+        const u16* w = reinterpret_cast<const u16*>(p);
+        f.Printf("%d %s(%d) next=%d | %04x %04x %04x %04x %04x %04x %04x %04x %04x %04x %04x %04x\n", idx, pn, p->field_2_type, static_cast<s16>(p->field_4_cmd_next), w[0], w[1], w[2], w[3], w[4], w[5], w[6], w[7], w[8], w[9], w[10], w[11]);
+    }
+    f.Close();
+}
+
+u32 WorldModel::ScriptThreads(char* out, u32 out_size)
+{
+    u32 n = 0;
+    out[0] = 0;
+    if (!miss2_0x11C_Pool_6F8064 || !gScriptManager_6F8060)
+    {
+        return 0;
+    }
+    for (ScriptThread* t = miss2_0x11C_Pool_6F8064->field_0_pool.field_4_pPrev; t && n + 100 < out_size; t = t->mpNext)
+    {
+        SCR_CMD_HEADER* h = gScriptManager_6F8060->GetBasePointer_512770(t->field_4_next_cmd);
+        const char* name = "?";
+        for (int i = 0; kScriptNames[i].name; i++)
+        {
+            if (h && kScriptNames[i].id == h->field_2_type)
+            {
+                name = kScriptNames[i].name;
+                break;
+            }
+        }
+        n += _snprintf(out + n, out_size - n, "thread %d: cmd@%d %s (%d) cond=%d stopped=%d\n", t->field_11A_thread_id, t->field_4_next_cmd, name, h ? h->field_2_type : -1, t->field_8_cond_result, t->field_10_stopped);
+        // the next few commands with their raw words: enough to read what a wait is waiting for
+        SCR_CMD_HEADER* p = h;
+        for (int k = 0; k < 6 && p && n + 200 < out_size; k++)
+        {
+            const char* pn = "?";
+            for (int i = 0; kScriptNames[i].name; i++)
+            {
+                if (kScriptNames[i].id == p->field_2_type)
+                {
+                    pn = kScriptNames[i].name;
+                    break;
+                }
+            }
+            const u16* w = reinterpret_cast<const u16*>(p);
+            n += _snprintf(out + n, out_size - n, "    @%d %s next=%d words: %04x %04x %04x %04x | %04x %04x %04x %04x | %04x %04x %04x %04x\n", p->field_0_cmd_this, pn, p->field_4_cmd_next, w[0], w[1], w[2], w[3], w[4], w[5], w[6], w[7], w[8], w[9], w[10], w[11]);
+            if (static_cast<u16>(p->field_4_cmd_next) == 0xFFFF)
+            {
+                break;
+            }
+            p = gScriptManager_6F8060->GetBasePointer_512770(static_cast<u16>(p->field_4_cmd_next));
+        }
+    }
+    return n;
+}
+
+u32 WorldModel::PedTable(char* out, u32 out_size, float radius)
+{
+    u32 n = 0;
+    out[0] = 0;
+    if (!gPedPool_6787B8 || !gGame_0x40_67E008 || !gGame_0x40_67E008->field_38_local_player || !gGame_0x40_67E008->field_38_local_player->field_2C4_player_ped)
+    {
+        return 0;
+    }
+    Ped* me = gGame_0x40_67E008->field_38_local_player->field_2C4_player_ped;
+    const float mx = F(me->field_1AC_cam.x);
+    const float my = F(me->field_1AC_cam.y);
+    for (Ped* p = gPedPool_6787B8->GetFirstPed_435530(); p && n + 160 < out_size; p = p->mpNext)
+    {
+        const float dx = F(p->field_1AC_cam.x) - mx;
+        const float dy = F(p->field_1AC_cam.y) - my;
+        if (p == me || dx * dx + dy * dy > radius * radius)
+        {
+            continue;
+        }
+        n += _snprintf(out + n, out_size - n, "ped#%d type=%d occ=%d(%s) obj=%d/%d state=%d/%d hp=%d at (%.1f,%.1f) d=%.1f car=%d script=%d\n", p->field_200_id, p->field_238_ped_type, p->field_240_occupation, WorldModel_OccupationName(p->field_240_occupation),
+                       p->field_258_objective, p->field_25C_internal_objective, p->field_278_ped_state_1, p->field_27C_ped_state_2, p->field_216_health, F(p->field_1AC_cam.x), F(p->field_1AC_cam.y), sqrtf(dx * dx + dy * dy),
+                       p->field_16C_car ? p->field_16C_car->field_6C_car_id : 0, p->field_168_game_object != NULL);
+    }
+    return n;
 }
 
 const char* WorldModel_OccupationName(s32 o)

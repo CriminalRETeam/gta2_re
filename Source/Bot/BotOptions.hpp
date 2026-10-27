@@ -23,6 +23,8 @@
 //                         the CRT's start up allocations, and so the heap layout, are the same
 //   -bot_goto=x,y         walk_arrow: target when the HUD arrow shows nothing (tiles)
 //   -bot_map_dump=x,y     text map of the blocks around x,y (road, pavement, buildings, arrows, cars) at the first frame
+//   -bot_script_dump      list every script command (index, name, next, raw words) to bot_script.txt at the first frame
+//   -bot_miss_log         let the game write test\MISS_LOG.TXT (script command offsets run per frame, per thread)
 //   -bot_objects_dump     list every world object (model, position) to bot_objects.txt at the first frame
 //   -bot_tokens=N -bot_frenzies=N -bot_missions=N   collect profile goals (defaults 3, 2, 0)
 //   -bot_frenzy_id=N      collect: only this kill frenzy icon (object id from bot_objects.txt), up to 4 times
@@ -60,6 +62,8 @@ struct BotOptions
     s32 want_frenzies;
     s32 want_missions;
     bool objects_dump;
+    bool script_dump;
+    bool miss_log;
     bool has_goto;
     float goto_x, goto_y;
 };

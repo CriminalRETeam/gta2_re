@@ -27,6 +27,7 @@ MissionAction::MissionAction()
     , mRetries(0)
     , mNoArrowFrames(0)
     , mHornUntil(0)
+    , mHornParked(false)
     , mWheelsId(0)
     , mWheelsTried(0)
     , mWheelsSearchFrame(0)
@@ -193,6 +194,21 @@ Action::Status MissionAction::Step(BotContext& ctx)
     if (!arrow.valid)
     {
         mNoArrowFrames++;
+        if (mChild && !mChildDone && strncmp(mChildKey, "horn", 4) == 0)
+        {
+            // the arrow went while we were still settling on the horn spot: finish the parking
+            return RunChild(ctx);
+        }
+        if (mHornParked && pl.in_car)
+        {
+            // parked on the horn spot and the arrow went: the script is waiting for the horn, or for whoever it called
+            ctx.input = ((ctx.frame / 12) % 2 == 0) ? input_bit::Special1 : 0;
+            if (mNoArrowFrames > 6000)
+            {
+                return Fail("no_plan", "mission: no arrow for 6000 frames after the horn, brief \"%s\"", ctx.world->brief_key);
+            }
+            return Running;
+        }
         DropChild();
         if (mNoArrowFrames > 1500)
         {
@@ -243,6 +259,10 @@ Action::Status MissionAction::Step(BotContext& ctx)
 
     if (strcmp(key, mChildKey) != 0)
     {
+        if (strncmp(key, "horn", 4) != 0)
+        {
+            mHornParked = false;
+        }
         DropChild();
         strncpy(mChildKey, key, kKeyLen - 1);
         mChildKey[kKeyLen - 1] = 0;
@@ -268,7 +288,11 @@ Action::Status MissionAction::Step(BotContext& ctx)
         }
         else if (pl.in_car)
         {
-            mChild = new DriveAction(arrow.x, arrow.y, 1.5f);
+            // drive near, then park on the spot: a locate test is a small box round the arrow
+            SequenceGoal* go = new SequenceGoal("drive_park");
+            go->Add(new DriveAction(arrow.x, arrow.y, 2.5f), false);
+            go->Add(new ParkAction(arrow.x, arrow.y, 0.3f), true);
+            mChild = go;
         }
         else
         {
@@ -287,12 +311,23 @@ Action::Status MissionAction::Step(BotContext& ctx)
         }
         mChild->Start(ctx);
     }
+    return RunChild(ctx);
+}
+
+// Steps the current step's child, or waits (honking if the mission asked for that) once it is done
+Action::Status MissionAction::RunChild(BotContext& ctx)
+{
+    const WorldModel::PlayerInfo& pl = ctx.world->player;
     if (mChildDone)
     {
         // arrived: wait for the script to react, honking if it asked for that
         if (ctx.frame < mHornUntil)
         {
-            ctx.input = ((ctx.frame / 10) % 2 == 0) ? input_bit::Special1 : 0;
+            ctx.input = ((ctx.frame / 12) % 2 == 0) ? input_bit::Special1 : 0;
+            if (ctx.frame % 300 == 0)
+            {
+                BotDecision("f=%d mission: honking at (%.1f,%.1f); %d peds near, nearest %.1f tiles", ctx.frame, pl.x, pl.y, ctx.world->ped_count, ctx.world->ped_count ? ctx.world->peds[0].dist : -1.0f);
+            }
         }
         return Running;
     }
@@ -305,7 +340,9 @@ Action::Status MissionAction::Step(BotContext& ctx)
         BotDecision("f=%d mission: step %s done", ctx.frame, mChildKey);
         if (strncmp(mChildKey, "horn", 4) == 0)
         {
-            mHornUntil = ctx.frame + 80;
+            mHornParked = true;
+            // honk until the script reacts (the arrow or the brief changes, which makes a new step)
+            mHornUntil = ctx.frame + 3000;
             BotDecision("f=%d mission: honking", ctx.frame);
         }
     }

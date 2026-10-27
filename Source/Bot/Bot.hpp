@@ -147,6 +147,7 @@ class Bot : public BotObject
     s32 mDamageLogs;
     bool mMapDumped;
     bool mObjectsDumped;
+    bool mScriptDumped;
 
     // restore_check
     RestoreCheckState mRcState;

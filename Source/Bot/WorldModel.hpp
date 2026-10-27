@@ -136,6 +136,16 @@ class WorldModel : public BotObject
     // Scans the whole car pool (not only the nearest few kept in cars[])
     bool FindCar(s32 car_id, CarInfo* out) const;
 
+    // Where every running script thread is: thread id, command offset, command name and its
+    // condition result. Shows what a stalled mission is waiting for. Returns chars written.
+    static u32 ScriptThreads(char* out, u32 out_size);
+
+    // Every command of the loaded script: index, name, next index and the first raw words
+    static void DumpScript(const char* path);
+
+    // Every ped within radius tiles of the player: type, occupation, objective (and the internal one), state, car
+    static u32 PedTable(char* out, u32 out_size, float radius);
+
     // The cheap view: under 40 lines, integers and short names
     // Returns the number of chars written
     u32 Text(char* out, u32 out_size, const char* header) const;

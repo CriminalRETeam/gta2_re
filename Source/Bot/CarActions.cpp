@@ -470,3 +470,99 @@ Action::Status DriveAction::Step(BotContext& ctx)
     }
     return Running;
 }
+
+// ---------------------------------------------------------------------------------------------
+ParkAction::ParkAction(float x, float y, float tol)
+    : mTx(x)
+    , mTy(y)
+    , mTol(tol)
+    , mStart(0)
+    , mHavePrev(false)
+    , mPrevX(0)
+    , mPrevY(0)
+    , mSpeed(0)
+    , mSettled(0)
+{
+}
+
+void ParkAction::Start(BotContext& ctx)
+{
+    mStart = ctx.frame;
+    mHavePrev = false;
+    mSettled = 0;
+    if (!ctx.car.valid && ctx.foot.valid)
+    {
+        ctx.car = ctx.foot;
+    }
+}
+
+Action::Status ParkAction::Step(BotContext& ctx)
+{
+    const WorldModel::PlayerInfo& pl = ctx.world->player;
+    ctx.input = 0;
+    if (!pl.valid)
+    {
+        return Running;
+    }
+    if (!pl.in_car)
+    {
+        return Fail("action_failed", "park: the player is not in a car");
+    }
+    if (mHavePrev)
+    {
+        const float mx = pl.x - mPrevX;
+        const float my = pl.y - mPrevY;
+        mSpeed = sqrtf(mx * mx + my * my);
+    }
+    mPrevX = pl.x;
+    mPrevY = pl.y;
+    mHavePrev = true;
+
+    const float dx = mTx - pl.x;
+    const float dy = mTy - pl.y;
+    const float dist = sqrtf(dx * dx + dy * dy);
+    if (dist <= mTol)
+    {
+        // on the spot: hold the brake until the car has stopped
+        if (mSpeed < 0.004f && ++mSettled > 8)
+        {
+            BotDecision("f=%d park: on the spot (%.2f,%.2f), %.2f tiles from (%.2f,%.2f)", ctx.frame, pl.x, pl.y, dist, mTx, mTy);
+            return Done;
+        }
+        ctx.input = mSpeed > 0.004f ? input_bit::Backward : 0;
+        return Running;
+    }
+    mSettled = 0;
+    if (ctx.frame - mStart > 900)
+    {
+        BotDecision("f=%d park: giving up %.2f tiles from (%.2f,%.2f)", ctx.frame, dist, mTx, mTy);
+        return Done; // as close as it will get: the caller carries on
+    }
+
+    // heading error to the spot; the car turns only while it rolls, so creep in pulses
+    const float err = ctx.Steer(ctx.car, pl.rot_deg, pl.x, pl.y, mTx, mTy, false);
+    const bool ahead = fabsf(err) < 90.0f;
+    const float want_speed = dist > 3.0f ? 0.08f : (dist > 1.0f ? 0.03f : 0.012f);
+    if (ahead)
+    {
+        if (mSpeed < want_speed && (ctx.frame % 3) == 0)
+        {
+            ctx.input |= input_bit::Forward;
+        }
+        else if (mSpeed > want_speed * 1.6f)
+        {
+            ctx.input |= input_bit::Backward;
+        }
+    }
+    else
+    {
+        // it is behind us: back up towards it (the steering turns the other way in reverse)
+        ctx.input &= ~(input_bit::Left | input_bit::Right);
+        ctx.input |= (ctx.frame % 3) == 0 ? input_bit::Backward : 0;
+        if (mSpeed > 0.05f)
+        {
+            ctx.input = input_bit::Forward; // brake
+        }
+    }
+    return Running;
+}

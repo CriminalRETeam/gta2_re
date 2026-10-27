@@ -116,11 +116,10 @@
         "-bot_map=wil",
         "-bot_phone_id=220"
       ],
-      "budget": 30000,
-      "expect": "FAIL",
-      "condition": "no_progress",
-      "replay": false,
-      "note": "tracked challenge: stalls after the horn, the script waits for something the bot does not know"
+      "budget": 40000,
+      "expect": "PASS",
+      "replay": true,
+      "note": "pick up the marked car, park exactly on the arrow (a locate box), honk, take ZitZaki to the drop point"
     },
     {
       "name": "mission_bank_guards",

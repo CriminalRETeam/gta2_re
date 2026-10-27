@@ -25,6 +25,7 @@ class MissionAction : public Action
     };
 
     void DropChild();
+    Status RunChild(BotContext& ctx);
     Status StepChild(BotContext& ctx, bool* child_done);
     bool Restart(BotContext& ctx, const char* why);
 
@@ -43,6 +44,7 @@ class MissionAction : public Action
     s32 mNoArrowFrames;
     char mBriefMemory[400]; // the last brief text seen: the on-screen brief goes away after a few seconds
     s32 mHornUntil;
+    bool mHornParked; // parked on the spot a horn mission asked for
     s32 mWheelsId;
     s32 mWheelsTried;
     s32 mWheelsSearchFrame;

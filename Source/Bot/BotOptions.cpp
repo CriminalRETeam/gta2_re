@@ -189,6 +189,14 @@ bool BotOptions_Parse(const char* cmd_line, BotOptions* o)
         {
             o->want_missions = atoi(value);
         }
+        else if (_strnicmp(key, "_script_dump", key_len) == 0 && key_len == 12)
+        {
+            o->script_dump = true;
+        }
+        else if (_strnicmp(key, "_miss_log", key_len) == 0 && key_len == 9)
+        {
+            o->miss_log = true;
+        }
         else if (_strnicmp(key, "_objects_dump", key_len) == 0 && key_len == 13)
         {
             o->objects_dump = true;
