@@ -134,6 +134,9 @@ class WorldModel : public BotObject
     // Every world object in the pool: id model x y z behaviour pickup
     void DumpObjects(const char* path) const;
 
+    // Test aid: gives the player a weapon
+    static void GiveWeapon(s32 weapon, s32 ammo);
+
     // True when the tile at (x, y) is a building / high ground
     static bool BuildingAt(float x, float y);
 

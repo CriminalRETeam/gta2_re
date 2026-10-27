@@ -161,6 +161,10 @@ Bot::Bot(const BotOptions& opts)
     {
         mProfile = Profile_DriveTest;
     }
+    else if (_stricmp(opts.profile, "rocket_test") == 0)
+    {
+        mProfile = Profile_RocketTest;
+    }
     else if (_stricmp(opts.profile, "replay") == 0)
     {
         mProfile = Profile_Replay;
@@ -518,6 +522,7 @@ void Bot::OnFrame()
                 break;
             case Profile_WalkArrow:
             case Profile_DriveTest:
+            case Profile_RocketTest:
             case Profile_Collect:
             case Profile_PhoneTest:
             case Profile_Missions:
@@ -859,6 +864,27 @@ void Bot::BuildActions()
         return;
     }
 
+    if (mProfile == Profile_RocketTest)
+    {
+        // rocket_test: a weapon (-bot_kills=ammo, -bot_gang=weapon type, 2 = rocket launcher) against the nearest parked car
+        // that is 8 to 40 tiles away: what does it do to the car?
+        const WorldModel::PlayerInfo& rp = mWorld->player;
+        for (int i = 0; i < mWorld->car_count; i++)
+        {
+            const WorldModel::CarInfo& c = mWorld->cars[i];
+            if (c.has_driver || c.police || c.mission || c.dist < 8.0f || c.dist > 90.0f || c.damage > 0)
+            {
+                continue;
+            }
+            BotDecision("f=%d rocket_test: car #%d model %d at (%.0f,%.0f), %.0f tiles from (%.0f,%.0f), proof bullets %d rockets %d flames %d", mFrame, c.idx, c.model, c.x, c.y, c.dist, rp.x, rp.y, c.bulletproof, c.rocketproof, c.flameproof);
+            mActions[mActionCount++] = new DestroyCarAction(c.idx);
+            return;
+        }
+        StuckReport("no_plan", "no parked car 8 to 40 tiles away");
+        RequestExit("no car");
+        return;
+    }
+
     // drive_test: nearest parked, unlocked car on foot reach, drive it to -bot_goto, get out
     const WorldModel::PlayerInfo& pl = mWorld->player;
     s32 chosen = 0;
@@ -901,6 +927,11 @@ void Bot::StepActions()
     if (!mWorld)
     {
         mWorld = new WorldModel();
+    }
+    if (mProfile == Profile_RocketTest && mFrame == 60)
+    {
+        WorldModel::GiveWeapon(mOpts.gang > 0 ? mOpts.gang : 2, mOpts.kills > 0 ? mOpts.kills : 50);
+        BotDecision("f=%d rocket_test: gave weapon %d ammo %d", mFrame, mOpts.gang > 0 ? mOpts.gang : 2, mOpts.kills > 0 ? mOpts.kills : 50);
     }
     mWorld->frame = mFrame;
     mWorld->Observe();

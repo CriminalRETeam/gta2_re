@@ -937,6 +937,7 @@ DestroyCarAction::DestroyCarAction(s32 car_id)
     , mLastY(0)
     , mLastDamage(0)
     , mLastDamageFrame(0)
+    , mLastAmmo(-1)
 {
 }
 
@@ -1035,13 +1036,25 @@ Action::Status DestroyCarAction::Step(BotContext& ctx)
         }
     }
     const float err = ctx.Steer(ctx.foot, pl.rot_deg, pl.x, pl.y, car.x, car.y, true);
-    if (dist < 3.0f)
+    // A rocket, grenade or molotov blows up at the target: from closer than about 5 tiles it hurts the one who threw it
+    const float too_close = explosive ? 5.5f : 3.0f;
+    if (dist < too_close)
     {
-        ctx.input |= input_bit::Backward; // a wrecked car burns and blows up
+        ctx.input |= input_bit::Backward; // back off (a wrecked car burns and blows up too)
     }
-    if (fabsf(err) < 30.0f && dist < stand + 4.0f && (ctx.frame % 8) < 6)
+    // A shot goes straight ahead: fire only when the car is within the angle that its width covers at this distance
+    // (30 degrees was 5 tiles wide at 10 tiles away, so the rockets flew past), and nothing solid is in between
+    float tol = atanf(1.3f / (dist > 1.0f ? dist : 1.0f)) * 57.2958f;
+    tol = tol < 3.0f ? 3.0f : (tol > 25.0f ? 25.0f : tol);
+    const bool line = Bot_LineClear(pl.x, pl.y, car.x, car.y);
+    if (fabsf(err) < tol && line && dist >= too_close && dist < stand + 4.0f && (ctx.frame % 8) < 6)
     {
         ctx.input |= input_bit::Attack;
     }
+    if (mLastAmmo >= 0 && pl.ammo < mLastAmmo)
+    {
+        BotDecision("f=%d destroy_car: shot (weapon %d, ammo %d -> %d): aim error %.1f deg (limit %.1f), %.1f tiles, line %s, target speed %.2f damage %d", ctx.frame, pl.weapon, mLastAmmo, pl.ammo, err, tol, dist, line ? "clear" : "BLOCKED", car.speed, car.damage);
+    }
+    mLastAmmo = pl.ammo;
     return Running;
 }

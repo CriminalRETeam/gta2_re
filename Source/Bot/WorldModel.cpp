@@ -948,6 +948,14 @@ void WorldModel::DumpObjects(const char* path) const
     fclose(f);
 }
 
+void WorldModel::GiveWeapon(s32 weapon, s32 ammo)
+{
+    if (gGame_0x40_67E008 && gGame_0x40_67E008->field_38_local_player && gGame_0x40_67E008->field_38_local_player->field_2C4_player_ped)
+    {
+        gGame_0x40_67E008->field_38_local_player->field_2C4_player_ped->AddWeaponWithAmmo_45DD30(weapon, static_cast<char_type>(ammo));
+    }
+}
+
 int WorldModel::TileType(int x, int y)
 {
     if (x < 1 || x > 254 || y < 1 || y > 254)

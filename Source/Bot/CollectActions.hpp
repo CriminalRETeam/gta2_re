@@ -190,4 +190,5 @@ class DestroyCarAction : public Action
     float mLastX, mLastY;
     s32 mLastDamage;
     s32 mLastDamageFrame;
+    s32 mLastAmmo;
 };

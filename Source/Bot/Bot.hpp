@@ -59,6 +59,7 @@ class Bot : public BotObject
         Profile_Replay,
         Profile_WalkArrow,
         Profile_DriveTest,
+        Profile_RocketTest,
         Profile_Collect,
         Profile_PhoneTest,
         Profile_Missions,
