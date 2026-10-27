@@ -17,6 +17,7 @@ def load_csv_file(filename):
 
 def calc_funcs_to_check_match(new_data, old_data):
     ret = []
+    missing = []
     for new_rec in new_data["functions"]:
         if new_rec["func_status"] == "0x1":
             # found a func record that is supposed to be impl'd as matching, find the og data
@@ -29,7 +30,12 @@ def calc_funcs_to_check_match(new_data, old_data):
                     found = True
                     break
             if not found:
-                print("Can't get function size for " + new_rec["mangled_name"] + " make sure its in the csv file")
+                missing.append(new_rec["mangled_name"] + " at " + new_rec["og_addr"])
+
+    if missing:
+        raise ValueError("MATCH_FUNC missing from og_function_data_v105.csv: " + "; ".join(missing))
+    if not ret:
+        raise ValueError("No MATCH_FUNC functions found; nothing was verified")
 
     return ret
 
@@ -37,7 +43,11 @@ def check_funcs_match(verbose: bool = False):
     with open("new_data.json", "rt") as file:
         new_data = json.load(file)
     old_data = load_csv_file("og_function_data_v105.csv")
-    funcs_to_check = calc_funcs_to_check_match(new_data, old_data)
+    try:
+        funcs_to_check = calc_funcs_to_check_match(new_data, old_data)
+    except ValueError as error:
+        print("Verification error: " + str(error))
+        return False
     ok_funcs = []
     fail_funcs = []
     for func in funcs_to_check:
@@ -56,7 +66,5 @@ def check_funcs_match(verbose: bool = False):
     print("[" + str(len(ok_funcs)) + "/" + str(len(funcs_to_check)) + "] funcs OK")
     return len(fail_funcs) == 0
 
-if check_funcs_match():
-    sys.exit(0)
-else:
-    sys.exit(1)
+if __name__ == "__main__":
+    sys.exit(0 if check_funcs_match() else 1)
