@@ -31,6 +31,7 @@ class WorldModel : public BotObject
         bool dead; // wasted or busted countdown running
         s32 weapon;
         s32 ammo;
+        s32 car_id; // 0 when not in a car
     };
 
     struct ArrowInfo
@@ -58,6 +59,7 @@ class WorldModel : public BotObject
 
     struct CarInfo
     {
+        bool exists;
         s32 idx;
         s32 model;
         s32 damage;
@@ -72,6 +74,13 @@ class WorldModel : public BotObject
     WorldModel();
 
     void Observe();
+
+    // Text map of the blocks around (cx, cy): R road, P pavement, F field, B building / high ground,
+    // ' ' nothing; arrows ^v<> where a green road arrow points; c a car, @ the player
+    void DumpMap(const char* path, float cx, float cy, int radius) const;
+
+    // Scans the whole car pool (not only the nearest few kept in cars[])
+    bool FindCar(s32 car_id, CarInfo* out) const;
 
     // The cheap view: under 40 lines, integers and short names
     // Returns the number of chars written

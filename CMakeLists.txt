@@ -313,6 +313,14 @@ set(gta2_bot_src
   Source/Bot/Snapshot.hpp
   Source/Bot/NavFoot.hpp
   Source/Bot/NavFoot.cpp
+  Source/Bot/BotAction.hpp
+  Source/Bot/BotAction.cpp
+  Source/Bot/WalkAction.hpp
+  Source/Bot/WalkAction.cpp
+  Source/Bot/CarActions.hpp
+  Source/Bot/CarActions.cpp
+  Source/Bot/NavCar.hpp
+  Source/Bot/NavCar.cpp
   Source/Bot/Snapshot.cpp
   Source/Bot/WorldModel.hpp
   Source/Bot/WorldModel.cpp

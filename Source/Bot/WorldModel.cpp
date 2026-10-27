@@ -152,6 +152,7 @@ void WorldModel::Observe()
         player.cash = pPlayer->field_2D4_scores.field_0_money.field_0_value;
         player.wanted_stars = me->get_wanted_star_count_46EF00();
         player.in_car = me->field_16C_car != NULL;
+        player.car_id = me->field_16C_car ? me->field_16C_car->field_6C_car_id : 0;
         player.dead = pPlayer->field_28_wasted_or_busted != 0;
         Weapon* pWeapon = pPlayer->GetCurrPlayerWeapon_5648F0();
         if (pWeapon)
@@ -284,6 +285,7 @@ void WorldModel::Observe()
         cars_total++;
         CarInfo info;
         memset(&info, 0, sizeof(info));
+        info.exists = true;
         info.idx = c->field_6C_car_id;
         info.model = c->field_84_car_info_idx;
         info.damage = c->field_74_damage;
@@ -321,6 +323,127 @@ static void Append(TextBuf* b, const char* fmt, ...)
         n = b->end - b->p;
     }
     b->p += n;
+}
+
+void WorldModel::DumpMap(const char* path, float cx, float cy, int radius) const
+{
+    FILE* f = fopen(path, "w");
+    if (!f)
+    {
+        return;
+    }
+    const int x0 = static_cast<int>(cx) - radius;
+    const int y0 = static_cast<int>(cy) - radius;
+    fprintf(f, "map around (%.1f,%.1f) radius %d; x %d..%d, y %d..%d\n", cx, cy, radius, x0, x0 + 2 * radius, y0, y0 + 2 * radius);
+    fprintf(f, "    ");
+    int x;
+    for (x = x0; x <= x0 + 2 * radius; x++)
+    {
+        fprintf(f, "%d", (x / 10) % 10);
+    }
+    fprintf(f, "\n    ");
+    for (x = x0; x <= x0 + 2 * radius; x++)
+    {
+        fprintf(f, "%d", x % 10);
+    }
+    fprintf(f, "\n");
+    int y;
+    for (y = y0; y <= y0 + 2 * radius; y++)
+    {
+        fprintf(f, "%3d ", y);
+        for (x = x0; x <= x0 + 2 * radius; x++)
+        {
+            char c = ' ';
+            s32 z = 0;
+            gmp_block_info* b = (x > 0 && x < 255 && y > 0 && y < 255) ? gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x, y, &z) : NULL;
+            if (b)
+            {
+                const int type = b->field_B_slope_type & 3;
+                if (z >= 3)
+                {
+                    c = 'B';
+                }
+                else if (type == 1)
+                {
+                    c = 'R';
+                }
+                else if (type == 2)
+                {
+                    c = 'P';
+                }
+                else if (type == 3)
+                {
+                    c = 'F';
+                }
+                else
+                {
+                    c = '.';
+                }
+                // green arrows: bit0 left, bit1 right, bit2 up, bit3 down (gmp_arrow_direction)
+                if (b->field_A_arrows & 0x4)
+                {
+                    c = '^';
+                }
+                else if (b->field_A_arrows & 0x8)
+                {
+                    c = 'v';
+                }
+                else if (b->field_A_arrows & 0x1)
+                {
+                    c = '<';
+                }
+                else if (b->field_A_arrows & 0x2)
+                {
+                    c = '>';
+                }
+            }
+            int i;
+            for (i = 0; i < 306; i++)
+            {
+                Car* pc = &gCar_BC_Pool_67792C->field_0_pool.field_8_pool[i];
+                if (pc->field_50_car_sprite && pc->field_6C_car_id && static_cast<int>(F(pc->field_50_car_sprite->field_14_xy.x)) == x &&
+                    static_cast<int>(F(pc->field_50_car_sprite->field_14_xy.y)) == y)
+                {
+                    c = 'c';
+                }
+            }
+            if (static_cast<int>(player.x) == x && static_cast<int>(player.y) == y)
+            {
+                c = '@';
+            }
+            fputc(c, f);
+        }
+        fputc('\n', f);
+    }
+    fclose(f);
+}
+
+bool WorldModel::FindCar(s32 car_id, CarInfo* out) const
+{
+    for (int i = 0; i < 306; i++)
+    {
+        Car* c = &gCar_BC_Pool_67792C->field_0_pool.field_8_pool[i];
+        if (!c->field_50_car_sprite || c->field_6C_car_id != car_id)
+        {
+            continue;
+        }
+        memset(out, 0, sizeof(*out));
+        out->exists = true;
+        out->idx = c->field_6C_car_id;
+        out->model = c->field_84_car_info_idx;
+        out->damage = c->field_74_damage;
+        out->x = F(c->field_50_car_sprite->field_14_xy.x);
+        out->y = F(c->field_50_car_sprite->field_14_xy.y);
+        out->has_driver = c->field_54_driver != NULL;
+        out->locked = c->field_98_door_lock == 1 || c->field_98_door_lock == 4;
+        out->mission = c->IsMissionRelated_4421B0();
+        out->police = c->field_A0_car_kind == 6;
+        const float dx = out->x - player.x;
+        const float dy = out->y - player.y;
+        out->dist = sqrtf(dx * dx + dy * dy);
+        return true;
+    }
+    return false;
 }
 
 u32 WorldModel::Text(char* out, u32 out_size, const char* header) const

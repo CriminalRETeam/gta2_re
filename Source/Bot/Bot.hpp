@@ -5,10 +5,13 @@
 #include "BotOptions.hpp"
 #include "BotLog.hpp"
 #include "BotRng.hpp"
+#include "BotAction.hpp"
 
 class MemoryMap;
 class WorldModel;
 class NavFoot;
+class NavCar;
+class Action;
 class Snapshot;
 class Player;
 class Ped;
@@ -55,16 +58,7 @@ class Bot : public BotObject
         Profile_RestoreCheck,
         Profile_Replay,
         Profile_WalkArrow,
-    };
-
-    enum WalkState
-    {
-        Walk_Idle,
-        Walk_CalibTurn,
-        Walk_CalibMove,
-        Walk_CalibMove2,
-        Walk_Go,
-        Walk_Done,
+        Profile_DriveTest,
     };
 
     enum RestoreCheckState
@@ -91,7 +85,9 @@ class Bot : public BotObject
     void StepWalkTest();
     void StepRestoreCheck();
     void StepReplay();
-    void StepWalkArrow();
+    void StepActions();
+    void BuildActions();
+    void StartAction(int idx);
     void StuckReport(const char* condition, const char* detail);
 
     static void DiffToFileCb(void* ctx, u8* addr, u32 size, const u8* old_bytes, const u8* new_bytes);
@@ -112,26 +108,18 @@ class Bot : public BotObject
     BotTextFile mHashLog;
 
     WorldModel* mWorld;
-    // walk_arrow
-    WalkState mWalkState;
-    s32 mWalkStateFrame;
-    float mWalkStartX, mWalkStartY, mWalkStartRot;
-    float mHeadingOffset; // world heading (deg) minus ped rotation (deg) when walking forward
-    float mHeadingSign;   // +1 when the world heading grows with the ped rotation, -1 when it shrinks
-    float mCalibH1, mCalibRot1;
-    float mTurnSign;      // +1 when the Right bit increases the ped rotation
-    float mBestDist;
-    s32 mBestDistFrame;
-    float mTargetX, mTargetY;
-    bool mTargetIsArrow;
-    Snapshot* mActionSnap;
     NavFoot* mNav;
-    s32 mPathIdx;
-    s32 mPathProgressFrame;
-    s32 mRetries;
-    bool mPlanned;
-    void PlanPath(const char* why);
-    s32 mActionStartFrame;
+    NavCar* mRoad;
+    Snapshot* mActionSnap;
+    BotContext mCtx;
+    enum
+    {
+        kMaxActions = 8
+    };
+    Action* mActions[kMaxActions];
+    int mActionCount;
+    int mActionIdx;
+    bool mMapDumped;
 
     // restore_check
     RestoreCheckState mRcState;

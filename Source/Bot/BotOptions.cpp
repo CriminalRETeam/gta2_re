@@ -150,6 +150,10 @@ bool BotOptions_Parse(const char* cmd_line, BotOptions* o)
         {
             o->perturb = true;
         }
+        else if (_strnicmp(key, "_map_dump", key_len) == 0 && key_len == 9)
+        {
+            o->has_map_dump = sscanf(value, "%f,%f", &o->map_dump_x, &o->map_dump_y) == 2;
+        }
         else if (_strnicmp(key, "_goto", key_len) == 0 && key_len == 5)
         {
             o->has_goto = sscanf(value, "%f,%f", &o->goto_x, &o->goto_y) == 2;

@@ -1,0 +1,393 @@
+#include "CarActions.hpp"
+#include "WalkAction.hpp"
+#include "WorldModel.hpp"
+#include "NavCar.hpp"
+#include "Snapshot.hpp"
+#include "BotLog.hpp"
+#include "BotOptions.hpp"
+#include "input_bits.hpp"
+#include <math.h>
+#include <stdio.h>
+
+// ---------------------------------------------------------------------------------------------
+EnterCarAction::EnterCarAction(s32 car_id)
+    : mCarId(car_id)
+    , mWalk(NULL)
+    , mPressing(false)
+    , mPressStart(0)
+{
+}
+
+EnterCarAction::~EnterCarAction()
+{
+    delete mWalk;
+}
+
+void EnterCarAction::Start(BotContext& /*ctx*/)
+{
+    delete mWalk;
+    mWalk = NULL;
+    mPressing = false;
+}
+
+Action::Status EnterCarAction::Step(BotContext& ctx)
+{
+    const WorldModel::PlayerInfo& pl = ctx.world->player;
+    ctx.input = 0;
+    if (!pl.valid)
+    {
+        return Running;
+    }
+    if (pl.in_car)
+    {
+        if (pl.car_id == mCarId)
+        {
+            BotDecision("f=%d enter_car: in car #%d", ctx.frame, mCarId);
+            return Done;
+        }
+        return Fail("action_failed", "enter_car: in car #%d instead of #%d", pl.car_id, mCarId);
+    }
+
+    WorldModel::CarInfo car;
+    if (!ctx.world->FindCar(mCarId, &car))
+    {
+        return Fail("action_failed", "enter_car: car #%d is gone", mCarId);
+    }
+    if (car.has_driver || car.locked)
+    {
+        return Fail("action_failed", "enter_car: car #%d driver=%d locked=%d", mCarId, car.has_driver, car.locked);
+    }
+
+    if (!mPressing)
+    {
+        if (!mWalk)
+        {
+            mWalk = new WalkAction(car.x, car.y, false, 2.2f);
+            mWalk->Start(ctx);
+        }
+        const Status s = mWalk->Step(ctx);
+        if (s == Failed)
+        {
+            return Fail(mWalk->fail_condition, "enter_car: %s", mWalk->fail_detail);
+        }
+        if (s == Done)
+        {
+            mPressing = true;
+            mPressStart = ctx.frame;
+            BotDecision("f=%d enter_car: next to car #%d at (%.1f,%.1f), pressing enter", ctx.frame, mCarId, car.x, car.y);
+        }
+        return Running;
+    }
+
+    if (ctx.frame - mPressStart > 160)
+    {
+        return Fail("action_failed", "enter_car: pressing enter for 160 frames next to car #%d (dist %.1f) did not get the ped in", mCarId, car.dist);
+    }
+    if (((ctx.frame - mPressStart) / 4) % 2 == 0)
+    {
+        ctx.input = input_bit::EnterExit;
+    }
+    return Running;
+}
+
+// ---------------------------------------------------------------------------------------------
+ExitCarAction::ExitCarAction()
+    : mStart(0)
+{
+}
+
+void ExitCarAction::Start(BotContext& ctx)
+{
+    mStart = ctx.frame;
+}
+
+Action::Status ExitCarAction::Step(BotContext& ctx)
+{
+    ctx.input = 0;
+    if (!ctx.world->player.in_car)
+    {
+        BotDecision("f=%d exit_car: out", ctx.frame);
+        return Done;
+    }
+    if (ctx.frame - mStart > 200)
+    {
+        return Fail("action_failed", "exit_car: still in the car after 200 frames");
+    }
+    if (ctx.frame - mStart > 20 && ((ctx.frame - mStart) / 4) % 2 == 0)
+    {
+        ctx.input = input_bit::EnterExit; // after the car has had time to stop
+    }
+    return Running;
+}
+
+// ---------------------------------------------------------------------------------------------
+DriveAction::DriveAction(float x, float y, float stop_dist)
+    : mTx(x)
+    , mTy(y)
+    , mStopDist(stop_dist)
+    , mCalibrating(false)
+    , mPlanned(false)
+    , mWpCount(0)
+    , mWpIdx(0)
+    , mProgressFrame(0)
+    , mRetries(0)
+    , mSpeedCap(0.30f)
+    , mWpRadius(3.5f)
+    , mHavePrev(false)
+    , mPrevX(0)
+    , mPrevY(0)
+    , mSpeed(0)
+    , mStillFrames(0)
+    , mReverseUntil(0)
+    , mReverseSteer(0)
+    , mManoeuvres(0)
+    , mMaxSpeedSeen(0)
+    , mBestWpDist(1e9f)
+    , mBestWpFrame(0)
+    , mLastWpIdx(-1)
+{
+}
+
+void DriveAction::Start(BotContext& ctx)
+{
+    mPlanned = false;
+    mRetries = 0;
+    mHavePrev = false;
+    mCalibrating = !ctx.car.valid;
+    if (mCalibrating)
+    {
+        BotDecision("f=%d drive: calibrating the car's steering", ctx.frame);
+        mCalib.Start(true);
+    }
+}
+
+bool DriveAction::Plan(BotContext& ctx, const char* why)
+{
+    const WorldModel::PlayerInfo& pl = ctx.world->player;
+    const bool found = ctx.road->FindPath(pl.x, pl.y, mTx, mTy);
+    mWpCount = 0;
+    if (found)
+    {
+        for (u32 i = 1; i < ctx.road->Count() && mWpCount < kMaxWp - 1; i++) // 0 is where the car is
+        {
+            mWpX[mWpCount] = ctx.road->X(i);
+            mWpY[mWpCount] = ctx.road->Y(i);
+            mWpCount++;
+        }
+    }
+    if (mWpCount == 0 || mWpX[mWpCount - 1] != mTx || mWpY[mWpCount - 1] != mTy)
+    {
+        mWpX[mWpCount] = mTx;
+        mWpY[mWpCount] = mTy;
+        mWpCount++;
+    }
+    mWpIdx = 0;
+    mProgressFrame = ctx.frame;
+    mStillFrames = 0;
+    mReverseUntil = 0;
+    mManoeuvres = 0;
+    mHavePrev = false;
+    mBestWpDist = 1e9f;
+    mLastWpIdx = -1;
+    BotDecision("f=%d drive plan (%s) (%.1f,%.1f)->(%.0f,%.0f): %s, %d waypoints, %u tiles explored (cap %.2f, radius %.1f)", ctx.frame, why, pl.x, pl.y, mTx, mTy,
+                found ? "path" : "NO PATH, driving straight", mWpCount, ctx.road->Expanded(), mSpeedCap, mWpRadius);
+    if (ctx.nav_dump)
+    {
+        char path[MAX_PATH];
+        BotPath_Join(path, sizeof(path), ctx.out_dir, "bot_road.txt");
+        ctx.road->Dump(path, "drive route");
+    }
+    mPlanned = true;
+    return found;
+}
+
+void DriveAction::ChooseVariant(BotContext& ctx)
+{
+    static const float caps[3] = {0.18f, 0.24f, 0.36f};
+    static const float radii[3] = {2.5f, 3.5f, 5.0f};
+    mSpeedCap = caps[ctx.rng->Below(3)];
+    mWpRadius = radii[ctx.rng->Below(3)];
+}
+
+Action::Status DriveAction::Step(BotContext& ctx)
+{
+    const WorldModel::PlayerInfo& pl = ctx.world->player;
+    ctx.input = 0;
+    if (!pl.valid)
+    {
+        return Running;
+    }
+    if (!pl.in_car)
+    {
+        return Fail("action_failed", "drive: the player is not in a car");
+    }
+
+    if (mCalibrating)
+    {
+        char why[200];
+        const Status s = mCalib.Step(ctx, &ctx.car, why, sizeof(why));
+        if (s == Failed)
+        {
+            return Fail("action_failed", "%s", why);
+        }
+        if (s == Running)
+        {
+            return Running;
+        }
+        mCalibrating = false;
+        BotDecision("f=%d drive: car heading = %+.0f*rot %+.0f, Right turns %+.0f", ctx.frame, ctx.car.sign, ctx.car.offset, ctx.car.turn_sign);
+    }
+
+    if (!mPlanned)
+    {
+        Plan(ctx, "start");
+    }
+
+    // Speed in tiles per frame
+    if (mHavePrev)
+    {
+        const float mx = pl.x - mPrevX;
+        const float my = pl.y - mPrevY;
+        mSpeed = sqrtf(mx * mx + my * my);
+        if (mSpeed > mMaxSpeedSeen)
+        {
+            mMaxSpeedSeen = mSpeed;
+        }
+    }
+    mPrevX = pl.x;
+    mPrevY = pl.y;
+    mHavePrev = true;
+
+    const float dx = mTx - pl.x;
+    const float dy = mTy - pl.y;
+    const float dist = sqrtf(dx * dx + dy * dy);
+    if (dist < mStopDist)
+    {
+        BotDecision("f=%d drive arrived at (%.1f,%.1f), dist %.2f, %d retries, top speed %.2f tiles/frame", ctx.frame, mTx, mTy, dist, mRetries, mMaxSpeedSeen);
+        return Done;
+    }
+
+    // Waypoints
+    while (mWpIdx < mWpCount - 1)
+    {
+        const float wx = mWpX[mWpIdx] - pl.x;
+        const float wy = mWpY[mWpIdx] - pl.y;
+        const float d = sqrtf(wx * wx + wy * wy);
+        bool passed = false;
+        if (mWpIdx + 1 < mWpCount && d < 10.0f)
+        {
+            // past the waypoint when the next one is more than 90 degrees from the way we came
+            const float nx = mWpX[mWpIdx + 1] - mWpX[mWpIdx];
+            const float ny = mWpY[mWpIdx + 1] - mWpY[mWpIdx];
+            passed = (-wx * nx + -wy * ny) > 0 && d < mWpRadius * 2.0f;
+        }
+        if (d < mWpRadius || passed)
+        {
+            mWpIdx++;
+            mProgressFrame = ctx.frame;
+            continue;
+        }
+        break;
+    }
+
+    // Stuck: not moving while asked to, or moving (sliding along a wall) without getting nearer
+    {
+        const float wdx = mWpX[mWpIdx] - pl.x;
+        const float wdy = mWpY[mWpIdx] - pl.y;
+        const float wd = sqrtf(wdx * wdx + wdy * wdy);
+        if (mWpIdx != mLastWpIdx || wd < mBestWpDist - 1.0f)
+        {
+            mLastWpIdx = mWpIdx;
+            mBestWpDist = wd;
+            mBestWpFrame = ctx.frame;
+        }
+        else if (ctx.frame - mBestWpFrame > 150 && ctx.frame > mReverseUntil)
+        {
+            mStillFrames = 46;
+            mBestWpFrame = ctx.frame;
+        }
+    }
+    if (ctx.frame > ctx.action_start_frame + 40 && mSpeed < 0.004f && ctx.frame > mReverseUntil)
+    {
+        mStillFrames++;
+    }
+    else if (mSpeed >= 0.004f)
+    {
+        mStillFrames = 0;
+    }
+    const bool timed_out = ctx.frame - mProgressFrame > 900;
+    if ((mStillFrames > 45 && mManoeuvres >= 2) || timed_out)
+    {
+        char detail[220];
+        _snprintf(detail, sizeof(detail), "%s at (%.1f,%.1f), waypoint %d/%d (%.1f,%.1f), dist %.1f to (%.1f,%.1f), %d reverse manoeuvres",
+                  timed_out ? "no waypoint reached for 900 frames" : "not moving", pl.x, pl.y, mWpIdx, mWpCount, mWpX[mWpIdx], mWpY[mWpIdx], dist, mTx, mTy, mManoeuvres);
+        if (mRetries >= 3 || !ctx.action_snap)
+        {
+            return Fail("no_progress", "%s", detail);
+        }
+        mRetries++;
+        ChooseVariant(ctx);
+        BotDecision("f=%d drive STUCK %s; retry %d: speed cap %.2f, waypoint radius %.1f, restore the action start (f=%d)", ctx.frame, detail, mRetries, mSpeedCap, mWpRadius, ctx.action_start_frame);
+        ctx.action_snap->Restore();
+        ctx.world->Observe();
+        Plan(ctx, "retry");
+        return Running;
+    }
+    if (mStillFrames > 45)
+    {
+        // back out and turn the other way
+        mManoeuvres++;
+        mStillFrames = 0;
+        mReverseUntil = ctx.frame + 40;
+        mReverseSteer = (ctx.rng->Below(2) == 0) ? 1.0f : -1.0f;
+        BotDecision("f=%d drive: not moving at (%.1f,%.1f), reverse manoeuvre %d", ctx.frame, pl.x, pl.y, mManoeuvres);
+    }
+
+    const bool last = mWpIdx == mWpCount - 1;
+    const float aim_x = mWpX[mWpIdx];
+    const float aim_y = mWpY[mWpIdx];
+
+    if (ctx.frame < mReverseUntil)
+    {
+        ctx.input = input_bit::Backward | (mReverseSteer > 0 ? input_bit::Right : input_bit::Left);
+        return Running;
+    }
+
+    const float err = ctx.Steer(ctx.car, pl.rot_deg, pl.x, pl.y, aim_x, aim_y, true);
+    float cap = mSpeedCap;
+    if (last && dist < 14.0f)
+    {
+        cap *= 0.5f;
+    }
+    if (fabsf(err) > 110.0f)
+    {
+        // target behind: reverse out while turning
+        ctx.input |= input_bit::Backward;
+    }
+    else if (fabsf(err) > 55.0f)
+    {
+        if (mSpeed > cap * 0.6f)
+        {
+            ctx.input |= input_bit::Backward; // brake for the turn
+        }
+        else
+        {
+            ctx.input |= input_bit::Forward;
+        }
+    }
+    else if (mSpeed < cap)
+    {
+        ctx.input |= input_bit::Forward;
+    }
+    else if (mSpeed > cap * 1.5f)
+    {
+        ctx.input |= input_bit::Backward;
+    }
+
+    if ((ctx.frame - ctx.action_start_frame) % 10 == 0)
+    {
+        ctx.world->frame = ctx.frame;
+        // goes to bot_trace.txt via the Bot (it prints ctx.last_trace)
+    }
+    return Running;
+}

@@ -22,6 +22,7 @@
 //   -bot_pad=xxx...       ignored; Scripts/bot pads the command line to a fixed length so that
 //                         the CRT's start up allocations, and so the heap layout, are the same
 //   -bot_goto=x,y         walk_arrow: target when the HUD arrow shows nothing (tiles)
+//   -bot_map_dump=x,y     text map of the blocks around x,y (road, pavement, buildings, arrows, cars) at the first frame
 //   -bot_perturb          restore_check: change the player's health after the restore, so the
 //                         check must FAIL and name the ped pool block (verifier sanity check)
 struct BotOptions
@@ -44,6 +45,8 @@ struct BotOptions
     s32 walk_frames;
     bool perturb;
     s32 save_at_frame; // -1 = never
+    bool has_map_dump;
+    float map_dump_x, map_dump_y;
     bool has_goto;
     float goto_x, goto_y;
 };
