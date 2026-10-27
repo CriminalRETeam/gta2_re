@@ -90,7 +90,7 @@ Fix16 Fix16::Negate_4086A0() const throw()
 }
 
 MATCH_FUNC(0x44E540)
-Fix16 __stdcall Fix16::Max_44E540(Fix16& lhs, Fix16& rhs)
+Fix16 __stdcall Fix16::Max_44E540(const Fix16& lhs, const Fix16& rhs)
 {
     Fix16 result;
     if (lhs.mValue > rhs.mValue)
@@ -105,7 +105,7 @@ Fix16 __stdcall Fix16::Max_44E540(Fix16& lhs, Fix16& rhs)
 }
 
 MATCH_FUNC(0x436A50)
-Fix16 __stdcall Fix16::Abs_436A50(Fix16& input)
+Fix16 __stdcall Fix16::Abs_436A50(const Fix16& input)
 {
     if (input.mValue > 0)
     {
@@ -118,7 +118,7 @@ Fix16 __stdcall Fix16::Abs_436A50(Fix16& input)
 }
 
 MATCH_FUNC(0x436A70)
-Fix16 __stdcall Fix16::SquareRoot_436A70(Fix16& input)
+Fix16 __stdcall Fix16::SquareRoot_436A70(const Fix16& input)
 {
     return Fix16(sqrt(input.AsDouble()));
 }

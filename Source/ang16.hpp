@@ -204,7 +204,7 @@ class Ang16
     EXPORT void SnapToAng4_405640();
     EXPORT Ang16* AssignNormalized_409300(const s16& value, s32 not_used);
     EXPORT Ang16 SubtractNormalized_409340(const Ang16& toSub);
-    EXPORT static Ang16 __stdcall Fix16_To_Ang16_482740(Fix16& value);
+    EXPORT static Ang16 __stdcall Fix16_To_Ang16_482740(const Fix16& value);
 
     // 10.5 0x409300 (AssignNormalized_409300) is the out-of-line copy of the normalizing constructor
     // Ang16(const s16&, s32) below (9.6f 0x401C60). VC6 calls it instead of inlining in functions that
@@ -247,7 +247,7 @@ class Ang16
     // Non-inlined version of above function
     EXPORT static void __stdcall PolarToCartesian_451730(Ang16& angle, Fix16& radius, Fix16& ret1, Fix16& ret2);
 
-    EXPORT static s32 __stdcall GetAngleFace_4F78F0(Ang16& angle);
+    EXPORT static s32 __stdcall GetAngleFace_4F78F0(const Ang16& angle);
 
     // inlined from 0x40f580 on v9.6f
     // I was tempted to put this on the Fix16 header, but that will create a circular dependency...

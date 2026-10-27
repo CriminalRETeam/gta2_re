@@ -345,7 +345,7 @@ class Fix16
         return Fix16(sqrt(input.AsDouble()));
     }
 
-    EXPORT static Fix16 __stdcall Max_44E540(Fix16& lhs, Fix16& rhs);
+    EXPORT static Fix16 __stdcall Max_44E540(const Fix16& lhs, const Fix16& rhs);
     // 9.6f 0x41E130, out-of-line copy Max_44E540. Small functions inline it (Ped_List::FindClosestActivePed_471340),
     // and as a site after the two Abs it sets their nested budget in MaxAbsDistance_42A6B0
     inline static Fix16 __stdcall Max_41E130(Fix16& a, Fix16& b)
@@ -359,8 +359,8 @@ class Fix16
             return b;
         }
     }
-    EXPORT static Fix16 __stdcall Abs_436A50(Fix16& input);
-    EXPORT static Fix16 __stdcall SquareRoot_436A70(Fix16& input) throw();
+    EXPORT static Fix16 __stdcall Abs_436A50(const Fix16& input);
+    EXPORT static Fix16 __stdcall SquareRoot_436A70(const Fix16& input) throw();
     // throw(): the original calls these out-of-line copies without an EH frame (their inline
     // bodies were visible there), see CarPhysics::UpdateReferencePoint_563460
     // Out-of-line copy of operator+ (0x408660)
