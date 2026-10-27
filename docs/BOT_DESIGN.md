@@ -472,6 +472,58 @@ the other 14 kill frenzies (rockets and cop kills in particular), the other maps
 and the run through the original `10.5.exe` (the `.rep` files are in `bot_out/regress/*/bot_run.rep`
 and play in the stock `decomp_main.exe`; the original exe was not tried).
 
+### Goal tree (added after phases 0 to 6)
+
+Phases 2 to 6 used a flat list of actions and one GOAP plan for tokens and frenzies. The mission
+work needed nesting, so a goal is now an `Action` that owns child actions (`Source/Bot/Goals.*`,
+`ChaseActions.*`). A node can be a leaf (walk) or a whole subtree, and each child starts under a
+snapshot of its own, so a child's retries rewind to its start and not to the start of the tree.
+
+```
+MissionsGoal              root: which phone next. Tier (green, amber, red), distance, what it has learned
+  MissionGoal             one phone
+    PrepareGoal           health, armour, a better weapon: GOAP over the pickups in reach, then select the gun
+    TravelGoal            on foot or by car, whichever the cost estimate says; takes a parked car, or a hijack
+                          when a car waits beside us; falls back to walking
+    PhoneAction           refusal = a brief but no mission within 200 frames
+    MissionAction         follows the arrow; makes children for each arrow
+      SequenceGoal(PrepareGoal, KillPedAction)         a ped arrow
+      DestroyCarGoal      shoot it or ram it, by cost; tries the other way if one fails
+        RamCarAction      aims where the target will be, hand brake round corners, stops when it stops or burns
+      SequenceGoal(DriveAction, ParkAction)            a place arrow in a car: park on the spot
+  raise_respect           when a phone refuses: PrepareGoal, then KillGangGoal (whom: the brief, or the game's kill table)
+```
+
+- **Costed alternatives.** `DestroyCarGoal` estimates frames for each way (walk to it and shoot, with
+  a penalty for a weak gun or a fast target; or reach a fast car and ram, cheaper when the target is
+  already damaged), picks the cheaper, and after a failure decides again with that way struck out.
+  Entering a car to ram is therefore only chosen when it beats shooting, and a car that is too
+  damaged (burning at 16000) ends the ram and sends the goal back to Decide, which picks another car.
+- **Failure is local.** A failed child restores its own snapshot and the parent picks something else
+  (`MissionsGoal` bans the phone for a while; `KillGangGoal` bans a ped or a zone). A refusal is not a
+  failure: the world is left as it is and the bot does what the brief says first.
+- **Respect.** The refusal brief names the gang to kill ("kill some Zaibatsu before you return for
+  work"); when it does not, the kill reaction table of the gangs (`Gang::field_122_gang_kill_reaction`)
+  says whose death raises the phone owner's respect. The owner is the gang whose map zone holds the phone.
+  The number of kills asked doubles after each completed attempt. Respect is compared as a vector:
+  one kill moves the victim's gang and its enemies in opposite directions, so the sum stays near zero.
+- **Cars.** `NavCar` is an A* over drivable tiles with lane arrows, one tile of clearance and the
+  walls of block faces (face flag 0x400). A target that cannot be driven to (a phone on the pavement
+  beside a wall) ends the route at the nearest tile the car can reach. A drive that gets stuck bans the
+  tiles ahead of the car and replans. `ParkAction` puts the car on an arrow to 0.3 tiles: a script
+  `LOCATE_CHAR_BY_CAR` is a small box round the arrow, which is what held the zoo mission.
+- **Reading the script.** `-bot_script_dump` writes every script command (index, name, raw words),
+  `-bot_miss_log` makes the game write `test\MISS_LOG.TXT` (which command each thread runs each
+  frame), and the stuck report lists the script threads with the next commands, and the peds near
+  the player with their objectives. A stalled mission can be read off these in a few minutes.
+
+Missions passed by the bot (`Scripts/bot/bot_runs/runs.json`, each replays identically in the
+stock game): phone 220 (the zoo: pick up a car, park on the arrow, honk, drive ZitZaki), phone 226
+(destroy the delivery truck: ram it with a fast car until it stops, then shoot it).
+
+Open: the bank guards (phone 221) stand in a walled pocket behind a traffic jam; wanted level and
+police; mission goals that need a respect level the bot cannot reach quickly; the other maps.
+
 ## Risks and open points
 
 - Headless D3D9 under xvfb+wine may not initialise; fall back to the `dma_video` path or stub the
