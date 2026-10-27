@@ -147,9 +147,9 @@
         "-bot_phone_id=226"
       ],
       "budget": 60000,
-      "expect": "FAIL",
+      "expect": "NONE",
       "replay": false,
-      "note": "tracked challenge: seeds 2 and 4 pass, seeds 1 and 3 fail (arrested after the bot is thrown out of a car, or a shot at the truck that does no damage)"
+      "note": "tracked challenge: seeds 2 and 4 pass, seeds 1 and 3 fail or run out of frames (restarts after being arrested or thrown out of a car)"
     },
     {
       "name": "train_ride",

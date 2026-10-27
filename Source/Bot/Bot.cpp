@@ -102,6 +102,7 @@ Bot::Bot(const BotOptions& opts)
     , mStartCash(0)
     , mLastHurtFrame(-1000)
     , mDefenseFrames(0)
+    , mCrushLogFrame(-1000)
     , mEvadeUntil(0)
     , mEvades(0)
     , mEvadeTx(0.0f)
@@ -1005,7 +1006,7 @@ void Bot::StepActions()
     {
         mInputBits = mCtx.input & input_bit::ControlBits;
     }
-    if (strcmp(pAction->Name(), "kill_frenzy") != 0 && Evade())
+    if (strcmp(pAction->Name(), "kill_frenzy") != 0 && (CopCrush() || Evade()))
     {
         mInputBits = mCtx.input & input_bit::ControlBits;
     }
@@ -1220,10 +1221,10 @@ bool Bot::SelfDefense()
     for (int i = 0; i < mWorld->ped_count; i++)
     {
         const WorldModel::PedInfo& p = mWorld->peds[i];
-        if (!p.cop && !p.dead && !p.in_car && p.dist < 3.6f)
+        // a cop that is beating the player is fought like anyone else (punched or shot); the nearest one first
+        if (!p.dead && !p.in_car && p.dist < 3.6f && (!p.cop || pl.wanted_stars > 0) && (!target || p.dist < target->dist))
         {
             target = &p;
-            break;
         }
     }
     if (!target)
@@ -1303,6 +1304,56 @@ bool Bot::Evade()
     if (mEvadeUntil - mFrame > 10)
     {
         mCtx.input |= input_bit::HandbrakeJump;
+    }
+    return true;
+}
+
+// A reflex over every action: in a car with the police on foot beside it (they are there to pull the player out),
+// run them down. In front: drive at them. Behind: back into them. Beside: reverse with the handbrake on to swing
+// the tail round onto them.
+bool Bot::CopCrush()
+{
+    const WorldModel::PlayerInfo& pl = mWorld->player;
+    if (!pl.in_car || pl.dead || pl.wanted_stars == 0)
+    {
+        return false;
+    }
+    const WorldModel::PedInfo* cop = NULL;
+    for (int i = 0; i < mWorld->ped_count; i++)
+    {
+        const WorldModel::PedInfo& p = mWorld->peds[i];
+        if (p.cop && !p.dead && !p.in_car && p.dist < 3.2f && (!cop || p.dist < cop->dist))
+        {
+            cop = &p;
+        }
+    }
+    if (!cop)
+    {
+        return false;
+    }
+    mCtx.input = 0;
+    const float err = mCtx.Steer(mCtx.car, pl.rot_deg, pl.x, pl.y, cop->x, cop->y, false);
+    const float a = fabsf(err);
+    const char* how;
+    if (a < 60.0f)
+    {
+        mCtx.input |= input_bit::Forward;
+        how = "driving at";
+    }
+    else if (a > 120.0f)
+    {
+        mCtx.input |= input_bit::Backward;
+        how = "backing into";
+    }
+    else
+    {
+        mCtx.input |= input_bit::Backward | input_bit::HandbrakeJump;
+        how = "swinging the tail onto";
+    }
+    if (mFrame - mCrushLogFrame > 60)
+    {
+        mCrushLogFrame = mFrame;
+        BotDecision("f=%d crush: cop #%d on foot %.1f tiles away (%.0f deg): %s him", mFrame, cop->id, cop->dist, err, how);
     }
     return true;
 }

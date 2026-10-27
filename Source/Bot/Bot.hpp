@@ -98,6 +98,8 @@ class Bot : public BotObject
     void CollectNext();
     bool SelfDefense();
     bool Evade();
+    bool CopCrush();
+    s32 mCrushLogFrame;
     s32 mEvadeUntil;
     s32 mEvades;
     float mEvadeTx, mEvadeTy;
