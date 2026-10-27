@@ -5,6 +5,7 @@
 
 #include "map_0x370.hpp"
 #include "PathFinder.hpp"
+#include "BotCompat.hpp"
 
 // PathFinder.cpp, no header declaration
 EXTERN_GLOBAL(u8, gPathFinder_SlopeZDelta_6FDEEC);

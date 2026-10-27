@@ -6,6 +6,7 @@
 #include <string.h>
 #include "3rdParty/Detours/include/detours.h"
 #include "InputRecorder_67F8B0.hpp"
+#include "BotCompat.hpp"
 
 // Defined in winmain.cpp without a header declaration
 void __stdcall ParseCommandLine_4DA320(char_type* pCommandLine);

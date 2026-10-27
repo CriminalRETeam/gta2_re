@@ -32,6 +32,11 @@ class WorldModel : public BotObject
         s32 weapon;
         s32 ammo;
         s32 car_id; // 0 when not in a car
+        s32 reload;
+        s32 shot_fired;
+        bool attack_pressed;
+        bool ped_attacking;
+        s32 ped_state;
     };
 
     struct ArrowInfo
@@ -50,11 +55,32 @@ class WorldModel : public BotObject
         s32 occupation;
         s32 objective;
         s32 hp;
-        float x, y;
+        float x, y, z;
         float dist;
         bool cop;
         bool in_car;
         bool dead;
+        s32 gang_idx;
+        s32 remap;
+        s32 state1;   // ped_state_1
+        s32 state2;
+        bool matches_bonus; // counts for the active bonus rule (kill frenzy)
+    };
+
+    // The first active bonus rule of the player: what a kill frenzy asks for
+    struct BonusInfo
+    {
+        bool active;
+        s32 event_type; // 0 ped killed, 1 car destroyed, 2 car hijacked
+        s32 occupation;
+        s32 gang_idx;
+        s32 remap;
+        s32 death_cause;
+        s32 car_model;
+        bool zone_limited;
+        s32 target;
+        s32 progress;
+        bool cancel_on_mismatch;
     };
 
     struct CarInfo
@@ -71,6 +97,18 @@ class WorldModel : public BotObject
         bool police;
     };
 
+    struct ObjInfo
+    {
+        s32 id;
+        s32 model;
+        float x, y, z;
+    };
+
+    enum
+    {
+        kMaxObjs = 64
+    };
+
     WorldModel();
 
     void Observe();
@@ -78,6 +116,15 @@ class WorldModel : public BotObject
     // Text map of the blocks around (cx, cy): R road, P pavement, F field, B building / high ground,
     // ' ' nothing; arrows ^v<> where a green road arrow points; c a car, @ the player
     void DumpMap(const char* path, float cx, float cy, int radius) const;
+
+    // Every world object in the pool: id model x y z behaviour pickup
+    void DumpObjects(const char* path) const;
+
+    // True when the tile at (x, y) is a building / high ground
+    static bool BuildingAt(float x, float y);
+
+    // Scans the whole object pool
+    bool FindObject(s32 object_id, ObjInfo* out) const;
 
     // Scans the whole car pool (not only the nearest few kept in cars[])
     bool FindCar(s32 car_id, CarInfo* out) const;
@@ -104,6 +151,22 @@ class WorldModel : public BotObject
     s32 respect[kMaxGangs];
     char gang_names[kMaxGangs][5];
     s32 gang_count;
+    // Interesting world objects, nearest first within each kind
+    s32 token_count;       // secret tokens still in the world
+    s32 tokens_listed;     // how many of the nearest are in tokens[]
+    ObjInfo tokens[kMaxObjs];
+    s32 frenzy_count;
+    ObjInfo frenzies[kMaxObjs];
+    s32 phone_count;
+    ObjInfo phones[kMaxObjs];
+    bool kill_frenzy_active;
+    BonusInfo bonus;
+    s32 secrets_passed;  // kill frenzies passed so far (the script's counter)
+    s32 secrets_failed;
+    s32 match_count;     // the nearest peds that match the bonus rule
+    PedInfo match_peds[kMaxPeds];
+    s32 pager_timer[4];   // HUD timers (frames, -1 off)
+    s32 pager_value[4];   // HUD counter values, -1 none
     bool exit_pending;
     s32 exit_type;
     s32 finish_score;

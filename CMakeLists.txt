@@ -297,6 +297,7 @@ target_compile_definitions(HookLoader PRIVATE DETOURS_X86 DETOURS_32BIT IMGUI_DL
 # The bot (docs/BOT_DESIGN.md): non original code in its own library, linked into decomp_main only.
 # It reaches the game through globals, EXPORT methods and Detours; no MATCH_FUNC changes.
 set(gta2_bot_src
+  Source/Bot/BotCompat.hpp
   Source/Bot/Bot.hpp
   Source/Bot/Bot.cpp
   Source/Bot/BotHeap.hpp
@@ -319,6 +320,10 @@ set(gta2_bot_src
   Source/Bot/WalkAction.cpp
   Source/Bot/CarActions.hpp
   Source/Bot/CarActions.cpp
+  Source/Bot/Goap.hpp
+  Source/Bot/Goap.cpp
+  Source/Bot/CollectActions.hpp
+  Source/Bot/CollectActions.cpp
   Source/Bot/NavCar.hpp
   Source/Bot/NavCar.cpp
   Source/Bot/Snapshot.cpp

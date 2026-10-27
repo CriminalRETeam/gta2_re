@@ -7,6 +7,7 @@
 #include "input_bits.hpp"
 #include <math.h>
 #include <stdio.h>
+#include "BotCompat.hpp"
 
 WalkAction::WalkAction(float x, float y, bool follow_arrow, float stop_dist)
     : mTx(x)

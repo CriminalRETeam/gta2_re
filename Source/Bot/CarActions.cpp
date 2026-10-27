@@ -8,6 +8,7 @@
 #include "input_bits.hpp"
 #include <math.h>
 #include <stdio.h>
+#include "BotCompat.hpp"
 
 // ---------------------------------------------------------------------------------------------
 EnterCarAction::EnterCarAction(s32 car_id)

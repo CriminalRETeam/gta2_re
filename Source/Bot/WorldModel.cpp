@@ -17,6 +17,12 @@
 #include "rng.hpp"
 #include "enums.hpp"
 #include "Weapon.hpp"
+#include "BonusTracker.hpp"
+#include "PlayerScoreTracker.hpp"
+#include "ObjectPool.hpp"
+#include "Object_5C.hpp"
+#include "ObjectDefinitions.hpp"
+#include "BotCompat.hpp"
 
 static float F(const Fix16& v)
 {
@@ -40,6 +46,11 @@ WorldModel::WorldModel()
     peds_total = cops_total = cars_total = ped_count = car_count = gang_count = 0;
     exit_pending = false;
     exit_type = 0;
+    token_count = frenzy_count = phone_count = tokens_listed = 0;
+    kill_frenzy_active = false;
+    memset(&bonus, 0, sizeof(bonus));
+    secrets_passed = secrets_failed = match_count = 0;
+    memset(match_peds, 0, sizeof(match_peds));
     finish_score = 0;
     arrow.ped_id = -1;
     arrow.car_idx = -1;
@@ -69,6 +80,36 @@ const char* WorldModel_OccupationName(s32 o)
         case 42: return "gang_driver";
         default: return "other";
     }
+}
+
+static void InsertObj(WorldModel::ObjInfo* arr, s32* count, const WorldModel::ObjInfo& info, float px, float py)
+{
+    const float dist2 = (info.x - px) * (info.x - px) + (info.y - py) * (info.y - py);
+    s32 pos = *count;
+    if (pos == WorldModel::kMaxObjs)
+    {
+        const WorldModel::ObjInfo& last = arr[pos - 1];
+        if (dist2 >= (last.x - px) * (last.x - px) + (last.y - py) * (last.y - py))
+        {
+            return;
+        }
+        pos--;
+    }
+    else
+    {
+        (*count)++;
+    }
+    while (pos > 0)
+    {
+        const WorldModel::ObjInfo& prev = arr[pos - 1];
+        if ((prev.x - px) * (prev.x - px) + (prev.y - py) * (prev.y - py) <= dist2)
+        {
+            break;
+        }
+        arr[pos] = arr[pos - 1];
+        pos--;
+    }
+    arr[pos] = info;
 }
 
 static void InsertPed(WorldModel* w, const WorldModel::PedInfo& info)
@@ -123,10 +164,12 @@ void WorldModel::Observe()
     memset(&arrow, 0, sizeof(arrow));
     arrow.ped_id = -1;
     arrow.car_idx = -1;
-    ped_count = car_count = 0;
+    ped_count = car_count = match_count = 0;
+    memset(&bonus, 0, sizeof(bonus));
     peds_total = cops_total = cars_total = 0;
     brief_key[0] = 0;
     phones_ringing = 0;
+    token_count = frenzy_count = phone_count = tokens_listed = 0;
     rng = gpRng_67AB34->get_cur_rng_41CFE0();
 
     int i;
@@ -154,11 +197,16 @@ void WorldModel::Observe()
         player.in_car = me->field_16C_car != NULL;
         player.car_id = me->field_16C_car ? me->field_16C_car->field_6C_car_id : 0;
         player.dead = pPlayer->field_28_wasted_or_busted != 0;
+        player.attack_pressed = pPlayer->field_7C_now_attack_pressed;
+        player.ped_attacking = me->field_21C_bf.bAttacking != 0;
+        player.ped_state = me->field_278_ped_state_1;
         Weapon* pWeapon = pPlayer->GetCurrPlayerWeapon_5648F0();
         if (pWeapon)
         {
             player.weapon = pWeapon->field_1C_idx;
             player.ammo = pWeapon->field_0_ammo;
+            player.reload = pWeapon->field_2_reload_timer;
+            player.shot_fired = pWeapon->field_2C_shot_fired;
         }
     }
 
@@ -169,6 +217,9 @@ void WorldModel::Observe()
         on_mission = pScript->field_344_mission_flag && *pScript->field_344_mission_flag == 1;
         missions_passed = pScript->field_328_passed_flag ? *pScript->field_328_passed_flag : 0;
         finish_score = pScript->field_310_finish_score;
+        kill_frenzy_active = pScript->field_C1E2D_bKillFrenzyActive != 0;
+        secrets_passed = pScript->field_338_secrets_passed ? *pScript->field_338_secrets_passed : 0;
+        secrets_failed = pScript->field_33C_secrets_failed ? *pScript->field_33C_secrets_failed : 0;
         for (i = 0; i < pScript->field_184_phone_trigger_count && i < 20; i++)
         {
             if (pScript->field_188_phone_triggers[i].field_8_cmd_line != 0)
@@ -179,8 +230,19 @@ void WorldModel::Observe()
     }
 
     // Brief
+    for (i = 0; i < 4; i++)
+    {
+        pager_timer[i] = -1;
+        pager_value[i] = -1;
+    }
     if (gHud_2B00_706620)
     {
+        for (i = 0; i < 4; i++)
+        {
+            Hud_Pager& pg = gHud_2B00_706620->field_620_pagers.field_0_pagers_array[i];
+            pager_timer[i] = pg.field_0_timer;
+            pager_value[i] = pg.field_4_ptr_counter ? *pg.field_4_ptr_counter : -1;
+        }
         Hud_BriefEntry* pBrief = gHud_2B00_706620->field_DC_brief.field_6F8_curr_briefs;
         if (pBrief)
         {
@@ -224,6 +286,36 @@ void WorldModel::Observe()
         }
     }
 
+    // Objects: full scan of the pool, the active list leaves out pickups
+    for (i = 0; i < 3825; i++)
+    {
+        Object* o = &gObject_2C_Pool_6F8F80->field_8_pool[i];
+        if (!o->field_4_sprite || !o->field_18_model)
+        {
+            continue;
+        }
+        const s32 model = o->field_18_model;
+        ObjInfo info;
+        info.id = o->field_14_id;
+        info.model = model;
+        info.x = F(o->field_4_sprite->field_14_xy.x);
+        info.y = F(o->field_4_sprite->field_14_xy.y);
+        info.z = F(o->field_4_sprite->field_1C_zpos);
+        if (model == 266)
+        {
+            token_count++;
+            InsertObj(tokens, &tokens_listed, info, player.x, player.y);
+        }
+        else if (model == 286)
+        {
+            InsertObj(frenzies, &frenzy_count, info, player.x, player.y);
+        }
+        else if (model >= 176 && model <= 181)
+        {
+            InsertObj(phones, &phone_count, info, player.x, player.y);
+        }
+    }
+
     // Gangs: read the array directly, FirstGang/NextGang share a cursor with the game
     gang_count = 0;
     if (gGangPool_CA8_67E274 && pPlayer)
@@ -239,6 +331,31 @@ void WorldModel::Observe()
             memcpy(gang_names[gang_count], g->field_2_name, 4);
             gang_names[gang_count][4] = 0;
             gang_count++;
+        }
+    }
+
+    // The active bonus rule
+    BonusTracker* pTracker = pPlayer ? &pPlayer->field_2D4_scores.field_1A8_bonuses : NULL;
+    if (pTracker)
+    {
+        for (i = 0; i < BonusTracker::k_max_rules; i++)
+        {
+            BonusRule& r = pTracker->field_0_bonuses[i];
+            if (r.field_2A_bUsed && r.field_2B_bActive)
+            {
+                bonus.active = true;
+                bonus.event_type = r.field_4_event_type;
+                bonus.occupation = r.field_C_occupation;
+                bonus.gang_idx = r.field_10_gang_idx;
+                bonus.remap = r.field_12_remap;
+                bonus.death_cause = r.field_14_death_cause;
+                bonus.car_model = r.field_8_car_model;
+                bonus.zone_limited = r.field_0_pZone != NULL;
+                bonus.target = r.field_25_target_count;
+                bonus.progress = r.field_26_progress_count;
+                bonus.cancel_on_mismatch = r.field_24_check_mode == 1;
+                break;
+            }
         }
     }
 
@@ -258,9 +375,22 @@ void WorldModel::Observe()
         info.hp = p->field_216_health;
         info.x = F(p->field_1AC_cam.x);
         info.y = F(p->field_1AC_cam.y);
+        info.z = F(p->field_1AC_cam.z);
         info.cop = p->IsLawEnforcement_45B4E0();
         info.in_car = p->field_16C_car != NULL;
         info.dead = p->field_278_ped_state_1 == 9;
+        info.remap = p->field_244_remap;
+        info.state1 = p->field_278_ped_state_1;
+        info.state2 = p->field_27C_ped_state_2;
+        info.gang_idx = p->field_17C_pGang ? p->field_17C_pGang->field_1_gang_idx : (p->field_19C_dummy_gang ? p->field_19C_dummy_gang->field_1_gang_idx : -1);
+        info.matches_bonus = false;
+        if (bonus.active && bonus.event_type == 0 && pTracker)
+        {
+            const bool occ_ok = bonus.occupation == info.occupation || bonus.occupation == 51 || pTracker->IsOccupationInGroup_432240(info.occupation, bonus.occupation);
+            const bool gang_ok = bonus.gang_idx == -1 || bonus.gang_idx == info.gang_idx;
+            const bool remap_ok = bonus.remap == -2 || bonus.remap == info.remap;
+            info.matches_bonus = occ_ok && gang_ok && remap_ok;
+        }
         if (info.cop && !info.dead)
         {
             cops_total++;
@@ -271,6 +401,27 @@ void WorldModel::Observe()
         if (!info.dead)
         {
             InsertPed(this, info);
+            if (info.matches_bonus)
+            {
+                int pos = match_count;
+                if (pos == kMaxPeds)
+                {
+                    pos = info.dist < match_peds[pos - 1].dist ? pos - 1 : -1;
+                }
+                else
+                {
+                    match_count++;
+                }
+                if (pos >= 0)
+                {
+                    while (pos > 0 && match_peds[pos - 1].dist > info.dist)
+                    {
+                        match_peds[pos] = match_peds[pos - 1];
+                        pos--;
+                    }
+                    match_peds[pos] = info;
+                }
+            }
         }
     }
 
@@ -418,6 +569,58 @@ void WorldModel::DumpMap(const char* path, float cx, float cy, int radius) const
     fclose(f);
 }
 
+void WorldModel::DumpObjects(const char* path) const
+{
+    FILE* f = fopen(path, "w");
+    if (!f)
+    {
+        return;
+    }
+    fprintf(f, "# id model x y z pool_state behaviour\n");
+    for (int i = 0; i < 3825; i++)
+    {
+        Object* o = &gObject_2C_Pool_6F8F80->field_8_pool[i];
+        if (!o->field_4_sprite || !o->field_18_model)
+        {
+            continue;
+        }
+        fprintf(f, "%d %d %.1f %.1f %.1f %d %d\n", o->field_14_id, o->field_18_model, F(o->field_4_sprite->field_14_xy.x), F(o->field_4_sprite->field_14_xy.y),
+                F(o->field_4_sprite->field_1C_zpos), o->field_20_pool_list_state, o->field_8_definition ? o->field_8_definition->field_34_behavior_type : -1);
+    }
+    fclose(f);
+}
+
+bool WorldModel::BuildingAt(float x, float y)
+{
+    const int ix = static_cast<int>(x);
+    const int iy = static_cast<int>(y);
+    if (ix < 1 || ix > 254 || iy < 1 || iy > 254)
+    {
+        return true;
+    }
+    s32 z = 0;
+    gmp_block_info* b = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(ix, iy, &z);
+    return b != NULL && z >= 3;
+}
+
+bool WorldModel::FindObject(s32 object_id, ObjInfo* out) const
+{
+    for (int i = 0; i < 3825; i++)
+    {
+        Object* o = &gObject_2C_Pool_6F8F80->field_8_pool[i];
+        if (o->field_4_sprite && o->field_18_model && o->field_14_id == object_id)
+        {
+            out->id = object_id;
+            out->model = o->field_18_model;
+            out->x = F(o->field_4_sprite->field_14_xy.x);
+            out->y = F(o->field_4_sprite->field_14_xy.y);
+            out->z = F(o->field_4_sprite->field_1C_zpos);
+            return true;
+        }
+    }
+    return false;
+}
+
 bool WorldModel::FindCar(s32 car_id, CarInfo* out) const
 {
     for (int i = 0; i < 306; i++)
@@ -496,7 +699,12 @@ Append(&buf, "bot f=%d rng=%d %s\n", frame, rng, header ? header : "");
     {
         Append(&buf, "arrow none\n");
     }
-    Append(&buf, "peds %d (cops %d) cars %d\n", peds_total, cops_total, cars_total);
+    if (bonus.active)
+    {
+        Append(&buf, "bonus rule: event %d occupation %d gang %d remap %d death_cause %d car %d zone %d progress %d/%d cancel_on_mismatch %d; matching peds %d; frenzies passed %d failed %d\n", bonus.event_type, bonus.occupation, bonus.gang_idx, bonus.remap, bonus.death_cause, bonus.car_model, bonus.zone_limited, bonus.progress, bonus.target, bonus.cancel_on_mismatch, match_count, secrets_passed, secrets_failed);
+    }
+    Append(&buf, "pagers t=%d,%d,%d,%d v=%d,%d,%d,%d\n", pager_timer[0], pager_timer[1], pager_timer[2], pager_timer[3], pager_value[0], pager_value[1], pager_value[2], pager_value[3]);
+    Append(&buf, "peds %d (cops %d) cars %d; tokens left %d, frenzy icons %d, phones %d, frenzy active %d\n", peds_total, cops_total, cars_total, token_count, frenzy_count, phone_count, kill_frenzy_active);
     for (i = 0; i < ped_count && i < 5; i++)
     {
         const PedInfo& d = peds[i];

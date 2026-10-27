@@ -59,6 +59,7 @@ class Bot : public BotObject
         Profile_Replay,
         Profile_WalkArrow,
         Profile_DriveTest,
+        Profile_Collect,
     };
 
     enum RestoreCheckState
@@ -88,6 +89,9 @@ class Bot : public BotObject
     void StepActions();
     void BuildActions();
     void StartAction(int idx);
+    void ClearActions();
+    void CollectNext();
+    void OnCollectFailure(Action* pAction);
     void StuckReport(const char* condition, const char* detail);
 
     static void DiffToFileCb(void* ctx, u8* addr, u32 size, const u8* old_bytes, const u8* new_bytes);
@@ -119,7 +123,24 @@ class Bot : public BotObject
     Action* mActions[kMaxActions];
     int mActionCount;
     int mActionIdx;
+    // collect profile
+    enum
+    {
+        kMaxBanned = 64
+    };
+    s32 mCollectTokens0;
+    bool mCollectInit;
+    s32 mFrenzyDone;
+    s32 mCollectFailures;
+    s32 mCurrentEntity;
+    s32 mCurrentKind;
+    s32 mBanned[kMaxBanned];
+    s32 mBannedCount;
+    s32 mStartCash;
+    s32 mPrevHp;
+    s32 mDamageLogs;
     bool mMapDumped;
+    bool mObjectsDumped;
 
     // restore_check
     RestoreCheckState mRcState;

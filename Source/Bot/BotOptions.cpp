@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include "BotCompat.hpp"
 
 static void CopyStr(char* dst, u32 dst_size, const char* src, u32 len)
 {
@@ -27,6 +28,9 @@ static void SetDefaults(BotOptions* o)
     o->check_frames = 300;
     o->walk_frames = 100;
     o->save_at_frame = -1;
+    o->want_tokens = 3;
+    o->want_frenzies = 2;
+    o->want_missions = 0;
 }
 
 bool BotOptions_Parse(const char* cmd_line, BotOptions* o)
@@ -153,6 +157,33 @@ bool BotOptions_Parse(const char* cmd_line, BotOptions* o)
         else if (_strnicmp(key, "_map_dump", key_len) == 0 && key_len == 9)
         {
             o->has_map_dump = sscanf(value, "%f,%f", &o->map_dump_x, &o->map_dump_y) == 2;
+        }
+        else if (_strnicmp(key, "_frenzy_id", key_len) == 0 && key_len == 10)
+        {
+            if (o->only_frenzy_count < 4)
+            {
+                o->only_frenzy_ids[o->only_frenzy_count++] = atoi(value);
+            }
+        }
+        else if (_strnicmp(key, "_fire_mode", key_len) == 0 && key_len == 10)
+        {
+            o->fire_mode = atoi(value);
+        }
+        else if (_strnicmp(key, "_tokens", key_len) == 0 && key_len == 7)
+        {
+            o->want_tokens = atoi(value);
+        }
+        else if (_strnicmp(key, "_frenzies", key_len) == 0 && key_len == 9)
+        {
+            o->want_frenzies = atoi(value);
+        }
+        else if (_strnicmp(key, "_missions", key_len) == 0 && key_len == 9)
+        {
+            o->want_missions = atoi(value);
+        }
+        else if (_strnicmp(key, "_objects_dump", key_len) == 0 && key_len == 13)
+        {
+            o->objects_dump = true;
         }
         else if (_strnicmp(key, "_goto", key_len) == 0 && key_len == 5)
         {

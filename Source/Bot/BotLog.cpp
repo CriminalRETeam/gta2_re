@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
+#include "BotCompat.hpp"
 
 static HANDLE gLogFile = INVALID_HANDLE_VALUE;
 

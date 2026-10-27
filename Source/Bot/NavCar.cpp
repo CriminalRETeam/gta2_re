@@ -4,6 +4,7 @@
 #include <stdio.h>
 
 #include "map_0x370.hpp"
+#include "BotCompat.hpp"
 
 namespace
 {

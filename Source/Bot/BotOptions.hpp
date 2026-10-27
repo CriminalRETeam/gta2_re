@@ -23,6 +23,9 @@
 //                         the CRT's start up allocations, and so the heap layout, are the same
 //   -bot_goto=x,y         walk_arrow: target when the HUD arrow shows nothing (tiles)
 //   -bot_map_dump=x,y     text map of the blocks around x,y (road, pavement, buildings, arrows, cars) at the first frame
+//   -bot_objects_dump     list every world object (model, position) to bot_objects.txt at the first frame
+//   -bot_tokens=N -bot_frenzies=N -bot_missions=N   collect profile goals (defaults 3, 2, 0)
+//   -bot_frenzy_id=N      collect: only this kill frenzy icon (object id from bot_objects.txt), up to 4 times
 //   -bot_perturb          restore_check: change the player's health after the restore, so the
 //                         check must FAIL and name the ped pool block (verifier sanity check)
 struct BotOptions
@@ -47,6 +50,13 @@ struct BotOptions
     s32 save_at_frame; // -1 = never
     bool has_map_dump;
     float map_dump_x, map_dump_y;
+    s32 only_frenzy_ids[4]; // collect: use only these kill frenzy icons (object ids), none = any
+    s32 only_frenzy_count;
+    s32 fire_mode;      // 0 pulse 6/2, 1 hold, 2 pulse 2/2, 3 pulse 1/1
+    s32 want_tokens;
+    s32 want_frenzies;
+    s32 want_missions;
+    bool objects_dump;
     bool has_goto;
     float goto_x, goto_y;
 };

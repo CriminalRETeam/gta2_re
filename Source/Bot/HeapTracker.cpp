@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "3rdParty/Detours/include/detours.h"
+#include "BotCompat.hpp"
 
 namespace
 {

@@ -1,5 +1,6 @@
 #include "BotHeap.hpp"
 #include <windows.h>
+#include "BotCompat.hpp"
 
 static HANDLE gBotHeap = NULL;
 

@@ -8,6 +8,8 @@
 #include "BotAction.hpp"
 #include "WalkAction.hpp"
 #include "CarActions.hpp"
+#include "CollectActions.hpp"
+#include "Goap.hpp"
 #include <math.h>
 #include <windows.h>
 #include <stdio.h>
@@ -24,6 +26,7 @@
 #include "input_bits.hpp"
 #include "FpsCounter.hpp"
 #include "InputRecorder_67F8B0.hpp"
+#include "BotCompat.hpp"
 
 // winmain.cpp globals without a header declaration
 EXTERN_GLOBAL(bool, bDoFrontEnd_626B68);
@@ -83,7 +86,18 @@ Bot::Bot(const BotOptions& opts)
     , mActionSnap(NULL)
     , mActionCount(0)
     , mActionIdx(-1)
+    , mCollectTokens0(0)
+    , mCollectInit(false)
+    , mFrenzyDone(0)
+    , mCollectFailures(0)
+    , mCurrentEntity(0)
+    , mCurrentKind(0)
+    , mBannedCount(0)
+    , mStartCash(0)
+    , mPrevHp(100)
+    , mDamageLogs(0)
     , mMapDumped(false)
+    , mObjectsDumped(false)
     , mRcState(RC_Warmup)
     , mRcCounter(0)
     , mRcSnapA(NULL)
@@ -102,6 +116,10 @@ Bot::Bot(const BotOptions& opts)
     else if (_stricmp(opts.profile, "walk_arrow") == 0)
     {
         mProfile = Profile_WalkArrow;
+    }
+    else if (_stricmp(opts.profile, "collect") == 0)
+    {
+        mProfile = Profile_Collect;
     }
     else if (_stricmp(opts.profile, "drive_test") == 0)
     {
@@ -425,6 +443,7 @@ void Bot::OnFrame()
                 break;
             case Profile_WalkArrow:
             case Profile_DriveTest:
+            case Profile_Collect:
                 StepActions();
                 break;
             default:
@@ -688,6 +707,10 @@ void Bot::BuildActions()
         mActions[mActionCount++] = new WalkAction(mOpts.goto_x, mOpts.goto_y, true, 1.5f);
         return;
     }
+    if (mProfile == Profile_Collect)
+    {
+        return; // CollectNext plans
+    }
 
     // drive_test: nearest parked, unlocked car on foot reach, drive it to -bot_goto, get out
     const WorldModel::PlayerInfo& pl = mWorld->player;
@@ -749,6 +772,14 @@ void Bot::StepActions()
         {
             return;
         }
+        if (mProfile == Profile_Collect)
+        {
+            mCollectTokens0 = mWorld->token_count;
+            mStartCash = mWorld->player.cash;
+            BotDecision("f=%d collect: goal %d tokens (of %d in the world), %d kill frenzies", mFrame, mOpts.want_tokens, mCollectTokens0, mOpts.want_frenzies);
+            CollectNext();
+            return;
+        }
         if (mActionCount == 0)
         {
             StuckReport("no_plan", "no actions");
@@ -758,6 +789,13 @@ void Bot::StepActions()
         StartAction(0);
     }
 
+    if (mOpts.objects_dump && !mObjectsDumped)
+    {
+        mObjectsDumped = true;
+        char path[MAX_PATH];
+        BotPath_Join(path, sizeof(path), mOpts.out_dir, "bot_objects.txt");
+        mWorld->DumpObjects(path);
+    }
     if (mOpts.has_map_dump && !mMapDumped)
     {
         mMapDumped = true;
@@ -766,15 +804,50 @@ void Bot::StepActions()
         mWorld->DumpMap(path, mOpts.map_dump_x, mOpts.map_dump_y, 24);
     }
 
+    // Damage log: who is around when health drops
+    if (mWorld->player.hp < mPrevHp - 3 && mDamageLogs < 60)
+    {
+        mDamageLogs++;
+        char line[400];
+        char* p = line;
+        p += _snprintf(p, sizeof(line), "f=%d hp %d -> %d, wanted %d at (%.1f,%.1f); near:", mFrame, mPrevHp, mWorld->player.hp, mWorld->player.wanted_stars, mWorld->player.x, mWorld->player.y);
+        int k;
+        for (k = 0; k < mWorld->ped_count && k < 3; k++)
+        {
+            const WorldModel::PedInfo& d = mWorld->peds[k];
+            p += _snprintf(p, line + sizeof(line) - p, " ped#%d %s d=%.1f obj=%d", d.id, WorldModel_OccupationName(d.occupation), d.dist, d.objective);
+        }
+        for (k = 0; k < mWorld->car_count && k < 2; k++)
+        {
+            const WorldModel::CarInfo& d = mWorld->cars[k];
+            p += _snprintf(p, line + sizeof(line) - p, " car#%d model %d d=%.1f dmg=%d drv=%d", d.idx, d.model, d.dist, d.damage, d.has_driver);
+        }
+        BotDecision("%s", line);
+    }
+    mPrevHp = mWorld->player.hp;
+
+    // Dead (wasted or busted): the game respawns the player after a countdown, nothing to do
+    // meanwhile, except for actions that handle it themselves (a frenzy retries from a snapshot)
+    if (mWorld->player.dead && mActions[mActionIdx] && strcmp(mActions[mActionIdx]->Name(), "kill_frenzy") != 0)
+    {
+        mInputBits = 0;
+        return;
+    }
+
     mCtx.input = 0;
     Action* pAction = mActions[mActionIdx];
     const Action::Status status = pAction->Step(mCtx);
     mInputBits = mCtx.input & input_bit::ControlBits;
-    if ((mFrame - mCtx.action_start_frame) % 10 == 0)
+    if ((mFrame - mCtx.action_start_frame) % 5 == 0)
     {
-        mTrace.Printf("act f=%d %s pos=%.2f,%.2f rot=%.0f in=%x incar=%d\n", mFrame, pAction->Name(), mWorld->player.x, mWorld->player.y, mWorld->player.rot_deg, mInputBits, mWorld->player.in_car);
+        mTrace.Printf("act f=%d %s pos=%.2f,%.2f rot=%.0f in=%x incar=%d hp=%d wanted=%d cops=%d weapon=%d/%d\n", mFrame, pAction->Name(), mWorld->player.x, mWorld->player.y, mWorld->player.rot_deg, mInputBits, mWorld->player.in_car, mWorld->player.hp, mWorld->player.wanted_stars, mWorld->cops_total, mWorld->player.weapon, mWorld->player.ammo);
     }
 
+    if (status == Action::Failed && mProfile == Profile_Collect)
+    {
+        OnCollectFailure(pAction);
+        return;
+    }
     if (status == Action::Failed)
     {
         StuckReport(pAction->fail_condition, pAction->fail_detail);
@@ -789,6 +862,16 @@ void Bot::StepActions()
             StartAction(mActionIdx + 1);
             return;
         }
+        if (mProfile == Profile_Collect)
+        {
+            if (mCurrentKind == 1)
+            {
+                mFrenzyDone++;
+            }
+            mInputBits = 0;
+            CollectNext();
+            return;
+        }
         char detail[200];
         _snprintf(detail, sizeof(detail), "%d action(s) done in %d frames", mActionCount, mFrame);
         WriteReport("PASS", detail);
@@ -797,4 +880,153 @@ void Bot::StepActions()
         mActionIdx = mActionCount; // keep the exit state
         mActionIdx = mActionCount - 1;
     }
+}
+
+// ---------------------------------------------------------------------------------------------
+// collect: tokens and kill frenzies, planned with GOAP and replanned after every action
+
+void Bot::ClearActions()
+{
+    for (int i = 0; i < mActionCount; i++)
+    {
+        delete mActions[i];
+        mActions[i] = NULL;
+    }
+    mActionCount = 0;
+    mActionIdx = -1;
+}
+
+void Bot::OnCollectFailure(Action* pAction)
+{
+    mCollectFailures++;
+    BotDecision("f=%d collect: %s failed (%s): %s; entity %d banned", mFrame, pAction->Name(), pAction->fail_condition, pAction->fail_detail, mCurrentEntity);
+    if (mBannedCount < kMaxBanned)
+    {
+        mBanned[mBannedCount++] = mCurrentEntity;
+    }
+    mInputBits = 0;
+    if (mCollectFailures > 8)
+    {
+        StuckReport(pAction->fail_condition, pAction->fail_detail);
+        RequestExit("too many failures");
+        return;
+    }
+    CollectNext();
+}
+
+void Bot::CollectNext()
+{
+    ClearActions();
+    const WorldModel::PlayerInfo& pl = mWorld->player;
+    const s32 tokens_got = mCollectTokens0 - mWorld->token_count;
+    s32 need_t = mOpts.want_tokens - tokens_got;
+    s32 need_f = mOpts.want_frenzies - mFrenzyDone;
+    if (need_t < 0)
+    {
+        need_t = 0;
+    }
+    if (need_f < 0)
+    {
+        need_f = 0;
+    }
+    if (need_t == 0 && need_f == 0)
+    {
+        char detail[240];
+        _snprintf(detail, sizeof(detail), "collected %d secret tokens and %d kill frenzies in %d frames; cash %d -> %d; %d failures", tokens_got, mFrenzyDone, mFrame, mStartCash, pl.cash, mCollectFailures);
+        WriteReport("PASS", detail);
+        LogPlayer("collected");
+        RequestExit("collect goal reached");
+        return;
+    }
+
+    // Candidate entities: the nearest few of each kind that are not banned
+    Goap::Entity ents[Goap::kMaxEntities];
+    const WorldModel::ObjInfo* objs[Goap::kMaxEntities];
+    s32 count = 0;
+    s32 listed_t = 0;
+    s32 listed_f = 0;
+    int i;
+    for (i = 0; i < mWorld->tokens_listed && count < 8; i++)
+    {
+        bool banned = false;
+        for (int b = 0; b < mBannedCount; b++)
+        {
+            banned = banned || mBanned[b] == mWorld->tokens[i].id;
+        }
+        if (banned)
+        {
+            continue;
+        }
+        ents[count].id = mWorld->tokens[i].id;
+        ents[count].kind = 0;
+        ents[count].x = mWorld->tokens[i].x;
+        ents[count].y = mWorld->tokens[i].y;
+        ents[count].cost = 20.0f;
+        objs[count] = &mWorld->tokens[i];
+        count++;
+        listed_t++;
+    }
+    for (i = 0; i < mWorld->frenzy_count && listed_f < 4; i++)
+    {
+        bool banned = false;
+        for (int b = 0; b < mBannedCount; b++)
+        {
+            banned = banned || mBanned[b] == mWorld->frenzies[i].id;
+        }
+        bool allowed = mOpts.only_frenzy_count == 0;
+        for (int a = 0; a < mOpts.only_frenzy_count; a++)
+        {
+            allowed = allowed || mWorld->frenzies[i].id == mOpts.only_frenzy_ids[a];
+        }
+        if (banned || !allowed)
+        {
+            continue;
+        }
+        ents[count].id = mWorld->frenzies[i].id;
+        ents[count].kind = 1;
+        ents[count].x = mWorld->frenzies[i].x;
+        ents[count].y = mWorld->frenzies[i].y;
+        ents[count].cost = 1500.0f;
+        objs[count] = &mWorld->frenzies[i];
+        count++;
+        listed_f++;
+    }
+    Goap::Goal goal;
+    memset(&goal, 0, sizeof(goal));
+    goal.need[0] = need_t < listed_t ? need_t : listed_t;
+    goal.need[1] = need_f < listed_f ? need_f : listed_f;
+    if (goal.need[0] == 0 && goal.need[1] == 0)
+    {
+        StuckReport("no_plan", "no reachable candidates left for the goal");
+        RequestExit("no plan");
+        return;
+    }
+    Goap::Plan plan;
+    Goap::MakePlan(ents, count, goal, pl.x, pl.y, 22.0f, mRng.Next(), &plan);
+    if (!plan.found || plan.length == 0)
+    {
+        StuckReport("no_plan", "the planner found no plan for the goal");
+        RequestExit("no plan");
+        return;
+    }
+    char order[200];
+    order[0] = 0;
+    for (i = 0; i < plan.length && i < 8; i++)
+    {
+        char one[32];
+        _snprintf(one, sizeof(one), " %s#%d", ents[plan.order[i]].kind == 0 ? "token" : "frenzy", ents[plan.order[i]].id);
+        strncat(order, one, sizeof(order) - strlen(order) - 1);
+    }
+    BotDecision("f=%d collect plan (need %d tokens, %d frenzies; %d candidates, %u states): %s, cost %.0f", mFrame, need_t, need_f, count, plan.expanded, order, plan.total_cost);
+
+    // Replan after each action: only the first step of the plan is started
+    const Goap::Entity& first = ents[plan.order[0]];
+    mCurrentEntity = first.id;
+    mCurrentKind = first.kind;
+    mActions[mActionCount++] = new PickUpAction(first.id, first.x, first.y);
+    if (first.kind == 1)
+    {
+        mActions[mActionCount++] = new KillFrenzyAction();
+    }
+    StartAction(0);
 }

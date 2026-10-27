@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
+#include "BotCompat.hpp"
 
 // FNV-1a over 32 bit words, bytes for the tail
 u32 BotHash_Begin()
