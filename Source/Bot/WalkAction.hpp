@@ -48,4 +48,5 @@ class WalkAction : public Action
     s32 mYields;
     Calibrator mCalib;
     bool mCalibrating;
+    Action* mExitCar; // when the walk starts in a car
 };

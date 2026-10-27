@@ -8,7 +8,8 @@ class WalkAction;
 class EnterCarAction : public Action
 {
   public:
-    explicit EnterCarAction(s32 car_id);
+    // With hijack the car may have a driver (a car waiting in traffic): the enter control pulls them out
+    explicit EnterCarAction(s32 car_id, bool hijack = false);
     ~EnterCarAction();
 
     virtual const char* Name() const
@@ -20,9 +21,11 @@ class EnterCarAction : public Action
 
   private:
     s32 mCarId;
+    bool mHijack;
     WalkAction* mWalk;
     bool mPressing;
     s32 mPressStart;
+    s32 mStable;
 };
 
 class ExitCarAction : public Action

@@ -40,20 +40,34 @@ class NavCar : public BotObject
         return mY[i];
     }
 
+    // The last FindPath ended at the nearest tile the car can reach, not at the target
+    bool Approximate() const
+    {
+        return mApproximate;
+    }
+
     u32 Expanded() const
     {
         return mExpanded;
     }
 
+    // Tiles within radius of (cx, cy) are closed to FindPath until ClearBans (a drive got stuck there)
+    void BanArea(int cx, int cy, int radius);
+    void ClearBans();
+
     void Dump(const char* path, const char* title) const;
 
   private:
     bool Open(int x, int y) const;
+    bool EdgeFree(int x, int y, int nx, int ny) const;
+    void NearestOpen(int* x, int* y) const;
     bool Safe(int x, int y, int clearance) const;
     bool LineSafe(int x0, int y0, int x1, int y1) const;
-    bool Search(int sx, int sy, int tx, int ty, int clearance);
+    bool Search(int sx, int sy, int tx, int ty, int clearance, bool approximate);
 
     u8* mGrid;   // 0 blocked, 1 field, 2 pavement, 3 road
+    u8* mWalls;  // bit0 left, bit1 right, bit2 top, bit3 bottom: the block face is a wall
+    u8* mBan;    // tiles a stuck drive asked to avoid
     u8* mArrows; // low nibble: green arrows bit0 left, bit1 right, bit2 up, bit3 down
     u32* mCost;
     u32* mParent;
@@ -65,5 +79,6 @@ class NavCar : public BotObject
     u32 mCount;
     u32 mExpanded;
     bool mBuilt;
+    bool mApproximate;
     int mSx, mSy, mTx, mTy;
 };

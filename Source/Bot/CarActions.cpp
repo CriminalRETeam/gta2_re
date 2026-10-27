@@ -11,11 +11,13 @@
 #include "BotCompat.hpp"
 
 // ---------------------------------------------------------------------------------------------
-EnterCarAction::EnterCarAction(s32 car_id)
+EnterCarAction::EnterCarAction(s32 car_id, bool hijack)
     : mCarId(car_id)
+    , mHijack(hijack)
     , mWalk(NULL)
     , mPressing(false)
     , mPressStart(0)
+    , mStable(0)
 {
 }
 
@@ -29,6 +31,7 @@ void EnterCarAction::Start(BotContext& /*ctx*/)
     delete mWalk;
     mWalk = NULL;
     mPressing = false;
+    mStable = 0;
 }
 
 Action::Status EnterCarAction::Step(BotContext& ctx)
@@ -43,20 +46,30 @@ Action::Status EnterCarAction::Step(BotContext& ctx)
     {
         if (pl.car_id == mCarId)
         {
-            BotDecision("f=%d enter_car: in car #%d", ctx.frame, mCarId);
-            return Done;
+            // a hijack puts the ped in the car and may throw it out again at once: wait until it stays
+            if (++mStable >= 12)
+            {
+                BotDecision("f=%d enter_car: in car #%d", ctx.frame, mCarId);
+                return Done;
+            }
+            return Running;
         }
         return Fail("action_failed", "enter_car: in car #%d instead of #%d", pl.car_id, mCarId);
     }
+    mStable = 0;
 
     WorldModel::CarInfo car;
     if (!ctx.world->FindCar(mCarId, &car))
     {
         return Fail("action_failed", "enter_car: car #%d is gone", mCarId);
     }
-    if (car.has_driver || car.locked)
+    if ((car.has_driver && !mHijack) || car.locked)
     {
         return Fail("action_failed", "enter_car: car #%d driver=%d locked=%d", mCarId, car.has_driver, car.locked);
+    }
+    if (mPressing && car.has_driver && car.speed > 0.05f)
+    {
+        return Fail("action_failed", "enter_car: car #%d drove off (speed %.2f)", mCarId, car.speed);
     }
 
     if (!mPressing)
@@ -151,6 +164,7 @@ DriveAction::DriveAction(float x, float y, float stop_dist)
 
 void DriveAction::Start(BotContext& ctx)
 {
+    ctx.road->ClearBans();
     mPlanned = false;
     mRetries = 0;
     mHavePrev = false;
@@ -182,6 +196,12 @@ bool DriveAction::Plan(BotContext& ctx, const char* why)
             mWpY[mWpCount] = ctx.road->Y(i);
             mWpCount++;
         }
+    }
+    if (found && ctx.road->Approximate() && mWpCount > 0)
+    {
+        // the target cannot be reached by car: drive to the nearest tile that can
+        mTx = mWpX[mWpCount - 1];
+        mTy = mWpY[mWpCount - 1];
     }
     if (mWpCount == 0 || mWpX[mWpCount - 1] != mTx || mWpY[mWpCount - 1] != mTy)
     {
@@ -335,6 +355,11 @@ Action::Status DriveAction::Step(BotContext& ctx)
         }
         mRetries++;
         ChooseVariant(ctx);
+        {
+            // avoid the place that held us: a tile or two ahead of the car, and the waypoint it was heading for
+            const float heading = (ctx.car.sign * pl.rot_deg + ctx.car.offset) * 3.14159265f / 180.0f;
+            ctx.road->BanArea(static_cast<int>(pl.x + sinf(heading) * 2.0f), static_cast<int>(pl.y - cosf(heading) * 2.0f), 1);
+        }
         BotDecision("f=%d drive STUCK %s; retry %d: speed cap %.2f, waypoint radius %.1f, restore the action start (f=%d)", ctx.frame, detail, mRetries, mSpeedCap, mWpRadius, ctx.action_start_frame);
         ctx.action_snap->Restore();
         ctx.world->Observe();

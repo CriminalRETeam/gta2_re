@@ -1,6 +1,7 @@
 #include "WalkAction.hpp"
 #include "WorldModel.hpp"
 #include "NavFoot.hpp"
+#include "CarActions.hpp"
 #include "Snapshot.hpp"
 #include "BotLog.hpp"
 #include "BotOptions.hpp"
@@ -26,6 +27,7 @@ WalkAction::WalkAction(float x, float y, bool follow_arrow, float stop_dist)
     , mYieldUntil(0)
     , mYields(0)
     , mCalibrating(false)
+    , mExitCar(NULL)
 {
     mCk[0] = mCk[1] = NULL;
     mCkFrame[0] = mCkFrame[1] = -1;
@@ -35,6 +37,7 @@ WalkAction::~WalkAction()
 {
     delete mCk[0];
     delete mCk[1];
+    delete mExitCar;
 }
 
 void WalkAction::Start(BotContext& ctx)
@@ -86,7 +89,23 @@ Action::Status WalkAction::Step(BotContext& ctx)
     }
     if (pl.in_car)
     {
-        return Fail("action_failed", "walk: the player is in a car");
+        // a walk is on foot: get out first
+        if (!mExitCar)
+        {
+            mExitCar = new ExitCarAction();
+            mExitCar->Start(ctx);
+        }
+        if (mExitCar->Step(ctx) == Failed)
+        {
+            return Fail("action_failed", "walk: the player is in a car and cannot get out: %s", mExitCar->fail_detail);
+        }
+        return Running;
+    }
+    if (mExitCar)
+    {
+        delete mExitCar;
+        mExitCar = NULL;
+        mProgressFrame = ctx.frame;
     }
 
     if (mCalibrating)

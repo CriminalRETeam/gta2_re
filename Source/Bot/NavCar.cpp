@@ -94,6 +94,7 @@ NavCar::NavCar()
     , mCount(0)
     , mExpanded(0)
     , mBuilt(false)
+    , mApproximate(false)
     , mSx(0)
     , mSy(0)
     , mTx(0)
@@ -101,6 +102,9 @@ NavCar::NavCar()
 {
     mGrid = static_cast<u8*>(BotHeap_Alloc(kTiles));
     mArrows = static_cast<u8*>(BotHeap_Alloc(kTiles));
+    mWalls = static_cast<u8*>(BotHeap_Alloc(kTiles));
+    mBan = static_cast<u8*>(BotHeap_Alloc(kTiles));
+    memset(mBan, 0, kTiles);
     mCost = static_cast<u32*>(BotHeap_Alloc(sizeof(u32) * kTiles));
     mParent = static_cast<u32*>(BotHeap_Alloc(sizeof(u32) * kTiles));
     mState = static_cast<u8*>(BotHeap_Alloc(kTiles));
@@ -113,6 +117,8 @@ NavCar::~NavCar()
 {
     BotHeap_Free(mGrid);
     BotHeap_Free(mArrows);
+    BotHeap_Free(mWalls);
+    BotHeap_Free(mBan);
     BotHeap_Free(mCost);
     BotHeap_Free(mParent);
     BotHeap_Free(mState);
@@ -123,6 +129,7 @@ void NavCar::Build()
 {
     memset(mGrid, 0, kTiles);
     memset(mArrows, 0, kTiles);
+    memset(mWalls, 0, kTiles);
     for (int y = 1; y < 255; y++)
     {
         for (int x = 1; x < 255; x++)
@@ -153,6 +160,8 @@ void NavCar::Build()
             }
             mGrid[y * 256 + x] = cell;
             mArrows[y * 256 + x] = b->field_A_arrows & 0x0F;
+            // face flag 0x400: a wall (fence, hedge, kerb wall) that stops cars and pedestrians
+            mWalls[y * 256 + x] = static_cast<u8>(((b->field_0_left & 0x400) ? 1 : 0) | ((b->field_2_right & 0x400) ? 2 : 0) | ((b->field_4_top & 0x400) ? 4 : 0) | ((b->field_6_bottom & 0x400) ? 8 : 0));
         }
     }
     mBuilt = true;
@@ -160,7 +169,92 @@ void NavCar::Build()
 
 bool NavCar::Open(int x, int y) const
 {
-    return x >= 1 && x <= 254 && y >= 1 && y <= 254 && mGrid[y * 256 + x] != 0;
+    return x >= 1 && x <= 254 && y >= 1 && y <= 254 && mGrid[y * 256 + x] != 0 && mBan[y * 256 + x] == 0;
+}
+
+// Can a car go from (x, y) to the neighbouring tile (nx, ny) without crossing a wall? Diagonals
+// need both of their orthogonal steps to be free.
+bool NavCar::EdgeFree(int x, int y, int nx, int ny) const
+{
+    const u8 here = mWalls[y * 256 + x];
+    const u8 there = mWalls[ny * 256 + nx];
+    if (nx > x && ((here & 2) || (there & 1)))
+    {
+        return false;
+    }
+    if (nx < x && ((here & 1) || (there & 2)))
+    {
+        return false;
+    }
+    if (ny < y && ((here & 4) || (there & 8)))
+    {
+        return false;
+    }
+    if (ny > y && ((here & 8) || (there & 4)))
+    {
+        return false;
+    }
+    if (nx != x && ny != y)
+    {
+        return EdgeFree(x, y, nx, y) && EdgeFree(x, y, x, ny) && EdgeFree(nx, y, nx, ny) && EdgeFree(x, ny, nx, ny);
+    }
+    return true;
+}
+
+void NavCar::BanArea(int cx, int cy, int radius)
+{
+    for (int y = cy - radius; y <= cy + radius; y++)
+    {
+        for (int x = cx - radius; x <= cx + radius; x++)
+        {
+            if (x >= 0 && x < 256 && y >= 0 && y < 256)
+            {
+                mBan[y * 256 + x] = 1;
+            }
+        }
+    }
+}
+
+void NavCar::ClearBans()
+{
+    memset(mBan, 0, kTiles);
+}
+
+// Moves (x, y) to the nearest open tile within 12 tiles, if it is not open itself
+void NavCar::NearestOpen(int* x, int* y) const
+{
+    if (Open(*x, *y))
+    {
+        return;
+    }
+    int best_d = 1 << 30;
+    int bx = *x;
+    int by = *y;
+    for (int r = 1; r <= 12; r++)
+    {
+        for (int dy = -r; dy <= r; dy++)
+        {
+            for (int dx = -r; dx <= r; dx++)
+            {
+                if ((dx < 0 ? -dx : dx) != r && (dy < 0 ? -dy : dy) != r)
+                {
+                    continue; // only the ring
+                }
+                if (Open(*x + dx, *y + dy) && dx * dx + dy * dy < best_d)
+                {
+                    best_d = dx * dx + dy * dy;
+                    bx = *x + dx;
+                    by = *y + dy;
+                }
+            }
+        }
+        if (best_d < (1 << 30))
+        {
+            break;
+        }
+    }
+    *x = bx;
+    *y = by;
 }
 
 bool NavCar::Safe(int x, int y, int clearance) const
@@ -183,6 +277,8 @@ bool NavCar::LineSafe(int x0, int y0, int x1, int y1) const
     const float dy = static_cast<float>(y1 - y0);
     const float len = (dx < 0 ? -dx : dx) > (dy < 0 ? -dy : dy) ? (dx < 0 ? -dx : dx) : (dy < 0 ? -dy : dy);
     const int steps = static_cast<int>(len * 2.0f) + 1;
+    int px = x0;
+    int py = y0;
     for (int i = 0; i <= steps; i++)
     {
         const float t = static_cast<float>(i) / steps;
@@ -192,11 +288,17 @@ bool NavCar::LineSafe(int x0, int y0, int x1, int y1) const
         {
             return false;
         }
+        if (i > 0 && (x != px || y != py) && (!EdgeFree(px, py, x, y) || (x - px > 1 || px - x > 1 || y - py > 1 || py - y > 1)))
+        {
+            return false;
+        }
+        px = x;
+        py = y;
     }
     return true;
 }
 
-bool NavCar::Search(int sx, int sy, int tx, int ty, int clearance)
+bool NavCar::Search(int sx, int sy, int tx, int ty, int clearance, bool approximate)
 {
     memset(mState, 0, kTiles);
     mExpanded = 0;
@@ -210,6 +312,8 @@ bool NavCar::Search(int sx, int sy, int tx, int ty, int clearance)
     static const int dxs[8] = {0, 1, 0, -1, 1, 1, -1, -1};
     static const int dys[8] = {-1, 0, 1, 0, -1, 1, 1, -1};
     u32 goal = kNone;
+    u32 closest = start;
+    u32 closest_h = 1u << 30;
     while (heap.count && mExpanded < 70000)
     {
         const HeapItem item = heap.Pop();
@@ -222,6 +326,16 @@ bool NavCar::Search(int sx, int sy, int tx, int ty, int clearance)
         mExpanded++;
         const int x = idx % 256;
         const int y = idx / 256;
+        {
+            const u32 ex = x > tx ? x - tx : tx - x;
+            const u32 ey = y > ty ? y - ty : ty - y;
+            const u32 eh = (ex > ey ? ex : ey) * 10 + (ex < ey ? ex : ey) * 4;
+            if (eh < closest_h)
+            {
+                closest_h = eh;
+                closest = idx;
+            }
+        }
         if (x == tx && y == ty)
         {
             goal = idx;
@@ -231,7 +345,7 @@ bool NavCar::Search(int sx, int sy, int tx, int ty, int clearance)
         {
             const int nx = x + dxs[d];
             const int ny = y + dys[d];
-            if (!Open(nx, ny))
+            if (!Open(nx, ny) || !EdgeFree(x, y, nx, ny))
             {
                 continue;
             }
@@ -284,6 +398,12 @@ bool NavCar::Search(int sx, int sy, int tx, int ty, int clearance)
             heap.Push(cost + ((hx + hy - 2 * diag) * 10 + diag * 14) * 8 / 10, nidx);
         }
     }
+    mApproximate = false;
+    if (goal == kNone && approximate && closest != start)
+    {
+        goal = closest; // the nearest tile of the region the car can reach
+        mApproximate = true;
+    }
     if (goal == kNone)
     {
         return false;
@@ -315,11 +435,15 @@ bool NavCar::FindPath(float sx, float sy, float tx, float ty)
     mSy = static_cast<int>(sy);
     mTx = static_cast<int>(tx);
     mTy = static_cast<int>(ty);
+    // A start or target that is not drivable (a phone on the pavement beside a wall): use the
+    // nearest drivable tile, the caller drives the last bit straight
+    NearestOpen(&mSx, &mSy);
+    NearestOpen(&mTx, &mTy);
     if (!Open(mSx, mSy) || !Open(mTx, mTy))
     {
         return false;
     }
-    if (!Search(mSx, mSy, mTx, mTy, 1) && !Search(mSx, mSy, mTx, mTy, 0))
+    if (!Search(mSx, mSy, mTx, mTy, 1, false) && !Search(mSx, mSy, mTx, mTy, 0, true))
     {
         return false;
     }
