@@ -26,6 +26,7 @@
 #include "debug.hpp"
 #include "rng.hpp"
 #include "input_bits.hpp"
+#include <dinput.h>
 #include "FpsCounter.hpp"
 #include "InputRecorder_67F8B0.hpp"
 #include "BotCompat.hpp"
@@ -410,8 +411,25 @@ void Bot::WriteReport(const char* result, const char* detail)
     BotLog("bot: report %s: %s", result, detail);
 }
 
+EXTERN_GLOBAL(LPDIRECTINPUTDEVICEA, gMouseDevice_706C60);
+EXTERN_GLOBAL(u32, gMatchStartTime_6F5A28);
+
 void Bot::OnFrame()
 {
+    if (mOpts.draw)
+    {
+        // Watching on the user's own screen: the game grabs the mouse exclusively and clips it to its
+        // window. The bot plays by itself, so give the mouse back every frame.
+        ClipCursor(NULL);
+        if (mOpts.fast)
+        {
+            gMatchStartTime_6F5A28 = 0; // the next logic frame is always due: up to 8 per drawn frame
+        }
+        if (gMouseDevice_706C60)
+        {
+            gMouseDevice_706C60->Unacquire();
+        }
+    }
     if (!mSeenRunning)
     {
         if (!GameRunning())

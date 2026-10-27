@@ -35,6 +35,7 @@ def main():
         if botlib.screen_unlocked():
             os.environ["BOT_USE_DISPLAY"] = "1"
             args.draw = True
+            args.extra = list(args.extra) + ["-bot_fast"]
             print(f"showing the run on {os.environ['DISPLAY']}")
         else:
             print("screen locked or no display: running off screen instead")

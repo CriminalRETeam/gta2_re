@@ -24,6 +24,7 @@
 //   -bot_goto=x,y         walk_arrow: target when the HUD arrow shows nothing (tiles)
 //   -bot_map_dump=x,y     text map of the blocks around x,y (road, pavement, buildings, arrows, cars) at the first frame
 //   -bot_gang=N -bot_kills=K   kill_gang profile: kill K peds of gang N (Gang::field_1_gang_idx)
+//   -bot_fast             with -bot_draw: do not wait for the 33 ms frame clock (run.py --show sets it)
 //   -bot_script_dump      list every script command (index, name, next, raw words) to bot_script.txt at the first frame
 //   -bot_zones_dump       list every map zone (type, rectangle, name) to bot_zones.txt at the first frame
 //   -bot_miss_log         let the game write test\MISS_LOG.TXT (script command offsets run per frame, per thread)
@@ -66,6 +67,7 @@ struct BotOptions
     bool objects_dump;
     s32 gang;
     s32 kills;
+    bool fast; // with drawing: let the logic run ahead of the clock (8 logic frames per drawn one)
     bool script_dump;
     bool zones_dump;
     bool miss_log;
