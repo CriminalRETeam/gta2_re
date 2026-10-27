@@ -113,7 +113,8 @@ class TravelGoal : public Action
         Drive,
         Dismount,
         Walk,
-        Train
+        Train,
+        Grab
     };
     enum
     {
@@ -136,7 +137,15 @@ class TravelGoal : public Action
     bool mKeepCar;
     s32 mReclaims;
     bool mNoTrain;
+    s32 mGrabBan[kMaxBan];
+    s32 mGrabBanCount;
+    s32 mGrabId;
+    float mGrabX, mGrabY;
 };
+
+// A pickup lying close that is worth a few steps: health or armour when short of it, a better gun,
+// or ammo for a gun held low. Not one in ban[]. False when there is none.
+bool Goals_WantedPickup(const WorldModel& w, float range, const s32* ban, s32 ban_count, WorldModel::ObjInfo* out);
 
 // Gang peds to kill when a phone refuses: the brief names whom ("kill some Zaibatsu")
 s32 Goals_ParseKillHint(const WorldModel& w, const char* brief); // Gang::field_1_gang_idx or -1

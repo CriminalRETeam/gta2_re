@@ -392,6 +392,10 @@ TravelGoal::TravelGoal(float x, float y, float arrive_dist, bool keep_car)
     , mKeepCar(keep_car)
     , mReclaims(0)
     , mNoTrain(false)
+    , mGrabBanCount(0)
+    , mGrabId(0)
+    , mGrabX(0.0f)
+    , mGrabY(0.0f)
 {
 }
 
@@ -409,6 +413,54 @@ void TravelGoal::Start(BotContext& ctx)
     mBanCount = 0;
     mCarFailures = 0;
     mWalkOnly = false;
+    mGrabBanCount = 0;
+}
+
+bool Goals_WantedPickup(const WorldModel& w, float range, const s32* ban, s32 ban_count, WorldModel::ObjInfo* out)
+{
+    const WorldModel::PlayerInfo& pl = w.player;
+    s32 held = 0;
+    Weapons::BestHeld(w, Weapons::VsPed, &held);
+    for (int i = 0; i < w.pickup_count; i++)
+    {
+        const WorldModel::ObjInfo& o = w.pickups[i];
+        const float dx = o.x - pl.x;
+        const float dy = o.y - pl.y;
+        if (dx * dx + dy * dy > range * range)
+        {
+            break; // nearest first
+        }
+        bool banned = false;
+        for (int b = 0; b < ban_count; b++)
+        {
+            banned = banned || ban[b] == o.id;
+        }
+        if (banned)
+        {
+            continue;
+        }
+        bool want = false;
+        if (o.model == 230)
+        {
+            want = pl.hp < 90;
+        }
+        else if (o.model == 231)
+        {
+            want = pl.armour < 10;
+        }
+        else if (o.model >= 200 && o.model <= 227)
+        {
+            const s32 t = o.model - 200;
+            const s32 sc = Weapons::Score(t, Weapons::VsPed);
+            want = sc > held || (sc >= 3 && w.weapon_ammo[t] < Weapons::MinAmmo(t) * 3);
+        }
+        if (want)
+        {
+            *out = o;
+            return true;
+        }
+    }
+    return false;
 }
 
 float TravelGoal::Remaining(const WorldModel& w) const
@@ -457,6 +509,9 @@ void TravelGoal::BeginStage(BotContext& ctx, Stage st)
             break;
         case Train:
             mChild = new RideTrainGoal(mX, mY);
+            break;
+        case Grab:
+            mChild = new PickUpAction(mGrabId, mGrabX, mGrabY);
             break;
         default:
             return;
@@ -561,6 +616,24 @@ Action::Status TravelGoal::Step(BotContext& ctx)
             return Running;
         }
     }
+    // On foot: a gun, health or armour lying close is taken on the way
+    if (mStage == Walk && !pl.in_car && ctx.frame % 10 == 0 && Remaining(*ctx.world) > mArrive + 3.0f)
+    {
+        WorldModel::ObjInfo o;
+        if (Goals_WantedPickup(*ctx.world, 5.0f, mGrabBan, mGrabBanCount, &o))
+        {
+            mGrabId = o.id;
+            mGrabX = o.x;
+            mGrabY = o.y;
+            if (mGrabBanCount < kMaxBan)
+            {
+                mGrabBan[mGrabBanCount++] = o.id; // once
+            }
+            BotDecision("f=%d travel: pickup #%d (model %d) is close: taking it on the way", ctx.frame, o.id, o.model);
+            BeginStage(ctx, Grab);
+            return Running;
+        }
+    }
     const Status s = mChild->Step(ctx);
     if (s == Running)
     {
@@ -640,6 +713,11 @@ Action::Status TravelGoal::Step(BotContext& ctx)
                 return Done;
             }
             mNoTrain = true; // one ride; the rest by car or on foot
+            return Running;
+        case Grab:
+            delete mChild;
+            mChild = NULL;
+            mStage = Decide;
             return Running;
         case Walk:
             if (s == Failed)
@@ -799,31 +877,20 @@ void KillGangGoal::NextChild(BotContext& ctx)
             return;
         }
     }
-    // On foot, a better gun lying close (dropped by the ones just killed) is worth a few steps
-    if (!pl.in_car)
+    // On foot, a gun, health or armour lying close (dropped by the ones just killed) is worth a few steps
+    if (!pl.in_car && mBanCount < kMaxBan)
     {
-        s32 held = 0;
-        Weapons::BestHeld(w, Weapons::VsPed, &held);
-        for (int i = 0; i < w.pickup_count && w.pickups[i].model >= 200; i++)
+        WorldModel::ObjInfo o;
+        if (Goals_WantedPickup(w, 8.0f, mBan, mBanCount, &o))
         {
-            const WorldModel::ObjInfo& o = w.pickups[i];
-            const float dx = o.x - pl.x;
-            const float dy = o.y - pl.y;
-            if (dx * dx + dy * dy > 8.0f * 8.0f)
-            {
-                break;
-            }
-            if (o.model <= 227 && Weapons::Score(o.model - 200, Weapons::VsPed) > held && !Banned(o.id) && mBanCount < kMaxBan)
-            {
-                mBan[mBanCount++] = o.id; // once
-                mHunting = false;
-                mRunOver = false;
-                mChildSince = ctx.frame;
-                BotDecision("f=%d kill_gang: picking up weapon #%d (model %d) %.1f tiles away", ctx.frame, o.id, o.model, sqrtf(dx * dx + dy * dy));
-                mChild = new PickUpAction(o.id, o.x, o.y);
-                BeginChild(ctx, &mSnap, mChild);
-                return;
-            }
+            mBan[mBanCount++] = o.id; // once
+            mHunting = false;
+            mRunOver = false;
+            mChildSince = ctx.frame;
+            BotDecision("f=%d kill_gang: picking up #%d (model %d) close by", ctx.frame, o.id, o.model);
+            mChild = new PickUpAction(o.id, o.x, o.y);
+            BeginChild(ctx, &mSnap, mChild);
+            return;
         }
     }
     for (int i = 0; i < w.ped_count; i++)
