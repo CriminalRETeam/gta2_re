@@ -389,6 +389,7 @@ class MissionsGoal : public Action
     Action* mRaise;        // killing a gang for respect
     s32 mRaisePhone;
     s32 mPreferPhone; // the phone whose respect was just raised: try it first
+    s32 mFavourGang;  // a random gang whose phones are tried first (-2 not drawn yet), so runs differ
     Snapshot* mSnap;
     PhoneMemory mMemory[kMaxPhones];
     s32 mMemoryCount;

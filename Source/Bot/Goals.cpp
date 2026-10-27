@@ -842,7 +842,13 @@ void KillGangGoal::NextChild(BotContext& ctx)
     const WorldModel& w = *ctx.world;
     const WorldModel::PlayerInfo& pl = w.player;
     // The police are after us: no more killing here, get away from them first
-    if (pl.wanted_stars >= 2 && w.cops_total > 0 && mFlees < 6)
+    bool cop_close = false;
+    for (int i = 0; i < w.ped_count; i++)
+    {
+        cop_close = cop_close || (w.peds[i].cop && !w.peds[i].dead && w.peds[i].dist < 14.0f);
+    }
+    // one star with a cop close by ends in an arrest, as the cops walk up to a player in sight
+    if (((pl.wanted_stars >= 2 && w.cops_total > 0) || (pl.wanted_stars >= 1 && cop_close)) && mFlees < 10)
     {
         const WorldModel::PedInfo* cop = NULL;
         for (int i = 0; i < w.ped_count && !cop; i++)
@@ -1451,6 +1457,7 @@ MissionsGoal::MissionsGoal(s32 want_missions)
     , mRaise(NULL)
     , mRaisePhone(0)
     , mPreferPhone(0)
+    , mFavourGang(-2)
     , mSnap(NULL)
     , mMemoryCount(0)
     , mFailures(0)
@@ -1560,6 +1567,11 @@ s32 MissionsGoal::RespectSum(const WorldModel& w) const
 bool MissionsGoal::ChoosePhone(BotContext& ctx, WorldModel::ObjInfo* out)
 {
     const WorldModel& w = *ctx.world;
+    if (mFavourGang == -2 && w.gang_count > 0)
+    {
+        mFavourGang = w.gang_index[ctx.rng->Below(static_cast<u32>(w.gang_count))];
+        BotDecision("f=%d missions: favourite gang this run: %d", ctx.frame, mFavourGang);
+    }
     float best = 1e9f;
     bool found = false;
     for (int i = 0; i < w.phone_count; i++)
@@ -1585,6 +1597,11 @@ bool MissionsGoal::ChoosePhone(BotContext& ctx, WorldModel::ObjInfo* out)
         // Phones of a gang that has already refused for want of respect, while the respect is still short of
         // what that took, are not worth the walk yet: do the other gangs' phones first
         const s32 owner = OwnerAt(w, p.x, p.y);
+        cost += static_cast<float>(ctx.rng->Below(300)); // not always the same order
+        if (owner >= 0 && owner == mFavourGang)
+        {
+            cost -= 450.0f;
+        }
         if (owner >= 0)
         {
             for (int k = 0; k < mMemoryCount; k++)
@@ -1702,6 +1719,20 @@ Action::Status MissionsGoal::Step(BotContext& ctx)
                             best_reaction = w.kill_reaction[j][owner];
                             m->hint_gang = j;
                         }
+                    }
+                    // any gang nearly as pleasing will do: pick one at random
+                    s32 pool[WorldModel::kMaxGangs];
+                    s32 pool_n = 0;
+                    for (int j = 0; j < WorldModel::kMaxGangs; j++)
+                    {
+                        if (j != owner && best_reaction > 0 && w.kill_reaction[j][owner] * 4 >= best_reaction * 3)
+                        {
+                            pool[pool_n++] = j;
+                        }
+                    }
+                    if (pool_n > 1)
+                    {
+                        m->hint_gang = pool[ctx.rng->Below(static_cast<u32>(pool_n))];
                     }
                 }
                 if (m->hint_gang >= 0)
