@@ -219,7 +219,7 @@ EXTERN_GLOBAL(Fix16, kAngFix16HalfCircle_6691EC);
 // Turns the angle `cur` toward `*pTarget` by at most `*pSpeed`, the short way round, and wraps the
 // result into [0, 2pi). Called by Trailer::UpdateTrailerAlignment_407CE0.
 MATCH_FUNC(0x405DA0)
-EXPORT Fix16 __stdcall TurnAngleToward_405DA0(Fix16 cur, Fix16* pTarget, Fix16* pSpeed)
+EXPORT Fix16 __stdcall TurnAngleToward_405DA0(Fix16 cur, const Fix16* pTarget, const Fix16* pSpeed)
 {
     if (*pTarget - cur > kAngFix16HalfCircle_6691EC)
     {
@@ -264,7 +264,7 @@ DEFINE_GLOBAL_INIT(Fix16, kAngFix16ThreeQuarterCircle_6691FC, Fix16(0x12B88, 0),
 
 // Is `*a` within kAngFix16OneDegree_66A924 of `*b`, directly or one turn (kAngFix16FullCircle_66A8E4) either way.
 MATCH_FUNC(0x405E20)
-EXPORT s32 __stdcall IsAngleWithinTolerance_405E20(Fix16* a, Fix16* b)
+EXPORT s32 __stdcall IsAngleWithinTolerance_405E20(const Fix16* a, const Fix16* b)
 {
     if ((*a > *b - kAngFix16OneDegree_66A924 && *a < *b + kAngFix16OneDegree_66A924) ||
         (*a > *b - kAngFix16FullCircle_66A8E4 - kAngFix16OneDegree_66A924 && *a < *b - kAngFix16FullCircle_66A8E4 + kAngFix16OneDegree_66A924) ||
@@ -279,7 +279,7 @@ EXPORT s32 __stdcall IsAngleWithinTolerance_405E20(Fix16* a, Fix16* b)
 // wrap at 0 / 2pi, and returns whether it ends up on either edge. Called by
 // Trailer::UpdateTrailerAlignment_407CE0.
 MATCH_FUNC(0x405E80)
-EXPORT s32 __stdcall ClampAngleAroundTarget_405E80(Fix16* pTarget, Fix16* pCur)
+EXPORT s32 __stdcall ClampAngleAroundTarget_405E80(const Fix16* pTarget, Fix16* pCur)
 {
     Fix16 lo;
     Fix16 hi;
