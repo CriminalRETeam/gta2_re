@@ -288,8 +288,10 @@ static DriveArc Drive_Arc(const BotContext& ctx, float heading_deg, float hdir, 
         t += step;
         const float px = -fy * 0.6f;
         const float py = fx * 0.6f;
-        if (WorldModel::BuildingAt(x + fx * 0.9f + px, y + fy * 0.9f + py) || WorldModel::BuildingAt(x + fx * 0.9f - px, y + fy * 0.9f - py) ||
-            WorldModel::BuildingAt(x + px, y + py) || WorldModel::BuildingAt(x - px, y - py))
+        // a wall the car already touches is not one it is about to hit: only look beyond the first stretch, or an arc
+        // that starts beside a wall (the corner of a road) is blocked at once and the car cannot move out of it
+        if (driven > 0.8f && (WorldModel::BuildingAt(x + fx * 0.9f + px, y + fy * 0.9f + py) || WorldModel::BuildingAt(x + fx * 0.9f - px, y + fy * 0.9f - py) ||
+            WorldModel::BuildingAt(x + px, y + py) || WorldModel::BuildingAt(x - px, y - py)))
         {
             wall = true;
             break;
