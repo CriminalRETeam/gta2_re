@@ -337,7 +337,7 @@ Action::Status DriveAction::Step(BotContext& ctx)
             mBestWpDist = wd;
             mBestWpFrame = ctx.frame;
         }
-        else if (ctx.frame - mBestWpFrame > 150 && ctx.frame > mReverseUntil)
+        else if (ctx.frame - mBestWpFrame > 100 && ctx.frame > mReverseUntil)
         {
             mStillFrames = 46;
             mBestWpFrame = ctx.frame;
@@ -351,12 +351,12 @@ Action::Status DriveAction::Step(BotContext& ctx)
     {
         mStillFrames = 0;
     }
-    const bool timed_out = ctx.frame - mProgressFrame > 900;
+    const bool timed_out = ctx.frame - mProgressFrame > 600;
     if ((mStillFrames > 45 && mManoeuvres >= 2) || timed_out)
     {
         char detail[220];
         _snprintf(detail, sizeof(detail), "%s at (%.1f,%.1f), waypoint %d/%d (%.1f,%.1f), dist %.1f to (%.1f,%.1f), %d reverse manoeuvres",
-                  timed_out ? "no waypoint reached for 900 frames" : "not moving", pl.x, pl.y, mWpIdx, mWpCount, mWpX[mWpIdx], mWpY[mWpIdx], dist, mTx, mTy, mManoeuvres);
+                  timed_out ? "no waypoint reached for 600 frames" : "not moving", pl.x, pl.y, mWpIdx, mWpCount, mWpX[mWpIdx], mWpY[mWpIdx], dist, mTx, mTy, mManoeuvres);
         if (mRetries >= 3 || !ctx.action_snap)
         {
             return Fail("no_progress", "%s", detail);
@@ -409,14 +409,8 @@ Action::Status DriveAction::Step(BotContext& ctx)
             const float sx = pl.x + hx * d;
             const float sy = pl.y + hy * d;
             bool hit = WorldModel::BuildingAt(sx, sy);
-            for (int i = 0; i < ctx.world->car_count && !hit; i++)
-            {
-                const WorldModel::CarInfo& c = ctx.world->cars[i];
-                if (c.idx != pl.car_id && (c.x - sx) * (c.x - sx) + (c.y - sy) * (c.y - sy) < 1.2f * 1.2f)
-                {
-                    hit = true;
-                }
-            }
+            // Other cars are not obstacles: stopping dead behind every parked or queuing car is what makes a
+            // drive crawl, and a bump costs a few points of damage. Walls and pedestrians are.
             for (int i = 0; i < ctx.world->ped_count && !hit; i++)
             {
                 const WorldModel::PedInfo& p = ctx.world->peds[i];
@@ -464,13 +458,13 @@ Action::Status DriveAction::Step(BotContext& ctx)
             mBehindSince = ctx.frame;
         }
         const s32 behind = ctx.frame - mBehindSince;
-        if ((behind < 120 || behind % 240 >= 120) && cap < 0.03f + 0.2f)
+        if (behind % 160 < 80)
         {
-            ctx.input |= input_bit::Backward;
+            ctx.input |= input_bit::Backward; // back towards it for 80 frames ...
         }
         else if (mSpeed < 0.10f)
         {
-            ctx.input |= input_bit::Forward;
+            ctx.input |= input_bit::Forward;  // ... then forward with the wheel over for 80, and again
         }
     }
     else if (fabsf(err) > 55.0f)

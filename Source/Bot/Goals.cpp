@@ -1650,6 +1650,16 @@ Action::Status MissionsGoal::Step(BotContext& ctx)
                         }
                     }
                     m->owner_gang = owner;
+                    if (now_respect >= 60 || m->kills_asked >= 2)
+                    {
+                        // refused at high respect, or after two rounds of killing: respect is not what it wants
+                        BotDecision("f=%d missions: phone #%d still refuses at respect %d after %d rounds: giving it up for now", ctx.frame, m->id, now_respect, m->kills_asked);
+                        m->tries = 2;
+                        delete mChild;
+                        mChild = NULL;
+                        return Running;
+                    }
+                    m->kills_asked++; // rounds of raising respect for this phone
                     m->target_respect = (m->target_respect > now_respect ? m->target_respect : now_respect) + 30;
                     if (m->target_respect > 100)
                     {
@@ -1658,7 +1668,6 @@ Action::Status MissionsGoal::Step(BotContext& ctx)
                     const s32 asked = 60;
                     BotDecision("f=%d missions: phone owner gang %d, kill gang %d (one kill changes the owner's respect by %d, the victim's by -%d)", ctx.frame, owner, m->hint_gang,
                                 owner >= 0 ? w.kill_reaction[m->hint_gang][owner] : 0, w.kill_respect_change[m->hint_gang]);
-                    m->kills_asked = asked;
                     mRaisePhone = m->id;
                     SequenceGoal* seq = new SequenceGoal("raise_respect");
                     seq->Add(new PrepareGoal(Weapons::VsPed, 40.0f, 1500), true);
