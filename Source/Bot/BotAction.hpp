@@ -3,6 +3,7 @@
 #include "types.hpp"
 #include "BotHeap.hpp"
 #include "BotRng.hpp"
+#include "CalibrateCore.hpp"
 
 class WorldModel;
 class NavFoot;
@@ -102,17 +103,5 @@ class Calibrator
     Action::Status Step(BotContext& ctx, Steering* out, char* fail, u32 fail_size);
 
   private:
-    enum State
-    {
-        Move1,
-        Turn,
-        Move2,
-        Finished
-    };
-    bool mInCar;
-    State mState;
-    s32 mStateFrame;
-    float mX, mY, mRot;
-    float mH1, mRot1;
-    float mTurnSign;
+    CalibrateCore mCore;
 };
