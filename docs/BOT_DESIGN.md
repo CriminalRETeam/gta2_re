@@ -539,6 +539,17 @@ MissionsGoal              root: which phone next. Tier (green, amber, red), dist
 - **Watching.** `run_bot.py --show` draws the run on your own screen at game speed; if the session is
   locked or there is no display it runs off screen as before.
 
+- **How a long run goes (200,000 frames, `-bot=missions -bot_missions=6`, Downtown, off screen).** Respect works:
+  a refusal is read, the owner's respect is raised to a target and the same phone retried first, and
+  phones that still refuse at respect 60 or after two rounds are put aside (the Zaibatsu phone accepted at 68).
+  Accepted missions then failed in play: "destroy the two circling Yakuza cars" needs an intercept or a
+  rocket launcher (the bot chased a moving car on foot across the map), and a second mission failed after three
+  restarts. No mission was passed in that run; the two that pass are the single-phone regression entries. What
+  held it back most was driving: the car wedged against walls and got thrown out by cops or owners.
+  `Scripts/bot/drive_bench.py` measures that (nearest parked car to six targets, three seeds): 11 of 18
+  reached before the pure-pursuit steering, 14 of 18 after. The failures are all from one car park start and
+  from being thrown out of the car.
+
 Missions passed by the bot (`Scripts/bot/bot_runs/runs.json`, each replays identically in the
 stock game): phone 220 (the zoo: pick up a car, park on the arrow, honk, drive ZitZaki), phone 226
 (destroy the delivery truck: ram it with a fast car until it stops, then shoot it).
