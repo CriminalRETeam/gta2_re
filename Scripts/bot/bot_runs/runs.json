@@ -147,9 +147,9 @@
         "-bot_phone_id=226"
       ],
       "budget": 60000,
-      "expect": "NONE",
-      "replay": false,
-      "note": "tracked challenge: it passes when the truck stays put and the walk is lucky (seen once); otherwise the 120 tile trip in traffic stalls (drive stuck in jams) and the truck drives off before the bot arrives"
+      "expect": "PASS",
+      "replay": true,
+      "note": "walk or drive to the university, plant the explosives, then wreck the pizza truck: the bot drives to it, rams it and keeps ramming (no gun is worth getting out for), jumps clear of cars; traffic makes it chaotic (a lucky seed passes)"
     },
     {
       "name": "train_ride",

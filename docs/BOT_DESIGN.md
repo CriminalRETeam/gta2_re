@@ -580,3 +580,10 @@ police; mission goals that need a respect level the bot cannot reach quickly; th
 - `KillGangGoal` flees at one star when a live cop is within 14 tiles (an arrest follows otherwise), at two stars anywhere.
 - `MissionsGoal` draws a favourite gang per run (its phones cost 450 less), adds up to 300 of random cost to every phone, and picks the gang to kill for respect at random among those within 75% of the best kill reaction. All from the `-bot_seed` rng, so runs differ by seed and replay by seed.
 - `DriveAction`: a clear straight line (`NavCar::DirectLine`) under 40 tiles skips the route search; the pure pursuit aim point is pulled back until a car-wide corridor to it holds no building. Making string pulling demand diagonal clearance was tried and cost 3 of 12 benchmark runs, so it was left out.
+
+## Traffic (DriveAction / NavCar)
+
+- Pure pursuit shortens its look ahead along the route until the car wide strip to the aim point holds no building (the first version pulled the aim back along the same line, which changes nothing).
+- A car stopped ahead for 45 frames (queue, parked car) has its tile closed to the route finder and the route is planned again, with a short reverse and swing (8 times per drive). Stopped cars near the car also add a cost to the tiles round them (`NavCar::AddJam`), and when the lane route runs through a jam a clearance-0 route (one tile pavements) is taken if it is cheaper.
+- Pavements cost 1.1 (was 1.3). Police cars count as obstacles. A pedestrian in the lane no longer stops the car: it creeps at 0.04 and they step aside.
+- Benchmark (`drive_bench.py --jobs 1`, 6 targets x 2 seeds): 9/12 reached, 59k frames summed (was 9/12 and 66k); passing runs are about 30% faster. The zoo horn mission went from 19k to 9k frames, and the truck mission passes and replays.

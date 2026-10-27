@@ -58,6 +58,10 @@ class NavCar : public BotObject
     // Is the straight line between the two points open with room for a car all along it?
     bool DirectLine(float sx, float sy, float tx, float ty) const;
 
+    // Traffic: tiles near a car that is not moving cost extra for the next searches (cleared by ClearJams)
+    void ClearJams();
+    void AddJam(float x, float y);
+
     void BanArea(int cx, int cy, int radius);
     void ClearBans();
 
@@ -73,12 +77,17 @@ class NavCar : public BotObject
 
     u8* mGrid;   // 0 blocked, 1 field, 2 pavement, 3 road
     u8* mWalls;  // bit0 left, bit1 right, bit2 top, bit3 bottom: the block face is a wall
+    u8* mJam;    // tiles occupied or hemmed in by stopped cars
     u8* mBan;    // tiles a stuck drive asked to avoid
     u8* mArrows; // low nibble: green arrows bit0 left, bit1 right, bit2 up, bit3 down
     u32* mCost;
     u32* mParent;
     u8* mState;
     u16* mPathTiles;
+    u16* mAltTiles;
+    u32 mAltCount;
+    u32 mLastCost;
+    u32 mJamCount;
     u32 mPathTileCount;
     float mX[kMaxWp];
     float mY[kMaxWp];

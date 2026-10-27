@@ -155,6 +155,8 @@ DriveAction::DriveAction(float x, float y, float stop_dist)
     , mReverseUntil(0)
     , mReverseSteer(0)
     , mManoeuvres(0)
+    , mBlockedFrames(0)
+    , mBlockReplans(0)
     , mMaxSpeedSeen(0)
     , mBestWpDist(1e9f)
     , mBestWpFrame(0)
@@ -199,12 +201,46 @@ void DriveAction::Start(BotContext& ctx)
     }
 }
 
+// Is the strip of the given half width along the line free of buildings? (the first tile and a half is the car's own)
+static bool Drive_CorridorClear(float x0, float y0, float x1, float y1, float half_width)
+{
+    const float ex = x1 - x0;
+    const float ey = y1 - y0;
+    const float el = sqrtf(ex * ex + ey * ey);
+    if (el < 2.0f)
+    {
+        return true;
+    }
+    const float px = -ey / el * half_width;
+    const float py = ex / el * half_width;
+    for (float d = 1.5f; d <= el; d += 0.5f)
+    {
+        const float qx = x0 + ex / el * d;
+        const float qy = y0 + ey / el * d;
+        if (WorldModel::BuildingAt(qx + px, qy + py) || WorldModel::BuildingAt(qx - px, qy - py))
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
 bool DriveAction::Plan(BotContext& ctx, const char* why)
 {
     const WorldModel::PlayerInfo& pl = ctx.world->player;
     // A clear straight line is the quickest way: no detour to the roads and their arrows
     const float ddx = mTx - pl.x;
     const float ddy = mTy - pl.y;
+    // stopped cars close to the car cost extra to route through
+    ctx.road->ClearJams();
+    for (int k = 0; k < ctx.world->car_count; k++)
+    {
+        const WorldModel::CarInfo& oc = ctx.world->cars[k];
+        if (oc.dist > 2.0f && oc.speed < 0.03f)
+        {
+            ctx.road->AddJam(oc.x, oc.y);
+        }
+    }
     const bool direct = ddx * ddx + ddy * ddy < 40.0f * 40.0f && ctx.road->DirectLine(pl.x, pl.y, mTx, mTy);
     const bool found = !direct && ctx.road->FindPath(pl.x, pl.y, mTx, mTy);
     mWpCount = 0;
@@ -236,6 +272,7 @@ bool DriveAction::Plan(BotContext& ctx, const char* why)
     mStillFrames = 0;
     mReverseUntil = 0;
     mManoeuvres = 0;
+    mBlockedFrames = 0;
     mHavePrev = false;
     mBestWpDist = 1e9f;
     mLastWpIdx = -1;
@@ -365,6 +402,49 @@ Action::Status DriveAction::Step(BotContext& ctx)
     {
         mStillFrames = 0;
     }
+    // Stopped behind a car that is not going anywhere (a queue, a parked car in the lane, a broken down one):
+    // close the tile it stands on to the route finder and plan again, round it by the next lane, the pavement
+    // or another street, instead of waiting for it or shoving it
+    {
+        const float hd = (ctx.car.sign * pl.rot_deg + ctx.car.offset) * 3.14159265f / 180.0f;
+        const float fx = sinf(hd);
+        const float fy = -cosf(hd);
+        const WorldModel::CarInfo* blocker = NULL;
+        for (int k = 0; k < ctx.world->car_count && !blocker; k++)
+        {
+            const WorldModel::CarInfo& oc = ctx.world->cars[k];
+            const float along = (oc.x - pl.x) * fx + (oc.y - pl.y) * fy;
+            const float side = (oc.x - pl.x) * -fy + (oc.y - pl.y) * fx;
+            if (along > 0.3f && along < 4.0f && fabsf(side) < 1.5f && oc.speed < 0.03f)
+            {
+                blocker = &oc;
+            }
+        }
+        if (blocker && mSpeed < 0.02f && ctx.frame > ctx.action_start_frame + 40 && ctx.frame > mReverseUntil && ctx.frame > mFwdUntil)
+        {
+            mBlockedFrames++;
+        }
+        else if (mSpeed > 0.05f || !blocker)
+        {
+            mBlockedFrames = 0;
+        }
+        if (mBlockedFrames > 45 && mBlockReplans < 8)
+        {
+            mBlockedFrames = 0;
+            mBlockReplans++;
+            ctx.road->BanArea(static_cast<int>(blocker->x), static_cast<int>(blocker->y), 0);
+            BotDecision("f=%d drive: stopped behind car #%d (%.1f tiles ahead, %s%s); closing its tile and planning round it (%d)", ctx.frame, blocker->idx,
+                        (blocker->x - pl.x) * fx + (blocker->y - pl.y) * fy, blocker->has_driver ? "driver" : "empty", blocker->police ? ", police" : "", mBlockReplans);
+            const s32 manoeuvres = mManoeuvres;
+            Plan(ctx, "blocked");
+            mManoeuvres = manoeuvres;
+            // back off a little and swing round
+            mReverseUntil = ctx.frame + 20 + static_cast<s32>(ctx.rng->Below(15));
+            mFwdUntil = mReverseUntil + 40;
+            mReverseSteer = (ctx.rng->Below(2) == 0) ? 1.0f : -1.0f;
+            return Running;
+        }
+    }
     const bool timed_out = ctx.frame - mProgressFrame > 600;
     if ((mStillFrames > 45 && mManoeuvres >= 4) || timed_out)
     {
@@ -400,7 +480,26 @@ Action::Status DriveAction::Step(BotContext& ctx)
         mReverseUntil = ctx.frame + 25 + static_cast<s32>(ctx.rng->Below(45));
         mFwdUntil = mReverseUntil + 35 + static_cast<s32>(ctx.rng->Below(45));
         mReverseSteer = (ctx.rng->Below(2) == 0) ? 1.0f : -1.0f;
-        BotDecision("f=%d drive: not moving at (%.1f,%.1f), reverse manoeuvre %d", ctx.frame, pl.x, pl.y, mManoeuvres);
+        {
+            // what is in front: a wall, a pedestrian or a car
+            const float hd = (ctx.car.sign * pl.rot_deg + ctx.car.offset) * 3.14159265f / 180.0f;
+            const float fx = sinf(hd);
+            const float fy = -cosf(hd);
+            char what[160];
+            what[0] = 0;
+            for (int k = 0; k < ctx.world->car_count; k++)
+            {
+                const WorldModel::CarInfo& oc = ctx.world->cars[k];
+                const float along = (oc.x - pl.x) * fx + (oc.y - pl.y) * fy;
+                const float side = (oc.x - pl.x) * -fy + (oc.y - pl.y) * fx;
+                if (along > 0.0f && along < 5.0f && fabsf(side) < 1.5f && strlen(what) < 100)
+                {
+                    _snprintf(what + strlen(what), 40, " car#%d(%.1f,%.1f%s%s)", oc.idx, along, side, oc.has_driver ? ",drv" : ",empty", oc.police ? ",cop" : "");
+                }
+            }
+            BotDecision("f=%d drive: not moving at (%.1f,%.1f), reverse manoeuvre %d; ahead: wall %d/%d/%d tiles%s", ctx.frame, pl.x, pl.y, mManoeuvres,
+                        WorldModel::BuildingAt(pl.x + fx * 1.2f, pl.y + fy * 1.2f), WorldModel::BuildingAt(pl.x + fx * 2.5f, pl.y + fy * 2.5f), WorldModel::BuildingAt(pl.x + fx * 4.0f, pl.y + fy * 4.0f), what);
+        }
     }
 
     const bool last = mWpIdx == mWpCount - 1;
@@ -408,7 +507,9 @@ Action::Status DriveAction::Step(BotContext& ctx)
     float aim_y = mWpY[mWpIdx];
     {
         // Pure pursuit: aim a little way ahead on the route (further when faster) instead of at the waypoint
-        // itself, which keeps the car on the leg between two waypoints and rounds the corners
+        // itself, which keeps the car on the leg between two waypoints and rounds the corners. The line from the
+        // car to the aim point must have room for the car's width; if it clips the corner of a building the
+        // look ahead is shortened (the aim moves back along the route, not along the line) until it does not
         const float ax0 = mWpIdx > 0 ? mWpX[mWpIdx - 1] : mPlanX;
         const float ay0 = mWpIdx > 0 ? mWpY[mWpIdx - 1] : mPlanY;
         const float sx = mWpX[mWpIdx] - ax0;
@@ -424,57 +525,35 @@ Action::Status DriveAction::Step(BotContext& ctx)
             float look = 3.5f + mSpeed * 22.0f;
             look = look > 8.0f ? 8.0f : look;
             const float rem = sqrtf((mWpX[mWpIdx] - qx) * (mWpX[mWpIdx] - qx) + (mWpY[mWpIdx] - qy) * (mWpY[mWpIdx] - qy));
-            if (rem > look)
+            for (int k = 0; k < 6; k++)
             {
-                aim_x = qx + sx / sl * look;
-                aim_y = qy + sy / sl * look;
-            }
-            else if (mWpIdx + 1 < mWpCount)
-            {
-                const float nx = mWpX[mWpIdx + 1] - mWpX[mWpIdx];
-                const float ny = mWpY[mWpIdx + 1] - mWpY[mWpIdx];
-                const float nl = sqrtf(nx * nx + ny * ny);
-                if (nl > 0.01f)
+                float lx = mWpX[mWpIdx];
+                float ly = mWpY[mWpIdx];
+                if (rem > look)
                 {
-                    const float rest = look - rem;
-                    const float use = rest < nl ? rest : nl;
-                    aim_x = mWpX[mWpIdx] + nx / nl * use;
-                    aim_y = mWpY[mWpIdx] + ny / nl * use;
+                    lx = qx + sx / sl * look;
+                    ly = qy + sy / sl * look;
                 }
-            }
-        }
-    }
-
-    {
-        // The line to the aim point must be clear of buildings with room for the car's width, or the car clips a
-        // corner: pull the aim point back towards the car until it is
-        const float ex = aim_x - pl.x;
-        const float ey = aim_y - pl.y;
-        const float el = sqrtf(ex * ex + ey * ey);
-        if (el > 2.0f)
-        {
-            const float px = -ey / el * 0.7f;
-            const float py = ex / el * 0.7f;
-            float f = 1.0f;
-            for (int k = 0; k < 4; k++)
-            {
-                bool clear = true;
-                for (float d = 1.5f; d <= el * f && clear; d += 0.5f)
+                else if (mWpIdx + 1 < mWpCount)
                 {
-                    const float qx = pl.x + ex / el * d;
-                    const float qy = pl.y + ey / el * d;
-                    clear = !WorldModel::BuildingAt(qx + px, qy + py) && !WorldModel::BuildingAt(qx - px, qy - py);
+                    const float nx = mWpX[mWpIdx + 1] - mWpX[mWpIdx];
+                    const float ny = mWpY[mWpIdx + 1] - mWpY[mWpIdx];
+                    const float nl = sqrtf(nx * nx + ny * ny);
+                    if (nl > 0.01f)
+                    {
+                        const float rest = look - rem;
+                        const float use = rest < nl ? rest : nl;
+                        lx = mWpX[mWpIdx] + nx / nl * use;
+                        ly = mWpY[mWpIdx] + ny / nl * use;
+                    }
                 }
-                if (clear)
+                aim_x = lx;
+                aim_y = ly;
+                if (Drive_CorridorClear(pl.x, pl.y, lx, ly, 0.75f))
                 {
                     break;
                 }
-                f *= 0.6f;
-            }
-            if (f < 1.0f && el * f > 2.0f)
-            {
-                aim_x = pl.x + ex * f;
-                aim_y = pl.y + ey * f;
+                look *= 0.6f;
             }
         }
     }
@@ -500,6 +579,7 @@ Action::Status DriveAction::Step(BotContext& ctx)
         const float hy = -cosf(heading);
         const float reach = 3.0f + mSpeed * 50.0f;
         float first_obstacle = -1.0f;
+        bool obstacle_is_ped = false;
         for (float d = 1.2f; d <= reach && first_obstacle < 0.0f; d += 0.5f)
         {
             const float sx = pl.x + hx * d;
@@ -511,6 +591,16 @@ Action::Status DriveAction::Step(BotContext& ctx)
             {
                 const WorldModel::PedInfo& p = ctx.world->peds[i];
                 if (!p.dead && !p.in_car && (p.x - sx) * (p.x - sx) + (p.y - sy) * (p.y - sy) < 0.8f * 0.8f)
+                {
+                    hit = true;
+                    obstacle_is_ped = !WorldModel::BuildingAt(sx, sy);
+                }
+            }
+            // a police car is no use to bump: it brings the wanted level
+            for (int i = 0; i < ctx.world->car_count && !hit; i++)
+            {
+                const WorldModel::CarInfo& oc = ctx.world->cars[i];
+                if (oc.police && (oc.x - sx) * (oc.x - sx) + (oc.y - sy) * (oc.y - sy) < 1.1f * 1.1f)
                 {
                     hit = true;
                 }
@@ -530,6 +620,10 @@ Action::Status DriveAction::Step(BotContext& ctx)
                 allowed = 0.03f; // keep creeping: stopping dead in front of every kerb and corner is what makes it crawl
             }
 
+            if (obstacle_is_ped && allowed < 0.04f)
+            {
+                allowed = 0.04f; // a pedestrian in the lane steps aside from a car that keeps coming; one that stands still is bumped
+            }
             cap = allowed < cap ? allowed : cap;
             if (ctx.frame % 40 == 0)
             {

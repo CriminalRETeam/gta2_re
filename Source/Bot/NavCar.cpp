@@ -105,10 +105,16 @@ NavCar::NavCar()
     mWalls = static_cast<u8*>(BotHeap_Alloc(kTiles));
     mBan = static_cast<u8*>(BotHeap_Alloc(kTiles));
     memset(mBan, 0, kTiles);
+    mJam = static_cast<u8*>(BotHeap_Alloc(kTiles));
+    memset(mJam, 0, kTiles);
     mCost = static_cast<u32*>(BotHeap_Alloc(sizeof(u32) * kTiles));
     mParent = static_cast<u32*>(BotHeap_Alloc(sizeof(u32) * kTiles));
     mState = static_cast<u8*>(BotHeap_Alloc(kTiles));
     mPathTiles = static_cast<u16*>(BotHeap_Alloc(sizeof(u16) * kTiles));
+    mAltTiles = static_cast<u16*>(BotHeap_Alloc(sizeof(u16) * kTiles));
+    mAltCount = 0;
+    mLastCost = 0;
+    mJamCount = 0;
     memset(mX, 0, sizeof(mX));
     memset(mY, 0, sizeof(mY));
 }
@@ -237,6 +243,31 @@ void NavCar::BanArea(int cx, int cy, int radius)
             if (x >= 0 && x < 256 && y >= 0 && y < 256)
             {
                 mBan[y * 256 + x] = 1;
+            }
+        }
+    }
+}
+
+void NavCar::ClearJams()
+{
+    memset(mJam, 0, kTiles);
+    mJamCount = 0;
+}
+
+void NavCar::AddJam(float x, float y)
+{
+    mJamCount++;
+    const int cx = static_cast<int>(x);
+    const int cy = static_cast<int>(y);
+    for (int dy = -1; dy <= 1; dy++)
+    {
+        for (int dx = -1; dx <= 1; dx++)
+        {
+            const int tx = cx + dx;
+            const int ty = cy + dy;
+            if (tx >= 0 && tx < 256 && ty >= 0 && ty < 256)
+            {
+                mJam[ty * 256 + tx] = (dx == 0 && dy == 0) ? 2 : 1;
             }
         }
     }
@@ -410,11 +441,15 @@ bool NavCar::Search(int sx, int sy, int tx, int ty, int clearance, bool approxim
             }
             else if (cell == 2)
             {
-                step = step * 13 / 10;
+                step = step * 11 / 10; // pavements are nearly as good as the road
             }
             else
             {
                 step = step * 15 / 10;
+            }
+            if (mJam[nidx])
+            {
+                step += mJam[nidx] == 2 ? 80 : 30; // a stopped car: round it if the way round is not too long
             }
             const u32 cost = mCost[idx] + step;
             if (mState[nidx] == 1 && mCost[nidx] <= cost)
@@ -440,6 +475,7 @@ bool NavCar::Search(int sx, int sy, int tx, int ty, int clearance, bool approxim
     {
         return false;
     }
+    mLastCost = mCost[goal];
     u32 count = 0;
     for (u32 cur = goal; cur != kNone && count < kTiles; cur = mParent[cur])
     {
@@ -475,9 +511,36 @@ bool NavCar::FindPath(float sx, float sy, float tx, float ty)
     {
         return false;
     }
-    if (!Search(mSx, mSy, mTx, mTy, 1, false) && !Search(mSx, mSy, mTx, mTy, 0, true))
+    if (!Search(mSx, mSy, mTx, mTy, 1, false))
     {
-        return false;
+        if (!Search(mSx, mSy, mTx, mTy, 0, true))
+        {
+            return false;
+        }
+    }
+    else if (mJamCount > 0)
+    {
+        // Stopped cars about: a route that squeezes along a one tile pavement may beat queuing in the lane
+        bool through_jam = false;
+        for (u32 i = 0; i < mPathTileCount && !through_jam; i++)
+        {
+            through_jam = mJam[mPathTiles[i]] != 0;
+        }
+        if (through_jam)
+        {
+            const u32 lane_cost = mLastCost;
+            const u32 lane_count = mPathTileCount;
+            memcpy(mAltTiles, mPathTiles, sizeof(u16) * lane_count);
+            if (Search(mSx, mSy, mTx, mTy, 0, false) && mLastCost < lane_cost)
+            {
+                // the narrow route is cheaper: keep it
+            }
+            else
+            {
+                memcpy(mPathTiles, mAltTiles, sizeof(u16) * lane_count);
+                mPathTileCount = lane_count;
+            }
+        }
     }
 
     // String pulling: from each kept tile, jump to the furthest tile with a safe straight line

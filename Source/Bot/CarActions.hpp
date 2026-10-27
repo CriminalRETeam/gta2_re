@@ -87,6 +87,8 @@ class DriveAction : public Action
     s32 mReverseUntil;
     float mReverseSteer;
     s32 mManoeuvres;
+    s32 mBlockedFrames; // frames spent stopped behind a car that is not moving
+    s32 mBlockReplans;
     float mMaxSpeedSeen;
     float mBestWpDist;
     s32 mBestWpFrame;
