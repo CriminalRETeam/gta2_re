@@ -377,7 +377,7 @@ Action::Status PrepareGoal::Step(BotContext& ctx)
 }
 
 // ---------------------------------------------------------------------------------------------
-TravelGoal::TravelGoal(float x, float y, float arrive_dist)
+TravelGoal::TravelGoal(float x, float y, float arrive_dist, bool keep_car)
     : mX(x)
     , mY(y)
     , mArrive(arrive_dist)
@@ -388,6 +388,8 @@ TravelGoal::TravelGoal(float x, float y, float arrive_dist)
     , mBanCount(0)
     , mCarFailures(0)
     , mWalkOnly(false)
+    , mKeepCar(keep_car)
+    , mReclaims(0)
 {
 }
 
@@ -566,8 +568,22 @@ Action::Status TravelGoal::Step(BotContext& ctx)
         case Drive:
             if (s == Failed)
             {
-                BotDecision("f=%d travel: the drive failed (%s): %s; on foot from here", ctx.frame, mChild->fail_condition, mChild->fail_detail);
+                BotDecision("f=%d travel: the drive failed (%s): %s", ctx.frame, mChild->fail_condition, mChild->fail_detail);
+                // thrown out of the car (its owner took it back): get it back, the thief is next to it
+                WorldModel::CarInfo lost;
+                if (strstr(mChild->fail_detail, "not in a car") != NULL && mReclaims < 2 && mCarId != 0 && ctx.world->FindCar(mCarId, &lost) && lost.dist < 12.0f)
+                {
+                    mReclaims++;
+                    BotDecision("f=%d travel: car #%d is %.1f tiles away: taking it back (%d)", ctx.frame, mCarId, lost.dist, mReclaims);
+                    BeginStage(ctx, GetCar);
+                    return Running;
+                }
+                BotDecision("f=%d travel: on foot from here", ctx.frame);
                 mWalkOnly = true;
+            }
+            else if (mKeepCar)
+            {
+                return Done;
             }
             BeginStage(ctx, Dismount);
             return Running;
@@ -662,6 +678,10 @@ KillGangGoal::KillGangGoal(s32 gang_idx, s32 kills, s32 max_frames)
     , mZone(0)
     , mFailures(0)
     , mChildSince(0)
+    , mRunOver(false)
+    , mNoCar(false)
+    , mCarTries(0)
+    , mCarBanCount(0)
 {
 }
 
@@ -699,6 +719,33 @@ void KillGangGoal::NextChild(BotContext& ctx)
 {
     const WorldModel& w = *ctx.world;
     const WorldModel::PlayerInfo& pl = w.player;
+    // On foot, a better gun lying close (dropped by the ones just killed) is worth a few steps
+    if (!pl.in_car)
+    {
+        s32 held = 0;
+        Weapons::BestHeld(w, Weapons::VsPed, &held);
+        for (int i = 0; i < w.pickup_count && w.pickups[i].model >= 200; i++)
+        {
+            const WorldModel::ObjInfo& o = w.pickups[i];
+            const float dx = o.x - pl.x;
+            const float dy = o.y - pl.y;
+            if (dx * dx + dy * dy > 8.0f * 8.0f)
+            {
+                break;
+            }
+            if (o.model <= 227 && Weapons::Score(o.model - 200, Weapons::VsPed) > held && !Banned(o.id) && mBanCount < kMaxBan)
+            {
+                mBan[mBanCount++] = o.id; // once
+                mHunting = false;
+                mRunOver = false;
+                mChildSince = ctx.frame;
+                BotDecision("f=%d kill_gang: picking up weapon #%d (model %d) %.1f tiles away", ctx.frame, o.id, o.model, sqrtf(dx * dx + dy * dy));
+                mChild = new PickUpAction(o.id, o.x, o.y);
+                BeginChild(ctx, &mSnap, mChild);
+                return;
+            }
+        }
+    }
     for (int i = 0; i < w.ped_count; i++)
     {
         const WorldModel::PedInfo& p = w.peds[i];
@@ -706,20 +753,51 @@ void KillGangGoal::NextChild(BotContext& ctx)
         {
             mHunting = true;
             mTargetId = p.id;
-            BotDecision("f=%d kill_gang: hunting ped #%d of gang %d at %.0f tiles (%d of %d killed)", ctx.frame, p.id, mGang, p.dist, mKilled, mWant);
-            mChild = new KillPedAction(p.id, p.x, p.y);
+            mRunOver = false;
+            if (pl.in_car && !mNoCar)
+            {
+                // in a car: run them over, one after the other, as long as any are in sight
+                mRunOver = true;
+                BotDecision("f=%d kill_gang: running down gang %d peds from a car (nearest %.0f tiles, %d of %d killed)", ctx.frame, mGang, p.dist, mKilled, mWant);
+                mChild = new RunOverAction(mGang, mWant - mKilled);
+            }
+            else
+            {
+                BotDecision("f=%d kill_gang: hunting ped #%d of gang %d at %.0f tiles (%d of %d killed)", ctx.frame, p.id, mGang, p.dist, mKilled, mWant);
+                mChild = new KillPedAction(p.id, p.x, p.y);
+            }
             BeginChild(ctx, &mSnap, mChild);
             return;
         }
     }
     // Nobody in sight: walk about the gang's territory, nearest zone first
     mHunting = false;
+    mRunOver = false;
     mChildSince = ctx.frame;
-    if (pl.in_car)
+    // Nobody in sight and no car: a car makes the rounds of the territory (and the kills) much faster
+    if (!pl.in_car && !mNoCar && mCarTries < 4)
     {
-        mChild = new ExitCarAction();
-        BeginChild(ctx, &mSnap, mChild);
-        return;
+        CarPick ban;
+        ban.banned_count = 0;
+        for (int i = 0; i < mCarBanCount && i < 8; i++)
+        {
+            ban.banned[ban.banned_count++] = mCarBan[i];
+        }
+        s32 car = 0;
+        bool hijack = false;
+        float path = 0.0f;
+        if (Cars_Pick(ctx, ban, 30.0f, true, &car, &hijack, &path))
+        {
+            mCarTries++;
+            if (mCarBanCount < 8)
+            {
+                mCarBan[mCarBanCount++] = car;
+            }
+            BotDecision("f=%d kill_gang: taking car #%d%s %.0f tiles away to cover the territory", ctx.frame, car, hijack ? " (hijack)" : "", path);
+            mChild = new EnterCarAction(car, hijack);
+            BeginChild(ctx, &mSnap, mChild);
+            return;
+        }
     }
     const WorldModel::GangZone* best[WorldModel::kMaxGangZones];
     float best_d[WorldModel::kMaxGangZones];
@@ -762,7 +840,8 @@ void KillGangGoal::NextChild(BotContext& ctx)
         if (ctx.nav->FindPath(static_cast<u8>(pl.x), static_cast<u8>(pl.y), static_cast<u8>(pl.z + 0.5f), static_cast<u8>(tx), static_cast<u8>(ty)) && !ctx.nav->Approximate())
         {
             BotDecision("f=%d kill_gang: nobody of gang %d in sight; walking to (%d,%d) in its zone %d", ctx.frame, mGang, tx, ty, mZone % n);
-            mChild = new TravelGoal(tx + 0.5f, ty + 0.5f, 2.0f);
+            // by car when the zone is far, and stay in it: a gang is run down faster than it is chased on foot
+            mChild = new TravelGoal(tx + 0.5f, ty + 0.5f, 2.0f, !mNoCar);
             BeginChild(ctx, &mSnap, mChild);
             if (++mWander % 4 == 0)
             {
@@ -830,7 +909,20 @@ Action::Status KillGangGoal::Step(BotContext& ctx)
     {
         return Running;
     }
-    if (mHunting)
+    if (mHunting && mRunOver)
+    {
+        mKilled += static_cast<RunOverAction*>(mChild)->Kills();
+        if (s == Failed && strcmp(mChild->fail_condition, "car_damaged") == 0)
+        {
+            mNoCar = true; // the car is spent: finish on foot (KillPed gets out first)
+        }
+        else if (s == Failed && strstr(mChild->fail_detail, "not in a car") != NULL && mCarBanCount > 0)
+        {
+            mCarBanCount--; // thrown out: its owner took it back; it may be taken again (the ones next to it die first)
+        }
+        BotDecision("f=%d kill_gang: run over ended (%s), %d of %d killed", ctx.frame, s == Done ? "done" : mChild->fail_detail, mKilled, mWant);
+    }
+    else if (mHunting)
     {
         if (s == Done)
         {

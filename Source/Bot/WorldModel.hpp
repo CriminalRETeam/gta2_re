@@ -143,6 +143,9 @@ class WorldModel : public BotObject
     // Every command of the loaded script: index, name, next index and the first raw words
     static void DumpScript(const char* path);
 
+    // Every map zone: type, rectangle, name
+    static void DumpZones(const char* path);
+
     // Every ped within radius tiles of the player: type, occupation, objective (and the internal one), state, car
     static u32 PedTable(char* out, u32 out_size, float radius);
 

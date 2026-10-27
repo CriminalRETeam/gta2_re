@@ -143,7 +143,7 @@ Action::Status RamCarAction::Step(BotContext& ctx)
     {
         return Fail("no_progress", "ram_car: car #%d still going after 3000 frames", mTarget);
     }
-    if (pl.car_damage >= 12000)
+    if (pl.car_damage >= 14500)
     {
         return Fail("car_damaged", "ram_car: own car damage %d, about to burn", pl.car_damage);
     }
@@ -293,6 +293,156 @@ Action::Status RamCarAction::Step(BotContext& ctx)
     if (ctx.frame % 60 == 0)
     {
         BotDecision("f=%d ram_car: target #%d at %.1f tiles, speed %.2f (mine %.2f), err %.0f, damage %d (mine %d), %d hits", ctx.frame, mTarget, dist, tspeed, mSpeed, err, t.damage, pl.car_damage, mHits);
+    }
+    return Running;
+}
+
+// ---------------------------------------------------------------------------------------------
+RunOverAction::RunOverAction(s32 gang_idx, s32 kills)
+    : mGang(gang_idx)
+    , mWant(kills)
+    , mKilled(0)
+    , mStart(0)
+    , mLastSeen(0)
+    , mTargetId(0)
+    , mTargetAlive(false)
+    , mHavePrev(false)
+    , mPrevX(0)
+    , mPrevY(0)
+    , mTx(0)
+    , mTy(0)
+    , mVx(0)
+    , mVy(0)
+    , mSpeed(0)
+    , mStill(0)
+    , mReverseUntil(0)
+    , mReverseSteer(1.0f)
+{
+}
+
+void RunOverAction::Start(BotContext& ctx)
+{
+    mStart = ctx.frame;
+    mLastSeen = ctx.frame;
+    mKilled = 0;
+    mTargetId = 0;
+    mTargetAlive = false;
+    mHavePrev = false;
+    mStill = 0;
+    mReverseUntil = 0;
+    if (!ctx.car.valid && ctx.foot.valid)
+    {
+        ctx.car = ctx.foot;
+    }
+}
+
+Action::Status RunOverAction::Step(BotContext& ctx)
+{
+    const WorldModel::PlayerInfo& pl = ctx.world->player;
+    ctx.input = 0;
+    if (!pl.valid)
+    {
+        return Running;
+    }
+    if (pl.dead)
+    {
+        return Fail("action_failed", "run_over: the player died");
+    }
+    if (!pl.in_car)
+    {
+        return Fail("action_failed", "run_over: the player is not in a car");
+    }
+    if (pl.car_damage >= 14500)
+    {
+        return Fail("car_damaged", "run_over: own car damage %d, about to burn", pl.car_damage);
+    }
+    if (mKilled >= mWant)
+    {
+        return Done;
+    }
+    if (mHavePrev)
+    {
+        const float mx = pl.x - mPrevX;
+        const float my = pl.y - mPrevY;
+        mSpeed = sqrtf(mx * mx + my * my);
+    }
+    mPrevX = pl.x;
+    mPrevY = pl.y;
+    mHavePrev = true;
+
+    // the nearest living gang ped on foot; a kill is a target seen dead
+    const WorldModel& w = *ctx.world;
+    const WorldModel::PedInfo* target = NULL;
+    bool target_listed = false;
+    for (int i = 0; i < w.ped_count; i++)
+    {
+        const WorldModel::PedInfo& p = w.peds[i];
+        if (p.id == mTargetId)
+        {
+            target_listed = true;
+        }
+        if (!target && p.gang_idx == mGang && !p.dead && !p.cop && !p.in_car && p.dist < 40.0f)
+        {
+            target = &p;
+        }
+    }
+    if (mTargetAlive && !target_listed)
+    {
+        // it left the list of living peds: dead (the pool drops the dead from the nearest list)
+        mKilled++;
+        mTargetAlive = false;
+        BotDecision("f=%d run_over: ped #%d is down (%d of %d), speed %.2f", ctx.frame, mTargetId, mKilled, mWant, mSpeed);
+    }
+    if (!target)
+    {
+        mTargetAlive = false;
+        mTargetId = 0;
+        // none in sight: keep rolling, and give up after a while so the caller can look elsewhere
+        ctx.input = input_bit::Forward;
+        return ctx.frame - mLastSeen > 150 ? Done : Running;
+    }
+    mLastSeen = ctx.frame;
+    if (target->id != mTargetId)
+    {
+        mTargetId = target->id;
+        mTargetAlive = true;
+        mVx = mVy = 0;
+        mTx = target->x;
+        mTy = target->y;
+    }
+    mVx = mVx * 0.7f + (target->x - mTx) * 0.3f;
+    mVy = mVy * 0.7f + (target->y - mTy) * 0.3f;
+    mTx = target->x;
+    mTy = target->y;
+
+    if (ctx.frame < mReverseUntil)
+    {
+        ctx.input = input_bit::Backward | (mReverseSteer > 0 ? input_bit::Right : input_bit::Left);
+        return Running;
+    }
+    if (mSpeed < 0.004f && ctx.frame - mStart > 30)
+    {
+        mStill++;
+    }
+    else
+    {
+        mStill = 0;
+    }
+    if (mStill > 40)
+    {
+        mStill = 0;
+        mReverseUntil = ctx.frame + 30;
+        mReverseSteer = ctx.rng->Below(2) == 0 ? 1.0f : -1.0f;
+        return Running;
+    }
+    const float lead = target->dist / (mSpeed > 0.06f ? mSpeed : 0.06f);
+    const float ax = target->x + mVx * (lead > 20.0f ? 20.0f : lead);
+    const float ay = target->y + mVy * (lead > 20.0f ? 20.0f : lead);
+    const float err = ctx.Steer(ctx.car, pl.rot_deg, pl.x, pl.y, ax, ay, false);
+    ctx.input |= input_bit::Forward;
+    if (fabsf(err) > 60.0f && mSpeed > 0.12f)
+    {
+        ctx.input |= input_bit::HandbrakeJump; // swing the tail round
     }
     return Running;
 }

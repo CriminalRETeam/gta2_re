@@ -31,6 +31,8 @@ static void SetDefaults(BotOptions* o)
     o->want_tokens = 3;
     o->want_frenzies = 2;
     o->want_missions = 0;
+    o->gang = 0;
+    o->kills = 10;
 }
 
 bool BotOptions_Parse(const char* cmd_line, BotOptions* o)
@@ -185,6 +187,14 @@ bool BotOptions_Parse(const char* cmd_line, BotOptions* o)
         {
             o->want_frenzies = atoi(value);
         }
+        else if (_strnicmp(key, "_gang", key_len) == 0 && key_len == 5)
+        {
+            o->gang = atoi(value);
+        }
+        else if (_strnicmp(key, "_kills", key_len) == 0 && key_len == 6)
+        {
+            o->kills = atoi(value);
+        }
         else if (_strnicmp(key, "_missions", key_len) == 0 && key_len == 9)
         {
             o->want_missions = atoi(value);
@@ -192,6 +202,10 @@ bool BotOptions_Parse(const char* cmd_line, BotOptions* o)
         else if (_strnicmp(key, "_script_dump", key_len) == 0 && key_len == 12)
         {
             o->script_dump = true;
+        }
+        else if (_strnicmp(key, "_zones_dump", key_len) == 0 && key_len == 11)
+        {
+            o->zones_dump = true;
         }
         else if (_strnicmp(key, "_miss_log", key_len) == 0 && key_len == 9)
         {

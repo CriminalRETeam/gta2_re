@@ -517,6 +517,18 @@ MissionsGoal              root: which phone next. Tier (green, amber, red), dist
   frame), and the stuck report lists the script threads with the next commands, and the peds near
   the player with their objectives. A stalled mission can be read off these in a few minutes.
 
+- **Gang hunting.** `KillGangGoal` goes to the territory by car and stays in it (`TravelGoal` with
+  `keep_car`), runs gang peds over (`RunOverAction`), shoots the ones on foot, picks up the better
+  guns they drop, and takes another car when it loses one. A car stolen from its owner can be taken
+  back, so a drive that ends with the player thrown out goes back for the car (the thief is beside it).
+  Kills go fast once the gang is in sight and attacking; the slow part is getting there (140 tiles
+  through traffic from the start). `-bot=kill_gang -bot_gang=N -bot_kills=K` runs it alone.
+- **Trains.** Checked with `-bot_zones_dump`: Downtown has 8 train tracks, each with its own entry,
+  stop and exit point and one platform, so a train is a short shuttle of about 30 tiles, not a line
+  between stations. Not worth a travel option on this map.
+- **Watching.** `run_bot.py --show` draws the run on your own screen at game speed; if the session is
+  locked or there is no display it runs off screen as before.
+
 Missions passed by the bot (`Scripts/bot/bot_runs/runs.json`, each replays identically in the
 stock game): phone 220 (the zoo: pick up a car, park on the arrow, honk, drive ZitZaki), phone 226
 (destroy the delivery truck: ram it with a fast car until it stops, then shoot it).

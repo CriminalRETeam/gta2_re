@@ -23,7 +23,9 @@
 //                         the CRT's start up allocations, and so the heap layout, are the same
 //   -bot_goto=x,y         walk_arrow: target when the HUD arrow shows nothing (tiles)
 //   -bot_map_dump=x,y     text map of the blocks around x,y (road, pavement, buildings, arrows, cars) at the first frame
+//   -bot_gang=N -bot_kills=K   kill_gang profile: kill K peds of gang N (Gang::field_1_gang_idx)
 //   -bot_script_dump      list every script command (index, name, next, raw words) to bot_script.txt at the first frame
+//   -bot_zones_dump       list every map zone (type, rectangle, name) to bot_zones.txt at the first frame
 //   -bot_miss_log         let the game write test\MISS_LOG.TXT (script command offsets run per frame, per thread)
 //   -bot_objects_dump     list every world object (model, position) to bot_objects.txt at the first frame
 //   -bot_tokens=N -bot_frenzies=N -bot_missions=N   collect profile goals (defaults 3, 2, 0)
@@ -62,7 +64,10 @@ struct BotOptions
     s32 want_frenzies;
     s32 want_missions;
     bool objects_dump;
+    s32 gang;
+    s32 kills;
     bool script_dump;
+    bool zones_dump;
     bool miss_log;
     bool has_goto;
     float goto_x, goto_y;

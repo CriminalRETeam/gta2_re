@@ -94,7 +94,8 @@ class SequenceGoal : public Action
 class TravelGoal : public Action
 {
   public:
-    TravelGoal(float x, float y, float arrive_dist);
+    // keep_car: after a drive stay in the car instead of getting out at the end
+    TravelGoal(float x, float y, float arrive_dist, bool keep_car = false);
     ~TravelGoal();
 
     virtual const char* Name() const
@@ -131,6 +132,8 @@ class TravelGoal : public Action
     s32 mBanCount;
     s32 mCarFailures;
     bool mWalkOnly;
+    bool mKeepCar;
+    s32 mReclaims;
 };
 
 // Gang peds to kill when a phone refuses: the brief names whom ("kill some Zaibatsu")
@@ -179,6 +182,11 @@ class KillGangGoal : public Action
     s32 mZone;
     s32 mFailures;
     s32 mChildSince;
+    bool mRunOver;
+    bool mNoCar; // the car failed: on foot from now on
+    s32 mCarTries;
+    s32 mCarBan[8];
+    s32 mCarBanCount;
 };
 
 // Picks up what makes the next fight survivable: full health, armour and a better weapon than the

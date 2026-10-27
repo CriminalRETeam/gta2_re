@@ -191,6 +191,23 @@ ENV_KEYS = ("HOME", "PATH", "USER", "LOGNAME", "WINEPREFIX", "WINEARCH", "WINEDE
 XVFB_DISPLAY = ":99"  # fixed: the display name is part of the environment, whose size shifts the heap layout
 
 
+def screen_unlocked():
+    """True when the user's own X display can be drawn on: DISPLAY is set and answers, and the login
+    session is not locked (a locked session blocks window creation, which hangs the game)."""
+    if not os.environ.get("DISPLAY"):
+        return False
+    try:
+        sid = os.environ.get("XDG_SESSION_ID", "")
+        cmd = ["loginctl", "show-session"] + ([sid] if sid else []) + ["-p", "LockedHint", "--value"]
+        out = subprocess.run(cmd, capture_output=True, text=True, timeout=5).stdout.strip()
+        if out == "yes":
+            return False
+        subprocess.run(["xset", "q"], capture_output=True, timeout=5, check=True)
+    except (OSError, subprocess.SubprocessError):
+        return False
+    return True
+
+
 def find_xvfb():
     for cand in (os.environ.get("BOT_XVFB"), shutil.which("Xvfb"), str(Path.home() / ".local/bin/Xvfb")):
         if cand and Path(cand).exists():

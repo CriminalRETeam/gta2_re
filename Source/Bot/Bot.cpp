@@ -103,6 +103,7 @@ Bot::Bot(const BotOptions& opts)
     , mMapDumped(false)
     , mObjectsDumped(false)
     , mScriptDumped(false)
+    , mZonesDumped(false)
     , mRcState(RC_Warmup)
     , mRcCounter(0)
     , mRcSnapA(NULL)
@@ -129,6 +130,10 @@ Bot::Bot(const BotOptions& opts)
     else if (_stricmp(opts.profile, "collect") == 0)
     {
         mProfile = Profile_Collect;
+    }
+    else if (_stricmp(opts.profile, "kill_gang") == 0)
+    {
+        mProfile = Profile_KillGang;
     }
     else if (_stricmp(opts.profile, "travel") == 0)
     {
@@ -468,6 +473,7 @@ void Bot::OnFrame()
             case Profile_PhoneTest:
             case Profile_Missions:
             case Profile_Travel:
+            case Profile_KillGang:
                 StepActions();
                 break;
             default:
@@ -752,6 +758,14 @@ void Bot::BuildActions()
     {
         return; // CollectNext plans
     }
+    if (mProfile == Profile_KillGang)
+    {
+        SequenceGoal* seq = new SequenceGoal("kill_gang_test");
+        seq->Add(new PrepareGoal(Weapons::VsPed, 40.0f, 1500), true);
+        seq->Add(new KillGangGoal(mOpts.gang, mOpts.kills, 12000), false);
+        mActions[mActionCount++] = seq;
+        return;
+    }
     if (mProfile == Profile_Travel)
     {
         mActions[mActionCount++] = new TravelGoal(mOpts.goto_x, mOpts.goto_y, 6.0f);
@@ -867,6 +881,13 @@ void Bot::StepActions()
         StartAction(0);
     }
 
+    if (mOpts.zones_dump && !mZonesDumped)
+    {
+        mZonesDumped = true;
+        char path[MAX_PATH];
+        BotPath_Join(path, sizeof(path), mOpts.out_dir, "bot_zones.txt");
+        WorldModel::DumpZones(path);
+    }
     if (mOpts.script_dump && !mScriptDumped)
     {
         mScriptDumped = true;

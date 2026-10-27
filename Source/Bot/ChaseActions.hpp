@@ -58,3 +58,40 @@ class RamCarAction : public Action
     float mWpY[kMaxWp];
     s32 mWpCount;
 };
+
+// Drives the car the player is in at pedestrians of one gang and runs them over: the nearest
+// living one that is not in a car, aimed at where it is going. Counts the ones it saw die. Done
+// when it has the kills or has seen none for a while (the caller drives on to find more); fails
+// when the car is about to burn.
+class RunOverAction : public Action
+{
+  public:
+    RunOverAction(s32 gang_idx, s32 kills);
+
+    virtual const char* Name() const
+    {
+        return "run_over";
+    }
+    virtual void Start(BotContext& ctx);
+    virtual Status Step(BotContext& ctx);
+
+    s32 Kills() const
+    {
+        return mKilled;
+    }
+
+  private:
+    s32 mGang;
+    s32 mWant;
+    s32 mKilled;
+    s32 mStart;
+    s32 mLastSeen;
+    s32 mTargetId;
+    bool mTargetAlive;
+    bool mHavePrev;
+    float mPrevX, mPrevY, mTx, mTy, mVx, mVy;
+    float mSpeed;
+    s32 mStill;
+    s32 mReverseUntil;
+    float mReverseSteer;
+};

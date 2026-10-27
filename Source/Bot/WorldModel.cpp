@@ -82,6 +82,26 @@ const ScrName kScriptNames[] = {
     {-1, 0}};
 } // namespace
 
+void WorldModel::DumpZones(const char* path)
+{
+    BotTextFile f;
+    if (!gMap_0x370_6F6268 || !gMap_0x370_6F6268->field_32C_pZones || !f.Open(path))
+    {
+        return;
+    }
+    const s32 zones = gMap_0x370_6F6268->field_32C_pZones->field_0_num_zones;
+    for (s32 i = 0; i < zones; i++)
+    {
+        gmp_map_zone* z = gMap_0x370_6F6268->GetZone_4DFB30(static_cast<u16>(i));
+        char name[40];
+        const int len = z->field_5_name_length < 30 ? z->field_5_name_length : 30;
+        memcpy(name, z->field_6_name, len);
+        name[len] = 0;
+        f.Printf("%d type=%d x=%d y=%d w=%d h=%d name=%s\n", i, z->field_0_zone_type, z->field_1_x, z->field_2_y, z->field_3_w, z->field_4_h, name);
+    }
+    f.Close();
+}
+
 void WorldModel::DumpScript(const char* path)
 {
     BotTextFile f;

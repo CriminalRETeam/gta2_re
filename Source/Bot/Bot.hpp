@@ -63,6 +63,7 @@ class Bot : public BotObject
         Profile_PhoneTest,
         Profile_Missions,
         Profile_Travel,
+        Profile_KillGang,
     };
 
     enum RestoreCheckState
@@ -148,6 +149,7 @@ class Bot : public BotObject
     bool mMapDumped;
     bool mObjectsDumped;
     bool mScriptDumped;
+    bool mZonesDumped;
 
     // restore_check
     RestoreCheckState mRcState;
