@@ -90,28 +90,19 @@ Fix16 Fix16::Negate_4086A0() const throw()
 }
 
 MATCH_FUNC(0x44E540)
-Fix16 __stdcall Fix16::Max_44E540(Fix16& pLhs, Fix16& pRhs)
+Fix16 __stdcall Fix16::Max_44E540(Fix16& lhs, Fix16& rhs)
 {
     Fix16 result;
-    if (pLhs.mValue > pRhs.mValue)
+    if (lhs.mValue > rhs.mValue)
     {
-        result.mValue = pLhs.mValue;
+        result.mValue = lhs.mValue;
     }
     else
     {
-        result.mValue = pRhs.mValue;
+        result.mValue = rhs.mValue;
     }
     return result;
 }
-
-/*
-MATCH_FUNC(0x436A20)
-Fix16 Fix16::operator/(const Fix16& in)
-{
-    s32 value = ((__int64)mValue << 14) / in.mValue;
-    return Fix16(value, 0);
-}
-*/
 
 MATCH_FUNC(0x436A50)
 Fix16 __stdcall Fix16::Abs_436A50(Fix16& input)
@@ -460,7 +451,6 @@ EXPORT void __stdcall FindMinMax_5A57E0(Fix16& minOut, Fix16& maxOut, const Fix1
     minOut = a;
     maxOut = a;
 
-    // b
     if (b < minOut)
     {
         minOut = b;
@@ -470,7 +460,6 @@ EXPORT void __stdcall FindMinMax_5A57E0(Fix16& minOut, Fix16& maxOut, const Fix1
         maxOut = b;
     }
 
-    // c
     if (c < minOut)
     {
         minOut = c;
@@ -480,7 +469,6 @@ EXPORT void __stdcall FindMinMax_5A57E0(Fix16& minOut, Fix16& maxOut, const Fix1
         maxOut = c;
     }
 
-    // d
     if (d < minOut)
     {
         minOut = d;
