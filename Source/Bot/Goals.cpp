@@ -685,13 +685,26 @@ Action::Status TravelGoal::Step(BotContext& ctx)
     // On foot with the police closing in (a wanted level and a cop within a few tiles): get away from them
     // (and before taking a car, police that turn up while we walk to it make the grab a theft in front of them)
     if ((mStage == Walk || mStage == GetCar) && !pl.in_car && ctx.frame % 10 == 0 && mAways < 3 && !ctx.world->TimeLimited() &&
-        (pl.wanted_stars > 0 && ctx.world->CopsNear(8.0f)) &&
-        Goals_AwayPoint(*ctx.world, 25.0f, &mAwayX, &mAwayY))
+        (pl.wanted_stars > 0 && ctx.world->CopsNear(8.0f)))
     {
-        mAways++;
-        BotDecision("f=%d travel: wanted %d with police %.0f tiles away: running to (%.0f,%.0f) (%d)", ctx.frame, pl.wanted_stars, 8.0f, mAwayX, mAwayY, mAways);
-        BeginStage(ctx, Away);
-        return Running;
+        // A car close by is the way out (the wanted level is up, so taking one costs nothing more); otherwise run
+        s32 escape = 0;
+        bool escape_hijack = false;
+        float escape_dist = 0.0f;
+        if (mStage == Walk && ChooseCar(ctx, &escape, &escape_hijack, &escape_dist, 14.0f))
+        {
+            mCarId = escape;
+            BotDecision("f=%d travel: wanted %d with police close: getting into car #%d%s %.0f tiles away to get away", ctx.frame, pl.wanted_stars, escape, escape_hijack ? " (hijack)" : "", escape_dist);
+            BeginStage(ctx, GetCar);
+            return Running;
+        }
+        if (mStage == Walk && Goals_AwayPoint(*ctx.world, 25.0f, &mAwayX, &mAwayY))
+        {
+            mAways++;
+            BotDecision("f=%d travel: wanted %d with police %.0f tiles away: running to (%.0f,%.0f) (%d)", ctx.frame, pl.wanted_stars, 8.0f, mAwayX, mAwayY, mAways);
+            BeginStage(ctx, Away);
+            return Running;
+        }
     }
     // On foot: a gun, health or armour lying close is taken on the way
     if (mStage == Walk && !pl.in_car && ctx.frame % 10 == 0 && Remaining(*ctx.world) > mArrive + 3.0f)
@@ -1299,7 +1312,13 @@ void DestroyCarGoal::Decide(BotContext& ctx)
     if (!mTriedShoot && shootable)
     {
         shoot_cost = t.dist * 22.0f + 200.0f;
-        if (t.speed > 0.08f)
+        if (score >= 8 && w.weapon_ammo[2] >= 10 && t.dist < 30.0f && t.speed < 0.05f)
+        {
+            // a rocket held and the car close and standing still: one that reaches it finishes it, which beats ramming it about
+            // (and the damage to our own car). A car that is driving off cannot be chased on foot, that is for the ram
+            shoot_cost = t.dist * 6.0f + 150.0f;
+        }
+        else if (t.speed > 0.08f)
         {
             shoot_cost += 2500.0f; // it will not stand still for the rocket
         }

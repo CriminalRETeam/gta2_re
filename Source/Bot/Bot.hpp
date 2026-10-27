@@ -154,6 +154,21 @@ class Bot : public BotObject
     s32 mDefenseFrames;
     s32 mPrevHp;
     s32 mPrevWanted;
+    // The last 128 frames of the player, for finding out how a death or an arrest came about
+    struct HistFrame
+    {
+        s32 hp;
+        s32 wanted;
+        s32 car_damage;
+        bool in_car;
+        bool busted;
+    };
+    HistFrame mHist[128];
+    s32 mWantedSince;
+    bool mPrevDead;
+    s32 mDeaths;
+    s32 mArrests;
+    void LogDeath();
     s32 mDamageLogs;
     bool mMapDumped;
     bool mObjectsDumped;

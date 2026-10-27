@@ -398,6 +398,19 @@ void WorldModel::Observe()
         player.car_id = me->field_16C_car ? me->field_16C_car->field_6C_car_id : 0;
         player.car_damage = me->field_16C_car ? me->field_16C_car->field_74_damage : 0;
         player.dead = pPlayer->field_28_wasted_or_busted != 0;
+        player.busted = me->get_objective_403A80() == objectives_enum::objective_54;
+        player.death_cause = me->field_290_death_cause;
+        player.killer_occupation = -1;
+        player.killer_cop = false;
+        player.killer_dist = 0.0f;
+        if (me->field_1A8_ped_killer)
+        {
+            player.killer_occupation = me->field_1A8_ped_killer->field_240_occupation;
+            player.killer_cop = me->field_1A8_ped_killer->IsLawEnforcement_45B4E0();
+            const float kx = F(me->field_1A8_ped_killer->field_1AC_cam.x) - player.x;
+            const float ky = F(me->field_1A8_ped_killer->field_1AC_cam.y) - player.y;
+            player.killer_dist = sqrtf(kx * kx + ky * ky);
+        }
         player.attack_pressed = pPlayer->field_7C_now_attack_pressed;
         player.ped_attacking = me->field_21C_bf.bAttacking != 0;
         player.ped_state = me->field_278_ped_state_1;

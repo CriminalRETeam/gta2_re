@@ -109,6 +109,10 @@ Bot::Bot(const BotOptions& opts)
     , mEvadeTy(0.0f)
     , mPrevHp(100)
     , mPrevWanted(0)
+    , mWantedSince(0)
+    , mPrevDead(false)
+    , mDeaths(0)
+    , mArrests(0)
     , mDamageLogs(0)
     , mMapDumped(false)
     , mObjectsDumped(false)
@@ -1018,6 +1022,23 @@ void Bot::StepActions()
         }
         BotDecision("%s", line);
     }
+    {
+        HistFrame& h = mHist[mFrame & 127];
+        h.hp = mWorld->player.hp;
+        h.wanted = mWorld->player.wanted_stars;
+        h.car_damage = mWorld->player.car_damage;
+        h.in_car = mWorld->player.in_car;
+        h.busted = mWorld->player.busted;
+        if (mWorld->player.dead && !mPrevDead)
+        {
+            LogDeath();
+        }
+        mPrevDead = mWorld->player.dead;
+        if (mWorld->player.wanted_stars > 0 && mPrevWanted == 0)
+        {
+            mWantedSince = mFrame;
+        }
+    }
     if (mWorld->player.wanted_stars != mPrevWanted)
     {
         // what the player was doing when the police took notice (or lost interest)
@@ -1058,8 +1079,9 @@ void Bot::StepActions()
     Action* pAction = mActions[mActionIdx];
     const Action::Status status = pAction->Step(mCtx);
     mInputBits = mCtx.input & input_bit::ControlBits;
-    if (strcmp(pAction->Name(), "kill_frenzy") != 0 && SelfDefense())
+    if (strcmp(pAction->Name(), "kill_frenzy") != 0)
     {
+        SelfDefense(); // may replace the action's input, or add a weapon change to it
         mInputBits = mCtx.input & input_bit::ControlBits;
     }
     if (strcmp(pAction->Name(), "kill_frenzy") != 0 && (CopCrush() || Evade()))
@@ -1269,16 +1291,22 @@ bool Bot::SelfDefense()
     {
         return false;
     }
-    if (pl.weapon == 2 || pl.weapon == 4 || pl.weapon == 5 || pl.weapon == 8)
-    {
-        return false;
-    }
+    const bool explosive_held = pl.weapon == 2 || pl.weapon == 4 || pl.weapon == 5 || pl.weapon == 8;
     const WorldModel::PedInfo* target = NULL;
     for (int i = 0; i < mWorld->ped_count; i++)
     {
         const WorldModel::PedInfo& p = mWorld->peds[i];
         // a cop that is beating the player is fought like anyone else (punched or shot); the nearest one first
         if (!p.dead && !p.in_car && p.dist < 3.6f && (!p.cop || pl.wanted_stars > 0) && (!target || p.dist < target->dist))
+        {
+            target = &p;
+        }
+    }
+    // With the police on top of the player, they are the ones to fight (not the bystanders next to them)
+    for (int i = 0; i < mWorld->ped_count && pl.wanted_stars > 0; i++)
+    {
+        const WorldModel::PedInfo& p = mWorld->peds[i];
+        if (p.cop && !p.dead && !p.in_car && p.dist < 3.6f && (!target || !target->cop || p.dist < target->dist))
         {
             target = &p;
         }
@@ -1292,6 +1320,12 @@ bool Bot::SelfDefense()
         BotDecision("f=%d self defence: hp %d, fighting ped #%d (%s) at %.1f with weapon %d ammo %d", mFrame, pl.hp, target->id, WorldModel_OccupationName(target->occupation), target->dist, pl.weapon, pl.ammo);
     }
     mDefenseFrames++;
+    if (explosive_held)
+    {
+        // a rocket, molotov, grenade or flamethrower at arm's length hurts the player more. (Changing weapon here, for the
+        // police or for everyone, was tried: it made the player shoot bystanders, the wanted level rose and it died more.)
+        return false;
+    }
     mCtx.input = 0;
     const float err = mCtx.Steer(mCtx.foot, pl.rot_deg, pl.x, pl.y, target->x, target->y, true);
     if (fabsf(err) < 35.0f && (mFrame % 8) < 6)
@@ -1412,4 +1446,50 @@ bool Bot::CopCrush()
         BotDecision("f=%d crush: cop #%d on foot %.1f tiles away (%.0f deg): %s him", mFrame, cop->id, cop->dist, err, how);
     }
     return true;
+}
+
+// Called the frame the player becomes wasted or busted: what led to it
+void Bot::LogDeath()
+{
+    const WorldModel::PlayerInfo& pl = mWorld->player;
+    const bool busted = pl.busted;
+    if (busted)
+    {
+        mArrests++;
+    }
+    else
+    {
+        mDeaths++;
+    }
+    // the hp, car damage and place (in a car or not) at several frames back
+    static const int back[6] = {120, 60, 30, 15, 5, 1};
+    char hist[300];
+    char* p = hist;
+    p += _snprintf(p, sizeof(hist), "history (frames back: hp/car damage/%s/wanted):", "car");
+    for (int i = 0; i < 6; i++)
+    {
+        if (mFrame - back[i] < 0 || back[i] > 127)
+        {
+            continue;
+        }
+        const HistFrame& h = mHist[(mFrame - back[i]) & 127];
+        p += _snprintf(p, hist + sizeof(hist) - p, " -%d: %d/%d/%s/%d", back[i], h.hp, h.car_damage, h.in_car ? "car" : "foot", h.wanted);
+    }
+    char nearby[400];
+    char* q = nearby;
+    q += _snprintf(q, sizeof(nearby), "near:");
+    int k;
+    for (k = 0; k < mWorld->ped_count && k < 4; k++)
+    {
+        const WorldModel::PedInfo& d = mWorld->peds[k];
+        q += _snprintf(q, nearby + sizeof(nearby) - q, " ped#%d %s%s d=%.1f", d.id, WorldModel_OccupationName(d.occupation), d.dead ? "(dead)" : "", d.dist);
+    }
+    for (k = 0; k < mWorld->car_count && k < 4; k++)
+    {
+        const WorldModel::CarInfo& d = mWorld->cars[k];
+        q += _snprintf(q, nearby + sizeof(nearby) - q, " car#%d%s d=%.1f speed=%.2f drv=%d", d.idx, d.police ? "(police)" : "", d.dist, d.speed, d.has_driver);
+    }
+    BotDecision("f=%d %s #%d at (%.1f,%.1f) %s, wanted %d (for %d frames), hp %d, cause %d, killer %s%s d=%.1f, action %s; %s; %s", mFrame, busted ? "ARRESTED" : "KILLED", busted ? mArrests : mDeaths, pl.x, pl.y,
+                pl.in_car ? "in a car" : "on foot", pl.wanted_stars, mWantedSince ? mFrame - mWantedSince : 0, pl.hp, pl.death_cause, pl.killer_occupation >= 0 ? WorldModel_OccupationName(pl.killer_occupation) : "none",
+                pl.killer_cop ? " (cop)" : "", pl.killer_dist, mActions[mActionIdx] ? mActions[mActionIdx]->Name() : "-", hist, nearby);
 }

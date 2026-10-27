@@ -39,9 +39,10 @@ bool Cars_Pick(BotContext& ctx, const CarPick& ban, float max_dist, bool prefer_
     float best = 1e9f;
     bool found = false;
     const bool cops_near = w.CopsNear(16.0f);
-    if (cops_near && !w.TimeLimited())
+    if (cops_near && !w.TimeLimited() && pl.wanted_stars == 0)
     {
-        return false; // a car taken in front of the police is a wanted level: move away from them first, unless the clock is running
+        return false; // a car taken in front of the police is a wanted level: move away from them first, unless the clock is running.
+                      // With the wanted level up already they are after the player: a car is the way out, not something to avoid
     }
     for (int i = 0; i < w.car_count; i++)
     {
@@ -55,7 +56,7 @@ bool Cars_Pick(BotContext& ctx, const CarPick& ban, float max_dist, bool prefer_
         {
             continue;
         }
-        if (c.has_driver && (c.speed > 0.03f || pl.wanted_stars > 0 || cops_near || c.dist > 10.0f))
+        if (c.has_driver && (c.speed > 0.03f || (pl.wanted_stars == 0 && cops_near) || c.dist > 10.0f))
         {
             continue; // moving traffic cannot be boarded, a hijack in front of the police ends in an arrest, and a car
                       // waiting at a light drives off before we are there unless it is right beside us

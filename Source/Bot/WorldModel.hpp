@@ -41,6 +41,11 @@ class WorldModel : public BotObject
         s32 ped_state;
         s32 objective;
         s32 internal_objective;
+        bool busted;        // the arrest objective (54) is set: the police have the player
+        s32 death_cause;    // Ped::field_290_death_cause, meaningful once dead
+        s32 killer_occupation; // -1 when nobody is recorded
+        bool killer_cop;
+        float killer_dist;
     };
 
     struct ArrowInfo
