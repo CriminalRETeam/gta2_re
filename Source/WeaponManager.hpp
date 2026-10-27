@@ -55,7 +55,7 @@ class WeaponPool
     {
         Weapon* pWeapon = field_0_pool.field_0_pStart;
         field_0_pool.field_0_pStart = pWeapon->mpNext;
-        pWeapon->mpNext = 0;
+        pWeapon->mpNext = NULL;
         return pWeapon;
     }
 
@@ -64,7 +64,7 @@ class WeaponPool
     void DeAllocate_4A4F20(Weapon* pWeapon)
     {
         Weapon* pIter = this->field_0_pool.field_4_pPrev;
-        Weapon* pLastIter = 0;
+        Weapon* pLastIter = NULL;
         while (pIter)
         {
             if (pIter == pWeapon)

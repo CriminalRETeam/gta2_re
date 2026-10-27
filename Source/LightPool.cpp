@@ -19,7 +19,7 @@ Light* LightPool::Alloc_5C2B70()
 {
     Light* result = field_0_pool.field_0_pStart;
     field_0_pool.field_0_pStart = field_0_pool.field_0_pStart->mpNext;
-    result->mpNext = 0;
+    result->mpNext = NULL;
     result->field_0_intensity_radius.flag = 0;
     result->field_14_on_time = 0;
     return result;

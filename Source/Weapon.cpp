@@ -84,11 +84,11 @@ MATCH_FUNC(0x5DCD10)
 Weapon::Weapon()
 {
     field_0_ammo = 0;
-    field_24_pPed = 0;
-    field_14_car = 0;
+    field_24_pPed = NULL;
+    field_14_car = NULL;
     field_2_reload_timer = 0;
     field_4_bTargetHit = 0;
-    mpNext = 0;
+    mpNext = NULL;
     field_1C_idx = 0;
     field_10_unused = 0;
     field_8_unused = 0;
@@ -96,28 +96,28 @@ Weapon::Weapon()
     field_20 = 0;
     field_21 = 0;
     field_2C_shot_fired = 0;
-    field_28_pSound = 0;
+    field_28_pSound = NULL;
 }
 
 MATCH_FUNC(0x5DCD50)
 Weapon::~Weapon()
 {
-    field_24_pPed = 0;
-    mpNext = 0;
-    field_14_car = 0;
+    field_24_pPed = NULL;
+    mpNext = NULL;
+    field_14_car = NULL;
     field_8_unused = 0;
     if (field_28_pSound)
     {
         gRoot_sound_66B038.DestroySoundObj_40FE60(field_28_pSound);
-        field_28_pSound = 0;
+        field_28_pSound = NULL;
     }
 }
 
 MATCH_FUNC(0x5DCD90)
 void Weapon::init_5DCD90()
 {
-    field_24_pPed = 0;
-    field_14_car = 0;
+    field_24_pPed = NULL;
+    field_14_car = NULL;
     field_1C_idx = 0;
     field_0_ammo = 0;
     field_2_reload_timer = 0;
@@ -143,7 +143,7 @@ void Weapon::PoolDeallocate()
     if (field_28_pSound)
     {
         gRoot_sound_66B038.DestroySoundObj_40FE60(field_28_pSound);
-        field_28_pSound = 0;
+        field_28_pSound = NULL;
     }
 }
 
@@ -159,13 +159,13 @@ bool Weapon::add_ammo_capped_5DCE40(u8 to_add)
     s32 cap_total = max_ammo_capacity_5FF75C[field_1C_idx] * 10;
     if (is_infinite_ammo_4A4FA0())
     {
-        return 0;
+        return false;
     }
 
     u16 cur_amount = field_0_ammo;
     if (cur_amount == cap_total)
     {
-        return 0;
+        return false;
     }
 
     s32 new_amount = cur_amount + (to_add * 10);
@@ -177,7 +177,7 @@ bool Weapon::add_ammo_capped_5DCE40(u8 to_add)
     {
         field_0_ammo = new_amount;
     }
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x5dcea0)
@@ -197,16 +197,16 @@ bool Weapon::sub_5DCEF0()
         case weapon_type::car_mines:
         case weapon_type::fire_truck_gun:
         case weapon_type::weapon_0x17:
-            result = 0;
+            result = false;
             break;
         case weapon_type::car_smg:
         case weapon_type::tank_main_gun:
         case weapon_type::fire_truck_flamethrower:
         case weapon_type::army_gun_jeep:
-            result = 1;
+            result = true;
             break;
         default:
-            result = field_24_pPed->field_16C_car == 0;
+            result = field_24_pPed->field_16C_car == NULL;
             break;
     }
     return result;
@@ -258,11 +258,11 @@ Object* Weapon::spawn_bullet_5DCF60(s32 bullet_type, Fix16 xpos, Fix16 ypos, Fix
     {
         pNewBullet->RequestRemoval_5290A0();
         pNewBullet = NULL;
-        bAllowFlameSegment_706D60 = 0;
+        bAllowFlameSegment_706D60 = false;
     }
     else
     {
-        bAllowFlameSegment_706D60 = 1;
+        bAllowFlameSegment_706D60 = true;
         pNewBullet->SetMovementVector_5224E0(speed);
     }
     return pNewBullet;
@@ -292,7 +292,7 @@ void Weapon::flamethrower_5DD0F0()
     if (!field_4_bTargetHit)
     {
         SetShotFired_4CCA80(1);
-        bAllowFlameSegment_706D60 = 0;
+        bAllowFlameSegment_706D60 = false;
         Weapon::spawn_bullet_5DCF60(objects::invisible_bullet_154, xpos, ypos, cam_z, ped_rot, ped_velocity);
         if (bAllowFlameSegment_706D60)
         {
@@ -821,7 +821,7 @@ void Weapon::TraceBeamToHitTarget_5DE4F0()
                 {
                     case sprite_types_enum::car_2:
                         field_24_pPed->field_170_selected_weapon->SetTargetHit_433810(1);
-                        field_24_pPed->field_198_hit_target_ped = 0;
+                        field_24_pPed->field_198_hit_target_ped = NULL;
                         return;
 
                     case sprite_types_enum::ped_3:
@@ -1137,14 +1137,14 @@ void __stdcall ShockPedsAroundSprite_5DF270(Sprite* pSprite, Fix16 search_size, 
                 }
                 else if (pAttacker->field_198_hit_target_ped)
                 {
-                    pAttacker->field_198_hit_target_ped = 0;
+                    pAttacker->field_198_hit_target_ped = NULL;
                 }
             }
             pHit = hits.TakeClosestSprite_5A6EA0(xpos, ypos);
         }
     }
 
-    pAttacker->field_198_hit_target_ped = 0;
+    pAttacker->field_198_hit_target_ped = NULL;
     if (pAttacker->field_170_selected_weapon)
     {
         pAttacker->field_170_selected_weapon->SetTargetHit_433810(1);
@@ -1367,7 +1367,7 @@ void Weapon::electro_batton_5E0740()
             s32 target_state = field_24_pPed->field_198_hit_target_ped->field_278_ped_state_1;
             if (target_state >= 8 && target_state <= 9)
             {
-                field_24_pPed->field_198_hit_target_ped = 0;
+                field_24_pPed->field_198_hit_target_ped = NULL;
                 return;
             }
         }
@@ -1375,7 +1375,7 @@ void Weapon::electro_batton_5E0740()
     }
     else
     {
-        field_24_pPed->field_198_hit_target_ped = 0;
+        field_24_pPed->field_198_hit_target_ped = NULL;
     }
 }
 
@@ -1837,10 +1837,10 @@ bool Weapon::CanFireWhileHeld_5E33C0()
         case weapon_type::car_mines:
         case weapon_type::tank_main_gun:
         case weapon_type::weapon_0x17:
-            result = 0;
+            result = false;
             break;
         default:
-            result = 1;
+            result = true;
             break;
     }
     return result;
@@ -1922,7 +1922,7 @@ void Weapon::pull_trigger_5E3670()
             break;
 
         case weapon_type::molotov:
-            if (field_24_pPed && (field_24_pPed->field_15C_player) != 0)
+            if (field_24_pPed && (field_24_pPed->field_15C_player) != NULL)
             {
                 field_24_pPed->field_15C_player->IncrementThrowCharge_4CCAB0();
             }
@@ -1933,7 +1933,7 @@ void Weapon::pull_trigger_5E3670()
             break;
 
         case weapon_type::grenade:
-            if (field_24_pPed && (field_24_pPed->field_15C_player) != 0)
+            if (field_24_pPed && (field_24_pPed->field_15C_player) != NULL)
             {
                 Player* p = field_24_pPed->field_15C_player;
                 p->IncrementThrowCharge_4CCAB0();
@@ -2082,10 +2082,10 @@ bool Weapon::IsExplosiveWeapon_5E3BD0()
         case weapon_type::car_bomb:
         case weapon_type::car_mines:
         case weapon_type::tank_main_gun:
-            result = 1;
+            result = true;
             break;
         default:
-            result = 0;
+            result = false;
             break;
     }
     return result;

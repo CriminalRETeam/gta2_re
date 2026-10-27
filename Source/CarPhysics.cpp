@@ -643,7 +643,7 @@ bool CarPhysics::IsAccelerationOrReverseOn_55A180()
     {
         return (field_93_is_forward_gas_on || field_94_is_backward_gas_on);
     }
-    return 0;
+    return false;
 }
 
 // 9.6f 0x49F760
@@ -1464,16 +1464,16 @@ bool CarPhysics::TestCollision_55C150()
             pCarSprite = pTrailer->field_C_trailer_car->field_50_car_sprite;
             if (!pCarSprite->CheckSpriteMovementRegion_5A2500() && !pCarSprite->QuerySpriteCollision_59E7D0(0))
             {
-                return 0;
+                return false;
             }
         }
         else
         {
-            return 0;
+            return false;
         }
     }
     gCollisionTarget_679188.SetSourceSprite_49EF10(pCarSprite);
-    return 1;
+    return true;
 }
 
 // https://decomp.me/scratch/Mht60 stack size issue remaining
@@ -1504,7 +1504,7 @@ bool CarPhysics::SweepTestMovementForCollision_55C3B0(Fix16* outHitStep, Fix16* 
             if (TestCollision_55C150())
             {
                 *outHitStep = accumulated;
-                return 1;
+                return true;
             }
             else
             {
@@ -1519,12 +1519,12 @@ bool CarPhysics::SweepTestMovementForCollision_55C3B0(Fix16* outHitStep, Fix16* 
     if (TestCollision_55C150())
     {
         *outHitStep = kFpOne_6FE210;
-        return 1;
+        return true;
     }
     else
     {
         *outNoHitStep = kFpOne_6FE210;
-        return 0;
+        return false;
     }
 }
 
@@ -1914,7 +1914,7 @@ MATCH_FUNC(0x55e470)
 bool CarPhysics::StepMovementAndCollisions_55E470()
 {
     s32 sprites_array_idx = 0;
-    bool ret_val = 0;
+    bool ret_val = false;
     s32 k2Counter = 2;
 
     Sprite* sprites_array[4];
@@ -1931,7 +1931,7 @@ bool CarPhysics::StepMovementAndCollisions_55E470()
         UpdateTrailerPhysicsFromTowingCar_559A40();
         if (SweepTestMovementForCollision_55C3B0(&hit_step, &no_hit_step))
         {
-            ret_val = 1;
+            ret_val = true;
             if (gCollisionTarget_679188.field_20_pHitSprite)
             {
                 for (s32 i = 0; i < sprites_array_idx; i++)
@@ -1941,7 +1941,7 @@ bool CarPhysics::StepMovementAndCollisions_55E470()
                         restore_saved_physics_state_55A400();
                         UpdateCarAndTrailerSpriteFromPhysics_5636C0();
                         ProcessGroundCollisionAndEmitImpactParticles_55BFE0();
-                        return 1;
+                        return true;
                     }
                 }
             }
@@ -2124,16 +2124,16 @@ bool CarPhysics::ApplyMovementCommand_55F240()
     {
         case collision_target_type::horizontal_edge_1:
             ApplyHorizontalEdgeNudge_55EF20();
-            return 1;
+            return true;
         case collision_target_type::vertical_edge_2:
             ApplyVerticalEdgeNudge_55EC30();
-            return 1;
+            return true;
         case collision_target_type::sprite_3:
             ApplyTurningForce_55F020();
             field_AA_sbw = 0;
             break;
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x55f280)

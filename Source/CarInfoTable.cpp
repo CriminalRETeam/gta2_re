@@ -747,13 +747,13 @@ MATCH_FUNC(0x454aa0)
 void CarInfoTable::Free_454AA0()
 {
     delete[] field_400_raw_data;
-    field_400_raw_data = 0;
+    field_400_raw_data = NULL;
 
     if (field_804_raw_data)
     {
         delete[] field_804_raw_data;
     }
-    field_804_raw_data = 0;
+    field_804_raw_data = NULL;
 }
 
 MATCH_FUNC(0x454b00)

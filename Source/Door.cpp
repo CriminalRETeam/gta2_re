@@ -22,10 +22,10 @@ DEFINE_GLOBAL(Ang16, DAT_0067BD18, 0x67BD18);
 MATCH_FUNC(0x49c640)
 Door::Door()
 {
-    field_0_primary_door_data = 0;
-    field_4_secondary_door_data = 0;
-    field_8_door_obj = 0;
-    field_C_trigger_obj = 0;
+    field_0_primary_door_data = NULL;
+    field_4_secondary_door_data = NULL;
+    field_8_door_obj = NULL;
+    field_C_trigger_obj = NULL;
     field_20_open_type = 0;
     field_24_close_type = 0;
     field_10_model_id = 0;
@@ -46,10 +46,10 @@ Door::Door()
 MATCH_FUNC(0x49c690)
 Door::~Door()
 {
-    field_0_primary_door_data = 0;
-    field_4_secondary_door_data = 0;
-    field_8_door_obj = 0;
-    field_C_trigger_obj = 0;
+    field_0_primary_door_data = NULL;
+    field_4_secondary_door_data = NULL;
+    field_8_door_obj = NULL;
+    field_C_trigger_obj = NULL;
 }
 
 MATCH_FUNC(0x49c6a0)
@@ -462,7 +462,7 @@ bool Door::Service_49CE90()
         UpdateAutoClose_49CD90();
     }
     field_28_bClosing = 1;
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x49CEE0)

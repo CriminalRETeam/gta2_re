@@ -239,7 +239,7 @@ s32 __stdcall TextTable::InsertLineBreaksAndGetNumLines_5B5BC0(wchar_t* pDestStr
         switch (*pSrcStrCopy)
         {
             case '\n':
-                pPrevSrcCheckpoint = 0;
+                pPrevSrcCheckpoint = NULL;
                 pPrevDestCheckpoint = NULL;
                 current_width = 0;
                 num_of_lines += 1;

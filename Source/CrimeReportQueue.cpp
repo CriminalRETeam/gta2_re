@@ -125,7 +125,7 @@ bool CrimeReportQueue::IsCrimeQueued(s32 crime_type)
     {
         if (field_4_reports[idx].field_0_crime_type == crime_type)
         {
-            return 1;
+            return true;
         }
 
         if (++idx >= GTA2_COUNTOF(field_4_reports))
@@ -133,7 +133,7 @@ bool CrimeReportQueue::IsCrimeQueued(s32 crime_type)
             idx = 0;
         }
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x484fc0)

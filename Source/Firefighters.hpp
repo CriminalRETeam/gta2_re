@@ -27,11 +27,11 @@ class Firefighter
     // inline
     void Clear_450C10()
     {
-        field_C_target_car = 0;
+        field_C_target_car = NULL;
         field_8_state = firefighter_state::idle_0;
         field_4_bActive = 0;
-        field_1C_car = 0;
-        field_20_ped = 0;
+        field_1C_car = NULL;
+        field_20_ped = NULL;
         field_24_next_state_timer = 0;
     }
 

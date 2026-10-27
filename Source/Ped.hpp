@@ -73,7 +73,7 @@ class Ped
     inline TrainStation* PopTrainStation_4117D0()
     {
         TrainStation* pStation = field_13C_pTrainStation;
-        field_13C_pTrainStation = 0;
+        field_13C_pTrainStation = NULL;
         return pStation;
     }
 
@@ -140,7 +140,7 @@ class Ped
     // 9.6f 0x475B40
     inline void clear_last_char_punched_475B40()
     {
-        field_188_last_char_punched = 0;
+        field_188_last_char_punched = NULL;
     }
 
     // 9.6f 0x475B10
@@ -376,7 +376,7 @@ class Ped
 
     inline void ClearGroupAndGroupIdx_403A30()
     {
-        this->field_164_ped_group = 0;
+        this->field_164_ped_group = NULL;
         this->field_23C_group_idx = 0;
     }
 
@@ -576,7 +576,7 @@ class Ped
 
     inline bool is_player_41B0A0()
     {
-        return field_15C_player != 0;
+        return field_15C_player != NULL;
     }
 
     // 9.6f 0x433C40
@@ -727,7 +727,7 @@ class Ped
     // 9.6f 0x433BE0
     inline void ClearAttacker_433BE0()
     {
-        field_144_attacker = 0;
+        field_144_attacker = NULL;
     }
 
     // 9.6f 0x433C00
@@ -745,12 +745,12 @@ class Ped
     // makes the inlined IsPedAThreat in IsThreatToSearchingPed_4661F0 call the copy (nested budget 42)
     inline bool IsInvisibleOnFoot_433DA0()
     {
-        if (field_21C_bf.bInvisible && field_168_game_object != 0)
+        if (field_21C_bf.bInvisible && field_168_game_object != NULL)
         {
-            return 1;
+            return true;
         }
 
-        return 0;
+        return false;
     }
 
     bool bHasGameObject_403B70()

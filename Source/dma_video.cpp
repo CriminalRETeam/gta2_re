@@ -35,7 +35,7 @@ DEFINE_GLOBAL(SVideoFunctions, gVidFuncs_708600, 0x708600);
 MATCH_FUNC(0x5EB810)
 EXPORT void __stdcall DMA_Video_Stub_5EB810()
 {
-    MessageBoxA(0, "Error: A DMA Video Function was called without the DLL being loaded", "DMA Video Error", MB_OK);
+    MessageBoxA(NULL, "Error: A DMA Video Function was called without the DLL being loaded", "DMA Video Error", MB_OK);
 }
 
 MATCH_FUNC(0x5EB8C0)
@@ -144,7 +144,7 @@ EXPORT s32 __stdcall DMA_Video_LoadDll_5EB970(const char_type* lpLibFileName)
     else
     {
         sprintf(Buffer, "Error can't load DLL file: %s", lpLibFileName);
-        MessageBoxA(0, Buffer, "Error Loading DLL.", MB_OK);
+        MessageBoxA(NULL, Buffer, "Error Loading DLL.", MB_OK);
         return -1;
     }
 }

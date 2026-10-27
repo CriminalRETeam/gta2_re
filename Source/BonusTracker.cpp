@@ -19,7 +19,7 @@ BonusRule::~BonusRule()
 MATCH_FUNC(0x431D50);
 void BonusRule::Init_431D50()
 {
-    field_0_pZone = 0;
+    field_0_pZone = NULL;
     field_4_event_type = bonus_event_type::any_event;
     field_8_car_model = car_model_enum::none;
     field_C_occupation = ped_ocupation_enum::no_occupation;
@@ -54,14 +54,14 @@ void BonusRule::Deactivate_431DB0()
 MATCH_FUNC(0x431DC0);
 BonusTracker::BonusTracker()
 {
-    field_1B8_pScores = 0;
+    field_1B8_pScores = NULL;
     field_1BC_cur_time = 0;
 }
 
 MATCH_FUNC(0x431DF0);
 BonusTracker::~BonusTracker()
 {
-    field_1B8_pScores = 0;
+    field_1B8_pScores = NULL;
 }
 
 MATCH_FUNC(0x431E10);
@@ -405,7 +405,7 @@ bool BonusTracker::AreCarModelsEquivalent_432300(int car_model_1, int car_model_
     if ((car_model_1 == car_model_enum::TAXI || car_model_1 == car_model_enum::STYPECAB) &&
         (car_model_2 == car_model_enum::TAXI || car_model_2 == car_model_enum::STYPECAB))
     {
-        return 1;
+        return true;
     }
     switch (car_model_1)
     {
@@ -416,10 +416,10 @@ bool BonusTracker::AreCarModelsEquivalent_432300(int car_model_1, int car_model_
         case car_model_enum::SWATVAN:
         case car_model_enum::TANK:
         case car_model_enum::EDSELFBI:
-            is_fed_car_1 = 1;
+            is_fed_car_1 = true;
             break;
         default:
-            is_fed_car_1 = 0;
+            is_fed_car_1 = false;
             break;
     }
     switch (car_model_2)
@@ -431,10 +431,10 @@ bool BonusTracker::AreCarModelsEquivalent_432300(int car_model_1, int car_model_
         case car_model_enum::SWATVAN:
         case car_model_enum::TANK:
         case car_model_enum::EDSELFBI:
-            is_fed_car_2 = 1;
+            is_fed_car_2 = true;
             break;
         default:
-            is_fed_car_2 = 0;
+            is_fed_car_2 = false;
             break;
     }
     if (is_fed_car_1 && is_fed_car_2)

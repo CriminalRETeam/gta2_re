@@ -290,10 +290,10 @@ class CarPhysics
         {
             if (field_40_linvel_1.GetLength_41E260() <= kDrowningMaxSpeed_677794)
             {
-                return 1;
+                return true;
             }
         }
-        return 0;
+        return false;
     }
 
     EXPORT Fix16 CalculateFrontWheelForce_561E50();

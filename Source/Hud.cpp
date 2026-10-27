@@ -154,7 +154,7 @@ EXPORT wchar_t* gmp_map_zone::get_zone_str_4DEF00()
         buf[3] = 0;
         return gText_0x14_704DFC->Find_5B5F90(buf);
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x5cf620)
@@ -1088,7 +1088,7 @@ void Hud_Arrow_7C_Array::FindVisibleGangArrow_5D0EF0()
             return;
         }
     }
-    this->field_840_visible_gang_arrow = 0;
+    this->field_840_visible_gang_arrow = NULL;
 }
 
 // ----------------------------------------------------
@@ -1210,7 +1210,7 @@ Hud_Arrow* Hud_Arrow_7C_Array::FindGangPhoneArrow_5D10D0(Gang* pZone, s32 phone_
         i++;
         pIter++;
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x5d1110)
@@ -2496,8 +2496,8 @@ Hud_Brief::Hud_Brief()
     field_50C_face_variant = 0;
     field_510_num_chars = 0;
     field_514_face_anim_char_idx = 0;
-    field_6F8_curr_briefs = 0;
-    field_700_prev_briefs = 0;
+    field_6F8_curr_briefs = NULL;
+    field_700_prev_briefs = NULL;
     field_504_tick_timer = 0;
 
     for (s32 i = 0; i < GTA2_COUNTOF(field_518_briefs) - 1; i++)
@@ -2889,7 +2889,7 @@ void Hud_MapZone::UpdateZoneName_5D5B60()
     else
     {
         field_0_timer = 0;
-        field_88_nav_zone = 0;
+        field_88_nav_zone = NULL;
     }
 }
 

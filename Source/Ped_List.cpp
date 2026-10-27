@@ -46,13 +46,13 @@ void Ped_List::AddPedToBackIfMissing_471160(Ped* pPed)
     if (pTail)
     {
         pTail->mpNext = pNew;
-        pNew->mpNext = 0;
+        pNew->mpNext = NULL;
     }
     else
     {
         // List was empty
         field_0_pFirstPed = pNew;
-        pNew->mpNext = 0;
+        pNew->mpNext = NULL;
     }
 }
 
@@ -136,7 +136,7 @@ void Ped_List::RemovePed_471240(Ped* pPed)
 MATCH_FUNC(0x471290)
 u8 Ped_List::RemoveNonCorpses_471290()
 {
-    PedListNode* pPrevKept = 0;
+    PedListNode* pPrevKept = NULL;
     PedListNode* pIter = field_0_pFirstPed;
     u8 removedCount = 0;
     while (pIter)
@@ -179,7 +179,7 @@ void Ped_List::ClearPeds_4712F0()
         gChar_8_Pool_678b50->field_0_pool.DeAllocate(pFreed);
     }
 
-    field_0_pFirstPed = 0;
+    field_0_pFirstPed = NULL;
 }
 
 MATCH_FUNC(0x471320)
@@ -188,7 +188,7 @@ Ped* Ped_List::RemoveFirstPed_471320()
     PedListNode* pIter = field_0_pFirstPed;
     if (!pIter)
     {
-        return 0;
+        return NULL;
     }
 
     Ped* pPed = pIter->field_0_char_ped;
@@ -205,7 +205,7 @@ Ped* Ped_List::FindClosestActivePed_471340(Fix16 x, Fix16 y)
 {
     Fix16 closestDistance(99999);
     PedListNode* pIter = this->field_0_pFirstPed;
-    Ped* pClosest = 0;
+    Ped* pClosest = NULL;
     while (pIter)
     {
         Ped* pPed = pIter->field_0_char_ped;
@@ -233,7 +233,7 @@ Ped* Ped_List::FindClosestPedInViewCone_4713C0(Fix16 x, Fix16 y, Ang16 facing, A
 
     Fix16 closestDistance = Fix16(99999);
     PedListNode* pIter = field_0_pFirstPed;
-    Ped* pClosest = 0;
+    Ped* pClosest = NULL;
 
     for (; pIter; pIter = pIter->mpNext)
     {
@@ -272,7 +272,7 @@ void Ped_List::KillAndClearAllPeds_4715A0()
         gChar_8_Pool_678b50->DeAllocate_445F00(pFreed);
     }
 
-    field_0_pFirstPed = 0;
+    field_0_pFirstPed = NULL;
 }
 
 MATCH_FUNC(0x4715e0)
@@ -283,12 +283,12 @@ void Ped_List::KillAndClearAllPedsResetCarRef_4715E0()
     {
         PedListNode* pFreed = pIter;
         pIter->field_0_char_ped->Kill_46F9D0();
-        pIter->field_0_char_ped->field_16C_car = 0;
+        pIter->field_0_char_ped->field_16C_car = NULL;
         pIter = pIter->mpNext;
         gChar_8_Pool_678b50->DeAllocate_445F00(pFreed);
     }
 
-    field_0_pFirstPed = 0;
+    field_0_pFirstPed = NULL;
 }
 
 MATCH_FUNC(0x471630)

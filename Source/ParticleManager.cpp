@@ -62,7 +62,7 @@ void ParticleManager::ParticlesService_53E320()
 MATCH_FUNC(0x53E3C0)
 Particle_4C* ParticleManager::New_53E3C0(Fix16 speed_x, Fix16 speed_y, Fix16 speed_z, Fix16 additional_speed_x, Fix16 additional_speed_y, Fix16 additional_speed_z)
 {
-    Particle_4C* pNewParticle = 0;
+    Particle_4C* pNewParticle = NULL;
     if (gParticle_4C_Pool_6FD5E4->has_pStart_48A8F0() && gSpritePool_703818->has_free_48A8D0())
     {
         pNewParticle = gParticle_4C_Pool_6FD5E4->Allocate();
@@ -689,8 +689,8 @@ ParticleManager::ParticleManager()
             FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\particle.cpp", 4167);
         }
     }
-    field_0_fire_hit_obj = 0;
-    field_4_water_hit_obj = 0;
+    field_0_fire_hit_obj = NULL;
+    field_4_water_hit_obj = NULL;
 }
 
 MATCH_FUNC(0x543a60)
@@ -700,6 +700,6 @@ ParticleManager::~ParticleManager()
     {
         GTA2_DELETE_AND_NULL(gParticle_4C_Pool_6FD5E4);
     }
-    field_0_fire_hit_obj = 0;
-    field_4_water_hit_obj = 0;
+    field_0_fire_hit_obj = NULL;
+    field_4_water_hit_obj = NULL;
 }

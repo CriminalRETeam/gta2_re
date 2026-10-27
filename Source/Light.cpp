@@ -14,9 +14,9 @@ Light::Light()
     field_8_y = 0;
     field_C_z = 0;
     field_10_argb = 0xFFFFFF;
-    mpNext = 0;
-    field_24_pGridPrev = 0;
-    field_20_pGridNext = 0;
+    mpNext = NULL;
+    field_24_pGridPrev = NULL;
+    field_20_pGridNext = NULL;
     field_14_on_time = 0;
     field_15_off_time = 0;
     field_16_flicker_range = 0;
@@ -27,9 +27,9 @@ Light::Light()
 MATCH_FUNC(0x4D6D60)
 Light::~Light()
 {
-    mpNext = 0;
-    field_24_pGridPrev = 0;
-    field_20_pGridNext = 0;
+    mpNext = NULL;
+    field_24_pGridPrev = NULL;
+    field_20_pGridNext = NULL;
 }
 
 MATCH_FUNC(0x4D6D70)
@@ -41,13 +41,13 @@ void Light::AddToGrid_4D6D70()
     if (!pFirst)
     {
         gLightGrid_6F5400[cell_idx] = this;
-        field_20_pGridNext = 0;
-        field_24_pGridPrev = 0;
+        field_20_pGridNext = NULL;
+        field_24_pGridPrev = NULL;
     }
     else
     {
         gLightGrid_6F5400[cell_idx] = this;
-        field_24_pGridPrev = 0;
+        field_24_pGridPrev = NULL;
         field_20_pGridNext = pFirst;
         pFirst->field_24_pGridPrev = this;
     }
@@ -80,7 +80,7 @@ void __stdcall LightGrid::AllocGrid_4D6E00()
     gLightGrid_6F5400 = static_cast<Light**>(crt::malloc(0x4000u));
     for (s32 i = 0; i < 4096; i++)
     {
-        gLightGrid_6F5400[i] = 0;
+        gLightGrid_6F5400[i] = NULL;
     }
 }
 
@@ -90,7 +90,7 @@ void LightGrid::FreeGrid_4D6E30()
     if (gLightGrid_6F5400)
     {
         crt::free(gLightGrid_6F5400);
-        gLightGrid_6F5400 = 0;
+        gLightGrid_6F5400 = NULL;
     }
 }
 

@@ -115,7 +115,7 @@ class SpriteShape
         {
             field_0_width = gFix16_7035C0;
         }
-        field_48_bbox_up_to_date = 0;
+        field_48_bbox_up_to_date = false;
         return field_0_width == gFix16_7035C0 ? true : false;
     }
 
@@ -138,7 +138,7 @@ class SpriteShape
         {
             field_4_height = gFix16_7035C0;
         }
-        field_48_bbox_up_to_date = 0;
+        field_48_bbox_up_to_date = false;
         return field_4_height == gFix16_7035C0 ? true : false;
     }
 

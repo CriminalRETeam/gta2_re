@@ -148,7 +148,7 @@ void force_link()
     jaw_20.field_14_patient_count = 1;
 
     CollisionSoundQueue collision_sound_queue;
-    collision_sound_queue.field_0_pSoundObj = 0;
+    collision_sound_queue.field_0_pSoundObj = NULL;
 
     GeneratorPool maccies;
     maccies.FinalizeAfterScriptLoad_4C1CD0();
@@ -157,10 +157,10 @@ void force_link()
     car_3c.field_20_instance_id = 5;
 
     CrusherPool snooky;
-    snooky.IsCarBeingCrushed_4887A0(0);
+    snooky.IsCarBeingCrushed_4887A0(NULL);
 
     NetUi network;
-    network.cb_FillSessionList_519D30(0, 0);
+    network.cb_FillSessionList_519D30(NULL, NULL);
 
     Light light;
     light.AddToGrid_4D6D70();
@@ -171,18 +171,18 @@ void force_link()
     Player lewin(1);
     u8 zero_u8 = 0;
     lewin.GetIdx_4881E0();
-    lewin.AddCarToHistory_5645B0(0);
-    lewin.PromoteCarInHistory_564610(0, 0);
-    lewin.RemoveCarFromHistory_564680(0);
-    lewin.SetKFCarWeapon_564710(0, 0);
+    lewin.AddCarToHistory_5645B0(NULL);
+    lewin.PromoteCarInHistory_564610(NULL, false);
+    lewin.RemoveCarFromHistory_564680(NULL);
+    lewin.SetKFCarWeapon_564710(NULL, 0);
     lewin.SetKFWeapon_564790(0);
     lewin.ClearKFWeapon_5647D0();
     lewin.GetCurrPlayerWeapon_5648F0();
-    lewin.SetWeapon_564910(0);
+    lewin.SetWeapon_564910(NULL);
     lewin.HasAnyAmmo_564940();
     lewin.AddWeaponWithAmmo_564960(0, 0);
     lewin.SelectNextOrPrevWeapon_5649D0(0, 0);
-    lewin.LoadCarWeapons_564AD0(0);
+    lewin.LoadCarWeapons_564AD0(NULL);
     lewin.ClearCarWeapons_564B60();
     lewin.CleanupEmptyAmmoWeapons_564B80();
     lewin.UnloadCarWeapons_564C00();
@@ -191,10 +191,10 @@ void force_link()
     lewin.ClearPowerUpsExceptJailCard_564CF0();
     lewin.CollectPowerUp_564D60(0);
     lewin.tick_down_powerups_565070();
-    lewin.RestorePowerUpsFromSave_5651F0(0);
+    lewin.RestorePowerUpsFromSave_5651F0(NULL);
     lewin.TeleportToDebugCam_565310();
     lewin.DebugWatchNearestCar_5653E0();
-    lewin.InitPlayerPed_565490(0);
+    lewin.InitPlayerPed_565490(NULL);
     lewin.SetInputs_565740(0);
     lewin.IncrementGangRespectFromDebugKeys_565770(0);
     lewin.IncreaseWantedLevelFromDebugKeys_565860();
@@ -202,9 +202,9 @@ void force_link()
     lewin.HandleKeyRelease_566380(0);
     lewin.CharacterControls_566520();
     lewin.ControlInputs_566820();
-    lewin.HandleControls_5668D0(0);
-    lewin.DoCarControlInputs_566C30(0);
-    lewin.DoPedControlInputs_566C80(0);
+    lewin.HandleControls_5668D0(NULL);
+    lewin.DoCarControlInputs_566C30(NULL);
+    lewin.DoPedControlInputs_566C80(NULL);
     lewin.ShowDebugInfo_566EE0(0);
     lewin.RespawnPlayer_5670B0();
     lewin.Wasted_567130();
@@ -213,17 +213,17 @@ void force_link()
     lewin.UpdateCurrentZones_568520();
     lewin.UpdateSoundListener_568630();
     lewin.HandleDebugZoom_568670();
-    lewin.UpdateCamera_5686D0(0);
+    lewin.UpdateCamera_5686D0(NULL);
     lewin.Disconnect_568730();
     lewin.Service_5687F0();
     lewin.UpdatePaused_569410();
     lewin.EndRemoteControl_569530();
     lewin.ResetAuxCamera_5695A0();
-    lewin.StartRemoteControl_569600(0);
-    lewin.WatchCar_5696D0(0);
+    lewin.StartRemoteControl_569600(NULL);
+    lewin.WatchCar_5696D0(NULL);
     lewin.GetPosU8_569840(zero_u8, zero_u8, zero_u8);
     lewin.GetPlayerCar_5698E0();
-    lewin.get_pos_569920(0, 0, 0);
+    lewin.get_pos_569920(NULL, NULL, NULL);
     lewin.ChangeLifeCountByAmount_5699F0(0);
     lewin.ColorScoreFromRemap_569A10();
     lewin.SetScoreTextColour_569C20();
@@ -238,8 +238,8 @@ void force_link()
     lewin.DisableEnterVehicles_56A030();
     lewin.EnableEnterVehicles_56A040();
     lewin.RestoreCarsFromSave_56A0F0();
-    lewin.CopyPlayerDataToSave_56A1A0(0);
-    lewin.UpdateGameFromSave_56A310(0);
+    lewin.CopyPlayerDataToSave_56A1A0(NULL);
+    lewin.UpdateGameFromSave_56A310(NULL);
     lewin.ApplyCheats_56A490();
     lewin.ClearInputs_56A6D0();
 
@@ -249,7 +249,7 @@ void force_link()
     camera.DecreaseElevation_435810();
     camera.ResetElevation_435830();
     camera.ClampTargetZ_435840();
-    camera.ApplyMovementDeltaFrom_435860(0);
+    camera.ApplyMovementDeltaFrom_435860(NULL);
     camera.MoveTarget_435D20(1, 1, 1, 1, 1, 1);
     camera.ResetCameraSmoothing_435DD0();
     camera.RefreshBoundaries_436110();
@@ -264,7 +264,7 @@ void force_link()
     cn.IsEmergencyOccupation_45B590();
 
     ScriptGosubStack miss2;
-    miss2.add_503160(0);
+    miss2.add_503160(NULL);
     miss2.remove_503180();
     miss2.remove_5031E0(0);
 
@@ -281,10 +281,10 @@ void force_link()
     input_recorder.AppendReplayHeader_4CDF70();
     input_recorder.LoadReplayHeader_4CE380(0);
     input_recorder.VerifyAttractFilesExist_4CE650();
-    input_recorder.GetNextAttrReplay_4CE6E0(0);
-    input_recorder.input_init_replay_4CE740(0);
-    input_recorder.input_init_live_4CE880(0);
-    input_recorder.replay_save_4CEA40(0);
+    input_recorder.GetNextAttrReplay_4CE6E0(NULL);
+    input_recorder.input_init_replay_4CE740(NULL);
+    input_recorder.input_init_live_4CE880(NULL);
+    input_recorder.replay_save_4CEA40(NULL);
     input_recorder.get_input_bits_4CEAC0();
     input_recorder.save_replay_inputs_4CED00(0, 0);
     input_recorder.DisplayInputBits_4CED90();
@@ -312,7 +312,7 @@ void force_link()
     FirefighterPool tango_54;
 
     CarChaseTaskTable car_chase_task_table;
-    car_chase_task_table.FreeEntry_474CC0(0);
+    car_chase_task_table.FreeEntry_474CC0(NULL);
 
     CollisionCounters collide_C;
 
@@ -460,7 +460,7 @@ EXPORT void __stdcall Input_ReleaseMouse_5D7C70()
     {
         gMouseDevice_706C60->Unacquire();
         gMouseDevice_706C60->Release();
-        gMouseDevice_706C60 = 0;
+        gMouseDevice_706C60 = NULL;
     }
 }
 
@@ -479,26 +479,26 @@ MATCH_FUNC(0x5D7BF0)
 EXPORT bool Input_InitMouse_5D7BF0()
 {
     // TODO: using the HR error checking macros doesn't match here, what did they do??
-    if (!gpDInput_67B804 || gMouseDevice_706C60 || gpDInput_67B804->CreateDevice(GUID_SysMouse, &gMouseDevice_706C60, 0) ||
+    if (!gpDInput_67B804 || gMouseDevice_706C60 || gpDInput_67B804->CreateDevice(GUID_SysMouse, &gMouseDevice_706C60, NULL) ||
         gMouseDevice_706C60->SetDataFormat(&gMouseDataFormat_601A84) || gMouseDevice_706C60->SetCooperativeLevel(gHwnd_707F04, 5))
     {
-        return 0;
+        return false;
     }
     gMouseDevice_706C60->Acquire();
-    return 1;
+    return true;
 }
 
 // todo: move
 MATCH_FUNC(0x5D93A0)
 EXPORT void __stdcall SetFullScreenMode_5D93A0()
 {
-    bool bModeChanged = 0;
+    bool bModeChanged = false;
     s32 bcheckModeRet = pVid_CheckMode(gVidSys_7071D0, full_width_706B5C, full_height_706798, 16);
     if (!bcheckModeRet)
     {
         if (full_width_706B5C == 640 ||
             (full_width_706B5C = 640,
-             bModeChanged = 1,
+             bModeChanged = true,
              full_height_706798 = 480,
              (bcheckModeRet = pVid_CheckMode(gVidSys_7071D0, 640, 480, 16)) == 0))
         {
@@ -525,7 +525,7 @@ EXPORT void __stdcall SetFullScreenMode_5D93A0()
     HideCursor_5D94F0();
 
     SetWindowLongA(gHwnd_707F04, -16, 0x10000000);
-    SetWindowPos(gHwnd_707F04, 0, 0, 0, 0, 0, 0x63Bu);
+    SetWindowPos(gHwnd_707F04, NULL, 0, 0, 0, 0, 0x63Bu);
     UpdateWindow(gHwnd_707F04);
     ShowWindow(gHwnd_707F04, SW_SHOWNORMAL);
 
@@ -563,12 +563,12 @@ EXPORT bool __stdcall SetWindowedMode_5D9510()
 
     if (!IsWindowedModeAvailable_5D92C0())
     {
-        return 0;
+        return false;
     }
 
     Input_ReleaseMouse_5D7C70();
     SetWindowLongA(gHwnd_707F04, -16, 0x10CF0000);
-    SetWindowPos(gHwnd_707F04, 0, 0, 0, 0, 0, 0x63Bu);
+    SetWindowPos(gHwnd_707F04, NULL, 0, 0, 0, 0, 0x63Bu);
     UpdateWindow(gHwnd_707F04);
     ShowWindow(gHwnd_707F04, SW_SHOW);
 
@@ -579,14 +579,14 @@ EXPORT bool __stdcall SetWindowedMode_5D9510()
     GetClientRect(gHwnd_707F04, &clientRect);
 
     if (!SetWindowPos(gHwnd_707F04,
-                      0,
+                      NULL,
                       gWindowX_706B60,
                       gWindowY_706B64,
                       windowRect.right + clientRect.left + window_width_706630 - windowRect.left - clientRect.right,
                       windowRect.bottom + clientRect.top + window_height_706B50 - windowRect.top - clientRect.bottom,
                       0x316))
     {
-        return 0;
+        return false;
     }
 
     UpdateWindow(gHwnd_707F04);
@@ -598,12 +598,12 @@ EXPORT bool __stdcall SetWindowedMode_5D9510()
 
     if (pVid_SetMode(gVidSys_7071D0, gHwnd_707F04, -2) == 1)
     {
-        return 0;
+        return false;
     }
     else
     {
         ShowCursor_5D9660();
-        return 1;
+        return true;
     }
 }
 
@@ -729,7 +729,7 @@ EXPORT void __stdcall GBH_Graphis_DMA_Video_Free_5D9830()
     if (gVidSys_7071D0)
     {
         DMA_Video_Unload_5EB8C0(gVidSys_7071D0);
-        gVidSys_7071D0 = 0;
+        gVidSys_7071D0 = NULL;
     }
     ShowCursor_5D9660();
 }
@@ -835,77 +835,77 @@ EXPORT void __stdcall Init_keybrd_jolly_and_sound_4DA440()
 MATCH_FUNC(0x4DB170)
 void __stdcall ClearDebugFlags_4DB170()
 {
-    bShow_all_arrows_67D6E7 = 0;
-    bDo_kill_phones_on_answer_67D6E8 = 0;
-    bSkip_dummies_67D4EF = 0;
-    bSkip_tiles_67D655 = 0;
-    bDo_test_67D4F8 = 0;
-    bSkip_mission_67D4E5 = 0;
-    bDo_brian_test_67D544 = 0;
-    bDo_iain_test_67D4E9 = 0;
-    bSkip_user_67D506 = 0;
-    bSkip_traffic_lights_67D4EC = 0;
-    bSkip_recycling_67D575 = 0;
-    bLog_collisions_67D4E6 = 0;
-    bDo_show_traffic_lights_info_67D4FA = 0;
-    bLimit_recycling_67D4CA = 0;
-    bNo_annoying_chars_67D586 = 0;
-    bSkip_slopes_67D505 = 0;
-    bSkip_left_67D6BF = 0;
-    bSkip_right_67D4E4 = 0;
-    bSkip_top_67D574 = 0;
-    bSkip_bottom_67D4E7 = 0;
-    bSkip_lid_67D546 = 0;
-    bLog_routefinder_67D6D1 = 0;
-    bDo_mike_67D5CC = 0;
-    bSkip_particles_67D64D = 0;
-    bShow_hidden_faces_67D5CD = 0;
-    bGet_all_weapons_67D684 = 0;
-    bDo_exit_after_replay_67D6E4 = 0;
-    bDont_get_car_back_67D4F5 = 0;
-    bSkip_ambulance_67D6C9 = 0;
-    bSkip_frontend_67D53B = 0;
-    bDo_invulnerable_67D4CB = 0;
-    bKeep_weapons_after_death_67D54D = 0;
-    bSkip_skidmarks_67D585 = 0;
-    gDo_infinite_lives_67D4C9 = 0;
-    bDo_load_savegame_67D4F0 = 0;
-    bSkip_audio_67D6BE = 0;
-    bDo_debug_keys_67D6CF = 0;
-    bLog_input_67D4CC = 0;
-    bLog_directinput_67D6C0 = 0;
-    bIgnore_replay_header_67D4F3 = 0;
-    bSkip_trains_67D550 = 0;
-    bSkip_buses_67D558 = 0;
-    bSkip_quit_confirm_67D4E8 = 0;
-    bSkip_fire_engines_67D53A = 0;
-    bSkip_window_check_67D54E = 0;
-    gDo_miss_logging_67D6BC = 0;
-    byte_67D654 = 0;
-    bDo_police_1_67D568 = 0;
-    bDo_police_2_67D569 = 0;
-    bDo_police_3_67D56A = 0;
-    bSkip_draw_67D4EA = 0;
-    bDo_free_shopping_67D6CD = 0;
-    gCheatMiniCars_67D6C8 = 0;
-    gCheatGetPlayerPoints_67D4C8 = 0;
-    gCheatGet10MillionMoney_67D6CE = 0;
-    gCheatUnlimitedElectroGun_67D4F7 = 0;
-    gCheatAllGangMaxRespect_67D587 = 0;
-    gCheatGet99Lives_67D4F1 = 0;
-    gCheat10xMultiplier_67D589 = 0;
-    gCheatUnlockThreeLevels_67D6CB = 0;
-    gCheatUnlockLevelsOneAndTwo_67D584 = 0;
-    gCheatUnlockAllLevels_67D538 = 0;
-    gCheatGetBasicWeaponsMaxAmmo_67D545 = 0;
-    gCheatOnlyElvisPeds_67D4ED = 0;
-    gCheatOnlyMuggerPeds_67D5A4 = 0;
-    gCheatNakedPeds_67D5E8 = 0;
-    gCheatUnlimitedJailCard_67D4F6 = 0;
-    gCheatInvisibility_67D539 = 0;
-    gCheatUnlimitedDoubleDamage_67D57C = 0;
-    byte_67D56B = 0;
-    gCheatUnlimitedFlameThrower_67D6CC = 0;
+    bShow_all_arrows_67D6E7 = false;
+    bDo_kill_phones_on_answer_67D6E8 = false;
+    bSkip_dummies_67D4EF = false;
+    bSkip_tiles_67D655 = false;
+    bDo_test_67D4F8 = false;
+    bSkip_mission_67D4E5 = false;
+    bDo_brian_test_67D544 = false;
+    bDo_iain_test_67D4E9 = false;
+    bSkip_user_67D506 = false;
+    bSkip_traffic_lights_67D4EC = false;
+    bSkip_recycling_67D575 = false;
+    bLog_collisions_67D4E6 = false;
+    bDo_show_traffic_lights_info_67D4FA = false;
+    bLimit_recycling_67D4CA = false;
+    bNo_annoying_chars_67D586 = false;
+    bSkip_slopes_67D505 = false;
+    bSkip_left_67D6BF = false;
+    bSkip_right_67D4E4 = false;
+    bSkip_top_67D574 = false;
+    bSkip_bottom_67D4E7 = false;
+    bSkip_lid_67D546 = false;
+    bLog_routefinder_67D6D1 = false;
+    bDo_mike_67D5CC = false;
+    bSkip_particles_67D64D = false;
+    bShow_hidden_faces_67D5CD = false;
+    bGet_all_weapons_67D684 = false;
+    bDo_exit_after_replay_67D6E4 = false;
+    bDont_get_car_back_67D4F5 = false;
+    bSkip_ambulance_67D6C9 = false;
+    bSkip_frontend_67D53B = false;
+    bDo_invulnerable_67D4CB = false;
+    bKeep_weapons_after_death_67D54D = false;
+    bSkip_skidmarks_67D585 = false;
+    gDo_infinite_lives_67D4C9 = false;
+    bDo_load_savegame_67D4F0 = false;
+    bSkip_audio_67D6BE = false;
+    bDo_debug_keys_67D6CF = false;
+    bLog_input_67D4CC = false;
+    bLog_directinput_67D6C0 = false;
+    bIgnore_replay_header_67D4F3 = false;
+    bSkip_trains_67D550 = false;
+    bSkip_buses_67D558 = false;
+    bSkip_quit_confirm_67D4E8 = false;
+    bSkip_fire_engines_67D53A = false;
+    bSkip_window_check_67D54E = false;
+    gDo_miss_logging_67D6BC = false;
+    byte_67D654 = false;
+    bDo_police_1_67D568 = false;
+    bDo_police_2_67D569 = false;
+    bDo_police_3_67D56A = false;
+    bSkip_draw_67D4EA = false;
+    bDo_free_shopping_67D6CD = false;
+    gCheatMiniCars_67D6C8 = false;
+    gCheatGetPlayerPoints_67D4C8 = false;
+    gCheatGet10MillionMoney_67D6CE = false;
+    gCheatUnlimitedElectroGun_67D4F7 = false;
+    gCheatAllGangMaxRespect_67D587 = false;
+    gCheatGet99Lives_67D4F1 = false;
+    gCheat10xMultiplier_67D589 = false;
+    gCheatUnlockThreeLevels_67D6CB = false;
+    gCheatUnlockLevelsOneAndTwo_67D584 = false;
+    gCheatUnlockAllLevels_67D538 = false;
+    gCheatGetBasicWeaponsMaxAmmo_67D545 = false;
+    gCheatOnlyElvisPeds_67D4ED = false;
+    gCheatOnlyMuggerPeds_67D5A4 = false;
+    gCheatNakedPeds_67D5E8 = false;
+    gCheatUnlimitedJailCard_67D4F6 = false;
+    gCheatInvisibility_67D539 = false;
+    gCheatUnlimitedDoubleDamage_67D57C = false;
+    byte_67D56B = false;
+    gCheatUnlimitedFlameThrower_67D6CC = false;
 }
 
 MATCH_FUNC(0x4DB070)
@@ -1558,7 +1558,7 @@ EXPORT void __stdcall GetDirectMusicVer_4A0650()
     hDMusic = LoadLibraryA("DMUSIC.DLL");
     if (hDMusic)
     {
-        if (CoCreateInstance(IID_DirectMusic, 0, 1u, IDD_IDirectMusic, reinterpret_cast<LPVOID*>(&pDMusic)) >= 0)
+        if (CoCreateInstance(IID_DirectMusic, NULL, 1u, IDD_IDirectMusic, reinterpret_cast<LPVOID*>(&pDMusic)) >= 0)
         {
             gDMusicVer_67BD32 = 0x601;
             pDMusic->Release();
@@ -1587,11 +1587,11 @@ EXPORT void __stdcall GetDirectXVersion_4C4EC0(u32* pDXVer, u32* osKind)
     DDSURFACEDESC surfaceDesc;
     struct _OSVERSIONINFOA osVersionInfo;
 
-    pDDraw = 0;
-    pDraw2 = 0;
-    pDSurface = 0;
+    pDDraw = NULL;
+    pDraw2 = NULL;
+    pDSurface = NULL;
     pSurface3 = 0;
-    pDSurface4 = 0;
+    pDSurface4 = NULL;
     osVersionInfo.dwOSVersionInfoSize = sizeof(osVersionInfo);
 
     if (!GetVersionExA(&osVersionInfo))
@@ -1654,7 +1654,7 @@ EXPORT void __stdcall GetDirectXVersion_4C4EC0(u32* pDXVer, u32* osKind)
         return;
     }
 
-    if (pDirectDrawCreate(0, &pDDraw, 0) < 0)
+    if (pDirectDrawCreate(NULL, &pDDraw, NULL) < 0)
     {
         *pDXVer = 0;
         *osKind = 0;
@@ -1698,7 +1698,7 @@ EXPORT void __stdcall GetDirectXVersion_4C4EC0(u32* pDXVer, u32* osKind)
     surfaceDesc.dwSize = 108;
     surfaceDesc.dwFlags = 1;
     surfaceDesc.ddsCaps.dwCaps = 512;
-    if (pDDraw->SetCooperativeLevel(0, 8) < 0)
+    if (pDDraw->SetCooperativeLevel(NULL, 8) < 0)
     {
         pDDraw->Release();
         FreeLibrary(hDDraw);
@@ -1707,7 +1707,7 @@ EXPORT void __stdcall GetDirectXVersion_4C4EC0(u32* pDXVer, u32* osKind)
         return;
     }
 
-    if (pDDraw->CreateSurface(&surfaceDesc, &pDSurface, 0) < 0)
+    if (pDDraw->CreateSurface(&surfaceDesc, &pDSurface, NULL) < 0)
     {
         pDDraw->Release();
         FreeLibrary(hDDraw);
@@ -1818,7 +1818,7 @@ EXPORT s32 __stdcall CountTokens_4DA390(char_type* pStr)
 {
     char* pCur = pStr;
     s32 result = 0;
-    if (pStr == 0)
+    if (pStr == NULL)
     {
         return 0;
     }
@@ -1909,11 +1909,11 @@ EXPORT void __stdcall ParseCommandLine_4DA320(char_type* pCommandLine)
             switch (cmd_char)
             {
                 case 'R':
-                    bPlay_replay_67D4F4 = 1;
+                    bPlay_replay_67D4F4 = true;
                     break;
 
                 case 'Q':
-                    bConstant_replay_save_67D5C4 = 1;
+                    bConstant_replay_save_67D5C4 = true;
                     break;
 
                 case 'N':
@@ -1945,7 +1945,7 @@ EXPORT void Start_GTA2Manager_5E4DE0()
             FatalError_4A38C0(Gta2Error::Gta2ManagerLaunchError, "C:\\Splitting\\Gta2\\Source\\winmain.cpp", 118);
         }
 
-        HWND hwndGta2Manager = FindWindowExA(0, 0, 0, "GTA2 Manager");
+        HWND hwndGta2Manager = FindWindowExA(NULL, NULL, NULL, "GTA2 Manager");
         if (hwndGta2Manager)
         {
             PostMessageA(gHwnd_707F04, WM_ACTIVATE, 0, reinterpret_cast<LPARAM>(hwndGta2Manager));
@@ -1959,7 +1959,7 @@ EXPORT void Start_GTA2Manager_5E4DE0()
     {
         LPARAM lParam;
         PostMessageA(gHwnd_707F04, WM_ACTIVATE, 0, lParam);
-        if (reinterpret_cast<u32>(ShellExecuteA(0, 0, "GTA2 Manager.EXE", 0, gWorkingDir_707F64, 1)) <= 0x20)
+        if (reinterpret_cast<u32>(ShellExecuteA(NULL, NULL, "GTA2 Manager.EXE", NULL, gWorkingDir_707F64, 1)) <= 0x20)
         {
             FatalError_4A38C0(Gta2Error::Gta2ManagerLaunchError, "C:\\Splitting\\Gta2\\Source\\winmain.cpp", 136);
         }
@@ -2142,7 +2142,7 @@ EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, L
 
             ReleaseMutex(gMutex_707078);
             CloseHandle(gMutex_707078);
-            gMutex_707078 = 0;
+            gMutex_707078 = NULL;
 
             Shutdown_4DA740();
             GBH_Graphis_DMA_Video_Free_5D9830();
@@ -2244,7 +2244,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
 {
     //hInstance_ = hInstance;
     gHInstance_708220 = hInstance;
-    if (CoInitialize(0) < 0)
+    if (CoInitialize(NULL) < 0)
     {
         return 0;
     }
@@ -2254,7 +2254,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
         return 0;
     }
 
-    gMutex_707078 = CreateMutexA(0, 0, "GBH_COOP_MUTEX");
+    gMutex_707078 = CreateMutexA(NULL, 0, "GBH_COOP_MUTEX");
     GetGTA2Version_5E5D60(&gGTA2VersionMajor_708280, &gGTA2VersionMinor_708284);
 
     u32 dxVer;
@@ -2280,8 +2280,8 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
     WndClass.cbWndExtra = 0;
     WndClass.hInstance = hInstance;
     WndClass.hIcon = LoadIconA(hInstance, reinterpret_cast<LPCSTR>(0x65));
-    WndClass.hCursor = LoadCursorA(0, reinterpret_cast<LPCSTR>(0x7F00));
-    WndClass.hbrBackground = 0;
+    WndClass.hCursor = LoadCursorA(NULL, reinterpret_cast<LPCSTR>(0x7F00));
+    WndClass.hbrBackground = NULL;
     WndClass.lpszMenuName = "WinMain";
     WndClass.lpszClassName = "WinMain";
     RegisterClassA(&WndClass);
@@ -2301,7 +2301,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
     // Starting game...
 
     sprintf(gTmpBuffer_67C598, "GTA2");
-    gHwnd_707F04 = CreateWindowExA(0, "WinMain", gTmpBuffer_67C598, 0xCF0000u, 0, 0, 100, 100, 0, 0, hInstance, 0);
+    gHwnd_707F04 = CreateWindowExA(0, "WinMain", gTmpBuffer_67C598, 0xCF0000u, 0, 0, 100, 100, NULL, NULL, hInstance, NULL);
     if (!gHwnd_707F04)
     {
         return 0;
@@ -2328,7 +2328,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
         gWindowY_706B64 = static_cast<int>(GetSystemMetrics(1) - window_h) / 2;
     }
 
-    if (!SetWindowPos(gHwnd_707F04, 0, gWindowX_706B60, gWindowY_706B64, window_w, window_h, 0x314u))
+    if (!SetWindowPos(gHwnd_707F04, NULL, gWindowX_706B60, gWindowY_706B64, window_w, window_h, 0x314u))
     {
         FatalError_4A38C0(Gta2Error::SetWindowPosFail, "C:\\Splitting\\Gta2\\Source\\winmain.cpp", 661);
     }
@@ -2358,7 +2358,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
 
     if (bStartNetworkGame_7081F0)
     {
-        bDoFrontEnd_626B68 = 0;
+        bDoFrontEnd_626B68 = false;
         gRoot_sound_66B038.Set3DSound_40F160(gRegistry_6FF968.Sound_Setting_Exists_586A70("do_3d_sound"));
         gRegistry_6FF968.Clear_Or_Delete_Sound_Setting_586BF0("do_3d_sound", gRoot_sound_66B038.Get3DSound_40F180());
     }
@@ -2392,7 +2392,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
         while (1)
         {
             MSG msg;
-            if (PeekMessageA(&msg, 0, 0, 0, 1u))
+            if (PeekMessageA(&msg, NULL, 0, 0, 1u))
             {
                 if (msg.message == 18) // WM_QUIT
                 {
@@ -2456,7 +2456,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
                                     default:
                                         state = 7;
                                         CleanUpInputAndOthers_4DA700();
-                                        bDoFrontEnd_626B68 = 1;
+                                        bDoFrontEnd_626B68 = true;
                                         break;
                                 }
                                 break; // go to the beginning
@@ -2476,7 +2476,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
 
                                         state = gGameSession_67E8E0.IsBonusStage_4C59A0() != 0 ? 6 : 11; // 11? prob 1
                                         CleanUpInputAndOthers_4DA700();
-                                        bDoFrontEnd_626B68 = 1;
+                                        bDoFrontEnd_626B68 = true;
                                         break;
 
                                     case GameExitType::GameOverRIP_3:
@@ -2485,7 +2485,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
                                         gPlyDat_6FEAC0->UpdateHiScores_56C010();
                                         state = gGameSession_67E8E0.IsBonusStage_4C59A0() != 0 ? 6 : 2;
                                         CleanUpInputAndOthers_4DA700();
-                                        bDoFrontEnd_626B68 = 1;
+                                        bDoFrontEnd_626B68 = true;
                                         break;
 
                                     case GameExitType::AreaCompleted_4:
@@ -2494,19 +2494,19 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
                                         gPlyDat_6FEAC0->UpdateHiScores_56C010();
                                         state = gGameSession_67E8E0.IsBonusStage_4C59A0() != 0 ? 6 : 3;
                                         CleanUpInputAndOthers_4DA700();
-                                        bDoFrontEnd_626B68 = 1;
+                                        bDoFrontEnd_626B68 = true;
                                         break;
 
                                     case GameExitType::MultiplayerExit_5:
                                         state = 7;
                                         CleanUpInputAndOthers_4DA700();
-                                        bDoFrontEnd_626B68 = 1;
+                                        bDoFrontEnd_626B68 = true;
                                         break;
 
                                     case GameExitType::ReplayExit_6:
                                         state = 0;
                                         CleanUpInputAndOthers_4DA700();
-                                        bDoFrontEnd_626B68 = 1;
+                                        bDoFrontEnd_626B68 = true;
                                         break;
 
                                     default:
@@ -2550,22 +2550,22 @@ EXPORT void __stdcall Shutdown_4DA740()
 MATCH_FUNC(0x5E5A30)
 EXPORT bool __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
 {
-    bool bRet = 1;
+    bool bRet = true;
     gGameSession_67E8E0.init_4C5AF0();
     if (bStartNetworkGame_7081F0)
     {
         HKEY hKey;
         if (!gRegistry_6FF968.CreateNetworkRoot_587420(&hKey))
         {
-            bRet = 0;
+            bRet = false;
         }
 
         if (gRegistry_6FF968.Get_Binary_Size_5873E0(hKey, "UseProtocol") != sizeof(GUID))
         {
             RegCloseKey(hKey);
-            if (!gNetPlay_7071E8.SetProtoAndConnection_51DAE0(0, 0))
+            if (!gNetPlay_7071E8.SetProtoAndConnection_51DAE0(NULL, NULL))
             {
-                return 0;
+                return false;
             }
         }
         else
@@ -2574,7 +2574,7 @@ EXPORT bool __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
             if (!gRegistry_6FF968.Get_Binary_587340(hKey, "UseProtocol", sizeof(GUID), reinterpret_cast<LPBYTE>(&protocolGuid)))
             {
                 RegCloseKey(hKey);
-                return 0;
+                return false;
             }
 
             Network_Buffer connection;
@@ -2584,14 +2584,14 @@ EXPORT bool __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
             {
                 operator delete(connection.field_0_data);
                 RegCloseKey(hKey);
-                return 0;
+                return false;
             }
             RegCloseKey(hKey);
 
             if (!gNetPlay_7071E8.SetProtoAndConnection_51DAE0(&protocolGuid, &connection))
             {
                 operator delete(connection.field_0_data);
-                return 0;
+                return false;
             }
 
             if (gNetPlay_7071E8.field_4_bModem)
@@ -2599,7 +2599,7 @@ EXPORT bool __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
                 u16 len = gRegistry_6FF968.Get_Binary_Size_5873E0(hKey, "ModemNumber");
                 if (len >= 128)
                 {
-                    return 0;
+                    return false;
                 }
                 wchar_t modemNumber[128];
                 gRegistry_6FF968.Get_Binary_587340(hKey, "ModemNumber", len, reinterpret_cast<LPBYTE>(modemNumber));
@@ -2610,12 +2610,12 @@ EXPORT bool __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance)
         NetUi networkUi;
         if (!gNetPlay_7071E8.InitializeConnection_51E5C0())
         {
-            return 0;
+            return false;
         }
 
         if (!networkUi.ShowNetworkUiBlocking_519BD0(hInstance))
         {
-            return 0;
+            return false;
         }
 
         networkUi.CopyGameSettings_51C7F0(&gNetworkGameSettings_707098);

@@ -530,8 +530,8 @@ KanjiFont::KanjiFont()
 {
     field_8E8_colour = -2;
     field_8E9_outline_colour = -9;
-    field_8C8_pKBIT = 0;
-    field_8C4_pKidX = 0;
+    field_8C8_pKBIT = NULL;
+    field_8C4_pKidX = NULL;
     field_8CC_kidx_size_words = 0;
     field_8C0_use_counter = 0;
     Load_kanji_dat_4D2090();

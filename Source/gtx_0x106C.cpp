@@ -44,24 +44,24 @@ sprite_delta* gtx_0x106C::get_delta_5AA3F0(u16 sprite_idx, u8 delta_idx)
 
     if (sprite_idx >= pDel->field_0_count)
     {
-        return 0;
+        return NULL;
     }
 
     sprite_deltas* pEntry = pDel->field_4_entries[sprite_idx];
 
     if (!pEntry)
     {
-        return 0;
+        return NULL;
     }
 
     if (delta_idx >= pEntry->field_2_count)
     {
-        return 0;
+        return NULL;
     }
 
     sprite_delta* pDelta = &pEntry->field_4_deltas[delta_idx];
 
-    return pDelta->field_4_len != 0 ? pDelta : 0;
+    return pDelta->field_4_len != 0 ? pDelta : NULL;
 }
 
 // note: param type matters
@@ -318,7 +318,7 @@ object_info* gtx_0x106C::get_map_object_info_5AA910(u16 idx)
 {
     if (idx >= field_6_map_object_info_len)
     {
-        return 0;
+        return NULL;
     }
     return &field_24_map_object_info[idx];
 }
@@ -361,7 +361,7 @@ void gtx_0x106C::BuildCarInfoContainer_5AA9A0(s32 chunk_size)
 
     field_5C_cari = new car_info_container();
 
-    if (field_5C_cari == 0)
+    if (field_5C_cari == NULL)
     {
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\style.cpp", 821);
     }
@@ -595,7 +595,7 @@ void gtx_0x106C::build_delta_container_5AAC70()
 
     for (u32 i = 0; i < field_54_del->field_0_count; i++)
     {
-        field_54_del->field_4_entries[i] = 0;
+        field_54_del->field_4_entries[i] = NULL;
     }
 
     pIter = static_cast<sprite_deltas*>(field_50_delta_buffer);
@@ -639,7 +639,7 @@ void gtx_0x106C::load_delta_index_5AAD80(u32 delx_chunk_size)
     build_delta_container_5AAC70();
 
     crt::free(this->field_4C_delta_index);
-    this->field_4C_delta_index = 0;
+    this->field_4C_delta_index = NULL;
 }
 
 MATCH_FUNC(0x5AADD0)
@@ -889,7 +889,7 @@ bool gtx_0x106C::IsCarModelInRecycleList_5AB380(u8 car_id)
     s32 i = 0;
     if (!field_64_car_recycling_info)
     {
-        return 1;
+        return true;
     }
 
     // This while only ends if it finds 'car_id' or if it reaches the 
@@ -1055,36 +1055,36 @@ gtx_0x106C::gtx_0x106C()
 {
     ResetSpecs_4C03D0();
 
-    field_64_car_recycling_info = 0;
+    field_64_car_recycling_info = NULL;
     field_68_recy_chunk_size = 0;
-    field_14_sprite_base2 = 0;
-    field_C_palette_base2 = 0;
-    field_1C_font_base = 0;
-    field_20_sprite_index = 0;
-    field_24_map_object_info = 0;
+    field_14_sprite_base2 = NULL;
+    field_C_palette_base2 = NULL;
+    field_1C_font_base = NULL;
+    field_20_sprite_index = NULL;
+    field_24_map_object_info = NULL;
     field_6_map_object_info_len = 0;
-    field_28_palette_index = 0;
-    field_2C_physical_palettes = 0;
-    field_30_physical_palettes_unaligned = 0;
-    field_3C_tiles = 0;
-    field_44_tiles_unaligned = 0;
-    field_34_sprite_graphics = 0;
-    field_38_sprite_graphics_unaligned = 0;
-    field_48_delta_store = 0;
-    field_50_delta_buffer = 0;
-    field_58_car_info = 0;
-    field_5C_cari = 0;
-    field_4C_delta_index = 0;
+    field_28_palette_index = NULL;
+    field_2C_physical_palettes = NULL;
+    field_30_physical_palettes_unaligned = NULL;
+    field_3C_tiles = NULL;
+    field_44_tiles_unaligned = NULL;
+    field_34_sprite_graphics = NULL;
+    field_38_sprite_graphics_unaligned = NULL;
+    field_48_delta_store = NULL;
+    field_50_delta_buffer = NULL;
+    field_58_car_info = NULL;
+    field_5C_cari = NULL;
+    field_4C_delta_index = NULL;
     field_60_delta_len = 0;
-    field_54_del = 0;
+    field_54_del = NULL;
     field_4_sprite_index_count = 0;
     field_0_totalPalBase = 0;
     field_2_font_base_total = 0;
-    field_40_tile = 0;
+    field_40_tile = NULL;
     field_8_physical_palettes_len = 0;
     field_6A_palettes_converted = 0;
-    field_10_palette_base1 = 0;
-    field_18_sprite_base1 = 0;
+    field_10_palette_base1 = NULL;
+    field_18_sprite_base1 = NULL;
 }
 
 MATCH_FUNC(0x5AB8A0)
@@ -1115,99 +1115,99 @@ gtx_0x106C::~gtx_0x106C()
     }
 
     local_field_14_sprite_base2 = field_14_sprite_base2;
-    field_64_car_recycling_info = 0;
+    field_64_car_recycling_info = NULL;
     delete local_field_14_sprite_base2;
 
     local_field_18_sprite_base1 = field_18_sprite_base1;
-    field_14_sprite_base2 = 0;
+    field_14_sprite_base2 = NULL;
     delete (local_field_18_sprite_base1);
 
     local_field_C_palette_base2 = field_C_palette_base2;
-    field_18_sprite_base1 = 0;
+    field_18_sprite_base1 = NULL;
     delete (local_field_C_palette_base2);
     local_field_10_palette_base1 = field_10_palette_base1;
-    field_C_palette_base2 = 0;
+    field_C_palette_base2 = NULL;
     delete (local_field_10_palette_base1);
     local_field_1C_font_base = field_1C_font_base;
-    field_10_palette_base1 = 0;
+    field_10_palette_base1 = NULL;
     if (local_field_1C_font_base)
     {
         crt::free(local_field_1C_font_base);
     }
 
     local_field_20_sprite_index = field_20_sprite_index;
-    field_1C_font_base = 0;
+    field_1C_font_base = NULL;
     if (local_field_20_sprite_index)
     {
         crt::free(local_field_20_sprite_index);
     }
     local_field_24_map_object_info = field_24_map_object_info;
-    field_20_sprite_index = 0;
+    field_20_sprite_index = NULL;
     if (local_field_24_map_object_info)
     {
         crt::free(local_field_24_map_object_info);
     }
     local_field_28_palette_index = field_28_palette_index;
-    field_24_map_object_info = 0;
+    field_24_map_object_info = NULL;
     delete (local_field_28_palette_index);
     local_field_30_physical_palettes_size = field_30_physical_palettes_unaligned;
-    field_28_palette_index = 0;
+    field_28_palette_index = NULL;
     if (local_field_30_physical_palettes_size)
     {
         crt::free(local_field_30_physical_palettes_size);
     }
     local_field_44_aligned_tiles_size = field_44_tiles_unaligned;
-    field_2C_physical_palettes = 0;
-    field_30_physical_palettes_unaligned = 0;
+    field_2C_physical_palettes = NULL;
+    field_30_physical_palettes_unaligned = NULL;
     if (local_field_44_aligned_tiles_size)
     {
         crt::free(local_field_44_aligned_tiles_size);
     }
     pUnaligned = field_38_sprite_graphics_unaligned;
-    field_3C_tiles = 0;
-    field_44_tiles_unaligned = 0;
+    field_3C_tiles = NULL;
+    field_44_tiles_unaligned = NULL;
     if (pUnaligned)
     {
         crt::free(pUnaligned);
     }
     local_field_48_delta_store = field_48_delta_store;
-    field_34_sprite_graphics = 0;
-    field_38_sprite_graphics_unaligned = 0;
+    field_34_sprite_graphics = NULL;
+    field_38_sprite_graphics_unaligned = NULL;
     if (local_field_48_delta_store)
     {
         crt::free(local_field_48_delta_store);
     }
     local_field_50_delta_buffer = field_50_delta_buffer;
-    field_48_delta_store = 0;
+    field_48_delta_store = NULL;
     if (local_field_50_delta_buffer)
     {
         crt::free(local_field_50_delta_buffer);
     }
     local_field_58_car_info = field_58_car_info;
-    field_50_delta_buffer = 0;
+    field_50_delta_buffer = NULL;
     if (local_field_58_car_info)
     {
         crt::free(local_field_58_car_info);
     }
     local_field_5C_cari = field_5C_cari;
-    field_58_car_info = 0;
+    field_58_car_info = NULL;
     delete (local_field_5C_cari);
     local_field_4C_delta_index = field_4C_delta_index;
-    field_5C_cari = 0;
+    field_5C_cari = NULL;
     if (local_field_4C_delta_index)
     {
         crt::free(local_field_4C_delta_index);
     }
     local_field_54_del = static_cast<void*>(field_54_del);
-    field_4C_delta_index = 0;
+    field_4C_delta_index = NULL;
     if (local_field_54_del)
     {
         crt::free(local_field_54_del);
     }
     local_field_40_tile = field_40_tile;
-    field_54_del = 0;
+    field_54_del = NULL;
     delete (local_field_40_tile);
-    field_40_tile = 0;
+    field_40_tile = NULL;
 }
 
 // https://decomp.me/scratch/CjuP1

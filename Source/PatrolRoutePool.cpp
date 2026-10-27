@@ -52,7 +52,7 @@ PatrolRoute* PatrolRoutePool::AllocPatrolList_543F10(u8* pRet)
             return &field_0_routes[i];
         }
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x544bf0)

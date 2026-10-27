@@ -47,7 +47,7 @@ MATCH_FUNC(0x52ad80)
 Object_3C::Object_3C()
 {
     this->field_4_angle = 0;
-    this->mpNext = 0;
+    this->mpNext = NULL;
     this->field_1C_z_accel = dword_6F8BF0;
     this->field_18_friction = dword_6F8BF0;
     this->field_10_z_speed = dword_6F8BF0;
@@ -66,7 +66,7 @@ Object_3C::Object_3C()
 MATCH_FUNC(0x52ade0)
 Object_3C::~Object_3C()
 {
-    mpNext = 0;
+    mpNext = NULL;
 }
 
 // 9.6f 0x482BA0
@@ -94,7 +94,7 @@ AttachedSprite* SpriteList::GetSpriteForModel_5A6A50(s32 obj_type)
         }
         pIter = pIter->mpNext;
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x5a6a90)
@@ -118,7 +118,7 @@ Object* SpriteList::FindObject2CByModel_5A6A90(s32 obj_type)
         }
         pIter = pIter->mpNext;
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x5a6ad0)
@@ -141,13 +141,13 @@ AttachedSprite* SpriteList::FindFirstFireExplosion_5A6AD0()
         }
         pObjIter = pObjIter->mpNext;
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x5a6b10)
 void SpriteList::RemoveSprite_5A6B10(Sprite* toFind)
 {
-    AttachedSprite* pLast = 0;
+    AttachedSprite* pLast = NULL;
     AttachedSprite* pIter = this->field_0_p18;
     for (;;)
     {
@@ -173,7 +173,7 @@ void SpriteList::RemoveSprite_5A6B10(Sprite* toFind)
 MATCH_FUNC(0x5a6b60)
 void SpriteList::RemoveSpriteSafe_5A6B60(Sprite* toFind)
 {
-    AttachedSprite* pLast = 0;
+    AttachedSprite* pLast = NULL;
     AttachedSprite* pIter = this->field_0_p18;
     while (pIter)
     {
@@ -233,18 +233,18 @@ bool SpriteList::TagSpriteWithRng_5A6C10(Sprite* toFind)
             if (pNext->field_0_pSprite == toFind)
             {
                 pNext->field_14_rng = gpRng_67AB34->get_cur_rng_41CFE0();
-                return 1;
+                return true;
             }
         }
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x5a6c40)
 void SpriteList::RemoveAllExceptRngValue_5A6C40(s32 toFind)
 {
     AttachedSprite* pIter = this->field_0_p18;
-    AttachedSprite* pLast = 0;
+    AttachedSprite* pLast = NULL;
 
     while (pIter)
     {
@@ -339,11 +339,11 @@ bool SpriteList::SpriteExists_5A6D80(Sprite* pToFind)
     {
         if (pIter->field_0_pSprite == pToFind)
         {
-            return 1;
+            return true;
         }
         pIter = pIter->mpNext;
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x5a6da0)
@@ -352,7 +352,7 @@ Sprite* SpriteList::PopFrontSprite_5A6DA0()
     AttachedSprite* pAttached = this->field_0_p18;
     if (!this->field_0_p18)
     {
-        return 0;
+        return NULL;
     }
     Sprite* pOld = pAttached->field_0_pSprite;
     this->field_0_p18 = pAttached->mpNext;
@@ -364,7 +364,7 @@ MATCH_FUNC(0x5a6dc0)
 Sprite* SpriteList::PopBackSprite_5A6DC0()
 {
     AttachedSprite* pIter = this->field_0_p18;
-    AttachedSprite* pLast = 0;
+    AttachedSprite* pLast = NULL;
     while (pIter->mpNext)
     {
         pLast = pIter;
@@ -374,11 +374,11 @@ Sprite* SpriteList::PopBackSprite_5A6DC0()
     Sprite* result = pIter->field_0_pSprite;
     if (pLast)
     {
-        pLast->mpNext = 0;
+        pLast->mpNext = NULL;
     }
     else
     {
-        this->field_0_p18 = 0;
+        this->field_0_p18 = NULL;
     }
     gAttachedSpritePool_703B80->DeAllocate(pIter);
 
@@ -395,7 +395,7 @@ AttachedSprite* SpriteList::ClearList_5A6E10()
         pIter = pIter->mpNext;
         gAttachedSpritePool_703B80->DeAllocate(pLast);
     }
-    this->field_0_p18 = 0;
+    this->field_0_p18 = NULL;
     return pIter;
 }
 
@@ -404,7 +404,7 @@ Sprite* SpriteList::FindClosestSprite_5A6E40(Fix16 xOff, Fix16 yOff)
 {
     Fix16 smallest(99999);
 
-    Sprite* new_ret = 0;
+    Sprite* new_ret = NULL;
     for (AttachedSprite* pIter = this->field_0_p18; pIter; pIter = pIter->mpNext)
     {
         Fix16 yDelta = Fix16::MaxAbsDistance_42A6B0(xOff, yOff, pIter->field_0_pSprite->field_14_xy.x, pIter->field_0_pSprite->field_14_xy.y);
@@ -420,9 +420,9 @@ Sprite* SpriteList::FindClosestSprite_5A6E40(Fix16 xOff, Fix16 yOff)
 MATCH_FUNC(0x5a6ea0)
 Sprite* SpriteList::TakeClosestSprite_5A6EA0(Fix16 xpos, Fix16 ypos)
 {
-    AttachedSprite* pPrev = 0;
-    AttachedSprite* pClosest = 0;
-    AttachedSprite* pBeforeClosest = 0;
+    AttachedSprite* pPrev = NULL;
+    AttachedSprite* pClosest = NULL;
+    AttachedSprite* pBeforeClosest = NULL;
     Fix16 smallest(99999);
     Fix16 distance;
 
@@ -440,7 +440,7 @@ Sprite* SpriteList::TakeClosestSprite_5A6EA0(Fix16 xpos, Fix16 ypos)
 
     if (!pClosest)
     {
-        return 0;
+        return NULL;
     }
 
     Sprite* pSprite = pClosest->field_0_pSprite;
@@ -463,7 +463,7 @@ void SpriteList::PoolUpdate_5A6F70(Sprite* pSprite)
     // argument to PoolUpdate, probably DeAllocate was inlined - need to try to consolidate and refactor
     // all of these.
     // 9.6f 0x4BEF70
-    AttachedSprite* pPreviousItem = 0;
+    AttachedSprite* pPreviousItem = NULL;
     AttachedSprite* pCurrItem = field_0_p18;
     while (pCurrItem)
     {
@@ -472,7 +472,7 @@ void SpriteList::PoolUpdate_5A6F70(Sprite* pSprite)
         {
             if (pPreviousItem && pPreviousItem->mpNext != pCurrItem)
             {
-                pPreviousItem = 0;
+                pPreviousItem = NULL;
             }
 
             if (pPreviousItem)
@@ -535,7 +535,7 @@ void SpriteList::DestroyAllSprites_5A7010()
 MATCH_FUNC(0x5a7080)
 void SpriteList::CleanupSpriteList_5A7080()
 {
-    AttachedSprite* pLast = 0;
+    AttachedSprite* pLast = NULL;
     AttachedSprite* pIter = this->field_0_p18;
     while (pIter)
     {
@@ -575,7 +575,7 @@ MATCH_FUNC(0x5a7110)
 void SpriteList::ClearGangIconSprite_5A7110()
 {
     AttachedSprite* pIter = this->field_0_p18;
-    AttachedSprite* pLast = 0;
+    AttachedSprite* pLast = NULL;
     Object* pObject;
     if (pIter)
     {
@@ -661,7 +661,7 @@ MATCH_FUNC(0x5a7240)
 void SpriteList::PruneNonCollidingSprites_5A7240(Sprite* pSprite)
 {
     AttachedSprite* pNext = this->field_0_p18;
-    AttachedSprite* pLast = 0;
+    AttachedSprite* pLast = NULL;
 
     pSprite->UpdateCollisionBoundsIfNeeded_59E9C0();
 
@@ -726,8 +726,8 @@ bool SpriteList::AnySpriteHasSlopeTopInFootprint_5A7310()
     {
         if (pIter->field_0_pSprite->CheckSlopeTopInFootprint_5A1A60())
         {
-            return 1;
+            return true;
         }
     }
-    return 0;
+    return false;
 }

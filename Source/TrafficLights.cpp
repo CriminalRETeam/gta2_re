@@ -72,7 +72,7 @@ void TrafficLight::Init_5C1D00(u8 x, u8 y, u8 w, u8 h)
     }
     else
     {
-        field_8_west_headlight_obj = 0;
+        field_8_west_headlight_obj = NULL;
     }
 
     // East side
@@ -90,7 +90,7 @@ void TrafficLight::Init_5C1D00(u8 x, u8 y, u8 w, u8 h)
     }
     else
     {
-        field_C_east_headlight_obj = 0;
+        field_C_east_headlight_obj = NULL;
     }
 
     // North side
@@ -108,7 +108,7 @@ void TrafficLight::Init_5C1D00(u8 x, u8 y, u8 w, u8 h)
     }
     else
     {
-        field_0_north_headlight_obj = 0;
+        field_0_north_headlight_obj = NULL;
     }
 
     // South side
@@ -125,7 +125,7 @@ void TrafficLight::Init_5C1D00(u8 x, u8 y, u8 w, u8 h)
     }
     else
     {
-        field_4_south_headlight_obj = 0;
+        field_4_south_headlight_obj = NULL;
     }
 
     if ((field_8_west_headlight_obj || field_0_north_headlight_obj) && gMap_0x370_6F6268->IsBlockPavementTypeAt_452980(x - 1, y - 1, block_z))
@@ -372,7 +372,7 @@ TrafficLights::TrafficLights()
     field_190_array_used_count = 0;
     for (s32 i = 0; i < GTA2_COUNTOF(field_0_traffic_lights); i++)
     {
-        field_0_traffic_lights[i] = 0;
+        field_0_traffic_lights[i] = NULL;
     }
     field_192_phase = traffic_light_phase::north_south_green_1;
     field_193_timer = traffic_light_phase_timers_626840[traffic_light_phase::north_south_green_1];

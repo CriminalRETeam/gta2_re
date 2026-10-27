@@ -50,7 +50,7 @@ DEFINE_GLOBAL(u32*, gpGBH_Globals_7085E4, 0x7085E4);
 MATCH_FUNC(0x5EA4D0)
 EXPORT void __stdcall GBH_Graphics_Stub_5EA4D0()
 {
-    MessageBoxA(0,
+    MessageBoxA(NULL,
                 "Error: A GBH Graphic function was called without the DLL being loaded, or the function has not been fixed up.",
                 "GBH Graphics Error",
                 MB_OK);
@@ -172,7 +172,7 @@ EXPORT s32 __stdcall GBH_GraphicsLoadDll_5EA680(const char_type* lpLibFileName)
     else
     {
         sprintf(Text, "Error can't load DLL file: %s", lpLibFileName);
-        MessageBoxA(0, Text, "Error Loading DLL.", MB_OK);
+        MessageBoxA(NULL, Text, "Error Loading DLL.", MB_OK);
         return -1;
     }
     return 0;

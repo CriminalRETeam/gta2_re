@@ -245,8 +245,8 @@ Char::Char()
     field_10_char_state = Char_B4_state::Interacting_Car_Door_36;
     field_14_target_rotation = kAng0_6FDB34;
     field_16_state_init_pending = 0;
-    field_18_collided_entity = 0;
-    field_1C_prev_collided_entity = 0;
+    field_18_collided_entity = NULL;
+    field_1C_prev_collided_entity = NULL;
     field_20_collided_entity_type = 0;
     field_24 = 3;
     field_28_slide_rotation = kAng0_6FDB34;
@@ -263,14 +263,14 @@ Char::Char()
     field_5C_jump_over_timer = 0;
     field_46_timer = 0; // maybe field_46_shock_counter
     field_48_lying_on_floor_timer = 0;
-    mpNext = 0;
-    field_7C_pPed = 0;
-    field_80_sprite_ptr = 0;
+    mpNext = NULL;
+    field_7C_pPed = NULL;
+    field_80_sprite_ptr = NULL;
     field_68_animation_frame = 0;
     field_69_is_colliding_with_sprite = 0;
     field_74_repulsion_rotation = kAng0_6FDB34;
     field_6A_repulsion_timer = 0;
-    field_84_target_car = 0;
+    field_84_target_car = NULL;
     field_58_flags_bf.bOnSlope = 0;
     field_88_obj_2c.DestroyAllSprites_5A7010();
     field_8C_jump_base_z = kFP16Zero_6FD9E4;
@@ -294,12 +294,12 @@ Char::Char()
 MATCH_FUNC(0x5451A0)
 Char::~Char()
 {
-    field_18_collided_entity = 0;
-    field_1C_prev_collided_entity = 0;
-    mpNext = 0;
-    field_7C_pPed = 0;
-    field_80_sprite_ptr = 0;
-    field_84_target_car = 0;
+    field_18_collided_entity = NULL;
+    field_1C_prev_collided_entity = NULL;
+    mpNext = NULL;
+    field_7C_pPed = NULL;
+    field_80_sprite_ptr = NULL;
+    field_84_target_car = NULL;
 }
 
 MATCH_FUNC(0x5451C0)
@@ -332,8 +332,8 @@ void Char::PoolAllocate()
     field_10_char_state = Char_B4_state::Interacting_Car_Door_36;
     field_14_target_rotation = kAng0_6FDB34;
     field_16_state_init_pending = 0;
-    field_18_collided_entity = 0;
-    field_1C_prev_collided_entity = 0;
+    field_18_collided_entity = NULL;
+    field_1C_prev_collided_entity = NULL;
     field_20_collided_entity_type = 0;
     field_24 = 3;
     field_28_slide_rotation = kAng0_6FDB34;
@@ -351,13 +351,13 @@ void Char::PoolAllocate()
     field_46_timer = 0;
     field_48_lying_on_floor_timer = 0;
     field_4A = 500;
-    mpNext = 0;
-    field_7C_pPed = 0;
+    mpNext = NULL;
+    field_7C_pPed = NULL;
     field_68_animation_frame = 0;
     field_69_is_colliding_with_sprite = 0;
     field_74_repulsion_rotation = kAng0_6FDB34;
     field_6A_repulsion_timer = 0;
-    field_84_target_car = 0;
+    field_84_target_car = NULL;
     field_58_flags_bf.bOnSlope = 0;
     field_88_obj_2c.DestroyAllSprites_5A7010();
     field_8C_jump_base_z = kFP16Zero_6FD9E4;
@@ -476,8 +476,8 @@ void Char::KillPed_5455F0()
 MATCH_FUNC(0x545600)
 void Char::ClearCollisionState_545600()
 {
-    field_18_collided_entity = 0;
-    field_1C_prev_collided_entity = 0;
+    field_18_collided_entity = NULL;
+    field_1C_prev_collided_entity = NULL;
     field_20_collided_entity_type = 0;
     field_2C_ang = kAng0_6FDB34;
     field_69_is_colliding_with_sprite = 0;
@@ -1093,7 +1093,7 @@ void Char::UpdateAnimState_546360()
                         {
                             pDriver->SetRemap_433C10(pDriver->get_remap_433BA0());
                         }
-                        pDriver->field_16C_car = 0;
+                        pDriver->field_16C_car = NULL;
                         pDriver->SetStateInitPending_433B50();
                         if (!pDriver->is_player_41B0A0())
                         {
@@ -1333,7 +1333,7 @@ void Char::UpdateAnimState_546360()
                     {
                         pDoor->Close_439EA0();
                     }
-                    pDoor->set_ped_421380(0);
+                    pDoor->set_ped_421380(NULL);
 
                     if (static_cast<u8>(IsOnWater_545570()))
                     {
@@ -1705,14 +1705,14 @@ void Char::DispatchCollision_548670(char_type bFlag)
             case sprite_types_enum::ped_3: // char_b4
                 if (bUnknown == byte_623F48)
                 {
-                    this->field_18_collided_entity = 0;
+                    this->field_18_collided_entity = NULL;
                 }
                 else
                 {
                     if (field_7C_pPed->GetPedType_420B70() >= ped_type::player_2 && field_7C_pPed->field_238_ped_type <= ped_type::dummy_with_occupation_6)
                     {
                         Char::HandlePedCollision_548BD0(pNearSprite->AsCharB4_40FEA0());
-                        this->field_18_collided_entity = 0;
+                        this->field_18_collided_entity = NULL;
                     }
                 }
                 break;
@@ -1730,7 +1730,7 @@ void Char::DispatchCollision_548670(char_type bFlag)
                 }
                 else
                 {
-                    Char::HandleGenericCollision_54A530(pNearSprite->AsCar_40FEB0(), 0, 0);
+                    Char::HandleGenericCollision_54A530(pNearSprite->AsCar_40FEB0(), NULL, NULL);
                     this->field_20_collided_entity_type = 1;
                 }
                 break;
@@ -1753,24 +1753,24 @@ void Char::DispatchCollision_548670(char_type bFlag)
             if (field_10_char_state == Char_B4_state::Colliding_With_Car_27)
             {
                 this->field_10_char_state = 1;
-                this->field_1C_prev_collided_entity = 0;
+                this->field_1C_prev_collided_entity = NULL;
                 this->field_20_collided_entity_type = 0;
-                this->field_18_collided_entity = 0;
+                this->field_18_collided_entity = NULL;
             }
             else
             {
-                this->field_18_collided_entity = 0;
+                this->field_18_collided_entity = NULL;
             }
         }
         else
         {
             this->field_10_char_state = 1;
-            this->field_18_collided_entity = 0;
+            this->field_18_collided_entity = NULL;
         }
 
         if (field_38_velocity == kZeroVelocity_6FD7C0 || field_7C_pPed->PedTypeIs_45EDE0(ped_type::player_2) && !this->field_8_ped_state_1)
         {
-            this->field_1C_prev_collided_entity = 0;
+            this->field_1C_prev_collided_entity = NULL;
             this->field_20_collided_entity_type = 0;
             this->field_69_is_colliding_with_sprite = 0;
             this->field_2A_slide_turn = kAng0_6FDB34;
@@ -1825,7 +1825,7 @@ void Char::HandleObjectCollision_548840(Object* pObj)
     u8 side_self;
     u8 out2;
     u8 out3 = 0;
-    bool bUnknown = 0;
+    bool bUnknown = false;
 
     s32 phi_type = pObj->field_8_definition->field_34_behavior_type;
 
@@ -1848,7 +1848,7 @@ void Char::HandleObjectCollision_548840(Object* pObj)
         {
             if (pObj->field_8_definition->field_4C == 3)
             {
-                bUnknown = 1;
+                bUnknown = true;
             }
 
             if (pObj->field_8_definition->field_4C && !bUnknown)
@@ -1870,7 +1870,7 @@ void Char::HandleObjectCollision_548840(Object* pObj)
         this->field_5C_jump_over_timer = 10;
 
     LABEL_28:
-        HandleGenericCollision_54A530(0, pObj, 0);
+        HandleGenericCollision_54A530(NULL, pObj, NULL);
     }
 }
 
@@ -2146,7 +2146,7 @@ void Char::HandleGenericCollision_54A530(Car* pCar, Object* pObj, Char* pChar)
 
     if (field_69_is_colliding_with_sprite == 0)
     {
-        if (pCar != 0)
+        if (pCar != NULL)
         {
             corner_ang = pCar->GetCornerAngle_4403A0();
             pSprt = pCar->field_50_car_sprite;
@@ -2156,7 +2156,7 @@ void Char::HandleGenericCollision_54A530(Car* pCar, Object* pObj, Char* pChar)
                 byte_6FDB58 = 1;
             }
         }
-        else if (pObj != 0)
+        else if (pObj != NULL)
         {
             pSprt = pObj->field_4_sprite;
             Fix16 half_w;
@@ -2183,7 +2183,7 @@ void Char::HandleGenericCollision_54A530(Car* pCar, Object* pObj, Char* pChar)
             {
                 if (field_7C_pPed->PedTypeIs_45EDE0(ped_type::player_2) == 0)
                 {
-                    if (pChar == 0)
+                    if (pChar == NULL)
                     {
                         Char::DoJump_5454D0();
                     }
@@ -2245,7 +2245,7 @@ void Char::HandleGenericCollision_54A530(Car* pCar, Object* pObj, Char* pChar)
                 }
                 field_69_is_colliding_with_sprite = 0;
 
-                if (pCar != 0)
+                if (pCar != NULL)
                 {
                     if (pCar->field_50_car_sprite->field_1C_zpos >= field_80_sprite_ptr->field_1C_zpos)
                     {
@@ -2384,7 +2384,7 @@ void Char::HandleGenericCollision_54A530(Car* pCar, Object* pObj, Char* pChar)
                                                  field_80_sprite_ptr->field_1C_zpos);
         Char::DispatchCollision_548670(byte_623F48);
 
-        if (field_18_collided_entity != 0)
+        if (field_18_collided_entity != NULL)
         {
             switch (side)
             {
@@ -2413,12 +2413,12 @@ void Char::HandleGenericCollision_54A530(Car* pCar, Object* pObj, Char* pChar)
             }
         }
 
-        if (pCar != 0)
+        if (pCar != NULL)
         {
             field_1C_prev_collided_entity = pCar;
             field_18_collided_entity = pCar;
         }
-        else if (pObj != 0)
+        else if (pObj != NULL)
         {
             field_1C_prev_collided_entity = pObj;
             field_18_collided_entity = pObj;
@@ -2432,10 +2432,10 @@ void Char::HandleGenericCollision_54A530(Car* pCar, Object* pObj, Char* pChar)
     else
     {
         void* pAny = pCar;
-        if (pCar == 0)
+        if (pCar == NULL)
         {
             pAny = pObj;
-            if (pObj != 0)
+            if (pObj != NULL)
             {
                 if (pObj->field_4_sprite->field_C_pCollisionShape->GetDepth_492170() > kFP16Half_6FD8E4)
                 {
@@ -2448,7 +2448,7 @@ void Char::HandleGenericCollision_54A530(Car* pCar, Object* pObj, Char* pChar)
             }
         }
 
-        if (field_1C_prev_collided_entity == pAny || field_1C_prev_collided_entity == 0)
+        if (field_1C_prev_collided_entity == pAny || field_1C_prev_collided_entity == NULL)
         {
             if (field_10_char_state != Char_B4_state::Jumping_15)
             {
@@ -2489,7 +2489,7 @@ bool Char::ContinueMovementAfterCollision_54B8F0()
     bool bMoved = false;
     if (field_10_char_state == Char_B4_state::Jumping_15)
     {
-        return 1;
+        return true;
     }
 
     if (field_18_collided_entity)
@@ -2715,7 +2715,7 @@ bool Char::CanMoveOntoSlope_54C1A0(s32 path_direction)
     u8 slope_z_delta;
     if (gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(x, y, z, path_direction, &slope_z_delta, 0))
     {
-        return 0;
+        return false;
     }
 
 
@@ -2745,7 +2745,7 @@ bool Char::CanMoveOntoSlope_54C1A0(s32 path_direction)
         case AIR:
             if ((field_58_flags & 1) != 1)
             {
-                return 0;
+                return false;
             }
             zpos_frac = zpos.GetFracValue();
 
@@ -2759,7 +2759,7 @@ bool Char::CanMoveOntoSlope_54C1A0(s32 path_direction)
 
             if (zpos_frac <= kFP16Half_6FD8E4)
             {
-                return 0;
+                return false;
             }
 
             field_58_flags &= ~1;
@@ -2777,9 +2777,9 @@ bool Char::CanMoveOntoSlope_54C1A0(s32 path_direction)
             return false;
         case PAVEMENT:
         case 4:
-            return 1;
+            return true;
         default:
-            return 0;
+            return false;
     }
     return result;
 }
@@ -2838,13 +2838,13 @@ bool Char::CanMoveToTile_54C500(char_type x, char_type y)
     // No movement
     if (dx == 0 && dy == 0)
     {
-        return 1;
+        return true;
     }
 
     // Diagonal movement not allowed
     if (dx != 0 && dy != 0)
     {
-        return 0;
+        return false;
     }
 
     // Pure horizontal
@@ -3850,7 +3850,7 @@ bool Char::CanStepForwardWithRegionCheck_54ECB0(s32 direction)
     if (gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(xpos.ToInt(), ypos.ToInt(), zpos.ToInt(), direction, &slope_z_delta, 0))
     {
         gCharB4_PathDirection_623F44 = direction;
-        return 0;
+        return false;
     }
     if (byte_6FDB57)
     {
@@ -3862,7 +3862,7 @@ bool Char::CanStepForwardWithRegionCheck_54ECB0(s32 direction)
 
             field_80_sprite_ptr->set_xyz_lazy_420600(xpos, ypos, zpos);
             gMap_0x370_6F6268->ClearBlockedByTerrain_492130();
-            return 0;
+            return false;
         }
         field_80_sprite_ptr->set_xyz_lazy_420600(xpos, ypos, zpos);
         Char::ManageZCoordAndSlopes_548590();
@@ -6144,7 +6144,7 @@ void Char::state_8_5520A0()
                         field_80_sprite_ptr->SetDrawLayer_40F7B0(6);
                     }
                     field_7C_pPed->field_184_pObj2C->RequestRemoval_5290A0();
-                    field_7C_pPed->field_184_pObj2C = 0;
+                    field_7C_pPed->field_184_pObj2C = NULL;
                     Char::ManageZCoordAndSlopes_548590();
                     if (static_cast<u8>(Char::IsOnWater_545570()))
                     {
@@ -6289,7 +6289,7 @@ void Char::state_9_552E90()
             if (field_7C_pPed->field_164_ped_group->field_0_remove_dead_members)
             {
                 field_7C_pPed->field_164_ped_group->RemovePed_4C9970(field_7C_pPed);
-                field_7C_pPed->field_164_ped_group = 0;
+                field_7C_pPed->field_164_ped_group = NULL;
             }
         }
 
@@ -6415,12 +6415,12 @@ bool Char::ShouldCollideWithSprite_553340(Sprite* pSprite)
                     u8 idx = field_7C_pPed->get_ped_ref_idx_420B50();
                     if (pObj->IsOwnedByPedRef_4973E0(idx))
                     {
-                        return 0;
+                        return false;
                     }
 
                     if (pObj->IsSpriteGrid2Region3_4210B0())
                     {
-                        return 0;
+                        return false;
                     }
                 }
             }
@@ -6440,14 +6440,14 @@ bool Char::ShouldCollideWithSprite_553340(Sprite* pSprite)
         case 25:
         case 26:
         case ped_state_2::electrocuted_27:
-            return 0;
+            return false;
 
         case 8:
-            if (pSprite == 0)
+            if (pSprite == NULL)
             {
-                return 1;
+                return true;
             }
-            return 0;
+            return false;
 
         case ped_state_2::lying_on_floor_22:
             break;
@@ -6457,7 +6457,7 @@ bool Char::ShouldCollideWithSprite_553340(Sprite* pSprite)
             if (pPed->GetPedState_403990() == ped_state_1::dead_9 &&
                 ((pPed->IsOnFire_475B50()) == 0 || !pSprite || !pSprite->IsObjectModelEqual_59E930(objects::water_hitting_198)))
             {
-                return 0;
+                return false;
             }
 
             if (this->field_10_char_state == Char_B4_state::Jumping_15 && pSprite)
@@ -6465,16 +6465,16 @@ bool Char::ShouldCollideWithSprite_553340(Sprite* pSprite)
                 switch (pSprite->GetType_416B40())
                 {
                     case sprite_types_enum::car_2:
-                        return 0;
+                        return false;
                     case sprite_types_enum::code_obj1_4:
                         break;
                     default:
-                        return 0;
+                        return false;
                 }
             }
             break;
     }
-    return 1;
+    return true;
 }
 
 MATCH_FUNC(0x5535B0)
@@ -6487,7 +6487,7 @@ bool Char::PhoneTouched_5535B0(Object* pObject)
     }
     else
     {
-        return 0;
+        return false;
     }
 }
 
@@ -6542,7 +6542,7 @@ bool Char::OnObjectTouched_553640(Object* pObject)
         default:
             break;
     }
-    return 0;
+    return false;
 }
 
 MATCH_FUNC(0x5537F0)
@@ -6570,7 +6570,7 @@ bool Char::HandlePedObjectHit_5537F0(Object* pObject)
     }
     else
     {
-        return 0;
+        return false;
     }
 }
 

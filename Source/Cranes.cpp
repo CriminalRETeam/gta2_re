@@ -78,14 +78,14 @@ Crane::~Crane()
     if (field_7C_sound)
     {
         gRoot_sound_66B038.DestroySoundObj_40FE60(field_7C_sound);
-        field_7C_sound = 0;
+        field_7C_sound = NULL;
     }
 }
 
 MATCH_FUNC(0x47e610)
 Crane::Crane()
 {
-    field_7C_sound = 0;
+    field_7C_sound = NULL;
 }
 
 MATCH_FUNC(0x47e620)
@@ -157,7 +157,7 @@ bool Crane::IsTarget1PositionClear_47EB00()
     field_60_probe_sprite->set_xyz_lazy_420600(hookPos.x, hookPos.y, field_80_ground_z - field_12C_target1_hook_depth);
     field_60_probe_sprite->set_ang_lazy_420690(Ang16::Fix16_To_Ang16_40F540(field_128_target1_rot));
 
-    return gSpriteGrid_1_679208->FindCollidingSpritePreferType_477E60(field_60_probe_sprite, sprite_types_enum::unknown_0) == 0;
+    return gSpriteGrid_1_679208->FindCollidingSpritePreferType_477E60(field_60_probe_sprite, sprite_types_enum::unknown_0) == NULL;
 }
 
 MATCH_FUNC(0x47ecc0)
@@ -189,7 +189,7 @@ void Crane::DropHookedCar_47ECC0()
             field_28_strct4.AddSprite_5A6CD0(field_74_pSprite_on_hook);
         }
     }
-    field_74_pSprite_on_hook = 0;
+    field_74_pSprite_on_hook = NULL;
     field_150_hook_job = 0;
     Crane::DropInPlaceOrReturnHome_47F170();
 }
@@ -203,9 +203,9 @@ void Crane::DropHookedCarOnTransporter_47ED60()
     gSpriteGrid_1_679208->AddToRegionBuckets_477B20(field_74_pSprite_on_hook);
     field_64_drop_transporter->AttachSprite_5A3100(field_74_pSprite_on_hook, kZero_679E70, kZero_679E70, kAngZero_679FC4);
     field_28_strct4.AddSprite_5A6CD0(field_64_drop_transporter);
-    field_74_pSprite_on_hook = 0;
+    field_74_pSprite_on_hook = NULL;
     field_150_hook_job = 0;
-    field_64_drop_transporter = 0;
+    field_64_drop_transporter = NULL;
     Crane::DropInPlaceOrReturnHome_47F170();
 }
 
@@ -223,7 +223,7 @@ void Crane::HookTransporterCargo_47EDF0()
 
     field_60_probe_sprite->field_C_pCollisionShape->CopyDimensions_447DF0(field_74_pSprite_on_hook->field_C_pCollisionShape);
 
-    this->field_6C_transporter_cargo = 0;
+    this->field_6C_transporter_cargo = NULL;
 
     if (field_144_crane_mode == 1 || field_144_crane_mode == 2 || field_144_crane_mode == 3)
     {
@@ -276,7 +276,7 @@ void Crane::HookPickupCar_47EF80()
 
     field_60_probe_sprite->field_C_pCollisionShape->CopyDimensions_447DF0(field_74_pSprite_on_hook->field_C_pCollisionShape);
 
-    this->field_68_pickup_car = 0;
+    this->field_68_pickup_car = NULL;
 
     if ((this->field_144_crane_mode == 2 || this->field_144_crane_mode == 3) && pCar->IsEngineCrushed_447EB0())
     {
@@ -420,7 +420,7 @@ void Crane::UpdateCraneTargets_47F4C0()
     {
         if (!IsTransporterCargoTargetValid_47F350())
         {
-            this->field_6C_transporter_cargo = 0;
+            this->field_6C_transporter_cargo = NULL;
             this->field_14C_return_delay = 60;
         }
     }
@@ -429,7 +429,7 @@ void Crane::UpdateCraneTargets_47F4C0()
     {
         if (!IsPickupCarTargetValid_47F3D0())
         {
-            this->field_68_pickup_car = 0;
+            this->field_68_pickup_car = NULL;
             this->field_14C_return_delay = 60;
         }
     }
@@ -438,7 +438,7 @@ void Crane::UpdateCraneTargets_47F4C0()
     {
         if (!IsDropTransporterTargetValid_47F450())
         {
-            this->field_64_drop_transporter = 0;
+            this->field_64_drop_transporter = NULL;
             this->field_14C_return_delay = 60;
         }
     }
@@ -540,21 +540,21 @@ void Crane::TargetTransporter_47F7F0(Car* pCar)
         {
             if (ComputeHookPolar_47F6C0(pFoundSprite->get_x_y_443580(), &point, &t))
             {
-                if (field_6C_transporter_cargo == 0 || pFoundSprite == field_6C_transporter_cargo)
+                if (field_6C_transporter_cargo == NULL || pFoundSprite == field_6C_transporter_cargo)
                 {
                     SetTransporterCargoTarget_47F220(point, t, pFoundSprite, pCar->field_50_car_sprite);
-                    field_64_drop_transporter = 0;
-                    field_68_pickup_car = 0;
+                    field_64_drop_transporter = NULL;
+                    field_68_pickup_car = NULL;
                 }
             }
         }
     }
-    else if (field_6C_transporter_cargo == 0 && (field_150_hook_job == 0 || field_150_hook_job == 1) && field_144_crane_mode == 0)
+    else if (field_6C_transporter_cargo == NULL && (field_150_hook_job == 0 || field_150_hook_job == 1) && field_144_crane_mode == 0)
     {
         Sprite* pSprt = pCar->field_50_car_sprite;
         if (ComputeHookPolar_47F6C0(pSprt->get_x_y_443580(), &point, &t))
         {
-            if (field_64_drop_transporter == 0 || pSprt == field_64_drop_transporter)
+            if (field_64_drop_transporter == NULL || pSprt == field_64_drop_transporter)
             {
                 SetDropTransporterTarget_47F290(point, t, pSprt);
             }
@@ -590,7 +590,7 @@ void Crane::PickUpCar_47F930(Car* pCar)
                         {
                             if (field_144_crane_mode != 1 || IsTarget1PositionClear_47EB00())
                             {
-                                if (field_68_pickup_car == 0 || pSprt == field_68_pickup_car)
+                                if (field_68_pickup_car == NULL || pSprt == field_68_pickup_car)
                                 {
                                     SetPickupCarTarget_47F2F0(hook_radius, hook_angle, pSprt);
                                 }
@@ -600,7 +600,7 @@ void Crane::PickUpCar_47F930(Car* pCar)
                     else
                     {
                         Trailer* pTrailer = pCar->field_64_pTrailer;
-                        if (!pTrailer || pTrailer->field_C_trailer_car == 0 || !pTrailer->field_C_trailer_car->IsTruckTransport_447EC0())
+                        if (!pTrailer || pTrailer->field_C_trailer_car == NULL || !pTrailer->field_C_trailer_car->IsTruckTransport_447EC0())
                         {
                             gHud_2B00_706620->field_DC_brief.SetHudBrief_5D4400(1, "nespray");
                             field_28_strct4.AddSprite_5A6CD0(pCar->field_50_car_sprite);
@@ -648,12 +648,12 @@ s32 Crane::MoveTowardsTargets_47FBA0()
         this->field_8C_crane_angle == this->field_AC_crane_angle_target &&
         this->field_A0_hook_axial_angle == this->field_B4_hook_angle_target && this->field_14D_is_busy)
     {
-        bLowerHook = 1;
+        bLowerHook = true;
         f_B8_hook_depth_target = this->field_B8_hook_depth_target;
     }
     else
     {
-        bLowerHook = 0;
+        bLowerHook = false;
         f_B8_hook_depth_target = kZero_679E70;
     }
 
@@ -847,7 +847,7 @@ void Crane::InitCrane_4803B0(Fix16 x_pos, Fix16 y_pos, char_type obj_id)
 
     field_58_crane_base_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_base_137, x_pos, y_pos, field_80_ground_z - kFpTwo_679C78, kAngZero_679FC4);
     field_58_crane_base_obj->set_field_26(obj_id);
-    field_78_home_crane = 0;
+    field_78_home_crane = NULL;
     field_94_hook_radius_speed = kZero_679E70;
     field_98_crane_angle_speed = kZero_679E70;
     field_9C_unused = kZero_679E70;
@@ -865,20 +865,20 @@ void Crane::InitCrane_4803B0(Fix16 x_pos, Fix16 y_pos, char_type obj_id)
     field_0_hooked_sprite_offset_target.y = 0;
     field_B4_hook_angle_target = field_8C_crane_angle;
     field_B8_hook_depth_target = kZero_679E70;
-    field_68_pickup_car = 0;
+    field_68_pickup_car = NULL;
     field_E0_pickup_car_x = kZero_679E70;
     field_E4_pickup_car_y = kZero_679E70;
     field_E8_pickup_car_z = kZero_679E70;
     field_EC_pickup_car_rot = kZero_679E70;
     field_F0_pickup_car_hook_depth = kZero_679E70;
-    field_6C_transporter_cargo = 0;
-    field_70_cargo_transporter = 0;
+    field_6C_transporter_cargo = NULL;
+    field_70_cargo_transporter = NULL;
     field_FC_transporter_cargo_x = kZero_679E70;
     field_100_transporter_cargo_y = kZero_679E70;
     field_104_transporter_cargo_z = kZero_679E70;
     field_108_transporter_cargo_rot = kZero_679E70;
     field_10C_transporter_cargo_hook_depth = kZero_679E70;
-    field_74_pSprite_on_hook = 0;
+    field_74_pSprite_on_hook = NULL;
     field_154_unused = 0;
     field_150_hook_job = 0;
     field_114_drop_radius = kZero_679E70;
@@ -894,7 +894,7 @@ void Crane::InitCrane_4803B0(Fix16 x_pos, Fix16 y_pos, char_type obj_id)
     field_14C_return_delay = 60;
     field_BC_drop_transporter_radius = kZero_679E70;
     field_C0_drop_transporter_angle = kZero_679E70;
-    field_64_drop_transporter = 0;
+    field_64_drop_transporter = NULL;
     field_D0_drop_transporter_rot = kZero_679E70;
     field_C4_drop_transporter_pos.x = kZero_679E70;
     field_C4_drop_transporter_pos.y = kZero_679E70;
@@ -984,7 +984,7 @@ Car* Crane::GetCarFromCrane_480DA0()
     {
         return field_74_pSprite_on_hook->AsCar_40FEB0();
     }
-    return 0;
+    return NULL;
 }
 
 MATCH_FUNC(0x480e00)

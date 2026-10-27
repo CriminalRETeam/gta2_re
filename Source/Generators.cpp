@@ -51,7 +51,7 @@ EXPORT void Generator::SpawnObject_4C1B10()
             }
             else
             {
-                field_24_obj = 0;
+                field_24_obj = NULL;
                 field_28_id = 0;
                 field_18_cycle = next_cycle_4C1AB0();
             }

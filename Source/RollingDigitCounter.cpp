@@ -21,7 +21,7 @@ RollingDigitCounter::RollingDigitCounter()
     field_9_shown_digits[kNumDigits] = 0;
     field_0_value = 0;
     field_4_target_value = -1;
-    field_8_bRollingUp = 0;
+    field_8_bRollingUp = false;
     field_27_sprite_w = -1;
     field_28_sprite_h_calc = -1;
     field_2A_max_num_of_digits = 0;
