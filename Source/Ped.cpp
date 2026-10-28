@@ -8632,13 +8632,13 @@ void Ped::CallPoliceCar_469FE0()
         u8 y = this->field_1AC_cam.y.ToUInt8();
         u8 z = this->field_1AC_cam.z.ToUInt8();
         gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(ROAD, &x, &y, &z, true);
-        if (gCarManager_6C_677930->CanAllocateCarOfKind_446930(car_kind::Unknown_10))
+        if (gCarManager_6C_677930->CanAllocateCarOfKind_446930(car_kind::call_police_car_10))
         {
             pCar = gCarManager_6C_677930->SpawnCarAtRoadDirection_444CF0(car_model_enum::COPCAR, x, y, z);
             u8 bFound = 0;
             if (pCar)
             {
-                pCar->IncrementCarStats_443D70(car_kind::Unknown_10);
+                pCar->IncrementCarStats_443D70(car_kind::call_police_car_10);
                 bFound = gPolice_7B8_6FEE40->SpawnCrewInCar_5703E0(pCar);
             }
             if (bFound)
