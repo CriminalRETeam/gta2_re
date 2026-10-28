@@ -1,4 +1,6 @@
 #include "CarActions.hpp"
+#include "DropOff.hpp"
+#include "NavFoot.hpp"
 #include "WalkCarJump.hpp"
 #include "DriveSteer.hpp"
 #include "LocalPlan.hpp"
@@ -453,6 +455,38 @@ static float Drive_RouteLength(float x, float y, const float* wx, const float* w
 }
 
 static const float kApproxStop = 2.5f;    // tiles: how near to the nearest road point to a goal the car cannot reach the drive goes
+// Length of the router's last route from (x, y)
+static float Drive_RouteLength(float x, float y, const NavCar* road)
+{
+    float len = 0.0f;
+    for (u32 i = 1; i < road->Count(); i++)
+    {
+        len += sqrtf((road->X(i) - x) * (road->X(i) - x) + (road->Y(i) - y) * (road->Y(i) - y));
+        x = road->X(i);
+        y = road->Y(i);
+    }
+    return len;
+}
+
+// Tiles of walking from a road point to the goal; -1 when there is no way on foot. A route that only gets near the goal (its spot is
+// on a tile the walker cannot enter, a phone in an alcove) counts: every candidate has the same goal, so they compare with each other
+static float Drive_WalkLength(BotContext& ctx, float x, float y, float gx, float gy)
+{
+    if (!ctx.nav->FindPath(static_cast<u8>(x), static_cast<u8>(y), static_cast<u8>(ctx.world->player.z + 0.5f), static_cast<u8>(gx), static_cast<u8>(gy)))
+    {
+        return -1.0f;
+    }
+    return static_cast<float>(ctx.nav->PathLength());
+}
+
+// Candidate drop-off points: rings round the goal of this many points, from this far out, this far apart
+static const int kDropCandidates = 14;
+static const int kDropRings = 4;
+static const int kDropAngles = 12;
+static const float kDropFirstRing = 8.0f;
+static const float kDropRingStep = 7.0f;
+static const float kDropSeparate = 4.0f;
+
 static const float kSolidGoalStop = 6.0f; // tiles: how near a goal inside a building is reached
 static const float kPartialEndNear = 2.0f; // tiles from the end of a partial local route that count as being there
 static const float kBehindCos = -0.17f; // the first waypoint is more than 100 degrees off the nose
@@ -542,10 +576,73 @@ bool DriveAction::Plan(BotContext& ctx, const char* why)
     bool approximated = false;
     if (found && ctx.road->Approximate() && mWpCount > 0)
     {
-        // the target cannot be reached by car: drive to the nearest tile that can, and right up to it: that tile is as near as the roads
-        // go, so the arrival radius of the trip (which counts for the real target) does not apply to it
-        mTx = mWpX[mWpCount - 1];
-        mTy = mWpY[mWpCount - 1];
+        // the target cannot be reached by car: drive to a road point and walk the rest. Not the point nearest in a straight line, which
+        // may be on the wrong side of a block: the point that makes the whole trip shortest (DropOff.hpp)
+        const float goal_x = mTx;
+        const float goal_y = mTy;
+        DropOffCand cands[kDropCandidates];
+        int cand_count = 0;
+        cands[cand_count].x = mWpX[mWpCount - 1];
+        cands[cand_count].y = mWpY[mWpCount - 1];
+        cands[cand_count].car_len = Drive_RouteLength(pl.x, pl.y, mWpX, mWpY, mWpCount);
+        cands[cand_count].walk_len = Drive_WalkLength(ctx, cands[cand_count].x, cands[cand_count].y, goal_x, goal_y);
+        cand_count++;
+        for (int ring = 0; ring < kDropRings && cand_count < kDropCandidates; ring++)
+        {
+            for (int a = 0; a < kDropAngles && cand_count < kDropCandidates; a++)
+            {
+                const float ang = a * 6.2831853f / kDropAngles;
+                const float r = kDropFirstRing + ring * kDropRingStep;
+                float rx = 0.0f;
+                float ry = 0.0f;
+                if (!ctx.road->NearestLane(goal_x + sinf(ang) * r, goal_y - cosf(ang) * r, goal_x, goal_y, 3.0f, &rx, &ry))
+                {
+                    continue;
+                }
+                bool dup = false;
+                for (int k = 0; k < cand_count; k++)
+                {
+                    dup = dup || (cands[k].x - rx) * (cands[k].x - rx) + (cands[k].y - ry) * (cands[k].y - ry) < kDropSeparate * kDropSeparate;
+                }
+                if (dup)
+                {
+                    continue;
+                }
+                cands[cand_count].x = rx;
+                cands[cand_count].y = ry;
+                cands[cand_count].walk_len = Drive_WalkLength(ctx, rx, ry, goal_x, goal_y);
+                cands[cand_count].car_len = -1.0f;
+                const bool walkable = cands[cand_count].walk_len >= 0.0f && cands[cand_count].walk_len < cands[0].walk_len;
+                const bool drivable = walkable && ctx.road->FindPath(pl.x, pl.y, rx, ry) && !ctx.road->Approximate();
+                BotDecision("f=%d drive plan: drop-off candidate (%.0f,%.0f): %.0f tiles of walking to the goal%s", ctx.frame, rx, ry, cands[cand_count].walk_len, !walkable ? " (no better than the nearest road point)" : (drivable ? "" : ", the car cannot get there"));
+                if (drivable)
+                {
+                    cands[cand_count].car_len = Drive_RouteLength(pl.x, pl.y, ctx.road);
+                    cand_count++;
+                }
+            }
+        }
+        int pick = DropOff_Choose(cands, cand_count);
+        if (pick > 0)
+        {
+            BotDecision("f=%d drive plan: leaving the car at (%.0f,%.0f) (%.0f tiles of road, %.0f of walking) not at the nearest road point (%.0f,%.0f) (%.0f of road, %.0f of walking); %d points tried", ctx.frame, cands[pick].x,
+                        cands[pick].y, cands[pick].car_len, cands[pick].walk_len, cands[0].x, cands[0].y, cands[0].car_len, cands[0].walk_len, cand_count);
+            ctx.road->FindPath(pl.x, pl.y, cands[pick].x, cands[pick].y);
+            mWpCount = 0;
+            for (u32 i = 1; i < ctx.road->Count() && mWpCount < kMaxWp - 1; i++)
+            {
+                mWpX[mWpCount] = ctx.road->X(i);
+                mWpY[mWpCount] = ctx.road->Y(i);
+                mWpCount++;
+            }
+        }
+        else
+        {
+            pick = 0;
+            ctx.road->FindPath(pl.x, pl.y, goal_x, goal_y); // the router's state is that of the route that is kept
+        }
+        mTx = pick > 0 ? cands[pick].x : mWpX[mWpCount - 1];
+        mTy = pick > 0 ? cands[pick].y : mWpY[mWpCount - 1];
         approximated = true;
         if (mStopDist > kApproxStop)
         {

@@ -15,6 +15,7 @@ g++ -O1 -Wall -I$SRC -o turn_around_sim turn_around_sim.cpp $SRC/TurnAround.cpp
 g++ -O1 -Wall -I$SRC -o local_plan_real_sim local_plan_real_sim.cpp $SRC/LocalPlan.cpp $SRC/DriveSteer.cpp
 g++ -O1 -Wall -std=c++11 -I$SRC -o object_touch_sim object_touch_sim.cpp $SRC/ObjectTouch.cpp
 g++ -O1 -Wall -std=c++11 -I$SRC -o pickup_reach_sim pickup_reach_sim.cpp $SRC/PickupReach.cpp
+g++ -O1 -Wall -std=c++11 -I$SRC -o drop_off_sim drop_off_sim.cpp $SRC/DropOff.cpp
 rc=0
 ./steer_sim -local || rc=1
 ./calib_sim || rc=1
@@ -28,4 +29,5 @@ rc=0
 ./turn_around_sim || rc=1
 ./object_touch_sim || rc=1
 ./pickup_reach_sim || rc=1
+./drop_off_sim || rc=1
 exit $rc
