@@ -474,3 +474,40 @@ bool DriveSteer_WayFreeOfCars(const SteerCar* cars, int n, float x0, float y0, f
     }
     return true;
 }
+
+bool DriveSteer_PedDodgeAim(bool route_planned, float x, float y, float fx, float fy, float route_dx, float route_dy, const float* ped_x,
+                            const float* ped_y, int ped_count, bool (*solid)(float, float), float* aim_x, float* aim_y)
+{
+    if (route_planned)
+    {
+        return false;
+    }
+    for (int k = 0; k < ped_count; k++)
+    {
+        const float along = (ped_x[k] - x) * fx + (ped_y[k] - y) * fy;
+        const float across = (ped_x[k] - x) * -fy + (ped_y[k] - y) * fx;
+        if (along > 1.0f && along < 6.0f && fabsf(across) < 0.9f)
+        {
+            const float side = across >= 0.0f ? -1.0f : 1.0f; // away from the side he stands on
+            const float ax = ped_x[k] + (-fy) * side * 1.7f + fx * 1.5f;
+            const float ay = ped_y[k] + fx * side * 1.7f + fy * 1.5f;
+            const float mx = ped_x[k] + (-fy) * side * 1.7f;
+            const float my = ped_y[k] + fx * side * 1.7f;
+            // only when going round him still heads the way of the route: a plaza full of pedestrians must not
+            // turn the car away from where it is going every few frames
+            float route_h = atan2f(route_dx, -route_dy) * 57.29578f;
+            float round_h = atan2f(ax - x, -(ay - y)) * 57.29578f;
+            float d = round_h - route_h;
+            while (d > 180.0f) d -= 360.0f;
+            while (d < -180.0f) d += 360.0f;
+            if (!solid(ax, ay) && !solid(mx, my) && fabsf(d) < 40.0f)
+            {
+                *aim_x = ax;
+                *aim_y = ay;
+                return true;
+            }
+            return false;
+        }
+    }
+    return false;
+}

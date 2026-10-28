@@ -1611,39 +1611,23 @@ Action::Status DriveAction::Step(BotContext& ctx)
             aim_y = ly;
         }
     }
-    // A pedestrian in the way that is easy to avoid (room beside him) is steered round, whoever is watching
+    // A pedestrian in the way that is easy to avoid (room beside him) is steered round, whoever is watching: only when there is no
+    // detailed route, which already goes round pedestrians
     {
         const float hd = (ctx.car.sign * pl.rot_deg + ctx.car.offset) * 3.14159265f / 180.0f;
-        const float fx = sinf(hd);
-        const float fy = -cosf(hd);
+        float px_[WorldModel::kMaxPeds];
+        float py_[WorldModel::kMaxPeds];
+        int pn_ = 0;
         for (int k = 0; k < ctx.world->ped_count; k++)
         {
-            const WorldModel::PedInfo& p = ctx.world->peds[k];
-            if (p.dead || p.in_car)
+            if (!ctx.world->peds[k].dead && !ctx.world->peds[k].in_car)
             {
-                continue;
-            }
-            const float along = (p.x - pl.x) * fx + (p.y - pl.y) * fy;
-            const float across = (p.x - pl.x) * -fy + (p.y - pl.y) * fx;
-            if (along > 1.0f && along < 6.0f && fabsf(across) < 0.9f)
-            {
-                const float side = across >= 0.0f ? -1.0f : 1.0f; // away from the side he stands on
-                const float ax = p.x + (-fy) * side * 1.7f + fx * 1.5f;
-                const float ay = p.y + fx * side * 1.7f + fy * 1.5f;
-                const float mx = p.x + (-fy) * side * 1.7f;
-                const float my = p.y + fx * side * 1.7f;
-                // only when going round him still heads the way of the route: a plaza full of pedestrians must not
-                // turn the car away from where it is going every few frames
-                const float route_h = Bot_HeadingDeg(aim_x - pl.x, aim_y - pl.y);
-                const float round_h = Bot_HeadingDeg(ax - pl.x, ay - pl.y);
-                if (!WorldModel::BuildingAt(ax, ay) && !WorldModel::BuildingAt(mx, my) && fabsf(Bot_WrapDeg(round_h - route_h)) < 40.0f)
-                {
-                    aim_x = ax;
-                    aim_y = ay;
-                }
-                break;
+                px_[pn_] = ctx.world->peds[k].x;
+                py_[pn_] = ctx.world->peds[k].y;
+                pn_++;
             }
         }
+        DriveSteer_PedDodgeAim(local_ok, pl.x, pl.y, sinf(hd), -cosf(hd), aim_x - pl.x, aim_y - pl.y, px_, py_, pn_, WorldModel::BuildingAt, &aim_x, &aim_y);
     }
     const float err = ctx.Steer(ctx.car, pl.rot_deg, pl.x, pl.y, aim_x, aim_y, true);
     // Which way to hold the wheel: try five arcs ahead and keep the one that ends nearest the aim point without

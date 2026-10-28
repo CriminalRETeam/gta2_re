@@ -509,6 +509,16 @@ int main()
         const int left = DriveSteer_DropCarsNear(cs, 3, 60.5f, 60.0f, 2.0f);
         Check("a chase: the chased car is left out, the others stay", left == 2 && cs[0].x == 63.5f && cs[1].x == 80.0f);
     }
+    // 7i2. the straight-line pedestrian dodge: not while a detailed route exists (it goes round pedestrians itself), else a point beside him
+    {
+        struct S { static bool Solid(float, float) { return false; } };
+        const float pxs[1] = {10.0f}, pys[1] = {4.0f}; // a pedestrian 4 tiles ahead (heading -Y from (10, 8)), in the lane
+        float ax = 10.0f, ay = 0.0f;
+        const bool planned = DriveSteer_PedDodgeAim(true, 10.0f, 8.0f, 0.0f, -1.0f, 0.0f, -1.0f, pxs, pys, 1, S::Solid, &ax, &ay);
+        Check("a detailed route exists: the aim is left on the route", !planned && ax == 10.0f && ay == 0.0f);
+        const bool dodged = DriveSteer_PedDodgeAim(false, 10.0f, 8.0f, 0.0f, -1.0f, 0.0f, -1.0f, pxs, pys, 1, S::Solid, &ax, &ay);
+        Check("no detailed route: the aim moves to the side of the pedestrian", dodged && fabsf(ax - 10.0f) > 1.0f && ay < 4.0f);
+    }
     // 7j. a pedestrian standing in the lane of a wide road: the route goes round him with room (a pedestrian's box is small, the car's margin is not)
     {
         Grid g;

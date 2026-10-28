@@ -88,6 +88,13 @@ int DriveSteer_DropCarsNear(SteerCar* cars, int n, float x, float y, float radiu
 // none), so the route is planned round exactly where he is
 SteerCar DriveSteer_PedAsCar(float x, float y, bool box_valid, float ax, float ay, float hl, float hw);
 
+// A pedestrian standing in the way of a route that was NOT planned round pedestrians (the straight-to-waypoint fallback): a point
+// beside him to aim at instead. Never when a detailed route exists (route_planned): that one already goes round pedestrians with
+// their own boxes, and moving the aim off it for every ped near the lane takes the car off the route it was following.
+// (fx, fy) is the car's heading, (route_dx, route_dy) the direction of the route; solid(x, y) is a building.
+bool DriveSteer_PedDodgeAim(bool route_planned, float x, float y, float fx, float fy, float route_dx, float route_dy, const float* ped_x,
+                            const float* ped_y, int ped_count, bool (*solid)(float, float), float* aim_x, float* aim_y);
+
 bool DriveSteer_IsOwnCar(int car_id, int player_car_id, bool player_in_car);
 
 bool DriveSteer_WayFreeOfCars(const SteerCar* cars, int n, float x0, float y0, float x1, float y1, float margin, int skip);
