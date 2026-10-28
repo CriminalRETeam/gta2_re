@@ -13,3 +13,5 @@ pickup_reach_sim
 drop_off_sim
 jam_switch_sim
 car_intercept_sim
+car_pick_sim
+first_road_sim

@@ -10,6 +10,7 @@ python3 regress.py [--only name ...] [--no-replay]
 Exit code 0 when every entry did what it expects; expected failures are tracked challenges, not errors."""
 import argparse
 import json
+import re
 import shutil
 import sys
 from pathlib import Path
@@ -45,6 +46,15 @@ def run_entry(root, entry, do_replay, seed=1):
     condition = report.get("condition", "")
     ok = result == entry["expect"] and (not entry.get("condition") or condition == entry["condition"])
     resets = botlib.count_resets(out)
+    log_text = (out / "bot_log.txt").read_text(errors="replace") if (out / "bot_log.txt").exists() else ""
+    for pat in entry.get("must_log", []):
+        if not re.search(pat, log_text):
+            ok = False  # the run must show what the entry is about (a trip that has to get a car must show it in a car)
+            result += f" (log lacks /{pat}/)"
+    for pat in entry.get("must_not_log", []):
+        if re.search(pat, log_text):
+            ok = False
+            result += f" (log has /{pat}/)"
     if ok and result == "PASS" and resets and not entry.get("allow_resets"):
         ok = False  # it passed by being rewound: a stuck walk or drive is a failure to fix, not to retry away
     detail = report.get("detail", "")

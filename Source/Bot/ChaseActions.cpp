@@ -1,4 +1,5 @@
 #include "ChaseActions.hpp"
+#include "CarPickRule.hpp"
 #include <stdio.h>
 #include "CarActions.hpp"
 #include "NavFoot.hpp"
@@ -41,6 +42,11 @@ bool Cars_Pick(BotContext& ctx, const CarPick& ban, float max_dist, bool prefer_
     float best = 1e9f;
     bool found = false;
     const bool cops_near = w.CopsNear(16.0f);
+    CarPickPlayer pp;
+    pp.x = pl.x;
+    pp.y = pl.y;
+    pp.wanted_stars = pl.wanted_stars;
+    pp.cops_near = cops_near;
     if (cops_near && !w.TimeLimited() && pl.wanted_stars == 0)
     {
         return false; // a car taken in front of the police is a wanted level: move away from them first, unless the clock is running.
@@ -54,22 +60,37 @@ bool Cars_Pick(BotContext& ctx, const CarPick& ban, float max_dist, bool prefer_
         {
             banned = banned || ban.banned[b] == c.idx;
         }
-        if (banned || c.locked || c.police || c.mission || c.damage > 1500 || c.dist > max_dist || Cars_BadModel(c.model))
+        if (banned)
         {
             continue;
         }
-        if (c.has_driver && (c.speed > 0.03f || (pl.wanted_stars == 0 && cops_near) || c.dist > 10.0f))
-        {
-            continue; // moving traffic cannot be boarded, a hijack in front of the police ends in an arrest, and a car
-                      // waiting at a light drives off before we are there unless it is right beside us
-        }
-        if (!ctx.nav->FindPath(static_cast<u8>(pl.x), static_cast<u8>(pl.y), static_cast<u8>(pl.z + 0.5f), static_cast<u8>(c.x), static_cast<u8>(c.y)) || ctx.nav->Approximate())
+        CarPickCar pc;
+        pc.x = c.x;
+        pc.y = c.y;
+        pc.vx = c.vx;
+        pc.vy = c.vy;
+        pc.speed = c.speed;
+        pc.dist = c.dist;
+        pc.damage = c.damage;
+        pc.has_driver = c.has_driver;
+        pc.locked = c.locked;
+        pc.police = c.police;
+        pc.mission = c.mission;
+        pc.bad_model = Cars_BadModel(c.model);
+        float stand_x = c.x;
+        float stand_y = c.y;
+        const int kind = CarPick_Kind(pp, pc, max_dist, &stand_x, &stand_y);
+        if (kind == kCarPickNo)
         {
             continue;
         }
-        if (c.has_driver && ctx.nav->PathLength() > 7)
+        if (!ctx.nav->FindPath(static_cast<u8>(pl.x), static_cast<u8>(pl.y), static_cast<u8>(pl.z + 0.5f), static_cast<u8>(stand_x), static_cast<u8>(stand_y)) || ctx.nav->Approximate())
         {
-            continue; // by the time we have walked there it has driven off
+            continue;
+        }
+        if (!CarPick_WalkOk(kind, pc, static_cast<float>(ctx.nav->PathLength()), sqrtf((stand_x - c.x) * (stand_x - c.x) + (stand_y - c.y) * (stand_y - c.y))))
+        {
+            continue;
         }
         if (ban.has_target && ctx.road)
         {

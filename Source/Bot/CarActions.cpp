@@ -203,7 +203,7 @@ Action::Status EnterCarAction::Step(BotContext& ctx)
                     ctx.input = 0;
                     ctx.Steer(ctx.foot, pl.rot_deg, pl.x, pl.y, car.x, car.y, true);
                     ctx.input &= ~static_cast<u32>(input_bit::Forward);
-                    if ((pl.x - sx) * (pl.x - sx) + (pl.y - sy) * (pl.y - sy) > 2.5f * 2.5f)
+                    if (plan == kInterceptAhead && (pl.x - sx) * (pl.x - sx) + (pl.y - sy) * (pl.y - sy) > 2.5f * 2.5f)
                     {
                         mStandThere = false;
                         mStand->SetTarget(sx, sy);
