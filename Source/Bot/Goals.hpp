@@ -218,6 +218,7 @@ class KillGangGoal : public Action
     s32 mChildSince;
     bool mRunOver;
     bool mNoCar; // the car failed: on foot from now on
+    s32 mFootUntil; // frame until which the gun is used instead of the car
     s32 mCarTries;
     s32 mCarBan[8];
     s32 mCarBanCount;

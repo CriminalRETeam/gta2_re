@@ -268,6 +268,7 @@ DriveAction::DriveAction(float x, float y, float stop_dist)
     , mStartY(0)
     , mPlanX(0)
     , mPlanY(0)
+    , mChase(false)
 {
     mCk[0] = mCk[1] = NULL;
     mCkFrame[0] = mCkFrame[1] = -1;
@@ -475,6 +476,14 @@ bool DriveAction::Plan(BotContext& ctx, const char* why)
     return found;
 }
 
+void DriveAction::Retarget(BotContext& ctx, float x, float y)
+{
+    mTx = x;
+    mTy = y;
+    Plan(ctx, "retarget");
+    mProgressFrame = ctx.frame;
+}
+
 void DriveAction::ChooseVariant(BotContext& ctx)
 {
     static const float caps[3] = {0.18f, 0.24f, 0.36f};
@@ -680,7 +689,7 @@ Action::Status DriveAction::Step(BotContext& ctx)
         _snprintf(detail, sizeof(detail), "%s at (%.1f,%.1f), waypoint %d/%d (%.1f,%.1f), dist %.1f to (%.1f,%.1f), %d reverse manoeuvres",
                   timed_out ? "no waypoint reached for 600 frames" : "not moving", pl.x, pl.y, mWpIdx, mWpCount, mWpX[mWpIdx], mWpY[mWpIdx], dist, mTx, mTy, mManoeuvres);
         const float from_start = sqrtf((pl.x - mStartX) * (pl.x - mStartX) + (pl.y - mStartY) * (pl.y - mStartY));
-        if (mRetries >= 3 || !ctx.action_snap || (from_start < 5.0f && mManoeuvres >= 4))
+        if (mChase || mRetries >= 3 || !ctx.action_snap || (from_start < 5.0f && mManoeuvres >= 4))
         {
             // wedged where it began: a restore would only repeat it, give the car up (the caller walks or takes another)
             return Fail("no_progress", "%s", detail);

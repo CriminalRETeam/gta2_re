@@ -1000,6 +1000,9 @@ s32 Goals_ParseKillHint(const WorldModel& w, const char* brief)
     return -1;
 }
 
+// Frames on foot with the gun after the car got nowhere near the gang
+static const s32 kFootAfterRunOver = 900;
+
 KillGangGoal::KillGangGoal(s32 gang_idx, s32 kills, s32 max_frames, s32 owner_gang, s32 target_respect)
     : mGang(gang_idx)
     , mWant(kills)
@@ -1017,6 +1020,7 @@ KillGangGoal::KillGangGoal(s32 gang_idx, s32 kills, s32 max_frames, s32 owner_ga
     , mChildSince(0)
     , mRunOver(false)
     , mNoCar(false)
+    , mFootUntil(0)
     , mCarTries(0)
     , mCarBanCount(0)
     , mOwner(owner_gang)
@@ -1169,7 +1173,7 @@ void KillGangGoal::NextChild(BotContext& ctx)
             mHunting = true;
             mTargetId = p.id;
             mRunOver = false;
-            if (pl.in_car && !mNoCar)
+            if (pl.in_car && !mNoCar && ctx.frame >= mFootUntil)
             {
                 // in a car: run them over, one after the other, as long as any are in sight
                 mRunOver = true;
@@ -1342,6 +1346,10 @@ Action::Status KillGangGoal::Step(BotContext& ctx)
         if (s == Failed && strcmp(mChild->fail_condition, "car_damaged") == 0)
         {
             mNoCar = true; // the car is spent: finish on foot (KillPed gets out first)
+        }
+        else if (s == Failed && strcmp(mChild->fail_condition, "no_kills") == 0)
+        {
+            mFootUntil = ctx.frame + kFootAfterRunOver; // the car cannot get at them: shoot them from the ground for a while
         }
         else if (s == Failed && strstr(mChild->fail_detail, "not in a car") != NULL && mCarBanCount > 0)
         {

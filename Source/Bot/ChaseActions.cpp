@@ -1,5 +1,6 @@
 #include "ChaseActions.hpp"
 #include <stdio.h>
+#include "CarActions.hpp"
 #include "NavFoot.hpp"
 #include "NavCar.hpp"
 #include "BotLog.hpp"
@@ -342,6 +343,12 @@ Action::Status RamCarAction::Step(BotContext& ctx)
 }
 
 // ---------------------------------------------------------------------------------------------
+static const float kRunOverArrive = 0.5f; // tiles: a drive that reaches the ped's spot is over
+static const s32 kRunOverRetarget = 20;   // frames between moving the goal
+static const float kRunOverMoved = 2.0f;  // tiles the ped must have moved before the goal is
+static const s32 kRunOverMaxFails = 3;
+static const s32 kRunOverPatience = 450; // frames without a kill before the car is given up for the gun
+
 RunOverAction::RunOverAction(s32 gang_idx, s32 kills)
     : mGang(gang_idx)
     , mWant(kills)
@@ -358,10 +365,18 @@ RunOverAction::RunOverAction(s32 gang_idx, s32 kills)
     , mVx(0)
     , mVy(0)
     , mSpeed(0)
-    , mStill(0)
-    , mReverseUntil(0)
-    , mReverseSteer(1.0f)
+    , mDrive(NULL)
+    , mDriveSince(0)
+    , mDriveX(0)
+    , mDriveY(0)
+    , mDriveFails(0)
+    , mLastKill(0)
 {
+}
+
+RunOverAction::~RunOverAction()
+{
+    delete mDrive;
 }
 
 void RunOverAction::Start(BotContext& ctx)
@@ -372,8 +387,10 @@ void RunOverAction::Start(BotContext& ctx)
     mTargetId = 0;
     mTargetAlive = false;
     mHavePrev = false;
-    mStill = 0;
-    mReverseUntil = 0;
+    delete mDrive;
+    mDrive = NULL;
+    mDriveFails = 0;
+    mLastKill = ctx.frame;
     if (!ctx.car.valid && ctx.foot.valid)
     {
         ctx.car = ctx.foot;
@@ -403,6 +420,10 @@ Action::Status RunOverAction::Step(BotContext& ctx)
     if (mKilled >= mWant)
     {
         return Done;
+    }
+    if (ctx.frame - mLastKill > kRunOverPatience)
+    {
+        return Fail("no_kills", "run_over: no kill for %d frames (the peds are out of the car's reach)", ctx.frame - mLastKill);
     }
     if (mHavePrev)
     {
@@ -434,6 +455,7 @@ Action::Status RunOverAction::Step(BotContext& ctx)
     {
         // it left the list of living peds: dead (the pool drops the dead from the nearest list)
         mKilled++;
+        mLastKill = ctx.frame;
         mTargetAlive = false;
         BotDecision("f=%d run_over: ped #%d is down (%d of %d), speed %.2f", ctx.frame, mTargetId, mKilled, mWant, mSpeed);
     }
@@ -459,34 +481,46 @@ Action::Status RunOverAction::Step(BotContext& ctx)
     mTx = target->x;
     mTy = target->y;
 
-    if (ctx.frame < mReverseUntil)
-    {
-        ctx.input = input_bit::Backward | (mReverseSteer > 0 ? input_bit::Right : input_bit::Left);
-        return Running;
-    }
-    if (mSpeed < 0.004f && ctx.frame - mStart > 30)
-    {
-        mStill++;
-    }
-    else
-    {
-        mStill = 0;
-    }
-    if (mStill > 40)
-    {
-        mStill = 0;
-        mReverseUntil = ctx.frame + 30;
-        mReverseSteer = ctx.rng->Below(2) == 0 ? 1.0f : -1.0f;
-        return Running;
-    }
+    // Drive at where the ped will be. Peds are not obstacles to the steering (they are what the car is for), walls and
+    // cars are: the same steering as any drive, so a wall between the car and the ped is gone round, not scraped
     const float lead = target->dist / (mSpeed > 0.06f ? mSpeed : 0.06f);
     const float ax = target->x + mVx * (lead > 20.0f ? 20.0f : lead);
     const float ay = target->y + mVy * (lead > 20.0f ? 20.0f : lead);
-    const float err = ctx.Steer(ctx.car, pl.rot_deg, pl.x, pl.y, ax, ay, false);
-    ctx.input |= input_bit::Forward;
-    if (fabsf(err) > 60.0f && mSpeed > 0.12f)
+    if (!mDrive)
     {
-        ctx.input |= input_bit::HandbrakeJump; // swing the tail round
+        mDrive = new DriveAction(ax, ay, kRunOverArrive);
+        mDrive->SetChase();
+        mDrive->Start(ctx);
+        mDriveSince = ctx.frame;
+        mDriveX = ax;
+        mDriveY = ay;
+    }
+    else if (ctx.frame - mDriveSince >= kRunOverRetarget && (ax - mDriveX) * (ax - mDriveX) + (ay - mDriveY) * (ay - mDriveY) > kRunOverMoved * kRunOverMoved)
+    {
+        mDrive->Retarget(ctx, ax, ay);
+        mDriveSince = ctx.frame;
+        mDriveX = ax;
+        mDriveY = ay;
+    }
+    const Status ds = mDrive->Step(ctx);
+    if (ds != Running)
+    {
+        // arrived at a spot the ped has left, or stuck: a new drive at where it is now; the third failure in a row ends the run
+        if (ds == Failed)
+        {
+            mDriveFails++;
+            BotDecision("f=%d run_over: the drive failed (%s), %d in a row", ctx.frame, mDrive->fail_detail, mDriveFails);
+        }
+        else
+        {
+            mDriveFails = 0;
+        }
+        delete mDrive;
+        mDrive = NULL;
+        if (mDriveFails >= kRunOverMaxFails)
+        {
+            return Fail("no_progress", "run_over: %d drives at the ped in a row got nowhere", mDriveFails);
+        }
     }
     return Running;
 }

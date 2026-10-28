@@ -4,6 +4,7 @@
 #include "WorldModel.hpp"
 
 class ExitCarAction;
+class DriveAction;
 
 // A car worth getting into: parked and unlocked, or waiting in traffic (hijacked); never a police
 // car, a mission car or a wreck. path is the walking distance. With prefer_fast the model's top
@@ -78,6 +79,7 @@ class RunOverAction : public Action
 {
   public:
     RunOverAction(s32 gang_idx, s32 kills);
+    ~RunOverAction();
 
     virtual const char* Name() const
     {
@@ -102,7 +104,9 @@ class RunOverAction : public Action
     bool mHavePrev;
     float mPrevX, mPrevY, mTx, mTy, mVx, mVy;
     float mSpeed;
-    s32 mStill;
-    s32 mReverseUntil;
-    float mReverseSteer;
+    DriveAction* mDrive; // the driving: the same steering and planning as any drive, its goal moved to the ped
+    s32 mDriveSince;     // frame the goal was last moved
+    float mDriveX, mDriveY;
+    s32 mDriveFails;
+    s32 mLastKill;       // frame of the last kill (or the start)
 };

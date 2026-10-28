@@ -66,6 +66,14 @@ class DriveAction : public Action
     virtual void Start(BotContext& ctx);
     virtual Status Step(BotContext& ctx);
 
+    // Chasing something that moves (run over a pedestrian): the goal is moved with Retarget, and a drive that gets
+    // stuck fails instead of rewinding to a snapshot (that would undo what the chase has done)
+    void SetChase()
+    {
+        mChase = true;
+    }
+    void Retarget(BotContext& ctx, float x, float y);
+
   private:
     enum
     {
@@ -126,6 +134,7 @@ class DriveAction : public Action
     float mSwerveX, mSwerveY;
     float mStartX, mStartY;
     float mPlanX, mPlanY; // where the route was planned from (the start of its first leg)
+    bool mChase;
 };
 
 // Creeps the car the player is in onto (x, y) to within tol tiles and stops there: a mission
