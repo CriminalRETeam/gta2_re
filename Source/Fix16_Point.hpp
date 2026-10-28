@@ -174,7 +174,7 @@ class Fix16_Point
     }
 
     // RotateByAngle_40F6B0 in a function that ran out of inline expansions: every operator but
-    // the first + is called out of line (CarPhysics::SpawnSkidSegment_55D200)
+    // the first + is called out of line (SpawnCabAndTrailerHelper_408370)
     inline void RotateByAngle_40F6B0_out_of_line(const Ang16& angle)
     {
         Fix16 sin = Ang16::sine_40F500(angle);
@@ -183,19 +183,6 @@ class Fix16_Point
         Fix16 x_old = x;
 
         x = x.Multiply_408680(cos) + y.Multiply_408680(sin);
-        y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(y.Multiply_408680(cos));
-    }
-
-    // RotateByAngle_40F6B0 in a function whose inline budget ran out after the first multiply
-    // (y * sin, evaluated first): the rest are the out-of-line copies (Car::SpawnDamageFireEffect_43B870)
-    inline void RotateByAngle_OneMulInline_40F6B0(const Ang16& angle)
-    {
-        Fix16 sin = Ang16::sine_40F500(angle);
-        Fix16 cos = Ang16::cosine_40F520(angle);
-
-        Fix16 x_old = x;
-
-        x = x.Multiply_408680(cos).Add_408660(y * sin);
         y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(y.Multiply_408680(cos));
     }
 
@@ -221,29 +208,6 @@ class Fix16_Point
 
         x = (x * cos) + (y * sin);
         y = ((-x_old) * sin) + (y * cos);
-    }
-
-    // RotateByAngle_40F6B0 as big functions get it once they run out of inline expansions:
-    // the Fix16 operators are the out-of-line copies (Car::HandleCarHitByObject_43F130)
-    inline void RotateByAngle_OOL_40F6B0(const Ang16& angle)
-    {
-        Fix16 x_old = x;
-        Fix16 sin = Ang16::sine_40F500(angle);
-        Fix16 cos = Ang16::cosine_40F520(angle);
-
-        x = x.Multiply_408680(cos).Add_408660(y.Multiply_408680(sin));
-        y = (-x_old).Multiply_408680(sin).Add_408660(y.Multiply_408680(cos));
-    }
-
-    // As above, with the unary minus out of line too
-    inline void RotateByAngle_NegOOL_40F6B0(const Ang16& angle)
-    {
-        Fix16 x_old = x;
-        Fix16 sin = Ang16::sine_40F500(angle);
-        Fix16 cos = Ang16::cosine_40F520(angle);
-
-        x = x.Multiply_408680(cos).Add_408660(y.Multiply_408680(sin));
-        y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(y.Multiply_408680(cos));
     }
 
     void FromPolar_41E210(const Fix16& radius, const Ang16& angle)

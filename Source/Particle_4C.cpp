@@ -993,8 +993,8 @@ bool Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
             half_h = pCar->GetCarHeight_48A950() / 2 + kFpPoint1_6FD2E8 + kFpOne64th_6FD554;
         }
 
-        // The rotations are written out (RotateByAngle_OOL_40F6B0 shape): with the helper in both
-        // branches the inline budget runs out and the Fix16_Point ctors / unary minus go out of line.
+        // The rotations are written out: through RotateByAngle_40F6B0 their nested budget stays under the 42 that the
+        // original's inline unary minus needs, unless this function grows by about 270 front-end units.
         // The original has `corner += get_x_y` in each branch (tail-merged after the lea of its return temp),
         // and state 41's sin/cos in swapped stack slots (from `x_old = -half_w` before the corner stores).
         if (field_38_state == 40)
