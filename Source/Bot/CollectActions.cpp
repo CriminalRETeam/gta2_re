@@ -1,4 +1,5 @@
 #include "CollectActions.hpp"
+#include "BlastAvoid.hpp"
 #include "WalkAction.hpp"
 #include "WorldModel.hpp"
 #include "BotLog.hpp"
@@ -270,12 +271,30 @@ Action::Status KillFrenzyAction::Step(BotContext& ctx)
     if (car_mode)
     {
         const int n = ctx.world->car_count;
+        BlastHazard hot[WorldModel::kMaxCars];
+        int hot_count = 0;
+        for (int i = 0; i < n; i++)
+        {
+            if (BlastAvoid_IsHazard(ctx.world->cars[i].damage))
+            {
+                hot[hot_count].x = ctx.world->cars[i].x;
+                hot[hot_count].y = ctx.world->cars[i].y;
+                hot[hot_count].damage = ctx.world->cars[i].damage;
+                hot_count++;
+            }
+        }
+        const BlastWorld blast = {pl.x, pl.y, hot, hot_count, NULL, NULL};
         int usable[WorldModel::kMaxCars];
         int usable_count = 0;
         for (int i = 0; i < n; i++)
         {
             const WorldModel::CarInfo& c = ctx.world->cars[i];
             if (IsBlacklisted(c.idx, ctx.frame) || c.police || c.damage >= 32000 || c.dist > 80.0f || (ctx.world->bonus.car_model != 87 && c.model != ctx.world->bonus.car_model))
+            {
+                continue;
+            }
+            // A car that is about to blow, and the ones next to it that go up with it, need no more shooting: move on
+            if (BlastAvoid_IsHazard(c.damage) || BlastAvoid_WillChain(blast, c.x, c.y))
             {
                 continue;
             }
@@ -456,29 +475,6 @@ Action::Status KillFrenzyAction::Step(BotContext& ctx)
         else
         {
             BotDecision("f=%d kill_frenzy: target car #%d at (%.0f,%.0f) dist %.0f; rule progress %d/%d", ctx.frame, tid, tx, ty, tdist, ctx.world->bonus.progress, ctx.world->bonus.target);
-        }
-    }
-
-    // A car that burns close by blows up when its damage runs out: no more flames on it, and out of the blast,
-    // until it has gone off by itself (the target is then gone or wrecked and the next one is picked)
-    if (car_mode && !ped_target)
-    {
-        WorldModel::CarInfo burning;
-        if (ctx.world->FindCar(tid, &burning) && burning.damage >= 24000 && burning.dist < 5.5f)
-        {
-            if (ctx.frame % 40 == 0)
-            {
-                BotDecision("f=%d kill_frenzy: car #%d is burning (damage %d) %.1f tiles away: stepping back and letting it blow", ctx.frame, tid, burning.damage, burning.dist);
-            }
-            float ax = pl.x - burning.x;
-            float ay = pl.y - burning.y;
-            const float al = sqrtf(ax * ax + ay * ay);
-            ax = al > 0.01f ? ax / al : 1.0f;
-            ay = al > 0.01f ? ay / al : 0.0f;
-            ctx.input = 0;
-            ctx.Steer(ctx.foot, pl.rot_deg, pl.x, pl.y, pl.x + ax * 8.0f, pl.y + ay * 8.0f, true);
-            ctx.input |= input_bit::Forward;
-            return Running;
         }
     }
 

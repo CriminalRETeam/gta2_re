@@ -1,4 +1,5 @@
 #include "Bot.hpp"
+#include "BlastAvoid.hpp"
 #include "ShootPoliceCrowd.hpp"
 #include "BotDebugDraw.hpp"
 #include "Hooks.hpp"
@@ -1148,7 +1149,7 @@ void Bot::StepActions()
     mInputBits = mCtx.input & input_bit::ControlBits;
     const bool frenzy = strcmp(pAction->Name(), "kill_frenzy") == 0;
     bool shooting_crowd = false;
-    const bool blast = !frenzy && AvoidBlast(); // a kill frenzy sets cars alight on purpose and looks after itself
+    const bool blast = AvoidBlast();
     if (blast)
     {
         mInputBits = mCtx.input & input_bit::ControlBits;
@@ -1362,9 +1363,13 @@ void Bot::CollectNext()
 // A reflex under every action: when something is hurting the player, turn on the nearest
 // pedestrian that is close and fight until it stops. Not for kill frenzies (they fight by
 // themselves) and not with explosive weapons (they would hurt the player more).
-// Damage at which a car burns and soon blows up (cars were seen burning from about 30000)
-static const s32 kBurnDamage = 24000;
+static bool Blast_Solid(void* /*user*/, float x, float y)
+{
+    return WorldModel::BuildingAt(x, y);
+}
 
+// Under every action, kill frenzies too: stay out of the reach of any car about to blow (BlastAvoid.hpp). Shooting a
+// car until it is nearly gone and then stepping out is fine; this only moves the player once it is inside the stand-off.
 bool Bot::AvoidBlast()
 {
     const WorldModel::PlayerInfo& pl = mWorld->player;
@@ -1375,11 +1380,11 @@ bool Bot::AvoidBlast()
     if (pl.in_car)
     {
         // our own car is about to go: out of it, the next frames run
-        if (pl.car_damage >= kBurnDamage)
+        if (BlastAvoid_IsHazard(pl.car_damage))
         {
             if (mBlastFrames == 0)
             {
-                BotDecision("f=%d blast: our car has %d damage and is about to burn: getting out", mFrame, pl.car_damage);
+                BotDecision("f=%d blast: our car has %d damage and is about to blow: getting out", mFrame, pl.car_damage);
             }
             mBlastFrames++;
             mCtx.input = (mFrame % 6 < 3) ? input_bit::EnterExit : 0;
@@ -1388,47 +1393,33 @@ bool Bot::AvoidBlast()
         mBlastFrames = 0;
         return false;
     }
-    const WorldModel::CarInfo* hot = NULL;
+    BlastHazard hazards[WorldModel::kMaxCars];
+    int count = 0;
     for (int i = 0; i < mWorld->car_count; i++)
     {
         const WorldModel::CarInfo& c = mWorld->cars[i];
-        if (c.damage >= kBurnDamage && c.dist < 5.0f && (!hot || c.dist < hot->dist))
+        if (BlastAvoid_IsHazard(c.damage) && c.dist < 12.0f)
         {
-            hot = &c;
+            hazards[count].x = c.x;
+            hazards[count].y = c.y;
+            hazards[count].damage = c.damage;
+            count++;
         }
     }
-    if (!hot)
+    BlastWorld world = {pl.x, pl.y, hazards, count, Blast_Solid, NULL};
+    const BlastOut out = BlastAvoid_Decide(world);
+    if (!out.active)
     {
         mBlastFrames = 0;
         return false;
     }
-    float ax = pl.x - hot->x;
-    float ay = pl.y - hot->y;
-    const float al = sqrtf(ax * ax + ay * ay);
-    ax = al > 0.01f ? ax / al : 1.0f;
-    ay = al > 0.01f ? ay / al : 0.0f;
-    // straight away from it, or the nearest way round a wall
-    float tx = pl.x;
-    float ty = pl.y;
-    for (int a = 0; a < 8; a++)
-    {
-        const float ang = (a % 2 == 0 ? 1 : -1) * (a / 2) * 0.5f;
-        const float cx = pl.x + (ax * cosf(ang) - ay * sinf(ang)) * 6.0f;
-        const float cy = pl.y + (ax * sinf(ang) + ay * cosf(ang)) * 6.0f;
-        if (!WorldModel::BuildingAt(cx, cy) && !WorldModel::BuildingAt((pl.x + cx) * 0.5f, (pl.y + cy) * 0.5f))
-        {
-            tx = cx;
-            ty = cy;
-            break;
-        }
-    }
     if (mBlastFrames == 0)
     {
-        BotDecision("f=%d blast: car #%d (damage %d) %.1f tiles away is about to burn: running clear", mFrame, hot->idx, hot->damage, hot->dist);
+        BotDecision("f=%d blast: %d car(s) about to blow within %.1f tiles: stepping out to (%.1f,%.1f)", mFrame, count, kBlastStandOff, out.aim_x, out.aim_y);
     }
     mBlastFrames++;
     mCtx.input = 0;
-    mCtx.Steer(mCtx.foot, pl.rot_deg, pl.x, pl.y, tx, ty, true);
+    mCtx.Steer(mCtx.foot, pl.rot_deg, pl.x, pl.y, out.aim_x, out.aim_y, true);
     mCtx.input |= input_bit::Forward;
     return true;
 }
