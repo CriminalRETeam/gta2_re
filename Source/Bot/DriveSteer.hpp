@@ -80,6 +80,10 @@ float DriveSteer_SpeedFor(float wall_d);
 // the index of one car to leave out (the one being dodged), -1 for none
 // Is this car (by id) the one the player drives? Found by id: a car within a tile of ours, nose to tail in a jam, is another car and
 // has to be planned round (a distance test took it for our own and the plan ran straight into it)
+// Takes the cars within `radius` of (x, y) out of the list (in place), returns how many are left: in a chase the car being chased is the
+// goal of the route, not something to plan round
+int DriveSteer_DropCarsNear(SteerCar* cars, int n, float x, float y, float radius);
+
 bool DriveSteer_IsOwnCar(int car_id, int player_car_id, bool player_in_car);
 
 bool DriveSteer_WayFreeOfCars(const SteerCar* cars, int n, float x0, float y0, float x1, float y1, float margin, int skip);

@@ -415,6 +415,21 @@ bool SteerBox_Contains(const SteerBox& b, float x, float y, float margin)
     return fabsf(dx * b.ax + dy * b.ay) <= b.hl + margin && fabsf(-dx * b.ay + dy * b.ax) <= b.hw + margin;
 }
 
+int DriveSteer_DropCarsNear(SteerCar* cars, int n, float x, float y, float radius)
+{
+    int kept = 0;
+    for (int i = 0; i < n; i++)
+    {
+        const float dx = cars[i].x - x;
+        const float dy = cars[i].y - y;
+        if (dx * dx + dy * dy >= radius * radius)
+        {
+            cars[kept++] = cars[i];
+        }
+    }
+    return kept;
+}
+
 bool DriveSteer_IsOwnCar(int car_id, int player_car_id, bool player_in_car)
 {
     return player_in_car && car_id != 0 && car_id == player_car_id;

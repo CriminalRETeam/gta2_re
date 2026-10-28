@@ -1430,6 +1430,10 @@ Action::Status DriveAction::Step(BotContext& ctx)
         lw.user = ctx.road;
         lw.cars = lcars;
         lw.car_count = Drive_CollectCars(ctx, lcars);
+        if (mChase)
+        {
+            lw.car_count = DriveSteer_DropCarsNear(lcars, lw.car_count, mTx, mTy, 2.0f); // the car being chased is where the route ends
+        }
         lw.own_hl = own_hl;
         lw.own_hw = own_hw;
         lw.own_speed = mSpeed;
@@ -1451,7 +1455,12 @@ Action::Status DriveAction::Step(BotContext& ctx)
             LocalPlan_Find(lw, pl.x, pl.y, heading0, tx, ty, &mLocal);
             // a goal that cannot be reached (walled off in the window, or the end of the stretch is on a closed tile): try nearer
             // points of the same route before giving up
-            for (int shorter = 0; shorter < 2 && (!mLocal.found || mLocal.partial); shorter++)
+            // (a partial route to the very end of the drive means the destination is not on the roads: its end, as near as they go, is the
+            // arrival, which the code below acts on; only a partial route to a point mid-route is a pocket to be got out of)
+            const float to_goal_x = tx - mTx;
+            const float to_goal_y = ty - mTy;
+            const bool goal_is_end = to_goal_x * to_goal_x + to_goal_y * to_goal_y < 3.0f * 3.0f;
+            for (int shorter = 0; shorter < 2 && (!mLocal.found || (mLocal.partial && !goal_is_end)); shorter++)
             {
                 const float reach = shorter == 0 ? 12.0f : 6.0f;
                 LocalPlan_RouteAhead(mWpX, mWpY, mWpCount, mWpIdx, pl.x, pl.y, reach, mRouteAheadX, mRouteAheadY, &rn);
@@ -1460,7 +1469,7 @@ Action::Status DriveAction::Step(BotContext& ctx)
                 ty = mRouteAheadY[rn - 1];
                 LocalPlan_Find(lw, pl.x, pl.y, heading0, tx, ty, &mLocal);
             }
-            if (!mLocal.found || mLocal.partial)
+            if (!mLocal.found || (mLocal.partial && !goal_is_end))
             {
                 // a partial route ends at the tile nearest the goal in a straight line, which is often a pocket against a wall: not
                 // taken while the global route's own legs are there

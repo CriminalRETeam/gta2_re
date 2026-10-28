@@ -503,6 +503,12 @@ int main()
         Check("cars beside a planned route: the wheel follows the aim point", changed_planned == 0, "the arcs turned off the aim point");
         Check("cars beside an unplanned aim point: the arcs still dodge (as before)", changed_blind > 0);
     }
+    // 7i. a chase: the car being chased is where the route ends, so it is left out of the cars to plan round; the others stay
+    {
+        SteerCar cs[3] = {MakeCar(60.0f, 60.0f, 0.1f, 0.0f), MakeCar(63.5f, 60.0f, 0.0f, 0.0f), MakeCar(80.0f, 60.0f, 0.0f, 0.0f)};
+        const int left = DriveSteer_DropCarsNear(cs, 3, 60.5f, 60.0f, 2.0f);
+        Check("a chase: the chased car is left out, the others stay", left == 2 && cs[0].x == 63.5f && cs[1].x == 80.0f);
+    }
     // 7e. the foot of a ramp with the route turning right at its top: the aim point stops at the top of the ramp, not past the corner
     {
         LocalPlanOut p;
