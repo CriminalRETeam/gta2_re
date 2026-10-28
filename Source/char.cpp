@@ -5738,8 +5738,6 @@ void Char::state_8_5520A0()
     Sprite* pAttachSprite;
     Sprite* pPedObjSprite;
 
-    Fix16 temp;
-
     Ang16 rotation;
 
     s16 tile_frac_x = 0;
