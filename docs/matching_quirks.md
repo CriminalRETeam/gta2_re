@@ -2221,6 +2221,13 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   `Car::GetCarLinearSpeed_43A240` (through `GetLength_41E260`) and needs one more site after the
   car call in `Weapon::ChainShockTargets_5DFB60`. Reusing `diff_x` for the result (size 112) fixes those three
   but gives `Ped_List::FindClosestPedInViewCone_4713C0` other stack slots. Still open.
+- **`RotateByAngle_40F6B0` is the 9.6f body.** VC7 `/O2 /Ob0 /G5 /GX` compiles the plain inline to 9.6f
+  0x40F6B0 exactly (62 instructions, stack offsets included), so a call site that needs a variant points
+  at its caller. `DrawElectricArc_5DE910` needed 9.6f's `FromPolar_41E210` (size 73) before the loop's
+  rotation. Still open: `SpawnCabAndTrailerHelper_408370` (the first rotation needs nested 52..56, i.e. 14
+  sites from it; the second needs < 42, i.e. one site of 79+ between them, which no add form gives:
+  `pos + hitch` is 81 but brings its temporary's dtor site) and `EmitImpactParticles_53FE40` (first rotation
+  at nested 46, needs 2 more free sites after it or a caller 37..94 units smaller).
 
 ### Locals, temporaries and the shape of returns
 
