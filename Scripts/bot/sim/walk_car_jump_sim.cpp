@@ -83,13 +83,14 @@ int main()
     Check("car beside the path: no jump", !WalkCarJump_Decide(10.0f, 0.0f, 1.0f, 0.0f, beside, 1));
     Check("car behind: no jump", !WalkCarJump_Decide(10.0f, 0.0f, 1.0f, 0.0f, behind, 1));
     Check("car far ahead: not yet", !WalkCarJump_Decide(10.0f, 0.0f, 1.0f, 0.0f, far_ahead, 1));
-    Check("on top of a car mid-hop: press enter", WalkCarJump_StealNow(8, 0.4f, false, false));
+    Check("on top of a car in the first pulse: press enter", WalkCarJump_StealNow(5, 0.4f, false, false));
+    Check("and in the second pulse", WalkCarJump_StealNow(13, 0.4f, false, false));
     Check("not before the hop reaches the car", !WalkCarJump_StealNow(2, 0.4f, false, false));
-    Check("not after the landing", !WalkCarJump_StealNow(18, 0.4f, false, false));
-    Check("every other frame only (a key held is not pressed again)", !WalkCarJump_StealNow(7, 0.4f, false, false));
-    Check("never a police car", !WalkCarJump_StealNow(8, 0.4f, true, false));
-    Check("never a locked car", !WalkCarJump_StealNow(8, 0.4f, false, true));
-    Check("no car under him: nothing to press for", !WalkCarJump_StealNow(8, 2.5f, false, false));
+    Check("not long after the landing", !WalkCarJump_StealNow(30, 0.4f, false, false));
+    Check("released between pulses (four frames off)", !WalkCarJump_StealNow(9, 0.4f, false, false));
+    Check("never a police car", !WalkCarJump_StealNow(5, 0.4f, true, false));
+    Check("never a locked car", !WalkCarJump_StealNow(5, 0.4f, false, true));
+    Check("no car under him: nothing to press for", !WalkCarJump_StealNow(5, 2.5f, false, false));
     {
         const Sim s = Walk(0.0f);
         printf("   stopped cars: %d frames, %d jumps\n", s.frames, s.jumps);

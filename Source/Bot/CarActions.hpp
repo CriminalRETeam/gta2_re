@@ -26,6 +26,9 @@ class EnterCarAction : public Action
     bool mHijack;
     WalkAction* mWalk;
     bool mPressing;
+    bool mHopped;   // the hop onto the car has been tried
+    s32 mHopStart;  // -1 when not hopping
+    s32 mHopJump;   // the frame the jump began (-1 before)
     s32 mPressStart;
     s32 mStable;
 };

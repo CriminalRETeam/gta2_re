@@ -22,7 +22,7 @@ class BotDebugDraw
   public:
     enum
     {
-        kMaxLines = 400,
+        kMaxLines = 900,
         kMaxMarks = 48
     };
     struct DebugLine

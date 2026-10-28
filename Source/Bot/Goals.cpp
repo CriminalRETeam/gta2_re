@@ -397,6 +397,7 @@ TravelGoal::TravelGoal(float x, float y, float arrive_dist, bool keep_car)
     , mKeepCar(keep_car)
     , mReclaims(0)
     , mCarSwitches(0)
+    , mWalkOnlyUntil(0)
     , mNoTrain(false)
     , mGrabBanCount(0)
     , mGrabId(0)
@@ -708,6 +709,13 @@ Action::Status TravelGoal::Step(BotContext& ctx)
     {
         return Running;
     }
+    if (mWalkOnly && mWalkOnlyUntil > 0 && ctx.frame >= mWalkOnlyUntil)
+    {
+        BotDecision("f=%d travel: walk only has run its 900 frames: cars are allowed again", ctx.frame);
+        mWalkOnly = false;
+        mWalkOnlyUntil = 0;
+        mCarFailures = 0;
+    }
     if (mStage == Decide)
     {
         if (ctx.frame - ctx.action_start_frame >= 30) // the player may still be falling into the map at the start of a run
@@ -852,6 +860,7 @@ Action::Status TravelGoal::Step(BotContext& ctx)
                 if (++mCarFailures >= 3)
                 {
                     mWalkOnly = true;
+                    mWalkOnlyUntil = ctx.frame + 900; // not for good: cars about change
                 }
                 delete mChild;
                 mChild = NULL;
@@ -873,6 +882,7 @@ Action::Status TravelGoal::Step(BotContext& ctx)
                 }
                 BotDecision("f=%d travel: on foot from here", ctx.frame);
                 mWalkOnly = true;
+                mWalkOnlyUntil = ctx.frame + 900;
             }
             else if (mKeepCar)
             {

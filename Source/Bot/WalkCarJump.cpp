@@ -24,5 +24,6 @@ bool WalkCarJump_Decide(float x, float y, float face_x, float face_y, const Jump
 
 bool WalkCarJump_StealNow(int frames_into_jump, float car_dist, bool police, bool locked)
 {
-    return frames_into_jump >= 6 && frames_into_jump <= 16 && (frames_into_jump % 2) == 0 && car_dist < 1.3f && !police && !locked;
+    // the game's own enter code holds the key four frames and lets it go four: a single frame press is not seen
+    return frames_into_jump >= 4 && frames_into_jump <= 26 && ((frames_into_jump / 4) % 2) == 1 && car_dist < 1.3f && !police && !locked;
 }

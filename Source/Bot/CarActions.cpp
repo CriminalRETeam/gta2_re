@@ -1,4 +1,5 @@
 #include "CarActions.hpp"
+#include "WalkCarJump.hpp"
 #include "DriveSteer.hpp"
 #include "BotDebugDraw.hpp"
 #include "ChaseActions.hpp"
@@ -19,6 +20,9 @@ EnterCarAction::EnterCarAction(s32 car_id, bool hijack)
     , mHijack(hijack)
     , mWalk(NULL)
     , mPressing(false)
+    , mHopped(false)
+    , mHopStart(-1)
+    , mHopJump(-1)
     , mPressStart(0)
     , mStable(0)
 {
@@ -34,6 +38,9 @@ void EnterCarAction::Start(BotContext& /*ctx*/)
     delete mWalk;
     mWalk = NULL;
     mPressing = false;
+    mHopped = false;
+    mHopStart = -1;
+    mHopJump = -1;
     mStable = 0;
 }
 
@@ -75,7 +82,7 @@ Action::Status EnterCarAction::Step(BotContext& ctx)
         return Fail("action_failed", "enter_car: car #%d drove off (speed %.2f)", mCarId, car.speed);
     }
 
-    if (!mPressing)
+    if (!mPressing && mHopStart < 0)
     {
         if (!mWalk)
         {
@@ -90,9 +97,79 @@ Action::Status EnterCarAction::Step(BotContext& ctx)
         }
         if (s == Done)
         {
+            if (!mHopped)
+            {
+                // Standing on the car and pressing enter takes it nearly every time (a driver is pulled out, a parked
+                // car just opened): hop onto it first, and fall back to pressing at its side if that did not do it
+                mHopped = true;
+                mHopStart = ctx.frame;
+                BotDecision("f=%d enter_car: next to car #%d at (%.1f,%.1f), hopping onto it", ctx.frame, mCarId, car.x, car.y);
+                delete mWalk;
+                mWalk = NULL;
+            }
+            else
+            {
+                mPressing = true;
+                mPressStart = ctx.frame;
+                BotDecision("f=%d enter_car: next to car #%d at (%.1f,%.1f), pressing enter", ctx.frame, mCarId, car.x, car.y);
+            }
+        }
+        if (mHopStart < 0)
+        {
+            return Running;
+        }
+    }
+    if (mHopStart >= 0 && !mPressing)
+    {
+        ctx.input = 0;
+        const s32 t = ctx.frame - mHopStart;
+        // not while the ped is in the middle of climbing in (state other than 0): that takes about 40 frames and any key cancels it
+        if (t > 260 || (pl.ped_state == 0 && (t > 70 || (mHopJump >= 0 && ctx.frame - mHopJump > 26))))
+        {
+            mHopStart = -1;
             mPressing = true;
             mPressStart = ctx.frame;
-            BotDecision("f=%d enter_car: next to car #%d at (%.1f,%.1f), pressing enter", ctx.frame, mCarId, car.x, car.y);
+            BotDecision("f=%d enter_car: the hop did not take car #%d, pressing enter at its side", ctx.frame, mCarId);
+            return Running;
+        }
+        // face the car's middle, walk up to it, jump from 1.7 tiles off and press enter while above it
+        const float herr = ctx.Steer(ctx.foot, pl.rot_deg, pl.x, pl.y, car.x, car.y, true);
+        if (mHopJump < 0)
+        {
+            if (fabsf(herr) < 30.0f)
+            {
+                ctx.input |= input_bit::Forward;
+            }
+            if (car.dist < 1.7f && fabsf(herr) < 30.0f)
+            {
+                mHopJump = ctx.frame;
+                ctx.input |= input_bit::HandbrakeJump;
+            }
+            return Running;
+        }
+        const s32 j = ctx.frame - mHopJump;
+        if (j % 6 == 0)
+        {
+            BotDecision("f=%d hop: j=%d dist to car %.2f err %.0f in_car %d ped_state %d z %.2f", ctx.frame, j, car.dist, herr, pl.in_car, pl.ped_state, pl.z);
+        }
+        if (j >= 4 && pl.ped_state != 0)
+        {
+            ctx.input = 0; // the enter began: climbing in takes its time, and any key cancels it
+            return Running;
+        }
+        if (j >= 4 && car.dist < 1.3f && !car.police && !car.locked)
+        {
+            // over the car: only the enter key, in pulses; any other key (walking on, turning) cancels the steal
+            ctx.input = WalkCarJump_StealNow(j, car.dist, car.police, car.locked) ? input_bit::EnterExit : 0;
+            return Running;
+        }
+        if (fabsf(herr) < 60.0f)
+        {
+            ctx.input |= input_bit::Forward;
+        }
+        if (j < 3)
+        {
+            ctx.input |= input_bit::HandbrakeJump;
         }
         return Running;
     }
@@ -276,7 +353,8 @@ static SteerBox Drive_ToSteerBox(const WorldModel::BoxInfo& b)
 
 static bool Drive_Solid(void* /*user*/, float x, float y)
 {
-    return WorldModel::BuildingAt(x, y);
+    // a building, water, or a tile with a fence or low wall standing on it (cars cannot cross those either)
+    return WorldModel::BuildingAt(x, y) || WorldModel::LowWallAt(static_cast<int>(x), static_cast<int>(y));
 }
 
 bool DriveAction::Plan(BotContext& ctx, const char* why)
@@ -736,6 +814,17 @@ Action::Status DriveAction::Step(BotContext& ctx)
                 {
                     BotDebugDraw::Box(op.box.cx, op.box.cy, op.box.ax, op.box.ay, op.box.hl + kPedMargin, op.box.hw + kPedMargin, op.cop ? kDebugColBlue : kDebugColGrey);
                     BotDebugDraw::Box(op.box.cx, op.box.cy, op.box.ax, op.box.ay, op.box.hl, op.box.hw, op.cop ? kDebugColBlue : kDebugColWhite);
+                }
+            }
+        }
+        // the solid tiles the steering sees round the car (buildings, water, fences): the outline of each
+        for (int ty = static_cast<int>(pl.y) - 9; ty <= static_cast<int>(pl.y) + 9; ty++)
+        {
+            for (int tx = static_cast<int>(pl.x) - 9; tx <= static_cast<int>(pl.x) + 9; tx++)
+            {
+                if (Drive_Solid(NULL, tx + 0.5f, ty + 0.5f))
+                {
+                    BotDebugDraw::TileOutline(tx + 0.5f, ty + 0.5f, 0xFF2020B0);
                 }
             }
         }

@@ -259,6 +259,24 @@ Action::Status WalkAction::Step(BotContext& ctx)
     // bumper: forward and jump together, for 20 frames.
     if (ctx.frame < mCarJumpUntil)
     {
+        // over a car we want: only the enter key, in pulses (any other key cancels the steal)
+        if (mStealOnJump && ctx.frame - mCarJumpStart >= 4)
+        {
+            for (int k = 0; k < ctx.world->car_count; k++)
+            {
+                const WorldModel::CarInfo& under = ctx.world->cars[k];
+                if (under.dist < 1.3f && !under.police && !under.locked)
+                {
+                    ctx.input = WalkCarJump_StealNow(ctx.frame - mCarJumpStart, under.dist, under.police, under.locked) ? input_bit::EnterExit : 0;
+                    if (ctx.frame - mCarJumpStart == 4)
+                    {
+                        BotDecision("f=%d walk: on top of car #%d: taking it", ctx.frame, under.idx);
+                    }
+                    mProgressFrame = ctx.frame;
+                    return Running;
+                }
+            }
+        }
         const float cerr = ctx.Steer(ctx.foot, pl.rot_deg, pl.x, pl.y, mRoute.At(mPathIdx).x + 0.5f, mRoute.At(mPathIdx).y + 0.5f, true);
         if (fabsf(cerr) < 40.0f)
         {
@@ -267,20 +285,6 @@ Action::Status WalkAction::Step(BotContext& ctx)
         if (ctx.frame - mCarJumpStart < 3)
         {
             ctx.input |= input_bit::HandbrakeJump;
-        }
-        // on top of the car (about the middle of the hop): take it
-        if (mStealOnJump)
-        {
-            for (int k = 0; k < ctx.world->car_count; k++)
-            {
-                const WorldModel::CarInfo& under = ctx.world->cars[k];
-                if (WalkCarJump_StealNow(ctx.frame - mCarJumpStart, under.dist, under.police, under.locked))
-                {
-                    ctx.input |= input_bit::EnterExit;
-                    BotDecision("f=%d walk: on top of car #%d: taking it", ctx.frame, under.idx);
-                    break;
-                }
-            }
         }
         mProgressFrame = ctx.frame;
         return Running;

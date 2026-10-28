@@ -1048,6 +1048,23 @@ WorldModel::BoxInfo WorldModel::BoxOfSprite(Sprite* pSprite)
     return b;
 }
 
+bool WorldModel::LowWallAt(int ix, int iy)
+{
+    if (ix < 1 || ix > 254 || iy < 1 || iy > 254)
+    {
+        return false;
+    }
+    s32 z = 0;
+    gmp_block_info* b = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(ix, iy, &z);
+    if (!b || z >= 7)
+    {
+        return false;
+    }
+    // a fence is a block of its own on top of the ground, with side faces only (the highest block search does not return it)
+    gmp_block_info* above = gMap_0x370_6F6268->GetBlockOrNull_452980(static_cast<u8>(ix), static_cast<u8>(iy), static_cast<u8>(z + 1));
+    return above && ((above->field_0_left | above->field_2_right | above->field_4_top | above->field_6_bottom) & 0x400) != 0;
+}
+
 bool WorldModel::BuildingAt(float x, float y)
 {
     const int ix = static_cast<int>(x);
