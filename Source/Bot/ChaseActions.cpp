@@ -1,4 +1,5 @@
 #include "ChaseActions.hpp"
+#include "RamRule.hpp"
 #include "CarPickRule.hpp"
 #include <stdio.h>
 #include "CarActions.hpp"
@@ -270,7 +271,7 @@ Action::Status RamCarAction::Step(BotContext& ctx)
         ctx.input = input_bit::Backward | (mReverseSteer > 0 ? input_bit::Right : input_bit::Left);
         return Running;
     }
-    if (mSpeed < 0.004f && ctx.frame - mStart > 30)
+    if (RamRule_Still(mSpeed, dist) && ctx.frame - mStart > 30)
     {
         mStill++;
     }
