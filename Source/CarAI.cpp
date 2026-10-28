@@ -3045,7 +3045,7 @@ void CarAI::UpdateStateMachine_44E560()
     if (field_3C_seeking_road == 0)
     {
         assert(pChase != NULL);
-        gCurrCarAI_AllowTrafficSteering_677A5D = 0;
+        gCurrCarAI_AllowTrafficSteering_677A5D = false;
         switch (gCarChaseTaskTable_678E30->CountPursuers_474920(pChase->field_30_pTargetPed, this->field_0_car->field_54_driver))
         {
             case 1:
@@ -3260,7 +3260,7 @@ void CarAI::UpdateStateMachine_44E560()
                 {
                     if (bOvertake == 1)
                     {
-                        pChase->field_10_ram_target = 1;
+                        pChase->field_10_ram_target = true;
                         field_0_car->field_50_car_sprite->set_xyz_lazy_420600(gCurrCarAI_TargetX_6779F0, gCurrCarAI_TargetY_6779F4, gCurrCarAI_zpos_677C48);
                         Ang16::PolarToCartesian_41FC20(gCurrCarAI_TargetCar_6779B0->field_50_car_sprite->field_0_rotation, gF16fOne_677B94, dx, dy);
                         gCurrCarAI_TargetX_6779F0 += dx;
@@ -3386,7 +3386,7 @@ void CarAI::UpdateStateMachine_44E560()
                 {
                     if (bOvertake == 1)
                     {
-                        pChase->field_10_ram_target = 1;
+                        pChase->field_10_ram_target = true;
                         field_0_car->field_50_car_sprite->set_xyz_lazy_420600(gCurrCarAI_TargetX_6779F0, gCurrCarAI_TargetY_6779F4, gCurrCarAI_zpos_677C48);
                         Ang16::PolarToCartesian_41FC20(gCurrCarAI_TargetCar_6779B0->field_50_car_sprite->field_0_rotation, gF16fOne_677B94, dx, dy);
                         gCurrCarAI_TargetX_6779F0 += dx;
@@ -3504,7 +3504,7 @@ void CarAI::UpdateStateMachine_44E560()
                 pPhysics->field_91_is_foot_brake_on = 0;
                 pPhysics->field_93_is_forward_gas_on = 0;
                 pPhysics->field_94_is_backward_gas_on = 0;
-                pPhysics->field_95_is_coasting = 0;
+                pPhysics->field_95_is_coasting = false;
             }
         }
 
@@ -3668,7 +3668,7 @@ void CarAI::UpdateStateMachine_44E560()
                     pPhysics->field_91_is_foot_brake_on = 0;
                     pPhysics->field_93_is_forward_gas_on = 0;
                     pPhysics->field_94_is_backward_gas_on = 0;
-                    pPhysics->field_95_is_coasting = 0;
+                    pPhysics->field_95_is_coasting = false;
                 }
                 else if (gCurrCarAI_Velocity_677B00 < gCurrCarAI_DesiredSpeed_677A8C + kFpPoint02_677B5C)
                 {
@@ -3676,12 +3676,12 @@ void CarAI::UpdateStateMachine_44E560()
                     pPhysics->field_93_is_forward_gas_on = 1;
                     pPhysics->field_91_is_foot_brake_on = 0;
                     pPhysics->field_94_is_backward_gas_on = 0;
-                    pPhysics->field_95_is_coasting = 0;
+                    pPhysics->field_95_is_coasting = false;
                 }
                 else
                 {
                     pPhysics = this->field_0_car->field_58_physics;
-                    pPhysics->field_95_is_coasting = 1;
+                    pPhysics->field_95_is_coasting = true;
                     pPhysics->field_91_is_foot_brake_on = 0;
                     pPhysics->field_94_is_backward_gas_on = 0;
                     pPhysics->field_93_is_forward_gas_on = 0;
@@ -3721,7 +3721,7 @@ void CarAI::UpdateStateMachine_44E560()
                         pPhysics->field_91_is_foot_brake_on = 0;
                         pPhysics->field_93_is_forward_gas_on = 0;
                         pPhysics->field_94_is_backward_gas_on = 0;
-                        pPhysics->field_95_is_coasting = 0;
+                        pPhysics->field_95_is_coasting = false;
                     }
                     else if (gCurrCarAI_Velocity_677B00 < gCurrCarAI_DesiredSpeed_677A8C)
                     {
@@ -3730,13 +3730,13 @@ void CarAI::UpdateStateMachine_44E560()
                         pPhysics->field_93_is_forward_gas_on = 1;
                         pPhysics->field_91_is_foot_brake_on = 0;
                         pPhysics->field_94_is_backward_gas_on = 0;
-                        pPhysics->field_95_is_coasting = 0;
+                        pPhysics->field_95_is_coasting = false;
                     }
                     else
                     {
                         assert(pPhysics != NULL);
                         pPhysics = this->field_0_car->field_58_physics;
-                        pPhysics->field_95_is_coasting = 1;
+                        pPhysics->field_95_is_coasting = true;
                         pPhysics->field_91_is_foot_brake_on = 0;
                         pPhysics->field_94_is_backward_gas_on = 0;
                         pPhysics->field_93_is_forward_gas_on = 0;
@@ -3891,7 +3891,7 @@ void CarAI::UpdateStateMachine_44E560()
                         pPhysics->field_91_is_foot_brake_on = 0;
                         pPhysics->field_93_is_forward_gas_on = 0;
                         pPhysics->field_94_is_backward_gas_on = 0;
-                        pPhysics->field_95_is_coasting = 0;
+                        pPhysics->field_95_is_coasting = false;
                         return;
                     }
 
@@ -3901,7 +3901,7 @@ void CarAI::UpdateStateMachine_44E560()
                         pPhysics->field_93_is_forward_gas_on = 1;
                         pPhysics->field_91_is_foot_brake_on = 0;
                         pPhysics->field_94_is_backward_gas_on = 0;
-                        pPhysics->field_95_is_coasting = 0;
+                        pPhysics->field_95_is_coasting = false;
                     }
                     else if (gCurrCarAI_Velocity_677B00 > gCurrCarAI_DesiredSpeed_677A8C + kFpPoint02_677B5C)
                     {
