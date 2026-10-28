@@ -363,6 +363,30 @@ int main()
         }
         Check("wall between columns: the route crosses at the ramp, not through the wall", crosses_at_ramp, "no route or it goes through the wall");
     }
+    // 7c2. a car coming towards us along the way: the route is the square one that goes round its track, not a straight line pulled through it
+    {
+        Grid g;
+        g.x0 = 0; g.y0 = 0; g.w = 60; g.h = 60;
+        g.cell.assign(g.w * g.h, 'F');
+        std::vector<SteerCar> cars;
+        cars.push_back(MakeCar(30.5f, 20.5f, -0.06f, 0.0f));
+        LocalPlanOut p;
+        const bool ok = LocalPlan_Find(World(g, cars, false), 20.5f, 20.5f, 90.0f, 45.5f, 20.5f, &p);
+        float least = 1e9f;
+        for (int i = 0; i + 1 < p.count; i++)
+        {
+            for (float t = 0.0f; t <= 1.0f; t += 0.05f)
+            {
+                const float qx = p.x[i] + (p.x[i + 1] - p.x[i]) * t;
+                const float qy = p.y[i] + (p.y[i + 1] - p.y[i]) * t;
+                if (qx > 27.0f && qx < 31.0f && fabsf(qy - 20.5f) < least)
+                {
+                    least = fabsf(qy - 20.5f);
+                }
+            }
+        }
+        Check("a car coming along the way: the route keeps 0.9 tiles off its track", ok && least > 0.9f, "the route runs along or through its track");
+    }
     // 7e. the foot of a ramp with the route turning right at its top: the aim point stops at the top of the ramp, not past the corner
     {
         LocalPlanOut p;

@@ -23,7 +23,7 @@ unsigned char sBlocked[kW * kH];   // 1 closed (solid or a standing car), 2 clos
 float sExtra[kW * kH];             // cost of the tile itself: beside a wall, on a moving car's track
 unsigned short sOcc[kW * kH];      // bit n: a moving car is over the tile n * 10 frames from now
 const int kTimeBuckets = 10;
-const float kMovingCarCost = 12.0f;
+const float kMovingCarCost = 30.0f; // about a bump: a way round of a few tiles and turns is cheaper (at 12 a head-on car was driven into)
 
 struct HeapItem
 {
@@ -150,7 +150,8 @@ bool LineOpen(const LocalPlanWorld& w, int x0, int y0, float ax, float ay, float
                 return false;
             }
             const int i = cy * kW + cx;
-            if (sBlocked[i] || (side == 0 && sExtra[i] >= 4.0f))
+            // (and no tile a moving car will be over: the square route has gone round those, a straight line over them would go through)
+            if (sBlocked[i] || (side == 0 && sExtra[i] >= 4.0f) || sOcc[i])
             {
                 return false;
             }

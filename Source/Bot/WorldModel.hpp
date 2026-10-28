@@ -287,6 +287,10 @@ class WorldModel : public BotObject
     ObjInfo frenzies[kMaxObjs];
     s32 phone_count;
     ObjInfo phones[kMaxObjs];
+    // The tutorial's phone once its last marker is reached: the same object with model 164 (it is 163 before). Touched, it ends the
+    // tutorial. Kept apart from phones[] so that no mission choice takes it for a job
+    bool tutorial_phone_valid;
+    ObjInfo tutorial_phone;
     // Pickups, nearest first: health (230), armour (231) and weapons (200..227, weapon type = model - 200)
     s32 pickup_count;
     ObjInfo pickups[kMaxObjs];

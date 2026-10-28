@@ -59,6 +59,7 @@ class MissionAction : public Action
     s32 mHornUntil;
     s32 mDoneFrame;  // the frame the current step finished
     bool mFootTried; // the on-foot try at a marker has been made
+    s32 mPhoneTries; // walks onto a phone beside the last marker that rings while the script waits
     s32 mTouchTries; // walks onto the exact spot of a marker that did nothing
     bool mHornParked; // parked on the spot a horn mission asked for
     s32 mLastCarId;   // the last car the player was in

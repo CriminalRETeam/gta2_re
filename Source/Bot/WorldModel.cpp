@@ -61,6 +61,7 @@ WorldModel::WorldModel()
     exit_pending = false;
     exit_type = 0;
     token_count = frenzy_count = phone_count = tokens_listed = pickup_count = 0;
+    tutorial_phone_valid = false;
     memset(weapon_ammo, 0, sizeof(weapon_ammo));
     memset(gang_index, 0, sizeof(gang_index));
     memset(kill_reaction, 0, sizeof(kill_reaction));
@@ -374,6 +375,7 @@ void WorldModel::Observe()
     brief_text[0] = 0;
     phones_ringing = 0;
     token_count = frenzy_count = phone_count = tokens_listed = pickup_count = 0;
+    tutorial_phone_valid = false;
     memset(weapon_ammo, 0, sizeof(weapon_ammo));
     rng = gpRng_67AB34->get_cur_rng_41CFE0();
 
@@ -554,6 +556,14 @@ void WorldModel::Observe()
         else if ((model >= 176 && model <= 181) || model == 163) // 163: the tutorial phone where the player starts (and three more like it)
         {
             InsertObj(phones, &phone_count, info, player.x, player.y);
+        }
+        else if (model == 164)
+        {
+            if (!tutorial_phone_valid || (info.x - player.x) * (info.x - player.x) + (info.y - player.y) * (info.y - player.y) < (tutorial_phone.x - player.x) * (tutorial_phone.x - player.x) + (tutorial_phone.y - player.y) * (tutorial_phone.y - player.y))
+            {
+                tutorial_phone = info;
+                tutorial_phone_valid = true;
+            }
         }
         else if ((model >= 200 && model <= 227) || model == 230 || model == 231)
         {

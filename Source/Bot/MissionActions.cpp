@@ -1,4 +1,5 @@
 #include "MissionActions.hpp"
+#include "PhoneNear.hpp"
 #include "WalkAction.hpp"
 #include "CarActions.hpp"
 #include "NavCar.hpp"
@@ -18,6 +19,8 @@
 static const float kFootMarkerStopDist = 2.0f; // tiles: where the car stops for a marker that wants the player on foot
 static const float kFarOnFoot = 30.0f;        // tiles: further than this a step on foot goes by car when it can
 static const float kMarkerReach = 0.25f;      // tiles: how near the middle of a marker the player walks (its hit box is small)
+static const s32 kPhoneWait = 90;            // frames with no arrow before a ringing phone beside us is walked onto
+static const float kPhoneNear = 6.0f;        // how near that phone is
 static const s32 kMarkerSettle = 60;         // frames on a marker on foot before it is walked onto again
 static const s32 kFootMarkerWait = 30;         // frames the script gets to react to the car before the player gets out
 
@@ -38,6 +41,7 @@ MissionAction::MissionAction()
     , mHornUntil(0)
     , mDoneFrame(0)
     , mFootTried(false)
+    , mPhoneTries(0)
     , mTouchTries(0)
     , mTutorial(false)
     , mStartTokens(0)
@@ -244,6 +248,46 @@ Action::Status MissionAction::Step(BotContext& ctx)
             }
             return Running;
         }
+        // On foot with no arrow and a ringing phone within a few tiles (the tutorial's last marker is its phone): the script is waiting for it
+        // to be answered, so walk onto its exact spot, and off and on again if that did nothing
+        if (!pl.in_car && !mHornParked && mNoArrowFrames > kPhoneWait && mPhoneTries < 6)
+        {
+            PhoneSpot spots[WorldModel::kMaxObjs];
+            const int ns = ctx.world->phone_count < WorldModel::kMaxObjs ? ctx.world->phone_count : WorldModel::kMaxObjs;
+            for (int i = 0; i < ns; i++)
+            {
+                spots[i].x = ctx.world->phones[i].x;
+                spots[i].y = ctx.world->phones[i].y;
+                spots[i].ringing = ctx.world->phones[i].model == 163 || ctx.world->PhoneRinging(ctx.world->phones[i].id);
+            }
+            int total = ns;
+            if (ctx.world->tutorial_phone_valid && total < WorldModel::kMaxObjs)
+            {
+                spots[total].x = ctx.world->tutorial_phone.x;
+                spots[total].y = ctx.world->tutorial_phone.y;
+                spots[total].ringing = true; // the tutorial's phone after its last marker: the script waits for it to be touched
+                total++;
+            }
+            const int pick = PhoneNear_Pick(spots, total, pl.x, pl.y, kPhoneNear);
+            const WorldModel::ObjInfo* ph = pick < 0 ? NULL : (pick < ns ? &ctx.world->phones[pick] : &ctx.world->tutorial_phone);
+            if (ph)
+            {
+                if (!mChild || strcmp(mChildKey, "phone") != 0 || (mChildDone && ctx.frame - mDoneFrame > kMarkerSettle))
+                {
+                    const float off = (mPhoneTries % 2 == 1) ? 2.0f : 0.0f;
+                    mPhoneTries++;
+                    delete mChild;
+                    mChild = new WalkAction(ph->x + off, ph->y, false, 0.12f);
+                    mChild->SetWhy("a phone rings beside the marker and the script waits: onto its exact spot to answer it");
+                    strcpy(mChildKey, "phone");
+                    mChildDone = false;
+                    BotDecision("f=%d mission: no arrow, a phone (#%d) %.1f tiles away: %s (%d)", ctx.frame, ph->id, sqrtf((ph->x - pl.x) * (ph->x - pl.x) + (ph->y - pl.y) * (ph->y - pl.y)), off > 0.0f ? "stepping off it" : "onto its exact spot", mPhoneTries);
+                    ctx.action_start_frame = ctx.frame;
+                    mChild->Start(ctx);
+                }
+                return RunChild(ctx);
+            }
+        }
         DropChild();
         if (mNoArrowFrames > 1500)
         {
@@ -319,6 +363,7 @@ Action::Status MissionAction::Step(BotContext& ctx)
         mRemedyUsed = false;
         mFootTried = false;
         mTouchTries = 0;
+        mPhoneTries = 0;
         DropChild();
         strncpy(mChildKey, key, kKeyLen - 1);
         mChildKey[kKeyLen - 1] = 0;
