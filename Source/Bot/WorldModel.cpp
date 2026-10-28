@@ -31,6 +31,8 @@
 #include "ObjectDefinitions.hpp"
 #include "BotCompat.hpp"
 
+static Sprite* PedSprite(Ped* p); // below
+
 static float F(const Fix16& v)
 {
     return v.mValue / 16384.0f;
@@ -397,6 +399,7 @@ void WorldModel::Observe()
         player.cash = pPlayer->field_2D4_scores.field_0_money.field_0_value;
         player.wanted_stars = me->get_wanted_star_count_46EF00();
         player.in_car = me->field_16C_car != NULL;
+        player.box = BoxOfSprite(PedSprite(me));
         player.car_id = me->field_16C_car ? me->field_16C_car->field_6C_car_id : 0;
         player.car_damage = me->field_16C_car ? me->field_16C_car->field_74_damage : 0;
         player.dead = pPlayer->field_28_wasted_or_busted != 0;
@@ -687,6 +690,7 @@ void WorldModel::Observe()
         info.z = F(p->field_1AC_cam.z);
         info.cop = p->IsLawEnforcement_45B4E0();
         info.in_car = p->field_16C_car != NULL;
+        info.box = BoxOfSprite(PedSprite(p));
         info.dead = p->field_278_ped_state_1 == 9;
         info.remap = p->field_244_remap;
         info.state1 = p->field_278_ped_state_1;
@@ -763,6 +767,7 @@ void WorldModel::Observe()
         info.bulletproof = (c->field_78_flags & 0x100) != 0;
         info.rocketproof = (c->field_78_flags & 0x200) != 0;
         info.flameproof = (c->field_78_flags & 0x400) != 0;
+        info.box = BoxOfSprite(c->field_50_car_sprite);
         info.speed = c->field_58_physics ? F(c->GetVelocity_43A4C0()) : 0.0f;
         info.top_speed = TopSpeed(c->field_84_car_info_idx);
         {
@@ -984,6 +989,63 @@ int WorldModel::TileType(int x, int y)
         return 0;
     }
     return z >= 3 ? 4 : (b->field_B_slope_type & 3);
+}
+
+// A ped's sprite: the car's when in one, else its own. Ped::GetSprite_46DF50 does not check for a ped without a game object
+static Sprite* PedSprite(Ped* p)
+{
+    if (p->field_16C_car)
+    {
+        return p->field_16C_car->field_50_car_sprite;
+    }
+    return p->field_168_game_object ? p->field_168_game_object->field_80_sprite_ptr : NULL;
+}
+
+// The collision shape's corners are the box the game collides with; they are kept up to date for sprites that move
+WorldModel::BoxInfo WorldModel::BoxOfSprite(Sprite* pSprite)
+{
+    BoxInfo b;
+    memset(&b, 0, sizeof(b));
+    if (!pSprite || !pSprite->field_C_pCollisionShape)
+    {
+        return b;
+    }
+    const Fix16_Point* c = pSprite->field_C_pCollisionShape->field_C_corners;
+    float xs[4];
+    float ys[4];
+    for (int i = 0; i < 4; i++)
+    {
+        xs[i] = F(c[i].x);
+        ys[i] = F(c[i].y);
+    }
+    const float e0x = xs[1] - xs[0];
+    const float e0y = ys[1] - ys[0];
+    const float e1x = xs[2] - xs[1];
+    const float e1y = ys[2] - ys[1];
+    const float l0 = sqrtf(e0x * e0x + e0y * e0y);
+    const float l1 = sqrtf(e1x * e1x + e1y * e1y);
+    if (l0 < 0.05f || l1 < 0.05f || l0 > 8.0f || l1 > 8.0f)
+    {
+        return b;
+    }
+    b.valid = true;
+    b.cx = (xs[0] + xs[1] + xs[2] + xs[3]) * 0.25f;
+    b.cy = (ys[0] + ys[1] + ys[2] + ys[3]) * 0.25f;
+    if (l0 >= l1)
+    {
+        b.ax = e0x / l0;
+        b.ay = e0y / l0;
+        b.hl = l0 * 0.5f;
+        b.hw = l1 * 0.5f;
+    }
+    else
+    {
+        b.ax = e1x / l1;
+        b.ay = e1y / l1;
+        b.hl = l1 * 0.5f;
+        b.hw = l0 * 0.5f;
+    }
+    return b;
 }
 
 bool WorldModel::BuildingAt(float x, float y)

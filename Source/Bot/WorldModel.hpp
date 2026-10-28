@@ -18,6 +18,16 @@ class WorldModel : public BotObject
         kMaxPlayers = 1
     };
 
+    // The game's collision box of a sprite: the corners of its collision shape, as a centre, a unit vector along the long
+    // side and half the length and width (tiles). valid is false when the sprite has none
+    struct BoxInfo
+    {
+        bool valid;
+        float cx, cy;
+        float ax, ay;
+        float hl, hw;
+    };
+
     struct PlayerInfo
     {
         bool valid;
@@ -31,6 +41,7 @@ class WorldModel : public BotObject
         bool dead; // wasted or busted countdown running
         s32 weapon;
         s32 ammo;
+        BoxInfo box; // of the car the player is in, else of the ped
         s32 car_id; // 0 when not in a car
         s32 car_damage;
         s32 reload;
@@ -70,6 +81,7 @@ class WorldModel : public BotObject
         bool in_car;
         bool dead;
         s32 gang_idx;
+        BoxInfo box;
         s32 remap;
         s32 state1;   // ped_state_1
         s32 state2;
@@ -110,6 +122,7 @@ class WorldModel : public BotObject
         bool bulletproof; // car_flag::Bulletproof: guns do nothing to it
         bool rocketproof;
         bool flameproof;
+        BoxInfo box;
     };
 
     struct ObjInfo
@@ -143,6 +156,7 @@ class WorldModel : public BotObject
     static void GiveWeapon(s32 weapon, s32 ammo);
 
     // True when the tile at (x, y) is a building / high ground
+    static BoxInfo BoxOfSprite(class Sprite* pSprite);
     static bool BuildingAt(float x, float y);   // a building, the edge of the map or water: nothing drives or walks there
     static bool IsRoofBlock(const struct gmp_block_info* b, s32 z); // the highest block at height z is a rooftop, not a bridge
     static bool IsWaterBlock(const struct gmp_block_info* b); // the lid is a water tile (the game's own test for drowning)

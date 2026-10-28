@@ -80,6 +80,7 @@ Action::Status EnterCarAction::Step(BotContext& ctx)
         if (!mWalk)
         {
             mWalk = new WalkAction(car.x, car.y, false, 2.2f);
+            mWalk->SetStealOnJump(true); // a car jumped over on the way to this one is as good
             mWalk->Start(ctx);
         }
         const Status s = mWalk->Step(ctx);
@@ -255,6 +256,21 @@ static bool Drive_CorridorClear(float x0, float y0, float x1, float y1, float ha
     return true;
 }
 
+// the room the look-ahead keeps round a pedestrian's box, in tiles
+static const float kPedMargin = 0.3f;
+
+static SteerBox Drive_ToSteerBox(const WorldModel::BoxInfo& b)
+{
+    SteerBox s;
+    s.cx = b.cx;
+    s.cy = b.cy;
+    s.ax = b.ax;
+    s.ay = b.ay;
+    s.hl = b.hl;
+    s.hw = b.hw;
+    return s;
+}
+
 static bool Drive_Solid(void* /*user*/, float x, float y)
 {
     return WorldModel::BuildingAt(x, y);
@@ -318,6 +334,17 @@ bool DriveAction::Plan(BotContext& ctx, const char* why)
     mLastWpIdx = -1;
     BotDecision("f=%d drive plan (%s) (%.1f,%.1f)->(%.0f,%.0f): %s, %d waypoints, %u tiles explored, %s (cap %.2f, radius %.1f)", ctx.frame, why, pl.x, pl.y, mTx, mTy,
                 direct ? "direct line" : (found ? "path" : "NO PATH, driving straight"), mWpCount, ctx.road->Expanded(), ctx.road->Clearance() ? "room each side" : "SQUEEZED (no route with room each side)", mSpeedCap, mWpRadius);
+    BotDecision("f=%d boxes: ours %s half length %.2f half width %.2f; %d cars about", ctx.frame, pl.box.valid ? "valid" : "MISSING", pl.box.hl, pl.box.hw, ctx.world->car_count);
+    for (int k = 0; k < ctx.world->car_count && k < 3; k++)
+    {
+        const WorldModel::CarInfo& oc = ctx.world->cars[k];
+        BotDecision("f=%d boxes: car #%d model %d %s half length %.2f half width %.2f centre (%.2f,%.2f) sprite (%.2f,%.2f)", ctx.frame, oc.idx, oc.model, oc.box.valid ? "valid" : "MISSING", oc.box.hl, oc.box.hw, oc.box.cx, oc.box.cy, oc.x, oc.y);
+    }
+    for (int k = 0; k < ctx.world->ped_count && k < 2; k++)
+    {
+        const WorldModel::PedInfo& op = ctx.world->peds[k];
+        BotDecision("f=%d boxes: ped #%d %s half length %.2f half width %.2f", ctx.frame, op.id, op.box.valid ? "valid" : "MISSING", op.box.hl, op.box.hw);
+    }
     Bot_RoutePlanned(why, ctx.road, pl.x, pl.y, mTx, mTy);
     if (ctx.nav_dump)
     {
@@ -340,6 +367,9 @@ void DriveAction::ChooseVariant(BotContext& ctx)
 Action::Status DriveAction::Step(BotContext& ctx)
 {
     const WorldModel::PlayerInfo& pl = ctx.world->player;
+    // our car's collision box: the game's own, the same size the steering tests
+    const float own_hl = pl.box.valid ? pl.box.hl : 1.0f;
+    const float own_hw = pl.box.valid ? pl.box.hw : 0.5f;
     ctx.input = 0;
     if (!pl.valid)
     {
@@ -662,24 +692,14 @@ Action::Status DriveAction::Step(BotContext& ctx)
         BotDebugDraw::Mark(aim_x, aim_y, 0.4f, kDebugColMagenta, "aim");
         BotDebugDraw::Mark(mTx, mTy, 1.0f, kDebugColWhite, "goal");
         {
-            // our own footprint against buildings: the four points DriveSteer tests (0.6 each side, level with the car and 0.9 ahead)
+            // our car: the game's collision box (white) and the box the steering tests, at the car's centre pointing the way the
+            // model says it faces (yellow): they should lie on top of each other
+            if (pl.box.valid)
+            {
+                BotDebugDraw::Box(pl.box.cx, pl.box.cy, pl.box.ax, pl.box.ay, pl.box.hl, pl.box.hw, kDebugColWhite);
+            }
             const float hd = (ctx.car.sign * pl.rot_deg + ctx.car.offset) * 3.14159265f / 180.0f;
-            const float fx = sinf(hd);
-            const float fy = -cosf(hd);
-            const float qx = -fy * kFootHalfWidth;
-            const float qy = fx * kFootHalfWidth;
-            const float x0 = pl.x + qx;
-            const float y0 = pl.y + qy;
-            const float x1 = pl.x - qx;
-            const float y1 = pl.y - qy;
-            const float x2 = x1 + fx * kFootFront;
-            const float y2 = y1 + fy * kFootFront;
-            const float x3 = x0 + fx * kFootFront;
-            const float y3 = y0 + fy * kFootFront;
-            BotDebugDraw::Line(x0, y0, x1, y1, kDebugColWhite);
-            BotDebugDraw::Line(x1, y1, x2, y2, kDebugColWhite);
-            BotDebugDraw::Line(x2, y2, x3, y3, kDebugColWhite);
-            BotDebugDraw::Line(x3, y3, x0, y0, kDebugColWhite);
+            BotDebugDraw::Box(pl.x, pl.y, sinf(hd), -cosf(hd), own_hl, own_hw, kDebugColYellow);
         }
         // what is about: cars (red standing, orange moving with where it will be in 45 frames, blue police) and pedestrians
         for (int k = 0; k < ctx.world->car_count; k++)
@@ -690,8 +710,13 @@ Action::Status DriveAction::Step(BotContext& ctx)
                 continue;
             }
             const bool still = oc.speed < 0.03f;
-            // kCarHitRadius: how near the steering arcs and the overtake strips count as a hit (DriveSteer.hpp)
-            BotDebugDraw::Mark(oc.x, oc.y, kCarHitRadius, oc.police ? kDebugColBlue : (still ? kDebugColRed : kDebugColOrange), oc.police ? "cop" : (still ? "stop" : ""));
+            // the game's collision box, as the steering tests it
+            const unsigned ccol = oc.police ? kDebugColBlue : (still ? kDebugColRed : kDebugColOrange);
+            if (oc.box.valid)
+            {
+                BotDebugDraw::Box(oc.box.cx, oc.box.cy, oc.box.ax, oc.box.ay, oc.box.hl, oc.box.hw, ccol);
+            }
+            BotDebugDraw::Mark(oc.x, oc.y, 0.15f, ccol, oc.police ? "cop" : (still ? "stop" : ""));
             if (!still)
             {
                 BotDebugDraw::Line(oc.x, oc.y, oc.x + oc.vx * 45.0f, oc.y + oc.vy * 45.0f, kDebugColOrange);
@@ -702,8 +727,12 @@ Action::Status DriveAction::Step(BotContext& ctx)
             const WorldModel::PedInfo& op = ctx.world->peds[k];
             if (!op.dead && !op.in_car && op.dist < 20.0f)
             {
-                // kPedRadius: the room the look-ahead keeps round a pedestrian
-                BotDebugDraw::Mark(op.x, op.y, kPedRadius, op.cop ? kDebugColBlue : kDebugColWhite, "");
+                // the pedestrian's collision box, and the margin the look-ahead keeps round it (kPedMargin)
+                if (op.box.valid)
+                {
+                    BotDebugDraw::Box(op.box.cx, op.box.cy, op.box.ax, op.box.ay, op.box.hl + kPedMargin, op.box.hw + kPedMargin, op.cop ? kDebugColBlue : kDebugColGrey);
+                    BotDebugDraw::Box(op.box.cx, op.box.cy, op.box.ax, op.box.ay, op.box.hl, op.box.hw, op.cop ? kDebugColBlue : kDebugColWhite);
+                }
             }
         }
         // tiles the route planner charges extra for, beside or under a car that stands
@@ -734,8 +763,8 @@ Action::Status DriveAction::Step(BotContext& ctx)
                     const float sux = sdx / sl;
                     const float suy = sdy / sl;
                     const unsigned scol = mTrace.cand_why[k] == 0 ? kDebugColGreen : kDebugColRed;
-                    BotDebugDraw::Line(pl.x - suy * kFootHalfWidth, pl.y + sux * kFootHalfWidth, mTrace.cand_x[k] - suy * kFootHalfWidth, mTrace.cand_y[k] + sux * kFootHalfWidth, scol);
-                    BotDebugDraw::Line(pl.x + suy * kFootHalfWidth, pl.y - sux * kFootHalfWidth, mTrace.cand_x[k] + suy * kFootHalfWidth, mTrace.cand_y[k] - sux * kFootHalfWidth, scol);
+                    BotDebugDraw::Line(pl.x - suy * own_hw, pl.y + sux * own_hw, mTrace.cand_x[k] - suy * own_hw, mTrace.cand_y[k] + sux * own_hw, scol);
+                    BotDebugDraw::Line(pl.x + suy * own_hw, pl.y - sux * own_hw, mTrace.cand_x[k] + suy * own_hw, mTrace.cand_y[k] - sux * own_hw, scol);
                 }
                 static const char* const why[4] = {"ok", "W", "B", "C"};
                 BotDebugDraw::Mark(mTrace.cand_x[k], mTrace.cand_y[k], 0.4f, mTrace.cand_why[k] == 0 ? kDebugColGreen : kDebugColRed, why[mTrace.cand_why[k]]);
@@ -859,9 +888,27 @@ Action::Status DriveAction::Step(BotContext& ctx)
                 sc.vy = oc.vy;
                 sc.speed = oc.speed;
                 sc.police = oc.police;
+                if (oc.box.valid)
+                {
+                    sc.box.cx = oc.x;
+                    sc.box.cy = oc.y;
+                    sc.box.ax = oc.box.ax;
+                    sc.box.ay = oc.box.ay;
+                    sc.box.hl = oc.box.hl;
+                    sc.box.hw = oc.box.hw;
+                }
+                else
+                {
+                    sc.box.cx = oc.x;
+                    sc.box.cy = oc.y;
+                    sc.box.ax = 1.0f;
+                    sc.box.ay = 0.0f;
+                    sc.box.hl = 1.0f;
+                    sc.box.hw = 0.5f;
+                }
             }
         }
-        SteerWorld world = {Drive_Solid, NULL, others, other_count};
+        SteerWorld world = {Drive_Solid, NULL, others, other_count, own_hl, own_hw};
         // A slower car in the way: go round it by the pavement or the next lane. The side is kept for a while so
         // that the choice does not flip from frame to frame
         if (ctx.frame < mOvertakeUntil)
@@ -902,12 +949,14 @@ Action::Status DriveAction::Step(BotContext& ctx)
                 }
                 if (arc.hit == 1)
                 {
-                    BotDebugDraw::Line(arc.hit_x - 0.25f, arc.hit_y - 0.25f, arc.hit_x + 0.25f, arc.hit_y + 0.25f, kDebugColRed);
-                    BotDebugDraw::Line(arc.hit_x + 0.25f, arc.hit_y - 0.25f, arc.hit_x - 0.25f, arc.hit_y + 0.25f, kDebugColRed);
+                    // the map tile that was solid at the point of the box that met it (buildings are tile squares)
+                    BotDebugDraw::TileOutline(arc.hit_x, arc.hit_y, kDebugColRed);
                 }
                 else if (arc.hit == 2)
                 {
-                    BotDebugDraw::Mark(arc.car_x, arc.car_y, kCarHitRadius, kDebugColOrange, arc.chosen ? "hit car" : "");
+                    // our box and the other car's box at the moment they met
+                    BotDebugDraw::Box(arc.own_box.cx, arc.own_box.cy, arc.own_box.ax, arc.own_box.ay, arc.own_box.hl, arc.own_box.hw, arc.chosen ? kDebugColYellow : kDebugColGrey);
+                    BotDebugDraw::Box(arc.car_box.cx, arc.car_box.cy, arc.car_box.ax, arc.car_box.ay, arc.car_box.hl, arc.car_box.hw, kDebugColOrange);
                 }
             }
             if (ctx.frame < mOvertakeUntil)
@@ -954,7 +1003,7 @@ Action::Status DriveAction::Step(BotContext& ctx)
             for (int i = 0; i < ctx.world->ped_count && !hit; i++)
             {
                 const WorldModel::PedInfo& p = ctx.world->peds[i];
-                if (!p.dead && !p.in_car && (p.x - sx) * (p.x - sx) + (p.y - sy) * (p.y - sy) < kPedRadius * kPedRadius)
+                if (!p.dead && !p.in_car && (p.box.valid ? SteerBox_Contains(Drive_ToSteerBox(p.box), sx, sy, kPedMargin) : ((p.x - sx) * (p.x - sx) + (p.y - sy) * (p.y - sy) < 0.8f * 0.8f)))
                 {
                     hit = true;
                     obstacle_is_ped = true;

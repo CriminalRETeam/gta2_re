@@ -41,6 +41,10 @@ class BotDebugDraw
     static void Line(float x0, float y0, float x1, float y1, unsigned col);
     // a ring of the given radius (in tiles) with a label
     static void Mark(float x, float y, float radius, unsigned col, const char* label);
+    // an oriented box: centre, unit vector along the long side, half length, half width
+    static void Box(float cx, float cy, float ax, float ay, float hl, float hw, unsigned col);
+    // the outline of the map tile that holds (x, y)
+    static void TileOutline(float x, float y, unsigned col);
     static int LineCount();
     static const DebugLine& LineAt(int i);
     static int MarkCount();

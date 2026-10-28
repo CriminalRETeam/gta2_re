@@ -33,6 +33,33 @@ float HeadingDeg(float dx, float dy)
     return atan2f(dx, -dy) * 180.0f / kPi;
 }
 
+// Is anything solid at the 8 points of the box (corners and middles of the sides)?
+bool BoxHitsSolid(const SteerWorld& w, const SteerBox& b, float* hit_x, float* hit_y)
+{
+    float xs[8];
+    float ys[8];
+    SteerBox_Points(b, xs, ys);
+    for (int i = 0; i < 8; i++)
+    {
+        if (w.solid(w.user, xs[i], ys[i]))
+        {
+            *hit_x = xs[i];
+            *hit_y = ys[i];
+            return true;
+        }
+    }
+    return false;
+}
+
+// Where another car's box will be after t frames
+SteerBox CarBoxAt(const SteerCar& c, float t)
+{
+    SteerBox b = c.box;
+    b.cx = c.x + c.vx * t;
+    b.cy = c.y + c.vy * t;
+    return b;
+}
+
 struct Arc
 {
     float cost;
@@ -108,18 +135,21 @@ Arc Rollout(const SteerWorld& w, float x, float y, float heading, float hdir, fl
             ad->py[ad->n] = y;
             ad->n++;
         }
-        const float px = -fy * kFootHalfWidth;
-        const float py = fx * kFootHalfWidth;
-        const float pts[4][2] = {{x + fx * kFootFront + px, y + fy * kFootFront + py}, {x + fx * kFootFront - px, y + fy * kFootFront - py}, {x + px, y + py}, {x - px, y - py}};
-        for (int i = 0; i < 4 && !wall; i++)
+        SteerBox own;
+        own.cx = x;
+        own.cy = y;
+        own.ax = fx;
+        own.ay = fy;
+        own.hl = w.own_hl;
+        own.hw = w.own_hw;
+        float hx = 0.0f;
+        float hy = 0.0f;
+        wall = BoxHitsSolid(w, own, &hx, &hy);
+        if (wall && ad)
         {
-            wall = w.solid(w.user, pts[i][0], pts[i][1]);
-            if (wall && ad)
-            {
-                ad->hit = 1;
-                ad->hit_x = pts[i][0];
-                ad->hit_y = pts[i][1];
-            }
+            ad->hit = 1;
+            ad->hit_x = hx;
+            ad->hit_y = hy;
         }
         if (wall)
         {
@@ -130,18 +160,15 @@ Arc Rollout(const SteerWorld& w, float x, float y, float heading, float hdir, fl
             for (int k = 0; k < w.car_count; k++)
             {
                 const SteerCar& oc = w.cars[k];
-                const float cx = oc.x + oc.vx * t;
-                const float cy = oc.y + oc.vy * t;
-                if ((cx - x) * (cx - x) + (cy - y) * (cy - y) < kCarHitRadius * kCarHitRadius)
+                const SteerBox theirs = CarBoxAt(oc, t);
+                if (SteerBox_Overlap(own, theirs))
                 {
                     car_hit = true;
                     if (ad)
                     {
                         ad->hit = 2;
-                        ad->hit_x = x;
-                        ad->hit_y = y;
-                        ad->car_x = cx;
-                        ad->car_y = cy;
+                        ad->own_box = own;
+                        ad->car_box = theirs;
                     }
                     const bool oncoming = oc.speed > 0.12f && oc.vx * fx + oc.vy * fy < -0.10f;
                     hard_car = (oncoming || oc.police) ? 25.0f : 4.0f;
@@ -229,13 +256,17 @@ int StripFree(const SteerWorld& w, float x0, float y0, float x1, float y1, float
     const float v = speed < 0.10f ? 0.10f : speed;
     for (float d = 0.6f; d <= len; d += 0.5f)
     {
-        const float px = x0 + ux * d;
-        const float py = y0 + uy * d;
-        // the same four points of the car's footprint as the arcs test, with the car pointing along the strip
-        const float sx = -uy * kFootHalfWidth;
-        const float sy = ux * kFootHalfWidth;
-        if (w.solid(w.user, px + ux * kFootFront + sx, py + uy * kFootFront + sy) || w.solid(w.user, px + ux * kFootFront - sx, py + uy * kFootFront - sy) ||
-            w.solid(w.user, px + sx, py + sy) || w.solid(w.user, px - sx, py - sy))
+        // the car's own box carried along the strip, pointing the way it goes
+        SteerBox own;
+        own.cx = x0 + ux * d;
+        own.cy = y0 + uy * d;
+        own.ax = ux;
+        own.ay = uy;
+        own.hl = w.own_hl;
+        own.hw = w.own_hw;
+        float hx;
+        float hy;
+        if (BoxHitsSolid(w, own, &hx, &hy))
         {
             return 2;
         }
@@ -246,9 +277,7 @@ int StripFree(const SteerWorld& w, float x0, float y0, float x1, float y1, float
             {
                 continue;
             }
-            const float cx = w.cars[k].x + w.cars[k].vx * t;
-            const float cy = w.cars[k].y + w.cars[k].vy * t;
-            if ((cx - px) * (cx - px) + (cy - py) * (cy - py) < kCarHitRadius * kCarHitRadius)
+            if (SteerBox_Overlap(own, CarBoxAt(w.cars[k], t)))
             {
                 return 3;
             }
@@ -329,4 +358,54 @@ bool DriveSteer_Overtake(const SteerWorld& w, float x, float y, float speed, flo
         }
     }
     return false;
+}
+
+void SteerBox_Corners(const SteerBox& b, float* xs, float* ys)
+{
+    const float px = -b.ay;
+    const float py = b.ax;
+    xs[0] = b.cx + b.ax * b.hl + px * b.hw;
+    ys[0] = b.cy + b.ay * b.hl + py * b.hw;
+    xs[1] = b.cx + b.ax * b.hl - px * b.hw;
+    ys[1] = b.cy + b.ay * b.hl - py * b.hw;
+    xs[2] = b.cx - b.ax * b.hl - px * b.hw;
+    ys[2] = b.cy - b.ay * b.hl - py * b.hw;
+    xs[3] = b.cx - b.ax * b.hl + px * b.hw;
+    ys[3] = b.cy - b.ay * b.hl + py * b.hw;
+}
+
+void SteerBox_Points(const SteerBox& b, float* xs, float* ys)
+{
+    SteerBox_Corners(b, xs, ys);
+    for (int i = 0; i < 4; i++)
+    {
+        xs[4 + i] = (xs[i] + xs[(i + 1) % 4]) * 0.5f;
+        ys[4 + i] = (ys[i] + ys[(i + 1) % 4]) * 0.5f;
+    }
+}
+
+bool SteerBox_Overlap(const SteerBox& a, const SteerBox& b)
+{
+    const float dx = b.cx - a.cx;
+    const float dy = b.cy - a.cy;
+    const float axes[4][2] = {{a.ax, a.ay}, {-a.ay, a.ax}, {b.ax, b.ay}, {-b.ay, b.ax}};
+    for (int i = 0; i < 4; i++)
+    {
+        const float nx = axes[i][0];
+        const float ny = axes[i][1];
+        const float ra = a.hl * fabsf(a.ax * nx + a.ay * ny) + a.hw * fabsf(-a.ay * nx + a.ax * ny);
+        const float rb = b.hl * fabsf(b.ax * nx + b.ay * ny) + b.hw * fabsf(-b.ay * nx + b.ax * ny);
+        if (fabsf(dx * nx + dy * ny) > ra + rb)
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool SteerBox_Contains(const SteerBox& b, float x, float y, float margin)
+{
+    const float dx = x - b.cx;
+    const float dy = y - b.cy;
+    return fabsf(dx * b.ax + dy * b.ay) <= b.hl + margin && fabsf(-dx * b.ay + dy * b.ax) <= b.hw + margin;
 }

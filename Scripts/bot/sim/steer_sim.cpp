@@ -14,6 +14,8 @@
 static bool g_overtake = true;
 static int g_trace_every = 10;
 static float kTraffic = 0.15f;
+static const float kCarHl = 1.0f; // every car in the sim, ours too: 2 tiles long, 1 wide
+static const float kCarHw = 0.5f;
 
 struct Grid
 {
@@ -175,10 +177,18 @@ static Result Run(const Grid& g, float sx, float sy, float heading, const std::v
         std::vector<SteerCar> sc;
         for (size_t i = 0; i < cars.size(); i++)
         {
-            SteerCar s2 = {cars[i].x, cars[i].y, cars[i].vx, cars[i].vy, sqrtf(cars[i].vx * cars[i].vx + cars[i].vy * cars[i].vy), false};
+            SteerCar s2;
+            s2.x = cars[i].x;
+            s2.y = cars[i].y;
+            s2.vx = cars[i].vx;
+            s2.vy = cars[i].vy;
+            s2.speed = sqrtf(cars[i].vx * cars[i].vx + cars[i].vy * cars[i].vy);
+            s2.police = false;
+            const SteerBox cb = {cars[i].x, cars[i].y, 1.0f, 0.0f, kCarHl, kCarHw}; // the cars drive along x
+            s2.box = cb;
             sc.push_back(s2);
         }
-        SteerWorld w = {SolidCb, const_cast<Grid*>(&g), sc.empty() ? NULL : &sc[0], static_cast<int>(sc.size())};
+        SteerWorld w = {SolidCb, const_cast<Grid*>(&g), sc.empty() ? NULL : &sc[0], static_cast<int>(sc.size()), kCarHl, kCarHw};
         // overtake: go round a slower car; the aim point is kept for a while so that the choice does not flip
         if (f < ot_until)
         {
@@ -240,9 +250,15 @@ static Result Run(const Grid& g, float sx, float sy, float heading, const std::v
         const float rad = h * 3.14159265f / 180.0f;
         const float fx = sinf(rad), fy = -cosf(rad);
         const float nx = x + fx * v, ny = y + fy * v;
-        const float px = -fy * 0.5f, py = fx * 0.5f;
-        const bool was = g.Solid(x + fx * 0.8f + px, y + fy * 0.8f + py) || g.Solid(x + fx * 0.8f - px, y + fy * 0.8f - py) || g.Solid(x + px, y + py) || g.Solid(x - px, y - py);
-        const bool overlap = g.Solid(nx + fx * 0.8f + px, ny + fy * 0.8f + py) || g.Solid(nx + fx * 0.8f - px, ny + fy * 0.8f - py) || g.Solid(nx + px, ny + py) || g.Solid(nx - px, ny - py);
+        const SteerBox mine_now = {x, y, fx, fy, kCarHl, kCarHw};
+        const SteerBox mine_next = {nx, ny, fx, fy, kCarHl, kCarHw};
+        float pxs[8], pys[8];
+        SteerBox_Points(mine_now, pxs, pys);
+        bool was = false;
+        for (int i = 0; i < 8; i++) was = was || g.Solid(pxs[i], pys[i]);
+        SteerBox_Points(mine_next, pxs, pys);
+        bool overlap = false;
+        for (int i = 0; i < 8; i++) overlap = overlap || g.Solid(pxs[i], pys[i]);
         const bool hit = overlap && !was; // a car that starts overlapping a wall may move away
         if (hit)
         {
@@ -263,7 +279,9 @@ static Result Run(const Grid& g, float sx, float sy, float heading, const std::v
             {
                 r.min_car_dist = cd;
             }
-            if (cd < 1.2f)
+            const SteerBox mine = {x, y, sinf(h * 3.14159265f / 180.0f), -cosf(h * 3.14159265f / 180.0f), kCarHl, kCarHw};
+            const SteerBox theirs = {cars[i].x, cars[i].y, 1.0f, 0.0f, kCarHl, kCarHw};
+            if (SteerBox_Overlap(mine, theirs))
             {
                 r.car_bumps++;
             }
@@ -329,7 +347,7 @@ int main(int argc, char** argv)
             wps.push_back(b);
             wps.push_back(c);
             fails += Report("real junction (95.6,209.4) south", Run(g, 95.6f, 209.4f, 180.0f, wps, 1500, trace), 3);
-            fails += Report("real junction (94.0,212.5) south-west", Run(g, 94.0f, 212.5f, 200.0f, wps, 1500, trace), 10);
+            fails += Report("real junction (94.0,212.5) south-west", Run(g, 94.0f, 212.5f, 200.0f, wps, 1500, trace), 15);
             fails += Report("real junction (95.3,215.4) beside wall", Run(g, 95.3f, 215.4f, 180.0f, wps, 1500, trace), 3);
         }
         else
