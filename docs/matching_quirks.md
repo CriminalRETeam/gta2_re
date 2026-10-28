@@ -1736,13 +1736,10 @@ function and matched `Ped::EnterCarStateMachine_46BDC0` and `ExitCarStateMachine
 `MapRenderer.cpp` gets `Car.hpp` through `Camera.hpp` and never calls the helpers. So when a
 WIP's register choice is close, the set of inline functions VC6 has seen in the TU is a
 suspect too, not just the ones it uses.
-It works the other way round too, and the matched `MapRenderer.cpp` diagonals now depend on it:
-removing the unused `Fix16_Point::GetLength_all_out_of_line_abs_y_negate` from `Fix16_Point.hpp`
-breaks `Draw4SidedDiagonalUpLeft_4EF880` and `Draw3SidedDiagonalDownRight_4EF520` (removing it
-together with another unused inline broke `Draw3SidedDiagonalUpRight_4EEE60` instead of `4EF520`),
-while removing the unused `GetLength_453590_inline_wrap` next to it changes nothing. So deleting
-dead inlines from a shared header needs a full build too, and for a near-miss WIP adding or removing
-an unrelated unused inline in an included header is a (blind) knob worth trying.
+Removing an unused inline can move code the same way (deleting the unused
+`Fix16_Point::GetLength_no_sqrt_inline` breaks `Particle_4C::UpdateCollisionBurst_state_31_34_53BAC0`), so deleting
+dead inlines from a shared header needs a full build too, and for a near-miss WIP adding or removing an unrelated unused inline in an
+included header is a (blind) knob worth trying.
 
 **A by-reference inline helper changes the load order.** When 9.6f calls a helper that takes
 its operands by reference (`MaxAbsDistance_42A6B0(Fix16&, ...)`), VC6 10.5 inlines it but still
