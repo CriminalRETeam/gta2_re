@@ -188,7 +188,7 @@ static Result Run(const Grid& g, float sx, float sy, float heading, const std::v
         else
         {
             float ox, oy;
-            if (g_overtake && DriveSteer_Overtake(w, x, y, v, aim.x, aim.y, &ox, &oy))
+            if (g_overtake && DriveSteer_Overtake(w, x, y, v, aim.x, aim.y, &ox, &oy, NULL))
             {
                 ot_x = ox;
                 ot_y = oy;

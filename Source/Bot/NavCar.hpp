@@ -91,6 +91,11 @@ class NavCar : public BotObject
     // Traffic: tiles near a car that is not moving cost extra for the next searches (cleared by ClearJams)
     void ClearJams();
     void AddJam(float x, float y);
+    // 0 none, 1 beside a stopped car, 2 under it (for the debug draw)
+    int JamAt(int x, int y) const
+    {
+        return (x >= 0 && x < 256 && y >= 0 && y < 256) ? mJam[y * 256 + x] : 0;
+    }
 
     void BanArea(int cx, int cy, int radius);
     void ClearBans();

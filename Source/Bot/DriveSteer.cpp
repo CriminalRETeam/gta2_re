@@ -170,14 +170,15 @@ float DriveSteer_SpeedFor(float wall_d)
 namespace
 {
 // Is the strip (half width 0.7) from (x0,y0) to (x1,y1) free of buildings and of cars (where they will be about when we pass)?
-bool StripFree(const SteerWorld& w, float x0, float y0, float x1, float y1, float speed, const SteerCar* skip)
+// 0 free, 2 a building on the way, 3 a car on the way
+int StripFree(const SteerWorld& w, float x0, float y0, float x1, float y1, float speed, const SteerCar* skip)
 {
     const float dx = x1 - x0;
     const float dy = y1 - y0;
     const float len = sqrtf(dx * dx + dy * dy);
     if (len < 0.1f)
     {
-        return true;
+        return 0;
     }
     const float ux = dx / len;
     const float uy = dy / len;
@@ -188,7 +189,7 @@ bool StripFree(const SteerWorld& w, float x0, float y0, float x1, float y1, floa
         const float py = y0 + uy * d;
         if (w.solid(w.user, px - uy * 0.7f, py + ux * 0.7f) || w.solid(w.user, px + uy * 0.7f, py - ux * 0.7f) || w.solid(w.user, px, py))
         {
-            return false;
+            return 2;
         }
         const float t = d / v;
         for (int k = 0; k < w.car_count; k++)
@@ -201,16 +202,21 @@ bool StripFree(const SteerWorld& w, float x0, float y0, float x1, float y1, floa
             const float cy = w.cars[k].y + w.cars[k].vy * t;
             if ((cx - px) * (cx - px) + (cy - py) * (cy - py) < 1.5f * 1.5f)
             {
-                return false;
+                return 3;
             }
         }
     }
-    return true;
+    return 0;
 }
 } // namespace
 
-bool DriveSteer_Overtake(const SteerWorld& w, float x, float y, float speed, float aim_x, float aim_y, float* out_x, float* out_y)
+bool DriveSteer_Overtake(const SteerWorld& w, float x, float y, float speed, float aim_x, float aim_y, float* out_x, float* out_y, OvertakeTrace* trace)
 {
+    if (trace)
+    {
+        trace->has_blocker = false;
+        trace->count = 0;
+    }
     const float ax = aim_x - x;
     const float ay = aim_y - y;
     const float al = sqrtf(ax * ax + ay * ay);
@@ -239,17 +245,35 @@ bool DriveSteer_Overtake(const SteerWorld& w, float x, float y, float speed, flo
     {
         return false;
     }
+    if (trace)
+    {
+        trace->has_blocker = true;
+        trace->blocker_x = blocker->x;
+        trace->blocker_y = blocker->y;
+    }
     // a point beside it and past it: try the near side first, then the far, from close in to wide
     static const float offsets[6] = {2.6f, -2.6f, 3.6f, -3.6f, 4.6f, -4.6f};
     for (int i = 0; i < 6; i++)
     {
         const float cx = blocker->x + ux * 4.5f + -uy * offsets[i];
         const float cy = blocker->y + uy * 4.5f + ux * offsets[i];
+        int why = 0;
         if (w.solid(w.user, cx, cy))
         {
-            continue;
+            why = 1;
         }
-        if (StripFree(w, x, y, cx, cy, speed, blocker))
+        else
+        {
+            why = StripFree(w, x, y, cx, cy, speed, blocker);
+        }
+        if (trace && trace->count < 6)
+        {
+            trace->cand_x[trace->count] = cx;
+            trace->cand_y[trace->count] = cy;
+            trace->cand_why[trace->count] = why;
+            trace->count++;
+        }
+        if (why == 0)
         {
             *out_x = cx;
             *out_y = cy;

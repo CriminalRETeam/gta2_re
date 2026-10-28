@@ -158,6 +158,7 @@ DriveAction::DriveAction(float x, float y, float stop_dist)
     , mReverseUntil(0)
     , mReverseSteer(0)
     , mPrevSteer(0)
+    , mTraceFrame(-1000)
     , mOvertakeUntil(0)
     , mOvertakeX(0)
     , mOvertakeY(0)
@@ -660,6 +661,52 @@ Action::Status DriveAction::Step(BotContext& ctx)
         BotDebugDraw::Mark(mWpX[mWpIdx], mWpY[mWpIdx], 0.6f, kDebugColYellow, label);
         BotDebugDraw::Mark(aim_x, aim_y, 0.4f, kDebugColMagenta, "aim");
         BotDebugDraw::Mark(mTx, mTy, 1.0f, kDebugColWhite, "goal");
+        // what is about: cars (red standing, orange moving with where it will be in 45 frames, blue police) and pedestrians
+        for (int k = 0; k < ctx.world->car_count; k++)
+        {
+            const WorldModel::CarInfo& oc = ctx.world->cars[k];
+            if (oc.dist < 1.0f || oc.dist > 30.0f)
+            {
+                continue;
+            }
+            const bool still = oc.speed < 0.03f;
+            BotDebugDraw::Mark(oc.x, oc.y, 0.9f, oc.police ? kDebugColBlue : (still ? kDebugColRed : kDebugColOrange), oc.police ? "cop" : (still ? "stop" : ""));
+            if (!still)
+            {
+                BotDebugDraw::Line(oc.x, oc.y, oc.x + oc.vx * 45.0f, oc.y + oc.vy * 45.0f, kDebugColOrange);
+            }
+        }
+        for (int k = 0; k < ctx.world->ped_count; k++)
+        {
+            const WorldModel::PedInfo& op = ctx.world->peds[k];
+            if (!op.dead && !op.in_car && op.dist < 20.0f)
+            {
+                BotDebugDraw::Mark(op.x, op.y, 0.3f, op.cop ? kDebugColBlue : kDebugColWhite, "");
+            }
+        }
+        // tiles the route planner charges extra for, beside or under a car that stands
+        for (int ty = static_cast<int>(pl.y) - 12; ty <= static_cast<int>(pl.y) + 12; ty++)
+        {
+            for (int tx = static_cast<int>(pl.x) - 12; tx <= static_cast<int>(pl.x) + 12; tx++)
+            {
+                if (ctx.road->JamAt(tx, ty) == 2)
+                {
+                    BotDebugDraw::Line(tx + 0.2f, ty + 0.2f, tx + 0.8f, ty + 0.8f, kDebugColRed);
+                    BotDebugDraw::Line(tx + 0.8f, ty + 0.2f, tx + 0.2f, ty + 0.8f, kDebugColRed);
+                }
+            }
+        }
+        // the overtake: the car it sees in the way, and the places it tried (green taken, red turned down: W building or
+        // water, B building on the way, C a car on the way)
+        if (ctx.frame - mTraceFrame < 30 && mTrace.has_blocker)
+        {
+            BotDebugDraw::Mark(mTrace.blocker_x, mTrace.blocker_y, 1.2f, kDebugColYellow, "in the way");
+            for (int k = 0; k < mTrace.count; k++)
+            {
+                static const char* const why[4] = {"ok", "W", "B", "C"};
+                BotDebugDraw::Mark(mTrace.cand_x[k], mTrace.cand_y[k], 0.4f, mTrace.cand_why[k] == 0 ? kDebugColGreen : kDebugColRed, why[mTrace.cand_why[k]]);
+            }
+        }
     }
     if (ctx.frame < mReverseUntil)
     {
@@ -788,7 +835,7 @@ Action::Status DriveAction::Step(BotContext& ctx)
             aim_x = mOvertakeX;
             aim_y = mOvertakeY;
         }
-        else if (dist > 12.0f && DriveSteer_Overtake(world, pl.x, pl.y, mSpeed, aim_x, aim_y, &mOvertakeX, &mOvertakeY))
+        else if (dist > 12.0f && (mTraceFrame = ctx.frame, true) && DriveSteer_Overtake(world, pl.x, pl.y, mSpeed, aim_x, aim_y, &mOvertakeX, &mOvertakeY, &mTrace))
         {
             mOvertakeUntil = ctx.frame + 45;
             aim_x = mOvertakeX;
@@ -818,16 +865,6 @@ Action::Status DriveAction::Step(BotContext& ctx)
                 ax = nx;
                 ay = ny;
                 ah = nh;
-            }
-            for (int k = 0; k < other_count; k++)
-            {
-                const float dx = others[k].x - pl.x;
-                const float dy = others[k].y - pl.y;
-                if (dx * dx + dy * dy < 20.0f * 20.0f)
-                {
-                    BotDebugDraw::Mark(others[k].x, others[k].y, 0.8f, others[k].police ? kDebugColRed : kDebugColOrange, others[k].police ? "police" : "");
-                    BotDebugDraw::Line(others[k].x, others[k].y, others[k].x + others[k].vx * 45.0f, others[k].y + others[k].vy * 45.0f, kDebugColOrange);
-                }
             }
             if (ctx.frame < mOvertakeUntil)
             {

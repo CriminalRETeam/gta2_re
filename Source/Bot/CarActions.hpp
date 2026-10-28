@@ -1,4 +1,5 @@
 #pragma once
+#include "DriveSteer.hpp"
 
 #include "BotAction.hpp"
 
@@ -89,6 +90,8 @@ class DriveAction : public Action
     s32 mReverseUntil;
     float mReverseSteer;
     float mPrevSteer;
+    OvertakeTrace mTrace; // what the last overtake look found, for the debug draw
+    s32 mTraceFrame;
     s32 mOvertakeUntil;
     float mOvertakeX, mOvertakeY;
     s32 mManoeuvres;

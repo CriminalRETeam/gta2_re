@@ -39,4 +39,15 @@ float DriveSteer_SpeedFor(float wall_d);
 // A slower car in the way along the line to the aim point (a queue, a car pottering along the lane): an aim point
 // beside it and a little past it, on the pavement or in the next lane, whichever has room, so that the car goes round
 // instead of following. false when nothing blocks the way or no side has room
-bool DriveSteer_Overtake(const SteerWorld& w, float x, float y, float speed, float aim_x, float aim_y, float* out_x, float* out_y);
+// What the overtake looked at, for the debug draw: the car it found in the way and each place it tried, with why a place was
+// turned down
+struct OvertakeTrace
+{
+    bool has_blocker;
+    float blocker_x, blocker_y;
+    int count;
+    float cand_x[6];
+    float cand_y[6];
+    int cand_why[6]; // 0 taken, 1 not walkable (a building or water on the spot), 2 a building on the way, 3 a car on the way
+};
+bool DriveSteer_Overtake(const SteerWorld& w, float x, float y, float speed, float aim_x, float aim_y, float* out_x, float* out_y, OvertakeTrace* trace);
