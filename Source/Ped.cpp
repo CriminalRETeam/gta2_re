@@ -6805,7 +6805,7 @@ Sprite* Ped::ResetAnimAndFindNearestSprite_467280()
     this->field_168_game_object->field_10_char_state = 1;
 
     Char* pChar = this->field_168_game_object;
-    pChar->field_6C_animation_state = 0;
+    pChar->field_6C_animation_state = Char_Anim_state::Walking_0;
     pChar->field_68_animation_frame = 0;
 
     this->field_216_health = 50;
@@ -9473,7 +9473,7 @@ void Ped::MeleeAttackStateMachine_46B670()
             {
                 field_278_ped_state_1 = ped_state_1::standing_still_7;
                 field_27C_ped_state_2 = ped_state_2::ped2_staying_14;
-                field_168_game_object->field_6C_animation_state = 2;
+                field_168_game_object->field_6C_animation_state = Char_Anim_state::Standing_2;
                 field_168_game_object->field_68_animation_frame = 0;
             }
             return;
@@ -9998,7 +9998,7 @@ void Ped::ExitCarStateMachine_46C250()
         {
             this->field_278_ped_state_1 = ped_state_1::standing_still_7;
             this->field_27C_ped_state_2 = ped_state_2::ped2_staying_14;
-            field_168_game_object->field_6C_animation_state = 2;
+            field_168_game_object->field_6C_animation_state = Char_Anim_state::Standing_2;
             this->field_168_game_object->field_68_animation_frame = 0;
         }
         else if (!FindUsableCarDoor_467090() && !bDoorFound)

@@ -1283,7 +1283,7 @@ bool Particle_4C::UpdateAttachedEmitter_state_9_10_53B670()
 
     if (field_38_state == 9)
     {
-        if (pChar->field_6C_animation_state != 2)
+        if (pChar->field_6C_animation_state != Char_Anim_state::Standing_2)
         {
             return true;
         }
