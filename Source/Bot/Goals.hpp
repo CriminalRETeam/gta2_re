@@ -256,6 +256,7 @@ class PrepareGoal : public Action
     {
         return "prepare";
     }
+    virtual void Detail(char* buf, int size) const;
     virtual void Start(BotContext& ctx);
     virtual Status Step(BotContext& ctx);
 
@@ -278,6 +279,7 @@ class PrepareGoal : public Action
     s32 mBan[kMaxBan];
     s32 mBanCount;
     s32 mPicked;
+    char mDesc[160]; // what is being fetched and why, for the overlay
 };
 
 // Destroys a car. Two ways to do it, chosen by estimated cost and tried in turn if one fails:

@@ -195,6 +195,8 @@ Action::Status SequenceGoal::Step(BotContext& ctx)
 }
 
 // ---------------------------------------------------------------------------------------------
+static const float kPickupDriveMin = 30.0f; // a walk longer than this to a pickup is travelled: by car when that is quicker
+
 PrepareGoal::PrepareGoal(s32 purpose, float max_range, s32 max_frames)
     : mPurpose(purpose)
     , mRange(max_range)
@@ -207,6 +209,14 @@ PrepareGoal::PrepareGoal(s32 purpose, float max_range, s32 max_frames)
     , mBanCount(0)
     , mPicked(0)
 {
+    mDesc[0] = 0;
+    SetWhy(purpose == Weapons::VsCar ? "so there is a gun that can destroy cars for the job ahead" : "so there is a gun for shooting people in the job ahead");
+}
+
+void PrepareGoal::Detail(char* buf, int size) const
+{
+    _snprintf(buf, size, "%s", mDesc[0] ? mDesc : "looking for something worth fetching");
+    buf[size - 1] = 0;
 }
 
 PrepareGoal::~PrepareGoal()
@@ -318,7 +328,27 @@ bool PrepareGoal::Choose(BotContext& ctx)
     BotDecision("f=%d prepare: hp %d armour %d weapon %d (best score %d); %d pickups in reach, plan %d, first %s #%d model %d at (%.0f,%.0f)", ctx.frame, pl.hp, pl.armour, pl.weapon, best_score, count, plan.length,
                 first.kind == 0 ? "health" : (first.kind == 1 ? "armour" : "weapon"), first.id, objs[plan.order[0]]->model, first.x, first.y);
     mChildId = first.id;
-    mChild = new PickUpAction(first.id, first.x, first.y);
+    // How far the walk is. A long way, or in a car already: travel to it (a car when that is quicker, walking when not), then
+    // pick it up on foot
+    const bool path = ctx.nav->FindPath(static_cast<u8>(pl.x), static_cast<u8>(pl.y), static_cast<u8>(pl.z + 0.5f), static_cast<u8>(first.x), static_cast<u8>(first.y));
+    const float walk_len = path ? static_cast<float>(ctx.nav->PathLength()) : 0.0f;
+    const char* what = first.kind == 0 ? "health" : (first.kind == 1 ? "armour" : "weapon");
+    _snprintf(mDesc, sizeof(mDesc), "fetching %s #%d (model %d) %.0f tiles' walk away; best gun held scores %d, want %d", what, first.id, objs[plan.order[0]]->model, walk_len, best_score, want_score);
+    mDesc[sizeof(mDesc) - 1] = 0;
+    PickUpAction* pickup = new PickUpAction(first.id, first.x, first.y);
+    if (pl.in_car || walk_len > kPickupDriveMin)
+    {
+        SequenceGoal* seq = new SequenceGoal("fetch_pickup");
+        TravelGoal* travel = new TravelGoal(first.x, first.y, 4.0f, false);
+        travel->SetWhy(first.kind == 2 ? "to a weapon pickup" : "to a health/armour pickup");
+        seq->Add(travel, false);
+        seq->Add(pickup, false);
+        mChild = seq;
+    }
+    else
+    {
+        mChild = pickup;
+    }
     BeginChild(ctx, &mSnap, mChild);
     return true;
 }
@@ -331,9 +361,9 @@ Action::Status PrepareGoal::Step(BotContext& ctx)
     {
         return Running;
     }
-    if (pl.in_car)
+    if (pl.in_car && !mChild && !Choose(ctx))
     {
-        return Done; // the pickups are walked onto
+        return Done; // nothing to fetch (and the pickups are walked onto, so none to start from a car)
     }
     if (ctx.frame - mStart > mMaxFrames)
     {

@@ -1,4 +1,5 @@
 #include "CollectActions.hpp"
+#include <stdio.h>
 #include "ObjectTouch.hpp"
 #include "BlastAvoid.hpp"
 #include "WalkAction.hpp"
@@ -1178,4 +1179,10 @@ Action::Status DestroyCarAction::Step(BotContext& ctx)
     }
     mLastAmmo = pl.ammo;
     return Running;
+}
+
+void PickUpAction::Detail(char* buf, int size) const
+{
+    _snprintf(buf, size, "walking onto pickup #%d at (%.1f,%.1f)", mId, mX, mY);
+    buf[size - 1] = 0;
 }

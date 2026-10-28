@@ -16,6 +16,7 @@ class PickUpAction : public Action
     {
         return "pick_up";
     }
+    virtual void Detail(char* buf, int size) const;
     virtual void Start(BotContext& ctx);
     virtual Status Step(BotContext& ctx);
 
