@@ -1738,7 +1738,7 @@ Action::Status DriveAction::Step(BotContext& ctx)
             }
             // a car that will be on the route when we get there (moving across or along it, or standing on it): slow down to let it by
             // or go behind it, not into it
-            for (int i = 0; i < route_car_n && !hit; i++)
+            for (int i = 0; i < route_car_n && !hit && !mChase; i++) // (not in a chase: ramming the car is the point)
             {
                 if (LocalPlan_CarInWayAt(route_cars[i], sx, sy, d / (mSpeed > 0.05f ? mSpeed : 0.05f), own_hw))
                 {
