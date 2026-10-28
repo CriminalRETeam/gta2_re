@@ -511,7 +511,7 @@ void Player::LoadCarWeapons_564AD0(Car* pCar)
         {
             this->field_788_curr_weapon_idx = last_weapon_kind;
         }
-        SelectNextOrPrevWeapon_5649D0(0, 0);
+        SelectNextOrPrevWeapon_5649D0(false, false);
     }
 }
 
@@ -557,7 +557,7 @@ void Player::UnloadCarWeapons_564C00()
         field_18_pre_kf_weapon_kind = field_14_saved_ped_weapon_idx;
     }
 
-    SelectNextOrPrevWeapon_5649D0(0, 0);
+    SelectNextOrPrevWeapon_5649D0(false, false);
 }
 
 MATCH_FUNC(0x564C50)
@@ -585,7 +585,7 @@ void Player::RemovePlayerWeapons_564C50()
         this->field_14_saved_ped_weapon_idx = idx;
         this->field_788_curr_weapon_idx = 0;
     }
-    SelectNextOrPrevWeapon_5649D0(0, 0);
+    SelectNextOrPrevWeapon_5649D0(false, false);
 }
 
 MATCH_FUNC(0x564CC0)
@@ -866,7 +866,7 @@ void Player::InitPlayerPed_565490(Ped* pPed)
     field_10_unused = 0;
     field_680_traffic_spawn_counter = 0;
     field_682_traffic_spawn_threshold = 1000;
-    pPed->SetPlayer_45B560(this, 0);
+    pPed->SetPlayer_45B560(this, false);
     field_68_camera_mode = 0;
 
     u8 ammo;
@@ -2019,7 +2019,7 @@ void Player::Service_5687F0()
     }
 
     Player::tick_down_powerups_565070();
-    Player::ShowDebugInfo_566EE0(0);
+    Player::ShowDebugInfo_566EE0(false);
 
     if (this->field_30_disable_enter_vehicles)
     {
@@ -2202,7 +2202,7 @@ void Player::UpdatePaused_569410()
     Camera* pCam;
     Camera* pCam2;
 
-    Player::ShowDebugInfo_566EE0(1);
+    Player::ShowDebugInfo_566EE0(true);
     switch (field_68_camera_mode)
     {
         case 1:
@@ -2298,7 +2298,7 @@ void Player::StartRemoteControl_569600(Car* pCar)
     field_2C8_aux_ped = gPedManager_6787BC->SpawnDriver_470B00(pCar);
     field_2C8_aux_ped->SetPedType_403920(ped_type::player_2);
     field_2C8_aux_ped->set_occupation_403970(ped_ocupation_enum::empty);
-    field_2C8_aux_ped->SetPlayer_45B560(this, 1);
+    field_2C8_aux_ped->SetPlayer_45B560(this, true);
     field_2C8_aux_ped->UpdatePositionFromCar_45C4B0();
     pCar->AssignDriver_4406E0(field_2C8_aux_ped);
     pCar->LockUnlessPermanent_475C10();

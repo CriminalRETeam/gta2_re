@@ -5814,7 +5814,7 @@ bool Car::TrainUpdate_442D70()
     if (this->field_0_attachments.field_0_p18)
     {
         field_0_attachments.PoolUpdate_5A6F70(field_50_car_sprite);
-        field_0_attachments.PropagateMaxZLayer_5A72B0(field_50_car_sprite, 0);
+        field_0_attachments.PropagateMaxZLayer_5A72B0(field_50_car_sprite, false);
     }
 
     if (this->field_88_despawn_status != car_despawn_status::despawning_5)
@@ -5953,7 +5953,7 @@ void Car::UpdateOnCraneHook_443330()
     if (field_0_attachments.field_0_p18)
     {
         field_0_attachments.PoolUpdate_5A6F70(field_50_car_sprite);
-        field_0_attachments.PropagateMaxZLayer_5A72B0(field_50_car_sprite, 0);
+        field_0_attachments.PropagateMaxZLayer_5A72B0(field_50_car_sprite, false);
     }
     Car::CountDownToWreck_441360();
 }
@@ -6008,7 +6008,7 @@ bool Car::UpdateAttachedToSprite_443360(Sprite* pSprite, Fix16 x, Fix16 y, Ang16
     if (field_0_attachments.field_0_p18)
     {
         field_0_attachments.PoolUpdate_5A6F70(field_50_car_sprite);
-        field_0_attachments.PropagateMaxZLayer_5A72B0(field_50_car_sprite, 0);
+        field_0_attachments.PropagateMaxZLayer_5A72B0(field_50_car_sprite, false);
     }
 
     gSpriteGrid_3_679210->AddToSingleBucket_477AE0(field_50_car_sprite);

@@ -498,11 +498,11 @@ void PedGroup::RemovePed_4C9970(Ped* pPed)
                 PromoteMemberToLeader_4C9680(0);
                 if (field_2C_ped_leader->GetInternalObjective_403A90() == objectives_enum::no_obj_0)
                 {
-                    field_2C_ped_leader->SetStatesForObjective_4633E0(1);
+                    field_2C_ped_leader->SetStatesForObjective_4633E0(true);
                 }
                 else
                 {
-                    field_2C_ped_leader->SetStatesForObjective_4633E0(0);
+                    field_2C_ped_leader->SetStatesForObjective_4633E0(false);
                 }
                 if (pPed->get_occupation_403980() == ped_ocupation_enum::paramedic_23)
                 {

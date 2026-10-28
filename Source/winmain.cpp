@@ -181,7 +181,7 @@ void force_link()
     lewin.SetWeapon_564910(NULL);
     lewin.HasAnyAmmo_564940();
     lewin.AddWeaponWithAmmo_564960(0, 0);
-    lewin.SelectNextOrPrevWeapon_5649D0(0, 0);
+    lewin.SelectNextOrPrevWeapon_5649D0(false, false);
     lewin.LoadCarWeapons_564AD0(NULL);
     lewin.ClearCarWeapons_564B60();
     lewin.CleanupEmptyAmmoWeapons_564B80();
@@ -205,7 +205,7 @@ void force_link()
     lewin.HandleControls_5668D0(NULL);
     lewin.DoCarControlInputs_566C30(NULL);
     lewin.DoPedControlInputs_566C80(NULL);
-    lewin.ShowDebugInfo_566EE0(0);
+    lewin.ShowDebugInfo_566EE0(false);
     lewin.RespawnPlayer_5670B0();
     lewin.Wasted_567130();
     lewin.UpdateAuxPedDeath_567850();
@@ -250,7 +250,7 @@ void force_link()
     camera.ResetElevation_435830();
     camera.ClampTargetZ_435840();
     camera.ApplyMovementDeltaFrom_435860(NULL);
-    camera.MoveTarget_435D20(1, 1, 1, 1, 1, 1);
+    camera.MoveTarget_435D20(true, true, true, true, true, true);
     camera.ResetCameraSmoothing_435DD0();
     camera.RefreshBoundaries_436110();
     camera.SetShake_436120(1);
@@ -260,7 +260,7 @@ void force_link()
 
     Ped cn;
     cn.SetRecentCrimeTimer_45B550();
-    cn.SetPlayer_45B560(NULL, 0);
+    cn.SetPlayer_45B560(NULL, false);
     cn.IsEmergencyOccupation_45B590();
 
     ScriptGosubStack miss2;

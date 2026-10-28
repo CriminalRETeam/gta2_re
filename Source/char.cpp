@@ -2704,7 +2704,7 @@ bool Char::CanMoveOntoSlope_54C1A0(s32 path_direction)
     s32 y = y_fp.ToInt();
     s32 z = zpos.ToInt();
     u8 slope_z_delta;
-    if (gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(x, y, z, path_direction, &slope_z_delta, 0))
+    if (gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(x, y, z, path_direction, &slope_z_delta, false))
     {
         return false;
     }
@@ -3830,7 +3830,7 @@ bool Char::CanStepForwardWithRegionCheck_54ECB0(s32 direction)
     {
         new_zpos = zpos.ToInt();
     }
-    if (gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(xpos.ToInt(), ypos.ToInt(), zpos.ToInt(), direction, &slope_z_delta, 0))
+    if (gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(xpos.ToInt(), ypos.ToInt(), zpos.ToInt(), direction, &slope_z_delta, false))
     {
         gCharB4_PathDirection_623F44 = direction;
         return false;
@@ -4305,7 +4305,7 @@ bool Char::CanStepForward_54FEC0(s32 direction)
         check_z = zpos_int;
     }
 
-    if (gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(xpos.ToInt(), ypos.ToInt(), zpos_int, direction, reinterpret_cast<u8*>(&slope_z_adjust), 0))
+    if (gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(xpos.ToInt(), ypos.ToInt(), zpos_int, direction, reinterpret_cast<u8*>(&slope_z_adjust), false))
     {
         gCharB4_PathDirection_623F44 = direction;
         return false;
