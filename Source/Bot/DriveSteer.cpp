@@ -430,6 +430,24 @@ int DriveSteer_DropCarsNear(SteerCar* cars, int n, float x, float y, float radiu
     return kept;
 }
 
+SteerCar DriveSteer_PedAsCar(float x, float y, bool box_valid, float ax, float ay, float hl, float hw)
+{
+    SteerCar sc;
+    sc.x = x;
+    sc.y = y;
+    sc.vx = 0.0f;
+    sc.vy = 0.0f;
+    sc.speed = 0.0f;
+    sc.police = false;
+    sc.box.cx = x;
+    sc.box.cy = y;
+    sc.box.ax = box_valid ? ax : 1.0f;
+    sc.box.ay = box_valid ? ay : 0.0f;
+    sc.box.hl = box_valid ? hl : 0.15f;
+    sc.box.hw = box_valid ? hw : 0.15f;
+    return sc;
+}
+
 bool DriveSteer_IsOwnCar(int car_id, int player_car_id, bool player_in_car)
 {
     return player_in_car && car_id != 0 && car_id == player_car_id;

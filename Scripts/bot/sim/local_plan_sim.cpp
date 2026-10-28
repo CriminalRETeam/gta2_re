@@ -509,6 +509,32 @@ int main()
         const int left = DriveSteer_DropCarsNear(cs, 3, 60.5f, 60.0f, 2.0f);
         Check("a chase: the chased car is left out, the others stay", left == 2 && cs[0].x == 63.5f && cs[1].x == 80.0f);
     }
+    // 7j. a pedestrian standing in the lane of a wide road: the route goes round him with room (a pedestrian's box is small, the car's margin is not)
+    {
+        Grid g;
+        g.x0 = 0; g.y0 = 0; g.w = 80; g.h = 40;
+        g.cell.assign(g.w * g.h, 'B');
+        for (int y = 14; y < 26; y++) for (int x = 2; x < 78; x++) g.cell[y * g.w + x] = '>';
+        std::vector<SteerCar> cars;
+        const SteerCar ped = DriveSteer_PedAsCar(40.5f, 19.5f, false, 0.0f, 0.0f, 0.0f, 0.0f);
+        Check("a pedestrian with no box from the game gets a small square, standing", ped.speed == 0.0f && ped.box.hl == 0.15f && !ped.police);
+        const SteerCar ped2 = DriveSteer_PedAsCar(1.0f, 2.0f, true, 0.0f, 1.0f, 0.12f, 0.1f);
+        Check("a pedestrian with a box keeps its own", ped2.box.ay == 1.0f && ped2.box.hl == 0.12f && ped2.box.cx == 1.0f);
+        cars.push_back(ped);
+        LocalPlanOut p;
+        const bool ok = LocalPlan_Find(World(g, cars, false), 20.5f, 19.5f, 90.0f, 60.5f, 19.5f, &p);
+        float least = 1e9f;
+        for (int i = 0; i + 1 < p.count; i++)
+        {
+            for (float t = 0.0f; t <= 1.0f; t += 0.05f)
+            {
+                const float qx = p.x[i] + (p.x[i + 1] - p.x[i]) * t - 40.5f;
+                const float qy = p.y[i] + (p.y[i + 1] - p.y[i]) * t - 19.5f;
+                least = sqrtf(qx * qx + qy * qy) < least ? sqrtf(qx * qx + qy * qy) : least;
+            }
+        }
+        Check("a pedestrian in the lane: the route passes him with 0.7 tiles clear", ok && least > 0.7f, "the route goes through or beside him");
+    }
     // 7e. the foot of a ramp with the route turning right at its top: the aim point stops at the top of the ramp, not past the corner
     {
         LocalPlanOut p;

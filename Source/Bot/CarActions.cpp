@@ -545,6 +545,23 @@ static bool Drive_EdgeOk(void* user, int x, int y, int nx, int ny)
     return static_cast<NavCar*>(user)->EdgeOpen(x, y, nx, ny);
 }
 
+// The pedestrians near the car as obstacles for the detailed route: each one's collision box (a small square if the game gave none), where it
+// is now. A pedestrian on the road is gone round when there is room, as a standing car is; with no way round the route goes through
+static int Drive_CollectPeds(BotContext& ctx, SteerCar* out, int room)
+{
+    int n = 0;
+    for (int k = 0; k < ctx.world->ped_count && n < room; k++)
+    {
+        const WorldModel::PedInfo& p = ctx.world->peds[k];
+        if (p.dead || p.in_car || p.dist > 20.0f || p.x <= 0.0f)
+        {
+            continue;
+        }
+        out[n++] = DriveSteer_PedAsCar(p.x, p.y, p.box.valid, p.box.ax, p.box.ay, p.box.hl, p.box.hw);
+    }
+    return n;
+}
+
 // Against the traffic of a lane costs the planner extra
 static float Drive_LaneCost(void* user, float x, float y, int dx, int dy)
 {
@@ -1420,7 +1437,7 @@ Action::Status DriveAction::Step(BotContext& ctx)
     bool local_ok = false;
     if ((dist > 8.0f || (mChase && dist > 2.5f)) && ctx.frame >= mReverseUntil) // (a chase ends beside things: the last stretch is routed round them too)
     {
-        SteerCar lcars[WorldModel::kMaxCars];
+        SteerCar lcars[WorldModel::kMaxCars + WorldModel::kMaxPeds];
         LocalPlanWorld lw;
         lw.solid = Drive_Solid;
         lw.edge_ok = Drive_EdgeOk;
@@ -1430,9 +1447,10 @@ Action::Status DriveAction::Step(BotContext& ctx)
         lw.user = ctx.road;
         lw.cars = lcars;
         lw.car_count = Drive_CollectCars(ctx, lcars);
+        lw.car_count += Drive_CollectPeds(ctx, lcars + lw.car_count, WorldModel::kMaxPeds);
         if (mChase)
         {
-            lw.car_count = DriveSteer_DropCarsNear(lcars, lw.car_count, mTx, mTy, 2.0f); // the car being chased is where the route ends
+            lw.car_count = DriveSteer_DropCarsNear(lcars, lw.car_count, mTx, mTy, 2.0f); // the car (or pedestrian) being chased is where the route ends
         }
         lw.own_hl = own_hl;
         lw.own_hw = own_hw;

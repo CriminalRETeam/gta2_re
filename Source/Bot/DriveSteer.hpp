@@ -84,6 +84,10 @@ float DriveSteer_SpeedFor(float wall_d);
 // goal of the route, not something to plan round
 int DriveSteer_DropCarsNear(SteerCar* cars, int n, float x, float y, float radius);
 
+// A pedestrian as an obstacle for the planner: a standing "car" with the pedestrian's own collision box (a small square when the game gave
+// none), so the route is planned round exactly where he is
+SteerCar DriveSteer_PedAsCar(float x, float y, bool box_valid, float ax, float ay, float hl, float hw);
+
 bool DriveSteer_IsOwnCar(int car_id, int player_car_id, bool player_in_car);
 
 bool DriveSteer_WayFreeOfCars(const SteerCar* cars, int n, float x0, float y0, float x1, float y1, float margin, int skip);
