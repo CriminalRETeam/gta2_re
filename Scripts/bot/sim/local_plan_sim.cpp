@@ -271,6 +271,18 @@ int main()
         const bool ok = LocalPlan_Find(World(g, none, false), 20.5f, 20.5f, 90.0f, 50.5f, 20.5f, &p);
         Check("walled in: reports no route or a partial one, never a whole one", !ok || p.partial);
     }
+    // 7b. a one tile alley between two buildings is the only way: the car fits and the whole-map route goes that way, so the detailed
+    // route must too (a whole route, not a partial one that ends in front of the alley)
+    {
+        Grid g;
+        g.x0 = 0; g.y0 = 0; g.w = 60; g.h = 60;
+        g.cell.assign(g.w * g.h, 'F');
+        for (int y = 0; y < 60; y++) { if (y != 30) { for (int x = 29; x <= 31; x++) g.cell[y * g.w + x] = 'B'; } }
+        for (int x = 29; x <= 31; x++) { g.cell[29 * g.w + x] = 'B'; g.cell[31 * g.w + x] = 'B'; }
+        LocalPlanOut p;
+        const bool ok = LocalPlan_Find(World(g, none, false), 20.5f, 30.5f, 90.0f, 40.5f, 30.5f, &p);
+        Check("one tile alley: a whole route through it", ok && !p.partial, "no route or a partial one");
+    }
     // 8. the road shut by a row of standing cars with no way round: a route through the cheapest gap, not "no route"
     {
         Grid g;

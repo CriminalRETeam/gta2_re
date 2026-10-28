@@ -377,6 +377,7 @@ DriveAction::DriveAction(float x, float y, float stop_dist)
     , mPrevSteer(0)
     , mTraceFrame(-1000)
     , mRouteAheadN(0)
+    , mLocalFallback(false)
     , mOvertakeUntil(0)
     , mOvertakeX(0)
     , mOvertakeY(0)
@@ -1246,13 +1247,14 @@ Action::Status DriveAction::Step(BotContext& ctx)
 
     // what the driver is up to, drawn over the game view (BotUi.cpp)
     {
-        float px = pl.x;
-        float py = pl.y;
-        for (int i = mWpIdx; i < mWpCount && i < mWpIdx + 30; i++)
+        // the whole global route, start to goal: square legs, blue where behind us and cyan from the next waypoint on
+        for (int i = 1; i < mWpCount; i++)
         {
-            BotDebugDraw::Line(px, py, mWpX[i], mWpY[i], kDebugColCyan);
-            px = mWpX[i];
-            py = mWpY[i];
+            BotDebugDraw::Line(mWpX[i - 1], mWpY[i - 1], mWpX[i], mWpY[i], i > mWpIdx ? kDebugColCyan : kDebugColBlue);
+        }
+        if (mWpIdx < mWpCount)
+        {
+            BotDebugDraw::Line(pl.x, pl.y, mWpX[mWpIdx], mWpY[mWpIdx], kDebugColBlue);
         }
         char label[20];
         _snprintf(label, sizeof(label), "wp %d/%d", mWpIdx, mWpCount);
@@ -1402,22 +1404,55 @@ Action::Status DriveAction::Step(BotContext& ctx)
         lw.route_y = mRouteAheadY;
         lw.route_n = mRouteAheadN;
         // keep the path while it is good; plan again when it is not, and every 60 frames (moving cars change)
-        if (ctx.frame >= mLocalNext || !LocalPlan_StillGood(lw, mLocal, pl.x, pl.y))
+        if (ctx.frame >= mLocalNext || (!mLocalFallback && !LocalPlan_StillGood(lw, mLocal, pl.x, pl.y)))
         {
             // the target: 24 tiles on along the global route from where the car is on its leg; the stretch is also what the
             // detailed route keeps to
             int rn = 0;
             LocalPlan_RouteAhead(mWpX, mWpY, mWpCount, mWpIdx, pl.x, pl.y, 24.0f, mRouteAheadX, mRouteAheadY, &rn);
             mRouteAheadN = rn;
-            const float tx = mRouteAheadX[rn - 1];
-            const float ty = mRouteAheadY[rn - 1];
+            mLocalFallback = false;
+            float tx = mRouteAheadX[rn - 1];
+            float ty = mRouteAheadY[rn - 1];
             const float heading0 = ctx.car.sign * pl.rot_deg + ctx.car.offset;
             LocalPlan_Find(lw, pl.x, pl.y, heading0, tx, ty, &mLocal);
-            mLocalNext = ctx.frame + kReplanFrames;
-            if (!mLocal.found && ctx.frame % 40 == 0)
+            // a goal that cannot be reached (walled off in the window, or the end of the stretch is on a closed tile): try nearer
+            // points of the same route before giving up
+            for (int shorter = 0; shorter < 2 && (!mLocal.found || mLocal.partial); shorter++)
             {
-                BotDecision("f=%d drive: no detailed route from (%.1f,%.1f) to (%.1f,%.1f): following the waypoints", ctx.frame, pl.x, pl.y, tx, ty);
+                const float reach = shorter == 0 ? 12.0f : 6.0f;
+                LocalPlan_RouteAhead(mWpX, mWpY, mWpCount, mWpIdx, pl.x, pl.y, reach, mRouteAheadX, mRouteAheadY, &rn);
+                mRouteAheadN = rn;
+                tx = mRouteAheadX[rn - 1];
+                ty = mRouteAheadY[rn - 1];
+                LocalPlan_Find(lw, pl.x, pl.y, heading0, tx, ty, &mLocal);
             }
+            if (!mLocal.found || mLocal.partial)
+            {
+                // a partial route ends at the tile nearest the goal in a straight line, which is often a pocket against a wall: not
+                // taken while the global route's own legs are there
+                // always a full route: the global route's own square legs, from the car along the stretch ahead
+                LocalPlan_RouteAhead(mWpX, mWpY, mWpCount, mWpIdx, pl.x, pl.y, 24.0f, mRouteAheadX, mRouteAheadY, &rn);
+                mRouteAheadN = rn;
+                mLocalFallback = true;
+                mLocal.found = rn > 1;
+                mLocal.partial = false;
+                mLocal.count = rn < kLocalPlanMax ? rn : kLocalPlanMax;
+                mLocal.length = 0.0f;
+                mLocal.tile_count = 0;
+                mLocal.moving_count = 0;
+                mLocal.car_closed_count = 0;
+                for (int i = 0; i < mLocal.count; i++)
+                {
+                    mLocal.x[i] = mRouteAheadX[i];
+                    mLocal.y[i] = mRouteAheadY[i];
+                }
+                if (ctx.frame % 40 == 0)
+                {
+                    BotDecision("f=%d drive: no detailed route from (%.1f,%.1f) to (%.1f,%.1f): driving the global route's own legs", ctx.frame, pl.x, pl.y, tx, ty);
+                }
+            }
+            mLocalNext = ctx.frame + kReplanFrames;
         }
         if (mLocal.found && mLocal.partial && mLocal.count > 0)
         {
@@ -1708,6 +1743,17 @@ Action::Status DriveAction::Step(BotContext& ctx)
     if (ctx.opts && ctx.opts->draw && (ctx.frame - ctx.action_start_frame) % 40 == 0 || ctx.frame - ctx.action_start_frame < 100 && (ctx.frame - ctx.action_start_frame) % 10 == 0)
     {
         BotDecision("f=%d drive state: at (%.1f,%.1f) speed %.3f cap %.2f, heading error %.0f to aim (%.1f,%.1f) on the way to waypoint %d/%d (%.1f,%.1f), %.0f tiles to go", ctx.frame, pl.x, pl.y, mSpeed, cap, err, aim_x, aim_y, mWpIdx, mWpCount, mWpX[mWpIdx], mWpY[mWpIdx], dist);
+        if (mLocal.found)
+        {
+            char pts[300];
+            int n = 0;
+            for (int k = 0; k < mLocal.count && k < 10 && n < 270; k++)
+            {
+                n += _snprintf(pts + n, sizeof(pts) - n, " (%.1f,%.1f%s)", mLocal.x[k], mLocal.y[k], Drive_Solid(NULL, mLocal.x[k], mLocal.y[k]) ? " SOLID" : "");
+            }
+            pts[n < 299 ? n : 299] = 0;
+            BotDecision("f=%d drive route (%s, %d points):%s", ctx.frame, mLocalFallback ? "global legs" : (mLocal.partial ? "partial" : "planned"), mLocal.count, pts);
+        }
     }
     {
         // The way to go is behind the car: turn it round (TurnAround.hpp)

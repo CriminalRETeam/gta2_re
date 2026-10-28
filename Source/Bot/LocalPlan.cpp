@@ -319,7 +319,9 @@ bool LocalPlan_Find(const LocalPlanWorld& w, float sx, float sy, float heading_d
             {
                 if (ddx * ddx + ddy * ddy > 4)
                 {
-                    sBlocked[i] = 2; // a gap narrower than the car (not near the start, where the car already is)
+                    // a one tile gap between two closed tiles: the car (about half a tile wide) fits, and the whole-map route uses
+                    // such alleys, so it is dear to go through but not closed
+                    sExtra[i] += 8.0f;
                 }
             }
         }

@@ -102,6 +102,7 @@ class DriveAction : public Action
     float mRouteAheadX[24]; // the stretch of the global route the detailed route is planned along
     float mRouteAheadY[24];
     int mRouteAheadN;
+    bool mLocalFallback; // the detailed route is the global route's own legs (the search found none)
     bool mCalibrating;
     Calibrator mCalib;
     bool mPlanned;
