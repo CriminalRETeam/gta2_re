@@ -1,5 +1,6 @@
 #include "Bot.hpp"
 #include "BlastAvoid.hpp"
+#include "SelfDefence.hpp"
 #include "Hud.hpp"
 #include "ShootPoliceCrowd.hpp"
 #include "BotDebugDraw.hpp"
@@ -119,6 +120,8 @@ Bot::Bot(const BotOptions& opts)
     , mStepX(0.0f)
     , mStepY(0.0f)
     , mStepRun(0)
+    , mDefenseTargetId(0)
+    , mDefenseTargetFrames(0)
     , mPaused(false)
     , mDrawPath(true)
     , mPauseOnRoute(opts.pause_route)
@@ -1528,8 +1531,24 @@ bool Bot::SelfDefense()
     }
     if (!target)
     {
+        mDefenseTargetId = 0;
         return false;
     }
+    // a mugger is hit once and left, or left alone with police about (SelfDefence.hpp)
+    if (target->id != mDefenseTargetId)
+    {
+        mDefenseTargetId = target->id;
+        mDefenseTargetFrames = 0;
+    }
+    SelfDefenceIn din;
+    din.mugger = target->occupation == 15;
+    din.cops_near = mWorld->CopsNear(14.0f);
+    din.frames_on_target = mDefenseTargetFrames;
+    if (!SelfDefence_ShouldFight(din))
+    {
+        return false;
+    }
+    mDefenseTargetFrames++;
     if (mDefenseFrames == 0)
     {
         BotDecision("f=%d self defence: hp %d, fighting ped #%d (%s) at %.1f with weapon %d ammo %d", mFrame, pl.hp, target->id, WorldModel_OccupationName(target->occupation), target->dist, pl.weapon, pl.ammo);

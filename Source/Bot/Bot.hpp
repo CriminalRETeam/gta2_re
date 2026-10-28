@@ -127,6 +127,8 @@ class Bot : public BotObject
     float mStepTiles;    // paused: tiles of travel still to run (0 none)
     float mStepX, mStepY;
     int mStepRun;
+    s32 mDefenseTargetId;     // the ped self defence is fighting
+    s32 mDefenseTargetFrames; // and for how long
     bool mPaused;        // the game's logic is held: the world stands still, the picture and the window go on
     bool mDrawPath;      // draw the route, aim point and steering on the game view
     bool mPauseOnRoute;  // pause whenever a drive route has been planned, to look at its picture

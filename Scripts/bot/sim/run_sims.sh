@@ -19,6 +19,8 @@ g++ -O1 -Wall -std=c++11 -I$SRC -o drop_off_sim drop_off_sim.cpp $SRC/DropOff.cp
 g++ -O1 -Wall -std=c++11 -I$SRC -o jam_switch_sim jam_switch_sim.cpp $SRC/JamSwitch.cpp
 g++ -O1 -Wall -std=c++11 -I$SRC -o car_intercept_sim car_intercept_sim.cpp $SRC/CarIntercept.cpp
 g++ -O1 -Wall -std=c++11 -I$SRC -o car_pick_sim car_pick_sim.cpp $SRC/CarPickRule.cpp $SRC/CarIntercept.cpp
+g++ -O1 -Wall -std=c++11 -I$SRC -o self_defence_sim self_defence_sim.cpp $SRC/SelfDefence.cpp
+g++ -O1 -Wall -std=c++11 -I$SRC -o horn_sim horn_sim.cpp $SRC/Horn.cpp
 g++ -O1 -Wall -std=c++11 -I$SRC -o first_road_sim first_road_sim.cpp $SRC/CarPickRule.cpp $SRC/CarIntercept.cpp
 g++ -O1 -Wall -I$SRC -o grid_route_sim grid_route_sim.cpp $SRC/GridRoute.cpp
 rc=0
@@ -38,6 +40,8 @@ rc=0
 ./jam_switch_sim || rc=1
 ./car_intercept_sim || rc=1
 ./car_pick_sim || rc=1
+./self_defence_sim || rc=1
+./horn_sim || rc=1
 ./first_road_sim || rc=1
 ./grid_route_sim || rc=1
 exit $rc

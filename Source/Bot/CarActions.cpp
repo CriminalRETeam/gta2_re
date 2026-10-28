@@ -1,6 +1,7 @@
 #include "CarActions.hpp"
 #include "CarIntercept.hpp"
 #include "DropOff.hpp"
+#include "Horn.hpp"
 #include "JamSwitch.hpp"
 #include "NavFoot.hpp"
 #include "WalkCarJump.hpp"
@@ -1773,6 +1774,32 @@ Action::Status DriveAction::Step(BotContext& ctx)
     else if (mSpeed > cap * 1.5f + 0.01f)
     {
         ctx.input |= input_bit::Backward;
+    }
+
+    // A pedestrian in the way ahead flees from the horn: bursts, unless the aim is to run them down
+    {
+        const float hh = (ctx.car.sign * pl.rot_deg + ctx.car.offset) * 3.14159265f / 180.0f;
+        const float hfx = sinf(hh);
+        const float hfy = -cosf(hh);
+        HornIn horn;
+        horn.ped_ahead = false;
+        horn.ped_dist = 0.0f;
+        horn.running_over = mChase;
+        for (int i = 0; i < ctx.world->ped_count; i++)
+        {
+            const WorldModel::PedInfo& p = ctx.world->peds[i];
+            const float along = (p.x - pl.x) * hfx + (p.y - pl.y) * hfy;
+            const float side = (p.x - pl.x) * -hfy + (p.y - pl.y) * hfx;
+            if (!p.dead && !p.in_car && !p.cop && along > 0.0f && along < kHornFar && side > -1.6f && side < 1.6f && (!horn.ped_ahead || along < horn.ped_dist))
+            {
+                horn.ped_ahead = true;
+                horn.ped_dist = along;
+            }
+        }
+        if (Horn_Press(horn, ctx.frame))
+        {
+            ctx.input |= input_bit::Special1;
+        }
     }
 
     if ((ctx.frame - ctx.action_start_frame) % 10 == 0)
