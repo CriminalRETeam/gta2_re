@@ -515,6 +515,31 @@ static int Drive_CollectCars(BotContext& ctx, SteerCar* out)
     return n;
 }
 
+static int sRampZ = 2;
+// 0 none, else the axis of the ramp the tile is on or one of the two tiles before it (1 along x, 2 along y), plus 4 on the ramp itself
+static int Drive_RampZone(void*, float x, float y)
+{
+    const int tx = static_cast<int>(x);
+    const int ty = static_cast<int>(y);
+    const int here = WorldModel::SlopeAxisAt(tx, ty, sRampZ);
+    if (here)
+    {
+        return here | 4;
+    }
+    for (int k = -2; k <= 2; k++)
+    {
+        if (k != 0 && WorldModel::SlopeAxisAt(tx, ty + k, sRampZ) == 2)
+        {
+            return 2;
+        }
+        if (k != 0 && WorldModel::SlopeAxisAt(tx + k, ty, sRampZ) == 1)
+        {
+            return 1;
+        }
+    }
+    return 0;
+}
+
 static bool Drive_EdgeOk(void* user, int x, int y, int nx, int ny)
 {
     return static_cast<NavCar*>(user)->EdgeOpen(x, y, nx, ny);
@@ -1399,6 +1424,8 @@ Action::Status DriveAction::Step(BotContext& ctx)
         LocalPlanWorld lw;
         lw.solid = Drive_Solid;
         lw.edge_ok = Drive_EdgeOk;
+        sRampZ = static_cast<int>(pl.z + 0.5f);
+        lw.ramp_zone = Drive_RampZone;
         lw.step_cost = Drive_LaneCost;
         lw.user = ctx.road;
         lw.cars = lcars;
@@ -1475,6 +1502,8 @@ Action::Status DriveAction::Step(BotContext& ctx)
         {
             float look = 4.0f + mSpeed * 40.0f;
             look = look > 12.0f ? 12.0f : look;
+            sRampZ = static_cast<int>(pl.z + 0.5f);
+            look = LocalPlan_RampLook(mLocal, pl.x, pl.y, look, Drive_RampZone, NULL); // up a ramp straight, not cutting its top corner
             LocalPlan_AimPoint(mLocal, pl.x, pl.y, look, &aim_x, &aim_y);
             local_ok = true;
         }
@@ -1680,8 +1709,11 @@ Action::Status DriveAction::Step(BotContext& ctx)
         const float hx = sinf(heading);
         const float hy = -cosf(heading);
         const float reach = 3.0f + mSpeed * 50.0f;
+        SteerCar route_cars[WorldModel::kMaxCars];
+        const int route_car_n = Drive_CollectCars(ctx, route_cars);
         float first_obstacle = -1.0f;
         bool obstacle_is_ped = false;
+        bool obstacle_is_car = false;
         for (float d = 1.2f; d <= reach && first_obstacle < 0.0f; d += 0.5f)
         {
             // along the route being driven when there is one (the heading ray ran into a police car the route goes round: the car
@@ -1704,6 +1736,16 @@ Action::Status DriveAction::Step(BotContext& ctx)
                     obstacle_is_ped = true;
                 }
             }
+            // a car that will be on the route when we get there (moving across or along it, or standing on it): slow down to let it by
+            // or go behind it, not into it
+            for (int i = 0; i < route_car_n && !hit; i++)
+            {
+                if (LocalPlan_CarInWayAt(route_cars[i], sx, sy, d / (mSpeed > 0.05f ? mSpeed : 0.05f), own_hw))
+                {
+                    hit = true;
+                    obstacle_is_car = true;
+                }
+            }
             // a police car is no use to bump: it brings the wanted level
             for (int i = 0; i < ctx.world->car_count && !hit; i++)
             {
@@ -1723,7 +1765,7 @@ Action::Status DriveAction::Step(BotContext& ctx)
             // the speed that still lets the car stop before the obstacle: none inside 2.2 tiles
             float allowed = (first_obstacle - 1.4f) * 0.06f;
             allowed = allowed < 0.0f ? 0.0f : allowed;
-            if (first_obstacle > 1.9f && allowed < 0.03f)
+            if ((first_obstacle > 1.9f || obstacle_is_car) && allowed < 0.03f)
             {
                 allowed = 0.03f; // keep creeping: stopping dead in front of every kerb and corner is what makes it crawl
             }

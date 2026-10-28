@@ -109,10 +109,26 @@ static bool EdgeCb(void*, int x, int y, int nx, int ny)
     return !across || y == 40;
 }
 
+// a ramp up the alley: tiles (160,46) and (160,47) are the ramp (axis along y), (160,44), (160,45), (160,48), (160,49) lead to it
+static int RampCb(void*, float x, float y)
+{
+    if (static_cast<int>(x) != 160)
+    {
+        return 0;
+    }
+    const int ty = static_cast<int>(y);
+    if (ty == 46 || ty == 47)
+    {
+        return 2 | 4;
+    }
+    return (ty >= 44 && ty <= 49) ? 2 : 0;
+}
+
 static LocalPlanWorld World(const Grid& g, const std::vector<SteerCar>& cars, bool lanes)
 {
     LocalPlanWorld w;
     w.edge_ok = NULL;
+    w.ramp_zone = NULL;
     w.solid = SolidCb;
     w.step_cost = lanes ? LaneCost : NULL;
     w.user = const_cast<Grid*>(&g);
@@ -346,6 +362,81 @@ int main()
             }
         }
         Check("wall between columns: the route crosses at the ramp, not through the wall", crosses_at_ramp, "no route or it goes through the wall");
+    }
+    // 7e. the foot of a ramp with the route turning right at its top: the aim point stops at the top of the ramp, not past the corner
+    {
+        LocalPlanOut p;
+        memset(&p, 0, sizeof(p));
+        p.found = true;
+        p.count = 4;
+        p.x[0] = 160.7f; p.y[0] = 48.3f;
+        p.x[1] = 160.5f; p.y[1] = 48.5f;
+        p.x[2] = 160.5f; p.y[2] = 45.5f;
+        p.x[3] = 165.5f; p.y[3] = 45.5f;
+        const float l = LocalPlan_RampLook(p, 160.7f, 48.3f, 8.0f, RampCb, NULL);
+        float ax = 0.0f, ay = 0.0f;
+        LocalPlan_AimPoint(p, 160.7f, 48.3f, l, &ax, &ay);
+        Check("foot of a ramp: aims at the top of it, not past the corner", l < 4.5f && ax < 161.0f, "the aim point cuts the corner");
+        LocalPlanOut q;
+        memset(&q, 0, sizeof(q));
+        q.found = true;
+        q.count = 2;
+        q.x[0] = 140.5f; q.y[0] = 60.5f;
+        q.x[1] = 150.5f; q.y[1] = 60.5f;
+        const float far_look = LocalPlan_RampLook(q, 141.5f, 60.5f, 2.0f, RampCb, NULL);
+        Check("far from a ramp the look distance is untouched", far_look == 2.0f);
+    }
+    // 7e2. coming at the alley from the side: the aim point holds at the approach (on the middle line of the ramp) until the car is lined up
+    {
+        LocalPlanOut p;
+        memset(&p, 0, sizeof(p));
+        p.found = true;
+        p.count = 4;
+        p.x[0] = 164.0f; p.y[0] = 52.5f;
+        p.x[1] = 160.5f; p.y[1] = 52.5f;
+        p.x[2] = 160.5f; p.y[2] = 45.5f;
+        p.x[3] = 165.5f; p.y[3] = 45.5f;
+        const float l = LocalPlan_RampLook(p, 164.0f, 52.5f, 12.0f, RampCb, NULL);
+        float ax = 0.0f, ay = 0.0f;
+        LocalPlan_AimPoint(p, 164.0f, 52.5f, l, &ax, &ay);
+        Check("coming at a ramp from the side: aims at its approach, on its middle line", fabsf(ax - 160.5f) < 0.1f && ay > 49.0f, "the aim point runs on past the approach");
+    }
+    // 7e3. lines over a ramp and the two tiles before it run along its axis, in the middle: no corner cut into the alley
+    {
+        Grid g;
+        g.x0 = 140; g.y0 = 30; g.w = 40; g.h = 40;
+        g.cell.assign(g.w * g.h, 'F');
+        LocalPlanWorld w = World(g, none, false);
+        w.ramp_zone = RampCb;
+        LocalPlanOut p;
+        const bool ok = LocalPlan_Find(w, 164.5f, 52.5f, 270.0f, 160.5f, 44.5f, &p);
+        bool lined = ok;
+        for (int i = 0; i + 1 < p.count; i++)
+        {
+            const float sx = p.x[i + 1] - p.x[i];
+            const float sy = p.y[i + 1] - p.y[i];
+            const float sl = sqrtf(sx * sx + sy * sy);
+            for (float t = 0.0f; t < 1.0f && sl > 0.01f; t += 0.02f)
+            {
+                const float qx = p.x[i] + sx * t;
+                const float qy = p.y[i] + sy * t;
+                if (RampCb(NULL, qx, qy) && (fabsf(sx / sl) > 0.12f || fabsf(qx - 160.5f) > 0.3f))
+                {
+                    lined = false;
+                }
+            }
+        }
+        Check("a route up a ramp is lined up along it for the two tiles before and over it", lined, "the route cuts the corner into the ramp");
+    }
+    // 7f. a car that will be on the route when we get there is in the way; one that has gone by is not
+    {
+        SteerCar crossing = MakeCar(165.0f, 51.0f, 0.0f, -0.05f); // crossing north to south... moving up the screen
+        crossing.vy = 0.05f;                                       // moving down the screen (y grows), 20 frames to the route at y=52
+        Check("a car crossing the route in time is in the way", LocalPlan_CarInWayAt(crossing, 165.0f, 52.0f, 20.0f, 0.2f));
+        Check("the same car, we are there at once, is not yet", !LocalPlan_CarInWayAt(crossing, 165.0f, 52.0f, 0.0f, 0.2f));
+        Check("the same car, we are there much later, has gone by", !LocalPlan_CarInWayAt(crossing, 165.0f, 52.0f, 80.0f, 0.2f));
+        SteerCar still = MakeCar(165.0f, 52.0f, 0.0f, 0.0f);
+        Check("a standing car on the route is in the way", LocalPlan_CarInWayAt(still, 165.0f, 52.0f, 30.0f, 0.2f));
     }
     // 8. the road shut by a row of standing cars with no way round: a route through the cheapest gap, not "no route"
     {

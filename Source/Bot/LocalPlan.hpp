@@ -25,6 +25,10 @@ struct LocalPlanWorld
     // may the car go from tile (x, y) to its neighbour (nx, ny)? False for a wall or a step up between them (the whole-map route
     // honours these, so the detailed one has to). May be NULL
     bool (*edge_ok)(void* user, int x, int y, int nx, int ny);
+    // 0 for a tile of no consequence, else the axis of the ramp it is on or leads to (1 along x, 2 along y) plus 4 when it is a ramp tile
+    // itself and not only one of the two tiles before it. A line over such a tile must run along the axis, in the middle of the tile.
+    // May be NULL
+    int (*ramp_zone)(void* user, float x, float y);
 };
 
 enum
@@ -79,3 +83,13 @@ void LocalPlan_RouteAhead(const float* wx, const float* wy, int n, int next, flo
 // (within max_off tiles of) a later leg, as when the route jogs aside and back and the car went straight on. Looks at most four
 // corners on
 int LocalPlan_RouteProgress(const float* wx, const float* wy, int n, int next, float x, float y, float max_off);
+
+// A ramp is taken straight along its axis, lined up two tiles before it: the aim point (pure pursuit, `look` tiles along the path) must
+// not run on past the place the path comes to the ramp's approach until the car is in it, nor cut the corner at its top while the car
+// is on it. Returns the look distance to use: `look`, or less when the path ahead runs over slope tiles
+// (is_slope says whether the tile at a point is one) and then leaves them, so the car aims at the end of the ramp, not past it
+float LocalPlan_RampLook(const LocalPlanOut& p, float x, float y, float look, int (*ramp_zone)(void* user, float x, float y), void* user);
+
+// Is a moving or standing car going to be in the way at a point of our route? (px, py) is the point, `frames` how long until we are
+// there. The car is taken to carry on at its speed. True when its box, grown by our half width, covers the point then
+bool LocalPlan_CarInWayAt(const SteerCar& car, float px, float py, float frames, float own_hw);

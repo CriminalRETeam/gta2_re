@@ -154,6 +154,19 @@ bool LineOpen(const LocalPlanWorld& w, int x0, int y0, float ax, float ay, float
             {
                 return false;
             }
+            if (side == 0 && w.ramp_zone)
+            {
+                // a ramp, or the two tiles before it: along its axis, in the middle of the tile
+                const int zone = w.ramp_zone(w.user, px, py) & 3;
+                if (zone == 2 && (fabsf(ux) > 0.12f || fabsf(px - floorf(px) - 0.5f) > 0.3f))
+                {
+                    return false;
+                }
+                if (zone == 1 && (fabsf(uy) > 0.12f || fabsf(py - floorf(py) - 0.5f) > 0.3f))
+                {
+                    return false;
+                }
+            }
         }
     }
     return true;
@@ -736,4 +749,46 @@ int LocalPlan_RouteProgress(const float* wx, const float* wy, int n, int next, f
         }
     }
     return best;
+}
+
+float LocalPlan_RampLook(const LocalPlanOut& p, float x, float y, float look, int (*ramp_zone)(void* user, float x, float y), void* user)
+{
+    if (!p.found || p.count < 2 || !ramp_zone)
+    {
+        return look;
+    }
+    float bx = 0.0f;
+    float by = 0.0f;
+    // the car already in the approach or on the ramp? Then only the end of the ramp limits the aim
+    LocalPlan_AimPoint(p, x, y, 0.0f, &bx, &by);
+    const bool in_zone = ramp_zone(user, x, y) != 0;
+    bool seen_ramp = false;
+    for (float d = 0.25f; d <= look; d += 0.25f)
+    {
+        LocalPlan_AimPoint(p, x, y, d, &bx, &by);
+        const int z = ramp_zone(user, bx, by);
+        if (!in_zone && z != 0 && !seen_ramp)
+        {
+            // the path comes to a ramp's approach: aim at where it does (on the middle line of the ramp), not past it
+            return d;
+        }
+        if (z & 4)
+        {
+            seen_ramp = true;
+        }
+        else if (seen_ramp)
+        {
+            return d + 0.3f < look ? d + 0.3f : look;
+        }
+    }
+    return look;
+}
+
+bool LocalPlan_CarInWayAt(const SteerCar& car, float px, float py, float frames, float own_hw)
+{
+    float f = frames < 0.0f ? 0.0f : (frames > 90.0f ? 90.0f : frames);
+    SteerBox b = car.box;
+    b.cx = car.x + car.vx * f;
+    b.cy = car.y + car.vy * f;
+    return SteerBox_Contains(b, px, py, own_hw + 0.1f);
 }

@@ -225,6 +225,7 @@ static Result Run(const Grid& g, float sx, float sy, float heading, const std::v
                 const float tx = rxs[rn - 1], ty = rys[rn - 1];
                 LocalPlanWorld lw;
                 lw.edge_ok = NULL;
+                lw.ramp_zone = NULL;
                 lw.solid = SolidCb;
                 lw.step_cost = NULL;
                 lw.user = const_cast<Grid*>(&g);
