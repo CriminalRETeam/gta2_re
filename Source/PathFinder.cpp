@@ -892,7 +892,7 @@ fail:
 MATCH_FUNC(0x5552b0)
 bool PathFinder::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos, u8* ypos, u8* zpos, bool bAllowDuringPathCompute)
 {
-    u8 dead_end_count = 0;
+    u8 expanded_count = 0;
     if (field_38_bComputePathInProgress && !bAllowDuringPathCompute)
     {
         return false;
@@ -1044,7 +1044,7 @@ bool PathFinder::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos,
                     if (!PathFinder::ProcessGridCell_5548C0())
                     {
                         ++field_16_start_cost;
-                        if (++dead_end_count <= 6 || bAllowDuringPathCompute)
+                        if (++expanded_count <= 6 || bAllowDuringPathCompute)
                         {
                             if (!field_18_bSearching)
                             {
