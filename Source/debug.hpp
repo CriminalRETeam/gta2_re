@@ -96,4 +96,4 @@ EXTERN_GLOBAL(bool, gDo_show_counter_67D6E6);
 EXTERN_GLOBAL(bool, bShow_all_arrows_67D6E7);
 EXTERN_GLOBAL(bool, bDo_kill_phones_on_answer_67D6E8);
 EXTERN_GLOBAL(bool, byte_67D654);
-EXTERN_GLOBAL(bool, byte_67D56B);
+EXTERN_GLOBAL(bool, gCheatJailCardSmgRespect_67D56B);

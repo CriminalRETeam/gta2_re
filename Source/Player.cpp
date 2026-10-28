@@ -2857,7 +2857,7 @@ void Player::ApplyCheats_56A490()
         Player::CollectPowerUp_564D60(power_up_indices::DoubleDamage_7);
     }
 
-    if (byte_67D56B)
+    if (gCheatJailCardSmgRespect_67D56B)
     {
         Player::CollectPowerUp_564D60(power_up_indices::JailCard_4);
         Player::AddWeaponWithAmmo_564960(weapon_type::smg, 50u);
