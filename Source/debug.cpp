@@ -167,12 +167,12 @@ void Debug::Init_4ABBD0()
     bDo_release_replay_67D4EB = gRegistry_6FF968.Debug_Setting_Exists_586E20("do_release_replay");
     bDo_blood_67D5C5 = gRegistry_6FF968.Debug_Setting_Exists_586E20("do_blood");
     bDo_3d_sound_67D6C2 = gRegistry_6FF968.Sound_Setting_Exists_586A70("do_3d_sound");
-    bIsFrench_67D53C = HaveOnlyFrenchGtx_4AC200();
+    bIsFrench_67D53C = HaveOnlyFrenchGxt_4AC200();
     bShow_player_names_67D54C = gRegistry_6FF968.Get_Network_Setting_587690("show_player_names", 1) != 0;
 }
 
 MATCH_FUNC(0x4AC200)
-bool Debug::HaveOnlyFrenchGtx_4AC200()
+bool Debug::HaveOnlyFrenchGxt_4AC200()
 {
     bool bEGxtExists = false;
     bool bFGxtExists = false;

@@ -7,7 +7,7 @@ struct Debug
 {
     EXPORT void Init_4ABBD0();
 
-    EXPORT bool HaveOnlyFrenchGtx_4AC200();
+    EXPORT bool HaveOnlyFrenchGxt_4AC200();
 };
 EXTERN_GLOBAL(Debug, gDebug_67D52C);
 
