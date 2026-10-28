@@ -20,6 +20,7 @@ float sCost[kStateCount];
 int sParent[kStateCount];
 unsigned char sState[kStateCount]; // 0 untouched, 1 open, 2 closed
 unsigned char sBlocked[kW * kH];   // 1 closed (solid or a standing car), 2 closed by the clearance rule
+unsigned char sDyn[kW * kH];       // a standing car, a pedestrian or a police car is on or beside the tile (cars and pedestrians, not walls)
 float sExtra[kW * kH];             // cost of the tile itself: beside a wall, on a moving car's track
 unsigned short sOcc[kW * kH];      // bit n: a moving car is over the tile n * 10 frames from now
 const int kTimeBuckets = 10;
@@ -233,6 +234,128 @@ bool ChordOpen(const LocalPlanWorld& w, int x0, int y0, float ax, float ay, floa
     return true;
 }
 
+// The global route as the detailed route: the corner points from the car's place on its leg on, the car joining the leg within 4 tiles
+// when it is off it. Used as it is when nothing in the way (no wall, no standing car or pedestrian, no moving car over a tile when we
+// would get there); the planner below only goes round what is in the way. Writes the vertices to ox/oy, returns false when the route
+// cannot be driven as it is
+bool FollowRoute(const LocalPlanWorld& w, int x0, int y0, float sx, float sy, float speed, float* ox, float* oy, int* on)
+{
+    if (w.route_n < 2)
+    {
+        return false;
+    }
+    float vx[kLocalRouteMax + 4];
+    float vy[kLocalRouteMax + 4];
+    int vn = 0;
+    vx[vn] = sx;
+    vy[vn] = sy;
+    vn++;
+    const float off = DistToRoute(w, sx, sy);
+    int i = 1;
+    if (off > 0.35f)
+    {
+        // join the leg: a point 4 tiles along the route
+        float cx = w.route_x[0];
+        float cy = w.route_y[0];
+        float remaining = 4.0f;
+        bool merged = false;
+        for (; i < w.route_n && !merged; i++)
+        {
+            const float ex = w.route_x[i] - cx;
+            const float ey = w.route_y[i] - cy;
+            const float el = sqrtf(ex * ex + ey * ey);
+            if (el >= remaining && el > 0.001f)
+            {
+                vx[vn] = cx + ex / el * remaining;
+                vy[vn] = cy + ey / el * remaining;
+                vn++;
+                merged = true;
+                i--; // this leg's far end is still to come
+            }
+            else
+            {
+                remaining -= el;
+                cx = w.route_x[i];
+                cy = w.route_y[i];
+            }
+        }
+        if (!merged)
+        {
+            i = w.route_n - 1; // the route is shorter than 4 tiles: its end
+        }
+    }
+    for (; i < w.route_n && vn < kLocalRouteMax + 4; i++)
+    {
+        vx[vn] = w.route_x[i];
+        vy[vn] = w.route_y[i];
+        vn++;
+    }
+    if (vn < 2)
+    {
+        return false;
+    }
+    // is it clear all along?
+    float d = 0.0f;
+    int prev_tx = static_cast<int>(vx[0]);
+    int prev_ty = static_cast<int>(vy[0]);
+    for (int k = 0; k + 1 < vn; k++)
+    {
+        const float ex = vx[k + 1] - vx[k];
+        const float ey = vy[k + 1] - vy[k];
+        const float el = sqrtf(ex * ex + ey * ey);
+        for (float t = 0.0f; t <= el; t += 0.4f)
+        {
+            const float px = vx[k] + (el > 0.001f ? ex / el * t : 0.0f);
+            const float py = vy[k] + (el > 0.001f ? ey / el * t : 0.0f);
+            const int tx = static_cast<int>(px);
+            const int ty = static_cast<int>(py);
+            const int cx = tx - x0;
+            const int cy = ty - y0;
+            if (cx < 0 || cy < 0 || cx >= kW || cy >= kH || sBlocked[cy * kW + cx])
+            {
+                return false;
+            }
+            if (w.edge_ok && (tx != prev_tx || ty != prev_ty))
+            {
+                if ((tx != prev_tx && !w.edge_ok(w.user, prev_tx, prev_ty, tx, prev_ty)) || (ty != prev_ty && !w.edge_ok(w.user, tx, prev_ty, tx, ty)))
+                {
+                    return false;
+                }
+            }
+            prev_tx = tx;
+            prev_ty = ty;
+            if (w.ramp_zone)
+            {
+                // a ramp or its approach: only along its axis, in the middle of the tile (the car joins the leg before it, not on it)
+                const int zone = w.ramp_zone(w.user, px, py) & 3;
+                const float ux = el > 0.001f ? ex / el : 0.0f;
+                const float uy = el > 0.001f ? ey / el : 0.0f;
+                if ((zone == 2 && (fabsf(ux) > 0.12f || fabsf(px - floorf(px) - 0.5f) > 0.3f)) || (zone == 1 && (fabsf(uy) > 0.12f || fabsf(py - floorf(py) - 0.5f) > 0.3f)))
+                {
+                    return false;
+                }
+            }
+            // a car, a pedestrian: not on or beside the tile (the tile marks already include our own width); a moving car: not over the
+            // tile at the time we would get there
+            const int i2 = cy * kW + cx;
+            int bucket = static_cast<int>((d + t) / speed / 10.0f);
+            bucket = bucket > kTimeBuckets - 1 ? kTimeBuckets - 1 : bucket;
+            if (sDyn[i2] || (sOcc[i2] & (1 << bucket)))
+            {
+                return false;
+            }
+        }
+        d += el;
+    }
+    for (int k = 0; k < vn; k++)
+    {
+        ox[k] = vx[k];
+        oy[k] = vy[k];
+    }
+    *on = vn;
+    return true;
+}
+
 struct PlanCtx
 {
     const LocalPlanWorld* w;
@@ -287,7 +410,7 @@ float PlanStep(void* user, int x, int y, int dir, float g)
                 off = d < off ? d : off;
             }
             off = off > 6.0f ? 6.0f : off;
-            cost += 0.4f * off; // hugs the global route: joins it within a few tiles and stays in its lane
+            cost += 0.6f * off; // hugs the global route: joins it within a few tiles and stays in its lane
         }
         else if (c->ll > 1.0f)
         {
@@ -359,6 +482,7 @@ bool LocalPlan_Find(const LocalPlanWorld& w, float sx, float sy, float heading_d
     }
     memset(sExtra, 0, sizeof(sExtra));
     memset(sOcc, 0, sizeof(sOcc));
+    memset(sDyn, 0, sizeof(sDyn));
     for (int cy = 0; cy < kH; cy++)
     {
         for (int cx = 0; cx < kW; cx++)
@@ -468,6 +592,7 @@ bool LocalPlan_Find(const LocalPlanWorld& w, float sx, float sy, float heading_d
                             out->car_closed_y[out->car_closed_count] = static_cast<short>(y0 + cy);
                             out->car_closed_count++;
                         }
+                        sDyn[i] = 1;
                         if (sExtra[i] < 60.0f)
                         {
                             sExtra[i] += 60.0f;
@@ -525,6 +650,43 @@ bool LocalPlan_Find(const LocalPlanWorld& w, float sx, float sy, float heading_d
         }
     }
 
+    // First choice: the global route as it is, when nothing is in its way. Only then is there a search for a way round
+    int n = 0;
+    bool followed = false;
+    float px[kLocalPlanMax * 4];
+    float py[kLocalPlanMax * 4];
+    int pn = 0;
+    {
+        const float follow_speed = (w.own_speed > 0.02f && w.own_speed < 1.0f) ? w.own_speed : 0.1f;
+        float fx[kLocalRouteMax + 4];
+        float fy[kLocalRouteMax + 4];
+        int fn = 0;
+        if (FollowRoute(w, x0, y0, sx, sy, follow_speed, fx, fy, &fn))
+        {
+            for (int i = 0; i < fn && pn < kLocalPlanMax * 4; i++)
+            {
+                px[pn] = fx[i];
+                py[pn] = fy[i];
+                pn++;
+            }
+            for (int cy = 0; cy < kH && out->moving_count < 96; cy++)
+            {
+                for (int cx = 0; cx < kW && out->moving_count < 96; cx++)
+                {
+                    if (sOcc[cy * kW + cx] & 0x0F)
+                    {
+                        out->moving_x[out->moving_count] = static_cast<short>(x0 + cx);
+                        out->moving_y[out->moving_count] = static_cast<short>(y0 + cy);
+                        out->moving_count++;
+                    }
+                }
+            }
+            out->partial = false;
+            followed = true;
+        }
+    }
+    if (!followed)
+    {
     // The search is the square grid route (GridRoute): a state is a tile and the way the car went to get there. Tiles cost what
     // the maps above say; a moving car costs on the tiles it will be over when we get there
     PlanCtx cx_;
@@ -580,9 +742,6 @@ bool LocalPlan_Find(const LocalPlanWorld& w, float sx, float sy, float heading_d
     // The square route is what the car is to follow; it is pulled straight where the way is open with room (a path of 90 degree
     // steps would have the wheel hunting at each jog): from each kept point on to the furthest one the straight line to
     // reaches with room all along
-    float px[kLocalPlanMax * 4];
-    float py[kLocalPlanMax * 4];
-    int pn = 0;
     px[pn] = sx;
     py[pn] = sy;
     pn++;
@@ -592,7 +751,8 @@ bool LocalPlan_Find(const LocalPlanWorld& w, float sx, float sy, float heading_d
         py[pn] = static_cast<float>(gr.y[i]) + 0.5f;
         pn++;
     }
-    int n = 0;
+    }
+    n = 0;
     out->x[n] = px[0];
     out->y[n] = py[0];
     n++;

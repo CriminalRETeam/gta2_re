@@ -201,6 +201,8 @@ static Result Run(const Grid& g, float sx, float sy, float heading, const std::v
                 next_plan = 0;
             }
             LocalPlanWorld lw0;
+            lw0.edge_ok = NULL;
+            lw0.ramp_zone = NULL;
             lw0.solid = SolidCb;
             lw0.step_cost = NULL;
             lw0.user = const_cast<Grid*>(&g);

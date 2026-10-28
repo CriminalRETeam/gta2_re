@@ -535,6 +535,61 @@ int main()
         }
         Check("a pedestrian in the lane: the route passes him with 0.7 tiles clear", ok && least > 0.7f, "the route goes through or beside him");
     }
+    // 7k. nothing in the way: the detailed route IS the global route (its own square legs, the car joining it within 4 tiles); a car or a
+    // pedestrian on it: only then a way round is searched
+    {
+        Grid g;
+        g.x0 = 0; g.y0 = 0; g.w = 80; g.h = 60;
+        g.cell.assign(g.w * g.h, 'F');
+        const float rx[4] = {20.5f, 20.5f, 40.5f, 40.5f};
+        const float ry[4] = {50.5f, 30.5f, 30.5f, 20.5f};
+        LocalPlanWorld w = World(g, none, false);
+        w.route_x = rx;
+        w.route_y = ry;
+        w.route_n = 4;
+        LocalPlanOut p;
+        bool ok = LocalPlan_Find(w, 20.5f, 50.5f, 0.0f, 40.5f, 20.5f, &p);
+        float worst = 0.0f;
+        for (int i = 0; i + 1 < p.count; i++)
+        {
+            for (float t = 0.0f; t <= 1.0f; t += 0.05f)
+            {
+                const float qx = p.x[i] + (p.x[i + 1] - p.x[i]) * t;
+                const float qy = p.y[i] + (p.y[i + 1] - p.y[i]) * t;
+                // distance to the route legs
+                float d = 1e9f;
+                for (int k = 0; k + 1 < 4; k++)
+                {
+                    const float ex = rx[k + 1] - rx[k], ey = ry[k + 1] - ry[k];
+                    float u = ((qx - rx[k]) * ex + (qy - ry[k]) * ey) / (ex * ex + ey * ey);
+                    u = u < 0.0f ? 0.0f : (u > 1.0f ? 1.0f : u);
+                    const float dx = rx[k] + ex * u - qx, dy = ry[k] + ey * u - qy;
+                    d = sqrtf(dx * dx + dy * dy) < d ? sqrtf(dx * dx + dy * dy) : d;
+                }
+                worst = d > worst ? d : worst;
+            }
+        }
+        Check("nothing in the way: the detailed route runs on the global route", ok && !p.partial && worst < 0.75f, "it leaves the global route (a corner may be cut by a chord)");
+        // a standing car on the second leg: a way round, clear of it
+        std::vector<SteerCar> cars;
+        cars.push_back(MakeCar(20.5f, 40.5f, 0.0f, 0.0f));
+        LocalPlanWorld w2 = World(g, cars, false);
+        w2.route_x = rx;
+        w2.route_y = ry;
+        w2.route_n = 4;
+        ok = LocalPlan_Find(w2, 20.5f, 50.5f, 0.0f, 40.5f, 20.5f, &p);
+        float least = 1e9f;
+        for (int i = 0; i + 1 < p.count; i++)
+        {
+            for (float t = 0.0f; t <= 1.0f; t += 0.05f)
+            {
+                const float qx = p.x[i] + (p.x[i + 1] - p.x[i]) * t - 20.5f;
+                const float qy = p.y[i] + (p.y[i + 1] - p.y[i]) * t - 40.5f;
+                least = sqrtf(qx * qx + qy * qy) < least ? sqrtf(qx * qx + qy * qy) : least;
+            }
+        }
+        Check("a car on the global route: a way round it, 1 tile clear", ok && least > 1.0f, "the route goes through or against the car");
+    }
     // 7e. the foot of a ramp with the route turning right at its top: the aim point stops at the top of the ramp, not past the corner
     {
         LocalPlanOut p;
@@ -599,6 +654,38 @@ int main()
             }
         }
         Check("a route up a ramp is lined up along it for the two tiles before and over it", lined, "the route cuts the corner into the ramp");
+    }
+    // 7e4. the car is off the global route at the side of a ramp's alley: it does not join the route on the approach by a diagonal
+    {
+        Grid g;
+        g.x0 = 140; g.y0 = 30; g.w = 40; g.h = 40;
+        g.cell.assign(g.w * g.h, 'F');
+        LocalPlanWorld w = World(g, none, false);
+        w.ramp_zone = RampCb;
+        const float rx[2] = {160.5f, 160.5f};
+        const float ry[2] = {52.5f, 40.5f};
+        w.route_x = rx;
+        w.route_y = ry;
+        w.route_n = 2;
+        LocalPlanOut p;
+        const bool ok = LocalPlan_Find(w, 163.5f, 52.5f, 270.0f, 160.5f, 40.5f, &p);
+        bool lined = ok;
+        for (int i = 0; i + 1 < p.count; i++)
+        {
+            const float sx = p.x[i + 1] - p.x[i];
+            const float sy = p.y[i + 1] - p.y[i];
+            const float sl = sqrtf(sx * sx + sy * sy);
+            for (float t = 0.0f; t < 1.0f && sl > 0.01f; t += 0.02f)
+            {
+                const float qx = p.x[i] + sx * t;
+                const float qy = p.y[i] + sy * t;
+                if (RampCb(NULL, qx, qy) && (fabsf(sx / sl) > 0.12f || fabsf(qx - 160.5f) > 0.3f))
+                {
+                    lined = false;
+                }
+            }
+        }
+        Check("off the route beside a ramp: lined up before the ramp, on its middle line", lined, "the route runs diagonally over the ramp's approach");
     }
     // 7f. a car that will be on the route when we get there is in the way; one that has gone by is not
     {
