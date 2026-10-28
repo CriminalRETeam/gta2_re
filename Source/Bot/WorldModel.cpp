@@ -1097,6 +1097,12 @@ bool WorldModel::LowWallAt(int ix, int iy)
     {
         return false;
     }
+    // a roof (a building that arches over a road is one: the wall faces on its top and bottom are the building's, and BuildingAt
+    // knows about the road under it) is not a low wall
+    if (IsRoofBlock(b, z))
+    {
+        return false;
+    }
     // a low building, hedge or wall: the block itself has walls on its faces (the roofs, from height 3, are BuildingAt's).
     // Not on a slope: the wall faces of a ramp are its side rails, and a car or a pedestrian goes up along the ramp
     if ((b->field_B_slope_type >> 2) == 0 && ((b->field_0_left | b->field_2_right | b->field_4_top | b->field_6_bottom) & 0x400) != 0 && !IsWaterBlock(b))

@@ -311,6 +311,16 @@ def find_block(blocks, addr):
     return None
 
 
+def count_resets(out_dir):
+    """How many times the bot was rewound because it was stuck (a log line with RESET). There is always a way to progress, so a
+    rewind means the driving or walking got something wrong: a run that needed one did not pass."""
+    try:
+        text = (Path(out_dir) / "bot_log.txt").read_text(errors="replace")
+    except OSError:
+        return 0
+    return sum(1 for line in text.splitlines() if " RESET " in line)
+
+
 def read_report(out_dir):
     path = out_dir / "bot_report.txt"
     if not path.exists():

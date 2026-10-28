@@ -23,7 +23,11 @@ def one(root, target, seed):
     botlib.run_game(root, args, timeout=900, log=out / "wine_stdout.txt")
     rep = botlib.read_report(out)
     frames = int(rep.get("frame", 0) or 0)
-    return target, seed, rep.get("result", "NONE"), frames, rep.get("detail", "")[:70]
+    resets = botlib.count_resets(out)
+    result = rep.get("result", "NONE")
+    if result == "PASS" and resets:
+        result = "RESET"  # reached it only by being rewound after getting stuck
+    return target, seed, result, frames, f"{resets} resets; " + rep.get("detail", "")[:60] if resets else rep.get("detail", "")[:70]
 
 
 def main():

@@ -44,10 +44,13 @@ def run_entry(root, entry, do_replay, seed=1):
     result = report.get("result", "NONE")
     condition = report.get("condition", "")
     ok = result == entry["expect"] and (not entry.get("condition") or condition == entry["condition"])
+    resets = botlib.count_resets(out)
+    if ok and result == "PASS" and resets and not entry.get("allow_resets"):
+        ok = False  # it passed by being rewound: a stuck walk or drive is a failure to fix, not to retry away
     detail = report.get("detail", "")
     if rep.exists():
         shutil.copy2(rep, out / "bot_run.rep")
-    line = f"{name:22s} seed={seed} result={result} expect={entry['expect']}"
+    line = f"{name:22s} seed={seed} result={result} expect={entry['expect']}" + (f" RESETS={resets}" if resets else "")
     if condition:
         line += f" condition={condition}"
     status = "ok" if ok else "MISMATCH"

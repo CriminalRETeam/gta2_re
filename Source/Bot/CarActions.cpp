@@ -452,6 +452,8 @@ static float Drive_RouteLength(float x, float y, const float* wx, const float* w
     return len;
 }
 
+static const float kSolidGoalStop = 6.0f; // tiles: how near a goal inside a building is reached
+static const float kPartialEndNear = 2.0f; // tiles from the end of a partial local route that count as being there
 static const float kBehindCos = -0.17f; // the first waypoint is more than 100 degrees off the nose
 static const float kAheadLead = 4.0f;   // tiles ahead of the nose where the route from the front is started
 static const float kUTurnCost = 12.0f;  // tiles a three point turn is worth
@@ -547,6 +549,12 @@ bool DriveAction::Plan(BotContext& ctx, const char* why)
         mWpX[mWpCount] = mTx;
         mWpY[mWpCount] = mTy;
         mWpCount++;
+    }
+    // A goal inside a building cannot be reached: it is reached when the car is as near as the roads go
+    if (Drive_Solid(NULL, mTx, mTy) && mStopDist < kSolidGoalStop)
+    {
+        BotDecision("f=%d drive plan: the goal (%.0f,%.0f) is inside something solid: reached within %.0f tiles", ctx.frame, mTx, mTy, kSolidGoalStop);
+        mStopDist = kSolidGoalStop;
     }
     mWpIdx = 0;
     mPlanX = pl.x;
@@ -817,7 +825,7 @@ Action::Status DriveAction::Step(BotContext& ctx)
             restore_from = mCk[older];
             restore_frame = mCkFrame[older];
         }
-        BotDecision("f=%d drive STUCK %s; retry %d: speed cap %.2f, waypoint radius %.1f, restore f=%d (%s)", ctx.frame, detail, mRetries, mSpeedCap, mWpRadius, restore_frame, restore_from == ctx.action_snap ? "the start" : "a checkpoint");
+        BotDecision("f=%d RESET drive STUCK %s; retry %d: speed cap %.2f, waypoint radius %.1f, restore f=%d (%s)", ctx.frame, detail, mRetries, mSpeedCap, mWpRadius, restore_frame, restore_from == ctx.action_snap ? "the start" : "a checkpoint");
         restore_from->Restore();
         ctx.world->Observe();
         Plan(ctx, "retry");
@@ -1087,6 +1095,17 @@ Action::Status DriveAction::Step(BotContext& ctx)
             if (!mLocal.found && ctx.frame % 40 == 0)
             {
                 BotDecision("f=%d drive: no detailed route from (%.1f,%.1f) to (%.1f,%.1f): following the waypoints", ctx.frame, pl.x, pl.y, tx, ty);
+            }
+        }
+        if (mLocal.found && mLocal.partial && mLocal.count > 0)
+        {
+            // the route ends at the reachable tile nearest the goal: at its end the car is as near as it gets
+            const float ex = mLocal.x[mLocal.count - 1] - pl.x;
+            const float ey = mLocal.y[mLocal.count - 1] - pl.y;
+            if (ex * ex + ey * ey < kPartialEndNear * kPartialEndNear)
+            {
+                BotDecision("f=%d drive arrived as near as the roads go to (%.1f,%.1f), %.1f tiles off", ctx.frame, mTx, mTy, dist);
+                return Done;
             }
         }
         if (mLocal.found)

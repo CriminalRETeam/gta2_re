@@ -92,6 +92,9 @@ int DirOfHeading(float heading_deg)
     return static_cast<int>(h / 45.0f + 0.5f) % kDirs;
 }
 
+// Tiles nearer the goal that a route to the nearest reachable tile must get
+static const float kMinPartialGain = 4.0f;
+
 float Octile(int dx, int dy)
 {
     const int ax = dx < 0 ? -dx : dx;
@@ -138,6 +141,7 @@ bool LineOpen(int x0, int y0, float ax, float ay, float bx, float by, float half
 bool LocalPlan_Find(const LocalPlanWorld& w, float sx, float sy, float heading_deg, float gx, float gy, LocalPlanOut* out)
 {
     out->found = false;
+    out->partial = false;
     out->count = 0;
     out->car_closed_count = 0;
     // the goal at most 28 tiles off, along the same line
@@ -344,6 +348,11 @@ bool LocalPlan_Find(const LocalPlanWorld& w, float sx, float sy, float heading_d
     const float ll = sqrtf(lx * lx + ly * ly);
     int goal_state = -1;
     int expanded = 0;
+    // the explored tile nearest the goal: where the route ends when the goal itself cannot be reached (it is in a building, or in
+    // a yard walled off from the car)
+    int near_state = start_state;
+    const float start_h = Octile(goal_cx - start_cx, goal_cy - start_cy);
+    float near_h = start_h;
     while (sHeapCount > 0 && expanded < 24000)
     {
         const HeapItem it = HeapPop();
@@ -362,6 +371,12 @@ bool LocalPlan_Find(const LocalPlanWorld& w, float sx, float sy, float heading_d
         {
             goal_state = st;
             break;
+        }
+        const float h_here = Octile(goal_cx - cx, goal_cy - cy);
+        if (h_here < near_h - 0.01f)
+        {
+            near_h = h_here;
+            near_state = st;
         }
         for (int nd = 0; nd < kDirs; nd++)
         {
@@ -415,6 +430,12 @@ bool LocalPlan_Find(const LocalPlanWorld& w, float sx, float sy, float heading_d
                 HeapPush(nc + Octile(goal_cx - nx, goal_cy - ny), ns);
             }
         }
+    }
+    // (only when it gets somewhere: a car walled in with a few tiles of room has no route, not a route to the edge of its pocket)
+    if (goal_state < 0 && near_state != start_state && start_h - near_h >= kMinPartialGain)
+    {
+        goal_state = near_state;
+        out->partial = true;
     }
     if (goal_state < 0)
     {

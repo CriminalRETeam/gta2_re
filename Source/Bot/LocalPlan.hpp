@@ -26,6 +26,7 @@ enum
 struct LocalPlanOut
 {
     bool found;
+    bool partial; // the route ends at the reachable tile nearest the goal, not at the goal
     int count;
     float length; // tiles, along the path
     float x[kLocalPlanMax];

@@ -94,7 +94,7 @@ bool MissionAction::Restart(BotContext& ctx, const char* why)
         return false;
     }
     mRetries++;
-    BotDecision("f=%d mission: %s; retry %d from the mission start (f=%d)", ctx.frame, why, mRetries, ctx.action_start_frame);
+    BotDecision("f=%d RESET mission: %s; retry %d from the mission start (f=%d)", ctx.frame, why, mRetries, ctx.action_start_frame);
     mMissionSnap->Restore();
     ctx.action_snap = mMissionSnap;
     ctx.world->Observe();

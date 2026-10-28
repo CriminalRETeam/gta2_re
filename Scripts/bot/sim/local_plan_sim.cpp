@@ -234,7 +234,7 @@ int main()
         for (int y = 10; y <= 30; y++) { g.cell[y * g.w + 8] = 'B'; g.cell[y * g.w + 39] = 'B'; }
         LocalPlanOut p;
         const bool ok = LocalPlan_Find(World(g, none, false), 20.5f, 20.5f, 90.0f, 50.5f, 20.5f, &p);
-        Check("walled in: reports no route, does not invent one", !ok);
+        Check("walled in: reports no route or a partial one, never a whole one", !ok || p.partial);
     }
     // 8. the road shut by a row of standing cars with no way round: a route through the cheapest gap, not "no route"
     {

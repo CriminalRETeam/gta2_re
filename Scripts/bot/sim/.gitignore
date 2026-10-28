@@ -7,3 +7,4 @@ walk_route_sim
 local_plan_sim
 blast_avoid_sim
 turn_around_sim
+local_plan_real_sim

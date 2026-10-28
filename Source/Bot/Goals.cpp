@@ -2152,7 +2152,7 @@ Action::Status MissionsGoal::Step(BotContext& ctx)
         else
         {
             mFailures++;
-            BotDecision("f=%d missions: phone #%d failed (%s): %s", ctx.frame, mChild->PhoneId(), mChild->fail_condition, mChild->fail_detail);
+            BotDecision("f=%d RESET missions: phone #%d failed (%s): %s", ctx.frame, mChild->PhoneId(), mChild->fail_condition, mChild->fail_detail);
             // the attempt is undone: the world goes back to before it
             if (mSnap)
             {

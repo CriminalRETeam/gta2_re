@@ -13,6 +13,9 @@
 #include <stdio.h>
 #include "BotCompat.hpp"
 
+// Within this many tiles of its target a walk does not jump to get past a snag: a jump overshoots a marker
+static const float kNoJumpNear = 2.0f;
+
 WalkAction::WalkAction(float x, float y, bool follow_arrow, float stop_dist)
     : mTx(x)
     , mTy(y)
@@ -202,6 +205,12 @@ Action::Status WalkAction::Step(BotContext& ctx)
         return Done;
     }
 
+    // Climbing out of a car (or in) takes the ped a while on the spot: that is not being stuck, and a jump from there flies past the
+    // marker the walk is for
+    if (pl.ped_state != 0)
+    {
+        mProgressFrame = ctx.frame;
+    }
     // Follow the path: jump to the node after the one the player stands on, advance when close
     const s32 len = static_cast<s32>(mRoute.Length());
     const s32 px = static_cast<s32>(pl.x);
@@ -331,7 +340,7 @@ Action::Status WalkAction::Step(BotContext& ctx)
         mProgressFrame = ctx.frame;
         return Running;
     }
-    if (ctx.frame - mProgressFrame > 30 && mJumps < 4 && mPathIdx < len)
+    if (ctx.frame - mProgressFrame > 30 && mJumps < 4 && mPathIdx < len && (mTx - pl.x) * (mTx - pl.x) + (mTy - pl.y) * (mTy - pl.y) > kNoJumpNear * kNoJumpNear)
     {
         mJumps++;
         mJumpStart = ctx.frame;
@@ -358,7 +367,7 @@ Action::Status WalkAction::Step(BotContext& ctx)
             return Fail("no_progress", "%s", detail);
         }
         mRetries++;
-        BotDecision("f=%d walk STUCK %s; retry %d: ban tile (%d,%d), restore the action start (f=%d) and replan", ctx.frame, detail, mRetries, blocked.x, blocked.y, ctx.action_start_frame);
+        BotDecision("f=%d RESET walk STUCK %s; retry %d: ban tile (%d,%d), restore the action start (f=%d) and replan", ctx.frame, detail, mRetries, blocked.x, blocked.y, ctx.action_start_frame);
         // Variants: ban more of the area around the blocked tile each time, and stand still for a
         // random time first so that traffic and pedestrians are elsewhere
         const s32 radius = mRetries >= 3 ? 2 : (mRetries >= 2 ? 1 : 0);
