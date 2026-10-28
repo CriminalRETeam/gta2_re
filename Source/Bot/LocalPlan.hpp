@@ -16,6 +16,12 @@ struct LocalPlanWorld
     const SteerCar* cars; // not including our own
     int car_count;
     float own_hl, own_hw;
+    // the global route ahead of the car (corner points): tiles away from it cost, so the detailed route joins it at once and
+    // follows it; with none the line from the start to the goal is used
+    const float* route_x;
+    const float* route_y;
+    int route_n;
+    float own_speed; // tiles per frame now (how long until we reach a tile, for moving cars); 0 for a guess
 };
 
 enum
@@ -48,3 +54,13 @@ void LocalPlan_AimPoint(const LocalPlanOut& p, float x, float y, float look, flo
 // nine tiles of it are left, or when a standing car or a closed tile now lies on the next 14 tiles of it. A path that is
 // still good is kept: planning afresh every few frames moves the aim point about and the wheel with it
 bool LocalPlan_StillGood(const LocalPlanWorld& w, const LocalPlanOut& p, float x, float y);
+
+enum
+{
+    kLocalRouteMax = 24
+};
+
+// The stretch of the global route (corner points wx/wy, the car heading for point `next`) that the detailed route is planned
+// along: the car's place projected onto the leg it is on, then `dist` tiles on. The points are written to route_x/route_y
+// (*route_n of them, the last is the goal)
+void LocalPlan_RouteAhead(const float* wx, const float* wy, int n, int next, float x, float y, float dist, float* route_x, float* route_y, int* route_n);

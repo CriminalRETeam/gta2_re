@@ -2,6 +2,7 @@
 
 #include "types.hpp"
 #include "BotHeap.hpp"
+#include "GridRoute.hpp"
 
 // Driving navigation: A* over drivable tiles (anything that is not a building / high ground),
 // preferring roads, driving with the lane arrows rather than against them, keeping one tile of
@@ -113,6 +114,8 @@ class NavCar : public BotObject
     void BuildClearance();
     bool LineSafe(int x0, int y0, int x1, int y1) const;
     bool Search(int sx, int sy, int tx, int ty, int clearance, bool approximate);
+    static float RouteStep(void* user, int x, int y, int dir, float g);
+    int mSearchClearance;
 
     u8* mGrid;   // 0 blocked, 1 field, 2 pavement, 3 road
     u8* mClear;  // tiles to the nearest blocked tile or wall (1 = touching one), capped at 4: how much room a car has

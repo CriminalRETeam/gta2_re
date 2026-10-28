@@ -150,6 +150,7 @@ class TravelGoal : public Action
     bool mKeepCar;
     s32 mReclaims;
     s32 mWalkOnlyUntil; // frame when walk only expires (0: no expiry)
+    s32 mJamCar; // the car ahead to take instead of ours, stuck in a jam (0 none)
     s32 mCarSwitches; // times the goal changed to a closer car on the way to the first
     bool mNoTrain;
     s32 mGrabBan[kMaxBan];

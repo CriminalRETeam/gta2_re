@@ -76,6 +76,11 @@ class DriveAction : public Action
         mChase = true;
     }
     void Retarget(BotContext& ctx, float x, float y);
+    // Stuck in a jam with a better car close ahead: fail with "jam_switch" and the car ("car=<id>") for the caller to take it
+    void SetJamSwitch(bool on)
+    {
+        mJamSwitch = on;
+    }
 
   private:
     enum
@@ -87,6 +92,9 @@ class DriveAction : public Action
     void ChooseVariant(BotContext& ctx);
 
     float mTx, mTy, mStopDist;
+    float mRouteAheadX[24]; // the stretch of the global route the detailed route is planned along
+    float mRouteAheadY[24];
+    int mRouteAheadN;
     bool mCalibrating;
     Calibrator mCalib;
     bool mPlanned;
@@ -95,6 +103,10 @@ class DriveAction : public Action
     s32 mWpCount;
     s32 mWpIdx;
     s32 mProgressFrame;
+    bool mJamSwitch;
+    s32 mJamStill;       // frames stood still behind a stopped car
+    s32 mProgWpIdx;      // the waypoint mProgWpDist is for
+    float mProgWpDist;   // the nearest the car has been to it
     s32 mRetries;
     float mSpeedCap;  // tiles per frame
     float mWpRadius;  // tiles

@@ -1,5 +1,6 @@
 #include "CarActions.hpp"
 #include "DropOff.hpp"
+#include "JamSwitch.hpp"
 #include "NavFoot.hpp"
 #include "WalkCarJump.hpp"
 #include "DriveSteer.hpp"
@@ -228,6 +229,10 @@ DriveAction::DriveAction(float x, float y, float stop_dist)
     , mWpCount(0)
     , mWpIdx(0)
     , mProgressFrame(0)
+    , mJamSwitch(false)
+    , mJamStill(0)
+    , mProgWpIdx(-1)
+    , mProgWpDist(0.0f)
     , mRetries(0)
     , mSpeedCap(0.20f)
     , mWpRadius(3.5f)
@@ -241,6 +246,7 @@ DriveAction::DriveAction(float x, float y, float stop_dist)
     , mLocalNext(0)
     , mPrevSteer(0)
     , mTraceFrame(-1000)
+    , mRouteAheadN(0)
     , mOvertakeUntil(0)
     , mOvertakeX(0)
     , mOvertakeY(0)
@@ -495,6 +501,8 @@ static const float kDropSeparate = 4.0f;
 
 static const float kSolidGoalStop = 6.0f; // tiles: how near a goal inside a building is reached
 static const float kPartialEndNear = 2.0f; // tiles from the end of a partial local route that count as being there
+static const float kProgressTiles = 2.0f; // getting this much nearer the waypoint counts as progress
+static const int kReplanFrames = 15; // the detailed route is planned afresh this often: the other cars move
 static const float kBehindCos = -0.17f; // the first waypoint is more than 100 degrees off the nose
 static const float kAheadLead = 4.0f;   // tiles ahead of the nose where the route from the front is started
 static const float kUTurnCost = 12.0f;  // tiles a three point turn is worth
@@ -672,6 +680,7 @@ bool DriveAction::Plan(BotContext& ctx, const char* why)
     mPlanX = pl.x;
     mPlanY = pl.y;
     mProgressFrame = ctx.frame;
+    mProgWpIdx = -1;
     mStillFrames = 0;
     mReverseUntil = 0;
     mManoeuvres = 0;
@@ -709,6 +718,7 @@ void DriveAction::Retarget(BotContext& ctx, float x, float y)
     mTy = y;
     Plan(ctx, "retarget");
     mProgressFrame = ctx.frame;
+    mProgWpIdx = -1;
 }
 
 void DriveAction::ChooseVariant(BotContext& ctx)
@@ -804,6 +814,24 @@ Action::Status DriveAction::Step(BotContext& ctx)
         break;
     }
 
+    // Progress is getting nearer the waypoint ahead, not only reaching it: the legs of the square route are long and in traffic a leg can
+    // take more than the 600 frames the stuck rule allows
+    {
+        const float wx = mWpX[mWpIdx] - pl.x;
+        const float wy = mWpY[mWpIdx] - pl.y;
+        const float d = sqrtf(wx * wx + wy * wy);
+        if (mProgWpIdx != mWpIdx)
+        {
+            mProgWpIdx = mWpIdx;
+            mProgWpDist = d;
+        }
+        else if (d < mProgWpDist - kProgressTiles)
+        {
+            mProgWpDist = d;
+            mProgressFrame = ctx.frame;
+        }
+    }
+
     // Rolling checkpoints while the drive goes well, so that a retry rewinds a few hundred frames and not to the start
     if (ctx.map && ctx.frame >= mCkNext && mSpeed > 0.04f && ctx.frame - mProgressFrame < 100 && !pl.dead)
     {
@@ -858,6 +886,50 @@ Action::Status DriveAction::Step(BotContext& ctx)
             if (along > 0.3f && along < 4.0f && fabsf(side) < 1.5f && oc.speed < 0.03f)
             {
                 blocker = &oc;
+            }
+        }
+        if (blocker && mSpeed < 0.02f)
+        {
+            mJamStill++;
+        }
+        else if (mSpeed > 0.05f)
+        {
+            mJamStill = 0;
+        }
+        if (mJamSwitch && !mChase && mJamStill >= 90 && ctx.frame % 10 == 0)
+        {
+            // a better car close ahead (faster, less damaged): the jam is made of them, take one
+            WorldModel::CarInfo me;
+            JamSelf self;
+            self.damage = pl.car_damage;
+            self.top_speed = ctx.world->FindCar(pl.car_id, &me) ? me.top_speed : 0.0f;
+            self.still_frames = mJamStill;
+            JamCar cands[WorldModel::kMaxCars];
+            s32 ids[WorldModel::kMaxCars];
+            int cn = 0;
+            for (int k = 0; k < ctx.world->car_count && cn < WorldModel::kMaxCars; k++)
+            {
+                const WorldModel::CarInfo& oc = ctx.world->cars[k];
+                if (oc.idx == pl.car_id)
+                {
+                    continue;
+                }
+                cands[cn].along = (oc.x - pl.x) * fx + (oc.y - pl.y) * fy;
+                cands[cn].side = (oc.x - pl.x) * -fy + (oc.y - pl.y) * fx;
+                cands[cn].damage = oc.damage;
+                cands[cn].top_speed = oc.top_speed;
+                cands[cn].has_driver = oc.has_driver;
+                cands[cn].locked = oc.locked;
+                cands[cn].mission = oc.mission;
+                cands[cn].police = oc.police;
+                ids[cn] = oc.idx;
+                cn++;
+            }
+            const int pick = JamSwitch_Choose(self, cands, cn);
+            if (pick >= 0)
+            {
+                return Fail("jam_switch", "stuck in a jam for %d frames: taking car=%d, %.1f tiles ahead (damage %d, top speed %.0f; ours %d, %.0f)", mJamStill, ids[pick], cands[pick].along, cands[pick].damage,
+                            cands[pick].top_speed, self.damage, self.top_speed);
             }
         }
         if (blocker && mSpeed < 0.02f && ctx.frame > ctx.action_start_frame + 40 && ctx.frame > mReverseUntil && ctx.frame > mFwdUntil && ctx.frame > mShoveUntil)
@@ -1177,33 +1249,23 @@ Action::Status DriveAction::Step(BotContext& ctx)
         lw.car_count = Drive_CollectCars(ctx, lcars);
         lw.own_hl = own_hl;
         lw.own_hw = own_hw;
+        lw.own_speed = mSpeed;
+        lw.route_x = mRouteAheadX;
+        lw.route_y = mRouteAheadY;
+        lw.route_n = mRouteAheadN;
         // keep the path while it is good; plan again when it is not, and every 60 frames (moving cars change)
         if (ctx.frame >= mLocalNext || !LocalPlan_StillGood(lw, mLocal, pl.x, pl.y))
         {
-            // the target: 18 tiles on along the waypoints from where the car is on its leg
-            float tx = mWpX[mWpCount - 1];
-            float ty = mWpY[mWpCount - 1];
-            float rest = 24.0f;
-            float qx = pl.x;
-            float qy = pl.y;
-            for (int i = mWpIdx; i < mWpCount; i++)
-            {
-                const float ex = mWpX[i] - qx;
-                const float ey = mWpY[i] - qy;
-                const float el = sqrtf(ex * ex + ey * ey);
-                if (el >= rest && el > 0.001f)
-                {
-                    tx = qx + ex / el * rest;
-                    ty = qy + ey / el * rest;
-                    break;
-                }
-                rest -= el;
-                qx = mWpX[i];
-                qy = mWpY[i];
-            }
+            // the target: 24 tiles on along the global route from where the car is on its leg; the stretch is also what the
+            // detailed route keeps to
+            int rn = 0;
+            LocalPlan_RouteAhead(mWpX, mWpY, mWpCount, mWpIdx, pl.x, pl.y, 24.0f, mRouteAheadX, mRouteAheadY, &rn);
+            mRouteAheadN = rn;
+            const float tx = mRouteAheadX[rn - 1];
+            const float ty = mRouteAheadY[rn - 1];
             const float heading0 = ctx.car.sign * pl.rot_deg + ctx.car.offset;
             LocalPlan_Find(lw, pl.x, pl.y, heading0, tx, ty, &mLocal);
-            mLocalNext = ctx.frame + 60;
+            mLocalNext = ctx.frame + kReplanFrames;
             if (!mLocal.found && ctx.frame % 40 == 0)
             {
                 BotDecision("f=%d drive: no detailed route from (%.1f,%.1f) to (%.1f,%.1f): following the waypoints", ctx.frame, pl.x, pl.y, tx, ty);

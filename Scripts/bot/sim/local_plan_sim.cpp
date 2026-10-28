@@ -112,6 +112,10 @@ static LocalPlanWorld World(const Grid& g, const std::vector<SteerCar>& cars, bo
     w.car_count = static_cast<int>(cars.size());
     w.own_hl = 0.81f;
     w.own_hw = 0.58f;
+    w.own_speed = 0.12f;
+    w.route_x = 0;
+    w.route_y = 0;
+    w.route_n = 0;
     return w;
 }
 

@@ -1,6 +1,7 @@
 #include "Goals.hpp"
 #include "PickupReach.hpp"
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "CarSwitch.hpp"
 #include "WalkAction.hpp"
@@ -399,6 +400,7 @@ TravelGoal::TravelGoal(float x, float y, float arrive_dist, bool keep_car)
     , mWalkOnly(false)
     , mKeepCar(keep_car)
     , mReclaims(0)
+    , mJamCar(0)
     , mCarSwitches(0)
     , mWalkOnlyUntil(0)
     , mNoTrain(false)
@@ -647,8 +649,12 @@ void TravelGoal::BeginStage(BotContext& ctx, Stage st)
             break;
         }
         case Drive:
-            mChild = new DriveAction(mX, mY, mArrive > 6.0f ? mArrive : 6.0f);
+        {
+            DriveAction* drive = new DriveAction(mX, mY, mArrive > 6.0f ? mArrive : 6.0f);
+            drive->SetJamSwitch(true);
+            mChild = drive;
             break;
+        }
         case Dismount:
             if (ctx.world->player.in_car)
             {
@@ -978,6 +984,16 @@ Action::Status TravelGoal::Step(BotContext& ctx)
                     BeginStage(ctx, GetCar);
                     return Running;
                 }
+                // stuck in a jam with a better car close ahead: out of ours and into that one (the jam is made of cars)
+                const char* jam = strstr(mChild->fail_detail, "car=");
+                if (strcmp(mChild->fail_condition, "jam_switch") == 0 && jam != NULL && mCarSwitches < 3)
+                {
+                    mJamCar = atoi(jam + 4);
+                    mCarSwitches++;
+                    BotDecision("f=%d travel: swapping the car for #%d, ahead in the jam", ctx.frame, mJamCar);
+                    BeginStage(ctx, Dismount);
+                    return Running;
+                }
                 BotDecision("f=%d travel: on foot from here", ctx.frame);
                 mWalkOnly = true;
                 mWalkOnlyUntil = ctx.frame + 900;
@@ -1003,6 +1019,14 @@ Action::Status TravelGoal::Step(BotContext& ctx)
             if (mCarId != 0 && mBanCount < kMaxBan)
             {
                 mBan[mBanCount++] = mCarId;
+            }
+            if (mJamCar != 0)
+            {
+                // the car ahead in the jam is the next one (a driver is dragged out of it)
+                mCarId = mJamCar;
+                mJamCar = 0;
+                BeginStage(ctx, GetCar);
+                return Running;
             }
             if (Remaining(*ctx.world) <= mArrive)
             {

@@ -97,6 +97,7 @@ NavCar::NavCar()
     , mBuilt(false)
     , mApproximate(false)
     , mClearanceUsed(1)
+    , mSearchClearance(1)
     , mSx(0)
     , mSy(0)
     , mTx(0)
@@ -775,136 +776,82 @@ bool NavCar::LineSafe(int x0, int y0, int x1, int y1) const
     return true;
 }
 
+// The cost of one step of the whole-map car route, in tiles: terrain, the side of the road (with the lane's arrows is cheaper,
+// against them dear: a car keeps to its side), room beside walls, stopped cars. Negative: a wall, a building, a banned tile
+float NavCar::RouteStep(void* user, int x, int y, int dir, float /*g*/)
+{
+    NavCar* n = static_cast<NavCar*>(user);
+    static const int dxs[4] = {0, 1, 0, -1};
+    static const int dys[4] = {-1, 0, 1, 0};
+    const int nx = x + dxs[dir];
+    const int ny = y + dys[dir];
+    if (!n->Open(nx, ny) || !n->EdgeFree(x, y, nx, ny))
+    {
+        return -1.0f;
+    }
+    const u32 nidx = ny * 256 + nx;
+    float c = 0.0f;
+    const u8 cell = n->mGrid[nidx];
+    const u8 arrows = n->mArrows[nidx];
+    if (cell == 3 && arrows)
+    {
+        const bool with = ((arrows & 1) && dxs[dir] < 0) || ((arrows & 2) && dxs[dir] > 0) || ((arrows & 4) && dys[dir] < 0) || ((arrows & 8) && dys[dir] > 0);
+        const bool against = ((arrows & 1) && dxs[dir] > 0) || ((arrows & 2) && dxs[dir] < 0) || ((arrows & 4) && dys[dir] > 0) || ((arrows & 8) && dys[dir] < 0);
+        c += with ? -0.2f : (against ? 3.0f : 0.0f);
+    }
+    else if (cell == 1)
+    {
+        c += 0.1f; // open ground is worse than a road or a pavement
+    }
+    const bool near_end = (nx - n->mSx) * (nx - n->mSx) + (ny - n->mSy) * (ny - n->mSy) <= 9 || (nx - n->mTx) * (nx - n->mTx) + (ny - n->mTy) * (ny - n->mTy) <= 9;
+    if (!near_end && n->mSearchClearance > 0)
+    {
+        // room: touching a wall is dear, a tile of space is still a little dearer than open ground
+        const u8 room = n->mClear[nidx];
+        c += room <= 1 ? 7.0f : (room == 2 ? 1.4f : (room == 3 ? 0.4f : 0.0f));
+    }
+    if (n->mJam[nidx])
+    {
+        c += n->mJam[nidx] == 2 ? 8.0f : 3.0f; // a stopped car: round it if the way round is not too long
+    }
+    return c;
+}
+
 bool NavCar::Search(int sx, int sy, int tx, int ty, int clearance, bool approximate)
 {
-    memset(mState, 0, kTiles);
-    mExpanded = 0;
-    Heap heap;
-    const u32 start = sy * 256 + sx;
-    mCost[start] = 0;
-    mParent[start] = kNone;
-    mState[start] = 1;
-    heap.Push(0, start);
-
-    static const int dxs[8] = {0, 1, 0, -1, 1, 1, -1, -1};
-    static const int dys[8] = {-1, 0, 1, 0, -1, 1, 1, -1};
-    u32 goal = kNone;
-    u32 closest = start;
-    u32 closest_h = 1u << 30;
-    while (heap.count && mExpanded < 70000)
-    {
-        const HeapItem item = heap.Pop();
-        const u32 idx = item.idx;
-        if (mState[idx] == 2)
-        {
-            continue;
-        }
-        mState[idx] = 2;
-        mExpanded++;
-        const int x = idx % 256;
-        const int y = idx / 256;
-        {
-            const u32 ex = x > tx ? x - tx : tx - x;
-            const u32 ey = y > ty ? y - ty : ty - y;
-            const u32 eh = (ex > ey ? ex : ey) * 10 + (ex < ey ? ex : ey) * 4;
-            if (eh < closest_h)
-            {
-                closest_h = eh;
-                closest = idx;
-            }
-        }
-        if (x == tx && y == ty)
-        {
-            goal = idx;
-            break;
-        }
-        for (int d = 0; d < 8; d++)
-        {
-            const int nx = x + dxs[d];
-            const int ny = y + dys[d];
-            if (!Open(nx, ny) || !EdgeFree(x, y, nx, ny))
-            {
-                continue;
-            }
-            const bool near_end = (nx - sx) * (nx - sx) + (ny - sy) * (ny - sy) <= 9 || (nx - tx) * (nx - tx) + (ny - ty) * (ny - ty) <= 9;
-            if (dxs[d] != 0 && dys[d] != 0 && (!Open(x + dxs[d], y) || !Open(x, y + dys[d])))
-            {
-                continue; // no cutting corners
-            }
-            const u32 nidx = ny * 256 + nx;
-            if (mState[nidx] == 2)
-            {
-                continue;
-            }
-            // terrain and lane cost
-            u32 step = (dxs[d] != 0 && dys[d] != 0) ? 14 : 10;
-            const u8 cell = mGrid[nidx];
-            if (cell == 3)
-            {
-                const u8 arrows = mArrows[nidx];
-                if (arrows)
-                {
-                    const bool with = ((arrows & 1) && dxs[d] < 0) || ((arrows & 2) && dxs[d] > 0) || ((arrows & 4) && dys[d] < 0) || ((arrows & 8) && dys[d] > 0);
-                    const bool against = ((arrows & 1) && dxs[d] > 0) || ((arrows & 2) && dxs[d] < 0) || ((arrows & 4) && dys[d] > 0) || ((arrows & 8) && dys[d] < 0);
-                    step = with ? step * 8 / 10 : (against ? step * 3 : step);
-                }
-            }
-            else if (cell == 2)
-            {
-                step = step * 10 / 10; // pavements are as good as the road: the route is about room, not about roads
-            }
-            else
-            {
-                step = step * 11 / 10;
-            }
-            if (!near_end)
-            {
-                // room: touching a wall is dear, a tile of space is still a little dearer than open ground
-                const u8 room = mClear[nidx];
-                step += room <= 1 ? 70 : (room == 2 ? 14 : (room == 3 ? 4 : 0));
-            }
-            if (mJam[nidx])
-            {
-                step += mJam[nidx] == 2 ? 80 : 30; // a stopped car: round it if the way round is not too long
-            }
-            const u32 cost = mCost[idx] + step;
-            if (mState[nidx] == 1 && mCost[nidx] <= cost)
-            {
-                continue;
-            }
-            mCost[nidx] = cost;
-            mParent[nidx] = idx;
-            mState[nidx] = 1;
-            const u32 hx = nx > tx ? nx - tx : tx - nx;
-            const u32 hy = ny > ty ? ny - ty : ty - ny;
-            const u32 diag = hx < hy ? hx : hy;
-            heap.Push(cost + ((hx + hy - 2 * diag) * 10 + diag * 14) * 8 / 10, nidx);
-        }
-    }
+    mSearchClearance = clearance;
+    mSx = sx;
+    mSy = sy;
+    mTx = tx;
+    mTy = ty;
+    GridRouteWorld w;
+    w.x0 = 0;
+    w.y0 = 0;
+    w.w = 256;
+    w.h = 256;
+    w.step = RouteStep;
+    w.user = this;
+    GridRouteParams p;
+    GridRoute_DefaultParams(&p);
+    p.allow_partial = approximate;
+    p.min_partial_gain = 0.5f;
+    static GridRouteOut r;
     mApproximate = false;
-    if (goal == kNone && approximate && closest != start)
-    {
-        goal = closest; // the nearest tile of the region the car can reach
-        mApproximate = true;
-    }
-    if (goal == kNone)
+    const bool ok = GridRoute_Find(w, sx, sy, tx, ty, p, &r);
+    mExpanded = r.expanded;
+    if (!ok)
     {
         return false;
     }
-    mLastCost = mCost[goal];
+    mApproximate = r.partial;
     u32 count = 0;
-    for (u32 cur = goal; cur != kNone && count < kTiles; cur = mParent[cur])
+    for (int i = 0; i < r.count && count < kTiles; i++)
     {
-        mPathTiles[count++] = static_cast<u16>(cur);
-    }
-    for (u32 i = 0; i < count / 2; i++)
-    {
-        const u16 t = mPathTiles[i];
-        mPathTiles[i] = mPathTiles[count - 1 - i];
-        mPathTiles[count - 1 - i] = t;
+        mPathTiles[count++] = static_cast<u16>(r.y[i] * 256 + r.x[i]);
     }
     mPathTileCount = count;
-    return true;
+    mLastCost = count;
+    return count > 0;
 }
 
 bool NavCar::FindPath(float sx, float sy, float tx, float ty)
@@ -950,35 +897,24 @@ bool NavCar::FindPath(float sx, float sy, float tx, float ty)
         mClearanceUsed = least >= 2 ? 1 : 0;
     }
 
-    // String pulling: from each kept tile, jump to the furthest tile with a safe straight line
-    u32 cur = 0;
-    mX[mCount] = (mPathTiles[0] % 256) + 0.5f;
-    mY[mCount] = (mPathTiles[0] / 256) + 0.5f;
-    mCount++;
-    while (cur < mPathTileCount - 1 && mCount < kMaxWp - 1)
+    // The route is the corners of the square path: long straight legs joined by right angles
+    for (u32 i = 0; i < mPathTileCount && mCount < kMaxWp; i++)
     {
-        u32 best = cur + 1;
-        const int cx = mPathTiles[cur] % 256;
-        const int cy = mPathTiles[cur] / 256;
-        for (u32 j = mPathTileCount - 1; j > cur + 1; j--)
+        const bool end = i == 0 || i + 1 == mPathTileCount;
+        bool corner = end;
+        if (!end)
         {
-            // limit leg length so that the car corrects its heading now and then
-            const int jx = mPathTiles[j] % 256;
-            const int jy = mPathTiles[j] / 256;
-            if ((jx - cx) * (jx - cx) + (jy - cy) * (jy - cy) > 30 * 30)
-            {
-                continue;
-            }
-            if (LineSafe(cx, cy, jx, jy))
-            {
-                best = j;
-                break;
-            }
+            const int px = mPathTiles[i - 1] % 256, py = mPathTiles[i - 1] / 256;
+            const int cx = mPathTiles[i] % 256, cy = mPathTiles[i] / 256;
+            const int nx = mPathTiles[i + 1] % 256, ny = mPathTiles[i + 1] / 256;
+            corner = (cx - px) != (nx - cx) || (cy - py) != (ny - cy);
         }
-        cur = best;
-        mX[mCount] = (mPathTiles[cur] % 256) + 0.5f;
-        mY[mCount] = (mPathTiles[cur] / 256) + 0.5f;
-        mCount++;
+        if (corner)
+        {
+            mX[mCount] = (mPathTiles[i] % 256) + 0.5f;
+            mY[mCount] = (mPathTiles[i] / 256) + 0.5f;
+            mCount++;
+        }
     }
     return true;
 }
