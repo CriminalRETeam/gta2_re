@@ -293,11 +293,12 @@ static Result Run(const Grid& g, float sx, float sy, float heading, const std::v
             target = v - 0.012f;
         }
         v = back ? -0.05f : (target < 0.0f ? 0.0f : target);
-        // steering (a half key press is every other frame)
+        // steering, as the driver presses the keys: a key is down or up, so a half is every other frame, a quarter every fourth
         float key = c.s;
-        if (fabsf(key) < 0.9f && key != 0.0f && (f % 2))
+        if (key != 0.0f && fabsf(key) < 0.9f)
         {
-            key = 0.0f;
+            const bool down = fabsf(key) > 0.4f ? (f % 2 == 0) : (f % 4 == 0);
+            key = down ? (key > 0.0f ? 1.0f : -1.0f) : 0.0f;
         }
         if (key != 0.0f)
         {

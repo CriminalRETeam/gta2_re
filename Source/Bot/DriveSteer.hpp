@@ -34,6 +34,9 @@ struct SteerWorld
     const SteerCar* cars; // not including our own
     int car_count;
     float own_hl, own_hw; // our own car's box: half length, half width
+    // The aim point comes from a route that has already been planned round the cars (the detailed route, in time with the moving ones): the
+    // arcs then count a car in the way only a little, so the wheel follows the route and is not turned off it by every car beside it
+    bool route_has_cars;
 };
 
 // What one rollout did, for the overlay: the track of the car's centre and what stopped it

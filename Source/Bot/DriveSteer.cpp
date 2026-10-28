@@ -24,7 +24,9 @@ float WrapDeg(float d)
 float Gentle(float err)
 {
     const float a = fabsf(err);
-    const float m = a > 20.0f ? 1.0f : (a > 8.0f ? 0.5f : 0.0f);
+    // (a few degrees off is still corrected, a tap every fourth frame: with none under 8 degrees a car a lane off a route 10 tiles ahead
+    // never came back to it, the bearing to the aim being under 8 degrees all the way)
+    const float m = a > 20.0f ? 1.0f : (a > 8.0f ? 0.5f : (a > 5.0f ? 0.25f : 0.0f));
     return err > 0.0f ? m : -m;
 }
 
@@ -171,7 +173,7 @@ Arc Rollout(const SteerWorld& w, float x, float y, float heading, float hdir, fl
                         ad->car_box = theirs;
                     }
                     const bool oncoming = oc.speed > 0.12f && oc.vx * fx + oc.vy * fy < -0.10f;
-                    hard_car = (oncoming || oc.police) ? 25.0f : 4.0f;
+                    hard_car = (oncoming || oc.police) ? 25.0f : (w.route_has_cars ? 0.8f : 4.0f);
                     break;
                 }
             }
@@ -198,7 +200,7 @@ SteerChoice DriveSteer_Choose(const SteerWorld& w, float x, float y, float headi
     {
         dbg->arc_count = 0;
     }
-    static const float options[5] = {0.0f, -1.0f, 1.0f, -0.5f, 0.5f};
+    const float options[6] = {0.0f, -1.0f, 1.0f, -0.5f, 0.5f, 0.0f};
     const float err = WrapDeg(HeadingDeg(aim_x - x, aim_y - y) - heading_deg);
     // the key that turns the car towards the aim point: a right key press adds hdir to the heading
     const float natural = Gentle(err) * hdir;
@@ -207,15 +209,18 @@ SteerChoice DriveSteer_Choose(const SteerWorld& w, float x, float y, float headi
     best.wall_d = 1e3f;
     best.changed = false;
     float best_cost = 1e9f;
-    for (int o = 0; o < 5; o++)
+    // the sixth try is the natural wheel when it is none of the first five (a gentle correction)
+    const int option_count = (natural == 0.25f || natural == -0.25f) ? 6 : 5;
+    const float opts[6] = {options[0], options[1], options[2], options[3], options[4], natural};
+    for (int o = 0; o < option_count; o++)
     {
         SteerArcDebug* ad = (dbg && dbg->arc_count < 5) ? &dbg->arcs[dbg->arc_count++] : 0;
-        const Arc arc = Rollout(w, x, y, heading_deg, hdir, options[o], speed, aim_x, aim_y, ad);
-        const float cost = arc.cost - (options[o] == natural ? 3.0f : 0.0f) - (options[o] == prev_s ? 1.5f : 0.0f);
+        const Arc arc = Rollout(w, x, y, heading_deg, hdir, opts[o], speed, aim_x, aim_y, ad);
+        const float cost = arc.cost - (opts[o] == natural ? 3.0f : 0.0f) - (opts[o] == prev_s ? 1.5f : 0.0f);
         if (cost < best_cost)
         {
             best_cost = cost;
-            best.s = options[o];
+            best.s = opts[o];
             best.wall_d = arc.wall_d;
         }
     }

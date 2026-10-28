@@ -1626,7 +1626,7 @@ Action::Status DriveAction::Step(BotContext& ctx)
     {
         SteerCar others[WorldModel::kMaxCars];
         const int other_count = Drive_CollectCars(ctx, others);
-        SteerWorld world = {Drive_Solid, NULL, others, other_count, own_hl, own_hw};
+        SteerWorld world = {Drive_Solid, NULL, others, other_count, own_hl, own_hw, local_ok};
         // A slower car in the way: go round it by the pavement or the next lane. The side is kept for a while so
         // that the choice does not flip from frame to frame
         if (ctx.frame < mOvertakeUntil)
@@ -1683,7 +1683,7 @@ Action::Status DriveAction::Step(BotContext& ctx)
             }
         }
         ctx.input &= ~(input_bit::Left | input_bit::Right);
-        if (choice.s != 0.0f && (fabsf(choice.s) > 0.9f || ctx.frame % 2 == 0))
+        if (choice.s != 0.0f && (fabsf(choice.s) > 0.9f || (fabsf(choice.s) > 0.4f && ctx.frame % 2 == 0) || ctx.frame % 4 == 0))
         {
             ctx.input |= choice.s > 0.0f ? input_bit::Right : input_bit::Left;
         }

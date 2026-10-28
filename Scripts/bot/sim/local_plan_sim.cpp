@@ -465,6 +465,44 @@ int main()
             Check(name, ok && least >= 0.45f, "the route clips the inside corner");
         }
     }
+    // 7h. cars beside the route in the next lane: when the route has been planned round them the wheel follows the aim point (the arcs
+    // used to turn off it for every car that would overlap, 3 in 10 of these cases)
+    {
+        int changed_planned = 0, changed_blind = 0;
+        for (int rhc = 0; rhc < 2; rhc++)
+        {
+            for (float cx = 0.8f; cx <= 2.0f; cx += 0.3f)
+            {
+                for (float cy = -2.0f; cy >= -8.0f; cy -= 1.0f)
+                {
+                    for (float cvy = -0.14f; cvy <= 0.0f; cvy += 0.07f)
+                    {
+                        SteerCar c = MakeCar(170.0f + cx, 140.0f + cy, 0.0f, cvy);
+                        c.box.ax = 0.0f;
+                        c.box.ay = 1.0f;
+                        c.box.hl = 0.5f;
+                        c.box.hw = 0.25f;
+                        SteerWorld sw;
+                        sw.solid = SolidCb;
+                        sw.user = NULL;
+                        sw.cars = &c;
+                        sw.car_count = 1;
+                        sw.own_hl = 0.5f;
+                        sw.own_hw = 0.3f;
+                        sw.route_has_cars = rhc == 1;
+                        Grid g;
+                        g.x0 = 100; g.y0 = 100; g.w = 150; g.h = 100;
+                        g.cell.assign(g.w * g.h, 'F');
+                        sw.user = &g;
+                        const SteerChoice ch = DriveSteer_Choose(sw, 170.0f, 140.0f, 0.0f, 1.0f, 0.14f, 171.5f, 130.0f, 0.0f, NULL);
+                        (rhc == 1 ? changed_planned : changed_blind) += ch.changed ? 1 : 0;
+                    }
+                }
+            }
+        }
+        Check("cars beside a planned route: the wheel follows the aim point", changed_planned == 0, "the arcs turned off the aim point");
+        Check("cars beside an unplanned aim point: the arcs still dodge (as before)", changed_blind > 0);
+    }
     // 7e. the foot of a ramp with the route turning right at its top: the aim point stops at the top of the ramp, not past the corner
     {
         LocalPlanOut p;
