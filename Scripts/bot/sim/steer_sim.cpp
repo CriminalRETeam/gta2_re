@@ -224,6 +224,7 @@ static Result Run(const Grid& g, float sx, float sy, float heading, const std::v
                 LocalPlan_RouteAhead(wxs, wys, wn, static_cast<int>(wi) + 1, x, y, 24.0f, rxs, rys, &rn);
                 const float tx = rxs[rn - 1], ty = rys[rn - 1];
                 LocalPlanWorld lw;
+                lw.edge_ok = NULL;
                 lw.solid = SolidCb;
                 lw.step_cost = NULL;
                 lw.user = const_cast<Grid*>(&g);

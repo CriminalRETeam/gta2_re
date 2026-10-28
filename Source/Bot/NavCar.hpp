@@ -88,6 +88,16 @@ class NavCar : public BotObject
     // Does the straight line cross a fence or wall edge between tiles? (the car router's wall data)
     bool CrossesWall(float x0, float y0, float x1, float y1);
 
+    // May a car go from tile (x, y) to its neighbour (nx, ny): no wall face or step between them (a diagonal needs both ways)
+    bool EdgeOpen(int x, int y, int nx, int ny)
+    {
+        if (!mBuilt)
+        {
+            Build();
+        }
+        return x >= 0 && y >= 0 && nx >= 0 && ny >= 0 && x < 256 && y < 256 && nx < 256 && ny < 256 && EdgeFree(x, y, nx, ny);
+    }
+
     // Is the straight line between the two points open with room for a car all along it?
     bool DirectLine(float sx, float sy, float tx, float ty) const;
 

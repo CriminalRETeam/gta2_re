@@ -22,6 +22,9 @@ struct LocalPlanWorld
     const float* route_y;
     int route_n;
     float own_speed; // tiles per frame now (how long until we reach a tile, for moving cars); 0 for a guess
+    // may the car go from tile (x, y) to its neighbour (nx, ny)? False for a wall or a step up between them (the whole-map route
+    // honours these, so the detailed one has to). May be NULL
+    bool (*edge_ok)(void* user, int x, int y, int nx, int ny);
 };
 
 enum

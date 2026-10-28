@@ -515,6 +515,11 @@ static int Drive_CollectCars(BotContext& ctx, SteerCar* out)
     return n;
 }
 
+static bool Drive_EdgeOk(void* user, int x, int y, int nx, int ny)
+{
+    return static_cast<NavCar*>(user)->EdgeOpen(x, y, nx, ny);
+}
+
 // Against the traffic of a lane costs the planner extra
 static float Drive_LaneCost(void* user, float x, float y, int dx, int dy)
 {
@@ -1393,6 +1398,7 @@ Action::Status DriveAction::Step(BotContext& ctx)
         SteerCar lcars[WorldModel::kMaxCars];
         LocalPlanWorld lw;
         lw.solid = Drive_Solid;
+        lw.edge_ok = Drive_EdgeOk;
         lw.step_cost = Drive_LaneCost;
         lw.user = ctx.road;
         lw.cars = lcars;
@@ -1678,8 +1684,14 @@ Action::Status DriveAction::Step(BotContext& ctx)
         bool obstacle_is_ped = false;
         for (float d = 1.2f; d <= reach && first_obstacle < 0.0f; d += 0.5f)
         {
-            const float sx = pl.x + hx * d;
-            const float sy = pl.y + hy * d;
+            // along the route being driven when there is one (the heading ray ran into a police car the route goes round: the car
+            // stopped for it), else along the heading
+            float sx = pl.x + hx * d;
+            float sy = pl.y + hy * d;
+            if (local_ok)
+            {
+                LocalPlan_AimPoint(mLocal, pl.x, pl.y, d, &sx, &sy);
+            }
             bool hit = false; // buildings are the arcs' business (above)
             // Other cars are not obstacles: stopping dead behind every parked or queuing car is what makes a
             // drive crawl, and a bump costs a few points of damage. Walls and pedestrians are.
@@ -1749,7 +1761,7 @@ Action::Status DriveAction::Step(BotContext& ctx)
             int n = 0;
             for (int k = 0; k < mLocal.count && k < 10 && n < 270; k++)
             {
-                n += _snprintf(pts + n, sizeof(pts) - n, " (%.1f,%.1f%s)", mLocal.x[k], mLocal.y[k], Drive_Solid(NULL, mLocal.x[k], mLocal.y[k]) ? " SOLID" : "");
+                n += _snprintf(pts + n, sizeof(pts) - n, " (%.1f,%.1f%s)", mLocal.x[k], mLocal.y[k], Drive_Solid(NULL, mLocal.x[k], mLocal.y[k]) ? " SOLID" : (WorldModel::SlopeAxisAt(static_cast<int>(mLocal.x[k]), static_cast<int>(mLocal.y[k]), static_cast<int>(pl.z + 0.5f)) == 1 ? " SLOPE-x" : (WorldModel::SlopeAxisAt(static_cast<int>(mLocal.x[k]), static_cast<int>(mLocal.y[k]), static_cast<int>(pl.z + 0.5f)) == 2 ? " SLOPE-y" : "")));
             }
             pts[n < 299 ? n : 299] = 0;
             BotDecision("f=%d drive route (%s, %d points):%s", ctx.frame, mLocalFallback ? "global legs" : (mLocal.partial ? "partial" : "planned"), mLocal.count, pts);

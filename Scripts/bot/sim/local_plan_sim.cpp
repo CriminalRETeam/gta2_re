@@ -102,9 +102,17 @@ static void Check(const char* name, bool ok, const char* why = "")
     fails += ok ? 0 : 1;
 }
 
+// an edge wall (a step up with no ramp, or a wall face) between columns 29 and 30 everywhere except at row 40, the ramp
+static bool EdgeCb(void*, int x, int y, int nx, int ny)
+{
+    const bool across = (x == 29 && nx == 30) || (x == 30 && nx == 29);
+    return !across || y == 40;
+}
+
 static LocalPlanWorld World(const Grid& g, const std::vector<SteerCar>& cars, bool lanes)
 {
     LocalPlanWorld w;
+    w.edge_ok = NULL;
     w.solid = SolidCb;
     w.step_cost = lanes ? LaneCost : NULL;
     w.user = const_cast<Grid*>(&g);
@@ -285,6 +293,59 @@ int main()
         LocalPlanOut p;
         const bool ok = LocalPlan_Find(World(g, none, false), 20.5f, 30.5f, 90.0f, 40.5f, 30.5f, &p);
         Check("one tile alley: a whole route through it", ok && !p.partial, "no route or a partial one");
+    }
+    // 7c. a police car coming along the way in open ground: the route goes well round it (a bump is a wanted level), not straight on
+    {
+        Grid g;
+        g.x0 = 0; g.y0 = 0; g.w = 60; g.h = 60;
+        g.cell.assign(g.w * g.h, 'F');
+        std::vector<SteerCar> cars;
+        SteerCar cop = MakeCar(30.5f, 20.5f, -0.06f, 0.0f);
+        cop.police = true;
+        cars.push_back(cop);
+        LocalPlanOut p;
+        const bool ok = LocalPlan_Find(World(g, cars, false), 20.5f, 20.5f, 90.0f, 45.5f, 20.5f, &p);
+        float least = 1e9f;
+        for (int i = 0; i < p.count; i++)
+        {
+            for (float t = 0.0f; t <= 1.0f && i + 1 < p.count; t += 0.1f)
+            {
+                const float qx = p.x[i] + (p.x[i + 1] - p.x[i]) * t;
+                const float qy = p.y[i] + (p.y[i + 1] - p.y[i]) * t;
+                const float d = sqrtf((qx - 30.5f) * (qx - 30.5f) + (qy - 20.5f) * (qy - 20.5f));
+                least = d < least ? d : least;
+            }
+        }
+        Check("police car on the way: a route round it, 1.2 tiles clear", ok && least > 1.2f, "route runs into or beside the police car");
+    }
+    // 7d. a wall between two columns of open tiles with one way over (the ramp): the route goes over at the ramp, as the whole-map route does
+    {
+        Grid g;
+        g.x0 = 0; g.y0 = 0; g.w = 60; g.h = 60;
+        g.cell.assign(g.w * g.h, 'F');
+        LocalPlanWorld w = World(g, none, false);
+        w.edge_ok = EdgeCb;
+        LocalPlanOut p;
+        const bool ok = LocalPlan_Find(w, 22.5f, 38.5f, 90.0f, 38.5f, 41.5f, &p);
+        bool crosses_at_ramp = ok && !p.partial;
+        int prev_x = 0, prev_y = 0;
+        bool have = false;
+        for (int i = 0; i + 1 < p.count; i++)
+        {
+            for (float t = 0.0f; t < 1.0f; t += 0.02f)
+            {
+                const int tx = static_cast<int>(p.x[i] + (p.x[i + 1] - p.x[i]) * t);
+                const int ty = static_cast<int>(p.y[i] + (p.y[i + 1] - p.y[i]) * t);
+                if (have && tx != prev_x && ((prev_x == 29 && tx == 30) || (prev_x == 30 && tx == 29)) && (prev_y != 40 || ty != 40))
+                {
+                    crosses_at_ramp = false;
+                }
+                prev_x = tx;
+                prev_y = ty;
+                have = true;
+            }
+        }
+        Check("wall between columns: the route crosses at the ramp, not through the wall", crosses_at_ramp, "no route or it goes through the wall");
     }
     // 8. the road shut by a row of standing cars with no way round: a route through the cheapest gap, not "no route"
     {

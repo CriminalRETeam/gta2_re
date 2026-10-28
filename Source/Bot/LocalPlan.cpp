@@ -108,7 +108,7 @@ float Octile(int dx, int dy)
 
 // Does the straight line between two points stay on open tiles with room (not beside a wall, not under a standing car)? The
 // tiles half the car's width (with its margin) to each side of the line count too
-bool LineOpen(int x0, int y0, float ax, float ay, float bx, float by, float half_width)
+bool LineOpen(const LocalPlanWorld& w, int x0, int y0, float ax, float ay, float bx, float by, float half_width)
 {
     const float dx = bx - ax;
     const float dy = by - ay;
@@ -119,8 +119,26 @@ bool LineOpen(int x0, int y0, float ax, float ay, float bx, float by, float half
     }
     const float ux = dx / len;
     const float uy = dy / len;
+    int prev_tx = static_cast<int>(ax);
+    int prev_ty = static_cast<int>(ay);
     for (float d = 0.0f; d <= len; d += 0.4f)
     {
+        if (w.edge_ok)
+        {
+            // the line crosses from tile to tile: a wall or a step between them shuts it (one axis at a time on a diagonal)
+            const int tx = static_cast<int>(ax + ux * d);
+            const int ty = static_cast<int>(ay + uy * d);
+            if (tx != prev_tx && !w.edge_ok(w.user, prev_tx, prev_ty, tx, prev_ty))
+            {
+                return false;
+            }
+            if (ty != prev_ty && !w.edge_ok(w.user, tx, prev_ty, tx, ty))
+            {
+                return false;
+            }
+            prev_tx = tx;
+            prev_ty = ty;
+        }
         for (int side = -1; side <= 1; side++)
         {
             const float px = ax + ux * d - uy * half_width * side;
@@ -165,6 +183,10 @@ float PlanStep(void* user, int x, int y, int dir, float g)
     }
     const int ni = ny * kW + nx;
     if (sBlocked[ni])
+    {
+        return -1.0f;
+    }
+    if (c->w->edge_ok && !c->w->edge_ok(c->w->user, x, y, x + dxs[dir], y + dys[dir]))
     {
         return -1.0f;
     }
@@ -327,12 +349,15 @@ bool LocalPlan_Find(const LocalPlanWorld& w, float sx, float sy, float heading_d
         }
     }
     // cars: the tiles under a standing car and a car's width round it cost a lot; a moving car costs along its track
-    const float pad = w.own_hw + 0.1f;
+    const float pad0 = w.own_hw + 0.1f;
     for (int k = 0; k < w.car_count; k++)
     {
         const SteerCar& c = w.cars[k];
-        const bool standing = c.speed < 0.05f;
-        for (int step = 0; step < (standing ? 1 : kTimeBuckets); step++)
+        // a police car is kept well clear of whether it moves or not (a bump brings the wanted level): closed, with extra room, where
+        // it is and where it will be in the next 30 frames
+        const float pad = c.police ? pad0 + 0.5f : pad0;
+        const bool standing = c.speed < 0.05f || c.police;
+        for (int step = 0; step < (c.police ? 4 : (standing ? 1 : kTimeBuckets)); step++)
         {
             SteerBox b = c.box;
             b.cx = c.x + c.vx * 10.0f * step;
@@ -503,7 +528,7 @@ bool LocalPlan_Find(const LocalPlanWorld& w, float sx, float sy, float heading_d
         int best = cur + 1;
         for (int j = pn - 1; j > cur + 1; j--)
         {
-            if (LineOpen(x0, y0, px[cur], py[cur], px[j], py[j], w.own_hw + 0.1f))
+            if (LineOpen(w, x0, y0, px[cur], py[cur], px[j], py[j], w.own_hw + 0.1f))
             {
                 best = j;
                 break;
