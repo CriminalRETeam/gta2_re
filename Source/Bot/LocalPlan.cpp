@@ -106,9 +106,28 @@ float Octile(int dx, int dy)
     return (ax > ay ? ax : ay) + 0.4142f * (ax < ay ? ax : ay);
 }
 
+// How far (tiles) is the point from the global route ahead (the polyline route_x/route_y)?
+float DistToRoute(const LocalPlanWorld& w, float px, float py)
+{
+    float best = 1e9f;
+    for (int i = 0; i + 1 < w.route_n; i++)
+    {
+        const float ex = w.route_x[i + 1] - w.route_x[i];
+        const float ey = w.route_y[i + 1] - w.route_y[i];
+        const float el2 = ex * ex + ey * ey;
+        float t = el2 > 0.0001f ? ((px - w.route_x[i]) * ex + (py - w.route_y[i]) * ey) / el2 : 0.0f;
+        t = t < 0.0f ? 0.0f : (t > 1.0f ? 1.0f : t);
+        const float qx = w.route_x[i] + ex * t - px;
+        const float qy = w.route_y[i] + ey * t - py;
+        const float d = sqrtf(qx * qx + qy * qy);
+        best = d < best ? d : best;
+    }
+    return best;
+}
+
 // Does the straight line between two points stay on open tiles with room (not beside a wall, not under a standing car)? The
 // tiles half the car's width (with its margin) to each side of the line count too
-bool LineOpen(const LocalPlanWorld& w, int x0, int y0, float ax, float ay, float bx, float by, float half_width)
+bool LineOpen(const LocalPlanWorld& w, int x0, int y0, float ax, float ay, float bx, float by, float half_width, float raw_dev)
 {
     const float dx = bx - ax;
     const float dy = by - ay;
@@ -121,8 +140,19 @@ bool LineOpen(const LocalPlanWorld& w, int x0, int y0, float ax, float ay, float
     const float uy = dy / len;
     int prev_tx = static_cast<int>(ax);
     int prev_ty = static_cast<int>(ay);
+    // keeping to the global route: a straight line may leave it by 0.8 of a tile, or by as much as the square route it replaces does (that goes round a car), and more only near its own start (the car's place, which
+    // may be off the route: it joins within 4 tiles, not by a long diagonal across the lanes)
+    const float start_off = w.route_n >= 2 ? DistToRoute(w, ax, ay) : 0.0f;
     for (float d = 0.0f; d <= len; d += 0.4f)
     {
+        if (w.route_n >= 2)
+        {
+            const float allowed = (raw_dev > 0.8f ? raw_dev + 0.3f : 0.8f) + start_off * (d < 4.0f ? 1.0f - d / 4.0f : 0.0f);
+            if (DistToRoute(w, ax + ux * d, ay + uy * d) > allowed)
+            {
+                return false;
+            }
+        }
         if (w.edge_ok)
         {
             // the line crosses from tile to tile: a wall or a step between them shuts it (one axis at a time on a diagonal)
@@ -227,7 +257,7 @@ float PlanStep(void* user, int x, int y, int dir, float g)
                 off = d < off ? d : off;
             }
             off = off > 6.0f ? 6.0f : off;
-            cost += 0.15f * off;
+            cost += 0.4f * off; // hugs the global route: joins it within a few tiles and stays in its lane
         }
         else if (c->ll > 1.0f)
         {
@@ -542,7 +572,16 @@ bool LocalPlan_Find(const LocalPlanWorld& w, float sx, float sy, float heading_d
         int best = cur + 1;
         for (int j = pn - 1; j > cur + 1; j--)
         {
-            if (LineOpen(w, x0, y0, px[cur], py[cur], px[j], py[j], w.own_hw + 0.1f))
+            float raw_dev = 0.0f;
+            if (w.route_n >= 2)
+            {
+                for (int k = cur + 1; k < j; k++)
+                {
+                    const float dk = DistToRoute(w, px[k], py[k]);
+                    raw_dev = dk > raw_dev ? dk : raw_dev;
+                }
+            }
+            if (LineOpen(w, x0, y0, px[cur], py[cur], px[j], py[j], w.own_hw + 0.1f, raw_dev))
             {
                 best = j;
                 break;

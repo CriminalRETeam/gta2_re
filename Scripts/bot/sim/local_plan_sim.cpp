@@ -387,6 +387,34 @@ int main()
         }
         Check("a car coming along the way: the route keeps 0.9 tiles off its track", ok && least > 0.9f, "the route runs along or through its track");
     }
+    // 7c3. the car is a lane off the global route: it joins within a few tiles and then keeps to it (not one long diagonal across the lanes)
+    {
+        Grid g;
+        g.x0 = 0; g.y0 = 0; g.w = 60; g.h = 80;
+        g.cell.assign(g.w * g.h, 'F');
+        LocalPlanWorld w = World(g, none, false);
+        const float rx[3] = {30.5f, 30.5f, 30.5f};
+        const float ry[3] = {60.5f, 45.5f, 36.5f};
+        w.route_x = rx;
+        w.route_y = ry;
+        w.route_n = 3;
+        LocalPlanOut p;
+        const bool ok = LocalPlan_Find(w, 28.5f, 60.5f, 0.0f, 30.5f, 36.5f, &p);
+        float worst = 0.0f;
+        for (int i = 0; i + 1 < p.count; i++)
+        {
+            for (float t = 0.0f; t < 1.0f; t += 0.05f)
+            {
+                const float qy = p.y[i] + (p.y[i + 1] - p.y[i]) * t;
+                const float qx = p.x[i] + (p.x[i + 1] - p.x[i]) * t;
+                if (qy < 55.0f && fabsf(qx - 30.5f) > worst)
+                {
+                    worst = fabsf(qx - 30.5f);
+                }
+            }
+        }
+        Check("a lane off the global route: on it within 5 tiles, then keeps to it", ok && worst < 0.9f, "the route wanders off the global one");
+    }
     // 7e. the foot of a ramp with the route turning right at its top: the aim point stops at the top of the ramp, not past the corner
     {
         LocalPlanOut p;
