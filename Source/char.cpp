@@ -4952,7 +4952,6 @@ skip_speed_setup:
                     field_5C_jump_over_timer = 10;
                     if (gCharCollisionNoJump_6FDB58)
                     {
-                        start_tile_y = 4;
                         s16 rnd = gRng_6F6784.get_int_4F7AE0(4);
                         switch (rnd)
                         {
