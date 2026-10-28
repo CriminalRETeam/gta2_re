@@ -393,7 +393,7 @@ static SteerBox Drive_ToSteerBox(const WorldModel::BoxInfo& b)
 
 // Free tiles beyond the nose (dir 1) or the tail (dir -1) of the car along its heading: buildings, walls and other cars,
 // on the centre line and the two sides of the car
-static float Drive_RoomAlong(float x, float y, float heading, float dir, float hl, float hw, const SteerCar* cars, int car_count)
+static float Drive_RoomAlong(float x, float y, float heading, float dir, float hl, float hw, const SteerCar* cars, int car_count, char* what = NULL)
 {
     const float kLook = 3.0f;
     const float kStep = 0.15f;
@@ -406,13 +406,25 @@ static float Drive_RoomAlong(float x, float y, float heading, float dir, float h
         {
             const float px = x + hx * (hl + d) - hy * hw * lat * dir;
             const float py = y + hy * (hl + d) + hx * hw * lat * dir;
-            bool hit = WorldModel::BuildingAt(px, py) || WorldModel::LowWallAt(static_cast<int>(px), static_cast<int>(py));
-            for (int i = 0; i < car_count && !hit; i++)
+            char kind = 0;
+            if (WorldModel::BuildingAt(px, py))
             {
-                hit = SteerBox_Contains(cars[i].box, px, py, 0.1f);
+                kind = 'B';
             }
-            if (hit)
+            else if (WorldModel::LowWallAt(static_cast<int>(px), static_cast<int>(py)))
             {
+                kind = 'W';
+            }
+            for (int i = 0; i < car_count && !kind; i++)
+            {
+                kind = SteerBox_Contains(cars[i].box, px, py, 0.1f) ? 'C' : 0;
+            }
+            if (kind)
+            {
+                if (d < best && what)
+                {
+                    _snprintf(what, 24, "%c at (%.1f,%.1f)", kind, px, py);
+                }
                 best = d < best ? d : best;
                 break;
             }
@@ -426,6 +438,23 @@ static bool Drive_Solid(void* /*user*/, float x, float y)
     // a building, water, or a tile with a fence or low wall standing on it (cars cannot cross those either)
     return WorldModel::BuildingAt(x, y) || WorldModel::LowWallAt(static_cast<int>(x), static_cast<int>(y));
 }
+
+// Length of the way from (x, y) through the waypoints
+static float Drive_RouteLength(float x, float y, const float* wx, const float* wy, int n)
+{
+    float len = 0.0f;
+    for (int i = 0; i < n; i++)
+    {
+        len += sqrtf((wx[i] - x) * (wx[i] - x) + (wy[i] - y) * (wy[i] - y));
+        x = wx[i];
+        y = wy[i];
+    }
+    return len;
+}
+
+static const float kBehindCos = -0.17f; // the first waypoint is more than 100 degrees off the nose
+static const float kAheadLead = 4.0f;   // tiles ahead of the nose where the route from the front is started
+static const float kUTurnCost = 12.0f;  // tiles a three point turn is worth
 
 bool DriveAction::Plan(BotContext& ctx, const char* why)
 {
@@ -458,6 +487,53 @@ bool DriveAction::Plan(BotContext& ctx, const char* why)
             mWpX[mWpCount] = ctx.road->X(i);
             mWpY[mWpCount] = ctx.road->Y(i);
             mWpCount++;
+        }
+    }
+    // The route starts behind the nose: turning round costs a three point turn, so a route that goes on ahead and comes back
+    // round at the next junction is taken when it is not much longer
+    if (found && !ctx.road->Approximate() && mWpCount > 0 && ctx.car.valid && pl.in_car)
+    {
+        const float th = (ctx.car.sign * pl.rot_deg + ctx.car.offset) * 3.14159265f / 180.0f;
+        const float hx = sinf(th);
+        const float hy = -cosf(th);
+        const float wx = mWpX[0] - pl.x;
+        const float wy = mWpY[0] - pl.y;
+        const float wl = sqrtf(wx * wx + wy * wy);
+        if (wl > 0.5f && (wx * hx + wy * hy) / wl < kBehindCos)
+        {
+            float base = Drive_RouteLength(pl.x, pl.y, mWpX, mWpY, mWpCount);
+            const float ax = pl.x + hx * kAheadLead;
+            const float ay = pl.y + hy * kAheadLead;
+            float alt_x[kMaxWp];
+            float alt_y[kMaxWp];
+            int alt_n = 0;
+            if (!WorldModel::BuildingAt(ax, ay) && ctx.road->FindPath(ax, ay, mTx, mTy) && !ctx.road->Approximate())
+            {
+                alt_x[alt_n] = ax;
+                alt_y[alt_n] = ay;
+                alt_n++;
+                for (u32 i = 1; i < ctx.road->Count() && alt_n < kMaxWp - 1; i++)
+                {
+                    alt_x[alt_n] = ctx.road->X(i);
+                    alt_y[alt_n] = ctx.road->Y(i);
+                    alt_n++;
+                }
+            }
+            const float alt = alt_n > 0 ? Drive_RouteLength(pl.x, pl.y, alt_x, alt_y, alt_n) : 1e9f;
+            if (alt < base + kUTurnCost)
+            {
+                for (int i = 0; i < alt_n; i++)
+                {
+                    mWpX[i] = alt_x[i];
+                    mWpY[i] = alt_y[i];
+                }
+                mWpCount = alt_n;
+                BotDecision("f=%d drive plan: the route starts behind the nose; going on ahead and round instead (%.0f tiles against %.0f and a U-turn)", ctx.frame, alt, base);
+            }
+            else
+            {
+                ctx.road->FindPath(pl.x, pl.y, mTx, mTy); // back to the route that was kept
+            }
         }
     }
     if (found && ctx.road->Approximate() && mWpCount > 0)
@@ -1277,26 +1353,34 @@ Action::Status DriveAction::Step(BotContext& ctx)
         SteerCar around[WorldModel::kMaxCars];
         const int around_count = Drive_CollectCars(ctx, around);
         const float th = (ctx.car.sign * pl.rot_deg + ctx.car.offset) * 3.14159265f / 180.0f;
-        const TurnIn tin = {err * ctx.car.turn_sign, Drive_RoomAlong(pl.x, pl.y, th, 1.0f, own_hl, own_hw, around, around_count),
-                            Drive_RoomAlong(pl.x, pl.y, th, -1.0f, own_hl, own_hw, around, around_count)};
+        char ahead_what[24] = "";
+        char behind_what[24] = "";
+        const float box_hl = pl.box.valid ? pl.box.hl : 0.5f;
+        const float box_hw = pl.box.valid ? pl.box.hw : 0.27f;
+        const TurnIn tin = {err * ctx.car.turn_sign, Drive_RoomAlong(pl.x, pl.y, th, 1.0f, box_hl, box_hw, around, around_count, ahead_what),
+                            Drive_RoomAlong(pl.x, pl.y, th, -1.0f, box_hl, box_hw, around, around_count, behind_what)};
         const TurnOut tout = TurnAround_Step(&mTurn, tin);
         if (tout.active)
         {
             if (mTurn.phase == 1)
             {
-                BotDecision("f=%d drive: turning round (%.0f degrees off): %s, room ahead %.1f behind %.1f", ctx.frame, err, tout.gas > 0 ? "forward" : "backing up", tin.fwd_clear, tin.rear_clear);
+                BotDecision("f=%d drive: turning round (%.0f degrees off): %s, room ahead %.1f [%s] behind %.1f [%s]", ctx.frame, err, tout.gas > 0 ? "forward" : "backing up", tin.fwd_clear, ahead_what, tin.rear_clear, behind_what);
             }
             ctx.input &= ~(input_bit::Left | input_bit::Right | input_bit::Forward | input_bit::Backward);
             ctx.input |= tout.right ? input_bit::Right : input_bit::Left; // (err above is already in the sense of the Right key)
-            ctx.input |= tout.gas > 0 ? input_bit::Forward : input_bit::Backward;
+            if (tout.spin)
+            {
+                ctx.input |= input_bit::Forward | input_bit::Backward;
+            }
+            else if (tout.gas != 0)
+            {
+                ctx.input |= tout.gas > 0 ? input_bit::Forward : input_bit::Backward;
+            }
             return Running;
         }
     }
-    if (fabsf(err) <= kTurnEngageDeg)
-    {
-        mBehindSince = 0;
-    }
-    else if (fabsf(err) > 60.0f && mSpeed > 0.14f && ctx.frame >= mHandbrakeNext)
+    mBehindSince = 0;
+    if (fabsf(err) > 60.0f && mSpeed > 0.14f && ctx.frame >= mHandbrakeNext)
     {
         // a sharp turn at speed: handbrake and the wheel over swing the tail round
         mHandbrakeUntil = ctx.frame + 10;

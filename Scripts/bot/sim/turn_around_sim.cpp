@@ -134,6 +134,20 @@ int main()
         const TurnIn in = {30.0f, 3.0f, 3.0f};
         Check("facing it well enough: no turning round", !TurnAround_Step(&st, in).active);
     }
+    {
+        TurnState st;
+        TurnAround_Reset(&st);
+        const TurnIn in = {170.0f, 0.2f, 0.2f};
+        bool spun = false;
+        bool let_go = false;
+        for (int i = 0; i < 140; i++)
+        {
+            const TurnOut o = TurnAround_Step(&st, in);
+            spun = spun || o.spin;
+            let_go = let_go || (i > kTurnSpinAfter + 2 && o.active && !o.spin);
+        }
+        Check("boxed in both ways: spins on the spot, letting go between", spun && let_go);
+    }
     printf("%s\n", fails ? "FAILED" : "all passed");
     return fails ? 1 : 0;
 }

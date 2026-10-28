@@ -1,5 +1,6 @@
 #include "Bot.hpp"
 #include "BlastAvoid.hpp"
+#include "Hud.hpp"
 #include "ShootPoliceCrowd.hpp"
 #include "BotDebugDraw.hpp"
 #include "Hooks.hpp"
@@ -77,6 +78,8 @@ bool Bot_Init(const char* cmd_line)
     }
     return true;
 }
+
+static const s32 kBotTextSpeed = 1; // frames a character of a message stays up
 
 Bot::Bot(const BotOptions& opts)
     : mOpts(opts)
@@ -1135,6 +1138,12 @@ void Bot::StepActions()
         mLastHurtFrame = mFrame;
     }
     mPrevHp = mWorld->player.hp;
+    // Messages (the tutorial's, the briefs) stay on screen for text_speed frames a character; the game's default of 3 makes a
+    // tutorial take ten thousand frames. Set every frame: a snapshot restore puts the saved value back
+    if (gHud_2B00_706620 && gHud_2B00_706620->field_13C4_text_speed > kBotTextSpeed)
+    {
+        gHud_2B00_706620->field_13C4_text_speed = kBotTextSpeed;
+    }
 
     // Dead (wasted or busted): the game respawns the player after a countdown, nothing to do
     // meanwhile, except for actions that handle it themselves (a frenzy retries from a snapshot)
