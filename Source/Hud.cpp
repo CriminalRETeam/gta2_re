@@ -39,7 +39,7 @@ DEFINE_GLOBAL(u16, gPauseFont_7063F8, 0x7063F8);
 DEFINE_GLOBAL(u16, gPlayerNameFont_7062DC, 0x7062DC);
 // The chat font. Renaming it (for example to gChatFont_70643E) changes the code of
 // Hud_ChatInput::DrawChatMessages_5D16B0, so it keeps its old name.
-DEFINE_GLOBAL(u16, word_70643E, 0x70643E);
+DEFINE_GLOBAL(u16, gChatDisplayFont_70643E, 0x70643E);
 DEFINE_GLOBAL_ARRAY(char_type, gTmpGxtKey_67CE50, 256, 0x67CE50);
 DEFINE_GLOBAL(s16, word_7064D8, 0x7064D8);
 DEFINE_GLOBAL_INIT(Fix16, kFpZero_7064C0, 0, 0x7064C0);
@@ -1491,7 +1491,7 @@ bool Hud_ChatInput::HandleChatInputKey_5D15E0(s32 action, Player* pPlayer)
 MATCH_FUNC(0x5d16b0)
 void Hud_ChatInput::DrawChatMessages_5D16B0()
 {
-    s32 line_spacing = GetLineSpacingFromFontType_5D7700_inlined(word_70643E);
+    s32 line_spacing = GetLineSpacingFromFontType_5D7700_inlined(gChatDisplayFont_70643E);
     s32 text_ypos = 480 - line_spacing;
     if (bStartNetworkGame_7081F0)
     {
@@ -1508,7 +1508,7 @@ void Hud_ChatInput::DrawChatMessages_5D16B0()
                 {
                     swprintf(tmpBuff_67BD9C, L"%s:%s ", pPlayerIter->field_83C_player_name, reinterpret_cast<wchar_t*>(pPlayerIter->field_796_chat_text));
                 }
-                s32 max_text_width = Frontend::GetMaxTextWidth_5D8990(tmpBuff_67BD9C, word_70643E);
+                s32 max_text_width = Frontend::GetMaxTextWidth_5D8990(tmpBuff_67BD9C, gChatDisplayFont_70643E);
                 s32 start_xpos;
                 if (max_text_width > 640)
                 {
@@ -1518,7 +1518,7 @@ void Hud_ChatInput::DrawChatMessages_5D16B0()
                 {
                     start_xpos = 0;
                 }
-                DrawText_5D7720(tmpBuff_67BD9C, start_xpos, text_ypos, word_70643E, palette_types_enum::font_remaps_8, 5, 0, 0);
+                DrawText_5D7720(tmpBuff_67BD9C, start_xpos, text_ypos, gChatDisplayFont_70643E, palette_types_enum::font_remaps_8, 5, 0, 0);
                 text_ypos -= line_spacing;
             }
         }
@@ -3457,7 +3457,7 @@ void Hud::SetFontTypes_5D6B00()
         gPauseFont_7063F8 = 201;
         word_7064D8 = 103;
         gPlayerNameFont_7062DC = 103;
-        word_70643E = 103;
+        gChatDisplayFont_70643E = 103;
     }
     else
     {
@@ -3471,7 +3471,7 @@ void Hud::SetFontTypes_5D6B00()
         word_7064D8 = gStyleTextFont_703BAA;
         gPauseFont_7063F8 = gStylePauseFont_703DA4;
         gPlayerNameFont_7062DC = gStyleTextFont_703BAA;
-        word_70643E = gStyleTextFont_703BAA;
+        gChatDisplayFont_70643E = gStyleTextFont_703BAA;
     }
 }
 
