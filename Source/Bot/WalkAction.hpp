@@ -22,6 +22,12 @@ class WalkAction : public Action
         mTy = y;
     }
 
+    // On a jump over a car, land on it and press the enter key: a car stood on is taken nearly every time
+    void SetStealOnJump(bool steal)
+    {
+        mStealOnJump = steal;
+    }
+
     s32 Retries() const
     {
         return mRetries;
@@ -53,6 +59,7 @@ class WalkAction : public Action
     s32 mCarJumpUntil;
     s32 mCarJumpStart;
     s32 mCarJumpNext;
+    bool mStealOnJump;
     s32 mNudges;
     float mNudgeX, mNudgeY;
     Calibrator mCalib;

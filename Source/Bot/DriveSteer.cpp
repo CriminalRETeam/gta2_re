@@ -43,9 +43,17 @@ struct Arc
 // then the car steers at the aim point the way the driver does. Cost: where it ends relative to the aim point, and
 // what it runs into on the way. A wall the car already touches does not count at the start: an arc beside a wall
 // would be blocked at once and the car could not move out of it
-Arc Rollout(const SteerWorld& w, float x, float y, float heading, float hdir, float s, float speed, float aim_x, float aim_y)
+Arc Rollout(const SteerWorld& w, float x, float y, float heading, float hdir, float s, float speed, float aim_x, float aim_y, SteerArcDebug* ad)
 {
     Arc arc;
+    if (ad)
+    {
+        ad->s = s;
+        ad->n = 0;
+        ad->hit = 0;
+        ad->cost = 0.0f;
+        ad->chosen = false;
+    }
     float hard_car = 0.0f;
     float h = heading;
     const float v = speed < 0.10f ? 0.10f : speed; // it will pick up speed
@@ -94,12 +102,24 @@ Arc Rollout(const SteerWorld& w, float x, float y, float heading, float hdir, fl
                 closest_err = fabsf(WrapDeg(HeadingDeg(ddx, ddy) - h));
             }
         }
-        const float px = -fy * 0.6f;
-        const float py = fx * 0.6f;
-        const float pts[4][2] = {{x + fx * 0.9f + px, y + fy * 0.9f + py}, {x + fx * 0.9f - px, y + fy * 0.9f - py}, {x + px, y + py}, {x - px, y - py}};
+        if (ad && ad->n < 24)
+        {
+            ad->px[ad->n] = x;
+            ad->py[ad->n] = y;
+            ad->n++;
+        }
+        const float px = -fy * kFootHalfWidth;
+        const float py = fx * kFootHalfWidth;
+        const float pts[4][2] = {{x + fx * kFootFront + px, y + fy * kFootFront + py}, {x + fx * kFootFront - px, y + fy * kFootFront - py}, {x + px, y + py}, {x - px, y - py}};
         for (int i = 0; i < 4 && !wall; i++)
         {
             wall = w.solid(w.user, pts[i][0], pts[i][1]);
+            if (wall && ad)
+            {
+                ad->hit = 1;
+                ad->hit_x = pts[i][0];
+                ad->hit_y = pts[i][1];
+            }
         }
         if (wall)
         {
@@ -112,9 +132,17 @@ Arc Rollout(const SteerWorld& w, float x, float y, float heading, float hdir, fl
                 const SteerCar& oc = w.cars[k];
                 const float cx = oc.x + oc.vx * t;
                 const float cy = oc.y + oc.vy * t;
-                if ((cx - x) * (cx - x) + (cy - y) * (cy - y) < 1.4f * 1.4f)
+                if ((cx - x) * (cx - x) + (cy - y) * (cy - y) < kCarHitRadius * kCarHitRadius)
                 {
                     car_hit = true;
+                    if (ad)
+                    {
+                        ad->hit = 2;
+                        ad->hit_x = x;
+                        ad->hit_y = y;
+                        ad->car_x = cx;
+                        ad->car_y = cy;
+                    }
                     const bool oncoming = oc.speed > 0.12f && oc.vx * fx + oc.vy * fy < -0.10f;
                     hard_car = (oncoming || oc.police) ? 25.0f : 4.0f;
                     break;
@@ -129,12 +157,20 @@ Arc Rollout(const SteerWorld& w, float x, float y, float heading, float hdir, fl
     {
         arc.cost += 20.0f + (reach - driven) * 3.0f;
     }
+    if (ad)
+    {
+        ad->cost = arc.cost;
+    }
     return arc;
 }
 } // namespace
 
-SteerChoice DriveSteer_Choose(const SteerWorld& w, float x, float y, float heading_deg, float hdir, float speed, float aim_x, float aim_y, float prev_s)
+SteerChoice DriveSteer_Choose(const SteerWorld& w, float x, float y, float heading_deg, float hdir, float speed, float aim_x, float aim_y, float prev_s, SteerDebug* dbg)
 {
+    if (dbg)
+    {
+        dbg->arc_count = 0;
+    }
     static const float options[5] = {0.0f, -1.0f, 1.0f, -0.5f, 0.5f};
     const float err = WrapDeg(HeadingDeg(aim_x - x, aim_y - y) - heading_deg);
     // the key that turns the car towards the aim point: a right key press adds hdir to the heading
@@ -146,7 +182,8 @@ SteerChoice DriveSteer_Choose(const SteerWorld& w, float x, float y, float headi
     float best_cost = 1e9f;
     for (int o = 0; o < 5; o++)
     {
-        const Arc arc = Rollout(w, x, y, heading_deg, hdir, options[o], speed, aim_x, aim_y);
+        SteerArcDebug* ad = (dbg && dbg->arc_count < 5) ? &dbg->arcs[dbg->arc_count++] : 0;
+        const Arc arc = Rollout(w, x, y, heading_deg, hdir, options[o], speed, aim_x, aim_y, ad);
         const float cost = arc.cost - (options[o] == natural ? 3.0f : 0.0f) - (options[o] == prev_s ? 1.5f : 0.0f);
         if (cost < best_cost)
         {
@@ -156,6 +193,13 @@ SteerChoice DriveSteer_Choose(const SteerWorld& w, float x, float y, float headi
         }
     }
     best.changed = best.s != natural;
+    if (dbg)
+    {
+        for (int i = 0; i < dbg->arc_count; i++)
+        {
+            dbg->arcs[i].chosen = dbg->arcs[i].s == best.s;
+        }
+    }
     return best;
 }
 
@@ -187,7 +231,11 @@ int StripFree(const SteerWorld& w, float x0, float y0, float x1, float y1, float
     {
         const float px = x0 + ux * d;
         const float py = y0 + uy * d;
-        if (w.solid(w.user, px - uy * 0.7f, py + ux * 0.7f) || w.solid(w.user, px + uy * 0.7f, py - ux * 0.7f) || w.solid(w.user, px, py))
+        // the same four points of the car's footprint as the arcs test, with the car pointing along the strip
+        const float sx = -uy * kFootHalfWidth;
+        const float sy = ux * kFootHalfWidth;
+        if (w.solid(w.user, px + ux * kFootFront + sx, py + uy * kFootFront + sy) || w.solid(w.user, px + ux * kFootFront - sx, py + uy * kFootFront - sy) ||
+            w.solid(w.user, px + sx, py + sy) || w.solid(w.user, px - sx, py - sy))
         {
             return 2;
         }
@@ -200,7 +248,7 @@ int StripFree(const SteerWorld& w, float x0, float y0, float x1, float y1, float
             }
             const float cx = w.cars[k].x + w.cars[k].vx * t;
             const float cy = w.cars[k].y + w.cars[k].vy * t;
-            if ((cx - px) * (cx - px) + (cy - py) * (cy - py) < 1.5f * 1.5f)
+            if ((cx - px) * (cx - px) + (cy - py) * (cy - py) < kCarHitRadius * kCarHitRadius)
             {
                 return 3;
             }

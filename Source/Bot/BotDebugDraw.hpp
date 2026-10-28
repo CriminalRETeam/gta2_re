@@ -13,7 +13,8 @@ enum
     kDebugColRed = 0xFF3030FF,
     kDebugColWhite = 0xFFFFFFFF,
     kDebugColOrange = 0xFF1090FF,
-    kDebugColBlue = 0xFFFF8030
+    kDebugColBlue = 0xFFFF8030,
+    kDebugColGrey = 0xFF909090
 };
 
 class BotDebugDraw

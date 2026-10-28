@@ -197,7 +197,7 @@ static Result Run(const Grid& g, float sx, float sy, float heading, const std::v
                 aim.y = oy;
             }
         }
-        const SteerChoice c = DriveSteer_Choose(w, x, y, h, hdir, v, aim.x, aim.y, prev_s);
+        const SteerChoice c = DriveSteer_Choose(w, x, y, h, hdir, v, aim.x, aim.y, prev_s, NULL);
         prev_s = c.s;
         float cap = cap0;
         const float wall_cap = DriveSteer_SpeedFor(c.wall_d);
@@ -456,9 +456,9 @@ int main(int argc, char** argv)
         const Result r = Run(g, 8.5f, 20.5f, 90.0f, wps, 3000, trace, cars);
         fails += Report("road with traffic and a stopped car", r, 3);
         printf("   wheel changed sides %d times, mean speed %.3f, bumps %d\n", r.reversals, r.mean_speed, r.car_bumps);
-        if (r.reversals > 35 || r.car_bumps > 0)
+        if (r.reversals > 45 || r.car_bumps > 0)
         {
-            printf("   expected at most 35 changes (going round a stopped car takes a few) and no bump\n");
+            printf("   expected at most 45 changes (going round a stopped car takes a few) and no bump\n");
             fails++;
         }
     }

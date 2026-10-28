@@ -90,6 +90,7 @@ class DriveAction : public Action
     s32 mReverseUntil;
     float mReverseSteer;
     float mPrevSteer;
+    SteerDebug mSteerDebug; // the rollouts of the last choice, for the debug draw
     OvertakeTrace mTrace; // what the last overtake look found, for the debug draw
     s32 mTraceFrame;
     s32 mOvertakeUntil;

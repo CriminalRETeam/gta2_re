@@ -666,16 +666,16 @@ Action::Status DriveAction::Step(BotContext& ctx)
             const float hd = (ctx.car.sign * pl.rot_deg + ctx.car.offset) * 3.14159265f / 180.0f;
             const float fx = sinf(hd);
             const float fy = -cosf(hd);
-            const float qx = -fy * 0.6f;
-            const float qy = fx * 0.6f;
+            const float qx = -fy * kFootHalfWidth;
+            const float qy = fx * kFootHalfWidth;
             const float x0 = pl.x + qx;
             const float y0 = pl.y + qy;
             const float x1 = pl.x - qx;
             const float y1 = pl.y - qy;
-            const float x2 = x1 + fx * 0.9f;
-            const float y2 = y1 + fy * 0.9f;
-            const float x3 = x0 + fx * 0.9f;
-            const float y3 = y0 + fy * 0.9f;
+            const float x2 = x1 + fx * kFootFront;
+            const float y2 = y1 + fy * kFootFront;
+            const float x3 = x0 + fx * kFootFront;
+            const float y3 = y0 + fy * kFootFront;
             BotDebugDraw::Line(x0, y0, x1, y1, kDebugColWhite);
             BotDebugDraw::Line(x1, y1, x2, y2, kDebugColWhite);
             BotDebugDraw::Line(x2, y2, x3, y3, kDebugColWhite);
@@ -690,8 +690,8 @@ Action::Status DriveAction::Step(BotContext& ctx)
                 continue;
             }
             const bool still = oc.speed < 0.03f;
-            // 1.4 tiles: how close the steering arcs count as a hit (DriveSteer.cpp)
-            BotDebugDraw::Mark(oc.x, oc.y, 1.4f, oc.police ? kDebugColBlue : (still ? kDebugColRed : kDebugColOrange), oc.police ? "cop" : (still ? "stop" : ""));
+            // kCarHitRadius: how near the steering arcs and the overtake strips count as a hit (DriveSteer.hpp)
+            BotDebugDraw::Mark(oc.x, oc.y, kCarHitRadius, oc.police ? kDebugColBlue : (still ? kDebugColRed : kDebugColOrange), oc.police ? "cop" : (still ? "stop" : ""));
             if (!still)
             {
                 BotDebugDraw::Line(oc.x, oc.y, oc.x + oc.vx * 45.0f, oc.y + oc.vy * 45.0f, kDebugColOrange);
@@ -702,8 +702,8 @@ Action::Status DriveAction::Step(BotContext& ctx)
             const WorldModel::PedInfo& op = ctx.world->peds[k];
             if (!op.dead && !op.in_car && op.dist < 20.0f)
             {
-                // 0.8 tiles: the room the look-ahead keeps round a pedestrian
-                BotDebugDraw::Mark(op.x, op.y, 0.8f, op.cop ? kDebugColBlue : kDebugColWhite, "");
+                // kPedRadius: the room the look-ahead keeps round a pedestrian
+                BotDebugDraw::Mark(op.x, op.y, kPedRadius, op.cop ? kDebugColBlue : kDebugColWhite, "");
             }
         }
         // tiles the route planner charges extra for, beside or under a car that stands
@@ -725,6 +725,18 @@ Action::Status DriveAction::Step(BotContext& ctx)
             BotDebugDraw::Mark(mTrace.blocker_x, mTrace.blocker_y, 1.2f, kDebugColYellow, "in the way");
             for (int k = 0; k < mTrace.count; k++)
             {
+                // the strip as it was tested: the footprint (half width each side) carried from the car to the place
+                const float sdx = mTrace.cand_x[k] - pl.x;
+                const float sdy = mTrace.cand_y[k] - pl.y;
+                const float sl = sqrtf(sdx * sdx + sdy * sdy);
+                if (sl > 0.1f)
+                {
+                    const float sux = sdx / sl;
+                    const float suy = sdy / sl;
+                    const unsigned scol = mTrace.cand_why[k] == 0 ? kDebugColGreen : kDebugColRed;
+                    BotDebugDraw::Line(pl.x - suy * kFootHalfWidth, pl.y + sux * kFootHalfWidth, mTrace.cand_x[k] - suy * kFootHalfWidth, mTrace.cand_y[k] + sux * kFootHalfWidth, scol);
+                    BotDebugDraw::Line(pl.x + suy * kFootHalfWidth, pl.y - sux * kFootHalfWidth, mTrace.cand_x[k] + suy * kFootHalfWidth, mTrace.cand_y[k] - sux * kFootHalfWidth, scol);
+                }
                 static const char* const why[4] = {"ok", "W", "B", "C"};
                 BotDebugDraw::Mark(mTrace.cand_x[k], mTrace.cand_y[k], 0.4f, mTrace.cand_why[k] == 0 ? kDebugColGreen : kDebugColRed, why[mTrace.cand_why[k]]);
             }
@@ -869,24 +881,34 @@ Action::Status DriveAction::Step(BotContext& ctx)
         }
         const float heading_deg = ctx.car.sign * pl.rot_deg + ctx.car.offset;
         const float hdir = ctx.car.sign * ctx.car.turn_sign;
-        const SteerChoice choice = DriveSteer_Choose(world, pl.x, pl.y, heading_deg, hdir, mSpeed, aim_x, aim_y, mPrevSteer);
+        const SteerChoice choice = DriveSteer_Choose(world, pl.x, pl.y, heading_deg, hdir, mSpeed, aim_x, aim_y, mPrevSteer, &mSteerDebug);
         mPrevSteer = choice.s;
         wall_ahead = choice.wall_d;
         {
-            // the arc the wheel is held for: where the car goes in the next stretch if the choice stands
-            float ax = pl.x;
-            float ay = pl.y;
-            float ah = heading_deg;
-            for (int i = 0; i < 12; i++)
+            // the five rollouts that were really run: the track of the car's centre (green the one chosen, grey the others), and
+            // what stopped each: a red cross at the footprint point that met a building, or a ring of the hit radius round the
+            // place the other car will be
+            for (int a = 0; a < mSteerDebug.arc_count; a++)
             {
-                const float nh = ah + hdir * choice.s * 1.8f * 4.0f;
-                const float rad = nh * 3.14159265f / 180.0f;
-                const float nx = ax + sinf(rad) * 0.5f;
-                const float ny = ay - cosf(rad) * 0.5f;
-                BotDebugDraw::Line(ax, ay, nx, ny, kDebugColGreen);
-                ax = nx;
-                ay = ny;
-                ah = nh;
+                const SteerArcDebug& arc = mSteerDebug.arcs[a];
+                const unsigned col = arc.chosen ? kDebugColGreen : kDebugColGrey;
+                float lx = pl.x;
+                float ly = pl.y;
+                for (int i = 0; i < arc.n; i++)
+                {
+                    BotDebugDraw::Line(lx, ly, arc.px[i], arc.py[i], col);
+                    lx = arc.px[i];
+                    ly = arc.py[i];
+                }
+                if (arc.hit == 1)
+                {
+                    BotDebugDraw::Line(arc.hit_x - 0.25f, arc.hit_y - 0.25f, arc.hit_x + 0.25f, arc.hit_y + 0.25f, kDebugColRed);
+                    BotDebugDraw::Line(arc.hit_x + 0.25f, arc.hit_y - 0.25f, arc.hit_x - 0.25f, arc.hit_y + 0.25f, kDebugColRed);
+                }
+                else if (arc.hit == 2)
+                {
+                    BotDebugDraw::Mark(arc.car_x, arc.car_y, kCarHitRadius, kDebugColOrange, arc.chosen ? "hit car" : "");
+                }
             }
             if (ctx.frame < mOvertakeUntil)
             {
@@ -932,7 +954,7 @@ Action::Status DriveAction::Step(BotContext& ctx)
             for (int i = 0; i < ctx.world->ped_count && !hit; i++)
             {
                 const WorldModel::PedInfo& p = ctx.world->peds[i];
-                if (!p.dead && !p.in_car && (p.x - sx) * (p.x - sx) + (p.y - sy) * (p.y - sy) < 0.8f * 0.8f)
+                if (!p.dead && !p.in_car && (p.x - sx) * (p.x - sx) + (p.y - sy) * (p.y - sy) < kPedRadius * kPedRadius)
                 {
                     hit = true;
                     obstacle_is_ped = true;

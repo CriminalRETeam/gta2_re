@@ -35,6 +35,7 @@ WalkAction::WalkAction(float x, float y, bool follow_arrow, float stop_dist)
     , mCarJumpUntil(0)
     , mCarJumpStart(0)
     , mCarJumpNext(0)
+    , mStealOnJump(false)
     , mNudges(0)
     , mNudgeX(0)
     , mNudgeY(0)
@@ -225,6 +226,21 @@ Action::Status WalkAction::Step(BotContext& ctx)
         mCkNext = ctx.frame + 300;
     }
 
+    // what the walker is up to, drawn first: the jump and wait branches below return early and the line must not vanish
+    {
+        float px = pl.x;
+        float py = pl.y;
+        for (s32 i = mPathIdx; i < len && i < mPathIdx + 30; i++)
+        {
+            const float nx = ctx.nav->PathAt(i).x + 0.5f;
+            const float ny = ctx.nav->PathAt(i).y + 0.5f;
+            BotDebugDraw::Line(px, py, nx, ny, kDebugColGreen);
+            px = nx;
+            py = ny;
+        }
+        BotDebugDraw::Mark(ctx.nav->PathAt(mPathIdx).x + 0.5f, ctx.nav->PathAt(mPathIdx).y + 0.5f, 0.4f, kDebugColMagenta, "aim");
+        BotDebugDraw::Mark(mTx, mTy, 0.8f, kDebugColWhite, "goal");
+    }
     // Cars are no obstacles for a walker: the route ignores them (the road is crossed whatever is on it, `Bot::Evade` jumps
     // aside from one that is coming) and a car standing in the way is jumped over. The jump starts a little before the
     // bumper: forward and jump together, for 20 frames.
@@ -238,6 +254,20 @@ Action::Status WalkAction::Step(BotContext& ctx)
         if (ctx.frame - mCarJumpStart < 3)
         {
             ctx.input |= input_bit::HandbrakeJump;
+        }
+        // on top of the car (about the middle of the hop): take it
+        if (mStealOnJump)
+        {
+            for (int k = 0; k < ctx.world->car_count; k++)
+            {
+                const WorldModel::CarInfo& under = ctx.world->cars[k];
+                if (WalkCarJump_StealNow(ctx.frame - mCarJumpStart, under.dist, under.police, under.locked))
+                {
+                    ctx.input |= input_bit::EnterExit;
+                    BotDecision("f=%d walk: on top of car #%d: taking it", ctx.frame, under.idx);
+                    break;
+                }
+            }
         }
         mProgressFrame = ctx.frame;
         return Running;
@@ -345,20 +375,6 @@ Action::Status WalkAction::Step(BotContext& ctx)
     {
         aim_x = mTx;
         aim_y = mTy;
-    }
-    {
-        float px = pl.x;
-        float py = pl.y;
-        for (s32 i = mPathIdx; i < len && i < mPathIdx + 30; i++)
-        {
-            const float nx = ctx.nav->PathAt(i).x + 0.5f;
-            const float ny = ctx.nav->PathAt(i).y + 0.5f;
-            BotDebugDraw::Line(px, py, nx, ny, kDebugColGreen);
-            px = nx;
-            py = ny;
-        }
-        BotDebugDraw::Mark(aim_x, aim_y, 0.4f, kDebugColMagenta, "aim");
-        BotDebugDraw::Mark(mTx, mTy, 0.8f, kDebugColWhite, "goal");
     }
     const float err = ctx.Steer(ctx.foot, pl.rot_deg, pl.x, pl.y, aim_x, aim_y, true);
     // Turn first, then walk: heading 40 degrees off drifts into building corners

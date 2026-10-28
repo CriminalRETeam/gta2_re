@@ -574,8 +574,13 @@ void TravelGoal::BeginStage(BotContext& ctx, Stage st)
             mChild = new ExitCarAction();
             break;
         case Walk:
-            mChild = new WalkAction(mX, mY, false, mArrive);
+        {
+            WalkAction* walk = new WalkAction(mX, mY, false, mArrive);
+            // a long way to go and no police about: a car jumped over on the way is taken, not left
+            walk->SetStealOnJump(!mWalkOnly && Remaining(*ctx.world) > 25.0f && !ctx.world->CopsNear(14.0f));
+            mChild = walk;
             break;
+        }
         case Train:
             mChild = new RideTrainGoal(mX, mY);
             break;
@@ -709,6 +714,14 @@ Action::Status TravelGoal::Step(BotContext& ctx)
         {
             Decided(ctx);
         }
+        return Running;
+    }
+    // Stood on a car on the way and took it (the walker's jump): drive on from here
+    if (mStage == Walk && pl.in_car && !mWalkOnly)
+    {
+        BotDecision("f=%d travel: in car #%d, taken on the way: driving", ctx.frame, pl.car_id);
+        mCarId = pl.car_id;
+        BeginStage(ctx, Drive);
         return Running;
     }
     if (mStage == WaitCar)
