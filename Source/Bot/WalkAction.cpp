@@ -37,6 +37,7 @@ WalkAction::WalkAction(float x, float y, bool follow_arrow, float stop_dist)
     , mCarJumpStart(0)
     , mCarJumpNext(0)
     , mStealOnJump(false)
+    , mStealTries(0)
     , mNudges(0)
     , mNudgeX(0)
     , mNudgeY(0)
@@ -270,7 +271,11 @@ Action::Status WalkAction::Step(BotContext& ctx)
                     ctx.input = WalkCarJump_StealNow(ctx.frame - mCarJumpStart, under.dist, under.police, under.locked) ? input_bit::EnterExit : 0;
                     if (ctx.frame - mCarJumpStart == 4)
                     {
-                        BotDecision("f=%d walk: on top of car #%d: taking it", ctx.frame, under.idx);
+                        BotDecision("f=%d walk: on top of car #%d: taking it (try %d)", ctx.frame, under.idx, mStealTries + 1);
+                        if (++mStealTries >= 2)
+                        {
+                            mStealOnJump = false; // it does not take this one: from the next hop on just jump (a loop of hops and presses went on for ever)
+                        }
                     }
                     mProgressFrame = ctx.frame;
                     return Running;

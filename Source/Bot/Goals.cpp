@@ -1764,6 +1764,13 @@ Action::Status MissionGoal::Step(BotContext& ctx)
     }
     else if (mStage == Phone)
     {
+        // A tutorial phone's walk-through is messages, and only some of them lead into a mission: when none started, it is over
+        if (mPhone.model == 163 && !ctx.world->on_mission)
+        {
+            BotDecision("f=%d mission: tutorial phone #%d done (no mission followed)", ctx.frame, mPhone.id);
+            mStage = Over;
+            return Done;
+        }
         BeginStage(ctx, Play);
     }
     else
@@ -1898,46 +1905,30 @@ bool MissionsGoal::ChoosePhone(BotContext& ctx, WorldModel::ObjInfo* out)
         mFavourGang = w.gang_index[ctx.rng->Below(static_cast<u32>(w.gang_count))];
         BotDecision("f=%d missions: favourite gang this run: %d", ctx.frame, mFavourGang);
     }
+    // A phone rings (its object has the odd model of its pair) when a mission is open to the player: those are the ones to go
+    // to. Only when none rings is the nearest tried, to learn what respect it wants
+    int ringing_now = 0;
+    for (int i = 0; i < w.phone_count; i++)
     {
-        char ids[800];
+        ringing_now += WorldModel::PhoneModelRinging(w.phones[i].model) ? 1 : 0;
+    }
+    {
+        char ids[300];
         ids[0] = 0;
-        for (int i = 0; i < w.phone_count && strlen(ids) < 700; i++)
+        for (int i = 0; i < w.phone_count && strlen(ids) < 230; i++)
         {
-            _snprintf(ids + strlen(ids), 60, " #%d m%d (%.0f,%.0f) gang %d%s;", w.phones[i].id, w.phones[i].model, w.phones[i].x, w.phones[i].y, OwnerAt(w, w.phones[i].x, w.phones[i].y), w.PhoneRinging(w.phones[i].id) ? "" : " DEAD");
+            _snprintf(ids + strlen(ids), 40, " #%d m%d gang %d%s;", w.phones[i].id, w.phones[i].model, OwnerAt(w, w.phones[i].x, w.phones[i].y), WorldModel::PhoneModelRinging(w.phones[i].model) ? " RINGING" : "");
         }
-        BotDecision("f=%d missions: %d phone triggers in the script; phones on the map:%s", ctx.frame, w.phones_ringing, ids);
-        char other[400];
-        other[0] = 0;
-        for (int t = 0; t < w.phones_ringing && t < 20; t++)
-        {
-            bool listed = false;
-            for (int i = 0; i < w.phone_count; i++)
-            {
-                listed = listed || w.phones[i].id == w.ringing_phone_ids[t];
-            }
-            if (!listed)
-            {
-                WorldModel::ObjInfo oi;
-                if (w.FindObject(w.ringing_phone_ids[t], &oi))
-                {
-                    _snprintf(other + strlen(other), 50, " #%d m%d (%.0f,%.0f);", oi.id, oi.model, oi.x, oi.y);
-                }
-                else
-                {
-                    _snprintf(other + strlen(other), 30, " #%d (no such object);", w.ringing_phone_ids[t]);
-                }
-            }
-        }
-        BotDecision("f=%d missions: phone triggers whose phone is not among those listed:%s", ctx.frame, other);
+        BotDecision("f=%d missions: %d of %d phones ring:%s", ctx.frame, ringing_now, w.phone_count, ids);
     }
     float best = 1e9f;
     bool found = false;
     for (int i = 0; i < w.phone_count; i++)
     {
         const WorldModel::ObjInfo& p = w.phones[i];
-        if (w.phones_ringing > 0 && !w.PhoneRinging(p.id))
+        if (ringing_now > 0 && !WorldModel::PhoneModelRinging(p.model))
         {
-            continue; // not ringing: no mission can be started from it yet (it is not in the script's phone triggers)
+            continue; // not ringing: no mission is open from it yet
         }
         const PhoneMemory* m = Memory(p.id, false);
         float penalty = 0.0f;
@@ -1974,6 +1965,10 @@ bool MissionsGoal::ChoosePhone(BotContext& ctx, WorldModel::ObjInfo* out)
                     break;
                 }
             }
+        }
+        if (p.model == 163)
+        {
+            cost = sqrtf(dx * dx + dy * dy) - 5000.0f + penalty; // the tutorials first, the nearest of them first (the starting phone is under the player): they open the game
         }
         if (p.id == mPreferPhone)
         {

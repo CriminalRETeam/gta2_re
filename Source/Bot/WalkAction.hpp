@@ -62,6 +62,7 @@ class WalkAction : public Action
     s32 mCarJumpStart;
     s32 mCarJumpNext;
     bool mStealOnJump;
+    s32 mStealTries; // steals tried in this walk: two and it stops trying
     s32 mNudges;
     float mNudgeX, mNudgeY;
     Calibrator mCalib;

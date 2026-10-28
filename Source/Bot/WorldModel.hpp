@@ -212,6 +212,12 @@ class WorldModel : public BotObject
     bool on_mission;
     s32 missions_passed;
     s32 phones_ringing;
+    // A phone rings (a mission is open to the player) when its object has the odd model of the pair: 177 for 176, 179 for 178, 181 for 180.
+    // The tutorial phones (163) always ring
+    static bool PhoneModelRinging(s32 model)
+    {
+        return model == 163 || (model & 1) == 1;
+    }
     s32 ringing_phone_ids[20]; // object ids of the phones that can be answered now (the script's phone triggers)
     bool PhoneRinging(s32 obj_id) const
     {
