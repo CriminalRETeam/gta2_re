@@ -1,5 +1,6 @@
 #include "CarActions.hpp"
 #include "DriveSteer.hpp"
+#include "BotDebugDraw.hpp"
 #include "ChaseActions.hpp"
 #include "WalkAction.hpp"
 #include "WorldModel.hpp"
@@ -644,6 +645,22 @@ Action::Status DriveAction::Step(BotContext& ctx)
         }
     }
 
+    // what the driver is up to, drawn over the game view (BotUi.cpp)
+    {
+        float px = pl.x;
+        float py = pl.y;
+        for (int i = mWpIdx; i < mWpCount && i < mWpIdx + 30; i++)
+        {
+            BotDebugDraw::Line(px, py, mWpX[i], mWpY[i], kDebugColCyan);
+            px = mWpX[i];
+            py = mWpY[i];
+        }
+        char label[20];
+        _snprintf(label, sizeof(label), "wp %d/%d", mWpIdx, mWpCount);
+        BotDebugDraw::Mark(mWpX[mWpIdx], mWpY[mWpIdx], 0.6f, kDebugColYellow, label);
+        BotDebugDraw::Mark(aim_x, aim_y, 0.4f, kDebugColMagenta, "aim");
+        BotDebugDraw::Mark(mTx, mTy, 1.0f, kDebugColWhite, "goal");
+    }
     if (ctx.frame < mReverseUntil)
     {
         ctx.input = input_bit::Backward | (mReverseSteer > 0 ? input_bit::Right : input_bit::Left);
@@ -786,6 +803,37 @@ Action::Status DriveAction::Step(BotContext& ctx)
         const SteerChoice choice = DriveSteer_Choose(world, pl.x, pl.y, heading_deg, hdir, mSpeed, aim_x, aim_y, mPrevSteer);
         mPrevSteer = choice.s;
         wall_ahead = choice.wall_d;
+        {
+            // the arc the wheel is held for: where the car goes in the next stretch if the choice stands
+            float ax = pl.x;
+            float ay = pl.y;
+            float ah = heading_deg;
+            for (int i = 0; i < 12; i++)
+            {
+                const float nh = ah + hdir * choice.s * 1.8f * 4.0f;
+                const float rad = nh * 3.14159265f / 180.0f;
+                const float nx = ax + sinf(rad) * 0.5f;
+                const float ny = ay - cosf(rad) * 0.5f;
+                BotDebugDraw::Line(ax, ay, nx, ny, kDebugColGreen);
+                ax = nx;
+                ay = ny;
+                ah = nh;
+            }
+            for (int k = 0; k < other_count; k++)
+            {
+                const float dx = others[k].x - pl.x;
+                const float dy = others[k].y - pl.y;
+                if (dx * dx + dy * dy < 20.0f * 20.0f)
+                {
+                    BotDebugDraw::Mark(others[k].x, others[k].y, 0.8f, others[k].police ? kDebugColRed : kDebugColOrange, others[k].police ? "police" : "");
+                    BotDebugDraw::Line(others[k].x, others[k].y, others[k].x + others[k].vx * 45.0f, others[k].y + others[k].vy * 45.0f, kDebugColOrange);
+                }
+            }
+            if (ctx.frame < mOvertakeUntil)
+            {
+                BotDebugDraw::Mark(mOvertakeX, mOvertakeY, 0.5f, kDebugColOrange, "overtake");
+            }
+        }
         ctx.input &= ~(input_bit::Left | input_bit::Right);
         if (choice.s != 0.0f && (fabsf(choice.s) > 0.9f || ctx.frame % 2 == 0))
         {

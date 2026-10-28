@@ -620,3 +620,28 @@ The failures are (1) a death by cops punching the player on foot (see "Why the p
 With `-bot_draw` (so with `run_bot.py --show`) the bot hooks an ImGui window into d3ddll's BeginScene callback (`Bot::RegisterUi`, `Source/Bot/BotUi.cpp`; the same hook as the debug window of `ImGuiDebug.cpp`, so it needs the Hax d3ddll; the log says `bot: overlay on`). The window shows the frame, the goal chain (every goal reports its running child through `Action::Active()`: missions > mission_goal > travel > walk), the player's state, the arrow and the brief, the respect of the gangs, the input bits and the last 40 decisions.
 
 **WTF!** saves the game state from 8 to 10 seconds of real time earlier (a ring of five snapshots, one every two seconds) to `bot_out/<run>/wtf_N/state.snap`, with `notes.txt`: the goal chain, the state and the last 150 decisions at the press, and the command line of the run. `python3 Scripts/bot/wtf_replay.py bot_out/<run>/wtf_N [--show] [--budget N]` loads that state into a new game with the same bot arguments and lets the bot play from there, logging to `wtf_N/replay/bot_log.txt`. The state (world, player, cars, peds, rng) is restored exactly; the bot's own plan starts afresh from it, so the replay shows what the bot does from that situation, not necessarily the same choice. `-bot_wtf_at=N` presses the button at run frame N, for tests.
+
+## Debug draw and the native tests
+
+**Path on the game view.** With the overlay on (`-bot_draw`), the actions put lines and rings in world tiles into
+`BotDebugDraw` every frame (cleared before each `Step`), and `BotUi.cpp` draws them over the picture through the game's own
+camera (`Camera::ProjectWorldToScreen_4B90E0`, so zoom and pan follow). The driver draws the route (cyan, from the car
+through the next 30 waypoints), the next waypoint (yellow ring, `wp n/m`), the aim point (magenta ring), the goal (white),
+the arc the wheel is held for (green), nearby cars (orange rings, red for police) with where they will be in 45 frames, and
+the overtake aim point. The walker draws its path (green), aim and goal. The "draw the path" checkbox in the Bot window
+turns it off.
+
+**Native tests (no game, no wine).** The decisions that matter are pure functions with no game types, so
+`Scripts/bot/sim/run_sims.sh` builds them with plain g++ and runs them in about two seconds:
+
+| Function | Test | What it checks |
+|---|---|---|
+| `DriveSteer_Choose/Overtake/SpeedFor` | `steer_sim` | arcs, walls, junction from the real map (`junction_96_214.map`), weave on an empty road, traffic, overtaking |
+| `CalibrateCore` | `calib_sim` | ped and car calibration, a ped frozen for 200 frames, one that never answers |
+| `ShootPoliceCrowd_Decide` | `shoot_police_crowd_sim` | face, shoot, back away from three or more police on foot |
+| `WalkCarJump_Decide` | `walk_car_jump_sim` | hop a car that stands or creeps in the way |
+| `CarSwitch_ShouldSwitch` | `car_switch_sim` | one switch to a clearly nearer car, not to a hijack on a short walk |
+
+A bug seen on screen becomes a failing case first (the steering weave reproduced as 69 wheel flips on an empty road), then a
+fix. The sim's car is approximate (1.8 degrees of turn a frame, stops dead at a wall): it finds logic faults, not the feel.
+A save state only loads in the exe build that wrote it, so a change to the bot invalidates earlier WTF saves.

@@ -1,5 +1,6 @@
 #include "WalkAction.hpp"
 #include "WalkCarJump.hpp"
+#include "BotDebugDraw.hpp"
 #include "WorldModel.hpp"
 #include "NavFoot.hpp"
 #include "CarActions.hpp"
@@ -344,6 +345,20 @@ Action::Status WalkAction::Step(BotContext& ctx)
     {
         aim_x = mTx;
         aim_y = mTy;
+    }
+    {
+        float px = pl.x;
+        float py = pl.y;
+        for (s32 i = mPathIdx; i < len && i < mPathIdx + 30; i++)
+        {
+            const float nx = ctx.nav->PathAt(i).x + 0.5f;
+            const float ny = ctx.nav->PathAt(i).y + 0.5f;
+            BotDebugDraw::Line(px, py, nx, ny, kDebugColGreen);
+            px = nx;
+            py = ny;
+        }
+        BotDebugDraw::Mark(aim_x, aim_y, 0.4f, kDebugColMagenta, "aim");
+        BotDebugDraw::Mark(mTx, mTy, 0.8f, kDebugColWhite, "goal");
     }
     const float err = ctx.Steer(ctx.foot, pl.rot_deg, pl.x, pl.y, aim_x, aim_y, true);
     // Turn first, then walk: heading 40 degrees off drifts into building corners

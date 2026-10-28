@@ -6,6 +6,8 @@
 #include "BotAction.hpp"
 #include "NavCar.hpp"
 #include "BotLog.hpp"
+#include "BotDebugDraw.hpp"
+#include "Camera.hpp"
 #include "3rdParty/GTA2Hax/d3ddll/d3ddll.hpp" // CC
 #include "gbh_graphics.hpp"
 #include "3rdParty/GTA2Hax/3rdParty/imgui/imgui.h"
@@ -77,6 +79,61 @@ void Bot::RegisterUi()
     BotLog("bot: overlay on");
 }
 
+// The game's world to the overlay's pixels: through the game's own camera, so it follows the zoom and the pan
+static bool Ui_Project(float x, float y, float z, ImVec2* out)
+{
+    Camera* cam = gViewCamera_676978;
+    if (!cam || cam->field_68_screen_px_width <= 0)
+    {
+        return false;
+    }
+    Fix16 sx;
+    Fix16 sy;
+    cam->ProjectWorldToScreen_4B90E0(Fix16(x), Fix16(y), Fix16(z), &sx, &sy);
+    const ImVec2 disp = ImGui::GetIO().DisplaySize;
+    out->x = sx.ToFloat() * disp.x / static_cast<float>(cam->field_68_screen_px_width);
+    out->y = sy.ToFloat() * disp.y / static_cast<float>(cam->field_6C_screen_px_height);
+    return true;
+}
+
+// Lines and rings over the whole game view, from what the actions put in BotDebugDraw this frame
+static void Ui_DrawWorld(float z)
+{
+    const ImVec2 disp = ImGui::GetIO().DisplaySize;
+    ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
+    ImGui::Begin("##botdraw", NULL, disp, 0.0f,
+                 ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoInputs |
+                     ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoBringToFrontOnFocus);
+    ImDrawList* dl = ImGui::GetWindowDrawList();
+    for (int i = 0; i < BotDebugDraw::LineCount(); i++)
+    {
+        const BotDebugDraw::DebugLine& l = BotDebugDraw::LineAt(i);
+        ImVec2 a;
+        ImVec2 b;
+        if (Ui_Project(l.x0, l.y0, z, &a) && Ui_Project(l.x1, l.y1, z, &b))
+        {
+            dl->AddLine(a, b, l.col, 2.0f);
+        }
+    }
+    for (int i = 0; i < BotDebugDraw::MarkCount(); i++)
+    {
+        const BotDebugDraw::DebugMark& m = BotDebugDraw::MarkAt(i);
+        ImVec2 c;
+        ImVec2 e;
+        if (Ui_Project(m.x, m.y, z, &c) && Ui_Project(m.x + m.radius, m.y, z, &e))
+        {
+            float r = e.x - c.x;
+            r = r < 4.0f ? 4.0f : r;
+            dl->AddCircle(c, r, m.col, 16, 2.0f);
+            if (m.label[0])
+            {
+                dl->AddText(ImVec2(c.x + r + 2.0f, c.y - 6.0f), m.col, m.label);
+            }
+        }
+    }
+    ImGui::End();
+}
+
 void Bot::DrawUi()
 {
     if (!mWorld)
@@ -84,6 +141,10 @@ void Bot::DrawUi()
         return;
     }
     const WorldModel::PlayerInfo& pl = mWorld->player;
+    if (mDrawPath)
+    {
+        Ui_DrawWorld(pl.z);
+    }
     ImGui::Begin("Bot", NULL, ImVec2(460, 640), 0.85f);
 
     if (mPaused)
@@ -95,6 +156,7 @@ void Bot::DrawUi()
         }
         ImGui::Separator();
     }
+    ImGui::Checkbox("draw the path on the game view (cyan route, yellow next waypoint, magenta aim, green steering, red cars)", &mDrawPath);
     ImGui::Checkbox("pause when a drive route is planned", &mPauseOnRoute);
     if (mRouteLast[0])
     {

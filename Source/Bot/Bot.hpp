@@ -124,6 +124,7 @@ class Bot : public BotObject
     };
     bool mUiOn;
     bool mPaused;        // the game's logic is held: the world stands still, the picture and the window go on
+    bool mDrawPath;      // draw the route, aim point and steering on the game view
     bool mPauseOnRoute;  // pause whenever a drive route has been planned, to look at its picture
     s32 mRouteCount;
     char mRouteLast[260];

@@ -1,5 +1,6 @@
 #include "Bot.hpp"
 #include "ShootPoliceCrowd.hpp"
+#include "BotDebugDraw.hpp"
 #include "Hooks.hpp"
 #include "HeapTracker.hpp"
 #include "Snapshot.hpp"
@@ -108,6 +109,7 @@ Bot::Bot(const BotOptions& opts)
     , mCrushLogFrame(-1000)
     , mUiOn(false)
     , mPaused(false)
+    , mDrawPath(true)
     , mPauseOnRoute(opts.pause_route)
     , mRouteCount(0)
     , mWtfRequested(false)
@@ -1140,6 +1142,7 @@ void Bot::StepActions()
     }
 
     mCtx.input = 0;
+    BotDebugDraw::Clear();
     Action* pAction = mActions[mActionIdx];
     const Action::Status status = pAction->Step(mCtx);
     mInputBits = mCtx.input & input_bit::ControlBits;
