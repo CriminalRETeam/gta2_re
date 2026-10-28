@@ -846,9 +846,13 @@ void WorldModel::DumpMap(const char* path, float cx, float cy, int radius) const
             if (b)
             {
                 const int type = b->field_B_slope_type & 3;
-                if (z >= 3)
+                if (BuildingAt(static_cast<float>(x) + 0.5f, static_cast<float>(y) + 0.5f))
                 {
-                    c = 'B';
+                    c = 'B'; // a building, water, or the edge of the map: as the steering sees it
+                }
+                else if (LowWallAt(x, y))
+                {
+                    c = 'W'; // a fence or low wall stands on it
                 }
                 else if (type == 1)
                 {
@@ -1075,7 +1079,20 @@ bool WorldModel::BuildingAt(float x, float y)
     }
     s32 z = 0;
     gmp_block_info* b = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(ix, iy, &z);
-    return b != NULL && (IsRoofBlock(b, z) || IsWaterBlock(b));
+    return b != NULL && ((IsRoofBlock(b, z) && !RoadBlockBelow(ix, iy, z)) || IsWaterBlock(b));
+}
+
+gmp_block_info* WorldModel::RoadBlockBelow(int ix, int iy, s32 z)
+{
+    for (s32 z0 = 0; z0 < z && z0 < 3; z0++)
+    {
+        gmp_block_info* b = gMap_0x370_6F6268->GetBlockOrNull_452980(static_cast<u8>(ix), static_cast<u8>(iy), static_cast<u8>(z0));
+        if (b && (b->field_B_slope_type & 3) == 1 && ((b->field_0_left | b->field_2_right | b->field_4_top | b->field_6_bottom) & 0x400) == 0)
+        {
+            return b;
+        }
+    }
+    return NULL;
 }
 
 bool WorldModel::IsRoofBlock(const gmp_block_info* b, s32 z)

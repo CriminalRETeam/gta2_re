@@ -159,6 +159,8 @@ class WorldModel : public BotObject
     static BoxInfo BoxOfSprite(class Sprite* pSprite);
     static bool LowWallAt(int ix, int iy); // a fence or low wall stands on the tile (a block of its own above the ground one)
     static bool BuildingAt(float x, float y);   // a building, the edge of the map or water: nothing drives or walks there
+    // A road lower down under what the highest block says is a roof: the road of an underpass (an overpass crosses above it). NULL if none
+    static struct gmp_block_info* RoadBlockBelow(int ix, int iy, s32 z);
     static bool IsRoofBlock(const struct gmp_block_info* b, s32 z); // the highest block at height z is a rooftop, not a bridge
     static bool IsWaterBlock(const struct gmp_block_info* b); // the lid is a water tile (the game's own test for drowning)
 

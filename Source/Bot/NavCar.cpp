@@ -158,6 +158,16 @@ void NavCar::Build()
             {
                 water_tiles++;
             }
+            if (b && WorldModel::IsRoofBlock(b, z))
+            {
+                // the highest block is a deck high above: if a road runs under it (an overpass crosses over) the tile is that road
+                gmp_block_info* road = WorldModel::RoadBlockBelow(x, y, z);
+                if (road)
+                {
+                    b = road;
+                    z = 1;
+                }
+            }
             if (!b || WorldModel::IsRoofBlock(b, z) || WorldModel::IsWaterBlock(b))
             {
                 continue; // nothing there, a building, or water
