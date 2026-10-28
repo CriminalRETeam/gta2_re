@@ -902,7 +902,7 @@ void __stdcall DrawElectricArc_5DE910(Fix16_Point_POD start_pos, Fix16_Point& en
     {
         start.x = -kFpPoint03_706E7C;
         start.y = kFpPoint2_706CF8 + kFpPoint02_706E80;
-        start.RotateByAngle_40F6B0_all_out_of_line(gElectroShooterRotation_707004);
+        start.RotateByAngle_40F6B0(gElectroShooterRotation_707004);
         start = start.Add_40AC50(start_pos);
         start.x += gElectroShooterVelocity_706E58.x;
         start.y += gElectroShooterVelocity_706E58.y;
@@ -938,9 +938,8 @@ void __stdcall DrawElectricArc_5DE910(Fix16_Point_POD start_pos, Fix16_Point& en
         Ang16 jitter = Ang16::Fix16_To_Ang16_ool_40F540(
             (Fix16(gRng_6F6784.get_int_4F7AE0(spread)) -= Fix16(static_cast<u16>(spread >> 1))) * kFpOne64th_706D34);
 
-        step.x = seg_len.Multiply_408680(Ang16::sine_40F500(angle));
-        step.y = seg_len.Multiply_408680(Ang16::cosine_40F520(angle));
-        step.RotateByAngle_40F6B0_all_out_of_line(jitter);
+        step.FromPolar_41E210(seg_len, angle);
+        step.RotateByAngle_40F6B0(jitter);
         seg_angle = step.atan2_40F790();
 
         next = cur.Add_40AC50(step);
