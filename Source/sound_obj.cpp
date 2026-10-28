@@ -7306,11 +7306,11 @@ void sound_obj::DeInitVocals_57EA10()
         /*
         for (u32 j = 5; j; j--)
         {
-            field_544C[j].field_0_bUsed = false;
-            field_544C[j].field_10 = 0;
-            field_544C[j].field_12 = 0;
-            field_544C[j].field_14 = 0;
-            field_544C[j].field_18 = 0;
+            RadioEmitter(j).field_0_bUsed = false;
+            RadioEmitter(j).field_10_a_variant_radius = 0;
+            RadioEmitter(j).field_12_main_radius = 0;
+            RadioEmitter(j).field_14_elapsed_frames = 0;
+            RadioEmitter(j).field_18_pos_ms = 0;
         }
         */
 
@@ -7598,8 +7598,7 @@ u8 sound_obj::FindEmitterByStation_57F050(s32 station_idx) const
 {
     for (u8 i = 0; i < 5; i++)
     {
-        // TODO: Structure is wrong, maybe field_544C starts earlier or later?
-        if (*reinterpret_cast<const u32*>(&field_544C[i + 1].field_8_sound_obj.field_4_bStatus) == static_cast<u32>(station_idx))
+        if (static_cast<u32>(reinterpret_cast<const RadioStationEmitter*>(field_544C)[i + 1].field_C_station_idx) == static_cast<u32>(station_idx))
         {
             return i;
         }
