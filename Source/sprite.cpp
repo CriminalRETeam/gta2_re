@@ -2573,22 +2573,15 @@ EXPORT void __stdcall ProjectWorldToScreen_5A5690(Fix16 x, Fix16 y, Fix16 z, Fix
 }
 
 // World to screen pixels. DrawCollisionBox_5A4DA0 expands the inline, except for its last call, which
-// is the out-of-line copy ProjectWorldToScreen_5A5690.
-// Like the original, the function runs out of inline expansions, so the Fix16 operators are the
-// out-of-line copies.
+// is the out-of-line copy ProjectWorldToScreen_5A5690. The inline budget leaves the operators out of line.
 static inline void ProjectToScreen_5A5690(Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16* pOut2)
 {
     Fix16 scale;
-    scale =
-        kFP16One_7035C4.Divide_436A20((kFP16Eight_7035E4.Subtract_436A00(z)).Add_408660(gViewCamera_676978->field_98_cur_pos.field_8_z));
-    *pOut1 = (x.Subtract_436A00(gViewCamera_676978->field_98_cur_pos.field_0_x)
-                  .Multiply_408680(gViewCamera_676978->field_60_screen_scale.x)
-                  .Multiply_408680(scale))
-                 .Add_408660(Fix16(gViewCamera_676978->field_70_screen_px_center_x));
-    *pOut2 = (y.Subtract_436A00(gViewCamera_676978->field_98_cur_pos.field_4_y)
-                  .Multiply_408680(gViewCamera_676978->field_60_screen_scale.x)
-                  .Multiply_408680(scale))
-                 .Add_408660(Fix16(gViewCamera_676978->field_74_screen_px_center_y));
+    scale = kFP16One_7035C4 / ((kFP16Eight_7035E4 - z) + gViewCamera_676978->field_98_cur_pos.field_8_z);
+    *pOut1 = (((x - gViewCamera_676978->field_98_cur_pos.field_0_x) * gViewCamera_676978->field_60_screen_scale.x) * scale) +
+        Fix16(gViewCamera_676978->field_70_screen_px_center_x);
+    *pOut2 = (((y - gViewCamera_676978->field_98_cur_pos.field_4_y) * gViewCamera_676978->field_60_screen_scale.x) * scale) +
+        Fix16(gViewCamera_676978->field_74_screen_px_center_y);
 }
 
 DEFINE_GLOBAL_INIT(u16, gDebugColour_626260, 0x1111, 0x626260);
