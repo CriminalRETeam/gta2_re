@@ -57,6 +57,12 @@ WalkAction::WalkAction(float x, float y, bool follow_arrow, float stop_dist)
     mCkFrame[0] = mCkFrame[1] = -1;
 }
 
+void WalkAction::Detail(char* buf, int size) const
+{
+    _snprintf(buf, size, "walking to (%.0f,%.0f)", mTx, mTy);
+    buf[size - 1] = 0;
+}
+
 WalkAction::~WalkAction()
 {
     delete mCk[0];

@@ -65,6 +65,7 @@ class DriveAction : public Action
     {
         return "drive";
     }
+    virtual void Detail(char* buf, int size) const;
     virtual void Start(BotContext& ctx);
     virtual Status Step(BotContext& ctx);
 

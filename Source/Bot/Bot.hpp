@@ -45,10 +45,8 @@ class Bot : public BotObject
         return mInputBits;
     }
 
-    bool Paused() const
-    {
-        return mPaused;
-    }
+    // Asked once per logic frame by the game loop: true to hold this frame back (paused, between steps, or the slow speed)
+    bool HoldFrame();
     static void RoutePlannedStatic(const char* why, class NavCar* road, float sx, float sy, float tx, float ty);
 
     const BotOptions& Options() const
@@ -123,6 +121,12 @@ class Bot : public BotObject
         kRing = 5
     };
     bool mUiOn;
+    int mSpeed;          // 0 slow (one logic frame in four), 1 normal, 2 fast (as many as can be run)
+    int mSlowTick;
+    int mStepFrames;     // paused: logic frames still to run
+    float mStepTiles;    // paused: tiles of travel still to run (0 none)
+    float mStepX, mStepY;
+    int mStepRun;
     bool mPaused;        // the game's logic is held: the world stands still, the picture and the window go on
     bool mDrawPath;      // draw the route, aim point and steering on the game view
     bool mPauseOnRoute;  // pause whenever a drive route has been planned, to look at its picture

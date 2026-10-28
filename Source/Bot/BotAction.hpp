@@ -75,6 +75,17 @@ class Action : public BotObject
     }
 
     virtual const char* Name() const = 0;
+    // Why this is being done, in words ("to answer the phone at (98,246)"): set by whoever creates the action. The overlay shows
+    // it with the name, so a run can be followed without reading the code
+    void SetWhy(const char* why);
+    const char* Why() const
+    {
+        return mWhy;
+    }
+    // What it is doing right now ("getting a car: #12, 4 tiles off"), for the overlay. Writes nothing when there is nothing to say
+    virtual void Detail(char* /*buf*/, int /*size*/) const
+    {
+    }
     virtual void Start(BotContext& ctx) = 0;
     virtual Status Step(BotContext& ctx) = 0;
 
@@ -85,6 +96,7 @@ class Action : public BotObject
     }
 
     // Valid when Step returned Failed
+    char mWhy[96];
     char fail_condition[24]; // no_plan, no_progress, action_failed
     char fail_detail[240];
 

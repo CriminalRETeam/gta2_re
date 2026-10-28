@@ -75,8 +75,15 @@ bool Bot_LineClear(float x0, float y0, float x1, float y1)
 
 Action::Action()
 {
+    mWhy[0] = 0;
     fail_condition[0] = 0;
     fail_detail[0] = 0;
+}
+
+void Action::SetWhy(const char* why)
+{
+    strncpy(mWhy, why, sizeof(mWhy) - 1);
+    mWhy[sizeof(mWhy) - 1] = 0;
 }
 
 Action::Status Action::Fail(const char* condition, const char* fmt, ...)

@@ -111,6 +111,7 @@ class TravelGoal : public Action
     {
         return "travel";
     }
+    virtual void Detail(char* buf, int size) const;
     virtual void Start(BotContext& ctx);
     virtual Status Step(BotContext& ctx);
 

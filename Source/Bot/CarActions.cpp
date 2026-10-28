@@ -276,6 +276,12 @@ DriveAction::DriveAction(float x, float y, float stop_dist)
     mCkFrame[0] = mCkFrame[1] = -1;
 }
 
+void DriveAction::Detail(char* buf, int size) const
+{
+    _snprintf(buf, size, "driving to (%.0f,%.0f), stop within %.1f%s", mTx, mTy, mStopDist, mChase ? ", chasing" : "");
+    buf[size - 1] = 0;
+}
+
 DriveAction::~DriveAction()
 {
     delete mCk[0];

@@ -416,6 +416,13 @@ TravelGoal::TravelGoal(float x, float y, float arrive_dist, bool keep_car)
 {
 }
 
+void TravelGoal::Detail(char* buf, int size) const
+{
+    static const char* const stage_text[] = {"deciding how to go", "getting a car", "driving", "getting out", "walking", "taking the train", "grabbing a car", "stepping away from a car", "going to the road", "waiting for a car"};
+    _snprintf(buf, size, "to (%.0f,%.0f): %s%s", mX, mY, stage_text[mStage], mKeepCar ? " (keeping the car)" : "");
+    buf[size - 1] = 0;
+}
+
 TravelGoal::~TravelGoal()
 {
     delete mChild;
@@ -675,6 +682,14 @@ void TravelGoal::BeginStage(BotContext& ctx, Stage st)
 
         default:
             return;
+    }
+    {
+        // say why, from the trip's own reason (set by whoever asked for it) and the step
+        static const char* const step_text[] = {"", "get a car", "drive", "get out", "walk", "take the train", "grab a pickup on the way", "step away", "get onto the road", ""};
+        char why[96];
+        _snprintf(why, sizeof(why), "%s: %s", step_text[st], mWhy[0] ? mWhy : "travelling");
+        why[sizeof(why) - 1] = 0;
+        mChild->SetWhy(why);
     }
     BeginChild(ctx, &mSnap, mChild);
     (void)pl;
@@ -1175,6 +1190,7 @@ void KillGangGoal::NextChild(BotContext& ctx)
                     mChildSince = ctx.frame;
                     BotDecision("f=%d kill_gang: car #%d (damage %d) is about to burn %.1f tiles away: walking clear to (%.0f,%.0f)", ctx.frame, bc.idx, bc.damage, bc.dist, cx, cy);
                     mChild = new TravelGoal(cx, cy, 3.0f, false);
+                    mChild->SetWhy("to get clear of the burning car before it blows");
                     BeginChild(ctx, &mSnap, mChild);
                     return;
                 }
@@ -1219,6 +1235,7 @@ void KillGangGoal::NextChild(BotContext& ctx)
             BotDecision("f=%d kill_gang: wanted level %d, %d cops about: getting away to (%.0f,%.0f) (%d)", ctx.frame, pl.wanted_stars, w.cops_total, cx, cy, mFlees);
             mFleeing = true;
             mChild = new TravelGoal(cx, cy, 6.0f, true);
+            mChild->SetWhy("to get away from the blast / police");
             BeginChild(ctx, &mSnap, mChild);
             return;
         }
@@ -1344,6 +1361,7 @@ void KillGangGoal::NextChild(BotContext& ctx)
             BotDecision("f=%d kill_gang: nobody of gang %d in sight; walking to (%d,%d) in its zone %d", ctx.frame, mGang, tx, ty, mZone % n);
             // by car when the zone is far, and stay in it: a gang is run down faster than it is chased on foot
             mChild = new TravelGoal(tx + 0.5f, ty + 0.5f, 2.0f, !mNoCar);
+            mChild->SetWhy("to a spot in the zone to look for targets");
             BeginChild(ctx, &mSnap, mChild);
             if (++mWander % 4 == 0)
             {
@@ -1544,7 +1562,8 @@ void DestroyCarGoal::BeginStage(BotContext& ctx, Stage st)
             WorldModel::CarInfo t;
             const float tx = ctx.world->FindCar(mCarId, &t) ? t.x : ctx.world->player.x;
             const float ty = ctx.world->FindCar(mCarId, &t) ? t.y : ctx.world->player.y;
-            mChild = new TravelGoal(tx, ty, 25.0f, true); // by car, train or on foot, whichever is quickest
+            mChild = new TravelGoal(tx, ty, 25.0f, true);
+            mChild->SetWhy("to get within range of the target car"); // by car, train or on foot, whichever is quickest
             break;
         }
     }
@@ -1801,6 +1820,7 @@ void MissionGoal::BeginStage(BotContext& ctx, Stage st)
             break;
         case Travel:
             mChild = new TravelGoal(mPhone.x, mPhone.y, 8.0f);
+            mChild->SetWhy("to the ringing phone, to take the mission");
             break;
         case Phone:
             mChild = new PhoneAction(mPhone.id, mPhone.x, mPhone.y, mPhone.model == 163);
@@ -2278,7 +2298,11 @@ Action::Status MissionsGoal::Step(BotContext& ctx)
             mTokenBan[mTokenBanCount++] = tok.id; // once each
             BotDecision("f=%d missions: secret token #%d at (%.0f,%.0f), %.0f tiles off: fetching it before the next phone", ctx.frame, tok.id, tok.x, tok.y, sqrtf((tok.x - ctx.world->player.x) * (tok.x - ctx.world->player.x) + (tok.y - ctx.world->player.y) * (tok.y - ctx.world->player.y)));
             SequenceGoal* seq = new SequenceGoal("fetch_token");
-            seq->Add(new TravelGoal(tok.x, tok.y, 3.0f, false), false);
+            {
+                TravelGoal* tg = new TravelGoal(tok.x, tok.y, 3.0f, false);
+                tg->SetWhy("to a secret token on the way");
+                seq->Add(tg, false);
+            }
             seq->Add(new PickUpAction(tok.id, tok.x, tok.y), false);
             mRaise = seq;
             mFetching = true;

@@ -112,6 +112,13 @@ Bot::Bot(const BotOptions& opts)
     , mBlastFrames(0)
     , mCrushLogFrame(-1000)
     , mUiOn(false)
+    , mSpeed(opts.fast ? 2 : 1)
+    , mSlowTick(0)
+    , mStepFrames(0)
+    , mStepTiles(0.0f)
+    , mStepX(0.0f)
+    , mStepY(0.0f)
+    , mStepRun(0)
     , mPaused(false)
     , mDrawPath(true)
     , mPauseOnRoute(opts.pause_route)
@@ -486,7 +493,7 @@ void Bot::OnFrame()
         // Watching on the user's own screen: the game grabs the mouse exclusively and clips it to its
         // window. The bot plays by itself, so give the mouse back every frame.
         ClipCursor(NULL);
-        if (mOpts.fast)
+        if (mSpeed == 2)
         {
             gMatchStartTime_6F5A28 = 0; // the next logic frame is always due: up to 8 per drawn frame
         }

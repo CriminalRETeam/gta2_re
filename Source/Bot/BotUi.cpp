@@ -55,6 +55,36 @@ void Bot::OnRoutePlanned(const char* why, NavCar* road, float sx, float sy, floa
     }
 }
 
+bool Bot::HoldFrame()
+{
+    if (mPaused)
+    {
+        if (mStepFrames > 0)
+        {
+            mStepFrames--;
+            return false;
+        }
+        if (mStepTiles > 0.0f && mWorld)
+        {
+            const float dx = mWorld->player.x - mStepX;
+            const float dy = mWorld->player.y - mStepY;
+            // stepping by travel: run until the player has gone that far (or a minute has gone: standing still is not a step)
+            if (dx * dx + dy * dy >= mStepTiles * mStepTiles || ++mStepRun > 1800)
+            {
+                mStepTiles = 0.0f;
+                return true;
+            }
+            return false;
+        }
+        return true;
+    }
+    if (mSpeed == 0)
+    {
+        return (++mSlowTick & 3) != 0;
+    }
+    return false;
+}
+
 void __stdcall Bot::UiCallback()
 {
     if (sInstance)
@@ -97,7 +127,7 @@ static bool Ui_Project(float x, float y, float z, ImVec2* out)
 }
 
 // Lines and rings over the whole game view, from what the actions put in BotDebugDraw this frame
-static void Ui_DrawWorld(float z)
+static void Ui_DrawWorld(float z, const char* line1, const char* line2)
 {
     const ImVec2 disp = ImGui::GetIO().DisplaySize;
     ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f));
@@ -131,6 +161,14 @@ static void Ui_DrawWorld(float z)
             }
         }
     }
+    // what the bot is doing and why, over the top of the picture
+    if (line1[0] || line2[0])
+    {
+        const ImVec2 p0(disp.x * 0.5f - 330.0f, 6.0f);
+        dl->AddRectFilled(p0, ImVec2(p0.x + 660.0f, p0.y + 40.0f), 0xB0000000);
+        dl->AddText(ImVec2(p0.x + 6.0f, p0.y + 3.0f), 0xFF80E8FF, line1);
+        dl->AddText(ImVec2(p0.x + 6.0f, p0.y + 21.0f), 0xFFD0D0D0, line2);
+    }
     ImGui::End();
 }
 
@@ -143,7 +181,33 @@ void Bot::DrawUi()
     const WorldModel::PlayerInfo& pl = mWorld->player;
     if (mDrawPath)
     {
-        Ui_DrawWorld(pl.z);
+        // the innermost goal that has a reason, and the innermost thing with a state
+        char line1[200];
+        char line2[200];
+        line1[0] = 0;
+        line2[0] = 0;
+        for (Action* a = (mActionIdx >= 0 && mActionIdx < mActionCount) ? mActions[mActionIdx] : NULL; a; a = a->Active())
+        {
+            char detail[160];
+            detail[0] = 0;
+            a->Detail(detail, sizeof(detail));
+            if (a->Why()[0])
+            {
+                _snprintf(line1, sizeof(line1), "%s: %s", a->Name(), a->Why());
+                line1[sizeof(line1) - 1] = 0;
+            }
+            else if (!line1[0])
+            {
+                _snprintf(line1, sizeof(line1), "%s", a->Name());
+                line1[sizeof(line1) - 1] = 0;
+            }
+            if (detail[0])
+            {
+                _snprintf(line2, sizeof(line2), "%s", detail);
+                line2[sizeof(line2) - 1] = 0;
+            }
+        }
+        Ui_DrawWorld(pl.z, line1, line2);
     }
     ImGui::Begin("Bot", NULL, ImVec2(460, 640), 0.85f);
 
@@ -158,6 +222,60 @@ void Bot::DrawUi()
     }
     ImGui::Checkbox("draw the path on the game view (cyan route, yellow next waypoint, magenta aim, green steering, red cars)", &mDrawPath);
     ImGui::Checkbox("pause when a drive route is planned", &mPauseOnRoute);
+    ImGui::Text("speed:");
+    ImGui::SameLine();
+    if (ImGui::RadioButton("slow", mSpeed == 0))
+    {
+        mSpeed = 0;
+    }
+    ImGui::SameLine();
+    if (ImGui::RadioButton("normal", mSpeed == 1))
+    {
+        mSpeed = 1;
+    }
+    ImGui::SameLine();
+    if (ImGui::RadioButton("fast (max fps)", mSpeed == 2))
+    {
+        mSpeed = 2;
+    }
+    if (!mPaused)
+    {
+        if (ImGui::Button("Pause"))
+        {
+            mPaused = true;
+            mStepFrames = 0;
+            mStepTiles = 0.0f;
+        }
+    }
+    else
+    {
+        // stepping: a number of logic frames, or until the player has gone some tiles (a route node is about a tile apart)
+        if (ImGui::Button("Step 1 frame"))
+        {
+            mStepFrames = 1;
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("10 frames"))
+        {
+            mStepFrames = 10;
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("1 tile"))
+        {
+            mStepTiles = 1.0f;
+            mStepX = pl.x;
+            mStepY = pl.y;
+            mStepRun = 0;
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("5 tiles"))
+        {
+            mStepTiles = 5.0f;
+            mStepX = pl.x;
+            mStepY = pl.y;
+            mStepRun = 0;
+        }
+    }
     if (mRouteLast[0])
     {
         ImGui::TextWrapped("%s", mRouteLast);
@@ -188,7 +306,18 @@ void Bot::DrawUi()
         }
         memset(indent, ' ', n);
         indent[n] = 0;
+        char detail[160];
+        detail[0] = 0;
+        a->Detail(detail, sizeof(detail));
         ImGui::Text("%s%s", indent, a->Name());
+        if (a->Why()[0])
+        {
+            ImGui::TextColored(ImVec4(0.6f, 0.9f, 1.0f, 1.0f), "%s  why: %s", indent, a->Why());
+        }
+        if (detail[0])
+        {
+            ImGui::TextColored(ImVec4(0.8f, 0.8f, 0.8f, 1.0f), "%s  now: %s", indent, detail);
+        }
     }
     ImGui::Separator();
 

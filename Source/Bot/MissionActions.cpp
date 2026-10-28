@@ -363,10 +363,12 @@ Action::Status MissionAction::Step(BotContext& ctx)
             if (arrow.type != 4 && adx * adx + ady * ady > kFarOnFoot * kFarOnFoot)
             {
                 mChild = new TravelGoal(arrow.x, arrow.y, kMarkerReach, false);
+                mChild->SetWhy("far to the mission marker: take a car, drive, walk the rest");
             }
             else
             {
                 mChild = new WalkAction(arrow.x, arrow.y, false, arrow.type == 4 ? 0.35f : kMarkerReach);
+                mChild->SetWhy("on foot to the mission marker (close)");
             }
         }
         BotDecision("f=%d mission: new step %s (%s)", ctx.frame, mChildKey, mChild->Name());
