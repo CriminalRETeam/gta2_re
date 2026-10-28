@@ -2582,111 +2582,111 @@ void Frontend::HandleCheatCode_4B3DD0(const wchar_t* cheat_str_wide)
 
     if (cheat_str_hash == 0x484DF)
     { // GOREFEST
-        bDo_blood_67D5C5 = bDo_blood_67D5C5 == 0;
+        bDo_blood_67D5C5 = !bDo_blood_67D5C5;
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x4878D)
     { // BUCKFAST Only mugger peds spawn
-        gCheatOnlyMuggerPeds_67D5A4 = gCheatOnlyMuggerPeds_67D5A4 == 0;
+        gCheatOnlyMuggerPeds_67D5A4 = !gCheatOnlyMuggerPeds_67D5A4;
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x4DA77)
     { // VOLTFEST Electro Gun with infinite ammo
-        gCheatUnlimitedElectroGun_67D4F7 = gCheatUnlimitedElectroGun_67D4F7 == 0;
+        gCheatUnlimitedElectroGun_67D4F7 = !gCheatUnlimitedElectroGun_67D4F7;
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x41611)
     { // MADEMAN Max respect from all gangs
-        gCheatAllGangMaxRespect_67D587 = gCheatAllGangMaxRespect_67D587 == 0;
+        gCheatAllGangMaxRespect_67D587 = !gCheatAllGangMaxRespect_67D587;
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x46BE8)
     { // LASVEGAS Only Elvis peds spawn
-        gCheatOnlyElvisPeds_67D4ED = gCheatOnlyElvisPeds_67D4ED == 0;
+        gCheatOnlyElvisPeds_67D4ED = !gCheatOnlyElvisPeds_67D4ED;
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x36F62)
     { // NEKKID All peds are naked
-        gCheatNakedPeds_67D5E8 = gCheatNakedPeds_67D5E8 == 0;
+        gCheatNakedPeds_67D5E8 = !gCheatNakedPeds_67D5E8;
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x4657B)
     { // EATSOUP Free shopping
-        bDo_free_shopping_67D6CD = bDo_free_shopping_67D6CD == 0;
+        bDo_free_shopping_67D6CD = !bDo_free_shopping_67D6CD;
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x4639F)
     { // DAVEMOON Basic set of weapons and max ammo
-        gCheatGetBasicWeaponsMaxAmmo_67D545 = gCheatGetBasicWeaponsMaxAmmo_67D545 == 0;
+        gCheatGetBasicWeaponsMaxAmmo_67D545 = !gCheatGetBasicWeaponsMaxAmmo_67D545;
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x33A69)
     { // CUTIE1 99 lives
-        gCheatGet99Lives_67D4F1 = gCheatGet99Lives_67D4F1 == 0;
+        gCheatGet99Lives_67D4F1 = !gCheatGet99Lives_67D4F1;
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x47AF1)
     { // ARSESTAR Keep weapons after death
-        bKeep_weapons_after_death_67D54D = bKeep_weapons_after_death_67D54D == 0;
+        bKeep_weapons_after_death_67D54D = !bKeep_weapons_after_death_67D54D;
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x49771)
     { // GODOFGTA All weapons
-        bGet_all_weapons_67D684 = bGet_all_weapons_67D684 == 0;
+        bGet_all_weapons_67D684 = !bGet_all_weapons_67D684;
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x478FB)
     { // RSJABBER Invincibility
-        bDo_invulnerable_67D4CB = bDo_invulnerable_67D4CB == 0;
+        bDo_invulnerable_67D4CB = !bDo_invulnerable_67D4CB;
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x44D2F)
     { // DANISGOD Player get points
-        gCheatGetPlayerPoints_67D4C8 = gCheatGetPlayerPoints_67D4C8 == 0;
+        gCheatGetPlayerPoints_67D4C8 = !gCheatGetPlayerPoints_67D4C8;
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x478A9)
     { // COCKTART Skip exploding scores
-        bExplodingScoresOff_67D4FB = bExplodingScoresOff_67D4FB == 0;
+        bExplodingScoresOff_67D4FB = !bExplodingScoresOff_67D4FB;
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x45EC2)
     { // FLAMEON Flame Thrower with infinite ammo
-        gCheatUnlimitedFlameThrower_67D6CC = gCheatUnlimitedFlameThrower_67D6CC == 0;
+        gCheatUnlimitedFlameThrower_67D6CC = !gCheatUnlimitedFlameThrower_67D6CC;
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x45118)
     {
-        gCheatUnlimitedJailCard_67D4F6 = gCheatUnlimitedJailCard_67D4F6 == 0;
+        gCheatUnlimitedJailCard_67D4F6 = !gCheatUnlimitedJailCard_67D4F6;
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x4672D)
     { // IAMDAVEJ Get $10,000,000
-        gCheatGet10MillionMoney_67D6CE = gCheatGet10MillionMoney_67D6CE == 0;
+        gCheatGet10MillionMoney_67D6CE = !gCheatGet10MillionMoney_67D6CE;
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x4A98B)
     { // SEGARULZ 10x multiplier
-        gCheat10xMultiplier_67D589 = gCheat10xMultiplier_67D589 == 0;
+        gCheat10xMultiplier_67D589 = !gCheat10xMultiplier_67D589;
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x45B2C)
     { // UKGAMER Unlock three main levels
-        gCheatUnlockThreeLevels_67D6CB = gCheatUnlockThreeLevels_67D6CB == 0;
+        gCheatUnlockThreeLevels_67D6CB = !gCheatUnlockThreeLevels_67D6CB;
         gPlyDat_6FEAC0->UnlockAllStages_56BC40();
         UpdateMenuForCurrPlayer_4B42E0();
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x49C76)
     { // GINGERRR Unlock levels one and two
-        gCheatUnlockLevelsOneAndTwo_67D584 = gCheatUnlockLevelsOneAndTwo_67D584 == 0;
+        gCheatUnlockLevelsOneAndTwo_67D584 = !gCheatUnlockLevelsOneAndTwo_67D584;
         gPlyDat_6FEAC0->UnlockStage_56BBD0(1u, 0);
         UpdateMenuForCurrPlayer_4B42E0();
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x5073D)
     { // TUMYFROG unlock all levels
-        gCheatUnlockAllLevels_67D538 = gCheatUnlockAllLevels_67D538 == 0;
+        gCheatUnlockAllLevels_67D538 = !gCheatUnlockAllLevels_67D538;
         gPlyDat_6FEAC0->UnlockAllStages_56BC40();
         gPlyDat_6FEAC0->UnlockStage_56BBD0(2u, 2u);
         UpdateMenuForCurrPlayer_4B42E0();
@@ -2694,17 +2694,17 @@ void Frontend::HandleCheatCode_4B3DD0(const wchar_t* cheat_str_wide)
     }
     else if (cheat_str_hash == 0x4D5C4)
     { // SCHURULZ Unlimited double damage
-        gCheatUnlimitedDoubleDamage_67D57C = gCheatUnlimitedDoubleDamage_67D57C == 0;
+        gCheatUnlimitedDoubleDamage_67D57C = !gCheatUnlimitedDoubleDamage_67D57C;
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x4B28C)
     { // HUNSRUS Invisibility
-        gCheatInvisibility_67D539 = gCheatInvisibility_67D539 == 0;
+        gCheatInvisibility_67D539 = !gCheatInvisibility_67D539;
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x45AEF)
     { // FISHFLAP All cars are mini cars
-        gCheatMiniCars_67D6C8 = gCheatMiniCars_67D6C8 == 0;
+        gCheatMiniCars_67D6C8 = !gCheatMiniCars_67D6C8;
         snd1_67D818.field_0_object_type = 9;
     }
 }

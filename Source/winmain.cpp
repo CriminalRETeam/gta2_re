@@ -2262,7 +2262,7 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
 
     gDebug_67D52C.Init_4ABBD0();
     gGameSession_67E8E0.LoadDebugSettings_4C53D0();
-    bDoFrontEnd_626B68 = bSkip_frontend_67D53B == 0;
+    bDoFrontEnd_626B68 = !bSkip_frontend_67D53B;
 
     WNDCLASSA WndClass;
     WndClass.style = CS_VREDRAW | CS_HREDRAW;
