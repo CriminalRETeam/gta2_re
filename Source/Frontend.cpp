@@ -1192,19 +1192,19 @@ void Frontend::DrawMenu_4AD140()
                         {
                             pMenuPage->field_518_elements_array[8].field_1_is_it_displayed = true;
                             pMenuPage->field_518_elements_array[9].field_1_is_it_displayed = true;
-                            field_1EB4A_has_prev_player_slot = 1;
-                            field_1EB4B_has_next_player_slot = 1;
+                            field_1EB4A_has_prev_player_slot = true;
+                            field_1EB4B_has_next_player_slot = true;
                             if (!bIsLeftRightLoopEnabled_67DA80)
                             {
                                 if (selected_option_idx == 0)
                                 {
                                     pMenuPage->field_518_elements_array[8].field_1_is_it_displayed = false;
-                                    field_1EB4A_has_prev_player_slot = 0;
+                                    field_1EB4A_has_prev_player_slot = false;
                                 }
                                 else if (selected_option_idx == pMenuPage->field_4_options_array[0].field_7E_horizontal_max_idx)
                                 {
                                     pMenuPage->field_518_elements_array[9].field_1_is_it_displayed = false;
-                                    field_1EB4B_has_next_player_slot = 0;
+                                    field_1EB4B_has_next_player_slot = false;
                                 }
                             }
 
@@ -1666,13 +1666,13 @@ void Frontend::read_menu_input_4AFEB0()
     }
     else
     {
-        field_C9CE_up_pressed = 0;
-        field_C9CF_down_pressed = 0;
-        field_C9CC_left_pressed = 0;
-        field_C9CD_right_pressed = 0;
-        field_C9D0_return_pressed = 0;
-        field_C9D1_escape_pressed = 0;
-        field_C9D2_delete_pressed = 0;
+        field_C9CE_up_pressed = false;
+        field_C9CF_down_pressed = false;
+        field_C9CC_left_pressed = false;
+        field_C9CD_right_pressed = false;
+        field_C9D0_return_pressed = false;
+        field_C9D1_escape_pressed = false;
+        field_C9D2_delete_pressed = false;
     }
 }
 
@@ -3366,12 +3366,12 @@ Frontend::Frontend()
     field_1EB30_credits_scroll_timer = 0;
     field_1EB34_credits_ypos = kFpZero_67D930;
     field_1EB38_credits_line_idx = 0;
-    field_1EB4A_has_prev_player_slot = 0;
-    field_1EB4B_has_next_player_slot = 0;
-    field_1EB4C_has_prev_main_stage = 0;
-    field_1EB4D_has_next_main_stage = 0;
-    field_1EB4E_has_prev_bonus_stage = 0;
-    field_1EB4F_has_next_bonus_stage = 0;
+    field_1EB4A_has_prev_player_slot = false;
+    field_1EB4B_has_next_player_slot = false;
+    field_1EB4C_has_prev_main_stage = false;
+    field_1EB4D_has_next_main_stage = false;
+    field_1EB4E_has_prev_bonus_stage = false;
+    field_1EB4F_has_next_bonus_stage = false;
 
     for (u8 i = 0; i < 8; i++)
     {
@@ -4794,23 +4794,23 @@ void Frontend::UpdateMainStageArrows_4B7550()
     if (ExistsPreviousMainStage_4B7490())
     {
         pMenuPage->field_518_elements_array[4].field_1_is_it_displayed = true;
-        field_1EB4C_has_prev_main_stage = 1;
+        field_1EB4C_has_prev_main_stage = true;
     }
     else
     {
         pMenuPage->field_518_elements_array[4].field_1_is_it_displayed = false;
-        field_1EB4C_has_prev_main_stage = 0;
+        field_1EB4C_has_prev_main_stage = false;
     }
 
     if (ExistsNextMainStage_4B74C0())
     {
         pMenuPage->field_518_elements_array[5].field_1_is_it_displayed = true;
-        field_1EB4D_has_next_main_stage = 1;
+        field_1EB4D_has_next_main_stage = true;
     }
     else
     {
         pMenuPage->field_518_elements_array[5].field_1_is_it_displayed = false;
-        field_1EB4D_has_next_main_stage = 0;
+        field_1EB4D_has_next_main_stage = false;
     }
 }
 
@@ -4914,23 +4914,23 @@ void Frontend::UpdateBonusStageArrows_4B7610()
         if (ExistsPreviousBonusStage_4B74F0())
         {
             pPage->field_518_elements_array[6].field_1_is_it_displayed = true;
-            field_1EB4E_has_prev_bonus_stage = 1;
+            field_1EB4E_has_prev_bonus_stage = true;
         }
         else
         {
             pPage->field_518_elements_array[6].field_1_is_it_displayed = false;
-            field_1EB4E_has_prev_bonus_stage = 0;
+            field_1EB4E_has_prev_bonus_stage = false;
         }
 
         if (ExistsNextBonusStage_4B7520())
         {
             pPage->field_518_elements_array[7].field_1_is_it_displayed = true;
-            field_1EB4F_has_next_bonus_stage = 1;
+            field_1EB4F_has_next_bonus_stage = true;
         }
         else
         {
             pPage->field_518_elements_array[7].field_1_is_it_displayed = false;
-            field_1EB4F_has_next_bonus_stage = 0;
+            field_1EB4F_has_next_bonus_stage = false;
         }
 
         swprintf(gTmpWideStr_67C7D8, L"%c", 3 * main_idx + bonus_idx + 64);
