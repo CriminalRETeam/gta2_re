@@ -1052,7 +1052,7 @@ void Char::UpdateAnimState_546360()
                                     field_7C_pPed->field_20A_wanted_points = cop_level_ped_enum::cop_1_stars;
                                 }
                                 gPolice_7B8_6FEE40->UpdateLastSeenCoordsForCriminal_5708C0(field_7C_pPed);
-                                if (pDriver->get_objective_403A80() == objectives_enum::objective_43)
+                                if (pDriver->get_objective_403A80() == objectives_enum::patrol_in_car_43)
                                 {
                                     gPolice_7B8_6FEE40->TryAssignCarCrewToCriminal_5707B0(pDriver->field_16C_car, field_7C_pPed);
                                 }

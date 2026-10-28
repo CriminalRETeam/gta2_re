@@ -713,7 +713,7 @@ void PoliceCrew::State3_AlertedSearch_572340()
                         Fix16 xpos_f;
                         switch (pPed->get_objective_403A80())
                         {
-                            case objectives_enum::objective_52:
+                            case objectives_enum::chase_char_in_car_52:
                                 pPed->SetObjective(objectives_enum::goto_area_in_car_14);
                                 gCurrentCrewPed_6FEDDC->field_1DC_objective_target_x = Fix16(field_14_pPursuitTarget->field_10_x.ToUInt8());
                                 gCurrentCrewPed_6FEDDC->field_1E0_objective_target_y = Fix16(field_14_pPursuitTarget->field_14_y.ToUInt8());
@@ -841,7 +841,7 @@ static inline Fix16 MaxAbsDistance_572920(Fix16& x1, Fix16& y1, Fix16& x2, Fix16
 // or in the car depending on how far away and how fast the criminal is.
 // The inline cut-offs of MaxAbsDistance (one Abs negate inline, Max out of line) need its nested budget at 287..321,
 // i.e. the 18 sites left after it: the enter-car test reads field_278_ped_state_1 directly. `default: break;` first in
-// the objective switch keeps goto_area_in_car_14's trailing `field_28 = 1; break;` as the copy objective_43 merges into.
+// the objective switch keeps goto_area_in_car_14's trailing `field_28 = 1; break;` as the copy patrol_in_car_43 merges into.
 MATCH_FUNC(0x572920)
 void PoliceCrew::State5_PursueOrChase_572920()
 {
@@ -968,7 +968,7 @@ void PoliceCrew::State5_PursueOrChase_572920()
                                 if (field_10_subObj->field_8_group->IsAllMembersInSomeCar_4CAA20())
                                 {
                                     gCurrentCrewPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0);
-                                    gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::objective_52);
+                                    gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::chase_char_in_car_52);
                                     gCurrentCrewPed_6FEDDC->set_objective_target_ped_403AC0(field_14_pPursuitTarget->field_0_criminal_ped);
                                     field_28_use_car = true;
                                 }
@@ -983,7 +983,7 @@ void PoliceCrew::State5_PursueOrChase_572920()
                             else
                             {
                                 gCurrentCrewPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0);
-                                gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::objective_52);
+                                gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::chase_char_in_car_52);
                                 gCurrentCrewPed_6FEDDC->set_objective_target_ped_403AC0(field_14_pPursuitTarget->field_0_criminal_ped);
                                 field_28_use_car = true;
                             }
@@ -991,7 +991,7 @@ void PoliceCrew::State5_PursueOrChase_572920()
                         field_28_use_car = true;
                         break;
 
-                    case objectives_enum::objective_52:
+                    case objectives_enum::chase_char_in_car_52:
                         field_28_use_car = true;
                         if (field_10_subObj->field_0_car &&
                             (!field_10_subObj->field_8_group || field_10_subObj->field_8_group->HasNoActiveMembers_4CAAE0()))
@@ -1018,7 +1018,7 @@ void PoliceCrew::State5_PursueOrChase_572920()
                                         break;
                                     }
                                     gCurrentCrewPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0);
-                                    gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::objective_52);
+                                    gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::chase_char_in_car_52);
                                     gCurrentCrewPed_6FEDDC->set_objective_target_ped_403AC0(field_14_pPursuitTarget->field_0_criminal_ped);
                                     field_28_use_car = true;
                                 }
@@ -1192,13 +1192,13 @@ void PoliceCrew::State5_PursueOrChase_572920()
                         PoliceCrew::RemoveFromPursuit_570AB0();
                         break;
 
-                    case objectives_enum::objective_43:
+                    case objectives_enum::patrol_in_car_43:
                         pPed->SetObjective2_463830(objectives_enum::no_obj_0);
                         if (field_10_subObj->field_8_group)
                         {
                             if (field_10_subObj->field_8_group->IsAllMembersInSomeCar_4CAA20())
                             {
-                                gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::objective_52);
+                                gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::chase_char_in_car_52);
                                 gCurrentCrewPed_6FEDDC->set_objective_target_ped_403AC0(field_14_pPursuitTarget->field_0_criminal_ped);
                                 field_28_use_car = true;
                             }
@@ -1209,7 +1209,7 @@ void PoliceCrew::State5_PursueOrChase_572920()
                         }
                         else
                         {
-                            gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::objective_52);
+                            gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::chase_char_in_car_52);
                             gCurrentCrewPed_6FEDDC->set_objective_target_ped_403AC0(field_14_pPursuitTarget->field_0_criminal_ped);
                             field_28_use_car = true;
                         }
@@ -1351,12 +1351,12 @@ void PoliceCrew::State6_ShutDown_574720()
                             // ClearPanicking_403960 and VC6 keeps 0 in ebp for the whole function.
                             case objectives_enum::goto_area_in_car_14:
                                 gCurrentCrewPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0);
-                                gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::objective_43);
+                                gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::patrol_in_car_43);
                                 byte_6FEB48 = 0;
                                 break;
-                            case objectives_enum::objective_52:
+                            case objectives_enum::chase_char_in_car_52:
                                 gCurrentCrewPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0);
-                                gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::objective_43);
+                                gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::patrol_in_car_43);
                                 byte_6FEB48 = 0;
                                 break;
                             case objectives_enum::no_obj_0:
@@ -1369,7 +1369,7 @@ void PoliceCrew::State6_ShutDown_574720()
                                     if (!field_10_subObj->field_8_group || field_10_subObj->field_8_group->IsAllMembersInSomeCar_4CAA20())
                                     {
                                         gCurrentCrewPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0);
-                                        gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::objective_43);
+                                        gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::patrol_in_car_43);
                                         gCurrentCrewPed_6FEDDC->field_16C_car->InitCarAIControl_440590();
                                         gCurrentCrewPed_6FEDDC->field_16C_car->ResumeAIDriving_43AF40();
                                         byte_6FEB48 = 0;
@@ -1389,8 +1389,8 @@ void PoliceCrew::State6_ShutDown_574720()
                             case objectives_enum::objective_8:
                             case objectives_enum::wait_in_car_27:
                             case objectives_enum::leave_car_and_flee_34:
-                            case objectives_enum::objective_43:
-                            case objectives_enum::objective_50:
+                            case objectives_enum::patrol_in_car_43:
+                            case objectives_enum::dead_no_ambulance_50:
                                 break;
                             case objectives_enum::enter_car_as_driver_35:
                                 PoliceCrew::HandleEnterCarObjective_575210();
@@ -1519,7 +1519,7 @@ void PoliceCrew::State1_Patrol_574F10()
                     switch (pPedIter->get_objective_403A80())
                     {
                         case objectives_enum::goto_area_in_car_14:
-                        case objectives_enum::objective_52:
+                        case objectives_enum::chase_char_in_car_52:
                             byte_6FEB48 = 0;
                             pChaseTask = field_10_subObj->field_0_car->field_60_pChaseTask;
                             if (pChaseTask)

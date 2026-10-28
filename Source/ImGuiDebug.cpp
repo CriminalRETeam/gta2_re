@@ -2760,7 +2760,7 @@ void CC ImGuiDebugDraw()
                         {
                             DisplayTextAtSprite("Obj 28", pPedIter->GetSprite_46DF50(), 0, 0);
                         }
-                        else if (pPedIter->field_258_objective == objectives_enum::objective_43) 
+                        else if (pPedIter->field_258_objective == objectives_enum::patrol_in_car_43) 
                         {
                             DisplayTextAtSprite("Obj 43", pPedIter->GetSprite_46DF50(), 0, 0);
                         }

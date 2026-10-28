@@ -1934,7 +1934,7 @@ law_enforcement_checks:
         this->field_144_attacker = NULL;
         gPolice_7B8_6FEE40->UpdateLastSeenCoordsForCriminal_5708C0(pTargetPed);
 
-        if (this->field_258_objective == objectives_enum::objective_43)
+        if (this->field_258_objective == objectives_enum::patrol_in_car_43)
         {
             if (gPolice_7B8_6FEE40->TryAssignCarCrewToCriminal_5707B0(this->field_16C_car, pTargetPed))
             {
@@ -4606,8 +4606,8 @@ void Ped::SetStatesForObjective_4633E0(bool bMainObj)
         case objectives_enum::goto_area_in_car_14:
         case objectives_enum::wait_in_car_27:
         case objectives_enum::time_waited_in_car_31:
-        case objectives_enum::objective_43:
-        case objectives_enum::objective_52:
+        case objectives_enum::patrol_in_car_43:
+        case objectives_enum::chase_char_in_car_52:
         case objectives_enum::call_police_car_54:
         case objectives_enum::follow_car_in_car_55:
         case objectives_enum::fire_at_object_from_vehicle_57:
@@ -4643,7 +4643,7 @@ void Ped::SetStatesForObjective_4633E0(bool bMainObj)
         case objectives_enum::objective_51:
             mode = ped_states_mode::walk_1;
             break;
-        case objectives_enum::objective_50:
+        case objectives_enum::dead_no_ambulance_50:
             Ped::ChangeNextPedState1_45C500(ped_state_1::dead_9);
             Ped::ChangeNextPedState2_45C540(ped_state_2::ped2_dead_15);
             break;
@@ -4707,8 +4707,8 @@ void Ped::SetObjective(s32 objective, s16 objective_timer)
             case objectives_enum::goto_area_in_car_14:
             case objectives_enum::wait_in_car_27:
             case objectives_enum::time_waited_in_car_31:
-            case objectives_enum::objective_43:
-            case objectives_enum::objective_52:
+            case objectives_enum::patrol_in_car_43:
+            case objectives_enum::chase_char_in_car_52:
             case objectives_enum::call_police_car_54:
             case objectives_enum::follow_car_in_car_55:
             case objectives_enum::fire_at_object_from_vehicle_57:
@@ -4763,7 +4763,7 @@ void Ped::SetObjective(s32 objective, s16 objective_timer)
                 mode = ped_states_mode::walk_1;
                 break;
 
-            case objectives_enum::objective_50:
+            case objectives_enum::dead_no_ambulance_50:
                 ChangeNextPedState1_45C500(ped_state_1::dead_9);
                 ChangeNextPedState2_45C540(ped_state_2::ped2_dead_15);
                 break;
@@ -5036,13 +5036,13 @@ void Ped::ProcessMainObjective_463AA0()
             case objectives_enum::leave_car_and_stop_33:
                 Ped::LeaveCarThenStop_468BD0();
                 break;
-            case objectives_enum::objective_50:
+            case objectives_enum::dead_no_ambulance_50:
                 Objective50_Nullsub();
                 break;
-            case objectives_enum::objective_43:
+            case objectives_enum::patrol_in_car_43:
                 Ped::SetCarAiSpeedOne_469E30();
                 break;
-            case objectives_enum::objective_52:
+            case objectives_enum::chase_char_in_car_52:
                 Ped::SetupCarFollowTargetPed_469E50();
                 break;
             case objectives_enum::wait_in_car_27:
@@ -5268,7 +5268,7 @@ void Ped::ProcessInternalObjective_463FB0()
                 Ped::ExitTrainStateMachine_46D240();
                 break;
 
-            case objectives_enum::objective_52:
+            case objectives_enum::chase_char_in_car_52:
                 Ped::FollowPedInCar_46CA70();
                 break;
             case objectives_enum::follow_car_on_foot_with_offset_56:
@@ -6156,7 +6156,7 @@ law_enforcement_checks:
         this->field_144_attacker = NULL;
         gPolice_7B8_6FEE40->UpdateLastSeenCoordsForCriminal_5708C0(pTargetPed);
 
-        if (this->field_258_objective == objectives_enum::objective_43)
+        if (this->field_258_objective == objectives_enum::patrol_in_car_43)
         {
             if (gPolice_7B8_6FEE40->TryAssignCarCrewToCriminal_5707B0(this->field_16C_car, pTargetPed))
             {
@@ -8357,7 +8357,7 @@ void Ped::GotoAreaByAnyMeans_469060()
             {
                 if (field_258_objective == objectives_enum::kill_char_any_means_19)
                 {
-                    Ped::SetObjective2_463830(objectives_enum::objective_52);
+                    Ped::SetObjective2_463830(objectives_enum::chase_char_in_car_52);
                     SetInternalTargetPed_403AE0(field_148_objective_target_ped);
                 }
                 else
