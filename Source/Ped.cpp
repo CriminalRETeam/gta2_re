@@ -6802,7 +6802,7 @@ Sprite* Ped::ResetAnimAndFindNearestSprite_467280()
 {
     this->field_168_game_object->field_8_ped_state_1 = ped_state_1::walking_0;
     this->field_168_game_object->field_C_ped_state_2 = ped_state_2::ped2_walking_0;
-    this->field_168_game_object->field_10_char_state = 1;
+    this->field_168_game_object->field_10_char_state = Char_B4_state::Walking_1;
 
     Char* pChar = this->field_168_game_object;
     pChar->field_6C_animation_state = 0;

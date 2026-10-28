@@ -867,7 +867,7 @@ void Char::UpdateAnimState_546360()
                         if (field_68_animation_frame > 7)
                         {
                             field_68_animation_frame = 0;
-                            field_10_char_state = 7;
+                            field_10_char_state = Char_B4_state::Standing_7;
                         }
                         field_70_frame_timer = 0;
                     }
@@ -1388,7 +1388,7 @@ void Char::UpdateAnimState_546360()
             {
                 case 8:
                 {
-                    field_10_char_state = 1;
+                    field_10_char_state = Char_B4_state::Walking_1;
                     field_6C_animation_state = Char_Anim_state::Standing_2;
                     field_68_animation_frame = 0;
                     s16 landId = baseId + 23;
@@ -1748,7 +1748,7 @@ void Char::DispatchCollision_548670(char_type bFlag)
         {
             if (field_10_char_state == Char_B4_state::Colliding_With_Car_27)
             {
-                this->field_10_char_state = 1;
+                this->field_10_char_state = Char_B4_state::Walking_1;
                 this->field_1C_prev_collided_entity = NULL;
                 this->field_20_collided_entity_type = 0;
                 this->field_18_collided_entity = NULL;
@@ -1760,7 +1760,7 @@ void Char::DispatchCollision_548670(char_type bFlag)
         }
         else
         {
-            this->field_10_char_state = 1;
+            this->field_10_char_state = Char_B4_state::Walking_1;
             this->field_18_collided_entity = NULL;
         }
 
@@ -1946,7 +1946,7 @@ void Char::HandlePedCollision_548BD0(Char* pOther)
                 case ped_type::dummy_3:
                 case ped_type::special_ped_4:
                 case ped_type::dummy_with_occupation_6:
-                    field_10_char_state = 1;
+                    field_10_char_state = Char_B4_state::Walking_1;
                     if (field_38_velocity == kZeroVelocity_6FD7C0)
                     {
                         break;
@@ -1968,7 +1968,7 @@ void Char::HandlePedCollision_548BD0(Char* pOther)
                 case ped_type::script_created_5:
                     if (field_10_char_state == Char_B4_state::Avoiding_Ped_10 || field_7C_pPed->get_id() >= pOther->field_7C_pPed->get_id())
                     {
-                        field_10_char_state = 1;
+                        field_10_char_state = Char_B4_state::Walking_1;
                     }
                     else if (!field_7C_pPed->field_164_ped_group || field_7C_pPed->field_164_ped_group->field_30_panicking)
                     {
@@ -2011,7 +2011,7 @@ void Char::HandlePedCollision_548BD0(Char* pOther)
                 case ped_type::dummy_with_occupation_6:
                     if (field_10_char_state == Char_B4_state::Avoiding_Ped_10 || field_7C_pPed->get_id() >= pOther->field_7C_pPed->get_id())
                     {
-                        field_10_char_state = 1;
+                        field_10_char_state = Char_B4_state::Walking_1;
                         // A return, not a break: the original keeps the type 5 copy of this tail
                         return;
                     }
@@ -2676,7 +2676,7 @@ void Char::SnapRotationToFace_54C090()
 
     if (field_10_char_state != Char_B4_state::Jumping_15)
     {
-        this->field_10_char_state = 1;
+        this->field_10_char_state = Char_B4_state::Walking_1;
     }
     this->field_46_timer = 100;
 }
@@ -2864,7 +2864,7 @@ void Char::SelectRandomIdleBehavior_54C580()
             case 7:
             case 8:
             {
-                this->field_10_char_state = 1;
+                this->field_10_char_state = Char_B4_state::Walking_1;
                 this->field_6C_animation_state = Char_Anim_state::Walking_0;
                 this->field_46_timer = gRng_6F6784.get_int_4F7AE0(400);
                 break;
@@ -2876,21 +2876,21 @@ void Char::SelectRandomIdleBehavior_54C580()
             case 13:
             case 14:
             {
-                this->field_10_char_state = 3;
+                this->field_10_char_state = Char_B4_state::Walking_Fast_3;
                 this->field_6C_animation_state = Char_Anim_state::Walking_0;
                 this->field_46_timer = gRng_6F6784.get_int_4F7AE0(200);
                 break;
             }
             case 15:
             {
-                this->field_10_char_state = 4;
+                this->field_10_char_state = Char_B4_state::Running_4;
                 this->field_6C_animation_state = Char_Anim_state::Running_1;
                 this->field_46_timer = gRng_6F6784.get_int_4F7AE0(200);
                 break;
             }
             case 20:
             {
-                this->field_10_char_state = 7;
+                this->field_10_char_state = Char_B4_state::Standing_7;
                 this->field_6C_animation_state = Char_Anim_state::Standing_2;
                 this->field_46_timer = gRng_6F6784.get_int_4F7AE0(200);
                 break;
@@ -2930,7 +2930,7 @@ void Char::TickMovementStateMachine_54C900()
 {
     switch (this->field_10_char_state)
     {
-        case 1:
+        case Char_B4_state::Walking_1:
             ApplyRandomRotationJitter_54C6C0();
             this->field_38_velocity = kFpOne64th_6FD7B8;
             gCharB4_TurnToFreeFace_6FDB51 = 1;
@@ -2938,7 +2938,7 @@ void Char::TickMovementStateMachine_54C900()
             byte_6FDB53 = 0;
             break;
 
-        case 3:
+        case Char_B4_state::Walking_Fast_3:
             if (this->field_46_timer)
             {
                 this->field_38_velocity = k_CollisionRepulsionSpeed_6FD7BC;
@@ -2947,7 +2947,7 @@ void Char::TickMovementStateMachine_54C900()
             else
             {
                 this->field_38_velocity = kFpOne64th_6FD7B8;
-                this->field_10_char_state = 1;
+                this->field_10_char_state = Char_B4_state::Walking_1;
                 this->field_6C_animation_state = Char_Anim_state::Walking_0;
             }
             byte_6FDB53 = 0;
@@ -2955,7 +2955,7 @@ void Char::TickMovementStateMachine_54C900()
             gCharB4_VeerFromWalls_6FDB52 = 1;
             break;
 
-        case 4:
+        case Char_B4_state::Running_4:
             if (this->field_46_timer)
             {
                 this->field_38_velocity = kFpThreeSixtyFourths_6FD7CC;
@@ -2964,7 +2964,7 @@ void Char::TickMovementStateMachine_54C900()
             else
             {
                 this->field_38_velocity = kFpOne64th_6FD7B8;
-                this->field_10_char_state = 1;
+                this->field_10_char_state = Char_B4_state::Walking_1;
                 this->field_6C_animation_state = Char_Anim_state::Walking_0;
             }
             byte_6FDB53 = 0;
@@ -2972,7 +2972,7 @@ void Char::TickMovementStateMachine_54C900()
             gCharB4_VeerFromWalls_6FDB52 = 1;
             break;
 
-        case 7:
+        case Char_B4_state::Standing_7:
             if (this->field_46_timer)
             {
                 this->field_38_velocity = kZeroVelocity_6FD7C0;
@@ -2983,7 +2983,7 @@ void Char::TickMovementStateMachine_54C900()
             {
                 this->field_6C_animation_state = Char_Anim_state::Walking_0;
                 this->field_68_animation_frame = 0;
-                this->field_10_char_state = 1;
+                this->field_10_char_state = Char_B4_state::Walking_1;
                 this->field_38_velocity = kFpOne64th_6FD7B8;
             }
             byte_6FDB53 = 0;
@@ -2997,7 +2997,7 @@ void Char::TickMovementStateMachine_54C900()
             {
                 this->field_46_timer = 100;
                 field_40_rotation.SnapToAng4_405640();
-                this->field_10_char_state = 1;
+                this->field_10_char_state = Char_B4_state::Walking_1;
                 this->field_6C_animation_state = Char_Anim_state::Walking_0;
             }
             gCharB4_VeerFromWalls_6FDB52 = 0;
@@ -3010,7 +3010,7 @@ void Char::TickMovementStateMachine_54C900()
             if (ComputeShortestAngleDelta_4056C0(this->field_40_rotation, this->field_14_target_rotation) < kAng12_6FD892)
             {
                 this->field_38_velocity = kFpOne64th_6FD7B8;
-                this->field_10_char_state = 1;
+                this->field_10_char_state = Char_B4_state::Walking_1;
                 this->field_6C_animation_state = Char_Anim_state::Walking_0;
                 this->field_46_timer = 0;
             }
@@ -3020,7 +3020,7 @@ void Char::TickMovementStateMachine_54C900()
             break;
 
         case Char_B4_state::Interacting_Car_Door_36:
-            this->field_10_char_state = 1;
+            this->field_10_char_state = Char_B4_state::Walking_1;
             break;
 
         default:
@@ -3468,7 +3468,7 @@ void Char::state_0_54DDF0()
             // A jumping ped only starts falling once the jump is over
             if (this->field_68_animation_frame == 7 || this->field_7C_pPed->field_21C_bf.bAttacking)
             {
-                this->field_10_char_state = 1;
+                this->field_10_char_state = Char_B4_state::Walking_1;
                 field_7C_pPed->ClearAttacking_403A40();
                 goto start_falling;
             }
@@ -3593,7 +3593,7 @@ void Char::state_0_54DDF0()
                         this->field_38_velocity = kZeroVelocity_6FD7C0;
                         if (this->field_10_char_state)
                         {
-                            this->field_10_char_state = 7;
+                            this->field_10_char_state = Char_B4_state::Standing_7;
                         }
                     }
                 }
@@ -6196,7 +6196,7 @@ void Char::state_8_5520A0()
                     Set_F8_ped_state_1_433910(ped_state_1::dead_9);
                     field_C_ped_state_2 = ped_state_2::ped2_dead_15;
                     field_6C_animation_state = Char_Anim_state::Electrocuted_Dead_21;
-                    field_10_char_state = 1;
+                    field_10_char_state = Char_B4_state::Walking_1;
                 }
 
                 break;
