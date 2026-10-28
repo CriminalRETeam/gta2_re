@@ -1107,7 +1107,7 @@ directly in the first check keeps the original jump target (`Car::CanCarCollideW
 
 **Identical switch cases are cross-jumped only when their instructions are identical before scheduling.** `UpdateCircularBurst_state_5_539890` matches with cases 4 and 5 both written `set_id; dir.x = 0; dir.y = ...` (see "How VC6 copies and merges block tails").
 
-**Out-of-line copies by address:** `Abs_436A50` is `Fix16::Abs`, `AssignNormalized_409300` is the `Ang16(const s16&, s32)` ctor (9.6f 0x401C60), `DivideInt_53E860` is `Fix16::operator/(const s32&)` (its COMDAT has an `inline_aliases.csv` row).
+**Out-of-line copies by address:** `Abs_436A50` is `Fix16::Abs`, `AssignNormalized_409300` is the `Ang16(const s16&, s32)` ctor (9.6f 0x401C60), `DivideInt_53E860` is `Fix16::operator/(const s32&)` (both COMDATs have an `inline_aliases.csv` row).
 
 **Hoisting a rotation angle into a local changes evaluation order.** Storing the spread angle in the Ang16 local 9.6f uses gave the original's left-first `(A + ang) - B` (`EmitBloodBurst_53E450`, `EmitWaterSplash_53F060`).
 
@@ -1928,8 +1928,9 @@ and the `EmitBloodBurst`/`EmitWaterSplash` siblings.
 copy, which matches (see `inline_aliases.csv` above). A named call (`Multiply_408680`, a `*_ool` helper) is
 no inline site: it isn't charged and doesn't count in `sites_left`, so it pins one call out of line without
 moving the others. Named calls remain where our budget doesn't give the original's cut-off, for example the
-rotations: `Trailer::GetHitchPosition_407BD0` and `Crane::ComputeHookOffset_47E840` take the same budget path
-through `RotateByAngle_40F6B0`, yet the original cuts them off at different sites. Check with `inl.sh` first.
+Crane rotations (nested budget 214 or 204 where the original needs 223..264 or 208..222). Check with `inl.sh`
+first: `SpriteShape::UpdateRotatedBoundingBox_5A3550` matched with four plain `RotateByAngle_40F6B0` calls, and
+in `Trailer::GetHitchPosition_407BD0` the plain call gives the original's cut-offs (only the x/y load order differs).
 
 **No jump table and compares in source order mean an if-chain, not a switch.** If the original
 tests the value in one else-if chain (14, 9, 3, 6, 2||11, ...) and builds no jump table, write the
