@@ -1,4 +1,5 @@
 #include "WalkAction.hpp"
+#include "WalkCarJump.hpp"
 #include "WorldModel.hpp"
 #include "NavFoot.hpp"
 #include "CarActions.hpp"
@@ -243,25 +244,22 @@ Action::Status WalkAction::Step(BotContext& ctx)
     if (ctx.frame >= mCarJumpNext && ctx.world->car_count > 0)
     {
         const float hd = (ctx.foot.sign * pl.rot_deg + ctx.foot.offset) * 3.14159265f / 180.0f;
-        const float fx = sinf(hd);
-        const float fy = -cosf(hd);
+        JumpCar cars[WorldModel::kMaxCars];
+        int count = 0;
         for (int k = 0; k < ctx.world->car_count; k++)
         {
-            const WorldModel::CarInfo& car = ctx.world->cars[k];
-            if (car.speed >= 0.03f || car.dist > 3.0f)
-            {
-                continue;
-            }
-            const float along = (car.x - pl.x) * fx + (car.y - pl.y) * fy;
-            const float across = (car.x - pl.x) * -fy + (car.y - pl.y) * fx;
-            if (along > 0.0f && along < 1.9f && fabsf(across) < 1.0f)
-            {
-                mCarJumpStart = ctx.frame;
-                mCarJumpUntil = ctx.frame + 20;
-                mCarJumpNext = ctx.frame + 45;
-                BotDecision("f=%d walk: car #%d (%s) %.1f tiles ahead: jumping over it", ctx.frame, car.idx, car.has_driver ? "driver" : "empty", along);
-                return Running;
-            }
+            cars[count].x = ctx.world->cars[k].x;
+            cars[count].y = ctx.world->cars[k].y;
+            cars[count].speed = ctx.world->cars[k].speed;
+            count++;
+        }
+        if (WalkCarJump_Decide(pl.x, pl.y, sinf(hd), -cosf(hd), cars, count))
+        {
+            mCarJumpStart = ctx.frame;
+            mCarJumpUntil = ctx.frame + 20;
+            mCarJumpNext = ctx.frame + 45;
+            BotDecision("f=%d walk: a car is in the way: jumping over it", ctx.frame);
+            return Running;
         }
     }
 

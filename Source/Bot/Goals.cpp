@@ -1,4 +1,5 @@
 #include "Goals.hpp"
+#include "CarSwitch.hpp"
 #include "WalkAction.hpp"
 #include "NavFoot.hpp"
 #include "NavCar.hpp"
@@ -395,6 +396,7 @@ TravelGoal::TravelGoal(float x, float y, float arrive_dist, bool keep_car)
     , mWalkOnly(false)
     , mKeepCar(keep_car)
     , mReclaims(0)
+    , mCarSwitches(0)
     , mNoTrain(false)
     , mGrabBanCount(0)
     , mGrabId(0)
@@ -760,8 +762,12 @@ Action::Status TravelGoal::Step(BotContext& ctx)
         s32 car = 0;
         bool hijack = false;
         float to_car = 0.0f;
-        if (ChooseCar(ctx, &car, &hijack, &to_car, 20.0f) && (!far_target || (car != mCarId && to_car < target_dist - 8.0f)))
+        if (ChooseCar(ctx, &car, &hijack, &to_car, 20.0f) && (!far_target || (car != mCarId && CarSwitch_ShouldSwitch(target_dist, to_car, hijack, mCarSwitches))))
         {
+            if (far_target)
+            {
+                mCarSwitches++;
+            }
             mCarId = car;
             BotDecision("f=%d travel: %.0f tiles to go; car #%d%s is %.0f tiles away: taking it", ctx.frame, Remaining(*ctx.world), car, hijack ? " (hijack)" : "", to_car);
             BeginStage(ctx, GetCar);
