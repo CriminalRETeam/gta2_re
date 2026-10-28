@@ -2504,7 +2504,7 @@ void Ped::StartCrossingRoad_45E4A0()
     switch (direction)
     {
         case 0:
-            SetObjective2_463830(objectives_enum::wait_to_cross_y_backward_44, 0x270F);
+            SetObjective2_463830(objectives_enum::wait_to_cross_y_backwards_44, 0x270F);
             field_130_target_facing_angle = gSpawnRotationBottom_678540;
             ++gNumPedsCrossingRoad_6787D0;
             break;
@@ -4597,7 +4597,7 @@ void Ped::SetStatesForObjective_4633E0(bool bMainObj)
         case objectives_enum::wait_on_foot_26:
         case objectives_enum::wait_for_train_29:
         case objectives_enum::enter_bus_30:
-        case objectives_enum::wait_to_cross_y_backward_44:
+        case objectives_enum::wait_to_cross_y_backwards_44:
         case objectives_enum::wait_to_cross_x_forwards_45:
         case objectives_enum::wait_to_cross_y_forwards_46:
         case objectives_enum::wait_to_cross_x_backwards_47:
@@ -4866,7 +4866,7 @@ void Ped::SetObjective2_463830(s32 internal_objective, s16 internal_objective_ti
             case objectives_enum::wait_on_foot_26:
             case objectives_enum::wait_for_train_29:
             case objectives_enum::enter_bus_30:
-            case objectives_enum::wait_to_cross_y_backward_44:
+            case objectives_enum::wait_to_cross_y_backwards_44:
             case objectives_enum::wait_to_cross_x_forwards_45:
             case objectives_enum::wait_to_cross_y_forwards_46:
             case objectives_enum::wait_to_cross_x_backwards_47:
@@ -5240,7 +5240,7 @@ void Ped::ProcessInternalObjective_463FB0()
             case objectives_enum::crossing_road_48:
                 Ped::CrossRoad_46C9B0();
                 break;
-            case objectives_enum::wait_to_cross_y_backward_44:
+            case objectives_enum::wait_to_cross_y_backwards_44:
                 Ped::StartPedCrossingAtTrafficLight_Y_Backward_46CB30();
                 break;
             case objectives_enum::wait_to_cross_x_forwards_45:

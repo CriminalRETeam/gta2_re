@@ -861,7 +861,7 @@ enum
     objective_41 = 41,
     patrol_on_foot_42 = 42,
     objective_43 = 43,
-    wait_to_cross_y_backward_44 = 44,
+    wait_to_cross_y_backwards_44 = 44,
     wait_to_cross_x_forwards_45 = 45,
     wait_to_cross_y_forwards_46 = 46,
     wait_to_cross_x_backwards_47 = 47,
