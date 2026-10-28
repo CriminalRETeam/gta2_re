@@ -29,6 +29,7 @@ static void SetDefaults(BotOptions* o)
     o->walk_frames = 100;
     o->save_at_frame = -1;
     o->wtf_at_frame = -1;
+    o->pause_at_frame = -1;
     o->want_tokens = 3;
     o->want_frenzies = 2;
     o->want_missions = 0;
@@ -232,6 +233,10 @@ bool BotOptions_Parse(const char* cmd_line, BotOptions* o)
         else if (_strnicmp(key, "_pause_route", key_len) == 0 && key_len == 12)
         {
             o->pause_route = true;
+        }
+        else if (_strnicmp(key, "_pause_at", key_len) == 0 && key_len == 9)
+        {
+            o->pause_at_frame = atoi(value);
         }
         else if (_strnicmp(key, "_wtf_at", key_len) == 0 && key_len == 7)
         {

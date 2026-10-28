@@ -492,6 +492,12 @@ void Bot::OnFrame()
             mRouteLast[0] = 0;
             RegisterUi();
         }
+        if (mOpts.pause_at_frame >= 0 && mFrame == mOpts.pause_at_frame)
+        {
+            mPaused = true; // hold here: the buttons step on from this frame
+            mSpeed = 1;
+            BotDecision("f=%d paused (-bot_pause_at)", mFrame);
+        }
         UiFrame();
         // Watching on the user's own screen: the game grabs the mouse exclusively and clips it to its
         // window. The bot plays by itself, so give the mouse back every frame.

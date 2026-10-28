@@ -25,6 +25,7 @@ def main():
     ap.add_argument("--draw", action="store_true")
     ap.add_argument("--show", action="store_true", help="draw on your own screen at game speed so you can watch (falls back to off screen when the screen is locked)")
     ap.add_argument("--pause-route", action="store_true", help="with --show: start with 'pause when a drive route is planned' ticked (off by default)")
+    ap.add_argument("--pause-at", type=int, help="start paused at this frame, at normal speed (then Step 1 frame / 10 frames / 1 tile / 5 tiles in the window)")
     ap.add_argument("--desktop", action="store_true", help="run in a wine virtual desktop (did not start the exe here)")
     ap.add_argument("extra", nargs="*", help="extra -bot_* arguments")
     args = ap.parse_args()
@@ -39,7 +40,7 @@ def main():
         if botlib.screen_unlocked():
             os.environ["BOT_USE_DISPLAY"] = "1"
             args.draw = True
-            args.extra = list(args.extra) + ["-bot_fast"] + (["-bot_pause_route"] if args.pause_route else [])
+            args.extra = list(args.extra) + (["-bot_pause_at=%d" % args.pause_at] if args.pause_at is not None else []) + ["-bot_fast"] + (["-bot_pause_route"] if args.pause_route else [])
             print(f"showing the run on {os.environ['DISPLAY']}")
         else:
             print("screen locked or no display: running off screen instead")
@@ -71,7 +72,7 @@ def main():
         subprocess.run("wineserver -k", shell=True)  # the killed game leaves wine's server in a bad state
         time.sleep(4)
         os.environ.pop("BOT_USE_DISPLAY", None)
-        bot_args = [a for a in bot_args if a not in ("-bot_draw", "-bot_fast", "-bot_pause_route")]
+        bot_args = [a for a in bot_args if a not in ("-bot_draw", "-bot_fast", "-bot_pause_route") and not a.startswith("-bot_pause_at")]
         code = botlib.run_game(root, bot_args, timeout=args.timeout, desktop=None, log=out_dir / "wine_stdout.txt")
 
     rep = root / "test" / "replay.rep"

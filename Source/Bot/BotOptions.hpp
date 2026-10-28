@@ -57,6 +57,7 @@ struct BotOptions
     s32 save_at_frame;
     char cmdline[1024]; // the command line as it was given (the game upper cases its own copy later)
     bool pause_route; // start with 'pause when a drive route is planned' ticked (the watch runs)
+    s32 pause_at_frame; // pauses the game at this frame at normal speed, to step through what follows (-bot_pause_at=N) // -1 = never
     s32 wtf_at_frame; // presses the overlay's WTF button at this frame (for testing) // -1 = never
     bool has_map_dump;
     float map_dump_x, map_dump_y;
