@@ -30,6 +30,11 @@ MissionAction::MissionAction()
     , mRetries(0)
     , mNoArrowFrames(0)
     , mHornUntil(0)
+    , mDoneFrame(0)
+    , mFootTried(false)
+    , mTouchTries(0)
+    , mTutorial(false)
+    , mStartTokens(0)
     , mHornParked(false)
     , mLastCarId(0)
     , mRemedy(NULL)
@@ -69,6 +74,7 @@ void MissionAction::Start(BotContext& ctx)
     mProgX = ctx.world->player.x;
     mProgY = ctx.world->player.y;
     mStartPassed = ctx.world->missions_passed;
+    mStartTokens = ctx.world->token_count;
     mRetries = 0;
     mNoArrowFrames = 0;
     strncpy(mLastBrief, ctx.world->brief_key, sizeof(mLastBrief) - 1);
@@ -153,7 +159,8 @@ Action::Status MissionAction::Step(BotContext& ctx)
     else if (mStarted)
     {
         // The script ended the mission: passed or failed?
-        const bool passed = ctx.world->missions_passed > mStartPassed;
+        // the tutorial is not counted as a passed mission by the script: it ends by handing out a Special Token (one more on the map)
+        const bool passed = ctx.world->missions_passed > mStartPassed || (mTutorial && ctx.world->token_count > mStartTokens);
         BotDecision("f=%d mission: over after %d frames: %s (passed %d -> %d), cash %d", ctx.frame, ctx.frame - mStart, passed ? "PASSED" : "failed", mStartPassed, ctx.world->missions_passed, pl.cash);
         if (passed)
         {
@@ -304,6 +311,8 @@ Action::Status MissionAction::Step(BotContext& ctx)
             mHornParked = false;
         }
         mRemedyUsed = false;
+        mFootTried = false;
+        mTouchTries = 0;
         DropChild();
         strncpy(mChildKey, key, kKeyLen - 1);
         mChildKey[kKeyLen - 1] = 0;
@@ -362,6 +371,36 @@ Action::Status MissionAction::RunChild(BotContext& ctx)
     if (mChildDone)
     {
         // arrived: wait for the script to react, honking if it asked for that
+        const size_t kl = strlen(mChildKey);
+        if (!mFootTried && !mHornParked && kl > 2 && strncmp(mChildKey, "go", 2) == 0 && mChildKey[kl - 1] == 'c' && pl.in_car && ctx.frame - mDoneFrame > 400)
+        {
+            // nothing happened for 400 frames at the marker with the car on it: some markers want the player himself. Out of the
+            // car and onto it on foot, once
+            mFootTried = true;
+            // the key stays: once the player is on foot the key of the arrow changes (",f") and the step becomes a walk onto it
+            delete mChild;
+            mChild = new ExitCarAction();
+            mChildDone = false;
+            BotDecision("f=%d mission: nothing for 400 frames at the marker with the car on it: out, then on foot onto it", ctx.frame);
+            ctx.action_start_frame = ctx.frame;
+            mChild->Start(ctx);
+            return Running;
+        }
+        // on foot at a marker and the script is not reacting: the marker (a phone, a pickup) wants the player exactly on it, to the
+        // last few steps: walk onto the very spot, and if that is not it, off it and on again
+        if (!pl.in_car && !mHornParked && mTouchTries < 8 && strncmp(mChildKey, "go", 2) == 0 && ctx.frame - mDoneFrame > 150)
+        {
+            mTouchTries++;
+            const float off = (mTouchTries % 2 == 0) ? 2.0f : 0.0f;
+            delete mChild;
+            mChild = new WalkAction(ctx.world->arrow.x + off, ctx.world->arrow.y, false, 0.12f);
+            mChildDone = false;
+            BotDecision("f=%d mission: at the marker %.1f tiles off and nothing happens: %s (%d)", ctx.frame,
+                        sqrtf((ctx.world->arrow.x - pl.x) * (ctx.world->arrow.x - pl.x) + (ctx.world->arrow.y - pl.y) * (ctx.world->arrow.y - pl.y)), off > 0.0f ? "stepping off it" : "onto its exact spot", mTouchTries);
+            ctx.action_start_frame = ctx.frame;
+            mChild->Start(ctx);
+            return Running;
+        }
         if (ctx.frame < mHornUntil)
         {
             ctx.input = ((ctx.frame / 12) % 2 == 0) ? input_bit::Special1 : 0;
@@ -378,6 +417,7 @@ Action::Status MissionAction::RunChild(BotContext& ctx)
     if (s == Done)
     {
         mChildDone = true;
+        mDoneFrame = ctx.frame;
         BotDecision("f=%d mission: step %s done", ctx.frame, mChildKey);
         if (strncmp(mChildKey, "horn", 4) == 0)
         {

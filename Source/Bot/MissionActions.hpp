@@ -8,6 +8,11 @@
 class MissionAction : public Action
 {
   public:
+    // The tutorial ends by handing out a Special Token: that, not the passed counter, is how it is told from a failure
+    void SetTutorial(bool tutorial)
+    {
+        mTutorial = tutorial;
+    }
     MissionAction();
     ~MissionAction();
 
@@ -41,6 +46,8 @@ class MissionAction : public Action
     bool mChildDone;       // the child finished: wait for the arrow to change
     bool mStarted;
     s32 mStartPassed;
+    bool mTutorial;   // the starting phone's walk-through (not counted as a passed mission by the script)
+    s32 mStartTokens; // secret tokens on the map when the mission began
     s32 mStart;
     float mProgX, mProgY;  // where the player was when the progress timer last restarted
     s32 mLastChange;       // frame of the last arrow / brief / progress change
@@ -50,6 +57,9 @@ class MissionAction : public Action
     s32 mNoArrowFrames;
     char mBriefMemory[400]; // the last brief text seen: the on-screen brief goes away after a few seconds
     s32 mHornUntil;
+    s32 mDoneFrame;  // the frame the current step finished
+    bool mFootTried; // the on-foot try at a marker has been made
+    s32 mTouchTries; // walks onto the exact spot of a marker that did nothing
     bool mHornParked; // parked on the spot a horn mission asked for
     s32 mLastCarId;   // the last car the player was in
     Action* mRemedy;  // moving that car out of the way

@@ -1716,7 +1716,11 @@ void MissionGoal::BeginStage(BotContext& ctx, Stage st)
             mChild = new PhoneAction(mPhone.id, mPhone.x, mPhone.y, mPhone.model == 163);
             break;
         case Play:
-            mChild = new MissionAction();
+            {
+                MissionAction* play = new MissionAction();
+                play->SetTutorial(mPhone.model == 163);
+                mChild = play;
+            }
             break;
         default:
             return;

@@ -152,6 +152,18 @@
       "note": "6 of 8 seeds pass (7 fails, 8 runs out of frames); the delivery truck is wrecked by ramming it, police and wanted levels are the main loss"
     },
     {
+      "name": "mission_tutorial",
+      "args": [
+        "-bot=phone_test",
+        "-bot_map=wil",
+        "-bot_phone_id=238"
+      ],
+      "budget": 90000,
+      "expect": "PASS",
+      "replay": false,
+      "note": "the starting phone: eight messages, a drive to the Zaibatsu marker (the car on it does nothing: out and on foot onto it), the Loonies and Yakuza markers, back to the phone: an S-Uzi and a Special Token. Counted as passed when the token count goes up"
+    },
+    {
       "name": "train_ride",
       "args": [
         "-bot=train_test",
