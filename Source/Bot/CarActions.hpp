@@ -1,5 +1,6 @@
 #pragma once
 #include "DriveSteer.hpp"
+#include "LocalPlan.hpp"
 
 #include "BotAction.hpp"
 
@@ -92,6 +93,8 @@ class DriveAction : public Action
     s32 mStillFrames;
     s32 mReverseUntil;
     float mReverseSteer;
+    LocalPlanOut mLocal; // the detailed route over the next 18 tiles
+    s32 mLocalNext;
     float mPrevSteer;
     SteerDebug mSteerDebug; // the rollouts of the last choice, for the debug draw
     OvertakeTrace mTrace; // what the last overtake look found, for the debug draw

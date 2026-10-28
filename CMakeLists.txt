@@ -322,6 +322,7 @@ set(gta2_bot_src
   Source/Bot/CarActions.hpp
   Source/Bot/CarActions.cpp
   Source/Bot/DriveSteer.cpp
+  Source/Bot/LocalPlan.cpp
   Source/Bot/CalibrateCore.cpp
   Source/Bot/ShootPoliceCrowd.cpp
   Source/Bot/WalkCarJump.cpp

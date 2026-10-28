@@ -75,6 +75,8 @@ class NavCar : public BotObject
     // tiles of (x, y): where cars will be. false when there is none.
     // The car is on a lane whose arrows point against the way it goes (dir_x, dir_y): the centre of the nearest lane within 4 tiles
     // that goes the same way, a few tiles on, in (*out_x, *out_y)
+    // Going (dx, dy) on the tile at (x, y) is against the traffic of its lane
+    bool LaneAgainst(float x, float y, int dx, int dy);
     bool LaneSwitch(float x, float y, float dir_x, float dir_y, float* out_x, float* out_y);
     bool NearestLane(float x, float y, float toward_x, float toward_y, float max_r, float* out_x, float* out_y);
 

@@ -1,6 +1,7 @@
 #include "CarActions.hpp"
 #include "WalkCarJump.hpp"
 #include "DriveSteer.hpp"
+#include "LocalPlan.hpp"
 #include "BotDebugDraw.hpp"
 #include "ChaseActions.hpp"
 #include "WalkAction.hpp"
@@ -235,6 +236,7 @@ DriveAction::DriveAction(float x, float y, float stop_dist)
     , mStillFrames(0)
     , mReverseUntil(0)
     , mReverseSteer(0)
+    , mLocalNext(0)
     , mPrevSteer(0)
     , mTraceFrame(-1000)
     , mOvertakeUntil(0)
@@ -291,6 +293,8 @@ void DriveAction::Start(BotContext& ctx)
     mCkNext = ctx.frame + 300;
     mStartY = ctx.world->player.y;
     mOvertakeUntil = 0;
+    mLocal.found = false;
+    mLocalNext = 0;
     mPlanned = false;
     mRetries = 0;
     mHavePrev = false;
@@ -335,6 +339,40 @@ static bool Drive_CorridorClear(float x0, float y0, float x1, float y1, float ha
 
 // the room kept round our own car's box when steering past buildings and cars, in tiles
 static const float kOwnMargin = 0.25f;
+
+// The other cars as the steering and the planner see them: the game's collision boxes (a plain box where it has none)
+static int Drive_CollectCars(BotContext& ctx, SteerCar* out)
+{
+    int n = 0;
+    for (int k = 0; k < ctx.world->car_count; k++)
+    {
+        const WorldModel::CarInfo& oc = ctx.world->cars[k];
+        if (oc.dist < 1.0f) // our own
+        {
+            continue;
+        }
+        SteerCar& sc = out[n++];
+        sc.x = oc.x;
+        sc.y = oc.y;
+        sc.vx = oc.vx;
+        sc.vy = oc.vy;
+        sc.speed = oc.speed;
+        sc.police = oc.police;
+        sc.box.cx = oc.x;
+        sc.box.cy = oc.y;
+        sc.box.ax = oc.box.valid ? oc.box.ax : 1.0f;
+        sc.box.ay = oc.box.valid ? oc.box.ay : 0.0f;
+        sc.box.hl = oc.box.valid ? oc.box.hl : 1.0f;
+        sc.box.hw = oc.box.valid ? oc.box.hw : 0.5f;
+    }
+    return n;
+}
+
+// Against the traffic of a lane costs the planner extra
+static float Drive_LaneCost(void* user, float x, float y, int dx, int dy)
+{
+    return static_cast<NavCar*>(user)->LaneAgainst(x, y, dx, dy) ? 3.5f : 0.0f;
+}
 
 // the room the look-ahead keeps round a pedestrian's box, in tiles
 static const float kPedMargin = 0.3f;
@@ -828,6 +866,20 @@ Action::Status DriveAction::Step(BotContext& ctx)
                 }
             }
         }
+        // the detailed route (bright green with a cross at each node) and the tiles it closed because of standing cars
+        if (mLocal.found)
+        {
+            for (int i = 1; i < mLocal.count; i++)
+            {
+                BotDebugDraw::Line(mLocal.x[i - 1], mLocal.y[i - 1], mLocal.x[i], mLocal.y[i], kDebugColLime);
+                BotDebugDraw::Line(mLocal.x[i] - 0.12f, mLocal.y[i], mLocal.x[i] + 0.12f, mLocal.y[i], kDebugColLime);
+                BotDebugDraw::Line(mLocal.x[i], mLocal.y[i] - 0.12f, mLocal.x[i], mLocal.y[i] + 0.12f, kDebugColLime);
+            }
+            for (int i = 0; i < mLocal.car_closed_count; i++)
+            {
+                BotDebugDraw::TileOutline(mLocal.car_closed_x[i] + 0.5f, mLocal.car_closed_y[i] + 0.5f, kDebugColOrange);
+            }
+        }
         // tiles the route planner charges extra for, beside or under a car that stands
         for (int ty = static_cast<int>(pl.y) - 12; ty <= static_cast<int>(pl.y) + 12; ty++)
         {
@@ -875,6 +927,64 @@ Action::Status DriveAction::Step(BotContext& ctx)
         return Running;
     }
 
+    // The detailed route: an A* with a node per map tile from the car to a point 18 tiles along the global route. It keeps to the
+    // direction of the line, goes round standing cars and the closed tiles, and the car follows it by pure pursuit
+    bool local_ok = false;
+    if (dist > 8.0f && ctx.frame >= mReverseUntil)
+    {
+        SteerCar lcars[WorldModel::kMaxCars];
+        LocalPlanWorld lw;
+        lw.solid = Drive_Solid;
+        lw.step_cost = Drive_LaneCost;
+        lw.user = ctx.road;
+        lw.cars = lcars;
+        lw.car_count = Drive_CollectCars(ctx, lcars);
+        lw.own_hl = own_hl;
+        lw.own_hw = own_hw;
+        // keep the path while it is good; plan again when it is not, and every 60 frames (moving cars change)
+        if (ctx.frame >= mLocalNext || !LocalPlan_StillGood(lw, mLocal, pl.x, pl.y))
+        {
+            // the target: 18 tiles on along the waypoints from where the car is on its leg
+            float tx = mWpX[mWpCount - 1];
+            float ty = mWpY[mWpCount - 1];
+            float rest = 24.0f;
+            float qx = pl.x;
+            float qy = pl.y;
+            for (int i = mWpIdx; i < mWpCount; i++)
+            {
+                const float ex = mWpX[i] - qx;
+                const float ey = mWpY[i] - qy;
+                const float el = sqrtf(ex * ex + ey * ey);
+                if (el >= rest && el > 0.001f)
+                {
+                    tx = qx + ex / el * rest;
+                    ty = qy + ey / el * rest;
+                    break;
+                }
+                rest -= el;
+                qx = mWpX[i];
+                qy = mWpY[i];
+            }
+            const float heading0 = ctx.car.sign * pl.rot_deg + ctx.car.offset;
+            LocalPlan_Find(lw, pl.x, pl.y, heading0, tx, ty, &mLocal);
+            mLocalNext = ctx.frame + 60;
+            if (!mLocal.found && ctx.frame % 40 == 0)
+            {
+                BotDecision("f=%d drive: no detailed route from (%.1f,%.1f) to (%.1f,%.1f): following the waypoints", ctx.frame, pl.x, pl.y, tx, ty);
+            }
+        }
+        if (mLocal.found)
+        {
+            float look = 4.0f + mSpeed * 40.0f;
+            look = look > 12.0f ? 12.0f : look;
+            LocalPlan_AimPoint(mLocal, pl.x, pl.y, look, &aim_x, &aim_y);
+            local_ok = true;
+        }
+    }
+    else
+    {
+        mLocal.found = false;
+    }
     // Police after us: dodge a police car that is closing on the car, and keep the speed up
     if (pl.wanted_stars > 0)
     {
@@ -917,7 +1027,7 @@ Action::Status DriveAction::Step(BotContext& ctx)
         }
     }
     // Driving against the traffic of a lane: move over to the lane that goes our way
-    if (dist > 8.0f && ctx.frame >= mSwerveUntil)
+    if (!local_ok && dist > 8.0f && ctx.frame >= mSwerveUntil)
     {
         float lx = 0.0f;
         float ly = 0.0f;
@@ -968,39 +1078,7 @@ Action::Status DriveAction::Step(BotContext& ctx)
     if (fabsf(err) <= 100.0f)
     {
         SteerCar others[WorldModel::kMaxCars];
-        int other_count = 0;
-        for (int k = 0; k < ctx.world->car_count; k++)
-        {
-            const WorldModel::CarInfo& oc = ctx.world->cars[k];
-            if (oc.dist >= 1.0f) // not our own
-            {
-                SteerCar& sc = others[other_count++];
-                sc.x = oc.x;
-                sc.y = oc.y;
-                sc.vx = oc.vx;
-                sc.vy = oc.vy;
-                sc.speed = oc.speed;
-                sc.police = oc.police;
-                if (oc.box.valid)
-                {
-                    sc.box.cx = oc.x;
-                    sc.box.cy = oc.y;
-                    sc.box.ax = oc.box.ax;
-                    sc.box.ay = oc.box.ay;
-                    sc.box.hl = oc.box.hl;
-                    sc.box.hw = oc.box.hw;
-                }
-                else
-                {
-                    sc.box.cx = oc.x;
-                    sc.box.cy = oc.y;
-                    sc.box.ax = 1.0f;
-                    sc.box.ay = 0.0f;
-                    sc.box.hl = 1.0f;
-                    sc.box.hw = 0.5f;
-                }
-            }
-        }
+        const int other_count = Drive_CollectCars(ctx, others);
         SteerWorld world = {Drive_Solid, NULL, others, other_count, own_hl, own_hw};
         // A slower car in the way: go round it by the pavement or the next lane. The side is kept for a while so
         // that the choice does not flip from frame to frame
@@ -1009,7 +1087,7 @@ Action::Status DriveAction::Step(BotContext& ctx)
             aim_x = mOvertakeX;
             aim_y = mOvertakeY;
         }
-        else if (dist > 12.0f && (mTraceFrame = ctx.frame, true) && DriveSteer_Overtake(world, pl.x, pl.y, mSpeed, aim_x, aim_y, &mOvertakeX, &mOvertakeY, &mTrace))
+        else if (!local_ok && dist > 12.0f && (mTraceFrame = ctx.frame, true) && DriveSteer_Overtake(world, pl.x, pl.y, mSpeed, aim_x, aim_y, &mOvertakeX, &mOvertakeY, &mTrace))
         {
             mOvertakeUntil = ctx.frame + 45;
             aim_x = mOvertakeX;

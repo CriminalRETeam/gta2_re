@@ -647,6 +647,20 @@ bool NavCar::DirectLine(float sx, float sy, float tx, float ty) const
     return LineSafe(static_cast<int>(sx), static_cast<int>(sy), static_cast<int>(tx), static_cast<int>(ty));
 }
 
+bool NavCar::LaneAgainst(float x, float y, int dx, int dy)
+{
+    if (!mBuilt)
+    {
+        Build();
+    }
+    if (x < 1.0f || y < 1.0f || x > 254.0f || y > 254.0f)
+    {
+        return false;
+    }
+    const u8 a = mArrows[static_cast<int>(y) * 256 + static_cast<int>(x)];
+    return ((a & 1) && dx > 0) || ((a & 2) && dx < 0) || ((a & 4) && dy > 0) || ((a & 8) && dy < 0);
+}
+
 static bool Lane_Against(u8 a, float dx, float dy)
 {
     return ((a & 1) && dx > 0.35f) || ((a & 2) && dx < -0.35f) || ((a & 4) && dy > 0.35f) || ((a & 8) && dy < -0.35f);
