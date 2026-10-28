@@ -210,7 +210,7 @@ class gtx_0x106C
   public:
     inline bool IsRemappedWaterTile_49E540(u16 spec_idx) const
     {
-        if (field_6C_spec[spec_idx] == spec_surface_type_enum::spec_water && IsTileRemapped_5AA850(spec_idx))
+        if (field_6C_spec[spec_idx] == tile_spec::water && IsTileRemapped_5AA850(spec_idx))
         {
             return true;
         }
@@ -229,13 +229,13 @@ class gtx_0x106C
     // 9.6f 0x462FB0
     inline bool IsWaterTile_462FB0(u16 spec_idx) const
     {
-        return field_6C_spec[spec_idx] == spec_surface_type_enum::spec_water;
+        return field_6C_spec[spec_idx] == tile_spec::water;
     }
 
     // 9.6f 0x42A810
     inline bool IsRoadTile_42A810(u16 spec_idx) const
     {
-        return field_6C_spec[spec_idx] == spec_surface_type_enum::spec_road_special;
+        return field_6C_spec[spec_idx] == tile_spec::road_junction_special;
     }
 
     // 9.6f 0x462FD0
@@ -252,7 +252,7 @@ class gtx_0x106C
     // 9.6f 0x49E570
     inline bool IsUnremappedWaterTile_49E570(u16 spec_idx) const
     {
-        if (field_6C_spec[spec_idx] == spec_surface_type_enum::spec_water && !IsTileRemapped_5AA850(spec_idx))
+        if (field_6C_spec[spec_idx] == tile_spec::water && !IsTileRemapped_5AA850(spec_idx))
         {
             return true;
         }
@@ -403,7 +403,7 @@ class gtx_0x106C
 
     inline bool IsElectrifiedFloorType_491F80(u16 tile_idx) const
     {
-        return field_6C_spec[tile_idx] == spec_surface_type_enum::spec_electrified;
+        return field_6C_spec[tile_idx] == tile_spec::electrified_floor;
     }
 
     inline car_info* get_car_info_4BF1F0(u8 model_idx) const

@@ -527,6 +527,7 @@ enum
 };
 } // namespace Char_Anim_state
 
+// Unused duplicate of tile_spec (gtx_0x106C.hpp). Removing it changes MapRenderer codegen (VC6 name table).
 namespace spec_surface_type_enum
 {
 enum
