@@ -73,15 +73,15 @@ EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
 EXTERN_GLOBAL_ARRAY(wchar_t, gEmptyWStr_67DC8C, 2);
 
 // 9.6f inline
-static inline void DrawFigureScaled_4C71B0(s32 type, s16 pal, Fix16 x_pos, Fix16 y_pos, const Ang16& rotation, const s32& drawkind, s16 palette, s32 alpha_value, u8 flags)
+static inline void DrawFigureScaled_4C71B0(s32 sprite_type, s16 sprite_idx, Fix16 x_pos, Fix16 y_pos, const Ang16& rotation, const s32& palette_type, s16 palette, s32 alpha_value, u8 flags)
 {
-    DrawFigure_5D7EC0(type,
-                      pal,
+    DrawFigure_5D7EC0(sprite_type,
+                      sprite_idx,
                       x_pos * gViewCamera_676978->field_A8_ui_scale,
                       y_pos * gViewCamera_676978->field_A8_ui_scale,
                       rotation,
                       gViewCamera_676978->field_A8_ui_scale,
-                      drawkind,
+                      palette_type,
                       palette,
                       alpha_value,
                       flags,

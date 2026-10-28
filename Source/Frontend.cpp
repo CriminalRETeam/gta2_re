@@ -1420,7 +1420,7 @@ void Frontend::DrawCredits_4B7AE0()
 {
     u16 font_type;
     s32 palette;
-    s32 draw_kind;
+    s32 palette_type;
 
     u16 credit_idx = field_1EB38_credits_line_idx;
     for (Fix16 y = field_1EB34_credits_ypos; y < 480 && credit_idx < 600; credit_idx++, y += field_EE0E_credits.field_2_lines[credit_idx].field_4_y_gap)
@@ -1430,27 +1430,27 @@ void Frontend::DrawCredits_4B7AE0()
         {
             case credits_line_category::normal_0: // normal string: white
                 font_type = field_11E_text_font;
-                draw_kind = palette_types_enum::sprites_2;
+                palette_type = palette_types_enum::sprites_2;
                 palette = 0;
                 break;
             case credits_line_category::other_tag_1:
                 font_type = field_120_selected_font;
-                draw_kind = palette_types_enum::sprites_2;
+                palette_type = palette_types_enum::sprites_2;
                 palette = 0;
                 break;
             case credits_line_category::dev_names_2: // dev names: blue
                 font_type = field_120_selected_font;
-                draw_kind = palette_types_enum::font_remaps_8;
+                palette_type = palette_types_enum::font_remaps_8;
                 palette = 13;
                 break;
             case credits_line_category::department_3: // department (DMA, T2 etc) : green
                 font_type = field_120_selected_font;
-                draw_kind = palette_types_enum::font_remaps_8;
+                palette_type = palette_types_enum::font_remaps_8;
                 palette = 14;
                 break;
             case credits_line_category::game_name_4: // game name "GTA2" : yellow
                 font_type = field_120_selected_font;
-                draw_kind = palette_types_enum::font_remaps_8;
+                palette_type = palette_types_enum::font_remaps_8;
                 palette = 15;
                 break;
             default:
@@ -1472,7 +1472,7 @@ void Frontend::DrawCredits_4B7AE0()
             {
                 s32 text_width = Frontend::GetMaxTextWidth_5D8990(pStrBuf, font_type);
                 u16 draw_x = (640 - text_width) / 2;
-                DrawText_5D8A10(pStrBuf, draw_x, y, font_type, 1, draw_kind, palette, 0, 0);
+                DrawText_5D8A10(pStrBuf, draw_x, y, font_type, 1, palette_type, palette, 0, 0);
             }
         }
     }
