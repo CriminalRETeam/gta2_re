@@ -678,6 +678,9 @@ Action::Status KillFrenzyAction::Step(BotContext& ctx)
 }
 
 // ---------------------------------------------------------------------------------------------
+// How near the middle of a phone the player walks: the hit box is small, and the middle is inside it
+static const float kPhoneReach = 0.25f;
+
 PhoneAction::PhoneAction(s32 object_id, float x, float y, bool tutorial)
     : mId(object_id)
     , mX(x)
@@ -732,7 +735,7 @@ Action::Status PhoneAction::Step(BotContext& ctx)
     {
         if (!mWalk)
         {
-            mWalk = new WalkAction(mX, mY, false, 0.5f);
+            mWalk = new WalkAction(mX, mY, false, kPhoneReach);
             mWalk->Start(ctx);
         }
         const Status s = mWalk->Step(ctx);

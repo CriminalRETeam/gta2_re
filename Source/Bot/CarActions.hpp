@@ -1,4 +1,6 @@
 #pragma once
+
+#include "TurnAround.hpp"
 #include "DriveSteer.hpp"
 #include "LocalPlan.hpp"
 
@@ -135,6 +137,7 @@ class DriveAction : public Action
     float mStartX, mStartY;
     float mPlanX, mPlanY; // where the route was planned from (the start of its first leg)
     bool mChase;
+    TurnState mTurn; // turning round: forward with the wheel over, backing up when the nose is blocked, and so on
 };
 
 // Creeps the car the player is in onto (x, y) to within tol tiles and stops there: a mission

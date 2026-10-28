@@ -282,6 +282,7 @@ DriveAction::~DriveAction()
 
 void DriveAction::Start(BotContext& ctx)
 {
+    TurnAround_Reset(&mTurn);
     ctx.road->ClearBans();
     mTurnUntil = 0;
     mTurnEnd = 0;
@@ -388,6 +389,36 @@ static SteerBox Drive_ToSteerBox(const WorldModel::BoxInfo& b)
     s.hl = b.hl;
     s.hw = b.hw;
     return s;
+}
+
+// Free tiles beyond the nose (dir 1) or the tail (dir -1) of the car along its heading: buildings, walls and other cars,
+// on the centre line and the two sides of the car
+static float Drive_RoomAlong(float x, float y, float heading, float dir, float hl, float hw, const SteerCar* cars, int car_count)
+{
+    const float kLook = 3.0f;
+    const float kStep = 0.15f;
+    const float hx = sinf(heading) * dir;
+    const float hy = -cosf(heading) * dir;
+    float best = kLook;
+    for (int lat = -1; lat <= 1; lat++)
+    {
+        for (float d = kStep; d < kLook; d += kStep)
+        {
+            const float px = x + hx * (hl + d) - hy * hw * lat * dir;
+            const float py = y + hy * (hl + d) + hx * hw * lat * dir;
+            bool hit = WorldModel::BuildingAt(px, py) || WorldModel::LowWallAt(static_cast<int>(px), static_cast<int>(py));
+            for (int i = 0; i < car_count && !hit; i++)
+            {
+                hit = SteerBox_Contains(cars[i].box, px, py, 0.1f);
+            }
+            if (hit)
+            {
+                best = d < best ? d : best;
+                break;
+            }
+        }
+    }
+    return best;
 }
 
 static bool Drive_Solid(void* /*user*/, float x, float y)
@@ -1084,7 +1115,7 @@ Action::Status DriveAction::Step(BotContext& ctx)
     // Which way to hold the wheel: try five arcs ahead and keep the one that ends nearest the aim point without
     // running into a building (or a car coming at us). Steering straight at the aim point is the first choice
     float wall_ahead = 1e3f;
-    if (fabsf(err) <= 100.0f)
+    if (fabsf(err) <= kTurnEngageDeg && !mTurn.active)
     {
         SteerCar others[WorldModel::kMaxCars];
         const int other_count = Drive_CollectCars(ctx, others);
@@ -1241,30 +1272,29 @@ Action::Status DriveAction::Step(BotContext& ctx)
     {
         BotDecision("f=%d drive state: at (%.1f,%.1f) speed %.3f cap %.2f, heading error %.0f to aim (%.1f,%.1f) on the way to waypoint %d/%d (%.1f,%.1f), %.0f tiles to go", ctx.frame, pl.x, pl.y, mSpeed, cap, err, aim_x, aim_y, mWpIdx, mWpCount, mWpX[mWpIdx], mWpY[mWpIdx], dist);
     }
-    if (fabsf(err) <= 100.0f)
+    {
+        // The way to go is behind the car: turn it round (TurnAround.hpp)
+        SteerCar around[WorldModel::kMaxCars];
+        const int around_count = Drive_CollectCars(ctx, around);
+        const float th = (ctx.car.sign * pl.rot_deg + ctx.car.offset) * 3.14159265f / 180.0f;
+        const TurnIn tin = {err * ctx.car.turn_sign, Drive_RoomAlong(pl.x, pl.y, th, 1.0f, own_hl, own_hw, around, around_count),
+                            Drive_RoomAlong(pl.x, pl.y, th, -1.0f, own_hl, own_hw, around, around_count)};
+        const TurnOut tout = TurnAround_Step(&mTurn, tin);
+        if (tout.active)
+        {
+            if (mTurn.phase == 1)
+            {
+                BotDecision("f=%d drive: turning round (%.0f degrees off): %s, room ahead %.1f behind %.1f", ctx.frame, err, tout.gas > 0 ? "forward" : "backing up", tin.fwd_clear, tin.rear_clear);
+            }
+            ctx.input &= ~(input_bit::Left | input_bit::Right | input_bit::Forward | input_bit::Backward);
+            ctx.input |= tout.right ? input_bit::Right : input_bit::Left; // (err above is already in the sense of the Right key)
+            ctx.input |= tout.gas > 0 ? input_bit::Forward : input_bit::Backward;
+            return Running;
+        }
+    }
+    if (fabsf(err) <= kTurnEngageDeg)
     {
         mBehindSince = 0;
-    }
-    if (fabsf(err) > 100.0f)
-    {
-        // The target is behind. Backing towards it works for a while (it is what a parked car does to
-        // leave a kerb); if that has not turned the car in 120 frames, go forward with the wheel over
-        // instead of backing off for ever.
-        if (mBehindSince == 0)
-        {
-            mBehindSince = ctx.frame;
-        }
-        const s32 behind = ctx.frame - mBehindSince;
-        const float bh = (ctx.car.sign * pl.rot_deg + ctx.car.offset) * 3.14159265f / 180.0f;
-        const bool room_behind = !WorldModel::BuildingAt(pl.x - sinf(bh) * 1.6f, pl.y + cosf(bh) * 1.6f) && !WorldModel::BuildingAt(pl.x - sinf(bh) * 2.8f, pl.y + cosf(bh) * 2.8f);
-        if (room_behind && behind % 160 < 80)
-        {
-            ctx.input |= input_bit::Backward; // back towards it for 80 frames ...
-        }
-        else if (mSpeed < 0.10f)
-        {
-            ctx.input |= input_bit::Forward;  // ... then forward with the wheel over for 80, and again
-        }
     }
     else if (fabsf(err) > 60.0f && mSpeed > 0.14f && ctx.frame >= mHandbrakeNext)
     {

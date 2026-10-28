@@ -15,7 +15,10 @@
 #include <string.h>
 #include "BotCompat.hpp"
 
-static const float kFootMarkerStopDist = 4.0f; // tiles: where the car stops for a marker that wants the player on foot
+static const float kFootMarkerStopDist = 2.0f; // tiles: where the car stops for a marker that wants the player on foot
+static const float kFarOnFoot = 30.0f;        // tiles: further than this a step on foot goes by car when it can
+static const float kMarkerReach = 0.25f;      // tiles: how near the middle of a marker the player walks (its hit box is small)
+static const s32 kMarkerSettle = 60;         // frames on a marker on foot before it is walked onto again
 static const s32 kFootMarkerWait = 30;         // frames the script gets to react to the car before the player gets out
 
 MissionAction::MissionAction()
@@ -353,8 +356,18 @@ Action::Status MissionAction::Step(BotContext& ctx)
         }
         else
         {
-            // an object (a pickup) has to be walked onto, a place needs only to be reached
-            mChild = new WalkAction(arrow.x, arrow.y, false, arrow.type == 4 ? 0.35f : 0.5f);
+            // an object (a pickup) has to be walked onto, a place needs only to be reached. A long way is for the car: travel takes
+            // one parked close by or stopped in traffic, drives, and walks the rest
+            const float adx = arrow.x - pl.x;
+            const float ady = arrow.y - pl.y;
+            if (arrow.type != 4 && adx * adx + ady * ady > kFarOnFoot * kFarOnFoot)
+            {
+                mChild = new TravelGoal(arrow.x, arrow.y, kMarkerReach, false);
+            }
+            else
+            {
+                mChild = new WalkAction(arrow.x, arrow.y, false, arrow.type == 4 ? 0.35f : kMarkerReach);
+            }
         }
         BotDecision("f=%d mission: new step %s (%s)", ctx.frame, mChildKey, mChild->Name());
         if (ctx.map)
@@ -395,7 +408,7 @@ Action::Status MissionAction::RunChild(BotContext& ctx)
         }
         // on foot at a marker and the script is not reacting: the marker (a phone, a pickup) wants the player exactly on it, to the
         // last few steps: walk onto the very spot, and if that is not it, off it and on again
-        if (!pl.in_car && !mHornParked && mTouchTries < 8 && strncmp(mChildKey, "go", 2) == 0 && ctx.frame - mDoneFrame > 150)
+        if (!pl.in_car && !mHornParked && mTouchTries < 8 && strncmp(mChildKey, "go", 2) == 0 && ctx.frame - mDoneFrame > kMarkerSettle)
         {
             mTouchTries++;
             const float off = (mTouchTries % 2 == 0) ? 2.0f : 0.0f;
