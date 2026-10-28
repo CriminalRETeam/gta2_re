@@ -144,8 +144,27 @@ static float MaxOffLine(const LocalPlanOut& p, float sx, float sy, float gx, flo
     return worst;
 }
 
+static SteerCar MakeCar(float x, float y)
+{
+    SteerCar c;
+    c.x = x; c.y = y; c.vx = 0; c.vy = 0; c.speed = 0; c.police = false;
+    c.box.cx = x; c.box.cy = y; c.box.ax = 0; c.box.ay = -1; c.box.hl = 0.5f; c.box.hw = 0.3f;
+    return c;
+}
+
+static void WayFreeTests()
+{
+    SteerCar cars[2] = {MakeCar(73.0f, 49.5f), MakeCar(73.3f, 50.3f)};
+    // a swerve from (74.8, 50.6) to a point beside the road: through the cab (car 0) at (73, 49.5) or clear of it
+    Check("a way straight through a car is not free", !DriveSteer_WayFreeOfCars(cars, 2, 76.0f, 52.0f, 70.0f, 47.0f, 0.4f, -1));
+    Check("a way beside the cars, a car's width off, is free", DriveSteer_WayFreeOfCars(cars, 2, 76.0f, 52.0f, 76.0f, 46.0f, 0.4f, -1));
+    Check("the car being dodged is left out", DriveSteer_WayFreeOfCars(cars, 2, 76.0f, 52.0f, 70.0f, 47.0f, 0.4f, 0) == false);
+    Check("... and with both left out of the list it is free", DriveSteer_WayFreeOfCars(cars, 0, 76.0f, 52.0f, 70.0f, 47.0f, 0.4f, -1));
+}
+
 static void RouteProgressTests()
 {
+    WayFreeTests();
     // the route runs east along y=10 to x=20, jogs south to y=12, one tile east, then north along x=21
     const float wx[] = {10.0f, 20.0f, 20.0f, 21.0f, 21.0f};
     const float wy[] = {10.0f, 10.0f, 12.0f, 12.0f, -20.0f};

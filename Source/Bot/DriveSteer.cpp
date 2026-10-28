@@ -409,3 +409,25 @@ bool SteerBox_Contains(const SteerBox& b, float x, float y, float margin)
     const float dy = y - b.cy;
     return fabsf(dx * b.ax + dy * b.ay) <= b.hl + margin && fabsf(-dx * b.ay + dy * b.ax) <= b.hw + margin;
 }
+
+bool DriveSteer_WayFreeOfCars(const SteerCar* cars, int n, float x0, float y0, float x1, float y1, float margin, int skip)
+{
+    const float dx = x1 - x0;
+    const float dy = y1 - y0;
+    const float len = sqrtf(dx * dx + dy * dy);
+    const int steps = static_cast<int>(len / 0.3f) + 1;
+    for (int i = 0; i <= steps; i++)
+    {
+        const float t = static_cast<float>(i) / static_cast<float>(steps);
+        const float px = x0 + dx * t;
+        const float py = y0 + dy * t;
+        for (int k = 0; k < n; k++)
+        {
+            if (k != skip && SteerBox_Contains(cars[k].box, px, py, margin))
+            {
+                return false;
+            }
+        }
+    }
+    return true;
+}

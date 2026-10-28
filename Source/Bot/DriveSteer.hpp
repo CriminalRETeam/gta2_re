@@ -73,6 +73,10 @@ SteerChoice DriveSteer_Choose(const SteerWorld& w, float x, float y, float headi
 // The speed (tiles per frame) that still stops the car before a wall that far ahead
 float DriveSteer_SpeedFor(float wall_d);
 
+// Is the straight way from (x0, y0) to (x1, y1) free of cars, with `margin` tiles to spare each side (our own half width)? `skip` is
+// the index of one car to leave out (the one being dodged), -1 for none
+bool DriveSteer_WayFreeOfCars(const SteerCar* cars, int n, float x0, float y0, float x1, float y1, float margin, int skip);
+
 // What the overtake looked at, for the debug draw: the car it found in the way and each place it tried, with why a place was
 // turned down
 struct OvertakeTrace

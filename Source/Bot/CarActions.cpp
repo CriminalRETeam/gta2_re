@@ -1385,7 +1385,7 @@ Action::Status DriveAction::Step(BotContext& ctx)
     // The detailed route: an A* with a node per map tile from the car to a point 18 tiles along the global route. It keeps to the
     // direction of the line, goes round standing cars and the closed tiles, and the car follows it by pure pursuit
     bool local_ok = false;
-    if (dist > 8.0f && ctx.frame >= mReverseUntil)
+    if ((dist > 8.0f || (mChase && dist > 2.5f)) && ctx.frame >= mReverseUntil) // (a chase ends beside things: the last stretch is routed round them too)
     {
         SteerCar lcars[WorldModel::kMaxCars];
         LocalPlanWorld lw;
@@ -1467,15 +1467,35 @@ Action::Status DriveAction::Step(BotContext& ctx)
                 const float across = rx * -uy + ry * ux;
                 if (along > 0.0f && along < 2.0f + v * 30.0f && fabsf(across) < 1.8f)
                 {
-                    const float sgn = across >= 0.0f ? 1.0f : -1.0f;
-                    mSwerveX = pl.x + (-uy) * 4.0f * sgn + ux * 1.5f;
-                    mSwerveY = pl.y + ux * 4.0f * sgn + uy * 1.5f;
-                    if (!WorldModel::BuildingAt(mSwerveX, mSwerveY))
+                    // the side away from it first, then the other; a side with a building or another car on the way is no way out
+                    SteerCar swc[WorldModel::kMaxCars];
+                    const int swn = Drive_CollectCars(ctx, swc);
+                    int police_slot = -1;
+                    for (int q = 0; q < swn; q++)
                     {
+                        if ((swc[q].x - oc.x) * (swc[q].x - oc.x) + (swc[q].y - oc.y) * (swc[q].y - oc.y) < 0.01f)
+                        {
+                            police_slot = q;
+                        }
+                    }
+                    const float first = across >= 0.0f ? 1.0f : -1.0f;
+                    for (int tryside = 0; tryside < 2; tryside++)
+                    {
+                        const float sgn = tryside == 0 ? first : -first;
+                        const float sx = pl.x + (-uy) * 4.0f * sgn + ux * 1.5f;
+                        const float sy = pl.y + ux * 4.0f * sgn + uy * 1.5f;
+                        if (WorldModel::BuildingAt(sx, sy) || !Drive_CorridorClear(pl.x, pl.y, sx, sy, 0.75f) ||
+                            !DriveSteer_WayFreeOfCars(swc, swn, pl.x, pl.y, sx, sy, own_hw + 0.15f, police_slot))
+                        {
+                            continue;
+                        }
+                        mSwerveX = sx;
+                        mSwerveY = sy;
                         mSwerveUntil = ctx.frame + 18;
                         aim_x = mSwerveX;
                         aim_y = mSwerveY;
-                        BotDecision("f=%d drive: police car #%d closing on us (%.1f tiles, speed %.2f): swerving", ctx.frame, oc.idx, oc.dist, v);
+                        BotDecision("f=%d drive: police car #%d closing on us (%.1f tiles, speed %.2f): swerving to the %s", ctx.frame, oc.idx, oc.dist, v, tryside == 0 ? "side away from it" : "other side");
+                        break;
                     }
                     break;
                 }
