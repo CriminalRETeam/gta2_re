@@ -160,6 +160,8 @@ class WorldModel : public BotObject
 
     // True when the tile at (x, y) is a building / high ground
     static BoxInfo BoxOfSprite(class Sprite* pSprite);
+    // The axis of the ramp the walkable surface at (ix, iy, iz) is on: 0 none, 1 along x, 2 along y (WalkRoute_SlopeAxisOfId)
+    static int SlopeAxisAt(int ix, int iy, int iz);
     static bool LowWallAt(int ix, int iy); // a fence or low wall stands on the tile (a block of its own above the ground one)
     static bool BuildingAt(float x, float y);   // a building, the edge of the map or water: nothing drives or walks there
     // A road lower down under what the highest block says is a roof: the road of an underpass (an overpass crosses above it). NULL if none

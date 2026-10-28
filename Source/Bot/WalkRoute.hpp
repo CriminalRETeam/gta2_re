@@ -8,6 +8,7 @@
 struct RouteNode
 {
     unsigned char x, y, z;
+    unsigned char tight; // 1: to be reached close to its middle (the approach to a ramp, and the ramp itself), not within the usual 0.6
 };
 
 class WalkRoute
@@ -79,6 +80,7 @@ inline unsigned WalkRoute_AvoidCorners(const RouteNode* src, unsigned len, Route
                     dst[n].x = static_cast<unsigned char>(a_closed ? bx : ax);
                     dst[n].y = static_cast<unsigned char>(a_closed ? by : ay);
                     dst[n].z = src[i - 1].z;
+                    dst[n].tight = 0;
                     n++;
                 }
             }
@@ -86,6 +88,122 @@ inline unsigned WalkRoute_AvoidCorners(const RouteNode* src, unsigned len, Route
         dst[n++] = src[i];
     }
     return n;
+}
+
+// Ramps. A ped goes up or down a ramp along its own axis and through the middle of its tiles: arriving at the foot at an angle, or off to
+// one side, puts it against the wall along the ramp's edge and it stands pushing at it. The axis of a slope by its id (the block's slope
+// type >> 2): 0 none, 1 along x (west-east), 2 along y (north-south)
+inline int WalkRoute_SlopeAxisOfId(int id)
+{
+    if (id >= 1 && id <= 4)
+    {
+        return 2; // 26 degrees up north / down south
+    }
+    if (id >= 5 && id <= 8)
+    {
+        return 1; // left / right
+    }
+    if (id >= 9 && id <= 24)
+    {
+        return 2; // 7 degrees: up north, down south
+    }
+    if (id >= 25 && id <= 40)
+    {
+        return 1; // 7 degrees: left, right
+    }
+    if (id == 41 || id == 42)
+    {
+        return 2; // 45 degrees
+    }
+    if (id == 43 || id == 44)
+    {
+        return 1;
+    }
+    return 0;
+}
+
+// Makes a route fit the ramps on it. A diagonal step into a ramp tile becomes two: across the ramp's axis first, then along it; a diagonal
+// step out of one: along the axis first, then across. The nodes on a ramp, and the node before one, are marked tight (the walker has to
+// get close to their middle before going on, which lines it up with the ramp). axis(user, x, y, z) is the slope axis of a tile (0 none);
+// solid(user, x, y) says whether a tile is closed (no tile is added on one). Writes at most dst_max nodes and returns how many
+inline unsigned WalkRoute_AlignSlopes(const RouteNode* src, unsigned len, RouteNode* dst, unsigned dst_max, int (*axis)(void* user, int x, int y, int z),
+                                      bool (*solid)(void* user, int x, int y), void* user)
+{
+    unsigned n = 0;
+    for (unsigned i = 0; i < len && n < dst_max; i++)
+    {
+        if (i > 0 && n + 1 < dst_max)
+        {
+            const int px = static_cast<int>(src[i - 1].x);
+            const int py = static_cast<int>(src[i - 1].y);
+            const int dx = static_cast<int>(src[i].x) - px;
+            const int dy = static_cast<int>(src[i].y) - py;
+            if ((dx == 1 || dx == -1) && (dy == 1 || dy == -1))
+            {
+                const int into = axis(user, src[i].x, src[i].y, src[i].z);
+                const int out_of = axis(user, src[i - 1].x, src[i - 1].y, src[i - 1].z);
+                int mx = -1;
+                int my = -1;
+                if (into == 1)
+                {
+                    mx = px; // along x into it: across (y) first
+                    my = py + dy;
+                }
+                else if (into == 2)
+                {
+                    mx = px + dx;
+                    my = py;
+                }
+                else if (out_of == 1)
+                {
+                    mx = px + dx; // along x out of it: along x first
+                    my = py;
+                }
+                else if (out_of == 2)
+                {
+                    mx = px;
+                    my = py + dy;
+                }
+                if (mx >= 0 && !solid(user, mx, my))
+                {
+                    dst[n].x = static_cast<unsigned char>(mx);
+                    dst[n].y = static_cast<unsigned char>(my);
+                    dst[n].z = src[i - 1].z;
+                    dst[n].tight = 0;
+                    n++;
+                }
+            }
+        }
+        dst[n] = src[i];
+        dst[n].tight = 0;
+        n++;
+    }
+    for (unsigned k = 0; k < n; k++)
+    {
+        const bool on_ramp = axis(user, dst[k].x, dst[k].y, dst[k].z) != 0;
+        const bool before_ramp = k + 1 < n && axis(user, dst[k + 1].x, dst[k + 1].y, dst[k + 1].z) != 0;
+        dst[k].tight = (on_ramp || before_ramp) ? 1 : 0;
+    }
+    return n;
+}
+
+// Has the walker at (px, py) reached the node? Within 0.6 tiles of its middle; a tight node (a ramp, or the approach to one) within 0.3, so
+// that the walker is lined up with the ramp before it turns on to it. (At 0.6 a walker at the tile's edge, 0.57 off, turned for the ramp
+// while still low in the tile, and pressed against the wall beside the ramp.)
+inline bool WalkRoute_Reached(const RouteNode& n, float px, float py)
+{
+    const float reach = n.tight ? 0.3f : 0.6f;
+    const float dx = static_cast<float>(n.x) + 0.5f - px;
+    const float dy = static_cast<float>(n.y) + 0.5f - py;
+    return dx * dx + dy * dy <= reach * reach;
+}
+
+// May the walker jump to get past a snag? Not close to its goal, where a jump overshoots a marker: close by the route, which is not the
+// straight line (a token on a platform above the walker is 1.6 tiles away in a line and 19 route nodes away: a ledge in the way needs a
+// jump). straight: tiles to the goal; idx, len: the walker's node and the route's length
+inline bool WalkRoute_MayJump(float straight, unsigned idx, unsigned len, float no_jump_near)
+{
+    return straight > no_jump_near || idx + 3 < len;
 }
 
 // The extra cost, in tenths of a tile, of walking onto a tile of this kind (WorldModel::TileType: 1 road, 2 pavement, 3 field,

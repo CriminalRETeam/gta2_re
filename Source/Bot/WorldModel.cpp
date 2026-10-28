@@ -1,4 +1,5 @@
 #include "WorldModel.hpp"
+#include "WalkRoute.hpp"
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
@@ -1274,4 +1275,30 @@ Append(&buf, "bot f=%d rng=%d %s\n", frame, rng, header ? header : "");
     }
     *buf.p = 0;
     return buf.p - out;
+}
+
+int WorldModel::SlopeAxisAt(int ix, int iy, int iz)
+{
+    if (ix < 1 || ix > 254 || iy < 1 || iy > 254)
+    {
+        return 0;
+    }
+    // (a node's height and the height of the block whose lid it stands on differ by one, so the blocks either side count too)
+    for (int z = iz - 1; z <= iz + 1; z++)
+    {
+        if (z < 0 || z > 7)
+        {
+            continue;
+        }
+        gmp_block_info* b = gMap_0x370_6F6268->GetBlockOrNull_452980(static_cast<u8>(ix), static_cast<u8>(iy), static_cast<u8>(z));
+        if (b)
+        {
+            const int axis = WalkRoute_SlopeAxisOfId(b->field_B_slope_type >> 2);
+            if (axis != 0)
+            {
+                return axis;
+            }
+        }
+    }
+    return 0;
 }

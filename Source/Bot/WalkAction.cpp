@@ -22,6 +22,11 @@ static bool Walk_TileClosed(void* /*user*/, int x, int y)
     return WorldModel::BuildingAt(static_cast<float>(x) + 0.5f, static_cast<float>(y) + 0.5f) || WorldModel::LowWallAt(x, y);
 }
 
+static int Walk_SlopeAxis(void* /*user*/, int x, int y, int z)
+{
+    return WorldModel::SlopeAxisAt(x, y, z);
+}
+
 WalkAction::WalkAction(float x, float y, bool follow_arrow, float stop_dist)
     : mTx(x)
     , mTy(y)
@@ -100,11 +105,15 @@ bool WalkAction::Plan(BotContext& ctx, const char* why)
             copy[i].x = ctx.nav->PathAt(i).x;
             copy[i].y = ctx.nav->PathAt(i).y;
             copy[i].z = ctx.nav->PathAt(i).z;
+            copy[i].tight = 0;
         }
         // round the corners of fences and walls, not across them (the pathfinder cuts a diagonal past the end of a fence)
         RouteNode arcs[WalkRoute::kMax];
         const unsigned m = WalkRoute_AvoidCorners(copy, n, arcs, WalkRoute::kMax, Walk_TileClosed, NULL);
-        mRoute.Set(arcs, m, ctx.nav->Approximate());
+        // and to ramps along their axis, through the middle of their tiles (a diagonal onto a ramp ends against the wall beside it)
+        RouteNode ramps[WalkRoute::kMax];
+        const unsigned r = WalkRoute_AlignSlopes(arcs, m, ramps, WalkRoute::kMax, Walk_SlopeAxis, Walk_TileClosed, NULL);
+        mRoute.Set(ramps, r, ctx.nav->Approximate());
     }
     mPathIdx = 0;
     mProgressFrame = ctx.frame;
@@ -232,7 +241,12 @@ Action::Status WalkAction::Step(BotContext& ctx)
     const s32 py = static_cast<s32>(pl.y);
     for (s32 j = len - 1; j > mPathIdx; j--)
     {
-        if (mRoute.At(j).x == px && mRoute.At(j).y == py)
+        bool tight_between = false; // a ramp's approach is never skipped by standing on a later tile
+        for (s32 q = mPathIdx; q < j; q++)
+        {
+            tight_between = tight_between || mRoute.At(q).tight != 0;
+        }
+        if (!tight_between && mRoute.At(j).x == px && mRoute.At(j).y == py)
         {
             mPathIdx = j + 1 < len ? j + 1 : len - 1;
             mProgressFrame = ctx.frame;
@@ -241,9 +255,7 @@ Action::Status WalkAction::Step(BotContext& ctx)
     }
     while (mPathIdx < len - 1)
     {
-        const float wx = mRoute.At(mPathIdx).x + 0.5f - pl.x;
-        const float wy = mRoute.At(mPathIdx).y + 0.5f - pl.y;
-        if (wx * wx + wy * wy > 0.6f * 0.6f)
+        if (!WalkRoute_Reached(mRoute.At(mPathIdx), pl.x, pl.y))
         {
             break;
         }
@@ -355,7 +367,8 @@ Action::Status WalkAction::Step(BotContext& ctx)
         mProgressFrame = ctx.frame;
         return Running;
     }
-    if (ctx.frame - mProgressFrame > 30 && mJumps < 4 && mPathIdx < len && (mTx - pl.x) * (mTx - pl.x) + (mTy - pl.y) * (mTy - pl.y) > kNoJumpNear * kNoJumpNear)
+    if (ctx.frame - mProgressFrame > 30 && mJumps < 4 && mPathIdx < len &&
+        WalkRoute_MayJump(sqrtf((mTx - pl.x) * (mTx - pl.x) + (mTy - pl.y) * (mTy - pl.y)), static_cast<unsigned>(mPathIdx), static_cast<unsigned>(len), kNoJumpNear))
     {
         mJumps++;
         mJumpStart = ctx.frame;
@@ -375,8 +388,8 @@ Action::Status WalkAction::Step(BotContext& ctx)
             const WorldModel::CarInfo& c = ctx.world->cars[0];
             _snprintf(near_things, sizeof(near_things), "; nearest car #%d model %d at %.1f (driver %d)", c.idx, c.model, c.dist, c.has_driver);
         }
-        _snprintf(detail, sizeof(detail), "no new waypoint for 70 frames at (%.1f,%.1f), waypoint %d/%d tile (%d,%d), dist %.1f to (%.1f,%.1f)%s",
-                  pl.x, pl.y, mPathIdx, len, blocked.x, blocked.y, dist, mTx, mTy, near_things);
+        _snprintf(detail, sizeof(detail), "no new waypoint for 70 frames at (%.1f,%.1f) z %.2f ped_state %d, waypoint %d/%d tile (%d,%d,%d)%s, dist %.1f to (%.1f,%.1f)%s",
+                  pl.x, pl.y, pl.z, pl.ped_state, mPathIdx, len, blocked.x, blocked.y, blocked.z, blocked.tight ? " tight" : "", dist, mTx, mTy, near_things);
         if (mRetries >= 4 || !ctx.action_snap)
         {
             return Fail("no_progress", "%s", detail);
