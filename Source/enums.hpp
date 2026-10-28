@@ -484,13 +484,13 @@ namespace Char_B4_state
 enum
 {
     Unknown_0 = 0,
-    Unknown_1 = 1,
+    Walking_1 = 1,
     Unknown_2 = 2,
-    Unknown_3 = 3,
-    Unknown_4 = 4,
+    Walking_Fast_3 = 3,
+    Running_4 = 4,
     Unknown_5 = 5,
     Unknown_6 = 6,
-    Unknown_7 = 7,
+    Standing_7 = 7,
     Veer_Right_From_Wall_8 = 8,
     Veer_Left_From_Wall_9 = 9,
     Avoiding_Ped_10 = 10, // turned aside after bumping into another ped (Char::HandlePedCollision_548BD0)
@@ -501,7 +501,7 @@ enum
     Jumping_15 = 15,
     Colliding_With_Car_27 = 27,
     Smoking_35 = 35,
-    Interacting_Car_Door_36 = 36, // also a new char's state (Char's constructor), which its first update makes 1
+    Interacting_Car_Door_36 = 36, // also a new char's state (Char's constructor), which its first update makes Walking_1
 };
 } // namespace Char_B4_state
 
@@ -861,16 +861,16 @@ enum
     objective_40 = 40,
     objective_41 = 41,
     patrol_on_foot_42 = 42,
-    objective_43 = 43,
+    patrol_in_car_43 = 43,
     wait_to_cross_y_backwards_44 = 44,
     wait_to_cross_x_forwards_45 = 45,
     wait_to_cross_y_forwards_46 = 46,
     wait_to_cross_x_backwards_47 = 47,
     crossing_road_48 = 48,
     wait_after_crossing_49 = 49,
-    objective_50 = 50,
+    dead_no_ambulance_50 = 50,
     objective_51 = 51,
-    objective_52 = 52,
+    chase_char_in_car_52 = 52,
     objective_53 = 53,
     call_police_car_54 = 54,
     follow_car_in_car_55 = 55,

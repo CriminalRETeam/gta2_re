@@ -848,7 +848,7 @@ enum
     one_car = 2,
     one_model = 3,
     one_char_on_foot = 4,
-    unknown1 = 5,
+    none = 5,
     any_player_one_car = 6,
 };
 } // namespace SCR_DOOR_OPENTYPES

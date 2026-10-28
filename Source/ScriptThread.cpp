@@ -954,8 +954,8 @@ void ScriptThread::SCRCMD_DOOR_DECLARE_D1_S1_504970(SCR_DOOR_DATA_DEC* pCmd)
         case SCR_DOOR_OPENTYPES::any_car:
             pCmd->field_8_door->set_field_20(door_open_type::any_car);
             break;
-        case SCR_DOOR_OPENTYPES::unknown1:
-            pCmd->field_8_door->set_field_20(door_open_type::unknown1);
+        case SCR_DOOR_OPENTYPES::none:
+            pCmd->field_8_door->set_field_20(door_open_type::none);
             break;
         case SCR_DOOR_OPENTYPES::one_car:
             pCmd->field_8_door->set_field_20(door_open_type::one_car);
@@ -1104,8 +1104,8 @@ void ScriptThread::SCRCMD_DOOR_DECLARE_D2_S2_504B80(SCR_DOOR_DATA_DEC* pCmd)
             }
         }
         break;
-        case SCR_DOOR_OPENTYPES::unknown1:
-            pCmd->field_8_door->set_field_20(door_open_type::unknown1);
+        case SCR_DOOR_OPENTYPES::none:
+            pCmd->field_8_door->set_field_20(door_open_type::none);
             break;
     }
 

@@ -169,7 +169,7 @@ void AmbulanceService::ProcessPatientQueue_4FA500()
         if (!gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(ROAD, &x, &y, &z, false))
         {
             field_1_corpse_count--;
-            pPed->SetObjective(objectives_enum::objective_50);
+            pPed->SetObjective(objectives_enum::dead_no_ambulance_50);
             return;
         }
 
@@ -213,7 +213,7 @@ void AmbulanceService::ProcessPatientQueue_4FA500()
             if (!pNew->field_4_paramedics_crew)
             {
                 field_1_corpse_count--;
-                pPed->SetObjective(objectives_enum::objective_50);
+                pPed->SetObjective(objectives_enum::dead_no_ambulance_50);
                 pNew->ClearTask_4FA7D0();
                 return;
             }

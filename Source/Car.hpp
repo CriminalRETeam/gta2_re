@@ -52,7 +52,7 @@ enum
     roadblock_car_7 = 7,
     mission_car_8 = 8,
     parked_car_9 = 9,
-    Unknown_10 = 10,
+    call_police_car_10 = 10,
 };
 } // namespace car_kind
 

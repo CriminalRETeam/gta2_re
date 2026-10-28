@@ -2896,7 +2896,7 @@ Scores are `quick_score.sh` lines. No new matches; each target stopped at one of
   if, member calls on a global) always make VC6 keep the later copy; a `goto` to a label in the first block
   makes VC6 float the labelled block to the second site anyway (same code). Negating either `state != 15`
   test, an early-return form, or an inner `if (dist >= half) ... else if ...` chain change far more (66-376).
-  In 9.6f (VC7, 0x4ac580) objective_52's else-pair jumps *forward* into the kill_char pair, so the kill_char
+  In 9.6f (VC7, 0x4ac580) chase_char_in_car_52's else-pair jumps *forward* into the kill_char pair, so the kill_char
   block is a merge target there too. Unexplained; the only probe where the earlier block survived was a later
   duplicate that is a whole `case` body entered straight from the jump table (p2 in the scratch probes).
 - `State5_PursueOrChase_572920`: besides the pair placement, the original inlines the first nested

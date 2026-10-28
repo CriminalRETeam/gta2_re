@@ -1575,7 +1575,7 @@ void CarManager::DecrementAllocatedCarType_4466C0(s32 kind)
             --this->field_40_proto_recycled_cars;
             break;
 
-        case car_kind::Unknown_10:
+        case car_kind::call_police_car_10:
             --this->field_48_kind10_cars;
             break;
 
@@ -1656,7 +1656,7 @@ bool CarManager::CanAllocateCarOfKindWithSpare_446870(s32 type) const
             return this->field_34_unit_cars < 5;
         case car_kind::roadblock_car_7:
             return this->field_38_roadblock_cars < 11;
-        case car_kind::Unknown_10:
+        case car_kind::call_police_car_10:
             return this->field_48_kind10_cars < 11;
         case car_kind::parked_car_9:
             return this->field_44_parked_cars < 200;
@@ -1682,7 +1682,7 @@ bool CarManager::CanAllocateCarOfKind_446930(s32 type) const
             return this->field_34_unit_cars < 6;
         case car_kind::roadblock_car_7:
             return this->field_38_roadblock_cars < 12;
-        case car_kind::Unknown_10:
+        case car_kind::call_police_car_10:
             return this->field_48_kind10_cars < 12;
         case car_kind::parked_car_9:
             return this->field_44_parked_cars < 200;
@@ -6326,7 +6326,7 @@ void Car::IncrementAllocatedCarType_443DA0(s32 car_kind)
         case car_kind::firefighter_5:
             ++gCarManager_6C_677930->field_30_firefighter_cars;
             break;
-        case car_kind::Unknown_10:
+        case car_kind::call_police_car_10:
             ++gCarManager_6C_677930->field_48_kind10_cars;
             break;
         case car_kind::paramedic_car_4:
