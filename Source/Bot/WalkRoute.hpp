@@ -52,3 +52,39 @@ class WalkRoute
     unsigned mLen;
     bool mApprox;
 };
+
+// A step to a diagonal neighbour that has a closed tile (a fence, a wall, a building) at either side cuts that tile's corner: the
+// walker, aiming straight at the next node's middle, snags on the corner and presses against it. Such a step becomes two straight
+// ones, through the side that is open. Writes at most dst_max nodes and returns how many; the nodes keep the height of the node they
+// come after. solid(user, x, y) says whether a tile is closed.
+inline unsigned WalkRoute_AvoidCorners(const RouteNode* src, unsigned len, RouteNode* dst, unsigned dst_max, bool (*solid)(void* user, int x, int y), void* user)
+{
+    unsigned n = 0;
+    for (unsigned i = 0; i < len && n < dst_max; i++)
+    {
+        if (i > 0 && n < dst_max)
+        {
+            const int dx = static_cast<int>(src[i].x) - static_cast<int>(src[i - 1].x);
+            const int dy = static_cast<int>(src[i].y) - static_cast<int>(src[i - 1].y);
+            if ((dx == 1 || dx == -1) && (dy == 1 || dy == -1))
+            {
+                const int ax = static_cast<int>(src[i - 1].x) + dx; // the corner through the x side
+                const int ay = static_cast<int>(src[i - 1].y);
+                const int bx = static_cast<int>(src[i - 1].x);
+                const int by = static_cast<int>(src[i - 1].y) + dy;
+                const bool a_closed = solid(user, ax, ay);
+                const bool b_closed = solid(user, bx, by);
+                if ((a_closed || b_closed) && !(a_closed && b_closed) && n + 1 < dst_max)
+                {
+                    dst[n].x = static_cast<unsigned char>(a_closed ? bx : ax);
+                    dst[n].y = static_cast<unsigned char>(a_closed ? by : ay);
+                    dst[n].z = src[i - 1].z;
+                    n++;
+                }
+            }
+        }
+        dst[n++] = src[i];
+    }
+    return n;
+}
+

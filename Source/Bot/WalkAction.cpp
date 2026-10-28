@@ -16,6 +16,12 @@
 // Within this many tiles of its target a walk does not jump to get past a snag: a jump overshoots a marker
 static const float kNoJumpNear = 2.0f;
 
+// A closed tile for the walker: a building, water, a fence or a low wall
+static bool Walk_TileClosed(void* /*user*/, int x, int y)
+{
+    return WorldModel::BuildingAt(static_cast<float>(x) + 0.5f, static_cast<float>(y) + 0.5f) || WorldModel::LowWallAt(x, y);
+}
+
 WalkAction::WalkAction(float x, float y, bool follow_arrow, float stop_dist)
     : mTx(x)
     , mTy(y)
@@ -89,7 +95,10 @@ bool WalkAction::Plan(BotContext& ctx, const char* why)
             copy[i].y = ctx.nav->PathAt(i).y;
             copy[i].z = ctx.nav->PathAt(i).z;
         }
-        mRoute.Set(copy, n, ctx.nav->Approximate());
+        // round the corners of fences and walls, not across them (the pathfinder cuts a diagonal past the end of a fence)
+        RouteNode arcs[WalkRoute::kMax];
+        const unsigned m = WalkRoute_AvoidCorners(copy, n, arcs, WalkRoute::kMax, Walk_TileClosed, NULL);
+        mRoute.Set(arcs, m, ctx.nav->Approximate());
     }
     mPathIdx = 0;
     mProgressFrame = ctx.frame;

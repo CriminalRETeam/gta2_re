@@ -24,6 +24,7 @@ def main():
     ap.add_argument("--timeout", type=int, default=600)
     ap.add_argument("--draw", action="store_true")
     ap.add_argument("--show", action="store_true", help="draw on your own screen at game speed so you can watch (falls back to off screen when the screen is locked)")
+    ap.add_argument("--pause-route", action="store_true", help="with --show: start with 'pause when a drive route is planned' ticked (off by default)")
     ap.add_argument("--desktop", action="store_true", help="run in a wine virtual desktop (did not start the exe here)")
     ap.add_argument("extra", nargs="*", help="extra -bot_* arguments")
     args = ap.parse_args()
@@ -38,7 +39,7 @@ def main():
         if botlib.screen_unlocked():
             os.environ["BOT_USE_DISPLAY"] = "1"
             args.draw = True
-            args.extra = list(args.extra) + ["-bot_fast", "-bot_pause_route"]
+            args.extra = list(args.extra) + ["-bot_fast"] + (["-bot_pause_route"] if args.pause_route else [])
             print(f"showing the run on {os.environ['DISPLAY']}")
         else:
             print("screen locked or no display: running off screen instead")
