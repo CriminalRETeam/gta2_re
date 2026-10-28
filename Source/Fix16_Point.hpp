@@ -425,25 +425,6 @@ class Fix16_Point
         }
     }
 
-    // Unused (GetSpeed_50E190 matches with the plain GetLength_41E260), but don't remove it: without it
-    // MapRenderer::Draw4SidedDiagonalUpLeft_4EF880 and Draw3SidedDiagonalDownRight_4EF520 stop matching
-    // (see "Adding unused inline methods to a header" in docs/matching_quirks.md).
-    inline Fix16 GetLength_all_out_of_line_abs_y_negate()
-    {
-        if (x == kFpZero_6F77C0)
-        {
-            return Fix16::Abs_negate_out_of_line(y);
-        }
-        else if (y == kFpZero_6F77C0)
-        {
-            return Fix16::Abs(x);
-        }
-        else
-        {
-            return Fix16::SquareRoot_436A70(x.Multiply_408680(x).Add_408660(y.Multiply_408680(y)));
-        }
-    }
-
     // Needed for CarPhysics::HandleCarCollision_55FF20.
     inline Fix16 GetLength_all_out_of_line_abs_y_negate_2()
     {
@@ -527,24 +508,6 @@ class Fix16_Point
 
     // 10.0 0x442CB0
     EXPORT Fix16_Point operator/(Fix16& in) const;
-
-    // Unused (ApplyExplosionImpulse_443710 calls GetLength_41E260 now), kept for the same reason as
-    // GetLength_no_sqrt_inline
-    inline Fix16 GetLength_inline_443710()
-    {
-        if (x == gFix16_6777CC)
-        {
-            return Fix16::Abs(y);
-        }
-        else if (y == gFix16_6777CC)
-        {
-            return Fix16::Abs(x);
-        }
-        else
-        {
-            return Fix16::SquareRoot_436A70(x * x + y * y);
-        }
-    }
 
     // GetLength_41E260 as inlined into NormalizeSafe_442AD0 (out of line helpers where the inline budget ran out)
     inline Fix16 GetLength_inline_442AD0()
