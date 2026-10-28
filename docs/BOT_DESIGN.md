@@ -645,3 +645,43 @@ turns it off.
 A bug seen on screen becomes a failing case first (the steering weave reproduced as 69 wheel flips on an empty road), then a
 fix. The sim's car is approximate (1.8 degrees of turn a frame, stops dead at a wall): it finds logic faults, not the feel.
 A save state only loads in the exe build that wrote it, so a change to the bot invalidates earlier WTF saves.
+
+## Driving, as it is now
+
+**The route in three layers.** `NavCar` plans the global route (A* per tile, lane arrows, soft clearance, string pulling).
+`LocalPlan` plans the next 24 tiles of it in detail: an A* with a node per map tile in 8 directions and a cost for every
+turn (so the path keeps to the direction of the line), tiles beside walls dear (the car's box with its margin is wider than
+half a tile), tiles under or near standing cars very dear (round them when there is a way, a bump through when there is
+none), a moving car's track costly, stepping against a lane's arrows costly. The result is smoothed (shortcuts that keep
+half the car's width clear) and **kept while it is good** (`LocalPlan_StillGood`: the car within two tiles of it, 14 tiles
+or a third of a short path left, nothing standing on the next 14 tiles): planning afresh every few frames moved the aim point
+and the wheel with it. The car follows it by pure pursuit (aim 4 + 40 x speed tiles ahead, at most 12; the aim comes from the
+projection onto the nearest *segment*, not the nearest node). Last, `DriveSteer_Choose` holds the wheel at one of five
+positions for the first 1.5 tiles of a rollout and steers at the aim point after that, and takes the one that ends nearest
+the aim without a wall or a car in the way; walls give the speed limit (never below a creep of 0.04: stopping dead beside a
+wall is what keeps the car there).
+
+**The game's own boxes.** `SpriteShape::field_C_corners` of each sprite's collision shape is the box the game collides with,
+read into `WorldModel::BoxInfo` for the player, every car and every ped. A car is about 1.1 by 0.66 tiles, a ped 0.2: much
+smaller than anything guessed earlier. The steering and the planner test oriented boxes (`SteerBox_Overlap`, separating axes)
+and our own box carries a margin of 0.25 tiles (`kOwnMargin`): with none the car took tighter gaps and scraped more. The
+overlay draws the same boxes (white: the game's box of our car; yellow: the box the steering tests).
+
+**What is solid.** `WorldModel::BuildingAt`: a block at height 3 or more that is not a road or pavement (bridges), and water
+(the game's own tile test, `IsWaterTile`). `LowWallAt`: a fence (a block of its own above the ground one with wall faces) or a
+low building, hedge or wall (the block's own faces carry the wall flag): 1,898 tiles that a car cannot drive through and the
+steering ignored. `RoadBlockBelow`: where the highest block is an overpass deck, the road under it is the tile (the bot had
+closed the road at every crossing like it).
+
+**Pedestrians do not block the player**, who walks over them or jumps. What stopped the walker was the shared navigation
+object being re-planned under it by the trip goal and the car choice: the walker keeps its own copy of its route
+(`WalkRoute`).
+
+**Getting a car.** On top of a car the enter key alone takes it; any other key cancels the steal. `EnterCarAction` walks up,
+jumps from 1.7 tiles, presses enter in four-frame pulses while over the car and then presses **nothing** while the ped climbs
+in (ped state other than 0, about 40 frames). Walk-only mode after three failed grabs expires after 900 frames. On a long walk
+the choice of car is looked at again, at most once, for a clearly nearer car (not a hijack unless the walk is long).
+
+**Phones.** Every phone is listed with its gang at the start of a missions run. The phone where the player starts is object
+238, model 163: a tutorial of eight text messages (brief keys 1600 to 1607), then a real mission (drive to the big pink marker
+at (189,38) in the mission car). Three more model 163 phones stand at (189,38), (31,157) and (39,39).
