@@ -221,6 +221,8 @@ bool LocalPlan_Find(const LocalPlanWorld& w, float sx, float sy, float heading_d
     out->partial = false;
     out->count = 0;
     out->car_closed_count = 0;
+    out->tile_count = 0;
+    out->moving_count = 0;
     // the goal at most 28 tiles off, along the same line
     float dxg = gx - sx;
     float dyg = gy - sy;
@@ -456,6 +458,24 @@ bool LocalPlan_Find(const LocalPlanWorld& w, float sx, float sy, float heading_d
         return false;
     }
     out->partial = gr.partial;
+    for (int i = 0; i < gr.count && out->tile_count < 160; i++)
+    {
+        out->tile_x[out->tile_count] = gr.x[i];
+        out->tile_y[out->tile_count] = gr.y[i];
+        out->tile_count++;
+    }
+    for (int cy = 0; cy < kH && out->moving_count < 96; cy++)
+    {
+        for (int cx = 0; cx < kW && out->moving_count < 96; cx++)
+        {
+            if (sOcc[cy * kW + cx] & 0x0F) // over it in the next 40 frames
+            {
+                out->moving_x[out->moving_count] = static_cast<short>(x0 + cx);
+                out->moving_y[out->moving_count] = static_cast<short>(y0 + cy);
+                out->moving_count++;
+            }
+        }
+    }
     // The square route is what the car is to follow; it is pulled straight where the way is open with room (a path of 90 degree
     // steps would have the wheel hunting at each jog): from each kept point on to the furthest one the straight line to
     // reaches with room all along
@@ -662,4 +682,31 @@ void LocalPlan_RouteAhead(const float* wx, const float* wy, int n, int next, flo
         rn++;
     }
     *route_n = rn;
+}
+
+int LocalPlan_RouteProgress(const float* wx, const float* wy, int n, int next, float x, float y, float max_off)
+{
+    int best = next;
+    for (int k = next + 1; k <= next + 4 && k < n; k++)
+    {
+        const float ex = wx[k] - wx[k - 1];
+        const float ey = wy[k] - wy[k - 1];
+        const float el2 = ex * ex + ey * ey;
+        if (el2 < 0.0001f)
+        {
+            continue;
+        }
+        const float t = ((x - wx[k - 1]) * ex + (y - wy[k - 1]) * ey) / el2;
+        if (t < 0.0f || t > 1.0f)
+        {
+            continue; // not alongside this leg
+        }
+        const float qx = wx[k - 1] + ex * t - x;
+        const float qy = wy[k - 1] + ey * t - y;
+        if (qx * qx + qy * qy <= max_off * max_off)
+        {
+            best = k;
+        }
+    }
+    return best;
 }

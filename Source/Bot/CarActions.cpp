@@ -631,6 +631,7 @@ static const float kDropSeparate = 4.0f;
 static const float kSolidGoalStop = 6.0f; // tiles: how near a goal inside a building is reached
 static const float kPartialEndNear = 2.0f; // tiles from the end of a partial local route that count as being there
 static const float kProgressTiles = 2.0f; // getting this much nearer the waypoint counts as progress
+static const float kOnLegTiles = 1.2f; // within this of a later leg of the route: the earlier corners are behind us
 static const int kReplanFrames = 15; // the detailed route is planned afresh this often: the other cars move
 static const float kBehindCos = -0.17f; // the first waypoint is more than 100 degrees off the nose
 static const float kAheadLead = 4.0f;   // tiles ahead of the nose where the route from the front is started
@@ -920,7 +921,16 @@ Action::Status DriveAction::Step(BotContext& ctx)
         return Done;
     }
 
-    // Waypoints
+    // Waypoints: the car may already be on a later leg (the route jogged aside and back, the car went straight on)
+    {
+        const int skip = LocalPlan_RouteProgress(mWpX, mWpY, mWpCount, mWpIdx, pl.x, pl.y, kOnLegTiles);
+        if (skip != mWpIdx && skip < mWpCount)
+        {
+            BotDecision("f=%d drive: already on the leg to waypoint %d (%.1f,%.1f): dropping waypoints %d to %d", ctx.frame, skip, mWpX[skip], mWpY[skip], mWpIdx, skip - 1);
+            mWpIdx = skip;
+            mProgressFrame = ctx.frame;
+        }
+    }
     while (mWpIdx < mWpCount - 1)
     {
         const float wx = mWpX[mWpIdx] - pl.x;
@@ -1311,6 +1321,14 @@ Action::Status DriveAction::Step(BotContext& ctx)
                 BotDebugDraw::Line(mLocal.x[i - 1], mLocal.y[i - 1], mLocal.x[i], mLocal.y[i], kDebugColLime);
                 BotDebugDraw::Line(mLocal.x[i] - 0.12f, mLocal.y[i], mLocal.x[i] + 0.12f, mLocal.y[i], kDebugColLime);
                 BotDebugDraw::Line(mLocal.x[i], mLocal.y[i] - 0.12f, mLocal.x[i], mLocal.y[i] + 0.12f, kDebugColLime);
+            }
+            for (int i = 0; i < mLocal.tile_count && i < 50; i++)
+            {
+                BotDebugDraw::TileOutline(mLocal.tile_x[i] + 0.5f, mLocal.tile_y[i] + 0.5f, kDebugColCyan);
+            }
+            for (int i = 0; i < mLocal.moving_count && i < 40; i++)
+            {
+                BotDebugDraw::TileOutline(mLocal.moving_x[i] + 0.5f, mLocal.moving_y[i] + 0.5f, kDebugColRed);
             }
             for (int i = 0; i < mLocal.car_closed_count; i++)
             {

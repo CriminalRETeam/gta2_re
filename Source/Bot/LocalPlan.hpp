@@ -41,6 +41,13 @@ struct LocalPlanOut
     int car_closed_count;
     short car_closed_x[96];
     short car_closed_y[96];
+    // the square route as tiles, and the tiles a moving car will be over soon (red on the overlay), so the plan through traffic can be seen
+    int tile_count;
+    short tile_x[160];
+    short tile_y[160];
+    int moving_count;
+    short moving_x[96];
+    short moving_y[96];
 };
 
 // Plans from (sx, sy), facing heading_deg (0 is -Y, clockwise), to (gx, gy). The goal is moved to the nearest open tile if it
@@ -64,3 +71,8 @@ enum
 // along: the car's place projected onto the leg it is on, then `dist` tiles on. The points are written to route_x/route_y
 // (*route_n of them, the last is the goal)
 void LocalPlan_RouteAhead(const float* wx, const float* wy, int n, int next, float x, float y, float dist, float* route_x, float* route_y, int* route_n);
+
+// The corner the car should now head for: `next` when the car is on the leg towards it, or a later one when the car is already on
+// (within max_off tiles of) a later leg, as when the route jogs aside and back and the car went straight on. Looks at most four
+// corners on
+int LocalPlan_RouteProgress(const float* wx, const float* wy, int n, int next, float x, float y, float max_off);

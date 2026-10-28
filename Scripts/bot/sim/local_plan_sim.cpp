@@ -144,8 +144,20 @@ static float MaxOffLine(const LocalPlanOut& p, float sx, float sy, float gx, flo
     return worst;
 }
 
+static void RouteProgressTests()
+{
+    // the route runs east along y=10 to x=20, jogs south to y=12, one tile east, then north along x=21
+    const float wx[] = {10.0f, 20.0f, 20.0f, 21.0f, 21.0f};
+    const float wy[] = {10.0f, 10.0f, 12.0f, 12.0f, -20.0f};
+    Check("on the first leg: head for the corner ahead", LocalPlan_RouteProgress(wx, wy, 5, 1, 15.0f, 10.0f, 1.2f) == 1);
+    Check("went straight on past the jog onto the leg north: the jog's corners are dropped", LocalPlan_RouteProgress(wx, wy, 5, 2, 21.2f, 5.0f, 1.2f) == 4);
+    Check("short of the jog, 3 tiles from the leg north: not skipped", LocalPlan_RouteProgress(wx, wy, 5, 2, 18.0f, 10.0f, 1.2f) == 2);
+    Check("far from every later leg: not skipped", LocalPlan_RouteProgress(wx, wy, 5, 2, 30.0f, 5.0f, 1.2f) == 2);
+}
+
 int main()
 {
+    RouteProgressTests();
     std::vector<SteerCar> none;
     // 1. open ground: a straight line, every step within 45 degrees of the line, one node per tile
     {
