@@ -1,4 +1,5 @@
 #pragma once
+#include "WalkRoute.hpp"
 
 #include "BotAction.hpp"
 
@@ -36,6 +37,7 @@ class WalkAction : public Action
   private:
     bool Plan(BotContext& ctx, const char* why);
 
+    WalkRoute mRoute; // our own copy of the planned path (the shared navigation object is re-planned by others)
     float mTx, mTy;
     bool mFollowArrow;
     float mStopDist;

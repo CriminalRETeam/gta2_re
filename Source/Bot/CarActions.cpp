@@ -256,6 +256,9 @@ static bool Drive_CorridorClear(float x0, float y0, float x1, float y1, float ha
     return true;
 }
 
+// the room kept round our own car's box when steering past buildings and cars, in tiles
+static const float kOwnMargin = 0.25f;
+
 // the room the look-ahead keeps round a pedestrian's box, in tiles
 static const float kPedMargin = 0.3f;
 
@@ -368,8 +371,9 @@ Action::Status DriveAction::Step(BotContext& ctx)
 {
     const WorldModel::PlayerInfo& pl = ctx.world->player;
     // our car's collision box: the game's own, the same size the steering tests
-    const float own_hl = pl.box.valid ? pl.box.hl : 1.0f;
-    const float own_hw = pl.box.valid ? pl.box.hw : 0.5f;
+    // plus a margin (the steering is not exact and a scrape costs damage): the yellow box on the overlay is this one
+    const float own_hl = (pl.box.valid ? pl.box.hl : 0.6f) + kOwnMargin;
+    const float own_hw = (pl.box.valid ? pl.box.hw : 0.35f) + kOwnMargin;
     ctx.input = 0;
     if (!pl.valid)
     {

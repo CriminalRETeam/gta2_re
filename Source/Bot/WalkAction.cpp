@@ -1,5 +1,6 @@
 #include "WalkAction.hpp"
 #include "WalkCarJump.hpp"
+#include "WalkRoute.hpp"
 #include "BotDebugDraw.hpp"
 #include "WorldModel.hpp"
 #include "NavFoot.hpp"
@@ -74,6 +75,18 @@ bool WalkAction::Plan(BotContext& ctx, const char* why)
     const u8 sy = static_cast<u8>(pl.y);
     const u8 sz = static_cast<u8>(pl.z + 0.5f);
     mPlanned = ctx.nav->FindPath(sx, sy, sz, static_cast<u8>(mTx), static_cast<u8>(mTy));
+    {
+        // keep our own copy: the shared navigation object plans other routes while we walk this one
+        RouteNode copy[WalkRoute::kMax];
+        const u32 n = ctx.nav->PathLength() < static_cast<u32>(WalkRoute::kMax) ? ctx.nav->PathLength() : static_cast<u32>(WalkRoute::kMax);
+        for (u32 i = 0; i < n; i++)
+        {
+            copy[i].x = ctx.nav->PathAt(i).x;
+            copy[i].y = ctx.nav->PathAt(i).y;
+            copy[i].z = ctx.nav->PathAt(i).z;
+        }
+        mRoute.Set(copy, n, ctx.nav->Approximate());
+    }
     mPathIdx = 0;
     mProgressFrame = ctx.frame;
     mYields = 0;
@@ -180,21 +193,21 @@ Action::Status WalkAction::Step(BotContext& ctx)
     const float dx = mTx - pl.x;
     const float dy = mTy - pl.y;
     const float dist = sqrtf(dx * dx + dy * dy);
-    const s32 last = static_cast<s32>(ctx.nav->PathLength()) - 1;
-    if (dist < mStopDist || (ctx.nav->Approximate() && last >= 0 && mPathIdx >= last &&
-                             (pl.x - (ctx.nav->PathAt(last).x + 0.5f)) * (pl.x - (ctx.nav->PathAt(last).x + 0.5f)) + (pl.y - (ctx.nav->PathAt(last).y + 0.5f)) * (pl.y - (ctx.nav->PathAt(last).y + 0.5f)) < 0.5f * 0.5f))
+    const s32 last = static_cast<s32>(mRoute.Length()) - 1;
+    if (dist < mStopDist || (mRoute.Approximate() && last >= 0 && mPathIdx >= last &&
+                             (pl.x - (mRoute.At(last).x + 0.5f)) * (pl.x - (mRoute.At(last).x + 0.5f)) + (pl.y - (mRoute.At(last).y + 0.5f)) * (pl.y - (mRoute.At(last).y + 0.5f)) < 0.5f * 0.5f))
     {
         BotDecision("f=%d walk arrived at (%.1f,%.1f), dist %.2f, %d retries", ctx.frame, mTx, mTy, dist, mRetries);
         return Done;
     }
 
     // Follow the path: jump to the node after the one the player stands on, advance when close
-    const s32 len = static_cast<s32>(ctx.nav->PathLength());
+    const s32 len = static_cast<s32>(mRoute.Length());
     const s32 px = static_cast<s32>(pl.x);
     const s32 py = static_cast<s32>(pl.y);
     for (s32 j = len - 1; j > mPathIdx; j--)
     {
-        if (ctx.nav->PathAt(j).x == px && ctx.nav->PathAt(j).y == py)
+        if (mRoute.At(j).x == px && mRoute.At(j).y == py)
         {
             mPathIdx = j + 1 < len ? j + 1 : len - 1;
             mProgressFrame = ctx.frame;
@@ -203,8 +216,8 @@ Action::Status WalkAction::Step(BotContext& ctx)
     }
     while (mPathIdx < len - 1)
     {
-        const float wx = ctx.nav->PathAt(mPathIdx).x + 0.5f - pl.x;
-        const float wy = ctx.nav->PathAt(mPathIdx).y + 0.5f - pl.y;
+        const float wx = mRoute.At(mPathIdx).x + 0.5f - pl.x;
+        const float wy = mRoute.At(mPathIdx).y + 0.5f - pl.y;
         if (wx * wx + wy * wy > 0.6f * 0.6f)
         {
             break;
@@ -232,13 +245,13 @@ Action::Status WalkAction::Step(BotContext& ctx)
         float py = pl.y;
         for (s32 i = mPathIdx; i < len && i < mPathIdx + 30; i++)
         {
-            const float nx = ctx.nav->PathAt(i).x + 0.5f;
-            const float ny = ctx.nav->PathAt(i).y + 0.5f;
+            const float nx = mRoute.At(i).x + 0.5f;
+            const float ny = mRoute.At(i).y + 0.5f;
             BotDebugDraw::Line(px, py, nx, ny, kDebugColGreen);
             px = nx;
             py = ny;
         }
-        BotDebugDraw::Mark(ctx.nav->PathAt(mPathIdx).x + 0.5f, ctx.nav->PathAt(mPathIdx).y + 0.5f, 0.4f, kDebugColMagenta, "aim");
+        BotDebugDraw::Mark(mRoute.At(mPathIdx).x + 0.5f, mRoute.At(mPathIdx).y + 0.5f, 0.4f, kDebugColMagenta, "aim");
         BotDebugDraw::Mark(mTx, mTy, 0.8f, kDebugColWhite, "goal");
     }
     // Cars are no obstacles for a walker: the route ignores them (the road is crossed whatever is on it, `Bot::Evade` jumps
@@ -246,7 +259,7 @@ Action::Status WalkAction::Step(BotContext& ctx)
     // bumper: forward and jump together, for 20 frames.
     if (ctx.frame < mCarJumpUntil)
     {
-        const float cerr = ctx.Steer(ctx.foot, pl.rot_deg, pl.x, pl.y, ctx.nav->PathAt(mPathIdx).x + 0.5f, ctx.nav->PathAt(mPathIdx).y + 0.5f, true);
+        const float cerr = ctx.Steer(ctx.foot, pl.rot_deg, pl.x, pl.y, mRoute.At(mPathIdx).x + 0.5f, mRoute.At(mPathIdx).y + 0.5f, true);
         if (fabsf(cerr) < 40.0f)
         {
             ctx.input |= input_bit::Forward;
@@ -297,7 +310,7 @@ Action::Status WalkAction::Step(BotContext& ctx)
     // Still no progress: jump at the next waypoint (the ped can hop low obstacles: kerbs, bollards, a bumper)
     if (ctx.frame < mJumpUntil)
     {
-        const float jerr = ctx.Steer(ctx.foot, pl.rot_deg, pl.x, pl.y, ctx.nav->PathAt(mPathIdx).x + 0.5f, ctx.nav->PathAt(mPathIdx).y + 0.5f, true);
+        const float jerr = ctx.Steer(ctx.foot, pl.rot_deg, pl.x, pl.y, mRoute.At(mPathIdx).x + 0.5f, mRoute.At(mPathIdx).y + 0.5f, true);
         if (fabsf(jerr) < 40.0f)
         {
             ctx.input |= input_bit::Forward;
@@ -314,13 +327,13 @@ Action::Status WalkAction::Step(BotContext& ctx)
         mJumps++;
         mJumpStart = ctx.frame;
         mJumpUntil = ctx.frame + 25;
-        BotDecision("f=%d walk: no progress at (%.1f,%.1f) towards tile (%d,%d); jumping (%d)", ctx.frame, pl.x, pl.y, ctx.nav->PathAt(mPathIdx).x, ctx.nav->PathAt(mPathIdx).y, mJumps);
+        BotDecision("f=%d walk: no progress at (%.1f,%.1f) towards tile (%d,%d); jumping (%d)", ctx.frame, pl.x, pl.y, mRoute.At(mPathIdx).x, mRoute.At(mPathIdx).y, mJumps);
         return Running;
     }
 
     if (ctx.frame - mProgressFrame > 70)
     {
-        const NavNode blocked = ctx.nav->PathAt(mPathIdx);
+        const RouteNode blocked = mRoute.At(mPathIdx);
         char detail[200];
         char near_things[120];
         near_things[0] = 0;
@@ -369,8 +382,8 @@ Action::Status WalkAction::Step(BotContext& ctx)
         return Running;
     }
 
-    float aim_x = ctx.nav->PathAt(mPathIdx).x + 0.5f;
-    float aim_y = ctx.nav->PathAt(mPathIdx).y + 0.5f;
+    float aim_x = mRoute.At(mPathIdx).x + 0.5f;
+    float aim_y = mRoute.At(mPathIdx).y + 0.5f;
     if (mPathIdx == len - 1)
     {
         aim_x = mTx;
