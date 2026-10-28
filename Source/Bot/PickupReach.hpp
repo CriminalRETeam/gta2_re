@@ -12,10 +12,12 @@ struct PickupReachIn
     bool path_approx; // but only to somewhere near the pickup
     float path_len;   // tiles of that route
     bool needed;      // the pickup is needed (no gun, hurt), not only handy
+    float end_z_gap;  // levels between where the route ends and the pickup (a pickup on a roof above the tile the route reaches is not walked onto)
 };
 
 const float kReachDetour = 2.5f;       // the route may be this many times the straight line ...
 const float kReachDetourExtra = 6.0f;  // ... plus this many tiles
+const float kReachMaxZGap = 0.9f;     // the route has to end on the pickup's own level
 const float kReachNeededLen = 120.0f;  // a pickup that is needed is worth a walk this long
 
 bool PickupReach_Ok(const PickupReachIn& in);

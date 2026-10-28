@@ -173,7 +173,9 @@ bool Goals_WantedPickup(const WorldModel& w, NavFoot* nav, float range, const s3
 bool Goals_PickupReachable(NavFoot* nav, const WorldModel& w, const WorldModel::ObjInfo& o, bool needed);
 
 // A secret token close by, when it is safe and calm enough to stop for one (no wanted level, no police close, no time limit on)
-bool Goals_WantedToken(const WorldModel& w, NavFoot* nav, float range, const s32* ban, s32 ban_count, WorldModel::ObjInfo* out);
+// With max_detour >= 0 the token must be on the way to (to_x, to_y): going to it and on from it is at most that many tiles (straight
+// lines) longer than going there direct; a token that pulls the trip away is for another time
+bool Goals_WantedToken(const WorldModel& w, NavFoot* nav, float range, const s32* ban, s32 ban_count, WorldModel::ObjInfo* out, float to_x = 0.0f, float to_y = 0.0f, float max_detour = -1.0f);
 
 // Gang peds to kill when a phone refuses: the brief names whom ("kill some Zaibatsu")
 s32 Goals_ParseKillHint(const WorldModel& w, const char* brief); // Gang::field_1_gang_idx or -1

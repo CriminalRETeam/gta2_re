@@ -6,6 +6,10 @@ bool PickupReach_Ok(const PickupReachIn& in)
     {
         return false;
     }
+    if (in.end_z_gap > kReachMaxZGap)
+    {
+        return false;
+    }
     if (in.needed && in.path_len <= kReachNeededLen)
     {
         return true;

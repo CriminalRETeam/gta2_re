@@ -23,6 +23,9 @@ int main()
     Check("across a river, 300 tiles for 20 off, even if needed: no", !PickupReach_Ok({20.0f, true, false, 300.0f, true}));
     Check("a long walk in a straight line (40 for 38): yes", PickupReach_Ok({38.0f, true, false, 40.0f, false}));
     Check("70 tiles for 4 off: no", !PickupReach_Ok({4.0f, true, false, 70.0f, false}));
+    Check("a short route that ends one level below it (a weapon on the roof above the tile): no", !PickupReach_Ok({4.0f, true, false, 6.0f, false, 1.0f}));
+    Check("... even if needed", !PickupReach_Ok({4.0f, true, false, 6.0f, true, 1.0f}));
+    Check("a route that ends on its level: yes", PickupReach_Ok({4.0f, true, false, 6.0f, false, 0.0f}));
     printf("%s\n", fails ? "FAILED" : "all passed");
     return fails ? 1 : 0;
 }

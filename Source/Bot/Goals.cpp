@@ -195,6 +195,7 @@ Action::Status SequenceGoal::Step(BotContext& ctx)
 }
 
 // ---------------------------------------------------------------------------------------------
+static const float kPickupFar = 45.0f; // a planned first pickup further than this by foot gives way to a much nearer one
 static const float kPickupDriveMin = 30.0f; // a walk longer than this to a pickup is travelled: by car when that is quicker
 
 PrepareGoal::PrepareGoal(s32 purpose, float max_range, s32 max_frames)
@@ -286,6 +287,7 @@ bool PrepareGoal::Choose(BotContext& ctx)
         else if (o.model == 231 && need_armour)
         {
             kind = 1;
+            cost = 8.0f; // every job this is for gets us shot at: armour is worth a longer trip than health
         }
         else if (o.model >= 200 && o.model <= 227 && need_weapon)
         {
@@ -324,16 +326,36 @@ bool PrepareGoal::Choose(BotContext& ctx)
     {
         return false;
     }
-    const Goap::Entity& first = ents[plan.order[0]];
+    // The plan goes by straight lines; a pickup in a walled yard may be a long way round. When the planned first is a long walk, take
+    // the one that is the shortest walk (by the walking route) instead
+    int first_idx = plan.order[0];
+    {
+        float lens[Goap::kMaxEntities];
+        int shortest = -1;
+        for (int i = 0; i < count; i++)
+        {
+            lens[i] = ctx.nav->FindPath(static_cast<u8>(pl.x), static_cast<u8>(pl.y), static_cast<u8>(pl.z + 0.5f), static_cast<u8>(ents[i].x), static_cast<u8>(ents[i].y)) ? static_cast<float>(ctx.nav->PathLength()) : 1e9f;
+            if (shortest < 0 || lens[i] < lens[shortest])
+            {
+                shortest = i;
+            }
+        }
+        if (shortest >= 0 && lens[first_idx] > kPickupFar && lens[shortest] < lens[first_idx] * 0.6f)
+        {
+            BotDecision("f=%d prepare: the planned first (#%d) is a %.0f tile walk; #%d is %.0f: that one first", ctx.frame, ents[first_idx].id, lens[first_idx], ents[shortest].id, lens[shortest]);
+            first_idx = shortest;
+        }
+    }
+    const Goap::Entity& first = ents[first_idx];
     BotDecision("f=%d prepare: hp %d armour %d weapon %d (best score %d); %d pickups in reach, plan %d, first %s #%d model %d at (%.0f,%.0f)", ctx.frame, pl.hp, pl.armour, pl.weapon, best_score, count, plan.length,
-                first.kind == 0 ? "health" : (first.kind == 1 ? "armour" : "weapon"), first.id, objs[plan.order[0]]->model, first.x, first.y);
+                first.kind == 0 ? "health" : (first.kind == 1 ? "armour" : "weapon"), first.id, objs[first_idx]->model, first.x, first.y);
     mChildId = first.id;
     // How far the walk is. A long way, or in a car already: travel to it (a car when that is quicker, walking when not), then
     // pick it up on foot
     const bool path = ctx.nav->FindPath(static_cast<u8>(pl.x), static_cast<u8>(pl.y), static_cast<u8>(pl.z + 0.5f), static_cast<u8>(first.x), static_cast<u8>(first.y));
     const float walk_len = path ? static_cast<float>(ctx.nav->PathLength()) : 0.0f;
     const char* what = first.kind == 0 ? "health" : (first.kind == 1 ? "armour" : "weapon");
-    _snprintf(mDesc, sizeof(mDesc), "fetching %s #%d (model %d) %.0f tiles' walk away; best gun held scores %d, want %d", what, first.id, objs[plan.order[0]]->model, walk_len, best_score, want_score);
+    _snprintf(mDesc, sizeof(mDesc), "fetching %s #%d (model %d) %.0f tiles' walk away; best gun held scores %d, want %d", what, first.id, objs[first_idx]->model, walk_len, best_score, want_score);
     mDesc[sizeof(mDesc) - 1] = 0;
     PickUpAction* pickup = new PickUpAction(first.id, first.x, first.y);
     if (pl.in_car || walk_len > kPickupDriveMin)
@@ -502,6 +524,12 @@ bool Goals_PickupReachable(NavFoot* nav, const WorldModel& w, const WorldModel::
     in.path_approx = in.path_found && nav->Approximate();
     in.path_len = in.path_found ? static_cast<float>(nav->PathLength()) : 0.0f;
     in.needed = needed;
+    in.end_z_gap = 0.0f;
+    if (in.path_found && nav->PathLength() > 0)
+    {
+        const float gap = static_cast<float>(nav->PathAt(nav->PathLength() - 1).z) - o.z;
+        in.end_z_gap = gap < 0.0f ? -gap : gap;
+    }
     const bool ok = PickupReach_Ok(in);
     ReachMemo& m = sReachMemo[sReachMemoNext++ % kReachMemo];
     m.id = o.id;
@@ -510,7 +538,7 @@ bool Goals_PickupReachable(NavFoot* nav, const WorldModel& w, const WorldModel::
     return ok;
 }
 
-bool Goals_WantedToken(const WorldModel& w, NavFoot* nav, float range, const s32* ban, s32 ban_count, WorldModel::ObjInfo* out)
+bool Goals_WantedToken(const WorldModel& w, NavFoot* nav, float range, const s32* ban, s32 ban_count, WorldModel::ObjInfo* out, float to_x, float to_y, float max_detour)
 {
     const WorldModel::PlayerInfo& pl = w.player;
     if (pl.dead || pl.wanted_stars > 0 || w.CopsNear(14.0f) || w.TimeLimited())
@@ -530,6 +558,13 @@ bool Goals_WantedToken(const WorldModel& w, NavFoot* nav, float range, const s32
         for (int b = 0; b < ban_count; b++)
         {
             banned = banned || ban[b] == o.id;
+        }
+        if (!banned && max_detour >= 0.0f)
+        {
+            const float a = sqrtf(dx * dx + dy * dy);
+            const float b = sqrtf((o.x - to_x) * (o.x - to_x) + (o.y - to_y) * (o.y - to_y));
+            const float direct = sqrtf((to_x - pl.x) * (to_x - pl.x) + (to_y - pl.y) * (to_y - pl.y));
+            banned = a + b - direct > max_detour;
         }
         if (!banned && Goals_PickupReachable(nav, w, o, false))
         {
@@ -696,7 +731,13 @@ void TravelGoal::BeginStage(BotContext& ctx, Stage st)
         {
             WalkAction* walk = new WalkAction(mX, mY, false, mArrive);
             // a long way to go and no police about: a car jumped over on the way is taken, not left
-            walk->SetStealOnJump(!mWalkOnly && Remaining(*ctx.world) > 25.0f && !ctx.world->CopsNear(14.0f));
+            // (by the walking route, not the straight line: 15 tiles across may be 70 round)
+            float far_by_foot = Remaining(*ctx.world);
+            if (ctx.nav->FindPath(static_cast<u8>(pl.x), static_cast<u8>(pl.y), static_cast<u8>(pl.z + 0.5f), static_cast<u8>(mX), static_cast<u8>(mY)))
+            {
+                far_by_foot = static_cast<float>(ctx.nav->PathLength());
+            }
+            walk->SetStealOnJump(!mWalkOnly && far_by_foot > 25.0f && !(pl.wanted_stars > 0 && ctx.world->CopsNear(14.0f)));
             mChild = walk;
             break;
         }
@@ -749,8 +790,9 @@ void TravelGoal::Decided(BotContext& ctx)
         BeginStage(ctx, remaining > mArrive + 6.0f ? Drive : Dismount);
         return;
     }
-    // Police about: no car is taken in front of them (unless the clock is running); walk away first
-    if (!w.TimeLimited() && w.CopsNear(14.0f) && mAways < 2 && remaining > 15.0f && Goals_AwayPoint(w, 25.0f, &mAwayX, &mAwayY))
+    // Wanted and police about: no car is taken in front of them (unless the clock is running); walk away first. (With no wanted level
+    // the police are no reason to walk: a car is nearly always better)
+    if (!w.TimeLimited() && pl.wanted_stars > 0 && w.CopsNear(14.0f) && mAways < 2 && remaining > 15.0f && Goals_AwayPoint(w, 25.0f, &mAwayX, &mAwayY))
     {
         mAways++;
         BotDecision("f=%d travel: police close by: moving away to (%.0f,%.0f) before taking a car (%d)", ctx.frame, mAwayX, mAwayY, mAways);
@@ -831,6 +873,7 @@ void TravelGoal::Decided(BotContext& ctx)
 // Secret tokens within this many tiles (and a short enough walk to them) are picked up on the way; between missions, further
 static const float kTokenBetweenMissions = 60.0f;
 static const float kTokenOnTheWay = 20.0f;
+static const float kTokenDetour = 8.0f; // tiles a token may add to the trip it is picked up on
 
 // A drive that ends this many tiles beyond its own stop distance did not get there
 static const float kStoppedShort = 6.0f;
@@ -957,7 +1000,7 @@ Action::Status TravelGoal::Step(BotContext& ctx)
     if (mStage == Walk && !pl.in_car && ctx.frame % 10 == 0 && Remaining(*ctx.world) > mArrive + 3.0f)
     {
         WorldModel::ObjInfo o;
-        if (Goals_WantedPickup(*ctx.world, ctx.nav, 5.0f, mGrabBan, mGrabBanCount, &o) || Goals_WantedToken(*ctx.world, ctx.nav, kTokenOnTheWay, mGrabBan, mGrabBanCount, &o))
+        if (Goals_WantedPickup(*ctx.world, ctx.nav, 5.0f, mGrabBan, mGrabBanCount, &o) || Goals_WantedToken(*ctx.world, ctx.nav, kTokenOnTheWay, mGrabBan, mGrabBanCount, &o, mX, mY, kTokenDetour))
         {
             mGrabId = o.id;
             mGrabX = o.x;
