@@ -1,4 +1,5 @@
 #include "CollectActions.hpp"
+#include "HoseRule.hpp"
 #include <stdio.h>
 #include "ObjectTouch.hpp"
 #include "BlastAvoid.hpp"
@@ -173,6 +174,8 @@ bool KillFrenzyAction::IsBlacklisted(s32 id, s32 frame) const
     return false;
 }
 
+static const s32 kFireTruckModel = 17; // car_model_enum::FIRETRUK (Cars_BadModel's 'fire truck')
+
 KillFrenzyAction::~KillFrenzyAction()
 {
     delete mRepo;
@@ -285,6 +288,58 @@ Action::Status KillFrenzyAction::Step(BotContext& ctx)
     {
         BotDecision("f=%d kill_frenzy: hp %d wanted %d weapon %d pagers t=%d,%d v=%d,%d cash %d", ctx.frame, pl.hp, pl.wanted_stars, pl.weapon, ctx.world->pager_timer[0], ctx.world->pager_timer[1],
                     ctx.world->pager_value[0], ctx.world->pager_value[1], pl.cash);
+    }
+
+    // In a fire truck (the frenzy of the water jet): drive at the pedestrians and hold the fire button when the nose is on one within reach.
+    // The jet fires straight ahead from the cab, so it is the truck that is turned, not a gun that is aimed
+    if (pl.in_car)
+    {
+        WorldModel::CarInfo mine;
+        if (ctx.world->FindCar(pl.car_id, &mine) && mine.model == kFireTruckModel)
+        {
+            const WorldModel::PedInfo* target = NULL;
+            for (int i = 0; i < ctx.world->match_count && !target; i++)
+            {
+                if (!ctx.world->match_peds[i].dead && !ctx.world->match_peds[i].in_car && !IsBlacklisted(ctx.world->match_peds[i].id, ctx.frame))
+                {
+                    target = &ctx.world->match_peds[i];
+                }
+            }
+            for (int i = 0; i < ctx.world->ped_count && !target; i++)
+            {
+                if (!ctx.world->peds[i].dead && !ctx.world->peds[i].in_car && !ctx.world->peds[i].cop)
+                {
+                    target = &ctx.world->peds[i];
+                }
+            }
+            if (target)
+            {
+                if (ctx.car.valid)
+                {
+                    const float herr = ctx.Steer(ctx.car, pl.rot_deg, pl.x, pl.y, target->x, target->y, false);
+                    const float hdist = sqrtf((target->x - pl.x) * (target->x - pl.x) + (target->y - pl.y) * (target->y - pl.y));
+                    const HoseDecision hd = HoseRule_Decide(hdist, herr);
+                    ctx.input |= (hd.forward ? input_bit::Forward : 0) | (hd.backward ? input_bit::Backward : 0) | (hd.attack ? input_bit::Attack : 0);
+                    if (hd.backward)
+                    {
+                        // reversing turns the other way
+                        const bool l = (ctx.input & input_bit::Left) != 0;
+                        const bool rt = (ctx.input & input_bit::Right) != 0;
+                        ctx.input &= ~(input_bit::Left | input_bit::Right);
+                        ctx.input |= (l ? input_bit::Right : 0) | (rt ? input_bit::Left : 0);
+                    }
+                    if ((ctx.frame - mStart) % 60 == 0)
+                    {
+                        BotDecision("f=%d kill_frenzy: fire truck, hose on ped #%d %.1f tiles off, %.0f degrees off the nose: %s", ctx.frame, target->id, hdist, herr, hd.attack ? "firing" : "closing");
+                    }
+                }
+                else
+                {
+                    ctx.input |= input_bit::Forward;
+                }
+            }
+            return Running;
+        }
     }
 
     // Engagement range by weapon: explosives need distance, flames and shocks need closeness
