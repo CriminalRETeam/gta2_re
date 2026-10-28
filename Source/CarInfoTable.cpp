@@ -51,7 +51,7 @@ DEFINE_GLOBAL_ARRAY_INIT(char*,
                          "Output too big" COMMA
                          "Unknown error");
 
-// Return codes of the gci tokenizer and parser, in the order of the messages of error_table_61A6D4
+// Return codes of the gci tokenizer and parser. SetErr_430AC0 prints error_table_61A6D4[-code], one message too far
 enum
 {
     k_gci_ok = 0,
