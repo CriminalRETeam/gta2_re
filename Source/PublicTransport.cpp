@@ -603,9 +603,8 @@ void TrainStation::CalculateWagonCount_578820(const u8* pWagons)
     }
 }
 
-// The wagon spawns pass the "+ half block" coordinate as Fix16::Add_ref of two temporaries (9.6f copies
-// kTrainStopBlockOffset_6FEF88 into a temp first): VC6 then builds that argument only after the GetWagonType_577f80 call,
-// keeping the u8 coordinate and the copy across it, as the original does. The member operator+ builds it first.
+// The wagon spawns add a copy of kTrainStopBlockOffset_6FEF88, like 9.6f (adding the global itself gives
+// different code)
 MATCH_FUNC(0x578860)
 void PublicTransport::SpawnTrainsFromStations_578860()
 {
@@ -671,7 +670,7 @@ void PublicTransport::SpawnTrainsFromStations_578860()
                         {
                             pTrain->field_C_carriages[j + 1] = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(
                                 Fix16(pStation->field_C_stop_point->field_1_x) + Fix16(j + 1) * kWagonSpacingX_6FF088,
-                                Fix16::Add_ref(Fix16(pStation->field_C_stop_point->field_2_y), Fix16(kTrainStopBlockOffset_6FEF88)),
+                                Fix16(pStation->field_C_stop_point->field_2_y) + Fix16(kTrainStopBlockOffset_6FEF88),
                                 kAng270_6FEFFE,
                                 pStation->GetWagonType_577f80(j),
                                 kFpOne_6FF07C);
@@ -697,7 +696,7 @@ void PublicTransport::SpawnTrainsFromStations_578860()
                         for (j = 0; j < wagons; j++)
                         {
                             pTrain->field_C_carriages[j + 1] = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(
-                                Fix16::Add_ref(Fix16(pStation->field_C_stop_point->field_1_x), Fix16(kTrainStopBlockOffset_6FEF88)),
+                                Fix16(pStation->field_C_stop_point->field_1_x) + Fix16(kTrainStopBlockOffset_6FEF88),
                                 Fix16(pStation->field_C_stop_point->field_2_y) - Fix16(j + 1) * kWagonSpacingY_6FF080,
                                 kAng0_6FF1BC,
                                 pStation->GetWagonType_577f80(j),
@@ -725,7 +724,7 @@ void PublicTransport::SpawnTrainsFromStations_578860()
                         {
                             pTrain->field_C_carriages[j + 1] = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(
                                 Fix16(pStation->field_C_stop_point->field_1_x) - Fix16(j + 1) * kWagonSpacingX_6FF088,
-                                Fix16::Add_ref(Fix16(pStation->field_C_stop_point->field_2_y), Fix16(kTrainStopBlockOffset_6FEF88)),
+                                Fix16(pStation->field_C_stop_point->field_2_y) + Fix16(kTrainStopBlockOffset_6FEF88),
                                 kAng270_6FEFFE,
                                 pStation->GetWagonType_577f80(j),
                                 kFpOne_6FF07C);
@@ -751,7 +750,7 @@ void PublicTransport::SpawnTrainsFromStations_578860()
                         for (j = 0; j < wagons; j++)
                         {
                             pTrain->field_C_carriages[j + 1] = gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(
-                                Fix16::Add_ref(Fix16(pStation->field_C_stop_point->field_1_x), Fix16(kTrainStopBlockOffset_6FEF88)),
+                                Fix16(pStation->field_C_stop_point->field_1_x) + Fix16(kTrainStopBlockOffset_6FEF88),
                                 Fix16(pStation->field_C_stop_point->field_2_y) + Fix16(j + 1) * kWagonSpacingY_6FF080,
                                 kAng180_6FEFD6,
                                 pStation->GetWagonType_577f80(j),
