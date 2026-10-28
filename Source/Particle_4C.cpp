@@ -1051,7 +1051,7 @@ bool Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
             offset.x = -kFpPoint05_6FD46C;
             offset.y = kFpPoint4_6FD2F8;
         }
-        offset.RotateByAngle_OneMulInline_40F6B0(field_28_pSprite->field_0_rotation);
+        offset.RotateByAngle_40F6B0(field_28_pSprite->field_0_rotation);
         offset = offset.Add_40AC50(pChar->field_98_velocity_vector);
 
         field_30_pOwnSprite->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_base_sprite_idx + field_46_sub_state + 197);
