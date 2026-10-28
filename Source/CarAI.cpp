@@ -4366,7 +4366,7 @@ void CarAI::ReactToNearbyPed_451FF0()
 }
 
 // 9.6f 0x42ACE0 (a Car method there): sets the flag Object_5C reads while the car probes ahead
-static inline void SetByte6771DC_42ACE0(u8 value)
+static inline void SetProbingAhead_42ACE0(u8 value)
 {
     gCarAIProbingAhead_6771DC = value;
 }
@@ -4409,7 +4409,7 @@ void CarAI::ScanAheadForObstacles_452060()
                                                           offset_y + field_0_car->field_50_car_sprite->field_14_xy.y,
                                                           new_z);
 
-    SetByte6771DC_42ACE0(1);
+    SetProbingAhead_42ACE0(1);
 
     if (this->field_24_bf.bFlag7)
     {
@@ -4489,7 +4489,7 @@ void CarAI::ScanAheadForObstacles_452060()
         bCheckMovement = field_0_car->field_50_car_sprite->CheckSpriteMovementRegion_5A2500();
     }
 
-    SetByte6771DC_42ACE0(0);
+    SetProbingAhead_42ACE0(0);
     if (bOnGradientSlope_677C90)
     {
         if (bCheckMovement)
