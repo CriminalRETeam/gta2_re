@@ -10,32 +10,32 @@ class Link
     // 9.6f 0x40CE90
     inline u16 GetIndex_0040CE90() const
     {
-        return field_0 & 0x1ff;
+        return field_0_packed & 0x1ff;
     }
 
     // 9.6f 0x40CED0
     inline u8 IsEnabled() const
     {
-        return field_0 >> 15;
+        return field_0_packed >> 15;
     }
 
     // 9.6f 0x40CEA0
     inline u16 GetLength() const
     {
-        return (field_0 >> 9) & 0x3F;
+        return (field_0_packed >> 9) & 0x3F;
     }
 
     inline void Disable_40CEC0()
     {
-        field_0 &= ~0x8000u;
+        field_0_packed &= ~0x8000u;
     }
 
     inline void Enable_40CEB0()
     {
-        field_0 |= 0x8000u;
+        field_0_packed |= 0x8000u;
     }
 
-    u16 field_0;
+    u16 field_0_packed;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Link, 0x2);
 
