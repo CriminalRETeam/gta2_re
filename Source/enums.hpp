@@ -429,7 +429,7 @@ namespace ped_state1_enum
 enum
 {
     ped_walking = 0,
-    ped_running = 1,
+    ped_flee_or_running = 1,
     ped_going_to_car = 2,
     ped_entering_a_car = 3,
     ped_getting_out_a_car = 4,
