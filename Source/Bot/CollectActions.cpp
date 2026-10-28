@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "ObjectTouch.hpp"
 #include "BlastAvoid.hpp"
+#include "FrenzyRange.hpp"
 #include "WalkAction.hpp"
 #include "WorldModel.hpp"
 #include "BotLog.hpp"
@@ -288,19 +289,9 @@ Action::Status KillFrenzyAction::Step(BotContext& ctx)
 
     // Engagement range by weapon: explosives need distance, flames and shocks need closeness
     const bool car_mode = ctx.world->bonus.active && ctx.world->bonus.event_type == 1;
-    float min_d = 1.5f;
-    float max_d = 9.0f;
-    if (pl.weapon == 2 || pl.weapon == 4 || pl.weapon == 5)
-    {
-        // rocket: the blast is wide; molotov and grenade are thrown and land short of the target
-        min_d = (car_mode ? 7.0f : (pl.weapon == 2 ? 5.0f : 3.0f)) + 1.0f * mRetries;
-        max_d = min_d + 6.0f;
-    }
-    else if (pl.weapon == 8 || pl.weapon == 3 || pl.weapon == 7)
-    {
-        min_d = 1.0f;
-        max_d = 3.5f;
-    }
+    const FrenzyRange range = FrenzyRange_Of(pl.weapon, car_mode, mRetries);
+    const float min_d = range.min_d;
+    const float max_d = range.max_d;
 
     // Target. A bonus rule says what counts: cars destroyed, or pedestrians of a kind killed (and
     // killing other pedestrians can cancel the rule). Without a rule: the nearest civilian.
@@ -652,7 +643,7 @@ Action::Status KillFrenzyAction::Step(BotContext& ctx)
     {
         ctx.input |= input_bit::Backward; // something is in the way: get some room
     }
-    const bool fire_ok = fabsf(err) < (explosive ? 12.0f : 32.0f) && tdist >= min_d - 0.3f && tdist <= max_d + 1.0f && clear_shot;
+    const bool fire_ok = FrenzyRange_FireOk(range, err, tdist, clear_shot);
     if (pl.weapon == 4 || pl.weapon == 5)
     {
         // Thrown weapons fly when the button is let go; the range is the time it was held

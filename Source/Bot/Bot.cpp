@@ -1,6 +1,7 @@
 #include "Bot.hpp"
 #include "BlastAvoid.hpp"
 #include "SelfDefence.hpp"
+#include "EvadeRule.hpp"
 #include "Hud.hpp"
 #include "ShootPoliceCrowd.hpp"
 #include "BotDebugDraw.hpp"
@@ -1190,7 +1191,8 @@ void Bot::StepActions()
         }
         mInputBits = mCtx.input & input_bit::ControlBits;
     }
-    if (!frenzy && !blast && !shooting_crowd && (CopCrush() || Evade()))
+    // (a kill frenzy dodges cars too: it used to be left out, and a police car shoved in on a ped burning others)
+    if (!blast && !shooting_crowd && ((!frenzy && CopCrush()) || Evade()))
     {
         mInputBits = mCtx.input & input_bit::ControlBits;
     }
@@ -1588,31 +1590,18 @@ bool Bot::Evade()
     {
         return false;
     }
-    const WorldModel::CarInfo* threat = NULL;
-    float side = 0.0f;
-    float along_t = 0.0f;
+    EvadeCar ecars[WorldModel::kMaxCars];
     for (int i = 0; i < mWorld->car_count; i++)
     {
-        const WorldModel::CarInfo& c = mWorld->cars[i];
-        const float v = sqrtf(c.vx * c.vx + c.vy * c.vy);
-        if (v < 0.12f || c.dist > 6.0f)
-        {
-            continue;
-        }
-        const float ux = c.vx / v;
-        const float uy = c.vy / v;
-        const float rx = pl.x - c.x;
-        const float ry = pl.y - c.y;
-        const float along = rx * ux + ry * uy;      // ahead of the car
-        const float across = rx * -uy + ry * ux;    // to its left (+) or right (-)
-        // reaches us within about 25 frames, and we stand in its path (a car is about 1.3 tiles wide)
-        if (along > 0.0f && along < 1.5f + v * 10.0f && fabsf(across) < 1.0f && (!threat || along < along_t))
-        {
-            threat = &c;
-            along_t = along;
-            side = across >= 0.0f ? 1.0f : -1.0f;
-        }
+        ecars[i].x = mWorld->cars[i].x;
+        ecars[i].y = mWorld->cars[i].y;
+        ecars[i].vx = mWorld->cars[i].vx;
+        ecars[i].vy = mWorld->cars[i].vy;
     }
+    float side = 0.0f;
+    float along_t = 0.0f;
+    const int threat_idx = Evade_Threat(pl.x, pl.y, ecars, mWorld->car_count, &side, &along_t);
+    const WorldModel::CarInfo* threat = threat_idx >= 0 ? &mWorld->cars[threat_idx] : NULL;
     if (threat && mFrame >= mEvadeUntil)
     {
         const float v = sqrtf(threat->vx * threat->vx + threat->vy * threat->vy);

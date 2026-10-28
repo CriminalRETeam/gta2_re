@@ -329,6 +329,8 @@ set(gta2_bot_src
   Source/Bot/CarPickRule.cpp
   Source/Bot/SelfDefence.cpp
   Source/Bot/Horn.cpp
+  Source/Bot/FrenzyRange.cpp
+  Source/Bot/EvadeRule.cpp
   Source/Bot/CalibrateCore.cpp
   Source/Bot/ShootPoliceCrowd.cpp
   Source/Bot/BlastAvoid.cpp
