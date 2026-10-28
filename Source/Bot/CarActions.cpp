@@ -452,6 +452,7 @@ static float Drive_RouteLength(float x, float y, const float* wx, const float* w
     return len;
 }
 
+static const float kApproxStop = 2.5f;    // tiles: how near to the nearest road point to a goal the car cannot reach the drive goes
 static const float kSolidGoalStop = 6.0f; // tiles: how near a goal inside a building is reached
 static const float kPartialEndNear = 2.0f; // tiles from the end of a partial local route that count as being there
 static const float kBehindCos = -0.17f; // the first waypoint is more than 100 degrees off the nose
@@ -538,11 +539,19 @@ bool DriveAction::Plan(BotContext& ctx, const char* why)
             }
         }
     }
+    bool approximated = false;
     if (found && ctx.road->Approximate() && mWpCount > 0)
     {
-        // the target cannot be reached by car: drive to the nearest tile that can
+        // the target cannot be reached by car: drive to the nearest tile that can, and right up to it: that tile is as near as the roads
+        // go, so the arrival radius of the trip (which counts for the real target) does not apply to it
         mTx = mWpX[mWpCount - 1];
         mTy = mWpY[mWpCount - 1];
+        approximated = true;
+        if (mStopDist > kApproxStop)
+        {
+            BotDecision("f=%d drive plan: the goal cannot be reached by car; driving to the nearest road point (%.1f,%.1f) and up to it (within %.1f, not %.1f)", ctx.frame, mTx, mTy, kApproxStop, mStopDist);
+            mStopDist = kApproxStop;
+        }
     }
     if (mWpCount == 0 || mWpX[mWpCount - 1] != mTx || mWpY[mWpCount - 1] != mTy)
     {
@@ -551,7 +560,7 @@ bool DriveAction::Plan(BotContext& ctx, const char* why)
         mWpCount++;
     }
     // A goal inside a building cannot be reached: it is reached when the car is as near as the roads go
-    if (Drive_Solid(NULL, mTx, mTy) && mStopDist < kSolidGoalStop)
+    if (!approximated && Drive_Solid(NULL, mTx, mTy) && mStopDist < kSolidGoalStop)
     {
         BotDecision("f=%d drive plan: the goal (%.0f,%.0f) is inside something solid: reached within %.0f tiles", ctx.frame, mTx, mTy, kSolidGoalStop);
         mStopDist = kSolidGoalStop;
