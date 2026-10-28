@@ -170,7 +170,7 @@ void CarAI::PlanTurnAtNextJunction_447710()
                 s16 turn_dir = pJunction->GetDirectionToJunction_5885C0(next_junction_idx);
                 switch (Ang16::GetAngleFace_4F78F0(this->field_10_angle))
                 {
-                    case 1:
+                    case road_direction::up_1:
                         this->field_0_car->ClearTurnRight_42ACA0();
                         this->field_0_car->ClearTurnLeft_42ACB0();
                         switch (turn_dir)
@@ -188,7 +188,7 @@ void CarAI::PlanTurnAtNextJunction_447710()
                         }
                         break;
 
-                    case 2:
+                    case road_direction::down_2:
                         this->field_0_car->ClearTurnRight_42ACA0();
                         this->field_0_car->ClearTurnLeft_42ACB0();
                         switch (turn_dir)
@@ -206,7 +206,7 @@ void CarAI::PlanTurnAtNextJunction_447710()
                         }
                         break;
 
-                    case 3:
+                    case road_direction::right_3:
                         this->field_0_car->ClearTurnRight_42ACA0();
                         this->field_0_car->ClearTurnLeft_42ACB0();
                         switch (turn_dir)
@@ -224,7 +224,7 @@ void CarAI::PlanTurnAtNextJunction_447710()
                         }
                         break;
 
-                    case 4:
+                    case road_direction::left_4:
                         this->field_0_car->ClearTurnRight_42ACA0();
                         this->field_0_car->ClearTurnLeft_42ACB0();
                         switch (turn_dir)

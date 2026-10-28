@@ -4566,22 +4566,22 @@ char_type Car::CountConsecutiveArrowBlocks_4410D0(Ang16 ang, s8* pOutCount, Fix1
 
     switch (angleFace)
     {
-        case 1:
+        case road_direction::up_1:
             x_add = -1;
             mask1 = block_arrow::green_up_4;
             mask2 = block_arrow::red_up_40;
             break;
-        case 2:
+        case road_direction::down_2:
             x_add = 1;
             mask1 = block_arrow::green_down_8;
             mask2 = block_arrow::red_down_80;
             break;
-        case 4:
+        case road_direction::left_4:
             y_add = 1;
             mask2 = block_arrow::red_left_10;
             mask1 = block_arrow::green_left_1;
             break;
-        case 3:
+        case road_direction::right_3:
             y_add = -1;
             mask1 = block_arrow::green_right_2;
             mask2 = block_arrow::red_right_20;
@@ -5717,7 +5717,7 @@ bool Car::TrainUpdate_442D70()
             Fix16_Rect rect;
             switch (Ang16::GetAngleFace_4F78F0(field_50_car_sprite->field_0_rotation))
             {
-                case 2:
+                case road_direction::down_2:
                 {
                     Fix16 y = field_50_car_sprite->field_14_xy.y;
                     Fix16 z = field_50_car_sprite->field_1C_zpos;
@@ -5726,7 +5726,7 @@ bool Car::TrainUpdate_442D70()
                     break;
                 }
 
-                case 1:
+                case road_direction::up_1:
                 {
                     Fix16 z = field_50_car_sprite->field_1C_zpos;
                     Fix16 y = field_50_car_sprite->field_14_xy.y;
@@ -5735,7 +5735,7 @@ bool Car::TrainUpdate_442D70()
                     break;
                 }
 
-                case 3:
+                case road_direction::right_3:
                 {
                     Fix16 y = field_50_car_sprite->field_14_xy.y;
                     Fix16 z = field_50_car_sprite->field_1C_zpos;
@@ -5744,7 +5744,7 @@ bool Car::TrainUpdate_442D70()
                     break;
                 }
 
-                case 4:
+                case road_direction::left_4:
                 {
                     // Written out: here the original inlines operator+ for high_z
                     Fix16 z = field_50_car_sprite->field_1C_zpos;

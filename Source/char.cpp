@@ -2637,36 +2637,36 @@ void Char::SnapRotationToFace_54C090()
         s32 new_dir;
         switch (face)
         {
-            case 1:
+            case path_direction::up_1:
                 bPastHalf = field_40_rotation > kAng180_6FD8E8;
                 break;
-            case 3: // 10.5.exe's jump table: face 3 compares with 90 degrees, face 2 with kAng0_6FDB3C
+            case path_direction::right_3: // 10.5.exe's jump table: face 3 compares with 90 degrees, face 2 with kAng0_6FDB3C
                 bPastHalf = field_40_rotation > kAng90_6FDA64;
                 break;
-            case 2:
+            case path_direction::down_2:
                 bPastHalf = field_40_rotation > kAng0_6FDB3C;
                 break;
-            case 4:
+            case path_direction::left_4:
                 bPastHalf = field_40_rotation > kAng270_6FD904;
                 break;
         }
 
         switch (face)
         {
-            case 1:
-                new_dir = bPastHalf ? 4 : 3;
+            case path_direction::up_1:
+                new_dir = bPastHalf ? path_direction::left_4 : path_direction::right_3;
                 break;
-            case 3:
-                new_dir = bPastHalf ? 1 : 2;
+            case path_direction::right_3:
+                new_dir = bPastHalf ? path_direction::up_1 : path_direction::down_2;
                 break;
-            case 2:
-                new_dir = bPastHalf ? 3 : 4;
+            case path_direction::down_2:
+                new_dir = bPastHalf ? path_direction::right_3 : path_direction::left_4;
                 break;
-            case 4:
-                new_dir = bPastHalf ? 2 : 1;
+            case path_direction::left_4:
+                new_dir = bPastHalf ? path_direction::down_2 : path_direction::up_1;
                 break;
             default:
-                new_dir = 2;
+                new_dir = path_direction::down_2;
                 break;
         }
         face = new_dir;

@@ -3197,16 +3197,16 @@ Fix16 Map_0x370::GetLateralOffsetInBlock_4E5D70(Fix16 x, Fix16 y, Ang16 angle)
     Fix16 result = kFpZero_6F610C;
     switch (Ang16::GetAngleFace_4F78F0(angle))
     {
-        case 1:
+        case road_direction::up_1:
             result = x.GetFracValue();
             break;
-        case 2:
+        case road_direction::down_2:
             result = kFpOne_6F6110 - x.GetFracValue();
             break;
-        case 3:
+        case road_direction::right_3:
             result = y.GetFracValue();
             break;
-        case 4:
+        case road_direction::left_4:
             result = kFpOne_6F6110 - y.GetFracValue();
             break;
     }
@@ -3219,16 +3219,16 @@ Fix16 Map_0x370::GetForwardOffsetInBlock_4E5E00(Fix16 x, Fix16 y, Ang16 angle)
     Fix16 result = kFpZero_6F610C;
     switch (Ang16::GetAngleFace_4F78F0(angle))
     {
-        case 1:
+        case road_direction::up_1:
             result = y.GetFracValue();
             break;
-        case 2:
+        case road_direction::down_2:
             result = kFpOne_6F6110 - y.GetFracValue();
             break;
-        case 3:
+        case road_direction::right_3:
             result = kFpOne_6F6110 - x.GetFracValue();
             break;
-        case 4:
+        case road_direction::left_4:
             result = x.GetFracValue();
             break;
     }
