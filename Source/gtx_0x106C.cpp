@@ -638,13 +638,13 @@ void gtx_0x106C::InitFontTypes_5AAFE0(u16 fontCount)
         gStylePauseFont_703DA4 = 3;
         gFrontendNormalFont_703D0C = 4;
         gFrontendSelectedFont_703C16 = 5;
-        word_703C8C = 6;
+        gFrontendFont6_703C8C = 6;
         font_type_703C14 = 7;
         gFrontendHeadingFont_703C3C = 8;
         gFrontendPlayMenuScoreFont_703C8A = 9;
         gFrontendScoreFont_703BE2 = 10;
         gFrontendAreaCompleteFont_703B88 = 11;
-        word_703DAC = 12;
+        gFrontendFont12_703DAC = 12;
         gFrontendTitleFont_703B9C = 13;
         gStyleTextFont_703BAA = 99;
         gStyleCarNameFont_703D98 = 99;

@@ -48,11 +48,11 @@ DEFINE_GLOBAL(s16, font_type_703C14, 0x703C14);
 DEFINE_GLOBAL(s16, gFrontendHeadingFont_703C3C, 0x703C3C);
 DEFINE_GLOBAL(s16, gFrontendNormalFont_703D0C, 0x703D0C);
 DEFINE_GLOBAL(s16, gFrontendSelectedFont_703C16, 0x703C16);
-DEFINE_GLOBAL(s16, word_703C8C, 0x703C8C);
+DEFINE_GLOBAL(s16, gFrontendFont6_703C8C, 0x703C8C);
 DEFINE_GLOBAL(s16, gFrontendPlayMenuScoreFont_703C8A, 0x703C8A);
 DEFINE_GLOBAL(s16, gFrontendScoreFont_703BE2, 0x703BE2);
 DEFINE_GLOBAL(s16, gFrontendAreaCompleteFont_703B88, 0x703B88);
-DEFINE_GLOBAL(s16, word_703DAC, 0x703DAC);
+DEFINE_GLOBAL(s16, gFrontendFont12_703DAC, 0x703DAC);
 DEFINE_GLOBAL(s16, gFrontendTitleFont_703B9C, 0x703B9C);
 DEFINE_GLOBAL_INIT(Ang16, kAngZero_67DA70, Ang16(0), 0x67DA70);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne_67D934, Fix16(1), 0x67D934);
@@ -3501,13 +3501,13 @@ void Frontend::SetFontTypes_4AF0E0()
         this->field_11C_normal_font = gFrontendNormalFont_703D0C;
         this->field_11E_text_font = gFrontendNormalFont_703D0C;
         this->field_120_selected_font = gFrontendSelectedFont_703C16;
-        this->field_122_unused = word_703C8C;
+        this->field_122_unused = gFrontendFont6_703C8C;
         this->field_124_font_type = font_type_703C14;
         this->field_126_heading_font = gFrontendHeadingFont_703C3C;
         this->field_128_play_menu_score_font = gFrontendPlayMenuScoreFont_703C8A;
         this->field_12A_score_font = gFrontendScoreFont_703BE2;
         this->field_12C_area_complete_font = gFrontendAreaCompleteFont_703B88;
-        this->field_12E_unused = word_703DAC;
+        this->field_12E_unused = gFrontendFont12_703DAC;
         this->field_130_title_font = gFrontendTitleFont_703B9C;
     }
 }
