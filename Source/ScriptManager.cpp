@@ -18,6 +18,7 @@
 #include "ScriptThread.hpp"
 #include "Ped.hpp"
 #include "PedGroup.hpp"
+#include "ped_death_cause.hpp"
 #include "PublicTransport.hpp"
 
 DEFINE_GLOBAL(ScriptManager*, gScriptManager_6F8060, 0x6F8060);
@@ -858,7 +859,7 @@ bool ScriptManager::TestAndRecordWeaponHit_512AF0(s32 id, char_type weapon_idx, 
 
         if (pTable->field_0_entity_id == id)
         {
-            if (pTable->field_4_weapon_idx == weapon_idx || pTable->field_4_weapon_idx == weapon_type::weapon_0x17)
+            if (pTable->field_4_weapon_idx == weapon_idx || pTable->field_4_weapon_idx == ped_death_cause::any_23)
             {
                 if (bIsPed)
                 {
@@ -940,7 +941,7 @@ void ScriptManager::RecordWeaponHit_512C00(s32 entity_id, s32 projectile_model, 
     {
         if (pTable->field_0_entity_id == entity_id)
         {
-            if (pTable->field_4_weapon_idx == weapon_type::weapon_0x17 || pTable->field_4_weapon_idx == projectile_type)
+            if (pTable->field_4_weapon_idx == ped_death_cause::any_23 || pTable->field_4_weapon_idx == projectile_type)
             {
                 if (bIsPed)
                 {
@@ -974,7 +975,7 @@ bool ScriptManager::IsWeaponHitRecorded_512C70(s32 id, char_type weapon_idx, boo
     {
         if (pTable->field_0_entity_id == id)
         {
-            if (pTable->field_4_weapon_idx == weapon_idx || pTable->field_4_weapon_idx == weapon_type::weapon_0x17)
+            if (pTable->field_4_weapon_idx == weapon_idx || pTable->field_4_weapon_idx == ped_death_cause::any_23)
             {
                 if (bIsPed)
                 {

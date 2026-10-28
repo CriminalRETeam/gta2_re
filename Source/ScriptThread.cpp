@@ -53,6 +53,7 @@
 #include "root_sound.hpp"
 #include "sprite.hpp"
 #include "TextTable.hpp"
+#include "ped_death_cause.hpp"
 #include "ped_graphic_type.hpp"
 // Back to force inline
 #define INLINE_MODE __forceinline
@@ -5818,7 +5819,7 @@ void ScriptThread::SCRCMD_WEAP_HIT_CAR_50EBD0()
         }
         else
         {
-            hit = gScriptManager_6F8060->TestAndRecordWeaponHit_512AF0(pPointer->field_8_car->field_6C_car_id, weapon_type::weapon_0x17, false);
+            hit = gScriptManager_6F8060->TestAndRecordWeaponHit_512AF0(pPointer->field_8_car->field_6C_car_id, ped_death_cause::any_23, false);
         }
         if (hit && gScriptManager_6F8060->IsWeaponHitRecorded_512C70(pPointer->field_8_car->field_6C_car_id, static_cast<char_type>(pCmd->field_C_weapon), false))
         {
