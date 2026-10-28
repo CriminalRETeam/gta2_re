@@ -92,5 +92,5 @@ inline unsigned WalkRoute_AvoidCorners(const RouteNode* src, unsigned len, Route
 // 4 high ground/bridge): a walker keeps to the pavement and crosses a road where it has to, or where the pavement is much longer
 inline int WalkRoute_TerrainCost(int tile_type)
 {
-    return tile_type == 1 ? 3 : 0;
+    return tile_type == 1 ? 8 : 0;
 }

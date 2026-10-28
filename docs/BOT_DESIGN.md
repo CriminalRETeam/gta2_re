@@ -727,7 +727,7 @@ there is not, a shut-in goal ends at the nearest tile, a 400 tile maze is found)
 - **The drive** drops waypoints the car is already past (`LocalPlan_RouteProgress`: the route jogs aside and back, the car goes
   straight on), and counts getting nearer the waypoint as progress, not only reaching it: the legs are long now and a leg
   through traffic can take more than the 600 frames the stuck rule allows.
-- **On foot**, `NavFoot` keeps the game's own step test and adds `WalkRoute_TerrainCost`: a road tile costs 0.3 of a tile
+- **On foot**, `NavFoot` keeps the game's own step test and adds `WalkRoute_TerrainCost`: a road tile costs 0.8 of a tile
   more, so the walker keeps to pavements and crosses a road where it must.
 
 ### Stuck in a jam, and taking cars
