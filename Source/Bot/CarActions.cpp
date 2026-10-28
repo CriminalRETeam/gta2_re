@@ -661,6 +661,26 @@ Action::Status DriveAction::Step(BotContext& ctx)
         BotDebugDraw::Mark(mWpX[mWpIdx], mWpY[mWpIdx], 0.6f, kDebugColYellow, label);
         BotDebugDraw::Mark(aim_x, aim_y, 0.4f, kDebugColMagenta, "aim");
         BotDebugDraw::Mark(mTx, mTy, 1.0f, kDebugColWhite, "goal");
+        {
+            // our own footprint against buildings: the four points DriveSteer tests (0.6 each side, level with the car and 0.9 ahead)
+            const float hd = (ctx.car.sign * pl.rot_deg + ctx.car.offset) * 3.14159265f / 180.0f;
+            const float fx = sinf(hd);
+            const float fy = -cosf(hd);
+            const float qx = -fy * 0.6f;
+            const float qy = fx * 0.6f;
+            const float x0 = pl.x + qx;
+            const float y0 = pl.y + qy;
+            const float x1 = pl.x - qx;
+            const float y1 = pl.y - qy;
+            const float x2 = x1 + fx * 0.9f;
+            const float y2 = y1 + fy * 0.9f;
+            const float x3 = x0 + fx * 0.9f;
+            const float y3 = y0 + fy * 0.9f;
+            BotDebugDraw::Line(x0, y0, x1, y1, kDebugColWhite);
+            BotDebugDraw::Line(x1, y1, x2, y2, kDebugColWhite);
+            BotDebugDraw::Line(x2, y2, x3, y3, kDebugColWhite);
+            BotDebugDraw::Line(x3, y3, x0, y0, kDebugColWhite);
+        }
         // what is about: cars (red standing, orange moving with where it will be in 45 frames, blue police) and pedestrians
         for (int k = 0; k < ctx.world->car_count; k++)
         {
@@ -670,7 +690,8 @@ Action::Status DriveAction::Step(BotContext& ctx)
                 continue;
             }
             const bool still = oc.speed < 0.03f;
-            BotDebugDraw::Mark(oc.x, oc.y, 0.9f, oc.police ? kDebugColBlue : (still ? kDebugColRed : kDebugColOrange), oc.police ? "cop" : (still ? "stop" : ""));
+            // 1.4 tiles: how close the steering arcs count as a hit (DriveSteer.cpp)
+            BotDebugDraw::Mark(oc.x, oc.y, 1.4f, oc.police ? kDebugColBlue : (still ? kDebugColRed : kDebugColOrange), oc.police ? "cop" : (still ? "stop" : ""));
             if (!still)
             {
                 BotDebugDraw::Line(oc.x, oc.y, oc.x + oc.vx * 45.0f, oc.y + oc.vy * 45.0f, kDebugColOrange);
@@ -681,7 +702,8 @@ Action::Status DriveAction::Step(BotContext& ctx)
             const WorldModel::PedInfo& op = ctx.world->peds[k];
             if (!op.dead && !op.in_car && op.dist < 20.0f)
             {
-                BotDebugDraw::Mark(op.x, op.y, 0.3f, op.cop ? kDebugColBlue : kDebugColWhite, "");
+                // 0.8 tiles: the room the look-ahead keeps round a pedestrian
+                BotDebugDraw::Mark(op.x, op.y, 0.8f, op.cop ? kDebugColBlue : kDebugColWhite, "");
             }
         }
         // tiles the route planner charges extra for, beside or under a car that stands
