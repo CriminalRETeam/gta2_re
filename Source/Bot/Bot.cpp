@@ -1293,7 +1293,9 @@ void Bot::CollectNext()
         {
             banned = banned || mBanned[b] == mWorld->tokens[i].id;
         }
-        if (banned)
+        // by the walking route (not the straight line): a token across a river or on a roof is not near; here tokens are the goal, so
+        // a long walk is fine
+        if (banned || !Goals_PickupReachable(mCtx.nav, *mWorld, mWorld->tokens[i], true))
         {
             continue;
         }

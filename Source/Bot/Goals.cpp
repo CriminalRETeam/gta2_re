@@ -1,4 +1,5 @@
 #include "Goals.hpp"
+#include "PickupReach.hpp"
 #include <stdio.h>
 #include <string.h>
 #include "CarSwitch.hpp"
@@ -284,7 +285,7 @@ bool PrepareGoal::Choose(BotContext& ctx)
                 cost = 20.0f + static_cast<float>(10 - sc) * 30.0f; // the better gun is worth a longer walk
             }
         }
-        if (kind < 0)
+        if (kind < 0 || !Goals_PickupReachable(ctx.nav, w, o, (kind == 0 && pl.hp < 50) || (kind == 2 && best_score <= 0)))
         {
             continue;
         }
@@ -434,7 +435,73 @@ void TravelGoal::Start(BotContext& ctx)
     mRoadTries = 0;
 }
 
-bool Goals_WantedPickup(const WorldModel& w, float range, const s32* ban, s32 ban_count, WorldModel::ObjInfo* out)
+// Answers kept for a while per object: {object id, frame asked, answer}
+struct ReachMemo
+{
+    s32 id;
+    s32 frame;
+    bool ok;
+};
+static const s32 kReachMemo = 16;
+static const s32 kReachMemoFrames = 180;
+static ReachMemo sReachMemo[kReachMemo];
+static s32 sReachMemoNext = 0;
+
+bool Goals_PickupReachable(NavFoot* nav, const WorldModel& w, const WorldModel::ObjInfo& o, bool needed)
+{
+    for (int i = 0; i < kReachMemo; i++)
+    {
+        if (sReachMemo[i].id == o.id && w.frame - sReachMemo[i].frame < kReachMemoFrames && w.frame >= sReachMemo[i].frame)
+        {
+            return sReachMemo[i].ok;
+        }
+    }
+    const WorldModel::PlayerInfo& pl = w.player;
+    PickupReachIn in;
+    in.flat = sqrtf((o.x - pl.x) * (o.x - pl.x) + (o.y - pl.y) * (o.y - pl.y));
+    in.path_found = nav && nav->FindPath(static_cast<u8>(pl.x), static_cast<u8>(pl.y), static_cast<u8>(pl.z + 0.5f), static_cast<u8>(o.x), static_cast<u8>(o.y));
+    in.path_approx = in.path_found && nav->Approximate();
+    in.path_len = in.path_found ? static_cast<float>(nav->PathLength()) : 0.0f;
+    in.needed = needed;
+    const bool ok = PickupReach_Ok(in);
+    ReachMemo& m = sReachMemo[sReachMemoNext++ % kReachMemo];
+    m.id = o.id;
+    m.frame = w.frame;
+    m.ok = ok;
+    return ok;
+}
+
+bool Goals_WantedToken(const WorldModel& w, NavFoot* nav, float range, const s32* ban, s32 ban_count, WorldModel::ObjInfo* out)
+{
+    const WorldModel::PlayerInfo& pl = w.player;
+    if (pl.dead || pl.wanted_stars > 0 || w.CopsNear(14.0f) || w.TimeLimited())
+    {
+        return false;
+    }
+    for (int i = 0; i < w.tokens_listed; i++)
+    {
+        const WorldModel::ObjInfo& o = w.tokens[i];
+        const float dx = o.x - pl.x;
+        const float dy = o.y - pl.y;
+        if (dx * dx + dy * dy > range * range)
+        {
+            break; // nearest first
+        }
+        bool banned = false;
+        for (int b = 0; b < ban_count; b++)
+        {
+            banned = banned || ban[b] == o.id;
+        }
+        if (!banned && Goals_PickupReachable(nav, w, o, false))
+        {
+            *out = o;
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Goals_WantedPickup(const WorldModel& w, NavFoot* nav, float range, const s32* ban, s32 ban_count, WorldModel::ObjInfo* out)
 {
     const WorldModel::PlayerInfo& pl = w.player;
     s32 held = 0;
@@ -472,7 +539,9 @@ bool Goals_WantedPickup(const WorldModel& w, float range, const s32* ban, s32 ba
             const s32 sc = Weapons::Score(t, Weapons::VsPed);
             want = sc > held || (sc >= 3 && w.weapon_ammo[t] < Weapons::MinAmmo(t) * 3);
         }
-        if (want)
+        // needed: a gun when there is none, health when badly hurt
+        const bool needed = (o.model == 230 && pl.hp < 50) || (o.model >= 200 && o.model <= 227 && held <= 0);
+        if (want && Goals_PickupReachable(nav, w, o, needed))
         {
             *out = o;
             return true;
@@ -703,6 +772,10 @@ void TravelGoal::Decided(BotContext& ctx)
     BeginStage(ctx, Walk);
 }
 
+// Secret tokens within this many tiles (and a short enough walk to them) are picked up on the way; between missions, further
+static const float kTokenBetweenMissions = 60.0f;
+static const float kTokenOnTheWay = 20.0f;
+
 // A drive that ends this many tiles beyond its own stop distance did not get there
 static const float kStoppedShort = 6.0f;
 
@@ -828,7 +901,7 @@ Action::Status TravelGoal::Step(BotContext& ctx)
     if (mStage == Walk && !pl.in_car && ctx.frame % 10 == 0 && Remaining(*ctx.world) > mArrive + 3.0f)
     {
         WorldModel::ObjInfo o;
-        if (Goals_WantedPickup(*ctx.world, 5.0f, mGrabBan, mGrabBanCount, &o))
+        if (Goals_WantedPickup(*ctx.world, ctx.nav, 5.0f, mGrabBan, mGrabBanCount, &o) || Goals_WantedToken(*ctx.world, ctx.nav, kTokenOnTheWay, mGrabBan, mGrabBanCount, &o))
         {
             mGrabId = o.id;
             mGrabX = o.x;
@@ -837,7 +910,7 @@ Action::Status TravelGoal::Step(BotContext& ctx)
             {
                 mGrabBan[mGrabBanCount++] = o.id; // once
             }
-            BotDecision("f=%d travel: pickup #%d (model %d) is close: taking it on the way", ctx.frame, o.id, o.model);
+            BotDecision("f=%d travel: %s #%d (model %d) is close: taking it on the way", ctx.frame, o.model == 266 ? "secret token" : "pickup", o.id, o.model);
             BeginStage(ctx, Grab);
             return Running;
         }
@@ -1152,7 +1225,7 @@ void KillGangGoal::NextChild(BotContext& ctx)
     if (!pl.in_car && mBanCount < kMaxBan)
     {
         WorldModel::ObjInfo o;
-        if (Goals_WantedPickup(w, unarmed ? 25.0f : 8.0f, mBan, mBanCount, &o))
+        if (Goals_WantedPickup(w, ctx.nav, unarmed ? 25.0f : 8.0f, mBan, mBanCount, &o))
         {
             mBan[mBanCount++] = o.id; // once
             mHunting = false;
@@ -1804,6 +1877,8 @@ MissionsGoal::MissionsGoal(s32 want_missions)
     , mStart(0)
     , mChild(NULL)
     , mRaise(NULL)
+    , mFetching(false)
+    , mTokenBanCount(0)
     , mRaisePhone(0)
     , mPreferPhone(0)
     , mFavourGang(-2)
@@ -2014,6 +2089,15 @@ Action::Status MissionsGoal::Step(BotContext& ctx)
         {
             return Running;
         }
+        if (mFetching)
+        {
+            BotDecision("f=%d missions: the secret token fetch %s (%d tokens left)", ctx.frame, s == Done ? "is done" : "failed", ctx.world->token_count);
+            delete mRaise;
+            mRaise = NULL;
+            mFetching = false;
+            ctx.input = 0;
+            return Running;
+        }
         if (s == Done)
         {
             BotDecision("f=%d missions: respect raised for phone #%d: respect now %d %d %d", ctx.frame, mRaisePhone, ctx.world->respect[0], ctx.world->respect[1], ctx.world->respect[2]);
@@ -2180,6 +2264,22 @@ Action::Status MissionsGoal::Step(BotContext& ctx)
     if (mPassed >= mWant)
     {
         return Done;
+    }
+    // A secret token in reach, before the next phone: one spawns at the end of the tutorial, and they are all to be collected
+    {
+        WorldModel::ObjInfo tok;
+        if (mTokenBanCount < 8 && Goals_WantedToken(*ctx.world, ctx.nav, kTokenBetweenMissions, mTokenBan, mTokenBanCount, &tok))
+        {
+            mTokenBan[mTokenBanCount++] = tok.id; // once each
+            BotDecision("f=%d missions: secret token #%d at (%.0f,%.0f), %.0f tiles off: fetching it before the next phone", ctx.frame, tok.id, tok.x, tok.y, sqrtf((tok.x - ctx.world->player.x) * (tok.x - ctx.world->player.x) + (tok.y - ctx.world->player.y) * (tok.y - ctx.world->player.y)));
+            SequenceGoal* seq = new SequenceGoal("fetch_token");
+            seq->Add(new TravelGoal(tok.x, tok.y, 3.0f, false), false);
+            seq->Add(new PickUpAction(tok.id, tok.x, tok.y), false);
+            mRaise = seq;
+            mFetching = true;
+            BeginChild(ctx, &mSnap, mRaise);
+            return Running;
+        }
     }
     WorldModel::ObjInfo phone;
     if (!ChoosePhone(ctx, &phone))

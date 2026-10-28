@@ -6,6 +6,7 @@
 class Snapshot;
 class PickUpAction;
 class PhoneAction;
+class NavFoot;
 class MissionAction;
 
 // The goal tree (docs/BOT_DESIGN.md, "Goal tree"). A goal is an Action that owns child actions,
@@ -163,7 +164,14 @@ class TravelGoal : public Action
 
 // A pickup lying close that is worth a few steps: health or armour when short of it, a better gun,
 // or ammo for a gun held low. Not one in ban[]. False when there is none.
-bool Goals_WantedPickup(const WorldModel& w, float range, const s32* ban, s32 ban_count, WorldModel::ObjInfo* out);
+bool Goals_WantedPickup(const WorldModel& w, NavFoot* nav, float range, const s32* ban, s32 ban_count, WorldModel::ObjInfo* out);
+
+// Is the pickup worth the walk, by the walking route to it (PickupReach.hpp): at another height or behind a fence it is "near" and miles
+// away. needed: a long walk is fine for it. The answer is kept for a while, the route search is not free.
+bool Goals_PickupReachable(NavFoot* nav, const WorldModel& w, const WorldModel::ObjInfo& o, bool needed);
+
+// A secret token close by, when it is safe and calm enough to stop for one (no wanted level, no police close, no time limit on)
+bool Goals_WantedToken(const WorldModel& w, NavFoot* nav, float range, const s32* ban, s32 ban_count, WorldModel::ObjInfo* out);
 
 // Gang peds to kill when a phone refuses: the brief names whom ("kill some Zaibatsu")
 s32 Goals_ParseKillHint(const WorldModel& w, const char* brief); // Gang::field_1_gang_idx or -1
@@ -432,7 +440,10 @@ class MissionsGoal : public Action
     s32 mPassed;
     s32 mStart;
     MissionGoal* mChild;
-    Action* mRaise;        // killing a gang for respect
+    Action* mRaise;        // killing a gang for respect, or fetching a secret token
+    bool mFetching;        // mRaise is the fetch of a token
+    s32 mTokenBan[8];      // tokens already gone for
+    s32 mTokenBanCount;
     s32 mRaisePhone;
     s32 mPreferPhone; // the phone whose respect was just raised: try it first
     s32 mFavourGang;  // a random gang whose phones are tried first (-2 not drawn yet), so runs differ

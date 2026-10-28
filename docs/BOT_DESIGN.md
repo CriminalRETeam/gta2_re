@@ -685,3 +685,19 @@ the choice of car is looked at again, at most once, for a clearly nearer car (no
 **Phones.** Every phone is listed with its gang at the start of a missions run. The phone where the player starts is object
 238, model 163: a tutorial of eight text messages (brief keys 1600 to 1607), then a real mission (drive to the big pink marker
 at (189,38) in the mission car). Three more model 163 phones stand at (189,38), (31,157) and (39,39).
+
+## Touching objects, picking things up, secret tokens
+
+The game answers a phone, and takes a pickup or a secret token, when the player's collision box overlaps the object's (`Char::OnObjectTouched`).
+`WorldModel::ObjInfo::box` is that box (read like the car and ped boxes). `ObjectTouch` (native test `object_touch_sim`) aims at the *middle* of
+the box and counts as there only when the player's centre is inside the middle half of it; a walk to a phone ends with a few steps further in if
+needed. A phone's box is about 0.5 x 0.46 tiles on the object's own spot; the bot used to stop 0.2 tiles off, at the edge.
+
+A pickup is worth going for by the walking route to it, never by the straight line (`PickupReach`, native test `pickup_reach_sim`): the route has to
+exist (an item on a roof or behind a fence has none), and be at most 2.5 times the line plus 6 tiles, unless the item is needed (no gun, badly hurt),
+when up to 120 tiles. `Goals_PickupReachable` asks the walker's own pathfinder and keeps the answer for 180 frames.
+
+Secret tokens are a standing second goal: `Goals_WantedToken` (no wanted level, no police close, no time limit) is checked while walking (20 tiles) and
+between missions (60 tiles, as a `fetch_token` side goal of `MissionsGoal`). One spawns at the end of the tutorial.
+
+`RESET` log lines count the stuck-driven rewinds; `regress.py` and `drive_bench.py` fail a run that needed one.

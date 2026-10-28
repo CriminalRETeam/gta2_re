@@ -117,6 +117,7 @@ class PhoneAction : public Action
     float mX, mY;
     WalkAction* mWalk;
     bool mOnIt;
+    s32 mWalkDoneFrame; // frame the walk to the phone ended (0: still walking)
     s32 mOnItFrame;
     bool mWasOnMission;
     bool mRefused;

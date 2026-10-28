@@ -1,4 +1,5 @@
 #include "CollectActions.hpp"
+#include "ObjectTouch.hpp"
 #include "BlastAvoid.hpp"
 #include "WalkAction.hpp"
 #include "WorldModel.hpp"
@@ -20,6 +21,42 @@ PickUpAction::PickUpAction(s32 object_id, float x, float y)
     , mWiggle(false)
     , mWiggleStart(0)
 {
+}
+
+// The spot and reach for touching object id (the middle of its collision box, ObjectTouch.hpp); (fx, fy) where it was last seen
+static TouchBox Collect_TouchBox(const WorldModel::BoxInfo& b)
+{
+    TouchBox t;
+    t.valid = b.valid;
+    t.cx = b.cx;
+    t.cy = b.cy;
+    t.ax = b.ax;
+    t.ay = b.ay;
+    t.hl = b.hl;
+    t.hw = b.hw;
+    return t;
+}
+
+static TouchAim Collect_TouchAim(const WorldModel& w, s32 id, float fx, float fy, bool* inside_now)
+{
+    WorldModel::ObjInfo obj;
+    if (!w.FindObject(id, &obj))
+    {
+        TouchBox none;
+        none.valid = false;
+        none.cx = none.cy = none.ax = none.ay = none.hl = none.hw = 0.0f;
+        if (inside_now)
+        {
+            *inside_now = false;
+        }
+        return ObjectTouch_Aim(none, fx, fy);
+    }
+    const TouchBox box = Collect_TouchBox(obj.box);
+    if (inside_now)
+    {
+        *inside_now = ObjectTouch_Inside(box, obj.x, obj.y, w.player.x, w.player.y);
+    }
+    return ObjectTouch_Aim(box, obj.x, obj.y);
 }
 
 PickUpAction::~PickUpAction()
@@ -52,9 +89,12 @@ Action::Status PickUpAction::Step(BotContext& ctx)
         BotDecision("f=%d pick_up: object #%d gone", ctx.frame, mId);
         return Done;
     }
+    bool inside = false;
+    const TouchAim aim = Collect_TouchAim(*ctx.world, mId, mX, mY, &inside);
     if (!mWalk)
     {
-        mWalk = new WalkAction(mX, mY, false, 0.45f);
+        BotDecision("f=%d pick_up: object #%d (model %d) box %s centre (%.2f,%.2f) half (%.2f,%.2f): walking to (%.2f,%.2f) within %.2f", ctx.frame, mId, obj.model, obj.box.valid ? "valid" : "MISSING", obj.box.cx, obj.box.cy, obj.box.hl, obj.box.hw, aim.x, aim.y, aim.reach);
+        mWalk = new WalkAction(aim.x, aim.y, false, aim.reach);
         mWalk->Start(ctx);
     }
     if (!mWiggle)
@@ -76,8 +116,8 @@ Action::Status PickUpAction::Step(BotContext& ctx)
     {
         return Fail("action_failed", "pick_up: standing at (%.1f,%.1f) for 90 frames, object #%d (model %d at %.1f,%.1f z %.0f) is still there", pl.x, pl.y, mId, obj.model, obj.x, obj.y, obj.z);
     }
-    const float err = ctx.Steer(ctx.foot, pl.rot_deg, pl.x, pl.y, obj.x, obj.y, true);
-    if (fabsf(err) < 40.0f)
+    const float err = ctx.Steer(ctx.foot, pl.rot_deg, pl.x, pl.y, aim.x, aim.y, true);
+    if (fabsf(err) < 40.0f && !inside)
     {
         ctx.input |= input_bit::Forward;
     }
@@ -678,8 +718,8 @@ Action::Status KillFrenzyAction::Step(BotContext& ctx)
 }
 
 // ---------------------------------------------------------------------------------------------
-// How near the middle of a phone the player walks: the hit box is small, and the middle is inside it
-static const float kPhoneReach = 0.25f;
+// Then it steps on towards the middle of its collision box
+static const s32 kPhoneSettleFrames = 40; // frames to get inside the box after the walk is over
 
 PhoneAction::PhoneAction(s32 object_id, float x, float y, bool tutorial)
     : mId(object_id)
@@ -687,6 +727,7 @@ PhoneAction::PhoneAction(s32 object_id, float x, float y, bool tutorial)
     , mY(y)
     , mWalk(NULL)
     , mOnIt(false)
+    , mWalkDoneFrame(0)
     , mOnItFrame(0)
     , mWasOnMission(false)
     , mRefused(false)
@@ -733,22 +774,45 @@ Action::Status PhoneAction::Step(BotContext& ctx)
     }
     if (!mOnIt)
     {
+        bool inside = false;
+        const TouchAim aim = Collect_TouchAim(*ctx.world, mId, mX, mY, &inside);
         if (!mWalk)
         {
-            mWalk = new WalkAction(mX, mY, false, kPhoneReach);
+            WorldModel::ObjInfo obj;
+            if (ctx.world->FindObject(mId, &obj))
+            {
+                BotDecision("f=%d phone #%d (model %d): collision box %s centre (%.2f,%.2f) half (%.2f,%.2f), the object's spot (%.2f,%.2f): walking to (%.2f,%.2f) within %.2f", ctx.frame, mId, obj.model, obj.box.valid ? "valid" : "MISSING", obj.box.cx, obj.box.cy, obj.box.hl, obj.box.hw, obj.x, obj.y, aim.x, aim.y, aim.reach);
+            }
+            mWalk = new WalkAction(aim.x, aim.y, false, aim.reach);
             mWalk->Start(ctx);
+            mWalkDoneFrame = 0;
         }
-        const Status s = mWalk->Step(ctx);
-        if (s == Failed)
+        if (mWalkDoneFrame == 0)
         {
-            return Fail(mWalk->fail_condition, "phone #%d: %s", mId, mWalk->fail_detail);
+            const Status s = mWalk->Step(ctx);
+            if (s == Failed)
+            {
+                return Fail(mWalk->fail_condition, "phone #%d: %s", mId, mWalk->fail_detail);
+            }
+            if (s == Done)
+            {
+                mWalkDoneFrame = ctx.frame;
+            }
+            return Running;
         }
-        if (s == Done)
+        // the walk is over: stand well inside the box (not at its edge), a few steps at most
+        if (!inside && ctx.frame - mWalkDoneFrame < kPhoneSettleFrames)
         {
-            mOnIt = true;
-            mOnItFrame = ctx.frame;
-            BotDecision("f=%d phone: on phone #%d at (%.1f,%.1f)", ctx.frame, mId, pl.x, pl.y);
+            const float err = ctx.Steer(ctx.foot, pl.rot_deg, pl.x, pl.y, aim.x, aim.y, true);
+            if (fabsf(err) < 40.0f)
+            {
+                ctx.input |= input_bit::Forward;
+            }
+            return Running;
         }
+        mOnIt = true;
+        mOnItFrame = ctx.frame;
+        BotDecision("f=%d phone: on phone #%d at (%.2f,%.2f) %s the middle of its box (%.2f,%.2f)", ctx.frame, mId, pl.x, pl.y, inside ? "inside" : "NOT inside", aim.x, aim.y);
         return Running;
     }
     if (ctx.world->on_mission && !mWasOnMission)

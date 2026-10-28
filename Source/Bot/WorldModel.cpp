@@ -540,6 +540,7 @@ void WorldModel::Observe()
         info.x = F(o->field_4_sprite->field_14_xy.x);
         info.y = F(o->field_4_sprite->field_14_xy.y);
         info.z = F(o->field_4_sprite->field_1C_zpos);
+        info.box = BoxOfSprite(o->field_4_sprite);
         if (model == 266)
         {
             token_count++;
@@ -1165,6 +1166,7 @@ bool WorldModel::FindObject(s32 object_id, ObjInfo* out) const
             out->x = F(o->field_4_sprite->field_14_xy.x);
             out->y = F(o->field_4_sprite->field_14_xy.y);
             out->z = F(o->field_4_sprite->field_1C_zpos);
+            out->box = BoxOfSprite(o->field_4_sprite);
             return true;
         }
     }

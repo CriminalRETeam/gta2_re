@@ -130,6 +130,7 @@ class WorldModel : public BotObject
         s32 id;
         s32 model;
         float x, y, z;
+        BoxInfo box; // the collision box the game tests the player's against: a phone is answered, a pickup or a token taken, on contact
     };
 
     enum

@@ -326,6 +326,8 @@ set(gta2_bot_src
   Source/Bot/CalibrateCore.cpp
   Source/Bot/ShootPoliceCrowd.cpp
   Source/Bot/BlastAvoid.cpp
+  Source/Bot/ObjectTouch.cpp
+  Source/Bot/PickupReach.cpp
   Source/Bot/TurnAround.cpp
   Source/Bot/WalkCarJump.cpp
   Source/Bot/CarSwitch.cpp
