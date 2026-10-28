@@ -220,9 +220,9 @@ bool PedGroup::IsLeaderInCar_4C9210() const
 MATCH_FUNC(0x4c9220)
 bool PedGroup::IsLeaderEnteringCarOrTrain_4C9220() const
 {
-    if (field_2C_ped_leader->GetPedState_403990() != ped_state1_enum::ped_entering_a_car)
+    if (field_2C_ped_leader->GetPedState_403990() != ped_state_1::entering_car_3)
     {
-        if (field_2C_ped_leader->GetPedState_403990() != ped_state1_enum::ped_entering_train)
+        if (field_2C_ped_leader->GetPedState_403990() != ped_state_1::entering_train_5)
         {
             return false;
         }
@@ -259,8 +259,8 @@ void PedGroup::DisbandGroup_4C92A0()
         {
             Ped* pPed = field_4_ped_list[ped_idx];
             Ped** ppSlot = field_4_ped_list + ped_idx;
-            if ((pPed->GetPedState_403990() == ped_state1_enum::ped_wasted) ||
-                (pPed->field_280_stored_ped_state_1 == ped_state1_enum::ped_wasted))
+            if ((pPed->GetPedState_403990() == ped_state_1::dead_9) ||
+                (pPed->field_280_stored_ped_state_1 == ped_state_1::dead_9))
             {
                 pPed->ClearGroupAndGroupIdx_403A30();
             }
@@ -294,7 +294,7 @@ void PedGroup::DestroyGroup_4C93A0()
     }
 
     Ped* pPed = field_2C_ped_leader;
-    if ((pPed->GetPedState_403990() != ped_state1_enum::ped_wasted) && (pPed->field_280_stored_ped_state_1 != ped_state1_enum::ped_wasted))
+    if ((pPed->GetPedState_403990() != ped_state_1::dead_9) && (pPed->field_280_stored_ped_state_1 != ped_state_1::dead_9))
     {
         pPed->SetObjective(objectives_enum::no_obj_0);
         field_2C_ped_leader->SetObjective2_463830(objectives_enum::no_obj_0);
@@ -307,8 +307,8 @@ void PedGroup::DestroyGroup_4C93A0()
         {
             pPed = field_4_ped_list[ped_idx];
             Ped** ppSlot = field_4_ped_list + ped_idx;
-            if ((pPed->GetPedState_403990() == ped_state1_enum::ped_wasted) ||
-                (pPed->field_280_stored_ped_state_1 == ped_state1_enum::ped_wasted))
+            if ((pPed->GetPedState_403990() == ped_state_1::dead_9) ||
+                (pPed->field_280_stored_ped_state_1 == ped_state_1::dead_9))
             {
                 pPed->ClearGroupAndGroupIdx_403A30();
             }
