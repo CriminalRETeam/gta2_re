@@ -17,6 +17,7 @@ g++ -O1 -Wall -std=c++11 -I$SRC -o object_touch_sim object_touch_sim.cpp $SRC/Ob
 g++ -O1 -Wall -std=c++11 -I$SRC -o pickup_reach_sim pickup_reach_sim.cpp $SRC/PickupReach.cpp
 g++ -O1 -Wall -std=c++11 -I$SRC -o drop_off_sim drop_off_sim.cpp $SRC/DropOff.cpp
 g++ -O1 -Wall -std=c++11 -I$SRC -o jam_switch_sim jam_switch_sim.cpp $SRC/JamSwitch.cpp
+g++ -O1 -Wall -std=c++11 -I$SRC -o car_intercept_sim car_intercept_sim.cpp $SRC/CarIntercept.cpp
 g++ -O1 -Wall -I$SRC -o grid_route_sim grid_route_sim.cpp $SRC/GridRoute.cpp
 rc=0
 ./steer_sim -local || rc=1
@@ -33,5 +34,6 @@ rc=0
 ./pickup_reach_sim || rc=1
 ./drop_off_sim || rc=1
 ./jam_switch_sim || rc=1
+./car_intercept_sim || rc=1
 ./grid_route_sim || rc=1
 exit $rc

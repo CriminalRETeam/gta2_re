@@ -1,5 +1,7 @@
 #include "NavFoot.hpp"
 #include "BotLog.hpp"
+#include "WalkRoute.hpp"
+#include "WorldModel.hpp"
 #include <string.h>
 #include <stdio.h>
 
@@ -266,6 +268,7 @@ bool NavFoot::FindPath(u8 sx, u8 sy, u8 sz, u8 tx, u8 ty)
             {
                 step += 20;
             }
+            step += WalkRoute_TerrainCost(nz < 3 ? WorldModel::TileType(nx, ny) : 0); // pavements before roads
             const u32 cost = mCost[idx] + step;
             if (mState[nidx] == 1 && mCost[nidx] <= cost)
             {

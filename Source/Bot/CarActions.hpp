@@ -28,6 +28,13 @@ class EnterCarAction : public Action
     s32 mCarId;
     bool mHijack;
     WalkAction* mWalk;
+    WalkAction* mStand; // walking to the spot ahead of a moving car
+    s32 mStandStart;    // the frame the intercept began (-1: not at it)
+    s32 mStandRetarget;
+    s32 mSampleFrame;   // the car's position now and a few frames ago give its velocity
+    float mSampleX, mSampleY, mCarVx, mCarVy;
+    s32 mDriveOffs;     // times the car pulled away while we were at its door
+    bool mStandThere;   // at the spot, waiting for the car to stop
     bool mPressing;
     bool mHopped;   // the hop onto the car has been tried
     s32 mHopStart;  // -1 when not hopping

@@ -26,6 +26,14 @@ static bool BothClosed(void*, int x, int y)
 
 int main()
 {
+    {
+        // pavements are favoured: a road tile costs more than a pavement or a field, up to a few tiles' detour for the crossing
+        if (!(WalkRoute_TerrainCost(1) > WalkRoute_TerrainCost(2) && WalkRoute_TerrainCost(2) == WalkRoute_TerrainCost(3) && WalkRoute_TerrainCost(1) < 20))
+        {
+            printf("FAIL: terrain cost\n");
+            return 1;
+        }
+    }
     // a shared path that other code re-plans while the walker walks: first 25 long, then 11
     RouteNode shared[WalkRoute::kMax];
     for (int i = 0; i < 25; i++)

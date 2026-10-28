@@ -325,6 +325,7 @@ set(gta2_bot_src
   Source/Bot/LocalPlan.cpp
   Source/Bot/GridRoute.cpp
   Source/Bot/JamSwitch.cpp
+  Source/Bot/CarIntercept.cpp
   Source/Bot/CalibrateCore.cpp
   Source/Bot/ShootPoliceCrowd.cpp
   Source/Bot/BlastAvoid.cpp

@@ -1,4 +1,5 @@
 #include "CarActions.hpp"
+#include "CarIntercept.hpp"
 #include "DropOff.hpp"
 #include "JamSwitch.hpp"
 #include "NavFoot.hpp"
@@ -23,6 +24,16 @@ EnterCarAction::EnterCarAction(s32 car_id, bool hijack)
     : mCarId(car_id)
     , mHijack(hijack)
     , mWalk(NULL)
+    , mStand(NULL)
+    , mStandStart(-1)
+    , mStandRetarget(0)
+    , mStandThere(false)
+    , mDriveOffs(0)
+    , mSampleFrame(-1)
+    , mSampleX(0.0f)
+    , mSampleY(0.0f)
+    , mCarVx(0.0f)
+    , mCarVy(0.0f)
     , mPressing(false)
     , mHopped(false)
     , mHopStart(-1)
@@ -35,12 +46,17 @@ EnterCarAction::EnterCarAction(s32 car_id, bool hijack)
 EnterCarAction::~EnterCarAction()
 {
     delete mWalk;
+    delete mStand;
 }
 
 void EnterCarAction::Start(BotContext& /*ctx*/)
 {
     delete mWalk;
     mWalk = NULL;
+    delete mStand;
+    mStand = NULL;
+    mStandStart = -1;
+    mStandThere = false;
     mPressing = false;
     mHopped = false;
     mHopStart = -1;
@@ -81,9 +97,122 @@ Action::Status EnterCarAction::Step(BotContext& ctx)
     {
         return Fail("action_failed", "enter_car: car #%d driver=%d locked=%d", mCarId, car.has_driver, car.locked);
     }
-    if (mPressing && car.has_driver && car.speed > 0.05f)
+    if ((mPressing || mHopStart >= 0) && car.has_driver && car.speed > 0.05f && mCarVx * mCarVx + mCarVy * mCarVy > 0.0009f)
     {
-        return Fail("action_failed", "enter_car: car #%d drove off (speed %.2f)", mCarId, car.speed);
+        if (mDriveOffs >= 2)
+        {
+            return Fail("action_failed", "enter_car: car #%d drove off (speed %.2f)", mCarId, car.speed);
+        }
+        // it pulled away while we were at its door: get ahead of it and stop it
+        mDriveOffs++;
+        BotDecision("f=%d enter_car: car #%d drove off (speed %.2f): getting ahead of it (%d)", ctx.frame, mCarId, car.speed, mDriveOffs);
+        mPressing = false;
+        mHopStart = -1;
+        mHopJump = -1;
+        mHopped = false;
+        delete mWalk;
+        mWalk = NULL;
+        delete mStand;
+        mStand = NULL;
+        mStandStart = -1;
+        mStandThere = false;
+        return Running;
+    }
+
+    // The car's velocity from where it was a few frames ago (the world's one-frame difference is 0 when it was not observed last frame)
+    if (mSampleFrame < 0 || ctx.frame - mSampleFrame >= 4)
+    {
+        if (mSampleFrame >= 0)
+        {
+            mCarVx = (car.x - mSampleX) / static_cast<float>(ctx.frame - mSampleFrame);
+            mCarVy = (car.y - mSampleY) / static_cast<float>(ctx.frame - mSampleFrame);
+        }
+        mSampleX = car.x;
+        mSampleY = car.y;
+        mSampleFrame = ctx.frame;
+    }
+    // A moving car with a driver drives off from anyone walking at it. Traffic stops for a pedestrian in its lane: get ahead of it
+    // on its line, stand there facing it, and go up to it when it has stopped
+    if (!mPressing && mHopStart < 0 && !mHopped && car.has_driver)
+    {
+        InterceptIn in;
+        in.car_x = car.x;
+        in.car_y = car.y;
+        in.car_vx = mCarVx;
+        in.car_vy = mCarVy;
+        in.ped_x = pl.x;
+        in.ped_y = pl.y;
+        in.ped_speed = 0.06f;
+        float sx = 0.0f;
+        float sy = 0.0f;
+        const int plan = CarIntercept_Plan(in, &sx, &sy);
+        if (plan != kInterceptStopped && mWalk)
+        {
+            // it drove off while we walked to it: not after it, ahead of it
+            delete mWalk;
+            mWalk = NULL;
+        }
+        if (plan == kInterceptNever && mStandStart < 0)
+        {
+            return Fail("action_failed", "enter_car: car #%d is moving too fast (%.2f) to get ahead of it", mCarId, car.speed);
+        }
+        if (plan == kInterceptAhead || mStand)
+        {
+            if (!mStand)
+            {
+                mStand = new WalkAction(sx, sy, false, 0.7f);
+                mStand->Start(ctx);
+                mStandRetarget = ctx.frame;
+                mStandStart = ctx.frame;
+                BotDecision("f=%d enter_car: car #%d is moving (%.2f): standing in its lane ahead at (%.1f,%.1f) to stop it", ctx.frame, mCarId, car.speed, sx, sy);
+            }
+            else if (plan == kInterceptAhead && ctx.frame - mStandRetarget >= 15)
+            {
+                mStand->SetTarget(sx, sy);
+                mStandRetarget = ctx.frame;
+            }
+            if (ctx.frame - mStandStart > 420)
+            {
+                return Fail("action_failed", "enter_car: car #%d did not stop for 420 frames", mCarId);
+            }
+            if (plan == kInterceptStopped)
+            {
+                BotDecision("f=%d enter_car: car #%d has stopped (dist %.1f): going up to it", ctx.frame, mCarId, car.dist);
+                delete mStand;
+                mStand = NULL;
+                mStandStart = ctx.frame; // (so a car that drives off again is not walked after for ever either)
+            }
+            else
+            {
+                ctx.no_evade_frame = ctx.frame; // standing in the lane on purpose
+                if (!mStandThere)
+                {
+                    const Status ws = mStand->Step(ctx);
+                    if (ws == Done)
+                    {
+                        mStandThere = true;
+                    }
+                    else if (ws == Failed)
+                    {
+                        return Fail(mStand->fail_condition, "enter_car: stand ahead: %s", mStand->fail_detail);
+                    }
+                }
+                else
+                {
+                    // there: face the car and wait (turning only, no walking). If the car's line has moved off, walk to the new spot
+                    ctx.input = 0;
+                    ctx.Steer(ctx.foot, pl.rot_deg, pl.x, pl.y, car.x, car.y, true);
+                    ctx.input &= ~static_cast<u32>(input_bit::Forward);
+                    if ((pl.x - sx) * (pl.x - sx) + (pl.y - sy) * (pl.y - sy) > 2.5f * 2.5f)
+                    {
+                        mStandThere = false;
+                        mStand->SetTarget(sx, sy);
+                        mStand->Start(ctx);
+                    }
+                }
+                return Running;
+            }
+        }
     }
 
     if (!mPressing && mHopStart < 0)
