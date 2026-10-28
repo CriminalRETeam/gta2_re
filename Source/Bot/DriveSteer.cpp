@@ -410,6 +410,11 @@ bool SteerBox_Contains(const SteerBox& b, float x, float y, float margin)
     return fabsf(dx * b.ax + dy * b.ay) <= b.hl + margin && fabsf(-dx * b.ay + dy * b.ax) <= b.hw + margin;
 }
 
+bool DriveSteer_IsOwnCar(int car_id, int player_car_id, bool player_in_car)
+{
+    return player_in_car && car_id != 0 && car_id == player_car_id;
+}
+
 bool DriveSteer_WayFreeOfCars(const SteerCar* cars, int n, float x0, float y0, float x1, float y1, float margin, int skip)
 {
     const float dx = x1 - x0;

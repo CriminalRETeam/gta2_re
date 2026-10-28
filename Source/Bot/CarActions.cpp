@@ -494,7 +494,7 @@ static int Drive_CollectCars(BotContext& ctx, SteerCar* out)
     for (int k = 0; k < ctx.world->car_count; k++)
     {
         const WorldModel::CarInfo& oc = ctx.world->cars[k];
-        if (oc.dist < 1.0f) // our own
+        if (DriveSteer_IsOwnCar(oc.idx, ctx.world->player.car_id, ctx.world->player.in_car))
         {
             continue;
         }
@@ -1275,7 +1275,7 @@ Action::Status DriveAction::Step(BotContext& ctx)
         for (int k = 0; k < ctx.world->car_count; k++)
         {
             const WorldModel::CarInfo& oc = ctx.world->cars[k];
-            if (oc.dist < 1.0f || oc.dist > 30.0f)
+            if (DriveSteer_IsOwnCar(oc.idx, pl.car_id, pl.in_car) || oc.dist > 30.0f)
             {
                 continue;
             }

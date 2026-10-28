@@ -156,6 +156,9 @@ static void WayFreeTests()
 {
     SteerCar cars[2] = {MakeCar(73.0f, 49.5f), MakeCar(73.3f, 50.3f)};
     // a swerve from (74.8, 50.6) to a point beside the road: through the cab (car 0) at (73, 49.5) or clear of it
+    Check("our own car is found by id", DriveSteer_IsOwnCar(65, 65, true));
+    Check("a car 0.5 tiles ahead with another id is not ours", !DriveSteer_IsOwnCar(123, 65, true));
+    Check("on foot no car is ours", !DriveSteer_IsOwnCar(65, 65, false));
     Check("a way straight through a car is not free", !DriveSteer_WayFreeOfCars(cars, 2, 76.0f, 52.0f, 70.0f, 47.0f, 0.4f, -1));
     Check("a way beside the cars, a car's width off, is free", DriveSteer_WayFreeOfCars(cars, 2, 76.0f, 52.0f, 76.0f, 46.0f, 0.4f, -1));
     Check("the car being dodged is left out", DriveSteer_WayFreeOfCars(cars, 2, 76.0f, 52.0f, 70.0f, 47.0f, 0.4f, 0) == false);
