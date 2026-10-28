@@ -5517,7 +5517,7 @@ void Char::state_5_551BB0()
 
         state_1_5504F0();
 
-        if ((this->field_7C_pPed->GetAttacking_433CA0()) == 0 && this->field_10_char_state != Char_B4_state::Jumping_15)
+        if (!this->field_7C_pPed->GetAttacking_433CA0() && this->field_10_char_state != Char_B4_state::Jumping_15)
         {
             if (field_38_velocity > k_CollisionRepulsionSpeed_6FD7BC)
             {
@@ -6435,7 +6435,7 @@ bool Char::ShouldCollideWithSprite_553340(Sprite* pSprite) const
         default:
             pPed = this->field_7C_pPed;
             if (pPed->GetPedState_403990() == ped_state_1::dead_9 &&
-                ((pPed->IsOnFire_475B50()) == 0 || !pSprite || !pSprite->IsObjectModelEqual_59E930(objects::water_hitting_198)))
+                (!pPed->IsOnFire_475B50() || !pSprite || !pSprite->IsObjectModelEqual_59E930(objects::water_hitting_198)))
             {
                 return false;
             }

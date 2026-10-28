@@ -6610,7 +6610,7 @@ bool Car::IsDrivenByNonPlayer_564300()
 {
     if (field_54_driver)
     {
-        bool result = field_54_driver->PedTypeIs_45EDE0(ped_type::player_2) == 0;
+        bool result = !field_54_driver->PedTypeIs_45EDE0(ped_type::player_2);
         return result;
     }
     return false;

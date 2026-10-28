@@ -228,7 +228,7 @@ class CarPhysics
 
     Fix16 inline_ComputeTorqueFromThrottle_561DD0()
     {
-        if (IsTurboActive_561940() != 0)
+        if (IsTurboActive_561940())
         {
             return gCarInfo_2C_6FE0E4->field_14_half_thrust +
                 ((field_60_gas_pedal * ((gDamageSpeedFactor_6FE348 * gCarInfo_2C_6FE0E4->field_18_fith_thrust)))) * 2;
@@ -243,7 +243,7 @@ class CarPhysics
     // ComputeTorqueFromThrottle_561DD0 as inlined into ComputeEngineTorque_561970 (out of line operators)
     Fix16 inline_ComputeTorqueFromThrottle_561DD0_ool()
     {
-        if (IsTurboActive_561940() != 0)
+        if (IsTurboActive_561940())
         {
             return gCarInfo_2C_6FE0E4->field_14_half_thrust.Add_408660(
                 gCarInfo_2C_6FE0E4->field_18_fith_thrust.Multiply_408680(gDamageSpeedFactor_6FE348)

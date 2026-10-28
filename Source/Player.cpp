@@ -374,7 +374,7 @@ bool Player::AddWeaponWithAmmo_564960(s32 weapon_kind, u8 ammo)
     }
     else
     {
-        bHasAnyAmmo = HasAnyAmmo_564940() == 0;
+        bHasAnyAmmo = !HasAnyAmmo_564940();
     }
 
     bAmmoAdded = field_718_weapons[weapon_kind]->add_ammo_capped_5DCE40(ammo);
@@ -1446,7 +1446,7 @@ void Player::HandleControls_5668D0(Ped* pPed)
             }
             else
             {
-                bNoPed = field_718_weapons[field_788_curr_weapon_idx]->CanFireWhileHeld_5E33C0() == 0;
+                bNoPed = !field_718_weapons[field_788_curr_weapon_idx]->CanFireWhileHeld_5E33C0();
                 if (!bNoPed)
                 {
                     pPed->SetAttacking_4A5010();
@@ -1712,7 +1712,7 @@ void Player::Wasted_567130()
         {
             player_killer = NULL;
         }
-        else if (pPed_killer->PedTypeIs_45EDE0(ped_type::player_2) == 0)
+        else if (!pPed_killer->PedTypeIs_45EDE0(ped_type::player_2))
         {
             player_killer = NULL;
         }
