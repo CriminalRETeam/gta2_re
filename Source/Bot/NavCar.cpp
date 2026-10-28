@@ -139,6 +139,8 @@ NavCar::~NavCar()
 void NavCar::Build()
 {
     int water_tiles = 0;
+    int wall_faced_ground = 0;
+    int wall_faced_type[4] = {0, 0, 0, 0};
     int high_tiles[8][4];
     memset(high_tiles, 0, sizeof(high_tiles));
     memset(mGrid, 0, kTiles);
@@ -150,6 +152,15 @@ void NavCar::Build()
         {
             s32 z = 0;
             gmp_block_info* b = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x, y, &z);
+            if (b && z < 3 && !WorldModel::IsWaterBlock(b) && (b->field_0_left | b->field_2_right | b->field_4_top | b->field_6_bottom) & 0x400)
+            {
+                wall_faced_ground++; // a block with walls on its own faces that is not a roof: a low building
+                wall_faced_type[b->field_B_slope_type & 3]++;
+                if (wall_faced_ground <= 6)
+                {
+                    BotDecision("road map: wall-faced block at (%d,%d) z=%d type %d faces %04x %04x %04x %04x", x, y, z, b->field_B_slope_type & 3, b->field_0_left, b->field_2_right, b->field_4_top, b->field_6_bottom);
+                }
+            }
             if (b && z >= 3 && !WorldModel::IsRoofBlock(b, z))
             {
                 high_tiles[z < 8 ? z : 7][b->field_B_slope_type & 3]++; // bridges
@@ -207,7 +218,7 @@ void NavCar::Build()
         }
     }
     mBuilt = true;
-    BotDecision("road map: %d water tiles closed", water_tiles);
+    BotDecision("road map: %d water tiles closed, %d low blocks with walls on their own faces (air %d, road %d, pavement %d, field %d)", water_tiles, wall_faced_ground, wall_faced_type[0], wall_faced_type[1], wall_faced_type[2], wall_faced_type[3]);
     for (int z = 3; z < 8; z++)
     {
         BotDecision("road map: highest block at z=%d: %d road, %d pavement, %d field", z, high_tiles[z][1], high_tiles[z][2], high_tiles[z][3]);

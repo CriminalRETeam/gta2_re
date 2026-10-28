@@ -1064,6 +1064,11 @@ bool WorldModel::LowWallAt(int ix, int iy)
     {
         return false;
     }
+    // a low building, hedge or wall: the block itself has walls on its faces (the roofs, from height 3, are BuildingAt's)
+    if (((b->field_0_left | b->field_2_right | b->field_4_top | b->field_6_bottom) & 0x400) != 0 && !IsWaterBlock(b))
+    {
+        return true;
+    }
     // a fence is a block of its own on top of the ground, with side faces only (the highest block search does not return it)
     gmp_block_info* above = gMap_0x370_6F6268->GetBlockOrNull_452980(static_cast<u8>(ix), static_cast<u8>(iy), static_cast<u8>(z + 1));
     return above && ((above->field_0_left | above->field_2_right | above->field_4_top | above->field_6_bottom) & 0x400) != 0;
