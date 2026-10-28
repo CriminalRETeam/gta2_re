@@ -89,7 +89,8 @@ class KillFrenzyAction : public Action
 class PhoneAction : public Action
 {
   public:
-    PhoneAction(s32 object_id, float x, float y);
+    // tutorial: the phone where the player starts (model 163) opens a scripted walk-through, not a mission: its brief is not a refusal
+    PhoneAction(s32 object_id, float x, float y, bool tutorial = false);
     ~PhoneAction();
 
     virtual const char* Name() const
@@ -119,6 +120,9 @@ class PhoneAction : public Action
     s32 mOnItFrame;
     bool mWasOnMission;
     bool mRefused;
+    bool mTutorial;
+    s32 mDoneFrame; // the tutorial's last message went at this frame
+    s32 mLastLogged;
     s32 mBriefFrame;
     char mBrief[400];
     char mBrief0[12];

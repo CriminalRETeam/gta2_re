@@ -1,4 +1,6 @@
 #include "Goals.hpp"
+#include <stdio.h>
+#include <string.h>
 #include "CarSwitch.hpp"
 #include "WalkAction.hpp"
 #include "NavFoot.hpp"
@@ -1711,7 +1713,7 @@ void MissionGoal::BeginStage(BotContext& ctx, Stage st)
             mChild = new TravelGoal(mPhone.x, mPhone.y, 8.0f);
             break;
         case Phone:
-            mChild = new PhoneAction(mPhone.id, mPhone.x, mPhone.y);
+            mChild = new PhoneAction(mPhone.id, mPhone.x, mPhone.y, mPhone.model == 163);
             break;
         case Play:
             mChild = new MissionAction();
@@ -1896,11 +1898,47 @@ bool MissionsGoal::ChoosePhone(BotContext& ctx, WorldModel::ObjInfo* out)
         mFavourGang = w.gang_index[ctx.rng->Below(static_cast<u32>(w.gang_count))];
         BotDecision("f=%d missions: favourite gang this run: %d", ctx.frame, mFavourGang);
     }
+    {
+        char ids[800];
+        ids[0] = 0;
+        for (int i = 0; i < w.phone_count && strlen(ids) < 700; i++)
+        {
+            _snprintf(ids + strlen(ids), 60, " #%d m%d (%.0f,%.0f) gang %d%s;", w.phones[i].id, w.phones[i].model, w.phones[i].x, w.phones[i].y, OwnerAt(w, w.phones[i].x, w.phones[i].y), w.PhoneRinging(w.phones[i].id) ? "" : " DEAD");
+        }
+        BotDecision("f=%d missions: %d phone triggers in the script; phones on the map:%s", ctx.frame, w.phones_ringing, ids);
+        char other[400];
+        other[0] = 0;
+        for (int t = 0; t < w.phones_ringing && t < 20; t++)
+        {
+            bool listed = false;
+            for (int i = 0; i < w.phone_count; i++)
+            {
+                listed = listed || w.phones[i].id == w.ringing_phone_ids[t];
+            }
+            if (!listed)
+            {
+                WorldModel::ObjInfo oi;
+                if (w.FindObject(w.ringing_phone_ids[t], &oi))
+                {
+                    _snprintf(other + strlen(other), 50, " #%d m%d (%.0f,%.0f);", oi.id, oi.model, oi.x, oi.y);
+                }
+                else
+                {
+                    _snprintf(other + strlen(other), 30, " #%d (no such object);", w.ringing_phone_ids[t]);
+                }
+            }
+        }
+        BotDecision("f=%d missions: phone triggers whose phone is not among those listed:%s", ctx.frame, other);
+    }
     float best = 1e9f;
     bool found = false;
     for (int i = 0; i < w.phone_count; i++)
     {
         const WorldModel::ObjInfo& p = w.phones[i];
+        if (w.phones_ringing > 0 && !w.PhoneRinging(p.id))
+        {
+            continue; // not ringing: no mission can be started from it yet (it is not in the script's phone triggers)
+        }
         const PhoneMemory* m = Memory(p.id, false);
         float penalty = 0.0f;
         if (m)

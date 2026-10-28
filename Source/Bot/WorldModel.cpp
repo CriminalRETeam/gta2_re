@@ -451,6 +451,7 @@ void WorldModel::Observe()
         {
             if (pScript->field_188_phone_triggers[i].field_8_cmd_line != 0)
             {
+                ringing_phone_ids[phones_ringing] = pScript->field_188_phone_triggers[i].field_4_target_id;
                 phones_ringing++;
             }
         }
@@ -548,7 +549,7 @@ void WorldModel::Observe()
         {
             InsertObj(frenzies, &frenzy_count, info, player.x, player.y);
         }
-        else if (model >= 176 && model <= 181)
+        else if ((model >= 176 && model <= 181) || model == 163) // 163: the tutorial phone where the player starts (and three more like it)
         {
             InsertObj(phones, &phone_count, info, player.x, player.y);
         }

@@ -682,7 +682,7 @@ Action::Status KillFrenzyAction::Step(BotContext& ctx)
 }
 
 // ---------------------------------------------------------------------------------------------
-PhoneAction::PhoneAction(s32 object_id, float x, float y)
+PhoneAction::PhoneAction(s32 object_id, float x, float y, bool tutorial)
     : mId(object_id)
     , mX(x)
     , mY(y)
@@ -692,6 +692,9 @@ PhoneAction::PhoneAction(s32 object_id, float x, float y)
     , mWasOnMission(false)
     , mRefused(false)
     , mBriefFrame(0)
+    , mTutorial(tutorial)
+    , mDoneFrame(0)
+    , mLastLogged(-1000)
 {
     mBrief0[0] = 0;
     mBrief[0] = 0;
@@ -704,6 +707,8 @@ PhoneAction::~PhoneAction()
 
 void PhoneAction::Start(BotContext& ctx)
 {
+    mLastLogged = -1000;
+    mDoneFrame = 0;
     delete mWalk;
     mWalk = NULL;
     mOnIt = false;
@@ -763,10 +768,40 @@ Action::Status PhoneAction::Step(BotContext& ctx)
             mBrief[sizeof(mBrief) - 1] = 0;
             BotDecision("f=%d phone: a brief came up (\"%s\" [%s]) on_mission=%d", ctx.frame, ctx.world->brief_key, ctx.world->brief_text, ctx.world->on_mission);
         }
+        if (mTutorial)
+        {
+            // the walk-through: watch what the script does for a while (text, the arrow, tokens) instead of calling it a refusal
+            if (ctx.frame - mLastLogged >= 120)
+            {
+                mLastLogged = ctx.frame;
+                BotDecision("f=%d tutorial: brief \"%s\" [%s] on_mission %d arrow type %d at (%.0f,%.0f) tokens left %d secrets passed %d cash %d", ctx.frame, ctx.world->brief_key, ctx.world->brief_text, ctx.world->on_mission,
+                            ctx.world->arrow.type, ctx.world->arrow.x, ctx.world->arrow.y, ctx.world->token_count, ctx.world->secrets_passed, pl.cash);
+            }
+            if (ctx.frame - mBriefFrame > 3000)
+            {
+                return Done;
+            }
+            return Running;
+        }
         if (ctx.frame - mBriefFrame > 200)
         {
             mRefused = true;
             return Fail("action_failed", "phone #%d: refused: \"%s\"", mId, mBrief);
+        }
+        return Running;
+    }
+    if (mTutorial && mBriefFrame != 0)
+    {
+        // the walk-through's last message is gone: it is over. Give the script a moment to hand out what it hands out
+        if (mDoneFrame == 0)
+        {
+            mDoneFrame = ctx.frame;
+            BotDecision("f=%d tutorial: finished (the last message is gone); tokens left %d secrets passed %d secrets failed %d cash %d", ctx.frame, ctx.world->token_count, ctx.world->secrets_passed, ctx.world->secrets_failed, pl.cash);
+        }
+        if (ctx.frame - mDoneFrame > 240)
+        {
+            BotDecision("f=%d tutorial: 240 frames after; tokens left %d secrets passed %d secrets failed %d cash %d", ctx.frame, ctx.world->token_count, ctx.world->secrets_passed, ctx.world->secrets_failed, pl.cash);
+            return Done;
         }
         return Running;
     }

@@ -212,6 +212,18 @@ class WorldModel : public BotObject
     bool on_mission;
     s32 missions_passed;
     s32 phones_ringing;
+    s32 ringing_phone_ids[20]; // object ids of the phones that can be answered now (the script's phone triggers)
+    bool PhoneRinging(s32 obj_id) const
+    {
+        for (int i = 0; i < phones_ringing && i < 20; i++)
+        {
+            if (ringing_phone_ids[i] == obj_id)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
     char brief_key[12];
     char brief_text[400];
     s32 peds_total;
