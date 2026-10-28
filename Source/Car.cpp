@@ -5758,7 +5758,7 @@ bool Car::TrainUpdate_442D70()
                 }
 
                 default:
-                    FatalError_4A38C0(0x431, "C:\\Splitting\\Gta2\\Source\\car.cpp", 5458, 0);
+                    FatalError_4A38C0(Gta2Error::InvalidLineInfo, "C:\\Splitting\\Gta2\\Source\\car.cpp", 5458, 0);
             }
 
             if (gSpriteGrid_1_679208->CheckRectForCollisions_477F60(&rect, false, sprite_types_enum::none_0, this->field_50_car_sprite))
@@ -6189,7 +6189,7 @@ void Car::BuyCarWeapon_4438C0(s32 weapon_kind)
                     this->SetShopEvent_421950(car_shop_event::car_smg_7);
                     break;
                 default:
-                    FatalError_4A38C0(0x431, "C:\\Splitting\\Gta2\\Source\\car.cpp", 6107, 0);
+                    FatalError_4A38C0(Gta2Error::InvalidLineInfo, "C:\\Splitting\\Gta2\\Source\\car.cpp", 6107, 0);
             }
         }
         else
