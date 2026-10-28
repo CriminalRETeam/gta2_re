@@ -147,7 +147,7 @@ sound_obj::HandleCarBurningSound_414F90,0x414f90,0x14f90,0x87
 sound_obj::Type_15_415100,0x415100,0x15100,0x4c
 sound_obj::Tank_415190,0x415190,0x15190,0x107
 sound_obj::Type_13_4153F0,0x4153f0,0x153f0,0x54
-sound_obj::HandleCarWeaponHitSound_415480,0x415480,0x15480,0xcb
+sound_obj::PlayCarShopEventSound_415480,0x415480,0x15480,0xcb
 sound_obj::HandleCarHornSound_415570,0x415570,0x15570,0x1b9
 sound_obj::Type_5_InitHornSound_415730,0x415730,0x15730,0x89
 sound_obj::HandleCarEngineSound_4157C0,0x4157c0,0x157c0,0x257

@@ -1396,7 +1396,7 @@ void sound_obj::ProcessTank_413BF0(Sound_Params* pParams, SoundPosEntry* pAlloc)
     Tank_414D30(pParams);
     HandleCarDoorSounds_4182E0(pParams);
     HandleCarHornSound_415570(pParams, pAlloc);
-    HandleCarWeaponHitSound_415480(pParams);
+    PlayCarShopEventSound_415480(pParams);
 }
 
 MATCH_FUNC(0x413C50)
@@ -1427,7 +1427,7 @@ void sound_obj::ProcessOtherCarTypes_413C50(Sound_Params* pParams, SoundPosEntry
         HandleCarEngineStartSound_418610(pParams);
         HandleCarDamageSound_4177D0(pParams);
         HandleHeavyVehicleStopSound_417E30(pParams, pAlloc);
-        HandleCarWeaponHitSound_415480(pParams);
+        PlayCarShopEventSound_415480(pParams);
         HandleCarBurningSound_414F90(pParams);
         HandleAICarHornBeep_413D10(pParams);
     }
@@ -1870,7 +1870,7 @@ bool sound_obj::Type_13_4153F0(sound_0x68* pObj)
 }
 
 MATCH_FUNC(0x415480)
-void sound_obj::HandleCarWeaponHitSound_415480(Sound_Params* pParams)
+void sound_obj::PlayCarShopEventSound_415480(Sound_Params* pParams)
 {
     Car* pCar = pParams->field_0_pObj->field_8_car_bc_ptr;
     const s32 shop_event = pCar->TakeShopEvent_4119D0();
