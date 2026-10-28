@@ -483,8 +483,8 @@ class Hud_ArrowTargets
         return !field_18_primary_target.HasNoTarget_4C6F20() && !field_3C_secondary_target.HasNoTarget_4C6F20();
     }
 
-    s32 field_20;
-    s16 field_24;
+    s32 field_20_unused;
+    s16 field_24_unused;
     s32 field_28_arrow_colour;
     s16 field_2C_arrow_sprt_idx;
     u8 field_2E_target_swap_timer;

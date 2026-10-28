@@ -27,7 +27,7 @@
 EXTERN_GLOBAL(s16, gPedOffscreenDespawnTime_678656);
 EXTERN_GLOBAL(Ang16, gSearchConeHalfAngle_6784F0);
 EXTERN_GLOBAL(u8, gRunPedObjectiveAI_61A8A0);
-EXTERN_GLOBAL(s8, byte_61A8A3);
+EXTERN_GLOBAL(s8, gObjectiveMayAct_61A8A3);
 EXTERN_GLOBAL(u8, gRunPedThink_61A8A4);
 EXTERN_GLOBAL(Fix16, kFpZero_678660);
 EXTERN_GLOBAL(Fix16, gDistanceToTarget_678750);
@@ -751,7 +751,7 @@ PedManager::PedManager()
     gDistanceToTarget_678750 = kFpZero_678660;
     gSearchingPed_6787DC = NULL;
     cameraFacingAng_678760 = gDummyPedAng_6787A8;
-    byte_61A8A3 = 1;
+    gObjectiveMayAct_61A8A3 = 1;
     gRunPedThink_61A8A4 = 1;
     gNumPedsUpdated_6787E0 = 0;
     gNumDummyChars_6787E2 = 0;

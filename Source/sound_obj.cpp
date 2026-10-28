@@ -66,7 +66,7 @@ DEFINE_GLOBAL(u16, gLastRadioCarRemap_6757FC, 0x6757FC);
 
 DEFINE_GLOBAL(u8, gType6SampleIndexCounter_66F541, 0x66F541);
 DEFINE_GLOBAL_INIT(u8, gSoundSampleIdx_61A684, 0x64, 0x61A684);
-DEFINE_GLOBAL(char_type, byte_66F543, 0x66F543);
+DEFINE_GLOBAL(char_type, gAICarHornCooldown_66F543, 0x66F543);
 
 DEFINE_GLOBAL_INIT(Fix16, kFpFive_675414, Fix16(5), 0x675414);
 DEFINE_GLOBAL_INIT(Fix16, kFpZero_675400, Fix16(0), 0x675400);
@@ -82,7 +82,7 @@ DEFINE_GLOBAL_INIT(Fix16, kFpPoint004_66F490, Fix16(0x41, 0), 0x66F490);
 DEFINE_GLOBAL_INIT(Fix16, kFpHalf_66F2FC, Fix16(0x2000, 0), 0x66F2FC);
 DEFINE_GLOBAL_INIT(Fix16, kFpThree_66F3FC, Fix16(3), 0x66F3FC);
 DEFINE_GLOBAL_INIT(Fix16, kFp127_66F1CC, Fix16(127), 0x66F1CC);
-DEFINE_GLOBAL(u8, byte_66F542, 0x66F542);
+DEFINE_GLOBAL(u8, gCollisionVolumeRngIndex_66F542, 0x66F542);
 DEFINE_GLOBAL(u8, gCooldownCounter_67554D, 0x67554D);
 DEFINE_GLOBAL_INIT(Fix16, kFp100_674E18, Fix16(100), 0x674E18);
 
@@ -1357,7 +1357,7 @@ u8 sound_obj::Type6_413A10(CollisionEvent* pEvent)
             break;
 
         default:
-            return this->field_1454_anRandomTable[static_cast<u8>(++byte_66F542) % 5] % 0xAu + 5;
+            return this->field_1454_anRandomTable[static_cast<u8>(++gCollisionVolumeRngIndex_66F542) % 5] % 0xAu + 5;
     }
     return Fix16::Round_To_Int_410BF0(ratio * kFp127_66F1CC);
 }
@@ -1468,14 +1468,14 @@ void sound_obj::HandleAICarHornBeep_413D10(Sound_Params* pParams)
                     {
                         return;
                     }
-                    if (!byte_66F543)
+                    if (!gAICarHornCooldown_66F543)
                     {
-                        byte_66F543 = 8;
+                        gAICarHornCooldown_66F543 = 8;
                         samp_idx = this->field_1454_anRandomTable[this->field_30_sQueueSample.field_0_EntityIndex % 5u] % 7u + 265;
                     }
                     else
                     {
-                        --byte_66F543;
+                        --gAICarHornCooldown_66F543;
                         return;
                     }
                 }

@@ -365,7 +365,7 @@ class Char
   private:
     EXPORT void UpdateAnimState_546360();
     EXPORT void ManageZCoordAndSlopes_548590();
-    EXPORT void DispatchCollision_548670(char_type bFlag);
+    EXPORT void DispatchCollision_548670(char_type bIgnorePeds);
     EXPORT void HandleObjectCollision_548840(Object* pObj);
     EXPORT void HandlePedCollision_548BD0(Char* pOther);
     EXPORT void HandleGenericCollision_54A530(Car* pCar, Object* pObj, Char* pChar);

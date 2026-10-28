@@ -903,7 +903,7 @@ void __stdcall ClearDebugFlags_4DB170()
     gCheatUnlimitedJailCard_67D4F6 = false;
     gCheatInvisibility_67D539 = false;
     gCheatUnlimitedDoubleDamage_67D57C = false;
-    byte_67D56B = false;
+    gCheatJailCardSmgRespect_67D56B = false;
     gCheatUnlimitedFlameThrower_67D6CC = false;
 }
 

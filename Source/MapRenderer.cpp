@@ -3497,11 +3497,11 @@ void MapRenderer::ClearDrawnTileCount_4F6A10()
 // can't take those rvalues.
 static inline void AddToDrawListByVal(MapRenderer* pThis, s32 x, s32 y)
 {
-    Nanobotz* pPos = &pThis->field_1C_draw_list[pThis->field_2EFC_curr_draw_layer_size];
+    DrawListBlock* pPos = &pThis->field_1C_draw_list[pThis->field_2EFC_curr_draw_layer_size];
     pPos->field_0_x = x;
     pPos->field_4_y = y;
 
-    Nanobotz* pIter = &pThis->field_1C_draw_list[pThis->field_2EFC_curr_draw_layer_size - 1];
+    DrawListBlock* pIter = &pThis->field_1C_draw_list[pThis->field_2EFC_curr_draw_layer_size - 1];
     for (s32 i = pThis->field_2EFC_curr_draw_layer_size - 1; i >= 0; i--, pIter--)
     {
         if (pIter->IsEqual_46BB60(pPos))
@@ -3632,7 +3632,7 @@ void MapRenderer::Draw_4F6A20()
 
             // Now draw tiles in reverse order
             s32 j = field_2EFC_curr_draw_layer_size - 1;
-            Nanobotz* pIter = &field_1C_draw_list[field_2EFC_curr_draw_layer_size - 1];
+            DrawListBlock* pIter = &field_1C_draw_list[field_2EFC_curr_draw_layer_size - 1];
             while (j >= 0)
             {
                 MapRenderer::RenderBlockAt_4F6880(pIter->field_0_x, pIter->field_4_y);

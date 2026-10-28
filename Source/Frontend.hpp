@@ -531,7 +531,7 @@ EXTERN_GLOBAL(s16, gFrontendNormalFont_703D0C);
 
 EXTERN_GLOBAL(s16, gFrontendSelectedFont_703C16);
 
-EXTERN_GLOBAL(s16, word_703C8C);
+EXTERN_GLOBAL(s16, gFrontendFont6_703C8C);
 
 EXTERN_GLOBAL(s16, gFrontendPlayMenuScoreFont_703C8A);
 
@@ -539,7 +539,7 @@ EXTERN_GLOBAL(s16, gFrontendScoreFont_703BE2);
 
 EXTERN_GLOBAL(s16, gFrontendAreaCompleteFont_703B88);
 
-EXTERN_GLOBAL(s16, word_703DAC);
+EXTERN_GLOBAL(s16, gFrontendFont12_703DAC);
 
 EXTERN_GLOBAL(s16, gFrontendTitleFont_703B9C);
 

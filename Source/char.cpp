@@ -1679,16 +1679,16 @@ static inline Ang16 TurnBy16Deg_548BD0(Ang16 angle)
 
 // 9.6f 0x499F00
 MATCH_FUNC(0x548670)
-void Char::DispatchCollision_548670(char_type bFlag)
+void Char::DispatchCollision_548670(char_type bIgnorePeds)
 {
-    u8 bUnknown;
+    u8 bIgnorePedHit;
     if (this->field_69_is_colliding_with_sprite == 1 && this->field_20_collided_entity_type && this->field_24_slide_state != 3)
     {
-        bUnknown = 1;
+        bIgnorePedHit = 1;
     }
     else
     {
-        bUnknown = bFlag;
+        bIgnorePedHit = bIgnorePeds;
     }
 
     Sprite* pNearSprite = field_80_sprite_ptr->QuerySpriteCollision_59E7D0(sprite_types_enum::car_2);
@@ -1699,7 +1699,7 @@ void Char::DispatchCollision_548670(char_type bFlag)
         {
 
             case sprite_types_enum::ped_3:
-                if (bUnknown == byte_623F48)
+                if (bIgnorePedHit == byte_623F48)
                 {
                     this->field_18_collided_entity = NULL;
                 }
@@ -5737,8 +5737,6 @@ void Char::state_8_5520A0()
     Fix16 fall_y;
     Sprite* pAttachSprite;
     Sprite* pPedObjSprite;
-
-    Fix16 temp;
 
     Ang16 rotation;
 
