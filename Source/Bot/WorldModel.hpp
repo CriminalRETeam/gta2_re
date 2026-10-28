@@ -143,6 +143,8 @@ class WorldModel : public BotObject
 
     // Text map of the blocks around (cx, cy): R road, P pavement, F field, B building / high ground,
     // ' ' nothing; arrows ^v<> where a green road arrow points; c a car, @ the player
+    // Every tile whose highest block is a slope (a ramp up or down) with what the steering makes of it: solid or not
+    void DumpSlopes(const char* path) const;
     void DumpMap(const char* path, float cx, float cy, int radius) const;
 
     // Every block of the columns within 2 tiles of (cx, cy): the four faces, lid, arrows and slope, and the world

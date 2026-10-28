@@ -813,6 +813,38 @@ static void Append(TextBuf* b, const char* fmt, ...)
     b->p += n;
 }
 
+void WorldModel::DumpSlopes(const char* path) const
+{
+    FILE* f = fopen(path, "w");
+    if (!f)
+    {
+        return;
+    }
+    fprintf(f, "# x y z | slope id | lid type | solid for the steering (B building/water, W low wall) | faces l r t b lid\n");
+    int slopes = 0;
+    int solid = 0;
+    for (int y = 1; y < 255; y++)
+    {
+        for (int x = 1; x < 255; x++)
+        {
+            s32 z = 0;
+            gmp_block_info* b = gMap_0x370_6F6268->FindHighestBlockForCoord_4E4C30(x, y, &z);
+            if (!b || (b->field_B_slope_type >> 2) == 0)
+            {
+                continue;
+            }
+            slopes++;
+            const bool building = BuildingAt(static_cast<float>(x) + 0.5f, static_cast<float>(y) + 0.5f);
+            const bool wall = LowWallAt(x, y);
+            solid += (building || wall) ? 1 : 0;
+            fprintf(f, "%d %d %d | slope %d | type %d | %s | %04x %04x %04x %04x %04x\n", x, y, z, b->field_B_slope_type >> 2, b->field_B_slope_type & 3, building ? "B" : (wall ? "W" : "-"),
+                    b->field_0_left, b->field_2_right, b->field_4_top, b->field_6_bottom, b->field_8_lid);
+        }
+    }
+    fprintf(f, "# %d slope tiles, %d of them solid for the steering\n", slopes, solid);
+    fclose(f);
+}
+
 void WorldModel::DumpMap(const char* path, float cx, float cy, int radius) const
 {
     FILE* f = fopen(path, "w");
@@ -1065,8 +1097,9 @@ bool WorldModel::LowWallAt(int ix, int iy)
     {
         return false;
     }
-    // a low building, hedge or wall: the block itself has walls on its faces (the roofs, from height 3, are BuildingAt's)
-    if (((b->field_0_left | b->field_2_right | b->field_4_top | b->field_6_bottom) & 0x400) != 0 && !IsWaterBlock(b))
+    // a low building, hedge or wall: the block itself has walls on its faces (the roofs, from height 3, are BuildingAt's).
+    // Not on a slope: the wall faces of a ramp are its side rails, and a car or a pedestrian goes up along the ramp
+    if ((b->field_B_slope_type >> 2) == 0 && ((b->field_0_left | b->field_2_right | b->field_4_top | b->field_6_bottom) & 0x400) != 0 && !IsWaterBlock(b))
     {
         return true;
     }

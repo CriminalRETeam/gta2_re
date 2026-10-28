@@ -1021,6 +1021,8 @@ void Bot::StepActions()
         char path[MAX_PATH];
         BotPath_Join(path, sizeof(path), mOpts.out_dir, "bot_map.txt");
         mWorld->DumpMap(path, mOpts.map_dump_x, mOpts.map_dump_y, 24);
+        BotPath_Join(path, sizeof(path), mOpts.out_dir, "bot_slopes.txt");
+        mWorld->DumpSlopes(path);
         BotPath_Join(path, sizeof(path), mOpts.out_dir, "bot_tiles.txt");
         mWorld->DumpTiles(path, static_cast<int>(mOpts.map_dump_x), static_cast<int>(mOpts.map_dump_y));
         if (mRoad && mOpts.has_goto)

@@ -703,6 +703,9 @@ void TravelGoal::Decided(BotContext& ctx)
     BeginStage(ctx, Walk);
 }
 
+// A drive that ends this many tiles beyond its own stop distance did not get there
+static const float kStoppedShort = 6.0f;
+
 Action::Status TravelGoal::Step(BotContext& ctx)
 {
     const WorldModel::PlayerInfo& pl = ctx.world->player;
@@ -886,10 +889,11 @@ Action::Status TravelGoal::Step(BotContext& ctx)
                 mWalkOnly = true;
                 mWalkOnlyUntil = ctx.frame + 900;
             }
-            else if (mKeepCar)
+            else if (mKeepCar && Remaining(*ctx.world) <= (mArrive > 6.0f ? mArrive : 6.0f) + kStoppedShort)
             {
                 return Done;
             }
+            // (a drive that stopped further off than that is as near as the roads go from this car: out, and on)
             BeginStage(ctx, Dismount);
             return Running;
         case Dismount:

@@ -15,6 +15,9 @@
 #include <string.h>
 #include "BotCompat.hpp"
 
+static const float kFootMarkerStopDist = 4.0f; // tiles: where the car stops for a marker that wants the player on foot
+static const s32 kFootMarkerWait = 30;         // frames the script gets to react to the car before the player gets out
+
 MissionAction::MissionAction()
     : mMissionSnap(NULL)
     , mStepSnap(NULL)
@@ -340,8 +343,12 @@ Action::Status MissionAction::Step(BotContext& ctx)
         {
             // drive near, then park on the spot: a locate test is a small box round the arrow
             SequenceGoal* go = new SequenceGoal("drive_park");
-            go->Add(new DriveAction(arrow.x, arrow.y, 2.5f), false);
-            go->Add(new ParkAction(arrow.x, arrow.y, 0.3f), true);
+            // (a tutorial's markers, like its phone, are for the player on foot: stop short of it, no parking on top)
+            go->Add(new DriveAction(arrow.x, arrow.y, mTutorial ? kFootMarkerStopDist : 2.5f), false);
+            if (!mTutorial)
+            {
+                go->Add(new ParkAction(arrow.x, arrow.y, 0.3f), true);
+            }
             mChild = go;
         }
         else
@@ -372,16 +379,16 @@ Action::Status MissionAction::RunChild(BotContext& ctx)
     {
         // arrived: wait for the script to react, honking if it asked for that
         const size_t kl = strlen(mChildKey);
-        if (!mFootTried && !mHornParked && kl > 2 && strncmp(mChildKey, "go", 2) == 0 && mChildKey[kl - 1] == 'c' && pl.in_car && ctx.frame - mDoneFrame > 400)
+        if (!mFootTried && !mHornParked && kl > 2 && strncmp(mChildKey, "go", 2) == 0 && mChildKey[kl - 1] == 'c' && pl.in_car && ctx.frame - mDoneFrame > (mTutorial ? kFootMarkerWait : 400))
         {
-            // nothing happened for 400 frames at the marker with the car on it: some markers want the player himself. Out of the
+            // nothing happened for a while at the marker with the car on it: some markers want the player himself. Out of the
             // car and onto it on foot, once
             mFootTried = true;
             // the key stays: once the player is on foot the key of the arrow changes (",f") and the step becomes a walk onto it
             delete mChild;
             mChild = new ExitCarAction();
             mChildDone = false;
-            BotDecision("f=%d mission: nothing for 400 frames at the marker with the car on it: out, then on foot onto it", ctx.frame);
+            BotDecision("f=%d mission: nothing at the marker with the car by it: out, then on foot onto it", ctx.frame);
             ctx.action_start_frame = ctx.frame;
             mChild->Start(ctx);
             return Running;
