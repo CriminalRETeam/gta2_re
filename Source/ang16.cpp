@@ -1,5 +1,6 @@
 #include "ang16.hpp"
 #include "Function.hpp"
+#include "map_0x370.hpp"
 #include <cmath>
 
 DEFINE_GLOBAL_INIT(Ang16, kAng45_6F677C, Ang16(0xB4), 0x6F677C);
@@ -104,16 +105,17 @@ Ang16 Ang16::Fix16_To_Ang16_482740(const Fix16& value)
     return Ang16(value.mValue / 71, 0);
 }
 
+// The road_direction the angle faces: the inverse of ReturnAngleFromRoadDirection_4F7940.
 MATCH_FUNC(0x4F78F0)
 s32 __stdcall Ang16::GetAngleFace_4F78F0(const Ang16& angle)
 {
-    if (angle <= kAng45_6F677C || angle > kAng315_6F680C) //  45° and 315°
+    if (angle <= kAng45_6F677C || angle > kAng315_6F680C)
     {
-        return 2; //  North
+        return road_direction::down_2;
     }
-    if (angle < kAng135_6F6800) // kAng135_6F6800 = 135°
+    if (angle < kAng135_6F6800)
     {
-        return 3; //  East
+        return road_direction::right_3;
     }
-    return angle < kAng225_6F67DC ? 1 : 4; // kAng225_6F67DC = 225°  ,  1 = South, 4 = West
+    return angle < kAng225_6F67DC ? road_direction::up_1 : road_direction::left_4;
 }
