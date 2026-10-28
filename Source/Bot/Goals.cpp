@@ -643,6 +643,10 @@ void TravelGoal::BeginStage(BotContext& ctx, Stage st)
             mChild = new DriveAction(mX, mY, mArrive > 6.0f ? mArrive : 6.0f);
             break;
         case Dismount:
+            if (ctx.world->player.in_car)
+            {
+                mCarId = ctx.world->player.car_id; // banned after the exit: the car we leave is not to be taken again for this trip
+            }
             mChild = new ExitCarAction();
             break;
         case Walk:
@@ -689,6 +693,7 @@ void TravelGoal::Decided(BotContext& ctx)
     }
     if (pl.in_car)
     {
+        mCarId = pl.car_id; // the car we are really in (it may not be the one that was meant): it is the one to ban when we get out of it
         BotDecision("f=%d travel: in car #%d, %.0f tiles to (%.0f,%.0f)", ctx.frame, pl.car_id, remaining, mX, mY);
         BeginStage(ctx, remaining > mArrive + 6.0f ? Drive : Dismount);
         return;
