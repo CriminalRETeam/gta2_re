@@ -26,8 +26,8 @@ Door::Door()
     field_4_secondary_door_data = NULL;
     field_8_door_obj = NULL;
     field_C_trigger_obj = NULL;
-    field_20_open_type = 0;
-    field_24_close_type = 0;
+    field_20_open_type = door_open_type::none;
+    field_24_close_type = door_close_type::none;
     field_10_model_id = 0;
     field_18_unused = 0;
     field_28_bClosing = true;
@@ -412,7 +412,7 @@ void Door::UpdateAutoClose_49CD90()
     {
         if ((field_0_primary_door_data != NULL && field_0_primary_door_data->field_0_state == door_state::open_2) || (field_4_secondary_door_data != NULL && field_4_secondary_door_data->field_0_state == door_state::open_2))
         {
-            if (field_24_close_type != door_close_type::close_never && field_24_close_type != door_close_type::unknown1)
+            if (field_24_close_type != door_close_type::close_never && field_24_close_type != door_close_type::none)
             {
                 if (field_24_close_type == door_close_type::close_when_open_rule_fails && field_10_car_bc != NULL)
                 {

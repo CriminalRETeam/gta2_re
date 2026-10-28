@@ -14,7 +14,7 @@ namespace door_open_type
 {
 enum
 {
-    unknown1 = 0,
+    none = 0,
     any_player = 1,
     any_car = 2,
     one_car = 3,
@@ -28,7 +28,7 @@ namespace door_close_type
 {
 enum
 {
-    unknown1 = 0,
+    none = 0,
     close_time_delay = 1,
     close_when_clear = 2,
     close_never = 3,

@@ -265,7 +265,7 @@ inline bool IsDoorOpenWithoutAutoClose(Door* pDoor)
 {
     if (pDoor->IsOpen_44C860())
     {
-        if (pDoor->field_24_close_type == door_close_type::close_never || pDoor->field_24_close_type == door_close_type::unknown1)
+        if (pDoor->field_24_close_type == door_close_type::close_never || pDoor->field_24_close_type == door_close_type::none)
         {
             return true;
         }
