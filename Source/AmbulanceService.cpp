@@ -376,7 +376,7 @@ void AmbulanceTask::EvaluatePickupState_4FA9D0()
     }
     else if (field_1C_done)
     {
-        if (!field_4_paramedics_crew->field_24_phase)
+        if (field_4_paramedics_crew->field_24_phase == crew_phase::on_foot_0)
         {
             field_4_paramedics_crew->field_28_state = crew_state::clean_up_5;
             field_4_paramedics_crew->field_2C_ready = false;
