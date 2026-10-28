@@ -415,6 +415,56 @@ int main()
         }
         Check("a lane off the global route: on it within 5 tiles, then keeps to it", ok && worst < 0.9f, "the route wanders off the global one");
     }
+    // 7g. a right-angle turn with a building straight on past it: the route cuts across the corner (every combination of directions), so the
+    // nose does not swing into the building, and no vertex sits on the corner point itself
+    {
+        for (int combo = 0; combo < 8; combo++)
+        {
+            // legs: in along +x, +y, -x, -y (combos 0-3 turn one way, 4-7 the other)
+            const int in_dir = combo % 4;
+            const int turn = combo < 4 ? 1 : 3;
+            const int out_dir = (in_dir + turn) % 4;
+            static const int dxs[4] = {1, 0, -1, 0};
+            static const int dys[4] = {0, 1, 0, -1};
+            Grid g;
+            g.x0 = 0; g.y0 = 0; g.w = 60; g.h = 60;
+            g.cell.assign(g.w * g.h, 'B');
+            const int cx = 30, cy = 30; // the corner tile
+            for (int k = -12; k <= 0; k++) g.cell[(cy + dys[in_dir] * k) * g.w + (cx + dxs[in_dir] * k)] = 'F';
+            for (int k = 0; k <= 12; k++) g.cell[(cy + dys[out_dir] * k) * g.w + (cx + dxs[out_dir] * k)] = 'F';
+            std::vector<SteerCar> cars;
+            LocalPlanOut p;
+            const float sx = cx + 0.5f - dxs[in_dir] * 8.0f, sy = cy + 0.5f - dys[in_dir] * 8.0f;
+            const float gx = cx + 0.5f + dxs[out_dir] * 8.0f, gy = cy + 0.5f + dys[out_dir] * 8.0f;
+            const bool ok = LocalPlan_Find(World(g, cars, false), sx, sy, in_dir * 90.0f + 90.0f, gx, gy, &p);
+            bool on_corner = false;
+            for (int i = 0; i < p.count; i++)
+            {
+                if (fabsf(p.x[i] - (cx + 0.5f)) < 0.05f && fabsf(p.y[i] - (cy + 0.5f)) < 0.05f)
+                {
+                    on_corner = true;
+                }
+            }
+            // the inside corner of the turn (the corner of the building on the inside, diagonal from the corner tile): the route keeps its distance
+            const float ix = cx + 0.5f + (dxs[out_dir] - dxs[in_dir]) * 0.5f;
+            const float iy = cy + 0.5f + (dys[out_dir] - dys[in_dir]) * 0.5f;
+            float least = 1e9f;
+            for (int i = 0; i + 1 < p.count; i++)
+            {
+                for (float t = 0.0f; t <= 1.0f; t += 0.05f)
+                {
+                    const float qx = p.x[i] + (p.x[i + 1] - p.x[i]) * t - ix;
+                    const float qy = p.y[i] + (p.y[i + 1] - p.y[i]) * t - iy;
+                    least = sqrtf(qx * qx + qy * qy) < least ? sqrtf(qx * qx + qy * qy) : least;
+                }
+            }
+            char name[100];
+            snprintf(name, sizeof(name), "corner turn %d: across the corner, not round its point", combo);
+            Check(name, ok && !on_corner && p.count >= 4, "a vertex on the corner point or no route");
+            snprintf(name, sizeof(name), "corner turn %d: as clear of the building corner on the inside as the corridor itself is", combo);
+            Check(name, ok && least >= 0.45f, "the route clips the inside corner");
+        }
+    }
     // 7e. the foot of a ramp with the route turning right at its top: the aim point stops at the top of the ramp, not past the corner
     {
         LocalPlanOut p;

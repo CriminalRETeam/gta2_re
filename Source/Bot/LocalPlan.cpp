@@ -203,6 +203,36 @@ bool LineOpen(const LocalPlanWorld& w, int x0, int y0, float ax, float ay, float
     return true;
 }
 
+// Is the tile (window coordinates x0, y0 added) closed, or off the window?
+bool TileClosed(int x0, int y0, int tx, int ty)
+{
+    const int cx = tx - x0;
+    const int cy = ty - y0;
+    return cx < 0 || cy < 0 || cx >= kW || cy >= kH || sBlocked[cy * kW + cx] != 0;
+}
+
+// A chord across a corner: its end points and its middle are on tiles that are open (not closed, no moving car over them) and not on a
+// ramp or the approach to one. Beside a wall is fine: the corner is where the way turns, and the point of cutting it is the wall straight on
+bool ChordOpen(const LocalPlanWorld& w, int x0, int y0, float ax, float ay, float bx, float by)
+{
+    for (int k = 0; k <= 2; k++)
+    {
+        const float px = ax + (bx - ax) * 0.5f * k;
+        const float py = ay + (by - ay) * 0.5f * k;
+        const int cx = static_cast<int>(px) - x0;
+        const int cy = static_cast<int>(py) - y0;
+        if (cx < 0 || cy < 0 || cx >= kW || cy >= kH || sBlocked[cy * kW + cx] || sOcc[cy * kW + cx] || sExtra[cy * kW + cx] >= 40.0f)
+        {
+            return false;
+        }
+        if (w.ramp_zone && w.ramp_zone(w.user, px, py))
+        {
+            return false;
+        }
+    }
+    return true;
+}
+
 struct PlanCtx
 {
     const LocalPlanWorld* w;
@@ -591,6 +621,87 @@ bool LocalPlan_Find(const LocalPlanWorld& w, float sx, float sy, float heading_d
         out->x[n] = px[cur];
         out->y[n] = py[cur];
         n++;
+    }
+    // A right-angle turn between two legs is taken across the corner, not round the corner point: from half a tile before it to half a
+    // tile after it. The car's nose swings wide in a turn, and the point itself is half a tile from whatever is straight on past it
+    // (a building where the way turns, the top of a ramp): the chord keeps the nose off it, for every pair of directions
+    {
+        float cx_[kLocalPlanMax];
+        float cy_[kLocalPlanMax];
+        int cn = 0;
+        cx_[cn] = out->x[0];
+        cy_[cn] = out->y[0];
+        cn++;
+        for (int i = 1; i < n; i++)
+        {
+            bool chord = false;
+            if (i + 1 < n && cn + 2 < kLocalPlanMax - 1)
+            {
+                const float ax_ = out->x[i] - out->x[i - 1];
+                const float ay_ = out->y[i] - out->y[i - 1];
+                const float bx_ = out->x[i + 1] - out->x[i];
+                const float by_ = out->y[i + 1] - out->y[i];
+                const float la = sqrtf(ax_ * ax_ + ay_ * ay_);
+                const float lb = sqrtf(bx_ * bx_ + by_ * by_);
+                if (la >= 1.0f && lb >= 1.0f && fabsf(ax_ * bx_ + ay_ * by_) < 0.2f * la * lb)
+                {
+                    // the leg directions as unit steps (a in, b out)
+                    const float ux = ax_ / la;
+                    const float uy = ay_ / la;
+                    const float vx = bx_ / lb;
+                    const float vy = by_ / lb;
+                    const int tcx = static_cast<int>(out->x[i]);
+                    const int tcy = static_cast<int>(out->y[i]);
+                    const int sux = ux > 0.5f ? 1 : (ux < -0.5f ? -1 : 0);
+                    const int suy = uy > 0.5f ? 1 : (uy < -0.5f ? -1 : 0);
+                    const int svx = vx > 0.5f ? 1 : (vx < -0.5f ? -1 : 0);
+                    const int svy = vy > 0.5f ? 1 : (vy < -0.5f ? -1 : 0);
+                    // solid straight on past the corner (the way turns into a building's face): the nose of a turn must not swing into
+                    // it. The inside of the turn (the diagonal tile on the side it turns to) may be solid too, a building corner the
+                    // chord must not clip, so then the cut is shallower: through a point between the corner and the chord's middle
+                    const bool solid_ahead = TileClosed(x0, y0, tcx + sux, tcy + suy);
+                    const bool solid_inside = TileClosed(x0, y0, tcx + svx - sux, tcy + svy - suy);
+                    if (solid_ahead)
+                    {
+                        const float depth = solid_inside ? 0.1f : 0.25f; // of the corner's step, towards the inside
+                        const float c1x = out->x[i] - ux * 0.5f;
+                        const float c1y = out->y[i] - uy * 0.5f;
+                        const float mx = out->x[i] + (vx - ux) * depth;
+                        const float my = out->y[i] + (vy - uy) * depth;
+                        const float c2x = out->x[i] + vx * 0.5f;
+                        const float c2y = out->y[i] + vy * 0.5f;
+                        if (cn + 3 < kLocalPlanMax - 1 && ChordOpen(w, x0, y0, c1x, c1y, c2x, c2y))
+                        {
+                            cx_[cn] = c1x;
+                            cy_[cn] = c1y;
+                            cn++;
+                            if (solid_inside)
+                            {
+                                cx_[cn] = mx;
+                                cy_[cn] = my;
+                                cn++;
+                            }
+                            cx_[cn] = c2x;
+                            cy_[cn] = c2y;
+                            cn++;
+                            chord = true;
+                        }
+                    }
+                }
+            }
+            if (!chord && cn < kLocalPlanMax)
+            {
+                cx_[cn] = out->x[i];
+                cy_[cn] = out->y[i];
+                cn++;
+            }
+        }
+        for (int i = 0; i < cn; i++)
+        {
+            out->x[i] = cx_[i];
+            out->y[i] = cy_[i];
+        }
+        n = cn;
     }
     out->count = n;
     out->length = 0.0f;
