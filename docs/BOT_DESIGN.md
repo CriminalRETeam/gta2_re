@@ -701,3 +701,49 @@ Secret tokens are a standing second goal: `Goals_WantedToken` (no wanted level, 
 between missions (60 tiles, as a `fetch_token` side goal of `MissionsGoal`). One spawns at the end of the tutorial.
 
 `RESET` log lines count the stuck-driven rewinds; `regress.py` and `drive_bench.py` fail a run that needed one.
+
+## One square-grid router (GridRoute) and what sits on it
+
+All the bot's route planning is one search now, `Source/Bot/GridRoute.cpp`: an A\* over a grid of tiles that moves one tile
+up, right, down or left at a time, with a cost for every turn (2.5 for a right angle, 10 for turning right round). The state
+is a tile and the way it was entered. Routes come out as long straight legs joined by right angles, block by block, the way a
+driver goes, and not as diagonal cuts over kerbs (GTA2's roads, kerbs and walls all run along the tile axes). The world comes
+in through one callback, `step(x, y, dir, g)`: the extra cost of the step (negative: no way), and `g`, how far the route has
+gone, which is how long until we are at that tile. Native test: `Scripts/bot/sim/grid_route_sim.cpp` (open ground is one L,
+the gap in a wall is used, the right lane is kept, a car on the road is gone round, a car that has gone by the time we get
+there is not, a shut-in goal ends at the nearest tile, a 400 tile maze is found).
+
+- **The whole-map car route (`NavCar`)** is a `GridRoute` over the 256 x 256 map with no effort cap worth the name: roads and
+  pavements cost the same, open ground a little more, a lane's arrows (with: cheaper, against: 3 tiles dearer, so a car keeps
+  to its side), room beside walls, stopped cars (jams). Its waypoints are the corners of the square route.
+- **The detailed route (`LocalPlan`)** is a `GridRoute` over the 64 x 64 window round the car and the point 24 tiles along the
+  global route. Standing cars are very dear tiles. A *moving* car is checked against time: its box is projected 0 to 90
+  frames on in steps of 10, each tile gets a bit per step in which it is under a car, and the search looks at the bit for the
+  frame it will be there (`g / our speed`). It is planned afresh every 15 frames, so the plan follows the traffic. The route
+  keeps to the global route (a cost for tiles away from it: the car joins it at once and the same corner is chosen every
+  time) and is pulled straight where there is room before it is followed (a 90 degree jog would have the wheel hunting).
+  The overlay draws the square tiles (cyan), the pulled line (lime), the tiles moving cars will be over (red) and the tiles
+  of standing cars (orange).
+- **The drive** drops waypoints the car is already past (`LocalPlan_RouteProgress`: the route jogs aside and back, the car goes
+  straight on), and counts getting nearer the waypoint as progress, not only reaching it: the legs are long now and a leg
+  through traffic can take more than the 600 frames the stuck rule allows.
+- **On foot**, `NavFoot` keeps the game's own step test and adds `WalkRoute_TerrainCost`: a road tile costs 0.8 of a tile
+  more, so the walker keeps to pavements and crosses a road where it must.
+
+### Stuck in a jam, and taking cars
+
+- `JamSwitch` (native test `jam_switch_sim`): standing still behind a stopped car for 90 frames, a car close ahead that is
+  faster and at least 1500 damage points less damaged is taken instead (not police, locked or mission cars; an empty car
+  before one with a driver). `DriveAction::SetJamSwitch` (on for a trip) fails with `jam_switch` and `car=<id>`;
+  `TravelGoal` gets out, bans the old car and takes that one. At most three swaps a trip.
+- `CarIntercept` (native test `car_intercept_sim`): a moving car with a driver drives off from anyone walking at it. The
+  walker stands on the car's line far enough ahead to be there first, faces it, and goes up to it when it has stopped
+  (traffic stops for a pedestrian in its lane). A car that drives off during the hop is got ahead of again, twice.
+
+### Seeing what the bot is doing
+
+- Every goal can say **why** (`Action::SetWhy`: "to the ringing phone, to take the mission", "get a car: to a secret token on the
+  way") and **what now** (`Action::Detail`: "to (98,246): getting a car"). The overlay lists the whole chain with both, and a
+  banner over the game view shows the innermost reason and state.
+- Speed buttons: slow (one logic frame in four), normal, fast (as many as can be run). While paused: step 1 or 10 frames, or
+  1 or 5 tiles of travel (about a route node), to watch a route being followed.
