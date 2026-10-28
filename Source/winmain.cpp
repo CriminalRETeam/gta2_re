@@ -518,7 +518,6 @@ EXPORT void __stdcall SetFullScreenMode_5D93A0()
 
     if (pVid_SetMode(gVidSys_7071D0, gHwnd_707F04, bcheckModeRet))
     {
-        // Gta2Error::FailedToSetFullscreenVideomode
         FatalError_4A38C0(Gta2Error::FailedToSetFullscreenVideomode, "C:\\Splitting\\Gta2\\Source\\video.cpp", 1365, bcheckModeRet);
     }
 
