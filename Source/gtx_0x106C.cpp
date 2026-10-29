@@ -439,21 +439,22 @@ void gtx_0x106C::load_delx_5AAB30(u32 delx_chunk_size)
     }
 }
 
-// https://decomp.me/scratch/vwSG1 TODO: fix this hack
 MATCH_FUNC(0x5AABF0)
 void gtx_0x106C::SetDeltaDataPtrs_5AABF0()
 {
     s32 size;
-    delta_entry* pEntry = static_cast<delta_entry*>(field_50_delta_buffer);
+    sprite_deltas* pEntry = static_cast<sprite_deltas*>(field_50_delta_buffer);
 
     for (u32 offset = 0; offset < static_cast<u32>(field_60_delta_len); offset += size)
     {
-        for (u32 delta_idx = 0; delta_idx < pEntry->field_2_delta_count; delta_idx++)
+        for (u32 delta_idx = 0; delta_idx < pEntry->field_2_count; delta_idx++)
         {
-            *reinterpret_cast<u32*>(&pEntry->field_4_delta[4 * delta_idx]) += *reinterpret_cast<u32*>(&field_48_delta_store); // TODO: fix me
+            // load_delx_5AAB30 left the delta's offset into the store in field_0_pData
+            pEntry->field_4_deltas[delta_idx].field_0_pData = reinterpret_cast<delta_store_entry*>(
+                reinterpret_cast<u32>(pEntry->field_4_deltas[delta_idx].field_0_pData) + reinterpret_cast<u32>(field_48_delta_store));
         }
-        size = 8 * pEntry->field_2_delta_count + 4;
-        pEntry = reinterpret_cast<delta_entry*>(reinterpret_cast<char_type*>(pEntry) + size);
+        size = 8 * pEntry->field_2_count + 4;
+        pEntry = reinterpret_cast<sprite_deltas*>(reinterpret_cast<u8*>(pEntry) + size);
     }
 }
 
