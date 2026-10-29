@@ -272,43 +272,44 @@ enum
 // static_assert(sizeof(palette_types_enum) == 4);
 } // namespace palette_types_enum
 
+// Masks of PedFlags32 (Ped::field_21C_bf). Unused, but removing the enum changes the DLLs (VC6 name table)
 namespace ped_bit_status_enum
 {
 enum
 {
-    k_ped_0x00000001 = 0x00000001,
-    k_ped_0x00000002 = 0x00000002,
-    k_ped_0x00000004 = 0x00000004,
-    k_ped_0x00000008 = 0x00000008,
-    k_ped_0x00000010 = 0x00000010,
-    k_ped_0x00000020 = 0x00000020,
-    k_ped_0x00000040 = 0x00000040,
-    k_ped_0x00000080 = 0x00000080,
-    k_ped_0x00000100 = 0x00000100,
-    k_ped_0x00000200 = 0x00000200,
-    k_ped_0x00000400 = 0x00000400,
-    k_ped_has_weapon = 0x00000800,
-    k_ped_0x00001000 = 0x00001000,
-    k_ped_0x00002000 = 0x00002000,
-    k_ped_0x00004000 = 0x00004000,
-    k_ped_0x00008000 = 0x00008000,
-    k_ped_0x00010000 = 0x00010000,
-    k_ped_0x00020000 = 0x00020000,
-    k_ped_0x00040000 = 0x00040000,
-    k_ped_0x00080000 = 0x00080000,
-    k_ped_0x00100000 = 0x00100000,
-    k_ped_0x00200000 = 0x00200000,
-    k_ped_0x00400000 = 0x00400000,
-    k_ped_0x00800000 = 0x00800000,
-    k_ped_in_flames = 0x01000000,
+    k_ped_none = 0x00000000,
+    k_ped_active = 0x00000001,
+    k_ped_unused1 = 0x00000002,
+    k_ped_panicking = 0x00000004,
+    k_ped_drive_aggressively = 0x00000008,
+    k_ped_stay_in_car = 0x00000010,
+    k_ped_busted = 0x00000020,
+    k_ped_skip_car_search = 0x00000040,
+    k_ped_use_car_weapon = 0x00000080,
+    k_ped_hit_by_attacker = 0x00000100,
+    k_ped_no_weapon = 0x00000200,
+    k_ped_scheduled_for_removal = 0x00000400,
+    k_ped_attacking = 0x00000800,
+    k_ped_unused12 = 0x00001000,
+    k_ped_weapon_chosen = 0x00002000,
+    k_ped_in_path_list = 0x00004000,
+    k_ped_flag15 = 0x00008000,
+    k_ped_flag16 = 0x00010000,
+    k_ped_flag17 = 0x00020000,
+    k_ped_unused18 = 0x00040000,
+    k_ped_flag19 = 0x00080000,
+    k_ped_unused20 = 0x00100000,
+    k_ped_unused21 = 0x00200000,
+    k_ped_flag22 = 0x00400000,
+    k_ped_spotted_player = 0x00800000,
+    k_ped_on_fire = 0x01000000,
     k_ped_invisible = 0x02000000,
-    k_ped_0x04000000 = 0x04000000,
-    k_ped_0x08000000 = 0x08000000,
-    k_ped_0x10000000 = 0x10000000,
-    k_ped_0x20000000 = 0x20000000,
-    k_ped_0x40000000 = 0x40000000,
-    k_ped_electro_fingers = 0x40000000,
-    k_ped_0x80000000 = 0x80000000,
+    k_ped_electro_fingers = 0x04000000,
+    k_ped_left_vehicle = 0x08000000,
+    k_ped_armed_gang_member = 0x10000000,
+    k_ped_forced_out_of_taxi = 0x20000000,
+    k_ped_unused30 = 0x40000000,
+    k_ped_unused31 = 0x80000000,
 };
 // static_assert(sizeof(ped_bit_status_enum) == 0x4);
 } // namespace ped_bit_status_enum
@@ -472,7 +473,7 @@ enum
     knocked_down_25 = 25, // 25 goes to lying_on_floor_22,
     knocked_fatal_26 = 26, // and 26 kills the ped
     electrocuted_27 = 27,
-    Unknown_28 = 28,
+    initial_28 = 28, // start value (Char constructor and PoolAllocate, Ped::Reset_45AFC0), no state change sets it
     ped2_respawned_29 = 29, // Ped::RespawnPed_45C350; a player in it has its wanted level cleared
     Unknown_30 = 30,
 };
@@ -826,7 +827,7 @@ enum
     flee_char_any_means_always_5 = 5,
     flee_char_always_once_car_stopped_6 = 6,
     run_to_char_7 = 7,
-    objective_8 = 8,
+    left_behind_by_leader_8 = 8, // group member with no seat in the leader's car, rejoins him once he is on foot within 8 blocks
     follow_char_9 = 9,
     follow_char_in_car_10 = 10,
     objective_11 = 11,
@@ -836,7 +837,7 @@ enum
     follow_path_points_15 = 15,
     goto_char_on_foot_16 = 16,
     walk_to_point_17 = 17,
-    objective_18 = 18,
+    walk_to_car_door_18 = 18, // group member walks to a door of the car the leader is getting into, then stops
     kill_char_any_means_19 = 19,
     kill_char_on_foot_20 = 20,
     kill_car_21 = 21,
@@ -869,7 +870,7 @@ enum
     crossing_road_48 = 48,
     wait_after_crossing_49 = 49,
     dead_no_ambulance_50 = 50,
-    objective_51 = 51,
+    wander_until_timeout_51 = 51, // fails when the objective timer runs out (police crew searching on foot, 200 ticks)
     chase_char_in_car_52 = 52,
     objective_53 = 53,
     call_police_car_54 = 54,
@@ -901,7 +902,7 @@ namespace ped_type
 {
 enum
 {
-    unknown_0 = 0,
+    none_0 = 0, // Car::field_7C_ped_type before a driver sets it (Car constructor)
     unknown_1 = 1,
     player_2 = 2,
     dummy_3 = 3,

@@ -2576,7 +2576,7 @@ void CC ImGuiDebugDraw()
                         {
                             DisplayTextAtSprite("Obj 7", pPedIter->GetSprite_46DF50(), 0, 0);
                         }
-                        else if (pPedIter->field_258_objective == objectives_enum::objective_8)
+                        else if (pPedIter->field_258_objective == objectives_enum::left_behind_by_leader_8)
                         {
                             DisplayTextAtSprite("Obj 8", pPedIter->GetSprite_46DF50(), 0, 0);
                         }
@@ -2600,7 +2600,7 @@ void CC ImGuiDebugDraw()
                         {
                             DisplayTextAtSprite("Obj 17", pPedIter->GetSprite_46DF50(), 0, 0);
                         }
-                        else if (pPedIter->field_258_objective == objectives_enum::objective_18) 
+                        else if (pPedIter->field_258_objective == objectives_enum::walk_to_car_door_18) 
                         {
                             DisplayTextAtSprite("Obj 18", pPedIter->GetSprite_46DF50(), 0, 0);
                         }

@@ -243,7 +243,7 @@ Char::Char()
     field_5_remap = -1;
     field_6_unused = 0;
     field_8_ped_state_1 = 11;
-    field_C_ped_state_2 = ped_state_2::Unknown_28;
+    field_C_ped_state_2 = ped_state_2::initial_28;
     field_10_char_state = Char_B4_state::Interacting_Car_Door_36;
     field_14_target_rotation = kAng0_6FDB34;
     field_16_state_init_pending = false;
@@ -277,7 +277,7 @@ Char::Char()
     field_88_obj_2c.DestroyAllSprites_5A7010();
     field_8C_jump_base_z = kFP16Zero_6FD9E4;
     field_58_flags_bf.bFlag2 = false;
-    field_6C_animation_state = 18;
+    field_6C_animation_state = Char_Anim_state::Initial_18;
     field_70_frame_timer = 0;
     field_71_frame_delay = 0;
     field_90_fall_speed = kFP16Zero_6FD9E4;
@@ -330,7 +330,7 @@ void Char::PoolAllocate()
     field_5_remap = -1;
     field_6_unused = 0;
     field_8_ped_state_1 = 11;
-    field_C_ped_state_2 = ped_state_2::Unknown_28;
+    field_C_ped_state_2 = ped_state_2::initial_28;
     field_10_char_state = Char_B4_state::Interacting_Car_Door_36;
     field_14_target_rotation = kAng0_6FDB34;
     field_16_state_init_pending = false;
@@ -364,7 +364,7 @@ void Char::PoolAllocate()
     field_88_obj_2c.DestroyAllSprites_5A7010();
     field_8C_jump_base_z = kFP16Zero_6FD9E4;
     field_58_flags_bf.bFlag2 = false;
-    field_6C_animation_state = 18;
+    field_6C_animation_state = Char_Anim_state::Initial_18;
     field_70_frame_timer = 0;
     field_71_frame_delay = 0;
     field_90_fall_speed = kFP16Zero_6FD9E4;
@@ -1556,7 +1556,7 @@ void Char::UpdateAnimState_546360()
             newId = baseId + 157;
             break;
 
-        case Char_Anim_state::Electrocuted_Dead_21:
+        case Char_Anim_state::Charred_Corpse_21:
             newId = baseId + 155;
             break;
 
@@ -3647,7 +3647,7 @@ void Char::state_0_54DDF0()
                     case ROAD:
                     case FIELD:
                         if (field_7C_pPed->get_objective_403A80() == objectives_enum::no_obj_0 ||
-                            field_7C_pPed->get_objective_403A80() == objectives_enum::objective_8)
+                            field_7C_pPed->get_objective_403A80() == objectives_enum::left_behind_by_leader_8)
                         {
                             field_7C_pPed->SetObjective2_463830(objectives_enum::walk_to_point_17);
                         }
@@ -6193,7 +6193,7 @@ void Char::state_8_5520A0()
                     field_7C_pPed->Kill_46F9D0();
                     Set_F8_ped_state_1_433910(ped_state_1::dead_9);
                     field_C_ped_state_2 = ped_state_2::ped2_dead_15;
-                    field_6C_animation_state = Char_Anim_state::Electrocuted_Dead_21;
+                    field_6C_animation_state = Char_Anim_state::Charred_Corpse_21;
                     field_10_char_state = Char_B4_state::Walking_1;
                 }
 
@@ -6241,7 +6241,7 @@ void Char::state_9_552E90()
                 }
                 break;
             default:
-                if (field_6C_animation_state != Char_Anim_state::Electrocuted_Dead_21)
+                if (field_6C_animation_state != Char_Anim_state::Charred_Corpse_21)
                 {
                     rng = gRng_6F6784.get_int_4F7AE0(3);
 
@@ -6326,7 +6326,7 @@ void Char::state_9_552E90()
                 field_80_sprite_ptr->field_28_draw_layer = 6;
                 break;
             default:
-                if (field_6C_animation_state != Char_Anim_state::Electrocuted_Dead_21)
+                if (field_6C_animation_state != Char_Anim_state::Charred_Corpse_21)
                 {
                     rng = gRng_6F6784.get_int_4F7AE0(3);
                     switch (rng)
