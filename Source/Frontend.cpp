@@ -2375,12 +2375,13 @@ void Frontend::HandlePasswordTyping_4B8280()
         }
         else if (key_scan == 256)
         {
-            goto LABEL_27;
+            goto update_key_held;
         }
         else if (key_scan == DIK_SPACE)
         {
             ch = 32;
-        LABEL_12:
+        // shared with the typed-char path below: goto-free forms change the code
+        append_char:
             if (field_C9CA_password_length != 8)
             {
                 if (field_C9CB_wrong_password_shown)
@@ -2397,13 +2398,13 @@ void Frontend::HandlePasswordTyping_4B8280()
                 field_C9B8_password[field_C9CA_password_length++] = ch;
                 snd1_67D818.field_0_object_type = 7;
             }
-            goto LABEL_27;
+            goto update_key_held;
         }
         u16 key = gKeybrd_0x204_6F52F4->GetKey_4D5F40(key_scan);
         ch = key;
         if (GetCharWidth_4539D0(field_11C_normal_font, ch) >= 3 && ch)
         {
-            goto LABEL_12;
+            goto append_char;
         }
     }
     else
@@ -2419,7 +2420,7 @@ void Frontend::HandlePasswordTyping_4B8280()
         }
     }
 
-LABEL_27:
+update_key_held:
     if (key_scan == 256)
     {
         field_C9B3_key_held = false;
