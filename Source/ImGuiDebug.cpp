@@ -3229,7 +3229,7 @@ void CC ImGuiDebugDraw()
 
             HighScoreTable* pTable;
 
-            switch (table_type & 3)
+            switch (table_type)
             {
                 case 0:
                     pTable = &gPlyDat_6FEAC0->field_1890_stage_scores[main_stage_idx][stage_idx];
@@ -3240,7 +3240,7 @@ void CC ImGuiDebugDraw()
                 case 2:
                     pTable = &gPlyDat_6FEAC0->field_24C0_alt_scores;
                     break;
-                case 3:
+                default:
                     pTable = &gPlyDat_6FEAC0->field_25B0_merged_scores;
                     break;
             }
