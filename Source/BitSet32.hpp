@@ -74,7 +74,8 @@ class BitSet32
         m_var |= (1 << bit);
     }
 
-    // TODO: Find in 9.6f
+    // Unused, but removing it changes MapRenderer code (see the shared header names note in
+    // docs/matching_quirks.md)
     bool check_bit(s32 bit)
     {
         return (m_var & (1 << bit)) ? true : false;
