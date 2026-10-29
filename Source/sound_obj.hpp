@@ -206,7 +206,9 @@ class sound_obj
     s32 field_5440_unused;
     s32 field_5444_unused;
     u32 field_5448_m_FrameCounter;
-    SoundEntry field_544C[5]; // RadioStationEmitter instead of SoundEntry ?
+    // Really the vocals entry and RadioStationEmitter[5] at 0x5468 (to field_54F2[1]); the real members change
+    // ImGuiDebugDraw and the DLLs, see "declaration count" in docs/matching_quirks.md.
+    SoundEntry field_544C[5];
 
     // Radio emitters use indices 1..5
     inline RadioStationEmitter& RadioEmitter(s32 idx)
