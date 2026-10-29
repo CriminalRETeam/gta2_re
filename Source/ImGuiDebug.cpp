@@ -97,8 +97,8 @@ namespace ImGui
 {
 bool SliderS16(const char* label, s16* v, s16 v_min, s16 v_max)
 {
-    int value = static_cast<int>(*v);
-    bool result = ImGui::SliderInt(label, &value, static_cast<int>(v_min), static_cast<int>(v_max));
+    s32 value = static_cast<s32>(*v);
+    bool result = ImGui::SliderInt(label, &value, static_cast<s32>(v_min), static_cast<s32>(v_max));
     if (result)
     {
         *v = static_cast<s16>(value);
@@ -108,8 +108,8 @@ bool SliderS16(const char* label, s16* v, s16 v_min, s16 v_max)
 
 bool SliderU16(const char* label, u16* v, s16 v_min, s16 v_max)
 {
-    int value = static_cast<int>(*v);
-    bool result = ImGui::SliderInt(label, &value, static_cast<int>(v_min), static_cast<int>(v_max));
+    s32 value = static_cast<s32>(*v);
+    bool result = ImGui::SliderInt(label, &value, static_cast<s32>(v_min), static_cast<s32>(v_max));
     if (result)
     {
         *v = static_cast<u16>(value);
@@ -119,8 +119,8 @@ bool SliderU16(const char* label, u16* v, s16 v_min, s16 v_max)
 
 bool SliderS8(const char* label, char_type* v, char_type v_min, char_type v_max)
 {
-    int value = static_cast<int>(*v);
-    bool result = ImGui::SliderInt(label, &value, static_cast<int>(v_min), static_cast<int>(v_max));
+    s32 value = static_cast<s32>(*v);
+    bool result = ImGui::SliderInt(label, &value, static_cast<s32>(v_min), static_cast<s32>(v_max));
     if (result)
     {
         *v = static_cast<char_type>(value);
@@ -130,8 +130,8 @@ bool SliderS8(const char* label, char_type* v, char_type v_min, char_type v_max)
 
 bool SliderU8(const char* label, u8* v, u8 v_min, u8 v_max)
 {
-    int value = static_cast<int>(*v);
-    bool result = ImGui::SliderInt(label, &value, static_cast<int>(v_min), static_cast<int>(v_max));
+    s32 value = static_cast<s32>(*v);
+    bool result = ImGui::SliderInt(label, &value, static_cast<s32>(v_min), static_cast<s32>(v_max));
     if (result)
     {
         *v = static_cast<u8>(value);
@@ -139,33 +139,33 @@ bool SliderU8(const char* label, u8* v, u8 v_min, u8 v_max)
     return result;
 }
 
-bool Input_char_type(const char* label, char_type* v, int step, int step_fast, ImGuiInputTextFlags extra_flags = 0)
+bool Input_char_type(const char* label, char_type* v, s32 step, s32 step_fast, ImGuiInputTextFlags extra_flags = 0)
 {
-    int tmp = *v;
+    s32 tmp = *v;
     bool ret = ImGui::InputInt(label, &tmp, step, step_fast, extra_flags);
     *v = static_cast<char_type>(tmp);
     return ret;
 }
 
-bool InputU8(const char* label, u8* v, int step, int step_fast, ImGuiInputTextFlags extra_flags = 0)
+bool InputU8(const char* label, u8* v, s32 step, s32 step_fast, ImGuiInputTextFlags extra_flags = 0)
 {
-    int tmp = *v;
+    s32 tmp = *v;
     bool ret = ImGui::InputInt(label, &tmp, step, step_fast, extra_flags);
     *v = static_cast<u8>(tmp);
     return ret;
 }
 
-bool InputS16(const char* label, s16* v, int step, int step_fast, ImGuiInputTextFlags extra_flags = 0)
+bool InputS16(const char* label, s16* v, s32 step, s32 step_fast, ImGuiInputTextFlags extra_flags = 0)
 {
-    int tmp = *v;
+    s32 tmp = *v;
     bool ret = ImGui::InputInt(label, &tmp, step, step_fast, extra_flags);
     *v = static_cast<s16>(tmp);
     return ret;
 }
 
-bool InputU16(const char* label, u16* v, int step, int step_fast, ImGuiInputTextFlags extra_flags = 0)
+bool InputU16(const char* label, u16* v, s32 step, s32 step_fast, ImGuiInputTextFlags extra_flags = 0)
 {
-    int tmp = *v;
+    s32 tmp = *v;
     bool ret = ImGui::InputInt(label, &tmp, step, step_fast, extra_flags);
     *v = static_cast<u16>(tmp);
     return ret;
