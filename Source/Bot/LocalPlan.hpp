@@ -29,6 +29,12 @@ struct LocalPlanWorld
     // itself and not only one of the two tiles before it. A line over such a tile must run along the axis, in the middle of the tile.
     // May be NULL
     int (*ramp_zone)(void* user, float x, float y);
+    // the last ped_count of cars[] are pedestrians (the fine stage leaves them out when there is no way round them)
+    int ped_count;
+    // the route of the frame before (prev_n points; 0 for none), which the fine stage keeps near
+    const float* prev_x;
+    const float* prev_y;
+    int prev_n;
 };
 
 enum
@@ -55,11 +61,19 @@ struct LocalPlanOut
     int moving_count;
     short moving_x[96];
     short moving_y[96];
+    // the fine stage (FinePlan): 0 the tile route was kept, else the pass that planned round what was in the way (1 all, 2 no pedestrians, 3 cars dear)
+    int fine_pass;
 };
 
 // Plans from (sx, sy), facing heading_deg (0 is -Y, clockwise), to (gx, gy). The goal is moved to the nearest open tile if it
 // is closed
 bool LocalPlan_Find(const LocalPlanWorld& w, float sx, float sy, float heading_deg, float gx, float gy, LocalPlanOut* out);
+
+// The fine stage (FinePlan) on a tile route, from where the car is now: the route from the car on, with a path round what is in its way
+// (the cars' boxes swept over the next frames at the time we get there, walls, pedestrians) when something is. Cheap enough to run every frame, on
+// the same tile route (which is planned afresh only every few frames: planned every frame it moves with the car). w.prev_* is the route this
+// returned the frame before
+void LocalPlan_Fine(const LocalPlanWorld& w, const LocalPlanOut& tile, float x, float y, LocalPlanOut* out);
 
 // The point `look` tiles along the path from the place nearest to (x, y)
 void LocalPlan_AimPoint(const LocalPlanOut& p, float x, float y, float look, float* aim_x, float* aim_y);

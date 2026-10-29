@@ -1,4 +1,5 @@
 #include "LocalPlan.hpp"
+#include "FinePlan.hpp"
 #include "GridRoute.hpp"
 #include <math.h>
 #include <string.h>
@@ -863,6 +864,7 @@ bool LocalPlan_Find(const LocalPlanWorld& w, float sx, float sy, float heading_d
         }
         n = cn;
     }
+    out->fine_pass = 0;
     out->count = n;
     out->length = 0.0f;
     for (int i = 1; i < n; i++)
@@ -1102,4 +1104,91 @@ bool LocalPlan_CarInWayAt(const SteerCar& car, float px, float py, float frames,
     b.cx = car.x + car.vx * f;
     b.cy = car.y + car.vy * f;
     return SteerBox_Contains(b, px, py, own_hw + 0.1f);
+}
+
+void LocalPlan_Fine(const LocalPlanWorld& w, const LocalPlanOut& tile, float x, float y, LocalPlanOut* out)
+{
+    // the tile route from the car on: the car's place on it, then the nodes after
+    int seg = 0;
+    float best = 1e9f;
+    float qx = x;
+    float qy = y;
+    for (int i = 0; i + 1 < tile.count; i++)
+    {
+        const float ex = tile.x[i + 1] - tile.x[i];
+        const float ey = tile.y[i + 1] - tile.y[i];
+        const float el2 = ex * ex + ey * ey;
+        float t = el2 > 0.0001f ? ((x - tile.x[i]) * ex + (y - tile.y[i]) * ey) / el2 : 0.0f;
+        t = t < 0.0f ? 0.0f : (t > 1.0f ? 1.0f : t);
+        const float cx = tile.x[i] + ex * t - x;
+        const float cy = tile.y[i] + ey * t - y;
+        if (cx * cx + cy * cy < best)
+        {
+            best = cx * cx + cy * cy;
+            seg = i;
+        }
+    }
+    *out = tile;
+    out->fine_pass = 0;
+    if (!tile.found || tile.count < 2 || w.car_count <= 0)
+    {
+        return;
+    }
+    float px[kLocalPlanMax];
+    float py[kLocalPlanMax];
+    int pn = 0;
+    px[pn] = x;
+    py[pn] = y;
+    pn++;
+    for (int i = seg + 1; i < tile.count && pn < kLocalPlanMax; i++)
+    {
+        px[pn] = tile.x[i];
+        py[pn] = tile.y[i];
+        pn++;
+    }
+    (void)qx;
+    (void)qy;
+    FinePlanWorld fw;
+    fw.solid = w.solid;
+    fw.user = w.user;
+    fw.cars = w.cars;
+    fw.car_count = w.car_count;
+    fw.ped_count = w.ped_count;
+    fw.own_hl = w.own_hl;
+    fw.own_hw = w.own_hw;
+    fw.own_speed = w.own_speed;
+    fw.ramp_zone = w.ramp_zone;
+    fw.edge_ok = w.edge_ok;
+    fw.prev_x = w.prev_x;
+    fw.prev_y = w.prev_y;
+    fw.prev_n = w.prev_n;
+    float fx[kLocalPlanMax];
+    float fy[kLocalPlanMax];
+    int fn = 0;
+    const int pass = FinePlan_Refine(fw, px, py, pn, x, y, fx, fy, &fn, kLocalPlanMax);
+    if (pass >= 0 && fn >= 2)
+    {
+        for (int i = 0; i < fn; i++)
+        {
+            out->x[i] = fx[i];
+            out->y[i] = fy[i];
+        }
+        out->count = fn;
+        out->length = 0.0f;
+        for (int i = 1; i < fn; i++)
+        {
+            out->length += sqrtf((fx[i] - fx[i - 1]) * (fx[i] - fx[i - 1]) + (fy[i] - fy[i - 1]) * (fy[i] - fy[i - 1]));
+        }
+        out->fine_pass = pass + 1;
+    }
+    else
+    {
+        // nothing in the way (or no way round it): the tile route from the car on
+        for (int i = 0; i < pn; i++)
+        {
+            out->x[i] = px[i];
+            out->y[i] = py[i];
+        }
+        out->count = pn;
+    }
 }

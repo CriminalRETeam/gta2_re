@@ -323,6 +323,7 @@ set(gta2_bot_src
   Source/Bot/CarActions.cpp
   Source/Bot/DriveSteer.cpp
   Source/Bot/LocalPlan.cpp
+  Source/Bot/FinePlan.cpp
   Source/Bot/GridRoute.cpp
   Source/Bot/JamSwitch.cpp
   Source/Bot/CarIntercept.cpp

@@ -14,6 +14,7 @@
 
 static bool g_overtake = true;
 static bool g_local = false; // aim along the detailed A* route, as the game does
+static bool g_fine = false; // -fine: the fine stage every frame (experimental: it bumps in traffic and the wheel hunts, so the tests run without)
 static int g_trace_every = 10;
 static float kTraffic = 0.15f;
 static const float kCarHl = 0.56f; // every car in the sim, ours too: the game's own size, 1.1 tiles long and 0.66 wide
@@ -193,11 +194,13 @@ static Result Run(const Grid& g, float sx, float sy, float heading, const std::v
         SteerWorld w = {SolidCb, const_cast<Grid*>(&g), sc.empty() ? NULL : &sc[0], static_cast<int>(sc.size()), kCarHl + 0.25f, kCarHw + 0.25f};
         if (g_local)
         {
-            static LocalPlanOut lp;
+            static LocalPlanOut lp;   // what is driven: the tile route with the fine stage's way round what is in the way, every frame
+            static LocalPlanOut tile; // the tile route, planned every 60 frames or when it is no good
             static int next_plan = 0;
             if (f == 0)
             {
                 lp.found = false;
+                tile.found = false;
                 next_plan = 0;
             }
             LocalPlanWorld lw0;
@@ -208,13 +211,17 @@ static Result Run(const Grid& g, float sx, float sy, float heading, const std::v
             lw0.user = const_cast<Grid*>(&g);
             lw0.cars = sc.empty() ? NULL : &sc[0];
             lw0.car_count = static_cast<int>(sc.size());
+            lw0.ped_count = 0;
+    lw0.prev_x = 0;
+    lw0.prev_y = 0;
+    lw0.prev_n = 0;
             lw0.own_hl = kCarHl + 0.25f;
             lw0.own_hw = kCarHw + 0.25f;
-            lw0.own_speed = 0.12f;
+            lw0.own_speed = v; // (as the game: the speed now)
             lw0.route_x = 0;
             lw0.route_y = 0;
             lw0.route_n = 0;
-            if (f >= next_plan || !LocalPlan_StillGood(lw0, lp, x, y))
+            if (f >= next_plan || !LocalPlan_StillGood(lw0, tile, x, y))
             {
                 // 18 tiles along the route from where the car is
                 float wxs[64], wys[64];
@@ -233,20 +240,33 @@ static Result Run(const Grid& g, float sx, float sy, float heading, const std::v
                 lw.user = const_cast<Grid*>(&g);
                 lw.cars = sc.empty() ? NULL : &sc[0];
                 lw.car_count = static_cast<int>(sc.size());
+                lw.ped_count = 0;
+                lw.prev_x = 0;
+                lw.prev_y = 0;
+                lw.prev_n = 0;
                 lw.own_hl = kCarHl + 0.25f;
                 lw.own_hw = kCarHw + 0.25f;
                 lw.own_speed = 0.12f;
                 lw.route_x = rxs;
                 lw.route_y = rys;
                 lw.route_n = rn;
-                LocalPlan_Find(lw, x, y, h, tx, ty, &lp);
+                LocalPlan_Find(lw, x, y, h, tx, ty, &tile);
                 next_plan = f + 60;
                 if (trace)
                 {
-                    printf("  plan f=%d from (%.1f,%.1f) to (%.1f,%.1f): %d nodes:", f, x, y, tx, ty, lp.count);
-                    for (int q = 0; q < lp.count && q < 8; q++) printf(" (%.1f,%.1f)", lp.x[q], lp.y[q]);
+                    printf("  plan f=%d from (%.1f,%.1f) to (%.1f,%.1f): %d nodes:", f, x, y, tx, ty, tile.count);
+                    for (int q = 0; q < tile.count && q < 8; q++) printf(" (%.1f,%.1f)", tile.x[q], tile.y[q]);
                     printf("\n");
                 }
+            }
+            {
+                // every frame: the fine stage on the tile route, with the route of the frame before kept near (copied: it is written over)
+                float pvx[kLocalPlanMax], pvy[kLocalPlanMax];
+                lw0.prev_n = lp.found ? lp.count : 0;
+                for (int q = 0; q < lw0.prev_n; q++) { pvx[q] = lp.x[q]; pvy[q] = lp.y[q]; }
+                lw0.prev_x = pvx;
+                lw0.prev_y = pvy;
+                if (tile.found && g_fine) LocalPlan_Fine(lw0, tile, x, y, &lp); else lp = tile; // (the fine stage only with -fine: see below)
             }
             if (lp.found)
             {
@@ -395,6 +415,7 @@ int main(int argc, char** argv)
     if (argc > 1 && strcmp(argv[1], "-vv") == 0) g_trace_every = 1;
     for (int i = 1; i < argc; i++) if (strncmp(argv[i], "-traffic=", 9) == 0) kTraffic = static_cast<float>(atof(argv[i] + 9));
     for (int i = 1; i < argc; i++) if (strcmp(argv[i], "-local") == 0) g_local = true;
+    for (int i = 1; i < argc; i++) if (strcmp(argv[i], "-fine") == 0) g_fine = true;
     g_overtake = !(argc > 1 && strcmp(argv[argc - 1], "-noovertake") == 0); // to prove the tests can fail
     int fails = 0;
 

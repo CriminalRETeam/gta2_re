@@ -124,7 +124,8 @@ class DriveAction : public Action
     s32 mStillFrames;
     s32 mReverseUntil;
     float mReverseSteer;
-    LocalPlanOut mLocal; // the detailed route over the next 18 tiles
+    LocalPlanOut mTile;  // the tile route over the next 18 tiles, planned every few frames
+    LocalPlanOut mLocal; // the detailed route: the tile route from the car on with the fine stage's way round what is in the way, every frame
     s32 mLocalNext;
     float mPrevSteer;
     SteerDebug mSteerDebug; // the rollouts of the last choice, for the debug draw
