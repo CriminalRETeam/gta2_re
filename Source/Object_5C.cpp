@@ -217,10 +217,7 @@ void Object::PoolGive_522340()
 {
     if (field_20_pool_list_state == object_pool_state::out_of_pool_list_2)
     {
-        // TODO: Missing inline here
-        TObjectPool* pRoot = gObject_2C_Pool_6F8F80;
-        mpNext = pRoot->field_4_pPrev;
-        pRoot->field_4_pPrev = this;
+        gObject_2C_Pool_6F8F80->UpdateNextPrev(this);
         field_20_pool_list_state = object_pool_state::in_pool_list_1;
     }
 }
@@ -481,7 +478,7 @@ void Object::ResolveCollisionWithPed_5229B0(Char* pChar, Fix16_Point* pPoint, u8
     ped_impulse.x = kFpZero_6F8E10;
     ped_impulse.y = kFpZero_6F8E10;
 
-    HandleImpact_528E50(pChar->field_80_sprite_ptr); // TODO: sub_4338D0
+    HandleImpact_528E50(pChar->get_sprite_ptr_4338D0());
 }
 
 MATCH_FUNC(0x522b20)
