@@ -7283,7 +7283,6 @@ void sound_obj::InitMusicAndCopRadio_57E960()
     }
 }
 
-// TODO: need to rework field_544C or maybe using unions. https://decomp.me/scratch/zhKlS
 MATCH_FUNC(0x57EA10)
 void sound_obj::DeInitVocals_57EA10()
 {
@@ -7300,8 +7299,6 @@ void sound_obj::DeInitVocals_57EA10()
             --k2;
         } while (k2);
         
-        // TODO: use this loop instead of do..while (see decomp.me link):
-        /*
         for (u32 j = 5; j; j--)
         {
             RadioEmitter(j).field_0_bUsed = false;
@@ -7310,20 +7307,6 @@ void sound_obj::DeInitVocals_57EA10()
             RadioEmitter(j).field_14_elapsed_frames = 0;
             RadioEmitter(j).field_18_pos_ms = 0;
         }
-        */
-
-        u8* pIter = reinterpret_cast<u8*>(&field_54E8);
-        s32 k5 = 5;
-        do
-        {
-            *static_cast<u8*>(static_cast<u8*>(pIter) - 0x10) = 0;
-            *reinterpret_cast<u16*>(static_cast<u8*>(pIter) + 0) = 0;
-            *reinterpret_cast<u16*>(static_cast<u8*>(pIter) + 2) = 0;
-            *reinterpret_cast<u32*>(static_cast<u8*>(pIter) + 4) = 0;
-            *reinterpret_cast<u32*>(static_cast<u8*>(pIter) + 8) = 0;
-            pIter -= 0x1C;
-            --k5;
-        } while (k5);
 
         field_551C_fade_in_timer = 0;
         if (field_5508_radio_entity_idx)
