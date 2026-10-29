@@ -15,7 +15,7 @@ const float kHug = 0.6f;          // cost of a cell per tile it is off the tile 
 const float kCarSoft = 6.0f;      // pass 2: the cost of a cell inside a car's box
 const float kStick = 0.5f;        // cost of a cell per tile it is off the route of the frame before
 const float kCorridor = 2.5f;     // cells further than this from the tile route are not used: the fine route is a detour round a thing, not a new route
-const float kLead = 0.6f;         // a car's box is this much longer, fore and aft, for the plan: the sidestep round it has to start before it, not at it
+const float kLead = 0.3f;         // a car's box is this much longer, fore and aft, for the plan: the sidestep round it has to start before it, not at it
 const float kMaxFrames = 40.0f;   // how far ahead a moving car is taken to carry on
 
 unsigned char sSolid[kMaxCells * kMaxCells]; // 0 not known, 1 open, 2 solid
@@ -34,6 +34,7 @@ struct Ctx
     bool peds;
     bool soft;
     float r;     // how far from another box's edge our centre must stay
+    float sx, sy; // where the car is: the time to a cell is its distance from here over the speed (not the search's cost, which has the penalties in it)
     float extra; // more of it, for a plan that has to leave room for the car to cut a corner
     float speed;
 };
@@ -215,7 +216,8 @@ float Step(void* user, int x, int y, int dir, float g)
         return -1.0f;
     }
     float extra = 0.0f;
-    if (CarAt(c, px, py, Frames(c, g * kCell)))
+    (void)g;
+    if (CarAt(c, px, py, Frames(c, 1.1f * sqrtf((px - c.sx) * (px - c.sx) + (py - c.sy) * (py - c.sy)))))
     {
         if (!c.soft)
         {
@@ -411,66 +413,84 @@ bool DriveHits(const Ctx& c, const float* px, const float* py, int pn, float* hi
 
 namespace
 {
-// The sharp corners of a path rounded off: each is cut across by up to max_cut tiles (twice over), where the cut stays open (walls, and the cars
-// at the time), so the car, which cannot turn a right angle, drives what was planned and does not cut the corner on its own, into whatever is on its inside
+// The corners of a path as arcs: each turn of more than about 30 degrees is replaced by a quadratic curve from `d` tiles before the corner to `d` tiles
+// after it, with the corner as its control point, sampled at five points (the nodes of the car's arc, not one chord). `d` is up to max_cut (the
+// car's turning circle is 2 to 3 tiles) and is made shorter until every piece of the arc is open (walls, and the cars at the time); where
+// none is, the corner stays sharp. The car, which cannot turn a right angle, then drives what was planned and does not cut the corner on its own
 int RoundCorners(const Ctx& c, float* ox, float* oy, int n, int max_out, float max_cut)
 {
-    for (int round = 0; round < 2; round++)
+    static float rx_[kGridRouteMax];
+    static float ry_[kGridRouteMax];
+    int rn2 = 0;
+    rx_[rn2] = ox[0];
+    ry_[rn2] = oy[0];
+    rn2++;
+    float done = 0.0f;
+    for (int i = 1; i + 1 < n; i++)
     {
-        static float rx_[kGridRouteMax];
-        static float ry_[kGridRouteMax];
-        int rn2 = 0;
-        rx_[rn2] = ox[0];
-        ry_[rn2] = oy[0];
-        rn2++;
-        float done = 0.0f;
-        for (int i = 1; i + 1 < n; i++)
+        const float ux = ox[i] - ox[i - 1];
+        const float uy = oy[i] - oy[i - 1];
+        const float vx = ox[i + 1] - ox[i];
+        const float vy = oy[i + 1] - oy[i];
+        const float ul = sqrtf(ux * ux + uy * uy);
+        const float vl = sqrtf(vx * vx + vy * vy);
+        bool cut = false;
+        if (ul > 0.05f && vl > 0.05f && (ux * vx + uy * vy) / (ul * vl) < 0.85f && rn2 + 6 < max_out)
         {
-            const float ux = ox[i] - ox[i - 1];
-            const float uy = oy[i] - oy[i - 1];
-            const float vx = ox[i + 1] - ox[i];
-            const float vy = oy[i + 1] - oy[i];
-            const float ul = sqrtf(ux * ux + uy * uy);
-            const float vl = sqrtf(vx * vx + vy * vy);
-            bool cut = false;
-            if (ul > 0.05f && vl > 0.05f && (ux * vx + uy * vy) / (ul * vl) < 0.8f && rn2 + 2 < max_out)
+            const float k = (ul * 0.5f < vl * 0.5f ? ul * 0.5f : vl * 0.5f);
+            float d = k < max_cut ? k : max_cut;
+            for (int attempt = 0; attempt < 3 && !cut; attempt++, d *= 0.6f)
             {
-                const float k = (ul * 0.45f < vl * 0.45f ? ul * 0.45f : vl * 0.45f);
-                const float d = k < max_cut ? k : max_cut;
+                if (d < 0.3f)
+                {
+                    break;
+                }
                 const float c1x = ox[i] - ux / ul * d;
                 const float c1y = oy[i] - uy / ul * d;
                 const float c2x = ox[i] + vx / vl * d;
                 const float c2y = oy[i] + vy / vl * d;
-                if (LineOpen(c, c1x, c1y, ox[i], oy[i], done) && LineOpen(c, ox[i], oy[i], c2x, c2y, done) && LineOpen(c, c1x, c1y, c2x, c2y, done))
+                float bx[5];
+                float by[5];
+                bool open = true;
+                for (int q = 0; q < 5; q++)
                 {
-                    rx_[rn2] = c1x;
-                    ry_[rn2] = c1y;
-                    rn2++;
-                    rx_[rn2] = c2x;
-                    ry_[rn2] = c2y;
-                    rn2++;
+                    const float t = static_cast<float>(q) * 0.25f;
+                    bx[q] = (1.0f - t) * (1.0f - t) * c1x + 2.0f * (1.0f - t) * t * ox[i] + t * t * c2x;
+                    by[q] = (1.0f - t) * (1.0f - t) * c1y + 2.0f * (1.0f - t) * t * oy[i] + t * t * c2y;
+                    if (q > 0 && !LineOpen(c, bx[q - 1], by[q - 1], bx[q], by[q], done))
+                    {
+                        open = false;
+                    }
+                }
+                if (open && LineOpen(c, rx_[rn2 - 1], ry_[rn2 - 1], bx[0], by[0], done))
+                {
+                    for (int q = 0; q < 5; q++)
+                    {
+                        rx_[rn2] = bx[q];
+                        ry_[rn2] = by[q];
+                        rn2++;
+                    }
                     cut = true;
                 }
             }
-            if (!cut)
-            {
-                rx_[rn2] = ox[i];
-                ry_[rn2] = oy[i];
-                rn2++;
-            }
-            done += ul;
         }
-        rx_[rn2] = ox[n - 1];
-        ry_[rn2] = oy[n - 1];
-        rn2++;
-        for (int i = 0; i < rn2 && i < max_out; i++)
+        if (!cut)
         {
-            ox[i] = rx_[i];
-            oy[i] = ry_[i];
+            rx_[rn2] = ox[i];
+            ry_[rn2] = oy[i];
+            rn2++;
         }
-        n = rn2 < max_out ? rn2 : max_out;
+        done += ul;
     }
-    return n;
+    rx_[rn2] = ox[n - 1];
+    ry_[rn2] = oy[n - 1];
+    rn2++;
+    for (int i = 0; i < rn2 && i < max_out; i++)
+    {
+        ox[i] = rx_[i];
+        oy[i] = ry_[i];
+    }
+    return rn2 < max_out ? rn2 : max_out;
 }
 } // namespace
 
@@ -533,6 +553,8 @@ int FinePlan_Refine(const FinePlanWorld& w, const float* px, const float* py, in
     c.r = 0.5f * (w.own_hl + w.own_hw); // a disc for a car that is longer than it is wide (own_hl and own_hw are already with the driver's margin)
     c.speed = w.own_speed;
     c.extra = 0.0f;
+    c.sx = sx;
+    c.sy = sy;
     // (the window for the probe: the whole route, three tiles round)
     float minx = sx, maxx = sx, miny = sy, maxy = sy;
     for (int i = 0; i < pn; i++)
@@ -606,7 +628,7 @@ int FinePlan_Refine(const FinePlanWorld& w, const float* px, const float* py, in
         const int n0 = n;
         if (n >= 3)
         {
-            n = RoundCorners(c, rx, ry, n, kLocalCap < max_out ? kLocalCap : max_out, 1.5f);
+            n = RoundCorners(c, rx, ry, n, kLocalCap < max_out ? kLocalCap : max_out, 2.2f);
         }
         float hx = 0.0f;
         float hy = 0.0f;
@@ -831,7 +853,7 @@ int FinePlan_Refine(const FinePlanWorld& w, const float* px, const float* py, in
                 n++;
                 at = far_i;
             }
-            n = RoundCorners(c, ox, oy, n, max_out, 0.8f);
+            n = RoundCorners(c, ox, oy, n, max_out, 2.2f);
             if (n >= 2 && FollowsRoute(c, ox, oy, n))
             {
                 // and on from the goal along the tile route

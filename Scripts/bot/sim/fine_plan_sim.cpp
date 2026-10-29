@@ -299,6 +299,29 @@ int main()
         Check("(the test sees it) driving the raw tile route cuts the corner into the parked car", raw_hits);
         Check("driving the fine route, with the corner rounded round the car, does not touch it", pass >= 0 && !fine_hits);
     }
+    // 9. the corner of a route is an arc of several nodes, not a right angle (or two 45 degree bends): no turn between two pieces over 40 degrees
+    {
+        Street s = {0.0f, 40.0f};
+        std::vector<SteerCar> cars;
+        const float px[3] = {20.5f, 30.5f, 30.5f}, py[3] = {10.5f, 10.5f, 22.5f};
+        const int pass = FinePlan_Refine(World(&s, cars, 0), px, py, 3, 20.5f, 10.5f, ox, oy, &on, 64);
+        float worst = 0.0f;
+        for (int i = 1; i + 1 < on; i++)
+        {
+            const float ux = ox[i] - ox[i - 1], uy = oy[i] - oy[i - 1], vx = ox[i + 1] - ox[i], vy = oy[i + 1] - oy[i];
+            const float ul = sqrtf(ux * ux + uy * uy), vl = sqrtf(vx * vx + vy * vy);
+            if (ul > 0.01f && vl > 0.01f)
+            {
+                float cs = (ux * vx + uy * vy) / (ul * vl);
+                cs = cs > 1.0f ? 1.0f : (cs < -1.0f ? -1.0f : cs);
+                const float ang = acosf(cs) * 57.29578f;
+                worst = ang > worst ? ang : worst;
+            }
+        }
+        Check("the corner of a route is an arc of several nodes", pass == 0 && on >= 7);
+        Check("... and no bend of it is over 40 degrees (it was a 90 degree turn)", pass == 0 && worst <= 40.0f);
+        Check("... which still ends where the route does", on >= 2 && fabsf(ox[on - 1] - 30.5f) < 0.3f && fabsf(oy[on - 1] - 22.5f) < 0.3f);
+    }
     printf("%s\n", fails ? "FAILED" : "all passed");
     return fails ? 1 : 0;
 }

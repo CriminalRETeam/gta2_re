@@ -1106,6 +1106,58 @@ bool LocalPlan_CarInWayAt(const SteerCar& car, float px, float py, float frames,
     return SteerBox_Contains(b, px, py, own_hw + 0.1f);
 }
 
+namespace
+{
+// Where a point is on a polyline: the arc length of its nearest point, and how far off it is
+void PolylinePos(const float* lx, const float* ly, int n, float x, float y, float* pos, float* off)
+{
+    float best = 1e9f;
+    float run = 0.0f;
+    *pos = 0.0f;
+    for (int i = 0; i + 1 < n; i++)
+    {
+        const float ex = lx[i + 1] - lx[i];
+        const float ey = ly[i + 1] - ly[i];
+        const float el2 = ex * ex + ey * ey;
+        const float el = sqrtf(el2);
+        float t = el2 > 0.0001f ? ((x - lx[i]) * ex + (y - ly[i]) * ey) / el2 : 0.0f;
+        t = t < 0.0f ? 0.0f : (t > 1.0f ? 1.0f : t);
+        const float qx = lx[i] + ex * t - x;
+        const float qy = ly[i] + ey * t - y;
+        if (qx * qx + qy * qy < best)
+        {
+            best = qx * qx + qy * qy;
+            *pos = run + el * t;
+        }
+        run += el;
+    }
+    *off = sqrtf(best);
+}
+
+// The point `s` tiles along a polyline
+void PolylineAt(const float* lx, const float* ly, int n, float s, float* x, float* y)
+{
+    float run = 0.0f;
+    for (int i = 0; i + 1 < n; i++)
+    {
+        const float ex = lx[i + 1] - lx[i];
+        const float ey = ly[i + 1] - ly[i];
+        const float el = sqrtf(ex * ex + ey * ey);
+        if (s <= run + el || i + 2 == n)
+        {
+            const float t = el > 0.0001f ? (s - run) / el : 0.0f;
+            const float g = t < 0.0f ? 0.0f : (t > 1.0f ? 1.0f : t);
+            *x = lx[i] + ex * g;
+            *y = ly[i] + ey * g;
+            return;
+        }
+        run += el;
+    }
+    *x = lx[n - 1];
+    *y = ly[n - 1];
+}
+} // namespace
+
 void LocalPlan_Fine(const LocalPlanWorld& w, const LocalPlanOut& tile, float x, float y, LocalPlanOut* out)
 {
     // the tile route from the car on: the car's place on it, then the nodes after
@@ -1130,7 +1182,7 @@ void LocalPlan_Fine(const LocalPlanWorld& w, const LocalPlanOut& tile, float x, 
     }
     *out = tile;
     out->fine_pass = 0;
-    if (!tile.found || tile.count < 2 || w.car_count <= 0)
+    if (!tile.found || tile.count < 2)
     {
         return;
     }
@@ -1145,6 +1197,57 @@ void LocalPlan_Fine(const LocalPlanWorld& w, const LocalPlanOut& tile, float x, 
         px[pn] = tile.x[i];
         py[pn] = tile.y[i];
         pn++;
+    }
+    // The car is off the global route (the blue line) and the tile route is that route: it joins it at once, over a few tiles, with a node of its
+    // own on the line (the string-pull of the tile route lets a line a little off and parallel to the route stand, and then the car never gets on it)
+    if (w.route_n >= 2 && pn >= 2)
+    {
+        float cpos, coff;
+        PolylinePos(w.route_x, w.route_y, w.route_n, x, y, &cpos, &coff);
+        float tlen = 0.0f;
+        for (int i = 0; i + 1 < pn; i++)
+        {
+            tlen += sqrtf((px[i + 1] - px[i]) * (px[i + 1] - px[i]) + (py[i + 1] - py[i]) * (py[i + 1] - py[i]));
+        }
+        float far_x, far_y, far_off, far_pos;
+        PolylineAt(px, py, pn, tlen < 10.0f ? tlen : 10.0f, &far_x, &far_y);
+        PolylinePos(w.route_x, w.route_y, w.route_n, far_x, far_y, &far_pos, &far_off);
+        if (coff > 0.1f && coff < 3.0f && far_off < 0.8f)
+        {
+            float rlen = 0.0f;
+            for (int i = 0; i + 1 < w.route_n; i++)
+            {
+                rlen += sqrtf((w.route_x[i + 1] - w.route_x[i]) * (w.route_x[i + 1] - w.route_x[i]) + (w.route_y[i + 1] - w.route_y[i]) * (w.route_y[i + 1] - w.route_y[i]));
+            }
+            float join = 3.0f + coff * 2.0f;
+            join = join > 6.0f ? 6.0f : join;
+            const float at = cpos + join < rlen ? cpos + join : rlen;
+            int jn = 0;
+            float jx[kLocalPlanMax];
+            float jy[kLocalPlanMax];
+            jx[jn] = x;
+            jy[jn] = y;
+            jn++;
+            PolylineAt(w.route_x, w.route_y, w.route_n, at, &jx[jn], &jy[jn]);
+            jn++;
+            float run = 0.0f;
+            for (int i = 0; i + 1 < w.route_n && jn < kLocalPlanMax; i++)
+            {
+                run += sqrtf((w.route_x[i + 1] - w.route_x[i]) * (w.route_x[i + 1] - w.route_x[i]) + (w.route_y[i + 1] - w.route_y[i]) * (w.route_y[i + 1] - w.route_y[i]));
+                if (run > at + 0.01f)
+                {
+                    jx[jn] = w.route_x[i + 1];
+                    jy[jn] = w.route_y[i + 1];
+                    jn++;
+                }
+            }
+            for (int i = 0; i < jn; i++)
+            {
+                px[i] = jx[i];
+                py[i] = jy[i];
+            }
+            pn = jn;
+        }
     }
     (void)qx;
     (void)qy;

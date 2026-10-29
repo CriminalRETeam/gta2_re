@@ -545,11 +545,10 @@ int main(int argc, char** argv)
         cars.push_back(c2);
         const Result r = Run(g, 8.5f, 20.5f, 90.0f, wps, 3000, trace, cars);
         fails += Report("traffic at 0.15, cap 0.20: overtakes", r, 3);
-        // behind a car that does 0.15 the 140 tiles take 930 frames; going round, 700 to 780 with the arcs. On the grid path the planner leaves
-        // 0.6 tile more room fore and aft of a car (less and it bumps: 18 frames at 0.5), which costs a few frames: under 920, no bump
-        if (r.car_bumps > 0 || r.frames > (g_fine ? 920 : 850))
+        // behind a car that does 0.15 the 140 tiles take 930 frames; going round, 700 to 780
+        if (r.car_bumps > 0 || r.frames > 850)
         {
-            printf("   expected no bump and under %d frames: bumps %d frames %d\n", g_fine ? 920 : 850, r.car_bumps, r.frames);
+            printf("   expected no bump and under 850 frames: bumps %d frames %d\n", r.car_bumps, r.frames);
             fails++;
         }
     }

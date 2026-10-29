@@ -513,6 +513,41 @@ int main()
         const int left = DriveSteer_DropCarsNear(cs, 3, 60.5f, 60.0f, 2.0f);
         Check("a chase: the chased car is left out, the others stay", left == 2 && cs[0].x == 63.5f && cs[1].x == 80.0f);
     }
+    // 7i1. the car is 0.6 tile off the global route, and the tile route is a line from the car to the end of the route (parallel to it, a little off
+    // it): the fine stage joins the route within a few tiles, with a node on it (it was a line that never got there)
+    {
+        Grid g;
+        g.x0 = 0; g.y0 = 0; g.w = 80; g.h = 40;
+        g.cell.assign(g.w * g.h, 'B');
+        for (int y = 14; y < 26; y++) for (int x = 2; x < 78; x++) g.cell[y * g.w + x] = '>';
+        std::vector<SteerCar> cars;
+        LocalPlanWorld w = World(g, cars, false);
+        const float rx[2] = {20.5f, 60.5f}, ry[2] = {19.5f, 19.5f};
+        w.route_x = rx;
+        w.route_y = ry;
+        w.route_n = 2;
+        LocalPlanOut tile;
+        memset(&tile, 0, sizeof(tile));
+        tile.found = true;
+        tile.count = 2;
+        tile.x[0] = 20.5f; tile.y[0] = 20.1f; // the car, 0.6 below the route
+        tile.x[1] = 60.5f; tile.y[1] = 19.5f; // the end of the route: the line to it is 1.5 degrees off
+        LocalPlanOut fine;
+        LocalPlan_Fine(w, tile, 20.5f, 20.1f, &fine);
+        bool joined = false;
+        float at = 0.0f;
+        for (int i = 1; i < fine.count; i++)
+        {
+            if (fabsf(fine.y[i] - 19.5f) < 0.05f && fine.x[i] - 20.5f < 8.0f)
+            {
+                joined = true;
+                at = fine.x[i] - 20.5f;
+            }
+        }
+        char what[120];
+        sprintf(what, "a car 0.6 off the route: a node on the route within 8 tiles (%.1f)", at);
+        Check(what, joined);
+    }
     // 7i2. the straight-line pedestrian dodge: not while a detailed route exists (it goes round pedestrians itself), else a point beside him
     {
         struct S { static bool Solid(float, float) { return false; } };
