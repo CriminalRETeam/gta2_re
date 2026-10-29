@@ -2158,13 +2158,6 @@ void CC ImGuiDebugDraw()
                             }
                             
 
-                            /* Crash, for some reason
-                            if (ImGui::Button("Add TV Aerial"))
-                            {
-                                pPlayerCar->PutTV_Antenna_440BB0(); 
-                            }
-                            */
-
                             ImGui::End();
                             ImGui::TreePop();
                         }
