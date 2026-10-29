@@ -3040,7 +3040,8 @@ void Ped::CarThief_AI_45FF60()
             pCar = this->field_16C_car;
             if (!pCar)
             {
-                goto set_no_obj; // shared with flee_on_foot_till_safe_1
+                SetObjective(objectives_enum::no_obj_0, 40);
+                return;
             }
             if (pCar->IsDespawning_4215B0())
             {
@@ -3067,7 +3068,6 @@ void Ped::CarThief_AI_45FF60()
         case objectives_enum::flee_on_foot_till_safe_1:
             if (this->field_225_objective_status == objective_status::passed_1)
             {
-            set_no_obj:
                 SetObjective(objectives_enum::no_obj_0, 40);
             }
             return;
