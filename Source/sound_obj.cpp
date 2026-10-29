@@ -7069,7 +7069,7 @@ void sound_obj::UpdateVocalStream_57E510()
     {
         if (field_54F7_active_emitter_idx[1] < 5)
         {
-            // Radio emitters use indices 1..5
+            // Not RadioEmitter(): that inline call makes this function 16 bytes longer
             reinterpret_cast<RadioStationEmitter*>(field_544C)[field_54F7_active_emitter_idx[1] + 1].field_18_pos_ms = gSampManager_6FFF00.GetVocalPosMs_58E770(0);
         }
         gSampManager_6FFF00.CloseVocalStream_58E6A0(0);
@@ -7283,7 +7283,6 @@ void sound_obj::InitMusicAndCopRadio_57E960()
     }
 }
 
-// TODO: need to rework field_544C or maybe using unions. https://decomp.me/scratch/zhKlS
 MATCH_FUNC(0x57EA10)
 void sound_obj::DeInitVocals_57EA10()
 {
@@ -7300,8 +7299,6 @@ void sound_obj::DeInitVocals_57EA10()
             --k2;
         } while (k2);
         
-        // TODO: use this loop instead of do..while (see decomp.me link):
-        /*
         for (u32 j = 5; j; j--)
         {
             RadioEmitter(j).field_0_bUsed = false;
@@ -7310,20 +7307,6 @@ void sound_obj::DeInitVocals_57EA10()
             RadioEmitter(j).field_14_elapsed_frames = 0;
             RadioEmitter(j).field_18_pos_ms = 0;
         }
-        */
-
-        u8* pIter = reinterpret_cast<u8*>(&field_54E8);
-        s32 k5 = 5;
-        do
-        {
-            *static_cast<u8*>(static_cast<u8*>(pIter) - 0x10) = 0;
-            *reinterpret_cast<u16*>(static_cast<u8*>(pIter) + 0) = 0;
-            *reinterpret_cast<u16*>(static_cast<u8*>(pIter) + 2) = 0;
-            *reinterpret_cast<u32*>(static_cast<u8*>(pIter) + 4) = 0;
-            *reinterpret_cast<u32*>(static_cast<u8*>(pIter) + 8) = 0;
-            pIter -= 0x1C;
-            --k5;
-        } while (k5);
 
         field_551C_fade_in_timer = 0;
         if (field_5508_radio_entity_idx)
@@ -7594,6 +7577,7 @@ void sound_obj::SelectBestRadioEmitter_57EF60()
 MATCH_FUNC(0x57F050)
 u8 sound_obj::FindEmitterByStation_57F050(s32 station_idx) const
 {
+    // A const RadioEmitter() would add a declaration to sound_obj.hpp, which changes ImGuiDebugDraw
     for (u8 i = 0; i < 5; i++)
     {
         if (static_cast<u32>(reinterpret_cast<const RadioStationEmitter*>(field_544C)[i + 1].field_C_station_idx) == static_cast<u32>(station_idx))
