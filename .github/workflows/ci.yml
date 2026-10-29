@@ -215,6 +215,22 @@ jobs:
         python3 vc6_setup.py
         python3 build.py
 
+    - name: Extra checks on Linux
+      env:
+        # 1 fails the job on a difference not in Scripts/bin_comp/extra_checks_known.txt, 0 only reports it
+        EXTRA_CHECKS_BLOCKING: 0
+      run: |
+        source venv/bin/activate
+        cd Scripts/bin_comp
+        status=0
+        python3 run_extra_checks.py --github || status=$?
+        if [ $status -ge 2 ]; then
+          echo "::warning title=Extra checks::run_extra_checks.py failed (exit code $status), see the log"
+        fi
+        if [ "$EXTRA_CHECKS_BLOCKING" = 1 ]; then
+          exit $status
+        fi
+
     - name: Upload artifacts on Linux
       uses: actions/upload-artifact@v4
       with:

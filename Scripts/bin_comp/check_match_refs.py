@@ -15,14 +15,16 @@ against 10.5.exe's code before adding it there.
 
 Build addresses are mapped to original ones through build_vc6/output.map and new_data.json (globals by
 their DEFINE_GLOBAL address or _ADDRESS name suffix, functions by their marker); an address the build has
-no original for (strings, float constants, vtables, ...) is not checked.
+no original for (strings, float constants, vtables, ...) is not checked. An indexed access is mapped from the
+first entry its bounds checks let it reach (index_range), since `table[i - 0x80]` uses `table - 0x100`.
 
 Usage (from Scripts/bin_comp, after build.py): python3 check_match_refs.py [address ...]
 Exit code 1 when something differs.
 """
 import bisect, csv, json, re, struct, sys
 import compare_function, post_process_asm
-from iced_x86 import Decoder, FlowControl, Mnemonic, OpKind
+from iced_x86 import ConditionCode, Decoder, FlowControl, InstructionInfoFactory, MemorySizeExt, Mnemonic, OpAccess, \
+    OpKind, Register, RegisterExt
 
 ROOT = '../..'
 # Differences that do the same as 10.5.exe (reviewed by reading both)
@@ -170,6 +172,131 @@ def switch_map(pe, insns, k, start, size):
     return [entry(e) for e in range(n)]
 
 
+ENDS = (FlowControl.RETURN, FlowControl.UNCONDITIONAL_BRANCH, FlowControl.INDIRECT_BRANCH, FlowControl.EXCEPTION)
+NEGATE = {ConditionCode.B: ConditionCode.AE, ConditionCode.AE: ConditionCode.B, ConditionCode.A: ConditionCode.BE,
+          ConditionCode.BE: ConditionCode.A, ConditionCode.L: ConditionCode.GE, ConditionCode.GE: ConditionCode.L,
+          ConditionCode.G: ConditionCode.LE, ConditionCode.LE: ConditionCode.G, ConditionCode.E: ConditionCode.NE,
+          ConditionCode.NE: ConditionCode.E}
+WRITES = (OpAccess.WRITE, OpAccess.COND_WRITE, OpAccess.READ_WRITE, OpAccess.READ_COND_WRITE)
+U32 = 0xFFFFFFFF
+
+
+def predecessors(pe, insns, start, size):
+    """{instruction index: [(index of a jump to it, True)]} for the jumps inside the function, switches included,
+    or None when a switch reaches blocks that switch_map can't read."""
+    at = {i.ip: n for n, i in enumerate(insns)}
+    preds = {}
+    for n, i in enumerate(insns):
+        if i.flow_control in (FlowControl.CONDITIONAL_BRANCH, FlowControl.UNCONDITIONAL_BRANCH) and \
+                i.op0_kind == OpKind.NEAR_BRANCH32 and i.near_branch_target in at:
+            preds.setdefault(at[i.near_branch_target], []).append((n, True))
+        elif i.flow_control == FlowControl.INDIRECT_BRANCH:
+            blocks = switch_map(pe, insns, n, start, size) if i.op0_kind == OpKind.MEMORY else None
+            if not blocks or any(b is None or start + b not in at for b in blocks):
+                return None
+            for b in set(blocks):
+                preds.setdefault(at[start + b], []).append((n, True))
+    return preds
+
+
+def _bound(st, cc, imm, signed):
+    """st narrowed by `value cc imm`: st is (unsigned low, unsigned high, signed low, signed high)."""
+    ulo, uhi, slo, shi = st
+    if signed:
+        slo, shi = {ConditionCode.L: (slo, min(shi, imm - 1)), ConditionCode.LE: (slo, min(shi, imm)),
+                    ConditionCode.G: (max(slo, imm + 1), shi), ConditionCode.GE: (max(slo, imm), shi),
+                    ConditionCode.E: (max(slo, imm), min(shi, imm))}.get(cc, (slo, shi))
+    else:
+        ulo, uhi = {ConditionCode.B: (ulo, min(uhi, imm - 1)), ConditionCode.BE: (ulo, min(uhi, imm)),
+                    ConditionCode.A: (max(ulo, imm + 1), uhi), ConditionCode.AE: (max(ulo, imm), uhi),
+                    ConditionCode.E: (max(ulo, imm), min(uhi, imm))}.get(cc, (ulo, uhi))
+    return ulo, uhi, slo, shi
+
+
+def index_range(insns, k, preds):
+    """(lowest, highest) value of the base or index register of insns[k]'s memory operand, from the bounds checks
+    (`cmp reg, imm; jcc`, masks, zero extensions) on every path to it in the function, or None."""
+    x = insns[k]
+    regs = [r for r in (x.memory_base, x.memory_index) if r != Register.NONE]
+    if preds is None or len(regs) != 1:
+        return None
+    reg = RegisterExt.full_register32(regs[0])
+    info = InstructionInfoFactory()
+    budget = [256]
+
+    def writes(i):
+        if i.flow_control in (FlowControl.CALL, FlowControl.INDIRECT_CALL) and \
+                reg in (Register.EAX, Register.ECX, Register.EDX):
+            return True
+        return any(RegisterExt.full_register32(u.register) == reg and u.access in WRITES
+                   for u in info.info(i).used_registers())
+
+    def walk(n, st, zext, depth):
+        """The bounds on every path that reaches insns[n] with st already known after it, or None."""
+        if st[0] > st[1] or st[2] > st[3]:
+            return st  # a path no value takes
+        edges = list(preds.get(n, []))
+        if n > 0 and insns[n - 1].flow_control not in ENDS:
+            edges.append((n - 1, False))
+        budget[0] -= 1
+        if not edges or depth == 0 or budget[0] < 0:
+            return None if budget[0] < 0 else st
+        out = None
+        for p, taken in edges:
+            r = step(p, taken, st, zext, depth)
+            if r is None:
+                return None
+            if out is None or out[0] > out[1] or out[2] > out[3]:
+                out = r
+            elif r[0] <= r[1] and r[2] <= r[3]:
+                out = (min(out[0], r[0]), max(out[1], r[1]), min(out[2], r[2]), max(out[3], r[3]))
+        return out
+
+    def step(p, taken, st, zext, depth):
+        i = insns[p]
+        if i.flow_control == FlowControl.CONDITIONAL_BRANCH and p > 0 and not preds.get(p):
+            c = insns[p - 1]
+            if c.mnemonic == Mnemonic.CMP and c.op0_kind == OpKind.REGISTER and \
+                    RegisterExt.full_register32(c.op0_register) == reg and \
+                    c.op1_kind in (OpKind.IMMEDIATE8, OpKind.IMMEDIATE16, OpKind.IMMEDIATE32, OpKind.IMMEDIATE8TO32):
+                w = RegisterExt.size(c.op0_register) * 8
+                imm = c.immediate(1) & ((1 << w) - 1)
+                cc = i.condition_code if taken else NEGATE.get(i.condition_code)
+                if w == 32 and zext is None:
+                    st = _bound(_bound(st, cc, imm, False), cc, imm - (imm >> 31 << 32), True)
+                elif w == zext:
+                    st = _bound(st, cc, imm, False)
+        elif writes(i):
+            mask = None
+            if i.mnemonic == Mnemonic.AND and i.op0_kind == OpKind.REGISTER and i.op0_register == reg and \
+                    i.op1_kind in (OpKind.IMMEDIATE32, OpKind.IMMEDIATE8TO32):
+                mask = i.immediate(1) & U32
+            elif i.mnemonic == Mnemonic.MOVZX and i.op0_register == reg:
+                mask = (1 << 8 * (RegisterExt.size(i.op1_register) if i.op1_kind == OpKind.REGISTER else
+                                  MemorySizeExt.size(i.memory_size))) - 1
+            if mask is None:
+                return st
+            st = (st[0], min(st[1], mask), st[2], st[3])
+            same = i.mnemonic == Mnemonic.MOVZX and i.op1_kind == OpKind.REGISTER and \
+                RegisterExt.full_register32(i.op1_register) == reg or i.mnemonic == Mnemonic.AND
+            if zext is not None or not same or mask & (mask + 1):
+                return st
+            zext = mask.bit_length()
+        return walk(p, st, zext, depth - 1)
+
+    st = walk(k, (0, U32, -(1 << 31), (1 << 31) - 1), None, 32)
+    if st is None:
+        return None
+    ulo, uhi, slo, shi = st
+    if uhi < 1 << 31 or slo >= 0:
+        lo, hi = max(ulo, slo, 0), min(uhi, shi)
+    elif slo > -(1 << 31) and shi < (1 << 31) - 1:
+        lo, hi = slo, shi
+    else:
+        return None
+    return (lo, hi) if lo <= hi else None
+
+
 def block_sig(insns, start, off, mapaddr):
     """What the block at a function offset does, up to its ret/jmp: instructions with their absolute
     addresses as 10.5.exe ones (mapaddr) and jumps inside the function left out, to compare permuted blocks."""
@@ -231,7 +358,8 @@ def same_as_build(og, new, sizes, a, b):
     return pa == pb
 
 
-def main():
+def find_differences(only=()):
+    """(MATCH functions checked, [(name, original address, problems)]) for every MATCH function, or those in only."""
     nd, known = load()
     og, new = Pe(OG), Pe(NEW)
     sizes = {}
@@ -240,8 +368,7 @@ def main():
         if len(p) >= 4 and p[1].startswith('0x'):
             sizes[int(p[1], 16)] = (p[0], int(p[3], 16))
     known_sorted = sorted(known)
-    only = {int(a, 16) for a in sys.argv[1:]}
-    bad = 0
+    found = []
     checked = 0
     for f in nd['functions']:
         if f.get('func_status') != '0x1' or not f.get('og_addr', '?').startswith('0x'):
@@ -262,13 +389,22 @@ def main():
             if i >= 0 and known_sorted[i] == v:
                 return known[v]
             return v if not (na <= v < na + size) else ('f', v - na)
+        preds = []
         for k, (x, y) in enumerate(zip(a, b)):
             # absolute addresses in operands: memory displacements, immediates, call/jmp targets
             pairs = []
             for opn in range(x.op_count):
                 kx, ky = x.op_kind(opn), y.op_kind(opn)
                 if kx == OpKind.MEMORY and ky == OpKind.MEMORY and x.memory_base == 0 and y.memory_base == 0:
-                    pairs.append((x.memory_displacement, y.memory_displacement))
+                    xo, yo = x.memory_displacement, y.memory_displacement
+                    if x.memory_index != Register.NONE and xo != yo:
+                        if not preds:
+                            preds = [predecessors(og, a, oa, size), predecessors(new, b, na, size)]
+                        span = index_range(a, k, preds[0])
+                        if span and span == index_range(b, k, preds[1]):
+                            # the first entry the index reaches: the displacement can be biased (table - 0x100)
+                            xo, yo = xo + span[0] * x.memory_index_scale, yo + span[0] * x.memory_index_scale
+                    pairs.append((xo, yo))
                 elif kx == OpKind.IMMEDIATE32 and ky == OpKind.IMMEDIATE32:
                     pairs.append((x.immediate(opn), y.immediate(opn)))
                 elif kx == OpKind.NEAR_BRANCH32 and ky == OpKind.NEAR_BRANCH32 and x.flow_control == FlowControl.CALL:
@@ -306,12 +442,18 @@ def main():
                     problems.append('%x: switch index -> block (10.5/build) differs: %s' % (x.ip - oa, ', '.join(diff[:12])))
         problems = [p for p in problems if 'switch' in p or int(p.split(':')[0], 16) not in permuted]
         if problems:
-            bad += 1
-            print('%s (0x%x):' % (name, oa))
-            for p in problems[:10]:
-                print('   ' + p)
-    print('%d MATCH functions checked, %d differ' % (checked, bad))
-    sys.exit(1 if bad else 0)
+            found.append((name, oa, problems))
+    return checked, found
+
+
+def main():
+    checked, found = find_differences({int(a, 16) for a in sys.argv[1:]})
+    for name, oa, problems in found:
+        print('%s (0x%x):' % (name, oa))
+        for p in problems[:10]:
+            print('   ' + p)
+    print('%d MATCH functions checked, %d differ' % (checked, len(found)))
+    sys.exit(1 if found else 0)
 
 
 if __name__ == '__main__':

@@ -80,6 +80,18 @@ Its first run found eight such functions, among them swapped `<`/`>` in two scri
 (`ScriptThread::SCRCMD_I_OP_S_507110`) and two constants swapped between cases (`Char::sub_54C090`).
 Run it before promoting a function with a switch or similar-looking globals.
 
+**EH data, constants without an original address and global values aren't compared either.**
+`check_match_eh.py` compares the unwind map (which frame slot each EH state destroys, and with what),
+`check_match_consts.py` what float constants, strings, vtables, GUIDs and calls to unmarked functions hold,
+and `check_global_values.py` every global after static init (`run_extra_checks.py` runs them with
+`check_match_refs.py`). Their first run on master found, among others: 36 matched functions whose unwind
+map destroys other frame slots than 10.5.exe's (`Object::IntegrateMovementAndCollisions_523BF0` destroys
+`[ebp-0x14]`, `[ebp-0x1C]` where 10.5.exe destroys `[ebp-0x44]`, `[ebp-0x14]`): the destructor is the
+empty `Fix16_Point` one, so the game behaves the same, but locals or temporaries are declared or built in
+another order. Also `NetPlay::EnumAddress_cb_51E030` comparing `DPAID_INet` where 10.5.exe has
+`DPAID_Modem`, calls to `Fix16(s16)` where 10.5.exe calls `Fix16::FromU16_4AE970`, and `gFile_67C530`, a
+second object at the address of `gErrorLog_67C530`. `docs/verifier_gaps.md` has the full list.
+
 **Forward `jmp` targets inside the function are renamed too.** A `jmp` into the middle of another block
 (a cross-jump) shows as `jmp stable_name_N`, so a candidate that jumps into the *wrong* identical-looking
 block still scores 0. In `sound_obj::ProcessOtherObjects_41F520`, giving the fire case volume 85 made VC6
