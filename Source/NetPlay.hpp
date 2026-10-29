@@ -7,7 +7,7 @@
 #include <VC98/Include/DPLOBBY.H>
 #include <windows.h>
 
-struct naughty_sinoussi_0x800;
+struct NetPlayerBuffer_0x800;
 class Game;
 class NetUi;
 
@@ -288,7 +288,7 @@ struct NetPlay
     IDirectPlay3* field_5E4_pDPlay3;
     Network_Game_Session field_5E8_n1;
     Network_Game_Session field_758_n2;
-    naughty_sinoussi_0x800* field_8C8_not_used[MAX_PLAYERS];
+    NetPlayerBuffer_0x800* field_8C8_not_used[MAX_PLAYERS];
     s32 field_8E0_pSendDataBuffer; // 0x1800 of alloc size
     s32 field_8E4_pReceivedDataBuffer; // 0x1800 of alloc size
     s32 field_8E8_time;

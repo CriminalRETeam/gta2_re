@@ -64,7 +64,7 @@ NetPlay::NetPlay()
 
     for (s32 j = 0; j < MAX_PLAYERS; j++)
     {
-        field_8C8_not_used[j] = static_cast<naughty_sinoussi_0x800*>(operator new(0x800));
+        field_8C8_not_used[j] = static_cast<NetPlayerBuffer_0x800*>(operator new(0x800));
     }
 }
 
