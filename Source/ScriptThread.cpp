@@ -3319,18 +3319,18 @@ void ScriptThread::IsOnScreen_50A760()
 MATCH_FUNC(0x50a940)
 void ScriptThread::SCRCMD_DELAY_HERE_50A940()
 {
-    SCR_CMD_HEADER* pNextCmd = static_cast<SCR_CMD_HEADER*>(gBasePtr_6F8070) + 1; //  TODO: remove this hack
+    s16* pDelay = &reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070)->field_8_signed_1;
 
     if (static_cast<s16>(gBasePtr_6F8070->field_8_index) == -1)
     {
-        pNextCmd->field_0_cmd_this = static_cast<SCR_CMD_HEADER*>(gBasePtr_6F8070)[1].field_2_type;
+        *pDelay = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070)->field_A_unsigned_2;
     }
     else
     {
-        pNextCmd->field_0_cmd_this = gBasePtr_6F8070->field_8_index - 1;
-        if (!pNextCmd->field_0_cmd_this)
+        *pDelay = gBasePtr_6F8070->field_8_index - 1;
+        if (!*pDelay)
         {
-            pNextCmd->field_0_cmd_this = -1;
+            *pDelay = -1;
             ScriptThread::Next_503620(gBasePtr_6F8070);
         }
     }
@@ -3340,19 +3340,19 @@ MATCH_FUNC(0x50a980)
 void ScriptThread::SCRCMD_DELAY_50A980()
 {
     s16 delay = gBasePtr_6F8070->field_8_index;
-    SCR_CMD_HEADER* pNextCmd = static_cast<SCR_CMD_HEADER*>(gBasePtr_6F8070) + 1; //  TODO: remove this hack
+    s16* pDelay = &reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070)->field_8_signed_1;
 
     if (delay == -1)
     {
-        pNextCmd->field_0_cmd_this = static_cast<SCR_CMD_HEADER*>(gBasePtr_6F8070)[1].field_2_type;
+        *pDelay = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070)->field_A_unsigned_2;
         field_8_cond_result = true;
     }
     else
     {
-        pNextCmd->field_0_cmd_this = delay - 1;
-        if (!pNextCmd->field_0_cmd_this)
+        *pDelay = delay - 1;
+        if (!*pDelay)
         {
-            pNextCmd->field_0_cmd_this = -1;
+            *pDelay = -1;
             field_8_cond_result = false;
         }
         else
