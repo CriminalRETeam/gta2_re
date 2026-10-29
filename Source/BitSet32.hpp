@@ -80,7 +80,7 @@ class BitSet32
         return (m_var & (1 << bit)) ? true : false;
     }
 
-    // 9.6f 0x420E20 TODO: Check if matches
+    // 9.6f 0x420E20, where the bit is passed by reference; by reference here changes most of the code
     bool mask_bit(u32 bit)
     {
         return (m_var & (1u << bit)) == (1u << bit);
