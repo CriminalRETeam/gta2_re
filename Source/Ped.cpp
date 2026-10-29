@@ -6287,17 +6287,17 @@ bool Ped::IsThreatToSearchingPed_4661F0()
         case threat_search_enum::line_of_sight_1:
             if (field_238_ped_type == ped_type::dummy_3)
             {
-                goto ret_false;
+                return false;
             }
 
             if (field_278_ped_state_1 == ped_state_1::dead_9 || field_278_ped_state_1 == ped_state_1::immobilized_8)
             {
-                goto ret_false;
+                return false;
             }
 
             if (!field_21C_bf.bActive)
             {
-                goto ret_false;
+                return false;
             }
 
             // 9.6f 0x437670: a call to IsPedAThreat (0x4371D0), inlined here in 10.5
@@ -6311,40 +6311,40 @@ bool Ped::IsThreatToSearchingPed_4661F0()
         case threat_search_enum::area_2:
             if (field_16C_car != NULL)
             {
-                goto ret_false;
+                return false;
             }
 
             if (field_278_ped_state_1 == ped_state_1::dead_9 || field_278_ped_state_1 == ped_state_1::immobilized_8)
             {
-                goto ret_false;
+                return false;
             }
 
             if (!field_21C_bf.bActive)
             {
-                goto ret_false;
+                return false;
             }
 
-            if (gSearchingPed_6787DC == this)
+            if (gSearchingPed_6787DC != this)
             {
-                goto ret_false;
+                return true;
             }
 
-            return true;
+            break;
 
         case threat_search_enum::area_player_threat_only_3:
             if (field_16C_car != NULL)
             {
-                goto ret_false;
+                return false;
             }
 
             if (field_278_ped_state_1 == ped_state_1::dead_9 || field_278_ped_state_1 == ped_state_1::immobilized_8)
             {
-                goto ret_false;
+                return false;
             }
 
             if (!field_21C_bf.bActive)
             {
-                goto ret_false;
+                return false;
             }
 
             {
@@ -6352,31 +6352,31 @@ bool Ped::IsThreatToSearchingPed_4661F0()
 
                 if (pSearcher == this)
                 {
-                    goto ret_false;
+                    return false;
                 }
 
-                if (!(Fix16::MaxAbsDistance_42A6B0(this->field_1AC_cam.x, this->field_1AC_cam.y, pSearcher->get_cam_x(), pSearcher->get_cam_y()) <= kFpQuarter_678788))
+                if (Fix16::MaxAbsDistance_42A6B0(this->field_1AC_cam.x, this->field_1AC_cam.y, pSearcher->get_cam_x(), pSearcher->get_cam_y()) <= kFpQuarter_678788)
                 {
-                    goto ret_false;
+                    return true;
                 }
 
-                return true;
+                break;
             }
 
         case threat_search_enum::line_of_sight_player_threat_only_4:
             if (field_16C_car != NULL)
             {
-                goto ret_false;
+                return false;
             }
 
             if (field_278_ped_state_1 == ped_state_1::dead_9 || field_278_ped_state_1 == ped_state_1::immobilized_8)
             {
-                goto ret_false;
+                return false;
             }
 
             if (!field_21C_bf.bActive)
             {
-                goto ret_false;
+                return false;
             }
 
             {
@@ -6384,7 +6384,7 @@ bool Ped::IsThreatToSearchingPed_4661F0()
 
                 if (pSearcher == this)
                 {
-                    goto ret_false;
+                    return false;
                 }
 
                 dx = this->field_1AC_cam.x - pSearcher->get_cam_x();
@@ -6397,7 +6397,7 @@ bool Ped::IsThreatToSearchingPed_4661F0()
                 {
                     if (rel <= range)
                     {
-                        goto ret_false;
+                        return false;
                     }
                 }
                 return true;
@@ -6406,12 +6406,12 @@ bool Ped::IsThreatToSearchingPed_4661F0()
         case threat_search_enum::area_player_only_5:
             if (field_278_ped_state_1 == ped_state_1::dead_9 || field_278_ped_state_1 == ped_state_1::immobilized_8)
             {
-                goto ret_false;
+                return false;
             }
 
             if (!field_21C_bf.bActive)
             {
-                goto ret_false;
+                return false;
             }
 
             if (field_238_ped_type != ped_type::player_2)
@@ -6439,7 +6439,7 @@ bool Ped::IsThreatToSearchingPed_4661F0()
                 {
                     if (!pCam->IsSpriteInView_435630(gSearchingPed_6787DC->field_16C_car->field_50_car_sprite, 1))
                     {
-                        goto ret_false;
+                        return false;
                     }
                 }
             }
@@ -6451,7 +6451,7 @@ bool Ped::IsThreatToSearchingPed_4661F0()
 
                 if (pSearcher == this)
                 {
-                    goto ret_false;
+                    return false;
                 }
 
                 dx2 = this->field_1AC_cam.x - pSearcher->get_cam_x();
@@ -6464,7 +6464,7 @@ bool Ped::IsThreatToSearchingPed_4661F0()
                 {
                     if (rel <= range)
                     {
-                        goto ret_false;
+                        return false;
                     }
                 }
             }
@@ -6476,7 +6476,7 @@ bool Ped::IsThreatToSearchingPed_4661F0()
 
                     if (Fix16::Abs_negate_out_of_line(dz) >= kFpOne_678664)
                     {
-                        goto ret_false;
+                        return false;
                     }
                 }
 
@@ -6512,11 +6512,6 @@ bool Ped::IsThreatToSearchingPed_4661F0()
             }
     }
 
-    goto ret_false;
-
-    return true;
-
-ret_false:
     return false;
 }
 
