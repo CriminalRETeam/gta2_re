@@ -2651,13 +2651,6 @@ void CC ImGuiDebugDraw()
                 {
                     AmbulanceTask& task = gAmbulance_110_6F70A8->field_D0_tasks[i];
                 }
-
-                /*
-                // TODO:
-                    char_type field_0_unused;
-                    u8 field_1_queue_count;
-                    Ped_List field_4_patient_queue;
-                */
             }
             ImGui::TreePop();
         }
