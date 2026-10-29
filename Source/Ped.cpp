@@ -1636,6 +1636,7 @@ void Ped::HandleClosePedInteraction_45CAA0()
                 }
                 else
                 {
+                // shared with the frame >= 3 and rng >= 2 exits: goto-free forms change the code
                 react_to_punch:
                     if (pNearPed->field_28C_threat_reaction == threat_reaction_enum::run_away_3)
                     {
