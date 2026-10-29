@@ -75,7 +75,6 @@ struct PlyDat
     EXPORT PlyDat();
     EXPORT ~PlyDat();
 
-    // todo: ordering
     EXPORT void UpdateStageScore_56BB10(Player* pPlayer);
 
     EXPORT void UpdateHiScores_56C010();

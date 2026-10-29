@@ -194,7 +194,6 @@ class Sprite
         field_39_z_col = v;
     }
 
-    // TODO: Ordering
     EXPORT Fix16_Point GetBoundingBoxCorner_562450(s32 idx);
 
     EXPORT Fix16_Point get_x_y_443580();
@@ -696,8 +695,6 @@ class AttachedSprite
     void PoolDeallocate()
     {
     }
-
-    // TODO: ordering ?
 
     EXPORT void SinkAttachedCar_5A6A20();
 

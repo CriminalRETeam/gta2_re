@@ -88,7 +88,6 @@ EXTERN_GLOBAL(char_type, gLighting_626A09);
 
 DEFINE_GLOBAL(Game*, gGame_0x40_67E008, 0x67E008);
 
-// TODO: move
 EXPORT void __stdcall ReapplySavedGamma_5D9970();
 
 MATCH_FUNC(0x4B8BB0)
@@ -267,14 +266,12 @@ EXPORT void __stdcall SpawnTestGroup_46DD70(char_type remap, u8 count)
     }
 }
 
-// TODO: move
 MATCH_FUNC(0x46E370)
 EXPORT void SpawnTestGroupDefault_46E370()
 {
     SpawnTestGroup_46DD70(4, 4);
 }
 
-// TODO: move
 MATCH_FUNC(0x5D8DF0)
 EXPORT void InvalidateCachedScreenDimension_5D8DF0()
 {

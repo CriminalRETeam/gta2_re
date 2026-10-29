@@ -353,7 +353,6 @@ class Ang16
     EXPORT u8 GetOctant_4056A0() const;
     EXPORT u8 ToAng4_405680() const;
 
-    // TODO: move with CarDoorAlignmentSolver_545AF0
     // https://decomp.me/scratch/6VBR0  (matched)
     static inline void __stdcall RotateVector_41FC90(Fix16& xpos, Fix16& ypos, Ang16& rotation)
     {

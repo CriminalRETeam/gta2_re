@@ -6,8 +6,6 @@
 class Registry
 {
   public:
-    // todo: fix ordering
-
     EXPORT bool Open_Sound_Root_586A00(PHKEY phkResult);
 
     EXPORT bool Sound_Setting_Exists_586A70(const char_type* lpValueName);

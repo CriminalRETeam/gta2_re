@@ -257,7 +257,6 @@ class sound_obj
   public:
     EXPORT sound_obj();
 
-    // TODO: Ordering
     EXPORT void Reacquire_41A2A0();
     EXPORT char_type GetAudioDriveLetter_41A2E0() const;
     EXPORT char_type Get3dSound_41A390() const;

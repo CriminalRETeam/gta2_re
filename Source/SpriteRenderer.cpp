@@ -67,7 +67,6 @@ SpriteRenderer::~SpriteRenderer()
     }
 }
 
-// TODO: move
 // https://decomp.me/scratch/qe97a
 MATCH_FUNC(0x5BEE90)
 EXPORT s32 get_rdtsc_5BEE90()

@@ -1476,7 +1476,6 @@ EXTERN_GLOBAL(TrafficSpawner*, gTrafficSpawner_14_677934);
 
 EXTERN_GLOBAL(bool, gbRngRemapTableDone_679C0A);
 
-// TODO: move
 EXPORT s32 __stdcall GetDamageMultiplier_45CF90(Ped* pPed);
 EXPORT s32 __stdcall GetDeathCauseForObjectModel_48E780(s32 model);
 EXPORT bool __stdcall IsNoKillCreditObject_48E720(s32 model);

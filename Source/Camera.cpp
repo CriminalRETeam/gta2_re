@@ -78,7 +78,6 @@ EXTERN_GLOBAL(Ang16, kAng180_676772);
 DEFINE_GLOBAL_INIT(Ang16, kAngZero_676964, Ang16(0), 0x676964);
 
 
-// TODO: move
 static inline Fix16 Max_41E130(Fix16 a, Fix16 b)
 {
     if (a > b)
@@ -789,7 +788,6 @@ void Camera::SetTarget_4397D0(Fix16 x, Fix16 y, Fix16 z, Fix16 zoom)
     field_10_pending_target_pos.field_C_zoom = zoom;
 }
 
-// TODO: move
 // https://decomp.me/scratch/qYIak
 MATCH_FUNC(0x4F7540)
 EXPORT void __stdcall SmoothApproach_4F7540(Fix16& Coord_1, Fix16& Velocity_1, Fix16& Coord_2, Fix16& Velocity_2, Fix16& Velocity_3)
@@ -847,7 +845,6 @@ EXPORT void __stdcall SmoothApproach_4F7540(Fix16& Coord_1, Fix16& Velocity_1, F
     Coord_2 += Velocity_1;
 }
 
-// TODO: move
 // https://decomp.me/scratch/kwM8W
 MATCH_FUNC(0x4F75D0)
 EXPORT void __stdcall SmoothApproachClamped_4F75D0(Fix16* target_coord,

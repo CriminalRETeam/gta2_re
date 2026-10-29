@@ -91,7 +91,6 @@ Ang16::Ang16(Fix16* value, s32 not_used)
     Normalize();
 }
 
-// TODO: move
 MATCH_FUNC(0x451730)
 void __stdcall Ang16::PolarToCartesian_451730(Ang16& angle, Fix16& radius, Fix16& ret1, Fix16& ret2)
 {

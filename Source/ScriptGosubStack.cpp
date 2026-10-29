@@ -2,7 +2,6 @@
 #include "ScriptStackFramePool.hpp"
 #include "Globals.hpp"
 
-// TODO: move
 DEFINE_GLOBAL(ScriptStackFramePool*, gScriptStackFramePool_6F8068, 0x6F8068);
 
 MATCH_FUNC(0x503120)

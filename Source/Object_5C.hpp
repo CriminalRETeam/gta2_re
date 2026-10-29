@@ -142,7 +142,6 @@ class Object
         return gZeroVector_6F8EF0;
     }
 
-    // TODO: ordering
     EXPORT void SetSpriteIdxOffset_5290C0(u8 offset);
     EXPORT Fix16 GetEffectiveSpeed_5290F0() const;
     EXPORT bool IsFireExplosion_525AC0() const;

@@ -337,7 +337,6 @@ class Hud_Pager_C_Array
     {
     }
 
-    // TODO: Correct order ?
     EXPORT s32 AddOnScreenCounter_5D3220(s32* pCounter);
     EXPORT void ClearPager_5D3280(s32 idx);
 

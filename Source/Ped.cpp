@@ -175,7 +175,6 @@ EXTERN_GLOBAL(u8, gPathStepSlotFree_61A8A1);
 // TODO
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
 
-// TODO: move with CarDoorAlignmentSolver_545AF0
 EXTERN_GLOBAL(PixelsToFix16Table, gPixelsToFix16_6F6850);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint1_6FD824, Fix16(0x666, 0), 0x6FD824);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint06_6FD9C8, Fix16(0x3D7, 0), 0x6FD9C8);
@@ -204,7 +203,6 @@ EXTERN_GLOBAL(Ang16, gSpawnRotationTop_6787B0);
 EXTERN_GLOBAL(Ang16, gSpawnRotationRight_678578);
 EXTERN_GLOBAL(Ang16, gSpawnRotationBottom_678540);
 
-// TODO: move
 // https://decomp.me/scratch/BzcQt
 MATCH_FUNC(0x545AF0)
 EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(u8 animPhase, Car* pCar, u8 doorId, Fix16& outX, Fix16& outY, Ang16& outAng)
