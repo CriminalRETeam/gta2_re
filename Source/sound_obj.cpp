@@ -6850,7 +6850,7 @@ void sound_obj::HandleVocalStreamSwitching_57DF10(char_type bFastForward)
         bStationChanged = true;
     }
 
-    // The do/while (0) and the gotos to done (not returns) give the original's block layout and tail merging.
+    // The do/while (0) and the goto to done (not a return) give the original's block layout and tail merging.
     do
     {
         if (field_5500_prev_main_variant == field_54FC_main_variant)
@@ -6858,7 +6858,7 @@ void sound_obj::HandleVocalStreamSwitching_57DF10(char_type bFastForward)
             if (!bStationChanged)
             {
                 UpdateCarRadioAudio_57E220();
-                goto done;
+                return;
             }
         }
         else if (!bFast)
