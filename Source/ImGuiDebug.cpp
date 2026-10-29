@@ -3151,8 +3151,6 @@ void CC ImGuiDebugDraw()
             {
                 AddMenuOption(MENUPAGE_PLAY, 300, 415, L"TEST OPTION", 264);
             }
-            ImGui::TreePop();
-            
 
             if (ImGui::TreeNode("Player settings"))
             {
@@ -3195,6 +3193,7 @@ void CC ImGuiDebugDraw()
                         ImGui::InputU16("Credit line category", &pCreditLine->field_6_string_category, 1, 1);
                     }
                 }
+                ImGui::TreePop();
             }
             ImGui::TreePop();
         }
@@ -3230,7 +3229,7 @@ void CC ImGuiDebugDraw()
 
             HighScoreTable* pTable;
 
-            switch (table_type)
+            switch (table_type & 3)
             {
                 case 0:
                     pTable = &gPlyDat_6FEAC0->field_1890_stage_scores[main_stage_idx][stage_idx];
@@ -3243,8 +3242,6 @@ void CC ImGuiDebugDraw()
                     break;
                 case 3:
                     pTable = &gPlyDat_6FEAC0->field_25B0_merged_scores;
-                    break;
-                default:
                     break;
             }
 
