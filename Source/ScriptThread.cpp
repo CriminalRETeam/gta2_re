@@ -254,7 +254,7 @@ u8 ScriptThread::GetEntityTypeOfCommand_503410(u32 opcode)
 }
 
 MATCH_FUNC(0x5035b0)
-void ScriptThread::PoolAllocate_5035B0()
+void ScriptThread::PoolAllocate()
 {
     field_118_in_level_start = false;
     field_11A_thread_id = gNextThreadId_6212EE++;

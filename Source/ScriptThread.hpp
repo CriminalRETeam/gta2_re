@@ -885,7 +885,7 @@ class ScriptThread
   public:
     EXPORT void MissionFailOnDeathOrArrest_503200();
     EXPORT u8 GetEntityTypeOfCommand_503410(u32 opcode);
-    EXPORT void PoolAllocate_5035B0();
+    EXPORT void PoolAllocate();
     EXPORT void Log_5035D0();
     EXPORT void StopThread_503610();
     EXPORT void Next_503620(SCR_CMD_HEADER* pCmd);
@@ -1169,16 +1169,10 @@ GTA2_ASSERT_SIZEOF_ALWAYS(ScriptThread, 0x11C)
 class ScriptThreadPool
 {
   public:
-    // TODO: Pools Use pool method
-    // inlined
+    // 9.6f 0x4767A0
     ScriptThread* Allocate_4767A0()
     {
-        ScriptThread* pNew = field_0_pool.field_0_pStart;
-        field_0_pool.field_0_pStart = pNew->mpNext;
-        pNew->mpNext = field_0_pool.field_4_pPrev;
-        field_0_pool.field_4_pPrev = pNew;
-        pNew->PoolAllocate_5035B0();
-        return pNew;
+        return field_0_pool.Allocate();
     }
 
     // 9.6f inlined ctor 0x481310
