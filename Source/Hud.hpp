@@ -279,7 +279,7 @@ class Hud_TextList
     EXPORT void RemoveExpired_5D2050();
     EXPORT Hud_TextList();
 
-    // TODO: Seems like a pool and the ctor would suggest it is, yet somehow the fields are in the wrong order?
+    // A free list written out by hand: the entries come before the list heads, unlike Pool<>
     Hud_TextEntry field_0_29_ary[30];
     Hud_TextEntry* field_960_pFirst;
     Hud_TextEntry* field_964_pFreeList;

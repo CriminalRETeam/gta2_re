@@ -1,5 +1,5 @@
 #include "gtx_0x106C.hpp"
-#include "Frontend.hpp" // TODO: for some globals, prob should be put some where else
+#include "Frontend.hpp" // for the gFrontend*Font globals
 #include "Function.hpp"
 #include "Globals.hpp"
 #include "chunk.hpp"

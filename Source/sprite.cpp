@@ -1,7 +1,7 @@
 #include "sprite.hpp"
 #include "explosion_type.hpp"
 #include "car_despawn_status.hpp"
-#include "CarInfoTable.hpp" // TODO: only because of gPixelsToFix16_6F6850
+#include "CarInfoTable.hpp" // for gPixelsToFix16_6F6850
 #include "Car.hpp"
 #include "Globals.hpp"
 #include "Ped.hpp"
@@ -26,7 +26,7 @@
 #include "memory.hpp"
 #include "root_sound.hpp"
 #include "TextureCache.hpp"
-#include "winmain.hpp" // TODO: only because of gLighting_626A09
+#include "winmain.hpp" // for gLighting_626A09
 #include "block_face.hpp"
 
 // Forward declarations: the functions below are in address order
@@ -1177,7 +1177,7 @@ void Sprite::Draw_59EFF0()
             }
             pTexture = gTextureCache_15D8_705064->GetCarDamageTexture_5B95D0(damage_mask_idx);
         }
-        pCar->field_8_damaged_areas.m_var = car_flags; // TODO: use CopyAll_4A51A0
+        pCar->field_8_damaged_areas.m_var = car_flags;
     }
     else
     {
@@ -1245,7 +1245,7 @@ void Sprite::Draw_59EFF0()
             SetUV_4B9BC0(u, v);
             pgbh_DrawQuad(128, pTexture, gTileVerts_7036D0, 255);
         }
-        pCar->field_8_damaged_areas.m_var = car_flags; // TODO: use CopyAll_4A51A0
+        pCar->field_8_damaged_areas.m_var = car_flags;
     }
 
     ++gSpriteManager_703820->field_0_drawn_sprite_count;

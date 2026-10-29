@@ -501,7 +501,7 @@ GTA2_ASSERT_SIZEOF_ALWAYS(ThreadTrigger, 0xC);
 // Player/world info
 struct SavedPlayerStats
 {
-    Fix16 field_0_x; // Maybe Fix16, but no ctor call seen in 9.6f - TODO: Check it
+    Fix16 field_0_x;
     Fix16 field_4_y;
     Fix16 field_8_z;
     Ang16 field_C_rotation;

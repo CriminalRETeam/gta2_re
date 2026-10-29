@@ -6,7 +6,7 @@
 #include "fix16.hpp"
 #include "gtx_0x106C.hpp"
 
-struct QuadVerts // TODO: Same as Verts in gbh header (d3ddll)
+struct QuadVerts // same layout as Verts in GTA2Hax d3ddll.hpp
 {
     Vert field_0_verts[4];
 };

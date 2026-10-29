@@ -1447,7 +1447,7 @@ void NetPlay::InvokeCallback_520230(s32 idx, u32 event_data)
                         field_4C_func_ptrs_and_params[idx].field_4_param_context);
                 }
                 break;
-            case 2: // adding to listbox, player? session??
+            case 2: // a player joined the group (NetUi::cb_AddPlayerToList_519E30)
                 if (field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)
                 {
                     static_cast<T3>(field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)(

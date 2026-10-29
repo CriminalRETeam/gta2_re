@@ -2263,7 +2263,7 @@ bool sound_obj::Type_3_InitCarAlarmSound_4174C0(sound_0x68* pSound)
     if (GetCar_4145E0(pSound->field_0_EntityIndex, &pCar))
     {
         s32 car_model = pCar->field_84_car_info_idx;
-        // ??? makes no sense on car model
+        // The model picks one of four alarm tones and shifts its pitch
         switch (car_model & 3)
         {
             default:

@@ -222,7 +222,7 @@ enum MenuOptionType
 {
     NO_TYPE_0 = 0,
     ENTERABLE_1 = 1,  // Press "enter" to get into a new frontend page
-    HORIZONTAL_SELECTION_2 = 2, // TODO: Not sure. Maybe select something using left/right arrows
+    HORIZONTAL_SELECTION_2 = 2, // The left/right arrows step through its values (e.g. the player slot)
 };
 
 struct MainBlockStrings

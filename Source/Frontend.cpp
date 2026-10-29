@@ -914,7 +914,7 @@ s32 Frontend::Run_4AEDB0()
         }
         else if (field_C9E0_updates_since_render)
         {
-            Render_4ADFB0(); // bQuit ??
+            Render_4ADFB0();
             result = field_108_winmain_next_state;
             field_C9E0_updates_since_render = 0;
             return result;
@@ -4092,7 +4092,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             gText_0x14_704DFC->Find_5B5F90("score"),
             0x32u);
     pPage->field_B8A_option_states[0].field_0_unused = 150;
-    pPage->field_B8A_option_states[0].field_2_unused = 348; //  TODO: check for wrong var
+    pPage->field_B8A_option_states[0].field_2_unused = 348;
     pPage->field_BC6_current_option_idx = 0;
     pPage->field_BC8_default_option_idx = 0;
     field_EE0E_credits.LoadCredits_483F20();
@@ -5211,7 +5211,7 @@ MenuItem::MenuItem()
     field_6E_horizontal_selected_idx = 0;
     field_70_unused = 0;
 
-    for (s32 i = 0; i < GTA2_COUNTOF(field_72_horizontal_idx_enabled); i++) // or is it a u32 ??
+    for (s32 i = 0; i < GTA2_COUNTOF(field_72_horizontal_idx_enabled); i++)
     {
         field_72_horizontal_idx_enabled[i] = 0;
     }

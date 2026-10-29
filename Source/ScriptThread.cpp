@@ -3086,7 +3086,7 @@ void ScriptThread::SCRCMD_SET_CHAR_OBJ3_50A3E0()
         (pPointer->field_8_char)->field_1E0_objective_target_y = pCmd->field_C_pos.y.mValue;
         (pPointer->field_8_char)->field_1E4_objective_target_z = pCmd->field_C_pos.z.mValue;
 
-        (pPointer->field_8_char)->field_21C_bf.bScheduledForRemoval = false; // TODO: Maybe BitSet32
+        (pPointer->field_8_char)->field_21C_bf.bScheduledForRemoval = false;
     }
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }
@@ -3121,7 +3121,7 @@ void ScriptThread::SCRCMD_SET_CHAR_OBJ_FOLLOW_50A460()
 
         (pPointer->field_8_char)->field_132_follow_car_offset_angle = rotation.rValue;
         (pPointer->field_8_char)->field_1FC_follow_car_offset_distance = pCmd->field_12_offset;
-        (pPointer->field_8_char)->field_21C_bf.bScheduledForRemoval = false; // TODO: Maybe BitSet32
+        (pPointer->field_8_char)->field_21C_bf.bScheduledForRemoval = false;
     }
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }

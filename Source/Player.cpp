@@ -1318,7 +1318,7 @@ void Player::CharacterControls_566520()
     this->field_85_special_2_changed = !same;
     this->field_82_now_special_2_pressed = ctrl400;
 
-    // right shift (special 3??)
+    // right shift (special 3)
     const bool prev800 = this->field_83_now_special_3_pressed;
     bool ctrl800 = (input & input_bit::Special3) == input_bit::Special3;
     this->field_83_now_special_3_pressed = ctrl800;

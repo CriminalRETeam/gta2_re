@@ -1651,7 +1651,6 @@ void CarPhysics::DispatchCollision_55CA70(Fix16_Point& point, Ang16 angle)
             HandleMapBoundaryCollisionX_55C820(point, angle);
             break;
         case collision_target_type::sprite_3:
-            // TODO: Likely wrong arguments here
             CollisionIntersectionPoint_6FE1A0 = field_5C_pCar->field_50_car_sprite->FindCollisionIntersectionPoint_5A2710(gCollisionTarget_679188.field_20_pHitSprite,
                                                                                                      point,
                                                                                                      angle,

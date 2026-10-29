@@ -188,7 +188,6 @@ DEFINE_GLOBAL_INIT(Fix16, kFpThreeEighths_67878C, kFpOne64th_6784C4 * 24, 0x6787
 DEFINE_GLOBAL_INIT(Fix16, kFpEight_6786C0, kFpOne64th_6784C4 * 512, 0x6786C0);
 DEFINE_GLOBAL_INIT(Fix16, kFpFiveSixtyFourths_67843C, kFpFive_678674 * kFpOne64th_6784C4, 0x67843C);
 
-// TODO: these are defined in char.cpp
 EXTERN_GLOBAL(Fix16, gCharB4_WorldCollisionOffset_6FD8D8);
 EXTERN_GLOBAL(Fix16, kFpOne_6FDB20);
 EXTERN_GLOBAL(Fix16, kFP16Zero_6FD9E4);
@@ -3132,7 +3131,7 @@ void Ped::TaxiCustomer_AI_460820()
             }
             break;
 
-        case objectives_enum::enter_car_as_driver_35: // TODO: shouldn't it be enter car as passenger?
+        case objectives_enum::enter_car_as_driver_35: // as a passenger: field_248_enter_car_as_passenger is set
         {
             // It is on foot
             u8 status = this->field_225_objective_status;
