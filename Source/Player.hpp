@@ -38,10 +38,10 @@ enum
     Respect_10 = 10,
     Invisibility_11 = 11,
     InstantGang_12 = 12,
-    Unk_13 = 13,
-    Unk_14 = 14,
-    Unk_15 = 15,
-    Unk_16 = 16,
+    Unused_13 = 13, // 13-16: pickups 241-244, whose HUD and pickup sprites are the placeholder letters N to Q
+    Unused_14 = 14,
+    Unused_15 = 15,
+    Unused_16 = 16,
 };
 } // namespace power_up_indices
 
