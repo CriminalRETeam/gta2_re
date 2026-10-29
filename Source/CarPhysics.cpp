@@ -1058,14 +1058,13 @@ void CarPhysics::UpdateZPhysics_55AD90(Fix16 dt)
             zpos = kMaxZ_6FDF34;
         }
     }
+    else if (field_98_surface_type == car_surface_type::remapped_water_tile_7 ||
+             field_98_surface_type == car_surface_type::water_surface_8)
+    {
+        zpos = field_6C_cp3;
+    }
     else
     {
-        if (field_98_surface_type == car_surface_type::remapped_water_tile_7 ||
-            field_98_surface_type == car_surface_type::water_surface_8)
-        {
-            goto reset_z;
-        }
-
         zpos = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(field_38_cp1.x, field_38_cp1.y);
         if (zpos == kFP16Zero_6FE20C)
         {
@@ -1125,8 +1124,6 @@ void CarPhysics::UpdateZPhysics_55AD90(Fix16 dt)
 
             if (field_5C_pCar->field_50_car_sprite->CheckSpriteMovementRegion_5A2500())
             {
-            // shared with the unknown/water surface case
-            reset_z:
                 zpos = field_6C_cp3;
             }
         }
