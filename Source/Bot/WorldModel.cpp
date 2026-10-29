@@ -1,4 +1,5 @@
 #include "WorldModel.hpp"
+#include "BoxSweep.hpp"
 #include "WalkRoute.hpp"
 #include <stdio.h>
 #include <string.h>
@@ -794,6 +795,12 @@ void WorldModel::Observe()
             prev_car_x[h] = info.x;
             prev_car_y[h] = info.y;
             prev_car_frame[h] = frame;
+        }
+        info.predicted = info.box;
+        if (info.box.valid)
+        {
+            BoxSweep(info.box.cx, info.box.cy, info.box.ax, info.box.ay, info.box.hl, info.box.hw, info.vx, info.vy, kPredictFrames, &info.predicted.cx,
+                     &info.predicted.cy, &info.predicted.hl, &info.predicted.hw);
         }
         const float dx = info.x - player.x;
         const float dy = info.y - player.y;

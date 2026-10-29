@@ -123,6 +123,7 @@ class WorldModel : public BotObject
         bool rocketproof;
         bool flameproof;
         BoxInfo box;
+        BoxInfo predicted; // box and where the car will be kPredictFrames frames on, as one box on the same axis (valid with box)
     };
 
     struct ObjInfo

@@ -1333,6 +1333,11 @@ Action::Status DriveAction::Step(BotContext& ctx)
             {
                 BotDebugDraw::Box(oc.box.cx, oc.box.cy, oc.box.ax, oc.box.ay, oc.box.hl, oc.box.hw, ccol);
             }
+            if (oc.predicted.valid && !still)
+            {
+                // where its box is going to be over the next few frames
+                BotDebugDraw::Box(oc.predicted.cx, oc.predicted.cy, oc.predicted.ax, oc.predicted.ay, oc.predicted.hl, oc.predicted.hw, kDebugColMagenta);
+            }
             BotDebugDraw::Mark(oc.x, oc.y, 0.15f, ccol, oc.police ? "cop" : (still ? "stop" : ""));
             if (!still)
             {
