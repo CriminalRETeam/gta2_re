@@ -1688,7 +1688,7 @@ void Object::SpawnSpriteParticlesForRocketBullet_525B40()
 MATCH_FUNC(0x525B60)
 bool Object::CheckWaterDeath_525B60()
 {
-    // TODO: Forced eax -> al
+    // The original tests only al, though IsOnWater_59E1D0 sets all of eax
     const u8 isWater = field_4_sprite->IsOnWater_59E1D0();
     if (isWater)
     {
