@@ -4820,12 +4820,8 @@ void Char::state_1_5504F0()
         }
         else
         {
-            if (field_6A_repulsion_timer)
+            if (field_6A_repulsion_timer && field_C_ped_state_2 != ped_state_2::running_away_3)
             {
-                if (field_C_ped_state_2 == ped_state_2::running_away_3)
-                {
-                    goto long_probe;
-                }
                 prev_angle = field_74_repulsion_rotation;
                 cur_rotation = field_40_rotation;
                 field_38_velocity = k_CollisionRepulsionSpeed_6FD7BC;
@@ -4836,7 +4832,6 @@ void Char::state_1_5504F0()
         }
         if (field_C_ped_state_2 == ped_state_2::running_away_3)
         {
-        long_probe:
             if (field_55_next_tile_timer > 0)
             {
                 if (!field_58_flags_bf.bFlag7)
