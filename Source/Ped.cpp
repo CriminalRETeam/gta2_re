@@ -1734,17 +1734,17 @@ inline bool Ped::IsPedAThreat_Inline_465D00(Ped* pTargetPed)
 
         if (pCar == NULL)
         {
-            goto ret_true;
+            return true;
         }
 
         if (!pCar->IsPoliceCar_439EC0())
         {
-            goto ret_true;
+            return true;
         }
 
         if (pTargetPed->field_238_ped_type == ped_type::special_ped_4)
         {
-            goto ret_false;
+            return false;
         }
 
         return true;
@@ -1769,17 +1769,14 @@ inline bool Ped::IsPedAThreat_Inline_465D00(Ped* pTargetPed)
                     goto ret_false;
                 }
 
-                if (this->field_238_ped_type == ped_type::special_ped_4)
+                if (this->field_238_ped_type != ped_type::special_ped_4)
                 {
-                    goto check_threat_level;
+                    if (this->field_238_ped_type != ped_type::dummy_with_occupation_6)
+                    {
+                        goto ret_true;
+                    }
                 }
 
-                if (this->field_238_ped_type != ped_type::dummy_with_occupation_6)
-                {
-                    goto ret_true;
-                }
-
-            check_threat_level:
                 if (pTargetPed->field_263_prev_attackers_count >= 4)
                 {
                     goto ret_false;
@@ -2015,6 +2012,7 @@ other_occupation_checks:
         goto ret_true;
     }
 
+// shared exits: returns here shrink the inline under 4661F0's budget cut-off or change the code
 ret_if_active_player:
     if (bThisIsActivePlayer == 1)
     {
