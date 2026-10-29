@@ -900,42 +900,27 @@ s32 NetPlay::SendPing_51EF60()
 MATCH_FUNC(0x51f010)
 bool NetPlay::Receive_51F010(s32* pOutData, s32* pOutDataLen, unsigned long* recvId, unsigned long* senderId)
 {
-    unsigned long readLen = 0x1800;
-    // The shared return 0 has to sit at the end of the loop body to get the original layout;
-    // early returns or a break out of the loop change the code
-    if (field_5E4_pDPlay3->Receive(senderId, recvId, DPRECEIVE_ALL, reinterpret_cast<void*>(field_8E4_pReceivedDataBuffer), &readLen))
-    {
-        goto failed;
-    }
-
-    while (1)
+    unsigned long readLen;
+    for (readLen = 0x1800;
+         !field_5E4_pDPlay3->Receive(senderId, recvId, DPRECEIVE_ALL, reinterpret_cast<void*>(field_8E4_pReceivedDataBuffer), &readLen);
+         readLen = 0x1800)
     {
         if (*senderId)
         {
-            break;
+            s32 outDataLen = DecodeReceivedPacket_51F210(field_8E4_pReceivedDataBuffer, readLen);
+            *pOutData = field_8E4_pReceivedDataBuffer;
+            *pOutDataLen = outDataLen;
+            return true;
         }
 
         // A system message: handle it and read the next message
         OnPacketReceived_51F870(reinterpret_cast<char*>(field_8E4_pReceivedDataBuffer), readLen, *recvId, 0);
         if (field_8F0_receive_disabled)
         {
-            goto failed;
+            break;
         }
-
-        readLen = 0x1800;
-        if (!field_5E4_pDPlay3->Receive(senderId, recvId, DPRECEIVE_ALL, reinterpret_cast<void*>(field_8E4_pReceivedDataBuffer), &readLen))
-        {
-            continue;
-        }
-
-    failed:
-        return false;
     }
-
-    s32 outDataLen = DecodeReceivedPacket_51F210(field_8E4_pReceivedDataBuffer, readLen);
-    *pOutData = field_8E4_pReceivedDataBuffer;
-    *pOutDataLen = outDataLen;
-    return true;
+    return false;
 }
 
 MATCH_FUNC(0x51f0d0)
