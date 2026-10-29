@@ -1649,11 +1649,13 @@ Action::Status DriveAction::Step(BotContext& ctx)
         // the wheel at the aim point, as gently as the arcs would hold it (DriveSteer's Gentle: a tap every fourth frame from 5 degrees,
         // every other from 8, held from 20): a key that is either down or up swings the car into the wall of a one tile gap
         ctx.input &= ~(input_bit::Left | input_bit::Right);
-        const float ea = fabsf(err);
+        // the key as the arcs press it: the heading error in the world, times which way the Right key turns this car
+        const float werr = Bot_WrapDeg(Bot_HeadingDeg(aim_x - pl.x, aim_y - pl.y) - (ctx.car.sign * pl.rot_deg + ctx.car.offset));
+        const float ea = fabsf(werr);
         const float lvl = ea > 20.0f ? 1.0f : (ea > 8.0f ? 0.5f : (ea > 5.0f ? 0.25f : 0.0f));
-        if (lvl > 0.0f && ea <= kTurnEngageDeg && (lvl > 0.9f || (lvl > 0.4f && ctx.frame % 2 == 0) || ctx.frame % 4 == 0))
+        if (lvl > 0.0f && (lvl > 0.9f || (lvl > 0.4f && ctx.frame % 2 == 0) || ctx.frame % 4 == 0))
         {
-            ctx.input |= err > 0.0f ? input_bit::Right : input_bit::Left; // (err is in the sense of the Right key)
+            ctx.input |= (werr > 0.0f) == (ctx.car.sign * ctx.car.turn_sign > 0.0f) ? input_bit::Right : input_bit::Left;
         }
     }
     else if (fabsf(err) <= kTurnEngageDeg && !mTurn.active)
@@ -1861,6 +1863,7 @@ Action::Status DriveAction::Step(BotContext& ctx)
             BotDecision("f=%d drive route (%s, %d points):%s", ctx.frame, mLocalFallback ? "global legs" : (mLocal.partial ? "partial" : "planned"), mLocal.count, pts);
         }
     }
+    if (!pure) // (the pure drive never turns round or brakes for a turn: the wheel at full lock curves it back onto the route)
     {
         // The way to go is behind the car: turn it round (TurnAround.hpp)
         SteerCar around[WorldModel::kMaxCars];
@@ -1893,7 +1896,7 @@ Action::Status DriveAction::Step(BotContext& ctx)
         }
     }
     mBehindSince = 0;
-    if (fabsf(err) > 60.0f && mSpeed > 0.14f && ctx.frame >= mHandbrakeNext)
+    if (!pure && fabsf(err) > 60.0f && mSpeed > 0.14f && ctx.frame >= mHandbrakeNext)
     {
         // a sharp turn at speed: handbrake and the wheel over swing the tail round
         mHandbrakeUntil = ctx.frame + 10;
