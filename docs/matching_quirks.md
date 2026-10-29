@@ -3153,8 +3153,10 @@ the car-block level, not inside each section, give the original's registers.
 and `AddFlags_421890(flag)` take the mask as a parameter, so it is a mask word and has no bitfield (now `car_flag` masks).
 For `field_A6` the 9.6f helpers (`IsTurnRight_42AC20`, `SetAIHalted_421540`, ...) have one fixed bit each. They compile
 identically as bitfield accesses (getters must compare `== 1`) and as masks, so the evidence does not say which the
-original used. `field_A4` still has mask sites (`& 0x1C` over three bits, `= 0` clears). To decide later: pick one form per
-field, convert every site, and keep 3401/3401.
+original used. `field_A4` still has mask sites (`& 0x1C` over three bits, `= 0` clears), but they don't decide it either:
+VC6 compiles `!b2 && !b3 && !b4` (or `b2 || b3 || b4`) on a bit field to the same `test byte, 0x1C`, and eight single-bit
+clears in a row to one `mov byte, 0` (probe, Oct 29). The clears sit among whole-field resets next to `field_78_flags = 0`,
+which reads like a mask word. To decide later: pick one form per field, convert every site, and keep the match count.
 
 
 ## Division, CSE and statement placement (`MapRenderer::Draw_4F6A20`)
