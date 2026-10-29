@@ -7069,7 +7069,7 @@ void sound_obj::UpdateVocalStream_57E510()
     {
         if (field_54F7_active_emitter_idx[1] < 5)
         {
-            // Radio emitters use indices 1..5
+            // Not RadioEmitter(): that inline call makes this function 16 bytes longer
             reinterpret_cast<RadioStationEmitter*>(field_544C)[field_54F7_active_emitter_idx[1] + 1].field_18_pos_ms = gSampManager_6FFF00.GetVocalPosMs_58E770(0);
         }
         gSampManager_6FFF00.CloseVocalStream_58E6A0(0);
@@ -7577,6 +7577,7 @@ void sound_obj::SelectBestRadioEmitter_57EF60()
 MATCH_FUNC(0x57F050)
 u8 sound_obj::FindEmitterByStation_57F050(s32 station_idx) const
 {
+    // A const RadioEmitter() would add a declaration to sound_obj.hpp, which changes ImGuiDebugDraw
     for (u8 i = 0; i < 5; i++)
     {
         if (static_cast<u32>(reinterpret_cast<const RadioStationEmitter*>(field_544C)[i + 1].field_C_station_idx) == static_cast<u32>(station_idx))
