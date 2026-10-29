@@ -914,7 +914,7 @@ s32 Frontend::Run_4AEDB0()
         }
         else if (field_C9E0_updates_since_render)
         {
-            Render_4ADFB0(); // bQuit ??
+            Render_4ADFB0();
             result = field_108_winmain_next_state;
             field_C9E0_updates_since_render = 0;
             return result;
@@ -981,11 +981,6 @@ void Frontend::DrawScoreTable_4B5430(ScoreTableLine* pStrings,
 
     }
 }
-
-// todo: add to header
-EXTERN_GLOBAL(s32, gGTA2VersionMajor_708280);
-
-EXTERN_GLOBAL(s32, gGTA2VersionMinor_708284);
 
 // sub_457920 in 9.6f
 // https://decomp.me/scratch/jchxT
@@ -1513,7 +1508,6 @@ bool Frontend::pre_intro_bik_exists_4B6030()
     }
 }
 
-// TODO: the contents of these strings aren't known, only their addresses
 DEFINE_GLOBAL_ARRAY_INIT(char_type, gBikDataDir_620454, 8, 0x620454, "Data\\");
 DEFINE_GLOBAL_ARRAY_INIT(char_type, gBikDriveDataDir_62045C, 4, 0x62045C, ":\\");
 DEFINE_GLOBAL_ARRAY_INIT(char_type, gIntroBikName_5FE76C, 16, 0x5FE76C, "Movie\\intro.bik");
@@ -4093,7 +4087,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             gText_0x14_704DFC->Find_5B5F90("score"),
             0x32u);
     pPage->field_B8A_option_states[0].field_0_unused = 150;
-    pPage->field_B8A_option_states[0].field_2_unused = 348; //  TODO: check for wrong var
+    pPage->field_B8A_option_states[0].field_2_unused = 348;
     pPage->field_BC6_current_option_idx = 0;
     pPage->field_BC8_default_option_idx = 0;
     field_EE0E_credits.LoadCredits_483F20();
@@ -4206,7 +4200,7 @@ void Frontend::GetMainAndBonusStagesFromSeqFile_4B4440()
 }
 
 MATCH_FUNC(0x4B48D0)
-void Frontend::GetSeqItem_4B48D0(s32 type, char_type* ppRet, FILE* hSeqFile)
+void Frontend::GetSeqItem_4B48D0(u8 type, char_type* ppRet, FILE* hSeqFile)
 {
     char_type type_buf[52];
     char_type output_buf[256];
@@ -4245,7 +4239,7 @@ void Frontend::GetSeqItem_4B48D0(s32 type, char_type* ppRet, FILE* hSeqFile)
         } // 0x3d
         output_buf[pos] = 0;
 
-        switch (type & 0xff) // TODO: Wrong type ??
+        switch (type)
         {
             case 0:
                 strcpy(type_buf, "MainOrBonus");
@@ -5212,7 +5206,7 @@ MenuItem::MenuItem()
     field_6E_horizontal_selected_idx = 0;
     field_70_unused = 0;
 
-    for (s32 i = 0; i < GTA2_COUNTOF(field_72_horizontal_idx_enabled); i++) // or is it a u32 ??
+    for (s32 i = 0; i < GTA2_COUNTOF(field_72_horizontal_idx_enabled); i++)
     {
         field_72_horizontal_idx_enabled[i] = 0;
     }

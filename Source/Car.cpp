@@ -88,7 +88,6 @@ enum
     k_trailer_update_detach = 2,
 };
 
-// TODO: Its in FrontEnd by seems crazy to include the whole file just for this
 EXTERN_GLOBAL(bool, gCheatMiniCars_67D6C8);
 
 DEFINE_GLOBAL(CarThreadTriggers*, gCarThreadTriggers_214_705F20, 0x705F20);
@@ -216,7 +215,6 @@ DEFINE_GLOBAL_INIT(car_rng_list, gBadCarModels_676988, car_rng_list(Fix16(5)), 0
 DEFINE_GLOBAL_INIT(Fix16, kHitchPullDist_6772C0, kFpOne64th_677888 * 8, 0x6772C0);
 DEFINE_GLOBAL_INIT(Fix16, kHitchAttachDist_677900, kFpOne64th_677888 * 3, 0x677900);
 
-// TODO: Move
 static inline void __stdcall SwapIf3or4_41FE40(s32 direction, Fix16& width, Fix16& height) 
 {
     if (direction >= 3 && direction <= 4)
@@ -3936,7 +3934,6 @@ bool Car::OnObjectTouched_43EA60(Object* pObj)
     return false;
 }
 
-// TODO: move
 MATCH_FUNC(0x48E720)
 bool __stdcall IsNoKillCreditObject_48E720(s32 model)
 {
@@ -3957,7 +3954,6 @@ bool __stdcall IsNoKillCreditObject_48E720(s32 model)
     return result;
 }
 
-// TODO: move
 MATCH_FUNC(0x48E780);
 s32 __stdcall GetDeathCauseForObjectModel_48E780(s32 model)
 {
@@ -4006,7 +4002,6 @@ s32 __stdcall GetDeathCauseForObjectModel_48E780(s32 model)
     return ped_death_cause::projectile_default_9;
 }
 
-// TODO: move
 MATCH_FUNC(0x45CF90)
 s32 __stdcall GetDamageMultiplier_45CF90(Ped* pPed)
 {
@@ -5423,7 +5418,6 @@ Ang16 Car::GetRadioTowerAngle_442520() const
 }
 
 
-// TODO: Move all of these together with SmoothApproachAngle_405CE0
 EXTERN_GLOBAL(Fix16, kFPZero_6691B0);
 DEFINE_GLOBAL_INIT(Fix16, kAngFix16FullCircle_66A8E4, Fix16(0x18F60, 0), 0x66A8E4);
 DEFINE_GLOBAL_INIT(Fix16, kAngFix16HalfCircle_6691EC, Fix16(0xC7B0, 0), 0x6691EC);
@@ -5442,7 +5436,6 @@ inline Fix16 __stdcall WrapAngle_40E790(Fix16& angle) // 9.6f inlined func
 }
 
 // 9.6f 0x40ECB0
-// TODO: Move
 // https://decomp.me/scratch/GnD4O
 MATCH_FUNC(0x405CE0)
 EXPORT void __stdcall SmoothApproachAngle_405CE0(Fix16& target_angle, Fix16& angle_speed, Fix16& angle, Fix16& accel, Fix16& max_speed)

@@ -67,7 +67,6 @@ SpriteRenderer::~SpriteRenderer()
     }
 }
 
-// TODO: move
 // https://decomp.me/scratch/qe97a
 MATCH_FUNC(0x5BEE90)
 EXPORT s32 get_rdtsc_5BEE90()
@@ -120,7 +119,7 @@ void SpriteTree::AddSprite_5C5CF0(Sprite* pSprite)
         z_pos = kFpZero_705AC4;
     }
 
-    SpriteTreeNode* pParent; // TODO: not initialized before 'for' loop
+    SpriteTreeNode* pParent; // set by the loop, read below only when the tree is not empty
     for (SpriteTreeNode* pIter = pRoot; pIter;)
     {
         Sprite* pNodeSprite = pIter->field_0_pSprite;

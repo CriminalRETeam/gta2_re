@@ -1,8 +1,7 @@
 #pragma once
 #include "types.hpp"
 
-// TODO: name these better, this "basic" pool has O(1) allocate
-// and deallocate.
+// A free list only, with O(1) allocate and deallocate: unlike Pool, no list of the used items
 template<typename PoolType, s32 PoolSize>
 class PoolBasic
 {

@@ -1318,7 +1318,7 @@ void Player::CharacterControls_566520()
     this->field_85_special_2_changed = !same;
     this->field_82_now_special_2_pressed = ctrl400;
 
-    // right shift (special 3??)
+    // right shift (special 3)
     const bool prev800 = this->field_83_now_special_3_pressed;
     bool ctrl800 = (input & input_bit::Special3) == input_bit::Special3;
     this->field_83_now_special_3_pressed = ctrl800;
@@ -2630,7 +2630,6 @@ char* Player::GetDeathText_569F00()
 MATCH_FUNC(0x569F40)
 void Player::DisableInputs_569F40()
 {
-    // TODO: Almost certainly an inline, and perhaps a switch case too
     Ped* pPed;
     if (!field_68_camera_mode)
     {

@@ -792,7 +792,8 @@ class Car
         field_76_last_seen_timer = 0;
     }
 
-    // TODO: Find 9.6f addr
+    // 9.6f tests the flag in a car_info method (0x4112A0); adding that method to car_info changes code
+    // elsewhere (shared header names, docs/matching_quirks.md)
     inline bool HasEmergencyInfoFlag() const
     {
         return (gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags & car_info_flag::emergency) == car_info_flag::emergency;
@@ -1387,7 +1388,7 @@ struct CarPool
 
     }
 
-    // TODO: 9.6f addr/check
+    // 9.6f 0x40F490
     void Remove(Car* pCar)
     {
         field_0_pool.DeAllocate(pCar);
@@ -1476,7 +1477,6 @@ EXTERN_GLOBAL(TrafficSpawner*, gTrafficSpawner_14_677934);
 
 EXTERN_GLOBAL(bool, gbRngRemapTableDone_679C0A);
 
-// TODO: move
 EXPORT s32 __stdcall GetDamageMultiplier_45CF90(Ped* pPed);
 EXPORT s32 __stdcall GetDeathCauseForObjectModel_48E780(s32 model);
 EXPORT bool __stdcall IsNoKillCreditObject_48E720(s32 model);

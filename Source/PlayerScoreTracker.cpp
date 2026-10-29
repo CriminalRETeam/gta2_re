@@ -29,9 +29,7 @@
 #include "Ped.inl"
 #include <string.h>
 
-// TODO: move
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
-EXTERN_GLOBAL(CrimeReportQueue*, gCrimeReportQueue_67A4B8);
 
 DEFINE_GLOBAL_INIT(Fix16, kFlyCarMinVelocity_7028BC, Fix16(0x666, 0), 0x7028BC);
 
@@ -177,7 +175,7 @@ void PlayerScoreTracker::Service_591C70()
     Car* pReversingCar;
     if (player_ped->get_wanted_points_433DC0() > cop_level_ped_enum::cop_3_stars && (player_ped->has_car_403B80()) &&
         player_ped->not_enter_car_as_passenger_4A5040() &&
-        (pReversingCar = player_ped->get_car_416B60()) != NULL && // null check optimized away ??
+        (pReversingCar = player_ped->get_car_416B60()) != NULL && // already tested by has_car_403B80, so the compiler drops it
         (pReversingCar->field_58_physics) != NULL &&
 
         pReversingCar->field_58_physics->is_backward_gas_on_411810())

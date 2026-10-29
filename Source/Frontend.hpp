@@ -33,7 +33,6 @@ struct SaveSlotInfo
 GTA2_ASSERT_SIZEOF_ALWAYS(SaveSlotInfo, 0x52);
 #pragma pack(pop)
 
-// todo: move
 struct SaveSlotSummary
 {
     char_type field_0_save_exists;
@@ -49,7 +48,6 @@ struct SaveSlotSummary
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SaveSlotSummary, 0x4);
 
-// todo: move
 struct MenuElement
 {
     EXPORT MenuElement();
@@ -73,7 +71,6 @@ struct MenuElement
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(MenuElement, 0x6E);
 
-// todo: move
 #pragma pack(push)
 #pragma pack(1)
 struct MenuItem
@@ -103,7 +100,6 @@ struct MenuItem
 GTA2_ASSERT_SIZEOF_ALWAYS(MenuItem, 0x82);
 #pragma pack(pop)
 
-// todo: move
 struct MenuOption
 {
   public:
@@ -118,7 +114,6 @@ struct MenuOption
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(MenuOption, 0x6);
 
-// todo: move
 struct MenuPage
 {
     EXPORT MenuPage();
@@ -227,7 +222,7 @@ enum MenuOptionType
 {
     NO_TYPE_0 = 0,
     ENTERABLE_1 = 1,  // Press "enter" to get into a new frontend page
-    HORIZONTAL_SELECTION_2 = 2, // TODO: Not sure. Maybe select something using left/right arrows
+    HORIZONTAL_SELECTION_2 = 2, // The left/right arrows step through its values (e.g. the player slot)
 };
 
 struct MainBlockStrings
@@ -323,12 +318,10 @@ struct Frontend
         field_10D_bInputEnabled = value;
     }
 
-    // todo: ordering
     EXPORT void LoadStringsFromStage_4B4C60(u16 mainBlockIdx, u16 bounusBlockIdx, char* pDebugStr, char* pMapName, char* pStyName);
     EXPORT void StoreStringsForStage_4B4BC0(u16 mainBlockIdx, u16 bounusBlockIdx, const char* pDebugStr, const char* pMapName, const char* pStyName);
     EXPORT void DrawSavedStage_4B5270();
 
-    // todo move to another file for ordering
     EXPORT static void __stdcall create_4ACFA0();
 
     EXPORT static void __stdcall destroy_4AD070();
@@ -424,7 +417,7 @@ struct Frontend
 
     EXPORT void GetMainAndBonusStagesFromSeqFile_4B4440();
 
-    EXPORT void GetSeqItem_4B48D0(s32 type, char_type *ppRet, FILE *hSeqFile);
+    EXPORT void GetSeqItem_4B48D0(u8 type, char_type *ppRet, FILE *hSeqFile);
 
     EXPORT void LoadPlySlotSvgs_4B53C0();
 

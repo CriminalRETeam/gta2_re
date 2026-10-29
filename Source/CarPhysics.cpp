@@ -287,7 +287,6 @@ void CarPhysics::ShowPhysicsDebug_559430()
         swprintf(tmpBuff_67BD9C, L"theta = %s", field_58_theta.ThetaText_49E240());
         gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 96, gDebugFont_706600, 1);
 
-        // TODO: the format string at 0x623FFC is a guess
         swprintf(tmpBuff_67BD9C, L"pointingangrad = %3.3f", field_78_pointing_ang_rad.to_float_410BA0());
         gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 112, gDebugFont_706600, 1);
 
@@ -343,7 +342,6 @@ void CarPhysics::ShowSpeedRevsDamage_5597B0()
         swprintf(tmpBuff_67BD9C, L"revs:%3.3f %c", field_60_gas_pedal.AsDouble(), IsTurboActive_561940() ? 'T' : ' ');
         gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 32, gDebugFont_706600, 1);
 
-        // TODO: the format string at 0x6240FC is a guess
         swprintf(tmpBuff_67BD9C, L"damage:%d%%", field_5C_pCar->field_74_damage * 100 / 32000);
         gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 48, gDebugFont_706600, 1);
     }
@@ -580,7 +578,6 @@ Fix16 CarPhysics::GetEffectiveMomentOfInertia_55A050()
 MATCH_FUNC(0x55a0b0)
 bool CarPhysics::IsInAir_55A0B0()
 {
-    // TODO: The surface checks are likely inlines
     Trailer* pTrailer = field_5C_pCar->field_64_pTrailer;
     if (pTrailer)
     {
@@ -1654,7 +1651,6 @@ void CarPhysics::DispatchCollision_55CA70(Fix16_Point& point, Ang16 angle)
             HandleMapBoundaryCollisionX_55C820(point, angle);
             break;
         case collision_target_type::sprite_3:
-            // TODO: Likely wrong arguments here
             CollisionIntersectionPoint_6FE1A0 = field_5C_pCar->field_50_car_sprite->FindCollisionIntersectionPoint_5A2710(gCollisionTarget_679188.field_20_pHitSprite,
                                                                                                      point,
                                                                                                      angle,

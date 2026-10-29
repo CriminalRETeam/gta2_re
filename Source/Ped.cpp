@@ -173,10 +173,6 @@ DEFINE_GLOBAL_INIT(Ang16, kAng90_6784B0, Ang16(360), 0x6784B0); // TODO: Init vi
 EXTERN_GLOBAL(u8, bHaveThreateningPeds_6787DA);
 EXTERN_GLOBAL(u8, gPathStepSlotFree_61A8A1);
 
-// TODO
-EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
-
-// TODO: move with CarDoorAlignmentSolver_545AF0
 EXTERN_GLOBAL(PixelsToFix16Table, gPixelsToFix16_6F6850);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint1_6FD824, Fix16(0x666, 0), 0x6FD824);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint06_6FD9C8, Fix16(0x3D7, 0), 0x6FD9C8);
@@ -190,7 +186,6 @@ DEFINE_GLOBAL_INIT(Fix16, kFpThreeEighths_67878C, kFpOne64th_6784C4 * 24, 0x6787
 DEFINE_GLOBAL_INIT(Fix16, kFpEight_6786C0, kFpOne64th_6784C4 * 512, 0x6786C0);
 DEFINE_GLOBAL_INIT(Fix16, kFpFiveSixtyFourths_67843C, kFpFive_678674 * kFpOne64th_6784C4, 0x67843C);
 
-// TODO: these are defined in char.cpp
 EXTERN_GLOBAL(Fix16, gCharB4_WorldCollisionOffset_6FD8D8);
 EXTERN_GLOBAL(Fix16, kFpOne_6FDB20);
 EXTERN_GLOBAL(Fix16, kFP16Zero_6FD9E4);
@@ -205,7 +200,6 @@ EXTERN_GLOBAL(Ang16, gSpawnRotationTop_6787B0);
 EXTERN_GLOBAL(Ang16, gSpawnRotationRight_678578);
 EXTERN_GLOBAL(Ang16, gSpawnRotationBottom_678540);
 
-// TODO: move
 // https://decomp.me/scratch/BzcQt
 MATCH_FUNC(0x545AF0)
 EXPORT void __stdcall CarDoorAlignmentSolver_545AF0(u8 animPhase, Car* pCar, u8 doorId, Fix16& outX, Fix16& outY, Ang16& outAng)
@@ -780,7 +774,6 @@ void Ped::SetPlayer_45B560(Player* pPlayer, bool bIsAuxPed)
 MATCH_FUNC(0x45b590)
 bool Ped::IsEmergencyOccupation_45B590() const
 {
-    // TODO: was probably a switch case rather than checking a "between" on occupation?
     if (field_240_occupation >= ped_ocupation_enum::paramedic_23 && (field_240_occupation <= ped_ocupation_enum::army_army || field_240_occupation == ped_ocupation_enum::roadblock_cop_37))
     {
         return true;
@@ -3136,7 +3129,7 @@ void Ped::TaxiCustomer_AI_460820()
             }
             break;
 
-        case objectives_enum::enter_car_as_driver_35: // TODO: shouldn't it be enter car as passenger?
+        case objectives_enum::enter_car_as_driver_35: // as a passenger: field_248_enter_car_as_passenger is set
         {
             // It is on foot
             u8 status = this->field_225_objective_status;

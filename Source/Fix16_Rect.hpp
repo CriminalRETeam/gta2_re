@@ -123,7 +123,8 @@ class Fix16_Rect
         field_14_high_z = z + kCollisionPrismHalfHeight_6771E4;
     }
 
-    // TODO: Get inline addr
+    // Unused (SetFromPosSize_463710 does this), but removing it changes code elsewhere: see the shared
+    // header names note in docs/matching_quirks.md
     Fix16_Rect(Fix16 x, Fix16 y, Fix16 w, Fix16 h)
     {
         field_0_left = x;

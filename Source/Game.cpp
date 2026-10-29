@@ -88,7 +88,6 @@ EXTERN_GLOBAL(char_type, gLighting_626A09);
 
 DEFINE_GLOBAL(Game*, gGame_0x40_67E008, 0x67E008);
 
-// TODO: move
 EXPORT void __stdcall ReapplySavedGamma_5D9970();
 
 MATCH_FUNC(0x4B8BB0)
@@ -221,9 +220,6 @@ void Game::ApplyNetworkGameSettings_4B8E50()
     bSkip_police_67D4F9 = gNetworkGameSettings_707098.field_201A0_police_on == 0;
 }
 
-// TODO: move
-EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
-
 DEFINE_GLOBAL(Ped*, gLastTestPed_6787E8, 0x6787E8);
 
 // Gives the player a group of count peds with the given remap
@@ -267,14 +263,12 @@ EXPORT void __stdcall SpawnTestGroup_46DD70(char_type remap, u8 count)
     }
 }
 
-// TODO: move
 MATCH_FUNC(0x46E370)
 EXPORT void SpawnTestGroupDefault_46E370()
 {
     SpawnTestGroup_46DD70(4, 4);
 }
 
-// TODO: move
 MATCH_FUNC(0x5D8DF0)
 EXPORT void InvalidateCachedScreenDimension_5D8DF0()
 {

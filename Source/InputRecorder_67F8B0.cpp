@@ -18,13 +18,12 @@
 
 #define ATTRACT_COUNT 3
 
-// TODO: From frontend.cpp
 extern DIDATAFORMAT gInputDeviceFormat_601A6C;
 
 EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 
-// TODO: for some reason it does not have uAppData.
-// Otherwise using DIDEVICEOBJECTDATA (size 0x14) makes gGamePadDeviceData_67B5B0 overlaps gKeyboardDevice_67B5C0
+// DirectInput's pre-8 DIDEVICEOBJECTDATA (0x10 bytes, no uAppData): the 0x14 one of our SDK would
+// make gGamePadDeviceData_67B5B0 overlap gKeyboardDevice_67B5C0
 struct mini_device_obj_data
 {
     s32 dwOfs;

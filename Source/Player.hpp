@@ -17,7 +17,6 @@ class Weapon;
 class Player;
 struct SavedPlayerStats;
 
-// TODO: add these later
 class Car;
 class Gang;
 
@@ -210,7 +209,6 @@ class Player
         return true;
     }
 
-    // TODO: Ordering
     EXPORT s32 ObjectTypeToWeaponType_443CB0(u8 shop_type);
 
     EXPORT u8 GetIdx_4881E0();

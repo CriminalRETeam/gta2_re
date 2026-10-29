@@ -142,7 +142,6 @@ void FrameProfiler::DebugDrawProfiling_4FF250()
 
     s32 display_add = ConvertCycleCount_5BEED0(gDisplayAdd_67B578);
     s32 display_draw = ConvertCycleCount_5BEED0(gDisplayDraw_67B57C);
-    // TODO: the format strings at 0x621100 and 0x6210DC are guesses
     sDrawString_4FF910(280, 160, L"DisplayAdd   %3d", display_add);
     sDrawString_4FF910(280, 180, L"DisplayDraw  %3d", display_draw);
     gDisplayAdd_67B578 = 0;

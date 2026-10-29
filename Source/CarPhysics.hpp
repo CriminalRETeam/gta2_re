@@ -126,7 +126,6 @@ class CarPhysics
         return field_92_is_hand_brake_on;
     }
 
-    // TODO: Ordering
     EXPORT Fix16 ComputeZPosition_559E90();
 
     EXPORT Fix16_Point get_cp1_40B560();

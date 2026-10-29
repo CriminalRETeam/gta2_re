@@ -194,7 +194,6 @@ class Sprite
         field_39_z_col = v;
     }
 
-    // TODO: Ordering
     EXPORT Fix16_Point GetBoundingBoxCorner_562450(s32 idx);
 
     EXPORT Fix16_Point get_x_y_443580();
@@ -697,8 +696,6 @@ class AttachedSprite
     {
     }
 
-    // TODO: ordering ?
-
     EXPORT void SinkAttachedCar_5A6A20();
 
     EXPORT void DestroyAttached_5A69E0();
@@ -748,13 +745,13 @@ class SpriteShapePool
 
     ~SpriteShapePool();
 
-    // TODO: Get 9.6f inline addr
+    // 9.6f 0x4BCA10
     void Remove(SpriteShape* pToRemove)
     {
         field_0_pool.DeAllocate(pToRemove);
     }
 
-    // TODO: Get 9.6f inline addr
+    // 9.6f 0x4BC9F0
     SpriteShape* Allocate()
     {
         return field_0_pool.Allocate();

@@ -29,8 +29,6 @@ class cSampleManager
     EXPORT bool OpenDigitalDriver_58D720(bool b16Bit, bool bStereo, s32 sampleRate);
 
   public:
-    // todo: order
-
     EXPORT bool AllocSamples_58D9F0(s32 not_used);
 
     EXPORT void PlaySampleRange_58E8C0(u32 idx, u32 end_idx);
@@ -104,10 +102,8 @@ class cSampleManager
 
     EXPORT bool Open3DProvider_58E140(s32 provider_idx);
 
-    // todo order
     EXPORT void Close3DProvider_58E1C0();
 
-    // todo order
     EXPORT void Enum3DProviders_58E1F0();
 
   public:

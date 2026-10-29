@@ -153,7 +153,6 @@ enum
     k_spawn_cop = 5,
 };
 
-// TODO: Prob a method of PedManager?
 MATCH_FUNC(0x46E380)
 EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation)
 {

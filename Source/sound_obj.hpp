@@ -30,7 +30,7 @@ struct SoundPosEntry
     }
 
     Fix16 field_0_last_speed;
-    u32 field_4_car;
+    Car* field_4_car;
     s16 field_8_unused;
     u8 field_A_horn_pattern_idx;
     char_type field_B_unused;
@@ -257,7 +257,6 @@ class sound_obj
   public:
     EXPORT sound_obj();
 
-    // TODO: Ordering
     EXPORT void Reacquire_41A2A0();
     EXPORT char_type GetAudioDriveLetter_41A2E0() const;
     EXPORT char_type Get3dSound_41A390() const;

@@ -85,7 +85,6 @@ void TextTable::RemapExtendedChars_5B5930(wchar_t* pStr)
 MATCH_FUNC(0x5B5960)
 void TextTable::TKEY_Load_5B5960(u32 chunk_size)
 {
-    // TODO: probably an inline
     field_0_tKey.field_4_tKey_count = chunk_size / sizeof(TextKeyEntry);
     field_0_tKey.field_0_tKey = new TextKeyEntry[field_0_tKey.field_4_tKey_count];
     if (!field_0_tKey.field_0_tKey)

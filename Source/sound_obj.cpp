@@ -1403,7 +1403,7 @@ MATCH_FUNC(0x413C50)
 void sound_obj::ProcessOtherCarTypes_413C50(Sound_Params* pParams, SoundPosEntry* pAlloc)
 {
     Car* pCar = pParams->field_0_pObj->field_8_car_bc_ptr;
-    pAlloc->field_4_car = reinterpret_cast<u32>(pCar); // TODO: Likely another union??
+    pAlloc->field_4_car = pCar;
     if (pCar->field_68_scale != kFpOne_66F3F4)
     {
         if (pCar->field_58_physics)
@@ -1461,7 +1461,6 @@ void sound_obj::HandleAICarHornBeep_413D10(Sound_Params* pParams)
                     return;
                 }
 
-                // TODO: Prob a switch or something here
                 if (sound_event > 2)
                 {
                     if (sound_event != 3)
@@ -2264,7 +2263,7 @@ bool sound_obj::Type_3_InitCarAlarmSound_4174C0(sound_0x68* pSound)
     if (GetCar_4145E0(pSound->field_0_EntityIndex, &pCar))
     {
         s32 car_model = pCar->field_84_car_info_idx;
-        // ??? makes no sense on car model
+        // The model picks one of four alarm tones and shifts its pitch
         switch (car_model & 3)
         {
             default:
@@ -5977,7 +5976,6 @@ void sound_obj::HandlePedVoiceEvent_423080(Sound_Params* pParams)
     }
 }
 
-// TODO: Likely a method of sound_obj
 MATCH_FUNC(0x4236C0)
 EXPORT bool Cooldown_4236C0()
 {

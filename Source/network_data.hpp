@@ -35,7 +35,6 @@ struct Network_PlayerInputs
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Network_PlayerInputs, 0x30);
 
-//   TODO: unify all packets using unions
 union ReceivedPacket
 {
     Network_InputData input_data;
