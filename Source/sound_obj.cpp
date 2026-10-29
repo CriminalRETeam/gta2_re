@@ -1461,7 +1461,6 @@ void sound_obj::HandleAICarHornBeep_413D10(Sound_Params* pParams)
                     return;
                 }
 
-                // TODO: Prob a switch or something here
                 if (sound_event > 2)
                 {
                     if (sound_event != 3)
@@ -5977,7 +5976,6 @@ void sound_obj::HandlePedVoiceEvent_423080(Sound_Params* pParams)
     }
 }
 
-// TODO: Likely a method of sound_obj
 MATCH_FUNC(0x4236C0)
 EXPORT bool Cooldown_4236C0()
 {

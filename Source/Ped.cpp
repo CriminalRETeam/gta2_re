@@ -777,7 +777,6 @@ void Ped::SetPlayer_45B560(Player* pPlayer, bool bIsAuxPed)
 MATCH_FUNC(0x45b590)
 bool Ped::IsEmergencyOccupation_45B590() const
 {
-    // TODO: was probably a switch case rather than checking a "between" on occupation?
     if (field_240_occupation >= ped_ocupation_enum::paramedic_23 && (field_240_occupation <= ped_ocupation_enum::army_army || field_240_occupation == ped_ocupation_enum::roadblock_cop_37))
     {
         return true;

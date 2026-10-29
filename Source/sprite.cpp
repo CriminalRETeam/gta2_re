@@ -2299,7 +2299,6 @@ void Sprite::PoolAllocate()
     this->field_38_zoom = 0;
     this->field_10_sound = NULL;
 
-    // TODO: Probably an inline
     this->field_20_instance_id = gSpriteManager_703820->field_4_id_base++;
     if (!gSpriteManager_703820->field_4_id_base)
     {

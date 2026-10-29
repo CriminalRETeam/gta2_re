@@ -580,7 +580,6 @@ Fix16 CarPhysics::GetEffectiveMomentOfInertia_55A050()
 MATCH_FUNC(0x55a0b0)
 bool CarPhysics::IsInAir_55A0B0()
 {
-    // TODO: The surface checks are likely inlines
     Trailer* pTrailer = field_5C_pCar->field_64_pTrailer;
     if (pTrailer)
     {

@@ -126,7 +126,6 @@ void Object::PoolDeallocate()
 {
     this->field_18_model = 0;
 
-    // TODO: Local required, inline?
     const s32 limit_kind = field_8_definition->field_5C_instance_limit_kind;
     if (limit_kind == instance_limit_kind::limited_count_2)
     {

@@ -25,7 +25,6 @@ enum ReplayState
 class InputDevices
 {
   public:
-    // TODO: Probably this call
     EXPORT void __stdcall free_input_devices_4987A0();
 
     EXPORT void flush_keyboard_and_gamepad_498CC0();

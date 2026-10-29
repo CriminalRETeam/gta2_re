@@ -2630,7 +2630,6 @@ char* Player::GetDeathText_569F00()
 MATCH_FUNC(0x569F40)
 void Player::DisableInputs_569F40()
 {
-    // TODO: Almost certainly an inline, and perhaps a switch case too
     Ped* pPed;
     if (!field_68_camera_mode)
     {
