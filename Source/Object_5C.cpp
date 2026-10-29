@@ -3669,30 +3669,20 @@ void Object_5C::SaveObjects_52A500(SavedObjectData* pData)
     }
 }
 
-// TODO: This is a mess, probably a fake match
-// https://decomp.me/scratch/juEUq
 MATCH_FUNC(0x52A590)
 void Object_5C::RestoreObjects_52A590(SavedObjectData* pData)
 {
-    u8* pPedRefIdx = &pData->field_118_ped_ref_idx[0];
-    u16* pModel = &pData->field_F0_model[0];
-
-    s32 i = 19;
-    while (i >= 0)
+    for (u16 i = 0; i < 20; i++)
     {
-        if (pData->field_0_obj_x[0][19 - i].field_0_value != kFpZero_6F8E10 &&
-            pData->field_0_obj_x[1][19 - i].field_0_value != kFpZero_6F8E10)
+        if (pData->field_0_obj_x[0][i].field_0_value != kFpZero_6F8E10 && pData->field_0_obj_x[1][i].field_0_value != kFpZero_6F8E10)
         {
-            Object* pNewObj = NewPhysicsObj_5299B0(*pModel,
-                                                      pData->field_0_obj_x[0][19 - i].field_0_value,
-                                                      pData->field_0_obj_x[1][19 - i].field_0_value,
-                                                      pData->field_0_obj_x[2][19 - i].field_0_value,
-                                                      kZeroAng_6F8F68);
-            pNewObj->set_field_26(*pPedRefIdx);
+            Object* pNewObj = NewPhysicsObj_5299B0(pData->field_F0_model[i],
+                                                   pData->field_0_obj_x[0][i].field_0_value,
+                                                   pData->field_0_obj_x[1][i].field_0_value,
+                                                   pData->field_0_obj_x[2][i].field_0_value,
+                                                   kZeroAng_6F8F68);
+            pNewObj->set_field_26(pData->field_118_ped_ref_idx[i]);
         }
-        pModel++;
-        i--;
-        pPedRefIdx++;
     }
 
     memset(pData, 0, 0x12Cu); // everything before field_12C_obj_5C_bUnCollectedTokens
