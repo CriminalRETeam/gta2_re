@@ -1,6 +1,5 @@
 #pragma once
 
-// TODO: Replace CarDamageAreasFlags etc with this
 namespace CarDeltaBitsEnum
 {
 enum
@@ -941,6 +940,8 @@ enum
 };
 } // namespace threat_search_enum
 
+// CarDamageAreas and CarDamageAreasFlags are unused (CarDeltaBitsEnum took over) but stay:
+// enums.hpp has no slack for fewer names (docs/matching_quirks.md)
 namespace CarDamageAreas
 {
 enum
