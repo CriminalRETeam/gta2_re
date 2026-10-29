@@ -1663,12 +1663,9 @@ void CC ImGuiDebugDraw()
 
         if (gFirefighterPool_54_67D4C0 && ImGui::TreeNode("gTango_54_67D4C0"))
         {
-            //if (gFirefighterPool_54_67D4C0)
+            if (ImGui::Button("TryDispatchFirefightersToCar_4A8820"))
             {
-                if (ImGui::Button("TryDispatchFirefightersToCar_4A8820"))
-                {
-                    gFirefighterPool_54_67D4C0->TryDispatchFirefightersToCar_4A8820(0);
-                }
+                gFirefighterPool_54_67D4C0->TryDispatchFirefightersToCar_4A8820(0);
             }
             ImGui::TreePop();
         }
@@ -2533,8 +2530,7 @@ void CC ImGuiDebugDraw()
 
                 if (ImGui::Button("Spawn 100"))
                 {
-                    s32 c;
-                    for (c = 0; c < 100; c++)
+                    for (s32 c = 0; c < 100; c++)
                     {
                         Char* pPlayerChar = pPlayerPed->field_168_game_object;
                         Sprite* pPlayerSprite = pPlayerChar->field_80_sprite_ptr;
@@ -3047,103 +3043,97 @@ void CC ImGuiDebugDraw()
     {
         if (ImGui::TreeNode("MenuPage"))
         {
-            //if (gFrontend_67DC84)
+            static s32 page_idx = 0;
+            ImGui::SliderInt("Menu page", &page_idx, 0, 16);
+
+            MenuPage* pMenuPage = &gFrontend_67DC84->field_136_menu_pages_array[page_idx];
+            ImGui::Value("field_0_number_of_options", pMenuPage->field_0_number_of_options);
+            ImGui::Value("field_2_number_of_elements", pMenuPage->field_2_number_of_elements);
+            ImGui::Value("field_BC6_current_option_idx", pMenuPage->field_BC6_current_option_idx);
+            ImGui::Value("field_BC8_default_option_idx", pMenuPage->field_BC8_default_option_idx);
+
+            if (ImGui::TreeNode("MenuItem"))
             {
-                static s32 page_idx = 0;
-                ImGui::SliderInt("Menu page", &page_idx, 0, 16);
+                static s32 option_entry_idx = 0;
+                ImGui::SliderInt("Nifty Maxwell ID", &option_entry_idx, 0, 9);
 
-                MenuPage* pMenuPage = &gFrontend_67DC84->field_136_menu_pages_array[page_idx];
-                ImGui::Value("field_0_number_of_options", pMenuPage->field_0_number_of_options);
-                ImGui::Value("field_2_number_of_elements", pMenuPage->field_2_number_of_elements);
-                ImGui::Value("field_BC6_current_option_idx", pMenuPage->field_BC6_current_option_idx);
-                ImGui::Value("field_BC8_default_option_idx", pMenuPage->field_BC8_default_option_idx);
+                MenuItem* pOptionEntry = &pMenuPage->field_4_options_array[option_entry_idx];
 
-                if (ImGui::TreeNode("MenuItem"))
-                {
-                    static s32 option_entry_idx = 0;
-                    ImGui::SliderInt("Nifty Maxwell ID", &option_entry_idx, 0, 9);
+                ImGui::Value("field_0_option_type", pOptionEntry->field_0_option_type);
+                ImGui::Value("field_1_is_unlocked", pOptionEntry->field_1_is_unlocked);
 
-                    MenuItem* pOptionEntry = &pMenuPage->field_4_options_array[option_entry_idx];
+                ImGui::SliderS16("field_2_x_pos", &pOptionEntry->field_2_x_pos, 0, 1000);
+                ImGui::SliderS16("field_4_y_pos", &pOptionEntry->field_4_y_pos, 0, 700);
 
-                    ImGui::Value("field_0_option_type", pOptionEntry->field_0_option_type);
-                    ImGui::Value("field_1_is_unlocked", pOptionEntry->field_1_is_unlocked);
+                static char str_buf[50];
+                wchar_to_char(pOptionEntry->field_6_option_name_str, str_buf, 50);
+                ImGui::Text(str_buf);
 
-                    ImGui::SliderS16("field_2_x_pos", &pOptionEntry->field_2_x_pos, 0, 1000);
-                    ImGui::SliderS16("field_4_y_pos", &pOptionEntry->field_4_y_pos, 0, 700);
+                ImGui::Value("field_6A_font_type", pOptionEntry->field_6A_font_type);
+                ImGui::Value("field_6C_palette", pOptionEntry->field_6C_palette);
+                ImGui::Value("field_6E_horizontal_selected_idx", pOptionEntry->field_6E_horizontal_selected_idx);
+                ImGui::Value("field_70", pOptionEntry->field_70_unused);
 
-                    static char str_buf[50];
-                    wchar_to_char(pOptionEntry->field_6_option_name_str, str_buf, 50);
-                    ImGui::Text(str_buf);
+                ImGui::Text(pOptionEntry->field_72_horizontal_idx_enabled);
 
-                    ImGui::Value("field_6A_font_type", pOptionEntry->field_6A_font_type);
-                    ImGui::Value("field_6C_palette", pOptionEntry->field_6C_palette);
-                    ImGui::Value("field_6E_horizontal_selected_idx", pOptionEntry->field_6E_horizontal_selected_idx);
-                    ImGui::Value("field_70", pOptionEntry->field_70_unused);
+                ImGui::Value("field_7E_horizontal_max_idx", pOptionEntry->field_7E_horizontal_max_idx);
+                ImGui::Value("field_80_menu_page_target", pOptionEntry->field_80_menu_page_target);
 
-                    ImGui::Text(pOptionEntry->field_72_horizontal_idx_enabled);
+                ImGui::TreePop();
+            }
 
-                    ImGui::Value("field_7E_horizontal_max_idx", pOptionEntry->field_7E_horizontal_max_idx);
-                    ImGui::Value("field_80_menu_page_target", pOptionEntry->field_80_menu_page_target);
+            if (ImGui::TreeNode("MenuElement"))
+            {
+                static s32 element_idx = 0;
+                ImGui::SliderInt("Competent Noyce ID", &element_idx, 0, 14);
 
-                    ImGui::TreePop();
-                }
+                MenuElement* pElement = &pMenuPage->field_518_elements_array[element_idx];
 
-                if (ImGui::TreeNode("MenuElement"))
-                {
-                    static s32 element_idx = 0;
-                    ImGui::SliderInt("Competent Noyce ID", &element_idx, 0, 14);
+                ImGui::Value("field_0_element_type", pElement->field_0_element_type);
+                ImGui::Value("field_1_is_it_displayed", pElement->field_1_is_it_displayed);
 
-                    MenuElement* pElement = &pMenuPage->field_518_elements_array[element_idx];
+                ImGui::SliderS16("field_2_xpos", &pElement->field_2_xpos, 0, 1000);
+                ImGui::SliderS16("field_4_ypos", &pElement->field_4_ypos, 0, 700);
 
-                    ImGui::Value("field_0_element_type", pElement->field_0_element_type);
-                    ImGui::Value("field_1_is_it_displayed", pElement->field_1_is_it_displayed);
+                static char str_buf_2[50];
+                wchar_to_char(pElement->field_6_element_name_str, str_buf_2, 50);
+                ImGui::Text(str_buf_2);
 
-                    ImGui::SliderS16("field_2_xpos", &pElement->field_2_xpos, 0, 1000);
-                    ImGui::SliderS16("field_4_ypos", &pElement->field_4_ypos, 0, 700);
+                ImGui::InputU16("field_6A_font_type", &pElement->field_6A_font_type, 1, 1);
+                ImGui::InputU16("field_6C_font_palette", &pElement->field_6C_font_palette, 1, 1);
 
-                    static char str_buf_2[50];
-                    wchar_to_char(pElement->field_6_element_name_str, str_buf_2, 50);
-                    ImGui::Text(str_buf_2);
+                ImGui::TreePop();
+            }
 
-                    ImGui::InputU16("field_6A_font_type", &pElement->field_6A_font_type, 1, 1);
-                    ImGui::InputU16("field_6C_font_palette", &pElement->field_6C_font_palette, 1, 1);
+            if (ImGui::TreeNode("MenuOption"))
+            {
+                static s32 option_idx = 0;
+                ImGui::SliderInt("Kind Beaver ID", &option_idx, 0, 9);
 
-                    ImGui::TreePop();
-                }
+                MenuOption* menu_option = &pMenuPage->field_B8A_option_states[option_idx];
 
-                if (ImGui::TreeNode("MenuOption"))
-                {
-                    static s32 option_idx = 0;
-                    ImGui::SliderInt("Kind Beaver ID", &option_idx, 0, 9);
+                ImGui::SliderS16("field_0", &menu_option->field_0_unused, 0, 1000);
+                ImGui::SliderS16("field_2_unused", &menu_option->field_2_unused, 0, 700);
 
-                    MenuOption* menu_option = &pMenuPage->field_B8A_option_states[option_idx];
+                ImGui::Input_char_type("field_4_is_option_unlocked", &menu_option->field_4_is_option_unlocked, 1, 1);
+                ImGui::Input_char_type("field_5_unused", &menu_option->field_5_unused, 1, 1);
 
-                    ImGui::SliderS16("field_0", &menu_option->field_0_unused, 0, 1000);
-                    ImGui::SliderS16("field_2_unused", &menu_option->field_2_unused, 0, 700);
-
-                    ImGui::Input_char_type("field_4_is_option_unlocked", &menu_option->field_4_is_option_unlocked, 1, 1);
-                    ImGui::Input_char_type("field_5_unused", &menu_option->field_5_unused, 1, 1);
-
-                    ImGui::TreePop();
-                }
+                ImGui::TreePop();
             }
             ImGui::TreePop();
         }
 
         if (ImGui::TreeNode("SaveSlotSummary"))
         {
-            //if (gFrontend_67DC84)
-            {
-                static s32 slot_idx = 0;
-                ImGui::SliderInt("Save slot", &slot_idx, 0, 7);
+            static s32 slot_idx = 0;
+            ImGui::SliderInt("Save slot", &slot_idx, 0, 7);
 
-                SaveSlotSummary* pSlot = &gFrontend_67DC84->field_EDE8_plySlots[slot_idx];
+            SaveSlotSummary* pSlot = &gFrontend_67DC84->field_EDE8_plySlots[slot_idx];
 
-                ImGui::Value("field_0_save_exists", pSlot->field_0_save_exists);
-                ImGui::Value("field_1_last_saved_stage", pSlot->field_1_last_saved_stage);
-                ImGui::Value("field_2_last_saved_bonus_stage_code", pSlot->field_2_last_saved_bonus_stage_code);
-                ImGui::Value("field_3_last_saved_is_bonus", pSlot->field_3_last_saved_is_bonus);
-            }
+            ImGui::Value("field_0_save_exists", pSlot->field_0_save_exists);
+            ImGui::Value("field_1_last_saved_stage", pSlot->field_1_last_saved_stage);
+            ImGui::Value("field_2_last_saved_bonus_stage_code", pSlot->field_2_last_saved_bonus_stage_code);
+            ImGui::Value("field_3_last_saved_is_bonus", pSlot->field_3_last_saved_is_bonus);
             ImGui::TreePop();
         }
         
@@ -3175,56 +3165,53 @@ void CC ImGuiDebugDraw()
 
         if (ImGui::TreeNode("Debug Frontend"))
         {
-            //if (gFrontend_67DC84)
+            
+            if (ImGui::Button("Add new menu option (WIP)"))
             {
-                
-                if (ImGui::Button("Add new menu option (WIP)"))
+                AddMenuOption(MENUPAGE_PLAY, 300, 415, L"TEST OPTION", 264);
+            }
+            ImGui::TreePop();
+            
+
+            if (ImGui::TreeNode("Player settings"))
+            {
+                static s32 player_idx;
+                ImGui::SliderInt("Player idx", &player_idx, 0, 7);
+
+                // fix softlock crashes after trying to change player name in standalone
+                if (ImGui::Button("Set Player"))
                 {
-                    AddMenuOption(MENUPAGE_PLAY, 300, 415, L"TEST OPTION", 264);
+                    gGameSession_67E8E0.SetPlySlotIdx_4C5920(player_idx);
+                    gFrontend_67DC84->UpdateMenuForCurrPlayer_4B42E0();
+                    gRegistry_6FF968.Set_Player_Setting_5878C0("plyrslot", player_idx);
                 }
                 ImGui::TreePop();
-                
+            }
 
-                if (ImGui::TreeNode("Player settings"))
+            if (ImGui::TreeNode("Fields"))
+            {
+                ImGui::SliderInt("Frontend State", &gFrontend_67DC84->field_110_state, 1, 5);
+                ImGui::TreePop();
+            }
+
+            if (ImGui::TreeNode("Credits"))
+            {
+
+                CreditsText* pCreditsStruct = &gFrontend_67DC84->field_EE0E_credits;
+                if (pCreditsStruct)
                 {
-                    static s32 player_idx;
-                    ImGui::SliderInt("Player idx", &player_idx, 0, 7);
+                    ImGui::InputS16("Credits line count", &pCreditsStruct->field_0_line_count, 1, 1);
 
-                    // fix softlock crashes after trying to change player name in standalone
-                    if (ImGui::Button("Set Player"))
+                    static s32 credit_line;
+                    ImGui::InputInt("Credit line", &credit_line, 1, 1);
+
+                    CreditsLine* pCreditLine = &pCreditsStruct->field_2_lines[credit_line];
+                    if (pCreditLine)
                     {
-                        gGameSession_67E8E0.SetPlySlotIdx_4C5920(player_idx);
-                        gFrontend_67DC84->UpdateMenuForCurrPlayer_4B42E0();
-                        gRegistry_6FF968.Set_Player_Setting_5878C0("plyrslot", player_idx);
-                    }
-                    ImGui::TreePop();
-                }
-
-                if (ImGui::TreeNode("Fields"))
-                {
-                    ImGui::SliderInt("Frontend State", &gFrontend_67DC84->field_110_state, 1, 5);
-                    ImGui::TreePop();
-                }
-
-                if (ImGui::TreeNode("Credits"))
-                {
-
-                    CreditsText* pCreditsStruct = &gFrontend_67DC84->field_EE0E_credits;
-                    if (pCreditsStruct)
-                    {
-                        ImGui::InputS16("Credits line count", &pCreditsStruct->field_0_line_count, 1, 1);
-
-                        static s32 credit_line;
-                        ImGui::InputInt("Credit line", &credit_line, 1, 1);
-
-                        CreditsLine* pCreditLine = &pCreditsStruct->field_2_lines[credit_line];
-                        if (pCreditLine)
-                        {
-                            ImGui::Checkbox("Credit line loaded", &pCreditLine->field_0_bLoaded);
-                            ImGui::InputS16("Credit line field_2", &pCreditLine->field_2_unused, 1, 1);
-                            ImGui::InputU16("Credit line y gap", &pCreditLine->field_4_y_gap, 1, 1);
-                            ImGui::InputU16("Credit line category", &pCreditLine->field_6_string_category, 1, 1);
-                        }
+                        ImGui::Checkbox("Credit line loaded", &pCreditLine->field_0_bLoaded);
+                        ImGui::InputS16("Credit line field_2", &pCreditLine->field_2_unused, 1, 1);
+                        ImGui::InputU16("Credit line y gap", &pCreditLine->field_4_y_gap, 1, 1);
+                        ImGui::InputU16("Credit line category", &pCreditLine->field_6_string_category, 1, 1);
                     }
                 }
             }
@@ -3236,86 +3223,83 @@ void CC ImGuiDebugDraw()
 
     if (gPlyDat_6FEAC0 && ImGui::TreeNode("gPlyDat_6FEAC0"))
     {
-        //if (gPlyDat_6FEAC0)
+        if (ImGui::TreeNode("BestStageStats"))
         {
-            if (ImGui::TreeNode("BestStageStats"))
-            {
-                static s32 struc_221_id = 0;
-                ImGui::SliderInt("BestStageStats ID", &struc_221_id, 0, 2);
-                BestStageStats* struc = &gPlyDat_6FEAC0->field_1800_best_stats[struc_221_id];
+            static s32 struc_221_id = 0;
+            ImGui::SliderInt("BestStageStats ID", &struc_221_id, 0, 2);
+            BestStageStats* struc = &gPlyDat_6FEAC0->field_1800_best_stats[struc_221_id];
 
-                static s32 byte_id = 0;
-                ImGui::SliderInt("Byte ID", &byte_id, 0, 39);
-                ImGui::Value("field_0 at id", struc->field_0_best_statistics[byte_id]);
-                ImGui::TreePop();
+            static s32 byte_id = 0;
+            ImGui::SliderInt("Byte ID", &byte_id, 0, 39);
+            ImGui::Value("field_0 at id", struc->field_0_best_statistics[byte_id]);
+            ImGui::TreePop();
+        }
+
+        if (ImGui::TreeNode("HighScoreTable"))
+        {
+            static s32 table_type = 0;
+
+            const char* table_names[] = {"field_1890", "field_23D0_total_scores", "field_24C0_alt_scores", "field_25B0"};
+            ImGui::Combo("table_field", &table_type, table_names, 4);
+
+            static s32 id_1 = 0;
+            static s32 id_2 = 0;
+            ImGui::SliderInt("field_1890 ID 1", &id_1, 0, 2);
+            ImGui::SliderInt("field_1890 ID 2", &id_2, 0, 3);
+
+            HighScoreTable* pTable;
+
+            switch (table_type)
+            {
+                case 0:
+                    pTable = &gPlyDat_6FEAC0->field_1890_stage_scores[id_1][id_2];
+                    break;
+                case 1:
+                    pTable = &gPlyDat_6FEAC0->field_23D0_total_scores;
+                    break;
+                case 2:
+                    pTable = &gPlyDat_6FEAC0->field_24C0_alt_scores;
+                    break;
+                case 3:
+                    pTable = &gPlyDat_6FEAC0->field_25B0_merged_scores;
+                    break;
+                default:
+                    break;
             }
 
-            if (ImGui::TreeNode("HighScoreTable"))
-            {
-                static s32 table_type = 0;
+            static s32 string_id = 0;
+            ImGui::SliderInt("string_id", &string_id, 0, 9);
+            ScoreTableLine* s_string = &pTable->field_0_score_table_line[string_id];
 
-                const char* table_names[] = {"field_1890", "field_23D0_total_scores", "field_24C0_alt_scores", "field_25B0"};
-                ImGui::Combo("table_field", &table_type, table_names, 4);
+            static char str_buf_3[10];
+            wchar_to_char(s_string->field_0_player_name, str_buf_3, 10);
+            ImGui::Text(str_buf_3);
+            ImGui::Value("field_14_score", s_string->field_14_score);
 
-                static s32 id_1 = 0;
-                static s32 id_2 = 0;
-                ImGui::SliderInt("field_1890 ID 1", &id_1, 0, 2);
-                ImGui::SliderInt("field_1890 ID 2", &id_2, 0, 3);
+            ImGui::TreePop();
+        }
 
-                HighScoreTable* pTable;
+        if (ImGui::TreeNode("PlySlot"))
+        {
+            static s32 table_idx = 0;
+            ImGui::SliderInt("table_idx", &table_idx, 0, 7);
+            PlySlot* dreamy = &gPlyDat_6FEAC0->field_26A0_plyr_stats[table_idx];
 
-                switch (table_type)
-                {
-                    case 0:
-                        pTable = &gPlyDat_6FEAC0->field_1890_stage_scores[id_1][id_2];
-                        break;
-                    case 1:
-                        pTable = &gPlyDat_6FEAC0->field_23D0_total_scores;
-                        break;
-                    case 2:
-                        pTable = &gPlyDat_6FEAC0->field_24C0_alt_scores;
-                        break;
-                    case 3:
-                        pTable = &gPlyDat_6FEAC0->field_25B0_merged_scores;
-                        break;
-                    default:
-                        break;
-                }
+            static char str_buf_4[9];
+            wchar_to_char(dreamy->field_90_strPlayerName, str_buf_4, 9);
+            ImGui::Text(str_buf_4);
 
-                static s32 string_id = 0;
-                ImGui::SliderInt("string_id", &string_id, 0, 9);
-                ScoreTableLine* s_string = &pTable->field_0_score_table_line[string_id];
+            static s32 gifted_joliot_id_1 = 0;
+            static s32 gifted_joliot_id_2 = 0;
+            ImGui::SliderInt("StageStats ID 1", &gifted_joliot_id_1, 0, 2);
+            ImGui::SliderInt("StageStats ID 2", &gifted_joliot_id_2, 0, 3);
+            StageStats* g_joliot = &dreamy->field_0_plyr_stage_stats[gifted_joliot_id_1][gifted_joliot_id_2];
 
-                static char str_buf_3[10];
-                wchar_to_char(s_string->field_0_player_name, str_buf_3, 10);
-                ImGui::Text(str_buf_3);
-                ImGui::Value("field_14_score", s_string->field_14_score);
+            ImGui::Value("Joliot field_0", g_joliot->field_0_is_stage_unlocked);
+            ImGui::Value("Joliot field_4", g_joliot->field_4_stage_best_score);
+            ImGui::Value("Joliot field_8", g_joliot->field_8_stage_latest_score);
 
-                ImGui::TreePop();
-            }
-
-            if (ImGui::TreeNode("PlySlot"))
-            {
-                static s32 table_idx = 0;
-                ImGui::SliderInt("table_idx", &table_idx, 0, 7);
-                PlySlot* dreamy = &gPlyDat_6FEAC0->field_26A0_plyr_stats[table_idx];
-
-                static char str_buf_4[9];
-                wchar_to_char(dreamy->field_90_strPlayerName, str_buf_4, 9);
-                ImGui::Text(str_buf_4);
-
-                static s32 gifted_joliot_id_1 = 0;
-                static s32 gifted_joliot_id_2 = 0;
-                ImGui::SliderInt("StageStats ID 1", &gifted_joliot_id_1, 0, 2);
-                ImGui::SliderInt("StageStats ID 2", &gifted_joliot_id_2, 0, 3);
-                StageStats* g_joliot = &dreamy->field_0_plyr_stage_stats[gifted_joliot_id_1][gifted_joliot_id_2];
-
-                ImGui::Value("Joliot field_0", g_joliot->field_0_is_stage_unlocked);
-                ImGui::Value("Joliot field_4", g_joliot->field_4_stage_best_score);
-                ImGui::Value("Joliot field_8", g_joliot->field_8_stage_latest_score);
-
-                ImGui::TreePop();
-            }
+            ImGui::TreePop();
         }
         ImGui::TreePop();
     }
