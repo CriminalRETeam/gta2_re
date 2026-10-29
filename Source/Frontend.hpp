@@ -417,7 +417,7 @@ struct Frontend
 
     EXPORT void GetMainAndBonusStagesFromSeqFile_4B4440();
 
-    EXPORT void GetSeqItem_4B48D0(s32 type, char_type *ppRet, FILE *hSeqFile);
+    EXPORT void GetSeqItem_4B48D0(u8 type, char_type *ppRet, FILE *hSeqFile);
 
     EXPORT void LoadPlySlotSvgs_4B53C0();
 

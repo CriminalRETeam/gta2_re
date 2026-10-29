@@ -4205,7 +4205,7 @@ void Frontend::GetMainAndBonusStagesFromSeqFile_4B4440()
 }
 
 MATCH_FUNC(0x4B48D0)
-void Frontend::GetSeqItem_4B48D0(s32 type, char_type* ppRet, FILE* hSeqFile)
+void Frontend::GetSeqItem_4B48D0(u8 type, char_type* ppRet, FILE* hSeqFile)
 {
     char_type type_buf[52];
     char_type output_buf[256];
@@ -4244,7 +4244,7 @@ void Frontend::GetSeqItem_4B48D0(s32 type, char_type* ppRet, FILE* hSeqFile)
         } // 0x3d
         output_buf[pos] = 0;
 
-        switch (type & 0xff) // TODO: Wrong type ??
+        switch (type)
         {
             case 0:
                 strcpy(type_buf, "MainOrBonus");
