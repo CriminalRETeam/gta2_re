@@ -9277,7 +9277,7 @@ void Ped::ChaseTargetStateMachine_46B170()
                     field_168_game_object->RegulateVelocityByRef_433970(kFpOne64th_678430);
                 }
 
-                if (field_168_game_object->GetCharState_433A80() == 10)
+                if (field_168_game_object->GetCharState_433A80() == Char_B4_state::Avoiding_Ped_10)
                 {
                     field_168_game_object->SetVelocityByRef_433920(kFpZero_678438);
                 }
