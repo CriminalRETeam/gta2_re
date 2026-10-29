@@ -41,6 +41,10 @@ with a patched copy that logs the pass, and checked by forcing other orders in t
      `[op+0xC]` (a running tuple count on some stores) as a displacement: below 0x80 such a store costs 5 bytes,
      from 0x80 on 8. So adding statements earlier in a function can turn a merge on or off
      (`sound_obj::ProcessOtherObjects_41F520`).
+  Each merge raises the target's total to at least 20, so once a target has taken one merge, every later
+  candidate that matches it by a single instruction (a shared `call`) passes too. Without that term
+  (`--noacc`) 19 matched game functions change, so the game was built with it; `DMA_Video_LoadDll_5EB970`
+  (a prebuilt library) only matches without it (`docs/matching_quirks.md`, last section).
   4. Swap rule: if P0's whole block matched (the instruction before the match is an unconditional jump or a
      return) and the other's didn't, P0 jumps into the other instead.
   5. When P0 has been compared with every later candidate, the next candidate becomes the target, and so on.
@@ -60,7 +64,7 @@ What follows in practice:
 ## Tools
 
 `patch_c2.py` builds `build_vc6/x87_c2/<variant>/` (git-ignored) from the stock variant
-(`Scripts/x87_sched/setup.py --variant stock`). The generated code is unchanged unless `--rev`/`--rank` is
+(`Scripts/x87_sched/setup.py --variant stock`). The generated code is unchanged unless `--rev`/`--rank`/`--noacc` is
 given. Lines are source lines relative to the function's first line.
 
 ```bash
@@ -72,10 +76,12 @@ grep -a '^@' /tmp/o/last.log | awk '/^@F/{p=index($0,"sub_4E6190")>0} p'
 #   @J a=<jump> line 44  b=<jump> line 46  pass=1     try to merge a's tail into b
 #      <jump>: kind:op ...             the instructions before each jump, last first, back to a label
 #   @K jumper=<jump> target=<jump> n=<matched instructions>
+#   @C sum=<size> max=<total> tgt=<total>    cost check (3a): merged if sum + max > 20
 
 # What-if experiments (to find the order the original must have had):
 venv/bin/python3 Scripts/flowopt/patch_c2.py --rev cjrev       # reverse every list (--rev 7:20: only lists with 7..20 entries)
 venv/bin/python3 Scripts/flowopt/patch_c2.py --rank 5:0,17:1,46:2 rk   # sort lists by these lines' ranks
+venv/bin/python3 Scripts/flowopt/patch_c2.py --noacc cjnoacc   # cost check without the jump totals (see 3a)
 X87_C2=cjrev X87_OUT=/tmp/r Scripts/x87_sched/sched.sh -l Source/map_0x370.cpp
 venv/bin/python3 Scripts/bin_comp/permuter_score.py /tmp/r/last.obj 4e6190 sub_4E6190
 

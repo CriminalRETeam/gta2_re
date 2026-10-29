@@ -9,6 +9,7 @@ Hooks (stderr):
     @J a=<blk> b=<blk> pass=<n>     CrossJump(a, b) at 0x1073049c: try to merge a's tail into b
        then each block's instructions from the last back: kind:op ...
     @K jumper=<blk> target=<blk> n=<matched>   a merge was done (0x10730739)
+    @C sum=<n> max=<n> tgt=<n>      cost check: matched size, larger jump total, target's total (merge if sum+max > 20)
 """
 import os, sys, shutil
 import pefile
@@ -47,11 +48,14 @@ def flush():
     """
 
 RANK = None  # --rank line:rank,...
+NOACC = False  # --noacc: drop the jump totals from the cost check (what-if)
 REV = None   # --rev [min:max]: reverse the predecessor lists (with min..max entries) before cross-jumping (experiments)
 
 def main():
-    global REV, RANK
+    global REV, RANK, NOACC
     args = sys.argv[1:]
+    if '--noacc' in args:
+        NOACC = True; args.remove('--noacc')
     if '--rank' in args:
         # --rank line:rank,...: sort every predecessor list by rank (lowest first) of the jump's line
         # field (low byte; unlisted lines rank 128, ties keep their order)
@@ -77,7 +81,7 @@ def main():
     strs = {}
     sva = CAVE + 0x600
     for k, s in [('J', b'@J a=%08x line %d  b=%08x line %d  pass=%d\n'), ('P', b'@P join=%08x/%d preds:'), ('E', b' %08x/%d/%x'), ('B', b'   %08x:'), ('I', b' %x:%d'),
-                 ('NL', b'\n'), ('K', b'@K jumper=%08x target=%08x n=%d\n'), ('F', b'@F %s\n')]:
+                 ('NL', b'\n'), ('K', b'@K jumper=%08x target=%08x n=%d\n'), ('F', b'@F %s\n'), ('C', b'@C sum=%d max=%d tgt=%d\n')]:
         strs[k] = sva; put(sva, s + b'\0'); sva += len(s) + 1
     # print block: esi = block
     pb = f"""
@@ -279,6 +283,26 @@ def main():
     put(0x1073049c, bytes(ks.asm(f'jmp {CAVE:#x}', 0x1073049c)[0]))
     put(0x10730739, bytes(ks.asm(f'jmp {kc_va:#x}', 0x10730739)[0]))
     put(0x1071acdf, bytes(ks.asm(f'jmp {fc_va:#x}', 0x1071acdf)[0]))
+    cc_va = CAVE + 0x800
+    cc = f"""
+      {'xor edx, edx' if NOACC else ''}
+      pushfd
+      pushad
+      movzx eax, word ptr [ebp+0x12]
+      push eax
+      movzx eax, dx
+      push eax
+      push ebx
+      {pr(strs['C'], 3)}
+      {flush()}
+      popad
+      popfd
+      and edx, 0xffff
+      jmp 0x107306b7
+    """
+    ccode = bytes(ks.asm(cc, cc_va)[0]); assert len(ccode) < 0x100
+    put(cc_va, ccode)
+    put(0x107306b1, bytes(ks.asm(f'jmp {cc_va:#x}', 0x107306b1)[0]) + b'\x90')
     dst = os.path.join(X, var)
     shutil.rmtree(dst, ignore_errors=True)
     shutil.copytree(stock, dst, symlinks=True)
