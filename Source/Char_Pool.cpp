@@ -341,6 +341,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
             case k_spawn_cop:
                 if (gNumberWalkingCopsSpawned_6787CD || bSkip_police_67D4F9 || gPolice_7B8_6FEE40->field_65C_highest_crew_type_in_pursuit == crew_type::army_6)
                 {
+                // shared exit for the four spawn limits: goto-free forms give each its own epilogue
                 delloc_ret_2:
                     pPed->Deallocate_45EB60();
                     return;
