@@ -4736,12 +4736,8 @@ void Char::state_1_5504F0()
                 field_68_animation_frame = 0;
                 field_71_frame_delay = 4;
             }
-            else
+            else if (!field_58_flags_bf.bFlag6)
             {
-                if (field_58_flags_bf.bFlag6)
-                {
-                    goto skip_speed_setup;
-                }
                 if (!field_7C_pPed->field_224_bf.bWaitingOnTarget)
                 {
                     desired_angle = field_7C_pPed->GetTargetFacingAngle_492CC0();
@@ -4788,7 +4784,6 @@ void Char::state_1_5504F0()
         }
         bSnapRotation = 1;
     }
-skip_speed_setup:
     if (field_55_next_tile_timer > 0)
     {
         field_55_next_tile_timer--;
