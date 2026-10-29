@@ -980,6 +980,8 @@ Action::Status DriveAction::Step(BotContext& ctx)
             mProgressFrame = ctx.frame;
         }
     }
+    // -bot_drive_pure: a corner is reached before the next leg is taken, not 3.5 tiles short of it
+    const float wp_radius = ctx.opts && ctx.opts->drive_pure ? 0.7f : mWpRadius;
     while (mWpIdx < mWpCount - 1)
     {
         const float wx = mWpX[mWpIdx] - pl.x;
@@ -991,9 +993,9 @@ Action::Status DriveAction::Step(BotContext& ctx)
             // past the waypoint when the next one is more than 90 degrees from the way we came
             const float nx = mWpX[mWpIdx + 1] - mWpX[mWpIdx];
             const float ny = mWpY[mWpIdx + 1] - mWpY[mWpIdx];
-            passed = (-wx * nx + -wy * ny) > 0 && d < mWpRadius * 2.0f;
+            passed = (-wx * nx + -wy * ny) > 0 && d < wp_radius * 2.0f;
         }
-        if (d < mWpRadius || passed)
+        if (d < wp_radius || passed)
         {
             mWpIdx++;
             mProgressFrame = ctx.frame;
@@ -1235,6 +1237,9 @@ Action::Status DriveAction::Step(BotContext& ctx)
         }
     }
 
+    // -bot_drive_pure: the aim point stays on the global route's current leg and never goes past its corner: with the look ahead
+    // longer than the way to the corner the pursuit aims along the next leg and the car cuts the corner through whatever stands there
+    const bool pure = ctx.opts && ctx.opts->drive_pure;
     const bool last = mWpIdx == mWpCount - 1;
     float aim_x = mWpX[mWpIdx];
     float aim_y = mWpY[mWpIdx];
@@ -1268,7 +1273,7 @@ Action::Status DriveAction::Step(BotContext& ctx)
                     lx = qx + sx / sl * look;
                     ly = qy + sy / sl * look;
                 }
-                else if (mWpIdx + 1 < mWpCount)
+                else if (!pure && mWpIdx + 1 < mWpCount)
                 {
                     const float nx = mWpX[mWpIdx + 1] - mWpX[mWpIdx];
                     const float ny = mWpY[mWpIdx + 1] - mWpY[mWpIdx];
@@ -1439,8 +1444,6 @@ Action::Status DriveAction::Step(BotContext& ctx)
 
     // The detailed route: an A* with a node per map tile from the car to a point 18 tiles along the global route. It keeps to the
     // direction of the line, goes round standing cars and the closed tiles, and the car follows it by pure pursuit
-    // -bot_drive_pure: the aim point stays where the pure pursuit above put it, on the global route
-    const bool pure = ctx.opts && ctx.opts->drive_pure;
     bool local_ok = false;
     if (!pure && (dist > 8.0f || (mChase && dist > 2.5f)) && ctx.frame >= mReverseUntil) // (a chase ends beside things: the last stretch is routed round them too)
     {
@@ -1642,9 +1645,12 @@ Action::Status DriveAction::Step(BotContext& ctx)
     float wall_ahead = 1e3f;
     if (pure)
     {
-        // the wheel straight at the aim point on the route: over 2 degrees off, the key down
+        // the wheel at the aim point, as gently as the arcs would hold it (DriveSteer's Gentle: a tap every fourth frame from 5 degrees,
+        // every other from 8, held from 20): a key that is either down or up swings the car into the wall of a one tile gap
         ctx.input &= ~(input_bit::Left | input_bit::Right);
-        if (fabsf(err) > 2.0f && fabsf(err) <= kTurnEngageDeg)
+        const float ea = fabsf(err);
+        const float lvl = ea > 20.0f ? 1.0f : (ea > 8.0f ? 0.5f : (ea > 5.0f ? 0.25f : 0.0f));
+        if (lvl > 0.0f && ea <= kTurnEngageDeg && (lvl > 0.9f || (lvl > 0.4f && ctx.frame % 2 == 0) || ctx.frame % 4 == 0))
         {
             ctx.input |= err > 0.0f ? input_bit::Right : input_bit::Left; // (err is in the sense of the Right key)
         }
@@ -1821,6 +1827,23 @@ Action::Status DriveAction::Step(BotContext& ctx)
     if (last && dist < 14.0f)
     {
         cap *= 0.5f;
+    }
+    if (pure && !last)
+    {
+        // the one slowing the pure drive keeps: a right angle at the end of the leg is taken slowly, or the car runs on past it
+        const float lx = mWpX[mWpIdx] - (mWpIdx > 0 ? mWpX[mWpIdx - 1] : mPlanX);
+        const float ly = mWpY[mWpIdx] - (mWpIdx > 0 ? mWpY[mWpIdx - 1] : mPlanY);
+        const float nx = mWpX[mWpIdx + 1] - mWpX[mWpIdx];
+        const float ny = mWpY[mWpIdx + 1] - mWpY[mWpIdx];
+        const float ll = sqrtf(lx * lx + ly * ly);
+        const float nl = sqrtf(nx * nx + ny * ny);
+        if (ll > 0.1f && nl > 0.1f && (lx * nx + ly * ny) / (ll * nl) < 0.7f)
+        {
+            const float rx = mWpX[mWpIdx] - pl.x;
+            const float ry = mWpY[mWpIdx] - pl.y;
+            const float allowed = 0.04f + sqrtf(rx * rx + ry * ry) * 0.02f;
+            cap = allowed < cap ? allowed : cap;
+        }
     }
     if (ctx.opts && ctx.opts->draw && (ctx.frame - ctx.action_start_frame) % 40 == 0 || ctx.frame - ctx.action_start_frame < 100 && (ctx.frame - ctx.action_start_frame) % 10 == 0)
     {
