@@ -5567,6 +5567,7 @@ void sound_obj::ProcessPed_422B70(Sound_Params* pParams)
                         case 3:
                             first_samp = 198;
                             last_samp = 201;
+                        // shared by every surface case: goto-free forms need a flag or a copy of the block
                         play_footstep:
                             if (CalculateDistance_419020(Fix16(4)))
                             {
