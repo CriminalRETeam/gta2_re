@@ -2090,7 +2090,6 @@ void Frontend::SetWinMainStateToBootMap_4AE990()
     field_108_winmain_next_state = Start_Game_3;
 }
 
-// TODO: It matches, but we need to get rid of goto's (if possible)
 MATCH_FUNC(0x4B2F60)
 void Frontend::HandlePlayerNameTyping_4B2F60()
 {
@@ -2146,29 +2145,30 @@ void Frontend::HandlePlayerNameTyping_4B2F60()
             field_136_menu_pages_array[1].field_BC6_current_option_idx = 0;
             snd1_67D818.field_0_object_type = 6;
         }
-        else if (input == 256)
+
+        if (input != 256)
         {
-        LABEL_27:
-            field_C9B3_key_held = false;
-            goto LABEL_29;
-        }
-        else if (input == DIK_SPACE)
-        {
-            typed_char = 32;
-        LABEL_13:
+            if (input == DIK_SPACE)
+            {
+                typed_char = 32;
+            }
+            else
+            {
+                KeyboardLayout::RecreateIfLayoutChanged_4D5FD0();
+                Key_4D5F40 = gKeybrd_0x204_6F52F4->GetKey_4D5F40(input);
+                typed_char = gText_0x14_704DFC->RemapExtendedChar_5B58D0(Key_4D5F40);
+                if (static_cast<u16>(GetCharWidth_4539D0(field_11C_normal_font, typed_char)) < 3u || !typed_char)
+                {
+                    // Both builds jump past the append here; an append in each branch folds the space into a constant
+                    goto update_key_held;
+                }
+            }
+
             if (field_C9B2_curr_plyr_name_length != 8)
             {
                 field_C9A0_curr_plyr_name[field_C9B2_curr_plyr_name_length++] = typed_char;
                 snd1_67D818.field_0_object_type = 7;
             }
-            goto LABEL_26;
-        }
-        KeyboardLayout::RecreateIfLayoutChanged_4D5FD0();
-        Key_4D5F40 = gKeybrd_0x204_6F52F4->GetKey_4D5F40(input);
-        typed_char = gText_0x14_704DFC->RemapExtendedChar_5B58D0(Key_4D5F40);
-        if (static_cast<u16>(GetCharWidth_4539D0(field_11C_normal_font, typed_char)) >= 3u && typed_char)
-        {
-            goto LABEL_13;
         }
     }
     else
@@ -2184,13 +2184,17 @@ void Frontend::HandlePlayerNameTyping_4B2F60()
             field_C9B6_key_repeat_timer = repeat_timer - 1;
         }
     }
-LABEL_26:
+
+update_key_held:
     if (input == 256)
     {
-        goto LABEL_27;
+        field_C9B3_key_held = false;
     }
-    field_C9B3_key_held = true;
-LABEL_29:
+    else
+    {
+        field_C9B3_key_held = true;
+    }
+
     field_118_cursor_blink_timer--;
     if (field_118_cursor_blink_timer <= 0)
     {
