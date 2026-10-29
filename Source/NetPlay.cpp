@@ -626,7 +626,7 @@ s32 NetPlay::EnumSessions_51E650()
                                              DPENUMSESSIONS_AVAILABLE | DPENUMSESSIONS_ASYNC);
         if (hr < 0)
         {
-        // Shared failure block, as in the other NetPlay functions (CreateModemAddress_51E2B0, Receive_51F010):
+        // Shared failure block, as in CreateModemAddress_51E2B0:
         // the modem path's failures jump forward into the non-modem path's `return -1`, and the two
         // `return session_count` blocks are merged. No goto-free form gave this layout.
         failed:
