@@ -220,9 +220,6 @@ void Game::ApplyNetworkGameSettings_4B8E50()
     bSkip_police_67D4F9 = gNetworkGameSettings_707098.field_201A0_police_on == 0;
 }
 
-// TODO: move
-EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
-
 DEFINE_GLOBAL(Ped*, gLastTestPed_6787E8, 0x6787E8);
 
 // Gives the player a group of count peds with the given remap

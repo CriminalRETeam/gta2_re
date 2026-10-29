@@ -29,9 +29,7 @@
 #include "Ped.inl"
 #include <string.h>
 
-// TODO: move
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
-EXTERN_GLOBAL(CrimeReportQueue*, gCrimeReportQueue_67A4B8);
 
 DEFINE_GLOBAL_INIT(Fix16, kFlyCarMinVelocity_7028BC, Fix16(0x666, 0), 0x7028BC);
 

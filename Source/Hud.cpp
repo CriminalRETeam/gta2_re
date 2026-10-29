@@ -67,9 +67,6 @@ EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 
 EXTERN_GLOBAL(char_type, gLighting_626A09);
 
-// TODO: move
-EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
-
 EXTERN_GLOBAL_ARRAY(wchar_t, gEmptyWStr_67DC8C, 2);
 
 // 9.6f inline
