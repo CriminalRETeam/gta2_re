@@ -51,9 +51,7 @@ GTA2_ASSERT_SIZEOF_ALWAYS(AudioEntity, 0xC);
 struct SoundEntry
 {
     bool field_0_fifth_frame_flag;
-    char_type field_1_unused;
-    char_type field_2_unused;
-    char_type field_3_unused;
+    char_type field_1_unused[3];
     s32 field_4_entity_idx;
     SoundObject field_8_sound_obj;
     s32 field_18_pending_voice;
@@ -206,30 +204,11 @@ class sound_obj
     s32 field_5440_unused;
     s32 field_5444_unused;
     u32 field_5448_m_FrameCounter;
-    // Really the vocals entry and RadioStationEmitter[5] at 0x5468 (to field_54F2[1]); the real members change
-    // ImGuiDebugDraw and the DLLs, see "declaration count" in docs/matching_quirks.md.
-    SoundEntry field_544C[5];
-
-    // Radio emitters use indices 1..5
-    inline RadioStationEmitter& RadioEmitter(s32 idx)
-    {
-        return reinterpret_cast<RadioStationEmitter*>(field_544C)[idx];
-    }
-
-    char_type field_54D8_unused[5];
-    char_type field_54DD_unused;
-    char_type field_54DE_unused;
-    char_type field_54DF_unused;
-    char_type field_54E0_unused;
-    char_type field_54E1_unused;
-    char_type field_54E2_unused;
-    char_type field_54E3_unused;
-    char_type field_54E4_unused;
-    char_type field_54E5_unused;
-    char_type field_54E6_unused;
-    char_type field_54E7_unused;
-    s16 field_54E8[5];
-    u8 field_54F2[5];
+    SoundEntry field_544C_vocals;
+    RadioStationEmitter field_5468_radio_emitters[5];
+    u8 field_54F4_bWasInRadioCar;
+    u8 field_54F5_bInRadioCar;
+    u8 field_54F6_radio_volume;
     u8 field_54F7_active_emitter_idx[5];
     s32 field_54FC_main_variant;
     s32 field_5500_prev_main_variant;

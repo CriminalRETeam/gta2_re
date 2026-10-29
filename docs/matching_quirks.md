@@ -40,8 +40,9 @@ marked unlisted addresses into `target_extra.json`) before trusting the marker.
   import pointers swap registers and one block gets a jump and a load more. Members can't move to another header, so
   `sound_obj::DeinitializeAudio_419E50` went in with that change.
 - It is the declaration count, not the names: renaming a member (any length) or reusing an existing identifier is
-  safe, while a member, an enumerator or one pad more or less counts the same. Recovering `sound_obj::field_544C` as
-  its real members drops 15 declarations: 15 dummy enumerators in `sound_obj.hpp` restore identical PEs, 14 or 16 don't.
+  safe, while a member, an enumerator or one pad more or less counts the same. Recovering `sound_obj`'s vocals entry and
+  radio emitters as real members drops 15 declarations: 15 dummy enumerators gave back identical PEs, 14 or 16 didn't,
+  so that layout went in with an `ImGuiDebugDraw` change (exe and DLLs, nothing outside `ImGuiDebug.cpp`).
 After adding any enum or constants to a widely included header, run the whole `build.py` (not just
 `--single_cpp`), and if a far-away function fails, move the addition into its own header.
 

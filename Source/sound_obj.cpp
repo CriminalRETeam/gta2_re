@@ -3181,34 +3181,34 @@ void sound_obj::ProcessType11_HudPager_418B60(s32 entity_idx)
 MATCH_FUNC(0x418C20)
 void sound_obj::AddVocalsEntity_418C20()
 {
-    if (!field_544C[0].field_4_entity_idx)
+    if (!field_544C_vocals.field_4_entity_idx)
     {
-        SoundObject* pSoundObj = &field_544C[0].field_8_sound_obj;
-        field_544C[0].field_8_sound_obj.field_C_pAny.pAny = NULL;
-        field_544C[0].field_8_sound_obj.field_4_bStatus = false;
+        SoundObject* pSoundObj = &field_544C_vocals.field_8_sound_obj;
+        field_544C_vocals.field_8_sound_obj.field_C_pAny.pAny = NULL;
+        field_544C_vocals.field_8_sound_obj.field_4_bStatus = false;
         pSoundObj->field_0_object_type = SoundObjectTypeEnum::Vocals_10;
-        field_544C[0].field_4_entity_idx = AddSoundObject_419FA0(pSoundObj);
+        field_544C_vocals.field_4_entity_idx = AddSoundObject_419FA0(pSoundObj);
     }
 }
 
 MATCH_FUNC(0x418C60)
 void sound_obj::RemoveVocalsEntity_418C60()
 {
-    if (field_544C[0].field_4_entity_idx)
+    if (field_544C_vocals.field_4_entity_idx)
     {
-        FreeSoundEntry_41A090(field_544C[0].field_4_entity_idx);
-        field_544C[0].field_4_entity_idx = 0;
+        FreeSoundEntry_41A090(field_544C_vocals.field_4_entity_idx);
+        field_544C_vocals.field_4_entity_idx = 0;
     }
 }
 
 MATCH_FUNC(0x418C80)
 void sound_obj::PlayVocal_418C80(s32 voice)
 {
-    if (field_544C[0].field_4_entity_idx)
+    if (field_544C_vocals.field_4_entity_idx)
     {
         if (voice < 63)
         {
-            field_544C[0].field_18_pending_voice = voice;
+            field_544C_vocals.field_18_pending_voice = voice;
         }
     }
 }
@@ -3217,9 +3217,9 @@ MATCH_FUNC(0x418CA0)
 void sound_obj::ProcessType10_Vocals_418CA0()
 {
     s32 voc_idx;
-    if (field_544C[0].field_4_entity_idx)
+    if (field_544C_vocals.field_4_entity_idx)
     {
-        switch (field_544C[0].field_18_pending_voice)
+        switch (field_544C_vocals.field_18_pending_voice)
         {
             case voice_line::accuracyb_9:
                 voc_idx = 0;
@@ -3391,19 +3391,19 @@ void sound_obj::ProcessType10_Vocals_418CA0()
                 voc_idx = (field_1454_anRandomTable[0] % 13u) + 85;
                 if (voc_idx == 99)
                 {
-                    field_544C[0].field_18_pending_voice = 0;
+                    field_544C_vocals.field_18_pending_voice = 0;
                     return;
                 }
                 break;
             default:
-                field_544C[0].field_18_pending_voice = 0;
+                field_544C_vocals.field_18_pending_voice = 0;
                 return;
         }
 
         gSampManager_6FFF00.PlayVocal_58E510(1, voc_idx, true);
         gSampManager_6FFF00.SetVocalVolume_58E6D0(1, 127 * field_24_sfx_vol / 127);
 
-        field_544C[0].field_18_pending_voice = 0;
+        field_544C_vocals.field_18_pending_voice = 0;
     }
 }
 
@@ -3495,8 +3495,8 @@ sound_obj::sound_obj()
 
     field_543C_444C_nAudioEntitiesCount = 0;
     field_5448_m_FrameCounter = 0;
-    field_544C[0].field_0_fifth_frame_flag = false;
-    field_544C[0].field_18_pending_voice = 0;
+    field_544C_vocals.field_0_fifth_frame_flag = false;
+    field_544C_vocals.field_18_pending_voice = 0;
     field_3_bFirstMenuStream = 1;
 }
 
@@ -3577,11 +3577,11 @@ void sound_obj::Service_419EF0()
         {
             if (!(field_5448_m_FrameCounter++ % 5))
             {
-                field_544C[0].field_0_fifth_frame_flag = true;
+                field_544C_vocals.field_0_fifth_frame_flag = true;
             }
             else
             {
-                field_544C[0].field_0_fifth_frame_flag = false;
+                field_544C_vocals.field_0_fifth_frame_flag = false;
             }
         }
         ServiceSoundEffects_41A3A0();
@@ -4174,7 +4174,7 @@ void sound_obj::AddReleasingSounds_41A9D0()
                     }
 
                     --pSound.field_4C_releasing_volume_divider;
-                    if (field_544C[0].field_0_fifth_frame_flag)
+                    if (field_544C_vocals.field_0_fifth_frame_flag)
                     {
                         if (pSound.field_1C_ReleasingVolumeModificator < 20)
                         {
@@ -6729,7 +6729,7 @@ void sound_obj::ProcessType3_CopRadioAndMusic_57DD50()
         return;
     }
 
-    field_54F2[2] = field_54F2[3];
+    field_54F4_bWasInRadioCar = field_54F5_bInRadioCar;
     field_54F7_active_emitter_idx[1] = field_54F7_active_emitter_idx[0];
     field_5500_prev_main_variant = field_54FC_main_variant;
     TickRadioStationClocks_57E680();
@@ -6744,8 +6744,8 @@ void sound_obj::ProcessType3_CopRadioAndMusic_57DD50()
         flags[1] = pCar->IsMaxDamage_40F890();
         if (!flags[0] && !flags[1])
         {
-            field_54F2[3] = 1;
-            if (!field_54F2[2])
+            field_54F5_bInRadioCar = 1;
+            if (!field_54F4_bWasInRadioCar)
             {
                 ChooseRadioEmitterForVehicle_57E6C0();
                 UpdateActiveRadioEmitterVolume_57EA90();
@@ -6755,7 +6755,7 @@ void sound_obj::ProcessType3_CopRadioAndMusic_57DD50()
             {
                 if (field_54F7_active_emitter_idx[0] < 5)
                 {
-                    RadioEmitter(field_54F7_active_emitter_idx[0] + 1).field_14_elapsed_frames = 0;
+                    field_5468_radio_emitters[field_54F7_active_emitter_idx[0]].field_14_elapsed_frames = 0;
                 }
                 SelectBestRadioEmitter_57EF60();
             }
@@ -6764,7 +6764,7 @@ void sound_obj::ProcessType3_CopRadioAndMusic_57DD50()
                 UpdateActiveRadioEmitterVolume_57EA90();
             }
 
-            if (!field_54F2[4])
+            if (!field_54F6_radio_volume)
             {
                 field_5504_radio_station_change_mode = 1;
                 SelectBestRadioEmitter_57EF60();
@@ -6777,16 +6777,16 @@ void sound_obj::ProcessType3_CopRadioAndMusic_57DD50()
         }
     }
 
-    field_54F2[3] = 0;
-    if (field_54F2[2] == 1)
+    field_54F5_bInRadioCar = 0;
+    if (field_54F4_bWasInRadioCar == 1)
     {
         if (gLastPlayerCar_6FF53C)
         {
-            gLastPlayerCar_6FF53C->field_B0_emitter_status = RadioEmitter(field_54F7_active_emitter_idx[0] + 1).field_C_station_idx;
+            gLastPlayerCar_6FF53C->field_B0_emitter_status = field_5468_radio_emitters[field_54F7_active_emitter_idx[0]].field_C_station_idx;
         }
         if (field_54F7_active_emitter_idx[1] < 5)
         {
-            RadioEmitter(field_54F7_active_emitter_idx[1] + 1).field_14_elapsed_frames = 0;
+            field_5468_radio_emitters[field_54F7_active_emitter_idx[1]].field_14_elapsed_frames = 0;
         }
     }
     field_54F7_active_emitter_idx[0] = 0x66;
@@ -6803,13 +6803,13 @@ void sound_obj::HandleVocalStreamSwitching_57DF10(char_type bFastForward)
     u32 length;
     u32 pos;
 
-    if (field_54F2[2] != field_54F2[3])
+    if (field_54F4_bWasInRadioCar != field_54F5_bInRadioCar)
     {
         bFast = field_54FC_main_variant == 1;
         gSampManager_6FFF00.CloseVocalStream_58E6A0(0);
         if (field_54F7_active_emitter_idx[0] != 101)
         {
-            gSampManager_6FFF00.PlayVocal_58E510(0, RadioEmitter(field_54F7_active_emitter_idx[0] + 1).field_C_station_idx, bFast);
+            gSampManager_6FFF00.PlayVocal_58E510(0, field_5468_radio_emitters[field_54F7_active_emitter_idx[0]].field_C_station_idx, bFast);
         }
         else
         {
@@ -6827,7 +6827,7 @@ void sound_obj::HandleVocalStreamSwitching_57DF10(char_type bFastForward)
             gSampManager_6FFF00.CloseVocalStream_58E6A0(0);
             return;
         }
-        pos = static_cast<u32>(RadioEmitter(field_54F7_active_emitter_idx[0] + 1).field_14_elapsed_frames) * 1000 / field_8_frames_per_second + RadioEmitter(field_54F7_active_emitter_idx[0] + 1).field_18_pos_ms;
+        pos = static_cast<u32>(field_5468_radio_emitters[field_54F7_active_emitter_idx[0]].field_14_elapsed_frames) * 1000 / field_8_frames_per_second + field_5468_radio_emitters[field_54F7_active_emitter_idx[0]].field_18_pos_ms;
         if (pos > length)
         {
             pos %= length;
@@ -6868,7 +6868,7 @@ void sound_obj::HandleVocalStreamSwitching_57DF10(char_type bFastForward)
                 bFast = field_54FC_main_variant == 1;
                 if (field_54F7_active_emitter_idx[0] != 101)
                 {
-                    gSampManager_6FFF00.PlayVocal_58E510(0, RadioEmitter(field_54F7_active_emitter_idx[0] + 1).field_C_station_idx, bFast);
+                    gSampManager_6FFF00.PlayVocal_58E510(0, field_5468_radio_emitters[field_54F7_active_emitter_idx[0]].field_C_station_idx, bFast);
                 }
                 else
                 {
@@ -6891,13 +6891,13 @@ void sound_obj::HandleVocalStreamSwitching_57DF10(char_type bFastForward)
     if (field_54F7_active_emitter_idx[1] < 5)
     {
         pos = gSampManager_6FFF00.GetVocalPosMs_58E770(0);
-        RadioEmitter(field_54F7_active_emitter_idx[1] + 1).field_18_pos_ms = pos;
+        field_5468_radio_emitters[field_54F7_active_emitter_idx[1]].field_18_pos_ms = pos;
     }
     gSampManager_6FFF00.CloseVocalStream_58E6A0(0);
     bFast = field_54FC_main_variant == 1;
     if (field_54F7_active_emitter_idx[0] != 101)
     {
-        gSampManager_6FFF00.PlayVocal_58E510(0, RadioEmitter(field_54F7_active_emitter_idx[0] + 1).field_C_station_idx, bFast);
+        gSampManager_6FFF00.PlayVocal_58E510(0, field_5468_radio_emitters[field_54F7_active_emitter_idx[0]].field_C_station_idx, bFast);
     }
     else
     {
@@ -6912,7 +6912,7 @@ void sound_obj::HandleVocalStreamSwitching_57DF10(char_type bFastForward)
     length = gSampManager_6FFF00.GetVocalLengthMs_58E7A0(0);
     if (length > 0)
     {
-        pos = static_cast<u32>(RadioEmitter(field_54F7_active_emitter_idx[0] + 1).field_14_elapsed_frames) * 1000 / field_8_frames_per_second + RadioEmitter(field_54F7_active_emitter_idx[0] + 1).field_18_pos_ms;
+        pos = static_cast<u32>(field_5468_radio_emitters[field_54F7_active_emitter_idx[0]].field_14_elapsed_frames) * 1000 / field_8_frames_per_second + field_5468_radio_emitters[field_54F7_active_emitter_idx[0]].field_18_pos_ms;
         if (pos > length)
         {
             pos %= length;
@@ -6938,30 +6938,30 @@ void sound_obj::UpdateCarRadioAudio_57E220()
     }
     else
     {
-        if (!field_54F2[2])
+        if (!field_54F4_bWasInRadioCar)
         {
             field_5506_mute_timer = 0;
         }
 
         if (field_5506_mute_timer)
         {
-            field_54F2[4] = 0;
+            field_54F6_radio_volume = 0;
             field_5506_mute_timer--;
         }
         else if (gMap_0x370_6F6268->CheckColumnHasSolidAbove_4E7FC0(pCar->field_50_car_sprite->field_14_xy.x,
                                                                      pCar->field_50_car_sprite->field_14_xy.y,
                                                                      pCar->field_50_car_sprite->field_1C_zpos))
         {
-            field_54F2[4] -= field_54F2[4] >> 2;
+            field_54F6_radio_volume -= field_54F6_radio_volume >> 2;
         }
 
-        u32 vocal_volume = (field_54F2[4] * field_25_cdVol) / 127;
+        u32 vocal_volume = (field_54F6_radio_volume * field_25_cdVol) / 127;
         u8 static_volume;
-        if (field_54F2[4] < 115)
+        if (field_54F6_radio_volume < 115)
         {
             if (!field_1_isPaused)
             {
-                static_volume = 127 - field_54F2[4];
+                static_volume = 127 - field_54F6_radio_volume;
             }
             else
             {
@@ -7031,7 +7031,7 @@ void sound_obj::UpdateCarRadioAudio_57E220()
             if (field_54FC_main_variant == 0)
             {
                 u32 tune_rate = gSampManager_6FFF00.GetPlayBackRate_58DBF0(138);
-                tune_rate += (tune_rate >> 6) * RadioEmitter(field_54F7_active_emitter_idx[0] + 1).field_C_station_idx;
+                tune_rate += (tune_rate >> 6) * field_5468_radio_emitters[field_54F7_active_emitter_idx[0]].field_C_station_idx;
                 if (tune_rate > static_cast<u32>(gCarRadioTuneRate_625014 + 90))
                 {
                     tune_rate = gCarRadioTuneRate_625014 + 90;
@@ -7069,8 +7069,7 @@ void sound_obj::UpdateVocalStream_57E510()
     {
         if (field_54F7_active_emitter_idx[1] < 5)
         {
-            // Not RadioEmitter(): that inline call makes this function 16 bytes longer
-            reinterpret_cast<RadioStationEmitter*>(field_544C)[field_54F7_active_emitter_idx[1] + 1].field_18_pos_ms = gSampManager_6FFF00.GetVocalPosMs_58E770(0);
+            field_5468_radio_emitters[field_54F7_active_emitter_idx[1]].field_18_pos_ms = gSampManager_6FFF00.GetVocalPosMs_58E770(0);
         }
         gSampManager_6FFF00.CloseVocalStream_58E6A0(0);
         gSampManager_6FFF00.PlayVocal_58E510(0, 12, true);
@@ -7114,9 +7113,9 @@ void sound_obj::TickRadioStationClocks_57E680()
         u32 ticks = 90000 * this->field_8_frames_per_second;
         for (u8 i = 0; i < 5; i++)
         {
-            if (static_cast<u32>(RadioEmitter(i + 1).field_14_elapsed_frames) < ticks)
+            if (static_cast<u32>(field_5468_radio_emitters[i].field_14_elapsed_frames) < ticks)
             {
-                ++RadioEmitter(i + 1).field_14_elapsed_frames;
+                ++field_5468_radio_emitters[i].field_14_elapsed_frames;
             }
         }
     }
@@ -7187,7 +7186,7 @@ void sound_obj::ChooseRadioEmitterForVehicle_57E6C0()
                 i = 0;
                 while (1)
                 {
-                    s32 station_idx = RadioEmitter(i + 1).field_C_station_idx;
+                    s32 station_idx = field_5468_radio_emitters[i].field_C_station_idx;
                     if (station_idx == 6 || (station_idx > 8 && station_idx <= 10))
                     {
                         field_54F7_active_emitter_idx[0] = i;
@@ -7207,7 +7206,7 @@ void sound_obj::ChooseRadioEmitterForVehicle_57E6C0()
                 i = 0;
                 while (1)
                 {
-                    s32 station_idx = RadioEmitter(i + 1).field_C_station_idx;
+                    s32 station_idx = field_5468_radio_emitters[i].field_C_station_idx;
                     if (station_idx >= 7 && (station_idx <= 8 || station_idx == 11))
                     {
                         field_54F7_active_emitter_idx[0] = i;
@@ -7233,7 +7232,7 @@ void sound_obj::ChooseRadioEmitterForVehicle_57E6C0()
             case 3:
                 for (i = 0; i < 5; i++)
                 {
-                    if (RadioEmitter(i + 1).field_10_a_variant_radius == 0 && RadioEmitter(i + 1).field_C_station_idx != 1)
+                    if (field_5468_radio_emitters[i].field_10_a_variant_radius == 0 && field_5468_radio_emitters[i].field_C_station_idx != 1)
                     {
                         field_54F7_active_emitter_idx[0] = i;
                         return;
@@ -7248,7 +7247,7 @@ void sound_obj::ChooseRadioEmitterForVehicle_57E6C0()
     else
     {
         field_54F7_active_emitter_idx[0] = emitter;
-        field_54F2[4] = volume;
+        field_54F6_radio_volume = volume;
     }
 }
 
@@ -7259,15 +7258,15 @@ void sound_obj::InitMusicAndCopRadio_57E960()
     {
         gSoundSwitchRadioCoolDown_6FF539 = 0;
         gSoundVocalsInited_6FF538 = true;
-        for (u8 i = 1; i <= 5; i++)
+        for (u8 i = 0; i < 5; i++)
         {
-            RadioEmitter(i).field_0_bUsed = false;
-            RadioEmitter(i).field_10_a_variant_radius = 0;
-            RadioEmitter(i).field_12_main_radius = 0;
-            RadioEmitter(i).field_14_elapsed_frames = 0;
-            RadioEmitter(i).field_18_pos_ms = 0;
+            field_5468_radio_emitters[i].field_0_bUsed = false;
+            field_5468_radio_emitters[i].field_10_a_variant_radius = 0;
+            field_5468_radio_emitters[i].field_12_main_radius = 0;
+            field_5468_radio_emitters[i].field_14_elapsed_frames = 0;
+            field_5468_radio_emitters[i].field_18_pos_ms = 0;
         }
-        field_54F2[2] = 0;
+        field_54F4_bWasInRadioCar = 0;
         field_54F7_active_emitter_idx[1] = 1;
         field_54F7_active_emitter_idx[0] = 1;
         field_5504_radio_station_change_mode = 0;
@@ -7299,13 +7298,13 @@ void sound_obj::DeInitVocals_57EA10()
             --k2;
         } while (k2);
         
-        for (u32 j = 5; j; j--)
+        for (s32 j = 4; j >= 0; j--)
         {
-            RadioEmitter(j).field_0_bUsed = false;
-            RadioEmitter(j).field_10_a_variant_radius = 0;
-            RadioEmitter(j).field_12_main_radius = 0;
-            RadioEmitter(j).field_14_elapsed_frames = 0;
-            RadioEmitter(j).field_18_pos_ms = 0;
+            field_5468_radio_emitters[j].field_0_bUsed = false;
+            field_5468_radio_emitters[j].field_10_a_variant_radius = 0;
+            field_5468_radio_emitters[j].field_12_main_radius = 0;
+            field_5468_radio_emitters[j].field_14_elapsed_frames = 0;
+            field_5468_radio_emitters[j].field_18_pos_ms = 0;
         }
 
         field_551C_fade_in_timer = 0;
@@ -7317,17 +7316,16 @@ void sound_obj::DeInitVocals_57EA10()
     }
 }
 
-// field_54F7[0] is the active radio emitter and field_54F2[4] its volume
 MATCH_FUNC(0x57EA90)
 void sound_obj::UpdateActiveRadioEmitterVolume_57EA90()
 {
     if (field_54F7_active_emitter_idx[0] == 101)
     {
-        field_54F2[4] = 115;
+        field_54F6_radio_volume = 115;
         return;
     }
 
-    if (RadioEmitter(field_54F7_active_emitter_idx[0] + 1).field_C_station_idx && RadioEmitter(field_54F7_active_emitter_idx[0] + 1).field_0_bUsed == 1)
+    if (field_5468_radio_emitters[field_54F7_active_emitter_idx[0]].field_C_station_idx && field_5468_radio_emitters[field_54F7_active_emitter_idx[0]].field_0_bUsed == 1)
     {
         if (!field_54FC_main_variant)
         {
@@ -7335,56 +7333,56 @@ void sound_obj::UpdateActiveRadioEmitterVolume_57EA90()
             if (volume > 110)
             {
                 field_54FC_main_variant = 1;
-                field_54F2[4] = volume;
+                field_54F6_radio_volume = volume;
                 field_5506_mute_timer = field_1454_anRandomTable[0] % 10 + 16;
             }
             else
             {
-                field_54F2[4] = ComputeRadioEmitterVolume_57EB90(field_54F7_active_emitter_idx[0], 0);
+                field_54F6_radio_volume = ComputeRadioEmitterVolume_57EB90(field_54F7_active_emitter_idx[0], 0);
             }
         }
         else
         {
             if (ComputeRadioEmitterVolume_57EB90(field_54F7_active_emitter_idx[0], 1) < 90)
             {
-                field_54F2[4] = ComputeRadioEmitterVolume_57EB90(field_54F7_active_emitter_idx[0], 0);
+                field_54F6_radio_volume = ComputeRadioEmitterVolume_57EB90(field_54F7_active_emitter_idx[0], 0);
                 field_54FC_main_variant = 0;
                 field_5506_mute_timer = field_1454_anRandomTable[0] % 10 + 16;
             }
             else
             {
-                field_54F2[4] = ComputeRadioEmitterVolume_57EB90(field_54F7_active_emitter_idx[0], 1);
+                field_54F6_radio_volume = ComputeRadioEmitterVolume_57EB90(field_54F7_active_emitter_idx[0], 1);
                 field_54FC_main_variant = 1;
             }
         }
     }
     else
     {
-        field_54F2[4] = 0;
+        field_54F6_radio_volume = 0;
     }
 }
 
 MATCH_FUNC(0x57EB90)
 u8 sound_obj::ComputeRadioEmitterVolume_57EB90(u8 emitterIndex, s32 bMainVariant)
 {
-    if (RadioEmitter(emitterIndex + 1).field_0_bUsed && RadioEmitter(emitterIndex + 1).field_C_station_idx)
+    if (field_5468_radio_emitters[emitterIndex].field_0_bUsed && field_5468_radio_emitters[emitterIndex].field_C_station_idx)
     {
         Fix16 xpos;
         Fix16 ypos;
         Fix16 zpos;
         gGame_0x40_67E008->field_38_local_player->get_pos_569920(&xpos, &ypos, &zpos);
 
-        u16 dist = abs(static_cast<s16>(ypos.ToInt() - RadioEmitter(emitterIndex + 1).field_8_ypos.ToInt())) +
-            abs(static_cast<s16>(xpos.ToInt() - RadioEmitter(emitterIndex + 1).field_4_xpos.ToInt()));
+        u16 dist = abs(static_cast<s16>(ypos.ToInt() - field_5468_radio_emitters[emitterIndex].field_8_ypos.ToInt())) +
+            abs(static_cast<s16>(xpos.ToInt() - field_5468_radio_emitters[emitterIndex].field_4_xpos.ToInt()));
 
         u16 radius;
         if (!bMainVariant)
         {
-            radius = RadioEmitter(emitterIndex + 1).field_10_a_variant_radius;
+            radius = field_5468_radio_emitters[emitterIndex].field_10_a_variant_radius;
         }
         else
         {
-            radius = RadioEmitter(emitterIndex + 1).field_12_main_radius;
+            radius = field_5468_radio_emitters[emitterIndex].field_12_main_radius;
         }
 
         if (dist < radius)
@@ -7407,15 +7405,15 @@ void sound_obj::DeclareRadioStation_57ECB0(s32 station_idx, Fix16 xpos, Fix16 yp
 {
     for (u8 i = 0; i < 5; i++)
     {
-        if (!RadioEmitter(i + 1).field_0_bUsed && !RadioEmitter(i + 1).field_10_a_variant_radius && !RadioEmitter(i + 1).field_12_main_radius)
+        if (!field_5468_radio_emitters[i].field_0_bUsed && !field_5468_radio_emitters[i].field_10_a_variant_radius && !field_5468_radio_emitters[i].field_12_main_radius)
         {
-            RadioEmitter(i + 1).field_0_bUsed = true;
-            RadioEmitter(i + 1).field_C_station_idx = station_idx;
-            RadioEmitter(i + 1).field_4_xpos = Fix16(static_cast<u16>(xpos.ToInt()));
-            RadioEmitter(i + 1).field_8_ypos = Fix16(static_cast<u16>(ypos.ToInt()));
-            RadioEmitter(i + 1).field_14_elapsed_frames = RadioEmitter(i + 1).field_18_pos_ms =
+            field_5468_radio_emitters[i].field_0_bUsed = true;
+            field_5468_radio_emitters[i].field_C_station_idx = station_idx;
+            field_5468_radio_emitters[i].field_4_xpos = Fix16(static_cast<u16>(xpos.ToInt()));
+            field_5468_radio_emitters[i].field_8_ypos = Fix16(static_cast<u16>(ypos.ToInt()));
+            field_5468_radio_emitters[i].field_14_elapsed_frames = field_5468_radio_emitters[i].field_18_pos_ms =
                 field_1454_anRandomTable[(i + 1) % 5] * field_1454_anRandomTable[i % 5];
-            SetRadioEmitterRadii_57EDB0(&RadioEmitter(i + 1), station_idx);
+            SetRadioEmitterRadii_57EDB0(&field_5468_radio_emitters[i], station_idx);
             return;
         }
     }
@@ -7488,14 +7486,14 @@ void sound_obj::RemoveSound_57EE30(Fix16 xpos, Fix16 ypos)
     s16 y = ypos.ToInt();
     for (u8 i = 5; i != 0; i--)
     {
-        if (RadioEmitter(i).field_0_bUsed == 1 && static_cast<s16>(RadioEmitter(i).field_4_xpos.ToInt()) == x &&
-            static_cast<s16>(RadioEmitter(i).field_8_ypos.ToInt()) == y)
+        if (field_5468_radio_emitters[i - 1].field_0_bUsed == 1 && static_cast<s16>(field_5468_radio_emitters[i - 1].field_4_xpos.ToInt()) == x &&
+            static_cast<s16>(field_5468_radio_emitters[i - 1].field_8_ypos.ToInt()) == y)
         {
-            RadioEmitter(i).field_0_bUsed = false;
-            RadioEmitter(i).field_10_a_variant_radius = 0;
-            RadioEmitter(i).field_12_main_radius = 0;
-            RadioEmitter(i).field_14_elapsed_frames = 0;
-            RadioEmitter(i).field_18_pos_ms = 0;
+            field_5468_radio_emitters[i - 1].field_0_bUsed = false;
+            field_5468_radio_emitters[i - 1].field_10_a_variant_radius = 0;
+            field_5468_radio_emitters[i - 1].field_12_main_radius = 0;
+            field_5468_radio_emitters[i - 1].field_14_elapsed_frames = 0;
+            field_5468_radio_emitters[i - 1].field_18_pos_ms = 0;
             return;
         }
     }
@@ -7563,7 +7561,7 @@ void sound_obj::SelectBestRadioEmitter_57EF60()
             if (volume > 65)
             {
                 field_54F7_active_emitter_idx[0] = candidate;
-                field_54F2[4] = volume;
+                field_54F6_radio_volume = volume;
                 field_54FC_main_variant = 1 - bNear;
                 field_5504_radio_station_change_mode = 0;
                 field_5506_mute_timer = field_1454_anRandomTable[0] % 15 + 15;
@@ -7577,10 +7575,9 @@ void sound_obj::SelectBestRadioEmitter_57EF60()
 MATCH_FUNC(0x57F050)
 u8 sound_obj::FindEmitterByStation_57F050(s32 station_idx) const
 {
-    // A const RadioEmitter() would add a declaration to sound_obj.hpp, which changes ImGuiDebugDraw
     for (u8 i = 0; i < 5; i++)
     {
-        if (static_cast<u32>(reinterpret_cast<const RadioStationEmitter*>(field_544C)[i + 1].field_C_station_idx) == static_cast<u32>(station_idx))
+        if (static_cast<u32>(field_5468_radio_emitters[i].field_C_station_idx) == static_cast<u32>(station_idx))
         {
             return i;
         }
