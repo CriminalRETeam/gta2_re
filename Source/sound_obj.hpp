@@ -56,7 +56,7 @@ struct SoundEntry
     char_type field_3_unused;
     s32 field_4_entity_idx;
     SoundObject field_8_sound_obj;
-    s32 field_18;
+    s32 field_18_pending_voice;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SoundEntry, 0x1C);
 

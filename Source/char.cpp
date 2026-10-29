@@ -290,7 +290,7 @@ Char::Char()
     field_A4_xpos = kFP16Zero_6FD9E4;
     field_A8_ypos = kFP16Zero_6FD9E4;
     field_AC_zpos = kFP16Zero_6FD9E4;
-    field_4A = 0;
+    field_4A_timeout = 0;
 }
 
 MATCH_FUNC(0x5451A0)
@@ -352,7 +352,7 @@ void Char::PoolAllocate()
     field_5C_jump_over_timer = 0;
     field_46_timer = 0;
     field_48_lying_on_floor_timer = 0;
-    field_4A = 500;
+    field_4A_timeout = 500;
     mpNext = NULL;
     field_7C_pPed = NULL;
     field_68_animation_frame = 0;
@@ -525,9 +525,9 @@ void Char::Update_545720(Fix16 distance_to_target)
     {
         gCharB4_UpdateCounter_6FDB48 = 0;
     }
-    if (field_4A > 0)
+    if (field_4A_timeout > 0)
     {
-        field_4A--;
+        field_4A_timeout--;
     }
     gCharB4_DistanceToTarget_6FD80C = distance_to_target;
 
@@ -3345,7 +3345,7 @@ void Char::state_0_54DDF0()
     gCharB4_VeerFromWalls_6FDB52 = 1;
     byte_6FDB53 = 0;
     gCharB4_GradientSlopeBelow_6FDB54 = 0;
-    this->field_4A = 500;
+    this->field_4A_timeout = 500;
     bAllowStateChange = 1;
     bCanMove = 0;
     u8 bNoNewRotation = 1;
@@ -4612,7 +4612,7 @@ void Char::state_1_5504F0()
     u8 x_u8;
     u8 y_u8;
 
-    field_4A = 500;
+    field_4A_timeout = 500;
     Ang16 angle = 0;
     field_58_flags_bf.bReverseVelocity = false;
     field_58_flags_bf.bFlag6 = false;
@@ -5699,7 +5699,7 @@ void Char::state_7_551CB0()
                 }
                 else
                 {
-                    if ((field_7C_pPed->PedTypeIs_45EDE0(ped_type::script_created_5) || field_7C_pPed->PedTypeIs_45EDE0(ped_type::player_2)) && !field_4A)
+                    if ((field_7C_pPed->PedTypeIs_45EDE0(ped_type::script_created_5) || field_7C_pPed->PedTypeIs_45EDE0(ped_type::player_2)) && !field_4A_timeout)
                     {
                         if (gRng_6F6784.get_int_4F7AE0(600) < 4u && field_10_char_state != Char_B4_state::Smoking_35)
                         {
@@ -5860,7 +5860,7 @@ void Char::state_8_5520A0()
                 {
                     field_80_sprite_ptr->SetDrawLayer_40F7B0(6);
                 }
-                field_4A = 300;
+                field_4A_timeout = 300;
                 break;
 
             case ped_state_2::ped2_at_car_door_17:
@@ -6072,11 +6072,11 @@ void Char::state_8_5520A0()
             case ped_state_2::knocked_down_25:
             case ped_state_2::knocked_fatal_26:
 
-                if (field_4A > 0)
+                if (field_4A_timeout > 0)
                 {
-                    field_4A--;
+                    field_4A_timeout--;
                 }
-                if (field_4A == 0)
+                if (field_4A_timeout == 0)
                 {
                     field_C_ped_state_2 = ped_state_2::knocked_fatal_26;
                 }
@@ -6089,7 +6089,7 @@ void Char::state_8_5520A0()
                     field_7C_pPed->field_27C_ped_state_2 = ped_state_2::ped2_dead_15;
                     return;
                 }
-                if (field_7C_pPed->field_184_pObj2C->GetEffectiveSpeed_5290F0() == kFP16Zero_6FD9E4 || !field_4A)
+                if (field_7C_pPed->field_184_pObj2C->GetEffectiveSpeed_5290F0() == kFP16Zero_6FD9E4 || !field_4A_timeout)
                 {
                     switch (field_C_ped_state_2)
                     {

@@ -3209,7 +3209,7 @@ void sound_obj::PlayVocal_418C80(s32 voice)
     {
         if (voice < 63)
         {
-            field_544C[0].field_18 = voice;
+            field_544C[0].field_18_pending_voice = voice;
         }
     }
 }
@@ -3220,7 +3220,7 @@ void sound_obj::ProcessType10_Vocals_418CA0()
     s32 voc_idx;
     if (field_544C[0].field_4_entity_idx)
     {
-        switch (field_544C[0].field_18)
+        switch (field_544C[0].field_18_pending_voice)
         {
             case voice_line::accuracyb_9:
                 voc_idx = 0;
@@ -3392,19 +3392,19 @@ void sound_obj::ProcessType10_Vocals_418CA0()
                 voc_idx = (field_1454_anRandomTable[0] % 13u) + 85;
                 if (voc_idx == 99)
                 {
-                    field_544C[0].field_18 = 0;
+                    field_544C[0].field_18_pending_voice = 0;
                     return;
                 }
                 break;
             default:
-                field_544C[0].field_18 = 0;
+                field_544C[0].field_18_pending_voice = 0;
                 return;
         }
 
         gSampManager_6FFF00.PlayVocal_58E510(1, voc_idx, true);
         gSampManager_6FFF00.SetVocalVolume_58E6D0(1, 127 * field_24_sfx_vol / 127);
 
-        field_544C[0].field_18 = 0;
+        field_544C[0].field_18_pending_voice = 0;
     }
 }
 
@@ -3497,7 +3497,7 @@ sound_obj::sound_obj()
     field_543C_444C_nAudioEntitiesCount = 0;
     field_5448_m_FrameCounter = 0;
     field_544C[0].field_0_fifth_frame_flag = false;
-    field_544C[0].field_18 = 0;
+    field_544C[0].field_18_pending_voice = 0;
     field_3_bFirstMenuStream = 1;
 }
 
@@ -7072,7 +7072,7 @@ void sound_obj::UpdateVocalStream_57E510()
         if (field_54F7_active_emitter_idx[1] < 5)
         {
             // Radio emitters use indices 1..5
-            field_544C[field_54F7_active_emitter_idx[1] + 1].field_18 = gSampManager_6FFF00.GetVocalPosMs_58E770(0);
+            reinterpret_cast<RadioStationEmitter*>(field_544C)[field_54F7_active_emitter_idx[1] + 1].field_18_pos_ms = gSampManager_6FFF00.GetVocalPosMs_58E770(0);
         }
         gSampManager_6FFF00.CloseVocalStream_58E6A0(0);
         gSampManager_6FFF00.PlayVocal_58E510(0, 12, true);

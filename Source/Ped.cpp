@@ -87,12 +87,12 @@ DEFINE_GLOBAL(u8, gNumDummyChars_6787E2, 0x6787E2);
 DEFINE_GLOBAL(u8, gNumScriptCreatedPeds_6787E3, 0x6787E3);
 DEFINE_GLOBAL(u8, gNumEmergencyPeds_6787E4, 0x6787E4);
 EXTERN_GLOBAL(u8, gTargetSearchMode_6787D7);
-DEFINE_GLOBAL(u8, byte_6787D4, 0x6787D4);
+DEFINE_GLOBAL(u8, gCloseRangeHit_6787D4, 0x6787D4);
 DEFINE_GLOBAL(u8, gPedUsedPathThisTick_678554, 0x678554);
 DEFINE_GLOBAL(u8, gPathStepRoundDone_6787D8, 0x6787D8);
 DEFINE_GLOBAL(u8, gLosCheckRoundDone_6787D9, 0x6787D9);
 DEFINE_GLOBAL_INIT(u8, gRunPedThink_61A8A4, 1, 0x61A8A4);
-DEFINE_GLOBAL(u8, byte_6787C4, 0x6787C4);
+DEFINE_GLOBAL(u8, gKeepPaceWithTarget_6787C4, 0x6787C4);
 DEFINE_GLOBAL(s16, gNumPedsCrossingRoad_6787D0, 0x6787D0);
 DEFINE_GLOBAL(s16, gElvisVoiceTimer_6787F2, 0x6787F2);
 DEFINE_GLOBAL(u16, gNumPedsUpdated_6787E0, 0x6787E0);
@@ -672,7 +672,7 @@ void Ped::Reset_45AFC0()
     field_268_electrocution_timer = 0;
     field_198_hit_target_ped = NULL;
     field_19C_dummy_gang = NULL;
-    byte_6787C4 = 0;
+    gKeepPaceWithTarget_6787C4 = 0;
     field_21C_bf.bDriveAggressively = false;
     field_1F8_run_speed = kFpPoint8_6784A0;
     field_1A0_objective_target_object = NULL;
@@ -3641,7 +3641,7 @@ void Ped::UpdateFacingAngle_461A60()
             {
                 this->field_130_target_facing_angle = Fix16::atan2_fixed_405320(this->field_1C8_move_target_y - this->field_1AC_cam.y, this->field_1C4_move_target_x - this->field_1AC_cam.x);
 
-                if (byte_6787C4 && this->field_14C_internal_target_ped && gDistanceToTarget_678750 < kFpThreeSixteenths_678780 &&
+                if (gKeepPaceWithTarget_6787C4 && this->field_14C_internal_target_ped && gDistanceToTarget_678750 < kFpThreeSixteenths_678780 &&
                     ComputeShortestAngleDelta_4056C0(field_130_target_facing_angle, field_12C_facing_angle) > kAng90_6784B0)
                 {
                     field_130_target_facing_angle = this->field_12C_facing_angle;
@@ -3650,7 +3650,7 @@ void Ped::UpdateFacingAngle_461A60()
                     return;
                 }
 
-                if (byte_6787D4 == 1)
+                if (gCloseRangeHit_6787D4 == 1)
                 {
                     this->field_168_game_object->field_6A_repulsion_timer = 1;
                     Ang16 jitter;
@@ -3848,34 +3848,34 @@ void Ped::UpdateAI_462280()
                 {
                     field_164_ped_group->UpdateMemberAIState_4CA5E0(field_23C_group_idx);
                     gObjectiveMayAct_61A8A3 = 1;
-                    byte_6787C4 = field_164_ped_group->field_38_group_type != ped_group_type::chain_1;
+                    gKeepPaceWithTarget_6787C4 = field_164_ped_group->field_38_group_type != ped_group_type::chain_1;
                 }
                 else
                 {
                     gObjectiveMayAct_61A8A3 = 0;
-                    byte_6787C4 = 0;
+                    gKeepPaceWithTarget_6787C4 = 0;
                 }
             }
             else if (!field_21C_bf.bPanicking)
             {
                 gObjectiveMayAct_61A8A3 = field_164_ped_group->Get_F3C_433370() != 1;
                 field_164_ped_group->CoordinateGroupCarEntry_4C9F00();
-                byte_6787C4 = 1;
+                gKeepPaceWithTarget_6787C4 = 1;
             }
             else
             {
                 gObjectiveMayAct_61A8A3 = 0;
-                byte_6787C4 = 0;
+                gKeepPaceWithTarget_6787C4 = 0;
             }
         }
         else if (!field_21C_bf.bPanicking)
         {
             gObjectiveMayAct_61A8A3 = 1;
-            byte_6787C4 = 1;
+            gKeepPaceWithTarget_6787C4 = 1;
         }
         else
         {
-            byte_6787C4 = 0;
+            gKeepPaceWithTarget_6787C4 = 0;
         }
 
         field_21C_bf.bLeftVehicle = false;
@@ -4076,7 +4076,7 @@ bool Ped::StateMachineTick_4626B0()
                 }
                 ++gNumPedsOnScreen_6787EC;
                 ++this->field_20E_offscreen_counter;
-                byte_6787C4 = 1;
+                gKeepPaceWithTarget_6787C4 = 1;
                 if (this->field_168_game_object->GetCharState_433A80() == Char_B4_state::Jumping_15)
                 {
                     gRunPedThink_61A8A4 = this->field_278_ped_state_1 == ped_state_1::entering_car_3;
@@ -4379,7 +4379,7 @@ bool Ped::PoolUpdate()
     ++gNumPedsUpdated_6787E0;
     gTargetSearchMode_6787D7 = threat_search_enum::no_threats_0;
     gSearchingPed_6787DC = NULL;
-    byte_6787D4 = 0;
+    gCloseRangeHit_6787D4 = 0;
     gPedUsedPathThisTick_678554 = 0;
     field_263_prev_attackers_count = field_262_attackers_count;
     field_262_attackers_count = 0;
@@ -5109,17 +5109,17 @@ void Ped::ProcessInternalObjective_463FB0()
                 case objectives_enum::objective_18:
                 case objectives_enum::kill_char_on_foot_20:
                 case objectives_enum::punch_char_23:
-                    byte_6787C4 = 0;
+                    gKeepPaceWithTarget_6787C4 = 0;
                     break;
                 default:
-                    if (byte_6787C4)
+                    if (gKeepPaceWithTarget_6787C4)
                     {
                         // Through a bool local with an early break: written directly, VC6 lays the
                         // clear after the call and doesn't share it with the case 11/18/20/23 block
                         bool bStop = pTargetPed->field_168_game_object == NULL || this->field_278_ped_state_1 == ped_state_1::entering_car_3;
                         if (bStop)
                         {
-                            byte_6787C4 = 0;
+                            gKeepPaceWithTarget_6787C4 = 0;
                             break;
                         }
                         Ped::CalcApproachPointNearTargetPed_4645B0();
@@ -9165,7 +9165,7 @@ void Ped::FollowTargetStateMachine_46AC20()
                 field_168_game_object->RegulateVelocityByRef_433970(kFpOne64th_678430);
             }
 
-            if (byte_6787C4)
+            if (gKeepPaceWithTarget_6787C4)
             {
                 if (gDistanceToTarget_678750 < kFpHalf_678790)
                 {
@@ -9189,7 +9189,7 @@ void Ped::FollowTargetStateMachine_46AC20()
         {
             if (field_168_game_object->GetCharState_433A80() != Char_B4_state::Jumping_15)
             {
-                if (byte_6787C4)
+                if (gKeepPaceWithTarget_6787C4)
                 {
                     if (field_224_bf.bWaitingOnTarget)
                     {
@@ -10643,7 +10643,7 @@ void Ped::AttackTargetStateMachine_46D460(u8 targetType)
                         Ped::ChangeNextPedState1_45C500(ped_state_1::flee_or_running_1);
                         Ped::ChangeNextPedState2_45C540(ped_state_2::running_to_target_2);
                         field_21C_bf.bAttacking = true;
-                        byte_6787D4 = 1;
+                        gCloseRangeHit_6787D4 = 1;
                         field_168_game_object->RegulateVelocity_433970(field_1F0_max_speed);
 
                         if (field_168_game_object->field_58_flags_bf.bFlag7)

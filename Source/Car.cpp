@@ -4719,7 +4719,7 @@ void Car::UpdateTrainCarriagesOnTrack_4413B0(Fix16 xpos, Fix16 ypos, Fix16 zpos)
     Fix16 z = zpos;
 
     Fix16 train_speed;
-    bool bUnknown = gPublicTransport_181C_6FF1D4->GetTrainSpeed_579B90(this, &train_speed);
+    bool bNotReversing = gPublicTransport_181C_6FF1D4->GetTrainSpeed_579B90(this, &train_speed);
 
     for (Car* pTrainCarIter = *pTrainCars; pTrainCarIter; pTrainCarIter = pTrainCars[idx])
     {
@@ -4729,7 +4729,7 @@ void Car::UpdateTrainCarriagesOnTrack_4413B0(Fix16 xpos, Fix16 ypos, Fix16 zpos)
         newz = z;
 
         Ang16 carriage_angle;
-        if (bUnknown)
+        if (bNotReversing)
         {
             s32 track_dir_a = gMap_0x370_6F6268->AdvanceAlongRailwayChecked_4E7190(&newx, &newy, &newz, kFpTwo_6777D4);
             carriage_angle = ReturnAngleFromRoadDirection_4F7940(track_dir_a);

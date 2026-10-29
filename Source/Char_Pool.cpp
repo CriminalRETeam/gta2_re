@@ -36,7 +36,7 @@ EXTERN_GLOBAL(u8, gNumberArmedGangMembers_6787CE);
 EXTERN_GLOBAL(s16, gNumPedsCrossingRoad_6787D0);
 EXTERN_GLOBAL(u8, gNewTaxiCustomersThisTick_6787D2);
 EXTERN_GLOBAL(char_type, gNumberBusCustomers_6787D3);
-EXTERN_GLOBAL(u8, byte_6787D4);
+EXTERN_GLOBAL(u8, gCloseRangeHit_6787D4);
 DEFINE_GLOBAL(u8, gTargetSearchMode_6787D7, 0x6787D7);
 EXTERN_GLOBAL(u8, gPathStepRoundDone_6787D8);
 EXTERN_GLOBAL(u8, gLosCheckRoundDone_6787D9);
@@ -738,7 +738,7 @@ PedManager::PedManager()
     gNewTaxiCustomersThisTick_6787D2 = 0;
     gNumberBusCustomers_6787D3 = 0;
     gSearchConeHalfAngle_6784F0 = gDummyPedAng_6787A8;
-    byte_6787D4 = 0;
+    gCloseRangeHit_6787D4 = 0;
     spawnSideLocked_6787D5 = 0;
     spawnCountLimit_6787D6 = 0;
     gTargetSearchMode_6787D7 = threat_search_enum::no_threats_0;

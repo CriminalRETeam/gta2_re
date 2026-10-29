@@ -108,7 +108,7 @@ class Char
     u16 field_46_timer;
     s8 field_48_lying_on_floor_timer;
     s8 field_49_unused;
-    u16 field_4A;
+    u16 field_4A_timeout;
     Fix16 field_4C_conveyor_dx;
     Fix16 field_50_conveyor_dy;
     s8 field_54_jump_scale_counter;
