@@ -982,11 +982,6 @@ void Frontend::DrawScoreTable_4B5430(ScoreTableLine* pStrings,
     }
 }
 
-// todo: add to header
-EXTERN_GLOBAL(s32, gGTA2VersionMajor_708280);
-
-EXTERN_GLOBAL(s32, gGTA2VersionMinor_708284);
-
 // sub_457920 in 9.6f
 // https://decomp.me/scratch/jchxT
 MATCH_FUNC(0x4AD140)

@@ -12,10 +12,6 @@
 DEFINE_GLOBAL(char_type, bDestroyed_6F5B70, 0x6F5B70);
 DEFINE_GLOBAL(HWND, gHwnd_707F04, 0x707F04);
 
-// todo: add to header
-EXTERN_GLOBAL(s32, gGTA2VersionMajor_708280);
-EXTERN_GLOBAL(s32, gGTA2VersionMinor_708284);
-
 MATCH_FUNC(0x4D9470)
 void ErrorLog::Open_4D9470(const char_type* path, s32 truncate_mode)
 {

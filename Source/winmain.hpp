@@ -18,6 +18,8 @@ s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR
 EXPORT bool __stdcall Start_NetworkGame_5E5A30(HINSTANCE hInstance);
 
 EXPORT void __stdcall GetGTA2Version_5E5D60(s32* pVerMinor, s32* pVerMajor);
+EXTERN_GLOBAL(s32, gGTA2VersionMajor_708280);
+EXTERN_GLOBAL(s32, gGTA2VersionMinor_708284);
 
 EXPORT void __stdcall ResetFrameTimer_4DA830();
 
