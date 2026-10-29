@@ -1262,8 +1262,8 @@ Action::Status DriveAction::Step(BotContext& ctx)
             const float qy = ay0 + sy * t;
             const float sl = sqrtf(sl2);
             // further ahead when faster: a short look steers at every little error and the car swings from side to side
-            float look = 4.0f + mSpeed * 40.0f;
-            look = look > 12.0f ? 12.0f : look;
+            float look = pure ? 3.0f + mSpeed * 25.0f : 4.0f + mSpeed * 40.0f; // (shorter in the pure drive: an offset shows as a bigger angle)
+            look = look > (pure ? 8.0f : 12.0f) ? (pure ? 8.0f : 12.0f) : look;
             const float rem = sqrtf((mWpX[mWpIdx] - qx) * (mWpX[mWpIdx] - qx) + (mWpY[mWpIdx] - qy) * (mWpY[mWpIdx] - qy));
             for (int k = 0; k < 6; k++)
             {
@@ -1652,7 +1652,8 @@ Action::Status DriveAction::Step(BotContext& ctx)
         // the key as the arcs press it: the heading error in the world, times which way the Right key turns this car
         const float werr = Bot_WrapDeg(Bot_HeadingDeg(aim_x - pl.x, aim_y - pl.y) - (ctx.car.sign * pl.rot_deg + ctx.car.offset));
         const float ea = fabsf(werr);
-        const float lvl = ea > 20.0f ? 1.0f : (ea > 8.0f ? 0.5f : (ea > 5.0f ? 0.25f : 0.0f));
+        // (a tap from 1.5 degrees, not 5: half a tile off a route 8 tiles ahead is 3.5 degrees, and the car drove on beside the line)
+        const float lvl = ea > 20.0f ? 1.0f : (ea > 8.0f ? 0.5f : (ea > 1.5f ? 0.25f : 0.0f));
         if (lvl > 0.0f && (lvl > 0.9f || (lvl > 0.4f && ctx.frame % 2 == 0) || ctx.frame % 4 == 0))
         {
             ctx.input |= (werr > 0.0f) == (ctx.car.sign * ctx.car.turn_sign > 0.0f) ? input_bit::Right : input_bit::Left;
