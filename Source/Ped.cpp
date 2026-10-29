@@ -646,7 +646,7 @@ void Ped::Reset_45AFC0()
     field_184_pObj2C = NULL;
     field_267_ped_ref_idx = 0;
     field_280_stored_ped_state_1 = 11;
-    field_284_stored_ped_state_2 = ped_state_2::Unknown_28;
+    field_284_stored_ped_state_2 = ped_state_2::initial_28;
     field_208_invulnerability = 0;
     field_20A_wanted_points = cop_level_ped_enum::cop_0_stars;
     field_20C_target_unseen_counter = 0;
@@ -1347,7 +1347,7 @@ void Ped::ChangeNextPedState2_45C540(s32 new_state)
     {
         field_27C_ped_state_2 = new_state; // just update, dont store previous
     }
-    else if (field_27C_ped_state_2 < ped_state_2::ped2_at_car_door_17 || field_27C_ped_state_2 > ped_state_2::Unknown_28)
+    else if (field_27C_ped_state_2 < ped_state_2::ped2_at_car_door_17 || field_27C_ped_state_2 > ped_state_2::initial_28)
     {
         field_284_stored_ped_state_2 = field_27C_ped_state_2; // store previous state
         field_27C_ped_state_2 = new_state; // update

@@ -472,7 +472,7 @@ enum
     knocked_down_25 = 25, // 25 goes to lying_on_floor_22,
     knocked_fatal_26 = 26, // and 26 kills the ped
     electrocuted_27 = 27,
-    Unknown_28 = 28,
+    initial_28 = 28, // start value (Char constructor and PoolAllocate, Ped::Reset_45AFC0), no state change sets it
     ped2_respawned_29 = 29, // Ped::RespawnPed_45C350; a player in it has its wanted level cleared
     Unknown_30 = 30,
 };
