@@ -1860,6 +1860,7 @@ void Char::HandleObjectCollision_548840(Object* pObj)
         }
         this->field_5C_jump_over_timer = 10;
 
+    // shared exit for the three not-pushable checks: goto-free forms change the code
     generic_collision:
         HandleGenericCollision_54A530(NULL, pObj, NULL);
     }
@@ -3441,7 +3442,7 @@ void Char::state_0_54DDF0()
         {
             if (field_10_char_state != Char_B4_state::Jumping_15)
             {
-                // Ped is falling
+                // Ped is falling; the end-of-jump path below jumps here (goto-free forms change the code)
             start_falling:
                 field_6C_animation_state = Char_Anim_state::Normal_Fall_11;
                 field_68_animation_frame = 0;
@@ -3758,6 +3759,7 @@ void Char::state_0_54DDF0()
                                              field_80_sprite_ptr->field_14_xy.y + ret2,
                                              field_80_sprite_ptr->field_1C_zpos);
 
+// shared exit for the two blocked-move paths: goto-free forms change the code
 after_move:
     field_4C_conveyor_dx = kFP16Zero_6FD9E4;
     field_50_conveyor_dy = kFP16Zero_6FD9E4;
