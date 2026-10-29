@@ -1284,11 +1284,11 @@ existing inline method (or making the helper `inline`). Note that the out-of-lin
 lives in whatever TU emits it, which is also why the duplicate helper copies mentioned
 under "Duplicate helper copies" exist.
 
-**Tail merging across `case`s needs a shared statement.** VC6 merges the identical tails of
-the two branches of an `if` into one call, but not the tails of two different `case`s. If
-the original jumps from one case into the middle of another (`push $1; jmp <other case's
-call>`), end the first case with a `goto` to a label in front of the other case's shared
-code (`ParseTokenAndPush_430C70`).
+**Tail merging across `case`s.** Cross-jumping also merges identical case tails: a copy of the
+word case's `if (error_ret >= 0) return k_gci_ok;` in the byte case becomes the original's
+`push $1; jmp <other case's call>` (`ParseTokenAndPush_430C70`). It keeps one copy by its own
+rule, so when the original jumps the other way round, end the case with a `goto` to a label in
+front of the kept code (the boxes case in `sound_obj::SelectObjectImpactSound_413120`).
 
 **A "point" local that lives half in a register.** If the original keeps one coordinate of a
 constant pair in a register and the other in a stack slot, with no EH state for it, the pair
@@ -1325,10 +1325,11 @@ code the body of `if (hr != DP_OK) { failed: ...; return 0; }` and have earlier 
 
 **Placing a shared failure block right after a loop.** When the original's loop ends with
 `je <loop top>` and falls straight into a `return 0` block that earlier checks also jump
-to, with the success code after it, put the label and the return at the end of a
-`while (1)` body: `if (!Receive(...)) continue; failed: return 0; }`, with `break` at the
-top for the success case. A `failed:` label after the success code, or a
-`goto success` from the loop, gets laid out the other way round (`NetPlay::Receive_51F010`).
+to, with the success code after it, make the read call the condition of a `for`:
+`for (len = N; !Receive(...); len = N) { if (ok) { ...; return 1; } ...; if (c) break; } return 0;`.
+VC6 rotates it into the read before the loop and the one at the latch. A `failed:` label after
+the success code, or a `goto success` from the loop, gets laid out the other way round
+(`NetPlay::Receive_51F010`).
 
 **Uninitialised locals are "loaded" from argument slots.** An uninitialised local can be
 given a stack home that overlaps an argument, so its first use shows up as

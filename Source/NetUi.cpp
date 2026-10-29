@@ -1952,28 +1952,27 @@ void NetUi::ApplyHostGameSettings_51B810(const char_type* pData)
         u32 i = 0;
         while (1)
         {
-            if (i >= static_cast<u32>(field_1FD64_total_map_count))
+            if (i < static_cast<u32>(field_1FD64_total_map_count))
             {
+                if (!strcmp(field_4_maps[i].field_410_mmp_name, pSettings->field_20088_default_map))
+                {
+                    field_20088_game_settings = *pSettings;
+                    field_20088_game_settings.field_2018C_map_idx = i;
+                    SetDlgItemTextA(field_2031C_dlg_hwnd, LABEL_JOINED_GAME_MAP_1054, field_4_maps[i].field_30C_description);
+                    break;
+                }
+                i++;
+            }
+            else
+            {
+                sprintf(msg, "### ERROR ### \r\r\nDo Not Have Map %s", pSettings->field_20088_default_map);
+                GetString_519A50(wmsg, msg, 260);
+                gNetPlay_7071E8.SendChatMessage_521060(wmsg, -1);
+                AppendChatMessage_51B4F0(CHATBOX_HOST_1022, msg);
                 break;
             }
-
-            if (!strcmp(field_4_maps[i].field_410_mmp_name, pSettings->field_20088_default_map))
-            {
-                field_20088_game_settings = *pSettings;
-                field_20088_game_settings.field_2018C_map_idx = i;
-                SetDlgItemTextA(field_2031C_dlg_hwnd, LABEL_JOINED_GAME_MAP_1054, field_4_maps[i].field_30C_description);
-                // A found flag, an i >= count check after the loop or a break all change the code
-                goto map_done;
-            }
-            i++;
         }
 
-        sprintf(msg, "### ERROR ### \r\r\nDo Not Have Map %s", pSettings->field_20088_default_map);
-        GetString_519A50(wmsg, msg, 260);
-        gNetPlay_7071E8.SendChatMessage_521060(wmsg, -1);
-        AppendChatMessage_51B4F0(CHATBOX_HOST_1022, msg);
-
-    map_done:
         switch (pSettings->field_20190_game_speed)
         {
             case 2:

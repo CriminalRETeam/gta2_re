@@ -899,7 +899,9 @@ bool sound_obj::SelectObjectImpactSound_413120(CollisionEvent* pEvent, s32 inter
 
             case objects::bin_7:
                 field_30_sQueueSample.field_14_samp_idx = 55;
-                goto rate_20000;
+                field_30_sQueueSample.field_18_bIs2D = false;
+                field_30_sQueueSample.field_20_rate = field_1454_anRandomTable[0] % 2000 + 20000;
+                return true;
 
             case objects::oildrum_16:
             case objects::tower_25:
@@ -913,7 +915,7 @@ bool sound_obj::SelectObjectImpactSound_413120(CollisionEvent* pEvent, s32 inter
             case objects::package_23:
             case 44:
                 field_30_sQueueSample.field_14_samp_idx = 54;
-                // Shares the rate code of the next group, VC6 doesn't merge case tails by itself
+                // An own copy of the next group's tail is cross-jumped the other way round
                 goto rate_17000;
 
             case objects::rubbish_6:
@@ -983,7 +985,9 @@ bool sound_obj::SelectObjectImpactSound_413120(CollisionEvent* pEvent, s32 inter
         case objects::destroyed_powergen_282:
         samp_37:
             field_30_sQueueSample.field_14_samp_idx = 37;
-            goto rate_20000;
+            field_30_sQueueSample.field_18_bIs2D = false;
+            field_30_sQueueSample.field_20_rate = field_1454_anRandomTable[0] % 2000 + 20000;
+            return true;
 
         case 182:
         case objects::grenade_obj_183:
@@ -1028,7 +1032,9 @@ bool sound_obj::SelectObjectImpactSound_413120(CollisionEvent* pEvent, s32 inter
                 return true;
             }
             field_30_sQueueSample.field_14_samp_idx = 37;
-            goto rate_20000;
+            field_30_sQueueSample.field_18_bIs2D = false;
+            field_30_sQueueSample.field_20_rate = field_1454_anRandomTable[0] % 2000 + 20000;
+            return true;
 
         case objects::shotgun_bullet_192:
         case objects::machine_gun_bullet_254:
@@ -1048,7 +1054,9 @@ bool sound_obj::SelectObjectImpactSound_413120(CollisionEvent* pEvent, s32 inter
                     break;
                 case 7:
                     field_30_sQueueSample.field_14_samp_idx = 42;
-                    goto rate_20000;
+                    field_30_sQueueSample.field_18_bIs2D = false;
+                    field_30_sQueueSample.field_20_rate = field_1454_anRandomTable[0] % 2000 + 20000;
+                    return true;
                 default:
                     samp_idx = field_1454_anRandomTable[1] % 3 + 49;
                     break;
@@ -1072,7 +1080,6 @@ bool sound_obj::SelectObjectImpactSound_413120(CollisionEvent* pEvent, s32 inter
             return false;
     }
 
-rate_20000:
     field_30_sQueueSample.field_18_bIs2D = false;
     field_30_sQueueSample.field_20_rate = field_1454_anRandomTable[0] % 2000 + 20000;
     return true;
@@ -5560,6 +5567,7 @@ void sound_obj::ProcessPed_422B70(Sound_Params* pParams)
                         case 3:
                             first_samp = 198;
                             last_samp = 201;
+                        // shared by every surface case: goto-free forms need a flag or a copy of the block
                         play_footstep:
                             if (CalculateDistance_419020(Fix16(4)))
                             {
@@ -6843,7 +6851,7 @@ void sound_obj::HandleVocalStreamSwitching_57DF10(char_type bFastForward)
         bStationChanged = true;
     }
 
-    // The do/while (0) and the gotos to done (not returns) give the original's block layout and tail merging.
+    // The do/while (0) and the goto to done (not a return) give the original's block layout and tail merging.
     do
     {
         if (field_5500_prev_main_variant == field_54FC_main_variant)
@@ -6851,7 +6859,7 @@ void sound_obj::HandleVocalStreamSwitching_57DF10(char_type bFastForward)
             if (!bStationChanged)
             {
                 UpdateCarRadioAudio_57E220();
-                goto done;
+                return;
             }
         }
         else if (!bFast)
