@@ -514,7 +514,7 @@ bool Crane::ComputeHookPolar_47F6C0(Fix16_Point& pPoint, Fix16* pOutF16, Fix16* 
     Fix16_Point to_hook = (pPoint.Sub_40AC80(field_2C_rotor_obj->field_4_sprite->get_x_y()));
     *pOutF16 = to_hook.GetLength_41E260();
 
-    // TODO: 1st check is removed in 9.6f ??
+    // 9.6f (0x448900) only has the minimum radius test
     if (*pOutF16 <= kMaxHookRadius_679F68 && *pOutF16 >= kMinHookRadius_679C3C)
     {
         *pOutAng = Ang16::Ang16_to_Fix16(to_hook.atan2_40F790());
