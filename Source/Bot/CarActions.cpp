@@ -971,6 +971,7 @@ Action::Status DriveAction::Step(BotContext& ctx)
     }
 
     // Waypoints: the car may already be on a later leg (the route jogged aside and back, the car went straight on)
+    if (!(ctx.opts && ctx.opts->drive_pure)) // (the pure drive takes every corner in turn: skipping one drops the aim onto the next leg early)
     {
         const int skip = LocalPlan_RouteProgress(mWpX, mWpY, mWpCount, mWpIdx, pl.x, pl.y, kOnLegTiles);
         if (skip != mWpIdx && skip < mWpCount)
@@ -1841,7 +1842,7 @@ Action::Status DriveAction::Step(BotContext& ctx)
         {
             const float rx = mWpX[mWpIdx] - pl.x;
             const float ry = mWpY[mWpIdx] - pl.y;
-            const float allowed = 0.04f + sqrtf(rx * rx + ry * ry) * 0.02f;
+            const float allowed = 0.03f + sqrtf(rx * rx + ry * ry) * 0.012f;
             cap = allowed < cap ? allowed : cap;
         }
     }
@@ -1922,7 +1923,7 @@ Action::Status DriveAction::Step(BotContext& ctx)
     {
         ctx.input |= input_bit::Forward;
     }
-    else if (mSpeed > cap * 1.5f + 0.01f)
+    else if (mSpeed > (pure ? cap + 0.01f : cap * 1.5f + 0.01f)) // (the pure drive holds its corner speed: it has no other way to slow)
     {
         ctx.input |= input_bit::Backward;
     }
