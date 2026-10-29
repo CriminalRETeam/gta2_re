@@ -5460,8 +5460,7 @@ void Char::state_3_551A00()
         {
             if (field_6C_animation_state != Char_Anim_state::Entering_Car_6)
             {
-                // TODO: remove Ang16 operator=(const Ang16& other) without breaking Player::DoPedControlInputs_566C80
-                field_40_rotation.rValue = field_84_target_car->field_50_car_sprite->field_0_rotation.rValue;
+                field_40_rotation = field_84_target_car->field_50_car_sprite->field_0_rotation;
                 field_6C_animation_state = Char_Anim_state::Entering_Car_6;
                 field_68_animation_frame = 0;
                 if (field_84_target_car->IsDoorOffsetLarge_43B540(field_7C_pPed->get_target_car_door_403A60()))
