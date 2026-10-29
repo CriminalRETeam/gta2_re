@@ -1813,7 +1813,6 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
     u16 target_page_idx;
     u8 bonus_scan_idx;
     u8 main_stage_idx;
-    // u8 unused_idx;
     u16 current_option_idx;
     MenuItem* pOption_prev;
     bool bWrapped_prev;
@@ -3277,7 +3276,6 @@ Frontend::Frontend()
 
     if (gText_0x14_704DFC->field_10_lang_code == 'j')
     {
-        // pKanjiFont_8EC = pKanjiFont_8EC_mem ? KanjiFont::ctor_4D2C80(pKanjiFont_8EC_mem) : 0;
         gKanjiFont_6F5168 = new KanjiFont();
         if (!gKanjiFont_6F5168)
         {

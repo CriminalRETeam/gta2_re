@@ -262,7 +262,6 @@ struct NetPlay
         return field_5D4_player_idx;
     }
 
-    //s32 field_0_vtbl;
     char_type field_4_bModem;
     char_type field_5_modem_num;
     char_type field_6_unused;

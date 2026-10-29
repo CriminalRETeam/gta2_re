@@ -189,7 +189,6 @@ void __stdcall LogFuncAddr(u32 codeAddr, s32 mode);
     #define DEFINE_GLOBAL_INIT(type, name, value, addr) type name = value
 
     #define DEFINE_GLOBAL_ARRAY(type, name, size, addr) type name[size]
-//#define DEFINE_GLOBAL_ARRAY_INIT(type, name, size, addr, ...)  type name[size] = { __VA_ARGS__ }
 
     #define EXTERN_GLOBAL(type, name) extern type name
     #define EXTERN_GLOBAL_ARRAY(type, name, size) extern type name[size]

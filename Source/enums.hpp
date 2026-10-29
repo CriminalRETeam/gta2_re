@@ -59,7 +59,6 @@ enum
     firetruck = 5,
     police_cars = 6
 };
-// static_assert(sizeof(car_manager_car_type_enum) == 4);
 } // namespace car_manager_car_type_enum
 namespace car_model_enum
 {
@@ -154,7 +153,6 @@ enum
     KRSNABUS = 86,
     none = 87
 };
-// static_assert(sizeof(car_model_enum) == 4);
 } // namespace car_model_enum
 
 namespace Car_Door_Lock
@@ -198,7 +196,6 @@ enum
     cop_5_stars = 8000,
     cop_6_stars = 12000
 };
-// static_assert(sizeof(cop_level_ped_enum) == 2);
 } // namespace cop_level_ped_enum
 
 namespace gmp_zone_type_enum
@@ -227,7 +224,6 @@ enum
     unsued6 = 19,
     arrest_restart = 20
 };
-// static_assert(sizeof(gmp_zone_type_enum) == 4);
 } // namespace gmp_zone_type_enum
 
 namespace crew_type // KFC type
@@ -268,7 +264,6 @@ enum
     user_remaps_7 = 7,
     font_remaps_8 = 8,
 };
-// static_assert(sizeof(palette_types_enum) == 4);
 } // namespace palette_types_enum
 
 // Masks of PedFlags32 (Ped::field_21C_bf). Unused, but removing the enum changes the DLLs (VC6 name table)
@@ -310,7 +305,6 @@ enum
     k_ped_unused30 = 0x40000000,
     k_ped_unused31 = 0x80000000,
 };
-// static_assert(sizeof(ped_bit_status_enum) == 0x4);
 } // namespace ped_bit_status_enum
 
 namespace ped_major_state
@@ -326,7 +320,6 @@ enum
     ped_major_entering_a_car = 6,
     ped_major_getting_out_a_car = 7
 };
-// static_assert(sizeof(ped_major_state) == 0x1);
 } // namespace ped_major_state
 
 namespace ped_ocupation_enum
@@ -386,7 +379,6 @@ enum
     scared_driver_50 = 50, // scared by shooting at his car
     no_occupation = 51,
 };
-// static_assert(sizeof(ped_ocupation_enum) == 0x4);
 } // namespace ped_ocupation_enum
 
 namespace ped_remap_enum
@@ -421,7 +413,6 @@ enum
     ped_remap_player = 25,
     ped_remap_naked_dummy = 26,
 };
-// static_assert(sizeof(ped_remap_enum) == 0x1);
 } // namespace ped_remap_enum
 
 namespace ped_state1_enum
@@ -440,7 +431,6 @@ enum
     ped_wasted = 9,
     ped_driving = 10,
 };
-// static_assert(sizeof(ped_state1_enum) == 0x4);
 } // namespace ped_state1_enum
 
 namespace ped_state_2
@@ -476,7 +466,6 @@ enum
     ped2_respawned_29 = 29, // Ped::RespawnPed_45C350; a player in it has its wanted level cleared
     Unknown_30 = 30,
 };
-// static_assert(sizeof(ped_state_2) == 0x4);
 } // namespace ped_state_2
 
 namespace Char_B4_state
@@ -542,7 +531,6 @@ enum
     spec_metal_wall = 9,
     spec_grass_dirt_wall = 10,
 };
-// static_assert(sizeof(spec_surface_type_enum) == 4);
 } // namespace spec_surface_type_enum
 
 namespace car_surface_type
@@ -575,7 +563,6 @@ enum
     font_7 = 7,
     code_obj2_8 = 8,
 };
-// static_assert(sizeof(sprite_types_enum) == 4);
 } // namespace sprite_types_enum
 
 namespace weapon_type
@@ -607,7 +594,6 @@ enum
     army_gun_jeep = 22,
     weapon_0x17 = 23,
 };
-// static_assert(sizeof(weapon_type) == 0x4);
 } // namespace weapon_type
 
 namespace objects

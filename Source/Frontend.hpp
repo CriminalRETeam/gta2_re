@@ -263,8 +263,6 @@ struct Frontend
     s16 field_C9B4_last_key;
     s16 field_C9B6_key_repeat_timer;
     wchar_t field_C9B8_password[9];
-    //char_type field_C9C8;
-    //char_type field_C9C9;
     u8 field_C9CA_password_length;
     bool field_C9CB_wrong_password_shown;
     bool field_C9CC_left_pressed;
