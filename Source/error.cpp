@@ -1808,8 +1808,8 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         case Gta2Error::IllegalCoordinate:
         {
             Fix16_Point_POD c;
-            c.x = *va_arg(va, int*);
-            c.y = *va_arg(va, int*);
+            c.x = *va_arg(va, s32*);
+            c.y = *va_arg(va, s32*);
             sprintf(gTmpBuffer_67C598, "Illegal coordinate: (%.4f, %.4f)", c.x.AsFloat(), c.y.AsFloat());
 
             break;
@@ -2089,9 +2089,9 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
 
             Fix16_Vec c;
 
-            c.x = *static_cast<int*>(va_arg(va, s32*));
-            c.y = *static_cast<int*>(va_arg(va, s32*));
-            c.z = *static_cast<int*>(va_arg(va, s32*));
+            c.x = *va_arg(va, s32*);
+            c.y = *va_arg(va, s32*);
+            c.z = *va_arg(va, s32*);
 
             sprintf(gTmpBuffer_67C598,
                     "Invalid x co-ord in sprite type %d at (%f,%f,%f)",
@@ -2107,9 +2107,9 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             s32 va_1 = va_arg(va, s32);
 
             Fix16_Vec c;
-            c.x = *reinterpret_cast<const int*>(va_arg(va, const char_type*));
-            c.y = *static_cast<int*>(va_arg(va, s32*));
-            c.z = *static_cast<int*>(va_arg(va, s32*));
+            c.x = *reinterpret_cast<const s32*>(va_arg(va, const char_type*));
+            c.y = *va_arg(va, s32*);
+            c.z = *va_arg(va, s32*);
             sprintf(gTmpBuffer_67C598,
                     "Invalid y co-ord in sprite type %d at (%f,%f,%f)",
                     va_1,
@@ -2124,9 +2124,9 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             s32 va_1 = va_arg(va, s32);
 
             Fix16_Vec c;
-            c.x = *reinterpret_cast<const int*>(va_arg(va, const char_type*));
-            c.y = *static_cast<int*>(va_arg(va, s32*));
-            c.z = *static_cast<int*>(va_arg(va, s32*));
+            c.x = *reinterpret_cast<const s32*>(va_arg(va, const char_type*));
+            c.y = *va_arg(va, s32*);
+            c.z = *va_arg(va, s32*);
             sprintf(gTmpBuffer_67C598,
                     "Invalid z co-ord in sprite type %d at (%f,%f,%f)",
                     va_1,
@@ -2141,8 +2141,8 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             const char_type* va_1 = va_arg(va, const char_type*);
 
             Fix16_Point_POD c;
-            c.x = *reinterpret_cast<const int*>(va_arg(va, const char_type*));
-            c.y = *static_cast<int*>(va_arg(va, s32*));
+            c.x = *reinterpret_cast<const s32*>(va_arg(va, const char_type*));
+            c.y = *va_arg(va, s32*);
             sprintf(gTmpBuffer_67C598, "Placing gang phone when no gang at: (%.4f, %.4f)", c.x.AsFloat(), c.y.AsFloat());
             break;
         }
@@ -2152,9 +2152,9 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             const char_type* va_1 = va_arg(va, const char_type*);
 
             Fix16_Vec c;
-            c.x = *reinterpret_cast<const int*>(va_arg(va, const char_type*));
-            c.y = *static_cast<int*>(va_arg(va, s32*));
-            c.z = *static_cast<int*>(va_arg(va, s32*));
+            c.x = *reinterpret_cast<const s32*>(va_arg(va, const char_type*));
+            c.y = *va_arg(va, s32*);
+            c.z = *va_arg(va, s32*);
             sprintf(gTmpBuffer_67C598, "Illegal coordinate: (%.4f, %.4f, %.4f)", c.x.AsFloat(), c.y.AsFloat(), c.z.AsFloat());
             break;
         }
@@ -2164,9 +2164,9 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             const char_type* va_1 = va_arg(va, const char_type*);
 
             Fix16_Vec c;
-            c.x = *reinterpret_cast<const int*>(va_arg(va, const char_type*));
-            c.y = *static_cast<int*>(va_arg(va, s32*));
-            c.z = *static_cast<int*>(va_arg(va, s32*));
+            c.x = *reinterpret_cast<const s32*>(va_arg(va, const char_type*));
+            c.y = *va_arg(va, s32*);
+            c.z = *va_arg(va, s32*);
             sprintf(gTmpBuffer_67C598, "Invalid diagonal block at (%.4f, %.4f, %.4f)", c.x.AsFloat(), c.y.AsFloat(), c.z.AsFloat());
             break;
         }
@@ -2175,9 +2175,9 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         {
             s32* va_1 = va_arg(va, s32*);
             Fix16_Vec c;
-            c.x = *static_cast<int*>(va_arg(va, s32*)); // NOTE: No match without casting here
-            c.y = *static_cast<int*>(va_arg(va, s32*));
-            c.z = *static_cast<int*>(va_arg(va, s32*));
+            c.x = *va_arg(va, s32*);
+            c.y = *va_arg(va, s32*);
+            c.z = *va_arg(va, s32*);
             sprintf(gTmpBuffer_67C598,
                     "No direction arrow found in block (with slope!!). ( %f, %f, %f)",
                     c.x.AsFloat(),
