@@ -901,7 +901,7 @@ namespace ped_type
 {
 enum
 {
-    unknown_0 = 0,
+    none_0 = 0, // Car::field_7C_ped_type before a driver sets it (Car constructor)
     unknown_1 = 1,
     player_2 = 2,
     dummy_3 = 3,
