@@ -1727,7 +1727,8 @@ void ScriptThread::SCRCMD_CREATE_THREAD_506A00()
 MATCH_FUNC(0x506a60)
 void ScriptThread::SCRCMD_STOP_THREAD_506A60()
 {
-    SCR_THREAD* pThread = static_cast<SCR_THREAD*>(gScriptManager_6F8060->GetBasePointer_512770(static_cast<SCR_CMD_HEADER*>(gBasePtr_6F8070)[1].field_2_type));
+    SCR_THREAD* pThread = static_cast<SCR_THREAD*>(
+        gScriptManager_6F8060->GetBasePointer_512770(reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070)->field_A_unsigned_2));
     ScriptThread* pScriptThread;
     s16 threadId;
 
@@ -2007,7 +2008,7 @@ void ScriptThread::SCRCMD_I_OP_S_507110()
     u8 operation_type = ScriptThread::GetOperationType_506BC0(gBasePtr_6F8070->field_2_type);
     SCR_OPERATE_INT_AND_COUNTER* pCmd = reinterpret_cast<SCR_OPERATE_INT_AND_COUNTER*>(gBasePtr_6F8070);
     SCR_POINTER* pOperand = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(
-        static_cast<SCR_CMD_HEADER*>(gBasePtr_6F8070)[1].field_2_type)); // pCmd->field_A_counter_idx
+        reinterpret_cast<SCR_OPERATE_INT_AND_COUNTER*>(gBasePtr_6F8070)->field_A_counter_idx));
 
     switch (operation_type)
     {
@@ -2158,12 +2159,12 @@ void ScriptThread::SCRCMD_CREATE_CAR_507F80()
 {
     SCR_CAR_DATA_DEC* pCmd = reinterpret_cast<SCR_CAR_DATA_DEC*>(gBasePtr_6F8070);
 
-    Fix16* z_coord = reinterpret_cast<Fix16*>(&static_cast<SCR_CMD_HEADER*>(gBasePtr_6F8070)[2].field_4_cmd_next);
+    Fix16* z_coord = &reinterpret_cast<SCR_CAR_DATA_DEC*>(gBasePtr_6F8070)->field_C_pos.z;
 
     if (*z_coord == kFp255_6F7570)
     {
-        *z_coord = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(*reinterpret_cast<Fix16*>(&static_cast<SCR_CMD_HEADER*>(gBasePtr_6F8070)[1].field_4_cmd_next),
-                                                                 *reinterpret_cast<Fix16*>(&static_cast<SCR_CMD_HEADER*>(gBasePtr_6F8070)[2].field_0_cmd_this));
+        *z_coord = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(reinterpret_cast<SCR_CAR_DATA_DEC*>(gBasePtr_6F8070)->field_C_pos.x,
+                                                                 reinterpret_cast<SCR_CAR_DATA_DEC*>(gBasePtr_6F8070)->field_C_pos.y);
     }
     SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_car_idx));
     ScriptThread::SCRCMD_CAR_DECSET_503BC0(reinterpret_cast<SCR_CAR_DATA_DEC*>(gBasePtr_6F8070), pPointer);
@@ -2242,8 +2243,7 @@ MATCH_FUNC(0x508550)
 void ScriptThread::SCRCMD_POINT_ARROW_3D_508550() //  SCRCMD_POINT_ARROW_3D and SCRCMD_LEVEL_END_ARROW2
 {
     SCR_LEVEL_END_ARROW2* pCmd = reinterpret_cast<SCR_LEVEL_END_ARROW2*>(gBasePtr_6F8070);
-    SCR_POINTER* pPointer =
-        static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(static_cast<SCR_CMD_HEADER*>(gBasePtr_6F8070)[2].field_4_cmd_next));
+    SCR_POINTER* pPointer = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_14_arrowname));
     if (pPointer->field_8_arrow == NULL)
     {
         pPointer->field_8_arrow = gHud_2B00_706620->field_1F18_arrows.AllocArrow_5D1050();
@@ -3697,7 +3697,8 @@ MATCH_FUNC(0x50b470)
 void ScriptThread::SCRCMD_GET_CAR_FROM_CRANE_50B470()
 {
     SCR_TWO_PARAMS* pCmd = reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070);
-    SCR_POINTER* pPointer1 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(static_cast<SCR_CMD_HEADER*>(gBasePtr_6F8070)[1].field_2_type));
+    SCR_POINTER* pPointer1 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(
+        reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070)->field_A_unsigned_2));
     SCR_POINTER* pPointer2 = static_cast<SCR_POINTER*>(gScriptManager_6F8060->GetBasePointer_512770(pCmd->field_8_unsigned_1));
     Crane* pCrane = pPointer1->field_8_crane;
 
@@ -6387,7 +6388,7 @@ void ScriptThread::SCRCMD_KILL_CHAR_50FA00()
 MATCH_FUNC(0x50fa40)
 void ScriptThread::SCRCMD_SET_SHADING_LEV_50FA40()
 {
-    gpMapRenderer_6F66E4->set_shading_lev_4E9DB0(static_cast<u8>(static_cast<SCR_CMD_HEADER*>(gBasePtr_6F8070)[1].field_2_type));
+    gpMapRenderer_6F66E4->set_shading_lev_4E9DB0(static_cast<u8>(reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070)->field_A_unsigned_2));
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }
 
@@ -6775,7 +6776,7 @@ void ScriptThread::SCRCMD_DO_BASIC_KF_510280()
 MATCH_FUNC(0x510530)
 void ScriptThread::SCRCMD_SET_BONUS_RATING_510530()
 {
-    gGameSession_67E8E0.SetBonusRatingTextIdx_4C5AB0(static_cast<SCR_CMD_HEADER*>(gBasePtr_6F8070)[1].field_2_type);
+    gGameSession_67E8E0.SetBonusRatingTextIdx_4C5AB0(reinterpret_cast<SCR_TWO_PARAMS*>(gBasePtr_6F8070)->field_A_unsigned_2);
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }
 
