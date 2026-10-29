@@ -1428,10 +1428,10 @@ void NetPlay::FreePlayerSlot_5201A0(s32 idx, Network_Game_Session* pStru)
     pStru->field_4_players_count--;
 }
 
-// TODO: Temp - should be integrated into the type array or something
-typedef void(__stdcall* T1)(void*);
-typedef void(__stdcall* T2)(void*, s32);
-typedef void(__stdcall* T3)(void*, s32, s32);
+// PacketHandlerSlot callbacks get the slot's context first; the slot index decides the other arguments
+typedef void(__stdcall* TPacketCallback)(void*);
+typedef void(__stdcall* TPacketCallbackArg)(void*, s32);
+typedef void(__stdcall* TPacketCallback2Args)(void*, s32, s32);
 
 MATCH_FUNC(0x520230)
 void NetPlay::InvokeCallback_520230(s32 idx, u32 event_data)
@@ -1443,14 +1443,14 @@ void NetPlay::InvokeCallback_520230(s32 idx, u32 event_data)
             case 1: // disconnect ?
                 if (field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)
                 {
-                    static_cast<T1>(field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)(
+                    static_cast<TPacketCallback>(field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)(
                         field_4C_func_ptrs_and_params[idx].field_4_param_context);
                 }
                 break;
             case 2: // a player joined the group (NetUi::cb_AddPlayerToList_519E30)
                 if (field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)
                 {
-                    static_cast<T3>(field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)(
+                    static_cast<TPacketCallback2Args>(field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)(
                         field_4C_func_ptrs_and_params[idx].field_4_param_context,
                         *reinterpret_cast<s32*>(event_data + 0x1C), // Network_Player::field_1C_player_name
                         event_data + 0x24); // Network_Player::field_24_pData
@@ -1463,7 +1463,7 @@ void NetPlay::InvokeCallback_520230(s32 idx, u32 event_data)
             case 8:
                 if (field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)
                 {
-                    static_cast<T2>(field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)(
+                    static_cast<TPacketCallbackArg>(field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)(
                         field_4C_func_ptrs_and_params[idx].field_4_param_context,
                         event_data); // a wchar_t* string?
                 }
@@ -1472,7 +1472,7 @@ void NetPlay::InvokeCallback_520230(s32 idx, u32 event_data)
                 // Exit game call back?
                 if (field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)
                 {
-                    static_cast<T2>(field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)(
+                    static_cast<TPacketCallbackArg>(field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)(
                         field_4C_func_ptrs_and_params[idx].field_4_param_context,
                         *reinterpret_cast<u32*>(event_data)); // s32* usually set to 2 ?
                 }
@@ -1482,7 +1482,7 @@ void NetPlay::InvokeCallback_520230(s32 idx, u32 event_data)
                 // set player name?
                 if (field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)
                 {
-                    static_cast<T1>(field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)(
+                    static_cast<TPacketCallback>(field_4C_func_ptrs_and_params[idx].field_0_param_fn_callback)(
                         field_4C_func_ptrs_and_params[idx].field_4_param_context);
                 }
                 break;
