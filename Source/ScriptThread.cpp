@@ -3083,9 +3083,9 @@ void ScriptThread::SCRCMD_SET_CHAR_OBJ3_50A3E0()
 
     if (pPointer->field_8_char)
     {
-        (pPointer->field_8_char)->field_1DC_objective_target_x = pCmd->field_C_pos.x.mValue; //  TODO: May be Fix16 in the original
-        (pPointer->field_8_char)->field_1E0_objective_target_y = pCmd->field_C_pos.y.mValue;
-        (pPointer->field_8_char)->field_1E4_objective_target_z = pCmd->field_C_pos.z.mValue;
+        (pPointer->field_8_char)->field_1DC_objective_target_x = pCmd->field_C_pos.x;
+        (pPointer->field_8_char)->field_1E0_objective_target_y = pCmd->field_C_pos.y;
+        (pPointer->field_8_char)->field_1E4_objective_target_z = pCmd->field_C_pos.z;
 
         (pPointer->field_8_char)->field_21C_bf.bScheduledForRemoval = false;
     }
