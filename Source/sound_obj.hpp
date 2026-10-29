@@ -30,7 +30,7 @@ struct SoundPosEntry
     }
 
     Fix16 field_0_last_speed;
-    u32 field_4_car;
+    Car* field_4_car;
     s16 field_8_unused;
     u8 field_A_horn_pattern_idx;
     char_type field_B_unused;

@@ -1403,7 +1403,7 @@ MATCH_FUNC(0x413C50)
 void sound_obj::ProcessOtherCarTypes_413C50(Sound_Params* pParams, SoundPosEntry* pAlloc)
 {
     Car* pCar = pParams->field_0_pObj->field_8_car_bc_ptr;
-    pAlloc->field_4_car = reinterpret_cast<u32>(pCar); // TODO: Likely another union??
+    pAlloc->field_4_car = pCar;
     if (pCar->field_68_scale != kFpOne_66F3F4)
     {
         if (pCar->field_58_physics)
