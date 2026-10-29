@@ -1087,8 +1087,8 @@ int __stdcall NetUi::DialogFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM l
         case WM_HSCROLL:
         {
             HWND hwndCtl = reinterpret_cast<HWND>(lParam);
-            int scrollCode = LOWORD(wParam);
-            int thumbPos = static_cast<short>(HIWORD(wParam));
+            s32 scrollCode = LOWORD(wParam);
+            s32 thumbPos = static_cast<s16>(HIWORD(wParam));
 
             NetUi::OnWmHScroll_51C630(hDlg, hwndCtl, scrollCode, thumbPos);
             return 0;
@@ -1488,7 +1488,7 @@ MATCH_FUNC(0x51a9d0)
 void __stdcall NetUi::OnTimer_51A9D0(HWND hWnd, s32 timer_id)
 {
     NetUi* pThis = reinterpret_cast<NetUi*>(GetWindowLongA(hWnd, 8));
-    int hadSelection = 0;
+    s32 hadSelection = 0;
     if (!pThis->GetEndDialog_51BC80())
     {
         char textBuf[260];
@@ -2335,7 +2335,7 @@ void __stdcall NetUi::OnWmHScroll_51C630(HWND hWnd, HWND hTrackBar, s32 code, s3
             case 6:
             case 7:
             {
-                const int pos2 = SendDlgItemMessageA(hWnd, TRACKBAR_GAME_SPEED_1031, TBM_GETPOS, 0, 0);
+                const s32 pos2 = SendDlgItemMessageA(hWnd, TRACKBAR_GAME_SPEED_1031, TBM_GETPOS, 0, 0);
                 pThis->SetSetting_51B9C0(5, static_cast<s32>(pos2)); // set game speed
             }
             break;

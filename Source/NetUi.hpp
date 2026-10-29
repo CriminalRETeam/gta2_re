@@ -159,13 +159,13 @@ GTA2_ASSERT_SIZEOF_ALWAYS(NetUi, 0x20324);
 
 struct Network_WindowCreateParams
 {
-    int field_0_x;
-    int field_4_y;
-    unsigned int field_8_w;
-    int field_C_h;
+    s32 field_0_x;
+    s32 field_4_y;
+    u32 field_8_w;
+    s32 field_C_h;
     HMENU field_10_hMenu;
-    int field_14_style;
-    int field_18_exStyle;
+    s32 field_14_style;
+    s32 field_18_exStyle;
 };
 
 struct Network_UI_Control_Data
