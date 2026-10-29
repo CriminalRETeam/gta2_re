@@ -16,7 +16,7 @@ int CarPick_Kind(const CarPickPlayer& p, const CarPickCar& c, float max_dist, fl
 {
     *stand_x = c.x;
     *stand_y = c.y;
-    if (c.locked || c.police || c.mission || c.damage > kMaxDamage || c.dist > max_dist || c.bad_model)
+    if (c.locked || c.police || (c.mission && !c.ours) || c.damage > kMaxDamage || c.dist > max_dist || c.bad_model)
     {
         return kCarPickNo;
     }

@@ -78,6 +78,7 @@ bool Cars_Pick(BotContext& ctx, const CarPick& ban, float max_dist, bool prefer_
         pc.police = c.police;
         pc.mission = c.mission;
         pc.bad_model = Cars_BadModel(c.model);
+        pc.ours = c.idx == w.last_car_id && w.frame - w.last_car_frame < 6000;
         float stand_x = c.x;
         float stand_y = c.y;
         const int kind = CarPick_Kind(pp, pc, max_dist, &stand_x, &stand_y);

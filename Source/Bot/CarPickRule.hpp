@@ -23,6 +23,7 @@ struct CarPickCar
     bool police;
     bool mission;
     bool bad_model; // a train, a tank, a hearse ...: not for getting about
+    bool ours;      // the car the player drove last: a mission's car is no use to take, but the one we came in is the way on
 };
 
 enum

@@ -53,6 +53,8 @@ WorldModel::WorldModel()
     memset(respect, 0, sizeof(respect));
     memset(gang_names, 0, sizeof(gang_names));
     frame = 0;
+    last_car_id = 0;
+    last_car_frame = -100000;
     rng = 0;
     on_mission = false;
     missions_passed = 0;
@@ -406,6 +408,11 @@ void WorldModel::Observe()
         player.box = BoxOfSprite(PedSprite(me));
         player.car_id = me->field_16C_car ? me->field_16C_car->field_6C_car_id : 0;
         player.car_damage = me->field_16C_car ? me->field_16C_car->field_74_damage : 0;
+        if (player.car_id != 0)
+        {
+            last_car_id = player.car_id;
+            last_car_frame = frame;
+        }
         player.dead = pPlayer->field_28_wasted_or_busted != 0;
         player.busted = me->get_objective_403A80() == objectives_enum::objective_54;
         player.death_cause = me->field_290_death_cause;

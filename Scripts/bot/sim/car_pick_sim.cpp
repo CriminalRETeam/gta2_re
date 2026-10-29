@@ -24,7 +24,7 @@ static CarPickCar Car(float x, float y, float vx, float vy, bool driver)
     c.dist = 0.0f;
     c.damage = 0;
     c.has_driver = driver;
-    c.locked = c.police = c.mission = c.bad_model = false;
+    c.locked = c.police = c.mission = c.bad_model = c.ours = false;
     return c;
 }
 
@@ -53,6 +53,8 @@ int main()
         c = Car(155.0f, 150.0f, 0, 0, false);
         c.mission = true;
         Check("a mission car: no", Kind(ped, c) == kCarPickNo);
+        c.ours = true;
+        Check("... but the mission car we drove here ourselves: yes, it is the way on", Kind(ped, c) == kCarPickParked);
         c = Car(155.0f, 150.0f, 0, 0, false);
         c.damage = 9000;
         Check("a wreck: no", Kind(ped, c) == kCarPickNo);

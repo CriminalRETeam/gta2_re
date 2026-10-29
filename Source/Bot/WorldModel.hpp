@@ -204,6 +204,9 @@ class WorldModel : public BotObject
 
     s32 frame;
     s32 rng;
+    // The car the player was in last, and when: kept across observations (the car we left at a phone is the one to go on in)
+    s32 last_car_id;
+    s32 last_car_frame;
     // Where each car was at the last Observe (hashed by id), for its velocity
     enum
     {
