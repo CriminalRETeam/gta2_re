@@ -3142,6 +3142,7 @@ void CC ImGuiDebugDraw()
                     );
                 }
             }
+            ImGui::TreePop();
         }
 
         if (ImGui::TreeNode("Debug Frontend"))
