@@ -87,10 +87,9 @@ class BitSet32
         return (m_var & (1u << bit)) == (1u << bit);
     }
 
-    // 9.6f 0x4A51A0
+    // 9.6f 0x4A51A0. Unused, kept for MapRenderer like check_bit
     BitSet32& operator=(u32& value) // Note: arg as reference
     {
-        // TODO: Value is probably another BitSet32
         m_var = value;
         return *this;
     }
@@ -140,7 +139,7 @@ class BitSet32
     {
     }
 
-    // TODO: Find in 9.6f
+    // Unused, kept for MapRenderer like check_bit
     BitSet32(s32 value) : m_var(value)
     {
     }
