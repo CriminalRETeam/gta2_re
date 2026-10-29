@@ -826,7 +826,7 @@ enum
     flee_char_any_means_always_5 = 5,
     flee_char_always_once_car_stopped_6 = 6,
     run_to_char_7 = 7,
-    objective_8 = 8,
+    left_behind_by_leader_8 = 8, // group member with no seat in the leader's car, rejoins him once he is on foot within 8 blocks
     follow_char_9 = 9,
     follow_char_in_car_10 = 10,
     objective_11 = 11,
@@ -836,7 +836,7 @@ enum
     follow_path_points_15 = 15,
     goto_char_on_foot_16 = 16,
     walk_to_point_17 = 17,
-    objective_18 = 18,
+    walk_to_car_door_18 = 18, // group member walks to a door of the car the leader is getting into, then stops
     kill_char_any_means_19 = 19,
     kill_char_on_foot_20 = 20,
     kill_car_21 = 21,
@@ -869,7 +869,7 @@ enum
     crossing_road_48 = 48,
     wait_after_crossing_49 = 49,
     dead_no_ambulance_50 = 50,
-    objective_51 = 51,
+    wander_until_timeout_51 = 51, // fails when the objective timer runs out (police crew searching on foot, 200 ticks)
     chase_char_in_car_52 = 52,
     objective_53 = 53,
     call_police_car_54 = 54,

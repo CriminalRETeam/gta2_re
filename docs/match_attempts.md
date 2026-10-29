@@ -307,7 +307,7 @@ the list pointer in `edi` (122).
 When the leader is getting into a car, sends up to passenger-count members to the car
 doors, picking a door with an inlined search over `gGroupMemberCarDoor_620838` (one variant for
 `SWATVAN`/`bank_van`, which starts one door further on and also tries door 1). The rest
-are told to wait (objective 8). Otherwise, handles the leader waiting for the farthest
+get `left_behind_by_leader_8`. Otherwise, handles the leader waiting for the farthest
 member and updates `field_30`. The rest of the code matches instruction for instruction.
 
 Ratio 0.861. Left: block order. The original lays out the van search (then-block) first,

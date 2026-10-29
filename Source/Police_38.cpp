@@ -766,7 +766,7 @@ void PoliceCrew::State3_AlertedSearch_572340()
                             case objectives_enum::enter_car_as_driver_35:
                                 PoliceCrew::HandleEnterCarObjective_575210();
                                 break;
-                            case objectives_enum::objective_51:
+                            case objectives_enum::wander_until_timeout_51:
                                 if (pPed->GetObjectiveStatus_450CB0() == objective_status::failed_2)
                                 {
                                     field_24_state = police_crew_state::shutdown_6;
@@ -785,7 +785,7 @@ void PoliceCrew::State3_AlertedSearch_572340()
                                 if (gCurrentCrewPed_6FEDDC->GetObjectiveStatus_450CB0() == objective_status::passed_1)
                                 {
                                     gCurrentCrewPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0);
-                                    gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::objective_51, 200);
+                                    gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::wander_until_timeout_51, 200);
                                 }
                                 break;
                             case objectives_enum::dead_patient_28:
@@ -1082,7 +1082,7 @@ void PoliceCrew::State5_PursueOrChase_572920()
                         }
                         // An if/else rather than an early break: the then-branch exit is retargeted late, so its
                         // copy of SetObjective2/SetObjective survives the cross-jump with goto_area_on_foot_12,
-                        // objective_51 and dead_patient_28 (9.6f 0x4AC580 matches this function exactly with VC7)
+                        // wander_until_timeout_51 and dead_patient_28 (9.6f 0x4AC580 matches this function exactly with VC7)
                         if (gCurrentCrewPed_6FEDDC->GetObjectiveStatus_450CB0() == objective_status::failed_2)
                         {
                             gCurrentCrewPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0);
@@ -1174,7 +1174,7 @@ void PoliceCrew::State5_PursueOrChase_572920()
                         gCurrentCrewPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0);
                         gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::no_obj_0);
                         break;
-                    case objectives_enum::objective_51:
+                    case objectives_enum::wander_until_timeout_51:
                         gCurrentCrewPed_6FEDDC->SetObjective2_463830(objectives_enum::no_obj_0);
                         gCurrentCrewPed_6FEDDC->SetObjective(objectives_enum::no_obj_0);
                         break;
@@ -1386,7 +1386,7 @@ void PoliceCrew::State6_ShutDown_574720()
                                     }
                                 }
                                 break;
-                            case objectives_enum::objective_8:
+                            case objectives_enum::left_behind_by_leader_8:
                             case objectives_enum::wait_in_car_27:
                             case objectives_enum::leave_car_and_flee_34:
                             case objectives_enum::patrol_in_car_43:

@@ -3647,7 +3647,7 @@ void Char::state_0_54DDF0()
                     case ROAD:
                     case FIELD:
                         if (field_7C_pPed->get_objective_403A80() == objectives_enum::no_obj_0 ||
-                            field_7C_pPed->get_objective_403A80() == objectives_enum::objective_8)
+                            field_7C_pPed->get_objective_403A80() == objectives_enum::left_behind_by_leader_8)
                         {
                             field_7C_pPed->SetObjective2_463830(objectives_enum::walk_to_point_17);
                         }
