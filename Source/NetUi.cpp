@@ -1789,7 +1789,6 @@ LRESULT NetUi::cb_AddChatMessage_51B2F0(NetUi* pNetUi, Network_ChatMessage* pMsg
 
     wcstombs(message, pMsg->field_0_message, 260u);
     wcstombs(name, pMsg->field_100_name, 260u);
-    // TODO: the format strings are guesses (right sizes, contents unverified)
     sprintf(line, "%s : %s", name, message);
 
     switch (pNetUi->Get_20310_showing_window_idx_51ACC0())
@@ -2405,7 +2404,7 @@ void __stdcall NetUi::ShowUnableToOpenFileError_51CAD0(const char_type* pMmpName
 {
     char Text[256];
     sprintf(Text, "Unable to open file: %s in mmpfile: %s", pFileName, pMmpName);
-    MessageBoxA(NULL, Text, "", MB_ICONEXCLAMATION); // TODO: blank str is byte_67DC88 ?
+    MessageBoxA(NULL, Text, "", MB_ICONEXCLAMATION); // TODO: the original passes its empty string global 0x67DC88
 }
 
 MATCH_FUNC(0x51cb30)

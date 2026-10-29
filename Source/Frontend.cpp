@@ -1513,7 +1513,6 @@ bool Frontend::pre_intro_bik_exists_4B6030()
     }
 }
 
-// TODO: the contents of these strings aren't known, only their addresses
 DEFINE_GLOBAL_ARRAY_INIT(char_type, gBikDataDir_620454, 8, 0x620454, "Data\\");
 DEFINE_GLOBAL_ARRAY_INIT(char_type, gBikDriveDataDir_62045C, 4, 0x62045C, ":\\");
 DEFINE_GLOBAL_ARRAY_INIT(char_type, gIntroBikName_5FE76C, 16, 0x5FE76C, "Movie\\intro.bik");
