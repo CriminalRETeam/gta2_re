@@ -135,9 +135,9 @@ bool BotOptions_Parse(const char* cmd_line, BotOptions* o)
         {
             o->nav_dump = true;
         }
-        else if (_strnicmp(key, "_fine_plan", key_len) == 0 && key_len == 10)
+        else if (_strnicmp(key, "_no_fine_plan", key_len) == 0 && key_len == 13)
         {
-            o->fine_plan = true;
+            o->no_fine_plan = true;
         }
         else if (_strnicmp(key, "_drive_pure", key_len) == 0 && key_len == 11)
         {

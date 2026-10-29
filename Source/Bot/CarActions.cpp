@@ -7,6 +7,7 @@
 #include "WalkCarJump.hpp"
 #include "DriveSteer.hpp"
 #include "LocalPlan.hpp"
+#include "FinePlan.hpp"
 #include "BotDebugDraw.hpp"
 #include "ChaseActions.hpp"
 #include "WalkAction.hpp"
@@ -1541,10 +1542,10 @@ Action::Status DriveAction::Step(BotContext& ctx)
             }
             mLocalNext = ctx.frame + kReplanFrames;
         }
-        // with -bot_fine_plan, every frame: the fine stage on the tile route, from where the car is now (the cars' boxes swept over the next
-        // frames, walls, pedestrians), so the route goes round what moves without the tile route itself being planned afresh (planned every
-        // frame it moves with the car). Experimental: in the steering sim it bumps in traffic and the wheel hunts, so it is off
-        if (mTile.found && ctx.opts && ctx.opts->fine_plan)
+        // every frame: the fine stage on the tile route, from where the car is now (the cars' boxes swept over the next frames, walls, pedestrians),
+        // so the route goes round what moves without the tile route itself being planned afresh (planned every frame it moves with the car).
+        // The wheel follows the result (grid_wheel below). -bot_no_fine_plan: the tile route and the arcs, as before
+        if (mTile.found && !(ctx.opts && ctx.opts->no_fine_plan))
         {
             LocalPlan_Fine(lw, mTile, pl.x, pl.y, &mLocal);
         }
@@ -1565,7 +1566,8 @@ Action::Status DriveAction::Step(BotContext& ctx)
         }
         if (mLocal.found)
         {
-            float look = 4.0f + mSpeed * 40.0f;
+            const bool fine_on = !(ctx.opts && ctx.opts->no_fine_plan);
+            float look = fine_on ? FinePlan_Look(mSpeed) : 4.0f + mSpeed * 40.0f; // (short on the grid path: the car cuts a corner by what it looks ahead)
             look = look > 12.0f ? 12.0f : look;
             sRampZ = static_cast<int>(pl.z + 0.5f);
             look = LocalPlan_RampLook(mLocal, pl.x, pl.y, look, Drive_RampZone, NULL); // up a ramp straight, not cutting its top corner
@@ -1672,7 +1674,9 @@ Action::Status DriveAction::Step(BotContext& ctx)
     // Which way to hold the wheel: try five arcs ahead and keep the one that ends nearest the aim point without
     // running into a building (or a car coming at us). Steering straight at the aim point is the first choice
     float wall_ahead = 1e3f;
-    if (pure)
+    // On the grid path (the fine stage) the wheel follows it, as in the pure drive: the arcs path-find on their own and leave it
+    const bool grid_wheel = pure || (local_ok && !(ctx.opts && ctx.opts->no_fine_plan));
+    if (grid_wheel)
     {
         // the wheel at the aim point, as gently as the arcs would hold it (DriveSteer's Gentle: a tap every fourth frame from 5 degrees,
         // every other from 8, held from 20): a key that is either down or up swings the car into the wall of a one tile gap

@@ -91,6 +91,67 @@ static bool PathHitsBox(const float* x, const float* y, int n, const SteerBox& b
     return false;
 }
 
+
+// Drives a path the way the bot does: pure pursuit on the aim point `look` tiles ahead, the heading turning at most 1.8 degrees a frame at
+// 0.14 tiles a frame. Returns whether the car's own box (0.41 x 0.19) ever overlaps the box
+static bool DriveHits(const float* px, const float* py, int pn, const SteerBox& obstacle)
+{
+    float x = px[0], y = py[0];
+    float h = atan2f(px[1] - px[0], -(py[1] - py[0])) * 57.29578f;
+    for (int f = 0; f < 600; f++)
+    {
+        // the place on the path nearest the car, and the point 6.5 tiles on
+        int seg = 0;
+        float best = 1e9f, qx = x, qy = y;
+        for (int i = 0; i + 1 < pn; i++)
+        {
+            const float ex = px[i + 1] - px[i], ey = py[i + 1] - py[i];
+            const float el2 = ex * ex + ey * ey;
+            float t = el2 > 0.0001f ? ((x - px[i]) * ex + (y - py[i]) * ey) / el2 : 0.0f;
+            t = t < 0.0f ? 0.0f : (t > 1.0f ? 1.0f : t);
+            const float cx = px[i] + ex * t, cy = py[i] + ey * t;
+            if ((cx - x) * (cx - x) + (cy - y) * (cy - y) < best)
+            {
+                best = (cx - x) * (cx - x) + (cy - y) * (cy - y);
+                seg = i;
+                qx = cx;
+                qy = cy;
+            }
+        }
+        float rest = FinePlan_Look(0.14f), ax = px[pn - 1], ay = py[pn - 1], ux = qx, uy = qy;
+        for (int i = seg + 1; i < pn; i++)
+        {
+            const float dx = px[i] - ux, dy = py[i] - uy;
+            const float d = sqrtf(dx * dx + dy * dy);
+            if (d >= rest && d > 0.001f)
+            {
+                ax = ux + dx / d * rest;
+                ay = uy + dy / d * rest;
+                break;
+            }
+            rest -= d;
+            ux = px[i];
+            uy = py[i];
+        }
+        if (sqrtf((px[pn - 1] - x) * (px[pn - 1] - x) + (py[pn - 1] - y) * (py[pn - 1] - y)) < 0.5f)
+        {
+            return false;
+        }
+        float err = atan2f(ax - x, -(ay - y)) * 57.29578f - h;
+        while (err > 180.0f) err -= 360.0f;
+        while (err < -180.0f) err += 360.0f;
+        h += err > 1.8f ? 1.8f : (err < -1.8f ? -1.8f : err);
+        x += sinf(h / 57.29578f) * 0.14f;
+        y += -cosf(h / 57.29578f) * 0.14f;
+        SteerBox me = {x, y, sinf(h / 57.29578f), -cosf(h / 57.29578f), 0.41f, 0.19f};
+        if (SteerBox_Overlap(me, obstacle))
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
 int main()
 {
     float ox[64], oy[64];
@@ -224,6 +285,19 @@ int main()
             }
         }
         Check("a car on the first leg of a corner: round it, and still to the corner (not across it)", ok && least < 1.6f);
+    }
+    // 8. a car parked on the inside of a corner: the car cannot turn a right angle and cuts it, so what it drives is not the tile route. The fine route has
+    // its corner rounded round the parked car, and the car driven along it (pure pursuit, a turn rate) clears it; along the raw tile route it hits
+    {
+        Street s = {0.0f, 40.0f};
+        std::vector<SteerCar> cars;
+        cars.push_back(CarAt(28.9f, 12.0f, 0.0f, 0.0f, 0.5f, 0.3f)); // inside the corner of (30.5, 10.5), south west of it
+        const float px[3] = {20.5f, 30.5f, 30.5f}, py[3] = {10.5f, 10.5f, 22.5f};
+        const bool raw_hits = DriveHits(px, py, 3, cars[0].box);
+        const int pass = FinePlan_Refine(World(&s, cars, 0), px, py, 3, 20.5f, 10.5f, ox, oy, &on, 64);
+        const bool fine_hits = pass >= 0 ? DriveHits(ox, oy, on, cars[0].box) : true;
+        Check("(the test sees it) driving the raw tile route cuts the corner into the parked car", raw_hits);
+        Check("driving the fine route, with the corner rounded round the car, does not touch it", pass >= 0 && !fine_hits);
     }
     printf("%s\n", fails ? "FAILED" : "all passed");
     return fails ? 1 : 0;

@@ -5,6 +5,7 @@
 //   g++ -O1 -I../../../Source/Bot -o steer_sim steer_sim.cpp ../../../Source/Bot/DriveSteer.cpp && ./steer_sim
 #include "DriveSteer.hpp"
 #include "LocalPlan.hpp"
+#include "FinePlan.hpp"
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -14,7 +15,7 @@
 
 static bool g_overtake = true;
 static bool g_local = false; // aim along the detailed A* route, as the game does
-static bool g_fine = false; // -fine: the fine stage every frame (experimental: it bumps in traffic and the wheel hunts, so the tests run without)
+static bool g_fine = true; // the fine stage every frame, the wheel along the grid path (as the game); -nofine: the tile route and the arcs, as before
 static int g_trace_every = 10;
 static float kTraffic = 0.15f;
 static const float kCarHl = 0.56f; // every car in the sim, ours too: the game's own size, 1.1 tiles long and 0.66 wide
@@ -270,7 +271,7 @@ static Result Run(const Grid& g, float sx, float sy, float heading, const std::v
             }
             if (lp.found)
             {
-                float lk = 4.0f + v * 40.0f;
+                float lk = g_fine ? FinePlan_Look(v) : 4.0f + v * 40.0f; // (short with the fine stage: the car cuts a corner by what it looks ahead)
                 lk = lk > 12.0f ? 12.0f : lk;
                 LocalPlan_AimPoint(lp, x, y, lk, &aim.x, &aim.y);
             }
@@ -293,7 +294,15 @@ static Result Run(const Grid& g, float sx, float sy, float heading, const std::v
                 aim.y = oy;
             }
         }
-        const SteerChoice c = DriveSteer_Choose(w, x, y, h, hdir, v, aim.x, aim.y, prev_s, NULL);
+        SteerChoice c = DriveSteer_Choose(w, x, y, h, hdir, v, aim.x, aim.y, prev_s, NULL);
+        if (g_fine && g_local)
+        {
+            // with the fine stage the wheel follows the grid path: straight at the aim point, no arcs (they path-find on their own and leave it)
+            const float werr = fmodf(atan2f(aim.x - x, -(aim.y - y)) * 57.29578f - h + 540.0f, 360.0f) - 180.0f;
+            const float ea = fabsf(werr);
+            const float lvl = ea > 20.0f ? 1.0f : (ea > 8.0f ? 0.5f : (ea > 1.5f ? 0.25f : 0.0f));
+            c.s = (werr > 0.0f ? lvl : -lvl) * hdir;
+        }
         prev_s = c.s;
         float cap = cap0;
         const float wall_cap = DriveSteer_SpeedFor(c.wall_d);
@@ -415,7 +424,7 @@ int main(int argc, char** argv)
     if (argc > 1 && strcmp(argv[1], "-vv") == 0) g_trace_every = 1;
     for (int i = 1; i < argc; i++) if (strncmp(argv[i], "-traffic=", 9) == 0) kTraffic = static_cast<float>(atof(argv[i] + 9));
     for (int i = 1; i < argc; i++) if (strcmp(argv[i], "-local") == 0) g_local = true;
-    for (int i = 1; i < argc; i++) if (strcmp(argv[i], "-fine") == 0) g_fine = true;
+    for (int i = 1; i < argc; i++) if (strcmp(argv[i], "-nofine") == 0) g_fine = false;
     g_overtake = !(argc > 1 && strcmp(argv[argc - 1], "-noovertake") == 0); // to prove the tests can fail
     int fails = 0;
 
@@ -536,10 +545,11 @@ int main(int argc, char** argv)
         cars.push_back(c2);
         const Result r = Run(g, 8.5f, 20.5f, 90.0f, wps, 3000, trace, cars);
         fails += Report("traffic at 0.15, cap 0.20: overtakes", r, 3);
-        // behind a car that does 0.15 the 140 tiles take 930 frames; going round, 700 to 780
-        if (r.car_bumps > 0 || r.frames > 850)
+        // behind a car that does 0.15 the 140 tiles take 930 frames; going round, 700 to 780 with the arcs. On the grid path the planner leaves
+        // 0.6 tile more room fore and aft of a car (less and it bumps: 18 frames at 0.5), which costs a few frames: under 920, no bump
+        if (r.car_bumps > 0 || r.frames > (g_fine ? 920 : 850))
         {
-            printf("   expected no bump and under 850 frames: bumps %d frames %d\n", r.car_bumps, r.frames);
+            printf("   expected no bump and under %d frames: bumps %d frames %d\n", g_fine ? 920 : 850, r.car_bumps, r.frames);
             fails++;
         }
     }
