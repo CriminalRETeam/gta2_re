@@ -919,7 +919,6 @@ void LoadMapsFromData(Network_Enumerated_Map* pOut, u16& num_maps_loaded)
 {
     char FileName[MAX_PATH];
     Network_Enumerated_Map enumerated_mmp_name[99];
-    Network_Enumerated_Map *pIter;
     WIN32_FIND_DATAA findFileData;
     
     memset(&findFileData, 0, sizeof(findFileData));
@@ -934,13 +933,11 @@ void LoadMapsFromData(Network_Enumerated_Map* pOut, u16& num_maps_loaded)
         strcpy(enumerated_mmp_name[0].field_0_map_name, findFileData.cFileName);
         for (; FindNextFileA(hFindFile, &findFileData); map_count += 1)
         {
-            pIter = &enumerated_mmp_name[map_count];
-            if (map_count >= 100)
+            if (map_count >= GTA2_COUNTOF(enumerated_mmp_name))
             {
                 break;
             }
-            pIter++;
-            strcpy(pIter->field_0_map_name, findFileData.cFileName);
+            strcpy(enumerated_mmp_name[map_count].field_0_map_name, findFileData.cFileName);
         }
         FindClose(hFindFile);
     }
