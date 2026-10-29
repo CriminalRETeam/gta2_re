@@ -487,14 +487,6 @@ void ParticleManager::EmitFireTruckSprayParticle_53FAE0(Sprite* pSprite)
     }
 }
 
-// Ang16::PolarToCartesian_41FC20 with the cosine multiply written as the out-of-line Multiply_408680
-// the original calls (past the inline budget VC6 would call a COMDAT copy of operator* instead).
-static inline void PolarToCartesian_OutOfLineCos(Ang16& angle, Fix16& radius, Fix16& ret1, Fix16& ret2)
-{
-    ret1 = Ang16::sine_40F500(angle) * radius;
-    ret2 = Ang16::cosine_40F520(angle).Multiply_408680(radius);
-}
-
 // https://decomp.me/scratch/wfzEd
 MATCH_FUNC(0x53FE40)
 void ParticleManager::EmitImpactParticles_53FE40(Fix16 x, Fix16 y, Fix16 z, Fix16_Point dir)
@@ -641,18 +633,18 @@ void ParticleManager::SpawnCigaretteSmokePuff_5406B0(Sprite* pSprite, char_type 
             Fix16 y;
             if (bUnknown)
             {
-                PolarToCartesian_OutOfLineCos(pSprite->field_0_rotation, kFpPoint07_6FD474, x, y);
+                Ang16::PolarToCartesian_41FC20(pSprite->field_0_rotation, kFpPoint07_6FD474, x, y);
             }
             else
             {
-                PolarToCartesian_OutOfLineCos(pSprite->field_0_rotation, kFpPoint05_6FD46C, x, y);
+                Ang16::PolarToCartesian_41FC20(pSprite->field_0_rotation, kFpPoint05_6FD46C, x, y);
             }
             gParticlePosX_6FD388 = x;
             gParticlePosY_6FD38C = y;
 
             Fix16 offset_x;
             Fix16 offset_y;
-            PolarToCartesian_OutOfLineCos(pSprite->field_0_rotation - kAng90_6FD314, kFpPoint02_6FD468, offset_x, offset_y);
+            Ang16::PolarToCartesian_41FC20(pSprite->field_0_rotation - kAng90_6FD314, kFpPoint02_6FD468, offset_x, offset_y);
 
             gParticlePosX_6FD388 += offset_x + pSprite->field_14_xy.x;
             gParticlePosY_6FD38C += offset_y + pSprite->field_14_xy.y;

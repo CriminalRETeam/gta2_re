@@ -57,21 +57,6 @@ class Fix16_Rect
         this->field_14_high_z = z + FIX16_RECT_HALF_HEIGHT;
     }
 
-    // Unused since ShockPedsAroundSprite_5DF270 calls ComputeCollisionPrism_4204D0 with FIX16_RECT_HALF_HEIGHT. Kept because removing
-    // an unused inline can move code in other TUs (docs/matching_quirks.md).
-    void ComputeShockPrism(Fix16 x, Fix16 y, Fix16 offset, Fix16 z, const Fix16& half_z)
-    {
-        offset = offset / 2;
-
-        field_0_left = x.Subtract_436A00(offset);
-        field_4_right = x.Add_408660(offset);
-        field_8_top = y.Subtract_436A00(offset);
-        field_C_bottom = y.Add_408660(offset);
-
-        field_10_low_z = z.Subtract_436A00(half_z);
-        field_14_high_z = z.Add_408660(half_z);
-    }
-
     // 9.6f 0x41E350
     // https://decomp.me/scratch/HVOft
     void SetRect_41E350(Fix16 left, Fix16 right, Fix16 top, Fix16 bottom)

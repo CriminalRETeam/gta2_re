@@ -2445,37 +2445,10 @@ void SpriteShape::UpdateRotatedBoundingBox_5A3550(Fix16 xpos, Fix16 ypos, Fix16 
         corner2.SetXY_432860(width_over_2, height_over_2);
         corner3.SetXY_432860(-width_over_2, height_over_2);
 
-        // RotateByAngle_40F6B0 with the operators out of line, written out by hand: going through an
-        // inline helper (RotateByAngle_40F6B0_all_out_of_line) uses up the inline budget and pushes the
-        // first Fix16_Point ctor out of line.
-        {
-            Fix16 sin = Ang16::sine_40F500(rotation);
-            Fix16 cos = Ang16::cosine_40F520(rotation);
-            Fix16 x_old = corner0.x;
-            corner0.x = corner0.x.Multiply_408680(cos).Add_408660(corner0.y.Multiply_408680(sin));
-            corner0.y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(corner0.y.Multiply_408680(cos));
-        }
-        {
-            Fix16 sin = Ang16::sine_40F500(rotation);
-            Fix16 cos = Ang16::cosine_40F520(rotation);
-            Fix16 x_old = corner1.x;
-            corner1.x = corner1.x.Multiply_408680(cos).Add_408660(corner1.y.Multiply_408680(sin));
-            corner1.y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(corner1.y.Multiply_408680(cos));
-        }
-        {
-            Fix16 sin = Ang16::sine_40F500(rotation);
-            Fix16 cos = Ang16::cosine_40F520(rotation);
-            Fix16 x_old = corner2.x;
-            corner2.x = corner2.x.Multiply_408680(cos).Add_408660(corner2.y.Multiply_408680(sin));
-            corner2.y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(corner2.y.Multiply_408680(cos));
-        }
-        {
-            Fix16 sin = Ang16::sine_40F500(rotation);
-            Fix16 cos = Ang16::cosine_40F520(rotation);
-            Fix16 x_old = corner3.x;
-            corner3.x = corner3.x.Multiply_408680(cos).Add_408660(corner3.y.Multiply_408680(sin));
-            corner3.y = x_old.Negate_4086A0().Multiply_408680(sin).Add_408660(corner3.y.Multiply_408680(cos));
-        }
+        corner0.RotateByAngle_40F6B0(rotation);
+        corner1.RotateByAngle_40F6B0(rotation);
+        corner2.RotateByAngle_40F6B0(rotation);
+        corner3.RotateByAngle_40F6B0(rotation);
 
         field_C_corners[0] = point + corner0;
         field_C_corners[1] = point + corner1;
@@ -2505,14 +2478,14 @@ void SpriteShape::UpdateRotatedBoundingBox_5A3550(Fix16 xpos, Fix16 ypos, Fix16 
 
         field_30_boundingBox.SetRect_5A5E30(left, right, top, bottom);
     }
-    field_30_boundingBox.SetHiLowZ_41E370(zpos.Subtract_436A00(depth_over_2), zpos.Add_408660(depth_over_2));
+    field_30_boundingBox.SetHiLowZ_41E370(zpos - depth_over_2, zpos + depth_over_2);
     field_48_bbox_up_to_date = true;
 
     // Not in 9.6f: the corners are set and rotated again, and the results are never used.
-    corner0.SetXY_432860(width_over_2.Negate_4086A0(), height_over_2.Negate_4086A0());
-    corner1.SetXY_432860(width_over_2, height_over_2.Negate_4086A0());
+    corner0.SetXY_432860(-width_over_2, -height_over_2);
+    corner1.SetXY_432860(width_over_2, -height_over_2);
     corner2.SetXY_432860(width_over_2, height_over_2);
-    corner3.SetXY_432860(width_over_2.Negate_4086A0(), height_over_2);
+    corner3.SetXY_432860(-width_over_2, height_over_2);
 
     corner0.RotateVelocity_562C20(rotation);
     corner1.RotateVelocity_562C20(rotation);
@@ -2573,22 +2546,15 @@ EXPORT void __stdcall ProjectWorldToScreen_5A5690(Fix16 x, Fix16 y, Fix16 z, Fix
 }
 
 // World to screen pixels. DrawCollisionBox_5A4DA0 expands the inline, except for its last call, which
-// is the out-of-line copy ProjectWorldToScreen_5A5690.
-// Like the original, the function runs out of inline expansions, so the Fix16 operators are the
-// out-of-line copies.
+// is the out-of-line copy ProjectWorldToScreen_5A5690. The inline budget leaves the operators out of line.
 static inline void ProjectToScreen_5A5690(Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16* pOut2)
 {
     Fix16 scale;
-    scale =
-        kFP16One_7035C4.Divide_436A20((kFP16Eight_7035E4.Subtract_436A00(z)).Add_408660(gViewCamera_676978->field_98_cur_pos.field_8_z));
-    *pOut1 = (x.Subtract_436A00(gViewCamera_676978->field_98_cur_pos.field_0_x)
-                  .Multiply_408680(gViewCamera_676978->field_60_screen_scale.x)
-                  .Multiply_408680(scale))
-                 .Add_408660(Fix16(gViewCamera_676978->field_70_screen_px_center_x));
-    *pOut2 = (y.Subtract_436A00(gViewCamera_676978->field_98_cur_pos.field_4_y)
-                  .Multiply_408680(gViewCamera_676978->field_60_screen_scale.x)
-                  .Multiply_408680(scale))
-                 .Add_408660(Fix16(gViewCamera_676978->field_74_screen_px_center_y));
+    scale = kFP16One_7035C4 / ((kFP16Eight_7035E4 - z) + gViewCamera_676978->field_98_cur_pos.field_8_z);
+    *pOut1 = (((x - gViewCamera_676978->field_98_cur_pos.field_0_x) * gViewCamera_676978->field_60_screen_scale.x) * scale) +
+        Fix16(gViewCamera_676978->field_70_screen_px_center_x);
+    *pOut2 = (((y - gViewCamera_676978->field_98_cur_pos.field_4_y) * gViewCamera_676978->field_60_screen_scale.x) * scale) +
+        Fix16(gViewCamera_676978->field_74_screen_px_center_y);
 }
 
 DEFINE_GLOBAL_INIT(u16, gDebugColour_626260, 0x1111, 0x626260);

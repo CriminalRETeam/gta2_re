@@ -253,7 +253,7 @@ void ExplodingScore::DrawNumbers_596C90()
     Fix16 x_delta;
     Fix16 y_delta;
     Camera* pCamera = &gGame_0x40_67E008->field_38_local_player->field_14C_view_camera;
-    pCamera->ProjectWorldToScreen_OutOfLine_4B90E0(field_28_x, field_2C_y, field_30_z, &screen_x, &screen_y);
+    pCamera->ProjectWorldToScreen_4B90E0(field_28_x, field_2C_y, field_30_z, &screen_x, &screen_y);
     if (screen_x < kFp160_702C6C)
     {
         screen_x = kFp160_702C6C - screen_x;

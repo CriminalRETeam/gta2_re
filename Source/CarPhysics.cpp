@@ -1721,7 +1721,7 @@ void CarPhysics::SpawnSkidSegment_55D200(s32 box_idx, Fix16_Point wheel_offset, 
     Fix16_Point skid_mid;
     Fix16 len; // declared up here: its stack slot is the dead box_idx one, shared with the / 2 temporary
 
-    wheel_offset.RotateByAngle_40F6B0_out_of_line(field_58_theta);
+    wheel_offset.RotateByAngle_40F6B0(field_58_theta);
 
     wheel_offset += this->field_38_cp1;
 

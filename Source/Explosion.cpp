@@ -109,27 +109,27 @@ void Explosion::EmitRandomDiagonalParticle_540A40()
                 pParticle = gParticle_8_6FD5E8->New_53E3C0(kFpOne3200th_6FD44C, kFpOne3200th_6FD44C, kFpOneThirtySecond_6FD330, kFpOne6400th_6FD450, kFpOne6400th_6FD450, 0);
                 break;
             case 1:
-                pParticle = gParticle_8_6FD5E8->New_53E3C0(kFpOne3200th_6FD44C.Negate_4086A0(),
+                pParticle = gParticle_8_6FD5E8->New_53E3C0(-kFpOne3200th_6FD44C,
                                                            kFpOne3200th_6FD44C,
                                                            kFpOneThirtySecond_6FD330,
-                                                           kFpOne6400th_6FD450.Negate_4086A0(),
+                                                           -kFpOne6400th_6FD450,
                                                            kFpOne6400th_6FD450,
                                                            0);
                 break;
             case 2:
                 pParticle = gParticle_8_6FD5E8->New_53E3C0(kFpOne3200th_6FD44C,
-                                                           kFpOne3200th_6FD44C.Negate_4086A0(),
+                                                           -kFpOne3200th_6FD44C,
                                                            kFpOneThirtySecond_6FD330,
                                                            kFpOne6400th_6FD450,
-                                                           kFpOne6400th_6FD450.Negate_4086A0(),
+                                                           -kFpOne6400th_6FD450,
                                                            0);
                 break;
             case 3:
-                pParticle = gParticle_8_6FD5E8->New_53E3C0(kFpOne3200th_6FD44C.Negate_4086A0(),
-                                                           kFpOne3200th_6FD44C.Negate_4086A0(),
+                pParticle = gParticle_8_6FD5E8->New_53E3C0(-kFpOne3200th_6FD44C,
+                                                           -kFpOne3200th_6FD44C,
                                                            kFpOneThirtySecond_6FD330,
-                                                           kFpOne6400th_6FD450.Negate_4086A0(),
-                                                           kFpOne6400th_6FD450.Negate_4086A0(),
+                                                           -kFpOne6400th_6FD450,
+                                                           -kFpOne6400th_6FD450,
                                                            0);
                 break;
             default:
