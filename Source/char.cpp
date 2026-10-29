@@ -1860,6 +1860,7 @@ void Char::HandleObjectCollision_548840(Object* pObj)
         }
         this->field_5C_jump_over_timer = 10;
 
+    // shared exit for the three not-pushable checks: goto-free forms change the code
     generic_collision:
         HandleGenericCollision_54A530(NULL, pObj, NULL);
     }
@@ -3441,7 +3442,7 @@ void Char::state_0_54DDF0()
         {
             if (field_10_char_state != Char_B4_state::Jumping_15)
             {
-                // Ped is falling
+                // Ped is falling; the end-of-jump path below jumps here (goto-free forms change the code)
             start_falling:
                 field_6C_animation_state = Char_Anim_state::Normal_Fall_11;
                 field_68_animation_frame = 0;
@@ -3758,6 +3759,7 @@ void Char::state_0_54DDF0()
                                              field_80_sprite_ptr->field_14_xy.y + ret2,
                                              field_80_sprite_ptr->field_1C_zpos);
 
+// shared exit for the two blocked-move paths: goto-free forms change the code
 after_move:
     field_4C_conveyor_dx = kFP16Zero_6FD9E4;
     field_50_conveyor_dy = kFP16Zero_6FD9E4;
@@ -4736,12 +4738,8 @@ void Char::state_1_5504F0()
                 field_68_animation_frame = 0;
                 field_71_frame_delay = 4;
             }
-            else
+            else if (!field_58_flags_bf.bFlag6)
             {
-                if (field_58_flags_bf.bFlag6)
-                {
-                    goto skip_speed_setup;
-                }
                 if (!field_7C_pPed->field_224_bf.bWaitingOnTarget)
                 {
                     desired_angle = field_7C_pPed->GetTargetFacingAngle_492CC0();
@@ -4788,7 +4786,6 @@ void Char::state_1_5504F0()
         }
         bSnapRotation = 1;
     }
-skip_speed_setup:
     if (field_55_next_tile_timer > 0)
     {
         field_55_next_tile_timer--;
@@ -4825,12 +4822,8 @@ skip_speed_setup:
         }
         else
         {
-            if (field_6A_repulsion_timer)
+            if (field_6A_repulsion_timer && field_C_ped_state_2 != ped_state_2::running_away_3)
             {
-                if (field_C_ped_state_2 == ped_state_2::running_away_3)
-                {
-                    goto long_probe;
-                }
                 prev_angle = field_74_repulsion_rotation;
                 cur_rotation = field_40_rotation;
                 field_38_velocity = k_CollisionRepulsionSpeed_6FD7BC;
@@ -4841,7 +4834,6 @@ skip_speed_setup:
         }
         if (field_C_ped_state_2 == ped_state_2::running_away_3)
         {
-        long_probe:
             if (field_55_next_tile_timer > 0)
             {
                 if (!field_58_flags_bf.bFlag7)
