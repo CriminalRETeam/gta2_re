@@ -5922,7 +5922,7 @@ bool Ped::IsPedAThreat_465D00(Ped* pTargetPed)
     {
         if (pTargetPed->field_168_game_object != NULL)
         {
-            goto ret_false;
+            return false;
         }
     }
 
@@ -5930,7 +5930,7 @@ bool Ped::IsPedAThreat_465D00(Ped* pTargetPed)
     {
         if (!pTargetPed->PedTypeIs_45EDE0(ped_type::player_2))
         {
-            goto ret_false;
+            return false;
         }
     }
 
@@ -5949,7 +5949,7 @@ bool Ped::IsPedAThreat_465D00(Ped* pTargetPed)
 
     if (this->field_164_ped_group == pTargetPed->field_164_ped_group && this->field_164_ped_group != NULL)
     {
-        goto ret_false;
+        return false;
     }
 
     if (this->field_240_occupation == ped_ocupation_enum::mad_mugger_40)
@@ -5990,23 +5990,17 @@ bool Ped::IsPedAThreat_465D00(Ped* pTargetPed)
 
                 if (!pMyGang->IsHostileToGang_4BEDF0(pOtherGang->field_1_gang_idx))
                 {
-                    goto ret_false;
+                    return false;
                 }
 
-                if (this->field_238_ped_type == ped_type::special_ped_4)
-                {
-                    goto check_threat_level;
-                }
-
-                if (this->field_238_ped_type != ped_type::dummy_with_occupation_6)
+                if (this->field_238_ped_type != ped_type::special_ped_4 && this->field_238_ped_type != ped_type::dummy_with_occupation_6)
                 {
                     goto ret_true;
                 }
 
-            check_threat_level:
                 if (pTargetPed->field_263_prev_attackers_count >= 4)
                 {
-                    goto ret_false;
+                    return false;
                 }
 
                 if (pTargetPed->field_262_attackers_count >= 4)
@@ -6029,7 +6023,7 @@ bool Ped::IsPedAThreat_465D00(Ped* pTargetPed)
                     case ped_ocupation_enum::walking_swat_guard_30:
                     case ped_ocupation_enum::walking_army_guard_31:
                     case ped_ocupation_enum::roadblock_cop_37:
-                        goto ret_true;
+                        return true;
                     default:
                         break;
                 }
@@ -6070,7 +6064,7 @@ bool Ped::IsPedAThreat_465D00(Ped* pTargetPed)
                         return false;
                     }
 
-                    goto ret_false;
+                    return false;
                 }
             }
 
@@ -6087,7 +6081,7 @@ bool Ped::IsPedAThreat_465D00(Ped* pTargetPed)
                     return false;
                 }
 
-                goto ret_false;
+                return false;
             }
 
             goto ret_if_active_player;
@@ -6125,17 +6119,41 @@ bool Ped::IsPedAThreat_465D00(Ped* pTargetPed)
         case ped_ocupation_enum::walking_swat_guard_30:
         case ped_ocupation_enum::walking_army_guard_31:
         case ped_ocupation_enum::roadblock_cop_37:
-            goto law_enforcement_checks;
+            break;
         default:
-            goto other_occupation_checks;
+            if (this->field_164_ped_group != NULL)
+            {
+                if (this->field_164_ped_group->field_2C_ped_leader != pTargetPed->field_14C_internal_target_ped)
+                {
+                    goto ret_if_active_player;
+                }
+
+                if (pTargetPed->field_25C_internal_objective == objectives_enum::kill_char_on_foot_20)
+                {
+                    goto ret_true;
+                }
+
+                if (pTargetPed->field_25C_internal_objective != objectives_enum::punch_char_23)
+                {
+                    goto ret_if_active_player;
+                }
+
+                return true;
+            }
+
+            if (pTargetPed->GetAttacking_433CA0())
+            {
+                goto ret_true;
+            }
+
+            goto ret_if_active_player;
     }
 
-law_enforcement_checks:
     if (pTargetPed->IsActivePlayerPed_45EDC0())
     {
         if (pTargetPed->field_168_game_object != NULL && pTargetPed->field_168_game_object->field_10_char_state == Char_B4_state::Jumping_15)
         {
-            goto ret_false;
+            return false;
         }
 
         if (!((pTargetPed->GetAttacking_433CA0()) && pTargetPed->field_170_selected_weapon != NULL &&
@@ -6143,7 +6161,7 @@ law_enforcement_checks:
         {
             if (pTargetPed->get_wanted_points_433DC0() < cop_level_ped_enum::cop_1_stars && this->field_144_attacker != pTargetPed && pTargetPed->field_26A_recent_crime_timer <= 0u)
             {
-                goto ret_false;
+                return false;
             }
         }
 
@@ -6211,45 +6229,18 @@ law_enforcement_checks:
     return true;
 }
 
-other_occupation_checks:
-    if (this->field_164_ped_group != NULL)
-    {
-        if (this->field_164_ped_group->field_2C_ped_leader != pTargetPed->field_14C_internal_target_ped)
-        {
-            goto ret_if_active_player;
-        }
-
-        if (pTargetPed->field_25C_internal_objective == objectives_enum::kill_char_on_foot_20)
-        {
-            goto ret_true;
-        }
-
-        if (pTargetPed->field_25C_internal_objective != objectives_enum::punch_char_23)
-        {
-            goto ret_if_active_player;
-        }
-
-        return true;
-    }
-
-    if (pTargetPed->GetAttacking_433CA0())
-    {
-        goto ret_true;
-    }
-
+// shared exits: a return in place of these gotos gets its own epilogue or folds into a setcc
 ret_if_active_player:
     if (bThisIsActivePlayer == 1)
     {
         goto ret_true;
     }
 
-    goto ret_false;
+ret_false:
+    return false;
 
 ret_true:
     return true;
-
-ret_false:
-    return false;
 }
 
 // The normalizing Ang16 ctor (out of line, AssignNormalized_409300) on a by-value parameter: the
