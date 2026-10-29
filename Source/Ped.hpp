@@ -935,9 +935,6 @@ class Ped
     u8 field_24C_target_car_door;
     s32 field_250_voice_event;
     s32 field_254_block_spec;
-    //char_type field_255;
-    //char_type field_256;
-    //char_type field_257;
     s32 field_258_objective;
     s32 field_25C_internal_objective;
     char_type field_260_wait_counter; // frames waited on the target (field_224_bf.bWaitingOnTarget)

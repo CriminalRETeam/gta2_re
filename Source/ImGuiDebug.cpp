@@ -97,8 +97,8 @@ namespace ImGui
 {
 bool SliderS16(const char* label, s16* v, s16 v_min, s16 v_max)
 {
-    int value = static_cast<int>(*v);
-    bool result = ImGui::SliderInt(label, &value, static_cast<int>(v_min), static_cast<int>(v_max));
+    s32 value = static_cast<s32>(*v);
+    bool result = ImGui::SliderInt(label, &value, static_cast<s32>(v_min), static_cast<s32>(v_max));
     if (result)
     {
         *v = static_cast<s16>(value);
@@ -108,8 +108,8 @@ bool SliderS16(const char* label, s16* v, s16 v_min, s16 v_max)
 
 bool SliderU16(const char* label, u16* v, s16 v_min, s16 v_max)
 {
-    int value = static_cast<int>(*v);
-    bool result = ImGui::SliderInt(label, &value, static_cast<int>(v_min), static_cast<int>(v_max));
+    s32 value = static_cast<s32>(*v);
+    bool result = ImGui::SliderInt(label, &value, static_cast<s32>(v_min), static_cast<s32>(v_max));
     if (result)
     {
         *v = static_cast<u16>(value);
@@ -119,8 +119,8 @@ bool SliderU16(const char* label, u16* v, s16 v_min, s16 v_max)
 
 bool SliderS8(const char* label, char_type* v, char_type v_min, char_type v_max)
 {
-    int value = static_cast<int>(*v);
-    bool result = ImGui::SliderInt(label, &value, static_cast<int>(v_min), static_cast<int>(v_max));
+    s32 value = static_cast<s32>(*v);
+    bool result = ImGui::SliderInt(label, &value, static_cast<s32>(v_min), static_cast<s32>(v_max));
     if (result)
     {
         *v = static_cast<char_type>(value);
@@ -130,8 +130,8 @@ bool SliderS8(const char* label, char_type* v, char_type v_min, char_type v_max)
 
 bool SliderU8(const char* label, u8* v, u8 v_min, u8 v_max)
 {
-    int value = static_cast<int>(*v);
-    bool result = ImGui::SliderInt(label, &value, static_cast<int>(v_min), static_cast<int>(v_max));
+    s32 value = static_cast<s32>(*v);
+    bool result = ImGui::SliderInt(label, &value, static_cast<s32>(v_min), static_cast<s32>(v_max));
     if (result)
     {
         *v = static_cast<u8>(value);
@@ -139,33 +139,33 @@ bool SliderU8(const char* label, u8* v, u8 v_min, u8 v_max)
     return result;
 }
 
-bool Input_char_type(const char* label, char_type* v, int step, int step_fast, ImGuiInputTextFlags extra_flags = 0)
+bool Input_char_type(const char* label, char_type* v, s32 step, s32 step_fast, ImGuiInputTextFlags extra_flags = 0)
 {
-    int tmp = *v;
+    s32 tmp = *v;
     bool ret = ImGui::InputInt(label, &tmp, step, step_fast, extra_flags);
     *v = static_cast<char_type>(tmp);
     return ret;
 }
 
-bool InputU8(const char* label, u8* v, int step, int step_fast, ImGuiInputTextFlags extra_flags = 0)
+bool InputU8(const char* label, u8* v, s32 step, s32 step_fast, ImGuiInputTextFlags extra_flags = 0)
 {
-    int tmp = *v;
+    s32 tmp = *v;
     bool ret = ImGui::InputInt(label, &tmp, step, step_fast, extra_flags);
     *v = static_cast<u8>(tmp);
     return ret;
 }
 
-bool InputS16(const char* label, s16* v, int step, int step_fast, ImGuiInputTextFlags extra_flags = 0)
+bool InputS16(const char* label, s16* v, s32 step, s32 step_fast, ImGuiInputTextFlags extra_flags = 0)
 {
-    int tmp = *v;
+    s32 tmp = *v;
     bool ret = ImGui::InputInt(label, &tmp, step, step_fast, extra_flags);
     *v = static_cast<s16>(tmp);
     return ret;
 }
 
-bool InputU16(const char* label, u16* v, int step, int step_fast, ImGuiInputTextFlags extra_flags = 0)
+bool InputU16(const char* label, u16* v, s32 step, s32 step_fast, ImGuiInputTextFlags extra_flags = 0)
 {
-    int tmp = *v;
+    s32 tmp = *v;
     bool ret = ImGui::InputInt(label, &tmp, step, step_fast, extra_flags);
     *v = static_cast<u16>(tmp);
     return ret;
@@ -2158,13 +2158,6 @@ void CC ImGuiDebugDraw()
                             }
                             
 
-                            /* Crash, for some reason
-                            if (ImGui::Button("Add TV Aerial"))
-                            {
-                                pPlayerCar->PutTV_Antenna_440BB0(); 
-                            }
-                            */
-
                             ImGui::End();
                             ImGui::TreePop();
                         }
@@ -2435,7 +2428,6 @@ void CC ImGuiDebugDraw()
                         {
                             ImGui::Text("Brief id: %.8s", brief->field_0_brief_id_str);
                             ImGui::Value("Brief f_8", brief->field_8_brief_priority);
-                            //ImGui::Value("Brief f_C", brief->field_C_pNext);
                             ImGui::Value("Brief f_10", brief->field_10_was_displayed);
 
                             if (ImGui::TreeNode("Try field_C as text"))
@@ -3008,7 +3000,6 @@ void CC ImGuiDebugDraw()
             ImGui::Checkbox("Show Traffic lights info", &bDo_show_traffic_lights_info_67D4FA);
             ImGui::Checkbox("Show Imaginary", &bDo_show_imaginary_67D588); // some cones appears when the player is hit by rocket launcher
             ImGui::Checkbox("Show Camera", &bDo_show_camera_67D58A);
-            //ImGui::Checkbox("Show Collision Box", &bDo_show_collision_box_67D6E5);    // crashes the game
             ImGui::Checkbox("Show Physics", &bDo_show_physics_67D54F);
             ImGui::Checkbox("Show Instruments", &bDo_show_instruments_67D64C);
             ImGui::Checkbox("Show Cycle", &gShow_cycle_67D6BD);

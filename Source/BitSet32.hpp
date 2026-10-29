@@ -63,13 +63,13 @@ class BitSet32
 {
   public:
     // 9.6f 0x420DE0
-    void clear_bit(int bit)
+    void clear_bit(s32 bit)
     {
         m_var &= ~(1 << bit);
     }
 
     // 9.6f 0x420DC0
-    void set_bit(int bit)
+    void set_bit(s32 bit)
     {
         m_var |= (1 << bit);
     }
