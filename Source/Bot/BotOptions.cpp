@@ -135,6 +135,10 @@ bool BotOptions_Parse(const char* cmd_line, BotOptions* o)
         {
             o->nav_dump = true;
         }
+        else if (_strnicmp(key, "_drive_pure", key_len) == 0 && key_len == 11)
+        {
+            o->drive_pure = true;
+        }
         else if (_strnicmp(key, "_draw", key_len) == 0 && key_len == 5)
         {
             o->draw = true;

@@ -1439,8 +1439,10 @@ Action::Status DriveAction::Step(BotContext& ctx)
 
     // The detailed route: an A* with a node per map tile from the car to a point 18 tiles along the global route. It keeps to the
     // direction of the line, goes round standing cars and the closed tiles, and the car follows it by pure pursuit
+    // -bot_drive_pure: the aim point stays where the pure pursuit above put it, on the global route
+    const bool pure = ctx.opts && ctx.opts->drive_pure;
     bool local_ok = false;
-    if ((dist > 8.0f || (mChase && dist > 2.5f)) && ctx.frame >= mReverseUntil) // (a chase ends beside things: the last stretch is routed round them too)
+    if (!pure && (dist > 8.0f || (mChase && dist > 2.5f)) && ctx.frame >= mReverseUntil) // (a chase ends beside things: the last stretch is routed round them too)
     {
         SteerCar lcars[WorldModel::kMaxCars + WorldModel::kMaxPeds];
         LocalPlanWorld lw;
@@ -1545,7 +1547,7 @@ Action::Status DriveAction::Step(BotContext& ctx)
         mLocal.found = false;
     }
     // Police after us: dodge a police car that is closing on the car, and keep the speed up
-    if (pl.wanted_stars > 0)
+    if (pl.wanted_stars > 0 && !pure)
     {
         if (ctx.frame < mSwerveUntil)
         {
@@ -1606,7 +1608,7 @@ Action::Status DriveAction::Step(BotContext& ctx)
         }
     }
     // Driving against the traffic of a lane: move over to the lane that goes our way
-    if (!local_ok && dist > 8.0f && ctx.frame >= mSwerveUntil)
+    if (!pure && !local_ok && dist > 8.0f && ctx.frame >= mSwerveUntil)
     {
         float lx = 0.0f;
         float ly = 0.0f;
@@ -1632,13 +1634,22 @@ Action::Status DriveAction::Step(BotContext& ctx)
                 pn_++;
             }
         }
-        DriveSteer_PedDodgeAim(local_ok, pl.x, pl.y, sinf(hd), -cosf(hd), aim_x - pl.x, aim_y - pl.y, px_, py_, pn_, WorldModel::BuildingAt, &aim_x, &aim_y);
+        DriveSteer_PedDodgeAim(local_ok || pure, pl.x, pl.y, sinf(hd), -cosf(hd), aim_x - pl.x, aim_y - pl.y, px_, py_, pn_, WorldModel::BuildingAt, &aim_x, &aim_y);
     }
     const float err = ctx.Steer(ctx.car, pl.rot_deg, pl.x, pl.y, aim_x, aim_y, true);
     // Which way to hold the wheel: try five arcs ahead and keep the one that ends nearest the aim point without
     // running into a building (or a car coming at us). Steering straight at the aim point is the first choice
     float wall_ahead = 1e3f;
-    if (fabsf(err) <= kTurnEngageDeg && !mTurn.active)
+    if (pure)
+    {
+        // the wheel straight at the aim point on the route: over 2 degrees off, the key down
+        ctx.input &= ~(input_bit::Left | input_bit::Right);
+        if (fabsf(err) > 2.0f && fabsf(err) <= kTurnEngageDeg)
+        {
+            ctx.input |= err > 0.0f ? input_bit::Right : input_bit::Left; // (err is in the sense of the Right key)
+        }
+    }
+    else if (fabsf(err) <= kTurnEngageDeg && !mTurn.active)
     {
         SteerCar others[WorldModel::kMaxCars];
         const int other_count = Drive_CollectCars(ctx, others);
@@ -1720,6 +1731,7 @@ Action::Status DriveAction::Step(BotContext& ctx)
     }
 
     // Look ahead along the car's heading for things to hit: buildings, other cars, pedestrians
+    if (!pure)
     {
         const float heading = (ctx.car.sign * pl.rot_deg + ctx.car.offset) * 3.14159265f / 180.0f;
         const float hx = sinf(heading);

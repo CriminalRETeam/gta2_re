@@ -25,6 +25,7 @@
 //   -bot_map_dump=x,y     text map of the blocks around x,y (road, pavement, buildings, arrows, cars) at the first frame
 //   -bot_gang=N -bot_kills=K   kill_gang profile: kill K peds of gang N (Gang::field_1_gang_idx)
 //   -bot_fast             with -bot_draw: do not wait for the 33 ms frame clock (run.py --show sets it)
+//   -bot_drive_pure       driving test: the car only follows the global A* route (aim point on it, plain wheel, fixed speed)
 //   -bot_trains_log       log every train car's position every 60 frames
 //   -bot_script_dump      list every script command (index, name, next, raw words) to bot_script.txt at the first frame
 //   -bot_zones_dump       list every map zone (type, rectangle, name) to bot_zones.txt at the first frame
@@ -72,6 +73,7 @@ struct BotOptions
     bool objects_dump;
     s32 gang;
     s32 kills;
+    bool drive_pure; // driving test: follow the global A* route by pure pursuit and nothing else (no detailed route, dodging, arcs or slowing)
     bool fast; // with drawing: let the logic run ahead of the clock (8 logic frames per drawn one)
     bool trains_log;
     bool script_dump;
