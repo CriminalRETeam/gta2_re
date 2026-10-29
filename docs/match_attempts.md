@@ -973,7 +973,7 @@ Matched (116 -> 0) with two changes:
 - 0.161. The spark sits on `field_28_pSprite`:
   - **Car:** the spark goes at a corner of the car's box (half width/height plus constants, sub-states 1–4), rotated by the car's angle. State 40 and 41 use mirrored corners. The id is base + sub_state + 200.
   - **Ped:** an offset rotated by the ped's angle plus `Char::field_98`. The id is base + sub_state + 197.
-- Needed `#include "Car.hpp"` (compare_builds is unchanged) and three new globals (`kFpMinusOneThirtySecond_6FD3C0`, `dword_6FD5A8`, `kFpPoint4_6FD2F8`).
+- Needed `#include "Car.hpp"` (compare_builds is unchanged) and three new globals (`kFpMinusOneThirtySecond_6FD3C0`, `kFpPoint2PlusOne64th_6FD5A8`, `kFpPoint4_6FD2F8`).
 - **Open question:** our build calls `Fix16_Point_POD::Fix16_Point_POD()` out of line for the `Fix16_Point offset` local. The original constructs it inline, as it does for all five points in `538AC0` (where we call it twice). The ctor is empty and the struct isn't exported. Unexplained so far.
 - Oct 5: 160 lines. The original's two rotation branches put sin/cos in swapped stack slots and aren't
   tail-merged; ours are merged.

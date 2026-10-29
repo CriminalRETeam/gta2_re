@@ -126,8 +126,8 @@ DEFINE_GLOBAL(Fix16, gSaved_trailer_air_z_vel_6FE394, 0x6FE394);
 
 DEFINE_GLOBAL_INIT(Fix16, kAngFix16FullCircle_6FE314, Fix16(0x18F60, 0), 0x6FE314);
 DEFINE_GLOBAL_INIT(Fix16, kFP16One_6FE3D0, kFpOne_6FE210, 0x6FE3D0);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FE148, Fix16(0x8E5, 0), 0x6FE148);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FE3D4, dword_6FE148, 0x6FE3D4);
+DEFINE_GLOBAL_INIT(Fix16, kFpPoint139_6FE148, Fix16(0x8E5, 0), 0x6FE148);
+DEFINE_GLOBAL_INIT(Fix16, kFpPoint139_6FE3D4, kFpPoint139_6FE148, 0x6FE3D4);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint8_6FE320, kFpPoint8_6FDFF8, 0x6FE320);
 DEFINE_GLOBAL_INIT(Fix16, kFP16One128th_6FE0A0, Fix16(0x80, 0), 0x6FE0A0);
 DEFINE_GLOBAL_INIT(Fix16, kFP16One128th_6FDFDC, kFP16One128th_6FE0A0, 0x6FDFDC);
@@ -3151,7 +3151,7 @@ Fix16 CarPhysics::CalculateFrontWheelForce_561E50()
         {
             case 0:
                 force_x = kFP16One_6FE3D0 * grip_scale;
-                force_y_base = dword_6FE3D4;
+                force_y_base = kFpPoint139_6FE3D4;
                 brake_force = gBrakeForce_6FE0D8 * kFpPoint8_6FE320;
                 pointing_ang_rad = this->field_78_pointing_ang_rad;
                 break;
@@ -3168,7 +3168,7 @@ Fix16 CarPhysics::CalculateFrontWheelForce_561E50()
                 else
                 {
                     force_x = kFP16One_6FE3D0 * grip_scale;
-                    force_y_base = dword_6FE3D4;
+                    force_y_base = kFpPoint139_6FE3D4;
                     if (field_A0_oil_spin_dir == 1)
                     {
                         pointing_ang_rad = this->field_78_pointing_ang_rad + kAngFix16OneDegree_6FE3C4 * 30;
@@ -3244,7 +3244,7 @@ Fix16 CarPhysics::CalculateRearWheelForce_5620D0()
             else
             {
                 new_x = kFP16One_6FE3D0 * grip_scale;
-                brake_force1 = dword_6FE3D4;
+                brake_force1 = kFpPoint139_6FE3D4;
                 if (field_A0_oil_spin_dir == 1)
                 {
                     pointing_ang_rad = this->field_78_pointing_ang_rad - kAngFix16OneDegree_6FE3C4 * 30;
@@ -3260,7 +3260,7 @@ Fix16 CarPhysics::CalculateRearWheelForce_5620D0()
     }
     else
     {
-        brake_force1 = dword_6FE3D4;
+        brake_force1 = kFpPoint139_6FE3D4;
         brake_force2 = gBrakeForce_6FE0D8 * kFpPoint2_6FE2B0;
 
         if (field_92_is_hand_brake_on)
