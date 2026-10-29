@@ -73,7 +73,7 @@ char TmpBitSetChar[50];
 
 Hud_Arrow* gpArrow = NULL;
 
-void wchar_to_char(wchar_t* wchar, char* out, u8 size)
+void wchar_to_char(const wchar_t* wchar, char* out, u8 size)
 {
     u16 i = 0;
     for (; wchar[i]; i++)
@@ -382,7 +382,7 @@ static void ShowPedBitMaskSetting(PedFlags32* flags)
     }
 }
 
-static char_type* GetOccupationStrFromPed(Ped* pPed)
+static const char* GetOccupationStrFromPed(Ped* pPed)
 {
     if (pPed)
     {
@@ -897,7 +897,7 @@ static void DisplayWideTextAtXYZ(wchar_t* pStr, Fix16 xpos, Fix16 ypos, Fix16 zp
     }
 }
 
-void AddMenuOption(u32 page_idx, s16 xpos, s16 ypos, wchar_t* pLabelStr, s16 target_page)
+void AddMenuOption(u32 page_idx, s16 xpos, s16 ypos, const wchar_t* pLabelStr, s16 target_page)
 {
     u16 num_options = gFrontend_67DC84->field_136_menu_pages_array[page_idx].field_0_number_of_options;
     gFrontend_67DC84->field_136_menu_pages_array[page_idx].field_4_options_array[num_options].field_0_option_type = STRING_TEXT_1;
@@ -917,10 +917,10 @@ u16 total_num_maps_loaded = 0;
 
 void LoadMapsFromData(Network_Enumerated_Map* pOut, u16& num_maps_loaded)
 {
-    CHAR FileName[260];
+    char FileName[MAX_PATH];
     Network_Enumerated_Map enumerated_mmp_name[99];
     Network_Enumerated_Map *pIter;
-    _WIN32_FIND_DATAA findFileData;
+    WIN32_FIND_DATAA findFileData;
     
     memset(&findFileData, 0, sizeof(findFileData));
     strcpy(FileName, "data\\");
@@ -928,7 +928,7 @@ void LoadMapsFromData(Network_Enumerated_Map* pOut, u16& num_maps_loaded)
 
     u32 map_count = 0;
     HANDLE hFindFile = FindFirstFileA(FileName, &findFileData);
-    if (hFindFile != reinterpret_cast<HANDLE>(-1))
+    if (hFindFile != INVALID_HANDLE_VALUE)
     {
         map_count = 1;
         strcpy(enumerated_mmp_name[0].field_0_map_name, findFileData.cFileName);
@@ -1001,11 +1001,11 @@ void LoadMapsFromData(Network_Enumerated_Map* pOut, u16& num_maps_loaded)
 }
 
 // Packs the NUL-padded rows of a char[][] into the NUL-separated item list ImGui::Combo takes
-char* flat_char_array(char* pArray, u16 num_itens)
+char* flat_char_array(const char* pArray, u16 num_items)
 {
     static char flattened_arr[25600];
     u16 flat_idx = 0;
-    for (u16 i = 0; i < num_itens; i++)
+    for (u16 i = 0; i < num_items; i++)
     {
         while (*pArray)
         {
@@ -1215,7 +1215,7 @@ static void HooksDebug()
 }
 }
 
-void BootMap(char* mapName, char* styName, char* scrName)
+void BootMap(const char* mapName, const char* styName, const char* scrName)
 {
     if (gFrontend_67DC84 && gFrontend_67DC84->field_110_state == FrontendState::Menu_Navigation_1)
     {
@@ -1232,7 +1232,7 @@ void BootMap(char* mapName, char* styName, char* scrName)
         strcat(fullPath, scrName);
         gGameSession_67E8E0.SetScriptName_4C58B0(fullPath);
 
-        gGameSession_67E8E0.SetStartedFromPlayBonusMenu_4C5AD0(0);
+        gGameSession_67E8E0.SetStartedFromPlayBonusMenu_4C5AD0(false);
 
         if (!HookManagement::GetEnumerateFuncsFn()) // if standalone version
         {
@@ -1343,11 +1343,11 @@ void CC ImGuiDebugDraw()
         sprintf(tmpBuffer, "c%02d", model_num);
         ImGui::Text(gText_0x14_704DFC->Wide2PesudoAscii_5B5D10(gText_0x14_704DFC->Find_5B5F90(tmpBuffer)));
 
-        static int currentCharIndex = 0;
+        static s32 currentCharIndex = 0;
         const char* char_lang_codes[] = {"english", "french", "italian", "german", "spanish", "russian??", "japanese??"};
         const char char_lang[] = {'e', 'f', 'i', 'g', 's', 'r', 'j'};
 
-        const int charCount = sizeof(char_lang_codes) / sizeof(char_lang_codes[0]);
+        const s32 charCount = sizeof(char_lang_codes) / sizeof(char_lang_codes[0]);
         if (ImGui::Combo("Lang Code", &currentCharIndex, char_lang_codes, charCount))
         {
             // Lang Code selection changed
@@ -1627,7 +1627,7 @@ void CC ImGuiDebugDraw()
 
                     ImGui::SliderInt("gXCoord_6F63AC", &gXCoord_6F63AC.mValue, 0, 2000);
                     ImGui::SliderInt("gYCoord_6F63B8", &gYCoord_6F63B8.mValue, 0, 2000);
-                    ImGui::SliderInt("gZCoord_6F63E0", reinterpret_cast<int*>(&gZCoord_6F63E0), 0, 2000);
+                    ImGui::SliderInt("gZCoord_6F63E0", reinterpret_cast<s32*>(&gZCoord_6F63E0), 0, 2000);
                 }
 
                 if (ImGui::Button("PathFinder::FindNearbyTileMatchingSlopeType_5552B0"))
@@ -1635,7 +1635,7 @@ void CC ImGuiDebugDraw()
                     u8 xpos = gViewCamera_676978->field_78_view_bounds.field_0_left.ToInt() + 5;
                     u8 ypos = gViewCamera_676978->field_78_view_bounds.field_8_top.ToInt() + 5;
                     u8 zpos = 2;
-                    if (gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(0, &xpos, &ypos, &zpos, 1))
+                    if (gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(0, &xpos, &ypos, &zpos, true))
                     {
                     }
                 }
@@ -1665,7 +1665,7 @@ void CC ImGuiDebugDraw()
         {
             if (ImGui::Button("TryDispatchFirefightersToCar_4A8820"))
             {
-                gFirefighterPool_54_67D4C0->TryDispatchFirefightersToCar_4A8820(0);
+                gFirefighterPool_54_67D4C0->TryDispatchFirefightersToCar_4A8820(NULL);
             }
             ImGui::TreePop();
         }
@@ -1696,7 +1696,7 @@ void CC ImGuiDebugDraw()
                 Fix16 scale;
                 scale.mValue = 0x4000;
 
-                static int currentCarModelIndex = 0;
+                static s32 currentCarModelIndex = 0;
                 const char* carModelNames[] = {
                     "Alfa",     "Allard",   "Amdb4",    "Apc",      "Bank Van",  "BMW",      "Boxcar",    "Boxtruck",  "Bug",
                     "CAR9",     "BUICK",    "BUS",      "COPCAR",   "DART",      "EDSEL",    "CAR15",     "FIAT",      "FIRETRUK",
@@ -1709,7 +1709,7 @@ void CC ImGuiDebugDraw()
                     "WRECK0",   "WRECK1",   "WRECK2",   "WRECK3",   "WRECK4",    "WRECK5",   "WRECK6",    "WRECK7",    "WRECK8",
                     "WRECK9",   "XK120",    "ZCX5",     "EDSELFBI", "HOTDOG_D4", "KRSNABUS", "None"};
 
-                const int carModelCount = sizeof(carModelNames) / sizeof(carModelNames[0]);
+                const s32 carModelCount = sizeof(carModelNames) / sizeof(carModelNames[0]);
 
                 Fix16 xOff;
                 xOff.FromInt(1);
@@ -1879,7 +1879,7 @@ void CC ImGuiDebugDraw()
                         get_car_name(pNearestAI->field_0_car, buffer);
                         ImGui::Text("AI Found! Car: %s", buffer);
                         ImGui::Text("6C: %d", pNearestAI->field_6C_yield_to_car != NULL);
-                        if (!PointArrowToEntity(0, pNearestAI->field_6C_yield_to_car, 0))
+                        if (!PointArrowToEntity(NULL, pNearestAI->field_6C_yield_to_car, NULL))
                         {
                             //ClearGlobalArrow();
                         }
@@ -2198,7 +2198,7 @@ void CC ImGuiDebugDraw()
                         }
                     }
 
-                    static int currentWeaponIndex = 0;
+                    static s32 currentWeaponIndex = 0;
                     const char* weaponNames[] = {"Pistol",         "SMG",
                                                  "Rocket",         "Shocker",
                                                  "Molotov",        "Grenade",
@@ -2874,15 +2874,15 @@ void CC ImGuiDebugDraw()
                 {
                     if (gCollisionTarget_679188.field_20_pHitSprite->AsCharB4_40FEA0())
                     {
-                        PointArrowToEntity(gCollisionTarget_679188.field_20_pHitSprite->field_8_char_b4_ptr->field_7C_pPed, 0, 0);
+                        PointArrowToEntity(gCollisionTarget_679188.field_20_pHitSprite->field_8_char_b4_ptr->field_7C_pPed, NULL, NULL);
                     }
                     else if (gCollisionTarget_679188.field_20_pHitSprite->AsCar_40FEB0())
                     {
-                        PointArrowToEntity(0, gCollisionTarget_679188.field_20_pHitSprite->field_8_car_bc_ptr, 0);
+                        PointArrowToEntity(NULL, gCollisionTarget_679188.field_20_pHitSprite->field_8_car_bc_ptr, NULL);
                     }
                     else if (gCollisionTarget_679188.field_20_pHitSprite->AsObject2C_40FEC0())
                     {
-                        PointArrowToEntity(0, 0, gCollisionTarget_679188.field_20_pHitSprite->field_8_object_2C_ptr);
+                        PointArrowToEntity(NULL, NULL, gCollisionTarget_679188.field_20_pHitSprite->field_8_object_2C_ptr);
                     }
                 }
             }
@@ -2958,7 +2958,7 @@ void CC ImGuiDebugDraw()
                                                            pPlayerSprite->field_14_xy.y,
                                                            pPlayerSprite->field_1C_zpos,
                                                            0,
-                                                           0);
+                                                           false);
 
                 gParticle_8_6FD5E8->GunMuzzelFlash_53E970(pPlayerSprite);
 
@@ -3148,7 +3148,7 @@ void CC ImGuiDebugDraw()
             if (bExtMapsLoaded)
             {
                 ImGui::Value("Total loaded maps", total_num_maps_loaded);
-                static int currentMapIndex = 0;
+                static s32 currentMapIndex = 0;
                 if (ImGui::Combo("Map", &currentMapIndex, static_cast<const char*>(flat_char_array(reinterpret_cast<char*>(mmp_maps_description), total_num_maps_loaded)), total_num_maps_loaded))
                 {
                     // Map selection changed
