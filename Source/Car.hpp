@@ -1387,7 +1387,7 @@ struct CarPool
 
     }
 
-    // TODO: 9.6f addr/check
+    // 9.6f 0x40F490
     void Remove(Car* pCar)
     {
         field_0_pool.DeAllocate(pCar);

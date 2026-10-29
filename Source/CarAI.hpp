@@ -155,7 +155,7 @@ class CarAIPool
         return field_0_pool.Allocate();
     }
 
-    // TODO: get 9.6f inline addr
+    // 9.6f 0x425460
     void DeAllocate(CarAI* pCarAI)
     {
         field_0_pool.DeAllocate(pCarAI);

@@ -745,13 +745,13 @@ class SpriteShapePool
 
     ~SpriteShapePool();
 
-    // TODO: Get 9.6f inline addr
+    // 9.6f 0x4BCA10
     void Remove(SpriteShape* pToRemove)
     {
         field_0_pool.DeAllocate(pToRemove);
     }
 
-    // TODO: Get 9.6f inline addr
+    // 9.6f 0x4BC9F0
     SpriteShape* Allocate()
     {
         return field_0_pool.Allocate();
