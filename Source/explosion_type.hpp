@@ -8,7 +8,7 @@ namespace explosion_type
 enum
 {
     none_0 = 0,
-    unknown_1 = 1,
+    blood_burst_1 = 1, // ParticleManager::EmitBloodBurst_53E450. 1, 29, 31, 34, 39: Particle_4C::field_38_state values, same numbering
     unknown_2 = 2,
     fire_3 = 3, // 3, 4, 5, 12, 13, 14 are fires: a moving particle trail from the object's speed/angle (IsFireType_5435D0)
     car_fire_4 = 4, // Car::SpawnFire_43BBC0, a burning car
@@ -28,13 +28,13 @@ enum
     building_135_24 = 24, // SCRCMD_EXPLODE_BUILDING 3: 135 degrees
     building_315_25 = 25, // SCRCMD_EXPLODE_BUILDING 4: 315 degrees
     unknown_28 = 28,
-    unknown_29 = 29,
+    flash_29 = 29, // Explosion::SpawnFlashParticle_541760
     unknown_30 = 30,
-    unknown_31 = 31,
+    flame_stream_31 = 31, // ParticleManager::EmitFlameStreamSegment_53F4C0
     no_ring_32 = 32, // SCRCMD_EXPLODE_NO_RING1
     small_33 = 33,   // same size as small_18
-    unknown_34 = 34,
-    unknown_39 = 39,
+    fire_truck_spray_34 = 34, // ParticleManager::EmitFireTruckSprayParticle_53FAE0
+    blood_39 = 39, // ParticleManager::SpawnBlood_53E880
 };
 } // namespace explosion_type
 
