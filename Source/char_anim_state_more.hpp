@@ -11,6 +11,6 @@ enum
     Initial_18 = 18, // start value (Char constructor and PoolAllocate), no animation case handles it
     Lying_Pose_19 = 19,
     Lying_Pose_20 = 20,
-    Electrocuted_Dead_21 = 21,
+    Charred_Corpse_21 = 21, // after electrocuted_27, or killed while on fire (Ped::Kill_46F9D0)
 };
 } // namespace Char_Anim_state

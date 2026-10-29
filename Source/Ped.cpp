@@ -9,6 +9,7 @@
 #include "car_despawn_status.hpp"
 #include "ped_death_cause.hpp"
 #include "char_b4_state_more.hpp"
+#include "char_anim_state_more.hpp"
 #include "ped_state_2_more.hpp"
 #include "ped_group_type.hpp"
 #include "ped_voice_event.hpp"
@@ -11554,7 +11555,7 @@ void Ped::Kill_46F9D0()
     {
         if (field_168_game_object)
         {
-            field_168_game_object->field_6C_animation_state = 21;
+            field_168_game_object->field_6C_animation_state = Char_Anim_state::Charred_Corpse_21;
         }
         PutOutFire();
     }
@@ -11662,7 +11663,7 @@ void Ped::Kill_46F9D0()
 
             if (bDo_blood_67D5C5)
             {
-                if (!field_16C_car && field_168_game_object->field_6C_animation_state != 17)
+                if (!field_16C_car && field_168_game_object->field_6C_animation_state != Char_Anim_state::Electrocuted_17)
                 {
                     gParticle_8_6FD5E8->SpawnBlood_53E880(field_1AC_cam.x, field_1AC_cam.y, field_1AC_cam.z);
                 }

@@ -1556,7 +1556,7 @@ void Char::UpdateAnimState_546360()
             newId = baseId + 157;
             break;
 
-        case Char_Anim_state::Electrocuted_Dead_21:
+        case Char_Anim_state::Charred_Corpse_21:
             newId = baseId + 155;
             break;
 
@@ -6193,7 +6193,7 @@ void Char::state_8_5520A0()
                     field_7C_pPed->Kill_46F9D0();
                     Set_F8_ped_state_1_433910(ped_state_1::dead_9);
                     field_C_ped_state_2 = ped_state_2::ped2_dead_15;
-                    field_6C_animation_state = Char_Anim_state::Electrocuted_Dead_21;
+                    field_6C_animation_state = Char_Anim_state::Charred_Corpse_21;
                     field_10_char_state = Char_B4_state::Walking_1;
                 }
 
@@ -6241,7 +6241,7 @@ void Char::state_9_552E90()
                 }
                 break;
             default:
-                if (field_6C_animation_state != Char_Anim_state::Electrocuted_Dead_21)
+                if (field_6C_animation_state != Char_Anim_state::Charred_Corpse_21)
                 {
                     rng = gRng_6F6784.get_int_4F7AE0(3);
 
@@ -6326,7 +6326,7 @@ void Char::state_9_552E90()
                 field_80_sprite_ptr->field_28_draw_layer = 6;
                 break;
             default:
-                if (field_6C_animation_state != Char_Anim_state::Electrocuted_Dead_21)
+                if (field_6C_animation_state != Char_Anim_state::Charred_Corpse_21)
                 {
                     rng = gRng_6F6784.get_int_4F7AE0(3);
                     switch (rng)
