@@ -70,6 +70,8 @@ enum
 };
 } // namespace car_engine_status
 
+// The original has a separate Fix16 constant before each array (raw 0x100, 0x200, Fix16(5)); splitting them out of
+// this struct changes MapRenderer and Draw code (declaration count, docs/matching_quirks.md).
 struct car_rng_list
 {
     car_rng_list(Fix16 unk)
