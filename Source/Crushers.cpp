@@ -51,7 +51,7 @@ void Crusher::CrushCar_488310(Car* pCar)
     {
         field_14_pCarBeingCrushed = pCar;
         field_2C_state = CrusherStates::CrushW_1;
-        pCar->AddFlags_421890(car_flag::NoCollide);
+        pCar->SetNoCollide_44A3E0();
     }
 }
 
