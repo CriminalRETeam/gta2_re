@@ -508,7 +508,7 @@ void Char::InitSprite_5456A0()
     field_80_sprite_ptr = pFirst;
     pFirst->SetType_4206F0(sprite_types_enum::ped_3);
     field_80_sprite_ptr->AllocCollisionShape_59F950(gCharB4_WorldCollisionOffset_6FD8D8, gCharB4_WorldCollisionOffset_6FD8D8, kFP16Quarter_6FD7A4);
-    field_80_sprite_ptr->field_8_char_b4_ptr = this;
+    field_80_sprite_ptr->SetChar_492180(this);
     field_80_sprite_ptr->CreateSoundObj_5A29D0();
 }
 
