@@ -509,7 +509,7 @@ void PedGroup::RemovePed_4C9970(Ped* pPed)
                     if (field_34_count > 0)
                     {
                         field_4_ped_list[field_34_count] = pNewLeader;
-                        field_4_ped_list[field_34_count]->field_23C_group_idx = field_36_count - 1;
+                        field_4_ped_list[field_34_count]->set_ped_group_id(field_36_count - 1);
                     }
                 }
                 else if (field_34_count > 0)
@@ -531,9 +531,9 @@ void PedGroup::RemovePed_4C9970(Ped* pPed)
             if (field_4_ped_list[i] == pPed)
             {
                 field_4_ped_list[i] = field_4_ped_list[field_34_count - 1];
-                field_4_ped_list[i]->field_23C_group_idx = i;
+                field_4_ped_list[i]->set_ped_group_id(i);
                 field_4_ped_list[field_34_count - 1] = pPed;
-                pPed->field_23C_group_idx = field_34_count - 1;
+                pPed->set_ped_group_id(field_34_count - 1);
                 if (pPed->get_occupation_403980() != ped_ocupation_enum::paramedic_23)
                 {
                     field_4_ped_list[field_34_count - 1]->ClearGroupAndGroupIdx_403A30();
