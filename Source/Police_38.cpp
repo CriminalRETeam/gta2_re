@@ -2215,22 +2215,11 @@ void PoliceRoadblock::Update_5757B0()
                 {
                     return;
                 }
-                Ped* field_2C4_player_ped = gGame_0x40_67E008->field_38_local_player->field_2C4_player_ped;
-
-                Fix16 fix_y = field_2C4_player_ped->get_cam_y();
-                Fix16 fix_x = field_2C4_player_ped->get_cam_x();
-
-                Fix16 dx = Fix16(field_8_x) - fix_x;
-                Fix16 dy = Fix16(field_9_y) - fix_y;
-
-                dy = Fix16::Abs(dy);
-                dx = Fix16::Abs(dx);
-
-                if (dx <= dy)
-                {
-                    dx = dy;
-                }
-                if (dx > kFpTen_6FED54)
+                Ped* pPlayerPed = gGame_0x40_67E008->field_38_local_player->field_2C4_player_ped;
+                if (Fix16::MaxAbsDistance_42A6B0(pPlayerPed->get_cam_x(),
+                                                 pPlayerPed->get_cam_y(),
+                                                 Fix16(field_8_x),
+                                                 Fix16(field_9_y)) > kFpTen_6FED54)
                 {
                     PoliceRoadblock::RemoveRoadblock_575CA0();
                     return;
