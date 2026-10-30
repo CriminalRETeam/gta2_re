@@ -58,20 +58,20 @@ DEFINE_GLOBAL_INIT(Ang16, kMaxTurnSpeed_6FE700, Ang16(48), 0x6FE700);
 DEFINE_GLOBAL_INIT(Fix16, kOne_6FE614, Fix16(1), 0x6FE614);
 DEFINE_GLOBAL_INIT(Fix16, k_instant_gang_radius_6FE634, Fix16(8), 0x6FE634);
 
-struct UnknownDebugClass
+struct DebugTest
 {
     EXPORT void DoTest_5B2640(u16 action);
     EXPORT void DoBrianTest_42D870(u16 action);
 };
-DEFINE_GLOBAL(UnknownDebugClass*, gTestObj_7044A0, 0x7044A0);
-DEFINE_GLOBAL(UnknownDebugClass*, gBrianTestObj_675F74, 0x675F74);
+DEFINE_GLOBAL(DebugTest*, gTestObj_7044A0, 0x7044A0);
+DEFINE_GLOBAL(DebugTest*, gBrianTestObj_675F74, 0x675F74);
 
 DEFINE_GLOBAL(Hud_Arrow*, gTestArrow_70416C, 0x70416C);
 DEFINE_GLOBAL(Car*, gTestArrowCar_7043F0, 0x7043F0);
 DEFINE_GLOBAL(s32, gTestTimer_7042D8, 0x7042D8);
 
 MATCH_FUNC(0x42D870)
-void UnknownDebugClass::DoBrianTest_42D870(u16 action)
+void DebugTest::DoBrianTest_42D870(u16 action)
 {
     switch (action)
     {
@@ -2985,7 +2985,7 @@ Player::~Player()
 }
 
 MATCH_FUNC(0x5B2640)
-void UnknownDebugClass::DoTest_5B2640(u16 action)
+void DebugTest::DoTest_5B2640(u16 action)
 {
     switch (action)
     {
