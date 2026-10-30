@@ -2286,7 +2286,7 @@ bool Ped::HandlePickupCollision_45DE80(Object* pPickUp)
     {
         // inc counter and remove pick up
         gGameSession_67E8E0.IncSecretTokensCollected_434A10();
-        gObject_5C_6F8F84->field_20_uncollected_tokens[pPickUp->get_field_26_420FF0()] = false;
+        gObject_5C_6F8F84->field_20_uncollected_tokens[pPickUp->GetParam_421050()] = false;
         bCollected = true;
     }
     else

@@ -222,6 +222,12 @@ class Object
         return field_26_ped_ref_idx;
     }
 
+    // 9.6f 0x421050
+    inline u8 GetParam_421050() const
+    {
+        return field_26_ped_ref_idx;
+    }
+
     // 9.6f 0x434130
     inline void SetO8Timer_434130(s16 timer)
     {
@@ -327,7 +333,7 @@ class Object
     // 9.6f 0x493090
     inline void GetConveyorDirection_493090(s8* pX, s8* pY)
     {
-        UnpackSignedNibbles_529050(get_field_26_420FF0(), pX, pY);
+        UnpackSignedNibbles_529050(GetParam_421050(), pX, pY);
     }
 
     // 9.6f 0x482BF0

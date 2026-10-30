@@ -6495,7 +6495,7 @@ bool Char::OnObjectTouched_553640(Object* pObject)
             return PhoneTouched_5535B0(pObject);
 
         case objects::door_trigger_167:
-            gDoor_4D4_67BD2C->TryOpenDoorForPed_49D370(get_ped_433A20(), pObject->get_field_26_420FF0());
+            gDoor_4D4_67BD2C->TryOpenDoorForPed_49D370(get_ped_433A20(), pObject->GetParam_421050());
             break;
 
         case objects::destructor_141:
