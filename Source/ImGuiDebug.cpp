@@ -1061,8 +1061,7 @@ void ClearGlobalArrow()
 {
     if (gpArrow)
     {
-        gpArrow->field_18_targets.field_18_primary_target.field_10_target_type = ArrowTargetType::Nothing_0;
-        gpArrow->field_18_targets.field_3C_secondary_target.field_10_target_type = ArrowTargetType::Nothing_0;
+        gpArrow->ClearTargets_476880();
     }
 }
 

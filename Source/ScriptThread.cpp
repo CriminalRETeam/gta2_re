@@ -2342,8 +2342,7 @@ void ScriptThread::SCRCMD_REMOVE_ARROW_508E80()
 
     if (pArrow != NULL)
     {
-        pArrow->field_18_targets.field_18_primary_target.field_10_target_type = ArrowTargetType::Nothing_0;
-        pArrow->field_18_targets.field_3C_secondary_target.field_10_target_type = ArrowTargetType::Nothing_0;
+        pArrow->ClearTargets_476880();
     }
     ScriptThread::Next_503620(gBasePtr_6F8070);
 }

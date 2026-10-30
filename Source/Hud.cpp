@@ -1107,8 +1107,7 @@ void Hud_Arrow_7C_Array::ClearOrphanInfoPhoneArrows_5D0F80()
                 if (field_0_array[i].field_18_targets.field_60_curr_target->field_10_target_type == ArrowTargetType::InfoPhone_5 &&
                     !IsThereAnyMissionPhoneArrowForGang_5D0F40(field_0_array[i].field_18_targets.field_10_gang_info.field_30_gang))
                 {
-                    field_0_array[i].field_18_targets.field_18_primary_target.field_10_target_type = ArrowTargetType::Nothing_0;
-                    field_0_array[i].field_18_targets.field_3C_secondary_target.field_10_target_type = ArrowTargetType::Nothing_0;
+                    field_0_array[i].ClearTargets_476880();
                 }
             }
         }
@@ -1172,8 +1171,7 @@ void Hud_Arrow_7C_Array::ReleaseAllArrows_5D10B0()
     {
         if (field_0_array[i].field_18_targets.field_10_gang_info.field_6_in_use)
         {
-            field_0_array[i].field_18_targets.field_18_primary_target.field_10_target_type = ArrowTargetType::Nothing_0;
-            field_0_array[i].field_18_targets.field_3C_secondary_target.field_10_target_type = ArrowTargetType::Nothing_0;
+            field_0_array[i].ClearTargets_476880();
 
             field_0_array[i].field_18_targets.field_10_gang_info.field_6_in_use = false;
         }

@@ -573,6 +573,13 @@ class Hud_Arrow
         field_18_targets.field_18_primary_target.SetTargetObject_476810(pObj);
     }
 
+    // 9.6f 0x476880
+    inline void ClearTargets_476880()
+    {
+        field_18_targets.field_18_primary_target.ClearTarget_476830();
+        field_18_targets.field_3C_secondary_target.ClearTarget_476830();
+    }
+
     inline void SetArrowAim_476840(Fix16 xpos, Fix16 ypos, Fix16 zpos)
     {
         ArrowTrace* pTarget = &field_18_targets.field_18_primary_target;
