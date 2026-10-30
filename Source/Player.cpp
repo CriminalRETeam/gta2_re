@@ -2530,7 +2530,7 @@ void Player::InitializePlayerState_569CB0()
     field_6BC_multipliers.InitDigitSprites_492150();
     field_64_jumping = false;
     field_18_pre_kf_weapon_kind = -2;
-    if (gScriptManager_6F8060->get_field_C1E2C_475A20())
+    if (gScriptManager_6F8060->IsLoadedFromSave_475A20())
     {
         Player::UpdateGameFromSave_56A310(&gGameSave_6F78C8.field_54_player_and_world_stats);
     }

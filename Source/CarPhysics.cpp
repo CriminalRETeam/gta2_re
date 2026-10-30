@@ -407,7 +407,7 @@ void CarPhysics::EnforceTrailerControlLimits_559B50()
 }
 
 MATCH_FUNC(0x559b90)
-void CarPhysics::set_field_A0_559B90(const s32& spin_dir)
+void CarPhysics::SetOilSpinDir_559B90(const s32& spin_dir)
 {
     field_A0_oil_spin_dir = spin_dir;
 }
@@ -421,11 +421,11 @@ void CarPhysics::SpinOutOnOil_559BA0()
         {
             if (gRng_6F6784.get_int_4F7AE0(2))
             {
-                set_field_A0_559B90(1);
+                SetOilSpinDir_559B90(1);
             }
             else
             {
-                set_field_A0_559B90(2);
+                SetOilSpinDir_559B90(2);
             }
         }
         this->field_A4_oil_spin_timer = 30;
@@ -470,7 +470,7 @@ void CarPhysics::ScarePedsOnDrivingFast_559C30()
         field_A4_oil_spin_timer--;
         if (field_A4_oil_spin_timer == 0)
         {
-            CarPhysics::set_field_A0_559B90(0);
+            CarPhysics::SetOilSpinDir_559B90(0);
         }
     }
 }
@@ -3874,7 +3874,7 @@ void CarPhysics::Init_5637A0()
     field_A9_car_model = -1;
     field_A8_hand_brake_force = 0;
     field_90_timer_since_last_move = 0;
-    set_field_A0_559B90(0);
+    SetOilSpinDir_559B90(0);
     field_A4_oil_spin_timer = 0;
     field_98_surface_type = car_surface_type::flat_surface_0;
     field_9C_block_spec = 0;

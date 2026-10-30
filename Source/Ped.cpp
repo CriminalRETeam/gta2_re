@@ -2032,9 +2032,9 @@ bool Ped::HandlePedHitByObject_45D000(Object* pObj)
         return false;
     }
 
-    if (pObj->get_field_26_420FF0())
+    if (pObj->GetPedRefIdx_420FF0())
     {
-        s32 ped_id = gPedRefTable_7F8_703398->GetPedId_420F10(pObj->get_field_26_420FF0());
+        s32 ped_id = gPedRefTable_7F8_703398->GetPedId_420F10(pObj->GetPedRefIdx_420FF0());
         if (ped_id)
         {
             pBlamedPed = gPedManager_6787BC->PedById(ped_id);

@@ -646,19 +646,19 @@ class ScriptManager
     }
 
     // 9.6f 0x475A20
-    inline bool get_field_C1E2C_475A20() const
+    inline bool IsLoadedFromSave_475A20() const
     {
         return field_C1E2C_bLoadedFromSave;
     }
 
     // 9.6f 0x475A30
-    inline bool get_field_C1E2D_475A30() const
+    inline bool IsKillFrenzyActive_475A30() const
     {
         return field_C1E2D_bKillFrenzyActive;
     }
 
     // 9.6f 0x475A40
-    inline void set_field_C1E2D_475A40(bool v)
+    inline void SetKillFrenzyActive_475A40(bool v)
     {
         field_C1E2D_bKillFrenzyActive = v;
     }
