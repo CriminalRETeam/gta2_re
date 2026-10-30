@@ -9,8 +9,6 @@ EXPORT void __stdcall ErrorMsgBox_5E4EC0(LPCSTR lpText);
 
 EXPORT LRESULT __stdcall WindowProc_5E4EE0(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam);
 
-EXPORT void __stdcall laughing_blackwell_0x1EB54_sub_5E53C0(BYTE* pEnabled);
-
 void LoadBeginSceneCBPtr();
 
 s32 __stdcall WinMain_5E53F0(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, s32 nShowCmd);
