@@ -718,8 +718,8 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
             for (i = 0; i < passengers && i < field_34_count; i++)
             {
                 Ped* pMember = field_4_ped_list[i];
-                if (pMember->field_16C_car || pMember->isDead_403B60() ||
-                    (pMember->get_occupation_403980() == ped_ocupation_enum::paramedic_23 && pMember->field_258_objective != objectives_enum::no_obj_0) || pMember->get_objective_403A80() == objectives_enum::left_behind_by_leader_8)
+                if (pMember->has_car_403B80() || pMember->isDead_403B60() ||
+                    (pMember->get_occupation_403980() == ped_ocupation_enum::paramedic_23 && pMember->get_objective_403A80() != objectives_enum::no_obj_0) || pMember->get_objective_403A80() == objectives_enum::left_behind_by_leader_8)
                 {
                     continue;
                 }
@@ -733,12 +733,12 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
 
                 if (pMember->GetInternalObjective_403A90() != objectives_enum::enter_car_as_driver_35)
                 {
-                    pMember->field_21C_bf.bPanicking = false;
+                    pMember->ClearPanicking_403960();
                     if (field_2C_ped_leader->field_168_game_object)
                     {
                         pMember->SetObjective2_463830(objectives_enum::walk_to_car_door_18);
                         pMember->set_enter_car_as_passenger_4039B0(1);
-                        pMember->set_target_to_enter_403B00(field_2C_ped_leader->field_168_game_object->field_84_target_car);
+                        pMember->set_target_to_enter_403B00(field_2C_ped_leader->field_168_game_object->Get_F84_403900());
                     }
                     else
                     {
@@ -829,11 +829,11 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
                 for (s8 j = 0; j < field_34_count; j++)
                 {
                     Ped* pOther = field_4_ped_list[j];
-                    if (pOther != pMember && pOther->field_25C_internal_objective == objectives_enum::walk_to_car_door_18 &&
-                        pMember->field_24C_target_car_door == pOther->get_target_car_door_403A60())
+                    if (pOther != pMember && pOther->GetInternalObjective_403A90() == objectives_enum::walk_to_car_door_18 &&
+                        pMember->get_target_car_door_403A60() == pOther->get_target_car_door_403A60())
                     {
                         pMember->SetObjective2_463830(objectives_enum::follow_char_9);
-                        pMember->field_14C_internal_target_ped = pOther;
+                        pMember->SetInternalTargetPed_403AE0(pOther);
                     }
                 }
                 pMember->set_target_car_door_403A70(gGroupMemberCarDoor_620838);
@@ -852,7 +852,7 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
         return;
     }
 
-    if (pLeader->field_168_game_object)
+    if (pLeader->bHasGameObject_403B70())
     {
         bool bWaiting = false;
         if (field_1_wait_for_members)
@@ -860,10 +860,10 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
             Ped* pFarthest = FindFarthestMember_4CA3F0(&distance);
             if (distance > kFpTwo_67F608 && !field_2C_ped_leader->PedTypeIs_45EDE0(ped_type::player_2))
             {
-                if (field_2C_ped_leader->get_objective_403A80() != objectives_enum::goto_area_any_means_13 && field_2C_ped_leader->field_25C_internal_objective != objectives_enum::leave_car_36)
+                if (field_2C_ped_leader->get_objective_403A80() != objectives_enum::goto_area_any_means_13 && field_2C_ped_leader->GetInternalObjective_403A90() != objectives_enum::leave_car_36)
                 {
                     field_2C_ped_leader->SetObjective2_463830(objectives_enum::follow_char_9);
-                    field_2C_ped_leader->field_14C_internal_target_ped = pFarthest;
+                    field_2C_ped_leader->SetInternalTargetPed_403AE0(pFarthest);
                     field_3C_is_leader_waiting = 1;
                 }
                 bWaiting = true;
