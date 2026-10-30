@@ -163,9 +163,9 @@ void AmbulanceService::ProcessPatientQueue_4FA500()
     }
 
     {
-        x = pPed->field_1AC_cam.x.ToInt();
-        y = pPed->field_1AC_cam.y.ToInt();
-        z = pPed->field_1AC_cam.z.ToInt();
+        x = pPed->get_cam_x().ToInt();
+        y = pPed->get_cam_y().ToInt();
+        z = pPed->get_cam_z().ToInt();
         if (!gPathFinder_6FDEF0->FindNearbyTileMatchingSlopeType_5552B0(ROAD, &x, &y, &z, false))
         {
             field_1_corpse_count--;
@@ -420,7 +420,7 @@ void AmbulanceTask::HandleObjectiveState_4FAAC0()
     {
         if (pTarget)
         {
-            if (!pTarget->field_21C_bf.bActive)
+            if (!pTarget->IsActive_433B40())
             {
                 if (gParamedicCrewPed_6F6D60->GetPedState_403990() != ped_state_1::dead_9)
                 {
@@ -503,7 +503,7 @@ void AmbulanceTask::HandleObjectiveState_4FAAC0()
                 break;
 
             case objectives_enum::no_obj_0:
-                if (gParamedicCrewPed_6F6D60->field_23C_group_idx == 99)
+                if (gParamedicCrewPed_6F6D60->IsGroupLeader_472FD0())
                 {
                     pPatient = field_10_patients.RemoveFirstPed_471320();
                     if (!pPatient)
@@ -659,7 +659,7 @@ void AmbulanceTask::HandleObjectiveState_4FAAC0()
                             pVictim->set_objective_status_403B40(objective_status::passed_1);
                         }
                         pVictim->set_health_4039A0(100);
-                        pVictim->field_21C_bf.bPanicking = false;
+                        pVictim->ClearPanicking_403960();
                         if (pVictim == field_8_leader_patient)
                         {
                             field_8_leader_patient = NULL;
@@ -681,7 +681,7 @@ void AmbulanceTask::HandleObjectiveState_4FAAC0()
             }
 
             case objectives_enum::enter_car_as_driver_35:
-                if (gParamedicCrewPed_6F6D60->field_23C_group_idx != 99)
+                if (!gParamedicCrewPed_6F6D60->IsGroupLeader_472FD0())
                 {
                     gParamedicCrewPed_6F6D60->SetObjective(objectives_enum::no_obj_0);
                     gParamedicCrewPed_6F6D60->SetObjective2_463830(objectives_enum::no_obj_0);
@@ -734,7 +734,7 @@ void AmbulanceTask::HandleObjectiveState_4FAAC0()
                         gParamedicCrewPed_6F6D60->SetObjective(objectives_enum::goto_char_on_foot_16);
                         gParamedicCrewPed_6F6D60->set_objective_target_ped_403AC0(pPatient);
                         field_14_patient_count--;
-                        if (gParamedicCrewPed_6F6D60->field_23C_group_idx == 99)
+                        if (gParamedicCrewPed_6F6D60->IsGroupLeader_472FD0())
                         {
                             field_8_leader_patient = pPatient;
                         }
