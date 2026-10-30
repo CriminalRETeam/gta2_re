@@ -2298,7 +2298,7 @@ bool Ped::HandlePickupCollision_45DE80(Object* pPickUp)
 
         if (model <= 227)
         {
-            bCollected = AddWeaponWithAmmo_45DD30(model - 200, pPickUp->get_field_26_420FF0());
+            bCollected = AddWeaponWithAmmo_45DD30(model - 200, pPickUp->GetAmmo_4340A0());
         }
         else
         {

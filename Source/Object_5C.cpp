@@ -3659,7 +3659,7 @@ void Object_5C::SaveObjects_52A500(SavedObjectData* pData)
             pData->field_0_obj_x[1][saved_count].field_0_value = pObj->GetY_4340E0();
             pData->field_0_obj_x[2][saved_count].field_0_value = pObj->GetZ_4340F0();
             pData->field_F0_model[saved_count] = pObj->field_18_model;
-            pData->field_118_ped_ref_idx[saved_count] = pObj->field_26_ped_ref_idx;
+            pData->field_118_ped_ref_idx[saved_count] = pObj->GetAmmo_4340A0();
             saved_count++;
             if (saved_count >= 20)
             {

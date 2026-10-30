@@ -228,6 +228,12 @@ class Object
         return field_26_ped_ref_idx;
     }
 
+    // 9.6f 0x4340A0
+    inline u8 GetAmmo_4340A0() const
+    {
+        return field_26_ped_ref_idx;
+    }
+
     // 9.6f 0x434130
     inline void SetO8Timer_434130(s16 timer)
     {
