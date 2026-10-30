@@ -936,7 +936,7 @@ void PedGroup::UpdateFormation_4CA4B0()
         for (u8 i = 0; i < field_34_count; i++)
         {
             Ped* pIter = field_4_ped_list[i];
-            if (pIter->field_25C_internal_objective != objectives_enum::follow_char_9)
+            if (pIter->GetInternalObjective_403A90() != objectives_enum::follow_char_9)
             {
                 if (pIter->field_168_game_object)
                 {
@@ -947,42 +947,42 @@ void PedGroup::UpdateFormation_4CA4B0()
             {
                 if (i == 0)
                 {
-                    pIter->field_14C_internal_target_ped = field_2C_ped_leader;
+                    pIter->SetInternalTargetPed_403AE0(field_2C_ped_leader);
                 }
                 else
                 {
-                    pIter->field_14C_internal_target_ped = field_4_ped_list[i - 1];
+                    pIter->SetInternalTargetPed_403AE0(field_4_ped_list[i - 1]);
                 }
             }
-            else if (pIter->field_278_ped_state_1 != ped_state_1::dead_9)
+            else if (!pIter->isDead_403B60())
             {
                 if (field_2C_ped_leader->GetPedVelocity_45C920() != kFpZero_67F610)
                 {
                     switch (i)
                     {
                         case 3u:
-                            pIter->field_14C_internal_target_ped = this->field_4_ped_list[0];
+                            pIter->SetInternalTargetPed_403AE0(this->field_4_ped_list[0]);
                             break;
                         case 4u:
-                            pIter->field_14C_internal_target_ped = this->field_4_ped_list[1];
+                            pIter->SetInternalTargetPed_403AE0(this->field_4_ped_list[1]);
                             break;
                         case 5u:
-                            pIter->field_14C_internal_target_ped = this->field_4_ped_list[2];
+                            pIter->SetInternalTargetPed_403AE0(this->field_4_ped_list[2]);
                             break;
                         case 6u:
-                            pIter->field_14C_internal_target_ped = this->field_4_ped_list[3];
+                            pIter->SetInternalTargetPed_403AE0(this->field_4_ped_list[3]);
                             break;
                         case 7u:
-                            pIter->field_14C_internal_target_ped = this->field_4_ped_list[4];
+                            pIter->SetInternalTargetPed_403AE0(this->field_4_ped_list[4]);
                             break;
                         default:
-                            pIter->field_14C_internal_target_ped = field_2C_ped_leader;
+                            pIter->SetInternalTargetPed_403AE0(field_2C_ped_leader);
                             break;
                     }
                 }
                 else
                 {
-                    pIter->field_14C_internal_target_ped = field_2C_ped_leader;
+                    pIter->SetInternalTargetPed_403AE0(field_2C_ped_leader);
                 }
             }
             pIter->ClearAttacking();
