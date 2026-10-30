@@ -967,7 +967,7 @@ enum Gta2Error
     FtellError = 13u,
     FseekError = 14u,
     FileReadFailure = 15u,
-    FreeloaderEpisodeUnknown = 16u,
+    FileOpenError = 16u,
     FileCloseError = 17u,
     FileBiggerThanBuffer = 18u,
     WritingZeroBytesToFile = 19u,

@@ -252,7 +252,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             sprintf(gTmpBuffer_67C598, "Read failure in file: %s", gGlobalFileName_67C6AC);
             break;
 
-        case Gta2Error::FreeloaderEpisodeUnknown:
+        case Gta2Error::FileOpenError:
             sprintf(gTmpBuffer_67C598,
                     "Install Next freeloader episode please. [Temp message].Unable to open file : %s",
                     gGlobalFileName_67C6AC);
@@ -2275,7 +2275,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
 MATCH_FUNC(0x4A38C0)
 EXPORT void FatalError_4A38C0(s32 Code, const char_type* pSourceFile, s32 lineNo, ...)
 {
-    if (Code == Gta2Error::FreeloaderEpisodeUnknown)
+    if (Code == Gta2Error::FileOpenError)
     {
         const char_type destroyed = bDestroyed_6F5B70;
         if (!destroyed)
@@ -2284,7 +2284,7 @@ EXPORT void FatalError_4A38C0(s32 Code, const char_type* pSourceFile, s32 lineNo
             GBH_Graphis_DMA_Video_Free_5D9830();
             // 16 was using esi instead of push 10h without the 0x6F5B70 bool
             // being cached in both branches of the if/else
-            FatalError_4A07C0(Gta2Error::FreeloaderEpisodeUnknown, pSourceFile, lineNo);
+            FatalError_4A07C0(Gta2Error::FileOpenError, pSourceFile, lineNo);
         }
         DestroyWindow(gHwnd_707F04);
         exit(16);

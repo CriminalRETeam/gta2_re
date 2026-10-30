@@ -162,7 +162,7 @@ bool Object::IsSpriteOwnerPed_522250(Sprite* pSprite) const
 {
     if (UsesParamAsPedRef_421080())
     {
-        u8 ped_ref_idx = this->get_field_26_420FF0();
+        u8 ped_ref_idx = this->GetPedRefIdx_420FF0();
         if (ped_ref_idx > 0)
         {
             if (pSprite)
@@ -1733,9 +1733,9 @@ void Object::UpdatePhysicsAndMovement_525B80()
                 field_10_obj_3c->field_28_next_definition_timer--;
                 if (field_10_obj_3c->field_28_next_definition_timer == 0)
                 {
-                    if (get_field_26_420FF0() > 0)
+                    if (GetPedRefIdx_420FF0() > 0)
                     {
-                        s32 ped_id = gPedRefTable_7F8_703398->GetPedId_420F10(get_field_26_420FF0());
+                        s32 ped_id = gPedRefTable_7F8_703398->GetPedId_420F10(GetPedRefIdx_420FF0());
                         if (ped_id)
                         {
                             Ped* pPed = gPedManager_6787BC->PedById(ped_id);
@@ -1757,7 +1757,7 @@ void Object::UpdatePhysicsAndMovement_525B80()
             TickObject_5283C0(field_8_definition->field_38_impact_definition_idx);
             if (UsesParamAsPedRef_421080())
             {
-                if (get_field_26_420FF0() > 0)
+                if (GetPedRefIdx_420FF0() > 0)
                 {
                     gPedRefTable_7F8_703398->DecrementRefCount_59B0D0(field_26_ped_ref_idx);
                     this->field_26_ped_ref_idx = 0;
@@ -1824,7 +1824,7 @@ void Object::UpdatePhysicsMovementAndAnimation_525D90()
                 {
                     if (UsesParamAsPedRef_421080())
                     {
-                        // 9.6f: Object::get_field_26_420FF0 (inlined, using it changes the code)
+                        // 9.6f: Object::GetPedRefIdx_420FF0 (inlined, using it changes the code)
                         if (field_26_ped_ref_idx > 0)
                         {
                             gPedRefTable_7F8_703398->DecrementRefCount_59B0D0(field_26_ped_ref_idx);
@@ -1959,7 +1959,7 @@ void Object::TriggerCarExplosionIfApplicable_526790(Sprite* pSprite)
                 {
                     if (this->field_18_model == objects::car_bomb_132)
                     {
-                        s32 ped_id = gPedRefTable_7F8_703398->GetPedId_420F10(get_field_26_420FF0());
+                        s32 ped_id = gPedRefTable_7F8_703398->GetPedId_420F10(GetPedRefIdx_420FF0());
                         if (ped_id)
                         {
                             pCar->field_70_exploder_ped_id = ped_id;
@@ -2611,9 +2611,9 @@ bool Object::HandleObjectHit_528990(Sprite* pSprite)
 
     Object* pObject = pSprite->AsObject2C_40FEC0();
 
-    if (gPedRefTable_7F8_703398->GetPedId_420F10(get_field_26_420FF0()))
+    if (gPedRefTable_7F8_703398->GetPedId_420F10(GetPedRefIdx_420FF0()))
     {
-        Ped* pPed = gPedManager_6787BC->PedById(gPedRefTable_7F8_703398->GetPedId_420F10(get_field_26_420FF0()));
+        Ped* pPed = gPedManager_6787BC->PedById(gPedRefTable_7F8_703398->GetPedId_420F10(GetPedRefIdx_420FF0()));
         if (pPed)
         {
             pPed->ProcessWeaponHitResponse_46FE20(pObject);
@@ -2651,10 +2651,10 @@ void Object::ProcessObjectExplosionImpact_528A20(Object* pObj)
                                                                               this->field_4_sprite->field_1C_zpos,
                                                                               kZeroAng_6F8F68,
                                                                               explosion_kind,
-                                                                              gPedRefTable_7F8_703398->GetPedId_420F10(get_field_26_420FF0()));
+                                                                              gPedRefTable_7F8_703398->GetPedId_420F10(GetPedRefIdx_420FF0()));
             if (pExplosion)
             {
-                pExplosion->SetDamageOwner_529080(get_field_26_420FF0());
+                pExplosion->SetDamageOwner_529080(GetPedRefIdx_420FF0());
             }
             break;
         }
@@ -2676,7 +2676,7 @@ void Object::ProcessObjectExplosionImpact_528A20(Object* pObj)
     }
 
     Ped* pPed;
-    s32 ped_id = gPedRefTable_7F8_703398->GetPedId_420F10(get_field_26_420FF0());
+    s32 ped_id = gPedRefTable_7F8_703398->GetPedId_420F10(GetPedRefIdx_420FF0());
     if (ped_id)
     {
         pPed = gPedManager_6787BC->PedById(ped_id);
@@ -2710,10 +2710,10 @@ void Object::HandleImpactNoSprite_528BA0()
                                                                               field_4_sprite->field_1C_zpos,
                                                                               kZeroAng_6F8F68,
                                                                               GetExplosionTypeForWallSide_528E00(gObject2C_WallHitSide_6F8F90),
-                                                                              gPedRefTable_7F8_703398->GetPedId_420F10(get_field_26_420FF0()));
+                                                                              gPedRefTable_7F8_703398->GetPedId_420F10(GetPedRefIdx_420FF0()));
             if (pExplosion)
             {
-                pExplosion->SetDamageOwner_529080(get_field_26_420FF0());
+                pExplosion->SetDamageOwner_529080(GetPedRefIdx_420FF0());
             }
             // Fall through
         }
@@ -2744,7 +2744,7 @@ void Object::HandleImpactNoSprite_528BA0()
             return;
     }
 
-    const s32 ped_id = gPedRefTable_7F8_703398->GetPedId_420F10(get_field_26_420FF0());
+    const s32 ped_id = gPedRefTable_7F8_703398->GetPedId_420F10(GetPedRefIdx_420FF0());
     if (ped_id)
     {
         Ped* pPed = gPedManager_6787BC->PedById(ped_id);
@@ -3085,7 +3085,7 @@ void Object::SetDefaultWeaponAmmo_5292D0()
 
     if (weapon_kind <= 27)
     {
-        set_field_26(gWeapon_8_707018->get_defalt_ammo_5E3E80(weapon_kind));
+        SetParam_447E90(gWeapon_8_707018->get_defalt_ammo_5E3E80(weapon_kind));
     }
 }
 
@@ -3105,7 +3105,7 @@ void Object_5C::TrimSpriteList_529300()
                                                   pSprite->field_1C_zpos,
                                                   kZeroAng_6F8F68,
                                                   explosion_type::small_18,
-                                                  gPedRefTable_7F8_703398->GetPedId_420F10(pObject->get_field_26_420FF0()));
+                                                  gPedRefTable_7F8_703398->GetPedId_420F10(pObject->GetPedRefIdx_420FF0()));
             }
         }
         pObject->Dealloc_5291B0();
@@ -3209,16 +3209,16 @@ MATCH_FUNC(0x5297f0)
 void Object_5C::CreateDiagonalWallObjects_5297F0()
 {
     field_0_diagonal_wall_ang315 = Object_5C::NewPhysicsObj_5299B0(objects::diagonal_wall_collision_obj_166, 0, 0, 0, kAng315_6F8D8C);
-    field_0_diagonal_wall_ang315->set_field_26(45);
+    field_0_diagonal_wall_ang315->SetParam_447E90(45);
 
     field_4_diagonal_wall_ang135 = Object_5C::NewPhysicsObj_5299B0(objects::diagonal_wall_collision_obj_166, 0, 0, 0, kAng135_6F8D80);
-    field_4_diagonal_wall_ang135->set_field_26(48);
+    field_4_diagonal_wall_ang135->SetParam_447E90(48);
 
     field_8_diagonal_wall_ang225 = Object_5C::NewPhysicsObj_5299B0(objects::diagonal_wall_collision_obj_166, 0, 0, 0, kAng225_6F8D54);
-    field_8_diagonal_wall_ang225->set_field_26(46);
+    field_8_diagonal_wall_ang225->SetParam_447E90(46);
 
     field_C_diagonal_wall_ang45 = Object_5C::NewPhysicsObj_5299B0(objects::diagonal_wall_collision_obj_166, 0, 0, 0, kAng45_6F8CD0);
-    field_C_diagonal_wall_ang45->set_field_26(47);
+    field_C_diagonal_wall_ang45->SetParam_447E90(47);
 }
 
 MATCH_FUNC(0x5298e0)
@@ -3279,7 +3279,7 @@ Object* Object_5C::NewWithPedRefIdx_5299F0(s32 object_type, u32 ped_ref_idx, Fix
     Object* pNewObj = CreateObject_529C00(object_type, xpos, ypos, zpos, kZeroAng_6F8F68, false);
     if (pNewObj)
     {
-        pNewObj->set_field_26(ped_ref_idx);
+        pNewObj->SetParam_447E90(ped_ref_idx);
         if (object_type == objects::sound_object_type_2_279)
         {
             pNewObj->RequestRemoval_5290A0();
@@ -3506,7 +3506,7 @@ Object* Object_5C::CreateObject_529C00(s32 object_type, Fix16 xpos, Fix16 ypos, 
     {
         if (pNewObject->field_18_model == objects::secret_token_266)
         {
-            pNewObject->set_field_26(field_54_uncollected_token_index);
+            pNewObject->SetParam_447E90(field_54_uncollected_token_index);
             field_54_uncollected_token_index++;
         }
     }
@@ -3659,7 +3659,7 @@ void Object_5C::SaveObjects_52A500(SavedObjectData* pData)
             pData->field_0_obj_x[1][saved_count].field_0_value = pObj->GetY_4340E0();
             pData->field_0_obj_x[2][saved_count].field_0_value = pObj->GetZ_4340F0();
             pData->field_F0_model[saved_count] = pObj->field_18_model;
-            pData->field_118_ped_ref_idx[saved_count] = pObj->GetAmmo_4340A0();
+            pData->field_118_pickup_ammo[saved_count] = pObj->GetAmmo_4340A0();
             saved_count++;
             if (saved_count >= 20)
             {
@@ -3681,7 +3681,7 @@ void Object_5C::RestoreObjects_52A590(SavedObjectData* pData)
                                                    pData->field_0_obj_x[1][i].field_0_value,
                                                    pData->field_0_obj_x[2][i].field_0_value,
                                                    kZeroAng_6F8F68);
-            pNewObj->set_field_26(pData->field_118_ped_ref_idx[i]);
+            pNewObj->SetParam_447E90(pData->field_118_pickup_ammo[i]);
         }
     }
 

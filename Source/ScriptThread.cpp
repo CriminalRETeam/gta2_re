@@ -399,17 +399,17 @@ void ScriptThread::SCRCMD_OBJ_DECSET_5038D0(SCR_OBJ_DATA* pCmd, SCR_POINTER* pPo
 
         if (pPointer->field_8_obj->IsStaticCollisionCheck_475A70())
         {
-            pPointer->field_8_obj->set_field_26(pCmd->field_1C_value_shop_type);
+            pPointer->field_8_obj->SetParam_447E90(pCmd->field_1C_value_shop_type);
         }
         else if (pObj = pPointer->field_8_obj, pObj->IsPickup_421060())
         {
-            pObj->set_field_26(pCmd->field_1C_value_shop_type);
+            pObj->SetParam_447E90(pCmd->field_1C_value_shop_type);
         }
         else
         {
             if (pPointer->field_8_obj->IsShop_475A60())
             {
-                pPointer->field_8_obj->set_field_26(pCmd->field_1C_value_shop_type);
+                pPointer->field_8_obj->SetParam_447E90(pCmd->field_1C_value_shop_type);
             }
         }
     }
@@ -423,7 +423,7 @@ void ScriptThread::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
     if (pPlayer)
     {
         Ped* pPed;
-        if (gScriptManager_6F8060->get_field_C1E2C_475A20())
+        if (gScriptManager_6F8060->IsLoadedFromSave_475A20())
         {
             Fix16 saved_y = kFpOneAndHalf_6F76DC + gGameSave_6F78C8.field_54_player_and_world_stats.field_4_y.GetFloorValue();
             Fix16 saved_x = kFpHalf_6F75F0 + gGameSave_6F78C8.field_54_player_and_world_stats.field_0_x.GetFloorValue();
@@ -455,7 +455,7 @@ void ScriptThread::SCRCMD_PLAYER_PED_503A20(SCR_PLAYER_PED* pCmd)
         if (pPed != NULL)
         {
             pPed->SetPedType_403920(ped_type::player_2);
-            if (!gScriptManager_6F8060->get_field_C1E2C_475A20())
+            if (!gScriptManager_6F8060->IsLoadedFromSave_475A20())
             {
                 pPed->set_health_4039A0(100);
             }
@@ -950,22 +950,22 @@ void ScriptThread::SCRCMD_DOOR_DECLARE_D1_S1_504970(SCR_DOOR_DATA_DEC* pCmd)
     switch (pCmd->field_11_open_type)
     {
         case SCR_DOOR_OPENTYPES::any_player:
-            pCmd->field_8_door->set_field_20(door_open_type::any_player);
+            pCmd->field_8_door->SetOpenType_476990(door_open_type::any_player);
             break;
         case SCR_DOOR_OPENTYPES::any_car:
-            pCmd->field_8_door->set_field_20(door_open_type::any_car);
+            pCmd->field_8_door->SetOpenType_476990(door_open_type::any_car);
             break;
         case SCR_DOOR_OPENTYPES::none:
-            pCmd->field_8_door->set_field_20(door_open_type::none);
+            pCmd->field_8_door->SetOpenType_476990(door_open_type::none);
             break;
         case SCR_DOOR_OPENTYPES::one_car:
-            pCmd->field_8_door->set_field_20(door_open_type::one_car);
+            pCmd->field_8_door->SetOpenType_476990(door_open_type::one_car);
             break;
         case SCR_DOOR_OPENTYPES::one_char_on_foot:
-            pCmd->field_8_door->set_field_20(door_open_type::one_char_on_foot);
+            pCmd->field_8_door->SetOpenType_476990(door_open_type::one_char_on_foot);
             break;
         case SCR_DOOR_OPENTYPES::any_player_one_car:
-            pCmd->field_8_door->set_field_20(door_open_type::any_player_one_car);
+            pCmd->field_8_door->SetOpenType_476990(door_open_type::any_player_one_car);
             break;
     }
 
@@ -1072,10 +1072,10 @@ void ScriptThread::SCRCMD_DOOR_DECLARE_D2_S2_504B80(SCR_DOOR_DATA_DEC* pCmd)
     switch (pCmd->field_11_open_type)
     {
         case SCR_DOOR_OPENTYPES::any_player:
-            pCmd->field_8_door->set_field_20(door_open_type::any_player);
+            pCmd->field_8_door->SetOpenType_476990(door_open_type::any_player);
             break;
         case SCR_DOOR_OPENTYPES::any_car:
-            pCmd->field_8_door->set_field_20(door_open_type::any_car);
+            pCmd->field_8_door->SetOpenType_476990(door_open_type::any_car);
             break;
         case SCR_DOOR_OPENTYPES::one_car:
         case SCR_DOOR_OPENTYPES::any_player_one_car:
@@ -1106,7 +1106,7 @@ void ScriptThread::SCRCMD_DOOR_DECLARE_D2_S2_504B80(SCR_DOOR_DATA_DEC* pCmd)
         }
         break;
         case SCR_DOOR_OPENTYPES::none:
-            pCmd->field_8_door->set_field_20(door_open_type::none);
+            pCmd->field_8_door->SetOpenType_476990(door_open_type::none);
             break;
     }
 
@@ -6627,14 +6627,14 @@ MATCH_FUNC(0x510100)
 void ScriptThread::SCRCMD_START_BASIC_KF_510100() // START_BASIC_KF_TEMPLATE
 {
     SCR_START_BASIC_KF_TEMPLATE* pCmd = reinterpret_cast<SCR_START_BASIC_KF_TEMPLATE*>(gBasePtr_6F8070);
-    if (gScriptManager_6F8060->get_field_C1E2D_475A30())
+    if (gScriptManager_6F8060->IsKillFrenzyActive_475A30())
     {
         ScriptThread::EnableThread_50A9E0(pCmd->field_8_triggername);
         ScriptThread::SCRCMD_RETURN_506B80();
     }
     else
     {
-        gScriptManager_6F8060->set_field_C1E2D_475A40(true);
+        gScriptManager_6F8060->SetKillFrenzyActive_475A40(true);
         ScriptThread::DisableThread_505790(pCmd->field_8_triggername);
         gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("kfstart"), hud_message_priority::important_3); // KILL FRENZY!
         gRoot_sound_66B038.PlayVoice_40F090(voice_line::killfrenzy_12); // KILL FRENZY voice
@@ -6719,7 +6719,7 @@ void ScriptThread::SCRCMD_DO_BASIC_KF_510280()
             }
             pTimerIDPointer->field_8_index = 0;
             pPlayerPedCmdPointer->field_8_char->field_15C_player->ClearKFWeapon_5647D0();
-            gScriptManager_6F8060->set_field_C1E2D_475A40(false);
+            gScriptManager_6F8060->SetKillFrenzyActive_475A40(false);
             if (ScriptThread::GetBonusResult_505EA0(pCmd->field_8_bonusname) == -3)
             {
                 gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("kfpass"), hud_message_priority::important_3);

@@ -136,7 +136,7 @@ class CarPhysics
     EXPORT void UpdateTrailerPhysicsFromTowingCar_559A40();
     EXPORT void UpdateTrailerAlignment_559B40();
     EXPORT void EnforceTrailerControlLimits_559B50();
-    EXPORT void set_field_A0_559B90(const s32& spin_dir);
+    EXPORT void SetOilSpinDir_559B90(const s32& spin_dir);
     EXPORT void SpinOutOnOil_559BA0();
     EXPORT void ScarePedsOnDrivingFast_559C30();
     EXPORT void ApplyForcedSteering_559DD0();

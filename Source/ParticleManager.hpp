@@ -23,7 +23,7 @@ class ParticleManager
     EXPORT void EmitWaterSplash_53F060(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, bool bRandomRot);
     EXPORT void SpawnParticleSprite_5405D0(Sprite* pSprite);
     EXPORT void EmitElectricArcParticle(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 ang);
-    EXPORT void SpawnCigaretteSmokePuff_5406B0(Sprite* pSprite, char_type bUnknown);
+    EXPORT void SpawnCigaretteSmokePuff_5406B0(Sprite* pSprite, char_type bSmokeSource);
     EXPORT ParticleManager();
     EXPORT ~ParticleManager();
 

@@ -75,12 +75,12 @@ enum
 // this struct changes MapRenderer and Draw code (declaration count, docs/matching_quirks.md).
 struct car_rng_list
 {
-    car_rng_list(Fix16 unk)
+    car_rng_list(Fix16 constant)
     {
-        this->unknown = unk;
+        this->separate_constant = constant;
     }
     
-    Fix16 unknown;
+    Fix16 separate_constant;
     s32 values[256];
 };
 

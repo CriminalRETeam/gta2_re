@@ -4879,7 +4879,7 @@ root with `VC6_TOOLS`-free `patch_c2.X` set to a scratch dir, see `Scripts/regal
     then `if (user_value > 0) win else if (< 0) lose else draw`: VC6 threads the constants into the two jumps,
     tail-merges the three `sub %edi,%eax` and gives the `jge draw; jmp lose+7` over the edge reload block. Same code
     as the goto version (0 lines), so kept as the readable form.
-  - The last FatalError pushes 0xA5 = `Gta2Error::NoValidMenuOptions`, not `FreeloaderEpisodeUnknown` (0x10): a 3-byte
+  - The last FatalError pushes 0xA5 = `Gta2Error::NoValidMenuOptions`, not `FileOpenError` (0x10): a 3-byte
     `push` difference that showed up only as the final `jne 0x925/0x922` offsets. 16 -> 8.
   - Left (8): `saved_main_stage`/`saved_is_bonus` swapped (0x2A/0x2B, both 1 byte, 2 refs). The frame list
     (slotlog, `Scripts/regalloc/README.md`) orders equal-count symbols by which one reached its final count first in

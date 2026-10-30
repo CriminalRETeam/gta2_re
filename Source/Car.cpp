@@ -4026,9 +4026,9 @@ bool Car::HandleCarHitByObject_43F130(Object* pObj)
     Fix16_Point offset;
     Fix16_Point impact_vec; // never set: 265 and default pass it uninitialised
 
-    if (pObj->get_field_26_420FF0())
+    if (pObj->GetPedRefIdx_420FF0())
     {
-        s32 pedId = gPedRefTable_7F8_703398->GetPedId_420F10(pObj->get_field_26_420FF0());
+        s32 pedId = gPedRefTable_7F8_703398->GetPedId_420F10(pObj->GetPedRefIdx_420FF0());
         pFoundPed = pedId ? gPedManager_6787BC->PedById(pedId) : NULL;
         if (pFoundPed)
         {
@@ -4043,7 +4043,7 @@ bool Car::HandleCarHitByObject_43F130(Object* pObj)
         }
     }
 
-    if (field_54_driver && pObj->field_18_model != objects::mine_10 && pObj->get_field_26_420FF0() == field_54_driver->get_ped_ref_idx_420B50())
+    if (field_54_driver && pObj->field_18_model != objects::mine_10 && pObj->GetPedRefIdx_420FF0() == field_54_driver->get_ped_ref_idx_420B50())
     {
         return false;
     }
@@ -6257,7 +6257,7 @@ void Car::HandleShops_443C40(Object* pObj)
 {
     if (HasPlayerDriver_4215C0() && pObj->field_18_model == objects::car_shop_130)
     {
-        const u8 idx = pObj->get_field_26_420FF0();
+        const u8 idx = pObj->GetPedRefIdx_420FF0();
         if (idx >= car_shop_type::car_smg_250 && (idx <= car_shop_type::mines_252 || idx == car_shop_type::car_bomb_254))
         {
             Car::BuyCarWeapon_4438C0(GetDriverPlayer_421870()->ObjectTypeToWeaponType_443CB0(idx));

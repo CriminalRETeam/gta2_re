@@ -1820,8 +1820,8 @@ void Char::HandleObjectCollision_548840(Object* pObj)
 
     s32 phi_type = pObj->field_8_definition->field_34_behavior_type;
 
-    if (!pObj->UsesParamAsPedRef_421080() || (pObj->get_field_26_420FF0()) == 0 ||
-        pObj->get_field_26_420FF0() != this->field_7C_pPed->field_267_ped_ref_idx)
+    if (!pObj->UsesParamAsPedRef_421080() || (pObj->GetPedRefIdx_420FF0()) == 0 ||
+        pObj->GetPedRefIdx_420FF0() != this->field_7C_pPed->field_267_ped_ref_idx)
     {
         if (!pObj->CanBePushed_482C90())
         {
@@ -6517,7 +6517,7 @@ bool Char::OnObjectTouched_553640(Object* pObject)
 MATCH_FUNC(0x5537F0)
 bool Char::HandlePedObjectHit_5537F0(Object* pObject)
 {
-    const u8 idx = pObject->get_field_26_420FF0();
+    const u8 idx = pObject->GetPedRefIdx_420FF0();
     const s32 pedId = gPedRefTable_7F8_703398->GetPedId_420F10(idx);
     if (pObject->field_18_model == objects::rocket_bullet_128 || pObject->field_18_model == objects::moving_molotov_138 || pObject->field_18_model == objects::mine_10 && !gCharB4_HitByMine_6FDB59)
     {
@@ -6533,7 +6533,7 @@ bool Char::HandlePedObjectHit_5537F0(Object* pObject)
         }
     }
 
-    if (pObject->get_field_26_420FF0() != field_7C_pPed->get_ped_ref_idx_420B50())
+    if (pObject->GetPedRefIdx_420FF0() != field_7C_pPed->get_ped_ref_idx_420B50())
     {
         return field_7C_pPed->HandlePedHitByObject_45D000(pObject);
     }

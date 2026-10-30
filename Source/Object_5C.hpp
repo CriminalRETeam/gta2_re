@@ -211,13 +211,13 @@ class Object
     }
 
     // Inlined on version 9.6f 0x447e90 (also 9.6f copies 0x45E0A0 and 0x482C00)
-    inline void set_field_26(u8 v)
+    inline void SetParam_447E90(u8 v)
     {
         field_26_ped_ref_idx = v;
     }
 
     // Inlined on version 9.6f 0x420FF0
-    inline u8 get_field_26_420FF0() const
+    inline u8 GetPedRefIdx_420FF0() const
     {
         return field_26_ped_ref_idx;
     }

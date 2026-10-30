@@ -537,7 +537,7 @@ struct SavedObjectData
 {
     SavedFix16 field_0_obj_x[3][20];
     u16 field_F0_model[20];
-    u8 field_118_ped_ref_idx[20];
+    u8 field_118_pickup_ammo[20];
     char_type field_12C_obj_5C_bUnCollectedTokens[50];
     s16 field_15E_pad;
     s32 field_160_secret_tokens_collected;
@@ -646,19 +646,19 @@ class ScriptManager
     }
 
     // 9.6f 0x475A20
-    inline bool get_field_C1E2C_475A20() const
+    inline bool IsLoadedFromSave_475A20() const
     {
         return field_C1E2C_bLoadedFromSave;
     }
 
     // 9.6f 0x475A30
-    inline bool get_field_C1E2D_475A30() const
+    inline bool IsKillFrenzyActive_475A30() const
     {
         return field_C1E2D_bKillFrenzyActive;
     }
 
     // 9.6f 0x475A40
-    inline void set_field_C1E2D_475A40(bool v)
+    inline void SetKillFrenzyActive_475A40(bool v)
     {
         field_C1E2D_bKillFrenzyActive = v;
     }

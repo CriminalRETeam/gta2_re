@@ -3221,7 +3221,7 @@ void Frontend::Load_tga_4B6520(u16 idx)
     FILE* hFile = crt::fopen(tgaArray_61F0C8[idx].field_0_tga_name, "rb");
     if (!hFile)
     {
-        FatalError_4A38C0(Gta2Error::FreeloaderEpisodeUnknown, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 6516);
+        FatalError_4A38C0(Gta2Error::FileOpenError, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 6516);
     }
 
     void* pAlloc = malloc(tgaArray_61F0C8[idx].field_80_len);
