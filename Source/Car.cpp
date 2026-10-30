@@ -4319,7 +4319,7 @@ void Car::ClearDriver_4407F0()
         {
             if (pPlayer->IsUser_41DC70())
             {
-                gHud_2B00_706620->field_0_car_name.field_0_display_time = 0;
+                gHud_2B00_706620->HideCarName_4219F0();
             }
             pPlayer->UnloadCarWeapons_564C00();
         }
@@ -5884,7 +5884,7 @@ bool Car::PoolUpdate()
         ServicePhysics_442190();
     }
 
-    if (IsFlagSet_411930(car_flag::Crushing))
+    if (IsCrushing_414F70())
     {
         gCrushedCarSprites_67737C.PropagateMaxZLayer_5A72B0(this->field_50_car_sprite, 1);
         gCrushedCarSprites_67737C.ClearList_5A6E10();

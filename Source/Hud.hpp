@@ -721,6 +721,13 @@ class Hud
     EXPORT void CalcCarNameTextWidth_5D5190();
     EXPORT void ShowCarName_5D5240(const wchar_t* pName);
     EXPORT void UpdateCarName_5D5350();
+
+    // 9.6f 0x4219F0
+    void HideCarName_4219F0()
+    {
+        field_0_car_name.field_0_display_time = 0;
+    }
+
     EXPORT void DrawGui_5D6860();
     EXPORT void UpdatePauseSection_5D69C0();
     EXPORT void UpdateHUD_5D69D0();
