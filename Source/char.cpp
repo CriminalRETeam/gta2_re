@@ -711,9 +711,9 @@ void Char::UpdateAnimState_546360()
             break;
     }
 
-    if (field_7C_pPed->field_244_remap > -1)
+    if (field_7C_pPed->get_remap_433BA0() > -1)
     {
-        field_80_sprite_ptr->SetRemap(static_cast<u8>(field_7C_pPed->field_244_remap));
+        field_80_sprite_ptr->SetRemap(static_cast<u8>(field_7C_pPed->get_remap_433BA0()));
     }
     else
     {

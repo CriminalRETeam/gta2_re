@@ -804,7 +804,7 @@ Ped* PedManager::SpawnPedAt(Fix16 xpos, Fix16 ypos, Fix16 zpos, u8 remap, Ang16 
     pPed->SetRotation_433C00(rotation);
     pPed->set_remap_433B90(remap);
 
-    pPed->SetRemap_433C10(remap);
+    pPed->SetRemap_433C10(pPed->get_remap_433BA0());
     pPed->field_134_rotation = rotation;
     pPed->field_288_threat_search = threat_search_enum::area_2;
     pPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
