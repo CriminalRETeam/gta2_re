@@ -1829,7 +1829,7 @@ void sound_obj::Tank_415190(Sound_Params* pParams)
 {
 
     Car* pCar = pParams->field_0_pObj->field_8_car_bc_ptr;
-    if (pCar->field_9C_engine_status == car_engine_status::on_3 && pCar->IsCrushing_414F70())
+    if (pCar->IsEngineOn_4118C0() && pCar->IsCrushing_414F70())
     {
         if (CalculateDistance_419020(Fix16(921600, 0)))
         {
