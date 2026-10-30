@@ -439,7 +439,7 @@ void PedGroup::PromoteMemberToLeader_4C9680(u8 idx)
     field_4_ped_list[idx]->field_174_pWeapon = memberWeapon2;
 
     Ped* pMember = field_4_ped_list[idx];
-    if (pMember->field_168_game_object && pMember->field_240_occupation == ped_ocupation_enum::paramedic_23)
+    if (pMember->field_168_game_object && pMember->get_occupation_403980() == ped_ocupation_enum::paramedic_23)
     {
         pMember->field_168_game_object->field_7C_pPed = pMember;
         field_4_ped_list[idx]->set_enter_car_as_passenger_4039B0(1);
