@@ -1132,7 +1132,7 @@ directly in the first check keeps the original jump target (`Car::CanCarCollideW
 
 **Reading a pointer through a different expression forces a reload.** `field_C_carriages[0]->field_54_driver` instead of a local `pBusCar->field_54_driver` stops VC6 reusing the loaded field (579CA0).
 
-**Values held in registers going into a shared tail were computed per case.** When each case ends with `add %edi,%edx; jmp tail`, do the computation inside each case (`Ped::CalcApproachPointNearTargetPed_4645B0`). Same for cases that each divide and then share one multiply: `ratio = v / max; break;` per case into a function-scope local, one multiply after the switch. VC6 tail-merges the divisions and gives `mov eax,ecx; mov global,eax; imul ecx` instead of `imull mem` (`sound_obj::Type6_413A10`).
+**Values held in registers going into a shared tail were computed per case.** When each case ends with `add %edi,%edx; jmp tail`, do the computation inside each case (`Ped::CalcApproachPointNearTargetPed_4645B0`). Same for cases that each divide and then share one multiply: `ratio = v / max; break;` per case into a function-scope local, one multiply after the switch. VC6 tail-merges the divisions and gives `mov eax,ecx; mov global,eax; imul ecx` instead of `imull mem` (`sound_obj::GetCollisionVolume_413A10`).
 
 **A value every case assigns: write it once after the switch.** VC6 copies it back into each case like the original; writing it per case changes the tail merges and the constant registers (`Frontend::UpdatePageFromUserInput_4AE2D0`). In the same function a constant-count zeroing loop gave the original's word/byte stores at fixed offsets where `memset` took the address into a register first (also `Frontend::ctor_4AF2A0`: constant-count loops
 store off `esi` with their own `xor` zero register and no `lea`), and a separate `if (page == A || page == B || page == C)` after an else-if chain let VC6 thread the known value without a goto.
@@ -2889,7 +2889,7 @@ changed for one variant only (used for the `ofstream` member and for `operator+=
 - **Call operand order: a call on a global object goes first, unless the operands read a field that was
   just stored** (`HandleCarDoorSounds_4182E0`, matched Oct 11). With a local `samp`, VC6 evaluates both
   `GetPlay(samp) + Random(samp)` and `Random(samp) + GetPlay(samp)` with the call on the global
-  `gSampManager_6FFF00` (constant `this`) first (`Type6_2_412D40` and the close-door block). The open-door
+  `gSampManager_6FFF00` (constant `this`) first (`SelectCarCarCollisionSound_412D40` and the close-door block). The open-door
   block of the original calls `Random` first, keeps the result in a stack slot across `GetPlay`, and pushes
   a `mov %eax,%edx` copy of the `get_samp_idx` result: that is the *same* source form as the close block,
   `field_14 = get_samp_idx(..); field_3C = 0; field_20 = Random(field_14) + GetPlay(field_14);`, with

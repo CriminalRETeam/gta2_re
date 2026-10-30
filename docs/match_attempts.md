@@ -5333,7 +5333,7 @@ Police_38.cpp (CreateRoadblock_575FF0) was not attempted.
   copies, by-value/by-ref helper inlines, cast placement, globals defined vs extern, `+` for `-`: ~25 variants).
   opdump: the mul's D list is `[kFpOne64th_6FD328 (kind 2), temp]` for both source orders; the selection gives eax to an
   uncoloured temp and keeps the global as the memory operand. The original's form appears only when the temp is a
-  COLOURED web (sound_obj::Type6_413A10's `ratio`): a diagnostic `Fix16 v = ...; if (timer == 100) v = k;` (a
+  COLOURED web (sound_obj::GetCollisionVolume_413A10's `ratio`): a diagnostic `Fix16 v = ...; if (timer == 100) v = k;` (a
   cross-block use) reproduces `mov %eax,%ecx; mov g,%eax; imul %ecx` exactly. A register copy of the global
   (`Fix16(kFpOne64th_6FD328)`, a helper with `Fix16 base = kFpOne64th_6FD328;`, by-value `Fix16 a` param) gives the reverse
   (`mov g,%ecx; imul %ecx`, temp in eax). So the original's `(Fix16(sub) + Fix16(rng) - k)` value was a colour

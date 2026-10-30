@@ -1,7 +1,7 @@
 #pragma once
 
 // CollisionEvent::field_0_type: the pair of things that collided, which picks the impact sound
-// (see sound_obj::Type6_413A10 / Type6_412C90). Pairs are symmetrical: a car hitting a ped and a ped hitting a car are
+// (see sound_obj::GetCollisionVolume_413A10 / SelectCollisionSound_412C90). Pairs are symmetrical: a car hitting a ped and a ped hitting a car are
 // both car_ped_4. A diagonal wall object counts as a wall.
 // Kept in its own header so that the enum does not land in a header many TUs share.
 namespace collision_event_type

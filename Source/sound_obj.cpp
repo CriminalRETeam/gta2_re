@@ -1,7 +1,7 @@
 #include "sound_obj.hpp"
 #include "explosion_type.hpp"
 // Keep cSampleManager.hpp early: the include order changes the order VC6 emits the
-// sampManager and sound_obj calls in e.g. Type_9_InitCarEngineStartSound_4186D0 and Type6_2_412D40
+// sampManager and sound_obj calls in e.g. Type_9_InitCarEngineStartSound_4186D0 and SelectCarCarCollisionSound_412D40
 #include "PlayerCrimeStats.hpp"
 #include "cSampleManager.hpp"
 #include "Camera.hpp"
@@ -601,7 +601,7 @@ void sound_obj::ProcessCar_412B80(Sound_Params* pParams)
 }
 
 MATCH_FUNC(0x412C90)
-bool sound_obj::Type6_412C90(CollisionEvent* pEvent, u8 base_sample)
+bool sound_obj::SelectCollisionSound_412C90(CollisionEvent* pEvent, u8 base_sample)
 {
     bool result;
 
@@ -612,25 +612,25 @@ bool sound_obj::Type6_412C90(CollisionEvent* pEvent, u8 base_sample)
             result = sound_obj::SelectObjectImpactSound_1_10_412D30(pEvent);
             break;
         case collision_event_type::car_car_2:
-            result = sound_obj::Type6_2_412D40(base_sample);
+            result = sound_obj::SelectCarCarCollisionSound_412D40(base_sample);
             break;
         case collision_event_type::car_object_3:
-            result = sound_obj::Type6_3_413000(pEvent);
+            result = sound_obj::SelectCarObjectCollisionSound_413000(pEvent);
             break;
         case collision_event_type::car_ped_4:
-            result = sound_obj::Type6_4_413040(base_sample);
+            result = sound_obj::SelectCarPedCollisionSound_413040(base_sample);
             break;
         case collision_event_type::car_wall_5:
-            result = sound_obj::Type6_5_413090(base_sample);
+            result = sound_obj::SelectCarWallCollisionSound_413090(base_sample);
             break;
         case collision_event_type::ped_object_7:
-            result = sound_obj::Type6_7_4130E0(pEvent);
+            result = sound_obj::SelectPedObjectCollisionSound_4130E0(pEvent);
             break;
         case collision_event_type::object_object_9:
-            result = sound_obj::Type6_9_413540(pEvent);
+            result = sound_obj::SelectObjectObjectCollisionSound_413540(pEvent);
             break;
         case collision_event_type::car_floor_12:
-            result = sound_obj::Type6_12_4136D0(pEvent);
+            result = sound_obj::SelectCarFloorCollisionSound_4136D0(pEvent);
             break;
         default:
             result = false;
@@ -646,7 +646,7 @@ bool sound_obj::SelectObjectImpactSound_1_10_412D30(CollisionEvent* pEvent)
 }
 
 MATCH_FUNC(0x412D40)
-bool sound_obj::Type6_2_412D40(u8 roll)
+bool sound_obj::SelectCarCarCollisionSound_412D40(u8 roll)
 {
     s32 samp_idx;
 
@@ -676,7 +676,7 @@ bool sound_obj::Type6_2_412D40(u8 roll)
 }
 
 MATCH_FUNC(0x412D90)
-void sound_obj::Type6_Play_412D90(s32 model)
+void sound_obj::PlayPickupVoice_412D90(s32 model)
 {
     s32 sample;
     switch (model)
@@ -801,19 +801,19 @@ void sound_obj::Type6_Play_412D90(s32 model)
 }
 
 MATCH_FUNC(0x413000)
-bool sound_obj::Type6_3_413000(CollisionEvent* pEvent)
+bool sound_obj::SelectCarObjectCollisionSound_413000(CollisionEvent* pEvent)
 {
     if ((pEvent->field_18_object_model < 200 || pEvent->field_18_object_model > 244) &&
         (pEvent->field_18_object_model < 64 || pEvent->field_18_object_model > 108))
     {
         return SelectObjectImpactSound_413120(pEvent, 3);
     }
-    Type6_Play_412D90(pEvent->field_18_object_model);
+    PlayPickupVoice_412D90(pEvent->field_18_object_model);
     return true;
 }
 
 MATCH_FUNC(0x413040)
-bool sound_obj::Type6_4_413040(u8 roll)
+bool sound_obj::SelectCarPedCollisionSound_413040(u8 roll)
 {
     if (roll < 15u)
     {
@@ -838,7 +838,7 @@ bool sound_obj::Type6_4_413040(u8 roll)
 }
 
 MATCH_FUNC(0x413090)
-bool sound_obj::Type6_5_413090(u8 roll)
+bool sound_obj::SelectCarWallCollisionSound_413090(u8 roll)
 {
     s32 idx_to_use;
     if (roll < 40u)
@@ -863,13 +863,13 @@ bool sound_obj::Type6_5_413090(u8 roll)
 }
 
 MATCH_FUNC(0x4130E0)
-bool sound_obj::Type6_7_4130E0(CollisionEvent* pEvent)
+bool sound_obj::SelectPedObjectCollisionSound_4130E0(CollisionEvent* pEvent)
 {
     if ((pEvent->field_18_object_model < 200 || pEvent->field_18_object_model > 244) && (pEvent->field_18_object_model < 64 || pEvent->field_18_object_model > 108))
     {
         return SelectObjectImpactSound_413120(pEvent, 7);
     }
-    Type6_Play_412D90(pEvent->field_18_object_model);
+    PlayPickupVoice_412D90(pEvent->field_18_object_model);
     return true;
 }
 
@@ -1086,7 +1086,7 @@ bool sound_obj::SelectObjectImpactSound_413120(CollisionEvent* pEvent, s32 inter
 }
 
 MATCH_FUNC(0x413540)
-bool sound_obj::Type6_9_413540(CollisionEvent* pEvent)
+bool sound_obj::SelectObjectObjectCollisionSound_413540(CollisionEvent* pEvent)
 {
     switch (pEvent->field_1C_other_object_model)
     {
@@ -1157,7 +1157,7 @@ bool sound_obj::Type6_9_413540(CollisionEvent* pEvent)
 }
 
 MATCH_FUNC(0x4136D0)
-bool sound_obj::Type6_12_4136D0(CollisionEvent* pEvent)
+bool sound_obj::SelectCarFloorCollisionSound_4136D0(CollisionEvent* pEvent)
 {
     s32 samp_idx;
     switch (pEvent->field_20_map_block_spec)
@@ -1211,8 +1211,8 @@ void sound_obj::ProcessType6_CollisionSoundQueue_413760(s32 idx)
     for (u8 event_idx = 0; event_idx < pQueue->field_C84_count; event_idx++)
     {
         CollisionEvent* pEvent = &pQueue->field_4_events[event_idx];
-        u8 base_sample = Type6_413A10(pEvent);
-        if (Type6_412C90(pEvent, base_sample))
+        u8 base_sample = GetCollisionVolume_413A10(pEvent);
+        if (SelectCollisionSound_412C90(pEvent, base_sample))
         {
             if (this->field_30_sQueueSample.field_18_bIs2D)
             {
@@ -1296,7 +1296,7 @@ void sound_obj::ProcessType6_CollisionSoundQueue_413760(s32 idx)
 }
 
 MATCH_FUNC(0x413A10)
-u8 sound_obj::Type6_413A10(CollisionEvent* pEvent)
+u8 sound_obj::GetCollisionVolume_413A10(CollisionEvent* pEvent)
 {
     // Each case divides by its own max (9.6f calls div per case); VC6 tail-merges the divisions.
     Fix16 ratio;
