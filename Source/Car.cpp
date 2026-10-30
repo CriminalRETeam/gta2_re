@@ -5896,7 +5896,7 @@ bool Car::PoolUpdate()
         ServicePhysics_442190();
     }
 
-    if (IsFlagSet_411930(car_flag::Crushing))
+    if (IsCrushing_414F70())
     {
         gCrushedCarSprites_67737C.PropagateMaxZLayer_5A72B0(this->field_50_car_sprite, 1);
         gCrushedCarSprites_67737C.ClearList_5A6E10();

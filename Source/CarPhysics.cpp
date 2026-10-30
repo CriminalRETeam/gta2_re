@@ -1030,7 +1030,7 @@ Fix16 CarPhysics::ComputeSlopeCorrection_55AB50(Fix16* pOutY)
     return result;
 }
 
-// 9.6f 0x4A2240: field_6C_cp3 read directly everywhere, g_ZPos * a2, IsFlagSet_411930(car_flag::Crushing),
+// 9.6f 0x4A2240: field_6C_cp3 read directly everywhere, g_ZPos * a2,
 // the slope test nested as (slope && frac != 0 && zpos <= cp3 + k), ComputeSlopeCorrection's two outputs.
 MATCH_FUNC(0x55ad90)
 void CarPhysics::UpdateZPhysics_55AD90(Fix16 dt)
@@ -1129,7 +1129,7 @@ void CarPhysics::UpdateZPhysics_55AD90(Fix16 dt)
         }
     }
 
-    if (field_5C_pCar->IsFlagSet_411930(car_flag::Crushing))
+    if (field_5C_pCar->IsCrushing_414F70())
     {
         UpdateSpriteFromPhysics_563670();
 
@@ -2192,9 +2192,7 @@ void CarPhysics::StepPhysics_55F330()
 MATCH_FUNC(0x55f360)
 char_type CarPhysics::CheckPendingCollision_55F360()
 {
-    // 9.6f: Car flag helpers 0x414F70 (IsFlagSet_411930(car_flag::Crushing)) and 0x49EFD0 (clear 0x2000)
-    // (inlined, using IsFlagSet_411930 here changes the code)
-    if ((this->field_5C_pCar->field_78_flags & car_flag::Crushing))
+    if (this->field_5C_pCar->IsCrushing_414F70())
     {
         gCarManager_6C_677930->field_60_impact_mode = car_impact_mode::crush_damage_1;
         if (gSpriteGrid_1_679208->CheckAndHandleAllCollisionsForSprite_477C30(field_5C_pCar->field_50_car_sprite, sprite_types_enum::car_2))

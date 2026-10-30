@@ -714,6 +714,12 @@ class Car
         return IsFlagSet_411930(car_flag::Flameproof);
     }
 
+    // 9.6f 0x414F70
+    inline bool IsCrushing_414F70() const
+    {
+        return IsFlagSet_411930(car_flag::Crushing);
+    }
+
     // FUNCTION: 96f 0x4118d0
     s32 IsDrivenByPlayer_4118D0() const
     {
