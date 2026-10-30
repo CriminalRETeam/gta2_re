@@ -10105,7 +10105,7 @@ void Ped::CrossRoad_46C9B0()
             {
                 field_226_internal_objective_status = objective_status::passed_1;
             }
-            if (gTrafficLights_194_705958->field_192_phase == traffic_light_phase::peds_crossing_7)
+            if (gTrafficLights_194_705958->ArePedsCrossing_434960())
             {
                 field_168_game_object->SetVelocityByRef_433920(kFpOneThirtySecond_678434);
             }
