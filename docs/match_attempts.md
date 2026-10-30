@@ -1365,7 +1365,7 @@ Each was a few asm lines away from the original. What is left and what was tried
 ### Near-miss pass, batch F (2026-10-02)
 
 - `Type_3_InitCarAlarmSound_4174C0` (0x4174C0): closer 0.822->0.915. if chain -> switch gives the original's `sub $0`/`dec`. Left: cases 0 and 1 compute the 0x7FFFFFE3/0x7FFFFFE7 multiply in ecx, original in edx
-- `TrainCab_414710` (0x414710): closer 0.684->0.961. zone read through `pTrainStation->field_10_pZone` each time, not a local. Left: original's failure jumps go to the success path's epilogue, ours to the shared one after the else
+- `HandleTrainStationSound_414710` (0x414710): closer 0.684->0.961. zone read through `pTrainStation->field_10_pZone` each time, not a local. Left: original's failure jumps go to the success path's epilogue, ours to the shared one after the else
 - `0x5D3B80` (DrawBrief): no change. identical except the y Fix16 ctor calls the duplicate copy FromInt_4926F0 instead of 4369F0 (duplicate-helper-copies quirk)
 - `0x57DD50`: skipped, the known sete issue above
 - `0x4D94E0`: no change. needs field_0 as a real ofstream member, which crashes the standalone build (see the source note)
@@ -1450,7 +1450,7 @@ Each was a few asm lines away from the original. What is left and what was tried
 - Matched: `CarPhysics::ComputeCombinedCenterOfMass_559EC0` (`Fix16 m; m = f();`, one return expression)
 - `ComputeScanlineIntersectionX_4F77D0`: 0.533->0.822, same restructure as 4F76A0. `SmoothApproach_4F7540`: 0.233->0.434 (9.6f statement order; left: clamp/delta tails merge differently).
 - `Camera::ComputeTargetFacingAngle_4358D0`: no change. Original keeps the rotation in dx and adds kAng180 as a 16-bit add + jns; ours spills the Ang16 and uses lea. Operand order, s16 sum in operator+, rValue ctor, block local, shared helper all tried
-- Fable worker, second list: matched `Sprite::IsTouchingSlopeBlock_5A1EB0` (9.6f inline `Map_0x370::IsGradientSlopeAt_466CF0` for the eight open-coded slope checks) and `BonusTracker::IsDeathCauseInGroup_432170` (if/else-if chain). No change: `TrainCab_414710` (VC6 threads the failure `je`s to the else epilogue; early return, inverted if, goto all identical), `DrawPlayerStatsHelper_5D61A0` (original calls two Fix16(int) copies, 4369F0 and 4926F0; we link one), `Map_0x370::ClassifyArrowOnSlope_4E6190` (case 3/4 tails merging into 2/1 unexplained)
+- Fable worker, second list: matched `Sprite::IsTouchingSlopeBlock_5A1EB0` (9.6f inline `Map_0x370::IsGradientSlopeAt_466CF0` for the eight open-coded slope checks) and `BonusTracker::IsDeathCauseInGroup_432170` (if/else-if chain). No change: `HandleTrainStationSound_414710` (VC6 threads the failure `je`s to the else epilogue; early return, inverted if, goto all identical), `DrawPlayerStatsHelper_5D61A0` (original calls two Fix16(int) copies, 4369F0 and 4926F0; we link one), `Map_0x370::ClassifyArrowOnSlope_4E6190` (case 3/4 tails merging into 2/1 unexplained)
 - `UpdateSteeringAngle_562560`: 0.496->0.857 with `GetLength_out_of_line_x_squared`. Left: GetTrailerAwareTurnRatio_55A100 called before the division
 - `CanStepForwardWithRegionCheck_54ECB0`: 0.752->0.931 (case order 1,3,2,4 from the jump table, one shared check after the switch; fixed an inverted bit-0 test and `&= ~1u`). Left: shared return blocks in the other order
 - `Bink::OpenSlot2_5133E0`: 0.443->0.838 (BinkOpen failure as the else). Left: `mov $2,%ebx` not hoisted above the `je`
@@ -1694,7 +1694,7 @@ single pass) also gave nothing on 418720. Scores are differing lines from `permu
   divisor first gets the order right but reads from the stack slot (8).
 - `sound_obj::ProcessPoliceRadioWordsPlayback_427220` (4): `cmp $0xF,%al` lands after the
   volatile load whatever the local's type or placement. Non-volatile locals lose the store (40).
-- `sound_obj::TrainCab_414710` (6): storing in both branches fixes the epilogue jumps, but VC6
+- `sound_obj::HandleTrainStationSound_414710` (6): storing in both branches fixes the epilogue jumps, but VC6
   merges the stores and drops the else's `field_13C = 0` (10).
 - `Weapon::fire_truck_gun_5E0E70` (10): one register left, the sprite pointer in eax (ours ecx).
 
@@ -1709,7 +1709,7 @@ entry in matching_quirks.md, it can't be fixed by restructuring):
 - `ApplyImpactForcesAndDamage_55FA60` (32): three per-path return stores into one epilogue. One `return`
   gives the same; an initialised `Fix16 ImpulseIntensity = ...` gives the three stores but copies the EH
   epilogue into each (60).
-- `TrainCab_414710` (6): early returns, an inverted if, an explicit else `return` don't move the failure
+- `HandleTrainStationSound_414710` (6): early returns, an inverted if, an explicit else `return` don't move the failure
   jumps; storing the field in both branches gets the jump targets but VC6 hoists both stores above the `cmp`.
 - `RectHitsDiagonalWall_4E11E0` (22): only `return 1` into the shared EH epilogue; goto, result variable
   and a bool flag all duplicate it. `SpriteHitsDiagonalWall_4E1520` (64): the same, plus the original calls
@@ -1963,7 +1963,7 @@ No new matches. Scores below are `permuter_score.py` lines.
   a `Fix16` local, `(void)&old`, `s32* pOld = &old`, a do-nothing inline taking `s32&`/`s32*`: the store is
   dropped (13). A `volatile` pointer to it gives 32. The load in both branches of the clamp gives 23/26, a comma in the
   condition 2, a precomputed `cur >= 15` bool 4, `> 14` 3, a `*(volatile s32*)&old =` store 2. The 9.6f build (0x41C000) has no dead load.
-- `sound_obj::TrainCab_414710` (6): `&&` for the two checks, early returns for each check, `if (!pDriver)
+- `sound_obj::HandleTrainStationSound_414710` (6): `&&` for the two checks, early returns for each check, `if (!pDriver)
   return;`, `return` in the else, the else storing `pTrainStation` (null) instead of 0: all 6. Storing in the if
   branch only: 10.
 - `CarPhysics::ShowPhysicsDebug_559430` (4): `ThetaText_49E240` as an `Ang16` member (9.6f 0x49E240
@@ -2105,7 +2105,7 @@ in one expression"); the same form replaced the dead-store workaround in the mat
   puts the `cmp` before the load like the original but loses the stack store (24); volatile on both: 4. Uses
   folded away later (`old - old`, `old * 0`, `*p = *p`, `old != old`) lose the store (40).
 - `sound_obj::HandleCarTireScrubSound_418720` (4): `Fix16& speed = call()` (8), `Fix16 speed = call() /= max` (worse).
-- `sound_obj::TrainCab_414710` (6): store only in the if branch + `= pTrainStation` in the else (10), early returns
+- `sound_obj::HandleTrainStationSound_414710` (6): store only in the if branch + `= pTrainStation` in the else (10), early returns
   for the two checks (6), no `pDriver` local (22), a `pCar` local (10).
 - `MenuItem::SelectPrevHorizontalIdx_4B6390` (4): `u16&`/`u16*` to the field for the loop compare (28),
   `(s16)` casts on either side (4-50), a `bool` flag (4), comparing against the field at the end (28). VC7 also CSEs.
@@ -2314,7 +2314,7 @@ Scores are `sc.sh` lines.
   order) keeps 4/12 and 13/14 apart as in the original, but fire then cross-jumps into 13/14 (from `xor bl`)
   instead of 4/12 (from the volume store). All 5040 orders of the 13/14 statements after `samp_idx`, and 42
   joint orders of 4/12 + fire: no 0. Source order of the inner cases swaps the 4/12 and 13/14 blocks.
-- `sound_obj::TrainCab_414710` (6) and `AmbulanceTask::UpdateState_4FB330` (2): both originals have the exit
+- `sound_obj::HandleTrainStationSound_414710` (6) and `AmbulanceTask::UpdateState_4FB330` (2): both originals have the exit
   block right after the first jumper to it, with the remaining block copying it. dupB's first loop does that
   (`jmp L` forward to a block whose predecessor ends in jmp/ret: the block, up to its ret, is moved after the jmp;
   `Ped::PunchChar_467FD0` matches that way). C2's layout moves a jmp-ending else arm right before its target, so
@@ -2844,7 +2844,7 @@ Scores are `quick_score.sh` lines.
   [inc arm][join][exit] (the inc arm ends in `jmp exit`, so dupB's first loop moves join+exit into default's
   `jmp join`). All 24 case orders, inverted case 3 condition (50), and every break/return mix of the
   per-case HOS form (2-18) leave the inc arm after the join.
-- `sound_obj::TrainCab_414710` (6): `if (!pTrainStation) { store; return; }` early return inlines the store
+- `sound_obj::HandleTrainStationSound_414710` (6): `if (!pTrainStation) { store; return; }` early return inlines the store
   block after the test (26); `&&` for the two checks, early returns inside the success path, success path
   `return` + store after the if: 6.
 - `sound_obj::ProcessPoliceRadioWordsPlayback_427220` (4): the original has a 4-byte local (`push %ecx`) that
@@ -3183,7 +3183,7 @@ Scores are `quick_score.sh` lines. One new match.
 - `MenuItem::SelectPrevHorizontalIdx_4B6390` (4): `BYTE tmp` flag alone or with the sibling's `u16&` (28:
   copies si to di), raw `*(u16*)((u8*)this + 0x6E)` at the top and/or in the condition, `(s16)` compare, `pThis`
   local, reversed `&&`, `volatile bFound` (30): the loop compare still CSEs to `si`.
-- `sound_obj::TrainCab_414710` (6): `return` in both arms, early `!pDriver` return + then-arm `return` + store after,
+- `sound_obj::HandleTrainStationSound_414710` (6): `return` in both arms, early `!pDriver` return + then-arm `return` + store after,
   `return` after the if/else, else `return` + outer `return`: 6.
 - `DrawGradientSlopeSouthwards_4F1660` (4): `regsearch.py` finds no window limit below the stock score, so it is
   not a window break; not retried after the ~1500-form sweep above. `TrafficSpawner::SpawnTrafficCar_582480` (8): not retried.
@@ -3400,7 +3400,7 @@ The cross-jump rules are in `Scripts/flowopt/README.md`. Both functions below we
 ### Exit block placement (dupB, Oct 7)
 
 Rules in `Scripts/flowopt/README.md` ("Duplicating and moving exit blocks").
-- **`sound_obj::TrainCab_414710` (6)** and **`AmbulanceTask::UpdateState_4FB330` (2)**: in both, **TrainCab matched later (Oct 7, see below).** The original's
+- **`sound_obj::HandleTrainStationSound_414710` (6)** and **`AmbulanceTask::UpdateState_4FB330` (2)**: in both, **TrainCab matched later (Oct 7, see below).** The original's
   `jcc`s to the exit go to the copy after the success path / `default`, ours to the one at the end. Our last block
   (the `else` store / `state = 5`) falls into the exit, so dupB copies the exit instead of moving it. In the original
   the exit wasn't fallen into when dupB ran. The only matched example found (`Ped::PunchChar_467FD0`, found by
@@ -3438,7 +3438,7 @@ Three matches came out of it:
 - **`Char::TurnToFreeAdjacentFace_54C3E0`** = 9.6f 0x495470 (between 0x495220 = 54C1A0 and 0x495540 = 54C500). Its two switches
   are an inline `RotateFace_491F10(s32* face, bool* clockwise)` with the cases in 1, 3, 2, 4 order (that order
   fixed the case block layout), and the three stores a setter (0x492400). 59 -> 0.
-- **`sound_obj::TrainCab_414710`** = 9.6f 0x412A20 (call position in 0x413BF0). A get-and-clear helper
+- **`sound_obj::HandleTrainStationSound_414710`** = 9.6f 0x412A20 (call position in 0x413BF0). A get-and-clear helper
   (`Ped::PopTrainStation_4117D0`) is tried twice; the second call always returns 0 in 10.5, but its `return`
   path is what gives the exit block placement described above. 6 -> 0.
 - **`ConvertColourBanks_5D7CB0`** was a csv row covering two functions: `call; jmp 0x5D7CC0` plus padding, then the
@@ -3515,7 +3515,7 @@ flag test that later disappears still shapes the block order and the exit placem
   `jle` targets that test block X; the DFS visits X first, so it sits between the `state = 5` store and the exit
   and the store has to `jmp exit` over it. Threading then empties X, so nothing falls into the exit when dupB runs,
   and dupB moves the exit up after `default`'s call (the original's `jle 0x3F`) and copies Handle+ret into the
-  cases. Same mechanism as TrainCab_414710.
+  cases. Same mechanism as HandleTrainStationSound_414710.
 - **`TagGameHudUpdate_4DADA0` (54 -> 6).** `bShow = true` and the first-flash block (59 stored before `= 1`) inside
   the condition's `if`, then `if (!bShow) { clear } else { ... }`: the clear block is reached by the DFS from the
   first-flash block, which gives the original's F1 | F2 | clear | pager clear | rest layout; threading removes

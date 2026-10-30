@@ -336,7 +336,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x415480 | `sound_obj::sub_415480` | 0x412FE0 | ✓ `sub_4119D0` | done | Car::TakeShopEvent_4119D0 (new); code unchanged |
 | 0x415570 | `sound_obj::sub_415570` | 0x415880 | ✓ `sub_4118F0`, ✓ `sub_414F20`, ✓ `sub_414F80`, ✓ `Car::sub_411900`, ✓ `Car::sub_411910`, ✓ `?_GetResult@?$_Task_impl@_N@details@Concurrency@@QAE_NXZ`, ✓ `sub_411970`, ✓ `sub_411940`, ✓ `sub_411990` | done | Car::IsTurretRotated_4119F0 (new); code unchanged |
 | 0x4177D0 | `sound_obj::sub_4177D0` | 0x413BD0 | ✓ `Car::sub_4118C0` | matched | all 9.6f inlines used |
-| 0x417A00 | `sound_obj::Type_4_417A00` | 0x413D40 | ✓ `sub_411940`, ✓ `sub_411970` | done | all 9.6f inlines used |
+| 0x417A00 | `sound_obj::Type_4_InitSirenSound_417A00` | 0x413D40 | ✓ `sub_411940`, ✓ `sub_411970` | done | all 9.6f inlines used |
 | 0x417D70 | `sub_417D70` | 0x413DF0 | ✓ `sub_411940` | matched | Use GetCarInfoIdx_411940; 'a2 ? 27 : 28' gives the neg/sbb/add |
 | 0x418B60 | `sound_obj::ProcessType11_HudPager_418B60` | 0x414E50 | ✓ `sub_411A40` | done | Hud_Pager::get_timer_411A40 (new); code unchanged |
 | 0x419FA0 | `sound_obj::AddSoundObject_419FA0` | 0x417DB0 | ✓ `sub_416B40`, ✓ `ctor_416C00` | done | SoundPosEntry empty ctor (9.6f 0x416C00); GetType_416B40 already used; code unchanged (ImGuiDebug.cpp shows a DIFF in an unmarked function that also showed before, unrelated) |

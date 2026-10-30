@@ -1,7 +1,7 @@
 #include "sound_obj.hpp"
 #include "explosion_type.hpp"
 // Keep cSampleManager.hpp early: the include order changes the order VC6 emits the
-// sampManager and sound_obj calls in e.g. Type_9_4186D0 and Type6_2_412D40
+// sampManager and sound_obj calls in e.g. Type_9_InitCarEngineStartSound_4186D0 and Type6_2_412D40
 #include "PlayerCrimeStats.hpp"
 #include "cSampleManager.hpp"
 #include "Camera.hpp"
@@ -140,38 +140,38 @@ bool sound_obj::InitSampleForType_412260(sound_0x68* pObj)
         switch (pObj->field_58_type)
         {
             case 2:
-                return Type_2_4182A0(pObj);
+                return Type_2_InitAICarEngineSound_4182A0(pObj);
             case 1:
             case 6:
-                return Type_1_6_416260(pObj);
+                return Type_1_6_InitCarEngineOrDamageSound_416260(pObj);
             case 3:
                 return Type_3_InitCarAlarmSound_4174C0(pObj);
             case 4:
-                return Type_4_417A00(pObj);
+                return Type_4_InitSirenSound_417A00(pObj);
             case 5:
                 return Type_5_InitHornSound_415730(pObj);
             case 16:
-                return Type_16_414320(pObj);
+                return Type_16_InitTrainEngineSound_414320(pObj);
             case 17:
-                return Type_17_414690(pObj);
+                return Type_17_InitTrainRollingFrictionSound_414690(pObj);
             case 19:
-                return Type_19_4149D0(pObj);
+                return Type_19_InitTrainStationSound_4149D0(pObj);
             case 8:
-                return Type_8_418130(pObj);
+                return Type_8_InitTruckCorneringSound_418130(pObj);
             case 9:
-                return Type_9_4186D0(pObj);
+                return Type_9_InitCarEngineStartSound_4186D0(pObj);
             case 10:
                 return Type_10_HandleCarSkidSound_418940(pObj);
             case 11:
-                return Type_11_414EE0(pObj);
+                return Type_11_InitTankTurretSound_414EE0(pObj);
             case 12:
-                return Type_12_414C90(pObj);
+                return Type_12_InitTankMovementSound_414C90(pObj);
             case 13:
-                return Type_13_4153F0(pObj);
+                return Type_13_InitTankCrushSound_4153F0(pObj);
             case 7:
-                return Type_7_417EF0(pObj);
+                return Type_7_InitHeavyVehicleStopSound_417EF0(pObj);
             case 15:
-                return Type_15_415100(pObj);
+                return Type_15_InitCarBombSound_415100(pObj);
             case 20:
                 return true;
             default:
@@ -1382,7 +1382,7 @@ void sound_obj::ProcessTrainCab_413B90(Sound_Params* pParams, SoundPosEntry* pAl
     }
     HandleCarHornSound_415570(pParams, pAlloc);
     HandleCarDoorSounds_4182E0(pParams);
-    TrainCab_414710(pParams);
+    HandleTrainStationSound_414710(pParams);
 }
 
 MATCH_FUNC(0x413BE0)
@@ -1396,11 +1396,11 @@ void sound_obj::ProcessTank_413BF0(Sound_Params* pParams, SoundPosEntry* pAlloc)
 {
     if (pParams->field_0_pObj->field_8_car_bc_ptr->field_58_physics)
     {
-        Tank_414A50(pParams);
+        HandleTankMovementSound_414A50(pParams);
         HandleCarEngineSound_4157C0(pParams);
-        Tank_415190(pParams);
+        HandleTankCrushSound_415190(pParams);
     }
-    Tank_414D30(pParams);
+    HandleTankTurretSound_414D30(pParams);
     HandleCarDoorSounds_4182E0(pParams);
     HandleCarHornSound_415570(pParams, pAlloc);
     PlayCarShopEventSound_415480(pParams);
@@ -1556,7 +1556,7 @@ void sound_obj::HandleTrainEngineSound_4140C0(Sound_Params* pParams)
 }
 
 MATCH_FUNC(0x414320)
-bool sound_obj::Type_16_414320(sound_0x68* pObj)
+bool sound_obj::Type_16_InitTrainEngineSound_414320(sound_0x68* pObj)
 {
     pObj->field_14_samp_idx = 10;
     pObj->field_3C_speed_multiplier = 400;
@@ -1623,7 +1623,7 @@ bool sound_obj::GetCar_4145E0(s32 idx, Car** ppOut) const
 }
 
 MATCH_FUNC(0x414690)
-bool sound_obj::Type_17_414690(sound_0x68* pObj)
+bool sound_obj::Type_17_InitTrainRollingFrictionSound_414690(sound_0x68* pObj)
 {
     pObj->field_20_rate = 11025;
     pObj->field_14_samp_idx = 11;
@@ -1637,7 +1637,7 @@ bool sound_obj::Type_17_414690(sound_0x68* pObj)
 
 // 9.6f 0x412A20
 MATCH_FUNC(0x414710)
-void sound_obj::TrainCab_414710(Sound_Params* pParams)
+void sound_obj::HandleTrainStationSound_414710(Sound_Params* pParams)
 {
     Ped* pDriver = pParams->field_0_pObj->field_8_car_bc_ptr->field_54_driver;
     if (pDriver)
@@ -1685,7 +1685,7 @@ void sound_obj::TrainCab_414710(Sound_Params* pParams)
 }
 
 MATCH_FUNC(0x4149D0)
-bool sound_obj::Type_19_4149D0(sound_0x68* pObj)
+bool sound_obj::Type_19_InitTrainStationSound_4149D0(sound_0x68* pObj)
 {
     pObj->field_3C_speed_multiplier = 400;
     pObj->field_30_loop_count = 1;
@@ -1696,7 +1696,7 @@ bool sound_obj::Type_19_4149D0(sound_0x68* pObj)
 }
 
 MATCH_FUNC(0x414A50)
-void sound_obj::Tank_414A50(Sound_Params* pParams)
+void sound_obj::HandleTankMovementSound_414A50(Sound_Params* pParams)
 {
     Car* pCar = pParams->field_0_pObj->field_8_car_bc_ptr;
     if (pCar->field_9C_engine_status == car_engine_status::on_3)
@@ -1733,7 +1733,7 @@ void sound_obj::Tank_414A50(Sound_Params* pParams)
 }
 
 MATCH_FUNC(0x414C90)
-bool sound_obj::Type_12_414C90(sound_0x68* pSound)
+bool sound_obj::Type_12_InitTankMovementSound_414C90(sound_0x68* pSound)
 {
     pSound->field_14_samp_idx = 35;
     pSound->field_3C_speed_multiplier = 400;
@@ -1746,7 +1746,7 @@ bool sound_obj::Type_12_414C90(sound_0x68* pSound)
 }
 
 MATCH_FUNC(0x414D30)
-void sound_obj::Tank_414D30(Sound_Params* pParams)
+void sound_obj::HandleTankTurretSound_414D30(Sound_Params* pParams)
 {
     if (pParams->field_0_pObj->field_8_car_bc_ptr->field_B8_turret_rotated)
     {
@@ -1776,7 +1776,7 @@ void sound_obj::Tank_414D30(Sound_Params* pParams)
 }
 
 MATCH_FUNC(0x414EE0)
-bool sound_obj::Type_11_414EE0(sound_0x68* pSound)
+bool sound_obj::Type_11_InitTankTurretSound_414EE0(sound_0x68* pSound)
 {
     pSound->field_14_samp_idx = 60;
     pSound->field_3C_speed_multiplier = 400;
@@ -1812,7 +1812,7 @@ void sound_obj::HandleCarBurningSound_414F90(Sound_Params* pParams)
 }
 
 MATCH_FUNC(0x415100)
-bool sound_obj::Type_15_415100(sound_0x68* pSound)
+bool sound_obj::Type_15_InitCarBombSound_415100(sound_0x68* pSound)
 {
     pSound->field_14_samp_idx = 57;
     pSound->field_3C_speed_multiplier = 400;
@@ -1825,7 +1825,7 @@ bool sound_obj::Type_15_415100(sound_0x68* pSound)
 }
 
 MATCH_FUNC(0x415190)
-void sound_obj::Tank_415190(Sound_Params* pParams)
+void sound_obj::HandleTankCrushSound_415190(Sound_Params* pParams)
 {
 
     Car* pCar = pParams->field_0_pObj->field_8_car_bc_ptr;
@@ -1863,7 +1863,7 @@ void sound_obj::Tank_415190(Sound_Params* pParams)
 }
 
 MATCH_FUNC(0x4153F0)
-bool sound_obj::Type_13_4153F0(sound_0x68* pObj)
+bool sound_obj::Type_13_InitTankCrushSound_4153F0(sound_0x68* pObj)
 {
     pObj->field_14_samp_idx = 36;
     pObj->field_3C_speed_multiplier = 400;
@@ -2094,7 +2094,7 @@ void sound_obj::HandleCarEngineSound_4157C0(Sound_Params* pParams)
 
 // Car engine sounds/revs etc of the car we are driving
 MATCH_FUNC(0x416260)
-bool sound_obj::Type_1_6_416260(sound_0x68* pSound)
+bool sound_obj::Type_1_6_InitCarEngineOrDamageSound_416260(sound_0x68* pSound)
 {
     // Both branches store the same rate: VC6 merges them but keeps the type compare (an orphan
     // `cmp %ebx,%eax` with ebx = 1 at the top of the original), which also keeps 1 in ebx
@@ -2369,7 +2369,7 @@ void sound_obj::HandleSirenActivationSound_4178C0(Sound_Params* pParams)
 }
 
 MATCH_FUNC(0x417A00)
-bool sound_obj::Type_4_417A00(sound_0x68* pSound)
+bool sound_obj::Type_4_InitSirenSound_417A00(sound_0x68* pSound)
 {
     Car* pCar;
     if (GetCar_4145E0(pSound->field_0_EntityIndex, &pCar))
@@ -2687,7 +2687,7 @@ void sound_obj::HandleHeavyVehicleStopSound_417E30(Sound_Params* pParams, SoundP
 }
 
 MATCH_FUNC(0x417EF0)
-bool sound_obj::Type_7_417EF0(sound_0x68* pObj)
+bool sound_obj::Type_7_InitHeavyVehicleStopSound_417EF0(sound_0x68* pObj)
 {
     pObj->field_14_samp_idx = 29;
     pObj->field_3C_speed_multiplier = 400;
@@ -2761,7 +2761,7 @@ void sound_obj::HandleTruckCorneringAudio_417FD0(Sound_Params* pParams)
 }
 
 MATCH_FUNC(0x418130)
-bool sound_obj::Type_8_418130(sound_0x68* pObj)
+bool sound_obj::Type_8_InitTruckCorneringSound_418130(sound_0x68* pObj)
 {
     pObj->field_14_samp_idx = 24;
     pObj->field_3C_speed_multiplier = 400;
@@ -2804,7 +2804,7 @@ void sound_obj::HandleAICarEngineSound_418190(Sound_Params* pParams)
 }
 
 MATCH_FUNC(0x4182A0)
-bool sound_obj::Type_2_4182A0(sound_0x68* pObj)
+bool sound_obj::Type_2_InitAICarEngineSound_4182A0(sound_0x68* pObj)
 {
     pObj->field_14_samp_idx = 0;
     pObj->field_3C_speed_multiplier = 700;
@@ -2941,7 +2941,7 @@ void sound_obj::HandleCarEngineStartSound_418610(Sound_Params* pParams)
 }
 
 MATCH_FUNC(0x4186D0)
-bool sound_obj::Type_9_4186D0(sound_0x68* pObj)
+bool sound_obj::Type_9_InitCarEngineStartSound_4186D0(sound_0x68* pObj)
 {
     pObj->field_3C_speed_multiplier = 600;
     pObj->field_30_loop_count = 1;

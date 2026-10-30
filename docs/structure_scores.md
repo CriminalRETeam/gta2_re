@@ -19,7 +19,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 0 | 0 | 34 | - | 0x452060 | `CarAI::ScanAheadForObstacles_452060` | CarAI.cpp |
 | 0 | 0 | 4 | - | 0x4e6660 | `Map_0x370::AdvanceAlongRailway_4E6660` | map_0x370.cpp |
 | 0 | 0 | 4 | 0 | 0x516590 | `TagGame::SetNewFugitive_516590` | TagGame.cpp |
-| 0 | 0 | 6 | - | 0x414710 | `sound_obj::TrainCab_414710` | sound_obj.cpp |
+| 0 | 0 | 6 | - | 0x414710 | `sound_obj::HandleTrainStationSound_414710` | sound_obj.cpp |
 | 0 | 2 | 4 | 2 | 0x4b6390 | `MenuItem::SelectPrevHorizontalIdx_4B6390` | Frontend.cpp |
 | 0 | 4 | 10 | - | 0x5e0e70 | `Weapon::fire_truck_gun_5E0E70` | Weapon.cpp |
 | 0 | 4 | 10 | 0 | 0x5d4890 | `Hud_Brief::ClearAllBriefsWithPriority_5D4890` | Hud.cpp |
@@ -177,7 +177,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 20 | 88 | 528 | 722 | 0x4e0130 | `Map_0x370::IsMoveOntoSlopeTileBlocked_4E0130` | map_0x370.cpp |
 | 20 | 90 | 146 | 105 | 0x5238b0 | `Object::HandleSpriteZCollision_5238B0` | Object_5C.cpp |
 | 20 | 113 | 339 | 226 | 0x451980 | `CarAI::ReactToNearbyCar_451980` | CarAI.cpp |
-| 20 | 123 | 203 | - | 0x416260 | `sound_obj::Type_1_6_416260` | sound_obj.cpp |
+| 20 | 123 | 203 | - | 0x416260 | `sound_obj::Type_1_6_InitCarEngineOrDamageSound_416260` | sound_obj.cpp |
 | 22 | 48 | 60 | - | 0x5a1490 | `Sprite::PointInsideRotatedBounds_5A1490` | sprite.cpp |
 | 22 | 134 | 392 | - | 0x54b8f0 | `Char::ContinueMovementAfterCollision_54B8F0` | char.cpp |
 | 22 | 171 | 264 | 225 | 0x5ddfc0 | `Weapon::throwable_5DDFC0` | Weapon.cpp |

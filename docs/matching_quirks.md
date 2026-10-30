@@ -296,7 +296,7 @@ locals (a `pCmd` local in one copy only) moves the registers and only the matchi
 dupB has a first loop before the copying one: a forward `jmp L`, where the block before `L` ends in a jmp or
 ret, gets the block at `L` (up to its ret or jmp) moved in place of the jump. That is how an exit block ends
 up in the middle of a function with the code after it copying it (`Ped::PunchChar_467FD0`; the unmatched
-`TrainCab_414710` and `AmbulanceTask::UpdateState_4FB330` look like it too). C2's block layout already puts a
+`HandleTrainStationSound_414710` and `AmbulanceTask::UpdateState_4FB330` look like it too). C2's block layout already puts a
 jmp-ending else arm right before its target, so this needs a cross-jump (FlowOpts) to leave a block like that.
 
 Switch bodies lowered to a `sub/dec; je` chain are laid out (and ordered in the IL) as default first, then the
@@ -585,7 +585,7 @@ parameter declared `u8` the `xor` goes and the load moves next to the push (`Ped
 calling `Car::IsStoppedWithPavementAtDoor_43B140(u8)`). A shared prototype's parameter type moves code in every
 caller, so check `compare_builds` after changing one.
 
-**A u8 stored to a stack slot and then pushed as a dword is a `u8` local.** (`sound_obj::Tank_414A50`,
+**A u8 stored to a stack slot and then pushed as a dword is a `u8` local.** (`sound_obj::HandleTankMovementSound_414A50`,
 `Ped::IncreaseWantedLevelFromDebugKeys_46EFD0`, where the current and maximum star counts are read into u8 locals,
 in that order.)
 
@@ -1120,7 +1120,7 @@ directly in the first check keeps the original jump target (`Car::CanCarCollideW
 
 **Returns without RVO.** Where the original copies a call's result into the return slot (`mov (%eax),%eax; mov %eax,(%ecx)`) instead of building it in place, `return Fix16(x.mValue, 0);` or `Ang16 r = ...; return r;` reproduces it (`ComputeEngineTorque_561970`, `GetNextRotationToward_550F60`).
 
-**`T x = f();` vs `T x; x = f();`.** Initialising constructs the result in the local's slot, so the value stays in memory; assigning goes through a temporary and lets it live in a register (`Type_1_6_416260` speed, `Weapon::TraceBeamToHitTarget_5DE4F0` angle and steps).
+**`T x = f();` vs `T x; x = f();`.** Initialising constructs the result in the local's slot, so the value stays in memory; assigning goes through a temporary and lets it live in a register (`Type_1_6_InitCarEngineOrDamageSound_416260` speed, `Weapon::TraceBeamToHitTarget_5DE4F0` angle and steps).
 
 **Use the labelled per-file asm for control flow.** Branch targets in `target_asm.json` are numeric offsets; `asm/<File>.cpp.asm` on the `claude/target-asm` branch has labels and is much easier for rebuilding loops and gotos (`read_input_device_498DA0`).
 
@@ -1382,7 +1382,7 @@ together (`RouteFinder::NoRefs_589210`: a local's type and the order of two assi
 
 **`T x; x = f();` vs `T x = f();` for a by-value return.** The assignment form returns into a
 temporary and keeps the value in a register; the initialiser form has the call write straight into the
-local's stack slot (`sound_obj::Tank_414A50`, with a `Fix16`).
+local's stack slot (`sound_obj::HandleTankMovementSound_414A50`, with a `Fix16`).
 
 **A `volatile` local keeps a flag in its stack slot.** When the original stores a flag to the stack and
 reads it back where VC6 would keep it in a register, `volatile bool found = 0;` reproduces that
@@ -1699,9 +1699,9 @@ which helper was called and in which order things happened:
 or pairs them with themselves, so their inlines never show up in `docs/inlines_96f.md`. The 9.6f
 function between the 9.6f versions of the 10.5 neighbours, or the call at the same position in each
 paired caller, usually finds it. `Char::TurnToFreeAdjacentFace_54C3E0` (two switches that are one inline with
-cases 1, 3, 2, 4) and `sound_obj::TrainCab_414710` matched that way; see `docs/match_attempts.md`.
+cases 1, 3, 2, 4) and `sound_obj::HandleTrainStationSound_414710` matched that way; see `docs/match_attempts.md`.
 
-**A helper path that folds away can still place blocks.** In `TrainCab_414710`, 9.6f calls a
+**A helper path that folds away can still place blocks.** In `HandleTrainStationSound_414710`, 9.6f calls a
 get-and-clear helper twice: when the first returns null, the second copy (same field, already
 cleared) is tried before `return`. VC6 folds the second read to 0, but the early `return` it
 leaves is what makes the failure branches share the success path's epilogue.
