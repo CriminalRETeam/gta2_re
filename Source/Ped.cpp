@@ -11672,7 +11672,7 @@ void Ped::HandleShootingAtCar_46FC90(Car* pCar, s32 model)
                 if (pDriver->PedTypeIs_45EDE0(ped_type::dummy_3))
                 {
                     Ped* pDriver2 = pCar->field_54_driver;
-                    if (pDriver2->field_258_objective != objectives_enum::leave_car_36)
+                    if (pDriver2->get_objective_403A80() != objectives_enum::leave_car_36)
                     {
                         pDriver2->SpawnDriverRunAway_45C650(pCar, this);
                     }
