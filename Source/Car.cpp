@@ -6150,14 +6150,14 @@ void Car::BuyCarWeapon_4438C0(s32 weapon_kind)
             car_weapon_cost /= 10;
         }
 
-        if (car_weapon_cost <= pPlayer->field_2D4_scores.GetScore_592370())
+        if (car_weapon_cost <= pPlayer->GetScore_421980())
         {
             if (pPlayer->IsUser_41DC70())
             {
                 gHud_2B00_706620->field_DC_brief.SetHudBrief_5D3F10(1, "bdone", car_weapon_cost);
             }
 
-            pPlayer->field_2D4_scores.AddCash_592620(-car_weapon_cost);
+            pPlayer->AddCash_421990(-car_weapon_cost);
             if (gWeapon_8_707018->get_max_ammo_capacity_5E3E70(weapon_kind) < 10u)
             {
                 ammo_capacity = gWeapon_8_707018->get_max_ammo_capacity_5E3E70(weapon_kind);
@@ -6208,7 +6208,7 @@ void Car::ResprayOrChangePlates(u8 remap)
 {
     Player* pPlayer = GetDriverPlayer_421870();
     const s32 cost = gCarManager_6C_677930->field_69_do_free_shopping ? 0 : 5000;
-    if (cost <= pPlayer->field_2D4_scores.GetScore_592370())
+    if (cost <= pPlayer->GetScore_421980())
     {
         if (pPlayer->IsUser_41DC70())
         {
@@ -6233,8 +6233,8 @@ void Car::ResprayOrChangePlates(u8 remap)
             this->SetShopEvent_421950(car_shop_event::change_plates_2);
         }
 
-        pPlayer->field_2D4_scores.AddCash_592620(-cost);
-        this->field_54_driver->field_20A_wanted_points = cop_level_ped_enum::cop_0_stars;
+        pPlayer->AddCash_421990(-cost);
+        this->field_54_driver->ClearWantedPoints_420B80();
         RemoveAllDamage();
     }
     else
