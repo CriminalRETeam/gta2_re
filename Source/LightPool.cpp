@@ -17,11 +17,7 @@ Light* LightPool::CreateLight_52B2A0(Fix16 xpos, Fix16 ypos, Fix16 zpos, s32 arg
 MATCH_FUNC(0x5c2b70)
 Light* LightPool::Alloc_5C2B70()
 {
-    Light* pLight = field_0_pool.field_0_pStart;
-    field_0_pool.field_0_pStart = field_0_pool.field_0_pStart->mpNext;
-    pLight->mpNext = NULL;
-    pLight->Reset_463F50();
-    return pLight;
+    return Alloc_464C40();
 }
 
 // Out-of-line copy of LightIntensityRadius::SetRadius_463F10 (26 bytes).

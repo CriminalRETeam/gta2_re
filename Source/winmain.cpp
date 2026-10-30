@@ -1124,7 +1124,7 @@ EXPORT void Net_Receive_Players_Inputs_4DA9F0()
                     waiting_bits &= ~(1 << j);
                     gNetDisconnectPlayersBits_6F56B8 |= 1 << j;
                     gNetPlay_7071E8.SendGiveUp_521DB0(j);
-                    gTagGame_6F8450.field_20_bHasQuit[j] = 1;
+                    gTagGame_6F8450.SetQuit_461DD0(j);
                 }
             }
         }

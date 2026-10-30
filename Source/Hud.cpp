@@ -604,7 +604,6 @@ void ArrowTrace::UpdateAimCoordinates_5D03F0()
     Ped* pPed;
     Player* pPlayer;
     Car* pCar;
-    Sprite* pSprite;
 
     switch (field_10_target_type)
     {
@@ -625,7 +624,7 @@ void ArrowTrace::UpdateAimCoordinates_5D03F0()
             break;
         case ArrowTargetType::Ped_2:
             pPed = field_0_ped;
-            if (pPed->field_21C_bf.bActive)
+            if (pPed->IsActive_433B40())
             {
                 field_14_aim_x = pPed->get_cam_x();
                 field_18_aim_y = pPed->get_cam_y();
@@ -644,10 +643,7 @@ void ArrowTrace::UpdateAimCoordinates_5D03F0()
             }
             else
             {
-                pSprite = pCar->field_50_car_sprite;
-                field_14_aim_x = pSprite->field_14_xy.x;
-                field_18_aim_y = pSprite->field_14_xy.y;
-                field_1C_aim_z = pSprite->field_1C_zpos;
+                pCar->field_50_car_sprite->GetPosition_4117B0(&field_14_aim_x, &field_18_aim_y, &field_1C_aim_z);
             }
             break;
         case ArrowTargetType::Object_4:
@@ -658,10 +654,7 @@ void ArrowTrace::UpdateAimCoordinates_5D03F0()
             }
             else
             {
-                pSprite = field_8_obj->field_4_sprite;
-                field_14_aim_x = pSprite->field_14_xy.x;
-                field_18_aim_y = pSprite->field_14_xy.y;
-                field_1C_aim_z = pSprite->field_1C_zpos;
+                field_8_obj->field_4_sprite->GetPosition_4117B0(&field_14_aim_x, &field_18_aim_y, &field_1C_aim_z);
             }
             break;
         default:

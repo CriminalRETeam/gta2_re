@@ -80,7 +80,7 @@ void PlayerScoreTracker::Service_591C70()
         {
             if (player_ped->not_enter_car_as_passenger_4A5040() && pCar->HasTaxiLight_4216C0())
             {
-                if (pCar->field_4_passengers_list.field_0_pFirstPed)
+                if (!pCar->field_4_passengers_list.IsEmpty_420EA0())
                 {
                     field_368_player->AddScore_41DC40(1);
                 }
@@ -245,7 +245,7 @@ void PlayerScoreTracker::Service_591C70()
             if (frags_or_points >= points_limit)
             {
                 gGameSession_67E8E0.SetWinnerIdx_4C5C00(player_idx);
-                if (gGame_0x40_67E008->field_28_exit_timer == -1)
+                if (!gGame_0x40_67E008->IsExitTimerSet_4B7590())
                 {
                     gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("g_over"), hud_message_priority::important_3);
                 }
@@ -933,7 +933,7 @@ void PlayerScoreTracker::AwardCarDamageScoreHit_593150(Car* pCar, s16 damage)
 MATCH_FUNC(0x593220)
 void PlayerScoreTracker::AddCashWithMultiplier_593220()
 {
-    field_368_player->field_2D4_scores.AddCash_592620(field_368_player->field_6BC_multipliers.field_0_value * 20);
+    field_368_player->AddScore_41DC40(20);
 }
 
 MATCH_FUNC(0x593240)
