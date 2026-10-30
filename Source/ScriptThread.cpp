@@ -6011,10 +6011,7 @@ void ScriptThread::SCRCMD_CHAR_INTO_CAR_50F060()
 
         Car* pCar = pCarPointer->field_8_car;
 
-        if (!pCar->field_5C_AI)
-        {
-            pCar->field_5C_AI = gCarAI_78_Pool_677CF8->Allocate();
-        }
+        pCar->AllocateAI_421510();
 
         pCarPointer->field_8_car->field_5C_AI->SetCar_453BF0(pCarPointer->field_8_car);
         pCarPointer->field_8_car->SetupCarPhysicsAndSpriteBinding_43BCA0();

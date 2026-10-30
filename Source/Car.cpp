@@ -1328,10 +1328,7 @@ Car* CarManager::SpawnCarOnRoadNetwork_4458B0(Fix16 xpos, Fix16 ypos, s32 road_d
                     Car* pCar =
                         SpawnCar_426E10_v2(x, y, ground_z, ReturnAngleFromRoadDirection_4F7940(road_direction), car_model_type);
                     pCar->SetupCarPhysicsAndSpriteBinding_43BCA0();
-                    if (!pCar->field_5C_AI)
-                    {
-                        pCar->field_5C_AI = gCarAI_78_Pool_677CF8->Allocate();
-                    }
+                    pCar->AllocateAI_421510();
                     pCar->field_5C_AI->SetCar_453BF0(pCar);
                     pCar->field_5C_AI->field_28_route_idx = static_cast<char_type>(route_idx);
                     return pCar;
@@ -4214,10 +4211,7 @@ void Car::InitCarAIControl_440590()
     {
         if (pDriver->GetPedType_420B70() != ped_type::player_2)
         {
-            if (this->field_5C_AI == NULL)
-            {
-                this->field_5C_AI = gCarAI_78_Pool_677CF8->Allocate();
-            }
+            this->AllocateAI_421510();
             this->field_5C_AI->SetCar_453BF0(this);
             StartEngine_426E00();
         }
@@ -4527,10 +4521,7 @@ void Car::FireCarBomb_440F90(char_type instant_bomb)
 MATCH_FUNC(0x441030)
 void Car::GoToBlockTest_441030(u8 x, u8 y, u8 z, s32 direction)
 {
-    if (!field_5C_AI)
-    {
-        field_5C_AI = gCarAI_78_Pool_677CF8->Allocate();
-    }
+    AllocateAI_421510();
     field_5C_AI->SetCar_453BF0(this);
     field_5C_AI->GoToBlock_447CA0(x, y, z, direction);
 }
@@ -4538,10 +4529,7 @@ void Car::GoToBlockTest_441030(u8 x, u8 y, u8 z, s32 direction)
 MATCH_FUNC(0x441080)
 void Car::GotoBlock_441080(u8 x, u8 y, u8 z, s32 direction)
 {
-    if (!field_5C_AI)
-    {
-        field_5C_AI = gCarAI_78_Pool_677CF8->Allocate();
-    }
+    AllocateAI_421510();
     field_5C_AI->SetCar_453BF0(this);
     field_5C_AI->GoToBlock_447CA0(x, y, z, direction);
 }

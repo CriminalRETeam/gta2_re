@@ -159,10 +159,7 @@ void Firefighter::Update_4A81F0()
                     field_1C_car->IncrementCarStats_443D70(car_kind::firefighter_5);
                     field_1C_car->SetDriverPedType_421560(ped_type::special_ped_4);
                     Car* pCar = field_1C_car;
-                    if (!pCar->field_5C_AI)
-                    {
-                        pCar->field_5C_AI = gCarAI_78_Pool_677CF8->Allocate();
-                    }
+                    pCar->AllocateAI_421510();
                     field_1C_car->field_5C_AI->SetCar_453BF0(field_1C_car);
 
                     field_20_ped = gPedManager_6787BC->AllocatePed_470F30();

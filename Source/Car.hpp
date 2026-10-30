@@ -2,6 +2,7 @@
 
 #include "car_flags.hpp"
 #include "BitSet32.hpp"
+#include "CarAI.hpp"
 #include "Car_10.hpp"
 #include "Fix16.hpp"
 #include "Function.hpp"
@@ -399,6 +400,15 @@ class Car
     inline void SetTurnRightReady_42AC90()
     {
         field_A6_bf.bTurnRightReady = true;
+    }
+
+    // 9.6f 0x421510
+    inline void AllocateAI_421510()
+    {
+        if (!field_5C_AI)
+        {
+            field_5C_AI = gCarAI_78_Pool_677CF8->Allocate();
+        }
     }
 
     // 9.6f 0x421530

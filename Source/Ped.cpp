@@ -8232,10 +8232,7 @@ void Ped::GotoAreaByAnyMeans_469060()
                         if (pCar)
                         {
                             // 9.6f: Car::sub_421510 (allocates field_5C_AI if needed)
-                            if (!pCar->field_5C_AI)
-                            {
-                                pCar->field_5C_AI = gCarAI_78_Pool_677CF8->Allocate();
-                            }
+                            pCar->AllocateAI_421510();
                             pCar->field_5C_AI->SetCar_453BF0(pCar);
                             pCar->SpawnDriverPed();
                             pCar->SetDriverPedType_421560(ped_type::dummy_with_occupation_6);
