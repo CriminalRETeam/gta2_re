@@ -67,7 +67,7 @@ u16 TextTable::RemapExtendedChar_5B58D0(u16 ch) const
 MATCH_FUNC(0x5B5910)
 void TextTable::RemapExtendedCharsIfNotJapanese_5B5910(wchar_t* pText)
 {
-    if (field_10_lang_code != 'j')
+    if (!LangIsJapanese_452E60())
     {
         RemapExtendedChars_5B5930(pText);
     }

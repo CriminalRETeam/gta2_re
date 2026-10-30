@@ -3207,7 +3207,7 @@ void Hud_PauseScreen::DrawPause_5D63B0()
         s32 max_width = Frontend::GetMaxTextWidth_5D8990(pPauseText, gPauseFont_7063F8);
 
         // u32: converts with the Fix16(u32) constructor, whose out-of-line copy is 0x4926F0
-        u32 y_offset = (gText_0x14_704DFC->field_10_lang_code != 'j') ? 158 : 164;
+        u32 y_offset = !gText_0x14_704DFC->LangIsJapanese_452E60() ? 158 : 164;
 
         DrawText_5D7720(pPauseText, (640 - max_width) / 2, y_offset, gPauseFont_7063F8, palette_types_enum::sprites_2, 0, 0, 0);
 

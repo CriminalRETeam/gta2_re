@@ -956,7 +956,7 @@ void Frontend::DrawScoreTable_4B5430(ScoreTableLine* pStrings,
         }
         swprintf(tmpBuff_67BD9C, L"%d", pIter->field_14_score);
 
-        if (gText_0x14_704DFC->field_10_lang_code == 'j')
+        if (gText_0x14_704DFC->LangIsJapanese_452E60())
         {
             Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, new_xpos, text_ypos_to_use, arg_fontType, palette, 1, 16, true);
         }
@@ -973,7 +973,7 @@ void Frontend::DrawScoreTable_4B5430(ScoreTableLine* pStrings,
 MATCH_FUNC(0x4AD140)
 void Frontend::DrawMenu_4AD140()
 {
-    const s32 line_height = gText_0x14_704DFC->field_10_lang_code != 'j' ? 14 : 16;
+    const s32 line_height = !gText_0x14_704DFC->LangIsJapanese_452E60() ? 14 : 16;
 
     MenuPage* pMenuPage = &field_136_menu_pages_array[field_132_current_page_idx];
 
@@ -1383,7 +1383,7 @@ void Frontend::DrawMenu_4AD140()
         }
         wcscpy(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("entrnam"));
         x_pos = 0x15Eu;
-        y_pos = gText_0x14_704DFC->field_10_lang_code != 'j' ? 12 : 16;
+        y_pos = !gText_0x14_704DFC->LangIsJapanese_452E60() ? 12 : 16;
         DrawText_4B87A0(tmpBuff_67BD9C, x_pos, y_pos, field_126_heading_font, 1);
     }
     if (field_110_state == FrontendState::User_Typing_Password_5 && field_114_cursor_blink)
@@ -2930,7 +2930,7 @@ void Frontend::DrawDeletePlayerDialog_4ADDE0()
     {
         case 1:
         {
-            u16 ypos = gText_0x14_704DFC->field_10_lang_code != 'j' ? 12 : 16;
+            u16 ypos = !gText_0x14_704DFC->LangIsJapanese_452E60() ? 12 : 16;
             DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("clrchar"), static_cast<u16>(275), ypos, field_126_heading_font, 1);
             break;
         }
@@ -3265,7 +3265,7 @@ Frontend::Frontend()
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2292);
     }
 
-    if (gText_0x14_704DFC->field_10_lang_code == 'j')
+    if (gText_0x14_704DFC->LangIsJapanese_452E60())
     {
         gKanjiFont_6F5168 = new KanjiFont();
         if (!gKanjiFont_6F5168)
@@ -3465,7 +3465,7 @@ void Frontend::InitKeyBoardDevice_4AFBE0()
 MATCH_FUNC(0x4AF0E0)
 void Frontend::SetFontTypes_4AF0E0()
 {
-    if (gText_0x14_704DFC->field_10_lang_code == 'j')
+    if (gText_0x14_704DFC->LangIsJapanese_452E60())
     {
         this->field_11C_normal_font = 101;
         this->field_11E_text_font = 101;
@@ -3501,7 +3501,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     // Setup all menu pages, options and elements
 
     MenuPage* pPage;
-    s32 line_height = gText_0x14_704DFC->field_10_lang_code != 'j' ? 12 : 16;
+    s32 line_height = !gText_0x14_704DFC->LangIsJapanese_452E60() ? 12 : 16;
     field_134_unused = 16;
 
     pPage = &field_136_menu_pages_array[0];
