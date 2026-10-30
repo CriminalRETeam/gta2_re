@@ -9648,7 +9648,7 @@ bool Ped::IsOtherPedEnteringAsDriver_46BD50(Car* pCar)
         Car_Door* pDoor = pCar->GetDoor(door_idx);
         if (pDoor)
         {
-            Ped* pDoorPed = pDoor->field_8_pObj;
+            Ped* pDoorPed = pDoor->get_pObj_4341B0();
             if (pDoorPed)
             {
                 if (!pDoorPed->field_248_enter_car_as_passenger && pDoorPed != this)
