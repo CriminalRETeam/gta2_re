@@ -1435,7 +1435,7 @@ void sound_obj::ProcessOtherCarTypes_413C50(Sound_Params* pParams, SoundPosEntry
         HandleCarDamageSound_4177D0(pParams);
         HandleHeavyVehicleStopSound_417E30(pParams, pAlloc);
         PlayCarShopEventSound_415480(pParams);
-        HandleCarBurningSound_414F90(pParams);
+        HandleCarBombSound_414F90(pParams);
         HandleAICarHornBeep_413D10(pParams);
     }
 }
@@ -1789,7 +1789,7 @@ bool sound_obj::Type_11_InitTankTurretSound_414EE0(sound_0x68* pSound)
 }
 
 MATCH_FUNC(0x414F90)
-void sound_obj::HandleCarBurningSound_414F90(Sound_Params* pParams)
+void sound_obj::HandleCarBombSound_414F90(Sound_Params* pParams)
 {
     if (pParams->field_0_pObj->field_8_car_bc_ptr->field_0_attachments.GetSpriteForModel_5A6A50(objects::car_bomb_132))
     {

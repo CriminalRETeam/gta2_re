@@ -143,7 +143,7 @@ sound_obj::HandleTankMovementSound_414A50,0x414a50,0x14a50,0xfd
 sound_obj::Type_12_InitTankMovementSound_414C90,0x414c90,0x14c90,0x54
 sound_obj::HandleTankTurretSound_414D30,0x414d30,0x14d30,0xa1
 sound_obj::Type_11_InitTankTurretSound_414EE0,0x414ee0,0x14ee0,0x4c
-sound_obj::HandleCarBurningSound_414F90,0x414f90,0x14f90,0x87
+sound_obj::HandleCarBombSound_414F90,0x414f90,0x14f90,0x87
 sound_obj::Type_15_InitCarBombSound_415100,0x415100,0x15100,0x4c
 sound_obj::HandleTankCrushSound_415190,0x415190,0x15190,0x107
 sound_obj::Type_13_InitTankCrushSound_4153F0,0x4153f0,0x153f0,0x54

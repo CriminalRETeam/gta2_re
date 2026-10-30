@@ -289,7 +289,7 @@ class sound_obj
     EXPORT bool Type_12_InitTankMovementSound_414C90(sound_0x68* pSound);
     EXPORT void HandleTankTurretSound_414D30(Sound_Params* pParams);
     EXPORT bool Type_11_InitTankTurretSound_414EE0(sound_0x68* pSound);
-    EXPORT void HandleCarBurningSound_414F90(Sound_Params* pParams);
+    EXPORT void HandleCarBombSound_414F90(Sound_Params* pParams);
     EXPORT bool Type_15_InitCarBombSound_415100(sound_0x68* pSound);
     EXPORT void HandleTankCrushSound_415190(Sound_Params* pParams);
     EXPORT bool Type_13_InitTankCrushSound_4153F0(sound_0x68* pObj);
