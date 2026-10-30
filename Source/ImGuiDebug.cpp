@@ -457,7 +457,7 @@ EXPORT void __stdcall NoRefs_sub_5B1170()
     gGtx_0x106C_703DD4->get_sprite_index_5AA440(
         gGtx_0x106C_703DD4->GetSpriteTrueIndex_5AA460(sprite_types_enum::font_7,
                                                       gGtx_0x106C_703DD4->GetSpriteIdxFromFont_5AA710(gKanjiSmallFont_703C3E, 0)));
-    block.field_A_arrows = 0;
+    block.init_44C840();
     block.field_0_left = 7206;
     block.field_2_right = 7206;
     block.field_4_top = 7206;
@@ -489,9 +489,9 @@ EXPORT void __stdcall NoRefs_sub_5B1170()
     gMap_0x370_6F6268->AddNewBlock_4E87C0(112, 152, 2, &block);
     gTestCar1_704418 =
         gCarManager_6C_677930->SpawnCarAtCorrectZ_Scaled(Fix16(98), Fix16(180), kAng90_70420C, car_model_enum::GT24640, kFpHalf_7042A4);
-    gTestCar1_704418->field_98_door_lock = Car_Door_Lock::locked_permanently_4;
+    gTestCar1_704418->LockPermanently_475C30();
     gTestCar1_704418->IncrementCarStats_443D70(car_kind::mission_car_8);
-    gTestCar1_704418->field_78_flags |= 0x10;
+    gTestCar1_704418->SetFlag4_476270();
     gTestCar1_704418->UpdateDrawLayer_4435F0();
     gWeapon_8_707018->allocate_5E3D50(23, 1, gTestCar1_704418);
     gTestCar1_704418->IsBeingCrushed_43DD50();
