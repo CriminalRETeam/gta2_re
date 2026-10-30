@@ -475,6 +475,12 @@ class Sprite
         this->field_8_car_bc_ptr = pCar;
     }
 
+    // 9.6f 0x492180
+    void SetChar_492180(Char* pChar)
+    {
+        this->field_8_char_b4_ptr = pChar;
+    }
+
     void set_id_lazy_4206C0(s16 new_id)
     {
         if (field_22_type_sprite_idx != new_id)

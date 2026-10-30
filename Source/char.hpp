@@ -162,7 +162,6 @@ class Char
         return field_8_ped_state_1;
     }
 
-    // 9.6f 0x492180
     inline void Set_F8_ped_state_1_433910(s32 ped_state)
     {
         field_8_ped_state_1 = ped_state;

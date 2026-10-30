@@ -3896,11 +3896,11 @@ bool Car::OnObjectTouched_43EA60(Object* pObj)
             return true;
 
         case objects::crane_base_137:
-            gCranePool_D9C_679FD4->PickUpCar_480E00(this, pObj->get_field_26_420FF0());
+            gCranePool_D9C_679FD4->PickUpCar_480E00(this, pObj->GetParam_421050());
             break;
 
         case objects::crusher_central_spot_143:
-            gCrusherPool_94_67A830->CrushCarWithCrusher_4887D0(this, pObj->get_field_26_420FF0());
+            gCrusherPool_94_67A830->CrushCarWithCrusher_4887D0(this, pObj->GetParam_421050());
             break;
 
         case objects::animating_oil_8:
@@ -3922,7 +3922,7 @@ bool Car::OnObjectTouched_43EA60(Object* pObj)
             break;
 
         case objects::door_trigger_167:
-            gDoor_4D4_67BD2C->TryOpenDoorForCar_49D340(this, pObj->get_field_26_420FF0());
+            gDoor_4D4_67BD2C->TryOpenDoorForCar_49D340(this, pObj->GetParam_421050());
             break;
 
         default:

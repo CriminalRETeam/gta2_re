@@ -1464,7 +1464,7 @@ bool Object::ShouldCollideWithSprite_525370(Sprite* pSprite) const
         case objects::door_collision_obj_169:
             if (pSprite)
             {
-                return gDoor_4D4_67BD2C->CheckDoorAccess_49D3C0(pSprite, this->get_field_26_420FF0());
+                return gDoor_4D4_67BD2C->CheckDoorAccess_49D3C0(pSprite, this->GetParam_421050());
             }
             else
             {
@@ -2935,7 +2935,7 @@ void Object::SetConveyorSpeed_529030(s8 speed_x, s8 speed_y)
 MATCH_FUNC(0x529070)
 void Object::ApplyConveyorSpeedFrom_529070(Object* pObj)
 {
-    SetConveyorPush_5226A0(pObj->field_26_ped_ref_idx);
+    SetConveyorPush_5226A0(pObj->GetParam_421050());
 }
 
 MATCH_FUNC(0x529080)
@@ -3033,7 +3033,7 @@ bool Object::IsNotModel_174_529200() const
 MATCH_FUNC(0x529210)
 s32 Object::GetExplosionTypeForDiagonalWall_529210() const
 {
-    switch (field_26_ped_ref_idx)
+    switch (GetParam_421050())
     {
         case 46: // diagonal up right
         case 48: // diagonal down right
@@ -3051,7 +3051,7 @@ s32 Object::GetMapBlockSoundSpec_529240() const
     s32 result;
     gmp_block_info* pBlockInfo =
         gMap_0x370_6F6268->GetBlock_4DFE10(field_4_sprite->field_14_xy.x.ToInt(), field_4_sprite->field_14_xy.y.ToInt(), field_4_sprite->field_1C_zpos.ToInt());
-    switch (get_field_26_420FF0())
+    switch (GetParam_421050())
     {
         case 45u:
         case 47u:
@@ -3659,7 +3659,7 @@ void Object_5C::SaveObjects_52A500(SavedObjectData* pData)
             pData->field_0_obj_x[1][saved_count].field_0_value = pObj->GetY_4340E0();
             pData->field_0_obj_x[2][saved_count].field_0_value = pObj->GetZ_4340F0();
             pData->field_F0_model[saved_count] = pObj->field_18_model;
-            pData->field_118_ped_ref_idx[saved_count] = pObj->field_26_ped_ref_idx;
+            pData->field_118_ped_ref_idx[saved_count] = pObj->GetAmmo_4340A0();
             saved_count++;
             if (saved_count >= 20)
             {
