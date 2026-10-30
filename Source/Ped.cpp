@@ -1906,12 +1906,12 @@ inline bool Ped::IsPedAThreat_Inline_465D00(Ped* pTargetPed)
                     goto ret_if_active_player;
                 }
 
-                if (pTargetPed->field_25C_internal_objective == objectives_enum::kill_char_on_foot_20)
+                if (pTargetPed->GetInternalObjective_403A90() == objectives_enum::kill_char_on_foot_20)
                 {
                     return true;
                 }
 
-                if (pTargetPed->field_25C_internal_objective != objectives_enum::punch_char_23)
+                if (pTargetPed->GetInternalObjective_403A90() != objectives_enum::punch_char_23)
                 {
                     goto ret_if_active_player;
                 }
@@ -1929,7 +1929,7 @@ inline bool Ped::IsPedAThreat_Inline_465D00(Ped* pTargetPed)
 
     if (pTargetPed->IsActivePlayerPed_45EDC0())
     {
-        if (pTargetPed->field_168_game_object != NULL && pTargetPed->field_168_game_object->field_10_char_state == Char_B4_state::Jumping_15)
+        if (pTargetPed->field_168_game_object != NULL && pTargetPed->field_168_game_object->GetCharState_433A80() == Char_B4_state::Jumping_15)
         {
             return false;
         }
@@ -5905,12 +5905,9 @@ bool Ped::IsPedAThreat_465D00(Ped* pTargetPed)
 {
     char_type bThisIsActivePlayer = 0;
 
-    if (pTargetPed->field_21C_bf.bInvisible)
+    if (pTargetPed->IsInvisibleOnFoot_433DA0())
     {
-        if (pTargetPed->field_168_game_object != NULL)
-        {
-            return false;
-        }
+        return false;
     }
 
     if (this->field_288_threat_search == threat_search_enum::area_player_threat_only_3 || this->field_288_threat_search == threat_search_enum::line_of_sight_player_threat_only_4)
@@ -6138,7 +6135,7 @@ bool Ped::IsPedAThreat_465D00(Ped* pTargetPed)
 
     if (pTargetPed->IsActivePlayerPed_45EDC0())
     {
-        if (pTargetPed->field_168_game_object != NULL && pTargetPed->field_168_game_object->field_10_char_state == Char_B4_state::Jumping_15)
+        if (pTargetPed->field_168_game_object != NULL && pTargetPed->field_168_game_object->GetCharState_433A80() == Char_B4_state::Jumping_15)
         {
             return false;
         }
