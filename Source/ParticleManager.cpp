@@ -610,7 +610,7 @@ void ParticleManager::SpawnParticleSprite_5405D0(Sprite* pSprite)
 // 9.6f 0x48E060. Fix16_Point vel has a dtor, which gives the EH frame; its fields are zeroed again
 // before the call, and the two other zero args go through the out-of-line Fix16(s32) ctor.
 MATCH_FUNC(0x5406b0)
-void ParticleManager::SpawnCigaretteSmokePuff_5406B0(Sprite* pSprite, char_type bUnknown)
+void ParticleManager::SpawnCigaretteSmokePuff_5406B0(Sprite* pSprite, char_type bSmokeSource)
 {
     Fix16_Point vel(Fix16(0), Fix16(0));
     if (!bSkip_particles_67D64D)
@@ -622,7 +622,7 @@ void ParticleManager::SpawnCigaretteSmokePuff_5406B0(Sprite* pSprite, char_type 
         {
             pNewParticle->field_34_unused = 1;
 
-            if (bUnknown)
+            if (bSmokeSource)
             {
                 pNewParticle->field_38_state = 9;
                 pNewParticle->field_2C_counter = 80;
@@ -639,7 +639,7 @@ void ParticleManager::SpawnCigaretteSmokePuff_5406B0(Sprite* pSprite, char_type 
 
             Fix16 x;
             Fix16 y;
-            if (bUnknown)
+            if (bSmokeSource)
             {
                 PolarToCartesian_OutOfLineCos(pSprite->field_0_rotation, kFpPoint07_6FD474, x, y);
             }
@@ -662,7 +662,7 @@ void ParticleManager::SpawnCigaretteSmokePuff_5406B0(Sprite* pSprite, char_type 
 
             gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pNewParticle->field_30_pOwnSprite);
 
-            if (bUnknown)
+            if (bSmokeSource)
             {
                 pNewParticle->field_30_pOwnSprite->SetNoLighting_4337F0();
             }
