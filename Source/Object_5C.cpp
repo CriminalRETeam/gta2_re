@@ -3659,7 +3659,7 @@ void Object_5C::SaveObjects_52A500(SavedObjectData* pData)
             pData->field_0_obj_x[1][saved_count].field_0_value = pObj->GetY_4340E0();
             pData->field_0_obj_x[2][saved_count].field_0_value = pObj->GetZ_4340F0();
             pData->field_F0_model[saved_count] = pObj->field_18_model;
-            pData->field_118_ped_ref_idx[saved_count] = pObj->GetAmmo_4340A0();
+            pData->field_118_pickup_ammo[saved_count] = pObj->GetAmmo_4340A0();
             saved_count++;
             if (saved_count >= 20)
             {
@@ -3681,7 +3681,7 @@ void Object_5C::RestoreObjects_52A590(SavedObjectData* pData)
                                                    pData->field_0_obj_x[1][i].field_0_value,
                                                    pData->field_0_obj_x[2][i].field_0_value,
                                                    kZeroAng_6F8F68);
-            pNewObj->SetParam_447E90(pData->field_118_ped_ref_idx[i]);
+            pNewObj->SetParam_447E90(pData->field_118_pickup_ammo[i]);
         }
     }
 
