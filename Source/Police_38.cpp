@@ -622,7 +622,7 @@ bool PoliceCrew::CanTrackCriminal_572210() const
 {
     if (field_14_pPursuitTarget->field_0_criminal_ped && !field_34_is_dismissed && field_14_pPursuitTarget->field_C_timer > 0)
     {
-        if (!field_10_subObj->field_24_phase)
+        if (field_10_subObj->field_24_phase == crew_phase::on_foot_0)
         {
             return Fix16::MaxAbsDistance_42A6B0(gCurrentCrewPed_6FEDDC->get_cam_x(),
                                         gCurrentCrewPed_6FEDDC->get_cam_y(),
@@ -924,7 +924,7 @@ void PoliceCrew::State5_PursueOrChase_572920()
     }
     else if (field_14_pPursuitTarget->field_C_timer > 0)
     {
-        if (!field_10_subObj->field_24_phase)
+        if (field_10_subObj->field_24_phase == crew_phase::on_foot_0)
         {
             field_24_state = police_crew_state::shutdown_6;
             PoliceCrew::UnlinkFromPursuitTarget_575650();
@@ -939,7 +939,7 @@ void PoliceCrew::State5_PursueOrChase_572920()
     }
     else
     {
-        if (!field_10_subObj->field_24_phase)
+        if (field_10_subObj->field_24_phase == crew_phase::on_foot_0)
         {
             field_24_state = police_crew_state::shutdown_6;
             PoliceCrew::UnlinkFromPursuitTarget_575650();
@@ -1459,7 +1459,7 @@ void PoliceCrew::State1_Patrol_574F10()
     byte_6FEB48 = 1;
     u8 idx = 0;
 
-    if (field_10_subObj->field_24_phase == crew_phase::finished_2 || !field_10_subObj->field_24_phase || (pCrewCar = field_10_subObj->field_0_car, pCrewCar->field_76_last_seen_timer > 80))
+    if (field_10_subObj->field_24_phase == crew_phase::finished_2 || field_10_subObj->field_24_phase == crew_phase::on_foot_0 || (pCrewCar = field_10_subObj->field_0_car, pCrewCar->field_76_last_seen_timer > 80))
     {
         field_24_state = police_crew_state::shutdown_6;
     }
