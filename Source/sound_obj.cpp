@@ -1956,7 +1956,7 @@ void sound_obj::HandleCarHornSound_415570(Sound_Params* pParams, SoundPosEntry* 
 
                 if (tryPlay && CalculateDistance_419020((Fix16(15) / Fix16(2)) * (Fix16(15) / Fix16(2))))
                 {
-                    const u8 vol = pCar->field_84_car_info_idx == car_model_enum::TRAINCAB ? 127 : 20;
+                    const u8 vol = pCar->GetCarInfoIdx_411940() == car_model_enum::TRAINCAB ? 127 : 20;
                     if (VolCalc_419070(vol, Fix16(15) / Fix16(2), pParams->field_5_bHasSolidAbove))
                     {
                         this->field_30_sQueueSample.field_54_sound_intensity = Fix16(15) / Fix16(2);
@@ -2822,7 +2822,7 @@ void sound_obj::HandleCarDoorSounds_4182E0(Sound_Params* pParams)
     bool bQueued1 = false;
     bool bQueued2 = false;
     Car* pCar = pParams->field_0_pObj->field_8_car_bc_ptr;
-    s32 model = pCar->field_84_car_info_idx;
+    s32 model = pCar->GetCarInfoIdx_411940();
     u8* pDoorData = gGtx_0x106C_703DD4->get_car_door_data_5AA3D0(model);
     for (u8 i = 0; i < static_cast<u8>(pCar->GetDoorCount_43B360()); ++i)
     {
