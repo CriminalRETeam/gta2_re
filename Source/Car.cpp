@@ -4325,7 +4325,7 @@ void Car::ClearDriver_4407F0()
         {
             if (pPlayer->IsUser_41DC70())
             {
-                gHud_2B00_706620->field_0_car_name.field_0_display_time = 0;
+                gHud_2B00_706620->HideCarName_4219F0();
             }
             pPlayer->UnloadCarWeapons_564C00();
         }
