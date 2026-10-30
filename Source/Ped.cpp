@@ -1429,8 +1429,7 @@ void Ped::SpawnPedInCar_45C730(Car* pCar)
     this->field_278_ped_state_1 = ped_state_1::in_car_10;
 
     pCar->SetDriver(this);
-    pCar->field_7C_ped_type = field_238_ped_type;
-    pCar->field_76_last_seen_timer = 0;
+    pCar->SetDriverPedType_421560(field_238_ped_type);
 
     pCar->CancelDespawn_4215F0();
 }
