@@ -7115,7 +7115,7 @@ void Ped::FleeCharOnFootTillSafe_467960()
         {
             Ped::ChangeNextPedState1_45C500(ped_state_1::flee_or_running_1);
             Ped::ChangeNextPedState2_45C540(ped_state_2::running_away_3);
-            this->field_168_game_object->field_38_velocity = this->field_168_game_object->field_3C_run_or_jump_speed;
+            this->field_168_game_object->UseRunOrJumpSpeed_433930();
             field_21C_bf.bAttacking = false;
         }
     }
@@ -7136,7 +7136,7 @@ void Ped::FleeFromCharOnFootAlways_467A20()
     else if (gObjectiveMayAct_61A8A3)
     {
         // Run
-        field_168_game_object->field_38_velocity = field_168_game_object->field_3C_run_or_jump_speed;
+        field_168_game_object->UseRunOrJumpSpeed_433930();
         field_21C_bf.bAttacking = false;
     }
 }
@@ -10354,7 +10354,7 @@ void Ped::EnterTrainStateMachine_46D0D0()
             {
                 field_24C_target_car_door = best_door;
                 pChar = field_168_game_object;
-                pChar->field_38_velocity = pChar->field_3C_run_or_jump_speed;
+                pChar->UseRunOrJumpSpeed_433930();
                 EnterCarStateMachine_46BDC0();
                 if (field_226_internal_objective_status == objective_status::passed_1)
                 {
