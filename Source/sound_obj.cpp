@@ -226,13 +226,13 @@ void sound_obj::ProcessEntity_4123A0(s32 idx)
 
         if (field_147C_audio_entities[idx].field_4_pObj->field_0_object_type == SoundObjectTypeEnum::Frontend_2)
         {
-            ProcessType2_412490(idx);
+            ProcessType2_Frontend_412490(idx);
         }
     }
 }
 
 MATCH_FUNC(0x412490)
-void sound_obj::ProcessType2_412490(s32 idx)
+void sound_obj::ProcessType2_Frontend_412490(s32 idx)
 {
     static u8 gType2SampleIndexCounter_66F2D4;
     static u8 gType2StreamStarted_66F540;
@@ -4615,7 +4615,7 @@ void sound_obj::ProcessObject_41E820(Sound_Params* pParams)
 {
     if (pParams->field_0_pObj->field_8_object_2C_ptr->field_8_definition->field_34_behavior_type == object_behavior_type::effect_only_12)
     {
-        sound_obj::ProcessObject_Type12_41E850(pParams);
+        sound_obj::ProcessEffectOnlyObject_41E850(pParams);
     }
     else
     {
@@ -4626,7 +4626,7 @@ void sound_obj::ProcessObject_41E820(Sound_Params* pParams)
 // The looping or one-shot sound of a map object, by its object kind. Some kinds only play now and
 // then (the gObjSoundDelayKind* globals count down between plays) and pick a random sample when they do.
 MATCH_FUNC(0x41E850)
-void sound_obj::ProcessObject_Type12_41E850(Sound_Params* pParams)
+void sound_obj::ProcessEffectOnlyObject_41E850(Sound_Params* pParams)
 {
     u32 kind = pParams->field_0_pObj->field_8_object_2C_ptr->field_26_ped_ref_idx;
     Fix16 dist;

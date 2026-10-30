@@ -254,7 +254,7 @@ class sound_obj
     EXPORT void null_412250();
     EXPORT bool InitSampleForType_412260(sound_0x68* pObj);
     EXPORT void ProcessEntity_4123A0(s32 idx);
-    EXPORT void ProcessType2_412490(s32 idx);
+    EXPORT void ProcessType2_Frontend_412490(s32 idx);
     EXPORT void ProcessType1_Sprite_412740(s32 idx);
     EXPORT void ProcessType8_Crane_412820(s32 idx);
     EXPORT void ProcessType9_Crusher_412A60(s32 idx);
@@ -356,7 +356,7 @@ class sound_obj
     EXPORT void GenerateIntegerRandomNumberTable_41BA90();
 
     EXPORT void ProcessObject_41E820(Sound_Params* pParams);
-    EXPORT void ProcessObject_Type12_41E850(Sound_Params* pParams);
+    EXPORT void ProcessEffectOnlyObject_41E850(Sound_Params* pParams);
     EXPORT void ProcessOtherObjects_41F520(Sound_Params* pParams);
     EXPORT void UpdateRadioChatterLoop_41FCA0();
 

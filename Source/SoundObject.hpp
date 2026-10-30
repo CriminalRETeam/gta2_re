@@ -15,7 +15,7 @@ enum
     Camera_0xBC_5 = 5,
     Unused_4 = 4,
     Radio_3 = 3,
-    Frontend_2 = 2, // Frontend's snd2_67D6F8, processed by sound_obj::ProcessType2_412490
+    Frontend_2 = 2, // Frontend's snd2_67D6F8, processed by sound_obj::ProcessType2_Frontend_412490
     Sprite_1 = 1,
 };
 } // namespace SoundObjectTypeEnum

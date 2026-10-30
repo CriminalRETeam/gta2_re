@@ -322,7 +322,7 @@ Paired: 3081/4433 10.5 functions. Marked functions with inlined callees: WIP 220
 | 0x40BE40 | `CollisionSoundQueue::dtor_40BE40` | 0x410440 | ✓ `root_sound::DestroySoundObj_40FE60` | done | all 9.6f inlines used |
 | 0x40EF40 | `root_sound::CreateSoundObject_40EF40` | 0x410750 | ✓ `root_sound::sub_410730` | done | root_sound::PopFree_410730 (new); its 9.6f callee SoundObject::sub_4106D0 isn't dumped, only field_8 = 0 assumed (TODO); code unchanged |
 | 0x40F010 | `root_sound::sub_40F010` | 0x410560 | `sound_obj::sub_4B2F20` | checked | 9.6f sound_obj::sub_4B2F20 = InitMusicAndCopRadio_57E960 (10.5 calls it) |
-| 0x412490 | `sound_obj::ProcessType2_412490` | 0x411A50 | `sub_4B6700` | checked | 9.6f sub_4B6700 = cSampleManager::OpenStream_58E320 (still called) |
+| 0x412490 | `sound_obj::ProcessType2_Frontend_412490` | 0x411A50 | `sub_4B6700` | checked | 9.6f sub_4B6700 = cSampleManager::OpenStream_58E320 (still called) |
 | 0x412740 | `sound_obj::ProcessType1_Sprite_412740` | 0x4162C0 | ✓ `sub_4117B0`, `sub_411730`, ✓ `sub_40FEA0`, ✓ `sub_40FEB0`, ✓ `sub_40FEC0`, `sub_41B030` | checked | 9.6f sub_41B030 is a Char dispatcher (4181E0/41A3C0, not paired), 10.5 calls ProcessPed_422B70; GetPosition_4117B0 already used; 411730 still called |
 | 0x412820 | `sound_obj::ProcessType8_Crane_412820` | 0x411D20 | ✓ `sub_411A00`, ✓ `sub_4117B0`, `sub_411730` | matched | GetRotorSprite_411A00 + GetPosition_4117B0, 86->52; sub_411730 = ComputeEmitterDistanceSquared_4190B0 (still called in 10.5, pairing noise) |
 | 0x412A60 | `sound_obj::ProcessType9_Crusher_412A60` | 0x412010 | ✓ `sub_411A10`, ✓ `unknown_libname_20`, ✓ `sub_411A30`, `sub_411730` | done | Crusher::get_state_411A10 + get_ypos_411A30 (new); code unchanged; 411730 still called |

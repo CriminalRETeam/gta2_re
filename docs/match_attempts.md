@@ -1186,7 +1186,7 @@ Matched (116 -> 0) with two changes:
 ### sound_obj::Release_41A290, Char::IsThreatToSearchingPed_553330: now verified
 - Both were `MATCH_FUNC` without a csv row. They're tail-jump thunks and match.
 
-### sound_obj::ProcessObject_Type12_41E850 (0x41E850): WIP 0.970
+### sound_obj::ProcessEffectOnlyObject_41E850 (0x41E850): WIP 0.970
 - A map object's sound by kind (`Object::field_26`). 40 case blocks set the sample, release,
   range, distance and volume. VC6 merges their tails, so each case is written out in full, in
   the jump table's address order. Then come countdowns for the occasional kinds, the sample

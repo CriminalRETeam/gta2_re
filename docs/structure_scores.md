@@ -34,7 +34,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 0 | 4 | 46 | 8 | 0x574720 | `PoliceCrew::State6_ShutDown_574720` | Police_38.cpp |
 | 0 | 4 | 8 | 430 | 0x539890 | `Particle_4C::UpdateCircularBurst_state_5_539890` | Particle_4C.cpp |
 | 0 | 6 | 121 | - | 0x509180 | `ScriptThread::SCRCMD_STORE_CAR_INFO_509180` | ScriptThread.cpp |
-| 0 | 6 | 40 | - | 0x41e850 | `sound_obj::ProcessObject_Type12_41E850` | sound_obj.cpp |
+| 0 | 6 | 40 | - | 0x41e850 | `sound_obj::ProcessEffectOnlyObject_41E850` | sound_obj.cpp |
 | 0 | 6 | 52 | - | 0x442ad0 | `Fix16_Point::NormalizeSafe_442AD0` | Fix16_Point.cpp |
 | 0 | 6 | 58 | 184 | 0x436200 | `Camera::ApplyCarVelocityCameraOffset_436200` | Camera.cpp |
 | 0 | 8 | 142 | - | 0x465d00 | `Ped::IsPedAThreat_465D00` | Ped.cpp |

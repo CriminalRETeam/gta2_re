@@ -221,7 +221,7 @@ the case's own `if`/`else` follows the source too (`if (occ != 43) { angle } els
 in `Char::HandlePedCollision_548BD0`). Read the jump table targets in address order to get
 the source order of the cases.
 
-**A countdown that returns goes in the `else`.** In `sound_obj::ProcessObject_Type12_41E850`,
+**A countdown that returns goes in the `else`.** In `sound_obj::ProcessEffectOnlyObject_41E850`,
 each "play only now and then" case is `cmpw $0,w; jne <far>`, then the reload and a fall
 through to the code after the switch. The `w--; return` blocks come at the very end of the
 function. `if (w) { w--; return; } w = ...;` laid the decrement inline (0.716). With
@@ -1169,7 +1169,7 @@ register the following `rate + RandomDisplacement(...)` used. The permuter found
 pushes `samp`'s register for `Disp`. Split into
 `s32 rate = Get(samp); field_20 = rate + Disp(field_14_samp_idx);` and `field_14` is
 reloaded after the call, as in the original (`sound_obj::HandlePedVoiceEvent_423080`). Splitting
-can also spoil the register allocation: in `ProcessObject_Type12_41E850` it gives the reload but
+can also spoil the register allocation: in `ProcessEffectOnlyObject_41E850` it gives the reload but
 swaps registers (score 40 -> 74).
 
 **Put the zero-initialised accumulator first.** `xor %ebp,%ebp` before two `mov %bl,mem`
@@ -2807,7 +2807,7 @@ tried are in the WIP status report.
   the original puts an unused `u8` out byte in `xpos`'s slot and the y integer in `ypos`'s.
   Ours gives `found_z` the `xpos` slot, which shifts the frame (0x34 vs 0x30). Declaration
   order, passing `(u8*)&xpos` and the permuter didn't help.
-- In `sound_obj::ProcessObject_Type12_41E850` the original copies the sample index into `eax`
+- In `sound_obj::ProcessEffectOnlyObject_41E850` the original copies the sample index into `eax`
   for `GetPlayBackRateIdx` (`mov %edi,%eax; push %eax`) and reloads `field_14` for
   `RandomDisplacement`. Every spelling we tried either pushes `edi` directly or swaps the call
   order.
