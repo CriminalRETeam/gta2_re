@@ -51,6 +51,9 @@ class RemapTextureSet
 
     EXPORT void Alloc_5B8E90(s16 sprite_count, s16 remaps_per_sprite, s32 sprite_type, s32 pal_type);
 
+    // 9.6f 0x4C2F30, defined in TextureCache.cpp
+    inline void AllocOfType_4C2F30(s32 sprite_type, s32 pal_type);
+
     EXPORT void LoadRemappedTextures_5B8F70();
 
     EXPORT void LoadTextures_5B8F00();
