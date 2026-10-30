@@ -2199,7 +2199,7 @@ char_type CarPhysics::CheckPendingCollision_55F360()
         {
             return 1;
         }
-        this->field_5C_pCar->field_78_flags &= static_cast<u16>(~car_flag::Crushing);
+        this->field_5C_pCar->ClearCrushFlag_49EFD0();
     }
     return 0;
 }

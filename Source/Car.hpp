@@ -1330,6 +1330,12 @@ class Car
         AddFlags_421890(car_flag::Crushing);
     }
 
+    // 9.6f 0x49EFD0
+    inline void ClearCrushFlag_49EFD0()
+    {
+        field_78_flags &= static_cast<u16>(~car_flag::Crushing);
+    }
+
     EXPORT bool SnapCarToGreenArrow_444E40(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT bool TrySnapCarToNearestDrivableRoadAndDriveForward_445EC0(Fix16 xpos, Fix16 ypos, s32 direction);
 
