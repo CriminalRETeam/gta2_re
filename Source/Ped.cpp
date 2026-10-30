@@ -1406,13 +1406,13 @@ void Ped::SpawnDriverRunAway_45C650(Car* pCar, Ped* pCarThief)
             if (pCar->GetDoorCount_43B360())
             {
                 Ped* pPed = gPedManager_6787BC->SpawnRunAwayGuy_470D60();
-                pPed->field_240_occupation = ped_ocupation_enum::scared_driver_50;
+                pPed->set_occupation_403970(ped_ocupation_enum::scared_driver_50);
                 pCar->field_54_driver = pPed;
                 pPed->field_16C_car = pCar;
-                pPed->field_24C_target_car_door = 0;
-                pPed->field_248_enter_car_as_passenger = 0;
+                pPed->set_target_car_door_403A70(0);
+                pPed->set_enter_car_as_passenger_4039B0(0);
                 pPed->SetObjective(objectives_enum::leave_car_36);
-                pPed->field_150_target_objective_car = pPed->field_16C_car;
+                pPed->SetTargetObjectiveCar(pPed->field_16C_car);
                 pPed->field_180_car_thief = pCarThief;
                 pPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3;
             }
