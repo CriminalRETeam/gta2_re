@@ -555,34 +555,34 @@ void Char::Update_545720(Fix16 distance_to_target)
         switch (field_8_ped_state_1)
         {
             case ped_state_1::walking_0:
-                Char::state_0_54DDF0();
+                Char::UpdateWalking_54DDF0();
                 break;
             case ped_state_1::flee_or_running_1:
-                Char::state_1_5504F0();
+                Char::UpdateFleeOrRunning_5504F0();
                 break;
             case ped_state_1::findind_path_2:
-                Char::state_2_5519F0();
+                Char::UpdateFindingPath_5519F0();
                 break;
             case ped_state_1::entering_car_3:
-                Char::state_3_551A00();
+                Char::UpdateEnteringCar_551A00();
                 break;
             case ped_state_1::exiting_car_4:
-                Char::state_4_551B30();
+                Char::UpdateExitingCar_551B30();
                 break;
             case ped_state_1::entering_train_5:
-                Char::state_5_551BB0();
+                Char::UpdateEnteringTrain_551BB0();
                 break;
             case ped_state_1::leaving_train_6:
                 nullsub_28();
                 break;
             case ped_state_1::standing_still_7:
-                Char::state_7_551CB0();
+                Char::UpdateStandingStill_551CB0();
                 break;
             case ped_state_1::immobilized_8:
-                Char::state_8_5520A0();
+                Char::UpdateImmobilized_5520A0();
                 break;
             case ped_state_1::dead_9:
-                Char::state_9_552E90();
+                Char::UpdateDead_552E90();
                 break;
             default:
                 break;
@@ -3336,7 +3336,7 @@ static inline bool IsBlockTypeInRange_1_4(u8 block_type)
 
 // https://decomp.me/scratch/56qkT
 MATCH_FUNC(0x54ddf0)
-void Char::state_0_54DDF0()
+void Char::UpdateWalking_54DDF0()
 {
     char_type bCanMove;
     char_type bAllowStateChange;
@@ -3463,7 +3463,7 @@ void Char::state_0_54DDF0()
                 {
                     field_16_state_init_pending = true;
                 }
-                Char::state_8_5520A0();
+                Char::UpdateImmobilized_5520A0();
                 return;
             }
             // A jumping ped only starts falling once the jump is over
@@ -4583,7 +4583,7 @@ static inline s32 IsOnSlopeBlock(gmp_block_info* pBlock)
     return 0;
 }
 
-// MaxAbsDistance_42A6B0 as state_1_5504F0 inlines it: past the nested inline budget, Max is the named
+// MaxAbsDistance_42A6B0 as UpdateFleeOrRunning_5504F0 inlines it: past the nested inline budget, Max is the named
 // out-of-line copy Max_44E540 (as in Weapon's MaxAbsDistance_5DF270)
 static inline Fix16 MaxAbsDistance_5504F0(Fix16& x1, Fix16& y1, Fix16& x2, Fix16& y2)
 {
@@ -4598,7 +4598,7 @@ static inline Fix16 MaxAbsDistance_5504F0(Fix16& x1, Fix16& y1, Fix16& x2, Fix16
 
 // https://decomp.me/scratch/chZqY
 MATCH_FUNC(0x5504f0)
-void Char::state_1_5504F0()
+void Char::UpdateFleeOrRunning_5504F0()
 {
     Ang16 saved_rotation;
     Ang16 prev_angle;
@@ -5407,18 +5407,18 @@ void Char::SelectNextTileFast_5516F0()
 }
 
 MATCH_FUNC(0x5519F0)
-void Char::state_2_5519F0()
+void Char::UpdateFindingPath_5519F0()
 {
-    Char::state_1_5504F0();
+    Char::UpdateFleeOrRunning_5504F0();
 }
 
 MATCH_FUNC(0x551A00)
-void Char::state_3_551A00()
+void Char::UpdateEnteringCar_551A00()
 {
     if (field_C_ped_state_2 == ped_state_2::ped2_following_a_car_4)
     {
         field_58_flags_bf.bFlag7 = false;
-        Char::state_1_5504F0();
+        Char::UpdateFleeOrRunning_5504F0();
         if (!field_7C_pPed->GetAttacking_433CA0() && field_10_char_state != Char_B4_state::Jumping_15)
         {
             if (field_38_velocity > k_CollisionRepulsionSpeed_6FD7BC)
@@ -5470,7 +5470,7 @@ void Char::state_3_551A00()
 }
 
 MATCH_FUNC(0x551B30)
-void Char::state_4_551B30()
+void Char::UpdateExitingCar_551B30()
 {
     if (field_6C_animation_state != Char_Anim_state::Exiting_Car_7)
     {
@@ -5500,13 +5500,13 @@ void Char::state_4_551B30()
 }
 
 MATCH_FUNC(0x551BB0)
-void Char::state_5_551BB0()
+void Char::UpdateEnteringTrain_551BB0()
 {
     if (field_C_ped_state_2 == ped_state_2::ped2_following_a_car_4)
     {
         this->field_58_flags_bf.bFlag7 = false;
 
-        state_1_5504F0();
+        UpdateFleeOrRunning_5504F0();
 
         if (!this->field_7C_pPed->GetAttacking_433CA0() && this->field_10_char_state != Char_B4_state::Jumping_15)
         {
@@ -5547,7 +5547,7 @@ void Char::state_5_551BB0()
 
 // https://decomp.me/scratch/qNjdM
 MATCH_FUNC(0x551CB0)
-void Char::state_7_551CB0()
+void Char::UpdateStandingStill_551CB0()
 {
     u8 block_type;
     gmp_block_info* pBlockAtPos;
@@ -5562,7 +5562,7 @@ void Char::state_7_551CB0()
 
         if (field_10_char_state == Char_B4_state::Jumping_15)
         {
-            Char::state_0_54DDF0();
+            Char::UpdateWalking_54DDF0();
             SetPedState1_433910(0);
             SetPedState2_433A50(0);
             return;
@@ -5612,7 +5612,7 @@ void Char::state_7_551CB0()
     {
         Set_F8_ped_state_1_433910(ped_state_1::walking_0);
         field_C_ped_state_2 = ped_state_2::ped2_walking_0;
-        Char::state_0_54DDF0();
+        Char::UpdateWalking_54DDF0();
         Set_F8_ped_state_1_433910(ped_state_1::standing_still_7);
         field_C_ped_state_2 = ped_state_2::ped2_staying_14;
         if (field_10_char_state == Char_B4_state::Jumping_15)
@@ -5717,7 +5717,7 @@ void Char::state_7_551CB0()
 
 // https://decomp.me/scratch/x9UcS
 MATCH_FUNC(0x5520A0)
-void Char::state_8_5520A0()
+void Char::UpdateImmobilized_5520A0()
 {
     Fix16 nudge_x;
     Fix16 nudge_y;
@@ -6207,7 +6207,7 @@ Fix16 CarPhysics::vec_len_552DE0() // Weird location, I'm putting this here to p
 }
 
 MATCH_FUNC(0x552E90)
-void Char::state_9_552E90()
+void Char::UpdateDead_552E90()
 {
     s32 rng;
 
@@ -6279,7 +6279,7 @@ void Char::state_9_552E90()
                     field_80_sprite_ptr->field_14_xy.y.ToUInt8() < 254)
                 {
                     field_38_velocity = -k_CollisionRepulsionSpeed_6FD7BC;
-                    Char::state_0_54DDF0();
+                    Char::UpdateWalking_54DDF0();
                 }
                 else
                 {
@@ -6292,7 +6292,7 @@ void Char::state_9_552E90()
                     field_80_sprite_ptr->field_14_xy.y.ToUInt8() < 254)
                 {
                     field_38_velocity = -k_CollisionRepulsionSpeed_6FD7BC;
-                    Char::state_0_54DDF0();
+                    Char::UpdateWalking_54DDF0();
                 }
                 else
                 {

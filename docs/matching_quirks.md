@@ -720,7 +720,7 @@ swapping the operands of `+` didn't change the multiply order, declaring `cos` b
 **Call arguments are evaluated right to left, inline expressions included.** Writing the
 offset math inside the call (`set_xyz_lazy_420600(x + sin*v, y + cos*v, z)`) gives the original's
 y-first order and early load of z. A separate `PolarToCartesian` statement into locals computes x
-first (`Char::state_1_5504F0`).
+first (`Char::UpdateFleeOrRunning_5504F0`).
 
 **Ctor EH frame missing when the member ctors come first in the TU.** If the member
 constructors are defined earlier in the same .cpp, VC6 infers they can't throw and drops the
@@ -1030,7 +1030,7 @@ labels (stacked labels and labels sharing a body count separately), R = max - mi
 
 **Identical bodies in an else-if chain are tail-merged** with a `jmp` into the first copy
 (`CarAI::ManageCollisions_452A20`). Stacked case labels give a `cmp/jl/jle` range test, while separate
-identical case bodies give the `sub/dec/je` chain (`Char::state_7_551CB0`).
+identical case bodies give the `sub/dec/je` chain (`Char::UpdateStandingStill_551CB0`).
 
 **Moving a callee to its own TU brings back EH state stores.** With `GetBoundingBoxCorner_562450` defined earlier
 in sprite.cpp, VC6 knew it couldn't throw and dropped the state stores around its calls in
@@ -2401,7 +2401,7 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   share it, and a named local inside an inline helper shares one slot across all its call sites
   (`CarAI::AlignToLaneCenter_44AF00`).
 - **`field += k` vs `field = field + k`** on an `Ang16` member: inline normalise on memory vs a temporary
-  and an out-of-line Normalize (`Char::state_0_54DDF0`, skeleton 8 -> 0).
+  and an out-of-line Normalize (`Char::UpdateWalking_54DDF0`, skeleton 8 -> 0).
 - **`?:` as an `if` condition** is materialised with `setcc` when its arms are compares; an inline helper
   with `if/return true/false` gives branches (`HandleGenericCollision_54A530`).
 - **Swapping an if/else's arms** moves blocks (the `then` arm is laid out first) and the cross-jump
@@ -2498,9 +2498,9 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   asm's order the function matched. So when a straight run of bit clears has its registers rotated, look for
   a constant VC6 keeps in a register for two clears and give the byte field a byte bit field.
 - **`flags &= 0x7F` on a `u32` flags word clears bits 8..31 too.** The original's load / `and $0x7F,%al` /
-  store is a bit field clear of bit 7 (`Char::state_1_5504F0`: `field_58_flags_bf.b7 = 0`).
+  store is a bit field clear of bit 7 (`Char::UpdateFleeOrRunning_5504F0`: `field_58_flags_bf.b7 = 0`).
 - **`flags ^= (flags ^ v) & 1` (the bit field assign idiom) without a `(u8)` cast on the field** gave back
-  the original's zero register in `ebp` in `state_1_5504F0` (304 -> 260), although VC6 then folds it to
+  the original's zero register in `ebp` in `UpdateFleeOrRunning_5504F0` (304 -> 260), although VC6 then folds it to
   `and $1` / `and $~1` / `xor` where the original keeps `xor; and; xor` on an `int` flag. An `s32` flag gives
   the original's three instructions but loses `ebp` again (318), as does `field_58_flags_bf.b0 = v` (262).
 
@@ -3109,7 +3109,7 @@ block and the stores: in `CarAI::UpdateStateMachine_44E560` the original's `test
 `xor %eax,%eax` come from a flag set after the stores and tested later (`flag = 1;` instead of `return;`), which
 VC6 threads away but which changes the block graph the regions are built from.
 
-### Duplicated early-return blocks shift the round-robin cursor (`Char::state_8_5520A0`)
+### Duplicated early-return blocks shift the round-robin cursor (`Char::UpdateImmobilized_5520A0`)
 
 Identical `if (...) { kill; return; }` blocks are merged after register allocation, so writing three separate checks
 instead of one `||` condition leaves the same bytes but each copy makes its own round-robin picks before the merge.
