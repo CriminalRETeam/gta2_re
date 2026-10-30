@@ -1364,7 +1364,7 @@ void Player::HandleControls_5668D0(Ped* pPed)
     }
     if (field_7D_now_enter_exit_pressed && field_89_enter_exit_changed)
     {
-        if (!pPedCar)
+        if (!pPed->has_car_403B80())
         {
             if (pPed->get_objective_403A80() != objectives_enum::leave_car_36)
             {
