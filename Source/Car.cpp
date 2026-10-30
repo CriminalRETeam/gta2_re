@@ -722,7 +722,7 @@ u32 CarManager::SelectTrafficCarModel_444AB0(Player* pPlayer, gmp_zone_info* pZo
 
 // No callers. Five ignored arguments.
 MATCH_FUNC(0x444CE0)
-bool CarManager::NoRefs_444CE0(s32 a1, s32 a2, s32 a3, s32 a4, s32 a5)
+bool CarManager::NoRefs_444CE0(s32, s32, s32, s32, s32)
 {
     return true;
 }

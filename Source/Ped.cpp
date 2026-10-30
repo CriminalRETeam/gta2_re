@@ -1787,7 +1787,7 @@ inline bool Ped::IsPedAThreat_Inline_465D00(Ped* pTargetPed)
                 return true;
             }
 
-            if (pMyGang->field_110_has_high_respect != 0)
+            if (pMyGang->field_110_has_high_respect)
             {
                 switch (pTargetPed->field_240_occupation)
                 {

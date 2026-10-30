@@ -119,7 +119,7 @@ class RouteFinder
     EXPORT void FindArrowBlockInJunction_5890D0(u16 junction_idx, s32 direction, u8* xpos, u8* ypos);
 
   private:
-    EXPORT s32 NoRefs_589210(u8 x, u8 y, s32 a4, u8 direction, s32 a6, u16 junction_idx);
+    EXPORT s32 NoRefs_589210(u8 x, u8 y, s32, u8 direction, s32, u16 junction_idx);
     EXPORT RouteSearchNode* NewChildNode_5892F0(RouteSearchNode* pParent, u16 idx, s16 step_cost);
     EXPORT RouteSearchNode* NewStartNode_589390(u16 junction_idx);
     EXPORT void InsertIntoOpenList_589420(RouteSearchNode* pNode);

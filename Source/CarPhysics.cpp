@@ -1637,7 +1637,7 @@ void CarPhysics::HandleMapBoundaryCollisionX_55C820(Fix16_Point& point, Ang16 an
 MATCH_FUNC(0x55ca70)
 void CarPhysics::DispatchCollision_55CA70(Fix16_Point& point, Ang16 angle)
 {
-    Fix16_Point arg0;
+    Fix16_Point unusedPoint; // never read, but needed to match
     u8 hitType;
     switch (gCollisionTarget_679188.field_0_type)
     {

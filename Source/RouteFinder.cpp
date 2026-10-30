@@ -569,7 +569,7 @@ void RouteFinder::FindArrowBlockInJunction_5890D0(u16 junction_idx, s32 directio
 }
 
 MATCH_FUNC(0x589210)
-s32 RouteFinder::NoRefs_589210(u8 x, u8 y, s32 a4, u8 direction, s32 a6, u16 junction_idx)
+s32 RouteFinder::NoRefs_589210(u8 x, u8 y, s32, u8 direction, s32, u16 junction_idx)
 {
     Junction* pJunction = &field_8_junctions[junction_idx];
     s32 dy;

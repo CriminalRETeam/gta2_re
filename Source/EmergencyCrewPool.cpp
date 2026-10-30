@@ -389,7 +389,7 @@ void EmergencyCrew::UpdateStateMachine_5CBD50()
             }
         }
     }
-    else if (!field_24_phase)
+    else if (field_24_phase == crew_phase::on_foot_0)
     {
         bCarGone = true;
         if (field_8_group)
