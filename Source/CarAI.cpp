@@ -50,7 +50,7 @@ DEFINE_GLOBAL(u8, gIgnoreTargetCarAhead_677A6C, 0x677A6C);
 DEFINE_GLOBAL(u8, byte_677A94, 0x677A94);
 DEFINE_GLOBAL(u8, gCurrCarAI_WentStraight_677A5C, 0x677A5C);
 DEFINE_GLOBAL(u8, gCurrCarAI_DoSpeedControl_677B8C, 0x677B8C);
-DEFINE_GLOBAL(u8, byte_677CA8, 0x677CA8);
+DEFINE_GLOBAL(u8, gCurrCarAI_HasChaseUpdate_677CA8, 0x677CA8);
 DEFINE_GLOBAL(u8, gCurrCarAI_ArrowDirection_677C06, 0x677C06);
 
 DEFINE_GLOBAL(Fix16, gCurrCarAI_ProbeX_677A74, 0x677A74);
@@ -119,7 +119,7 @@ void __stdcall InitAIvars_447650()
     byte_677A94 = 0;
     gCurrCarAI_WentStraight_677A5C = 0;
     gCurrCarAI_DoSpeedControl_677B8C = 1;
-    byte_677CA8 = 0;
+    gCurrCarAI_HasChaseUpdate_677CA8 = 0;
     gCurrCarAI_ArrowDirection_677C06 = 0;
     gCurrCarAI_xpos_677C38 = kF16Zero_677B90;
     gCurrCarAI_ypos_677C30 = kF16Zero_677B90;
@@ -465,7 +465,7 @@ bool CarAI::TrySetTargetDirectionFromArrows_447D40(const gmp_block_info* pBlock)
             {
                 if (field_0_car->IsTurnLeft_42AC30())
                 {
-                    if (byte_677CA8)
+                    if (gCurrCarAI_HasChaseUpdate_677CA8)
                     {
                         if ((pBlock->field_A_arrows & block_arrow::left_mask) && ComputeShortestAngleDelta_4056C0(kAng270_677B08, angle) > kAng45_677A38)
                         {
@@ -484,7 +484,7 @@ bool CarAI::TrySetTargetDirectionFromArrows_447D40(const gmp_block_info* pBlock)
                 }
                 else
                 {
-                    if (byte_677CA8)
+                    if (gCurrCarAI_HasChaseUpdate_677CA8)
                     {
                         // Note: the original compares against 270 here although it turns east
                         if ((pBlock->field_A_arrows & block_arrow::right_mask) && ComputeShortestAngleDelta_4056C0(kAng270_677B08, angle) > kAng45_677A38)
@@ -504,7 +504,7 @@ bool CarAI::TrySetTargetDirectionFromArrows_447D40(const gmp_block_info* pBlock)
                 }
             }
 
-            if (byte_677CA8 && (pBlock->field_A_arrows & block_arrow::red_mask) && !(pBlock->field_A_arrows & block_arrow::green_mask))
+            if (gCurrCarAI_HasChaseUpdate_677CA8 && (pBlock->field_A_arrows & block_arrow::red_mask) && !(pBlock->field_A_arrows & block_arrow::green_mask))
             {
                 if ((pBlock->field_A_arrows & block_arrow::red_mask) == block_arrow::red_left_10)
                 {
@@ -4856,12 +4856,12 @@ void CarAI::UpdateDrivingAI_452DF0()
     gCurrCarAI_ypos_677C30 = field_0_car->field_50_car_sprite->field_14_xy.y;
     gCurrCarAI_zpos_677C48 = field_0_car->field_50_car_sprite->field_1C_zpos;
     gCurrCarAI_TargetCar_6779B0 = NULL;
-    byte_677CA8 = 0;
+    gCurrCarAI_HasChaseUpdate_677CA8 = 0;
 
     if (field_0_car->field_60_pChaseTask && !field_3C_seeking_road)
     {
         UpdateChase_44E0C0();
-        byte_677CA8 = 1;
+        gCurrCarAI_HasChaseUpdate_677CA8 = 1;
     }
     else
     {
