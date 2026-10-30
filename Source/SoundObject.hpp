@@ -13,7 +13,7 @@ enum
     Weapon_30_7 = 7,
     CollisionSoundQueue_6 = 6,
     Camera_0xBC_5 = 5,
-    Unknown_4 = 4,
+    Unused_4 = 4,
     Radio_3 = 3,
     Frontend_2 = 2, // Frontend's snd2_67D6F8, processed by sound_obj::ProcessType2_412490
     Sprite_1 = 1,
