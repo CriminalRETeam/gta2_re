@@ -6669,9 +6669,8 @@ static inline bool IsVelocityAlignedWithHeading_40F840(CarPhysics* pPhys)
 MATCH_FUNC(0x407ce0)
 void Trailer::UpdateTrailerAlignment_407CE0()
 {
-    // The four points are declared up front: the original enters with EH state 3. The 9.6f getters and
-    // setters (get/set_theta_40F820/40F830, set_cp1_40F7E0, get/set_cp3) are written as field accesses
-    // and the Fix16 compares on mValue, otherwise the inline budget pushes these ctors out of line.
+    // The four points are declared up front: the original enters with EH state 3. trailer_theta reads
+    // field_58_theta and the Fix16 compares use mValue, otherwise the inline budget pushes these ctors out of line.
     Fix16_Point rear;
     Fix16_Point hitch;
     Fix16_Point delta;
@@ -6682,11 +6681,11 @@ void Trailer::UpdateTrailerAlignment_407CE0()
     Fix16 trailer_theta = Ang16::Ang16_to_Fix16(pTrailerPhys->field_58_theta);
 
     rear = field_C_trailer_car->GetRearWheelOffset_43A0E0();
-    rear.RotateByAngle_40F6B0(pTrailerPhys->field_58_theta);
+    rear.RotateByAngle_40F6B0(pTrailerPhys->get_theta_40F820());
     rear += pTrailerPhys->get_cp1_40B560();
 
     hitch = gTrailerHitchOffset_66AAC8;
-    Fix16 cab_theta = Ang16::Ang16_to_Fix16(pCabPhys->field_58_theta);
+    Fix16 cab_theta = Ang16::Ang16_to_Fix16(pCabPhys->get_theta_40F820());
     hitch.RotateByAngle_40F6B0(Ang16::Fix16_To_Ang16_40F540(cab_theta));
     hitch += pCabPhys->get_cp1_40B560();
 
@@ -6703,12 +6702,12 @@ void Trailer::UpdateTrailerAlignment_407CE0()
         }
     }
 
-    pTrailerPhys->field_58_theta = Ang16::Fix16_To_Ang16_40F540(new_theta);
+    pTrailerPhys->set_theta_40F830(Ang16::Fix16_To_Ang16_40F540(new_theta));
 
     offset = gTrailerCabOffset_66AAE0;
     offset.RotateByAngle_40F6B0(Ang16::Fix16_To_Ang16_40F540(new_theta));
-    field_C_trailer_car->field_58_physics->field_38_cp1 = hitch.Sub_40AC80(offset);
-    pTrailerPhys->field_6C_cp3 = field_8_truck_cab->field_58_physics->field_6C_cp3;
+    field_C_trailer_car->field_58_physics->set_cp1_40F7E0(hitch.Sub_40AC80(offset));
+    pTrailerPhys->set_cp3_40F810(field_8_truck_cab->field_58_physics->get_cp3_40F800());
     pTrailerPhys->UpdateCenterOfMassPoint_563350();
 }
 
