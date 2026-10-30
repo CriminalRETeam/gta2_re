@@ -423,6 +423,12 @@ class ArrowTrace
         field_10_target_type = ArrowTargetType::Object_4;
     }
 
+    // 9.6f 0x476830
+    inline void ClearTarget_476830()
+    {
+        field_10_target_type = ArrowTargetType::Nothing_0;
+    }
+
     // inline 0x4C6F00
     void init()
     {

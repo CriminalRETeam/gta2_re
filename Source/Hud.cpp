@@ -619,7 +619,7 @@ void ArrowTrace::UpdateAimCoordinates_5D03F0()
             }
             else
             {
-                field_10_target_type = ArrowTargetType::Nothing_0;
+                ClearTarget_476830();
             }
             break;
         case ArrowTargetType::Ped_2:
@@ -632,14 +632,14 @@ void ArrowTrace::UpdateAimCoordinates_5D03F0()
             }
             else
             {
-                field_10_target_type = ArrowTargetType::Nothing_0;
+                ClearTarget_476830();
             }
             break;
         case ArrowTargetType::Car_3:
             pCar = field_4_car;
             if (pCar->IsDespawning_4215B0())
             {
-                field_10_target_type = ArrowTargetType::Nothing_0;
+                ClearTarget_476830();
             }
             else
             {
@@ -650,7 +650,7 @@ void ArrowTrace::UpdateAimCoordinates_5D03F0()
             if (!field_8_obj->IsNotModel_174_529200())
             {
                 gHud_2B00_706620->field_1F18_arrows.field_844_check_info_phones = true;
-                field_10_target_type = ArrowTargetType::Nothing_0;
+                ClearTarget_476830();
             }
             else
             {
