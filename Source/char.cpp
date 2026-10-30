@@ -573,7 +573,7 @@ void Char::Update_545720(Fix16 distance_to_target)
                 Char::UpdateEnteringTrain_551BB0();
                 break;
             case ped_state_1::leaving_train_6:
-                nullsub_28();
+                UpdateLeavingTrain_551CA0();
                 break;
             case ped_state_1::standing_still_7:
                 Char::UpdateStandingStill_551CB0();
@@ -6820,7 +6820,7 @@ void __stdcall ResetCharStatics_553F90()
 }
 
 MATCH_FUNC(0x551CA0)
-EXPORT void Char::nullsub_28()
+EXPORT void Char::UpdateLeavingTrain_551CA0()
 {
     // State 6 deliberately does nothing in the original game.
 }

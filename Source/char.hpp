@@ -414,7 +414,7 @@ class Char
     EXPORT void HandleGenericImpact_553E00(Ang16 ang, Fix16 impact_x, Fix16 impact_z, char_type impact_type);
 
   private:
-    EXPORT void nullsub_28();
+    EXPORT void UpdateLeavingTrain_551CA0();
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Char, 0xB4);
 
