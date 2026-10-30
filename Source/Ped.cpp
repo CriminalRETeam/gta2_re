@@ -4912,9 +4912,9 @@ void Ped::ProcessMainObjective_463AA0()
         {
             if (field_1A0_objective_target_object)
             {
-                field_1B8_target_x = field_1A0_objective_target_object->field_4_sprite->GetXPos();
-                field_1BC_target_y = field_1A0_objective_target_object->field_4_sprite->GetYPos();
-                field_1C0_target_z = field_1A0_objective_target_object->field_4_sprite->GetZPos();
+                field_1B8_target_x = field_1A0_objective_target_object->GetX_4340D0();
+                field_1BC_target_y = field_1A0_objective_target_object->GetY_4340E0();
+                field_1C0_target_z = field_1A0_objective_target_object->GetZ_4340F0();
             }
             else if (field_1DC_objective_target_x != kFpZero_678660 && field_1E0_objective_target_y != kFpZero_678660)
             {
