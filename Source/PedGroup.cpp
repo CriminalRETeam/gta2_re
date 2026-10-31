@@ -14,7 +14,7 @@ DEFINE_GLOBAL_INIT(Fix16, kFpTwo_67F608, Fix16(2), 0x67F608);
 DEFINE_GLOBAL(Fix16, kFpZero_67F610, 0x67F610);
 DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpEight, Fix16(8), 0x67F670);
 DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpFiveSixtyFourths, Fix16(0x500, 0), 0x67EEE4);
-DEFINE_GLOBAL_INIT(char_type, gGroupMemberCarDoor_620838, 1, 0x620838);
+DEFINE_STATIC_MEMBER_INIT(char_type, PedGroup, sGroupMemberCarDoor, 1, 0x620838);
 DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpFour, Fix16(4), 0x67F630);
 
 // The original is the compiler generated static destructor of pedGroups_67EF20: a call to the
@@ -36,7 +36,7 @@ void PedGroup::DestroyGroupArray_4C8E60()
 MATCH_FUNC(0x4c8e80)
 void PedGroup::ResetMemberCarDoor_4C8E80()
 {
-    gGroupMemberCarDoor_620838 = 1;
+    sGroupMemberCarDoor = 1;
 }
 
 MATCH_FUNC(0x4c8e90)
@@ -752,42 +752,42 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
 
                 Car* pTargetCar = pMember->get_target_to_enter_403B10();
                 u8 tries = 0;
-                gGroupMemberCarDoor_620838 = i + 1;
+                sGroupMemberCarDoor = i + 1;
                 u8 maxDoor = pTargetCar->GetDoorCount_43B360() - 1;
                 bool searching;
                 if (pTargetCar->IsSwatVanOrBankVan_403BC0())
                 {
-                    gGroupMemberCarDoor_620838 = i + 2;
+                    sGroupMemberCarDoor = i + 2;
                     do
                     {
                         searching = true;
                         do
                         {
-                            if (gGroupMemberCarDoor_620838 > maxDoor)
+                            if (sGroupMemberCarDoor > maxDoor)
                             {
-                                gGroupMemberCarDoor_620838 += 1 - maxDoor;
+                                sGroupMemberCarDoor += 1 - maxDoor;
                             }
-                        } while (gGroupMemberCarDoor_620838 > maxDoor);
+                        } while (sGroupMemberCarDoor > maxDoor);
 
-                        if (pTargetCar->IsDoorAccessible_43AFE0(gGroupMemberCarDoor_620838))
+                        if (pTargetCar->IsDoorAccessible_43AFE0(sGroupMemberCarDoor))
                         {
                             searching = false;
                         }
                         else
                         {
-                            gGroupMemberCarDoor_620838++;
+                            sGroupMemberCarDoor++;
                         }
 
                         if (++tries == maxDoor + 1)
                         {
-                            gGroupMemberCarDoor_620838 = maxDoor;
+                            sGroupMemberCarDoor = maxDoor;
                             if (pTargetCar->IsDoorAccessible_43AFE0(0))
                             {
-                                gGroupMemberCarDoor_620838 = 0;
+                                sGroupMemberCarDoor = 0;
                             }
                             else if (pTargetCar->IsDoorAccessible_43AFE0(1))
                             {
-                                gGroupMemberCarDoor_620838 = 1;
+                                sGroupMemberCarDoor = 1;
                             }
                             break;
                         }
@@ -800,27 +800,27 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
                         searching = true;
                         do
                         {
-                            if (gGroupMemberCarDoor_620838 > maxDoor)
+                            if (sGroupMemberCarDoor > maxDoor)
                             {
-                                gGroupMemberCarDoor_620838 -= maxDoor;
+                                sGroupMemberCarDoor -= maxDoor;
                             }
-                        } while (gGroupMemberCarDoor_620838 > maxDoor);
+                        } while (sGroupMemberCarDoor > maxDoor);
 
-                        if (pTargetCar->IsDoorAccessible_43AFE0(gGroupMemberCarDoor_620838))
+                        if (pTargetCar->IsDoorAccessible_43AFE0(sGroupMemberCarDoor))
                         {
                             searching = false;
                         }
                         else
                         {
-                            gGroupMemberCarDoor_620838++;
+                            sGroupMemberCarDoor++;
                         }
 
                         if (++tries == maxDoor + 1)
                         {
-                            gGroupMemberCarDoor_620838 = maxDoor;
+                            sGroupMemberCarDoor = maxDoor;
                             if (pTargetCar->IsDoorAccessible_43AFE0(0))
                             {
-                                gGroupMemberCarDoor_620838 = 0;
+                                sGroupMemberCarDoor = 0;
                             }
                             break;
                         }
@@ -836,7 +836,7 @@ void PedGroup::CoordinateGroupCarEntry_4C9F00()
                         pMember->SetInternalTargetPed_403AE0(pOther);
                     }
                 }
-                pMember->set_target_car_door_403A70(gGroupMemberCarDoor_620838);
+                pMember->set_target_car_door_403A70(sGroupMemberCarDoor);
             }
 
             for (; i < field_34_count; i++)

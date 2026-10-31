@@ -21,6 +21,7 @@ class PedGroup
     }
 
   public:
+    STATIC_MEMBER(char_type, sGroupMemberCarDoor);
     EXPORT void DestroyGroupArray_4C8E60();
 
   private:
