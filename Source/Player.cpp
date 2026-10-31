@@ -51,10 +51,10 @@ DEFINE_GLOBAL_INIT(Fix16, kTwo_6FE618, Fix16(2), 0x6FE618);
 DEFINE_GLOBAL_INIT(Fix16, kZero_6FE41C, kZero_6FE610, 0x6FE41C);
 DEFINE_GLOBAL_INIT(Ang16, kAngZero_6FE754, Ang16(0), 0x6FE754);
 DEFINE_GLOBAL_INIT(Ang16, kJumpTurnAccel_6FE74C, Ang16(4), 0x6FE74C);
-DEFINE_GLOBAL_INIT(Ang16, kAng3_6FE750, Ang16(12), 0x6FE750);
-DEFINE_GLOBAL_INIT(Ang16, kAttackTurnAccel_6FE488, Ang16(12), 0x6FE488);
-DEFINE_GLOBAL_INIT(Ang16, kMaxJumpTurnSpeed_6FE450, Ang16(24), 0x6FE450);
-DEFINE_GLOBAL_INIT(Ang16, kMaxTurnSpeed_6FE700, Ang16(48), 0x6FE700);
+DEFINE_STATIC_GLOBAL_INIT(Ang16, kAng3, Ang16(12), 0x6FE750);
+DEFINE_STATIC_GLOBAL_INIT(Ang16, kAttackTurnAccel, Ang16(12), 0x6FE488);
+DEFINE_STATIC_GLOBAL_INIT(Ang16, kMaxJumpTurnSpeed, Ang16(24), 0x6FE450);
+DEFINE_STATIC_GLOBAL_INIT(Ang16, kMaxTurnSpeed, Ang16(48), 0x6FE700);
 DEFINE_GLOBAL_INIT(Fix16, kOne_6FE614, Fix16(1), 0x6FE614);
 DEFINE_GLOBAL_INIT(Fix16, k_instant_gang_radius_6FE634, Fix16(8), 0x6FE634);
 
@@ -857,7 +857,7 @@ void Player::InitPlayerPed_565490(Ped* pPed)
     field_2C_death_countdown = 0;
     field_2C4_player_ped = pPed;
     field_8_turn_speed = kAngZero_6FE754;
-    field_A_turn_accel = kJumpTurnAccel_6FE74C + (kAng3_6FE750 + kJumpTurnAccel_6FE74C);
+    field_A_turn_accel = kJumpTurnAccel_6FE74C + (kAng3 + kJumpTurnAccel_6FE74C);
     field_C_move_direction = kZero_6FE610;
     field_10_unused = 0;
     field_680_traffic_spawn_counter = 0;
@@ -1521,23 +1521,23 @@ void Player::DoPedControlInputs_566C80(Ped* pPed)
 
         if (field_7C_now_attack_pressed && !field_78_now_forward_pressed)
         {
-            turn_accel = kAttackTurnAccel_6FE488;
+            turn_accel = kAttackTurnAccel;
         }
 
         if (field_64_jumping)
         {
             field_8_turn_speed = field_8_turn_speed - kJumpTurnAccel_6FE74C;
-            if (field_8_turn_speed < -kMaxJumpTurnSpeed_6FE450)
+            if (field_8_turn_speed < -kMaxJumpTurnSpeed)
             {
-                field_8_turn_speed = -kMaxJumpTurnSpeed_6FE450;
+                field_8_turn_speed = -kMaxJumpTurnSpeed;
             }
         }
         else
         {
             field_8_turn_speed = field_8_turn_speed - turn_accel;
-            if (field_8_turn_speed < -kMaxTurnSpeed_6FE700)
+            if (field_8_turn_speed < -kMaxTurnSpeed)
             {
-                field_8_turn_speed = -kMaxTurnSpeed_6FE700;
+                field_8_turn_speed = -kMaxTurnSpeed;
             }
         }
     }
@@ -1549,25 +1549,25 @@ void Player::DoPedControlInputs_566C80(Ped* pPed)
 
         if (field_7C_now_attack_pressed && !field_78_now_forward_pressed)
         {
-            turn_accel = kAttackTurnAccel_6FE488;
+            turn_accel = kAttackTurnAccel;
         }
 
         if (field_64_jumping)
         {
             Ang16 new_turn_speed = field_8_turn_speed + kJumpTurnAccel_6FE74C;
             field_8_turn_speed = new_turn_speed;
-            if (new_turn_speed > kMaxJumpTurnSpeed_6FE450)
+            if (new_turn_speed > kMaxJumpTurnSpeed)
             {
-                field_8_turn_speed = kMaxJumpTurnSpeed_6FE450;
+                field_8_turn_speed = kMaxJumpTurnSpeed;
             }
         }
         else
         {
             Ang16 new_turn_speed = field_8_turn_speed + turn_accel;
             field_8_turn_speed = new_turn_speed;
-            if (new_turn_speed > kMaxTurnSpeed_6FE700)
+            if (new_turn_speed > kMaxTurnSpeed)
             {
-                field_8_turn_speed = kMaxTurnSpeed_6FE700;
+                field_8_turn_speed = kMaxTurnSpeed;
             }
         }
     }
