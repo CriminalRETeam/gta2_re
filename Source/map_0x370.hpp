@@ -355,6 +355,16 @@ struct gmp_zone_list
 class Map_0x370
 {
   public:
+    STATIC_MEMBER(s32, sWestTileZ);
+    STATIC_MEMBER(s32, sSouthTileZ);
+    STATIC_MEMBER(s32, sSearchZ);
+    STATIC_MEMBER(s32, sSearchY);
+    STATIC_MEMBER(s32, sSearchX);
+    STATIC_MEMBER(s32, sNorthTileZ);
+    STATIC_MEMBER(s32, sEastTileZ);
+    STATIC_MEMBER(gmp_block_info, sBlockInfo2);
+    STATIC_MEMBER(gmp_block_info, sBlockInfo1);
+    STATIC_MEMBER(gmp_block_info*, sBlockInfo0);
     EXPORT gmp_block_info* GetBlockOrNull_452980(u8 x_coord, u8 y_coord, u8 z_coord) const;
 
     EXPORT gmp_map_zone* FindZoneByName_4DEFD0(const char_type* pZoneName);

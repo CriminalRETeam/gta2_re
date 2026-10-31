@@ -26,9 +26,9 @@
 #include "car_surface_type_more.hpp"
 
 DEFINE_GLOBAL(Map_0x370*, gMap_0x370_6F6268, 0x6F6268);
-DEFINE_GLOBAL(gmp_block_info*, gBlockInfo0_6F5EB0, 0x6F5EB0);
-DEFINE_GLOBAL(gmp_block_info, gBlockInfo1_6F5F40, 0x6F5F40);
-DEFINE_GLOBAL(gmp_block_info, gBlockInfo2_6F6028, 0x6F6028);
+DEFINE_STATIC_MEMBER(gmp_block_info*, Map_0x370, sBlockInfo0, 0x6F5EB0);
+DEFINE_STATIC_MEMBER(gmp_block_info, Map_0x370, sBlockInfo1, 0x6F5F40);
+DEFINE_STATIC_MEMBER(gmp_block_info, Map_0x370, sBlockInfo2, 0x6F6028);
 // Used by MapRenderer.cpp. Defined here, not there: with the definition in MapRenderer.cpp VC6 loads
 // them 32-bit where the original has a 16-bit mov (MapRenderer::DrawPartialBlockTop_4F5560 etc.).
 DEFINE_GLOBAL(u16, gBlockLeft_6F62F6, 0x6F62F6);
@@ -40,10 +40,10 @@ DEFINE_GLOBAL(gmp_map_slope*, gCurrentBlockSlope_6F5EC8, 0x6F5EC8);
 EXTERN_GLOBAL(s16, gFaceCollisionMask_6F6002);
 DEFINE_GLOBAL(s32, gSpriteGrid_right_6F5B80, 0x6F5B80);
 DEFINE_GLOBAL(s32, gSpriteGrid_left_6F5FD4, 0x6F5FD4);
-DEFINE_GLOBAL(s32, gEastTileZ_6F620C, 0x6F620C);
-DEFINE_GLOBAL(s32, gWestTileZ_6F5BA0, 0x6F5BA0);
-DEFINE_GLOBAL(s32, gSouthTileZ_6F6248, 0x6F6248);
-DEFINE_GLOBAL(s32, gNorthTileZ_6F5FAC, 0x6F5FAC);
+DEFINE_STATIC_MEMBER(s32, Map_0x370, sEastTileZ, 0x6F620C);
+DEFINE_STATIC_MEMBER(s32, Map_0x370, sWestTileZ, 0x6F5BA0);
+DEFINE_STATIC_MEMBER(s32, Map_0x370, sSouthTileZ, 0x6F6248);
+DEFINE_STATIC_MEMBER(s32, Map_0x370, sNorthTileZ, 0x6F5FAC);
 DEFINE_GLOBAL_INIT(Fix16, kFpZero_6F610C, Fix16(0), 0x6F610C);
 DEFINE_GLOBAL_INIT(Fix16, kFpEight_6F6130, Fix16(8), 0x6F6130);
 DEFINE_GLOBAL_INIT(Fix16, kFpOneThirtySecond_6F601C, Fix16(0x200, 0), 0x6F601C);
@@ -51,9 +51,9 @@ DEFINE_GLOBAL_INIT(Fix16, kFpOneSixtyFourth_6F60C0, Fix16(0x100, 0), 0x6F60C0);
 DEFINE_GLOBAL_INIT(Fix16, kGradientScaleSize1_6F5ED8, Fix16(1), 0x6F5ED8);
 DEFINE_GLOBAL_INIT(Fix16, kGradientScaleSize2_6F5FA8, Fix16(0x1FE8, 0), 0x6F5FA8);
 DEFINE_GLOBAL_INIT(Fix16, kGradientScaleSize8_6F6214, Fix16(0x824, 0), 0x6F6214);
-DEFINE_GLOBAL(s32, gSearchX_6F6164, 0x6F6164);
-DEFINE_GLOBAL(s32, gSearchY_6F6148, 0x6F6148);
-DEFINE_GLOBAL(s32, gSearchZ_6F613C, 0x6F613C);
+DEFINE_STATIC_MEMBER(s32, Map_0x370, sSearchX, 0x6F6164);
+DEFINE_STATIC_MEMBER(s32, Map_0x370, sSearchY, 0x6F6148);
+DEFINE_STATIC_MEMBER(s32, Map_0x370, sSearchZ, 0x6F613C);
 DEFINE_GLOBAL_INIT(Fix16, kFpOneEighth_6F6050, Fix16(0x800, 0), 0x6F6050);
 DEFINE_GLOBAL_INIT(Fix16, kFpQuarter_6F6180, Fix16(0x1000, 0), 0x6F6180);
 DEFINE_GLOBAL_INIT(Fix16, kFpThreeEighths_6F60A0, Fix16(0x1800, 0), 0x6F60A0);
@@ -801,7 +801,7 @@ gmp_block_info* Map_0x370::GetEffectiveBlock_4DFE60(s32 x, s32 y, s32 z)
             {
                 if (IS_TRIDIAGONAL_BLOCK(slope_type))
                 {
-                    return &gBlockInfo2_6F6028; // solid block
+                    return &sBlockInfo2; // solid block
                 }
                 return v7_block;
             }
@@ -1871,10 +1871,10 @@ bool Map_0x370::IsTileBlockedForSprite_4E1E00(s32 regionLeft,
     LOCAL_STATIC(gmp_block_info*, sSouthWestBlock, 0x6F5FB0);
     LOCAL_STATIC(gmp_block_info*, sWestBlock, 0x6F6078);
     LOCAL_STATIC(gmp_map_slope*, sWestSlope, 0x6F608C);
-    gNorthTileZ_6F5FAC = zLevel;
-    gSouthTileZ_6F6248 = zLevel;
-    gEastTileZ_6F620C = zLevel;
-    gWestTileZ_6F5BA0 = zLevel;
+    sNorthTileZ = zLevel;
+    sSouthTileZ = zLevel;
+    sEastTileZ = zLevel;
+    sWestTileZ = zLevel;
 
     if (gSprite_6F61E8)
     {
@@ -1890,11 +1890,11 @@ bool Map_0x370::IsTileBlockedForSprite_4E1E00(s32 regionLeft,
     }
 
     gmp_block_info* pBlock = GetEffectiveBlock_4DFE60(tileX, tileY, zLevel);
-    gBlockInfo0_6F5EB0 = pBlock;
+    sBlockInfo0 = pBlock;
     if (!pBlock)
     {
-        pBlock = &gBlockInfo1_6F5F40;
-        gBlockInfo0_6F5EB0 = &gBlockInfo1_6F5F40;
+        pBlock = &sBlockInfo1;
+        sBlockInfo0 = &sBlockInfo1;
     }
 
     u8 gradient_direction;
@@ -1909,16 +1909,16 @@ bool Map_0x370::IsTileBlockedForSprite_4E1E00(s32 regionLeft,
         switch (gradient_direction)
         {
             case 1u:
-                ++gNorthTileZ_6F5FAC;
+                ++sNorthTileZ;
                 break;
             case 2u:
-                ++gSouthTileZ_6F6248;
+                ++sSouthTileZ;
                 break;
             case 3u:
-                ++gWestTileZ_6F5BA0;
+                ++sWestTileZ;
                 break;
             case 4u:
-                ++gEastTileZ_6F620C;
+                ++sEastTileZ;
                 break;
             default:
                 break;
@@ -1939,7 +1939,7 @@ bool Map_0x370::IsTileBlockedForSprite_4E1E00(s32 regionLeft,
                 }
             }
         }
-        else if ((static_cast<u16>(gFaceCollisionMask_6F6002) & gBlockInfo0_6F5EB0->field_4_top) != 0 &&
+        else if ((static_cast<u16>(gFaceCollisionMask_6F6002) & sBlockInfo0->field_4_top) != 0 &&
                  gCurrentBlockSlope_6F5EC8->field_0_gradient_direction != WEST_3 &&
                  gCurrentBlockSlope_6F5EC8->field_0_gradient_direction != EAST_4)
         {
@@ -1949,7 +1949,7 @@ bool Map_0x370::IsTileBlockedForSprite_4E1E00(s32 regionLeft,
             }
         }
 
-        sNorthBlock = GetEffectiveBlock_4DFE60(tileX, tileY - 1, gNorthTileZ_6F5FAC);
+        sNorthBlock = GetEffectiveBlock_4DFE60(tileX, tileY - 1, sNorthTileZ);
         if (sNorthBlock)
         {
             if ((static_cast<u16>(gFaceCollisionMask_6F6002) & sNorthBlock->field_6_bottom) != 0)
@@ -1976,7 +1976,7 @@ bool Map_0x370::IsTileBlockedForSprite_4E1E00(s32 regionLeft,
                 }
             }
         }
-        else if ((static_cast<u16>(gFaceCollisionMask_6F6002) & gBlockInfo0_6F5EB0->field_6_bottom) != 0 &&
+        else if ((static_cast<u16>(gFaceCollisionMask_6F6002) & sBlockInfo0->field_6_bottom) != 0 &&
                  gCurrentBlockSlope_6F5EC8->field_0_gradient_direction != WEST_3 &&
                  gCurrentBlockSlope_6F5EC8->field_0_gradient_direction != EAST_4)
         {
@@ -1986,7 +1986,7 @@ bool Map_0x370::IsTileBlockedForSprite_4E1E00(s32 regionLeft,
             }
         }
 
-        sSouthBlock = GetEffectiveBlock_4DFE60(tileX, tileY + 1, gSouthTileZ_6F6248);
+        sSouthBlock = GetEffectiveBlock_4DFE60(tileX, tileY + 1, sSouthTileZ);
         if (sSouthBlock)
         {
             if ((static_cast<u16>(gFaceCollisionMask_6F6002) & sSouthBlock->field_4_top) != 0)
@@ -2013,7 +2013,7 @@ bool Map_0x370::IsTileBlockedForSprite_4E1E00(s32 regionLeft,
                 }
             }
         }
-        else if ((static_cast<u16>(gFaceCollisionMask_6F6002) & gBlockInfo0_6F5EB0->field_0_left) != 0 &&
+        else if ((static_cast<u16>(gFaceCollisionMask_6F6002) & sBlockInfo0->field_0_left) != 0 &&
                  gCurrentBlockSlope_6F5EC8->field_0_gradient_direction != NORTH_1 &&
                  gCurrentBlockSlope_6F5EC8->field_0_gradient_direction != SOUTH_2)
         {
@@ -2023,7 +2023,7 @@ bool Map_0x370::IsTileBlockedForSprite_4E1E00(s32 regionLeft,
             }
         }
 
-        sWestBlock = GetEffectiveBlock_4DFE60(tileX - 1, tileY, gWestTileZ_6F5BA0);
+        sWestBlock = GetEffectiveBlock_4DFE60(tileX - 1, tileY, sWestTileZ);
         if (sWestBlock)
         {
             if ((static_cast<u16>(gFaceCollisionMask_6F6002) & sWestBlock->field_2_right) != 0)
@@ -2038,7 +2038,7 @@ bool Map_0x370::IsTileBlockedForSprite_4E1E00(s32 regionLeft,
 
         if (regionTop < tileY)
         {
-            if (sNorthBlock && gWestTileZ_6F5BA0 <= gNorthTileZ_6F5FAC &&
+            if (sNorthBlock && sWestTileZ <= sNorthTileZ &&
                 (static_cast<u16>(gFaceCollisionMask_6F6002) & sNorthBlock->field_0_left) != 0 &&
                 sNorthSlope->field_0_gradient_direction != NORTH_1 && sNorthSlope->field_0_gradient_direction != SOUTH_2)
             {
@@ -2048,7 +2048,7 @@ bool Map_0x370::IsTileBlockedForSprite_4E1E00(s32 regionLeft,
                 }
             }
 
-            if (sWestBlock && gNorthTileZ_6F5FAC <= gWestTileZ_6F5BA0 &&
+            if (sWestBlock && sNorthTileZ <= sWestTileZ &&
                 (static_cast<u16>(gFaceCollisionMask_6F6002) & sWestBlock->field_4_top) != 0 &&
                 sWestSlope->field_0_gradient_direction != WEST_3 && sWestSlope->field_0_gradient_direction != EAST_4)
             {
@@ -2058,7 +2058,7 @@ bool Map_0x370::IsTileBlockedForSprite_4E1E00(s32 regionLeft,
                 }
             }
 
-            sNorthWestBlock = GetEffectiveBlock_4DFE60(tileX - 1, tileY - 1, gNorthTileZ_6F5FAC > gWestTileZ_6F5BA0 ? gNorthTileZ_6F5FAC : gWestTileZ_6F5BA0);
+            sNorthWestBlock = GetEffectiveBlock_4DFE60(tileX - 1, tileY - 1, sNorthTileZ > sWestTileZ ? sNorthTileZ : sWestTileZ);
             if (sNorthWestBlock)
             {
                 if ((static_cast<u16>(gFaceCollisionMask_6F6002) & sNorthWestBlock->field_2_right) != 0)
@@ -2080,7 +2080,7 @@ bool Map_0x370::IsTileBlockedForSprite_4E1E00(s32 regionLeft,
 
         if (regionBottom > tileY)
         {
-            if (sSouthBlock && gWestTileZ_6F5BA0 <= gSouthTileZ_6F6248 &&
+            if (sSouthBlock && sWestTileZ <= sSouthTileZ &&
                 (static_cast<u16>(gFaceCollisionMask_6F6002) & sSouthBlock->field_0_left) != 0 &&
                 sSouthSlope->field_0_gradient_direction != NORTH_1 && sSouthSlope->field_0_gradient_direction != SOUTH_2)
             {
@@ -2090,7 +2090,7 @@ bool Map_0x370::IsTileBlockedForSprite_4E1E00(s32 regionLeft,
                 }
             }
 
-            if (sWestBlock && gSouthTileZ_6F6248 <= gWestTileZ_6F5BA0 &&
+            if (sWestBlock && sSouthTileZ <= sWestTileZ &&
                 (static_cast<u16>(gFaceCollisionMask_6F6002) & sWestBlock->field_6_bottom) != 0 &&
                 sWestSlope->field_0_gradient_direction != WEST_3 && sWestSlope->field_0_gradient_direction != EAST_4)
             {
@@ -2100,7 +2100,7 @@ bool Map_0x370::IsTileBlockedForSprite_4E1E00(s32 regionLeft,
                 }
             }
 
-            sSouthWestBlock = GetEffectiveBlock_4DFE60(tileX - 1, tileY + 1, gSouthTileZ_6F6248 > gWestTileZ_6F5BA0 ? gSouthTileZ_6F6248 : gWestTileZ_6F5BA0);
+            sSouthWestBlock = GetEffectiveBlock_4DFE60(tileX - 1, tileY + 1, sSouthTileZ > sWestTileZ ? sSouthTileZ : sWestTileZ);
             if (sSouthWestBlock)
             {
                 if ((static_cast<u16>(gFaceCollisionMask_6F6002) & sSouthWestBlock->field_2_right) != 0)
@@ -2134,7 +2134,7 @@ bool Map_0x370::IsTileBlockedForSprite_4E1E00(s32 regionLeft,
                 }
             }
         }
-        else if ((static_cast<u16>(gFaceCollisionMask_6F6002) & gBlockInfo0_6F5EB0->field_2_right) != 0 &&
+        else if ((static_cast<u16>(gFaceCollisionMask_6F6002) & sBlockInfo0->field_2_right) != 0 &&
                  gCurrentBlockSlope_6F5EC8->field_0_gradient_direction != NORTH_1 &&
                  gCurrentBlockSlope_6F5EC8->field_0_gradient_direction != SOUTH_2)
         {
@@ -2144,7 +2144,7 @@ bool Map_0x370::IsTileBlockedForSprite_4E1E00(s32 regionLeft,
             }
         }
 
-        sEastBlock = GetEffectiveBlock_4DFE60(tileX + 1, tileY, gEastTileZ_6F620C);
+        sEastBlock = GetEffectiveBlock_4DFE60(tileX + 1, tileY, sEastTileZ);
         if (sEastBlock)
         {
             if ((static_cast<u16>(gFaceCollisionMask_6F6002) & sEastBlock->field_0_left) != 0)
@@ -2159,7 +2159,7 @@ bool Map_0x370::IsTileBlockedForSprite_4E1E00(s32 regionLeft,
 
         if (regionTop < tileY)
         {
-            if (sNorthBlock && gEastTileZ_6F620C <= gNorthTileZ_6F5FAC &&
+            if (sNorthBlock && sEastTileZ <= sNorthTileZ &&
                 (static_cast<u16>(gFaceCollisionMask_6F6002) & sNorthBlock->field_2_right) != 0 &&
                 sNorthSlope->field_0_gradient_direction != NORTH_1 && sNorthSlope->field_0_gradient_direction != SOUTH_2)
             {
@@ -2169,7 +2169,7 @@ bool Map_0x370::IsTileBlockedForSprite_4E1E00(s32 regionLeft,
                 }
             }
 
-            if (sEastBlock && gNorthTileZ_6F5FAC <= gEastTileZ_6F620C &&
+            if (sEastBlock && sNorthTileZ <= sEastTileZ &&
                 (static_cast<u16>(gFaceCollisionMask_6F6002) & sEastBlock->field_4_top) != 0 &&
                 sEastSlope->field_0_gradient_direction != WEST_3 && sEastSlope->field_0_gradient_direction != EAST_4)
             {
@@ -2179,7 +2179,7 @@ bool Map_0x370::IsTileBlockedForSprite_4E1E00(s32 regionLeft,
                 }
             }
 
-            sNorthEastBlock = GetEffectiveBlock_4DFE60(tileX + 1, tileY - 1, gNorthTileZ_6F5FAC > gEastTileZ_6F620C ? gNorthTileZ_6F5FAC : gEastTileZ_6F620C);
+            sNorthEastBlock = GetEffectiveBlock_4DFE60(tileX + 1, tileY - 1, sNorthTileZ > sEastTileZ ? sNorthTileZ : sEastTileZ);
             if (sNorthEastBlock)
             {
                 if ((static_cast<u16>(gFaceCollisionMask_6F6002) & sNorthEastBlock->field_0_left) != 0)
@@ -2201,7 +2201,7 @@ bool Map_0x370::IsTileBlockedForSprite_4E1E00(s32 regionLeft,
 
         if (regionBottom > tileY)
         {
-            if (sSouthBlock && gEastTileZ_6F620C <= gSouthTileZ_6F6248 &&
+            if (sSouthBlock && sEastTileZ <= sSouthTileZ &&
                 (static_cast<u16>(gFaceCollisionMask_6F6002) & sSouthBlock->field_2_right) != 0 &&
                 sSouthSlope->field_0_gradient_direction != NORTH_1 && sSouthSlope->field_0_gradient_direction != SOUTH_2)
             {
@@ -2211,7 +2211,7 @@ bool Map_0x370::IsTileBlockedForSprite_4E1E00(s32 regionLeft,
                 }
             }
 
-            if (sEastBlock && gSouthTileZ_6F6248 <= gEastTileZ_6F620C &&
+            if (sEastBlock && sSouthTileZ <= sEastTileZ &&
                 (static_cast<u16>(gFaceCollisionMask_6F6002) & sEastBlock->field_6_bottom) != 0 &&
                 sEastSlope->field_0_gradient_direction != WEST_3 && sEastSlope->field_0_gradient_direction != EAST_4)
             {
@@ -2221,7 +2221,7 @@ bool Map_0x370::IsTileBlockedForSprite_4E1E00(s32 regionLeft,
                 }
             }
 
-            sSouthEastBlock = GetEffectiveBlock_4DFE60(tileX + 1, tileY + 1, gSouthTileZ_6F6248 > gEastTileZ_6F620C ? gSouthTileZ_6F6248 : gEastTileZ_6F620C);
+            sSouthEastBlock = GetEffectiveBlock_4DFE60(tileX + 1, tileY + 1, sSouthTileZ > sEastTileZ ? sSouthTileZ : sEastTileZ);
             if (sSouthEastBlock)
             {
                 if ((static_cast<u16>(gFaceCollisionMask_6F6002) & sSouthEastBlock->field_0_left) != 0)
@@ -2263,7 +2263,7 @@ bool Map_0x370::IsMovementRegionBlocked_4E4460(s32 tile_x, s32 tile_y, s32 tile_
                                              gSpriteGrid_bottom_6F5F38,
                                              gSpriteGrid_right_6F5B80 - 1,
                                              tile_y,
-                                             gEastTileZ_6F620C);
+                                             sEastTileZ);
         }
         else
         {
@@ -2273,7 +2273,7 @@ bool Map_0x370::IsMovementRegionBlocked_4E4460(s32 tile_x, s32 tile_y, s32 tile_
                                              gSpriteGrid_bottom_6F5F38,
                                              gSpriteGrid_left_6F5FD4 + 1,
                                              tile_y,
-                                             gWestTileZ_6F5BA0);
+                                             sWestTileZ);
         }
     }
     else if (gSpriteGrid_bottom_6F5F38 - gSpriteGrid_top_6F6108 >= 3 || tile_y > gSpriteGrid_top_6F6108 + 1 || tile_y < gSpriteGrid_bottom_6F5F38 - 1)
@@ -2290,7 +2290,7 @@ bool Map_0x370::IsMovementRegionBlocked_4E4460(s32 tile_x, s32 tile_y, s32 tile_
                                              gSpriteGrid_bottom_6F5F38,
                                              tile_x,
                                              gSpriteGrid_bottom_6F5F38 - 1,
-                                             gSouthTileZ_6F6248);
+                                             sSouthTileZ);
         }
         else
         {
@@ -2300,7 +2300,7 @@ bool Map_0x370::IsMovementRegionBlocked_4E4460(s32 tile_x, s32 tile_y, s32 tile_
                                              gSpriteGrid_top_6F6108 + 1,
                                              tile_x,
                                              gSpriteGrid_top_6F6108 + 1,
-                                             gNorthTileZ_6F5FAC);
+                                             sNorthTileZ);
         }
     }
     else
@@ -2321,7 +2321,7 @@ char_type Map_0x370::CheckSlopeTopInSpriteGrid_4E4630(Fix16 z_pos)
         for (s32 xpos = gSpriteGrid_left_6F5FD4; xpos <= gSpriteGrid_right_6F5B80; xpos++)
         {
             gmp_block_info* pBlock = Map_0x370::GetBlock_4DFE10(xpos, ypos, z_int);
-            gBlockInfo0_6F5EB0 = pBlock;
+            sBlockInfo0 = pBlock;
             if (pBlock)
             {
                 u8 slope_byte = pBlock->field_B_slope_type;
@@ -2333,7 +2333,7 @@ char_type Map_0x370::CheckSlopeTopInSpriteGrid_4E4630(Fix16 z_pos)
                     }
                     else
                     {
-                        gCurrentBlockSlope_6F5EC8 = &gGmpSlopes_6F5BA8[GET_SLOPE_IDX(gBlockInfo0_6F5EB0->field_B_slope_type)];
+                        gCurrentBlockSlope_6F5EC8 = &gGmpSlopes_6F5BA8[GET_SLOPE_IDX(sBlockInfo0->field_B_slope_type)];
                         if (gCurrentBlockSlope_6F5EC8->field_2_gradient_level == gCurrentBlockSlope_6F5EC8->field_1_gradient_size - 1)
                         {
                             bFound = true;
@@ -2364,11 +2364,11 @@ bool Map_0x370::SlopeBordersFlatInSpriteGrid_4E4770(Fix16 z_pos)
     {
         for (s32 x_pos = gSpriteGrid_left_6F5FD4; x_pos <= gSpriteGrid_right_6F5B80; x_pos++)
         {
-            gBlockInfo0_6F5EB0 = Map_0x370::GetBlock_4DFE10(x_pos, y_pos, z);
+            sBlockInfo0 = Map_0x370::GetBlock_4DFE10(x_pos, y_pos, z);
 
-            if (gBlockInfo0_6F5EB0 != NULL)
+            if (sBlockInfo0 != NULL)
             {
-                if (IS_GRADIENT_SLOPE(gBlockInfo0_6F5EB0->field_B_slope_type) && !IS_AIR_TYPE(gBlockInfo0_6F5EB0->field_B_slope_type))
+                if (IS_GRADIENT_SLOPE(sBlockInfo0->field_B_slope_type) && !IS_AIR_TYPE(sBlockInfo0->field_B_slope_type))
                 {
                     if (bSeenFlat)
                     {
@@ -2401,29 +2401,29 @@ bool Map_0x370::AllBlocksInRectHaveSlopeBits_4E4820(Fix16_Rect* pRect, u8 slope_
     {
         for (s32 x = left; x <= right; x++)
         {
-            gBlockInfo0_6F5EB0 = GetBlock_4DFE10(x, y, pRect->get_low_z_4637A0().ToInt());
+            sBlockInfo0 = GetBlock_4DFE10(x, y, pRect->get_low_z_4637A0().ToInt());
             switch (slope_bits)
             {
                 case 0:
-                    if (gBlockInfo0_6F5EB0 && !IS_AIR_TYPE(gBlockInfo0_6F5EB0->field_B_slope_type))
+                    if (sBlockInfo0 && !IS_AIR_TYPE(sBlockInfo0->field_B_slope_type))
                     {
                         return false;
                     }
                     break;
                 case 1:
-                    if (gBlockInfo0_6F5EB0 && GET_BLOCK_TYPE(gBlockInfo0_6F5EB0->field_B_slope_type) != 1)
+                    if (sBlockInfo0 && GET_BLOCK_TYPE(sBlockInfo0->field_B_slope_type) != 1)
                     {
                         return false;
                     }
                     break;
                 case 2:
-                    if (gBlockInfo0_6F5EB0 && GET_BLOCK_TYPE(gBlockInfo0_6F5EB0->field_B_slope_type) != 2)
+                    if (sBlockInfo0 && GET_BLOCK_TYPE(sBlockInfo0->field_B_slope_type) != 2)
                     {
                         return false;
                     }
                     break;
                 case 3:
-                    if (gBlockInfo0_6F5EB0 && GET_BLOCK_TYPE(gBlockInfo0_6F5EB0->field_B_slope_type) != 3)
+                    if (sBlockInfo0 && GET_BLOCK_TYPE(sBlockInfo0->field_B_slope_type) != 3)
                     {
                         return false;
                     }
@@ -2440,9 +2440,9 @@ void Map_0x370::FindNearbyBlockOfType_4E4930(u8* pX, u8* pY, u8* pZ, char_type b
 {
     u16 step = 1;
     s32 direction = 3;
-    gSearchX_6F6164 = *pX;
-    gSearchY_6F6148 = *pY;
-    gSearchZ_6F613C = *pZ;
+    sSearchX = *pX;
+    sSearchY = *pY;
+    sSearchZ = *pZ;
     u16 i;
     while (1)
     {
@@ -2451,12 +2451,12 @@ void Map_0x370::FindNearbyBlockOfType_4E4930(u8* pX, u8* pY, u8* pZ, char_type b
             case 3:
                 for (i = 0; i < step; i++)
                 {
-                    gSearchX_6F6164++;
+                    sSearchX++;
                     if (IsSearchBlockOfType_4E4AC0(block_type))
                     {
-                        *pX = gSearchX_6F6164;
-                        *pY = gSearchY_6F6148;
-                        *pZ = gSearchZ_6F613C;
+                        *pX = sSearchX;
+                        *pY = sSearchY;
+                        *pZ = sSearchZ;
                         return;
                     }
                 }
@@ -2466,12 +2466,12 @@ void Map_0x370::FindNearbyBlockOfType_4E4930(u8* pX, u8* pY, u8* pZ, char_type b
             case 2:
                 for (i = 0; i < step; i++)
                 {
-                    gSearchY_6F6148++;
+                    sSearchY++;
                     if (IsSearchBlockOfType_4E4AC0(block_type))
                     {
-                        *pX = gSearchX_6F6164;
-                        *pY = gSearchY_6F6148;
-                        *pZ = gSearchZ_6F613C;
+                        *pX = sSearchX;
+                        *pY = sSearchY;
+                        *pZ = sSearchZ;
                         return;
                     }
                 }
@@ -2481,12 +2481,12 @@ void Map_0x370::FindNearbyBlockOfType_4E4930(u8* pX, u8* pY, u8* pZ, char_type b
             case 4:
                 for (i = 0; i < step; i++)
                 {
-                    gSearchX_6F6164--;
+                    sSearchX--;
                     if (IsSearchBlockOfType_4E4AC0(block_type))
                     {
-                        *pX = gSearchX_6F6164;
-                        *pY = gSearchY_6F6148;
-                        *pZ = gSearchZ_6F613C;
+                        *pX = sSearchX;
+                        *pY = sSearchY;
+                        *pZ = sSearchZ;
                         return;
                     }
                 }
@@ -2496,12 +2496,12 @@ void Map_0x370::FindNearbyBlockOfType_4E4930(u8* pX, u8* pY, u8* pZ, char_type b
             case 1:
                 for (i = 0; i < step; i++)
                 {
-                    gSearchY_6F6148--;
+                    sSearchY--;
                     if (IsSearchBlockOfType_4E4AC0(block_type))
                     {
-                        *pX = gSearchX_6F6164;
-                        *pY = gSearchY_6F6148;
-                        *pZ = gSearchZ_6F613C;
+                        *pX = sSearchX;
+                        *pY = sSearchY;
+                        *pZ = sSearchZ;
                         return;
                     }
                 }
@@ -2515,16 +2515,16 @@ void Map_0x370::FindNearbyBlockOfType_4E4930(u8* pX, u8* pY, u8* pZ, char_type b
 MATCH_FUNC(0x4E4AC0)
 bool __stdcall Map_0x370::IsSearchBlockOfType_4E4AC0(char_type block_type)
 {
-    if (gSearchX_6F6164 >= 0 && gSearchY_6F6148 >= 0 && gSearchX_6F6164 <= 255 && gSearchY_6F6148 <= 255)
+    if (sSearchX >= 0 && sSearchY >= 0 && sSearchX <= 255 && sSearchY <= 255)
     {
         if (block_type == PAVEMENT)
         {
-            if (gMap_0x370_6F6268->FindPavementBlockForCoord_4E4BB0(gSearchX_6F6164, gSearchY_6F6148, gSearchZ_6F613C))
+            if (gMap_0x370_6F6268->FindPavementBlockForCoord_4E4BB0(sSearchX, sSearchY, sSearchZ))
             {
                 return true;
             }
         }
-        else if (gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(gSearchX_6F6164, gSearchY_6F6148, gSearchZ_6F613C) == ROAD)
+        else if (gMap_0x370_6F6268->GetBlockTypeAtCoord_420420(sSearchX, sSearchY, sSearchZ) == ROAD)
         {
             return true;
         }
@@ -2562,14 +2562,14 @@ gmp_block_info* Map_0x370::FindPavementBlockForCoord_4E4BB0(s32 x, s32 y, s32& z
     for (s32 curr_z_pos = pColumn->field_0_height - pColumn->field_1_offset - 1; curr_z_pos >= 0; curr_z_pos--)
     {
         //  Begin with the highest non-empty block in the column
-        gBlockInfo0_6F5EB0 = field_0_pDmap->get_block(pColumn->field_4_blockd[curr_z_pos]); //  get the block
-        switch (GET_BLOCK_TYPE(gBlockInfo0_6F5EB0->field_B_slope_type))
+        sBlockInfo0 = field_0_pDmap->get_block(pColumn->field_4_blockd[curr_z_pos]); //  get the block
+        switch (GET_BLOCK_TYPE(sBlockInfo0->field_B_slope_type))
         {
             case AIR:
                 continue;
             case PAVEMENT:
                 z = curr_z_pos + pColumn->field_1_offset;
-                return gBlockInfo0_6F5EB0;
+                return sBlockInfo0;
             default:
                 return NULL;
         }
@@ -2584,12 +2584,12 @@ gmp_block_info* Map_0x370::FindHighestBlockForCoord_4E4C30(s32 x, s32 y, s32* fo
 
     for (s32 curr_z_pos = pColumn->field_0_height - pColumn->field_1_offset - 1; curr_z_pos >= 0; curr_z_pos--)
     {
-        gBlockInfo0_6F5EB0 = field_0_pDmap->get_block(pColumn->field_4_blockd[curr_z_pos]);
-        u8 slope_byte = gBlockInfo0_6F5EB0->field_B_slope_type;
+        sBlockInfo0 = field_0_pDmap->get_block(pColumn->field_4_blockd[curr_z_pos]);
+        u8 slope_byte = sBlockInfo0->field_B_slope_type;
         if (!IS_AIR_TYPE(slope_byte))
         {
             *found_z = curr_z_pos + pColumn->field_1_offset;
-            return gBlockInfo0_6F5EB0;
+            return sBlockInfo0;
         }
     }
     return NULL;
@@ -2609,11 +2609,11 @@ gmp_block_info* Map_0x370::FindNonAirBlockAtOrBelowZ_4E4CB0(s32 x, s32 y, s32& z
 
     for (; curr_z_pos >= 0; curr_z_pos--)
     {
-        gBlockInfo0_6F5EB0 = field_0_pDmap->get_block(pColumn->field_4_blockd[curr_z_pos]);
-        if (GET_BLOCK_TYPE(gBlockInfo0_6F5EB0->field_B_slope_type) != AIR)
+        sBlockInfo0 = field_0_pDmap->get_block(pColumn->field_4_blockd[curr_z_pos]);
+        if (GET_BLOCK_TYPE(sBlockInfo0->field_B_slope_type) != AIR)
         {
             z = curr_z_pos + pColumn->field_1_offset;
-            return gBlockInfo0_6F5EB0;
+            return sBlockInfo0;
         }
     }
     return NULL;
@@ -2630,7 +2630,7 @@ Fix16 Map_0x370::FindGroundZBelowCoord_4E4D40(Fix16 x_pos, Fix16 y_pos, Fix16 z_
     {
         s32 below_z = z_pos.ToInt() - 1;
         gmp_block_info* pBlock = Map_0x370::FindNonAirBlockAtOrBelowZ_4E4CB0(x_pos.ToInt(), y_pos.ToInt(), below_z);
-        gBlockInfo0_6F5EB0 = pBlock;
+        sBlockInfo0 = pBlock;
         if (pBlock == NULL)
         {
             return kFpOne_6F6110;
@@ -2656,12 +2656,12 @@ Fix16 Map_0x370::FindGroundZAboveCoord_4E4E50(Fix16 x_pos, Fix16 y_pos, Fix16 z_
     for (Fix16 curr_z = z_pos; curr_z < z_pos + kFpOne_6F6110; curr_z = kFpOne_6F6110 + curr_z.GetFloorValue())
     {
         gmp_block_info* pBlockAtPos = GetBlock_4DFE10(x_pos.ToInt(), y_pos.ToInt(), curr_z.ToInt());
-        gBlockInfo0_6F5EB0 = pBlockAtPos;
+        sBlockInfo0 = pBlockAtPos;
         u8 slope_byte;
         if (pBlockAtPos == NULL || (slope_byte = pBlockAtPos->field_B_slope_type, IS_AIR_TYPE(slope_byte)))
         {
             gmp_block_info* pBlock = GetBlock_4DFE10(x_pos.ToInt(), y_pos.ToInt(), (curr_z - kFpOne_6F6110).ToInt());
-            gBlockInfo0_6F5EB0 = pBlock;
+            sBlockInfo0 = pBlock;
             if (pBlock)
             {
                 u8 slope_byte = pBlock->field_B_slope_type;
@@ -2701,13 +2701,13 @@ Fix16 Map_0x370::GetGroundZBelowCoord_4E4F40(Fix16 x, Fix16 y, Fix16 z)
         (new_z = z.GetFloorValue(), Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, new_z), new_z > z))
     {
         s32 int_z = z.ToInt() - 1;
-        gBlockInfo0_6F5EB0 = Map_0x370::FindNonAirBlockAtOrBelowZ_4E4CB0(x.ToInt(), y.ToInt(), int_z);
+        sBlockInfo0 = Map_0x370::FindNonAirBlockAtOrBelowZ_4E4CB0(x.ToInt(), y.ToInt(), int_z);
 
-        if (!gBlockInfo0_6F5EB0)
+        if (!sBlockInfo0)
         {
             return kFpZero_6F610C;
         }
-        if (IS_GRADIENT_SLOPE(gBlockInfo0_6F5EB0->field_B_slope_type) && !IS_AIR_TYPE(gBlockInfo0_6F5EB0->field_B_slope_type))
+        if (IS_GRADIENT_SLOPE(sBlockInfo0->field_B_slope_type) && !IS_AIR_TYPE(sBlockInfo0->field_B_slope_type))
         {
             new_z = Fix16(int_z);
             Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, new_z);
@@ -2743,12 +2743,12 @@ Fix16 Map_0x370::GetGroundZBelowCoordEx_4E5050(Fix16 x, Fix16 y, Fix16 z, bool& 
         }
     }
     s32 below_z = z.ToInt() - 1;
-    gBlockInfo0_6F5EB0 = Map_0x370::FindNonAirBlockAtOrBelowZ_4E4CB0(x.ToInt(), y.ToInt(), below_z);
-    if (!gBlockInfo0_6F5EB0)
+    sBlockInfo0 = Map_0x370::FindNonAirBlockAtOrBelowZ_4E4CB0(x.ToInt(), y.ToInt(), below_z);
+    if (!sBlockInfo0)
     {
         return kFpOne_6F6110;
     }
-    if (IS_GRADIENT_SLOPE(gBlockInfo0_6F5EB0->field_B_slope_type) && !IS_AIR_TYPE(gBlockInfo0_6F5EB0->field_B_slope_type))
+    if (IS_GRADIENT_SLOPE(sBlockInfo0->field_B_slope_type) && !IS_AIR_TYPE(sBlockInfo0->field_B_slope_type))
     {
         new_z = Fix16(below_z);
         Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, new_z);
@@ -2765,10 +2765,10 @@ bool Map_0x370::IsZOnGround_4E5170(Fix16 x, Fix16 y, Fix16 z)
 {
     if (z.GetFracValue() != kFpZero_6F610C)
     {
-        gBlockInfo0_6F5EB0 = Map_0x370::GetBlock_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
-        if (gBlockInfo0_6F5EB0)
+        sBlockInfo0 = Map_0x370::GetBlock_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
+        if (sBlockInfo0)
         {
-            if (IS_GRADIENT_SLOPE(gBlockInfo0_6F5EB0->field_B_slope_type) && !IS_AIR_TYPE(gBlockInfo0_6F5EB0->field_B_slope_type))
+            if (IS_GRADIENT_SLOPE(sBlockInfo0->field_B_slope_type) && !IS_AIR_TYPE(sBlockInfo0->field_B_slope_type))
             {
                 Fix16 new_z = z.GetFloorValue();
                 Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, new_z);
@@ -2785,8 +2785,8 @@ bool Map_0x370::IsZOnGround_4E5170(Fix16 x, Fix16 y, Fix16 z)
         {
             return true;
         }
-        gBlockInfo0_6F5EB0 = Map_0x370::GetBlock_4DFE10(x.ToInt(), y.ToInt(), (z - kFpOne_6F6110).ToInt());
-        if (gBlockInfo0_6F5EB0 && !IS_AIR_TYPE(gBlockInfo0_6F5EB0->field_B_slope_type))
+        sBlockInfo0 = Map_0x370::GetBlock_4DFE10(x.ToInt(), y.ToInt(), (z - kFpOne_6F6110).ToInt());
+        if (sBlockInfo0 && !IS_AIR_TYPE(sBlockInfo0->field_B_slope_type))
         {
             return true;
         }
@@ -2797,15 +2797,15 @@ bool Map_0x370::IsZOnGround_4E5170(Fix16 x, Fix16 y, Fix16 z)
 MATCH_FUNC(0x4E52A0)
 char_type Map_0x370::GetSurfaceTypeBelowCoord_4E52A0(Fix16 x, Fix16 y, Fix16 z)
 {
-    gBlockInfo0_6F5EB0 = Map_0x370::GetBlock_4DFE10(x.ToInt(), y.ToInt(), (z - kFpOne_6F6110).ToInt());
+    sBlockInfo0 = Map_0x370::GetBlock_4DFE10(x.ToInt(), y.ToInt(), (z - kFpOne_6F6110).ToInt());
 
-    if (gBlockInfo0_6F5EB0)
+    if (sBlockInfo0)
     {
-        if (gGtx_0x106C_703DD4->IsWaterTile_462FB0(get_tile_idx(gBlockInfo0_6F5EB0->field_8_lid)))
+        if (gGtx_0x106C_703DD4->IsWaterTile_462FB0(get_tile_idx(sBlockInfo0->field_8_lid)))
         {
             return 7;
         }
-        if (!IS_AIR_TYPE(gBlockInfo0_6F5EB0->field_B_slope_type))
+        if (!IS_AIR_TYPE(sBlockInfo0->field_B_slope_type))
         {
             return 0;
         }
@@ -2822,10 +2822,10 @@ bool Map_0x370::CheckZCollisionAtCoord_4E5300(Fix16 x, Fix16 y, Fix16 z, Fix16 s
 
     if (floor_z == floor_second_z)
     {
-        gBlockInfo0_6F5EB0 = Map_0x370::GetBlock_4DFE10(x.ToInt(), y.ToInt(), floor_z.ToInt());
-        if (gBlockInfo0_6F5EB0)
+        sBlockInfo0 = Map_0x370::GetBlock_4DFE10(x.ToInt(), y.ToInt(), floor_z.ToInt());
+        if (sBlockInfo0)
         {
-            if (!IS_AIR_TYPE(gBlockInfo0_6F5EB0->field_B_slope_type) && IS_GRADIENT_SLOPE(gBlockInfo0_6F5EB0->field_B_slope_type))
+            if (!IS_AIR_TYPE(sBlockInfo0->field_B_slope_type) && IS_GRADIENT_SLOPE(sBlockInfo0->field_B_slope_type))
             {
                 new_z = floor_z;
                 Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, new_z);
@@ -2838,10 +2838,10 @@ bool Map_0x370::CheckZCollisionAtCoord_4E5300(Fix16 x, Fix16 y, Fix16 z, Fix16 s
     }
     else
     {
-        gBlockInfo0_6F5EB0 = Map_0x370::GetBlock_4DFE10(x.ToInt(), y.ToInt(), floor_second_z.ToInt());
-        if (gBlockInfo0_6F5EB0)
+        sBlockInfo0 = Map_0x370::GetBlock_4DFE10(x.ToInt(), y.ToInt(), floor_second_z.ToInt());
+        if (sBlockInfo0)
         {
-            if (!IS_AIR_TYPE(gBlockInfo0_6F5EB0->field_B_slope_type) && IS_GRADIENT_SLOPE(gBlockInfo0_6F5EB0->field_B_slope_type))
+            if (!IS_AIR_TYPE(sBlockInfo0->field_B_slope_type) && IS_GRADIENT_SLOPE(sBlockInfo0->field_B_slope_type))
             {
                 new_z = floor_second_z;
                 Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, new_z);
@@ -2851,12 +2851,12 @@ bool Map_0x370::CheckZCollisionAtCoord_4E5300(Fix16 x, Fix16 y, Fix16 z, Fix16 s
                 }
             }
         }
-        gBlockInfo0_6F5EB0 = Map_0x370::GetBlock_4DFE10(x.ToInt(), y.ToInt(), floor_z.ToInt());
-        if (gBlockInfo0_6F5EB0)
+        sBlockInfo0 = Map_0x370::GetBlock_4DFE10(x.ToInt(), y.ToInt(), floor_z.ToInt());
+        if (sBlockInfo0)
         {
-            if (!IS_AIR_TYPE(gBlockInfo0_6F5EB0->field_B_slope_type))
+            if (!IS_AIR_TYPE(sBlockInfo0->field_B_slope_type))
             {
-                if (IS_GRADIENT_SLOPE(gBlockInfo0_6F5EB0->field_B_slope_type))
+                if (IS_GRADIENT_SLOPE(sBlockInfo0->field_B_slope_type))
                 {
                     new_z = floor_z;
                     Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, new_z);
@@ -2883,11 +2883,11 @@ bool Map_0x370::CanPlaceOilOrMine_4E5480(Fix16 x, Fix16 y, Fix16 z, Fix16 z_high
 
     if (z_floor == z_high_floor)
     {
-        gBlockInfo0_6F5EB0 = Map_0x370::GetBlock_4DFE10(x.ToInt(), y.ToInt(), z_floor.ToInt());
+        sBlockInfo0 = Map_0x370::GetBlock_4DFE10(x.ToInt(), y.ToInt(), z_floor.ToInt());
 
-        if (gBlockInfo0_6F5EB0)
+        if (sBlockInfo0)
         {
-            if (!IS_AIR_TYPE(gBlockInfo0_6F5EB0->field_B_slope_type) && IS_GRADIENT_SLOPE(gBlockInfo0_6F5EB0->field_B_slope_type))
+            if (!IS_AIR_TYPE(sBlockInfo0->field_B_slope_type) && IS_GRADIENT_SLOPE(sBlockInfo0->field_B_slope_type))
             {
                 *found_z = z_floor;
                 Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, *found_z);
@@ -2900,10 +2900,10 @@ bool Map_0x370::CanPlaceOilOrMine_4E5480(Fix16 x, Fix16 y, Fix16 z, Fix16 z_high
     }
     else
     {
-        gBlockInfo0_6F5EB0 = Map_0x370::GetBlock_4DFE10(x.ToInt(), y.ToInt(), z_high_floor.ToInt());
+        sBlockInfo0 = Map_0x370::GetBlock_4DFE10(x.ToInt(), y.ToInt(), z_high_floor.ToInt());
 
-        if (gBlockInfo0_6F5EB0 && !IS_AIR_TYPE(gBlockInfo0_6F5EB0->field_B_slope_type) &&
-            IS_GRADIENT_SLOPE(gBlockInfo0_6F5EB0->field_B_slope_type))
+        if (sBlockInfo0 && !IS_AIR_TYPE(sBlockInfo0->field_B_slope_type) &&
+            IS_GRADIENT_SLOPE(sBlockInfo0->field_B_slope_type))
         {
             *found_z = z_high_floor;
             Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, *found_z);
@@ -2913,13 +2913,13 @@ bool Map_0x370::CanPlaceOilOrMine_4E5480(Fix16 x, Fix16 y, Fix16 z, Fix16 z_high
             }
         }
 
-        gBlockInfo0_6F5EB0 = Map_0x370::GetBlock_4DFE10(x.ToInt(), y.ToInt(), z_floor.ToInt());
+        sBlockInfo0 = Map_0x370::GetBlock_4DFE10(x.ToInt(), y.ToInt(), z_floor.ToInt());
 
-        if (gBlockInfo0_6F5EB0)
+        if (sBlockInfo0)
         {
-            if (!IS_AIR_TYPE(gBlockInfo0_6F5EB0->field_B_slope_type))
+            if (!IS_AIR_TYPE(sBlockInfo0->field_B_slope_type))
             {
-                if (IS_GRADIENT_SLOPE(gBlockInfo0_6F5EB0->field_B_slope_type))
+                if (IS_GRADIENT_SLOPE(sBlockInfo0->field_B_slope_type))
                 {
                     *found_z = z_floor;
                     Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, *found_z);
@@ -3099,7 +3099,7 @@ Fix16 Map_0x370::FindGroundZForCoord_4E5B60(Fix16 x_pos, Fix16 y_pos)
 {
     s32 z_pos_int;
     gmp_block_info* pHighestBlock = Map_0x370::FindHighestBlockForCoord_4E4C30(x_pos.ToInt(), y_pos.ToInt(), &z_pos_int);
-    gBlockInfo0_6F5EB0 = pHighestBlock;
+    sBlockInfo0 = pHighestBlock;
 
     if (pHighestBlock == NULL)
     {
@@ -3125,16 +3125,16 @@ Fix16 Map_0x370::FindGroundZForCoord_4E5B60(Fix16 x_pos, Fix16 y_pos)
 MATCH_FUNC(0x4E5BF0)
 u8 Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(Fix16 x_pos, Fix16 y_pos, Fix16& z_pos)
 {
-    gBlockInfo0_6F5EB0 = Map_0x370::GetBlock_4DFE10(x_pos.ToInt(), y_pos.ToInt(), z_pos.ToInt());
+    sBlockInfo0 = Map_0x370::GetBlock_4DFE10(x_pos.ToInt(), y_pos.ToInt(), z_pos.ToInt());
 
-    if (gBlockInfo0_6F5EB0)
+    if (sBlockInfo0)
     {
         Fix16 grad_pos;
         Fix16 grad_scale;
 
-        if (!IS_AIR_TYPE(gBlockInfo0_6F5EB0->field_B_slope_type))
+        if (!IS_AIR_TYPE(sBlockInfo0->field_B_slope_type))
         {
-            gCurrentBlockSlope_6F5EC8 = &gGmpSlopes_6F5BA8[GET_SLOPE_IDX(gBlockInfo0_6F5EB0->field_B_slope_type)];
+            gCurrentBlockSlope_6F5EC8 = &gGmpSlopes_6F5BA8[GET_SLOPE_IDX(sBlockInfo0->field_B_slope_type)];
 
             switch (gCurrentBlockSlope_6F5EC8->field_0_gradient_direction)
             {
@@ -3329,9 +3329,9 @@ s16 Map_0x370::ClassifyArrowOnSlope_4E6190(Fix16 x, Fix16 y, Fix16 z, s32 arrow_
         return 1;
     }
 
-    gBlockInfo0_6F5EB0 = Map_0x370::GetBlock_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
+    sBlockInfo0 = Map_0x370::GetBlock_4DFE10(x.ToInt(), y.ToInt(), z.ToInt());
 
-    gCurrentBlockSlope_6F5EC8 = &gGmpSlopes_6F5BA8[gBlockInfo0_6F5EB0->field_B_slope_type >> 2];
+    gCurrentBlockSlope_6F5EC8 = &gGmpSlopes_6F5BA8[sBlockInfo0->field_B_slope_type >> 2];
     s16 result;
     bool bMatched = false;
     switch (gCurrentBlockSlope_6F5EC8->field_0_gradient_direction)
@@ -3403,11 +3403,11 @@ gmp_block_info* Map_0x370::FindRailwayAtCoord_4E62D0(s32 x, s32 y, s32& found_z)
 
     for (s32 curr_z = pColumn->field_0_height - pColumn->field_1_offset - 1; curr_z >= 0; curr_z--)
     {
-        gBlockInfo0_6F5EB0 = field_0_pDmap->get_block(pColumn->field_4_blockd[curr_z]);
-        if (GET_BLOCK_TYPE(gBlockInfo0_6F5EB0->field_B_slope_type) == FIELD && has_any_green_arrows(gBlockInfo0_6F5EB0->field_A_arrows))
+        sBlockInfo0 = field_0_pDmap->get_block(pColumn->field_4_blockd[curr_z]);
+        if (GET_BLOCK_TYPE(sBlockInfo0->field_B_slope_type) == FIELD && has_any_green_arrows(sBlockInfo0->field_A_arrows))
         {
             found_z = curr_z + pColumn->field_1_offset;
-            return gBlockInfo0_6F5EB0;
+            return sBlockInfo0;
         }
     }
     return NULL;
@@ -3425,12 +3425,12 @@ gmp_block_info* Map_0x370::FindRailwayBelowZAtCoord_4E6360(s32 x, s32 y, s32& z)
         for (; curr_z >= 0; curr_z--)
         {
             gmp_block_info* pBlock = field_0_pDmap->get_block(pColumn->field_4_blockd[curr_z]);
-            gBlockInfo0_6F5EB0 = pBlock;
+            sBlockInfo0 = pBlock;
 
             if (GET_BLOCK_TYPE(pBlock->field_B_slope_type) == FIELD && has_any_green_arrows(pBlock->field_A_arrows))
             {
                 z = curr_z + pColumn->field_1_offset;
-                return gBlockInfo0_6F5EB0;
+                return sBlockInfo0;
             }
         }
     }
@@ -3448,7 +3448,7 @@ Fix16 Map_0x370::GetRailwayZBelowCoord_4E6400(Fix16 x_pos, Fix16 y_pos, Fix16 z_
     {
         s32 below_z = z_pos.ToInt() - 1;
         gmp_block_info* pBlock = Map_0x370::FindRailwayBelowZAtCoord_4E6360(x_pos.ToInt(), y_pos.ToInt(), below_z);
-        gBlockInfo0_6F5EB0 = pBlock;
+        sBlockInfo0 = pBlock;
         if (pBlock == NULL)
         {
             return Fix16(1);
@@ -3471,15 +3471,15 @@ MATCH_FUNC(0x4E6510)
 Fix16 Map_0x370::GetRailwayZCoordAtXY_4E6510(Fix16 x, Fix16 y)
 {
     s32 rail_z_coord;
-    gBlockInfo0_6F5EB0 = Map_0x370::FindRailwayAtCoord_4E62D0(x.ToInt(), y.ToInt(), rail_z_coord);
+    sBlockInfo0 = Map_0x370::FindRailwayAtCoord_4E62D0(x.ToInt(), y.ToInt(), rail_z_coord);
 
-    if (!gBlockInfo0_6F5EB0)
+    if (!sBlockInfo0)
     {
         return Fix16(0);
     }
 
     Fix16 new_z;
-    if (IS_GRADIENT_SLOPE(gBlockInfo0_6F5EB0->field_B_slope_type) && !IS_AIR_TYPE(gBlockInfo0_6F5EB0->field_B_slope_type))
+    if (IS_GRADIENT_SLOPE(sBlockInfo0->field_B_slope_type) && !IS_AIR_TYPE(sBlockInfo0->field_B_slope_type))
     {
         new_z = Fix16(rail_z_coord);
         Map_0x370::UpdateZFromSlopeAtCoord_4E5BF0(x, y, new_z);
@@ -4326,30 +4326,30 @@ void Map_0x370::ChangeBlock_4E8620(s32 x, s32 y, s32 z, s32 info_type_to_set, u1
     s32 block_idx = Map_0x370::CloneOriginalBlock_4E8180(pColumn->field_4_blockd[z - pColumn->field_1_offset]);
 
     pColumn->field_4_blockd[z - pColumn->field_1_offset] = block_idx;
-    gBlockInfo0_6F5EB0 = &this->field_0_pDmap->field_4000C_block[block_idx];
+    sBlockInfo0 = &this->field_0_pDmap->field_4000C_block[block_idx];
 
     switch (info_type_to_set)
     {
         case 1:
-            gBlockInfo0_6F5EB0->field_0_left = info_value;
+            sBlockInfo0->field_0_left = info_value;
             break;
         case 2:
-            gBlockInfo0_6F5EB0->field_2_right = info_value;
+            sBlockInfo0->field_2_right = info_value;
             break;
         case 3:
-            gBlockInfo0_6F5EB0->field_4_top = info_value;
+            sBlockInfo0->field_4_top = info_value;
             break;
         case 4:
-            gBlockInfo0_6F5EB0->field_6_bottom = info_value;
+            sBlockInfo0->field_6_bottom = info_value;
             break;
         case 5:
-            gBlockInfo0_6F5EB0->field_8_lid = info_value;
+            sBlockInfo0->field_8_lid = info_value;
             break;
         case 6:
-            gBlockInfo0_6F5EB0->field_B_slope_type = static_cast<u8>(info_value);
+            sBlockInfo0->field_B_slope_type = static_cast<u8>(info_value);
             break;
         case 7:
-            gBlockInfo0_6F5EB0->field_A_arrows = static_cast<u8>(info_value);
+            sBlockInfo0->field_A_arrows = static_cast<u8>(info_value);
             break;
         default:
             return;
@@ -4779,15 +4779,15 @@ Map_0x370::Map_0x370()
     field_36E_bBlockedByTerrain = false;
     field_36F_bLowerBlockHasArrows = false;
 
-    gBlockInfo1_6F5F40.init_44C840();
+    sBlockInfo1.init_44C840();
 
-    gBlockInfo2_6F6028.field_A_arrows = 0;
-    gBlockInfo2_6F6028.field_0_left = 3073;
-    gBlockInfo2_6F6028.field_2_right = 3073;
-    gBlockInfo2_6F6028.field_4_top = 3073;
-    gBlockInfo2_6F6028.field_6_bottom = 3073;
-    gBlockInfo2_6F6028.field_8_lid = 1;
-    gBlockInfo2_6F6028.field_B_slope_type = 3;
+    sBlockInfo2.field_A_arrows = 0;
+    sBlockInfo2.field_0_left = 3073;
+    sBlockInfo2.field_2_right = 3073;
+    sBlockInfo2.field_4_top = 3073;
+    sBlockInfo2.field_6_bottom = 3073;
+    sBlockInfo2.field_8_lid = 1;
+    sBlockInfo2.field_B_slope_type = 3;
 }
 
 MATCH_FUNC(0x4E9770)
