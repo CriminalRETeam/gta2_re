@@ -220,32 +220,31 @@ void Game::ApplyNetworkGameSettings_4B8E50()
     bSkip_police_67D4F9 = gNetworkGameSettings_707098.field_201A0_police_on == 0;
 }
 
-DEFINE_GLOBAL(Ped*, gLastTestPed_6787E8, 0x6787E8);
-
 // Gives the player a group of count peds with the given remap
 MATCH_FUNC(0x46DD70)
 EXPORT void __stdcall SpawnTestGroup_46DD70(char_type remap, u8 count)
 {
+    LOCAL_STATIC(Ped*, sLastTestPed, 0x6787E8);
     Ped* pPlayerPed = gGame_0x40_67E008->field_38_local_player->GetPlayerPed_41D020();
     PedGroup* pGroup = PedGroup::New_4CB0D0();
     pGroup->add_ped_leader_4C9B10(pPlayerPed);
     pGroup->SetCounts_433360(0);
     pGroup->field_38_group_type = ped_group_type::normal_2;
 
-    gLastTestPed_6787E8 = gPedPool_6787B8->Allocate();
-    gLastTestPed_6787E8->set_occupation_403970(ped_ocupation_enum::bank_robber);
-    gLastTestPed_6787E8->set_remap_433B90(remap);
-    gLastTestPed_6787E8->field_26C_graphic_type = pPlayerPed->field_26C_graphic_type;
-    gLastTestPed_6787E8->SetPedType_403920(ped_type::script_created_5);
-    if (!gLastTestPed_6787E8->AllocCharB4_45C830(pPlayerPed->field_1AC_cam.x, pPlayerPed->field_1AC_cam.y, pPlayerPed->field_1AC_cam.z))
+    sLastTestPed = gPedPool_6787B8->Allocate();
+    sLastTestPed->set_occupation_403970(ped_ocupation_enum::bank_robber);
+    sLastTestPed->set_remap_433B90(remap);
+    sLastTestPed->field_26C_graphic_type = pPlayerPed->field_26C_graphic_type;
+    sLastTestPed->SetPedType_403920(ped_type::script_created_5);
+    if (!sLastTestPed->AllocCharB4_45C830(pPlayerPed->field_1AC_cam.x, pPlayerPed->field_1AC_cam.y, pPlayerPed->field_1AC_cam.z))
     // 9.6f: Ped::get_cam_x/get_cam_y/get_cam_z (inlined, using them changes the code)
     {
-        gLastTestPed_6787E8->field_168_game_object->SetRemap_46DD50(gLastTestPed_6787E8->get_remap_433BA0());
+        sLastTestPed->field_168_game_object->SetRemap_46DD50(sLastTestPed->get_remap_433BA0());
     }
-    gLastTestPed_6787E8->set_health_4039A0(100);
-    gLastTestPed_6787E8->SetPedClass_433BC0(ped_class::gang_member_1);
-    pGroup->add_ped_to_end_of_list_4C8F90(gLastTestPed_6787E8);
-    gLastTestPed_6787E8->ForceWeapon_46F600(weapon_type::pistol);
+    sLastTestPed->set_health_4039A0(100);
+    sLastTestPed->SetPedClass_433BC0(ped_class::gang_member_1);
+    pGroup->add_ped_to_end_of_list_4C8F90(sLastTestPed);
+    sLastTestPed->ForceWeapon_46F600(weapon_type::pistol);
 
     for (u8 i = 1; i < count; i++)
     {
