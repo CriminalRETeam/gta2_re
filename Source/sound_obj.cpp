@@ -42,8 +42,8 @@ EXTERN_GLOBAL(u16, gObjSoundDelayKind52_6751E2);
 EXTERN_GLOBAL(u16, gObjSoundDelayKind46_6751DE);
 EXTERN_GLOBAL(u16, gObjSoundDelayKind21_6751E0);
 EXTERN_GLOBAL(u8, gType12SampleIndexCounter_6751E4);
-EXTERN_GLOBAL(s32, dword_61A6CC);
-EXTERN_GLOBAL(s32, dword_61A6D0);
+EXTERN_GLOBAL(s32, gExplosionSound_Unused_61A6CC);
+EXTERN_GLOBAL(s32, gExplosionSound_Unused_61A6D0);
 EXTERN_GLOBAL(u8, gCarRadioStaticVolume_6FF540);
 EXTERN_GLOBAL(u16, gCarRadioStaticTimer_6FF542);
 EXTERN_GLOBAL(s32, gCarRadioStaticRate_625010);
@@ -5335,8 +5335,8 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params* pParams)
                         calc_distance = (Fix16(14) / Fix16(2)) * (Fix16(14) / Fix16(2));
                         release_mod = 15;
                     }
-                    dword_61A6CC = 50;
-                    dword_61A6D0 = 321;
+                    gExplosionSound_Unused_61A6CC = 50;
+                    gExplosionSound_Unused_61A6D0 = 321;
                     break;
 
                 case explosion_type::item_19:
@@ -5367,8 +5367,8 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params* pParams)
                         calc_distance = (Fix16(14) / Fix16(2)) * (Fix16(14) / Fix16(2));
                         release_mod = 15;
                     }
-                    dword_61A6CC = 50;
-                    dword_61A6D0 = 321;
+                    gExplosionSound_Unused_61A6CC = 50;
+                    gExplosionSound_Unused_61A6D0 = 321;
                     break;
 
                 case explosion_type::large_20:
@@ -5394,8 +5394,8 @@ void sound_obj::ProcessOtherObjects_41F520(Sound_Params* pParams)
                         calc_distance = (Fix16(14) / Fix16(2)) * (Fix16(14) / Fix16(2));
                         release_mod = 15;
                     }
-                    dword_61A6CC = 50;
-                    dword_61A6D0 = 321;
+                    gExplosionSound_Unused_61A6CC = 50;
+                    gExplosionSound_Unused_61A6D0 = 321;
                     break;
 
                 case explosion_type::car_fire_4:
@@ -5999,8 +5999,8 @@ EXPORT bool Cooldown_4236C0()
     }
 }
 
-DEFINE_GLOBAL_INIT(s32, dword_61A6CC, 340, 0x61A6CC);
-DEFINE_GLOBAL_INIT(s32, dword_61A6D0, 321, 0x61A6D0);
+DEFINE_GLOBAL_INIT(s32, gExplosionSound_Unused_61A6CC, 340, 0x61A6CC);
+DEFINE_GLOBAL_INIT(s32, gExplosionSound_Unused_61A6D0, 321, 0x61A6D0);
 
 MATCH_FUNC(0x426750)
 void sound_obj::ResetRadioMessageState_426750()

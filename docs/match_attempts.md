@@ -890,7 +890,7 @@ Matched (116 -> 0) with two changes:
 - 0.854. A switch on the object model (map obj 5, explosion 113 with a nested switch on its
   `field_10_type`, rocket 128, conveyor 139, phones, skids 185..191, fire 197). It sets
   sample idx / volume / distances / loop, then one shared `CalculateDistance` + `VolCalc` + sample fill.
-  Added `dword_61A6CC` / `dword_61A6D0` (stored by the explosion 18/19/20 cases).
+  Added `gExplosionSound_Unused_61A6CC` / `gExplosionSound_Unused_61A6D0` (stored by the explosion 18/19/20 cases).
 - The phone rate displacement is `((u32)a2 * 8) % 760`: it really uses the `Sound_Params` pointer.
 - Case bodies are laid out in source order. Ordering the outer cases as the target lays them out took it
   from 0.24 → 0.75, and `cpp_permuter -m exhaustive -p reorder_cases` on the inner switch → 0.854.
