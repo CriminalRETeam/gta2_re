@@ -4,9 +4,9 @@
 #include <cmath>
 
 DEFINE_GLOBAL_INIT(Ang16, kAng45_6F677C, Ang16(0xB4), 0x6F677C);
-DEFINE_GLOBAL_INIT(Ang16, kAng315_6F680C, Ang16(0x4EC), 0x6F680C);
+DEFINE_STATIC_GLOBAL_INIT(Ang16, kAng315, Ang16(0x4EC), 0x6F680C);
 DEFINE_GLOBAL_INIT(Ang16, kAng135_6F6800, Ang16(0x21C), 0x6F6800);
-DEFINE_GLOBAL_INIT(Ang16, kAng225_6F67DC, Ang16(0x384), 0x6F67DC);
+DEFINE_STATIC_GLOBAL_INIT(Ang16, kAng225, Ang16(0x384), 0x6F67DC);
 
 EXTERN_GLOBAL(Ang16, kAng180_669156);
 
@@ -108,7 +108,7 @@ Ang16 Ang16::Fix16_To_Ang16_482740(const Fix16& value)
 MATCH_FUNC(0x4F78F0)
 s32 __stdcall Ang16::GetAngleFace_4F78F0(const Ang16& angle)
 {
-    if (angle <= kAng45_6F677C || angle > kAng315_6F680C)
+    if (angle <= kAng45_6F677C || angle > kAng315)
     {
         return road_direction::down_2;
     }
@@ -116,5 +116,5 @@ s32 __stdcall Ang16::GetAngleFace_4F78F0(const Ang16& angle)
     {
         return road_direction::right_3;
     }
-    return angle < kAng225_6F67DC ? road_direction::up_1 : road_direction::left_4;
+    return angle < kAng225 ? road_direction::up_1 : road_direction::left_4;
 }
