@@ -1496,47 +1496,47 @@ bool Frontend::pre_intro_bik_exists_4B6030()
 
 DEFINE_GLOBAL_ARRAY_INIT(char_type, gBikDataDir_620454, 8, 0x620454, "Data\\");
 DEFINE_GLOBAL_ARRAY_INIT(char_type, gBikDriveDataDir_62045C, 4, 0x62045C, ":\\");
-DEFINE_GLOBAL_ARRAY_INIT(char_type, gIntroBikName_5FE76C, 16, 0x5FE76C, "Movie\\intro.bik");
-DEFINE_GLOBAL_ARRAY_INIT(char_type, gPreIntroBikName_5FE77C, 20, 0x5FE77C, "Movie\\preintro.bik");
-DEFINE_GLOBAL_ARRAY(char_type, gIntroBikPath_67DA84, 256, 0x67DA84);
-DEFINE_GLOBAL_ARRAY(char_type, gPreIntroBikPath_67DB84, 256, 0x67DB84);
 
 MATCH_FUNC(0x4B5F20)
 char_type* Frontend::pre_intro_bik_4B5F20()
 {
+    LOCAL_STATIC_ARRAY_INIT(char_type, sPreIntroBikName, 20, 0x5FE77C, "Movie\\preintro.bik");
+    LOCAL_STATIC_ARRAY(char_type, sPreIntroBikPath, 256, 0x67DB84);
     char_type drive[32];
     drive[0] = gRoot_sound_66B038.GetAudioDriveLetter_40F150();
     if (drive[0])
     {
         drive[1] = 0;
-        strcpy(gPreIntroBikPath_67DB84, drive);
-        strcat(gPreIntroBikPath_67DB84, gBikDriveDataDir_62045C);
+        strcpy(sPreIntroBikPath, drive);
+        strcat(sPreIntroBikPath, gBikDriveDataDir_62045C);
     }
     else
     {
-        strcpy(gPreIntroBikPath_67DB84, gBikDataDir_620454);
+        strcpy(sPreIntroBikPath, gBikDataDir_620454);
     }
-    strcat(gPreIntroBikPath_67DB84, gPreIntroBikName_5FE77C);
-    return gPreIntroBikPath_67DB84;
+    strcat(sPreIntroBikPath, sPreIntroBikName);
+    return sPreIntroBikPath;
 }
 
 MATCH_FUNC(0x4B5E50)
 const char_type* Frontend::intro_bik_4B5E50()
 {
+    LOCAL_STATIC_ARRAY_INIT(char_type, sIntroBikName, 16, 0x5FE76C, "Movie\\intro.bik");
+    LOCAL_STATIC_ARRAY(char_type, sIntroBikPath, 256, 0x67DA84);
     char_type drive[32];
     drive[0] = gRoot_sound_66B038.GetAudioDriveLetter_40F150();
     if (drive[0])
     {
         drive[1] = 0;
-        strcpy(gIntroBikPath_67DA84, drive);
-        strcat(gIntroBikPath_67DA84, gBikDriveDataDir_62045C);
+        strcpy(sIntroBikPath, drive);
+        strcat(sIntroBikPath, gBikDriveDataDir_62045C);
     }
     else
     {
-        strcpy(gIntroBikPath_67DA84, gBikDataDir_620454);
+        strcpy(sIntroBikPath, gBikDataDir_620454);
     }
-    strcat(gIntroBikPath_67DA84, gIntroBikName_5FE76C);
-    return gIntroBikPath_67DA84;
+    strcat(sIntroBikPath, sIntroBikName);
+    return sIntroBikPath;
 }
 
 MATCH_FUNC(0x4B5FF0)
