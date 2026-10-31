@@ -23,7 +23,7 @@ extern DIDATAFORMAT gInputDeviceFormat_601A6C;
 EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);
 
 // DirectInput's pre-8 DIDEVICEOBJECTDATA (0x10 bytes, no uAppData): the 0x14 one of our SDK would
-// make gGamePadDeviceData_67B5B0 overlap gKeyboardDevice_67B5C0
+// make sGamePadDeviceData overlap gKeyboardDevice_67B5C0
 struct mini_device_obj_data
 {
     s32 dwOfs;
@@ -37,7 +37,7 @@ DEFINE_GLOBAL(InputDevices*, gInputDevices_67B990, 0x67B990);
 DEFINE_GLOBAL(DWORD, gDeviceDataCount_67B624, 0x67B624);
 DEFINE_GLOBAL(u8, gAltKeyDown_67B80C, 0x67B80C);
 DEFINE_GLOBAL(bool, gNeedKbAcquire_67B66C, 0x67B66C);
-DEFINE_GLOBAL(mini_device_obj_data, gGamePadDeviceData_67B5B0, 0x67B5B0);
+DEFINE_STATIC_GLOBAL(mini_device_obj_data, sGamePadDeviceData, 0x67B5B0);
 
 DEFINE_GLOBAL_ARRAY(s32, gControlDeviceType_67B91C, 12, 0x67B91C);
 DEFINE_GLOBAL_ARRAY(s32, gPlayerControlsBinding_67B6E8, 12, 0x67B6E8);
@@ -379,7 +379,7 @@ void InputDevices::read_input_device_498DA0(s32* input_bits, bool bApplyKeyboard
     if (acquire_input_device_498730(gKeyboardDevice_67B5C0) || acquire_input_device_498730(gGamePadDevice_67B6C0))
     {
         memset(&sKeyboardDeviceData, 0, sizeof(mini_device_obj_data));
-        memset(&gGamePadDeviceData_67B5B0, 0, sizeof(mini_device_obj_data));
+        memset(&sGamePadDeviceData, 0, sizeof(mini_device_obj_data));
         if (acquire_input_device_498730(gGamePadDevice_67B6C0))
         {
             static_cast<LPDIRECTINPUTDEVICE2A>(gGamePadDevice_67B6C0)->Poll();
@@ -407,7 +407,7 @@ void InputDevices::read_input_device_498DA0(s32* input_bits, bool bApplyKeyboard
                 gDeviceDataCount_67B624 = 1;
                 gGamePadDevice_67B6C0->GetDeviceData(16, NULL, &padItems, DIGDD_PEEK);
                 padResult = gGamePadDevice_67B6C0->GetDeviceData(16,
-                                                                 reinterpret_cast<DIDEVICEOBJECTDATA*>(&gGamePadDeviceData_67B5B0),
+                                                                 reinterpret_cast<DIDEVICEOBJECTDATA*>(&sGamePadDeviceData),
                                                                  &gDeviceDataCount_67B624,
                                                                  0);
                 if (bLog_directinput_67D6C0 && gDeviceDataCount_67B624 > 0)
@@ -416,8 +416,8 @@ void InputDevices::read_input_device_498DA0(s32* input_bits, bool bApplyKeyboard
                             "%d: input num_items = %d dwOfs = %d; data = %d",
                             gpRng_67AB34->get_cur_rng_41CFE0(),
                             padItems,
-                            gGamePadDeviceData_67B5B0.dwOfs,
-                            gGamePadDeviceData_67B5B0.dwData);
+                            sGamePadDeviceData.dwOfs,
+                            sGamePadDeviceData.dwData);
                     gErrorLog_67C530.Write_4D9620(gTmpBuffer_67C598);
                 }
             }
@@ -482,9 +482,9 @@ void InputDevices::read_input_device_498DA0(s32* input_bits, bool bApplyKeyboard
                         switch (binding)
                         {
                             case 224:
-                                if (gGamePadDeviceData_67B5B0.dwOfs == 0)
+                                if (sGamePadDeviceData.dwOfs == 0)
                                 {
-                                    if (gGamePadDeviceData_67B5B0.dwData > -750)
+                                    if (sGamePadDeviceData.dwData > -750)
                                     {
                                         bRelease = true;
                                     }
@@ -495,9 +495,9 @@ void InputDevices::read_input_device_498DA0(s32* input_bits, bool bApplyKeyboard
                                 }
                                 break;
                             case 225:
-                                if (gGamePadDeviceData_67B5B0.dwOfs == 0)
+                                if (sGamePadDeviceData.dwOfs == 0)
                                 {
-                                    if (gGamePadDeviceData_67B5B0.dwData < 750)
+                                    if (sGamePadDeviceData.dwData < 750)
                                     {
                                         bRelease = true;
                                     }
@@ -508,9 +508,9 @@ void InputDevices::read_input_device_498DA0(s32* input_bits, bool bApplyKeyboard
                                 }
                                 break;
                             case 226:
-                                if (gGamePadDeviceData_67B5B0.dwOfs == 4)
+                                if (sGamePadDeviceData.dwOfs == 4)
                                 {
-                                    if (gGamePadDeviceData_67B5B0.dwData <= -750)
+                                    if (sGamePadDeviceData.dwData <= -750)
                                     {
                                         bPressed = true;
                                     }
@@ -521,9 +521,9 @@ void InputDevices::read_input_device_498DA0(s32* input_bits, bool bApplyKeyboard
                                 }
                                 break;
                             case 227:
-                                if (gGamePadDeviceData_67B5B0.dwOfs == 4)
+                                if (sGamePadDeviceData.dwOfs == 4)
                                 {
-                                    if (gGamePadDeviceData_67B5B0.dwData >= 750)
+                                    if (sGamePadDeviceData.dwData >= 750)
                                     {
                                         bPressed = true;
                                     }
@@ -534,9 +534,9 @@ void InputDevices::read_input_device_498DA0(s32* input_bits, bool bApplyKeyboard
                                 }
                                 break;
                             default:
-                                if (gGamePadDeviceData_67B5B0.dwOfs == binding + 48)
+                                if (sGamePadDeviceData.dwOfs == binding + 48)
                                 {
-                                    if (gGamePadDeviceData_67B5B0.dwData & 0x80)
+                                    if (sGamePadDeviceData.dwData & 0x80)
                                     {
                                         bPressed = true;
                                     }
