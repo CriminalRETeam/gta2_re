@@ -34,14 +34,14 @@ EXTERN_GLOBAL(Ang16, kAng180_6FD3EE);
 
 DEFINE_GLOBAL(T_Particle_4C_Pool*, gParticle_4C_Pool_6FD5E4, 0x6FD5E4);
 DEFINE_GLOBAL(ParticleManager*, gParticle_8_6FD5E8, 0x6FD5E8);
-DEFINE_GLOBAL_INIT(Fix16, kFpPoint07_6FD474, Fix16(0x47A, 0), 0x6FD474);
-DEFINE_GLOBAL_INIT(Fix16, kFpPoint02_6FD468, Fix16(0x147, 0), 0x6FD468);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpPoint07, Fix16(0x47A, 0), 0x6FD474);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpPoint02, Fix16(0x147, 0), 0x6FD468);
 DEFINE_GLOBAL_INIT(Ang16, kAng90_6FD314, Ang16(360), 0x6FD314);
 
-DEFINE_GLOBAL_INIT(Fix16, kFpPoint0007_6FD4EC, Fix16(0xB, 0), 0x6FD4EC);
-DEFINE_GLOBAL_INIT(Fix16, kFpFifty_6FD558, Fix16(50), 0x6FD558);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpPoint0007, Fix16(0xB, 0), 0x6FD4EC);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpFifty, Fix16(50), 0x6FD558);
 DEFINE_GLOBAL_INIT(Ang16, kAng1_6FD5CC, Ang16(4), 0x6FD5CC);
-DEFINE_GLOBAL_INIT(Fix16, kFpTen_6FD508, Fix16(10), 0x6FD508);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpTen, Fix16(10), 0x6FD508);
 
 DEFINE_GLOBAL_INIT(Fix16, kFpSevenThirtySeconds_6FD2D4, Fix16(0xE00, 0), 0x6FD2D4);
 DEFINE_GLOBAL_INIT(Fix16, kFpMinusNineThirtySeconds_6FD4CC, Fix16(0xFFFFEE00, 0), 0x6FD4CC);
@@ -117,7 +117,7 @@ void ParticleManager::EmitBloodBurst_53E450(Fix16 x, Fix16 y, Fix16 z, Ang16 ang
         do
         {
             vector.x = Fix16(0);
-            vector.y = (Fix16(gRng_6F6784.get_int_4F7AE0(100)) + kFpFifty_6FD558) * kFpPoint0007_6FD4EC;
+            vector.y = (Fix16(gRng_6F6784.get_int_4F7AE0(100)) + kFpFifty) * kFpPoint0007;
 
             angle = kAng1_6FD5CC.MultiplyByFix16_401CB0(Fix16(gRng_6F6784.get_int_4F7AE0(16)));
             vector.RotateByAngle_40F6B0((angle + ang) - kAng1_6FD5CC.MultiplyByFix16_401CB0(Fix16(8)));
@@ -256,7 +256,7 @@ void ParticleManager::GunMuzzelFlash_53E970(Sprite* pSprite)
 
                 Char* pChar = pSprite->AsCharB4_40FEA0();
                 ped_offset.x = -kFpPoint03_6FD464;
-                ped_offset.y = kFpPoint02_6FD468 + kFpPoint1_6FD2E8;
+                ped_offset.y = kFpPoint02 + kFpPoint1_6FD2E8;
                 ped_offset.RotateByAngle_40F6B0(pSprite->field_0_rotation);
                 ped_offset = ped_offset + *reinterpret_cast<Fix16_Point*>(&pChar->field_98_velocity_vector);
 
@@ -297,7 +297,7 @@ void ParticleManager::EmitWaterSplash_53F060(Fix16 xpos, Fix16 ypos, Fix16 zpos,
             }
 
             velocity.x = Fix16(0);
-            velocity.y = (Fix16(gRng_6F6784.get_int_4F7AE0(100)) + kFpFifty_6FD558) * kFpPoint0007_6FD4EC;
+            velocity.y = (Fix16(gRng_6F6784.get_int_4F7AE0(100)) + kFpFifty) * kFpPoint0007;
 
             Ang16 angle_1 = kAng1_6FD5CC.MultiplyByFix16_401CB0(Fix16(gRng_6F6784.get_int_4F7AE0(16)));
             RotateNegExport_(velocity, (angle_1 + angle_2) - kAng1_6FD5CC.MultiplyByFix16_401CB0(Fix16(8)));
@@ -363,7 +363,7 @@ void ParticleManager::EmitFlameStreamSegment_53F4C0(Sprite* pSprt)
                 pParticle->field_30_pOwnSprite->SetType_4206F0(sprite_types_enum::code_obj2_8);
                 pParticle->field_30_pOwnSprite->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_base_sprite_idx + 73);
                 Particle_4C* tmp = pParticle;
-                tmp->field_30_pOwnSprite->AllocCollisionShape_59F950(kFpOne64th_6FD554 * kFpTen_6FD508, kFpOne64th_6FD554 * kFpTen_6FD508, kFP16Quarter_6FD2EC);
+                tmp->field_30_pOwnSprite->AllocCollisionShape_59F950(kFpOne64th_6FD554 * kFpTen, kFpOne64th_6FD554 * kFpTen, kFP16Quarter_6FD2EC);
                 pParticle->field_38_state = 31;
                 pParticle->field_34_unused = 0;
                 Fix16 vec_x;
@@ -406,7 +406,7 @@ void ParticleManager::EmitFlameStreamSegment_53F4C0(Sprite* pSprt)
                 else
                 {
                     ped_offset.x = -kFpPoint03_6FD464;
-                    ped_offset.y = kFpPoint02_6FD468 + kFpPoint1_6FD2E8;
+                    ped_offset.y = kFpPoint02 + kFpPoint1_6FD2E8;
                     ped_offset.RotateByAngle_40F6B0(pSprt->field_0_rotation);
                     ped_offset = ped_offset + *reinterpret_cast<Fix16_Point*>(&pPed->field_98_velocity_vector);
                     pParticle->field_30_pOwnSprite->set_ang_lazy_420690(pSprt->field_0_rotation);
@@ -424,7 +424,7 @@ void ParticleManager::EmitFlameStreamSegment_53F4C0(Sprite* pSprt)
     }
 }
 
-DEFINE_GLOBAL_INIT(Fix16, kFpEpsilon_6FD500, Fix16(0x1, 0), 0x6FD500);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpEpsilon, Fix16(0x1, 0), 0x6FD500);
 
 MATCH_FUNC(0x53FAE0)
 void ParticleManager::EmitFireTruckSprayParticle_53FAE0(Sprite* pSprite)
@@ -445,7 +445,7 @@ void ParticleManager::EmitFireTruckSprayParticle_53FAE0(Sprite* pSprite)
             pParticle->field_4_bf.bDriverAttacking = true;
             pParticle->field_30_pOwnSprite->SetType_4206F0(sprite_types_enum::code_obj2_8);
             pParticle->field_30_pOwnSprite->set_id_lazy_4206C0(gObjectDefinitions_6FCF00->field_8CA4_def112_base_sprite_idx + 111);
-            pParticle->field_30_pOwnSprite->AllocCollisionShape_59F950(kFpOne64th_6FD554 * kFpTen_6FD508, kFpOne64th_6FD554 * kFpTen_6FD508, kFP16Quarter_6FD2EC);
+            pParticle->field_30_pOwnSprite->AllocCollisionShape_59F950(kFpOne64th_6FD554 * kFpTen, kFpOne64th_6FD554 * kFpTen, kFP16Quarter_6FD2EC);
             pParticle->field_34_unused = 0;
             pParticle->field_38_state = 34;
             Fix16 vec_x;
@@ -510,7 +510,7 @@ void ParticleManager::EmitImpactParticles_53FE40(Fix16 x, Fix16 y, Fix16 z, Fix1
     for (u8 i = 0; i < 6; ++i)
     {
         t.x = Fix16(0);
-        t.y = (Fix16(gRng_6F6784.get_int_4F7AE0(100)) + kFpFifty_6FD558) * kFpPoint0007_6FD4EC;
+        t.y = (Fix16(gRng_6F6784.get_int_4F7AE0(100)) + kFpFifty) * kFpPoint0007;
         if (i < 4)
         {
             ang1 = kAng1_6FD5CC.MultiplyByFix16_401CB0_out_of_line(Fix16(gRng_6F6784.get_int_4F7AE0(32)));
@@ -550,7 +550,7 @@ void ParticleManager::EmitElectricArcParticle(Fix16 xpos, Fix16 ypos, Fix16 zpos
     {
         gRng_6F6784.get_int_4F7AE0(3);
         vector.x = Fix16(0);
-        vector.y = (Fix16(gRng_6F6784.get_int_4F7AE0(100)) + kFpFifty_6FD558) * kFpEpsilon_6FD500;
+        vector.y = (Fix16(gRng_6F6784.get_int_4F7AE0(100)) + kFpFifty) * kFpEpsilon;
 
         // The rng result is bound to a const s16& temporary: stored as a short and sign extended only after the
         // word is loaded (the word ends up as the imul's eax operand)
@@ -641,7 +641,7 @@ void ParticleManager::SpawnCigaretteSmokePuff_5406B0(Sprite* pSprite, char_type 
             Fix16 y;
             if (bSmokeSource)
             {
-                PolarToCartesian_OutOfLineCos(pSprite->field_0_rotation, kFpPoint07_6FD474, x, y);
+                PolarToCartesian_OutOfLineCos(pSprite->field_0_rotation, kFpPoint07, x, y);
             }
             else
             {
@@ -652,7 +652,7 @@ void ParticleManager::SpawnCigaretteSmokePuff_5406B0(Sprite* pSprite, char_type 
 
             Fix16 offset_x;
             Fix16 offset_y;
-            PolarToCartesian_OutOfLineCos(pSprite->field_0_rotation - kAng90_6FD314, kFpPoint02_6FD468, offset_x, offset_y);
+            PolarToCartesian_OutOfLineCos(pSprite->field_0_rotation - kAng90_6FD314, kFpPoint02, offset_x, offset_y);
 
             gParticlePosX_6FD388 += offset_x + pSprite->field_14_xy.x;
             gParticlePosY_6FD38C += offset_y + pSprite->field_14_xy.y;
