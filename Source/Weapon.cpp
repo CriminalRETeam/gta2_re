@@ -36,7 +36,7 @@ EXTERN_GLOBAL(Fix16, kFpOneEighth_706CC8);
 
 DEFINE_GLOBAL_INIT(Fix16, kFP16Quarter_706CF4, Fix16(0x1000, 0), 0x706CF4);
 DEFINE_GLOBAL_INIT(Fix16, kFP16Two_706EC0, Fix16(2), 0x706EC0);
-DEFINE_GLOBAL(bool, bAllowFlameSegment_706D60, 0x706D60);
+DEFINE_STATIC_MEMBER(bool, Weapon, sbAllowFlameSegment, 0x706D60);
 
 DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_706FF4, Fix16(0x100, 0), 0x706FF4);
 DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpNineThirtySeconds, Fix16(0x1200, 0), 0x706FEC);
@@ -255,11 +255,11 @@ Object* Weapon::spawn_bullet_5DCF60(s32 bullet_type, Fix16 xpos, Fix16 ypos, Fix
     {
         pNewBullet->RequestRemoval_5290A0();
         pNewBullet = NULL;
-        bAllowFlameSegment_706D60 = false;
+        sbAllowFlameSegment = false;
     }
     else
     {
-        bAllowFlameSegment_706D60 = true;
+        sbAllowFlameSegment = true;
         pNewBullet->SetMovementVector_5224E0(speed);
     }
     return pNewBullet;
@@ -289,9 +289,9 @@ void Weapon::flamethrower_5DD0F0()
     if (!field_4_bTargetHit)
     {
         SetShotFired_4CCA80(true);
-        bAllowFlameSegment_706D60 = false;
+        sbAllowFlameSegment = false;
         Weapon::spawn_bullet_5DCF60(objects::invisible_bullet_154, xpos, ypos, cam_z, ped_rot, ped_velocity);
-        if (bAllowFlameSegment_706D60)
+        if (sbAllowFlameSegment)
         {
             gParticle_8_6FD5E8->EmitFlameStreamSegment_53F4C0(field_24_pPed->field_168_game_object->field_80_sprite_ptr);
 

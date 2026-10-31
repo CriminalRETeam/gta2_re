@@ -18,6 +18,7 @@ EXPORT void __stdcall ShockPedsAroundSprite_5DF270(Sprite* pSprite, Fix16 search
 class Weapon
 {
   public:
+    STATIC_MEMBER(bool, sbAllowFlameSegment);
     // 9.6f 0x4A4FE0
     inline u16 get_ammo_4A4FE0() const
     {
