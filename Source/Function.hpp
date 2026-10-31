@@ -63,19 +63,19 @@
 
             #define DEFINE_STATIC_GLOBAL(type, name, addr) \
                 static type name;                          \
-                GLOBAL(name, addr)
+                GLOBAL_STATIC(name, addr)
 
             #define DEFINE_STATIC_GLOBAL_INIT(type, name, value, addr) \
                 static type name = value;                              \
-                GLOBAL(name, addr)
+                GLOBAL_STATIC(name, addr)
 
             #define DEFINE_STATIC_GLOBAL_ARRAY(type, name, size, addr) \
                 static type name[size];                                \
-                GLOBAL(name, addr)
+                GLOBAL_STATIC(name, addr)
 
             #define DEFINE_STATIC_GLOBAL_ARRAY_INIT(type, name, size, addr, va_args) \
                 static type name[size] = {va_args};                                 \
-                GLOBAL(name, addr)
+                GLOBAL_STATIC(name, addr)
 
             #define DEFINE_GLOBAL_INIT(type, name, value, addr) \
                 __declspec(dllexport) type name = value;        \
@@ -138,19 +138,19 @@
 
         #define DEFINE_STATIC_GLOBAL(type, name, addr) \
             static type name;                          \
-            GLOBAL(name, addr)
+            GLOBAL_STATIC(name, addr)
 
         #define DEFINE_STATIC_GLOBAL_INIT(type, name, value, addr) \
             static type name = value;                              \
-            GLOBAL(name, addr)
+            GLOBAL_STATIC(name, addr)
 
         #define DEFINE_STATIC_GLOBAL_ARRAY(type, name, size, addr) \
             static type name[size];                                \
-            GLOBAL(name, addr)
+            GLOBAL_STATIC(name, addr)
 
         #define DEFINE_STATIC_GLOBAL_ARRAY_INIT(type, name, size, addr, va_args) \
             static type name[size] = {va_args};                                 \
-            GLOBAL(name, addr)
+            GLOBAL_STATIC(name, addr)
 
         #define DEFINE_GLOBAL_INIT(type, name, value, addr) \
             type name = value;                              \
