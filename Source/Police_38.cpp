@@ -2623,7 +2623,7 @@ bool PoliceRoadblock::CreateRoadblock(u8 x, u8 y, u8 z, s32 orientation)
                 if (lane > 0 && lane < width - 1)
                 {
                     s16 max = 32;
-                    angle = Ang16::Fix16_To_Ang16_40F540((Fix16(gRng.get_int(max)) - kFpSixteen) * kFpOne64th_6FEB88) +
+                    angle = Ang16::Fix16_To_Ang16((Fix16(gRng.get_int(max)) - kFpSixteen) * kFpOne64th_6FEB88) +
                         kAng0_6FEE30;
                 }
                 else
@@ -2939,7 +2939,7 @@ bool PoliceRoadblock::CreateRoadblock(u8 x, u8 y, u8 z, s32 orientation)
                 {
                     s16 max = 16;
                     angle =
-                        Ang16::Fix16_To_Ang16_40F540((Fix16(gRng.get_int(max)) - kFpEight_6FED0C) * kFpOne64th_6FEB88) + kAng90_6FEB74;
+                        Ang16::Fix16_To_Ang16((Fix16(gRng.get_int(max)) - kFpEight_6FED0C) * kFpOne64th_6FEB88) + kAng90_6FEB74;
                 }
                 else
                 {

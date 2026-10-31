@@ -481,7 +481,7 @@ void ScriptThread::SCRCMD_CAR_DECSET(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER* pPoint
         Ang16 rotation;
         rotation.ConvertAndMultiply(&kDegreesToAng16, &pCmd->mRot);
         rotation.Normalize_406C20();
-        pPointer->mCar = gCarManager_6C->SpawnCar_426E10(pCmd->mPos.x,
+        pPointer->mCar = gCarManager_6C->SpawnFullSizeCar(pCmd->mPos.x,
                                                                 pCmd->mPos.y,
                                                                 pCmd->mPos.z,
                                                                 rotation,
@@ -513,7 +513,7 @@ void ScriptThread::SCRCMD_CAR_DECSET(SCR_CAR_DATA_DEC* pCmd, SCR_POINTER* pPoint
             rotation.ConvertAndMultiply(&kDegreesToAng16, &pCmd->mRot);
             rotation.Normalize();
 
-            pPointer->mCar = gCarManager_6C->SpawnCar_426E10(pCmd->mPos.x,
+            pPointer->mCar = gCarManager_6C->SpawnFullSizeCar(pCmd->mPos.x,
                                                                     pCmd->mPos.y,
                                                                     pCmd->mPos.z,
                                                                     rotation,
@@ -6009,7 +6009,7 @@ void ScriptThread::Handle_CHAR_INTO_CAR()
 
         Car* pCar = pCarPointer->mCar;
 
-        pCar->AllocateAI_421510();
+        pCar->AllocateAI();
 
         pCarPointer->mCar->mAI->SetCar(pCarPointer->mCar);
         pCarPointer->mCar->SetupCarPhysicsAndSpriteBindingWithTrailer();

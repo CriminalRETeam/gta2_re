@@ -22,7 +22,7 @@ DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpFour, Fix16(4), 0x67F630);
 // version takes a __thiscall destructor pointer (`P6E`), which VC6 can't declare (no __thiscall
 // keyword), and a destructor's address can't be taken, so __ehvec_dtor (crt_stubs.cpp) takes a
 // __cdecl pointer to a destructor thunk here.
-static void __cdecl PedGroup_dtor_4CB870(void* pGroup)
+static void __cdecl PedGroupDtorThunk(void* pGroup)
 {
     static_cast<PedGroup*>(pGroup)->~PedGroup();
 }
@@ -30,7 +30,7 @@ static void __cdecl PedGroup_dtor_4CB870(void* pGroup)
 MATCH_FUNC(0x4c8e60)
 void PedGroup::DestroyGroupArray()
 {
-    __ehvec_dtor(pedGroups, sizeof(PedGroup), GTA2_COUNTOF(pedGroups), PedGroup_dtor_4CB870);
+    __ehvec_dtor(pedGroups, sizeof(PedGroup), GTA2_COUNTOF(pedGroups), PedGroupDtorThunk);
 }
 
 MATCH_FUNC(0x4c8e80)

@@ -449,7 +449,7 @@ class ArrowTrace
     }
 
     // 9.6f inline 0x4C6F20
-    inline bool HasNoTarget_4C6F20() const
+    inline bool HasNoTarget() const
     {
         return mTargetType == ArrowTargetType::Nothing_0;
     }
@@ -487,7 +487,7 @@ class Hud_ArrowTargets
     // 9.6f 0x4C6FB0
     inline bool HasBothTargets() const
     {
-        return !mPrimaryTarget.HasNoTarget_4C6F20() && !mSecondaryTarget.HasNoTarget_4C6F20();
+        return !mPrimaryTarget.HasNoTarget() && !mSecondaryTarget.HasNoTarget();
     }
 
     s32 mUnused20; // 0x20
@@ -512,7 +512,7 @@ class Hud_Arrow
     inline void SetMinRadiusPos(s32 steps);
 
     // 9.6f 0x4C6F20
-    inline bool Is_radius_pos_0_4C6F20() const
+    inline bool IsRadiusPosZero() const
     {
         return (mRadiusPos == 0) != 0;
     }
@@ -528,7 +528,7 @@ class Hud_Arrow
     // 9.6f inline 0x4C6F80
     inline bool HasNeitherTarget() const
     {
-        if (mTargets.mPrimaryTarget.HasNoTarget_4C6F20() && mTargets.mSecondaryTarget.HasNoTarget_4C6F20())
+        if (mTargets.mPrimaryTarget.HasNoTarget() && mTargets.mSecondaryTarget.HasNoTarget())
         {
             return true;
         }

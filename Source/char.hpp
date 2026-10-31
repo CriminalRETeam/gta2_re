@@ -198,7 +198,8 @@ class Char
         return mSpritePtr->mZpos;
     }
 
-    inline void RegulateVelocity_433970(Fix16 threshold)
+    // 9.6f 0x433970
+    inline void RegulateVelocity(Fix16 threshold)
     {
         if (mVelocity < threshold)
         {
@@ -223,7 +224,8 @@ class Char
         }
     }
 
-    inline void SetVelocity_433920(Fix16 max_speed)
+    // 9.6f 0x433920
+    inline void SetVelocity(Fix16 max_speed)
     {
         mVelocity = max_speed;
     }
@@ -240,7 +242,8 @@ class Char
         return mpPed;
     }
 
-    inline void SetPedState1_433910(s32 new_state)
+    // 9.6f 0x433910
+    inline void SetPedState1(s32 new_state)
     {
         mPedState1 = new_state;
     }

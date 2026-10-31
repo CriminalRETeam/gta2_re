@@ -111,7 +111,7 @@ gmp_map_zone* __stdcall FindStationZoneByName(const char_type* pChar, u8 case_va
 // 9.6f 0x421510 (Car member there), inlined
 static inline void EnsureAI_421510(Car* pCar)
 {
-    pCar->AllocateAI_421510();
+    pCar->AllocateAI();
 }
 
 MATCH_FUNC(0x577f80)
@@ -428,7 +428,7 @@ void Train::UpdatePassengerAI()
             {
                 if (this->mCarriages[0]->IsStoppedWithPavementAtDoor(2))
                 {
-                    if (this->mCarriages[0]->mPassengersList.IsEmpty_420EA0())
+                    if (this->mCarriages[0]->mPassengersList.HasNoPeds())
                     {
                         if (this->mPassengerCount > 6 || !this->mIsHijacked)
                         {
@@ -972,7 +972,7 @@ void PublicTransport::SetupTrainAndBusStops()
                 switch (j)
                 {
                     case 0:
-                        if (gMap_0x370->IsNorthBlockRoadType_433470(xpos.ToInt(), ypos.ToInt(), highest_zpos))
+                        if (gMap_0x370->IsNorthBlockRoadType(xpos.ToInt(), ypos.ToInt(), highest_zpos))
                         {
                             ypos -= kFpOne_6FF07C;
                             j = 4;
@@ -1229,7 +1229,7 @@ void PublicTransport::BusesService()
                     switch (i)
                     {
                         case 0:
-                            if (gMap_0x370->IsNorthBlockRoadType_433470(xpos.ToInt(), ypos.ToInt(), found_z))
+                            if (gMap_0x370->IsNorthBlockRoadType(xpos.ToInt(), ypos.ToInt(), found_z))
                             {
                                 ypos -= kFpHalf_6FEEE8;
                                 i = 4;

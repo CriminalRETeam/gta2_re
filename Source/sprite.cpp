@@ -91,7 +91,7 @@ static inline void __stdcall SaveUnprojectedVertex(f32 xCoord, f32 yCoord, f32 z
 // 9.6f 0x4BA4D0 takes zpos by value (on the stack, ret $4); the body compiles to the 9.6f code with VC7.
 // The extra parentheses are x87 no-op nodes for VC6's scheduler (VC7 ignores them): they put the 81-node
 // window breaks of Sprite::Draw's four expansions where the original's are (Scripts/x87_sched).
-static inline void ProjectWorldPointToScreen_4BA4D0(Fix16_Point& point, Vert* pVert, Fix16 zpos)
+static inline void ProjectWorldPointToScreen(Fix16_Point& point, Vert* pVert, Fix16 zpos)
 {
     SaveUnprojectedVertex(point.x.ToFloat(), point.y.ToFloat(), zpos.ToFloat(), pVert);
     pVert->z = static_cast<f32>(1.0 / (gViewCamera->mCurPos.mZ.ToFloat() + (8.0 - zpos.ToFloat())));
@@ -120,7 +120,7 @@ static inline void ProjectWorldPointToScreen_First_4BA4D0(Fix16_Point& point, Ve
 }
 
 // not exactly __fastcall but something similar... https://decomp.me/scratch/N5g2D
-static inline void __fastcall SetUV_4B9BC0(f32& u, f32& v)
+static inline void __fastcall SetTileVertUVs(f32& u, f32& v)
 {
     gTileVerts_7036D0[0].u = 0.30000001f;
     gTileVerts_7036D0[0].v = 0.30000001f;
@@ -871,7 +871,7 @@ void Sprite::SetDefaultDrawLayerBySpriteType()
     }
 }
 
-// RotateAndTranslatePoint_42A720 with the out-of-line Fix16 operator copies
+// RotateAndTranslatePoint with the out-of-line Fix16 operator copies
 static inline void __stdcall RotateAndTranslatePoint_ool_42A720(Fix16& pInX,
                                                                 Fix16& pInY,
                                                                 Ang16& pRotAng,
@@ -886,7 +886,7 @@ static inline void __stdcall RotateAndTranslatePoint_ool_42A720(Fix16& pInX,
                      .Add((pInY - pTransY) * Ang16::cosine(pRotAng));
 }
 
-// SpriteShape::GetHalfExtents_4BA0A0 with the out-of-line Fix16 / s32 copy
+// SpriteShape::GetHalfExtents with the out-of-line Fix16 / s32 copy
 static inline void GetHalfExtents_ool_4BA0A0(SpriteShape* pThis, Fix16* pHalfW, Fix16* pHalfH)
 {
     *pHalfW = pThis->mWidth.DivideInt(2);
@@ -950,7 +950,7 @@ s16 Sprite::GetTruePalette() const
 }
 
 // https://decomp.me/scratch/5emc4
-// RotateAndTranslatePoint_42A720 as RotatedRectCollisionSAT gets it once it has run out of
+// RotateAndTranslatePoint as RotatedRectCollisionSAT gets it once it has run out of
 // inline expansions: the unary minus is the out-of-line copy (Negate_4086A0)
 static inline void __stdcall RotateAndTranslatePoint_NegOOL_42A720(Fix16& pInX,
                                                                   Fix16& pInY,
@@ -1134,10 +1134,10 @@ void Sprite::Draw()
     Fix16 new_zpos = RoundZToLayer(mZpos);
 
     ProjectWorldPointToScreen_First_4BA4D0(pRect[0], &gTileVerts_7036D0[0], new_zpos);
-    ProjectWorldPointToScreen_4BA4D0(pRect[1], &gTileVerts_7036D0[1], new_zpos);
-    ProjectWorldPointToScreen_4BA4D0(pRect[2], &gTileVerts_7036D0[2], new_zpos);
-    ProjectWorldPointToScreen_4BA4D0(pRect[3], &gTileVerts_7036D0[3], new_zpos);
-    SetUV_4B9BC0(u, v);
+    ProjectWorldPointToScreen(pRect[1], &gTileVerts_7036D0[1], new_zpos);
+    ProjectWorldPointToScreen(pRect[2], &gTileVerts_7036D0[2], new_zpos);
+    ProjectWorldPointToScreen(pRect[3], &gTileVerts_7036D0[3], new_zpos);
+    SetTileVertUVs(u, v);
 
     Car* pCar = AsCar();
     if (pCar)
@@ -1244,7 +1244,7 @@ void Sprite::Draw()
                                                       Sprite::GetTruePalette());
             }
             pTexture = gTextureCache_15D8->GetCarDamageTexture(damage_mask_idx);
-            SetUV_4B9BC0(u, v);
+            SetTileVertUVs(u, v);
             pgbh_DrawQuad(128, pTexture, gTileVerts_7036D0, 255);
         }
         pCar->mDamagedAreas.m_var = car_flags;
@@ -1419,7 +1419,7 @@ bool Sprite::IntersectsRectSAT(Fix16_Rect* pOtherRect)
     }
 
     // Last rotation
-    // In 9.6f, it's RotateAndTranslatePoint_42A720. Here the function has run out of inline
+    // In 9.6f, it's RotateAndTranslatePoint. Here the function has run out of inline
     // expansions: the rotation is the out-of-line copy and only the y sum stays inline. The
     // operators are the named out-of-line copies used above, so each has a single callee.
     ProjectOntoAxis(((pOtherRect->get_left()).Add(pOtherRect->get_right())).DivideInt(2),
@@ -1475,17 +1475,17 @@ char_type Sprite::FindOverlappingBoundingBoxCorners(Sprite* pOther, u8* pOut1, u
 
     Fix16 half_w;
     Fix16 half_h;
-    // corner_x/y declared up here: two fewer inline candidates after GetHalfExtents_4BA0A0 keep both of its
+    // corner_x/y declared up here: two fewer inline candidates after GetHalfExtents keep both of its
     // divisions inline
     Fix16 corner_x;
     Fix16 corner_y;
-    mpCollisionShape->GetHalfExtents_4BA0A0(&half_w, &half_h);
+    mpCollisionShape->GetHalfExtents(&half_w, &half_h);
 
     for (i = 0; i < 4; i++)
     {
         Ang16 t = -mRotation;
         Fix16_Point* pCorner = &pBBox[i];
-        RotateAndTranslatePoint_42A720(pCorner->x, pCorner->y, t, mXy.x, mXy.y, corner_x, corner_y);
+        RotateAndTranslatePoint(pCorner->x, pCorner->y, t, mXy.x, mXy.y, corner_x, corner_y);
 
         if (((corner_x >= -half_w) && (corner_x <= half_w) && (corner_y >= -half_h) && (corner_y <= half_h)))
         {
@@ -1548,7 +1548,7 @@ bool Sprite::RotatedRectCollisionSAT(Sprite* pOther)
 
     Fix16_Point* pOtherRenderRect = pOther->mpCollisionShape->mCorners;
 
-    mpCollisionShape->GetHalfExtents_4BA0A0(&half_width, &half_height);
+    mpCollisionShape->GetHalfExtents(&half_width, &half_height);
 
     Fix16 rot_x;
     Fix16 rot_y;
@@ -1842,15 +1842,15 @@ bool Sprite::PointInsideRotatedBounds(Fix16_Point& point1, Fix16_Point& point2)
     Fix16_Point rotated_2;
     Fix16 half_width;
     Fix16 half_height;
-    mpCollisionShape->GetHalfExtents_4BA0A0(&half_width, &half_height);
+    mpCollisionShape->GetHalfExtents(&half_width, &half_height);
 
     // The plain mValue compares are cheaper than the Fix16 operators (inline budget).
-    RotateAndTranslatePoint_42A720(point1.x, point1.y, NegateAng16(mRotation), mXy.x, mXy.y, rotated_1.x, rotated_1.y);
+    RotateAndTranslatePoint(point1.x, point1.y, NegateAng16(mRotation), mXy.x, mXy.y, rotated_1.x, rotated_1.y);
     if (rotated_1.x.mValue >= -half_width.mValue && rotated_1.x.mValue <= half_width.mValue && rotated_1.y.mValue >= -half_height.mValue && rotated_1.y.mValue <= half_height.mValue)
     {
         return true;
     }
-    RotateAndTranslatePoint_42A720(point2.x, point2.y, NegateAng16(mRotation), mXy.x, mXy.y, rotated_2.x, rotated_2.y);
+    RotateAndTranslatePoint(point2.x, point2.y, NegateAng16(mRotation), mXy.x, mXy.y, rotated_2.x, rotated_2.y);
     if (rotated_2.x.mValue >= -half_width.mValue && rotated_2.x.mValue <= half_width.mValue && rotated_2.y.mValue >= -half_height.mValue && rotated_2.y.mValue <= half_height.mValue)
     {
         return true;
@@ -2172,7 +2172,7 @@ Fix16_Point Sprite::FindCollisionIntersectionPoint(Sprite* pOther,
     self_corner_idx = 5;
     other_corner_idx = 5;
 
-    set_xyz_lazy_420600(newPos.x, newPos.y, mZpos);
+    set_xyz_lazy(newPos.x, newPos.y, mZpos);
     set_ang_lazy(newAng);
     UpdateCollisionBoundsIfNeeded();
 
@@ -2180,7 +2180,7 @@ Fix16_Point Sprite::FindCollisionIntersectionPoint(Sprite* pOther,
 
     if (overlap_count != 0)
     {
-        set_xyz_lazy_420600(SpritePos.x, SpritePos.y, mZpos);
+        set_xyz_lazy(SpritePos.x, SpritePos.y, mZpos);
         set_ang_lazy(SpriteAng);
         UpdateCollisionBoundsIfNeeded();
         if (overlap_count == 1)
@@ -2196,7 +2196,7 @@ Fix16_Point Sprite::FindCollisionIntersectionPoint(Sprite* pOther,
     else
     {
         overlap_count = FindOverlappingBoundingBoxCorners(pOther, &idx1, &idx2);
-        set_xyz_lazy_420600(SpritePos.x, SpritePos.y, mZpos);
+        set_xyz_lazy(SpritePos.x, SpritePos.y, mZpos);
         set_ang_lazy(SpriteAng);
 
         if (overlap_count != 0)
@@ -2446,7 +2446,7 @@ void SpriteShape::UpdateRotatedBoundingBox(Fix16 xpos, Fix16 ypos, Fix16 zpos, A
         corner2.SetXY(width_over_2, height_over_2);
         corner3.SetXY(-width_over_2, height_over_2);
 
-        // RotateByAngle_40F6B0 with the operators out of line, written out by hand: going through an
+        // RotateByAngle with the operators out of line, written out by hand: going through an
         // inline helper (RotateByAngle_40F6B0_all_out_of_line) uses up the inline budget and pushes the
         // first Fix16_Point ctor out of line.
         {

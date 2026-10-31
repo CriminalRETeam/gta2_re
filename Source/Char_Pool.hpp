@@ -29,7 +29,7 @@ class PedListNode
 {
   public:
     // 9.6f 0x420EA0
-    inline bool no_char_ped_420EA0() const
+    inline bool HasNoPed() const
     {
         return mCharPed == NULL;
     }

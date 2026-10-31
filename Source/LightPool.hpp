@@ -105,7 +105,7 @@ class LightPool : public LightBase
     }
 
     // matched https://decomp.me/scratch/cZQwK
-    inline void RemoveFromUpdateListAndFree_47F450(Light* pLight)
+    inline void RemoveFromUpdateListAndFree(Light* pLight)
     {
         Light* pPrevious = NULL;
 

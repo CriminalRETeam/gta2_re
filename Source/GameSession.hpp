@@ -40,7 +40,7 @@ struct GameSession
     }
 
     // 9.6f 0x453A40
-    inline u8 EncodeStage_453A40(u8 main_stage_idx, u8 bonus_stage_idx)
+    inline u8 EncodeStage(u8 main_stage_idx, u8 bonus_stage_idx)
     {
         main_stage_idx <<= 4;
         main_stage_idx |= bonus_stage_idx;

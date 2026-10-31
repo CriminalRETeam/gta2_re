@@ -274,7 +274,8 @@ class Fix16
         return -input;
     }
 
-    inline Fix16 ZeroIfNegligible_482730() const
+    // 9.6f 0x482730
+    inline Fix16 ZeroIfNegligible() const
     {
         if (Fix16::Abs(*this) < kFpOne256th_6F8CF0)
         {

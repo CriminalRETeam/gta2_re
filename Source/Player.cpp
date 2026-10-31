@@ -2716,7 +2716,7 @@ void Player::RestoreCarsFromSave()
         if (gGameSave.mCarAndScriptData.mSavedCars.mX[i].mValue > kZero_6FE610 &&
             gGameSave.mCarAndScriptData.mSavedCars.mY[i].mValue > kZero_6FE610)
         {
-            Car* pNewCar = gCarManager_6C->SpawnCar_426E10(gGameSave.mCarAndScriptData.mSavedCars.mX[i].mValue,
+            Car* pNewCar = gCarManager_6C->SpawnFullSizeCar(gGameSave.mCarAndScriptData.mSavedCars.mX[i].mValue,
                                                                 gGameSave.mCarAndScriptData.mSavedCars.mY[i].mValue,
                                                                 gGameSave.mCarAndScriptData.mSavedCars.mZ[i].mValue,
                                                                 gGameSave.mCarAndScriptData.mSavedCars.mAng[i],

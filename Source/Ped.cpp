@@ -1466,7 +1466,7 @@ bool Ped::AllocCharB4(Fix16 xpos, Fix16 ypos, Fix16 zpos)
     }
 
     Sprite* pSprite = pChar->mSpritePtr;
-    pSprite->set_xyz_lazy_420600(xpos, ypos, zpos);
+    pSprite->set_xyz_lazy(xpos, ypos, zpos);
 
     pChar->mSpritePtr->AllocCollisionShape(gDummyW, gDummyW, gDummyZ);
 
@@ -2590,7 +2590,7 @@ void Ped::DeallocateWithGroupCleanup()
 // Clearing the flag through a reference keeps VC6 from hoisting the mCar load above it.
 // The flags word is passed and returned by value: VC6 then loads it into eax before the timer store
 // and clears the bit with the short `and al, 0xFE` form, like the original
-static inline PedFlags32 ClearActive_45EB60(PedFlags32 bf)
+static inline PedFlags32 ClearActive(PedFlags32 bf)
 {
     bf.bActive = false;
     return bf;
@@ -2693,7 +2693,7 @@ void Ped::Deallocate()
     }
 
     mLifetimeTimer = 2;
-    mBf21C = ClearActive_45EB60(mBf21C);
+    mBf21C = ClearActive(mBf21C);
 
     if (mCar)
     {
@@ -2953,7 +2953,7 @@ void Ped::CarThief_AI()
                         {
                             if (!pNearestCar->IsTrainModel() && !pNearestCar->IsPoliceCar() &&
                                 pNearestCar->mCarInfoIdx != car_model_enum::BUS &&
-                                pNearestCar->mPassengersList.IsEmpty_420EA0() && pNearestCar->mPedType == ped_type::dummy_3)
+                                pNearestCar->mPassengersList.HasNoPeds() && pNearestCar->mPedType == ped_type::dummy_3)
                             {
                                 SetObjective(objectives_enum::enter_car_as_driver_35);
                                 this->mTargetObjectiveCar = pNearestCar;
@@ -3164,7 +3164,7 @@ void Ped::TaxiCustomer_AI()
                     return;
                 }
                 Car* pCar = this->mTargetObjectiveCar;
-                if (pCar->mPassengersList.IsEmpty_420EA0() && !pCar->IsDespawning())
+                if (pCar->mPassengersList.HasNoPeds() && !pCar->IsDespawning())
                 {
                     break;
                 }
@@ -3625,7 +3625,7 @@ void Ped::UpdateFacingAngle()
                     ComputeShortestAngleDelta(mTargetFacingAngle, mFacingAngle) > kAng90_6784B0)
                 {
                     mTargetFacingAngle = this->mFacingAngle;
-                    this->mGameObject->SetVelocity_433920(mInternalTargetPed->GetPedVelocity() -
+                    this->mGameObject->SetVelocity(mInternalTargetPed->GetPedVelocity() -
                                                                      kFpOne64th);
                     return;
                 }
@@ -3636,7 +3636,7 @@ void Ped::UpdateFacingAngle()
                     Ang16 jitter;
                     if ((this->mId & 1) != 0)
                     {
-                        jitter = Ang16::Fix16_To_Ang16_40F540(kFpOne64th_6784C4 * Fix16(gRng.get_int(45)));
+                        jitter = Ang16::Fix16_To_Ang16(kFpOne64th_6784C4 * Fix16(gRng.get_int(45)));
                         this->mGameObject->mRepulsionRotation = mTargetFacingAngle + kAng90_6784B0 + jitter;
                     }
                     else
@@ -7435,12 +7435,12 @@ void Ped::WaitOnFootAtTarget()
             {
                 if (gDistanceToTarget > kFpThreeEighths)
                 {
-                    mGameObject->SetVelocity_433920(this->mMaxSpeed);
+                    mGameObject->SetVelocity(this->mMaxSpeed);
                     UpdateMovementTowardsTarget(gDistanceToTarget, ped_move_target_type::objective_target_pos_4);
                 }
                 else
                 {
-                    mGameObject->SetVelocity_433920(this->mWalkSpeed);
+                    mGameObject->SetVelocity(this->mWalkSpeed);
                     UpdateMovementTowardsTarget(gDistanceToTarget, ped_move_target_type::objective_target_pos_4);
                 }
             }
@@ -7852,7 +7852,7 @@ void Ped::PatrolOnFoot()
                     mInternalTargetY = kFpHalf_67853C + Fix16(mCurrentPatrolPoint->mY);
                     mInternalTargetZ = Fix16(mCurrentPatrolPoint->mZ);
                 }
-                mGameObject->RegulateVelocity_433970(mWalkSpeed);
+                mGameObject->RegulateVelocity(mWalkSpeed);
             }
         }
         else if (!mBf21C.bPanicking)
@@ -7862,7 +7862,7 @@ void Ped::PatrolOnFoot()
             mInternalTargetX = kFpHalf_67853C + Fix16(mCurrentPatrolPoint->mX);
             mInternalTargetY = kFpHalf_67853C + Fix16(mCurrentPatrolPoint->mY);
             mInternalTargetZ = Fix16(mCurrentPatrolPoint->mZ);
-            mGameObject->RegulateVelocity_433970(mWalkSpeed);
+            mGameObject->RegulateVelocity(mWalkSpeed);
         }
     }
 }
@@ -7893,7 +7893,7 @@ void Ped::ProcessObjectiveGotoAreaOnFoot()
                 // Time out. Objective passed anyway O.o, must be failed? OG bug?
                 mObjectiveStatus = objective_status::passed_1;
             }
-            mGameObject->SetVelocity_433920(mMaxSpeed);
+            mGameObject->SetVelocity(mMaxSpeed);
         }
         Ped::UpdateMovementTowardsTarget(gDistanceToTarget, ped_move_target_type::objective_target_pos_4);
     }
@@ -7962,11 +7962,11 @@ void Ped::UpdateFollowPedObjective()
 
                     if (gDistanceToTarget < kFpHalf)
                     {
-                        mGameObject->SetVelocity_433920(this->mWalkSpeed);
+                        mGameObject->SetVelocity(this->mWalkSpeed);
                     }
                     else
                     {
-                        mGameObject->SetVelocity_433920(this->mMaxSpeed);
+                        mGameObject->SetVelocity(this->mMaxSpeed);
                     }
                     Ped::UpdateMovementTowardsTarget(gDistanceToTarget, ped_move_target_type::objective_target_ped_3);
                 }
@@ -8231,7 +8231,7 @@ void Ped::GotoAreaByAnyMeans()
 
                         if (pCar)
                         {
-                            pCar->AllocateAI_421510();
+                            pCar->AllocateAI();
                             pCar->mAI->SetCar(pCar);
                             pCar->SpawnDriverPed();
                             pCar->SetDriverPedType(ped_type::dummy_with_occupation_6);
@@ -8466,7 +8466,7 @@ void Ped::GuardSpot()
         {
             if (mGameObject->GetCharState() != Char_B4_state::Jumping_15)
             {
-                mGameObject->SetVelocity_433920(this->mWalkSpeed);
+                mGameObject->SetVelocity(this->mWalkSpeed);
                 UpdateMovementTowardsTarget(gDistanceToTarget, ped_move_target_type::objective_target_pos_4);
             }
         }
@@ -8489,7 +8489,7 @@ void Ped::GuardArea()
         }
         else
         {
-            mGameObject->SetVelocity_433920(mWalkSpeed);
+            mGameObject->SetVelocity(mWalkSpeed);
             Ped::UpdateMovementTowardsTarget(gDistanceToTarget, ped_move_target_type::objective_target_pos_4);
         }
     }
@@ -8954,7 +8954,7 @@ void Ped::ProcessInternalObjectiveFleeOnFootTillSafe()
             }
             else
             {
-                pChar->SetVelocity_433920(get_max_speed_1F0());
+                pChar->SetVelocity(get_max_speed_1F0());
             }
         }
         else
@@ -8964,7 +8964,7 @@ void Ped::ProcessInternalObjectiveFleeOnFootTillSafe()
     }
     else
     {
-        mGameObject->SetVelocity_433920(get_max_speed_1F0());
+        mGameObject->SetVelocity(get_max_speed_1F0());
     }
 }
 
@@ -9438,7 +9438,7 @@ void Ped::MeleeAttackStateMachine()
             }
             return;
         }
-        mGameObject->SetVelocity_433920(mInternalTargetPed->GetPedVelocity());
+        mGameObject->SetVelocity(mInternalTargetPed->GetPedVelocity());
         if (mGameObject->GetCharState() != Char_B4_state::Jumping_15 &&
             mGameObject->get_velocity() == kFpZero_678660)
         {
@@ -9593,22 +9593,22 @@ void Ped::MeleeAttackStateMachine()
         {
             if (gDistanceToTarget < kFpThreeEighths)
             {
-                mGameObject->SetVelocity_433920(mWalkSpeed);
+                mGameObject->SetVelocity(mWalkSpeed);
             }
             else
             {
-                mGameObject->RegulateVelocity_433970(mMaxSpeed);
+                mGameObject->RegulateVelocity(mMaxSpeed);
             }
         }
         else
         {
             if (mInternalTargetPed->mObjectiveTargetPed == this || mInternalTargetPed->mInternalTargetPed == this)
             {
-                mGameObject->SetVelocity_433920(mWalkSpeed);
+                mGameObject->SetVelocity(mWalkSpeed);
             }
             else
             {
-                mGameObject->RegulateVelocity_433970(mMaxSpeed);
+                mGameObject->RegulateVelocity(mMaxSpeed);
             }
         }
 
@@ -10019,11 +10019,11 @@ void Ped::ProcessInternalObjectiveGotoAreaOnFoot()
             }
             if (mOccupation != ped_ocupation_enum::train_customer_9 && mObjective != objectives_enum::patrol_on_foot_42)
             {
-                mGameObject->SetVelocity_433920(mMaxSpeed);
+                mGameObject->SetVelocity(mMaxSpeed);
             }
             else
             {
-                mGameObject->SetVelocity_433920(mWalkSpeed);
+                mGameObject->SetVelocity(mWalkSpeed);
             }
         }
         Ped::UpdateMovementTowardsTarget(gDistanceToTarget, ped_move_target_type::internal_target_pos_1);
@@ -10419,18 +10419,18 @@ void Ped::FollowCarOnFoot()
                 {
                     if (mTargetObjectiveCar->GetVelocity() <= GetPedVelocity())
                     {
-                        this->mGameObject->SetVelocity_433920(mTargetObjectiveCar->GetVelocity());
+                        this->mGameObject->SetVelocity(mTargetObjectiveCar->GetVelocity());
                     }
                 }
                 else
                 {
-                    this->mGameObject->RegulateVelocity_433970(mTargetObjectiveCar->GetVelocity() + kFpOne64th);
+                    this->mGameObject->RegulateVelocity(mTargetObjectiveCar->GetVelocity() + kFpOne64th);
                 }
             }
         }
         else if (gDistanceToTarget < kFpHalf)
         {
-            this->mGameObject->RegulateVelocity_433970(mTargetObjectiveCar->GetVelocity() + kFpOne64th);
+            this->mGameObject->RegulateVelocity(mTargetObjectiveCar->GetVelocity() + kFpOne64th);
         }
         else
         {
@@ -10604,7 +10604,7 @@ void Ped::AttackTargetStateMachine(u8 targetType)
                         Ped::ChangeNextPedState2(ped_state_2::running_to_target_2);
                         mBf21C.bAttacking = true;
                         gCloseRangeHit = 1;
-                        mGameObject->RegulateVelocity_433970(mMaxSpeed);
+                        mGameObject->RegulateVelocity(mMaxSpeed);
 
                         if (mGameObject->mFlagsBf.bDetouring)
                         {
@@ -10620,7 +10620,7 @@ void Ped::AttackTargetStateMachine(u8 targetType)
                         Ped::ChangeNextPedState1(ped_state_1::flee_or_running_1);
                         Ped::ChangeNextPedState2(ped_state_2::running_to_target_2);
                         mBf21C.bAttacking = true;
-                        mGameObject->RegulateVelocity_433970(mMaxSpeed);
+                        mGameObject->RegulateVelocity(mMaxSpeed);
                         return;
                     }
                 }
@@ -10650,7 +10650,7 @@ void Ped::AttackTargetStateMachine(u8 targetType)
                             {
                                 if (mFacingAngle == mTargetFacingAngle)
                                 {
-                                    mGameObject->SetVelocity_433920(-mWalkSpeed);
+                                    mGameObject->SetVelocity(-mWalkSpeed);
                                 }
                                 Ped::ChangeNextPedState1(ped_state_1::flee_or_running_1);
                                 Ped::ChangeNextPedState2(ped_state_2::running_to_target_2);
@@ -10670,7 +10670,7 @@ void Ped::AttackTargetStateMachine(u8 targetType)
                         Ped::ChangeNextPedState1(ped_state_1::flee_or_running_1);
                         Ped::ChangeNextPedState2(ped_state_2::running_to_target_2);
                         mBf21C.bAttacking = false;
-                        mGameObject->RegulateVelocity_433970(mMaxSpeed);
+                        mGameObject->RegulateVelocity(mMaxSpeed);
                     }
                 }
 
@@ -10701,7 +10701,7 @@ void Ped::AttackTargetStateMachine(u8 targetType)
                     Ped::ChangeNextPedState1(ped_state_1::standing_still_7);
                     Ped::ChangeNextPedState2(ped_state_2::attacking_standing_11);
                     mBf21C.bAttacking = true;
-                    // 9.6f: Char::SetVelocity_433920 (inlined, using it makes the diff worse)
+                    // 9.6f: Char::SetVelocity (inlined, using it makes the diff worse)
                     mGameObject->mVelocity = kFpZero_678438;
                     return;
                 }
@@ -10736,7 +10736,7 @@ void Ped::AttackTargetStateMachine(u8 targetType)
             {
                 mBf21C.bAttacking = false;
             }
-            mGameObject->RegulateVelocity_433970(mMaxSpeed);
+            mGameObject->RegulateVelocity(mMaxSpeed);
         }
     }
 }

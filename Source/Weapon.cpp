@@ -236,7 +236,7 @@ Object* Weapon::spawn_bullet(s32 bullet_type, Fix16 xpos, Fix16 ypos, Fix16 zpos
 
     probe_x = mpPed->get_cam_x() + (xpos - mpPed->get_cam_x()) / kFP16Two_706EC0;
     probe_y = mpPed->get_cam_y() + (ypos - mpPed->get_cam_y()) / kFP16Two_706EC0;
-    pProbeSprite->set_xyz_lazy_420600(probe_x, probe_y, zpos);
+    pProbeSprite->set_xyz_lazy(probe_x, probe_y, zpos);
 
     pProbeSprite->set_ang_lazy(pNewBullet->mSprite->mRotation);
 
@@ -355,7 +355,7 @@ void Weapon::shotgun()
             Weapon::spawn_bullet(objects::invisible_shotgun_bullet_193, x, y, z, Ang16(kAng12_706D5E.rValue + ped_rotation.rValue, static_cast<u8>(0)), vector);
             Weapon::spawn_bullet(objects::invisible_shotgun_bullet_193, x, y, z, ped_rotation, vector);
             Weapon::spawn_bullet(objects::invisible_shotgun_bullet_193, x, y, z, Ang16(ped_rotation.rValue - kAng12_706D5E.rValue, static_cast<u8>(0)), vector);
-            Weapon::spawn_bullet(objects::invisible_shotgun_bullet_193, x, y, z, Ang16(ped_rotation.rValue - kAng24.rValue).Normalized_406C20(), vector);
+            Weapon::spawn_bullet(objects::invisible_shotgun_bullet_193, x, y, z, Ang16(ped_rotation.rValue - kAng24.rValue).Normalized(), vector);
             mReloadTimer = 5;
         }
         Weapon::ApplyFastReload();
@@ -519,7 +519,7 @@ void Weapon::smg()
             point.x = -kFpPoint03;
             point.y = kFpPoint1_706CF0 + kFpPoint02;
 
-            point.RotateByAngle_40F6B0(mpPed->mGameObject->mSpritePtr->mRotation);
+            point.RotateByAngle(mpPed->mGameObject->mSpritePtr->mRotation);
 
             point = point.Add(mpPed->GetVelocityVector());
 
@@ -775,7 +775,7 @@ void Weapon::TraceBeamToHitTarget()
                 return;
             }
 
-            pBeam->set_xyz_lazy_420600(mpPed->mCam.x, mpPed->mCam.y, mpPed->mCam.z);
+            pBeam->set_xyz_lazy(mpPed->mCam.x, mpPed->mCam.y, mpPed->mCam.z);
             pBeam->set_ang_lazy(angle);
             pBeam->AllocCollisionShape(kFpPoint1_706CF0, kFpPoint1_706CF0, kFpPoint1_706CF0);
 
@@ -1415,7 +1415,7 @@ void Weapon::fire_truck_flamethrower()
         gun_ang = pTurret->mpSprite->mRotation + kAng180_706DFA;
 
         bullet_pos.SetXY(Fix16(0), kFpSevenThirtySeconds);
-        bullet_pos.RotateByAngle_40F6B0(gun_ang);
+        bullet_pos.RotateByAngle(gun_ang);
         offset.SetXY(Fix16(0), kFpOneEighth_706CD8);
     }
     else
@@ -1423,11 +1423,11 @@ void Weapon::fire_truck_flamethrower()
         gun_ang = mCar->mAttachments.GetSpriteForModel(248)->mpSprite->mRotation;
 
         bullet_pos.SetXY(Fix16(0), kFpThreeThirtySeconds);
-        bullet_pos.RotateByAngle_40F6B0(gun_ang);
+        bullet_pos.RotateByAngle(gun_ang);
         offset.SetXY(Fix16(0), kFpMinusNineThirtySeconds);
     }
 
-    offset.RotateByAngle_40F6B0(mCar->mCarSprite->mRotation);
+    offset.RotateByAngle(mCar->mCarSprite->mRotation);
 
     bullet_pos += offset.Add(mCar->mCarSprite->get_x_y_443580());
 
@@ -1464,10 +1464,10 @@ void Weapon::fire_truck_gun()
     gun_ang = pTurret->mpSprite->mRotation + kAng180_706DFA;
 
     bullet_pos.SetXY(Fix16(0), kFpSevenThirtySeconds);
-    bullet_pos.RotateByAngle_40F6B0(gun_ang);
+    bullet_pos.RotateByAngle(gun_ang);
     offset.SetXY(Fix16(0), kFpOneEighth_706CD8);
 
-    offset.RotateByAngle_40F6B0(mCar->mCarSprite->mRotation);
+    offset.RotateByAngle(mCar->mCarSprite->mRotation);
 
     bullet_pos += offset + mCar->mCarSprite->get_x_y();
 
@@ -1500,7 +1500,7 @@ static inline Fix16 AddFree(const Fix16& a, const Fix16& b)
     return Fix16(v, 0);
 }
 
-// Fix16_Point::RotateByAngle_40F6B0 as VC6 emits it in a caller that has run out of inline
+// Fix16_Point::RotateByAngle as VC6 emits it in a caller that has run out of inline
 // expansions: the multiplies, the negate and the y line's add are the out of line operator
 // copies, and the x line's sum is AddFree (tank_main_gun, army_gun_jeep)
 static inline void RotateByAngle_40F6B0_no_budget3(Fix16_Point& p, const Ang16& angle)
@@ -1678,7 +1678,7 @@ void Weapon::oil_stain()
         vector.x = kFpFiveThirtySeconds;
     }
 
-    vector.RotateByAngle_40F6B0(pCarSprite->mRotation);
+    vector.RotateByAngle(pCarSprite->mRotation);
     vector += pCarSprite->get_x_y_443580();
 
     Fix16 half_depth = pCarSprite->mpCollisionShape->GetDepth() / 2;
@@ -1710,7 +1710,7 @@ void Weapon::car_mine()
     p.y = -(kFpOne64th_706FF4 + (kFpNineThirtySeconds + pCarSprite->mpCollisionShape->GetHeight()) / kFP16Two_706EC0);
     p.x = kFpZero_706EB8;
 
-    p.RotateByAngle_40F6B0(pCarSprite->mRotation);
+    p.RotateByAngle(pCarSprite->mRotation);
 
     p += pCarSprite->get_x_y();
 
@@ -1741,7 +1741,7 @@ void Weapon::car_smg()
     // The original has a fifth destructible local up front (EH entry state 4), hence unused_5.
     // Declaration order and the Ang16 copy below are needed to match. gun_offset_x/gun_offset_y are initialised where
     // they are computed: declared up front and assigned, the caller is too big for the rotations'
-    // inline budget (the first + of each RotateByAngle_40F6B0 is inlined, its other operators aren't).
+    // inline budget (the first + of each RotateByAngle is inlined, its other operators aren't).
     Ang16 sprite_ang;
     Fix16_Point unused_5;
     Fix16_Point left;
@@ -1759,11 +1759,11 @@ void Weapon::car_smg()
         Fix16 gun_offset_y = kFpOne64th_706FD0 + mCar->GetCarHeight() / 2;
 
         left.SetXY(gun_offset_x, gun_offset_y);
-        left.RotateByAngle_40F6B0(sprite_ang);
+        left.RotateByAngle(sprite_ang);
         left += pCarSprite->get_x_y_443580();
 
         right.SetXY(-gun_offset_x, gun_offset_y);
-        right.RotateByAngle_40F6B0(sprite_ang);
+        right.RotateByAngle(sprite_ang);
         right += pCarSprite->get_x_y_443580();
 
         left_point_velocity = mCar->mPhysics->GetPointVelocity(&left);

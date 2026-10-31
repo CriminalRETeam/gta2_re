@@ -43,7 +43,7 @@ class SpriteShape
         this->mpNext = reinterpret_cast<SpriteShape*>(id);
     }
 
-    bool CollisionIdIs_446930(u32 id) const
+    bool CollisionIdIs(u32 id) const
     {
         return reinterpret_cast<u32>(mpNext) == id;
     }
@@ -148,7 +148,8 @@ class SpriteShape
         return mHeight == gFix16_7035C0 ? true : false;
     }
 
-    void GetHalfExtents_4BA0A0(Fix16* pHalfW, Fix16* pHalfH)
+    // 9.6f 0x4BA0A0
+    void GetHalfExtents(Fix16* pHalfW, Fix16* pHalfH)
     {
         *pHalfW = (mWidth / 2);
         *pHalfH = (mHeight / 2);
@@ -560,7 +561,7 @@ class Sprite
     }
 
     // 9.6f inline 0x420600
-    inline void set_xyz_lazy_420600(Fix16 xpos, Fix16 ypos, Fix16 zpos)
+    inline void set_xyz_lazy(Fix16 xpos, Fix16 ypos, Fix16 zpos)
     {
         if (mXy.x != xpos || mXy.y != ypos || mZpos != zpos)
         {

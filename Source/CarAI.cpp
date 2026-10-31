@@ -146,7 +146,7 @@ void CarAI::MakeAgressiveSirensAndLights()
 }
 
 // Inlined in DoShortcutsUsingJunctions (no 9.6f function)
-inline void CarAI::TurnAround_447970()
+inline void CarAI::TurnAround()
 {
     mCar->mPhysics->TurnAntiClockwise();
     mCar->mpChaseTask->mFollowingRoute = false;
@@ -311,7 +311,7 @@ void CarAI::DoShortcutsUsingJunctions()
                     case 1:
                         if (y >= static_cast<u8>(gCurrCarAI_ypos.ToInt()))
                         {
-                            TurnAround_447970();
+                            TurnAround();
                             return;
                         }
                         if (x > static_cast<u8>(gCurrCarAI_xpos.ToInt()))
@@ -326,7 +326,7 @@ void CarAI::DoShortcutsUsingJunctions()
                     case 2:
                         if (y <= static_cast<u8>(gCurrCarAI_ypos.ToInt()))
                         {
-                            TurnAround_447970();
+                            TurnAround();
                             return;
                         }
                         if (x > static_cast<u8>(gCurrCarAI_xpos.ToInt()))
@@ -341,7 +341,7 @@ void CarAI::DoShortcutsUsingJunctions()
                     case 3:
                         if (x >= static_cast<u8>(gCurrCarAI_xpos.ToInt()))
                         {
-                            TurnAround_447970();
+                            TurnAround();
                             return;
                         }
                         if (y > static_cast<u8>(gCurrCarAI_ypos.ToInt()))
@@ -356,7 +356,7 @@ void CarAI::DoShortcutsUsingJunctions()
                     case 4:
                         if (x <= static_cast<u8>(gCurrCarAI_xpos.ToInt()))
                         {
-                            TurnAround_447970();
+                            TurnAround();
                             return;
                         }
                         if (y > static_cast<u8>(gCurrCarAI_ypos.ToInt()))
@@ -701,12 +701,12 @@ void CarAI::BrakeForBlockedRoadAhead()
             Fix16 saved_z = gCurrCarAI_zpos;
             Fix16 saved_y = gCurrCarAI_ypos;
 
-            mCar->mCarSprite->set_xyz_lazy_420600(gCurrCarAI_xpos, saved_y, saved_z);
+            mCar->mCarSprite->set_xyz_lazy(gCurrCarAI_xpos, saved_y, saved_z);
 
             Fix16 dx;
             Fix16 dy;
             Ang16::PolarToCartesian_41FC20(this->mAngle, gF16fOne, dx, dy);
-            mCar->mCarSprite->set_xyz_lazy_420600(mCar->mCarSprite->mXy.x + dx,
+            mCar->mCarSprite->set_xyz_lazy(mCar->mCarSprite->mXy.x + dx,
                                                                   mCar->mCarSprite->mXy.y + dy,
                                                                   mCar->mCarSprite->mZpos);
 
@@ -807,7 +807,7 @@ void CarAI::BrakeForBlockedRoadAhead()
                     break;
             }
 
-            pProbe->set_xyz_lazy_420600(probe_x, probe_y, mCar->mCarSprite->mZpos);
+            pProbe->set_xyz_lazy(probe_x, probe_y, mCar->mCarSprite->mZpos);
             pProbe->set_ang_lazy(kAng90_6779E4 + this->mAngle);
             pProbe->AllocCollisionShape(gF16fOne, gF16fOne, kFpPoint2_6779C0);
             gSpriteGrid_1->FindCollidingSpritePreferType(pProbe, sprite_types_enum::none_0); // result not used
@@ -832,7 +832,7 @@ void CarAI::BrakeForBlockedRoadAhead()
                         break;
                 }
 
-                pProbe->set_xyz_lazy_420600(probe_x, probe_y, mCar->mCarSprite->mZpos);
+                pProbe->set_xyz_lazy(probe_x, probe_y, mCar->mCarSprite->mZpos);
 
                 Sprite* pHit = gSpriteGrid_1->FindCollidingSpritePreferType(pProbe, sprite_types_enum::none_0);
                 if (pHit && pHit->GetType() == sprite_types_enum::car_2)
@@ -955,7 +955,7 @@ void CarAI::CheckRoadAhead()
                         break;
                 }
 
-                pProbeSprite->set_xyz_lazy_420600(new_x, new_y, this->mCar->mCarSprite->mZpos);
+                pProbeSprite->set_xyz_lazy(new_x, new_y, this->mCar->mCarSprite->mZpos);
                 pProbeSprite->set_ang_lazy(kAng90_6779E4 + this->mAngle);
                 pProbeSprite->AllocCollisionShape(gF16fOne, kFpHalf_677A84, kFpPoint2_6779C0);
 
@@ -977,7 +977,7 @@ void CarAI::CheckRoadAhead()
         }
     }
 
-    this->mCar->mCarSprite->set_xyz_lazy_420600(restore_x, restore_y, mCar->mCarSprite->mZpos);
+    this->mCar->mCarSprite->set_xyz_lazy(restore_x, restore_y, mCar->mCarSprite->mZpos);
 
     mCar->mCarSprite->set_ang_lazy(this->mAngle);
 
@@ -1063,7 +1063,7 @@ void CarAI::ManageTrafficCarDirection()
     Fix16 off;
     u8 frac;
 
-    mCar->mCarSprite->set_xyz_lazy_420600(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_zpos);
+    mCar->mCarSprite->set_xyz_lazy(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_zpos);
 
     this->mBf24.bFlag10 = true;
     gmp_block_info* pBlock = gMap_0x370->GetBlock(mCar->mCarSprite->mXy.x.ToInt(),
@@ -2019,7 +2019,7 @@ void CarAI::AlignToLaneCenter()
                                                                          gCurrCarAI_xpos,
                                                                          gCurrCarAI_ypos);
 
-        this->mCar->mCarSprite->set_xyz_lazy_420600(gCurrCarAI_xpos,
+        this->mCar->mCarSprite->set_xyz_lazy(gCurrCarAI_xpos,
                                                                     gCurrCarAI_ypos,
                                                                     gCurrCarAI_zpos);
 
@@ -2182,7 +2182,7 @@ void CarAI::AlignToLaneCenter()
                 case car_ai_direction::east_3:
                 {
                     Ang16::PolarToCartesian_41FC20(kAng0_677CE8, kFpHalf_6779CC, x_off, y_off);
-                    mCar->mCarSprite->set_xyz_lazy_420600(mCar->mCarSprite->mXy.x + x_off,
+                    mCar->mCarSprite->set_xyz_lazy(mCar->mCarSprite->mXy.x + x_off,
                                                                           mCar->mCarSprite->mXy.y + y_off,
                                                                           mCar->mCarSprite->mZpos);
 
@@ -2207,7 +2207,7 @@ void CarAI::AlignToLaneCenter()
                 case car_ai_direction::west_4:
                 {
                     Ang16::PolarToCartesian_41FC20(kAng180_677ADE, kFpHalf_6779CC, x_off, y_off);
-                    mCar->mCarSprite->set_xyz_lazy_420600(mCar->mCarSprite->mXy.x + x_off,
+                    mCar->mCarSprite->set_xyz_lazy(mCar->mCarSprite->mXy.x + x_off,
                                                                           mCar->mCarSprite->mXy.y + y_off,
                                                                           mCar->mCarSprite->mZpos);
 
@@ -2232,7 +2232,7 @@ void CarAI::AlignToLaneCenter()
                 case car_ai_direction::south_2:
                 {
                     Ang16::PolarToCartesian_41FC20(kAng270_677B08, kFpHalf_6779CC, x_off, y_off);
-                    mCar->mCarSprite->set_xyz_lazy_420600(mCar->mCarSprite->mXy.x + x_off,
+                    mCar->mCarSprite->set_xyz_lazy(mCar->mCarSprite->mXy.x + x_off,
                                                                           mCar->mCarSprite->mXy.y + y_off,
                                                                           mCar->mCarSprite->mZpos);
 
@@ -2257,7 +2257,7 @@ void CarAI::AlignToLaneCenter()
                 case car_ai_direction::north_1:
                 {
                     Ang16::PolarToCartesian_41FC20(kAng90_6779E4, kFpHalf_6779CC, x_off, y_off);
-                    mCar->mCarSprite->set_xyz_lazy_420600(mCar->mCarSprite->mXy.x + x_off,
+                    mCar->mCarSprite->set_xyz_lazy(mCar->mCarSprite->mXy.x + x_off,
                                                                           mCar->mCarSprite->mXy.y + y_off,
                                                                           mCar->mCarSprite->mZpos);
 
@@ -2293,7 +2293,7 @@ void CarAI::AlignToLaneCenter()
                 case car_ai_direction::east_3:
                 {
                     Ang16::PolarToCartesian_41FC20(kAng180_677ADE, kFpHalf_6779CC, x_off, y_off);
-                    mCar->mCarSprite->set_xyz_lazy_420600(mCar->mCarSprite->mXy.x + x_off,
+                    mCar->mCarSprite->set_xyz_lazy(mCar->mCarSprite->mXy.x + x_off,
                                                                           mCar->mCarSprite->mXy.y + y_off,
                                                                           mCar->mCarSprite->mZpos);
 
@@ -2318,7 +2318,7 @@ void CarAI::AlignToLaneCenter()
                 case car_ai_direction::west_4:
                 {
                     Ang16::PolarToCartesian_41FC20(kAng0_677CE8, kFpHalf_6779CC, x_off, y_off);
-                    mCar->mCarSprite->set_xyz_lazy_420600(mCar->mCarSprite->mXy.x + x_off,
+                    mCar->mCarSprite->set_xyz_lazy(mCar->mCarSprite->mXy.x + x_off,
                                                                           mCar->mCarSprite->mXy.y + y_off,
                                                                           mCar->mCarSprite->mZpos);
 
@@ -2343,7 +2343,7 @@ void CarAI::AlignToLaneCenter()
                 case car_ai_direction::south_2:
                 {
                     Ang16::PolarToCartesian_41FC20(kAng90_6779E4, kFpHalf_6779CC, x_off, y_off);
-                    mCar->mCarSprite->set_xyz_lazy_420600(mCar->mCarSprite->mXy.x + x_off,
+                    mCar->mCarSprite->set_xyz_lazy(mCar->mCarSprite->mXy.x + x_off,
                                                                           mCar->mCarSprite->mXy.y + y_off,
                                                                           mCar->mCarSprite->mZpos);
 
@@ -2368,7 +2368,7 @@ void CarAI::AlignToLaneCenter()
                 case car_ai_direction::north_1:
                 {
                     Ang16::PolarToCartesian_41FC20(kAng270_677B08, kFpHalf_6779CC, x_off, y_off);
-                    mCar->mCarSprite->set_xyz_lazy_420600(mCar->mCarSprite->mXy.x + x_off,
+                    mCar->mCarSprite->set_xyz_lazy(mCar->mCarSprite->mXy.x + x_off,
                                                                           mCar->mCarSprite->mXy.y + y_off,
                                                                           mCar->mCarSprite->mZpos);
 
@@ -2446,7 +2446,7 @@ void CarAI::DetectCarAhead()
     {
         // Look for a car 3 units ahead
         Ang16::PolarToCartesian_41FC20(mAngle, kFpThree_677B9C, x_off, y_off);
-        mCar->mCarSprite->set_xyz_lazy_420600(mCar->mCarSprite->mXy.x + x_off,
+        mCar->mCarSprite->set_xyz_lazy(mCar->mCarSprite->mXy.x + x_off,
                                                               mCar->mCarSprite->mXy.y + y_off,
                                                               mCar->mCarSprite->mZpos);
 
@@ -2553,7 +2553,7 @@ void CarAI::DetectCarAhead()
             return;
         }
 
-        mCar->mCarSprite->set_xyz_lazy_420600(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_zpos);
+        mCar->mCarSprite->set_xyz_lazy(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_zpos);
 
         // goto tail_1 (not break): all four cases end with byte-identical probe code, which VC6
         // folds into one copy with the others jumping in. With `break`, the fall-through (west, the
@@ -2564,7 +2564,7 @@ void CarAI::DetectCarAhead()
         {
             case car_ai_direction::north_1:
                 Ang16::PolarToCartesian_41FC20(kAng270_677B08, kFpPoint7, x_off, y_off);
-                mCar->mCarSprite->set_xyz_lazy_420600(mCar->mCarSprite->mXy.x + x_off,
+                mCar->mCarSprite->set_xyz_lazy(mCar->mCarSprite->mXy.x + x_off,
                                                                       mCar->mCarSprite->mXy.y + y_off,
                                                                       mCar->mCarSprite->mZpos);
                 if (gSpriteGrid_1->FindCollidingSpritePreferType(mCar->mCarSprite, sprite_types_enum::none_0))
@@ -2572,7 +2572,7 @@ void CarAI::DetectCarAhead()
                     return;
                 }
                 Ang16::PolarToCartesian_41FC20(kAng180_677ADE, kFpTwo_677B98, x_off, y_off);
-                mCar->mCarSprite->set_xyz_lazy_420600(mCar->mCarSprite->mXy.x + x_off,
+                mCar->mCarSprite->set_xyz_lazy(mCar->mCarSprite->mXy.x + x_off,
                                                                       mCar->mCarSprite->mXy.y + y_off,
                                                                       mCar->mCarSprite->mZpos);
                 if (gSpriteGrid_1->FindCollidingSpritePreferType(mCar->mCarSprite, sprite_types_enum::none_0))
@@ -2583,7 +2583,7 @@ void CarAI::DetectCarAhead()
 
             case car_ai_direction::south_2:
                 Ang16::PolarToCartesian_41FC20(kAng90_6779E4, kFpPoint7, x_off, y_off);
-                mCar->mCarSprite->set_xyz_lazy_420600(mCar->mCarSprite->mXy.x + x_off,
+                mCar->mCarSprite->set_xyz_lazy(mCar->mCarSprite->mXy.x + x_off,
                                                                       mCar->mCarSprite->mXy.y + y_off,
                                                                       mCar->mCarSprite->mZpos);
                 if (gSpriteGrid_1->FindCollidingSpritePreferType(mCar->mCarSprite, sprite_types_enum::none_0))
@@ -2591,7 +2591,7 @@ void CarAI::DetectCarAhead()
                     return;
                 }
                 Ang16::PolarToCartesian_41FC20(kAng0_677CE8, kFpTwo_677B98, x_off, y_off);
-                mCar->mCarSprite->set_xyz_lazy_420600(mCar->mCarSprite->mXy.x + x_off,
+                mCar->mCarSprite->set_xyz_lazy(mCar->mCarSprite->mXy.x + x_off,
                                                                       mCar->mCarSprite->mXy.y + y_off,
                                                                       mCar->mCarSprite->mZpos);
                 if (gSpriteGrid_1->FindCollidingSpritePreferType(mCar->mCarSprite, sprite_types_enum::none_0))
@@ -2602,7 +2602,7 @@ void CarAI::DetectCarAhead()
 
             case car_ai_direction::east_3:
                 Ang16::PolarToCartesian_41FC20(kAng180_677ADE, kFpPoint7, x_off, y_off);
-                mCar->mCarSprite->set_xyz_lazy_420600(mCar->mCarSprite->mXy.x + x_off,
+                mCar->mCarSprite->set_xyz_lazy(mCar->mCarSprite->mXy.x + x_off,
                                                                       mCar->mCarSprite->mXy.y + y_off,
                                                                       mCar->mCarSprite->mZpos);
                 if (gSpriteGrid_1->FindCollidingSpritePreferType(mCar->mCarSprite, sprite_types_enum::none_0))
@@ -2610,7 +2610,7 @@ void CarAI::DetectCarAhead()
                     return;
                 }
                 Ang16::PolarToCartesian_41FC20(kAng90_6779E4, kFpTwo_677B98, x_off, y_off);
-                mCar->mCarSprite->set_xyz_lazy_420600(mCar->mCarSprite->mXy.x + x_off,
+                mCar->mCarSprite->set_xyz_lazy(mCar->mCarSprite->mXy.x + x_off,
                                                                       mCar->mCarSprite->mXy.y + y_off,
                                                                       mCar->mCarSprite->mZpos);
                 if (gSpriteGrid_1->FindCollidingSpritePreferType(mCar->mCarSprite, sprite_types_enum::none_0))
@@ -2621,7 +2621,7 @@ void CarAI::DetectCarAhead()
 
             case car_ai_direction::west_4:
                 Ang16::PolarToCartesian_41FC20(kAng0_677CE8, kFpPoint7, x_off, y_off);
-                mCar->mCarSprite->set_xyz_lazy_420600(mCar->mCarSprite->mXy.x + x_off,
+                mCar->mCarSprite->set_xyz_lazy(mCar->mCarSprite->mXy.x + x_off,
                                                                       mCar->mCarSprite->mXy.y + y_off,
                                                                       mCar->mCarSprite->mZpos);
                 if (gSpriteGrid_1->FindCollidingSpritePreferType(mCar->mCarSprite, sprite_types_enum::none_0))
@@ -2629,7 +2629,7 @@ void CarAI::DetectCarAhead()
                     return;
                 }
                 Ang16::PolarToCartesian_41FC20(kAng270_677B08, kFpTwo_677B98, x_off, y_off);
-                mCar->mCarSprite->set_xyz_lazy_420600(mCar->mCarSprite->mXy.x + x_off,
+                mCar->mCarSprite->set_xyz_lazy(mCar->mCarSprite->mXy.x + x_off,
                                                                       mCar->mCarSprite->mXy.y + y_off,
                                                                       mCar->mCarSprite->mZpos);
                 if (gSpriteGrid_1->FindCollidingSpritePreferType(mCar->mCarSprite, sprite_types_enum::none_0))
@@ -2670,7 +2670,7 @@ probe_sides:
 
     if (sCurrCarAIVelocity < kFpPoint05_677B60 || sCurrCarAITargetToSide)
     {
-        mCar->mCarSprite->set_xyz_lazy_420600(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_zpos);
+        mCar->mCarSprite->set_xyz_lazy(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_zpos);
 
         // goto tail_2 (not break): same tail-merge reason as the first switch above.
         switch (this->mCurrDirection)
@@ -2678,7 +2678,7 @@ probe_sides:
             case car_ai_direction::north_1:
                 x_off = Ang16::sine(kAng90_6779E4) * kFpPoint7;
                 y_off = Ang16::cosine(kAng90_6779E4) * kFpPoint7;
-                mCar->mCarSprite->set_xyz_lazy_420600(mCar->mCarSprite->mXy.x + x_off,
+                mCar->mCarSprite->set_xyz_lazy(mCar->mCarSprite->mXy.x + x_off,
                                                                       mCar->mCarSprite->mXy.y + y_off,
                                                                       mCar->mCarSprite->mZpos);
                 if (gSpriteGrid_1->FindCollidingSpritePreferType(mCar->mCarSprite, sprite_types_enum::none_0))
@@ -2687,7 +2687,7 @@ probe_sides:
                 }
                 x_off = Ang16::sine(kAng180_677ADE) * kFpTwo_677B98;
                 y_off = Ang16::cosine(kAng180_677ADE) * kFpTwo_677B98;
-                mCar->mCarSprite->set_xyz_lazy_420600(mCar->mCarSprite->mXy.x + x_off,
+                mCar->mCarSprite->set_xyz_lazy(mCar->mCarSprite->mXy.x + x_off,
                                                                       mCar->mCarSprite->mXy.y + y_off,
                                                                       mCar->mCarSprite->mZpos);
                 if (gSpriteGrid_1->FindCollidingSpritePreferType(mCar->mCarSprite, sprite_types_enum::none_0))
@@ -2699,7 +2699,7 @@ probe_sides:
             case car_ai_direction::south_2:
                 x_off = Ang16::sine(kAng270_677B08) * kFpPoint7;
                 y_off = Ang16::cosine(kAng270_677B08) * kFpPoint7;
-                mCar->mCarSprite->set_xyz_lazy_420600(mCar->mCarSprite->mXy.x + x_off,
+                mCar->mCarSprite->set_xyz_lazy(mCar->mCarSprite->mXy.x + x_off,
                                                                       mCar->mCarSprite->mXy.y + y_off,
                                                                       mCar->mCarSprite->mZpos);
                 if (gSpriteGrid_1->FindCollidingSpritePreferType(mCar->mCarSprite, sprite_types_enum::none_0))
@@ -2708,7 +2708,7 @@ probe_sides:
                 }
                 x_off = Ang16::sine(kAng0_677CE8) * kFpTwo_677B98;
                 y_off = Ang16::cosine(kAng0_677CE8) * kFpTwo_677B98;
-                mCar->mCarSprite->set_xyz_lazy_420600(mCar->mCarSprite->mXy.x + x_off,
+                mCar->mCarSprite->set_xyz_lazy(mCar->mCarSprite->mXy.x + x_off,
                                                                       mCar->mCarSprite->mXy.y + y_off,
                                                                       mCar->mCarSprite->mZpos);
                 if (gSpriteGrid_1->FindCollidingSpritePreferType(mCar->mCarSprite, sprite_types_enum::none_0))
@@ -2720,7 +2720,7 @@ probe_sides:
             case car_ai_direction::east_3:
                 x_off = Ang16::sine(kAng0_677CE8) * kFpPoint7;
                 y_off = Ang16::cosine(kAng0_677CE8) * kFpPoint7;
-                mCar->mCarSprite->set_xyz_lazy_420600(mCar->mCarSprite->mXy.x + x_off,
+                mCar->mCarSprite->set_xyz_lazy(mCar->mCarSprite->mXy.x + x_off,
                                                                       mCar->mCarSprite->mXy.y + y_off,
                                                                       mCar->mCarSprite->mZpos);
                 if (gSpriteGrid_1->FindCollidingSpritePreferType(mCar->mCarSprite, sprite_types_enum::none_0))
@@ -2729,7 +2729,7 @@ probe_sides:
                 }
                 x_off = Ang16::sine(kAng90_6779E4) * kFpTwo_677B98;
                 y_off = Ang16::cosine(kAng90_6779E4) * kFpTwo_677B98;
-                mCar->mCarSprite->set_xyz_lazy_420600(mCar->mCarSprite->mXy.x + x_off,
+                mCar->mCarSprite->set_xyz_lazy(mCar->mCarSprite->mXy.x + x_off,
                                                                       mCar->mCarSprite->mXy.y + y_off,
                                                                       mCar->mCarSprite->mZpos);
                 if (gSpriteGrid_1->FindCollidingSpritePreferType(mCar->mCarSprite, sprite_types_enum::none_0))
@@ -2741,7 +2741,7 @@ probe_sides:
             case car_ai_direction::west_4:
                 x_off = Ang16::sine(kAng180_677ADE) * kFpPoint7;
                 y_off = Ang16::cosine(kAng180_677ADE) * kFpPoint7;
-                mCar->mCarSprite->set_xyz_lazy_420600(mCar->mCarSprite->mXy.x + x_off,
+                mCar->mCarSprite->set_xyz_lazy(mCar->mCarSprite->mXy.x + x_off,
                                                                       mCar->mCarSprite->mXy.y + y_off,
                                                                       mCar->mCarSprite->mZpos);
                 if (gSpriteGrid_1->FindCollidingSpritePreferType(mCar->mCarSprite, sprite_types_enum::none_0))
@@ -2750,7 +2750,7 @@ probe_sides:
                 }
                 x_off = Ang16::sine(kAng270_677B08) * kFpTwo_677B98;
                 y_off = Ang16::cosine(kAng270_677B08) * kFpTwo_677B98;
-                mCar->mCarSprite->set_xyz_lazy_420600(mCar->mCarSprite->mXy.x + x_off,
+                mCar->mCarSprite->set_xyz_lazy(mCar->mCarSprite->mXy.x + x_off,
                                                                       mCar->mCarSprite->mXy.y + y_off,
                                                                       mCar->mCarSprite->mZpos);
                 if (gSpriteGrid_1->FindCollidingSpritePreferType(mCar->mCarSprite, sprite_types_enum::none_0))
@@ -3064,7 +3064,7 @@ void CarAI::UpdateStateMachine()
             case car_chase_state::follow_behind_0:
                 if (sCurrCarAITargetCar != NULL)
                 {
-                    mCar->mCarSprite->set_xyz_lazy_420600(gCurrCarAI_TargetX, sCurrCarAITargetY, gCurrCarAI_zpos);
+                    mCar->mCarSprite->set_xyz_lazy(gCurrCarAI_TargetX, sCurrCarAITargetY, gCurrCarAI_zpos);
                     Ang16::PolarToCartesian_41FC20(sCurrCarAITargetCar->mCarSprite->mRotation - kAng180_677ADE, kFpThree_677B9C, dx, dy);
                     gCurrCarAI_TargetX += dx;
                     sCurrCarAITargetY += dy;
@@ -3081,7 +3081,7 @@ void CarAI::UpdateStateMachine()
             case car_chase_state::follow_behind_2:
                 if (sCurrCarAITargetCar != NULL)
                 {
-                    mCar->mCarSprite->set_xyz_lazy_420600(gCurrCarAI_TargetX, sCurrCarAITargetY, gCurrCarAI_zpos);
+                    mCar->mCarSprite->set_xyz_lazy(gCurrCarAI_TargetX, sCurrCarAITargetY, gCurrCarAI_zpos);
                     Ang16::PolarToCartesian_41FC20(sCurrCarAITargetCar->mCarSprite->mRotation - kAng180_677ADE, kFpThree_677B9C, dx, dy);
                     gCurrCarAI_TargetX += dx;
                     sCurrCarAITargetY += dy;
@@ -3096,7 +3096,7 @@ void CarAI::UpdateStateMachine()
             case car_chase_state::unused_1:
                 if (sCurrCarAITargetCar != NULL)
                 {
-                    mCar->mCarSprite->set_xyz_lazy_420600(gCurrCarAI_TargetX, sCurrCarAITargetY, gCurrCarAI_zpos);
+                    mCar->mCarSprite->set_xyz_lazy(gCurrCarAI_TargetX, sCurrCarAITargetY, gCurrCarAI_zpos);
                     Ang16::PolarToCartesian_41FC20(sCurrCarAITargetCar->mCarSprite->mRotation - kAng180_677ADE, kFpThree_677B9C, dx, dy);
                     gCurrCarAI_TargetX += dx;
                     sCurrCarAITargetY += dy;
@@ -3108,7 +3108,7 @@ void CarAI::UpdateStateMachine()
             case car_chase_state::move_left_3:
             {
                 assert(sCurrCarAITargetCar != NULL);
-                mCar->mCarSprite->set_xyz_lazy_420600(gCurrCarAI_TargetX, sCurrCarAITargetY, gCurrCarAI_zpos);
+                mCar->mCarSprite->set_xyz_lazy(gCurrCarAI_TargetX, sCurrCarAITargetY, gCurrCarAI_zpos);
                 Ang16::PolarToCartesian_41FC20(sCurrCarAITargetCar->mCarSprite->mRotation - kAng90_6779E4, gF16fOne, dx, dy);
                 gCurrCarAI_TargetX += dx;
                 sCurrCarAITargetY += dy;
@@ -3125,7 +3125,7 @@ void CarAI::UpdateStateMachine()
                 assert(sCurrCarAITargetCar != NULL);
                 if (police_level == 1)
                 {
-                    mCar->mCarSprite->set_xyz_lazy_420600(gCurrCarAI_TargetX, sCurrCarAITargetY, gCurrCarAI_zpos);
+                    mCar->mCarSprite->set_xyz_lazy(gCurrCarAI_TargetX, sCurrCarAITargetY, gCurrCarAI_zpos);
                     Ang16::PolarToCartesian_41FC20(sCurrCarAITargetCar->mCarSprite->mRotation - kAng180_677ADE, gF16fOne, dx, dy);
                     gCurrCarAI_TargetX += dx;
                     sCurrCarAITargetY += dy;
@@ -3138,7 +3138,7 @@ void CarAI::UpdateStateMachine()
             case car_chase_state::move_right_4:
             {
                 assert(sCurrCarAITargetCar != NULL);
-                mCar->mCarSprite->set_xyz_lazy_420600(gCurrCarAI_TargetX, sCurrCarAITargetY, gCurrCarAI_zpos);
+                mCar->mCarSprite->set_xyz_lazy(gCurrCarAI_TargetX, sCurrCarAITargetY, gCurrCarAI_zpos);
                 Ang16::PolarToCartesian_41FC20(sCurrCarAITargetCar->mCarSprite->mRotation + kAng90_6779E4, gF16fOne, dx, dy);
                 gCurrCarAI_TargetX += dx;
                 sCurrCarAITargetY += dy;
@@ -3154,7 +3154,7 @@ void CarAI::UpdateStateMachine()
             {
                 assert(sCurrCarAITargetCar != NULL);
                 MakeAgressiveSirensAndLights();
-                mCar->mCarSprite->set_xyz_lazy_420600(gCurrCarAI_TargetX, sCurrCarAITargetY, gCurrCarAI_zpos);
+                mCar->mCarSprite->set_xyz_lazy(gCurrCarAI_TargetX, sCurrCarAITargetY, gCurrCarAI_zpos);
                 Ang16::PolarToCartesian_41FC20(sCurrCarAITargetCar->mCarSprite->mRotation - kAng90_6779E4, kFpThreeQuarters, dx, dy);
                 gCurrCarAI_TargetX += dx;
                 sCurrCarAITargetY += dy;
@@ -3246,7 +3246,7 @@ void CarAI::UpdateStateMachine()
                 if (static_cast<u16>(pChase->mWaitCounter) < waitCount)
                 {
                     ++pChase->mWaitCounter;
-                    mCar->mCarSprite->set_xyz_lazy_420600(gCurrCarAI_TargetX, sCurrCarAITargetY, gCurrCarAI_zpos);
+                    mCar->mCarSprite->set_xyz_lazy(gCurrCarAI_TargetX, sCurrCarAITargetY, gCurrCarAI_zpos);
                     Ang16::PolarToCartesian_41FC20(sCurrCarAITargetCar->mCarSprite->mRotation - kAng90_6779E4, kFpThreeQuarters, dx, dy);
                     gCurrCarAI_TargetX += dx;
                     sCurrCarAITargetY += dy;
@@ -3261,7 +3261,7 @@ void CarAI::UpdateStateMachine()
                     if (bOvertake == 1)
                     {
                         pChase->mRamTarget = true;
-                        mCar->mCarSprite->set_xyz_lazy_420600(gCurrCarAI_TargetX, sCurrCarAITargetY, gCurrCarAI_zpos);
+                        mCar->mCarSprite->set_xyz_lazy(gCurrCarAI_TargetX, sCurrCarAITargetY, gCurrCarAI_zpos);
                         Ang16::PolarToCartesian_41FC20(sCurrCarAITargetCar->mCarSprite->mRotation, gF16fOne, dx, dy);
                         gCurrCarAI_TargetX += dx;
                         sCurrCarAITargetY += dy;
@@ -3281,7 +3281,7 @@ void CarAI::UpdateStateMachine()
             {
                 assert(sCurrCarAITargetCar != NULL);
                 MakeAgressiveSirensAndLights();
-                mCar->mCarSprite->set_xyz_lazy_420600(gCurrCarAI_TargetX, sCurrCarAITargetY, gCurrCarAI_zpos);
+                mCar->mCarSprite->set_xyz_lazy(gCurrCarAI_TargetX, sCurrCarAITargetY, gCurrCarAI_zpos);
                 Ang16::PolarToCartesian_41FC20(sCurrCarAITargetCar->mCarSprite->mRotation + kAng90_6779E4, kFpThreeQuarters, dx, dy);
                 gCurrCarAI_TargetX += dx;
                 sCurrCarAITargetY += dy;
@@ -3372,7 +3372,7 @@ void CarAI::UpdateStateMachine()
                 if (static_cast<u16>(pChase->mWaitCounter) < waitCount)
                 {
                     ++pChase->mWaitCounter;
-                    mCar->mCarSprite->set_xyz_lazy_420600(gCurrCarAI_TargetX, sCurrCarAITargetY, gCurrCarAI_zpos);
+                    mCar->mCarSprite->set_xyz_lazy(gCurrCarAI_TargetX, sCurrCarAITargetY, gCurrCarAI_zpos);
                     Ang16::PolarToCartesian_41FC20(sCurrCarAITargetCar->mCarSprite->mRotation + kAng90_6779E4, kFpThreeQuarters, dx, dy);
                     gCurrCarAI_TargetX += dx;
                     sCurrCarAITargetY += dy;
@@ -3387,7 +3387,7 @@ void CarAI::UpdateStateMachine()
                     if (bOvertake == 1)
                     {
                         pChase->mRamTarget = true;
-                        mCar->mCarSprite->set_xyz_lazy_420600(gCurrCarAI_TargetX, sCurrCarAITargetY, gCurrCarAI_zpos);
+                        mCar->mCarSprite->set_xyz_lazy(gCurrCarAI_TargetX, sCurrCarAITargetY, gCurrCarAI_zpos);
                         Ang16::PolarToCartesian_41FC20(sCurrCarAITargetCar->mCarSprite->mRotation, gF16fOne, dx, dy);
                         gCurrCarAI_TargetX += dx;
                         sCurrCarAITargetY += dy;
@@ -3407,7 +3407,7 @@ void CarAI::UpdateStateMachine()
             {
                 assert(sCurrCarAITargetCar != NULL);
                 MakeAgressiveSirensAndLights();
-                mCar->mCarSprite->set_xyz_lazy_420600(gCurrCarAI_TargetX, sCurrCarAITargetY, gCurrCarAI_zpos);
+                mCar->mCarSprite->set_xyz_lazy(gCurrCarAI_TargetX, sCurrCarAITargetY, gCurrCarAI_zpos);
                 Ang16::PolarToCartesian_41FC20(sCurrCarAITargetCar->mCarSprite->mRotation - kAng90_6779E4, kFpThreeQuarters, dx, dy);
                 gCurrCarAI_TargetX += dx;
                 sCurrCarAITargetY += dy;
@@ -3423,7 +3423,7 @@ void CarAI::UpdateStateMachine()
             {
                 assert(sCurrCarAITargetCar != NULL);
                 MakeAgressiveSirensAndLights();
-                mCar->mCarSprite->set_xyz_lazy_420600(gCurrCarAI_TargetX, sCurrCarAITargetY, gCurrCarAI_zpos);
+                mCar->mCarSprite->set_xyz_lazy(gCurrCarAI_TargetX, sCurrCarAITargetY, gCurrCarAI_zpos);
                 Ang16::PolarToCartesian_41FC20(sCurrCarAITargetCar->mCarSprite->mRotation + kAng90_6779E4, kFpThreeQuarters, dx, dy);
                 gCurrCarAI_TargetX += dx;
                 sCurrCarAITargetY += dy;
@@ -3440,7 +3440,7 @@ void CarAI::UpdateStateMachine()
             {
                 assert(sCurrCarAITargetCar != NULL);
                 MakeAgressiveSirensAndLights();
-                mCar->mCarSprite->set_xyz_lazy_420600(gCurrCarAI_TargetX, sCurrCarAITargetY, gCurrCarAI_zpos);
+                mCar->mCarSprite->set_xyz_lazy(gCurrCarAI_TargetX, sCurrCarAITargetY, gCurrCarAI_zpos);
                 Ang16::PolarToCartesian_41FC20(sCurrCarAITargetCar->mCarSprite->mRotation, kFpThree_677B9C, dx, dy);
                 gCurrCarAI_TargetX += dx;
                 sCurrCarAITargetY += dy;
@@ -3575,7 +3575,7 @@ void CarAI::UpdateStateMachine()
                 sCurrCarAIWentStraight = 1;
             }
         }
-        mCar->mCarSprite->set_xyz_lazy_420600(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_zpos);
+        mCar->mCarSprite->set_xyz_lazy(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_zpos);
     }
 
     gCurrCarAI_TargetX = savedTargetX;
@@ -3584,13 +3584,13 @@ void CarAI::UpdateStateMachine()
     if (this->mSeekingRoad == 0)
     {
         // Probe one unit ahead in the direction we are turning to
-        mCar->mCarSprite->set_xyz_lazy_420600(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_zpos);
+        mCar->mCarSprite->set_xyz_lazy(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_zpos);
         Ang16::PolarToCartesian_41FC20(kAng45_677A38.MultiplyByFix16(Fix16(this->mCar->mPhysics->mTurnDirection)) + this->mAngle,
                                        gF16fOne,
                                        dx,
                                        dy);
         Car* pCar = mCar;
-        pCar->mCarSprite->set_xyz_lazy_420600(pCar->mCarSprite->mXy.x + dx,
+        pCar->mCarSprite->set_xyz_lazy(pCar->mCarSprite->mXy.x + dx,
                                                               pCar->mCarSprite->mXy.y + dy,
                                                               pCar->mCarSprite->mZpos);
         if (mCar->mCarSprite->CheckSpriteMovementRegion() != 0)
@@ -3628,7 +3628,7 @@ void CarAI::UpdateStateMachine()
                     Ang16::PolarToCartesian_41FC20(sCurrCarAITargetCar->mCarSprite->mRotation - kAng180_677ADE, kFpTwo_677B98, dx, dy);
                     gCurrCarAI_TargetX += dx;
                     sCurrCarAITargetY += dy;
-                    mCar->mCarSprite->set_xyz_lazy_420600(gCurrCarAI_TargetX,
+                    mCar->mCarSprite->set_xyz_lazy(gCurrCarAI_TargetX,
                                                                           sCurrCarAITargetY,
                                                                           mCar->mCarSprite->mZpos);
 
@@ -3696,11 +3696,11 @@ void CarAI::UpdateStateMachine()
             case car_chase_state::move_left_3:
                 if (pChase->mSideCounter == 10)
                 {
-                    mCar->mCarSprite->set_xyz_lazy_420600(gCurrCarAI_TargetX, sCurrCarAITargetY, gCurrCarAI_zpos);
+                    mCar->mCarSprite->set_xyz_lazy(gCurrCarAI_TargetX, sCurrCarAITargetY, gCurrCarAI_zpos);
                     Ang16::PolarToCartesian_41FC20(sCurrCarAITargetCar->mCarSprite->mRotation - kAng90_6779E4, gF16fOne, dx, dy);
                     assert(pSprite != NULL);
                     pSprite = mCar->mCarSprite;
-                    mCar->mCarSprite->set_xyz_lazy_420600(pSprite->mXy.x + dx, pSprite->mXy.y + dy, pSprite->mZpos);
+                    mCar->mCarSprite->set_xyz_lazy(pSprite->mXy.x + dx, pSprite->mXy.y + dy, pSprite->mZpos);
 
                     if (mCar->mCarSprite->CheckSpriteMovementRegion() == 0)
                     {
@@ -3825,11 +3825,11 @@ void CarAI::UpdateStateMachine()
                     // Try to get beside the target, first on its left then on its right
                     if (bTryLeft != 0)
                     {
-                        mCar->mCarSprite->set_xyz_lazy_420600(gCurrCarAI_TargetX, sCurrCarAITargetY, gCurrCarAI_zpos);
+                        mCar->mCarSprite->set_xyz_lazy(gCurrCarAI_TargetX, sCurrCarAITargetY, gCurrCarAI_zpos);
                         Ang16::PolarToCartesian_41FC20(sCurrCarAITargetCar->mCarSprite->mRotation - kAng90_6779E4, gF16fOne, dx, dy);
                         assert(pSprite != NULL);
                         pSprite = mCar->mCarSprite;
-                        mCar->mCarSprite->set_xyz_lazy_420600(pSprite->mXy.x + dx, pSprite->mXy.y + dy, pSprite->mZpos);
+                        mCar->mCarSprite->set_xyz_lazy(pSprite->mXy.x + dx, pSprite->mXy.y + dy, pSprite->mZpos);
 
                         if (mCar->mCarSprite->CheckSpriteMovementRegion() == 0)
                         {
@@ -3838,7 +3838,7 @@ void CarAI::UpdateStateMachine()
                                 Ang16::PolarToCartesian_41FC20(mCar->mCarSprite->mRotation, gF16fOne, dx, dy);
                                 assert(pSprite != NULL);
                                 pSprite = mCar->mCarSprite;
-                                mCar->mCarSprite->set_xyz_lazy_420600(pSprite->mXy.x + dx, pSprite->mXy.y + dy, pSprite->mZpos);
+                                mCar->mCarSprite->set_xyz_lazy(pSprite->mXy.x + dx, pSprite->mXy.y + dy, pSprite->mZpos);
                                 if ((mNearestEntity = gSpriteGrid_1->FindCollidingSpritePreferType(this->mCar->mCarSprite, sprite_types_enum::none_0)) == NULL)
                                 {
                                     pChase->mChaseState = car_chase_state::approach_left_6;
@@ -3850,11 +3850,11 @@ void CarAI::UpdateStateMachine()
 
                     if (bTryRight != 0)
                     {
-                        mCar->mCarSprite->set_xyz_lazy_420600(gCurrCarAI_TargetX, sCurrCarAITargetY, gCurrCarAI_zpos);
+                        mCar->mCarSprite->set_xyz_lazy(gCurrCarAI_TargetX, sCurrCarAITargetY, gCurrCarAI_zpos);
                         Ang16::PolarToCartesian_41FC20(sCurrCarAITargetCar->mCarSprite->mRotation + kAng90_6779E4, gF16fOne, dx, dy);
                         assert(pSprite != NULL);
                         pSprite = mCar->mCarSprite;
-                        mCar->mCarSprite->set_xyz_lazy_420600(pSprite->mXy.x + dx, pSprite->mXy.y + dy, pSprite->mZpos);
+                        mCar->mCarSprite->set_xyz_lazy(pSprite->mXy.x + dx, pSprite->mXy.y + dy, pSprite->mZpos);
 
                         if (mCar->mCarSprite->CheckSpriteMovementRegion() == 0)
                         {
@@ -3863,7 +3863,7 @@ void CarAI::UpdateStateMachine()
                                 Ang16::PolarToCartesian_41FC20(mCar->mCarSprite->mRotation, gF16fOne, dx, dy);
                                 assert(pSprite != NULL);
                                 pSprite = mCar->mCarSprite;
-                                mCar->mCarSprite->set_xyz_lazy_420600(pSprite->mXy.x + dx, pSprite->mXy.y + dy, pSprite->mZpos);
+                                mCar->mCarSprite->set_xyz_lazy(pSprite->mXy.x + dx, pSprite->mXy.y + dy, pSprite->mZpos);
                                 if ((mNearestEntity = gSpriteGrid_1->FindCollidingSpritePreferType(this->mCar->mCarSprite, sprite_types_enum::none_0)) == NULL)
                                 {
                                     pChase->mChaseState = car_chase_state::approach_right_7;
@@ -3925,9 +3925,9 @@ void CarAI::UpdateStateMachine()
                 assert(sCurrCarAITargetCar != NULL);
                 if (pChase->mSideCounter >= 10u)
                 {
-                    mCar->mCarSprite->set_xyz_lazy_420600(gCurrCarAI_TargetX, sCurrCarAITargetY, gCurrCarAI_zpos);
+                    mCar->mCarSprite->set_xyz_lazy(gCurrCarAI_TargetX, sCurrCarAITargetY, gCurrCarAI_zpos);
                     Ang16::PolarToCartesian_41FC20(sCurrCarAITargetCar->mCarSprite->mRotation + kAng90_6779E4, gF16fOne, dx, dy);
-                    mCar->mCarSprite->set_xyz_lazy_420600(mCar->mCarSprite->mXy.x + dx, mCar->mCarSprite->mXy.y + dy, mCar->mCarSprite->mZpos);
+                    mCar->mCarSprite->set_xyz_lazy(mCar->mCarSprite->mXy.x + dx, mCar->mCarSprite->mXy.y + dy, mCar->mCarSprite->mZpos);
                     if (mCar->mCarSprite->CheckSpriteMovementRegion() == 0)
                     {
                         if ((this->mNearestEntity = gSpriteGrid_1->FindCollidingSpritePreferType(this->mCar->mCarSprite, sprite_types_enum::none_0)) == NULL)
@@ -4405,7 +4405,7 @@ void CarAI::ScanAheadForObstacles()
     Fix16 offset_x;
     Fix16 offset_y;
     Ang16::PolarToCartesian_41FC20(this->mAngle, probe_height + kFpThreeQuarters, offset_x, offset_y);
-    mCar->mCarSprite->set_xyz_lazy_420600(offset_x + mCar->mCarSprite->mXy.x,
+    mCar->mCarSprite->set_xyz_lazy(offset_x + mCar->mCarSprite->mXy.x,
                                                           offset_y + mCar->mCarSprite->mXy.y,
                                                           new_z);
 
@@ -4413,11 +4413,11 @@ void CarAI::ScanAheadForObstacles()
 
     if (this->mBf24.bTurning)
     {
-        mCar->mCarSprite->set_xyz_lazy_420600(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_zpos);
+        mCar->mCarSprite->set_xyz_lazy(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_zpos);
 
         Ang16::PolarToCartesian_41FC20(this->mAngle + kAng32.MultiplyByFix16_401CB0_ctor_ool(Fix16(this->mCar->mPhysics->mTurnDirection)),
                                        gF16fOne, offset_x, offset_y);
-        this->mCar->mCarSprite->set_xyz_lazy_420600(offset_x + mCar->mCarSprite->mXy.x,
+        this->mCar->mCarSprite->set_xyz_lazy(offset_x + mCar->mCarSprite->mXy.x,
                                                                     offset_y + mCar->mCarSprite->mXy.y,
                                                                     new_z);
 
@@ -4428,10 +4428,10 @@ void CarAI::ScanAheadForObstacles()
         this->mNearestEntity = gSpriteGrid_1->FindCollidingSpritePreferType(this->mCar->mCarSprite, sprite_types_enum::none_0);
         if (!this->mNearestEntity || sbOnGradientSlope)
         {
-            mCar->mCarSprite->set_xyz_lazy_420600(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_zpos);
+            mCar->mCarSprite->set_xyz_lazy(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_zpos);
 
             Ang16::PolarToCartesian_41FC20(this->mAngle, probe_step, offset_x, offset_y);
-            mCar->mCarSprite->set_xyz_lazy_420600(offset_x + mCar->mCarSprite->mXy.x,
+            mCar->mCarSprite->set_xyz_lazy(offset_x + mCar->mCarSprite->mXy.x,
                                                                   offset_y + mCar->mCarSprite->mXy.y,
                                                                   new_z);
 
@@ -4446,34 +4446,34 @@ void CarAI::ScanAheadForObstacles()
             Fix16 probe_y = offset_y + mCar->mCarSprite->mXy.y;
             Fix16 probe_x = offset_x + mCar->mCarSprite->mXy.x;
 
-            mCar->mCarSprite->set_xyz_lazy_420600(probe_x, probe_y, saved_z - gF16fOne);
+            mCar->mCarSprite->set_xyz_lazy(probe_x, probe_y, saved_z - gF16fOne);
             new_z = saved_z;
             this->mNearestEntity = gSpriteGrid_1->FindCollidingSpritePreferType(this->mCar->mCarSprite, sprite_types_enum::none_0);
         }
     }
 
-    mCar->mCarSprite->set_xyz_lazy_420600(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_zpos);
+    mCar->mCarSprite->set_xyz_lazy(gCurrCarAI_xpos, gCurrCarAI_ypos, gCurrCarAI_zpos);
 
     char_type bCheckMovement;
 
     if (mBf24.bReversing)
     {
         Ang16::PolarToCartesian_41FC20(this->mAngle, kFpHalf_677A84, offset_x, offset_y);
-        mCar->mCarSprite->set_xyz_lazy_420600(offset_x + mCar->mCarSprite->mXy.x,
+        mCar->mCarSprite->set_xyz_lazy(offset_x + mCar->mCarSprite->mXy.x,
                                                               offset_y + mCar->mCarSprite->mXy.y,
                                                               new_z);
         bCheckMovement = mCar->mCarSprite->CheckSpriteMovementRegion();
         if (!bCheckMovement)
         {
             Ang16::PolarToCartesian_41FC20(this->mAngle, kFpHalf_677A84, offset_x, offset_y);
-            mCar->mCarSprite->set_xyz_lazy_420600(offset_x + mCar->mCarSprite->mXy.x,
+            mCar->mCarSprite->set_xyz_lazy(offset_x + mCar->mCarSprite->mXy.x,
                                                                   offset_y + mCar->mCarSprite->mXy.y,
                                                                   new_z);
             bCheckMovement = mCar->mCarSprite->CheckSpriteMovementRegion();
             if (!bCheckMovement)
             {
                 Ang16::PolarToCartesian_41FC20(this->mAngle, kFpHalf_677A84, offset_x, offset_y);
-                mCar->mCarSprite->set_xyz_lazy_420600(offset_x + mCar->mCarSprite->mXy.x,
+                mCar->mCarSprite->set_xyz_lazy(offset_x + mCar->mCarSprite->mXy.x,
                                                                       offset_y + mCar->mCarSprite->mXy.y,
                                                                       new_z);
                 bCheckMovement = mCar->mCarSprite->CheckSpriteMovementRegion();
@@ -4483,7 +4483,7 @@ void CarAI::ScanAheadForObstacles()
     else
     {
         Ang16::PolarToCartesian_41FC20(this->mAngle, gF16fOne, offset_x, offset_y);
-        mCar->mCarSprite->set_xyz_lazy_420600(offset_x + mCar->mCarSprite->mXy.x,
+        mCar->mCarSprite->set_xyz_lazy(offset_x + mCar->mCarSprite->mXy.x,
                                                               offset_y + mCar->mCarSprite->mXy.y,
                                                               new_z);
         bCheckMovement = mCar->mCarSprite->CheckSpriteMovementRegion();
@@ -4556,14 +4556,14 @@ void CarAI::ScanAheadForObstacles()
         {
             if (sbOnGradientSlope)
             {
-                if (gMap_0x370->IsBlockRoadType_42A8C0(pNearestEntity->mXy.x.ToInt(),
+                if (gMap_0x370->IsBlockRoadType(pNearestEntity->mXy.x.ToInt(),
                                                               pNearestEntity->mXy.y.ToInt(),
                                                               (pNearestEntity->mZpos - gF16fOne).ToInt()))
                 {
                     goto react;
                 }
             }
-            else if (gMap_0x370->IsBlockRoadType_42A8C0(pNearestEntity->mXy.x.ToInt(),
+            else if (gMap_0x370->IsBlockRoadType(pNearestEntity->mXy.x.ToInt(),
                                                                pNearestEntity->mXy.y.ToInt(),
                                                                (pNearestEntity->mZpos - gF16fOne).ToInt()))
             {
@@ -4572,7 +4572,7 @@ void CarAI::ScanAheadForObstacles()
         }
         else if (sbOnGradientSlope)
         {
-            if (gMap_0x370->IsBlockRoadType_42A8C0(pNearestEntity->mXy.x.ToInt(), pNearestEntity->mXy.y.ToInt(), pNearestEntity->mZpos.ToInt()))
+            if (gMap_0x370->IsBlockRoadType(pNearestEntity->mXy.x.ToInt(), pNearestEntity->mXy.y.ToInt(), pNearestEntity->mZpos.ToInt()))
             {
                 goto react;
             }
@@ -4752,7 +4752,7 @@ void CarAI::ManageCollisions()
         Fix16 rotX;
         Fix16 rotY;
         // Past the inline budget: Normalize and all but the first Fix16 operator go out of line
-        RotateAndTranslatePoint_42A720(mCarInCollision->mCarSprite->mXy.x,
+        RotateAndTranslatePoint(mCarInCollision->mCarSprite->mXy.x,
                                        mCarInCollision->mCarSprite->mXy.y,
                                        -mAngle,
                                        gCurrCarAI_xpos,
@@ -5036,7 +5036,7 @@ void CarAI::UpdateDrivingAI()
 MATCH_FUNC(0x453470)
 void CarAI::UpdateDriving()
 {
-    this->mCar->mPhysics->SetHandBrakeOff_421260();
+    this->mCar->mPhysics->SetHandBrakeOff();
     Fix16 speed = mCar->mPhysics->GetLinearSpeed();
     sCurrCarAIVelocity = speed;
 
@@ -5244,7 +5244,7 @@ void CarAI::SetCar(Car* pCar)
 // https://decomp.me/scratch/kidaG
 // Keeps the angle temporaries in their own scope, so the speed temporary below can reuse
 // their stack slot (as in the original)
-static inline bool IsMovingForwards_453C00(CarPhysics* pPhysics)
+static inline bool IsMovingForwards(CarPhysics* pPhysics)
 {
     Ang16 heading_delta = pPhysics->mLinvel1.GetAngle() - pPhysics->mTheta;
     return heading_delta <= kAng90_6779E4 || heading_delta >= kAng270_677B08;
@@ -5253,7 +5253,7 @@ static inline bool IsMovingForwards_453C00(CarPhysics* pPhysics)
 MATCH_FUNC(0x453c00)
 void CarAI::ReverseOrNeutral()
 {
-    if (IsMovingForwards_453C00(mCar->mPhysics) || mCar->GetCarLinearSpeed() < sCurrCarAIDesiredSpeed)
+    if (IsMovingForwards(mCar->mPhysics) || mCar->GetCarLinearSpeed() < sCurrCarAIDesiredSpeed)
     {
         mCar->mPhysics->ForceReverseInput();
     }

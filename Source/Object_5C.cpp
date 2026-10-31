@@ -882,7 +882,7 @@ bool Object::HandleSpriteZCollision(Sprite* pSprite, Fix16_Point* pPoint, bool* 
             {
                 if (ground_z > pSprite->mZpos)
                 {
-                    pSprite->set_xyz_lazy_420600(pSprite->mXy.x, pSprite->mXy.y, ground_z);
+                    pSprite->set_xyz_lazy(pSprite->mXy.x, pSprite->mXy.y, ground_z);
                     Object::Sprite_UpdateZFromSlopeAndTile(pSprite);
                     mObj3c->mbAirborne = 0;
                     bLanded = true;
@@ -908,7 +908,7 @@ bool Object::HandleSpriteZCollision(Sprite* pSprite, Fix16_Point* pPoint, bool* 
     {
         if (found_z > pSprite->mZpos)
         {
-            pSprite->set_xyz_lazy_420600(pSprite->mXy.x, pSprite->mXy.y, found_z);
+            pSprite->set_xyz_lazy(pSprite->mXy.x, pSprite->mXy.y, found_z);
             Object::Sprite_UpdateZFromSlopeAndTile(pSprite);
             mObj3c->mbAirborne = 0;
 
@@ -930,7 +930,7 @@ bool Object::HandleSpriteZCollision(Sprite* pSprite, Fix16_Point* pPoint, bool* 
                 else
                 {
                     mObj3c->mZSpeed = kFpZero_6F8E10;
-                    pSprite->set_xyz_lazy_420600(pSprite->mXy.x, pSprite->mXy.y, mSprite->mZpos);
+                    pSprite->set_xyz_lazy(pSprite->mXy.x, pSprite->mXy.y, mSprite->mZpos);
                     *pHitFloorBelow = true;
                 }
             }
@@ -1034,7 +1034,7 @@ void Object::IntegrateMovementAndCollisions(Fix16 mov_speed, Ang16 angle)
     if (mov_speed_copy != kFpZero_6F8E10 || mObj3c->mbAirborne || mObj3c->mZSpeed != kFpZero_6F8E10)
     {
         gCollisionTarget.Reset();
-        pSprt->set_xyz_lazy_420600(mSprite->mXy.x, mSprite->mXy.y, mSprite->mZpos);
+        pSprt->set_xyz_lazy(mSprite->mXy.x, mSprite->mXy.y, mSprite->mZpos);
         pSprt->set_ang_lazy(mSprite->mRotation);
         pSprt->AllocCollisionShape(mDefinition->mWidth, mDefinition->mHeight, mDefinition->mDepth);
         pSprt->SetType(mSprite->GetType());
@@ -1088,7 +1088,7 @@ void Object::IntegrateMovementAndCollisions(Fix16 mov_speed, Ang16 angle)
             prev_rotation = pSprt->mRotation;
             Fix16 found_z;
             found_z = gMap_0x370->FindGroundZBelowCoord(pSprt->mXy.x, pSprt->mXy.y, pSprt->mZpos);
-            pSprt->set_xyz_lazy_420600(pSprt->mXy.x + step_dx, pSprt->mXy.y + step_dy, pSprt->mZpos + step_dz);
+            pSprt->set_xyz_lazy(pSprt->mXy.x + step_dx, pSprt->mXy.y + step_dy, pSprt->mZpos + step_dz);
             pSprt->set_ang_lazy(angle);
             if (step_dz == kFpZero_6F8E10)
             {
@@ -1110,7 +1110,7 @@ void Object::IntegrateMovementAndCollisions(Fix16 mov_speed, Ang16 angle)
         }
         if (!bHandled)
         {
-            mSprite->set_xyz_lazy_420600(pSprt->mXy.x, pSprt->mXy.y, pSprt->mZpos);
+            mSprite->set_xyz_lazy(pSprt->mXy.x, pSprt->mXy.y, pSprt->mZpos);
             mSprite->set_ang_lazy(pSprt->mRotation);
             if (bHitSomething)
             {
@@ -1133,7 +1133,7 @@ void Object::IntegrateMovementAndCollisions(Fix16 mov_speed, Ang16 angle)
             gObj2C_LastValidZ = prev_z;
             sObj2CLastValidAng = prev_rotation;
             Fix16 tmp_radius = radius;
-            pSprt->set_xyz_lazy_420600(sObj2CLastValidX, sObj2CLastValidY, gObj2C_LastValidZ);
+            pSprt->set_xyz_lazy(sObj2CLastValidX, sObj2CLastValidY, gObj2C_LastValidZ);
             pSprt->set_ang_lazy(prev_rotation);
             Object::Sprite_UpdateZFromSlopeAndTile(pSprt);
             bool bLastStepClear;
@@ -1142,7 +1142,7 @@ void Object::IntegrateMovementAndCollisions(Fix16 mov_speed, Ang16 angle)
             {
                 tmp_radius = tmp_radius / 2;
                 Ang16::PolarToCartesian_41FC20(angle, tmp_radius, step_dx, step_dy);
-                pSprt->set_xyz_lazy_420600(pSprt->mXy.x + step_dx, pSprt->mXy.y + step_dy, pSprt->mZpos);
+                pSprt->set_xyz_lazy(pSprt->mXy.x + step_dx, pSprt->mXy.y + step_dy, pSprt->mZpos);
                 pSprt->set_ang_lazy(angle);
                 Object::Sprite_UpdateZFromSlopeAndTile(pSprt);
                 bool bHitSprite = false;
@@ -1153,7 +1153,7 @@ void Object::IntegrateMovementAndCollisions(Fix16 mov_speed, Ang16 angle)
                 if (pSprt->CheckSpriteMovementRegion() || bHitSprite)
                 {
                     point = pSprt->get_x_y_443580();
-                    pSprt->set_xyz_lazy_420600(sObj2CLastValidX, sObj2CLastValidY, gObj2C_LastValidZ);
+                    pSprt->set_xyz_lazy(sObj2CLastValidX, sObj2CLastValidY, gObj2C_LastValidZ);
                     pSprt->set_ang_lazy(sObj2CLastValidAng);
                     bLastStepClear = false;
                 }
@@ -1168,10 +1168,10 @@ void Object::IntegrateMovementAndCollisions(Fix16 mov_speed, Ang16 angle)
             }
             if (!bLastStepClear)
             {
-                pSprt->set_xyz_lazy_420600(sObj2CLastValidX, sObj2CLastValidY, gObj2C_LastValidZ);
+                pSprt->set_xyz_lazy(sObj2CLastValidX, sObj2CLastValidY, gObj2C_LastValidZ);
                 pSprt->set_ang_lazy(sObj2CLastValidAng);
             }
-            mSprite->set_xyz_lazy_420600(pSprt->mXy.x, pSprt->mXy.y, pSprt->mZpos);
+            mSprite->set_xyz_lazy(pSprt->mXy.x, pSprt->mXy.y, pSprt->mZpos);
             mSprite->set_ang_lazy(pSprt->mRotation);
             if (bHitSomething || bHitWall || bHitBlockAtZ)
             {
@@ -1228,7 +1228,7 @@ void Object::IntegrateHorizontalMovementAndCollisions(Fix16 move_len, Ang16 move
     }
     gCollisionTarget.Reset();
 
-    pProbe->set_xyz_lazy_420600(mSprite->mXy.x, mSprite->mXy.y, mSprite->mZpos);
+    pProbe->set_xyz_lazy(mSprite->mXy.x, mSprite->mXy.y, mSprite->mZpos);
     pProbe->set_ang_lazy(mSprite->mRotation);
     pProbe->AllocCollisionShape(this->mDefinition->mWidth, this->mDefinition->mHeight, this->mDefinition->mDepth);
     pProbe->SetType(this->mSprite->GetType());
@@ -1334,7 +1334,7 @@ void Object::IntegrateHorizontalMovementAndCollisions(Fix16 move_len, Ang16 move
                 goto LABEL_48;
             }
         }
-        mSprite->set_xyz_lazy_420600(pProbe->mXy.x, pProbe->mXy.y, pProbe->mZpos);
+        mSprite->set_xyz_lazy(pProbe->mXy.x, pProbe->mXy.y, pProbe->mZpos);
         mSprite->set_ang_lazy(pProbe->mRotation);
         return;
     }
@@ -1367,7 +1367,7 @@ LABEL_48:
         }
     } while (--tries);
 
-    mSprite->set_xyz_lazy_420600(pProbe->mXy.x, pProbe->mXy.y, pProbe->mZpos);
+    mSprite->set_xyz_lazy(pProbe->mXy.x, pProbe->mXy.y, pProbe->mZpos);
     mSprite->set_ang_lazy(pProbe->mRotation);
 
     switch (this->mDefinition->mCollisionResponse)
@@ -1717,7 +1717,7 @@ void Object::UpdatePhysicsAndMovement()
     }
     SpawnSpriteParticlesForRocketBullet();
 
-    mObj3c->mSpeed = mObj3c->mSpeed.ZeroIfNegligible_482730();
+    mObj3c->mSpeed = mObj3c->mSpeed.ZeroIfNegligible();
 
     if (!DispatchFrameAction())
     {
@@ -1790,7 +1790,7 @@ void Object::UpdatePhysicsMovementAndAnimation()
         IntegrateMovementAndCollisions(mov_speed, ang);
     }
 
-    mObj3c->mSpeed = mObj3c->mSpeed.ZeroIfNegligible_482730();
+    mObj3c->mSpeed = mObj3c->mSpeed.ZeroIfNegligible();
 
     ObjectDefinition* pDefinition = this->mDefinition;
     if (pDefinition->mNextDefinitionTimer != -1 || pDefinition->mBehaviorType == object_behavior_type::pickup_physics_animated_9 || (mSprite->mXy.x != x_val) || mSprite->mXy.y != y_val ||
@@ -2065,7 +2065,7 @@ bool Object::UpdateMovementAndEffects(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 r
             ypos += pSprite->mXy.y;
         }
 
-        mSprite->set_xyz_lazy_420600(xpos, ypos, pSprite->mZpos);
+        mSprite->set_xyz_lazy(xpos, ypos, pSprite->mZpos);
         mSprite->set_ang_lazy(pSprite->mRotation + rot);
 
         switch (mDefinition->mBehaviorType)
@@ -2165,7 +2165,7 @@ void Object::InitializeObject(s32 object_type, Fix16 xpos, Fix16 ypos, Fix16 zpo
         mSprite = pDefinition->CreateSpriteFromDefinition();
     }
 
-    mSprite->set_xyz_lazy_420600(xpos, ypos, zpos);
+    mSprite->set_xyz_lazy(xpos, ypos, zpos);
     mSprite->set_ang_lazy(rotation);
 
     mSprite->SetObject2C(this);
@@ -2368,7 +2368,7 @@ void Object::TickObject(s32 obj_type)
         {
             if (obj_type == 259)
             {
-                dir.SetFromPolar_41E210(kFpOne64th_6F8C9C, mSprite->mRotation);
+                dir.SetFromPolar(kFpOne64th_6F8C9C, mSprite->mRotation);
                 gParticle_8->EmitImpactParticles(mSprite->mXy.x,
                                                                mSprite->mXy.y,
                                                                mSprite->mZpos,

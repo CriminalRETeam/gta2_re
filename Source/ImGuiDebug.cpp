@@ -2919,7 +2919,7 @@ void CC ImGuiDebugDraw()
                     pParticle->mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + 132);
                     pParticle->mSubState = 0;
                     pParticle->mTimer = timer;
-                    pParticle->mpOwnSprite->set_xyz_lazy_420600(pPlayerSprite->mXy.x, pPlayerSprite->mXy.y, pPlayerSprite->mZpos);
+                    pParticle->mpOwnSprite->set_xyz_lazy(pPlayerSprite->mXy.x, pPlayerSprite->mXy.y, pPlayerSprite->mZpos);
                     gSpriteGrid_3->AddToSingleBucket(pParticle->mpOwnSprite);
                 }
             }

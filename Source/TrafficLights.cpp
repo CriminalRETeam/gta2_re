@@ -58,7 +58,7 @@ void TrafficLight::Init(u8 x, u8 y, u8 w, u8 h)
     u8 block_z = (zpos.ToInt()) - 1;
 
     // West side
-    if (gMap_0x370->IsBlockRoadType_42A8C0(x - 1, h + y - 1, block_z))
+    if (gMap_0x370->IsBlockRoadType(x - 1, h + y - 1, block_z))
     {
         gObject_5C->NewPhysicsObj(objects::traffic_light_hull_170, Fix16(x) - kFpOne, Fix16(y + (h / 2)), kFpTwo_7055E0 + zpos, kAng270_705788);
         mWestHeadlightObj = gObject_5C->NewPhysicsObj(objects::traffic_light_lighting_255,
@@ -75,7 +75,7 @@ void TrafficLight::Init(u8 x, u8 y, u8 w, u8 h)
     }
 
     // East side
-    if (gMap_0x370->IsBlockRoadType_42A8C0(x + w, y, block_z))
+    if (gMap_0x370->IsBlockRoadType(x + w, y, block_z))
     {
         gObject_5C->NewPhysicsObj(objects::traffic_light_hull_170, Fix16(x + w) + kFpOne, Fix16(y + (h / 2)), kFpTwo_7055E0 + zpos, kAng90_705690);
         mEastHeadlightObj = gObject_5C->NewPhysicsObj(objects::traffic_light_lighting_255,
@@ -92,7 +92,7 @@ void TrafficLight::Init(u8 x, u8 y, u8 w, u8 h)
     }
 
     // North side
-    if (gMap_0x370->IsBlockRoadType_42A8C0(x, y - 1, block_z))
+    if (gMap_0x370->IsBlockRoadType(x, y - 1, block_z))
     {
         gObject_5C->NewPhysicsObj(objects::traffic_light_hull_170, Fix16(x + (w / 2)), Fix16(y) - kFpOne, kFpTwo_7055E0 + zpos, kAng180_705762);
         mNorthHeadlightObj = gObject_5C->NewPhysicsObj(objects::traffic_light_lighting_255,
@@ -109,7 +109,7 @@ void TrafficLight::Init(u8 x, u8 y, u8 w, u8 h)
     }
 
     // South side
-    if (gMap_0x370->IsBlockRoadType_42A8C0(x + w - 1, y + h, block_z))
+    if (gMap_0x370->IsBlockRoadType(x + w - 1, y + h, block_z))
     {
         gObject_5C->NewPhysicsObj(objects::traffic_light_hull_170, Fix16(x + (w / 2)), Fix16(y + h) + kFpOne, kFpTwo_7055E0 + zpos, kAng0_705948);
         mSouthHeadlightObj = gObject_5C->NewPhysicsObj(objects::traffic_light_lighting_255,
@@ -125,22 +125,22 @@ void TrafficLight::Init(u8 x, u8 y, u8 w, u8 h)
         mSouthHeadlightObj = NULL;
     }
 
-    if ((mWestHeadlightObj || mNorthHeadlightObj) && gMap_0x370->IsBlockPavementTypeAt_452980(x - 1, y - 1, block_z))
+    if ((mWestHeadlightObj || mNorthHeadlightObj) && gMap_0x370->IsBlockPavementType(x - 1, y - 1, block_z))
     {
         gObject_5C->NewPhysicsObj(objects::ped_crossing_trigger_258, Fix16(x) - kFpHalf_705714, Fix16(y) - kFpHalf_705714, zpos, kAng0_705948);
     }
 
-    if ((mEastHeadlightObj || mNorthHeadlightObj) && gMap_0x370->IsBlockPavementTypeAt_452980(x + w, y - 1, block_z))
+    if ((mEastHeadlightObj || mNorthHeadlightObj) && gMap_0x370->IsBlockPavementType(x + w, y - 1, block_z))
     {
         gObject_5C->NewPhysicsObj(objects::ped_crossing_trigger_258, Fix16(w + x) + kFpHalf_705714, Fix16(y) - kFpHalf_705714, zpos, kAng0_705948);
     }
 
-    if ((mEastHeadlightObj || mSouthHeadlightObj) && gMap_0x370->IsBlockPavementTypeAt_452980(x + w, h + y, block_z))
+    if ((mEastHeadlightObj || mSouthHeadlightObj) && gMap_0x370->IsBlockPavementType(x + w, h + y, block_z))
     {
         gObject_5C->NewPhysicsObj(objects::ped_crossing_trigger_258, Fix16(w + x) + kFpHalf_705714, Fix16(y + h) + kFpHalf_705714, zpos, kAng0_705948);
     }
 
-    if ((mWestHeadlightObj || mSouthHeadlightObj) && gMap_0x370->IsBlockPavementTypeAt_452980(x - 1, y + h, block_z))
+    if ((mWestHeadlightObj || mSouthHeadlightObj) && gMap_0x370->IsBlockPavementType(x - 1, y + h, block_z))
     {
         gObject_5C->NewPhysicsObj(objects::ped_crossing_trigger_258, Fix16(x) - kFpHalf_705714, Fix16(y + h) + kFpHalf_705714, zpos, kAng0_705948);
     }

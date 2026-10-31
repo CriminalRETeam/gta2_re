@@ -491,14 +491,14 @@ class Map_0x370
     EXPORT Fix16 GetForwardOffsetInBlock(Fix16 x, Fix16 y, Ang16 angle);
 
     // The block under (x, y, z), or the one at z when the one under has slope index 63 (0xFC: its slope is in the block above, GMP format).
-    // A ternary, not an if (also in GetRoadBlockAtOrNull_4E7190): its else block counts toward the 100+ blocks of AdvanceAlongRailway
-    inline gmp_block_info* GetRoadBlockAt_4E6660(Fix16& x, Fix16& y, Fix16& z)
+    // A ternary, not an if (also in GetRoadBlockAtOrNull): its else block counts toward the 100+ blocks of AdvanceAlongRailway
+    inline gmp_block_info* GetRoadBlockAt(Fix16& x, Fix16& y, Fix16& z)
     {
         gmp_block_info* pBlock = GetBlock(x.ToInt(), y.ToInt(), (z - kFpOne_6F6110).ToInt());
         return IS_SLOPE_IN_BLOCK_ABOVE(pBlock->mSlopeType) ? GetBlock(x.ToInt(), y.ToInt(), z.ToInt()) : pBlock;
     }
 
-    // As GetRoadBlockAt_4E6660, writing straight into pBlock (the original keeps pBlock in a register
+    // As GetRoadBlockAt, writing straight into pBlock (the original keeps pBlock in a register
     // through both lookups, which a returned temporary doesn't give)
     inline void SetRoadBlockAt_4E6660(gmp_block_info*& pBlock, Fix16& x, Fix16& y, Fix16& z)
     {
@@ -519,15 +519,15 @@ class Map_0x370
         }
     }
 
-    // As GetRoadBlockAt_4E6660, but copes with no block under (x, y, z)
-    inline gmp_block_info* GetRoadBlockAtOrNull_4E7190(Fix16& x, Fix16& y, Fix16& z)
+    // As GetRoadBlockAt, but copes with no block under (x, y, z)
+    inline gmp_block_info* GetRoadBlockAtOrNull(Fix16& x, Fix16& y, Fix16& z)
     {
         gmp_block_info* pBlock = GetBlock(x.ToInt(), y.ToInt(), (z - kFpOne_6F6110).ToInt());
         return (pBlock && IS_SLOPE_IN_BLOCK_ABOVE(pBlock->mSlopeType)) ? GetBlock(x.ToInt(), y.ToInt(), z.ToInt()) : pBlock;
     }
 
     // Move up to one block along direction, using up dist
-    inline void StepOneBlock_4E6660(Fix16* pX, Fix16* pY, Fix16& dist, s32 direction)
+    inline void StepOneBlock(Fix16* pX, Fix16* pY, Fix16& dist, s32 direction)
     {
         if (dist >= kFpOne_6F6110)
         {
@@ -653,7 +653,7 @@ class Map_0x370
     }
 
     // Like IsBlockPavementTypeInlined_433530 but via GetBlockOrNull (TrafficLight::Init)
-    inline bool IsBlockPavementTypeAt_452980(u8 x, u8 y, u8 z)
+    inline bool IsBlockPavementType(u8 x, u8 y, u8 z)
     {
         gmp_block_info* pBlock = GetBlockOrNull(x, y, z);
         if (pBlock)
@@ -663,7 +663,8 @@ class Map_0x370
         return false;
     }
 
-    inline bool IsBlockRoadType_42A8C0(u8 x, u8 y, u8 z)
+    // 9.6f 0x42A8C0
+    inline bool IsBlockRoadType(u8 x, u8 y, u8 z)
     {
         gmp_block_info* pBlock = GetBlockOrNull(x, y, z);
         if (pBlock)
@@ -735,7 +736,8 @@ class Map_0x370
         mbBlockedByTerrain = false;
     }
 
-    bool IsNorthOrSouthGradSlope_4634B0(gmp_block_info* pBlock) 
+    // 9.6f 0x4634B0
+    bool IsNorthOrSouthGradSlope(gmp_block_info* pBlock) 
     {
         gmp_map_slope* gradient_slope = &gGmpSlopes[pBlock->mSlopeType >> 2];
         if (gradient_slope->mGradientDirection == NORTH_1 
@@ -747,7 +749,7 @@ class Map_0x370
     }
 
     // 9.6f 0x463480 (the name's 0x4634B0 is the north/south one)
-    bool IsWestOrEastGradSlope_4634B0(gmp_block_info* pBlock) 
+    bool IsWestOrEastGradSlope(gmp_block_info* pBlock) 
     {
         gmp_map_slope* gradient_slope = &gGmpSlopes[pBlock->mSlopeType >> 2];
         if (gradient_slope->mGradientDirection == WEST_3 
@@ -758,7 +760,8 @@ class Map_0x370
         return false;
     }
 
-    bool IsNorthBlockRoadType_433470(u8 x, u8 y, u8 z)
+    // 9.6f 0x433470
+    bool IsNorthBlockRoadType(u8 x, u8 y, u8 z)
     {
         gmp_block_info* pBlock = GetBlockOrNull(x, y - 1, z);
         if (pBlock)

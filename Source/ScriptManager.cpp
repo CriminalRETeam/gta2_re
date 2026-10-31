@@ -189,7 +189,7 @@ void ScriptThread::Handle_STORE_CAR_INFO()
                             gGame_0x40->mLocalPlayer->RemoveCarFromHistory(gStoredCar);
                             gStoredCar->SetDriverPedType(ped_type::dummy_3);
 
-                            gStoredCar->DespawnSoon_421490();
+                            gStoredCar->DespawnSoon();
                         }
                     }
 

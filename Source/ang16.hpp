@@ -179,7 +179,7 @@ class Ang16
 
     EXPORT void Normalize_406C20();
 
-    inline Ang16& Normalized_406C20()
+    inline Ang16& Normalized()
     {
         Normalize_406C20();
         return *this;
@@ -266,12 +266,13 @@ class Ang16
         return Ang16(input.GetRaw() / 71, 0);
     }
 
-    inline static Ang16 __stdcall Fix16_To_Ang16_40F540(const Fix16& input)
+    // 9.6f 0x40F540
+    inline static Ang16 __stdcall Fix16_To_Ang16(const Fix16& input)
     {
         return Ang16(input.GetRaw() / 71, 0);
     }
 
-    // Fix16_To_Ang16_40F540 with the normalizing Ang16 ctor called out of line (AssignNormalized),
+    // Fix16_To_Ang16 with the normalizing Ang16 ctor called out of line (AssignNormalized),
     // Trailer::UpdateTrailerAlignment
     inline static Ang16 __stdcall Fix16_To_Ang16_ool_40F540(const Fix16& input)
     {
@@ -397,7 +398,8 @@ class Ang8
     u8 rValue;
 };
 
-inline void __stdcall RotateAndTranslatePoint_42A720(Fix16& inX,
+// 9.6f 0x42A720
+inline void __stdcall RotateAndTranslatePoint(Fix16& inX,
                                                          Fix16& inY,
                                                          Ang16& rotation,
                                                          Fix16& transX,

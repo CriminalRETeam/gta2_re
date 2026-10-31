@@ -80,7 +80,7 @@ void PlayerScoreTracker::Service()
         {
             if (player_ped->not_enter_car_as_passenger() && pCar->HasTaxiLight())
             {
-                if (!pCar->mPassengersList.IsEmpty_420EA0())
+                if (!pCar->mPassengersList.HasNoPeds())
                 {
                     mPlayer->AddScore(1);
                 }

@@ -115,7 +115,7 @@ class Camera
     }
 
     // FUNCTION: 96f 0x40cfc0
-    inline Fix16_Point_POD WorldToScreen_40CFC0(Fix16 x, Fix16 y, Fix16 z)
+    inline Fix16_Point_POD WorldToScreen(Fix16 x, Fix16 y, Fix16 z)
     {
         Fix16_Point_POD screen_pos;
         Fix16 u = mCurPos.mZ - z;

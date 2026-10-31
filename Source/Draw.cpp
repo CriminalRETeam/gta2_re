@@ -185,28 +185,28 @@ void __stdcall DrawFigure(s32 sprite_type,
     }
 
     point.SetXY(-half_w, -half_h);
-    point.RotateByAngle_40F6B0(rotation);
+    point.RotateByAngle(rotation);
 
     sQuadVerts.mVerts[0].x = ((x_pos + point.x).ToFloat());
     sQuadVerts.mVerts[0].y = ((y_pos + point.y).ToFloat());
     sQuadVerts.mVerts[0].z = 0.000099999997f;
 
     point.SetXY(half_w, -half_h);
-    point.RotateByAngle_40F6B0(rotation);
+    point.RotateByAngle(rotation);
 
     sQuadVerts.mVerts[1].x = ((x_pos + point.x).ToFloat());
     sQuadVerts.mVerts[1].y = ((y_pos + point.y).ToFloat());
     sQuadVerts.mVerts[1].z = 0.000099999997f;
 
     point.SetXY(half_w, half_h);
-    point.RotateByAngle_40F6B0(rotation);
+    point.RotateByAngle(rotation);
 
     sQuadVerts.mVerts[2].x = ((x_pos + point.x).ToFloat());
     sQuadVerts.mVerts[2].y = ((y_pos + point.y).ToFloat());
     sQuadVerts.mVerts[2].z = 0.000099999997f;
 
     point.SetXY(-half_w, half_h);
-    point.RotateByAngle_40F6B0(rotation);
+    point.RotateByAngle(rotation);
 
     sQuadVerts.mVerts[3].x = ((x_pos + point.x).ToFloat());
     sQuadVerts.mVerts[3].y = ((y_pos + point.y).ToFloat());
@@ -292,14 +292,14 @@ void __stdcall DrawTexture(STexture* pTexture,
     half_h = (Fix16(height) / 2) * scale;
 
     point.SetXY(-half_w, -half_h);
-    point.RotateByAngle_40F6B0(rotation);
+    point.RotateByAngle(rotation);
 
     sQuadVerts.mVerts[0].x = ((x_pos + point.x).ToFloat());
     sQuadVerts.mVerts[0].y = ((y_pos + point.y).ToFloat());
     sQuadVerts.mVerts[0].z = 0.000099999997f;
 
     point.SetXY(half_w, -half_h);
-    point.RotateByAngle_40F6B0(rotation);
+    point.RotateByAngle(rotation);
 
     // Only this vertex converts through an f32 local (the original issues the fmuls two loads later)
     sQuadVerts.mVerts[1].x = Fix16ToF32_Rounded(x_pos + point.x);
@@ -307,14 +307,14 @@ void __stdcall DrawTexture(STexture* pTexture,
     sQuadVerts.mVerts[1].z = 0.000099999997f;
 
     point.SetXY(half_w, half_h);
-    point.RotateByAngle_40F6B0(rotation);
+    point.RotateByAngle(rotation);
 
     sQuadVerts.mVerts[2].x = ((x_pos + point.x).ToFloat());
     sQuadVerts.mVerts[2].y = ((y_pos + point.y).ToFloat());
     sQuadVerts.mVerts[2].z = 0.000099999997f;
 
     point.SetXY(-half_w, half_h);
-    point.RotateByAngle_40F6B0(rotation);
+    point.RotateByAngle(rotation);
 
     sQuadVerts.mVerts[3].x = ((x_pos + point.x).ToFloat());
     sQuadVerts.mVerts[3].y = ((y_pos + point.y).ToFloat());

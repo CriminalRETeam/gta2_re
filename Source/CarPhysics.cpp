@@ -654,7 +654,7 @@ void CarPhysics::SetVelocityTowardTarget(Fix16 targetX, Fix16 targetY, Fix16 tar
     CarInfo_2C* pCarInfo = gCarInfo_808->GetInfoAtIdx(mpCar->mCarInfoIdx);
     offset = pCarInfo->mCenterOfMassOffset;
     Fix16_Point worldPoint;
-    offset.RotateByAngle_40F6B0(mTheta);
+    offset.RotateByAngle(mTheta);
     worldPoint = local.Add(offset);
 
     mLinvel1 = worldPoint - mCm1;
@@ -1119,7 +1119,7 @@ void CarPhysics::UpdateZPhysics(Fix16 dt)
         {
             UpdateSpriteFromPhysics();
 
-            mpCar->mCarSprite->set_xyz_lazy_420600(mpCar->mCarSprite->mXy.x,
+            mpCar->mCarSprite->set_xyz_lazy(mpCar->mCarSprite->mXy.x,
                                                                     mpCar->mCarSprite->mXy.y,
                                                                     zpos);
 
@@ -1134,7 +1134,7 @@ void CarPhysics::UpdateZPhysics(Fix16 dt)
     {
         UpdateSpriteFromPhysics();
 
-        mpCar->mCarSprite->set_xyz_lazy_420600(mpCar->mCarSprite->mXy.x,
+        mpCar->mCarSprite->set_xyz_lazy(mpCar->mCarSprite->mXy.x,
                                                                 mpCar->mCarSprite->mXy.y,
                                                                 zpos);
 
@@ -1246,7 +1246,7 @@ void CarPhysics::UpdateRailwayZPosition(Fix16 dt)
         {
             UpdateSpriteFromPhysics();
 
-            mpCar->mCarSprite->set_xyz_lazy_420600(mpCar->mCarSprite->mXy.x,
+            mpCar->mCarSprite->set_xyz_lazy(mpCar->mCarSprite->mXy.x,
                                                                     mpCar->mCarSprite->mXy.y,
                                                                     new_z);
 
@@ -1561,7 +1561,7 @@ void CarPhysics::HandleMapBoundaryCollisionY(Fix16_Point& point, Ang16 angle)
         {
             Ang16 rot_angle(mTheta.rValue - angle.rValue);
             rot_angle.Normalize_406C20();
-            CollisionIntersectionPoint.RotateByAngle_40F6B0(rot_angle);
+            CollisionIntersectionPoint.RotateByAngle(rot_angle);
         }
         CollisionIntersectionPoint.x += mCp1.x;
         CollisionIntersectionPoint.y = gCollisionTarget.mHsegY;
@@ -1607,7 +1607,7 @@ void CarPhysics::HandleMapBoundaryCollisionX(Fix16_Point& point, Ang16 angle)
         {
             Ang16 rot_angle(mTheta.rValue - angle.rValue);
             rot_angle.Normalize_406C20();
-            CollisionIntersectionPoint.RotateByAngle_40F6B0(rot_angle);
+            CollisionIntersectionPoint.RotateByAngle(rot_angle);
         }
         CollisionIntersectionPoint.y += mCp1.y;
         CollisionIntersectionPoint.x = gCollisionTarget.mVsegX;
@@ -2100,7 +2100,7 @@ void CarPhysics::ApplyTurningForce()
 
     local_offset = (mCp1 - CollisionIntersectionPoint);
 
-    local_offset.RotateByAngle_40F6B0(-mTheta);
+    local_offset.RotateByAngle(-mTheta);
 
     if (local_offset.x >= kFP16Zero_6FE20C)
     {
@@ -2319,7 +2319,7 @@ void CarPhysics::ApplyForceAtPoint(Fix16_Point* pPoint, Fix16_Point* pForce, s32
     switch (bRotate)
     {
         case 1:
-            point.RotateByAngle_40F6B0(mTheta);
+            point.RotateByAngle(mTheta);
             point += mCp1;
             break;
     }
@@ -2341,7 +2341,7 @@ void CarPhysics::AccumulateImpulse(Fix16_Point* pPoint)
 // https://decomp.me/scratch/qCXRd
 // Takes the direction by reference, so the negated point is read through the pointer the
 // negation returns (a named local reads it from its stack slot instead)
-static inline void EmitImpact_55FD00(Fix16& z, const Fix16_Point& dir)
+static inline void EmitImpactAtCollisionPoint(Fix16& z, const Fix16_Point& dir)
 {
     gParticle_8->EmitImpactParticles(CollisionIntersectionPoint.x, CollisionIntersectionPoint.y, z, dir);
 }
@@ -2500,7 +2500,7 @@ void CarPhysics::HandleWorldCollision(Fix16_Point& relative_velocity)
     {
         if (!mpCar->IsMaxDamage())
         {
-            EmitImpact_55FD00(mCp3, -relative_velocity);
+            EmitImpactAtCollisionPoint(mCp3, -relative_velocity);
         }
         mpCar->TryDamageArea(sCollisionArea, sCollisionDamage.mValue);
     }
@@ -2647,7 +2647,7 @@ void CarPhysics::HandleCarCollision(Car* pOtherCar)
 
     if (mLinvel1.GetLength_all_out_of_line_abs_y_negate_2() > FastCarMinVelocity && !mpCar->IsMaxDamage())
     {
-        EmitImpact_55FD00(mCp3, RelativeVelocity.Negate_40ACB0());
+        EmitImpactAtCollisionPoint(mCp3, RelativeVelocity.Negate_40ACB0());
     }
 
     if (sCollisionDamage > kFpPoint3_6FDFE4)
@@ -2761,7 +2761,7 @@ void CarPhysics::HandleObjectCollision(Object* pObject, char_type damage_area)
     {
         if (!mpCar->IsMaxDamage())
         {
-            EmitImpact_55FD00(mCp3, RelativeVelocity.Negate_40ACB0());
+            EmitImpactAtCollisionPoint(mCp3, RelativeVelocity.Negate_40ACB0());
         }
         mpCar->TryDamageArea(damage_area, sCollisionDamage.mValue);
     }
@@ -2879,9 +2879,9 @@ void CarPhysics::ApplyMovementStep(Fix16 time_scale)
 
     if (dt != kFP16Zero_6FE20C)
     {
-        // 9.6f: Ang16::Fix16_To_Ang16_40F540, written out so Normalize is inlined on a register
+        // 9.6f: Ang16::Fix16_To_Ang16, written out so Normalize is inlined on a register
         Ang16 delta_theta(static_cast<s16>((dt * mAngVelRad).GetRaw() / 71), static_cast<u8>(0));
-        this->mTheta = Ang16(mTheta.rValue + delta_theta.rValue).Normalized_406C20();
+        this->mTheta = Ang16(mTheta.rValue + delta_theta.rValue).Normalized();
 
         // 9.6f: Fix16_Point operator+= (0x40F680, inlined)
         this->mCm1 += (mLinvel1 * dt);
@@ -2921,9 +2921,9 @@ MATCH_FUNC(0x561130)
 Fix16_Point CarPhysics::ComputeRelativePointVelocity(Fix16_Point* pPoint)
 {
     Fix16_Point rel_pos = (*pPoint - mCp1);
-    rel_pos.RotateByAngle_40F6B0(-mTheta);
+    rel_pos.RotateByAngle(-mTheta);
     rel_pos -= gCarInfo_2C->mCenterOfMassOffset;
-    rel_pos.RotateByAngle_40F6B0(Ang16::Fix16_To_Ang16_40F540(mAngVelRad) + mTheta);
+    rel_pos.RotateByAngle(Ang16::Fix16_To_Ang16(mAngVelRad) + mTheta);
     rel_pos += (mCm1 + mLinvel1);
     return rel_pos - *pPoint;
 }
@@ -2949,14 +2949,14 @@ Fix16_Point CarPhysics::ComputePointVelocity(Fix16_Point& point)
         local_pos = point - gCarInfo_2C->mCenterOfMassOffset;
 
         old_pos = local_pos;
-        old_pos.RotateByAngle_40F6B0(mTheta);
+        old_pos.RotateByAngle(mTheta);
         old_pos += mCm1;
 
         new_pos = local_pos;
         // The angle sum and the Fix16_To_Ang16 result are temporaries: they share slots with the
         // first rotation's sin/cos (cos sits in the dead `point` parameter slot). Past the inline
         // budget both normalizing Ang16 ctors are called out of line (0x409300).
-        new_pos.RotateByAngle_40F6B0(mTheta + Ang16::Fix16_To_Ang16_40F540(mAngVelRad));
+        new_pos.RotateByAngle(mTheta + Ang16::Fix16_To_Ang16(mAngVelRad));
     }
 
     new_pos += mCm1 + mLinvel1;
@@ -2980,7 +2980,7 @@ Fix16 CarPhysics::ApplyDriveForce(Fix16_Point& wheel_point, Ang16 angle, Fix16_P
     else
     {
         local_vel = ComputePointVelocity(wheel_point);
-        local_vel.RotateByAngle_40F6B0(-angle);
+        local_vel.RotateByAngle(-angle);
 
         force.x = (local_vel.x * -friction.x);
         force.y = (local_vel.y * -friction.y);
@@ -3009,7 +3009,7 @@ Fix16 CarPhysics::ApplyDriveForce(Fix16_Point& wheel_point, Ang16 angle, Fix16_P
     }
 
     force.y += slip_speed;
-    force.RotateByAngle_40F6B0(angle);
+    force.RotateByAngle(angle);
     ApplyForceAtPoint(&wheel_point, &force, 1);
 
     return x_abs;
@@ -3181,7 +3181,7 @@ Fix16 CarPhysics::CalculateFrontWheelForce()
         point2.x = force_x;
         point2.y = force_y_base + brake_force;
 
-        // 9.6f: theta + Fix16_To_Ang16_40F540(pointing_ang_rad). Written with the Ang16 ctor directly,
+        // 9.6f: theta + Fix16_To_Ang16(pointing_ang_rad). Written with the Ang16 ctor directly,
         // since Normalize is too deep to inline through those helpers
         Ang16 rotation(pointing_ang_rad.GetRaw() / 71, 0);
 
@@ -3276,7 +3276,7 @@ Fix16 CarPhysics::CalculateRearWheelForce()
     rear_force.SetXY(new_x, brake_force1 + brake_force2 + brake_force3);
     rear_force.MultiplyByFix16_inline_5620D0(gCarInfo_48->mRearEndStability);
 
-    // The function is at VC6's inline budget: Fix16_To_Ang16_40F540 / Ang16 - Ang16 here push the Ang16
+    // The function is at VC6's inline budget: Fix16_To_Ang16 / Ang16 - Ang16 here push the Ang16
     // constructors and y * y out of line, so the angle is built and normalised (Normalize_406C20) by hand.
     v = kFpPoint6 - mLinvel1.GetLength_inline_5620D0();
     v = v / (kFpThreePoint8 * kFpPoint6);
@@ -3512,7 +3512,7 @@ void CarPhysics::StabilizeVelocityAtSpeed()
         }
         else
         {
-            mLinvel1.RotateByAngle_40F6B0(-mTheta);
+            mLinvel1.RotateByAngle(-mTheta);
             mLinvel1.x *= kFpPoint95;
             if (mpCar->mpTrailer)
             {
@@ -3522,7 +3522,7 @@ void CarPhysics::StabilizeVelocityAtSpeed()
             {
                 mLinvel1.y *= kFpPoint985_6FE330;
             }
-            mLinvel1.RotateByAngle_40F6B0(mTheta);
+            mLinvel1.RotateByAngle(mTheta);
             mAngVelRad = mAngVelRad * kFpPoint94;
         }
     }
@@ -3535,7 +3535,7 @@ void CarPhysics::StabilizeVelocityAtSpeed()
         }
         else
         {
-            mLinvel1.RotateByAngle_40F6B0(-mTheta);
+            mLinvel1.RotateByAngle(-mTheta);
             // `x *=` gives the factor in eax (imull x); the product-temp form loads x into eax first
             MultiplyAssign_ProductTemp(mLinvel1.x, kFpPoint9);
             // 9.6f has `*=` (0x41E0D0) in both branches. 10.5 inlines it here and calls the
@@ -3549,13 +3549,13 @@ void CarPhysics::StabilizeVelocityAtSpeed()
             {
                 mLinvel1.y *= kFpPoint97_6FE0FC;
             }
-            mLinvel1.RotateByAngle_40F6B0(mTheta);
+            mLinvel1.RotateByAngle(mTheta);
             MultiplyAssign_inline_408680(mAngVelRad, kFpPoint88);
         }
     }
 }
 
-// Out-of-line copy of Fix16_Point::RotateByAngle_40F6B0
+// Out-of-line copy of Fix16_Point::RotateByAngle
 MATCH_FUNC(0x562c20)
 void Fix16_Point::RotateVelocity(const Ang16& angle)
 {
@@ -3772,7 +3772,7 @@ void CarPhysics::UpdateCp1FromCm1()
     Fix16_Point point = gCarInfo_2C->mCenterOfMassOffset;
     NegateInPlace(point);
 
-    point.RotateByAngle_40F6B0(mTheta);
+    point.RotateByAngle(mTheta);
 
     mCp1 = mCm1 + point;
 }
@@ -3784,7 +3784,7 @@ void CarPhysics::UpdateCenterOfMassPoint()
 
     Fix16_Point point(info->mCenterOfMassOffset.x, info->mCenterOfMassOffset.y);
 
-    // RotateByAngle_40F6B0, but the y part uses the out-of-line Fix16 operators
+    // RotateByAngle, but the y part uses the out-of-line Fix16 operators
     Fix16 sin = Ang16::sine(mTheta);
     Fix16 cos = Ang16::cosine(mTheta);
     Fix16 x_old = point.x;
@@ -3801,7 +3801,7 @@ void CarPhysics::UpdateReferencePoint()
 {
     Fix16_Point point = gCarInfo_2C->mCenterOfMassOffset;
 
-    // RotateByAngle_40F6B0, but the y part uses the out-of-line Fix16 operators
+    // RotateByAngle, but the y part uses the out-of-line Fix16 operators
     Fix16 sin = Ang16::sine(mTheta);
     Fix16 cos = Ang16::cosine(mTheta);
     Fix16 x_old = point.x;
@@ -3825,7 +3825,7 @@ void CarPhysics::SetSprite(Sprite* pSprite)
 MATCH_FUNC(0x563590)
 void CarPhysics::SnapVelocityToSpriteDirection(Sprite* pSprt)
 {
-    mLinvel1.SetFromPolar_41E210(mLinvel1.GetLength_41E260(), pSprt->mRotation);
+    mLinvel1.SetFromPolar(mLinvel1.GetLength_41E260(), pSprt->mRotation);
     CarPhysics::SetSprite(pSprt);
 }
 
@@ -3833,7 +3833,7 @@ MATCH_FUNC(0x563670)
 void CarPhysics::UpdateSpriteFromPhysics()
 {
     Sprite* car_sprite = mpCar->mCarSprite;
-    car_sprite->set_xyz_lazy_420600(mCp1.x, mCp1.y, mCp3);
+    car_sprite->set_xyz_lazy(mCp1.x, mCp1.y, mCp3);
     car_sprite->set_ang_lazy(mTheta);
 }
 

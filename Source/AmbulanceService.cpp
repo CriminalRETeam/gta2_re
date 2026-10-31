@@ -811,7 +811,7 @@ void AmbulanceTask::UpdateState()
         }
         case crew_state::clean_up_5:
         {
-            while (!mPatients.IsEmpty_420EA0())
+            while (!mPatients.HasNoPeds())
             {
                 Ped* pPed = mPatients.RemoveFirstPed();
                 gAmbulance_110->TryAddPatient(pPed);

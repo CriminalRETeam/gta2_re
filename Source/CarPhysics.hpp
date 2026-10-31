@@ -134,7 +134,7 @@ class CarPhysics
     }
 
     // 9.6f 0x421260
-    inline void SetHandBrakeOff_421260()
+    inline void SetHandBrakeOff()
     {
         mIsHandBrakeOn = 0;
     }

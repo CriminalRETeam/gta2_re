@@ -93,7 +93,7 @@ void Crane::ComputeHookPos(Fix16 radius, Ang16 ang, Fix16_Point* pOutPoint)
 {
     pOutPoint->SetXY(kZero_679E70, radius);
 
-    // RotateByAngle_40F6B0, but the y part uses the out-of-line Fix16 operators
+    // RotateByAngle, but the y part uses the out-of-line Fix16 operators
     Fix16 sin = Ang16::sine(ang);
     Fix16 cos = Ang16::cosine(ang);
     Fix16 x_old = pOutPoint->x;
@@ -107,7 +107,7 @@ MATCH_FUNC(0x47e730)
 void Crane::ComputeHookPos_47E730(Ang16 radius, Fix16 ang, Fix16_Point* pOutPoint)
 {
     pOutPoint->SetXY(kZero_679E70, ang);
-    // Inlined RotateByAngle_40F6B0, but with the y part using the out-of-line Fix16 operators
+    // Inlined RotateByAngle, but with the y part using the out-of-line Fix16 operators
     Fix16 sin = Ang16::sine(radius);
     Fix16 cos = Ang16::cosine(radius);
     Fix16 x_old = pOutPoint->x;
@@ -122,7 +122,7 @@ void Crane::ComputeHookOffset(Ang16 ang, Fix16_Point* pOutPoint)
 {
 
     pOutPoint->SetXY(kZero_679E70, -kFpHalf_679D64);
-    // RotateByAngle_40F6B0, but the y part uses the out-of-line Fix16 operators
+    // RotateByAngle, but the y part uses the out-of-line Fix16 operators
     Fix16 sin = Ang16::sine(ang);
     Fix16 cos = Ang16::cosine(ang);
     Fix16 x_old = pOutPoint->x;
@@ -136,11 +136,11 @@ MATCH_FUNC(0x47e920)
 bool Crane::IsDropPositionClear()
 {
     Fix16_Point pos;
-    ComputeHookPos(mDropRadius, Ang16::Fix16_To_Ang16_40F540(mDropAngle), &pos);
+    ComputeHookPos(mDropRadius, Ang16::Fix16_To_Ang16(mDropAngle), &pos);
     pos += mDropOffset;
 
-    mProbeSprite->set_xyz_lazy_420600(pos.x, pos.y, this->mGroundZ - this->mDropHookDepth);
-    mProbeSprite->set_ang_lazy(Ang16::Fix16_To_Ang16_40F540(mDropRot));
+    mProbeSprite->set_xyz_lazy(pos.x, pos.y, this->mGroundZ - this->mDropHookDepth);
+    mProbeSprite->set_ang_lazy(Ang16::Fix16_To_Ang16(mDropRot));
 
     return !gSpriteGrid_1->FindCollidingSpritePreferType(mProbeSprite, sprite_types_enum::none_0) &&
         !mProbeSprite->CheckSpriteMovementRegion();
@@ -151,11 +151,11 @@ MATCH_FUNC(0x47eb00)
 bool Crane::IsTarget1PositionClear()
 {
     Fix16_Point hookPos;
-    ComputeHookPos(mTarget1Radius, Ang16::Fix16_To_Ang16_40F540(mTarget1Angle), &hookPos);
+    ComputeHookPos(mTarget1Radius, Ang16::Fix16_To_Ang16(mTarget1Angle), &hookPos);
     hookPos += mTarget1Offset;
 
-    mProbeSprite->set_xyz_lazy_420600(hookPos.x, hookPos.y, mGroundZ - mTarget1HookDepth);
-    mProbeSprite->set_ang_lazy(Ang16::Fix16_To_Ang16_40F540(mTarget1Rot));
+    mProbeSprite->set_xyz_lazy(hookPos.x, hookPos.y, mGroundZ - mTarget1HookDepth);
+    mProbeSprite->set_ang_lazy(Ang16::Fix16_To_Ang16(mTarget1Rot));
 
     return gSpriteGrid_1->FindCollidingSpritePreferType(mProbeSprite, sprite_types_enum::none_0) == NULL;
 }
@@ -724,7 +724,7 @@ MATCH_FUNC(0x47fe10)
 void Crane::UpdateCraneSprites()
 {
     Fix16_Point pos;
-    Ang16 crane_angle = Ang16::Fix16_To_Ang16_40F540(mCraneAngle);
+    Ang16 crane_angle = Ang16::Fix16_To_Ang16(mCraneAngle);
 
     mPartObj0->RemoveFromCollisionBuckets();
     mPartObj1->RemoveFromCollisionBuckets();
@@ -774,14 +774,14 @@ void Crane::UpdateCraneSprites()
     ComputeHookPos(mHookRadius, crane_angle, &pos);
     mPartObj8->mSprite->set_xy_lazy(pos.x, pos.y);
 
-    mHookObj->mSprite->set_xyz_lazy_420600(pos.x, pos.y, mGroundZ - mHookDepth);
-    mHookObj->mSprite->set_ang_lazy(Ang16::Fix16_To_Ang16_40F540(mHookAxialAngle));
+    mHookObj->mSprite->set_xyz_lazy(pos.x, pos.y, mGroundZ - mHookDepth);
+    mHookObj->mSprite->set_ang_lazy(Ang16::Fix16_To_Ang16(mHookAxialAngle));
 
     if (mpSpriteOnHook)
     {
         pos += mHookedSpriteOffset;
         mpSpriteOnHook->set_xyz_lazy_inlined_420600(pos.x, pos.y, mGroundZ - mHookDepth); // INLINED_MODE required
-        mpSpriteOnHook->set_ang_lazy(Ang16::Fix16_To_Ang16_40F540(mHookAxialAngle));
+        mpSpriteOnHook->set_ang_lazy(Ang16::Fix16_To_Ang16(mHookAxialAngle));
     }
 
     mPartObj0->AssignToBucket();
@@ -945,7 +945,7 @@ void Crane::SetTarget1(Fix16 xpos, Fix16 ypos, Ang16 ang)
         mCraneMode = 1;
     }
 
-    ComputeHookPos(mTarget1Radius, Ang16::Fix16_To_Ang16_40F540(mTarget1Angle), &t);
+    ComputeHookPos(mTarget1Radius, Ang16::Fix16_To_Ang16(mTarget1Angle), &t);
     mTarget1Offset = target_pos - t;
 
     mTarget1HookDepth = mGroundZ - gMap_0x370->FindGroundZForCoord(xpos, ypos);
@@ -971,7 +971,7 @@ void Crane::SetTarget2(Fix16 xpos, Fix16 ypos, Ang16 ang)
         mLoadPhase = 2;
     }
 
-    ComputeHookPos(mTarget2Radius, Ang16::Fix16_To_Ang16_40F540(mTarget2Angle), &t);
+    ComputeHookPos(mTarget2Radius, Ang16::Fix16_To_Ang16(mTarget2Angle), &t);
     mTarget2Offset = target_pos - t;
 
     mTarget2HookDepth = mGroundZ - gMap_0x370->FindGroundZForCoord(xpos, ypos);

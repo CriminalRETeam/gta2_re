@@ -843,7 +843,7 @@ bool Car::TrySnapCarToNearestDrivableRoadAndDriveForward(Fix16 xpos, Fix16 ypos,
                     rect.SetHiLowZ(pos_z - kFP16One_6777D0, kFP16One_6777D0 + pos_z);
                     if (!gSpriteGrid_1->CheckRectForCollisions(&rect, false, sprite_types_enum::none_0, NULL) && !rect.IsRectBlockedByMap())
                     {
-                        mCarSprite->set_xyz_lazy_420600(xpos, ypos, pos_z);
+                        mCarSprite->set_xyz_lazy(xpos, ypos, pos_z);
 
                         mCarSprite->set_ang_lazy(ReturnAngleFromRoadDirection(direction));
 
@@ -971,12 +971,12 @@ Car* CarManager::GetNearestFrontVehicle(Sprite* pSprite, u8 max_rings)
     Fix16 new_y;
     Ang16::PolarToCartesian_41FC20(pSprite->mRotation, kFpHalf_6772D0, new_x, new_y);
 
-    pSprite->set_xyz_lazy_420600(pSprite->mXy.x + new_x, pSprite->mXy.y + new_y, pSprite->mZpos);
+    pSprite->set_xyz_lazy(pSprite->mXy.x + new_x, pSprite->mXy.y + new_y, pSprite->mZpos);
 
     Sprite* pNearest =
         gSpriteGrid_1->FindNearestSprite_SpiralSearch(sprite_types_enum::car_2, sprite_types_enum::car_2, pSprite, max_rings, 3, 1u);
 
-    pSprite->set_xyz_lazy_420600(oldx, oldy, oldz);
+    pSprite->set_xyz_lazy(oldx, oldy, oldz);
 
     gSpriteGrid_1->AddToRegionBuckets(pSprite);
 
@@ -1329,7 +1329,7 @@ Car* CarManager::SpawnCarOnRoadNetwork(Fix16 xpos, Fix16 ypos, s32 road_directio
                     Car* pCar =
                         SpawnCar_426E10_v2(x, y, ground_z, ReturnAngleFromRoadDirection(road_direction), car_model_type);
                     pCar->SetupCarPhysicsAndSpriteBindingWithTrailer();
-                    pCar->AllocateAI_421510();
+                    pCar->AllocateAI();
                     pCar->mAI->SetCar(pCar);
                     pCar->mAI->mRouteIdx = static_cast<char_type>(route_idx);
                     return pCar;
@@ -1401,7 +1401,7 @@ Car* CarManager::SpawnCarAt(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, 
     pCar->mDespawnStatus = car_despawn_status::active_1;
 
     pCar->mCarSprite = gSpritePool->get_new_sprite();
-    pCar->mCarSprite->set_xyz_lazy_420600(xpos, ypos, zpos);
+    pCar->mCarSprite->set_xyz_lazy(xpos, ypos, zpos);
 
     gMap_0x370->UpdateZFromSlopeAtCoord(pCar->mCarSprite->mXy.x,
                                                       pCar->mCarSprite->mXy.y,
@@ -1935,7 +1935,7 @@ Fix16_Point Car::GetHitchPoint() const
         point = kCabHitchOffset;
     }
 
-    point.RotateByAngle_40F6B0(mCarSprite->mRotation);
+    point.RotateByAngle(mCarSprite->mRotation);
     return point + mCarSprite->get_x_y_443580();
 }
 
@@ -2964,7 +2964,7 @@ void Car::SpawnDamageFireEffect(s32 fire_size, const Fix16_Point* pPos)
     else
     {
         rot_point = *pPos - mCarSprite->get_x_y();
-        rot_point.RotateByAngle_40F6B0(mCarSprite->mRotation);
+        rot_point.RotateByAngle(mCarSprite->mRotation);
         x_hit = rot_point.x;
         y_hit = rot_point.y;
     }
@@ -3918,7 +3918,7 @@ bool Car::OnObjectTouched(Object* pObj)
         case objects::destructor_141:
             if (!mDriver)
             {
-                DespawnSoon_421490();
+                DespawnSoon();
             }
             break;
 
@@ -4016,7 +4016,7 @@ s32 __stdcall GetDamageMultiplier(Ped* pPed)
 // 9.6f 0x4274C0. The Fix16 and Fix16_Point operators are the out-of-line copies (Add,
 // Multiply, operator- 0x40AC80, Multiply, operator+ 0x408660, Normalize_406C20).
 // The 9.6f getters (IsMaxDamage, the flag tests, get_x_y 0x4207B0) set the inline budget: every
-// RotateByAngle_40F6B0 keeps only the x_old negate inline. The original keeps EH state stores around the
+// RotateByAngle keeps only the x_old negate inline. The original keeps EH state stores around the
 // get_x_y/operator+/operator- calls, so their bodies weren't compiled yet: the *Late* aliases are defined at
 // the end of this file (see "An inline defined after its callers" in docs/matching_quirks.md).
 MATCH_FUNC(0x43f130)
@@ -4073,14 +4073,14 @@ bool Car::HandleCarHitByObject(Object* pObj)
                 if (!IsMaxDamage())
                 {
                     offset = pObj->mSprite->get_x_y_late_443580().SubLate_40AC80(mCarSprite->get_x_y_late_443580());
-                    offset.RotateByAngle_40F6B0(-mCarSprite->mRotation);
+                    offset.RotateByAngle(-mCarSprite->mRotation);
                     EmitExplosion(explosion_type::small_18, offset.x, offset.y);
                 }
             }
             else
             {
                 offset = pObj->mSprite->get_x_y_late_443580().SubLate_40AC80(mCarSprite->get_x_y_late_443580());
-                offset.RotateByAngle_40F6B0(-mCarSprite->mRotation);
+                offset.RotateByAngle(-mCarSprite->mRotation);
                 EmitExplosion(explosion_type::small_18, offset.x, offset.y);
             }
             break;
@@ -4102,7 +4102,7 @@ bool Car::HandleCarHitByObject(Object* pObj)
                     if (!IsMaxDamage())
                     {
                         offset = pObj->mSprite->get_x_y_late_443580().SubLate_40AC80(mCarSprite->get_x_y_late_443580());
-                        offset.RotateByAngle_40F6B0(-mCarSprite->mRotation);
+                        offset.RotateByAngle(-mCarSprite->mRotation);
                         EmitExplosion(explosion_type::small_18, offset.x, offset.y);
                     }
                 }
@@ -4205,14 +4205,14 @@ void Car::InitCarAIControl()
 {
     SetupCarPhysicsAndSpriteBindingWithTrailer();
 
-    mPhysics->SetHandBrakeOff_421260();
+    mPhysics->SetHandBrakeOff();
 
     Ped* pDriver = this->mDriver;
     if (pDriver)
     {
         if (pDriver->GetPedType() != ped_type::player_2)
         {
-            this->AllocateAI_421510();
+            this->AllocateAI();
             this->mAI->SetCar(this);
             StartEngine();
         }
@@ -4522,7 +4522,7 @@ void Car::FireCarBomb(char_type instant_bomb)
 MATCH_FUNC(0x441030)
 void Car::GoToBlockTest(u8 x, u8 y, u8 z, s32 direction)
 {
-    AllocateAI_421510();
+    AllocateAI();
     mAI->SetCar(this);
     mAI->GoToBlock(x, y, z, direction);
 }
@@ -4530,7 +4530,7 @@ void Car::GoToBlockTest(u8 x, u8 y, u8 z, s32 direction)
 MATCH_FUNC(0x441080)
 void Car::GotoBlock(u8 x, u8 y, u8 z, s32 direction)
 {
-    AllocateAI_421510();
+    AllocateAI();
     mAI->SetCar(this);
     mAI->GoToBlock(x, y, z, direction);
 }
@@ -4724,7 +4724,7 @@ void Car::UpdateTrainCarriagesOnTrack(Fix16 xpos, Fix16 ypos, Fix16 zpos)
             carriage_angle = ReturnAngleFromRoadDirection(track_dir_b);
         }
 
-        pTrainCarIter->mCarSprite->set_xyz_lazy_420600(newx, newy, newz);
+        pTrainCarIter->mCarSprite->set_xyz_lazy(newx, newy, newz);
         pTrainCarIter->mCarSprite->set_ang_lazy(carriage_angle);
 
         // The next carriage follows on from this one
@@ -5511,7 +5511,7 @@ void Car::ManageTVAntenna()
             Ang16& rot = pSprite->mOffsetRot;
             spriteAngFp = Ang16::Ang16_to_Fix16(rot);
             SmoothApproachAngle(Ang16::Ang16_to_Fix16(towerAng), zero, spriteAngFp, kAngFix16OneDegree_677920, kAngFix16OneDegree_677920);
-            rot = Ang16::Fix16_To_Ang16_40F540(spriteAngFp);
+            rot = Ang16::Fix16_To_Ang16(spriteAngFp);
         }
     }
 }
@@ -5964,7 +5964,7 @@ bool Car::UpdateAttachedToSprite(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 rot)
         sprite_y = pSprite->mXy.y;
     }
 
-    mCarSprite->set_xyz_lazy_420600(sprite_x, sprite_y, pSprite->mZpos);
+    mCarSprite->set_xyz_lazy(sprite_x, sprite_y, pSprite->mZpos);
     Ang16 new_rotation = pSprite->mRotation;
     new_rotation += rot;
     mCarSprite->set_ang_lazy(new_rotation);
@@ -6275,7 +6275,7 @@ MATCH_FUNC(0x443d00)
 void Car::SetPosition(Fix16 xpos, Fix16 ypos, Fix16 zpos)
 {
     gSpriteGrid_1->RemoveFromRegionBuckets(mCarSprite);
-    mCarSprite->set_xyz_lazy_420600(xpos, ypos, zpos);
+    mCarSprite->set_xyz_lazy(xpos, ypos, zpos);
     if (mPhysics)
     {
         mPhysics->SetSprite(mCarSprite);
@@ -6630,7 +6630,7 @@ MATCH_FUNC(0x407bd0)
 Fix16_Point Trailer::GetHitchPosition()
 {
     // The y line calls the out-of-line Negate/Multiply/operator+ in the original, as if it
-    // were written with them; with the inline RotateByAngle_40F6B0 the tail stops inlining.
+    // were written with them; with the inline RotateByAngle the tail stops inlining.
     // Assigning a constructed point (not a copy) loads y before x as in the original.
     // The rotation's locals live in their own block (as if from an inline rotate): without it the
     // x_old store is scheduled after the angle load.
@@ -6671,12 +6671,12 @@ void Trailer::UpdateTrailerAlignment()
     Fix16 trailer_theta = Ang16::Ang16_to_Fix16(pTrailerPhys->mTheta);
 
     rear = mTrailerCar->GetRearWheelOffset();
-    rear.RotateByAngle_40F6B0(pTrailerPhys->get_theta());
+    rear.RotateByAngle(pTrailerPhys->get_theta());
     rear += pTrailerPhys->get_cp1();
 
     hitch = sTrailerHitchOffset;
     Fix16 cab_theta = Ang16::Ang16_to_Fix16(pCabPhys->get_theta());
-    hitch.RotateByAngle_40F6B0(Ang16::Fix16_To_Ang16_40F540(cab_theta));
+    hitch.RotateByAngle(Ang16::Fix16_To_Ang16(cab_theta));
     hitch += pCabPhys->get_cp1();
 
     // The trailer points along hitch - rear, kept within a window around the cab's angle
@@ -6692,10 +6692,10 @@ void Trailer::UpdateTrailerAlignment()
         }
     }
 
-    pTrailerPhys->set_theta(Ang16::Fix16_To_Ang16_40F540(new_theta));
+    pTrailerPhys->set_theta(Ang16::Fix16_To_Ang16(new_theta));
 
     offset = sTrailerCabOffset;
-    offset.RotateByAngle_40F6B0(Ang16::Fix16_To_Ang16_40F540(new_theta));
+    offset.RotateByAngle(Ang16::Fix16_To_Ang16(new_theta));
     mTrailerCar->mPhysics->set_cp1(hitch.Sub(offset));
     pTrailerPhys->set_cp3(mTruckCab->mPhysics->get_cp3());
     pTrailerPhys->UpdateCenterOfMassPoint();
@@ -7547,7 +7547,7 @@ bool TrafficSpawner::SpawnTrafficCar(s32 spawn_type, s32 arrow_direction, s32 bl
                                     else
                                     {
                                         pNewCar->IncrementCarStats(car_kind::recycled_1);
-                                        pNewCar->DespawnSoon_421490();
+                                        pNewCar->DespawnSoon();
                                     }
 
                                     gGame_0x40->ReduceTrafficSpawnCounterOfOtherViewers(pNewCar->mCarSprite,

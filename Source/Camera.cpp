@@ -358,7 +358,7 @@ void Camera::ApplyCarVelocityCameraOffset(Car* pCar, Fix16* pOutX, Fix16* pOutY,
 MATCH_FUNC(0x435A70)
 s32 Camera::IsCoordsPosVisible(Fix16 x, Fix16 y, Fix16 z)
 {
-    Fix16_Point_POD pos = WorldToScreen_40CFC0(x, y, z);
+    Fix16_Point_POD pos = WorldToScreen(x, y, z);
     if (pos.x >= kZero_676818 && pos.x < Fix16(640) && pos.y >= kZero_676818 && pos.y < Fix16(480))
     {
         return 1;

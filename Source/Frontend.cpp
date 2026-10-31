@@ -2142,7 +2142,7 @@ void Frontend::HandlePlayerNameTyping()
                 KeyboardLayout::RecreateIfLayoutChanged();
                 Key_4D5F40 = gKeybrd_0x204->GetKey(input);
                 typed_char = gText_0x14->RemapExtendedChar(Key_4D5F40);
-                if (static_cast<u16>(GetCharWidth_4539D0(mNormalFont, typed_char)) < 3u || !typed_char)
+                if (static_cast<u16>(GetCharWidthFromFontType(mNormalFont, typed_char)) < 3u || !typed_char)
                 {
                     // Both builds jump past the append here; an append in each branch folds the space into a constant
                     goto update_key_held;
@@ -2402,7 +2402,7 @@ void Frontend::HandlePasswordTyping()
         }
         u16 key = gKeybrd_0x204->GetKey(key_scan);
         ch = key;
-        if (GetCharWidth_4539D0(mNormalFont, ch) >= 3 && ch)
+        if (GetCharWidthFromFontType(mNormalFont, ch) >= 3 && ch)
         {
             goto append_char;
         }
@@ -2909,7 +2909,7 @@ void Frontend::LoadMapFilenames(u8 mainBlockIdx, u8 bonusBlockIdx)
     }
     else
     {
-        gGameSession.SetStage(gGameSession.EncodeStage_453A40(mainBlockIdx, bonusBlockIdx));
+        gGameSession.SetStage(gGameSession.EncodeStage(mainBlockIdx, bonusBlockIdx));
         gGameSession.SetBonusStage(1);
     }
 }
@@ -3003,7 +3003,7 @@ EXPORT void __cdecl FreeSurface()
 }
 
 // 16.16 step along a line, 0 for a point
-static inline s32 StepFor_5D7DD0(s32 delta, s32 count)
+static inline s32 GetLineStep(s32 delta, s32 count)
 {
     if (count == 0)
     {
@@ -3025,13 +3025,13 @@ EXPORT void __stdcall DrawDebugLine(s32 x1, s32 y1, s32 x2, s32 y2, u16 colour)
     if (abs_dx > abs_dy)
     {
         step_x = x2 > 0 ? 0x10000 : -0x10000;
-        y2 = StepFor_5D7DD0(y2, abs_dx);
+        y2 = GetLineStep(y2, abs_dx);
         count = abs_dx;
     }
     else
     {
         y2 = y2 > 0 ? 0x10000 : -0x10000;
-        step_x = StepFor_5D7DD0(x2, abs_dy);
+        step_x = GetLineStep(x2, abs_dy);
         count = abs_dy;
     }
 
@@ -4404,7 +4404,7 @@ u8 Frontend::GetLastUnlockedBonusStageCode(PlySlot* pStats)
             }
         }
     }
-    return gGameSession.EncodeStage_453A40(stage, bonus);
+    return gGameSession.EncodeStage(stage, bonus);
 }
 
 EXTERN_GLOBAL(bool, bDoFrontEnd);
@@ -4866,7 +4866,7 @@ char_type Frontend::GetPreviousUnlockedBonusStage(u8 stage)
             --bonus_stage_idx;
         }
     }
-    return gGameSession.EncodeStage_453A40(main_stage_idx, bonus_stage_idx);
+    return gGameSession.EncodeStage(main_stage_idx, bonus_stage_idx);
 }
 
 MATCH_FUNC(0x4B7610)
@@ -5006,7 +5006,7 @@ char_type Frontend::GetNextUnlockedBonusStage(u8 stage)
         }
     }
 
-    return gGameSession.EncodeStage_453A40(main_stage_idx, bonus_stage_idx);
+    return gGameSession.EncodeStage(main_stage_idx, bonus_stage_idx);
 }
 
 MATCH_FUNC(0x4B7520)

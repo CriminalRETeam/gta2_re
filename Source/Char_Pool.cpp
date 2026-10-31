@@ -710,7 +710,7 @@ PedManager::PedManager()
 
     mSpawnProbeSprite = gSpritePool->get_new_sprite();
     // Plain 0s: implicit Fix16 conversions, out of line (Fix16::FromInt_4369F0) once the inline budget runs out
-    mSpawnProbeSprite->set_xyz_lazy_451950(0, 0, 0); // 9.6f inlined set_xyz_lazy_420600
+    mSpawnProbeSprite->set_xyz_lazy_451950(0, 0, 0); // 9.6f inlined set_xyz_lazy
     mSpawnProbeSprite->set_ang_lazy(gDummyPedAng);
     mSpawnProbeSprite->AllocCollisionShape(0, 0, 0);
 

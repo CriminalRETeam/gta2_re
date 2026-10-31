@@ -212,7 +212,7 @@ wchar_t* TextTable::StrToUpper(wchar_t* pWideStr)
     return pWideStr;
 }
 
-// 9.6f 0x4539D0, file-local copy of GetCharWidth_4539D0 (Draw.hpp): including Draw.hpp changes this file's static init code
+// 9.6f 0x4539D0, file-local copy of GetCharWidthFromFontType (Draw.hpp): including Draw.hpp changes this file's static init code
 static inline s32 __stdcall GetCharWidth_local_4539D0(u16 font_type, wchar_t chr)
 {
     return static_cast<u16>(gGtx_0x106C->GetFontWidth(&font_type, &chr));

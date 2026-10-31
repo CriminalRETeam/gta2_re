@@ -46,7 +46,7 @@ class Ped_List
     }
 
     // 9.6f 0x420EA0
-    bool IsEmpty_420EA0() const
+    bool HasNoPeds() const
     {
         return mpFirstPed == NULL;
     }

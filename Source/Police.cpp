@@ -981,7 +981,7 @@ bool Police::AssignCrewToPursuit(PoliceCrew* pCrew, PolicePursuitTarget* pPursui
 
 // https://decomp.me/scratch/pfRaI
 // Inlined search helpers: their NULL results are tested by the caller
-static inline PolicePursuitTarget* FindPursuitTargetForCriminal_5707B0(Police* pThis, Ped* pCriminal)
+static inline PolicePursuitTarget* FindPursuitTargetForCriminal(Police* pThis, Ped* pCriminal)
 {
     for (u8 i = 0; i < GTA2_COUNTOF(pThis->mPursuitTargets); i++)
     {
@@ -993,7 +993,7 @@ static inline PolicePursuitTarget* FindPursuitTargetForCriminal_5707B0(Police* p
     return NULL;
 }
 
-static inline PoliceCrew* FindCrewInCar_5707B0(Police* pThis, Car* pCar)
+static inline PoliceCrew* FindCrewInCar(Police* pThis, Car* pCar)
 {
     for (u8 j = 0; j < GTA2_COUNTOF(pThis->mCopCrew); j++)
     {
@@ -1014,13 +1014,13 @@ bool Police::TryAssignCarCrewToCriminal(Car* pCar, Ped* pCriminal)
         return false;
     }
 
-    PolicePursuitTarget* pPursuitTarget = FindPursuitTargetForCriminal_5707B0(this, pCriminal);
+    PolicePursuitTarget* pPursuitTarget = FindPursuitTargetForCriminal(this, pCriminal);
     if (pPursuitTarget == NULL)
     {
         return false;
     }
 
-    PoliceCrew* pCrew = FindCrewInCar_5707B0(this, pCar);
+    PoliceCrew* pCrew = FindCrewInCar(this, pCar);
     if (pCrew == NULL)
     {
         return false;

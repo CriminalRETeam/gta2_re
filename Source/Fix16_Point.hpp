@@ -29,7 +29,7 @@ class Fix16_Point;
 // A point without a destructor. 10.5 has points that don't take part in EH unwinding: struct members
 // (~Sprite is a bare jmp, the Char ctor's EH states leave out mVelocityVector), a by-value
 // parameter the caller copies as two dwords (DrawElectricArc) and a few locals (CarPhysics 0x55F280,
-// 0x55F800, Camera::WorldToScreen_40CFC0's result). Everything else is a Fix16_Point. It is a
+// 0x55F800, Camera::WorldToScreen's result). Everything else is a Fix16_Point. It is a
 // separate type, not a base of Fix16_Point: 10.5 charges Fix16_Point's ctor as one size-42 inline
 // site at the top level, which a derived class's ctor (base ctor nested in it) doesn't reproduce.
 // 9.6f doesn't tell the two apart.
@@ -52,14 +52,16 @@ struct Fix16_Point_POD
         this->y = new_y;
     }
 
-    inline void SetFromPolar_41E210(Fix16& radius, Ang16& angle)
+    // 9.6f 0x41E210
+    inline void SetFromPolar(Fix16& radius, Ang16& angle)
     {
         x = Ang16::sine(angle) * radius;
         y = Ang16::cosine(angle) * radius;
     }
 
     // Matching impl at RotateVelocity
-    inline void RotateByAngle_40F6B0(const Ang16& angle)
+    // 9.6f 0x40F6B0
+    inline void RotateByAngle(const Ang16& angle)
     {
         Fix16 sin = Ang16::sine(angle);
         Fix16 cos = Ang16::cosine(angle);
@@ -170,13 +172,14 @@ class Fix16_Point
         }
     }
 
-    inline void SetFromPolar_41E210(Fix16& radius, Ang16& angle)
+    // 9.6f 0x41E210
+    inline void SetFromPolar(Fix16& radius, Ang16& angle)
     {
         x = Ang16::sine(angle) * radius;
         y = Ang16::cosine(angle) * radius;
     }
 
-    // RotateByAngle_40F6B0 in a function that ran out of inline expansions: every operator but
+    // RotateByAngle in a function that ran out of inline expansions: every operator but
     // the first + is called out of line (CarPhysics::SpawnSkidSegment)
     inline void RotateByAngle_40F6B0_out_of_line(const Ang16& angle)
     {
@@ -189,7 +192,7 @@ class Fix16_Point
         y = x_old.Negate_4086A0().Multiply(sin).Add(y.Multiply(cos));
     }
 
-    // RotateByAngle_40F6B0 in a function whose inline budget ran out after the first multiply
+    // RotateByAngle in a function whose inline budget ran out after the first multiply
     // (y * sin, evaluated first): the rest are the out-of-line copies (Car::SpawnDamageFireEffect)
     inline void RotateByAngle_OneMulInline_40F6B0(const Ang16& angle)
     {
@@ -202,7 +205,7 @@ class Fix16_Point
         y = x_old.Negate_4086A0().Multiply(sin).Add(y.Multiply(cos));
     }
 
-    // RotateByAngle_40F6B0 with every operator called out of line (ParticleManager::EmitImpactParticles)
+    // RotateByAngle with every operator called out of line (ParticleManager::EmitImpactParticles)
     inline void RotateByAngle_40F6B0_all_out_of_line(const Ang16& angle)
     {
         Fix16 sin = Ang16::sine(angle);
@@ -215,7 +218,8 @@ class Fix16_Point
     }
 
     // Matching impl at RotateVelocity
-    inline void RotateByAngle_40F6B0(const Ang16& angle)
+    // 9.6f 0x40F6B0
+    inline void RotateByAngle(const Ang16& angle)
     {
         Fix16 sin = Ang16::sine(angle);
         Fix16 cos = Ang16::cosine(angle);
@@ -226,7 +230,7 @@ class Fix16_Point
         y = ((-x_old) * sin) + (y * cos);
     }
 
-    // RotateByAngle_40F6B0 as big functions get it once they run out of inline expansions:
+    // RotateByAngle as big functions get it once they run out of inline expansions:
     // the Fix16 operators are the out-of-line copies (Car::HandleCarHitByObject)
     inline void RotateByAngle_OOL_40F6B0(const Ang16& angle)
     {
@@ -280,7 +284,7 @@ class Fix16_Point
         return *this;
     }
 
-    // Out-of-line copy of RotateByAngle_40F6B0, emitted in CarPhysics.cpp
+    // Out-of-line copy of RotateByAngle, emitted in CarPhysics.cpp
     EXPORT void RotateVelocity(const Ang16& angle);
 
     EXPORT Fix16_Point Multiply(Fix16& in) const;

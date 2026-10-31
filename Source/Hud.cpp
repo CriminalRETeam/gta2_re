@@ -84,7 +84,7 @@ static inline void DrawFigureScaled_4C71B0(s32 sprite_type, s16 sprite_idx, Fix1
                       false);
 }
 
-// Camera::WorldToScreen_40CFC0 (9.6f 0x40CFC0: x/y/z by value, writes through two out pointers)
+// Camera::WorldToScreen (9.6f 0x40CFC0: x/y/z by value, writes through two out pointers)
 // with this file's copies of the 1 and 8 constants
 static inline void WorldToScreen_Hud_40CFC0(Camera* pCam, Fix16 x, Fix16 y, Fix16 z, Fix16* pOutX, Fix16* pOutY)
 {
@@ -744,10 +744,10 @@ bool Hud_Arrow::UpdateTargets()
     mTargets.mPrimaryTarget.UpdateAimCoordinates();
     mTargets.mSecondaryTarget.UpdateAimCoordinates();
 
-    if (mTargets.mCurrTarget->HasNoTarget_4C6F20())
+    if (mTargets.mCurrTarget->HasNoTarget())
     {
         swap_arrows(); // Swap arrow traces
-        if (mTargets.mCurrTarget->HasNoTarget_4C6F20())
+        if (mTargets.mCurrTarget->HasNoTarget())
         {
             return true;
         }
@@ -3079,7 +3079,7 @@ void __stdcall DrawAmmo(s16 ammo_idx, u8 ammo_count)
 // https://decomp.me/scratch/1IbxU
 // The original passes the gtx pointer through an inlined helper: its parameter is one more live range in
 // the first block, which tips the register priorities so width gets ebx and base_xpos ebp
-static inline u16 GetPowerupSpriteIndex_5D61A0(gtx_0x106C* pGtx, s32 sprite_pal)
+static inline u16 GetUserSpriteIndex(gtx_0x106C* pGtx, s32 sprite_pal)
 {
     return pGtx->GetSpriteTrueIndex(sprite_types_enum::user_6, sprite_pal);
 }
@@ -3087,7 +3087,7 @@ static inline u16 GetPowerupSpriteIndex_5D61A0(gtx_0x106C* pGtx, s32 sprite_pal)
 MATCH_FUNC(0x5D61A0)
 s32 __stdcall DrawPlayerStatsHelper(s32 powerup_idx, s32 base_xpos, u16 optional_number)
 {
-    u16 sprite_idx = GetPowerupSpriteIndex_5D61A0(gGtx_0x106C, powerup_idx + 141);
+    u16 sprite_idx = GetUserSpriteIndex(gGtx_0x106C, powerup_idx + 141);
     s32 width = gGtx_0x106C->get_sprite_width(sprite_idx);
     DrawFigureScaled_5D7670(sprite_types_enum::user_6,
                             powerup_idx + 141,

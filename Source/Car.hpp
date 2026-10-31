@@ -218,14 +218,14 @@ class CarManager
     EXPORT ~CarManager();
 
     // 9.6f inlined
-    inline Car* SpawnCar_426E10(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx)
+    inline Car* SpawnFullSizeCar(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx)
     {
         return SpawnCarAt(xpos, ypos, zpos, rotation, car_info_idx, kFpOne_6F77C4);
     }
 
-    // SpawnCar_426E10 with the scale passed in: 10.5 loads a different Fix16(1) global per TU
+    // SpawnFullSizeCar with the scale passed in: 10.5 loads a different Fix16(1) global per TU
     // (kFpOne_6F77C4 in ScriptThread, kOne_6FE614 in Player)
-    inline Car* SpawnCar_426E10(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx, const Fix16& scale)
+    inline Car* SpawnFullSizeCar(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, s32 car_info_idx, const Fix16& scale)
     {
         return SpawnCarAt(xpos, ypos, zpos, rotation, car_info_idx, scale);
     }
@@ -411,7 +411,7 @@ class Car
     }
 
     // 9.6f 0x421510
-    inline void AllocateAI_421510()
+    inline void AllocateAI()
     {
         if (!mAI)
         {
@@ -1146,7 +1146,7 @@ class Car
     }
 
     // 9.6f 0x421490
-    inline void DespawnSoon_421490()
+    inline void DespawnSoon()
     {
         if (mDespawnStatus != car_despawn_status::despawning_5)
         {

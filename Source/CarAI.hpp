@@ -42,7 +42,7 @@ class CarAI
     EXPORT void MakeAgressiveSirensAndLights();
     EXPORT void PlanTurnAtNextJunction();
     EXPORT void DoShortcutsUsingJunctions();
-    inline void TurnAround_447970();
+    inline void TurnAround();
 
   public:
     EXPORT bool GoToBlock(u8 x, u8 y, u8 z, s32 arrow_type);

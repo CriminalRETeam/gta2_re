@@ -85,7 +85,7 @@ static inline Ang16 SubAng16_ool(const Ang16& a, const Ang16& b)
     return Ang16(&value, 0);
 }
 
-// RotateByAngle_40F6B0 with the x_old negate as the named out-of-line Negate_4086A0: the rotations and the
+// RotateByAngle with the x_old negate as the named out-of-line Negate_4086A0: the rotations and the
 // -(v / 15) New arguments have to reach the same function (the COMDAT copy of operator- and
 // Negate_4086A0 are not folded in our build). The other operators stay the plain inlines.
 static inline void RotateNegExport_(Fix16_Point& v, const Ang16& angle)
@@ -111,7 +111,7 @@ void ParticleManager::EmitBloodBurst(Fix16 x, Fix16 y, Fix16 z, Ang16 ang)
     {
         vector.x = Fix16(0);
         vector.y = Fix16(gRng.get_int(50) + 25) * kFpOne512th_6FD548;
-        vector.RotateByAngle_40F6B0(ang);
+        vector.RotateByAngle(ang);
 
         s32 count = 6;
         do
@@ -120,7 +120,7 @@ void ParticleManager::EmitBloodBurst(Fix16 x, Fix16 y, Fix16 z, Ang16 ang)
             vector.y = (Fix16(gRng.get_int(100)) + kFpFifty) * kFpPoint0007;
 
             angle = kAng1_6FD5CC.MultiplyByFix16(Fix16(gRng.get_int(16)));
-            vector.RotateByAngle_40F6B0((angle + ang) - kAng1_6FD5CC.MultiplyByFix16(Fix16(8)));
+            vector.RotateByAngle((angle + ang) - kAng1_6FD5CC.MultiplyByFix16(Fix16(8)));
 
             Particle_4C* pBloodParticle =
                 gParticle_8->New(vector.x, vector.y, kFpOneThirtySecond_6FD330, -vector.x.DivideInt(15), -vector.y.DivideInt(15), 0);
@@ -134,7 +134,7 @@ void ParticleManager::EmitBloodBurst(Fix16 x, Fix16 y, Fix16 z, Ang16 ang)
 
                 pBloodParticle->mpOwnSprite->SetType(sprite_types_enum::code_obj2_8);
                 pBloodParticle->mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + 16);
-                pBloodParticle->mpOwnSprite->set_xyz_lazy_420600(x, y, z);
+                pBloodParticle->mpOwnSprite->set_xyz_lazy(x, y, z);
                 gSpriteGrid_3->AddToSingleBucket(pBloodParticle->mpOwnSprite);
             }
         } while (--count);
@@ -156,7 +156,7 @@ void ParticleManager::SpawnBlood(Fix16 xpos, Fix16 ypos, Fix16 zpos)
         pNewParticle->mInitialCounter = 800;
         pNewParticle->mpOwnSprite->SetType(sprite_types_enum::code_obj2_8);
         pNewParticle->mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + 191);
-        pNewParticle->mpOwnSprite->set_xyz_lazy_420600(xpos, ypos, zpos);
+        pNewParticle->mpOwnSprite->set_xyz_lazy(xpos, ypos, zpos);
         pNewParticle->mpOwnSprite->SetDrawLayer(2);
         gSpriteGrid_3->AddToSingleBucket(pNewParticle->mpOwnSprite);
     }
@@ -201,12 +201,12 @@ void ParticleManager::GunMuzzelFlash(Sprite* pSprite)
                 corner_1.x = half_w;
                 corner_1.y = half_h;
                 angle = pSprite->mRotation;
-                corner_1.RotateByAngle_40F6B0(angle);
+                corner_1.RotateByAngle(angle);
                 corner_1 += pSprite->get_x_y_443580();
 
                 pParticle->mpSprite = pSprite;
                 pParticle->mpOwnSprite->set_ang_lazy(pSprite->mRotation);
-                pParticle->mpOwnSprite->set_xyz_lazy_420600(corner_1.x, corner_1.y, pSprite->mZpos);
+                pParticle->mpOwnSprite->set_xyz_lazy(corner_1.x, corner_1.y, pSprite->mZpos);
                 gSpriteGrid_3->AddToSingleBucket(pParticle->mpOwnSprite);
                 pParticle->mpOwnSprite->mBf2C.bNoLighting = true;
             }
@@ -227,11 +227,11 @@ void ParticleManager::GunMuzzelFlash(Sprite* pSprite)
                 half_w = pCar->GetCarWidth() / 2 + kFpMinusOneThirtySecond;
                 half_h = pCar->GetCarHeight() / 2 + kFpPoint2PlusOne64th;
                 corner_2.SetXY(-half_w, half_h);
-                corner_2.RotateByAngle_40F6B0(angle);
+                corner_2.RotateByAngle(angle);
                 corner_2 += pSprite->get_x_y_443580();
 
                 pParticle->mpOwnSprite->set_ang_lazy(pSprite->mRotation);
-                pParticle->mpOwnSprite->set_xyz_lazy_420600(corner_2.x, corner_2.y, pSprite->mZpos);
+                pParticle->mpOwnSprite->set_xyz_lazy(corner_2.x, corner_2.y, pSprite->mZpos);
                 pParticle->mpSprite = pSprite;
                 gSpriteGrid_3->AddToSingleBucket(pParticle->mpOwnSprite);
                 pParticle->mpOwnSprite->mBf2C.bNoLighting = true;
@@ -257,11 +257,11 @@ void ParticleManager::GunMuzzelFlash(Sprite* pSprite)
                 Char* pChar = pSprite->AsCharB4();
                 ped_offset.x = -kFpPoint03_6FD464;
                 ped_offset.y = kFpPoint02 + kFpPoint1_6FD2E8;
-                ped_offset.RotateByAngle_40F6B0(pSprite->mRotation);
+                ped_offset.RotateByAngle(pSprite->mRotation);
                 ped_offset = ped_offset + *reinterpret_cast<Fix16_Point*>(&pChar->mVelocityVector);
 
                 pParticle->mpOwnSprite->set_ang_lazy(pSprite->mRotation);
-                pParticle->mpOwnSprite->set_xyz_lazy_420600(pSprite->mXy.x + ped_offset.x, pSprite->mXy.y + ped_offset.y, zpos);
+                pParticle->mpOwnSprite->set_xyz_lazy(pSprite->mXy.x + ped_offset.x, pSprite->mXy.y + ped_offset.y, zpos);
                 pParticle->mpSprite = pSprite;
                 gSpriteGrid_3->AddToSingleBucket(pParticle->mpOwnSprite);
                 pParticle->mpOwnSprite->mBf2C.bNoLighting = true;
@@ -271,7 +271,7 @@ void ParticleManager::GunMuzzelFlash(Sprite* pSprite)
 }
 
 // https://decomp.me/scratch/2Kz9I
-// 9.6f 0x48D1F0 (unpaired before): plain members (MultiplyByFix16, +, -, RotateByAngle_40F6B0 as
+// 9.6f 0x48D1F0 (unpaired before): plain members (MultiplyByFix16, +, -, RotateByAngle as
 // RotateNegExport_), a count-down loop, -(v / 15) through Negate_4086A0.
 MATCH_FUNC(0x53f060)
 void ParticleManager::EmitWaterSplash(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation, bool bRandomRot)
@@ -321,7 +321,7 @@ void ParticleManager::EmitWaterSplash(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 
                 pWaterSplashParticle->mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + 132);
                 pWaterSplashParticle->mSubState = 0;
                 pWaterSplashParticle->mTimer = 6;
-                pWaterSplashParticle->mpOwnSprite->set_xyz_lazy_420600(xpos, ypos, zpos);
+                pWaterSplashParticle->mpOwnSprite->set_xyz_lazy(xpos, ypos, zpos);
                 gSpriteGrid_3->AddToSingleBucket(pWaterSplashParticle->mpOwnSprite);
             }
         }
@@ -386,7 +386,7 @@ void ParticleManager::EmitFlameStreamSegment(Sprite* pSprt)
                     {
                         angle = pAttached->mpSprite->mRotation + kAng180_6FD3EE;
                         pos.SetXY(Fix16(0), kFpSevenThirtySeconds_6FD2D4);
-                        pos.RotateByAngle_40F6B0(angle);
+                        pos.RotateByAngle(angle);
                         offset.SetXY(Fix16(0), kFP16Eighth_6FD2D0);
                     }
                     else
@@ -394,23 +394,23 @@ void ParticleManager::EmitFlameStreamSegment(Sprite* pSprt)
                         AttachedSprite* pGun = pCar->mAttachments.GetSpriteForModel(248);
                         angle = pGun->mpSprite->mRotation;
                         pos.SetXY(Fix16(0), kFpThreeThirtySeconds_6FD48C);
-                        pos.RotateByAngle_40F6B0(angle);
+                        pos.RotateByAngle(angle);
                         offset.SetXY(Fix16(0), kFpMinusNineThirtySeconds_6FD4CC);
                     }
                     pParticle->mpOwnSprite->set_ang_lazy(angle);
-                    offset.RotateByAngle_40F6B0(pSprt->mRotation);
+                    offset.RotateByAngle(pSprt->mRotation);
                     pos += offset + pSprt->get_x_y_443580();
                     point_velocity = pSprt->mCarBcPtr->mPhysics->GetPointVelocity(&pos); // not used
-                    pParticle->mpOwnSprite->set_xyz_lazy_420600(pos.x, pos.y, zpos);
+                    pParticle->mpOwnSprite->set_xyz_lazy(pos.x, pos.y, zpos);
                 }
                 else
                 {
                     ped_offset.x = -kFpPoint03_6FD464;
                     ped_offset.y = kFpPoint02 + kFpPoint1_6FD2E8;
-                    ped_offset.RotateByAngle_40F6B0(pSprt->mRotation);
+                    ped_offset.RotateByAngle(pSprt->mRotation);
                     ped_offset = ped_offset + *reinterpret_cast<Fix16_Point*>(&pPed->mVelocityVector);
                     pParticle->mpOwnSprite->set_ang_lazy(pSprt->mRotation);
-                    pParticle->mpOwnSprite->set_xyz_lazy_420600(pSprt->mXy.x + ped_offset.x, pSprt->mXy.y + ped_offset.y, zpos);
+                    pParticle->mpOwnSprite->set_xyz_lazy(pSprt->mXy.x + ped_offset.x, pSprt->mXy.y + ped_offset.y, zpos);
                 }
                 pParticle->mpSprite = pSprt;
                 if (pParticle->mpOwnSprite->CheckSpriteMovementRegion() != 0)
@@ -475,7 +475,7 @@ void ParticleManager::EmitFireTruckSprayParticle(Sprite* pSprite)
             {
                 pParticle->mpOwnSprite->set_ang_lazy(pSprite->mRotation);
             }
-            pParticle->mpOwnSprite->set_xyz_lazy_420600(gParticlePosX, gParticlePosY, zpos);
+            pParticle->mpOwnSprite->set_xyz_lazy(gParticlePosX, gParticlePosY, zpos);
             pParticle->mpSprite = pSprite;
             if (pParticle->mpOwnSprite->CheckSpriteMovementRegion())
             {
@@ -514,7 +514,7 @@ void ParticleManager::EmitImpactParticles(Fix16 x, Fix16 y, Fix16 z, Fix16_Point
         if (i < 4)
         {
             ang1 = kAng1_6FD5CC.MultiplyByFix16_401CB0_out_of_line(Fix16(gRng.get_int(32)));
-            // 9.6f: t.RotateByAngle_40F6B0((ang1 + tanAng) - kAng1_6FD5CC.MultiplyByFix16(..)) in both branches
+            // 9.6f: t.RotateByAngle((ang1 + tanAng) - kAng1_6FD5CC.MultiplyByFix16(..)) in both branches
             t.RotateByAngle_40F6B0_all_out_of_line(SubAng16_ool(ang1 + tanAng, kAng1_6FD5CC.MultiplyByFix16_401CB0_out_of_line(Fix16(16))));
         }
         else
@@ -532,7 +532,7 @@ void ParticleManager::EmitImpactParticles(Fix16 x, Fix16 y, Fix16 z, Fix16_Point
             pNewParticle->mInitialCounter = 7;
             pNewParticle->mpOwnSprite->SetType(sprite_types_enum::code_obj2_8);
             pNewParticle->mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + 127);
-            pNewParticle->mpOwnSprite->set_xyz_lazy_420600(x, y, z);
+            pNewParticle->mpOwnSprite->set_xyz_lazy(x, y, z);
             pNewParticle->mpOwnSprite->SetNoLighting();
 
             gSpriteGrid_3->AddToSingleBucket(pNewParticle->mpOwnSprite);
@@ -555,7 +555,7 @@ void ParticleManager::EmitElectricArcParticle(Fix16 xpos, Fix16 ypos, Fix16 zpos
         // The rng result is bound to a const s16& temporary: stored as a short and sign extended only after the
         // word is loaded (the word ends up as the imul's eax operand)
         angle = kAng1_6FD5CC.MultiplyByFix16(Fix16(static_cast<const s16&>(gRng.get_int(360))));
-        // RotateByAngle_40F6B0, but x * cos, the y line and both sums use the out-of-line Fix16 operators
+        // RotateByAngle, but x * cos, the y line and both sums use the out-of-line Fix16 operators
         {
             Fix16 sin = Ang16::sine(angle);
             Fix16 cos = Ang16::cosine(angle);
@@ -573,7 +573,7 @@ void ParticleManager::EmitElectricArcParticle(Fix16 xpos, Fix16 ypos, Fix16 zpos
             pNewParticle->mInitialCounter = pNewParticle->mCounter;
             pNewParticle->mpOwnSprite->SetType(sprite_types_enum::code_obj2_8);
             pNewParticle->mpOwnSprite->SetNoLighting();
-            pNewParticle->mpOwnSprite->set_xyz_lazy_420600(xpos, ypos, zpos);
+            pNewParticle->mpOwnSprite->set_xyz_lazy(xpos, ypos, zpos);
             pNewParticle->mpOwnSprite->set_ang_lazy(ang);
             pNewParticle->mpOwnSprite->set_id_lazy(gRng.get_int(4) + gObjectDefinitions->mDef112BaseSpriteIdx + 175);
             pNewParticle->mpOwnSprite->SetBlendAndAlpha(2, 20);
@@ -600,7 +600,7 @@ void ParticleManager::SpawnParticleSprite(Sprite* pSprite)
             pNewParticle->mState = 38;
             pNewParticle->mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + 164);
             pNewParticle->mpOwnSprite->SetNoLighting();
-            pNewParticle->mpOwnSprite->set_xyz_lazy_420600(pSprite->mXy.x, pSprite->mXy.y, pSprite->mZpos);
+            pNewParticle->mpOwnSprite->set_xyz_lazy(pSprite->mXy.x, pSprite->mXy.y, pSprite->mZpos);
 
             gSpriteGrid_3->AddToSingleBucket(pNewParticle->mpOwnSprite);
         }
@@ -657,7 +657,7 @@ void ParticleManager::SpawnCigaretteSmokePuff(Sprite* pSprite, char_type bSmokeS
             gParticlePosX += offset_x + pSprite->mXy.x;
             gParticlePosY += offset_y + pSprite->mXy.y;
 
-            pNewParticle->mpOwnSprite->set_xyz_lazy_420600(gParticlePosX, gParticlePosY, pSprite->mZpos);
+            pNewParticle->mpOwnSprite->set_xyz_lazy(gParticlePosX, gParticlePosY, pSprite->mZpos);
             pNewParticle->mpSprite = pSprite;
 
             gSpriteGrid_3->AddToSingleBucket(pNewParticle->mpOwnSprite);

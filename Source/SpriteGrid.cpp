@@ -691,7 +691,7 @@ bool SpriteGrid::CheckRowForRectCollisions(u32 y_pos, Fix16_Rect* pRect)
             Sprite* pLinkSprite = pObj->mpSprite;
             if (!pObj->mpSprite->TypeIs(sSpriteGridExcludeTypes) &&
                 pLinkSprite != gSpriteGrid_exclusion_sprite &&
-                !pObj->mpSprite->mpCollisionShape->CollisionIdIs_446930(gCollisionCounters->mQueryId) &&
+                !pObj->mpSprite->mpCollisionShape->CollisionIdIs(gCollisionCounters->mQueryId) &&
                 pLinkSprite->ShouldCollideWithSprite(NULL))
             {
                 gCollisionCounters->mTestCount++;
@@ -738,7 +738,7 @@ bool SpriteGrid::CheckAndHandleCollisionsInStrip(u32 y_pos, Sprite* pSprite)
 
         for (GridSpriteLink* pLinkIter = pIter->mpSpriteLinks; pLinkIter; pLinkIter = pLinkIter->mpNext)
         {
-            if (!pLinkIter->mpSprite->mpCollisionShape->CollisionIdIs_446930(gCollisionCounters->mQueryId))
+            if (!pLinkIter->mpSprite->mpCollisionShape->CollisionIdIs(gCollisionCounters->mQueryId))
             {
                 gCollisionCounters->mTestCount++;
                 if (pSprite->CollidesWith(pLinkIter->mpSprite))
@@ -769,7 +769,7 @@ bool SpriteGrid::CheckAndHandleRowCollisionsForSprite(u32 y_pos, Sprite* pSprite
         for (GridSpriteLink* pLinkIter = pXItemIter->mpSpriteLinks; pLinkIter; pLinkIter = pLinkIter->mpNext)
         {
             if (pLinkIter->mpSprite->TypeIs(sSpriteGridSpriteTypeFilter) &&
-                !pLinkIter->mpSprite->mpCollisionShape->CollisionIdIs_446930(gCollisionCounters->mQueryId))
+                !pLinkIter->mpSprite->mpCollisionShape->CollisionIdIs(gCollisionCounters->mQueryId))
             {
                 gCollisionCounters->mTestCount++;
 
@@ -804,7 +804,7 @@ Sprite* SpriteGrid::FindCollidingSpriteInRow(u32 y_pos, Sprite* pSprite)
             Sprite* pLinkSprite = pObj->mpSprite;
             if (pObj->mpSprite == gSpriteGrid_exclusion_sprite ||
                 sSpriteGridSmallestDistSprite && !pLinkSprite->TypeIs(sSpriteGridPreferredType) ||
-                pLinkSprite->mpCollisionShape->CollisionIdIs_446930(gCollisionCounters->mQueryId) || !pLinkSprite->ShouldCollideWithSprite(pSprite))
+                pLinkSprite->mpCollisionShape->CollisionIdIs(gCollisionCounters->mQueryId) || !pLinkSprite->ShouldCollideWithSprite(pSprite))
             {
                 continue;
             }

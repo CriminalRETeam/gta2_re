@@ -1785,7 +1785,7 @@ bool Map_0x370::SpriteHitsBlockFacesInArea(s32 x_min, s32 x_max, s32 y_min, s32 
                 {
                     if ((static_cast<u16>(gFaceCollisionMask) & pBlock1->mRight) != 0)
                     {
-                        if (!IsNorthOrSouthGradSlope_4634B0(pBlock1))
+                        if (!IsNorthOrSouthGradSlope(pBlock1))
                         {
                             if (gSprite->HitTestVerticalLine(static_cast<u32>(y), y + 1, x + 1))
                             {
@@ -1799,7 +1799,7 @@ bool Map_0x370::SpriteHitsBlockFacesInArea(s32 x_min, s32 x_max, s32 y_min, s32 
                 {
                     if ((static_cast<u16>(gFaceCollisionMask) & pBlock2->mLeft) != 0)
                     {
-                        if (!IsNorthOrSouthGradSlope_4634B0(pBlock2))
+                        if (!IsNorthOrSouthGradSlope(pBlock2))
                         {
                             if (gSprite->HitTestVerticalLine(static_cast<u32>(y), y + 1, x + 1))
                             {
@@ -1817,7 +1817,7 @@ bool Map_0x370::SpriteHitsBlockFacesInArea(s32 x_min, s32 x_max, s32 y_min, s32 
                 {
                     if ((static_cast<u16>(gFaceCollisionMask) & pBlock3->mBottom) != 0)
                     {
-                        if (!IsWestOrEastGradSlope_4634B0(pBlock3))
+                        if (!IsWestOrEastGradSlope(pBlock3))
                         {
                             if (gSprite->CheckBBoxScanlineIntersection(static_cast<u32>(x), x + 1, y + 1))
                             {
@@ -1832,7 +1832,7 @@ bool Map_0x370::SpriteHitsBlockFacesInArea(s32 x_min, s32 x_max, s32 y_min, s32 
                 {
                     if ((static_cast<u16>(gFaceCollisionMask) & pBlock4->mTop) != 0)
                     {
-                        if (!IsWestOrEastGradSlope_4634B0(pBlock4))
+                        if (!IsWestOrEastGradSlope(pBlock4))
                         {
                             if (gSprite->CheckBBoxScanlineIntersection(static_cast<u32>(x), x + 1, y + 1))
                             {
@@ -2963,7 +2963,7 @@ bool Map_0x370::IsProbePathClear(Fix16 width, Fix16 height, Fix16 depth, Fix16 f
 
     Fix16 total_dist;
     total_dist = pos_diff.GetLength_41E260();
-    pProbe->set_xyz_lazy_420600(from_x, from_y, from_z);
+    pProbe->set_xyz_lazy(from_x, from_y, from_z);
     pProbe->set_ang_lazy(angle);
     pProbe->AllocCollisionShape(width, height, depth);
 
@@ -3001,7 +3001,7 @@ bool Map_0x370::IsProbePathClear(Fix16 width, Fix16 height, Fix16 depth, Fix16 f
         ground_z = gMap_0x370->FindGroundZBelowCoord(pProbe->mXy.x, pProbe->mXy.y, pProbe->mZpos);
         if (step_dz == kFpZero_6F610C)
         {
-            pProbe->set_xyz_lazy_420600(pProbe->mXy.x + step_x,
+            pProbe->set_xyz_lazy(pProbe->mXy.x + step_x,
                                           pProbe->mXy.y + step_y,
                                           pProbe->mZpos + step_dz);
 
@@ -3015,7 +3015,7 @@ bool Map_0x370::IsProbePathClear(Fix16 width, Fix16 height, Fix16 depth, Fix16 f
             if (step_dz > kFpZero_6F610C)
             {
                 // Going up
-                pProbe->set_xyz_lazy_420600(pProbe->mXy.x + step_x,
+                pProbe->set_xyz_lazy(pProbe->mXy.x + step_x,
                                               pProbe->mXy.y + step_y,
                                               pProbe->mZpos + step_dz);
                 Fix16 new_z = pProbe->mZpos;
@@ -3037,7 +3037,7 @@ bool Map_0x370::IsProbePathClear(Fix16 width, Fix16 height, Fix16 depth, Fix16 f
                     }
                 }
 
-                pProbe->set_xyz_lazy_420600(pProbe->mXy.x, pProbe->mXy.y, new_z);
+                pProbe->set_xyz_lazy(pProbe->mXy.x, pProbe->mXy.y, new_z);
 
                 if (pProbe->CheckSpriteMovementRegion())
                 {
@@ -3047,7 +3047,7 @@ bool Map_0x370::IsProbePathClear(Fix16 width, Fix16 height, Fix16 depth, Fix16 f
             else
             {
                 // Going down
-                pProbe->set_xyz_lazy_420600(pProbe->mXy.x + step_x,
+                pProbe->set_xyz_lazy(pProbe->mXy.x + step_x,
                                               pProbe->mXy.y + step_y,
                                               pProbe->mZpos + step_dz);
 
@@ -3070,7 +3070,7 @@ bool Map_0x370::IsProbePathClear(Fix16 width, Fix16 height, Fix16 depth, Fix16 f
                 }
                 else if (ground_z > pProbe->mZpos)
                 {
-                    pProbe->set_xyz_lazy_420600(pProbe->mXy.x, pProbe->mXy.y, ground_z);
+                    pProbe->set_xyz_lazy(pProbe->mXy.x, pProbe->mXy.y, ground_z);
                     return false;
                 }
 
@@ -3508,7 +3508,7 @@ void Map_0x370::SnapZToRailway(Fix16 x, Fix16 y, Fix16* pZ, bool bDontFlip, bool
     }
 }
 
-// SetRoadBlockAt_4E6660 and StepOneBlock_4E6660 as do/while(0) macros: their extra blocks keep
+// SetRoadBlockAt_4E6660 and StepOneBlock as do/while(0) macros: their extra blocks keep
 // AdvanceAlongRailway at the 100+ blocks VC6 needs to allocate its registers as the original.
 #define SET_ROAD_BLOCK_AT(pBlock, x, y, z) \
     do \
@@ -3604,7 +3604,7 @@ s32 Map_0x370::AdvanceAlongRailway(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
                     pPrev = pBlock;
                     MovePosAlongDirection(&x, &y, kFpHalf_6F5F18, direction);
                     dist -= kFpHalf_6F5F18;
-                    gmp_block_info* pNext = GetRoadBlockAt_4E6660(x, y, z);
+                    gmp_block_info* pNext = GetRoadBlockAt(x, y, z);
                     if (!pNext || !HasGreenArrowForPathDirection(pNext, direction, true))
                     {
                         STEP_ONE_BLOCK(&x, &y, dist, direction);
@@ -3642,9 +3642,9 @@ s32 Map_0x370::AdvanceAlongRailway(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
                        &y,
                        kFpOne_6F6110 - to_edge,
                        Ang16::GetAngleFace(
-                           Ang16(ReturnAngleFromRoadDirection(direction).rValue + kAng180_6F603E.rValue).Normalized_406C20()));
+                           Ang16(ReturnAngleFromRoadDirection(direction).rValue + kAng180_6F603E.rValue).Normalized()));
             dist += kFpOne_6F6110 - to_edge;
-            gmp_block_info* pNext = GetRoadBlockAtOrNull_4E7190(x, y, z);
+            gmp_block_info* pNext = GetRoadBlockAtOrNull(x, y, z);
             if (!pNext || !HasGreenArrowForPathDirection(pNext, direction, true))
             {
                 STEP_ONE_BLOCK(&x, &y, dist, direction);
@@ -3683,7 +3683,7 @@ s32 Map_0x370::AdvanceAlongRailway(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
                            &y,
                            kFpOne_6F6110 - to_edge,
                            Ang16::GetAngleFace(
-                               Ang16(ReturnAngleFromRoadDirection(direction).rValue + kAng180_6F603E.rValue).Normalized_406C20()));
+                               Ang16(ReturnAngleFromRoadDirection(direction).rValue + kAng180_6F603E.rValue).Normalized()));
                 dist += kFpOne_6F6110 - to_edge;
                 SET_ROAD_BLOCK_AT(pBlock, x, y, z);
                 if (pBlock != pPrev)
@@ -3701,7 +3701,7 @@ s32 Map_0x370::AdvanceAlongRailway(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16 dist)
             if (dist >= kFpOne_6F6110)
             {
                 MovePosAlongDirection(&x, &y, kFpHalf_6F5F18, direction);
-                direction = GetArrowDirectionFromBlock(GetRoadBlockAt_4E6660(x, y, z), true);
+                direction = GetArrowDirectionFromBlock(GetRoadBlockAt(x, y, z), true);
                 MovePosAlongDirection(&x, &y, kFpHalf_6F5F18, direction);
                 dist -= kFpOne_6F6110;
                 SET_ROAD_BLOCK_AT(pBlock, x, y, z);
@@ -3813,9 +3813,9 @@ s32 Map_0x370::AdvanceAlongRailwayChecked(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16
                 dist = kFpZero_6F610C;
             }
         }
-        if (!HasGreenArrowForPathDirection(GetRoadBlockAt_4E6660(x, y, z), direction, false))
+        if (!HasGreenArrowForPathDirection(GetRoadBlockAt(x, y, z), direction, false))
         {
-            StepOneBlock_4E6660(&x, &y, dist, direction);
+            StepOneBlock(&x, &y, dist, direction);
         }
         SetRoadBlockAt_4E6660(pBlock, x, y, z);
         if (pBlock != pPrev)
@@ -3837,10 +3837,10 @@ s32 Map_0x370::AdvanceAlongRailwayChecked(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16
                        kFpOne_6F6110 - to_edge,
                        Ang16::GetAngleFace(ReturnAngleFromRoadDirection(direction) + kAng180_6F603E));
             dist += kFpOne_6F6110 - to_edge;
-            gmp_block_info* pNext = GetRoadBlockAtOrNull_4E7190(x, y, z);
+            gmp_block_info* pNext = GetRoadBlockAtOrNull(x, y, z);
             if (!pNext || !HasGreenArrowForPathDirection(pNext, direction, false))
             {
-                StepOneBlock_4E6660(&x, &y, dist, direction);
+                StepOneBlock(&x, &y, dist, direction);
             }
             SetRoadBlockAt_4E6660(pBlock, x, y, z);
             if (pBlock != pPrev)
@@ -3864,7 +3864,7 @@ s32 Map_0x370::AdvanceAlongRailwayChecked(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16
             last_x = x;
             last_y = y;
             last_z = z;
-            StepOneBlock_4E6660(&x, &y, dist, direction);
+            StepOneBlock(&x, &y, dist, direction);
             // Not SetRoadBlockAtOrNull_4E7190: when the first lookup finds no block the original goes straight
             // to the not-green branch (`test %esi; je`), skipping the pBlock != pPrev step
             pBlock = GetBlock(x.ToInt(), y.ToInt(), (z - kFpOne_6F6110).ToInt());
@@ -3960,11 +3960,11 @@ s32 Map_0x370::AdvanceAlongRailwayChecked(Fix16* pX, Fix16* pY, Fix16* pZ, Fix16
             {
                 pPrev = pBlock;
                 MovePosAlongDirection(&x, &y, kFpHalf_6F5F18, direction);
-                GetRoadBlockAt_4E6660(x, y, z);
+                GetRoadBlockAt(x, y, z);
                 direction = new_direction;
                 MovePosAlongDirection(&x, &y, kFpHalf_6F5F18, direction);
                 dist -= kFpOne_6F6110;
-                StepOneBlock_4E6660(&x, &y, dist, direction);
+                StepOneBlock(&x, &y, dist, direction);
                 SetRoadBlockAt_4E6660(pBlock, x, y, z);
                 if (pBlock != pPrev)
                 {

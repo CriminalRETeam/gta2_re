@@ -102,7 +102,7 @@ void RouteFinder::ShowJunctionIds()
     }
 }
 
-// 9.6f 0x40CFC0: Camera::WorldToScreen_40CFC0 (x/y/z by value, writes through two out pointers), but
+// 9.6f 0x40CFC0: Camera::WorldToScreen (x/y/z by value, writes through two out pointers), but
 // the original reads this file's copies of the constants (0x6FFC7C, 0x6FFC9C), so the Camera.hpp inline can't
 // be used here
 static inline void WorldToScreen_RouteFinder_40CFC0(Camera* pCam, Fix16 x, Fix16 y, Fix16 z, Fix16* pOutX, Fix16* pOutY)

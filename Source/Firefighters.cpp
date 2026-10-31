@@ -159,7 +159,7 @@ void Firefighter::Update()
                     mCar->IncrementCarStats(car_kind::firefighter_5);
                     mCar->SetDriverPedType(ped_type::special_ped_4);
                     Car* pCar = mCar;
-                    pCar->AllocateAI_421510();
+                    pCar->AllocateAI();
                     mCar->mAI->SetCar(mCar);
 
                     mPed = gPedManager->AllocatePed();
