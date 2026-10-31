@@ -60,7 +60,7 @@ EXTERN_GLOBAL(car_rng_list, gAverageCarModels_676DB4);
 EXTERN_GLOBAL(car_rng_list, gBadCarModels_676988);
 EXTERN_GLOBAL(car_rng_list, gGoodCarModels_677384);
 
-EXTERN_GLOBAL(u8, byte_6FEB48);
+EXTERN_GLOBAL(u8, gPoliceCrew_Unused_6FEB48);
 EXTERN_GLOBAL(Fix16_Point, kZeroOnePoint_6F6484);
 
 EXTERN_GLOBAL_ARRAY(wchar_t, tmpBuff_67BD9C, 640);

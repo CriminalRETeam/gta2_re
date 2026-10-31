@@ -2521,9 +2521,9 @@ Scores are `quick_score.sh` lines (10.5) and `permuter_score.py --96f` lines (VC
 - `PoliceCrew::State6_ShutDown_574720` (46, 9.6f 78 -> 0 with `u8 i = 0` at the top and
   `get_objective_403A80()` for the first objective test; the getter is applied, same 10.5 code). With the index at
   the top VC6 makes `ebp` a zero register (128). Probing it: changing any one of the zero stores (`i = 0`,
-  `field_60 = 0`, `field_28_state = 0`, `gCurrentCrewPed = NULL`, either `byte_6FEB48 = 0`) to a non-zero value
+  `field_60 = 0`, `field_28_state = 0`, `gCurrentCrewPed = NULL`, either `gPoliceCrew_Unused_6FEB48 = 0`) to a non-zero value
   removes `xor ebp,ebp`; the enum zeros pushed to `SetObjective*` and the `char_type field_29 = 0` store don't
-  count; a zero store inside an inlined helper still counts; `bool`/`char_type` typing of `byte_6FEB48`, `true`,
+  count; a zero store inside an inlined helper still counts; `bool`/`char_type` typing of `gPoliceCrew_Unused_6FEB48`, `true`,
   `!= NULL`, `while` loop, inverted if/else, statement order: no change. So the original has one zero store fewer
   in VC6's count with the same code; not found. A dead `u8 x = 0` at the top is eliminated.
 - `PoliceCrew::State5_PursueOrChase_572920` (275, 9.6f 73): the 9.6f gap is only VC7 keeping the kill-char
@@ -3721,7 +3721,7 @@ pop, plus priolog):
   constant in a callee-saved register that nothing else uses is dropped afterwards unless the
   constants sharing it add up to enough weight: zero (w 2) + the `~4` of `ClearPanicking` (w 1)
   in `ebp` stay, zero alone or `~4` + the constant 1 in `ebx` (w 1 + 1) are dropped.
-- With `i` defined at the top (any value: `= 7`, `byte_6FEB48 - 1`, `field_29` all give `ebp`),
+- With `i` defined at the top (any value: `= 7`, `gPoliceCrew_Unused_6FEB48 - 1`, `field_29` all give `ebp`),
   `i` is a byte candidate live from the entry, with w -40, and spilled in round 2. Its references
   make the zero's round-2 priority -94 against the `~4`'s -88, so the `~4` is popped first, takes
   `ebp` (ebx is held by the constant 1), the pass restarts, and the zero (-41 now) shares `ebp`.
@@ -3860,7 +3860,7 @@ property of how the original's expressions nest, not of a local declaration.
 
 Round 5 findings from the other agents (not matched):
 
-- `PoliceCrew::State6_ShutDown_574720`: a plain `i = 0;` between the `byte_6FEB48 = 1` and `gCurrentCrewPed_6FEDDC` stores (with `i` read through the `const u8&` inline) puts `movb $0` exactly where the original has it, but the zero then takes `ebp`. priolog: zero at -41 (plain) / -85 (volatile), w=2, ebp in both. Making the other zero stores volatile doesn't help.
+- `PoliceCrew::State6_ShutDown_574720`: a plain `i = 0;` between the `gPoliceCrew_Unused_6FEB48 = 1` and `gCurrentCrewPed_6FEDDC` stores (with `i` read through the `const u8&` inline) puts `movb $0` exactly where the original has it, but the zero then takes `ebp`. priolog: zero at -41 (plain) / -85 (volatile), w=2, ebp in both. Making the other zero stores volatile doesn't help.
 - `Map_0x370::CloneColumnWithoutBlock_4E8370` (8 at head): hoisting `new_idx`/`pNew` fixes the head; `column_idx` then goes to prio 9 / `ecx` instead of -7 / `eax`.
 - `Char::HandlePedCollision_548BD0`: `Ang16 res;` declared at the function top with `res = atan2(...)` at the `kAng180 + atan2` site gives the original's operand order but loads instead of `add (%eax),%cx`.
 - `TagGameHudUpdate_4DADA0`, `FreeLowestPriority_543690`, `GetLayout_4D6000`, `ProcessPoliceRadioWordsPlayback_427220`, `UpdateImmobilized_5520A0`: pointer-param inlines and more spellings tried, no change.
