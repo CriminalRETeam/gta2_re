@@ -29,36 +29,36 @@
 
 DEFINE_GLOBAL(Hud*, gHud_2B00_706620, 0x706620);
 DEFINE_GLOBAL(s16, gDebugFont_706600, 0x706600);
-DEFINE_GLOBAL(s16, gPickupTextFont_7064B8, 0x7064B8);
-DEFINE_GLOBAL(u16, gZoneNameFont_706618, 0x706618);
-DEFINE_GLOBAL(s16, gCarNameFont_706508, 0x706508);
-DEFINE_GLOBAL(u16, gPlayerStatsFont_70646C, 0x70646C);
+DEFINE_STATIC_GLOBAL(s16, sPickupTextFont, 0x7064B8);
+DEFINE_STATIC_GLOBAL(u16, sZoneNameFont, 0x706618);
+DEFINE_STATIC_GLOBAL(s16, sCarNameFont, 0x706508);
+DEFINE_STATIC_GLOBAL(u16, sPlayerStatsFont, 0x70646C);
 DEFINE_GLOBAL(u16, gBriefFont_7065C4, 0x7065C4);
 DEFINE_GLOBAL(u16, gMessageFont_7062F0, 0x7062F0);
-DEFINE_GLOBAL(u16, gPauseFont_7063F8, 0x7063F8);
-DEFINE_GLOBAL(u16, gPlayerNameFont_7062DC, 0x7062DC);
+DEFINE_STATIC_GLOBAL(u16, sPauseFont, 0x7063F8);
+DEFINE_STATIC_GLOBAL(u16, sPlayerNameFont, 0x7062DC);
 // The chat font. Renaming it (for example to gChatFont_70643E) changes the code of
 // Hud_ChatInput::DrawChatMessages_5D16B0, so it keeps its old name.
-DEFINE_GLOBAL(u16, gChatDisplayFont_70643E, 0x70643E);
+DEFINE_STATIC_GLOBAL(u16, sChatDisplayFont, 0x70643E);
 DEFINE_GLOBAL_ARRAY(char_type, gTmpGxtKey_67CE50, 256, 0x67CE50);
 DEFINE_GLOBAL(s16, word_7064D8, 0x7064D8);
 DEFINE_GLOBAL_INIT(Fix16, kFpZero_7064C0, 0, 0x7064C0);
-DEFINE_GLOBAL_INIT(Fix16, kArrowBaseRepositionSpeed_7063B0, Fix16(0x400, 0), 0x7063B0);
-DEFINE_GLOBAL_INIT(Fix16, kArrowRadiusOffset_7065B4, Fix16(0x1C00, 0), 0x7065B4);
-DEFINE_GLOBAL_INIT(Fix16, kArrowMinRadiusStep_706338, Fix16(0x100, 0), 0x706338);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kArrowBaseRepositionSpeed, Fix16(0x400, 0), 0x7063B0);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kArrowRadiusOffset, Fix16(0x1C00, 0), 0x7065B4);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kArrowMinRadiusStep, Fix16(0x100, 0), 0x706338);
 
-DEFINE_GLOBAL(Fix16, phone_x_67CD14, 0x67CD14);
-DEFINE_GLOBAL(Fix16, phone_y_67CD0C, 0x67CD0C);
-DEFINE_GLOBAL(Fix16, phone_z_67CD10, 0x67CD10);
+DEFINE_STATIC_GLOBAL(Fix16, sPhoneX, 0x67CD14);
+DEFINE_STATIC_GLOBAL(Fix16, sPhoneY, 0x67CD0C);
+DEFINE_STATIC_GLOBAL(Fix16, sPhoneZ, 0x67CD10);
 
 DEFINE_GLOBAL_INIT(Ang16, kAngZero_706610, Ang16(0), 0x706610);
 
 DEFINE_GLOBAL_INIT(Ang16, kAng180_706412, Ang16(720), 0x706412);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne_7064C4, Fix16(1), 0x7064C4);
 DEFINE_GLOBAL_INIT(Fix16, kFpEight_7064E8, Fix16(8), 0x7064E8);
-DEFINE_GLOBAL_INIT(Fix16, kFpQuarter_706300, Fix16(0x1000, 0), 0x706300);
-DEFINE_GLOBAL_INIT(Fix16, kArrowMaxRepositionSpeed_706298, Fix16(0xC00, 0), 0x706298);
-DEFINE_GLOBAL_INIT(Fix16, kArrowRepositionAccel_7065A8, Fix16(0x100, 0), 0x7065A8);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpQuarter, Fix16(0x1000, 0), 0x706300);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kArrowMaxRepositionSpeed, Fix16(0xC00, 0), 0x706298);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kArrowRepositionAccel, Fix16(0x100, 0), 0x7065A8);
 
 EXTERN_GLOBAL_ARRAY(wchar_t, gTmpWideStr_67C7D8, 640);
 
@@ -264,7 +264,7 @@ void Hud_ShowCoords::ShowPlayerCoords_5CF970()
                  pPed->get_cam_z().AsDouble(),
                  pZoneName);
 
-        Hud_TextEntry* pTextEntry = gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, -1, 16, gPickupTextFont_7064B8, 1);
+        Hud_TextEntry* pTextEntry = gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, -1, 16, sPickupTextFont, 1);
         pTextEntry->SetFontRemap_45AFD0(0);
     }
 }
@@ -455,7 +455,7 @@ void Hud_PlayerNames::DrawPlayerNames_5CFE40()
                         DrawTextScaled_4C7280(pIter->field_83C_player_name,
                                               xCalc,
                                               yCalc,
-                                              gPlayerNameFont_7062DC,
+                                              sPlayerNameFont,
                                               pIter->field_78C_hud_palette_type != palette_types_enum::user_remaps_7 ? palette_types_enum::sprites_2 : palette_types_enum::font_remaps_8,
                                               pIter->field_790_hud_palette - 1,
                                               0,
@@ -801,7 +801,7 @@ void Hud_Arrow::UpdateScreenPos_5D0850()
 
     if (field_18_targets.field_60_curr_target->field_20_bIsTargetVisible)
     {
-        intended_radius = distance - kFpQuarter_706300;
+        intended_radius = distance - kFpQuarter;
         if (intended_radius < kFpZero_7064C0)
         {
             intended_radius = kFpZero_7064C0;
@@ -812,7 +812,7 @@ void Hud_Arrow::UpdateScreenPos_5D0850()
         intended_radius = field_C_min_radius_pos;
         if (gGame_0x40_67E008->field_38_local_player->GetPlayerCar_5698E0())
         {
-            intended_radius += kArrowRadiusOffset_7065B4; // increment a little when in a car
+            intended_radius += kArrowRadiusOffset; // increment a little when in a car
         }
     }
 
@@ -822,11 +822,11 @@ void Hud_Arrow::UpdateScreenPos_5D0850()
         if (field_10_radius_pos <= intended_radius)
         {
             field_10_radius_pos = intended_radius;
-            field_14_reposition_speed = kArrowBaseRepositionSpeed_7063B0;
+            field_14_reposition_speed = kArrowBaseRepositionSpeed;
         }
-        else if (field_14_reposition_speed < kArrowMaxRepositionSpeed_706298) // below the maximum
+        else if (field_14_reposition_speed < kArrowMaxRepositionSpeed) // below the maximum
         {
-            field_14_reposition_speed += kArrowRepositionAccel_7065A8;
+            field_14_reposition_speed += kArrowRepositionAccel;
         }
     }
     else if (field_10_radius_pos < intended_radius)
@@ -835,16 +835,16 @@ void Hud_Arrow::UpdateScreenPos_5D0850()
         if (field_10_radius_pos >= intended_radius)
         {
             field_10_radius_pos = intended_radius;
-            field_14_reposition_speed = kArrowBaseRepositionSpeed_7063B0;
+            field_14_reposition_speed = kArrowBaseRepositionSpeed;
         }
-        else if (field_14_reposition_speed < kArrowMaxRepositionSpeed_706298) // below the maximum
+        else if (field_14_reposition_speed < kArrowMaxRepositionSpeed) // below the maximum
         {
-            field_14_reposition_speed += kArrowRepositionAccel_7065A8;
+            field_14_reposition_speed += kArrowRepositionAccel;
         }
     }
     else
     {
-        field_14_reposition_speed = kArrowBaseRepositionSpeed_7063B0;
+        field_14_reposition_speed = kArrowBaseRepositionSpeed;
     }
 
     // get_camera_434900 written out: as an inline call it shifts the inline budget and the projection's
@@ -1204,16 +1204,16 @@ void Hud_Arrow_7C_Array::place_gang_phone_5D1110(Object* pPhoneInfo)
 
     if (!pZone)
     {
-        phone_x_67CD14 = pPhoneInfo->field_4_sprite->GetXPos();
-        phone_y_67CD0C = pPhoneInfo->field_4_sprite->GetYPos();
-        phone_z_67CD10 = 0;
+        sPhoneX = pPhoneInfo->field_4_sprite->GetXPos();
+        sPhoneY = pPhoneInfo->field_4_sprite->GetYPos();
+        sPhoneZ = 0;
         FatalError_4A38C0(Gta2Error::PlacingGangPhoneWhenNoGang, // Placing gang phone when no gang at: (%.4f, %.4f)
                           "C:\\Splitting\\Gta2\\Source\\user.cpp",
                           1509,
                           0,
-                          &phone_x_67CD14,
-                          &phone_y_67CD0C,
-                          &phone_z_67CD10);
+                          &sPhoneX,
+                          &sPhoneY,
+                          &sPhoneZ);
     }
     Hud_Arrow* pExistingArrow = Hud_Arrow_7C_Array::FindGangPhoneArrow_5D10D0(pZone, phone_type);
     if (pExistingArrow)
@@ -1478,7 +1478,7 @@ bool Hud_ChatInput::HandleChatInputKey_5D15E0(s32 action, Player* pPlayer)
 MATCH_FUNC(0x5d16b0)
 void Hud_ChatInput::DrawChatMessages_5D16B0()
 {
-    s32 line_spacing = GetLineSpacingFromFontType_5D7700_inlined(gChatDisplayFont_70643E);
+    s32 line_spacing = GetLineSpacingFromFontType_5D7700_inlined(sChatDisplayFont);
     s32 text_ypos = 480 - line_spacing;
     if (bStartNetworkGame_7081F0)
     {
@@ -1495,7 +1495,7 @@ void Hud_ChatInput::DrawChatMessages_5D16B0()
                 {
                     swprintf(tmpBuff_67BD9C, L"%s:%s ", pPlayerIter->field_83C_player_name, reinterpret_cast<wchar_t*>(pPlayerIter->field_796_chat_text));
                 }
-                s32 max_text_width = Frontend::GetMaxTextWidth_5D8990(tmpBuff_67BD9C, gChatDisplayFont_70643E);
+                s32 max_text_width = Frontend::GetMaxTextWidth_5D8990(tmpBuff_67BD9C, sChatDisplayFont);
                 s32 start_xpos;
                 if (max_text_width > 640)
                 {
@@ -1505,7 +1505,7 @@ void Hud_ChatInput::DrawChatMessages_5D16B0()
                 {
                     start_xpos = 0;
                 }
-                DrawText_5D7720(tmpBuff_67BD9C, start_xpos, text_ypos, gChatDisplayFont_70643E, palette_types_enum::font_remaps_8, 5, 0, 0);
+                DrawText_5D7720(tmpBuff_67BD9C, start_xpos, text_ypos, sChatDisplayFont, palette_types_enum::font_remaps_8, 5, 0, 0);
                 text_ypos -= line_spacing;
             }
         }
@@ -2351,7 +2351,7 @@ void Hud_Brief::SetHudBrief_5D3F10(s32 priority, const char_type* pText, s32 cos
 inline void Hud_Arrow::Reset_4CA610()
 {
     field_10_radius_pos = kFpZero_7064C0;
-    field_14_reposition_speed = kArrowBaseRepositionSpeed_7063B0;
+    field_14_reposition_speed = kArrowBaseRepositionSpeed;
     SetArrowColour_5D0510(4);
     field_18_targets.field_10_gang_info.field_5_is_visible = true;
     field_18_targets.field_2C_arrow_sprt_idx = 0;
@@ -2362,7 +2362,7 @@ inline void Hud_Arrow::Reset_4CA610()
 // 9.6f 0x4C6FF0
 inline void Hud_Arrow::SetMinRadiusPos_4C6FF0(s32 steps)
 {
-    field_C_min_radius_pos = kArrowRadiusOffset_7065B4 + kArrowMinRadiusStep_706338 * steps;
+    field_C_min_radius_pos = kArrowRadiusOffset + kArrowMinRadiusStep * steps;
 }
 
 MATCH_FUNC(0x5d4400)
@@ -2550,7 +2550,7 @@ void Hud_CarName::DrawCarName_5D4A10()
                                     0);
         }
 
-        DrawTextScaled_5D77A0(field_2_car_name, ((640 - field_44_text_width) / 2), (field_48_ypos - GetLineSpacingFromFontType_5D7700(gCarNameFont_706508) / 2), gCarNameFont_706508);
+        DrawTextScaled_5D77A0(field_2_car_name, ((640 - field_44_text_width) / 2), (field_48_ypos - GetLineSpacingFromFontType_5D7700(sCarNameFont) / 2), sCarNameFont);
     }
 }
 
@@ -2559,7 +2559,7 @@ void Hud::CalcCarNameTextWidth_5D5190()
 {
     if (field_0_car_name.field_0_display_time)
     {
-        field_0_car_name.field_44_text_width = Frontend::GetMaxTextWidth_5D8990(field_0_car_name.field_2_car_name, gCarNameFont_706508);
+        field_0_car_name.field_44_text_width = Frontend::GetMaxTextWidth_5D8990(field_0_car_name.field_2_car_name, sCarNameFont);
     }
 }
 
@@ -2604,7 +2604,7 @@ void Hud_PickupText::CalcTextWidth_5D53E0()
 {
     if (field_0_timer)
     {
-        field_84_text_width = Frontend::GetMaxTextWidth_5D8990(field_2_str, gPickupTextFont_7064B8);
+        field_84_text_width = Frontend::GetMaxTextWidth_5D8990(field_2_str, sPickupTextFont);
     }
 }
 
@@ -2613,7 +2613,7 @@ void Hud_PickupText::Draw_5D5420()
 {
     if (field_0_timer)
     {
-        DrawText_5D7720(field_2_str, (640 - field_84_text_width) / 2, 32, gPickupTextFont_7064B8, palette_types_enum::font_remaps_8, 5, 0, 0);
+        DrawText_5D7720(field_2_str, (640 - field_84_text_width) / 2, 32, sPickupTextFont, palette_types_enum::font_remaps_8, 5, 0, 0);
     }
 }
 
@@ -2779,8 +2779,8 @@ void Hud_MapZone::DrawZoneName_5D5900()
 
         DrawText_5D7720(field_2_wstr,
                         (640 - field_84_text_width) / 2,
-                        27 - (GetLineSpacingFromFontType_5D7700(gZoneNameFont_706618) / 2),
-                        gZoneNameFont_706618,
+                        27 - (GetLineSpacingFromFontType_5D7700(sZoneNameFont) / 2),
+                        sZoneNameFont,
                         palette_types_enum::sprites_2,
                         0,
                         field_90_alpha_flag,
@@ -2793,7 +2793,7 @@ void Hud_MapZone::CalcTextWidth_5D5AD0()
 {
     if (field_0_timer)
     {
-        field_84_text_width = Frontend::GetMaxTextWidth_5D8990(field_2_wstr, gZoneNameFont_706618);
+        field_84_text_width = Frontend::GetMaxTextWidth_5D8990(field_2_wstr, sZoneNameFont);
     }
 }
 
@@ -3065,9 +3065,9 @@ void __stdcall DrawAmmo_5D6060(s16 ammo_idx, u8 ammo_count)
                 swprintf(tmpBuff_67BD9C, L"%d", ammo_count);
             }
             DrawText_5D7720(tmpBuff_67BD9C,
-                            static_cast<u32>(638 - Frontend::GetMaxTextWidth_5D8990(tmpBuff_67BD9C, gPlayerStatsFont_70646C)),
+                            static_cast<u32>(638 - Frontend::GetMaxTextWidth_5D8990(tmpBuff_67BD9C, sPlayerStatsFont)),
                             82,
-                            gPlayerStatsFont_70646C,
+                            sPlayerStatsFont,
                             palette_types_enum::font_remaps_8,
                             6,
                             0,
@@ -3108,7 +3108,7 @@ s32 __stdcall DrawPlayerStatsHelper_5D61A0(s32 powerup_idx, s32 base_xpos, u16 o
         DrawText_5D7720(tmpBuff_67BD9C,
                         static_cast<u32>(base_xpos - x_offset),
                         127,
-                        gPlayerStatsFont_70646C,
+                        sPlayerStatsFont,
                         palette_types_enum::font_remaps_8,
                         6,
                         0,
@@ -3202,12 +3202,12 @@ void Hud_PauseScreen::DrawPause_5D63B0()
         DrawFigureScaled_5D7670(sprite_types_enum::user_6, 135, 413, 180, kAngZero_706610, palette_types_enum::sprites_2, 0, 0, 0);
 
         wchar_t* pPauseText = gText_0x14_704DFC->Find_5B5F90("pause");
-        s32 max_width = Frontend::GetMaxTextWidth_5D8990(pPauseText, gPauseFont_7063F8);
+        s32 max_width = Frontend::GetMaxTextWidth_5D8990(pPauseText, sPauseFont);
 
         // u32: converts with the Fix16(u32) constructor, whose out-of-line copy is 0x4926F0
         u32 y_offset = !gText_0x14_704DFC->LangIsJapanese_452E60() ? 158 : 164;
 
-        DrawText_5D7720(pPauseText, (640 - max_width) / 2, y_offset, gPauseFont_7063F8, palette_types_enum::sprites_2, 0, 0, 0);
+        DrawText_5D7720(pPauseText, (640 - max_width) / 2, y_offset, sPauseFont, palette_types_enum::sprites_2, 0, 0, 0);
 
         if (!gGameSession_67E8E0.IsBonusStage_4C59A0())
         {
@@ -3435,31 +3435,31 @@ void Hud::SetFontTypes_5D6B00()
 {
     if (gText_0x14_704DFC->LangIsJapanese_452E60())
     {
-        gPickupTextFont_7064B8 = 103;
-        gCarNameFont_706508 = 104;
-        gZoneNameFont_706618 = 105;
+        sPickupTextFont = 103;
+        sCarNameFont = 104;
+        sZoneNameFont = 105;
         gBriefFont_7065C4 = 107;
-        gPlayerStatsFont_70646C = gStyleTextFont_703BAA;
+        sPlayerStatsFont = gStyleTextFont_703BAA;
         gMessageFont_7062F0 = 203;
         gDebugFont_706600 = 103;
-        gPauseFont_7063F8 = 201;
+        sPauseFont = 201;
         word_7064D8 = 103;
-        gPlayerNameFont_7062DC = 103;
-        gChatDisplayFont_70643E = 103;
+        sPlayerNameFont = 103;
+        sChatDisplayFont = 103;
     }
     else
     {
-        gCarNameFont_706508 = gStyleCarNameFont_703D98;
-        gPickupTextFont_7064B8 = gStyleTextFont_703BAA;
-        gZoneNameFont_706618 = gStyleZoneNameFont_703C9C;
+        sCarNameFont = gStyleCarNameFont_703D98;
+        sPickupTextFont = gStyleTextFont_703BAA;
+        sZoneNameFont = gStyleZoneNameFont_703C9C;
         gBriefFont_7065C4 = gStyleTextFont_703BAA;
-        gPlayerStatsFont_70646C = gStyleTextFont_703BAA;
+        sPlayerStatsFont = gStyleTextFont_703BAA;
         gMessageFont_7062F0 = gStyleMessageFont_703D9C;
         gDebugFont_706600 = gStyleTextFont_703BAA;
         word_7064D8 = gStyleTextFont_703BAA;
-        gPauseFont_7063F8 = gStylePauseFont_703DA4;
-        gPlayerNameFont_7062DC = gStyleTextFont_703BAA;
-        gChatDisplayFont_70643E = gStyleTextFont_703BAA;
+        sPauseFont = gStylePauseFont_703DA4;
+        sPlayerNameFont = gStyleTextFont_703BAA;
+        sChatDisplayFont = gStyleTextFont_703BAA;
     }
 }
 
