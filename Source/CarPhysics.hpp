@@ -51,6 +51,31 @@ enum
 class CarPhysics
 {
   public:
+    STATIC_MEMBER(Fix16_Point, sTrailerCm1);
+    STATIC_MEMBER(Fix16, sF70);
+    STATIC_MEMBER(Fix16, sCp3);
+    STATIC_MEMBER(Fix16_Point, sCp1);
+    STATIC_MEMBER(Fix16_Point, sCm1);
+    STATIC_MEMBER(Fix16, sAirZVel);
+    STATIC_MEMBER(Fix16, sTrailerF70);
+    STATIC_MEMBER(Fix16, sTrailerCp3);
+    STATIC_MEMBER(Fix16_Point, sTrailerCp1);
+    STATIC_MEMBER(Fix16, sTrailerAirZVel);
+    STATIC_MEMBER(Fix16, sSavedTrailerF70);
+    STATIC_MEMBER(Fix16_Point, sSavedTrailerCp1);
+    STATIC_MEMBER(Fix16_Point, sSavedTrailerCm1);
+    STATIC_MEMBER(Fix16, sSavedTrailerAirZVel);
+    STATIC_MEMBER(Fix16, sSavedTrailedCp3);
+    STATIC_MEMBER(Fix16, sSavedF70);
+    STATIC_MEMBER(Fix16, sSavedCp3);
+    STATIC_MEMBER(Fix16_Point, sSavedCp1);
+    STATIC_MEMBER(Fix16_Point, sSavedCm1);
+    STATIC_MEMBER(Fix16, sSavedAirZVel);
+    STATIC_MEMBER(Fix16, sRemainingTimeStep);
+    STATIC_MEMBER(u8, sOtherCollisionArea);
+    STATIC_MEMBER(Fix16_Point, sCollisionNormal);
+    STATIC_MEMBER(u8, sCollisionArea);
+    STATIC_MEMBER(Fix16, sBrakeForce);
     // 9.6f 0x40F800
     inline Fix16 get_cp3_40F800()
     {
