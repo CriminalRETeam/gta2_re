@@ -123,12 +123,12 @@ static inline s32 Clamp2(s32 v, s32 center, s32 radius)
 }
 
 MATCH_FUNC(0x412240)
-void sound_obj::null_412240()
+void sound_obj::PreSoundInit_412240()
 {
 }
 
 MATCH_FUNC(0x412250)
-void sound_obj::null_412250()
+void sound_obj::PreSoundShutdown_412250()
 {
 }
 
@@ -3512,7 +3512,7 @@ void sound_obj::Init_419E10()
 {
     if (!field_0_bSoundInitialized)
     {
-        null_412240();
+        PreSoundInit_412240();
         field_0_bSoundInitialized = gSampManager_6FFF00.SoundInit_58D6C0(&field_5440_unused);
         if (field_0_bSoundInitialized)
         {
@@ -3549,7 +3549,7 @@ void sound_obj::DeinitializeAudio_419E50()
         }
         field_543C_444C_nAudioEntitiesCount = 0;
 
-        null_412250();
+        PreSoundShutdown_412250();
         gSampManager_6FFF00.Shutdown_58DB30();
         field_0_bSoundInitialized = false;
     }

@@ -250,8 +250,8 @@ class sound_obj
     EXPORT s32 samp_idx_for_model_417AC0(s32 car_model) const;
     EXPORT s32 GetSirenSampleIdx_417B80(s32 car_model, bool bHornOn) const;
 
-    EXPORT void null_412240();
-    EXPORT void null_412250();
+    EXPORT void PreSoundInit_412240();
+    EXPORT void PreSoundShutdown_412250();
     EXPORT bool InitSampleForType_412260(sound_0x68* pObj);
     EXPORT void ProcessEntity_4123A0(s32 idx);
     EXPORT void ProcessType2_Frontend_412490(s32 idx);
