@@ -31,7 +31,7 @@
 #include "block_face.hpp"
 
 DEFINE_GLOBAL(Object_5C*, gObject_5C_6F8F84, 0x6F8F84);
-DEFINE_GLOBAL(s32, gObjectCounter_Unused_6F8F88, 0x6f8f88);
+DEFINE_STATIC_GLOBAL(s32, sObjectCounterUnused, 0x6f8f88);
 DEFINE_GLOBAL(s32, gObject2C_WallHitSide_6F8F90, 0x6F8F90);
 DEFINE_GLOBAL_INIT(Ang16, kAng180_6F8D62, Ang16(0x2D0), 0x6F8D62);
 
@@ -39,29 +39,29 @@ DEFINE_GLOBAL(Fix16_Point, gZeroVector_6F8EF0, 0x6F8EF0);
 DEFINE_GLOBAL_INIT(Fix16, kFpZero_6F8E10, Fix16(0), 0x6F8E10);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6F8C9C, Fix16(0x100, 0), 0x6F8C9C);
 
-DEFINE_GLOBAL(u8, gInObjectMovementUpdate_6F8C68, 0x6F8C68);
-DEFINE_GLOBAL(u8, gObjectRemovedFromBuckets_6F8C4C, 0x6F8C4C);
-DEFINE_GLOBAL(u8, gObjectReBucketed_6F8F40, 0x6F8F40);
+DEFINE_STATIC_GLOBAL(u8, sInObjectMovementUpdate, 0x6F8C68);
+DEFINE_STATIC_GLOBAL(u8, sObjectRemovedFromBuckets, 0x6F8C4C);
+DEFINE_STATIC_GLOBAL(u8, sObjectReBucketed, 0x6F8F40);
 DEFINE_GLOBAL(u32, gObj3C_live_count_6F8E54, 0x6F8E54);
 DEFINE_GLOBAL(u32, gObj8_count_6F8F18, 0x6F8F18);
 DEFINE_GLOBAL(u32, gObj8_dealloc_count_6F8DC0, 0x6F8DC0);
 DEFINE_GLOBAL(u32, gObj3C_dealloc_count_6F8F0C, 0x6F8F0C);
 DEFINE_GLOBAL(bool, gDoorAccessCheckActive_6F8EDC, 0x6F8EDC);
 
-DEFINE_GLOBAL_INIT(Ang16, kAng315_6F8D8C, Ang16(0x4EC), 0x6F8D8C);
+DEFINE_STATIC_GLOBAL_INIT(Ang16, kAng315, Ang16(0x4EC), 0x6F8D8C);
 DEFINE_GLOBAL_INIT(Ang16, kAng135_6F8D80, Ang16(0x21C), 0x6F8D80);
-DEFINE_GLOBAL_INIT(Ang16, kAng225_6F8D54, Ang16(0x384), 0x6F8D54);
+DEFINE_STATIC_GLOBAL_INIT(Ang16, kAng225, Ang16(0x384), 0x6F8D54);
 DEFINE_GLOBAL_INIT(Ang16, kAng45_6F8CD0, Ang16(0xB4), 0x6F8CD0);
 
 DEFINE_GLOBAL(Sprite*, gObject2C_LastCollisionSprite_6F8F8C, 0x6F8F8C);
 DEFINE_GLOBAL(bool, gObject2C_HitWallOrDoor_6F8F94, 0x6F8F94);
-DEFINE_GLOBAL_INIT(Fix16, kFpOneThirtySecond_6F8F5C, Fix16(0x200, 0), 0x6F8F5C);
-DEFINE_GLOBAL_INIT(Fix16, kObjectGravity_6F8DA8, Fix16(0xFFFFFFF8, 0), 0x6F8DA8);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpOneThirtySecond, Fix16(0x200, 0), 0x6F8F5C);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kObjectGravity, Fix16(0xFFFFFFF8, 0), 0x6F8DA8);
 DEFINE_GLOBAL_INIT(Fix16, kFP16One_6F8E14, Fix16(1), 0x6F8E14);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint1_6F8C58, Fix16(0x666, 0), 0x6F8C58);
 
 DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6F8DC8, Fix16(256, 0), 0x6F8DC8);
-DEFINE_GLOBAL_INIT(Fix16, kFpEighteen_6F8CE8, Fix16(18), 0x6F8CE8);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpEighteen, Fix16(18), 0x6F8CE8);
 DEFINE_GLOBAL_INIT(Fix16, kFP16One_6F8CEC, Fix16(1), 0x6F8CEC);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6F8ECC, kFpOne64th_6F8DC8, 0x6F8ECC);
 
@@ -69,7 +69,7 @@ DEFINE_GLOBAL_INIT(Ang16, kAng90_6F8C88, Ang16(0x168), 0x6F8C88); // TODO: Init 
 DEFINE_GLOBAL_INIT(Ang16, kAng270_6F8D88, Ang16(0x438), 0x6F8D88); // TODO: Init via func 0x526E70
 
 DEFINE_GLOBAL_INIT(Fix16, kFpOne256th_6F8CF0, Fix16(0x40, 0), 0x6F8CF0);
-DEFINE_GLOBAL_INIT(Fix16, kMaxZ_6F8BFC, Fix16(0x1FF00, 0), 0x6F8BFC);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kMaxZ, Fix16(0x1FF00, 0), 0x6F8BFC);
 DEFINE_GLOBAL_INIT(Fix16, kFP16Half_6F8D10, Fix16(0x2000, 0), 0x6F8D10);
 
 DEFINE_GLOBAL_INIT(u8, gCarAIProbingAhead_6771DC, 0, 0x6771DC);
@@ -81,19 +81,19 @@ DEFINE_GLOBAL_INIT(Fix16, kFP16One_6F8F74, kFP16One_6F8E14, 0x6F8F74);
 DEFINE_GLOBAL_INIT(Fix16, kFP16Half_6F8EE4, kFP16Half_6F8D10, 0x6F8EE4);
 
 DEFINE_GLOBAL_INIT(Fix16, kFP16Half_6F8D3C, kFP16Half_6F8D10, 0x6F8D3C);
-DEFINE_GLOBAL_INIT(Fix16, kFP16MinusOne_6F8BE8, Fix16(-1), 0x6F8BE8); // Fix16(0xFFFFC000, 0)
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFP16MinusOne, Fix16(-1), 0x6F8BE8); // Fix16(0xFFFFC000, 0)
 
 DEFINE_GLOBAL_INIT(Fix16, kFP16Half_6F8F2C, kFP16Half_6F8D10, 0x6F8F2C);
 DEFINE_GLOBAL_INIT(Fix16, kFP16One_6F8D24, kFP16One_6F8E14, 0x6F8D24);
 
-DEFINE_GLOBAL(Fix16, gObj2C_LastValidX_6F8F00, 0x6F8F00);
-DEFINE_GLOBAL(Fix16, gObj2C_LastValidY_6F8EF8, 0x6F8EF8);
+DEFINE_STATIC_GLOBAL(Fix16, sObj2CLastValidX, 0x6F8F00);
+DEFINE_STATIC_GLOBAL(Fix16, sObj2CLastValidY, 0x6F8EF8);
 DEFINE_GLOBAL(Fix16, gObj2C_LastValidZ_6F8EFC, 0x6F8EFC);
-DEFINE_GLOBAL_INIT(Ang16, gObj2C_LastValidAng_6F8D1C, Ang16(0), 0x6F8D1C);
-DEFINE_GLOBAL_INIT(Fix16, kMapSize_6F8BF4, Fix16(256), 0x6F8BF4);
+DEFINE_STATIC_GLOBAL_INIT(Ang16, sObj2CLastValidAng, Ang16(0), 0x6F8D1C);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kMapSize, Fix16(256), 0x6F8BF4);
 
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint7_6F8C78, Fix16(0x2CCC, 0), 0x6F8C78);
-DEFINE_GLOBAL_INIT(Fix16, kObjectBounceRestitution_6F8DBC, kFpPoint7_6F8C78, 0x6F8DBC);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kObjectBounceRestitution, kFpPoint7_6F8C78, 0x6F8DBC);
 
 // 9.6f 0x482C10
 inline bool Object::IsAnimFinished_482C10() const
@@ -136,7 +136,7 @@ void Object::PoolDeallocate()
         gObject_5C_6F8F84->field_1C_sprite_list.RemoveSpriteSafe_5A6B60(this->field_4_sprite);
     }
 
-    --gObjectCounter_Unused_6F8F88;
+    --sObjectCounterUnused;
 
     if (UsesParamAsPedRef_421080())
     {
@@ -191,7 +191,7 @@ void Object::UpdatePhysics_5222D0()
 {
     if (field_10_obj_3c->field_2A_bAirborne == 1)
     {
-        field_10_obj_3c->field_1C_z_accel += kObjectGravity_6F8DA8;
+        field_10_obj_3c->field_1C_z_accel += kObjectGravity;
         field_10_obj_3c->field_10_z_speed += field_10_obj_3c->field_1C_z_accel;
     }
     else
@@ -413,7 +413,7 @@ void Object::ResolveCollisionWithObject_522710(Object* pObj, Fix16_Point* pPoint
         }
 
         impulse = ComputeCollisionImpulse_55F3B0(GetMass_482C80(),
-                                                 kFP16MinusOne_6F8BE8,
+                                                 kFP16MinusOne,
                                                  rel_velocity,
                                                  offset,
                                                  *pPoint,
@@ -485,7 +485,7 @@ void Object::ResolveCollisionWithWorld_522B20(Fix16_Point* pCollisionPoint, Fix1
 {
     // GetXY_52AE70() is a temporary argument, not a local: that gives the original EH states (0, 2, 3) and frame
     Fix16_Point impulse = ComputeCollisionImpulse_55F3B0(GetMass_482C80(),
-                                                        kFP16MinusOne_6F8BE8,
+                                                        kFP16MinusOne,
                                                         *speed,
                                                         *pPoint,
                                                         *pCollisionPoint,
@@ -637,9 +637,9 @@ void Object::Sprite_UpdateZFromSlopeAndTile_522FA0(Sprite* pSprite)
                 z_val += Fix16(1);
             }
 
-            if (z_val > kMaxZ_6F8BFC)
+            if (z_val > kMaxZ)
             {
-                z_val = kMaxZ_6F8BFC;
+                z_val = kMaxZ;
             }
         }
     }
@@ -754,7 +754,7 @@ bool Object::HandleSpriteGroundAndCollision_5235B0(Sprite* pSprite, Fix16_Point*
             if (ground_z < pSprite->field_1C_zpos)
             {
                 Sprite_UpdateZFromSlopeAndTile_522FA0(pSprite);
-                field_10_obj_3c->field_10_z_speed = kObjectGravity_6F8DA8;
+                field_10_obj_3c->field_10_z_speed = kObjectGravity;
             }
         }
         else
@@ -779,7 +779,7 @@ bool Object::HandleSpriteGroundAndCollision_5235B0(Sprite* pSprite, Fix16_Point*
         }
         else
         {
-            field_10_obj_3c->field_10_z_speed = kObjectGravity_6F8DA8;
+            field_10_obj_3c->field_10_z_speed = kObjectGravity;
             field_10_obj_3c->field_2A_bAirborne = 1;
         }
         field_10_obj_3c->field_2F_bOnSlope = false;
@@ -812,9 +812,9 @@ bool Object::HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite, Fix16_
 {
     field_10_obj_3c->field_2A_bAirborne = 1;
 
-    if (pSprite->field_1C_zpos > kMaxZ_6F8BFC)
+    if (pSprite->field_1C_zpos > kMaxZ)
     {
-        pSprite->field_1C_zpos = kMaxZ_6F8BFC;
+        pSprite->field_1C_zpos = kMaxZ;
         pSprite->InvalidateZColAndBBoxes_59E7B0();
         field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
         field_10_obj_3c->field_1C_z_accel = kFpZero_6F8E10;
@@ -912,7 +912,7 @@ bool Object::HandleSpriteZCollision_5238B0(Sprite* pSprite, Fix16_Point* pPoint,
             Object::Sprite_UpdateZFromSlopeAndTile_522FA0(pSprite);
             field_10_obj_3c->field_2A_bAirborne = 0;
 
-            if (field_10_obj_3c->field_10_z_speed < kObjectGravity_6F8DA8)
+            if (field_10_obj_3c->field_10_z_speed < kObjectGravity)
             {
                 if (!gObject2C_LastCollisionSprite_6F8F8C)
                 {
@@ -936,7 +936,7 @@ bool Object::HandleSpriteZCollision_5238B0(Sprite* pSprite, Fix16_Point* pPoint,
             }
             else
             {
-                if (field_10_obj_3c->field_C_speed == kFpZero_6F8E10 && field_10_obj_3c->field_10_z_speed == kObjectGravity_6F8DA8)
+                if (field_10_obj_3c->field_C_speed == kFpZero_6F8E10 && field_10_obj_3c->field_10_z_speed == kObjectGravity)
                 {
                     field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
                 }
@@ -964,7 +964,7 @@ bool Object::HandleSpriteZCollision_5238B0(Sprite* pSprite, Fix16_Point* pPoint,
                 return true;
             }
             *pHitFloorBelow = true;
-            field_10_obj_3c->field_10_z_speed = kObjectBounceRestitution_6F8DBC * (-field_10_obj_3c->field_10_z_speed);
+            field_10_obj_3c->field_10_z_speed = kObjectBounceRestitution * (-field_10_obj_3c->field_10_z_speed);
         }
     }
 
@@ -999,7 +999,7 @@ bool Object::HandleSpriteZCollision_5238B0(Sprite* pSprite, Fix16_Point* pPoint,
             {
                 pObj3C->field_34_sprite_collide_mode = 1;
                 ApplyDefinitionDrawLayer_482BE0();
-                field_10_obj_3c->field_10_z_speed = kObjectBounceRestitution_6F8DBC * (-field_10_obj_3c->field_10_z_speed);
+                field_10_obj_3c->field_10_z_speed = kObjectBounceRestitution * (-field_10_obj_3c->field_10_z_speed);
             }
             return true;
         }
@@ -1128,12 +1128,12 @@ void Object::IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 angle)
         }
         else
         {
-            gObj2C_LastValidX_6F8F00 = prev_x;
-            gObj2C_LastValidY_6F8EF8 = prev_y;
+            sObj2CLastValidX = prev_x;
+            sObj2CLastValidY = prev_y;
             gObj2C_LastValidZ_6F8EFC = prev_z;
-            gObj2C_LastValidAng_6F8D1C = prev_rotation;
+            sObj2CLastValidAng = prev_rotation;
             Fix16 tmp_radius = radius;
-            pSprt->set_xyz_lazy_420600(gObj2C_LastValidX_6F8F00, gObj2C_LastValidY_6F8EF8, gObj2C_LastValidZ_6F8EFC);
+            pSprt->set_xyz_lazy_420600(sObj2CLastValidX, sObj2CLastValidY, gObj2C_LastValidZ_6F8EFC);
             pSprt->set_ang_lazy_420690(prev_rotation);
             Object::Sprite_UpdateZFromSlopeAndTile_522FA0(pSprt);
             bool bLastStepClear;
@@ -1153,23 +1153,23 @@ void Object::IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 angle)
                 if (pSprt->CheckSpriteMovementRegion_5A2500() || bHitSprite)
                 {
                     point = pSprt->get_x_y_443580();
-                    pSprt->set_xyz_lazy_420600(gObj2C_LastValidX_6F8F00, gObj2C_LastValidY_6F8EF8, gObj2C_LastValidZ_6F8EFC);
-                    pSprt->set_ang_lazy_420690(gObj2C_LastValidAng_6F8D1C);
+                    pSprt->set_xyz_lazy_420600(sObj2CLastValidX, sObj2CLastValidY, gObj2C_LastValidZ_6F8EFC);
+                    pSprt->set_ang_lazy_420690(sObj2CLastValidAng);
                     bLastStepClear = false;
                 }
                 else
                 {
                     bLastStepClear = true;
-                    gObj2C_LastValidX_6F8F00 = pSprt->field_14_xy.x;
-                    gObj2C_LastValidY_6F8EF8 = pSprt->field_14_xy.y;
+                    sObj2CLastValidX = pSprt->field_14_xy.x;
+                    sObj2CLastValidY = pSprt->field_14_xy.y;
                     gObj2C_LastValidZ_6F8EFC = pSprt->field_1C_zpos;
-                    gObj2C_LastValidAng_6F8D1C = pSprt->field_0_rotation;
+                    sObj2CLastValidAng = pSprt->field_0_rotation;
                 }
             }
             if (!bLastStepClear)
             {
-                pSprt->set_xyz_lazy_420600(gObj2C_LastValidX_6F8F00, gObj2C_LastValidY_6F8EF8, gObj2C_LastValidZ_6F8EFC);
-                pSprt->set_ang_lazy_420690(gObj2C_LastValidAng_6F8D1C);
+                pSprt->set_xyz_lazy_420600(sObj2CLastValidX, sObj2CLastValidY, gObj2C_LastValidZ_6F8EFC);
+                pSprt->set_ang_lazy_420690(sObj2CLastValidAng);
             }
             field_4_sprite->set_xyz_lazy_420600(pSprt->field_14_xy.x, pSprt->field_14_xy.y, pSprt->field_1C_zpos);
             field_4_sprite->set_ang_lazy_420690(pSprt->field_0_rotation);
@@ -1180,8 +1180,8 @@ void Object::IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 angle)
         }
 
         Object::TryStartSlide_5233A0(mov_speed);
-        if (field_4_sprite->field_14_xy.x < kFpZero_6F8E10 || field_4_sprite->field_14_xy.x >= kMapSize_6F8BF4 || field_4_sprite->field_14_xy.y < kFpZero_6F8E10 ||
-            field_4_sprite->field_14_xy.y >= kMapSize_6F8BF4)
+        if (field_4_sprite->field_14_xy.x < kFpZero_6F8E10 || field_4_sprite->field_14_xy.x >= kMapSize || field_4_sprite->field_14_xy.y < kFpZero_6F8E10 ||
+            field_4_sprite->field_14_xy.y >= kMapSize)
         {
             Object::RequestRemoval_5290A0();
         }
@@ -1877,9 +1877,9 @@ void Object::Update_525F30()
             case object_behavior_type::physics_3:
             case object_behavior_type::pickup_physics_7:
                 RemoveFromCollisionBuckets_527D00();
-                gObjectRemovedFromBuckets_6F8C4C = 1;
+                sObjectRemovedFromBuckets = 1;
                 UpdatePhysicsAndMovement_525B80();
-                if (!gObjectReBucketed_6F8F40)
+                if (!sObjectReBucketed)
                 {
                     AssignToBucket_527AE0();
                 }
@@ -1897,9 +1897,9 @@ void Object::Update_525F30()
             case object_behavior_type::physics_animated_4:
             case object_behavior_type::pickup_physics_animated_9:
                 RemoveFromCollisionBuckets_527D00();
-                gObjectRemovedFromBuckets_6F8C4C = 1;
+                sObjectRemovedFromBuckets = 1;
                 UpdatePhysicsMovementAndAnimation_525D90();
-                if (!gObjectReBucketed_6F8F40)
+                if (!sObjectReBucketed)
                 {
                     AssignToBucket_527AE0();
                 }
@@ -1925,8 +1925,8 @@ void Object::Update_525F30()
 MATCH_FUNC(0x5263d0)
 bool Object::PoolUpdate()
 {
-    gObjectRemovedFromBuckets_6F8C4C = 0;
-    gObjectReBucketed_6F8F40 = 0;
+    sObjectRemovedFromBuckets = 0;
+    sObjectReBucketed = 0;
     if (field_25_removal_state != object_removal_state::requested_1)
     {
         Object::Update_525F30();
@@ -2033,7 +2033,7 @@ void Object::InheritMotionFromSprite_526B40(Sprite* pSprite)
 MATCH_FUNC(0x527070)
 bool Object::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 rot)
 {
-    gInObjectMovementUpdate_6F8C68 = 1;
+    sInObjectMovementUpdate = 1;
 
     if (field_10_obj_3c)
     {
@@ -2084,7 +2084,7 @@ bool Object::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 y, 
                         case sprite_types_enum::map_obj_5:
                             if (field_C_pAny.pExplosion->Update_5434A0(field_10_obj_3c->field_C_speed, field_10_obj_3c->field_4_angle))
                             {
-                                gInObjectMovementUpdate_6F8C68 = 0;
+                                sInObjectMovementUpdate = 0;
                                 return true;
                             }
                             break;
@@ -2100,7 +2100,7 @@ bool Object::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 y, 
 
                             if (field_C_pAny.pExplosion->Update_5434A0(field_10_obj_3c->field_C_speed, field_10_obj_3c->field_4_angle))
                             {
-                                gInObjectMovementUpdate_6F8C68 = 0;
+                                sInObjectMovementUpdate = 0;
                                 return true;
                             }
                             break;
@@ -2108,7 +2108,7 @@ bool Object::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 y, 
                         case sprite_types_enum::ped_3:
                             if (field_C_pAny.pExplosion->Update_5434A0(field_10_obj_3c->field_C_speed, field_10_obj_3c->field_4_angle))
                             {
-                                gInObjectMovementUpdate_6F8C68 = 0;
+                                sInObjectMovementUpdate = 0;
                                 return true;
                             }
                             break;
@@ -2137,13 +2137,13 @@ bool Object::UpdateMovementAndEffects_527070(Sprite* pSprite, Fix16 x, Fix16 y, 
         {
             gSpriteGrid_3_679210->AddToSingleBucket_477AE0(field_4_sprite);
         }
-        gInObjectMovementUpdate_6F8C68 = 0;
+        sInObjectMovementUpdate = 0;
         return false;
     }
     else
     {
         TriggerCarExplosionIfApplicable_526790(pSprite);
-        gInObjectMovementUpdate_6F8C68 = 0;
+        sInObjectMovementUpdate = 0;
         return true;
     }
 }
@@ -2193,7 +2193,7 @@ void Object::AssignToBucket_527AE0()
             gSpriteGrid_3_679210->AddToSingleBucket_477AE0(field_4_sprite);
             return;
         case collision_bucket_category::sprite_grid_2_region_3:
-            gObjectCounter_Unused_6F8F88++;
+            sObjectCounterUnused++;
             gSpriteGrid_2_67920C->AddToRegionBuckets_477B20(field_4_sprite);
             return;
         case collision_bucket_category::sprite_grid_1_region_4:
@@ -2214,7 +2214,7 @@ void Object::RemoveFromCollisionBuckets_527D00()
             gSpriteGrid_3_679210->Remove_477B00(field_4_sprite);
             break;
         case collision_bucket_category::sprite_grid_2_region_3:
-            --gObjectCounter_Unused_6F8F88;
+            --sObjectCounterUnused;
             gSpriteGrid_2_67920C->RemoveFromRegionBuckets_477B60(field_4_sprite);
             break;
         case collision_bucket_category::sprite_grid_1_region_4:
@@ -2381,7 +2381,7 @@ void Object::TickObject_5283C0(s32 obj_type)
                 if (field_8_definition->field_5C_instance_limit_kind == pDefinition->field_5C_instance_limit_kind ||
                     !Object::ChangeInstanceLimitKind_528240(field_8_definition->field_5C_instance_limit_kind, pDefinition->field_5C_instance_limit_kind))
                 {
-                    if (!gObjectRemovedFromBuckets_6F8C4C && !gInObjectMovementUpdate_6F8C68)
+                    if (!sObjectRemovedFromBuckets && !sInObjectMovementUpdate)
                     {
                         Object::RemoveFromCollisionBuckets_527D00();
                     }
@@ -2528,9 +2528,9 @@ void Object::TickObject_5283C0(s32 obj_type)
                     {
                         Object::PoolTake_522360();
                     }
-                    if (!gInObjectMovementUpdate_6F8C68)
+                    if (!sInObjectMovementUpdate)
                     {
-                        gObjectReBucketed_6F8F40 = 1;
+                        sObjectReBucketed = 1;
                         Object::AssignToBucket_527AE0();
                     }
                 }
@@ -2573,7 +2573,7 @@ void Object::HandleWaterDeath_528900()
     if ((gpRng_67AB34->get_cur_rng_41CFE0() & 3) == 0)
     {
         field_4_sprite->IncreaseZoom_59E320(1);
-        if (field_4_sprite->ShrinkSprite_59E390(kFpOneThirtySecond_6F8F5C, kFpOneThirtySecond_6F8F5C, 0))
+        if (field_4_sprite->ShrinkSprite_59E390(kFpOneThirtySecond, kFpOneThirtySecond, 0))
         {
             field_4_sprite->set_z_lazy_420660(kFpZero_6F8E10);
             RequestRemoval_5290A0();
@@ -3129,9 +3129,9 @@ Object_5C::Object_5C()
     }
 
     field_54_uncollected_token_index = 0;
-    gInObjectMovementUpdate_6F8C68 = 0;
-    gObjectRemovedFromBuckets_6F8C4C = 0;
-    gObjectReBucketed_6F8F40 = 0;
+    sInObjectMovementUpdate = 0;
+    sObjectRemovedFromBuckets = 0;
+    sObjectReBucketed = 0;
     field_10_limited_object_count = 0;
     field_14_listed_sprite_count = 0;
     gObj3C_live_count_6F8E54 = 0;
@@ -3208,13 +3208,13 @@ Object_5C::~Object_5C()
 MATCH_FUNC(0x5297f0)
 void Object_5C::CreateDiagonalWallObjects_5297F0()
 {
-    field_0_diagonal_wall_ang315 = Object_5C::NewPhysicsObj_5299B0(objects::diagonal_wall_collision_obj_166, 0, 0, 0, kAng315_6F8D8C);
+    field_0_diagonal_wall_ang315 = Object_5C::NewPhysicsObj_5299B0(objects::diagonal_wall_collision_obj_166, 0, 0, 0, kAng315);
     field_0_diagonal_wall_ang315->SetParam_447E90(45);
 
     field_4_diagonal_wall_ang135 = Object_5C::NewPhysicsObj_5299B0(objects::diagonal_wall_collision_obj_166, 0, 0, 0, kAng135_6F8D80);
     field_4_diagonal_wall_ang135->SetParam_447E90(48);
 
-    field_8_diagonal_wall_ang225 = Object_5C::NewPhysicsObj_5299B0(objects::diagonal_wall_collision_obj_166, 0, 0, 0, kAng225_6F8D54);
+    field_8_diagonal_wall_ang225 = Object_5C::NewPhysicsObj_5299B0(objects::diagonal_wall_collision_obj_166, 0, 0, 0, kAng225);
     field_8_diagonal_wall_ang225->SetParam_447E90(46);
 
     field_C_diagonal_wall_ang45 = Object_5C::NewPhysicsObj_5299B0(objects::diagonal_wall_collision_obj_166, 0, 0, 0, kAng45_6F8CD0);
@@ -3486,7 +3486,7 @@ Object* Object_5C::CreateObject_529C00(s32 object_type, Fix16 xpos, Fix16 ypos, 
         default:
             break;
     }
-    ++gObjectCounter_Unused_6F8F88;
+    ++sObjectCounterUnused;
 
     pNewObject->field_18_model = object_type;
     if (pNewObject->IsPickup_421060())
@@ -3498,7 +3498,7 @@ Object* Object_5C::CreateObject_529C00(s32 object_type, Fix16 xpos, Fix16 ypos, 
     {
         Object* pLight = NewPhysicsObj_5299B0(objects::powergen_light_284, kFpZero_6F8E10, kFpZero_6F8E10, kFpZero_6F8E10, kZeroAng_6F8F68);
         pNewObject->field_4_sprite->AttachSprite_5A3100(pLight->field_4_sprite,
-                                                       (kFpEighteen_6F8CE8 * kFpOne64th_6F8ECC),
+                                                       (kFpEighteen * kFpOne64th_6F8ECC),
                                                        (kFP16One_6F8CEC * kFpOne64th_6F8ECC),
                                                        kZeroAng_6F8F68);
     }
@@ -3579,7 +3579,7 @@ Object* Object_5C::CreateMovingObj_52A2C0(s32 object_type,
         pNewObj->field_10_obj_3c->field_C_speed = speed;
         pNewObj->field_10_obj_3c->field_10_z_speed = z_speed;
         pNewObj->field_10_obj_3c->field_14_saved_speed = speed;
-        pNewObj->field_10_obj_3c->field_1C_z_accel = kObjectGravity_6F8DA8;
+        pNewObj->field_10_obj_3c->field_1C_z_accel = kObjectGravity;
         pNewObj->field_10_obj_3c->field_18_friction = friction;
         pNewObj->field_10_obj_3c->field_4_angle = move_angle;
         pNewObj->field_10_obj_3c->field_28_next_definition_timer = pDefinition->field_65_next_definition_timer;
