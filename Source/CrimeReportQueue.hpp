@@ -34,8 +34,6 @@ class CrimeReportQueue
     EXPORT void QueueReport(s32 crime_type, s32 ped_id);
     EXPORT bool TryPopOldestReport(s32* pCrimeType, Fix16* pXPos, Fix16* pYPos, Fix16* pZPos);
     EXPORT bool IsCrimeQueued(s32 crime_type) const;
-    EXPORT CrimeReportQueue* ctor_484FC0();
-    EXPORT void dtor_484FD0();
     EXPORT void ReportCrimeForPed(u32 crime_type, Ped* pPed);
     EXPORT bool ShouldReportCarCrime(Car* pCar, Player* pPlayer);
     EXPORT bool ShouldReportCharCrime(Char* pChar, Player* pPlayer);
