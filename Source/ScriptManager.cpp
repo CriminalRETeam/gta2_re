@@ -24,7 +24,6 @@
 DEFINE_GLOBAL(ScriptManager*, gScriptManager_6F8060, 0x6F8060);
 DEFINE_GLOBAL(SaveData, gGameSave_6F78C8, 0x6F78C8);
 DEFINE_GLOBAL(s32, gStoredCarId_6F78B4, 0x6F78B4);
-DEFINE_GLOBAL_INIT(u8, gbAllowMiss2Logging_6212EC, 1, 0x6212EC);
 
 EXTERN_GLOBAL(SCR_POINTER*, gBasePtr_6F8070);
 
@@ -675,9 +674,10 @@ SCR_CMD_HEADER* ScriptManager::GetBasePointer_512770(u16 idx)
 MATCH_FUNC(0x5127a0)
 void ScriptManager::ExecuteScriptThreads_5127A0()
 {
+    LOCAL_STATIC_INIT(u8, sbAllowMiss2Logging, 1, 0x6212EC);
     if (!bSkip_mission_67D4E5)
     {
-        if (gbAllowMiss2Logging_6212EC)
+        if (sbAllowMiss2Logging)
         {
             if (gDo_miss_logging_67D6BC)
             {
