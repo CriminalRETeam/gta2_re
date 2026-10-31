@@ -7,6 +7,7 @@
 class File
 {
   public:
+    STATIC_MEMBER(s32, sbGlobalFileOpen);
     EXPORT static s32 __stdcall GetFileSize_4A6B10(FILE* Stream);
 
     EXPORT static bool __stdcall IsCdRomDrive_4A6BB0(char_type driveLetter);

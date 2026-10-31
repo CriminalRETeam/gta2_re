@@ -8,7 +8,7 @@
 #include <stdlib.h>
 #include "enums.hpp"
 
-DEFINE_GLOBAL(s32, gbGlobalFileOpen_67D160, 0x67D160);
+DEFINE_STATIC_MEMBER(s32, File, sbGlobalFileOpen, 0x67D160);
 DEFINE_GLOBAL(FILE*, ghFile_67CFEC, 0x67CFEC);
 DEFINE_GLOBAL_INIT(u16, gCdCheckFileCount_6252E0, 22, 0x6252E0);
 DEFINE_GLOBAL_ARRAY_INIT(CdCheckFile, gCdCheckFiles_6252E8, 22, 0x6252E8, {"GTAudio\\1.wav" COMMA 31971388u} COMMA {"GTAudio\\10.wav" COMMA 15985724u} COMMA {"GTAudio\\101A.wav" COMMA 9838652u} COMMA {"GTAudio\\10a.wav" COMMA 7992892u} COMMA {"GTAudio\\11.wav" COMMA 15985724u} COMMA {"GTAudio\\11a.wav" COMMA 7992892u} COMMA {"GTAudio\\12.wav" COMMA 16932924u} COMMA {"GTAudio\\2.wav" COMMA 15985724u} COMMA {"GTAudio\\3.wav" COMMA 15985724u} COMMA {"GTAudio\\4.wav" COMMA 15985724u} COMMA {"GTAudio\\5.wav" COMMA 15985724u} COMMA {"GTAudio\\5a.wav" COMMA 7992892u} COMMA {"GTAudio\\6.wav" COMMA 15985724u} COMMA {"GTAudio\\6a.wav" COMMA 7992892u} COMMA {"GTAudio\\7.wav" COMMA 16003132u} COMMA {"GTAudio\\7a.wav" COMMA 7992892u} COMMA {"GTAudio\\8.wav" COMMA 15985724u} COMMA {"GTAudio\\8a.wav" COMMA 7992892u} COMMA {"GTAudio\\9.wav" COMMA 15985724u} COMMA {"GTAudio\\9a.wav" COMMA 7992892u} COMMA {"GTAudio\\A.wav" COMMA 23026196u} COMMA {"GTAudio\\D.wav" COMMA 6532888u});
@@ -69,7 +69,7 @@ void __stdcall File::CheckReadOnlyFile_4A6BE0(const char_type* FileName, s32 exp
     }
 
     s32 closeRet = crt::fclose(hFile);
-    gbGlobalFileOpen_67D160 = 0;
+    sbGlobalFileOpen = 0;
     if (closeRet)
     {
         FatalError_4A38C0(Gta2Error::SecurityFail, "C:\\Splitting\\Gta2\\Source\\File.cpp", 113);
@@ -240,7 +240,7 @@ void __stdcall File::CreateFile_4A7000(const char_type* FileName)
 MATCH_FUNC(0x4A7060)
 void __stdcall File::Global_Open_4A7060(const char_type* FileName)
 {
-    if (gbGlobalFileOpen_67D160)
+    if (sbGlobalFileOpen)
     {
         Global_Close_4A70C0();
     }
@@ -253,16 +253,16 @@ void __stdcall File::Global_Open_4A7060(const char_type* FileName)
         FatalError_4A38C0(Gta2Error::FileOpenError, "C:\\Splitting\\Gta2\\Source\\File.cpp", 323);
     }
 
-    gbGlobalFileOpen_67D160 = 1;
+    sbGlobalFileOpen = 1;
 }
 
 MATCH_FUNC(0x4A70C0)
 void __stdcall File::Global_Close_4A70C0()
 {
-    if (gbGlobalFileOpen_67D160)
+    if (sbGlobalFileOpen)
     {
         s32 close_result = crt::fclose(ghFile_67CFEC);
-        gbGlobalFileOpen_67D160 = 0;
+        sbGlobalFileOpen = 0;
         if (close_result)
         {
             FatalError_4A38C0(Gta2Error::FileCloseError, "C:\\Splitting\\Gta2\\Source\\File.cpp", 345);
@@ -273,17 +273,17 @@ void __stdcall File::Global_Close_4A70C0()
 MATCH_FUNC(0x4A7110)
 void __stdcall File::Global_Close_UnChecked_4A7110()
 {
-    if (gbGlobalFileOpen_67D160)
+    if (sbGlobalFileOpen)
     {
         crt::fclose(ghFile_67CFEC);
-        gbGlobalFileOpen_67D160 = 0;
+        sbGlobalFileOpen = 0;
     }
 }
 
 MATCH_FUNC(0x4A7140)
 void __stdcall File::Global_Seek_4A7140(u32* pOffset)
 {
-    if (!gbGlobalFileOpen_67D160)
+    if (!sbGlobalFileOpen)
     {
         FatalError_4A38C0(Gta2Error::FileReadingNotOpenedFile, "C:\\Splitting\\Gta2\\Source\\File.cpp", 416);
     }
@@ -304,7 +304,7 @@ void __stdcall File::File_Error_4A7190(s32 Code, s32 arg1, s32 arg2)
 MATCH_FUNC(0x4A71C0)
 void __stdcall File::Global_Read_4A71C0(void* pBuffer, const u32& bufferSize)
 {
-    if (!gbGlobalFileOpen_67D160)
+    if (!sbGlobalFileOpen)
     {
         FatalError_4A38C0(Gta2Error::FileReadingNotOpenedFile, "C:\\Splitting\\Gta2\\Source\\File.cpp", 438);
     }
@@ -318,7 +318,7 @@ void __stdcall File::Global_Read_4A71C0(void* pBuffer, const u32& bufferSize)
 MATCH_FUNC(0x4A7210)
 bool __stdcall File::Global_Read_4A7210(void* Buffer, u32* pSize)
 {
-    if (!gbGlobalFileOpen_67D160)
+    if (!sbGlobalFileOpen)
     {
         FatalError_4A38C0(Gta2Error::FileReadingNotOpenedFile, "C:\\Splitting\\Gta2\\Source\\File.cpp", 460);
     }
@@ -328,7 +328,7 @@ bool __stdcall File::Global_Read_4A7210(void* Buffer, u32* pSize)
 MATCH_FUNC(0x4A7250)
 size_t __stdcall File::Global_ReadRemainder_4A7250(void* Buffer, u32* pMaxFileSize)
 {
-    if (!gbGlobalFileOpen_67D160)
+    if (!sbGlobalFileOpen)
     {
         FatalError_4A38C0(Gta2Error::FileReadingNotOpenedFile, "C:\\Splitting\\Gta2\\Source\\File.cpp", 487);
     }
