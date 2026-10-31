@@ -282,6 +282,10 @@ def main():
                 if yo - base > 0x10000:
                     continue
                 want = known[base] + (yo - base)
+                # an end-of-array pointer (array + count * size, maybe plus a field offset) can land on the next global
+                if want != xo and yo == base and any(known[known_sorted[k]] + (yo - known_sorted[k]) == xo
+                                                     for k in range(max(0, i - 8), i)):
+                    continue
                 if want != xo and yo == base and not same_code(og, sizes, xo, want) and not \
                         (x.flow_control == FlowControl.CALL and same_as_build(og, new, sizes, xo, yo)):
                     problems.append('%x: 10.5 references %x, the build %x (= %x)' % (x.ip - oa, xo, yo, want))
