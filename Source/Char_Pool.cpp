@@ -61,14 +61,14 @@ DEFINE_GLOBAL(u8, bHaveThreateningPeds_6787DA, 0x6787DA);
 
 DEFINE_GLOBAL(u8, spawnSideLocked_6787D5, 0x6787D5);
 DEFINE_GLOBAL(u8, spawnCountLimit_6787D6, 0x6787D6);
-DEFINE_GLOBAL_INIT(Ang16, cameraFacingAng_678760, Ang16(0), 0x678760);
+DEFINE_STATIC_GLOBAL_INIT(Ang16, sCameraFacingAng, Ang16(0), 0x678760);
 DEFINE_GLOBAL(s8, gSpawnSide_6787C8, 0x6787C8);
 DEFINE_GLOBAL(s8, gSpawnIndex_6787C9, 0x6787C9);
 
 EXTERN_GLOBAL(Fix16, gDummyW_678530);
 EXTERN_GLOBAL(Fix16, gDummyZ_67841C);
 
-DEFINE_GLOBAL_INIT(Fix16, gDummyH_678584, Fix16(0xCCC, 0), 0x678584); // same as gDummyW_678530, which Ped.cpp initializes too late
+DEFINE_STATIC_GLOBAL_INIT(Fix16, sDummyH, Fix16(0xCCC, 0), 0x678584); // same as gDummyW_678530, which Ped.cpp initializes too late
 DEFINE_GLOBAL_INIT(Fix16, kFp255_678414, Fix16(255), 0x678414);
 
 EXTERN_GLOBAL(u8, gNumEmergencyPeds_6787E4);
@@ -90,7 +90,7 @@ DEFINE_GLOBAL_INIT(Ang16, gSpawnRotationTop_6787B0, Ang16(0), 0x6787B0);
 DEFINE_GLOBAL_INIT(Ang16, gSpawnRotationRight_678578, Ang16(1080), 0x678578);
 DEFINE_GLOBAL_INIT(Ang16, kAng180_6785A6, Ang16(0x2D0), 0x6785A6);
 DEFINE_GLOBAL_INIT(Ang16, gSpawnRotationBottom_678540, Ang16(720), 0x678540);
-DEFINE_GLOBAL_INIT(s16, gSpawnCounter_6787C6, 0, 0x6787C6);
+DEFINE_STATIC_GLOBAL_INIT(s16, sSpawnCounter, 0, 0x6787C6);
 
 EXPORT Ped* __stdcall SpawnPedChainGroupAt_46DB90(char_type remap, u8 number_followers, Fix16 xpos, Fix16 ypos, Fix16 zpos);
 
@@ -161,7 +161,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
 
     Ped* pPed = gPedPool_6787B8->Allocate();
 
-    ++gSpawnCounter_6787C6;
+    ++sSpawnCounter;
 
     gmp_zone_info* pZone = gMap_0x370_6F6268->GetZoneInfoAt_4DF890(xpos.ToInt(), ypos.ToInt());
 
@@ -458,9 +458,9 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
 
     } // End if
 
-    if (static_cast<u16>(gSpawnCounter_6787C6) > 200u)
+    if (static_cast<u16>(sSpawnCounter) > 200u)
     {
-        gSpawnCounter_6787C6 = 0;
+        sSpawnCounter = 0;
     }
 }
 
@@ -483,7 +483,7 @@ void PedManager::SpawnDummies_46EB60(Camera* pCam)
 
     if (spawnSideLocked_6787D5)
     {
-        switch (Ang16::GetAngleFace_4F78F0(cameraFacingAng_678760))
+        switch (Ang16::GetAngleFace_4F78F0(sCameraFacingAng))
         {
             case 1:
                 gSpawnSide_6787C8 = 1;
@@ -568,7 +568,7 @@ void PedManager::SpawnDummies_46EB60(Camera* pCam)
                 {
                     pSprite->set_xyz_lazy_451950(xpos, ypos, (zpos + 1));
                     pSprite->set_ang_lazy_420690(gDummyPedAng_6787A8);
-                    pSprite->AllocCollisionShape_59F950(gDummyW_678530, gDummyH_678584, gDummyZ_67841C);
+                    pSprite->AllocCollisionShape_59F950(gDummyW_678530, sDummyH, gDummyZ_67841C);
                     if (!gGame_0x40_67E008->IsPointOnScreen_4B9A80(pSprite->field_14_xy.x, pSprite->field_14_xy.y))
                     {
                         if (!gMap_0x370_6F6268->IsSlopeB4ToD0At_433430(static_cast<u8>(xpos.ToInt()), static_cast<u8>(ypos.ToInt()), static_cast<u8>(zpos) + 1))
@@ -601,7 +601,7 @@ void PedManager::Dummies_470330()
                 if (pCam->ReturnOwnerVelocity_435A20() > kFpZero_678438)
                 {
                     spawnSideLocked_6787D5 = 1;
-                    cameraFacingAng_678760 = pCam->ComputeTargetFacingAngle_4358D0();
+                    sCameraFacingAng = pCam->ComputeTargetFacingAngle_4358D0();
                     spawnCountLimit_6787D6 = 1;
                 }
                 else
@@ -723,7 +723,7 @@ PedManager::PedManager()
 
     gPedId_61A89C = 7;
     gLastProcessedPed_6787C0 = NULL;
-    gSpawnCounter_6787C6 = 0;
+    sSpawnCounter = 0;
     gSpawnSide_6787C8 = 0;
     gSpawnIndex_6787C9 = 0;
     gNumberMuggersSpawned_6787CA = 0;
@@ -750,7 +750,7 @@ PedManager::PedManager()
     bHaveThreateningPeds_6787DA = 0;
     gDistanceToTarget_678750 = kFpZero_678660;
     gSearchingPed_6787DC = NULL;
-    cameraFacingAng_678760 = gDummyPedAng_6787A8;
+    sCameraFacingAng = gDummyPedAng_6787A8;
     gObjectiveMayAct_61A8A3 = 1;
     gRunPedThink_61A8A4 = 1;
     gNumPedsUpdated_6787E0 = 0;
