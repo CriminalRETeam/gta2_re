@@ -6571,7 +6571,7 @@ MATCH_FUNC(0x5538A0)
                                            speed,                                       \
                                            -kFpPoint1_6FD824,                           \
                                            kFP16Zero_6FD9E4)
-void Char::HandleCarImpact_5538A0(Car* pCar, u8 bUnknown, Fix16 x, Fix16 y)
+void Char::HandleCarImpact_5538A0(Car* pCar, u8 not_used, Fix16 x, Fix16 y)
 {
     Fix16_Point p(x, y);
     Fix16 vecLen = GetLength_inline_5538A0(p);

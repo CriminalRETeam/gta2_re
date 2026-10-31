@@ -410,7 +410,7 @@ class Char
   public:
     EXPORT bool OnObjectTouched_553640(Object* pObject);
     EXPORT bool HandlePedObjectHit_5537F0(Object* pObject);
-    EXPORT void HandleCarImpact_5538A0(Car* pCar, u8 bUnknown, Fix16 x, Fix16 y);
+    EXPORT void HandleCarImpact_5538A0(Car* pCar, u8 not_used, Fix16 x, Fix16 y);
     EXPORT void HandleGenericImpact_553E00(Ang16 ang, Fix16 impact_x, Fix16 impact_z, char_type impact_type);
 
   private:

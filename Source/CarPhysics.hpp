@@ -206,7 +206,7 @@ class CarPhysics
     EXPORT void HandleWorldCollision_55FD00(Fix16_Point& relative_velocity);
     EXPORT void HandleCarCollision_55FF20(Car* pOtherCar);
     EXPORT void HandleObjectCollision_5606C0(Object* pObject, char_type damage_area);
-    EXPORT void ProcessPedImpact_560B40(Char* pChar, u8 hitType);
+    EXPORT void ProcessPedImpact_560B40(Char* pChar, u8 overlap_count);
     EXPORT void UpdateLinearAndAngularAccel_560EB0();
     EXPORT void ApplyMovementStep_560F20(Fix16 time_scale);
     EXPORT void IntegrateAndClampVelocities_5610B0();
