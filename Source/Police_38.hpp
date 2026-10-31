@@ -39,6 +39,7 @@ enum
 class PoliceCrew
 {
   public:
+    STATIC_MEMBER(Ped*, sCurrentCrewPed);
     EXPORT PoliceCrew();
     EXPORT ~PoliceCrew();
     EXPORT void Init_5709C0();
