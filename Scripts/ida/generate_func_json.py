@@ -11,7 +11,7 @@ class GameVersion(enum.Enum):
     v96f = 1
     v105 = 2
 
-# the function name might be File::Read_4A6D90 so lets try to grab the File::Read part
+# the function name might be File::Read so lets try to grab the File::Read part
 def extract_name(func_name: str):
     if "sub_" not in func_name and "_" in func_name and len(func_name) >= 10:
         return func_name[:-7]

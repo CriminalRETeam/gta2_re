@@ -4,7 +4,7 @@
 #   Scripts/permute.sh <File.cpp> <Class::Function> <og_addr> [cpp_permuter options...]
 #
 # e.g.
-#   Scripts/permute.sh Source/sound_obj.cpp sound_obj::HandleVocalStreamSwitching_57DF10 57df10 \
+#   Scripts/permute.sh Source/sound_obj.cpp sound_obj::HandleVocalStreamSwitching 57df10 \
 #       -m exhaustive -p reorder_saves+invert_if -j 4
 #
 # Needs: a build (for Scripts/bin_comp/target_asm.json and the venv), wine, cmake + a C++17
@@ -60,5 +60,5 @@ NEEDLE="${FUNC##*::}"
 exec "$BIN" -s "$SRC" -f "$FUNC" \
     -c "$COMPILE" \
     --score-cmd "$PY $ROOT/Scripts/bin_comp/permuter_score.py $SCORE_FLAG {obj} $ADDR $NEEDLE" \
-    --op-alias "*=Multiply_408680" --op-alias "+=Add_408660" --op-alias "neg=Negate_4086A0" --extern-globals \
+    --op-alias "*=Multiply" --op-alias "+=Add" --op-alias "neg=Negated" --extern-globals \
     "$@"

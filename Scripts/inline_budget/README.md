@@ -17,7 +17,7 @@ at `0x1073b633`.
 - **Size.** Every function has a front-end size (roughly its expression and statement node count,
   computed by C1XX before any inlining, read by C2 at `0x107327ca`, never re-measured). Examples:
   `Fix16` binary `operator-`/`+` 52, `operator*` 57, unary `operator-` 42, `Fix16::Abs` (if/else)
-  64, `Fix16(s32, u8)` 30, `Fix16()` 20, `MaxAbsDistance_42A6B0` 123.
+  64, `Fix16(s32, u8)` 30, `Fix16()` 20, `MaxAbsDistance` 123.
 - **Start.** A function gets `budget = clamp(2 * size, 1000, 35000)`; a running total starts at its
   size.
 - **Order.** Candidate call sites are walked in IL evaluation order: call arguments right to left
@@ -57,7 +57,7 @@ What follows:
   `Fix16 b = a;` +7, `r = a - r;` +17, a ternary about 6 less than if/return.
 - `__forceinline` is never charged, but its own sites still get only `budget / sites_left`.
 - The 35000 total cap also rejects free sites, and free sizes count toward it. Only
-  `CarAI_78::UpdateStateMachine_44E560` reaches it (see `docs/match_attempts.md`); everywhere else free
+  `CarAI_78::UpdateStateMachine` reaches it (see `docs/match_attempts.md`); everywhere else free
   sizes have no visible effect.
 
 ## Tools

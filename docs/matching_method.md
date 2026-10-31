@@ -82,8 +82,8 @@ the same, the register allocator's inputs are out of reach. They are not.
 - **A per-site copy of an inline helper** so the sites differ and are not merged.
 - **An `f32` local, a parenthesised subexpression or a `(f32)` cast** to add an x87 no-op node;
   removing a no-op `Fix16(x, 0)` construction to remove a round-robin pick.
-- **9.6f getters instead of raw field access** (`get_cam_x()`, `get_idx_4219D0()`,
-  `get_wanted_points_433DC0()`): the inline changes the live ranges, not just the loads.
+- **9.6f getters instead of raw field access** (`get_cam_x()`, `get_idx()`,
+  `get_wanted_points()`): the inline changes the live ranges, not just the loads.
 - **`u8 bFound = 0; if (...) bFound = Call(); if (bFound)`** gives the original's `cmp %bl,%al`.
 - **Combining two levers that are each worse alone.** This is common; do not discard a variant on
   its own diff count without trying it together with the next one.

@@ -1,7 +1,7 @@
 """Scores Fix16 operator sizes against the original's out-of-line operator calls.
 
 OPSEARCH_DIR/base/<TU>.log: inl.sh logs of every TU as it is; OPSEARCH_DIR/alias/<TU>.log: the same with the
-named Fix16 calls (Add_408660, Multiply_408680, ...) turned into inline sites with the operators' bodies
+named Fix16 calls (Add, Multiply, ...) turned into inline sites with the operators' bodies
 (AddAlias, MulAlias, ...). For each MATCH_FUNC in the logs the target is the original's count of calls to
 0x408660/0x408680/0x4086A0/0x436A00/0x436A20 (from 10.5.exe) plus the other out-of-line calls of the base
 log; score() counts the functions an inlsim run with the given size deltas reproduces.

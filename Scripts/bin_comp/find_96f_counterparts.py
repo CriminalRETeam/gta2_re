@@ -5,7 +5,7 @@ For each such function, its callees in the original 10.5 asm (target_asm.json) a
 through the existing pairs, and compared (as a multiset) with the calls of every unpaired 9.6f
 function. Prints the best candidates: (shared / mapped callees, shared, 9.6f addr, name, size).
 A high share with several mapped callees is usually the real counterpart (it found
-miss2_0x11C::GetSpeed_50E190 -> 0x47D070 and Ped::FindBestTargetPed_466BF0 -> 0x437BE0).
+miss2_0x11C::GetSpeed -> 0x47D070 and Ped::FindBestTargetPed -> 0x437BE0).
 Check the candidate's asm, then register it with add_96f_target.py.
 
     python find_96f_counterparts.py [addr ...]     # default: every WIP/STUB in target_asm.json

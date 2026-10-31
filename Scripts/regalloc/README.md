@@ -267,7 +267,7 @@ Two earlier passes decide what is still a symbol by then:
 - **Compiler temps (kind 3)** are created where a pass needs one value more than once. Example: the multiply
   expansion `0x10713E23` (boundary `10765b1b`) turns `i * 0x30` into `t = i; lea (t,t,2); shl $4`. `t` is a kind-3
   temp because the `lea` uses it twice, so it gets a live range even though it lives in one block. The `lea`
-  result and the `shl` result are IL temps. In `ExplosionPool_7A8::FreeLowestPriority_543690` this is the line-115 copy
+  result and the `shl` result are IL temps. In `ExplosionPool_7A8::FreeLowestPriority` this is the line-115 copy
   (`mov %edi,%eax`, coloured); the `lea` is a round-robin pick.
 
 A symbol that is a candidate but doesn't get a live range goes back to memory (operand kind 2) in the same pass.
@@ -283,11 +283,11 @@ temp after it.
 ## Open
 
 - **Block order at code generation.** Both register-only WIPs come down to it (see
-  `docs/match_attempts.md`): `ExplosionPool_7A8::FreeLowestPriority_543690` needs its final tail generated before the
+  `docs/match_attempts.md`): `ExplosionPool_7A8::FreeLowestPriority` needs its final tail generated before the
   in-loop return (or one more round-robin temp in the in-loop tail), `Char_B4::state_8_5520A0`
   has the rotation shifted between two blocks only. What orders blocks before `0x10723B05` is now
   known: the loop sink pass `0x10740251` (`Scripts/flowopt/README.md`, "Code generation order"), which
-  keeps the source order of out-of-loop code. For `FreeLowestPriority_543690` that rules out a different block order
+  keeps the source order of out-of-loop code. For `FreeLowestPriority` that rules out a different block order
   with the original's layout, so it needs one more round-robin pick before the in-loop `lea`. Which
   values become colour-pass live ranges is now known (see "Which values get colour live ranges"): the line-115
   copy is a kind-3 temp from the multiply expansion and the `lea` an IL temp, as in the original, so the missing
@@ -296,7 +296,7 @@ temp after it.
 
 - The log has no variable names: `[lr+0]` is not a symbol (C2 asserts in `p2symtab.c` when its
   name is read). Match live ranges to variables by the register they get in the listing.
-- First real case tried, `sound_obj::HandleCarTireScrubSound_418720` (eax/ecx swap), turned out
+- First real case tried, `sound_obj::HandleCarTireScrubSound` (eax/ecx swap), turned out
   not to be a colouring difference: the original keeps the call's returned pointer and dereferences
   it after loading the divisor. The `__int64` raw form and `GetCarLinearSpeed() / max` both made it
   worse (4 -> 44 and 4 -> ~70 lines).
@@ -305,7 +305,7 @@ temp after it.
 
 ## Slot offsets: creation order, then a quicksort by density (frames over 0x80 bytes)
 
-Reversed on `Frontend::ChangeMenuPage_4B3170` (Oct 19):
+Reversed on `Frontend::ChangeMenuPage` (Oct 19):
 
 - **Creation** (`0x10744132`, `0x10744B37`): the list is walked in order; a local tries the existing slots from
   the LAST created to the first and joins the first one it does not interfere with (real lifetimes, not lexical

@@ -16,8 +16,11 @@ every change here is judged first by whether it keeps or grows the match count.
   VC6 codegen is fragile, so an innocent cast or signedness change in a shared header
   can change code in many functions. Small commits make it easy to bisect and revert.
 - Never push to `master`. Work on a branch.
-- Code style follows the surrounding code: `field_XX_name` members, `sub_ADDRESS`/
-  `Name_ADDRESS` functions, types from `types.hpp` (`s32`, `u8`, `Fix16`, ...).
+- Code style follows the surrounding code: members named `mName` with their offset in a comment
+  (`Car* mpCar; // 0x5C`, a placeholder keeps it in the name: `mUnused45`), functions and globals
+  named without their address (it is in the `MATCH_FUNC`/`DEFINE_GLOBAL`; unnamed ones stay
+  `sub_ADDRESS`), statics named `sName` (constants keep `k`), types from `types.hpp` (`s32`, `u8`,
+  `Fix16`, ...). Some names keep an `_ADDRESS` suffix on purpose: see `Scripts/rename/maps/kept.tsv`.
 
 ## Function markers (`Source/Function.hpp`)
 
@@ -103,8 +106,8 @@ Keep the baseline outside the repo, or under the git-ignored `build_vc6/`.
 ### Sanity-check the verifier
 
 Before trusting a green run, break a known match and confirm the run turns red. For
-example, in `Source/Camera.cpp`, `Camera::IncreaseElevation_4357F0`, change `<` to `<=`. Both
-`build.py` (`FAIL!`) and `compare_builds.py` (`CHANGED: Camera::IncreaseElevation_4357F0`) must
+example, in `Source/Camera.cpp`, `Camera::IncreaseElevation`, change `<` to `<=`. Both
+`build.py` (`FAIL!`) and `compare_builds.py` (`CHANGED: Camera::IncreaseElevation`) must
 report that function and only that one. Revert afterwards.
 
 ## Implementing functions without the original exe
@@ -148,7 +151,7 @@ Two things to try early when a function is close but won't match:
   the TU, such as include order and definition order (see the `cSampleManager.hpp` include
   order and inlining notes in `docs/matching_quirks.md`).
 - **Out-of-line calls to an inline follow an exact budget rule.** Don't write per-call-site
-  variants of an inline (`*_ool`, explicit `Multiply_408680` calls): see
+  variants of an inline (`*_ool`, explicit `Multiply` calls): see
   `Scripts/inline_budget/README.md`. `Scripts/inline_budget/inl.sh <file.cpp> <function>` shows why
   each call was or wasn't inlined, and `inlsim.py` what change gives the original's cut-off.
 - **x87/integer interleaving follows 81-node scheduling windows.** If only the placement of
@@ -192,7 +195,7 @@ that is much harder to read.
    ```bash
    objdiff-cli diff -1 Scripts/asm/Camera.cpp.obj \
                     -2 build_vc6/CMakeFiles/gta2_lib.dir/Source/Camera.cpp.obj \
-                    '?IncreaseElevation_4357F0@Camera@@QAEXXZ'
+                    '?IncreaseElevation@Camera@@QAEXXZ'
    ```
    Without `-o` this opens the interactive TUI. `-o - --format json-pretty` gives
    one-shot output. Mangled names come from `nm -C <obj>`.

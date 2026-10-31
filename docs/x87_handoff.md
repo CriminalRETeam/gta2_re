@@ -11,16 +11,16 @@ entry under "Still unexplained") for the details behind each point.
   count toward the 81: parenthesised float subexpressions, `(f32)` casts of float expressions, stores to
   `f32` locals. The original had about 9-11 more of them per window in the cluster, so its windows break
   earlier. A patched window limit makes `draw_left/right/top/bottom` (`4F3C00`/`4F4250`/`4F4600`/`4F49B0`,
-  limit 71), `4EEE60`, `4EF880` and `draw_lid_4EE130` (69) match exactly, and brings the others in the
+  limit 71), `4EEE60`, `4EF880` and `draw_lid` (69) match exactly, and brings the others in the
   cluster to 2-6 lines. The table is in the MapRenderer entry in `docs/matching_quirks.md`. The tools are in
   `Scripts/x87_sched/` (README there).
 - **Open: the source change.** Find where the original had the extra no-op nodes (most likely parentheses,
-  casts or `f32` locals in the inlined `ProjectVertTop_46BD40` / `ProjectVertBottom_46BDF0` /
-  `ProjectVert_46BC70` helpers or `set_vert_xyz_relative_to_cam`). It has to give about 9-11 nodes per window
-  without changing the matched functions. A global limit of 69 changes `set_shading_lev_4E9DB0`, so the
+  casts or `f32` locals in the inlined `ProjectVertTop` / `ProjectVertBottom` /
+  `ProjectVert` helpers or `set_vert_xyz_relative_to_cam`). It has to give about 9-11 nodes per window
+  without changing the matched functions. A global limit of 69 changes `set_shading_lev`, so the
   nodes are not spread evenly over the TU.
-- Matched along the way: `Set_UV_4F4190` (f32 locals instead of `ToFloat()`: one more no-op node),
-  `FrameProfiler::DrawProfileHistory_4FFD90` (a repeated `630 - fx` that VC6 CSEs; a ternary clamp).
+- Matched along the way: `Set_UV` (f32 locals instead of `ToFloat()`: one more no-op node),
+  `FrameProfiler::DrawProfileHistory` (a repeated `630 - fx` that VC6 CSEs; a ternary clamp).
 
 ## What is known
 
@@ -36,13 +36,13 @@ entry under "Still unexplained") for the details behind each point.
 3. **The helper bodies are the original source, as 9.6f compiled them.** 9.6f.exe is VC7.0
    (Utc13 13.00.9466, VS.NET 2002), and decomp.me's msvc7.0 is that exact build. With
    `/O2 /Ob0 /G5 /GX` (/G3 /G4 the same; the default /GB and /G6 differ: they convert u32 with
-   `test/jge/fadds 2^32` instead of `fildll`) our current `ProjectVertTop_46BD40`, `ProjectVertBottom_46BDF0`
-   and `ProjectVert_46BC70` bodies give the 9.6f code exactly (ratio 1.000). The only changes needed were
+   `test/jge/fadds 2^32` instead of `fildll`) our current `ProjectVertTop`, `ProjectVertBottom`
+   and `ProjectVert` bodies give the 9.6f code exactly (ratio 1.000). The only changes needed were
    external linkage and `__stdcall`: VC7 gives static functions a custom register convention.
 4. **In 9.6f the helpers are members of `Nanobotz`, called with the caller's `this`** (`mov %ebx,%ecx` before
    `call 0x46BD40`). `Nanobotz` is MapRenderer's 9.6f name (it also has `set_shading_lev`, `GetColour`,
    `TransformTriangleUVs`, `ClearDrawnTileCount`), so in 10.5 they're probably inline MapRenderer members.
-   The out-of-line `MapRenderer::ProjectVertTop_4EAE00`/`Bottom_4EAEA0` (both matched) would then be
+   The out-of-line `MapRenderer::ProjectVertTop`/`Bottom_4EAEA0` (both matched) would then be
    copies VC6 didn't inline (see "Big functions run out of inline expansions").
 5. The remaining cluster difference: in the y line of the inlined Top, the original issues the centre load
    and the dead zero high dword of the u32 -> float temp (`mov 0x74(%eax),%edx; mov %esi,0x1C(%esp)`) only
@@ -58,7 +58,7 @@ Scored with `score.py` over all 30 MapRenderer WIPs (differing lines, lower is b
 | Top/Bottom/ProjectVert as members of another struct, called through a global instance | 1293 | 4EA390 -67, 4EAF40 -63, 4EBA60 -27, 4ED290 -55, nothing worse, cluster unchanged |
 | local `Camera*` in Top | 1411 | 4EAF40 -67, 4ED290 -60, 4EBA60 +32 |
 | `(f32)(y * scale)` or an f32 local for the Top y product | 1417-1426 | cluster -12, 7 functions worse |
-| inline MapRenderer members (`inline void MapRenderer::ProjectVertTop_46BD40`) | 1467 | 4EA390 -45, cluster +5 |
+| inline MapRenderer members (`inline void MapRenderer::ProjectVertTop`) | 1467 | 4EA390 -45, cluster +5 |
 | static/extern/`__stdcall` inline free helpers, `__forceinline` | 1505 | no change |
 | about 150 other helper and call-site forms (centre conversions, z local, atan2 argument temps, pointer forms) | >= 1505 for the cluster | |
 
@@ -87,7 +87,7 @@ W=build_vc6/tu_harness
 Scripts/tu_harness/tu.sh Source/MapRenderer.cpp                       # writes $W/q.cpp (preprocessed)
 n=$(grep -n "^static inline void set_vert_xyz_relative_to_cam_inlined" $W/q.cpp | cut -d: -f1)
 head -$((n-1)) $W/q.cpp | sed 's/^static inline void ProjectVert/inline void __stdcall ProjectVert/' > $W/h96.cpp
-echo 'void __stdcall W1(Fix16& x, Fix16& y, Vert* p) { ProjectVertTop_46BD40(x, y, p); }' >> $W/h96.cpp
+echo 'void __stdcall W1(Fix16& x, Fix16& y, Vert* p) { ProjectVertTop(x, y, p); }' >> $W/h96.cpp
 Scripts/tu_harness/cl.sh -tc msvc7.0 $W/h96.cpp /O2 /Ob0 /G5 /GX
 venv/bin/python3 Scripts/tu_harness/diff.py $W/h96.obj 46bd40 --96f   # 0 differing lines
 ```
@@ -95,18 +95,18 @@ venv/bin/python3 Scripts/tu_harness/diff.py $W/h96.obj 46bd40 --96f   # 0 differ
 VC7 rejects things VC6 accepts (case labels that skip an initialisation: C2360/C2361), so whole-file VC7
 builds fail; cut the TU before the first such function and append only what you test.
 `target_96f.json` holds only the 9.6f functions paired with a 10.5 function (3818). For MapRenderer that is
-0x470250 (`DrawRightSide_4EAF40`), 0x46D9A0 (`draw_bottom_4ED290`), 0x470800 (`draw_lid_4F4D60`), 0x46EE40,
+0x470250 (`DrawRightSide`), 0x46D9A0 (`draw_bottom`), 0x470800 (`draw_partial_lid`), 0x46EE40,
 0x46BEA0 and the helpers 0x46BBF0/0x46BC70/0x46BD40/0x46BDF0.
 
 ## Next steps
 
 0. **Find the missing no-op nodes.** For one function at a time: `Scripts/x87_sched/sched.sh
-   Source/MapRenderer.cpp draw_left_4F3C00` shows the windows and where ours breaks. `regsearch.py` gives
+   Source/MapRenderer.cpp draw_left` shows the windows and where ours breaks. `regsearch.py` gives
    the limit, and so the node shortfall, per window. Add parentheses, `(f32)` casts or `f32` locals to the
    helpers until the counts agree, then check the whole TU with `regsearch.py --tu` or `score.py`. Start
    with the four `draw_left/right/top/bottom` functions: they need the same 9 nodes. The steps below still
    apply to the helper and call shapes.
-1. **Match a 9.6f Draw function under VC7** (start with 0x470800 `draw_lid` = 10.5 `draw_lid_4F4D60`). Make
+1. **Match a 9.6f Draw function under VC7** (start with 0x470800 `draw_lid` = 10.5 `draw_partial_lid`). Make
    Top/Bottom/ProjectVert MapRenderer members called on `this`, as in 9.6f (`thiscall`, ret $0xC); a first
    try with them as `__stdcall` free functions was at 0.452 because of the missing `this`. Once a 9.6f Draw
    function matches, its source shape (member calls, temporaries, argument order) is settled, and the same

@@ -2,7 +2,7 @@
 Like compare_callees.py, but compares the call targets of each WIP as multisets and lists only
 missing or extra calls to real functions (Fix16 operator and inline copies are left out). A call
 the original makes that ours lacks is often missing code: it found the missing reload block in
-Weapon_30::throwable_5DDFC0. Tail merging can also add or remove a call, so check the asm.
+Weapon_30::throwable. Tail merging can also add or remove a call, so check the asm.
 
 Usage (from Scripts/bin_comp, after a build and msvc_dump_new_data.py):
 python3 compare_callees_multiset.py
