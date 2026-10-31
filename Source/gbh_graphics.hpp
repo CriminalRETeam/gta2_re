@@ -34,7 +34,7 @@ struct SLight;
 struct SImage;
 
 typedef void (CC* T_ConvertColourBank)(BYTE* pPalette);
-typedef s32 (CC* T_DrawLine)(s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
+typedef s32 (CC* T_DrawLine)(s32 x1, s32 y1, s32 x2, s32 y2, s32 a5);
 typedef void (CC* T_SetShadeTableA)(s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
 typedef s32* (CC* T_MakeScreenTable)(s32 pPixels, s32 pitch, u32 height);
 typedef s32 (CC* T_gbh_AddLight)(SLight* pLight);
@@ -47,7 +47,7 @@ typedef s32 (CC* T_gbh_BlitImage)(s32 image_idx, s32 src_left, s32 src_top, s32 
 typedef void (CC* T_gbh_CloseDLL)();
 typedef void (CC* T_gbh_CloseScreen)(SVideo* pVideo);
 typedef u32 (CC* T_gbh_Convert16BitGraphic)(s32 a1, u32 a2, WORD *a3, s32 a4);
-typedef u32 (CC* T_gbh_ConvertColour)(u8 a1, u8 a2, u8 a3);
+typedef u32 (CC* T_gbh_ConvertColour)(u8 red, u8 green, u8 blue);
 typedef s32 (CC* T_gbh_DrawFlatRect)(Vert* pVerts, s32 colour);
 typedef void (CC* T_gbh_DrawQuad)(s32 flags, STexture* pTexture, Vert* pVerts, s32 baseColour);
 typedef void (CC* T_gbh_DrawQuadClipped)(s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);

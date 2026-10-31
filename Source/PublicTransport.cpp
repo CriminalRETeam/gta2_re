@@ -111,10 +111,7 @@ gmp_map_zone* __stdcall FindStationZoneByName_577EE0(const char_type* pChar, u8 
 // 9.6f 0x421510 (Car member there), inlined
 static inline void EnsureAI_421510(Car* pCar)
 {
-    if (!pCar->field_5C_AI)
-    {
-        pCar->field_5C_AI = gCarAI_78_Pool_677CF8->Allocate();
-    }
+    pCar->AllocateAI_421510();
 }
 
 MATCH_FUNC(0x577f80)

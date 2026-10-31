@@ -48,11 +48,11 @@ DEFINE_GLOBAL(s16, font_type_703C14, 0x703C14);
 DEFINE_GLOBAL(s16, gFrontendHeadingFont_703C3C, 0x703C3C);
 DEFINE_GLOBAL(s16, gFrontendNormalFont_703D0C, 0x703D0C);
 DEFINE_GLOBAL(s16, gFrontendSelectedFont_703C16, 0x703C16);
-DEFINE_GLOBAL(s16, word_703C8C, 0x703C8C);
+DEFINE_GLOBAL(s16, gFrontendFont6_703C8C, 0x703C8C);
 DEFINE_GLOBAL(s16, gFrontendPlayMenuScoreFont_703C8A, 0x703C8A);
 DEFINE_GLOBAL(s16, gFrontendScoreFont_703BE2, 0x703BE2);
 DEFINE_GLOBAL(s16, gFrontendAreaCompleteFont_703B88, 0x703B88);
-DEFINE_GLOBAL(s16, word_703DAC, 0x703DAC);
+DEFINE_GLOBAL(s16, gFrontendFont12_703DAC, 0x703DAC);
 DEFINE_GLOBAL(s16, gFrontendTitleFont_703B9C, 0x703B9C);
 DEFINE_GLOBAL_INIT(Ang16, kAngZero_67DA70, Ang16(0), 0x67DA70);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne_67D934, Fix16(1), 0x67D934);
@@ -275,20 +275,6 @@ struct TgaInfo
     s32 field_80_len;
     s32 field_84_img;
 };
-
-/*
-TgaInfo tgaArray_61F0C8[25] = {{"data\\frontend\\1.tga", 347564, 0}, {"data\\frontend\\1_Options.tga", 266924, 0},
-        {"data\\frontend\\1_Play.tga", 266924, 0}, {"data\\frontend\\1_Quit.tga", 266924, 0}, {"data\\frontend\\2.tga", 347564, 0},
-        {"data\\frontend\\2_Bonus1.tga", 266924, 0}, {"data\\frontend\\2_Bonus2.tga", 266924, 0},
-        {"data\\frontend\\2_Bonus3.tga", 266924, 0}, {"data\\frontend\\2_League.tga", 266924, 0},
-        {"data\\frontend\\2_Level1.tga", 266924, 0}, {"data\\frontend\\2_Level2.tga", 266924, 0},
-        {"data\\frontend\\2_Level3.tga", 266924, 0}, {"data\\frontend\\2_Name.tga", 266924, 0},
-        {"data\\frontend\\2_Restart.tga", 266924, 0}, {"data\\frontend\\3.tga", 347564, 0}, {"data\\frontend\\3_Tables.tga", 614444, 0},
-        {"data\\frontend\\GameComplete.tga", 614444, 0}, {"data\\frontend\\LevelComplete.tga", 614444, 0},
-        {"data\\frontend\\MPLose.tga", 614444, 0}, {"data\\frontend\\PlayerDead.tga", 614444, 0}, {"data\\frontend\\Mask.tga", 104300, 0},
-        {"data\\frontend\\Mask2.tga ", 53594, 0}, {"data\\frontend\\Credits.tga", 614444, 0}, {"data\\frontend\\Mask3.tga", 130427, 0},
-        {"data\\frontend\\DemoInfo.tga ", 614939, 0}};
-*/
 
 DEFINE_GLOBAL_ARRAY_INIT(
     TgaInfo,
@@ -914,7 +900,7 @@ s32 Frontend::Run_4AEDB0()
         }
         else if (field_C9E0_updates_since_render)
         {
-            Render_4ADFB0(); // bQuit ??
+            Render_4ADFB0();
             result = field_108_winmain_next_state;
             field_C9E0_updates_since_render = 0;
             return result;
@@ -970,7 +956,7 @@ void Frontend::DrawScoreTable_4B5430(ScoreTableLine* pStrings,
         }
         swprintf(tmpBuff_67BD9C, L"%d", pIter->field_14_score);
 
-        if (gText_0x14_704DFC->field_10_lang_code == 'j')
+        if (gText_0x14_704DFC->LangIsJapanese_452E60())
         {
             Frontend::DrawTextFixedWidth_4B78B0(tmpBuff_67BD9C, new_xpos, text_ypos_to_use, arg_fontType, palette, 1, 16, true);
         }
@@ -982,17 +968,12 @@ void Frontend::DrawScoreTable_4B5430(ScoreTableLine* pStrings,
     }
 }
 
-// todo: add to header
-EXTERN_GLOBAL(s32, gGTA2VersionMajor_708280);
-
-EXTERN_GLOBAL(s32, gGTA2VersionMinor_708284);
-
-// sub_457920 in 9.6f
+// 9.6f 0x457920
 // https://decomp.me/scratch/jchxT
 MATCH_FUNC(0x4AD140)
 void Frontend::DrawMenu_4AD140()
 {
-    const s32 line_height = gText_0x14_704DFC->field_10_lang_code != 'j' ? 14 : 16;
+    const s32 line_height = !gText_0x14_704DFC->LangIsJapanese_452E60() ? 14 : 16;
 
     MenuPage* pMenuPage = &field_136_menu_pages_array[field_132_current_page_idx];
 
@@ -1192,19 +1173,19 @@ void Frontend::DrawMenu_4AD140()
                         {
                             pMenuPage->field_518_elements_array[8].field_1_is_it_displayed = true;
                             pMenuPage->field_518_elements_array[9].field_1_is_it_displayed = true;
-                            field_1EB4A_has_prev_player_slot = 1;
-                            field_1EB4B_has_next_player_slot = 1;
+                            field_1EB4A_has_prev_player_slot = true;
+                            field_1EB4B_has_next_player_slot = true;
                             if (!bIsLeftRightLoopEnabled_67DA80)
                             {
                                 if (selected_option_idx == 0)
                                 {
                                     pMenuPage->field_518_elements_array[8].field_1_is_it_displayed = false;
-                                    field_1EB4A_has_prev_player_slot = 0;
+                                    field_1EB4A_has_prev_player_slot = false;
                                 }
                                 else if (selected_option_idx == pMenuPage->field_4_options_array[0].field_7E_horizontal_max_idx)
                                 {
                                     pMenuPage->field_518_elements_array[9].field_1_is_it_displayed = false;
-                                    field_1EB4B_has_next_player_slot = 0;
+                                    field_1EB4B_has_next_player_slot = false;
                                 }
                             }
 
@@ -1402,7 +1383,7 @@ void Frontend::DrawMenu_4AD140()
         }
         wcscpy(tmpBuff_67BD9C, gText_0x14_704DFC->Find_5B5F90("entrnam"));
         x_pos = 0x15Eu;
-        y_pos = gText_0x14_704DFC->field_10_lang_code != 'j' ? 12 : 16;
+        y_pos = !gText_0x14_704DFC->LangIsJapanese_452E60() ? 12 : 16;
         DrawText_4B87A0(tmpBuff_67BD9C, x_pos, y_pos, field_126_heading_font, 1);
     }
     if (field_110_state == FrontendState::User_Typing_Password_5 && field_114_cursor_blink)
@@ -1420,7 +1401,7 @@ void Frontend::DrawCredits_4B7AE0()
 {
     u16 font_type;
     s32 palette;
-    s32 draw_kind;
+    s32 palette_type;
 
     u16 credit_idx = field_1EB38_credits_line_idx;
     for (Fix16 y = field_1EB34_credits_ypos; y < 480 && credit_idx < 600; credit_idx++, y += field_EE0E_credits.field_2_lines[credit_idx].field_4_y_gap)
@@ -1430,27 +1411,27 @@ void Frontend::DrawCredits_4B7AE0()
         {
             case credits_line_category::normal_0: // normal string: white
                 font_type = field_11E_text_font;
-                draw_kind = palette_types_enum::sprites_2;
+                palette_type = palette_types_enum::sprites_2;
                 palette = 0;
                 break;
             case credits_line_category::other_tag_1:
                 font_type = field_120_selected_font;
-                draw_kind = palette_types_enum::sprites_2;
+                palette_type = palette_types_enum::sprites_2;
                 palette = 0;
                 break;
             case credits_line_category::dev_names_2: // dev names: blue
                 font_type = field_120_selected_font;
-                draw_kind = palette_types_enum::font_remaps_8;
+                palette_type = palette_types_enum::font_remaps_8;
                 palette = 13;
                 break;
             case credits_line_category::department_3: // department (DMA, T2 etc) : green
                 font_type = field_120_selected_font;
-                draw_kind = palette_types_enum::font_remaps_8;
+                palette_type = palette_types_enum::font_remaps_8;
                 palette = 14;
                 break;
             case credits_line_category::game_name_4: // game name "GTA2" : yellow
                 font_type = field_120_selected_font;
-                draw_kind = palette_types_enum::font_remaps_8;
+                palette_type = palette_types_enum::font_remaps_8;
                 palette = 15;
                 break;
             default:
@@ -1472,7 +1453,7 @@ void Frontend::DrawCredits_4B7AE0()
             {
                 s32 text_width = Frontend::GetMaxTextWidth_5D8990(pStrBuf, font_type);
                 u16 draw_x = (640 - text_width) / 2;
-                DrawText_5D8A10(pStrBuf, draw_x, y, font_type, 1, draw_kind, palette, 0, 0);
+                DrawText_5D8A10(pStrBuf, draw_x, y, font_type, 1, palette_type, palette, 0, 0);
             }
         }
     }
@@ -1513,7 +1494,6 @@ bool Frontend::pre_intro_bik_exists_4B6030()
     }
 }
 
-// TODO: the contents of these strings aren't known, only their addresses
 DEFINE_GLOBAL_ARRAY_INIT(char_type, gBikDataDir_620454, 8, 0x620454, "Data\\");
 DEFINE_GLOBAL_ARRAY_INIT(char_type, gBikDriveDataDir_62045C, 4, 0x62045C, ":\\");
 DEFINE_GLOBAL_ARRAY_INIT(char_type, gIntroBikName_5FE76C, 16, 0x5FE76C, "Movie\\intro.bik");
@@ -1666,13 +1646,13 @@ void Frontend::read_menu_input_4AFEB0()
     }
     else
     {
-        field_C9CE_up_pressed = 0;
-        field_C9CF_down_pressed = 0;
-        field_C9CC_left_pressed = 0;
-        field_C9CD_right_pressed = 0;
-        field_C9D0_return_pressed = 0;
-        field_C9D1_escape_pressed = 0;
-        field_C9D2_delete_pressed = 0;
+        field_C9CE_up_pressed = false;
+        field_C9CF_down_pressed = false;
+        field_C9CC_left_pressed = false;
+        field_C9CD_right_pressed = false;
+        field_C9D0_return_pressed = false;
+        field_C9D1_escape_pressed = false;
+        field_C9D2_delete_pressed = false;
     }
 }
 
@@ -1819,7 +1799,6 @@ void Frontend::UpdatePageFromUserInput_4AE2D0()
     u16 target_page_idx;
     u8 bonus_scan_idx;
     u8 main_stage_idx;
-    // u8 unused_idx;
     u16 current_option_idx;
     MenuItem* pOption_prev;
     bool bWrapped_prev;
@@ -2096,7 +2075,6 @@ void Frontend::SetWinMainStateToBootMap_4AE990()
     field_108_winmain_next_state = Start_Game_3;
 }
 
-// TODO: It matches, but we need to get rid of goto's (if possible)
 MATCH_FUNC(0x4B2F60)
 void Frontend::HandlePlayerNameTyping_4B2F60()
 {
@@ -2152,29 +2130,30 @@ void Frontend::HandlePlayerNameTyping_4B2F60()
             field_136_menu_pages_array[1].field_BC6_current_option_idx = 0;
             snd1_67D818.field_0_object_type = 6;
         }
-        else if (input == 256)
+
+        if (input != 256)
         {
-        LABEL_27:
-            field_C9B3_key_held = false;
-            goto LABEL_29;
-        }
-        else if (input == DIK_SPACE)
-        {
-            typed_char = 32;
-        LABEL_13:
+            if (input == DIK_SPACE)
+            {
+                typed_char = 32;
+            }
+            else
+            {
+                KeyboardLayout::RecreateIfLayoutChanged_4D5FD0();
+                Key_4D5F40 = gKeybrd_0x204_6F52F4->GetKey_4D5F40(input);
+                typed_char = gText_0x14_704DFC->RemapExtendedChar_5B58D0(Key_4D5F40);
+                if (static_cast<u16>(GetCharWidth_4539D0(field_11C_normal_font, typed_char)) < 3u || !typed_char)
+                {
+                    // Both builds jump past the append here; an append in each branch folds the space into a constant
+                    goto update_key_held;
+                }
+            }
+
             if (field_C9B2_curr_plyr_name_length != 8)
             {
                 field_C9A0_curr_plyr_name[field_C9B2_curr_plyr_name_length++] = typed_char;
                 snd1_67D818.field_0_object_type = 7;
             }
-            goto LABEL_26;
-        }
-        KeyboardLayout::RecreateIfLayoutChanged_4D5FD0();
-        Key_4D5F40 = gKeybrd_0x204_6F52F4->GetKey_4D5F40(input);
-        typed_char = gText_0x14_704DFC->RemapExtendedChar_5B58D0(Key_4D5F40);
-        if (static_cast<u16>(GetCharWidth_4539D0(field_11C_normal_font, typed_char)) >= 3u && typed_char)
-        {
-            goto LABEL_13;
         }
     }
     else
@@ -2190,13 +2169,17 @@ void Frontend::HandlePlayerNameTyping_4B2F60()
             field_C9B6_key_repeat_timer = repeat_timer - 1;
         }
     }
-LABEL_26:
+
+update_key_held:
     if (input == 256)
     {
-        goto LABEL_27;
+        field_C9B3_key_held = false;
     }
-    field_C9B3_key_held = true;
-LABEL_29:
+    else
+    {
+        field_C9B3_key_held = true;
+    }
+
     field_118_cursor_blink_timer--;
     if (field_118_cursor_blink_timer <= 0)
     {
@@ -2392,12 +2375,13 @@ void Frontend::HandlePasswordTyping_4B8280()
         }
         else if (key_scan == 256)
         {
-            goto LABEL_27;
+            goto update_key_held;
         }
         else if (key_scan == DIK_SPACE)
         {
             ch = 32;
-        LABEL_12:
+        // shared with the typed-char path below: goto-free forms change the code
+        append_char:
             if (field_C9CA_password_length != 8)
             {
                 if (field_C9CB_wrong_password_shown)
@@ -2414,13 +2398,13 @@ void Frontend::HandlePasswordTyping_4B8280()
                 field_C9B8_password[field_C9CA_password_length++] = ch;
                 snd1_67D818.field_0_object_type = 7;
             }
-            goto LABEL_27;
+            goto update_key_held;
         }
         u16 key = gKeybrd_0x204_6F52F4->GetKey_4D5F40(key_scan);
         ch = key;
         if (GetCharWidth_4539D0(field_11C_normal_font, ch) >= 3 && ch)
         {
-            goto LABEL_12;
+            goto append_char;
         }
     }
     else
@@ -2436,7 +2420,7 @@ void Frontend::HandlePasswordTyping_4B8280()
         }
     }
 
-LABEL_27:
+update_key_held:
     if (key_scan == 256)
     {
         field_C9B3_key_held = false;
@@ -2582,111 +2566,111 @@ void Frontend::HandleCheatCode_4B3DD0(const wchar_t* cheat_str_wide)
 
     if (cheat_str_hash == 0x484DF)
     { // GOREFEST
-        bDo_blood_67D5C5 = bDo_blood_67D5C5 == 0;
+        bDo_blood_67D5C5 = !bDo_blood_67D5C5;
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x4878D)
     { // BUCKFAST Only mugger peds spawn
-        gCheatOnlyMuggerPeds_67D5A4 = gCheatOnlyMuggerPeds_67D5A4 == 0;
+        gCheatOnlyMuggerPeds_67D5A4 = !gCheatOnlyMuggerPeds_67D5A4;
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x4DA77)
     { // VOLTFEST Electro Gun with infinite ammo
-        gCheatUnlimitedElectroGun_67D4F7 = gCheatUnlimitedElectroGun_67D4F7 == 0;
+        gCheatUnlimitedElectroGun_67D4F7 = !gCheatUnlimitedElectroGun_67D4F7;
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x41611)
     { // MADEMAN Max respect from all gangs
-        gCheatAllGangMaxRespect_67D587 = gCheatAllGangMaxRespect_67D587 == 0;
+        gCheatAllGangMaxRespect_67D587 = !gCheatAllGangMaxRespect_67D587;
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x46BE8)
     { // LASVEGAS Only Elvis peds spawn
-        gCheatOnlyElvisPeds_67D4ED = gCheatOnlyElvisPeds_67D4ED == 0;
+        gCheatOnlyElvisPeds_67D4ED = !gCheatOnlyElvisPeds_67D4ED;
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x36F62)
     { // NEKKID All peds are naked
-        gCheatNakedPeds_67D5E8 = gCheatNakedPeds_67D5E8 == 0;
+        gCheatNakedPeds_67D5E8 = !gCheatNakedPeds_67D5E8;
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x4657B)
     { // EATSOUP Free shopping
-        bDo_free_shopping_67D6CD = bDo_free_shopping_67D6CD == 0;
+        bDo_free_shopping_67D6CD = !bDo_free_shopping_67D6CD;
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x4639F)
     { // DAVEMOON Basic set of weapons and max ammo
-        gCheatGetBasicWeaponsMaxAmmo_67D545 = gCheatGetBasicWeaponsMaxAmmo_67D545 == 0;
+        gCheatGetBasicWeaponsMaxAmmo_67D545 = !gCheatGetBasicWeaponsMaxAmmo_67D545;
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x33A69)
     { // CUTIE1 99 lives
-        gCheatGet99Lives_67D4F1 = gCheatGet99Lives_67D4F1 == 0;
+        gCheatGet99Lives_67D4F1 = !gCheatGet99Lives_67D4F1;
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x47AF1)
     { // ARSESTAR Keep weapons after death
-        bKeep_weapons_after_death_67D54D = bKeep_weapons_after_death_67D54D == 0;
+        bKeep_weapons_after_death_67D54D = !bKeep_weapons_after_death_67D54D;
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x49771)
     { // GODOFGTA All weapons
-        bGet_all_weapons_67D684 = bGet_all_weapons_67D684 == 0;
+        bGet_all_weapons_67D684 = !bGet_all_weapons_67D684;
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x478FB)
     { // RSJABBER Invincibility
-        bDo_invulnerable_67D4CB = bDo_invulnerable_67D4CB == 0;
+        bDo_invulnerable_67D4CB = !bDo_invulnerable_67D4CB;
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x44D2F)
     { // DANISGOD Player get points
-        gCheatGetPlayerPoints_67D4C8 = gCheatGetPlayerPoints_67D4C8 == 0;
+        gCheatGetPlayerPoints_67D4C8 = !gCheatGetPlayerPoints_67D4C8;
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x478A9)
     { // COCKTART Skip exploding scores
-        bExplodingScoresOff_67D4FB = bExplodingScoresOff_67D4FB == 0;
+        bExplodingScoresOff_67D4FB = !bExplodingScoresOff_67D4FB;
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x45EC2)
     { // FLAMEON Flame Thrower with infinite ammo
-        gCheatUnlimitedFlameThrower_67D6CC = gCheatUnlimitedFlameThrower_67D6CC == 0;
+        gCheatUnlimitedFlameThrower_67D6CC = !gCheatUnlimitedFlameThrower_67D6CC;
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x45118)
     {
-        gCheatUnlimitedJailCard_67D4F6 = gCheatUnlimitedJailCard_67D4F6 == 0;
+        gCheatUnlimitedJailCard_67D4F6 = !gCheatUnlimitedJailCard_67D4F6;
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x4672D)
     { // IAMDAVEJ Get $10,000,000
-        gCheatGet10MillionMoney_67D6CE = gCheatGet10MillionMoney_67D6CE == 0;
+        gCheatGet10MillionMoney_67D6CE = !gCheatGet10MillionMoney_67D6CE;
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x4A98B)
     { // SEGARULZ 10x multiplier
-        gCheat10xMultiplier_67D589 = gCheat10xMultiplier_67D589 == 0;
+        gCheat10xMultiplier_67D589 = !gCheat10xMultiplier_67D589;
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x45B2C)
     { // UKGAMER Unlock three main levels
-        gCheatUnlockThreeLevels_67D6CB = gCheatUnlockThreeLevels_67D6CB == 0;
+        gCheatUnlockThreeLevels_67D6CB = !gCheatUnlockThreeLevels_67D6CB;
         gPlyDat_6FEAC0->UnlockAllStages_56BC40();
         UpdateMenuForCurrPlayer_4B42E0();
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x49C76)
     { // GINGERRR Unlock levels one and two
-        gCheatUnlockLevelsOneAndTwo_67D584 = gCheatUnlockLevelsOneAndTwo_67D584 == 0;
+        gCheatUnlockLevelsOneAndTwo_67D584 = !gCheatUnlockLevelsOneAndTwo_67D584;
         gPlyDat_6FEAC0->UnlockStage_56BBD0(1u, 0);
         UpdateMenuForCurrPlayer_4B42E0();
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x5073D)
     { // TUMYFROG unlock all levels
-        gCheatUnlockAllLevels_67D538 = gCheatUnlockAllLevels_67D538 == 0;
+        gCheatUnlockAllLevels_67D538 = !gCheatUnlockAllLevels_67D538;
         gPlyDat_6FEAC0->UnlockAllStages_56BC40();
         gPlyDat_6FEAC0->UnlockStage_56BBD0(2u, 2u);
         UpdateMenuForCurrPlayer_4B42E0();
@@ -2694,17 +2678,17 @@ void Frontend::HandleCheatCode_4B3DD0(const wchar_t* cheat_str_wide)
     }
     else if (cheat_str_hash == 0x4D5C4)
     { // SCHURULZ Unlimited double damage
-        gCheatUnlimitedDoubleDamage_67D57C = gCheatUnlimitedDoubleDamage_67D57C == 0;
+        gCheatUnlimitedDoubleDamage_67D57C = !gCheatUnlimitedDoubleDamage_67D57C;
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x4B28C)
     { // HUNSRUS Invisibility
-        gCheatInvisibility_67D539 = gCheatInvisibility_67D539 == 0;
+        gCheatInvisibility_67D539 = !gCheatInvisibility_67D539;
         snd1_67D818.field_0_object_type = 9;
     }
     else if (cheat_str_hash == 0x45AEF)
     { // FISHFLAP All cars are mini cars
-        gCheatMiniCars_67D6C8 = gCheatMiniCars_67D6C8 == 0;
+        gCheatMiniCars_67D6C8 = !gCheatMiniCars_67D6C8;
         snd1_67D818.field_0_object_type = 9;
     }
 }
@@ -2946,7 +2930,7 @@ void Frontend::DrawDeletePlayerDialog_4ADDE0()
     {
         case 1:
         {
-            u16 ypos = gText_0x14_704DFC->field_10_lang_code != 'j' ? 12 : 16;
+            u16 ypos = !gText_0x14_704DFC->LangIsJapanese_452E60() ? 12 : 16;
             DrawText_4B87A0(gText_0x14_704DFC->Find_5B5F90("clrchar"), static_cast<u16>(275), ypos, field_126_heading_font, 1);
             break;
         }
@@ -3237,7 +3221,7 @@ void Frontend::Load_tga_4B6520(u16 idx)
     FILE* hFile = crt::fopen(tgaArray_61F0C8[idx].field_0_tga_name, "rb");
     if (!hFile)
     {
-        FatalError_4A38C0(Gta2Error::FreeloaderEpisodeUnknown, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 6516);
+        FatalError_4A38C0(Gta2Error::FileOpenError, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 6516);
     }
 
     void* pAlloc = malloc(tgaArray_61F0C8[idx].field_80_len);
@@ -3281,9 +3265,8 @@ Frontend::Frontend()
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\GTA2\\Source\\frontend2.cpp", 2292);
     }
 
-    if (gText_0x14_704DFC->field_10_lang_code == 'j')
+    if (gText_0x14_704DFC->LangIsJapanese_452E60())
     {
-        // pKanjiFont_8EC = pKanjiFont_8EC_mem ? KanjiFont::ctor_4D2C80(pKanjiFont_8EC_mem) : 0;
         gKanjiFont_6F5168 = new KanjiFont();
         if (!gKanjiFont_6F5168)
         {
@@ -3366,12 +3349,12 @@ Frontend::Frontend()
     field_1EB30_credits_scroll_timer = 0;
     field_1EB34_credits_ypos = kFpZero_67D930;
     field_1EB38_credits_line_idx = 0;
-    field_1EB4A_has_prev_player_slot = 0;
-    field_1EB4B_has_next_player_slot = 0;
-    field_1EB4C_has_prev_main_stage = 0;
-    field_1EB4D_has_next_main_stage = 0;
-    field_1EB4E_has_prev_bonus_stage = 0;
-    field_1EB4F_has_next_bonus_stage = 0;
+    field_1EB4A_has_prev_player_slot = false;
+    field_1EB4B_has_next_player_slot = false;
+    field_1EB4C_has_prev_main_stage = false;
+    field_1EB4D_has_next_main_stage = false;
+    field_1EB4E_has_prev_bonus_stage = false;
+    field_1EB4F_has_next_bonus_stage = false;
 
     for (u8 i = 0; i < 8; i++)
     {
@@ -3482,7 +3465,7 @@ void Frontend::InitKeyBoardDevice_4AFBE0()
 MATCH_FUNC(0x4AF0E0)
 void Frontend::SetFontTypes_4AF0E0()
 {
-    if (gText_0x14_704DFC->field_10_lang_code == 'j')
+    if (gText_0x14_704DFC->LangIsJapanese_452E60())
     {
         this->field_11C_normal_font = 101;
         this->field_11E_text_font = 101;
@@ -3501,13 +3484,13 @@ void Frontend::SetFontTypes_4AF0E0()
         this->field_11C_normal_font = gFrontendNormalFont_703D0C;
         this->field_11E_text_font = gFrontendNormalFont_703D0C;
         this->field_120_selected_font = gFrontendSelectedFont_703C16;
-        this->field_122_unused = word_703C8C;
+        this->field_122_unused = gFrontendFont6_703C8C;
         this->field_124_font_type = font_type_703C14;
         this->field_126_heading_font = gFrontendHeadingFont_703C3C;
         this->field_128_play_menu_score_font = gFrontendPlayMenuScoreFont_703C8A;
         this->field_12A_score_font = gFrontendScoreFont_703BE2;
         this->field_12C_area_complete_font = gFrontendAreaCompleteFont_703B88;
-        this->field_12E_unused = word_703DAC;
+        this->field_12E_unused = gFrontendFont12_703DAC;
         this->field_130_title_font = gFrontendTitleFont_703B9C;
     }
 }
@@ -3518,7 +3501,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
     // Setup all menu pages, options and elements
 
     MenuPage* pPage;
-    s32 line_height = gText_0x14_704DFC->field_10_lang_code != 'j' ? 12 : 16;
+    s32 line_height = !gText_0x14_704DFC->LangIsJapanese_452E60() ? 12 : 16;
     field_134_unused = 16;
 
     pPage = &field_136_menu_pages_array[0];
@@ -4093,7 +4076,7 @@ void Frontend::SetupMenuStringsOptionsElements_4B0220()
             gText_0x14_704DFC->Find_5B5F90("score"),
             0x32u);
     pPage->field_B8A_option_states[0].field_0_unused = 150;
-    pPage->field_B8A_option_states[0].field_2_unused = 348; //  TODO: check for wrong var
+    pPage->field_B8A_option_states[0].field_2_unused = 348;
     pPage->field_BC6_current_option_idx = 0;
     pPage->field_BC8_default_option_idx = 0;
     field_EE0E_credits.LoadCredits_483F20();
@@ -4206,7 +4189,7 @@ void Frontend::GetMainAndBonusStagesFromSeqFile_4B4440()
 }
 
 MATCH_FUNC(0x4B48D0)
-void Frontend::GetSeqItem_4B48D0(s32 type, char_type* ppRet, FILE* hSeqFile)
+void Frontend::GetSeqItem_4B48D0(u8 type, char_type* ppRet, FILE* hSeqFile)
 {
     char_type type_buf[52];
     char_type output_buf[256];
@@ -4245,7 +4228,7 @@ void Frontend::GetSeqItem_4B48D0(s32 type, char_type* ppRet, FILE* hSeqFile)
         } // 0x3d
         output_buf[pos] = 0;
 
-        switch (type & 0xff) // TODO: Wrong type ??
+        switch (type)
         {
             case 0:
                 strcpy(type_buf, "MainOrBonus");
@@ -4794,23 +4777,23 @@ void Frontend::UpdateMainStageArrows_4B7550()
     if (ExistsPreviousMainStage_4B7490())
     {
         pMenuPage->field_518_elements_array[4].field_1_is_it_displayed = true;
-        field_1EB4C_has_prev_main_stage = 1;
+        field_1EB4C_has_prev_main_stage = true;
     }
     else
     {
         pMenuPage->field_518_elements_array[4].field_1_is_it_displayed = false;
-        field_1EB4C_has_prev_main_stage = 0;
+        field_1EB4C_has_prev_main_stage = false;
     }
 
     if (ExistsNextMainStage_4B74C0())
     {
         pMenuPage->field_518_elements_array[5].field_1_is_it_displayed = true;
-        field_1EB4D_has_next_main_stage = 1;
+        field_1EB4D_has_next_main_stage = true;
     }
     else
     {
         pMenuPage->field_518_elements_array[5].field_1_is_it_displayed = false;
-        field_1EB4D_has_next_main_stage = 0;
+        field_1EB4D_has_next_main_stage = false;
     }
 }
 
@@ -4914,23 +4897,23 @@ void Frontend::UpdateBonusStageArrows_4B7610()
         if (ExistsPreviousBonusStage_4B74F0())
         {
             pPage->field_518_elements_array[6].field_1_is_it_displayed = true;
-            field_1EB4E_has_prev_bonus_stage = 1;
+            field_1EB4E_has_prev_bonus_stage = true;
         }
         else
         {
             pPage->field_518_elements_array[6].field_1_is_it_displayed = false;
-            field_1EB4E_has_prev_bonus_stage = 0;
+            field_1EB4E_has_prev_bonus_stage = false;
         }
 
         if (ExistsNextBonusStage_4B7520())
         {
             pPage->field_518_elements_array[7].field_1_is_it_displayed = true;
-            field_1EB4F_has_next_bonus_stage = 1;
+            field_1EB4F_has_next_bonus_stage = true;
         }
         else
         {
             pPage->field_518_elements_array[7].field_1_is_it_displayed = false;
-            field_1EB4F_has_next_bonus_stage = 0;
+            field_1EB4F_has_next_bonus_stage = false;
         }
 
         swprintf(gTmpWideStr_67C7D8, L"%c", 3 * main_idx + bonus_idx + 64);
@@ -5212,7 +5195,7 @@ MenuItem::MenuItem()
     field_6E_horizontal_selected_idx = 0;
     field_70_unused = 0;
 
-    for (s32 i = 0; i < GTA2_COUNTOF(field_72_horizontal_idx_enabled); i++) // or is it a u32 ??
+    for (s32 i = 0; i < GTA2_COUNTOF(field_72_horizontal_idx_enabled); i++)
     {
         field_72_horizontal_idx_enabled[i] = 0;
     }

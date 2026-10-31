@@ -58,20 +58,20 @@ DEFINE_GLOBAL_INIT(Ang16, kMaxTurnSpeed_6FE700, Ang16(48), 0x6FE700);
 DEFINE_GLOBAL_INIT(Fix16, kOne_6FE614, Fix16(1), 0x6FE614);
 DEFINE_GLOBAL_INIT(Fix16, k_instant_gang_radius_6FE634, Fix16(8), 0x6FE634);
 
-struct UnknownDebugClass
+struct DebugTest
 {
     EXPORT void DoTest_5B2640(u16 action);
     EXPORT void DoBrianTest_42D870(u16 action);
 };
-DEFINE_GLOBAL(UnknownDebugClass*, gTestObj_7044A0, 0x7044A0);
-DEFINE_GLOBAL(UnknownDebugClass*, gBrianTestObj_675F74, 0x675F74);
+DEFINE_GLOBAL(DebugTest*, gTestObj_7044A0, 0x7044A0);
+DEFINE_GLOBAL(DebugTest*, gBrianTestObj_675F74, 0x675F74);
 
 DEFINE_GLOBAL(Hud_Arrow*, gTestArrow_70416C, 0x70416C);
 DEFINE_GLOBAL(Car*, gTestArrowCar_7043F0, 0x7043F0);
 DEFINE_GLOBAL(s32, gTestTimer_7042D8, 0x7042D8);
 
 MATCH_FUNC(0x42D870)
-void UnknownDebugClass::DoBrianTest_42D870(u16 action)
+void DebugTest::DoBrianTest_42D870(u16 action)
 {
     switch (action)
     {
@@ -374,7 +374,7 @@ bool Player::AddWeaponWithAmmo_564960(s32 weapon_kind, u8 ammo)
     }
     else
     {
-        bHasAnyAmmo = HasAnyAmmo_564940() == 0;
+        bHasAnyAmmo = !HasAnyAmmo_564940();
     }
 
     bAmmoAdded = field_718_weapons[weapon_kind]->add_ammo_capped_5DCE40(ammo);
@@ -511,7 +511,7 @@ void Player::LoadCarWeapons_564AD0(Car* pCar)
         {
             this->field_788_curr_weapon_idx = last_weapon_kind;
         }
-        SelectNextOrPrevWeapon_5649D0(0, 0);
+        SelectNextOrPrevWeapon_5649D0(false, false);
     }
 }
 
@@ -557,7 +557,7 @@ void Player::UnloadCarWeapons_564C00()
         field_18_pre_kf_weapon_kind = field_14_saved_ped_weapon_idx;
     }
 
-    SelectNextOrPrevWeapon_5649D0(0, 0);
+    SelectNextOrPrevWeapon_5649D0(false, false);
 }
 
 MATCH_FUNC(0x564C50)
@@ -585,7 +585,7 @@ void Player::RemovePlayerWeapons_564C50()
         this->field_14_saved_ped_weapon_idx = idx;
         this->field_788_curr_weapon_idx = 0;
     }
-    SelectNextOrPrevWeapon_5649D0(0, 0);
+    SelectNextOrPrevWeapon_5649D0(false, false);
 }
 
 MATCH_FUNC(0x564CC0)
@@ -866,7 +866,7 @@ void Player::InitPlayerPed_565490(Ped* pPed)
     field_10_unused = 0;
     field_680_traffic_spawn_counter = 0;
     field_682_traffic_spawn_threshold = 1000;
-    pPed->SetPlayer_45B560(this, 0);
+    pPed->SetPlayer_45B560(this, false);
     field_68_camera_mode = 0;
 
     u8 ammo;
@@ -1318,7 +1318,7 @@ void Player::CharacterControls_566520()
     this->field_85_special_2_changed = !same;
     this->field_82_now_special_2_pressed = ctrl400;
 
-    // right shift (special 3??)
+    // right shift (special 3)
     const bool prev800 = this->field_83_now_special_3_pressed;
     bool ctrl800 = (input & input_bit::Special3) == input_bit::Special3;
     this->field_83_now_special_3_pressed = ctrl800;
@@ -1364,7 +1364,7 @@ void Player::HandleControls_5668D0(Ped* pPed)
     }
     if (field_7D_now_enter_exit_pressed && field_89_enter_exit_changed)
     {
-        if (!pPedCar)
+        if (!pPed->has_car_403B80())
         {
             if (pPed->get_objective_403A80() != objectives_enum::leave_car_36)
             {
@@ -1446,7 +1446,7 @@ void Player::HandleControls_5668D0(Ped* pPed)
             }
             else
             {
-                bNoPed = field_718_weapons[field_788_curr_weapon_idx]->CanFireWhileHeld_5E33C0() == 0;
+                bNoPed = !field_718_weapons[field_788_curr_weapon_idx]->CanFireWhileHeld_5E33C0();
                 if (!bNoPed)
                 {
                     pPed->SetAttacking_4A5010();
@@ -1712,7 +1712,7 @@ void Player::Wasted_567130()
         {
             player_killer = NULL;
         }
-        else if (pPed_killer->PedTypeIs_45EDE0(ped_type::player_2) == 0)
+        else if (!pPed_killer->PedTypeIs_45EDE0(ped_type::player_2))
         {
             player_killer = NULL;
         }
@@ -2019,7 +2019,7 @@ void Player::Service_5687F0()
     }
 
     Player::tick_down_powerups_565070();
-    Player::ShowDebugInfo_566EE0(0);
+    Player::ShowDebugInfo_566EE0(false);
 
     if (this->field_30_disable_enter_vehicles)
     {
@@ -2202,7 +2202,7 @@ void Player::UpdatePaused_569410()
     Camera* pCam;
     Camera* pCam2;
 
-    Player::ShowDebugInfo_566EE0(1);
+    Player::ShowDebugInfo_566EE0(true);
     switch (field_68_camera_mode)
     {
         case 1:
@@ -2298,7 +2298,7 @@ void Player::StartRemoteControl_569600(Car* pCar)
     field_2C8_aux_ped = gPedManager_6787BC->SpawnDriver_470B00(pCar);
     field_2C8_aux_ped->SetPedType_403920(ped_type::player_2);
     field_2C8_aux_ped->set_occupation_403970(ped_ocupation_enum::empty);
-    field_2C8_aux_ped->SetPlayer_45B560(this, 1);
+    field_2C8_aux_ped->SetPlayer_45B560(this, true);
     field_2C8_aux_ped->UpdatePositionFromCar_45C4B0();
     pCar->AssignDriver_4406E0(field_2C8_aux_ped);
     pCar->LockUnlessPermanent_475C10();
@@ -2530,7 +2530,7 @@ void Player::InitializePlayerState_569CB0()
     field_6BC_multipliers.InitDigitSprites_492150();
     field_64_jumping = false;
     field_18_pre_kf_weapon_kind = -2;
-    if (gScriptManager_6F8060->get_field_C1E2C_475A20())
+    if (gScriptManager_6F8060->IsLoadedFromSave_475A20())
     {
         Player::UpdateGameFromSave_56A310(&gGameSave_6F78C8.field_54_player_and_world_stats);
     }
@@ -2630,7 +2630,6 @@ char* Player::GetDeathText_569F00()
 MATCH_FUNC(0x569F40)
 void Player::DisableInputs_569F40()
 {
-    // TODO: Almost certainly an inline, and perhaps a switch case too
     Ped* pPed;
     if (!field_68_camera_mode)
     {
@@ -2857,7 +2856,7 @@ void Player::ApplyCheats_56A490()
         Player::CollectPowerUp_564D60(power_up_indices::DoubleDamage_7);
     }
 
-    if (byte_67D56B)
+    if (gCheatJailCardSmgRespect_67D56B)
     {
         Player::CollectPowerUp_564D60(power_up_indices::JailCard_4);
         Player::AddWeaponWithAmmo_564960(weapon_type::smg, 50u);
@@ -2986,7 +2985,7 @@ Player::~Player()
 }
 
 MATCH_FUNC(0x5B2640)
-void UnknownDebugClass::DoTest_5B2640(u16 action)
+void DebugTest::DoTest_5B2640(u16 action)
 {
     switch (action)
     {

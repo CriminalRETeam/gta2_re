@@ -679,12 +679,12 @@ void Weapon::throwable_5DDFC0(s32 obj_idx, s32 throw_strength, s32 throw_charge)
                     if (field_24_pPed->field_15C_player)
                     {
                         field_2_reload_timer = 4;
-                        field_24_pPed->field_21C_bf.bFlag22 = true;
+                        field_24_pPed->field_21C_bf.bHoldPosition = true;
                     }
                     else
                     {
                         field_2_reload_timer = 50;
-                        field_24_pPed->field_21C_bf.bFlag22 = true;
+                        field_24_pPed->field_21C_bf.bHoldPosition = true;
                     }
                     field_21_bThrown = 1;
                     Weapon::ApplyFastReload_5DCF40();
@@ -707,13 +707,13 @@ void Weapon::throwable_5DDFC0(s32 obj_idx, s32 throw_strength, s32 throw_charge)
         {
             if (field_20_bAiTestShotFired == 0)
             {
-                field_24_pPed->field_21C_bf.bFlag22 = false;
+                field_24_pPed->field_21C_bf.bHoldPosition = false;
             }
             --field_2_reload_timer;
             if (field_2_reload_timer < 30 && field_21_bThrown)
             {
                 field_21_bThrown = 0;
-                field_24_pPed->field_21C_bf.bFlag22 = false;
+                field_24_pPed->field_21C_bf.bHoldPosition = false;
             }
         }
     }
@@ -873,7 +873,7 @@ static inline Fix16 BeamLength_5DE910(Fix16_Point& d)
 // Draws the electro beam from `start_pos` (or the gun muzzle when gElectroChainDepth_706C94 is clear) to `end_pos` at height
 // `z_pos`: kFP16Quarter_706CF4 long segments with a random kink each, then straight segments for the rest.
 // `start_pos` is the base type: callers pass a get_x_y() temporary, which is sliced into it
-// (Fix16_Point here breaks the caller ChainShockTargets_5DFB60). 9.6f: sub_4CCBD0.
+// (Fix16_Point here breaks the caller ChainShockTargets_5DFB60). 9.6f: DrawElectricArc_4CCBD0.
 // The EH state is 0xA at entry and never changes: 11 Fix16_Point locals, two of them unused
 // (likely the original's by-value start_pos is one of them). `d` is reused for the rest of the way and
 // `len` for the straight segment count, as the original's frame shows.
@@ -2058,7 +2058,7 @@ void Weapon::rocket_5E3850()
     {
         if (!field_20_bAiTestShotFired)
         {
-            field_24_pPed->field_21C_bf.bFlag22 = false;
+            field_24_pPed->field_21C_bf.bHoldPosition = false;
         }
         field_2_reload_timer--;
     }

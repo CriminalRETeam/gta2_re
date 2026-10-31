@@ -694,15 +694,10 @@ void Police::UpdatePursuitTargets_56FBD0()
                             pCriminal = pPursuitTarget->field_0_criminal_ped;
                             if (pCriminal)
                             {
-                                Fix16 dy = pCriminal->field_1AC_cam.y - pPursuitTarget->field_14_y;
-                                Fix16 dx = pCriminal->field_1AC_cam.x - pPursuitTarget->field_10_x;
-                                dy = Fix16::Abs(dy);
-                                dx = Fix16::Abs(dx);
-                                if (!(dx > dy))
-                                {
-                                    dx = dy;
-                                }
-                                if (dx > kFpFive_6FECFC)
+                                if (Fix16::MaxAbsDistance_42A6B0(pPursuitTarget->field_10_x,
+                                                                 pPursuitTarget->field_14_y,
+                                                                 pCriminal->get_cam_x(),
+                                                                 pCriminal->get_cam_y()) > kFpFive_6FECFC)
                                 {
                                     pCrew->RemoveFromPursuit_570AB0();
                                     pPursuitTarget->field_1C_crew_gave_up = true;
@@ -872,7 +867,7 @@ bool Police::SpawnCrewInCar_5703E0(Car* pCar)
     pNewPed1->SetPedType_403920(ped_type::special_ped_4);
     pNewPed1->set_occupation_403970(ped_ocupation_enum::police);
     pNewPed1->SpawnPedInCar_45C730(pEmergencyCrew->field_0_car);
-    pNewPed1->SetObjective(objectives_enum::objective_43);
+    pNewPed1->SetObjective(objectives_enum::patrol_in_car_43);
     pNewPed1->field_288_threat_search = threat_search_enum::line_of_sight_1;
     pNewPed1->field_28C_threat_reaction = threat_reaction_enum::react_as_emergency_1;
     Ped* pNewPed2 = gPedManager_6787BC->AllocatePed_470F30();

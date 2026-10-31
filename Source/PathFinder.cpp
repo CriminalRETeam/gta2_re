@@ -60,7 +60,7 @@ bool PathFinder::CanMoveInDirection_554080(s32 path_direction) const
     if (field_25_xpos > 1u && field_25_xpos < 254u && field_26_ypos > 1u && field_26_ypos < 254u)
     {
         bool result =
-            gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(field_25_xpos, field_26_ypos, field_27_zpos, path_direction, &gPathFinder_SlopeZDelta_6FDEEC, 1) ==
+            gMap_0x370_6F6268->IsMoveOntoSlopeTileBlocked_4E0130(field_25_xpos, field_26_ypos, field_27_zpos, path_direction, &gPathFinder_SlopeZDelta_6FDEEC, true) ==
             0;
         return result;
     }
@@ -649,7 +649,7 @@ bool PathFinder::ComputePath_554AB0(s32 ped_id,
                 field_18_bSearching = false;
                 field_19_unused = 1;
                 field_1A_unused = 1;
-                goto trace_path;
+                break;
             }
             field_20_xpos = gPathFinder_best_x_6FDECA;
             field_21_ypos = gPathFinder_best_y_6FDECB - 1;
@@ -660,7 +660,7 @@ bool PathFinder::ComputePath_554AB0(s32 ped_id,
 
             if (PathFinder::ProcessGridCell_5548C0())
             {
-                goto trace_path;
+                break;
             }
             field_20_xpos = gPathFinder_best_x_6FDECA + 1;
             field_21_ypos = gPathFinder_best_y_6FDECB - 1;
@@ -671,7 +671,7 @@ bool PathFinder::ComputePath_554AB0(s32 ped_id,
 
             if (PathFinder::ProcessGridCell_5548C0())
             {
-                goto trace_path;
+                break;
             }
             field_20_xpos = gPathFinder_best_x_6FDECA + 1;
             field_21_ypos = gPathFinder_best_y_6FDECB;
@@ -682,7 +682,7 @@ bool PathFinder::ComputePath_554AB0(s32 ped_id,
 
             if (PathFinder::ProcessGridCell_5548C0())
             {
-                goto trace_path;
+                break;
             }
             field_20_xpos = gPathFinder_best_x_6FDECA + 1;
             field_21_ypos = gPathFinder_best_y_6FDECB + 1;
@@ -693,7 +693,7 @@ bool PathFinder::ComputePath_554AB0(s32 ped_id,
 
             if (PathFinder::ProcessGridCell_5548C0())
             {
-                goto trace_path;
+                break;
             }
             field_20_xpos = gPathFinder_best_x_6FDECA;
             field_21_ypos = gPathFinder_best_y_6FDECB + 1;
@@ -703,7 +703,7 @@ bool PathFinder::ComputePath_554AB0(s32 ped_id,
             field_1B_direction = 3;
             if (PathFinder::ProcessGridCell_5548C0())
             {
-                goto trace_path;
+                break;
             }
             field_20_xpos = gPathFinder_best_x_6FDECA - 1;
             field_21_ypos = gPathFinder_best_y_6FDECB + 1;
@@ -713,7 +713,7 @@ bool PathFinder::ComputePath_554AB0(s32 ped_id,
             field_1B_direction = 7;
             if (PathFinder::ProcessGridCell_5548C0())
             {
-                goto trace_path;
+                break;
             }
             field_20_xpos = gPathFinder_best_x_6FDECA - 1;
             field_21_ypos = gPathFinder_best_y_6FDECB;
@@ -723,7 +723,7 @@ bool PathFinder::ComputePath_554AB0(s32 ped_id,
             field_1B_direction = 4;
             if (PathFinder::ProcessGridCell_5548C0())
             {
-                goto trace_path;
+                break;
             }
             field_20_xpos = gPathFinder_best_x_6FDECA - 1;
             field_21_ypos = gPathFinder_best_y_6FDECB - 1;
@@ -734,37 +734,37 @@ bool PathFinder::ComputePath_554AB0(s32 ped_id,
 
             if (PathFinder::ProcessGridCell_5548C0())
             {
-                goto trace_path;
+                break;
             }
             if (!field_C_node_count)
             {
                 field_18_bSearching = false;
                 field_19_unused = 1;
                 PathFinder::RestoreSavedPosition_554920();
-                if (gPathFinder_best_x_6FDECA)
+                if (!gPathFinder_best_x_6FDECA)
                 {
-                    goto next_iteration;
+                    goto fail;
                 }
-                goto fail;
             }
-            field_14_bExpanding = true;
-            if (field_2E_iteration_budget == 0)
+            else
             {
-                return false;
+                field_14_bExpanding = true;
+                if (field_2E_iteration_budget == 0)
+                {
+                    return false;
+                }
             }
-        next_iteration:
             if (field_2E_iteration_budget > 0)
             {
                 --field_2E_iteration_budget;
             }
             if (!field_18_bSearching)
             {
-                goto trace_path;
+                break;
             }
         }
     }
 
-trace_path:
     field_14_bExpanding = false;
     cur_x = field_25_xpos;
     cur_y = field_26_ypos;
@@ -808,49 +808,42 @@ trace_path:
             case 1:
                 pCell += 34;
                 ++cur_y;
-                goto add_path_node;
+                break;
             case 3:
                 pCell -= 34;
                 --cur_y;
-                goto add_path_node;
+                break;
             case 2:
                 --pCell;
                 cur_x--;
-                goto add_path_node;
+                break;
             case 4:
                 // ++cur_x written out in cases 4, 7 and 8 (VC6 tail-merges them after register allocation);
                 // a shared ++cur_x label gives new_z 2 more regalloc priority than the switch temp, so new_z
                 // took eax (al) instead of edx (dl)
                 ++pCell;
                 ++cur_x;
-                goto add_path_node;
+                break;
             case 5:
                 ++cur_y;
                 pCell += 33;
                 cur_x--;
-                goto add_path_node;
+                break;
             case 6:
                 --cur_y;
                 pCell -= 35;
                 cur_x--;
-                goto add_path_node;
+                break;
             case 7:
                 --cur_y;
                 pCell -= 33;
                 ++cur_x;
-                goto add_path_node;
+                break;
             case 8:
                 ++cur_y;
                 pCell += 35;
                 ++cur_x;
-            add_path_node:
-                field_8_pNode++;
-                cur_z = new_z;
-                field_8_pNode->field_2_xpos = cur_x;
-                field_8_pNode->field_3_ypos = cur_y;
-                field_8_pNode->field_4_zpos = cur_z;
-                ++field_C_node_count;
-                continue;
+                break;
             case 66:
                 if (field_C_node_count > 1)
                 {
@@ -879,9 +872,15 @@ trace_path:
                 field_2FD1_time_out_counter = 0;
                 return true;
             default:
-                // Shared failure block: the default case and the "no more nodes" path both end here.
+                // Shared failure block with the "no more nodes" path: goto-free forms change the code
                 goto fail;
         }
+        field_8_pNode++;
+        cur_z = new_z;
+        field_8_pNode->field_2_xpos = cur_x;
+        field_8_pNode->field_3_ypos = cur_y;
+        field_8_pNode->field_4_zpos = cur_z;
+        ++field_C_node_count;
     }
 fail:
     PathFinder::RemovePed_554620(field_0_ped_id);
@@ -892,7 +891,7 @@ fail:
 MATCH_FUNC(0x5552b0)
 bool PathFinder::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos, u8* ypos, u8* zpos, bool bAllowDuringPathCompute)
 {
-    u8 dead_end_count = 0;
+    u8 expanded_count = 0;
     if (field_38_bComputePathInProgress && !bAllowDuringPathCompute)
     {
         return false;
@@ -1044,7 +1043,7 @@ bool PathFinder::FindNearbyTileMatchingSlopeType_5552B0(u8 block_type, u8* xpos,
                     if (!PathFinder::ProcessGridCell_5548C0())
                     {
                         ++field_16_start_cost;
-                        if (++dead_end_count <= 6 || bAllowDuringPathCompute)
+                        if (++expanded_count <= 6 || bAllowDuringPathCompute)
                         {
                             if (!field_18_bSearching)
                             {

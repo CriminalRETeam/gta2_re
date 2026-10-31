@@ -38,13 +38,13 @@ class SpriteList
     EXPORT void RemoveAllExceptRngValue_5A6C40(s32 toFind);
     EXPORT Sprite* FirstSpriteOfType_5A6CA0(s32 sprite_type) const;
     EXPORT void AddSprite_5A6CD0(Sprite* pSprite);
-    EXPORT void PushAttachedSprite_5A6D00(Sprite* pSprite1, Fix16 x, Fix16 y, Ang16 angle);
-    EXPORT void PushSprite_5A6D40(Sprite* pToFind);
+    EXPORT void PushAttachedSprite_5A6D00(Sprite* pSprite, Fix16 x, Fix16 y, Ang16 angle);
+    EXPORT void PushSprite_5A6D40(Sprite* pSprite);
     EXPORT bool SpriteExists_5A6D80(Sprite* pToFind) const;
     EXPORT Sprite* PopFrontSprite_5A6DA0();
     EXPORT Sprite* PopBackSprite_5A6DC0();
     EXPORT AttachedSprite* ClearList_5A6E10();
-    EXPORT Sprite* FindClosestSprite_5A6E40(Fix16 xOff, Fix16 yOff) const;
+    EXPORT Sprite* FindClosestSprite_5A6E40(Fix16 xpos, Fix16 ypos) const;
     EXPORT Sprite* TakeClosestSprite_5A6EA0(Fix16 xpos, Fix16 ypos);
 
     EXPORT void PoolUpdate_5A6F70(Sprite* pSprite);

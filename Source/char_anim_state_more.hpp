@@ -8,8 +8,9 @@ enum
     Knocked_Down_Hit_Front_15 = 15, // with Char_B4_state::Hit_From_Front_33, ends in Lying_Pose_13 or 19
     Knocked_Down_Hit_Behind_16 = 16, // with Char_B4_state::Hit_From_Behind_34, ends in Lying_Pose_14, 19 or 20
     Electrocuted_17 = 17, // ped_state_2::electrocuted_27
+    Initial_18 = 18, // start value (Char constructor and PoolAllocate), no animation case handles it
     Lying_Pose_19 = 19,
     Lying_Pose_20 = 20,
-    Electrocuted_Dead_21 = 21,
+    Charred_Corpse_21 = 21, // after electrocuted_27, or killed while on fire (Ped::Kill_46F9D0)
 };
 } // namespace Char_Anim_state

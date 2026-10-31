@@ -8,17 +8,17 @@
 
 class Fix16_Point;
 
-class Nanobotz  // Maybe Fix16_Point
+class DrawListBlock
 {
   public:
-    inline bool IsEqual_46BB60(const Nanobotz* other) const
+    inline bool IsEqual_46BB60(const DrawListBlock* other) const
     {
         return field_0_x == other->field_0_x && field_4_y == other->field_4_y;
     }
     s32 field_0_x;
     s32 field_4_y;
 };
-GTA2_ASSERT_SIZEOF_ALWAYS(Nanobotz, 0x8);
+GTA2_ASSERT_SIZEOF_ALWAYS(DrawListBlock, 0x8);
 
 EXTERN_GLOBAL(Fix16, gXCoord_6F63AC);
 
@@ -139,11 +139,11 @@ class MapRenderer
 
     inline void AddToDrawList_46BB90(s32& x, s32& y)
     {
-        Nanobotz* pPos = &field_1C_draw_list[field_2EFC_curr_draw_layer_size];
+        DrawListBlock* pPos = &field_1C_draw_list[field_2EFC_curr_draw_layer_size];
         pPos->field_0_x = x;
         pPos->field_4_y = y;
         
-        Nanobotz* pIter = &field_1C_draw_list[field_2EFC_curr_draw_layer_size-1];
+        DrawListBlock* pIter = &field_1C_draw_list[field_2EFC_curr_draw_layer_size-1];
         for (s32 i = field_2EFC_curr_draw_layer_size - 1; i >= 0; i--, pIter--)
         {
             if (pIter->IsEqual_46BB60(pPos))
@@ -178,7 +178,7 @@ class MapRenderer
     u8 field_19_tri_diag_up_right_colour;
     u8 field_1A_tri_diag_down_left_colour;
     u8 field_1B_tri_diag_down_right_colour;
-    Nanobotz field_1C_draw_list[1500];
+    DrawListBlock field_1C_draw_list[1500];
     s32 field_2EFC_curr_draw_layer_size;
     s32 field_2F00_drawn_tile_count;
 };

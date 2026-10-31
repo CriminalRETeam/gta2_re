@@ -10,32 +10,32 @@ class Link
     // 9.6f 0x40CE90
     inline u16 GetIndex_0040CE90() const
     {
-        return field_0 & 0x1ff;
+        return field_0_packed & 0x1ff;
     }
 
     // 9.6f 0x40CED0
     inline u8 IsEnabled() const
     {
-        return field_0 >> 15;
+        return field_0_packed >> 15;
     }
 
     // 9.6f 0x40CEA0
     inline u16 GetLength() const
     {
-        return (field_0 >> 9) & 0x3F;
+        return (field_0_packed >> 9) & 0x3F;
     }
 
     inline void Disable_40CEC0()
     {
-        field_0 &= ~0x8000u;
+        field_0_packed &= ~0x8000u;
     }
 
     inline void Enable_40CEB0()
     {
-        field_0 |= 0x8000u;
+        field_0_packed |= 0x8000u;
     }
 
-    u16 field_0;
+    u16 field_0_packed;
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Link, 0x2);
 
@@ -119,7 +119,7 @@ class RouteFinder
     EXPORT void FindArrowBlockInJunction_5890D0(u16 junction_idx, s32 direction, u8* xpos, u8* ypos);
 
   private:
-    EXPORT s32 NoRefs_589210(u8 x, u8 y, s32 a4, u8 direction, s32 a6, u16 junction_idx);
+    EXPORT s32 NoRefs_589210(u8 x, u8 y, s32, u8 direction, s32, u16 junction_idx);
     EXPORT RouteSearchNode* NewChildNode_5892F0(RouteSearchNode* pParent, u16 idx, s16 step_cost);
     EXPORT RouteSearchNode* NewStartNode_589390(u16 junction_idx);
     EXPORT void InsertIntoOpenList_589420(RouteSearchNode* pNode);
@@ -149,7 +149,7 @@ class RouteFinder
     EXPORT RouteFinder();
 
     u16 field_0_route_count;
-    u8 field_2;
+    u8 field_2_no_junction_direction;
     char_type field_3_unused;
     s16 field_4_unused;
     s16 field_6_unused;

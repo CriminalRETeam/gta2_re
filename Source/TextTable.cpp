@@ -67,7 +67,7 @@ u16 TextTable::RemapExtendedChar_5B58D0(u16 ch) const
 MATCH_FUNC(0x5B5910)
 void TextTable::RemapExtendedCharsIfNotJapanese_5B5910(wchar_t* pText)
 {
-    if (field_10_lang_code != 'j')
+    if (!LangIsJapanese_452E60())
     {
         RemapExtendedChars_5B5930(pText);
     }
@@ -85,7 +85,6 @@ void TextTable::RemapExtendedChars_5B5930(wchar_t* pStr)
 MATCH_FUNC(0x5B5960)
 void TextTable::TKEY_Load_5B5960(u32 chunk_size)
 {
-    // TODO: probably an inline
     field_0_tKey.field_4_tKey_count = chunk_size / sizeof(TextKeyEntry);
     field_0_tKey.field_0_tKey = new TextKeyEntry[field_0_tKey.field_4_tKey_count];
     if (!field_0_tKey.field_0_tKey)

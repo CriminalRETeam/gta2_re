@@ -88,7 +88,7 @@ void* __stdcall File::ReadFileToBuffer_4A6C80(const char_type* FileName, size_t*
     FILE* hFileRead1 = crt::fopen(FileName, "rb");
     if (!hFileRead1)
     {
-        FatalError_4A38C0(Gta2Error::FreeloaderEpisodeUnknown, "C:\\Splitting\\Gta2\\Source\\File.cpp", 141);
+        FatalError_4A38C0(Gta2Error::FileOpenError, "C:\\Splitting\\Gta2\\Source\\File.cpp", 141);
     }
 
     *pAllocatedBufferSize = GetFileSize_4A6B10(hFileRead1);
@@ -103,7 +103,7 @@ void* __stdcall File::ReadFileToBuffer_4A6C80(const char_type* FileName, size_t*
     if (!hFileRead2)
     {
         crt::free(pBuffer);
-        FatalError_4A38C0(Gta2Error::FreeloaderEpisodeUnknown, "C:\\Splitting\\Gta2\\Source\\File.cpp", 151);
+        FatalError_4A38C0(Gta2Error::FileOpenError, "C:\\Splitting\\Gta2\\Source\\File.cpp", 151);
     }
 
     if (Read_4A6D90(pBuffer, *pAllocatedBufferSize, 1u, hFileRead2) != 1)
@@ -137,7 +137,7 @@ size_t __stdcall File::ReadFileToFixedBuffer_4A6DB0(const char_type* FileName, v
     FILE* hFile = crt::fopen(FileName, "rb");
     if (!hFile)
     {
-        FatalError_4A38C0(Gta2Error::FreeloaderEpisodeUnknown, "C:\\Splitting\\Gta2\\Source\\File.cpp", 192);
+        FatalError_4A38C0(Gta2Error::FileOpenError, "C:\\Splitting\\Gta2\\Source\\File.cpp", 192);
     }
 
     size_t size = GetFileSize_4A6B10(hFile);
@@ -172,7 +172,7 @@ void __stdcall File::WriteBufferToFile_4A6E80(const char_type* FileName, void* B
     FILE* hFile = crt::fopen(FileName, "wb");
     if (!hFile)
     {
-        FatalError_4A38C0(Gta2Error::FreeloaderEpisodeUnknown, "C:\\Splitting\\Gta2\\Source\\File.cpp", 231);
+        FatalError_4A38C0(Gta2Error::FileOpenError, "C:\\Splitting\\Gta2\\Source\\File.cpp", 231);
     }
 
     if (Write_4A6F30(Buffer, *pBufferSize, 1u, hFile) != 1)
@@ -205,7 +205,7 @@ void __stdcall File::AppendBufferToFile_4A6F50(const char_type* FileName, void* 
     FILE* hFile = crt::fopen(FileName, "ab");
     if (!hFile)
     {
-        FatalError_4A38C0(Gta2Error::FreeloaderEpisodeUnknown, "C:\\Splitting\\Gta2\\Source\\File.cpp", 264);
+        FatalError_4A38C0(Gta2Error::FileOpenError, "C:\\Splitting\\Gta2\\Source\\File.cpp", 264);
     }
 
     if (Write_4A6F30(pBuffer, *pBufferSize, 1u, hFile) != 1)
@@ -228,7 +228,7 @@ void __stdcall File::CreateFile_4A7000(const char_type* FileName)
     FILE* hFile = crt::fopen(FileName, "wb");
     if (!hFile)
     {
-        FatalError_4A38C0(Gta2Error::FreeloaderEpisodeUnknown, "C:\\Splitting\\Gta2\\Source\\File.cpp", 296);
+        FatalError_4A38C0(Gta2Error::FileOpenError, "C:\\Splitting\\Gta2\\Source\\File.cpp", 296);
     }
 
     if (crt::fclose(hFile))
@@ -250,7 +250,7 @@ void __stdcall File::Global_Open_4A7060(const char_type* FileName)
     ghFile_67CFEC = crt::fopen(FileName, "rb");
     if (!ghFile_67CFEC)
     {
-        FatalError_4A38C0(Gta2Error::FreeloaderEpisodeUnknown, "C:\\Splitting\\Gta2\\Source\\File.cpp", 323);
+        FatalError_4A38C0(Gta2Error::FileOpenError, "C:\\Splitting\\Gta2\\Source\\File.cpp", 323);
     }
 
     gbGlobalFileOpen_67D160 = 1;

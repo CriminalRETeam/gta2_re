@@ -126,8 +126,8 @@ DEFINE_GLOBAL(Fix16, gSaved_trailer_air_z_vel_6FE394, 0x6FE394);
 
 DEFINE_GLOBAL_INIT(Fix16, kAngFix16FullCircle_6FE314, Fix16(0x18F60, 0), 0x6FE314);
 DEFINE_GLOBAL_INIT(Fix16, kFP16One_6FE3D0, kFpOne_6FE210, 0x6FE3D0);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FE148, Fix16(0x8E5, 0), 0x6FE148);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FE3D4, dword_6FE148, 0x6FE3D4);
+DEFINE_GLOBAL_INIT(Fix16, kFpPoint139_6FE148, Fix16(0x8E5, 0), 0x6FE148);
+DEFINE_GLOBAL_INIT(Fix16, kFpPoint139_6FE3D4, kFpPoint139_6FE148, 0x6FE3D4);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint8_6FE320, kFpPoint8_6FDFF8, 0x6FE320);
 DEFINE_GLOBAL_INIT(Fix16, kFP16One128th_6FE0A0, Fix16(0x80, 0), 0x6FE0A0);
 DEFINE_GLOBAL_INIT(Fix16, kFP16One128th_6FDFDC, kFP16One128th_6FE0A0, 0x6FDFDC);
@@ -287,7 +287,6 @@ void CarPhysics::ShowPhysicsDebug_559430()
         swprintf(tmpBuff_67BD9C, L"theta = %s", field_58_theta.ThetaText_49E240());
         gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 96, gDebugFont_706600, 1);
 
-        // TODO: the format string at 0x623FFC is a guess
         swprintf(tmpBuff_67BD9C, L"pointingangrad = %3.3f", field_78_pointing_ang_rad.to_float_410BA0());
         gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 112, gDebugFont_706600, 1);
 
@@ -299,7 +298,7 @@ void CarPhysics::ShowPhysicsDebug_559430()
         if (field_84_front_skid >= gCarInfo_2C_6FE0E4->field_24_skid_threshhold_1 ||
             (field_AC_drive_wheels_locked_q > 0 && gCarInfo_48_6FE258->field_8_front_drive_bias > kFP16Zero_6FE20C))
         {
-            pText->SetDrawKind8_45AFD0(5);
+            pText->SetFontRemap_45AFD0(5);
         }
 
         swprintf(tmpBuff_67BD9C, L"rear skid = %3.3f", field_88_rear_skid.to_float_410BA0());
@@ -307,7 +306,7 @@ void CarPhysics::ShowPhysicsDebug_559430()
         if (field_88_rear_skid >= gCarInfo_2C_6FE0E4->field_28_skid_threshhold_2 ||
             (field_AC_drive_wheels_locked_q > 0 && gCarInfo_2C_6FE0E4->field_20_rear_drive_bias > kFP16Zero_6FE20C))
         {
-            pText->SetDrawKind8_45AFD0(5);
+            pText->SetFontRemap_45AFD0(5);
         }
 
         swprintf(tmpBuff_67BD9C,
@@ -343,7 +342,6 @@ void CarPhysics::ShowSpeedRevsDamage_5597B0()
         swprintf(tmpBuff_67BD9C, L"revs:%3.3f %c", field_60_gas_pedal.AsDouble(), IsTurboActive_561940() ? 'T' : ' ');
         gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 32, gDebugFont_706600, 1);
 
-        // TODO: the format string at 0x6240FC is a guess
         swprintf(tmpBuff_67BD9C, L"damage:%d%%", field_5C_pCar->field_74_damage * 100 / 32000);
         gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(tmpBuff_67BD9C, 0, 48, gDebugFont_706600, 1);
     }
@@ -409,7 +407,7 @@ void CarPhysics::EnforceTrailerControlLimits_559B50()
 }
 
 MATCH_FUNC(0x559b90)
-void CarPhysics::set_field_A0_559B90(const s32& spin_dir)
+void CarPhysics::SetOilSpinDir_559B90(const s32& spin_dir)
 {
     field_A0_oil_spin_dir = spin_dir;
 }
@@ -423,11 +421,11 @@ void CarPhysics::SpinOutOnOil_559BA0()
         {
             if (gRng_6F6784.get_int_4F7AE0(2))
             {
-                set_field_A0_559B90(1);
+                SetOilSpinDir_559B90(1);
             }
             else
             {
-                set_field_A0_559B90(2);
+                SetOilSpinDir_559B90(2);
             }
         }
         this->field_A4_oil_spin_timer = 30;
@@ -472,7 +470,7 @@ void CarPhysics::ScarePedsOnDrivingFast_559C30()
         field_A4_oil_spin_timer--;
         if (field_A4_oil_spin_timer == 0)
         {
-            CarPhysics::set_field_A0_559B90(0);
+            CarPhysics::SetOilSpinDir_559B90(0);
         }
     }
 }
@@ -580,7 +578,6 @@ Fix16 CarPhysics::GetEffectiveMomentOfInertia_55A050()
 MATCH_FUNC(0x55a0b0)
 bool CarPhysics::IsInAir_55A0B0()
 {
-    // TODO: The surface checks are likely inlines
     Trailer* pTrailer = field_5C_pCar->field_64_pTrailer;
     if (pTrailer)
     {
@@ -1033,7 +1030,7 @@ Fix16 CarPhysics::ComputeSlopeCorrection_55AB50(Fix16* pOutY)
     return result;
 }
 
-// 9.6f 0x4A2240: field_6C_cp3 read directly everywhere, g_ZPos * a2, IsFlagSet_411930(car_flag::Crushing),
+// 9.6f 0x4A2240: field_6C_cp3 read directly everywhere, g_ZPos * a2,
 // the slope test nested as (slope && frac != 0 && zpos <= cp3 + k), ComputeSlopeCorrection's two outputs.
 MATCH_FUNC(0x55ad90)
 void CarPhysics::UpdateZPhysics_55AD90(Fix16 dt)
@@ -1061,14 +1058,13 @@ void CarPhysics::UpdateZPhysics_55AD90(Fix16 dt)
             zpos = kMaxZ_6FDF34;
         }
     }
+    else if (field_98_surface_type == car_surface_type::remapped_water_tile_7 ||
+             field_98_surface_type == car_surface_type::water_surface_8)
+    {
+        zpos = field_6C_cp3;
+    }
     else
     {
-        if (field_98_surface_type == car_surface_type::remapped_water_tile_7 ||
-            field_98_surface_type == car_surface_type::water_surface_8)
-        {
-            goto reset_z;
-        }
-
         zpos = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(field_38_cp1.x, field_38_cp1.y);
         if (zpos == kFP16Zero_6FE20C)
         {
@@ -1128,14 +1124,12 @@ void CarPhysics::UpdateZPhysics_55AD90(Fix16 dt)
 
             if (field_5C_pCar->field_50_car_sprite->CheckSpriteMovementRegion_5A2500())
             {
-            // shared with the unknown/water surface case
-            reset_z:
                 zpos = field_6C_cp3;
             }
         }
     }
 
-    if (field_5C_pCar->IsFlagSet_411930(car_flag::Crushing))
+    if (field_5C_pCar->IsCrushing_414F70())
     {
         UpdateSpriteFromPhysics_563670();
 
@@ -1643,8 +1637,8 @@ void CarPhysics::HandleMapBoundaryCollisionX_55C820(Fix16_Point& point, Ang16 an
 MATCH_FUNC(0x55ca70)
 void CarPhysics::DispatchCollision_55CA70(Fix16_Point& point, Ang16 angle)
 {
-    Fix16_Point arg0;
-    u8 hitType;
+    Fix16_Point unusedPoint; // never read, but needed to match
+    u8 overlap_count;
     switch (gCollisionTarget_679188.field_0_type)
     {
         case collision_target_type::horizontal_edge_1:
@@ -1654,13 +1648,12 @@ void CarPhysics::DispatchCollision_55CA70(Fix16_Point& point, Ang16 angle)
             HandleMapBoundaryCollisionX_55C820(point, angle);
             break;
         case collision_target_type::sprite_3:
-            // TODO: Likely wrong arguments here
             CollisionIntersectionPoint_6FE1A0 = field_5C_pCar->field_50_car_sprite->FindCollisionIntersectionPoint_5A2710(gCollisionTarget_679188.field_20_pHitSprite,
                                                                                                      point,
                                                                                                      angle,
                                                                                                      gCollisionArea_6FDFC4,
                                                                                                      gOtherCollisionArea_6FDFCC,
-                                                                                                     hitType);
+                                                                                                     overlap_count);
 
             Car* pCar = gCollisionTarget_679188.field_20_pHitSprite->AsCar_40FEB0();
             if (pCar)
@@ -1672,7 +1665,7 @@ void CarPhysics::DispatchCollision_55CA70(Fix16_Point& point, Ang16 angle)
                 Char* pChar = gCollisionTarget_679188.field_20_pHitSprite->AsCharB4_40FEA0();
                 if (pChar)
                 {
-                    ProcessPedImpact_560B40(pChar, hitType);
+                    ProcessPedImpact_560B40(pChar, overlap_count);
                 }
                 else
                 {
@@ -2199,16 +2192,14 @@ void CarPhysics::StepPhysics_55F330()
 MATCH_FUNC(0x55f360)
 char_type CarPhysics::CheckPendingCollision_55F360()
 {
-    // 9.6f: Car flag helpers 0x414F70 (IsFlagSet_411930(car_flag::Crushing)) and 0x49EFD0 (clear 0x2000)
-    // (inlined, using IsFlagSet_411930 here changes the code)
-    if ((this->field_5C_pCar->field_78_flags & car_flag::Crushing))
+    if (this->field_5C_pCar->IsCrushing_414F70())
     {
         gCarManager_6C_677930->field_60_impact_mode = car_impact_mode::crush_damage_1;
         if (gSpriteGrid_1_679208->CheckAndHandleAllCollisionsForSprite_477C30(field_5C_pCar->field_50_car_sprite, sprite_types_enum::car_2))
         {
             return 1;
         }
-        this->field_5C_pCar->field_78_flags &= static_cast<u16>(~car_flag::Crushing);
+        this->field_5C_pCar->ClearCrushFlag_49EFD0();
     }
     return 0;
 }
@@ -2394,7 +2385,7 @@ Fix16 CarPhysics::ApplyImpactForcesAndDamage_55FA60(Fix16_Point& PointOfForce, F
     {
         NewImpulse = Impulse;
 
-        if (field_5C_pCar->IsFlagSet_411930(car_flag::Jammed))
+        if (field_5C_pCar->IsFlagSet_411930(car_flag::ResistsPushWhenStopped))
         {
             if (!field_5C_pCar->IsDrivenByPlayer_4118D0())
             {
@@ -2674,13 +2665,13 @@ void CarPhysics::HandleCarCollision_55FF20(Car* pOtherCar)
 
     if (field_5C_pCar->field_5C_AI)
     {
-        field_5C_pCar->field_5C_AI->field_24_bf.bFlag12 = true;
+        field_5C_pCar->field_5C_AI->field_24_bf.bCollidedWithCar = true;
         field_5C_pCar->field_5C_AI->field_68_car_in_collision = pOtherCar;
     }
 
     if (pOtherCar->field_5C_AI)
     {
-        pOtherCar->field_5C_AI->field_24_bf.bFlag12 = true;
+        pOtherCar->field_5C_AI->field_24_bf.bCollidedWithCar = true;
         pOtherCar->field_5C_AI->field_68_car_in_collision = field_5C_pCar;
     }
 }
@@ -2776,7 +2767,7 @@ void CarPhysics::HandleObjectCollision_5606C0(Object* pObject, char_type damage_
 }
 
 MATCH_FUNC(0x560b40)
-void CarPhysics::ProcessPedImpact_560B40(Char* pChar, u8 hitType)
+void CarPhysics::ProcessPedImpact_560B40(Char* pChar, u8 overlap_count)
 {
     Fix16_Point impact_dir; // a local with a destructor: the original constructs 4 points up front (EH state 3)
     Fix16_Point impulse;
@@ -2799,15 +2790,15 @@ void CarPhysics::ProcessPedImpact_560B40(Char* pChar, u8 hitType)
                                                        kFP16One_6FE070,
                                                        kFP16One_6FE3DC);
 
-    u8 bUnknown;
+    u8 bAirborneOrNoOverlap;
     if (field_98_surface_type == car_surface_type::air_surface_6 && pChar->get_sprite_zpos() != field_5C_pCar->field_50_car_sprite->field_1C_zpos ||
-        hitType == 0)
+        overlap_count == 0)
     {
-        bUnknown = 1;
+        bAirborneOrNoOverlap = 1;
     }
     else
     {
-        bUnknown = 0;
+        bAirborneOrNoOverlap = 0;
     }
 
     gCollisionDamage_6FE33C = impulse.GetLength_41E260();
@@ -2870,7 +2861,7 @@ void CarPhysics::ProcessPedImpact_560B40(Char* pChar, u8 hitType)
         }
     }
 
-    pChar->HandleCarImpact_5538A0(pCar, bUnknown, impact_dir.x, impact_dir.y);
+    pChar->HandleCarImpact_5538A0(pCar, bAirborneOrNoOverlap, impact_dir.x, impact_dir.y);
 }
 
 MATCH_FUNC(0x560eb0)
@@ -3151,7 +3142,7 @@ Fix16 CarPhysics::CalculateFrontWheelForce_561E50()
         {
             case 0:
                 force_x = kFP16One_6FE3D0 * grip_scale;
-                force_y_base = dword_6FE3D4;
+                force_y_base = kFpPoint139_6FE3D4;
                 brake_force = gBrakeForce_6FE0D8 * kFpPoint8_6FE320;
                 pointing_ang_rad = this->field_78_pointing_ang_rad;
                 break;
@@ -3168,7 +3159,7 @@ Fix16 CarPhysics::CalculateFrontWheelForce_561E50()
                 else
                 {
                     force_x = kFP16One_6FE3D0 * grip_scale;
-                    force_y_base = dword_6FE3D4;
+                    force_y_base = kFpPoint139_6FE3D4;
                     if (field_A0_oil_spin_dir == 1)
                     {
                         pointing_ang_rad = this->field_78_pointing_ang_rad + kAngFix16OneDegree_6FE3C4 * 30;
@@ -3244,7 +3235,7 @@ Fix16 CarPhysics::CalculateRearWheelForce_5620D0()
             else
             {
                 new_x = kFP16One_6FE3D0 * grip_scale;
-                brake_force1 = dword_6FE3D4;
+                brake_force1 = kFpPoint139_6FE3D4;
                 if (field_A0_oil_spin_dir == 1)
                 {
                     pointing_ang_rad = this->field_78_pointing_ang_rad - kAngFix16OneDegree_6FE3C4 * 30;
@@ -3260,7 +3251,7 @@ Fix16 CarPhysics::CalculateRearWheelForce_5620D0()
     }
     else
     {
-        brake_force1 = dword_6FE3D4;
+        brake_force1 = kFpPoint139_6FE3D4;
         brake_force2 = gBrakeForce_6FE0D8 * kFpPoint2_6FE2B0;
 
         if (field_92_is_hand_brake_on)
@@ -3415,7 +3406,7 @@ void CarPhysics::ApplyArrowSteerAssist_5626F0()
     Fix16 theta_fp = Ang16::Ang16_to_Fix16(field_58_theta);
     gArrowSteerAngVel_6FE0B0 = kFP16Zero_6FE20C;
     CarAI* pAi = this->field_5C_pCar->field_5C_AI;
-    if ((!pAi || pAi->field_24_bf.bFlag13) && this->field_78_pointing_ang_rad == kFP16Zero_6FE20C)
+    if ((!pAi || pAi->field_24_bf.bArrowSteerAssist) && this->field_78_pointing_ang_rad == kFP16Zero_6FE20C)
     {
         if (IsGasPedalPressedEnough_5626A0())
         {
@@ -3883,7 +3874,7 @@ void CarPhysics::Init_5637A0()
     field_A9_car_model = -1;
     field_A8_hand_brake_force = 0;
     field_90_timer_since_last_move = 0;
-    set_field_A0_559B90(0);
+    SetOilSpinDir_559B90(0);
     field_A4_oil_spin_timer = 0;
     field_98_surface_type = car_surface_type::flat_surface_0;
     field_9C_block_spec = 0;

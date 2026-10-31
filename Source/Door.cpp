@@ -26,8 +26,8 @@ Door::Door()
     field_4_secondary_door_data = NULL;
     field_8_door_obj = NULL;
     field_C_trigger_obj = NULL;
-    field_20_open_type = 0;
-    field_24_close_type = 0;
+    field_20_open_type = door_open_type::none;
+    field_24_close_type = door_close_type::none;
     field_10_model_id = 0;
     field_18_unused = 0;
     field_28_bClosing = true;
@@ -260,10 +260,10 @@ void Door::InitSingleNoCheck_49C8D0(u8 door_group, u8 gr_id, u8 x, u8 y, u8 z, s
     field_1E_close_timer = field_1C_close_delay = (gDoorAnimInfo_67BB38[gr_id].field_2_end_frame - gDoorAnimInfo_67BB38[gr_id].field_0_start_frame) * gDoorAnimInfo_67BB38[gr_id].field_8_speed;
 
     field_C_trigger_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::door_trigger_167, trigger_x, trigger_y, z, DAT_0067BD18);
-    field_C_trigger_obj->set_field_26(door_group);
+    field_C_trigger_obj->SetParam_447E90(door_group);
 
     field_8_door_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::door_collision_obj_169, door_x, door_y, z, DAT_0067BD18);
-    field_8_door_obj->set_field_26(door_group);
+    field_8_door_obj->SetParam_447E90(door_group);
     field_30_x = door_x;
     field_34_y = door_y;
 }
@@ -330,10 +330,10 @@ void Door::InitSingle_49CAC0(DoorData* pDoorData, char_type bFlip, u8 obj_id, Fi
                                                                       trigger_w,
                                                                       trigger_h,
                                                                       kFpOne_67BBE4);
-        field_C_trigger_obj->set_field_26(obj_id);
+        field_C_trigger_obj->SetParam_447E90(obj_id);
     }
     field_8_door_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::door_collision_obj_169, x, y, z, DAT_0067BD18);
-    field_8_door_obj->set_field_26(obj_id);
+    field_8_door_obj->SetParam_447E90(obj_id);
     field_30_x = x;
     field_34_y = y;
 }
@@ -395,12 +395,12 @@ void Door::InitDouble_49CC00(DoorData* pDoorData, char_type bFlip, u8 obj_id, Fi
                                                                       trigger_w,
                                                                       trigger_h,
                                                                       kFpOne_67BBE4);
-        field_C_trigger_obj->set_field_26(obj_id);
+        field_C_trigger_obj->SetParam_447E90(obj_id);
     }
     field_8_door_obj =
         gObject_5C_6F8F84
             ->NewTouchPoint_529950(objects::door_collision_obj_169, x, y, z, door_angle, kFpOne_67BBE4, kFpTwo_67BBE8, kFpOne_67BBE4);
-    field_8_door_obj->set_field_26(obj_id);
+    field_8_door_obj->SetParam_447E90(obj_id);
     field_30_x = x;
     field_34_y = y;
 }
@@ -412,7 +412,7 @@ void Door::UpdateAutoClose_49CD90()
     {
         if ((field_0_primary_door_data != NULL && field_0_primary_door_data->field_0_state == door_state::open_2) || (field_4_secondary_door_data != NULL && field_4_secondary_door_data->field_0_state == door_state::open_2))
         {
-            if (field_24_close_type != door_close_type::close_never && field_24_close_type != door_close_type::unknown1)
+            if (field_24_close_type != door_close_type::close_never && field_24_close_type != door_close_type::none)
             {
                 if (field_24_close_type == door_close_type::close_when_open_rule_fails && field_10_car_bc != NULL)
                 {

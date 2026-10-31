@@ -25,7 +25,9 @@ class root_sound
     {
         SoundObject* pCurrent = field_0_pFreeList;
         field_0_pFreeList = pCurrent->field_C_pAny.pNextFree;
-        pCurrent->field_8_sound_entry = 0; // TODO: 9.6f calls SoundObject::sub_4106D0 (not dumped)
+        // 9.6f calls a SoundObject reset here (0x4106D0: bStatus true, entry and type 0); as a new inline
+        // name it changes ImGuiDebugDraw and the DLLs
+        pCurrent->field_8_sound_entry = 0;
         return pCurrent;
     }
 

@@ -33,7 +33,6 @@ struct SaveSlotInfo
 GTA2_ASSERT_SIZEOF_ALWAYS(SaveSlotInfo, 0x52);
 #pragma pack(pop)
 
-// todo: move
 struct SaveSlotSummary
 {
     char_type field_0_save_exists;
@@ -49,7 +48,6 @@ struct SaveSlotSummary
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(SaveSlotSummary, 0x4);
 
-// todo: move
 struct MenuElement
 {
     EXPORT MenuElement();
@@ -73,7 +71,6 @@ struct MenuElement
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(MenuElement, 0x6E);
 
-// todo: move
 #pragma pack(push)
 #pragma pack(1)
 struct MenuItem
@@ -103,7 +100,6 @@ struct MenuItem
 GTA2_ASSERT_SIZEOF_ALWAYS(MenuItem, 0x82);
 #pragma pack(pop)
 
-// todo: move
 struct MenuOption
 {
   public:
@@ -118,7 +114,6 @@ struct MenuOption
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(MenuOption, 0x6);
 
-// todo: move
 struct MenuPage
 {
     EXPORT MenuPage();
@@ -227,7 +222,7 @@ enum MenuOptionType
 {
     NO_TYPE_0 = 0,
     ENTERABLE_1 = 1,  // Press "enter" to get into a new frontend page
-    HORIZONTAL_SELECTION_2 = 2, // TODO: Not sure. Maybe select something using left/right arrows
+    HORIZONTAL_SELECTION_2 = 2, // The left/right arrows step through its values (e.g. the player slot)
 };
 
 struct MainBlockStrings
@@ -268,17 +263,15 @@ struct Frontend
     s16 field_C9B4_last_key;
     s16 field_C9B6_key_repeat_timer;
     wchar_t field_C9B8_password[9];
-    //char_type field_C9C8;
-    //char_type field_C9C9;
     u8 field_C9CA_password_length;
     bool field_C9CB_wrong_password_shown;
-    char_type field_C9CC_left_pressed;
-    char_type field_C9CD_right_pressed;
-    char_type field_C9CE_up_pressed;
-    char_type field_C9CF_down_pressed;
-    char_type field_C9D0_return_pressed;
-    char_type field_C9D1_escape_pressed;
-    char_type field_C9D2_delete_pressed;
+    bool field_C9CC_left_pressed;
+    bool field_C9CD_right_pressed;
+    bool field_C9CE_up_pressed;
+    bool field_C9CF_down_pressed;
+    bool field_C9D0_return_pressed;
+    bool field_C9D1_escape_pressed;
+    bool field_C9D2_delete_pressed;
     char_type field_C9D3_left_key_down;
     char_type field_C9D4_right_key_down;
     char_type field_C9D5_up_key_down;
@@ -308,12 +301,12 @@ struct Frontend
     u16 field_1EB38_credits_line_idx;
     u8 field_1EB3A_selected_main_stage[8];
     u8 field_1EB42_selected_bonus_stage[8];
-    char_type field_1EB4A_has_prev_player_slot;
-    char_type field_1EB4B_has_next_player_slot;
-    char_type field_1EB4C_has_prev_main_stage;
-    char_type field_1EB4D_has_next_main_stage;
-    char_type field_1EB4E_has_prev_bonus_stage;
-    char_type field_1EB4F_has_next_bonus_stage;
+    bool field_1EB4A_has_prev_player_slot;
+    bool field_1EB4B_has_next_player_slot;
+    bool field_1EB4C_has_prev_main_stage;
+    bool field_1EB4D_has_next_main_stage;
+    bool field_1EB4E_has_prev_bonus_stage;
+    bool field_1EB4F_has_next_bonus_stage;
     u8 field_1EB50_num_main_stages;
     u8 field_1EB51_num_bonus_stages[3];
 
@@ -323,12 +316,10 @@ struct Frontend
         field_10D_bInputEnabled = value;
     }
 
-    // todo: ordering
     EXPORT void LoadStringsFromStage_4B4C60(u16 mainBlockIdx, u16 bounusBlockIdx, char* pDebugStr, char* pMapName, char* pStyName);
     EXPORT void StoreStringsForStage_4B4BC0(u16 mainBlockIdx, u16 bounusBlockIdx, const char* pDebugStr, const char* pMapName, const char* pStyName);
     EXPORT void DrawSavedStage_4B5270();
 
-    // todo move to another file for ordering
     EXPORT static void __stdcall create_4ACFA0();
 
     EXPORT static void __stdcall destroy_4AD070();
@@ -424,7 +415,7 @@ struct Frontend
 
     EXPORT void GetMainAndBonusStagesFromSeqFile_4B4440();
 
-    EXPORT void GetSeqItem_4B48D0(s32 type, char_type *ppRet, FILE *hSeqFile);
+    EXPORT void GetSeqItem_4B48D0(u8 type, char_type *ppRet, FILE *hSeqFile);
 
     EXPORT void LoadPlySlotSvgs_4B53C0();
 
@@ -531,7 +522,7 @@ EXTERN_GLOBAL(s16, gFrontendNormalFont_703D0C);
 
 EXTERN_GLOBAL(s16, gFrontendSelectedFont_703C16);
 
-EXTERN_GLOBAL(s16, word_703C8C);
+EXTERN_GLOBAL(s16, gFrontendFont6_703C8C);
 
 EXTERN_GLOBAL(s16, gFrontendPlayMenuScoreFont_703C8A);
 
@@ -539,7 +530,7 @@ EXTERN_GLOBAL(s16, gFrontendScoreFont_703BE2);
 
 EXTERN_GLOBAL(s16, gFrontendAreaCompleteFont_703B88);
 
-EXTERN_GLOBAL(s16, word_703DAC);
+EXTERN_GLOBAL(s16, gFrontendFont12_703DAC);
 
 EXTERN_GLOBAL(s16, gFrontendTitleFont_703B9C);
 

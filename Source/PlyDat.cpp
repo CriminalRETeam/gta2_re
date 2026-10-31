@@ -267,40 +267,6 @@ s32 PlySlot::GetTotalBestScore_56B6B0() const
     return result;
 }
 
-/*
-s32 len;
-    s32 k3Counter;
-    s32 k4Counter;
-
-    char_type FileName[256];
-    GetHiScoreHscFileName_56BCF0(FileName);
-    File::Global_Open_4A7060(FileName);
-
-    len = 240;
-    File::Global_Read_4A71C0(&field_23D0_total_scores.field_0, &len);
-
-
-    for (k3Counter = 0; k3Counter < 3; k3Counter++)
-    {
-        for (k4Counter = 0; k4Counter < 4; k4Counter++)
-        {
-            len = 240;
-            File::Global_Read_4A71C0(&field_1890_stage_scores[k3Counter][k4Counter].field_0, &len);
-        }
-
-        len = 40;
-        File::Global_Read_4A71C0(&field_1800_best_stats[k3Counter], &len); // 3 40 byte objs
-
-        len = 4;
-        File::Global_Read_4A71C0(&field_1878_best_car_damage_cost[k3Counter], &len);
-
-        len = 4;
-        File::Global_Read_4A71C0(&field_1884_best_evasion_rating[k3Counter], &len);
-    }
-
-    File::Global_Close_4A70C0();
-*/
-
 MATCH_FUNC(0x56B6E0)
 PlyDat::PlyDat()
 {

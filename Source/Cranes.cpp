@@ -14,7 +14,6 @@
 #include "root_sound.hpp"
 #include "sprite.hpp"
 
-// TODO: Move
 EXPORT void __stdcall SmoothApproachAngle_405CE0(Fix16& target_angle, Fix16& angle_speed, Fix16& angle, Fix16& accel, Fix16& max_speed);
 EXPORT void __stdcall SmoothApproach_4F7540(Fix16& Coord_1, Fix16& Velocity_1, Fix16& Coord_2, Fix16& Velocity_2, Fix16& Velocity_3);
 
@@ -515,7 +514,7 @@ bool Crane::ComputeHookPolar_47F6C0(Fix16_Point& pPoint, Fix16* pOutF16, Fix16* 
     Fix16_Point to_hook = (pPoint.Sub_40AC80(field_2C_rotor_obj->field_4_sprite->get_x_y()));
     *pOutF16 = to_hook.GetLength_41E260();
 
-    // TODO: 1st check is removed in 9.6f ??
+    // 9.6f (0x448900) only has the minimum radius test
     if (*pOutF16 <= kMaxHookRadius_679F68 && *pOutF16 >= kMinHookRadius_679C3C)
     {
         *pOutAng = Ang16::Ang16_to_Fix16(to_hook.atan2_40F790());
@@ -834,10 +833,10 @@ void Crane::InitCrane_4803B0(Fix16 x_pos, Fix16 y_pos, char_type obj_id)
 
     field_80_ground_z = gMap_0x370_6F6268->FindGroundZForCoord_4E5B60(x_pos, y_pos);
     field_2C_rotor_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_rotor_135, x_pos, y_pos, field_80_ground_z, kAngZero_679FC4);
-    field_30_part_obj_0 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_unknown_134, x_pos, y_pos, field_80_ground_z, kAngZero_679FC4);
-    field_34_part_obj_1 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_unknown_134, x_pos, y_pos, field_80_ground_z, kAngZero_679FC4);
-    field_38_part_obj_2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_unknown_134, x_pos, y_pos, field_80_ground_z, kAngZero_679FC4);
-    field_3C_part_obj_3 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_unknown_134, x_pos, y_pos, field_80_ground_z, kAngZero_679FC4);
+    field_30_part_obj_0 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_cables_134, x_pos, y_pos, field_80_ground_z, kAngZero_679FC4);
+    field_34_part_obj_1 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_cables_134, x_pos, y_pos, field_80_ground_z, kAngZero_679FC4);
+    field_38_part_obj_2 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_cables_134, x_pos, y_pos, field_80_ground_z, kAngZero_679FC4);
+    field_3C_part_obj_3 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_cables_134, x_pos, y_pos, field_80_ground_z, kAngZero_679FC4);
     field_40_part_obj_4 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_arm_252, x_pos, y_pos, field_80_ground_z, kAngZero_679FC4);
     field_44_part_obj_5 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(260, x_pos, y_pos, field_80_ground_z, kAngZero_679FC4);
     field_48_part_obj_6 = gObject_5C_6F8F84->NewPhysicsObj_5299B0(261, x_pos, y_pos, field_80_ground_z, kAngZero_679FC4);
@@ -847,7 +846,7 @@ void Crane::InitCrane_4803B0(Fix16 x_pos, Fix16 y_pos, char_type obj_id)
     field_54_hook_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_hook_136, x_pos, y_pos, field_80_ground_z, kAngZero_679FC4);
 
     field_58_crane_base_obj = gObject_5C_6F8F84->NewPhysicsObj_5299B0(objects::crane_base_137, x_pos, y_pos, field_80_ground_z - kFpTwo_679C78, kAngZero_679FC4);
-    field_58_crane_base_obj->set_field_26(obj_id);
+    field_58_crane_base_obj->SetParam_447E90(obj_id);
     field_78_home_crane = NULL;
     field_94_hook_radius_speed = kZero_679E70;
     field_98_crane_angle_speed = kZero_679E70;

@@ -310,7 +310,7 @@ class Ped
     EXPORT void FleeFromPedAlways_46AAE0();
     EXPORT void CheckFollowTargetPedStillValid_46AB50();
     EXPORT void FollowTargetStateMachine_46AC20();
-    EXPORT void ChaseTargetStateMachine_46B170();
+    EXPORT void StayCloseToTargetPed_46B170();
     EXPORT void PullDriverOutOfCarStateMachine_46B2F0();
     EXPORT void MeleeAttackStateMachine_46B670();
     EXPORT void WaitOnFoot_46BD30();
@@ -322,7 +322,7 @@ class Ped
     EXPORT void WalkToTargetThenStop_46C8A0();
     EXPORT void FollowPathPoints_46C910();
     EXPORT void CrossRoad_46C9B0();
-    EXPORT void EmptyState14_46CA60();
+    EXPORT void GotoAreaInCar_46CA60();
     EXPORT void FollowPedInCar_46CA70();
     EXPORT void StartPedCrossingAtTrafficLight_Y_Backward_46CB30();
     EXPORT void StartPedCrossingAtTrafficLight_X_Forwards_46CC70();
@@ -935,9 +935,6 @@ class Ped
     u8 field_24C_target_car_door;
     s32 field_250_voice_event;
     s32 field_254_block_spec;
-    //char_type field_255;
-    //char_type field_256;
-    //char_type field_257;
     s32 field_258_objective;
     s32 field_25C_internal_objective;
     char_type field_260_wait_counter; // frames waited on the target (field_224_bf.bWaitingOnTarget)

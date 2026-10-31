@@ -70,7 +70,6 @@ class FirefighterPool
 
     ~FirefighterPool()
     {
-        // TODO: Should this be empty?
     }
 
     EXPORT void FireEnginesService_4A85F0();

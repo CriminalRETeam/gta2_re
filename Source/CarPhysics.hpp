@@ -126,7 +126,6 @@ class CarPhysics
         return field_92_is_hand_brake_on;
     }
 
-    // TODO: Ordering
     EXPORT Fix16 ComputeZPosition_559E90();
 
     EXPORT Fix16_Point get_cp1_40B560();
@@ -137,7 +136,7 @@ class CarPhysics
     EXPORT void UpdateTrailerPhysicsFromTowingCar_559A40();
     EXPORT void UpdateTrailerAlignment_559B40();
     EXPORT void EnforceTrailerControlLimits_559B50();
-    EXPORT void set_field_A0_559B90(const s32& spin_dir);
+    EXPORT void SetOilSpinDir_559B90(const s32& spin_dir);
     EXPORT void SpinOutOnOil_559BA0();
     EXPORT void ScarePedsOnDrivingFast_559C30();
     EXPORT void ApplyForcedSteering_559DD0();
@@ -207,7 +206,7 @@ class CarPhysics
     EXPORT void HandleWorldCollision_55FD00(Fix16_Point& relative_velocity);
     EXPORT void HandleCarCollision_55FF20(Car* pOtherCar);
     EXPORT void HandleObjectCollision_5606C0(Object* pObject, char_type damage_area);
-    EXPORT void ProcessPedImpact_560B40(Char* pChar, u8 hitType);
+    EXPORT void ProcessPedImpact_560B40(Char* pChar, u8 overlap_count);
     EXPORT void UpdateLinearAndAngularAccel_560EB0();
     EXPORT void ApplyMovementStep_560F20(Fix16 time_scale);
     EXPORT void IntegrateAndClampVelocities_5610B0();
@@ -228,7 +227,7 @@ class CarPhysics
 
     Fix16 inline_ComputeTorqueFromThrottle_561DD0()
     {
-        if (IsTurboActive_561940() != 0)
+        if (IsTurboActive_561940())
         {
             return gCarInfo_2C_6FE0E4->field_14_half_thrust +
                 ((field_60_gas_pedal * ((gDamageSpeedFactor_6FE348 * gCarInfo_2C_6FE0E4->field_18_fith_thrust)))) * 2;
@@ -243,7 +242,7 @@ class CarPhysics
     // ComputeTorqueFromThrottle_561DD0 as inlined into ComputeEngineTorque_561970 (out of line operators)
     Fix16 inline_ComputeTorqueFromThrottle_561DD0_ool()
     {
-        if (IsTurboActive_561940() != 0)
+        if (IsTurboActive_561940())
         {
             return gCarInfo_2C_6FE0E4->field_14_half_thrust.Add_408660(
                 gCarInfo_2C_6FE0E4->field_18_fith_thrust.Multiply_408680(gDamageSpeedFactor_6FE348)

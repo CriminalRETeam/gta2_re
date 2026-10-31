@@ -29,9 +29,7 @@
 #include "Ped.inl"
 #include <string.h>
 
-// TODO: move
 EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
-EXTERN_GLOBAL(CrimeReportQueue*, gCrimeReportQueue_67A4B8);
 
 DEFINE_GLOBAL_INIT(Fix16, kFlyCarMinVelocity_7028BC, Fix16(0x666, 0), 0x7028BC);
 
@@ -82,7 +80,7 @@ void PlayerScoreTracker::Service_591C70()
         {
             if (player_ped->not_enter_car_as_passenger_4A5040() && pCar->HasTaxiLight_4216C0())
             {
-                if (pCar->field_4_passengers_list.field_0_pFirstPed)
+                if (!pCar->field_4_passengers_list.IsEmpty_420EA0())
                 {
                     field_368_player->AddScore_41DC40(1);
                 }
@@ -177,7 +175,7 @@ void PlayerScoreTracker::Service_591C70()
     Car* pReversingCar;
     if (player_ped->get_wanted_points_433DC0() > cop_level_ped_enum::cop_3_stars && (player_ped->has_car_403B80()) &&
         player_ped->not_enter_car_as_passenger_4A5040() &&
-        (pReversingCar = player_ped->get_car_416B60()) != NULL && // null check optimized away ??
+        (pReversingCar = player_ped->get_car_416B60()) != NULL && // already tested by has_car_403B80, so the compiler drops it
         (pReversingCar->field_58_physics) != NULL &&
 
         pReversingCar->field_58_physics->is_backward_gas_on_411810())
@@ -247,7 +245,7 @@ void PlayerScoreTracker::Service_591C70()
             if (frags_or_points >= points_limit)
             {
                 gGameSession_67E8E0.SetWinnerIdx_4C5C00(player_idx);
-                if (gGame_0x40_67E008->field_28_exit_timer == -1)
+                if (!gGame_0x40_67E008->IsExitTimerSet_4B7590())
                 {
                     gHud_2B00_706620->field_111C_message.ShowMessage_5D1A00(gText_0x14_704DFC->Find_5B5F90("g_over"), hud_message_priority::important_3);
                 }
@@ -935,7 +933,7 @@ void PlayerScoreTracker::AwardCarDamageScoreHit_593150(Car* pCar, s16 damage)
 MATCH_FUNC(0x593220)
 void PlayerScoreTracker::AddCashWithMultiplier_593220()
 {
-    field_368_player->field_2D4_scores.AddCash_592620(field_368_player->field_6BC_multipliers.field_0_value * 20);
+    field_368_player->AddScore_41DC40(20);
 }
 
 MATCH_FUNC(0x593240)

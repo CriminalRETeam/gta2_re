@@ -63,33 +63,33 @@ class BitSet32
 {
   public:
     // 9.6f 0x420DE0
-    void clear_bit(int bit)
+    void clear_bit(s32 bit)
     {
         m_var &= ~(1 << bit);
     }
 
     // 9.6f 0x420DC0
-    void set_bit(int bit)
+    void set_bit(s32 bit)
     {
         m_var |= (1 << bit);
     }
 
-    // TODO: Find in 9.6f
+    // Unused, but removing it changes MapRenderer code (see the shared header names note in
+    // docs/matching_quirks.md)
     bool check_bit(s32 bit)
     {
         return (m_var & (1 << bit)) ? true : false;
     }
 
-    // 9.6f 0x420E20 TODO: Check if matches
+    // 9.6f 0x420E20, where the bit is passed by reference; by reference here changes most of the code
     bool mask_bit(u32 bit)
     {
         return (m_var & (1u << bit)) == (1u << bit);
     }
 
-    // 9.6f 0x4A51A0
+    // 9.6f 0x4A51A0. Unused, kept for MapRenderer like check_bit
     BitSet32& operator=(u32& value) // Note: arg as reference
     {
-        // TODO: Value is probably another BitSet32
         m_var = value;
         return *this;
     }
@@ -139,7 +139,7 @@ class BitSet32
     {
     }
 
-    // TODO: Find in 9.6f
+    // Unused, kept for MapRenderer like check_bit
     BitSet32(s32 value) : m_var(value)
     {
     }

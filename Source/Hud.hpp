@@ -252,7 +252,7 @@ class Hud_TextEntry
     }
 
     // 9.6f 0x45AFD0
-    void SetDrawKind8_45AFD0(s16 palette)
+    void SetFontRemap_45AFD0(s16 palette)
     {
         field_B0_drawKind = 8;
         field_B4_palette = palette;
@@ -279,7 +279,7 @@ class Hud_TextList
     EXPORT void RemoveExpired_5D2050();
     EXPORT Hud_TextList();
 
-    // TODO: Seems like a pool and the ctor would suggest it is, yet somehow the fields are in the wrong order?
+    // A free list written out by hand: the entries come before the list heads, unlike Pool<>
     Hud_TextEntry field_0_29_ary[30];
     Hud_TextEntry* field_960_pFirst;
     Hud_TextEntry* field_964_pFreeList;
@@ -337,7 +337,6 @@ class Hud_Pager_C_Array
     {
     }
 
-    // TODO: Correct order ?
     EXPORT s32 AddOnScreenCounter_5D3220(s32* pCounter);
     EXPORT void ClearPager_5D3280(s32 idx);
 
@@ -424,6 +423,12 @@ class ArrowTrace
         field_10_target_type = ArrowTargetType::Object_4;
     }
 
+    // 9.6f 0x476830
+    inline void ClearTarget_476830()
+    {
+        field_10_target_type = ArrowTargetType::Nothing_0;
+    }
+
     // inline 0x4C6F00
     void init()
     {
@@ -483,8 +488,8 @@ class Hud_ArrowTargets
         return !field_18_primary_target.HasNoTarget_4C6F20() && !field_3C_secondary_target.HasNoTarget_4C6F20();
     }
 
-    s32 field_20;
-    s16 field_24;
+    s32 field_20_unused;
+    s16 field_24_unused;
     s32 field_28_arrow_colour;
     s16 field_2C_arrow_sprt_idx;
     u8 field_2E_target_swap_timer;
@@ -519,7 +524,7 @@ class Hud_Arrow
     EXPORT void SetPlayerArrowColour_5D0DC0(Ped* pPed);
 
     // 9.6f inline 0x4C6F80
-    inline bool IsType0_4C6F80() const
+    inline bool HasNeitherTarget_4C6F80() const
     {
         if (field_18_targets.field_18_primary_target.HasNoTarget_4C6F20() && field_18_targets.field_3C_secondary_target.HasNoTarget_4C6F20())
         {
@@ -566,6 +571,13 @@ class Hud_Arrow
     inline void SetArrowTargetObject_476870(Object* pObj)
     {
         field_18_targets.field_18_primary_target.SetTargetObject_476810(pObj);
+    }
+
+    // 9.6f 0x476880
+    inline void ClearTargets_476880()
+    {
+        field_18_targets.field_18_primary_target.ClearTarget_476830();
+        field_18_targets.field_3C_secondary_target.ClearTarget_476830();
     }
 
     inline void SetArrowAim_476840(Fix16 xpos, Fix16 ypos, Fix16 zpos)
@@ -709,6 +721,13 @@ class Hud
     EXPORT void CalcCarNameTextWidth_5D5190();
     EXPORT void ShowCarName_5D5240(const wchar_t* pName);
     EXPORT void UpdateCarName_5D5350();
+
+    // 9.6f 0x4219F0
+    void HideCarName_4219F0()
+    {
+        field_0_car_name.field_0_display_time = 0;
+    }
+
     EXPORT void DrawGui_5D6860();
     EXPORT void UpdatePauseSection_5D69C0();
     EXPORT void UpdateHUD_5D69D0();

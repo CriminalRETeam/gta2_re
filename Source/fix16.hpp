@@ -304,13 +304,13 @@ class Fix16
         return static_cast<s32>(t);
     }
 
-    //  inline sub_4B9E10 in 9.6f
+    // 9.6f 0x4B9E10
     inline static bool IsBetween_4B9E10(Fix16& min, Fix16& max, Fix16& input)
     {
         return input >= min && input <= max;
     }
 
-    //  inline sub_462ED0 in 9.6f
+    // 9.6f 0x462ED0
     static Fix16 ctor_462ED0(s16 value)
     {
         return Fix16(value << 7, 0);

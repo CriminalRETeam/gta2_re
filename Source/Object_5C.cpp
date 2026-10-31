@@ -31,7 +31,7 @@
 #include "block_face.hpp"
 
 DEFINE_GLOBAL(Object_5C*, gObject_5C_6F8F84, 0x6F8F84);
-DEFINE_GLOBAL(s32, dword_6F8F88, 0x6f8f88);
+DEFINE_GLOBAL(s32, gObjectCounter_Unused_6F8F88, 0x6f8f88);
 DEFINE_GLOBAL(s32, gObject2C_WallHitSide_6F8F90, 0x6F8F90);
 DEFINE_GLOBAL_INIT(Ang16, kAng180_6F8D62, Ang16(0x2D0), 0x6F8D62);
 
@@ -59,7 +59,7 @@ DEFINE_GLOBAL_INIT(Fix16, kFpOneThirtySecond_6F8F5C, Fix16(0x200, 0), 0x6F8F5C);
 DEFINE_GLOBAL_INIT(Fix16, kObjectGravity_6F8DA8, Fix16(0xFFFFFFF8, 0), 0x6F8DA8);
 DEFINE_GLOBAL_INIT(Fix16, kFP16One_6F8E14, Fix16(1), 0x6F8E14);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint1_6F8C58, Fix16(0x666, 0), 0x6F8C58);
-DEFINE_GLOBAL_INIT(u8, byte_623EC4, 1, 0x623EC4);
+DEFINE_GLOBAL_INIT(u8, gObject2C_Unused_623EC4, 1, 0x623EC4);
 
 DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_6F8DC8, Fix16(256, 0), 0x6F8DC8);
 DEFINE_GLOBAL_INIT(Fix16, kFpEighteen_6F8CE8, Fix16(18), 0x6F8CE8);
@@ -126,7 +126,6 @@ void Object::PoolDeallocate()
 {
     this->field_18_model = 0;
 
-    // TODO: Local required, inline?
     const s32 limit_kind = field_8_definition->field_5C_instance_limit_kind;
     if (limit_kind == instance_limit_kind::limited_count_2)
     {
@@ -138,7 +137,7 @@ void Object::PoolDeallocate()
         gObject_5C_6F8F84->field_1C_sprite_list.RemoveSpriteSafe_5A6B60(this->field_4_sprite);
     }
 
-    --dword_6F8F88;
+    --gObjectCounter_Unused_6F8F88;
 
     if (UsesParamAsPedRef_421080())
     {
@@ -163,7 +162,7 @@ bool Object::IsSpriteOwnerPed_522250(Sprite* pSprite) const
 {
     if (UsesParamAsPedRef_421080())
     {
-        u8 ped_ref_idx = this->get_field_26_420FF0();
+        u8 ped_ref_idx = this->GetPedRefIdx_420FF0();
         if (ped_ref_idx > 0)
         {
             if (pSprite)
@@ -218,10 +217,7 @@ void Object::PoolGive_522340()
 {
     if (field_20_pool_list_state == object_pool_state::out_of_pool_list_2)
     {
-        // TODO: Missing inline here
-        TObjectPool* pRoot = gObject_2C_Pool_6F8F80;
-        mpNext = pRoot->field_4_pPrev;
-        pRoot->field_4_pPrev = this;
+        gObject_2C_Pool_6F8F80->UpdateNextPrev(this);
         field_20_pool_list_state = object_pool_state::in_pool_list_1;
     }
 }
@@ -482,7 +478,7 @@ void Object::ResolveCollisionWithPed_5229B0(Char* pChar, Fix16_Point* pPoint, u8
     ped_impulse.x = kFpZero_6F8E10;
     ped_impulse.y = kFpZero_6F8E10;
 
-    HandleImpact_528E50(pChar->field_80_sprite_ptr); // TODO: sub_4338D0
+    HandleImpact_528E50(pChar->get_sprite_ptr_4338D0());
 }
 
 MATCH_FUNC(0x522b20)
@@ -595,8 +591,8 @@ void Object::HandleCollision_522E10(Fix16_Point* pPoint)
         {
             u8 side_self;
             u8 side_other;
-            u8 hit_type;
-            hit_point = field_4_sprite->FindCollisionIntersectionPoint_5A2710(gCollisionTarget_679188.field_20_pHitSprite, *pPoint, field_4_sprite->field_0_rotation, side_self, side_other, hit_type);
+            u8 overlap_count;
+            hit_point = field_4_sprite->FindCollisionIntersectionPoint_5A2710(gCollisionTarget_679188.field_20_pHitSprite, *pPoint, field_4_sprite->field_0_rotation, side_self, side_other, overlap_count);
             Car* pCar = gCollisionTarget_679188.field_20_pHitSprite->AsCar_40FEB0();
             if (pCar)
             {
@@ -608,7 +604,7 @@ void Object::HandleCollision_522E10(Fix16_Point* pPoint)
                 Char* pChar = gCollisionTarget_679188.field_20_pHitSprite->AsCharB4_40FEA0();
                 if (pChar)
                 {
-                    ResolveCollisionWithPed_5229B0(pChar, &hit_point, hit_type);
+                    ResolveCollisionWithPed_5229B0(pChar, &hit_point, overlap_count);
                     HandleImpact_528E50(gCollisionTarget_679188.field_20_pHitSprite);
                 }
                 else
@@ -660,7 +656,7 @@ bool Object::TryStartSlide_5233A0(Fix16 speed)
     if (SelectCollisionSprite_522460(this->field_4_sprite))
     {
 
-        byte_623EC4 = 0;
+        gObject2C_Unused_623EC4 = 0;
         if (gObject2C_HitWallOrDoor_6F8F94)
         {
             return false;
@@ -710,12 +706,12 @@ void Object::HandleCollisionOutcome_523440(Fix16_Point point, bool bHitFloorBelo
             {
                 if (bHitBlockAtZ && gCollisionTarget_679188.field_0_type != collision_target_type::sprite_3)
                 {
-                    gCollisionTarget_679188.SetType5_482A80();
+                    gCollisionTarget_679188.SetBlockAtZ_482A80();
                 }
             }
             else
             {
-                gCollisionTarget_679188.SetType4_482A70();
+                gCollisionTarget_679188.SetFloorBelow_482A70();
             }
 
             HandleImpact_528E50(gCollisionTarget_679188.field_20_pHitSprite);
@@ -725,11 +721,11 @@ void Object::HandleCollisionOutcome_523440(Fix16_Point point, bool bHitFloorBelo
         case 1:
             if (bHitFloorBelow)
             {
-                gCollisionTarget_679188.SetType4_482A70();
+                gCollisionTarget_679188.SetFloorBelow_482A70();
             }
             else if (bHitBlockAtZ)
             {
-                gCollisionTarget_679188.SetType5_482A80();
+                gCollisionTarget_679188.SetBlockAtZ_482A80();
             }
             HandleImpact_528E50(gCollisionTarget_679188.field_20_pHitSprite);
             return;
@@ -1468,7 +1464,7 @@ bool Object::ShouldCollideWithSprite_525370(Sprite* pSprite) const
         case objects::door_collision_obj_169:
             if (pSprite)
             {
-                return gDoor_4D4_67BD2C->CheckDoorAccess_49D3C0(pSprite, this->get_field_26_420FF0());
+                return gDoor_4D4_67BD2C->CheckDoorAccess_49D3C0(pSprite, this->GetParam_421050());
             }
             else
             {
@@ -1692,7 +1688,7 @@ void Object::SpawnSpriteParticlesForRocketBullet_525B40()
 MATCH_FUNC(0x525B60)
 bool Object::CheckWaterDeath_525B60()
 {
-    // TODO: Forced eax -> al
+    // The original tests only al, though IsOnWater_59E1D0 sets all of eax
     const u8 isWater = field_4_sprite->IsOnWater_59E1D0();
     if (isWater)
     {
@@ -1737,9 +1733,9 @@ void Object::UpdatePhysicsAndMovement_525B80()
                 field_10_obj_3c->field_28_next_definition_timer--;
                 if (field_10_obj_3c->field_28_next_definition_timer == 0)
                 {
-                    if (get_field_26_420FF0() > 0)
+                    if (GetPedRefIdx_420FF0() > 0)
                     {
-                        s32 ped_id = gPedRefTable_7F8_703398->GetPedId_420F10(get_field_26_420FF0());
+                        s32 ped_id = gPedRefTable_7F8_703398->GetPedId_420F10(GetPedRefIdx_420FF0());
                         if (ped_id)
                         {
                             Ped* pPed = gPedManager_6787BC->PedById(ped_id);
@@ -1761,7 +1757,7 @@ void Object::UpdatePhysicsAndMovement_525B80()
             TickObject_5283C0(field_8_definition->field_38_impact_definition_idx);
             if (UsesParamAsPedRef_421080())
             {
-                if (get_field_26_420FF0() > 0)
+                if (GetPedRefIdx_420FF0() > 0)
                 {
                     gPedRefTable_7F8_703398->DecrementRefCount_59B0D0(field_26_ped_ref_idx);
                     this->field_26_ped_ref_idx = 0;
@@ -1828,7 +1824,7 @@ void Object::UpdatePhysicsMovementAndAnimation_525D90()
                 {
                     if (UsesParamAsPedRef_421080())
                     {
-                        // 9.6f: Object::get_field_26_420FF0 (inlined, using it changes the code)
+                        // 9.6f: Object::GetPedRefIdx_420FF0 (inlined, using it changes the code)
                         if (field_26_ped_ref_idx > 0)
                         {
                             gPedRefTable_7F8_703398->DecrementRefCount_59B0D0(field_26_ped_ref_idx);
@@ -1963,7 +1959,7 @@ void Object::TriggerCarExplosionIfApplicable_526790(Sprite* pSprite)
                 {
                     if (this->field_18_model == objects::car_bomb_132)
                     {
-                        s32 ped_id = gPedRefTable_7F8_703398->GetPedId_420F10(get_field_26_420FF0());
+                        s32 ped_id = gPedRefTable_7F8_703398->GetPedId_420F10(GetPedRefIdx_420FF0());
                         if (ped_id)
                         {
                             pCar->field_70_exploder_ped_id = ped_id;
@@ -2197,7 +2193,7 @@ void Object::AssignToBucket_527AE0()
             gSpriteGrid_3_679210->AddToSingleBucket_477AE0(field_4_sprite);
             return;
         case collision_bucket_category::sprite_grid_2_region_3:
-            dword_6F8F88++;
+            gObjectCounter_Unused_6F8F88++;
             gSpriteGrid_2_67920C->AddToRegionBuckets_477B20(field_4_sprite);
             return;
         case collision_bucket_category::sprite_grid_1_region_4:
@@ -2218,7 +2214,7 @@ void Object::RemoveFromCollisionBuckets_527D00()
             gSpriteGrid_3_679210->Remove_477B00(field_4_sprite);
             break;
         case collision_bucket_category::sprite_grid_2_region_3:
-            --dword_6F8F88;
+            --gObjectCounter_Unused_6F8F88;
             gSpriteGrid_2_67920C->RemoveFromRegionBuckets_477B60(field_4_sprite);
             break;
         case collision_bucket_category::sprite_grid_1_region_4:
@@ -2615,9 +2611,9 @@ bool Object::HandleObjectHit_528990(Sprite* pSprite)
 
     Object* pObject = pSprite->AsObject2C_40FEC0();
 
-    if (gPedRefTable_7F8_703398->GetPedId_420F10(get_field_26_420FF0()))
+    if (gPedRefTable_7F8_703398->GetPedId_420F10(GetPedRefIdx_420FF0()))
     {
-        Ped* pPed = gPedManager_6787BC->PedById(gPedRefTable_7F8_703398->GetPedId_420F10(get_field_26_420FF0()));
+        Ped* pPed = gPedManager_6787BC->PedById(gPedRefTable_7F8_703398->GetPedId_420F10(GetPedRefIdx_420FF0()));
         if (pPed)
         {
             pPed->ProcessWeaponHitResponse_46FE20(pObject);
@@ -2655,10 +2651,10 @@ void Object::ProcessObjectExplosionImpact_528A20(Object* pObj)
                                                                               this->field_4_sprite->field_1C_zpos,
                                                                               kZeroAng_6F8F68,
                                                                               explosion_kind,
-                                                                              gPedRefTable_7F8_703398->GetPedId_420F10(get_field_26_420FF0()));
+                                                                              gPedRefTable_7F8_703398->GetPedId_420F10(GetPedRefIdx_420FF0()));
             if (pExplosion)
             {
-                pExplosion->SetDamageOwner_529080(get_field_26_420FF0());
+                pExplosion->SetDamageOwner_529080(GetPedRefIdx_420FF0());
             }
             break;
         }
@@ -2680,7 +2676,7 @@ void Object::ProcessObjectExplosionImpact_528A20(Object* pObj)
     }
 
     Ped* pPed;
-    s32 ped_id = gPedRefTable_7F8_703398->GetPedId_420F10(get_field_26_420FF0());
+    s32 ped_id = gPedRefTable_7F8_703398->GetPedId_420F10(GetPedRefIdx_420FF0());
     if (ped_id)
     {
         pPed = gPedManager_6787BC->PedById(ped_id);
@@ -2714,10 +2710,10 @@ void Object::HandleImpactNoSprite_528BA0()
                                                                               field_4_sprite->field_1C_zpos,
                                                                               kZeroAng_6F8F68,
                                                                               GetExplosionTypeForWallSide_528E00(gObject2C_WallHitSide_6F8F90),
-                                                                              gPedRefTable_7F8_703398->GetPedId_420F10(get_field_26_420FF0()));
+                                                                              gPedRefTable_7F8_703398->GetPedId_420F10(GetPedRefIdx_420FF0()));
             if (pExplosion)
             {
-                pExplosion->SetDamageOwner_529080(get_field_26_420FF0());
+                pExplosion->SetDamageOwner_529080(GetPedRefIdx_420FF0());
             }
             // Fall through
         }
@@ -2748,7 +2744,7 @@ void Object::HandleImpactNoSprite_528BA0()
             return;
     }
 
-    const s32 ped_id = gPedRefTable_7F8_703398->GetPedId_420F10(get_field_26_420FF0());
+    const s32 ped_id = gPedRefTable_7F8_703398->GetPedId_420F10(GetPedRefIdx_420FF0());
     if (ped_id)
     {
         Ped* pPed = gPedManager_6787BC->PedById(ped_id);
@@ -2939,7 +2935,7 @@ void Object::SetConveyorSpeed_529030(s8 speed_x, s8 speed_y)
 MATCH_FUNC(0x529070)
 void Object::ApplyConveyorSpeedFrom_529070(Object* pObj)
 {
-    SetConveyorPush_5226A0(pObj->field_26_ped_ref_idx);
+    SetConveyorPush_5226A0(pObj->GetParam_421050());
 }
 
 MATCH_FUNC(0x529080)
@@ -3037,7 +3033,7 @@ bool Object::IsNotModel_174_529200() const
 MATCH_FUNC(0x529210)
 s32 Object::GetExplosionTypeForDiagonalWall_529210() const
 {
-    switch (field_26_ped_ref_idx)
+    switch (GetParam_421050())
     {
         case 46: // diagonal up right
         case 48: // diagonal down right
@@ -3055,7 +3051,7 @@ s32 Object::GetMapBlockSoundSpec_529240() const
     s32 result;
     gmp_block_info* pBlockInfo =
         gMap_0x370_6F6268->GetBlock_4DFE10(field_4_sprite->field_14_xy.x.ToInt(), field_4_sprite->field_14_xy.y.ToInt(), field_4_sprite->field_1C_zpos.ToInt());
-    switch (get_field_26_420FF0())
+    switch (GetParam_421050())
     {
         case 45u:
         case 47u:
@@ -3089,7 +3085,7 @@ void Object::SetDefaultWeaponAmmo_5292D0()
 
     if (weapon_kind <= 27)
     {
-        set_field_26(gWeapon_8_707018->get_defalt_ammo_5E3E80(weapon_kind));
+        SetParam_447E90(gWeapon_8_707018->get_defalt_ammo_5E3E80(weapon_kind));
     }
 }
 
@@ -3109,7 +3105,7 @@ void Object_5C::TrimSpriteList_529300()
                                                   pSprite->field_1C_zpos,
                                                   kZeroAng_6F8F68,
                                                   explosion_type::small_18,
-                                                  gPedRefTable_7F8_703398->GetPedId_420F10(pObject->get_field_26_420FF0()));
+                                                  gPedRefTable_7F8_703398->GetPedId_420F10(pObject->GetPedRefIdx_420FF0()));
             }
         }
         pObject->Dealloc_5291B0();
@@ -3213,16 +3209,16 @@ MATCH_FUNC(0x5297f0)
 void Object_5C::CreateDiagonalWallObjects_5297F0()
 {
     field_0_diagonal_wall_ang315 = Object_5C::NewPhysicsObj_5299B0(objects::diagonal_wall_collision_obj_166, 0, 0, 0, kAng315_6F8D8C);
-    field_0_diagonal_wall_ang315->set_field_26(45);
+    field_0_diagonal_wall_ang315->SetParam_447E90(45);
 
     field_4_diagonal_wall_ang135 = Object_5C::NewPhysicsObj_5299B0(objects::diagonal_wall_collision_obj_166, 0, 0, 0, kAng135_6F8D80);
-    field_4_diagonal_wall_ang135->set_field_26(48);
+    field_4_diagonal_wall_ang135->SetParam_447E90(48);
 
     field_8_diagonal_wall_ang225 = Object_5C::NewPhysicsObj_5299B0(objects::diagonal_wall_collision_obj_166, 0, 0, 0, kAng225_6F8D54);
-    field_8_diagonal_wall_ang225->set_field_26(46);
+    field_8_diagonal_wall_ang225->SetParam_447E90(46);
 
     field_C_diagonal_wall_ang45 = Object_5C::NewPhysicsObj_5299B0(objects::diagonal_wall_collision_obj_166, 0, 0, 0, kAng45_6F8CD0);
-    field_C_diagonal_wall_ang45->set_field_26(47);
+    field_C_diagonal_wall_ang45->SetParam_447E90(47);
 }
 
 MATCH_FUNC(0x5298e0)
@@ -3283,7 +3279,7 @@ Object* Object_5C::NewWithPedRefIdx_5299F0(s32 object_type, u32 ped_ref_idx, Fix
     Object* pNewObj = CreateObject_529C00(object_type, xpos, ypos, zpos, kZeroAng_6F8F68, false);
     if (pNewObj)
     {
-        pNewObj->set_field_26(ped_ref_idx);
+        pNewObj->SetParam_447E90(ped_ref_idx);
         if (object_type == objects::sound_object_type_2_279)
         {
             pNewObj->RequestRemoval_5290A0();
@@ -3490,7 +3486,7 @@ Object* Object_5C::CreateObject_529C00(s32 object_type, Fix16 xpos, Fix16 ypos, 
         default:
             break;
     }
-    ++dword_6F8F88;
+    ++gObjectCounter_Unused_6F8F88;
 
     pNewObject->field_18_model = object_type;
     if (pNewObject->IsPickup_421060())
@@ -3510,7 +3506,7 @@ Object* Object_5C::CreateObject_529C00(s32 object_type, Fix16 xpos, Fix16 ypos, 
     {
         if (pNewObject->field_18_model == objects::secret_token_266)
         {
-            pNewObject->set_field_26(field_54_uncollected_token_index);
+            pNewObject->SetParam_447E90(field_54_uncollected_token_index);
             field_54_uncollected_token_index++;
         }
     }
@@ -3663,7 +3659,7 @@ void Object_5C::SaveObjects_52A500(SavedObjectData* pData)
             pData->field_0_obj_x[1][saved_count].field_0_value = pObj->GetY_4340E0();
             pData->field_0_obj_x[2][saved_count].field_0_value = pObj->GetZ_4340F0();
             pData->field_F0_model[saved_count] = pObj->field_18_model;
-            pData->field_118_ped_ref_idx[saved_count] = pObj->field_26_ped_ref_idx;
+            pData->field_118_pickup_ammo[saved_count] = pObj->GetAmmo_4340A0();
             saved_count++;
             if (saved_count >= 20)
             {
@@ -3673,30 +3669,20 @@ void Object_5C::SaveObjects_52A500(SavedObjectData* pData)
     }
 }
 
-// TODO: This is a mess, probably a fake match
-// https://decomp.me/scratch/juEUq
 MATCH_FUNC(0x52A590)
 void Object_5C::RestoreObjects_52A590(SavedObjectData* pData)
 {
-    u8* pPedRefIdx = &pData->field_118_ped_ref_idx[0];
-    u16* pModel = &pData->field_F0_model[0];
-
-    s32 i = 19;
-    while (i >= 0)
+    for (u16 i = 0; i < 20; i++)
     {
-        if (pData->field_0_obj_x[0][19 - i].field_0_value != kFpZero_6F8E10 &&
-            pData->field_0_obj_x[1][19 - i].field_0_value != kFpZero_6F8E10)
+        if (pData->field_0_obj_x[0][i].field_0_value != kFpZero_6F8E10 && pData->field_0_obj_x[1][i].field_0_value != kFpZero_6F8E10)
         {
-            Object* pNewObj = NewPhysicsObj_5299B0(*pModel,
-                                                      pData->field_0_obj_x[0][19 - i].field_0_value,
-                                                      pData->field_0_obj_x[1][19 - i].field_0_value,
-                                                      pData->field_0_obj_x[2][19 - i].field_0_value,
-                                                      kZeroAng_6F8F68);
-            pNewObj->set_field_26(*pPedRefIdx);
+            Object* pNewObj = NewPhysicsObj_5299B0(pData->field_F0_model[i],
+                                                   pData->field_0_obj_x[0][i].field_0_value,
+                                                   pData->field_0_obj_x[1][i].field_0_value,
+                                                   pData->field_0_obj_x[2][i].field_0_value,
+                                                   kZeroAng_6F8F68);
+            pNewObj->SetParam_447E90(pData->field_118_pickup_ammo[i]);
         }
-        pModel++;
-        i--;
-        pPedRefIdx++;
     }
 
     memset(pData, 0, 0x12Cu); // everything before field_12C_obj_5C_bUnCollectedTokens

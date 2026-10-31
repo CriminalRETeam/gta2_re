@@ -39,6 +39,10 @@ marked unlisted addresses into `target_extra.json`) before trusting the marker.
 - A member function added to `sound_obj` (whatever its name) changes `ImGuiDebugDraw` as well: a few loads of ImGui
   import pointers swap registers and one block gets a jump and a load more. Members can't move to another header, so
   `sound_obj::DeinitializeAudio_419E50` went in with that change.
+- It is the declaration count, not the names: renaming a member (any length) or reusing an existing identifier is
+  safe, while a member, an enumerator or one pad more or less counts the same. Recovering `sound_obj`'s vocals entry and
+  radio emitters as real members drops 15 declarations: 15 dummy enumerators gave back identical PEs, 14 or 16 didn't,
+  so that layout went in with an `ImGuiDebugDraw` change (exe and DLLs, nothing outside `ImGuiDebug.cpp`).
 After adding any enum or constants to a widely included header, run the whole `build.py` (not just
 `--single_cpp`), and if a far-away function fails, move the addition into its own header.
 
@@ -216,7 +220,7 @@ the case's own `if`/`else` follows the source too (`if (occ != 43) { angle } els
 in `Char::HandlePedCollision_548BD0`). Read the jump table targets in address order to get
 the source order of the cases.
 
-**A countdown that returns goes in the `else`.** In `sound_obj::ProcessObject_Type12_41E850`,
+**A countdown that returns goes in the `else`.** In `sound_obj::ProcessEffectOnlyObject_41E850`,
 each "play only now and then" case is `cmpw $0,w; jne <far>`, then the reload and a fall
 through to the code after the switch. The `w--; return` blocks come at the very end of the
 function. `if (w) { w--; return; } w = ...;` laid the decrement inline (0.716). With
@@ -291,7 +295,7 @@ locals (a `pCmd` local in one copy only) moves the registers and only the matchi
 dupB has a first loop before the copying one: a forward `jmp L`, where the block before `L` ends in a jmp or
 ret, gets the block at `L` (up to its ret or jmp) moved in place of the jump. That is how an exit block ends
 up in the middle of a function with the code after it copying it (`Ped::PunchChar_467FD0`; the unmatched
-`TrainCab_414710` and `AmbulanceTask::UpdateState_4FB330` look like it too). C2's block layout already puts a
+`HandleTrainStationSound_414710` and `AmbulanceTask::UpdateState_4FB330` look like it too). C2's block layout already puts a
 jmp-ending else arm right before its target, so this needs a cross-jump (FlowOpts) to leave a block like that.
 
 Switch bodies lowered to a `sub/dec; je` chain are laid out (and ordered in the IL) as default first, then the
@@ -580,7 +584,7 @@ parameter declared `u8` the `xor` goes and the load moves next to the push (`Ped
 calling `Car::IsStoppedWithPavementAtDoor_43B140(u8)`). A shared prototype's parameter type moves code in every
 caller, so check `compare_builds` after changing one.
 
-**A u8 stored to a stack slot and then pushed as a dword is a `u8` local.** (`sound_obj::Tank_414A50`,
+**A u8 stored to a stack slot and then pushed as a dword is a `u8` local.** (`sound_obj::HandleTankMovementSound_414A50`,
 `Ped::IncreaseWantedLevelFromDebugKeys_46EFD0`, where the current and maximum star counts are read into u8 locals,
 in that order.)
 
@@ -715,7 +719,7 @@ swapping the operands of `+` didn't change the multiply order, declaring `cos` b
 **Call arguments are evaluated right to left, inline expressions included.** Writing the
 offset math inside the call (`set_xyz_lazy_420600(x + sin*v, y + cos*v, z)`) gives the original's
 y-first order and early load of z. A separate `PolarToCartesian` statement into locals computes x
-first (`Char::state_1_5504F0`).
+first (`Char::UpdateFleeOrRunning_5504F0`).
 
 **Ctor EH frame missing when the member ctors come first in the TU.** If the member
 constructors are defined earlier in the same .cpp, VC6 infers they can't throw and drops the
@@ -1025,7 +1029,7 @@ labels (stacked labels and labels sharing a body count separately), R = max - mi
 
 **Identical bodies in an else-if chain are tail-merged** with a `jmp` into the first copy
 (`CarAI::ManageCollisions_452A20`). Stacked case labels give a `cmp/jl/jle` range test, while separate
-identical case bodies give the `sub/dec/je` chain (`Char::state_7_551CB0`).
+identical case bodies give the `sub/dec/je` chain (`Char::UpdateStandingStill_551CB0`).
 
 **Moving a callee to its own TU brings back EH state stores.** With `GetBoundingBoxCorner_562450` defined earlier
 in sprite.cpp, VC6 knew it couldn't throw and dropped the state stores around its calls in
@@ -1115,7 +1119,7 @@ directly in the first check keeps the original jump target (`Car::CanCarCollideW
 
 **Returns without RVO.** Where the original copies a call's result into the return slot (`mov (%eax),%eax; mov %eax,(%ecx)`) instead of building it in place, `return Fix16(x.mValue, 0);` or `Ang16 r = ...; return r;` reproduces it (`ComputeEngineTorque_561970`, `GetNextRotationToward_550F60`).
 
-**`T x = f();` vs `T x; x = f();`.** Initialising constructs the result in the local's slot, so the value stays in memory; assigning goes through a temporary and lets it live in a register (`Type_1_6_416260` speed, `Weapon::TraceBeamToHitTarget_5DE4F0` angle and steps).
+**`T x = f();` vs `T x; x = f();`.** Initialising constructs the result in the local's slot, so the value stays in memory; assigning goes through a temporary and lets it live in a register (`Type_1_6_InitCarEngineOrDamageSound_416260` speed, `Weapon::TraceBeamToHitTarget_5DE4F0` angle and steps).
 
 **Use the labelled per-file asm for control flow.** Branch targets in `target_asm.json` are numeric offsets; `asm/<File>.cpp.asm` on the `claude/target-asm` branch has labels and is much easier for rebuilding loops and gotos (`read_input_device_498DA0`).
 
@@ -1127,7 +1131,7 @@ directly in the first check keeps the original jump target (`Car::CanCarCollideW
 
 **Reading a pointer through a different expression forces a reload.** `field_C_carriages[0]->field_54_driver` instead of a local `pBusCar->field_54_driver` stops VC6 reusing the loaded field (579CA0).
 
-**Values held in registers going into a shared tail were computed per case.** When each case ends with `add %edi,%edx; jmp tail`, do the computation inside each case (`Ped::CalcApproachPointNearTargetPed_4645B0`). Same for cases that each divide and then share one multiply: `ratio = v / max; break;` per case into a function-scope local, one multiply after the switch. VC6 tail-merges the divisions and gives `mov eax,ecx; mov global,eax; imul ecx` instead of `imull mem` (`sound_obj::Type6_413A10`).
+**Values held in registers going into a shared tail were computed per case.** When each case ends with `add %edi,%edx; jmp tail`, do the computation inside each case (`Ped::CalcApproachPointNearTargetPed_4645B0`). Same for cases that each divide and then share one multiply: `ratio = v / max; break;` per case into a function-scope local, one multiply after the switch. VC6 tail-merges the divisions and gives `mov eax,ecx; mov global,eax; imul ecx` instead of `imull mem` (`sound_obj::GetCollisionVolume_413A10`).
 
 **A value every case assigns: write it once after the switch.** VC6 copies it back into each case like the original; writing it per case changes the tail merges and the constant registers (`Frontend::UpdatePageFromUserInput_4AE2D0`). In the same function a constant-count zeroing loop gave the original's word/byte stores at fixed offsets where `memset` took the address into a register first (also `Frontend::ctor_4AF2A0`: constant-count loops
 store off `esi` with their own `xor` zero register and no `lea`), and a separate `if (page == A || page == B || page == C)` after an else-if chain let VC6 thread the known value without a goto.
@@ -1164,7 +1168,7 @@ register the following `rate + RandomDisplacement(...)` used. The permuter found
 pushes `samp`'s register for `Disp`. Split into
 `s32 rate = Get(samp); field_20 = rate + Disp(field_14_samp_idx);` and `field_14` is
 reloaded after the call, as in the original (`sound_obj::HandlePedVoiceEvent_423080`). Splitting
-can also spoil the register allocation: in `ProcessObject_Type12_41E850` it gives the reload but
+can also spoil the register allocation: in `ProcessEffectOnlyObject_41E850` it gives the reload but
 swaps registers (score 40 -> 74).
 
 **Put the zero-initialised accumulator first.** `xor %ebp,%ebp` before two `mov %bl,mem`
@@ -1279,11 +1283,11 @@ existing inline method (or making the helper `inline`). Note that the out-of-lin
 lives in whatever TU emits it, which is also why the duplicate helper copies mentioned
 under "Duplicate helper copies" exist.
 
-**Tail merging across `case`s needs a shared statement.** VC6 merges the identical tails of
-the two branches of an `if` into one call, but not the tails of two different `case`s. If
-the original jumps from one case into the middle of another (`push $1; jmp <other case's
-call>`), end the first case with a `goto` to a label in front of the other case's shared
-code (`ParseTokenAndPush_430C70`).
+**Tail merging across `case`s.** Cross-jumping also merges identical case tails: a copy of the
+word case's `if (error_ret >= 0) return k_gci_ok;` in the byte case becomes the original's
+`push $1; jmp <other case's call>` (`ParseTokenAndPush_430C70`). It keeps one copy by its own
+rule, so when the original jumps the other way round, end the case with a `goto` to a label in
+front of the kept code (the boxes case in `sound_obj::SelectObjectImpactSound_413120`).
 
 **A "point" local that lives half in a register.** If the original keeps one coordinate of a
 constant pair in a register and the other in a stack slot, with no EH state for it, the pair
@@ -1320,10 +1324,11 @@ code the body of `if (hr != DP_OK) { failed: ...; return 0; }` and have earlier 
 
 **Placing a shared failure block right after a loop.** When the original's loop ends with
 `je <loop top>` and falls straight into a `return 0` block that earlier checks also jump
-to, with the success code after it, put the label and the return at the end of a
-`while (1)` body: `if (!Receive(...)) continue; failed: return 0; }`, with `break` at the
-top for the success case. A `failed:` label after the success code, or a
-`goto success` from the loop, gets laid out the other way round (`NetPlay::Receive_51F010`).
+to, with the success code after it, make the read call the condition of a `for`:
+`for (len = N; !Receive(...); len = N) { if (ok) { ...; return 1; } ...; if (c) break; } return 0;`.
+VC6 rotates it into the read before the loop and the one at the latch. A `failed:` label after
+the success code, or a `goto success` from the loop, gets laid out the other way round
+(`NetPlay::Receive_51F010`).
 
 **Uninitialised locals are "loaded" from argument slots.** An uninitialised local can be
 given a stack home that overlaps an argument, so its first use shows up as
@@ -1376,7 +1381,7 @@ together (`RouteFinder::NoRefs_589210`: a local's type and the order of two assi
 
 **`T x; x = f();` vs `T x = f();` for a by-value return.** The assignment form returns into a
 temporary and keeps the value in a register; the initialiser form has the call write straight into the
-local's stack slot (`sound_obj::Tank_414A50`, with a `Fix16`).
+local's stack slot (`sound_obj::HandleTankMovementSound_414A50`, with a `Fix16`).
 
 **A `volatile` local keeps a flag in its stack slot.** When the original stores a flag to the stack and
 reads it back where VC6 would keep it in a register, `volatile bool found = 0;` reproduces that
@@ -1693,9 +1698,9 @@ which helper was called and in which order things happened:
 or pairs them with themselves, so their inlines never show up in `docs/inlines_96f.md`. The 9.6f
 function between the 9.6f versions of the 10.5 neighbours, or the call at the same position in each
 paired caller, usually finds it. `Char::TurnToFreeAdjacentFace_54C3E0` (two switches that are one inline with
-cases 1, 3, 2, 4) and `sound_obj::TrainCab_414710` matched that way; see `docs/match_attempts.md`.
+cases 1, 3, 2, 4) and `sound_obj::HandleTrainStationSound_414710` matched that way; see `docs/match_attempts.md`.
 
-**A helper path that folds away can still place blocks.** In `TrainCab_414710`, 9.6f calls a
+**A helper path that folds away can still place blocks.** In `HandleTrainStationSound_414710`, 9.6f calls a
 get-and-clear helper twice: when the first returns null, the second copy (same field, already
 cleared) is tried before `return`. VC6 folds the second read to 0, but the early `return` it
 leaves is what makes the failure branches share the success path's epilogue.
@@ -2397,7 +2402,7 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   share it, and a named local inside an inline helper shares one slot across all its call sites
   (`CarAI::AlignToLaneCenter_44AF00`).
 - **`field += k` vs `field = field + k`** on an `Ang16` member: inline normalise on memory vs a temporary
-  and an out-of-line Normalize (`Char::state_0_54DDF0`, skeleton 8 -> 0).
+  and an out-of-line Normalize (`Char::UpdateWalking_54DDF0`, skeleton 8 -> 0).
 - **`?:` as an `if` condition** is materialised with `setcc` when its arms are compares; an inline helper
   with `if/return true/false` gives branches (`HandleGenericCollision_54A530`).
 - **Swapping an if/else's arms** moves blocks (the `then` arm is laid out first) and the cross-jump
@@ -2494,9 +2499,9 @@ operators (forms: 41 plain, 42/43 with one/two f64 casts, 46 with an f64 local, 
   asm's order the function matched. So when a straight run of bit clears has its registers rotated, look for
   a constant VC6 keeps in a register for two clears and give the byte field a byte bit field.
 - **`flags &= 0x7F` on a `u32` flags word clears bits 8..31 too.** The original's load / `and $0x7F,%al` /
-  store is a bit field clear of bit 7 (`Char::state_1_5504F0`: `field_58_flags_bf.b7 = 0`).
+  store is a bit field clear of bit 7 (`Char::UpdateFleeOrRunning_5504F0`: `field_58_flags_bf.b7 = 0`).
 - **`flags ^= (flags ^ v) & 1` (the bit field assign idiom) without a `(u8)` cast on the field** gave back
-  the original's zero register in `ebp` in `state_1_5504F0` (304 -> 260), although VC6 then folds it to
+  the original's zero register in `ebp` in `UpdateFleeOrRunning_5504F0` (304 -> 260), although VC6 then folds it to
   `and $1` / `and $~1` / `xor` where the original keeps `xor; and; xor` on an `int` flag. An `s32` flag gives
   the original's three instructions but loses `ebp` again (318), as does `field_58_flags_bf.b0 = v` (262).
 
@@ -2803,7 +2808,7 @@ tried are in the WIP status report.
   the original puts an unused `u8` out byte in `xpos`'s slot and the y integer in `ypos`'s.
   Ours gives `found_z` the `xpos` slot, which shifts the frame (0x34 vs 0x30). Declaration
   order, passing `(u8*)&xpos` and the permuter didn't help.
-- In `sound_obj::ProcessObject_Type12_41E850` the original copies the sample index into `eax`
+- In `sound_obj::ProcessEffectOnlyObject_41E850` the original copies the sample index into `eax`
   for `GetPlayBackRateIdx` (`mov %edi,%eax; push %eax`) and reloads `field_14` for
   `RandomDisplacement`. Every spelling we tried either pushes `edi` directly or swaps the call
   order.
@@ -2885,7 +2890,7 @@ changed for one variant only (used for the `ofstream` member and for `operator+=
 - **Call operand order: a call on a global object goes first, unless the operands read a field that was
   just stored** (`HandleCarDoorSounds_4182E0`, matched Oct 11). With a local `samp`, VC6 evaluates both
   `GetPlay(samp) + Random(samp)` and `Random(samp) + GetPlay(samp)` with the call on the global
-  `gSampManager_6FFF00` (constant `this`) first (`Type6_2_412D40` and the close-door block). The open-door
+  `gSampManager_6FFF00` (constant `this`) first (`SelectCarCarCollisionSound_412D40` and the close-door block). The open-door
   block of the original calls `Random` first, keeps the result in a stack slot across `GetPlay`, and pushes
   a `mov %eax,%edx` copy of the `get_samp_idx` result: that is the *same* source form as the close block,
   `field_14 = get_samp_idx(..); field_3C = 0; field_20 = Random(field_14) + GetPlay(field_14);`, with
@@ -2997,7 +3002,7 @@ Matched by replacing all five gotos with structure VC6 threads away (206 -> 0, w
   is threaded away so the jump table points at the shared code.
 - **The exit block in the middle (`jcc exit` targets at 0x412) and the last block ending in its own
   epilogue copy** (dupB, `Scripts/flowopt/README.md`) come from the last source statement sitting *after*
-  the big if/else: `if (bFlag15 == true) { ... } else { bGiveUp = true; } if (bGiveUp) { flee } if (bUnk2)
+  the big if/else: `if (bFindingPath == true) { ... } else { bGiveUp = true; } if (bGiveUp) { flee } if (bUnk2)
   { type check }`. The else arm (the `jne` target, explored first, laid out last) reaches the `if (bUnk2)`
   test with the flag known false, so VC6 threads it into `jmp exit`: the last block now ends in a `jmp`,
   dupB's first loop moves the exit up behind the type check's own `jmp exit`, and the last block gets an
@@ -3105,7 +3110,7 @@ block and the stores: in `CarAI::UpdateStateMachine_44E560` the original's `test
 `xor %eax,%eax` come from a flag set after the stores and tested later (`flag = 1;` instead of `return;`), which
 VC6 threads away but which changes the block graph the regions are built from.
 
-### Duplicated early-return blocks shift the round-robin cursor (`Char::state_8_5520A0`)
+### Duplicated early-return blocks shift the round-robin cursor (`Char::UpdateImmobilized_5520A0`)
 
 Identical `if (...) { kill; return; }` blocks are merged after register allocation, so writing three separate checks
 instead of one `||` condition leaves the same bytes but each copy makes its own round-robin picks before the merge.
@@ -3154,8 +3159,10 @@ the car-block level, not inside each section, give the original's registers.
 and `AddFlags_421890(flag)` take the mask as a parameter, so it is a mask word and has no bitfield (now `car_flag` masks).
 For `field_A6` the 9.6f helpers (`IsTurnRight_42AC20`, `SetAIHalted_421540`, ...) have one fixed bit each. They compile
 identically as bitfield accesses (getters must compare `== 1`) and as masks, so the evidence does not say which the
-original used. `field_A4` still has mask sites (`& 0x1C` over three bits, `= 0` clears). To decide later: pick one form per
-field, convert every site, and keep 3401/3401.
+original used. `field_A4` still has mask sites (`& 0x1C` over three bits, `= 0` clears), but they don't decide it either:
+VC6 compiles `!b2 && !b3 && !b4` (or `b2 || b3 || b4`) on a bit field to the same `test byte, 0x1C`, and eight single-bit
+clears in a row to one `mov byte, 0` (probe, Oct 29). The clears sit among whole-field resets next to `field_78_flags = 0`,
+which reads like a mask word. To decide later: pick one form per field, convert every site, and keep the match count.
 
 
 ## Division, CSE and statement placement (`MapRenderer::Draw_4F6A20`)

@@ -68,7 +68,7 @@ u16 Junction::GetDirectionToJunction_5885C0(u16 junction_idx) const
     }
     else
     {
-        return gRouteFinder_6FFDC8->field_2;
+        return gRouteFinder_6FFDC8->field_2_no_junction_direction;
     }
 }
 
@@ -569,7 +569,7 @@ void RouteFinder::FindArrowBlockInJunction_5890D0(u16 junction_idx, s32 directio
 }
 
 MATCH_FUNC(0x589210)
-s32 RouteFinder::NoRefs_589210(u8 x, u8 y, s32 a4, u8 direction, s32 a6, u16 junction_idx)
+s32 RouteFinder::NoRefs_589210(u8 x, u8 y, s32, u8 direction, s32, u16 junction_idx)
 {
     Junction* pJunction = &field_8_junctions[junction_idx];
     s32 dy;
@@ -1152,7 +1152,7 @@ MATCH_FUNC(0x58a1c0)
 RouteFinder::RouteFinder()
 {
     field_0_route_count = 0;
-    field_2 = 0;
+    field_2_no_junction_direction = 0;
     field_4_unused = 0;
     memset(field_8_junctions, 0, sizeof(field_8_junctions));
     memset(field_2218_routes, 0, sizeof(field_2218_routes));

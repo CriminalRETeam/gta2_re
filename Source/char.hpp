@@ -108,7 +108,7 @@ class Char
     u16 field_46_timer;
     s8 field_48_lying_on_floor_timer;
     s8 field_49_unused;
-    u16 field_4A;
+    u16 field_4A_timeout;
     Fix16 field_4C_conveyor_dx;
     Fix16 field_50_conveyor_dy;
     s8 field_54_jump_scale_counter;
@@ -162,7 +162,6 @@ class Char
         return field_8_ped_state_1;
     }
 
-    // 9.6f 0x492180
     inline void Set_F8_ped_state_1_433910(s32 ped_state)
     {
         field_8_ped_state_1 = ped_state;
@@ -208,7 +207,7 @@ class Char
         }
     }
 
-    // strange, the same 9.6f func but Ped::ChaseTargetStateMachine_46B170 only matches if it pass by ref
+    // strange, the same 9.6f func but Ped::StayCloseToTargetPed_46B170 only matches if it pass by ref
     inline void RegulateVelocityByRef_433970(Fix16& threshold)
     {
         if (field_38_velocity < threshold)
@@ -226,7 +225,7 @@ class Char
         field_38_velocity = max_speed;
     }
 
-    // strange, the same 9.6f func but Ped::ChaseTargetStateMachine_46B170 only matches if it pass by ref
+    // strange, the same 9.6f func but Ped::StayCloseToTargetPed_46B170 only matches if it pass by ref
     inline void SetVelocityByRef_433920(Fix16& max_speed)
     {
         field_38_velocity = max_speed;
@@ -365,7 +364,7 @@ class Char
   private:
     EXPORT void UpdateAnimState_546360();
     EXPORT void ManageZCoordAndSlopes_548590();
-    EXPORT void DispatchCollision_548670(char_type bFlag);
+    EXPORT void DispatchCollision_548670(char_type bIgnorePeds);
     EXPORT void HandleObjectCollision_548840(Object* pObj);
     EXPORT void HandlePedCollision_548BD0(Char* pOther);
     EXPORT void HandleGenericCollision_54A530(Car* pCar, Object* pObj, Char* pChar);
@@ -381,23 +380,23 @@ class Char
     EXPORT void TurnTowardsAngle_54CAE0();
     EXPORT void ApplyMovement_54CC40();
     EXPORT void CheckCollisionsAndUpdateAnim_54DD70();
-    EXPORT void state_0_54DDF0();
+    EXPORT void UpdateWalking_54DDF0();
     EXPORT bool CanStepForwardWithRegionCheck_54ECB0(s32 direction);
     EXPORT bool CanStepToTile_54EF60(char_type target_x, char_type target_y);
     EXPORT bool CanStepForward_54FEC0(s32 direction);
     EXPORT bool CanReachTile_550090(u8 xpos, u8 ypos);
-    EXPORT void state_1_5504F0();
+    EXPORT void UpdateFleeOrRunning_5504F0();
     EXPORT Ang16 GetNextRotationToward_550F60(Ang16 inputAng);
     EXPORT bool CanStepInDirection_551350(Ang16 angle);
     EXPORT void ChooseNextMovementTile_551400();
     EXPORT void SelectNextTileFast_5516F0();
-    EXPORT void state_2_5519F0();
-    EXPORT void state_3_551A00();
-    EXPORT void state_4_551B30();
-    EXPORT void state_5_551BB0();
-    EXPORT void state_7_551CB0();
-    EXPORT void state_8_5520A0();
-    EXPORT void state_9_552E90();
+    EXPORT void UpdateFindingPath_5519F0();
+    EXPORT void UpdateEnteringCar_551A00();
+    EXPORT void UpdateExitingCar_551B30();
+    EXPORT void UpdateEnteringTrain_551BB0();
+    EXPORT void UpdateStandingStill_551CB0();
+    EXPORT void UpdateImmobilized_5520A0();
+    EXPORT void UpdateDead_552E90();
 
     EXPORT bool IsNearTileCentre_5532C0() const;
 
@@ -411,11 +410,11 @@ class Char
   public:
     EXPORT bool OnObjectTouched_553640(Object* pObject);
     EXPORT bool HandlePedObjectHit_5537F0(Object* pObject);
-    EXPORT void HandleCarImpact_5538A0(Car* pCar, u8 bUnknown, Fix16 x, Fix16 y);
+    EXPORT void HandleCarImpact_5538A0(Car* pCar, u8 not_used, Fix16 x, Fix16 y);
     EXPORT void HandleGenericImpact_553E00(Ang16 ang, Fix16 impact_x, Fix16 impact_z, char_type impact_type);
 
   private:
-    EXPORT void nullsub_28();
+    EXPORT void UpdateLeavingTrain_551CA0();
 };
 GTA2_ASSERT_SIZEOF_ALWAYS(Char, 0xB4);
 

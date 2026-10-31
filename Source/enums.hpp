@@ -1,6 +1,5 @@
 #pragma once
 
-// TODO: Replace CarDamageAreasFlags etc with this
 namespace CarDeltaBitsEnum
 {
 enum
@@ -60,7 +59,6 @@ enum
     firetruck = 5,
     police_cars = 6
 };
-// static_assert(sizeof(car_manager_car_type_enum) == 4);
 } // namespace car_manager_car_type_enum
 namespace car_model_enum
 {
@@ -155,7 +153,6 @@ enum
     KRSNABUS = 86,
     none = 87
 };
-// static_assert(sizeof(car_model_enum) == 4);
 } // namespace car_model_enum
 
 namespace Car_Door_Lock
@@ -199,7 +196,6 @@ enum
     cop_5_stars = 8000,
     cop_6_stars = 12000
 };
-// static_assert(sizeof(cop_level_ped_enum) == 2);
 } // namespace cop_level_ped_enum
 
 namespace gmp_zone_type_enum
@@ -228,7 +224,6 @@ enum
     unsued6 = 19,
     arrest_restart = 20
 };
-// static_assert(sizeof(gmp_zone_type_enum) == 4);
 } // namespace gmp_zone_type_enum
 
 namespace crew_type // KFC type
@@ -269,48 +264,47 @@ enum
     user_remaps_7 = 7,
     font_remaps_8 = 8,
 };
-// static_assert(sizeof(palette_types_enum) == 4);
 } // namespace palette_types_enum
 
+// Masks of PedFlags32 (Ped::field_21C_bf). Unused, but removing the enum changes the DLLs (VC6 name table)
 namespace ped_bit_status_enum
 {
 enum
 {
-    k_ped_0x00000001 = 0x00000001,
-    k_ped_0x00000002 = 0x00000002,
-    k_ped_0x00000004 = 0x00000004,
-    k_ped_0x00000008 = 0x00000008,
-    k_ped_0x00000010 = 0x00000010,
-    k_ped_0x00000020 = 0x00000020,
-    k_ped_0x00000040 = 0x00000040,
-    k_ped_0x00000080 = 0x00000080,
-    k_ped_0x00000100 = 0x00000100,
-    k_ped_0x00000200 = 0x00000200,
-    k_ped_0x00000400 = 0x00000400,
-    k_ped_has_weapon = 0x00000800,
-    k_ped_0x00001000 = 0x00001000,
-    k_ped_0x00002000 = 0x00002000,
-    k_ped_0x00004000 = 0x00004000,
-    k_ped_0x00008000 = 0x00008000,
-    k_ped_0x00010000 = 0x00010000,
-    k_ped_0x00020000 = 0x00020000,
-    k_ped_0x00040000 = 0x00040000,
-    k_ped_0x00080000 = 0x00080000,
-    k_ped_0x00100000 = 0x00100000,
-    k_ped_0x00200000 = 0x00200000,
-    k_ped_0x00400000 = 0x00400000,
-    k_ped_0x00800000 = 0x00800000,
-    k_ped_in_flames = 0x01000000,
+    k_ped_none = 0x00000000,
+    k_ped_active = 0x00000001,
+    k_ped_unused1 = 0x00000002,
+    k_ped_panicking = 0x00000004,
+    k_ped_drive_aggressively = 0x00000008,
+    k_ped_stay_in_car = 0x00000010,
+    k_ped_busted = 0x00000020,
+    k_ped_skip_car_search = 0x00000040,
+    k_ped_use_car_weapon = 0x00000080,
+    k_ped_hit_by_attacker = 0x00000100,
+    k_ped_no_weapon = 0x00000200,
+    k_ped_scheduled_for_removal = 0x00000400,
+    k_ped_attacking = 0x00000800,
+    k_ped_unused12 = 0x00001000,
+    k_ped_weapon_chosen = 0x00002000,
+    k_ped_in_path_list = 0x00004000,
+    k_ped_flag15 = 0x00008000,
+    k_ped_flag16 = 0x00010000,
+    k_ped_flag17 = 0x00020000,
+    k_ped_unused18 = 0x00040000,
+    k_ped_flag19 = 0x00080000,
+    k_ped_unused20 = 0x00100000,
+    k_ped_unused21 = 0x00200000,
+    k_ped_flag22 = 0x00400000,
+    k_ped_spotted_player = 0x00800000,
+    k_ped_on_fire = 0x01000000,
     k_ped_invisible = 0x02000000,
-    k_ped_0x04000000 = 0x04000000,
-    k_ped_0x08000000 = 0x08000000,
-    k_ped_0x10000000 = 0x10000000,
-    k_ped_0x20000000 = 0x20000000,
-    k_ped_0x40000000 = 0x40000000,
-    k_ped_electro_fingers = 0x40000000,
-    k_ped_0x80000000 = 0x80000000,
+    k_ped_electro_fingers = 0x04000000,
+    k_ped_left_vehicle = 0x08000000,
+    k_ped_armed_gang_member = 0x10000000,
+    k_ped_forced_out_of_taxi = 0x20000000,
+    k_ped_unused30 = 0x40000000,
+    k_ped_unused31 = 0x80000000,
 };
-// static_assert(sizeof(ped_bit_status_enum) == 0x4);
 } // namespace ped_bit_status_enum
 
 namespace ped_major_state
@@ -326,7 +320,6 @@ enum
     ped_major_entering_a_car = 6,
     ped_major_getting_out_a_car = 7
 };
-// static_assert(sizeof(ped_major_state) == 0x1);
 } // namespace ped_major_state
 
 namespace ped_ocupation_enum
@@ -386,7 +379,6 @@ enum
     scared_driver_50 = 50, // scared by shooting at his car
     no_occupation = 51,
 };
-// static_assert(sizeof(ped_ocupation_enum) == 0x4);
 } // namespace ped_ocupation_enum
 
 namespace ped_remap_enum
@@ -421,7 +413,6 @@ enum
     ped_remap_player = 25,
     ped_remap_naked_dummy = 26,
 };
-// static_assert(sizeof(ped_remap_enum) == 0x1);
 } // namespace ped_remap_enum
 
 namespace ped_state1_enum
@@ -429,7 +420,7 @@ namespace ped_state1_enum
 enum
 {
     ped_walking = 0,
-    ped_running = 1,
+    ped_flee_or_running = 1,
     ped_going_to_car = 2,
     ped_entering_a_car = 3,
     ped_getting_out_a_car = 4,
@@ -440,7 +431,6 @@ enum
     ped_wasted = 9,
     ped_driving = 10,
 };
-// static_assert(sizeof(ped_state1_enum) == 0x4);
 } // namespace ped_state1_enum
 
 namespace ped_state_2
@@ -472,11 +462,10 @@ enum
     knocked_down_25 = 25, // 25 goes to lying_on_floor_22,
     knocked_fatal_26 = 26, // and 26 kills the ped
     electrocuted_27 = 27,
-    Unknown_28 = 28,
+    initial_28 = 28, // start value (Char constructor and PoolAllocate, Ped::Reset_45AFC0), no state change sets it
     ped2_respawned_29 = 29, // Ped::RespawnPed_45C350; a player in it has its wanted level cleared
     Unknown_30 = 30,
 };
-// static_assert(sizeof(ped_state_2) == 0x4);
 } // namespace ped_state_2
 
 namespace Char_B4_state
@@ -484,13 +473,13 @@ namespace Char_B4_state
 enum
 {
     Unknown_0 = 0,
-    Unknown_1 = 1,
+    Walking_1 = 1,
     Unknown_2 = 2,
-    Unknown_3 = 3,
-    Unknown_4 = 4,
+    Walking_Fast_3 = 3,
+    Running_4 = 4,
     Unknown_5 = 5,
     Unknown_6 = 6,
-    Unknown_7 = 7,
+    Standing_7 = 7,
     Veer_Right_From_Wall_8 = 8,
     Veer_Left_From_Wall_9 = 9,
     Avoiding_Ped_10 = 10, // turned aside after bumping into another ped (Char::HandlePedCollision_548BD0)
@@ -501,7 +490,7 @@ enum
     Jumping_15 = 15,
     Colliding_With_Car_27 = 27,
     Smoking_35 = 35,
-    Interacting_Car_Door_36 = 36, // also a new char's state (Char's constructor), which its first update makes 1
+    Interacting_Car_Door_36 = 36, // also a new char's state (Char's constructor), which its first update makes Walking_1
 };
 } // namespace Char_B4_state
 
@@ -527,6 +516,7 @@ enum
 };
 } // namespace Char_Anim_state
 
+// Unused duplicate of tile_spec (gtx_0x106C.hpp). Removing it changes MapRenderer codegen (VC6 name table).
 namespace spec_surface_type_enum
 {
 enum
@@ -541,7 +531,6 @@ enum
     spec_metal_wall = 9,
     spec_grass_dirt_wall = 10,
 };
-// static_assert(sizeof(spec_surface_type_enum) == 4);
 } // namespace spec_surface_type_enum
 
 namespace car_surface_type
@@ -574,7 +563,6 @@ enum
     font_7 = 7,
     code_obj2_8 = 8,
 };
-// static_assert(sizeof(sprite_types_enum) == 4);
 } // namespace sprite_types_enum
 
 namespace weapon_type
@@ -606,7 +594,6 @@ enum
     army_gun_jeep = 22,
     weapon_0x17 = 23,
 };
-// static_assert(sizeof(weapon_type) == 0x4);
 } // namespace weapon_type
 
 namespace objects
@@ -698,7 +685,7 @@ enum
     car_shop_busy_131 = 131,
     car_bomb_132 = 132,
     object_133 = 133,
-    crane_unknown_134 = 134,
+    crane_cables_134 = 134,
     crane_rotor_135 = 135,
     crane_hook_136 = 136,
     crane_base_137 = 137,
@@ -825,17 +812,17 @@ enum
     flee_char_any_means_always_5 = 5,
     flee_char_always_once_car_stopped_6 = 6,
     run_to_char_7 = 7,
-    objective_8 = 8,
+    left_behind_by_leader_8 = 8, // group member with no seat in the leader's car, rejoins him once he is on foot within 8 blocks
     follow_char_9 = 9,
     follow_char_in_car_10 = 10,
-    objective_11 = 11,
+    stay_close_to_char_11 = 11, // on foot, within 1/8 block of the internal target ped; passes when it dies (Ped::StayCloseToTargetPed_46B170)
     goto_area_on_foot_12 = 12,
     goto_area_any_means_13 = 13,
     goto_area_in_car_14 = 14,
     follow_path_points_15 = 15,
     goto_char_on_foot_16 = 16,
     walk_to_point_17 = 17,
-    objective_18 = 18,
+    walk_to_car_door_18 = 18, // group member walks to a door of the car the leader is getting into, then stops
     kill_char_any_means_19 = 19,
     kill_char_on_foot_20 = 20,
     kill_car_21 = 21,
@@ -860,16 +847,16 @@ enum
     objective_40 = 40,
     objective_41 = 41,
     patrol_on_foot_42 = 42,
-    objective_43 = 43,
-    wait_to_cross_y_backward_44 = 44,
+    patrol_in_car_43 = 43,
+    wait_to_cross_y_backwards_44 = 44,
     wait_to_cross_x_forwards_45 = 45,
     wait_to_cross_y_forwards_46 = 46,
     wait_to_cross_x_backwards_47 = 47,
     crossing_road_48 = 48,
     wait_after_crossing_49 = 49,
-    objective_50 = 50,
-    objective_51 = 51,
-    objective_52 = 52,
+    dead_no_ambulance_50 = 50,
+    wander_until_timeout_51 = 51, // fails when the objective timer runs out (police crew searching on foot, 200 ticks)
+    chase_char_in_car_52 = 52,
     objective_53 = 53,
     call_police_car_54 = 54,
     follow_car_in_car_55 = 55,
@@ -900,7 +887,7 @@ namespace ped_type
 {
 enum
 {
-    unknown_0 = 0,
+    none_0 = 0, // Car::field_7C_ped_type before a driver sets it (Car constructor)
     unknown_1 = 1,
     player_2 = 2,
     dummy_3 = 3,
@@ -940,6 +927,8 @@ enum
 };
 } // namespace threat_search_enum
 
+// CarDamageAreas and CarDamageAreasFlags are unused (CarDeltaBitsEnum took over) but stay:
+// enums.hpp has no slack for fewer names (docs/matching_quirks.md)
 namespace CarDamageAreas
 {
 enum
@@ -978,7 +967,7 @@ enum Gta2Error
     FtellError = 13u,
     FseekError = 14u,
     FileReadFailure = 15u,
-    FreeloaderEpisodeUnknown = 16u,
+    FileOpenError = 16u,
     FileCloseError = 17u,
     FileBiggerThanBuffer = 18u,
     WritingZeroBytesToFile = 19u,

@@ -59,7 +59,7 @@ DEFINE_GLOBAL_INIT(Fix16, kFpPoint7_6FD304, Fix16(0x2CCC, 0), 0x6FD304);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint8_6FD308, Fix16(0x3333, 0), 0x6FD308);
 DEFINE_GLOBAL_INIT(Fix16, kFpOneSixth_6FD364, Fix16(0xAAA, 0), 0x6FD364);
 DEFINE_GLOBAL_INIT(Fix16, kFpMinusOneThirtySecond_6FD3C0, Fix16(0xFFFFFE00, 0), 0x6FD3C0);
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD5A8, Fix16(0xDCC, 0), 0x6FD5A8);
+DEFINE_GLOBAL_INIT(Fix16, kFpPoint2PlusOne64th_6FD5A8, Fix16(0xDCC, 0), 0x6FD5A8);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint4_6FD2F8, Fix16(0x1999, 0), 0x6FD2F8);
 DEFINE_GLOBAL_INIT(Fix16, kFpFour_6FD4AC, Fix16(4), 0x6FD4AC);
 
@@ -985,7 +985,7 @@ bool Particle_4C::UpdateSkidOrScrapeSpark_state_40_41_53A280()
         if (sub < 4)
         {
             half_w = pCar->GetCarWidth_48A930() / 2 + kFpMinusOneThirtySecond_6FD3C0;
-            half_h = pCar->GetCarHeight_48A950() / 2 + dword_6FD5A8;
+            half_h = pCar->GetCarHeight_48A950() / 2 + kFpPoint2PlusOne64th_6FD5A8;
         }
         else
         {
@@ -1283,7 +1283,7 @@ bool Particle_4C::UpdateAttachedEmitter_state_9_10_53B670()
 
     if (field_38_state == 9)
     {
-        if (pChar->field_6C_animation_state != 2)
+        if (pChar->field_6C_animation_state != Char_Anim_state::Standing_2)
         {
             return true;
         }

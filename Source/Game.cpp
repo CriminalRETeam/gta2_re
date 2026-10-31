@@ -88,7 +88,6 @@ EXTERN_GLOBAL(char_type, gLighting_626A09);
 
 DEFINE_GLOBAL(Game*, gGame_0x40_67E008, 0x67E008);
 
-// TODO: move
 EXPORT void __stdcall ReapplySavedGamma_5D9970();
 
 MATCH_FUNC(0x4B8BB0)
@@ -221,9 +220,6 @@ void Game::ApplyNetworkGameSettings_4B8E50()
     bSkip_police_67D4F9 = gNetworkGameSettings_707098.field_201A0_police_on == 0;
 }
 
-// TODO: move
-EXTERN_GLOBAL(s32, bStartNetworkGame_7081F0);
-
 DEFINE_GLOBAL(Ped*, gLastTestPed_6787E8, 0x6787E8);
 
 // Gives the player a group of count peds with the given remap
@@ -242,7 +238,7 @@ EXPORT void __stdcall SpawnTestGroup_46DD70(char_type remap, u8 count)
     gLastTestPed_6787E8->field_26C_graphic_type = pPlayerPed->field_26C_graphic_type;
     gLastTestPed_6787E8->SetPedType_403920(ped_type::script_created_5);
     if (!gLastTestPed_6787E8->AllocCharB4_45C830(pPlayerPed->field_1AC_cam.x, pPlayerPed->field_1AC_cam.y, pPlayerPed->field_1AC_cam.z))
-    // 9.6f: Ped::get_cam_x/get_cam_y/sub_416B50 (inlined, using them changes the code)
+    // 9.6f: Ped::get_cam_x/get_cam_y/get_cam_z (inlined, using them changes the code)
     {
         gLastTestPed_6787E8->field_168_game_object->SetRemap_46DD50(gLastTestPed_6787E8->get_remap_433BA0());
     }
@@ -267,14 +263,12 @@ EXPORT void __stdcall SpawnTestGroup_46DD70(char_type remap, u8 count)
     }
 }
 
-// TODO: move
 MATCH_FUNC(0x46E370)
 EXPORT void SpawnTestGroupDefault_46E370()
 {
     SpawnTestGroup_46DD70(4, 4);
 }
 
-// TODO: move
 MATCH_FUNC(0x5D8DF0)
 EXPORT void InvalidateCachedScreenDimension_5D8DF0()
 {
@@ -381,7 +375,7 @@ void Game::ShowDebugOverlay_4B9270()
     if (field_30_fast_forward)
     {
         Hud_TextEntry* pTextEntry = gHud_2B00_706620->field_650_texts.DisplayText_5D1F50(L"FF", 0, 440, gDebugFont_706600, 1);
-        pTextEntry->SetDrawKind8_45AFD0(6);
+        pTextEntry->SetFontRemap_45AFD0(6);
     }
 }
 
@@ -1238,7 +1232,7 @@ Game::Game(u8 max_players, s8 player_idx)
         FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\game.cpp", 1918);
     }
 
-    if (gText_0x14_704DFC->field_10_lang_code == 'j')
+    if (gText_0x14_704DFC->LangIsJapanese_452E60())
     {
         gKanjiFont_6F5168 = new KanjiFont(); // ctor call
         if (!gKanjiFont_6F5168)

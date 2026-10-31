@@ -4,29 +4,17 @@
 #include <memory.h>
 #include <wchar.h>
 
-// TODO: Not sure if this type actually exists yet
-class ProfileSamples
-{
-  public:
-    s32 field_0_samples[30];
-
-    void Clear()
-    {
-        for (s32 i = 0; i < 30; i++)
-        {
-            field_0_samples[i] = 0;
-        }
-    }
-};
-GTA2_ASSERT_SIZEOF_ALWAYS(ProfileSamples, 0x78);
-
 struct ProfileAverage
 {
+    // 9.6f 0x45B0F0
     ProfileAverage()
     {
         field_7C_sum = 0;
         field_78_sample_idx = 0;
-        field_0_samples.Clear();
+        for (s32 i = 0; i < 30; i++)
+        {
+            field_0_samples[i] = 0;
+        }
     }
 
     s32 Average() const
@@ -37,15 +25,15 @@ struct ProfileAverage
     // 9.6f 0x474450. Keeps a running sum of the last 30 samples
     void AddSample(s32 value)
     {
-        field_7C_sum += value - field_0_samples.field_0_samples[field_78_sample_idx];
-        field_0_samples.field_0_samples[field_78_sample_idx] = value;
+        field_7C_sum += value - field_0_samples[field_78_sample_idx];
+        field_0_samples[field_78_sample_idx] = value;
         if (++field_78_sample_idx >= 30)
         {
             field_78_sample_idx = 0;
         }
     }
 
-    ProfileSamples field_0_samples;
+    s32 field_0_samples[30];
     s32 field_78_sample_idx;
     s32 field_7C_sum;
 };

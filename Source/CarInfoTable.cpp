@@ -51,7 +51,7 @@ DEFINE_GLOBAL_ARRAY_INIT(char*,
                          "Output too big" COMMA
                          "Unknown error");
 
-// Return codes of the gci tokenizer and parser, in the order of the messages of error_table_61A6D4
+// Return codes of the gci tokenizer and parser. SetErr_430AC0 prints error_table_61A6D4[-code], one message too far
 enum
 {
     k_gci_ok = 0,
@@ -301,8 +301,10 @@ s32 __stdcall ParseTokenAndPush_430C70(char_type* pStr)
                             }
                             error_ret = CarInfoTable::PushData_430E60(&parsed_short, sizeof(BYTE));
                         }
-                        // Shares the word case's tail; VC6 doesn't merge identical case tails by itself
-                        goto check_push_result;
+                        if (error_ret >= 0)
+                        {
+                            return k_gci_ok;
+                        }
                     }
                     return error_ret;
 
@@ -328,7 +330,6 @@ s32 __stdcall ParseTokenAndPush_430C70(char_type* pStr)
                             error_ret = CarInfoTable::PushData_430E60(&parsed_short, sizeof(WORD));
                         }
 
-                    check_push_result:
                         if (error_ret >= 0)
                         {
                             return k_gci_ok;

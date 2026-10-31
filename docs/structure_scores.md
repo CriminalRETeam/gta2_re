@@ -10,7 +10,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | skeleton | structure | full | 9.6f struct | Address | Function | File |
 |---|---|---|---|---|---|---|
 | 0 | 0 | 110 | - | 0x561380 | `CarPhysics::ComputePointVelocity_561380` | CarPhysics.cpp |
-| 0 | 0 | 12 | 147 | 0x5520a0 | `Char::state_8_5520A0` | char.cpp |
+| 0 | 0 | 12 | 147 | 0x5520a0 | `Char::UpdateImmobilized_5520A0` | char.cpp |
 | 0 | 0 | 12 | 4 | 0x543690 | `ExplosionPool::FreeLowestPriority_543690` | Explosion.cpp |
 | 0 | 0 | 16 | 0 | 0x5645b0 | `Player::AddCarToHistory_5645B0` | Player.cpp |
 | 0 | 0 | 2 | 0 | 0x498cb0 | `InputDevices::SetAltKeyState_498CB0` | InputRecorder_67F8B0.cpp |
@@ -19,7 +19,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 0 | 0 | 34 | - | 0x452060 | `CarAI::ScanAheadForObstacles_452060` | CarAI.cpp |
 | 0 | 0 | 4 | - | 0x4e6660 | `Map_0x370::AdvanceAlongRailway_4E6660` | map_0x370.cpp |
 | 0 | 0 | 4 | 0 | 0x516590 | `TagGame::SetNewFugitive_516590` | TagGame.cpp |
-| 0 | 0 | 6 | - | 0x414710 | `sound_obj::TrainCab_414710` | sound_obj.cpp |
+| 0 | 0 | 6 | - | 0x414710 | `sound_obj::HandleTrainStationSound_414710` | sound_obj.cpp |
 | 0 | 2 | 4 | 2 | 0x4b6390 | `MenuItem::SelectPrevHorizontalIdx_4B6390` | Frontend.cpp |
 | 0 | 4 | 10 | - | 0x5e0e70 | `Weapon::fire_truck_gun_5E0E70` | Weapon.cpp |
 | 0 | 4 | 10 | 0 | 0x5d4890 | `Hud_Brief::ClearAllBriefsWithPriority_5D4890` | Hud.cpp |
@@ -34,7 +34,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 0 | 4 | 46 | 8 | 0x574720 | `PoliceCrew::State6_ShutDown_574720` | Police_38.cpp |
 | 0 | 4 | 8 | 430 | 0x539890 | `Particle_4C::UpdateCircularBurst_state_5_539890` | Particle_4C.cpp |
 | 0 | 6 | 121 | - | 0x509180 | `ScriptThread::SCRCMD_STORE_CAR_INFO_509180` | ScriptThread.cpp |
-| 0 | 6 | 40 | - | 0x41e850 | `sound_obj::ProcessObject_Type12_41E850` | sound_obj.cpp |
+| 0 | 6 | 40 | - | 0x41e850 | `sound_obj::ProcessEffectOnlyObject_41E850` | sound_obj.cpp |
 | 0 | 6 | 52 | - | 0x442ad0 | `Fix16_Point::NormalizeSafe_442AD0` | Fix16_Point.cpp |
 | 0 | 6 | 58 | 184 | 0x436200 | `Camera::ApplyCarVelocityCameraOffset_436200` | Camera.cpp |
 | 0 | 8 | 142 | - | 0x465d00 | `Ped::IsPedAThreat_465D00` | Ped.cpp |
@@ -87,7 +87,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 0 | 44 | 26 | - | 0x4ece40 | `MapRenderer::DrawDiagonalDownRightFace_4ECE40` | MapRenderer.cpp |
 | 0 | 44 | 56 | - | 0x4e5e90 | `Map_0x370::HasGreenArrowForPathDirection_4E5E90` | map_0x370.cpp |
 | 0 | 46 | 240 | 88 | 0x521890 | `NetPlay::ReceiveGameMessage_521890` | NetPlay.cpp |
-| 0 | 46 | 310 | 324 | 0x5504f0 | `Char::state_1_5504F0` | char.cpp |
+| 0 | 46 | 310 | 324 | 0x5504f0 | `Char::UpdateFleeOrRunning_5504F0` | char.cpp |
 | 0 | 48 | 102 | 56 | 0x469fe0 | `Ped::CallPoliceCar_469FE0` | Ped.cpp |
 | 0 | 48 | 48 | - | 0x4ee130 | `MapRenderer::draw_lid_4EE130` | MapRenderer.cpp |
 | 0 | 54 | 204 | 141 | 0x539040 | `Particle_4C::UpdateDirectedBurstSweep_state_4_539040` | Particle_4C.cpp |
@@ -159,7 +159,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 6 | 266 | 627 | - | 0x4f22f0 | `MapRenderer::DrawGradientSlopeWestwards_4F22F0` | MapRenderer.cpp |
 | 7 | 24 | 40 | 0 | 0x522e10 | `Object::HandleCollision_522E10` | Object_5C.cpp |
 | 8 | 54 | 454 | 104 | 0x46b670 | `Ped::MeleeAttackStateMachine_46B670` | Ped.cpp |
-| 8 | 79 | 428 | 337 | 0x54ddf0 | `Char::state_0_54DDF0` | char.cpp |
+| 8 | 79 | 428 | 337 | 0x54ddf0 | `Char::UpdateWalking_54DDF0` | char.cpp |
 | 8 | 110 | 414 | 73 | 0x45e4a0 | `Ped::StartCrossingRoad_45E4A0` | Ped.cpp |
 | 9 | 58 | 64 | 177 | 0x4e1520 | `Map_0x370::SpriteHitsDiagonalWall_4E1520` | map_0x370.cpp |
 | 9 | 121 | 480 | 66 | 0x4e5640 | `Map_0x370::IsProbePathClear_4E5640` | map_0x370.cpp |
@@ -177,7 +177,7 @@ Per WIP, from `Scripts/bin_comp/permuter_score.py` (lower is better, 0 = same):
 | 20 | 88 | 528 | 722 | 0x4e0130 | `Map_0x370::IsMoveOntoSlopeTileBlocked_4E0130` | map_0x370.cpp |
 | 20 | 90 | 146 | 105 | 0x5238b0 | `Object::HandleSpriteZCollision_5238B0` | Object_5C.cpp |
 | 20 | 113 | 339 | 226 | 0x451980 | `CarAI::ReactToNearbyCar_451980` | CarAI.cpp |
-| 20 | 123 | 203 | - | 0x416260 | `sound_obj::Type_1_6_416260` | sound_obj.cpp |
+| 20 | 123 | 203 | - | 0x416260 | `sound_obj::Type_1_6_InitCarEngineOrDamageSound_416260` | sound_obj.cpp |
 | 22 | 48 | 60 | - | 0x5a1490 | `Sprite::PointInsideRotatedBounds_5A1490` | sprite.cpp |
 | 22 | 134 | 392 | - | 0x54b8f0 | `Char::ContinueMovementAfterCollision_54B8F0` | char.cpp |
 | 22 | 171 | 264 | 225 | 0x5ddfc0 | `Weapon::throwable_5DDFC0` | Weapon.cpp |

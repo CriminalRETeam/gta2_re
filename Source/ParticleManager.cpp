@@ -27,7 +27,7 @@ EXTERN_GLOBAL(Fix16, kFpPoint1_6FD2E8);
 EXTERN_GLOBAL(Fix16, kFP16Quarter_6FD2EC);
 EXTERN_GLOBAL(Fix16, kFpOne64th_6FD554);
 EXTERN_GLOBAL(Fix16, kFpMinusOneThirtySecond_6FD3C0);
-EXTERN_GLOBAL(Fix16, dword_6FD5A8);
+EXTERN_GLOBAL(Fix16, kFpPoint2PlusOne64th_6FD5A8);
 
 EXTERN_GLOBAL(Ang16, kAngZero_6FD5D4);
 EXTERN_GLOBAL(Ang16, kAng180_6FD3EE);
@@ -38,7 +38,7 @@ DEFINE_GLOBAL_INIT(Fix16, kFpPoint07_6FD474, Fix16(0x47A, 0), 0x6FD474);
 DEFINE_GLOBAL_INIT(Fix16, kFpPoint02_6FD468, Fix16(0x147, 0), 0x6FD468);
 DEFINE_GLOBAL_INIT(Ang16, kAng90_6FD314, Ang16(360), 0x6FD314);
 
-DEFINE_GLOBAL_INIT(Fix16, dword_6FD4EC, Fix16(0xB, 0), 0x6FD4EC);
+DEFINE_GLOBAL_INIT(Fix16, kFpPoint0007_6FD4EC, Fix16(0xB, 0), 0x6FD4EC);
 DEFINE_GLOBAL_INIT(Fix16, kFpFifty_6FD558, Fix16(50), 0x6FD558);
 DEFINE_GLOBAL_INIT(Ang16, kAng1_6FD5CC, Ang16(4), 0x6FD5CC);
 DEFINE_GLOBAL_INIT(Fix16, kFpTen_6FD508, Fix16(10), 0x6FD508);
@@ -117,7 +117,7 @@ void ParticleManager::EmitBloodBurst_53E450(Fix16 x, Fix16 y, Fix16 z, Ang16 ang
         do
         {
             vector.x = Fix16(0);
-            vector.y = (Fix16(gRng_6F6784.get_int_4F7AE0(100)) + kFpFifty_6FD558) * dword_6FD4EC;
+            vector.y = (Fix16(gRng_6F6784.get_int_4F7AE0(100)) + kFpFifty_6FD558) * kFpPoint0007_6FD4EC;
 
             angle = kAng1_6FD5CC.MultiplyByFix16_401CB0(Fix16(gRng_6F6784.get_int_4F7AE0(16)));
             vector.RotateByAngle_40F6B0((angle + ang) - kAng1_6FD5CC.MultiplyByFix16_401CB0(Fix16(8)));
@@ -197,7 +197,7 @@ void ParticleManager::GunMuzzelFlash_53E970(Sprite* pSprite)
                 pParticle->field_48_timer = 0;
 
                 half_w = pCar->GetCarWidth_48A930() / 2 + kFpMinusOneThirtySecond_6FD3C0;
-                half_h = pCar->GetCarHeight_48A950() / 2 + dword_6FD5A8;
+                half_h = pCar->GetCarHeight_48A950() / 2 + kFpPoint2PlusOne64th_6FD5A8;
                 corner_1.x = half_w;
                 corner_1.y = half_h;
                 angle = pSprite->field_0_rotation;
@@ -225,7 +225,7 @@ void ParticleManager::GunMuzzelFlash_53E970(Sprite* pSprite)
 
                 angle = pSprite->field_0_rotation;
                 half_w = pCar->GetCarWidth_48A930() / 2 + kFpMinusOneThirtySecond_6FD3C0;
-                half_h = pCar->GetCarHeight_48A950() / 2 + dword_6FD5A8;
+                half_h = pCar->GetCarHeight_48A950() / 2 + kFpPoint2PlusOne64th_6FD5A8;
                 corner_2.SetXY_432860(-half_w, half_h);
                 corner_2.RotateByAngle_40F6B0(angle);
                 corner_2 += pSprite->get_x_y_443580();
@@ -297,7 +297,7 @@ void ParticleManager::EmitWaterSplash_53F060(Fix16 xpos, Fix16 ypos, Fix16 zpos,
             }
 
             velocity.x = Fix16(0);
-            velocity.y = (Fix16(gRng_6F6784.get_int_4F7AE0(100)) + kFpFifty_6FD558) * dword_6FD4EC;
+            velocity.y = (Fix16(gRng_6F6784.get_int_4F7AE0(100)) + kFpFifty_6FD558) * kFpPoint0007_6FD4EC;
 
             Ang16 angle_1 = kAng1_6FD5CC.MultiplyByFix16_401CB0(Fix16(gRng_6F6784.get_int_4F7AE0(16)));
             RotateNegExport_(velocity, (angle_1 + angle_2) - kAng1_6FD5CC.MultiplyByFix16_401CB0(Fix16(8)));
@@ -502,7 +502,7 @@ void ParticleManager::EmitImpactParticles_53FE40(Fix16 x, Fix16 y, Fix16 z, Fix1
     for (u8 i = 0; i < 6; ++i)
     {
         t.x = Fix16(0);
-        t.y = (Fix16(gRng_6F6784.get_int_4F7AE0(100)) + kFpFifty_6FD558) * dword_6FD4EC;
+        t.y = (Fix16(gRng_6F6784.get_int_4F7AE0(100)) + kFpFifty_6FD558) * kFpPoint0007_6FD4EC;
         if (i < 4)
         {
             ang1 = kAng1_6FD5CC.MultiplyByFix16_401CB0_out_of_line(Fix16(gRng_6F6784.get_int_4F7AE0(32)));
@@ -602,7 +602,7 @@ void ParticleManager::SpawnParticleSprite_5405D0(Sprite* pSprite)
 // 9.6f 0x48E060. Fix16_Point vel has a dtor, which gives the EH frame; its fields are zeroed again
 // before the call, and the two other zero args go through the out-of-line Fix16(s32) ctor.
 MATCH_FUNC(0x5406b0)
-void ParticleManager::SpawnCigaretteSmokePuff_5406B0(Sprite* pSprite, char_type bUnknown)
+void ParticleManager::SpawnCigaretteSmokePuff_5406B0(Sprite* pSprite, char_type bSmokeSource)
 {
     Fix16_Point vel(Fix16(0), Fix16(0));
     if (!bSkip_particles_67D64D)
@@ -614,7 +614,7 @@ void ParticleManager::SpawnCigaretteSmokePuff_5406B0(Sprite* pSprite, char_type 
         {
             pNewParticle->field_34_unused = 1;
 
-            if (bUnknown)
+            if (bSmokeSource)
             {
                 pNewParticle->field_38_state = 9;
                 pNewParticle->field_2C_counter = 80;
@@ -631,7 +631,7 @@ void ParticleManager::SpawnCigaretteSmokePuff_5406B0(Sprite* pSprite, char_type 
 
             Fix16 x;
             Fix16 y;
-            if (bUnknown)
+            if (bSmokeSource)
             {
                 Ang16::PolarToCartesian_41FC20(pSprite->field_0_rotation, kFpPoint07_6FD474, x, y);
             }
@@ -654,7 +654,7 @@ void ParticleManager::SpawnCigaretteSmokePuff_5406B0(Sprite* pSprite, char_type 
 
             gSpriteGrid_3_679210->AddToSingleBucket_477AE0(pNewParticle->field_30_pOwnSprite);
 
-            if (bUnknown)
+            if (bSmokeSource)
             {
                 pNewParticle->field_30_pOwnSprite->SetNoLighting_4337F0();
             }

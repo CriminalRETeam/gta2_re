@@ -27,7 +27,7 @@
 EXTERN_GLOBAL(s16, gPedOffscreenDespawnTime_678656);
 EXTERN_GLOBAL(Ang16, gSearchConeHalfAngle_6784F0);
 EXTERN_GLOBAL(u8, gRunPedObjectiveAI_61A8A0);
-EXTERN_GLOBAL(s8, byte_61A8A3);
+EXTERN_GLOBAL(s8, gObjectiveMayAct_61A8A3);
 EXTERN_GLOBAL(u8, gRunPedThink_61A8A4);
 EXTERN_GLOBAL(Fix16, kFpZero_678660);
 EXTERN_GLOBAL(Fix16, gDistanceToTarget_678750);
@@ -36,7 +36,7 @@ EXTERN_GLOBAL(u8, gNumberArmedGangMembers_6787CE);
 EXTERN_GLOBAL(s16, gNumPedsCrossingRoad_6787D0);
 EXTERN_GLOBAL(u8, gNewTaxiCustomersThisTick_6787D2);
 EXTERN_GLOBAL(char_type, gNumberBusCustomers_6787D3);
-EXTERN_GLOBAL(u8, byte_6787D4);
+EXTERN_GLOBAL(u8, gCloseRangeHit_6787D4);
 DEFINE_GLOBAL(u8, gTargetSearchMode_6787D7, 0x6787D7);
 EXTERN_GLOBAL(u8, gPathStepRoundDone_6787D8);
 EXTERN_GLOBAL(u8, gLosCheckRoundDone_6787D9);
@@ -153,7 +153,6 @@ enum
     k_spawn_cop = 5,
 };
 
-// TODO: Prob a method of PedManager?
 MATCH_FUNC(0x46E380)
 EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rotation)
 {
@@ -342,6 +341,7 @@ EXPORT void __stdcall SpawnPedestrianAt_46E380(Fix16 xpos, Fix16 ypos, Fix16 zpo
             case k_spawn_cop:
                 if (gNumberWalkingCopsSpawned_6787CD || bSkip_police_67D4F9 || gPolice_7B8_6FEE40->field_65C_highest_crew_type_in_pursuit == crew_type::army_6)
                 {
+                // shared exit for the four spawn limits: goto-free forms give each its own epilogue
                 delloc_ret_2:
                     pPed->Deallocate_45EB60();
                     return;
@@ -738,7 +738,7 @@ PedManager::PedManager()
     gNewTaxiCustomersThisTick_6787D2 = 0;
     gNumberBusCustomers_6787D3 = 0;
     gSearchConeHalfAngle_6784F0 = gDummyPedAng_6787A8;
-    byte_6787D4 = 0;
+    gCloseRangeHit_6787D4 = 0;
     spawnSideLocked_6787D5 = 0;
     spawnCountLimit_6787D6 = 0;
     gTargetSearchMode_6787D7 = threat_search_enum::no_threats_0;
@@ -751,7 +751,7 @@ PedManager::PedManager()
     gDistanceToTarget_678750 = kFpZero_678660;
     gSearchingPed_6787DC = NULL;
     cameraFacingAng_678760 = gDummyPedAng_6787A8;
-    byte_61A8A3 = 1;
+    gObjectiveMayAct_61A8A3 = 1;
     gRunPedThink_61A8A4 = 1;
     gNumPedsUpdated_6787E0 = 0;
     gNumDummyChars_6787E2 = 0;
@@ -804,7 +804,7 @@ Ped* PedManager::SpawnPedAt(Fix16 xpos, Fix16 ypos, Fix16 zpos, u8 remap, Ang16 
     pPed->SetRotation_433C00(rotation);
     pPed->set_remap_433B90(remap);
 
-    pPed->SetRemap_433C10(remap);
+    pPed->SetRemap_433C10(pPed->get_remap_433BA0());
     pPed->field_134_rotation = rotation;
     pPed->field_288_threat_search = threat_search_enum::area_2;
     pPed->field_28C_threat_reaction = threat_reaction_enum::run_away_3;

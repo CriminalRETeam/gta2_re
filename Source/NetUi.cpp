@@ -997,7 +997,7 @@ char_type* __stdcall GetString_519A00(const char_type* pKey)
 {
     wchar_t* pText = gtext_0x14_6F87F0->Find_5B5F90(pKey);
 
-    if (gtext_0x14_6F87F0->field_10_lang_code == 'j')
+    if (gtext_0x14_6F87F0->LangIsJapanese_452E60())
     {
         WideToDbcs_519960(Dest_6F88A4, pText);
     }
@@ -1011,7 +1011,7 @@ char_type* __stdcall GetString_519A00(const char_type* pKey)
 MATCH_FUNC(0x519a50)
 void NetUi::GetString_519A50(wchar_t* Dest, char_type* Source, size_t MaxCount)
 {
-    if (gtext_0x14_6F87F0->field_10_lang_code == 'j')
+    if (gtext_0x14_6F87F0->LangIsJapanese_452E60())
     {
         DbcsToWide_5199B0(Dest, Source);
     }
@@ -1087,8 +1087,8 @@ int __stdcall NetUi::DialogFunc(HWND hDlg, UINT message, WPARAM wParam, LPARAM l
         case WM_HSCROLL:
         {
             HWND hwndCtl = reinterpret_cast<HWND>(lParam);
-            int scrollCode = LOWORD(wParam);
-            int thumbPos = static_cast<short>(HIWORD(wParam));
+            s32 scrollCode = LOWORD(wParam);
+            s32 thumbPos = static_cast<s16>(HIWORD(wParam));
 
             NetUi::OnWmHScroll_51C630(hDlg, hwndCtl, scrollCode, thumbPos);
             return 0;
@@ -1158,7 +1158,7 @@ void NetUi::cb_AddPlayerToList_519E30(NetUi* pNetUi, wchar_t* pName, s32 player_
     LVITEMA item;
     char_type name[260];
 
-    if (gtext_0x14_6F87F0->field_10_lang_code == 'j')
+    if (gtext_0x14_6F87F0->LangIsJapanese_452E60())
     {
         WideToDbcs_519960(name, pName);
     }
@@ -1488,7 +1488,7 @@ MATCH_FUNC(0x51a9d0)
 void __stdcall NetUi::OnTimer_51A9D0(HWND hWnd, s32 timer_id)
 {
     NetUi* pThis = reinterpret_cast<NetUi*>(GetWindowLongA(hWnd, 8));
-    int hadSelection = 0;
+    s32 hadSelection = 0;
     if (!pThis->GetEndDialog_51BC80())
     {
         char textBuf[260];
@@ -1533,7 +1533,7 @@ void NetUi::CreateMainUi_51AA90(HWND hWndParent)
             }
             else
             {
-                pNewWindowStr = ""; // byte_67DC88
+                pNewWindowStr = ""; // the original's empty string literal at 0x67DC88
             }
 
             field_201A8_ui_control_hwnds[i][j] = CreateWindowExA(gUiControlDefinitions_621430.data[i][j].field_0_windowParams.field_18_exStyle,
@@ -1789,7 +1789,6 @@ LRESULT NetUi::cb_AddChatMessage_51B2F0(NetUi* pNetUi, Network_ChatMessage* pMsg
 
     wcstombs(message, pMsg->field_0_message, 260u);
     wcstombs(name, pMsg->field_100_name, 260u);
-    // TODO: the format strings are guesses (right sizes, contents unverified)
     sprintf(line, "%s : %s", name, message);
 
     switch (pNetUi->Get_20310_showing_window_idx_51ACC0())
@@ -1953,28 +1952,27 @@ void NetUi::ApplyHostGameSettings_51B810(const char_type* pData)
         u32 i = 0;
         while (1)
         {
-            if (i >= static_cast<u32>(field_1FD64_total_map_count))
+            if (i < static_cast<u32>(field_1FD64_total_map_count))
             {
+                if (!strcmp(field_4_maps[i].field_410_mmp_name, pSettings->field_20088_default_map))
+                {
+                    field_20088_game_settings = *pSettings;
+                    field_20088_game_settings.field_2018C_map_idx = i;
+                    SetDlgItemTextA(field_2031C_dlg_hwnd, LABEL_JOINED_GAME_MAP_1054, field_4_maps[i].field_30C_description);
+                    break;
+                }
+                i++;
+            }
+            else
+            {
+                sprintf(msg, "### ERROR ### \r\r\nDo Not Have Map %s", pSettings->field_20088_default_map);
+                GetString_519A50(wmsg, msg, 260);
+                gNetPlay_7071E8.SendChatMessage_521060(wmsg, -1);
+                AppendChatMessage_51B4F0(CHATBOX_HOST_1022, msg);
                 break;
             }
-
-            if (!strcmp(field_4_maps[i].field_410_mmp_name, pSettings->field_20088_default_map))
-            {
-                field_20088_game_settings = *pSettings;
-                field_20088_game_settings.field_2018C_map_idx = i;
-                SetDlgItemTextA(field_2031C_dlg_hwnd, LABEL_JOINED_GAME_MAP_1054, field_4_maps[i].field_30C_description);
-                // A found flag, an i >= count check after the loop or a break all change the code
-                goto map_done;
-            }
-            i++;
         }
 
-        sprintf(msg, "### ERROR ### \r\r\nDo Not Have Map %s", pSettings->field_20088_default_map);
-        GetString_519A50(wmsg, msg, 260);
-        gNetPlay_7071E8.SendChatMessage_521060(wmsg, -1);
-        AppendChatMessage_51B4F0(CHATBOX_HOST_1022, msg);
-
-    map_done:
         switch (pSettings->field_20190_game_speed)
         {
             case 2:
@@ -2336,7 +2334,7 @@ void __stdcall NetUi::OnWmHScroll_51C630(HWND hWnd, HWND hTrackBar, s32 code, s3
             case 6:
             case 7:
             {
-                const int pos2 = SendDlgItemMessageA(hWnd, TRACKBAR_GAME_SPEED_1031, TBM_GETPOS, 0, 0);
+                const s32 pos2 = SendDlgItemMessageA(hWnd, TRACKBAR_GAME_SPEED_1031, TBM_GETPOS, 0, 0);
                 pThis->SetSetting_51B9C0(5, static_cast<s32>(pos2)); // set game speed
             }
             break;
@@ -2405,7 +2403,7 @@ void __stdcall NetUi::ShowUnableToOpenFileError_51CAD0(const char_type* pMmpName
 {
     char Text[256];
     sprintf(Text, "Unable to open file: %s in mmpfile: %s", pFileName, pMmpName);
-    MessageBoxA(NULL, Text, "", MB_ICONEXCLAMATION); // TODO: blank str is byte_67DC88 ?
+    MessageBoxA(NULL, Text, "", MB_ICONEXCLAMATION); // TODO: the original passes its empty string global 0x67DC88
 }
 
 MATCH_FUNC(0x51cb30)

@@ -501,7 +501,7 @@ GTA2_ASSERT_SIZEOF_ALWAYS(ThreadTrigger, 0xC);
 // Player/world info
 struct SavedPlayerStats
 {
-    Fix16 field_0_x; // Maybe Fix16, but no ctor call seen in 9.6f - TODO: Check it
+    Fix16 field_0_x;
     Fix16 field_4_y;
     Fix16 field_8_z;
     Ang16 field_C_rotation;
@@ -537,7 +537,7 @@ struct SavedObjectData
 {
     SavedFix16 field_0_obj_x[3][20];
     u16 field_F0_model[20];
-    u8 field_118_ped_ref_idx[20];
+    u8 field_118_pickup_ammo[20];
     char_type field_12C_obj_5C_bUnCollectedTokens[50];
     s16 field_15E_pad;
     s32 field_160_secret_tokens_collected;
@@ -628,37 +628,37 @@ class ScriptManager
     }
 
     // 9.6f 0x475980
-    inline bool HasCheckFlag1_475980(const WeaponCheckTable* pTable) const
+    inline bool IsCheckHit_475980(const WeaponCheckTable* pTable) const
     {
         return (pTable->field_6_flags & weapon_check_flag::hit_1) == weapon_check_flag::hit_1;
     }
 
     // 9.6f 0x4759A0
-    inline bool HasCheckFlag2_4759A0(const WeaponCheckTable* pTable) const
+    inline bool IsCarCheck_4759A0(const WeaponCheckTable* pTable) const
     {
         return (pTable->field_6_flags & weapon_check_flag::car_2) == weapon_check_flag::car_2;
     }
 
     // 9.6f 0x4759C0
-    inline bool HasCheckFlag4_4759C0(const WeaponCheckTable* pTable) const
+    inline bool IsPedCheck_4759C0(const WeaponCheckTable* pTable) const
     {
         return (pTable->field_6_flags & weapon_check_flag::ped_4) == weapon_check_flag::ped_4;
     }
 
     // 9.6f 0x475A20
-    inline bool get_field_C1E2C_475A20() const
+    inline bool IsLoadedFromSave_475A20() const
     {
         return field_C1E2C_bLoadedFromSave;
     }
 
     // 9.6f 0x475A30
-    inline bool get_field_C1E2D_475A30() const
+    inline bool IsKillFrenzyActive_475A30() const
     {
         return field_C1E2D_bKillFrenzyActive;
     }
 
     // 9.6f 0x475A40
-    inline void set_field_C1E2D_475A40(bool v)
+    inline void SetKillFrenzyActive_475A40(bool v)
     {
         field_C1E2D_bKillFrenzyActive = v;
     }

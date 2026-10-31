@@ -1,7 +1,7 @@
 #include "sprite.hpp"
 #include "explosion_type.hpp"
 #include "car_despawn_status.hpp"
-#include "CarInfoTable.hpp" // TODO: only because of gPixelsToFix16_6F6850
+#include "CarInfoTable.hpp" // for gPixelsToFix16_6F6850
 #include "Car.hpp"
 #include "Globals.hpp"
 #include "Ped.hpp"
@@ -26,7 +26,7 @@
 #include "memory.hpp"
 #include "root_sound.hpp"
 #include "TextureCache.hpp"
-#include "winmain.hpp" // TODO: only because of gLighting_626A09
+#include "winmain.hpp" // for gLighting_626A09
 #include "block_face.hpp"
 
 // Forward declarations: the functions below are in address order
@@ -807,7 +807,7 @@ char_type Sprite::ShouldCollideWithSprite_59E850(Sprite* pSprite)
 MATCH_FUNC(0x59E8C0)
 void Sprite::HandleObjectCollision_59E8C0(Sprite* pSprite)
 {
-    // 9.6f: AsObject2C_40FEC0 for both sprites and sub_484DD0 (inlined, using AsObject2C_40FEC0 changes the code)
+    // 9.6f: AsObject2C_40FEC0 on pSprite, then HandleCollisionWithObject_484DD0 (using AsObject2C_40FEC0 here changes the code)
     s32 sprite_type = this->field_30_sprite_type_enum;
     if (sprite_type == sprite_types_enum::object_1 || sprite_type > sprite_types_enum::ped_3 && sprite_type <= sprite_types_enum::map_obj_5)
     {
@@ -1177,7 +1177,7 @@ void Sprite::Draw_59EFF0()
             }
             pTexture = gTextureCache_15D8_705064->GetCarDamageTexture_5B95D0(damage_mask_idx);
         }
-        pCar->field_8_damaged_areas.m_var = car_flags; // TODO: use CopyAll_4A51A0
+        pCar->field_8_damaged_areas.m_var = car_flags;
     }
     else
     {
@@ -1245,7 +1245,7 @@ void Sprite::Draw_59EFF0()
             SetUV_4B9BC0(u, v);
             pgbh_DrawQuad(128, pTexture, gTileVerts_7036D0, 255);
         }
-        pCar->field_8_damaged_areas.m_var = car_flags; // TODO: use CopyAll_4A51A0
+        pCar->field_8_damaged_areas.m_var = car_flags;
     }
 
     ++gSpriteManager_703820->field_0_drawn_sprite_count;
@@ -2299,7 +2299,6 @@ void Sprite::PoolAllocate()
     this->field_38_zoom = 0;
     this->field_10_sound = NULL;
 
-    // TODO: Probably an inline
     this->field_20_instance_id = gSpriteManager_703820->field_4_id_base++;
     if (!gSpriteManager_703820->field_4_id_base)
     {

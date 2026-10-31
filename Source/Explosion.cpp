@@ -1079,9 +1079,9 @@ s32 ExplosionPool::FreeLowestPriority_543690()
                     break;
                 case explosion_type::unknown_21:
                     break;
-                case explosion_type::unknown_31:
+                case explosion_type::flame_stream_31:
                     break;
-                case explosion_type::unknown_34:
+                case explosion_type::fire_truck_spray_34:
                     break;
                 case explosion_type::molotov_fire_5:
                     priority = 2;
@@ -1089,7 +1089,7 @@ s32 ExplosionPool::FreeLowestPriority_543690()
                 case explosion_type::unknown_28:
                     priority = 2;
                     break;
-                case explosion_type::unknown_29:
+                case explosion_type::flash_29:
                     priority = 2;
                     break;
                 case explosion_type::unknown_30:
@@ -1155,10 +1155,10 @@ s32 ExplosionPool::FreeLowestPriority_543690()
                 case explosion_type::building_315_25:
                     priority = 3;
                     break;
-                case explosion_type::unknown_1:
+                case explosion_type::blood_burst_1:
                     priority = 1;
                     break;
-                case explosion_type::unknown_39:
+                case explosion_type::blood_39:
                     priority = 1;
                     break;
                 default:

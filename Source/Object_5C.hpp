@@ -142,7 +142,6 @@ class Object
         return gZeroVector_6F8EF0;
     }
 
-    // TODO: ordering
     EXPORT void SetSpriteIdxOffset_5290C0(u8 offset);
     EXPORT Fix16 GetEffectiveSpeed_5290F0() const;
     EXPORT bool IsFireExplosion_525AC0() const;
@@ -212,13 +211,25 @@ class Object
     }
 
     // Inlined on version 9.6f 0x447e90 (also 9.6f copies 0x45E0A0 and 0x482C00)
-    inline void set_field_26(u8 v)
+    inline void SetParam_447E90(u8 v)
     {
         field_26_ped_ref_idx = v;
     }
 
     // Inlined on version 9.6f 0x420FF0
-    inline u8 get_field_26_420FF0() const
+    inline u8 GetPedRefIdx_420FF0() const
+    {
+        return field_26_ped_ref_idx;
+    }
+
+    // 9.6f 0x421050
+    inline u8 GetParam_421050() const
+    {
+        return field_26_ped_ref_idx;
+    }
+
+    // 9.6f 0x4340A0
+    inline u8 GetAmmo_4340A0() const
     {
         return field_26_ped_ref_idx;
     }
@@ -328,7 +339,7 @@ class Object
     // 9.6f 0x493090
     inline void GetConveyorDirection_493090(s8* pX, s8* pY)
     {
-        UnpackSignedNibbles_529050(get_field_26_420FF0(), pX, pY);
+        UnpackSignedNibbles_529050(GetParam_421050(), pX, pY);
     }
 
     // 9.6f 0x482BF0

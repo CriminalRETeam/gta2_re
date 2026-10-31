@@ -6,7 +6,7 @@
 struct TextKeyEntry
 {
     wchar_t* field_0_pwstr;
-    // The TKEY record's 8 char key is stored inline in field_4_key and field_8, not through a pointer
+    // The TKEY record's 8 char key is stored inline in field_4_key and field_8_key_tail, not through a pointer
     const char_type* field_4_key;
     s32 field_8_key_tail;
 };

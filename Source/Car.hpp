@@ -2,6 +2,7 @@
 
 #include "car_flags.hpp"
 #include "BitSet32.hpp"
+#include "CarAI.hpp"
 #include "Car_10.hpp"
 #include "Fix16.hpp"
 #include "Function.hpp"
@@ -52,7 +53,7 @@ enum
     roadblock_car_7 = 7,
     mission_car_8 = 8,
     parked_car_9 = 9,
-    Unknown_10 = 10,
+    call_police_car_10 = 10,
 };
 } // namespace car_kind
 
@@ -70,14 +71,16 @@ enum
 };
 } // namespace car_engine_status
 
+// The original has a separate Fix16 constant before each array (raw 0x100, 0x200, Fix16(5)); splitting them out of
+// this struct changes MapRenderer and Draw code (declaration count, docs/matching_quirks.md).
 struct car_rng_list
 {
-    car_rng_list(Fix16 unk)
+    car_rng_list(Fix16 constant)
     {
-        this->unknown = unk;
+        this->separate_constant = constant;
     }
     
-    Fix16 unknown;
+    Fix16 separate_constant;
     s32 values[256];
 };
 
@@ -182,7 +185,7 @@ class CarManager
 
     EXPORT void DistributeCarsByRating_444980();
     EXPORT u32 SelectTrafficCarModel_444AB0(Player* pPlayer, gmp_zone_info* pZoneInfo, Fix16 density_scale, u16* pOutCategory);
-    EXPORT bool NoRefs_444CE0(s32 a1, s32 a2, s32 a3, s32 a4, s32 a5);
+    EXPORT bool NoRefs_444CE0(s32, s32, s32, s32, s32);
     EXPORT Car* SpawnCarAtRoadDirection_444CF0(s32 car_model_type, Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT Car* GetNearestCarFromCoord_444F80(Fix16 x, Fix16 y, Fix16 z, Ped* pPed);
     EXPORT Car* GetNearestEnterableCarFromCoord_444FA0(Fix16 x, Fix16 y, Fix16 z, Ped* pPed);
@@ -397,6 +400,15 @@ class Car
     inline void SetTurnRightReady_42AC90()
     {
         field_A6_bf.bTurnRightReady = true;
+    }
+
+    // 9.6f 0x421510
+    inline void AllocateAI_421510()
+    {
+        if (!field_5C_AI)
+        {
+            field_5C_AI = gCarAI_78_Pool_677CF8->Allocate();
+        }
     }
 
     // 9.6f 0x421530
@@ -712,6 +724,12 @@ class Car
         return IsFlagSet_411930(car_flag::Flameproof);
     }
 
+    // 9.6f 0x414F70
+    inline bool IsCrushing_414F70() const
+    {
+        return IsFlagSet_411930(car_flag::Crushing);
+    }
+
     // FUNCTION: 96f 0x4118d0
     s32 IsDrivenByPlayer_4118D0() const
     {
@@ -792,7 +810,8 @@ class Car
         field_76_last_seen_timer = 0;
     }
 
-    // TODO: Find 9.6f addr
+    // 9.6f tests the flag in a car_info method (0x4112A0); adding that method to car_info changes code
+    // elsewhere (shared header names, docs/matching_quirks.md)
     inline bool HasEmergencyInfoFlag() const
     {
         return (gGtx_0x106C_703DD4->get_car_info_5AA3B0(field_84_car_info_idx)->info_flags & car_info_flag::emergency) == car_info_flag::emergency;
@@ -916,9 +935,9 @@ class Car
     }
 
     // 9.6f 0x476270
-    inline void SetFlag4_476270()
+    inline void SetMiniCar_476270()
     {
-        AddFlags_421890(car_flag::Flag4);
+        AddFlags_421890(car_flag::MiniCar);
     }
 
     // 9.6f 0x475C80
@@ -945,14 +964,14 @@ class Car
         }
     }
 
-    void SetFlag3_4218A0()
+    void SetNoCollisionDamage_4218A0()
     {
-        AddFlags_421890(car_flag::Flag3);
+        AddFlags_421890(car_flag::NoCollisionDamage);
     }
 
-    void SetFlag6_4218B0()
+    void SetTrain_4218B0()
     {
-        AddFlags_421890(car_flag::Flag6);
+        AddFlags_421890(car_flag::Train);
     }
 
     inline s32 GetCarKind_4343B0() const
@@ -1321,6 +1340,12 @@ class Car
         AddFlags_421890(car_flag::Crushing);
     }
 
+    // 9.6f 0x49EFD0
+    inline void ClearCrushFlag_49EFD0()
+    {
+        field_78_flags &= static_cast<u16>(~car_flag::Crushing);
+    }
+
     EXPORT bool SnapCarToGreenArrow_444E40(Fix16 xpos, Fix16 ypos, Fix16 zpos);
     EXPORT bool TrySnapCarToNearestDrivableRoadAndDriveForward_445EC0(Fix16 xpos, Fix16 ypos, s32 direction);
 
@@ -1387,7 +1412,7 @@ struct CarPool
 
     }
 
-    // TODO: 9.6f addr/check
+    // 9.6f 0x40F490
     void Remove(Car* pCar)
     {
         field_0_pool.DeAllocate(pCar);
@@ -1476,7 +1501,6 @@ EXTERN_GLOBAL(TrafficSpawner*, gTrafficSpawner_14_677934);
 
 EXTERN_GLOBAL(bool, gbRngRemapTableDone_679C0A);
 
-// TODO: move
 EXPORT s32 __stdcall GetDamageMultiplier_45CF90(Ped* pPed);
 EXPORT s32 __stdcall GetDeathCauseForObjectModel_48E780(s32 model);
 EXPORT bool __stdcall IsNoKillCreditObject_48E720(s32 model);

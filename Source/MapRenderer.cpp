@@ -1118,7 +1118,7 @@ void MapRenderer::DrawDiagonalUpRightFace_4EC7A0(u16& right_word)
 }
 
 // https://decomp.me/scratch/eGEBV
-// 9.6f: MapRenderer::sub_46D680
+// 9.6f 0x46D680
 MATCH_FUNC(0x4ecaf0)
 void MapRenderer::DrawDiagonalDownLeftFace_4ECAF0(u16& left_word)
 {
@@ -1147,7 +1147,7 @@ void MapRenderer::DrawDiagonalDownLeftFace_4ECAF0(u16& left_word)
 }
 
 // https://decomp.me/scratch/3kT2F
-// 9.6f: MapRenderer::sub_46D810
+// 9.6f 0x46D810
 MATCH_FUNC(0x4ece40)
 void MapRenderer::DrawDiagonalDownRightFace_4ECE40(u16& right_word)
 {
@@ -1176,7 +1176,7 @@ void MapRenderer::DrawDiagonalDownRightFace_4ECE40(u16& right_word)
 }
 
 // https://decomp.me/scratch/4EDti
-// 9.6f: MapRenderer::sub_46D9A0
+// 9.6f 0x46D9A0
 MATCH_FUNC(0x4ed290)
 void MapRenderer::draw_bottom_4ED290(u16& bottom_word)
 {
@@ -1833,7 +1833,7 @@ void MapRenderer::DrawTriangularDiagonal_4F0340()
 }
 
 // https://decomp.me/scratch/MyE2X
-// 9.6f: MapRenderer::sub_46EF10
+// 9.6f 0x46EF10
 MATCH_FUNC(0x4f0420)
 void MapRenderer::DrawGradientSlopeNorthwards_4F0420()
 {
@@ -3497,11 +3497,11 @@ void MapRenderer::ClearDrawnTileCount_4F6A10()
 // can't take those rvalues.
 static inline void AddToDrawListByVal(MapRenderer* pThis, s32 x, s32 y)
 {
-    Nanobotz* pPos = &pThis->field_1C_draw_list[pThis->field_2EFC_curr_draw_layer_size];
+    DrawListBlock* pPos = &pThis->field_1C_draw_list[pThis->field_2EFC_curr_draw_layer_size];
     pPos->field_0_x = x;
     pPos->field_4_y = y;
 
-    Nanobotz* pIter = &pThis->field_1C_draw_list[pThis->field_2EFC_curr_draw_layer_size - 1];
+    DrawListBlock* pIter = &pThis->field_1C_draw_list[pThis->field_2EFC_curr_draw_layer_size - 1];
     for (s32 i = pThis->field_2EFC_curr_draw_layer_size - 1; i >= 0; i--, pIter--)
     {
         if (pIter->IsEqual_46BB60(pPos))
@@ -3632,7 +3632,7 @@ void MapRenderer::Draw_4F6A20()
 
             // Now draw tiles in reverse order
             s32 j = field_2EFC_curr_draw_layer_size - 1;
-            Nanobotz* pIter = &field_1C_draw_list[field_2EFC_curr_draw_layer_size - 1];
+            DrawListBlock* pIter = &field_1C_draw_list[field_2EFC_curr_draw_layer_size - 1];
             while (j >= 0)
             {
                 MapRenderer::RenderBlockAt_4F6880(pIter->field_0_x, pIter->field_4_y);

@@ -290,14 +290,13 @@ class Fix16_Point
         y = Fix16(0);
     }
 
-    // Both inlined and exists as a function... some strange array init behaviour??
+    // Out of line at 0x40AC40 only as the destructor the eh vector constructor iterator (??_L) gets for
+    // Fix16_Point arrays (CarPhysics::ctor_563900, SpriteShape::ctor_5A57B0)
     ~Fix16_Point()
     {
     }
 
-    // It needs to be in the header
-    // MATCH_FUNC(0x563970)
-
+    // Out of line at 0x563970 for the same ??_L calls: a header inline, so it has no marker
     Fix16_Point()
     {
     }

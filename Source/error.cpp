@@ -12,10 +12,6 @@
 DEFINE_GLOBAL(char_type, bDestroyed_6F5B70, 0x6F5B70);
 DEFINE_GLOBAL(HWND, gHwnd_707F04, 0x707F04);
 
-// todo: add to header
-EXTERN_GLOBAL(s32, gGTA2VersionMajor_708280);
-EXTERN_GLOBAL(s32, gGTA2VersionMinor_708284);
-
 MATCH_FUNC(0x4D9470)
 void ErrorLog::Open_4D9470(const char_type* path, s32 truncate_mode)
 {
@@ -131,7 +127,7 @@ DEFINE_GLOBAL_INIT(ErrorLog, gErrorLog_67CF58, ErrorLog("test\\error.log", 1), 0
 DEFINE_GLOBAL_INIT(ErrorLog, gErrorLog_67C530, ErrorLog("test\\warning.log", 1), 0x67C530);
 DEFINE_GLOBAL(ErrorLog, gMiss2Log_6F7698, 0x6F7698);
 
-DEFINE_GLOBAL_ARRAY(char_type, gTmpBuffer_67C598, 256, 0x67C598); // TODO: Check
+DEFINE_GLOBAL_ARRAY(char_type, gTmpBuffer_67C598, 256, 0x67C598);
 DEFINE_GLOBAL_ARRAY(char_type, gErrStr_67C29C, 256, 0x67C29C);
 DEFINE_GLOBAL_ARRAY(char_type, gErrStr2_67C3A8, 256, 0x67C3A8);
 DEFINE_GLOBAL_ARRAY(char_type, gGlobalFileName_67C6AC, 256, 0x67C6AC);
@@ -256,7 +252,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             sprintf(gTmpBuffer_67C598, "Read failure in file: %s", gGlobalFileName_67C6AC);
             break;
 
-        case Gta2Error::FreeloaderEpisodeUnknown:
+        case Gta2Error::FileOpenError:
             sprintf(gTmpBuffer_67C598,
                     "Install Next freeloader episode please. [Temp message].Unable to open file : %s",
                     gGlobalFileName_67C6AC);
@@ -1812,8 +1808,8 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         case Gta2Error::IllegalCoordinate:
         {
             Fix16_Point_POD c;
-            c.x = *va_arg(va, int*);
-            c.y = *va_arg(va, int*);
+            c.x = *va_arg(va, s32*);
+            c.y = *va_arg(va, s32*);
             sprintf(gTmpBuffer_67C598, "Illegal coordinate: (%.4f, %.4f)", c.x.AsFloat(), c.y.AsFloat());
 
             break;
@@ -2093,9 +2089,9 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
 
             Fix16_Vec c;
 
-            c.x = *static_cast<int*>(va_arg(va, s32*));
-            c.y = *static_cast<int*>(va_arg(va, s32*));
-            c.z = *static_cast<int*>(va_arg(va, s32*));
+            c.x = *va_arg(va, s32*);
+            c.y = *va_arg(va, s32*);
+            c.z = *va_arg(va, s32*);
 
             sprintf(gTmpBuffer_67C598,
                     "Invalid x co-ord in sprite type %d at (%f,%f,%f)",
@@ -2111,9 +2107,9 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             s32 va_1 = va_arg(va, s32);
 
             Fix16_Vec c;
-            c.x = *reinterpret_cast<const int*>(va_arg(va, const char_type*));
-            c.y = *static_cast<int*>(va_arg(va, s32*));
-            c.z = *static_cast<int*>(va_arg(va, s32*));
+            c.x = *reinterpret_cast<const s32*>(va_arg(va, const char_type*));
+            c.y = *va_arg(va, s32*);
+            c.z = *va_arg(va, s32*);
             sprintf(gTmpBuffer_67C598,
                     "Invalid y co-ord in sprite type %d at (%f,%f,%f)",
                     va_1,
@@ -2128,9 +2124,9 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             s32 va_1 = va_arg(va, s32);
 
             Fix16_Vec c;
-            c.x = *reinterpret_cast<const int*>(va_arg(va, const char_type*));
-            c.y = *static_cast<int*>(va_arg(va, s32*));
-            c.z = *static_cast<int*>(va_arg(va, s32*));
+            c.x = *reinterpret_cast<const s32*>(va_arg(va, const char_type*));
+            c.y = *va_arg(va, s32*);
+            c.z = *va_arg(va, s32*);
             sprintf(gTmpBuffer_67C598,
                     "Invalid z co-ord in sprite type %d at (%f,%f,%f)",
                     va_1,
@@ -2145,8 +2141,8 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             const char_type* va_1 = va_arg(va, const char_type*);
 
             Fix16_Point_POD c;
-            c.x = *reinterpret_cast<const int*>(va_arg(va, const char_type*));
-            c.y = *static_cast<int*>(va_arg(va, s32*));
+            c.x = *reinterpret_cast<const s32*>(va_arg(va, const char_type*));
+            c.y = *va_arg(va, s32*);
             sprintf(gTmpBuffer_67C598, "Placing gang phone when no gang at: (%.4f, %.4f)", c.x.AsFloat(), c.y.AsFloat());
             break;
         }
@@ -2156,9 +2152,9 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             const char_type* va_1 = va_arg(va, const char_type*);
 
             Fix16_Vec c;
-            c.x = *reinterpret_cast<const int*>(va_arg(va, const char_type*));
-            c.y = *static_cast<int*>(va_arg(va, s32*));
-            c.z = *static_cast<int*>(va_arg(va, s32*));
+            c.x = *reinterpret_cast<const s32*>(va_arg(va, const char_type*));
+            c.y = *va_arg(va, s32*);
+            c.z = *va_arg(va, s32*);
             sprintf(gTmpBuffer_67C598, "Illegal coordinate: (%.4f, %.4f, %.4f)", c.x.AsFloat(), c.y.AsFloat(), c.z.AsFloat());
             break;
         }
@@ -2168,9 +2164,9 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
             const char_type* va_1 = va_arg(va, const char_type*);
 
             Fix16_Vec c;
-            c.x = *reinterpret_cast<const int*>(va_arg(va, const char_type*));
-            c.y = *static_cast<int*>(va_arg(va, s32*));
-            c.z = *static_cast<int*>(va_arg(va, s32*));
+            c.x = *reinterpret_cast<const s32*>(va_arg(va, const char_type*));
+            c.y = *va_arg(va, s32*);
+            c.z = *va_arg(va, s32*);
             sprintf(gTmpBuffer_67C598, "Invalid diagonal block at (%.4f, %.4f, %.4f)", c.x.AsFloat(), c.y.AsFloat(), c.z.AsFloat());
             break;
         }
@@ -2179,9 +2175,9 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
         {
             s32* va_1 = va_arg(va, s32*);
             Fix16_Vec c;
-            c.x = *static_cast<int*>(va_arg(va, s32*)); // NOTE: No match without casting here
-            c.y = *static_cast<int*>(va_arg(va, s32*));
-            c.z = *static_cast<int*>(va_arg(va, s32*));
+            c.x = *va_arg(va, s32*);
+            c.y = *va_arg(va, s32*);
+            c.z = *va_arg(va, s32*);
             sprintf(gTmpBuffer_67C598,
                     "No direction arrow found in block (with slope!!). ( %f, %f, %f)",
                     c.x.AsFloat(),
@@ -2279,7 +2275,7 @@ EXPORT void FatalError_4A07C0(s32 code, const char_type* pFileName, s32 lineNo, 
 MATCH_FUNC(0x4A38C0)
 EXPORT void FatalError_4A38C0(s32 Code, const char_type* pSourceFile, s32 lineNo, ...)
 {
-    if (Code == Gta2Error::FreeloaderEpisodeUnknown)
+    if (Code == Gta2Error::FileOpenError)
     {
         const char_type destroyed = bDestroyed_6F5B70;
         if (!destroyed)
@@ -2288,7 +2284,7 @@ EXPORT void FatalError_4A38C0(s32 Code, const char_type* pSourceFile, s32 lineNo
             GBH_Graphis_DMA_Video_Free_5D9830();
             // 16 was using esi instead of push 10h without the 0x6F5B70 bool
             // being cached in both branches of the if/else
-            FatalError_4A07C0(Gta2Error::FreeloaderEpisodeUnknown, pSourceFile, lineNo);
+            FatalError_4A07C0(Gta2Error::FileOpenError, pSourceFile, lineNo);
         }
         DestroyWindow(gHwnd_707F04);
         exit(16);
