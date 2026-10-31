@@ -93,6 +93,14 @@ GTA2_ASSERT_SIZEOF_ALWAYS(CarInfo_2C, 0x2C);
 class CarInfoTable
 {
   public:
+    STATIC_MEMBER(u32, sProcessedOutput);
+    STATIC_MEMBER(u32, sProcessedGciData);
+    STATIC_MEMBER(u8*, sModelPhyArrPtr);
+    STATIC_MEMBER(s32, sModelPhyArrLen);
+    STATIC_MEMBER(s32, sLineNumber);
+    STATIC_MEMBER(u8*, sInputData);
+    STATIC_MEMBER(u32, sGciDataLen);
+    STATIC_MEMBER_ARRAY(char, sFileName, 64);
     EXPORT ModelPhysics* GetModelPhysicsFromIdx_4546B0(u8 model_idx) const;
     EXPORT void LoadModelPhysics_4546D0();
     EXPORT CarInfo_2C* GetInfoAtIdx_454840(u8 idx) const;

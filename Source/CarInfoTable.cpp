@@ -18,15 +18,15 @@ EXTERN_GLOBAL(Fix16, kFpHalf_6FDFEC);
 EXTERN_GLOBAL(Fix16, kFpFive_6FDEFC);
 
 DEFINE_GLOBAL(CarInfoTable*, gCarInfo_808_678098, 0x678098);
-DEFINE_GLOBAL_ARRAY(char, file_name_677EC4, 64, 0x677EC4);
-DEFINE_GLOBAL(u32, processedGciData_676260, 0x676260);
-DEFINE_GLOBAL(u32, gciDataLen_675F94, 0x675F94);
-DEFINE_GLOBAL(u8*, input_data_676170, 0x676170);
+DEFINE_STATIC_MEMBER_ARRAY(char, CarInfoTable, sFileName, 64, 0x677EC4);
+DEFINE_STATIC_MEMBER(u32, CarInfoTable, sProcessedGciData, 0x676260);
+DEFINE_STATIC_MEMBER(u32, CarInfoTable, sGciDataLen, 0x675F94);
+DEFINE_STATIC_MEMBER(u8*, CarInfoTable, sInputData, 0x676170);
 DEFINE_STATIC_GLOBAL(u32, sTokenizerState, 0x67626C);
-DEFINE_GLOBAL(s32, line_number_676258, 0x676258);
-DEFINE_GLOBAL(u32, processed_output_676250, 0x676250);
-DEFINE_GLOBAL(s32, modelPhyArrLen_675F90, 0x675F90);
-DEFINE_GLOBAL(u8*, modelPhyArrPtr_675F98, 0x675F98);
+DEFINE_STATIC_MEMBER(s32, CarInfoTable, sLineNumber, 0x676258);
+DEFINE_STATIC_MEMBER(u32, CarInfoTable, sProcessedOutput, 0x676250);
+DEFINE_STATIC_MEMBER(s32, CarInfoTable, sModelPhyArrLen, 0x675F90);
+DEFINE_STATIC_MEMBER(u8*, CarInfoTable, sModelPhyArrPtr, 0x675F98);
 DEFINE_GLOBAL_INIT(Fix16, kOne_677F54, Fix16(1), 0x677F54);
 DEFINE_GLOBAL_INIT(Fix16, kQuarter_677D78, Fix16(0x1000, 0), 0x677D78);
 DEFINE_GLOBAL_INIT(Fix16, kOneTenth_677D74, Fix16(0x666, 0), 0x677D74);
@@ -81,13 +81,13 @@ char* __stdcall CarInfoTable::parse_gci_file_430A30(void* pGciData,
                                                    u32* next_position)
 {
     LOCAL_STATIC_ARRAY(char, sTokenBuffer, 256, 0x676024);
-    input_data_676170 = static_cast<u8*>(pGciData);
-    line_number_676258 = 1;
-    processedGciData_676260 = 0;
-    gciDataLen_675F94 = gciDataLen;
-    modelPhyArrPtr_675F98 = reinterpret_cast<u8*>(pModelPhyArr);
-    processed_output_676250 = 0;
-    modelPhyArrLen_675F90 = modelPhyArrLen;
+    sInputData = static_cast<u8*>(pGciData);
+    sLineNumber = 1;
+    sProcessedGciData = 0;
+    sGciDataLen = gciDataLen;
+    sModelPhyArrPtr = reinterpret_cast<u8*>(pModelPhyArr);
+    sProcessedOutput = 0;
+    sModelPhyArrLen = modelPhyArrLen;
 
     s32 parse_result;
     s32 token_result = k_gci_ok;
@@ -106,7 +106,7 @@ char* __stdcall CarInfoTable::parse_gci_file_430A30(void* pGciData,
         }
     }
 
-    *next_position = processed_output_676250;
+    *next_position = sProcessedOutput;
     return NULL;
 }
 
@@ -121,7 +121,7 @@ char* __stdcall CarInfoTable::SetErr_430AC0(s32 error_code)
         error_code = -GTA2_COUNTOF_S(sErrorTable);
     }
 
-    sprintf(sBuffer, "%s at line %d", sErrorTable[-error_code], line_number_676258);
+    sprintf(sBuffer, "%s at line %d", sErrorTable[-error_code], sLineNumber);
     return sBuffer;
 }
 
@@ -136,18 +136,18 @@ s32 __stdcall CarInfoTable::ReadToken_430B10(char* pOut)
         u32 currentChar = 0;
 
         // Get the next character
-        if (processedGciData_676260 == gciDataLen_675F94)
+        if (sProcessedGciData == sGciDataLen)
         {
             currentChar = -1;
         }
         else
         {
-            currentChar = *input_data_676170;
-            input_data_676170++;
-            processedGciData_676260++;
+            currentChar = *sInputData;
+            sInputData++;
+            sProcessedGciData++;
             if (currentChar == '\n')
             {
-                line_number_676258++;
+                sLineNumber++;
             }
         }
 
@@ -395,15 +395,15 @@ s32 __stdcall ParseTokenAndPush_430C70(char_type* pStr)
 MATCH_FUNC(0x430e60)
 s32 __stdcall CarInfoTable::PushData_430E60(void* pSrc, u32 size)
 {
-    processed_output_676250 += size;
-    if (processed_output_676250 > static_cast<u32>(modelPhyArrLen_675F90))
+    sProcessedOutput += size;
+    if (sProcessedOutput > static_cast<u32>(sModelPhyArrLen))
     {
         return k_gci_output_too_big;
     }
 
-    memcpy(modelPhyArrPtr_675F98, pSrc, size);
+    memcpy(sModelPhyArrPtr, pSrc, size);
 
-    modelPhyArrPtr_675F98 = modelPhyArrPtr_675F98 + size;
+    sModelPhyArrPtr = sModelPhyArrPtr + size;
     return k_gci_ok;
 }
 
@@ -633,7 +633,7 @@ void CarInfoTable::LoadModelPhysics_4546D0()
     u32 number_of_cars = gGtx_0x106C_703DD4->get_number_of_cars();
     u32 data_size;
     size_t file_size;
-    void* file_content = File::ReadFileToBuffer_4A6C80(file_name_677EC4, &file_size);
+    void* file_content = File::ReadFileToBuffer_4A6C80(sFileName, &file_size);
 
     field_804_raw_data = new ModelPhysics[number_of_cars];
 
@@ -647,7 +647,7 @@ void CarInfoTable::LoadModelPhysics_4546D0()
 
     if (pErrorMsg != NULL)
     {
-        strcpy(gErrStr_67C29C, file_name_677EC4);
+        strcpy(gErrStr_67C29C, sFileName);
         strcpy(gErrStr2_67C3A8, pErrorMsg);
 
         FatalError_4A38C0(Gta2Error::BinmakeError, "C:\\Splitting\\Gta2\\Source\\carinfo.cpp", 0xbc, gErrStr_67C29C, gErrStr2_67C3A8);
@@ -655,7 +655,7 @@ void CarInfoTable::LoadModelPhysics_4546D0()
 
     if (data_size % sizeof(ModelPhysics))
     {
-        FatalError_4A38C0(Gta2Error::InvalidSize, "C:\\Splitting\\Gta2\\Source\\carinfo.cpp", 0xbd, file_name_677EC4, data_size);
+        FatalError_4A38C0(Gta2Error::InvalidSize, "C:\\Splitting\\Gta2\\Source\\carinfo.cpp", 0xbd, sFileName, data_size);
     }
 
     if (data_size != number_of_cars * sizeof(ModelPhysics))
@@ -664,7 +664,7 @@ void CarInfoTable::LoadModelPhysics_4546D0()
                           "C:\\Splitting\\Gta2\\Source\\carinfo.cpp",
                           0xbe,
                           data_size / sizeof(ModelPhysics),
-                          file_name_677EC4,
+                          sFileName,
                           number_of_cars);
     }
 
@@ -721,7 +721,7 @@ void CarInfoTable::ConvertAllMass_4549C0()
 MATCH_FUNC(0x454a00)
 void CarInfoTable::LoadFromGciFile_454A00(const char_type* pGciFilePath)
 {
-    strcpy(&file_name_677EC4[0], pGciFilePath);
+    strcpy(&sFileName[0], pGciFilePath);
 
     LoadModelPhysics_4546D0();
     ConvertAllMass_4549C0();
