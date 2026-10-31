@@ -734,7 +734,7 @@ static inline Fix16 BeamLength_5DE4F0(Fix16_Point& d)
     }
     else
     {
-        return Fix16::SquareRoot_436A70(d.x.Multiply(d.x).Add(d.y * d.y));
+        return Fix16::SquareRoot_436A70(d.x * d.x + d.y * d.y);
     }
 }
 
@@ -743,7 +743,7 @@ static inline Fix16 BeamLength_5DE4F0(Fix16_Point& d)
 static inline void BeamStep_5DE4F0(Ang16& angle, Fix16 radius, Fix16& ret1, Fix16& ret2)
 {
     ret1 = Ang16::sine(angle) * radius;
-    ret2 = Ang16::cosine(angle).Multiply(radius);
+    ret2 = Ang16::cosine(angle) * radius;
 }
 
 // The direct mCam.x read in `delta` (instead of get_cam_x()) drops one register candidate from the
@@ -902,7 +902,7 @@ void __stdcall DrawElectricArc(Fix16_Point_POD start_pos, Fix16_Point& end_pos, 
     {
         start.x = -kFpPoint03;
         start.y = kFpPoint2_706CF8 + kFpPoint02;
-        start.RotateByAngle_40F6B0_all_out_of_line(sElectroShooterRotation);
+        start.RotateByAngle(sElectroShooterRotation);
         start = start.Add(start_pos);
         start.x += sElectroShooterVelocity.x;
         start.y += sElectroShooterVelocity.y;
@@ -938,9 +938,8 @@ void __stdcall DrawElectricArc(Fix16_Point_POD start_pos, Fix16_Point& end_pos, 
         Ang16 jitter = Ang16::Fix16_To_Ang16_ool_40F540(
             (Fix16(gRng.get_int(spread)) -= Fix16(static_cast<u16>(spread >> 1))) * kFpOne64th_706D34);
 
-        step.x = seg_len.Multiply(Ang16::sine(angle));
-        step.y = seg_len.Multiply(Ang16::cosine(angle));
-        step.RotateByAngle_40F6B0_all_out_of_line(jitter);
+        step.FromPolar_41E210(seg_len, angle);
+        step.RotateByAngle(jitter);
         seg_angle = step.GetAngle();
 
         next = cur.Add(step);

@@ -57,8 +57,8 @@ class Fix16_Rect
         this->mHighZ = z + FIX16_RECT_HALF_HEIGHT;
     }
 
-    // Unused since ShockPedsAroundSprite calls ComputeCollisionPrism with FIX16_RECT_HALF_HEIGHT. Kept because removing
-    // an unused inline can move code in other TUs (docs/matching_quirks.md).
+    // Unused since ShockPedsAroundSprite calls ComputeCollisionPrism with FIX16_RECT_HALF_HEIGHT. Kept: without it
+    // Particle_4C::UpdateCollisionBurst_state_31_34 schedules one load differently (docs/matching_quirks.md).
     void ComputeShockPrism(Fix16 x, Fix16 y, Fix16 offset, Fix16 z, const Fix16& half_z)
     {
         offset = offset / 2;

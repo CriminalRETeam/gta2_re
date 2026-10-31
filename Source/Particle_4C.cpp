@@ -393,12 +393,12 @@ static inline Ang16 NormalizedAng(s16 value)
     return Ang16(&value, 0);
 }
 
-// 9.6f 0x41E210 (Fix16_Point::SetFromPolar(Fix16& radius, Ang16& angle)) with the multiplies out of line.
+// 9.6f 0x41E210 (Fix16_Point::SetFromPolar(Fix16& radius, Ang16& angle)).
 // The angle is a temporary passed by reference, so the table index is reloaded after each multiply.
-static inline void SetFromPolar_OOL_41E210(Fix16_Point& p, const Fix16& radius, const Ang16& angle)
+static inline void SetFromPolar(Fix16_Point& p, const Fix16& radius, const Ang16& angle)
 {
-    p.x = radius.Multiply(Ang16::sine(angle));
-    p.y = radius.Multiply(Ang16::cosine(angle));
+    p.x = radius * Ang16::sine(angle);
+    p.y = radius * Ang16::cosine(angle);
 }
 
 // Inlined Fix16::Max_44E540: compares and returns the values, not references
@@ -478,7 +478,7 @@ bool Particle_4C::UpdateObjectBeamLink_state_38()
             case 2:
             case 3:
             {
-                SetFromPolar_OOL_41E210(src,
+                SetFromPolar(src,
                                         Fix16(mSubState) * kFpPoint05_6FD46C,
                                         NormalizedAng(mpSprite->mRotation.rValue + kAng180_6FD3EE.rValue));
                 break;
@@ -486,7 +486,7 @@ bool Particle_4C::UpdateObjectBeamLink_state_38()
             case 4:
             case 5:
             {
-                SetFromPolar_OOL_41E210(src,
+                SetFromPolar(src,
                                         Fix16(mSubState) * kFpPoint05_6FD46C + kFpPoint01_6FD45C,
                                         NormalizedAng(NormalizedAng(mpSprite->mRotation.rValue + kAng180_6FD3EE.rValue).rValue + jitter.rValue));
                 break;
@@ -993,8 +993,8 @@ bool Particle_4C::UpdateSkidOrScrapeSpark_state_40_41()
             half_h = pCar->GetCarHeight() / 2 + kFpPoint1_6FD2E8 + kFpOne64th_6FD554;
         }
 
-        // The rotations are written out (RotateByAngle_OOL_40F6B0 shape): with the helper in both
-        // branches the inline budget runs out and the Fix16_Point ctors / unary minus go out of line.
+        // The rotations are written out: through RotateByAngle their nested budget stays under the 42 that the
+        // original's inline unary minus needs, unless this function grows by about 270 front-end units.
         // The original has `corner += get_x_y` in each branch (tail-merged after the lea of its return temp),
         // and state 41's sin/cos in swapped stack slots (from `x_old = -half_w` before the corner stores).
         if (mState == 40)
@@ -1051,7 +1051,7 @@ bool Particle_4C::UpdateSkidOrScrapeSpark_state_40_41()
             offset.x = -kFpPoint05_6FD46C;
             offset.y = kFpPoint4;
         }
-        offset.RotateByAngle_OneMulInline_40F6B0(mpSprite->mRotation);
+        offset.RotateByAngle(mpSprite->mRotation);
         offset = offset.Add(pChar->mVelocityVector);
 
         mpOwnSprite->set_id_lazy(gObjectDefinitions->mDef112BaseSpriteIdx + mSubState + 197);

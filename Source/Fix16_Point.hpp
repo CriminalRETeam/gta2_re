@@ -180,7 +180,7 @@ class Fix16_Point
     }
 
     // RotateByAngle in a function that ran out of inline expansions: every operator but
-    // the first + is called out of line (CarPhysics::SpawnSkidSegment)
+    // the first + is called out of line (SpawnCabAndTrailerHelper)
     inline void RotateByAngle_40F6B0_out_of_line(const Ang16& angle)
     {
         Fix16 sin = Ang16::sine(angle);
@@ -189,19 +189,6 @@ class Fix16_Point
         Fix16 x_old = x;
 
         x = x.Multiply(cos) + y.Multiply(sin);
-        y = x_old.Negated().Multiply(sin).Add(y.Multiply(cos));
-    }
-
-    // RotateByAngle in a function whose inline budget ran out after the first multiply
-    // (y * sin, evaluated first): the rest are the out-of-line copies (Car::SpawnDamageFireEffect)
-    inline void RotateByAngle_OneMulInline_40F6B0(const Ang16& angle)
-    {
-        Fix16 sin = Ang16::sine(angle);
-        Fix16 cos = Ang16::cosine(angle);
-
-        Fix16 x_old = x;
-
-        x = x.Multiply(cos).Add(y * sin);
         y = x_old.Negated().Multiply(sin).Add(y.Multiply(cos));
     }
 
@@ -228,29 +215,6 @@ class Fix16_Point
 
         x = (x * cos) + (y * sin);
         y = ((-x_old) * sin) + (y * cos);
-    }
-
-    // RotateByAngle as big functions get it once they run out of inline expansions:
-    // the Fix16 operators are the out-of-line copies (Car::HandleCarHitByObject)
-    inline void RotateByAngle_OOL_40F6B0(const Ang16& angle)
-    {
-        Fix16 x_old = x;
-        Fix16 sin = Ang16::sine(angle);
-        Fix16 cos = Ang16::cosine(angle);
-
-        x = x.Multiply(cos).Add(y.Multiply(sin));
-        y = (-x_old).Multiply(sin).Add(y.Multiply(cos));
-    }
-
-    // As above, with the unary minus out of line too
-    inline void RotateByAngle_NegOOL_40F6B0(const Ang16& angle)
-    {
-        Fix16 x_old = x;
-        Fix16 sin = Ang16::sine(angle);
-        Fix16 cos = Ang16::cosine(angle);
-
-        x = x.Multiply(cos).Add(y.Multiply(sin));
-        y = x_old.Negated().Multiply(sin).Add(y.Multiply(cos));
     }
 
     void FromPolar_41E210(const Fix16& radius, const Ang16& angle)
@@ -415,8 +379,8 @@ class Fix16_Point
     // Out of line unary minus (Object::ResolveCollisionWithPed)
     EXPORT Fix16_Point Negated() const;
 
-    // Unused (ComputeHookPolar calls GetLength_41E260 now). Kept: deleting any inline from this header
-    // moves register tie-breaks in six matched MapRenderer functions (4EEE60..4F0030)
+    // Unused, but deleting it breaks Particle_4C::UpdateCollisionBurst_state_31_34 (see "Adding unused
+    // inline methods to a header" in docs/matching_quirks.md)
     inline Fix16 GetLength_no_sqrt_inline()
     {
         if (x == kFP16Zero_6FE20C)
@@ -535,24 +499,6 @@ class Fix16_Point
 
     // 10.0 0x442CB0
     EXPORT Fix16_Point operator/(Fix16& in) const;
-
-    // Unused (ApplyExplosionImpulse calls GetLength_41E260 now), kept for the same reason as
-    // GetLength_no_sqrt_inline
-    inline Fix16 GetLength_inline_443710()
-    {
-        if (x == kFpZero_6777CC)
-        {
-            return Fix16::Abs(y);
-        }
-        else if (y == kFpZero_6777CC)
-        {
-            return Fix16::Abs(x);
-        }
-        else
-        {
-            return Fix16::SquareRoot_436A70(x * x + y * y);
-        }
-    }
 
     // GetLength_41E260 as inlined into NormalizeSafe (out of line helpers where the inline budget ran out)
     inline Fix16 GetLength_inline_442AD0()

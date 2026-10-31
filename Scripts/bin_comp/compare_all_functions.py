@@ -6,6 +6,7 @@ import json
 # og_function_data_v105.csv
 
 import compare_function
+import call_identity
 
 def load_csv_file(filename):
     ret = []
@@ -25,7 +26,7 @@ def calc_funcs_to_check_match(new_data, old_data):
             for og_rec in old_data:
                 if int(og_rec[1], 16) == int(new_rec["og_addr"], 16):
                     # mangled name, new func offset, og func offset, og func size
-                    ret.append([og_rec[0], new_rec["func_fo"], og_rec[2], og_rec[3]])
+                    ret.append([og_rec[0], new_rec["func_fo"], og_rec[2], og_rec[3], new_rec["func_va"], og_rec[1]])
                     found = True
                     break
             if not found:
@@ -40,11 +41,29 @@ def check_funcs_match(verbose: bool = False):
     funcs_to_check = calc_funcs_to_check_match(new_data, old_data)
     ok_funcs = []
     fail_funcs = []
+    identity = call_identity.CallIdentity(new_data, "../../build_vc6/output.map", "10.5.exe")
+    new_pe = call_identity.check_match_refs.Pe("../../build_vc6/decomp_main.exe")
+    aliases = []
+    for name, va, og in identity.aliases:
+        og_name, og_fo, og_size = identity.csv[og]
+        fo = va - new_pe.secs[0][0] + new_pe.secs[0][2]
+        aliases.append(["alias " + name + " = " + og_name, hex(fo), hex(og_fo), hex(og_size), hex(va), hex(og)])
+
+    def check(func):
+        try:
+            return compare_function.compare_function("../../build_vc6/decomp_main.exe", "10.5.exe", func[0], int(func[1], 16),
+                                                     int(func[2], 16), int(func[3], 16), int(func[4], 16), int(func[5], 16), identity)
+        except ValueError as error:
+            print(func[0] + ": " + str(error))
+            return False
     for func in funcs_to_check:
-        if compare_function.compare_function("../../build_vc6/decomp_main.exe", "10.5.exe", func[0], int(func[1], 16), int(func[2], 16), int(func[3], 16)):
+        if check(func):
             ok_funcs.append(func[0] + " OK!")
         else:
             fail_funcs.append(func[0] + " FAIL!")
+    ok_aliases = [a for a in aliases if check(a)]
+    fail_funcs += [a[0] + " FAIL!" for a in aliases if a not in ok_aliases]
+    print("[" + str(len(ok_aliases)) + "/" + str(len(aliases)) + "] inline aliases OK")
 
     if verbose:
         for ok_func in ok_funcs:

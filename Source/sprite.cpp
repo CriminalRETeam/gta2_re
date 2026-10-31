@@ -2447,37 +2447,10 @@ void SpriteShape::UpdateRotatedBoundingBox(Fix16 xpos, Fix16 ypos, Fix16 zpos, A
         corner2.SetXY(width_over_2, height_over_2);
         corner3.SetXY(-width_over_2, height_over_2);
 
-        // RotateByAngle with the operators out of line, written out by hand: going through an
-        // inline helper (RotateByAngle_40F6B0_all_out_of_line) uses up the inline budget and pushes the
-        // first Fix16_Point ctor out of line.
-        {
-            Fix16 sin = Ang16::sine(rotation);
-            Fix16 cos = Ang16::cosine(rotation);
-            Fix16 x_old = corner0.x;
-            corner0.x = corner0.x.Multiply(cos).Add(corner0.y.Multiply(sin));
-            corner0.y = x_old.Negated().Multiply(sin).Add(corner0.y.Multiply(cos));
-        }
-        {
-            Fix16 sin = Ang16::sine(rotation);
-            Fix16 cos = Ang16::cosine(rotation);
-            Fix16 x_old = corner1.x;
-            corner1.x = corner1.x.Multiply(cos).Add(corner1.y.Multiply(sin));
-            corner1.y = x_old.Negated().Multiply(sin).Add(corner1.y.Multiply(cos));
-        }
-        {
-            Fix16 sin = Ang16::sine(rotation);
-            Fix16 cos = Ang16::cosine(rotation);
-            Fix16 x_old = corner2.x;
-            corner2.x = corner2.x.Multiply(cos).Add(corner2.y.Multiply(sin));
-            corner2.y = x_old.Negated().Multiply(sin).Add(corner2.y.Multiply(cos));
-        }
-        {
-            Fix16 sin = Ang16::sine(rotation);
-            Fix16 cos = Ang16::cosine(rotation);
-            Fix16 x_old = corner3.x;
-            corner3.x = corner3.x.Multiply(cos).Add(corner3.y.Multiply(sin));
-            corner3.y = x_old.Negated().Multiply(sin).Add(corner3.y.Multiply(cos));
-        }
+        corner0.RotateByAngle(rotation);
+        corner1.RotateByAngle(rotation);
+        corner2.RotateByAngle(rotation);
+        corner3.RotateByAngle(rotation);
 
         mCorners[0] = point + corner0;
         mCorners[1] = point + corner1;
@@ -2507,14 +2480,14 @@ void SpriteShape::UpdateRotatedBoundingBox(Fix16 xpos, Fix16 ypos, Fix16 zpos, A
 
         mBoundingBox.SetBounds_5A5E30(left, right, top, bottom);
     }
-    mBoundingBox.SetHiLowZ(zpos.Subtract(depth_over_2), zpos.Add(depth_over_2));
+    mBoundingBox.SetHiLowZ(zpos - depth_over_2, zpos + depth_over_2);
     mBboxUpToDate = true;
 
     // Not in 9.6f: the corners are set and rotated again, and the results are never used.
-    corner0.SetXY(width_over_2.Negated(), height_over_2.Negated());
-    corner1.SetXY(width_over_2, height_over_2.Negated());
+    corner0.SetXY(-width_over_2, -height_over_2);
+    corner1.SetXY(width_over_2, -height_over_2);
     corner2.SetXY(width_over_2, height_over_2);
-    corner3.SetXY(width_over_2.Negated(), height_over_2);
+    corner3.SetXY(-width_over_2, height_over_2);
 
     corner0.RotateVelocity(rotation);
     corner1.RotateVelocity(rotation);
@@ -2575,22 +2548,15 @@ EXPORT void __stdcall ProjectWorldToScreen(Fix16 x, Fix16 y, Fix16 z, Fix16* pOu
 }
 
 // World to screen pixels. DrawCollisionBox expands the inline, except for its last call, which
-// is the out-of-line copy ProjectWorldToScreen.
-// Like the original, the function runs out of inline expansions, so the Fix16 operators are the
-// out-of-line copies.
+// is the out-of-line copy ProjectWorldToScreen. The inline budget leaves the operators out of line.
 static inline void ProjectToScreen_5A5690(Fix16 x, Fix16 y, Fix16 z, Fix16* pOut1, Fix16* pOut2)
 {
     Fix16 scale;
-    scale =
-        kFP16One_7035C4.Divide((kFP16Eight_7035E4.Subtract(z)).Add(gViewCamera->mCurPos.mZ));
-    *pOut1 = (x.Subtract(gViewCamera->mCurPos.mX)
-                  .Multiply(gViewCamera->mScreenScale.x)
-                  .Multiply(scale))
-                 .Add(Fix16(gViewCamera->mScreenPxCenterX));
-    *pOut2 = (y.Subtract(gViewCamera->mCurPos.mY)
-                  .Multiply(gViewCamera->mScreenScale.x)
-                  .Multiply(scale))
-                 .Add(Fix16(gViewCamera->mScreenPxCenterY));
+    scale = kFP16One_7035C4 / ((kFP16Eight_7035E4 - z) + gViewCamera->mCurPos.mZ);
+    *pOut1 = (((x - gViewCamera->mCurPos.mX) * gViewCamera->mScreenScale.x) * scale) +
+        Fix16(gViewCamera->mScreenPxCenterX);
+    *pOut2 = (((y - gViewCamera->mCurPos.mY) * gViewCamera->mScreenScale.x) * scale) +
+        Fix16(gViewCamera->mScreenPxCenterY);
 }
 
 DEFINE_GLOBAL_INIT(u16, gDebugColour, 0x1111, 0x626260);

@@ -253,7 +253,7 @@ void ExplodingScore::DrawNumbers()
     Fix16 x_delta;
     Fix16 y_delta;
     Camera* pCamera = &gGame_0x40->mLocalPlayer->mViewCamera;
-    pCamera->ProjectWorldToScreen_OutOfLine_4B90E0(mX, mY, mZ, &screen_x, &screen_y);
+    pCamera->ProjectWorldToScreen_4B90E0(mX, mY, mZ, &screen_x, &screen_y);
     if (screen_x < kFp160)
     {
         screen_x = kFp160 - screen_x;

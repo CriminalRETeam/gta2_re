@@ -90,18 +90,6 @@ class Camera
         *pOutY = (((y - mCurPos.mY) * mScreenScale.x) * scale) + Fix16(mScreenPxCenterY);
     }
 
-    // ProjectWorldToScreen_4B90E0 with the out-of-line Fix16 helpers (ExplodingScore::DrawNumbers)
-    void ProjectWorldToScreen_OutOfLine_4B90E0(Fix16 x, Fix16 y, Fix16 z, Fix16* pOutX, Fix16* pOutY)
-    {
-        Fix16 scale = kFpOne_702DE4.Divide((mCurPos.mZ - z) + kFpEight_702E04);
-
-        *pOutX = (x.Subtract(mCurPos.mX).Multiply(mScreenScale.x).Multiply(scale))
-                     .Add(Fix16(mScreenPxCenterX));
-
-        *pOutY = (y.Subtract(mCurPos.mY).Multiply(mScreenScale.x).Multiply(scale))
-                     .Add(Fix16(mScreenPxCenterY));
-    }
-
     // 9.6f 0x475B60
     inline void SetSmoothFollow()
     {

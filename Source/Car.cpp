@@ -913,6 +913,8 @@ Car* CarManager::DoGetNearestCarFromCoord(Fix16 xpos,
     // 9.6f calls HasSpriteZoom_421D80 and IsCarInAir_421DF0 here, 10.5 calls HasSpriteZoom and IsCarInAir (not inlined)
     Fix16 smallestDist = Fix16(0x300);
     Car* pNearestCar = NULL;
+    // Declared here: its ctor as a site in the train loop moves the inline budget's cut-offs
+    Fix16 trainDistance;
     for (Car* pCarIter = gCar_BC_Pool->GetFirstCar_420E50(); pCarIter; pCarIter = pCarIter->mpNext)
     {
         if (!pCarIter->IsMaxDamage() && !pCarIter->IsTrailerInfo() &&
@@ -939,12 +941,9 @@ Car* CarManager::DoGetNearestCarFromCoord(Fix16 xpos,
                         break;
                     }
 
-                    // The Abs negates and the last add go out of line by the inline budget. Add is the
-                    // nothrow copy: the plain operator+ changes the register allocation of the whole loop
-                    Fix16 trainDistance;
-                    trainDistance = (Fix16::Abs(pTrainIter->mCarSprite->mXy.x - xpos) +
-                                     Fix16::Abs(pTrainIter->mCarSprite->mXy.y - ypos))
-                                        .Add(Fix16::Abs(pTrainIter->mCarSprite->mZpos - zpos));
+                    trainDistance = Fix16::Abs(pTrainIter->mCarSprite->mXy.x - xpos) +
+                        Fix16::Abs(pTrainIter->mCarSprite->mXy.y - ypos) +
+                        Fix16::Abs(pTrainIter->mCarSprite->mZpos - zpos);
                     if (trainDistance < smallestDist)
                     {
                         smallestDist = trainDistance;
