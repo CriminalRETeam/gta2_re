@@ -29,6 +29,11 @@ EXTERN_GLOBAL(s32, gCrewKind_6FEDB8);
 class Police
 {
   public:
+    STATIC_MEMBER(u16, sIdCounter);
+    STATIC_MEMBER(u32, sDispatchCrewType);
+    STATIC_MEMBER(s32, sDispatchCrewState);
+    STATIC_MEMBER(s16, sDispatchCrewSpawnDelay);
+    STATIC_MEMBER(u8, sbHaveCriminals);
     Police()
     {
         Init_56F400();
