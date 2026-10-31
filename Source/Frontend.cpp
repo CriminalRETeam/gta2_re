@@ -1494,7 +1494,7 @@ bool Frontend::pre_intro_bik_exists_4B6030()
     }
 }
 
-DEFINE_GLOBAL_ARRAY_INIT(char_type, gBikDataDir_620454, 8, 0x620454, "Data\\");
+DEFINE_STATIC_MEMBER_ARRAY_INIT(char_type, Frontend, sBikDataDir, 8, 0x620454, "Data\\");
 DEFINE_STATIC_GLOBAL_ARRAY_INIT(char_type, sBikDriveDataDir, 4, 0x62045C, ":\\");
 
 MATCH_FUNC(0x4B5F20)
@@ -1512,7 +1512,7 @@ char_type* Frontend::pre_intro_bik_4B5F20()
     }
     else
     {
-        strcpy(sPreIntroBikPath, gBikDataDir_620454);
+        strcpy(sPreIntroBikPath, sBikDataDir);
     }
     strcat(sPreIntroBikPath, sPreIntroBikName);
     return sPreIntroBikPath;
@@ -1533,7 +1533,7 @@ const char_type* Frontend::intro_bik_4B5E50()
     }
     else
     {
-        strcpy(sIntroBikPath, gBikDataDir_620454);
+        strcpy(sIntroBikPath, sBikDataDir);
     }
     strcat(sIntroBikPath, sIntroBikName);
     return sIntroBikPath;

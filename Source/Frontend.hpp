@@ -234,6 +234,7 @@ struct MainBlockStrings
 
 struct Frontend
 {
+    STATIC_MEMBER_ARRAY(char_type, sBikDataDir, 8);
     LPDIRECTINPUTA field_0_pDInput;
     LPDIRECTINPUTDEVICEA field_4_pKeyboardDevice;
     char_type field_8_keys[256];
