@@ -42,7 +42,7 @@ DEFINE_GLOBAL(SpriteShapePool*, gSpriteShapePool_70381C, 0x70381C);
 DEFINE_GLOBAL(SpritePool*, gSpritePool_703818, 0x703818);
 DEFINE_GLOBAL(SpriteMaskCache*, gSpriteMaskCache_67AF1C, 0x67AF1C);
 DEFINE_GLOBAL(AttachedSpritePool*, gAttachedSpritePool_703B80, 0x703B80);
-DEFINE_GLOBAL(Sprite*, gSprite_703814, 0x703814);
+DEFINE_STATIC_GLOBAL(Sprite*, sSprite, 0x703814);
 DEFINE_GLOBAL(Sprite*, gSprite_6F61E8, 0x6F61E8);
 DEFINE_GLOBAL_INIT(Fix16, kFP16One_7035C4, Fix16(1), 0x7035C4);
 DEFINE_GLOBAL_INIT(Fix16, gFix16_7035C0, Fix16(0), 0x7035C0);
@@ -51,7 +51,7 @@ DEFINE_GLOBAL_INIT(Fix16, kFpPoint2_703424, Fix16(0xCCC, 0), 0x703424);
 DEFINE_GLOBAL_INIT(Fix16, kFP16Eight_7035E4, Fix16(8), 0x7035E4);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_703578, Fix16(256, 0), 0x703578);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_703678, kFpOne64th_703578, 0x703678);
-DEFINE_GLOBAL_INIT(Fix16, kMaxSpriteZ_7033C0, kFP16Eight_7035E4 - kFpOne64th_703678, 0x7033C0);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kMaxSpriteZ, kFP16Eight_7035E4 - kFpOne64th_703678, 0x7033C0);
 DEFINE_GLOBAL_INIT(Ang16, kAng90_70344C, Ang16(360), 0x70344C);
 DEFINE_GLOBAL_INIT(Ang16, kAng180_70351E, Ang16(720), 0x70351E);
 DEFINE_GLOBAL_INIT(Ang16, kAng270_703544, Ang16(1080), 0x703544);
@@ -716,17 +716,17 @@ bool Sprite::CheckDirectionalSliceCollision_59E680(Fix16 sliceLen, Sprite* pSpri
     Fix16_Point point;
     point.FromPolar_41E210(-sliceLen / 2, pSprite->field_0_rotation);
 
-    gSprite_703814->field_C_pCollisionShape->CopyDimensions_447DF0(pSprite->field_C_pCollisionShape);
-    gSprite_703814->field_C_pCollisionShape->ReduceHeightNoClamp_4BA110(sliceLen);
+    sSprite->field_C_pCollisionShape->CopyDimensions_447DF0(pSprite->field_C_pCollisionShape);
+    sSprite->field_C_pCollisionShape->ReduceHeightNoClamp_4BA110(sliceLen);
 
-    gSprite_703814->field_1C_zpos = pSprite->field_1C_zpos;
-    gSprite_703814->field_0_rotation = pSprite->field_0_rotation;
+    sSprite->field_1C_zpos = pSprite->field_1C_zpos;
+    sSprite->field_0_rotation = pSprite->field_0_rotation;
 
-    gSprite_703814->field_14_xy.x = point.x + pSprite->field_14_xy.x;
-    gSprite_703814->field_14_xy.y = point.y + pSprite->field_14_xy.y;
-    gSprite_703814->InvalidateZColAndBBoxes_59E7B0();
-    gSprite_703814->UpdateCollisionBoundsIfNeeded_59E9C0();
-    return CollisionCheck_59E590(gSprite_703814);
+    sSprite->field_14_xy.x = point.x + pSprite->field_14_xy.x;
+    sSprite->field_14_xy.y = point.y + pSprite->field_14_xy.y;
+    sSprite->InvalidateZColAndBBoxes_59E7B0();
+    sSprite->UpdateCollisionBoundsIfNeeded_59E9C0();
+    return CollisionCheck_59E590(sSprite);
 }
 
 MATCH_FUNC(0x59e7b0)
@@ -1944,9 +1944,9 @@ char_type Sprite::CheckCornerZCollisions_5A1CA0(u32* pCount)
     Fix16 z_min = field_1C_zpos - (pShape->field_8_depth / 2);
     Fix16 z_max = field_1C_zpos + (pShape->field_8_depth / 2);
 
-    if (z_max > kMaxSpriteZ_7033C0)
+    if (z_max > kMaxSpriteZ)
     {
-        z_max = kMaxSpriteZ_7033C0;
+        z_max = kMaxSpriteZ;
     }
 
     if (gMap_0x370_6F6268->CheckZCollisionAtCoord_4E5300(pShape->field_C_corners[0].x, pShape->field_C_corners[0].y, z_min, z_max))
@@ -2038,9 +2038,9 @@ bool Sprite::CheckMapZCollision_5A21F0()
     Fix16 half = this->field_C_pCollisionShape->field_8_depth / 2;
     Fix16 zLow = field_1C_zpos - half;
     Fix16 zHigh = field_1C_zpos + half;
-    if (zHigh > kMaxSpriteZ_7033C0)
+    if (zHigh > kMaxSpriteZ)
     {
-        zHigh = kMaxSpriteZ_7033C0;
+        zHigh = kMaxSpriteZ;
     }
     return gMap_0x370_6F6268->CheckZCollisionAtCoord_4E5300(field_14_xy.x, field_14_xy.y, zLow, zHigh);
 }
@@ -2620,8 +2620,8 @@ void SpriteManager_8::ResetDrawnSpriteCount_5A5860()
 MATCH_FUNC(0x5a5870)
 void SpriteManager_8::AllocScratchSprite_5A5870()
 {
-    gSprite_703814 = gSpritePool_703818->get_new_sprite();
-    gSprite_703814->AllocCollisionShape_59F950(gFix16_7035C0, gFix16_7035C0, gFix16_7035C0);
+    sSprite = gSpritePool_703818->get_new_sprite();
+    sSprite->AllocCollisionShape_59F950(gFix16_7035C0, gFix16_7035C0, gFix16_7035C0);
 }
 
 MATCH_FUNC(0x5a58a0)
@@ -2669,7 +2669,7 @@ SpriteManager_8::~SpriteManager_8()
     GTA2_DELETE_AND_NULL(gSpriteShapePool_70381C);
     GTA2_DELETE_AND_NULL(gSpriteMaskCache_67AF1C);
     GTA2_DELETE_AND_NULL(gAttachedSpritePool_703B80);
-    gSprite_703814 = NULL;
+    sSprite = NULL;
 }
 
 MATCH_FUNC(0x5a5be0)
