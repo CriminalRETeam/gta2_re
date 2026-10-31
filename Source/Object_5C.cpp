@@ -32,7 +32,7 @@
 
 DEFINE_GLOBAL(Object_5C*, gObject_5C_6F8F84, 0x6F8F84);
 DEFINE_STATIC_GLOBAL(s32, sObjectCounterUnused, 0x6f8f88);
-DEFINE_GLOBAL(s32, gObject2C_WallHitSide_6F8F90, 0x6F8F90);
+DEFINE_STATIC_MEMBER(s32, Object, sObject2CWallHitSide, 0x6F8F90);
 DEFINE_GLOBAL_INIT(Ang16, kAng180_6F8D62, Ang16(0x2D0), 0x6F8D62);
 
 DEFINE_GLOBAL(Fix16_Point, gZeroVector_6F8EF0, 0x6F8EF0);
@@ -53,8 +53,8 @@ DEFINE_GLOBAL_INIT(Ang16, kAng135_6F8D80, Ang16(0x21C), 0x6F8D80);
 DEFINE_STATIC_GLOBAL_INIT(Ang16, kAng225, Ang16(0x384), 0x6F8D54);
 DEFINE_GLOBAL_INIT(Ang16, kAng45_6F8CD0, Ang16(0xB4), 0x6F8CD0);
 
-DEFINE_GLOBAL(Sprite*, gObject2C_LastCollisionSprite_6F8F8C, 0x6F8F8C);
-DEFINE_GLOBAL(bool, gObject2C_HitWallOrDoor_6F8F94, 0x6F8F94);
+DEFINE_STATIC_MEMBER(Sprite*, Object, sObject2CLastCollisionSprite, 0x6F8F8C);
+DEFINE_STATIC_MEMBER(bool, Object, sObject2CHitWallOrDoor, 0x6F8F94);
 DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpOneThirtySecond, Fix16(0x200, 0), 0x6F8F5C);
 DEFINE_STATIC_GLOBAL_INIT(Fix16, kObjectGravity, Fix16(0xFFFFFFF8, 0), 0x6F8DA8);
 DEFINE_GLOBAL_INIT(Fix16, kFP16One_6F8E14, Fix16(1), 0x6F8E14);
@@ -307,11 +307,11 @@ bool Object::ShouldCollideWithSprite_522430(Sprite* pSprite) const
 MATCH_FUNC(0x522460)
 bool Object::SelectCollisionSprite_522460(Sprite* pProbe)
 {
-    gObject2C_HitWallOrDoor_6F8F94 = false;
+    sObject2CHitWallOrDoor = false;
 
     Sprite* pSprite = pProbe->QuerySpriteCollision_59E7D0(sprite_types_enum::car_2);
-    if (pSprite && gObject2C_LastCollisionSprite_6F8F8C && pSprite->GetType_416B40() == sprite_types_enum::car_2 // IsCar
-        || !ShouldCollideWithSprite_522430(pSprite) || pSprite == gObject2C_LastCollisionSprite_6F8F8C)
+    if (pSprite && sObject2CLastCollisionSprite && pSprite->GetType_416B40() == sprite_types_enum::car_2 // IsCar
+        || !ShouldCollideWithSprite_522430(pSprite) || pSprite == sObject2CLastCollisionSprite)
     {
         return false;
     }
@@ -319,7 +319,7 @@ bool Object::SelectCollisionSprite_522460(Sprite* pProbe)
     if (pSprite->field_8_object_2C_ptr->field_18_model == objects::diagonal_wall_collision_obj_166 ||
         pSprite->field_8_object_2C_ptr->field_18_model == objects::door_collision_obj_169)
     {
-        gObject2C_HitWallOrDoor_6F8F94 = true;
+        sObject2CHitWallOrDoor = true;
     }
     gCollisionTarget_679188.SetSprite_40FEE0(pSprite);
     return true;
@@ -431,7 +431,7 @@ void Object::ResolveCollisionWithObject_522710(Object* pObj, Fix16_Point* pPoint
 
     SetMovementVectorWithRandomState_522640(impulse / GetMass_482C80());
 
-    if (gObject2C_HitWallOrDoor_6F8F94)
+    if (sObject2CHitWallOrDoor)
     {
         if (field_10_obj_3c)
         {
@@ -651,18 +651,18 @@ MATCH_FUNC(0x5233a0)
 bool Object::TryStartSlide_5233A0(Fix16 speed)
 {
     LOCAL_STATIC_INIT(u8, sObject2CUnused, 1, 0x623EC4);
-    gObject2C_LastCollisionSprite_6F8F8C = NULL;
+    sObject2CLastCollisionSprite = NULL;
 
     if (SelectCollisionSprite_522460(this->field_4_sprite))
     {
 
         sObject2CUnused = 0;
-        if (gObject2C_HitWallOrDoor_6F8F94)
+        if (sObject2CHitWallOrDoor)
         {
             return false;
         }
 
-        gObject2C_LastCollisionSprite_6F8F8C = gCollisionTarget_679188.field_20_pHitSprite;
+        sObject2CLastCollisionSprite = gCollisionTarget_679188.field_20_pHitSprite;
         if (speed > kFpPoint1_6F8C58)
         {
             return false;
@@ -841,7 +841,7 @@ bool Object::HandleSpriteGroundAndCollisionSimple_523770(Sprite* pSprite, Fix16_
     }
     else if (SelectCollisionSprite_522460(pSprite))
     {
-        if (gObject2C_HitWallOrDoor_6F8F94)
+        if (sObject2CHitWallOrDoor)
         {
             field_10_obj_3c->field_14_saved_speed = field_10_obj_3c->field_C_speed;
             *pPoint = pSprite->get_x_y();
@@ -914,7 +914,7 @@ bool Object::HandleSpriteZCollision_5238B0(Sprite* pSprite, Fix16_Point* pPoint,
 
             if (field_10_obj_3c->field_10_z_speed < kObjectGravity)
             {
-                if (!gObject2C_LastCollisionSprite_6F8F8C)
+                if (!sObject2CLastCollisionSprite)
                 {
                     if (field_10_obj_3c->field_10_z_speed >= -kFpPoint1_6F8C58)
                     {
@@ -985,7 +985,7 @@ bool Object::HandleSpriteZCollision_5238B0(Sprite* pSprite, Fix16_Point* pPoint,
         {
             return true;
         }
-        else if (gObject2C_HitWallOrDoor_6F8F94)
+        else if (sObject2CHitWallOrDoor)
         {
             field_10_obj_3c->field_14_saved_speed = field_10_obj_3c->field_C_speed.mValue;
             *pPoint = pSprite->get_x_y();
@@ -1025,7 +1025,7 @@ void Object::IntegrateMovementAndCollisions_523BF0(Fix16 mov_speed, Ang16 angle)
     Fix16_Point point2;
     Fix16 step_count;
     Sprite* pSprt = gObject_5C_6F8F84->field_58_collision_probe_sprite;
-    gObject2C_WallHitSide_6F8F90 = 0;
+    sObject2CWallHitSide = 0;
     ApplyDefinitionDrawLayer_482BE0();
     if (Object::TryStartSlide_5233A0(mov_speed))
     {
@@ -1195,22 +1195,22 @@ void Object::ComputeWallHitSide_524550()
     {
         if (field_10_obj_3c->field_4_angle >= kAng270_6F8D88 || field_10_obj_3c->field_4_angle <= kAng90_6F8C88)
         {
-            gObject2C_WallHitSide_6F8F90 = 3;
+            sObject2CWallHitSide = 3;
         }
         else
         {
-            gObject2C_WallHitSide_6F8F90 = 4;
+            sObject2CWallHitSide = 4;
         }
     }
     else if (gCollisionTarget_679188.field_0_type == collision_target_type::vertical_edge_2)
     {
         if (field_10_obj_3c->field_4_angle >= kAng180_6F8D62)
         {
-            gObject2C_WallHitSide_6F8F90 = 2;
+            sObject2CWallHitSide = 2;
         }
         else
         {
-            gObject2C_WallHitSide_6F8F90 = 1;
+            sObject2CWallHitSide = 1;
         }
     }
 }
@@ -1221,7 +1221,7 @@ void Object::IntegrateHorizontalMovementAndCollisions_524630(Fix16 move_len, Ang
     bool bOnSlope = false;
     Fix16_Point hitPoint;
     Sprite* pProbe = gObject_5C_6F8F84->field_58_collision_probe_sprite;
-    gObject2C_LastCollisionSprite_6F8F8C = NULL;
+    sObject2CLastCollisionSprite = NULL;
     if (move_len == kFpZero_6F8E10 && !this->field_10_obj_3c->field_2A_bAirborne)
     {
         return;
@@ -1815,7 +1815,7 @@ void Object::UpdatePhysicsMovementAndAnimation_525D90()
 
         if (mov_speed == kFpZero_6F8E10)
         {
-            if (!field_10_obj_3c->field_2A_bAirborne && field_10_obj_3c->field_34_sprite_collide_mode == 2 && !CheckWaterDeath_525B60() && !gObject2C_LastCollisionSprite_6F8F8C)
+            if (!field_10_obj_3c->field_2A_bAirborne && field_10_obj_3c->field_34_sprite_collide_mode == 2 && !CheckWaterDeath_525B60() && !sObject2CLastCollisionSprite)
             {
                 field_10_obj_3c->field_1C_z_accel = kFpZero_6F8E10;
                 field_10_obj_3c->field_10_z_speed = kFpZero_6F8E10;
@@ -1843,7 +1843,7 @@ void Object::Update_525F30()
 {
     Explosion* pExplosion;
 
-    gObject2C_LastCollisionSprite_6F8F8C = NULL;
+    sObject2CLastCollisionSprite = NULL;
     while (2)
     {
         switch (this->field_8_definition->field_34_behavior_type)
@@ -2709,7 +2709,7 @@ void Object::HandleImpactNoSprite_528BA0()
                                                                               field_4_sprite->field_14_xy.y,
                                                                               field_4_sprite->field_1C_zpos,
                                                                               kZeroAng_6F8F68,
-                                                                              GetExplosionTypeForWallSide_528E00(gObject2C_WallHitSide_6F8F90),
+                                                                              GetExplosionTypeForWallSide_528E00(sObject2CWallHitSide),
                                                                               gPedRefTable_7F8_703398->GetPedId_420F10(GetPedRefIdx_420FF0()));
             if (pExplosion)
             {

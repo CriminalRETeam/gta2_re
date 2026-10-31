@@ -48,6 +48,9 @@ enum
 class Object
 {
   public:
+    STATIC_MEMBER(s32, sObject2CWallHitSide);
+    STATIC_MEMBER(Sprite*, sObject2CLastCollisionSprite);
+    STATIC_MEMBER(bool, sObject2CHitWallOrDoor);
     // 9.6f 0x4C4F10
     inline void SetThreadTriggerIdx_4C4F10(char_type v)
     {
