@@ -92,16 +92,17 @@ def wip_score(func, og_file_offset, og_size, new_size):
 
 
 def count_fields_and_methods(source_dir):
-    """Named vs unnamed (field_XX / sub_XXXXXX) class fields and functions in Source/."""
-    field_re = re.compile(r"^\s+[\w:<>\*&\s,]+?\bfield_([0-9A-Fa-f]+)(_\w+)?\s*(\[[^\]]*\])*\s*(:\s*\d+\s*)?;", re.M)
+    """Named vs unnamed (mFieldXX / sub_XXXXXX) class fields and functions in Source/. The fields are the
+    member declarations commented with their offset (`Car* mpCar; // 0x5C`)."""
+    field_re = re.compile(r"^\s+[\w:<>\*&\s,]+?\b(m\w+)\s*(\[[^\]]*\])*\s*(:\s*\d+\s*)?;\s*// 0x[0-9A-Fa-f]+\b", re.M)
     named_fields = unnamed_fields = 0
     for path in glob.glob(os.path.join(source_dir, "*.hpp")):
         with open(path, errors="replace") as f:
             for m in field_re.finditer(f.read()):
-                if m.group(2):
-                    named_fields += 1
-                else:
+                if re.match(r"^mField[0-9A-F]+$", m.group(1)):
                     unnamed_fields += 1
+                else:
+                    named_fields += 1
 
     marker_re = re.compile(r"^(?:MATCH|WIP|STUB)_FUNC\(0x[0-9a-fA-F]+\)\s*$")
     name_re = re.compile(r"([A-Za-z_~][\w~]*)\s*\(")
