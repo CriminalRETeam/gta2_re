@@ -19,7 +19,7 @@ enum
     Bulletproof = 0x100,
     Rocketproof = 0x200,
     Flameproof = 0x400,
-    Jammed = 0x800,
+    ResistsPushWhenStopped = 0x800,
     JammedAccelerator = 0x1000,
     Crushing = 0x2000, // set by SetCrushFlag_49EFC0
     Flag14 = 0x4000,

@@ -1432,7 +1432,7 @@ Car* CarManager::SpawnCarAt_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rot
 
     if (pCar->IsCopCar_421790())
     {
-        pCar->AddFlags_421890(car_flag::Jammed);
+        pCar->AddFlags_421890(car_flag::ResistsPushWhenStopped);
     }
     else if (pCar->IsFireTruck_4118F0())
     {
@@ -1440,11 +1440,11 @@ Car* CarManager::SpawnCarAt_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rot
         gWeapon_8_707018->allocate_5E3D50(weapon_type::fire_truck_gun, 50u, pCar);
 
         // shared flag set
-        pCar->AddFlags_421890(car_flag::Jammed);
+        pCar->AddFlags_421890(car_flag::ResistsPushWhenStopped);
     }
     else if (pCar->IsTank_411900())
     {
-        pCar->AddFlags_421890(car_flag::Jammed);
+        pCar->AddFlags_421890(car_flag::ResistsPushWhenStopped);
         pCar->PutTankCannonOnRoof_440B10();
         pCar->SetBulletproof_4218C0();
         pCar->SetFlameproof_4218D0();
@@ -1474,7 +1474,7 @@ Car* CarManager::SpawnCarAt_446230(Fix16 xpos, Fix16 ypos, Fix16 zpos, Ang16 rot
         pCar->field_50_car_sprite->SetRemap(2);
 
         // shared flag set
-        pCar->AddFlags_421890(car_flag::Jammed);
+        pCar->AddFlags_421890(car_flag::ResistsPushWhenStopped);
     }
 
     pCar->SetSirens_4441B0();

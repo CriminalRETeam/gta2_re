@@ -2385,7 +2385,7 @@ Fix16 CarPhysics::ApplyImpactForcesAndDamage_55FA60(Fix16_Point& PointOfForce, F
     {
         NewImpulse = Impulse;
 
-        if (field_5C_pCar->IsFlagSet_411930(car_flag::Jammed))
+        if (field_5C_pCar->IsFlagSet_411930(car_flag::ResistsPushWhenStopped))
         {
             if (!field_5C_pCar->IsDrivenByPlayer_4118D0())
             {
