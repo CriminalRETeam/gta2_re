@@ -58,7 +58,7 @@ DEFINE_STATIC_GLOBAL_INIT(Fix16, kMinCorneringSpeed, Fix16(0x40, 0), 0x66F378);
 DEFINE_STATIC_GLOBAL_INIT(Fix16, kFp64, Fix16(64), 0x674DA8);
 DEFINE_GLOBAL(u8, gSoundSwitchRadioCoolDown_6FF539, 0x6FF539);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne_6FF3F4, Fix16(1), 0x6FF3F4);
-DEFINE_GLOBAL(bool, gSoundVocalsInited_6FF538, 0x6FF538);
+DEFINE_STATIC_MEMBER(bool, sound_obj, sSoundVocalsInited, 0x6FF538);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne_66F3F4, Fix16(1), 0x66F3F4);
 
 DEFINE_GLOBAL_INIT(Fix16, kFpFive_675414, Fix16(5), 0x675414);
@@ -7112,7 +7112,7 @@ MATCH_FUNC(0x57E680)
 void sound_obj::TickRadioStationClocks_57E680()
 {
 
-    if (gSoundVocalsInited_6FF538)
+    if (sSoundVocalsInited)
     {
         u32 ticks = 90000 * this->field_8_frames_per_second;
         for (u8 i = 0; i < 5; i++)
@@ -7258,10 +7258,10 @@ void sound_obj::ChooseRadioEmitterForVehicle_57E6C0()
 MATCH_FUNC(0x57E960)
 void sound_obj::InitMusicAndCopRadio_57E960()
 {
-    if (!gSoundVocalsInited_6FF538)
+    if (!sSoundVocalsInited)
     {
         gSoundSwitchRadioCoolDown_6FF539 = 0;
-        gSoundVocalsInited_6FF538 = true;
+        sSoundVocalsInited = true;
         for (u8 i = 0; i < 5; i++)
         {
             field_5468_radio_emitters[i].field_0_bUsed = false;
@@ -7289,9 +7289,9 @@ void sound_obj::InitMusicAndCopRadio_57E960()
 MATCH_FUNC(0x57EA10)
 void sound_obj::DeInitVocals_57EA10()
 {
-    if (gSoundVocalsInited_6FF538)
+    if (sSoundVocalsInited)
     {
-        gSoundVocalsInited_6FF538 = false;
+        sSoundVocalsInited = false;
 
         s32 idx = 0;
         s32 k2 = 2;

@@ -236,6 +236,7 @@ class sound_obj
     s32 field_5574_car_info_idx;
 
   public:
+    STATIC_MEMBER(bool, sSoundVocalsInited);
     EXPORT sound_obj();
 
     EXPORT void Reacquire_41A2A0();
