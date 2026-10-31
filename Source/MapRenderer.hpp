@@ -37,6 +37,21 @@ EXTERN_GLOBAL(u32, gGradientLevel_6F647C);
 class MapRenderer
 {
   public:
+    STATIC_MEMBER_ARRAY(s32, kTopSideFlags, 8);
+    STATIC_MEMBER_ARRAY(s32, kSlopeLidFlags, 8);
+    STATIC_MEMBER_ARRAY(s32, kRightSideFlags, 8);
+    STATIC_MEMBER_ARRAY(s32, kLidFlags, 8);
+    STATIC_MEMBER_ARRAY(s32, kLeftSideFlags, 8);
+    STATIC_MEMBER_ARRAY(s32, kDiagonalRightFlags, 8);
+    STATIC_MEMBER_ARRAY(s32, kDiagonalLeftFlags, 8);
+    STATIC_MEMBER_ARRAY(s32, kBottomSideFlags, 8);
+    STATIC_MEMBER(gmp_block_info*, spBlock);
+    STATIC_MEMBER(Fix16, sZCoordFp);
+    STATIC_MEMBER(u32, sTileDrawFlags);
+    STATIC_MEMBER(u16, sLidType);
+    STATIC_MEMBER(s8, sDiagonalLidType);
+    STATIC_MEMBER(u16, sBlockTop);
+    STATIC_MEMBER(u16, sBlockBottom);
     MapRenderer()
     {
         field_0_ambient = kInitialAmbient_67DCCC;
