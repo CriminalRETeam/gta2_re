@@ -23,50 +23,50 @@ DEFINE_GLOBAL_INIT(Fix16, kFpTwo_679E78, Fix16(2), 0x679E78);
 DEFINE_STATIC_MEMBER_INIT(Fix16, Crane, kFpTwo, kFpTwo_679E78, 0x679C78);
 DEFINE_GLOBAL_INIT(Ang16, kAngZero_679FC4, Ang16(0), 0x679FC4);
 DEFINE_GLOBAL(CranePool*, gCranePool_D9C_679FD4, 0x679FD4);
-DEFINE_GLOBAL_INIT(Fix16, kHomeHookAxialAngle_679D50, kZero_679E70, 0x679D50);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kHomeHookAxialAngle, kZero_679E70, 0x679D50);
 DEFINE_GLOBAL_INIT(Fix16, kFpTwo_679F8C, kFpTwo_679E78, 0x679F8C);
 DEFINE_GLOBAL_INIT(Fix16, kFpThree_679E7C, Fix16(3), 0x679E7C);
-DEFINE_GLOBAL_INIT(Fix16, kFpThree_679F88, kFpThree_679E7C, 0x679F88);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpThree, kFpThree_679E7C, 0x679F88);
 DEFINE_GLOBAL_INIT(Fix16, kAngFix16OneDegree_679FC8, Fix16(0x11C, 0), 0x679FC8);
-DEFINE_GLOBAL_INIT(Fix16, kDropRetryAngleStep_679F64, kAngFix16OneDegree_679FC8 * 20, 0x679F64);
-DEFINE_GLOBAL_INIT(Fix16, kAngFix16FullCircle_679F58, Fix16(0x18F60, 0), 0x679F58);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kDropRetryAngleStep, kAngFix16OneDegree_679FC8 * 20, 0x679F64);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kAngFix16FullCircle, Fix16(0x18F60, 0), 0x679F58);
 DEFINE_GLOBAL_INIT(Fix16, kFpFour_679E80, Fix16(4), 0x679E80);
-DEFINE_GLOBAL_INIT(Fix16, kMaxHookRadius_679F68, kFpFour_679E80, 0x679F68);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kMaxHookRadius, kFpFour_679E80, 0x679F68);
 DEFINE_GLOBAL_INIT(Fix16, kFpHalf_679CB0, Fix16(0x2000, 0), 0x679CB0);
 DEFINE_GLOBAL_INIT(Fix16, kMinHookRadius_679C3C, kFpHalf_679CB0, 0x679C3C);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne_679E74, Fix16(1), 0x679E74);
 DEFINE_GLOBAL_INIT(Fix16, kFpHalf_679D64, Fix16(0x2000, 0), 0x679D64);
-DEFINE_GLOBAL_INIT(Fix16, kFpHalf_679D34, kFpHalf_679D64, 0x679D34);
-DEFINE_GLOBAL_INIT(Fix16, kFpThreeAndHalf_679D28, kFpThree_679E7C + kFpHalf_679D64, 0x679D28);
-DEFINE_GLOBAL_INIT(Fix16, kFpTwoAndHalf_679D2C, kFpTwo_679E78 + kFpHalf_679D64, 0x679D2C);
-DEFINE_GLOBAL_INIT(Fix16, kFpOneAndHalf_679D30, kFpOne_679E74 + kFpHalf_679D64, 0x679D30);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpHalf, kFpHalf_679D64, 0x679D34);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpThreeAndHalf, kFpThree_679E7C + kFpHalf_679D64, 0x679D28);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpTwoAndHalf, kFpTwo_679E78 + kFpHalf_679D64, 0x679D2C);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kFpOneAndHalf, kFpOne_679E74 + kFpHalf_679D64, 0x679D30);
 
 DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_679E20, Fix16(0x100, 0), 0x679E20);
 DEFINE_GLOBAL_INIT(Fix16, kFpOne64th_679F28, kFpOne64th_679E20, 0x679F28);
-DEFINE_GLOBAL_INIT(Fix16, kHookRadiusAccel_679C14, kFpOne64th_679F28, 0x679C14);
-DEFINE_GLOBAL_INIT(Fix16, kHookRadiusMaxSpeed_679E6C, kFpOne64th_679F28 * 4, 0x679E6C);
-DEFINE_GLOBAL_INIT(Fix16, kCraneAngleAccel_679F70, kAngFix16OneDegree_679FC8* kFpHalf_679D64, 0x679F70);
-DEFINE_GLOBAL_INIT(Fix16, kCraneAngleMaxSpeed_679DEC, kAngFix16OneDegree_679FC8 * 2, 0x679DEC);
-DEFINE_GLOBAL_INIT(Fix16, kHookAxialAngleAccel_679D70, kAngFix16OneDegree_679FC8, 0x679D70);
-DEFINE_GLOBAL_INIT(Fix16, kHookAxialAngleMaxSpeed_679C40, kAngFix16OneDegree_679FC8 * 4, 0x679C40);
-DEFINE_GLOBAL_INIT(Fix16, kHookDepthAccel_679DC0, kFpOne64th_679F28, 0x679DC0);
-DEFINE_GLOBAL_INIT(Fix16, kHookDepthMaxSpeed_679DC8, kFpOne64th_679F28 * 4, 0x679DC8);
-DEFINE_GLOBAL_INIT(Fix16, kAngFix16HalfCircle_679EB8, Fix16(0xC7B0, 0), 0x679EB8);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kHookRadiusAccel, kFpOne64th_679F28, 0x679C14);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kHookRadiusMaxSpeed, kFpOne64th_679F28 * 4, 0x679E6C);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kCraneAngleAccel, kAngFix16OneDegree_679FC8* kFpHalf_679D64, 0x679F70);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kCraneAngleMaxSpeed, kAngFix16OneDegree_679FC8 * 2, 0x679DEC);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kHookAxialAngleAccel, kAngFix16OneDegree_679FC8, 0x679D70);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kHookAxialAngleMaxSpeed, kAngFix16OneDegree_679FC8 * 4, 0x679C40);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kHookDepthAccel, kFpOne64th_679F28, 0x679DC0);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kHookDepthMaxSpeed, kFpOne64th_679F28 * 4, 0x679DC8);
+DEFINE_STATIC_GLOBAL_INIT(Fix16, kAngFix16HalfCircle, Fix16(0xC7B0, 0), 0x679EB8);
 
 // FUNCTION: 96f 0x40e790
 inline Fix16 __stdcall WrapAngle_40E790(Fix16 angle)
 {
     while (angle < kZero_679E70)
     {
-        angle += kAngFix16FullCircle_679F58;
+        angle += kAngFix16FullCircle;
     }
 
-    if (angle >= kAngFix16FullCircle_679F58)
+    if (angle >= kAngFix16FullCircle)
     {
         do
         {
-            angle -= kAngFix16FullCircle_679F58;
-        } while (angle >= kAngFix16FullCircle_679F58);
+            angle -= kAngFix16FullCircle;
+        } while (angle >= kAngFix16FullCircle);
     }
     return angle;
 }
@@ -239,7 +239,7 @@ void Crane::HookTransporterCargo_47EDF0()
         this->field_150_hook_job = 2;
         this->field_114_drop_radius = kFpTwo_679E78;
 
-        this->field_110_drop_angle = WrapAngle_40E790(field_8C_crane_angle + kAngFix16HalfCircle_679EB8);
+        this->field_110_drop_angle = WrapAngle_40E790(field_8C_crane_angle + kAngFix16HalfCircle);
         this->field_118_drop_rot = field_A0_hook_axial_angle;
         this->field_8_drop_offset = this->field_10_hooked_sprite_offset;
         this->field_11C_drop_hook_depth = kFpTwo;
@@ -323,7 +323,7 @@ void Crane::DropInPlaceOrReturnHome_47F170()
     {
         field_B0_hook_radius_target = kHomeHookRadius;
         field_AC_crane_angle_target = field_A8_home_angle;
-        field_B4_hook_angle_target = kHomeHookAxialAngle_679D50;
+        field_B4_hook_angle_target = kHomeHookAxialAngle;
         field_B8_hook_depth_target = kZero_679E70;
     }
     field_14D_is_busy = false;
@@ -515,7 +515,7 @@ bool Crane::ComputeHookPolar_47F6C0(Fix16_Point& pPoint, Fix16* pOutF16, Fix16* 
     *pOutF16 = to_hook.GetLength_41E260();
 
     // 9.6f (0x448900) only has the minimum radius test
-    if (*pOutF16 <= kMaxHookRadius_679F68 && *pOutF16 >= kMinHookRadius_679C3C)
+    if (*pOutF16 <= kMaxHookRadius && *pOutF16 >= kMinHookRadius_679C3C)
     {
         *pOutAng = Ang16::Ang16_to_Fix16(to_hook.atan2_40F790());
         return true;
@@ -619,12 +619,12 @@ void Crane::TryNextDropPosition_47FB40()
 {
     if (field_114_drop_radius == kFpTwo_679F8C)
     {
-        field_114_drop_radius = kFpThree_679F88;
+        field_114_drop_radius = kFpThree;
     }
     else
     {
         field_114_drop_radius = kFpTwo_679F8C;
-        field_110_drop_angle = WrapAngle_40E790(field_110_drop_angle + kDropRetryAngleStep_679F64);
+        field_110_drop_angle = WrapAngle_40E790(field_110_drop_angle + kDropRetryAngleStep);
     }
 }
 
@@ -633,9 +633,9 @@ s32 Crane::MoveTowardsTargets_47FBA0()
 {
     if (this->field_84_hook_depth == kZero_679E70)
     {
-        SmoothApproach_4F7540(this->field_B0_hook_radius_target, this->field_94_hook_radius_speed, this->field_90_hook_radius, kHookRadiusAccel_679C14, kHookRadiusMaxSpeed_679E6C);
-        SmoothApproachAngle_405CE0(field_AC_crane_angle_target, field_98_crane_angle_speed, field_8C_crane_angle, kCraneAngleAccel_679F70, kCraneAngleMaxSpeed_679DEC);
-        SmoothApproachAngle_405CE0(field_B4_hook_angle_target, field_A4_hook_axial_angle_speed, field_A0_hook_axial_angle, kHookAxialAngleAccel_679D70, kHookAxialAngleMaxSpeed_679C40);
+        SmoothApproach_4F7540(this->field_B0_hook_radius_target, this->field_94_hook_radius_speed, this->field_90_hook_radius, kHookRadiusAccel, kHookRadiusMaxSpeed);
+        SmoothApproachAngle_405CE0(field_AC_crane_angle_target, field_98_crane_angle_speed, field_8C_crane_angle, kCraneAngleAccel, kCraneAngleMaxSpeed);
+        SmoothApproachAngle_405CE0(field_B4_hook_angle_target, field_A4_hook_axial_angle_speed, field_A0_hook_axial_angle, kHookAxialAngleAccel, kHookAxialAngleMaxSpeed);
         if (this->field_74_pSprite_on_hook)
         {
             this->field_10_hooked_sprite_offset = this->field_0_hooked_sprite_offset_target;
@@ -657,7 +657,7 @@ s32 Crane::MoveTowardsTargets_47FBA0()
         f_B8_hook_depth_target = kZero_679E70;
     }
 
-    SmoothApproach_4F7540(f_B8_hook_depth_target, this->field_88_hook_depth_speed, this->field_84_hook_depth, kHookDepthAccel_679DC0, kHookDepthMaxSpeed_679DC8);
+    SmoothApproach_4F7540(f_B8_hook_depth_target, this->field_88_hook_depth_speed, this->field_84_hook_depth, kHookDepthAccel, kHookDepthMaxSpeed);
 
     this->field_156_is_rotating = this->field_8C_crane_angle != this->field_AC_crane_angle_target;
     this->field_157_is_radius_changing = this->field_90_hook_radius != this->field_B0_hook_radius_target;
@@ -737,28 +737,28 @@ void Crane::UpdateCraneSprites_47FE10()
     field_50_part_obj_8->RemoveFromCollisionBuckets_527D00();
     field_54_hook_obj->RemoveFromCollisionBuckets_527D00();
 
-    ComputeHookPos_47E730(crane_angle, kFpHalf_679D34, &pos);
+    ComputeHookPos_47E730(crane_angle, kFpHalf, &pos);
     field_30_part_obj_0->field_4_sprite->set_ang_lazy_420690(crane_angle);
     field_30_part_obj_0->field_4_sprite->set_xy_lazy_447E20(pos.x, pos.y);
 
     field_40_part_obj_4->field_4_sprite->set_ang_lazy_420690(crane_angle);
     field_40_part_obj_4->field_4_sprite->set_xy_lazy_447E20(pos.x, pos.y);
 
-    ComputeHookPos_47E730(crane_angle, kFpOneAndHalf_679D30, &pos);
+    ComputeHookPos_47E730(crane_angle, kFpOneAndHalf, &pos);
     field_34_part_obj_1->field_4_sprite->set_ang_lazy_420690(crane_angle);
     field_34_part_obj_1->field_4_sprite->set_xy_lazy_447E20(pos.x, pos.y);
 
     field_44_part_obj_5->field_4_sprite->set_ang_lazy_420690(crane_angle);
     field_44_part_obj_5->field_4_sprite->set_xy_lazy_447E20(pos.x, pos.y);
 
-    ComputeHookPos_47E730(crane_angle, kFpTwoAndHalf_679D2C, &pos);
+    ComputeHookPos_47E730(crane_angle, kFpTwoAndHalf, &pos);
     field_38_part_obj_2->field_4_sprite->set_ang_lazy_420690(crane_angle);
     field_38_part_obj_2->field_4_sprite->set_xy_lazy_447E20(pos.x, pos.y);
 
     field_48_part_obj_6->field_4_sprite->set_ang_lazy_420690(crane_angle);
     field_48_part_obj_6->field_4_sprite->set_xy_lazy_447E20(pos.x, pos.y);
 
-    ComputeHookPos_47E730(crane_angle, kFpThreeAndHalf_679D28, &pos);
+    ComputeHookPos_47E730(crane_angle, kFpThreeAndHalf, &pos);
     field_3C_part_obj_3->field_4_sprite->set_ang_lazy_420690(crane_angle);
     field_3C_part_obj_3->field_4_sprite->set_xy_lazy_447E20(pos.x, pos.y);
 
