@@ -9,7 +9,7 @@
 #include "map_0x370.hpp"
 #include "block_face.hpp"
 
-DEFINE_GLOBAL(DoorDataPool*, gDoor_10_Pool_67BD28, 0x67BD28);
+DEFINE_STATIC_MEMBER(DoorDataPool*, DoorPool, sDoor10Pool, 0x67BD28);
 
 EXTERN_GLOBAL(Fix16, kFpOne_67BBE4);
 EXTERN_GLOBAL(Fix16, kFpTwo_67BBE8);
@@ -119,7 +119,7 @@ void DoorData::Close_49C590(u8 bDoFlip)
 MATCH_FUNC(0x49cf10)
 DoorData* DoorPool::AllocDoorData_49CF10(u8 gr_id, char_type x, char_type y, char_type z, s32 face, char_type bDoFlip)
 {
-    DoorData* pDoorData = gDoor_10_Pool_67BD28->Allocate();
+    DoorData* pDoorData = sDoor10Pool->Allocate();
     pDoorData->Init_49C340(gr_id, x, y, z, face, bDoFlip);
     return pDoorData;
 }
@@ -365,10 +365,10 @@ void DoorPool::DoorsService_49D460()
 MATCH_FUNC(0x49d4a0)
 DoorPool::DoorPool()
 {
-    if (!gDoor_10_Pool_67BD28)
+    if (!sDoor10Pool)
     {
-        gDoor_10_Pool_67BD28 = new DoorDataPool();
-        if (!gDoor_10_Pool_67BD28)
+        sDoor10Pool = new DoorDataPool();
+        if (!sDoor10Pool)
         {
             FatalError_4A38C0(Gta2Error::OutOfMemoryNewOperator, "C:\\Splitting\\Gta2\\Source\\door.cpp", 1194);
         }
@@ -382,9 +382,9 @@ DoorPool::DoorPool()
 MATCH_FUNC(0x49d570)
 DoorPool::~DoorPool()
 {
-    if (gDoor_10_Pool_67BD28)
+    if (sDoor10Pool)
     {
-        GTA2_DELETE_AND_NULL(gDoor_10_Pool_67BD28);
+        GTA2_DELETE_AND_NULL(sDoor10Pool);
     }
 }
 

@@ -104,6 +104,7 @@ class DoorDataPool
 class DoorPool
 {
   public:
+    STATIC_MEMBER(DoorDataPool*, sDoor10Pool);
     EXPORT DoorData* AllocDoorData_49CF10(u8 gr_id, char_type x, char_type y, char_type z, s32 face, char_type bDoFlip);
     EXPORT Door* RegisterSingleDoorNoCheck_49CF50(u8 gr_id, u8 x, u8 y, u8 z, u32 face, u8 flip, u8 reversed);
     EXPORT Door* RegisterDoubleDoorNoCheck_49CFA0(u8 gr_id, u8 x, u8 y, u8 z, s32 face, u8 flip, u8 reversed);
